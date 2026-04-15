@@ -6,314 +6,259 @@
 
 %index
 AvQuerySystemResponsiveness
-Retrieves the system responsiveness setting used by the multimedia class scheduler service.
+マルチメディアクラススケジューラサービスが使用するシステム応答性の設定を取得する。
 %group
 Win32 avrt
 %prm
 AvrtHandle, SystemResponsivenessValue
-AvrtHandle : [intptr] A handle to the task. This handle is returned by the AvSetMmThreadCharacteristics or AvSetMmMaxThreadCharacteristics function.
-SystemResponsivenessValue : [var] The system responsiveness value. This value can range from 10 to 100 percent.
+AvrtHandle : [intptr] タスクへのハンドル。このハンドルは AvSetMmThreadCharacteristics または AvSetMmMaxThreadCharacteristics 関数から返される。
+SystemResponsivenessValue : [var] システム応答性の値。この値は 10 から 100 パーセントの範囲を取りうる。
 %inst
-Retrieves the system responsiveness setting used by the multimedia
-class scheduler service.
+マルチメディアクラススケジューラサービスが使用するシステム応答性の設定を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 AvRevertMmThreadCharacteristics
-Indicates that a thread is no longer performing work associated with the specified task.
+スレッドが指定されたタスクに関連する作業をもはや行っていないことを示す。
 %group
 Win32 avrt
 %prm
 AvrtHandle
-AvrtHandle : [intptr] A handle to the task. This handle is returned by the AvSetMmThreadCharacteristics or AvSetMmMaxThreadCharacteristics function.
+AvrtHandle : [intptr] タスクへのハンドル。このハンドルは AvSetMmThreadCharacteristics または AvSetMmMaxThreadCharacteristics 関数から返される。
 %inst
-Indicates that a thread is no longer performing work associated with
-the specified task.
+スレッドが指定されたタスクに関連する作業をもはや行っていないことを示す。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-This function must be called from the same thread that called the
-AvSetMmThreadCharacteristics or AvSetMmMaxThreadCharacteristics
-function to create the handle. Otherwise, the function will fail.
+この関数は、ハンドルを生成するために AvSetMmThreadCharacteristics または
+AvSetMmMaxThreadCharacteristics
+を呼び出したのと同じスレッドから呼び出す必要がある。そうでない場合、関数は失敗する。
 
 
 %index
 AvRtCreateThreadOrderingGroup
-Creates a thread ordering group.
+スレッド順序付けグループを作成する。
 %group
 Win32 avrt
 %prm
 Context, Period, ThreadOrderingGuid, Timeout
-Context : [intptr] A pointer to a context handle.
-Period : [var] A pointer to a value, in 100-nanosecond increments, that specifies the period for the thread ordering group. Each thread in the thread ordering group runs one time during this period. If all threads complete their execution before a period ends, all threads wait until the remainder of the period elapses before any are executed again. The possible values for this parameter depend on the platform, but this parameter can be as low as 500 microseconds or as high as 0x1FFFFFFFFFFFFFFF. If this parameter is less than 500 microseconds, then it is set to 500 microseconds. If this parameter is greater than the maximum, then it is set to 0x1FFFFFFFFFFFFFFF.
-ThreadOrderingGuid : [var] A pointer to the unique identifier for the thread ordering group to be created. If this value is not unique to the thread ordering service, the function fails. If the identifier is GUID_NULL on input, the thread ordering service generates and returns a unique identifier.
-Timeout : [var] A pointer to a time-out value. All threads within the group should complete their execution within Period plus Timeout. If a thread fails to complete its processing within the period plus this time-out interval, it is removed from the thread ordering group. If the parent fails to complete its processing within the period plus the time-out interval, the thread ordering group is destroyed. The possible values for this parameter depend on the platform, but can be as low as 500 microseconds or as high as 0x1FFFFFFFFFFFFFFF. If this parameter is less than 500 microseconds, then it is set to 500 microseconds. If this parameter is greater than the maximum, then it is set to 0x1FFFFFFFFFFFFFFF. If this parameter is NULL or 0, the default is five times the value of Period. If this parameter is THREAD_ORDER_GROUP_INFINITE_TIMEOUT, the group is created with an infinite time-out interval. This can be useful for debugging purposes.
+Context : [intptr] コンテキストハンドルへのポインタ。
+Period : [var] スレッド順序付けグループの周期を 100 ナノ秒単位で指定する値へのポインタ。スレッド順序付けグループ内の各スレッドはこの周期の間に 1 回実行される。すべてのスレッドが周期終了前に実行を完了した場合、周期の残りが経過するまでどのスレッドも待機し、その後再度実行される。このパラメータに指定可能な値はプラットフォームに依存するが、最小 500 マイクロ秒から最大 0x1FFFFFFFFFFFFFFF までの範囲を取りうる。このパラメータが 500 マイクロ秒未満の場合は 500 マイクロ秒に設定される。最大値を超える場合は 0x1FFFFFFFFFFFFFFF に設定される。
+ThreadOrderingGuid : [var] 作成するスレッド順序付けグループの一意識別子へのポインタ。この値がスレッド順序付けサービス内で一意でない場合、関数は失敗する。入力時に識別子が GUID_NULL の場合、スレッド順序付けサービスが一意識別子を生成して返す。
+Timeout : [var] タイムアウト値へのポインタ。グループ内のすべてのスレッドは Period と Timeout の合計時間内に実行を完了する必要がある。スレッドが周期 + タイムアウト間隔内に処理を完了しない場合、そのスレッドはスレッド順序付けグループから削除される。親スレッドが周期 + タイムアウト間隔内に処理を完了しない場合、スレッド順序付けグループは破棄される。このパラメータに指定可能な値はプラットフォームに依存するが、最小 500 マイクロ秒から最大 0x1FFFFFFFFFFFFFFF までの範囲を取りうる。500 マイクロ秒未満の場合は 500 マイクロ秒に設定される。最大値を超える場合は 0x1FFFFFFFFFFFFFFF に設定される。このパラメータが NULL または 0 の場合、既定値は Period の 5 倍となる。THREAD_ORDER_GROUP_INFINITE_TIMEOUT を指定した場合、グループは無限のタイムアウト間隔で作成される。これはデバッグ目的に有用である。
 %inst
-Creates a thread ordering group.
+スレッド順序付けグループを作成する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError. If a thread ordering group with the
-specified identifier already exists, the function fails and sets the
-last error to ERROR_ALREADY_EXISTS.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。指定された識別子のスレッド順序付けグループが既に存在する場合、関数は失敗し、LastError を
+ERROR_ALREADY_EXISTS に設定する。
 
 [備考]
-The calling thread is considered to be the parent thread. Each thread
-ordering group has one parent thread. Each parent thread can have
-zero or more predecessor threads and zero or more successor threads.
-A client thread can join a thread ordering group and specify whether
-it is a predecessor or successor using the
-AvRtJoinThreadOrderingGroup function. The parent thread encloses the
-code to be executed during each period within a loop that is
-controlled by the AvRtWaitOnThreadOrderingGroup function. To delete
-the thread ordering group, call the AvRtDeleteThreadOrderingGroup
-function. A thread can create more than one thread ordering group and
-join more than one thread ordering group. However, a thread cannot
-join the same thread ordering group more than one time.
+呼び出し元のスレッドが親スレッドとみなされる。各スレッド順序付けグループには 1 つの親スレッドが存在する。各親スレッドは 0
+個以上の先行スレッドおよび 0
+個以上の後続スレッドを持てる。クライアントスレッドはスレッド順序付けグループに参加でき、AvRtJoinThreadOrderingGroup
+関数を使用して自身が先行か後続かを指定する。親スレッドは各周期の間に実行されるコードを、AvRtWaitOnThreadOrderingGroup
+関数で制御されるループ内に配置する。スレッド順序付けグループを削除するには AvRtDeleteThreadOrderingGroup
+関数を呼び出す。スレッドは複数のスレッド順序付けグループを作成でき、また複数のグループに参加できる。ただし、同一グループに複数回参加することはできない。
 
 
 %index
 AvRtCreateThreadOrderingGroupExW
-Creates a thread ordering group and associates the server thread with a task. (Unicode)
+スレッド順序付けグループを作成し、サーバースレッドをタスクに関連付ける。(Unicode)
 %group
 Win32 avrt
 %prm
 Context, Period, ThreadOrderingGuid, Timeout, TaskName
-Context : [intptr] A pointer to a context handle.
-Period : [var] A pointer to a value, in 100-nanosecond increments, that specifies the period for the thread ordering group. Each thread in the thread ordering group runs one time during this period. If all threads complete their execution before a period ends, all threads wait until the remainder of the period elapses before any are executed again. The possible values for this parameter depend on the platform, but this parameter can be as low as 500 microseconds or as high as 0x1FFFFFFFFFFFFFFF. If this parameter is less than 500 microseconds, then it is set to 500 microseconds. If this parameter is greater than the maximum, then it is set to 0x1FFFFFFFFFFFFFFF.
-ThreadOrderingGuid : [var] A pointer to the unique identifier for the thread ordering group to be created. If this value is not unique to the thread ordering service, the function fails. If the identifier is GUID_NULL on input, the thread ordering service generates and returns a unique identifier.
-Timeout : [var] A pointer to a time-out value. All threads within the group should complete their execution within Period plus Timeout. If a thread fails to complete its processing within the period plus this time-out interval, it is removed from the thread ordering group. If the parent fails to complete its processing within the period plus the time-out interval, the thread ordering group is destroyed. The possible values for this parameter depend on the platform, but can be as low as 500 microseconds or as high as 0x1FFFFFFFFFFFFFFF. If this parameter is less than 500 microseconds, then it is set to 500 microseconds. If this parameter is greater than the maximum, then it is set to 0x1FFFFFFFFFFFFFFF. If this parameter is NULL or 0, the default is five times the value of Period. If this parameter is THREAD_ORDER_GROUP_INFINITE_TIMEOUT, the group is created with an infinite time-out interval. This can be useful for debugging purposes.
-TaskName : [wstr] The name of the task.
+Context : [intptr] コンテキストハンドルへのポインタ。
+Period : [var] スレッド順序付けグループの周期を 100 ナノ秒単位で指定する値へのポインタ。スレッド順序付けグループ内の各スレッドはこの周期の間に 1 回実行される。すべてのスレッドが周期終了前に実行を完了した場合、周期の残りが経過するまでどのスレッドも待機し、その後再度実行される。このパラメータに指定可能な値はプラットフォームに依存するが、最小 500 マイクロ秒から最大 0x1FFFFFFFFFFFFFFF までの範囲を取りうる。500 マイクロ秒未満の場合は 500 マイクロ秒に設定される。最大値を超える場合は 0x1FFFFFFFFFFFFFFF に設定される。
+ThreadOrderingGuid : [var] 作成するスレッド順序付けグループの一意識別子へのポインタ。この値がスレッド順序付けサービス内で一意でない場合、関数は失敗する。入力時に識別子が GUID_NULL の場合、スレッド順序付けサービスが一意識別子を生成して返す。
+Timeout : [var] タイムアウト値へのポインタ。グループ内のすべてのスレッドは Period と Timeout の合計時間内に実行を完了する必要がある。スレッドが周期 + タイムアウト間隔内に処理を完了しない場合、そのスレッドはスレッド順序付けグループから削除される。親スレッドが周期 + タイムアウト間隔内に処理を完了しない場合、スレッド順序付けグループは破棄される。このパラメータに指定可能な値はプラットフォームに依存するが、最小 500 マイクロ秒から最大 0x1FFFFFFFFFFFFFFF までの範囲を取りうる。500 マイクロ秒未満の場合は 500 マイクロ秒に設定される。最大値を超える場合は 0x1FFFFFFFFFFFFFFF に設定される。このパラメータが NULL または 0 の場合、既定値は Period の 5 倍となる。THREAD_ORDER_GROUP_INFINITE_TIMEOUT を指定した場合、グループは無限のタイムアウト間隔で作成される。これはデバッグ目的に有用である。
+TaskName : [wstr] タスクの名前。
 %inst
-Creates a thread ordering group and associates the server thread with
-a task. (Unicode)
+スレッド順序付けグループを作成し、サーバースレッドをタスクに関連付ける。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError. If a thread ordering group with the
-specified identifier already exists, the function fails and sets the
-last error to ERROR_ALREADY_EXISTS.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。指定された識別子のスレッド順序付けグループが既に存在する場合、関数は失敗し、LastError を
+ERROR_ALREADY_EXISTS に設定する。
 
 [備考]
-The calling thread is considered to be the parent thread. Each thread
-ordering group has one parent thread. Each parent thread can have
-zero or more predecessor threads and zero or more successor threads.
-A client thread can join a thread ordering group and specify whether
-it is a predecessor or successor using the
-AvRtJoinThreadOrderingGroup function. The parent thread encloses the
-code to be executed during each period within a loop that is
-controlled by the AvRtWaitOnThreadOrderingGroup function. To delete
-the thread ordering group, call the AvRtDeleteThreadOrderingGroup
-function. A thread can create more than one thread ordering group and
-join more than one thread ordering group. However, a thread cannot
-join the same thread ordering group more than one time. The parent
-and client threads of a thread ordering group run at high priorities.
-However, the server thread that manages the thread ordering group
-runs at normal priority. Therefore, there can be a delay switching
-from one client thread to another if there are other high-priority
-threads running. The TaskName parameter of this function specifies
-the task to be associated with the server thread.
+呼び出し元のスレッドが親スレッドとみなされる。各スレッド順序付けグループには 1 つの親スレッドが存在する。各親スレッドは 0
+個以上の先行スレッドおよび 0
+個以上の後続スレッドを持てる。クライアントスレッドはスレッド順序付けグループに参加でき、AvRtJoinThreadOrderingGroup
+関数を使用して自身が先行か後続かを指定する。親スレッドは各周期の間に実行されるコードを、AvRtWaitOnThreadOrderingGroup
+関数で制御されるループ内に配置する。スレッド順序付けグループを削除するには AvRtDeleteThreadOrderingGroup
+関数を呼び出す。スレッドは複数のスレッド順序付けグループを作成でき、また複数のグループに参加できる。ただし、同一グループに複数回参加することはできない。スレッド順序付けグループの親スレッドおよびクライアントスレッドは高い優先度で実行される。しかし、グループを管理するサーバースレッドは通常優先度で実行される。そのため、他に高優先度のスレッドが実行されている場合には、あるクライアントスレッドから別のスレッドへの切り替えに遅延が生じることがある。この関数の
+TaskName パラメータは、サーバースレッドに関連付けられるタスクを指定する。
 
 
 %index
 AvRtDeleteThreadOrderingGroup
-Deletes the specified thread ordering group created by the caller. It cleans up resources for the thread ordering group, including the context information, and returns.
+呼び出し元が作成した指定のスレッド順序付けグループを削除する。コンテキスト情報を含むグループのリソースをクリーンアップして返る。
 %group
 Win32 avrt
 %prm
 Context
-Context : [intptr] A context handle. This handle is returned by the AvRtCreateThreadOrderingGroup function when creating the group.
+Context : [intptr] コンテキストハンドル。このハンドルはグループ作成時に AvRtCreateThreadOrderingGroup 関数から返される。
 %inst
-Deletes the specified thread ordering group created by the caller. It
-cleans up resources for the thread ordering group, including the
-context information, and returns.
+呼び出し元が作成した指定のスレッド順序付けグループを削除する。コンテキスト情報を含むグループのリソースをクリーンアップして返る。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-This function can only be called successfully by the parent thread
-for the thread ordering group. If a thread other than the parent
-thread calls this function, the function fails with a last error code
-of ERROR_INVALID_FUNCTION. If the parent thread times out and
-attempts to call this function, the function fails with a last error
-code of ERROR_INVALID_PARAMETER.
+この関数はスレッド順序付けグループの親スレッドからのみ正常に呼び出すことができる。親スレッド以外がこの関数を呼び出すと、関数は失敗し
+LastError は ERROR_INVALID_FUNCTION
+になる。親スレッドがタイムアウトしこの関数を呼び出した場合、関数は失敗し LastError は
+ERROR_INVALID_PARAMETER になる。
 
 
 %index
 AvRtJoinThreadOrderingGroup
-Joins client threads to a thread ordering group.
+クライアントスレッドをスレッド順序付けグループに参加させる。
 %group
 Win32 avrt
 %prm
 Context, ThreadOrderingGuid, Before
-Context : [intptr] A pointer to a context handle.
-ThreadOrderingGuid : [var] A pointer to the unique identifier for the thread ordering group.
-Before : [int] The thread order. If this parameter is TRUE, the thread is a predecessor thread that is scheduled to run before the parent thread. If this parameter is FALSE, the thread is a successor thread that is scheduled to run after the parent thread.
+Context : [intptr] コンテキストハンドルへのポインタ。
+ThreadOrderingGuid : [var] スレッド順序付けグループの一意識別子へのポインタ。
+Before : [int] スレッドの順序。このパラメータが TRUE の場合、スレッドは親スレッドより前に実行される先行スレッドとなる。FALSE の場合、親スレッドの後に実行される後続スレッドとなる。
 %inst
-Joins client threads to a thread ordering group.
+クライアントスレッドをスレッド順序付けグループに参加させる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-The thread encloses the code to be executed during each period within
-a loop that is controlled by the AvRtWaitOnThreadOrderingGroup
-function. A thread can create more than one thread ordering group and
-join more than one thread ordering group. However, a thread cannot
-join the same thread ordering group more than one time. The number of
-threads that can join a group is limited only by available system
-resources.
+スレッドは各周期の間に実行されるコードを、AvRtWaitOnThreadOrderingGroup
+関数で制御されるループ内に配置する。スレッドは複数のスレッド順序付けグループを作成でき、複数のグループに参加できる。ただし、同一グループに複数回参加することはできない。グループに参加できるスレッド数は、利用可能なシステムリソースによってのみ制限される。
 
 
 %index
 AvRtLeaveThreadOrderingGroup
-Enables client threads to leave a thread ordering group.
+クライアントスレッドがスレッド順序付けグループから離脱できるようにする。
 %group
 Win32 avrt
 %prm
 Context
-Context : [intptr] A context handle. This handle is returned by the AvRtJoinThreadOrderingGroup function.
+Context : [intptr] コンテキストハンドル。このハンドルは AvRtJoinThreadOrderingGroup 関数から返される。
 %inst
-Enables client threads to leave a thread ordering group.
+クライアントスレッドがスレッド順序付けグループから離脱できるようにする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-The parent thread for a thread ordering group should not remove
-itself from the group. If a thread times out and attempts to call
-this function, the function fails with a last error code of
-ERROR_INVALID_PARAMETER.
+
+スレッド順序付けグループの親スレッドは、自身をグループから除去すべきではない。スレッドがタイムアウトしこの関数を呼び出した場合、関数は失敗し
+LastError は ERROR_INVALID_PARAMETER となる。
 
 
 %index
 AvRtWaitOnThreadOrderingGroup
-Enables client threads of a thread ordering group to wait until they should execute.
+スレッド順序付けグループのクライアントスレッドが実行すべきタイミングまで待機できるようにする。
 %group
 Win32 avrt
 %prm
 Context
-Context : [intptr] A context handle. This handle is returned by the AvRtCreateThreadOrderingGroup or AvRtJoinThreadOrderingGroup function.
+Context : [intptr] コンテキストハンドル。このハンドルは AvRtCreateThreadOrderingGroup または AvRtJoinThreadOrderingGroup 関数から返される。
 %inst
-Enables client threads of a thread ordering group to wait until they
-should execute.
+スレッド順序付けグループのクライアントスレッドが実行すべきタイミングまで待機できるようにする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-When this function returns, the thread should complete its processing
-for the period and then call the function again. If the thread fails
-to complete its processing during the time-out interval specified by
-the parent thread when creating the group, it is deleted from the
-thread ordering group. Therefore, when the thread finishes its
-processing loop, the next call to AvRtWaitOnThreadOrderingGroup fails
-and the last error code is set to ERROR_ACCESS_DENIED. If the thread
-ordering group is deleted during the wait, this function eventually
-times out and return ERROR_ACCESS_DENIED.
+
+この関数から戻った後、スレッドは当該周期の処理を完了し、再度この関数を呼び出すべきである。グループ作成時に親スレッドが指定したタイムアウト間隔内にスレッドが処理を完了できなかった場合、そのスレッドはスレッド順序付けグループから削除される。従って、スレッドが処理ループを終えた後、次の
+AvRtWaitOnThreadOrderingGroup 呼び出しは失敗し、LastError は
+ERROR_ACCESS_DENIED となる。待機中にスレッド順序付けグループが削除された場合、この関数は最終的にタイムアウトし
+ERROR_ACCESS_DENIED を返す。
 
 
 %index
 AvSetMmMaxThreadCharacteristicsW
-Associates the calling thread with the specified tasks. (Unicode)
+呼び出し元スレッドを指定された複数のタスクに関連付ける。(Unicode)
 %group
 Win32 avrt
 %prm
 FirstTask, SecondTask, TaskIndex
-FirstTask : [wstr] The name of the first task to be performed. This name must match the name of one of the subkeys of the following key HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks.
-SecondTask : [wstr] The name of the second task to be performed. This name must match the name of one of the subkeys of the following key HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks.
-TaskIndex : [var] The unique task identifier. The first time this function is called, this value must be 0 on input. The index value is returned on output and can be used as input in subsequent calls.
+FirstTask : [wstr] 実行する最初のタスクの名前。この名前は次のキーのサブキーの 1 つと一致していなければならない。HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks。
+SecondTask : [wstr] 実行する 2 番目のタスクの名前。この名前は次のキーのサブキーの 1 つと一致していなければならない。HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks。
+TaskIndex : [var] 一意のタスク識別子。この関数を最初に呼び出す時、この値は入力時に 0 でなければならない。インデックス値は出力時に返され、以降の呼び出しで入力として使用できる。
 %inst
-Associates the calling thread with the specified tasks. (Unicode)
+呼び出し元スレッドを指定された複数のタスクに関連付ける。(Unicode)
 
 [戻り値]
-If the function succeeds, it returns a handle to the task. If the
-function fails, it returns 0. To retrieve extended error information,
-call GetLastError.
-The following are possible error codes.
-This doc was truncated.
+関数が成功すると、タスクへのハンドルを返す。関数が失敗すると 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。
+以下は発生しうるエラーコードである。
+このドキュメントは省略されている。
 
 [備考]
-The resulting characteristics of the thread performing the tasks
-reflect the task with the highest priority. When the task is
-completed, call the AvRevertMmThreadCharacteristics function.
-> [!NOTE] > The avrt.h header defines AvSetMmMaxThreadCharacteristics
-as an alias which automatically selects the ANSI or Unicode version
-of this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+タスクを実行するスレッドの結果として得られる特性は、最も高い優先度を持つタスクを反映する。タスクが完了したら
+AvRevertMmThreadCharacteristics 関数を呼び出す。
+> [!NOTE] > avrt.h ヘッダは AvSetMmMaxThreadCharacteristics
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択する。エンコーディング中立なエイリアスと中立でないコードを混在させると不一致が発生し、コンパイルエラーや実行時エラーの原因となりうる。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 AvSetMmThreadCharacteristicsW
-Associates the calling thread with the specified task. (Unicode)
+呼び出し元スレッドを指定されたタスクに関連付ける。(Unicode)
 %group
 Win32 avrt
 %prm
 TaskName, TaskIndex
-TaskName : [wstr] The name of the task to be performed. This name must match the name of one of the subkeys of the following key HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks.
-TaskIndex : [var] The unique task identifier. The first time this function is called, this value must be 0 on input. The index value is returned on output and can be used as input in subsequent calls.
+TaskName : [wstr] 実行するタスクの名前。この名前は次のキーのサブキーの 1 つと一致していなければならない。HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks。
+TaskIndex : [var] 一意のタスク識別子。この関数を最初に呼び出す時、この値は入力時に 0 でなければならない。インデックス値は出力時に返され、以降の呼び出しで入力として使用できる。
 %inst
-Associates the calling thread with the specified task. (Unicode)
+呼び出し元スレッドを指定されたタスクに関連付ける。(Unicode)
 
 [戻り値]
-If the function succeeds, it returns a handle to the task. If the
-function fails, it returns 0. To retrieve extended error information,
-call GetLastError.
-The following are possible error codes.
-This doc was truncated.
+関数が成功すると、タスクへのハンドルを返す。関数が失敗すると 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。
+以下は発生しうるエラーコードである。
+このドキュメントは省略されている。
 
 [備考]
-When the task is completed, call the AvRevertMmThreadCharacteristics
-function.
-> [!NOTE] > The avrt.h header defines AvSetMmThreadCharacteristics as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+タスクが完了したら AvRevertMmThreadCharacteristics 関数を呼び出す。
+> [!NOTE] > avrt.h ヘッダは AvSetMmThreadCharacteristics
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択する。エンコーディング中立なエイリアスと中立でないコードを混在させると不一致が発生し、コンパイルエラーや実行時エラーの原因となりうる。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 AvSetMmThreadPriority
-Adjusts the thread priority of the calling thread relative to other threads performing the same task.
+同じタスクを実行する他のスレッドに対する呼び出し元スレッドの優先度を調整する。
 %group
 Win32 avrt
 %prm
 AvrtHandle, Priority
-AvrtHandle : [intptr] A handle to the task. This handle is returned by the AvSetMmThreadCharacteristics or AvSetMmMaxThreadCharacteristics function.
+AvrtHandle : [intptr] タスクへのハンドル。このハンドルは AvSetMmThreadCharacteristics または AvSetMmMaxThreadCharacteristics 関数から返される。
 Priority : [int] 
 %inst
-Adjusts the thread priority of the calling thread relative to other
-threads performing the same task.
+同じタスクを実行する他のスレッドに対する呼び出し元スレッドの優先度を調整する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 

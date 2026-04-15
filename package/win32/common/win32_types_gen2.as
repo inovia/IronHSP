@@ -8,7 +8,7 @@
 ; ============================================================
 
 #ifndef __win32_types_gen2_as__
-#define __win32_types_gen2_as__
+#define global __win32_types_gen2_as__
 
 ;--- structs ---
 #defstruct D3DDDI_ALLOCATIONINFO
@@ -1759,11 +1759,6 @@
 #defstruct COLORMAP
     #field int from
     #field int to
-#endstruct
-
-#defstruct GdipColorMap
-    #field var oldColor
-    #field var newColor
 #endstruct
 
 #defstruct ColorMatrix
@@ -9174,13 +9169,6 @@
     #field int bottom
 #endstruct
 
-#defstruct GdipRect
-    #field int X
-    #field int Y
-    #field int Width
-    #field int Height
-#endstruct
-
 #defstruct RectF
     #field float X
     #field float Y
@@ -11187,6 +11175,18 @@
     #field int dwTemplateRecommended
     #field int dwTemplateCurrentLevel
     #field int dwFlags
+#endstruct
+
+#defstruct GdipColorMap
+    #field var oldColor
+    #field var newColor
+#endstruct
+
+#defstruct GdipRect
+    #field int X
+    #field int Y
+    #field int Width
+    #field int Height
 #endstruct
 
 ;--- enums / constants ---
@@ -14257,9 +14257,9 @@
 #define global DOT11_AUTH_ALGO_IHV_END  -1
 
 ; DOT11_BSS_TYPE
-#define dot11_BSS_type_infrastructure  0x1
-#define dot11_BSS_type_independent  0x2
-#define dot11_BSS_type_any  0x3
+#define global dot11_BSS_type_infrastructure  0x1
+#define global dot11_BSS_type_independent  0x2
+#define global dot11_BSS_type_any  0x3
 
 ; DOT11_CIPHER_ALGORITHM
 #define global DOT11_CIPHER_ALGO_NONE  0x0
@@ -14281,21 +14281,21 @@
 #define global DOT11_CIPHER_ALGO_IHV_END  -1
 
 ; DOT11_PHY_TYPE
-#define dot11_phy_type_unknown  0x0
-#define dot11_phy_type_any  0x0
-#define dot11_phy_type_fhss  0x1
-#define dot11_phy_type_dsss  0x2
-#define dot11_phy_type_irbaseband  0x3
-#define dot11_phy_type_ofdm  0x4
-#define dot11_phy_type_hrdsss  0x5
-#define dot11_phy_type_erp  0x6
-#define dot11_phy_type_ht  0x7
-#define dot11_phy_type_vht  0x8
-#define dot11_phy_type_dmg  0x9
-#define dot11_phy_type_he  0xa
-#define dot11_phy_type_eht  0xb
-#define dot11_phy_type_IHV_start  -2147483648
-#define dot11_phy_type_IHV_end  -1
+#define global dot11_phy_type_unknown  0x0
+#define global dot11_phy_type_any  0x0
+#define global dot11_phy_type_fhss  0x1
+#define global dot11_phy_type_dsss  0x2
+#define global dot11_phy_type_irbaseband  0x3
+#define global dot11_phy_type_ofdm  0x4
+#define global dot11_phy_type_hrdsss  0x5
+#define global dot11_phy_type_erp  0x6
+#define global dot11_phy_type_ht  0x7
+#define global dot11_phy_type_vht  0x8
+#define global dot11_phy_type_dmg  0x9
+#define global dot11_phy_type_he  0xa
+#define global dot11_phy_type_eht  0xb
+#define global dot11_phy_type_IHV_start  -2147483648
+#define global dot11_phy_type_IHV_end  -1
 
 ; DPAMM_MESSAGE
 #define global DPAMM_MERGE  0x1
@@ -14946,10 +14946,10 @@
 #define global DXGI_USAGE_UNORDERED_ACCESS  0x400
 
 ; EAllocationType
-#define eAllocationTypeDynamic  0x0
-#define eAllocationTypeRT  0x1
-#define eAllocationTypePageable  0x2
-#define eAllocationTypeIgnore  0x3
+#define global eAllocationTypeDynamic  0x0
+#define global eAllocationTypeRT  0x1
+#define global eAllocationTypePageable  0x2
+#define global eAllocationTypeIgnore  0x3
 
 ; EFFECTIVE_POWER_MODE
 #define global EffectivePowerModeBatterySaver  0x0
@@ -16597,17 +16597,17 @@
 #define global IMAGEHLP_GET_TYPE_INFO_UNCACHED  0x1
 
 ; IMAGEHLP_HD_TYPE
-#define hdBase  0x0
-#define hdSym  0x1
-#define hdSrc  0x2
-#define hdMax  0x3
+#define global hdBase  0x0
+#define global hdSym  0x1
+#define global hdSrc  0x2
+#define global hdMax  0x3
 
 ; IMAGEHLP_SF_TYPE
-#define sfImage  0x0
-#define sfDbg  0x1
-#define sfPdb  0x2
-#define sfMpd  0x3
-#define sfMax  0x4
+#define global sfImage  0x0
+#define global sfDbg  0x1
+#define global sfPdb  0x2
+#define global sfMpd  0x3
+#define global sfMax  0x4
 
 ; IMAGEHLP_SYMBOL_TYPE_INFO
 #define global TI_GET_SYMTAG  0x0
@@ -17353,8 +17353,8 @@
 #define global MF_TOPOLOGY_MAX  -1
 
 ; MFBYTESTREAM_SEEK_ORIGIN
-#define msoBegin  0x0
-#define msoCurrent  0x1
+#define global msoBegin  0x0
+#define global msoCurrent  0x1
 
 ; MFCLOCK_STATE
 #define global MFCLOCK_STATE_INVALID  0x0
@@ -25799,123 +25799,123 @@
 #define global WINHTTP_WEB_SOCKET_CLOSE_BUFFER_TYPE  0x4
 
 ; WLAN_AUTOCONF_OPCODE
-#define wlan_autoconf_opcode_start  0x0
-#define wlan_autoconf_opcode_show_denied_networks  0x1
-#define wlan_autoconf_opcode_power_setting  0x2
-#define wlan_autoconf_opcode_only_use_gp_profiles_for_allowed_networks  0x3
-#define wlan_autoconf_opcode_allow_explicit_creds  0x4
-#define wlan_autoconf_opcode_block_period  0x5
-#define wlan_autoconf_opcode_allow_virtual_station_extensibility  0x6
-#define wlan_autoconf_opcode_end  0x7
+#define global wlan_autoconf_opcode_start  0x0
+#define global wlan_autoconf_opcode_show_denied_networks  0x1
+#define global wlan_autoconf_opcode_power_setting  0x2
+#define global wlan_autoconf_opcode_only_use_gp_profiles_for_allowed_networks  0x3
+#define global wlan_autoconf_opcode_allow_explicit_creds  0x4
+#define global wlan_autoconf_opcode_block_period  0x5
+#define global wlan_autoconf_opcode_allow_virtual_station_extensibility  0x6
+#define global wlan_autoconf_opcode_end  0x7
 
 ; WLAN_CONNECTION_MODE
-#define wlan_connection_mode_profile  0x0
-#define wlan_connection_mode_temporary_profile  0x1
-#define wlan_connection_mode_discovery_secure  0x2
-#define wlan_connection_mode_discovery_unsecure  0x3
-#define wlan_connection_mode_auto  0x4
-#define wlan_connection_mode_invalid  0x5
+#define global wlan_connection_mode_profile  0x0
+#define global wlan_connection_mode_temporary_profile  0x1
+#define global wlan_connection_mode_discovery_secure  0x2
+#define global wlan_connection_mode_discovery_unsecure  0x3
+#define global wlan_connection_mode_auto  0x4
+#define global wlan_connection_mode_invalid  0x5
 
 ; WLAN_FILTER_LIST_TYPE
-#define wlan_filter_list_type_gp_permit  0x0
-#define wlan_filter_list_type_gp_deny  0x1
-#define wlan_filter_list_type_user_permit  0x2
-#define wlan_filter_list_type_user_deny  0x3
+#define global wlan_filter_list_type_gp_permit  0x0
+#define global wlan_filter_list_type_gp_deny  0x1
+#define global wlan_filter_list_type_user_permit  0x2
+#define global wlan_filter_list_type_user_deny  0x3
 
 ; WLAN_HOSTED_NETWORK_OPCODE
-#define wlan_hosted_network_opcode_connection_settings  0x0
-#define wlan_hosted_network_opcode_security_settings  0x1
-#define wlan_hosted_network_opcode_station_profile  0x2
-#define wlan_hosted_network_opcode_enable  0x3
+#define global wlan_hosted_network_opcode_connection_settings  0x0
+#define global wlan_hosted_network_opcode_security_settings  0x1
+#define global wlan_hosted_network_opcode_station_profile  0x2
+#define global wlan_hosted_network_opcode_enable  0x3
 
 ; WLAN_HOSTED_NETWORK_PEER_AUTH_STATE
-#define wlan_hosted_network_peer_state_invalid  0x0
-#define wlan_hosted_network_peer_state_authenticated  0x1
+#define global wlan_hosted_network_peer_state_invalid  0x0
+#define global wlan_hosted_network_peer_state_authenticated  0x1
 
 ; WLAN_HOSTED_NETWORK_REASON
-#define wlan_hosted_network_reason_success  0x0
-#define wlan_hosted_network_reason_unspecified  0x1
-#define wlan_hosted_network_reason_bad_parameters  0x2
-#define wlan_hosted_network_reason_service_shutting_down  0x3
-#define wlan_hosted_network_reason_insufficient_resources  0x4
-#define wlan_hosted_network_reason_elevation_required  0x5
-#define wlan_hosted_network_reason_read_only  0x6
-#define wlan_hosted_network_reason_persistence_failed  0x7
-#define wlan_hosted_network_reason_crypt_error  0x8
-#define wlan_hosted_network_reason_impersonation  0x9
-#define wlan_hosted_network_reason_stop_before_start  0xa
-#define wlan_hosted_network_reason_interface_available  0xb
-#define wlan_hosted_network_reason_interface_unavailable  0xc
-#define wlan_hosted_network_reason_miniport_stopped  0xd
-#define wlan_hosted_network_reason_miniport_started  0xe
-#define wlan_hosted_network_reason_incompatible_connection_started  0xf
-#define wlan_hosted_network_reason_incompatible_connection_stopped  0x10
-#define wlan_hosted_network_reason_user_action  0x11
-#define wlan_hosted_network_reason_client_abort  0x12
-#define wlan_hosted_network_reason_ap_start_failed  0x13
-#define wlan_hosted_network_reason_peer_arrived  0x14
-#define wlan_hosted_network_reason_peer_departed  0x15
-#define wlan_hosted_network_reason_peer_timeout  0x16
-#define wlan_hosted_network_reason_gp_denied  0x17
-#define wlan_hosted_network_reason_service_unavailable  0x18
-#define wlan_hosted_network_reason_device_change  0x19
-#define wlan_hosted_network_reason_properties_change  0x1a
-#define wlan_hosted_network_reason_virtual_station_blocking_use  0x1b
-#define wlan_hosted_network_reason_service_available_on_virtual_station  0x1c
+#define global wlan_hosted_network_reason_success  0x0
+#define global wlan_hosted_network_reason_unspecified  0x1
+#define global wlan_hosted_network_reason_bad_parameters  0x2
+#define global wlan_hosted_network_reason_service_shutting_down  0x3
+#define global wlan_hosted_network_reason_insufficient_resources  0x4
+#define global wlan_hosted_network_reason_elevation_required  0x5
+#define global wlan_hosted_network_reason_read_only  0x6
+#define global wlan_hosted_network_reason_persistence_failed  0x7
+#define global wlan_hosted_network_reason_crypt_error  0x8
+#define global wlan_hosted_network_reason_impersonation  0x9
+#define global wlan_hosted_network_reason_stop_before_start  0xa
+#define global wlan_hosted_network_reason_interface_available  0xb
+#define global wlan_hosted_network_reason_interface_unavailable  0xc
+#define global wlan_hosted_network_reason_miniport_stopped  0xd
+#define global wlan_hosted_network_reason_miniport_started  0xe
+#define global wlan_hosted_network_reason_incompatible_connection_started  0xf
+#define global wlan_hosted_network_reason_incompatible_connection_stopped  0x10
+#define global wlan_hosted_network_reason_user_action  0x11
+#define global wlan_hosted_network_reason_client_abort  0x12
+#define global wlan_hosted_network_reason_ap_start_failed  0x13
+#define global wlan_hosted_network_reason_peer_arrived  0x14
+#define global wlan_hosted_network_reason_peer_departed  0x15
+#define global wlan_hosted_network_reason_peer_timeout  0x16
+#define global wlan_hosted_network_reason_gp_denied  0x17
+#define global wlan_hosted_network_reason_service_unavailable  0x18
+#define global wlan_hosted_network_reason_device_change  0x19
+#define global wlan_hosted_network_reason_properties_change  0x1a
+#define global wlan_hosted_network_reason_virtual_station_blocking_use  0x1b
+#define global wlan_hosted_network_reason_service_available_on_virtual_station  0x1c
 
 ; WLAN_HOSTED_NETWORK_STATE
-#define wlan_hosted_network_unavailable  0x0
-#define wlan_hosted_network_idle  0x1
-#define wlan_hosted_network_active  0x2
+#define global wlan_hosted_network_unavailable  0x0
+#define global wlan_hosted_network_idle  0x1
+#define global wlan_hosted_network_active  0x2
 
 ; WLAN_IHV_CONTROL_TYPE
-#define wlan_ihv_control_type_service  0x0
-#define wlan_ihv_control_type_driver  0x1
+#define global wlan_ihv_control_type_service  0x0
+#define global wlan_ihv_control_type_driver  0x1
 
 ; WLAN_INTERFACE_STATE
-#define wlan_interface_state_not_ready  0x0
-#define wlan_interface_state_connected  0x1
-#define wlan_interface_state_ad_hoc_network_formed  0x2
-#define wlan_interface_state_disconnecting  0x3
-#define wlan_interface_state_disconnected  0x4
-#define wlan_interface_state_associating  0x5
-#define wlan_interface_state_discovering  0x6
-#define wlan_interface_state_authenticating  0x7
+#define global wlan_interface_state_not_ready  0x0
+#define global wlan_interface_state_connected  0x1
+#define global wlan_interface_state_ad_hoc_network_formed  0x2
+#define global wlan_interface_state_disconnecting  0x3
+#define global wlan_interface_state_disconnected  0x4
+#define global wlan_interface_state_associating  0x5
+#define global wlan_interface_state_discovering  0x6
+#define global wlan_interface_state_authenticating  0x7
 
 ; WLAN_INTERFACE_TYPE
-#define wlan_interface_type_emulated_802_11  0x0
-#define wlan_interface_type_native_802_11  0x1
-#define wlan_interface_type_invalid  0x2
+#define global wlan_interface_type_emulated_802_11  0x0
+#define global wlan_interface_type_native_802_11  0x1
+#define global wlan_interface_type_invalid  0x2
 
 ; WLAN_INTF_OPCODE
-#define wlan_intf_opcode_autoconf_start  0x0
-#define wlan_intf_opcode_autoconf_enabled  0x1
-#define wlan_intf_opcode_background_scan_enabled  0x2
-#define wlan_intf_opcode_media_streaming_mode  0x3
-#define wlan_intf_opcode_radio_state  0x4
-#define wlan_intf_opcode_bss_type  0x5
-#define wlan_intf_opcode_interface_state  0x6
-#define wlan_intf_opcode_current_connection  0x7
-#define wlan_intf_opcode_channel_number  0x8
-#define wlan_intf_opcode_supported_infrastructure_auth_cipher_pairs  0x9
-#define wlan_intf_opcode_supported_adhoc_auth_cipher_pairs  0xa
-#define wlan_intf_opcode_supported_country_or_region_string_list  0xb
-#define wlan_intf_opcode_current_operation_mode  0xc
-#define wlan_intf_opcode_supported_safe_mode  0xd
-#define wlan_intf_opcode_certified_safe_mode  0xe
-#define wlan_intf_opcode_hosted_network_capable  0xf
-#define wlan_intf_opcode_management_frame_protection_capable  0x10
-#define wlan_intf_opcode_secondary_sta_interfaces  0x11
-#define wlan_intf_opcode_secondary_sta_synchronized_connections  0x12
-#define wlan_intf_opcode_autoconf_end  0xfffffff
-#define wlan_intf_opcode_msm_start  0x10000100
-#define wlan_intf_opcode_statistics  0x10000101
-#define wlan_intf_opcode_rssi  0x10000102
-#define wlan_intf_opcode_msm_end  0x1fffffff
-#define wlan_intf_opcode_security_start  0x20010000
-#define wlan_intf_opcode_security_end  0x2fffffff
-#define wlan_intf_opcode_ihv_start  0x30000000
-#define wlan_intf_opcode_ihv_end  0x3fffffff
+#define global wlan_intf_opcode_autoconf_start  0x0
+#define global wlan_intf_opcode_autoconf_enabled  0x1
+#define global wlan_intf_opcode_background_scan_enabled  0x2
+#define global wlan_intf_opcode_media_streaming_mode  0x3
+#define global wlan_intf_opcode_radio_state  0x4
+#define global wlan_intf_opcode_bss_type  0x5
+#define global wlan_intf_opcode_interface_state  0x6
+#define global wlan_intf_opcode_current_connection  0x7
+#define global wlan_intf_opcode_channel_number  0x8
+#define global wlan_intf_opcode_supported_infrastructure_auth_cipher_pairs  0x9
+#define global wlan_intf_opcode_supported_adhoc_auth_cipher_pairs  0xa
+#define global wlan_intf_opcode_supported_country_or_region_string_list  0xb
+#define global wlan_intf_opcode_current_operation_mode  0xc
+#define global wlan_intf_opcode_supported_safe_mode  0xd
+#define global wlan_intf_opcode_certified_safe_mode  0xe
+#define global wlan_intf_opcode_hosted_network_capable  0xf
+#define global wlan_intf_opcode_management_frame_protection_capable  0x10
+#define global wlan_intf_opcode_secondary_sta_interfaces  0x11
+#define global wlan_intf_opcode_secondary_sta_synchronized_connections  0x12
+#define global wlan_intf_opcode_autoconf_end  0xfffffff
+#define global wlan_intf_opcode_msm_start  0x10000100
+#define global wlan_intf_opcode_statistics  0x10000101
+#define global wlan_intf_opcode_rssi  0x10000102
+#define global wlan_intf_opcode_msm_end  0x1fffffff
+#define global wlan_intf_opcode_security_start  0x20010000
+#define global wlan_intf_opcode_security_end  0x2fffffff
+#define global wlan_intf_opcode_ihv_start  0x30000000
+#define global wlan_intf_opcode_ihv_end  0x3fffffff
 
 ; WLAN_NOTIFICATION_SOURCES
 #define global WLAN_NOTIFICATION_SOURCE_NONE  0x0
@@ -25929,29 +25929,29 @@
 #define global WLAN_NOTIFICATION_SOURCE_DEVICE_SERVICE  0x800
 
 ; WLAN_OPCODE_VALUE_TYPE
-#define wlan_opcode_value_type_query_only  0x0
-#define wlan_opcode_value_type_set_by_group_policy  0x1
-#define wlan_opcode_value_type_set_by_user  0x2
-#define wlan_opcode_value_type_invalid  0x3
+#define global wlan_opcode_value_type_query_only  0x0
+#define global wlan_opcode_value_type_set_by_group_policy  0x1
+#define global wlan_opcode_value_type_set_by_user  0x2
+#define global wlan_opcode_value_type_invalid  0x3
 
 ; WLAN_SECURABLE_OBJECT
-#define wlan_secure_permit_list  0x0
-#define wlan_secure_deny_list  0x1
-#define wlan_secure_ac_enabled  0x2
-#define wlan_secure_bc_scan_enabled  0x3
-#define wlan_secure_bss_type  0x4
-#define wlan_secure_show_denied  0x5
-#define wlan_secure_interface_properties  0x6
-#define wlan_secure_ihv_control  0x7
-#define wlan_secure_all_user_profiles_order  0x8
-#define wlan_secure_add_new_all_user_profiles  0x9
-#define wlan_secure_add_new_per_user_profiles  0xa
-#define wlan_secure_media_streaming_mode_enabled  0xb
-#define wlan_secure_current_operation_mode  0xc
-#define wlan_secure_get_plaintext_key  0xd
-#define wlan_secure_hosted_network_elevated_access  0xe
-#define wlan_secure_virtual_station_extensibility  0xf
-#define wlan_secure_wfd_elevated_access  0x10
+#define global wlan_secure_permit_list  0x0
+#define global wlan_secure_deny_list  0x1
+#define global wlan_secure_ac_enabled  0x2
+#define global wlan_secure_bc_scan_enabled  0x3
+#define global wlan_secure_bss_type  0x4
+#define global wlan_secure_show_denied  0x5
+#define global wlan_secure_interface_properties  0x6
+#define global wlan_secure_ihv_control  0x7
+#define global wlan_secure_all_user_profiles_order  0x8
+#define global wlan_secure_add_new_all_user_profiles  0x9
+#define global wlan_secure_add_new_per_user_profiles  0xa
+#define global wlan_secure_media_streaming_mode_enabled  0xb
+#define global wlan_secure_current_operation_mode  0xc
+#define global wlan_secure_get_plaintext_key  0xd
+#define global wlan_secure_hosted_network_elevated_access  0xe
+#define global wlan_secure_virtual_station_extensibility  0xf
+#define global wlan_secure_wfd_elevated_access  0x10
 #define global WLAN_SECURABLE_OBJECT_COUNT  0x11
 
 ; WLAN_SET_EAPHOST_FLAGS

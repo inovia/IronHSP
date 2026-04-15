@@ -6,592 +6,408 @@
 
 %index
 WFDCancelOpenSession
-Indicates that the application wants to cancel a pending WFDStartOpenSession function that has not completed.
+まだ完了していない保留中の WFDStartOpenSession をアプリケーションがキャンセルしたいことを示す。
 %group
 Win32 wlanapi
 %prm
 hSessionHandle
-hSessionHandle : [intptr] A session handle to a Wi-Fi Direct session to cancel. This is a session handle previously returned by the WFDStartOpenSession function.
+hSessionHandle : [intptr] キャンセルする Wi-Fi Direct セッションのセッション ハンドル。これは以前の WFDStartOpenSession 呼び出しで返されたセッション ハンドルである。
 %inst
-Indicates that the application wants to cancel a pending
-WFDStartOpenSession function that has not completed.
+まだ完了していない保留中の WFDStartOpenSession をアプリケーションがキャンセルしたいことを示す。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WFDCancelOpenSession function is part of Wi-Fi Direct, a new
-feature in Windows 8 and Windows Server 2012. Wi-Fi Direct is based
-on the development of the Wi-Fi Peer-to-Peer Technical Specification
-v1.1 by the Wi-Fi Alliance (see Wi-Fi Alliance Published
-Specifications). The goal of the Wi-Fi Peer-to-Peer Technical
-Specification is to provide a solution for Wi-Fi device-to-device
-connectivity without the need for either a Wireless Access Point
-(wireless AP) to setup the connection or the use of the existing
-Wi-Fi adhoc (IBSS) mechanism.
-A call to the WFDCancelOpenSession function notifies the Wi-Fi Direct
-service that the client requests a cancellation of this session. The
-WFDCancelOpenSession function does not modify the expected
-WFDStartOpenSession behavior. The callback function specified to the
-WFDStartOpenSession function will still be called, and the
-WFDStartOpenSession function may not be completed immediately. It is
-the responsibility of the caller to pass the WFDCancelOpenSession
-function a handle in the hSessionHandle parameter that was returned
-from call to the WFDStartOpenSession function.
+WFDCancelOpenSession は Wi-Fi Direct (Windows 8 および Windows Server
+2012 の新機能) の一部である。Wi-Fi Direct は Wi-Fi Alliance の Wi-Fi Peer-to-Peer
+技術仕様 v1.1 に基づいており、ワイヤレス AP やアドホック (IBSS) 機構を使わずに Wi-Fi
+デバイス間の接続を可能にする。
+WFDCancelOpenSession を呼び出すと、このセッションのキャンセルを Wi-Fi Direct サービスに通知する。ただし
+WFDStartOpenSession の想定動作は変更されない。WFDStartOpenSession
+に指定したコールバック関数は依然として呼び出され、WFDStartOpenSession
+が即時に完了するとは限らない。hSessionHandle には WFDStartOpenSession
+呼び出しから返されたハンドルを渡すのは呼び出し元の責任である。
 
 
 %index
 WFDCloseHandle
-Closes a handle to the Wi-Fi Direct service.
+Wi-Fi Direct サービスへのハンドルを閉じる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle
-hClientHandle : [intptr] A client handle to the Wi-Fi Direct service. This handle was  obtained by a previous call to the WFDOpenHandle function.
+hClientHandle : [intptr] Wi-Fi Direct サービスへのクライアント ハンドル。WFDOpenHandle の以前の呼び出しで取得する。
 %inst
-Closes a handle to the Wi-Fi Direct service.
+Wi-Fi Direct サービスへのハンドルを閉じる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WFDCloseHandle function is part of Wi-Fi Direct, a new feature in
-Windows 8 and Windows Server 2012. Wi-Fi Direct is based on the
-development of the Wi-Fi Peer-to-Peer Technical Specification v1.1 by
-the Wi-Fi Alliance (see Wi-Fi Alliance Published Specifications). The
-goal of the Wi-Fi Peer-to-Peer Technical Specification is to provide
-a solution for Wi-Fi device-to-device connectivity without the need
-for either a Wireless Access Point (wireless AP) to setup the
-connection or the use of the existing Wi-Fi adhoc (IBSS) mechanism.
-In order to use Wi-Fi Direct, an application must first obtain a
-handle to the Wi-Fi Direct service by calling the WFDOpenHandle
-function. The Wi-Fi Direct (WFD) handle returned by the WFDOpenHandle
-function is used for subsequent calls made to the Wi-Fi Direct
-service. Once an application is done using the Wi-Fi Direct service,
-the application should call the WFDCloseHandle function to signal to
-the Wi-Fi Direct service that the application is done using the
-service. This allows the Wi-Fi Direct service to release resources
-used by the application.
+WFDCloseHandle は Wi-Fi Direct (Windows 8 および Windows Server 2012)
+の一部である。Wi-Fi Direct を使用するにはまず WFDOpenHandle を呼び出して Wi-Fi Direct
+サービスへのハンドルを取得する必要がある。得られた WFD ハンドルは以降の Wi-Fi Direct
+サービス呼び出しで使用する。使い終わったら WFDCloseHandle を呼び出してサービスへ通知し、リソースを解放できるようにする。
 
 
 %index
 WFDCloseSession
-Closes a session after a previously successful call to the WFDStartOpenSession function.
+WFDStartOpenSession の成功呼び出し後にセッションを閉じる。
 %group
 Win32 wlanapi
 %prm
 hSessionHandle
-hSessionHandle : [intptr] A session handle to a Wi-Fi Direct session. This is a session handle previously returned by the WFDStartOpenSession function.
+hSessionHandle : [intptr] Wi-Fi Direct セッションへのセッション ハンドル。以前の WFDStartOpenSession 呼び出しから返されたもの。
 %inst
-Closes a session after a previously successful call to the
-WFDStartOpenSession function.
+WFDStartOpenSession の成功呼び出し後にセッションを閉じる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WFDCloseSession function is part of Wi-Fi Direct, a new feature
-in Windows 8 and Windows Server 2012. Wi-Fi Direct is based on the
-development of the Wi-Fi Peer-to-Peer Technical Specification v1.1 by
-the Wi-Fi Alliance (see Wi-Fi Alliance Published Specifications). The
-goal of the Wi-Fi Peer-to-Peer Technical Specification is to provide
-a solution for Wi-Fi device-to-device connectivity without the need
-for either a Wireless Access Point (wireless AP) to setup the
-connection or the use of the existing Wi-Fi adhoc (IBSS) mechanism.
-The WFDCloseSession function queues a future work item to close the
-session, so disconnection may not be immediate.
-Calling the WFDCloseSession function while a WFDStartOpenSession call
-is pending will not close the session.
-It is the responsibility of the caller to pass the WFDCloseSession
-function a handle in the hSessionHandle parameter that was returned
-from a successful asynchronous call to the WFDStartOpenSession
-function.
-Calling the WFDCloseSession function with a handle that was valid and
-has become invalid will yield undefined results.
+WFDCloseSession は Wi-Fi Direct (Windows 8 / Windows Server 2012)
+の一部である。この関数はセッション切断のための作業項目を将来キューに入れるため、切断は即時とは限らない。WFDStartOpenSession
+呼び出しが保留中に WFDCloseSession を呼んでもセッションは閉じられない。hSessionHandle には成功した非同期の
+WFDStartOpenSession
+呼び出しから返されたハンドルを渡すのは呼び出し元の責任である。既に無効となったハンドルを渡した場合の結果は未定義である。
 
 
 %index
 WFDOpenHandle
-Opens a handle to the Wi-Fi Direct service and negotiates a version of the Wi-FI Direct API to use.
+Wi-Fi Direct サービスへのハンドルを開き、使用する Wi-Fi Direct API バージョンをネゴシエートする。
 %group
 Win32 wlanapi
 %prm
 dwClientVersion, pdwNegotiatedVersion, phClientHandle
-dwClientVersion : [int] The highest version of the Wi-Fi Direct API the client supports. For Windows?8 and Windows Server?2012, this parameter should be set to WFD_API_VERSION, constant defined in the Wlanapi.h header file.
-pdwNegotiatedVersion : [var] A pointer to a DWORD to received the negotiated version. If the WFDOpenHandle function is successful, the version negotiated with the Wi-Fi Direct Service to be used by this session is returned. This value is usually the highest version supported by both the client and Wi-Fi Direct service.
-phClientHandle : [intptr] A pointer to a HANDLE to receive the handle to the Wi-Fi Direct service for this session. If the WFDOpenHandle function is successful, a handle to the Wi-Fi Direct service to use in this session is returned.
+dwClientVersion : [int] クライアントがサポートする Wi-Fi Direct API の最高バージョン。Windows 8 および Windows Server 2012 では、このパラメータは Wlanapi.h で定義される WFD_API_VERSION を設定する。
+pdwNegotiatedVersion : [var] ネゴシエートされたバージョンを受け取る DWORD へのポインタ。WFDOpenHandle が成功すると、このセッションで使用される Wi-Fi Direct サービスとネゴシエートされたバージョンが返る。通常はクライアントとサービスの両方がサポートする最高バージョン。
+phClientHandle : [intptr] このセッション用の Wi-Fi Direct サービスへのハンドルを受け取る HANDLE へのポインタ。関数が成功するとこのセッション用ハンドルが返る。
 %inst
-Opens a handle to the Wi-Fi Direct service and negotiates a version
-of the Wi-FI Direct API to use.
+Wi-Fi Direct サービスへのハンドルを開き、使用する Wi-Fi Direct API バージョンをネゴシエートする。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WFDOpenHandle function is part of Wi-Fi Direct, a new feature in
-Windows 8 and Windows Server 2012. Wi-Fi Direct is based on the
-development of the Wi-Fi Peer-to-Peer Technical Specification v1.1 by
-the Wi-Fi Alliance (see Wi-Fi Alliance Published Specifications). The
-goal of the Wi-Fi Peer-to-Peer Technical Specification is to provide
-a solution for Wi-Fi device-to-device connectivity without the need
-for either a Wireless Access Point (wireless AP) to setup the
-connection or the use of the existing Wi-Fi adhoc (IBSS) mechanism.
-In order to use Wi-Fi Direct, an application must first obtain a
-handle to the Wi-Fi Direct service by calling the WFDOpenHandle
-function. The Wi-Fi Direct (WFD) handle returned by the WFDOpenHandle
-function is used for subsequent calls made to the Wi-Fi Direct
-service. Once an application is done using the Wi-Fi Direct service,
-the application should call the WFDCloseHandle function to signal to
-the Wi-Fi Direct service that the application is done using the
-service. This allows the Wi-Fi Direct service to release resources
-used by the application.
+WFDOpenHandle は Wi-Fi Direct (Windows 8 / Windows Server 2012)
+の一部である。Wi-Fi Direct
+を使用するにはまずこの関数でサービスへのハンドルを取得する必要がある。返されたハンドルは以降の呼び出しで使用する。使い終わったら
+WFDCloseHandle を呼んでサービスに通知し、リソースを解放できるようにする。
 
 
 %index
 WFDOpenLegacySession
-Retrieves and applies a stored profile for a Wi-Fi Direct legacy device.
+Wi-Fi Direct レガシー デバイスの保存済みプロファイルを取得して適用する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pLegacyMacAddress, phSessionHandle, pGuidSessionInterface
-hClientHandle : [intptr] A HANDLE to the Wi-Fi Direct service for this session. This parameter is retrieved using the WFDOpenHandle function.
-pLegacyMacAddress : [var] A pointer to Wi-Fi Direct device address of the legacy client device.
-phSessionHandle : [intptr] A pointer to a HANDLE to receive the handle to the Wi-Fi Direct service for this session. If the WFDOpenLegacySession function is successful, a handle to the Wi-Fi Direct service to use in this session is returned.
-pGuidSessionInterface : [var] A pointer to the GUID of the network interface for this session. If the WFDOpenLegacySession function is successful, a GUID of the network interface on which Wi-Fi Direct session is returned.
+hClientHandle : [intptr] このセッション用の Wi-Fi Direct サービスへのハンドル。WFDOpenHandle で取得する。
+pLegacyMacAddress : [var] レガシー クライアント デバイスの Wi-Fi Direct デバイス アドレスへのポインタ。
+phSessionHandle : [intptr] このセッション用の Wi-Fi Direct サービスへのハンドルを受け取る HANDLE へのポインタ。
+pGuidSessionInterface : [var] このセッションのネットワーク インターフェイスの GUID へのポインタ。関数が成功すると Wi-Fi Direct セッションを実行するネットワーク インターフェイスの GUID が返る。
 %inst
-Retrieves and applies a stored profile for a Wi-Fi Direct legacy
-device.
+Wi-Fi Direct レガシー デバイスの保存済みプロファイルを取得して適用する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WFDOpenLegacySession function is part of Wi-Fi Direct, a new
-feature in Windows 8 and Windows Server 2012. Wi-Fi Direct is based
-on the development of the Wi-Fi Peer-to-Peer Technical Specification
-v1.1 by the Wi-Fi Alliance (see Wi-Fi Alliance Published
-Specifications). The goal of the Wi-Fi Peer-to-Peer Technical
-Specification is to provide a solution for Wi-Fi device-to-device
-connectivity without the need for either a Wireless Access Point
-(wireless AP) to setup the connection or the use of the existing
-Wi-Fi adhoc (IBSS) mechanism.
-In order to use Wi-Fi Direct, an application must first obtain a
-handle to the Wi-Fi Direct service by calling the
-WFDOpenLegacySession or WFDOpenHandle function. The Wi-Fi Direct
-(WFD) handle returned by the WFDOpenHandle function is used for
-subsequent calls made to the Wi-Fi Direct service. The
-WFDOpenLegacySession function is used to retrieve and apply a stored
-profile for a Wi-Fi Direct legacy device. The WFDOpenLegacySession
-function retrieves the stored legacy profile for device from the
-profile store for the specified legacy device address. This device
-address must be obtained from a Device Node created as a result of
-the Inbox pairing experience (Legacy WPS Pairing). Once an
-application is done using the Wi-Fi Direct service, the application
-should call the WFDCloseSession function to close the session and
-call the WFDCloseHandle function to signal to the Wi-Fi Direct
-service that the application is done using the service. This allows
-the Wi-Fi Direct service to release resources used by the
-application.
+WFDOpenLegacySession は Wi-Fi Direct (Windows 8 / Windows Server 2012)
+の一部である。Wi-Fi Direct を使用するにはまず WFDOpenLegacySession または WFDOpenHandle
+を呼んでサービスへのハンドルを取得する。WFDOpenLegacySession は指定レガシー デバイス
+アドレスについて保存済みのレガシー プロファイルを取得し適用する。デバイス アドレスはインボックス ペアリング (Legacy WPS
+Pairing) の結果作成されたデバイス ノードから取得する必要がある。使い終わったら WFDCloseSession
+でセッションを閉じ、さらに WFDCloseHandle でサービスに通知する。
 
 
 %index
 WFDStartOpenSession
-Starts an on-demand connection to a specific Wi-Fi Direct device, which has been previously paired through the Windows Pairing experience.
+Windows ペアリング エクスペリエンスで以前にペアリング済みの特定の Wi-Fi Direct デバイスへのオンデマンド接続を開始する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pDeviceAddress, pvContext, pfnCallback, phSessionHandle
-hClientHandle : [intptr] A client handle to the Wi-Fi Direct service. This handle was  obtained by a previous call to the WFDOpenHandle function.
-pDeviceAddress : [var] A pointer to the target device’s Wi-Fi Direct device address. This is the MAC address of the target Wi-Fi device.
-pvContext : [intptr] An optional context pointer which is passed to the callback function specified in the pfnCallback parameter.
-pfnCallback : [int] A pointer to the callback function to be called once the WFDStartOpenSession request has completed.
-phSessionHandle : [intptr] A handle to this specific Wi-Fi Direct session.
+hClientHandle : [intptr] Wi-Fi Direct サービスへのクライアント ハンドル。WFDOpenHandle の以前の呼び出しで取得する。
+pDeviceAddress : [var] ターゲット デバイスの Wi-Fi Direct デバイス アドレス (MAC アドレス) へのポインタ。
+pvContext : [intptr] pfnCallback で指定したコールバック関数に渡されるオプションのコンテキスト ポインタ。
+pfnCallback : [int] WFDStartOpenSession 要求が完了したときに呼び出されるコールバック関数へのポインタ。
+phSessionHandle : [intptr] この特定の Wi-Fi Direct セッションへのハンドル。
 %inst
-Starts an on-demand connection to a specific Wi-Fi Direct device,
-which has been previously paired through the Windows Pairing
-experience.
+Windows ペアリング エクスペリエンスで以前にペアリング済みの特定の Wi-Fi Direct
+デバイスへのオンデマンド接続を開始する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WFDStartOpenSession function is part of Wi-Fi Direct, a new
-feature in Windows 8 and Windows Server 2012. Wi-Fi Direct is based
-on the development of the Wi-Fi Peer-to-Peer Technical Specification
-v1.1 by the Wi-Fi Alliance (see Wi-Fi Alliance Published
-Specifications). The goal of the Wi-Fi Peer-to-Peer Technical
-Specification is to provide a solution for Wi-Fi device-to-device
-connectivity without the need for either a Wireless Access Point
-(wireless AP) to setup the connection or the use of the existing
-Wi-Fi adhoc (IBSS) mechanism.
-The WFDStartOpenSession function starts an asynchronous operation to
-start an on-demand connection to a specific Wi-Fi Direct device. The
-target Wi-Fi device must previously have been paired through the
-Windows Pairing experience. When the asynchronous operation
-completes, the callback function specified in the pfnCallback
-parameter is called. If the application attempts to close the handle
-to the Wi-Fi Direct service by calling the WFDCloseHandle function
-before the WFDStartOpenSession function completes asynchronously, the
-WFDCloseHandle function will wait until the WFDStartOpenSession call
-is completed.
+WFDStartOpenSession は Wi-Fi Direct (Windows 8 / Windows Server 2012)
+の一部である。この関数は、特定の Wi-Fi Direct デバイスへのオンデマンド接続を開始する非同期操作を開始する。ターゲットは事前に
+Windows ペアリング エクスペリエンスでペアリング済みでなければならない。非同期操作が完了すると pfnCallback
+のコールバックが呼び出される。非同期完了前に WFDCloseHandle を呼んだ場合、WFDCloseHandle は
+WFDStartOpenSession の完了まで待機する。
 
 
 %index
 WFDUpdateDeviceVisibility
-Updates device visibility for the Wi-Fi Direct device address for a given installed Wi-Fi Direct device node.
+インストール済みの Wi-Fi Direct デバイス ノードの Wi-Fi Direct デバイス アドレスについてデバイスの可視性を更新する。
 %group
 Win32 wlanapi
 %prm
 pDeviceAddress
-pDeviceAddress : [var] A pointer to the Wi-Fi Direct device address of the client device. This device address must be obtained from a Device Node created as a result of the Inbox pairing experience.
+pDeviceAddress : [var] クライアント デバイスの Wi-Fi Direct デバイス アドレスへのポインタ。インボックス ペアリング エクスペリエンスの結果作成されたデバイス ノードから取得する。
 %inst
-Updates device visibility for the Wi-Fi Direct device address for a
-given installed Wi-Fi Direct device node.
+インストール済みの Wi-Fi Direct デバイス ノードの Wi-Fi Direct デバイス
+アドレスについてデバイスの可視性を更新する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WFDUpdateDeviceVisibility function is part of Wi-Fi Direct, a new
-feature in Windows 8 and Windows Server 2012. Wi-Fi Direct is based
-on the development of the Wi-Fi Peer-to-Peer Technical Specification
-v1.1 by the Wi-Fi Alliance (see Wi-Fi Alliance Published
-Specifications). The goal of the Wi-Fi Peer-to-Peer Technical
-Specification is to provide a solution for Wi-Fi device-to-device
-connectivity without the need for either a Wireless Access Point
-(wireless AP) to setup the connection or the use of the existing
-Wi-Fi adhoc (IBSS) mechanism.
-The WFDUpdateDeviceVisibility function will perform a targeted Wi-Fi
-Direct discovery, and will update the DEVPKEY_WiFiDirect_IsVisibile
-property key on the device node for the given device.
+WFDUpdateDeviceVisibility は Wi-Fi Direct (Windows 8 / Windows Server
+2012) の一部である。この関数はターゲットを絞った Wi-Fi Direct 探索を実行し、指定デバイスのデバイス ノードの
+DEVPKEY_WiFiDirect_IsVisibile プロパティ キーを更新する。
 
 
 %index
 WlanAllocateMemory
-Allocates memory.
+メモリを確保する。
 %group
 Win32 wlanapi
 %prm
 dwMemorySize
-dwMemorySize : [int] Amount of  memory being requested, in bytes.
+dwMemorySize : [int] 要求するメモリ量 (バイト単位)。
 %inst
-Allocates memory.
+メモリを確保する。
 
 [戻り値]
-If the call is successful, the function returns a pointer to the
-allocated memory. If the memory could not be allocated for any reason
-or if the dwMemorySize parameter is 0, the returned pointer is NULL.
-An application can call GetLastError to obtain extended error
-information.
+呼び出しが成功するとアロケートされたメモリへのポインタを返す。何らかの理由でメモリを確保できないか dwMemorySize が 0
+の場合、返されるポインタは NULL となる。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 
 %index
 WlanCloseHandle
-Closes a connection to the server.
+サーバーへの接続を閉じる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pReserved
-hClientHandle : [intptr] The client's session handle, which identifies the connection to be closed. This handle was  obtained by a previous call to the WlanOpenHandle function.
-pReserved : [intptr] Reserved for future use.  Set this parameter to NULL.
+hClientHandle : [intptr] 閉じる接続を識別するクライアントのセッション ハンドル。WlanOpenHandle の以前の呼び出しで取得する。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する。
 %inst
-Closes a connection to the server.
+サーバーへの接続を閉じる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-After a connection has been closed, any attempted use of the closed
-handle can cause unexpected errors. Upon closing, all outstanding
-notifications are discarded. Do not call WlanCloseHandle from a
-callback function. If the client is in the middle of a notification
-callback when WlanCloseHandle is called, the function waits for the
-callback to finish before returning a value. Calling this function
-inside a callback function will result in the call never completing.
-If both the callback function and the thread that closes the handle
-try to acquire the same lock, a deadlock may occur. In addition, do
-not call WlanCloseHandle from the DllMain function in an application
-DLL. This could also cause a deadlock.
+接続を閉じた後に閉じたハンドルを使用すると予期しないエラーが発生しうる。閉じる際、保留中の通知はすべて破棄される。コールバック関数内から
+WlanCloseHandle
+を呼び出してはならない。通知コールバック処理中に呼び出された場合、関数はコールバックの完了を待ってから値を返す。コールバック内から呼び出すと呼び出しは完了しない。コールバック関数とハンドルを閉じるスレッドが同じロックを取得しようとするとデッドロックが発生しうる。またアプリケーション
+DLL の DllMain からも呼び出してはならない。
 
 
 %index
 WlanConnect
-Attempts to connect to a specific network.
+特定のネットワークへの接続を試みる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pConnectionParameters, pReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface to use for the connection.
-pConnectionParameters : [var] Pointer to a WLAN_CONNECTION_PARAMETERS structure that specifies the connection type, mode, network profile, SSID that identifies the network, and other parameters. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??There are some constraints on  the  WLAN_CONNECTION_PARAMETERS members. This means that structures that are valid for   Windows Server?2008 and Windows?Vista may not be valid for Windows?XP with SP3 or Wireless LAN API for Windows?XP with SP2. For a list of constraints, see WLAN_CONNECTION_PARAMETERS.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 接続に使用するインターフェイスの GUID。
+pConnectionParameters : [var] 接続種別、モード、ネットワーク プロファイル、ネットワークを識別する SSID、その他のパラメータを指定する WLAN_CONNECTION_PARAMETERS 構造体へのポインタ。Windows XP SP3 および Windows XP SP2 用 Wireless LAN API: WLAN_CONNECTION_PARAMETERS のメンバーには一部制約があり、Windows Server 2008 および Windows Vista で有効な構造体が XP では無効となる場合がある。制約一覧は WLAN_CONNECTION_PARAMETERS を参照。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Attempts to connect to a specific network.
+特定のネットワークへの接続を試みる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanConnect function returns immediately. To be notified when a
-connection is established or when no further connections will be
-attempted, a client must register for notifications by calling
-WlanRegisterNotification. The strProfile member of the
-WLAN_CONNECTION_PARAMETERS structure pointed to by
-pConnectionParameters specifies the profile to use for connection. If
-this profile is an all-user profile, the WlanConnect caller must have
-execute access on the profile. Otherwise, the WlanConnect call will
-fail with return value ERROR_ACCESS_DENIED. The permissions on an
-all-user profile are established when the profile is created or saved
-using WlanSetProfile or WlanSaveTemporaryProfile. To perform a
-connection operation at the command line, use the netsh wlan connect
-command. For more information, see Netsh Commands for Wireless Local
-Area Network (wlan). Windows XP with SP3 and Wireless LAN API for
-Windows XP with SP2: You can only use WlanConnect to connect to
-networks on the preferred network list. To add a network to the
-preferred network list, call WlanSetProfile.
+WlanConnect は即時に戻る。接続が確立または失敗したときに通知を受け取るには WlanRegisterNotification
+で通知を登録する必要がある。pConnectionParameters が指す WLAN_CONNECTION_PARAMETERS の
+strProfile
+メンバーで使用するプロファイルを指定する。すべてのユーザー用プロファイルの場合、呼び出し元はプロファイルに対する実行アクセス権が必要で、そうでなければ
+ERROR_ACCESS_DENIED で失敗する。アクセス権は WlanSetProfile または
+WlanSaveTemporaryProfile でプロファイル作成時に確立される。コマンドラインからは netsh wlan
+connect を使う。Windows XP SP3 および Windows XP SP2 用 API: WlanConnect
+は優先ネットワーク リストにあるネットワークにのみ接続できる。新規追加には WlanSetProfile を呼ぶ。
 
 
 %index
 WlanDeleteProfile
-Deletes a wireless profile for a wireless interface on the local computer.
+ローカル コンピュータのワイヤレス インターフェイス用のワイヤレス プロファイルを削除する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface from which to delete the profile.
-strProfileName : [wstr] The name of the profile to be deleted. Profile names are case-sensitive. This string must be NULL-terminated. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??The supplied name must match the profile name derived automatically from the SSID of the network. For an infrastructure network profile, the SSID must be supplied for the profile name. For an ad hoc network profile, the supplied name must be the SSID of the ad hoc network followed by -adhoc.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] プロファイルを削除するインターフェイスの GUID。
+strProfileName : [wstr] 削除するプロファイルの名前。プロファイル名は大文字と小文字を区別する。この文字列は NULL 終端でなければならない。Windows XP SP3 および Windows XP SP2 用 Wireless LAN API: 名前はネットワークの SSID から自動生成された名前と一致しなければならない。インフラストラクチャ ネットワーク プロファイルでは SSID、アドホックではその SSID に -adhoc を付加したもの。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Deletes a wireless profile for a wireless interface on the local
-computer.
+ローカル コンピュータのワイヤレス インターフェイス用のワイヤレス プロファイルを削除する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanDeleteProfile function deletes a wireless profile for a
-wireless interface on the local computer. All wireless LAN functions
-require an interface GUID for the wireless interface when performing
-profile operations. When a wireless interface is removed, its state
-is cleared from Wireless LAN Service (WLANSVC) and no profile
-operations are possible. The WlanDeleteProfile function can fail with
-ERROR_INVALID_PARAMETER if the wireless interface specified in the
-pInterfaceGuid parameter for the wireless LAN profile has been
-removed from the system (a USB wireless adapter that has been
-removed, for example). To delete a profile at the command line, use
-the netsh wlan delete profile command. For more information, see
-Netsh Commands for Wireless Local Area Network (wlan).
+WlanDeleteProfile はローカル コンピュータのワイヤレス インターフェイスのプロファイルを削除する。すべての WLAN
+関数はプロファイル操作の際にインターフェイス GUID を必要とする。ワイヤレス インターフェイスが取り外されると WLANSVC
+から状態がクリアされ、プロファイル操作は不可能となる。指定インターフェイスがシステムから取り外されている場合 (例えば USB
+アダプタが取り外された場合)、この関数は ERROR_INVALID_PARAMETER で失敗しうる。コマンドラインからは netsh
+wlan delete profile を使う。
 
 
 %index
 WlanDeviceServiceCommand
-Allows an OEM or IHV component to communicate with a device service on a particular wireless LAN interface.
+OEM または IHV コンポーネントが特定のワイヤレス LAN インターフェイス上のデバイス サービスと通信できるようにする。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pDeviceServiceGuid, dwOpCode, dwInBufferSize, pInBuffer, dwOutBufferSize, pOutBuffer, pdwBytesReturned
-hClientHandle : [intptr] Type: **[HANDLE](/windows/win32/winprog/windows-data-types)** The client's session handle, obtained by a previous call to the [WlanOpenHandle](./nf-wlanapi-wlanopenhandle.md) function.
-pInterfaceGuid : [var] Type: **CONST [GUID](../guiddef/ns-guiddef-guid.md)\*** A pointer to the **GUID** of the wireless LAN interface to be queried. You can determine the **GUID** of each wireless LAN interface enabled on a local computer by using the [WlanEnumInterfaces](./nf-wlanapi-wlanenuminterfaces.md) function.
-pDeviceServiceGuid : [var] Type: **[GUID](../guiddef/ns-guiddef-guid.md)\*** The **GUID** identifying the device service for this command.
-dwOpCode : [int] Type: **[DWORD](/windows/win32/winprog/windows-data-types)** The operational code identifying the operation to be performed on the device service.
-dwInBufferSize : [int] Type: **[DWORD](/windows/win32/winprog/windows-data-types)** The size, in bytes, of the input buffer.
-pInBuffer : [intptr] Type: **[PVOID](/windows/win32/winprog/windows-data-types)** A generic buffer for command input.
-dwOutBufferSize : [int] Type: **[DWORD](/windows/win32/winprog/windows-data-types)** The size, in bytes, of the output buffer.
-pOutBuffer : [intptr] Type: **[PVOID](/windows/win32/winprog/windows-data-types)** A generic buffer for command output.
-pdwBytesReturned : [var] Type: **[PDWORD](/windows/win32/winprog/windows-data-types)** The number of bytes returned.
+hClientHandle : [intptr] 型: HANDLE WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 型: CONST GUID* 問い合わせるワイヤレス LAN インターフェイスの GUID へのポインタ。各ワイヤレス LAN インターフェイスの GUID は WlanEnumInterfaces で取得できる。
+pDeviceServiceGuid : [var] 型: GUID* このコマンド対象のデバイス サービスを識別する GUID。
+dwOpCode : [int] 型: DWORD デバイス サービスで実行する操作を識別するオペレーショナル コード。
+dwInBufferSize : [int] 型: DWORD 入力バッファのサイズ (バイト単位)。
+pInBuffer : [intptr] 型: PVOID コマンド入力用の汎用バッファ。
+dwOutBufferSize : [int] 型: DWORD 出力バッファのサイズ (バイト単位)。
+pOutBuffer : [intptr] 型: PVOID コマンド出力用の汎用バッファ。
+pdwBytesReturned : [var] 型: PDWORD 返されたバイト数。
 %inst
-Allows an OEM or IHV component to communicate with a device service
-on a particular wireless LAN interface.
+OEM または IHV コンポーネントが特定のワイヤレス LAN インターフェイス上のデバイス サービスと通信できるようにする。
 
 [戻り値]
-Type: **[HRESULT](/windows/win32/com/structure-of-com-error-codes)**
-If the function succeeds, the return value is **ERROR_SUCCESS**. If
-the function fails with **ERROR_ACCESS_DENIED**, then the caller
-doesn't have sufficient permissions to perform this operation. The
-caller needs to either have admin privilege, or needs to be a UMDF
-driver.
+型: HRESULT 関数が成功すると戻り値は ERROR_SUCCESS となる。ERROR_ACCESS_DENIED
+で失敗した場合、呼び出し元がこの操作に必要な権限を持っていない。呼び出し元は管理者権限を持つか UMDF ドライバである必要がある。
 
 
 %index
 WlanDisconnect
-Disconnects an interface from its current network.
+インターフェイスを現在のネットワークから切断する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface to be disconnected.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 切断するインターフェイスの GUID。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Disconnects an interface from its current network.
+インターフェイスを現在のネットワークから切断する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-When the connection was established using WlanConnect, a profile was
-specified by the strProfile member of the WLAN_CONNECTION_PARAMETERS
-structure pointed to by pConnectionParameters. If that profile was an
-all-user profile, the WlanDisconnect caller must have execute access
-on the profile. Otherwise, the WlanDisconnect call will fail with
-return value ERROR_ACCESS_DENIED. The permissions on an all-user
-profile are established when the profile is created or saved using
-WlanSetProfile or WlanSaveTemporaryProfile. To perform a
-disconnection operation at the command line, use the netsh wlan
-disconnect command. For more information, see Netsh Commands for
-Wireless Local Area Network (wlan). Windows XP with SP3 and Wireless
-LAN API for Windows XP with SP2: WlanDisconnect has the side effect
-of modifying the profile associated with the disconnected network. A
-network profile becomes an on-demand profile after a WlanDisconnect
-call. The Wireless Zero Configuration service will not connect
-automatically to a network with an on-demand profile when the network
-is in range. Do not call WlanDisconnect before calling WlanConnect
-unless you want to change a profile to an on-demand profile. When you
-call WlanConnect to establish a network connection, any existing
-network connection is dropped automatically.
+WlanConnect で接続を確立した際に指定されたプロファイルがすべてのユーザー用プロファイルの場合、WlanDisconnect
+の呼び出し元はそのプロファイルに対する実行アクセス権が必要で、そうでなければ ERROR_ACCESS_DENIED
+で失敗する。コマンドラインからは netsh wlan disconnect を使う。Windows XP SP3 および Windows
+XP SP2 用 API: WlanDisconnect にはプロファイルをオンデマンド
+プロファイルに変更するという副作用がある。オンデマンド プロファイルのネットワークには Wireless Zero
+Configuration サービスが自動接続しない。プロファイルをオンデマンドに変更したい場合以外は、WlanConnect
+の前に呼ぶべきではない。WlanConnect で接続を確立すると既存接続は自動的に切断される。
 
 
 %index
 WlanEnumInterfaces
-Enumerates all of the wireless LAN interfaces currently enabled on the local computer.
+ローカル コンピュータで現在有効なすべてのワイヤレス LAN インターフェイスを列挙する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pReserved, ppInterfaceList
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pReserved : [intptr] Reserved for future use. This parameter must be set to NULL.
-ppInterfaceList : [var] A pointer to storage for a pointer to receive the returned list of wireless LAN interfaces in a WLAN_INTERFACE_INFO_LIST structure. The buffer for the WLAN_INTERFACE_INFO_LIST returned is allocated by the WlanEnumInterfaces function if the call succeeds.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+ppInterfaceList : [var] 返されるワイヤレス LAN インターフェイスのリスト (WLAN_INTERFACE_INFO_LIST 構造体) を受け取るポインタへのポインタ。成功時バッファは WlanEnumInterfaces が確保する。
 %inst
-Enumerates all of the wireless LAN interfaces currently enabled on
-the local computer.
+ローカル コンピュータで現在有効なすべてのワイヤレス LAN インターフェイスを列挙する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanEnumInterfaces function allocates memory for the list of
-returned interfaces that is returned in the buffer pointed to by the
-ppInterfaceList parameter when the function succeeds. The memory used
-for the buffer pointed to by ppInterfaceList parameter should be
-released by calling the WlanFreeMemory function after the buffer is
-no longer needed.
+WlanEnumInterfaces は成功時に ppInterfaceList が指すバッファ用のメモリを確保する。不要になったら
+WlanFreeMemory で解放する。
 
 
 %index
 WlanExtractPsdIEDataList
-Extracts the proximity service discovery (PSD) information element (IE) data list from raw IE data included in a beacon.
+ビーコンに含まれる生 IE データから近接サービス検出 (PSD) IE データ リストを抽出する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, dwIeDataSize, pRawIeData, strFormat, pReserved, ppPsdIEDataList
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-dwIeDataSize : [int] The size, in bytes, of the pRawIeData parameter.
-pRawIeData : [var] The raw IE data for all IEs in the list.
-strFormat : [wstr] Describes the format of a PSD IE. Only IEs with a matching format are returned.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-ppPsdIEDataList : [var] A pointer to a PWLAN_RAW_DATA_LIST structure that contains the formatted data list.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+dwIeDataSize : [int] pRawIeData パラメータのサイズ (バイト単位)。
+pRawIeData : [var] リスト内のすべての IE の生 IE データ。
+strFormat : [wstr] PSD IE の形式を記述する。マッチする形式の IE のみが返される。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+ppPsdIEDataList : [var] 整形されたデータ リストを含む PWLAN_RAW_DATA_LIST 構造体へのポインタ。
 %inst
-Extracts the proximity service discovery (PSD) information element
-(IE) data list from raw IE data included in a beacon.
+ビーコンに含まれる生 IE データから近接サービス検出 (PSD) IE データ リストを抽出する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-For more information about PSD IEs, including a discussion of the
-format of an IE, see WlanSetPsdIEDataList.
+PSD IE および IE の形式の詳細は WlanSetPsdIEDataList を参照。
 
 
 %index
 WlanFreeMemory
-Frees memory.
+メモリを解放する。
 %group
 Win32 wlanapi
 %prm
 pMemory
-pMemory : [intptr] Pointer to the memory to be freed.
+pMemory : [intptr] 解放するメモリへのポインタ。
 %inst
-Frees memory.
+メモリを解放する。
 
 [備考]
-If pMemory points to memory that has already been freed, an access
-violation or heap corruption may occur. There is a hotfix available
-for Wireless LAN API for Windows XP with Service Pack 2 (SP2) that
-can help improve the performance of applications that call
-WlanFreeMemory and WlanGetAvailableNetworkList many times.
+pMemory が既に解放済みのメモリを指していると、アクセス違反またはヒープ破壊が発生する可能性がある。Windows XP SP2 用
+Wireless LAN API には、WlanFreeMemory と WlanGetAvailableNetworkList
+を多数回呼ぶアプリケーションの性能を向上させる修正プログラムが存在する。
 
 
 %index
 WlanGetAvailableNetworkList
-Retrieves the list of available networks on a wireless LAN interface.
+ワイヤレス LAN インターフェイス上の利用可能ネットワークのリストを取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, dwFlags, pReserved, ppAvailableNetworkList
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] A pointer to the GUID of the wireless LAN interface to be queried. The GUID of each wireless LAN interface enabled on a local computer can be determined using the WlanEnumInterfaces function.
-dwFlags : [int] A set of flags that control the type of networks returned in the list.  This parameter can be a combination of these possible values.
-pReserved : [intptr] Reserved for future use.  This parameter must be set to NULL.
-ppAvailableNetworkList : [var] A pointer to storage for a pointer to receive the returned list of visible networks in a WLAN_AVAILABLE_NETWORK_LIST structure. The buffer for the WLAN_AVAILABLE_NETWORK_LIST returned is allocated by the WlanGetAvailableNetworkList function if the call succeeds.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 問い合わせるワイヤレス LAN インターフェイスの GUID へのポインタ。各インターフェイスの GUID は WlanEnumInterfaces で取得できる。
+dwFlags : [int] リストに返されるネットワーク種別を制御するフラグの集合。以下の値の組み合わせを指定できる。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+ppAvailableNetworkList : [var] 返される利用可能ネットワーク リスト (WLAN_AVAILABLE_NETWORK_LIST 構造体) を受け取るポインタへのポインタ。成功時バッファは関数が確保する。
 %inst
-Retrieves the list of available networks on a wireless LAN interface.
+ワイヤレス LAN インターフェイス上の利用可能ネットワークのリストを取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanGetAvailableNetworkList function allocates memory for the
-list of available networks returned in the buffer pointed to by the
-ppAvailableNetworkList parameter when the function succeeds. The
-memory used for the buffer pointed to by ppAvailableNetworkList
-parameter should be released by calling the WlanFreeMemory function
-after the buffer is no longer needed.
-There is a hotfix available for Wireless LAN API for Windows XP with
-SP2 that can help improve the performance of applications that call
-WlanFreeMemory and WlanGetAvailableNetworkList many times.
+関数が成功すると ppAvailableNetworkList が指すバッファ用のメモリを確保する。不要になったら
+WlanFreeMemory で解放する。Windows XP SP2 用 Wireless LAN API には本関数と
+WlanFreeMemory を多数回呼ぶ場合の性能向上の修正プログラムがある。
 
 
 %index
@@ -612,1842 +428,1090 @@ ppAvailableNetworkList : [var]
 
 %index
 WlanGetFilterList
-Retrieves a group policy or user permission list.
+グループ ポリシーまたはユーザー権限リストを取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, wlanFilterListType, pReserved, ppNetworkList
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-wlanFilterListType : [int] A WLAN_FILTER_LIST_TYPE value that specifies the type of filter list.  All user defined and group policy filter lists can be queried.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-ppNetworkList : [var] Pointer to a DOT11_NETWORK_LIST structure that contains the list of permitted or denied networks.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+wlanFilterListType : [int] フィルタ リストの種類を指定する WLAN_FILTER_LIST_TYPE 値。ユーザー定義およびグループ ポリシーのすべてのフィルタ リストを問い合わせできる。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+ppNetworkList : [var] 許可または拒否されたネットワークのリストを含む DOT11_NETWORK_LIST 構造体へのポインタ。
 %inst
-Retrieves a group policy or user permission list.
+グループ ポリシーまたはユーザー権限リストを取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-User permission lists can be set by calling WlanSetFilterList.
+ユーザー権限リストは WlanSetFilterList で設定できる。
 
 
 %index
 WlanGetInterfaceCapability
-Retrieves the capabilities of an interface.
+インターフェイスの機能を取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pReserved, ppCapability
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of this interface.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-ppCapability : [var] A WLAN_INTERFACE_CAPABILITY structure that contains information about the capabilities of the specified interface.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] このインターフェイスの GUID。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+ppCapability : [var] 指定インターフェイスの機能情報を含む WLAN_INTERFACE_CAPABILITY 構造体。
 %inst
-Retrieves the capabilities of an interface.
+インターフェイスの機能を取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The caller is responsible for calling the WlanFreeMemory function to
-free the memory allocated to ppCapability.
+ppCapability に割り当てられたメモリは呼び出し元が WlanFreeMemory で解放する責任がある。
 
 
 %index
 WlanGetNetworkBssList
-Retrieves a list of the basic service set (BSS) entries of the wireless network or networks on a given wireless LAN interface.
+指定のワイヤレス LAN インターフェイス上のワイヤレス ネットワークの BSS エントリ リストを取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pDot11Ssid, dot11BssType, bSecurityEnabled, pReserved, ppWlanBssList
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] A pointer to the GUID of the wireless LAN interface to be queried. The GUID of each wireless LAN interface enabled on a local computer can be determined using the WlanEnumInterfaces function.
-pDot11Ssid : [var] A pointer to a DOT11_SSID structure that specifies the SSID of the network from which the BSS list is requested.  This parameter is optional. When set to NULL, the returned list contains all of available BSS entries on a wireless LAN interface. If a pointer to a DOT11_SSID structure is specified, the SSID length specified in the uSSIDLength member of DOT11_SSID structure must be less than or equal to DOT11_SSID_MAX_LENGTH defined in the Wlantypes.h header file. In addition, the dot11BssType parameter must be set to either dot11_BSS_type_infrastructure or dot11_BSS_type_independent and the bSecurityEnabled parameter must be specified.
-dot11BssType : [int] The BSS type of the network. This parameter is ignored if the SSID of the network for the BSS list is unspecified (the pDot11Ssid parameter is NULL).
-bSecurityEnabled : [int] A value that indicates whether security is enabled on the network.  This parameter is only valid when the SSID of the network for the BSS list is specified (the pDot11Ssid parameter is not NULL).
-pReserved : [intptr] Reserved for future use.  This parameter must be set to NULL.
-ppWlanBssList : [var] A pointer to storage for a pointer to receive the returned list of of BSS entries in a WLAN_BSS_LIST structure. The buffer for the WLAN_BSS_LIST returned is allocated by the WlanGetNetworkBssList function if the call succeeds.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 問い合わせるワイヤレス LAN インターフェイスの GUID へのポインタ。
+pDot11Ssid : [var] BSS リストを要求するネットワークの SSID を指定する DOT11_SSID 構造体へのポインタ (省略可)。NULL の場合は全 BSS エントリが返される。非 NULL の場合 uSSIDLength は DOT11_SSID_MAX_LENGTH 以下である必要があり、dot11BssType および bSecurityEnabled の指定も必要。
+dot11BssType : [int] ネットワークの BSS 種別。pDot11Ssid が NULL の場合は無視される。
+bSecurityEnabled : [int] ネットワークでセキュリティが有効かを示す値。BSS リストを要求するネットワークの SSID が指定されている (pDot11Ssid が NULL でない) 場合にのみ有効。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+ppWlanBssList : [var] 返される BSS エントリのリスト (WLAN_BSS_LIST 構造体) を受け取るポインタへのポインタ。成功時は関数が確保する。
 %inst
-Retrieves a list of the basic service set (BSS) entries of the
-wireless network or networks on a given wireless LAN interface.
+指定のワイヤレス LAN インターフェイス上のワイヤレス ネットワークの BSS エントリ リストを取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanGetNetworkBssList function retrieves the basic service set
-list for each wireless network or networks accessible on a given
-interface. The list of information returned for each wireless network
-also contains a list of information elements returned by each access
-point for an infrastructure BSS network or a network peer for an
-independent BSS network (ad hoc network). The information is returned
-as a pointer to an WLAN_BSS_LIST structure in the ppWlanBssList
-parameter. The WLAN_BSS_LIST structure contains an item count
-followed by an array of WLAN_BSS_ENTRY structure entries. Since the
-information returned by the WlanGetNetworkBssList function is sent by
-an access point for an infrastructure BSS network or by a network
-peer for an independent BSS network (ad hoc network), the information
-returned should not be trusted. The ulIeOffset and ulIeSize members
-in the WLAN_BSS_ENTRY structure should be used to determine the size
-of the information element data blob in the WLAN_BSS_ENTRY structure,
-not the data in the information element data blob itself. The
-WlanGetNetworkBssList function does not validate that any information
-returned in the information element data blob pointed to by the
-ulIeOffset member is a valid information element as defined by the
-IEEE 802.11 standards for wireless LANs. If the pDot11Ssid parameter
-is specified (not NULL), then the dot11BssType parameter specified
-must be set to either dot11_BSS_type_infrastructure for an
-infrastructure BSS network or dot11_BSS_type_independent for an
-independent BSS network (ad hoc network). If the dot11BssType
-parameter is set to dot11_BSS_type_any, then the
-WlanGetNetworkBssList function returns ERROR_SUCCESS but no BSS
-entries will be returned. To return a list of all the infrastructure
-BSS networks and independent BSS networks (ad hoc networks) on a
-wireless LAN interface, set the pDot11Ssid parameter to NULL. When
-the wireless LAN interface is also operating as a Wireless Hosted
-Network , the BSS list will contain an entry for the BSS created for
-the Wireless Hosted Network.
-The WlanGetNetworkBssList function returns ERROR_SUCCESS when an
-empty BSS list is returned by the WLAN AutoConfig Service. An
-application that calls the WlanGetNetworkBssList function must check
-that the dwNumberOfItems member of the WLAN_BSS_LIST pointed to by
-the ppWlanBssList parameter is not zero before accessing the
-wlanBssEntries[0] member in WLAN_BSS_LIST structure. The
-WlanGetNetworkBssList function allocates memory for the basic service
-set list that is returned in a buffer pointed to by the ppWlanBssList
-parameter when the function succeeds. The memory used for the buffer
-pointed to by ppWlanBssList parameter should be released by calling
-the WlanFreeMemory function after the buffer is no longer needed.
+WlanGetNetworkBssList は指定インターフェイスでアクセス可能なワイヤレス ネットワークの BSS
+リストを取得する。BSS 内容は AP またはピアから送信された生データであり、信頼しないこと。IE データ blob のサイズ判定には
+WLAN_BSS_ENTRY の ulIeOffset と ulIeSize を使う。pDot11Ssid が指定されているなら
+dot11BssType は dot11_BSS_type_infrastructure か
+dot11_BSS_type_independent のいずれかを設定しなければならない。dot11_BSS_type_any は
+ERROR_SUCCESS を返すが BSS は返らない。全ネットワークのリストを得るには pDot11Ssid を NULL
+にする。成功後に ppWlanBssList のバッファは WlanFreeMemory で解放する。
 
 
 %index
 WlanGetProfile
-Retrieves all information about a specified wireless profile.
+指定されたワイヤレス プロファイルに関するすべての情報を取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, pReserved, pstrProfileXml, pdwFlags, pdwGrantedAccess
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the wireless interface. A list of the GUIDs for wireless interfaces on the local computer can be retrieved using the WlanEnumInterfaces function.
-strProfileName : [wstr] The name of the profile. Profile names are case-sensitive. This string must be NULL-terminated. The maximum length of the profile name is 255 characters. This means that the maximum length of this string, including the NULL terminator, is 256 characters. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??The name of the profile is derived automatically from the SSID of the network. For infrastructure network profiles, the name of the profile is the SSID of the network. For ad hoc network profiles, the name of the profile is the SSID of the ad hoc network followed by -adhoc.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-pstrProfileXml : [var] A string that is the XML representation of the queried profile. There is no predefined maximum string length.
-pdwFlags : [var] On input, a pointer to the address location used to provide additional information about the request. If this parameter is NULL on input, then no information on profile flags will be returned. On output,  a pointer to the address location used to receive profile flags. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??Per-user profiles are not supported. Set this parameter to NULL.
-pdwGrantedAccess : [var] The access mask of the all-user profile.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] ワイヤレス インターフェイスの GUID。GUID の一覧は WlanEnumInterfaces で取得できる。
+strProfileName : [wstr] プロファイルの名前。大文字と小文字を区別。NULL 終端が必要。最大長は 255 文字 (終端含め 256)。Windows XP SP3 および XP SP2 用 API: 名前はネットワークの SSID から自動派生する。インフラストラクチャでは SSID、アドホックでは SSID + -adhoc。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+pstrProfileXml : [var] 問い合わせ対象プロファイルの XML 表現を含む文字列。最大長は定義されていない。
+pdwFlags : [var] 入力時は要求に関する追加情報を提供する変数へのポインタ。NULL の場合プロファイル フラグは返されない。出力時はプロファイル フラグを受け取る。Windows XP SP3 および Windows XP SP2 用 API: ユーザー別プロファイルは未対応のため NULL を設定。
+pdwGrantedAccess : [var] すべてのユーザー用プロファイルのアクセス マスク。
 %inst
-Retrieves all information about a specified wireless profile.
+指定されたワイヤレス プロファイルに関するすべての情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-If the WlanGetProfile function succeeds, the wireless profile is
-returned in the buffer pointed to by the pstrProfileXml parameter.
-The buffer contains a string that is the XML representation of the
-queried profile. For a description of the XML representation of the
-wireless profile, see WLAN_profile Schema. The caller is responsible
-for calling the WlanFreeMemory function to free the memory allocated
-for the buffer pointer to by the pstrProfileXml parameter when the
-buffer is no longer needed. If pstrProfileXml specifies an all-user
-profile, the WlanGetProfile caller must have read access on the
-profile. Otherwise, the WlanGetProfile call will fail with a return
-value of ERROR_ACCESS_DENIED. The permissions on an all-user profile
-are established when the profile is created or saved using
-WlanSetProfile or WlanSaveTemporaryProfile. Windows 7: The
-keyMaterial element returned in the profile schema pointed to by the
-pstrProfileXml may be requested as plaintext if the WlanGetProfile
-function is called with the WLAN_PROFILE_GET_PLAINTEXT_KEY flag set
-in the value pointed to by the pdwFlags parameter on input. For a WEP
-key, both 5 ASCII characters or 10 hexadecimal characters can be used
-to set the plaintext key when the profile is created or updated.
-However, a WEP profile will be saved with 10 hexadecimal characters
-in the key no matter what the original input was used to create the
-profile. So in the profile returned by the WlanGetProfile function,
-the plaintext WEP key is always returned as 10 hexadecimal
-characters.
-For the WlanGetProfile call to return the plain text key, the
-wlan_secure_get_plaintext_key permissions from the
-WLAN_SECURABLE_OBJECT enumerated type must be set on the calling
-thread. The DACL must also contain an ACE that grants
-WLAN_READ_ACCESS permission to the access token of the calling
-thread. By default, the permissions for retrieving the plain text key
-is allowed only to the members of the Administrators group on a local
-machine.
-If the calling thread lacks the required permissions, the
-WlanGetProfile function returns the encrypted key in the keyMaterial
-element of the profile returned in the buffer pointed to by the
-pstrProfileXml parameter. No error is returned if the calling thread
-lacks the required permissions. By default, the keyMaterial element
-returned in the profile pointed to by the pstrProfileXml is
-encrypted. If your process runs in the context of the LocalSystem
-account on the same computer, then you can unencrypt key material by
-calling the CryptUnprotectData function.
-Windows Server 2008 and Windows Vista: The keyMaterial element
-returned in the profile schema pointed to by the pstrProfileXml is
-always encrypted. If your process runs in the context of the
-LocalSystem account, then you can unencrypt key material by calling
-the CryptUnprotectData function. Windows XP with SP3 and Wireless LAN
-API for Windows XP with SP2: The key material is never encrypted.
+成功すると pstrProfileXml が指すバッファにプロファイルの XML 表現が返される。XML の詳細は
+WLAN_profile Schema を参照。呼び出し元は不要になったら WlanFreeMemory
+で解放する。すべてのユーザー用プロファイルの場合、呼び出し元はプロファイルに対する読み取りアクセス権が必要で、さもなくば
+ERROR_ACCESS_DENIED で失敗する。Windows 7: 呼び出し時に pdwFlags に
+WLAN_PROFILE_GET_PLAINTEXT_KEY フラグを指定すると keyMaterial
+要素を平文で要求できる。平文鍵を取得するには wlan_secure_get_plaintext_key 権限が必要であり、DACL に
+WLAN_READ_ACCESS を許可する ACE が必要である。既定では Administrators
+のみ平文鍵の取得が許可される。権限がない場合は暗号化された鍵が返される (エラーはなし)。プロセスが LocalSystem
+で動作している場合は CryptUnprotectData で復号できる。
+Windows Server 2008 / Vista: keyMaterial は常に暗号化される。Windows XP SP3 および
+XP SP2 用 API: 鍵は暗号化されない。
 
 
 %index
 WlanGetProfileCustomUserData
-Gets the custom user data associated with a wireless profile.
+ワイヤレス プロファイルに関連付けられたカスタム ユーザー データを取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, pReserved, pdwDataSize, ppData
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] A pointer to the GUID of the wireless LAN interface.
-strProfileName : [wstr] The name of the profile with which the custom user data is associated. Profile names are case-sensitive. This string must be NULL-terminated.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
-pdwDataSize : [var] The size, in bytes,  of the user data buffer pointed to by the ppData parameter.
-ppData : [var] A pointer to the user data.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] ワイヤレス LAN インターフェイスの GUID へのポインタ。
+strProfileName : [wstr] カスタム ユーザー データが関連付けられたプロファイル名。大文字と小文字を区別。NULL 終端。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+pdwDataSize : [var] ppData が指すユーザー データ バッファのサイズ (バイト単位)。
+ppData : [var] ユーザー データへのポインタ。
 %inst
-Gets the custom user data associated with a wireless profile.
+ワイヤレス プロファイルに関連付けられたカスタム ユーザー データを取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-For every wireless WLAN profile used by the Native Wifi AutoConfig
-service, Windows maintains the concept of custom user data. This
-custom user data is initially non-existent, but can be set by calling
-the WlanSetProfileCustomUserData function. The custom user data gets
-reset to empty any time the profile is modified by calling the
-WlanSetProfile function. Once custom user data has been set, this
-data can be accessed using the WlanGetProfileCustomUserData function.
-The caller is responsible for freeing the memory allocated for the
-buffer pointed to by the ppData parameter using the WlanFreeMemory
-function.
+Windows の Native Wifi AutoConfig サービスで使用されるすべての WLAN
+プロファイルに対し、Windows はカスタム ユーザー データの概念を保持する。初期状態では存在しないが
+WlanSetProfileCustomUserData で設定できる。WlanSetProfile でプロファイルを更新するとユーザー
+データは空にリセットされる。設定済みデータは本関数で取得できる。ppData のメモリは呼び出し元が WlanFreeMemory
+で解放する。
 
 
 %index
 WlanGetProfileList
-Retrieves the list of profiles.
+プロファイルのリストを取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pReserved, ppProfileList
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the wireless interface. A list of the GUIDs for wireless interfaces on the local computer can be retrieved using the WlanEnumInterfaces function.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-ppProfileList : [var] A PWLAN_PROFILE_INFO_LIST structure that contains the list of profile information.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] ワイヤレス インターフェイスの GUID。GUID の一覧は WlanEnumInterfaces で取得できる。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+ppProfileList : [var] プロファイル情報のリストを含む PWLAN_PROFILE_INFO_LIST 構造体。
 %inst
-Retrieves the list of profiles.
+プロファイルのリストを取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanGetProfileList function returns only the basic information on
-the wireless profiles on a wireless interface. The list of wireless
-profiles on a wireless interface are retrieved in the preference
-order. The WlanSetProfilePosition can be used to change the
-preference order for the wireless profiles on a wireless interface.
-More detailed information for a wireless profile on a wireless
-interface can be retrieved by using the WlanGetProfile function. The
-WlanGetProfileCustomUserData function can be used to retrieve custom
-user data for a wireless profile on a wireless interface. A list of
-the wireless interfaces and associated GUIDs on the local computer
-can be retrieved using the WlanEnumInterfaces function. The
-WlanGetProfileList function allocates memory for the list of profiles
-returned in the buffer pointed to by the ppProfileList parameter. The
-caller is responsible for freeing this memory using the
-WlanFreeMemory function when this buffer is no longer needed. Windows
-XP with SP3 and Wireless LAN API for Windows XP with SP2: Guest
-profiles, profiles with Wireless Provisioning Service (WPS)
-authentication, and profiles with Wi-Fi Protected Access-None
-(WPA-None) authentication are not supported. These types of profiles
-are not returned by WlanGetProfileList, even if a profile of this
-type appears on the preferred profile list.
+WlanGetProfileList はワイヤレス
+インターフェイス上のプロファイルの基本情報のみを返す。リストは優先順で取得される。順序変更には
+WlanSetProfilePosition を使う。より詳細な情報は WlanGetProfile
+で取得できる。ppProfileList のメモリは不要になったら WlanFreeMemory で解放する。Windows XP SP3
+および XP SP2 用 API: ゲスト プロファイル、WPS 認証プロファイル、WPA-None
+認証プロファイルは未対応のため返されない。
 
 
 %index
 WlanGetSecuritySettings
-Gets the security settings associated with a configurable object.
+構成可能オブジェクトに関連付けられたセキュリティ設定を取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, SecurableObject, pValueType, pstrCurrentSDDL, pdwGrantedAccess
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-SecurableObject : [int] A WLAN_SECURABLE_OBJECT value that specifies the object to which the security settings apply.
-pValueType : [var] A pointer to a WLAN_OPCODE_VALUE_TYPE value that specifies the source of the security settings.
-pstrCurrentSDDL : [var] On input, this parameter must be NULL. On output, this parameter receives a pointer to the security descriptor string that specifies the security settings for the object if the function call succeeds. For more information about this string, see WlanSetSecuritySettings function.
-pdwGrantedAccess : [var] The access mask of the object.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+SecurableObject : [int] セキュリティ設定を適用するオブジェクトを指定する WLAN_SECURABLE_OBJECT 値。
+pValueType : [var] セキュリティ設定のソースを指定する WLAN_OPCODE_VALUE_TYPE 値へのポインタ。
+pstrCurrentSDDL : [var] 入力時は NULL でなければならない。出力時は成功時にオブジェクトのセキュリティ設定を示すセキュリティ記述子文字列へのポインタを受け取る。文字列の詳細は WlanSetSecuritySettings を参照。
+pdwGrantedAccess : [var] オブジェクトのアクセス マスク。
 %inst
-Gets the security settings associated with a configurable object.
+構成可能オブジェクトに関連付けられたセキュリティ設定を取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The caller is responsible for freeing the memory allocated to the
-security descriptor string pointed to by the pstrCurrentSDDL
-parameter if the function succeeds. When no longer needed, the memory
-for the security descriptor string should be freed by calling
-WlanFreeMemory function and passing in the pstrCurrentSDDL parameter.
+成功時は pstrCurrentSDDL のセキュリティ記述子文字列のメモリを呼び出し元が WlanFreeMemory
+で解放する責任がある。
 
 
 %index
 WlanGetSupportedDeviceServices
-Retrieves a list of the supported device services on a given wireless LAN interface.
+指定のワイヤレス LAN インターフェイスでサポートされているデバイス サービスのリストを取得する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, ppDevSvcGuidList
-hClientHandle : [intptr] Type: **[HANDLE](/windows/win32/winprog/windows-data-types)** The client's session handle, obtained by a previous call to the [WlanOpenHandle](./nf-wlanapi-wlanopenhandle.md) function.
-pInterfaceGuid : [var] Type: **CONST [GUID](../guiddef/ns-guiddef-guid.md)\*** A pointer to the **GUID** of the wireless LAN interface to be queried. You can determine the **GUID** of each wireless LAN interface enabled on a local computer by using the [WlanEnumInterfaces](./nf-wlanapi-wlanenuminterfaces.md) function.
-ppDevSvcGuidList : [var] Type: **[PWLAN_DEVICE_SERVICE_GUID_LIST](./ns-wlanapi-wlan_device_service_guid_list.md)\*** A pointer to storage for a pointer to receive the returned list of device service **GUID**s in a [WLAN_DEVICE_SERVICE_GUID_LIST](./ns-wlanapi-wlan_device_service_guid_list.md) structure. If the call succeeds, then the buffer for the **WLAN_DEVICE_SERVICE_GUID_LIST** returned is allocated by the **WlanGetSupportedDeviceServices** function.
+hClientHandle : [intptr] 型: HANDLE WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 型: CONST GUID* 問い合わせるワイヤレス LAN インターフェイスの GUID へのポインタ。
+ppDevSvcGuidList : [var] 型: PWLAN_DEVICE_SERVICE_GUID_LIST* 返されるデバイス サービス GUID のリスト (WLAN_DEVICE_SERVICE_GUID_LIST 構造体) を受け取るポインタへのポインタ。成功時は本関数がバッファを確保する。
 %inst
-Retrieves a list of the supported device services on a given wireless
-LAN interface.
+指定のワイヤレス LAN インターフェイスでサポートされているデバイス サービスのリストを取得する。
 
 [戻り値]
-Type: **[HRESULT](/windows/win32/com/structure-of-com-error-codes)**
-If the function succeeds, the return value is **ERROR_SUCCESS**. If
-the function fails with **ERROR_ACCESS_DENIED**, then the caller
-doesn't have sufficient permissions to perform this operation. The
-caller needs to either have admin privilege, or needs to be a UMDF
-driver.
+型: HRESULT 関数が成功すると ERROR_SUCCESS を返す。ERROR_ACCESS_DENIED
+で失敗した場合、呼び出し元は管理者権限を持つか UMDF ドライバである必要がある。
 
 [備考]
-If the call succeeds, then the **WlanGetSupportedDeviceServices**
-function allocates memory for the device services **GUID** list
-that's returned in a buffer pointed to by the *ppDevSvcGuidList*
-parameter. When you no longer need the buffer pointed to by
-*ppDevSvcGuidList*, you should release the memory used for it by
-calling the [WlanFreeMemory](./nf-wlanapi-wlanfreememory.md)
-function.
+成功時は関数が ppDevSvcGuidList のバッファを確保する。不要になったら WlanFreeMemory で解放する。
 
 
 %index
 WlanHostedNetworkForceStart
-Transitions the wireless Hosted Network to the wlan_hosted_network_active state without associating the request with the application's calling handle.
+アプリケーションの呼び出しハンドルと関連付けずにワイヤレス ホステッド ネットワークを wlan_hosted_network_active 状態に遷移させる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pFailReason : [var] An optional pointer to a value that receives the failure reason  if the call to the WlanHostedNetworkForceStart function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Transitions the wireless Hosted Network to the
-wlan_hosted_network_active state without associating the request with
-the application's calling handle.
+アプリケーションの呼び出しハンドルと関連付けずにワイヤレス ホステッド ネットワークを
+wlan_hosted_network_active 状態に遷移させる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkForceStart function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the WlanHostedNetworkForceStart
-function to force the start of the wireless Hosted Network by
-transitioning the wireless Hosted Network to the
-wlan_hosted_network_active state without associating the request with
-the application's calling handle. A successful call to the
-WlanHostedNetworkForceStart function should eventually be matched by
-a call to WlanHostedNetworkForceStop function. Any Hosted Network
-state change caused by this function would not be automatically
-undone if the calling application closes its calling handle (by
-calling WlanCloseHandle with the hClientHandle parameter) or if the
-process ends.
-The cost of calling the WlanHostedNetworkForceStart function over
-calling WlanHostedNetworkStartUsing is the associated privilege
-required. An application might call the WlanHostedNetworkForceStart
-function after ensuring that an elevated system user accepts the
-increased power requirements involved in running the wireless Hosted
-Network for extended durations. The WlanHostedNetworkForceStart
-function could fail if Hosted Network state is
-wlan_hosted_network_unavailable or the caller does not have
-sufficient privileges.
-This doc was truncated.
+WlanHostedNetworkForceStart は Windows 7 および Windows Server 2008 R2
+のワイヤレス ホステッド ネットワークをサポートするためのネイティブ ワイヤレス API
+の拡張である。この関数はアプリケーションの呼び出しハンドルと関連付けずにホステッド ネットワークを
+wlan_hosted_network_active 状態に遷移させる。成功した呼び出しは最終的に
+WlanHostedNetworkForceStop
+によって対応されるべきである。呼び出しハンドルを閉じてもこの関数の変更は自動的に元に戻されない。WlanHostedNetworkStartUsing
+より高い特権を必要とする。状態が wlan_hosted_network_unavailable または特権不足の場合は失敗しうる。
+このドキュメントは省略されている。
 
 
 %index
 WlanHostedNetworkForceStop
-Transitions the wireless Hosted Network to the wlan_hosted_network_idle without associating the request with the application's calling handle.
+アプリケーションの呼び出しハンドルと関連付けずにワイヤレス ホステッド ネットワークを wlan_hosted_network_idle に遷移させる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pFailReason : [var] An optional pointer to a value that receives the failure reason,  if the call to the WlanHostedNetworkForceStop function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Transitions the wireless Hosted Network to the
-wlan_hosted_network_idle without associating the request with the
-application's calling handle.
+アプリケーションの呼び出しハンドルと関連付けずにワイヤレス ホステッド ネットワークを wlan_hosted_network_idle
+に遷移させる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkForceStop function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the WlanHostedNetworkForceStop
-function to force the stop the Hosted Network and transition the
-wireless Hosted Network to the wlan_hosted_network_idle without
-associating the request with the application's calling handle. A
-client typically calls the WlanHostedNetworkForceStop function to
-match an earlier successful call to the WlanHostedNetworkForceStart
-function. The WlanHostedNetworkForceStop function could fail if
-Hosted Network state is not wlan_hosted_network_active. Any Hosted
-Network state change caused by this function would not be
-automatically undone if the calling application closes its calling
-handle (by calling WlanCloseHandle with the hClientHandle parameter)
-or if the process ends.
-An application might call the WlanHostedNetworkForceStop function to
-stop the Hosted Network after a previous call to the
-WlanHostedNetworkForceStart by an elevated system user that accepted
-the increased power requirements involved in running the wireless
-Hosted Network for extended durations. Any user can call the
-WlanHostedNetworkForceStop function to force the stop of the Hosted
-Network. However, the ability to enable the wireless Hosted Network
-may be restricted by group policy in a domain. On Windows 7 and
-later, the operating system installs a virtual device if a Hosted
-Network capable wireless adapter is present on the machine. This
-virtual device normally shows up in the “Network Connections Folder”
-as ‘Wireless Network Connection 2’ with a Device Name of ‘Microsoft
-Virtual WiFi Miniport adapter’ if the computer has a single wireless
-network adapter. This virtual device is used exclusively for
-performing software access point (SoftAP) connections and is not
-present in the list returned by the WlanEnumInterfaces function. The
-lifetime of this virtual device is tied to the physical wireless
-adapter. If the physical wireless adapter is disabled, this virtual
-device will be removed as well. This feature is also available on
-Windows Server 2008 R2 with the Wireless LAN Service installed.
+Windows 7 および Windows Server 2008 R2 のワイヤレス ホステッド
+ネットワーク用拡張。この関数は呼び出しハンドルと関連付けずにホステッド ネットワークを強制的に停止し
+wlan_hosted_network_idle に遷移させる。通常は以前の WlanHostedNetworkForceStart
+呼び出しに対応して呼ばれる。状態が wlan_hosted_network_active でない場合は失敗しうる。Windows 7
+以降では Hosted Network 対応のワイヤレス アダプタが存在すると OS が仮想デバイス (Microsoft Virtual
+WiFi Miniport adapter) をインストールし、SoftAP 接続専用に使用される。この仮想デバイスは
+WlanEnumInterfaces の返すリストには現れない。物理アダプタが無効化されると仮想デバイスも取り外される。
 
 
 %index
 WlanHostedNetworkInitSettings
-Configures and persists to storage the network connection settings (SSID and maximum number of peers, for example) on the wireless Hosted Network if these settings are not already configured.
+未設定の場合にワイヤレス ホステッド ネットワークのネットワーク接続設定 (SSID や最大ピア数など) を構成しストレージに永続化する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pFailReason : [var] An optional pointer to a value that receives the failure reason  if the call to the WlanHostedNetworkInitSettings function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Configures and persists to storage the network connection settings
-(SSID and maximum number of peers, for example) on the wireless
-Hosted Network if these settings are not already configured.
+未設定の場合にワイヤレス ホステッド ネットワークのネットワーク接続設定 (SSID や最大ピア数など) を構成しストレージに永続化する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkInitSettings function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the
-WlanHostedNetworkInitSettings function to configure and persist to
-storage the network connection settings (SSID and maximum number of
-peers, for example) on the wireless Hosted Network, if the
-connections settings are not already configured. If the network
-settings on the wireless Hosted Network settings are already
-configured (the WlanHostedNetworkQueryProperty function does not
-return ERROR_BAD_CONFIGURATION for the station profile or connection
-settings), then this function call returns ERROR_SUCCESS without
-changing the configuration of the network connection settings. A
-client application should always call the
-WlanHostedNetworkInitSettings function before using other Hosted
-Network features on the local computer. This function initializes
-settings that are required when the wireless Hosted Network is used
-for the first time on a local computer. The
-WlanHostedNetworkInitSettings function does not change any
-configuration if the configuration has already been persisted. So it
-is safe to call the WlanHostedNetworkInitSettings function if the
-configuration has already been persisted. It is recommended that
-applications that use Hosted Network call the
-WlanHostedNetworkInitSettings function before using other Hosted
-Network functions.
-The WlanHostedNetworkInitSettings function computes a random and
-readable SSID from the host name and computes a random primary key.
-This function also uses sets a value for the maximum number of peers
-allowed that defaults to 100. If an application wants to use a
-different SSID or a different maximum number of peers, then the
-application should call the WlanHostedNetworkSetProperty function to
-specifically set these properties used by the wireless Hosted
-Network. Any Hosted Network state change caused by this function
-would not be automatically undone if the calling application closes
-its calling handle (by calling WlanCloseHandle with the hClientHandle
-parameter) or if the process ends.
-Any user can call the WlanHostedNetworkInitSettings function to
-configure and persist to storage network connection settings on the
-Hosted Network. If the wireless Hosted Network has already been
-configured, this function does nothing and returns ERROR_SUCCESS. On
-Windows 7 and later, the operating system installs a virtual device
-if a Hosted Network capable wireless adapter is present on the
-machine. This virtual device normally shows up in the “Network
-Connections Folder” as ‘Wireless Network Connection 2’ with a Device
-Name of ‘Microsoft Virtual WiFi Miniport adapter’ if the computer has
-a single wireless network adapter. This virtual device is used
-exclusively for performing software access point (SoftAP) connections
-and is not present in the list returned by the WlanEnumInterfaces
-function. The lifetime of this virtual device is tied to the physical
-wireless adapter. If the physical wireless adapter is disabled, this
-virtual device will be removed as well. This feature is also
-available on Windows Server 2008 R2 with the Wireless LAN Service
-installed.
+Windows 7 および Windows Server 2008 R2 のワイヤレス ホステッド
+ネットワーク用拡張。この関数はホステッド ネットワークの接続設定 (SSID や最大ピア数など)
+が未設定の場合に構成してストレージに永続化する。設定済みなら ERROR_SUCCESS を返して何も変更しない。アプリケーションは他の
+Hosted Network 機能を使う前に本関数を呼ぶことが推奨される。ホスト名からランダムで読みやすい SSID
+を計算し、ランダムなプライマリ鍵を生成する。最大ピア数のデフォルトは 100。別値を使うには
+WlanHostedNetworkSetProperty を呼ぶ。
 
 
 %index
 WlanHostedNetworkQueryProperty
-Queries the current static properties of the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークの現在の静的プロパティを問い合わせる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, OpCode, pdwDataSize, ppvData, pWlanOpcodeValueType, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-OpCode : [int] The identifier for property to be queried. This identifier can be any of the values in the WLAN_HOSTED_NETWORK_OPCODE enumeration defined in the Wlanapi.h  header file.
-pdwDataSize : [var] A pointer to a value that specifies the size, in bytes, of the buffer returned in the ppvData parameter, if the call to the WlanHostedNetworkQueryProperty function succeeds.
-ppvData : [var] On input, this parameter must be NULL. On output, this parameter receives a pointer to a buffer returned with the static property requested,  if the call to the WlanHostedNetworkQueryProperty function succeeds.  The data type associated with this buffer depends upon the value of OpCode parameter.
-pWlanOpcodeValueType : [var] A pointer to a value that receives the value type of the wireless Hosted Network property,  if the call to the WlanHostedNetworkQueryProperty function succeeds. The returned value is an enumerated type in the WLAN_OPCODE_VALUE_TYPE enumeration defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+OpCode : [int] 問い合わせるプロパティの識別子。WLAN_HOSTED_NETWORK_OPCODE 列挙型の値。
+pdwDataSize : [var] 成功時に ppvData のバッファのサイズ (バイト単位) を指定する変数へのポインタ。
+ppvData : [var] 入力時は NULL でなければならない。出力時には要求された静的プロパティを含むバッファへのポインタを受け取る。バッファのデータ型は OpCode の値に依存する。
+pWlanOpcodeValueType : [var] 成功時にホステッド ネットワーク プロパティの値型を受け取る変数へのポインタ。WLAN_OPCODE_VALUE_TYPE 列挙型。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Queries the current static properties of the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークの現在の静的プロパティを問い合わせる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkQueryProperty function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the
-WlanHostedNetworkQueryProperty function to query the current static
-properties of the wireless Hosted Network. This function does not
-change the state or properties of the wireless Hosted Network. If the
-function succeeds, the ppvData parameter points to a buffer that
-contains the requested property. The size of this buffer is returned
-in a pointer returned in the pwdDataSize parameter. The
-WLAN_OPCODE_VALUE_TYPE is returned in a pointer returned in the
-pWlanOpcodeValueType parameter. The memory used for the buffer in the
-ppvData parameter that is returned should be released by calling the
-WlanFreeMemory function after the buffer is no longer needed. The
-data type associated with the buffer pointed to by the ppvData
-parameter depends upon the value of OpCode parameter as follows:
-This doc was truncated.
+Windows 7 / Server 2008 R2 の拡張。現在のワイヤレス ホステッド
+ネットワークの静的プロパティを問い合わせる。状態やプロパティは変更しない。成功時 ppvData
+のバッファに要求プロパティが入り、サイズは pwdDataSize で返される。ppvData のメモリは不要になったら
+WlanFreeMemory で解放する。ppvData のデータ型は OpCode の値により次のように決まる:
+このドキュメントは省略されている。
 
 
 %index
 WlanHostedNetworkQuerySecondaryKey
-Queries the secondary security key that is configured to be used by the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークで使用するように構成されたセカンダリ セキュリティ キーを問い合わせる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pdwKeyLength, ppucKeyData, pbIsPassPhrase, pbPersistent, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pdwKeyLength : [var] A pointer to a value that specifies number of valid data bytes in the key data array pointed to by the ppucKeyData parameter, if the call to the WlanHostedNetworkQuerySecondaryKey function succeeds. This key length includes the terminating ‘\0’ if the key is a passphrase.
-ppucKeyData : [var] A pointer to a value that receives a pointer to the buffer returned with the secondary security key data,  if the call to the WlanHostedNetworkQuerySecondaryKey function succeeds.
-pbIsPassPhrase : [var] A pointer to a Boolean value that indicates if the key data array pointed to by the ppucKeyData parameter is in passphrase format. If this parameter is TRUE, the key data array is in passphrase format. If this parameter is FALSE, the key data array is not in passphrase format.
-pbPersistent : [var] A pointer to a Boolean value that indicates if the key data array pointed to by the ppucKeyData parameter is to be stored and reused later or is for one-time use only. If this parameter is TRUE, the key data array is to be stored and reused later. If this parameter is FALSE, the key data array is for one-time use only.
-pFailReason : [var] An optional pointer to a value that receives the failure reason,  if the call to the WlanHostedNetworkSetSecondaryKey function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pdwKeyLength : [var] 成功時に ppucKeyData の有効バイト数を指定する変数へのポインタ。パスフレーズの場合は終端 '\0' を含む。
+ppucKeyData : [var] 成功時にセカンダリ セキュリティ キー データのバッファへのポインタを受け取る変数へのポインタ。
+pbIsPassPhrase : [var] ppucKeyData が指す鍵データ配列がパスフレーズ形式かを示す Boolean 値へのポインタ。TRUE ならパスフレーズ形式。
+pbPersistent : [var] ppucKeyData が指す鍵データ配列が後で再利用するために保存されるか、一度限り使用かを示す Boolean 値へのポインタ。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Queries the secondary security key that is configured to be used by
-the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークで使用するように構成されたセカンダリ セキュリティ キーを問い合わせる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkQuerySecondaryKey function is an extension to
-native wireless APIs added to support the wireless Hosted Network on
-Windows 7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the
-WlanHostedNetworkQuerySecondaryKey function to query the secondary
-security key that will be used by the wireless Hosted Network. This
-function will return the key information including key data, key
-length, whether it is a passphrase, and whether it is persistent or
-for one-time use. This function does not change the state or
-properties of the wireless Hosted Network. The secondary security key
-is a passphrase if the value pointed to by the pbIsPassPhrase
-parameter is TRUE. The secondary security key is a binary key if the
-value pointed to by the pbIsPassPhrase parameter is FALSE.
-This doc was truncated.
+Windows 7 / Server 2008 R2 の拡張。ワイヤレス ホステッド ネットワークで使用されるセカンダリ セキュリティ
+キーを問い合わせる。鍵データ、長さ、パスフレーズか、永続/一時かの情報を返す。状態やプロパティは変更しない。pbIsPassPhrase
+が TRUE ならパスフレーズ、FALSE ならバイナリ鍵。
+このドキュメントは省略されている。
 
 
 %index
 WlanHostedNetworkQueryStatus
-Queries the current status of the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークの現在の状態を問い合わせる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, ppWlanHostedNetworkStatus, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-ppWlanHostedNetworkStatus : [var] On input, this parameter must be NULL. On output, this parameter receives a pointer to the current status of the wireless Hosted Network,  if the call to the WlanHostedNetworkQueryStatus function succeeds. The current status is returned in a WLAN_HOSTED_NETWORK_STATUS structure.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+ppWlanHostedNetworkStatus : [var] 入力時は NULL。出力時は成功するとワイヤレス ホステッド ネットワークの現在の状態 (WLAN_HOSTED_NETWORK_STATUS 構造体) へのポインタを受け取る。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Queries the current status of the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークの現在の状態を問い合わせる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkQueryStatus function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the
-WlanHostedNetworkQueryStatus function to query the current status of
-the wireless Hosted Network. This function does not change the state
-of the wireless Hosted Network. If the function succeeds, the
-ppWlanHostedNetworkStatus parameter points to a
-WLAN_HOSTED_NETWORK_STATUS structure with the current status. The
-memory used for the WLAN_HOSTED_NETWORK_STATUS structure that is
-returned should be freed after use by calling the WlanFreeMemory
-function. Any user can call the WlanHostedNetworkQueryStatus function
-to query the Hosted Network. However, the ability to enable the
-wireless Hosted Network may be restricted by group policy in a
-domain. On Windows 7 and later, the operating system installs a
-virtual device if a Hosted Network capable wireless adapter is
-present on the machine. This virtual device normally shows up in the
-“Network Connections Folder” as ‘Wireless Network Connection 2’ with
-a Device Name of ‘Microsoft Virtual WiFi Miniport adapter’ if the
-computer has a single wireless network adapter. This virtual device
-is used exclusively for performing software access point (SoftAP)
-connections and is not present in the list returned by the
-WlanEnumInterfaces function. The lifetime of this virtual device is
-tied to the physical wireless adapter. If the physical wireless
-adapter is disabled, this virtual device will be removed as well.
-This feature is also available on Windows Server 2008 R2 with the
-Wireless LAN Service installed.
+Windows 7 / Server 2008 R2 の拡張。ワイヤレス ホステッド
+ネットワークの現在の状態を問い合わせるのみで変更はしない。返された WLAN_HOSTED_NETWORK_STATUS のメモリは
+WlanFreeMemory で解放する。誰でも呼び出せるが、ドメインのグループ ポリシーにより有効化が制限される場合がある。
 
 
 %index
 WlanHostedNetworkRefreshSecuritySettings
-Refreshes the configurable and auto-generated parts of the wireless Hosted Network security settings.
+ワイヤレス ホステッド ネットワークのセキュリティ設定の構成可能および自動生成部分を更新する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pFailReason : [var] An optional pointer to a value that receives the failure reason,  if the call to the WlanHostedNetworkRefreshSecuritySettings function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Refreshes the configurable and auto-generated parts of the wireless
-Hosted Network security settings.
+ワイヤレス ホステッド ネットワークのセキュリティ設定の構成可能および自動生成部分を更新する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkRefreshSecuritySettings function is an extension
-to native wireless APIs added to support the wireless Hosted Network
-on Windows 7 and on Windows Server 2008 R2 with the Wireless LAN
-Service installed. A client application calls the
-WlanHostedNetworkRefreshSecuritySettings function to force a refresh
-of the configurable and auto-generated parts of the security settings
-(the primary key) on the wireless Hosted Network. An application
-might call the WlanHostedNetworkRefreshSecuritySettings function
-after ensuring that the user accepts the impact of updating the
-security settings. In order to succeed, this function must persist
-the new settings which would require that Hosted Network state be
-transitioned to wlan_hosted_network_idle if it was currently running
-(wlan_hosted_network_active). Note Any network clients (PCs or
-devices) on the wireless Hosted Network would have to be
-re-configured after calling the
-WlanHostedNetworkRefreshSecuritySettings function if their continued
-usage is a goal. An application would typically call this function in
-situations where the user feels that the security of the previous
-primary key used for security by the wireless Hosted Network has been
-violated. Note that the WlanHostedNetworkRefreshSecuritySettings
-function does not change or reset the secondary key. Any Hosted
-Network state change caused by this function would not be
-automatically undone if the calling application closes its calling
-handle (by calling WlanCloseHandle with the hClientHandle parameter)
-or if the process ends.
-Any user can call the WlanHostedNetworkRefreshSecuritySettings
-function to refresh the security settings on the Hosted Network.
-However, the ability to enable the wireless Hosted Network may be
-restricted by group policy in a domain. On Windows 7 and later, the
-operating system installs a virtual device if a Hosted Network
-capable wireless adapter is present on the machine. This virtual
-device normally shows up in the “Network Connections Folder” as
-‘Wireless Network Connection 2’ with a Device Name of ‘Microsoft
-Virtual WiFi Miniport adapter’ if the computer has a single wireless
-network adapter. This virtual device is used exclusively for
-performing software access point (SoftAP) connections and is not
-present in the list returned by the WlanEnumInterfaces function. The
-lifetime of this virtual device is tied to the physical wireless
-adapter. If the physical wireless adapter is disabled, this virtual
-device will be removed as well. This feature is also available on
-Windows Server 2008 R2 with the Wireless LAN Service installed.
+Windows 7 / Server 2008 R2 の拡張。構成可能および自動生成されるセキュリティ設定 (プライマリ鍵)
+の更新を強制する。新設定の永続化にはホステッド ネットワークが稼働中なら wlan_hosted_network_idle
+への遷移が必要となる。注: 呼び出し後は接続済みピアの再構成が必要となる。セカンダリ鍵は変更または再設定されない。
 
 
 %index
 WlanHostedNetworkSetProperty
-Sets static properties of the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークの静的プロパティを設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, OpCode, dwDataSize, pvData, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-OpCode : [int] The identifier for the property to be set. This identifier can only be the following values in the WLAN_HOSTED_NETWORK_OPCODE enumeration defined in the Wlanapi.h  header file: * **wlan_hosted_network_opcode_connection_settings** The Hosted Network connection settings. * **wlan_hosted_network_opcode_enable** The Hosted Network enabled flag.
-dwDataSize : [int] A value that specifies the size, in bytes, of the buffer pointed to by the pvData parameter.
-pvData : [intptr] A pointer to a buffer with the static property to set.  The data type associated with this buffer depends upon the value of OpCode parameter.
-pFailReason : [var] An optional pointer to a value that receives the failure reason,  if the call to the WlanHostedNetworkSetProperty function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+OpCode : [int] 設定するプロパティの識別子。WLAN_HOSTED_NETWORK_OPCODE のうち次の値のみ: wlan_hosted_network_opcode_connection_settings (接続設定)、wlan_hosted_network_opcode_enable (有効化フラグ)。
+dwDataSize : [int] pvData が指すバッファのサイズ (バイト単位)。
+pvData : [intptr] 設定する静的プロパティを含むバッファへのポインタ。データ型は OpCode に依存する。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Sets static properties of the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークの静的プロパティを設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkSetProperty function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the
-WlanHostedNetworkSetProperty function to set the current static
-properties of the wireless Hosted Network. Any Hosted Network
-property change caused by this function would not be automatically
-undone if the calling application closes its calling handle (by
-calling WlanCloseHandle with the hClientHandle parameter) or if the
-process ends.
-The data type associated with the buffer pointed to by the pvData
-parameter depends upon the value of OpCode parameter as follows:
-This doc was truncated.
+Windows 7 / Server 2008 R2 の拡張。ワイヤレス ホステッド
+ネットワークの静的プロパティを設定する。呼び出しハンドルを閉じてもプロパティ変更は自動的には元に戻らない。pvData のデータ型は
+OpCode に依存する:
+このドキュメントは省略されている。
 
 
 %index
 WlanHostedNetworkSetSecondaryKey
-Configures the secondary security key that will be used by the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークで使用するセカンダリ セキュリティ キーを構成する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, dwKeyLength, pucKeyData, bIsPassPhrase, bPersistent, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-dwKeyLength : [int] The number of valid data bytes in the key data array pointed to by the pucKeyData parameter. This key length should include the terminating ‘\0’ if the key is a passphrase.
-pucKeyData : [var] A pointer to a buffer that contains the key data. The number of valid data bytes in the buffer must be at least the value specified in dwKeyLength parameter.
-bIsPassPhrase : [int] A Boolean value that indicates if the key data array pointed to by the pucKeyData parameter is in passphrase format. If this parameter is TRUE, the key data array is in passphrase format. If this parameter is FALSE, the key data array is not in passphrase format.
-bPersistent : [int] A Boolean value that indicates if the key data array pointed to by the pucKeyData parameter is to be stored and reused later or is for one-time use only. If this parameter is TRUE, the key data array is to be stored and reused later. If this parameter is FALSE, the key data array is to be used for one session (either the current session or the next session if the Hosted Network is not started).
-pFailReason : [var] An optional pointer to a value that receives the failure reason,  if the call to the WlanHostedNetworkSetSecondaryKey function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+dwKeyLength : [int] pucKeyData の有効バイト数。パスフレーズの場合は終端 '\0' を含む。
+pucKeyData : [var] 鍵データを含むバッファへのポインタ。有効バイト数は dwKeyLength 以上。
+bIsPassPhrase : [int] pucKeyData がパスフレーズ形式かを示す Boolean。
+bPersistent : [int] pucKeyData を保存して後で再利用するか、一度 (現在または次のセッション) のみ使用するかを示す Boolean。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Configures the secondary security key that will be used by the
-wireless Hosted Network.
+ワイヤレス ホステッド ネットワークで使用するセカンダリ セキュリティ キーを構成する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkSetSecondaryKey function is an extension to
-native wireless APIs added to support the wireless Hosted Network on
-Windows 7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the
-WlanHostedNetworkSetSecondaryKey function to configure the secondary
-security key that will be used by the wireless Hosted Network. Any
-Hosted Network change caused by this function would not be
-automatically undone if the calling application closes its calling
-handle (by calling WlanCloseHandle with the hClientHandle parameter)
-or if the process ends.
-Once started, the wireless Hosted Network will allow wireless peers
-to associate with this secondary security key in addition to the
-primary security key. The secondary security key is always specified
-by the user as needed, while the primary security key is generated by
-the operating system with greater security strength.
-This doc was truncated.
+Windows 7 / Server 2008 R2 の拡張。ワイヤレス ホステッド ネットワークが使用するセカンダリ セキュリティ
+キーを構成する。開始後、ピアはプライマリだけでなくセカンダリ鍵でも関連付けが可能となる。セカンダリ鍵は常にユーザー指定である一方、プライマリ鍵は
+OS がより高いセキュリティ強度で生成する。
+このドキュメントは省略されている。
 
 
 %index
 WlanHostedNetworkStartUsing
-Starts the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークを開始する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pFailReason : [var] An optional pointer to a value that receives the failure reason,  if the call to the WlanHostedNetworkStartUsing function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Starts the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークを開始する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkStartUsing function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. A client application calls the WlanHostedNetworkStartUsing
-function to start the wireless Hosted Network. Successful calls must
-be matched by calls to WlanHostedNetworkStopUsing function. This call
-could fail if Hosted Network state is
-wlan_hosted_network_unavailable. Any Hosted Network state change
-caused by this function would be automatically undone if the calling
-application closes its calling handle (by calling WlanCloseHandle
-with the hClientHandle parameter) or if the process ends.
-Any user can call the WlanHostedNetworkStartUsing function to start
-the Hosted Network. However, the ability to enable the wireless
-Hosted Network may be restricted by group policy in a domain. On
-Windows 7 and later, the operating system installs a virtual device
-if a Hosted Network capable wireless adapter is present on the
-machine. This virtual device normally shows up in the “Network
-Connections Folder” as ‘Wireless Network Connection 2’ with a Device
-Name of ‘Microsoft Virtual WiFi Miniport adapter’ if the computer has
-a single wireless network adapter. This virtual device is used
-exclusively for performing software access point (SoftAP) connections
-and is not present in the list returned by the WlanEnumInterfaces
-function. The lifetime of this virtual device is tied to the physical
-wireless adapter. If the physical wireless adapter is disabled, this
-virtual device will be removed as well. This feature is also
-available on Windows Server 2008 R2 with the Wireless LAN Service
-installed.
+Windows 7 / Server 2008 R2 の拡張。ワイヤレス ホステッド ネットワークを開始する。成功した呼び出しは
+WlanHostedNetworkStopUsing で対応する必要がある。状態が
+wlan_hosted_network_unavailable
+なら失敗しうる。呼び出しハンドルが閉じられるかプロセスが終了すると自動的に元に戻る。
 
 
 %index
 WlanHostedNetworkStopUsing
-Stops the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークを停止する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
-hClientHandle : [intptr] The client's session handle, returned by a previous call to the WlanOpenHandle function.
-pFailReason : [var] An optional pointer to a value that receives the failure reason  if the call to the WlanHostedNetworkStopUsing function fails. Possible values for the failure reason are from the WLAN_HOSTED_NETWORK_REASON enumeration type defined in the Wlanapi.h  header file.
-pvReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで返されたクライアントのセッション ハンドル。
+pFailReason : [var] 失敗理由を受け取る変数へのオプションのポインタ。値は WLAN_HOSTED_NETWORK_REASON 列挙型から取得される。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Stops the wireless Hosted Network.
+ワイヤレス ホステッド ネットワークを停止する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanHostedNetworkStopUsing function is an extension to native
-wireless APIs added to support the wireless Hosted Network on Windows
-7 and on Windows Server 2008 R2 with the Wireless LAN Service
-installed. An application calls the WlanHostedNetworkStopUsing
-function to stop the Hosted Network. A application calls the
-WlanHostedNetworkStopUsing function to match earlier successful calls
-to the WlanHostedNetworkStartUsing function. The wireless Hosted
-Network will remain active until all applications have called the
-WlanHostedNetworkStopUsing function or the WlanHostedNetworkForceStop
-function is called to force a stop. When the wireless Hosted Network
-has stopped, the state switches to wlan_hosted_network_idle. This
-call could also fail if the Hosted Network state changed because of
-external events (for example, if the miniport driver for the wireless
-interface card becomes unavailable). Any user can call this function
-to stop the Hosted Network. However, the ability to enable the
-wireless Hosted Network may be restricted by group policy in a
-domain. On Windows 7 and later, the operating system installs a
-virtual device if a Hosted Network capable wireless adapter is
-present on the machine. This virtual device normally shows up in the
-“Network Connections Folder” as ‘Wireless Network Connection 2’ with
-a Device Name of ‘Microsoft Virtual WiFi Miniport adapter’ if the
-computer has a single wireless network adapter. This virtual device
-is used exclusively for performing software access point (SoftAP)
-connections and is not present in the list returned by the
-WlanEnumInterfaces function. The lifetime of this virtual device is
-tied to the physical wireless adapter. If the physical wireless
-adapter is disabled, this virtual device will be removed as well.
-This feature is also available on Windows Server 2008 R2 with the
-Wireless LAN Service installed.
+Windows 7 / Server 2008 R2 の拡張。先行する WlanHostedNetworkStartUsing
+の成功呼び出しに対応してホステッド ネットワークを停止する。すべてのアプリケーションが
+WlanHostedNetworkStopUsing を呼ぶか、WlanHostedNetworkForceStop
+が呼ばれるまでホステッド ネットワークはアクティブのまま。停止後は状態が wlan_hosted_network_idle
+に変わる。ミニポート ドライバの利用不可などの外部イベントでも失敗しうる。
 
 
 %index
 WlanIhvControl
-Provides a mechanism for independent hardware vendor (IHV) control of WLAN drivers or services.
+独立ハードウェア ベンダー (IHV) が WLAN ドライバまたはサービスを制御するための仕組みを提供する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, Type, dwInBufferSize, pInBuffer, dwOutBufferSize, pOutBuffer, pdwBytesReturned
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-Type : [int] A WLAN_IHV_CONTROL_TYPE structure that specifies the type of software bypassed by the IHV control function.
-dwInBufferSize : [int] The size, in bytes, of the input buffer.
-pInBuffer : [intptr] A generic buffer for driver or service interface input.
-dwOutBufferSize : [int] The size, in bytes, of the output buffer.
-pOutBuffer : [intptr] A generic buffer for driver or service interface output.
-pdwBytesReturned : [var] The number of bytes returned.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+Type : [int] IHV 制御関数がバイパスするソフトウェアの種類を指定する WLAN_IHV_CONTROL_TYPE。
+dwInBufferSize : [int] 入力バッファのサイズ (バイト単位)。
+pInBuffer : [intptr] ドライバまたはサービス インターフェイス入力用の汎用バッファ。
+dwOutBufferSize : [int] 出力バッファのサイズ (バイト単位)。
+pOutBuffer : [intptr] ドライバまたはサービス インターフェイス出力用の汎用バッファ。
+pdwBytesReturned : [var] 返されたバイト数。
 %inst
-Provides a mechanism for independent hardware vendor (IHV) control of
-WLAN drivers or services.
+独立ハードウェア ベンダー (IHV) が WLAN ドライバまたはサービスを制御するための仕組みを提供する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 
 %index
 WlanOpenHandle
-Opens a connection to the server.
+サーバーへの接続を開く。
 %group
 Win32 wlanapi
 %prm
 dwClientVersion, pReserved, pdwNegotiatedVersion, phClientHandle
-dwClientVersion : [int] The highest version of the WLAN API that the client supports.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-pdwNegotiatedVersion : [var] The version of the WLAN API that will be used in this session.  This value is usually the highest version supported by both the client and server.
-phClientHandle : [intptr] A handle for the client to use in this session.  This handle is used by other functions throughout the session.
+dwClientVersion : [int] クライアントがサポートする WLAN API の最高バージョン。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+pdwNegotiatedVersion : [var] このセッションで使用される WLAN API のバージョン。通常はクライアントとサーバーの両方がサポートする最高バージョン。
+phClientHandle : [intptr] このセッションでクライアントが使用するハンドル。以降の関数呼び出しで使用される。
 %inst
-Opens a connection to the server.
+サーバーへの接続を開く。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The version number specified by dwClientVersion and
-pdwNegotiatedVersion is a composite version number made up of both
-major and minor versions. The major version is specified by the
-low-order word, and the minor version is specified by the high-order
-word. The macros WLAN_API_VERSION_MAJOR(_v) and
-WLAN_API_VERSION_MINOR(_v) return the major and minor version numbers
-respectively. You can construct a version number using the macro
-WLAN_API_MAKE_VERSION(_major, _minor). Windows XP with SP3 and
-Wireless LAN API for Windows XP with SP2: WlanOpenHandle will return
-an error message if the Wireless Zero Configuration (WZC) service has
-not been started or if the WZC service is not responsive.
+dwClientVersion と pdwNegotiatedVersion
+のバージョン番号はメジャーおよびマイナーを組み合わせた複合番号である。下位ワードがメジャー、上位ワードがマイナー。WLAN_API_VERSION_MAJOR(_v)
+/ WLAN_API_VERSION_MINOR(_v) マクロで分解でき、WLAN_API_MAKE_VERSION(_major,
+_minor) で構築できる。Windows XP SP3 および XP SP2 用 API: Wireless Zero
+Configuration サービスが開始していないか応答しない場合、WlanOpenHandle はエラーを返す。
 
 
 %index
 WlanQueryAutoConfigParameter
-Queries for the parameters of the auto configuration service.
+自動構成サービスのパラメータを問い合わせる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, OpCode, pReserved, pdwDataSize, ppData, pWlanOpcodeValueType
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-OpCode : [int] A value that specifies the configuration parameter to be queried.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-pdwDataSize : [var] Specifies the size of the ppData parameter, in bytes.
-ppData : [var] Pointer to the memory that contains the queried value for the parameter specified in OpCode. Note??If OpCode is set to wlan_autoconf_opcode_show_denied_networks, then the pointer referenced by ppData may point to an integer value. If the pointer referenced by ppData points to 0, then the integer value should be converted  to the boolean value FALSE. If the pointer referenced by ppData points to a nonzero integer, then the integer value should be converted  to the boolean value TRUE.
-pWlanOpcodeValueType : [var] A WLAN_OPCODE_VALUE_TYPE value.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+OpCode : [int] 問い合わせる構成パラメータを指定する値。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+pdwDataSize : [var] ppData のサイズ (バイト単位) を指定する。
+ppData : [var] OpCode で指定されたパラメータの問い合わせ値を含むメモリへのポインタ。注: OpCode が wlan_autoconf_opcode_show_denied_networks の場合、ppData が指す整数値は 0 なら FALSE、非 0 なら TRUE と解釈する。
+pWlanOpcodeValueType : [var] WLAN_OPCODE_VALUE_TYPE 値。
 %inst
-Queries for the parameters of the auto configuration service.
+自動構成サービスのパラメータを問い合わせる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanQueryAutoConfigParameter function queries for the parameters
-used by Auto Configuration Module (ACM), the wireless configuration
-component supported on Windows Vista and later.
+WlanQueryAutoConfigParameter は Windows Vista 以降でサポートされる自動構成モジュール
+(ACM) のパラメータを問い合わせる。
 
 
 %index
 WlanQueryInterface
-The WlanQueryInterface function queries various parameters of a specified interface.
+WlanQueryInterface 関数は指定されたインターフェイスの各種パラメータを問い合わせる。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, OpCode, pReserved, pdwDataSize, ppData, pWlanOpcodeValueType
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface to be queried.
-OpCode : [int] A WLAN_INTF_OPCODE value that specifies the parameter to be queried.  The following table lists the valid constants along with the data type of the parameter in ppData.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
-pdwDataSize : [var] The size of the ppData parameter, in bytes.
-ppData : [var] Pointer to the memory location that contains the queried value of the parameter specified by the OpCode parameter. Note??If OpCode is set to wlan_intf_opcode_autoconf_enabled, wlan_intf_opcode_background_scan_enabled, or wlan_intf_opcode_media_streaming_mode, then the pointer referenced by ppData may point to an integer value. If the pointer referenced by ppData points to 0, then the integer value should be converted  to the boolean value FALSE. If the pointer referenced by ppData points to a nonzero integer, then the integer value should be converted  to the boolean value TRUE.
-pWlanOpcodeValueType : [var] If passed a non-NULL value, points to a WLAN_OPCODE_VALUE_TYPE value that specifies the type of opcode returned. This parameter may be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 問い合わせるインターフェイスの GUID。
+OpCode : [int] 問い合わせるパラメータを指定する WLAN_INTF_OPCODE 値。ppData のデータ型は次の表に示す。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+pdwDataSize : [var] ppData のサイズ (バイト単位)。
+ppData : [var] OpCode で指定されたパラメータの問い合わせ値を含むメモリ位置へのポインタ。注: OpCode が wlan_intf_opcode_autoconf_enabled 等の場合、整数値は 0 なら FALSE、非 0 なら TRUE と解釈する。
+pWlanOpcodeValueType : [var] 非 NULL の場合、返される opcode の種類を指定する WLAN_OPCODE_VALUE_TYPE 値へのポインタ。NULL でもよい。
 %inst
-The WlanQueryInterface function queries various parameters of a
-specified interface.
+WlanQueryInterface 関数は指定されたインターフェイスの各種パラメータを問い合わせる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
 
 [備考]
-The caller is responsible for using WlanFreeMemory to free the memory
-allocated for ppData. When OpCode is set to
-wlan_intf_opcode_current_operation_mode, WlanQueryInterface queries
-the current operation mode of the wireless interface. For more
-information about operation modes, see Native 802.11 Operation Modes.
-Two operation modes are supported:
-DOT11_OPERATION_MODE_EXTENSIBLE_STATION and
-DOT11_OPERATION_MODE_NETWORK_MONITOR. The operation mode constants
-are defined in the header file Windot11.h. ppData will point to one
-of these two values.
+ppData のメモリは呼び出し元が WlanFreeMemory で解放する。OpCode が
+wlan_intf_opcode_current_operation_mode の場合、WlanQueryInterface はワイヤレス
+インターフェイスの現在の動作モードを問い合わせる。動作モードは
+DOT11_OPERATION_MODE_EXTENSIBLE_STATION と
+DOT11_OPERATION_MODE_NETWORK_MONITOR の 2 種類がサポートされる (Windot11.h 定義)。
 
 
 %index
 WlanReasonCodeToString
-Retrieves a string that describes a specified reason code.
+指定の理由コードを説明する文字列を取得する。
 %group
 Win32 wlanapi
 %prm
 dwReasonCode, dwBufferSize, pStringBuffer, pReserved
-dwReasonCode : [int] A WLAN_REASON_CODE value of which the string description is requested.
-dwBufferSize : [int] The size of the buffer used to store the string, in WCHAR.  If the reason code string is longer than the buffer, it will be truncated and NULL-terminated. If dwBufferSize is larger than the actual amount of memory allocated to pStringBuffer, then an access violation will occur in the calling program.
-pStringBuffer : [wstr] Pointer to a buffer that will receive the string. The caller must allocate memory to pStringBuffer before calling WlanReasonCodeToString.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+dwReasonCode : [int] 文字列説明を要求する WLAN_REASON_CODE 値。
+dwBufferSize : [int] 文字列格納バッファのサイズ (WCHAR 単位)。理由コード文字列がバッファより長い場合、切り詰められて NULL 終端される。dwBufferSize が pStringBuffer の実際のメモリ量より大きいと呼び出しプログラムでアクセス違反が発生する。
+pStringBuffer : [wstr] 文字列を受け取るバッファへのポインタ。呼び出し元は事前にメモリを確保する必要がある。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Retrieves a string that describes a specified reason code.
+指定の理由コードを説明する文字列を取得する。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to a constant
-string. If the function fails, the return value may be one of the
-following return codes.
-This doc was truncated.
+関数が成功すると、戻り値は定数文字列へのポインタとなる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 
 %index
 WlanRegisterDeviceServiceNotification
-Allows user mode clients with admin privileges, or User-Mode Driver Framework (UMDF) drivers, to register for unsolicited notifications corresponding to device services that they're interested in.
+管理者権限を持つユーザー モード クライアントまたは UMDF ドライバが、関心のあるデバイス サービスに対応する非請求通知を登録できるようにする。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pDevSvcGuidList
-hClientHandle : [intptr] Type: **[HANDLE](/windows/win32/winprog/windows-data-types)** The client's session handle, obtained by a previous call to the [WlanOpenHandle](./nf-wlanapi-wlanopenhandle.md) function.
-pDevSvcGuidList : [var] Type: **CONST [PWLAN_DEVICE_SERVICE_GUID_LIST](./ns-wlanapi-wlan_device_service_guid_list.md)** An optional pointer to a constant [WLAN_DEVICE_SERVICE_GUID_LIST](./ns-wlanapi-wlan_device_service_guid_list.md) structure representing the device service **GUID**s for which you're interested in receiving notifications. The *dwIndex* member of the structure must have a value less than the value of its *dwNumberOfItems* member; otherwise, an access violation may occur. Every time you call this API, the previous device services list is replaced by the new one. To unregister, set *pDevSvcGuidList* to `nullptr`, or pass a pointer to a **WLAN_DEVICE_SERVICE_GUID_LIST** structure that has the `dwNumberOfItems` member set to 0.
+hClientHandle : [intptr] 型: HANDLE WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pDevSvcGuidList : [var] 型: CONST PWLAN_DEVICE_SERVICE_GUID_LIST 通知を受け取りたいデバイス サービス GUID を表す WLAN_DEVICE_SERVICE_GUID_LIST 構造体へのオプションのポインタ。dwIndex は dwNumberOfItems 未満でなければならず、そうでないとアクセス違反が発生する。呼び出しのたびに以前のリストが新しいリストで置き換えられる。登録解除には pDevSvcGuidList を nullptr にするか、dwNumberOfItems を 0 に設定した構造体へのポインタを渡す。
 %inst
-Allows user mode clients with admin privileges, or User-Mode Driver
-Framework (UMDF) drivers, to register for unsolicited notifications
-corresponding to device services that they're interested in.
+管理者権限を持つユーザー モード クライアントまたは UMDF ドライバが、関心のあるデバイス
+サービスに対応する非請求通知を登録できるようにする。
 
 [戻り値]
-Type: **[HRESULT](/windows/win32/com/structure-of-com-error-codes)**
-If the function succeeds, the return value is **ERROR_SUCCESS**. If
-the function fails with **ERROR_ACCESS_DENIED**, then the caller
-doesn't have sufficient permissions to perform this operation. The
-caller needs to either have admin privilege, or needs to be a UMDF
-driver.
+型: HRESULT 関数が成功すると ERROR_SUCCESS を返す。ERROR_ACCESS_DENIED
+で失敗した場合、呼び出し元は管理者権限を持つか UMDF ドライバである必要がある。
 
 [備考]
-The **WlanRegisterDeviceServiceNotification** function is an
-extension to existing native Wi-Fi APIs for WLAN device services. A
-client application calls this function to register and unregister
-notifications for device services that it is interested in. Any
-registration to receive notifications for device services caused by
-this function would be automatically undone if the calling
-application closes its calling handle (by calling
-[WlanCloseHandle](./nf-wlanapi-wlanclosehandle.md) with the
-*hClientHandle* parameter), or if the process ends. In order to
-receive these notifications, a client needs to call this function
-with a valid *pDevSvcGuidList* parameter, and must also call the
-[WlanRegisterNotification](./nf-wlanapi-wlanregisternotification.md)
-function with a *dwNotifSource* argument of
-**WLAN_NOTIFICATION_SOURCE_DEVICE_SERVICE** (which is defined in
-`wlanapi.h`). The registration to receive notifications for device
-services is in effect until the application closes the client handle
-(by calling [WlanCloseHandle](./nf-wlanapi-wlanclosehandle.md) with
-the *hClientHandle* parameter), or the process ends, or
-**WlanRegisterDeviceServiceNotification** is called with a
-*pDevSvcGuidList* argument of `nullptr`, or else has
-*dwNumberOfItems* set to 0. When the operating system (OS) receives a
-device service notification from an independent hardware vendor (IHV)
-driver, and a client has registered for these notifications using
-**WlanRegisterDeviceServiceNotification**, the client will receive
-them via the
-[WLAN_NOTIFICATION_CALLBACK](./nc-wlanapi-wlan_notification_callback.md)
-that it had registered through its call to
-[WlanRegisterNotification](./nf-wlanapi-wlanregisternotification.md).
-This callback will be called for every notification that the client
-has received (with a separate buffer for every notification). The
-*NotificationSource* member of the
-[WLAN_NOTIFICATION_DATA](/previous-versions/windows/desktop/legacy/ms706902(v=vs.85))
-structure received by the callback function (that is, the *data*
-member) will be set to **WLAN_NOTIFICATION_SOURCE_DEVICE_SERVICE**.
-The data blob, the device service **GUID**, and the opcode associated
-with this notification will be present in the *pData* member of the
-**WLAN_NOTIFICATION_DATA**, which will point to a structure of type
-[WLAN_DEVICE_SERVICE_NOTIFICATION_DATA](./ns-wlanapi-wlan_device_service_notification_data.md).
-> [!NOTE] > The WLAN service, or the OS, will not check to see
-whether the device service **GUID**s that the client registers for
-are actually supported by the IHV driver. It is up to the client to
-query for supported device services using
-[WlanGetSupportedDeviceServices](./nf-wlanapi-wlangetsupporteddeviceservices.md)
-API if they need to.
+WlanRegisterDeviceServiceNotification は WLAN デバイス サービス用のネイティブ Wi-Fi
+API
+の拡張である。通知登録および解除に使用する。呼び出しハンドルが閉じられるかプロセス終了で登録は自動的に解除される。通知を受け取るには本関数を有効な
+pDevSvcGuidList で呼ぶと共に、WlanRegisterNotification を
+WLAN_NOTIFICATION_SOURCE_DEVICE_SERVICE で呼ぶ必要がある。OS が IHV ドライバからのデバイス
+サービス通知を受信すると、WLAN_NOTIFICATION_CALLBACK を介して各通知がクライアントに渡される
+(通知ごとに別バッファ)。NotificationSource は
+WLAN_NOTIFICATION_SOURCE_DEVICE_SERVICE に設定される。データ blob、デバイス サービス
+GUID、opcode は WLAN_DEVICE_SERVICE_NOTIFICATION_DATA 構造体の pData
+で参照できる。注: OS は登録 GUID が IHV ドライバでサポートされているかを検証しない。必要なら
+WlanGetSupportedDeviceServices で確認すること。
 
 
 %index
 WlanRegisterNotification
-Is used to register and unregister notifications on all wireless interfaces.
+すべてのワイヤレス インターフェイスでの通知の登録および解除に使用される。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, dwNotifSource, bIgnoreDuplicate, funcCallback, pCallbackContext, pReserved, pdwPrevNotifSource
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-dwNotifSource : [int] The notification sources to be registered. These flags may be combined. When this parameter is set to WLAN_NOTIFICATION_SOURCE_NONE, WlanRegisterNotification unregisters notifications on all wireless interfaces. The possible values for this parameter are defined in the Wlanapi.h and L2cmn.h header files.
-bIgnoreDuplicate : [int] Specifies whether duplicate notifications will be ignored.  If set to TRUE, a notification will not be sent to the client if it is identical to the previous one. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??This parameter is ignored.
-funcCallback : [int] A WLAN_NOTIFICATION_CALLBACK  type that defines the type of notification callback function. This parameter can be NULL if the dwNotifSource parameter is set to WLAN_NOTIFICATION_SOURCE_NONE to unregister notifications on all wireless interfaces,
-pCallbackContext : [intptr] A pointer to the client context that will be passed to the callback function with the notification.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-pdwPrevNotifSource : [var] A pointer to the previously registered notification sources.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+dwNotifSource : [int] 登録する通知ソース。これらのフラグは組み合わせ可能。WLAN_NOTIFICATION_SOURCE_NONE を設定すると、WlanRegisterNotification はすべてのワイヤレス インターフェイスの通知を解除する。指定可能な値は Wlanapi.h および L2cmn.h で定義される。
+bIgnoreDuplicate : [int] 重複通知を無視するかを指定する。TRUE の場合、直前と同一の通知はクライアントに送られない。Windows XP SP3 および XP SP2 用 API: このパラメータは無視される。
+funcCallback : [int] 通知コールバック関数の型を定義する WLAN_NOTIFICATION_CALLBACK 型。dwNotifSource が WLAN_NOTIFICATION_SOURCE_NONE に設定される場合は NULL でもよい。
+pCallbackContext : [intptr] 通知と共にコールバック関数に渡されるクライアント コンテキストへのポインタ。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+pdwPrevNotifSource : [var] 以前に登録されていた通知ソースへのポインタ。
 %inst
-Is used to register and unregister notifications on all wireless
-interfaces.
+すべてのワイヤレス インターフェイスでの通知の登録および解除に使用される。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanRegisterNotification is used by an application to register
-and unregister notifications on all wireless interfaces. When
-registering for notifications, an application must provide a callback
-function pointed to by the funcCallback parameter. The prototype for
-this callback function is the WLAN_NOTIFICATION_CALLBACK. This
-callback function will receive notifications that have been
-registered for in the dwNotifSource parameter passed to the
-WlanRegisterNotification function. The callback function is called
-with a pointer to a WLAN_NOTIFICATION_DATA structure as the first
-parameter that contains detailed information on the notification. The
-callback function also receives a second parameter that contains a
-pointer to the client context passed in the pCallbackContext
-parameter to the WlanRegisterNotification function. The
-WlanRegisterNotification function will return an error if
-dwNotifSource is a value other than WLAN_NOTIFICATION_SOURCE_NONE and
-the client fails to provide a callback function. Once registered, the
-callback function will be called whenever a notification is available
-until the client unregisters or closes the handle. Any registration
-to receive notifications caused by this function would be
-automatically undone if the calling application closes its calling
-handle (by calling WlanCloseHandle with the hClientHandle parameter)
-or if the process ends.
-Do not call WlanRegisterNotification from a callback function. If the
-client is in the middle of a notification callback when
-WlanRegisterNotification is called with dwNotifSource set to
-WLAN_NOTIFICATION_SOURCE_NONE (that is, when the client is
-unregistering from notifications), WlanRegisterNotification will wait
-for the callback to finish before returning a value. Calling this
-function inside a callback function will result in the call never
-completing. If both the callback function and the thread that
-unregisters from notifications try to acquire the same lock, a
-deadlock may occur. In addition, do not call WlanRegisterNotification
-from the DllMain function in an application DLL. This could also
-cause a deadlock. An application can time out and query the current
-interface state instead of waiting for a notification. Windows XP
-with SP3 and Wireless LAN API for Windows XP with SP2: Notifications
-are handled by the Netman service. If the Netman service is disabled
-or unavailable, notifications will not be received. If a notification
-is not received within a reasonable period of time, an application
-should time out and query the current interface state.
+WlanRegisterNotification はアプリケーションが全ワイヤレス
+インターフェイスの通知を登録/解除するために使用する。登録時には funcCallback でコールバック関数を提供する必要がある
+(プロトタイプは WLAN_NOTIFICATION_CALLBACK)。このコールバックは dwNotifSource
+で登録した通知を受け取る。コールバックの第一引数は WLAN_NOTIFICATION_DATA へのポインタ、第二引数は
+pCallbackContext で渡したクライアント コンテキスト。dwNotifSource が
+WLAN_NOTIFICATION_SOURCE_NONE 以外でコールバックが NULL だとエラーとなる。登録後は解除またはハンドル
+クローズまでコールバックが呼ばれる。コールバック内から本関数を呼ぶとデッドロック等になりうる。DllMain からも呼ばないこと。
 
 
 %index
 WlanRegisterVirtualStationNotification
-Is used to register and unregister notifications on a virtual station.
+仮想ステーション上の通知の登録および解除に使用される。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, bRegister, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-bRegister : [int] A value that specifies whether to receive notifications on a virtual station.
-pReserved : [intptr] Reserved for future use. This parameter must be NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+bRegister : [int] 仮想ステーション上で通知を受け取るかを指定する値。
+pReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Is used to register and unregister notifications on a virtual
-station.
+仮想ステーション上の通知の登録および解除に使用される。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanRegisterVirtualStationNotification function is an extension
-to native wireless APIs added to support the wireless Hosted Network
-on Windows 7 and on Windows Server 2008 R2 with the Wireless LAN
-Service installed. A client application calls the
-WlanRegisterVirtualStationNotification function is used to register
-and unregister notifications on virtual station. Any registration to
-receive notifications from a virtual station caused by this function
-would be automatically undone if the calling application closes its
-calling handle (by calling WlanCloseHandle with the hClientHandle
-parameter) or if the process ends.
-By default, a application client will not receive notifications on a
-virtual station. In order to receive these notifications, a client
-needs to call the WlanRegisterVirtualStationNotification function
-with the bRegister parameter set to TRUE and must also call the
-WlanRegisterNotification function with the dwNotifSource parameter
-set to notification sources to be registered. The registration to
-receive notifications from a virtual station is in effect until the
-application closes the client handle (by calling WlanCloseHandle with
-the hClientHandle parameter), the process ends, or the
-WlanRegisterVirtualStationNotification function is called with the
-bRegister parameter set to FALSE. On Windows 7 and later, the
-operating system installs a virtual device if a Hosted Network
-capable wireless adapter is present on the machine. This virtual
-device normally shows up in the “Network Connections Folder” as
-‘Wireless Network Connection 2’ with a Device Name of ‘Microsoft
-Virtual WiFi Miniport adapter’ if the computer has a single wireless
-network adapter. This virtual device is used exclusively for
-performing software access point (SoftAP) connections and is not
-present in the list returned by the WlanEnumInterfaces function. The
-lifetime of this virtual device is tied to the physical wireless
-adapter. If the physical wireless adapter is disabled, this virtual
-device will be removed as well. This feature is also available on
-Windows Server 2008 R2 with the Wireless LAN Service installed.
+Windows 7 / Server 2008 R2 のワイヤレス ホステッド
+ネットワーク用拡張。仮想ステーション上の通知登録/解除に使用する。既定では仮想ステーションの通知はクライアントに届かない。受け取るには本関数を
+bRegister=TRUE で呼び、かつ WlanRegisterNotification も呼ぶ必要がある。登録はハンドル
+クローズ、プロセス終了、または bRegister=FALSE での呼び出しまで有効。
 
 
 %index
 WlanRenameProfile
-Renames the specified profile.
+指定されたプロファイルの名前を変更する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strOldProfileName, strNewProfileName, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-strOldProfileName : [wstr] The profile name to be changed.
-strNewProfileName : [wstr] The new name of the profile.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+strOldProfileName : [wstr] 変更対象のプロファイル名。
+strNewProfileName : [wstr] プロファイルの新しい名前。
+pReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Renames the specified profile.
+指定されたプロファイルの名前を変更する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 
 %index
 WlanSaveTemporaryProfile
-Saves a temporary profile to the profile store.
+一時プロファイルをプロファイル ストアに保存する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, strAllUserProfileSecurity, dwFlags, bOverWrite, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-strProfileName : [wstr] The name of the profile to be saved. Profile names are case-sensitive. This string must be NULL-terminated.
-strAllUserProfileSecurity : [wstr] Sets the security descriptor string on the all-user profile.  By default, for a new all-user profile, all users have write access on the profile. For more information about profile permissions, see the Remarks section. If dwFlags is set to WLAN_PROFILE_USER, this parameter is ignored. If this parameter is set to NULL for an all-user profile, the default permissions are used. If this parameter is not NULL for an all-user profile, the security descriptor string associated with the profile is created or modified  after the security descriptor object is created and parsed as a string.
-dwFlags : [int] Specifies the flags to set on the profile. The flags can be combined.
-bOverWrite : [int] Specifies whether this profile is overwriting an existing profile.  If this parameter is FALSE and the profile already exists, the existing profile will not be overwritten and an error will be returned.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+strProfileName : [wstr] 保存するプロファイル名。大文字と小文字を区別。NULL 終端。
+strAllUserProfileSecurity : [wstr] すべてのユーザー用プロファイルのセキュリティ記述子文字列を設定する。既定では全ユーザーが書き込みアクセス可能。dwFlags が WLAN_PROFILE_USER なら無視。NULL を指定すると既定のアクセス権が使用される。
+dwFlags : [int] プロファイルに設定するフラグ。組み合わせ可能。
+bOverWrite : [int] 既存プロファイルを上書きするかを指定する。FALSE でプロファイルが既存ならエラーが返る。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Saves a temporary profile to the profile store.
+一時プロファイルをプロファイル ストアに保存する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-A temporary profile is the one passed to WlanConnect or generated by
-the discovery engine. A network connection can be established using a
-temporary profile. Using this API saves the temporary profile and
-associated user data to the profile store. A new profile is added at
-the top of the list after the group policy profiles. A profile's
-position in the list is not changed if an existing profile is
-overwritten. All-user profiles have three associated permissions:
-read, write, and execute. If a user has read access, the user can
-view profile permissions. If a user has execute access, the user has
-read access and the user can also connect to and disconnect from a
-network using the profile. If a user has write access, the user has
-execute access and the user can also modify and delete permissions
-associated with a profile. The following describes the procedure for
-creating a security descriptor object and parsing it as a string.
-This doc was truncated.
+一時プロファイルとは WlanConnect に渡されたものか探索エンジンが生成したもの。本 API で一時プロファイルとユーザー
+データをプロファイル ストアへ保存できる。新プロファイルはグループ ポリシー
+プロファイルの後のリスト先頭に追加される。既存を上書きする場合は順序は維持される。すべてのユーザー用プロファイルには読み取り、書き込み、実行の
+3 種のアクセス権がある。
+このドキュメントは省略されている。
 
 
 %index
 WlanScan
-Requests a scan for available networks on the indicated interface.
+指定インターフェイスで利用可能なネットワークのスキャンを要求する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pDot11Ssid, pIeData, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface to be queried. The GUID of each wireless LAN interface enabled on a local computer can be determined using the WlanEnumInterfaces function.
-pDot11Ssid : [var] A pointer to a DOT11_SSID structure that specifies the SSID of the network to be scanned. This parameter is optional. When set to NULL, the returned list contains all available networks. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??This parameter must be NULL.
-pIeData : [var] A pointer to an information element to include in probe requests. This parameter points to a WLAN_RAW_DATA structure that may include client provisioning availability information and 802.1X authentication requirements.Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??This parameter must be NULL.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 問い合わせるインターフェイスの GUID。
+pDot11Ssid : [var] スキャン対象ネットワークの SSID を指定する DOT11_SSID 構造体へのポインタ (省略可)。NULL なら利用可能な全ネットワークが返る。Windows XP SP3 および XP SP2 用 API: NULL でなければならない。
+pIeData : [var] プローブ要求に含める情報要素へのポインタ。クライアントプロビジョニング可用情報や 802.1X 認証要件を含みうる WLAN_RAW_DATA 構造体を指す。Windows XP SP3 および XP SP2 用 API: NULL でなければならない。
+pReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Requests a scan for available networks on the indicated interface.
+指定インターフェイスで利用可能なネットワークのスキャンを要求する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanScan function requests that the native 802.11 Wireless LAN
-driver scan for available wireless networks. The driver may or may
-not send probe requests (an active scan) depending on its
-implementation and the values passed in the pDot11Ssid and pIeData
-parameters. If the pIeData parameter is not NULL, the driver will
-send probe requests during the scan. The probe requests include the
-information element (IE) pointed to by the pIeData parameter. For
-instance, the Wi-Fi Protected Setup (WPS) IE can be included in the
-probe requests to discover WPS-capable access points. The buffer
-pointed to by the pIeData parameter must contain the complete IE
-starting from the Element ID. The pIeData parameter passed to the
-WlanScan function can contain a pointer to an optional WLAN_RAW_DATA
-structure that contains a proximity service discovery (PSD) IE data
-entry.
-This doc was truncated.
+WlanScan はネイティブ 802.11 ワイヤレス LAN ドライバに利用可能ネットワークのスキャンを要求する。pIeData が
+NULL でない場合、ドライバはプローブ要求に IE を含めて送信する (例: WPS-capable AP 検出のための WPS
+IE)。pIeData バッファは Element ID から始まる完全な IE を含む必要がある。pIeData は近接サービス検出
+(PSD) IE データ エントリを含むオプションの WLAN_RAW_DATA へのポインタも指しうる。
+このドキュメントは省略されている。
 
 
 %index
 WlanSetAutoConfigParameter
-Sets parameters for the automatic configuration service.
+自動構成サービスのパラメータを設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, OpCode, dwDataSize, pData, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-OpCode : [int] A WLAN_AUTOCONF_OPCODE value that specifies the parameter to be set. Only some of the opcodes in the WLAN_AUTOCONF_OPCODE enumeration support set operations.
-dwDataSize : [int] The size of the pData parameter, in bytes. This parameter must be set to sizeof(BOOL) for a BOOL or sizeof(DWORD) for a DWORD, depending on the value of the OpCode parameter.
-pData : [intptr] The value to be set for the parameter specified in OpCode parameter. The pData parameter must point to a boolean or DWORD value, depending on the value of the OpCode parameter. The pData parameter must not be NULL. Note??The pData parameter may point to an integer value when a boolean is required. If pData points to 0, then the value is converted to FALSE. If pData points to a nonzero integer, then the value is converted to TRUE.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+OpCode : [int] 設定するパラメータを指定する WLAN_AUTOCONF_OPCODE 値。設定操作をサポートする opcode のみ使用可。
+dwDataSize : [int] pData のサイズ (バイト単位)。OpCode に応じて sizeof(BOOL) または sizeof(DWORD) を設定する。
+pData : [intptr] OpCode で指定されたパラメータに設定する値。OpCode に応じて BOOL または DWORD 値を指す。NULL であってはならない。
+pReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Sets parameters for the automatic configuration service.
+自動構成サービスのパラメータを設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanSetAutoConfigParameter function sets parameters used by Auto
-Configuration Module (ACM), the wireless configuration component
-supported on Windows Vista and later. Depending on the value of the
-OpCode parameter, the data pointed to by pData will be converted to a
-boolean value before the automatic configuration parameter is set. If
-pData points to 0, then the parameter is set to FALSE; otherwise, the
-parameter is set to TRUE.
+WlanSetAutoConfigParameter は Windows Vista 以降の自動構成モジュール (ACM)
+のパラメータを設定する。OpCode により pData はブール値に変換される (0 なら FALSE、非 0 なら TRUE)。
 
 
 %index
 WlanSetFilterList
-Sets the permit/deny list.
+許可/拒否リストを設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, wlanFilterListType, pNetworkList, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-wlanFilterListType : [int] A WLAN_FILTER_LIST_TYPE value that specifies the type of filter list.  The value must be either wlan_filter_list_type_user_permit or wlan_filter_list_type_user_deny.  Group policy-defined lists cannot be set using this function.
-pNetworkList : [var] Pointer to a DOT11_NETWORK_LIST structure that contains the list of networks to permit or deny. The dwIndex member of the structure must have a value less than the value of the dwNumberOfItems member of the structure; otherwise, an access violation may occur.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+wlanFilterListType : [int] フィルタ リストの種類を指定する WLAN_FILTER_LIST_TYPE 値。wlan_filter_list_type_user_permit または wlan_filter_list_type_user_deny のいずれか。グループ ポリシー定義のリストは本関数で設定できない。
+pNetworkList : [var] 許可または拒否対象ネットワークのリストを含む DOT11_NETWORK_LIST 構造体へのポインタ。dwIndex は dwNumberOfItems 未満でなければならず、そうでないとアクセス違反が発生する。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Sets the permit/deny list.
+許可/拒否リストを設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The group policy permit and deny lists take precedence over the
-user's permit and deny lists. That means access to a network on the
-user's permit list will be denied if the network appears on the group
-policy deny list. Similarly, access to a network on the user's deny
-list will be permitted if the network appears on the group policy
-permit list. Networks that are not on a user list or a group policy
-list will be permitted. Denied networks cannot be connected by means
-of auto config and will not be included on the visible networks list.
-New user permit and deny lists overwrite previous versions of the
-user lists. To clear a filter list, set the pNetworkList parameter to
-NULL, or pass a pointer to a DOT11_NETWORK_LIST structure that has
-the dwNumberOfItems member set to 0. To add all SSIDs to a filter
-list, pass a pointer to a DOT11_NETWORK_LIST structure with an
-associated DOT11_NETWORK structure that has the uSSIDLength member of
-its DOT11_SSID structure set to 0. To add all BSS types to a filter
-list, pass a pointer to a DOT11_NETWORK_LIST with an associated
-DOT11_NETWORK structure that has its dot11BssType member set to
-dot11_BSS_type_any. The netsh wlan add filter and netsh wlan delete
-filter commands provide similar functionality at the command line.
-For more information, see Netsh Commands for Wireless Local Area
-Network (wlan).
+グループ ポリシーの許可/拒否リストはユーザーの許可/拒否リストより優先される。したがってユーザー許可リストにあるネットワークでもグループ
+ポリシー拒否リストにあれば拒否される。リストに無いネットワークは許可される。拒否されたネットワークは自動構成で接続できず可視ネットワーク
+リストにも現れない。新しいユーザー リストは以前のものを上書きする。リストをクリアするには pNetworkList を NULL
+にするか dwNumberOfItems=0 の構造体を渡す。全 SSID を含めるには uSSIDLength=0 の
+DOT11_NETWORK を指定する。全 BSS 種別を含めるには dot11BssType=dot11_BSS_type_any
+を指定する。コマンドラインからは netsh wlan add/delete filter を使う。
 
 
 %index
 WlanSetInterface
-Sets user-configurable parameters.
+ユーザー構成可能なパラメータを設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, OpCode, dwDataSize, pData, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface to be configured.
-OpCode : [int] A WLAN_INTF_OPCODE value that specifies the parameter to be set.  The following table lists the valid constants along with the data type of the parameter in pData.
-dwDataSize : [int] The size of the pData parameter, in bytes. If dwDataSize is larger than the actual amount of memory allocated to pData, then an access violation will occur in the calling program.
-pData : [intptr] The value to be set as specified by the OpCode parameter. The type of data pointed to by pData must be appropriate for the specified OpCode. Use the table above to determine the type of data to use. Note??If OpCode is set to wlan_intf_opcode_autoconf_enabled, wlan_intf_opcode_background_scan_enabled, or wlan_intf_opcode_media_streaming_mode, then pData may point to an integer value. If pData points to 0, then the value is converted to FALSE. If pData points to a nonzero integer, then the value is converted to TRUE.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] 構成するインターフェイスの GUID。
+OpCode : [int] 設定するパラメータを指定する WLAN_INTF_OPCODE 値。pData のデータ型は次の表に示す。
+dwDataSize : [int] pData のサイズ (バイト単位)。実際の pData より大きいとアクセス違反が発生する。
+pData : [intptr] OpCode で指定される値。OpCode に適した型でなければならない。wlan_intf_opcode_autoconf_enabled 等の場合、整数値 0 は FALSE、非 0 は TRUE に変換される。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Sets user-configurable parameters.
+ユーザー構成可能なパラメータを設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
 
 [備考]
-When OpCode is set to wlan_intf_opcode_current_operation_mode, the
-WlanSetInterface function sets the current operation mode of the
-wireless interface. For more information about operation modes, see
-Native 802.11 Operation Modes. Two operation modes are supported:
-DOT11_OPERATION_MODE_EXTENSIBLE_STATION and
-DOT11_OPERATION_MODE_NETWORK_MONITOR. The operation mode constants
-are defined in the header file Windot11.h. If pData does not point to
-one of these values when OpCode is set to
-wlan_intf_opcode_current_operation_mode, the WlanSetInterface
-function will fail with an error. To enable or disable the automatic
-configuration service at the command line, which is functionally
-equivalent to calling WlanSetInterface with OpCode set to
-wlan_intf_opcode_autoconf_enabled, use the netsh wlan setautoconfig
-command. For more information, see Netsh Commands for Wireless Local
-Area Network (wlan). The software radio state can be changed by
-calling the WlanSetInterface function. The hardware radio state
-cannot be changed by calling the WlanSetInterface function. When the
-OpCode parameter is set to wlan_intf_opcode_radio_state, the
-WlanSetInterface function sets the software radio state of a specific
-PHY. The pData parameter must point to a WLAN_PHY_RADIO_STATE
-structure with the new radio state values to use. The
-dot11HardwareRadioState member of the WLAN_PHY_RADIO_STATE structure
-is ignored when the WlanSetInterface function is called with the
-OpCode parameter set to wlan_intf_opcode_radio_state and the pData
-parameter points to a WLAN_PHY_RADIO_STATE structure. The radio state
-of a PHY is off if either the software radio state
-(dot11SoftwareRadioState member of the WLAN_PHY_RADIO_STATE
-structure) or the hardware radio state (dot11HardwareRadioState
-member of the WLAN_PHY_RADIO_STATE structure) is off. Changing the
-software radio state of a physical network interface could cause
-related changes in the state of the wireless Hosted Network or
-virtual wireless adapter radio states. The PHYs of every virtual
-wireless adapter are linked. For more information, see the About the
-Wireless Hosted Network.
+OpCode が wlan_intf_opcode_current_operation_mode の場合、WlanSetInterface
+は動作モードを設定する。サポートされるのは DOT11_OPERATION_MODE_EXTENSIBLE_STATION と
+DOT11_OPERATION_MODE_NETWORK_MONITOR の 2
+つ。自動構成サービスの有効/無効切替はコマンドラインからは netsh wlan setautoconfig で行える。OpCode が
+wlan_intf_opcode_radio_state の場合、本関数は特定 PHY のソフトウェア無線状態を設定する (pData は
+WLAN_PHY_RADIO_STATE を指す)。ハードウェア無線状態は変更できない。PHY
+の無線状態はソフトウェアまたはハードウェアのいずれかが off なら off となる。
 
 
 %index
 WlanSetProfile
-Sets the content of a specific profile.
+特定プロファイルの内容を設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, dwFlags, strProfileXml, strAllUserProfileSecurity, bOverwrite, pReserved, pdwReasonCode
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-dwFlags : [int] The flags to set on the profile. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??dwFlags must be 0. Per-user profiles are not supported.
-strProfileXml : [wstr] Contains the XML representation of the profile. The WLANProfile element is the root profile element. To view sample profiles, see Wireless Profile Samples. There is no predefined maximum string length. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??The supplied profile must meet the compatibility criteria described in Wireless Profile Compatibility.
-strAllUserProfileSecurity : [wstr] Sets the security descriptor string on the all-user profile.  For more information about profile permissions, see the Remarks section. If dwFlags is set to WLAN_PROFILE_USER, this parameter is ignored. If this parameter is set to NULL for a new all-user profile, the security descriptor associated with the  wlan_secure_add_new_all_user_profiles object is used. If the security descriptor has not been modified by a WlanSetSecuritySettings call,  all users have default permissions on a new all-user profile. Call WlanGetSecuritySettings to get the default permissions associated with the   wlan_secure_add_new_all_user_profiles object. If this parameter is set to NULL for an existing all-user profile, the permissions of the profile are not changed. If this parameter is not NULL for an all-user profile, the security descriptor string associated with the profile is created or modified  after the security descriptor object is created and parsed as a string. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??This parameter must be NULL.
-bOverwrite : [int] Specifies whether this profile is overwriting an existing profile.  If this parameter is FALSE and the profile already exists, the existing profile will not be overwritten and an error will be returned.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
-pdwReasonCode : [var] A WLAN_REASON_CODE value that indicates why the profile is not valid.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+dwFlags : [int] プロファイルに設定するフラグ。Windows XP SP3 および XP SP2 用 API: 0 でなければならず、ユーザー別プロファイルは未対応。
+strProfileXml : [wstr] プロファイルの XML 表現。ルート要素は WLANProfile。サンプルは Wireless Profile Samples を参照。最大長は定義されていない。Windows XP SP3 および XP SP2 用 API: 互換条件を満たす必要がある。
+strAllUserProfileSecurity : [wstr] すべてのユーザー用プロファイルのセキュリティ記述子文字列を設定する。dwFlags が WLAN_PROFILE_USER なら無視。新規作成時に NULL なら wlan_secure_add_new_all_user_profiles のセキュリティ記述子が使われる。既存プロファイルに NULL ならアクセス権は変更されない。Windows XP SP3 および XP SP2 用 API: NULL でなければならない。
+bOverwrite : [int] 既存プロファイルを上書きするか。FALSE で既存なら上書きされずエラーが返る。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
+pdwReasonCode : [var] プロファイルが無効な理由を示す WLAN_REASON_CODE 値。
 %inst
-Sets the content of a specific profile.
+特定プロファイルの内容を設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanSetProfile function can be used to add a new wireless LAN
-profile or replace an existing wireless LAN profile. A new profile is
-added at the top of the list after the group policy profiles. A
-profile's position in the list is not changed if an existing profile
-is overwritten.Windows XP with SP3 and Wireless LAN API for Windows
-XP with SP2: Ad hoc profiles appear after the infrastructure profiles
-in the profile list. If you create a new ad hoc profile, it is placed
-at the top of the ad hoc list, after the group policy and
-infrastructure profiles. 802.1X guest profiles, Wireless Provisioning
-Service (WPS) profiles, and profiles with Wi-Fi Protected Access-None
-(WPA-None) authentication are not supported. That means such a
-profile cannot be created, deleted, enumerated, or accessed using
-Native Wifi functions. Any such profile already in the preferred
-profile list will remain in the list, and its position in the list
-relative to other profiles is fixed unless the position of the other
-profiles change.
-You can call WlanSetProfile on a profile that contains a plaintext
-key (that is, a profile with the protected element present and set to
-FALSE). Before the profile is saved in the profile store, the key
-material is automatically encrypted. When the profile is subsequently
-retrieved from the profile store by calling WlanGetProfile, the
-encrypted key material is returned.Windows XP with SP3 and Wireless
-LAN API for Windows XP with SP2: The key material is never encrypted.
-All-user profiles have three associated permissions: read, write, and
-execute. If a user has read access, the user can view profile
-permissions. If a user has execute access, the user has read access
-and the user can also connect to and disconnect from a network using
-the profile. If a user has write access, the user has execute access
-and the user can also modify and delete permissions associated with a
-profile. The following describes the procedure for creating a
-security descriptor object and parsing it as a string.
-This doc was truncated.
+WlanSetProfile は新規 WLAN プロファイル追加または既存置換に使用する。新プロファイルはグループ
+ポリシーの後のリスト先頭に追加される。既存上書きの場合は順序は保持される。平文鍵 (protected=FALSE)
+を含むプロファイルも設定可能で、ストア保存時に自動暗号化される。WlanGetProfile
+取得時は暗号化済み鍵が返る。すべてのユーザー用プロファイルには読み取り、書き込み、実行の 3
+種のアクセス権がある。セキュリティ記述子オブジェクトの作成および文字列化の手順を以下に示す。
+このドキュメントは省略されている。
 
 
 %index
 WlanSetProfileCustomUserData
-Sets the custom user data associated with a profile.
+プロファイルに関連付けられるカスタム ユーザー データを設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, dwDataSize, pData, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-strProfileName : [wstr] The name of the profile associated with the custom user data. Profile names are case-sensitive. This string must be NULL-terminated.
-dwDataSize : [int] The size of pData, in bytes.
-pData : [var] A pointer to the user data to be set.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+strProfileName : [wstr] カスタム ユーザー データが関連付けられるプロファイル名。大文字と小文字を区別。NULL 終端。
+dwDataSize : [int] pData のサイズ (バイト単位)。
+pData : [var] 設定するユーザー データへのポインタ。
+pReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Sets the custom user data associated with a profile.
+プロファイルに関連付けられるカスタム ユーザー データを設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-For every wireless WLAN profile used by the Native Wifi AutoConfig
-service, Windows maintains the concept of custom user data. This
-custom user data is initially non-existent, but can be set by calling
-the WlanSetProfileCustomUserData function. The custom user data gets
-reset to empty any time the profile is modified by calling the
-WlanSetProfile function. Once custom user data has been set, this
-data can be accessed using the WlanGetProfileCustomUserData function.
-All wireless LAN functions require an interface GUID for the wireless
-interface when performing profile operations. When a wireless
-interface is removed, its state is cleared from Wireless LAN Service
-(WLANSVC) and no profile operations are possible. The
-WlanSetProfileCustomUserData function can fail with
-ERROR_INVALID_PARAMETER if the wireless interface specified in the
-pInterfaceGuid parameter has been removed from the system (a USB
-wireless adapter that has been removed, for example).
+Native Wifi AutoConfig サービスが使用する各 WLAN プロファイルに対し、Windows はカスタム ユーザー
+データの概念を保持する。初期は非存在だが本関数で設定可能。WlanSetProfile
+でプロファイルが変更されるとリセットされる。設定済みデータは WlanGetProfileCustomUserData
+で取得できる。指定インターフェイスがシステムから取り外されている場合は ERROR_INVALID_PARAMETER で失敗しうる。
 
 
 %index
 WlanSetProfileEapUserData
-Sets the Extensible Authentication Protocol (EAP) user credentials as specified by raw EAP data.
+生 EAP データで指定された Extensible Authentication Protocol (EAP) ユーザー資格情報を設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, eapType, dwFlags, dwEapUserDataSize, pbEapUserData, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-strProfileName : [wstr] The name of the profile associated with the EAP user data. Profile names are case-sensitive. This string must be NULL-terminated.
-eapType : [var] An EAP_METHOD_TYPE structure that contains the method for which the caller is supplying EAP user credentials.
-dwFlags : [int] A set of flags that modify the behavior of the function. On Windows?Vista and Windows Server?2008, this parameter is reserved and should be set to zero.
-dwEapUserDataSize : [int] The size, in bytes, of the data pointed to by pbEapUserData.
-pbEapUserData : [var] A pointer to the raw EAP data used to set the user credentials. On Windows?Vista and Windows Server?2008, this parameter must not be NULL. On Windows?7, Windows Server?2008?R2,  and later, this parameter can be set to NULL to delete the stored credentials for this profile if the dwFlags parameter contains WLAN_SET_EAPHOST_DATA_ALL_USERS  and the dwEapUserDataSize parameter is 0.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+strProfileName : [wstr] EAP ユーザー データが関連付けられるプロファイル名。大文字と小文字を区別。NULL 終端。
+eapType : [var] 呼び出し元が資格情報を提供する EAP メソッドの情報を含む EAP_METHOD_TYPE 構造体。
+dwFlags : [int] 関数の動作を変更するフラグ。Windows Vista / Server 2008 では予約で 0 を設定。
+dwEapUserDataSize : [int] pbEapUserData が指すデータのサイズ (バイト単位)。
+pbEapUserData : [var] ユーザー資格情報を設定する生 EAP データへのポインタ。Vista / Server 2008 では NULL 不可。Windows 7 / Server 2008 R2 以降では、dwFlags に WLAN_SET_EAPHOST_DATA_ALL_USERS を含み dwEapUserDataSize=0 ならこのパラメータを NULL にして保存済み資格情報を削除できる。
+pReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Sets the Extensible Authentication Protocol (EAP) user credentials as
-specified by raw EAP data.
+生 EAP データで指定された Extensible Authentication Protocol (EAP)
+ユーザー資格情報を設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanSetProfileEapUserData function sets the EAP user credentials
-to use on a profile. On Windows Vista and Windows Server 2008, these
-credentials can only be used by the caller. The eapType parameter is
-an EAP_METHOD_TYPE structure that contains type, identification, and
-author information about an EAP method. The eapType member of the
-EAP_METHOD_TYPE structure is an EAP_TYPE structure that contains the
-type and vendor identification information for an EAP method.
-For more information on the allocation of EAP method types, see
-section 6.2 of RFC 3748 published by the IETF. On Windows 7, Windows
-Server 2008 R2, and later, the WlanSetProfileEapUserData function is
-enhanced. EAP user credentials can be set for all users of a profile
-if the dwFlags parameter contains WLAN_SET_EAPHOST_DATA_ALL_USERS.
-The EAP user credentials on a profile can also be deleted. To delete
-the EAP user credentials on a profile, the pbEapUserData parameter
-must be NULL, the dwFlags parameter must equal
-WLAN_SET_EAPHOST_DATA_ALL_USERS, and the dwEapUserDataSize parameter
-must be 0. All wireless LAN functions require an interface GUID for
-the wireless interface when performing profile operations. When a
-wireless interface is removed, its state is cleared from Wireless LAN
-Service (WLANSVC) and no profile operations are possible. The
-WlanSetProfileEapUserData function can fail with
-ERROR_INVALID_PARAMETER if the wireless interface specified in the
-pInterfaceGuid parameter has been removed from the system (a USB
-wireless adapter that has been removed, for example).
+WlanSetProfileEapUserData はプロファイルで使用する EAP ユーザー資格情報を設定する。Vista /
+Server 2008 では呼び出し元のみ使用可。eapType は EAP_METHOD_TYPE
+構造体で、種別、識別子、作者情報を含む。Windows 7 / Server 2008 R2 以降では dwFlags に
+WLAN_SET_EAPHOST_DATA_ALL_USERS を指定することで全ユーザー用に設定できる。削除するには
+pbEapUserData=NULL、dwFlags=WLAN_SET_EAPHOST_DATA_ALL_USERS、dwEapUserDataSize=0
+とする。指定インターフェイスが取り外されている場合は ERROR_INVALID_PARAMETER で失敗しうる。
 
 
 %index
 WlanSetProfileEapXmlUserData
-Sets the Extensible Authentication Protocol (EAP) user credentials as specified by an XML string.
+XML 文字列で指定された Extensible Authentication Protocol (EAP) ユーザー資格情報を設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, dwFlags, strEapXmlUserData, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-strProfileName : [wstr] The name of the profile associated with the EAP user data. Profile names are case-sensitive. This string must be NULL-terminated. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??The supplied name must match the profile name derived automatically from the SSID of the network. For an infrastructure network profile, the SSID must be supplied for the profile name. For an ad hoc network profile, the supplied name must be the SSID of the ad hoc network followed by -adhoc.
-dwFlags : [int] A set of flags that modify the behavior of the function. On Wireless LAN API for Windows?XP with SP2, Windows?XP with SP3,Windows?Vista, and Windows Server?2008, this parameter is reserved and should be set to zero.
-strEapXmlUserData : [wstr] A pointer to XML data used to set the user credentials. The XML data must be based on the EAPHost User Credentials schema. To view sample user credential XML data, see EAPHost User Properties.
-pReserved : [intptr] Reserved for future use. Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+strProfileName : [wstr] EAP ユーザー データが関連付けられるプロファイル名。大文字と小文字を区別。NULL 終端。Windows XP SP3 および XP SP2 用 API: 名前は SSID から自動派生した名前と一致すること。
+dwFlags : [int] 関数の動作を変更するフラグ。Windows XP SP3 / XP SP2 用 API、Vista、Server 2008 では予約で 0 を設定。
+strEapXmlUserData : [wstr] ユーザー資格情報を設定する XML データへのポインタ。XML は EAPHost User Credentials スキーマに従う必要がある。
+pReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
 %inst
-Sets the Extensible Authentication Protocol (EAP) user credentials as
-specified by an XML string.
+XML 文字列で指定された Extensible Authentication Protocol (EAP) ユーザー資格情報を設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The **WlanSetProfileEapXmlUserData** function sets the EAP user
-credentials to use on a profile. This function can be called only on
-a profile that uses 802.1X for authentication. On Windows Vista and
-Windows Server 2008, these credentials can only be used by the
-caller. The eapType parameter is an EAP_METHOD_TYPE structure that
-contains type, identification, and author information about an EAP
-method. The eapType member of the EAP_METHOD_TYPE structure is an
-EAP_TYPE structure that contains the type and vendor identification
-information for an EAP method. For more information on the allocation
-of EAP method types, see section 6.2 of RFC 3748 published by the
-IETF. On Windows 10, Windows Server 2016, and later, the
-**WlanSetProfileEapXmlUserData** function is enhanced. EAP user
-credentials can be set for all users of a profile if the dwFlags
-parameter contains WLAN_SET_EAPHOST_DATA_ALL_USERS. All wireless LAN
-functions require an interface GUID for the wireless interface when
-performing profile operations. When a wireless interface is removed,
-its state is cleared from Wireless LAN Service (WLANSVC) and no
-profile operations are possible. The **WlanSetProfileEapXmlUserData**
-function can fail with ERROR_INVALID_PARAMETER if the wireless
-interface specified in the pInterfaceGuid parameter has been removed
-from the system (a USB wireless adapter that has been removed, for
-example). The **WlanSetProfileEapXmlUserData** might cause wireless
-connection failure when you use **EAP-TTLS** and the API is called
-from a 32-bit application running on a 64-bit operating system (OS).
-Your application should be built for the same CPU architecture as the
-target OS. Windows XP with SP3 and Wireless LAN API for Windows XP
-with SP2: This function can only be used for Protected EAP (PEAP)
-credentials. It can't be used for other EAP types.
+WlanSetProfileEapXmlUserData はプロファイルで使用する EAP ユーザー資格情報を設定する。認証に
+802.1X を使うプロファイルでのみ呼び出し可能。Vista / Server 2008 では呼び出し元のみ使用可。Windows 10
+/ Server 2016 以降では dwFlags に WLAN_SET_EAPHOST_DATA_ALL_USERS
+を含めれば全ユーザー用に設定できる。EAP-TTLS 使用時に 64bit OS 上で 32bit
+アプリケーションから呼び出すと接続失敗を引き起こすことがある。ターゲット OS と同じ CPU
+アーキテクチャでビルドすべき。Windows XP SP3 / XP SP2 用 API: PEAP 資格情報にのみ使用可。
 
 
 %index
 WlanSetProfileList
-Sets the preference order of profiles.
+プロファイルの優先順位を設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, dwItems, strProfileNames, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-dwItems : [int] The number of profiles in the strProfileNames parameter.
-strProfileNames : [var] The names of the profiles in the desired order. Profile names are case-sensitive. This string must be NULL-terminated. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??The supplied names must match the profile names derived automatically from the SSID of the network. For infrastructure network profiles, the SSID must be supplied for the profile name. For ad hoc network profiles, the supplied name must be the SSID of the ad hoc network followed by -adhoc.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+dwItems : [int] strProfileNames 内のプロファイル数。
+strProfileNames : [var] 希望順のプロファイル名配列。大文字と小文字を区別。NULL 終端。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Sets the preference order of profiles.
+プロファイルの優先順位を設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The WlanSetProfileList function sets the preference order of wireless
-LAN profiles for a given wireless interface. The profiles in the list
-must be a one-to-one match with the current profiles returned by the
-WlanGetProfileList function. The position of group policy profiles
-cannot be changed. All wireless LAN functions require an interface
-GUID for the wireless interface when performing profile operations.
-When a wireless interface is removed, its state is cleared from
-Wireless LAN Service (WLANSVC) and no profile operations are
-possible. The WlanSetProfileList function can fail with
-ERROR_INVALID_PARAMETER if the wireless interface specified in the
-pInterfaceGuid parameter has been removed from the system (a USB
-wireless adapter that has been removed, for example).
+WlanSetProfileList は指定インターフェイス上の WLAN プロファイルの優先順位を設定する。リストは
+WlanGetProfileList が返す現プロファイルと 1 対 1 に対応していなければならない。グループ ポリシー
+プロファイルの位置は変更できない。指定インターフェイスが取り外されている場合は ERROR_INVALID_PARAMETER
+で失敗しうる。
 
 
 %index
 WlanSetProfilePosition
-Sets the position of a single, specified profile in the preference list.
+優先リスト内の指定された単一プロファイルの位置を設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, dwPosition, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-pInterfaceGuid : [var] The GUID of the interface.
-strProfileName : [wstr] The name of the profile. Profile names are case-sensitive. This string must be NULL-terminated. Windows?XP with SP3 and Wireless LAN API for Windows?XP with SP2:??The supplied name must match the profile name derived automatically from the SSID of the network. For an infrastructure network profile, the SSID must be supplied for the profile name. For an ad hoc network profile, the supplied name must be the SSID of the ad hoc network followed by -adhoc.
-dwPosition : [int] Indicates the position in the preference list that the profile should be shifted to.  0 (zero) corresponds to the first profile in the list that is returned by the WlanGetProfileList function.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+pInterfaceGuid : [var] インターフェイスの GUID。
+strProfileName : [wstr] プロファイル名。大文字と小文字を区別。NULL 終端。Windows XP SP3 / XP SP2 用 API: SSID から自動派生した名前と一致すること。
+dwPosition : [int] プロファイルを移動する優先リスト内の位置。0 は WlanGetProfileList が返すリストの先頭。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Sets the position of a single, specified profile in the preference
-list.
+優先リスト内の指定された単一プロファイルの位置を設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The position of group policy profiles cannot be changed. By default,
-only a user logged on as a member of the Administrators group can
-change the position of an all-user profile. Call
-WlanGetSecuritySettings to determine the actual user rights required
-to change the position of an all-user profile. To set the profile
-position at the command line, use the netsh wlan set profileorder
-command. For more information, see Netsh Commands for Wireless Local
-Area Network (wlan). Windows XP with SP3 and Wireless LAN API for
-Windows XP with SP2: Ad hoc profiles appear after the infrastructure
-profiles in the profile list. If you try to position an ad hoc
-profile before an infrastructure profile using
-WlanSetProfilePosition, the WlanSetProfilePosition call will succeed
-but the Wireless Zero Configuration service will reorder the profile
-list such that the ad hoc profile is positioned after all
-infrastructure network profiles. Guest profiles, profiles with
-Wireless Provisioning Service (WPS) authentication, and profiles with
-Wi-Fi Protected Access-None (WPA-None) authentication are not
-supported. Any such profile that appears in the preferred profile
-list has a fixed position in the profile list. That means its
-position cannot be changed using WlanSetProfilePosition and that its
-position is not affected by position changes of other profiles. All
-wireless LAN functions require an interface GUID for the wireless
-interface when performing profile operations. When a wireless
-interface is removed, its state is cleared from Wireless LAN Service
-(WLANSVC) and no profile operations are possible. The
-WlanSetProfilePosition function can fail with ERROR_INVALID_PARAMETER
-if the wireless interface specified in the pInterfaceGuid parameter
-has been removed from the system (a USB wireless adapter that has
-been removed, for example).
+グループ ポリシー プロファイルの位置は変更できない。既定では Administrators
+のメンバーのみがすべてのユーザー用プロファイルの位置を変更できる。実際に必要な権限は WlanGetSecuritySettings
+で確認する。コマンドラインからは netsh wlan set profileorder を使う。Windows XP SP3 / XP
+SP2 用 API: アドホック プロファイルはインフラストラクチャ
+プロファイルの後に配置される。アドホックをインフラストラクチャの前に置こうとしても Wireless Zero Configuration
+が並べ替えを行う。ゲスト、WPS、WPA-None 認証のプロファイルは未対応で位置固定。指定インターフェイスが取り外されている場合は
+ERROR_INVALID_PARAMETER で失敗しうる。
 
 
 %index
 WlanSetPsdIEDataList
-Sets the proximity service discovery (PSD) information element (IE) data list.
+近接サービス検出 (PSD) 情報要素 (IE) データ リストを設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, strFormat, pPsdIEDataList, pReserved
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-strFormat : [wstr] The format of a PSD IE in the PSD IE data list passed in the pPsdIEDataList parameter. This is a NULL-terminated URI string that specifies the namespace of the protocol used for discovery.
-pPsdIEDataList : [var] A pointer to a WLAN_RAW_DATA_LIST structure that contains the PSD IE data list to be set.
-pReserved : [intptr] Reserved for future use.  Must be set to NULL.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+strFormat : [wstr] pPsdIEDataList に渡される PSD IE データ リスト内の PSD IE の形式。検出に使用するプロトコルの名前空間を指定する NULL 終端の URI 文字列。
+pPsdIEDataList : [var] 設定する PSD IE データ リストを含む WLAN_RAW_DATA_LIST 構造体へのポインタ。
+pReserved : [intptr] 将来の使用のために予約されている。NULL を設定する必要がある。
 %inst
-Sets the proximity service discovery (PSD) information element (IE)
-data list.
+近接サービス検出 (PSD) 情報要素 (IE) データ リストを設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-The Proximity Service Discovery Protocol is a Microsoft proprietary
-protocol that allows a client to discover services in its physical
-proximity, which is defined by the radio range. The purpose of the
-Proximity Service Discovery Protocol is to convey service discovery
-information, such as service advertisements, as part of Beacon
-frames. Access points (APs) and stations (STAs) that operate in ad
-hoc mode periodically broadcast beacon frames. The beacon frame can
-contain single or multiple proprietary information elements that
-carry discovery information pertaining to the services that the
-device offers. A PSD IE is used to transmit compressed information
-provided by higher-level discovery protocols for the purpose of
-passive discovery. One such higher-level protocol used for discovery
-is the WS-Discovery protocol. Any protocol can be used for discovery.
-Windows Vista and Windows Server 2008 with the Wireless LAN Service
-installed support passive discovery for ad hoc clients, ad hoc
-services, and infrastructure clients. This means an ad hoc service
-can advertise an available resource or service by transmitting a PSD
-IE in one or more beacons. There is no guarantee that this beacon is
-received by an ad hoc or infrastructure client. Windows 7 and Windows
-Server 2008 R2 with the Wireless LAN Service installed support
-passive discovery for ad hoc clients, ad hoc services, and
-infrastructure clients in the same way as in Windows Vista. In
-addition, the PSD IE is also supported for the wireless Hosted
-Network, a software-based wireless access point (AP). Applications on
-the local computer where the wireless Hosted Network is to be run may
-use the WlanSetPsdIeDataList function to set the PSD IE before
-starting the wireless Hosted Network. Once set, the PSD IE will be
-included in the beacon and probe response after the wireless Hosted
-Network is started.
-This doc was truncated.
+近接サービス検出プロトコルは、クライアントが物理的近接 (無線範囲) 内のサービスを検出できるようにする Microsoft
+独自のプロトコルである。目的はサービス広告のような検出情報をビーコン フレームの一部として伝達すること。AP およびアドホック STA
+は定期的にビーコンをブロードキャストし、これに独自の情報要素を複数または単一で含めうる。PSD IE
+は受動的検出のために上位層プロトコルが提供する圧縮情報を伝達する。Windows Vista / Server 2008 の
+Wireless LAN Service ではアドホック クライアント、アドホック サービス、インフラストラクチャ
+クライアント向けの受動的検出をサポート。Windows 7 / Server 2008 R2 では加えてワイヤレス ホステッド
+ネットワーク (ソフトウェア ベースの AP) でもサポートされ、開始前に WlanSetPsdIeDataList
+で設定可能。設定後はビーコンおよびプローブ応答に含められる。
+このドキュメントは省略されている。
 
 
 %index
 WlanSetSecuritySettings
-Sets the security settings for a configurable object.
+構成可能オブジェクトのセキュリティ設定を設定する。
 %group
 Win32 wlanapi
 %prm
 hClientHandle, SecurableObject, strModifiedSDDL
-hClientHandle : [intptr] The client's session handle, obtained by a previous call to the WlanOpenHandle function.
-SecurableObject : [int] A WLAN_SECURABLE_OBJECT value that specifies the object to which the security settings will be applied.
-strModifiedSDDL : [wstr] A security descriptor string that specifies the new security settings for the object. This string must be NULL-terminated. For more information, see the Remarks section.
+hClientHandle : [intptr] WlanOpenHandle の以前の呼び出しで取得したクライアントのセッション ハンドル。
+SecurableObject : [int] セキュリティ設定が適用されるオブジェクトを指定する WLAN_SECURABLE_OBJECT 値。
+strModifiedSDDL : [wstr] オブジェクトの新しいセキュリティ設定を指定するセキュリティ記述子文字列。NULL 終端でなければならない。詳細は解説を参照。
 %inst
-Sets the security settings for a configurable object.
+構成可能オブジェクトのセキュリティ設定を設定する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value may be one of the following return
-codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS となる。関数が失敗した場合、戻り値は次のいずれかのコードとなりうる。
+このドキュメントは省略されている。
 
 [備考]
-A successful call to the WlanSetSecuritySettings function overrides
-the default permissions associated with an object. For more
-information about default permissions, see Native Wifi API
-Permissions. The following describes the procedure for creating a
-security descriptor object and parsing it as a string.
-This doc was truncated.
+WlanSetSecuritySettings
+の呼び出し成功はオブジェクトに関連付けられた既定アクセス権を上書きする。既定アクセス権の詳細は Native Wifi API
+Permissions を参照。セキュリティ記述子オブジェクトの作成および文字列化の手順を以下に示す。
+このドキュメントは省略されている。
 

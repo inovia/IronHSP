@@ -30,36 +30,32 @@ ppApo : [var]
 
 %index
 CreateFX
-Creates an instance of the requested XAPOFX effect.
+指定された XAPOFX エフェクトのインスタンスを作成する。
 %group
 Win32 xaudio2_8
 %prm
 clsid, pEffect, pInitDat, InitDataByteSize
-clsid : [var] ID of the effect to create. Use the __uuidof on the effect class name to get the CLSID for an effect. For example, __uuidof(FXReverb) would provide the CLSID for the FXReverb effect. For a list of effects provided by XAPOFX, see XAPOFX Overview. For an example of retrieving the CLSID for an effect, see How to: Use XAPOFX in XAudio2.
-pEffect : [var] Receives a pointer to the created XAPO instance. If CreateFX fails, pEffect  is untouched.
+clsid : [var] 作成するエフェクトの ID。エフェクトクラス名に対して __uuidof を用いると、当該エフェクトの CLSID を取得できる。たとえば __uuidof(FXReverb) は FXReverb エフェクトの CLSID を返す。XAPOFX が提供するエフェクト一覧については XAPOFX Overview を参照。エフェクト CLSID 取得の例は How to: Use XAPOFX in XAudio2 を参照。
+pEffect : [var] 作成された XAPO インスタンスへのポインタを受け取る。CreateFX が失敗した場合、pEffect は変更されない。
 pInitDat : [intptr] 
-InitDataByteSize : [int] Size of pInitData in bytes. This is zero if pInitData is NULL.
+InitDataByteSize : [int] pInitData のサイズ (バイト単位)。pInitData が NULL のときは 0 になる。
 %inst
-Creates an instance of the requested XAPOFX effect.
+指定された XAPOFX エフェクトのインスタンスを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 [備考]
-The created XAPO will have a reference count of 1. Client code must
-call IUnknown::Release after passing the XAPO to XAudio2 to allow
-XAudio2 to dispose of the XAPO when it is no longer needed. Use
-IXAudio2::CreateSourceVoice or IXAudio2Voice::SetEffectChain to pass
-an XAPO to XAudio2.
-Note The DirectX SDK version of this function doesn't have the
-pInitData or InitDataByteSize parameters as it only takes the first 2
-parameters. To set initial parameters for the XAPOFX effect that is
-created with the DirectX SDK version of this function, you must bind
-that effect to a voice and use IXAudio2Voice::SetEffectParameters.
-For info about how to do this, see How to: Use XAPOFX in XAudio2.
-Platform Requirements Windows 10 (XAudio2.9); Windows 8, Windows
-Phone 8 (XAudio 2.8); DirectX SDK (XAudio 2.7)
+作成された XAPO の参照カウントは 1 となる。クライアントコードは、XAPO を XAudio2 に渡した後、不要になったときに
+XAudio2 が XAPO を破棄できるよう、IUnknown::Release を呼び出す必要がある。XAPO を XAudio2
+に渡すには IXAudio2::CreateSourceVoice または IXAudio2Voice::SetEffectChain
+を使用する。
+注意 DirectX SDK 版の本関数は最初の 2 つの引数しか取らず、pInitData と InitDataByteSize
+引数を持たない。DirectX SDK 版で作成した XAPOFX
+エフェクトの初期パラメータを設定するには、エフェクトをボイスにバインドした上で
+IXAudio2Voice::SetEffectParameters を使用する必要がある。詳細は How to: Use XAPOFX
+in XAudio2 を参照。 プラットフォーム要件 Windows 10 (XAudio2.9)、Windows 8、Windows
+Phone 8 (XAudio 2.8)、DirectX SDK (XAudio 2.7)
 
 
 %index

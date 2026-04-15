@@ -6,649 +6,594 @@
 
 %index
 MFCreate3GPMediaSink
-Creates a media sink for authoring 3GP files.
+3GP ファイル作成用のメディアシンクを作成する。
 %group
 Win32 mf
 %prm
 pIByteStream, pVideoMediaType, pAudioMediaType, ppIMediaSink
-pIByteStream : [var] A pointer to the IMFByteStream interface of a byte stream.  The media sink writes the 3GP file to this byte stream. The byte stream must be writable and support seeking.
-pVideoMediaType : [var] A pointer to the IMFMediaType interface of a video media type. This type specifies the format of the video stream. This parameter can be NULL, but not if pAudioMediaType is NULL.
-pAudioMediaType : [var] A pointer to the IMFMediaType interface of an audio media type. This type specifies the format of the audio stream. This parameter can be NULL, but not if pVideoMediaType is NULL.
-ppIMediaSink : [var] Receives a pointer to the 3GP media sink's IMFMediaSink interface. The caller must release the interface.
+pIByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。メディアシンクは 3GP ファイルをこのバイトストリームに書き込む。バイトストリームは書き込み可能かつシーク対応でなければならない。
+pVideoMediaType : [var] ビデオメディアタイプの IMFMediaType インターフェースへのポインタ。このタイプはビデオストリームの形式を指定する。このパラメータは NULL でもよいが、pAudioMediaType が NULL の場合は NULL にできない。
+pAudioMediaType : [var] オーディオメディアタイプの IMFMediaType インターフェースへのポインタ。このタイプはオーディオストリームの形式を指定する。このパラメータは NULL でもよいが、pVideoMediaType が NULL の場合は NULL にできない。
+ppIMediaSink : [var] 3GP メディアシンクの IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a media sink for authoring 3GP files.
+3GP ファイル作成用のメディアシンクを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-The 3GP media sink supports a maximum of one video stream and one
-audio stream. The initial stream formats are given in the
-pVideoMediaType and pAudioMediaType parameters. To create an MP4 file
-with one stream, set the other stream type to NULL. For example, to
-create an audio-only file, set pVideoMediaType to NULL. The number of
-streams is fixed when you create the media sink. The sink does not
-support the IMFMediaSink::AddStreamSink method. To author MP4 files,
-use the MFCreateMPEG4MediaSink function.
+3GP メディアシンクは最大 1 つのビデオストリームと 1 つのオーディオストリームをサポートする。初期のストリーム形式は
+pVideoMediaType および pAudioMediaType パラメータで指定する。片方のみのストリームで MP4
+ファイルを作成するには、もう一方のストリームタイプを NULL に設定する。例えば音声のみのファイルを作成するには
+pVideoMediaType を NULL にする。ストリーム数はメディアシンク作成時に固定され、シンクは
+IMFMediaSink::AddStreamSink メソッドをサポートしない。MP4 ファイルを作成するには
+MFCreateMPEG4MediaSink 関数を使用する。
 
 
 %index
 MFCreateAC3MediaSink
-Creates an instance of the AC-3 media sink.
+AC-3 メディアシンクのインスタンスを作成する。
 %group
 Win32 mf
 %prm
 pTargetByteStream, pAudioMediaType, ppMediaSink
-pTargetByteStream : [var] A pointer to the IMFByteStream interface of a byte stream. The media sink writes the AC-3 file to this byte stream. The byte stream must be writable.
-pAudioMediaType : [var] A pointer to the IMFMediaType interface. This parameter specifies the media type for the AC-3 audio stream. The media type must contain the following attributes.
-ppMediaSink : [var] Receives a pointer to the IMFMediaSink interface. The caller must release the interface.
+pTargetByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。メディアシンクは AC-3 ファイルをこのバイトストリームに書き込む。バイトストリームは書き込み可能でなければならない。
+pAudioMediaType : [var] IMFMediaType インターフェースへのポインタ。このパラメータは AC-3 オーディオストリームのメディアタイプを指定する。メディアタイプは以下の属性を含んでいなければならない。
+ppMediaSink : [var] IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates an instance of the AC-3 media sink.
+AC-3 メディアシンクのインスタンスを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-The AC-3 media sink takes compressed AC-3 audio as input and writes
-the audio to the byte stream without modification. The primary use
-for this media sink is to stream AC-3 audio over a network. The media
-sink does not perform AC-3 audio encoding.
+AC-3 メディアシンクは圧縮済み AC-3
+オーディオを入力として受け取り、変更せずにバイトストリームへ書き込む。このメディアシンクの主な用途はネットワーク越しの AC-3
+オーディオストリーミングである。メディアシンク自体は AC-3 エンコードを行わない。
 
 
 %index
 MFCreateADTSMediaSink
-Creates an instance of the audio data transport stream (ADTS) media sink.
+Audio Data Transport Stream (ADTS) メディアシンクのインスタンスを作成する。
 %group
 Win32 mf
 %prm
 pTargetByteStream, pAudioMediaType, ppMediaSink
-pTargetByteStream : [var] A pointer to the IMFByteStream interface of a byte stream. The media sink writes the ADTS stream to this byte stream. The byte stream must be writable.
-pAudioMediaType : [var] A pointer to the IMFMediaType interface. This parameter specifies the media type for the ADTS stream. The media type must contain the following attributes.
-ppMediaSink : [var] Receives a pointer to the IMFMediaSink interface. The caller must release the interface.
+pTargetByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。メディアシンクは ADTS ストリームをこのバイトストリームに書き込む。バイトストリームは書き込み可能でなければならない。
+pAudioMediaType : [var] IMFMediaType インターフェースへのポインタ。このパラメータは ADTS ストリームのメディアタイプを指定する。メディアタイプは以下の属性を含んでいなければならない。
+ppMediaSink : [var] IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates an instance of the audio data transport stream (ADTS) media
-sink.
+Audio Data Transport Stream (ADTS) メディアシンクのインスタンスを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-The ADTS media sink converts Advanced Audio Coding (AAC) audio
-packets into an ADTS stream. The primary use for this media sink is
-to stream ADTS over a network. The output is not an audio file, but a
-stream of audio frames with ADTS headers. The media sink can accept
-raw AAC frames (MF_MT_AAC_PAYLOAD_TYPE = 0) or ADTS packets
-(MF_MT_AAC_PAYLOAD_TYPE = 1). If the input is raw AAC, the media sink
-inserts an ADTS header at the start of each audio frame. If the input
-is ADTS packets, the media sink passes the packets through to the
-byte stream, without modification.
+ADTS メディアシンクは Advanced Audio Coding (AAC) オーディオパケットを ADTS
+ストリームに変換する。このメディアシンクの主な用途はネットワーク越しの ADTS
+ストリーミングである。出力はオーディオファイルではなく、ADTS ヘッダ付きのオーディオフレームのストリームである。メディアシンクは生の
+AAC フレーム (MF_MT_AAC_PAYLOAD_TYPE = 0) または ADTS パケット
+(MF_MT_AAC_PAYLOAD_TYPE = 1) を受け入れる。入力が生の AAC
+の場合、メディアシンクは各オーディオフレームの先頭に ADTS ヘッダを挿入する。入力が ADTS
+パケットの場合、メディアシンクはパケットをそのままバイトストリームに渡す。
 
 
 %index
 MFCreateASFContentInfo
-Creates the ASF Header Object object.
+ASF ヘッダオブジェクトオブジェクトを作成する。
 %group
 Win32 mf
 %prm
 ppIContentInfo
-ppIContentInfo : [var] Receives a pointer to the IMFASFContentInfo interface. The caller must release the interface.
+ppIContentInfo : [var] IMFASFContentInfo インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the ASF Header Object object.
+ASF ヘッダオブジェクトオブジェクトを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFIndexer
-Creates the ASF Indexer object.
+ASF インデクサーオブジェクトを作成する。
 %group
 Win32 mf
 %prm
 ppIIndexer
-ppIIndexer : [var] Receives a pointer to the IMFASFIndexer interface. The caller must release the interface.
+ppIIndexer : [var] IMFASFIndexer インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the ASF Indexer object.
+ASF インデクサーオブジェクトを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFIndexerByteStream
-Creates a byte stream to access the index in an ASF stream.
+ASF ストリーム内のインデックスにアクセスするためのバイトストリームを作成する。
 %group
 Win32 mf
 %prm
 pIContentByteStream, cbIndexStartOffset, pIIndexByteStream
-pIContentByteStream : [var] Pointer to the IMFByteStream interface of a byte stream that contains the ASF stream.
-cbIndexStartOffset : [int64] Byte offset of the index within the ASF stream. To get this value, call IMFASFIndexer::GetIndexPosition.
-pIIndexByteStream : [var] Receives a pointer to the IMFByteStream interface. Use this interface to read from the index or write to the index. The caller must release the interface.
+pIContentByteStream : [var] ASF ストリームを含むバイトストリームの IMFByteStream インターフェースへのポインタ。
+cbIndexStartOffset : [int64] ASF ストリーム内のインデックスのバイトオフセット。この値を取得するには IMFASFIndexer::GetIndexPosition を呼び出す。
+pIIndexByteStream : [var] IMFByteStream インターフェースへのポインタを受け取る。このインターフェースを使用してインデックスの読み取りまたは書き込みを行う。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a byte stream to access the index in an ASF stream.
+ASF ストリーム内のインデックスにアクセスするためのバイトストリームを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table:
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFMediaSink
-Creates the ASF media sink.
+ASF メディアシンクを作成する。
 %group
 Win32 mf
 %prm
 pIByteStream, ppIMediaSink
-pIByteStream : [var] Pointer to a byte stream that will be used to write the ASF stream.
-ppIMediaSink : [var] Receives a pointer to the IMFMediaSink interface. The caller must release the interface.
+pIByteStream : [var] ASF ストリームの書き込みに使用されるバイトストリームへのポインタ。
+ppIMediaSink : [var] IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the ASF media sink.
+ASF メディアシンクを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFMediaSinkActivate
-Creates an activation object that can be used to create the ASF media sink.
+ASF メディアシンクを作成するために使用できるアクティベーションオブジェクトを作成する。
 %group
 Win32 mf
 %prm
 pwszFileName, pContentInfo, ppIActivate
-pwszFileName : [wstr] Null-terminated wide-character string that contains the output file name.
-pContentInfo : [var] A pointer to the IMFASFContentInfo interface of an initialized ASF Header Object object. Use this interface to configure the ASF media sink.
-ppIActivate : [var] Receives a pointer to the IMFActivate interface. The caller must release the interface.
+pwszFileName : [wstr] 出力ファイル名を含む NULL 終端ワイド文字列。
+pContentInfo : [var] 初期化済みの ASF ヘッダオブジェクトの IMFASFContentInfo インターフェースへのポインタ。このインターフェースを使用して ASF メディアシンクを構成する。
+ppIActivate : [var] IMFActivate インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates an activation object that can be used to create the ASF media
-sink.
+ASF メディアシンクを作成するために使用できるアクティベーションオブジェクトを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFMultiplexer
-Creates the ASF Multiplexer.
+ASF マルチプレクサを作成する。
 %group
 Win32 mf
 %prm
 ppIMultiplexer
-ppIMultiplexer : [var] Receives a pointer to the IMFASFMultiplexer interface. The caller must release the interface.
+ppIMultiplexer : [var] IMFASFMultiplexer インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the ASF Multiplexer.
+ASF マルチプレクサを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFProfile
-Creates the ASF profile object.
+ASF プロファイルオブジェクトを作成する。
 %group
 Win32 mf
 %prm
 ppIProfile
-ppIProfile : [var] Receives a pointer to the IMFASFProfile interface. The caller must release the interface.
+ppIProfile : [var] IMFASFProfile インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the ASF profile object.
+ASF プロファイルオブジェクトを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFProfileFromPresentationDescriptor
-Creates an ASF profile object from a presentation descriptor.
+プレゼンテーションディスクリプタから ASF プロファイルオブジェクトを作成する。
 %group
 Win32 mf
 %prm
 pIPD, ppIProfile
-pIPD : [var] Pointer to the IMFPresentationDescriptor interface of the presentation descriptor that contains the profile information.
-ppIProfile : [var] Receives a pointer to the IMFASFProfile interface. The caller must release the interface.
+pIPD : [var] プロファイル情報を含むプレゼンテーションディスクリプタの IMFPresentationDescriptor インターフェースへのポインタ。
+ppIProfile : [var] IMFASFProfile インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates an ASF profile object from a presentation descriptor.
+プレゼンテーションディスクリプタから ASF プロファイルオブジェクトを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFSplitter
-Creates the ASF Splitter.
+ASF スプリッタを作成する。
 %group
 Win32 mf
 %prm
 ppISplitter
-ppISplitter : [var] Receives a pointer to the IMFASFSplitter interface. The caller must release the interface.
+ppISplitter : [var] IMFASFSplitter インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the ASF Splitter.
+ASF スプリッタを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFStreamSelector
-Creates the ASF stream selector.
+ASF ストリームセレクタを作成する。
 %group
 Win32 mf
 %prm
 pIASFProfile, ppSelector
-pIASFProfile : [var] Pointer to the IMFASFProfile interface.
-ppSelector : [var] Receives a pointer to the IMFASFStreamSelector interface. The caller must release the interface.
+pIASFProfile : [var] IMFASFProfile インターフェースへのポインタ。
+ppSelector : [var] IMFASFStreamSelector インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the ASF stream selector.
+ASF ストリームセレクタを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateASFStreamingMediaSink
-Creates an activation object for the ASF streaming sink. (MFCreateASFStreamingMediaSink)
+ASF ストリーミングシンク用のアクティベーションオブジェクトを作成する。(MFCreateASFStreamingMediaSink)
 %group
 Win32 mf
 %prm
 pIByteStream, ppIMediaSink
-pIByteStream : [var] A pointer to a byte stream object in which the ASF media sink writes the streamed content.
-ppIMediaSink : [var] Receives a pointer to the IMFMediaSink interface of the ASF streaming-media sink object. To create the media sink, the application must call IMFActivate::ActivateObject on the received pointer. The caller must release the interface pointer.
+pIByteStream : [var] ASF メディアシンクがストリーミングコンテンツを書き込むバイトストリームオブジェクトへのポインタ。
+ppIMediaSink : [var] ASF ストリーミングメディアシンクオブジェクトの IMFMediaSink インターフェースへのポインタを受け取る。メディアシンクを作成するには、アプリケーションは受け取ったポインタに対し IMFActivate::ActivateObject を呼び出す必要がある。呼び出し元はインターフェースポインタを解放する必要がある。
 %inst
-Creates an activation object for the ASF streaming sink.
-(MFCreateASFStreamingMediaSink)
+ASF ストリーミングシンク用のアクティベーションオブジェクトを作成する。(MFCreateASFStreamingMediaSink)
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-To create the ASF streaming sink in another process, call
-MFCreateASFStreamingMediaSinkActivate.
-An application can get a pointer to the ASF ContentInfo Object by
-calling IUnknown::QueryInterface on the media sink object received in
-the ppIMediaSink parameter. The ContentInfo object is used to set the
-encoder configuration settings, provide stream properties supplied by
-an ASF profile, and add metadata information. These configuration
-settings populate the various ASF header objects of the encoded ASF
-file. For more information, see Setting Properties in the ContentInfo
-Object.
+別プロセスで ASF ストリーミングシンクを作成するには MFCreateASFStreamingMediaSinkActivate
+を呼び出す。
+アプリケーションは ppIMediaSink パラメータで受け取ったメディアシンクオブジェクトに対し
+IUnknown::QueryInterface を呼び出すことで ASF ContentInfo
+オブジェクトへのポインタを取得できる。ContentInfo オブジェクトはエンコーダ設定の指定、ASF
+プロファイルが提供するストリームプロパティの指定、メタデータ情報の追加に使用される。これらの設定はエンコード後 ASF ファイルの各種
+ASF ヘッダオブジェクトに反映される。詳細は Setting Properties in the ContentInfo Object
+を参照のこと。
 
 
 %index
 MFCreateASFStreamingMediaSinkActivate
-Creates an activation object for the ASF streaming sink. (MFCreateASFStreamingMediaSinkActivate)
+ASF ストリーミングシンク用のアクティベーションオブジェクトを作成する。(MFCreateASFStreamingMediaSinkActivate)
 %group
 Win32 mf
 %prm
 pByteStreamActivate, pContentInfo, ppIActivate
-pByteStreamActivate : [var] A pointer to the  IMFActivate interface of an activation object. The caller  implements this interface.  The IMFActivate::ActivateObject method of the activation object must create a byte-stream object. The byte stream exposes the IMFByteStream interface. The ASF streaming sink will write data to this byte stream.
-pContentInfo : [var] A pointer to an ASF ContentInfo Object that contains the properties that describe the ASF content. These  settings can contain  stream settings, encoding properties, and metadata. For more information about these properties, see Setting Properties in the ContentInfo Object.
-ppIActivate : [var] Receives a pointer to the IMFActivate interface of the activation object that is used to create the ASF streaming-media sink. To create the media sink, the application must call IMFActivate::ActivateObject by using the received pointer. The ActivateObject method also calls   IMFActivate::Activate on the byte stream activate object specified by  pByteStreamActivate, to create it so that the media sink can write streamed content in the byte stream. The caller must release the IMFActivate interface pointer of the media sink activation object received in ppIActivate.
+pByteStreamActivate : [var] アクティベーションオブジェクトの IMFActivate インターフェースへのポインタ。このインターフェースは呼び出し元が実装する。アクティベーションオブジェクトの IMFActivate::ActivateObject メソッドはバイトストリームオブジェクトを作成する必要がある。バイトストリームは IMFByteStream インターフェースを公開する。ASF ストリーミングシンクはこのバイトストリームにデータを書き込む。
+pContentInfo : [var] ASF コンテンツを記述するプロパティを含む ASF ContentInfo オブジェクトへのポインタ。これらの設定はストリーム設定、エンコードプロパティ、メタデータを含みうる。これらのプロパティの詳細は Setting Properties in the ContentInfo Object を参照のこと。
+ppIActivate : [var] ASF ストリーミングメディアシンクを作成するのに使用するアクティベーションオブジェクトの IMFActivate インターフェースへのポインタを受け取る。メディアシンクを作成するには、受け取ったポインタを使用してアプリケーションが IMFActivate::ActivateObject を呼び出す必要がある。ActivateObject メソッドは pByteStreamActivate で指定したバイトストリームアクティベートオブジェクトに対しても IMFActivate::Activate を呼び出して作成し、メディアシンクがストリーミングコンテンツをバイトストリームに書き込めるようにする。呼び出し元は ppIActivate で受け取ったメディアシンクアクティベーションオブジェクトの IMFActivate インターフェースポインタを解放する必要がある。
 %inst
-Creates an activation object for the ASF streaming sink.
-(MFCreateASFStreamingMediaSinkActivate)
+ASF
+ストリーミングシンク用のアクティベーションオブジェクトを作成する。(MFCreateASFStreamingMediaSinkActivate)
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-Starting in Windows 7, Media Foundation provides an ASF streaming
-sink that writes the content in a live streaming scenario. This
-function should be used in secure transcode scenarios where this
-media sink needs to be created and configured in the remote process.
-Like the ASF file sink, the new media sink performs ASF related tasks
-such as writing the ASF header, generating data packets (muxing). The
-content is written to a caller-implemented byte stream such as an
-HTTP byte stream. The caller must also provide an activation object
-that media sink can use to create the byte stream remotely. In
-addition, it performs transcryption for streaming protected content.
-It hosts the Windows Media Digital Rights Management (DRM) for
-Network Devices Output Trust Authority (OTA) that handles the license
-request and response. For more information, see IMFDRMNetHelper
-interface. The new media sink does not perform any time adjustments.
-If the clock seeks, the timestamps are not changed.
+Windows 7 以降、Media Foundation はライブストリーミングシナリオにおいてコンテンツを書き込む ASF
+ストリーミングシンクを提供している。この関数は、このメディアシンクをリモートプロセスで作成・構成する必要があるセキュアトランスコードシナリオで使用すべきである。ASF
+ファイルシンクと同様に、新しいメディアシンクは ASF ヘッダの書き込みやデータパケットの生成 (マルチプレクシング) といった ASF
+関連タスクを実行する。コンテンツは HTTP
+バイトストリームなど呼び出し元が実装するバイトストリームに書き込まれる。呼び出し元はまた、メディアシンクがリモートでバイトストリームを作成するために使用できるアクティベーションオブジェクトを提供する必要がある。さらに、保護されたコンテンツをストリーミングするためのトランスクリプションも実行する。ライセンス要求とレスポンスを処理する
+Windows Media Digital Rights Management (DRM) for Network Devices
+Output Trust Authority (OTA) をホストする。詳細は IMFDRMNetHelper
+インターフェースを参照のこと。新しいメディアシンクは時間調整を行わない。クロックがシークしても、タイムスタンプは変更されない。
 
 
 %index
 MFCreateCredentialCache
-Creates a credential cache object. An application can use this object to implement a custom credential manager.
+資格情報キャッシュオブジェクトを作成する。アプリケーションはこのオブジェクトを使用してカスタム資格情報マネージャを実装できる。
 %group
 Win32 mf
 %prm
 ppCache
-ppCache : [var] Receives a pointer to the IMFNetCredentialCache interface of the new credential cache object. The caller must release the interface.
+ppCache : [var] 新しい資格情報キャッシュオブジェクトの IMFNetCredentialCache インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a credential cache object. An application can use this object
-to implement a custom credential manager.
+資格情報キャッシュオブジェクトを作成する。アプリケーションはこのオブジェクトを使用してカスタム資格情報マネージャを実装できる。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateFMPEG4MediaSink
-Creates a media sink for authoring fragmented MP4 files.
+フラグメント化 MP4 ファイル作成用のメディアシンクを作成する。
 %group
 Win32 mf
 %prm
 pIByteStream, pVideoMediaType, pAudioMediaType, ppIMediaSink
-pIByteStream : [var] A pointer to the IMFByteStream interface of a byte stream.  The media sink writes the MP4 file to this byte stream. The byte stream must be writable and support seeking.
-pVideoMediaType : [var] A pointer to the IMFMediaType interface of a video media type. This type specifies the format of the video stream. This parameter can be NULL, but not if pAudioMediaType is NULL.
-pAudioMediaType : [var] A pointer to the IMFMediaType interface of an audio media type. This type specifies the format of the audio stream. This parameter can be NULL, but not if pVideoMediaType is NULL.
-ppIMediaSink : [var] Receives a pointer to the MP4 media sink's IMFMediaSink interface. The caller must release the interface.
+pIByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。メディアシンクは MP4 ファイルをこのバイトストリームに書き込む。バイトストリームは書き込み可能かつシーク対応でなければならない。
+pVideoMediaType : [var] ビデオメディアタイプの IMFMediaType インターフェースへのポインタ。このタイプはビデオストリームの形式を指定する。このパラメータは NULL でもよいが、pAudioMediaType が NULL の場合は NULL にできない。
+pAudioMediaType : [var] オーディオメディアタイプの IMFMediaType インターフェースへのポインタ。このタイプはオーディオストリームの形式を指定する。このパラメータは NULL でもよいが、pVideoMediaType が NULL の場合は NULL にできない。
+ppIMediaSink : [var] MP4 メディアシンクの IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a media sink for authoring fragmented MP4 files.
+フラグメント化 MP4 ファイル作成用のメディアシンクを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 
 %index
 MFCreateMP3MediaSink
-Creates the MP3 media sink.
+MP3 メディアシンクを作成する。
 %group
 Win32 mf
 %prm
 pTargetByteStream, ppMediaSink
-pTargetByteStream : [var] A pointer to the IMFByteStream interface of a byte stream.  The media sink writes the MP3 file to this byte stream. The byte stream must be writable.
-ppMediaSink : [var] Receives a pointer to the IMFMediaSink interface of the MP3 media sink.. The caller must release the interface.
+pTargetByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。メディアシンクは MP3 ファイルをこのバイトストリームに書き込む。バイトストリームは書き込み可能でなければならない。
+ppMediaSink : [var] MP3 メディアシンクの IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the MP3 media sink.
+MP3 メディアシンクを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-The MP3 media sink takes compressed MP3 audio samples as input, and
-writes an MP3 file with ID3 headers as output. The MP3 media sink
-does not perform MP3 audio encoding.
+MP3 メディアシンクは圧縮済み MP3 オーディオサンプルを入力として受け取り、ID3 ヘッダ付きの MP3 ファイルを出力する。MP3
+メディアシンクは MP3 オーディオエンコードを行わない。
 
 
 %index
 MFCreateMPEG4MediaSink
-Creates a media sink for authoring MP4 files.
+MP4 ファイル作成用のメディアシンクを作成する。
 %group
 Win32 mf
 %prm
 pIByteStream, pVideoMediaType, pAudioMediaType, ppIMediaSink
-pIByteStream : [var] A pointer to the IMFByteStream interface of a byte stream.  The media sink writes the MP4 file to this byte stream. The byte stream must be writable and support seeking.
-pVideoMediaType : [var] A pointer to the IMFMediaType interface of a video media type. This type specifies the format of the video stream. This parameter can be NULL, but not if pAudioMediaType is NULL.
-pAudioMediaType : [var] A pointer to the IMFMediaType interface of an audio media type. This type specifies the format of the audio stream. This parameter can be NULL, but not if pVideoMediaType is NULL.
-ppIMediaSink : [var] Receives a pointer to the MP4 media sink's IMFMediaSink interface. The caller must release the interface.
+pIByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。メディアシンクは MP4 ファイルをこのバイトストリームに書き込む。バイトストリームは書き込み可能かつシーク対応でなければならない。
+pVideoMediaType : [var] ビデオメディアタイプの IMFMediaType インターフェースへのポインタ。このタイプはビデオストリームの形式を指定する。このパラメータは NULL でもよいが、pAudioMediaType が NULL の場合は NULL にできない。
+pAudioMediaType : [var] オーディオメディアタイプの IMFMediaType インターフェースへのポインタ。このタイプはオーディオストリームの形式を指定する。このパラメータは NULL でもよいが、pVideoMediaType が NULL の場合は NULL にできない。
+ppIMediaSink : [var] MP4 メディアシンクの IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a media sink for authoring MP4 files.
+MP4 ファイル作成用のメディアシンクを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-The MP4 media sink supports a maximum of one video stream and one
-audio stream. The initial stream formats are given in the
-pVideoMediaType and pAudioMediaType parameters. To create an MP4 file
-with one stream, set the other stream type to NULL. For example, to
-create an audio-only file, set pVideoMediaType to NULL. The number of
-streams is fixed when you create the media sink. The sink does not
-support the IMFMediaSink::AddStreamSink method. To author 3GP files,
-use the MFCreate3GPMediaSink function.
+MP4 メディアシンクは最大 1 つのビデオストリームと 1 つのオーディオストリームをサポートする。初期のストリーム形式は
+pVideoMediaType および pAudioMediaType パラメータで指定する。片方のみのストリームで MP4
+ファイルを作成するには、もう一方のストリームタイプを NULL に設定する。例えば音声のみのファイルを作成するには
+pVideoMediaType を NULL にする。ストリーム数はメディアシンク作成時に固定され、シンクは
+IMFMediaSink::AddStreamSink メソッドをサポートしない。3GP ファイルを作成するには
+MFCreate3GPMediaSink 関数を使用する。
 
 
 %index
 MFCreateMuxSink
-Creates a generic media sink that wraps a multiplexer Microsoft Media Foundation transform (MFT).
+マルチプレクサ Microsoft Media Foundation Transform (MFT) をラップする汎用メディアシンクを作成する。
 %group
 Win32 mf
 %prm
 guidOutputSubType, pOutputAttributes, pOutputByteStream, ppMuxSink
-guidOutputSubType : [int] The subtype GUID of the output type for the MFT.
-pOutputAttributes : [var] A list of format attributes for the MFT output type. This parameter is optional and can be NULL.
-pOutputByteStream : [var] A pointer to the IMFByteStream interface of a byte stream. The output from the MFT is written to this byte stream. This parameter can be NULL.
-ppMuxSink : [var] Receives a pointer to the IMFMediaSink interface of the media sink. The caller must release the interface.
+guidOutputSubType : [int] MFT の出力タイプのサブタイプ GUID。
+pOutputAttributes : [var] MFT 出力タイプの形式属性リスト。このパラメータは省略可能で NULL でも構わない。
+pOutputByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。MFT からの出力はこのバイトストリームに書き込まれる。このパラメータは NULL でも構わない。
+ppMuxSink : [var] メディアシンクの IMFMediaSink インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a generic media sink that wraps a multiplexer Microsoft Media
-Foundation transform (MFT).
+マルチプレクサ Microsoft Media Foundation Transform (MFT)
+をラップする汎用メディアシンクを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-This function attempts to find a multiplexer MFT that supports an
-output type with the following definition:
-This doc was truncated.
+この関数は次の定義を持つ出力タイプをサポートするマルチプレクサ MFT の検索を試みる。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateNetSchemePlugin
-Creates the scheme handler for the network source.
+ネットワークソース用のスキームハンドラを作成する。
 %group
 Win32 mf
 %prm
 riid, ppvHandler
-riid : [var] Interface identifier (IID) of the interface to retrieve.
-ppvHandler : [var] Receives a pointer to the requested interface. The caller must release the interface. The scheme handler exposes the IMFSchemeHandler interface.
+riid : [var] 取得するインターフェースの IID。
+ppvHandler : [var] 要求されたインターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。スキームハンドラは IMFSchemeHandler インターフェースを公開する。
 %inst
-Creates the scheme handler for the network source.
+ネットワークソース用のスキームハンドラを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreatePresentationDescriptorFromASFProfile
-Creates a presentation descriptor from an ASF profile object.
+ASF プロファイルオブジェクトからプレゼンテーションディスクリプタを作成する。
 %group
 Win32 mf
 %prm
 pIProfile, ppIPD
-pIProfile : [var] Pointer to the IMFASFProfile interface of the ASF profile object.
-ppIPD : [var] Receives a pointer to the IMFPresentationDescriptor interface. The caller must release the interface.
+pIProfile : [var] ASF プロファイルオブジェクトの IMFASFProfile インターフェースへのポインタ。
+ppIPD : [var] IMFPresentationDescriptor インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a presentation descriptor from an ASF profile object.
+ASF プロファイルオブジェクトからプレゼンテーションディスクリプタを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateProtectedEnvironmentAccess
-Creates an IMFProtectedEnvironmentAccess object that allows content protection systems to perform a handshake with the protected environment.
+コンテンツ保護システムが保護された環境とハンドシェイクを実行できるようにする IMFProtectedEnvironmentAccess オブジェクトを作成する。
 %group
 Win32 mf
 %prm
 ppAccess
-ppAccess : [var] Receives a pointer to the IMFProtectedEnvironmentAccess interface.
+ppAccess : [var] IMFProtectedEnvironmentAccess インターフェースへのポインタを受け取る。
 %inst
-Creates an IMFProtectedEnvironmentAccess object that allows content
-protection systems to perform a handshake with the protected
-environment.
+コンテンツ保護システムが保護された環境とハンドシェイクを実行できるようにする IMFProtectedEnvironmentAccess
+オブジェクトを作成する。
 
 
 %index
 MFCreateProxyLocator
-Creates a default proxy locator.
+既定のプロキシロケータを作成する。
 %group
 Win32 mf
 %prm
 pszProtocol, pProxyConfig, ppProxyLocator
-pszProtocol : [wstr] The name of the protocol. Note??In this release of Media Foundation, the default proxy locator does not support RTSP.
-pProxyConfig : [var] Pointer to the IPropertyStore interface of a property store that contains the proxy configuration in the MFNETSOURCE_PROXYSETTINGS property.
-ppProxyLocator : [var] Receives a pointer to the IMFNetProxyLocator interface. The caller must release the interface.
+pszProtocol : [wstr] プロトコル名。注: このリリースの Media Foundation では、既定のプロキシロケータは RTSP をサポートしない。
+pProxyConfig : [var] MFNETSOURCE_PROXYSETTINGS プロパティにプロキシ設定を含むプロパティストアの IPropertyStore インターフェースへのポインタ。
+ppProxyLocator : [var] IMFNetProxyLocator インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a default proxy locator.
+既定のプロキシロケータを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateRemoteDesktopPlugin
-Creates the remote desktop plug-in object. Use this object if the application is running in a Terminal Services client session.
+リモートデスクトッププラグインオブジェクトを作成する。アプリケーションがターミナルサービスクライアントセッションで実行されている場合にこのオブジェクトを使用する。
 %group
 Win32 mf
 %prm
 ppPlugin
-ppPlugin : [var] Receives a pointer to the IMFRemoteDesktopPlugin interface of the plug-in object. The caller must release the interface.
+ppPlugin : [var] プラグインオブジェクトの IMFRemoteDesktopPlugin インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the remote desktop plug-in object. Use this object if the
-application is running in a Terminal Services client session.
+
+リモートデスクトッププラグインオブジェクトを作成する。アプリケーションがターミナルサービスクライアントセッションで実行されている場合にこのオブジェクトを使用する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateVideoRenderer
-Creates an instance of the enhanced video renderer (EVR) media sink.
+Enhanced Video Renderer (EVR) メディアシンクのインスタンスを作成する。
 %group
 Win32 mf
 %prm
 riidRenderer, ppVideoRenderer
-riidRenderer : [var] Interface identifier (IID) of the requested interface on the EVR.
-ppVideoRenderer : [var] Receives a pointer to the requested interface. The caller must release the interface.
+riidRenderer : [var] EVR で要求するインターフェースの IID。
+ppVideoRenderer : [var] 要求されたインターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates an instance of the enhanced video renderer (EVR) media sink.
+Enhanced Video Renderer (EVR) メディアシンクのインスタンスを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-This function creates the Media Foundation version of the EVR. To
-create the DirectShow EVR filter, call CoCreateInstance with the
-class identifier CLSID_EnhancedVideoRenderer.
+この関数は Media Foundation 版の EVR を作成する。DirectShow の EVR
+フィルターを作成するには、クラス識別子 CLSID_EnhancedVideoRenderer を指定して
+CoCreateInstance を呼び出す。
 
 
 %index
 MFCreateVideoRendererActivate
-Creates an activation object for the enhanced video renderer (EVR) media sink.
+Enhanced Video Renderer (EVR) メディアシンク用のアクティベーションオブジェクトを作成する。
 %group
 Win32 mf
 %prm
 hwndVideo, ppActivate
-hwndVideo : [intptr] Handle to the window where the video will be displayed.
-ppActivate : [var] Receives a pointer to the IMFActivate interface. Use this interface to create the EVR. The caller must release the interface.
+hwndVideo : [intptr] ビデオを表示するウィンドウへのハンドル。
+ppActivate : [var] IMFActivate インターフェースへのポインタを受け取る。このインターフェースを使用して EVR を作成する。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates an activation object for the enhanced video renderer (EVR)
-media sink.
+Enhanced Video Renderer (EVR) メディアシンク用のアクティベーションオブジェクトを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-To create the EVR, call IMFActivate::ActivateObject on the retrieved
-IMFActivate pointer. (If you are using the Media Session, the Media
-Session automatically calls ActivateObject when you queue the
-topology.) To configure the EVR, set any of the following attributes
-on the IMFActivate object before calling ActivateObject.
-This doc was truncated.
+EVR を作成するには、取得した IMFActivate ポインタに対し IMFActivate::ActivateObject
+を呼び出す (Media Session を使用している場合、Media Session はトポロジをキューに入れる際に自動的に
+ActivateObject を呼び出す)。EVR を構成するには、ActivateObject を呼び出す前に IMFActivate
+オブジェクトに以下の属性を設定する。
+このドキュメントは省略されている。
 
 
 %index
 MFGetLocalId
-Gets the local system ID.
+ローカルシステム ID を取得する。
 %group
 Win32 mf
 %prm
 verifier, size, id
-verifier : [var] Application-specific verifier value.
-size : [int] Length in bytes of verifier.
-id : [var] Returned ID string.  This value must be freed by the caller by calling CoTaskMemFree.
+verifier : [var] アプリケーション固有の検証値。
+size : [int] verifier の長さ (バイト単位)。
+id : [var] 返される ID 文字列。この値は呼び出し元が CoTaskMemFree を呼び出して解放する必要がある。
 %inst
-Gets the local system ID.
+ローカルシステム ID を取得する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
 
 
 %index
 MFGetSystemId
-Returns an IMFSystemId object for retrieving system id data.
+システム ID データを取得するための IMFSystemId オブジェクトを返す。
 %group
 Win32 mf
 %prm
 ppId
-ppId : [var] Receives a pointer to the IMFSystemId interface.
+ppId : [var] IMFSystemId インターフェースへのポインタを受け取る。
 %inst
-Returns an IMFSystemId object for retrieving system id data.
+システム ID データを取得するための IMFSystemId オブジェクトを返す。
 
 
 %index
 MFLoadSignedLibrary
-Loads a dynamic link library that is signed for the protected environment.
+保護された環境向けに署名されたダイナミックリンクライブラリをロードする。
 %group
 Win32 mf
 %prm
 pszName, ppLib
-pszName : [wstr] The name of the dynamic link library to load.  This dynamic link library must be signed for the protected environment.
-ppLib : [var] Receives a pointer to the IMFSignedLibrary interface for the library.
+pszName : [wstr] ロードするダイナミックリンクライブラリの名前。このダイナミックリンクライブラリは保護された環境向けに署名されていなければならない。
+ppLib : [var] ライブラリの IMFSignedLibrary インターフェースへのポインタを受け取る。
 %inst
-Loads a dynamic link library that is signed for the protected
-environment.
+保護された環境向けに署名されたダイナミックリンクライブラリをロードする。
 
 [備考]
-A singlemodule load count is maintained on the dynamic link library
-(as it is with LoadLibrary). This load count is freed when the final
-release is called on the IMFSignedLibrary object.
+ダイナミックリンクライブラリには (LoadLibrary と同様に)
+単一モジュールのロードカウントが維持される。このロードカウントは、IMFSignedLibrary
+オブジェクトの最終リリースが呼び出された時点で解放される。
 
 
 %index
 MFShutdownObject
-Shuts down a Media Foundation object and releases all resources associated with the object. (MFShutdownObject)
+Media Foundation オブジェクトをシャットダウンし、そのオブジェクトに関連付けられたすべてのリソースを解放する。(MFShutdownObject)
 %group
 Win32 mf
 %prm
 pUnk
-pUnk : [var] Pointer to the IUnknown interface of the object.
+pUnk : [var] オブジェクトの IUnknown インターフェースへのポインタ。
 %inst
-Shuts down a Media Foundation object and releases all resources
-associated with the object. (MFShutdownObject)
+Media Foundation
+オブジェクトをシャットダウンし、そのオブジェクトに関連付けられたすべてのリソースを解放する。(MFShutdownObject)
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-This function is not related to the MFShutdown function, which shuts
-down the Media Foundation platform, as described in Initializing
-Media Foundation.
+この関数は Media Foundation プラットフォームをシャットダウンする MFShutdown 関数とは無関係である。詳細は
+Initializing Media Foundation を参照のこと。
 

@@ -6,22 +6,21 @@
 
 %index
 WindowsDeleteString
-Decrements the reference count of a string buffer.
+文字列バッファの参照カウントをデクリメントする。
 %group
 Win32 api-ms-win-core-winrt-string-l1-1-0
 %prm
 string
 string : [int] 
 %inst
-Decrements the reference count of a string buffer.
+文字列バッファの参照カウントをデクリメントする。
 
 [戻り値]
-Type: HRESULT This function always returns S_OK.
+型: HRESULT この関数は常に S_OK を返す。
 
 [備考]
-Use the WindowsDeleteString function to de-allocate an
-[**HSTRING**](/windows/win32/winrt/hstring). Calling
-WindowsDeleteString decrements the reference count of the backing
-buffer, and if the reference count reaches 0, the Windows Runtime
-de-allocates the buffer.
+WindowsDeleteString 関数を使うと
+[**HSTRING**](/windows/win32/winrt/hstring)
+を解放できる。WindowsDeleteString を呼び出すと、裏側のバッファの参照カウントがデクリメントされ、参照カウントが 0
+になると Windows ランタイムがバッファを解放する。
 

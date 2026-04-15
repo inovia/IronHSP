@@ -359,33 +359,29 @@ pstgmedDest : [var]
 
 %index
 CreateAsyncBindCtx
-Creates an asynchronous bind context for use with asynchronous monikers.
+非同期モニカで使用する非同期バインドコンテキストを作成する。
 %group
 Win32 urlmon
 %prm
 reserved, pBSCb, pEFetc, ppBC
-reserved : [int] This parameter is reserved and must be 0.
-pBSCb : [var] A pointer to the IBindStatusCallback interface used for receiving data availability and progress notification.
-pEFetc : [var] A pointer to the IEnumFORMATETC interface that can be used to enumerate formats for format negotiation during binding. This parameter can be NULL, in which case the caller is not interested in format negotiation during binding, and the default format of the object will be bound to.
-ppBC : [var] Address of an IBindCtx* pointer variable that receives the interface pointer to the new bind context.
+reserved : [int] このパラメータは予約されており、0 を指定しなければならない。
+pBSCb : [var] データ可用性および進捗通知を受け取るために使用する IBindStatusCallback インターフェースへのポインタ。
+pEFetc : [var] バインド処理中の形式ネゴシエーションに使用できる IEnumFORMATETC インターフェースへのポインタ。このパラメータは NULL でもよく、その場合はバインド中の形式ネゴシエーションに呼び出し元が関心がないことを意味し、オブジェクトの既定の形式がバインドされる。
+ppBC : [var] 新しいバインドコンテキストへのインターフェースポインタを受け取る IBindCtx* ポインタ変数のアドレス。
 %inst
-Creates an asynchronous bind context for use with asynchronous
-monikers.
+非同期モニカで使用する非同期バインドコンテキストを作成する。
 
 [戻り値]
-This function can return the following values.
-This doc was truncated.
+この関数は次の値を返すことがある。
+このドキュメントは省略されている。
 
 [備考]
-This function automatically registers the IBindStatusCallback and
-IEnumFORMATETC interfaces with the bind context. The client can
-specify flags from BSCO_OPTION to indicate which callback
-notifications the client is capable of receiving. If the client does
-not wish to receive certain notification, it can choose to implement
-those callback methods as empty function stubs (returning E_NOTIMPL),
-and they should not be called. The RegisterBindStatusCallback
-function can also be used to register callback interfaces in the bind
-context.
+この関数は、IBindStatusCallback および IEnumFORMATETC
+インターフェースをバインドコンテキストに自動的に登録する。クライアントは BSCO_OPTION
+のフラグを指定して、受け取ることができるコールバック通知の種類を示せる。特定の通知を受け取りたくない場合、クライアントは該当コールバックメソッドを空のスタブ
+(E_NOTIMPL を返す)
+として実装することを選べるが、それらは呼び出されるべきではない。RegisterBindStatusCallback
+関数もバインドコンテキストにコールバックインターフェースを登録するために使用できる。
 
 
 %index
@@ -407,29 +403,25 @@ reserved : [int]
 
 %index
 CreateFormatEnumerator
-Creates an object that implements IEnumFORMATETC over a static array of FORMATETC structures.
+FORMATETC 構造体の静的配列に対して IEnumFORMATETC を実装するオブジェクトを作成する。
 %group
 Win32 urlmon
 %prm
 cfmtetc, rgfmtetc, ppenumfmtetc
-cfmtetc : [int] Number of FORMATETC structures in the static array specified by the rgfmtetc parameter. The cfmtetc parameter cannot be zero.
-rgfmtetc : [var] Pointer to a static array of FORMATETC structures.
-ppenumfmtetc : [var] Address of IEnumFORMATETC pointer variable that receives the interface pointer to the enumerator object.
+cfmtetc : [int] rgfmtetc パラメータで指定される静的配列内の FORMATETC 構造体の数。cfmtetc パラメータは 0 にできない。
+rgfmtetc : [var] FORMATETC 構造体の静的配列へのポインタ。
+ppenumfmtetc : [var] 列挙オブジェクトへのインターフェースポインタを受け取る IEnumFORMATETC ポインタ変数のアドレス。
 %inst
-Creates an object that implements IEnumFORMATETC over a static array
-of FORMATETC structures.
+FORMATETC 構造体の静的配列に対して IEnumFORMATETC を実装するオブジェクトを作成する。
 
 [戻り値]
-This function returns S_OK on success. Other possible return values
-include the following.
-This doc was truncated.
+この関数は成功時に S_OK を返す。その他の戻り値としては次のようなものがある。
+このドキュメントは省略されている。
 
 [備考]
-The CreateFormatEnumerator function creates an enumerator object that
-implements IEnumFORMATETC over a static array of FORMATETC
-structures. The cfmtetc parameter specifies the number of these
-structures. With the pointer, you can call the standard enumeration
-methods to enumerate the structures.
+CreateFormatEnumerator 関数は、FORMATETC 構造体の静的配列に対して IEnumFORMATETC
+を実装する列挙オブジェクトを作成する。cfmtetc
+パラメータで構造体の個数を指定する。返されたポインタを通じて、標準の列挙メソッドを呼び出して構造体を列挙できる。
 
 
 %index

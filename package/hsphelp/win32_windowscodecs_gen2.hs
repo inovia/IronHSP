@@ -6,214 +6,196 @@
 
 %index
 WICConvertBitmapSource
-Obtains a IWICBitmapSource in the desired pixel format from a given IWICBitmapSource.
+指定された IWICBitmapSource から、目的のピクセル形式の IWICBitmapSource を取得する。
 %group
 Win32 windowscodecs
 %prm
 dstFormat, pISrc, ppIDst
-dstFormat : [var] Type: REFWICPixelFormatGUID The pixel format to convert to.
-pISrc : [var] Type: IWICBitmapSource* The source bitmap.
-ppIDst : [var] Type: IWICBitmapSource** A pointer to the null-initialized destination bitmap pointer.
+dstFormat : [var] 型: REFWICPixelFormatGUID 変換先のピクセル形式。
+pISrc : [var] 型: IWICBitmapSource* 変換元のビットマップ。
+ppIDst : [var] 型: IWICBitmapSource** NULL で初期化された変換先ビットマップポインタへのポインタ。
 %inst
-Obtains a IWICBitmapSource in the desired pixel format from a given
-IWICBitmapSource.
+指定された IWICBitmapSource から、目的のピクセル形式の IWICBitmapSource を取得する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns **S_OK**.
-Otherwise, it returns an **HRESULT** error code.
+型: HRESULT 関数が成功すると **S_OK** を返す。失敗時は **HRESULT** エラーコードを返す。
 
 [備考]
-If the pISrc bitmap is already in the desired format, then pISrc is
-copied to the destination bitmap pointer and a reference is added. If
-it is not in the desired format however, WICConvertBitmapSource will
-instantiate a dstFormat format converter and initialize it with
-pISrc.
+pISrc のビットマップがすでに目的の形式である場合、pISrc
+が変換先ビットマップポインタにコピーされ、参照が追加される。そうでない場合、WICConvertBitmapSource は
+dstFormat 形式のフォーマットコンバータをインスタンス化し、pISrc で初期化する。
 
 
 %index
 WICCreateBitmapFromSection
-Returns a IWICBitmapSource that is backed by the pixels of a Windows Graphics Device Interface (GDI) section handle. (WICCreateBitmapFromSection)
+Windows Graphics Device Interface (GDI) セクションハンドルのピクセル領域を背後に持つ IWICBitmapSource を返す。(WICCreateBitmapFromSection)
 %group
 Win32 windowscodecs
 %prm
 width, height, pixelFormat, hSection, stride, offset, ppIBitmap
-width : [int] Type: UINT The width of the bitmap pixels.
-height : [int] Type: UINT The height of the bitmap pixels.
-pixelFormat : [var] Type: REFWICPixelFormatGUID The pixel format of the bitmap.
-hSection : [intptr] Type: HANDLE The section handle. This is a file mapping object handle returned by the CreateFileMapping function.
-stride : [int] Type: UINT The byte count of each scanline.
-offset : [int] Type: UINT The offset into the section.
-ppIBitmap : [var] Type: IWICBitmap** A pointer that receives the bitmap.
+width : [int] 型: UINT ビットマップピクセルの幅。
+height : [int] 型: UINT ビットマップピクセルの高さ。
+pixelFormat : [var] 型: REFWICPixelFormatGUID ビットマップのピクセル形式。
+hSection : [intptr] 型: HANDLE セクションハンドル。CreateFileMapping 関数が返すファイルマッピングオブジェクトのハンドルである。
+stride : [int] 型: UINT 各走査線のバイト数。
+offset : [int] 型: UINT セクション内のオフセット。
+ppIBitmap : [var] 型: IWICBitmap** ビットマップを受け取るポインタ。
 %inst
-Returns a IWICBitmapSource that is backed by the pixels of a Windows
-Graphics Device Interface (GDI) section handle.
-(WICCreateBitmapFromSection)
+Windows Graphics Device Interface (GDI) セクションハンドルのピクセル領域を背後に持つ
+IWICBitmapSource を返す。(WICCreateBitmapFromSection)
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 [備考]
-The WICCreateBitmapFromSection function calls the
-WICCreateBitmapFromSectionEx function with the desiredAccessLevel
-parameter set to WICSectionAccessLevelRead.
+WICCreateBitmapFromSection 関数は、desiredAccessLevel パラメータに
+WICSectionAccessLevelRead を指定して WICCreateBitmapFromSectionEx 関数を呼び出す。
 
 
 %index
 WICCreateBitmapFromSectionEx
-Returns a IWICBitmapSource that is backed by the pixels of a Windows Graphics Device Interface (GDI) section handle. (WICCreateBitmapFromSectionEx)
+Windows Graphics Device Interface (GDI) セクションハンドルのピクセル領域を背後に持つ IWICBitmapSource を返す。(WICCreateBitmapFromSectionEx)
 %group
 Win32 windowscodecs
 %prm
 width, height, pixelFormat, hSection, stride, offset, desiredAccessLevel, ppIBitmap
-width : [int] Type: UINT The width of the bitmap pixels.
-height : [int] Type: UINT The height of the bitmap pixels.
-pixelFormat : [var] Type: REFWICPixelFormatGUID The pixel format of the bitmap.
-hSection : [intptr] Type: HANDLE The section handle. This is a file mapping object handle returned by the CreateFileMapping function.
-stride : [int] Type: UINT The byte count of each scanline.
-offset : [int] Type: UINT The offset into the section.
-desiredAccessLevel : [int] Type: WICSectionAccessLevel The desired access level.
-ppIBitmap : [var] Type: IWICBitmap** A pointer that receives the bitmap.
+width : [int] 型: UINT ビットマップピクセルの幅。
+height : [int] 型: UINT ビットマップピクセルの高さ。
+pixelFormat : [var] 型: REFWICPixelFormatGUID ビットマップのピクセル形式。
+hSection : [intptr] 型: HANDLE セクションハンドル。CreateFileMapping 関数が返すファイルマッピングオブジェクトのハンドルである。
+stride : [int] 型: UINT 各走査線のバイト数。
+offset : [int] 型: UINT セクション内のオフセット。
+desiredAccessLevel : [int] 型: WICSectionAccessLevel 希望するアクセスレベル。
+ppIBitmap : [var] 型: IWICBitmap** ビットマップを受け取るポインタ。
 %inst
-Returns a IWICBitmapSource that is backed by the pixels of a Windows
-Graphics Device Interface (GDI) section handle.
-(WICCreateBitmapFromSectionEx)
+Windows Graphics Device Interface (GDI) セクションハンドルのピクセル領域を背後に持つ
+IWICBitmapSource を返す。(WICCreateBitmapFromSectionEx)
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 
 %index
 WICGetMetadataContentSize
-Returns the size of the metadata content contained by the specified IWICMetadataWriter. The returned size accounts for the header and the length of the metadata.
+指定された IWICMetadataWriter が保持するメタデータ内容のサイズを返す。返されるサイズにはヘッダとメタデータの長さも含まれる。
 %group
 Win32 windowscodecs
 %prm
 guidContainerFormat, pIWriter, pcbSize
-guidContainerFormat : [var] Type: REFGUID The container GUID.
-pIWriter : [var] Type: IWICMetadataWriter* The IWICMetadataWriter that contains the content.
-pcbSize : [var] Type: ULARGE_INTEGER* A pointer that receives the size of the metadata content.
+guidContainerFormat : [var] 型: REFGUID コンテナ GUID。
+pIWriter : [var] 型: IWICMetadataWriter* 内容を保持する IWICMetadataWriter。
+pcbSize : [var] 型: ULARGE_INTEGER* メタデータ内容のサイズを受け取るポインタ。
 %inst
-Returns the size of the metadata content contained by the specified
-IWICMetadataWriter. The returned size accounts for the header and the
-length of the metadata.
+指定された IWICMetadataWriter
+が保持するメタデータ内容のサイズを返す。返されるサイズにはヘッダとメタデータの長さも含まれる。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 
 %index
 WICMapGuidToShortName
-Obtains the short name associated with a given GUID.
+指定された GUID に関連付けられたショートネームを取得する。
 %group
 Win32 windowscodecs
 %prm
 guid, cchName, wzName, pcchActual
-guid : [var] Type: REFGUID The GUID to retrieve the short name for.
-cchName : [int] Type: UINT The size of the wzName buffer.
-wzName : [wstr] Type: WCHAR* A pointer that receives the short name associated with the GUID.
-pcchActual : [var] Type: UINT* The actual size needed to retrieve the entire short name associated with the GUID.
+guid : [var] 型: REFGUID ショートネームを取得する対象の GUID。
+cchName : [int] 型: UINT wzName バッファのサイズ。
+wzName : [wstr] 型: WCHAR* GUID に関連付けられたショートネームを受け取るポインタ。
+pcchActual : [var] 型: UINT* GUID に関連付けられたショートネーム全体を取得するために実際に必要なサイズ。
 %inst
-Obtains the short name associated with a given GUID.
+指定された GUID に関連付けられたショートネームを取得する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 [備考]
-Windows Imaging Component (WIC) short name mappings can be found
-within the following registry key: HKEY_CLASSES_ROOT CLSID
-{FAE3D380-FEA4-4623-8C75-C6B61110B681} Namespace ...
+Windows Imaging Component (WIC) のショートネームマッピングは、次のレジストリキー配下で確認できる:
+HKEY_CLASSES_ROOT CLSID {FAE3D380-FEA4-4623-8C75-C6B61110B681}
+Namespace ...
 
 
 %index
 WICMapSchemaToName
-Obtains the name associated with a given schema.
+指定されたスキーマに関連付けられた名前を取得する。
 %group
 Win32 windowscodecs
 %prm
 guidMetadataFormat, pwzSchema, cchName, wzName, pcchActual
-guidMetadataFormat : [var] Type: REFGUID The metadata format GUID.
-pwzSchema : [wstr] Type: LPWSTR The URI string of the schema for which the name is to be retrieved.
-cchName : [int] Type: UINT The size of the wzName buffer.
-wzName : [wstr] Type: WCHAR* A pointer to a buffer that receives the schema's name. To obtain the required buffer size, call WICMapSchemaToName with cchName set to 0 and wzName set to NULL.
-pcchActual : [var] Type: UINT The actual buffer size needed to retrieve the entire schema name.
+guidMetadataFormat : [var] 型: REFGUID メタデータフォーマットの GUID。
+pwzSchema : [wstr] 型: LPWSTR 名前を取得する対象のスキーマを表す URI 文字列。
+cchName : [int] 型: UINT wzName バッファのサイズ。
+wzName : [wstr] 型: WCHAR* スキーマ名を受け取るバッファへのポインタ。必要なバッファサイズを取得するには、cchName を 0、wzName を NULL にして WICMapSchemaToName を呼び出す。
+pcchActual : [var] 型: UINT スキーマ名全体を取得するために実際に必要なバッファサイズ。
 %inst
-Obtains the name associated with a given schema.
+指定されたスキーマに関連付けられた名前を取得する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 [備考]
-You can extend the schema name mapping by adding to the following
-registry key:
+次のレジストリキー配下にエントリを追加することで、スキーマ名のマッピングを拡張できる。
 HKEY_CLASSES_ROOT CLSID {FAE3D380-FEA4-4623-8C75-C6B61110B681}
 Schemas BB5ACC38-F216-4CEC-A6C5-5F6E739763A9 ...
-For more information, see How to Write a WIC-Enabled Codec.
+詳細は How to Write a WIC-Enabled Codec を参照。
 
 
 %index
 WICMapShortNameToGuid
-Obtains the GUID associated with the given short name.
+指定されたショートネームに関連付けられた GUID を取得する。
 %group
 Win32 windowscodecs
 %prm
 wzName, pguid
-wzName : [wstr] Type: const WCHAR* A pointer to the short name.
-pguid : [var] Type: GUID* A pointer that receives the GUID associated with the given short name.
+wzName : [wstr] 型: const WCHAR* ショートネームへのポインタ。
+pguid : [var] 型: GUID* 指定されたショートネームに関連付けられた GUID を受け取るポインタ。
 %inst
-Obtains the GUID associated with the given short name.
+指定されたショートネームに関連付けられた GUID を取得する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 [備考]
-You can extend the short name mapping by adding to the following
-registry key:
+次のレジストリキー配下にエントリを追加することで、ショートネームのマッピングを拡張できる。
 HKEY_CLASSES_ROOT CLSID {FAE3D380-FEA4-4623-8C75-C6B61110B681}
 Namespace ...
-For more information, see How to Write a WIC-Enabled Codec.
+詳細は How to Write a WIC-Enabled Codec を参照。
 
 
 %index
 WICMatchMetadataContent
-Obtains a metadata format GUID for a specified container format and vendor that best matches the content within a given stream.
+指定されたコンテナフォーマットおよびベンダに対し、与えられたストリーム内のコンテンツに最も合致するメタデータフォーマット GUID を取得する。
 %group
 Win32 windowscodecs
 %prm
 guidContainerFormat, pguidVendor, pIStream, pguidMetadataFormat
-guidContainerFormat : [var] Type: REFGUID The container format GUID.
-pguidVendor : [var] Type: const GUID* The vendor GUID.
-pIStream : [var] Type: IStream* The content stream in which to match a metadata format.
-pguidMetadataFormat : [var] Type: GUID* A pointer that receives a metadata format GUID for the given parameters.
+guidContainerFormat : [var] 型: REFGUID コンテナフォーマットの GUID。
+pguidVendor : [var] 型: const GUID* ベンダ GUID。
+pIStream : [var] 型: IStream* メタデータフォーマットをマッチさせる対象のコンテンツストリーム。
+pguidMetadataFormat : [var] 型: GUID* 指定されたパラメータに対するメタデータフォーマット GUID を受け取るポインタ。
 %inst
-Obtains a metadata format GUID for a specified container format and
-vendor that best matches the content within a given stream.
+指定されたコンテナフォーマットおよびベンダに対し、与えられたストリーム内のコンテンツに最も合致するメタデータフォーマット GUID
+を取得する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 
 
 %index
 WICSerializeMetadataContent
-Writes metadata into a given stream.
+指定されたストリームにメタデータを書き込む。
 %group
 Win32 windowscodecs
 %prm
 guidContainerFormat, pIWriter, dwPersistOptions, pIStream
-guidContainerFormat : [var] Type: REFGUID The container format GUID.
-pIWriter : [var] Type: IWICMetadataWriter* The metadata writer to write metadata to the stream.
-dwPersistOptions : [int] Type: DWORD The WICPersistOptions options to use when writing the metadata.
-pIStream : [var] Type: IStream* A pointer to the stream in which to write the metadata.
+guidContainerFormat : [var] 型: REFGUID コンテナフォーマットの GUID。
+pIWriter : [var] 型: IWICMetadataWriter* ストリームにメタデータを書き込むためのメタデータライター。
+dwPersistOptions : [int] 型: DWORD メタデータを書き込む際に使用する WICPersistOptions オプション。
+pIStream : [var] 型: IStream* メタデータを書き込むストリームへのポインタ。
 %inst
-Writes metadata into a given stream.
+指定されたストリームにメタデータを書き込む。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 関数が成功すると S_OK を返す。失敗時は HRESULT エラーコードを返す。
 

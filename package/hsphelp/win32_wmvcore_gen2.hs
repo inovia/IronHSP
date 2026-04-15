@@ -6,221 +6,200 @@
 
 %index
 WMCreateBackupRestorer
-The WMCreateBackupRestorer function creates a backup restorer object.
+WMCreateBackupRestorer 関数はバックアップリストアラーオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 pCallback, ppBackup
-pCallback : [var] Pointer to an IWMStatusCallback interface containing the OnStatus callback method to be used by the new backup restorer object.
-ppBackup : [var] Pointer to a pointer to the IWMLicenseBackup interface of the newly created backup restorer object.
+pCallback : [var] 新しいバックアップリストアラーオブジェクトが使用する OnStatus コールバックメソッドを含む IWMStatusCallback インターフェースへのポインタ。
+ppBackup : [var] 新しく作成されたバックアップリストアラーオブジェクトの IWMLicenseBackup インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateBackupRestorer function creates a backup restorer object.
+WMCreateBackupRestorer 関数はバックアップリストアラーオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-Use IWMLicenseBackup::QueryInterface to obtain a pointer to the
-IWMBackupRestoreProps interface.
+IWMLicenseBackup::QueryInterface を使用して IWMBackupRestoreProps
+インターフェースへのポインタを取得する。
 
 
 %index
 WMCreateEditor
-The WMCreateEditor function creates a metadata editor object.
+WMCreateEditor 関数はメタデータエディタオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 ppEditor
-ppEditor : [var] Pointer to a pointer to the IWMMetadataEditor interface of the newly created metadata editor object.
+ppEditor : [var] 新しく作成されたメタデータエディタオブジェクトの IWMMetadataEditor インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateEditor function creates a metadata editor object.
+WMCreateEditor 関数はメタデータエディタオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 WMCreateIndexer
-The WMCreateIndexer function creates an indexer object.
+WMCreateIndexer 関数はインデクサーオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 ppIndexer
-ppIndexer : [var] Pointer to a pointer to the IWMIndexer interface of the newly created indexer object.
+ppIndexer : [var] 新しく作成されたインデクサーオブジェクトの IWMIndexer インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateIndexer function creates an indexer object.
+WMCreateIndexer 関数はインデクサーオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 WMCreateProfileManager
-The WMCreateProfileManager function creates a profile manager object.
+WMCreateProfileManager 関数はプロファイルマネージャオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 ppProfileManager
-ppProfileManager : [var] Pointer to a pointer to the IWMProfileManager interface of the newly created profile manager object.
+ppProfileManager : [var] 新しく作成されたプロファイルマネージャオブジェクトの IWMProfileManager インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateProfileManager function creates a profile manager object.
+WMCreateProfileManager 関数はプロファイルマネージャオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-When a profile manager object is created, it parses all of the system
-profiles. Creating and releasing a profile manager every time you
-need to use it will adversely affect performance. You should create a
-profile manager once in your application and release it only when you
-no longer need to use it.
+
+プロファイルマネージャオブジェクトが作成されると、すべてのシステムプロファイルを解析する。使用するたびにプロファイルマネージャを作成・解放するとパフォーマンスに悪影響がある。プロファイルマネージャはアプリケーションで一度だけ作成し、不要になった時点で解放するのが望ましい。
 
 
 %index
 WMCreateReader
-The WMCreateReader function creates a reader object.
+WMCreateReader 関数はリーダーオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 pUnkCert, dwRights, ppReader
-pUnkCert : [var] This value must be set to NULL.
-dwRights : [int] DWORD indicating the desired operation. Set to one of the values from the WMT_RIGHTS enumeration type, indicating the operation that is performed on this file. If multiple operations are being performed, dwRights must consist of multiple values from WMT_RIGHTS combined by using the bitwise OR operator.
-ppReader : [var] Pointer to a pointer to the IWMReader interface of the newly created reader object.
+pUnkCert : [var] この値は NULL に設定しなければならない。
+dwRights : [int] 希望する操作を示す DWORD。このファイルに対して実行する操作を示す WMT_RIGHTS 列挙型の値のいずれかを設定する。複数の操作を行う場合、dwRights は WMT_RIGHTS の複数の値をビット OR で組み合わせた値でなければならない。
+ppReader : [var] 新しく作成されたリーダーオブジェクトの IWMReader インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateReader function creates a reader object.
+WMCreateReader 関数はリーダーオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-After this object has been created, you can modify the rights that
-will be requested for the next file opened by calling
-IWMDRMReader::SetDRMProperty with the DRM_Rights property. Note that
-when using this property, the rights are specified as strings, not as
-DWORD values. The dwRights parameter may be set to 0 when reading
-non-DRM content. If dwRights is set to 0 and you open a protected
-file, you can access license related metadata, but you cannot read
-data from any streams in the file.
+このオブジェクトが作成された後、IWMDRMReader::SetDRMProperty を DRM_Rights
+プロパティで呼び出すことで、次に開くファイルに要求される権利を変更できる。このプロパティを使用する際、権利は DWORD
+値ではなく文字列として指定する点に注意する。非 DRM コンテンツを読み取る場合、dwRights パラメータは 0
+に設定してもよい。dwRights が 0
+の状態で保護されたファイルを開くと、ライセンス関連のメタデータにはアクセスできるが、ファイル内のストリームからデータを読み取ることはできない。
 
 
 %index
 WMCreateSyncReader
-The WMCreateSyncReader function creates a synchronous reader object.
+WMCreateSyncReader 関数は同期リーダーオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 pUnkCert, dwRights, ppSyncReader
-pUnkCert : [var] Pointer to an IUnknown interface. This value must be set to NULL.
-dwRights : [int] DWORD specifying the desired operation. When playing back non-DRM content, or for an application that does not have DRM rights, this value can be set to zero. Otherwise, this value must be one of the values from the WMT_RIGHTS enumeration type, indicating the operation that is performed on this file. If multiple operations are being performed, dwRights must consist of multiple values from WMT_RIGHTS combined by using the bitwise OR operator.
-ppSyncReader : [var] Pointer to a pointer to the IWMSyncReader interface of the newly created synchronous reader object.
+pUnkCert : [var] IUnknown インターフェースへのポインタ。この値は NULL に設定しなければならない。
+dwRights : [int] 希望する操作を指定する DWORD。非 DRM コンテンツを再生する場合、または DRM 権利を持たないアプリケーションの場合、この値は 0 に設定できる。そうでない場合は、このファイルに対して実行する操作を示す WMT_RIGHTS 列挙型の値のいずれかでなければならない。複数の操作を行う場合、dwRights は WMT_RIGHTS の複数の値をビット OR で組み合わせた値でなければならない。
+ppSyncReader : [var] 新しく作成された同期リーダーオブジェクトの IWMSyncReader インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateSyncReader function creates a synchronous reader object.
+WMCreateSyncReader 関数は同期リーダーオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 WMCreateWriter
-The WMCreateWriter function creates a writer object.
+WMCreateWriter 関数はライターオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 pUnkCert, ppWriter
-pUnkCert : [var] Pointer to an IUnknown interface. This value is not used and should be set to NULL.
-ppWriter : [var] Pointer to a pointer to the IWMWriter interface of the newly created writer object.
+pUnkCert : [var] IUnknown インターフェースへのポインタ。この値は使用されず、NULL に設定しなければならない。
+ppWriter : [var] 新しく作成されたライターオブジェクトの IWMWriter インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateWriter function creates a writer object.
+WMCreateWriter 関数はライターオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 WMCreateWriterFileSink
-The WMCreateWriterFileSink function creates a writer file sink object.
+WMCreateWriterFileSink 関数はライターファイルシンクオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 ppSink
-ppSink : [var] Pointer to a pointer to the IWMWriterFileSink interface of the newly created writer file sink object.
+ppSink : [var] 新しく作成されたライターファイルシンクオブジェクトの IWMWriterFileSink インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateWriterFileSink function creates a writer file sink
-object.
+WMCreateWriterFileSink 関数はライターファイルシンクオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 WMCreateWriterNetworkSink
-The WMCreateWriterNetworkSink function creates a writer network sink object.
+WMCreateWriterNetworkSink 関数はライターネットワークシンクオブジェクトを作成する。
 %group
 Win32 wmvcore
 %prm
 ppSink
-ppSink : [var] Pointer to a pointer to the IWMWriterNetworkSink interface of the newly created writer network sink object.
+ppSink : [var] 新しく作成されたライターネットワークシンクオブジェクトの IWMWriterNetworkSink インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateWriterNetworkSink function creates a writer network sink
-object.
+WMCreateWriterNetworkSink 関数はライターネットワークシンクオブジェクトを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 WMCreateWriterPushSink
-The WMCreateWriterPushSink function creates a writer push sink object. Push sinks are used to deliver streaming content to other media servers for distribution.
+WMCreateWriterPushSink 関数はライタープッシュシンクオブジェクトを作成する。プッシュシンクは、配信のために他のメディアサーバーへストリーミングコンテンツを配送するのに使用される。
 %group
 Win32 wmvcore
 %prm
 ppSink
-ppSink : [var] Pointer to a pointer to the IWMWriterPushSink interface of the newly created writer push sink object.
+ppSink : [var] 新しく作成されたライタープッシュシンクオブジェクトの IWMWriterPushSink インターフェースへのポインタへのポインタ。
 %inst
-The WMCreateWriterPushSink function creates a writer push sink
-object. Push sinks are used to deliver streaming content to other
-media servers for distribution.
+WMCreateWriterPushSink
+関数はライタープッシュシンクオブジェクトを作成する。プッシュシンクは、配信のために他のメディアサーバーへストリーミングコンテンツを配送するのに使用される。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 WMIsContentProtected
-The WMIsContentProtected function checks a file for DRM-protected content. This function is a shortcut so that your application can quickly identify protected files.
+WMIsContentProtected 関数はファイルに DRM 保護コンテンツが含まれているかをチェックする。この関数は、アプリケーションが保護されたファイルを迅速に識別するためのショートカットである。
 %group
 Win32 wmvcore
 %prm
 pwszFileName, pfIsProtected
-pwszFileName : [wstr] Pointer to a wide-character null-terminated string containing the name of the file to check for DRM-protected content.
-pfIsProtected : [var] Pointer to a Boolean value that is set to True on function return if the file contains DRM-protected content.
+pwszFileName : [wstr] DRM 保護コンテンツの有無をチェックするファイルの名前を含むワイド文字 NULL 終端文字列へのポインタ。
+pfIsProtected : [var] ファイルが DRM 保護コンテンツを含む場合、関数から戻った時点で True に設定されるブール値へのポインタ。
 %inst
-The WMIsContentProtected function checks a file for DRM-protected
-content. This function is a shortcut so that your application can
-quickly identify protected files.
+WMIsContentProtected 関数はファイルに DRM
+保護コンテンツが含まれているかをチェックする。この関数は、アプリケーションが保護されたファイルを迅速に識別するためのショートカットである。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 

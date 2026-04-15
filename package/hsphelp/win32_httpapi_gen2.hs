@@ -6,464 +6,366 @@
 
 %index
 HttpAddFragmentToCache
-The HttpAddFragmentToCache function caches a data fragment with a specified name by which it can be retrieved, or updates data cached under a specified name.
+HttpAddFragmentToCache 関数は指定された名前でデータフラグメントをキャッシュし、後から取得できるようにする。または既存のキャッシュを更新する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, UrlPrefix, DataChunk, CachePolicy, Overlapped
-RequestQueueHandle : [intptr] Handle to the request queue with which this cache is associated. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-UrlPrefix : [wstr] Pointer to a  UrlPrefix string that the application uses in subsequent calls to HttpSendHttpResponse to identify this cache entry. The application must have called HttpAddUrl previously with the same handle as in the ReqQueueHandle parameter, and with  either  this identical UrlPrefix string or a valid prefix of it. Like any UrlPrefix, this string must take the form "scheme://host:port/relativeURI"; for example, `http://www.mysite.com:80/image1.gif`.
-DataChunk : [var] Pointer to an HTTP_DATA_CHUNK structure that specifies an entity body data block to cache under the name pointed to by pUrlPrefix.
-CachePolicy : [var] Pointer to an HTTP_CACHE_POLICY structure that specifies how this data fragment should be cached.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure, or for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] このキャッシュが関連付けられるリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue 関数で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+UrlPrefix : [wstr] HttpSendHttpResponse で後から参照するためにアプリケーションが使用する UrlPrefix 文字列へのポインタ。アプリケーションは事前に同じリクエストキューハンドルに対してこの UrlPrefix または妥当な接頭辞を HttpAddUrl で登録しておく必要がある。この文字列は "scheme://host:port/relativeURI" の形式 (例: `http://www.mysite.com:80/image1.gif`) でなければならない。
+DataChunk : [var] pUrlPrefix で指定する名前のもとにキャッシュするエンティティボディデータブロックを指定する HTTP_DATA_CHUNK 構造体へのポインタ。
+CachePolicy : [var] このデータフラグメントをどのようにキャッシュすべきかを指定する HTTP_CACHE_POLICY 構造体へのポインタ。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL に設定する。同期呼び出しはキャッシュ操作が完了するまで呼び出し元スレッドをブロックする。非同期呼び出しは直ちに ERROR_IO_PENDING を返し、呼び出し元は GetOverlappedResult または I/O 完了ポートを使って完了を判定する。
 %inst
-The HttpAddFragmentToCache function caches a data fragment with a
-specified name by which it can be retrieved, or updates data cached
-under a specified name.
+HttpAddFragmentToCache
+関数は指定された名前でデータフラグメントをキャッシュし、後から取得できるようにする。または既存のキャッシュを更新する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function is used asynchronously, a return value of ERROR_IO_PENDING
-indicates that the cache request is queued and will complete later
-through normal overlapped I/O completion mechanisms. If the function
-fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。非同期で使用された場合、ERROR_IO_PENDING
+はキャッシュ要求がキューに入れられ後で通常の重複 I/O
+完了機構により完了することを示す。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 
 %index
 HttpAddUrl
-Registers a given URL so that requests that match it are routed to a specified HTTP Server API request queue.
+指定された URL を登録し、合致するリクエストが HTTP Server API の指定リクエストキューにルーティングされるようにする。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, FullyQualifiedUrl, Reserved
-RequestQueueHandle : [intptr] The handle to the request queue to which requests for the specified URL are to be routed. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-FullyQualifiedUrl : [wstr] A pointer to a Unicode string that contains a properly formed UrlPrefix string that identifies the URL to be registered.
-Reserved : [intptr] Reserved; must be NULL.
+RequestQueueHandle : [intptr] 指定 URL へのリクエストをルーティングするリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue 関数で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+FullyQualifiedUrl : [wstr] 登録する URL を識別する、正しく形成された UrlPrefix 文字列を含む Unicode 文字列へのポインタ。
+Reserved : [intptr] 予約されている。NULL でなければならない。
 %inst
-Registers a given URL so that requests that match it are routed to a
-specified HTTP Server API request queue.
+指定された URL を登録し、合致するリクエストが HTTP Server API の指定リクエストキューにルーティングされるようにする。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-As stated in the UrlPrefix Strings topic, the scheme specification of
-the UrlPrefix to be registered must be either lower-case "http" or
-lower-case "https". No other substring is valid. Also, it is not
-possible to register URLs having different schemes on the same port.
-That is, "http" and "https" schemes cannot coexist on a port. Also be
-aware that HttpAddUrl registers any UrlPrefix passed to it as long as
-the string is well-formed. Any validation of existence,
-accessibility, ownership, or other characteristic of the specified
-URL namespace must be handled by the application. To release the
-resources allocated as a result of the registration performed by
-HttpAddUrl, make a matching call to the HttpRemoveUrl function when
-your application has finished with the namespace involved.
+UrlPrefix 文字列トピックにあるとおり、登録する UrlPrefix のスキーム指定は小文字の "http" か "https"
+のみ有効である。同一ポートで異なるスキームの URL を登録することはできない ("http" と "https"
+は同一ポート上で共存できない)。HttpAddUrl は文字列が正しく形成されている限り渡された UrlPrefix
+を登録する。指定された URL 名前空間の存在・アクセス可否・所有権等の検証はアプリケーション側で行う必要がある。HttpAddUrl
+による登録で確保したリソースを解放するには、名前空間の利用が終わった時点で対応する HttpRemoveUrl を呼び出す。
 
 
 %index
 HttpAddUrlToUrlGroup
-Adds the specified URL to the URL Group identified by the URL Group ID.
+URL グループ ID で識別される URL グループに指定 URL を追加する。
 %group
 Win32 httpapi
 %prm
 UrlGroupId, pFullyQualifiedUrl, UrlContext, Reserved
-UrlGroupId : [int64] The group ID for the URL group to which requests for the specified URL are routed. The URL group is created by the HttpCreateUrlGroup function.
-pFullyQualifiedUrl : [wstr] A pointer to a Unicode string that contains a properly formed UrlPrefix String that identifies the URL to be registered. If you are not running as an administrator, specify a port number greater than 1024, otherwise you may get an ERROR_ACCESS_DENIED error.
-UrlContext : [int64] The context that is associated with the URL registered in this call. The URL context is returned in the HTTP_REQUEST structure with every request received on the URL specified in the pFullyQualifiedUrl parameter.
-Reserved : [int] Reserved. Must be zero.
+UrlGroupId : [int64] 指定 URL へのリクエストをルーティングする URL グループのグループ ID。URL グループは HttpCreateUrlGroup 関数で作成される。
+pFullyQualifiedUrl : [wstr] 登録する URL を識別する、正しく形成された UrlPrefix 文字列を含む Unicode 文字列へのポインタ。管理者として実行していない場合は 1024 より大きいポート番号を指定すること。そうでない場合 ERROR_ACCESS_DENIED が発生する可能性がある。
+UrlContext : [int64] この呼び出しで登録される URL に関連付けられるコンテキスト。URL コンテキストは pFullyQualifiedUrl で指定された URL で受信される全てのリクエストの HTTP_REQUEST 構造体で返される。
+Reserved : [int] 予約されている。0 でなければならない。
 %inst
-Adds the specified URL to the URL Group identified by the URL Group
-ID.
+URL グループ ID で識別される URL グループに指定 URL を追加する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-The HTTP Server API supports existing applications using version 1.0
-URL registrations, however, new development with the HTTP Server API
-should use HttpAddUrlToUrlGroup; HttpAddUrl should not be used. An
-application can add multiple URLs to a URL group using repeated calls
-to HttpAddUrlToUrlGroup. Requests that match the specified URL are
-routed to the request queue associated with the URL group. For more
-information about how the HTTP Server API matches request URLs to
-registered URLs, see UrlPrefix Strings.
+HTTP Server API はバージョン 1.0 の URL 登録を使用する既存アプリケーションをサポートするが、新規開発では
+HttpAddUrlToUrlGroup を使用すべきで、HttpAddUrl
+は使用すべきではない。HttpAddUrlToUrlGroup を繰り返し呼ぶことで URL グループに複数の URL
+を追加できる。合致するリクエストは URL グループに関連付けられたリクエストキューにルーティングされる。
 
 
 %index
 HttpCancelHttpRequest
-The HttpCancelHttpRequest function cancels a specified reqest.
+HttpCancelHttpRequest 関数は指定されたリクエストをキャンセルする。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Overlapped
-RequestQueueHandle : [intptr] A handle to the request queue from which the request came.
-RequestId : [int64] The ID of the request to be canceled.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure; for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] リクエスト元のリクエストキューへのハンドル。
+RequestId : [int64] キャンセルするリクエストの ID。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
 %inst
-The HttpCancelHttpRequest function cancels a specified reqest.
+HttpCancelHttpRequest 関数は指定されたリクエストをキャンセルする。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR.
+関数が成功すると NO_ERROR を返す。
 
 [備考]
-When the **HttpCancelHttpRequest** function is used to cancel a
-request, the underlying transport connection used for the request
-will be closed.
+**HttpCancelHttpRequest**
+関数でリクエストをキャンセルすると、そのリクエストに使われていた基礎トランスポート接続は閉じられる。
 
 
 %index
 HttpCloseRequestQueue
-Closes the handle to the specified request queue created by HttpCreateRequestQueue.
+HttpCreateRequestQueue で作成された指定リクエストキューのハンドルを閉じる。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle
-RequestQueueHandle : [intptr] The handle to the request queue that is closed. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function.
+RequestQueueHandle : [intptr] 閉じるリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue 関数で作成される。
 %inst
-Closes the handle to the specified request queue created by
-HttpCreateRequestQueue.
+HttpCreateRequestQueue で作成された指定リクエストキューのハンドルを閉じる。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-Applications should not call CloseHandle on the request queue handle;
-instead, they should call HttpCloseRequestQueue to ensure that all
-the resources are released.
+アプリケーションはリクエストキューハンドルに対して CloseHandle を呼んではならない。代わりに
+HttpCloseRequestQueue を呼び、全リソースが解放されるようにすること。
 
 
 %index
 HttpCloseServerSession
-Deletes the server session identified by the server session ID.
+サーバーセッション ID で識別されるサーバーセッションを削除する。
 %group
 Win32 httpapi
 %prm
 ServerSessionId
-ServerSessionId : [int64] The ID of the server session that is closed.
+ServerSessionId : [int64] 閉じるサーバーセッションの ID。
 %inst
-Deletes the server session identified by the server session ID.
+サーバーセッション ID で識別されるサーバーセッションを削除する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR If the function fails,
-it can return one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR
+を返す。関数が失敗した場合、次のいずれかのエラーコードを返す可能性がある。このドキュメントは省略されている。
 
 [備考]
-Applications must call HttpCloseUrlGroup before calling
-HttpCloseServerSession to close the all the URL Groups associated
-with the server session.
+アプリケーションはサーバーセッションを閉じる前に HttpCloseUrlGroup を呼び、そのサーバーセッションに関連付けられた全
+URL グループを閉じておく必要がある。
 
 
 %index
 HttpCloseUrlGroup
-Closes the URL Group identified by the URL Group ID.
+URL グループ ID で識別される URL グループを閉じる。
 %group
 Win32 httpapi
 %prm
 UrlGroupId
-UrlGroupId : [int64] The ID of the URL Group that is deleted.
+UrlGroupId : [int64] 削除する URL グループの ID。
 %inst
-Closes the URL Group identified by the URL Group ID.
+URL グループ ID で識別される URL グループを閉じる。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-Applications must call HttpCloseUrlGroup before calling
-HttpCloseServerSession to close the all URL Groups associated with
-the server session.
+アプリケーションは HttpCloseServerSession を呼ぶ前に HttpCloseUrlGroup
+を呼び、サーバーセッションに関連付けられた全 URL グループを閉じておく必要がある。
 
 
 %index
 HttpCreateHttpHandle
-Creates an HTTP request queue for the calling application and returns a handle to it.
+呼び出し元アプリケーション用の HTTP リクエストキューを作成し、そのハンドルを返す。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, Reserved
-RequestQueueHandle : [intptr] A pointer to a variable that receives a handle to the request queue.
-Reserved : [int] Reserved. This parameter must be zero.
+RequestQueueHandle : [intptr] リクエストキューへのハンドルを受け取る変数へのポインタ。
+Reserved : [int] 予約されている。0 でなければならない。
 %inst
-Creates an HTTP request queue for the calling application and returns
-a handle to it.
+呼び出し元アプリケーション用の HTTP リクエストキューを作成し、そのハンドルを返す。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-The request queue enables the calling application to receive requests
-for particular URLs. The calling application uses the HttpAddUrl
-function to specify the URL for which it should receive requests. An
-application should use a single request queue to receive requests.
-Using multiple request queues from a single process does not increase
-response time or throughput. When an application has finished
-receiving requests, it should call the CloseHandle function to close
-the handle.
+リクエストキューにより呼び出し元アプリケーションは特定の URL に対するリクエストを受け取れるようになる。受信したい URL は
+HttpAddUrl
+関数で指定する。リクエスト受信には単一のリクエストキューを使うべきである。単一プロセスから複数のリクエストキューを使っても応答時間やスループットは向上しない。受信が終わったら
+CloseHandle でハンドルを閉じる。
 
 
 %index
 HttpCreateRequestQueue
-Creates a new request queue or opens an existing request queue.
+新しいリクエストキューを作成するか、既存のリクエストキューを開く。
 %group
 Win32 httpapi
 %prm
 Version, Name, SecurityAttributes, Flags, RequestQueueHandle
-Version : [var] An HTTPAPI_VERSION structure indicating the request queue version. For  version 2.0, declare an instance of the structure and set it to the predefined value HTTPAPI_VERSION_2 before passing it to HttpCreateRequestQueue. The version must be 2.0; HttpCreateRequestQueue does not support  version 1.0 request queues.
-Name : [wstr] The name of the request queue. The length, in bytes, cannot exceed MAX_PATH. The optional name parameter allows other processes to access the request queue by name.
-SecurityAttributes : [var] A pointer to the SECURITY_ATTRIBUTES structure that contains the  access permissions for the request queue. This parameter must be NULL when opening an existing request queue.
-Flags : [int] The flags parameter defines the scope of the request queue. This parameter can be one or more of the following:
-RequestQueueHandle : [intptr] A pointer to a variable that receives a handle to the request queue.  This parameter must contain a valid pointer; it cannot be NULL.
+Version : [var] リクエストキューのバージョンを示す HTTPAPI_VERSION 構造体。バージョン 2.0 の場合は構造体をインスタンス化し事前定義値 HTTPAPI_VERSION_2 に設定してから渡す。バージョンは 2.0 でなければならない。HttpCreateRequestQueue は 1.0 のリクエストキューをサポートしない。
+Name : [wstr] リクエストキューの名前。バイト長は MAX_PATH を超えてはならない。オプションの名前は他プロセスが名前でキューにアクセスできるようにする。
+SecurityAttributes : [var] リクエストキューのアクセス権を含む SECURITY_ATTRIBUTES 構造体へのポインタ。既存リクエストキューを開く場合は NULL でなければならない。
+Flags : [int] Flags パラメータはリクエストキューのスコープを定義する。次の値を 1 つ以上指定できる。このドキュメントは省略されている。
+RequestQueueHandle : [intptr] リクエストキューへのハンドルを受け取る変数へのポインタ。有効なポインタが必要で、NULL にはできない。
 %inst
-Creates a new request queue or opens an existing request queue.
+新しいリクエストキューを作成するか、既存のリクエストキューを開く。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-The HTTP Server API supports existing applications using the version
-1.0 request queues, however, new development with the HTTP Server API
-should use HttpCreateRequestQueue to create request queues;
-HttpCreateHttpHandle should not be used. The version 2.0 API are only
-compatible with the version 2.0 request queues created by
-HttpCreateRequestQueue. The HTTP version 2 request queues require
-manual configuration; the application must create the URL Groups and
-associate one or more URL Group with the request queue by calling
-HttpSetUrlGroupProperty with the HttpServerBindingProperty. The
-application configures the request queue by calling
-HttpSetRequestQueueProperty with the desired configuration in the
-Property parameter. For more information about creating and
-configuring URL groups, see HttpCreateUrlGroup and
-HttpSetUrlGroupProperty. Security attributes may be supplied in
-pSecurityAttributes parameter only when the request queue is created.
-Only the application that creates the request queue can set Access
-Control Lists (ACLs) on the request queue handle to allow processes
-(other than the creator application) permission to open, receive
-requests, and send responses on the request queue handle. By default,
-applications are not allowed to open a request queue unless they have
-been granted permission in the ACL. The creator process can
-optionally use the HTTP_CREATE_REQUEST_QUEUE_FLAG_CONTROLLER flag to
-indicate that it does not want to receive http requests.
-HttpCreateRequestQueue allows applications to open an existing
-request queue with the HTTP_CREATE_REQUEST_QUEUE_FLAG_OPEN_EXISTING
-flag and retrieve the handle to the request queue. Non-controller
-applications can use this handle to perform HTTP I/O operations. Only
-the application that creates the request queue can set properties on
-it by calling the HttpSetRequestQueueProperty. The handle to the
-request queue created by HttpCreateRequestQueue must be closed by
-calling HttpCloseRequestQueue before the application terminates or
-when the session is no longer required. Applications must call
-HttpInitialize prior to calling HttpCreateRequestQueue.
+HTTP Server API は 1.0 のリクエストキューを使う既存アプリケーションをサポートするが、新規開発では
+HttpCreateRequestQueue を使用すべきで、HttpCreateHttpHandle は使用すべきではない。バージョン
+2.0 API は HttpCreateRequestQueue で作成された 2.0 リクエストキューとのみ互換である。バージョン 2
+のリクエストキューは手動構成が必要で、アプリケーションは URL グループを作成し HttpSetUrlGroupProperty で
+HttpServerBindingProperty を設定してキューと関連付ける必要がある。リクエストキューの設定は
+HttpSetRequestQueueProperty を呼んで Property パラメータに希望の設定を指定して行う。URL
+グループの作成や構成については HttpCreateUrlGroup および HttpSetUrlGroupProperty
+を参照。セキュリティ属性はリクエストキューを作成するときだけ pSecurityAttributes
+に指定できる。キューを作成したアプリケーションのみが ACL を設定でき、他プロセスに開閉・受信・応答の権限を付与できる。デフォルトでは
+ACL で許可されない限りアプリケーションはキューを開けない。作成プロセスは
+HTTP_CREATE_REQUEST_QUEUE_FLAG_CONTROLLER
+を使って自身がリクエストを受信しないことを示せる。HttpCreateRequestQueue では
+HTTP_CREATE_REQUEST_QUEUE_FLAG_OPEN_EXISTING で既存キューを開ける。作成プロセスのみが
+HttpSetRequestQueueProperty でプロパティを設定できる。HttpCreateRequestQueue
+で作成したハンドルはアプリ終了前またはセッション不要時に HttpCloseRequestQueue
+で閉じる必要がある。HttpCreateRequestQueue 呼び出し前に HttpInitialize を呼び出すこと。
 
 
 %index
 HttpCreateServerSession
-Creates a server session for the specified version.
+指定されたバージョンのサーバーセッションを作成する。
 %group
 Win32 httpapi
 %prm
 Version, ServerSessionId, Reserved
-Version : [var] An HTTPAPI_VERSION structure that indicates the version of the server session. For  version 2.0, declare an instance of the structure and set it to the predefined value HTTPAPI_VERSION_2 before passing it to HttpCreateServerSession. The version must be 2.0; HttpCreateServerSession does not support  version 1.0 request queues.
-ServerSessionId : [var] A pointer to the variable that receives the ID of the server session.
-Reserved : [int] Reserved. Must be zero.
+Version : [var] サーバーセッションのバージョンを示す HTTPAPI_VERSION 構造体。バージョン 2.0 の場合は構造体をインスタンス化し HTTPAPI_VERSION_2 に設定してから渡す。バージョンは 2.0 でなければならない。HttpCreateServerSession は 1.0 のリクエストキューをサポートしない。
+ServerSessionId : [var] サーバーセッションの ID を受け取る変数へのポインタ。
+Reserved : [int] 予約されている。0 でなければならない。
 %inst
-Creates a server session for the specified version.
+指定されたバージョンのサーバーセッションを作成する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-Server sessions own a set of URL Groups. They are top-level
-configuration containers for configuration information that applies
-to all of the URL Groups created under them. For more information
-about configuring a server session, see HttpSetServerSessionProperty.
-The HTTP Server API does not support asynchronous I/O for server
-sessions. When the server session is no longer required, or before
-the application terminates, application must delete the server
-session by calling HttpCloseServerSession. When a server session is
-deleted all of the associated URL Groups are also automatically
-deleted.
+サーバーセッションは URL グループの集合を所有する。これは配下の全 URL
+グループに適用される設定情報のトップレベルコンテナである。サーバーセッションの設定については
+HttpSetServerSessionProperty を参照。HTTP Server API はサーバーセッションに対する非同期
+I/O をサポートしない。サーバーセッションが不要になるかアプリケーション終了前に HttpCloseServerSession
+で削除すること。サーバーセッションを削除すると関連する全 URL グループも自動的に削除される。
 
 
 %index
 HttpCreateUrlGroup
-Creates a URL Group under the specified server session.
+指定サーバーセッション配下に URL グループを作成する。
 %group
 Win32 httpapi
 %prm
 ServerSessionId, pUrlGroupId, Reserved
-ServerSessionId : [int64] The identifier of the server session under which the URL Group is created.
-pUrlGroupId : [var] A pointer to the variable that receives the ID of the URL Group.
-Reserved : [int] Reserved. Must be zero.
+ServerSessionId : [int64] URL グループを作成するサーバーセッションの識別子。
+pUrlGroupId : [var] URL グループの ID を受け取る変数へのポインタ。
+Reserved : [int] 予約されている。0 でなければならない。
 %inst
-Creates a URL Group under the specified server session.
+指定サーバーセッション配下に URL グループを作成する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-URL Groups are configuration containers for a set of URLs. They are
-created under the server session and inherit the configuration
-settings of the server session. When a configuration parameter is set
-on the URL Group, it overrides the configuration set on the server
-session. For more information about the setting configurations for
-the URL Group, see HttpSetUrlGroupProperty. After the URL group is
-created it must be associated with a request queue to receive
-requests. To associate the URL Group with a request queue, the
-application calls HttpSetUrlGroupProperty with the
-HttpServerBindingProperty property. If this property is not set,
-matching requests for the URL Group are not delivered to a request
-queue and the HTTP Server API generates a 503 response. The URL Group
-association with a request queue is dynamic. The association with the
-servers session cannot be changed until either the server session or
-the URL Group is deleted. When a server session is deleted all of the
-associated URL Groups are also automatically closed. The URL Group is
-initially created as an empty group. URLs must be added to the group
-by calling HttpAddUrlToUrlGroup.
-This doc was truncated.
+URL グループは URL 集合のための設定コンテナで、サーバーセッションの配下に作成され、そのセッションの設定を継承する。URL
+グループに設定を行うとサーバーセッションの設定を上書きする。設定については HttpSetUrlGroupProperty を参照。URL
+グループを作成したらリクエストキューに関連付ける必要がある。HttpSetUrlGroupProperty で
+HttpServerBindingProperty
+を設定して関連付ける。このプロパティが設定されていないと合致リクエストはキューに配信されず、HTTP Server API は 503
+応答を生成する。URL グループとリクエストキューの関連付けは動的である。サーバーセッションとの関連付けはセッションまたは URL
+グループが削除されるまで変更できない。サーバーセッション削除時には全ての関連 URL グループも自動的に閉じられる。URL
+グループは最初空で作成され、URL は HttpAddUrlToUrlGroup で追加する必要がある。このドキュメントは省略されている。
 
 
 %index
 HttpDeclarePush
-Declares a resource-to-subresource relationship to use for an HTTP server push. HTTP.sys then performs an HTTP 2.0 server push for the given resource, if the underlying protocol, connection, client, and policies allow the push operation.
+HTTP サーバープッシュで使うリソース対サブリソースの関係を宣言する。プロトコル・接続・クライアント・ポリシーが許す場合、HTTP.sys は該当リソースに対する HTTP 2.0 サーバープッシュを実行する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Verb, Path, Query, Headers
-RequestQueueHandle : [intptr] The handle to an HTTP.sys request queue that the  HttpCreateRequestQueue function returned.
-RequestId : [int64] The opaque identifier of the request that is declaring the push operation. The request must be from the specified queue handle.
-Verb : [int] The HTTP verb to use for the push operation. The HTTP.sys push operation only supports HttpVerbGET and HttpVerbHEAD.
-Path : [wstr] The path portion of the URL for the resource being pushed.
-Query : [str] The query portion of the URL for the resource being pushed. This          string should not include the leading question mark (?).
-Headers : [var] The request headers for the push operation. You should not provide a Host header, because HTTP.sys automatically generates the correct Host information.  HTTP.sys does not support cross-origin push operations, so HTTP.sys  enforces and generates Host information that matches the original client-initiated request. The push request is not allowed to have an entity body, so you cannot include a non-zero Content-Length  header or any Transfer-Encoding header.
+RequestQueueHandle : [intptr] HttpCreateRequestQueue 関数が返した HTTP.sys リクエストキューへのハンドル。
+RequestId : [int64] プッシュ操作を宣言するリクエストの不透明識別子。指定されたキューハンドルから来たリクエストでなければならない。
+Verb : [int] プッシュ操作で使用する HTTP 動詞。HTTP.sys のプッシュ操作は HttpVerbGET と HttpVerbHEAD のみサポートする。
+Path : [wstr] プッシュ対象リソースの URL のパス部。
+Query : [str] プッシュ対象リソースの URL のクエリ部。先頭のクエスチョンマーク (?) は含めない。
+Headers : [var] プッシュ操作のリクエストヘッダ。Host ヘッダを指定してはならない。HTTP.sys がクライアントの元リクエストに一致する Host 情報を自動生成・強制する。プッシュリクエストはエンティティボディを持てないため、非ゼロの Content-Length や Transfer-Encoding ヘッダは含められない。
 %inst
-Declares a resource-to-subresource relationship to use for an HTTP
-server push. HTTP.sys then performs an HTTP 2.0 server push for the
-given resource, if the underlying protocol, connection, client, and
-policies allow the push operation.
+HTTP
+サーバープッシュで使うリソース対サブリソースの関係を宣言する。プロトコル・接続・クライアント・ポリシーが許す場合、HTTP.sys
+は該当リソースに対する HTTP 2.0 サーバープッシュを実行する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns a system error code defined in WinError.h.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、WinError.h で定義されるシステムエラーコードを返す。
 
 [備考]
-You should call HttpDeclarePush before you send any response bytes
-that would cause the client to discover the subresource itself.
-Failure to observe this order results in a race between the server
-that is pushing the resource and the client that is retrieving the
-resources, which can waste bandwidth. The server application should
-only use HttpDeclarePush to push resources that the server
-application is highly confident are needed and not already cached by
-the client. If the server application pushes other resources,
-unnecessary use of bandwidth and CPU may occur.
+クライアントが自身でサブリソースを発見するような応答バイトを送る前に HttpDeclarePush
+を呼ぶこと。順序を守らないとサーバーのプッシュとクライアントの取得が競合し帯域を無駄にする可能性がある。サーバーアプリケーションは必要かつクライアントがまだキャッシュしていないと強く確信できるリソースに対してのみ
+HttpDeclarePush を使用すべきである。そうでないと帯域と CPU を無駄に使う。
 
 
 %index
 HttpDelegateRequestEx
-Delegates a request from the source request queue to the target request queue.
+送信元リクエストキューから対象リクエストキューへリクエストを委譲する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, DelegateQueueHandle, RequestId, DelegateUrlGroupId, PropertyInfoSetSize, PropertyInfoSet
-RequestQueueHandle : [intptr] Type: \_In\_ **[HANDLE](/windows/win32/winprog/windows-data-types)** A handle to the source request queue.
-DelegateQueueHandle : [intptr] Type: \_In\_ **[HANDLE](/windows/win32/winprog/windows-data-types)** A handle to the target request queue.
-RequestId : [int64] Type: \_In\_ **HTTP_REQUEST_ID** A unique request ID received with [HttpReceiveHttpRequest](/windows/win32/api/http/nf-http-httpreceivehttprequest).
-DelegateUrlGroupId : [int64] Type: \_In\_ **HTTP_URL_GROUP_ID** The url group id of the target url group.
-PropertyInfoSetSize : [int] Type: \_In\_ **[ULONG](/windows/win32/winprog/windows-data-types)** The number of entries in the *PropertyInfoSet* array.
-PropertyInfoSet : [var] Type: \_In\_ [**PHTTP_DELEGATE_REQUEST_PROPERTY_INFO](/windows/win32/api/http/ns-http-http_delegate_request_property_info)** An array of properties to be set on request when delegating.
+RequestQueueHandle : [intptr] 型: _In_ **HANDLE** 送信元リクエストキューへのハンドル。
+DelegateQueueHandle : [intptr] 型: _In_ **HANDLE** 対象リクエストキューへのハンドル。
+RequestId : [int64] 型: _In_ **HTTP_REQUEST_ID** HttpReceiveHttpRequest で受け取った一意なリクエスト ID。
+DelegateUrlGroupId : [int64] 型: _In_ **HTTP_URL_GROUP_ID** 対象 URL グループの URL グループ ID。
+PropertyInfoSetSize : [int] 型: _In_ **ULONG** PropertyInfoSet 配列のエントリ数。
+PropertyInfoSet : [var] 型: _In_ **PHTTP_DELEGATE_REQUEST_PROPERTY_INFO** 委譲時にリクエストに設定するプロパティの配列。
 %inst
-Delegates a request from the source request queue to the target
-request queue.
+送信元リクエストキューから対象リクエストキューへリクエストを委譲する。
 
 [戻り値]
-A **[ULONG](/windows/win32/winprog/windows-data-types)** containing
-an
-[NTSTATUS](/openspecs/windows_protocols/ms-erref/87fba13e-bf06-450e-83b1-9241dc81e781)
-completion status.
+NTSTATUS 完了ステータスを含む **ULONG**。
 
 
 %index
 HttpDeleteServiceConfiguration
-Deletes specified data, such as IP addresses or SSL Certificates, from the HTTP Server API configuration store, one record at a time.
+IP アドレスや SSL 証明書などの指定データを HTTP Server API 設定ストアから 1 レコードずつ削除する。
 %group
 Win32 httpapi
 %prm
 ServiceHandle, ConfigId, pConfigInformation, ConfigInformationLength, pOverlapped
-ServiceHandle : [intptr] This parameter is reserved and must be zero.
-ConfigId : [int] Type of configuration. This parameter is one of the  values in the HTTP_SERVICE_CONFIG_ID enumeration.
-pConfigInformation : [intptr] Pointer to a buffer that contains data required for the type of configuration specified in the ConfigId parameter.
-ConfigInformationLength : [int] Size, in bytes, of the pConfigInformation buffer.
-pOverlapped : [var] Reserved for future asynchronous operation. This parameter must be set to NULL.
+ServiceHandle : [intptr] このパラメータは予約されており 0 でなければならない。
+ConfigId : [int] 設定の型。HTTP_SERVICE_CONFIG_ID 列挙の値のいずれか。このドキュメントは省略されている。
+pConfigInformation : [intptr] ConfigId で指定された設定種別に必要なデータを含むバッファへのポインタ。このドキュメントは省略されている。
+ConfigInformationLength : [int] pConfigInformation バッファのサイズ (バイト単位)。
+pOverlapped : [var] 将来の非同期操作のために予約されている。NULL に設定しなければならない。
 %inst
-Deletes specified data, such as IP addresses or SSL Certificates,
-from the HTTP Server API configuration store, one record at a time.
+IP アドレスや SSL 証明書などの指定データを HTTP Server API 設定ストアから 1 レコードずつ削除する。
 
 [戻り値]
-If the function succeeds, the function returns NO_ERROR. If the
-function fails, it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 
 %index
 HttpFindUrlGroupId
-Retrieves a URL group ID for a URL and a request queue.
+URL とリクエストキューに対応する URL グループ ID を取得する。
 %group
 Win32 httpapi
 %prm
 FullyQualifiedUrl, RequestQueueHandle, UrlGroupId
-FullyQualifiedUrl : [wstr] Type: \_In\_ **[PCWSTR](/windows/win32/winprog/windows-data-types)** The URL whose URL group to query.
-RequestQueueHandle : [intptr] Type: \_In\_ **[HANDLE](/windows/win32/winprog/windows-data-types)** The request queue associated with the URL group.
-UrlGroupId : [var] Type: \_Out\_ **PHTTP_URL_GROUP_ID** The matching URL group ID.
+FullyQualifiedUrl : [wstr] 型: _In_ **PCWSTR** URL グループを問い合わせる対象の URL。
+RequestQueueHandle : [intptr] 型: _In_ **HANDLE** URL グループに関連付けられたリクエストキュー。
+UrlGroupId : [var] 型: _Out_ **PHTTP_URL_GROUP_ID** 合致する URL グループ ID。
 %inst
-Retrieves a URL group ID for a URL and a request queue.
+URL とリクエストキューに対応する URL グループ ID を取得する。
 
 [戻り値]
-A **[ULONG](/windows/win32/winprog/windows-data-types)** containing
-an
-[NTSTATUS](/openspecs/windows_protocols/ms-erref/87fba13e-bf06-450e-83b1-9241dc81e781)
-completion status.
+NTSTATUS 完了ステータスを含む **ULONG**。
 
 
 %index
 HttpFlushResponseCache
-Removes from the HTTP Server API cache associated with a given request queue all response fragments that have a name whose site portion matches a specified UrlPrefix.
+指定リクエストキューに関連付けられた HTTP Server API キャッシュから、名前のサイト部が指定 UrlPrefix に一致する全応答フラグメントを削除する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, UrlPrefix, Flags, Overlapped
-RequestQueueHandle : [intptr] Handle to the request queue with which this cache is associated. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-UrlPrefix : [wstr] Pointer to a UrlPrefix string to match against the site portion of fragment names. The application must previously have called HttpAddUrl to add this UrlPrefix or a valid prefix of it to the request queue in question, and then called HttpAddFragmentToCache to cache the associated response fragment.
-Flags : [int] This parameter can contain the following flag:
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure, or for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] このキャッシュが関連付けられるリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+UrlPrefix : [wstr] フラグメント名のサイト部と照合する UrlPrefix 文字列へのポインタ。アプリケーションは事前に HttpAddUrl でこの UrlPrefix または妥当な接頭辞を該当リクエストキューに追加し、HttpAddFragmentToCache で関連応答フラグメントをキャッシュしておく必要がある。
+Flags : [int] 次のフラグを含められる。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。同期呼び出しはキャッシュ操作完了までブロックし、非同期呼び出しは直ちに ERROR_IO_PENDING を返す。
 %inst
-Removes from the HTTP Server API cache associated with a given
-request queue all response fragments that have a name whose site
-portion matches a specified UrlPrefix.
+指定リクエストキューに関連付けられた HTTP Server API キャッシュから、名前のサイト部が指定 UrlPrefix
+に一致する全応答フラグメントを削除する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function is used asynchronously, a return value of ERROR_IO_PENDING
-indicates that the cache request is queued and completes later
-through normal overlapped I/O completion mechanisms. If the function
-fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。非同期で使用した場合 ERROR_IO_PENDING
+はキャッシュ要求がキューに入れられたことを示す。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 
 %index
@@ -483,714 +385,583 @@ BufferSize : [int]
 
 %index
 HttpInitialize
-The HttpInitialize function initializes the HTTP Server API driver, starts it, if it has not already been started, and allocates data structures for the calling application to support response-queue creation and other operations.
+HttpInitialize 関数は HTTP Server API ドライバを初期化し、まだ開始されていなければ開始し、応答キュー作成その他の操作をサポートするためのデータ構造を確保する。
 %group
 Win32 httpapi
 %prm
 Version, Flags, pReserved
-Version : [var] HTTP version. This parameter is an HTTPAPI_VERSION structure. For the current version, declare an instance of the structure and set it to the pre-defined value **HTTPAPI_VERSION_1** before passing it to HttpInitialize.
+Version : [var] HTTP バージョン。このパラメータは HTTPAPI_VERSION 構造体である。現行バージョンの場合は構造体をインスタンス化し事前定義値 **HTTPAPI_VERSION_1** に設定してから渡す。
 Flags : [int] 
-pReserved : [intptr] This parameter is reserved, and must be NULL.
+pReserved : [intptr] このパラメータは予約されており NULL でなければならない。
 %inst
-The HttpInitialize function initializes the HTTP Server API driver,
-starts it, if it has not already been started, and allocates data
-structures for the calling application to support response-queue
-creation and other operations.
+HttpInitialize 関数は HTTP Server API
+ドライバを初期化し、まだ開始されていなければ開始し、応答キュー作成その他の操作をサポートするためのデータ構造を確保する。
 
 [戻り値]
-If the function succeeds, then the return value is **NO_ERROR**. If
-the function fails, then the return value is one of the following
-error codes.
-This doc was truncated.
+関数が成功すると戻り値は **NO_ERROR**
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-Call HttpTerminate when the application completes. All the same flags
-that were passed to HttpInitialize in the Flags parameter must also
-be passed to HttpTerminate. An application can call HttpInitialize
-repeatedly, provided that each call to HttpInitialize is later
-matched by a corresponding call to HttpTerminate.
+アプリケーション終了時に HttpTerminate を呼ぶこと。HttpInitialize の Flags に渡したフラグは
+HttpTerminate にも同様に渡す必要がある。各 HttpInitialize 呼び出しに対応する HttpTerminate
+呼び出しがあれば、HttpInitialize は繰り返し呼び出せる。
 
 
 %index
 HttpIsFeatureSupported
-Checks whether a particular feature is supported.
+特定の機能がサポートされているかを調べる。
 %group
 Win32 httpapi
 %prm
 FeatureId
-FeatureId : [int] Type: \_In\_ **[HTTP_FEATURE_ID](./ne-http-http_feature_id.md)** The identifier of the feature.
+FeatureId : [int] 型: _In_ **HTTP_FEATURE_ID** 機能の識別子。
 %inst
-Checks whether a particular feature is supported.
+特定の機能がサポートされているかを調べる。
 
 [戻り値]
-`TRUE` if the feature is supported, otherwise `FALSE`.
+機能がサポートされていれば `TRUE`、そうでなければ `FALSE`。
 
 
 %index
 HttpPrepareUrl
-Parses, analyzes, and normalizes a non-normalized Unicode or punycode URL so it is safe and valid to use in other HTTP functions.
+非正規化な Unicode または punycode URL を解析・分析・正規化し、他の HTTP 関数で安全かつ有効に使える形にする。
 %group
 Win32 httpapi
 %prm
 Reserved, Flags, Url, PreparedUrl
-Reserved : [intptr] Reserved.  Must be NULL.
-Flags : [int] Reserved. Must be zero.
-Url : [wstr] A pointer to a string that represents the non-normalized Unicode or punycode URL to prepare.
-PreparedUrl : [var] On successful output, a pointer to a string that represents the normalized URL. Note??Free PreparedUrl using HeapFree.
+Reserved : [intptr] 予約されている。NULL でなければならない。
+Flags : [int] 予約されている。0 でなければならない。
+Url : [wstr] 正規化されていない Unicode または punycode の URL を表す文字列へのポインタ。
+PreparedUrl : [var] 出力成功時、正規化済み URL を表す文字列へのポインタ。注: PreparedUrl は HeapFree で解放する。
 %inst
-Parses, analyzes, and normalizes a non-normalized Unicode or punycode
-URL so it is safe and valid to use in other HTTP functions.
+非正規化な Unicode または punycode URL を解析・分析・正規化し、他の HTTP 関数で安全かつ有効に使える形にする。
 
 [戻り値]
-If the function succeeds, it returns ERROR_SUCCESS. If the function
-fails, it returns one of the following or a system error code defined
-in WinError.h.
+関数が成功すると ERROR_SUCCESS を返す。関数が失敗した場合、次のいずれか、または WinError.h
+で定義されるシステムエラーコードを返す。
 
 
 %index
 HttpQueryRequestQueueProperty
-Queries a property of the request queue identified by the specified handle.
+指定ハンドルのリクエストキューのプロパティを問い合わせる。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, Property, PropertyInformation, PropertyInformationLength, Reserved1, ReturnLength, Reserved2
 RequestQueueHandle : [intptr] 
-Property : [int] A member of the  HTTP_SERVER_PROPERTY enumeration that describes the property type that is set. This can be one of the following:
-PropertyInformation : [intptr] A pointer to the buffer that receives the property information.
-PropertyInformationLength : [int] The length, in bytes, of the buffer pointed to by the pPropertyInformation parameter.
-Reserved1 : [int] Reserved. Must be zero.
-ReturnLength : [var] The number, in bytes, returned in the  pPropertyInformation buffer if not NULL. If the output buffer is too small, the call fails with a return value of ERROR_MORE_DATA. The value pointed to by pReturnLength can be used to determine the minimum length of the buffer required for the call to succeed.
-Reserved2 : [intptr] This parameter is reserved and must be NULL.
+Property : [int] 設定されるプロパティ種別を表す HTTP_SERVER_PROPERTY 列挙のメンバ。次のいずれか。このドキュメントは省略されている。
+PropertyInformation : [intptr] プロパティ情報を受け取るバッファへのポインタ。このドキュメントは省略されている。
+PropertyInformationLength : [int] pPropertyInformation が指すバッファの長さ (バイト単位)。
+Reserved1 : [int] 予約されている。0 でなければならない。
+ReturnLength : [var] pPropertyInformation バッファに返されるバイト数 (NULL でなければ)。出力バッファが小さすぎる場合、呼び出しは ERROR_MORE_DATA で失敗する。pReturnLength が指す値から呼び出し成功に必要なバッファ最小長を判定できる。
+Reserved2 : [intptr] このパラメータは予約されており NULL でなければならない。
 %inst
-Queries a property of the request queue identified by the specified
-handle.
+指定ハンドルのリクエストキューのプロパティを問い合わせる。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 
 %index
 HttpQueryServerSessionProperty
-Queries a server property on the specified server session.
+指定サーバーセッションのサーバープロパティを問い合わせる。
 %group
 Win32 httpapi
 %prm
 ServerSessionId, Property, PropertyInformation, PropertyInformationLength, ReturnLength
-ServerSessionId : [int64] The server session for which the property setting is returned.
-Property : [int] A member of the  HTTP_SERVER_PROPERTY enumeration that describes the property type that is queried. This can be one of the following.
-PropertyInformation : [intptr] A pointer to the buffer that receives the property data.
-PropertyInformationLength : [int] The length, in bytes, of the buffer pointed to by the pPropertyInformation parameter.
-ReturnLength : [var] The number, in  bytes, returned in the  pPropertyInformation buffer. If the output buffer is too small, the call fails with a return value of ERROR_MORE_DATA. The value pointed to by pReturnLength can be used to determine the minimum length of the buffer required for the call to succeed.
+ServerSessionId : [int64] プロパティ設定を取得するサーバーセッション。
+Property : [int] 問い合わせるプロパティ種別を表す HTTP_SERVER_PROPERTY 列挙のメンバ。次のいずれか。このドキュメントは省略されている。
+PropertyInformation : [intptr] プロパティデータを受け取るバッファへのポインタ。このドキュメントは省略されている。
+PropertyInformationLength : [int] pPropertyInformation が指すバッファの長さ (バイト単位)。
+ReturnLength : [var] pPropertyInformation バッファに返されるバイト数。出力バッファが小さすぎる場合、ERROR_MORE_DATA で失敗する。pReturnLength で必要なバッファ最小長を判定できる。
 %inst
-Queries a server property on the specified server session.
+指定サーバーセッションのサーバープロパティを問い合わせる。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-Querying the HttpServerLoggingProperty is not supported. The
-pPropertyInformation parameter points to the configuration structure
-for the property type that is queried. The PropertyInformationLength
-parameter specifies the size, in bytes, of the configuration
-structure. For example, when querying the HttpServerTimeoutsProperty
-the pPropertyInformation parameter must point to a buffer that is at
-least the size of the HTTP_TIMEOUT_LIMIT_INFO structure. To specify
-the HttpServerQosProperty property in the pPropertyInformation
-parameter, set QosType to HttpQosSettingTypeBandwidth inside the
-HTTP_QOS_SETTING_INFO structure, and pass a pointer to this structure
-in the parameter.
+HttpServerLoggingProperty の問い合わせはサポートされていない。pPropertyInformation
+はプロパティ種別の設定構造体を指す。PropertyInformationLength はその構造体のバイトサイズを指定する。例えば
+HttpServerTimeoutsProperty を問い合わせる場合、pPropertyInformation は少なくとも
+HTTP_TIMEOUT_LIMIT_INFO 構造体サイズのバッファを指す必要がある。HttpServerQosProperty
+を指定するには HTTP_QOS_SETTING_INFO の QosType に HttpQosSettingTypeBandwidth
+を設定し、その構造体へのポインタを渡す。
 
 
 %index
 HttpQueryServiceConfiguration
-Retrieves one or more HTTP Server API configuration records.
+1 つ以上の HTTP Server API 設定レコードを取得する。
 %group
 Win32 httpapi
 %prm
 ServiceHandle, ConfigId, pInput, InputLength, pOutput, OutputLength, pReturnLength, pOverlapped
-ServiceHandle : [intptr] Reserved. Must be zero.
+ServiceHandle : [intptr] 予約されている。0 でなければならない。
 ConfigId : [int] 
-pInput : [intptr] A pointer to a structure whose contents further define the query and of the type that correlates with ConfigId in the following table.
-InputLength : [int] Size, in bytes, of the pInputConfigInfo buffer.
-pOutput : [intptr] A pointer to a buffer in which the query results are returned. The type of this buffer correlates with ConfigId.
-OutputLength : [int] Size, in bytes, of the pOutputConfigInfo buffer.
-pReturnLength : [var] A pointer to a variable that receives the number of bytes to be written in the output buffer. If the output buffer is too small, the call fails with a return value of ERROR_INSUFFICIENT_BUFFER. The value pointed to by pReturnLength can be used to determine the minimum length the buffer requires for the call to succeed.
-pOverlapped : [var] Reserved for asynchronous operation and must be set to NULL.
+pInput : [intptr] 問い合わせをさらに定義する構造体へのポインタで、型は ConfigId に応じる。このドキュメントは省略されている。
+InputLength : [int] pInputConfigInfo バッファのサイズ (バイト単位)。
+pOutput : [intptr] 問い合わせ結果を受け取るバッファへのポインタ。バッファ型は ConfigId に応じる。このドキュメントは省略されている。
+OutputLength : [int] pOutputConfigInfo バッファのサイズ (バイト単位)。
+pReturnLength : [var] 出力バッファに書き込まれるバイト数を受け取る変数へのポインタ。出力バッファが小さすぎる場合、ERROR_INSUFFICIENT_BUFFER で失敗する。pReturnLength から必要な最小長を判定できる。
+pOverlapped : [var] 非同期操作のために予約されており NULL に設定しなければならない。
 %inst
-Retrieves one or more HTTP Server API configuration records.
+1 つ以上の HTTP Server API 設定レコードを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 
 %index
 HttpQueryUrlGroupProperty
-Queries a property on the specified URL Group.
+指定 URL グループのプロパティを問い合わせる。
 %group
 Win32 httpapi
 %prm
 UrlGroupId, Property, PropertyInformation, PropertyInformationLength, ReturnLength
-UrlGroupId : [int64] The ID of the URL Group for which the property setting is returned.
-Property : [int] A member of the  HTTP_SERVER_PROPERTY enumeration that describes the property type that is queried. This can be one of the following:
-PropertyInformation : [intptr] A pointer to the buffer that receives the property information.
-PropertyInformationLength : [int] The length, in bytes, of the buffer pointed to by the pPropertyInformation parameter.
-ReturnLength : [var] The size, in bytes, returned in the  pPropertyInformation buffer. If the output buffer is too small, the call fails with a return value of ERROR_MORE_DATA. The value pointed to by pReturnLength can be used to determine the minimum length of the buffer required for the call to succeed.
+UrlGroupId : [int64] プロパティ設定を取得する URL グループの ID。
+Property : [int] 問い合わせるプロパティ種別を表す HTTP_SERVER_PROPERTY 列挙のメンバ。次のいずれか。このドキュメントは省略されている。
+PropertyInformation : [intptr] プロパティ情報を受け取るバッファへのポインタ。このドキュメントは省略されている。
+PropertyInformationLength : [int] pPropertyInformation が指すバッファの長さ (バイト単位)。
+ReturnLength : [var] pPropertyInformation バッファに返されるバイト数。出力バッファが小さすぎる場合、ERROR_MORE_DATA で失敗する。pReturnLength で必要な最小長を判定できる。
 %inst
-Queries a property on the specified URL Group.
+指定 URL グループのプロパティを問い合わせる。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-Querying the HttpServerLoggingProperty is not supported.
+HttpServerLoggingProperty の問い合わせはサポートされていない。
 
 
 %index
 HttpReadFragmentFromCache
-The HttpReadFragmentFromCache function retrieves a response fragment having a specified name from the HTTP Server API cache.
+HttpReadFragmentFromCache 関数は HTTP Server API キャッシュから指定名の応答フラグメントを取得する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, UrlPrefix, ByteRange, Buffer, BufferLength, BytesRead, Overlapped
-RequestQueueHandle : [intptr] Handle to the request queue with which the specified response fragment is associated. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-UrlPrefix : [wstr] Pointer to a UrlPrefix string that contains the name of the fragment to be retrieved. This must match a UrlPrefix string used in a previous successful call to HttpAddFragmentToCache.
-ByteRange : [var] Optional pointer to an HTTP_BYTE_RANGE structure that indicates a starting offset in the specified fragment and byte-count to be returned. NULL if not used, in which case the entire fragment is returned.
-Buffer : [intptr] Pointer to a buffer into which the function copies the requested fragment.
-BufferLength : [int] Size, in bytes, of the pBuffer buffer.
-BytesRead : [var] Optional pointer to a variable that receives the number of bytes to be written into the output buffer. If BufferLength is less than this number, the call fails with a return of ERROR_INSUFFICIENT_BUFFER, and the value pointed to by pBytesRead can be used to determine the minimum length of buffer required for the call to succeed.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure, or for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] 指定応答フラグメントが関連付けられたリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+UrlPrefix : [wstr] 取得するフラグメントの名前を含む UrlPrefix 文字列へのポインタ。これは過去の HttpAddFragmentToCache 成功呼び出しで使った UrlPrefix に一致する必要がある。
+ByteRange : [var] 指定フラグメント内の開始オフセットと返すバイト数を示す HTTP_BYTE_RANGE 構造体への任意ポインタ。使用しない場合は NULL で、この場合フラグメント全体が返される。
+Buffer : [intptr] 要求されたフラグメントをコピーするバッファへのポインタ。
+BufferLength : [int] pBuffer バッファのサイズ (バイト単位)。
+BytesRead : [var] 出力バッファに書き込まれるバイト数を受け取る任意の変数へのポインタ。BufferLength がこの数未満の場合、ERROR_INSUFFICIENT_BUFFER で失敗し、pBytesRead から必要な最小長を判定できる。pOverlapped を使う非同期呼び出しでは pBytesRead を NULL にする。それ以外の同期呼び出しでは有効なアドレスが必要である。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
 %inst
-The HttpReadFragmentFromCache function retrieves a response fragment
-having a specified name from the HTTP Server API cache.
+HttpReadFragmentFromCache 関数は HTTP Server API
+キャッシュから指定名の応答フラグメントを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function is used asynchronously, a return value of ERROR_IO_PENDING
-indicates that the cache request is queued and completes later
-through normal overlapped I/O completion mechanisms. If the function
-fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。非同期の場合 ERROR_IO_PENDING
+はキャッシュ要求がキューに入れられたことを示す。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 
 %index
 HttpReceiveClientCertificate
-The HttpReceiveClientCertificate function is used by a server application to retrieve a client SSL certificate or channel binding token (CBT).
+HttpReceiveClientCertificate 関数はサーバーアプリケーションがクライアント SSL 証明書またはチャネルバインディングトークン (CBT) を取得するために使用する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, ConnectionId, Flags, SslClientCertInfo, SslClientCertInfoSize, BytesReceived, Overlapped
-RequestQueueHandle : [intptr] A handle to the request queue with which the specified SSL client or CBT is associated. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-ConnectionId : [int64] A value that identifies the connection to the client. This value is obtained from the ConnectionId element of an HTTP_REQUEST structure filled in by the HttpReceiveHttpRequest function.
-Flags : [int] A value that modifies the behavior of the HttpReceiveClientCertificate function
-SslClientCertInfo : [var] If the Flags parameter is 0, then this parameter points to an HTTP_SSL_CLIENT_CERT_INFO structure into which the function writes the requested client certificate information. The buffer pointed to by the pSslClientCertInfo should be sufficiently large enough to hold the HTTP_SSL_CLIENT_CERT_INFO structure plus the value of the CertEncodedSize member of this structure. If the Flags parameter is HTTP_RECEIVE_SECURE_CHANNEL_TOKEN, then this parameter points to an HTTP_REQUEST_CHANNEL_BIND_STATUS structure into which the function writes the requested CBT information. The buffer pointed to by the pSslClientCertInfo should be sufficiently large enough to hold the HTTP_REQUEST_CHANNEL_BIND_STATUS  structure plus the value of the ChannelTokenSize member of this structure.
-SslClientCertInfoSize : [int] The size, in bytes, of the buffer pointed to by the pSslClientCertInfo parameter.
-BytesReceived : [var] An optional pointer to a variable that receives  the number of bytes to be written to the structure pointed to by pSslClientCertInfo. If not used, set it to NULL.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure, or for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] 指定 SSL クライアントまたは CBT が関連付けられたリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+ConnectionId : [int64] クライアントへの接続を識別する値。HttpReceiveHttpRequest で取得した HTTP_REQUEST の ConnectionId メンバから得る。
+Flags : [int] HttpReceiveClientCertificate の動作を変更する値。このドキュメントは省略されている。
+SslClientCertInfo : [var] Flags が 0 の場合、このパラメータは HTTP_SSL_CLIENT_CERT_INFO 構造体を指し、関数はここに要求クライアント証明書情報を書き込む。バッファは HTTP_SSL_CLIENT_CERT_INFO 構造体とその CertEncodedSize メンバの値を合わせたサイズ以上が必要である。Flags が HTTP_RECEIVE_SECURE_CHANNEL_TOKEN の場合は HTTP_REQUEST_CHANNEL_BIND_STATUS 構造体を指し、そこに CBT 情報が書き込まれる。
+SslClientCertInfoSize : [int] pSslClientCertInfo が指すバッファのサイズ (バイト単位)。
+BytesReceived : [var] pSslClientCertInfo が指す構造体に書き込まれるバイト数を受け取る任意の変数へのポインタ。使用しない場合は NULL にする。pOverlapped で非同期呼び出しをする場合は NULL にし、それ以外 (pOverlapped が NULL) は有効なアドレスが必要である。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
 %inst
-The HttpReceiveClientCertificate function is used by a server
-application to retrieve a client SSL certificate or channel binding
-token (CBT).
+HttpReceiveClientCertificate 関数はサーバーアプリケーションがクライアント SSL
+証明書またはチャネルバインディングトークン (CBT) を取得するために使用する。
 
 [戻り値]
-This doc was truncated.
+このドキュメントは省略されている。
 
 [備考]
-The behavior of the HttpReceiveClientCertificate function varies
-based on whether a client SSL certificate or a channel binding token
-is requested. In the case of a synchronous call to the
-HttpReceiveClientCertificate function , the number of bytes received
-is returned in the value pointed to by the pBytesReceived parameter.
-In the case of an asynchronous call to the
-HttpReceiveClientCertificate function, the number of bytes received
-is returned by the standard mechanisms used for asynchronous calls.
-The lpNumberOfBytesTransferred parameter returned by the
-GetOverlappedResult function contains the number of bytes received.
+HttpReceiveClientCertificate の動作はクライアント SSL
+証明書を要求するかチャネルバインディングトークンを要求するかで変わる。同期呼び出しの場合、受信バイト数は pBytesReceived
+が指す値で返される。非同期呼び出しの場合、受信バイト数は標準的な非同期機構で返される (GetOverlappedResult が返す
+lpNumberOfBytesTransferred)。
 
 
 %index
 HttpReceiveHttpRequest
-Retrieves the next available HTTP request from the specified request queue either synchronously or asynchronously.
+指定リクエストキューから次の利用可能な HTTP リクエストを同期または非同期で取得する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, RequestBuffer, RequestBufferLength, BytesReturned, Overlapped
-RequestQueueHandle : [intptr] A handle to the request queue from which to retrieve the next available request. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-RequestId : [int64] On the first call to retrieve a request, this parameter should be HTTP_NULL_ID. Then, if more than one call is required to retrieve the entire request, HttpReceiveHttpRequest or HttpReceiveRequestEntityBody can be called with RequestID set to the value returned in the RequestId member of the HTTP_REQUEST structure pointed to by pRequestBuffer.
+RequestQueueHandle : [intptr] 次に利用可能なリクエストを取得するリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+RequestId : [int64] 最初の呼び出し時は HTTP_NULL_ID を指定する。リクエスト全体を取得するのに複数回呼び出しが必要な場合は、pRequestBuffer が指す HTTP_REQUEST の RequestId メンバで返された値を RequestID に設定して HttpReceiveHttpRequest または HttpReceiveRequestEntityBody を呼び出す。
 Flags : [int] 
-RequestBuffer : [var] A pointer to a buffer into which the function copies an HTTP_REQUEST structure and entity body for the HTTP request. HTTP_REQUEST.RequestId contains the identifier for this HTTP request, which the application can use in subsequent calls HttpReceiveRequestEntityBody, HttpSendHttpResponse, or HttpSendResponseEntityBody.
-RequestBufferLength : [int] Size, in bytes, of the  pRequestBuffer buffer.
-BytesReturned : [var] Optional. A pointer to a variable that receives the size, in bytes, of the entity body, or of the remaining part of the entity body.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure; for synchronous calls, set it to NULL.
+RequestBuffer : [var] HTTP_REQUEST 構造体とエンティティボディがコピーされるバッファへのポインタ。HTTP_REQUEST.RequestId はこの HTTP リクエストの識別子を含み、後続の HttpReceiveRequestEntityBody、HttpSendHttpResponse、HttpSendResponseEntityBody で使用できる。
+RequestBufferLength : [int] pRequestBuffer バッファのサイズ (バイト単位)。
+BytesReturned : [var] 任意。エンティティボディまたはその残りのバイトサイズを受け取る変数へのポインタ。pOverlapped で非同期呼び出しをする場合は pBytesReceived を NULL にする。同期の場合は有効なアドレスが必要である。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。同期呼び出しはリクエスト到着まで、あるいはその一部が取得されるまでブロックする。
 %inst
-Retrieves the next available HTTP request from the specified request
-queue either synchronously or asynchronously.
+指定リクエストキューから次の利用可能な HTTP リクエストを同期または非同期で取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function is being used asynchronously, a return value of
-ERROR_IO_PENDING indicates that the next request is not yet ready and
-will be retrieved later through normal overlapped I/O completion
-mechanisms. If the function fails, the return value is one of the
-following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。非同期の場合 ERROR_IO_PENDING
+は次のリクエストがまだ準備できていないことを示す。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-More than one call can be required to retrieve a given request. When
-the Flags parameter is set to zero, for example,
-HttpReceiveHttpRequest only copies the request header structure into
-the buffer, and does not attempt to copy any of the entity body. In
-this case, the HttpReceiveRequestEntityBody function can be used to
-retrieve the entity body, or a second call can be made to
-HttpReceiveHttpRequest. Alternatively, the buffer provided by the
-application may be insufficiently large to receive all or part of the
-request. To be sure of receiving at least part of the request, it is
-recommended that an application provide at least a buffer of 4 KB,
-which accommodates most HTTP requests. Alternately, authentication
-headers, parsed as unknown headers, can add up to 12 KB to that, so
-if authentication/authorization is used, a buffer size of at least 16
-KB is recommended. If HttpReceiveHttpRequest returns ERROR_MORE_DATA,
-the application continues to make additional calls, identifying the
-request in each additional call by passing in the
-HTTP_REQUEST.RequestId value returned by the first call until
-ERROR_HANDLE_EOF is returned. Note The application must examine all
-relevant request headers, including content-negotiation headers if
-used, and fail the request as appropriate based on the header
-content. HttpReceiveHttpRequest ensures only that the header line is
-properly terminated and does not contain illegal characters.
+1 つのリクエストを取得するのに複数回の呼び出しが必要になることがある。Flags が 0 の場合
+HttpReceiveHttpRequest
+はリクエストヘッダ構造体だけをバッファにコピーし、エンティティボディはコピーしない。エンティティボディは
+HttpReceiveRequestEntityBody で取得するか、HttpReceiveHttpRequest
+を再度呼ぶ。アプリが提供するバッファが小さすぎる場合もある。少なくとも 4 KB のバッファを用意することを推奨する (多くの HTTP
+リクエストに対応する)。認証ヘッダは最大 12 KB 追加され得るので、認証/認可を使う場合は少なくとも 16 KB
+を推奨する。HttpReceiveHttpRequest が ERROR_MORE_DATA を返した場合、最初の呼び出しで返された
+HTTP_REQUEST.RequestId を渡しつつ ERROR_HANDLE_EOF が返るまで追加呼び出しを続ける。注:
+アプリケーションは全関連リクエストヘッダ (コンテンツネゴシエーションヘッダを含む)
+を検査し、必要に応じてリクエストを失敗させる必要がある。HttpReceiveHttpRequest
+はヘッダ行の終端と不正文字非含有を保証するだけである。
 
 
 %index
 HttpReceiveRequestEntityBody
-Receives additional entity body data for a specified HTTP request.
+指定 HTTP リクエストの追加エンティティボディデータを受信する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, EntityBuffer, EntityBufferLength, BytesReturned, Overlapped
-RequestQueueHandle : [intptr] The handle to the request queue from which to retrieve the specified entity body data. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-RequestId : [int64] The identifier of the HTTP request that contains the retrieved entity body. This value is returned in the RequestId member of the HTTP_REQUEST structure by a call to the HttpReceiveHttpRequest function. This value cannot be HTTP_NULL_ID.
-Flags : [int] This parameter can be the following flag value. Windows Server?2003 with SP1 and Windows?XP with SP2:??This parameter is reserved and must be zero.
-EntityBuffer : [intptr] A pointer to a buffer that receives entity-body data.
-EntityBufferLength : [int] The size, in bytes, of the buffer pointed to by the pBuffer parameter.
-BytesReturned : [var] Optional. A pointer to a variables that receives the size, in bytes, of the entity body data returned in the pBuffer buffer.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure; for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] 指定エンティティボディデータを取得するリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+RequestId : [int64] 取得するエンティティボディを含む HTTP リクエストの識別子。HttpReceiveHttpRequest で返される HTTP_REQUEST の RequestId メンバの値。HTTP_NULL_ID は不可。
+Flags : [int] 次のフラグ値を指定できる。Windows Server 2003 SP1 および Windows XP SP2 ではこのパラメータは予約されており 0 でなければならない。このドキュメントは省略されている。
+EntityBuffer : [intptr] エンティティボディデータを受け取るバッファへのポインタ。
+EntityBufferLength : [int] pBuffer が指すバッファのサイズ (バイト単位)。
+BytesReturned : [var] 任意。pBuffer に返されるエンティティボディデータのバイトサイズを受け取る変数へのポインタ。非同期呼び出し時は NULL にし、同期呼び出し時は有効なアドレスが必要である。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
 %inst
-Receives additional entity body data for a specified HTTP request.
+指定 HTTP リクエストの追加エンティティボディデータを受信する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function is used asynchronously, a return value of ERROR_IO_PENDING
-indicates that the next request is not yet ready and is retrieved
-later through normal overlapped I/O completion mechanisms. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。非同期で使用した場合 ERROR_IO_PENDING
+は次のリクエストがまだ準備できていないことを示す。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-To retrieve an entire entity body, an application is expected to call
-HttpReceiveRequestEntityBody, passing in new buffers, until the
-function returns ERROR_HANDLE_EOF. As long as a buffer full of
-entity-body data is copied successfully and there is still more
-entity-body data waiting to be retrieved, the function returns
-NO_ERROR.
+エンティティボディ全体を取得するには、新しいバッファを渡しながら関数が ERROR_HANDLE_EOF を返すまで
+HttpReceiveRequestEntityBody
+を呼び続ける。バッファ一杯のエンティティボディが正常にコピーされ、まだ残りがある場合は NO_ERROR を返す。
 
 
 %index
 HttpRemoveUrl
-Causes the system to stop routing requests that match a specified UrlPrefix string to a specified request queue.
+指定 UrlPrefix 文字列に合致するリクエストを指定リクエストキューにルーティングすることをシステムに停止させる。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, FullyQualifiedUrl
-RequestQueueHandle : [intptr] The handle to the request queue from which the URL registration is to be removed. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-FullyQualifiedUrl : [wstr] A pointer to a UrlPrefix string  registered to the specified request queue. This string must be identical to the one passed to HttpAddUrl to register the UrlPrefix; even a nomenclature change in an IPv6 address is not accepted.
+RequestQueueHandle : [intptr] URL 登録を削除するリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+FullyQualifiedUrl : [wstr] 指定リクエストキューに登録された UrlPrefix 文字列へのポインタ。この文字列は HttpAddUrl に渡したものと完全一致しなければならない (IPv6 アドレスの表記揺れすら許されない)。
 %inst
-Causes the system to stop routing requests that match a specified
-UrlPrefix string to a specified request queue.
+指定 UrlPrefix 文字列に合致するリクエストを指定リクエストキューにルーティングすることをシステムに停止させる。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 
 %index
 HttpRemoveUrlFromUrlGroup
-Removes the specified URL from the group identified by the URL Group ID.
+URL グループ ID で識別されるグループから指定 URL を削除する。
 %group
 Win32 httpapi
 %prm
 UrlGroupId, pFullyQualifiedUrl, Flags
-UrlGroupId : [int64] The ID of the URL group from which the URL specified in pFullyQualifiedUrl is removed.
-pFullyQualifiedUrl : [wstr] A pointer to a Unicode string that contains a properly formed UrlPrefix String that identifies the URL to be removed. When HTTP_URL_FLAG_REMOVE_ALL is passed in the Flags parameter, all of the existing URL registrations for the URL Group identified in UrlGroupId are removed from the group. In this case, pFullyQualifiedUrl must be NULL.
-Flags : [int] The URL flags qualifying the URL that is removed. This  can be one of the following flags:
+UrlGroupId : [int64] pFullyQualifiedUrl で指定された URL を削除する URL グループの ID。
+pFullyQualifiedUrl : [wstr] 削除する URL を識別する、正しく形成された UrlPrefix 文字列を含む Unicode 文字列へのポインタ。Flags に HTTP_URL_FLAG_REMOVE_ALL を指定した場合は UrlGroupId の URL グループの全既存 URL 登録が削除される。この場合 pFullyQualifiedUrl は NULL でなければならない。
+Flags : [int] 削除する URL を修飾する URL フラグ。次のいずれかのフラグを指定できる。このドキュメントは省略されている。
 %inst
-Removes the specified URL from the group identified by the URL Group
-ID.
+URL グループ ID で識別されるグループから指定 URL を削除する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-The HTTP Server API supports existing applications using the version
-1.0 URL registrations, however, new development with the HTTP Server
-API should use HttpRemoveUrlFromUrlGroup; do not use HttpRemoveUrl.
-Applications should remove the URL added to the group by
-HttpAddUrlToUrlGroup, when the URL is no longer required.
+HTTP Server API はバージョン 1.0 の URL 登録を使う既存アプリケーションをサポートするが、新規開発では
+HttpRemoveUrlFromUrlGroup を使用すべきで HttpRemoveUrl は使用すべきではない。不要になった URL
+は HttpAddUrlToUrlGroup で追加した URL を削除する。
 
 
 %index
 HttpSendHttpResponse
-Sends an HTTP response to the specified HTTP request.
+指定 HTTP リクエストに対する HTTP 応答を送信する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, HttpResponse, CachePolicy, BytesSent, Reserved1, Reserved2, Overlapped, LogData
-RequestQueueHandle : [intptr] A handle to the request queue from which the specified request was retrieved. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-RequestId : [int64] An identifier of the HTTP request to which this response corresponds. This value is returned in the RequestId member of the HTTP_REQUEST structure by a call to the HttpReceiveHttpRequest function. This value cannot be HTTP_NULL_ID.
-Flags : [int] This parameter can be a combination of some of the following flag values.  Those that are mutually exclusive are marked accordingly.
-HttpResponse : [var] A pointer to an HTTP_RESPONSE structure that defines the HTTP response.
-CachePolicy : [var] A pointer to the HTTP_CACHE_POLICY structure used to cache the response. Windows Server?2003 with SP1 and Windows?XP with SP2:??This parameter is reserved and must be NULL.
-BytesSent : [var] Optional. A pointer to a variable that receives the number, in bytes, sent if the function operates synchronously. When making an asynchronous call using pOverlapped, set pBytesSent to NULL. Otherwise, when pOverlapped is set to NULL, pBytesSent must contain a valid memory address and not be set to NULL.
-Reserved1 : [intptr] This parameter is reserved and must be NULL.
-Reserved2 : [int] This parameter is reserved and must be zero.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure; for synchronous calls, set  to NULL. A synchronous call blocks until all response data specified in the pHttpResponse parameter is sent, whereas an asynchronous call immediately returns ERROR_IO_PENDING and the calling application then uses GetOverlappedResult or I/O completion ports to determine when the operation is completed. For more information about using OVERLAPPED structures for synchronization, see Synchronization and Overlapped Input and Output.
-LogData : [var] A pointer to the  HTTP_LOG_DATA structure used to log the response. Pass a pointer to the HTTP_LOG_FIELDS_DATA structure and cast it to PHTTP_LOG_DATA. Be aware that even when logging is enabled on a URL Group, or server session, the response will not be logged unless the application supplies the log fields data structure. Windows Server?2003 and Windows?XP with SP2:??This parameter is reserved and must be NULL. Windows?Vista and Windows Server?2008:??This parameter is new for Windows?Vista, and Windows Server?2008
+RequestQueueHandle : [intptr] 指定リクエストを取得したリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+RequestId : [int64] この応答が対応する HTTP リクエストの識別子。HttpReceiveHttpRequest で返される HTTP_REQUEST の RequestId メンバの値。HTTP_NULL_ID は不可。
+Flags : [int] 次のフラグ値の組み合わせを指定できる。相互排他なものは明示される。このドキュメントは省略されている。
+HttpResponse : [var] HTTP 応答を定義する HTTP_RESPONSE 構造体へのポインタ。
+CachePolicy : [var] 応答をキャッシュするために使う HTTP_CACHE_POLICY 構造体へのポインタ。Windows Server 2003 SP1 および Windows XP SP2 ではこのパラメータは予約されており NULL でなければならない。
+BytesSent : [var] 任意。同期動作時に送信したバイト数を受け取る変数へのポインタ。pOverlapped で非同期呼び出しをする場合は NULL にし、同期時は有効なアドレスが必要である。
+Reserved1 : [intptr] 予約されている。NULL でなければならない。
+Reserved2 : [int] 予約されている。0 でなければならない。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
+LogData : [var] 応答のログ記録に使う HTTP_LOG_DATA 構造体へのポインタ。HTTP_LOG_FIELDS_DATA 構造体へのポインタを PHTTP_LOG_DATA にキャストして渡す。URL グループやサーバーセッションでログ記録が有効でも、アプリがログフィールドデータ構造体を渡さないとログされない。Windows Server 2003 および Windows XP SP2 ではこのパラメータは予約されており NULL でなければならない。Windows Vista および Windows Server 2008 で新規。
 %inst
-Sends an HTTP response to the specified HTTP request.
+指定 HTTP リクエストに対する HTTP 応答を送信する。
 
 [戻り値]
-If the function succeeds, the function returns NO_ERROR. If the
-function is used asynchronously, a return value of ERROR_IO_PENDING
-indicates that the next request is not yet ready and is retrieved
-later through normal overlapped I/O completion mechanisms. If the
-function fails, it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。非同期で使用した場合 ERROR_IO_PENDING
+は次のリクエストがまだ準備できていないことを示す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-The HttpSendHttpResponse function is used to create and send a
-response header, and the HttpSendResponseEntityBody function can be
-used to send entity-body data as required. If neither a
-content-length header nor a transfer-encoding header is included with
-the response, the application must indicate the end of the response
-by explicitly closing the connection by using the
-HTTP_SEND_RESPONSE_DISCONNECT flag. If an application specifies a
-"Server:" header in a response, using the HttpHeaderServer identifier
-in the HTTP_KNOWN_HEADER structure, that specified value is placed as
-the first part of the header, followed by a space and then
-"Microsoft-HTTPAPI/1.0". If no server header is specified,
-HttpSendHttpResponse supplies "Microsoft-HTTPAPI/1.0" as the server
-header. Note The HttpSendHttpResponse and HttpSendResponseEntityBody
-function must not be called simultaneously from different threads on
-the same RequestId.
+HttpSendHttpResponse は応答ヘッダを生成・送信するために使用し、必要に応じて
+HttpSendResponseEntityBody でエンティティボディを送れる。Content-Length ヘッダも
+Transfer-Encoding ヘッダも応答に含まれない場合、アプリケーションは
+HTTP_SEND_RESPONSE_DISCONNECT
+フラグで接続を明示的に閉じて応答終了を示す必要がある。HTTP_KNOWN_HEADER の HttpHeaderServer 識別子で
+"Server:" ヘッダを指定すると、その値にスペースと "Microsoft-HTTPAPI/1.0" が続けて配置される。未指定なら
+"Microsoft-HTTPAPI/1.0" がサーバーヘッダとして付けられる。注: 同一 RequestId に対し
+HttpSendHttpResponse と HttpSendResponseEntityBody
+を別スレッドから同時に呼んではならない。
 
 
 %index
 HttpSendResponseEntityBody
-Sends entity-body data associated with an HTTP response.
+HTTP 応答に関連付けられたエンティティボディデータを送信する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, EntityChunkCount, EntityChunks, BytesSent, Reserved1, Reserved2, Overlapped, LogData
-RequestQueueHandle : [intptr] A handle to the request queue from which the specified request was retrieved. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-RequestId : [int64] An identifier of the HTTP request to which this response corresponds. This value is returned in the RequestId member of the HTTP_REQUEST structure by a call to the HttpReceiveHttpRequest function. It cannot be HTTP_NULL_ID.
-Flags : [int] A parameter that can include  one of the following mutually exclusive flag values.
-EntityChunkCount : [int] A number of structures in the array pointed to by pEntityChunks. This count cannot exceed 9999.
-EntityChunks : [var] A pointer to an array of HTTP_DATA_CHUNK structures to be sent as entity-body data.
-BytesSent : [var] Optional. A pointer to a variable that receives the number, in bytes, sent if the function operates synchronously. When making an asynchronous call using pOverlapped, set pBytesSent to NULL. Otherwise, when pOverlapped is set to NULL, pBytesSent must contain a valid memory address, and not be set to NULL.
-Reserved1 : [intptr] This parameter is reserved and must be NULL.
-Reserved2 : [int] This parameter is reserved and must be zero.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure; for synchronous calls, set it to NULL. A synchronous call blocks until all response data specified in the pEntityChunks parameter is sent, whereas an asynchronous call immediately returns ERROR_IO_PENDING and the calling application then uses GetOverlappedResult or?I/O completion ports to determine when the operation is completed. For more information about using OVERLAPPED structures for synchronization, see Synchronization and Overlapped Input and Output.
-LogData : [var] A pointer to the HTTP_LOG_DATA structure used to log the response. Pass a pointer to the HTTP_LOG_FIELDS_DATA structure and cast it to PHTTP_LOG_DATA. Be aware that even when logging is enabled on a URL Group, or server session, the response will not be logged unless the application supplies the log fields data structure. Windows Server?2003 and Windows?XP with SP2:??This parameter is reserved and must be NULL. Windows?Vista and Windows Server?2008:??This parameter is new for Windows?Vista, and Windows Server?2008
+RequestQueueHandle : [intptr] 指定リクエストを取得したリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+RequestId : [int64] この応答が対応する HTTP リクエストの識別子。HttpReceiveHttpRequest で返される HTTP_REQUEST の RequestId メンバの値。HTTP_NULL_ID は不可。
+Flags : [int] 次の相互排他フラグ値のうち 1 つを含められるパラメータ。このドキュメントは省略されている。
+EntityChunkCount : [int] pEntityChunks の配列内の構造体数。9999 を超えてはならない。
+EntityChunks : [var] エンティティボディデータとして送る HTTP_DATA_CHUNK 構造体の配列へのポインタ。
+BytesSent : [var] 任意。同期動作時に送信したバイト数を受け取る変数へのポインタ。非同期時は NULL にし、同期時は有効なアドレスが必要である。
+Reserved1 : [intptr] 予約されている。NULL でなければならない。
+Reserved2 : [int] 予約されている。0 でなければならない。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
+LogData : [var] 応答のログ記録に使う HTTP_LOG_DATA 構造体へのポインタ。HTTP_LOG_FIELDS_DATA へのポインタを PHTTP_LOG_DATA にキャストして渡す。アプリがログフィールドデータ構造体を渡さないとログされない。Windows Server 2003 および Windows XP SP2 ではこのパラメータは予約されており NULL でなければならない。Windows Vista および Windows Server 2008 で新規。
 %inst
-Sends entity-body data associated with an HTTP response.
+HTTP 応答に関連付けられたエンティティボディデータを送信する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function is used asynchronously, a return value of ERROR_IO_PENDING
-indicates that the next request is not yet ready and is retrieved
-later through normal overlapped I/O completion mechanisms. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。非同期で使用した場合 ERROR_IO_PENDING
+は次のリクエストがまだ準備できていないことを示す。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-If neither a Content-length header nor a Transfer-encoding header is
-included in the response headers, the application must indicate the
-end of the response by explicitly closing the connection using the
-HTTP_SEND_RESPONSE_DISCONNECT flag. Note HttpSendResponseEntityBody
-(or HttpSendHttpResponse) and HttpSendResponseEntityBody must not be
-called simultaneously from different threads on the same RequestId.
+Content-Length ヘッダも Transfer-Encoding
+ヘッダも応答ヘッダに含まれない場合、HTTP_SEND_RESPONSE_DISCONNECT
+フラグで接続を明示的に閉じて応答終了を示す必要がある。注: 同一 RequestId に対し
+HttpSendResponseEntityBody (または HttpSendHttpResponse) と
+HttpSendResponseEntityBody を別スレッドから同時に呼んではならない。
 
 
 %index
 HttpSetRequestQueueProperty
-Sets a new property or modifies an existing property on the request queue identified by the specified handle.
+指定ハンドルのリクエストキューに新しいプロパティを設定するか既存プロパティを変更する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, Property, PropertyInformation, PropertyInformationLength, Reserved1, Reserved2
-RequestQueueHandle : [intptr] The handle to the request queue on which the property is set. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function.
-Property : [int] A member of the  HTTP_SERVER_PROPERTY enumeration describing the property type that is set. This must be one of the following:
-PropertyInformation : [intptr] A pointer to the buffer that contains the property information.
-PropertyInformationLength : [int] The length, in bytes, of the buffer pointed to by the pPropertyInformation parameter.
-Reserved1 : [int] Reserved. Must be zero.
-Reserved2 : [intptr] Reserved. Must be NULL.
+RequestQueueHandle : [intptr] プロパティを設定するリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。
+Property : [int] 設定するプロパティ種別を表す HTTP_SERVER_PROPERTY 列挙のメンバ。次のいずれかでなければならない。このドキュメントは省略されている。
+PropertyInformation : [intptr] プロパティ情報を含むバッファへのポインタ。このドキュメントは省略されている。
+PropertyInformationLength : [int] pPropertyInformation が指すバッファの長さ (バイト単位)。
+Reserved1 : [int] 予約されている。0 でなければならない。
+Reserved2 : [intptr] 予約されている。NULL でなければならない。
 %inst
-Sets a new property or modifies an existing property on the request
-queue identified by the specified handle.
+指定ハンドルのリクエストキューに新しいプロパティを設定するか既存プロパティを変更する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 
 %index
 HttpSetServerSessionProperty
-Sets a new server session property or modifies an existing property on the specified server session.
+指定サーバーセッションに新しいプロパティを設定するか既存プロパティを変更する。
 %group
 Win32 httpapi
 %prm
 ServerSessionId, Property, PropertyInformation, PropertyInformationLength
-ServerSessionId : [int64] The server session for which the property is set.
-Property : [int] A member of the  HTTP_SERVER_PROPERTY enumeration that describes the property type that is set. This can be one of the following.
-PropertyInformation : [intptr] A pointer to the buffer that contains the property data.
-PropertyInformationLength : [int] The length, in bytes, of the buffer pointed to by the pPropertyInformation parameter.
+ServerSessionId : [int64] プロパティを設定するサーバーセッション。
+Property : [int] 設定するプロパティ種別を表す HTTP_SERVER_PROPERTY 列挙のメンバ。次のいずれか。このドキュメントは省略されている。
+PropertyInformation : [intptr] プロパティデータを含むバッファへのポインタ。このドキュメントは省略されている。
+PropertyInformationLength : [int] pPropertyInformation が指すバッファの長さ (バイト単位)。
 %inst
-Sets a new server session property or modifies an existing property
-on the specified server session.
+指定サーバーセッションに新しいプロパティを設定するか既存プロパティを変更する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-Server sessions are top level configuration containers for
-configuration data that applies to all of the URL groups created
-under them. The server session is created with
-HttpCreateServerSession. The pPropertyInformation parameter points to
-the configuration structure for the property type that is set. The
-PropertyInformationLength parameter specifies the size, in bytes, of
-the configuration structure. For example, when setting the
-HttpServerTimeoutsProperty the pPropertyInformation parameter must
-point to a buffer that is at least equal to the size of the
-HTTP_TIMEOUT_LIMIT_INFO structure.
+サーバーセッションは配下の全 URL グループに適用される設定データのトップレベルコンテナである。サーバーセッションは
+HttpCreateServerSession で作成する。pPropertyInformation
+はプロパティ種別の設定構造体を指し、PropertyInformationLength はその構造体のバイトサイズを指定する。例えば
+HttpServerTimeoutsProperty 設定時、pPropertyInformation は
+HTTP_TIMEOUT_LIMIT_INFO サイズ以上のバッファを指す必要がある。
 
 
 %index
 HttpSetServiceConfiguration
-Creates and sets a configuration record for the HTTP Server API configuration store.
+HTTP Server API 設定ストアに設定レコードを作成・設定する。
 %group
 Win32 httpapi
 %prm
 ServiceHandle, ConfigId, pConfigInformation, ConfigInformationLength, pOverlapped
-ServiceHandle : [intptr] Reserved. Must be zero.
+ServiceHandle : [intptr] 予約されている。0 でなければならない。
 ConfigId : [int] 
-pConfigInformation : [intptr] A pointer to a buffer that contains the appropriate data to specify the type of record to be set.
-ConfigInformationLength : [int] Size, in bytes, of the pConfigInformation buffer.
-pOverlapped : [var] This parameter is reserved and must be  NULL.
+pConfigInformation : [intptr] 設定するレコード種別に対応する適切なデータを含むバッファへのポインタ。このドキュメントは省略されている。
+ConfigInformationLength : [int] pConfigInformation バッファのサイズ (バイト単位)。
+pOverlapped : [var] このパラメータは予約されており NULL でなければならない。
 %inst
-Creates and sets a configuration record for the HTTP Server API
-configuration store.
+HTTP Server API 設定ストアに設定レコードを作成・設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-The configuration parameters set with HttpSetServiceConfiguration are
-applied to all the HTTP Server API applications on the machine, and
-persist when the HTTP Server API shuts down, or when the computer is
-restarted.
+HttpSetServiceConfiguration で設定した構成パラメータはマシン上の全 HTTP Server API
+アプリに適用され、HTTP Server API 終了時やコンピュータ再起動時にも永続する。
 
 
 %index
 HttpSetUrlGroupProperty
-Sets a new property or modifies an existing property on the specified URL Group.
+指定 URL グループに新しいプロパティを設定するか既存プロパティを変更する。
 %group
 Win32 httpapi
 %prm
 UrlGroupId, Property, PropertyInformation, PropertyInformationLength
-UrlGroupId : [int64] The ID of the URL Group for which the property is set.
-Property : [int] A member of the  HTTP_SERVER_PROPERTY enumeration that describes the property type that is modified or set. This can be one of the following:
-PropertyInformation : [intptr] A pointer to the buffer that contains the property information.
-PropertyInformationLength : [int] The length, in bytes, of the buffer pointed to by the pPropertyInformation parameter.
+UrlGroupId : [int64] プロパティを設定する URL グループの ID。
+Property : [int] 変更・設定するプロパティ種別を表す HTTP_SERVER_PROPERTY 列挙のメンバ。次のいずれか。このドキュメントは省略されている。
+PropertyInformation : [intptr] プロパティ情報を含むバッファへのポインタ。このドキュメントは省略されている。
+PropertyInformationLength : [int] pPropertyInformation が指すバッファの長さ (バイト単位)。
 %inst
-Sets a new property or modifies an existing property on the specified
-URL Group.
+指定 URL グループに新しいプロパティを設定するか既存プロパティを変更する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-After the URL Group is created it must be associated with a request
-queue to receive requests. To associate the URL Group with a request
-queue, the application calls HttpSetUrlGroupProperty with the
-HttpServerBindingProperty property. If this property is not set,
-matching requests for the URL Group are not delivered to a request
-queue and the HTTP Server API generates a 503 response.
+URL グループ作成後はリクエストキューに関連付ける必要がある。HttpSetUrlGroupProperty で
+HttpServerBindingProperty
+を設定して関連付ける。このプロパティが設定されないと合致リクエストはリクエストキューに配信されず、HTTP Server API は
+503 応答を生成する。
 
 
 %index
 HttpShutdownRequestQueue
-Stops queuing requests for the specified request queue process.
+指定リクエストキュープロセスへのリクエストのキューイングを停止する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle
-RequestQueueHandle : [intptr] The handle to the request queue that is shut down. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function.
+RequestQueueHandle : [intptr] シャットダウンするリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。
 %inst
-Stops queuing requests for the specified request queue process.
+指定リクエストキュープロセスへのリクエストのキューイングを停止する。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-HttpShutdownRequestQueue cancels outstanding requests and stops all
-processing on the request queue process. The following steps are
-performed when this function is called:
-This doc was truncated.
+HttpShutdownRequestQueue
+は未処理リクエストをキャンセルし、リクエストキュープロセス上の全処理を停止する。呼び出し時には次の手順が実行される。このドキュメントは省略されている。
 
 
 %index
 HttpTerminate
-Cleans up resources used by the HTTP Server API to process calls by an application.
+HTTP Server API がアプリの呼び出しを処理するために使用するリソースをクリーンアップする。
 %group
 Win32 httpapi
 %prm
 Flags, pReserved
 Flags : [int] 
-pReserved : [intptr] This parameter is reserved and must be NULL.
+pReserved : [intptr] このパラメータは予約されており NULL でなければならない。
 %inst
-Cleans up resources used by the HTTP Server API to process calls by
-an application.
+HTTP Server API がアプリの呼び出しを処理するために使用するリソースをクリーンアップする。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-Every call to HttpInitialize should be matched by a corresponding
-call to HttpTerminate. For example, if you call HttpInitialize with
-HTTP_INITIALIZE_SERVER, you must call HttpTerminate with
-HTTP_INITIALIZE_SERVER. If you call HttpInitialize twice, once with
-HTTP_INITIALIZE_SERVER and the second time with
-HTTP_INITIALIZE_CONFIG, you can call HttpTerminate one time with both
-flags.
+各 HttpInitialize 呼び出しには対応する HttpTerminate 呼び出しが必要である。例えば
+HTTP_INITIALIZE_SERVER で HttpInitialize
+を呼び出したら、HTTP_INITIALIZE_SERVER で HttpTerminate
+を呼び出す必要がある。HTTP_INITIALIZE_SERVER と HTTP_INITIALIZE_CONFIG で
+HttpInitialize を 2 回呼んだ場合、両フラグを指定して HttpTerminate を 1 回呼べば良い。
 
 
 %index
 HttpUpdateServiceConfiguration
-Updates atomically a service configuration parameter that specifies a Transport Layer Security (TLS) certificate in a configuration record within the HTTP Server API configuration store.
+HTTP Server API 設定ストア内の設定レコードで、TLS 証明書を指定するサービス構成パラメータをアトミックに更新する。
 %group
 Win32 httpapi
 %prm
 Handle, ConfigId, ConfigInfo, ConfigInfoLength, Overlapped
-Handle : [intptr] Reserved and must be  NULL.
+Handle : [intptr] 予約されており NULL でなければならない。
 ConfigId : [int] 
-ConfigInfo : [intptr] A pointer to a buffer that contains the appropriate data to specify the type of record to update. The  following table shows the type of data the buffer contains for the different possible values of the ConfigId parameter.
-ConfigInfoLength : [int] The size, in bytes, of the ConfigInfo buffer.
-Overlapped : [var] Reserved and must be  NULL.
+ConfigInfo : [intptr] 更新するレコード種別に対応する適切なデータを含むバッファへのポインタ。ConfigId の値に応じてバッファに含めるデータの型は異なる。このドキュメントは省略されている。
+ConfigInfoLength : [int] ConfigInfo バッファのサイズ (バイト単位)。
+Overlapped : [var] 予約されており NULL でなければならない。
 %inst
-Updates atomically a service configuration parameter that specifies a
-Transport Layer Security (TLS) certificate in a configuration record
-within the HTTP Server API configuration store.
+HTTP Server API 設定ストア内の設定レコードで、TLS 証明書を指定するサービス構成パラメータをアトミックに更新する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は ERROR_SUCCESS
+となる。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 [備考]
-The configuration parameters that you update with
-HttpUpdateServiceConfiguration are applied to all the HTTP Server API
-applications on the machine, and persist when the HTTP Server API
-shuts down, or when the computer is restarted.
+HttpUpdateServiceConfiguration で更新する構成パラメータはマシン上の全 HTTP Server API
+アプリに適用され、HTTP Server API 終了時やコンピュータ再起動時にも永続する。
 
 
 %index
 HttpWaitForDemandStart
-Waits for the arrival of a new request that can be served by a new request queue process.
+新しいリクエストキュープロセスで処理可能な新しいリクエストの到着を待つ。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, Overlapped
-RequestQueueHandle : [intptr] A handle to the request queue on which demand start is registered. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure; for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] デマンドスタートを登録するリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
 %inst
-Waits for the arrival of a new request that can be served by a new
-request queue process.
+新しいリクエストキュープロセスで処理可能な新しいリクエストの到着を待つ。
 
 [戻り値]
-If the function succeeds, it returns NO_ERROR. If the function fails,
-it returns one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR を返す。関数が失敗した場合、次のいずれかのエラーコードを返す。このドキュメントは省略されている。
 
 [備考]
-Only the controller process can call HttpWaitForDemandStart to
-register a demand start notification. The controller process is the
-process that created the request queue and indicated that it is a
-controller process by passing the
-HTTP_CREATE_REQUEST_QUEUE_FLAG_CONTROLLER flag. If a process other
-than the controlling process calls HttpWaitForDemandStart, the HTTP
-Server API returns ERROR_INVALID_ID_AUTHORITY. HttpWaitForDemandStart
-completes when a new request arrives for the specified request queue.
-At this time, a controller process can use this API to start a new
-worker process to server pending requests. Delayed start of the
-worker process allows applications to avoid consuming resources until
-they are required. The HTTP Server API allows only one outstanding
-notification registered on a request queue at any time. The HTTP
-Server API does not enforce limitations on the number of times that
-HttpWaitForDemandStart can be called on the same request queue
-consecutively. There is no limit on the number of outstanding
-processes that are working on the same request queue. The HTTP Server
-API supports canceling asynchronous HttpWaitForDemandStart calls.
-Applications can use CancelIoEx with the overlapped structure
-supplied in the pOverlapped parameter, to cancel an outstanding
-HttpWaitForDemandStart call.
+コントローラプロセスのみが HttpWaitForDemandStart
+を呼んでデマンドスタート通知を登録できる。コントローラプロセスとはリクエストキューを作成しコントローラであることを
+HTTP_CREATE_REQUEST_QUEUE_FLAG_CONTROLLER
+で示したプロセスのことである。そうでないプロセスが呼ぶと ERROR_INVALID_ID_AUTHORITY
+を返す。HttpWaitForDemandStart
+は新しいリクエストが到着したときに完了する。このときコントローラプロセスは新しいワーカープロセスを起動し、待機中リクエストを処理させられる。ワーカー起動の遅延により必要時までリソース消費を避けられる。HTTP
+Server API は同時に 1
+つだけ未処理通知登録を許容する。同一リクエストキューに対して連続で何度でも呼び出せる。同一キュー上で同時に動作するプロセス数に制限はない。CancelIoEx
+と pOverlapped で非同期呼び出しをキャンセル可能である。
 
 
 %index
 HttpWaitForDisconnect
-Notifies the application when the connection to an HTTP client is broken for any reason.
+何らかの理由で HTTP クライアントへの接続が切断されたときにアプリケーションに通知する。
 %group
 Win32 httpapi
 %prm
 RequestQueueHandle, ConnectionId, Overlapped
-RequestQueueHandle : [intptr] A handle to the request queue that handles requests from the specified connection. A request queue is created and its handle returned by a call to the HttpCreateRequestQueue function. Windows Server?2003 with SP1 and Windows?XP with SP2:??The handle to the request queue is created by the HttpCreateHttpHandle function.
-ConnectionId : [int64] Identifier for the connection to the client computer. This value is returned in the ConnectionID member of the HTTP_REQUEST structure by a call to the HttpReceiveHttpRequest function.
-Overlapped : [var] For asynchronous calls, set pOverlapped to point to an OVERLAPPED structure; for synchronous calls, set it to NULL.
+RequestQueueHandle : [intptr] 指定接続からのリクエストを扱うリクエストキューへのハンドル。リクエストキューは HttpCreateRequestQueue で作成される。Windows Server 2003 SP1 および Windows XP SP2 ではハンドルは HttpCreateHttpHandle により作成される。
+ConnectionId : [int64] クライアントコンピュータへの接続の識別子。HttpReceiveHttpRequest が返す HTTP_REQUEST の ConnectionID メンバの値。
+Overlapped : [var] 非同期呼び出しの場合は pOverlapped に OVERLAPPED 構造体へのポインタを設定する。同期呼び出しの場合は NULL にする。
 %inst
-Notifies the application when the connection to an HTTP client is
-broken for any reason.
+何らかの理由で HTTP クライアントへの接続が切断されたときにアプリケーションに通知する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function is used asynchronously, a return value of ERROR_IO_PENDING
-indicates that the next request is not yet ready and is retrieved
-later through normal overlapped I/O completion mechanisms. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。非同期で使用した場合 ERROR_IO_PENDING
+は次のリクエストがまだ準備できていないことを示す。関数が失敗した場合、戻り値は次のいずれかのエラーコードとなる。このドキュメントは省略されている。
 
 
 %index
 HttpWaitForDisconnectEx
-This function is an extension to HttpWaitForDisconnect.
+この関数は HttpWaitForDisconnect の拡張版である。
 %group
 Win32 httpapi
 %prm
@@ -1200,5 +971,5 @@ ConnectionId : [int64]
 Reserved : [int] 
 Overlapped : [var] 
 %inst
-This function is an extension to HttpWaitForDisconnect.
+この関数は HttpWaitForDisconnect の拡張版である。
 

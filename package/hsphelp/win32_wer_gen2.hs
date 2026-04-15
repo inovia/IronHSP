@@ -6,263 +6,239 @@
 
 %index
 WerAddExcludedApplication
-Adds the specified application to the list of applications that are to be excluded from error reporting.
+指定されたアプリケーションをエラー報告の対象から除外するアプリケーションリストに追加する。
 %group
 Win32 wer
 %prm
 pwzExeName, bAllUsers
-pwzExeName : [wstr] A pointer to a Unicode string that specifies the name of the executable file for the application, including the file name extension. The maximum length of this path is MAX_PATH characters.
-bAllUsers : [int] If this parameter is TRUE, the application name is added to the list of excluded applications for all users. Otherwise, it is only added to the list of excluded applications for the current user.
+pwzExeName : [wstr] アプリケーションの実行可能ファイルの名前 (ファイル拡張子を含む) を指定する Unicode 文字列へのポインタ。このパスの最大長は MAX_PATH 文字である。
+bAllUsers : [int] このパラメータが TRUE の場合、アプリケーション名は全ユーザー向けの除外アプリケーションリストに追加される。そうでない場合は、現在のユーザーの除外リストにのみ追加される。
 %inst
-Adds the specified application to the list of applications that are
-to be excluded from error reporting.
+指定されたアプリケーションをエラー報告の対象から除外するアプリケーションリストに追加する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 [備考]
-If bAllUsers is TRUE, the list of excluded applications is stored
-under the HKEY_LOCAL_MACHINE registry hive. The calling process must
-have permissions to write to the HKLM registry hive. If bAllUsers is
-FALSE, the list of excluded applications is stored under the
-HKEY_CURRENT_USER registry hive. To remove the application from the
-list of excluded applications, call the WerRemoveExcludedApplication
-function.
+bAllUsers が TRUE の場合、除外アプリケーションリストは HKEY_LOCAL_MACHINE
+レジストリハイブの下に格納される。呼び出し元プロセスは HKLM
+レジストリハイブに書き込む権限を持っていなければならない。bAllUsers が FALSE の場合、除外アプリケーションリストは
+HKEY_CURRENT_USER レジストリハイブの下に格納される。アプリケーションを除外リストから削除するには
+WerRemoveExcludedApplication 関数を呼び出す。
 
 
 %index
 WerFreeString
-Frees up the memory used to store a report key string. This should be called after each successive call to WerStoreGetFirstReportKey or WerStoreGetNextReportKey, once the particular report key string has been used and is no longer needed.
+レポートキー文字列を格納するために使用されたメモリを解放する。WerStoreGetFirstReportKey または WerStoreGetNextReportKey の各呼び出しの後、対応するレポートキー文字列を使用し終えて不要になったら呼び出す必要がある。
 %group
 Win32 wer
 %prm
 pwszStr
-pwszStr : [wstr] The string to be freed (value set to NULL).
+pwszStr : [wstr] 解放対象の文字列 (値が NULL に設定される)。
 %inst
-Frees up the memory used to store a report key string. This should be
-called after each successive call to WerStoreGetFirstReportKey or
-WerStoreGetNextReportKey, once the particular report key string has
-been used and is no longer needed.
+レポートキー文字列を格納するために使用されたメモリを解放する。WerStoreGetFirstReportKey または
+WerStoreGetNextReportKey
+の各呼び出しの後、対応するレポートキー文字列を使用し終えて不要になったら呼び出す必要がある。
 
 
 %index
 WerRemoveExcludedApplication
-Removes the specified application from the list of applications that are to be excluded from error reporting.
+指定されたアプリケーションをエラー報告の除外リストから削除する。
 %group
 Win32 wer
 %prm
 pwzExeName, bAllUsers
-pwzExeName : [wstr] A pointer to a Unicode string that specifies the name of the executable file for the application, including the file name extension. The maximum length of this path is MAX_PATH characters. This file must have been excluded using the WerAddExcludedApplication function or WerRemoveExcludedApplication fails.
-bAllUsers : [int] If this parameter is TRUE, the application name is removed from the list of excluded applications for all users. Otherwise, it is only removed from the list of excluded applications for the current user.
+pwzExeName : [wstr] アプリケーションの実行可能ファイルの名前 (ファイル拡張子を含む) を指定する Unicode 文字列へのポインタ。このパスの最大長は MAX_PATH 文字である。このファイルは WerAddExcludedApplication 関数によって除外されていなければならず、さもなくば WerRemoveExcludedApplication は失敗する。
+bAllUsers : [int] このパラメータが TRUE の場合、アプリケーション名は全ユーザー向けの除外アプリケーションリストから削除される。そうでない場合は、現在のユーザーの除外リストからのみ削除される。
 %inst
-Removes the specified application from the list of applications that
-are to be excluded from error reporting.
+指定されたアプリケーションをエラー報告の除外リストから削除する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 [備考]
-This function removes applications that were added to the excluded
-applications list using the WerAddExcludedApplication function. If
-bAllUsers is TRUE, the list of excluded applications is stored under
-the HKEY_LOCAL_MACHINE registry hive. The calling process must have
-permissions to write to HKLM registry hive. If bAllUsers is FALSE,
-the list of excluded applications is stored under the
-HKEY_CURRENT_USER registry hive.
+この関数は WerAddExcludedApplication
+によって除外アプリケーションリストに追加されたアプリケーションを削除する。bAllUsers が TRUE
+の場合、除外アプリケーションリストは HKEY_LOCAL_MACHINE レジストリハイブの下に格納される。呼び出し元プロセスは
+HKLM レジストリハイブに書き込む権限を持っていなければならない。bAllUsers が FALSE
+の場合、除外アプリケーションリストは HKEY_CURRENT_USER レジストリハイブの下に格納される。
 
 
 %index
 WerReportCloseHandle
-Closes the specified report.
+指定されたレポートをクローズする。
 %group
 Win32 wer
 %prm
 hReportHandle
-hReportHandle : [intptr] A handle to the report. This handle is returned by the WerReportCreate function.
+hReportHandle : [intptr] レポートへのハンドル。このハンドルは WerReportCreate 関数から返される。
 %inst
-Closes the specified report.
+指定されたレポートをクローズする。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure.
+この関数は成功時に S_OK を返し、失敗時にはエラーコードを返す。
 
 
 %index
 WerReportAddFile
-Adds a file to the specified report.
+指定されたレポートにファイルを追加する。
 %group
 Win32 wer
 %prm
 hReportHandle, pwzPath, repFileType, dwFileFlags
-hReportHandle : [intptr] A handle to the report. This handle is returned by the WerReportCreate function.
-pwzPath : [wstr] A pointer to a Unicode string that contains the full path to the file to be added. This path can use environment variables. The maximum length of this path is MAX_PATH characters.
+hReportHandle : [intptr] レポートへのハンドル。このハンドルは WerReportCreate 関数から返される。
+pwzPath : [wstr] 追加するファイルのフルパスを含む Unicode 文字列へのポインタ。このパスには環境変数を使用できる。最大長は MAX_PATH 文字である。
 repFileType : [int] 
 dwFileFlags : [int] 
 %inst
-Adds a file to the specified report.
+指定されたレポートにファイルを追加する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 [備考]
-Although this function can also be used to add memory dumps (using
-specific flags) to the error report, the preferred function to use
-for adding memory dumps is WerReportAddDump. You should use this
-function only if you want to collect the dump yourself and then add
-it to the report.
+この関数は (特定のフラグ付きで) メモリダンプをエラーレポートに追加するためにも使用できるが、メモリダンプ追加には
+WerReportAddDump の使用が推奨される。自分でダンプを収集してレポートに追加したい場合のみ、この関数を使用するとよい。
 
 
 %index
 WerReportCreate
-Creates a problem report that describes an application event.
+アプリケーションのイベントを記述する問題レポートを作成する。
 %group
 Win32 wer
 %prm
 pwzEventType, repType, pReportInformation, phReportHandle
-pwzEventType : [wstr] A pointer to a Unicode string that specifies the name of the event.
+pwzEventType : [wstr] イベントの名前を指定する Unicode 文字列へのポインタ。
 repType : [int] 
-pReportInformation : [var] A pointer to a WER_REPORT_INFORMATION structure that specifies information for the report.
-phReportHandle : [intptr] A handle to the report. If the function fails, this handle is NULL.
+pReportInformation : [var] レポートの情報を指定する WER_REPORT_INFORMATION 構造体へのポインタ。
+phReportHandle : [intptr] レポートへのハンドル。関数が失敗した場合、このハンドルは NULL になる。
 %inst
-Creates a problem report that describes an application event.
+アプリケーションのイベントを記述する問題レポートを作成する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure.
+この関数は成功時に S_OK を返し、失敗時にはエラーコードを返す。
 
 [備考]
-Use the following functions to specify additional information to be
-submitted: WerReportAddDump WerReportAddFile WerReportSetParameter To
-submit the information, call the WerReportSubmit function. When you
-have finished with the report handle, call the WerReportCloseHandle
-function. Applications can also indicate that they would like the
-opportunity to recover data or restart on failure. For more
-information, see Application Recovery and Restart. To view the
-reports submitted by your application, go to Windows Quality Online
-Services.
+送信する追加情報を指定するには次の関数を使用する:
+WerReportAddDump、WerReportAddFile、WerReportSetParameter。情報を送信するには
+WerReportSubmit 関数を呼び出す。レポートハンドルの使用が終わったら WerReportCloseHandle
+関数を呼び出す。アプリケーションは障害時のデータ復旧や再起動の機会を希望することもできる。詳細は Application Recovery
+and Restart を参照のこと。アプリケーションから送信されたレポートを確認するには Windows Quality Online
+Services にアクセスする。
 
 
 %index
 WerReportSetParameter
-Sets the parameters that uniquely identify an event for the specified report.
+指定されたレポートのイベントを一意に識別するパラメータを設定する。
 %group
 Win32 wer
 %prm
 hReportHandle, dwparamID, pwzName, pwzValue
-hReportHandle : [intptr] A handle to the report. This handle is returned by the WerReportCreate function.
+hReportHandle : [intptr] レポートへのハンドル。このハンドルは WerReportCreate 関数から返される。
 dwparamID : [int] 
-pwzName : [wstr] A pointer to a Unicode string that contains the name of the parameter. If this parameter is NULL, the default name is Px, where x matches the integer portion of the value specified in dwparamID.
-pwzValue : [wstr] The parameter value.
+pwzName : [wstr] パラメータの名前を含む Unicode 文字列へのポインタ。このパラメータが NULL の場合、既定の名前は Px であり、x は dwparamID に指定した値の整数部分に一致する。
+pwzValue : [wstr] パラメータ値。
 %inst
-Sets the parameters that uniquely identify an event for the specified
-report.
+指定されたレポートのイベントを一意に識別するパラメータを設定する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 [備考]
-Each report supports parameters P0 through P9. This function sets one
-parameter at a time. If parameter Px is set, then all parameters from
-P0 and Px must be set.
+各レポートは P0 から P9 までのパラメータをサポートする。この関数は一度に 1 つのパラメータを設定する。パラメータ Px
+が設定される場合、P0 から Px までのすべてのパラメータを設定する必要がある。
 
 
 %index
 WerReportSetUIOption
-Sets the user interface options for the specified report.
+指定されたレポートのユーザーインターフェースオプションを設定する。
 %group
 Win32 wer
 %prm
 hReportHandle, repUITypeID, pwzValue
-hReportHandle : [intptr] A handle to the report. This handle is returned by the WerReportCreate function.
+hReportHandle : [intptr] レポートへのハンドル。このハンドルは WerReportCreate 関数から返される。
 repUITypeID : [int] 
-pwzValue : [wstr] A pointer to a Unicode string that specifies the custom text. For more information, see the description of repUITypeID.
+pwzValue : [wstr] カスタムテキストを指定する Unicode 文字列へのポインタ。詳細は repUITypeID の説明を参照のこと。
 %inst
-Sets the user interface options for the specified report.
+指定されたレポートのユーザーインターフェースオプションを設定する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure.
+この関数は成功時に S_OK を返し、失敗時にはエラーコードを返す。
 
 
 %index
 WerReportSubmit
-Submits the specified report.
+指定されたレポートを送信する。
 %group
 Win32 wer
 %prm
 hReportHandle, consent, dwFlags, pSubmitResult
-hReportHandle : [intptr] A handle to the report. This handle is returned by the WerReportCreate function.
+hReportHandle : [intptr] レポートへのハンドル。このハンドルは WerReportCreate 関数から返される。
 consent : [int] 
 dwFlags : [int] 
 pSubmitResult : [var] 
 %inst
-Submits the specified report.
+指定されたレポートを送信する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure.
+この関数は成功時に S_OK を返し、失敗時にはエラーコードを返す。
 
 [備考]
-After the application calls this function, WER collects the specified
-data. If the consent parameter is WerConsentApproved, it submits the
-report to Microsoft. If consent is WerConsentNotAsked, WER displays
-the consent dialog box. To determine the submission status, check the
-pSubmitResult parameter. In the event of a critical application
-event, applications that have registered for restart will be
-restarted. The computer identifier is sent with the report when
-This doc was truncated.
+アプリケーションがこの関数を呼び出した後、WER は指定のデータを収集する。consent パラメータが
+WerConsentApproved の場合、WER はレポートを Microsoft に送信する。consent が
+WerConsentNotAsked の場合、WER は同意ダイアログを表示する。送信ステータスを判断するには pSubmitResult
+パラメータを確認する。重大なアプリケーションイベントが発生した場合、再起動登録済みのアプリケーションは再起動される。コンピュータ識別子は次の場合にレポートとともに送信される。
+このドキュメントは省略されている。
 
 
 %index
 WerStoreClose
-Closes the collection of stored reports.
+格納されたレポートのコレクションをクローズする。
 %group
 Win32 wer
 %prm
 hReportStore
-hReportStore : [intptr] The error report store to close (previously retrieved with WerStoreOpen).
+hReportStore : [intptr] クローズするエラーレポートストア (以前 WerStoreOpen で取得したもの)。
 %inst
-Closes the collection of stored reports.
+格納されたレポートのコレクションをクローズする。
 
 
 %index
 WerStoreGetFirstReportKey
-Gets a reference to the first report in the report store.
+レポートストア内の最初のレポートへの参照を取得する。
 %group
 Win32 wer
 %prm
 hReportStore, ppszReportKey
-hReportStore : [intptr] The error report store (previously retrieved with WerStoreOpen).
-ppszReportKey : [var] A pointer to the report key string. On a successful call, this will point to the retrieved report key.
+hReportStore : [intptr] エラーレポートストア (以前 WerStoreOpen で取得したもの)。
+ppszReportKey : [var] レポートキー文字列へのポインタ。呼び出しが成功すると、取得されたレポートキーを指す。
 %inst
-Gets a reference to the first report in the report store.
+レポートストア内の最初のレポートへの参照を取得する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 
 %index
 WerStoreGetNextReportKey
-Gets a reference to the next report in the error report store.
+エラーレポートストア内の次のレポートへの参照を取得する。
 %group
 Win32 wer
 %prm
 hReportStore, ppszReportKey
-hReportStore : [intptr] The error report store (previously retrieved with WerStoreOpen).
-ppszReportKey : [var] A pointer to the report key string. On a successful call, this will point to the retrieved report key.
+hReportStore : [intptr] エラーレポートストア (以前 WerStoreOpen で取得したもの)。
+ppszReportKey : [var] レポートキー文字列へのポインタ。呼び出しが成功すると、取得されたレポートキーを指す。
 %inst
-Gets a reference to the next report in the error report store.
+エラーレポートストア内の次のレポートへの参照を取得する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 
 %index
@@ -293,31 +269,26 @@ pqwSizeInBytes : [var]
 
 %index
 WerStoreOpen
-Opens the collection of stored error reports.
+格納されたエラーレポートのコレクションをオープンする。
 %group
 Win32 wer
 %prm
 repStoreType, phReportStore
-repStoreType : [int] The type of report store to open. See Remarks for details.
-phReportStore : [intptr] A pointer to a report store. On a successful call, this will point to the retrieved report store.
+repStoreType : [int] オープンするレポートストアの種類。詳細は Remarks を参照のこと。
+phReportStore : [intptr] レポートストアへのポインタ。呼び出しが成功すると、取得されたレポートストアを指す。
 %inst
-Opens the collection of stored error reports.
+格納されたエラーレポートのコレクションをオープンする。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 [備考]
-A storeType value of E_STORE_MACHINE_QUEUE opens the queue of all
-error reports on the machine that have not yet been sent to
-Microsoft. A value of E_STORE_MACHINE_ARCHIVE opens the store of
-error reports that have already been sent. The Windows Error Report
-(WER) Store is the queue of error reports that have been marked to be
-sent to Microsoft but have not yet been uploaded. The upload of an
-error report can be postponed under a number of circumstances. The
-WerStore functions allow developers to access the stored reports and
-query the status of each one.
+storeType 値 E_STORE_MACHINE_QUEUE は、マシン上でまだ Microsoft
+に送信されていないすべてのエラーレポートのキューをオープンする。E_STORE_MACHINE_ARCHIVE
+は、既に送信されたエラーレポートのストアをオープンする。Windows Error Report (WER) ストアは、Microsoft
+への送信対象としてマークされたがまだアップロードされていないエラーレポートのキューである。エラーレポートのアップロードはさまざまな状況で延期されうる。WerStore
+系関数により、開発者は格納されたレポートにアクセスし、各レポートの状態を問い合わせることができる。
 
 
 %index
@@ -347,21 +318,20 @@ pReportMetadata : [var]
 
 %index
 WerStoreQueryReportMetadataV2
-Retrieves metadata about a report in the store.
+ストア内のレポートに関するメタデータを取得する。
 %group
 Win32 wer
 %prm
 hReportStore, pszReportKey, pReportMetadata
-hReportStore : [intptr] The error report store (previously retrieved with WerStoreOpen).
-pszReportKey : [wstr] The string identifying which report is being queried (previously retrieved with WerStoreGetFirstReportKey or WerStoreGetNextReportKey).
-pReportMetadata : [var] A pointer to the report store metadata in the form of a WER_REPORT_METADATA_V2 structure. The field SizeOfFileNames should be set to 0 during the first call. The function updates this field with the required size to hold the file names associated with the report. The field FileNames should then be allocated with SizeOfFileNames bytes and the function should be called again to get all of the file names.
+hReportStore : [intptr] エラーレポートストア (以前 WerStoreOpen で取得したもの)。
+pszReportKey : [wstr] どのレポートを問い合わせるかを識別する文字列 (以前 WerStoreGetFirstReportKey または WerStoreGetNextReportKey で取得したもの)。
+pReportMetadata : [var] WER_REPORT_METADATA_V2 構造体形式のレポートストアメタデータへのポインタ。初回呼び出し時には SizeOfFileNames フィールドを 0 に設定すること。関数はこのフィールドを、レポートに関連付けられたファイル名を格納するのに必要なサイズに更新する。その後、FileNames フィールドを SizeOfFileNames バイトで割り当て、再度関数を呼び出してすべてのファイル名を取得する。
 %inst
-Retrieves metadata about a report in the store.
+ストア内のレポートに関するメタデータを取得する。
 
 [戻り値]
-This function returns S_OK on success or an error code on failure,
-including the following error code.
-This doc was truncated.
+この関数は成功時に S_OK を返し、失敗時には以下を含むエラーコードを返す。
+このドキュメントは省略されている。
 
 
 %index

@@ -6,1270 +6,983 @@
 
 %index
 WTSCloseServer
-Closes an open handle to a Remote Desktop Session Host (RD?Session Host) server.
+リモートデスクトップセッションホスト (RD セッションホスト) サーバーへの開かれたハンドルを閉じる。
 %group
 Win32 wtsapi32
 %prm
 hServer
-hServer : [intptr] A handle to an RD?Session Host server opened by a call to the WTSOpenServer or WTSOpenServerEx function. Do not pass WTS_CURRENT_SERVER_HANDLE for this parameter.
+hServer : [intptr] WTSOpenServer または WTSOpenServerEx を呼び出して開かれた RD セッションホストサーバーへのハンドル。このパラメータに WTS_CURRENT_SERVER_HANDLE を渡してはならない。
 %inst
-Closes an open handle to a Remote Desktop Session Host (RD Session
-Host) server.
+リモートデスクトップセッションホスト (RD セッションホスト) サーバーへの開かれたハンドルを閉じる。
 
 [備考]
-Call the WTSCloseServer function as part of your program's clean-up
-routine to close all the server handles opened by calls to the
-WTSOpenServer or WTSOpenServerEx function. After the handle has been
-closed, it cannot be used with any other WTS APIs.
+プログラムのクリーンアップルーチンの一部として WTSCloseServer を呼び出し、WTSOpenServer や
+WTSOpenServerEx で開いた全サーバーハンドルを閉じる。ハンドルを閉じた後、そのハンドルは他の WTS API
+で使用できない。
 
 
 %index
 WTSConnectSessionW
-Connects a Remote Desktop Services session to an existing session on the local computer. (Unicode)
+リモートデスクトップサービスセッションをローカルコンピュータの既存セッションに接続する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 LogonId, TargetLogonId, pPassword, bWait
-LogonId : [int] The logon ID of the session to connect to. The user of that session must have permissions to connect to an existing session. The output of this session will be routed to the session identified by the TargetLogonId parameter. This can be LOGONID_CURRENT to use the current session.
-TargetLogonId : [int] The logon ID of the session to receive the output of the session represented by the LogonId parameter. The output of the session identified by the LogonId parameter will be routed to this session. This can be LOGONID_CURRENT to use the current session.
-pPassword : [wstr] A pointer to the password for the user account that is specified in the LogonId parameter. The value of pPassword can be an empty string if the caller is logged on using the same domain name and user name as the logon ID. The value of pPassword cannot be NULL.
-bWait : [int] Indicates whether the operation is synchronous. Specify TRUE to wait for the operation to complete, or FALSE to return immediately.
+LogonId : [int] 接続先のセッションのログオン ID。そのセッションのユーザは既存セッションへの接続権限を持つ必要がある。このセッションの出力は TargetLogonId で指定されたセッションにルーティングされる。LOGONID_CURRENT を指定すると現在のセッションを使う。
+TargetLogonId : [int] LogonId の出力を受け取るセッションのログオン ID。LOGONID_CURRENT で現在のセッションを指定できる。
+pPassword : [wstr] LogonId で指定したユーザーアカウントのパスワードへのポインタ。呼び出し元がログオン ID と同じドメイン名・ユーザ名でログオンしていれば空文字列でよい。NULL は不可。
+bWait : [int] 操作が同期か非同期かを示す。TRUE で操作完了を待ち、FALSE で直ちに戻る。
 %inst
-Connects a Remote Desktop Services session to an existing session on
-the local computer. (Unicode)
+リモートデスクトップサービスセッションをローカルコンピュータの既存セッションに接続する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-Either the LogonId or TargetLogonId parameter can be LOGONID_CURRENT,
-but not both.
-> [!NOTE] > The wtsapi32.h header defines WTSConnectSession as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+LogonId か TargetLogonId のいずれか一方を LOGONID_CURRENT にできるが、両方はできない。
+> [!NOTE] > wtsapi32.h は WTSConnectSession を UNICODE マクロの定義に応じて
+ANSI/Unicode を自動選択するエイリアスとして定義している。
 
 
 %index
 WTSCreateListenerW
-Creates a new Remote Desktop Services listener or configures an existing listener. (Unicode)
+新しいリモートデスクトップサービスリスナーを作成するか既存リスナーを構成する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, pBuffer, flag
-hServer : [intptr] A handle to an RD?Session Host server. Always set this  parameter to WTS_CURRENT_SERVER_HANDLE.
-pReserved : [intptr] This parameter is reserved. Always set this parameter to NULL.
-Reserved : [int] This parameter is reserved. Always set this parameter to zero.
-pListenerName : [wstr] A pointer to a null-terminated string that contains the name of the listener to create or configure.
-pBuffer : [var] A pointer to a WTSLISTENERCONFIG structure that contains configuration information for the listener.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。常に WTS_CURRENT_SERVER_HANDLE に設定する。
+pReserved : [intptr] このパラメータは予約されている。常に NULL に設定する。
+Reserved : [int] このパラメータは予約されている。常に 0 に設定する。
+pListenerName : [wstr] 作成または構成するリスナー名を含む NULL 終端文字列へのポインタ。
+pBuffer : [var] リスナーの構成情報を含む WTSLISTENERCONFIG 構造体へのポインタ。
 flag : [int] 
 %inst
-Creates a new Remote Desktop Services listener or configures an
-existing listener. (Unicode)
+新しいリモートデスクトップサービスリスナーを作成するか既存リスナーを構成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call the GetLastError function.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-This function creates or configures a listener that uses Remote
-Desktop Protocol (RDP). Always set the version member of the
-WTSLISTENERCONFIG structure that is pointed to by the pBuffer
-parameter to one. This function does not create or configure the
-security descriptor of the listener. When you call this function to
-create a new listener, the function assigns the default security
-descriptor to the new listener. To modify the security descriptor,
-call the WTSSetListenerSecurity function. For more information about
-security descriptors, see SECURITY_DESCRIPTOR. This function does not
-validate the settings for the new listener. Be sure that the settings
-are valid before calling this function.
-> [!NOTE] > The wtsapi32.h header defines WTSCreateListener as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数は RDP を使うリスナーを作成または構成する。pBuffer が指す WTSLISTENERCONFIG 構造体の
+version メンバは常に 1
+に設定する。この関数はセキュリティ記述子の作成・設定を行わない。新規作成時は既定のセキュリティ記述子が割り当てられ、変更するには
+WTSSetListenerSecurity を呼び出す。設定値の検証は行わないので、呼び出し前に有効であることを確認する必要がある。
+> [!NOTE] > wtsapi32.h は WTSCreateListener を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSDisconnectSession
-Disconnects the logged-on user from the specified Remote Desktop Services session without closing the session.
+指定リモートデスクトップサービスセッションからログオン中のユーザを、セッションを閉じずに切断する。
 %group
 Win32 wtsapi32
 %prm
 hServer, SessionId, bWait
-hServer : [intptr] A handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer or WTSOpenServerEx function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
-SessionId : [int] A Remote Desktop Services session identifier. To indicate the current session, specify WTS_CURRENT_SESSION. To retrieve the identifiers of all sessions on a specified RD?Session Host server, use the WTSEnumerateSessions function. To be able to disconnect another user's session, you need to have the Disconnect permission. For more information, see Remote Desktop Services Permissions. To modify permissions on a session, use the Remote Desktop Services Configuration administrative tool. To disconnect sessions running on a virtual machine hosted on a RD?Virtualization Host server, you must be a member of the Administrators group on the RD?Virtualization Host server.
-bWait : [int] Indicates whether the operation is synchronous. Specify TRUE to wait for the operation to complete, or FALSE to return immediately.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer/WTSOpenServerEx で開いたハンドル、またはアプリ実行中サーバーを示す WTS_CURRENT_SERVER_HANDLE を指定する。
+SessionId : [int] リモートデスクトップサービスセッション識別子。現在のセッションを示すには WTS_CURRENT_SESSION を指定する。全セッションの識別子を取得するには WTSEnumerateSessions を使う。他ユーザのセッションを切断するには Disconnect 権限が必要である。RD 仮想化ホスト上の仮想マシンのセッションを切断するには Administrators グループのメンバである必要がある。
+bWait : [int] 操作が同期か非同期かを示す。TRUE で完了を待ち、FALSE で直ちに戻る。
 %inst
-Disconnects the logged-on user from the specified Remote Desktop
-Services session without closing the session.
+指定リモートデスクトップサービスセッションからログオン中のユーザを、セッションを閉じずに切断する。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 WTSEnableChildSessions
-Enables or disables Child Sessions.
+子セッションを有効または無効にする。
 %group
 Win32 wtsapi32
 %prm
 bEnable
-bEnable : [int] Indicates whether to enable or disable child sessions. Pass TRUE if child sessions are to be enabled or FALSE otherwise.
+bEnable : [int] 子セッションを有効または無効にするかを示す。TRUE で有効化、FALSE で無効化。
 %inst
-Enables or disables Child Sessions.
+子セッションを有効または無効にする。
 
 [戻り値]
-Returns nonzero if the function succeeds or zero otherwise.
+関数が成功すれば 0 以外、そうでなければ 0 を返す。
 
 [備考]
-For more information about child sessions, see Child Sessions.
+子セッションの詳細については Child Sessions を参照。
 
 
 %index
 WTSEnumerateListenersW
-Enumerates all the Remote Desktop Services listeners on a Remote Desktop Session Host (RD?Session Host) server. (Unicode)
+RD セッションホストサーバー上の全リモートデスクトップサービスリスナーを列挙する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListeners, pCount
-hServer : [intptr] A handle to an RD?Session Host server. Always set this  parameter to WTS_CURRENT_SERVER_HANDLE.
-pReserved : [intptr] This parameter is reserved. Always set this parameter to NULL.
-Reserved : [int] This parameter is reserved. Always set this parameter to zero.
-pListeners : [var] A pointer to an array of WTSLISTENERNAME variables that receive the names of the listeners.
-pCount : [var] A pointer to a DWORD variable that contains the number of listener names in the array referenced by the pListeners parameter. If the number of listener names is unknown, pass pListeners as NULL. The function will return the number of  WTSLISTENERNAME variables necessary to allocate for the array pointed to by the pListeners parameter.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。常に WTS_CURRENT_SERVER_HANDLE に設定する。
+pReserved : [intptr] このパラメータは予約されている。常に NULL に設定する。
+Reserved : [int] このパラメータは予約されている。常に 0 に設定する。
+pListeners : [var] リスナー名を受け取る WTSLISTENERNAME 配列へのポインタ。
+pCount : [var] pListeners 配列内のリスナー名数を含む DWORD 変数へのポインタ。リスナー数が不明なら pListeners に NULL を渡すと必要な WTSLISTENERNAME 変数の数が返される。
 %inst
-Enumerates all the Remote Desktop Services listeners on a Remote
-Desktop Session Host (RD Session Host) server. (Unicode)
+RD セッションホストサーバー上の全リモートデスクトップサービスリスナーを列挙する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-This function returns all listeners currently running on the server,
-including listeners that do not support Remote Desktop Protocol
-(RDP). If the number of listeners is unknown, you can call this
-function with pListeners set to NULL. The function will then return,
-in the pCount parameter, the number of WTSLISTENERNAME variables
-necessary to receive all the listeners. Allocate the array for
-pListeners based on this number, and then call the function again,
-setting pListeners to the newly allocated array and pCount to the
-number returned by the first call.
-> [!NOTE] > The wtsapi32.h header defines WTSEnumerateListeners as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数はサーバー上で現在動作中の全リスナーを返す (RDP をサポートしないものも含む)。リスナー数が不明な場合、pListeners
+を NULL にして呼ぶと pCount に必要数が返る。その数で配列を確保し、pListeners を新しい配列、pCount
+を最初の呼び出しで返された数にして再度呼ぶ。
+> [!NOTE] > wtsapi32.h は WTSEnumerateListeners を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSEnumerateProcessesW
-Retrieves information about the active processes on a specified Remote Desktop Session Host (RD?Session Host) server. (Unicode)
+指定 RD セッションホストサーバー上のアクティブプロセスに関する情報を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, Reserved, Version, ppProcessInfo, pCount
-hServer : [intptr] Handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
-Reserved : [int] Reserved; must be zero.
-Version : [int] Specifies the version of the enumeration request. Must be 1.
-ppProcessInfo : [var] Pointer to a variable that receives a pointer to an array of WTS_PROCESS_INFO structures. Each structure in the array contains information about an active process on the specified RD?Session Host server. To free the returned buffer, call the WTSFreeMemory function.
-pCount : [var] Pointer to a variable that receives the number of WTS_PROCESS_INFO structures returned in the ppProcessInfo buffer.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
+Reserved : [int] 予約されている。0 でなければならない。
+Version : [int] 列挙要求のバージョンを指定する。1 でなければならない。
+ppProcessInfo : [var] WTS_PROCESS_INFO 配列へのポインタを受け取る変数へのポインタ。各構造体は指定 RD セッションホスト上のアクティブプロセスの情報を含む。返されたバッファは WTSFreeMemory で解放する。
+pCount : [var] ppProcessInfo バッファに返される WTS_PROCESS_INFO 構造体数を受け取る変数へのポインタ。
 %inst
-Retrieves information about the active processes on a specified
-Remote Desktop Session Host (RD Session Host) server. (Unicode)
+指定 RD セッションホストサーバー上のアクティブプロセスに関する情報を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-The caller must be a member of the Administrators group to enumerate
-processes that are running under a different user's context.
-> [!NOTE] > The wtsapi32.h header defines WTSEnumerateProcesses as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+他ユーザのコンテキストで動作中のプロセスを列挙するには Administrators グループのメンバである必要がある。
+> [!NOTE] > wtsapi32.h は WTSEnumerateProcesses を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSEnumerateProcessesExW
-Retrieves information about the active processes on the specified Remote Desktop Session Host (RD?Session Host) server or Remote Desktop Virtualization Host (RD?Virtualization Host) server. (Unicode)
+指定 RD セッションホストサーバーまたは RD 仮想化ホストサーバー上のアクティブプロセスに関する情報を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, pLevel, SessionId, ppProcessInfo, pCount
-hServer : [intptr] A handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the server on which your application is running.
-pLevel : [var] A pointer to a DWORD variable that, on input, specifies the type of information  to return. To return an array of WTS_PROCESS_INFO structures, specify zero. To return an array of WTS_PROCESS_INFO_EX structures, specify one. If you do not specify a valid value for this parameter, on output, WTSEnumerateProcessesEx sets this parameter to one and returns an error. Otherwise, on output, WTSEnumerateProcessesEx does not change the value of this parameter.
-SessionId : [int] The session  for which to enumerate processes. To enumerate processes for all sessions on the server,  specify WTS_ANY_SESSION.
-ppProcessInfo : [var] A pointer to a variable that receives a pointer to an array of WTS_PROCESS_INFO or WTS_PROCESS_INFO_EX structures. The type of structure is determined by the value passed to the pLevel parameter. Each structure in the array contains information about an active process. When you have finished using the array, free it by calling the WTSFreeMemoryEx function. You should also set the pointer to NULL.
-pCount : [var] A pointer to a variable that receives the number of structures returned in the buffer referenced by the ppProcessInfo parameter.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
+pLevel : [var] 入力時に返す情報種別を指定する DWORD。0 で WTS_PROCESS_INFO 配列、1 で WTS_PROCESS_INFO_EX 配列を返す。無効値を指定すると出力で 1 に設定されエラーを返す。それ以外の場合は変更されない。
+SessionId : [int] プロセスを列挙するセッション。全セッションを対象にするには WTS_ANY_SESSION を指定する。
+ppProcessInfo : [var] WTS_PROCESS_INFO または WTS_PROCESS_INFO_EX 配列へのポインタを受け取る変数へのポインタ。構造体の型は pLevel で決まる。各構造体はアクティブプロセスの情報を含む。使用後は WTSFreeMemoryEx で解放し、ポインタを NULL に設定する。
+pCount : [var] ppProcessInfo バッファに返される構造体数を受け取る変数へのポインタ。
 %inst
-Retrieves information about the active processes on the specified
-Remote Desktop Session Host (RD Session Host) server or Remote
-Desktop Virtualization Host (RD Virtualization Host) server.
-(Unicode)
+指定 RD セッションホストサーバーまたは RD 仮想化ホストサーバー上のアクティブプロセスに関する情報を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call the GetLastError function.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-The caller must be a member of the Administrators group to enumerate
-processes that are running under another user session.
-> [!NOTE] > The wtsapi32.h header defines WTSEnumerateProcessesEx as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+他ユーザのセッションで動作中のプロセスを列挙するには Administrators グループのメンバである必要がある。
+> [!NOTE] > wtsapi32.h は WTSEnumerateProcessesEx を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSEnumerateServersW
-Returns a list of all Remote Desktop Session Host (RD?Session Host) servers within the specified domain. (Unicode)
+指定ドメイン内の全 RD セッションホストサーバーのリストを返す。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 pDomainName, Reserved, Version, ppServerInfo, pCount
-pDomainName : [wstr] Pointer to the name of the domain to be queried. If the value of this parameter is NULL, the specified domain is the current domain.
-Reserved : [int] Reserved. The value of this parameter must be 0.
-Version : [int] Version of the enumeration request. The value of the parameter must be 1.
-ppServerInfo : [var] Points to an array of WTS_SERVER_INFO structures, which contains the returned results of the enumeration. After use, the memory used by this buffer should be freed by calling WTSFreeMemory.
-pCount : [var] Pointer to a variable that receives the number of WTS_SERVER_INFO structures returned in the ppServerInfo buffer.
+pDomainName : [wstr] 問い合わせるドメイン名へのポインタ。NULL なら現在のドメインが指定される。
+Reserved : [int] 予約されている。0 でなければならない。
+Version : [int] 列挙要求のバージョン。1 でなければならない。
+ppServerInfo : [var] 列挙結果を含む WTS_SERVER_INFO 配列を指す。使用後は WTSFreeMemory で解放する。
+pCount : [var] ppServerInfo バッファに返される WTS_SERVER_INFO 構造体数を受け取る変数へのポインタ。
 %inst
-Returns a list of all Remote Desktop Session Host (RD Session Host)
-servers within the specified domain. (Unicode)
+指定ドメイン内の全 RD セッションホストサーバーのリストを返す。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-This function will not work if NetBT is disabled.
-> [!NOTE] > The wtsapi32.h header defines WTSEnumerateServers as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+NetBT が無効な場合この関数は動作しない。
+> [!NOTE] > wtsapi32.h は WTSEnumerateServers を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSEnumerateSessionsW
-Retrieves a list of sessions on a Remote Desktop Session Host (RD?Session Host) server. (Unicode)
+RD セッションホストサーバー上のセッション一覧を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, Reserved, Version, ppSessionInfo, pCount
-hServer : [intptr] A handle to the RD?Session Host server. Note??You can use the WTSOpenServer or WTSOpenServerEx functions to retrieve a handle to a specific server, or  WTS_CURRENT_SERVER_HANDLE to use the RD?Session Host server that hosts your application.
-Reserved : [int] This parameter is reserved. It must be zero.
-Version : [int] The version of the enumeration request. This parameter must be 1.
-ppSessionInfo : [var] A pointer to an array of WTS_SESSION_INFO structures that represent the retrieved sessions. To free the returned buffer, call the WTSFreeMemory function.
-pCount : [var] A pointer to the number of WTS_SESSION_INFO structures returned in the ppSessionInfo parameter.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。注: WTSOpenServer/WTSOpenServerEx で特定サーバーのハンドルを取得するか、アプリ実行中サーバーには WTS_CURRENT_SERVER_HANDLE を使う。
+Reserved : [int] このパラメータは予約されている。0 でなければならない。
+Version : [int] 列挙要求のバージョン。1 でなければならない。
+ppSessionInfo : [var] 取得されたセッションを表す WTS_SESSION_INFO 配列へのポインタ。使用後は WTSFreeMemory で解放する。このドキュメントは省略されている。
+pCount : [var] ppSessionInfo に返される WTS_SESSION_INFO 構造体数へのポインタ。
 %inst
-Retrieves a list of sessions on a Remote Desktop Session Host (RD
-Session Host) server. (Unicode)
+RD セッションホストサーバー上のセッション一覧を取得する。(Unicode)
 
 [戻り値]
-Returns zero if this function fails. If this function succeeds, a
-nonzero value is returned. To get extended error information, call
-GetLastError.
+関数が失敗すると 0 を返す。関数が成功すると 0 以外を返す。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 [備考]
-> [!NOTE] > The wtsapi32.h header defines WTSEnumerateSessions as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > wtsapi32.h は WTSEnumerateSessions を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSEnumerateSessionsExW
-Retrieves a list of sessions on a specified Remote Desktop Session Host (RD?Session Host) server or Remote Desktop Virtualization Host (RD?Virtualization Host) server. (Unicode)
+指定 RD セッションホストまたは RD 仮想化ホストサーバー上のセッション一覧を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, pLevel, Filter, ppSessionInfo, pCount
-hServer : [intptr] A handle to the target server. Specify a handle returned by the WTSOpenServer or WTSOpenServerEx function. To enumerate sessions on  the RD?Session Host server on which the application is running, specify WTS_CURRENT_SERVER_HANDLE.
-pLevel : [var] This parameter is reserved. Always set this parameter to one. On output, WTSEnumerateSessionsEx does not change the value of this parameter.
-Filter : [int] This parameter is reserved. Always set this parameter to zero.
-ppSessionInfo : [var] A pointer to a PWTS_SESSION_INFO_1 variable that receives a pointer to an array of WTS_SESSION_INFO_1 structures. Each structure in the array contains information about a session on the specified RD?Session Host server. If you obtained a handle to an RD?Virtualization Host server by calling the WTSOpenServerEx function, the array contains information about sessions on virtual machines on the server. When you have finished using the array, free it by calling the WTSFreeMemoryEx function. You should also set the pointer to NULL.
-pCount : [var] A pointer to a DWORD variable that receives the number of WTS_SESSION_INFO_1 structures returned in the ppSessionInfo buffer.
+hServer : [intptr] 対象サーバーへのハンドル。WTSOpenServer/WTSOpenServerEx で返されたハンドルを指定する。アプリ実行中サーバーを対象にするには WTS_CURRENT_SERVER_HANDLE を指定する。
+pLevel : [var] このパラメータは予約されている。常に 1 に設定する。出力時に値は変更されない。
+Filter : [int] このパラメータは予約されている。常に 0 に設定する。
+ppSessionInfo : [var] WTS_SESSION_INFO_1 配列へのポインタを受け取る PWTS_SESSION_INFO_1 変数へのポインタ。各構造体は指定 RD セッションホスト上のセッション情報を含む。WTSOpenServerEx で開いた RD 仮想化ホストのハンドルなら、仮想マシン上のセッション情報となる。使用後は WTSFreeMemoryEx で解放し、ポインタを NULL に設定する。
+pCount : [var] ppSessionInfo バッファに返される WTS_SESSION_INFO_1 構造体数を受け取る DWORD 変数へのポインタ。
 %inst
-Retrieves a list of sessions on a specified Remote Desktop Session
-Host (RD Session Host) server or Remote Desktop Virtualization Host
-(RD Virtualization Host) server. (Unicode)
+指定 RD セッションホストまたは RD 仮想化ホストサーバー上のセッション一覧を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call the GetLastError function.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-To obtain information about sessions running on virtual machines on
-an RD Virtualization Host server, you must obtain the handle by
-calling the WTSOpenServerEx function. To free the returned buffer,
-call the WTSFreeMemoryEx function and set the WTSClassType parameter
-to WTSTypeSessionInfoLevel1. To enumerate a session, you need to have
-the Query Information permission for that session. For more
-information, see Remote Desktop Services Permissions. To modify
-permissions on a session, use the Remote Desktop Services
-Configuration administrative tool. To enumerate sessions running on a
-virtual machine hosted on an RD Virtualization Host server, you must
-be a member of the Administrators group on the RD Virtualization Host
-server.
-> [!NOTE] > The wtsapi32.h header defines WTSEnumerateSessionsEx as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+RD 仮想化ホスト上の仮想マシンセッション情報を取得するには WTSOpenServerEx
+でハンドルを取得する必要がある。返されたバッファを解放するには WTSFreeMemoryEx を呼び出し WTSClassType に
+WTSTypeSessionInfoLevel1 を指定する。セッションを列挙するには Query Information
+権限が必要である。仮想マシンセッションを列挙するには Administrators グループのメンバである必要がある。
+> [!NOTE] > wtsapi32.h は WTSEnumerateSessionsEx を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSFreeMemory
-Frees memory allocated by a Remote Desktop Services function.
+リモートデスクトップサービス関数が割り当てたメモリを解放する。
 %group
 Win32 wtsapi32
 %prm
 pMemory
-pMemory : [intptr] Pointer to the memory to free.
+pMemory : [intptr] 解放するメモリへのポインタ。
 %inst
-Frees memory allocated by a Remote Desktop Services function.
+リモートデスクトップサービス関数が割り当てたメモリを解放する。
 
 [備考]
-Several Remote Desktop Services functions allocate buffers to return
-information. Use the WTSFreeMemory function to free these buffers.
+いくつかのリモートデスクトップサービス関数は情報を返すためにバッファを割り当てる。WTSFreeMemory
+を使ってこれらのバッファを解放する。
 
 
 %index
 WTSFreeMemoryExW
-Frees memory that contains WTS_PROCESS_INFO_EX or WTS_SESSION_INFO_1 structures allocated by a Remote Desktop Services function. (Unicode)
+リモートデスクトップサービス関数で割り当てられた WTS_PROCESS_INFO_EX または WTS_SESSION_INFO_1 構造体を含むメモリを解放する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 WTSTypeClass, pMemory, NumberOfEntries
-WTSTypeClass : [int] A value of the WTS_TYPE_CLASS enumeration type that specifies the type of structures contained in the buffer referenced by the pMemory parameter.
-pMemory : [intptr] A pointer to the buffer to free.
-NumberOfEntries : [int] The number of elements in the buffer referenced by the pMemory parameter.
+WTSTypeClass : [int] pMemory に含まれる構造体の型を指定する WTS_TYPE_CLASS 列挙型の値。
+pMemory : [intptr] 解放するバッファへのポインタ。
+NumberOfEntries : [int] pMemory が参照するバッファ内の要素数。
 %inst
-Frees memory that contains WTS_PROCESS_INFO_EX or WTS_SESSION_INFO_1
-structures allocated by a Remote Desktop Services function. (Unicode)
+リモートデスクトップサービス関数で割り当てられた WTS_PROCESS_INFO_EX または WTS_SESSION_INFO_1
+構造体を含むメモリを解放する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call the GetLastError function.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-Several Remote Desktop Services functions allocate buffers to return
-information. To free buffers that contain WTS_PROCESS_INFO_EX or
-WTS_SESSION_INFO_1 structures, you must call the WTSFreeMemoryEx
-function. To free other buffers, you can call either the
-WTSFreeMemory function or the WTSFreeMemoryEx function.
-> [!NOTE] > The wtsapi32.h header defines WTSFreeMemoryEx as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+いくつかのリモートデスクトップサービス関数はバッファを割り当てる。WTS_PROCESS_INFO_EX や
+WTS_SESSION_INFO_1 を含むバッファは WTSFreeMemoryEx で解放する必要がある。他のバッファは
+WTSFreeMemory でも WTSFreeMemoryEx でも解放できる。
+> [!NOTE] > wtsapi32.h は WTSFreeMemoryEx を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSGetChildSessionId
-Retrieves the child session identifier, if present.
+存在する場合は子セッション識別子を取得する。
 %group
 Win32 wtsapi32
 %prm
 pSessionId
-pSessionId : [var] The address of a ULONG variable that receives the child session identifier. This will be (ULONG)?1 if there is no child session for the current session.
+pSessionId : [var] 子セッション識別子を受け取る ULONG 変数のアドレス。現在のセッションに子セッションがなければ (ULONG)-1 となる。
 %inst
-Retrieves the child session identifier, if present.
+存在する場合は子セッション識別子を取得する。
 
 [戻り値]
-Returns nonzero if the function succeeds or zero otherwise.
+関数が成功すれば 0 以外、そうでなければ 0 を返す。
 
 [備考]
-For more information about child sessions, see Child Sessions.
+子セッションの詳細については Child Sessions を参照。
 
 
 %index
 WTSGetListenerSecurityW
-Retrieves the security descriptor of a Remote Desktop Services listener. (Unicode)
+リモートデスクトップサービスリスナーのセキュリティ記述子を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, SecurityInformation, pSecurityDescriptor, nLength, lpnLengthNeeded
-hServer : [intptr] A handle to an RD?Session Host server. Always set this  parameter to WTS_CURRENT_SERVER_HANDLE.
-pReserved : [intptr] This parameter is reserved. Always set this parameter to NULL.
-Reserved : [int] This parameter is reserved. Always set this parameter to zero.
-pListenerName : [wstr] A pointer to a null-terminated string that contains the name of the listener.
-SecurityInformation : [int] A SECURITY_INFORMATION value that specifies the security information  to retrieve. Always enable the  DACL_SECURITY_INFORMATION and SACL_SECURITY_INFORMATION flags. For more information about possible values, see SECURITY_INFORMATION.
-pSecurityDescriptor : [int] A pointer to a SECURITY_DESCRIPTOR structure that receives the security information associated with  the listener referenced by the pListenerName parameter. The SECURITY_DESCRIPTOR structure is returned in self-relative format. For more information about possible values, see SECURITY_DESCRIPTOR.
-nLength : [int] The size, in bytes, of the SECURITY_DESCRIPTOR structure referenced by the pSecurityDescriptor parameter.
-lpnLengthNeeded : [var] A pointer to a variable that receives the number of bytes required to store the complete security descriptor. If this number is less than or equal to the value of the nLength parameter, the security descriptor is copied to the SECURITY_DESCRIPTOR structure referenced by the pSecurityDescriptor parameter; otherwise, no action is taken.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。常に WTS_CURRENT_SERVER_HANDLE に設定する。
+pReserved : [intptr] このパラメータは予約されている。常に NULL に設定する。
+Reserved : [int] このパラメータは予約されている。常に 0 に設定する。
+pListenerName : [wstr] リスナー名を含む NULL 終端文字列へのポインタ。
+SecurityInformation : [int] 取得するセキュリティ情報を指定する SECURITY_INFORMATION 値。DACL_SECURITY_INFORMATION と SACL_SECURITY_INFORMATION フラグを常に有効にする。
+pSecurityDescriptor : [int] pListenerName が参照するリスナーに関連付けられたセキュリティ情報を受け取る SECURITY_DESCRIPTOR 構造体へのポインタ。構造体は自己相対形式で返される。
+nLength : [int] pSecurityDescriptor が指す SECURITY_DESCRIPTOR 構造体のサイズ (バイト単位)。
+lpnLengthNeeded : [var] 完全なセキュリティ記述子を格納するのに必要なバイト数を受け取る変数へのポインタ。nLength 以下なら pSecurityDescriptor が指す SECURITY_DESCRIPTOR 構造体にコピーされる。
 %inst
-Retrieves the security descriptor of a Remote Desktop Services
-listener. (Unicode)
+リモートデスクトップサービスリスナーのセキュリティ記述子を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call the GetLastError function.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-If the number of bytes needed for the buffer that receives the
-SECURITY_DESCRIPTOR structure is unknown, you can call this method
-with nLength set to zero. The method will then return, in the
-lpnLengthNeeded parameter, the number of bytes required for the
-buffer. Allocate the buffer based on this number, and then call the
-method again, setting pSecurityDescriptor to the newly allocated
-buffer and nLength to the number returned by the first call.
-> [!NOTE] > The wtsapi32.h header defines WTSGetListenerSecurity as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+必要なバッファサイズが不明な場合、nLength を 0 にして呼ぶと lpnLengthNeeded
+に必要バイト数が返る。それに基づいてバッファを確保し、pSecurityDescriptor と nLength
+を再設定してもう一度呼ぶ。
+> [!NOTE] > wtsapi32.h は WTSGetListenerSecurity を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSIsChildSessionsEnabled
-Determines whether child sessions are enabled.
+子セッションが有効かどうかを判定する。
 %group
 Win32 wtsapi32
 %prm
 pbEnabled
-pbEnabled : [var] The address of a BOOL variable that receives a nonzero value if child sessions are enabled or zero otherwise.
+pbEnabled : [var] 子セッションが有効なら 0 以外、そうでなければ 0 を受け取る BOOL 変数のアドレス。
 %inst
-Determines whether child sessions are enabled.
+子セッションが有効かどうかを判定する。
 
 [戻り値]
-Returns nonzero if the function succeeds or zero otherwise.
+関数が成功すれば 0 以外、そうでなければ 0 を返す。
 
 [備考]
-For more information about child sessions, see Child Sessions.
+子セッションの詳細については Child Sessions を参照。
 
 
 %index
 WTSLogoffSession
-Logs off a specified Remote Desktop Services session.
+指定リモートデスクトップサービスセッションをログオフする。
 %group
 Win32 wtsapi32
 %prm
 hServer, SessionId, bWait
-hServer : [intptr] A handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer or WTSOpenServerEx function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
-SessionId : [int] A Remote Desktop Services session identifier. To indicate the current session, specify WTS_CURRENT_SESSION. You can use the WTSEnumerateSessions function to retrieve the identifiers of all sessions on a specified RD?Session Host server. To be able to log off another user's session, you need to have the Reset permission. For more information, see Remote Desktop Services Permissions. To modify permissions on a session, use the Remote Desktop Services Configuration administrative tool. To log off sessions running on a virtual machine hosted on a RD?Virtualization Host server, you must be a member of the Administrators group on the RD?Virtualization Host server.
-bWait : [int] Indicates whether the operation is synchronous. If bWait is TRUE, the function returns when the session is logged off. If bWait is FALSE, the function returns immediately. To verify that the session has been logged off, specify the session identifier in a call to the WTSQuerySessionInformation function. WTSQuerySessionInformation returns zero if the session is logged off.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer/WTSOpenServerEx で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
+SessionId : [int] リモートデスクトップサービスセッション識別子。現在のセッションを示すには WTS_CURRENT_SESSION を指定する。他ユーザのセッションをログオフするには Reset 権限が必要である。RD 仮想化ホスト上の仮想マシンのセッションをログオフするには Administrators グループのメンバである必要がある。
+bWait : [int] 操作が同期か非同期かを示す。TRUE ならログオフ完了時に戻り、FALSE なら直ちに戻る。ログオフ済みを確認するには WTSQuerySessionInformation に当該セッション ID を渡す (ログオフ済みなら 0 を返す)。
 %inst
-Logs off a specified Remote Desktop Services session.
+指定リモートデスクトップサービスセッションをログオフする。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 WTSOpenServerW
-Opens a handle to the specified Remote Desktop Session Host (RD?Session Host) server. (Unicode)
+指定 RD セッションホストサーバーへのハンドルを開く。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 pServerName
-pServerName : [wstr] Pointer to a null-terminated string specifying the NetBIOS name of the RD?Session Host server.
+pServerName : [wstr] RD セッションホストサーバーの NetBIOS 名を指定する NULL 終端文字列へのポインタ。
 %inst
-Opens a handle to the specified Remote Desktop Session Host (RD
-Session Host) server. (Unicode)
+指定 RD セッションホストサーバーへのハンドルを開く。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-specified server. If the function fails, it returns a handle that is
-not valid. You can test the validity of the handle by using it in
-another function call.
+関数が成功すると戻り値は指定サーバーへのハンドルとなる。関数が失敗した場合、無効なハンドルを返す。
 
 [備考]
-When you have finished using the handle returned by WTSOpenServer,
-release it by calling the WTSCloseServer function. You do not need to
-open a handle for operations performed on the RD Session Host server
-on which your application is running. Use the constant
-WTS_CURRENT_SERVER_HANDLE instead.
-> [!NOTE] > The wtsapi32.h header defines WTSOpenServer as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+WTSOpenServer で返されたハンドルは使用後 WTSCloseServer
+で解放する。アプリ実行中サーバーに対してはハンドルを開く必要はなく、WTS_CURRENT_SERVER_HANDLE を使う。
+> [!NOTE] > wtsapi32.h は WTSOpenServer を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSOpenServerExW
-Opens a handle to the specified Remote Desktop Session Host (RD?Session Host) server or Remote Desktop Virtualization Host (RD?Virtualization Host) server. (Unicode)
+指定 RD セッションホストまたは RD 仮想化ホストサーバーへのハンドルを開く。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 pServerName
-pServerName : [wstr] A pointer to a null-terminated string that contains the NetBIOS name of the server.
+pServerName : [wstr] サーバーの NetBIOS 名を含む NULL 終端文字列へのポインタ。
 %inst
-Opens a handle to the specified Remote Desktop Session Host (RD
-Session Host) server or Remote Desktop Virtualization Host (RD
-Virtualization Host) server. (Unicode)
+指定 RD セッションホストまたは RD 仮想化ホストサーバーへのハンドルを開く。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-specified server. If the function fails, it returns an invalid
-handle. You can test the validity of the handle by using it in
-another function call.
+
+関数が成功すると戻り値は指定サーバーへのハンドルとなる。関数が失敗した場合、無効なハンドルを返す。他の関数呼び出しで使用してハンドルの有効性をテストできる。
 
 [備考]
-If the server specified by the pServerName parameter is an RD Session
-Host server, the behavior of this function is identical to that of
-the WTSOpenServer function. To work with sessions running on virtual
-machines on the RD Virtualization Host server on which the calling
-application is running, specify WTS_CURRENT_SERVER_NAME for the
-pServerName parameter. When you have finished using the handle
-returned by this function, release it by calling the WTSCloseServer
-function.
-> [!NOTE] > The wtsapi32.h header defines WTSOpenServerEx as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+pServerName が RD セッションホストサーバーの場合、この関数の動作は WTSOpenServer と同一である。アプリ実行中
+RD 仮想化ホスト上の仮想マシンセッションを扱うには WTS_CURRENT_SERVER_NAME を指定する。使用後は
+WTSCloseServer でハンドルを解放する。
+> [!NOTE] > wtsapi32.h は WTSOpenServerEx を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSQueryListenerConfigW
-Retrieves configuration information for a Remote Desktop Services listener. (Unicode)
+リモートデスクトップサービスリスナーの構成情報を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, pBuffer
-hServer : [intptr] A handle to an RD?Session Host server. Always set this  parameter to WTS_CURRENT_SERVER_HANDLE.
-pReserved : [intptr] This parameter is reserved. Always set this parameter to NULL.
-Reserved : [int] This parameter is reserved. Always set this parameter to zero.
-pListenerName : [wstr] A pointer to a null-terminated string that contains the name of the listener to query.
-pBuffer : [var] A pointer to a WTSLISTENERCONFIG structure that receives the  retrieved listener configuration information.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。常に WTS_CURRENT_SERVER_HANDLE に設定する。
+pReserved : [intptr] このパラメータは予約されている。常に NULL に設定する。
+Reserved : [int] このパラメータは予約されている。常に 0 に設定する。
+pListenerName : [wstr] 問い合わせるリスナー名を含む NULL 終端文字列へのポインタ。
+pBuffer : [var] 取得したリスナー構成情報を受け取る WTSLISTENERCONFIG 構造体へのポインタ。
 %inst
-Retrieves configuration information for a Remote Desktop Services
-listener. (Unicode)
+リモートデスクトップサービスリスナーの構成情報を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call the GetLastError function.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-This function does not retrieve the security descriptor for the
-listener. To retrieve the security descriptor, call the
-WTSGetListenerSecurity function.
-> [!NOTE] > The wtsapi32.h header defines WTSQueryListenerConfig as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数はリスナーのセキュリティ記述子を取得しない。取得するには WTSGetListenerSecurity を呼び出す。
+> [!NOTE] > wtsapi32.h は WTSQueryListenerConfig を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSQuerySessionInformationW
-Retrieves session information for the specified session on the specified Remote Desktop Session Host (RD?Session Host) server. (Unicode)
+指定 RD セッションホストサーバー上の指定セッションのセッション情報を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, SessionId, WTSInfoClass, ppBuffer, pBytesReturned
-hServer : [intptr] A handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
-SessionId : [int] A Remote Desktop Services session identifier. To indicate the session in which the calling application is running (or the current session) specify WTS_CURRENT_SESSION. Only specify WTS_CURRENT_SESSION when obtaining session information on the local server. If WTS_CURRENT_SESSION is specified when querying session information on a remote server, the returned session information will be inconsistent. Do not use the returned data. You can use the WTSEnumerateSessions function to retrieve the identifiers of all sessions on a specified RD?Session Host server. To query information for another user's session, you must have Query Information permission. For more information, see Remote Desktop Services Permissions. To modify permissions on a session, use the Remote Desktop Services Configuration administrative tool.
-WTSInfoClass : [int] A value of the WTS_INFO_CLASS enumeration that indicates the type of session information to retrieve in a call to the WTSQuerySessionInformation function.
-ppBuffer : [var] A pointer to a variable that receives a pointer to the requested information. The format and contents of the data depend on the information class specified in the WTSInfoClass parameter. To free the returned buffer, call the WTSFreeMemory function.
-pBytesReturned : [var] A pointer to a variable that receives the size, in bytes, of the data returned in ppBuffer.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
+SessionId : [int] リモートデスクトップサービスセッション識別子。呼び出し元アプリが動作中のセッション (現在のセッション) を示すには WTS_CURRENT_SESSION を指定する。ローカルサーバー上で情報取得する場合のみ WTS_CURRENT_SESSION を指定すること。リモートサーバーで指定すると返される情報は信頼できない。他ユーザのセッション情報を問い合わせるには Query Information 権限が必要である。
+WTSInfoClass : [int] 取得するセッション情報の種類を示す WTS_INFO_CLASS 列挙の値。
+ppBuffer : [var] 要求された情報へのポインタを受け取る変数へのポインタ。データの形式・内容は WTSInfoClass に依存する。使用後は WTSFreeMemory で解放する。
+pBytesReturned : [var] ppBuffer に返されるデータのバイトサイズを受け取る変数へのポインタ。
 %inst
-Retrieves session information for the specified session on the
-specified Remote Desktop Session Host (RD Session Host) server.
-(Unicode)
+指定 RD セッションホストサーバー上の指定セッションのセッション情報を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-To retrieve the session ID for the current session when Remote
-Desktop Services is running, call WTSQuerySessionInformation and
-specify WTS_CURRENT_SESSION for the SessionId parameter and
-WTSSessionId for the WTSInfoClass parameter. The session ID will be
-returned in the ppBuffer parameter. If Remote Desktop Services is not
-running, calls to WTSQuerySessionInformation fail. In this situation,
-you can retrieve the current session ID by calling the
-ProcessIdToSessionId function. To determine whether your application
-is running on the physical console, you must specify
-WTS_CURRENT_SESSION for the SessionId parameter, and
-WTSClientProtocolType as the WTSInfoClass parameter. If ppBuffer is
-"0", the session is attached to the physical console.
-> [!NOTE] > The wtsapi32.h header defines WTSQuerySessionInformation
-as an alias which automatically selects the ANSI or Unicode version
-of this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+リモートデスクトップサービス実行中に現在のセッション ID を取得するには、SessionId を
+WTS_CURRENT_SESSION、WTSInfoClass を WTSSessionId にして呼び出す。セッション ID は
+ppBuffer で返される。リモートデスクトップサービスが動作していないと呼び出しは失敗する。その場合は
+ProcessIdToSessionId で取得できる。アプリが物理コンソール上で動作中か判定するには
+WTS_CURRENT_SESSION と WTSClientProtocolType を指定する。ppBuffer が "0"
+なら物理コンソールにアタッチされている。
+> [!NOTE] > wtsapi32.h は WTSQuerySessionInformation を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSQueryUserConfigW
-Retrieves configuration information for the specified user on the specified domain controller or Remote Desktop Session Host (RD?Session Host) server. (Unicode)
+指定ドメインコントローラまたは RD セッションホストサーバー上の指定ユーザの構成情報を取得する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 pServerName, pUserName, WTSConfigClass, ppBuffer, pBytesReturned
-pServerName : [wstr] Pointer to a null-terminated string containing the name of a domain controller or an RD?Session Host server. Specify WTS_CURRENT_SERVER_NAME to indicate the RD?Session Host server on which your application is running.
-pUserName : [wstr] Pointer to a null-terminated string containing the user name to query. To retrieve the default user settings for the RD?Session Host server, set this parameter to NULL. Windows Server?2008 and Windows?Vista:??Setting this parameter to NULL returns an error.
-WTSConfigClass : [int] Specifies the type of information to retrieve. This parameter can be one of the values from the WTS_CONFIG_CLASS enumeration type. The documentation for WTS_CONFIG_CLASS describes the format of the data returned in ppBuffer for each of the information types.
-ppBuffer : [var] Pointer to a variable that receives a pointer to the requested information. The format and contents of the data depend on the information class specified in the WTSConfigClass parameter. To free the returned buffer, call the WTSFreeMemory function.
-pBytesReturned : [var] Pointer to a variable that receives the size, in bytes, of the data returned in ppBuffer.
+pServerName : [wstr] ドメインコントローラまたは RD セッションホストサーバーの名前を含む NULL 終端文字列へのポインタ。アプリ実行中サーバーを指定するには WTS_CURRENT_SERVER_NAME を指定する。
+pUserName : [wstr] 問い合わせるユーザ名を含む NULL 終端文字列へのポインタ。RD セッションホストサーバーの既定ユーザ設定を取得するには NULL に設定する。Windows Server 2008 および Windows Vista では NULL はエラーとなる。
+WTSConfigClass : [int] 取得する情報の種類を指定する。WTS_CONFIG_CLASS 列挙型の値のいずれか。ppBuffer に返されるデータの形式はこの列挙のドキュメントを参照。
+ppBuffer : [var] 要求された情報へのポインタを受け取る変数へのポインタ。データの形式・内容は WTSConfigClass に依存する。使用後は WTSFreeMemory で解放する。
+pBytesReturned : [var] ppBuffer に返されるデータのバイトサイズを受け取る変数へのポインタ。
 %inst
-Retrieves configuration information for the specified user on the
-specified domain controller or Remote Desktop Session Host (RD
-Session Host) server. (Unicode)
+指定ドメインコントローラまたは RD セッションホストサーバー上の指定ユーザの構成情報を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-The WTSQueryUserConfig and WTSSetUserConfig functions are passed a
-server name instead of a handle because user account information
-often resides on a domain controller. To set user configuration
-information, use the primary domain controller. You can call the
-NetGetDCName function to get the name of the primary domain
-controller. To query user configuration information, you can use the
-NetGetAnyDCName function to get the name of a primary or backup
-domain controller. Any domain controller can set or query user
-configuration information. Use the DsGetDcName function to retrieve
-the name of a domain controller.
-> [!NOTE] > The wtsapi32.h header defines WTSQueryUserConfig as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+WTSQueryUserConfig と WTSSetUserConfig
+はハンドルではなくサーバー名を渡す。ユーザアカウント情報はドメインコントローラに存在することが多いためである。設定するにはプライマリドメインコントローラを使う。NetGetDCName
+でプライマリ DC 名を取得できる。問い合わせには NetGetAnyDCName や DsGetDcName を使える。
+> [!NOTE] > wtsapi32.h は WTSQueryUserConfig を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSQueryUserToken
-Obtains the primary access token of the logged-on user specified by the session ID.
+セッション ID で指定されたログオン中ユーザのプライマリアクセストークンを取得する。
 %group
 Win32 wtsapi32
 %prm
 SessionId, phToken
-SessionId : [int] A Remote Desktop Services session identifier. Any program running in the context of a service will have a session identifier of zero (0). You can use the WTSEnumerateSessions function to retrieve the identifiers of all sessions on a specified RD?Session Host server. To be able to query information for another user's session, you need to have the Query Information permission. For more information, see Remote Desktop Services Permissions. To modify permissions on a session, use the Remote Desktop Services Configuration administrative tool.
-phToken : [intptr] If the function succeeds, receives a pointer to the token handle for the logged-on user. Note that you must call the CloseHandle function to close this handle.
+SessionId : [int] リモートデスクトップサービスセッション識別子。サービスのコンテキストで動作するプログラムはセッション ID 0 を持つ。他ユーザのセッション情報を問い合わせるには Query Information 権限が必要である。
+phToken : [intptr] 関数が成功した場合、ログオン中ユーザのトークンハンドルへのポインタを受け取る。使用後は CloseHandle で閉じる必要がある。
 %inst
-Obtains the primary access token of the logged-on user specified by
-the session ID.
+セッション ID で指定されたログオン中ユーザのプライマリアクセストークンを取得する。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value, and
-the phToken parameter points to the primary token of the user. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となり、phToken はユーザのプライマリトークンを指す。関数が失敗した場合、戻り値は 0
+となる。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 [備考]
-For information about primary tokens, see Access Tokens. For more
-information about account privileges, see Remote Desktop Services
-Permissions and Authorization Constants. See LocalSystem account for
-information about the privileges associated with that account.
+プライマリトークンについては Access Tokens を参照。アカウント権限については Remote Desktop Services
+Permissions と Authorization Constants を参照。LocalSystem アカウントの権限については
+LocalSystem account を参照。
 
 
 %index
 WTSRegisterSessionNotification
-Registers the specified window to receive session change notifications. (WTSRegisterSessionNotification)
+指定ウィンドウをセッション変更通知の受信用に登録する。(WTSRegisterSessionNotification)
 %group
 Win32 wtsapi32
 %prm
 hWnd, dwFlags
-hWnd : [intptr] Handle of the window to receive session change notifications.
-dwFlags : [int] Specifies which session notifications are to be received. This parameter can be one of the following values.
+hWnd : [intptr] セッション変更通知を受信するウィンドウのハンドル。
+dwFlags : [int] 受信するセッション通知を指定する。次のいずれかの値を指定できる。
 %inst
-Registers the specified window to receive session change
-notifications. (WTSRegisterSessionNotification)
+指定ウィンドウをセッション変更通知の受信用に登録する。(WTSRegisterSessionNotification)
 
 [戻り値]
-If the function succeeds, the return value is TRUE. Otherwise, it is
-FALSE. To get extended error information, call GetLastError.
+関数が成功すると戻り値は TRUE となる。そうでなければ FALSE となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-If this function is called before the dependent services of Remote
-Desktop Services have started, an RPC_S_INVALID_BINDING error code
-may be returned. When the Global\\TermSrvReadyEvent global event is
-set, all dependent services have started and this function can be
-successfully called. Session change notifications are sent in the
-form of a WM_WTSSESSION_CHANGE message. These notifications are sent
-only to the windows that have registered for them using this
-function. When a window no longer requires these notifications, it
-must call WTSUnRegisterSessionNotification before being destroyed.
-For every call to this function, there must be a corresponding call
-to WTSUnRegisterSessionNotification. If the window handle passed in
-this function is already registered, the value of the dwFlags
-parameter is ignored. To receive session change notifications from a
-service, use the HandlerEx function.
+リモートデスクトップサービスの依存サービスが起動する前にこの関数を呼び出すと RPC_S_INVALID_BINDING
+が返る可能性がある。Global\\TermSrvReadyEvent
+グローバルイベントがセットされると全依存サービスが起動済みとなる。セッション変更通知は WM_WTSSESSION_CHANGE
+メッセージの形で送られ、登録したウィンドウのみに送信される。ウィンドウが通知を必要としなくなった場合、破棄前に
+WTSUnRegisterSessionNotification
+を呼ぶ必要がある。各呼び出しに対応する解除呼び出しが必要である。既に登録済みハンドルならば dwFlags
+は無視される。サービスから通知を受信するには HandlerEx 関数を使う。
 
 
 %index
 WTSRegisterSessionNotificationEx
-Registers the specified window to receive session change notifications. (WTSRegisterSessionNotificationEx)
+指定ウィンドウをセッション変更通知の受信用に登録する。(WTSRegisterSessionNotificationEx)
 %group
 Win32 wtsapi32
 %prm
 hServer, hWnd, dwFlags
-hServer : [intptr] Handle of the server returned from WTSOpenServer or WTS_CURRENT_SERVER.
-hWnd : [intptr] Handle of the window to receive session change notifications.
-dwFlags : [int] Specifies which session notifications are to be received. This parameter can only be NOTIFY_FOR_THIS_SESSION if hServer is a remote server.
+hServer : [intptr] WTSOpenServer または WTS_CURRENT_SERVER から返されたサーバーのハンドル。
+hWnd : [intptr] セッション変更通知を受信するウィンドウのハンドル。
+dwFlags : [int] 受信するセッション通知を指定する。hServer がリモートサーバーなら NOTIFY_FOR_THIS_SESSION のみ指定可能。
 %inst
-Registers the specified window to receive session change
-notifications. (WTSRegisterSessionNotificationEx)
+指定ウィンドウをセッション変更通知の受信用に登録する。(WTSRegisterSessionNotificationEx)
 
 [戻り値]
-If the function succeeds, the return value is TRUE. Otherwise, it is
-FALSE. To get extended error information, call GetLastError.
+関数が成功すると戻り値は TRUE となる。そうでなければ FALSE となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-If this function is called before the dependent services of Remote
-Desktop Services have started, an RPC_S_INVALID_BINDING error code
-may be returned. When the "Global\\TermSrvReadyEvent" global event is
-set, all dependent services have started and this function can be
-successfully called. Session change notifications are sent in the
-form of a WM_WTSSESSION_CHANGE message. These notifications are sent
-only to the windows that have registered for them using this
-function. When a window no longer requires these notifications, it
-must call WTSUnRegisterSessionNotificationEx before being destroyed.
-For every call to this function, there must be a corresponding call
-to WTSUnRegisterSessionNotificationEx. If the window handle passed in
-this function is already registered, the value of the dwFlags
-parameter is ignored. To receive session change notifications from a
-service, use the HandlerEx function.
+リモートデスクトップサービスの依存サービスが起動前に呼ぶと RPC_S_INVALID_BINDING
+が返る可能性がある。"Global\\TermSrvReadyEvent"
+がセットされると依存サービスは全て起動済みとなる。セッション変更通知は WM_WTSSESSION_CHANGE
+として送信され、登録ウィンドウのみに送られる。使用終了時は WTSUnRegisterSessionNotificationEx
+を呼び、各登録に対応する解除を行う。既登録ハンドルなら dwFlags は無視される。サービスからの通知受信には HandlerEx
+を使う。
 
 
 %index
 WTSSendMessageW
-Displays a message box on the client desktop of a specified Remote Desktop Services session. (Unicode)
+指定リモートデスクトップサービスセッションのクライアントデスクトップにメッセージボックスを表示する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, SessionId, pTitle, TitleLength, pMessage, MessageLength, Style, Timeout, pResponse, bWait
-hServer : [intptr] A handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
-SessionId : [int] A Remote Desktop Services session identifier. To indicate the current session, specify WTS_CURRENT_SESSION. You can use the WTSEnumerateSessions function to retrieve the identifiers of all sessions on a specified RD?Session Host server. To send a message to another user's session, you need to have the Message permission. For more information, see Remote Desktop Services Permissions. To modify permissions on a session, use the Remote Desktop Services Configuration administrative tool.
-pTitle : [wstr] A pointer to a null-terminated string for the title bar of the message box.
-TitleLength : [int] The length, in bytes, of the title bar string.
-pMessage : [wstr] A pointer to a null-terminated string that contains the message to display.
-MessageLength : [int] The length, in bytes, of the message string.
-Style : [int] The contents and behavior of the message box. This value is typically MB_OK. For a complete list of values, see the uType parameter of the MessageBox function.
-Timeout : [int] The time, in seconds, that the WTSSendMessage function waits for the user's response. If the user does not respond within the time-out interval, the pResponse parameter returns IDTIMEOUT. If the Timeout parameter is zero, WTSSendMessage waits indefinitely for the user to respond.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
+SessionId : [int] リモートデスクトップサービスセッション識別子。現在のセッションを示すには WTS_CURRENT_SESSION を指定する。他ユーザのセッションにメッセージを送るには Message 権限が必要である。
+pTitle : [wstr] メッセージボックスのタイトルバー用 NULL 終端文字列へのポインタ。
+TitleLength : [int] タイトルバー文字列の長さ (バイト単位)。
+pMessage : [wstr] 表示するメッセージを含む NULL 終端文字列へのポインタ。
+MessageLength : [int] メッセージ文字列の長さ (バイト単位)。
+Style : [int] メッセージボックスの内容と動作。通常は MB_OK を指定する。完全な値一覧は MessageBox の uType を参照。
+Timeout : [int] ユーザ応答を待つ時間 (秒)。時間内に応答がなければ pResponse に IDTIMEOUT が返る。Timeout が 0 なら無期限に待つ。
 pResponse : [var] 
-bWait : [int] If TRUE, WTSSendMessage does not return until the user responds or the time-out interval elapses. If the Timeout parameter is zero, the function does not return until the user responds. If FALSE, the function returns immediately and the pResponse parameter returns IDASYNC. Use this method for simple information messages (such as print job?notification messages) that do not need to return the user's response to the calling program.
+bWait : [int] TRUE ならユーザ応答またはタイムアウトまで戻らない (Timeout 0 なら応答まで戻らない)。FALSE なら直ちに戻り pResponse に IDASYNC が返る。応答を呼び出し元に返す必要のない簡単な情報メッセージ用。
 %inst
-Displays a message box on the client desktop of a specified Remote
-Desktop Services session. (Unicode)
+指定リモートデスクトップサービスセッションのクライアントデスクトップにメッセージボックスを表示する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-> [!NOTE] > The wtsapi32.h header defines WTSSendMessage as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > wtsapi32.h は WTSSendMessage を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSSetListenerSecurityW
-Configures the security descriptor of a Remote Desktop Services listener. (Unicode)
+リモートデスクトップサービスリスナーのセキュリティ記述子を構成する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, SecurityInformation, pSecurityDescriptor
-hServer : [intptr] A handle to an RD?Session Host server. Always set this  parameter to WTS_CURRENT_SERVER_HANDLE.
-pReserved : [intptr] This parameter is reserved. Always set this parameter to NULL.
-Reserved : [int] This parameter is reserved. Always set this parameter to zero.
-pListenerName : [wstr] A pointer to a null-terminated string that contains the name of the listener.
-SecurityInformation : [int] A SECURITY_INFORMATION value that specifies the security information  to set. Always enable the  DACL_SECURITY_INFORMATION and SACL_SECURITY_INFORMATION flags. For more information about possible values, see SECURITY_INFORMATION.
-pSecurityDescriptor : [int] A pointer to a SECURITY_DESCRIPTOR structure that contains the security information associated with the listener. For more information about possible values, see SECURITY_DESCRIPTOR. For information about STANDARD_RIGHTS_REQUIRED, see Standard Access Rights.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。常に WTS_CURRENT_SERVER_HANDLE に設定する。
+pReserved : [intptr] このパラメータは予約されている。常に NULL に設定する。
+Reserved : [int] このパラメータは予約されている。常に 0 に設定する。
+pListenerName : [wstr] リスナー名を含む NULL 終端文字列へのポインタ。
+SecurityInformation : [int] 設定するセキュリティ情報を指定する SECURITY_INFORMATION 値。DACL_SECURITY_INFORMATION と SACL_SECURITY_INFORMATION フラグを常に有効にする。
+pSecurityDescriptor : [int] リスナーに関連付けるセキュリティ情報を含む SECURITY_DESCRIPTOR 構造体へのポインタ。
 %inst
-Configures the security descriptor of a Remote Desktop Services
-listener. (Unicode)
+リモートデスクトップサービスリスナーのセキュリティ記述子を構成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call the GetLastError function.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-> [!NOTE] > The wtsapi32.h header defines WTSSetListenerSecurity as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > wtsapi32.h は WTSSetListenerSecurity を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSSetRenderHint
-Used by an application that is displaying content that can be optimized for displaying in a remote session to identify the region of a window that is the actual content.
+リモートセッションでの表示に最適化可能なコンテンツを表示するアプリが、ウィンドウ内の実コンテンツ領域を識別するために使用する。
 %group
 Win32 wtsapi32
 %prm
 pRenderHintID, hwndOwner, renderHintType, cbHintDataLength, pHintData
-pRenderHintID : [var] The address of a value that identifies the rendering hint affected by this call. If a new hint is being created, this value must contain zero. This function will return a unique rendering hint identifier which is used for subsequent calls, such as clearing the hint.
-hwndOwner : [intptr] The handle of window linked to lifetime of the rendering hint. This window is used in situations where a hint target is removed without the hint being explicitly cleared.
-renderHintType : [int] Specifies the type of hint represented by this call.
-cbHintDataLength : [int] The size, in BYTEs, of the pHintData buffer.
-pHintData : [var] Additional data for the hint. The format of this data is dependent upon the value passed in the renderHintType parameter.
+pRenderHintID : [var] この呼び出しで影響するレンダリングヒントを識別する値のアドレス。新しいヒントを作成するなら 0 を指定する。関数は一意なヒント識別子を返し、後続のクリア呼び出し等で使う。
+hwndOwner : [intptr] レンダリングヒントの寿命を紐付けるウィンドウのハンドル。ヒントターゲットが明示クリアされずに削除された場合に使われる。
+renderHintType : [int] この呼び出しが表すヒント種別。
+cbHintDataLength : [int] pHintData バッファのサイズ (BYTE 単位)。
+pHintData : [var] ヒントの追加データ。形式は renderHintType に依存する。
 %inst
-Used by an application that is displaying content that can be
-optimized for displaying in a remote session to identify the region
-of a window that is the actual content.
+リモートセッションでの表示に最適化可能なコンテンツを表示するアプリが、ウィンドウ内の実コンテンツ領域を識別するために使用する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでなければ HRESULT エラーコードを返す。
 
 
 %index
 WTSSetUserConfigW
-Modifies configuration information for the specified user on the specified domain controller or Remote Desktop Session Host (RD?Session Host) server. (Unicode)
+指定ドメインコントローラまたは RD セッションホストサーバー上の指定ユーザの構成情報を変更する。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 pServerName, pUserName, WTSConfigClass, pBuffer, DataLength
-pServerName : [wstr] Pointer to a null-terminated string containing the name of a domain controller or RD?Session Host server. Specify WTS_CURRENT_SERVER_NAME to indicate the RD?Session Host server on which your application is running.
-pUserName : [wstr] Pointer to a null-terminated string containing the name of the user whose configuration is being set.
-WTSConfigClass : [int] Specifies the type of information to set for the user. This parameter can be one of the values from the WTS_CONFIG_CLASS enumeration type. The documentation for WTS_CONFIG_CLASS describes the format of the data specified in ppBuffer for each of the information types.
-pBuffer : [wstr] Pointer to the data used to modify the specified user's configuration.
-DataLength : [int] Size, in TCHARs, of the pBuffer buffer.
+pServerName : [wstr] ドメインコントローラまたは RD セッションホストサーバーの名前を含む NULL 終端文字列へのポインタ。WTS_CURRENT_SERVER_NAME でアプリ実行中サーバーを指定できる。
+pUserName : [wstr] 設定対象ユーザ名を含む NULL 終端文字列へのポインタ。
+WTSConfigClass : [int] 設定する情報の種類を指定する。WTS_CONFIG_CLASS 列挙型の値のいずれか。ppBuffer に指定するデータの形式はこの列挙のドキュメントを参照。
+pBuffer : [wstr] 指定ユーザの構成を変更するデータへのポインタ。
+DataLength : [int] pBuffer バッファのサイズ (TCHAR 単位)。
 %inst
-Modifies configuration information for the specified user on the
-specified domain controller or Remote Desktop Session Host (RD
-Session Host) server. (Unicode)
+指定ドメインコントローラまたは RD セッションホストサーバー上の指定ユーザの構成情報を変更する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-The WTSQueryUserConfig and WTSSetUserConfig functions are passed a
-server name instead of a handle because user account information
-often resides on a domain controller. To set user configuration
-information, use the primary domain controller. You can call the
-NetGetDCName function to get the name of the primary domain
-controller. To query user configuration information, you can use the
-NetGetAnyDCName function to get the name of a primary or backup
-domain controller. Any domain controller can set or query user
-configuration information. Use the DsGetDcName function to retrieve
-the name of a domain controller. If the value of the WTSConfigClass
-parameter corresponds to an integer value in the WTS_CONFIG_CLASS
-enumeration, define the value to be set as a DWORD. Then cast the
-value to an LPWSTR in the call to WTSSetUserConfig, as in the
-following example:
-This doc was truncated.
+WTSQueryUserConfig と WTSSetUserConfig
+はハンドルではなくサーバー名を渡す。ユーザアカウント情報はドメインコントローラに存在することが多いためである。設定にはプライマリドメインコントローラを使う。NetGetDCName
+でプライマリ DC 名を取得できる。WTSConfigClass の値が WTS_CONFIG_CLASS
+列挙の整数値に対応する場合、設定値を DWORD として定義し、LPWSTR にキャストして WTSSetUserConfig
+に渡す必要がある。このドキュメントは省略されている。
 
 
 %index
 WTSShutdownSystem
-Shuts down (and optionally restarts) the specified Remote Desktop Session Host (RD?Session Host) server.
+指定 RD セッションホストサーバーをシャットダウン (または再起動) する。
 %group
 Win32 wtsapi32
 %prm
 hServer, ShutdownFlag
-hServer : [intptr] Handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
 ShutdownFlag : [int] 
 %inst
-Shuts down (and optionally restarts) the specified Remote Desktop
-Session Host (RD Session Host) server.
+指定 RD セッションホストサーバーをシャットダウン (または再起動) する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-A system shutdown terminates all users and active programs. The
-following steps occur during shutdown.
-This doc was truncated.
+
+システムシャットダウンは全ユーザとアクティブプログラムを終了させる。シャットダウン中には次の手順が実行される。このドキュメントは省略されている。
 
 
 %index
 WTSStartRemoteControlSessionW
-Starts the remote control of another Remote Desktop Services session. You must call this function from a remote session. (Unicode)
+別のリモートデスクトップサービスセッションのリモート制御を開始する。この関数はリモートセッションから呼び出す必要がある。(Unicode)
 %group
 Win32 wtsapi32
 %prm
 pTargetServerName, TargetLogonId, HotkeyVk, HotkeyModifiers
-pTargetServerName : [wstr] A pointer to the name of the server where the session that you want remote control of exists.
-TargetLogonId : [int] The logon ID of the session that you want remote control of.
-HotkeyVk : [int] The virtual-key code that represents the key to press to stop remote control of the session. The key that is defined in this parameter is used with the  HotkeyModifiers parameter.
-HotkeyModifiers : [int] The virtual modifier that represents the key to press to stop remote control of the session. The virtual modifier is used with the HotkeyVk parameter. For example, if the WTSStartRemoteControlSession function is called with HotkeyVk set to VK_MULTIPLY and HotkeyModifiers set to REMOTECONTROL_KBDCTRL_HOTKEY, the user who has remote control of the target session can press CTRL + * to stop remote control of the session and return to their own session.
+pTargetServerName : [wstr] リモート制御対象のセッションが存在するサーバー名へのポインタ。
+TargetLogonId : [int] リモート制御対象のセッションのログオン ID。
+HotkeyVk : [int] リモート制御を停止するために押すキーを表す仮想キーコード。HotkeyModifiers と組み合わせて使う。
+HotkeyModifiers : [int] リモート制御を停止するために押すキーを表す仮想修飾子。HotkeyVk と組み合わせて使う。例えば HotkeyVk に VK_MULTIPLY、HotkeyModifiers に REMOTECONTROL_KBDCTRL_HOTKEY を指定した場合、Ctrl + * で停止できる。
 %inst
-Starts the remote control of another Remote Desktop Services session.
-You must call this function from a remote session. (Unicode)
+別のリモートデスクトップサービスセッションのリモート制御を開始する。この関数はリモートセッションから呼び出す必要がある。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-> [!NOTE] > The wtsapi32.h header defines
-WTSStartRemoteControlSession as an alias which automatically selects
-the ANSI or Unicode version of this function based on the definition
-of the UNICODE preprocessor constant. Mixing usage of the
-encoding-neutral alias with code that not encoding-neutral can lead
-to mismatches that result in compilation or runtime errors. For more
-information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > wtsapi32.h は WTSStartRemoteControlSession を ANSI/Unicode
+自動選択エイリアスとして定義している。
 
 
 %index
 WTSStopRemoteControlSession
-Stops a remote control session.
+リモート制御セッションを停止する。
 %group
 Win32 wtsapi32
 %prm
 LogonId
-LogonId : [int] The logon ID of the session that you want to stop the remote control of.
+LogonId : [int] リモート制御を停止するセッションのログオン ID。
 %inst
-Stops a remote control session.
+リモート制御セッションを停止する。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 WTSTerminateProcess
-Terminates the specified process on the specified Remote Desktop Session Host (RD?Session Host) server.
+指定 RD セッションホストサーバー上の指定プロセスを終了させる。
 %group
 Win32 wtsapi32
 %prm
 hServer, ProcessId, ExitCode
-hServer : [intptr] Handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
-ProcessId : [int] Specifies the process identifier of the process to terminate.
-ExitCode : [int] Specifies the exit code for the terminated process.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
+ProcessId : [int] 終了するプロセスのプロセス識別子を指定する。
+ExitCode : [int] 終了プロセスの終了コードを指定する。
 %inst
-Terminates the specified process on the specified Remote Desktop
-Session Host (RD Session Host) server.
+指定 RD セッションホストサーバー上の指定プロセスを終了させる。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 WTSUnRegisterSessionNotification
-Unregisters the specified window so that it receives no further session change notifications. (WTSUnRegisterSessionNotification)
+指定ウィンドウのセッション変更通知受信登録を解除する。(WTSUnRegisterSessionNotification)
 %group
 Win32 wtsapi32
 %prm
 hWnd
-hWnd : [intptr] Handle of the window to be unregistered from receiving session notifications.
+hWnd : [intptr] セッション通知の受信登録を解除するウィンドウのハンドル。
 %inst
-Unregisters the specified window so that it receives no further
-session change notifications. (WTSUnRegisterSessionNotification)
+指定ウィンドウのセッション変更通知受信登録を解除する。(WTSUnRegisterSessionNotification)
 
 [戻り値]
-If the function succeeds, the return value is TRUE. Otherwise, it is
-FALSE. To get extended error information, call GetLastError.
+関数が成功すると戻り値は TRUE となる。そうでなければ FALSE となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-This function must be called once for every call to the
-WTSRegisterSessionNotification function.
+この関数は WTSRegisterSessionNotification の各呼び出しに対して 1 回呼ぶ必要がある。
 
 
 %index
 WTSUnRegisterSessionNotificationEx
-Unregisters the specified window so that it receives no further session change notifications. (WTSUnRegisterSessionNotificationEx)
+指定ウィンドウのセッション変更通知受信登録を解除する。(WTSUnRegisterSessionNotificationEx)
 %group
 Win32 wtsapi32
 %prm
 hServer, hWnd
-hServer : [intptr] Handle of the server returned from WTSOpenServer or WTS_CURRENT_SERVER.
-hWnd : [intptr] Handle of the window to be unregistered from receiving session notifications.
+hServer : [intptr] WTSOpenServer または WTS_CURRENT_SERVER から返されたサーバーのハンドル。
+hWnd : [intptr] セッション通知の受信登録を解除するウィンドウのハンドル。
 %inst
-Unregisters the specified window so that it receives no further
-session change notifications. (WTSUnRegisterSessionNotificationEx)
+指定ウィンドウのセッション変更通知受信登録を解除する。(WTSUnRegisterSessionNotificationEx)
 
 [戻り値]
-If the function succeeds, the return value is TRUE. Otherwise, it is
-FALSE. To get extended error information, call GetLastError.
+関数が成功すると戻り値は TRUE となる。そうでなければ FALSE となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-This function must be called once for every call to the
-WTSRegisterSessionNotificationEx function.
+この関数は WTSRegisterSessionNotificationEx の各呼び出しに対して 1 回呼ぶ必要がある。
 
 
 %index
 WTSVirtualChannelClose
-Closes an open virtual channel handle.
+開かれている仮想チャネルハンドルを閉じる。
 %group
 Win32 wtsapi32
 %prm
 hChannelHandle
-hChannelHandle : [intptr] Handle to a virtual channel opened by the WTSVirtualChannelOpen function.
+hChannelHandle : [intptr] WTSVirtualChannelOpen で開かれた仮想チャネルへのハンドル。
 %inst
-Closes an open virtual channel handle.
+開かれている仮想チャネルハンドルを閉じる。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 WTSVirtualChannelOpen
-Opens a handle to the server end of a specified virtual channel.
+指定仮想チャネルのサーバー側ハンドルを開く。
 %group
 Win32 wtsapi32
 %prm
 hServer, SessionId, pVirtualName
-hServer : [intptr] This parameter must be WTS_CURRENT_SERVER_HANDLE.
-SessionId : [int] A Remote Desktop Services session identifier. To indicate the current session, specify WTS_CURRENT_SESSION. You can use the WTSEnumerateSessions function to retrieve the identifiers of all sessions on a specified RD?Session Host server. To open a virtual channel on another user's session, you need to have permission from the Virtual Channel. For more information, see Remote Desktop Services Permissions. To modify permissions on a session, use the Remote Desktop Services Configuration administrative tool.
-pVirtualName : [str] A pointer to a null-terminated string containing the virtual channel name. Note that this is an ANSI string even when UNICODE is defined. The virtual channel name consists of one to CHANNEL_NAME_LEN characters, not including the terminating null.
+hServer : [intptr] このパラメータは WTS_CURRENT_SERVER_HANDLE でなければならない。
+SessionId : [int] リモートデスクトップサービスセッション識別子。現在のセッションを示すには WTS_CURRENT_SESSION を指定する。他ユーザのセッションで仮想チャネルを開くには Virtual Channel からの許可が必要である。
+pVirtualName : [str] 仮想チャネル名を含む NULL 終端文字列へのポインタ。UNICODE 定義時も ANSI 文字列である。名前は終端 NULL を除き 1 ～ CHANNEL_NAME_LEN 文字。
 %inst
-Opens a handle to the server end of a specified virtual channel.
+指定仮想チャネルのサーバー側ハンドルを開く。
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-specified virtual channel. If the function fails, the return value is
-NULL. To get extended error information, call GetLastError.
+関数が成功すると戻り値は指定仮想チャネルへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-When you have finished using the handle, release it by calling the
-WTSVirtualChannelClose function. For an example that shows how to
-gain access to a virtual channel file handle that can be used for
-asynchronous I/O, see WTSVirtualChannelQuery. If you try to use this
-function to open the same virtual channel multiple times, it can
-cause a 10-second delay and disrupt the established channel.
+ハンドル使用後は WTSVirtualChannelClose で解放する。非同期 I/O 用の仮想チャネルファイルハンドル取得例は
+WTSVirtualChannelQuery を参照。同じ仮想チャネルを複数回開こうとすると 10
+秒の遅延と既存チャネルの破壊を招くことがある。
 
 
 %index
 WTSVirtualChannelOpenEx
-Creates a virtual channel in a manner similar to WTSVirtualChannelOpen.
+WTSVirtualChannelOpen と同様の方法で仮想チャネルを作成する。
 %group
 Win32 wtsapi32
 %prm
 SessionId, pVirtualName, flags
-SessionId : [int] A Remote Desktop Services session identifier. To indicate the current session, specify WTS_CURRENT_SESSION. You can use the WTSEnumerateSessions function to retrieve the identifiers of all sessions on a specified RD?Session Host server. To be able to open a virtual channel on another user's session, you must have the Virtual Channels permission. For more information, see Remote Desktop Services Permissions. To modify permissions on a session, use the Remote Desktop Services Configuration administrative tool.
-pVirtualName : [str] In the case of an SVC, points to a null-terminated string that contains the virtual channel name. The length of an SVC name is limited to CHANNEL_NAME_LEN characters, not including the terminating null. In the case of a DVC, points to a null-terminated string that contains the endpoint name of the listener. The length of a DVC name is limited to MAX_PATH characters.
-flags : [int] To open the channel as an SVC, specify zero for this parameter. To open the channel as a DVC, specify WTS_CHANNEL_OPTION_DYNAMIC. When opening a DVC, you can specify a priority setting for the data that is being transferred by specifying one of the WTS_CHANNEL_OPTION_DYNAMIC_PRI_XXX values in combination with the WTS_CHANNEL_OPTION_DYNAMIC value.
+SessionId : [int] リモートデスクトップサービスセッション識別子。現在のセッションを示すには WTS_CURRENT_SESSION を指定する。他ユーザのセッションで仮想チャネルを開くには Virtual Channels 権限が必要である。
+pVirtualName : [str] SVC の場合は仮想チャネル名を含む NULL 終端文字列 (終端 NULL を除き CHANNEL_NAME_LEN 文字以内)。DVC の場合はリスナーのエンドポイント名 (MAX_PATH 文字以内)。
+flags : [int] SVC として開くには 0 を指定する。DVC として開くには WTS_CHANNEL_OPTION_DYNAMIC を指定する。DVC の場合、転送データの優先度を WTS_CHANNEL_OPTION_DYNAMIC_PRI_XXX と組み合わせて指定できる。
 %inst
-Creates a virtual channel in a manner similar to
-WTSVirtualChannelOpen.
+WTSVirtualChannelOpen と同様の方法で仮想チャネルを作成する。
 
 [戻り値]
-NULL on error with GetLastError set.
+エラー時は NULL を返し GetLastError が設定される。
 
 
 %index
 WTSVirtualChannelPurgeInput
-Deletes all queued input data sent from the client to the server on a specified virtual channel.
+指定仮想チャネルでクライアントからサーバーへ送信されたキューイング済み入力データを全て削除する。
 %group
 Win32 wtsapi32
 %prm
 hChannelHandle
-hChannelHandle : [intptr] Handle to a virtual channel opened by the WTSVirtualChannelOpen function.
+hChannelHandle : [intptr] WTSVirtualChannelOpen で開かれた仮想チャネルへのハンドル。
 %inst
-Deletes all queued input data sent from the client to the server on a
-specified virtual channel.
+指定仮想チャネルでクライアントからサーバーへ送信されたキューイング済み入力データを全て削除する。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 WTSVirtualChannelPurgeOutput
-Deletes all queued output data sent from the server to the client on a specified virtual channel.
+指定仮想チャネルでサーバーからクライアントへ送信されたキューイング済み出力データを全て削除する。
 %group
 Win32 wtsapi32
 %prm
 hChannelHandle
-hChannelHandle : [intptr] Handle to a virtual channel opened by the WTSVirtualChannelOpen function.
+hChannelHandle : [intptr] WTSVirtualChannelOpen で開かれた仮想チャネルへのハンドル。
 %inst
-Deletes all queued output data sent from the server to the client on
-a specified virtual channel.
+指定仮想チャネルでサーバーからクライアントへ送信されたキューイング済み出力データを全て削除する。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 WTSVirtualChannelQuery
-Returns information about a specified virtual channel.
+指定仮想チャネルに関する情報を返す。
 %group
 Win32 wtsapi32
 %prm
 hChannelHandle, param1, ppBuffer, pBytesReturned
-hChannelHandle : [intptr] Handle to a virtual channel opened by the WTSVirtualChannelOpen function.
+hChannelHandle : [intptr] WTSVirtualChannelOpen で開かれた仮想チャネルへのハンドル。
 param1 : [int] 
-ppBuffer : [var] Pointer to a buffer that receives the requested information.
-pBytesReturned : [var] Pointer to a variable that receives the number of bytes returned in the ppBuffer parameter.
+ppBuffer : [var] 要求された情報を受け取るバッファへのポインタ。
+pBytesReturned : [var] ppBuffer に返されたバイト数を受け取る変数へのポインタ。
 %inst
-Returns information about a specified virtual channel.
+指定仮想チャネルに関する情報を返す。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. Call
-the WTSFreeMemory function with the value returned in the ppBuffer
-parameter to free the temporary memory allocated by
-WTSVirtualChannelQuery.
-If the function fails, the return value is zero. To get extended
-error information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。ppBuffer に返された値で WTSFreeMemory
+を呼んで一時メモリを解放する。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-The following example shows how to gain access to a virtual channel
-file handle that can be used for asynchronous I/O. First the code
-opens a virtual channel by using a call to the WTSVirtualChannelOpen
-function. Then the code calls the WTSVirtualChannelQuery function,
-specifying the WTSVirtualFileHandle virtual class type.
-WTSVirtualChannelQuery returns a file handle that you can use to
-perform asynchronous (overlapped) read and write operations. Finally,
-the code frees the memory allocated by WTSVirtualChannelQuery with a
-call to the WTSFreeMemory function, and closes the virtual channel
-with a call to the WTSVirtualChannelClose function. Note that you
-should not explicitly close the file handle obtained by calling
-WTSVirtualChannelQuery. This is because WTSVirtualChannelClose closes
-the file handle.
-This doc was truncated.
+非同期 I/O に使える仮想チャネルファイルハンドルを取得する方法例: まず WTSVirtualChannelOpen
+で仮想チャネルを開き、WTSVirtualChannelQuery に WTSVirtualFileHandle
+を指定して呼ぶとファイルハンドルが返る。これを使って重複読み書きができる。WTSVirtualChannelQuery が確保したメモリは
+WTSFreeMemory で解放し、仮想チャネルは WTSVirtualChannelClose
+で閉じる。取得したファイルハンドルは明示的に閉じるべきではない (WTSVirtualChannelClose
+が閉じるため)。このドキュメントは省略されている。
 
 
 %index
 WTSVirtualChannelRead
-Reads data from the server end of a virtual channel.
+仮想チャネルのサーバー側からデータを読み取る。
 %group
 Win32 wtsapi32
 %prm
 hChannelHandle, TimeOut, Buffer, BufferSize, pBytesRead
-hChannelHandle : [intptr] Handle to a virtual channel opened by the WTSVirtualChannelOpen function.
-TimeOut : [int] Specifies the time-out, in milliseconds. If TimeOut is zero, WTSVirtualChannelRead returns immediately if there is no data to read. If TimeOut is INFINITE (defined in Winbase.h), the function waits indefinitely until there is data to read.
-Buffer : [str] Pointer to a buffer that receives a chunk of data read from the server end of the virtual channel. The maximum amount of data that the server can receive in a single WTSVirtualChannelRead call is CHANNEL_CHUNK_LENGTH bytes. If the client's VirtualChannelWrite call writes a larger block of data, the server must make multiple WTSVirtualChannelRead calls. In certain cases, Remote Desktop Services places a CHANNEL_PDU_HEADER structure at the beginning of each chunk of data read by the WTSVirtualChannelRead function. This will occur if the client DLL sets the CHANNEL_OPTION_SHOW_PROTOCOL option when it calls the VirtualChannelInit function to initialize the virtual channel. This will also occur if the channel is a dynamic virtual channel written to by using the IWTSVirtualChannel::Write method. Otherwise, the buffer receives only the data written in the VirtualChannelWrite call.
-BufferSize : [int] Specifies the size, in bytes, of Buffer. If the chunk of data in Buffer will be preceded by a CHANNEL_PDU_HEADER structure, the value of this parameter should be at least CHANNEL_PDU_LENGTH. Otherwise, the value of this parameter should be at least CHANNEL_CHUNK_LENGTH.
-pBytesRead : [var] Pointer to a variable that receives the number of bytes read.
+hChannelHandle : [intptr] WTSVirtualChannelOpen で開かれた仮想チャネルへのハンドル。
+TimeOut : [int] タイムアウト (ミリ秒)。0 なら読み取りデータがなければ直ちに戻る。INFINITE なら読み取りデータができるまで無期限に待つ。
+Buffer : [str] 仮想チャネルのサーバー側から読み取ったデータチャンクを受け取るバッファへのポインタ。サーバーが 1 回の呼び出しで受け取れる最大量は CHANNEL_CHUNK_LENGTH バイトである。クライアントがより大きなブロックを書き込んだ場合、複数回の読み取りが必要となる。CHANNEL_OPTION_SHOW_PROTOCOL 指定時やダイナミック仮想チャネルの場合、各チャンク先頭に CHANNEL_PDU_HEADER 構造体が置かれる。
+BufferSize : [int] Buffer のサイズ (バイト単位)。CHANNEL_PDU_HEADER が先行する場合は CHANNEL_PDU_LENGTH 以上、そうでなければ CHANNEL_CHUNK_LENGTH 以上にする。
+pBytesRead : [var] 読み取ったバイト数を受け取る変数へのポインタ。
 %inst
-Reads data from the server end of a virtual channel.
+仮想チャネルのサーバー側からデータを読み取る。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-Note WTSVirtualChannelRead is not thread safe. To access a virtual
-channel from multiple threads, or to do asynchronous IO through a
-virtual channel, use WTSVirtualChannelQuery with
-WTSVirtualFileHandle.
+注: WTSVirtualChannelRead はスレッドセーフではない。複数スレッドから仮想チャネルにアクセスする場合や非同期 I/O
+を行う場合は、WTSVirtualChannelQuery と WTSVirtualFileHandle を使う。
 
 
 %index
 WTSVirtualChannelWrite
-Writes data to the server end of a virtual channel.
+仮想チャネルのサーバー側にデータを書き込む。
 %group
 Win32 wtsapi32
 %prm
 hChannelHandle, Buffer, Length, pBytesWritten
-hChannelHandle : [intptr] Handle to a virtual channel opened by the WTSVirtualChannelOpen function.
-Buffer : [str] Pointer to a buffer containing the data to write to the virtual channel.
-Length : [int] Specifies the size, in bytes, of the data to write.
-pBytesWritten : [var] Pointer to a variable that receives the number of bytes written.
+hChannelHandle : [intptr] WTSVirtualChannelOpen で開かれた仮想チャネルへのハンドル。
+Buffer : [str] 仮想チャネルに書き込むデータを含むバッファへのポインタ。
+Length : [int] 書き込むデータのサイズ (バイト単位)。
+pBytesWritten : [var] 書き込まれたバイト数を受け取る変数へのポインタ。
 %inst
-Writes data to the server end of a virtual channel.
+仮想チャネルのサーバー側にデータを書き込む。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 [備考]
-Note WTSVirtualChannelWrite is not thread safe. To access a virtual
-channel from multiple threads, or to do asynchronous IO through a
-virtual channel, use WTSVirtualChannelQuery with
-WTSVirtualFileHandle.
+注: WTSVirtualChannelWrite はスレッドセーフではない。複数スレッドから仮想チャネルにアクセスする場合や非同期
+I/O を行う場合は、WTSVirtualChannelQuery と WTSVirtualFileHandle を使う。
 
 
 %index
 WTSWaitSystemEvent
-Waits for a Remote Desktop Services event before returning to the caller.
+リモートデスクトップサービスイベントを呼び出し元に戻る前に待機する。
 %group
 Win32 wtsapi32
 %prm
 hServer, EventMask, pEventFlags
-hServer : [intptr] Handle to an RD?Session Host server. Specify a handle opened by the WTSOpenServer function, or specify WTS_CURRENT_SERVER_HANDLE to indicate the RD?Session Host server on which your application is running.
-EventMask : [int] Bitmask that specifies the set of events to wait for. This mask can be WTS_EVENT_FLUSH to cause all pending
-pEventFlags : [var] Pointer to a variable that receives a bitmask of the event or events that occurred. The returned mask can be a combination of the values from the previous list, or it can be WTS_EVENT_NONE if the wait terminated because of a WTSWaitSystemEvent call with WTS_EVENT_FLUSH.
+hServer : [intptr] RD セッションホストサーバーへのハンドル。WTSOpenServer で開いたハンドル、または WTS_CURRENT_SERVER_HANDLE を指定する。
+EventMask : [int] 待つイベント集合を指定するビットマスク。このマスクには保留中のものをフラッシュするための WTS_EVENT_FLUSH を指定できる。
+pEventFlags : [var] 発生したイベントのビットマスクを受け取る変数へのポインタ。WTS_EVENT_FLUSH で待機が終了した場合は WTS_EVENT_NONE となり得る。
 %inst
-Waits for a Remote Desktop Services event before returning to the
-caller.
+リモートデスクトップサービスイベントを呼び出し元に戻る前に待機する。
 
 [戻り値]
-If the function succeeds, the return value is a nonzero value. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+関数が成功すると戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 

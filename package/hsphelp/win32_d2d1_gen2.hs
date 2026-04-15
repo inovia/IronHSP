@@ -6,267 +6,249 @@
 
 %index
 D2D1ComputeMaximumScaleFactor
-Computes the maximum factor by which a given transform can stretch any vector.
+指定された変換が任意のベクトルを伸ばしうる最大係数を計算する。
 %group
 Win32 d2d1
 %prm
 matrix
-matrix : [var] The input transform matrix.
+matrix : [var] 入力の変換行列。
 %inst
-Computes the maximum factor by which a given transform can stretch
-any vector.
+指定された変換が任意のベクトルを伸ばしうる最大係数を計算する。
 
 [戻り値]
-The scale factor.
+スケールファクター。
 
 [備考]
-Formally, if M is the input matrix, this method will return the
-maximum value of |V * M| / |V| for all vectors V, where |.| denotes
-length.
-Note Since this describes how M affects vectors (rather than points),
-the translation components (_31 and _32) of M are ignored.
+形式的には、入力行列を M とすると、このメソッドはすべてのベクトル V について |V * M| / |V| の最大値を返す (|.|
+は長さを表す)。
+注意 これは M がベクトルに与える影響を記述しているため (点ではなく)、M の平行移動成分 (_31、_32) は無視される。
 
 
 %index
 D2D1ConvertColorSpace
-Converts the given color from one colorspace to another.
+指定された色をある色空間から別の色空間へ変換する。
 %group
 Win32 d2d1
 %prm
 sourceColorSpace, destinationColorSpace, color
-sourceColorSpace : [int] Type: D2D1_COLOR_SPACE The source color space.
-destinationColorSpace : [int] Type: D2D1_COLOR_SPACE The destination color space.
-color : [var] Type: const D2D1_COLOR_F* The source color.
+sourceColorSpace : [int] 型: D2D1_COLOR_SPACE 変換元の色空間。
+destinationColorSpace : [int] 型: D2D1_COLOR_SPACE 変換先の色空間。
+color : [var] 型: const D2D1_COLOR_F* 変換元の色。
 %inst
-Converts the given color from one colorspace to another.
+指定された色をある色空間から別の色空間へ変換する。
 
 [戻り値]
-Type: D2D1_COLOR_F The converted color.
+型: D2D1_COLOR_F 変換後の色。
 
 
 %index
 D2D1CreateDevice
-Creates a new Direct2D device associated with the provided DXGI device.
+指定された DXGI デバイスに関連付けられた新しい Direct2D デバイスを作成する。
 %group
 Win32 d2d1
 %prm
 dxgiDevice, creationProperties, d2dDevice
-dxgiDevice : [var] The DXGI device the Direct2D device is associated with.
-creationProperties : [var] The properties to apply to the Direct2D device.
-d2dDevice : [var] When this function returns, contains the address of a pointer to a Direct2D device.
+dxgiDevice : [var] Direct2D デバイスと関連付ける DXGI デバイス。
+creationProperties : [var] Direct2D デバイスに適用するプロパティ。
+d2dDevice : [var] この関数から戻るとき、Direct2D デバイスへのポインタのアドレスが格納される。
 %inst
-Creates a new Direct2D device associated with the provided DXGI
-device.
+指定された DXGI デバイスに関連付けられた新しい Direct2D デバイスを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+この関数は HRESULT を返す。取りうる値の一部を下の表に示す (これらに限らない)。
+このドキュメントは省略されている。
 
 [備考]
-This function will also create a new ID2D1Factory1 that can be
-retrieved through ID2D1Resource::GetFactory. If the creation
-properties are not specified, then d2dDevice will inherit its
-threading mode from dxgiDevice and debug tracing will not be enabled.
+この関数は ID2D1Factory1 も新規に作成し、ID2D1Resource::GetFactory
+経由で取得できる。作成プロパティを指定しない場合、d2dDevice はスレッディングモードを dxgiDevice
+から継承し、デバッグトレースは無効となる。
 
 
 %index
 D2D1CreateDeviceContext
-Creates a new Direct2D device context associated with a DXGI surface.
+DXGI サーフェスに関連付けられた新しい Direct2D デバイスコンテキストを作成する。
 %group
 Win32 d2d1
 %prm
 dxgiSurface, creationProperties, d2dDeviceContext
-dxgiSurface : [var] The DXGI surface the Direct2D device context is associated with.
-creationProperties : [var] The properties to apply to the Direct2D device context.
-d2dDeviceContext : [var] When this function returns, contains the address of a pointer to a Direct2D device context.
+dxgiSurface : [var] Direct2D デバイスコンテキストと関連付ける DXGI サーフェス。
+creationProperties : [var] Direct2D デバイスコンテキストに適用するプロパティ。
+d2dDeviceContext : [var] この関数から戻るとき、Direct2D デバイスコンテキストへのポインタのアドレスが格納される。
 %inst
-Creates a new Direct2D device context associated with a DXGI surface.
+DXGI サーフェスに関連付けられた新しい Direct2D デバイスコンテキストを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+この関数は HRESULT を返す。取りうる値の一部を下の表に示す (これらに限らない)。
+このドキュメントは省略されている。
 
 [備考]
-This function will also create a new ID2D1Factory1 that can be
-retrieved through ID2D1Resource::GetFactory. This function will also
-create a new ID2D1Device that can be retrieved through
-ID2D1DeviceContext::GetDevice. The DXGI device will be specified
-implicitly through dxgiSurface. If creationProperties are not
-specified, the Direct2D device will inherit its threading mode from
-the DXGI device implied by dxgiSurface and debug tracing will not be
-enabled.
+この関数は ID2D1Factory1 も新規に作成し、ID2D1Resource::GetFactory 経由で取得できる。また、新しい
+ID2D1Device も作成され、ID2D1DeviceContext::GetDevice 経由で取得できる。DXGI デバイスは
+dxgiSurface を通じて暗黙に指定される。creationProperties を指定しない場合、Direct2D デバイスは
+dxgiSurface が示す DXGI デバイスからスレッディングモードを継承し、デバッグトレースは無効となる。
 
 
 %index
 D2D1CreateFactory
-D2D1CreateFactory(D2D1_FACTORY_TYPE,REFIID,D2D1_FACTORY_OPTIONS*,void**) creates a factory object that can be used to create Direct2D resources.
+D2D1CreateFactory(D2D1_FACTORY_TYPE,REFIID,D2D1_FACTORY_OPTIONS*,void**) は、Direct2D リソースの作成に使用できるファクトリオブジェクトを作成する。
 %group
 Win32 d2d1
 %prm
 factoryType, riid, pFactoryOptions, ppIFactory
-factoryType : [int] Type: D2D1_FACTORY_TYPE The threading model of the factory and the resources it creates.
-riid : [var] Type: REFIID A reference to the IID of ID2D1Factory that is obtained by using `__uuidof(ID2D1Factory)`.
-pFactoryOptions : [var] Type: const D2D1_FACTORY_OPTIONS* The level of detail provided to the debugging layer.
-ppIFactory : [var] Type: void** When this method returns, contains the address to a pointer to the new factory.
+factoryType : [int] 型: D2D1_FACTORY_TYPE ファクトリおよびそれが生成するリソースのスレッディングモデル。
+riid : [var] 型: REFIID `__uuidof(ID2D1Factory)` を用いて取得される ID2D1Factory の IID への参照。
+pFactoryOptions : [var] 型: const D2D1_FACTORY_OPTIONS* デバッグレイヤーに提供する詳細度のレベル。
+ppIFactory : [var] 型: void** このメソッドから戻るとき、新しいファクトリへのポインタのアドレスが格納される。
 %inst
 
 D2D1CreateFactory(D2D1_FACTORY_TYPE,REFIID,D2D1_FACTORY_OPTIONS*,void**)
-creates a factory object that can be used to create Direct2D
-resources.
+は、Direct2D リソースの作成に使用できるファクトリオブジェクトを作成する。
 
 [戻り値]
-Type: **[HRESULT](/windows/win32/com/structure-of-com-error-codes)**
-If the function succeeds, it returns **S_OK**. Otherwise, it returns
-an [**HRESULT**](/windows/win32/com/structure-of-com-error-codes)
-[error code](/windows/win32/com/com-error-codes-10).
+型: **[HRESULT](/windows/win32/com/structure-of-com-error-codes)**
+関数が成功すると **S_OK** を返す。失敗時は
+[**HRESULT**](/windows/win32/com/structure-of-com-error-codes)
+[エラーコード](/windows/win32/com/com-error-codes-10) を返す。
 
 [備考]
-The ID2D1Factory interface provides the starting point for Direct2D.
-In general, an object created from a single instance of a factory
-object can be used with other resources created from that instance,
-but not with resources created by other factory instances.
+ID2D1Factory インターフェースは Direct2D の出発点を提供する。一般に、ファクトリオブジェクトの 1
+インスタンスから作成されたオブジェクトは、同じインスタンスから作成された他のリソースとは併用できるが、別のファクトリインスタンスから作成されたリソースとは併用できない。
 
 
 %index
 D2D1GetGradientMeshInteriorPointsFromCoonsPatch
-Returns the interior points for a gradient mesh patch based on the points defining a Coons patch.
+Coons パッチを定義する点に基づいて、グラデーションメッシュパッチの内部点を返す。
 %group
 Win32 d2d1
 %prm
 pPoint0, pPoint1, pPoint2, pPoint3, pPoint4, pPoint5, pPoint6, pPoint7, pPoint8, pPoint9, pPoint10, pPoint11, pTensorPoint11, pTensorPoint12, pTensorPoint21, pTensorPoint22
-pPoint0 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 0.
-pPoint1 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 1.
-pPoint2 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 2.
-pPoint3 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 3.
-pPoint4 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 4.
-pPoint5 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 5.
-pPoint6 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 6.
-pPoint7 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 7.
-pPoint8 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 8.
-pPoint9 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 9.
-pPoint10 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 10.
-pPoint11 : [var] Type: D2D1_POINT_2F* The coordinate-space location of the control point at position 11.
-pTensorPoint11 : [var] Type: D2D1_POINT_2F* Returns the interior point for the gradient mesh corresponding to point11 in the D2D1_GRADIENT_MESH_PATCH structure.
-pTensorPoint12 : [var] Type: D2D1_POINT_2F* Returns the interior point for the gradient mesh corresponding to point12 in the D2D1_GRADIENT_MESH_PATCH structure.
-pTensorPoint21 : [var] Type: D2D1_POINT_2F* Returns the interior point for the gradient mesh corresponding to point21 in the D2D1_GRADIENT_MESH_PATCH structure.
-pTensorPoint22 : [var] Type: D2D1_POINT_2F* Returns the interior point for the gradient mesh corresponding to point22 in the D2D1_GRADIENT_MESH_PATCH structure.
+pPoint0 : [var] 型: D2D1_POINT_2F* 位置 0 にある制御点の座標空間上の位置。
+pPoint1 : [var] 型: D2D1_POINT_2F* 位置 1 にある制御点の座標空間上の位置。
+pPoint2 : [var] 型: D2D1_POINT_2F* 位置 2 にある制御点の座標空間上の位置。
+pPoint3 : [var] 型: D2D1_POINT_2F* 位置 3 にある制御点の座標空間上の位置。
+pPoint4 : [var] 型: D2D1_POINT_2F* 位置 4 にある制御点の座標空間上の位置。
+pPoint5 : [var] 型: D2D1_POINT_2F* 位置 5 にある制御点の座標空間上の位置。
+pPoint6 : [var] 型: D2D1_POINT_2F* 位置 6 にある制御点の座標空間上の位置。
+pPoint7 : [var] 型: D2D1_POINT_2F* 位置 7 にある制御点の座標空間上の位置。
+pPoint8 : [var] 型: D2D1_POINT_2F* 位置 8 にある制御点の座標空間上の位置。
+pPoint9 : [var] 型: D2D1_POINT_2F* 位置 9 にある制御点の座標空間上の位置。
+pPoint10 : [var] 型: D2D1_POINT_2F* 位置 10 にある制御点の座標空間上の位置。
+pPoint11 : [var] 型: D2D1_POINT_2F* 位置 11 にある制御点の座標空間上の位置。
+pTensorPoint11 : [var] 型: D2D1_POINT_2F* D2D1_GRADIENT_MESH_PATCH 構造体の point11 に対応するグラデーションメッシュの内部点を返す。
+pTensorPoint12 : [var] 型: D2D1_POINT_2F* D2D1_GRADIENT_MESH_PATCH 構造体の point12 に対応するグラデーションメッシュの内部点を返す。
+pTensorPoint21 : [var] 型: D2D1_POINT_2F* D2D1_GRADIENT_MESH_PATCH 構造体の point21 に対応するグラデーションメッシュの内部点を返す。
+pTensorPoint22 : [var] 型: D2D1_POINT_2F* D2D1_GRADIENT_MESH_PATCH 構造体の point22 に対応するグラデーションメッシュの内部点を返す。
 %inst
-Returns the interior points for a gradient mesh patch based on the
-points defining a Coons patch.
+Coons パッチを定義する点に基づいて、グラデーションメッシュパッチの内部点を返す。
 
 [備考]
-This function is called by the GradientMeshPatchFromCoonsPatch
-function and is not intended to be used directly.
+この関数は GradientMeshPatchFromCoonsPatch 関数から呼び出されるもので、直接利用することを想定していない。
 
 
 %index
 D2D1InvertMatrix
-Tries to invert the specified matrix.
+指定された行列の反転を試みる。
 %group
 Win32 d2d1
 %prm
 matrix
-matrix : [var] Type: D2D1_MATRIX_3X2_F* The matrix to invert.
+matrix : [var] 型: D2D1_MATRIX_3X2_F* 反転対象の行列。
 %inst
-Tries to invert the specified matrix.
+指定された行列の反転を試みる。
 
 [戻り値]
-Type: BOOL true if the matrix was inverted; otherwise, false.
+型: BOOL 行列が反転できた場合は true、それ以外は false。
 
 
 %index
 D2D1IsMatrixInvertible
-Indicates whether the specified matrix is invertible.
+指定された行列が反転可能かを示す。
 %group
 Win32 d2d1
 %prm
 matrix
-matrix : [var] Type: const D2D1_MATRIX_3X2_F* The matrix to test.
+matrix : [var] 型: const D2D1_MATRIX_3X2_F* 検査対象の行列。
 %inst
-Indicates whether the specified matrix is invertible.
+指定された行列が反転可能かを示す。
 
 [戻り値]
-Type: BOOL true if the matrix was inverted; otherwise, false.
+型: BOOL 行列が反転可能な場合は true、それ以外は false。
 
 
 %index
 D2D1MakeRotateMatrix
-Creates a rotation transformation that rotates by the specified angle about the specified point.
+指定された点を中心に、指定された角度で回転させる変換を作成する。
 %group
 Win32 d2d1
 %prm
 angle, center, matrix
-angle : [float] Type: FLOAT The clockwise rotation angle, in degrees.
-center : [var] Type: D2D1_POINT_2F The point about which to rotate.
-matrix : [var] Type: D2D1_MATRIX_3X2_F* When this method returns, contains the new rotation transformation. You must allocate storage for this parameter.
+angle : [float] 型: FLOAT 時計回りの回転角度 (度単位)。
+center : [var] 型: D2D1_POINT_2F 回転の中心となる点。
+matrix : [var] 型: D2D1_MATRIX_3X2_F* このメソッドから戻るとき、新しい回転変換が格納される。このパラメータ用の領域は呼び出し側で確保する必要がある。
 %inst
-Creates a rotation transformation that rotates by the specified angle
-about the specified point.
+指定された点を中心に、指定された角度で回転させる変換を作成する。
 
 [備考]
-Rotation occurs in the plane of the 2-D surface.
+回転は 2D サーフェスの平面内で行われる。
 
 
 %index
 D2D1MakeSkewMatrix
-Creates a skew transformation that has the specified x-axis angle, y-axis angle, and center point.
+指定された x 軸角度、y 軸角度、中心点を持つせん断変換を作成する。
 %group
 Win32 d2d1
 %prm
 angleX, angleY, center, matrix
-angleX : [float] Type: FLOAT The x-axis skew angle, which is measured in degrees counterclockwise from the y-axis.
-angleY : [float] Type: FLOAT The y-axis skew angle, which is measured in degrees counterclockwise from the x-axis.
-center : [var] Type: D2D1_POINT_2F The center point of the skew operation.
-matrix : [var] Type: D2D1_MATRIX_3X2_F* When this method returns, contains the rotation transformation. You must allocate storage for this parameter.
+angleX : [float] 型: FLOAT x 軸のせん断角度。y 軸から反時計回りに度単位で測定する。
+angleY : [float] 型: FLOAT y 軸のせん断角度。x 軸から反時計回りに度単位で測定する。
+center : [var] 型: D2D1_POINT_2F せん断操作の中心点。
+matrix : [var] 型: D2D1_MATRIX_3X2_F* このメソッドから戻るとき、せん断変換が格納される。このパラメータ用の領域は呼び出し側で確保する必要がある。
 %inst
-Creates a skew transformation that has the specified x-axis angle,
-y-axis angle, and center point.
+指定された x 軸角度、y 軸角度、中心点を持つせん断変換を作成する。
 
 
 %index
 D2D1SinCos
-Returns the sine and cosine of an angle.
+角度のサインおよびコサインを返す。
 %group
 Win32 d2d1
 %prm
 angle, s, c
-angle : [float] Type: FLOAT The angle to calculate.
-s : [var] Type: FLOAT* The sine of the angle.
-c : [var] Type: FLOAT* The cosine of the angle.
+angle : [float] 型: FLOAT 計算対象の角度。
+s : [var] 型: FLOAT* 角度のサイン。
+c : [var] 型: FLOAT* 角度のコサイン。
 %inst
-Returns the sine and cosine of an angle.
+角度のサインおよびコサインを返す。
 
 
 %index
 D2D1Tan
-Returns the tangent of an angle.
+角度のタンジェントを返す。
 %group
 Win32 d2d1
 %prm
 angle
-angle : [float] Type: FLOAT The angle to calculate the tangent for.
+angle : [float] 型: FLOAT タンジェントを求める角度。
 %inst
-Returns the tangent of an angle.
+角度のタンジェントを返す。
 
 [戻り値]
-Type: FLOAT The tangent of the angle.
+型: FLOAT 角度のタンジェント。
 
 
 %index
 D2D1Vec3Length
-Returns the length of a 3 dimensional vector.
+3 次元ベクトルの長さを返す。
 %group
 Win32 d2d1
 %prm
 x, y, z
-x : [float] Type: FLOAT The  x value of the vector.
-y : [float] Type: FLOAT The  y value of the vector.
-z : [float] Type: FLOAT The  z value of the vector.
+x : [float] 型: FLOAT ベクトルの x 値。
+y : [float] 型: FLOAT ベクトルの y 値。
+z : [float] 型: FLOAT ベクトルの z 値。
 %inst
-Returns the length of a 3 dimensional vector.
+3 次元ベクトルの長さを返す。
 
 [戻り値]
-Type: FLOAT The length of the vector.
+型: FLOAT ベクトルの長さ。
 

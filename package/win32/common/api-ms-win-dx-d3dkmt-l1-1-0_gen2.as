@@ -7,7 +7,7 @@
 ; ============================================================
 
 #ifndef __api-ms-win-dx-d3dkmt-l1-1-0_gen2_as__
-#define __api-ms-win-dx-d3dkmt-l1-1-0_gen2_as__
+#define global __api-ms-win-dx-d3dkmt-l1-1-0_gen2_as__
 
 ; Shared NSTRUCT + #define constants for all win32 *_gen2.as
 #include "win32_types_gen2.as"

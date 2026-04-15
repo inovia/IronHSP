@@ -6,153 +6,140 @@
 
 %index
 MFGetPlaneSize
-Retrieves the image size, in bytes, for an uncompressed video format. (MFGetPlaneSize)
+非圧縮ビデオ形式について画像サイズ (バイト単位) を取得する。(MFGetPlaneSize)
 %group
 Win32 evr
 %prm
 format, dwWidth, dwHeight, pdwPlaneSize
-format : [int] FOURCC code or D3DFORMAT value that specifies the video format.
-dwWidth : [int] Width of the image, in pixels.
-dwHeight : [int] Height of the image, in pixels.
-pdwPlaneSize : [var] Receives the size of one frame, in bytes. If the format is compressed or is not recognized, this value is zero.
+format : [int] ビデオ形式を指定する FOURCC コードまたは D3DFORMAT 値。
+dwWidth : [int] 画像の幅 (ピクセル単位)。
+dwHeight : [int] 画像の高さ (ピクセル単位)。
+pdwPlaneSize : [var] 1 フレームのサイズ (バイト単位) を受け取る。形式が圧縮されているか認識されない場合、この値は 0 となる。
 %inst
-Retrieves the image size, in bytes, for an uncompressed video format.
-(MFGetPlaneSize)
+非圧縮ビデオ形式について画像サイズ (バイト単位) を取得する。(MFGetPlaneSize)
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-This function is equivalent to the MFCalculateImageSize function.
-Note Prior to Windows 7, this function was exported from evr.dll.
-Starting in Windows 7, this function is exported from mfplat.dll, and
-evr.dll exports a stub function that calls into mfplat.dll.
+この関数は MFCalculateImageSize 関数と等価である。
+注: Windows 7 より前では、この関数は evr.dll からエクスポートされていた。Windows 7 以降では
+mfplat.dll からエクスポートされ、evr.dll は mfplat.dll を呼び出すスタブ関数をエクスポートする。
 
 
 %index
 MFCreateVideoMixer
-Creates the default video mixer for the enhanced video renderer (EVR).
+Enhanced Video Renderer (EVR) の既定のビデオミキサーを作成する。
 %group
 Win32 evr
 %prm
 pOwner, riidDevice, riid, ppv
-pOwner : [var] Pointer to the owner of this object. If the object is aggregated, pass a pointer to the aggregating object's IUnknown interface. Otherwise, set this parameter to NULL.
-riidDevice : [var] Interface identifier (IID) of the video device interface that will be used for processing the video. Currently the only supported value is IID_IDirect3DDevice9.
-riid : [var] IID of the requested interface on the video mixer.  The video mixer exposes the IMFTransform interface.
-ppv : [var] Receives a pointer to the requested interface. The caller must release the interface.
+pOwner : [var] このオブジェクトの所有者へのポインタ。オブジェクトが集約されている場合は、集約オブジェクトの IUnknown インターフェースへのポインタを渡す。そうでない場合はこのパラメータを NULL に設定する。
+riidDevice : [var] ビデオ処理に使用するビデオデバイスインターフェースの IID。現在サポートされている値は IID_IDirect3DDevice9 のみである。
+riid : [var] ビデオミキサーで要求するインターフェースの IID。ビデオミキサーは IMFTransform インターフェースを公開する。
+ppv : [var] 要求されたインターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the default video mixer for the enhanced video renderer
-(EVR).
+Enhanced Video Renderer (EVR) の既定のビデオミキサーを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateVideoMixerAndPresenter
-Creates the default video mixer and video presenter for the enhanced video renderer (EVR).
+Enhanced Video Renderer (EVR) の既定のビデオミキサーとビデオプレゼンターを作成する。
 %group
 Win32 evr
 %prm
 pMixerOwner, pPresenterOwner, riidMixer, ppvVideoMixer, riidPresenter, ppvVideoPresenter
-pMixerOwner : [var] Pointer to the owner of the video mixer. If the mixer is aggregated, pass a pointer to the aggregating object's IUnknown interface. Otherwise, set this parameter to NULL.
-pPresenterOwner : [var] Pointer to the owner of the video presenter. If the presenter is aggregated, pass a pointer to the aggregating object's IUnknown interface. Otherwise, set this parameter to NULL.
-riidMixer : [var] Interface identifier (IID) of the requested interface on the video mixer. The video mixer exposes the IMFTransform interface.
-ppvVideoMixer : [var] Receives a pointer to the requested interface on the video mixer. The caller must release the interface.
-riidPresenter : [var] IID of the requested interface on the video presenter. The video presenter exposes the IMFVideoPresenter interface.
-ppvVideoPresenter : [var] Receives a pointer to the requested interface on the video presenter. The caller must release the interface.
+pMixerOwner : [var] ビデオミキサーの所有者へのポインタ。ミキサーが集約されている場合は、集約オブジェクトの IUnknown インターフェースへのポインタを渡す。そうでない場合はこのパラメータを NULL に設定する。
+pPresenterOwner : [var] ビデオプレゼンターの所有者へのポインタ。プレゼンターが集約されている場合は、集約オブジェクトの IUnknown インターフェースへのポインタを渡す。そうでない場合はこのパラメータを NULL に設定する。
+riidMixer : [var] ビデオミキサーで要求するインターフェースの IID。ビデオミキサーは IMFTransform インターフェースを公開する。
+ppvVideoMixer : [var] ビデオミキサーで要求されたインターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
+riidPresenter : [var] ビデオプレゼンターで要求するインターフェースの IID。ビデオプレゼンターは IMFVideoPresenter インターフェースを公開する。
+ppvVideoPresenter : [var] ビデオプレゼンターで要求されたインターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the default video mixer and video presenter for the enhanced
-video renderer (EVR).
+Enhanced Video Renderer (EVR) の既定のビデオミキサーとビデオプレゼンターを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateVideoPresenter
-Creates the default video presenter for the enhanced video renderer (EVR).
+Enhanced Video Renderer (EVR) の既定のビデオプレゼンターを作成する。
 %group
 Win32 evr
 %prm
 pOwner, riidDevice, riid, ppVideoPresenter
-pOwner : [var] Pointer to the owner of the object. If the object is aggregated, pass a pointer to the aggregating object's IUnknown interface. Otherwise, set this parameter to NULL.
-riidDevice : [var] Interface identifier (IID) of the video device interface that will be used for processing the video. Currently the only supported value is IID_IDirect3DDevice9.
-riid : [var] IID of the requested interface on the video presenter. The video presenter exposes the IMFVideoPresenter interface.
-ppVideoPresenter : [var] Receives a pointer to the requested interface on the video presenter. The caller must release the interface.
+pOwner : [var] オブジェクトの所有者へのポインタ。オブジェクトが集約されている場合は、集約オブジェクトの IUnknown インターフェースへのポインタを渡す。そうでない場合はこのパラメータを NULL に設定する。
+riidDevice : [var] ビデオ処理に使用するビデオデバイスインターフェースの IID。現在サポートされている値は IID_IDirect3DDevice9 のみである。
+riid : [var] ビデオプレゼンターで要求するインターフェースの IID。ビデオプレゼンターは IMFVideoPresenter インターフェースを公開する。
+ppVideoPresenter : [var] ビデオプレゼンターで要求されたインターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the default video presenter for the enhanced video renderer
-(EVR).
+Enhanced Video Renderer (EVR) の既定のビデオプレゼンターを作成する。
 
 [戻り値]
-The function returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+関数は HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateVideoSampleAllocator
-Creates an object that allocates video samples.
+ビデオサンプルを割り当てるオブジェクトを作成する。
 %group
 Win32 evr
 %prm
 riid, ppSampleAllocator
 riid : [var] 
-ppSampleAllocator : [var] Receives a pointer to the requested interface. The caller must release the interface.
+ppSampleAllocator : [var] 要求されたインターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates an object that allocates video samples.
+ビデオサンプルを割り当てるオブジェクトを作成する。
 
 [戻り値]
-If the function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 
 %index
 MFCreateVideoSampleFromSurface
-Creates a media sample that manages a Direct3D surface.
+Direct3D サーフェスを管理するメディアサンプルを作成する。
 %group
 Win32 evr
 %prm
 pUnkSurface, ppSample
-pUnkSurface : [var] A pointer to the IUnknown interface of the Direct3D surface. This parameter can be NULL.
-ppSample : [var] Receives a pointer to the sample's IMFSample interface. The caller must release the interface.
+pUnkSurface : [var] Direct3D サーフェスの IUnknown インターフェースへのポインタ。このパラメータは NULL でも構わない。
+ppSample : [var] サンプルの IMFSample インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates a media sample that manages a Direct3D surface.
+Direct3D サーフェスを管理するメディアサンプルを作成する。
 
 [戻り値]
-If this callback function succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+このコールバック関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-The media sample created by this function exposes the following
-interfaces in addition to IMFSample:
-This doc was truncated.
+この関数によって作成されるメディアサンプルは、IMFSample に加えて以下のインターフェースを公開する。
+このドキュメントは省略されている。
 
 
 %index
 MFIsFormatYUV
-Queries whether a FOURCC code or D3DFORMAT value is a YUV format.
+FOURCC コードまたは D3DFORMAT 値が YUV 形式であるかを問い合わせる。
 %group
 Win32 evr
 %prm
 Format
-Format : [int] FOURCC code or D3DFORMAT value.
+Format : [int] FOURCC コードまたは D3DFORMAT 値。
 %inst
-Queries whether a FOURCC code or D3DFORMAT value is a YUV format.
+FOURCC コードまたは D3DFORMAT 値が YUV 形式であるかを問い合わせる。
 
 [戻り値]
-The function returns one of the following values.
-This doc was truncated.
+関数は以下のいずれかの値を返す。
+このドキュメントは省略されている。
 
 [備考]
-This function checks whether Format specifies a YUV format. Not every
-YUV format is recognized by this function. However, if a YUV format
-is not recognized by this function, it is probably not supported for
-video rendering or DirectX video acceleration (DXVA).
+この関数は Format が YUV 形式を指定しているかどうかをチェックする。すべての YUV
+形式がこの関数で認識されるわけではない。ただし、この関数で認識されない YUV 形式は、ビデオレンダリングや DirectX Video
+Acceleration (DXVA) でサポートされない可能性が高い。
 

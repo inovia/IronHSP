@@ -11,7 +11,7 @@ GetAddrInfoW ŠÖ”‚ª addrinfoW \‘¢‘Ì‚É“®“I‚ÉŠm•Û‚µ‚½ƒAƒhƒŒƒXî•ñ‚ğ‰ğ•ú‚·‚éB
 Win32 ws2_32
 %prm
 pAddrInfo
-pAddrInfo : [var] ‰ğ•ú‚·‚é addrinfoW \‘¢‘ÌA‚Ü‚½‚Í addrinfoW \‘¢‘Ì‚Ì˜AŒ‹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BaddrinfoW \‘¢‘Ì“à‚©‚çw‚µ¦‚³‚ê‚é“®“I‚ÉŠm•Û‚³‚ê‚½—Ìˆæ‚à‚·‚×‚Ä‰ğ•ú‚³‚ê‚éB
+pAddrInfo : [var] ‰ğ•ú‚·‚é addrinfoW \‘¢‘ÌA‚Ü‚½‚Í addrinfoW \‘¢‘Ì‚ÌƒŠƒ“ƒNƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BaddrinfoW \‘¢‘Ì“à‚©‚çw‚³‚ê‚Ä‚¢‚é“®“I‚ÉŠm•Û‚³‚ê‚½‚·‚×‚Ä‚Ì—Ìˆæ‚à‰ğ•ú‚³‚ê‚éB
 %inst
 GetAddrInfoW ŠÖ”‚ª addrinfoW \‘¢‘Ì‚É“®“I‚ÉŠm•Û‚µ‚½ƒAƒhƒŒƒXî•ñ‚ğ‰ğ•ú‚·‚éB
 
@@ -20,20 +20,20 @@ GetAddrInfoW ŠÖ”‚ª addrinfoW \‘¢‘Ì‚É“®“I‚ÉŠm•Û‚µ‚½ƒAƒhƒŒƒXî•ñ‚ğ‰ğ•ú‚·‚éB
 
 [”õl]
 FreeAddrInfoW ŠÖ”‚ÍAUnicode ”Å‚Ì GetAddrInfoW ŠÖ”‚É‚æ‚Á‚Ä“®“I‚ÉŠm•Û‚³‚ê‚½ addrinfoW
-\‘¢‘Ì‚ğ‰ğ•ú‚·‚éBFreeAddrInfoW ŠÖ”‚Í‚Ü‚¸ pAddrInfo ƒpƒ‰ƒ[ƒ^‚Åw‚µ¦‚³‚ê‚éæ“ª‚Ì addrinfoW
-\‘¢‘Ì‚ğA‚»‚Ìƒƒ“ƒo‚ªw‚·ƒoƒbƒtƒ@‚àŠÜ‚ß‚Ä‰ğ•ú‚µA‘±‚¯‚Ä ai_next ƒƒ“ƒo‚Å˜AŒ‹‚³‚ê‚Ä‚¢‚éŒã‘±‚Ì addrinfoW
-\‘¢‘Ì‚ğ‰ğ•ú‚µ‚Ä‚¢‚­BFreeAddrInfoW ŠÖ”‚Í ai_next ƒƒ“ƒo‚ª NULL
-‚É‚È‚é‚Ü‚Å˜AŒ‹‚³‚ê‚½\‘¢‘Ì‚ğ‰ğ•ú‚µ‘±‚¯‚éBWinsock ƒwƒbƒ_ƒtƒ@ƒCƒ‹“à‚Ìƒ}ƒNƒ‚É‚æ‚Á‚ÄA‘å•¶š¬•¶š¬İ‚ÌŠÖ”–¼
-FreeAddrInfo ‚Æ ADDRINFOT \‘¢‘Ì‚ª’è‹`‚³‚ê‚Ä‚¢‚éB‚±‚Ì FreeAddrInfo ŠÖ”‚ÍApAddrInfo
-ƒpƒ‰ƒ[ƒ^‚É ADDRINFOT Œ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚µ‚ÄŒÄ‚Ño‚·•K—v‚ª‚ ‚éBUNICODE ‚Ü‚½‚Í _UNICODE
-‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AFreeAddrInfo ‚Í Unicode ”Å‚Å‚ ‚é FreeAddrInfoW
-‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT ‚Í addrinfoW \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE
-‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AFreeAddrInfo ‚Í ANSI ”Å‚Å‚ ‚é freeaddrinfo ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT ‚Í
-addrinfo \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í
-Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
-> [!NOTE] > ws2tcpip.h ƒwƒbƒ_‚Í FreeAddrInfo ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
-ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ”Å‚Ü‚½‚Í Unicode
-”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Ìg—p‚ğƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ğµ‚­‚¨‚»‚ê‚ª‚ ‚éBÚ×‚Í
+\‘¢‘Ì‚ğ‰ğ•ú‚·‚éBFreeAddrInfoW ŠÖ”‚ÍA‚Ü‚¸ pAddrInfo ƒpƒ‰ƒ[ƒ^‚ªw‚·Å‰‚Ì addrinfoW
+\‘¢‘Ì‚ğA\‘¢‘Ìƒƒ“ƒo‚ªw‚·ƒoƒbƒtƒ@—Ş‚àŠÜ‚ß‚Ä‰ğ•ú‚µA‘±‚¢‚Ä addrinfoW \‘¢‘Ì‚Ì ai_next ƒƒ“ƒo‚É‚æ‚Á‚ÄƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚é
+addrinfoW \‘¢‘Ì‚ğ‡Ÿ‰ğ•ú‚µ‚Ä‚¢‚­BFreeAddrInfoW ŠÖ”‚ÍAai_next ƒƒ“ƒo‚ª NULL
+‚É‚È‚é‚Ü‚ÅƒŠƒ“ƒN‚³‚ê‚½\‘¢‘Ì‚Ì‰ğ•ú‚ğ‘±‚¯‚éBWinsock ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ìƒ}ƒNƒ‚ÍA‘å•¶š¬•¶š¬İ‚ÌŠÖ”–¼ FreeAddrInfo
+‚Æ ADDRINFOT \‘¢‘Ì‚ğ’è‹`‚µ‚Ä‚¢‚éB‚±‚Ì FreeAddrInfo ŠÖ”‚ÍAADDRINFOT Œ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ
+pAddrInfo ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚ÄŒÄ‚Ño‚·•K—v‚ª‚ ‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AFreeAddrInfo ‚Í Unicode ”Å‚Ì FreeAddrInfoW ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT
+‚Í addrinfoW \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AFreeAddrInfo
+‚Í ANSI ”Å‚Ì freeaddrinfo ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT ‚Í addrinfo
+\‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows
+8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+> [!NOTE] > ws2tcpip.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä FreeAddrInfo
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
 [Conventions for Function
 Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 ‚ğQÆB
@@ -46,7 +46,7 @@ FreeAddrInfoEx ŠÖ” (ws2tcpip.h) ‚ÍAGetAddrInfoEx ŠÖ”‚ª addrinfoex \‘¢‘Ì‚É“®“
 Win32 ws2_32
 %prm
 pAddrInfoEx
-pAddrInfoEx : [var] ‰ğ•ú‚·‚é addrinfoex \‘¢‘ÌA‚Ü‚½‚Í addrinfoex \‘¢‘Ì‚Ì˜AŒ‹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^Baddrinfoex \‘¢‘Ì“à‚©‚çw‚µ¦‚³‚ê‚é“®“I‚ÉŠm•Û‚³‚ê‚½—Ìˆæ‚à‚·‚×‚Ä‰ğ•ú‚³‚ê‚éB
+pAddrInfoEx : [var] ‰ğ•ú‚·‚é addrinfoex \‘¢‘ÌA‚Ü‚½‚Í addrinfoex \‘¢‘Ì‚ÌƒŠƒ“ƒNƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^Baddrinfoex \‘¢‘Ì“à‚©‚çw‚³‚ê‚Ä‚¢‚é“®“I‚ÉŠm•Û‚³‚ê‚½‚·‚×‚Ä‚Ì—Ìˆæ‚à‰ğ•ú‚³‚ê‚éB
 %inst
 FreeAddrInfoEx ŠÖ” (ws2tcpip.h) ‚ÍAGetAddrInfoEx ŠÖ”‚ª addrinfoex
 \‘¢‘Ì‚É“®“I‚ÉŠm•Û‚µ‚½ƒAƒhƒŒƒXî•ñ‚ğ‰ğ•ú‚·‚éB
@@ -56,139 +56,145 @@ FreeAddrInfoEx ŠÖ” (ws2tcpip.h) ‚ÍAGetAddrInfoEx ŠÖ”‚ª addrinfoex
 
 [”õl]
 FreeAddrInfoEx ŠÖ”‚ÍAGetAddrInfoEx ŠÖ”‚É‚æ‚Á‚Ä“®“I‚ÉŠm•Û‚³‚ê‚½ addrinfoex
-\‘¢‘Ì‚ğ‰ğ•ú‚·‚éBFreeAddrInfoEx ŠÖ”‚Í‚Ü‚¸ pAddrInfo ƒpƒ‰ƒ[ƒ^‚Åw‚µ¦‚³‚ê‚éæ“ª‚Ì addrinfoex
-\‘¢‘Ì‚ğA‚»‚Ìƒƒ“ƒo‚ªw‚·ƒoƒbƒtƒ@‚àŠÜ‚ß‚Ä‰ğ•ú‚µA‘±‚¯‚Ä ai_next ƒƒ“ƒo‚Å˜AŒ‹‚³‚ê‚Ä‚¢‚éŒã‘±‚Ì addrinfoex
-\‘¢‘Ì‚ğ‰ğ•ú‚µ‚Ä‚¢‚­BFreeAddrInfoEx ŠÖ”‚Í ai_next ƒƒ“ƒo‚ª NULL
-‚É‚È‚é‚Ü‚Å˜AŒ‹‚³‚ê‚½\‘¢‘Ì‚ğ‰ğ•ú‚µ‘±‚¯‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AFreeAddrInfoEx ‚Í
-Unicode ”Å‚Å‚ ‚é FreeAddrInfoExW ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOEX ‚Í addrinfoexW
-\‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AFreeAddrInfoEx ‚Í ANSI
-”Å‚Å‚ ‚é FreeAddrInfoExA ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOEX ‚Í addrinfoexA
-\‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: FreeAddrInfoExW
-ŠÖ”‚Í Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+\‘¢‘Ì‚ğ‰ğ•ú‚·‚éBFreeAddrInfoEx ŠÖ”‚ÍA‚Ü‚¸ pAddrInfo ƒpƒ‰ƒ[ƒ^‚ªw‚·Å‰‚Ì addrinfoex
+\‘¢‘Ì‚ğA\‘¢‘Ìƒƒ“ƒo‚ªw‚·ƒoƒbƒtƒ@—Ş‚àŠÜ‚ß‚Ä‰ğ•ú‚µA‘±‚¢‚Ä addrinfoex \‘¢‘Ì‚Ì ai_next
+ƒƒ“ƒo‚É‚æ‚Á‚ÄƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚é addrinfoex \‘¢‘Ì‚ğ‡Ÿ‰ğ•ú‚µ‚Ä‚¢‚­BFreeAddrInfoEx ŠÖ”‚ÍAai_next
+ƒƒ“ƒo‚ª NULL ‚É‚È‚é‚Ü‚ÅƒŠƒ“ƒN‚³‚ê‚½\‘¢‘Ì‚Ì‰ğ•ú‚ğ‘±‚¯‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AFreeAddrInfoEx ‚Í Unicode ”Å‚Ì FreeAddrInfoExW
+‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOEX ‚Í addrinfoexW \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AFreeAddrInfoEx ‚Í ANSI ”Å‚Ì FreeAddrInfoExA
+‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOEX ‚Í addrinfoexA \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows
+Server 2012 R2: FreeAddrInfoExW ŠÖ”‚ÍAWindows 8.1AWindows Server 2012
+R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 GetAddrInfoW
-Unicode ƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éB
+Unicode ‚ÌƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éB
 %group
 Win32 ws2_32
 %prm
 pNodeName, pServiceName, pHints, ppResult
-pNodeName : [wstr] ƒzƒXƒg (ƒm[ƒh) –¼‚Ü‚½‚Í”’lƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚ğŠÜ‚Ş NULL I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒCƒ“ƒ^[ƒlƒbƒgƒvƒƒgƒRƒ‹‚Å‚ÍA”’lƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚Íƒhƒbƒg‹æØ‚è10i•\‹L‚Ì IPv4 ƒAƒhƒŒƒXA‚Ü‚½‚Í16i•\‹L‚Ì IPv6 ƒAƒhƒŒƒX‚Å‚ ‚éB
-pServiceName : [wstr] ƒT[ƒrƒX–¼A‚Ü‚½‚Í•¶š—ñ‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½ƒ|[ƒg”Ô†‚ğŠÜ‚Ş NULL I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒT[ƒrƒX–¼‚Íƒ|[ƒg”Ô†‚Ì•¶š—ñƒGƒCƒŠƒAƒX‚Å‚ ‚éB—á‚¦‚Î "http" ‚ÍAHTTP ƒvƒƒgƒRƒ‹‚Å Web ƒT[ƒo[‚ªg—p‚·‚éŠù’è‚Ìƒ|[ƒg‚Æ‚µ‚Ä IETF ‚ª’è‹`‚µ‚½ƒ|[ƒg 80 ‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBƒ|[ƒg”Ô†‚ğw’è‚µ‚È‚¢ê‡‚É pServiceName ƒpƒ‰ƒ[ƒ^‚Éw’è‚Å‚«‚é’l‚ÍA%WINDIR%\system32\drivers\etc\services ‚Éˆê——‚³‚ê‚Ä‚¢‚éB
-pHints : [var] ŒÄ‚Ño‚µ‘¤‚ªƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚ÉŠÖ‚·‚éƒqƒ“ƒg‚ğ’ñ‹Ÿ‚·‚é addrinfoW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BpHints ƒpƒ‰ƒ[ƒ^‚ªw‚· addrinfoW \‘¢‘Ì‚Ì ai_addrlenAai_canonnameAai_addrAai_next ‚ÌŠeƒƒ“ƒo‚Íƒ[ƒ‚Ü‚½‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AGetAddrInfoEx ŠÖ”‚Í WSANO_RECOVERY ‚Å¸”s‚·‚éBÚ×‚Íu‰ğàv‚ğQÆB
-ppResult : [var] ƒzƒXƒg‚ÉŠÖ‚·‚é‰“šî•ñ‚ğŠÜ‚Ş 1 ‚ÂˆÈã‚Ì addrinfoW \‘¢‘Ì‚Ì˜AŒ‹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pNodeName : [wstr] ƒzƒXƒg (ƒm[ƒh) –¼‚Ü‚½‚Í”’lŒ`®‚ÌƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚ğŠi”[‚µ‚½ NULL I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒCƒ“ƒ^[ƒlƒbƒgƒvƒƒgƒRƒ‹‚Ìê‡A”’lŒ`®‚ÌƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚Íƒhƒbƒg‹æØ‚è\i•\‹L‚Ì IPv4 ƒAƒhƒŒƒX‚Ü‚½‚Í 16 i•\‹L‚Ì IPv6 ƒAƒhƒŒƒX‚Å‚ ‚éB
+pServiceName : [wstr] ƒT[ƒrƒX–¼A‚Ü‚½‚Í•¶š—ñ‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½ƒ|[ƒg”Ô†‚Ì‚¢‚¸‚ê‚©‚ğŠi”[‚µ‚½ NULL I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒT[ƒrƒX–¼‚Íƒ|[ƒg”Ô†‚Ì•¶š—ñƒGƒCƒŠƒAƒX‚Å‚ ‚éB‚½‚Æ‚¦‚Î "http" ‚ÍAHTTP ƒvƒƒgƒRƒ‹‚Å Web ƒT[ƒo‚ªŠù’è‚Åg—p‚·‚éƒ|[ƒg‚Æ‚µ‚Ä IETF ‚ª’è‚ß‚½ƒ|[ƒg 80 ‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBƒ|[ƒg”Ô†‚ğw’è‚µ‚È‚¢ê‡‚Ì pServiceName ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äg—p‰Â”\‚È’l‚ÍAŸ‚Ìƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚é: %WINDIR%\system32\drivers\etc\services
+pHints : [var] ŒÄ‚Ño‚µŒ³‚ªƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚É‚Â‚¢‚Ä‚Ìƒqƒ“ƒg‚ğ—^‚¦‚é addrinfoW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BpHints ƒpƒ‰ƒ[ƒ^‚ªw‚· addrinfoW \‘¢‘Ì‚Ì ai_addrlenAai_canonnameAai_addrAai_next ƒƒ“ƒo‚Íƒ[ƒ‚Ü‚½‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AGetAddrInfoEx ŠÖ”‚Í WSANO_RECOVERY ‚Å¸”s‚·‚éBÚ×‚Í”õl‚ğQÆB
+ppResult : [var] ƒzƒXƒg‚ÉŠÖ‚·‚é‰“šî•ñ‚ğŠÜ‚Ş 1 ‚ÂˆÈã‚Ì addrinfoW \‘¢‘Ì‚ÌƒŠƒ“ƒNƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Unicode ƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éB
+Unicode ‚ÌƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-¬Œ÷‚µ‚½ê‡‚Íƒ[ƒ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í”ñƒ[ƒ‚Ì Windows ƒ\ƒPƒbƒgƒGƒ‰[ƒR[ƒh (Windows Sockets Error
-Codes ‚É‹LÚ) ‚ğ•Ô‚·BGetAddrInfoW ŠÖ”‚ª•Ô‚·”ñƒ[ƒ‚ÌƒGƒ‰[ƒR[ƒh‚Ì‘½‚­‚ÍAIETF
-Š©‚Å’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ‰[W‡‚É‘Î‰‚µ‚Ä‚¢‚éBˆÈ‰º‚Ì•\‚Í‚±‚ê‚ç‚ÌƒGƒ‰[ƒR[ƒh‚Æ‚»‚ê‚¼‚ê‚É‘Î‰‚·‚é WSA ‚ÌƒGƒ‰[‚ğ¦‚·BWinsock
-ƒvƒƒOƒ‰ƒ}‚É‚Æ‚Á‚Ä“éõ‚İ‚ª‚ ‚è•ïŠ‡“I‚ÈƒGƒ‰[î•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAWSA ƒGƒ‰[ƒR[ƒh‚Ìg—p‚ª„§‚³‚ê‚éB
+¬Œ÷‚Íƒ[ƒ‚ğ•Ô‚·B¸”s‚Í Windows Sockets ƒGƒ‰[ƒR[ƒhˆê——‚É‚ ‚é 0 ˆÈŠO‚Ì Windows Sockets
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·BGetAddrInfoW ŠÖ”‚ª•Ô‚· 0 ˆÈŠO‚ÌƒGƒ‰[ƒR[ƒh‚Ì‚Ù‚Æ‚ñ‚Ç‚ÍAIETF
+‚ÌŠ©‚ÅŠTà‚³‚ê‚Ä‚¢‚éƒGƒ‰[‚ÌW‡‚Éƒ}ƒbƒv‚³‚ê‚éBWinsock ƒvƒƒOƒ‰ƒ}‚É‚Æ‚Á‚Ä“éõ‚İ‚ª‚ ‚è•ïŠ‡“I‚ÈƒGƒ‰[î•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAWSA
+ƒGƒ‰[ƒR[ƒh‚Ìg—p‚ğ„§‚·‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-GetAddrInfoW ŠÖ”‚ÍAƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éŠÖ”‚Ì Unicode ”Å‚Å‚ ‚éB‚±‚ÌŠÖ”‚Ì
-ANSI ”Å‚Í getaddrinfo ‚Å‚ ‚éBGetAddrInfoW ŠÖ”‚Í NS_DNS
-–¼‘O‹óŠÔ‚É‚Â‚¢‚Ä‚ÌŒ‹‰Ê‚ğ•Ô‚·B•¡”‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚çî•ñ‚ª•Ô‚³‚ê‚½ê‡AGetAddrInfoW
-ŠÖ”‚Í‚·‚×‚Ä‚Ì‰“š‚ğW–ñ‚·‚éBIPv6 ‚¨‚æ‚Ñ IPv4 ƒvƒƒgƒRƒ‹‚Åg—p‚·‚éê‡ANS_DNS –¼‘O‹óŠÔ‚É‚¨‚¯‚é–¼‘O‰ğŒˆ‚Í
-DNSAƒ[ƒJƒ‹‚Ì hosts ƒtƒ@ƒCƒ‹A‚ ‚é‚¢‚Í‚»‚Ì‘¼‚Ì–¼‘O•t‚¯‹@\‚É‚æ‚Á‚Äs‚¤‚±‚Æ‚ª‚Å‚«‚éBWinsock
-ƒwƒbƒ_ƒtƒ@ƒCƒ‹“à‚Ìƒ}ƒNƒ‚É‚æ‚Á‚ÄA‘å•¶š¬•¶š¬İ‚ÌŠÖ”–¼ GetAddrInfo ‚¨‚æ‚Ñ ADDRINFOT
-\‘¢‘Ì‚ª’è‹`‚³‚ê‚Ä‚¢‚éB‚±‚Ì GetAddrInfo ŠÖ”‚ÍApNodeName ‚¨‚æ‚Ñ pServiceName ƒpƒ‰ƒ[ƒ^‚É
-TCHAR Œ^ƒ|ƒCƒ“ƒ^‚ğApHints ‚¨‚æ‚Ñ ppResult ƒpƒ‰ƒ[ƒ^‚É ADDRINFOT
-Œ^ƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚ÄŒÄ‚Ño‚·•K—v‚ª‚ ‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AGetAddrInfo ‚Í
-Unicode ”Å‚Ì GetAddrInfoW ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT ‚Í addrinfoW
-\‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetAddrInfo ‚Í ANSI ”Å‚Ì
-getaddrinfo ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT ‚Í addrinfo \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpNodeName ‚¨‚æ‚Ñ
-pServiceName ƒpƒ‰ƒ[ƒ^‚Ìˆê•û‚Ü‚½‚Í—¼•û‚ª NULL I’[ Unicode
-•¶š—ñ‚ğw‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚¸A’Êí‚Í—¼•ûw’è‚³‚ê‚éB¬Œ÷‚·‚é‚ÆAppResult ƒpƒ‰ƒ[ƒ^‚É addrinfoW
-\‘¢‘Ì‚Ì˜AŒ‹ƒŠƒXƒg‚ª•Ô‚³‚ê‚éBŠe addrinfoW \‘¢‘Ì‚Ì ai_next ƒƒ“ƒo‚ğ‚½‚Ç‚Á‚Ä NULL
-ƒ|ƒCƒ“ƒ^‚É’B‚·‚é‚Ü‚ÅƒŠƒXƒg‚ğˆ—‚Å‚«‚éBŠe addrinfoW \‘¢‘Ì‚Ì
+GetAddrInfoW ŠÖ”‚ÍAƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éŠÖ”‚Ì Unicode ”Å‚Å‚ ‚éBANSI ”Å‚Í
+getaddrinfo ‚Å‚ ‚éBGetAddrInfoW ŠÖ”‚Í NS_DNS
+–¼‘O‹óŠÔ‚É‘Î‚·‚éŒ‹‰Ê‚ğ•Ô‚·B•¡”‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚çî•ñ‚ª•Ô‚³‚ê‚½ê‡AGetAddrInfoW
+ŠÖ”‚Í‚»‚ê‚ç‚Ì‰“š‚ğ‚·‚×‚ÄW–ñ‚·‚éBIPv6 ‚¨‚æ‚Ñ IPv4 ƒvƒƒgƒRƒ‹‚Å NS_DNS –¼‘O‹óŠÔ‚ğg‚¤ê‡A–¼‘O‰ğŒˆ‚Í
+DNSAƒ[ƒJƒ‹‚Ì hosts ƒtƒ@ƒCƒ‹A‚»‚Ì‘¼‚Ì–½–¼ƒƒJƒjƒYƒ€‚É‚æ‚Á‚Äs‚¦‚éBWinsock
+ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ìƒ}ƒNƒ‚ÍA‘å•¶š¬•¶š¬İ‚ÌŠÖ”–¼ GetAddrInfo ‚Æ ADDRINFOT \‘¢‘Ì‚ğ’è‹`‚µ‚Ä‚¢‚éB‚±‚Ì
+GetAddrInfo ŠÖ”‚ÍApNodeName ‚¨‚æ‚Ñ pServiceName ƒpƒ‰ƒ[ƒ^‚É TCHAR
+Œ^‚Ìƒ|ƒCƒ“ƒ^‚ğApHints ‚¨‚æ‚Ñ ppResult ƒpƒ‰ƒ[ƒ^‚É ADDRINFOT Œ^‚Ìƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚ÄŒÄ‚Ño‚·BUNICODE
+‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AGetAddrInfo ‚Í Unicode ”Å‚Ì GetAddrInfoW
+‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT ‚Í addrinfoW \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetAddrInfo ‚Í ANSI ”Å‚Ì getaddrinfo ‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOT ‚Í
+addrinfo \‘¢‘Ì‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpNodeName ‚Ü‚½‚Í pServiceName ƒpƒ‰ƒ[ƒ^‚Ì­‚È‚­‚Æ‚àˆê•û‚Í NULL
+I’[ Unicode •¶š—ñ‚ğw‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B’Êí‚Í—¼•û‚ğw’è‚·‚éB¬Œ÷‚É‚Í addrinfoW \‘¢‘Ì‚ÌƒŠƒ“ƒNƒŠƒXƒg‚ª
+ppResult ƒpƒ‰ƒ[ƒ^‚É•Ô‚³‚ê‚éBƒŠƒXƒg‚Í•Ô‚³‚ê‚½Še addrinfoW \‘¢‘Ì‚Ì ai_next
+ƒƒ“ƒo‚ªw‚·ƒ|ƒCƒ“ƒ^‚ğ‚½‚Ç‚èANULL ƒ|ƒCƒ“ƒ^‚Éo‰ï‚¤‚Ü‚Åˆ—‚Å‚«‚éB•Ô‚³‚ê‚½Še addrinfoW \‘¢‘Ì‚Ì
 ai_familyAai_socktypeAai_protocol ƒƒ“ƒo‚ÍAsocket ‚Ü‚½‚Í WSASocket
-ŠÖ”ŒÄ‚Ño‚µ‚Ì‚»‚ê‚¼‚ê‚Ìˆø”‚É‘Î‰‚·‚éB‚Ü‚½Aai_addr ƒƒ“ƒo‚Í ai_addrlen
-ƒƒ“ƒo‚É’·‚³‚ª¦‚³‚ê‚½ƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğw‚·BpNodeName
-ƒpƒ‰ƒ[ƒ^‚ªƒRƒ“ƒsƒ…[ƒ^–¼‚ğw‚·ê‡A‘—MŒ³ƒAƒhƒŒƒX‚Æ‚µ‚Äg—p‰Â”\‚È‚»‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì‰i‘±ƒAƒhƒŒƒX‚ª‚·‚×‚Ä•Ô‚³‚ê‚éBˆÈ~‚ÌğŒ•ªŠò‚Í
-GetAddrInfoExW ‚Ì‰ğà‚Æ“¯—l‚Å‚ ‚éB
-GetAddrInfoW ŠÖ”‚ÌŒÄ‚Ño‚µ‘¤‚ÍApHints ƒpƒ‰ƒ[ƒ^‚Åw‚µ¦‚· addrinfoW
-\‘¢‘Ì‚ğ’Ê‚¶‚ÄAƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚ÉŠÖ‚·‚éƒqƒ“ƒg‚ğ—^‚¦‚é‚±‚Æ‚ª‚Å‚«‚éBpHints ƒpƒ‰ƒ[ƒ^‚ğg—p‚·‚éê‡AŠÖ˜A•t‚¯‚ç‚ê‚½
-addrinfoW \‘¢‘Ì‚É‚ÍŸ‚Ìƒ‹[ƒ‹‚ª“K—p‚³‚ê‚éB
+ŠÖ”ŒÄ‚Ño‚µ‚Ì‚»‚ê‚¼‚ê‚Ìˆø”‚É‘Î‰‚·‚éB‚Ü‚½A•Ô‚³‚ê‚½Še addrinfoW \‘¢‘Ì‚Ì ai_addr
+ƒƒ“ƒo‚ÍA“à—e‚ª–„‚ß‚ç‚ê‚½ƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğw‚µA‚»‚Ì’·‚³‚Í ai_addrlen ƒƒ“ƒo‚Åw’è‚³‚ê‚éBpNodeName
+ƒpƒ‰ƒ[ƒ^‚ªƒRƒ“ƒsƒ…[ƒ^–¼‚ğw‚µ‚Ä‚¢‚éê‡A‘—MŒ³ƒAƒhƒŒƒX‚Æ‚µ‚Äg—p‰Â”\‚È“–ŠYƒRƒ“ƒsƒ…[ƒ^‚Ì‰i‘±ƒAƒhƒŒƒX‚ª‚·‚×‚Ä•Ô‚³‚ê‚éBpNodeName
+ƒpƒ‰ƒ[ƒ^‚ª "localhost"
+‚Æ“™‚µ‚¢•¶š—ñ‚ğw‚µ‚Ä‚¢‚éê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì‚·‚×‚Ä‚Ìƒ‹[ƒvƒoƒbƒNƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBpNodeName
+ƒpƒ‰ƒ[ƒ^‚ª‹ó•¶š—ñ‚ğŠÜ‚Şê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É“o˜^Ï‚İ‚Ì‚·‚×‚Ä‚ÌƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBWindows Server 2003 ˆÈ~‚Å
+pNodeName ƒpƒ‰ƒ[ƒ^‚ª "..localmachine"
+‚Æ“™‚µ‚¢•¶š—ñ‚ğw‚µ‚Ä‚¢‚éê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É“o˜^Ï‚İ‚Ì‚·‚×‚Ä‚ÌƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBpNodeName
+ƒpƒ‰ƒ[ƒ^‚ªƒNƒ‰ƒXƒ^‰¼‘zƒT[ƒo–¼‚ğQÆ‚µ‚Ä‚¢‚éê‡A‰¼‘zƒT[ƒoƒAƒhƒŒƒX‚Ì‚İ‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µŒ³‚ÍApHints ƒpƒ‰ƒ[ƒ^‚ªw‚· addrinfoW \‘¢‘Ì‚ğ’Ê‚¶‚ÄAƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚ÉŠÖ‚·‚éƒqƒ“ƒg‚ğ
+GetAddrInfoW ŠÖ”‚É“n‚¹‚éBpHints ƒpƒ‰ƒ[ƒ^‚ğg‚¤ê‡A‚»‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ addrinfoW
+\‘¢‘Ì‚É‚ÍŸ‚Ì‹K‘¥‚ª“K—p‚³‚ê‚éB
 iˆÈ‰ºÈ—ªj
 
 
 %index
 GetAddrInfoExW
-—v‹‚ğˆ—‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğŒÀ’è‚·‚é’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğ”º‚Á‚ÄAƒvƒƒgƒRƒ‹”ñˆË‘¶‚Ì–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
+ƒŠƒNƒGƒXƒg‚ğˆ—‚·‚×‚«ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğ“Á’è‚·‚é‚½‚ß‚Ì’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğ‚ÂAƒvƒƒgƒRƒ‹”ñˆË‘¶‚È–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 pName, pServiceName, dwNameSpace, lpNspId, hints, ppResult, timeout, lpOverlapped, lpCompletionRoutine, lpHandle
-pName : [wstr] ƒzƒXƒg (ƒm[ƒh) –¼‚Ü‚½‚Í”’lƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒCƒ“ƒ^[ƒlƒbƒgƒvƒƒgƒRƒ‹‚Å‚ÍA”’lƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚Íƒhƒbƒg‹æØ‚è10i•\‹L‚Ì IPv4 ƒAƒhƒŒƒXA‚Ü‚½‚Í16i•\‹L‚Ì IPv6 ƒAƒhƒŒƒX‚Å‚ ‚éB
-pServiceName : [wstr] ƒT[ƒrƒX–¼A‚Ü‚½‚Í•¶š—ñ‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½ƒ|[ƒg”Ô†‚ğŠÜ‚ŞƒIƒvƒVƒ‡ƒ“‚Ì NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒT[ƒrƒX–¼‚Íƒ|[ƒg”Ô†‚Ì•¶š—ñƒGƒCƒŠƒAƒX‚Å‚ ‚éB—á‚¦‚Î "http" ‚ÍAHTTP ƒvƒƒgƒRƒ‹‚Å Web ƒT[ƒo[‚ªg—p‚·‚éŠù’è‚Ìƒ|[ƒg‚Æ‚µ‚Ä IETF (Internet Engineering Task Force) ‚ª’è‹`‚µ‚½ƒ|[ƒg 80 ‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBƒ|[ƒg”Ô†‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ì pServiceName ƒpƒ‰ƒ[ƒ^‚Éw’è‰Â”\‚È’l‚ÍA%WINDIR%\system32\drivers\etc\services ‚Éˆê——‚³‚ê‚Ä‚¢‚éB
-dwNameSpace : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğŒˆ’è‚·‚éƒIƒvƒVƒ‡ƒ“‚Ì–¼‘O‹óŠÔ¯•ÊqB“Á’è‚Ì–¼‘O‹óŠÔ¯•Êq‚ğw’è‚·‚é‚ÆA‚»‚Ì–¼‘O‹óŠÔ‚ğƒTƒ|[ƒg‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì‚İ‚ª–â‚¢‡‚í‚¹‚ç‚ê‚éBNS_ALL ‚ğw’è‚·‚é‚ÆAƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚©‚Â—LŒø‚È‚·‚×‚Ä‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ª–â‚¢‡‚í‚¹‚ç‚ê‚éB
-lpNspId : [var] NS_DNS ‚Ì‚æ‚¤‚È’Pˆê‚Ì–¼‘O‹óŠÔ‚É•¡”‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÉA–â‚¢‡‚í‚¹‚é“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÌƒIƒvƒVƒ‡ƒ“‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì GUID ‚ğ“n‚·‚ÆAw’è‚µ‚½–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì‚İ‚ª–â‚¢‡‚í‚¹‚ç‚ê‚éB–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì GUID ‚ğæ“¾‚·‚é‚É‚Í WSAEnumNameSpaceProviders ŠÖ”‚ğŒÄ‚Ño‚·B
-hints : [var] ŒÄ‚Ño‚µ‘¤‚ªƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚É‚Â‚¢‚Ä‚Ìƒqƒ“ƒg‚ğ’ñ‹Ÿ‚·‚é addrinfoex \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BpHints ƒpƒ‰ƒ[ƒ^‚ªw‚· addrinfoex \‘¢‘Ì‚Ì ai_addrlenAai_canonnameAai_addrAai_next ‚ÌŠeƒƒ“ƒo‚ÍAƒ[ƒ‚Ü‚½‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AGetAddrInfoEx ŠÖ”‚Í WSANO_RECOVERY ‚Å¸”s‚·‚éBÚ×‚Íu‰ğàv‚ğQÆB
-ppResult : [var] ƒzƒXƒg‚ÉŠÖ‚·‚é‰“šî•ñ‚ğŠÜ‚Ş 1 ‚ÂˆÈã‚Ì addrinfoex \‘¢‘Ì‚Ì˜AŒ‹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-timeout : [var] ŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚ÅA–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚ç‚Ì‰“š‚ğ‘Ò‹@‚·‚éŠÔ‚ğƒ~ƒŠ•b’PˆÊ‚Å¦‚·ƒIƒvƒVƒ‡ƒ“‚Ìƒpƒ‰ƒ[ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAGetAddrInfoEx ŠÖ”‚ğŒÄ‚Ño‚·‘O‚Éƒ\[ƒX“à‚Å UNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚É‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡Aƒ^ƒCƒ€ƒAƒEƒgƒIƒvƒVƒ‡ƒ“‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpOverlapped : [var] ”ñ“¯Šú‘€ì‚Ég—p‚³‚ê‚éƒI[ƒo[ƒ‰ƒbƒv\‘¢‘Ì‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAGetAddrInfoEx ŠÖ”‚ğŒÄ‚Ño‚·‘O‚Éƒ\[ƒX“à‚Å UNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚É‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍAlpCompletionRoutine ƒpƒ‰ƒ[ƒ^‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A”ñ“¯ŠúŒÄ‚Ño‚µ‚ÌŠ®—¹‚É’Ê’m‚³‚ê‚é‚æ‚¤AOVERLAPPED \‘¢‘Ì‚Ì hEvent ƒƒ“ƒo‚É‚Íè“®ƒŠƒZƒbƒgƒCƒxƒ“ƒg‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŠ®—¹ƒ‹[ƒ`ƒ“‚ªw’è‚³‚ê‚Ä‚¢‚éê‡AhEvent ƒƒ“ƒo‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BhEvent ‚Åw’è‚µ‚½ƒCƒxƒ“ƒg‚ªƒZƒbƒg‚³‚ê‚½ŒãAGetAddrInfoExOverlappedResult ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‘€ìŒ‹‰Ê‚ğæ“¾‚Å‚«‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å UNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ‘O‚Å‚ÍA”ñ“¯Šú‘€ì‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](../winsock2/nc-winsock2-lpwsaoverlapped_completion_routine.md) ”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAGetAddrInfoEx ŠÖ”‚ğŒÄ‚Ño‚·‘O‚Éƒ\[ƒX“à‚Å UNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚É‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éê‡AˆÈ‰º‚ÌƒVƒOƒlƒ`ƒƒ‚ğ‚ÂŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpHandle : [intptr] TBD
+pName : [wstr] ƒzƒXƒg (ƒm[ƒh) –¼‚Ü‚½‚Í”’lŒ`®‚ÌƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚ğŠi”[‚µ‚½ NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒCƒ“ƒ^[ƒlƒbƒgƒvƒƒgƒRƒ‹‚Ìê‡A”’lŒ`®‚ÌƒzƒXƒgƒAƒhƒŒƒX•¶š—ñ‚Íƒhƒbƒg‹æØ‚è\i•\‹L‚Ì IPv4 ƒAƒhƒŒƒX‚Ü‚½‚Í 16 i•\‹L‚Ì IPv6 ƒAƒhƒŒƒX‚Å‚ ‚éB
+pServiceName : [wstr] ƒT[ƒrƒX–¼A‚Ü‚½‚Í•¶š—ñ‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½ƒ|[ƒg”Ô†‚Ì‚¢‚¸‚ê‚©‚ğŠi”[‚µ‚½ NULL I’[•¶š—ñ‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^BƒT[ƒrƒX–¼‚Íƒ|[ƒg”Ô†‚Ì•¶š—ñƒGƒCƒŠƒAƒX‚Å‚ ‚éB‚½‚Æ‚¦‚Î "http" ‚ÍAHTTP ƒvƒƒgƒRƒ‹‚Å Web ƒT[ƒo‚ªŠù’è‚Åg—p‚·‚éƒ|[ƒg‚Æ‚µ‚Ä IETF ‚ª’è‚ß‚½ƒ|[ƒg 80 ‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBƒ|[ƒg”Ô†‚ğw’è‚µ‚È‚¢ê‡‚Ì pServiceName ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äg—p‰Â”\‚È’l‚ÍAŸ‚Ìƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚é: %WINDIR%\system32\drivers\etc\services
+dwNameSpace : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğŒˆ’è‚·‚éƒIƒvƒVƒ‡ƒ“‚Ì–¼‘O‹óŠÔ¯•ÊqB“Á’è‚Ì–¼‘O‹óŠÔ¯•Êq‚ğ“n‚·‚ÆAw’è‚µ‚½–¼‘O‹óŠÔ‚ğƒTƒ|[ƒg‚·‚éƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‚İ‚ª–â‚¢‡‚í‚¹‘ÎÛ‚Æ‚È‚éBNS_ALL ‚ğw’è‚·‚é‚ÆƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚©‚ÂƒAƒNƒeƒBƒu‚È‚·‚×‚Ä‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ª–â‚¢‡‚í‚¹‘ÎÛ‚Æ‚È‚éB
+lpNspId : [var] NS_DNS ‚Ì‚æ‚¤‚È’Pˆê‚Ì–¼‘O‹óŠÔ‚Ì‰º‚É•¡”‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÉA–â‚¢‡‚í‚¹‘ÎÛ‚Ì“Á’èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğ¦‚·ƒIƒvƒVƒ‡ƒ“‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì GUID ‚ğ“n‚·‚ÆAw’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‚İ‚ª–â‚¢‡‚í‚¹‘ÎÛ‚Æ‚È‚éBƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì GUID ‚ğæ“¾‚·‚é‚É‚Í WSAEnumNameSpaceProviders ŠÖ”‚ğŒÄ‚Ño‚¹‚Î‚æ‚¢B
+hints : [var] ŒÄ‚Ño‚µŒ³‚ªƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚É‚Â‚¢‚Ä‚Ìƒqƒ“ƒg‚ğ—^‚¦‚é addrinfoex \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BpHints ƒpƒ‰ƒ[ƒ^‚ªw‚· addrinfoex \‘¢‘Ì‚Ì ai_addrlenAai_canonnameAai_addrAai_next ƒƒ“ƒo‚Íƒ[ƒ‚Ü‚½‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AGetAddrInfoEx ŠÖ”‚Í WSANO_RECOVERY ‚Å¸”s‚·‚éBÚ×‚Í”õl‚ğQÆB
+ppResult : [var] ƒzƒXƒg‚ÉŠÖ‚·‚é‰“šî•ñ‚ğŠÜ‚Ş 1 ‚ÂˆÈã‚Ì addrinfoex \‘¢‘Ì‚ÌƒŠƒ“ƒNƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+timeout : [var] ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚ç‚Ì‰“š‚ğ‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚Å‚ÌŠÔ (ƒ~ƒŠ•b) ‚ğ¦‚·ƒIƒvƒVƒ‡ƒ“‚Ìƒpƒ‰ƒ[ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAGetAddrInfoEx ŠÖ”‚ğŒÄ‚Ño‚·‘O‚Éƒ\[ƒX“à‚Å UNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB‚»‚¤‚Å‚È‚¢ê‡Aƒ^ƒCƒ€ƒAƒEƒgƒIƒvƒVƒ‡ƒ“‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpOverlapped : [var] ”ñ“¯Šú‘€ì‚Ég‚í‚ê‚é overlapped \‘¢‘Ì‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAGetAddrInfoEx ŠÖ”‚ğŒÄ‚Ño‚·‘O‚Éƒ\[ƒX“à‚Å UNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚É‚¨‚¢‚Ä‚ÍAlpCompletionRoutine ƒpƒ‰ƒ[ƒ^‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AOVERLAPPED \‘¢‘Ì‚Ì hEvent ƒƒ“ƒo‚É‚Í”ñ“¯ŠúŒÄ‚Ño‚µ‚ÌŠ®—¹‚É’Ê’m‚ğó‚¯æ‚éè“®ƒŠƒZƒbƒgƒCƒxƒ“ƒg‚ğİ’è‚·‚é•K—v‚ª‚ ‚éBŠ®—¹ƒ‹[ƒ`ƒ“‚ğw’è‚µ‚Ä‚¢‚éê‡‚Í hEvent ƒƒ“ƒo‚ğ NULL ‚É‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BhEvent ‚Åw’è‚µ‚½ƒCƒxƒ“ƒg‚ªƒZƒbƒg‚³‚ê‚½‚çAGetAddrInfoExOverlappedResult ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‘€ìŒ‹‰Ê‚ğæ“¾‚Å‚«‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚É‚¨‚¢‚ÄAUNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ‘O‚Å‚Í”ñ“¯Šú‘€ì‚ğƒTƒ|[ƒg‚µ‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](../winsock2/nc-winsock2-lpwsaoverlapped_completion_routine.md) ”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAGetAddrInfoEx ŠÖ”‚ğŒÄ‚Ño‚·‘O‚Éƒ\[ƒX“à‚Å UNICODE ‚Ü‚½‚Í _UNICODE ƒ}ƒNƒ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚É‚¨‚¢‚Ä‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éê‡AˆÈ‰º‚ÌƒVƒOƒlƒ`ƒƒ‚ğ‚ÂŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpHandle : [intptr] –¢’èB
 %inst
-—v‹‚ğˆ—‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğŒÀ’è‚·‚é’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğ”º‚Á‚ÄAƒvƒƒgƒRƒ‹”ñˆË‘¶‚Ì–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
+
+ƒŠƒNƒGƒXƒg‚ğˆ—‚·‚×‚«ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğ“Á’è‚·‚é‚½‚ß‚Ì’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğ‚ÂAƒvƒƒgƒRƒ‹”ñˆË‘¶‚È–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-¬Œ÷‚µ‚½ê‡AGetAddrInfoEx ‚Í NO_ERROR (0) ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í”ñƒ[ƒ‚Ì Windows
-ƒ\ƒPƒbƒgƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·BƒGƒ‰[ƒR[ƒh‚Í Windows Sockets Error Codes ‚ğQÆBGetAddrInfoEx
-ŠÖ”‚ª•Ô‚·”ñƒ[ƒ‚ÌƒGƒ‰[ƒR[ƒh‚Ì‘½‚­‚ÍAIETF
-Š©‚Å’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ‰[W‡‚É‘Î‰‚µ‚Ä‚¢‚éBˆÈ‰º‚Ì•\‚Í‚±‚ê‚ç‚ÌƒGƒ‰[ƒR[ƒh‚Æ‚»‚ê‚¼‚ê‚É‘Î‰‚·‚é WSA ‚ÌƒGƒ‰[‚ğ¦‚·BWinsock
-ƒvƒƒOƒ‰ƒ}‚É‚Æ‚Á‚Ä‚æ‚è“éõ‚İ‚ª‚ ‚è•ïŠ‡“I‚ÈƒGƒ‰[î•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAWSA ƒGƒ‰[ƒR[ƒh‚Ìg—p‚ª„§‚³‚ê‚éB
+¬Œ÷AGetAddrInfoEx ‚Í NO_ERROR (0) ‚ğ•Ô‚·B¸”s‚Í Windows Sockets ƒGƒ‰[ƒR[ƒhˆê——‚É‚ ‚é
+0 ˆÈŠO‚Ì Windows Sockets ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·BGetAddrInfoEx ŠÖ”‚ª•Ô‚· 0
+ˆÈŠO‚ÌƒGƒ‰[ƒR[ƒh‚Ì‚Ù‚Æ‚ñ‚Ç‚ÍAIETF ‚ÌŠ©‚ÅŠTà‚³‚ê‚Ä‚¢‚éƒGƒ‰[‚ÌW‡‚Éƒ}ƒbƒv‚³‚ê‚éBŸ‚Ì•\‚ÍA‚±‚ê‚ç‚ÌƒGƒ‰[ƒR[ƒh‚Æ‚»‚ê‚É‘Î‰‚·‚é
+WSA ƒGƒ‰[‚ğ¦‚·BWinsock ƒvƒƒOƒ‰ƒ}‚É‚Æ‚Á‚Ä“éõ‚İ‚ª‚ ‚è•ïŠ‡“I‚ÈƒGƒ‰[î•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAWSA
+ƒGƒ‰[ƒR[ƒh‚Ìg—p‚ğ„§‚·‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 GetAddrInfoEx
-ŠÖ”‚ÍAƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚ÖA‚¨‚æ‚ÑƒT[ƒrƒX–¼‚©‚çƒ|[ƒg”Ô†‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éBGetAddrInfoEx ŠÖ”‚Í
-getaddrinfo ‚¨‚æ‚Ñ GetAddrInfoW ŠÖ”‚ÌŠg’£”Å‚Å‚ ‚éBGetAddrInfoEx
-ŠÖ”‚Å‚ÍA–â‚¢‡‚í‚¹‚ğ‰ğŒˆ‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğw’è‚Å‚«‚éBGetAddrInfoEx
-ŠÖ”‚ÍA“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èA•¡”‚Ì–¼‘O‰ğŒˆƒvƒƒoƒCƒ_‚©‚ç‚ÌŒ‹‰Ê‚ğW–ñ‚µ‚Ä•Ô‚·BIPv6 ‚¨‚æ‚Ñ IPv4
-ƒvƒƒgƒRƒ‹‚Åg—p‚·‚éê‡A–¼‘O‰ğŒˆ‚ÍƒhƒƒCƒ“ƒl[ƒ€ƒVƒXƒeƒ€ (DNS)Aƒ[ƒJƒ‹‚Ì hosts ƒtƒ@ƒCƒ‹A“dqƒ[ƒ‹ƒvƒƒoƒCƒ_
-(NS_EMAIL –¼‘O‹óŠÔ)A‚ ‚é‚¢‚Í‚»‚Ì‘¼‚Ì–¼‘O•t‚¯‹@\‚É‚æ‚Á‚Äs‚¤‚±‚Æ‚ª‚Å‚«‚éBUNICODE ‚Ü‚½‚Í _UNICODE
-‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AGetAddrInfoEx ‚Í Unicode ”Å‚Å‚ ‚é GetAddrInfoExW
-‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB•¶š—ñƒpƒ‰ƒ[ƒ^‚Í PWSTR Œ^‚Å’è‹`‚³‚êAADDRINFOEXW \‘¢‘Ì‚ªg—p‚³‚ê‚éBWindows 8 ‚¨‚æ‚Ñ
-Windows Server 2012
-‚Å‚ÍAtimeoutAlpOverlappedAlpCompletionRoutineAlpNameHandle ‚ÌŠeƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚Ä
-GetAddrInfoEx ŠÖ”‚ğ”ñ“¯ŠúŠ®—¹‚·‚é‚æ‚¤ŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBUNICODE ‚Ü‚½‚Í _UNICODE
-‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetAddrInfoEx ‚Í ANSI ”Å‚Å‚ ‚é GetAddrInfoExA
-‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB•¶š—ñƒpƒ‰ƒ[ƒ^‚Í PCSTR Œ^‚ÅAADDRINFOEXA
-\‘¢‘Ì‚ªg—p‚³‚ê‚éBtimeoutAlpOverlappedAlpCompletionRoutineAlpNameHandle
-‚ÌŠeƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BpName ‚¨‚æ‚Ñ pServiceName ƒpƒ‰ƒ[ƒ^‚Ìˆê•û‚Ü‚½‚Í—¼•û‚ª NULL
-I’[•¶š—ñ‚ğw‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B’Êí‚Í—¼•û‚ªw’è‚³‚ê‚éB¬Œ÷‚·‚é‚ÆAppResult ƒpƒ‰ƒ[ƒ^‚É addrinfoex
-\‘¢‘Ì‚Ì˜AŒ‹ƒŠƒXƒg‚ª•Ô‚³‚ê‚éB•Ô‚³‚ê‚½Še addrinfoex \‘¢‘Ì‚Ì ai_next ƒƒ“ƒo‚Ìƒ|ƒCƒ“ƒ^‚ğ‚½‚Ç‚èANULL
-ƒ|ƒCƒ“ƒ^‚É’B‚·‚é‚Ü‚ÅƒŠƒXƒg‚ğˆ—‚Å‚«‚éB•Ô‚³‚ê‚½Še addrinfoex \‘¢‘Ì‚Ì
+ŠÖ”‚ÍAƒzƒXƒg–¼‚©‚çƒAƒhƒŒƒX‚ÖAƒT[ƒrƒX–¼‚©‚çƒ|[ƒg”Ô†‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éBGetAddrInfoEx ŠÖ”‚Í
+getaddrinfo ŠÖ”‚¨‚æ‚Ñ GetAddrInfoW ŠÖ”‚ÌŠg’£”Å‚Å‚ ‚éBGetAddrInfoEx
+ŠÖ”‚Å‚Í–â‚¢‡‚í‚¹‚ğ‰ğŒˆ‚·‚éƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğw’è‚Å‚«‚éBGetAddrInfoEx
+ŠÖ”‚ÍA“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èA•¡”‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚ç‚ÌŒ‹‰Ê‚ğW–ñ‚µ‚Ä•Ô‚·BIPv6 ‚¨‚æ‚Ñ
+IPv4 ƒvƒƒgƒRƒ‹‚Å‚ÍA–¼‘O‰ğŒˆ‚Í DNS (Domain Name System)Aƒ[ƒJƒ‹‚Ì hosts ƒtƒ@ƒCƒ‹Aƒ[ƒ‹ƒvƒƒoƒCƒ_
+(NS_EMAIL –¼‘O‹óŠÔ)A‚»‚Ì‘¼‚Ì–½–¼ƒƒJƒjƒYƒ€‚É‚æ‚Á‚Äs‚¦‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AGetAddrInfoEx ‚Í Unicode ”Å‚Ì GetAddrInfoExW
+‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB•¶š—ñƒpƒ‰ƒ[ƒ^‚Í PWSTR ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚êAADDRINFOEXW \‘¢‘Ì‚ªg‚í‚ê‚éBWindows 8
+‚¨‚æ‚Ñ Windows Server 2012
+‚Å‚ÍAtimeoutAlpOverlappedAlpCompletionRoutineAlpNameHandle ƒpƒ‰ƒ[ƒ^‚ğg‚Á‚Ä
+GetAddrInfoEx ŠÖ”‚ğ”ñ“¯Šú‚ÅŠ®—¹‚³‚¹‚éŒÄ‚Ño‚µ‚ğs‚¦‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetAddrInfoEx ‚Í ANSI ”Å‚Ì GetAddrInfoExA ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB•¶š—ñƒpƒ‰ƒ[ƒ^‚Í
+PCSTR ƒf[ƒ^Œ^‚Æ‚È‚èAADDRINFOEXA
+\‘¢‘Ì‚ªg‚í‚ê‚éBtimeoutAlpOverlappedAlpCompletionRoutineAlpNameHandle ƒpƒ‰ƒ[ƒ^‚Í
+NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BpName ‚Ü‚½‚Í pServiceName ƒpƒ‰ƒ[ƒ^‚Ì­‚È‚­‚Æ‚àˆê•û‚Í NULL
+I’[•¶š—ñ‚ğw‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B’Êí‚Í—¼•û‚ğw’è‚·‚éB¬Œ÷‚É‚Í addrinfoex \‘¢‘Ì‚ÌƒŠƒ“ƒNƒŠƒXƒg‚ª ppResult
+ƒpƒ‰ƒ[ƒ^‚É•Ô‚³‚ê‚éBƒŠƒXƒg‚Í•Ô‚³‚ê‚½Še addrinfoex \‘¢‘Ì‚Ì ai_next ƒƒ“ƒo‚ªw‚·ƒ|ƒCƒ“ƒ^‚ğ‚½‚Ç‚èANULL
+ƒ|ƒCƒ“ƒ^‚Éo‰ï‚¤‚Ü‚Åˆ—‚Å‚«‚éB•Ô‚³‚ê‚½Še addrinfoex \‘¢‘Ì‚Ì
 ai_familyAai_socktypeAai_protocol ƒƒ“ƒo‚ÍAsocket ‚Ü‚½‚Í WSASocket
-ŠÖ”ŒÄ‚Ño‚µ‚Ì‚»‚ê‚¼‚ê‚Ìˆø”‚É‘Î‰‚·‚éB‚Ü‚½A•Ô‚³‚ê‚½Še addrinfoex \‘¢‘Ì‚Ì ai_addr ƒƒ“ƒo‚ÍAai_addrlen
-ƒƒ“ƒo‚É’·‚³‚ªw’è‚³‚ê‚½ƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğw‚·BpName
-ƒpƒ‰ƒ[ƒ^‚ªƒRƒ“ƒsƒ…[ƒ^–¼‚ğw‚·ê‡A‘—MŒ³ƒAƒhƒŒƒX‚Æ‚µ‚Äg—p‰Â”\‚È‚»‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì‰i‘±ƒAƒhƒŒƒX‚ª‚·‚×‚Ä•Ô‚³‚ê‚éBWindows
-Vista ˆÈ~‚Å‚ÍA‚±‚ê‚ç‚ÌƒAƒhƒŒƒX‚É‚Í MIB_UNICASTIPADDRESS_ROW \‘¢‘Ì‚Ì SkipAsSource ƒƒ“ƒo‚ª
-false ‚Éİ’è‚³‚ê‚Ä‚¢‚é GetUnicastIpAddressTable ‚Ü‚½‚Í GetUnicastIpAddressEntry
-ŠÖ”‚ª•Ô‚·‚·‚×‚Ä‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒX‚ªŠÜ‚Ü‚ê‚éBpName ƒpƒ‰ƒ[ƒ^‚ª "localhost"
-‚Æ“™‚µ‚¢•¶š—ñ‚ğw‚µ‚Ä‚¢‚éê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì‚·‚×‚Ä‚Ìƒ‹[ƒvƒoƒbƒNƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBpName
-ƒpƒ‰ƒ[ƒ^‚ª‹ó•¶š—ñ‚ğŠÜ‚Şê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBWindows Server 2003
-ˆÈ~‚Å‚ÍApName ƒpƒ‰ƒ[ƒ^‚ª "..localmachine"
-‚Æ“™‚µ‚¢•¶š—ñ‚ğw‚µ‚Ä‚¢‚éê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBpName
-ƒpƒ‰ƒ[ƒ^‚ªƒNƒ‰ƒXƒ^‰¼‘zƒT[ƒo[–¼‚ğQÆ‚·‚éê‡A‰¼‘zƒT[ƒo[‚ÌƒAƒhƒŒƒX‚Ì‚İ‚ª•Ô‚³‚ê‚éBWindows Vista
-ˆÈ~‚Å‚ÍA‚±‚ê‚ç‚ÌƒAƒhƒŒƒX‚É‚Í SkipAsSource ƒƒ“ƒo‚ª true ‚Éİ’è‚³‚ê‚Ä‚¢‚é
-GetUnicastIpAddressTable ‚Ü‚½‚Í GetUnicastIpAddressEntry ŠÖ”‚ª•Ô‚·‚·‚×‚Ä‚Ìƒ†ƒjƒLƒƒƒXƒg
-IP ƒAƒhƒŒƒX‚ªŠÜ‚Ü‚ê‚éBƒNƒ‰ƒXƒ^ƒŠƒ“ƒO‚ÌÚ×‚Í Windows Clustering ‚ğQÆBWindows 7 SP1 ‚¨‚æ‚Ñ
-Windows Server 2008 R2 SP1 ‚Å‚ÍANetsh.exe ‚É‘Î‚µ‚Ä IP ƒAƒhƒŒƒX‚Ì SkipAsSource
-‘®«‚ğİ’è‚·‚éƒTƒ|[ƒg‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚éB‚±‚Ì•ÏX‚É‚æ‚èAMIB_UNICASTIPADDRESS_ROW \‘¢‘Ì‚Ì
-SkipAsSource ƒƒ“ƒo‚ª false ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AIP ƒAƒhƒŒƒX‚Í DNS ‚É“o˜^‚³‚ê‚éBSkipAsSource
-ƒƒ“ƒo‚ª true ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AIP ƒAƒhƒŒƒX‚Í DNS ‚É“o˜^‚³‚ê‚È‚¢B“¯í‚ÌƒzƒbƒgƒtƒBƒbƒNƒX‚ª Windows 7 ‚¨‚æ‚Ñ
-Windows Server 2008 R2 —p‚É‚à’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éBÚ×‚ÍƒiƒŒƒbƒWƒx[ƒX (KB) 2386184
-‚ğQÆB“¯—l‚ÌƒzƒbƒgƒtƒBƒbƒNƒX‚Í Windows Vista SP2 ‚¨‚æ‚Ñ Windows Server 2008 SP2
-‚É‚à’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éB
-GetAddrInfoEx ŠÖ”‚ÌŒÄ‚Ño‚µ‘¤‚ÍApHints ƒpƒ‰ƒ[ƒ^‚Åw‚µ¦‚· addrinfoex
-\‘¢‘Ì‚ğ’Ê‚¶‚ÄAƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚ÉŠÖ‚·‚éƒqƒ“ƒg‚ğ—^‚¦‚é‚±‚Æ‚ª‚Å‚«‚éBpHints ƒpƒ‰ƒ[ƒ^‚ğg—p‚·‚éê‡AŠÖ˜A•t‚¯‚ç‚ê‚½
-addrinfoex \‘¢‘Ì‚É‚ÍŸ‚Ìƒ‹[ƒ‹‚ª“K—p‚³‚ê‚éB
+ŠÖ”ŒÄ‚Ño‚µ‚Ì‚»‚ê‚¼‚ê‚Ìˆø”‚É‘Î‰‚·‚éB‚Ü‚½A•Ô‚³‚ê‚½Še addrinfoex \‘¢‘Ì‚Ì ai_addr
+ƒƒ“ƒo‚ÍA“à—e‚ª–„‚ß‚ç‚ê‚½ƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğw‚µA‚»‚Ì’·‚³‚Í ai_addrlen ƒƒ“ƒo‚Åw’è‚³‚ê‚éBpName
+ƒpƒ‰ƒ[ƒ^‚ªƒRƒ“ƒsƒ…[ƒ^–¼‚ğw‚µ‚Ä‚¢‚éê‡A‘—MŒ³ƒAƒhƒŒƒX‚Æ‚µ‚Äg—p‰Â”\‚È“–ŠYƒRƒ“ƒsƒ…[ƒ^‚Ì‰i‘±ƒAƒhƒŒƒX‚ª‚·‚×‚Ä•Ô‚³‚ê‚éBWindows
+Vista ˆÈ~‚Å‚ÍA‚±‚ê‚ç‚ÌƒAƒhƒŒƒX‚É‚Í GetUnicastIpAddressTable ‚Ü‚½‚Í
+GetUnicastIpAddressEntry ŠÖ”‚ª•Ô‚·AMIB_UNICASTIPADDRESS_ROW \‘¢‘Ì‚Ì
+SkipAsSource ƒƒ“ƒo‚ª false ‚Éİ’è‚³‚ê‚Ä‚¢‚éƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒX‚·‚×‚Ä‚ªŠÜ‚Ü‚ê‚éBpName ƒpƒ‰ƒ[ƒ^‚ª
+"localhost" ‚Æ“™‚µ‚¢•¶š—ñ‚ğw‚µ‚Ä‚¢‚éê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì‚·‚×‚Ä‚Ìƒ‹[ƒvƒoƒbƒNƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBpName
+ƒpƒ‰ƒ[ƒ^‚ª‹ó•¶š—ñ‚ğŠÜ‚Şê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É“o˜^Ï‚İ‚Ì‚·‚×‚Ä‚ÌƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBWindows Server 2003 ˆÈ~‚Å
+pName ƒpƒ‰ƒ[ƒ^‚ª "..localmachine"
+‚Æ“™‚µ‚¢•¶š—ñ‚ğw‚µ‚Ä‚¢‚éê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É“o˜^Ï‚İ‚Ì‚·‚×‚Ä‚ÌƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚éBpName
+ƒpƒ‰ƒ[ƒ^‚ªƒNƒ‰ƒXƒ^‰¼‘zƒT[ƒo–¼‚ğQÆ‚µ‚Ä‚¢‚éê‡A‰¼‘zƒT[ƒoƒAƒhƒŒƒX‚Ì‚İ‚ª•Ô‚³‚ê‚éBWindows Vista
+ˆÈ~‚Å‚ÍA‚±‚ê‚ç‚ÌƒAƒhƒŒƒX‚É‚Í GetUnicastIpAddressTable ‚Ü‚½‚Í GetUnicastIpAddressEntry
+ŠÖ”‚ª•Ô‚·AMIB_UNICASTIPADDRESS_ROW \‘¢‘Ì‚Ì SkipAsSource ƒƒ“ƒo‚ª true
+‚Éİ’è‚³‚ê‚Ä‚¢‚éƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒX‚·‚×‚Ä‚ªŠÜ‚Ü‚ê‚éBƒNƒ‰ƒXƒ^ƒŠƒ“ƒO‚ÌÚ×‚Í Windows Clustering
+‚ğQÆBWindows 7 SP1 ‚¨‚æ‚Ñ Windows Server 2008 R2 SP1 ‚Å‚ÍANetsh.exe ‚Å‚Ì IP
+ƒAƒhƒŒƒX‚Ì SkipAsSource ‘®«İ’è‚ªƒTƒ|[ƒg‚³‚êAMIB_UNICASTIPADDRESS_ROW \‘¢‘Ì‚Ì
+SkipAsSource ƒƒ“ƒo‚ª false ‚Ìê‡‚Í“–ŠY IP ƒAƒhƒŒƒX‚ª DNS ‚É“o˜^‚³‚êAtrue
+‚Ìê‡‚Í“o˜^‚³‚ê‚È‚¢‚æ‚¤‚É“®ì‚ª•ÏX‚³‚ê‚Ä‚¢‚éBWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2
+‚É‚à“¯—l‚Ì“®ì•ÏX‚ğs‚¤ƒzƒbƒgƒtƒBƒbƒNƒX‚ª—pˆÓ‚³‚ê‚Ä‚¢‚éBÚ‚µ‚­‚Í Knowledge Base (KB) 2386184
+‚ğQÆBWindows Vista SP2 ‚¨‚æ‚Ñ Windows Server 2008 SP2
+‚É‚à“¯—l‚ÌƒzƒbƒgƒtƒBƒbƒNƒX‚ª—pˆÓ‚³‚ê‚Ä‚¢‚éB
+ŒÄ‚Ño‚µŒ³‚ÍApHints ƒpƒ‰ƒ[ƒ^‚ªw‚· addrinfoex \‘¢‘Ì‚ğ’Ê‚¶‚ÄAƒTƒ|[ƒg‚·‚éƒ\ƒPƒbƒg‚Ìí—Ş‚ÉŠÖ‚·‚éƒqƒ“ƒg‚ğ
+GetAddrInfoEx ŠÖ”‚É“n‚¹‚éBpHints ƒpƒ‰ƒ[ƒ^‚ğg‚¤ê‡A‚»‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ addrinfoex
+\‘¢‘Ì‚É‚ÍŸ‚Ì‹K‘¥‚ª“K—p‚³‚ê‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -204,48 +210,47 @@ lpHandle : [intptr] ƒLƒƒƒ“ƒZƒ‹‚·‚é”ñ“¯Šú‘€ì‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í GetAddrInfoEx ŠÖ
 GetAddrInfoEx ŠÖ”‚É‚æ‚é”ñ“¯Šú‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
 
 [–ß‚è’l]
-¬Œ÷‚µ‚½ê‡AGetAddrInfoExCancel ‚Í NO_ERROR (0) ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í”ñƒ[ƒ‚Ì Windows
-ƒ\ƒPƒbƒgƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·BƒGƒ‰[ƒR[ƒh‚Í Windows Sockets Error Codes ‚É‹LÚ‚³‚ê‚Ä‚¢‚éB
+¬Œ÷AGetAddrInfoExCancel ‚Í NO_ERROR (0) ‚ğ•Ô‚·B¸”s‚Í Windows Sockets
+ƒGƒ‰[ƒR[ƒhˆê——‚É‚ ‚é 0 ˆÈŠO‚Ì Windows Sockets ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
 GetAddrInfoExCancel ŠÖ”‚ÍA”ñ“¯Šú‚Ì GetAddrInfoEx
 ‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB‚»‚ÌŒ‹‰ÊAƒ†[ƒU[‚ÌŠ®—¹’Ê’m‹@\ (ƒR[ƒ‹ƒoƒbƒN‚Ü‚½‚ÍƒCƒxƒ“ƒg)
-‚ª’¼‚¿‚ÉŒÄ‚Ño‚³‚ê‚éBŒ‹‰Ê‚Í•Ô‚³‚ê‚¸AGetAddrInfoEx ”ñ“¯Šú‘€ì‚ÌƒGƒ‰[ƒR[ƒh‚Í WSA_E_CANCELLED
+‚ª’¼‚¿‚ÉŒÄ‚Ño‚³‚ê‚éBŒ‹‰Ê‚Í•Ô‚³‚ê‚¸AGetAddrInfoEx ‚Ì”ñ“¯Šú‘€ì‚É‘Î‚·‚éƒGƒ‰[ƒR[ƒh‚Í WSA_E_CANCELLED
 ‚Éİ’è‚³‚ê‚éBGetAddrInfoEx
-—v‹‚ªŠù‚ÉŠ®—¹‚µ‚Ä‚¢‚éAƒ^ƒCƒ€ƒAƒEƒg‚µ‚½A‚ ‚é‚¢‚Íƒnƒ“ƒhƒ‹‚ª–³Œø‚Å‚ ‚éê‡AGetAddrInfoExCancel ŠÖ”‚Í
+—v‹‚ªŠù‚ÉŠ®—¹‚Ü‚½‚Íƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ä‚¢‚é‚©Aƒnƒ“ƒhƒ‹‚ª–³Œø‚Å‚ ‚éê‡AGetAddrInfoExCancel ŠÖ”‚Í
 WSA_INVALID_HANDLE ‚ğ•Ô‚·B
-Šî”Õ‚Æ‚È‚é‘½‚­‚Ì‘€ì (—á‚¦‚ÎƒŒƒKƒV[‚È–¼‘OƒT[ƒrƒXƒvƒƒoƒCƒ_)
-‚Í“¯Šú“I‚Å‚ ‚é‚½‚ßA‚±‚ê‚ç‚Ì‘€ì‚ÍÀÛ‚É‚ÍƒLƒƒƒ“ƒZƒ‹‚³‚ê‚È‚¢B‚±‚ê‚ç‚Ì‘€ì‚ÍÀs‚ÆƒŠƒ\[ƒX‚ÌÁ”ï‚ğ‘±‚¯‚éBÅŒã‚Ì–¢Š®—¹‚Ì–¼‘OƒT[ƒrƒXƒvƒƒoƒCƒ_—v‹‚ªŠ®—¹‚µ‚½“_‚ÅƒŠƒ\[ƒX‚ª‰ğ•ú‚³‚ê‚éBWindows
-8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012
+“à•”ˆ—‚Ì‘½‚­ (‚½‚Æ‚¦‚ÎƒŒƒKƒV[‚Èƒl[ƒ€ƒT[ƒrƒXƒvƒƒoƒCƒ_)
+‚Í“¯Šú“I‚È‚Ì‚ÅA‚±‚ê‚ç‚Ìˆ—‚ÍÀÛ‚É‚ÍƒLƒƒƒ“ƒZƒ‹‚³‚ê‚È‚¢B‚±‚ê‚ç‚Ìˆ—‚ÍÀs‚ğŒp‘±‚µƒŠƒ\[ƒX‚ğÁ”ï‚µ‘±‚¯‚éBÅŒã‚Éc‚Á‚Ä‚¢‚½ƒl[ƒ€ƒT[ƒrƒXƒvƒƒoƒCƒ_‚Ì—v‹‚ªŠ®—¹‚µ‚½“_‚ÅƒŠƒ\[ƒX‚ª‰ğ•ú‚³‚ê‚éBWindows
+8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows 8.1AWindows Server 2012
 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 GetAddrInfoExOverlappedResult
-GetAddrInfoEx ŠÖ”‚Ì”ñ“¯Šú‘€ì‚Åg—p‚³‚ê‚é OVERLAPPED \‘¢‘Ì‚ÉŠÖ‚·‚é–ß‚è’lƒR[ƒh‚ğæ“¾‚·‚éB
+GetAddrInfoEx ŠÖ”‚Ì”ñ“¯Šú‘€ì‚Åg—p‚³‚ê‚é OVERLAPPED \‘¢‘Ì‚Ì–ß‚èƒR[ƒh‚ğæ“¾‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpOverlapped
 lpOverlapped : [var] ”ñ“¯Šú‘€ì—p‚Ì OVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-GetAddrInfoEx ŠÖ”‚Ì”ñ“¯Šú‘€ì‚Åg—p‚³‚ê‚é OVERLAPPED \‘¢‘Ì‚ÉŠÖ‚·‚é–ß‚è’lƒR[ƒh‚ğæ“¾‚·‚éB
+GetAddrInfoEx ŠÖ”‚Ì”ñ“¯Šú‘€ì‚Åg—p‚³‚ê‚é OVERLAPPED \‘¢‘Ì‚Ì–ß‚èƒR[ƒh‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-¬Œ÷‚µ‚½ê‡AGetAddrInfoExOverlappedResult ŠÖ”‚Í NO_ERROR (0)
-‚ğ•Ô‚·BŠî”Õ‚Æ‚È‚é‘€ì‚ª‚Ü‚¾Š®—¹‚µ‚Ä‚¢‚È‚¢ê‡AGetAddrInfoExOverlappedResult ŠÖ”‚Í
-WSAEINPROGRESS ‚ğ•Ô‚·B¸”s‚µ‚½ê‡AGetAddrInfoExOverlappedResult ŠÖ”‚Í WSAEINVAL
-‚ğ•Ô‚·B
+¬Œ÷AGetAddrInfoExOverlappedResult ŠÖ”‚Í NO_ERROR (0)
+‚ğ•Ô‚·B“à•”‘€ì‚ª‚Ü‚¾Š®—¹‚µ‚Ä‚¢‚È‚¢ê‡AGetAddrInfoExOverlappedResult ŠÖ”‚Í WSAEINPROGRESS
+‚ğ•Ô‚·B¸”s‚Í WSAEINVAL ‚ğ•Ô‚·B
 
 [”õl]
 GetAddrInfoExOverlappedResult ŠÖ”‚ÍA”ñ“¯Šú‘€ì‚Ì‚½‚ß‚É GetAddrInfoEx
-ŠÖ”‚Æ‘g‚İ‡‚í‚¹‚Äg—p‚·‚éBGetAddrInfoExOverlappedResult ŠÖ”‚ª WSAEINVAL
-‚ğ•Ô‚µ‚½ê‡A‚»‚ÌƒGƒ‰[‚ğ•Ô‚µ‚½‚Ì‚ª GetAddrInfoExOverlappedResult
-ŠÖ”©g‚È‚Ì‚©A”ñ“¯Šú‘€ì‚È‚Ì‚©‚ğ‹æ•Ê‚·‚é—Bˆê‚Ì•û–@‚ÍAlpOverlapped ƒpƒ‰ƒ[ƒ^‚ª NULL
-‚Å‚È‚©‚Á‚½‚©‚ğŠm”F‚·‚é‚±‚Æ‚Å‚ ‚éBlpOverlapped ƒpƒ‰ƒ[ƒ^‚ª NULL
-‚Å‚ ‚ê‚ÎAGetAddrInfoExOverlappedResult ŠÖ”‚É NULL
-ƒ|ƒCƒ“ƒ^‚ª“n‚³‚ê‚Ä¸”s‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í
-Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+ŠÖ”‚Æ‹¤‚Ég—p‚³‚ê‚éBGetAddrInfoExOverlappedResult ŠÖ”‚ª WSAEINVAL
+‚ğ•Ô‚µ‚½ê‡AƒGƒ‰[‚ğ•Ô‚µ‚½‚Ì‚ª GetAddrInfoExOverlappedResult
+ŠÖ”©g‚©”ñ“¯Šú‘€ì‚©‚ğ‹æ•Ê‚·‚é—Bˆê‚Ì•û–@‚ÍAlpOverlapped ƒpƒ‰ƒ[ƒ^‚ª NULL
+‚Å‚È‚¢‚±‚Æ‚ğŠm”F‚·‚é‚±‚Æ‚Å‚ ‚éBlpOverlapped ƒpƒ‰ƒ[ƒ^‚ª NULL
+‚¾‚Á‚½ê‡‚ÍAGetAddrInfoExOverlappedResult ŠÖ”‚É NULL
+ƒ|ƒCƒ“ƒ^‚ª“n‚³‚ê‚Ä¸”s‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2:
+‚±‚ÌŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
@@ -255,239 +260,246 @@ GetHostNameW ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì•W€ƒzƒXƒg–¼‚ğ Unicode •¶š—ñ‚Æ‚µ‚Äæ
 Win32 ws2_32
 %prm
 name, namelen
-name : [wstr] ƒ[ƒJƒ‹ƒzƒXƒg–¼‚ğ null I’[ Unicode •¶š—ñ‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-namelen : [int] name ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ğƒƒCƒh•¶š”‚Åw’è‚·‚éB
+name : [wstr] ƒ[ƒJƒ‹ƒzƒXƒg–¼‚ğ NULL I’[ Unicode •¶š—ñ‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+namelen : [int] name ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³ (ƒƒCƒh•¶š”)B
 %inst
 GetHostNameW ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì•W€ƒzƒXƒg–¼‚ğ Unicode •¶š—ñ‚Æ‚µ‚Äæ“¾‚·‚éB
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AGetHostNameW ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR
-‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡AGetHostNameW ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-GetHostNameW ŠÖ”‚ÍAname ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒoƒbƒtƒ@‚Éƒ[ƒJƒ‹ƒzƒXƒg–¼‚ğ Unicode (UTF-16)
-‚Å•Ô‚·BƒzƒXƒg–¼‚Í null I’[ Unicode •¶š—ñ‚Æ‚µ‚Ä•Ô‚³‚ê‚éBƒzƒXƒg–¼‚ÌŒ`®‚Í Windows
-ƒ\ƒPƒbƒgƒvƒƒoƒCƒ_‚ÉˆË‘¶‚µA’Pƒ‚ÈƒzƒXƒg–¼‚Ìê‡‚àŠ®‘SCüƒhƒƒCƒ“–¼ (FQDN) ‚Ìê‡‚à‚ ‚éB‚¢‚¸‚ê‚É‚µ‚Ä‚àA•Ô‚³‚ê‚é–¼‘O‚Í
-GetAddrInfoW ‚Å³í‚É‰ğÍ‚Å‚«‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éBƒCƒ“ƒ^[ƒlƒbƒg‚Ì•‹y‚É”º‚¢AASCII
-•¶šW‡‚Å•\Œ»‚Å‚«‚È‚¢Œ¾Œê‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒzƒXƒg–¼‚ğ¯•Ê‚·‚é•K—v«‚ª‚‚Ü‚Á‚Ä‚¢‚éB”ñ ASCII •¶š (Unicode) ‚ğ“Áê‚È
-ASCII •¶š—ñ (Punycode) ‚Æ‚µ‚Ä•\Œ»‚Å‚«‚é‚æ‚¤‚É‚·‚é¯•Êq‚Í‘Û‰»ƒhƒƒCƒ“–¼ (IDN)
-‚ÆŒÄ‚Î‚ê‚éB‚±‚ê‚ğ•W€“I‚Éˆµ‚¤d‘g‚İ‚ª IDNA (Internationalizing Domain Names in
-Applications) ‚Å‚ ‚éBGetHostNameW ŠÖ”‚Íƒ[ƒJƒ‹ƒzƒXƒg–¼‚Ì Punycode ‚Æ Unicode
-‚Ì•ÏŠ·‚Ís‚í‚È‚¢BGetAddrInfoW ŠÖ”‚Í IDN ‚Ì‰ğÍ‚¨‚æ‚Ñ Punycode/IDN •ÏŠ·‚ğƒTƒ|[ƒg‚·‚éBWindows
-Server 2012 ‚ÅƒNƒ‰ƒXƒ^ƒŠƒ\[ƒXã‚Å GetHostNameW ŠÖ”‚ğg—p‚·‚éê‡A_CLUSTER_NETWORK_NAME_
-ŠÂ‹«•Ï”‚ª’è‹`‚³‚ê‚Ä‚¢‚ê‚ÎA‚»‚Ì’l‚ªÀÛ‚ÌƒzƒXƒg–¼‚æ‚è—Dæ‚³‚ê‚Ä•Ô‚³‚ê‚éBƒNƒ‰ƒXƒ^ƒŠƒ\[ƒXã‚Å‚ÍA_CLUSTER_NETWORK_NAME_
-ŠÂ‹«•Ï”‚ÉƒNƒ‰ƒXƒ^–¼‚ªŠÜ‚Ü‚ê‚éBGetHostNameW ŠÖ”‚Í Svgguid.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚½
+GetHostNameW ŠÖ”‚ÍAname ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒoƒbƒtƒ@‚Éƒ[ƒJƒ‹ƒzƒXƒg–¼‚ğ Unicode (UTF-16)
+‚Å•Ô‚·BƒzƒXƒg–¼‚Í NULL I’[ Unicode •¶š—ñ‚Æ‚µ‚Ä•Ô‚³‚ê‚éBƒzƒXƒg–¼‚ÌŒ`®‚Í Windows Sockets
+ƒvƒƒoƒCƒ_‚ÉˆË‘¶‚µA’Pƒ‚ÈƒzƒXƒg–¼‚Ìê‡‚àŠ®‘SCüƒhƒƒCƒ“–¼ (FQDN) ‚Ìê‡‚à‚ ‚éB‚½‚¾‚µA•Ô‚³‚ê‚é–¼‘O‚Í GetAddrInfoW
+‚Å³í‚É‰ğÍ‚Å‚«‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚Ä‚¢‚éBƒCƒ“ƒ^[ƒlƒbƒg‚Ì•‹y‚É‚æ‚èAASCII
+•¶š‚Å‚Í•\Œ»‚Å‚«‚È‚¢Œ¾Œê‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒzƒXƒg–¼‚ğ¯•Ê‚·‚é•K—v«‚ª‚‚Ü‚Á‚Ä‚¢‚éB”ñ ASCII •¶š (Unicode) ‚ğ“Áê‚È
+ASCII •¶š—ñ (Punycode) ‚Æ‚µ‚Ä•\Œ»‚·‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚é¯•Êq‚ÍA‘Û‰»ƒhƒƒCƒ“–¼ (IDN) ‚Æ‚µ‚Ä’m‚ç‚ê‚Ä‚¢‚éBIDN
+‚ğ•W€“I‚Éˆµ‚¤d‘g‚İ‚Í IDNA (Internationalizing Domain Names in Applications)
+‚ÆŒÄ‚Î‚ê‚éBGetHostNameW ŠÖ”‚Íƒ[ƒJƒ‹ƒzƒXƒg–¼‚ğ Punycode ‚Æ Unicode
+ŠÔ‚Å•ÏŠ·‚µ‚È‚¢BGetAddrInfoW ŠÖ”‚Í IDN ‚Ì‰ğÍƒTƒ|[ƒg‚ğ’ñ‹Ÿ‚µAPunycode/IDN
+‚ÌƒGƒ“ƒR[ƒh‚Æ•ÏŠ·‚ğs‚¤BWindows Server 2012 ‚ÌƒNƒ‰ƒXƒ^ƒŠƒ\[ƒXã‚Å GetHostNameW
+ŠÖ”‚ğg—p‚µA_CLUSTER_NETWORK_NAME_
+ŠÂ‹«•Ï”‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡A‚»‚Ì’l‚ªÀÛ‚ÌƒzƒXƒg–¼‚æ‚è—Dæ‚³‚ê‚Ä•Ô‚³‚ê‚éBƒNƒ‰ƒXƒ^ƒŠƒ\[ƒXã‚Å‚ÍA_CLUSTER_NETWORK_NAME_
+ŠÂ‹«•Ï”‚ÉƒNƒ‰ƒXƒ^‚Ì–¼‘O‚ªŠi”[‚³‚ê‚Ä‚¢‚éBGetHostNameW ŠÖ”‚ÍASvgguid.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚Ä‚¢‚é
 SVCID_HOSTNAME GUID
-‚ğ—p‚¢‚Ä–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É–â‚¢‡‚í‚¹Aƒ[ƒJƒ‹ƒzƒXƒg–¼‚ğŒˆ’è‚·‚éB‰“š‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ª‚È‚¢ê‡AGetHostNameW
+‚ğ—p‚¢‚Äƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É–â‚¢‡‚í‚¹‚Äƒ[ƒJƒ‹ƒzƒXƒg–¼‚ğŒˆ’è‚·‚éB‚Ç‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚à‰“š‚µ‚È‚¢ê‡AGetHostNameW
 ŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì NetBIOS –¼‚ğ Unicode ‚Å•Ô‚·Bname ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚é•¶š—ñ‚ÌÅ‘å’·
-(ƒƒCƒh•¶š) ‚Í–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉˆË‘¶‚·‚é‚ªA256 ƒƒCƒh•¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B]‚Á‚ÄAname ƒpƒ‰ƒ[ƒ^‚É 256
-ƒƒCƒh•¶š‚Ìƒoƒbƒtƒ@‚ğ“n‚µ namelen ‚É 256 ‚ğİ’è‚·‚ê‚Îí‚Éƒoƒbƒtƒ@ƒTƒCƒY‚Í\•ª‚Å‚ ‚éB
-Note ƒ[ƒJƒ‹ƒzƒXƒg–¼‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Å‚àAGetHostNameW ‚Í¬Œ÷‚µAGetAddrInfoW
-‚ª‰ğŒˆ‚Å‚«‚éƒg[ƒNƒ“—pƒzƒXƒg–¼‚ğ•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+(ƒƒCƒh•¶š”) ‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÉˆË‘¶‚·‚é‚ªA256 ƒƒCƒh•¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚Ì‚½‚ßAname ƒpƒ‰ƒ[ƒ^‚É
+256 ƒƒCƒh•¶š‚Ìƒoƒbƒtƒ@‚ğ“n‚µAnamelen ƒpƒ‰ƒ[ƒ^‚ğ 256 ‚Éİ’è‚·‚ê‚ÎAƒoƒbƒtƒ@ƒTƒCƒY‚Íí‚É\•ª‚Å‚ ‚éB
+’ ƒ[ƒJƒ‹ƒzƒXƒg–¼‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Å‚àAGetHostNameW ‚Í¬Œ÷‚µAGetAddrInfoW
+‚Å‰ğŒˆ‰Â”\‚Èƒg[ƒNƒ“ƒzƒXƒg–¼‚ğ•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 Windows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone
-ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows
 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 GetNameInfoW
-ƒAƒhƒŒƒX‚©‚ç Unicode ƒzƒXƒg–¼‚ÖA‚¨‚æ‚Ñƒ|[ƒg”Ô†‚©‚ç Unicode ƒT[ƒrƒX–¼‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB
+ƒAƒhƒŒƒX‚©‚ç Unicode ƒzƒXƒg–¼‚Ö‚ÌA‚Ü‚½ƒ|[ƒg”Ô†‚©‚ç Unicode ƒT[ƒrƒX–¼‚Ö‚ÌAƒvƒƒgƒRƒ‹”ñˆË‘¶‚È–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB
 %group
 Win32 ws2_32
 %prm
 pSockaddr, SockaddrLength, pNodeBuffer, NodeBufferSize, pServiceBuffer, ServiceBufferSize, Flags
-pSockaddr : [var] ƒ\ƒPƒbƒg‚Ì IP ƒAƒhƒŒƒX‚¨‚æ‚Ñƒ|[ƒg”Ô†‚ğŠÜ‚Şƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BIPv4 ‚Ìê‡‚Í sockaddr_in \‘¢‘Ì‚ğAIPv6 ‚Ìê‡‚Í sockaddr_in6 \‘¢‘Ì‚ğw‚·B
-SockaddrLength : [int] pSockaddr ƒpƒ‰ƒ[ƒ^‚ªw‚·\‘¢‘Ì‚Ì’·‚³‚ğƒoƒCƒg”‚Åw’è‚·‚éB
-pNodeBuffer : [wstr] ƒzƒXƒg–¼‚ğ•Û‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷‚·‚é‚ÆAŠù’è‚ÅŠ®‘SCüƒhƒƒCƒ“–¼ (FQDN) ‚Æ‚µ‚Ä Unicode ƒzƒXƒg–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª•Ô‚³‚ê‚éBpNodeBuffer ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒÄ‚Ño‚µ‘¤‚ÍƒzƒXƒg–¼•¶š—ñ‚ğó‚¯æ‚ç‚È‚¢‚±‚Æ‚ğ¦‚·B
-NodeBufferSize : [int] pNodeBuffer ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì WCHAR •¶š”BŒÄ‚Ño‚µ‘¤‚ÍAI’[‚Ì NULL •¶š‚ğŠÜ‚Ş Unicode ƒzƒXƒg–¼‚ğ•Û‚Å‚«‚é\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-pServiceBuffer : [wstr] ƒT[ƒrƒX–¼‚ğ•Û‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷‚·‚é‚ÆAƒ|[ƒg”Ô†‚É‘Î‰‚·‚éƒT[ƒrƒX–¼‚ğ•\‚· Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª•Ô‚³‚ê‚éBpServiceBuffer ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒÄ‚Ño‚µ‘¤‚ÍƒT[ƒrƒX–¼•¶š—ñ‚ğó‚¯æ‚ç‚È‚¢‚±‚Æ‚ğ¦‚·B
-ServiceBufferSize : [int] pServiceBuffer ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì WCHAR •¶š”BŒÄ‚Ño‚µ‘¤‚ÍAI’[‚Ì NULL •¶š‚ğŠÜ‚Ş Unicode ƒT[ƒrƒX–¼‚ğ•Û‚Å‚«‚é\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-Flags : [int] GetNameInfoW ŠÖ”‚Ìˆ—‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚é‚½‚ß‚Ég—p‚·‚é’lBu‰ğàv‚ğQÆB
+pSockaddr : [var] ƒ\ƒPƒbƒg‚Ì IP ƒAƒhƒŒƒX‚Æƒ|[ƒg”Ô†‚ğŠÜ‚Şƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BIPv4 ‚Ìê‡ApSockaddr ƒpƒ‰ƒ[ƒ^‚Í sockaddr_in \‘¢‘Ì‚ğw‚·BIPv6 ‚Ìê‡ApSockaddr ƒpƒ‰ƒ[ƒ^‚Í sockaddr_in6 \‘¢‘Ì‚ğw‚·B
+SockaddrLength : [int] pSockaddr ƒpƒ‰ƒ[ƒ^‚ªw‚·\‘¢‘Ì‚Ì’·‚³ (ƒoƒCƒg’PˆÊ)B
+pNodeBuffer : [wstr] ƒzƒXƒg–¼‚ğŠi”[‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷‚É‚ÍŠù’è‚Å FQDN ‚Æ‚µ‚Ä‚Ì Unicode ƒzƒXƒg–¼‚ª•Ô‚³‚ê‚éBpNodeBuffer ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒÄ‚Ño‚µŒ³‚ªƒzƒXƒg–¼•¶š—ñ‚ğ•K—v‚Æ‚µ‚Ä‚¢‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚éB
+NodeBufferSize : [int] pNodeBuffer ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì WCHAR •¶š”BŒÄ‚Ño‚µŒ³‚ÍAI’[‚Ì NULL •¶š‚ğŠÜ‚ß‚Ä Unicode ƒzƒXƒg–¼‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pServiceBuffer : [wstr] ƒT[ƒrƒX–¼‚ğŠi”[‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷‚É‚ÍAƒ|[ƒg”Ô†‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒT[ƒrƒX–¼‚ğ•\‚· Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª•Ô‚³‚ê‚éBpServiceBuffer ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒÄ‚Ño‚µŒ³‚ªƒT[ƒrƒX–¼•¶š—ñ‚ğ•K—v‚Æ‚µ‚Ä‚¢‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚éB
+ServiceBufferSize : [int] pServiceBuffer ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì WCHAR •¶š”BŒÄ‚Ño‚µŒ³‚ÍAI’[‚Ì NULL •¶š‚ğŠÜ‚ß‚Ä Unicode ƒT[ƒrƒX–¼‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+Flags : [int] GetNameInfoW ŠÖ”‚Ìˆ—‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚é‚½‚ß‚Ég‚¤’lB”õlƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %inst
-ƒAƒhƒŒƒX‚©‚ç Unicode ƒzƒXƒg–¼‚ÖA‚¨‚æ‚Ñƒ|[ƒg”Ô†‚©‚ç Unicode ƒT[ƒrƒX–¼‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB
+ƒAƒhƒŒƒX‚©‚ç Unicode ƒzƒXƒg–¼‚Ö‚ÌA‚Ü‚½ƒ|[ƒg”Ô†‚©‚ç Unicode ƒT[ƒrƒX–¼‚Ö‚ÌAƒvƒƒgƒRƒ‹”ñˆË‘¶‚È–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-¬Œ÷‚µ‚½ê‡AGetNameInfoW ‚Íƒ[ƒ‚ğ•Ô‚·B”ñƒ[ƒ‚Ì–ß‚è’l‚Í¸”s‚ğ¦‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBGetNameInfoW ŠÖ”‚ª•Ô‚·”ñƒ[ƒ‚ÌƒGƒ‰[ƒR[ƒh‚ÍAIETF
-Š©‚Å’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ‰[W‡‚É‚à‘Î‰‚µ‚Ä‚¢‚éBˆÈ‰º‚Ì•\‚Í‚±‚ê‚ç‚ÌƒGƒ‰[ƒR[ƒh‚Æ WSA ‚Ì‘Î‰‚ğ¦‚·BWinsock
-ƒvƒƒOƒ‰ƒ}‚É‚Æ‚Á‚Ä“éõ‚İ‚ª‚ ‚è•ïŠ‡“I‚ÈƒGƒ‰[î•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAWSA ƒGƒ‰[ƒR[ƒh‚Ìg—p‚ª„§‚³‚ê‚éB
+¬Œ÷AGetNameInfoW ‚Íƒ[ƒ‚ğ•Ô‚·B0 ˆÈŠO‚Ì–ß‚è’l‚Í¸”s‚ğ¦‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBGetNameInfoW ŠÖ”‚ª•Ô‚· 0 ˆÈŠO‚ÌƒGƒ‰[ƒR[ƒh‚ÍAIETF
+‚ÌŠ©‚ÅŠTà‚³‚ê‚Ä‚¢‚éƒGƒ‰[‚ÌW‡‚É‚àƒ}ƒbƒv‚³‚ê‚éBŸ‚Ì•\‚ÍA‚±‚ê‚ç‚ÌƒGƒ‰[ƒR[ƒh‚Æ‚»‚ê‚É‘Î‰‚·‚é WSA ƒGƒ‰[‚ğ¦‚·BWinsock
+ƒvƒƒOƒ‰ƒ}‚É‚Æ‚Á‚Ä“éõ‚İ‚ª‚ ‚è•ïŠ‡“I‚ÈƒGƒ‰[î•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAWSA ƒGƒ‰[ƒR[ƒh‚Ìg—p‚ğ„§‚·‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 GetNameInfoW ŠÖ”‚ÍAƒvƒƒgƒRƒ‹”ñˆË‘¶‚È–¼‘O‰ğŒˆ‚ğ’ñ‹Ÿ‚·‚éŠÖ”‚Ì Unicode ”Å‚Å‚ ‚éBGetNameInfoW
-ŠÖ”‚ÍAƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚Ì“à—e‚ğƒm[ƒh–¼‚âƒT[ƒrƒX–¼‚É•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚·‚éBIPv6 ‚¨‚æ‚Ñ IPv4 ƒvƒƒgƒRƒ‹‚ÅA–¼‘O‰ğŒˆ‚Í
-DNSAƒ[ƒJƒ‹‚Ì hosts ƒtƒ@ƒCƒ‹A‚ ‚é‚¢‚Í‚»‚Ì‘¼‚Ì–¼‘O•t‚¯‹@\‚É‚æ‚Á‚Äs‚¤‚±‚Æ‚ª‚Å‚«‚éB‚±‚ÌŠÖ”‚ÍAIPv4 ‚Ü‚½‚Í IPv6
-ƒAƒhƒŒƒX‚ÌƒzƒXƒg–¼‚ğŒˆ’è (‹t DNS ƒ‹ƒbƒNƒAƒbƒv)
-‚µ‚½‚èAƒ|[ƒg”Ô†‚ÌƒT[ƒrƒX–¼‚ğŒˆ’è‚µ‚½‚è‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éBGetNameInfoW ŠÖ”‚ÍASOCKADDR \‘¢‘Ì“à‚Ì IP
-ƒAƒhƒŒƒX‚âƒ|[ƒg”Ô†‚ğ Unicode •¶š—ñ‚Ö•ÏŠ·‚·‚é‚±‚Æ‚à‚Å‚«‚éB‚Ü‚½AƒzƒXƒg–¼‚Ì IP
-ƒAƒhƒŒƒX‚ğŒˆ’è‚·‚é‚½‚ß‚É‚àg—p‚Å‚«‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í getnameinfo ‚Å‚ ‚éBWinsock
-ƒwƒbƒ_ƒtƒ@ƒCƒ‹“à‚Ìƒ}ƒNƒ‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª Windows XP SP2 ˆÈ~‚ğ‘ÎÛ (_WIN32_WINNT >= 0x0502)
-‚Æ‚·‚éê‡‚Ég—p‚Å‚«‚é‘å•¶š¬•¶š¬İ‚ÌŠÖ”–¼ GetNameInfo ‚ğ’è‹`‚·‚éB‚±‚Ì GetNameInfo
+ŠÖ”‚ÍAƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚Ì“à—e‚ğƒm[ƒh–¼‚âƒT[ƒrƒX–¼‚É•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBIPv6 ‚¨‚æ‚Ñ IPv4
+ƒvƒƒgƒRƒ‹‚Å‚ÍA–¼‘O‰ğŒˆ‚Í DNSAƒ[ƒJƒ‹‚Ì hosts ƒtƒ@ƒCƒ‹A‚»‚Ì‘¼‚Ì–½–¼ƒƒJƒjƒYƒ€‚É‚æ‚Á‚Äs‚¦‚éB‚±‚ÌŠÖ”‚ÍAIPv4 ‚Ü‚½‚Í
+IPv6 ƒAƒhƒŒƒX‚ÌƒzƒXƒg–¼‚ğ’²‚×‚é‹tˆø‚« DNS
+ƒ‹ƒbƒNƒAƒbƒv‚âAƒ|[ƒg”Ô†‚ÌƒT[ƒrƒX–¼‚ğ’²‚×‚é‚½‚ß‚Ég—p‚Å‚«‚éBGetNameInfoW ŠÖ”‚ÍASOCKADDR \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚é IP
+ƒAƒhƒŒƒX‚âƒ|[ƒg”Ô†‚ğ Unicode •¶š—ñ‚É•ÏŠ·‚·‚é‚½‚ß‚É‚àg—p‚Å‚«‚éB‚Ü‚½AƒzƒXƒg–¼‚©‚ç IP
+ƒAƒhƒŒƒX‚ğ’²‚×‚é‚½‚ß‚É‚àg‚¦‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í getnameinfo ‚Å‚ ‚éBWinsock
+ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ìƒ}ƒNƒ‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª Windows XP SP2 ˆÈ~ (_WIN32_WINNT >= 0x0502)
+‚ğ‘ÎÛ‚Æ‚µ‚Ä‚¢‚éê‡‚Ég‚¦‚éA‘å•¶š¬•¶š¬İ‚ÌŠÖ”–¼ GetNameInfo ‚ğ’è‹`‚·‚éB‚±‚Ì GetNameInfo
 ŠÖ”‚ÍApNodeBuffer ‚¨‚æ‚Ñ pServiceBuffer ƒpƒ‰ƒ[ƒ^‚É TCHAR
-Œ^ƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚ÄŒÄ‚Ño‚·•K—v‚ª‚ ‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AGetNameInfo ‚Í
-Unicode ”Å‚Æ‚µ‚Ä’è‹`‚³‚êAGetNameInfoW ‚ª host ‚¨‚æ‚Ñ serv ƒpƒ‰ƒ[ƒ^‚É char
-Œ^ƒ|ƒCƒ“ƒ^‚ÅŒÄ‚Ño‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetNameInfo ‚Í ANSI
-”Å‚Æ‚µ‚Ä’è‹`‚³‚êAgetnameinfo ‚ª pNodeBuffer ‚¨‚æ‚Ñ pServiceBuffer ƒpƒ‰ƒ[ƒ^‚É PWCHAR
-Œ^ƒ|ƒCƒ“ƒ^‚ÅŒÄ‚Ño‚³‚ê‚éBpNodeBuffer ‚¨‚æ‚Ñ pServiceBuffer
-ƒpƒ‰ƒ[ƒ^‚Ìƒoƒbƒtƒ@—vŒ‚ğŠÈ’P‚É”»’f‚Å‚«‚é‚æ‚¤AƒzƒXƒg–¼‚ÌÅ‘å’·‚ÆƒT[ƒrƒX–¼‚ÌÅ‘å’·‚ğ•\‚·’l‚ª Ws2tcpip.h
-ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+Œ^‚Ìƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚ÄŒÄ‚Ño‚·BUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AGetNameInfo ‚Í Unicode
+”Å‚Æ‚µ‚Ä’è‹`‚³‚êAhost ‚¨‚æ‚Ñ serv ƒpƒ‰ƒ[ƒ^‚É char Œ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚Ä GetNameInfoW
+‚ªŒÄ‚Ño‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetNameInfo ‚Í ANSI
+”Å‚Æ‚µ‚Ä’è‹`‚³‚êApNodeBuffer ‚¨‚æ‚Ñ pServiceBuffer ƒpƒ‰ƒ[ƒ^‚É PWCHAR Œ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚Ä
+getnameinfo ‚ªŒÄ‚Ño‚³‚ê‚éBpNodeBuffer ‚¨‚æ‚Ñ pServiceBuffer
+ƒpƒ‰ƒ[ƒ^‚Ìƒoƒbƒtƒ@—vŒ‚ğŠÈ’P‚ÉŒˆ‚ß‚ç‚ê‚é‚æ‚¤AWs2tcpip.h
+ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å‚ÍÅ‘åƒzƒXƒg–¼’·‚ÆÅ‘åƒT[ƒrƒX–¼’·‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 iˆÈ‰ºÈ—ªj
 
 
 %index
 InetNtopW
-InetNtop ŠÖ”‚ÍAIPv4 ‚Ü‚½‚Í IPv6 ƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Ì•¶š—ñ‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_ntop ‚Å‚ ‚éB(InetNtopW)
+InetNtop ŠÖ”‚ÍAIPv4 ‚Ü‚½‚Í IPv6 ‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Ì•¶š—ñ‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_ntop ‚Å‚ ‚éB(InetNtopW)
 %group
 Win32 ws2_32
 %prm
 Family, pAddr, pStringBuf, StringBufSize
-Family : [int] ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ‚µ‚Äw’è‰Â”\‚È’l‚Í Ws2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚éBWs2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Í Winsock2.h ‚É©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ßA’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ‚Ì’è”’l‚Í“¯ˆê (—á‚¦‚Î AF_INET ‚Æ PF_INET) ‚Å‚ ‚é‚½‚ßA‚Ç‚¿‚ç‚Ì’è”‚àg—p‚Å‚«‚éBŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é’l‚Í AF_INET ‚¨‚æ‚Ñ AF_INET6 ‚Å‚ ‚éB
-pAddr : [intptr] •¶š—ñ‚É•ÏŠ·‚·‚é IP ƒAƒhƒŒƒX (ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[) ‚Ö‚Ìƒ|ƒCƒ“ƒ^BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET ‚Ìê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‚·‚é IPv4 ƒAƒhƒŒƒX‚ğŠÜ‚Ş IN_ADDR \‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET6 ‚Ìê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‚·‚é IPv6 ƒAƒhƒŒƒX‚ğŠÜ‚Ş IN6_ADDR \‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-pStringBuf : [wstr] IP ƒAƒhƒŒƒX‚Ì NULL I’[•¶š—ñ•\Œ»‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BIPv4 ƒAƒhƒŒƒX‚Ìê‡A‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à 16 •¶šˆÈã•Û‚Å‚«‚é‘å‚«‚³‚ª•K—v‚Å‚ ‚éBIPv6 ƒAƒhƒŒƒX‚Ìê‡A­‚È‚­‚Æ‚à 46 •¶šˆÈã•Û‚Å‚«‚é‘å‚«‚³‚ª•K—v‚Å‚ ‚éB
-StringBufSize : [int] “ü—ÍApStringBuf ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ğ•¶š”‚Åw’è‚·‚éB
+Family : [int] ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ‚µ‚Äw’è‰Â”\‚È’l‚Í Ws2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚Ä‚¢‚éB‚È‚¨AWs2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Í Winsock2.h ‚É©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ßA’¼Úg—p‚·‚×‚«‚Å‚Í‚È‚¢BAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Ì’l‚Í“¯ˆê (‚½‚Æ‚¦‚Î AF_INET ‚Æ PF_INET) ‚È‚Ì‚ÅA‚Ç‚¿‚ç‚Ì’è”‚ğg‚Á‚Ä‚à‚æ‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é’l‚Í AF_INET ‚Æ AF_INET6 ‚Å‚ ‚éB
+pAddr : [intptr] •¶š—ñ‚É•ÏŠ·‚·‚éAƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì IP ƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET ‚Ìê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‘ÎÛ‚Ì IPv4 ƒAƒhƒŒƒX‚ğ‚Â IN_ADDR \‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET6 ‚Ìê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‘ÎÛ‚Ì IPv6 ƒAƒhƒŒƒX‚ğ‚Â IN6_ADDR \‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pStringBuf : [wstr] IP ƒAƒhƒŒƒX‚Ì NULL I’[•¶š—ñ•\Œ»‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BIPv4 ƒAƒhƒŒƒX‚Ìê‡A‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à 16 •¶š•ª‚Ì‘å‚«‚³‚ª•K—v‚Å‚ ‚éBIPv6 ƒAƒhƒŒƒX‚Ìê‡A‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à 46 •¶š•ª‚Ì‘å‚«‚³‚ª•K—v‚Å‚ ‚éB
+StringBufSize : [int] “ü—ÍApStringBuf ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³ (•¶š”)B
 %inst
 InetNtop ŠÖ”‚ÍAIPv4 ‚Ü‚½‚Í IPv6
-ƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Ì•¶š—ñ‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_ntop
+‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Ì•¶š—ñ‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_ntop
 ‚Å‚ ‚éB(InetNtopW)
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AInetNtop ŠÖ”‚Í IP ƒAƒhƒŒƒX‚Ì•W€Œ`®•¶š—ñ•\Œ»‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í NULL
-‚ª•Ô‚³‚êAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚Å‚«‚éBŠÖ”‚ª¸”s‚µ‚½ê‡AWSAGetLastError
-‚ª•Ô‚·Šg’£ƒGƒ‰[ƒR[ƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡AInetNtop ŠÖ”‚Í IP ƒAƒhƒŒƒX‚Ì•W€Œ`®‚Ì•¶š—ñ•\Œ»‚ğŠi”[‚µ‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í
+NULL ‚ª•Ô‚³‚êAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚Å‚«‚éBŠÖ”‚ª¸”s‚µ‚½ê‡AWSAGetLastError
+‚ª•Ô‚·Šg’£ƒGƒ‰[ƒR[ƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚É‚È‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 InetNtop ŠÖ”‚Í Windows Vista ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éBInetNtop
-ŠÖ”‚ÍƒvƒƒgƒRƒ‹”ñˆË‘¶‚ÈƒAƒhƒŒƒX‚©‚ç•¶š—ñ‚Ö‚Ì•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éBInetNtop ŠÖ”‚ÍApAddr
-ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒCƒ“ƒ^[ƒlƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğó‚¯æ‚èAIP ƒAƒhƒŒƒX‚ğ•\‚· NULL I’[•¶š—ñ‚ğ•Ô‚·Binet_ntoa ŠÖ”‚Í
-IPv4 ƒAƒhƒŒƒX‚Ì‚İ‚ğˆµ‚¤‚ªAInetNtop ŠÖ”‚Í IPv4 ‚¨‚æ‚Ñ IPv6 ‚Ì—¼•û‚ÌƒAƒhƒŒƒX‚ğˆµ‚¦‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í
-RFC 2553 ‚Å’è‹`‚³‚ê‚Ä‚¢‚é inet_ntop ‚Å‚ ‚éBÚ×‚Í IETF ƒTƒCƒg‚Ì RFC 2553 ‚ğQÆBInetNtop
-ŠÖ”‚ÍAIP ƒAƒhƒŒƒX‚©‚ç•¶š—ñ‚Ö‚Ì•ÏŠ·‚É Windows ƒ\ƒPƒbƒg DLL ‚Ìƒ[ƒh‚ğ•K—v‚Æ‚µ‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚É
-AF_INET ‚ğw’è‚µ‚½ê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‚·‚é IPv4 ƒAƒhƒŒƒX‚ğŠÜ‚Ş IN_ADDR
-\‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BpStringBuf ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚ÍA"192.168.16.0"
-‚Ì‚æ‚¤‚Èƒhƒbƒg‹æØ‚è10i•\‹L‚Å‚ ‚éBFamily ƒpƒ‰ƒ[ƒ^‚É AF_INET6 ‚ğw’è‚µ‚½ê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‚·‚é
-IPv6 ƒAƒhƒŒƒX‚ğŠÜ‚Ş IN6_ADDR \‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BpStringBuf
-ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚ÍƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Å‚ ‚éBŠî–{“I‚È•¶š—ñ•\Œ»‚ÍƒRƒƒ“‹æØ‚è‚Ì 8 ŒÂ‚Ì 16
-i”‚Å\¬‚³‚ê‚éB˜A‘±‚·‚éƒ[ƒ‚Ì•À‚Ñ‚Í“ñdƒRƒƒ“‚Å’u‚«Š·‚¦‚ç‚ê‚éBIPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»’†‚É“ñdƒRƒƒ“‚ğŠÜ‚ß‚ç‚ê‚é‚Ì‚Í 1
-‚©Š‚Ì‚İ‚Å‚ ‚éBIPv4 ŒİŠ·ƒAƒhƒŒƒX‚Ìê‡A‰ºˆÊ 32 ƒrƒbƒg‚Í IPv4 Œ`®‚Ìƒhƒbƒg‹æØ‚è•\‹L‚Å•\Œ»‚³‚ê‚éBpStringBuf
-ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ª IP ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚ğó‚¯æ‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡AInetNtop ‚Í
-ERROR_INVALID_PARAMETER ‚ğ•Ô‚·BUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AInetNtop
-‚Í Unicode ”Å‚Ì InetNtopW ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpStringBuf ƒpƒ‰ƒ[ƒ^‚Í PSTR
-Œ^‚Å’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AInetNtop ‚Í ANSI ”Å‚Ì InetNtopA
-‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Íí‚É inet_ntop ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpStringBuf ƒpƒ‰ƒ[ƒ^‚Í PWSTR
-Œ^‚Å’è‹`‚³‚ê‚éBIN_ADDR \‘¢‘Ì‚Í Inaddr.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚ÅAIN6_ADDR \‘¢‘Ì‚Í In6addr.h
-ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚éBWindows Vista ˆÈ~‚Å‚ÍARtlIpv4AddressToString ‚¨‚æ‚Ñ
-RtlIpv4AddressToStringEx ŠÖ”‚ğg—p‚µ‚Ä IN_ADDR \‘¢‘Ì‚Ì IPv4
-ƒAƒhƒŒƒX‚ğƒCƒ“ƒ^[ƒlƒbƒg•W€‚Ìƒhƒbƒg‹æØ‚è10i•\‹L‚Ì•¶š—ñ•\Œ»‚É•ÏŠ·‚Å‚«‚éBWindows Vista
-ˆÈ~‚Å‚ÍARtlIpv6AddressToString ‚¨‚æ‚Ñ RtlIpv6AddressToStringEx ŠÖ”‚ğg—p‚µ‚Ä
-IN6_ADDR \‘¢‘Ì‚Ì IPv6 ƒAƒhƒŒƒX‚ğ•¶š—ñ•\Œ»‚É•ÏŠ·‚Å‚«‚éBRtlIpv6AddressToStringEx ŠÖ”‚Í IPv6
-ƒAƒhƒŒƒXAƒXƒR[ƒv IDAƒ|[ƒg‚ğ•W€Œ`®‚Ì IPv6 •¶š—ñ‚É•ÏŠ·‚Å‚«‚é‚½‚ßA‚æ‚è_“î‚Å‚ ‚éBWindows 8.1 ‚¨‚æ‚Ñ
-Windows Server 2012 R2: InetNtopW ŠÖ”‚Í Windows 8.1AWindows Server 2012
-R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+ŠÖ”‚ÍAƒvƒƒgƒRƒ‹”ñˆË‘¶‚ÈƒAƒhƒŒƒX‚©‚ç•¶š—ñ‚Ö‚Ì•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éBInetNtop ŠÖ”‚ÍApAddr
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒCƒ“ƒ^[ƒlƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğæ‚èA‚»‚Ì IP ƒAƒhƒŒƒX‚ğ•\‚· NULL I’[•¶š—ñ‚ğ•Ô‚·Binet_ntoa
+ŠÖ”‚ª IPv4 ƒAƒhƒŒƒX‚Ì‚İ‚ğˆµ‚¤‚Ì‚É‘Î‚µAInetNtop ŠÖ”‚Í IPv4 ‚Æ IPv6 ‚Ì‚Ç‚¿‚ç‚ÌƒAƒhƒŒƒX‚àˆµ‚¦‚éB‚±‚ÌŠÖ”‚Ì
+ANSI ”Å‚Í RFC 2553 ‚Å’è‹`‚³‚ê‚½ inet_ntop ‚Å‚ ‚éBÚ‚µ‚­‚Í IETF ‚Ì Web ƒTƒCƒg‚É‚ ‚é RFC 2553
+‚ğQÆBInetNtop ŠÖ”‚Í IP ƒAƒhƒŒƒX‚©‚ç•¶š—ñ‚Ö‚Ì•ÏŠ·‚ğs‚¤‚Ì‚É Windows Sockets DLL
+‚ğƒ[ƒh‚·‚é•K—v‚ª‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚É AF_INET ‚ğw’è‚µ‚½ê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‘ÎÛ‚Ì IPv4
+ƒAƒhƒŒƒX‚ğ‚Â IN_ADDR \‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BpStringBuf
+ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚ÍA"192.168.16.0" ‚Ì‚æ‚¤‚Èƒhƒbƒg‹æØ‚è\i•\‹L‚Å‚ ‚éBFamily
+ƒpƒ‰ƒ[ƒ^‚É AF_INET6 ‚ğw’è‚µ‚½ê‡ApAddr ƒpƒ‰ƒ[ƒ^‚Í•ÏŠ·‘ÎÛ‚Ì IPv6 ƒAƒhƒŒƒX‚ğ‚Â IN6_ADDR
+\‘¢‘Ì‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BpStringBuf
+ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚ÍAƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Å‚ ‚éBŠî–{“I‚È•¶š—ñ•\Œ»‚ÍAƒRƒƒ“‚Å‹æØ‚ç‚ê‚½ 8 ŒÂ‚Ì 16
+i”‚©‚ç¬‚éB˜A‘±‚·‚éƒ[ƒ‚Ì—ñ‚Íƒ_ƒuƒ‹ƒRƒƒ“‚É’u‚«Š·‚¦‚ç‚ê‚éBIPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚É‚ÍAƒ_ƒuƒ‹ƒRƒƒ“‚Í 1
+‚Â‚µ‚©Œ»‚ê‚Ä‚Í‚È‚ç‚È‚¢BƒAƒhƒŒƒX‚ª IPv4 ŒİŠ·ƒAƒhƒŒƒX‚Ìê‡A––”ö 32 ƒrƒbƒg‚Í IPv4
+Œ`®‚Ìƒhƒbƒg‹æØ‚è•\‹L‚Å•\Œ»‚³‚ê‚éBpStringBuf ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ª IP
+ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚ğó‚¯æ‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡AInetNtop ‚Í ERROR_INVALID_PARAMETER
+‚ğ•Ô‚·BUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AInetNtop ‚Í Unicode ”Å‚Ì InetNtopW
+‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpStringBuf ƒpƒ‰ƒ[ƒ^‚Í PSTR ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AInetNtop ‚Í ANSI ”Å‚Ì InetNtopA ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Íí‚É
+inet_ntop ‚Æ‚µ‚Ä‚à’è‹`‚³‚ê‚éBpStringBuf ƒpƒ‰ƒ[ƒ^‚Í PWSTR ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBIN_ADDR \‘¢‘Ì‚Í
+Inaddr.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚éBIN6_ADDR \‘¢‘Ì‚Í In6addr.h
+ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚éBWindows Vista ˆÈ~‚Å‚ÍARtlIpv4AddressToString ‚¨‚æ‚Ñ
+RtlIpv4AddressToStringEx ŠÖ”‚ğg‚Á‚ÄAIN_ADDR \‘¢‘Ì‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½ IPv4
+ƒAƒhƒŒƒX‚ğƒCƒ“ƒ^[ƒlƒbƒg•W€‚Ìƒhƒbƒg‹æØ‚è\i•\‹L‚Ì•¶š—ñ‚É•ÏŠ·‚Å‚«‚éBWindows Vista
+ˆÈ~‚Å‚ÍARtlIpv6AddressToString ‚¨‚æ‚Ñ RtlIpv6AddressToStringEx
+ŠÖ”‚ğg‚Á‚ÄAIN6_ADDR \‘¢‘Ì‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½ IPv6
+ƒAƒhƒŒƒX‚ğ•¶š—ñ•\Œ»‚É•ÏŠ·‚Å‚«‚éBRtlIpv6AddressToStringEx ŠÖ”‚ÍAIPv6 ƒAƒhƒŒƒXAƒXƒR[ƒv
+IDAƒ|[ƒg‚ğ•W€Œ`®‚Ì IPv6 •¶š—ñ‚É•ÏŠ·‚Å‚«‚é‚½‚ßA‚æ‚è_“î‚Å‚ ‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server
+2012 R2: InetNtopW ŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 InetPtonW
-InetPton ŠÖ”‚ÍAIPv4 ‚Ü‚½‚Í IPv6 ƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚Ì•W€ƒeƒLƒXƒg•\Œ»‚ğ”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_pton ‚Å‚ ‚éB(InetPtonW)
+InetPton ŠÖ”‚ÍA•W€ƒeƒLƒXƒg•\Œ»Œ`®‚Ì IPv4 ‚Ü‚½‚Í IPv6 ƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğ”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_pton ‚Å‚ ‚éB(InetPtonW)
 %group
 Win32 ws2_32
 %prm
 Family, pszAddrString, pAddrBuf
-Family : [int] ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ‚µ‚Äw’è‰Â”\‚È’l‚Í Ws2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚éBWs2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Í Winsock2.h ‚É©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ßA’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ‚Ì’è”’l‚Í“¯ˆê (—á‚¦‚Î AF_INET ‚Æ PF_INET) ‚Å‚ ‚é‚½‚ßA‚Ç‚¿‚ç‚Ì’è”‚àg—p‚Å‚«‚éBŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é’l‚Í AF_INET ‚¨‚æ‚Ñ AF_INET6 ‚Å‚ ‚éB
-pszAddrString : [wstr] ”’lƒoƒCƒiƒŠŒ`®‚Ö•ÏŠ·‚·‚é IP ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET ‚Ìê‡ApszAddrString ƒpƒ‰ƒ[ƒ^‚Í•W€‚Ìƒhƒbƒg‹æØ‚è10i•\‹L‚Ì IPv4 ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET6 ‚Ìê‡ApszAddrString ƒpƒ‰ƒ[ƒ^‚Í•W€•\‹L‚Ì IPv6 ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-pAddrBuf : [intptr] IP ƒAƒhƒŒƒX‚Ì”’lƒoƒCƒiƒŠ•\Œ»‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BIP ƒAƒhƒŒƒX‚Íƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Å•Ô‚³‚ê‚éBFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET ‚Ìê‡A‚±‚Ìƒoƒbƒtƒ@‚Í IN_ADDR \‘¢‘Ì‚ğ•Û‚Å‚«‚é‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET6 ‚Ìê‡AIN6_ADDR \‘¢‘Ì‚ğ•Û‚Å‚«‚é‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+Family : [int] ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ‚µ‚Äw’è‰Â”\‚È’l‚Í Ws2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚Ä‚¢‚éB‚È‚¨AWs2def.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Í Winsock2.h ‚É©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ßA’¼Úg—p‚·‚×‚«‚Å‚Í‚È‚¢BAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Ì’l‚Í“¯ˆê (‚½‚Æ‚¦‚Î AF_INET ‚Æ PF_INET) ‚È‚Ì‚ÅA‚Ç‚¿‚ç‚Ì’è”‚ğg‚Á‚Ä‚à‚æ‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é’l‚Í AF_INET ‚Æ AF_INET6 ‚Å‚ ‚éB
+pszAddrString : [wstr] ”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚·‚é IP ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğŠi”[‚µ‚½ NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET ‚Ìê‡ApszAddrString ƒpƒ‰ƒ[ƒ^‚Í•W€‚Ìƒhƒbƒg‹æØ‚è\i•\‹L‚É‚æ‚é IPv4 ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET6 ‚Ìê‡ApszAddrString ƒpƒ‰ƒ[ƒ^‚Í•W€•\‹L‚É‚æ‚é IPv6 ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pAddrBuf : [intptr] IP ƒAƒhƒŒƒX‚Ì”’lƒoƒCƒiƒŠ•\Œ»‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BIP ƒAƒhƒŒƒX‚Íƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Å•Ô‚³‚ê‚éBFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET ‚Ìê‡A‚±‚Ìƒoƒbƒtƒ@‚Í IN_ADDR \‘¢‘Ì‚ğŠi”[‚Å‚«‚é‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚ª AF_INET6 ‚Ìê‡A‚±‚Ìƒoƒbƒtƒ@‚Í IN6_ADDR \‘¢‘Ì‚ğŠi”[‚Å‚«‚é‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-InetPton ŠÖ”‚ÍAIPv4 ‚Ü‚½‚Í IPv6
-ƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚Ì•W€ƒeƒLƒXƒg•\Œ»‚ğ”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_pton
+InetPton ŠÖ”‚ÍA•W€ƒeƒLƒXƒg•\Œ»Œ`®‚Ì IPv4 ‚Ü‚½‚Í IPv6
+ƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğ”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í inet_pton
 ‚Å‚ ‚éB(InetPtonW)
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AInetPton ŠÖ”‚Í 1 ‚ğ•Ô‚µApAddrBuf
+ƒGƒ‰[‚ª‚È‚¢ê‡AInetPton ŠÖ”‚Í’l 1 ‚ğ•Ô‚µApAddrBuf
 ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É‚Íƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ÌƒoƒCƒiƒŠ”’l IP ƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éBpAddrBuf ƒpƒ‰ƒ[ƒ^‚ª—LŒø‚È
-IPv4 ƒhƒbƒg‹æØ‚è10i•¶š—ñ‚Ü‚½‚Í—LŒø‚È IPv6 ƒAƒhƒŒƒX•¶š—ñ‚Å‚È‚¢•¶š—ñ‚ğw‚·ê‡AInetPton ŠÖ”‚Í 0
-‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í -1 ‚ª•Ô‚³‚êAWSAGetLastError
+IPv4 ƒhƒbƒg‹æØ‚è\i•\‹L•¶š—ñ‚â—LŒø‚È IPv6 ƒAƒhƒŒƒX•¶š—ñ‚Å‚È‚¢•¶š—ñ‚ğw‚µ‚Ä‚¢‚½ê‡AInetPton ŠÖ”‚Í’l 0
+‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í -1 ‚ª•Ô‚³‚êAWSAGetLastError
 ‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚Å‚«‚éBŠÖ”‚ªƒGƒ‰[‚É‚È‚Á‚½ê‡AWSAGetLastError
-‚ª•Ô‚·Šg’£ƒGƒ‰[ƒR[ƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
+‚ª•Ô‚·Šg’£ƒGƒ‰[ƒR[ƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚É‚È‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 InetPton ŠÖ”‚Í Windows Vista ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éBInetPton
-ŠÖ”‚ÍAƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚Ì•W€ƒeƒLƒXƒg•\Œ»‚©‚ç”’lƒoƒCƒiƒŠŒ`®‚Ö‚ÌƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éBInetPton
-ŠÖ”‚Í pszAddrString ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒCƒ“ƒ^[ƒlƒbƒgƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğó‚¯æ‚èApAddrBuf
-ƒpƒ‰ƒ[ƒ^‚É”’lƒoƒCƒiƒŠ IP ƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·Binet_addr ŠÖ”‚Í IPv4
-ƒAƒhƒŒƒX•¶š—ñ‚Ì‚İ‚ğˆµ‚¤‚ªAInetPton ŠÖ”‚Í IPv4 ‚¨‚æ‚Ñ IPv6 ‚Ì—¼•û‚ÌƒAƒhƒŒƒX•¶š—ñ‚ğˆµ‚¦‚éB‚±‚ÌŠÖ”‚Ì ANSI
-”Å‚Í RFC 2553 ‚Å’è‹`‚³‚ê‚Ä‚¢‚é inet_pton ‚Å‚ ‚éBÚ×‚Í IETF ƒTƒCƒg‚Ì RFC 2553
-‚ğQÆBInetPton ŠÖ”‚ÍAIP ƒAƒhƒŒƒX‚ğ•\‚·ƒeƒLƒXƒg•¶š—ñ‚©‚ç”’lƒoƒCƒiƒŠ IP ƒAƒhƒŒƒX‚Ö‚Ì•ÏŠ·‚É Windows ƒ\ƒPƒbƒg
-DLL ‚Ìƒ[ƒh‚ğ•K—v‚Æ‚µ‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚É AF_INET ‚ğw’è‚µ‚½ê‡ApszAddrString ƒpƒ‰ƒ[ƒ^‚Í
-"192.168.16.0" ‚Ì‚æ‚¤‚Èƒhƒbƒg‹æØ‚è10i•\‹L‚Ì IPv4 ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•¶š—ñ‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily
+ŠÖ”‚ÍA•W€ƒeƒLƒXƒg•\Œ»Œ`®‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğ”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚·‚éƒvƒƒgƒRƒ‹”ñˆË‘¶‚È‹@”\‚ğ’ñ‹Ÿ‚·‚éBInetPton
+ŠÖ”‚ÍApszAddrString ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒCƒ“ƒ^[ƒlƒbƒgƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğæ‚èApAddrBuf ƒpƒ‰ƒ[ƒ^‚É”’lƒoƒCƒiƒŠ
+IP ƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·Binet_addr ŠÖ”‚ª IPv4 ƒAƒhƒŒƒX•¶š—ñ‚Ì‚İ‚ğˆµ‚¤‚Ì‚É‘Î‚µAInetPton ŠÖ”‚Í
+IPv4 ‚Æ IPv6 ‚Ì‚Ç‚¿‚ç‚ÌƒAƒhƒŒƒX•¶š—ñ‚àˆµ‚¦‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Í RFC 2553 ‚Å’è‹`‚³‚ê‚½ inet_pton
+‚Å‚ ‚éBÚ‚µ‚­‚Í IETF ‚Ì Web ƒTƒCƒg‚É‚ ‚é RFC 2553 ‚ğQÆBInetPton ŠÖ”‚ÍAIP
+ƒAƒhƒŒƒX‚ğ•\‚·ƒeƒLƒXƒg•¶š—ñ‚ğ”’lƒoƒCƒiƒŠ IP ƒAƒhƒŒƒX‚É•ÏŠ·‚·‚é‚Ì‚É Windows Sockets DLL
+‚ğƒ[ƒh‚·‚é•K—v‚ª‚È‚¢BFamily ƒpƒ‰ƒ[ƒ^‚É AF_INET ‚ğw’è‚µ‚½ê‡ApszAddrString ƒpƒ‰ƒ[ƒ^‚Í
+"192.168.16.0" ‚Ì‚æ‚¤‚Èƒhƒbƒg‹æØ‚è\i•\‹L‚Ì IPv4 ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•¶š—ñ‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFamily
 ƒpƒ‰ƒ[ƒ^‚É AF_INET6 ‚ğw’è‚µ‚½ê‡ApszAddrString ƒpƒ‰ƒ[ƒ^‚ÍƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Ì IPv6
-ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•¶š—ñ‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŠî–{“I‚È•¶š—ñ•\Œ»‚ÍƒRƒƒ“‹æØ‚è‚Ì 8 ŒÂ‚Ì 16
-i”‚Å\¬‚³‚ê‚éB˜A‘±‚·‚éƒ[ƒ‚Ì•À‚Ñ‚Í“ñdƒRƒƒ“‚Å’u‚«Š·‚¦‚é‚±‚Æ‚ª‚Å‚«‚éBIPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»’†‚É“ñdƒRƒƒ“‚ğŠÜ‚ß‚ç‚ê‚é‚Ì‚Í 1
-‚©Š‚Ì‚İ‚Å‚ ‚éBIPv4 ŒİŠ·ƒAƒhƒŒƒX‚Ìê‡A‰ºˆÊ 32 ƒrƒbƒg‚Í IPv4 Œ`®‚Ìƒhƒbƒg‹æØ‚è•\‹L‚Å•\Œ»‚Å‚«‚éBUNICODE ‚Ü‚½‚Í
-_UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AInetPton ‚Í Unicode ”Å‚Ì InetPtonW
-‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpszAddrString ƒpƒ‰ƒ[ƒ^‚Í PCWSTR Œ^‚Å’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE
-‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AInetPton ‚Í ANSI ”Å‚Ì InetPtonA ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Íí‚É
-inet_pton ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpszAddrString ƒpƒ‰ƒ[ƒ^‚Í PCSTR Œ^‚Å’è‹`‚³‚ê‚éBIN_ADDR \‘¢‘Ì‚Í
-Inaddr.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚ÅAIN6_ADDR \‘¢‘Ì‚Í In6addr.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚éBWindows Vista
+ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•¶š—ñ‚ğw‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŠî–{“I‚È•¶š—ñ•\Œ»‚ÍƒRƒƒ“‚Å‹æØ‚ç‚ê‚½ 8 ŒÂ‚Ì 16
+i”‚©‚ç¬‚éB˜A‘±‚·‚éƒ[ƒ‚Ì—ñ‚Íƒ_ƒuƒ‹ƒRƒƒ“‚É’u‚«Š·‚¦‚Ä‚à‚æ‚¢BIPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚É‚ÍAƒ_ƒuƒ‹ƒRƒƒ“‚Í 1
+‚Â‚µ‚©Œ»‚ê‚Ä‚Í‚È‚ç‚È‚¢BƒAƒhƒŒƒX‚ª IPv4 ŒİŠ·ƒAƒhƒŒƒX‚Ìê‡A––”ö 32 ƒrƒbƒg‚ğ IPv4
+Œ`®‚Ìƒhƒbƒg‹æØ‚è•\‹L‚Å•\Œ»‚µ‚Ä‚à‚æ‚¢BUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AInetPton ‚Í
+Unicode ”Å‚Ì InetPtonW ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBpszAddrString ƒpƒ‰ƒ[ƒ^‚Í PCWSTR
+ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AInetPton ‚Í ANSI ”Å‚Ì
+InetPtonA ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Íí‚É inet_pton ‚Æ‚µ‚Ä‚à’è‹`‚³‚ê‚éBpszAddrString
+ƒpƒ‰ƒ[ƒ^‚Í PCSTR ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBIN_ADDR \‘¢‘Ì‚Í Inaddr.h
+ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚éBIN6_ADDR \‘¢‘Ì‚Í In6addr.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚éBWindows Vista
 ˆÈ~‚Å‚ÍARtlIpv4StringToAddress ‚¨‚æ‚Ñ RtlIpv4StringToAddressEx
-ŠÖ”‚ğg—p‚µ‚ÄAƒCƒ“ƒ^[ƒlƒbƒg•W€‚Ìƒhƒbƒg‹æØ‚è10i•\‹L‚Ì IPv4 ƒAƒhƒŒƒX‚ÌƒeƒLƒXƒg•\Œ»‚ğ IN_ADDR
-\‘¢‘Ì‚Æ‚µ‚Ä•\‚³‚ê‚é”’lƒoƒCƒiƒŠƒAƒhƒŒƒX‚É•ÏŠ·‚Å‚«‚éBWindows Vista ˆÈ~‚Å‚ÍARtlIpv6StringToAddress
-‚¨‚æ‚Ñ RtlIpv6StringToAddressEx ŠÖ”‚ğg—p‚µ‚Ä IPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚ğ IN6_ADDR
-\‘¢‘Ì‚Æ‚µ‚Ä•\‚³‚ê‚é”’lƒoƒCƒiƒŠ IPv6 ƒAƒhƒŒƒX‚É•ÏŠ·‚Å‚«‚éBRtlIpv6StringToAddressEx ŠÖ”‚ÍƒXƒR[ƒv ID
-‚Æƒ|[ƒg‚ğŠÜ‚Ş•W€•\‹L‚Ì IPv6 ƒAƒhƒŒƒX•¶š—ñ‚à”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚Å‚«‚é‚½‚ßA‚æ‚è_“î‚Å‚ ‚éBWindows 8.1 ‚¨‚æ‚Ñ
-Windows Server 2012 R2: InetPtonW ŠÖ”‚Í Windows 8.1AWindows Server 2012
-R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+ŠÖ”‚ğg‚Á‚ÄAƒCƒ“ƒ^[ƒlƒbƒg•W€‚Ìƒhƒbƒg‹æØ‚è\i•\‹L‚Ì IPv4 ƒAƒhƒŒƒXƒeƒLƒXƒg•\Œ»‚ğ IN_ADDR
+\‘¢‘Ì‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½”’lƒoƒCƒiƒŠƒAƒhƒŒƒX‚É•ÏŠ·‚Å‚«‚éBWindows Vista ˆÈ~‚Å‚ÍARtlIpv6StringToAddress
+‚¨‚æ‚Ñ RtlIpv6StringToAddressEx ŠÖ”‚ğg‚Á‚ÄAIPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚ğ IN6_ADDR
+\‘¢‘Ì‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½”’lƒoƒCƒiƒŠ IPv6 ƒAƒhƒŒƒX‚É•ÏŠ·‚Å‚«‚éBRtlIpv6StringToAddressEx ŠÖ”‚ÍAƒXƒR[ƒv
+ID ‚âƒ|[ƒg‚ğŠÜ‚Ş•W€•\‹L‚Ì IPv6 ƒAƒhƒŒƒX•¶š—ñ•\Œ»‚à”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚Å‚«‚é‚½‚ßA‚æ‚è_“î‚Å‚ ‚éBWindows 8.1
+‚¨‚æ‚Ñ Windows Server 2012 R2: InetPtonW ŠÖ”‚ÍAWindows 8.1AWindows Server
+2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 SetAddrInfoExW
-–¼‘OAƒT[ƒrƒX–¼AŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒhƒŒƒX‚ğA“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚éB(Unicode)
+–¼‘OAƒT[ƒrƒX–¼A‚¨‚æ‚ÑŠÖ˜AƒAƒhƒŒƒX‚ğ“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 pName, pServiceName, pAddresses, dwAddressCount, lpBlob, dwFlags, dwNameSpace, lpNspId, timeout, lpOverlapped, lpCompletionRoutine, lpNameHandle
-pName : [wstr] ƒAƒhƒŒƒX‚ğ“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚é–¼‘O‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì‰ğß‚Í–¼‘O‹óŠÔƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
-pServiceName : [wstr] “o˜^‚·‚é–¼‘O‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒT[ƒrƒX–¼‚ğŠÜ‚ŞƒIƒvƒVƒ‡ƒ“‚Ì NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì‰ğß‚Í–¼‘O‹óŠÔƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
-pAddresses : [var] –¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É“o˜^‚·‚éƒIƒvƒVƒ‡ƒ“‚ÌƒAƒhƒŒƒXƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-dwAddressCount : [int] pAddresses ƒpƒ‰ƒ[ƒ^‚Å“n‚·ƒAƒhƒŒƒX‚Ì”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª 0 ‚Ìê‡ApName ƒpƒ‰ƒ[ƒ^‚Í–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚ç“o˜^‰ğœ‚³‚ê‚éB
-lpBlob : [var] ƒAƒhƒŒƒX‚ÌƒŠƒXƒgˆÈŠO‚É pName ƒpƒ‰ƒ[ƒ^‚ÉŠÖ˜A•t‚¯‚éƒvƒƒoƒCƒ_ŒÅ—L‚Ì–¼‘O‹óŠÔî•ñ‚ğİ’è‚·‚é‚½‚ß‚Ég—p‚·‚éƒf[ƒ^‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^BpAddresses ƒpƒ‰ƒ[ƒ^‚Å“n‚¹‚È‚¢î•ñ‚ğ lpBlob ƒpƒ‰ƒ[ƒ^‚Å“n‚·‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ìî•ñ‚ÌŒ`®‚Í–¼‘O‹óŠÔƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
-dwFlags : [int] pName ‚¨‚æ‚Ñ pServiceName ƒpƒ‰ƒ[ƒ^‚ğ–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É‚Ç‚Ì‚æ‚¤‚É“o˜^‚·‚é‚©‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ÌW‡B‚±‚Ìî•ñ‚Ì‰ğß‚Í–¼‘O‹óŠÔƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
-dwNameSpace : [int] î•ñ‚ğ“o˜^‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğŒˆ’è‚·‚é–¼‘O‹óŠÔ¯•ÊqB“Á’è‚Ì–¼‘O‹óŠÔ¯•Êq‚ğ“n‚·‚ÆA‚»‚Ì–¼‘O‹óŠÔ‚ğƒTƒ|[ƒg‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É‚Ì‚İî•ñ‚ª“o˜^‚³‚ê‚éBNS_ALL ‚ğw’è‚·‚é‚ÆAƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Å—LŒø‚È‚·‚×‚Ä‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Éî•ñ‚ª“o˜^‚³‚ê‚éB
-lpNspId : [var] NS_DNS ‚Ì‚æ‚¤‚È’Pˆê‚Ì–¼‘O‹óŠÔ‚É•¡”‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÉAî•ñ‚ğ“o˜^‚·‚é“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÌƒIƒvƒVƒ‡ƒ“‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì GUID ‚ğ“n‚·‚ÆA‚»‚Ìw’è‚µ‚½–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É‚Ì‚İî•ñ‚ª“o˜^‚³‚ê‚éB–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì GUID ‚ğæ“¾‚·‚é‚É‚Í WSAEnumNameSpaceProviders ŠÖ”‚ğŒÄ‚Ño‚·B
-timeout : [var] ŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚Å–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚ç‚Ì‰“š‚ğ‘Ò‹@‚·‚éŠÔ‚ğƒ~ƒŠ•b’PˆÊ‚Å¦‚·ƒIƒvƒVƒ‡ƒ“‚Ìƒpƒ‰ƒ[ƒ^Bƒ^ƒCƒ€ƒAƒEƒgƒIƒvƒVƒ‡ƒ“‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpOverlapped : [var] ”ñ“¯Šú‘€ì‚Åg—p‚³‚ê‚éƒI[ƒo[ƒ‰ƒbƒv\‘¢‘Ì‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B”ñ“¯Šú‘€ì‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpCompletionRoutine : [int] ”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B”ñ“¯Šú‘€ì‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpNameHandle : [intptr] ”ñ“¯Šú‘€ì‚Å‚Ì‚İg—p‚³‚ê‚éƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B”ñ“¯Šú‘€ì‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pName : [wstr] ƒAƒhƒŒƒX‚ğ“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚é–¼‘O‚ğŠi”[‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì‰ğß‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
+pServiceName : [wstr] “o˜^‚·‚é–¼‘O‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒT[ƒrƒX–¼‚ğŠi”[‚·‚é NULL I’[•¶š—ñ‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì‰ğß‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
+pAddresses : [var] ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É“o˜^‚·‚éƒAƒhƒŒƒX‚ÌƒIƒvƒVƒ‡ƒ“‚ÌƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwAddressCount : [int] pAddresses ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚éƒAƒhƒŒƒX‚Ì”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ªƒ[ƒ‚Ìê‡ApName ƒpƒ‰ƒ[ƒ^‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚ç“o˜^‰ğœ‚³‚ê‚éB
+lpBlob : [var] pName ƒpƒ‰ƒ[ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚éƒvƒƒoƒCƒ_ŒÅ—L‚Ì–¼‘O‹óŠÔî•ñ‚ğAƒAƒhƒŒƒXƒŠƒXƒg‚ğ‰z‚¦‚Äİ’è‚·‚é‚½‚ß‚Ég‚¤ƒf[ƒ^‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^BpAddresses ƒpƒ‰ƒ[ƒ^‚Å“n‚¹‚È‚¢î•ñ‚Í lpBlob ƒpƒ‰ƒ[ƒ^‚Å“n‚·‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ìî•ñ‚ÌŒ`®‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
+dwFlags : [int] pName ‚¨‚æ‚Ñ pServiceName ƒpƒ‰ƒ[ƒ^‚ğƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É‚Ç‚Ì‚æ‚¤‚É“o˜^‚·‚é‚©‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ÌƒZƒbƒgB‚±‚Ìî•ñ‚Ì‰ğß‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_ŒÅ—L‚Å‚ ‚éB
+dwNameSpace : [int] ‚Ç‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Éî•ñ‚ğ“o˜^‚·‚é‚©‚ğŒˆ’è‚·‚é–¼‘O‹óŠÔ¯•ÊqB“Á’è‚Ì–¼‘O‹óŠÔ¯•Êq‚ğ“n‚·‚ÆAw’è‚µ‚½–¼‘O‹óŠÔ‚ğƒTƒ|[ƒg‚·‚éƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‚İ‚Éî•ñ‚ª“o˜^‚³‚ê‚éBNS_ALL ‚ğw’è‚·‚é‚ÆƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚©‚ÂƒAƒNƒeƒBƒu‚È‚·‚×‚Ä‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Éî•ñ‚ª“o˜^‚³‚ê‚éB
+lpNspId : [var] NS_DNS ‚Ì‚æ‚¤‚È’Pˆê‚Ì–¼‘O‹óŠÔ‚Ì‰º‚É•¡”‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÉAî•ñ‚ğ“o˜^‚·‚é“Á’èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğ¦‚·ƒIƒvƒVƒ‡ƒ“‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì GUID ‚ğ“n‚·‚ÆAw’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‚İ‚Éî•ñ‚ª“o˜^‚³‚ê‚éBƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì GUID ‚ğæ“¾‚·‚é‚É‚Í WSAEnumNameSpaceProviders ŠÖ”‚ğŒÄ‚Ño‚¹‚Î‚æ‚¢B
+timeout : [var] ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚ç‚Ì‰“š‚ğ‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚Å‚ÌŠÔ (ƒ~ƒŠ•b) ‚ğ¦‚·ƒIƒvƒVƒ‡ƒ“‚Ìƒpƒ‰ƒ[ƒ^Bƒ^ƒCƒ€ƒAƒEƒgƒIƒvƒVƒ‡ƒ“‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpOverlapped : [var] ”ñ“¯Šú‘€ì‚Ég‚í‚ê‚é overlapped \‘¢‘Ì‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B”ñ“¯Šú‘€ì‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpCompletionRoutine : [int] ”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B”ñ“¯Šú‘€ì‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpNameHandle : [intptr] ”ñ“¯Šú‘€ì—p‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B”ñ“¯Šú‘€ì‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İ—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-–¼‘OAƒT[ƒrƒX–¼AŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒhƒŒƒX‚ğA“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚éB(Unicode)
+–¼‘OAƒT[ƒrƒX–¼A‚¨‚æ‚ÑŠÖ˜AƒAƒhƒŒƒX‚ğ“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-¬Œ÷‚µ‚½ê‡ASetAddrInfoEx ‚Í NO_ERROR (0) ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í”ñƒ[ƒ‚Ì Windows
-ƒ\ƒPƒbƒgƒGƒ‰[ƒR[ƒh (Windows Sockets Error Codes ‚É‹LÚ) ‚ğ•Ô‚·B
+¬Œ÷ASetAddrInfoEx ‚Í NO_ERROR (0) ‚ğ•Ô‚·B¸”s‚Í Windows Sockets ƒGƒ‰[ƒR[ƒhˆê——‚É‚ ‚é
+0 ˆÈŠO‚Ì Windows Sockets ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-SetAddrInfoEx ŠÖ”‚ÍA–¼‘O‚¨‚æ‚Ñ 1
-‚ÂˆÈã‚ÌƒAƒhƒŒƒX‚ğ–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚éƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•û–@‚ğ’ñ‹Ÿ‚·‚éBWindows Vista ˆÈ~‚Ì
-NS_EMAIL –¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÍƒAƒhƒŒƒX‚Ì“o˜^‚Æ“o˜^‰ğœ‚ğƒTƒ|[ƒg‚·‚éBŠù’è‚Ì
+SetAddrInfoEx ŠÖ”‚ÍA–¼‘O‚Æ 1
+‚ÂˆÈã‚ÌƒAƒhƒŒƒX‚ğƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚éƒvƒƒgƒRƒ‹”ñˆË‘¶‚È•û–@‚ğ’ñ‹Ÿ‚·‚éBWindows Vista ˆÈ~‚Ì
+NS_EMAIL ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÍƒAƒhƒŒƒX‚Ì“o˜^‚¨‚æ‚Ñ“o˜^‰ğœ‚ğƒTƒ|[ƒg‚·‚éBŠù’è‚Ì
 NS_DNSANS_PNRPNAMEANS_PNRPNAME
-–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÍAŒ»“_‚Å‚Í–¼‘O“o˜^‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢BdwNameSpace ƒpƒ‰ƒ[ƒ^‚É NS_ALL ‚ğİ’è‚µ lpNspId
-ƒpƒ‰ƒ[ƒ^‚ğ–¢w’è‚Å SetAddrInfoEx ŠÖ”‚ğŒÄ‚Ño‚µ‚½ê‡ASetAddrInfoEx
-‚ÍƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Å—LŒø‚È‚·‚×‚Ä‚Ì–¼‘O‹óŠÔ‚É‘Î‚µ‚Ä–¼‘O‚ÆŠÖ˜AƒAƒhƒŒƒX‚Ì“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚ğ‚İ‚éB‚¢‚¸‚ê‚©‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ª“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚É¬Œ÷‚·‚ê‚ÎASetAddrInfoEx
-ŠÖ”‚Í¬Œ÷‚ğ•Ô‚·‚ªA‚Ç‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ª¬Œ÷‚µA‚Ç‚ê‚ª¸”s‚µ‚½‚©‚Í¦‚³‚ê‚È‚¢BUNICODE ‚Ü‚½‚Í _UNICODE
-‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡ASetAddrInfoEx ‚Í Unicode ”Å‚Ì SetAddrInfoExW
-‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB•¶š—ñƒpƒ‰ƒ[ƒ^‚Í PWSTR Œ^‚Å’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÍAŒ»“_‚Å‚Í–¼‘O“o˜^‚ğƒTƒ|[ƒg‚µ‚È‚¢BSetAddrInfoEx ŠÖ”‚ğ dwNameSpace ƒpƒ‰ƒ[ƒ^‚É
+NS_ALL ‚ğw’è‚µA‚©‚Â lpNspId ƒpƒ‰ƒ[ƒ^‚ğw’è‚¹‚¸‚ÉŒÄ‚Ño‚µ‚½ê‡ASetAddrInfoEx
+‚ÍƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚©‚ÂƒAƒNƒeƒBƒu‚È‚·‚×‚Ä‚Ì–¼‘O‹óŠÔ‚É‘Î‚µ‚Ä–¼‘O‚ÆŠÖ˜AƒAƒhƒŒƒX‚Ì“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚ğ‚İ‚éB‚¢‚¸‚ê‚©‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ª–¼‘O‚Ì“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚É¬Œ÷‚·‚ê‚Î
+SetAddrInfoEx ŠÖ”‚Í¬Œ÷‚ğ•Ô‚·‚ªA‚Ç‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ª¬Œ÷‚Ü‚½‚Í¸”s‚µ‚½‚©‚Í’Ê’m‚³‚ê‚È‚¢BUNICODE ‚Ü‚½‚Í
+_UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡ASetAddrInfoEx ‚Í Unicode ”Å‚Ì SetAddrInfoExW
+‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB•¶š—ñƒpƒ‰ƒ[ƒ^‚Í PWSTR ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE
 ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡ASetAddrInfoEx ‚Í ANSI ”Å‚Ì SetAddrInfoExA ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éB•¶š—ñƒpƒ‰ƒ[ƒ^‚Í
-PCSTR Œ^‚Å‚ ‚éB–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É“o˜^‚³‚ê‚½î•ñ‚ÍAGetAddrInfoExAgetaddrinfoAGetAddrInfoW
-ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äæ“¾‚Å‚«‚éBGetAddrInfoEx ŠÖ”‚Í getaddrinfo ‚¨‚æ‚Ñ GetAddrInfoW
-ŠÖ”‚ÌŠg’£”Å‚Å‚ ‚éBWindows Vista ˆÈ~‚Å‚ÍAƒT[ƒrƒX‚©‚ç SetAddrInfoEx
-‚ğŒÄ‚Ño‚·ê‡A‘€ì‚ªƒ†[ƒU[ƒvƒƒZƒX‚É‚æ‚éƒT[ƒrƒXŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Å‚ ‚é‚È‚çAƒT[ƒrƒX‚Íƒ†[ƒU[‚ğ‹U‘•‚·‚é•K—v‚ª‚ ‚éB‚±‚ê‚ÍƒZƒLƒ…ƒŠƒeƒB‚Æƒ‹[ƒeƒBƒ“ƒOƒRƒ“ƒp[ƒgƒƒ“ƒg‚ğ“KØ‚É“K—p‚·‚é‚½‚ß‚Å‚ ‚éB
-Windows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: SetAddrInfoExW ŠÖ”‚Í Windows
+PCSTR
+ƒf[ƒ^Œ^‚Æ‚È‚éBƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É“o˜^‚³‚ê‚½î•ñ‚ÍAGetAddrInfoExAgetaddrinfoAGetAddrInfoW
+ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚Å‚«‚éBGetAddrInfoEx ŠÖ”‚Í getaddrinfo ‚¨‚æ‚Ñ GetAddrInfoW
+ŠÖ”‚ÌŠg’£”Å‚Å‚ ‚éBWindows Vista ˆÈ~‚Å SetAddrInfoEx
+‚ªƒT[ƒrƒX‚©‚çŒÄ‚Ño‚³‚êA‚»‚Ì‘€ì‚ªƒ†[ƒU[ƒvƒƒZƒX‚É‚æ‚éƒT[ƒrƒXŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Å‚ ‚éê‡AƒZƒLƒ…ƒŠƒeƒB‚Æƒ‹[ƒeƒBƒ“ƒO‚Ì‹æ‰æ‚ğ³‚µ‚­“K—p‚·‚é‚½‚ß‚ÉAƒT[ƒrƒX‚Í‚»‚Ìƒ†[ƒU[‚É‚È‚è‚·‚Ü‚·•K—v‚ª‚ ‚éB
+Windows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: SetAddrInfoExW ŠÖ”‚ÍAWindows
 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
-> [!NOTE] > ws2tcpip.h ƒwƒbƒ_‚Í SetAddrInfoEx ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
-ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ”Å‚Ü‚½‚Í Unicode
-”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Ìg—p‚ğƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ğµ‚­‚¨‚»‚ê‚ª‚ ‚éBÚ×‚Í
+> [!NOTE] > ws2tcpip.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä SetAddrInfoEx
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
 [Conventions for Function
 Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 ‚ğQÆB
@@ -495,212 +507,198 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 
 %index
 closesocket
-The closesocket function (winsock.h) closes an existing socket.
+closesocket ŠÖ” (winsock.h) ‚ÍAŠù‘¶‚Ìƒ\ƒPƒbƒg‚ğ•Â‚¶‚éB
 %group
 Win32 ws2_32
 %prm
 s
-s : [int] A descriptor identifying the socket to close.
+s : [int] •Â‚¶‚éƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
 %inst
-The closesocket function (winsock.h) closes an existing socket.
+closesocket ŠÖ” (winsock.h) ‚ÍAŠù‘¶‚Ìƒ\ƒPƒbƒg‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-If no error occurs, closesocket returns zero. Otherwise, a value of
-SOCKET_ERROR is returned, and a specific error code can be retrieved
-by calling WSAGetLastError.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡Aclosesocket ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ª•Ô‚³‚êAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The closesocket function closes a socket. Use it to release the
-socket descriptor passed in the s parameter. Note that the socket
-descriptor passed in the s parameter may immediately be reused by the
-system as soon as closesocket function is issued. As a result, it is
-not reliable to expect further references to the socket descriptor
-passed in the s parameter to fail with the error WSAENOTSOCK. A
-Winsock client must never issue closesocket on s concurrently with
-another Winsock function call. Any pending overlapped send and
-receive operations ( WSASend/ WSASendTo/ WSARecv/ WSARecvFrom with an
-overlapped socket) issued by any thread in this process are also
-canceled. Any event, completion routine, or completion port action
-specified for these overlapped operations is performed. The pending
-overlapped operations fail with the error status
-WSA_OPERATION_ABORTED. An application should not assume that any
-outstanding I/O operations on a socket will all be guaranteed to
-completed when closesocket returns. The closesocket function will
-initiate cancellation on the outstanding I/O operations, but that
-does not mean that an application will receive I/O completion for
-these I/O operations by the time the closesocket function returns.
-Thus, an application should not cleanup any resources (WSAOVERLAPPED
-structures, for example) referenced by the outstanding I/O requests
-until the I/O requests are indeed completed.
-An application should always have a matching call to closesocket for
-each successful call to socket to return any socket resources to the
-system. The linger structure maintains information about a specific
-socket that specifies how that socket should behave when data is
-queued to be sent and the closesocket function is called on the
-socket. The l_onoff member of the linger structure determines whether
-a socket should remain open for a specified amount of time after a
-This doc was truncated.
+closesocket ŠÖ”‚Íƒ\ƒPƒbƒg‚ğ•Â‚¶‚éBs ˆø”‚É“n‚µ‚½ƒ\ƒPƒbƒg‹Lqq‚ğ‰ğ•ú‚·‚é‚½‚ß‚Ég‚¤Bclosesocket
+”­s’¼Œã‚ÉA‚»‚Ì‹Lqq‚ÍƒVƒXƒeƒ€‚É‚æ‚Á‚ÄÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éB‚»‚Ì‚½‚ßA“¯‹Lqq‚Ö‚ÌˆÈ~‚ÌQÆ‚ª WSAENOTSOCK
+‚Å¸”s‚·‚é‚±‚Æ‚ğŠú‘Ò‚·‚é‚Ì‚ÍM—Š«‚ª‚È‚¢BWinsock ƒNƒ‰ƒCƒAƒ“ƒg‚ÍA‘¼‚Ì Winsock ŠÖ”ŒÄ‚Ño‚µ‚Æ“¯‚É“¯‚¶ s ‚É‘Î‚µ‚Ä
+closesocket ‚ğ”­s‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌƒvƒƒZƒX‚Ì”CˆÓƒXƒŒƒbƒh‚ª”­s‚µ‚½AƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒgã‚Ì•Û—¯’†ƒI[ƒo[ƒ‰ƒbƒv
+send/receive ‘€ì (WSASend / WSASendTo / WSARecv / WSARecvFrom)
+‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB‚±‚ê‚ç‚É‘Î‚µ‚Äw’è‚³‚ê‚½ƒCƒxƒ“ƒgAŠ®—¹ƒ‹[ƒ`ƒ“AŠ®—¹ƒ|[ƒgƒAƒNƒVƒ‡ƒ“‚ÍÀs‚³‚ê‚éB•Û—¯’†‚ÌƒI[ƒo[ƒ‰ƒbƒv‘€ì‚Í
+WSA_OPERATION_ABORTED ƒGƒ‰[ƒXƒe[ƒ^ƒX‚Å¸”s‚·‚éBclosesocket ‚ª–ß‚Á‚½“_‚Å–¢Š®—¹ I/O
+‘€ì‚Ì‚·‚×‚Ä‚ª•ÛØ•t‚«‚ÅŠ®—¹‚µ‚Ä‚¢‚é‚Æ‚Í‰¼’è‚·‚×‚«‚Å‚Í‚È‚¢Bclosesocket ‚Í•Û—¯’† I/O
+‚ÌƒLƒƒƒ“ƒZƒ‹‚ğŠJn‚·‚é‚ªA‚»‚ê‚ªŠ®—¹‚·‚é‚±‚Æ‚Ü‚Å•ÛØ‚·‚é‚í‚¯‚Å‚Í‚È‚¢B‚µ‚½‚ª‚Á‚Ä–¢Š®—¹ I/O ‚ÅQÆ‚³‚ê‚Ä‚¢‚é‘Œ¹
+(WSAOVERLAPPED \‘¢‘Ì‚È‚Ç) ‚ÍAI/O ‚ªÀÛ‚ÉŠ®—¹‚·‚é‚Ü‚ÅƒNƒŠ[ƒ“ƒAƒbƒv‚µ‚Ä‚Í‚È‚ç‚È‚¢B
+ƒ\ƒPƒbƒg‘Œ¹‚ğƒVƒXƒeƒ€‚É•Ô‹p‚·‚é‚½‚ßAsocket ‚ÌŠe¬Œ÷ŒÄ‚Ño‚µ‚É‘Î‚µ‚Ä‘Î‰‚·‚é closesocket
+ŒÄ‚Ño‚µ‚ğí‚És‚¤‚×‚«‚Å‚ ‚éBlinger \‘¢‘Ì‚ÍAƒf[ƒ^‘—M‘Ò‚¿‚ÌƒLƒ…[‚ª‚ ‚éó‘Ô‚Å closesocket
+‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚Ìƒ\ƒPƒbƒg‹““®‚ğw’è‚·‚éî•ñ‚ğ•Û‚·‚éBlinger \‘¢‘Ì‚Ì l_onoff
+ƒƒ“ƒo‚ÍAw’èŠÔ‚ÌŠÔƒ\ƒPƒbƒg‚ğŠJ‚¢‚½‚Ü‚Ü‚É‚·‚é‚©‚ğŒˆ‚ß‚é
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WPUCompleteOverlappedRequest
-WPUCompleteOverlappedRequest ŠÖ”‚ÍAƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌƒI[ƒo[ƒ‰ƒbƒv I/O Š®—¹’Ê’m‚ğs‚¤B
+WPUCompleteOverlappedRequest ŠÖ”‚ÍAƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌŠ®—¹’Ê’m‚ğs‚¤B
 %group
 Win32 ws2_32
 %prm
 s, lpOverlapped, dwError, cbTransferred, lpErrno
-s : [int] WPUCreateSocketHandle ‚É‚æ‚Á‚Äì¬‚³‚ê‚½ƒT[ƒrƒXƒvƒƒoƒCƒ_ƒ\ƒPƒbƒgB
-lpOverlapped : [var] Š®—¹’Ê’m‚Ì‘ÎÛ‚Æ‚È‚éƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-dwError : [int] Š®—¹’Ê’m‚Ì‘ÎÛ‚Æ‚È‚éƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌŠ®—¹ƒXƒe[ƒ^ƒXB
-cbTransferred : [int] ƒNƒ‰ƒCƒAƒ“ƒgƒoƒbƒtƒ@‚Æ‚ÌŠÔ‚Å“]‘—‚³‚ê‚½ƒoƒCƒg” (“]‘—•ûŒü‚ÍŠ®—¹’Ê’m‚Ì‘ÎÛ‚Æ‚È‚éƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ª‘—M‚©óM‚©‚É‚æ‚é)B
-lpErrno : [var] ‚±‚ÌŠÖ”‚ÌÀs‚©‚ç¶‚¶‚éƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+s : [int] WPUCreateSocketHandle ‚Å¶¬‚³‚ê‚½ƒT[ƒrƒXƒvƒƒoƒCƒ_ƒ\ƒPƒbƒgB
+lpOverlapped : [var] Š®—¹’Ê’m‘ÎÛ‚ÌƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwError : [int] Š®—¹’Ê’m‘ÎÛ‚ÌƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌŠ®—¹ƒXƒe[ƒ^ƒXB
+cbTransferred : [int] ƒNƒ‰ƒCƒAƒ“ƒgƒoƒbƒtƒ@‚Æ‚ÌŠÔ‚Å“]‘—‚³‚ê‚½ƒoƒCƒg” (“]‘—•ûŒü‚ÍAŠ®—¹’Ê’m‘ÎÛ‚ÌƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ª‘—MEóM‚Ì‚Ç‚¿‚ç‚Ì«¿‚Å‚ ‚é‚©‚ÉˆË‘¶‚·‚é)B
+lpErrno : [var] ‚±‚ÌŠÖ”‚ÌÀsŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚éƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-WPUCompleteOverlappedRequest ŠÖ”‚ÍAƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌƒI[ƒo[ƒ‰ƒbƒv I/O Š®—¹’Ê’m‚ğs‚¤B
+WPUCompleteOverlappedRequest ŠÖ”‚ÍAƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌŠ®—¹’Ê’m‚ğs‚¤B
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡A**WPUCompleteOverlappedRequest**
-‚Íƒ[ƒ‚ğ•Ô‚µAƒNƒ‰ƒCƒAƒ“ƒg‚ª‘I‘ğ‚µ‚½‹@\‚É]‚Á‚ÄƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌŠ®—¹’Ê’m‚ğs‚¤ (lpOverlapped ‚ªQÆ‚·‚é
-WSAOVERLAPPED
-\‘¢‘Ì“à‚ÌƒCƒxƒ“ƒg‚ğƒVƒOƒiƒ‹‰»‚·‚éA‚ ‚é‚¢‚ÍŠ®—¹ƒ|[ƒg‚ªƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚ê‚ÎŠ®—¹ƒXƒe[ƒ^ƒXƒŒƒ|[ƒg‚ğŠ®—¹ƒ|[ƒg‚ÉƒLƒ…[ƒCƒ“ƒO‚·‚é)B‚»‚êˆÈŠO‚Ìê‡A**WPUCompleteOverlappedRequest**
-‚Í SOCKET_ERROR ‚ğ•Ô‚µA‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚Í lpErrno ‚©‚çæ“¾‚Å‚«‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WPUCompleteOverlappedRequest** ‚Íƒ[ƒ‚ğ•Ô‚µAƒNƒ‰ƒCƒAƒ“ƒg‚ª‘I‘ğ‚µ‚½‹@\
+(lpOverlapped ‚ªQÆ‚·‚é WSAOVERLAPPED
+\‘¢‘Ì“à‚ÌƒCƒxƒ“ƒg‚ÌƒVƒOƒiƒŠƒ“ƒO‚âAƒ\ƒPƒbƒg‚ÉŠ®—¹ƒ|[ƒg‚ªŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éê‡‚ÍŠ®—¹ƒ|[ƒg‚Ö‚ÌŠ®—¹ƒXƒe[ƒ^ƒXƒŒƒ|[ƒg‚ÌƒLƒ…[ƒCƒ“ƒO)
+‚É]‚Á‚ÄƒI[ƒo[ƒ‰ƒbƒv I/O ‘€ì‚ÌŠ®—¹‚ğ’Ê’m‚·‚éB‚»‚¤‚Å‚È‚¢ê‡A**WPUCompleteOverlappedRequest** ‚Í
+SOCKET_ERROR ‚ğ•Ô‚µA‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚Í lpErrno ‚Åæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 **WPUCompleteOverlappedRequest**
-ŠÖ”‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ªw’è‚µ‚½Š®—¹’Ê’m‹@\‚ªƒ†[ƒU[ƒ‚[ƒh”ñ“¯ŠúƒvƒƒV[ƒWƒƒŒÄ‚Ño‚µ (APC) ˆÈŠO‚Å‚ ‚éƒI[ƒo[ƒ‰ƒbƒv I/O
+ŠÖ”‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ªw’è‚µ‚½Š®—¹’Ê’m‹@\‚ªƒ†[ƒU[ƒ‚[ƒh”ñ“¯ŠúƒvƒƒV[ƒWƒƒƒR[ƒ‹ (APC) ˆÈŠO‚Å‚ ‚éê‡‚ÌƒI[ƒo[ƒ‰ƒbƒv I/O
 ‘€ì‚ÌŠ®—¹’Ê’m‚ğs‚¤B‚±‚ÌŠÖ”‚Í WPUCreateSocketHandle
-‚É‚æ‚Á‚Äì¬‚³‚ê‚½ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä‚Ì‚İg—p‚Å‚«‚éB**Note** ‚±‚ÌŠÖ”‚ÍA"WPU"
-ƒvƒŒƒtƒBƒbƒNƒX‚ğ‚Â‘¼‚ÌŠÖ”‚ÆˆÙ‚È‚èAƒAƒbƒvƒR[ƒ‹ƒe[ƒuƒ‹Œo—R‚ÅƒAƒNƒZƒX‚³‚ê‚È‚¢B‚»‚Ì‘ã‚í‚è Ws2_32.dll
-‚É‚æ‚Á‚Ä’¼ÚƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚éB‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍAWS2_32.lib
-‚ÆƒŠƒ“ƒN‚·‚é‚©ALoadLibrary ‚â GetProcAddress ‚È‚Ç‚Ì“KØ‚È OS
-ŠÖ”‚ğg‚Á‚ÄŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB**WPUCompleteOverlappedRequest**
-ŠÖ”‚ÍAŒöŠJ‚·‚éƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚É‘Î‚µ‚ÄƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ (IFS)
-‹@”\‚ğ’¼ÚÀ‘•‚µ‚È‚¢ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ªg—p‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ªw’è‚µ‚½Š®—¹’Ê’m‚ªƒ†[ƒU[ƒ‚[ƒh APC ˆÈŠO‚Å‚ ‚éƒI[ƒo[ƒ‰ƒbƒv I/O
-—v‹‚ÌŠ®—¹’Ê’m‚ğs‚¤B**WPUCompleteOverlappedRequest** ‚Í WPUCreateSocketHandle
-‚É‚æ‚Á‚Äì¬‚³‚ê‚½ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä‚Ì‚İƒTƒ|[ƒg‚³‚êAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª’¼Úì¬‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢BƒNƒ‰ƒCƒAƒ“ƒg‚ª’Ê’m•û–@‚Æ‚µ‚Äƒ†[ƒU[ƒ‚[ƒh
-APC ‚ğ‘I‘ğ‚µ‚½ê‡AƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í WPUQueueApc ‚È‚Ç‚Ì“KØ‚È OS ŠÖ”‚ÅŠ®—¹’Ê’m‚ğs‚¤•K—v‚ª‚ ‚éBƒ†[ƒU[ƒ‚[ƒh
-APC ‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢ê‡AIFS
-‹@”\‚ğ’¼ÚÀ‘•‚µ‚Ä‚¢‚È‚¢ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ªŠ®—¹ƒ|[ƒg‚ğƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’f‚Å‚«‚È‚¢‚½‚ßAŠ®—¹’Ê’m‚Ì•û–@‚ªŠ®—¹ƒ|[ƒg‚Ö‚ÌŠ®—¹ƒXƒe[ƒ^ƒXƒŒƒR[ƒh‚ÌƒLƒ…[ƒCƒ“ƒO‚È‚Ì‚©AWSAOVERLAPPED
-\‘¢‘Ì“à‚ÌƒCƒxƒ“ƒg‚ÌƒVƒOƒiƒ‹‰»‚È‚Ì‚©‚ğ”»’f‚Å‚«‚È‚¢BWindows Socket 2 ƒA[ƒLƒeƒNƒ`ƒƒ‚Í
+‚Å¶¬‚³‚ê‚½ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä‚Ì‚İg—p‚Å‚«‚éB**’** ‚±‚ÌŠÖ”‚ÍA"WPU"
+ƒvƒŒƒtƒBƒbƒNƒX‚ğ‚Â‘¼‚ÌŠÖ”‚Æ‚ÍˆÙ‚È‚èAƒAƒbƒvƒR[ƒ‹ƒe[ƒuƒ‹Œo—R‚Å‚ÍƒAƒNƒZƒX‚³‚ê‚È‚¢B‘ã‚í‚è‚É Ws2_32.dll
+‚©‚ç’¼ÚƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í WS2_32.lib ‚ÆƒŠƒ“ƒN‚·‚é‚©ALoadLibrary
+‚â GetProcAddress “™‚Ì“KØ‚È OS
+ŠÖ”‚ğg‚Á‚ÄŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚×‚«‚Å‚ ‚éB**WPUCompleteOverlappedRequest**
+ŠÖ”‚ÍAŒöŠJ‚·‚éƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä IFS (Installable File System)
+‹@”\‚ğ’¼ÚÀ‘•‚µ‚Ä‚¢‚È‚¢ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ªg—p‚·‚éB‚±‚ÌŠÖ”‚ÍAŠ®—¹’Ê’m‚ªƒ†[ƒU[ƒ‚[ƒh APC ˆÈŠO‚Å‚ ‚éƒI[ƒo[ƒ‰ƒbƒv I/O
+ƒŠƒNƒGƒXƒg‚É‘Î‚µ‚ÄŠ®—¹’Ê’m‚ğs‚¤B**WPUCompleteOverlappedRequest** ‚Í
 WPUCreateSocketHandle
-‚Åì¬‚³‚ê‚½ƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Š®—¹ƒ|[ƒg‚ğ’ÇÕ‚µAŠ®—¹ƒ|[ƒgƒx[ƒX’Ê’m‚ÆƒCƒxƒ“ƒgƒx[ƒX’Ê’m‚Ì‚Ç‚¿‚ç‚ª“KØ‚©‚ğ³‚µ‚­”»’f‚Å‚«‚éB**WPUCompleteOverlappedRequest**
-‚ÍŠ®—¹’Ê’m‚ğƒLƒ…[‚É“ü‚ê‚éÛAWSAOVERLAPPED \‘¢‘Ì‚Ì **InternalHigh**
-ƒƒ“ƒo‚É“]‘—ƒoƒCƒg”‚ğİ’è‚·‚éB‚»‚ÌŒãA**Internal** ƒƒ“ƒo‚ğA“Áê’l WSS_OPERATION_IN_PROGRESS
-ˆÈŠO‚Ì OS
-ˆË‘¶‚Ì’l‚Éİ’è‚·‚éBˆ—‚ª”ñ“¯Šú“I‚És‚í‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßA**WPUCompleteOverlappedRequest**
-‚Ì–ß‚èŒãA‚±‚ê‚ç‚Ì’l‚ªŒ»‚ê‚é‚Ü‚Å‚ÉáŠ±‚Ì’x‰„‚ª‚ ‚é‚±‚Æ‚ª‚ ‚éB‚½‚¾‚µA**InternalHigh** ‚Ì’l (ƒoƒCƒg”) ‚Í
+‚Å¶¬‚³‚ê‚½ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä‚Ì‚İƒTƒ|[ƒg‚³‚êAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª’¼Ú¶¬‚µ‚½ƒ\ƒPƒbƒg‚É‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢BƒNƒ‰ƒCƒAƒ“ƒg‚ª’Ê’m•û–@‚Æ‚µ‚Äƒ†[ƒU[ƒ‚[ƒh
+APC ‚ğ‘I‚ñ‚¾ê‡AƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í WPUQueueApc ‚Ü‚½‚Í‘¼‚Ì“KØ‚È OS
+ŠÖ”‚ğg‚Á‚ÄŠ®—¹’Ê’m‚ğs‚¤‚×‚«‚Å‚ ‚éBƒ†[ƒU[ƒ‚[ƒh APC ‚ªƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢ê‡AIFS
+‹@”\‚ğ’¼ÚÀ‘•‚µ‚Ä‚¢‚È‚¢ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ªŠ®—¹ƒ|[ƒg‚ğƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚Ä‚¢‚é‚©‚ğ’m‚é‚±‚Æ‚ª‚Å‚«‚È‚¢B‚µ‚½‚ª‚Á‚ÄAŠ®—¹’Ê’m•û–@‚ªŠ®—¹ƒ|[ƒg‚Ö‚ÌƒXƒe[ƒ^ƒXƒŒƒR[ƒhƒLƒ…[ƒCƒ“ƒO‚Å‚ ‚é‚×‚«‚©AWSAOVERLAPPED
+\‘¢‘Ì“à‚ÌƒCƒxƒ“ƒg‚ÌƒVƒOƒiƒŠƒ“ƒO‚Å‚ ‚é‚×‚«‚©‚ğ”»’f‚Å‚«‚È‚¢BWindows Socket 2
+ƒA[ƒLƒeƒNƒ`ƒƒ‚ÍAWPUCreateSocketHandle
+‚Å¶¬‚³‚ê‚½ƒ\ƒPƒbƒg‚ÆŠ®—¹ƒ|[ƒg‚Æ‚ÌŠÖ˜A•t‚¯‚ğ’ÇÕ‚µ‚Ä‚¨‚èAŠ®—¹ƒ|[ƒg•û®‚©ƒCƒxƒ“ƒg•û®‚©‚ğ³‚µ‚­”»’f‚Å‚«‚éB**WPUCompleteOverlappedRequest**
+‚ÍŠ®—¹’Ê’m‚ğƒLƒ…[ƒCƒ“ƒO‚·‚éÛAWSAOVERLAPPED \‘¢‘Ì‚Ì **InternalHigh**
+ƒƒ“ƒo‚É“]‘—ƒoƒCƒg”‚ğİ’è‚µA‚»‚ÌŒã **Internal** ƒƒ“ƒo‚ğ“Áê’l WSS_OPERATION_IN_PROGRESS ˆÈŠO‚Ì
+OS ˆË‘¶’l‚Éİ’è‚·‚éBˆ—‚Í”ñ“¯Šú‚És‚í‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßA**WPUCompleteOverlappedRequest**
+‚Ì–ß‚è‚©‚çÀÛ‚É‚±‚ê‚ç‚Ì’l‚ªŒ©‚¦‚é‚Ü‚Å‚É‚Í‚í‚¸‚©‚È’x‰„‚ª¶‚¶‚¤‚éB‚½‚¾‚µA**InternalHigh** ’l (ƒoƒCƒg”) ‚Í
 **Internal**
-‚ªƒZƒbƒg‚³‚ê‚é“_‚Ü‚Å‚ÉƒZƒbƒg‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éB**WPUCompleteOverlappedRequest**
-‚ÍAƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ªŠ®—¹ƒ|[ƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÉŠÖ‚í‚ç‚¸A‘Oq‚Ì‚Æ‚¨‚è (ƒNƒ‰ƒCƒAƒ“ƒg‚ª—v‹‚µ‚½Š®—¹’Ê’m‚ğÀs)
+‚ªİ’è‚³‚ê‚é“_‚Ü‚Å‚É•K‚¸İ’è‚³‚ê‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éB**WPUCompleteOverlappedRequest**
+‚ÍAƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ªŠ®—¹ƒ|[ƒg‚ÆŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÉŠÖ‚í‚ç‚¸A‹LÚ‚Ì’Ê‚è (ƒNƒ‰ƒCƒAƒ“ƒg‚ª—v‹‚µ‚½Š®—¹’Ê’m‚ğs‚¤)
 “®ì‚·‚éB**WSPGetOverlappedResult ‚Æ‚Ì‘ŠŒİì—p**
-**WPUCompleteOverlappedRequest** ‚Ì“®ì‚ÍAWSPGetOverlappedResult
-‚ğƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª‚Ç‚Ì‚æ‚¤‚ÉÀ‘•‚·‚é‚©‚É§–ñ‚ğ‰Û‚·BWSAOVERLAPPED \‘¢‘Ì‚Ì‚¤‚¿ **Offset** ‚¨‚æ‚Ñ
-**OffsetHigh** ƒƒ“ƒo‚Ì‚İ‚ªƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª”r‘¼“I‚É§Œä‚Å‚«‚é‚ªA3 ‚Â‚Ì’l (ƒoƒCƒg”Aƒtƒ‰ƒOAƒGƒ‰[) ‚ğ
-**WSPGetOverlappedResult**
-‚Å\‘¢‘Ì‚©‚çæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚½‚ß‚Å‚ ‚éBƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í‚»‚Ì•û–@‚ğ‘I‘ğ‚Å‚«‚é‚ªA**WPUCompleteOverlappedRequest**
-‚Ì“®ì‚Æ³‚µ‚­˜AŒg‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B“TŒ^“I‚ÈÀ‘•‚ÍŸ‚Ì‚Æ‚¨‚è‚Å‚ ‚é:
-- ƒI[ƒo[ƒ‰ƒbƒvˆ—ŠJnAƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í **Internal** ‚ğ WSS_OPERATION_IN_PROGRESS
-‚Éİ’è‚·‚éB - I/O ‘€ì‚ªŠ®—¹‚µ‚½‚Æ‚«AƒvƒƒoƒCƒ_‚Í **OffsetHigh** ‚ğ‘€ì‚©‚ç¶‚¶‚½ Windows Socket
-2 ƒGƒ‰[ƒR[ƒh‚ÉA**Offset** ‚ğ I/O ‘€ì‚ÌŒ‹‰Ê‚Ìƒtƒ‰ƒO‚Éİ’è‚µA“]‘—ƒoƒCƒg”‚ğƒpƒ‰ƒ[ƒ^‚Ì 1 ‚Â‚Æ‚µ‚Ä
+**WPUCompleteOverlappedRequest** ‚Ì“®ì‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚É‚æ‚é
+WSPGetOverlappedResult ‚ÌÀ‘••û–@‚É‚¢‚­‚Â‚©‚Ì§–ñ‚ğ—^‚¦‚éB‚±‚ê‚ÍAWSAOVERLAPPED
+\‘¢‘Ì‚Ì‚¤‚¿ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª”r‘¼“I‚É§Œä‚Å‚«‚é‚Ì‚Í **Offset** ‚Æ **OffsetHigh** ‚Ì 2
+ƒƒ“ƒo‚Ì‚İ‚Å‚ ‚é‚Ì‚É‘Î‚µA**WSPGetOverlappedResult** ‚ÍƒoƒCƒg”Aƒtƒ‰ƒOAƒGƒ‰[‚Ì 3
+‚Â‚Ì’l‚ğ\‘¢‘Ì‚©‚çæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚½‚ß‚Å‚ ‚éBƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍA**WPUCompleteOverlappedRequest**
+‚Ì“®ì‚Æ³‚µ‚­˜AŒg‚·‚éŒÀ‚èA‚±‚Ì—vŒ‚ğ”CˆÓ‚Ì•û–@‚Å–‚½‚¹‚éB‚½‚¾‚µA“TŒ^“I‚ÈÀ‘•‚ÍŸ‚Ì’Ê‚è‚Å‚ ‚éB
+- ƒI[ƒo[ƒ‰ƒbƒvˆ—‚ÌŠJnAƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í **Internal** ‚ğ WSS_OPERATION_IN_PROGRESS
+‚Éİ’è‚·‚éB- I/O ‘€ì‚ªŠ®—¹‚µ‚½‚çAƒvƒƒoƒCƒ_‚Í **OffsetHigh** ‚É Windows Socket 2
+ƒGƒ‰[ƒR[ƒh‚ğA**Offset** ‚É I/O ‘€ì‚Å“¾‚ç‚ê‚½ƒtƒ‰ƒO‚ğİ’è‚µA“]‘—ƒoƒCƒg”‚ğƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä
 **WPUCompleteOverlappedRequest**
 ‚ğŒÄ‚Ño‚·B**WPUCompleteOverlappedRequest** ‚ÍÅI“I‚É **InternalHigh**
-‚ğ“]‘—ƒoƒCƒg”‚Éİ’è‚µA**Internal** ‚ğ WSS_OPERATION_IN_PROGRESS ˆÈŠO‚Ì’l‚Éİ’è‚·‚éB -
-WSPGetOverlappedResult ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í **Internal**
-‚ğŠm”F‚·‚éBWSS_OPERATION_IN_PROGRESS ‚Å‚ ‚ê‚ÎA**WSPGetOverlappedResult** ‚Ì
+‚É“]‘—ƒoƒCƒg”‚ğİ’è‚µA‚»‚ÌŒã **Internal** ‚ğ WSS_OPERATION_IN_PROGRESS ˆÈŠO‚Ì’l‚Éİ’è‚·‚éB-
+WSPGetOverlappedResult ‚ªŒÄ‚Ño‚³‚ê‚½‚çAƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í **Internal** ‚ğŠm”F‚·‚éB‚»‚ê‚ª
+WSS_OPERATION_IN_PROGRESS ‚È‚ç‚ÎAƒvƒƒoƒCƒ_‚Í **WSPGetOverlappedResult** ‚Ì
 FWAIT ƒtƒ‰ƒO‚Ìİ’è‚É‰‚¶‚Ä **hEvent**
-ƒƒ“ƒo‚ÌƒCƒxƒ“ƒgƒnƒ“ƒhƒ‹‚Å‘Ò‹@‚·‚é‚©ƒGƒ‰[‚ğ•Ô‚·Bis’†‚Å‚È‚¢ê‡A‚Ü‚½‚Í‘Ò‹@Š®—¹ŒãAƒvƒƒoƒCƒ_‚Í
+ƒƒ“ƒo‚ÌƒCƒxƒ“ƒgƒnƒ“ƒhƒ‹‚Å‘Ò‹@‚·‚é‚©AƒGƒ‰[‚ğ•Ô‚·Bis’†‚Å‚È‚¢ê‡A‚Ü‚½‚Í‘Ò‹@Š®—¹Œã‚É‚ÍAƒvƒƒoƒCƒ_‚Í
 **InternalHigh**A**OffsetHigh**A**Offset**
-‚Ì’l‚ğ‚»‚ê‚¼‚ê“]‘—ƒoƒCƒg”A‘€ìŒ‹‰Ê‚ÌƒGƒ‰[ƒR[ƒhAƒtƒ‰ƒO‚Æ‚µ‚Ä•Ô‚·B
+‚Ì’l‚ğ‚»‚ê‚¼‚ê“]‘—”A‘€ìŒ‹‰ÊƒGƒ‰[ƒR[ƒhAƒtƒ‰ƒO‚Æ‚µ‚Ä•Ô‚·B
 
 
 %index
 WSAAccept
-WSAAccept ŠÖ”‚ÍAğŒŠÖ”‚Ì–ß‚è’l‚ÉŠî‚Ã‚¢‚ÄğŒ•t‚«‚ÅÚ‘±‚ğó‚¯“ü‚êAQoS ƒtƒ[d—l‚ğ’ñ‹Ÿ‚µAÚ‘±ƒf[ƒ^‚Ì“]‘—‚ğ‰Â”\‚É‚·‚éB
+WSAAccept ŠÖ”‚ÍAğŒŠÖ”‚Ì–ß‚è’l‚ÉŠî‚Ã‚¢‚ÄÚ‘±‚ğğŒ•t‚«‚Åó—‚µAQoS ƒtƒ[d—l‚ğw’è‚µAÚ‘±ƒf[ƒ^‚Ìó‚¯“n‚µ‚ğ‰Â”\‚É‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, addr, addrlen, lpfnCondition, dwCallbackData
-s : [int] listen ŠÖ”ŒÄ‚Ño‚µŒãAÚ‘±‚ğ‘Ò‚¿ó‚¯‚Ä‚¢‚éƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
-addr : [var] ’ÊM‘w‚ª”F¯‚µ‚Ä‚¢‚éÚ‘±‘Šè‚ÌƒAƒhƒŒƒX‚ğó‚¯æ‚é sockaddr \‘¢‘Ì‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^Baddr ƒpƒ‰ƒ[ƒ^‚Ì³Šm‚ÈŒ`®‚ÍAƒ\ƒPƒbƒgì¬‚ÉŠm—§‚³‚ê‚½ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚É‚æ‚Á‚ÄŒˆ’è‚³‚ê‚éB
-addrlen : [var] addr ƒpƒ‰ƒ[ƒ^‚ªw‚· sockaddr \‘¢‘Ì‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğŠÜ‚Ş®”‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B
-lpfnCondition : [int] ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éŒÄ‚Ño‚µŒ³î•ñ‚ÉŠî‚Ã‚¢‚Äó‚¯“ü‚ê/‹‘”Û”»’f‚ğs‚¢A‚³‚ç‚É‚±‚ÌŠÖ”‚Ì result ƒpƒ‰ƒ[ƒ^ g ‚É“KØ‚È’l‚ğ‘ã“ü‚·‚é‚±‚Æ‚Åƒ\ƒPƒbƒgƒOƒ‹[ƒv‚ğì¬‚Ü‚½‚ÍQ‰Á‚·‚éƒIƒvƒVƒ‡ƒ“‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“w’èğŒŠÖ”‚ÌƒAƒhƒŒƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AğŒŠÖ”‚ÍŒÄ‚Ño‚³‚ê‚È‚¢B
-dwCallbackData : [int] ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^BƒAƒvƒŠƒP[ƒVƒ‡ƒ“w’è‚ÌğŒŠÖ”‚ÉA‚»‚Ì dwCallbackData ƒpƒ‰ƒ[ƒ^’l‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í lpfnCondition ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡‚Ì‚İ—LŒø‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í Windows ƒ\ƒPƒbƒg‚É‚æ‚Á‚Ä‚Í‰ğß‚³‚ê‚È‚¢B
+s : [int] listen ŠÖ”‚ÌŒÄ‚Ño‚µŒã‚ÉÚ‘±‚ğ‘Ò‚¿ó‚¯‚Ä‚¢‚éƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
+addr : [var] ’ÊM‘w‚©‚çŒ©‚½Ú‘±Œ³ƒGƒ“ƒeƒBƒeƒB‚ÌƒAƒhƒŒƒX‚ğó‚¯æ‚é sockaddr \‘¢‘Ì‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^Baddr ƒpƒ‰ƒ[ƒ^‚Ì³Šm‚ÈŒ`®‚ÍAƒ\ƒPƒbƒg¶¬‚ÉŠm—§‚³‚ê‚½ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
+addrlen : [var] addr ƒpƒ‰ƒ[ƒ^‚ªw‚· sockaddr \‘¢‘Ì‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğŠi”[‚·‚é®”‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B
+lpfnCondition : [int] ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚½ŒÄ‚Ño‚µŒ³î•ñ‚ÉŠî‚Ã‚¢‚Äó—E‹‘”Û‚ğ”»’è‚µA•K—v‚É‰‚¶‚Ä‚±‚ÌŠÖ”‚ÌŒ‹‰Êƒpƒ‰ƒ[ƒ^ g ‚É“KØ‚È’l‚ğİ’è‚·‚é‚±‚Æ‚Åƒ\ƒPƒbƒgƒOƒ‹[ƒv‚ğ¶¬‚Ü‚½‚ÍQ‰Á‚·‚é‚©‚ğ”»’è‚·‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªw’è‚·‚éƒIƒvƒVƒ‡ƒ“‚ÌğŒŠÖ”‚ÌƒAƒhƒŒƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AğŒŠÖ”‚ÍŒÄ‚Ño‚³‚ê‚È‚¢B
+dwCallbackData : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªw’è‚µ‚½ğŒŠÖ”‚ÉA‚»‚Ì dwCallbackData ƒpƒ‰ƒ[ƒ^‚Ì’l‚Æ‚µ‚Ä“n‚µ–ß‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNƒf[ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í lpfnCondition ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡‚Ì‚İ—LŒø‚Å‚ ‚éBWindows Sockets ‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ‰ğß‚µ‚È‚¢B
 %inst
-WSAAccept ŠÖ”‚ÍAğŒŠÖ”‚Ì–ß‚è’l‚ÉŠî‚Ã‚¢‚ÄğŒ•t‚«‚ÅÚ‘±‚ğó‚¯“ü‚êAQoS ƒtƒ[d—l‚ğ’ñ‹Ÿ‚µAÚ‘±ƒf[ƒ^‚Ì“]‘—‚ğ‰Â”\‚É‚·‚éB
+WSAAccept ŠÖ”‚ÍAğŒŠÖ”‚Ì–ß‚è’l‚ÉŠî‚Ã‚¢‚ÄÚ‘±‚ğğŒ•t‚«‚Åó—‚µAQoS
+ƒtƒ[d—l‚ğw’è‚µAÚ‘±ƒf[ƒ^‚Ìó‚¯“n‚µ‚ğ‰Â”\‚É‚·‚éB
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSAAccept ‚Íó‚¯“ü‚ê‚½ƒ\ƒPƒbƒg‚Ì‹Lqq‚Æ‚È‚é SOCKET Œ^‚Ì’l‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
-INVALID_SOCKET ‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBaddrlen
-‚ªQÆ‚·‚é®”‚ÍAÅ‰‚Í addr ‚ªw‚·—Ìˆæ‚Ì‘å‚«‚³‚ğŠÜ‚ñ‚Å‚¨‚èA–ß‚è‚É‚ÍÀÛ‚É•Ô‚³‚ê‚½ƒAƒhƒŒƒX‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğŠÜ‚ŞB
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSAAccept ‚Íó—‚µ‚½ƒ\ƒPƒbƒg‚ÌƒfƒBƒXƒNƒŠƒvƒ^‚Æ‚µ‚Ä SOCKET Œ^‚Ì’l‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í
+INVALID_SOCKET ‚ª•Ô‚³‚êAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBaddrlen
+‚ªQÆ‚·‚é®”‚É‚ÍA‰Šú’l‚Æ‚µ‚Ä addr ‚ªw‚·—Ìˆæ‚Ì‘å‚«‚³‚ªŠi”[‚³‚ê‚Ä‚¢‚éB–ß‚è‚É‚ÍA•Ô‚³‚ê‚½ƒAƒhƒŒƒX‚ÌÀÛ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ)
+‚ªŠi”[‚³‚ê‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAAccept ŠÖ”‚ÍAƒ\ƒPƒbƒg s ‚Ì•Û—¯Ú‘±ƒLƒ…[‚©‚çÅ‰‚ÌÚ‘±‚ğæ‚èo‚µAğŒŠÖ”‚ªw’è‚³‚ê‚Ä‚¢‚ê‚Î (‚Â‚Ü‚è NULL
-‚Å‚È‚¯‚ê‚Î) ‚»‚ê‚É‘Î‚µ‚Äƒ`ƒFƒbƒN‚ğs‚¤BğŒŠÖ”‚ª CF_ACCEPT ‚ğ•Ô‚·‚ÆAWSAAccept
-‚ÍV‚µ‚¢ƒ\ƒPƒbƒg‚ğì¬‚·‚éBV‚µ‚­ì¬‚³‚ê‚½ƒ\ƒPƒbƒg‚ÍAWSAAsyncSelect ‚â WSAEventSelect
-‚Å“o˜^‚³‚ê‚½”ñ“¯ŠúƒCƒxƒ“ƒg‚ğŠÜ‚ßAƒ\ƒPƒbƒg s ‚Æ“¯‚¶ƒvƒƒpƒeƒB‚ğ‚ÂBğŒŠÖ”‚ª CF_REJECT ‚ğ•Ô‚·‚ÆAWSAAccept
-‚ÍÚ‘±—v‹‚ğ‹‘”Û‚·‚éBğŒŠÖ”‚Í‚±‚ÌŠÖ”‚Æ“¯‚¶ƒXƒŒƒbƒh‚ÅÀs‚³‚ê‚é‚½‚ßA‚Å‚«‚é‚¾‚¯‘‚­–ß‚é‚×‚«‚Å‚ ‚éB”»’f‚ğ’¼‚¿‚És‚¦‚È‚¢ê‡AğŒŠÖ”‚Í
+WSAAccept ŠÖ”‚ÍAƒ\ƒPƒbƒg s ‚Ì•Û—¯’†Ú‘±ƒLƒ…[‚Ìæ“ª‚©‚çÅ‰‚ÌÚ‘±‚ğæ‚èo‚µAğŒŠÖ”‚ªw’è‚³‚ê‚Ä‚¢‚é (NULL ‚Å‚È‚¢)
+ê‡‚Í‚»‚ê‚ÉÆ‚ç‚µ‚ÄŠm”F‚·‚éBğŒŠÖ”‚ª CF_ACCEPT ‚ğ•Ô‚µ‚½ê‡AWSAAccept
+‚ÍV‚µ‚¢ƒ\ƒPƒbƒg‚ğ¶¬‚·‚éBV‚½‚É¶¬‚³‚ê‚½ƒ\ƒPƒbƒg‚ÍAWSAAsyncSelect ‚â WSAEventSelect
+‚Å“o˜^‚³‚ê‚½”ñ“¯ŠúƒCƒxƒ“ƒg‚ğŠÜ‚ßAŒ³‚Ìƒ\ƒPƒbƒg s ‚Æ“¯‚¶ƒvƒƒpƒeƒB‚ğ‚ÂBğŒŠÖ”‚ª CF_REJECT
+‚ğ•Ô‚µ‚½ê‡AWSAAccept
+‚ÍÚ‘±—v‹‚ğ‹‘”Û‚·‚éBğŒŠÖ”‚Í–{ŠÖ”‚Æ“¯‚¶ƒXƒŒƒbƒh“à‚ÅÀs‚³‚ê‚é‚½‚ßA‚Å‚«‚é‚¾‚¯‘¬‚â‚©‚É–ß‚é‚×‚«‚Å‚ ‚éB”»’è‚ğ‘¦À‚És‚¦‚È‚¢ê‡AğŒŠÖ”‚Í
 CF_DEFER
-‚ğ•Ô‚µ‚Ä”»’f‚ªs‚í‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚ğ¦‚·•K—v‚ª‚ ‚èAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍÚ‘±—v‹‚É‘Î‚µ‚Ä‰½‚à‚·‚×‚«‚Å‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÚ‘±—v‹‚É‘Î‚µ‚Ä“®ì‰Â”\‚É‚È‚Á‚½‚çAÄ“x
-WSAAccept ‚ğŒÄ‚Ño‚µAğŒŠÖ”‚Ì–ß‚è’l‚Æ‚µ‚Ä CF_ACCEPT ‚© CF_REJECT ‚ğ•Ô‚·BŠù’èƒ‚[ƒh (ƒuƒƒbƒLƒ“ƒO)
-‚Ìƒ\ƒPƒbƒg‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª WSAAccept
-‚ğŒÄ‚Ño‚µ‚½‚Æ‚«ƒLƒ…[‚É•Û—¯Ú‘±‚ª‚È‚¢ê‡AÚ‘±‚ªŒ»‚ê‚é‚Ü‚ÅƒuƒƒbƒN‚·‚éBƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Ìƒ\ƒPƒbƒg‚ÍAWSAAccept
-‚ğŒÄ‚Ño‚µ‚Ä‚àƒLƒ…[‚É•Û—¯Ú‘±‚ª‚È‚¢ê‡AWSAEWOULDBLOCK ƒGƒ‰[‚Å¸”s‚·‚éBWSAAccept
-‚ª¬Œ÷‚µ‚ÄV‚µ‚¢ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ğ•Ô‚µ‚½ŒãA‚»‚Ìó‚¯“ü‚ê‚½ƒ\ƒPƒbƒg‚Í‚»‚êˆÈãÚ‘±‚ğó‚¯“ü‚ê‚é‚½‚ß‚É‚Íg—p‚Å‚«‚È‚¢BŒ³‚Ìƒ\ƒPƒbƒg‚ÍŠJ‚¢‚½‚Ü‚Üc‚èAV‚µ‚¢Ú‘±—v‹‚ğƒŠƒbƒXƒ“‚µ‘±‚¯‚éBaddr
-ƒpƒ‰ƒ[ƒ^‚Í’ÊM‘w‚ª”F¯‚·‚éÚ‘±‘Šè‚ÌƒAƒhƒŒƒX‚Å–„‚ß‚ç‚ê‚éŒ‹‰Êƒpƒ‰ƒ[ƒ^‚Å‚ ‚éBaddr
-ƒpƒ‰ƒ[ƒ^‚Ì³Šm‚ÈŒ`®‚Í’ÊM‚ªs‚í‚ê‚Ä‚¢‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚É‚æ‚Á‚ÄŒˆ’è‚³‚ê‚éBaddrlen ‚Í’l-Œ‹‰Êƒpƒ‰ƒ[ƒ^‚ÅAÅ‰‚É addr
-‚ªw‚·—Ìˆæ‚Ì‘å‚«‚³‚ğŠÜ‚ñ‚Å‚¢‚È‚¯‚ê‚Î‚È‚ç‚¸A–ß‚è‚É‚ÍÀÛ‚É•Ô‚³‚ê‚½ƒAƒhƒŒƒX‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ªŠÜ‚Ü‚ê‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
-SOCK_STREAM ‚Ì‚æ‚¤‚ÈÚ‘±wŒüƒ\ƒPƒbƒgƒ^ƒCƒv‚Åg—p‚·‚éBaddr ‚â addrlen ‚ª NULL
-‚Ìê‡Aó‚¯“ü‚ê‚½ƒ\ƒPƒbƒg‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ÉŠÖ‚·‚éî•ñ‚Í•Ô‚³‚ê‚È‚¢B‚»‚êˆÈŠO‚Ìê‡‚ÍAÚ‘±‚ª³í‚Éó‚¯“ü‚ê‚ç‚ê‚ê‚Î‚±‚ê‚ç 2
-‚Â‚Ìƒpƒ‰ƒ[ƒ^‚ª–„‚ß‚ç‚ê‚éBğŒŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É LPCONDITIONPROC
-‚Æ‚µ‚ÄˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚éB
+‚ğ•Ô‚µ‚Ä”»’è‚ª–¢Œˆ‚Å‚ ‚èAƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í‚±‚ÌÚ‘±—v‹‚É‘Î‚µ‚Ä‰½‚à‚µ‚È‚¢‚±‚Æ‚ğ¦‚·‚×‚«‚Å‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÚ‘±—v‹‚Ö‚Ì‘Î‰€”õ‚ª®‚Á‚½‚çAÄ“x
+WSAAccept ‚ğŒÄ‚Ño‚µAğŒŠÖ”‚Ì–ß‚è’l‚Æ‚µ‚Ä CF_ACCEPT ‚© CF_REJECT ‚Ì‚Ç‚¿‚ç‚©‚ğ•Ô‚¹‚Î‚æ‚¢BŠù’èƒ‚[ƒh
+(ƒuƒƒbƒLƒ“ƒO) ‚Ìƒ\ƒPƒbƒg‚Å‚ÍAƒLƒ…[‚É•Û—¯Ú‘±‚ª‚È‚¢ó‘Ô‚Å WSAAccept
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAÚ‘±‚ª“’…‚·‚é‚Ü‚ÅƒuƒƒbƒN‚·‚éBƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Ìƒ\ƒPƒbƒg‚Å‚ÍAƒLƒ…[‚É•Û—¯Ú‘±‚ª‚È‚¢ó‘Ô‚Å WSAAccept
+‚ğŒÄ‚Ño‚·‚Æ WSAEWOULDBLOCK ƒGƒ‰[‚Å¸”s‚·‚éBWSAAccept
+‚ª¬Œ÷‚µ‚ÄV‚µ‚¢ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ğ•Ô‚µ‚½ŒãAó—‚µ‚½ƒ\ƒPƒbƒg‚ğg‚Á‚Ä‚³‚ç‚ÉÚ‘±‚ğó—‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BŒ³‚Ìƒ\ƒPƒbƒg‚ÍƒI[ƒvƒ“‚Ì‚Ü‚Ü‚ÅV‚µ‚¢Ú‘±—v‹‚ğƒŠƒbƒXƒ“‚µ‘±‚¯‚éBaddr
+ƒpƒ‰ƒ[ƒ^‚ÍŒ‹‰Êƒpƒ‰ƒ[ƒ^‚ÅA’ÊM‘w‚©‚çŒ©‚½Ú‘±Œ³ƒGƒ“ƒeƒBƒeƒB‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éBaddr
+ƒpƒ‰ƒ[ƒ^‚Ì³Šm‚ÈŒ`®‚Í’ÊM‚ªs‚í‚ê‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚É‚æ‚Á‚ÄŒˆ‚Ü‚éBaddrlen ‚Í“üo—Í—¼—p‚Ìƒpƒ‰ƒ[ƒ^‚ÅA‰Šú’l‚Æ‚µ‚Ä addr
+‚ªw‚·—Ìˆæ‚Ì‘å‚«‚³‚ğŠi”[‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éBŠÖ”‚©‚ç–ß‚é‚ÆA•Ô‚³‚ê‚½ƒAƒhƒŒƒX‚ÌÀÛ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+SOCK_STREAM ‚Ì‚æ‚¤‚ÈÚ‘±wŒüƒ\ƒPƒbƒg‚Åg—p‚³‚ê‚éBaddr ‚â addrlen ‚ª NULL
+‚Ìê‡Aó—‚µ‚½ƒ\ƒPƒbƒg‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ÉŠÖ‚·‚éî•ñ‚Í•Ô‚³‚ê‚È‚¢B‚»‚êˆÈŠO‚Ìê‡AÚ‘±‚ª³í‚Éó—‚³‚ê‚ê‚Î—¼ƒpƒ‰ƒ[ƒ^‚Éî•ñ‚ªŠi”[‚³‚ê‚éBğŒŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚ÍAWinsock2.h
+ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å LPCONDITIONPROC ‚Æ‚µ‚ÄŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 iˆÈ‰ºÈ—ªj
 
 
 %index
 WSAAddressToStringW
-sockaddr \‘¢‘Ì‚Ì‚·‚×‚Ä‚Ì—v‘f‚ğA‰Â“Ç‚ÈƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚É•ÏŠ·‚·‚éB(Unicode)
+sockaddr \‘¢‘Ì‚Ì‚·‚×‚Ä‚Ì\¬—v‘f‚ğAƒAƒhƒŒƒX‚ÌlŠÔ‰Â“Ç‚È•¶š—ñ•\Œ»‚É•ÏŠ·‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 lpsaAddress, dwAddressLength, lpProtocolInfo, lpszAddressString, lpdwAddressStringLength
 lpsaAddress : [var] •¶š—ñ‚É•ÏŠ·‚·‚é sockaddr \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-dwAddressLength : [int] lpsaAddress ƒpƒ‰ƒ[ƒ^‚ªw‚· sockaddr \‘¢‘Ì‚ÌƒAƒhƒŒƒX’· (ƒoƒCƒg’PˆÊ)BdwAddressLength ƒpƒ‰ƒ[ƒ^‚Ì‘å‚«‚³‚ÍƒvƒƒgƒRƒ‹‚É‚æ‚Á‚ÄˆÙ‚È‚éB
-lpProtocolInfo : [var] “Á’è‚ÌƒvƒƒoƒCƒ_‚Ì WSAPROTOCOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒÄ‚Ño‚µ‚Í lpsaAddress ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚½ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ğƒTƒ|[ƒg‚·‚éÅ‰‚ÌƒvƒƒgƒRƒ‹‚ÌƒvƒƒoƒCƒ_‚Éƒ‹[ƒeƒBƒ“ƒO‚³‚ê‚éB
-lpszAddressString : [wstr] ‰Â“ÇƒAƒhƒŒƒX•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-lpdwAddressStringLength : [var] “ü—ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í lpszAddressString ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ğw’è‚·‚éB’·‚³‚Í ANSI •¶š—ñ‚Å‚ÍƒoƒCƒg’PˆÊAUnicode •¶š—ñ‚Å‚Í WCHAR ’PˆÊ‚Å•\Œ»‚³‚ê‚éBo—ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í lpszAddressString ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÉÀÛ‚ÉƒRƒs[‚³‚ê‚½ NULL I’[‚ğŠÜ‚Ş•¶š—ñ‚Ì’·‚³‚ğ•Ô‚·Bw’è‚µ‚½ƒoƒbƒtƒ@‚ª\•ª‚È‘å‚«‚³‚Å‚È‚¢ê‡AŠÖ”‚Í WSAEFAULT ƒGƒ‰[‚Å¸”s‚µA‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í•K—v‚ÈƒTƒCƒY‚ªİ’è‚³‚ê‚éB
+dwAddressLength : [int] lpsaAddress ƒpƒ‰ƒ[ƒ^‚ªw‚· sockaddr \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚éƒAƒhƒŒƒX‚Ì’·‚³ (ƒoƒCƒg’PˆÊ)BdwAddressLength ƒpƒ‰ƒ[ƒ^‚Ì‘å‚«‚³‚ÍƒvƒƒgƒRƒ‹‚É‚æ‚Á‚ÄˆÙ‚È‚è‚¤‚éB
+lpProtocolInfo : [var] “Á’è‚ÌƒvƒƒoƒCƒ_‚Ì WSAPROTOCOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒÄ‚Ño‚µ‚Í lpsaAddress ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ğƒTƒ|[ƒg‚·‚éÅ‰‚ÌƒvƒƒgƒRƒ‹‚ÌƒvƒƒoƒCƒ_‚Éƒ‹[ƒeƒBƒ“ƒO‚³‚ê‚éB
+lpszAddressString : [wstr] lŠÔ‰Â“Ç‚ÈƒAƒhƒŒƒX•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwAddressStringLength : [var] “ü—ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í lpszAddressString ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ğw’è‚·‚éB’·‚³‚Í ANSI •¶š—ñ‚Å‚ÍƒoƒCƒgAUnicode •¶š—ñ‚Å‚Í WCHAR ‚Å•\‚³‚ê‚éBo—ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í lpszAddressString ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÉÀÛ‚ÉƒRƒs[‚³‚ê‚½•¶š—ñ‚Ì’·‚³ (NULL I’[‚ğŠÜ‚Ş) ‚ğ•Ô‚·Bw’è‚³‚ê‚½ƒoƒbƒtƒ@‚ª\•ª‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í WSAEFAULT ƒGƒ‰[‚Å¸”s‚µA‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í•K—v‚ÈƒTƒCƒY‚ªİ’è‚³‚ê‚éB
 %inst
-sockaddr \‘¢‘Ì‚Ì‚·‚×‚Ä‚Ì—v‘f‚ğA‰Â“Ç‚ÈƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚É•ÏŠ·‚·‚éB(Unicode)
+sockaddr \‘¢‘Ì‚Ì‚·‚×‚Ä‚Ì\¬—v‘f‚ğAƒAƒhƒŒƒX‚ÌlŠÔ‰Â“Ç‚È•¶š—ñ•\Œ»‚É•ÏŠ·‚·‚éB(Unicode)
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSAAddressToString ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR
-‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSAAddressToString ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAAddressToString ŠÖ”‚ÍAƒvƒƒgƒRƒ‹”ñˆË‘¶‚ÈƒAƒhƒŒƒX‚©‚ç•¶š—ñ‚Ö‚Ì•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éBWSAAddressToString
-ŠÖ”‚Í lpsaAddress ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğó‚¯æ‚èAlpszAddressString
-ƒpƒ‰ƒ[ƒ^‚Éƒ\ƒPƒbƒgƒAƒhƒŒƒX‚ğ•\‚· NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·Binet_ntoa ŠÖ”‚Í IPv4
-ƒAƒhƒŒƒX‚Ì‚İ‚ğˆµ‚¤‚ªAWSAAddressToString ŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì Winsock
-ƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚é”CˆÓ‚Ìƒ\ƒPƒbƒgƒAƒhƒŒƒX (IPv6 ƒAƒhƒŒƒX‚ğŠÜ‚Ş) ‚ğˆµ‚¦‚éBlpsaAddress ƒpƒ‰ƒ[ƒ^‚ª IPv4
-ƒ\ƒPƒbƒgƒAƒhƒŒƒX (ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ª AF_INET) ‚ğw‚·ê‡AlpszAddressString
-ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚Í "192.168.16.0"
-‚Ì‚æ‚¤‚Èƒhƒbƒg‹æØ‚è10i•\‹L‚Å‚ ‚éBlpsaAddress ƒpƒ‰ƒ[ƒ^‚ª IPv6 ƒ\ƒPƒbƒgƒAƒhƒŒƒX (ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ª
-AF_INET6) ‚ğw‚·ê‡AlpszAddressString
-ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚ÍƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Å‚ ‚éBŠî–{“I‚È•¶š—ñ•\Œ»‚ÍƒRƒƒ“‹æØ‚è‚Ì 8 ŒÂ‚Ì 16
-i”‚Å\¬‚³‚ê‚éB˜A‘±‚·‚éƒ[ƒ‚Ì•À‚Ñ‚Í“ñdƒRƒƒ“‚Å’u‚«Š·‚¦‚ç‚ê‚éBIPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»’†‚É“ñdƒRƒƒ“‚ğŠÜ‚ß‚ç‚ê‚é‚Ì‚Í 1
-‚©Š‚Ì‚İ‚Å‚ ‚éBlpszAddressString
+ŠÖ”‚ÍAlpsaAddress ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒ\ƒPƒbƒgƒAƒhƒŒƒX\‘¢‘Ì‚ğæ‚èAƒ\ƒPƒbƒgƒAƒhƒŒƒX‚ğ•\‚· NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ
+lpszAddressString ƒpƒ‰ƒ[ƒ^‚É•Ô‚·Binet_ntoa ŠÖ”‚ª IPv4
+ƒAƒhƒŒƒX‚Ì‚İ‚ğˆµ‚¤‚Ì‚É‘Î‚µAWSAAddressToString ŠÖ”‚ÍAIPv6 ƒAƒhƒŒƒX‚ğŠÜ‚ßAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì
+Winsock ƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚é”CˆÓ‚Ìƒ\ƒPƒbƒgƒAƒhƒŒƒX‚ğˆµ‚¦‚éBlpsaAddress ƒpƒ‰ƒ[ƒ^‚ª IPv4 ƒ\ƒPƒbƒgƒAƒhƒŒƒX
+(ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ª AF_INET) ‚ğw‚µ‚Ä‚¢‚éê‡AlpszAddressString
+ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚ÍA"192.168.16.0"
+‚Ì‚æ‚¤‚Èƒhƒbƒg‹æØ‚è\i•\‹L‚Å‚ ‚éBlpsaAddress ƒpƒ‰ƒ[ƒ^‚ª IPv6 ƒ\ƒPƒbƒgƒAƒhƒŒƒX (ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ª
+AF_INET6) ‚ğw‚µ‚Ä‚¢‚éê‡AlpszAddressString
+ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éƒAƒhƒŒƒX•¶š—ñ‚ÍƒCƒ“ƒ^[ƒlƒbƒg•W€Œ`®‚Å‚ ‚éBŠî–{“I‚È•¶š—ñ•\Œ»‚ÍAƒRƒƒ“‚Å‹æØ‚ç‚ê‚½ 8 ŒÂ‚Ì 16
+i”‚©‚ç¬‚éB˜A‘±‚·‚éƒ[ƒ‚Ì—ñ‚Íƒ_ƒuƒ‹ƒRƒƒ“‚É’u‚«Š·‚¦‚ç‚ê‚éBIPv6 ƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚É‚ÍAƒ_ƒuƒ‹ƒRƒƒ“‚Í 1
+‚Â‚µ‚©Œ»‚ê‚Ä‚Í‚È‚ç‚È‚¢BlpszAddressString
 ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ªƒ\ƒPƒbƒgƒAƒhƒŒƒX‚Ì•¶š—ñ•\Œ»‚ğó‚¯æ‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡AWSAAddressToString ‚Í
-WSAEFAULT ‚ğ•Ô‚·BIPv6 ƒAƒhƒŒƒX‚ÌƒTƒ|[ƒg‚Í Windows XP SP1 ˆÈ~‚Å WSAAddressToString
-ŠÖ”‚É’Ç‰Á‚³‚ê‚½BWSAAddressToString ŠÖ”‚ª IPv6 ƒAƒhƒŒƒX‚ğƒTƒ|[ƒg‚·‚é‚É‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É IPv6
+WSAEFAULT ‚ğ•Ô‚·BWSAAddressToString ŠÖ”‚É‚æ‚é IPv6 ƒAƒhƒŒƒXƒTƒ|[ƒg‚Í Windows XP SP1
+ˆÈ~‚Å’Ç‰Á‚³‚ê‚½BWSAAddressToString ŠÖ”‚ª IPv6 ƒAƒhƒŒƒX‚ğƒTƒ|[ƒg‚·‚é‚É‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É IPv6
 ‚àƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBWindows Phone 8: WSAAddressToStringW ŠÖ”‚Í Windows
 Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows
-Server 2012 R2: WSAAddressToStringW ŠÖ”‚Í Windows 8.1AWindows Server
+Server 2012 R2: WSAAddressToStringW ŠÖ”‚ÍAWindows 8.1AWindows Server
 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
-> [!NOTE] > winsock2.h ƒwƒbƒ_‚Í WSAAddressToString
-‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ”Å‚Ü‚½‚Í Unicode
-”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Ìg—p‚ğƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ğµ‚­‚¨‚»‚ê‚ª‚ ‚éBÚ×‚Í
+> [!NOTE] > winsock2.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä WSAAddressToString
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
 [Conventions for Function
 Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 ‚ğQÆB
@@ -708,47 +706,49 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 
 %index
 WSAAdvertiseProvider
-“Á’è‚Ì–¼‘O‹óŠÔƒo[ƒWƒ‡ƒ“ 2 ƒvƒƒoƒCƒ_‚ğA‘ÎÛ‚Ì‚·‚×‚Ä‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Ä—˜—p‰Â”\‚É‚·‚éB
+“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒX ƒo[ƒWƒ‡ƒ“ 2 ƒvƒƒoƒCƒ_‚ğ‚·‚×‚Ä‚Ì‘ÎÛƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äg—p‰Â”\‚É‚·‚éB
 %group
 Win32 ws2_32
 %prm
 puuidProviderId, pNSPv2Routine
-puuidProviderId : [var] ƒAƒhƒoƒ^ƒCƒY‚·‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÌƒvƒƒoƒCƒ_ ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-pNSPv2Routine : [var] ƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚é–¼‘O‹óŠÔƒT[ƒrƒXƒvƒƒoƒCƒ_ƒo[ƒWƒ‡ƒ“ 2 ‚ÌƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg‚ğŠÜ‚Ş **NSPV2_ROUTINE** \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+puuidProviderId : [var] L‚·‚éƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÌƒvƒƒoƒCƒ_ ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pNSPv2Routine : [var] ƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚éƒl[ƒ€ƒXƒy[ƒXƒT[ƒrƒXƒvƒƒoƒCƒ_ ƒo[ƒWƒ‡ƒ“ 2 ‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg‚ğ‚Â **NSPV2_ROUTINE** \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-“Á’è‚Ì–¼‘O‹óŠÔƒo[ƒWƒ‡ƒ“ 2 ƒvƒƒoƒCƒ_‚ğA‘ÎÛ‚Ì‚·‚×‚Ä‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Ä—˜—p‰Â”\‚É‚·‚éB
+“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒX ƒo[ƒWƒ‡ƒ“ 2 ƒvƒƒoƒCƒ_‚ğ‚·‚×‚Ä‚Ì‘ÎÛƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äg—p‰Â”\‚É‚·‚éB
 
 [–ß‚è’l]
 ƒGƒ‰[‚ª‚È‚¢ê‡AWSAProviderCompleteAsyncCall ‚Íƒ[ƒ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í
-SOCKET_ERROR ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í WSAGetLastError
-‚ğŒÄ‚Ño‚·BˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚ÌŠg’£ƒGƒ‰[’l‚ª•Ô‚³‚ê‚éB
+SOCKET_ERROR ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAWSAGetLastError
+‚ğŒÄ‚Ño‚·B‚±‚ê‚ÍŸ‚ÌŠg’£ƒGƒ‰[’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-**WSAAdvertiseProvider** ŠÖ”‚ÍAWindows Vista ˆÈ~‚Å—˜—p‰Â”\‚È–¼‘O‹óŠÔƒT[ƒrƒXƒvƒƒoƒCƒ_ƒo[ƒWƒ‡ƒ“
-2 (NSPv2) ƒA[ƒLƒeƒNƒ`ƒƒ‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éBWindows Vista ‚¨‚æ‚Ñ Windows Server 2008
-‚Å‚ÍA**WSAAdvertiseProvider** ŠÖ”‚Í NS_EMAIL
-–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É‘Î‚·‚é‘€ì‚É‚Ì‚İg—p‚Å‚«‚éB**WSAAdvertiseProvider** ŠÖ”‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ª”­Œ©‚Å‚«‚é‚æ‚¤‚É
-NSPv2 ƒvƒƒoƒCƒ_‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒAƒhƒoƒ^ƒCƒY‚·‚éBƒAƒhƒoƒ^ƒCƒY‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“Œ^ƒvƒƒoƒCƒ_
+**WSAAdvertiseProvider** ŠÖ”‚ÍAWindows Vista ˆÈ~‚Å—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒT[ƒrƒXƒvƒƒoƒCƒ_
+ƒo[ƒWƒ‡ƒ“ 2 (NSPv2) ƒA[ƒLƒeƒNƒ`ƒƒ‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éBWindows Vista ‚¨‚æ‚Ñ Windows Server
+2008 ‚Å‚ÍA**WSAAdvertiseProvider** ŠÖ”‚Í NS_EMAIL
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‘€ì‚É‚Ì‚İg—p‚Å‚«‚éB**WSAAdvertiseProvider** ŠÖ”‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ªŒŸo‚Å‚«‚é‚æ‚¤‚É
+NSPv2 ƒvƒƒoƒCƒ_‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğL‚·‚éBL‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“í•ÊƒvƒƒoƒCƒ_‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
 (NAPI_PROVIDER_INSTALLATION_BLOB \‘¢‘Ì‚Ì **dwProvideType** ƒƒ“ƒo‚ª
-**ProviderType_Application** ‚Å‚ ‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_)
-‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Å‚ ‚éê‡AƒAƒhƒoƒ^ƒCƒY‚³‚ê‚½ƒvƒƒoƒCƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚ÍA**WSAAdvertiseProvider**
-‚ÌŒÄ‚Ño‚µŒ³‚Æ“¯‚¶ƒ†[ƒU[A“¯‚¶ƒZƒbƒVƒ‡ƒ“‚ÅÀs‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒZƒX‚©‚ç‰Â‹‚Æ‚È‚éBˆê”Ê‚É NSPv2
-ƒvƒƒoƒCƒ_‚ÍŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚Í•Ê‚ÌƒvƒƒZƒX‚ÅÀ‘•‚³‚ê‚éBNSPv2
-ƒvƒƒoƒCƒ_‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ÌŠˆ“®‚É‚æ‚Á‚ÄƒAƒNƒeƒBƒu‰»‚³‚ê‚é‚í‚¯‚Å‚Í‚È‚¢BŠeƒvƒƒoƒCƒ_ƒzƒXƒeƒBƒ“ƒOƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA**WSAAdvertiseProvider**
-‚¨‚æ‚Ñ WSAUnadvertiseProvider ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅA“Á’è‚ÌƒvƒƒoƒCƒ_‚ğ—˜—p‰Â”\‚É‚·‚é /
-—˜—p•s‰Â‚É‚·‚éƒ^ƒCƒ~ƒ“ƒO‚ğŒˆ’è‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ÌŠˆ“®‚ÍƒvƒƒoƒCƒ_‚ª—˜—p‰Â”\ (–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ªƒAƒhƒoƒ^ƒCƒYÏ‚İ)
-‚Å‚ ‚é‚Æ‚«‚ÉƒvƒƒoƒCƒ_‚Ö‚ÌÚG‚ğ‚İ‚é‚¾‚¯‚Å‚ ‚éB**WSAAdvertiseProvider** ŠÖ”‚ÍA‘ÎÛ‚Ì‚·‚×‚Ä‚ÌƒNƒ‰ƒCƒAƒ“ƒg
-(Œ»İ‚ÍƒzƒXƒeƒBƒ“ƒOƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ“¯‚¶‘Šiî•ñA“¯‚¶ƒ†[ƒU[ƒZƒbƒVƒ‡ƒ“‚ÅÀs‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“)
-‚É‘Î‚µ‚Ä“Á’è‚ÌƒvƒƒoƒCƒ_‚ğ—˜—p‰Â”\‚É‚µ‚½‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚ê‚éB
-ƒvƒƒZƒX‚Í•¡”‚ÌƒvƒƒoƒCƒ_‚ğ“¯‚ÉÀ‘•‚µƒAƒhƒoƒ^ƒCƒY‚Å‚«‚éBWindows
-ƒ\ƒPƒbƒg‚ÍŒÄ‚Ño‚µ‚ğ³‚µ‚¢ƒvƒƒoƒCƒ_‚ÉƒfƒBƒXƒpƒbƒ`‚µ‚Ä–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğŠÇ—‚·‚éB‚Ü‚½ARPC
-ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÚ×‚ğ‰B•Á‚µAƒvƒƒZƒXŠÔŒÄ‚Ño‚µ‚ğƒvƒƒZƒX“àŒÄ‚Ño‚µ‚É•ÏŠ·‚·‚éB‚»‚Ì‚½‚ßANSPv2 ƒvƒƒoƒCƒ_‚Í NSPv1
-ƒvƒƒoƒCƒ_‚ªg—p‚·‚é NSP_ROUTINE \‘¢‘Ì‚É—Ş—‚µ‚½ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgŠÖ”‚Ìƒe[ƒuƒ‹‚ğÀ‘•‚·‚é‚¾‚¯‚ÅÏ‚ŞBNSPv2 ƒvƒƒoƒCƒ_‚Í
-RPC ŒÅ—L‚Ì—vŒ (ƒf[ƒ^‚Ìƒ}[ƒVƒƒƒŠƒ“ƒO‚âƒVƒŠƒAƒ‰ƒCƒ[[ƒVƒ‡ƒ“‚È‚Ç) ‚ğ‹C‚É‚·‚é•K—v‚Í‚È‚¢B
-**WSAAdvertiseProvider** ‚ÌŒÄ‚Ño‚µŒ³‚ÍAƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚é NSPv2 ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg‚ğ‚Â
-NSPV2_ROUTINE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ pNSPv2Routine ƒpƒ‰ƒ[ƒ^‚É“n‚·B
-WSAUnadvertiseProvider ŠÖ”‚ÍA“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç—˜—p•s‰Â‚É‚·‚éB
+**ProviderType_Application** ‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_)
+‚Å‚ ‚éê‡AL‚³‚ê‚½ƒvƒƒoƒCƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚ÍA**WSAAdvertiseProvider**
+‚ÌŒÄ‚Ño‚µŒ³‚Æ“¯‚¶ƒ†[ƒU[‚©‚Â“¯‚¶ƒZƒbƒVƒ‡ƒ“‚Å“®ì‚·‚é‚·‚×‚Ä‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒZƒX‚©‚ç‰Â‹‚Æ‚È‚éBˆê”Ê‚ÉANSPv2
+ƒvƒƒoƒCƒ_‚ÍŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ˆÈŠO‚ÌƒvƒƒZƒX“à‚ÅÀ‘•‚³‚ê‚éBNSPv2
+ƒvƒƒoƒCƒ_‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚Ì“®ì‚É‚æ‚èƒAƒNƒeƒBƒu‰»‚³‚ê‚È‚¢BŠeƒvƒƒoƒCƒ_ƒzƒXƒeƒBƒ“ƒOƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA**WSAAdvertiseProvider**
+‚Æ WSAUnadvertiseProvider
+ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅA“Á’è‚ÌƒvƒƒoƒCƒ_‚ğg—p‰Â”\‚ ‚é‚¢‚Íg—p•s‰Â‚É‚·‚éƒ^ƒCƒ~ƒ“ƒO‚ğŒˆ’è‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‚Ì“®ì‚ÍAƒvƒƒoƒCƒ_‚ª
+(ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ªL‚³‚ê‚Ä‚¢‚é)
+g—p‰Â”\ó‘Ô‚Ì‚Æ‚«‚ÉƒvƒƒoƒCƒ_‚Ö‚ÌÚ‘±‚ğ‚İ‚é‚¾‚¯‚Å‚ ‚éB**WSAAdvertiseProvider**
+ŠÖ”‚ÍA“Á’è‚ÌƒvƒƒoƒCƒ_‚ğ‚·‚×‚Ä‚Ì‘ÎÛƒNƒ‰ƒCƒAƒ“ƒg
+(Œ»İ‚ÍƒzƒXƒeƒBƒ“ƒOƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ“¯‚¶‘Šiî•ñ‚©‚Â“¯‚¶ƒ†[ƒU[ƒZƒbƒVƒ‡ƒ“‚Å“®ì‚·‚é‚·‚×‚Ä‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“)
+‚É‘Î‚µ‚Äg—p‰Â”\‚É‚µ‚½‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çŒÄ‚Ño‚³‚ê‚éB
+1 ‚Â‚ÌƒvƒƒZƒX‚ª•¡”‚ÌƒvƒƒoƒCƒ_‚ğ“¯‚ÉÀ‘•EL‚Å‚«‚éBWindows Sockets
+‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğŠÇ—‚µAŒÄ‚Ño‚µ‚ğ³‚µ‚¢ƒvƒƒoƒCƒ_‚ÉƒfƒBƒXƒpƒbƒ`‚·‚éB‚Ü‚½ RPC
+ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌÚ×‚ğ‰B•Á‚µAƒvƒƒZƒXŠÔŒÄ‚Ño‚µ‚ğƒvƒƒZƒX“àŒÄ‚Ño‚µ‚É•ÏŠ·‚·‚éB‚µ‚½‚ª‚Á‚Ä NSPv2 ƒvƒƒoƒCƒ_‚ÍANSPv1
+ƒvƒƒoƒCƒ_‚ªg‚¤ NSP_ROUTINE \‘¢‘Ì‚Æ—Ş—‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒgŠÖ”‚Ìƒe[ƒuƒ‹‚ğÀ‘•‚·‚é‚¾‚¯‚Å‚æ‚¢BNSPv2 ƒvƒƒoƒCƒ_‚Í
+RPC ŒÅ—L‚Ì—vŒ (—á: ƒf[ƒ^‚Ìƒ}[ƒVƒƒƒŠƒ“ƒO‚ÆƒVƒŠƒAƒ‰ƒCƒ[[ƒVƒ‡ƒ“) ‚ğ‹C‚É‚·‚é•K—v‚ª‚È‚¢B
+**WSAAdvertiseProvider** ŒÄ‚Ño‚µŒ³‚ÍAƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚é NSPv2 ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg‚ğ‚Â
+NSPV2_ROUTINE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ pNSPv2Routine ƒpƒ‰ƒ[ƒ^‚Å“n‚·B
+WSAUnadvertiseProvider ŠÖ”‚ÍA“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğƒNƒ‰ƒCƒAƒ“ƒg‚©‚çg—p•s‰Â‚É‚·‚éB
 
 
 %index
@@ -770,24 +770,24 @@ WSAAsyncGetHostByAddr ƒ}ƒNƒŠÖ” (wsipv6ok.h) ‚ÍAƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒzƒXƒgî•ñ‚ğ
 
 [”õl]
 WSAAsyncGetHostByAddr ŠÖ”‚Í gethostbyaddr
-‚Ì”ñ“¯Šú”Å‚Å‚ ‚éBƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒzƒXƒg–¼‚ÆƒAƒhƒŒƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows
-ƒ\ƒPƒbƒg‚Í‘€ì‚ğŠJn‚µAŒÄ‚Ño‚µŒ³‚É’¼‚¿‚É§Œä‚ğ–ß‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
-(‚à‚µ‚ ‚ê‚Î)
+‚Ì”ñ“¯Šú”Å‚Å‚ ‚éBƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒzƒXƒg–¼‚¨‚æ‚ÑƒAƒhƒŒƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows Sockets
+‚Í‘€ì‚ğŠJn‚µ‚Ä’¼‚¿‚ÉŒÄ‚Ño‚µŒ³‚É–ß‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚Ì‚Ég‚¦‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
+(‚ ‚ê‚Î)
 ‚ªŒÄ‚Ño‚µŒ³‚©‚ç’ñ‹Ÿ‚³‚ê‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB”ñ“¯Šú‘€ì‚ªŠ®—¹‚·‚é‚ÆAhWnd
-ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚Í wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğóM‚·‚éBwParam
-ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠÜ‚Ü‚ê‚éBlParam ‚ÌãˆÊ 16
-ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠÜ‚Ü‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
-‚Å’è‹`‚³‚ê‚Ä‚¢‚é”CˆÓ‚ÌƒGƒ‰[‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚Ìê‡‚Í”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ğ¦‚·B³íŠ®—¹AŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒoƒbƒtƒ@‚É‚Í
-hostent \‘¢‘Ì‚ªŠÜ‚Ü‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ìƒƒ“ƒo‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ hostent
-\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“KØ‚ÉƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡‚ÍAŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
-‚ªw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ª‚·‚×‚Ä‚ÌŒ‹‰Êî•ñ‚ğŠÜ‚Ş‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒg‚É‚Í•K—vî•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ªŠÜ‚Ü‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚ª•s\•ª‚Å‚ ‚é‚Æ”»’f‚µ‚½ê‡A•K—v‚Èî•ñ‚ğ‚·‚×‚Äó‚¯æ‚ê‚é‚¾‚¯‚Ì‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚Ä
-WSAAsyncGetHostByAddr ŠÖ”ŒÄ‚Ño‚µ‚ğÄ”­s‚Å‚«‚é (lParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒgˆÈã)B‚±‚ÌŠÖ”‚Éw’è‚³‚ê‚½ƒoƒbƒtƒ@‚ÍAWindows ƒ\ƒPƒbƒg‚ª hostent
-\‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğˆê‚É\’z‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWSAENOBUFS
-ƒGƒ‰[‚ğ‰ñ”ğ‚·‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
-‚Ìƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚·‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚Í Winsock2.h ‚ÉˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éƒ}ƒNƒ
-WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ‚ğ—p‚¢‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ª wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğó‚¯æ‚éBwParam
+ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éBlParam ‚ÌãˆÊ 16
+ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
+‚Å’è‹`‚³‚ê‚½”CˆÓ‚ÌƒGƒ‰[‚É‚È‚è‚¤‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚È‚ç”ñ“¯Šú‘€ì‚ª³íŠ®—¹‚µ‚½‚±‚Æ‚ğ¦‚·B³íŠ®—¹‚É‚ÍAŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Éw’è‚µ‚½ƒoƒbƒtƒ@‚É
+hostent \‘¢‘Ì‚ªŠi”[‚³‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ìƒƒ“ƒo‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ hostent
+\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“K‹XƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
+‚Éw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ª‚·‚×‚Ä‚ÌŒ‹‰Êî•ñ‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
+ƒrƒbƒg‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠi”[‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚Å‚Í•s\•ª‚Æ”»’f‚µ‚½ê‡A‚·‚×‚Ä‚Ìî•ñ‚ğó‚¯æ‚é‚Ì‚É\•ª‚È
+(‚·‚È‚í‚¿ lParam ‚Ì‰ºˆÊ 16 ƒrƒbƒgˆÈã‚Ì) ƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚Ä WSAAsyncGetHostByAddr
+ŠÖ”‚ğÄ”­s‚Å‚«‚éB‚±‚ÌŠÖ”‚Éw’è‚·‚éƒoƒbƒtƒ@‚ÍAWindows Sockets ‚ª hostent
+\‘¢‘Ì‚ÆA‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğ‚Ü‚Æ‚ß‚Ä\’z‚·‚é‚Ì‚Ég—p‚³‚ê‚éBWSAENOBUFS
+ƒGƒ‰[‚ğ”ğ‚¯‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
+‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚ÍAWinsock2.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚é
+WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ƒ}ƒNƒ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -808,24 +808,23 @@ WSAAsyncGetHostByName ƒ}ƒNƒŠÖ” (wsipv6ok.h) ‚ÍAƒzƒXƒg–¼‚É‘Î‰‚·‚éƒzƒXƒgî•ñ‚ğ
 
 [”õl]
 WSAAsyncGetHostByName ŠÖ”‚Í gethostbyname
-‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAƒzƒXƒg–¼‚É‘Î‰‚·‚éƒzƒXƒg–¼‚ÆƒAƒhƒŒƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows
-ƒ\ƒPƒbƒg‚Í‘€ì‚ğŠJn‚µAŒÄ‚Ño‚µŒ³‚É’¼‚¿‚É§Œä‚ğ–ß‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
-(‚à‚µ‚ ‚ê‚Î)
+‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAƒzƒXƒg–¼‚É‘Î‰‚·‚éƒzƒXƒg–¼‚¨‚æ‚ÑƒAƒhƒŒƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows Sockets
+‚Í‘€ì‚ğŠJn‚µ‚Ä’¼‚¿‚ÉŒÄ‚Ño‚µŒ³‚É–ß‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚Ì‚Ég‚¦‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
+(‚ ‚ê‚Î)
 ‚ªŒÄ‚Ño‚µŒ³‚©‚ç’ñ‹Ÿ‚³‚ê‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB”ñ“¯Šú‘€ì‚ªŠ®—¹‚·‚é‚ÆAhWnd
-ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚Í wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğóM‚·‚éBwParam
-ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠÜ‚Ü‚ê‚éBlParam ‚ÌãˆÊ 16
-ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠÜ‚Ü‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
-‚Å’è‹`‚³‚ê‚Ä‚¢‚é”CˆÓ‚ÌƒGƒ‰[‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚Ìê‡‚Í”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ğ¦‚·B³íŠ®—¹AŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒoƒbƒtƒ@‚É‚Í
-hostent \‘¢‘Ì‚ªŠÜ‚Ü‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ì—v‘f‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ hostent
-\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“KØ‚ÉƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
-‚ªw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ªŒ‹‰Êî•ñ‚ğ‚·‚×‚ÄŠÜ‚Ş‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒg‚É‚Í•K—vî•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠÜ‚Ü‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚ª•s\•ª‚Å‚ ‚é‚Æ”»’f‚µ‚½ê‡AWSAAsyncGetHostByName
-ŠÖ”ŒÄ‚Ño‚µ‚ğ•K—v‚Èî•ñ‚ğ‚·‚×‚Äó‚¯æ‚ê‚é\•ª‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ÅÄ”­s‚Å‚«‚é (lParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒgˆÈã)B‚±‚ÌŠÖ”‚Éw’è‚³‚ê‚½ƒoƒbƒtƒ@‚ÍAWindows ƒ\ƒPƒbƒg‚ª hostent
-\‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğˆê‚É\’z‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWSAENOBUFS
-ƒGƒ‰[‚ğ‰ñ”ğ‚·‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
-‚Ìƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚·‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚Í Winsock2.h ‚ÉˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éƒ}ƒNƒ
-WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ª wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğó‚¯æ‚éBwParam
+ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éBlParam ‚ÌãˆÊ 16
+ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
+‚Å’è‹`‚³‚ê‚½”CˆÓ‚ÌƒGƒ‰[‚É‚È‚è‚¤‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚È‚ç”ñ“¯Šú‘€ì‚ª³íŠ®—¹‚µ‚½‚±‚Æ‚ğ¦‚·B³íŠ®—¹‚É‚ÍAŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Éw’è‚µ‚½ƒoƒbƒtƒ@‚É
+hostent \‘¢‘Ì‚ªŠi”[‚³‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ì—v‘f‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ hostent
+\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“K‹XƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
+‚Éw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ª‚·‚×‚Ä‚ÌŒ‹‰Êî•ñ‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
+ƒrƒbƒg‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠi”[‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚Å‚Í•s\•ª‚Æ”»’f‚µ‚½ê‡A‚·‚×‚Ä‚Ìî•ñ‚ğó‚¯æ‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚Ä
+WSAAsyncGetHostByName ŠÖ”‚ğÄ”­s‚Å‚«‚éB‚±‚ÌŠÖ”‚Éw’è‚·‚éƒoƒbƒtƒ@‚ÍAWindows Sockets ‚ª
+hostent \‘¢‘Ì‚ÆA‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğ‚Ü‚Æ‚ß‚Ä\’z‚·‚é‚Ì‚Ég—p‚³‚ê‚éBWSAENOBUFS
+ƒGƒ‰[‚ğ”ğ‚¯‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
+‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚ÍAWinsock2.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚é
+WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ƒ}ƒNƒ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -836,46 +835,42 @@ WSAAsyncGetProtoByName ŠÖ” (winsock.h) ‚ÍAƒvƒƒgƒRƒ‹–¼‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹î•ñ
 Win32 ws2_32
 %prm
 hWnd, wMsg, name, buf, buflen
-hWnd : [intptr] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉƒƒbƒZ[ƒW‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
-wMsg : [int] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉóM‚·‚éƒƒbƒZ[ƒWB
-name : [str] ‰ğŒˆ‘ÎÛ‚ÌƒvƒƒgƒRƒ‹–¼ (null I’[) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-buf : [str] protoent ƒf[ƒ^‚ğó‚¯æ‚éƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚Í protoent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é‚½‚ßAprotoent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
-buflen : [int] buf ƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+hWnd : [intptr] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚ÉƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+wMsg : [int] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚Éó‚¯æ‚éƒƒbƒZ[ƒWB
+name : [str] ‰ğŒˆ‚·‚éANULL I’[‚ÌƒvƒƒgƒRƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+buf : [str] protoent ƒf[ƒ^‚ğó‚¯æ‚é‚½‚ß‚Ìƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚ÍAWindows Sockets ‚ª protoent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég‚¤‚½‚ßAprotoent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
+buflen : [int] buf ƒpƒ‰ƒ[ƒ^—p‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
 WSAAsyncGetProtoByName ŠÖ” (winsock.h) ‚ÍAƒvƒƒgƒRƒ‹–¼‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹î•ñ‚ğ”ñ“¯Šú‚Éæ“¾‚·‚éB
 
 [–ß‚è’l]
 
-–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ª³í‚ÉŠJn‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬Œ÷‚Ü‚½‚Í¸”s‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetProtoByName
-‚Í—v‹‚Ì”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚Æ‚È‚é HANDLE Œ^‚Ì”ñƒ[ƒ’l‚ğ•Ô‚· (Windows ‚Ì HTASK ‚Æ¬“¯‚µ‚È‚¢‚±‚Æ)B‚±‚Ì’l‚Í 2
-’Ê‚è‚Ég—p‚Å‚«‚éBWSACancelAsyncRequest ‚ğg‚Á‚Ä‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Ég‚¤‚©AwParam
-ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^‚ğ’²‚×‚Ä”ñ“¯Šú‘€ì‚ÆŠ®—¹ƒƒbƒZ[ƒW‚ğ‘Î‰•t‚¯‚é‚½‚ß‚Ég‚¤‚±‚Æ‚ª‚Å‚«‚éB”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncGetProtoByName
-‚Íƒ[ƒ‚ğ•Ô‚µA‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚Í WSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚Å‚«‚éBˆÈ‰º‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğóM‚µ‚½‚Æ‚«‚Éİ’è‚³‚ê‚é‰Â”\«‚ª‚ ‚éB‘Oq‚Ì‚Æ‚¨‚èA‚±‚ê‚ç‚Í
-WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä‰“šƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
+–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ÌŠJn‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬”Û‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetProtoByName
+‚Í‚»‚ÌƒŠƒNƒGƒXƒg‚É‘Î‚·‚é”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•\‚·AHANDLE Œ^‚Ì 0 ˆÈŠO‚Ì’l‚ğ•Ô‚· (‚±‚ê‚Í Windows ‚Ì HTASK
+‚Æ‚ÍˆÙ‚È‚é)B‚±‚Ì’l‚Í 2 ’Ê‚è‚Ìg‚¢•û‚ª‚Å‚«‚éBWSACancelAsyncRequest
+‚ğg‚Á‚Ä‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Ég‚¤‚©AwParam
+ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^‚ğ’²‚×‚Ä”ñ“¯Šú‘€ì‚ÆŠ®—¹ƒƒbƒZ[ƒW‚ğ‘Î‰•t‚¯‚é‚½‚ß‚Ég‚¦‚éB”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncGetProtoByName
+‚Íƒ[ƒ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğó‚¯æ‚Á‚½‚Æ‚«AŸ‚ÌƒGƒ‰[ƒR[ƒh‚ªİ’è‚³‚ê‚¤‚éB‘Oq‚Ì’Ê‚èA‚±‚ê‚ç‚Í
+WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä•ÔMƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAAsyncGetProtoByName ŠÖ”‚Í getprotobyname
-‚Ì”ñ“¯Šú”Å‚Å‚ ‚éBw’è‚µ‚½ƒvƒƒgƒRƒ‹–¼‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹–¼‚Æ”Ô†‚ğAWindows
-ƒ\ƒPƒbƒgƒf[ƒ^ƒx[ƒX‚©‚çæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows
-ƒ\ƒPƒbƒg‚Í‘€ì‚ğŠJn‚µAŒÄ‚Ño‚µŒ³‚É’¼‚¿‚É§Œä‚ğ–ß‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
-(‚à‚µ‚ ‚ê‚Î)
+‚Ì”ñ“¯Šú”Å‚Å‚ ‚éBw’è‚µ‚½ƒvƒƒgƒRƒ‹–¼‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹–¼‚Æ”Ô†‚ğ Windows Sockets
+ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows Sockets
+‚Í‘€ì‚ğŠJn‚µ‚Ä’¼‚¿‚ÉŒÄ‚Ño‚µŒ³‚É–ß‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚Ì‚Ég‚¦‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
+(‚ ‚ê‚Î)
 ‚ªŒÄ‚Ño‚µŒ³‚©‚ç’ñ‹Ÿ‚³‚ê‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB”ñ“¯Šú‘€ì‚ªŠ®—¹‚·‚é‚ÆAhWnd
-ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚Í wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğóM‚·‚éBwParam
-ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠÜ‚Ü‚ê‚éBlParam ‚ÌãˆÊ 16
-ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠÜ‚Ü‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
-‚Å’è‹`‚³‚ê‚Ä‚¢‚é”CˆÓ‚ÌƒGƒ‰[‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚Ìê‡‚Í”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ğ¦‚·B³íŠ®—¹AŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒoƒbƒtƒ@‚É‚Í
-protoent \‘¢‘Ì‚ªŠÜ‚Ü‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ìƒƒ“ƒo‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ protoent
-\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“KØ‚ÉƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
-‚ªw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ªŒ‹‰Êî•ñ‚ğ‚·‚×‚ÄŠÜ‚Ş‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒg‚É‚Í•K—vî•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠÜ‚Ü‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚ğ•s\•ª‚Æ”»’f‚µ‚½ê‡AWSAAsyncGetProtoByName
-ŠÖ”ŒÄ‚Ño‚µ‚ğ•K—v‚Èî•ñ‚ğ‚·‚×‚Äó‚¯æ‚ê‚é\•ª‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ÅÄ”­s‚Å‚«‚é (lParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒgˆÈã)B‚±‚ÌŠÖ”‚Éw’è‚³‚ê‚½ƒoƒbƒtƒ@‚ÍAWindows ƒ\ƒPƒbƒg‚ª protoent
-\‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğˆê‚É\’z‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWSAENOBUFS
-ƒGƒ‰[‚ğ‰ñ”ğ‚·‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
-‚Ìƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚·‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚Í Winsock2.h ‚ÉˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éƒ}ƒNƒ
-WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ª wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğó‚¯æ‚éBwParam
+ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éBlParam ‚ÌãˆÊ 16
+ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
+‚Å’è‹`‚³‚ê‚½”CˆÓ‚ÌƒGƒ‰[‚É‚È‚è‚¤‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚È‚ç”ñ“¯Šú‘€ì‚ª³íŠ®—¹‚µ‚½‚±‚Æ‚ğ¦‚·B³íŠ®—¹‚É‚ÍAŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Éw’è‚µ‚½ƒoƒbƒtƒ@‚É
+protoent \‘¢‘Ì‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
+‚Éw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ª‚·‚×‚Ä‚ÌŒ‹‰Êî•ñ‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
+ƒrƒbƒg‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠi”[‚³‚ê‚éBWSAENOBUFS ƒGƒ‰[‚ğ”ğ‚¯‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à
+MAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚ÍAWinsock2.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é
+WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ƒ}ƒNƒ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -886,46 +881,41 @@ WSAAsyncGetProtoByNumber ŠÖ” (winsock.h) ‚ÍAƒvƒƒgƒRƒ‹”Ô†‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹
 Win32 ws2_32
 %prm
 hWnd, wMsg, number, buf, buflen
-hWnd : [intptr] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉƒƒbƒZ[ƒW‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
-wMsg : [int] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉóM‚·‚éƒƒbƒZ[ƒWB
-number : [int] ‰ğŒˆ‘ÎÛ‚ÌƒvƒƒgƒRƒ‹”Ô† (ƒzƒXƒgƒoƒCƒgƒI[ƒ_[)B
-buf : [str] protoent ƒf[ƒ^‚ğó‚¯æ‚éƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚Í protoent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é‚½‚ßAprotoent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
-buflen : [int] buf ƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+hWnd : [intptr] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚ÉƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+wMsg : [int] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚Éó‚¯æ‚éƒƒbƒZ[ƒWB
+number : [int] ‰ğŒˆ‚·‚éƒvƒƒgƒRƒ‹”Ô† (ƒzƒXƒgƒoƒCƒgƒI[ƒ_[)B
+buf : [str] protoent ƒf[ƒ^‚ğó‚¯æ‚é‚½‚ß‚Ìƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚ÍAWindows Sockets ‚ª protoent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég‚¤‚½‚ßAprotoent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
+buflen : [int] buf ƒpƒ‰ƒ[ƒ^—p‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
 WSAAsyncGetProtoByNumber ŠÖ” (winsock.h)
 ‚ÍAƒvƒƒgƒRƒ‹”Ô†‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹î•ñ‚ğ”ñ“¯Šú‚Éæ“¾‚·‚éB
 
 [–ß‚è’l]
 
-–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ª³í‚ÉŠJn‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬Œ÷‚Ü‚½‚Í¸”s‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetProtoByNumber
-‚Í—v‹‚Ì”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚Æ‚È‚é HANDLE Œ^‚Ì”ñƒ[ƒ’l‚ğ•Ô‚· (Windows ‚Ì HTASK ‚Æ¬“¯‚µ‚È‚¢‚±‚Æ)B‚±‚Ì’l‚Í 2
-’Ê‚è‚Ég—p‚Å‚«‚éBWSACancelAsyncRequest ‚ğg‚Á‚Ä‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Ég‚¤‚©AwParam
-ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^‚ğ’²‚×‚Ä”ñ“¯Šú‘€ì‚ÆŠ®—¹ƒƒbƒZ[ƒW‚ğ‘Î‰•t‚¯‚é‚½‚ß‚Ég‚¤‚±‚Æ‚ª‚Å‚«‚éB”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncGetProtoByNumber
-‚Íƒ[ƒ‚ğ•Ô‚µA‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚Í WSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚Å‚«‚éBˆÈ‰º‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğóM‚µ‚½‚Æ‚«‚Éİ’è‚³‚ê‚é‰Â”\«‚ª‚ ‚éB‘Oq‚Ì‚Æ‚¨‚èA‚±‚ê‚ç‚Í
-WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä‰“šƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
+–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ÌŠJn‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬”Û‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetProtoByNumber
+‚Í‚»‚ÌƒŠƒNƒGƒXƒg‚É‘Î‚·‚é”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•\‚·AHANDLE Œ^‚Ì 0 ˆÈŠO‚Ì’l‚ğ•Ô‚·B‚±‚Ì’l‚Í
+WSACancelAsyncRequest ‚Å‚ÌƒLƒƒƒ“ƒZƒ‹‚â wParam
+‚ÌÆ‡‚Ég‚¦‚éB”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncGetProtoByNumber
+‚Íƒ[ƒ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğó‚¯æ‚Á‚½‚Æ‚«AŸ‚ÌƒGƒ‰[ƒR[ƒh‚ªİ’è‚³‚ê‚¤‚éB‘Oq‚Ì’Ê‚èA‚±‚ê‚ç‚Í
+WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä•ÔMƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAAsyncGetProtoByNumber ŠÖ”‚Í getprotobynumber
-‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAw’è‚µ‚½ƒvƒƒgƒRƒ‹”Ô†‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹–¼‚Æ”Ô†‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows
-ƒ\ƒPƒbƒg‚Í‘€ì‚ğŠJn‚µAŒÄ‚Ño‚µŒ³‚É’¼‚¿‚É§Œä‚ğ–ß‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
-(‚à‚µ‚ ‚ê‚Î)
+‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAƒvƒƒgƒRƒ‹”Ô†‚É‘Î‰‚·‚éƒvƒƒgƒRƒ‹–¼‚Æ”Ô†‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows Sockets
+‚Í‘€ì‚ğŠJn‚µ‚Ä’¼‚¿‚ÉŒÄ‚Ño‚µŒ³‚É–ß‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚Ì‚Ég‚¦‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
+(‚ ‚ê‚Î)
 ‚ªŒÄ‚Ño‚µŒ³‚©‚ç’ñ‹Ÿ‚³‚ê‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB”ñ“¯Šú‘€ì‚ªŠ®—¹‚·‚é‚ÆAhWnd
-ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚Í wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğóM‚·‚éBwParam
-ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠÜ‚Ü‚ê‚éBlParam ‚ÌãˆÊ 16
-ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠÜ‚Ü‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
-‚Å’è‹`‚³‚ê‚Ä‚¢‚é”CˆÓ‚ÌƒGƒ‰[‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚Ìê‡‚Í”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ğ¦‚·B³íŠ®—¹AŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒoƒbƒtƒ@‚É‚Í
-protoent \‘¢‘Ì‚ªŠÜ‚Ü‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ìƒƒ“ƒo‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ protoent
-\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“KØ‚ÉƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
-‚ªw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ªŒ‹‰Êî•ñ‚ğ‚·‚×‚ÄŠÜ‚Ş‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒg‚É‚Í•K—vî•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠÜ‚Ü‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚ª•s\•ª‚Å‚ ‚é‚Æ”»’f‚µ‚½ê‡AWSAAsyncGetProtoByNumber
-ŠÖ”ŒÄ‚Ño‚µ‚ğ•K—v‚Èî•ñ‚ğ‚·‚×‚Äó‚¯æ‚ê‚é\•ª‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ÅÄ”­s‚Å‚«‚é (lParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒgˆÈã)B‚±‚ÌŠÖ”‚Éw’è‚³‚ê‚½ƒoƒbƒtƒ@‚ÍAWindows ƒ\ƒPƒbƒg‚ª protoent
-\‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğˆê‚É\’z‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBãq‚Ì WSAENOBUFS
-ƒGƒ‰[‚ğ‰ñ”ğ‚·‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
-‚Ìƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚·‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚Í Winsock2.h ‚ÉˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éƒ}ƒNƒ
-WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ª wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğó‚¯æ‚éBwParam
+ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éBlParam ‚ÌãˆÊ 16
+ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
+‚Å’è‹`‚³‚ê‚½”CˆÓ‚ÌƒGƒ‰[‚É‚È‚è‚¤‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚È‚ç”ñ“¯Šú‘€ì‚ª³íŠ®—¹‚µ‚½‚±‚Æ‚ğ¦‚·B³íŠ®—¹‚É‚ÍAŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Éw’è‚µ‚½ƒoƒbƒtƒ@‚É
+protoent \‘¢‘Ì‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
+‚Éw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ª‚·‚×‚Ä‚ÌŒ‹‰Êî•ñ‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
+ƒrƒbƒg‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠi”[‚³‚ê‚éBWSAENOBUFS ƒGƒ‰[‚ğ”ğ‚¯‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à
+MAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚ÍAWinsock2.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é
+WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ƒ}ƒNƒ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -936,46 +926,39 @@ WSAAsyncGetServByName ŠÖ” (winsock.h) ‚ÍAƒT[ƒrƒX–¼‚Æƒ|[ƒg‚É‘Î‰‚·‚éƒT[ƒrƒX
 Win32 ws2_32
 %prm
 hWnd, wMsg, name, proto, buf, buflen
-hWnd : [intptr] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉƒƒbƒZ[ƒW‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
-wMsg : [int] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉóM‚·‚éƒƒbƒZ[ƒWB
-name : [str] null I’[‚ÌƒT[ƒrƒX–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-proto : [str] ƒvƒƒgƒRƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í NULL ‚É‚Å‚«‚éB‚»‚Ìê‡AWSAAsyncGetServByName ‚Í s_name ‚Ü‚½‚Í s_aliases ‚Ì‚¢‚¸‚ê‚©‚ªw’è‚³‚ê‚½–¼‘O‚Éˆê’v‚·‚éÅ‰‚ÌƒT[ƒrƒXƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚éBNULL ‚Å‚È‚¢ê‡AWSAAsyncGetServByName ‚Í name ‚Æ proto ‚Ì—¼•û‚ğˆê’v‚³‚¹‚éB
-buf : [str] servent ƒf[ƒ^‚ğó‚¯æ‚éƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚Í servent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é‚½‚ßAservent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
-buflen : [int] buf ƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+hWnd : [intptr] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚ÉƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+wMsg : [int] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚Éó‚¯æ‚éƒƒbƒZ[ƒWB
+name : [str] NULL I’[‚ÌƒT[ƒrƒX–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+proto : [str] ƒvƒƒgƒRƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚É‚·‚é‚±‚Æ‚à‚Å‚«A‚»‚Ìê‡ WSAAsyncGetServByName ‚Í s_name ‚Ü‚½‚Í s_aliases ‚Ì‚¢‚¸‚ê‚©‚ªw’è‚µ‚½ name ‚Æˆê’v‚·‚éÅ‰‚ÌƒT[ƒrƒXƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚éB‚»‚êˆÈŠO‚Ìê‡AWSAAsyncGetServByName ‚Í name ‚Æ proto ‚Ì—¼•û‚Éˆê’v‚·‚é‚à‚Ì‚ğ’T‚·B
+buf : [str] servent ƒf[ƒ^‚ğó‚¯æ‚é‚½‚ß‚Ìƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚ÍAWindows Sockets ‚ª servent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég‚¤‚½‚ßAservent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
+buflen : [int] buf ƒpƒ‰ƒ[ƒ^—p‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
 WSAAsyncGetServByName ŠÖ” (winsock.h) ‚ÍAƒT[ƒrƒX–¼‚Æƒ|[ƒg‚É‘Î‰‚·‚éƒT[ƒrƒXî•ñ‚ğ”ñ“¯Šú‚Éæ“¾‚·‚éB
 
 [–ß‚è’l]
 
-–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ª³í‚ÉŠJn‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬Œ÷‚Ü‚½‚Í¸”s‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetServByName
-‚Í—v‹‚Ì”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚Æ‚È‚é HANDLE Œ^‚Ì”ñƒ[ƒ’l‚ğ•Ô‚· (Windows ‚Ì HTASK ‚Æ¬“¯‚µ‚È‚¢‚±‚Æ)B‚±‚Ì’l‚Í 2
-’Ê‚è‚Ég—p‚Å‚«‚éBWSACancelAsyncRequest ‚ğg‚Á‚Ä‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Ég‚¤‚©AwParam
-ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^‚ğ’²‚×‚Ä”ñ“¯Šú‘€ì‚ÆŠ®—¹ƒƒbƒZ[ƒW‚ğ‘Î‰•t‚¯‚é‚½‚ß‚Ég‚¤‚±‚Æ‚ª‚Å‚«‚éB”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncServByName
-‚Íƒ[ƒ‚ğ•Ô‚µA‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚Í WSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚Å‚«‚éBˆÈ‰º‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğóM‚µ‚½‚Æ‚«‚Éİ’è‚³‚ê‚é‰Â”\«‚ª‚ ‚éB‘Oq‚Ì‚Æ‚¨‚èA‚±‚ê‚ç‚Í
-WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä‰“šƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
+–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ÌŠJn‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬”Û‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetServByName
+‚Í‚»‚ÌƒŠƒNƒGƒXƒg‚É‘Î‚·‚é”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•\‚·AHANDLE Œ^‚Ì 0
+ˆÈŠO‚Ì’l‚ğ•Ô‚·B”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncServByName ‚Íƒ[ƒ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğó‚¯æ‚Á‚½‚Æ‚«AŸ‚ÌƒGƒ‰[ƒR[ƒh‚ªİ’è‚³‚ê‚¤‚éB‘Oq‚Ì’Ê‚èA‚±‚ê‚ç‚Í
+WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä•ÔMƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAAsyncGetServByName ŠÖ”‚Í getservbyname
-‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAƒT[ƒrƒX–¼‚É‘Î‰‚·‚éƒT[ƒrƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows
-ƒ\ƒPƒbƒg‚Í‘€ì‚ğŠJn‚µAŒÄ‚Ño‚µŒ³‚É’¼‚¿‚É§Œä‚ğ–ß‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
-(‚à‚µ‚ ‚ê‚Î)
+‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAƒT[ƒrƒX–¼‚É‘Î‰‚·‚éƒT[ƒrƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows Sockets
+‚Í‘€ì‚ğŠJn‚µ‚Ä’¼‚¿‚ÉŒÄ‚Ño‚µŒ³‚É–ß‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚Ì‚Ég‚¦‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
+(‚ ‚ê‚Î)
 ‚ªŒÄ‚Ño‚µŒ³‚©‚ç’ñ‹Ÿ‚³‚ê‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB”ñ“¯Šú‘€ì‚ªŠ®—¹‚·‚é‚ÆAhWnd
-ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚Í wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğóM‚·‚éBwParam
-ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠÜ‚Ü‚ê‚éBlParam ‚ÌãˆÊ 16
-ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠÜ‚Ü‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
-‚Å’è‹`‚³‚ê‚Ä‚¢‚é”CˆÓ‚ÌƒGƒ‰[‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚Ìê‡‚Í”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ğ¦‚·B³íŠ®—¹AŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒoƒbƒtƒ@‚É‚Í
-servent \‘¢‘Ì‚ªŠÜ‚Ü‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ìƒƒ“ƒo‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ servent
-\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“KØ‚ÉƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
-‚ªw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ªŒ‹‰Êî•ñ‚ğ‚·‚×‚ÄŠÜ‚Ş‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒg‚É‚Í•K—vî•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠÜ‚Ü‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚ğ•s\•ª‚Æ”»’f‚µ‚½ê‡AWSAAsyncGetServByName
-ŠÖ”ŒÄ‚Ño‚µ‚ğ•K—v‚Èî•ñ‚ğ‚·‚×‚Äó‚¯æ‚ê‚é\•ª‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ÅÄ”­s‚Å‚«‚é (lParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒgˆÈã)B‚±‚ÌŠÖ”‚Éw’è‚³‚ê‚½ƒoƒbƒtƒ@‚ÍAWindows ƒ\ƒPƒbƒg‚ª servent
-\‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğˆê‚É\’z‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWSAENOBUFS
-ƒGƒ‰[‚ğ‰ñ”ğ‚·‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
-‚Ìƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚·‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚Í Winsock2.h ‚ÉˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éƒ}ƒNƒ
-WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ª wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğó‚¯æ‚éBwParam
+ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éBlParam ‚ÌãˆÊ 16
+ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
+‚Å’è‹`‚³‚ê‚½”CˆÓ‚ÌƒGƒ‰[‚É‚È‚è‚¤‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚È‚ç”ñ“¯Šú‘€ì‚ª³íŠ®—¹‚µ‚½‚±‚Æ‚ğ¦‚·B³íŠ®—¹‚É‚ÍAŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Éw’è‚µ‚½ƒoƒbƒtƒ@‚É
+servent \‘¢‘Ì‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
+‚Éw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ª‚·‚×‚Ä‚ÌŒ‹‰Êî•ñ‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
+ƒrƒbƒg‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠi”[‚³‚ê‚éBWSAENOBUFS ƒGƒ‰[‚ğ”ğ‚¯‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à
+MAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚ÍAWinsock2.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é
+WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ƒ}ƒNƒ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -986,46 +969,39 @@ WSAAsyncGetServByPort ŠÖ” (winsock.h) ‚ÍAƒ|[ƒg‚ÆƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚éƒT[ƒrƒX
 Win32 ws2_32
 %prm
 hWnd, wMsg, port, proto, buf, buflen
-hWnd : [intptr] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉƒƒbƒZ[ƒW‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
-wMsg : [int] ”ñ“¯Šú—v‹‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉóM‚·‚éƒƒbƒZ[ƒWB
+hWnd : [intptr] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚ÉƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+wMsg : [int] ”ñ“¯ŠúƒŠƒNƒGƒXƒg‚ÌŠ®—¹‚Éó‚¯æ‚éƒƒbƒZ[ƒWB
 port : [int] ƒT[ƒrƒX‚Ìƒ|[ƒg (ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[)B
-proto : [str] ƒvƒƒgƒRƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í NULL ‚É‚Å‚«‚éB‚»‚Ìê‡AWSAAsyncGetServByPort ‚Í s_port ‚ªw’è‚³‚ê‚½ƒ|[ƒg‚Éˆê’v‚·‚éÅ‰‚ÌƒT[ƒrƒXƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚éBNULL ‚Å‚È‚¢ê‡AWSAAsyncGetServByPort ‚Í port ‚Æ proto ‚Ì—¼•û‚ğˆê’v‚³‚¹‚éB
-buf : [str] servent ƒf[ƒ^‚ğó‚¯æ‚éƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚Í servent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é‚½‚ßAservent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
-buflen : [int] buf ƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+proto : [str] ƒvƒƒgƒRƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚É‚·‚é‚±‚Æ‚à‚Å‚«A‚»‚Ìê‡ WSAAsyncGetServByPort ‚Í s_port ‚ªw’è‚µ‚½ port ‚Æˆê’v‚·‚éÅ‰‚ÌƒT[ƒrƒXƒGƒ“ƒgƒŠ‚ğŒŸõ‚·‚éB‚»‚êˆÈŠO‚Ìê‡AWSAAsyncGetServByPort ‚Í port ‚Æ proto ‚Ì—¼•û‚Éˆê’v‚·‚é‚à‚Ì‚ğ’T‚·B
+buf : [str] servent ƒf[ƒ^‚ğó‚¯æ‚é‚½‚ß‚Ìƒf[ƒ^—Ìˆæ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^—Ìˆæ‚ÍAWindows Sockets ‚ª servent \‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ég‚¤‚½‚ßAservent \‘¢‘Ì‚ÌƒTƒCƒY‚æ‚è‘å‚«‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ª„§‚³‚ê‚éB
+buflen : [int] buf ƒpƒ‰ƒ[ƒ^—p‚Ìƒf[ƒ^—Ìˆæ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
 WSAAsyncGetServByPort ŠÖ” (winsock.h) ‚ÍAƒ|[ƒg‚ÆƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚éƒT[ƒrƒXî•ñ‚ğ”ñ“¯Šú‚Éæ“¾‚·‚éB
 
 [–ß‚è’l]
 
-–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ª³í‚ÉŠJn‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬Œ÷‚Ü‚½‚Í¸”s‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetServByPort
-‚Í—v‹‚Ì”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚Æ‚È‚é HANDLE Œ^‚Ì”ñƒ[ƒ’l‚ğ•Ô‚· (Windows ‚Ì HTASK ‚Æ¬“¯‚µ‚È‚¢‚±‚Æ)B‚±‚Ì’l‚Í 2
-’Ê‚è‚Ég—p‚Å‚«‚éBWSACancelAsyncRequest ‚ğg‚Á‚Ä‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Ég‚¤‚©AwParam
-ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^‚ğ’²‚×‚Ä”ñ“¯Šú‘€ì‚ÆŠ®—¹ƒƒbƒZ[ƒW‚ğ‘Î‰•t‚¯‚é‚½‚ß‚Ég‚¤‚±‚Æ‚ª‚Å‚«‚éB”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncGetServByPort
-‚Íƒ[ƒ‚ğ•Ô‚µA‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚Í WSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚Å‚«‚éBˆÈ‰º‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğóM‚µ‚½‚Æ‚«‚Éİ’è‚³‚ê‚é‰Â”\«‚ª‚ ‚éB‘Oq‚Ì‚Æ‚¨‚èA‚±‚ê‚ç‚Í
-WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä‰“šƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
+–ß‚è’l‚ÍA”ñ“¯Šú‘€ì‚ÌŠJn‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©‚ğ¦‚·B‘€ì©‘Ì‚Ì¬”Û‚ğˆÓ–¡‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒGƒ‰[‚ª‚È‚¢ê‡AWSAAsyncGetServByPort
+‚Í‚»‚ÌƒŠƒNƒGƒXƒg‚É‘Î‚·‚é”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•\‚·AHANDLE Œ^‚Ì 0
+ˆÈŠO‚Ì’l‚ğ•Ô‚·B”ñ“¯Šú‘€ì‚ğŠJn‚Å‚«‚È‚©‚Á‚½ê‡AWSAAsyncGetServByPort ‚Íƒ[ƒ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğó‚¯æ‚Á‚½‚Æ‚«AŸ‚ÌƒGƒ‰[ƒR[ƒh‚ªİ’è‚³‚ê‚¤‚éB‘Oq‚Ì’Ê‚èA‚±‚ê‚ç‚Í
+WSAGETASYNCERROR ƒ}ƒNƒ‚ğg‚Á‚Ä•ÔMƒƒbƒZ[ƒW‚Ì lParam ‚©‚çæ‚èo‚¹‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAAsyncGetServByPort ŠÖ”‚Í getservbyport
-‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAƒ|[ƒg”Ô†‚É‘Î‰‚·‚éƒT[ƒrƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows
-ƒ\ƒPƒbƒg‚Í‘€ì‚ğŠJn‚µAŒÄ‚Ño‚µŒ³‚É’¼‚¿‚É§Œä‚ğ–ß‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
-(‚à‚µ‚ ‚ê‚Î)
+‚Ì”ñ“¯Šú”Å‚Å‚ ‚èAƒ|[ƒg”Ô†‚É‘Î‰‚·‚éƒT[ƒrƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWindows Sockets
+‚Í‘€ì‚ğŠJn‚µ‚Ä’¼‚¿‚ÉŒÄ‚Ño‚µŒ³‚É–ß‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğ¯•Ê‚·‚é‚Ì‚Ég‚¦‚é•s“§–¾‚È”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‘€ì‚ªŠ®—¹‚·‚é‚ÆAŒ‹‰Ê
+(‚ ‚ê‚Î)
 ‚ªŒÄ‚Ño‚µŒ³‚©‚ç’ñ‹Ÿ‚³‚ê‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB”ñ“¯Šú‘€ì‚ªŠ®—¹‚·‚é‚ÆAhWnd
-ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚Í wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğóM‚·‚éBwParam
-ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠÜ‚Ü‚ê‚éBlParam ‚ÌãˆÊ 16
-ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠÜ‚Ü‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
-‚Å’è‹`‚³‚ê‚Ä‚¢‚é”CˆÓ‚ÌƒGƒ‰[‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚Ìê‡‚Í”ñ“¯Šú‘€ì‚Ì³íŠ®—¹‚ğ¦‚·B³íŠ®—¹AŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒoƒbƒtƒ@‚É‚Í
-servent \‘¢‘Ì‚ªŠÜ‚Ü‚ê‚éB‚±‚Ì\‘¢‘Ì‚Ìƒƒ“ƒo‚ÉƒAƒNƒZƒX‚·‚é‚É‚ÍAŒ³‚Ìƒoƒbƒtƒ@ƒAƒhƒŒƒX‚ğ servent
-\‘¢‘Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg‚µ‚Ä“KØ‚ÉƒAƒNƒZƒX‚·‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
-‚ªw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ªŒ‹‰Êî•ñ‚ğ‚·‚×‚ÄŠÜ‚Ş‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒg‚É‚Í•K—vî•ñ‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠÜ‚Ü‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•”•ªƒf[ƒ^‚ğ•s\•ª‚Æ”»’f‚µ‚½ê‡AWSAAsyncGetServByPort
-ŠÖ”ŒÄ‚Ño‚µ‚ğ•K—v‚Èî•ñ‚ğ‚·‚×‚Äó‚¯æ‚ê‚é\•ª‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ÅÄ”­s‚Å‚«‚é (lParam ‚Ì‰ºˆÊ 16
-ƒrƒbƒgˆÈã)B‚±‚ÌŠÖ”‚Éw’è‚³‚ê‚½ƒoƒbƒtƒ@‚ÍAWindows ƒ\ƒPƒbƒg‚ª servent
-\‘¢‘Ì‚Æ‚»‚Ìƒƒ“ƒo‚ªQÆ‚·‚éƒf[ƒ^—Ìˆæ‚Ì“à—e‚ğˆê‚É\’z‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWSAENOBUFS
-ƒGƒ‰[‚ğ‰ñ”ğ‚·‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à MAXGETHOSTSTRUCT ƒoƒCƒg (Winsock2.h ‚Å’è‹`)
-‚Ìƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚·‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚Í Winsock2.h ‚ÉˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éƒ}ƒNƒ
-WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ª wMsg ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğó‚¯æ‚éBwParam
+ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éBlParam ‚ÌãˆÊ 16
+ƒrƒbƒg‚É‚ÍƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚Í Winsock2.h
+‚Å’è‹`‚³‚ê‚½”CˆÓ‚ÌƒGƒ‰[‚É‚È‚è‚¤‚éBƒGƒ‰[ƒR[ƒh‚ªƒ[ƒ‚È‚ç”ñ“¯Šú‘€ì‚ª³íŠ®—¹‚µ‚½‚±‚Æ‚ğ¦‚·B³íŠ®—¹‚É‚ÍAŒ³‚ÌŠÖ”ŒÄ‚Ño‚µ‚Éw’è‚µ‚½ƒoƒbƒtƒ@‚É
+servent \‘¢‘Ì‚ªŠi”[‚³‚ê‚éBƒGƒ‰[ƒR[ƒh‚ª WSAENOBUFS ‚Ìê‡AŒ³‚ÌŒÄ‚Ño‚µ‚Å buflen
+‚Éw’è‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ª‚·‚×‚Ä‚ÌŒ‹‰Êî•ñ‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB‚±‚Ìê‡AlParam ‚Ì‰ºˆÊ 16
+ƒrƒbƒg‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ªŠi”[‚³‚ê‚éBWSAENOBUFS ƒGƒ‰[‚ğ”ğ‚¯‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í­‚È‚­‚Æ‚à
+MAXGETHOSTSTRUCT ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é‚×‚«‚Å‚ ‚éBƒGƒ‰[ƒR[ƒh‚Æƒoƒbƒtƒ@’·‚ÍAWinsock2.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é
+WSAGETASYNCERROR ‚¨‚æ‚Ñ WSAGETASYNCBUFLEN ƒ}ƒNƒ‚ğg‚Á‚Ä lParam ‚©‚çæ‚èo‚·‚×‚«‚Å‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -1036,9 +1012,9 @@ WSAAsyncSelect ŠÖ” (winsock.h) ‚ÍAƒ\ƒPƒbƒg‚É‘Î‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì Windo
 Win32 ws2_32
 %prm
 s, hWnd, wMsg, lEvent
-s : [int] ƒCƒxƒ“ƒg’Ê’m‚ğ•K—v‚Æ‚·‚éƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
-hWnd : [intptr] ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚Æ‚«‚ÉƒƒbƒZ[ƒW‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹B
-wMsg : [int] ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚Æ‚«‚ÉóM‚·‚éƒƒbƒZ[ƒWB
+s : [int] ƒCƒxƒ“ƒg’Ê’m‚ª•K—v‚Èƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
+hWnd : [intptr] ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg”­¶‚ÉƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹B
+wMsg : [int] ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg”­¶‚Éó‚¯æ‚éƒƒbƒZ[ƒWB
 lEvent : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠÖS‚ğ‚Âƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‘g‚İ‡‚í‚¹‚ğw’è‚·‚éƒrƒbƒgƒ}ƒXƒNB
 %inst
 WSAAsyncSelect ŠÖ” (winsock.h) ‚ÍAƒ\ƒPƒbƒg‚É‘Î‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì Windows
@@ -1046,19 +1022,20 @@ WSAAsyncSelect ŠÖ” (winsock.h) ‚ÍAƒ\ƒPƒbƒg‚É‘Î‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì Windo
 
 [–ß‚è’l]
 WSAAsyncSelect
-ŠÖ”‚ª¬Œ÷‚µ‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒZƒbƒg‚Ö‚ÌŠÖS•\–¾‚ª¬Œ÷‚µ‚½‚±‚Æ‚ğ¦‚·ƒ[ƒ‚ª•Ô‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚Í
-SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgˆê——‚ÌŠÖSéŒ¾‚ª¬Œ÷‚µ‚½‚±‚Æ‚ğ•\‚·‚½‚ßA–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í
+SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAAsyncSelect ŠÖ”‚ÍAlEvent ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğŒŸo‚µ‚½‚Æ‚«‚É WS2_32.DLL
-‚ªƒEƒBƒ“ƒhƒE hWnd ‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚æ‚¤—v‹‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‘—M‚·‚éƒƒbƒZ[ƒW‚Í wMsg
-ƒpƒ‰ƒ[ƒ^‚Åw’è‚·‚éB’Ê’m‚ª•K—v‚Èƒ\ƒPƒbƒg‚Í s ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚ê‚éBWSAAsyncSelect ŠÖ”‚Í lEvent
-‚Ì’l‚ÉŠÖŒW‚È‚­Aƒ\ƒPƒbƒg s ‚ğ©“®“I‚Éƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Éİ’è‚·‚éBƒ\ƒPƒbƒg s ‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·‚É‚ÍA‚Ü‚¸ lEvent
-‚ğƒ[ƒ‚Éİ’è‚µ‚Ä WSAAsyncSelect ‚ğŒÄ‚Ño‚µAƒ\ƒPƒbƒg s
+‚ªƒEƒBƒ“ƒhƒE hWnd ‚ÉƒƒbƒZ[ƒW‚ğ‘—‚é‚æ‚¤—v‹‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‘—M‚·‚×‚«ƒƒbƒZ[ƒW‚Í wMsg
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚·‚éB’Ê’m‘ÎÛ‚Ìƒ\ƒPƒbƒg‚Í s ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚·‚éBWSAAsyncSelect ŠÖ”‚ÍAlEvent
+‚Ì’l‚É‚©‚©‚í‚ç‚¸ƒ\ƒPƒbƒg s ‚ğ©“®“I‚Éƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Éİ’è‚·‚éBƒ\ƒPƒbƒg s ‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·‚É‚ÍA‚Ü‚¸
+WSAAsyncSelect ‚ğ lEvent ‚ğƒ[ƒ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚µAƒ\ƒPƒbƒg s
 ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒCƒxƒ“ƒgƒŒƒR[ƒh‚ğƒNƒŠƒA‚·‚é•K—v‚ª‚ ‚éB‚»‚ÌŒãAioctlsocket ‚Ü‚½‚Í WSAIoctl
-‚ğŒÄ‚Ño‚µ‚Äƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·‚±‚Æ‚ª‚Å‚«‚éBƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·•û–@‚ÌÚ×‚ÍAioctlsocket
-‚¨‚æ‚Ñ WSAIoctl ŠÖ”‚ğQÆBlEvent ƒpƒ‰ƒ[ƒ^‚ÍAˆÈ‰º‚Ì•\‚É¦‚·’l‚ğƒrƒbƒg’PˆÊ‚Ì OR ‰‰Zq‚Å‘g‚İ‡‚í‚¹‚Ä\’z‚·‚éB
+‚ğŒÄ‚Ño‚µ‚Äƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚¹‚éBƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·•û–@‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAioctlsocket
+‚¨‚æ‚Ñ WSAIoctl ŠÖ”‚ğQÆBlEvent ƒpƒ‰ƒ[ƒ^‚ÍAŸ‚Ì•\‚É—ñ‹“‚·‚é’l‚Ì‚¢‚¸‚ê‚©‚ğƒrƒbƒg’PˆÊ‚Ì OR
+‰‰Zq‚Å‘g‚İ‡‚í‚¹‚Ä\’z‚·‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -1074,17 +1051,17 @@ hAsyncTaskHandle : [intptr] ƒLƒƒƒ“ƒZƒ‹‚·‚é”ñ“¯Šú‘€ì‚ğw’è‚·‚éƒnƒ“ƒhƒ‹B
 WSACancelAsyncRequest ŠÖ” (winsock.h) ‚ÍA–¢Š®—¹‚Ì”ñ“¯Šú‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
 
 [–ß‚è’l]
-‘€ì‚ª³í‚ÉƒLƒƒƒ“ƒZƒ‹‚³‚ê‚½ê‡AWSACancelAsyncRequest ‚Ì–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í
-SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+WSACancelAsyncRequest ‚ª•Ô‚·’l‚ÍA‘€ì‚ª³í‚ÉƒLƒƒƒ“ƒZƒ‹‚³‚ê‚½ê‡‚Íƒ[ƒ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í
+SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSACancelAsyncRequest ŠÖ”‚ÍAWSAAsyncGetHostByName ‚È‚Ç‚Ì WSAAsyncGetXByY
-ŠÖ”‚ÅŠJn‚³‚ê‚½”ñ“¯Šú‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒLƒƒƒ“ƒZƒ‹‚·‚é‘€ì‚Í hAsyncTaskHandle
-ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚êAŠJnŒ³‚Ì WSAAsyncGetXByY ŠÖ”‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğİ’è‚·‚é•K—v‚ª‚ ‚éBŠù‘¶‚Ì”ñ“¯Šú
-WSAAsyncGetXByY ‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚æ‚¤‚Æ‚µ‚½‚Æ‚«AWSAEALREADY ƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚é‚±‚Æ‚ª‚ ‚éB‚±‚ê‚É‚Í 2
-‚Â‚Ì——R‚ª‚ ‚éB‘æ 1 ‚ÉAŒ³‚Ì‘€ì‚ªŠù‚ÉŠ®—¹‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŒ‹‰Ê‚ÌƒƒbƒZ[ƒW‚ğˆ—Ï‚İ‚Å‚ ‚éê‡B‘æ 2
-‚ÉAŒ³‚Ì‘€ì‚ÍŠù‚ÉŠ®—¹‚µ‚Ä‚¢‚é‚ªAŒ‹‰Ê‚ÌƒƒbƒZ[ƒW‚ª‚Ü‚¾ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒEƒLƒ…[‚Å‘Ò‹@‚µ‚Ä‚¢‚éê‡‚Å‚ ‚éB
+ŠÖ”‚Ì‚¢‚¸‚ê‚©‚É‚æ‚Á‚ÄŠJn‚³‚ê‚½”ñ“¯Šú‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒLƒƒƒ“ƒZƒ‹‘ÎÛ‚Ì‘€ì‚Í hAsyncTaskHandle
+ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚êA‚±‚ê‚É‚ÍŠJn‚µ‚½ WSAAsyncGetXByY ŠÖ”‚ª•Ô‚µ‚½”ñ“¯Šúƒ^ƒXƒNƒnƒ“ƒhƒ‹‚ğİ’è‚·‚éBŠù‘¶‚Ì”ñ“¯Šú
+WSAAsyncGetXByY ‘€ì‚ÌƒLƒƒƒ“ƒZƒ‹s‚ÍA2 ‚Â‚Ì——R‚É‚æ‚è WSAEALREADY ƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚é‚±‚Æ‚ª‚ ‚éB‘æ
+1 ‚ÉAŒ³‚Ì‘€ì‚ªŠù‚ÉŠ®—¹‚µƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŒ‹‰Ê‚ÌƒƒbƒZ[ƒW‚ğˆ—‚µI‚¦‚Ä‚¢‚éê‡B‘æ 2
+‚ÉAŒ³‚Ì‘€ì‚ÍŠù‚ÉŠ®—¹‚µ‚½‚ªŒ‹‰Ê‚ÌƒƒbƒZ[ƒW‚ª‚Ü‚¾ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ÌƒLƒ…[‚Éc‚Á‚Ä‚¢‚éê‡B
 
 
 %index
@@ -1110,235 +1087,234 @@ Win32 ws2_32
 WSACleanup ŠÖ” (winsock.h) ‚ÍAWS2_32.dll ‚Ìg—p‚ğI—¹‚·‚éB
 
 [–ß‚è’l]
-‘€ì‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBƒ}ƒ‹ƒ`ƒXƒŒƒbƒhŠÂ‹«‚Å‚ÍAWSACleanup ‚Í‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚Ì Windows
-ƒ\ƒPƒbƒg‘€ì‚ğI—¹‚³‚¹‚éB
+‘€ì‚ª¬Œ÷‚·‚ê‚Î–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBƒ}ƒ‹ƒ`ƒXƒŒƒbƒhŠÂ‹«‚Å‚ÍAWSACleanup ‚Í‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚Ì Windows
+Sockets ‘€ì‚ğI—¹‚³‚¹‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í DLL ‚Í Windows ƒ\ƒPƒbƒgƒT[ƒrƒX‚ğg—p‚·‚é‘O‚É WSAStartup
-‚ÌŒÄ‚Ño‚µ‚ğ¬Œ÷‚³‚¹‚é•K—v‚ª‚ ‚éBWindows ƒ\ƒPƒbƒg‚Ìg—p‚ğŠ®—¹‚µ‚½‚çAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í DLL ‚Í WSACleanup
-‚ğŒÄ‚Ño‚µ‚Ä Windows ƒ\ƒPƒbƒgÀ‘•‚©‚ç“o˜^‰ğœ‚µAÀ‘•‚ªŠm•Û‚µ‚½ƒŠƒ\[ƒX‚ğ‰ğ•ú‚Å‚«‚é‚æ‚¤‚É‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWSACleanup
-‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA‚±‚ÌƒvƒƒZƒX“à‚Ì”CˆÓ‚ÌƒXƒŒƒbƒh‚ª”­s‚µ‚½•Û—¯’†‚ÌƒuƒƒbƒLƒ“ƒO‚Ü‚½‚Í”ñ“¯Šú Windows
-ƒ\ƒPƒbƒgŒÄ‚Ño‚µ‚ÍA’Ê’mƒƒbƒZ[ƒW‚ğ“Še‚·‚é‚±‚Æ‚àƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒVƒOƒiƒ‹‰»‚·‚é‚±‚Æ‚à‚È‚­ƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB‚±‚ÌƒvƒƒZƒX“à‚Ì”CˆÓ‚ÌƒXƒŒƒbƒh‚ª”­s‚µ‚½•Û—¯’†‚ÌƒI[ƒo[ƒ‰ƒbƒv‘—óM‘€ì
-(ƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Ì WSASendAWSASendToAWSARecvAWSARecvFrom ‚È‚Ç)
-‚àƒLƒƒƒ“ƒZƒ‹‚³‚êAw’è‚³‚ê‚Ä‚¢‚ê‚ÎƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÍƒZƒbƒg‚³‚ê‚¸AŠ®—¹ƒ‹[ƒ`ƒ“‚àŒÄ‚Ño‚³‚ê‚È‚¢B‚±‚Ìê‡A•Û—¯’†‚ÌƒI[ƒo[ƒ‰ƒbƒv‘€ì‚Í
-WSA_OPERATION_ABORTED ƒGƒ‰[ƒXƒe[ƒ^ƒX‚Å¸”s‚·‚éBWSACleanup
-‚ªŒÄ‚Ño‚³‚ê‚½“_‚ÅŠJ‚¢‚Ä‚¢‚½ƒ\ƒPƒbƒg‚ÍƒŠƒZƒbƒg‚³‚êAclosesocket
-‚ªŒÄ‚Ño‚³‚ê‚½‚©‚Ì‚æ‚¤‚É©“®“I‚É‰ğ•ú‚³‚ê‚éBclosesocket
-‚Å•Â‚¶‚ç‚ê‚½‚ª‚Ü‚¾‘—M‘Ò‚¿‚Ìƒf[ƒ^‚ª‚ ‚éƒ\ƒPƒbƒg‚ÍAWSACleanup
-‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä‰e‹¿‚ğó‚¯‚é‚±‚Æ‚ª‚ ‚éB‚±‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌI—¹‚É WS2_32.DLL
-‚ªƒƒ‚ƒŠ‚©‚çƒAƒ“ƒ[ƒh‚³‚ê‚é‚ÆA•Û—¯’†‚Ìƒf[ƒ^‚Í¸‚í‚ê‚é‚±‚Æ‚ª‚ ‚éB‚·‚×‚Ä‚Ì•Û—¯’†ƒf[ƒ^‚ª‘—M‚³‚ê‚é‚æ‚¤‚É‚·‚é‚É‚ÍAshutdown
-‚ğg‚Á‚ÄÚ‘±‚ğƒNƒ[ƒY‚µAƒNƒ[ƒY‚ªŠ®—¹‚·‚é‚Ü‚Å‘Ò‚Á‚Ä‚©‚ç closesocket ‚¨‚æ‚Ñ WSACleanup
-‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒLƒ…[‚ÉÏ‚Ü‚ê‚½–¢“Še‚Ü‚½‚Í“ŠeÏ‚İƒƒbƒZ[ƒW‚È‚Ç‚Ì‚·‚×‚Ä‚ÌƒŠƒ\[ƒX‚Æ“à•”ó‘Ô‚ÍAŸ‚Ìƒ†[ƒU[‚ª—˜—p‚Å‚«‚é‚æ‚¤‚É‰ğ•ú‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWSAStartup
-‚Ì¬Œ÷ŒÄ‚Ño‚µ‚²‚Æ‚É WSACleanup ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éBÀÛ‚ÌƒNƒŠ[ƒ“ƒAƒbƒv‚ğs‚¤‚Ì‚ÍÅŒã‚Ì WSACleanup
-ŠÖ”ŒÄ‚Ño‚µ‚Ì‚İ‚ÅA‚»‚ê‚Ü‚Å‚ÌŒÄ‚Ño‚µ‚Í WS2_32.DLL “à‚Ì“à•”QÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é‚¾‚¯‚Å‚ ‚éBNote
-WSACleanup ‚ÍAPeer Name Resolution Protocol (PNRP) –¼‘O‹óŠÔƒvƒƒoƒCƒ_‚È‚Ç‚Ì
-Windows ƒ\ƒPƒbƒg–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚É“o˜^‚³‚ê‚½–¼‘O (ƒsƒA–¼‚È‚Ç) ‚ğ“o˜^‰ğœ‚µ‚È‚¢BWindows Sockets 1.1
-‚Å‚ÍAƒuƒƒbƒLƒ“ƒOƒtƒbƒN“à‚©‚ç WSACleanup
-‚ğŒÄ‚Ño‚µ–ß‚è’l‚ğƒ`ƒFƒbƒN‚µ‚È‚¢‚±‚Æ‚ªˆê”Ê“I‚ÈƒvƒƒOƒ‰ƒ~ƒ“ƒOƒGƒ‰[‚Å‚ ‚Á‚½BWinsock 1.1
-ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒuƒƒbƒLƒ“ƒOŒÄ‚Ño‚µ‚ª–¢Š®—¹‚Ìó‘Ô‚ÅI—¹‚·‚é•K—v‚ª‚ ‚éê‡A‚Ü‚¸ WSACancelBlockingCall
-‚ÅƒuƒƒbƒLƒ“ƒOŒÄ‚Ño‚µ‚ğƒLƒƒƒ“ƒZƒ‹‚µA§Œä‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É–ß‚Á‚½Œã‚É WSACleanup ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚Á‚½BWindows
-Sockets 2 ‚Å‚Í‚±‚Ì–â‘è‚Í‘¶İ‚¹‚¸AWSACancelBlockingCall ŠÖ”‚Ííœ‚³‚ê‚½BWSACleanup
-ŠÖ”‚Íˆê”Ê‚ÉƒvƒƒgƒRƒ‹ŒÅ—L‚Ìƒwƒ‹ƒp[ DLL ‚ğƒAƒ“ƒ[ƒh‚·‚éB‚»‚Ì‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“ DLL ‚Ì DllMain ŠÖ”‚©‚ç
-WSACleanup ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢B‚±‚ê‚ÍƒfƒbƒhƒƒbƒN‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBÚ×‚Í DLL Main Function
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í DLL ‚ÍAWindows Sockets ƒT[ƒrƒX‚ğg—p‚·‚é‘O‚É WSAStartup
+‚ÌŒÄ‚Ño‚µ‚É¬Œ÷‚·‚é•K—v‚ª‚ ‚éBWindows Sockets ‚Ì—˜—p‚ğI‚¦‚½‚çAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í DLL ‚Í WSACleanup
+‚ğŒÄ‚Ño‚µ‚Ä Windows Sockets
+À‘•‚©‚ç“o˜^‰ğœ‚µA©g‚Ì‚½‚ß‚ÉŠm•Û‚³‚ê‚½ƒŠƒ\[ƒX‚ğÀ‘•‚É‰ğ•ú‚³‚¹‚é•K—v‚ª‚ ‚éBWSACleanup
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆA‚±‚ÌƒvƒƒZƒX“à‚Ì‚Ç‚ÌƒXƒŒƒbƒh‚ª”­s‚µ‚½–¢ˆ—‚ÌƒuƒƒbƒLƒ“ƒO‚Ü‚½‚Í”ñ“¯Šú Windows Sockets
+ŒÄ‚Ño‚µ‚àA’Ê’mƒƒbƒZ[ƒW‚â”CˆÓ‚ÌƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌƒVƒOƒiƒŠƒ“ƒO‚È‚µ‚ÉƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB‚±‚ÌƒvƒƒZƒX“à‚Ì‚Ç‚ÌƒXƒŒƒbƒh‚ª”­s‚µ‚½–¢ˆ—‚ÌƒI[ƒo[ƒ‰ƒbƒv‘—óM‘€ì
+(‚½‚Æ‚¦‚Î WSASendAWSASendToAWSARecvAWSARecvFrom ‚ÌƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚ÌŒÄ‚Ño‚µ)
+‚àAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌƒZƒbƒg‚âŠ®—¹ƒ‹[ƒ`ƒ“‚ÌŒÄ‚Ño‚µ (w’è‚³‚ê‚Ä‚¢‚½ê‡)
+‚È‚µ‚ÉƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB‚±‚Ìê‡A–¢ˆ—‚ÌƒI[ƒo[ƒ‰ƒbƒv‘€ì‚Í WSA_OPERATION_ABORTED
+ƒGƒ‰[‚Å¸”s‚·‚éBWSACleanup ŒÄ‚Ño‚µ‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚½ƒ\ƒPƒbƒg‚ÍAclosesocket
+‚ªŒÄ‚Î‚ê‚½‚©‚Ì‚æ‚¤‚ÉƒŠƒZƒbƒg‚³‚ê©“®“I‚É‰ğ•ú‚³‚ê‚éBclosesocket
+‚ÅƒNƒ[ƒY‚³‚ê‚½‚ª‚Ü‚¾‘—M‚·‚×‚«ƒf[ƒ^‚ªc‚Á‚Ä‚¢‚éƒ\ƒPƒbƒg‚ÍAWSACleanup
+‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä‰e‹¿‚ğó‚¯‚é‚±‚Æ‚ª‚ ‚éB‚±‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹‚É WS2_32.DLL
+‚ªƒƒ‚ƒŠ‚©‚çƒAƒ“ƒ[ƒh‚³‚ê‚é‚ÆA•Û—¯ƒf[ƒ^‚ª¸‚í‚ê‚é‰Â”\«‚ª‚ ‚éB‚·‚×‚Ä‚Ì•Û—¯ƒf[ƒ^‚ª‘—M‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+shutdown ‚ÅÚ‘±‚ğ•Â‚¶AƒNƒ[ƒY‚ªŠ®—¹‚·‚é‚Ì‚ğ‘Ò‚Á‚Ä‚©‚ç closesocket ‚Æ WSACleanup
+‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒLƒ…[“à‚Ì–¢“Še‚Ü‚½‚Í“ŠeÏ‚İƒƒbƒZ[ƒW‚È‚ÇA‚·‚×‚Ä‚ÌƒŠƒ\[ƒX‚Æ“à•”ó‘Ô‚ÍAŸ‚Ìƒ†[ƒU[‚ªg‚¦‚é‚æ‚¤‰ğ•ú‚³‚ê‚é•K—v‚ª‚ ‚éBWSAStartup
+ŒÄ‚Ño‚µ‚Ì¬Œ÷‚»‚ê‚¼‚ê‚É‘Î‚µ 1 ‰ñ‚Ì WSACleanup ŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éBÅŒã‚Ì WSACleanup
+ŒÄ‚Ño‚µ‚Ì‚İ‚ªÀÛ‚ÌƒNƒŠ[ƒ“ƒAƒbƒv‚ğs‚¤B‚»‚êˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Í WS2_32.DLL “à‚Ì“à•”QÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é‚¾‚¯‚Å‚ ‚éB’
+WSACleanup ‚ÍAPNRP (Peer Name Resolution Protocol) ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‚æ‚¤‚È
+Windows Sockets ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É“o˜^‚³‚ê‚Ä‚¢‚é–¼‘O (—á: ƒsƒA–¼) ‚Ì“o˜^‰ğœ‚Ís‚í‚È‚¢BWindows
+Sockets 1.1 ‚Å‚ÍAƒuƒƒbƒLƒ“ƒOƒtƒbƒN“à‚©‚ç WSACleanup
+‚ğŒÄ‚Ño‚µA–ß‚è’l‚ğŠm”F‚µ‚È‚¢‚Ì‚ª‚æ‚­‚ ‚éƒvƒƒOƒ‰ƒ~ƒ“ƒOƒ~ƒX‚¾‚Á‚½BWinsock 1.1
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒuƒƒbƒLƒ“ƒOŒÄ‚Ño‚µ’†‚ÉI—¹‚·‚é•K—v‚ª‚ ‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚Ü‚¸ WSACancelBlockingCall
+‚ÅƒuƒƒbƒLƒ“ƒOŒÄ‚Ño‚µ‚ğƒLƒƒƒ“ƒZƒ‹‚µA§Œä‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É–ß‚Á‚Ä‚©‚ç WSACleanup
+ŒÄ‚Ño‚µ‚ğ”­s‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚©‚Á‚½BWindows Sockets 2
+‚Å‚Í‚±‚Ì–â‘è‚Í‘¶İ‚¹‚¸AWSACancelBlockingCall ŠÖ”‚Ííœ‚³‚ê‚Ä‚¢‚éBWSACleanup
+ŠÖ”‚Í’ÊíAƒvƒƒgƒRƒ‹ŒÅ—L‚Ìƒwƒ‹ƒp DLL ‚ÌƒAƒ“ƒ[ƒh‚ğˆø‚«‹N‚±‚·B‚»‚Ì‚½‚ßAWSACleanup ŠÖ”‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“ DLL ‚Ì
+DllMain ŠÖ”‚©‚çŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ê‚ÍƒfƒbƒhƒƒbƒN‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBÚ‚µ‚­‚Í DLL Main Function
 ‚ğQÆBWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone
-ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows
 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSACloseEvent
-WSACloseEvent ŠÖ”‚ÍAŠJ‚¢‚Ä‚¢‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚·‚éB
+WSACloseEvent ŠÖ”‚ÍAƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚·‚éB
 %group
 Win32 ws2_32
 %prm
 hEvent
-hEvent : [intptr] ŠJ‚¢‚Ä‚¢‚éƒCƒxƒ“ƒg‚ğ¯•Ê‚·‚éƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹B
+hEvent : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒCƒxƒ“ƒg‚ğ¯•Ê‚·‚éƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹B
 %inst
-WSACloseEvent ŠÖ”‚ÍAŠJ‚¢‚Ä‚¢‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚·‚éB
+WSACloseEvent ŠÖ”‚ÍAƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚·‚éB
 
 [–ß‚è’l]
-ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
-WSAGetLastError ‚ğŒÄ‚Ño‚·B
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAWSAGetLastError ‚ğŒÄ‚Ño‚·B
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSACloseEvent
-ŠÖ”‚ÍAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚µAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB‚±‚ÌŠÖ”‚Í
-WSACreateEvent
-ŠÖ”‚Åì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚·‚é‚½‚ß‚Ég—p‚·‚éBƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ªƒNƒ[ƒY‚³‚ê‚½ŒãA‚±‚Ìƒnƒ“ƒhƒ‹‚Ö‚ÌQÆ‚Í
+ŠÖ”‚ÍAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚µAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB‚±‚ÌŠÖ”‚ÍAWSACreateEvent
+ŠÖ”‚Å¶¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ªƒNƒ[ƒY‚³‚ê‚½ŒãA‚±‚Ìƒnƒ“ƒhƒ‹‚Ö‚ÌQÆ‚Í
 WSA_INVALID_HANDLE ƒGƒ‰[‚Å¸”s‚·‚éBWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8
 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012
-R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows
+R2: ‚±‚ÌŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows
 ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSAConnect
-WSAConnect ŠÖ”‚ÍA•Ê‚Ìƒ\ƒPƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö‚ÌÚ‘±‚ğŠm—§‚µAÚ‘±ƒf[ƒ^‚ğŒğŠ·‚µAw’è‚µ‚½ FLOWSPEC \‘¢‘Ì‚ÉŠî‚Ã‚¢‚Ä•K—v‚È QoS ‚ğw’è‚·‚éB
+WSAConnect ŠÖ”‚ÍA•Ê‚Ìƒ\ƒPƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö‚ÌÚ‘±‚ğŠm—§‚µAÚ‘±ƒf[ƒ^‚ğŒğŠ·‚µAw’è‚³‚ê‚½ FLOWSPEC \‘¢‘Ì‚ÉŠî‚Ã‚¢‚Ä•K—v‚È QoS ‚ğw’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, name, namelen, lpCallerData, lpCalleeData, lpSQOS, lpGQOS
-s : [int] –¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
-name : [var] Ú‘±æƒAƒhƒŒƒX‚ğw’è‚·‚é sockaddr \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BIPv4 ‚Ìê‡Asockaddr ‚É‚ÍƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì AF_INETAˆ¶æ IPv4 ƒAƒhƒŒƒXAˆ¶æƒ|[ƒg‚ªŠÜ‚Ü‚ê‚éBIPv6 ‚Ìê‡Asockaddr \‘¢‘Ì‚É‚ÍƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì AF_INET6Aˆ¶æ IPv6 ƒAƒhƒŒƒXAˆ¶æƒ|[ƒg‚ªŠÜ‚Ü‚êA‚³‚ç‚É’Ç‰Á‚Ìƒtƒ[‚ÆƒXƒR[ƒv ID ‚Ìî•ñ‚ªŠÜ‚Ü‚ê‚é‚±‚Æ‚ª‚ ‚éB
+s : [int] –¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
+name : [var] Ú‘±æƒAƒhƒŒƒX‚ğw’è‚·‚é sockaddr \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BIPv4 ‚Å‚ÍAsockaddr ‚ÉƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ‚µ‚Ä AF_INETAÚ‘±æ‚Ì IPv4 ƒAƒhƒŒƒXAÚ‘±æ‚Ìƒ|[ƒg‚ªŠÜ‚Ü‚ê‚éBIPv6 ‚Å‚ÍAsockaddr \‘¢‘Ì‚ÉƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æ‚µ‚Ä AF_INET6AÚ‘±æ‚Ì IPv6 ƒAƒhƒŒƒXAÚ‘±æ‚Ìƒ|[ƒg‚ªŠÜ‚Ü‚êA’Ç‰Á‚Ìƒtƒ[î•ñ‚âƒXƒR[ƒv ID î•ñ‚ğŠÜ‚Ş‚±‚Æ‚à‚ ‚éB
 namelen : [int] name ƒpƒ‰ƒ[ƒ^‚ªw‚· sockaddr \‘¢‘Ì‚Ì’·‚³ (ƒoƒCƒg’PˆÊ)B
-lpCallerData : [var] Ú‘±Šm—§’†‚É‚à‚¤ˆê•û‚Ìƒ\ƒPƒbƒg‚Ö“]‘—‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^Bu‰ğàv‚ğQÆB
-lpCalleeData : [var] Ú‘±Šm—§’†‚É‚à‚¤ˆê•û‚Ìƒ\ƒPƒbƒg‚©‚ç•Ô‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^Bu‰ğàv‚ğQÆB
-lpSQOS : [var] ƒ\ƒPƒbƒg s ‚Ì FLOWSPEC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe•ûŒü‚É 1 ‚Â‚¸‚Âw’è‚·‚éB
-lpGQOS : [var] ƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Å‚Ì«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBŠY“–‚·‚éê‡‚Ìƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Ì FLOWSPEC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚·‚×‚«‚Å‚ ‚éB
+lpCallerData : [var] Ú‘±Šm—§’†‚É‘Šè‘¤ƒ\ƒPƒbƒg‚É“]‘—‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B”õl‚ğQÆB
+lpCalleeData : [var] Ú‘±Šm—§’†‚É‘Šè‘¤ƒ\ƒPƒbƒg‚©‚ç•Ô‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B”õl‚ğQÆB
+lpSQOS : [var] ƒ\ƒPƒbƒg s —p‚Ì FLOWSPEC \‘¢‘Ì‚Ö‚ÌAŠe•ûŒü‚É 1 ‚Â‚¸‚Â‚Ìƒ|ƒCƒ“ƒ^B
+lpGQOS : [var] «—ˆƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Åg—p‚·‚é‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBŠY“–‚·‚éê‡Aƒ\ƒPƒbƒgƒOƒ‹[ƒv—p‚Ì FLOWSPEC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚·‚×‚«‚Å‚ ‚éB
 %inst
-WSAConnect ŠÖ”‚ÍA•Ê‚Ìƒ\ƒPƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö‚ÌÚ‘±‚ğŠm—§‚µAÚ‘±ƒf[ƒ^‚ğŒğŠ·‚µAw’è‚µ‚½ FLOWSPEC
+WSAConnect ŠÖ”‚ÍA•Ê‚Ìƒ\ƒPƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö‚ÌÚ‘±‚ğŠm—§‚µAÚ‘±ƒf[ƒ^‚ğŒğŠ·‚µAw’è‚³‚ê‚½ FLOWSPEC
 \‘¢‘Ì‚ÉŠî‚Ã‚¢‚Ä•K—v‚È QoS ‚ğw’è‚·‚éB
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSAConnect ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍA–ß‚è’l‚ÍÚ‘±s‚Ì¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·Bƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍAÚ‘±s‚ğ’¼‚¿‚ÉŠ®—¹‚Å‚«‚È‚¢B‚±‚Ìê‡AWSAConnect
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSAConnect ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍA–ß‚è’l‚ÍÚ‘±s‚Ì¬”Û‚ğ¦‚·Bƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍAÚ‘±s‚ğ‘¦À‚ÉŠ®—¹‚Å‚«‚È‚¢B‚±‚Ìê‡AWSAConnect
 ‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError ‚Í WSAEWOULDBLOCK
-‚ğ•Ô‚·B]‚Á‚ÄAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ğs‚¦‚éB
+‚ğ•Ô‚·B‚»‚Ì‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŸ‚Ì‚æ‚¤‚É‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAConnect
-ŠÖ”‚ÍAw’è‚µ‚½ˆ¶æ‚Ö‚ÌÚ‘±‚ğì¬‚·‚é‚½‚ßA‚¨‚æ‚ÑÚ‘±‚É”­¶‚·‚é‚»‚Ì‘¼‚Ì•t“I‚È‘€ì‚ğÀs‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒ\ƒPƒbƒg s
-‚ªƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚È‚¢ê‡AƒVƒXƒeƒ€‚ªƒ[ƒJƒ‹ƒAƒ\ƒVƒG[ƒVƒ‡ƒ“‚ÉˆêˆÓ‚Ì’l‚ğŠ„‚è“–‚ÄAƒ\ƒPƒbƒg‚ÍƒoƒCƒ“ƒhÏ‚İ‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚éBWindows
+WSAConnect ŠÖ”‚ÍAw’è‚³‚ê‚½Ú‘±æ‚Ö‚ÌÚ‘±‚ğì¬‚µAÚ‘±‚É”­¶‚·‚é‚»‚Ì‘¼‘½”‚Ì•t“I‘€ì‚ğs‚¤‚½‚ß‚Ég—p‚³‚ê‚éBƒ\ƒPƒbƒg s
+‚ªƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚È‚¢ê‡Aƒ[ƒJƒ‹‚ÈŒ‹‡‚ÉƒVƒXƒeƒ€‚ªˆêˆÓ‚È’l‚ğŠ„‚è“–‚ÄAƒ\ƒPƒbƒg‚ÍƒoƒCƒ“ƒhÏ‚İ‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚éBWindows
 Vista ˆÈ~‚ğ‘ÎÛ‚Æ‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍAƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌİŒv‚ğ‘å•‚ÉŠÈ‘f‰»‚·‚é WSAConnectByList
-‚Ü‚½‚Í WSAConnectByName ŠÖ”‚Ìg—p‚ğŒŸ“¢‚·‚é‚±‚ÆBÚ‘±wŒüƒ\ƒPƒbƒg (—á‚¦‚Î SOCK_STREAM ƒ^ƒCƒv)
-‚Ìê‡Aname (ƒ\ƒPƒbƒg‚Ì–¼‘O‹óŠÔ“à‚ÌƒAƒhƒŒƒXBÚ×‚Í bind ‚ğQÆ)
-‚ğg‚Á‚ÄƒŠƒ‚[ƒgƒzƒXƒg‚Ö‚Ì”\“®“I‚ÈÚ‘±‚ªŠJn‚³‚ê‚éB‚±‚ÌŒÄ‚Ño‚µ‚ª³í‚ÉŠ®—¹‚·‚é‚ÆAƒ\ƒPƒbƒg‚Íƒf[ƒ^‚Ì‘—óM‚Ì€”õ‚ª®‚¤Bname
-\‘¢‘Ì‚Ì address ƒpƒ‰ƒ[ƒ^‚ª‚·‚×‚Äƒ[ƒ‚Ìê‡AWSAConnect ‚Í WSAEADDRNOTAVAIL
-ƒGƒ‰[‚ğ•Ô‚·BƒAƒNƒeƒBƒu‚ÈÚ‘±‚ğÄÚ‘±‚µ‚æ‚¤‚Æ‚·‚é‚ÆAWSAEISCONN ƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚éBNote
-ƒ\ƒPƒbƒg‚ªŠJ‚©‚êAsetsockopt ŒÄ‚Ño‚µ‚ªs‚í‚êA‚»‚ÌŒã sendto ŒÄ‚Ño‚µ‚ªs‚í‚ê‚½ê‡AWindows ƒ\ƒPƒbƒg‚ÍˆÃ–Ù‚Ì
-bind ŠÖ”ŒÄ‚Ño‚µ‚ğÀs‚·‚éBÚ‘±wŒü‚Ìƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Ìê‡AÚ‘±‚ğ’¼‚¿‚ÉŠ®—¹‚Å‚«‚È‚¢‚±‚Æ‚ª‘½‚¢B‚»‚Ì‚æ‚¤‚Èê‡A‚±‚ÌŠÖ”‚Í
+‚â WSAConnectByName ŠÖ”‚Ìg—p‚ğŒŸ“¢‚·‚é‚×‚«‚Å‚ ‚éBÚ‘±wŒüƒ\ƒPƒbƒg (‚½‚Æ‚¦‚Î SOCK_STREAM Œ^)
+‚Ìê‡Aname (ƒ\ƒPƒbƒg‚Ì–¼‘O‹óŠÔã‚ÌƒAƒhƒŒƒXBÚ‚µ‚­‚Í bind ‚ğQÆ)
+‚ğg‚Á‚ÄŠO•”ƒzƒXƒg‚Ö‚ÌƒAƒNƒeƒBƒu‚ÈÚ‘±‚ªŠJn‚³‚ê‚éB‚±‚ÌŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚Ä–ß‚Á‚½“_‚ÅAƒ\ƒPƒbƒg‚Íƒf[ƒ^‚Ì‘—óM€”õ‚ª‚Å‚«‚Ä‚¢‚éBname
+\‘¢‘Ì‚ÌƒAƒhƒŒƒXƒpƒ‰ƒ[ƒ^‚ª‚·‚×‚Äƒ[ƒ‚Ìê‡AWSAConnect ‚ÍƒGƒ‰[ WSAEADDRNOTAVAIL
+‚ğ•Ô‚·BŠù‚ÉƒAƒNƒeƒBƒu‚ÈÚ‘±‚ğÄÚ‘±‚µ‚æ‚¤‚Æ‚·‚é‚ÆƒGƒ‰[ƒR[ƒh WSAEISCONN ‚Å¸”s‚·‚éB’ ƒ\ƒPƒbƒg‚ğƒI[ƒvƒ“‚µ‚Ä
+setsockopt ‚ğŒÄ‚Ño‚µA‚»‚ÌŒã sendto ‚ğŒÄ‚Ño‚·‚ÆAWindows Sockets ‚ÍˆÃ–Ù‚Ì bind
+ŠÖ”ŒÄ‚Ño‚µ‚ğs‚¤BÚ‘±wŒü‚Ìƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍAÚ‘±‚ğ‘¦‚ÉŠ®—¹‚Å‚«‚È‚¢‚±‚Æ‚ª‘½‚¢B‚»‚Ì‚æ‚¤‚Èê‡A‚±‚ÌŠÖ”‚ÍƒGƒ‰[
 WSAEWOULDBLOCK
-ƒGƒ‰[‚ğ•Ô‚·‚ªA‘€ì‚Í‘±s‚³‚ê‚éB¬Œ÷‚Ü‚½‚Í¸”s‚ÌŒ‹‰Ê‚ª”»–¾‚·‚é‚ÆAƒNƒ‰ƒCƒAƒ“ƒg‚ª’Ê’m‚ğ“o˜^‚·‚é•û–@‚É‰‚¶‚Ä‚¢‚­‚Â‚©‚Ì•û–@‚Å•ñ‚³‚ê‚é‰Â”\«‚ª‚ ‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ª
-select ‚ğg—p‚·‚éê‡A¬Œ÷‚Í writefds ƒZƒbƒg‚ÅA¸”s‚Í exceptfds ƒZƒbƒg‚Å•ñ‚³‚ê‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ª
-WSAAsyncSelect ‚Ü‚½‚Í WSAEventSelect ‚ğg—p‚·‚éê‡A’Ê’m‚Í FD_CONNECT
-‚Å’Ê’m‚³‚êAFD_CONNECT ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒGƒ‰[ƒR[ƒh‚Í¬Œ÷‚Ü‚½‚Í¸”s‚Ì‹ï‘Ì“I‚È——R‚ğ¦‚·B”ñÚ‘±Œ^ƒ\ƒPƒbƒg (—á‚¦‚Î
-SOCK_DGRAM ƒ^ƒCƒv) ‚Å‚ÍAWSAConnect ‚É‚æ‚Á‚Äs‚í‚ê‚é‘€ì‚ÍAƒ\ƒPƒbƒg‚ª‚»‚ÌŒã‚ÌÚ‘±wŒü‚Ì‘—óM‘€ì
+‚ğ•Ô‚·B‚µ‚©‚µ‘€ì‚ÍŒp‘±‚·‚éB¬Œ÷‚Ü‚½‚Í¸”s‚ÌŒ‹‰Ê‚ª”»–¾‚µ‚½‚çAƒNƒ‰ƒCƒAƒ“ƒg‚ª’Ê’m‚ğ“o˜^‚µ‚½•û–@‚É‰‚¶‚Ä‚¢‚­‚Â‚©‚ÌŒ`‚Å•ñ‚³‚ê‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ª
+select ‚ğg‚Á‚Ä‚¢‚ê‚ÎA¬Œ÷‚Í writefds W‡‚ÅA¸”s‚Í exceptfds W‡‚Å•ñ‚³‚ê‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ª
+WSAAsyncSelect ‚â WSAEventSelect ‚ğg‚Á‚Ä‚¢‚ê‚ÎAFD_CONNECT ‚Å’Ê’m‚³‚êAFD_CONNECT
+‚É•t‚·‚éƒGƒ‰[ƒR[ƒh‚ª¬Œ÷‚©“Á’è‚Ì¸”s——R‚©‚ğ¦‚·BƒRƒlƒNƒVƒ‡ƒ“ƒŒƒXƒ\ƒPƒbƒg (‚½‚Æ‚¦‚Î SOCK_DGRAM Œ^)
+‚Ìê‡AWSAConnect ‚Ì‘€ì‚Í’P‚ÉŠù’è‚ÌÚ‘±æƒAƒhƒŒƒX‚ğİ’è‚·‚é‚¾‚¯‚ÅAƒ\ƒPƒbƒg‚Í‚»‚ÌŒã‚ÌÚ‘±wŒü‚Ì‘—óM‘€ì
 (sendAWSASendArecvAWSARecv)
-‚Åg—p‚Å‚«‚é‚æ‚¤‚ÉŠù’è‚Ìˆ¶æƒAƒhƒŒƒX‚ğ’P‚ÉŠm—§‚·‚é‚±‚Æ‚¾‚¯‚Å‚ ‚éBw’è‚³‚ê‚½ˆ¶æƒAƒhƒŒƒXˆÈŠO‚ÌƒAƒhƒŒƒX‚©‚çóM‚µ‚½ƒf[ƒ^ƒOƒ‰ƒ€‚Í”jŠü‚³‚ê‚éBname
-\‘¢‘Ì‘S‘Ì‚ª‚·‚×‚Äƒ[ƒ‚Ìê‡ (name \‘¢‘Ì‚Ì address
-ƒpƒ‰ƒ[ƒ^‚¾‚¯‚Å‚È‚­)Aƒ\ƒPƒbƒg‚ÍØ’f‚³‚ê‚éB‚»‚ÌŒãAŠù’è‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚Í–¢Šm’è‚Æ‚È‚é‚½‚ßAsendAWSASendArecvAWSARecv
-‚ÌŒÄ‚Ño‚µ‚Í WSAENOTCONN
-ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B‚µ‚©‚µAsendtoAWSASendToArecvfromAWSARecvFrom
-‚Íˆø‚«‘±‚«g—p‚Å‚«‚éBŠù’è‚Ìˆ¶æ‚ÍAƒ\ƒPƒbƒg‚ªŠù‚ÉÚ‘±‚³‚ê‚Ä‚¢‚Ä‚àA’Pƒ‚É WSAConnect ‚ğÄ“xŒÄ‚Ño‚·‚±‚Æ‚Å•ÏX‚Å‚«‚éBname
-‚ª‘O‰ñ‚Ì WSAConnect ‚ÆˆÙ‚È‚éê‡AóM‘Ò‚¿‚ÌƒLƒ…[‚É‚ ‚éƒf[ƒ^ƒOƒ‰ƒ€‚Í”jŠü‚³‚ê‚éB”ñÚ‘±Œ^ƒ\ƒPƒbƒg‚Å‚ÍAname
-‚Í”CˆÓ‚Ì—LŒø‚ÈƒAƒhƒŒƒX (ƒuƒ[ƒhƒLƒƒƒXƒgƒAƒhƒŒƒX‚ğŠÜ‚Ş) ‚ğw’è‚Å‚«‚éB‚½‚¾‚µAƒuƒ[ƒhƒLƒƒƒXƒgƒAƒhƒŒƒX‚ÉÚ‘±‚·‚é‚É‚ÍAƒ\ƒPƒbƒg‚Å
-setsockopt SO_BROADCAST ‚ª—LŒø‚É‚È‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡AWSAConnect ‚Í WSAEACCES
-ƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚éB”ñÚ‘±Œ^ƒ\ƒPƒbƒg‚Å‚ÍAƒ†[ƒU[ŠÔ‚Ìƒf[ƒ^ŒğŠ·‚Í•s‰Â”\‚ÅA‘Î‰‚·‚éƒpƒ‰ƒ[ƒ^‚Í–Ù‚Á‚Ä–³‹‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAw’è‚·‚éƒpƒ‰ƒ[ƒ^‚É‚æ‚Á‚Ä’¼Ú“I‚Ü‚½‚ÍŠÔÚ“I‚ÉQÆ‚³‚ê‚éƒƒ‚ƒŠ‹óŠÔ‚ÌŠm•Û‚ğ’S“–‚·‚éBlpCallerData
-ƒpƒ‰ƒ[ƒ^‚ÍAÚ‘±—v‹‚Æ‹¤‚É‘—M‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^ (connect data ‚ÆŒÄ‚Î‚ê‚é)
-‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠÜ‚ŞB‚±‚ê‚ÍA’Êí‚Ìƒlƒbƒgƒ[ƒNƒf[ƒ^ƒXƒgƒŠ[ƒ€‚Å‚Í‚È‚­AÚ‘±‚ğŠm—§‚·‚é‚½‚ß‚Ìƒlƒbƒgƒ[ƒN—v‹‚Æ‹¤‚É‘—M‚³‚ê‚é’Ç‰Áƒf[ƒ^‚Å‚ ‚éB‚±‚ÌƒIƒvƒVƒ‡ƒ“‚Í
-DECNet ‚â OSI TP4 ‚È‚Ç‚ÌƒŒƒKƒV[ƒvƒƒgƒRƒ‹‚Åg—p‚³‚ê‚éBNote Windows ‚Å‚Í TCP/IP ƒvƒƒgƒRƒ‹‚Í
-Connect data ‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢BConnect data ‚Í ATM (RAWWAN) ã‚Ì raw
-ƒ\ƒPƒbƒg‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB
-lpCallerData ‚ª NULL ‚Ìê‡AƒsƒA‚Éƒ†[ƒU[ƒf[ƒ^‚Í“n‚³‚ê‚È‚¢BlpCalleeData
-‚ÍŒ‹‰Êƒpƒ‰ƒ[ƒ^‚ÅAÚ‘±Šm—§‚Ìˆê•”‚Æ‚µ‚Ä‚à‚¤ˆê•û‚Ìƒ\ƒPƒbƒg‚©‚ç“n‚³‚ê‚½ƒ†[ƒU[ƒf[ƒ^‚ğ WSABUF
-\‘¢‘Ì‚Åó‚¯æ‚éBlpCalleeData ƒpƒ‰ƒ[ƒ^‚ªw‚· WSABUF \‘¢‘Ì‚Ì len ƒƒ“ƒo‚ÍAÅ‰AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª
-WSABUF \‘¢‘Ì‚Ì buf ƒƒ“ƒo‚É‘Î‚µ‚ÄŠm•Û‚µ‚½ƒoƒbƒtƒ@‚Ì’·‚³‚ğŠÜ‚ŞBƒ†[ƒU[ƒf[ƒ^‚ª•Ô‚³‚ê‚È‚©‚Á‚½ê‡AlpCalleeData
-ƒpƒ‰ƒ[ƒ^‚ªw‚· WSABUF \‘¢‘Ì‚Ì len ƒƒ“ƒo‚Í 0 ‚Éİ’è‚³‚ê‚éBÚ‘±‘€ì‚ªŠ®—¹‚·‚é‚Æ lpCalleeData
-î•ñ‚ª—LŒø‚É‚È‚éBƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍAWSAConnect
-ŠÖ”‚ª–ß‚é‚ÆÚ‘±‘€ì‚ªŠ®—¹‚·‚éBƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍAFD_CONNECT ’Ê’m‚ª”­¶‚µ‚½Œã‚ÉŠ®—¹‚·‚éBlpCalleeData
-‚ª NULL
-‚Ìê‡Aƒ†[ƒU[ƒf[ƒ^‚Í•Ô‚³‚ê‚È‚¢Bƒ†[ƒU[ƒf[ƒ^‚Ì³Šm‚ÈŒ`®‚ÍAƒ\ƒPƒbƒg‚ª‘®‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠŒÅ—L‚Å‚ ‚éBÚ‘±AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
-lpSQOS ‚¨‚æ‚Ñ lpGQOS ƒpƒ‰ƒ[ƒ^‚ğg‚Á‚ÄAWSAIoctl ‚Ì SIO_SET_QOS ‚Ü‚½‚Í
-SIO_SET_GROUP_QOS ƒIƒyƒR[ƒh‚É‚æ‚Á‚ÄˆÈ‘O‚Éƒ\ƒPƒbƒg‚É‘Î‚µ‚Äs‚í‚ê‚½ QoS d—l‚ğã‘‚«‚Å‚«‚éBlpSQOS
-ƒpƒ‰ƒ[ƒ^‚Íƒ\ƒPƒbƒg s ‚Ì FLOWSPEC \‘¢‘Ì (Še•ûŒü 1 ‚Â‚¸‚Â)
-‚ÆA‘±‚­ƒvƒƒoƒCƒ_ŒÅ—L‚Ì’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBŠÖ˜A‚·‚éƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‘S”Ê‚Ü‚½‚Í“Á’è‚Ìƒ\ƒPƒbƒgƒ^ƒCƒv‚ª QoS
-—v‹‚ğ–‚½‚¹‚È‚¢ê‡AˆÈ‰º‚É¦‚·‚æ‚¤‚ÉƒGƒ‰[‚ª•Ô‚³‚ê‚éB‘—M‚Ü‚½‚ÍóM‚Ìƒtƒ[d—l’l‚ÍA’P•ûŒüƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä‚Í‚»‚ê‚¼‚ê–³‹‚³‚ê‚éBƒvƒƒoƒCƒ_ŒÅ—L‚Ìƒpƒ‰ƒ[ƒ^‚ªw’è‚³‚ê‚È‚¢ê‡AlpCalleeData
-ƒpƒ‰ƒ[ƒ^‚ªw‚· WSABUF \‘¢‘Ì‚Ì buf ƒƒ“ƒo‚Æ len ƒƒ“ƒo‚Í‚»‚ê‚¼‚ê NULL ‚¨‚æ‚Ñ 0
-‚Éİ’è‚·‚×‚«‚Å‚ ‚éBlpSQOS ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª QoS
-‚ğw’è‚µ‚È‚¢‚±‚Æ‚ğ¦‚·Bƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Å«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚é lpGQOS ‚ÍAŠY“–‚·‚éê‡‚Ìƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Ì
-FLOWSPEC \‘¢‘Ì (Še•ûŒü 1 ‚Â‚¸‚Â) ‚ÆA‘±‚­ƒvƒƒoƒCƒ_ŒÅ—L‚Ì’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBlpGQOS ‚ª NULL
-‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒOƒ‹[ƒv QoS ‚ğw’è‚µ‚È‚¢‚±‚Æ‚ğ¦‚·B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í s
-‚ªƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Ìì¬Ò‚Å‚È‚¢ê‡‚Í–³‹‚³‚ê‚éBÚ‘±Ï‚İƒ\ƒPƒbƒg‚ª‰½‚ç‚©‚Ì——R‚ÅƒNƒ[ƒY‚³‚ê‚é‚ÆA”jŠü‚µ‚ÄÄì¬‚·‚×‚«‚Å‚ ‚éBÚ‘±Ï‚İƒ\ƒPƒbƒg‚Å‰½‚ç‚©‚Ì–â‘è‚ª”­¶‚µ‚½ê‡AˆÀ’è‚µ‚½ó‘Ô‚É–ß‚·‚½‚ß‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í•K—v‚Èƒ\ƒPƒbƒg‚ğ”jŠü‚µ‚ÄÄì¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚Æ‘z’è‚·‚é‚Ì‚ªÅ‚àˆÀ‘S‚Å‚ ‚éBNote
-WSAConnect ‚È‚Ç‚ÌƒuƒƒbƒLƒ“ƒO Winsock
-ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚Æ‚«AŒÄ‚Ño‚µ‚ªŠ®—¹‚·‚é‘O‚Éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğ‘Ò‹@‚·‚é•K—v‚ª‚ ‚éê‡‚ª‚ ‚éBWinsock
-‚Í‚±‚Ìó‹µ‚ÅŒx‰Â”\‚È‘Ò‹@‚ğs‚¢A“¯‚¶ƒXƒŒƒbƒh‚ÅƒXƒPƒWƒ…[ƒ‹‚³‚ê‚½”ñ“¯ŠúƒvƒƒV[ƒWƒƒŒÄ‚Ño‚µ (APC)
-‚É‚æ‚Á‚ÄŠ„‚è‚Ü‚ê‚é‚±‚Æ‚ª‚ ‚éB“¯‚¶ƒXƒŒƒbƒh‚Åis’†‚ÌƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ÉŠ„‚è‚ñ‚¾ APC “à‚Å•Ê‚ÌƒuƒƒbƒLƒ“ƒO
-Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚Æ–¢’è‹`“®ì‚Æ‚È‚é‚½‚ßAWinsock ƒNƒ‰ƒCƒAƒ“ƒg‚ÍŒˆ‚µ‚Ä‚İ‚Ä‚Í‚È‚ç‚È‚¢B Windows
-Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone
-ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows
-8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+‚Å—˜—p‚Å‚«‚é‚æ‚¤‚É‚È‚éBw’è‚µ‚½Ú‘±æƒAƒhƒŒƒXˆÈŠO‚©‚çóM‚µ‚½ƒf[ƒ^ƒOƒ‰ƒ€‚Í”jŠü‚³‚ê‚éBname \‘¢‘Ì‘S‘Ì‚ª‚·‚×‚Äƒ[ƒ
+(ƒAƒhƒŒƒXƒpƒ‰ƒ[ƒ^‚¾‚¯‚Å‚È‚­)
+‚Ìê‡Aƒ\ƒPƒbƒg‚ÍØ’f‚³‚ê‚éBˆÈŒãAŠù’è‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚Í•s’è‚É‚È‚é‚½‚ßAsendAWSASendArecvAWSARecv
+ŒÄ‚Ño‚µ‚ÍƒGƒ‰[ƒR[ƒh WSAENOTCONN ‚ğ•Ô‚·‚æ‚¤‚É‚È‚éB‚½‚¾‚µ
+sendtoAWSASendToArecvfromAWSARecvFrom
+‚Íˆø‚«‘±‚«g—p‚Å‚«‚éBƒ\ƒPƒbƒg‚ªŠù‚ÉÚ‘±Ï‚İ‚Å‚àAWSAConnect ‚ğ‚à‚¤ˆê“xŒÄ‚Ño‚·‚¾‚¯‚ÅŠù’è‚ÌÚ‘±æ‚ğ•ÏX‚Å‚«‚éBname
+‚ª‘O‰ñ‚Ì WSAConnect ‚ÆˆÙ‚È‚éê‡AóM‘Ò‚¿ƒLƒ…[‚É“ü‚Á‚Ä‚¢‚éƒf[ƒ^ƒOƒ‰ƒ€‚Í”jŠü‚³‚ê‚éBƒRƒlƒNƒVƒ‡ƒ“ƒŒƒXƒ\ƒPƒbƒg‚Å‚ÍAname
+‚Íƒuƒ[ƒhƒLƒƒƒXƒgƒAƒhƒŒƒX‚ğŠÜ‚Ş”CˆÓ‚Ì—LŒø‚ÈƒAƒhƒŒƒX‚ğw’è‚Å‚«‚éB‚½‚¾‚µAƒuƒ[ƒhƒLƒƒƒXƒgƒAƒhƒŒƒX‚ÉÚ‘±‚·‚é‚É‚ÍAƒ\ƒPƒbƒg‚Å
+setsockopt SO_BROADCAST ‚ğ—LŒø‚É‚·‚é•K—v‚ª‚ ‚éB‚»‚¤‚Å‚È‚¯‚ê‚Î WSAConnect ‚ÍƒGƒ‰[ƒR[ƒh
+WSAEACCES
+‚Å¸”s‚·‚éBƒRƒlƒNƒVƒ‡ƒ“ƒŒƒXƒ\ƒPƒbƒg‚Å‚ÍAƒ†[ƒU[ŠÔƒf[ƒ^‚ÌŒğŠ·‚Í‚Å‚«‚¸AŠY“–‚·‚éƒpƒ‰ƒ[ƒ^‚Í–Ù‚Á‚Ä–³‹‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA©g‚ªw’è‚·‚éƒpƒ‰ƒ[ƒ^‚ª’¼Ú“I‚Ü‚½‚ÍŠÔÚ“I‚Éw‚·ƒƒ‚ƒŠ—Ìˆæ‚ÌŠm•Û‚ÉÓ”C‚ğ‚ÂBlpCallerData
+ƒpƒ‰ƒ[ƒ^‚É‚ÍAÚ‘±—v‹‚Æ‚Æ‚à‚É‘—M‚³‚ê‚é”CˆÓ‚Ìƒ†[ƒU[ƒf[ƒ^ (Ú‘±ƒf[ƒ^‚ÆŒÄ‚Î‚ê‚é)
+‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí‚Ìƒlƒbƒgƒ[ƒNƒf[ƒ^ƒXƒgƒŠ[ƒ€‚É‚ÍŠÜ‚Ü‚ê‚È‚¢’Ç‰Áƒf[ƒ^‚ÅAÚ‘±Šm—§‚Ì‚½‚ß‚Ìƒlƒbƒgƒ[ƒN—v‹‚Æ‚Æ‚à‚É‘—M‚³‚ê‚éB‚±‚ÌƒIƒvƒVƒ‡ƒ“‚Í
+DECNetAOSI TP4 ‚È‚Ç‚ÌƒŒƒKƒV[ƒvƒƒgƒRƒ‹‚Åg—p‚³‚ê‚éB’ Windows ‚Ì TCP/IP
+ƒvƒƒgƒRƒ‹‚Å‚ÍÚ‘±ƒf[ƒ^‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢BÚ‘±ƒf[ƒ^‚ÍA¶‚Ìƒ\ƒPƒbƒgã‚Ì ATM (RAWWAN) ‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB
+lpCallerData ‚ª NULL ‚Ìê‡A‘Šè‘¤‚Éƒ†[ƒU[ƒf[ƒ^‚Í“n‚³‚ê‚È‚¢BlpCalleeData
+‚ÍŒ‹‰Êƒpƒ‰ƒ[ƒ^‚Å‚ ‚èAÚ‘±Šm—§‚ÌˆêŠÂ‚Æ‚µ‚Ä‘Šè‘¤ƒ\ƒPƒbƒg‚©‚ç“n‚³‚ê‚½ƒ†[ƒU[ƒf[ƒ^‚ğ WSABUF
+\‘¢‘Ì‚Ì’†‚ÉŠi”[‚·‚éBlpCalleeData ƒpƒ‰ƒ[ƒ^‚ªw‚· WSABUF \‘¢‘Ì‚Ì len
+ƒƒ“ƒo‚É‚ÍA‰Šú’l‚Æ‚µ‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª buf
+ƒƒ“ƒo—p‚ÉŠm•Û‚µ‚½ƒoƒbƒtƒ@‚Ì’·‚³‚ğİ’è‚µ‚Ä‚¨‚­Bƒ†[ƒU[ƒf[ƒ^‚ª•Ô‚³‚ê‚È‚©‚Á‚½ê‡AWSABUF \‘¢‘Ì‚Ì len
+ƒƒ“ƒo‚É‚Íƒ[ƒ‚ªİ’è‚³‚ê‚éBlpCalleeData î•ñ‚ÍÚ‘±‘€ì‚ªŠ®—¹‚µ‚½“_‚Å—LŒø‚É‚È‚éBƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍÚ‘±‘€ì‚Í
+WSAConnect ŠÖ”‚ª–ß‚Á‚½“_‚ÅŠ®—¹‚·‚éBƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍAFD_CONNECT
+’Ê’m‚ª”­¶‚µ‚½Œã‚ÉŠ®—¹‚·‚éBlpCalleeData ‚ª NULL
+‚Ìê‡Aƒ†[ƒU[ƒf[ƒ^‚Í•Ô‚³‚ê‚È‚¢Bƒ†[ƒU[ƒf[ƒ^‚Ì³Šm‚ÈŒ`®‚ÍAƒ\ƒPƒbƒg‚ª‘®‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ÉŒÅ—L‚Å‚ ‚éBÚ‘±AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+lpSQOS ‚Æ lpGQOS ƒpƒ‰ƒ[ƒ^‚ğg‚Á‚ÄAWSAIoctl ‚ğ SIO_SET_QOS ‚Ü‚½‚Í
+SIO_SET_GROUP_QOS ƒIƒyƒR[ƒh‚ÅŒÄ‚Ño‚µ‚ÄˆÈ‘O‚Éw’è‚µ‚½ QoS d—l‚ğƒI[ƒo[ƒ‰ƒCƒh‚Å‚«‚éBlpSQOS
+ƒpƒ‰ƒ[ƒ^‚Íƒ\ƒPƒbƒg s —p‚Ì FLOWSPEC \‘¢‘Ì (Še•ûŒü‚É 1 ‚Â‚¸‚Â)
+‚ÆA‚»‚ê‚É‘±‚­ƒvƒƒoƒCƒ_ŒÅ—L‚Ìƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBŠÖ˜A‚·‚éƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‘S”Ê‚à‚µ‚­‚Í“Á’è‚Ìƒ\ƒPƒbƒgí•Ê‚ª QoS
+—v‹‚ğ–‚½‚¹‚È‚¢ê‡AˆÈ‰º‚É¦‚·‚æ‚¤‚ÉƒGƒ‰[‚ª•Ô‚³‚ê‚éBˆê•ûŒüƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä‚ÍAŠY“–‚µ‚È‚¢•ûŒü‚Ì‘—óMƒtƒ[d—l’l‚Í‚»‚ê‚¼‚ê–³‹‚³‚ê‚éBƒvƒƒoƒCƒ_ŒÅ—Lƒpƒ‰ƒ[ƒ^‚ğw’è‚µ‚È‚¢ê‡AlpCalleeData
+ƒpƒ‰ƒ[ƒ^‚ªw‚· WSABUF \‘¢‘Ì‚Ì buf ‚Æ len ƒƒ“ƒo‚Í‚»‚ê‚¼‚ê NULL ‚Æƒ[ƒ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBlpSQOS
+ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªw’è‚·‚é QoS ‚ª‚È‚¢‚±‚Æ‚ğ¦‚·B«—ˆƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Åg—p‚·‚é‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚é
+lpGQOS ‚ÍAŠY“–‚·‚éê‡ƒ\ƒPƒbƒgƒOƒ‹[ƒv—p‚Ì FLOWSPEC \‘¢‘Ì (Še•ûŒü‚É 1 ‚Â‚¸‚Â)
+‚ÆA‚»‚ê‚É‘±‚­ƒvƒƒoƒCƒ_ŒÅ—L‚Ìƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBƒvƒƒoƒCƒ_ŒÅ—Lƒpƒ‰ƒ[ƒ^‚ğw’è‚µ‚È‚¢ê‡AlpCalleeData ƒpƒ‰ƒ[ƒ^‚ªw‚·
+WSABUF \‘¢‘Ì‚Ì buf ‚Æ len ƒƒ“ƒo‚Í‚»‚ê‚¼‚ê NULL ‚Æƒ[ƒ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBlpGQOS ‚ª NULL
+‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªw’è‚·‚éƒOƒ‹[ƒv QoS ‚ª‚È‚¢‚±‚Æ‚ğ¦‚·B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAs
+‚ªƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Ìì¬Œ³‚Å‚È‚¢ê‡‚Í–³‹‚³‚ê‚éBÚ‘±Ï‚İƒ\ƒPƒbƒg‚ª‰½‚ç‚©‚Ì——R‚ÅƒNƒ[ƒY‚³‚ê‚½ê‡A‚»‚ê‚ç‚ğ”jŠü‚µ‚ÄÄ¶¬‚·‚×‚«‚Å‚ ‚éBÚ‘±Ï‚İƒ\ƒPƒbƒg‚Å‰½‚©‚ª‚¨‚©‚µ‚­‚È‚Á‚½ê‡AˆÀ’è‚µ‚½ó‘Ô‚É–ß‚é‚½‚ß‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í•K—v‚Èƒ\ƒPƒbƒg‚ğ”jŠü‚µ‚ÄÄ¶¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚Æ‘z’è‚·‚é‚Ì‚ªÅ‚àˆÀ‘S‚Å‚ ‚éB’
+WSAConnect ‚Ì‚æ‚¤‚ÈƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚éÛAŒÄ‚Ño‚µ‚ªŠ®—¹‚·‚é‘O‚É Winsock
+‚ªƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğ‘Ò‚Â•K—v‚ª‚ ‚éê‡‚ª‚ ‚éB‚±‚Ìó‹µ‚Å‚Í Winsock ‚ÍŒx‘Ò‹@‚ğs‚¢A“¯ˆêƒXƒŒƒbƒh‚ÉƒXƒPƒWƒ…[ƒ‹‚³‚ê‚½ APC
+(”ñ“¯ŠúƒvƒƒV[ƒWƒƒƒR[ƒ‹) ‚É‚æ‚Á‚Ä’†’f‚³‚ê‚é‚±‚Æ‚ª‚ ‚éB“¯ˆêƒXƒŒƒbƒhã‚Åis’†‚ÌƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ğ’†’f‚µ‚½
+APC ‚Ì“à•”‚Å‚³‚ç‚É•Ê‚ÌƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚Æ“®ì‚Í–¢’è‹`‚Æ‚È‚èAWinsock
+ƒNƒ‰ƒCƒAƒ“ƒg‚ÍŒˆ‚µ‚Ä‚»‚ê‚ğ‚İ‚Ä‚Í‚È‚ç‚È‚¢BWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì
+Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2:
+‚±‚ÌŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSAConnectByList
-ˆ¶æƒAƒhƒŒƒX (ƒzƒXƒg–¼‚¨‚æ‚Ñƒ|[ƒg) ‚ÌW‡‚Å•\‚³‚ê‚é•¡”‚ÌŒó•âƒGƒ“ƒhƒ|ƒCƒ“ƒg‚Ì 1 ‚Â‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB
+Ú‘±æƒAƒhƒŒƒX‚ÌW‡ (ƒzƒXƒg–¼‚Æƒ|[ƒg) ‚Å•\‚³‚ê‚é•¡”‚ÌŒó•âƒGƒ“ƒhƒ|ƒCƒ“ƒg‚Ì‚¢‚¸‚ê‚© 1 ‚Â‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, SocketAddress, LocalAddressLength, LocalAddress, RemoteAddressLength, RemoteAddress, timeout, Reserved
-s : [int] ƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚È‚¢–¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqBÚ‘±‚ğŠm—§‚·‚é‘¼‚Ì Winsock ŒÄ‚Ño‚µ (—á‚¦‚Î WSAConnect) ‚ÆˆÙ‚È‚èAWSAConnectByList ŠÖ”‚Í–¢ƒoƒCƒ“ƒh‚Ìƒ\ƒPƒbƒg‚ğ•K—v‚Æ‚·‚é‚±‚Æ‚É’ˆÓB
-SocketAddress : [var] ƒsƒA‚ÉÚ‘±‚·‚é‚½‚ß‚Ìˆ¶æƒAƒhƒŒƒX‚Æƒ|[ƒg‚ÌƒyƒA‚ÌŒó•â‚ğ•\‚· SOCKET_ADDRESS_LIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BSOCKET_ADDRESS_LIST “à‚ÌŠe SOCKET_ADDRESS \‘¢‘Ì‚Éƒ|[ƒg”Ô†‚ğİ’è‚·‚é‚Ì‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÓ”C‚Å‚ ‚éB
-LocalAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚é LocalAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª³í‚ÉŠ®—¹‚µ‚½Û‚ÉƒVƒXƒeƒ€‚É‚æ‚Á‚Ä LocalAddress ƒoƒbƒtƒ@‚ÉŠi”[‚³‚ê‚éƒ[ƒJƒ‹ƒAƒhƒŒƒX‚Ì SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-LocalAddress : [var] Ú‘±‚Ìƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÌƒTƒCƒY‚ÍALocalAddressLength ‚Å•Ô‚³‚ê‚éƒTƒCƒY‚Æ³Šm‚É“™‚µ‚¢B‚±‚ê‚Í getsockname ŠÖ”‚ª•Ô‚·î•ñ‚Æ“¯‚¶‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«A‚»‚Ìê‡ LocalAddressLength ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
-RemoteAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚é RemoteAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª³í‚ÉŠ®—¹‚µ‚½Û‚ÉƒVƒXƒeƒ€‚É‚æ‚Á‚Ä RemoteAddress ƒoƒbƒtƒ@‚ÉŠi”[‚³‚ê‚éƒŠƒ‚[ƒgƒAƒhƒŒƒX‚Ì SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-RemoteAddress : [var] Ú‘±‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í getpeername ŠÖ”‚ª•Ô‚·î•ñ‚Æ“¯‚¶‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«A‚»‚Ìê‡ RemoteAddressLength ‚Í–³‹‚³‚ê‚éB
-timeout : [var] ŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚ÅAƒŠƒ‚[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚Ì‰“š‚ğ‘Ò‹@‚·‚éŠÔ‚ğƒ~ƒŠ•b’PˆÊ‚Åw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«A‚»‚Ìê‡ WSAConnectByList ‚ÍÚ‘±‚ª³í‚ÉŠm—§‚³‚ê‚½ŒãA‚Ü‚½‚Í‚·‚×‚Ä‚Ì‰Â”\‚Èƒ[ƒJƒ‹-ƒŠƒ‚[ƒgƒAƒhƒŒƒXƒyƒA‚ÅÚ‘±‚ğ‚İ‚Ä¸”s‚µ‚½Œã‚ÉŠ®—¹‚·‚éB
+s : [int] ƒoƒCƒ“ƒh‚³‚ê‚Ä‚¨‚ç‚¸A–¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^BWSAConnect ‚Ì‚æ‚¤‚ÈÚ‘±Šm—§‚Ì‚½‚ß‚Ì‘¼‚Ì Winsock ŒÄ‚Ño‚µ‚ÆˆÙ‚È‚èAWSAConnectByList ŠÖ”‚ÍƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚È‚¢ƒ\ƒPƒbƒg‚ğ•K—v‚Æ‚·‚é“_‚É’ˆÓB
+SocketAddress : [var] ƒsƒA‚ÉÚ‘±‚·‚é‚½‚ß‚ÌAl‚¦‚ç‚ê‚éÚ‘±æƒAƒhƒŒƒX‚Æƒ|[ƒg‚Ì‘g‚ğ•\‚· SOCKET_ADDRESS_LIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BSOCKET_ADDRESS_LIST “à‚ÌŠe SOCKET_ADDRESS \‘¢‘Ì‚Éƒ|[ƒg”Ô†‚ğİ’è‚·‚é‚Ì‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÓ”C‚Å‚ ‚éB
+LocalAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª—pˆÓ‚µ‚½ LocalAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½Û‚ÉƒVƒXƒeƒ€‚ª LocalAddress ƒoƒbƒtƒ@‚ÉŠi”[‚µ‚½ƒ[ƒJƒ‹ƒAƒhƒŒƒX—p SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+LocalAddress : [var] Ú‘±‚Ìƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒpƒ‰ƒ[ƒ^‚ÌƒTƒCƒY‚Í LocalAddressLength ‚Å•Ô‚³‚ê‚éƒTƒCƒY‚ÆŠ®‘S‚Éˆê’v‚·‚éB‚±‚ê‚Í getsockname ŠÖ”‚ª•Ô‚·‚Ì‚Æ“¯‚¶î•ñ‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡ LocalAddressLength ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
+RemoteAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª—pˆÓ‚µ‚½ RemoteAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½Û‚ÉƒVƒXƒeƒ€‚ª RemoteAddress ƒoƒbƒtƒ@‚ÉŠi”[‚µ‚½ƒŠƒ‚[ƒgƒAƒhƒŒƒX—p SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+RemoteAddress : [var] Ú‘±‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í getpeername ŠÖ”‚ª•Ô‚·‚Ì‚Æ“¯‚¶î•ñ‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡ RemoteAddressLength ‚Í–³‹‚³‚ê‚éB
+timeout : [var] ƒŠƒ‚[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚Ì‰“š‚ğ‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚Å‚ÌŠÔ (ƒ~ƒŠ•b)B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚·‚é‚±‚Æ‚à‚Å‚«A‚»‚Ìê‡ WSAConnectByList ‚ÍAÚ‘±‚ª³í‚ÉŠm—§‚³‚ê‚é‚©Al‚¦‚ç‚ê‚é‚·‚×‚Ä‚Ìƒ[ƒJƒ‹EƒŠƒ‚[ƒgƒAƒhƒŒƒXƒyƒA‚ÅÚ‘±s‚ªs‚í‚ê¸”s‚µ‚½Œã‚ÉŠ®—¹‚·‚éB
 Reserved : [var] «—ˆ‚ÌÀ‘•‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-ˆ¶æƒAƒhƒŒƒX (ƒzƒXƒg–¼‚¨‚æ‚Ñƒ|[ƒg) ‚ÌW‡‚Å•\‚³‚ê‚é•¡”‚ÌŒó•âƒGƒ“ƒhƒ|ƒCƒ“ƒg‚Ì 1 ‚Â‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB
+Ú‘±æƒAƒhƒŒƒX‚ÌW‡ (ƒzƒXƒg–¼‚Æƒ|[ƒg) ‚Å•\‚³‚ê‚é•¡”‚ÌŒó•âƒGƒ“ƒhƒ|ƒCƒ“ƒg‚Ì‚¢‚¸‚ê‚© 1 ‚Â‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB
 
 [–ß‚è’l]
-Ú‘±‚ªŠm—§‚³‚ê‚½ê‡AWSAConnectByList ‚Í TRUE ‚ğ•Ô‚µAŒÄ‚Ño‚µŒ³‚ª‚±‚ê‚ç‚Ìƒoƒbƒtƒ@‚ğw’è‚µ‚Ä‚¢‚ê‚Î
-LocalAddress ‚¨‚æ‚Ñ RemoteAddress ƒpƒ‰ƒ[ƒ^‚ª–„‚ß‚ç‚ê‚éBŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡AFALSE
-‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í WSAGetLastError ‚ğŒÄ‚Ño‚·B
+Ú‘±‚ªŠm—§‚³‚ê‚½ê‡AWSAConnectByList ‚Í TRUE ‚ğ•Ô‚µAŒÄ‚Ño‚µŒ³‚ªƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚µ‚Ä‚¢‚ê‚Î
+LocalAddress ‚¨‚æ‚Ñ RemoteAddress ƒpƒ‰ƒ[ƒ^‚É’l‚ªİ’è‚³‚ê‚éBŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Í FALSE
+‚ğ•Ô‚·B‚»‚ÌŒãAWSAGetLastError ‚ğŒÄ‚Ño‚µ‚ÄŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAConnectByList ‚Í WSAConnectByName ŠÖ”‚É—‚Ä‚¢‚éB’Pˆê‚ÌƒzƒXƒg–¼‚ÆƒT[ƒrƒX–¼ (ƒ|[ƒg)
-‚ğó‚¯æ‚é‘ã‚í‚è‚ÉAWSAConnectByList ‚ÍƒAƒhƒŒƒX‚ÌƒŠƒXƒg (ƒzƒXƒgƒAƒhƒŒƒX‚Æƒ|[ƒg)
-‚ğó‚¯æ‚èA‚»‚ê‚ç‚ÌƒAƒhƒŒƒX‚Ì‚¢‚¸‚ê‚©‚ÉÚ‘±‚·‚éBWSAConnectByList
-ŠÖ”‚ÍAöİ“I‚Èƒm[ƒh‚ÌƒŠƒXƒg‚©‚ç—˜—p‰Â”\‚È”CˆÓ‚Ìƒm[ƒh‚ÉÚ‘±‚·‚é•K—v‚ª‚ ‚éƒsƒAƒc[ƒsƒAƒRƒ‰ƒ{ƒŒ[ƒVƒ‡ƒ“ƒVƒiƒŠƒI‚ğƒTƒ|[ƒg‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éBWSAConnectByList
-‚Í IPv6 ‚¨‚æ‚Ñ IPv4 ‚Ì—¼ƒo[ƒWƒ‡ƒ“‚ÆŒİŠ·«‚ª‚ ‚éBˆ¶æŒó•â‚ÌW‡ (ƒAƒhƒŒƒX‚ÌƒŠƒXƒg‚Å•\Œ»)
-‚ÍŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éBWSAConnectByList
-‚ÍA•¡”‚Ìˆ¶æƒAƒhƒŒƒX‚Ì‚¢‚¸‚ê‚©‚ÉÚ‘±‚ğ‚İ‚éˆÈã‚Ì‚±‚Æ‚ğs‚¤B‹ï‘Ì“I‚É‚ÍAŒÄ‚Ño‚µŒ³‚©‚ç“n‚³‚ê‚½‚·‚×‚Ä‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒXA‚·‚×‚Ä‚Ìƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ğó‚¯æ‚èAÅ‚à¬Œ÷‚·‚é‰Â”\«‚Ì‚‚¢ƒAƒhƒŒƒXƒyƒA‚©‚ç‡‚ÉÚ‘±‚ğ‚İ‚éB‚±‚ê‚É‚æ‚èAWSAConnectByList
-‚ÍÚ‘±‚ª‰Â”\‚Å‚ ‚ê‚Î•K‚¸Ú‘±‚ªŠm—§‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚é‚¾‚¯‚Å‚È‚­AÚ‘±‚ğŠm—§‚·‚é‚Ü‚Å‚ÌŠÔ‚àÅ¬‰»‚·‚éBŒÄ‚Ño‚µŒ³‚Í
-LocalAddress ‚¨‚æ‚Ñ RemoteAddress
-ƒoƒbƒtƒ@‚Æ’·‚³‚ğw’è‚µ‚ÄAÚ‘±‚ª³í‚ÉŠm—§‚³‚ê‚½ƒ[ƒJƒ‹‚¨‚æ‚ÑƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ğŒˆ’è‚Å‚«‚éBtimeout
-ƒpƒ‰ƒ[ƒ^‚É‚æ‚èAŒÄ‚Ño‚µŒ³‚ÍÚ‘±Šm—§‚É—v‚·‚éŠÔ‚ğ§ŒÀ‚Å‚«‚éBWSAConnectByList ‚Í“à•”‚Å•¡”‚Ì‘€ì (Ú‘±s)
-‚ğÀs‚·‚éBŠe‘€ì‚Ì‡ŠÔ‚É timeout ƒpƒ‰ƒ[ƒ^‚ª’´‰ß‚µ‚Ä‚¢‚È‚¢‚©ƒ`ƒFƒbƒN‚³‚êA’´‰ß‚µ‚Ä‚¢‚ê‚ÎŒÄ‚Ño‚µ‚Í’†~‚³‚ê‚éBŒÂX‚Ì‘€ì
-(connect) ‚Í timeout ‚ğ’´‰ß‚µ‚Ä‚à’†’f‚³‚ê‚È‚¢‚½‚ßAWSAConnectByList ‚ÌŒÄ‚Ño‚µ‚Í timeout
-ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½’l‚æ‚è‚à’·‚­‚©‚©‚é‰Â”\«‚ª‚ ‚é‚±‚Æ‚É’ˆÓBWSAConnectByList ‚É‚Í§ŒÀ‚ª‚ ‚é: Ú‘±wŒüƒ\ƒPƒbƒg
-(SOCK_STREAM ƒ^ƒCƒv‚È‚Ç) ‚Å‚Ì‚İ“®ì‚·‚éBŠÖ”‚ÍƒI[ƒo[ƒ‰ƒbƒv I/O
-‚âƒmƒ“ƒuƒƒbƒLƒ“ƒO“®ì‚ğƒTƒ|[ƒg‚µ‚È‚¢Bƒ\ƒPƒbƒg‚ªƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Å‚ ‚Á‚Ä‚à WSAConnectByList
-‚ÍƒuƒƒbƒN‚·‚éBWSAConnectByList ‚ÍŒÄ‚Ño‚µŒ³‚©‚ç“n‚³‚ê‚½ŠeƒAƒhƒŒƒX‚Ö‚ÌÚ‘±‚ğ 1
-‚Â‚¸‚Â‚İ‚éB‚±‚ê‚ç‚ÌÚ‘±s‚Ì‚»‚ê‚¼‚ê‚ªˆÙ‚È‚éƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚é‰Â”\«‚ª‚ ‚èA1
-‚Â‚ÌƒGƒ‰[ƒR[ƒh‚µ‚©•Ô‚¹‚È‚¢‚½‚ßA•Ô‚³‚ê‚é’l‚ÍÅŒã‚ÌÚ‘±s‚ÌƒGƒ‰[ƒR[ƒh‚Å‚ ‚éB‚±‚ÌŠÖ”‚ªó‚¯•t‚¯‚é’Pˆê‚ÌƒAƒhƒŒƒXƒŠƒXƒg‚É IPv6 ‚Æ
-IPv4 ‚Ì—¼•û‚ÌƒAƒhƒŒƒX‚ğ“n‚¹‚é‚æ‚¤‚É‚·‚é‚É‚ÍAŠÖ”‚ğŒÄ‚Ño‚·‘O‚ÉˆÈ‰º‚Ìè‡‚ğÀs‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+WSAConnectByList ‚Í WSAConnectByName ŠÖ”‚Æ—‚Ä‚¢‚éB’Pˆê‚ÌƒzƒXƒg–¼‚ÆƒT[ƒrƒX–¼ (ƒ|[ƒg)
+‚ğæ‚é‘ã‚í‚è‚ÉAWSAConnectByList ‚ÍƒAƒhƒŒƒX‚ÌƒŠƒXƒg (ƒzƒXƒgƒAƒhƒŒƒX‚Æƒ|[ƒg) ‚ğæ‚èA‚»‚Ì‚¤‚¿‚Ì 1
+‚Â‚ÉÚ‘±‚·‚éBWSAConnectByList
+ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŒó•âƒm[ƒh‚ÌƒŠƒXƒg‚©‚çÚ‘±‰Â”\‚È”CˆÓ‚Ìƒm[ƒh‚ÉÚ‘±‚·‚é•K—v‚ª‚ ‚éƒsƒAƒc[ƒsƒAƒRƒ‰ƒ{ƒŒ[ƒVƒ‡ƒ“ƒVƒiƒŠƒI‚ğƒTƒ|[ƒg‚·‚é‚æ‚¤İŒv‚³‚ê‚Ä‚¢‚éBWSAConnectByList
+‚Í IPv6 ‚Æ IPv4
+‚Ì—¼ƒo[ƒWƒ‡ƒ“‚É‘Î‰‚·‚éBl‚¦‚ç‚ê‚éÚ‘±æ‚ÌW‡‚ÍAƒAƒhƒŒƒX‚ÌƒŠƒXƒg‚Æ‚µ‚ÄŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éBWSAConnectByList
+‚ÍA’P‚Él‚¦‚ç‚ê‚é•¡”‚ÌÚ‘±æƒAƒhƒŒƒX‚Ì‚¢‚¸‚ê‚©‚Ö‚ÌÚ‘±‚ğ‚İ‚é‚¾‚¯‚Å‚Í‚È‚¢B‹ï‘Ì“I‚É‚ÍAŒÄ‚Ño‚µŒ³‚©‚ç“n‚³‚ê‚½‚·‚×‚Ä‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚Æ‚·‚×‚Ä‚Ìƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ğæ‚èA¬Œ÷‚Ì‰Â”\«‚ªÅ‚à‚‚¢ƒAƒhƒŒƒXƒyƒA‚©‚ç‡‚ÉÚ‘±‚ğ‚İ‚éB‚±‚ê‚É‚æ‚èAWSAConnectByList
+‚ÍÚ‘±‚ª‰Â”\‚Èê‡‚Í•K‚¸Ú‘±‚ğŠm—§‚·‚é‚¾‚¯‚Å‚È‚­AÚ‘±Šm—§‚Ü‚Å‚ÌŠÔ‚àÅ¬‰»‚·‚éBŒÄ‚Ño‚µŒ³‚Í LocalAddress ‚¨‚æ‚Ñ
+RemoteAddress ‚Ìƒoƒbƒtƒ@‚Æ’·‚³‚ğw’è‚µ‚ÄAÚ‘±‚ª³í‚ÉŠm—§‚³‚ê‚½ƒ[ƒJƒ‹EƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ğó‚¯æ‚ê‚éBtimeout
+ƒpƒ‰ƒ[ƒ^‚É‚æ‚èAÚ‘±Šm—§‚É”ï‚â‚·ŠÔ‚ğ§ŒÀ‚Å‚«‚éB“à•”“I‚É‚Í WSAConnectByList ‚Í•¡”‚Ì‘€ì (Ú‘±s)
+‚ğÀs‚·‚éBŠe‘€ì‚Ì‡ŠÔ‚Éƒ^ƒCƒ€ƒAƒEƒg‚ğ’´‰ß‚µ‚Ä‚¢‚È‚¢‚©‚ğŠm”F‚µA’´‰ß‚µ‚Ä‚¢‚ê‚ÎŒÄ‚Ño‚µ‚ğ’†~‚·‚éBŒÂ•Ê‚Ì‘€ì (connect)
+‚ªƒ^ƒCƒ€ƒAƒEƒg’´‰ß“_‚Å’†’f‚³‚ê‚é‚í‚¯‚Å‚Í‚È‚¢‚½‚ßAWSAConnectByList ŒÄ‚Ño‚µ‚Í timeout
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½’l‚æ‚è’·‚­‚©‚©‚Á‚Äƒ^ƒCƒ€ƒAƒEƒg‚·‚é‚±‚Æ‚ª‚ ‚é“_‚É’ˆÓBWSAConnectByList ‚É‚Í§–ñ‚ª‚ ‚é:
+SOCK_STREAM ‚Ì‚æ‚¤‚ÈÚ‘±wŒüƒ\ƒPƒbƒg‚Å‚Ì‚İ“®ì‚·‚éBƒI[ƒo[ƒ‰ƒbƒv I/O
+‚âƒmƒ“ƒuƒƒbƒLƒ“ƒO“®ì‚ÍƒTƒ|[ƒg‚µ‚È‚¢Bƒ\ƒPƒbƒg‚ªƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Å‚ ‚Á‚Ä‚à WSAConnectByList
+‚ÍƒuƒƒbƒN‚·‚éBWSAConnectByList ‚ÍAŒÄ‚Ño‚µŒ³‚©‚ç“n‚³‚ê‚½ŠeíƒAƒhƒŒƒX‚É‘Î‚µ‚Ä 1
+‚Â‚¸‚ÂÚ‘±‚ğ‚İ‚éB‚±‚ê‚ç‚ÌÚ‘±s‚Í‚»‚ê‚¼‚êˆÙ‚È‚éƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚é‰Â”\«‚ª‚ ‚éB•Ô‚¹‚éƒGƒ‰[ƒR[ƒh‚Í 1
+‚Â‚¾‚¯‚È‚Ì‚ÅA•Ô‚³‚ê‚é’l‚ÍÅŒã‚ÌÚ‘±s‚ÌƒGƒ‰[ƒR[ƒh‚Æ‚È‚éBIPv6 ‚Æ IPv4
+‚Ì—¼•û‚ÌƒAƒhƒŒƒX‚ğŠÖ”‚ªó‚¯•t‚¯‚é’Pˆê‚ÌƒAƒhƒŒƒXƒŠƒXƒg‚Å“n‚¹‚é‚æ‚¤‚É‚·‚é‚É‚ÍAŠÖ”ŒÄ‚Ño‚µ‘O‚ÉŸ‚Ìè‡‚ğ“¥‚Ş•K—v‚ª‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
 %index
 WSAConnectByNameW
-w’è‚µ‚½ƒzƒXƒg‚¨‚æ‚Ñƒ|[ƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB(Unicode)
+w’è‚µ‚½ƒzƒXƒg‚Æƒ|[ƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 s, nodename, servicename, LocalAddressLength, LocalAddress, RemoteAddressLength, RemoteAddress, timeout, Reserved
-s : [int] –¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqBNote  Windows 7AWindows Server 2008 R2 ˆÈ‘O‚Å‚ÍAWSAConnectByName ŠÖ”‚Í–¢ƒoƒCƒ“ƒh‚©‚Â–¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ•K—v‚Æ‚·‚éB‚±‚ê‚ÍÚ‘±‚ğŠm—§‚·‚é‘¼‚Ì Winsock ŒÄ‚Ño‚µ (—á‚¦‚Î WSAConnect) ‚Æ‚ÍˆÙ‚È‚éB
-nodename : [wstr] IPv4 ‚Ü‚½‚Í IPv6 ‚ÅÚ‘±‚·‚éƒzƒXƒg–¼‚Ü‚½‚ÍƒzƒXƒg‚Ì IP ƒAƒhƒŒƒX‚ğŠÜ‚Ş NULL I’[•¶š—ñB
-servicename : [wstr] IPv4 ‚Ü‚½‚Í IPv6 ‚ÅÚ‘±‚·‚éƒzƒXƒg‚ÌƒT[ƒrƒX–¼‚Ü‚½‚Íˆ¶æƒ|[ƒg‚ğŠÜ‚Ş NULL I’[•¶š—ñBƒT[ƒrƒX–¼‚Íƒ|[ƒg”Ô†‚Ì•¶š—ñƒGƒCƒŠƒAƒX‚Å‚ ‚éB—á‚¦‚Î "http" ‚ÍAHTTP ƒvƒƒgƒRƒ‹‚Å Web ƒT[ƒo[‚ªg—p‚·‚éŠù’è‚Ìƒ|[ƒg‚Æ‚µ‚Ä IETF ‚ª’è‹`‚µ‚½ƒ|[ƒg 80 ‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBƒ|[ƒg”Ô†‚ğw’è‚µ‚È‚¢ê‡‚É servicename ƒpƒ‰ƒ[ƒ^‚Éw’è‚Å‚«‚é’l‚ÍA%WINDIR%\system32\drivers\etc\services ‚Éˆê——‚³‚ê‚Ä‚¢‚éB
-LocalAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚é LocalAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª³í‚ÉŠ®—¹‚µ‚½Û‚ÉƒVƒXƒeƒ€‚É‚æ‚Á‚Ä LocalAddress ƒoƒbƒtƒ@‚ÉŠi”[‚³‚ê‚éƒ[ƒJƒ‹ƒAƒhƒŒƒX‚Ì SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-LocalAddress : [var] Ú‘±‚Ìƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÌƒTƒCƒY‚ÍALocalAddressLength ‚Å•Ô‚³‚ê‚éƒTƒCƒY‚Æ³Šm‚É“™‚µ‚¢B‚±‚ê‚Í getsockname ŠÖ”‚ª•Ô‚·î•ñ‚Æ“¯‚¶‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«A‚»‚Ìê‡ LocalAddressLength ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
-RemoteAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚é RemoteAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª³í‚ÉŠ®—¹‚µ‚½Û‚ÉƒVƒXƒeƒ€‚É‚æ‚Á‚Ä RemoteAddress ƒoƒbƒtƒ@‚ÉŠi”[‚³‚ê‚éƒŠƒ‚[ƒgƒAƒhƒŒƒX‚Ì SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-RemoteAddress : [var] Ú‘±‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í getpeername ŠÖ”‚ª•Ô‚·î•ñ‚Æ“¯‚¶‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«A‚»‚Ìê‡ RemoteAddressLength ‚Í–³‹‚³‚ê‚éB
-timeout : [var] ŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚ÅƒŠƒ‚[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚Ì‰“š‚ğ‘Ò‹@‚·‚éŠÔ‚ğƒ~ƒŠ•b’PˆÊ‚Åw’è‚·‚éB
+s : [int] –¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B’ Windows 7AWindows Server 2008 R2 ˆÈ‘O‚Å‚ÍAWSAConnectByName ŠÖ”‚ÍƒoƒCƒ“ƒh‚³‚ê‚Ä‚¨‚ç‚¸A–¢Ú‘±‚Ìƒ\ƒPƒbƒg‚ğ•K—v‚Æ‚·‚éB‚±‚ê‚Í WSAConnect ‚È‚ÇÚ‘±Šm—§‚Ì‚½‚ß‚Ì‘¼‚Ì Winsock ŒÄ‚Ño‚µ‚ÆˆÙ‚È‚éB
+nodename : [wstr] IPv4 ‚Ü‚½‚Í IPv6 ‚ÅÚ‘±‚·‚éƒzƒXƒg‚Ì–¼‘OA‚Ü‚½‚ÍƒzƒXƒg‚Ì IP ƒAƒhƒŒƒX‚ğŠi”[‚·‚é NULL I’[•¶š—ñB
+servicename : [wstr] IPv4 ‚Ü‚½‚Í IPv6 ‚ÅÚ‘±‚·‚éƒzƒXƒgã‚ÌƒT[ƒrƒX–¼‚Ü‚½‚ÍÚ‘±æƒ|[ƒg‚ğŠi”[‚·‚é NULL I’[•¶š—ñBƒT[ƒrƒX–¼‚Íƒ|[ƒg”Ô†‚Ì•¶š—ñƒGƒCƒŠƒAƒX‚Å‚ ‚éB‚½‚Æ‚¦‚Î "http" ‚ÍAHTTP ƒvƒƒgƒRƒ‹‚Å Web ƒT[ƒo‚ªŠù’è‚Åg—p‚·‚éƒ|[ƒg‚Æ‚µ‚Ä IETF ‚ª’è‚ß‚½ƒ|[ƒg 80 ‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBƒ|[ƒg”Ô†‚ğw’è‚µ‚È‚¢ê‡‚Ì servicename ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äg—p‰Â”\‚È’l‚ÍAŸ‚Ìƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚é: %WINDIR%\system32\drivers\etc\services
+LocalAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª—pˆÓ‚µ‚½ LocalAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½Û‚ÉƒVƒXƒeƒ€‚ª LocalAddress ƒoƒbƒtƒ@‚ÉŠi”[‚µ‚½ƒ[ƒJƒ‹ƒAƒhƒŒƒX—p SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+LocalAddress : [var] Ú‘±‚Ìƒ[ƒJƒ‹ƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒpƒ‰ƒ[ƒ^‚ÌƒTƒCƒY‚Í LocalAddressLength ‚Å•Ô‚³‚ê‚éƒTƒCƒY‚ÆŠ®‘S‚Éˆê’v‚·‚éB‚±‚ê‚Í getsockname ŠÖ”‚ª•Ô‚·‚Ì‚Æ“¯‚¶î•ñ‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡ LocalAddressLength ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
+RemoteAddressLength : [var] “ü—ÍAŒÄ‚Ño‚µŒ³‚ª—pˆÓ‚µ‚½ RemoteAddress ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—ÍAŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½Û‚ÉƒVƒXƒeƒ€‚ª RemoteAddress ƒoƒbƒtƒ@‚ÉŠi”[‚µ‚½ƒŠƒ‚[ƒgƒAƒhƒŒƒX—p SOCKADDR ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+RemoteAddress : [var] Ú‘±‚ÌƒŠƒ‚[ƒgƒAƒhƒŒƒX‚ğó‚¯æ‚é SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í getpeername ŠÖ”‚ª•Ô‚·‚Ì‚Æ“¯‚¶î•ñ‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡ RemoteAddressLength ‚Í–³‹‚³‚ê‚éB
+timeout : [var] ƒŠƒ‚[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚Ì‰“š‚ğ‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚µ‚ğ’†~‚·‚é‚Ü‚Å‚ÌŠÔ (ƒ~ƒŠ•b)B
 Reserved : [var] «—ˆ‚ÌÀ‘•‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-w’è‚µ‚½ƒzƒXƒg‚¨‚æ‚Ñƒ|[ƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB(Unicode)
+w’è‚µ‚½ƒzƒXƒg‚Æƒ|[ƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Ú‘±‚ªŠm—§‚³‚ê‚½ê‡AWSAConnectByName ‚Í TRUE ‚ğ•Ô‚µAŒÄ‚Ño‚µŒ³‚ª‚±‚ê‚ç‚Ìƒoƒbƒtƒ@‚ğw’è‚µ‚Ä‚¢‚ê‚Î
-LocalAddress ‚¨‚æ‚Ñ RemoteAddress ƒpƒ‰ƒ[ƒ^‚ª–„‚ß‚ç‚ê‚éBŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡AFALSE
-‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í WSAGetLastError ‚ğŒÄ‚Ño‚·B
+Ú‘±‚ªŠm—§‚³‚ê‚½ê‡AWSAConnectByName ‚Í TRUE ‚ğ•Ô‚µAŒÄ‚Ño‚µŒ³‚ªƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚µ‚Ä‚¢‚ê‚Î
+LocalAddress ‚¨‚æ‚Ñ RemoteAddress ƒpƒ‰ƒ[ƒ^‚É’l‚ªİ’è‚³‚ê‚éBŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Í FALSE
+‚ğ•Ô‚·B‚»‚ÌŒãAWSAGetLastError ‚ğŒÄ‚Ño‚µ‚ÄŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAConnectByName ‚ÍA“Á’è‚Ìƒ|[ƒgã‚ÌƒŠƒ‚[ƒgƒzƒXƒg‚Ö‚Ìv‘¬‚©‚Â“§‰ß“I‚ÈÚ‘±‚ğ‰Â”\‚É‚·‚é‚½‚ß‚É’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éBIPv6
-‚¨‚æ‚Ñ IPv4 ‚Ì—¼ƒo[ƒWƒ‡ƒ“‚ÆŒİŠ·«‚ª‚ ‚éB
+WSAConnectByName ‚ÍAw’è‚Ìƒ|[ƒg‚ÅƒŠƒ‚[ƒgƒzƒXƒg‚É‚‘¬‚©‚Â“§‰ß“I‚ÉÚ‘±‚·‚é‚½‚ß‚É’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éBIPv6 ‚Æ IPv4
+‚Ì—¼ƒo[ƒWƒ‡ƒ“‚É‘Î‰‚·‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -1353,126 +1329,126 @@ Win32 ws2_32
 WSACreateEvent ŠÖ”‚ÍAV‚µ‚¢ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSACreateEvent ‚ÍƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡A–ß‚è’l‚Í
-WSA_INVALID_EVENT ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í WSAGetLastError ‚ğŒÄ‚Ño‚·B
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSACreateEvent ‚ÍƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Ì–ß‚è’l‚Í
+WSA_INVALID_EVENT ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAWSAGetLastError ‚ğŒÄ‚Ño‚·B
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSACreateEvent
-ŠÖ”‚ÍA‰Šúó‘Ô‚ª”ñƒVƒOƒiƒ‹ó‘Ô‚Ìè“®ƒŠƒZƒbƒgƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB•Ô‚³‚ê‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚Å‚«‚È‚¢BƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Í–³–¼‚Å‚ ‚éBƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚é‚É‚Í
-WSASetEvent ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB”ñƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚é‚É‚Í WSAResetEvent
-ŠÖ”‚ğŒÄ‚Ño‚·BƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚çAWSACloseEvent
-ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚×‚«‚Å‚ ‚éBWindows Sockets 2
-‚ÌƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Í Windows ŠÂ‹«‚Å‚ÍƒVƒXƒeƒ€ƒIƒuƒWƒFƒNƒg‚Å‚ ‚éB‚»‚Ì‚½‚ßAWindows
-ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªè“®ƒŠƒZƒbƒgƒCƒxƒ“ƒg‚Å‚Í‚È‚­©“®ƒŠƒZƒbƒgƒCƒxƒ“ƒg‚ğg—p‚µ‚½‚¢ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í’¼Ú CreateEvent
-ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌƒXƒR[ƒv‚ÍA‚»‚ê‚ªì¬‚³‚ê‚½ƒvƒƒZƒX‚ÉŒÀ’è‚³‚ê‚éBWindows Phone 8:
-‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1
-‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2
-ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+ŠÖ”‚ÍA‰Šúó‘Ô‚ª”ñƒVƒOƒiƒ‹ó‘Ô‚Ìè“®ƒŠƒZƒbƒgƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB•Ô‚³‚ê‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚©‚çŒp³‚Å‚«‚È‚¢BƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚É‚Í–¼‘O‚ª‚È‚¢BWSASetEvent
+ŠÖ”‚ğŒÄ‚Ño‚·‚ÆƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚Å‚«‚éBWSAResetEvent
+ŠÖ”‚ğŒÄ‚Ño‚·‚ÆƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ”ñƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚Å‚«‚éBƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚çAWSACloseEvent
+ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠÖ˜A‚·‚éƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚×‚«‚Å‚ ‚éBWindows Sockets 2 ‚ÌƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Í Windows
+ŠÂ‹«‚Å‚ÍƒVƒXƒeƒ€ƒIƒuƒWƒFƒNƒg‚Å‚ ‚éB‚µ‚½‚ª‚Á‚ÄAWindows
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åè“®ƒŠƒZƒbƒg‚Å‚Í‚È‚­©“®ƒŠƒZƒbƒgƒCƒxƒ“ƒg‚ğg‚¢‚½‚¢ê‡‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç’¼Ú CreateEvent
+ŠÖ”‚ğŒÄ‚Ño‚¹‚Î‚æ‚¢BƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌƒXƒR[ƒv‚Í¶¬‚µ‚½ƒvƒƒZƒX“à‚ÉŒÀ‚ç‚ê‚éBWindows Phone 8: ‚±‚ÌŠÖ”‚Í
+Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ
+Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì
+Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSADuplicateSocketW
-WSADuplicateSocket ŠÖ”‚ÍA‹¤—Lƒ\ƒPƒbƒg—p‚ÌV‚µ‚¢ƒ\ƒPƒbƒg‹Lqq‚ğì¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é WSAPROTOCOL_INFO \‘¢‘Ì‚ğ•Ô‚·BWSADuplicateSocket ŠÖ”‚Í QoS ‘Î‰ƒ\ƒPƒbƒg‚Å‚Íg—p‚Å‚«‚È‚¢B(Unicode)
+WSADuplicateSocket ŠÖ”‚ÍA‹¤—Lƒ\ƒPƒbƒg—p‚ÌV‚µ‚¢ƒ\ƒPƒbƒgƒfƒBƒXƒNƒŠƒvƒ^‚ğì¬‚·‚é‚½‚ß‚Ég‚¦‚é WSAPROTOCOL_INFO \‘¢‘Ì‚ğ•Ô‚·BWSADuplicateSocket ŠÖ”‚Í QoS ‘Î‰ƒ\ƒPƒbƒg‚É‚Íg—p‚Å‚«‚È‚¢B(Unicode)
 %group
 Win32 ws2_32
 %prm
 s, dwProcessId, lpProtocolInfo
-s : [int] ƒ[ƒJƒ‹ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
-dwProcessId : [int] •¡»‚³‚ê‚½ƒ\ƒPƒbƒg‚ªg—p‚³‚ê‚éƒ^[ƒQƒbƒgƒvƒƒZƒX‚ÌƒvƒƒZƒX¯•ÊqB
-lpProtocolInfo : [var] WSAPROTOCOL_INFO \‘¢‘Ì‚ğŠi”[‚Å‚«‚é\•ª‚È‘å‚«‚³‚ÌAƒNƒ‰ƒCƒAƒ“ƒg‚ªŠm•Û‚µ‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍƒvƒƒgƒRƒ‹î•ñ\‘¢‘Ì‚Ì“à—e‚ğ‚±‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
+s : [int] ƒ[ƒJƒ‹ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
+dwProcessId : [int] •¡»‚³‚ê‚½ƒ\ƒPƒbƒg‚ğg—p‚·‚éƒ^[ƒQƒbƒgƒvƒƒZƒX‚ÌƒvƒƒZƒX IDB
+lpProtocolInfo : [var] ƒNƒ‰ƒCƒAƒ“ƒg‚ªŠm•Û‚µ‚½AWSAPROTOCOL_INFO \‘¢‘Ì‚ğŠi”[‚Å‚«‚é‚¾‚¯‚Ì‘å‚«‚³‚ğ‚Âƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍƒvƒƒgƒRƒ‹î•ñ\‘¢‘Ì‚Ì“à—e‚ğ‚±‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
 %inst
-WSADuplicateSocket ŠÖ”‚ÍA‹¤—Lƒ\ƒPƒbƒg—p‚ÌV‚µ‚¢ƒ\ƒPƒbƒg‹Lqq‚ğì¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é
+WSADuplicateSocket ŠÖ”‚ÍA‹¤—Lƒ\ƒPƒbƒg—p‚ÌV‚µ‚¢ƒ\ƒPƒbƒgƒfƒBƒXƒNƒŠƒvƒ^‚ğì¬‚·‚é‚½‚ß‚Ég‚¦‚é
 WSAPROTOCOL_INFO \‘¢‘Ì‚ğ•Ô‚·BWSADuplicateSocket ŠÖ”‚Í QoS
-‘Î‰ƒ\ƒPƒbƒg‚Å‚Íg—p‚Å‚«‚È‚¢B(Unicode)
+‘Î‰ƒ\ƒPƒbƒg‚É‚Íg—p‚Å‚«‚È‚¢B(Unicode)
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSADuplicateSocket ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR
-‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSADuplicateSocket ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSADuplicateSocket ŠÖ”‚ÍAƒvƒƒZƒXŠÔ‚Åƒ\ƒPƒbƒg‚ğ‹¤—L‚Å‚«‚é‚æ‚¤‚É‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒ\[ƒXƒvƒƒZƒX‚ª
+WSADuplicateSocket ŠÖ”‚ÍAƒvƒƒZƒXŠÔ‚Å‚Ìƒ\ƒPƒbƒg‹¤—L‚ğ‰Â”\‚É‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒ\[ƒXƒvƒƒZƒX‚Í
 WSADuplicateSocket ‚ğŒÄ‚Ño‚µ‚Ä“Áê‚È WSAPROTOCOL_INFO \‘¢‘Ì‚ğæ“¾‚·‚éB‰½‚ç‚©‚ÌƒvƒƒZƒXŠÔ’ÊM
-(IPC) ‹@\‚ğg—p‚µ‚Ä‚±‚Ì\‘¢‘Ì‚Ì“à—e‚ğƒ^[ƒQƒbƒgƒvƒƒZƒX‚É“n‚µAƒ^[ƒQƒbƒgƒvƒƒZƒX‚Í‚»‚ê‚ğ WSASocket
-ŒÄ‚Ño‚µ‚Åg—p‚µ‚Ä•¡»‚³‚ê‚½ƒ\ƒPƒbƒg‚Ì‹Lqq‚ğæ“¾‚·‚éB“Áê‚È WSAPROTOCOL_INFO
-\‘¢‘Ì‚Íƒ^[ƒQƒbƒgƒvƒƒZƒX‚Åˆê“x‚µ‚©g—p‚Å‚«‚È‚¢B“Á’è‚ÌƒvƒƒZƒX“à‚ÌƒXƒŒƒbƒhŠÔ‚Åƒ\ƒPƒbƒg‚ğ‹¤—L‚·‚éê‡Aƒ\ƒPƒbƒg‹Lqq‚ÍƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚Å—LŒø‚Å‚ ‚é‚½‚ßAWSADuplicateSocket
-ŠÖ”‚ğg‚í‚¸‚É‹¤—L‚Å‚«‚éB‹¤—Lƒ\ƒPƒbƒg‚ğŠm—§‚µ‚Äˆø‚«“n‚·ƒVƒiƒŠƒI‚Ì 1 ‚Â‚ğˆÈ‰º‚Ì•\‚É¦‚·B
+(IPC) ‹@\‚ğg‚Á‚Ä‚±‚Ì\‘¢‘Ì‚Ì“à—e‚ğƒ^[ƒQƒbƒgƒvƒƒZƒX‚É“n‚µAƒ^[ƒQƒbƒgƒvƒƒZƒX‚Í‚»‚ê‚ğ WSASocket
+‚ÌŒÄ‚Ño‚µ‚Ég‚Á‚Ä•¡»‚³‚ê‚½ƒ\ƒPƒbƒg‚ÌƒfƒBƒXƒNƒŠƒvƒ^‚ğæ“¾‚·‚éB“Áê‚È WSAPROTOCOL_INFO
+\‘¢‘Ì‚ÍAƒ^[ƒQƒbƒgƒvƒƒZƒX‚Åˆê“x‚¾‚¯g—p‚Å‚«‚éBƒ\ƒPƒbƒgƒfƒBƒXƒNƒŠƒvƒ^‚ÍƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚Å—LŒø‚È‚½‚ßAWSADuplicateSocket
+ŠÖ”‚ğg‚í‚¸‚Æ‚àAƒvƒƒZƒX“à‚ÌƒXƒŒƒbƒhŠÔ‚Å‚Íƒ\ƒPƒbƒg‚ğ‹¤—L‚Å‚«‚éB‹¤—Lƒ\ƒPƒbƒg‚ğŠm—§‚µ‚Äó‚¯“n‚· 1 ‚Â‚ÌƒVƒiƒŠƒI‚ğŸ‚Ì•\‚É¦‚·B
 iˆÈ‰ºÈ—ªj
 
 
 %index
 WSAEnumNameSpaceProvidersW
-WSAEnumNameSpaceProviders ŠÖ”‚ÍA—˜—p‰Â”\‚È–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
+WSAEnumNameSpaceProviders ŠÖ”‚ÍA—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 lpdwBufferLength, lpnspBuffer
-lpdwBufferLength : [var] “ü—ÍAlpnspBuffer ‚ªw‚·ƒoƒbƒtƒ@‚ÉŠÜ‚Ü‚ê‚éƒoƒCƒg”Bo—Í (ŠÖ”‚ª¸”s‚µAƒGƒ‰[‚ª WSAEFAULT ‚Ìê‡)A—v‹‚³‚ê‚½î•ñ‚ğ‚·‚×‚Äæ“¾‚·‚é‚½‚ß‚É lpnspBuffer ‚É“n‚·‚×‚«Å¬ƒoƒCƒg”BWSAEnumNameSpaceProviders ‚É“n‚·ƒoƒbƒtƒ@‚Í‚·‚×‚Ä‚Ì–¼‘O‹óŠÔî•ñ‚ğ•Û‚Å‚«‚é\•ª‚È‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpnspBuffer : [var] WSANAMESPACE_INFO \‘¢‘Ì‚Å–„‚ß‚ç‚ê‚éƒoƒbƒtƒ@B•Ô‚³‚ê‚é\‘¢‘Ì‚Íƒoƒbƒtƒ@æ“ª‚É˜A‘±‚µ‚Ä”z’u‚³‚ê‚éB\‘¢‘Ì“à‚Ìƒ|ƒCƒ“ƒ^‚É‚æ‚Á‚ÄQÆ‚³‚ê‚é‰Â•Ï’·î•ñ‚ÍAŒÅ’èƒTƒCƒY\‘¢‘Ì‚ÌI’[‚©‚çƒoƒbƒtƒ@I’[‚Ü‚Å‚ÌŠÔ‚É”z’u‚³‚ê‚éB–„‚ß‚ç‚ê‚½\‘¢‘Ì‚Ì”‚Í WSAEnumNameSpaceProviders ‚Ì–ß‚è’l‚Æ‚È‚éB
+lpdwBufferLength : [var] “ü—ÍAlpnspBuffer ‚ªw‚·ƒoƒbƒtƒ@‚ÉŠÜ‚Ü‚ê‚éƒoƒCƒg”Bo—Í (ŠÖ”‚ª WSAEFAULT ƒGƒ‰[‚Å¸”s‚µ‚½ê‡)A—v‹‚µ‚½‚·‚×‚Ä‚Ìî•ñ‚ğæ“¾‚·‚é‚½‚ß‚É lpnspBuffer ‚É“n‚·•K—v‚ª‚ ‚éÅ¬ƒoƒCƒg”BWSAEnumNameSpaceProviders ‚É“n‚·ƒoƒbƒtƒ@‚ÍA‚·‚×‚Ä‚Ì–¼‘O‹óŠÔî•ñ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpnspBuffer : [var] WSANAMESPACE_INFO \‘¢‘Ì‚Å–„‚ß‚ç‚ê‚éƒoƒbƒtƒ@B•Ô‚³‚ê‚é\‘¢‘Ì‚Íƒoƒbƒtƒ@‚Ìæ“ª‚É˜A‘±‚µ‚Ä”z’u‚³‚ê‚éB\‘¢‘Ì“à‚Ìƒ|ƒCƒ“ƒ^‚ªQÆ‚·‚é‰Â•ÏƒTƒCƒYî•ñ‚ÍAŒÅ’èƒTƒCƒY\‘¢‘Ì‚ÌI’[‚Æƒoƒbƒtƒ@I’[‚ÌŠÔ‚ÌˆÊ’u‚ğw‚·B–„‚ß‚ç‚ê‚½\‘¢‘Ì‚Ì”‚Í WSAEnumNameSpaceProviders ‚Ì–ß‚è’l‚Æ‚È‚éB
 %inst
-WSAEnumNameSpaceProviders ŠÖ”‚ÍA—˜—p‰Â”\‚È–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
+WSAEnumNameSpaceProviders ŠÖ”‚ÍA—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
 WSAEnumNameSpaceProviders ŠÖ”‚ÍAlpnspBuffer ‚ÉƒRƒs[‚³‚ê‚½ WSANAMESPACE_INFO
-\‘¢‘Ì‚Ì”‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+\‘¢‘Ì‚Ì”‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAEnumNameSpaceProviders ŠÖ”‚ÍAlpnspBuffer
-ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÉA—˜—p‰Â”\‚È–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B•Ô‚³‚ê‚éƒoƒbƒtƒ@‚É‚ÍAƒoƒbƒtƒ@æ“ª‚É˜A‘±‚µ‚Ä”z’u‚³‚ê‚½
-WSANAMESPACE_INFO \‘¢‘Ì‚Ì”z—ñ‚ªŠÜ‚Ü‚ê‚éBWSANAMESPACE_INFO
-\‘¢‘Ì“à‚Ìƒ|ƒCƒ“ƒ^‚ªQÆ‚·‚é‰Â•Ï’·î•ñ‚ÍAŒÅ’è’·‚Ì WSANAMESPACE_INFO
-\‘¢‘Ì‚ÌI’[‚©‚çƒoƒbƒtƒ@I’[‚Ü‚Å‚ÌŠÔ‚É”z’u‚³‚ê‚éB–„‚ß‚ç‚ê‚½ WSANAMESPACE_INFO \‘¢‘Ì‚Ì”‚Í
-WSAEnumNameSpaceProviders ŠÖ”‚ª•Ô‚·BŠe WSANAMESPACE_INFO
-\‘¢‘ÌƒGƒ“ƒgƒŠ‚É‚ÍA–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éÛ‚É WSCInstallNameSpace ‚¨‚æ‚Ñ
+WSAEnumNameSpaceProviders ŠÖ”‚ÍA—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğ lpnspBuffer
+ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚É•Ô‚·B•Ô‚³‚ê‚éƒoƒbƒtƒ@‚É‚ÍAæ“ª‚É˜A‘±‚µ‚Ä”z’u‚³‚ê‚½ WSANAMESPACE_INFO
+\‘¢‘Ì‚Ì”z—ñ‚ªŠÜ‚Ü‚ê‚éBWSANAMESPACE_INFO \‘¢‘Ì“à‚Ìƒ|ƒCƒ“ƒ^‚ªQÆ‚·‚é‰Â•ÏƒTƒCƒYî•ñ‚ÍAŒÅ’èƒTƒCƒY‚Ì
+WSANAMESPACE_INFO \‘¢‘Ì‚ÌI’[‚Æƒoƒbƒtƒ@I’[‚ÌŠÔ‚ÌˆÊ’u‚ğw‚·B–„‚ß‚ç‚ê‚½ WSANAMESPACE_INFO
+\‘¢‘Ì‚Ì”‚Í WSAEnumNameSpaceProviders ŠÖ”‚Ì–ß‚è’l‚Æ‚µ‚Ä•Ô‚³‚ê‚éBŠe WSANAMESPACE_INFO
+\‘¢‘Ì‚ÌƒGƒ“ƒgƒŠ‚É‚ÍA“–ŠYƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÌƒCƒ“ƒXƒg[ƒ‹‚É WSCInstallNameSpace ‚¨‚æ‚Ñ
 WSCInstallNameSpace32
-ŠÖ”‚É“n‚³‚ê‚½–¼‘O‹óŠÔƒGƒ“ƒgƒŠ‚ÌƒvƒƒoƒCƒ_ŒÅ—L‚Ìî•ñ‚ªŠÜ‚Ü‚ê‚éBWSAEnumNameSpaceProvidersEx ŠÖ”‚Í
+ŠÖ”‚É“n‚³‚ê‚½–¼‘O‹óŠÔƒGƒ“ƒgƒŠ‚ÌƒvƒƒoƒCƒ_ŒÅ—Lî•ñ‚ªŠÜ‚Ü‚ê‚éBWSAEnumNameSpaceProvidersEx ŠÖ”‚Í
 WSAEnumNameSpaceProviders ŠÖ”‚ÌŠg’£”Å‚Å‚ ‚éBWSCEnumNameSpaceProvidersEx32 ŠÖ”‚Í
-64 ƒrƒbƒgƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Åg—p‚·‚é 32 ƒrƒbƒg–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·
-WSAEnumNameSpaceProviders ŠÖ”‚ÌŠg’£”Å‚Å‚ ‚éB—áƒR[ƒh Ÿ‚Ì—á‚Í
-WSAEnumNameSpaceProviders ŠÖ”‚ğg—p‚µ‚Ä—˜—p‰Â”\‚È–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é•û–@‚ğ¦‚·B
+WSAEnumNameSpaceProviders ŠÖ”‚ÌŠg’£”Å‚ÅA64 ƒrƒbƒgƒvƒ‰ƒbƒgƒtƒH[ƒ€ã‚Åg—p‚·‚é‚½‚ß‚É—˜—p‰Â”\‚È 32
+ƒrƒbƒgƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ìî•ñ‚ğ•Ô‚·BƒTƒ“ƒvƒ‹ƒR[ƒh Ÿ‚Ì—á‚ÍAWSAEnumNameSpaceProviders
+ŠÖ”‚ğg‚Á‚Ä—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_î•ñ‚ğæ“¾‚·‚é•û–@‚ğ¦‚·B
 iˆÈ‰ºÈ—ªj
 
 
 %index
 WSAEnumNameSpaceProvidersExW
-—˜—p‰Â”\‚È–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
+—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 lpdwBufferLength, lpnspBuffer
-lpdwBufferLength : [var] “ü—ÍAlpnspBuffer ‚ªw‚·ƒoƒbƒtƒ@‚ÉŠÜ‚Ü‚ê‚éƒoƒCƒg”Bo—Í (ŠÖ”‚ª¸”s‚µAƒGƒ‰[‚ª WSAEFAULT ‚Ìê‡)A—v‹‚³‚ê‚½î•ñ‚ğ‚·‚×‚Äæ“¾‚·‚é‚½‚ß‚É lpnspBuffer ƒoƒbƒtƒ@‚ÉŠm•Û‚·‚×‚«Å¬ƒoƒCƒg”BWSAEnumNameSpaceProvidersEx ‚É“n‚·ƒoƒbƒtƒ@‚Í‚·‚×‚Ä‚Ì–¼‘O‹óŠÔî•ñ‚ğ•Û‚Å‚«‚é\•ª‚È‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpnspBuffer : [var] WSANAMESPACE_INFOEX \‘¢‘Ì‚Å–„‚ß‚ç‚ê‚éƒoƒbƒtƒ@B•Ô‚³‚ê‚é\‘¢‘Ì‚Íƒoƒbƒtƒ@æ“ª‚É˜A‘±‚µ‚Ä”z’u‚³‚ê‚éB\‘¢‘Ì“à‚Ìƒ|ƒCƒ“ƒ^‚É‚æ‚Á‚ÄQÆ‚³‚ê‚é‰Â•Ï’·î•ñ‚ÍAŒÅ’èƒTƒCƒY\‘¢‘Ì‚ÌI’[‚©‚çƒoƒbƒtƒ@I’[‚Ü‚Å‚ÌŠÔ‚É”z’u‚³‚ê‚éB–„‚ß‚ç‚ê‚½\‘¢‘Ì‚Ì”‚Í WSAEnumNameSpaceProvidersEx ‚Ì–ß‚è’l‚Æ‚È‚éB
+lpdwBufferLength : [var] “ü—ÍAlpnspBuffer ‚ªw‚·ƒoƒbƒtƒ@‚ÉŠÜ‚Ü‚ê‚éƒoƒCƒg”Bo—Í (ŠÖ”‚ª WSAEFAULT ƒGƒ‰[‚Å¸”s‚µ‚½ê‡)A—v‹‚µ‚½‚·‚×‚Ä‚Ìî•ñ‚ğæ“¾‚·‚é‚½‚ß‚É lpnspBuffer ƒoƒbƒtƒ@‚ÉŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚éÅ¬ƒoƒCƒg”BWSAEnumNameSpaceProvidersEx ‚É“n‚·ƒoƒbƒtƒ@‚ÍA‚·‚×‚Ä‚Ì–¼‘O‹óŠÔî•ñ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpnspBuffer : [var] WSANAMESPACE_INFOEX \‘¢‘Ì‚Å–„‚ß‚ç‚ê‚éƒoƒbƒtƒ@B•Ô‚³‚ê‚é\‘¢‘Ì‚Íƒoƒbƒtƒ@‚Ìæ“ª‚É˜A‘±‚µ‚Ä”z’u‚³‚ê‚éB\‘¢‘Ì“à‚Ìƒ|ƒCƒ“ƒ^‚ªQÆ‚·‚é‰Â•ÏƒTƒCƒYî•ñ‚ÍAŒÅ’èƒTƒCƒY\‘¢‘Ì‚ÌI’[‚Æƒoƒbƒtƒ@I’[‚ÌŠÔ‚ÌˆÊ’u‚ğw‚·B–„‚ß‚ç‚ê‚½\‘¢‘Ì‚Ì”‚Í WSAEnumNameSpaceProvidersEx ‚Ì–ß‚è’l‚Æ‚È‚éB
 %inst
-—˜—p‰Â”\‚È–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
+—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
 WSAEnumNameSpaceProvidersEx ŠÖ”‚ÍAlpnspBuffer ‚ÉƒRƒs[‚³‚ê‚½
-WSANAMESPACE_INFOEX \‘¢‘Ì‚Ì”‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR
-‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+WSANAMESPACE_INFOEX \‘¢‘Ì‚Ì”‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAEnumNameSpaceProvidersEx ŠÖ”‚Í WSAEnumNameSpaceProviders
 ŠÖ”‚ÌŠg’£”Å‚Å‚ ‚éBWSCInstallNameSpaceEx ŠÖ”‚Ì lpProviderInfo
-ƒpƒ‰ƒ[ƒ^‚Å–¼‘O‹óŠÔƒGƒ“ƒgƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒoƒCƒ_ŒÅ—L‚Ìƒf[ƒ^ƒuƒƒu‚ÍAWSAEnumNameSpaceProvidersEx
-ŠÖ”‚Å–â‚¢‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚éBŒ»“_‚Å Windows ‚ÉŠÜ‚Ü‚ê‚é–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì‚¤‚¿ WSANAMESPACE_INFOEX
+ƒpƒ‰ƒ[ƒ^‚É“n‚³‚ê‚½–¼‘O‹óŠÔƒGƒ“ƒgƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒoƒCƒ_ŒÅ—L‚Ìƒf[ƒ^ƒuƒƒu‚ÍAWSAEnumNameSpaceProvidersEx
+ŠÖ”‚Å–â‚¢‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚éBŒ»óAWindows ‚ÉŠÜ‚Ü‚ê‚éƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‚¤‚¿ WSANAMESPACE_INFOEX
 \‘¢‘Ì‚Ì ProviderSpecific ƒƒ“ƒo‚Éî•ñ‚ğİ’è‚·‚é‚Ì‚Í NS_EMAIL ƒvƒƒoƒCƒ_‚Ì‚İ‚Å‚ ‚éBNS_EMAIL
-–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚Ì ProviderSpecific ƒƒ“ƒo‚ÌŒ`®‚Í NAPI_PROVIDER_INSTALLATION_BLOB
-\‘¢‘Ì‚Å‚ ‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AWSAEnumNameSpaceProvidersEx ‚Í
-Unicode ”Å‚Ì WSAEnumNameSpaceProvidersExW ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBlpnspBuffer ƒpƒ‰ƒ[ƒ^‚Í
-LPSAWSANAMESPACE_INFOEXW Œ^‚Å’è‹`‚³‚êA¬Œ÷‚É‚Í WSANAMESPACE_INFOEXW
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ìê‡AProviderSpecific ƒƒ“ƒo‚ÌŒ`®‚Í
+NAPI_PROVIDER_INSTALLATION_BLOB \‘¢‘Ì‚Å‚ ‚éBUNICODE ‚Ü‚½‚Í _UNICODE
+‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AWSAEnumNameSpaceProvidersEx ‚Í Unicode ”Å‚Ì
+WSAEnumNameSpaceProvidersExW ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBlpnspBuffer ƒpƒ‰ƒ[ƒ^‚Í
+LPSAWSANAMESPACE_INFOEXW ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚êA¬Œ÷‚É‚Í WSANAMESPACE_INFOEXW
 \‘¢‘Ì‚ª•Ô‚³‚ê‚éBUNICODE ‚Ü‚½‚Í _UNICODE ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢ê‡AWSAEnumNameSpaceProvidersEx
 ‚Í ANSI ”Å‚Ì WSAEnumNameSpaceProvidersExA ‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBlpnspBuffer ƒpƒ‰ƒ[ƒ^‚Í
-LPSAWSANAMESPACE_INFOEXA Œ^‚Å’è‹`‚³‚êA¬Œ÷‚É‚Í WSANAMESPACE_INFOEXA
+LPSAWSANAMESPACE_INFOEXA ƒf[ƒ^Œ^‚Æ‚µ‚Ä’è‹`‚³‚êA¬Œ÷‚É‚Í WSANAMESPACE_INFOEXA
 \‘¢‘Ì‚ª•Ô‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2:
-WSAEnumNameSpaceProvidersExW ŠÖ”‚Í Windows 8.1AWindows Server 2012 R2
+WSAEnumNameSpaceProvidersExW ŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2
 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
-> [!NOTE] > winsock2.h ƒwƒbƒ_‚Í WSAEnumNameSpaceProvidersEx
-‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ”Å‚Ü‚½‚Í Unicode
-”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Ìg—p‚ğƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ğµ‚­‚¨‚»‚ê‚ª‚ ‚éBÚ×‚Í
+> [!NOTE] > winsock2.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä WSAEnumNameSpaceProvidersEx
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
 [Conventions for Function
 Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 ‚ğQÆB
@@ -1480,47 +1456,45 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 
 %index
 WSAEnumNetworkEvents
-WSAEnumNetworkEvents ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä”­¶‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğŒŸo‚µA“à•”ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚ğƒNƒŠƒA‚µAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒŠƒZƒbƒg‚·‚é (ƒIƒvƒVƒ‡ƒ“)B
+WSAEnumNetworkEvents ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì”­¶‚ğŒŸo‚µA“à•”‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚ğƒNƒŠƒA‚µAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒŠƒZƒbƒg‚·‚é (ƒIƒvƒVƒ‡ƒ“)B
 %group
 Win32 ws2_32
 %prm
 s, hEventObject, lpNetworkEvents
-s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
 hEventObject : [intptr] ƒŠƒZƒbƒg‚·‚éŠÖ˜AƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒIƒvƒVƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹B
-lpNetworkEvents : [var] ”­¶‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Æ‚»‚ê‚ÉŠÖ˜A‚·‚éƒGƒ‰[ƒR[ƒh‚Ì‹L˜^‚Å–„‚ß‚ç‚ê‚é WSANETWORKEVENTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpNetworkEvents : [var] ”­¶‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÆŠÖ˜AƒGƒ‰[ƒR[ƒh‚Ì‹L˜^‚ğŠi”[‚·‚é WSANETWORKEVENTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
 WSAEnumNetworkEvents
-ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä”­¶‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğŒŸo‚µA“à•”ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚ğƒNƒŠƒA‚µAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒŠƒZƒbƒg‚·‚é
+ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì”­¶‚ğŒŸo‚µA“à•”‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚ğƒNƒŠƒA‚µAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒŠƒZƒbƒg‚·‚é
 (ƒIƒvƒVƒ‡ƒ“)B
 
 [–ß‚è’l]
-‘€ì‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‘€ì‚ª¬Œ÷‚·‚ê‚Î–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAEnumNetworkEvents
-ŠÖ”‚ÍA‚±‚ÌŠÖ”‚Ì‘O‰ñŒÄ‚Ño‚µˆÈ~‚Éw’è‚µ‚½ƒ\ƒPƒbƒg‚Å”­¶‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğŒŸo‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‚±‚ÌŠÖ”‚ÍA1
+ŠÖ”‚ÍA‘O‰ñ‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚©‚çw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä‚Ç‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚©‚ğ’²‚×‚é‚½‚ß‚Ég—p‚³‚ê‚éB1
 ‚ÂˆÈã‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÉƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğŠÖ˜A•t‚¯‚é WSAEventSelect
-‚Æ‘g‚İ‡‚í‚¹‚Äg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éBƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‹L˜^‚ÍAlNetworkEvents ƒpƒ‰ƒ[ƒ^‚ğ”ñƒ[ƒ‚Å
-WSAEventSelect ‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚ÉŠJn‚³‚êAlNetworkEvents ƒpƒ‰ƒ[ƒ^‚ğƒ[ƒ‚É‚µ‚Ä
-WSAEventSelect ‚ğÄ“xŒÄ‚Ño‚·‚©AWSAAsyncSelect
-‚ğŒÄ‚Ño‚·‚Ü‚Å—LŒø‚Å‚ ‚éBWSAEnumNetworkEvents ‚Í WSAEventSelect
-‚Åw’è‚³‚ê‚½ƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚Ì‚İ‚ğ•ñ‚·‚éBselect ‚¨‚æ‚Ñ WSAAsyncSelect
-‚ª‚Ç‚Ì‚æ‚¤‚Éƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚ğ•ñ‚·‚é‚©‚É‚Â‚¢‚Ä‚ÍA‚»‚ê‚¼‚ê‚Ìà–¾‚ğQÆBƒ\ƒPƒbƒg‚Ì“à•”ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚Í
-lpNetworkEvents
-‚ªQÆ‚·‚é\‘¢‘Ì‚ÉƒRƒs[‚³‚êA‚»‚ÌŒãA“à•”ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚ÍƒNƒŠƒA‚³‚ê‚éBhEventObject ƒpƒ‰ƒ[ƒ^‚ª NULL
-‚Å‚È‚¢ê‡Aw’è‚³‚ê‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚àƒŠƒZƒbƒg‚³‚ê‚éBWindows
-ƒ\ƒPƒbƒgƒvƒƒoƒCƒ_‚ÍAƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚ÌƒRƒs[AƒNƒŠƒAAŠÖ˜AƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒZƒbƒg‚ÌŠe‘€ì‚ªƒAƒgƒ~ƒbƒN‚És‚í‚ê‚é‚±‚Æ‚ğ•ÛØ‚µAŸ‚Éw’è‚³‚ê‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚Æ‚«‚ÉƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒZƒbƒgó‘Ô‚É‚È‚é‚æ‚¤‚É‚·‚éB‚±‚ÌŠÖ”‚ª
+‚Æ‘g‚İ‡‚í‚¹‚Äg‚¤‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éBƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‹L˜^‚ÍAlNetworkEvents ƒpƒ‰ƒ[ƒ^‚ğ 0 ˆÈŠO‚Å
+WSAEventSelect ‚ğŒÄ‚Ño‚µ‚½“_‚©‚çŠJn‚³‚êAlNetworkEvents ‚ğ 0 ‚Éİ’è‚µ‚Ä WSAEventSelect
+‚ğŒÄ‚Ño‚·‚©AWSAAsyncSelect ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å—LŒø‚Å‚ ‚éBWSAEnumNetworkEvents
+‚ÍAWSAEventSelect ‚Åw’è‚³‚ê‚½ƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚¾‚¯‚ğ•ñ‚·‚éBselect ‚Æ WSAAsyncSelect
+‚ªƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚ğ‚Ç‚Ì‚æ‚¤‚É•ñ‚·‚é‚©‚ÍA‚»‚ê‚¼‚ê‚Ìà–¾‚ğQÆBƒ\ƒPƒbƒg‚Ì“à•”ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚Í
+lpNetworkEvents ‚ªQÆ‚·‚é\‘¢‘Ì‚ÉƒRƒs[‚³‚êA‚»‚ÌŒã“à•”‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚ÍƒNƒŠƒA‚³‚ê‚éBhEventObject
+ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¯‚ê‚ÎAw’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚àƒŠƒZƒbƒg‚³‚ê‚éBWindows Sockets
+ƒvƒƒoƒCƒ_‚ÍAƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚ÌƒRƒs[A‚»‚ÌƒNƒŠƒAAŠÖ˜A•t‚¯‚ç‚ê‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒZƒbƒg‚Æ‚¢‚¤ˆê˜A‚Ì‘€ì‚ªŒ´q“I‚Å‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚éB‚µ‚½‚ª‚Á‚ÄAŸ‚Éw’èƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ª”­¶‚·‚é‚ÆƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªİ’èó‘Ô‚É‚È‚éB‚±‚ÌŠÖ”‚ª
 SOCKET_ERROR
-‚ğ•Ô‚·ê‡AŠÖ˜AƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÍƒŠƒZƒbƒg‚³‚ê‚¸Aƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚àƒNƒŠƒA‚³‚ê‚È‚¢BWSANETWORKEVENTS
-\‘¢‘Ì‚Ì lNetworkEvents ƒƒ“ƒo‚ÍA‚Ç‚Ì FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚©‚ğ¦‚·BiErrorCode
+‚ğ•Ô‚·ê‡AŠÖ˜AƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÍƒŠƒZƒbƒg‚³‚ê‚¸Aƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚àƒNƒŠƒA‚³‚ê‚È‚¢BWSANETWORKEVENTS \‘¢‘Ì‚Ì
+lNetworkEvents ƒƒ“ƒo‚ÍA”­¶‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğ¦‚·BiErrorCode
 ”z—ñ‚ÍAlNetworkEvents
-“à‚ÌƒCƒxƒ“ƒgƒrƒbƒg‚ÌˆÊ’u‚É‘Î‰‚·‚é”z—ñƒCƒ“ƒfƒbƒNƒX‚ÅŠÖ˜AƒGƒ‰[ƒR[ƒh‚ğŠi”[‚·‚éBFD_READ_BIT ‚â FD_WRITE_BIT
-‚È‚Ç‚Ì¯•Êq‚Í iErrorCode ”z—ñ‚ÌƒCƒ“ƒfƒbƒNƒX‚Æ‚µ‚Äg—p‚Å‚«‚éBlNetworkEvents
-ƒpƒ‰ƒ[ƒ^‚ÅƒZƒbƒg‚³‚ê‚½ƒrƒbƒg‚É‘Î‰‚·‚é iErrorCode ”z—ñ‚Ì—v‘f‚Ì‚İ‚ªƒZƒbƒg‚³‚êA‘¼‚Ìƒpƒ‰ƒ[ƒ^‚Í•ÏX‚³‚ê‚È‚¢‚±‚Æ‚É’ˆÓ
-(‚±‚ê‚ÍV‚µ‚¢ FD_ROUTING_INTERFACE_CHANGE ‚¨‚æ‚Ñ FD_ADDRESS_LIST_CHANGE
-ƒCƒxƒ“ƒg‚ğ”F¯‚µ‚È‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚ÌŒã•ûŒİŠ·«‚Ì‚½‚ß‚Éd—v‚Å‚ ‚é)B‘Î‰‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Æ‹¤‚É•Ô‚³‚ê“¾‚éƒGƒ‰[ƒR[ƒh‚ğˆÈ‰º‚É¦‚·BƒCƒxƒ“ƒg:
+’†‚ÌƒCƒxƒ“ƒgƒrƒbƒgˆÊ’u‚É‘Î‰‚·‚é“Yš‚ÅŠÖ˜AƒGƒ‰[ƒR[ƒh‚ğŠi”[‚·‚é‚Ì‚Ég—p‚³‚ê‚éBFD_READ_BIT ‚â FD_WRITE_BIT
+‚Æ‚¢‚Á‚½¯•Êq‚ğ iErrorCode ”z—ñ‚Ì“Yš‚Æ‚µ‚Äg‚¦‚éBiErrorCode ”z—ñ‚Ì‚¤‚¿AlNetworkEvents
+ƒpƒ‰ƒ[ƒ^‚ÅƒZƒbƒg‚³‚ê‚Ä‚¢‚éƒrƒbƒg‚É‘Î‰‚·‚é—v‘f‚Ì‚İ‚ªİ’è‚³‚ê‚éB‚»‚Ì‘¼‚Ìƒpƒ‰ƒ[ƒ^‚Í•ÏX‚³‚ê‚È‚¢ (‚±‚ê‚ÍAV‚µ‚¢
+FD_ROUTING_INTERFACE_CHANGE ‚â FD_ADDRESS_LIST_CHANGE
+ƒCƒxƒ“ƒg‚ğ”F¯‚µ‚È‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚ÌŒã•ûŒİŠ·«‚Ì‚½‚ß‚Éd—v‚Å‚ ‚é)B‘Î‰‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Æ‚Æ‚à‚É•Ô‚³‚ê‚¤‚éƒGƒ‰[ƒR[ƒh‚ğŸ‚É¦‚·BƒCƒxƒ“ƒg:
 FD_CONNECT
 iˆÈ‰ºÈ—ªj
 
@@ -1532,180 +1506,180 @@ WSAEnumProtocols ŠÖ”‚ÍA—˜—p‰Â”\‚Èƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚
 Win32 ws2_32
 %prm
 lpiProtocols, lpProtocolBuffer, lpdwBufferLength
-lpiProtocols : [var] iProtocol ’l‚Ì NULL I’[”z—ñB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒIƒvƒVƒ‡ƒ“‚ÅAlpiProtocols ‚ª NULL ‚Ìê‡A‚·‚×‚Ä‚Ì—˜—p‰Â”\‚ÈƒvƒƒgƒRƒ‹‚ÉŠÖ‚·‚éî•ñ‚ª•Ô‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍA”z—ñ‚É—ñ‹“‚³‚ê‚½ƒvƒƒgƒRƒ‹‚É‚Â‚¢‚Ä‚Ì‚İî•ñ‚ªæ“¾‚³‚ê‚éB
+lpiProtocols : [var] iProtocol ’l‚Ì NULL I’[”z—ñB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒIƒvƒVƒ‡ƒ“‚ÅAlpiProtocols ‚ª NULL ‚Ìê‡‚Í—˜—p‰Â”\‚È‚·‚×‚Ä‚ÌƒvƒƒgƒRƒ‹‚Ìî•ñ‚ª•Ô‚³‚ê‚éB‚»‚¤‚Å‚È‚¢ê‡A”z—ñ‚É—ñ‹“‚³‚ê‚½ƒvƒƒgƒRƒ‹‚Ìî•ñ‚Ì‚İ‚ªæ“¾‚³‚ê‚éB
 lpProtocolBuffer : [var] WSAPROTOCOL_INFO \‘¢‘Ì‚Å–„‚ß‚ç‚ê‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-lpdwBufferLength : [var] “ü—ÍAWSAEnumProtocols ‚É“n‚· lpProtocolBuffer ƒoƒbƒtƒ@‚ÌƒoƒCƒg”Bo—ÍA—v‹‚µ‚½î•ñ‚ğ‚·‚×‚Äæ“¾‚·‚é‚½‚ß‚É WSAEnumProtocols ‚É“n‚¹‚éÅ¬ƒoƒbƒtƒ@ƒTƒCƒYB‚±‚Ìƒ‹[ƒ`ƒ“‚Í•¡”‚ÌŒÄ‚Ño‚µ‚É‚í‚½‚Á‚Ä—ñ‹“‚ğŒp‘±‚·‚é‹@”\‚ğ‚½‚È‚¢Bƒ‹[ƒ`ƒ“‚ğ¬Œ÷‚³‚¹‚é‚É‚ÍA“n‚³‚ê‚½ƒoƒbƒtƒ@‚ª‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğ•Û‚Å‚«‚é\•ª‚È‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ê‚Í API ‚Ì•¡G‚³‚ğŒyŒ¸‚µA’ÊíƒRƒ“ƒsƒ…[ƒ^‚Éƒ[ƒh‚³‚ê‚éƒvƒƒgƒRƒ‹‚Ì”‚Í­‚È‚¢‚½‚ß–â‘è‚É‚È‚ç‚È‚¢B
+lpdwBufferLength : [var] “ü—ÍAWSAEnumProtocols ‚É“n‚³‚ê‚é lpProtocolBuffer ƒoƒbƒtƒ@‚ÌƒoƒCƒg”Bo—ÍA—v‹‚µ‚½‚·‚×‚Ä‚Ìî•ñ‚ğæ“¾‚·‚é‚½‚ß‚É WSAEnumProtocols ‚É“n‚·‚±‚Æ‚ª‚Å‚«‚éÅ¬ƒoƒbƒtƒ@ƒTƒCƒYB‚±‚Ìƒ‹[ƒ`ƒ“‚Í•¡”‚ÌŒÄ‚Ño‚µ‚É‚í‚½‚Á‚Ä—ñ‹“‚·‚é‹@”\‚ğ‚½‚¸Aƒ‹[ƒ`ƒ“‚ª¬Œ÷‚·‚é‚½‚ß‚É‚Í“n‚³‚ê‚éƒoƒbƒtƒ@‚ª‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğ•Û‚Å‚«‚é‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ê‚É‚æ‚è API ‚Ì•¡G‚³‚ªŒ¸‚èA’ÊíƒRƒ“ƒsƒ…[ƒ^‚Éƒ[ƒh‚³‚ê‚Ä‚¢‚éƒvƒƒgƒRƒ‹”‚Í­‚È‚¢‚Ì‚Å–â‘è‚É‚Í‚È‚ç‚È‚¢B
 %inst
 WSAEnumProtocols ŠÖ”‚ÍA—˜—p‰Â”\‚Èƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSAEnumProtocols ‚Í•ñ‚·‚éƒvƒƒgƒRƒ‹‚Ì”‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR
-‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSAEnumProtocols ‚Í•ñ‚³‚ê‚éƒvƒƒgƒRƒ‹‚Ì”‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAEnumProtocols
-ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÌW‡‚ÉŠÖ‚·‚éî•ñ‚ğŒŸo‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBŠK‘w‰»ƒvƒƒgƒRƒ‹‚ÍƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ê‡‚Ì‚İƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çg—p‰Â”\‚Å‚ ‚éBŠK‘w‰»ƒvƒƒgƒRƒ‹‚Ìî•ñ‚ÍAƒ`ƒF[ƒ“’·‚ªƒ[ƒ‚Ìƒ_ƒ~[‚ÌŠK‘w‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_
-(LSP) ‚ğœ‚¢‚Ä lpProtocolBuffer ‚É•Ô‚³‚ê‚È‚¢BNote ŠK‘w‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í”ñ„§‚Å‚ ‚éBWindows 8
-‚¨‚æ‚Ñ Windows Server 2012 ˆÈ~‚Å‚ÍAWindows Filtering Platform
-‚ğg—p‚·‚é‚±‚ÆBlpiProtocols
-ƒpƒ‰ƒ[ƒ^‚Í’ñ‹Ÿ‚³‚ê‚éî•ñ—Ê‚ği‚è‚Ş‚½‚ß‚ÌƒtƒBƒ‹ƒ^‚Æ‚µ‚Äg—p‚Å‚«‚éB‘½‚­‚Ìê‡AlpiProtocols ‚Í NULL
-ƒ|ƒCƒ“ƒ^‚Æ‚µ‚Äw’è‚³‚êA—˜—p‰Â”\‚È‚·‚×‚Ä‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÆƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚³‚¹‚éBWSAEnumProtocols
-ŠÖ”‚ÍAƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ì‚·‚×‚Ä‚ÌƒvƒƒgƒRƒ‹‚É‘Î‚·‚é WSAPROTOCOL_INFO \‘¢‘Ì‚ğ•Ô‚³‚È‚¢“_‚Å
-WSCEnumProtocols ‚¨‚æ‚Ñ WSCEnumProtocols32 ŠÖ”‚ÆˆÙ‚È‚éBWSAEnumProtocols
+ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹ŒQ‚Ìî•ñ‚ğ’²‚×‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚ÍAƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çg—p‚Å‚«‚éBƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹©‘Ì‚Ìî•ñ‚Í•Ô‚³‚ê‚È‚¢‚ªAƒ`ƒF[ƒ“’·ƒ[ƒ‚ÅƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒ_ƒ~[‚ÌƒŒƒCƒ„[ƒhƒT[ƒrƒXƒvƒƒoƒCƒ_
+(LSP) ‚Í lpProtocolBuffer ‚ÉŠÜ‚Ü‚ê‚éB’ ƒŒƒCƒ„[ƒhƒT[ƒrƒXƒvƒƒoƒCƒ_‚Í”ñ„§‚Æ‚È‚Á‚½BWindows 8 ‚¨‚æ‚Ñ
+Windows Server 2012 ˆÈ~‚Å‚ÍAWindows Filtering Platform
+‚ğg—p‚·‚×‚«‚Å‚ ‚éBlpiProtocols
+ƒpƒ‰ƒ[ƒ^‚ÍA•Ô‚³‚ê‚éî•ñ—Ê‚ğ§ŒÀ‚·‚éƒtƒBƒ‹ƒ^‚Æ‚µ‚Äg—p‚Å‚«‚éB‘½‚­‚Ìê‡AlpiProtocols ‚É NULL
+ƒ|ƒCƒ“ƒ^‚ğw’è‚µA—˜—p‰Â”\‚È‚·‚×‚Ä‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÆƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚Ìî•ñ‚ğæ“¾‚·‚éBWSAEnumProtocols
+ŠÖ”‚ÍAWSCEnumProtocols ‚¨‚æ‚Ñ WSCEnumProtocols32
+ŠÖ”‚ÆˆÙ‚È‚èAƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ì‚·‚×‚Ä‚ÌƒvƒƒgƒRƒ‹‚Ì WSAPROTOCOL_INFO \‘¢‘Ì‚ğ•Ô‚³‚È‚¢BWSAEnumProtocols
 ŠÖ”‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª WSAPROTOCOL_INFO \‘¢‘Ì‚Ì dwProviderFlags ƒƒ“ƒo‚É PFL_HIDDEN
-ƒtƒ‰ƒO‚ğİ’è‚µ‚ÄAWSAEnumProtocols ŠÖ”‚É‚æ‚Á‚Ä¶¬‚³‚ê‚éŒ‹‰Êƒoƒbƒtƒ@‚É‚±‚ÌƒvƒƒgƒRƒ‹‚ğ•Ô‚³‚È‚¢‚æ‚¤ Ws2_32.dll
-‚Éw¦‚µ‚½ƒvƒƒgƒRƒ‹‚ğœŠO‚·‚éB‚³‚ç‚ÉAWSAEnumProtocols ŠÖ”‚ÍAƒ`ƒF[ƒ“’·‚ª 1 ˆÈã‚Ì (LSP ƒvƒƒoƒCƒ_‚Å‚ ‚é)
-WSAPROTOCOL_INFO \‘¢‘Ì‚Ìƒf[ƒ^‚Í•Ô‚³‚È‚¢BWSAEnumProtocols ‚ÍAPFL_HIDDEN
-ƒtƒ‰ƒO‚ª‚È‚­AƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“’·‚ªƒ[ƒ‚Å‚È‚¢ƒx[ƒXƒvƒƒgƒRƒ‹‚ÆƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚ÉŠÖ‚·‚éî•ñ‚Ì‚İ‚ğ•Ô‚·B—v‹‚µ‚½ŠeƒvƒƒgƒRƒ‹‚É‚Â‚¢‚ÄAlpProtocolBuffer
-‚ªw‚·ƒoƒbƒtƒ@‚É WSAPROTOCOL_INFO \‘¢‘Ì‚ª’ñ‹Ÿ‚³‚ê‚éBw’è‚µ‚½ƒoƒbƒtƒ@‚ª\•ª‚È‘å‚«‚³‚Å‚È‚¢ê‡
+ƒtƒ‰ƒO‚ğİ’è‚µ‚½ƒvƒƒgƒRƒ‹ (WSAEnumProtocols ‚ª¶¬‚·‚éŒ‹‰Êƒoƒbƒtƒ@‚ÉŠÜ‚ß‚È‚¢‚æ‚¤ Ws2_32.dll
+‚Éw¦‚·‚é‚à‚Ì) ‚ğœŠO‚·‚éB‚³‚ç‚ÉAWSAEnumProtocols ŠÖ”‚Íƒ`ƒF[ƒ“’·‚ª 1 ˆÈã‚Ì WSAPROTOCOL_INFO
+\‘¢‘Ì (LSP ƒvƒƒoƒCƒ_) ‚Ìƒf[ƒ^‚ğ•Ô‚³‚È‚¢BWSAEnumProtocols ‚ÍAPFL_HIDDEN
+ƒtƒ‰ƒO‚ª–³‚­AƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“’·‚ªƒ[ƒ‚Å‚È‚¢Šî–{ƒvƒƒgƒRƒ‹‚ÆƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚Ìî•ñ‚Ì‚İ‚ğ•Ô‚·B—v‹‚³‚ê‚½ŠeƒvƒƒgƒRƒ‹‚É‚Â‚¢‚ÄAlpProtocolBuffer
+‚ªw‚·ƒoƒbƒtƒ@‚É WSAPROTOCOL_INFO \‘¢‘Ì‚ª’ñ‹Ÿ‚³‚ê‚éBw’è‚µ‚½ƒoƒbƒtƒ@‚ª\•ª‚Å‚È‚¢ê‡
 (lpdwBufferLength ‚Ì“ü—Í’l‚Å¦‚³‚ê‚é)AlpdwBufferLength
-‚ªw‚·’l‚ª•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ¦‚·‚æ‚¤XV‚³‚ê‚éB‚»‚ÌŒãAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğæ“¾‚µ‚Ä
-WSAEnumProtocols ‚ğÄ“xŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBWSAPROTOCOL_INFO
-\‘¢‘Ì‚ªƒoƒbƒtƒ@“à‚ÉŒ»‚ê‚é‡˜‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª WS2_32.DLL ‚ğg‚Á‚ÄƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ğ“o˜^‚µ‚½‡˜A‚Ü‚½‚ÍŠù’è‚Ì
-TCP/IP ƒvƒƒoƒCƒ_‚ğŠm—§‚·‚é‚½‚ß‚É Windows ƒ\ƒPƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚â DLL
-‚É‚æ‚Á‚Ä’ñ‹Ÿ‚³‚ê‚½Œã‘±‚Ì•À‚×‘Ö‚¦‚É‚æ‚é‡˜‚Æˆê’v‚·‚éBWindows Phone 8: WSAEnumProtocolsW ŠÖ”‚Í
-Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ
-Windows Server 2012 R2: WSAEnumProtocolsW ŠÖ”‚Í Windows 8.1AWindows
-Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+‚ªw‚·’l‚Í•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ¦‚·‚æ‚¤XV‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í\•ª‚É‘å‚«‚Èƒoƒbƒtƒ@‚ğ—pˆÓ‚µ‚ÄAWSAEnumProtocols
+‚ğÄ“xŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBWSAPROTOCOL_INFO \‘¢‘Ì‚ªƒoƒbƒtƒ@‚ÉŒ»‚ê‚é‡˜‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª WS2_32.DLL
+Œo—R‚ÅƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ğ“o˜^‚µ‚½‡˜A‚Ü‚½‚Í Windows Sockets ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âŠù’è‚Ì TCP/IP
+ƒvƒƒoƒCƒ_Šm—§—p‚É’ñ‹Ÿ‚³‚ê‚½ DLL ‚É‚æ‚Á‚ÄŒã‚©‚ç•À‚×‘Ö‚¦‚ªs‚í‚ê‚½ê‡‚Ì‡˜‚Æˆê’v‚·‚éBWindows Phone 8:
+WSAEnumProtocolsW ŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2:
+WSAEnumProtocolsW ŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSAEventSelect
-WSAEventSelect ŠÖ”‚ÍAw’è‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÌW‡‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éB
+WSAEventSelect ŠÖ”‚ÍAw’è‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÌƒZƒbƒg‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, hEventObject, lNetworkEvents
-s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
-hEventObject : [intptr] w’è‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÌW‡‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹B
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
+hEventObject : [intptr] w’è‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÌƒZƒbƒg‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹B
 lNetworkEvents : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠÖS‚ğ‚Â FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‘g‚İ‡‚í‚¹‚ğw’è‚·‚éƒrƒbƒgƒ}ƒXƒNB
 %inst
-WSAEventSelect ŠÖ”‚ÍAw’è‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÌW‡‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éB
+WSAEventSelect ŠÖ”‚ÍAw’è‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÌƒZƒbƒg‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éB
 
 [–ß‚è’l]
-ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÆŠÖ˜AƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìw’è‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í
-SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBselect ‚¨‚æ‚Ñ
-WSAAsyncSelect ŠÖ”‚Æ“¯—lAWSAEventSelect ‚Íƒf[ƒ^‘—M‘€ì (send ‚Ü‚½‚Í recv)
-‚ª‚½‚¾‚¿‚É¬Œ÷‚·‚éŒ©‚İ‚Å”­s‚Å‚«‚éƒ^ƒCƒ~ƒ“ƒO‚ğ”»’f‚·‚é‚½‚ß‚É‚æ‚­g‚í‚ê‚éB‚»‚ê‚Å‚àAŒ˜˜S‚ÈƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒZƒbƒg‚³‚ê‚½ã‚Å”­s‚µ‚½
-Windows ƒ\ƒPƒbƒgŒÄ‚Ño‚µ‚ª‘¦À‚É WSAEWOULDBLOCK
-‚ğ•Ô‚·‰Â”\«‚É”õ‚¦‚Ä‚¨‚­•K—v‚ª‚ ‚éB—á‚¦‚ÎAˆÈ‰º‚Ì‚æ‚¤‚Èˆê˜A‚Ì‘€ì‚ª‹N‚±‚è“¾‚éB
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ÆŠÖ˜AƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìw’è‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í
+SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éBselect ‚â
+WSAAsyncSelect ŠÖ”‚Æ“¯—lAWSAEventSelect ‚Í‘¦¬Œ÷‚ğŠú‘Ò‚µ‚Äƒf[ƒ^“]‘—‘€ì (send ‚â recv)
+‚ğ”­s‚Å‚«‚éƒ^ƒCƒ~ƒ“ƒO‚ğ’m‚é‚½‚ß‚É‚æ‚­g‚í‚ê‚éB‚Æ‚Í‚¢‚¦AŒ˜˜S‚ÈƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒZƒbƒg‚³‚ê‚Ä‚©‚ç”­s‚µ‚½
+Winsock ŒÄ‚Ño‚µ‚ª‘¦À‚É WSAEWOULDBLOCK
+‚ğ•Ô‚·‰Â”\«‚É‚à”õ‚¦‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚½‚Æ‚¦‚ÎŸ‚Ì‚æ‚¤‚È‘€ì‚Ì•À‚Ñ‚ª‹N‚±‚è‚¤‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAEventSelect ŠÖ”‚ÍA‘I‘ğ‚³‚ê‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg (lNetworkEvents)
-‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg (hEventObject) ‚ğw’è‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªw’è‚³‚ê‚éƒ\ƒPƒbƒg‚Í s
-ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚ê‚éBw’è‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‚¢‚¸‚ê‚©‚ª”­¶‚µ‚½‚Æ‚«‚ÉƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒZƒbƒg‚³‚ê‚éBWSAEventSelect
-ŠÖ”‚Í WSAAsyncSelect
-‚Æ”ñí‚É—‚½“®ì‚ğ‚·‚é‚ªAw’è‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚Æ‚«‚Éæ‚ç‚ê‚éƒAƒNƒVƒ‡ƒ“‚ªˆÙ‚È‚éBWSAAsyncSelect
-ŠÖ”‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“w’è‚Ì Windows ƒƒbƒZ[ƒW‚ğ“Še‚³‚¹‚éBWSAEventSelect
-‚ÍŠÖ˜A•t‚¯‚ç‚ê‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒg‚µA‚±‚ÌƒCƒxƒ“ƒg‚Ì”­¶‚ğ“à•”ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚É‹L˜^‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+WSAEventSelect ŠÖ”‚ÍA‘I‘ğ‚µ‚½ FD_XXX ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg (lNetworkEvents)
+‚ÉŠÖ˜A•t‚¯‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg (hEventObject) ‚ğw’è‚·‚é‚½‚ß‚Ég—p‚·‚éBƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éƒ\ƒPƒbƒg‚Í s
+ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚·‚éBw’è‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‚¢‚¸‚ê‚©‚ª”­¶‚·‚é‚ÆAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒZƒbƒg‚³‚ê‚éBWSAEventSelect
+ŠÖ”‚Ì“®ì‚Í WSAAsyncSelect
+‚Æ‚æ‚­—‚Ä‚¨‚èAˆá‚¢‚Íw’è‚³‚ê‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg”­¶‚És‚¤“®ì‚Å‚ ‚éBWSAAsyncSelect ŠÖ”‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“w’è‚Ì
+Windows ƒƒbƒZ[ƒW‚ğ“Še‚³‚¹‚éBWSAEventSelect
+‚ÍŠÖ˜A•t‚¯‚ç‚ê‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğİ’è‚µA‚±‚ÌƒCƒxƒ“ƒg‚Ì”­¶‚ğ“à•”‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚É‹L˜^‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
 WSAWaitForMultipleEvents
 ‚ğg‚Á‚ÄƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ‘Ò‹@‚Ü‚½‚Íƒ|[ƒŠƒ“ƒO‚µAWSAEnumNetworkEvents
-‚ğg‚Á‚Ä“à•”ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒgƒŒƒR[ƒh‚Ì“à—e‚ğæ“¾‚·‚é‚±‚Æ‚ÅAw’è‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‚¤‚¿‚Ç‚ê‚ª”­¶‚µ‚½‚©‚ğ”»’f‚Å‚«‚éBWSAEventSelect
-ŠÖ”‚Åg—p‚·‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğƒŠƒZƒbƒg‚·‚é³‚µ‚¢•û–@‚ÍAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğ
-WSAEnumNetworkEvents ŠÖ”‚Ì hEventObject
-ƒpƒ‰ƒ[ƒ^‚É“n‚·‚±‚Æ‚Å‚ ‚éB‚±‚ê‚É‚æ‚èƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒŠƒZƒbƒg‚³‚êAƒ\ƒPƒbƒgã‚ÌƒAƒNƒeƒBƒu‚È FD
-ƒCƒxƒ“ƒg‚Ìó‘Ô‚ªƒAƒgƒ~ƒbƒN‚É’²®‚³‚ê‚éBWSAEventSelect ‚ÍAWSAEnumNetworkEvents
-‚ğ’Ê‚¶‚Äƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚ğ‹L˜^Eæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é—Bˆê‚ÌŠÖ”‚Å‚ ‚éBselect ‚¨‚æ‚Ñ WSAAsyncSelect
-‚ª‚Ç‚Ì‚æ‚¤‚Éƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚ğ•ñ‚·‚é‚©‚É‚Â‚¢‚Ä‚ÍA‚»‚ê‚¼‚ê‚Ìà–¾‚ğQÆBWSAEventSelect ŠÖ”‚Í
-lNetworkEvents ‚Ì’l‚ÉŠÖŒW‚È‚­Aƒ\ƒPƒbƒg s ‚ğ©“®“I‚Éƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Éİ’è‚·‚éBƒ\ƒPƒbƒg s
-‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·‚É‚ÍA‚Ü‚¸ lNetworkEvents ‚ğƒ[ƒ‚Éİ’è‚µAhEventObject ƒpƒ‰ƒ[ƒ^‚ğ NULL
-‚É‚µ‚Ä WSAEventSelect ‚ğŒÄ‚Ño‚µAƒ\ƒPƒbƒg s
+‚ğg‚Á‚Ä“à•”‚Ìƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‹L˜^‚Ì“à—e‚ğæ“¾‚µAw’è‚µ‚½ƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì‚¤‚¿‚Ç‚ê‚ª”­¶‚µ‚½‚©‚ğ“Á’è‚Å‚«‚éBWSAEventSelect
+ŠÖ”‚Åg—p‚·‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ³‚µ‚­ƒŠƒZƒbƒg‚·‚é‚É‚ÍAhEventObject
+ƒpƒ‰ƒ[ƒ^‚É‚»‚ÌƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğw’è‚µ‚Ä WSAEnumNetworkEvents
+ŠÖ”‚É“n‚¹‚Î‚æ‚¢B‚±‚ê‚É‚æ‚èAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒŠƒZƒbƒg‚³‚êAƒ\ƒPƒbƒgã‚ÌƒAƒNƒeƒBƒu‚È FD
+ƒCƒxƒ“ƒg‚Ìó‘Ô‚ªŒ´q“I‚É’²®‚³‚ê‚éBƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚ğ‹L˜^‚µ‚Ä WSAEnumNetworkEvents
+Œo—R‚Åæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚Ì‚Í WSAEventSelect ‚Ì‚İ‚Å‚ ‚éBselect ‚Æ WSAAsyncSelect
+‚ªƒlƒbƒgƒ[ƒNŠˆ“®‚ÆƒGƒ‰[‚ğ‚Ç‚Ì‚æ‚¤‚É•ñ‚·‚é‚©‚ÍA‚»‚ê‚¼‚ê‚Ìà–¾‚ğQÆBWSAEventSelect
+ŠÖ”‚ÍAlNetworkEvents ‚Ì’l‚É‚©‚©‚í‚ç‚¸ƒ\ƒPƒbƒg s ‚ğ©“®“I‚Éƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Éİ’è‚·‚éBƒ\ƒPƒbƒg s
+‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·‚É‚ÍA‚Ü‚¸ WSAEventSelect ‚ğ lNetworkEvents ‚ğ 0 ‚©‚Â
+hEventObject ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚µAƒ\ƒPƒbƒg s
 ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒCƒxƒ“ƒgƒŒƒR[ƒh‚ğƒNƒŠƒA‚·‚é•K—v‚ª‚ ‚éB‚»‚ÌŒãAioctlsocket ‚Ü‚½‚Í WSAIoctl
-‚ğŒÄ‚Ño‚µ‚Äƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚·‚±‚Æ‚ª‚Å‚«‚éBlNetworkEvents ƒpƒ‰ƒ[ƒ^‚ÍAˆÈ‰º‚Ìˆê——‚É¦‚·’l‚ğƒrƒbƒg’PˆÊ‚Ì
-OR ‰‰Zq‚Å‘g‚İ‡‚í‚¹‚Ä\’z‚·‚éB
+‚ğŒÄ‚Ño‚µ‚Äƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É–ß‚¹‚éBlNetworkEvents ƒpƒ‰ƒ[ƒ^‚ÍAŸ‚ÌƒŠƒXƒg‚É¦‚·’l‚ğƒrƒbƒg’PˆÊ‚Ì OR
+‰‰Zq‚Å‘g‚İ‡‚í‚¹‚Ä\’z‚·‚éB
 iˆÈ‰ºÈ—ªj
 
 
 %index
 WSAGetLastError
-WSAGetLastError ŠÖ” (winsock.h) ‚ÍAÅŒã‚É¸”s‚µ‚½ Windows ƒ\ƒPƒbƒg‘€ì‚ÌƒGƒ‰[ƒXƒe[ƒ^ƒX‚ğ•Ô‚·B
+WSAGetLastError ŠÖ” (winsock.h) ‚ÍAÅŒã‚É¸”s‚µ‚½ Windows Sockets ‘€ì‚ÌƒGƒ‰[ƒXƒe[ƒ^ƒX‚ğ•Ô‚·B
 %group
 Win32 ws2_32
 %prm
 
 %inst
-WSAGetLastError ŠÖ” (winsock.h) ‚ÍAÅŒã‚É¸”s‚µ‚½ Windows ƒ\ƒPƒbƒg‘€ì‚ÌƒGƒ‰[ƒXƒe[ƒ^ƒX‚ğ•Ô‚·B
+WSAGetLastError ŠÖ” (winsock.h) ‚ÍAÅŒã‚É¸”s‚µ‚½ Windows Sockets
+‘€ì‚ÌƒGƒ‰[ƒXƒe[ƒ^ƒX‚ğ•Ô‚·B
 
 [–ß‚è’l]
-–ß‚è’l‚ÍA‚±‚ÌƒXƒŒƒbƒh‚ÌÅŒã‚É¸”s‚µ‚½ Windows ƒ\ƒPƒbƒg‘€ì‚ÌƒGƒ‰[ƒR[ƒh‚ğ¦‚·B
+–ß‚è’l‚ÍA‚±‚ÌƒXƒŒƒbƒh‚ÅÅŒã‚É¸”s‚µ‚½ Windows Sockets ‘€ì‚ÌƒGƒ‰[ƒR[ƒh‚ğ¦‚·B
 
 [”õl]
-WSAGetLastError ŠÖ”‚ÍAŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚Å”­¶‚µ‚½ÅŒã‚ÌƒGƒ‰[‚ğ•Ô‚·B“Á’è‚Ì Windows
-ƒ\ƒPƒbƒgŠÖ”‚ªƒGƒ‰[‚Ì”­¶‚ğ¦‚µ‚½ê‡A¸”s‚µ‚½ŠÖ”ŒÄ‚Ño‚µ‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ğæ“¾‚·‚é‚½‚ß‚ÉA‚±‚ÌŠÖ”‚ğ‚½‚¾‚¿‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ÍAoptname
-ƒpƒ‰ƒ[ƒ^‚É SO_ERROR ‚ğw’è‚µ‚Ä getsockopt
-‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚Éæ“¾‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éBgetsockopt
+WSAGetLastError ŠÖ”‚ÍAŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÅÅŒã‚É”­¶‚µ‚½ƒGƒ‰[‚ğ•Ô‚·B“Á’è‚Ì Windows Sockets
+ŠÖ”‚ªƒGƒ‰[”­¶‚ğ¦‚µ‚½ê‡A¸”s‚µ‚½ŠÖ”ŒÄ‚Ño‚µ‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ğæ“¾‚·‚é‚É‚ÍA’¼‚¿‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ÍAgetsockopt
+‚ğ SO_ERROR ‚Ì optname ƒpƒ‰ƒ[ƒ^‚ÅŒÄ‚Ño‚µ‚½‚Æ‚«‚É“¾‚ç‚ê‚éƒGƒ‰[ƒR[ƒh‚Æ‚ÍˆÙ‚È‚é‚±‚Æ‚ª‚ ‚éBgetsockopt
 ‚Íƒ\ƒPƒbƒgŒÅ—L‚Å‚ ‚é‚Ì‚É‘Î‚µAWSAGetLastError
-‚Í‚·‚×‚Ä‚ÌƒXƒŒƒbƒhŒÅ—L‚Ìƒ\ƒPƒbƒg‚ÉŠÖ‚·‚é‚à‚Ì‚Å‚ ‚é‚½‚ß‚Å‚ ‚éBŠÖ”ŒÄ‚Ño‚µ‚Ì–ß‚è’l‚ªƒGƒ‰[‚â‘¼‚ÌŠÖ˜Aƒf[ƒ^‚ªƒGƒ‰[ƒR[ƒh‚Å•Ô‚³‚ê‚½‚±‚Æ‚ğ¦‚·ê‡AWSAGetLastError
-‚ğ‚½‚¾‚¿‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ê‚ÍAˆê•”‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉÅŒã‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ğ 0
-‚ÉƒŠƒZƒbƒg‚µAˆÈ‘O‚É¸”s‚µ‚½ŠÖ”‚ª•Ô‚µ‚½Šg’£ƒGƒ‰[ƒR[ƒh‚ğã‘‚«‚·‚é‰Â”\«‚ª‚ ‚é‚½‚ß‚É•K—v‚Å‚ ‚éBŠg’£ƒGƒ‰[ƒR[ƒh‚ğ–¾¦“I‚ÉƒŠƒZƒbƒg‚·‚é‚É‚ÍAiError
-ƒpƒ‰ƒ[ƒ^‚ğƒ[ƒ‚Éİ’è‚µ‚Ä WSASetLastError ŠÖ”‚ğŒÄ‚Ño‚·Boptname ƒpƒ‰ƒ[ƒ^‚É SO_ERROR ‚ğw’è‚µ‚½
-getsockopt ŠÖ”‚àŠg’£ƒGƒ‰[ƒR[ƒh‚ğƒ[ƒ‚ÉƒŠƒZƒbƒg‚·‚éBWSAGetLastError
-ŠÖ”‚ÍA”ñ“¯ŠúƒƒbƒZ[ƒW‚ÌóM‚ÉŠg’£ƒGƒ‰[’l‚ğŠm”F‚·‚é‚½‚ß‚Ég—p‚·‚×‚«‚Å‚Í‚È‚¢B‚±‚Ìê‡AŠg’£ƒGƒ‰[’l‚ÍƒƒbƒZ[ƒW‚Ì lParam
-ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚êA‚±‚ê‚Í WSAGetLastError ‚ª•Ô‚·’l‚ÆˆÙ‚È‚éê‡‚ª‚ ‚éB
-Note ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAWSAStartup ‚ª¸”s‚µ‚½ê‡‚âAWindows ƒ\ƒPƒbƒgŠÖ”‚ğŒÄ‚Ño‚·‘O‚É“KØ‚É Windows
-ƒ\ƒPƒbƒg‚ğ‰Šú‰»‚·‚é‚½‚ß‚É WSAStartup ‚ªŒÄ‚Î‚ê‚Ä‚¢‚È‚¢ê‡‚Å‚àA‘¼‚Ì Windows
-ƒ\ƒPƒbƒgŠÖ”‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ğŒˆ’è‚·‚é‚½‚ß‚É’Êí’Ê‚è WSAGetLastError
-ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBWSAGetLastError ŠÖ”‚ÍAWSAStartup ‚Ì¸”s‚Å‚àŒÄ‚Ño‚¹‚é Winsock 2.2
-DLL “à‚Ì”­‚È‚¢ŠÖ”‚Ì 1 ‚Â‚Å‚ ‚éB
-‚±‚ÌŠÖ”‚ª•Ô‚· Windows ƒ\ƒPƒbƒg‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ÆƒGƒ‰[‚ÌƒeƒLƒXƒgà–¾‚Í Windows Sockets Error Codes
-‚Éˆê——‚³‚ê‚Ä‚¢‚éB‚±‚ê‚ç‚ÌƒGƒ‰[ƒR[ƒh‚ÆƒGƒ‰[ƒR[ƒh‚ÉŠÖ˜A‚·‚é’Z‚¢ƒeƒLƒXƒgà–¾‚Í Winerror.h
-ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚éBFormatMessage
-ŠÖ”‚ğg‚Á‚Ä•Ô‚³‚ê‚½ƒGƒ‰[‚É‘Î‚·‚éƒƒbƒZ[ƒW•¶š—ñ‚ğæ“¾‚Å‚«‚éBƒ\ƒPƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ Winsock
-‚ÉˆÚA‚·‚éÛ‚ÌƒGƒ‰[ƒR[ƒhˆ—‚Ì•û–@‚É‚Â‚¢‚Ä‚ÍAError Codes - errno, h_errno and
-WSAGetLastError ‚ğQÆB
+‚Í‚·‚×‚Ä‚ÌƒXƒŒƒbƒhŒÅ—Lƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä‹@”\‚·‚éBŠÖ”ŒÄ‚Ño‚µ‚Ì–ß‚è’l‚ªAƒGƒ‰[‚Ü‚½‚ÍŠÖ˜Aƒf[ƒ^‚ªƒGƒ‰[ƒR[ƒh‚É•Ô‚³‚ê‚½‚±‚Æ‚ğ¦‚·ê‡‚ÍA’¼‚¿‚É
+WSAGetLastError ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ê‚ÍAˆê•”‚ÌŠÖ”‚Í¬Œ÷‚ÉÅŒã‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ğ 0
+‚ÉƒŠƒZƒbƒg‚µA’¼‘O‚É¸”s‚µ‚½ŠÖ”‚ª•Ô‚µ‚½Šg’£ƒGƒ‰[ƒR[ƒh‚ğã‘‚«‚µ‚Ä‚µ‚Ü‚¤‚±‚Æ‚ª‚ ‚é‚½‚ß•K—v‚Å‚ ‚éBŠg’£ƒGƒ‰[ƒR[ƒh‚ğ–¾¦“I‚ÉƒŠƒZƒbƒg‚·‚é‚É‚ÍAiError
+ƒpƒ‰ƒ[ƒ^‚ğ 0 ‚É‚µ‚Ä WSASetLastError ŠÖ”‚ğŒÄ‚Ño‚·BSO_ERROR ‚Ì optname ƒpƒ‰ƒ[ƒ^‚Å
+getsockopt ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àAŠg’£ƒGƒ‰[ƒR[ƒh‚Íƒ[ƒ‚ÉƒŠƒZƒbƒg‚³‚ê‚éB”ñ“¯ŠúƒƒbƒZ[ƒW‚ÌóM‚ÉŠg’£ƒGƒ‰[’l‚ğ’²‚×‚é‚Ì‚É
+WSAGetLastError ŠÖ”‚ğg‚¤‚×‚«‚Å‚Í‚È‚¢B‚±‚Ìê‡AŠg’£ƒGƒ‰[’l‚ÍƒƒbƒZ[ƒW‚Ì lParam
+ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚é‚½‚ßAWSAGetLastError ‚ª•Ô‚·’l‚Æ‚ÍˆÙ‚È‚é‚±‚Æ‚ª‚ ‚éB
+’ ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‘¼‚Ì Windows ƒ\ƒPƒbƒgŠÖ”‚ÌŠg’£ƒGƒ‰[ƒR[ƒh‚ğ’²‚×‚é‚½‚ß‚ÉAWindows Sockets
+‚Å’Êís‚¤‚Ì‚Æ“¯‚¶‚æ‚¤‚É WSAGetLastError ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB‚±‚ê‚ÍAWSAStartup
+ŠÖ”‚ª¸”s‚µ‚½ê‡‚âAWindows Sockets ŠÖ”‚ğŒÄ‚Ño‚·‘O‚É WSAStartup ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä Windows
+Sockets ‚ğ“KØ‚É‰Šú‰»‚µ‚Ä‚¢‚È‚¢ê‡‚Å‚à“¯—l‚Å‚ ‚éBWSAGetLastError ŠÖ”‚ÍAWSAStartup
+‚ª¸”s‚µ‚½ê‡‚Å‚àŒÄ‚Ño‚¹‚é Winsock 2.2 DLL “à‚Ì”­‚È‚¢ŠÖ”‚Ì 1 ‚Â‚Å‚ ‚éB
+‚±‚ÌŠÖ”‚ª•Ô‚· Windows Sockets Šg’£ƒGƒ‰[ƒR[ƒh‚ÆƒGƒ‰[‚Ìà–¾•¶‚ÍAWindows Sockets
+ƒGƒ‰[ƒR[ƒh‚É—ñ‹“‚³‚ê‚Ä‚¢‚éB‚±‚ê‚ç‚ÌƒGƒ‰[ƒR[ƒh‚Æ‚»‚ê‚ÉŠÖ˜A‚·‚éŠÈ’P‚Èà–¾‚Í Winerror.h
+ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚Ä‚¢‚éBFormatMessage
+ŠÖ”‚ğg‚Á‚ÄA•Ô‚³‚ê‚½ƒGƒ‰[‚É‘Î‰‚·‚éƒƒbƒZ[ƒW•¶š—ñ‚ğæ“¾‚Å‚«‚éBƒ\ƒPƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ Winsock
+‚ÉˆÚA‚·‚éÛ‚ÌƒGƒ‰[ƒR[ƒh‚Ìˆµ‚¢‚É‚Â‚¢‚Ä‚ÍAuError Codes - errno, h_errno and
+WSAGetLastErrorv‚ğQÆB
 Windows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone
-ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows
 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSAGetOverlappedResult
-WSAGetOverlappedResult ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚·‚éƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŒ‹‰Ê‚ğæ“¾‚·‚éB
+WSAGetOverlappedResult ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚Å‚ÌƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŒ‹‰Ê‚ğæ“¾‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, lpOverlapped, lpcbTransfer, fWait, lpdwFlags
-s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB‚±‚ê‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ğƒTƒ|[ƒg‚·‚é Winsock ŠÖ” (AcceptExAConnectExADisconnectExATransmitFileATransmitPacketsAWSARecvAWSARecvFromALPFN_WSARECVMSG (WSARecvMsg)AWSASendAWSASendMsgAWSASendToAWSAIoctl ‚È‚Ç) ‚Ì‚¢‚¸‚ê‚©‚ğŒÄ‚Ño‚µ‚ÄƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ğŠJn‚µ‚½‚Æ‚«‚Éw’è‚µ‚½ƒ\ƒPƒbƒg‚Æ“¯‚¶‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-lpOverlapped : [var] ƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ğŠJn‚µ‚½‚Æ‚«‚Éw’è‚µ‚½ WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
-lpcbTransfer : [var] ‘—óM‘€ì‚Ü‚½‚Í WSAIoctl ŠÖ”‚É‚æ‚Á‚ÄÀÛ‚É“]‘—‚³‚ê‚½ƒoƒCƒg”‚ğó‚¯æ‚é 32 ƒrƒbƒg•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
-fWait : [int] •Û—¯’†‚ÌƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ªŠ®—¹‚·‚é‚Ü‚ÅŠÖ”‚ª‘Ò‹@‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚·‚éƒtƒ‰ƒOBTRUE ‚Ìê‡AŠÖ”‚Í‘€ì‚ªŠ®—¹‚·‚é‚Ü‚Å–ß‚ç‚È‚¢BFALSE ‚Å‘€ì‚ª‚Ü‚¾•Û—¯’†‚Ìê‡AŠÖ”‚Í FALSE ‚ğ•Ô‚µAWSAGetLastError ŠÖ”‚Í WSA_IO_INCOMPLETE ‚ğ•Ô‚·BfWait ƒpƒ‰ƒ[ƒ^‚ğ TRUE ‚Éİ’è‚Å‚«‚é‚Ì‚ÍAƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ªƒCƒxƒ“ƒgƒx[ƒX‚ÌŠ®—¹’Ê’m‚ğ‘I‘ğ‚µ‚½ê‡‚Ì‚İ‚Å‚ ‚éB
-lpdwFlags : [var] Š®—¹ƒXƒe[ƒ^ƒX‚ğ•â‘«‚·‚é 1 ‚ÂˆÈã‚Ìƒtƒ‰ƒO‚ğó‚¯æ‚é 32 ƒrƒbƒg•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª WSARecv ‚Ü‚½‚Í WSARecvFrom ‚ğ’Ê‚¶‚ÄŠJn‚³‚ê‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í lpFlags ƒpƒ‰ƒ[ƒ^‚ÌŒ‹‰Ê’l‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B‚±‚ê‚ÍAƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ğƒTƒ|[ƒg‚·‚é Winsock ŠÖ” (AcceptExAConnectExADisconnectExATransmitFileATransmitPacketsAWSARecvAWSARecvFromALPFN_WSARECVMSG (WSARecvMsg)AWSASendAWSASendMsgAWSASendToAWSAIoctl) ‚Ì‚¢‚¸‚ê‚©‚ÅƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ğŠJn‚µ‚½‚Éw’è‚µ‚½‚Ì‚Æ“¯‚¶ƒ\ƒPƒbƒg‚Å‚ ‚éB
+lpOverlapped : [var] ƒI[ƒo[ƒ‰ƒbƒv‘€ìŠJn‚Éw’è‚³‚ê‚½ WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
+lpcbTransfer : [var] ‘—M‚âóMA‚Ü‚½‚Í WSAIoctl ŠÖ”‚É‚æ‚Á‚ÄÀÛ‚É“]‘—‚³‚ê‚½ƒoƒCƒg”‚ğó‚¯æ‚é 32 ƒrƒbƒg•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
+fWait : [int] ŠÖ”‚ª•Û—¯’†‚ÌƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŠ®—¹‚ğ‘Ò‚Â‚©‚ğw’è‚·‚éƒtƒ‰ƒOBTRUE ‚Ìê‡A‘€ì‚ªŠ®—¹‚·‚é‚Ü‚ÅŠÖ”‚Í–ß‚ç‚È‚¢BFALSE ‚Å‚©‚Â‘€ì‚ª•Û—¯’†‚Ìê‡AŠÖ”‚Í FALSE ‚ğ•Ô‚µAWSAGetLastError ŠÖ”‚Í WSA_IO_INCOMPLETE ‚ğ•Ô‚·BfWait ƒpƒ‰ƒ[ƒ^‚ğ TRUE ‚Éİ’è‚Å‚«‚é‚Ì‚ÍAƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ªƒCƒxƒ“ƒgƒx[ƒX‚ÌŠ®—¹’Ê’m‚ğ‘I‘ğ‚µ‚Ä‚¢‚éê‡‚Ì‚İ‚Å‚ ‚éB
+lpdwFlags : [var] Š®—¹ƒXƒe[ƒ^ƒX‚ğ•â‚¤ 1 ‚ÂˆÈã‚Ìƒtƒ‰ƒO‚ğó‚¯æ‚é 32 ƒrƒbƒg•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª WSARecv ‚Ü‚½‚Í WSARecvFrom ‚ÅŠJn‚³‚ê‚Ä‚¢‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í lpFlags ƒpƒ‰ƒ[ƒ^‚ÌŒ‹‰Ê’l‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
 %inst
-WSAGetOverlappedResult ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚·‚éƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŒ‹‰Ê‚ğæ“¾‚·‚éB
+WSAGetOverlappedResult ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒPƒbƒg‚Å‚ÌƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŒ‹‰Ê‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
 WSAGetOverlappedResult ‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE
-‚Å‚ ‚éB‚±‚ê‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠ®—¹‚µAlpcbTransfer
+‚Å‚ ‚éB‚±‚ê‚ÍAƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠ®—¹‚µAlpcbTransfer
 ‚ªw‚·’l‚ªXV‚³‚ê‚½‚±‚Æ‚ğˆÓ–¡‚·‚éBWSAGetOverlappedResult ‚ª FALSE
-‚ğ•Ô‚µ‚½ê‡AƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ªŠ®—¹‚µ‚Ä‚¢‚È‚¢‚©AƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ªƒGƒ‰[‚ÅŠ®—¹‚µ‚½‚©AWSAGetOverlappedResult
-‚Ì 1
-‚ÂˆÈã‚Ìƒpƒ‰ƒ[ƒ^‚ÉƒGƒ‰[‚ª‚ ‚Á‚ÄƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŠ®—¹ƒXƒe[ƒ^ƒX‚ğ”»’f‚Å‚«‚È‚©‚Á‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB¸”sAlpcbTransfer
+‚ğ•Ô‚µ‚½ê‡AƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ªŠ®—¹‚µ‚Ä‚¢‚È‚¢‚©AƒGƒ‰[•t‚«‚ÅŠ®—¹‚µ‚½‚©AWSAGetOverlappedResult ‚Ö‚Ì 1
+‚ÂˆÈã‚Ìƒpƒ‰ƒ[ƒ^‚ÌƒGƒ‰[‚É‚æ‚èƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŠ®—¹ƒXƒe[ƒ^ƒX‚ğ“Á’è‚Å‚«‚È‚©‚Á‚½‚©‚Ì‚¢‚¸‚ê‚©‚ğˆÓ–¡‚·‚éB¸”s‚ÍAlpcbTransfer
 ‚ªw‚·’l‚ÍXV‚³‚ê‚È‚¢B¸”s‚ÌŒ´ˆö (WSAGetOverlappedResult
-ŠÖ”‚É‚æ‚é‚à‚Ì‚©AŠÖ˜A‚·‚éƒI[ƒo[ƒ‰ƒbƒv‘€ì‚É‚æ‚é‚à‚Ì‚©) ‚ğ”»’f‚·‚é‚É‚Í WSAGetLastError ‚ğg—p‚·‚éB
+ŠÖ”©g‚ÌŒ´ˆö‚©AŠÖ˜A•t‚¯‚ç‚ê‚½ƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŒ´ˆö‚©) ‚ğ’²‚×‚é‚É‚Í WSAGetLastError ‚ğg—p‚·‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAGetOverlappedResult ŠÖ”‚ÍAs ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒ\ƒPƒbƒg‚É‘Î‚·‚é lpOverlapped
 ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŒ‹‰Ê‚ğ•ñ‚·‚éBWSAGetOverlappedResult
-ŠÖ”‚É‚ÍAƒI[ƒo[ƒ‰ƒbƒvŠÖ”‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚Éw’è‚µ‚½ƒ\ƒPƒbƒg‹Lqq‚Æ WSAOVERLAPPED \‘¢‘Ì‚ğ“n‚·B‘€ì‚ğŠJn‚µ‚½ŠÖ”‚ª
-FALSE ‚ğ•Ô‚µAWSAGetLastError ŠÖ”‚ª WSA_IO_PENDING
-‚ğ•Ô‚µ‚½ê‡A•Û—¯’†‚Ì‘€ì‚ª‚ ‚é‚±‚Æ‚ğ¦‚·BWSARecv ‚Ì‚æ‚¤‚È I/O ‘€ì‚ª•Û—¯’†‚Ìê‡A‘€ì‚ğŠJn‚µ‚½ŠÖ”‚Í
+ŠÖ”‚É‚ÍAƒI[ƒo[ƒ‰ƒbƒvŠÖ”‚ªŒÄ‚Î‚ê‚½‚Éw’è‚µ‚½ƒ\ƒPƒbƒgƒfƒBƒXƒNƒŠƒvƒ^‚Æ WSAOVERLAPPED
+\‘¢‘Ì‚ğ“n‚·B‘€ì‚ª•Û—¯’†‚Å‚ ‚é‚±‚Æ‚ÍA‘€ì‚ğŠJn‚µ‚½ŠÖ”‚ª FALSE ‚ğ•Ô‚µAWSAGetLastError ŠÖ”‚ª
+WSA_IO_PENDING ‚ğ•Ô‚·‚±‚Æ‚Å¦‚³‚ê‚éBWSARecv ‚Ì‚æ‚¤‚È I/O ‘€ì‚ª•Û—¯ó‘Ô‚É‚ ‚éê‡A‘€ì‚ğŠJn‚µ‚½ŠÖ”‚Í
 WSAOVERLAPPED \‘¢‘Ì‚Ì hEvent
-ƒƒ“ƒo‚ğ”ñƒVƒOƒiƒ‹ó‘Ô‚ÉƒŠƒZƒbƒg‚·‚éB‚»‚ÌŒãA•Û—¯’†‚Ì‘€ì‚ªŠ®—¹‚·‚é‚ÆAƒVƒXƒeƒ€‚ÍƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éBfWait
+ƒƒ“ƒo‚ğ”ñƒVƒOƒiƒ‹ó‘Ô‚ÉƒŠƒZƒbƒg‚·‚éB‚»‚ÌŒãA•Û—¯’†‚Ì‘€ì‚ªŠ®—¹‚·‚é‚ÆƒVƒXƒeƒ€‚ÍƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éBfWait
 ƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡AWSAGetOverlappedResult
-‚ÍƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚Ì‚ğ‘Ò‹@‚µ‚ÄA•Û—¯’†‚Ì‘€ì‚ªŠ®—¹‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’f‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‚Í fWait ƒpƒ‰ƒ[ƒ^‚ğ
-TRUE ‚Éİ’è‚Å‚«‚é‚ªAI/O
-‘€ì‚ğ—v‹‚µ‚½‚Æ‚«‚ÉƒCƒxƒ“ƒgƒx[ƒX‚ÌŠ®—¹’Ê’m‚ğ‘I‘ğ‚µ‚½ê‡‚Ì‚İ‚Å‚ ‚éB‘¼‚Ì’Ê’mŒ`®‚ª‘I‘ğ‚³‚ê‚½ê‡AWSAOVERLAPPED \‘¢‘Ì‚Ì
-hEvent ƒpƒ‰ƒ[ƒ^‚Ìg—p•û–@‚ªˆÙ‚È‚èAfWait ‚ğ TRUE ‚Éİ’è‚·‚é‚Æ—\‘ª•s”\‚ÈŒ‹‰Ê‚ğˆø‚«‹N‚±‚·BWindows Vista
-‚Å lpOverlappedAlpcbTransferAlpdwFlags ‚Ì‚¢‚¸‚ê‚©‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ƒ|ƒCƒ“ƒ^‚Å
-WSAGetOverlappedResult ŠÖ”‚ğŒÄ‚Ño‚·‚ÆAƒAƒNƒZƒXˆá”½‚ª”­¶‚·‚éBWindows Server 2003
-ˆÈ‘O‚Å‚±‚ê‚ç‚ğ NULL ‚É‚·‚é‚Æ WSAEFAULT ƒGƒ‰[ƒR[ƒh‚ª•Ô‚³‚ê‚éBNote ƒXƒŒƒbƒh‚ªI—¹‚·‚é‚Æ‚·‚×‚Ä‚Ì I/O
-‚ªƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éBƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚ÍA‘€ì‚ªŠ®—¹‚·‚é‘O‚ÉƒXƒŒƒbƒh‚ª•Â‚¶‚ç‚ê‚é‚Æ•Û—¯’†‚Ì”ñ“¯Šú‘€ì‚ª¸”s‚·‚é‚±‚Æ‚ª‚ ‚éBÚ×‚Í
+‚ÍƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚Ì‚ğ‘Ò‚Á‚ÄA•Û—¯‘€ì‚ªŠ®—¹‚µ‚½‚©‚ğ”»’f‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ÍAI/O
+‘€ì—v‹‚ÉƒCƒxƒ“ƒgƒx[ƒX‚ÌŠ®—¹’Ê’m‚ğ‘I‘ğ‚µ‚Ä‚¢‚éê‡‚ÉŒÀ‚èAfWait ƒpƒ‰ƒ[ƒ^‚ğ TRUE
+‚Éİ’è‚µ‚Ä‚æ‚¢B•Ê‚Ì’Ê’m•û®‚ğ‘I‚ñ‚Å‚¢‚éê‡AWSAOVERLAPPED \‘¢‘Ì‚Ì hEvent ƒpƒ‰ƒ[ƒ^‚Ì—p“r‚ªˆÙ‚È‚èAfWait ‚ğ
+TRUE ‚Éİ’è‚·‚é‚ÆŒ‹‰Ê‚Í—\‘ª•s”\‚Å‚ ‚éBWindows Vista ‚Å WSAGetOverlappedResult ŠÖ”‚ª
+lpOverlappedAlpcbTransferAlpdwFlags ‚Ì‚¢‚¸‚ê‚©‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL
+ƒ|ƒCƒ“ƒ^‚Æ‚µ‚ÄŒÄ‚Ño‚³‚ê‚é‚ÆAƒAƒNƒZƒXˆá”½‚Æ‚È‚éBWindows Server 2003 ˆÈ‘O‚Å
+WSAGetOverlappedResult ŠÖ”‚ª“¯—l‚ÉŒÄ‚Ño‚³‚ê‚é‚ÆAWSAEFAULT ƒGƒ‰[ƒR[ƒh‚ª•Ô‚³‚ê‚éB’
+ƒXƒŒƒbƒhI—¹‚É‚Í‚·‚×‚Ä‚Ì I/O
+‚ªƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éBƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚ÍA‘€ìŠ®—¹‘O‚ÉƒXƒŒƒbƒh‚ªƒNƒ[ƒY‚³‚ê‚é‚Æ•Û—¯’†‚Ì”ñ“¯Šú‘€ì‚ª¸”s‚·‚é‚±‚Æ‚ª‚ ‚éBÚ‚µ‚­‚Í
 ExitThread ‚ğQÆBWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows
-Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í
-Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2:
+‚±‚ÌŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
@@ -1715,58 +1689,57 @@ WSAGetQOSByName ŠÖ”‚ÍA–¼‘O•t‚«ƒeƒ“ƒvƒŒ[ƒg‚ÉŠî‚Ã‚¢‚Ä QOS \‘¢‘Ì‚ğ‰Šú‰»‚·‚é‚©
 Win32 ws2_32
 %prm
 s, lpQOSName, lpQOS
-s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
 lpQOSName : [var] “Á’è‚Ì QoS ƒeƒ“ƒvƒŒ[ƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-lpQOS : [var] –„‚ß‚ç‚ê‚é QOS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpQOS : [var] ’l‚ğŠi”[‚·‚é QOS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
 WSAGetQOSByName ŠÖ”‚ÍA–¼‘O•t‚«ƒeƒ“ƒvƒŒ[ƒg‚ÉŠî‚Ã‚¢‚Ä QOS
 \‘¢‘Ì‚ğ‰Šú‰»‚·‚é‚©A—˜—p‰Â”\‚Èƒeƒ“ƒvƒŒ[ƒg–¼‚Ì—ñ‹“‚ğæ“¾‚·‚é‚½‚ß‚Ìƒoƒbƒtƒ@‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
 WSAGetQOSByName ‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
-‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í WSAGetLastError ‚ğŒÄ‚Ño‚·B
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAWSAGetLastError ‚ğŒÄ‚Ño‚·B
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAGetQOSByName ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª“Á’è‚ÌƒT[ƒrƒXƒNƒ‰ƒX‚Ü‚½‚ÍƒƒfƒBƒAƒ^ƒCƒv‚É“K‚µ‚½Šù’m‚Ì’l‚ÌW‡‚Å QOS
-\‘¢‘Ì‚ğ‰Šú‰»‚·‚é‚½‚ß‚Ég—p‚·‚éB‚±‚ê‚ç‚Ì’l‚Í‚æ‚­’m‚ç‚ê‚½–¼‘O‚ÅQÆ‚³‚ê‚éƒeƒ“ƒvƒŒ[ƒg‚ÉŠi”[‚³‚ê‚Ä‚¢‚éBƒNƒ‰ƒCƒAƒ“ƒg‚Í lpQOSName
-‚Å¦‚³‚ê‚é WSABUF \‘¢‘Ì‚Ì buf
-ƒpƒ‰ƒ[ƒ^‚ğAƒeƒ“ƒvƒŒ[ƒg–¼‚ğw’è‚·‚é’·‚³”ñƒ[ƒ‚Ì•¶š—ñ‚Éİ’è‚·‚é‚±‚Æ‚ÅA‚±‚ê‚ç‚Ì’l‚ğæ“¾‚Å‚«‚éB‚±‚Ìê‡AlpQOSName
-‚Ìg—p•û–@‚Í IN ‚Ì‚İ‚ÅAŒ‹‰Ê‚Í lpQOS
-‚ğ’Ê‚¶‚Ä•Ô‚³‚ê‚éB‚ ‚é‚¢‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚Í‚±‚ÌŠÖ”‚ğg‚Á‚Ä—˜—p‰Â”\‚Èƒeƒ“ƒvƒŒ[ƒg–¼‚Ì—ñ‹“‚ğæ“¾‚·‚é‚±‚Æ‚à‚Å‚«‚éB‚±‚ê‚ğs‚¤‚É‚ÍAlpQOSName
-‚Å¦‚³‚ê‚é WSABUF ‚Ì buf ƒpƒ‰ƒ[ƒ^‚ğ’·‚³ƒ[ƒ‚Ì null I’[•¶š—ñ‚Éİ’è‚·‚éB‚±‚Ìê‡Abuf
-‚Å¦‚³‚ê‚éƒoƒbƒtƒ@‚ÍAWSABUF ‚Ì len ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚é buf ‚Ì—˜—p‰Â”\ƒoƒCƒg”‚Ü‚ÅA—˜—p‰Â”\‚È null
-I’[ƒeƒ“ƒvƒŒ[ƒg–¼‚Ì•À‚Ñ‚Åã‘‚«‚³‚ê‚éB–¼‘O‚ÌƒŠƒXƒg©‘Ì‚Í’·‚³ƒ[ƒ‚Ì–¼‘O‚ÅI’[‚³‚ê‚éBWSAGetQOSByName
-ŠÖ”‚ªƒeƒ“ƒvƒŒ[ƒg–¼‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éê‡AlpQOS ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
+WSAGetQOSByName ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª QOS
+\‘¢‘Ì‚ğ“Á’è‚ÌƒT[ƒrƒXƒNƒ‰ƒX‚âƒƒfƒBƒAƒ^ƒCƒv‚É‡‚Á‚½Šù’m‚Ì’lƒZƒbƒg‚Å‰Šú‰»‚·‚é‚½‚ß‚Ég—p‚·‚éB‚±‚ê‚ç‚Ì’l‚ÍŠù’m‚Ì–¼‘O‚ÅQÆ‚³‚ê‚éƒeƒ“ƒvƒŒ[ƒg‚ÉŠi”[‚³‚ê‚Ä‚¢‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ÍAlpQOSName
+‚ªw‚· WSABUF \‘¢‘Ì‚Ì buf ƒpƒ‰ƒ[ƒ^‚ğ”ñƒ[ƒ’·‚Ì•¶š—ñ (ƒeƒ“ƒvƒŒ[ƒg–¼)
+‚Éİ’è‚·‚é‚±‚Æ‚Å‚±‚ê‚ç‚Ì’l‚ğæ“¾‚Å‚«‚éB‚±‚Ìê‡AlpQOSName ‚Í“ü—Íê—p‚Æ‚µ‚Äg‚í‚êAŒ‹‰Ê‚Í lpQOS
+‚É•Ô‚³‚ê‚éB‘ã‚í‚è‚É‚±‚ÌŠÖ”‚ğg‚Á‚Ä—˜—p‰Â”\‚Èƒeƒ“ƒvƒŒ[ƒg–¼‚Ì—ñ‹“‚ğæ“¾‚·‚é‚±‚Æ‚à‚Å‚«‚éB‚»‚Ìê‡AƒNƒ‰ƒCƒAƒ“ƒg‚Í lpQOSName
+‚ªw‚· WSABUF ‚Ì buf ƒpƒ‰ƒ[ƒ^‚ğ’·‚³ 0 ‚Ì NULL I’[•¶š—ñ‚Éİ’è‚·‚éB‚±‚Ìê‡Abuf
+‚ªw‚·ƒoƒbƒtƒ@‚ÍAlpQOSName ‚ªw‚· WSABUF ‚Ì len ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚é”ÍˆÍ“à‚Éû‚Ü‚éŒÀ‚è‚ÌANULL
+I’[‚³‚ê‚½—˜—p‰Â”\‚Èƒeƒ“ƒvƒŒ[ƒg–¼‚Ì•À‚Ñ‚Åã‘‚«‚³‚ê‚éB–¼‘O‚ÌƒŠƒXƒg‚ÍA’·‚³ 0 ‚Ì–¼‘O‚ÅI’[‚³‚ê‚éBWSAGetQOSByName
+ŠÖ”‚ğƒeƒ“ƒvƒŒ[ƒg–¼‚Ìæ“¾‚Ég—p‚·‚éê‡AlpQOS ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
 
 
 %index
 WSAGetServiceClassInfoW
-WSAGetServiceClassInfo ŠÖ”‚ÍAw’è‚µ‚½–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚çAw’è‚µ‚½ƒT[ƒrƒXƒNƒ‰ƒX‚ÉŠÖ‚·‚éƒNƒ‰ƒXî•ñ (ƒXƒL[ƒ}) ‚ğæ“¾‚·‚éB(Unicode)
+WSAGetServiceClassInfo ŠÖ”‚ÍAw’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚çAw’è‚µ‚½ƒT[ƒrƒXƒNƒ‰ƒX‚ÉŠÖ‚·‚éƒNƒ‰ƒXî•ñ (ƒXƒL[ƒ}) ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 lpProviderId, lpServiceClassId, lpdwBufSize, lpServiceClassInfo
-lpProviderId : [var] “Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ğ¯•Ê‚·‚é GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpProviderId : [var] “Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğ¯•Ê‚·‚é GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 lpServiceClassId : [var] ƒT[ƒrƒXƒNƒ‰ƒX‚ğ¯•Ê‚·‚é GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-lpdwBufSize : [var] “ü—ÍAlpServiceClassInfo ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÉŠÜ‚Ü‚ê‚éƒoƒCƒg”Bo—ÍAŠÖ”‚ª¸”s‚µƒGƒ‰[‚ª WSAEFAULT ‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒŒƒR[ƒh‚ğæ“¾‚·‚é‚½‚ß‚É lpServiceClassInfo ‚ªw‚·ƒoƒbƒtƒ@‚É•K—v‚ÈÅ¬ƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚éB
-lpServiceClassInfo : [var] w’è‚µ‚½ƒT[ƒrƒXƒNƒ‰ƒX‚É‚Â‚¢‚ÄAw’è‚µ‚½–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚ç‚ÌƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚ğŠÜ‚Ş WSASERVICECLASSINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwBufSize : [var] “ü—ÍAlpServiceClassInfo ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÉŠÜ‚Ü‚ê‚éƒoƒCƒg”Bo—ÍAŠÖ”‚ª¸”s‚µƒGƒ‰[‚ª WSAEFAULT ‚Å‚ ‚éê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒŒƒR[ƒh‚ğæ“¾‚·‚é‚½‚ß‚É lpServiceClassInfo ‚ªw‚·ƒoƒbƒtƒ@‚É•K—v‚ÈÅ¬ƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğ¦‚·B
+lpServiceClassInfo : [var] w’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚çæ“¾‚µ‚½Aw’è‚µ‚½ƒT[ƒrƒXƒNƒ‰ƒX‚ÉŠÖ‚·‚éƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚ğŠÜ‚Ş WSASERVICECLASSINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-WSAGetServiceClassInfo ŠÖ”‚ÍAw’è‚µ‚½–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚çAw’è‚µ‚½ƒT[ƒrƒXƒNƒ‰ƒX‚ÉŠÖ‚·‚éƒNƒ‰ƒXî•ñ
+WSAGetServiceClassInfo ŠÖ”‚ÍAw’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚çAw’è‚µ‚½ƒT[ƒrƒXƒNƒ‰ƒX‚ÉŠÖ‚·‚éƒNƒ‰ƒXî•ñ
 (ƒXƒL[ƒ}) ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-WSAGetServiceClassInfo ‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR
-‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+WSAGetServiceClassInfo ‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAGetServiceClassInfo
-ŠÖ”‚ÍA–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚çƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚ğæ“¾‚·‚éB“Á’è‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚©‚çæ“¾‚³‚ê‚éƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚ÍAƒT[ƒrƒXƒNƒ‰ƒX‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½‚Æ‚«‚Éw’è‚³‚ê‚½ƒNƒ‰ƒXî•ñ‚ÌŠ®‘S‚ÈƒZƒbƒg‚Å‚È‚¢ê‡‚ª‚ ‚éBŒÂX‚Ì–¼‘O‹óŠÔƒvƒƒoƒCƒ_‚ÍAƒTƒ|[ƒg‚·‚é–¼‘O‹óŠÔ‚É“K—p‰Â”\‚ÈƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚Ì‚İ•Û‚·‚ê‚Î‚æ‚¢BÚ×‚Í
-Service Class Data Structures ƒZƒNƒVƒ‡ƒ“‚ğQÆB
-> [!NOTE] > winsock2.h ƒwƒbƒ_‚Í WSAGetServiceClassInfo
-‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ”Å‚Ü‚½‚Í Unicode
-”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Ìg—p‚ğƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ğµ‚­‚¨‚»‚ê‚ª‚ ‚éBÚ×‚Í
+ŠÖ”‚ÍAƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚çƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚ğæ“¾‚·‚éB“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚©‚çæ“¾‚µ‚½ƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚ÍA‚»‚ÌƒT[ƒrƒXƒNƒ‰ƒX‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½“_‚Åw’è‚³‚ê‚½ƒNƒ‰ƒXî•ñ‚ÌŠ®‘S‚ÈW‡‚Å‚È‚¢‚±‚Æ‚ª‚ ‚éBŒÂ•Ê‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÍA©g‚ªƒTƒ|[ƒg‚·‚é–¼‘O‹óŠÔ‚ÉŠÖ˜A‚·‚éƒT[ƒrƒXƒNƒ‰ƒXî•ñ‚Ì‚İ‚ğ•Û‚·‚ê‚Î\•ª‚Å‚ ‚éBÚ‚µ‚­‚Í
+Service Class Data Structures ‚ÌƒZƒNƒVƒ‡ƒ“‚ğQÆB
+> [!NOTE] > winsock2.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä WSAGetServiceClassInfo
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
 [Conventions for Function
 Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 ‚ğQÆB
@@ -1774,27 +1747,27 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 
 %index
 WSAGetServiceClassNameByClassIdW
-WSAGetServiceClassNameByClassId ŠÖ”‚ÍAw’è‚µ‚½ƒ^ƒCƒv‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒT[ƒrƒX‚Ì–¼‘O‚ğæ“¾‚·‚éB‚±‚Ì–¼‘O‚Í FTP ‚â SNA ‚Ì‚æ‚¤‚Èˆê”Ê“I‚ÈƒT[ƒrƒX–¼‚Å‚ ‚èA‚»‚ÌƒT[ƒrƒX‚Ì“Á’èƒCƒ“ƒXƒ^ƒ“ƒX‚Ì–¼‘O‚Å‚Í‚È‚¢B(Unicode)
+WSAGetServiceClassNameByClassId ŠÖ”‚ÍAw’è‚³‚ê‚½Œ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒT[ƒrƒX‚Ì–¼‘O‚ğæ“¾‚·‚éB‚±‚ê‚Í FTP ‚â SNA ‚Æ‚¢‚Á‚½ˆê”Ê“I‚ÈƒT[ƒrƒX–¼‚Å‚ ‚èAƒT[ƒrƒX‚ÌŒÂ•ÊƒCƒ“ƒXƒ^ƒ“ƒX‚Ì–¼‘O‚Å‚Í‚È‚¢B(Unicode)
 %group
 Win32 ws2_32
 %prm
 lpServiceClassId, lpszServiceClassName, lpdwBufferLength
 lpServiceClassId : [var] ƒT[ƒrƒXƒNƒ‰ƒX‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 lpszServiceClassName : [wstr] ƒT[ƒrƒX–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
-lpdwBufferLength : [var] “ü—ÍAlpszServiceClassName ‚Å•Ô‚³‚ê‚éƒoƒbƒtƒ@‚Ì’·‚³‚ğ•¶š”‚Åw’è‚·‚éBo—ÍAlpszServiceClassName ‚ÉƒRƒs[‚³‚ê‚½ƒT[ƒrƒX–¼‚Ì’·‚³‚ğ•¶š”‚Åw’è‚·‚éB
+lpdwBufferLength : [var] “ü—ÍAlpszServiceClassName ‚ª•Ô‚·ƒoƒbƒtƒ@‚Ì’·‚³ (•¶š”)Bo—ÍAlpszServiceClassName ‚ÉƒRƒs[‚³‚ê‚½ƒT[ƒrƒX–¼‚Ì’·‚³ (•¶š”)B
 %inst
-WSAGetServiceClassNameByClassId ŠÖ”‚ÍAw’è‚µ‚½ƒ^ƒCƒv‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒT[ƒrƒX‚Ì–¼‘O‚ğæ“¾‚·‚éB‚±‚Ì–¼‘O‚Í
-FTP ‚â SNA ‚Ì‚æ‚¤‚Èˆê”Ê“I‚ÈƒT[ƒrƒX–¼‚Å‚ ‚èA‚»‚ÌƒT[ƒrƒX‚Ì“Á’èƒCƒ“ƒXƒ^ƒ“ƒX‚Ì–¼‘O‚Å‚Í‚È‚¢B(Unicode)
+WSAGetServiceClassNameByClassId ŠÖ”‚ÍAw’è‚³‚ê‚½Œ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒT[ƒrƒX‚Ì–¼‘O‚ğæ“¾‚·‚éB‚±‚ê‚Í
+FTP ‚â SNA ‚Æ‚¢‚Á‚½ˆê”Ê“I‚ÈƒT[ƒrƒX–¼‚Å‚ ‚èAƒT[ƒrƒX‚ÌŒÂ•ÊƒCƒ“ƒXƒ^ƒ“ƒX‚Ì–¼‘O‚Å‚Í‚È‚¢B(Unicode)
 
 [–ß‚è’l]
-WSAGetServiceClassNameByClassId ŠÖ”‚ÍA¬Œ÷‚µ‚½ê‡‚Éƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
-SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+WSAGetServiceClassNameByClassId ŠÖ”‚ÍA¬Œ÷‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-> [!NOTE] > winsock2.h ƒwƒbƒ_‚Í WSAGetServiceClassNameByClassId
-‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ”Å‚Ü‚½‚Í Unicode
-”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Ìg—p‚ğƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ğµ‚­‚¨‚»‚ê‚ª‚ ‚éBÚ×‚Í
+> [!NOTE] > winsock2.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä WSAGetServiceClassNameByClassId
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
 [Conventions for Function
 Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 ‚ğQÆB
@@ -1807,30 +1780,30 @@ WSAHtonl ŠÖ”‚ÍAu_long ‚ğƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚©‚çƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚É•Ï
 Win32 ws2_32
 %prm
 s, hostlong, lpnetlong
-s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
 hostlong : [int] ƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’lB
 lpnetlong : [var] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì”’l‚ğó‚¯æ‚é 32 ƒrƒbƒg”’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
 WSAHtonl ŠÖ”‚ÍAu_long ‚ğƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚©‚çƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSAHtonl ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSAHtonl ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAHtonl ŠÖ”‚ÍAƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’l‚ğó‚¯æ‚èAlpnetlong ƒpƒ‰ƒ[ƒ^‚ªw‚· 32
-ƒrƒbƒg”’l‚Éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’l‚ğ•Ô‚·Bs ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚½ƒ\ƒPƒbƒg‚ÍA‚»‚Ìƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½
+WSAHtonl ŠÖ”‚ÍAƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’l‚ğó‚¯æ‚èAƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’l‚ğ
+lpnetlong ƒpƒ‰ƒ[ƒ^‚ªw‚· 32 ƒrƒbƒg”’l‚É•Ô‚·Bs ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚½ƒ\ƒPƒbƒg‚ÍA“–ŠYƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½
 Winsock
-ƒJƒ^ƒƒOƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ÉŠî‚Ã‚¢‚ÄA•K—v‚Èƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğŒˆ’è‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‚±‚Ì‹@”\‚ÍˆÙ‚È‚éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğg—p‚·‚é
+ƒJƒ^ƒƒO‚ÌƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ÉŠî‚Ã‚¢‚Ä•K—v‚Èƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğŒˆ’è‚·‚é‚½‚ß‚Ég‚í‚ê‚éB‚±‚Ì‹@”\‚ÍAˆÙ‚È‚éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğg‚¤
 Winsock ƒvƒƒoƒCƒ_‚ğƒTƒ|[ƒg‚·‚éBƒ\ƒPƒbƒg‚ª AF_INET ‚Ü‚½‚Í AF_INET6 ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ—p‚Ìê‡AWSAHtonl
-ŠÖ”‚ÍƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì IPv4 ƒAƒhƒŒƒX‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì IPv4 ƒAƒhƒŒƒX‚É•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB‚±‚ÌŠÖ”‚Í
-hostlong ƒpƒ‰ƒ[ƒ^‚ª—LŒø‚È IPv4 ƒAƒhƒŒƒX‚©‚Ç‚¤‚©‚Ìƒ`ƒFƒbƒN‚Ís‚í‚È‚¢BWSAHtonl ŠÖ”‚ÍAWSAStartup
-ŠÖ”‚Ì¬Œ÷ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä Winsock DLL ‚ª–‘O‚Éƒ[ƒh‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ—v‹‚·‚éBAF_INET ‚Ü‚½‚Í AF_INET6
-ƒtƒ@ƒ~ƒŠ‚Åg—p‚·‚éê‡Ahtonl ŠÖ”‚Í Winsock DLL ‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚é•K—v‚ª‚È‚¢BWindows Phone 8:
-‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1
-‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2
-ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+ŠÖ”‚ÍƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì IPv4 ƒAƒhƒŒƒX‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì IPv4 ƒAƒhƒŒƒX‚É•ÏŠ·‚·‚é‚½‚ß‚Ég‚¦‚éB‚±‚ÌŠÖ”‚Í
+hostlong ƒpƒ‰ƒ[ƒ^‚ª—LŒø‚È IPv4 ƒAƒhƒŒƒX‚©‚Ç‚¤‚©‚ÌŒŸ¸‚Ís‚í‚È‚¢BWSAHtonl ŠÖ”‚ÍA–‘O‚É WSAStartup
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚Ä Winsock DLL ‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ•K—v‚Æ‚·‚éBAF_INET ‚Ü‚½‚Í AF_INET6
+ƒtƒ@ƒ~ƒŠ‚Åg‚¤ê‡Ahtonl ŠÖ”‚Í Winsock DLL ‚Ìƒ[ƒh‚ğ•K—v‚Æ‚µ‚È‚¢BWindows Phone 8: ‚±‚ÌŠÖ”‚Í
+Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ
+Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì
+Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
@@ -1840,29 +1813,29 @@ WSAHtons ŠÖ”‚ÍAu_short ‚ğƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚©‚çƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚É•
 Win32 ws2_32
 %prm
 s, hostshort, lpnetshort
-s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
 hostshort : [int] ƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’lB
 lpnetshort : [var] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì”’l‚ğó‚¯æ‚é 16 ƒrƒbƒgƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
 WSAHtons ŠÖ”‚ÍAu_short ‚ğƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚©‚çƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-ƒGƒ‰[‚ª‚È‚¢ê‡AWSAHtons ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSAHtons ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-WSAHtons ŠÖ”‚ÍAƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’l‚ğó‚¯æ‚èAlpnetshort ƒpƒ‰ƒ[ƒ^‚ªw‚· 16
-ƒrƒbƒg”’l‚Éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’l‚ğ•Ô‚·Bs ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚½ƒ\ƒPƒbƒg‚ÍA‚»‚Ìƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½
+WSAHtons ŠÖ”‚ÍAƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’l‚ğó‚¯æ‚èAƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’l‚ğ
+lpnetshort ƒpƒ‰ƒ[ƒ^‚ªw‚· 16 ƒrƒbƒg”’l‚É•Ô‚·Bs ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚½ƒ\ƒPƒbƒg‚ÍA“–ŠYƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½
 Winsock
-ƒJƒ^ƒƒOƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ÉŠî‚Ã‚¢‚ÄA•K—v‚Èƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğŒˆ’è‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‚±‚Ì‹@”\‚ÍˆÙ‚È‚éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğg—p‚·‚é
+ƒJƒ^ƒƒO‚ÌƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ÉŠî‚Ã‚¢‚Ä•K—v‚Èƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğŒˆ’è‚·‚é‚½‚ß‚Ég‚í‚ê‚éB‚±‚Ì‹@”\‚ÍAˆÙ‚È‚éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğg‚¤
 Winsock ƒvƒƒoƒCƒ_‚ğƒTƒ|[ƒg‚·‚éBƒ\ƒPƒbƒg‚ª AF_INET ‚Ü‚½‚Í AF_INET6 ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ—p‚Ìê‡AWSAHtons
-ŠÖ”‚ÍƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì IP ƒ|[ƒg”Ô†‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì IP ƒ|[ƒg”Ô†‚É•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éBWSAHtons
-ŠÖ”‚ÍAWSAStartup ŠÖ”‚Ì¬Œ÷ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä Winsock DLL ‚ª–‘O‚Éƒ[ƒh‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ—v‹‚·‚éBAF_INET
-‚Ü‚½‚Í AF_INET6 ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Åg—p‚·‚éê‡Ahtons ŠÖ”‚Í Winsock DLL
-‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚é•K—v‚ª‚È‚¢BWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows
-Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í
-Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+ŠÖ”‚ÍƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì IP ƒ|[ƒg”Ô†‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì IP ƒ|[ƒg”Ô†‚É•ÏŠ·‚·‚é‚½‚ß‚Ég‚¦‚éBWSAHtons
+ŠÖ”‚ÍA–‘O‚É WSAStartup ŠÖ”‚ÌŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚Ä Winsock DLL ‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ•K—v‚Æ‚·‚éBAF_INET
+‚Ü‚½‚Í AF_INET6 ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Åg‚¤ê‡Ahtons ŠÖ”‚Í Winsock DLL ‚Ìƒ[ƒh‚ğ•K—v‚Æ‚µ‚È‚¢BWindows
+Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚ÍAWindows
+8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
@@ -1872,19 +1845,19 @@ WSAInstallServiceClass ŠÖ”‚ÍA–¼‘O‹óŠÔ“à‚ÉƒT[ƒrƒXƒNƒ‰ƒXƒXƒL[ƒ}‚ğ“o˜^‚·‚éB(Un
 Win32 ws2_32
 %prm
 lpServiceClassInfo
-lpServiceClassInfo : [var] ƒT[ƒrƒXƒNƒ‰ƒX‚©‚ç–¼‘O‹óŠÔŒÅ—L‚ÌŒ^‚Ö‚Ìƒ}ƒbƒsƒ“ƒOî•ñB•¡”‚Ìƒ}ƒbƒsƒ“ƒO‚ğ“¯‚Éˆµ‚¤‚±‚Æ‚ª‚Å‚«‚éB
+lpServiceClassInfo : [var] ƒT[ƒrƒXƒNƒ‰ƒX‚©‚ç–¼‘O‹óŠÔŒÅ—LŒ^‚Ö‚Ìƒ}ƒbƒsƒ“ƒOî•ñB•¡”‚Ìƒ}ƒbƒsƒ“ƒO‚ğˆê“x‚Éˆµ‚¦‚éB
 %inst
 WSAInstallServiceClass ŠÖ”‚ÍA–¼‘O‹óŠÔ“à‚ÉƒT[ƒrƒXƒNƒ‰ƒXƒXƒL[ƒ}‚ğ“o˜^‚·‚éB(Unicode)
 
 [–ß‚è’l]
-‘€ì‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‘€ì‚ª¬Œ÷‚·‚ê‚Î–ß‚è’l‚Íƒ[ƒ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
-> [!NOTE] > winsock2.h ƒwƒbƒ_‚Í WSAInstallServiceClass
-‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ”Å‚Ü‚½‚Í Unicode
-”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Ìg—p‚ğƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ğµ‚­‚¨‚»‚ê‚ª‚ ‚éBÚ×‚Í
+> [!NOTE] > winsock2.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä WSAInstallServiceClass
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
 [Conventions for Function
 Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 ‚ğQÆB
@@ -1897,7 +1870,7 @@ WSAIoctl ŠÖ”‚ÍAƒ\ƒPƒbƒg‚Ìƒ‚[ƒh‚ğ§Œä‚·‚éB
 Win32 ws2_32
 %prm
 s, dwIoControlCode, lpvInBuffer, cbInBuffer, lpvOutBuffer, cbOutBuffer, lpcbBytesReturned, lpOverlapped, lpCompletionRoutine
-s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚éƒfƒBƒXƒNƒŠƒvƒ^B
 dwIoControlCode : [int] Às‚·‚é‘€ì‚Ì§ŒäƒR[ƒhB
 lpvInBuffer : [intptr] “ü—Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 cbInBuffer : [int] “ü—Íƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
@@ -1905,37 +1878,37 @@ lpvOutBuffer : [intptr] o—Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 cbOutBuffer : [int] o—Íƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 lpcbBytesReturned : [var] ÀÛ‚Ìo—ÍƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 lpOverlapped : [var] WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B
-lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) Note  ‘€ì‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)Bu‰ğàv‚ğQÆB
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) ’ ‘€ìŠ®—¹‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B”õl‚ğQÆB
 %inst
 WSAIoctl ŠÖ”‚ÍAƒ\ƒPƒbƒg‚Ìƒ‚[ƒh‚ğ§Œä‚·‚éB
 
 [–ß‚è’l]
-³í‚ÉŠ®—¹‚µ‚½ê‡AWSAIoctl ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
-‚ğŒÄ‚Ño‚·‚±‚Æ‚Å‹ï‘Ì“I‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+³íŠ®—¹AWSAIoctl ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 iˆÈ‰ºÈ—ªj
 
 [”õl]
 WSAIoctl
-ŠÖ”‚ÍAƒ\ƒPƒbƒgAƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹A‚Ü‚½‚Í’ÊMƒTƒuƒVƒXƒeƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‘€ìƒpƒ‰ƒ[ƒ^‚ğİ’è‚Ü‚½‚Íæ“¾‚·‚é‚½‚ß‚Ég—p‚·‚éBlpOverlapped
+ŠÖ”‚ÍAƒ\ƒPƒbƒgAƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹A‚Ü‚½‚Í’ÊMƒTƒuƒVƒXƒeƒ€‚ÉŠÖ˜A‚·‚é“®ìƒpƒ‰ƒ[ƒ^‚ğİ’è‚Ü‚½‚Íæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBlpOverlapped
 ‚Æ lpCompletionRoutine ‚Ì—¼•û‚ª NULL
-‚Ìê‡A‚±‚ÌŠÖ”“à‚Ìƒ\ƒPƒbƒg‚Í”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Æ‚µ‚Äˆµ‚í‚ê‚éB”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚ÍAlpOverlapped ‚¨‚æ‚Ñ
+‚Ìê‡A‚±‚ÌŠÖ”“à‚Ìƒ\ƒPƒbƒg‚Í”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Æ‚µ‚Äˆµ‚í‚ê‚éB”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í lpOverlapped ‚Æ
 lpCompletionRoutine ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚êAŠÖ”‚Í•W€‚Ì ioctlsocket ŠÖ”‚Æ“¯—l‚É“®ì‚·‚éB‚½‚¾‚µAƒ\ƒPƒbƒg
-s ‚ªƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Ìê‡‚ÍŠÖ”‚ªƒuƒƒbƒN‚·‚é‰Â”\«‚ª‚ ‚éBƒ\ƒPƒbƒg s
-‚ªƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Ìê‡Aw’è‚µ‚½‘€ì‚ğ’¼‚¿‚ÉŠ®—¹‚Å‚«‚È‚¢‚Æ‚«‚É WSAEWOULDBLOCK
-‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB‚±‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É•ÏX‚µ‚Ä—v‹‚ğÄ”­s‚·‚é‚©AWindows ƒƒbƒZ[ƒWƒx[ƒX
-(WSAAsyncSelect ‚ğg—p) ‚Ü‚½‚ÍƒCƒxƒ“ƒgƒx[ƒX (WSAEventSelect ‚ğg—p)
-‚Ì’Ê’m‹@\‚ğg‚Á‚Ä‘Î‰‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg (SIO_ROUTING_INTERFACE_CHANGE ‚â
-SIO_ADDRESS_LIST_CHANGE ‚Ìê‡‚Ì FD_ROUTING_INTERFACE_CHANGE ‚â
-FD_ADDRESS_LIST_CHANGE ‚È‚Ç)
-‚ğ‘Ò‚Â‚±‚Æ‚ª‚Å‚«‚éBƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚ÍA’¼‚¿‚ÉŠ®—¹‚Å‚«‚È‚¢‘€ì‚ªŠJn‚³‚êAŠ®—¹‚ÍŒã‚Å’Ê’m‚³‚ê‚éB•Ô‚³‚ê‚é
-lpcbBytesReturned ƒpƒ‰ƒ[ƒ^‚ªw‚· DWORD
-’l‚Í–³‹‚µ‚Ä‚æ‚¢BÅI“I‚ÈŠ®—¹ƒXƒe[ƒ^ƒX‚Æ•Ô‚³‚ê‚½ƒoƒCƒg”‚ÍA‘€ì‚ªŠ®—¹‚µ‚Ä“KØ‚ÈŠ®—¹•û–@‚ªƒVƒOƒiƒ‹‰»‚³‚ê‚½‚Æ‚«‚Éæ“¾‚Å‚«‚éB
-ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÌÀ‘•‚É‚æ‚Á‚Ä‚ÍAIOCTL ‚Í–³ŠúŒÀ‚ÉƒuƒƒbƒN‚·‚é‰Â”\«‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª WSAIoctl
-ŒÄ‚Ño‚µ‚Å‚ÌƒuƒƒbƒN‚ğ‹–—e‚Å‚«‚È‚¢ê‡A“Á‚ÉƒuƒƒbƒN‚µ‚â‚·‚¢ IOCTL ‚É‚ÍƒI[ƒo[ƒ‰ƒbƒv I/O ‚Ìg—p‚ª„§‚³‚ê‚éB‘ÎÛ‚Í
-SIO_ADDRESS_LIST_CHANGEASIO_FINDROUTEASIO_FLUSHASIO_GET_QOSASIO_GET_GROUP_QOSASIO_ROUTING_INTERFACE_CHANGEASIO_SET_QOSASIO_SET_GROUP_QOS
-‚È‚Ç‚Å‚ ‚éBˆê•”‚ÌƒvƒƒgƒRƒ‹ŒÅ—L IOCTL
-‚à“Á‚ÉƒuƒƒbƒN‚µ‚â‚·‚¢‰Â”\«‚ª‚ ‚éB—˜—p‰Â”\‚Èî•ñ‚É‚Â‚¢‚Ä‚ÍŠÖ˜A‚·‚éƒvƒƒgƒRƒ‹ŒÅ—L‚Ì•t˜^‚ğŠm”F‚·‚é‚±‚ÆBlpCompletionRoutine
-ƒpƒ‰ƒ[ƒ^‚ªw‚·Š®—¹ƒ‹[ƒ`ƒ“‚Ìƒvƒƒgƒ^ƒCƒv‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+s ‚ªƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Å‚ ‚ê‚ÎŠÖ”‚ªƒuƒƒbƒN‚·‚é‰Â”\«‚ª‚ ‚é“_‚ªˆÙ‚È‚éBƒ\ƒPƒbƒg s
+‚ªƒmƒ“ƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚Ìê‡A‚±‚ÌŠÖ”‚Íw’è‚µ‚½‘€ì‚ğ‘¦À‚ÉŠ®—¹‚Å‚«‚È‚¢‚Æ WSAEWOULDBLOCK
+‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB‚±‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒ\ƒPƒbƒg‚ğƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É•ÏX‚µ‚ÄƒŠƒNƒGƒXƒg‚ğÄ”­s‚·‚é‚©A‘Î‰‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg
+(‚½‚Æ‚¦‚Î SIO_ROUTING_INTERFACE_CHANGE ‚É‘Î‚·‚é
+FD_ROUTING_INTERFACE_CHANGEASIO_ADDRESS_LIST_CHANGE ‚É‘Î‚·‚é
+FD_ADDRESS_LIST_CHANGE) ‚ğ Windows ƒƒbƒZ[ƒWƒx[ƒX (WSAAsyncSelect)
+‚Ü‚½‚ÍƒCƒxƒ“ƒgƒx[ƒX (WSAEventSelect)
+‚Ì’Ê’m‹@\‚Å‘Ò‚Â‚±‚Æ‚ª‚Å‚«‚éBƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚ÍA‘¦À‚ÉŠ®—¹‚Å‚«‚È‚¢‘€ì‚ÍŠJn‚³‚êAŒã‚ÅŠ®—¹‚ª’Ê’m‚³‚ê‚éBlpcbBytesReturned
+ƒpƒ‰ƒ[ƒ^‚ªw‚· DWORD
+’l‚Ì•Ô’l‚Í–³‹‚µ‚Ä‚æ‚¢BÅI“I‚ÈŠ®—¹ƒXƒe[ƒ^ƒX‚Æ•Ô‚³‚ê‚½ƒoƒCƒg”‚ÍA‘€ìŠ®—¹‚É“KØ‚ÈŠ®—¹•û–@‚ªƒVƒOƒiƒ‹‚³‚ê‚½ƒ^ƒCƒ~ƒ“ƒO‚Åæ“¾‚Å‚«‚éB
+IOCTL ‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÌÀ‘•‚É‚æ‚Á‚Ä‚Í–³ŠúŒÀ‚ÉƒuƒƒbƒN‚µ‚¤‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª WSAIoctl
+ŒÄ‚Ño‚µ‚Å‚ÌƒuƒƒbƒN‚ğ‹–—e‚Å‚«‚È‚¢ê‡A“Á‚ÉƒuƒƒbƒN‚µ‚â‚·‚¢Ÿ‚Ì IOCTL ‚É‚ÍƒI[ƒo[ƒ‰ƒbƒv I/O ‚Ìg—p‚ª„§‚³‚ê‚é:
+SIO_ADDRESS_LIST_CHANGEASIO_FINDROUTEASIO_FLUSHASIO_GET_QOSASIO_GET_GROUP_QOSASIO_ROUTING_INTERFACE_CHANGEASIO_SET_QOSASIO_SET_GROUP_QOSBƒvƒƒgƒRƒ‹ŒÅ—L‚Ì
+IOCTL
+‚Ì’†‚É‚à“Á‚ÉƒuƒƒbƒN‚µ‚â‚·‚¢‚à‚Ì‚ª‚ ‚éB—˜—p‰Â”\‚Èî•ñ‚É‚Â‚¢‚Ä‚ÍŠY“–ƒvƒƒgƒRƒ‹ŒÅ—L‚Ì•t˜^‚ğŠm”F‚·‚éBlpCompletionRoutine
+ƒpƒ‰ƒ[ƒ^‚ªw‚·Š®—¹ƒ‹[ƒ`ƒ“‚Ìƒvƒƒgƒ^ƒCƒv‚ÍŸ‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
 iˆÈ‰ºÈ—ªj
 
 
@@ -1952,2294 +1925,1503 @@ Win32 ws2_32
 
 %index
 WSAJoinLeaf
-The WSAJoinLeaf function joins a leaf node into a multipoint session, exchanges connect data, and specifies needed quality of service based on the specified FLOWSPEC structures.
+WSAJoinLeaf ŠÖ”‚ÍAƒŠ[ƒtƒm[ƒh‚ğƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“‚ÉQ‰Á‚³‚¹AÚ‘±ƒf[ƒ^‚ğŒğŠ·‚µAw’è‚³‚ê‚½ FLOWSPEC \‘¢‘Ì‚ÉŠî‚Ã‚¢‚Ä•K—v‚È QoS ‚ğw’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, name, namelen, lpCallerData, lpCalleeData, lpSQOS, lpGQOS, dwFlags
-s : [int] Descriptor identifying a multipoint socket.
-name : [var] Name of the peer to which the socket is to be joined.
-namelen : [int] Length of name, in bytes.
-lpCallerData : [var] Pointer to the user data that is to be transferred to the peer during multipoint session establishment.
-lpCalleeData : [var] Pointer to the user data that is to be transferred back from the peer during multipoint session establishment.
-lpSQOS : [var] Pointer to the FLOWSPEC structures for socket s, one for each direction.
-lpGQOS : [var] Reserved for future use with socket groups. A pointer to the FLOWSPEC structures for the socket group (if applicable).
-dwFlags : [int] Flags to indicate that the socket is acting as a sender (JL_SENDER_ONLY), receiver (JL_RECEIVER_ONLY), or both (JL_BOTH).
+s : [int] ƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+name : [var] ‚±‚Ìƒ\ƒPƒbƒg‚ğQ‰Á‚³‚¹‚éƒsƒA‚Ì–¼‘OB
+namelen : [int] name ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ)B
+lpCallerData : [var] ƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“Šm—§‚ÉƒsƒA‚Ö“]‘—‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpCalleeData : [var] ƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“Šm—§‚ÉƒsƒA‚©‚ç•Ô‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpSQOS : [var] ƒ\ƒPƒbƒg s —p‚Ì FLOWSPEC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B•ûŒü‚²‚Æ‚É 1 ‚Â‚¸‚Âw’è‚·‚éB
+lpGQOS : [var] «—ˆ‚Ìƒ\ƒPƒbƒgƒOƒ‹[ƒv—p‚É—\–ñ‚³‚ê‚Ä‚¢‚éBƒ\ƒPƒbƒgƒOƒ‹[ƒv—p‚Ì FLOWSPEC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^ (ŠY“–‚·‚éê‡)B
+dwFlags : [int] ƒ\ƒPƒbƒg‚ª‘—M‘¤ (JL_SENDER_ONLY)AóM‘¤ (JL_RECEIVER_ONLY)A‚Ü‚½‚Í‚»‚Ì—¼•û (JL_BOTH) ‚Æ‚µ‚ÄU‚é•‘‚¤‚±‚Æ‚ğ¦‚·ƒtƒ‰ƒOB
 %inst
-The WSAJoinLeaf function joins a leaf node into a multipoint session,
-exchanges connect data, and specifies needed quality of service based
-on the specified FLOWSPEC structures.
+WSAJoinLeaf ŠÖ”‚ÍAƒŠ[ƒtƒm[ƒh‚ğƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“‚ÉQ‰Á‚³‚¹AÚ‘±ƒf[ƒ^‚ğŒğŠ·‚µAw’è‚³‚ê‚½ FLOWSPEC
+\‘¢‘Ì‚ÉŠî‚Ã‚¢‚Ä•K—v‚È QoS ‚ğw’è‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, WSAJoinLeaf returns a value of type SOCKET that
-is a descriptor for the newly created multipoint socket. Otherwise, a
-value of INVALID_SOCKET is returned, and a specific error code can be
-retrieved by calling WSAGetLastError. On a blocking socket, the
-return value indicates success or failure of the join operation. With
-a nonblocking socket, successful initiation of a join operation is
-indicated by a return of a valid socket descriptor. Subsequently, an
-FD_CONNECT indication will be given on the original socket s when the
-join operation completes, either successfully or otherwise. The
-application must use either WSAAsyncSelect or WSAEventSelect with
-interest registered for the FD_CONNECT event in order to determine
-when the join operation has completed and checks the associated error
-code to determine the success or failure of the operation. The select
-function cannot be used to determine when the join operation
-completes. Also, until the multipoint session join attempt completes
-all subsequent calls to WSAJoinLeaf on the same socket will fail with
-the error code WSAEALREADY. After the WSAJoinLeaf operation completes
-successfully, a subsequent attempt will usually fail with the error
-code WSAEISCONN. An exception to the WSAEISCONN rule occurs for a
-c_root socket that allows root-initiated joins. In such a case,
-another join may be initiated after a prior WSAJoinLeaf operation
-completes. If the return error code indicates the multipoint session
-join attempt failed (that is, WSAECONNREFUSED, WSAENETUNREACH,
-WSAETIMEDOUT) the application can call WSAJoinLeaf again for the same
-socket.
-This doc was truncated.
+ƒGƒ‰[‚ª”­¶‚µ‚È‚¢ê‡AWSAJoinLeaf ‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒ\ƒPƒbƒg‚Ì‹Lqq‚Æ‚È‚é SOCKET
+Œ^‚Ì’l‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í INVALID_SOCKET ‚ª•Ô‚³‚êAWSAGetLastError
+‚ğŒÄ‚Ño‚µ‚Ä“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚Í–ß‚è’l‚Í join
+‘€ì‚Ì¬”Û‚ğ¦‚·B”ñƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍA—LŒø‚Èƒ\ƒPƒbƒg‹Lqq‚ª•Ô‚³‚ê‚½“_‚Å join
+‘€ì‚ª³í‚ÉŠJn‚³‚ê‚½‚±‚Æ‚ğ¦‚·B‚»‚ÌŒãAjoin ‘€ì‚ª¬Œ÷‚©¸”s‚ÅŠ®—¹‚µ‚½‚©‚ğAŒ³‚Ìƒ\ƒPƒbƒg s ‚É‘Î‚·‚é FD_CONNECT
+’Ê’m‚Å’m‚é‚±‚Æ‚ª‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í WSAAsyncSelect ‚Ü‚½‚Í WSAEventSelect ‚Å FD_CONNECT
+ƒCƒxƒ“ƒg‚É‘Î‚·‚é’Ê’m‚ğ“o˜^‚µAŠÖ˜A‚·‚éƒGƒ‰[ƒR[ƒh‚ğ’²‚×‚Ä join ‘€ì‚Ì¬”Û‚ğ”»’f‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bjoin
+‘€ì‚ÌŠ®—¹‚ğŒŸo‚·‚é‚½‚ß‚É select ŠÖ”‚ğg‚¤‚±‚Æ‚Í‚Å‚«‚È‚¢B‚Ü‚½Aƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“‚Ì join
+s‚ªŠ®—¹‚·‚é‚Ü‚ÅA“¯‚¶ƒ\ƒPƒbƒg‚É‘Î‚·‚éˆÈ~‚Ì WSAJoinLeaf ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä WSAEALREADY
+‚Å¸”s‚·‚éBWSAJoinLeaf ‘€ì‚ª³í‚ÉŠ®—¹‚µ‚½Œã‚ÌˆÈ~‚ÌŒÄ‚Ño‚µ‚Í’Êí WSAEISCONN
+‚Å¸”s‚·‚éBƒ‹[ƒg‹N“®‚ÌQ‰Á‚ğ‹–—e‚·‚é c_root ƒ\ƒPƒbƒg‚Å‚Í‚±‚Ì—áŠO‚ª‚ ‚èAæs‚·‚é WSAJoinLeaf ‚ªŠ®—¹‚µ‚½Œã‚É•Ê‚Ì
+join ‚ğŠJn‚µ‚Ä‚à‚æ‚¢B–ß‚è’l‚ªƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“Q‰Á‚Ì¸”s‚ğ¦‚µ‚Ä‚¢‚éê‡
+(WSAECONNREFUSEDAWSAENETUNREACHAWSAETIMEDOUT
+‚È‚Ç)AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í“¯‚¶ƒ\ƒPƒbƒg‚É‘Î‚µ‚ÄÄ“x WSAJoinLeaf ‚ğŒÄ‚Ño‚¹‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSAJoinLeaf function is used to join a leaf node to a multipoint
-session, and to perform a number of other ancillary operations that
-occur at session join time as well. If the socket s is unbound,
-unique values are assigned to the local association by the system,
-and the socket is marked as bound. The WSAJoinLeaf function has the
-same parameters and semantics as WSAConnect except that it returns a
-socket descriptor (as in WSAAccept), and it has an additional dwFlags
-parameter. Only multipoint sockets created using WSASocket with
-appropriate multipoint flags set can be used for input parameter s in
-this function. The returned socket descriptor will not be usable
-until after the join operation completes. For example, if the socket
-is in nonblocking mode after a corresponding FD_CONNECT indication
-has been received from WSAAsyncSelect or WSAEventSelect on the
-original socket s, except that closesocket may be invoked on this new
-socket descriptor to cancel a pending join operation. A root
-application in a multipoint session may call WSAJoinLeaf one or more
-times in order to add a number of leaf nodes, however at most one
-multipoint connection request may be outstanding at a time. Refer to
-Multipoint and Multicast Semantics for additional information. For
-nonblocking sockets it is often not possible to complete the
-connection immediately. In such a case, this function returns an
-as-yet unusable socket descriptor and the operation proceeds. There
-is no error code such as WSAEWOULDBLOCK in this case, since the
-function has effectively returned a successful start indication. When
-the final outcome success or failure becomes known, it may be
-reported through WSAAsyncSelect or WSAEventSelect depending on how
-the client registers for notification on the original socket s. In
-either case, the notification is announced with FD_CONNECT and the
-error code associated with the FD_CONNECT indicates either success or
-a specific reason for failure. The select function cannot be used to
-detect completion notification for WSAJoinLeaf. The socket descriptor
-returned by WSAJoinLeaf is different depending on whether the input
-socket descriptor, s, is a c_root or a c_leaf. When used with a
-c_root socket, the name parameter designates a particular leaf node
-to be added and the returned socket descriptor is a c_leaf socket
-corresponding to the newly added leaf node. The newly created socket
-has the same properties as s, including asynchronous events
-registered with WSAAsyncSelect or with WSAEventSelect. It is not
-intended to be used for exchange of multipoint data, but rather is
-used to receive network event indications (for example, FD_CLOSE) for
-the connection that exists to the particular c_leaf. Some multipoint
-implementations can also allow this socket to be used for side chats
-between the root and an individual leaf node. An FD_CLOSE indication
-will be received for this socket if the corresponding leaf node calls
-closesocket to drop out of the multipoint session. Symmetrically,
-invoking closesocket on the c_leaf socket returned from WSAJoinLeaf
-will cause the socket in the corresponding leaf node to get an
-FD_CLOSE notification. When WSAJoinLeaf is invoked with a c_leaf
-socket, the name parameter contains the address of the root
-application (for a rooted control scheme) or an existing multipoint
-session (nonrooted control scheme), and the returned socket
-descriptor is the same as the input socket descriptor. In other
-words, a new socket descriptor is not allocated. In a rooted control
-scheme, the root application would put its c_root socket in listening
-mode by calling listen. The standard FD_ACCEPT notification will be
-delivered when the leaf node requests to join itself to the
-multipoint session. The root application uses the usual accept or
-WSAAccept functions to admit the new leaf node. The value returned
-from either accept or WSAAccept is also a c_leaf socket descriptor
-just like those returned from WSAJoinLeaf. To accommodate multipoint
-schemes that allow both root-initiated and leaf-initiated joins, it
-is acceptable for a c_root socket that is already in listening mode
-to be used as an input to WSAJoinLeaf. The application is responsible
-for allocating any memory space pointed to directly or indirectly by
-any of the parameters it specifies. The lpCallerData is a value
-parameter that contains any user data that is to be sent along with
-the multipoint session join request. If lpCallerData is NULL, no user
-data will be passed to the peer. The lpCalleeData is a result
-parameter that will contain any user data passed back from the peer
-as part of the multipoint session establishment. The len member of
-the WSABUF structure pointed to by the lpCalleeData parameter
-initially contains the length of the buffer allocated by the
-application and pointed to by the buf member of the WSABUF structure.
-The len member of the WSABUF structure pointed to by the lpCalleeData
-parameter will be set to zero if no user data has been passed back.
-The lpCalleeData information will be valid when the multipoint join
-operation is complete. For blocking sockets, this will be when the
-WSAJoinLeaf function returns. For nonblocking sockets, this will be
-after the join operation has completed. For example, this could occur
-after FD_CONNECT notification on the original socket s). If
-lpCalleeData is NULL, no user data will be passed back. The exact
-format of the user data is specific to the address family to which
-the socket belongs. At multipoint session establishment time, an
-application can use the lpSQOS and/or lpGQOS parameters to override
-any previous quality of service specification made for the socket
-through WSAIoctl with the SIO_SET_QOS or SIO_SET_GROUP_QOS opcodes.
-The lpSQOS parameter specifies the FLOWSPEC structures for socket s,
-one for each direction, followed by any additional provider-specific
-parameters. If either the associated transport provider in general or
-the specific type of socket in particular cannot honor the quality of
-service request, an error will be returned as indicated in the
-following. The respective sending or receiving flow specification
-values will be ignored for any unidirectional sockets. If no
-provider-specific parameters are specified, the buf and len members
-of the WSABUF structure pointed to by the lpCalleeData parameter
-should be set to NULL and zero, respectively. A NULL value for lpSQOS
-indicates no application-supplied quality of service. Reserved for
-future socket groups. The lpGQOS parameter specifies the FLOWSPEC
-structures for the socket group (if applicable), one for each
-direction, followed by any additional provider-specific parameters.
-If no provider-specific parameters are specified, the the buf and len
-members of the WSABUF structure pointed to by the lpCalleeData
-parameter should be set to should be set to NULL and zero,
-respectively. A NULL value for lpGQOS indicates no
-application-supplied group quality of service. This parameter will be
-ignored if s is not the creator of the socket group. When connected
-sockets break (that is, become closed for whatever reason), they
-should be discarded and recreated. It is safest to assume that when
-things go awry for any reason on a connected socket, the application
-must discard and recreate the needed sockets in order to return to a
-stable point. Note When issuing a blocking Winsock call such as
-WSAJoinLeaf, Winsock may need to wait for a network event before the
-call can complete. Winsock performs an alertable wait in this
-situation, which can be interrupted by an asynchronous procedure call
-(APC) scheduled on the same thread. Issuing another blocking Winsock
-call inside an APC that interrupted an ongoing blocking Winsock call
-on the same thread will lead to undefined behavior, and must never be
-attempted by Winsock clients. Windows Phone 8: This function is
-supported for Windows Phone Store apps on Windows Phone 8 and later.
-Windows 8.1 and Windows Server 2012 R2: This function is supported
-for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and
-later.
+WSAJoinLeaf
+ŠÖ”‚ÍAƒŠ[ƒtƒm[ƒh‚ğƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“‚ÉQ‰Á‚³‚¹‚é‚Æ‚Æ‚à‚ÉAƒZƒbƒVƒ‡ƒ“Q‰Á‚É”­¶‚·‚é‚»‚Ì‘¼‚¢‚­‚Â‚©‚Ì•â•“I‚Èˆ—‚ğs‚¤Bƒ\ƒPƒbƒg
+s
+‚ªƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚È‚¢ê‡AƒVƒXƒeƒ€‚ªˆêˆÓ‚È’l‚ğƒ[ƒJƒ‹ŠÖ˜A•t‚¯‚ÉŠ„‚è“–‚ÄAƒ\ƒPƒbƒg‚ÍƒoƒCƒ“ƒhÏ‚İ‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚éBWSAJoinLeaf
+ŠÖ”‚ÍAƒ\ƒPƒbƒg‹Lqq‚ğ•Ô‚·“_ (WSAAccept ‚Æ“¯—l) ‚Æ dwFlags ˆø”‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚é“_‚ğœ‚«AWSAConnect
+‚Æ“¯‚¶ˆø”‚¨‚æ‚ÑƒZƒ}ƒ“ƒeƒBƒNƒX‚ğ‚ÂB‚±‚ÌŠÖ”‚Ì“ü—Í s ‚É‚ÍA“KØ‚Èƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒtƒ‰ƒO‚ğ—§‚Ä‚Ä WSASocket
+‚Åì¬‚µ‚½ƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒ\ƒPƒbƒg‚Ì‚İ‚ğ“n‚¹‚éB•Ô‚³‚ê‚éƒ\ƒPƒbƒg‹Lqq‚ÍAjoin
+‘€ì‚ªŠ®—¹‚·‚é‚Ü‚Å‚Í—˜—p‚Å‚«‚È‚¢B‚½‚Æ‚¦‚Îƒ\ƒPƒbƒg‚ª”ñƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚É‚ ‚éê‡AŒ³‚Ìƒ\ƒPƒbƒg s ‚É‘Î‚·‚é
+WSAAsyncSelect ‚Ü‚½‚Í WSAEventSelect ‚Å‘Î‰‚·‚é FD_CONNECT
+’Ê’m‚ğóM‚µ‚½Œã‚É—˜—p‰Â”\‚Æ‚È‚éB‚½‚¾‚µA‚±‚ÌV‚µ‚¢ƒ\ƒPƒbƒg‹Lqq‚É‘Î‚µ‚Ä closesocket ‚ğŒÄ‚Ño‚µ‚ÄA•Û—¯’†‚Ì join
+‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚±‚Æ‚Í‚Å‚«‚éBƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“‚Ìƒ‹[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA•¡”‚ÌƒŠ[ƒtƒm[ƒh‚ğ’Ç‰Á‚·‚é‚½‚ß‚É
+WSAJoinLeaf ‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚µ‚Ä‚à‚æ‚¢‚ªA•Û—¯’†‚Ìƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgÚ‘±—v‹‚Í“¯‚ÉÅ‘å 1 ‚Â‚Ü‚Å‚Å‚ ‚éBÚ‚µ‚­‚Í
+Multipoint and Multicast Semantics
+‚ğQÆB”ñƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚ÍAÚ‘±‚ğ‘¦À‚ÉŠ®—¹‚Å‚«‚È‚¢‚±‚Æ‚ª‘½‚¢B‚»‚Ìê‡A–{ŠÖ”‚Í‚Ü‚¾g—p•s”\‚Èƒ\ƒPƒbƒg‹Lqq‚ğ•Ô‚µAˆ—‚Í‘±s‚³‚ê‚éB‚±‚Ì‚Æ‚«
+WSAEWOULDBLOCK
+‚Ì‚æ‚¤‚ÈƒGƒ‰[ƒR[ƒh‚Í•Ô‚³‚ê‚È‚¢BŠÖ”‚Í³í‚ÉŠJn‚³‚ê‚½|‚ğ•Ô‚µ‚½‚±‚Æ‚É‚È‚é‚©‚ç‚¾BÅI“I‚È¬”Û‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ªŒ³‚Ìƒ\ƒPƒbƒg s
+‚É‘Î‚µ‚Ä WSAAsyncSelect ‚Ü‚½‚Í WSAEventSelect ‚Ì‚Ç‚¿‚ç‚Å’Ê’m‚ğ“o˜^‚µ‚½‚©‚É‚æ‚Á‚Ä’Ê’m‚³‚ê‚éB‚¢‚¸‚ê‚Ìê‡‚à
+FD_CONNECT ‚Å’Ê’m‚³‚êA‚»‚ê‚É•t‚·‚éƒGƒ‰[ƒR[ƒh‚ª¬Œ÷‚©¸”s‚Ì‹ï‘Ì“I——R‚ğ¦‚·BWSAJoinLeaf
+‚ÌŠ®—¹’Ê’m‚ğŒŸo‚·‚é‚½‚ß‚É select ŠÖ”‚ğg‚¤‚±‚Æ‚Í‚Å‚«‚È‚¢BWSAJoinLeaf ‚ª•Ô‚·ƒ\ƒPƒbƒg‹Lqq‚ÍA“ü—Íƒ\ƒPƒbƒg s ‚ª
+c_root ‚© c_leaf ‚©‚É‚æ‚Á‚ÄˆÙ‚È‚éBc_root ƒ\ƒPƒbƒg‚É‘Î‚µ‚Äg—p‚µ‚½ê‡Aname
+ˆø”‚Í’Ç‰Á‚·‚éƒŠ[ƒtƒm[ƒh‚ğw’è‚µA•Ô‚³‚ê‚éƒ\ƒPƒbƒg‹Lqq‚ÍV‹K’Ç‰Á‚³‚ê‚½ƒŠ[ƒtƒm[ƒh‚É‘Î‰‚·‚é c_leaf
+ƒ\ƒPƒbƒg‚Æ‚È‚éBV‚µ‚­ì‚ç‚ê‚½ƒ\ƒPƒbƒg‚ÍAWSAAsyncSelect ‚â WSAEventSelect ‚Å“o˜^‚³‚ê‚½”ñ“¯ŠúƒCƒxƒ“ƒg‚ğŠÜ‚ß
+s ‚Æ“¯‚¶ƒvƒƒpƒeƒB‚ğ‚ÂB‚±‚ê‚Íƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒf[ƒ^ŒğŠ·‚Å‚Í‚È‚­A‚»‚Ì“Á’è‚Ì c_leaf ‚É‘Î‚·‚éƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg’Ê’m
+(FD_CLOSE ‚È‚Ç)
+‚ğó‚¯æ‚é‚½‚ß‚Ég‚¤Bƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgÀ‘•‚É‚æ‚Á‚Ä‚ÍAƒ‹[ƒg‚ÆŒÂX‚ÌƒŠ[ƒtƒm[ƒhŠÔ‚ÌƒTƒCƒhƒ`ƒƒƒbƒg‚É‚±‚Ìƒ\ƒPƒbƒg‚ğg‚¤‚±‚Æ‚ğ‹–‰Â‚·‚é‚à‚Ì‚à‚ ‚éB‘Î‰‚·‚éƒŠ[ƒtƒm[ƒh‚ª
+closesocket ‚ğŒÄ‚Ño‚µ‚Äƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“‚©‚ç—£’E‚·‚é‚ÆA‚±‚Ìƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä FD_CLOSE
+’Ê’m‚ª“Í‚­B‘ÎÌ“I‚ÉAWSAJoinLeaf ‚©‚ç•Ô‚³‚ê‚½ c_leaf ƒ\ƒPƒbƒg‚É‘Î‚µ‚Ä closesocket
+‚ğŒÄ‚Ô‚ÆA‘Î‰‚·‚éƒŠ[ƒtƒm[ƒh‘¤‚Ìƒ\ƒPƒbƒg‚Í FD_CLOSE ’Ê’m‚ğó‚¯æ‚éBc_leaf ƒ\ƒPƒbƒg‚Å WSAJoinLeaf
+‚ğŒÄ‚Ño‚µ‚½ê‡Aname ˆø”‚Íƒ‹[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“ (ƒ‹[ƒg§Œä•û®) ‚Ü‚½‚ÍŠù‘¶‚Ìƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“ (”ñƒ‹[ƒg§Œä•û®)
+‚ÌƒAƒhƒŒƒX‚ğŠÜ‚İA•Ô‚³‚ê‚éƒ\ƒPƒbƒg‹Lqq‚Í“ü—Íƒ\ƒPƒbƒg‹Lqq‚Æ“¯‚¶‚Å‚ ‚éBŒ¾‚¢Š·‚¦‚é‚ÆAV‚µ‚¢ƒ\ƒPƒbƒg‹Lqq‚ÍŠ„‚è“–‚Ä‚ç‚ê‚È‚¢Bƒ‹[ƒg§Œä•û®‚Å‚ÍAƒ‹[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+listen ŒÄ‚Ño‚µ‚Å c_root ƒ\ƒPƒbƒg‚ğƒŠƒXƒ“ƒ‚[ƒh‚É’u‚­BƒŠ[ƒtƒm[ƒh‚ªƒZƒbƒVƒ‡ƒ“‚Ö‚ÌQ‰Á‚ğ—v‹‚·‚é‚ÆA’Êí‚Ì
+FD_ACCEPT ’Ê’m‚ª”zM‚³‚ê‚éBƒ‹[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í’Êí‚Ì accept ‚Ü‚½‚Í WSAAccept
+ŠÖ”‚ÅV‚µ‚¢ƒŠ[ƒtƒm[ƒh‚ğó‚¯“ü‚ê‚éBaccept ‚¨‚æ‚Ñ WSAAccept ‚Ì–ß‚è’l‚àAWSAJoinLeaf
+‚©‚ç•Ô‚³‚ê‚é‚à‚Ì‚Æ“¯—l‚Ì c_leaf
+ƒ\ƒPƒbƒg‹Lqq‚Å‚ ‚éBƒ‹[ƒg‹N“®‚ÌQ‰Á‚ÆƒŠ[ƒt‹N“®‚ÌQ‰Á‚Ì—¼•û‚ğ‹–—e‚·‚éƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒg•û®‚É‘Î‰‚·‚é‚½‚ßAŠù‚ÉƒŠƒXƒ“ƒ‚[ƒh‚Ì c_root
+ƒ\ƒPƒbƒg‚ğ WSAJoinLeaf
+‚Ì“ü—Í‚Æ‚µ‚Äg—p‚·‚é‚±‚Æ‚à‹–‚³‚ê‚éBˆø”‚É‚æ‚Á‚Ä’¼Ú‚Ü‚½‚ÍŠÔÚ‚Éw‚µ¦‚³‚ê‚éƒƒ‚ƒŠ—Ìˆæ‚ÌŠm•Û‚ÍAŒÄ‚Ño‚µŒ³‚ÌÓ”C‚Å‚ ‚éBlpCallerData
+‚Í’lˆø”‚ÅAƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“Q‰Á—v‹‚Æˆê‚É‘—M‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚ğŠÜ‚ŞBlpCallerData ‚ª NULL
+‚Ìê‡Aƒ†[ƒU[ƒf[ƒ^‚ÍƒsƒA‚Ö“n‚³‚ê‚È‚¢BlpCalleeData
+‚ÍŒ‹‰Êˆø”‚ÅAƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“Šm—§‚Ìˆê•”‚Æ‚µ‚ÄƒsƒA‚©‚ç•Ô‚³‚ê‚éƒ†[ƒU[ƒf[ƒ^‚ğŠi”[‚·‚éBlpCalleeData ‚ªw‚·
+WSABUF \‘¢‘Ì‚Ì len ƒƒ“ƒo‚ÍAÅ‰‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠm•Û‚µ‚½ buf
+ƒƒ“ƒoæ‚Ìƒoƒbƒtƒ@’·‚ğ•\‚·Bƒ†[ƒU[ƒf[ƒ^‚ª•Ô‚³‚ê‚È‚©‚Á‚½ê‡Alen ƒƒ“ƒo‚Íƒ[ƒ‚Éİ’è‚³‚ê‚éBlpCalleeData
+î•ñ‚Íƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒg join ‘€ì‚ÌŠ®—¹“_‚Å—LŒø‚É‚È‚éBƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚Í WSAJoinLeaf
+‚ÌƒŠƒ^[ƒ“A”ñƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚Í join Š®—¹ (Œ³‚Ìƒ\ƒPƒbƒg s ‚É‘Î‚·‚é FD_CONNECT ’Ê’mŒã‚È‚Ç)
+‚Å‚ ‚éBlpCalleeData ‚ª NULL
+‚Ìê‡Aƒ†[ƒU[ƒf[ƒ^‚Í•Ô‚³‚ê‚È‚¢Bƒ†[ƒU[ƒf[ƒ^‚Ì³Šm‚ÈŒ`®‚ÍAƒ\ƒPƒbƒg‚ª‘®‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠŒÅ—L‚Ì‚à‚Ì‚Å‚ ‚éBƒ}ƒ‹ƒ`ƒ|ƒCƒ“ƒgƒZƒbƒVƒ‡ƒ“Šm—§AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+lpSQOS ‚¨‚æ‚Ñ lpGQOS ˆø”‚ğg‚Á‚ÄAWSAIoctl ‚Ì SIO_SET_QOS ‚Ü‚½‚Í SIO_SET_GROUP_QOS
+ƒIƒyƒR[ƒh‚Åİ’èÏ‚İ‚Ì QoS d—l‚ğã‘‚«‚Å‚«‚éBlpSQOS ˆø”‚ÍAƒ\ƒPƒbƒg s —p‚Ì•ûŒü‚²‚Æ‚Ì FLOWSPEC
+\‘¢‘Ì‚ÆA‚»‚ê‚É‘±‚­’Ç‰Á‚ÌƒvƒƒoƒCƒ_ŒÅ—Lˆø”‚ğw’è‚·‚éBŠÖ˜Aƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‘S”Ê‚Ü‚½‚Í“Á’è‚Ìƒ\ƒPƒbƒgí•Ê‚ª QoS
+—v‹‚É‰‚¦‚ç‚ê‚È‚¢ê‡‚ÍAŒãq‚ÌƒGƒ‰[‚ª•Ô‚³‚ê‚éB’P•ûŒüƒ\ƒPƒbƒg‚Å‚ÍAŠY“–‚µ‚È‚¢•ûŒü‚Ìƒtƒ[d—l’l‚Í–³‹‚³‚ê‚éBƒvƒƒoƒCƒ_ŒÅ—Lˆø”‚ğw’è‚µ‚È‚¢ê‡AlpCalleeData
+‚ªw‚· WSABUF \‘¢‘Ì‚Ì buf ‚Æ len ‚Í‚»‚ê‚¼‚ê NULL ‚Æ 0 ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBlpSQOS ‚ª NULL
+‚Ì‚Æ‚«‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª QoS ‚ğw’è‚µ‚Ä‚¢‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚éBlpGQOS
+‚Í«—ˆ‚Ìƒ\ƒPƒbƒgƒOƒ‹[ƒv—p‚É—\–ñ‚³‚ê‚Ä‚¢‚éBlpGQOS ˆø”‚Íƒ\ƒPƒbƒgƒOƒ‹[ƒv (ŠY“–‚·‚éê‡) —p‚Ì FLOWSPEC
+\‘¢‘Ì‚ğ•ûŒü‚²‚Æ‚Éw’è‚µA‘±‚¢‚ÄƒvƒƒoƒCƒ_ŒÅ—L‚Ì’Ç‰Áˆø”‚ğw’è‚·‚éBƒvƒƒoƒCƒ_ŒÅ—Lˆø”‚ğw’è‚µ‚È‚¢ê‡AlpCalleeData ‚ªw‚·
+WSABUF \‘¢‘Ì‚Ì buf ‚Æ len ‚Í‚»‚ê‚¼‚ê NULL ‚Æ 0 ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBlpGQOS ‚ª NULL
+‚Ì‚Æ‚«‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒOƒ‹[ƒv QoS ‚ğw’è‚µ‚Ä‚¢‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚éBs
+‚ªƒ\ƒPƒbƒgƒOƒ‹[ƒv‚Ìì¬Ò‚Å‚È‚¢ê‡A‚±‚Ìˆø”‚Í–³‹‚³‚ê‚éBÚ‘±Ï‚İƒ\ƒPƒbƒg‚ª (‰½‚ç‚©‚Ì——R‚Å•Â‚¶‚ç‚ê‚Ä)
+‰ó‚ê‚½ê‡A”jŠü‚µ‚Äì‚è’¼‚·‚×‚«‚Å‚ ‚éB‰½‚©–â‘è‚ª”­¶‚µ‚½‚Æ‚«‚Í•K—v‚Èƒ\ƒPƒbƒg‚ğ”jŠü‚µ‚Äì‚è’¼‚µAˆÀ’è“_‚É–ß‚·‚Ì‚ªÅ‚àˆÀ‘S‚Å‚ ‚éB’:
+WSAJoinLeaf ‚Ì‚æ‚¤‚ÈƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚ÆAWinsock
+‚Íƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì”­¶‚ğ‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚éê‡‚ª‚ ‚éB‚±‚Ì‘Ò‹@‚ÍƒAƒ‰[ƒg‰Â”\‚È‘Ò‹@‚ÅA“¯‚¶ƒXƒŒƒbƒh‚ÉƒXƒPƒWƒ…[ƒ‹‚³‚ê‚½
+APC ‚É‚æ‚Á‚Ä’†’f‚³‚ê“¾‚éB‘¼‚ÌƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ğ’†’f’†‚Ì APC “à‚©‚ç‚³‚ç‚ÉƒuƒƒbƒLƒ“ƒO Winsock
+ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚Æ–¢’è‹`“®ì‚Æ‚È‚é‚½‚ßAWinsock ƒNƒ‰ƒCƒAƒ“ƒg‚ÍŒˆ‚µ‚Ä‚»‚ê‚ğs‚Á‚Ä‚Í‚È‚ç‚È‚¢BWindows Phone 8:
+‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1
+‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2
+ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSALookupServiceBeginW
-The WSALookupServiceBegin function initiates a client query that is constrained by the information contained within a WSAQUERYSET structure. (Unicode)
+WSALookupServiceBegin ŠÖ”‚ÍAWSAQUERYSET \‘¢‘Ì‚ÉŠi”[‚³‚ê‚½î•ñ‚É‚æ‚Á‚Ä§–ñ‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg–â‚¢‡‚í‚¹‚ğŠJn‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 lpqsRestrictions, dwControlFlags, lphLookup
-lpqsRestrictions : [var] A pointer to the search criteria. See the Remarks for details.
-dwControlFlags : [int] A set of flags that controls the depth of the search. Supported values for the dwControlFlags parameter are defined in the Winsock2.h header file and can be a combination of the following options.
-lphLookup : [intptr] A  handle to be used when calling WSALookupServiceNext in order to start retrieving the results set.
+lpqsRestrictions : [var] ŒŸõğŒ‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í”õl‚ğQÆB
+dwControlFlags : [int] ŒŸõ‚Ì[‚³‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ÌW‡BdwControlFlags ˆø”‚Éw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚Ä‚¨‚èAˆÈ‰º‚ÌƒIƒvƒVƒ‡ƒ“‚ğ‘g‚İ‡‚í‚¹‚Äw’è‚Å‚«‚éB
+lphLookup : [intptr] Œ‹‰ÊƒZƒbƒg‚Ìæ“¾‚ğŠJn‚·‚é‚½‚ß‚É WSALookupServiceNext ŒÄ‚Ño‚µ‚Ég—p‚·‚éƒnƒ“ƒhƒ‹B
 %inst
-The WSALookupServiceBegin function initiates a client query that is
-constrained by the information contained within a WSAQUERYSET
-structure. (Unicode)
+WSALookupServiceBegin ŠÖ”‚ÍAWSAQUERYSET
+\‘¢‘Ì‚ÉŠi”[‚³‚ê‚½î•ñ‚É‚æ‚Á‚Ä§–ñ‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg–â‚¢‡‚í‚¹‚ğŠJn‚·‚éB(Unicode)
 
 [–ß‚è’l]
-The return value is zero if the operation was successful. Otherwise,
-the value SOCKET_ERROR is returned, and a specific error number can
-be retrieved by calling WSAGetLastError.
-This doc was truncated.
+‘€ì‚ª¬Œ÷‚µ‚½ê‡‚Ì–ß‚è’l‚Íƒ[ƒB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The lpqsRestrictions parameter points to a buffer containing a
-WSAQUERYSET structure. At a minimum, the dwSize member of the
-WSAQUERYSET must be set to the length of the buffer before calling
-the WSALookupServiceBegin function. Applications can restrict the
-query by specifying other members in the WSAQUERYSET. In most
-instances, applications interested in only a particular transport
-protocol should constrain their query by address family and protocol
-using the dwNumberOfProtocols and lpafpProtocols members of the
-WSAQUERYSET rather than by specifiying the namespace in the
-dwNameSpace member. Information on supported network transport
-protocols can be retreived using the EnumProtocols, WSAEnumProtocols,
-WSCEnumProtocols, or WSCEnumProtocols32 function. It is also possible
-to constrain the query to a single namespace. For example, a query
-that only wants results from DNS (not results from the local hosts
-file and other naming services) would set the dwNameSpace member to
-NS_DNS. For example, a bluetooth device discovery would set the the
-dwNameSpace member to NS_BTH. Applications can also restrict the
-query to a specific namespace provider by specifying a pointer to the
-GUID for the provider in the lpNSProviderId member. Information on
-namespace providers on the local computer can be retrieved using the
-WSAEnumNameSpaceProviders, WSAEnumNameSpaceProvidersEx,
-WSCEnumNameSpaceProviders32, or WSCEnumNameSpaceProvidersEx32
-function. If LUP_CONTAINERS is specified in a call, other restriction
-values should be avoided. If any are specified, it is up to the name
-service provider to decide if it can support this restriction over
-the containers. If it cannot, it should return an error. Some name
-service providers can have other means of finding containers. For
-example, containers might all be of some well-known type, or of a set
-of well-known types, and therefore a query restriction can be created
-for finding them. No matter what other means the name service
-provider has for locating containers, LUP_CONTAINERS and
-LUP_NOCONTAINERS take precedence. Hence, if a query restriction is
-given that includes containers, specifying LUP_NOCONTAINERS will
-prevent the container items from being returned. Similarly, no matter
-the query restriction, if LUP_CONTAINERS is given, only containers
-should be returned. If a namespace does not support containers, and
-LUP_CONTAINERS is specified, it should simply return WSANO_DATA. The
-preferred method of obtaining the containers within another
-container, is the call:
-This doc was truncated.
+lpqsRestrictions ˆø”‚Í WSAQUERYSET \‘¢‘Ì‚ğŠÜ‚Şƒoƒbƒtƒ@‚ğw‚·BWSALookupServiceBegin
+‚ğŒÄ‚Ño‚·‘O‚ÉA­‚È‚­‚Æ‚à WSAQUERYSET ‚Ì dwSize
+ƒƒ“ƒo‚É‚Íƒoƒbƒtƒ@’·‚ğİ’è‚µ‚Ä‚¨‚©‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í WSAQUERYSET
+‚Ì‘¼‚Ìƒƒ“ƒo‚ğw’è‚·‚é‚±‚Æ‚ÅŒŸõ‚ği‚è‚ß‚éB‘½‚­‚Ìê‡A“Á’è‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚É‚Ì‚İŠÖS‚ª‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+dwNameSpace ‚Å–¼‘O‹óŠÔ‚ğw’è‚·‚é‚Ì‚Å‚Í‚È‚­AdwNumberOfProtocols ‚Æ lpafpProtocols
+‚ğg‚Á‚ÄƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ÆƒvƒƒgƒRƒ‹‚ÅŒŸõ‚ği‚é‚×‚«‚Å‚ ‚éBƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒlƒbƒgƒ[ƒNƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚Ìî•ñ‚Í
+EnumProtocolsAWSAEnumProtocolsAWSCEnumProtocolsAWSCEnumProtocols32
+ŠÖ”‚Åæ“¾‚Å‚«‚éBŒŸõ‚ğ’Pˆê‚Ì–¼‘O‹óŠÔ‚ÉŒÀ’è‚·‚é‚±‚Æ‚à‰Â”\‚ÅA‚½‚Æ‚¦‚Î DNS ‚©‚ç‚Ì‚İŒ‹‰Ê‚ğ“¾‚½‚¢ê‡‚Í dwNameSpace ‚ğ
+NS_DNS ‚Éİ’è‚·‚éBBluetooth ƒfƒoƒCƒXŒŸo‚Å‚ ‚ê‚Î dwNameSpace ‚ğ NS_BTH
+‚Éİ’è‚·‚éBlpNSProviderId ƒƒ“ƒo‚ÉƒvƒƒoƒCƒ_‚Ì GUID
+‚ğw’è‚·‚é‚±‚Æ‚ÅAŒŸõ‚ğ“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÉŒÀ’è‚·‚é‚±‚Æ‚à‚Å‚«‚éBƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_î•ñ‚Í
+WSAEnumNameSpaceProvidersAWSAEnumNameSpaceProvidersExAWSCEnumNameSpaceProviders32AWSCEnumNameSpaceProvidersEx32
+ŠÖ”‚Åæ“¾‚Å‚«‚éBŒÄ‚Ño‚µ‚Å LUP_CONTAINERS
+‚ğw’è‚·‚éê‡A‘¼‚Ì§ŒÀ’l‚Íw’è‚µ‚È‚¢•û‚ª‚æ‚¢Bw’è‚µ‚½ê‡AƒRƒ“ƒeƒiã‚Å‚»‚Ì§ŒÀ‚ğƒTƒ|[ƒg‚Å‚«‚é‚©‚Íƒl[ƒ€ƒT[ƒrƒXƒvƒƒoƒCƒ_‚Ì”»’f‚ÉˆÏ‚Ë‚ç‚ê‚éBƒTƒ|[ƒg‚Å‚«‚È‚¯‚ê‚ÎƒGƒ‰[‚ğ•Ô‚·‚×‚«‚Å‚ ‚éB‘¼‚Ì•û–@‚ÅƒRƒ“ƒeƒi‚ğŒ©‚Â‚¯‚ç‚ê‚éƒvƒƒoƒCƒ_‚à‚ ‚éB‚½‚Æ‚¦‚ÎƒRƒ“ƒeƒi‚Í‚·‚×‚ÄŠù’m‚ÌŒ^‚Ü‚½‚ÍŠù’m‚ÌŒ^W‡‚Å‚ ‚Á‚ÄA‚»‚ÌŒŸõ—p‚Ì§ŒÀƒNƒGƒŠ‚ªì‚ê‚éê‡‚ª‚ ‚éB‚Ç‚Ì‚æ‚¤‚È•û–@‚ÅƒRƒ“ƒeƒi‚ğŒ©‚Â‚¯‚ç‚ê‚é‚Æ‚µ‚Ä‚àALUP_CONTAINERS
+‚Æ LUP_NOCONTAINERS ‚ª—Dæ‚³‚ê‚éB‚µ‚½‚ª‚Á‚ÄAƒRƒ“ƒeƒi‚ğŠÜ‚ŞƒNƒGƒŠ§ŒÀ‚ğw’è‚µ‚½ó‘Ô‚Å LUP_NOCONTAINERS
+‚ğw’è‚·‚é‚ÆƒRƒ“ƒeƒi€–Ú‚Í•Ô‚³‚ê‚È‚¢B“¯—l‚ÉA‚Ç‚Ì‚æ‚¤‚ÈƒNƒGƒŠ§ŒÀ‚ª‚ ‚Á‚Ä‚à LUP_CONTAINERS
+‚ªw’è‚³‚ê‚Ä‚¢‚é‚ÆƒRƒ“ƒeƒi‚Ì‚İ‚ª•Ô‚³‚ê‚éB–¼‘O‹óŠÔ‚ªƒRƒ“ƒeƒi‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Å LUP_CONTAINERS
+‚ªw’è‚³‚ê‚½ê‡AWSANO_DATA ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éB•Ê‚ÌƒRƒ“ƒeƒi“à‚ÌƒRƒ“ƒeƒi‚ğæ“¾‚·‚é„§•û–@‚ÍŸ‚ÌŒÄ‚Ño‚µ‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSALookupServiceEnd
-The WSALookupServiceEnd function is called to free the handle after previous calls to WSALookupServiceBegin and WSALookupServiceNext.
+WSALookupServiceEnd ŠÖ”‚ÍAWSALookupServiceBegin ‚¨‚æ‚Ñ WSALookupServiceNext ‚ÌæsŒÄ‚Ño‚µŒã‚Éƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éB
 %group
 Win32 ws2_32
 %prm
 hLookup
-hLookup : [intptr] Handle previously obtained by calling WSALookupServiceBegin.
+hLookup : [intptr] WSALookupServiceBegin ‚ÌŒÄ‚Ño‚µ‚Å–‘O‚Éæ“¾‚µ‚½ƒnƒ“ƒhƒ‹B
 %inst
-The WSALookupServiceEnd function is called to free the handle after
-previous calls to WSALookupServiceBegin and WSALookupServiceNext.
+WSALookupServiceEnd ŠÖ”‚ÍAWSALookupServiceBegin ‚¨‚æ‚Ñ
+WSALookupServiceNext ‚ÌæsŒÄ‚Ño‚µŒã‚Éƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éB
 
 [–ß‚è’l]
-The return value is zero if the operation was successful. Otherwise,
-the value SOCKET_ERROR is returned, and a specific error number can
-be retrieved by calling WSAGetLastError.
-This doc was truncated.
+‘€ì‚ª¬Œ÷‚µ‚½ê‡‚Ì–ß‚è’l‚Íƒ[ƒB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-Windows Phone 8: This function is supported for Windows Phone Store
-apps on Windows Phone 8 and later. Windows 8.1 and Windows Server
-2012 R2: This function is supported for Windows Store apps on Windows
-8.1, Windows Server 2012 R2, and later.
+Windows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows
+8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSALookupServiceNextW
-The WSALookupServiceNext function is called after obtaining a handle from a previous call to WSALookupServiceBegin in order to retrieve the requested service information. (Unicode)
+WSALookupServiceNext ŠÖ”‚ÍAWSALookupServiceBegin ‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒnƒ“ƒhƒ‹‚ğg‚Á‚ÄA—v‹‚³‚ê‚½ƒT[ƒrƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 hLookup, dwControlFlags, lpdwBufferLength, lpqsResults
-hLookup : [intptr] A handle returned from the previous call to WSALookupServiceBegin.
-dwControlFlags : [int] A set of flags that controls the operation. The values passed in the dwControlFlags parameter to the WSALookupServiceBegin function determine the possible criteria. Any values passed in the dwControlFlags parameter to the WSALookupServiceNext function further restrict the criteria for the service lookup. Currently, LUP_FLUSHPREVIOUS is defined as a means to cope with a result set that is too large. If an application does not (or cannot) supply a large enough buffer, setting LUP_FLUSHPREVIOUS instructs the provider to discard the last result set?which was too large?and move on to the next set for this call. Supported values for the dwControlFlags parameter are defined in the Winsock2.h header file and can be a combination of the following options.
-lpdwBufferLength : [var] On input, the number of bytes contained in the buffer pointed to by lpqsResults. On output, if the function fails and the error is WSAEFAULT, then it contains the minimum number of bytes to pass for the lpqsResults to retrieve the record.
-lpqsResults : [var] A pointer to a block of memory, which will contain one result set in a WSAQUERYSET structure on return.
+hLookup : [intptr] WSALookupServiceBegin ‚Ö‚Ì’¼‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+dwControlFlags : [int] ‘€ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ÌW‡Bw’è‰Â”\‚ÈŠî€‚Í WSALookupServiceBegin ŒÄ‚Ño‚µ‚Ì dwControlFlags ‚ÅŒˆ‚Ü‚éBWSALookupServiceNext ‚Å“n‚³‚ê‚é dwControlFlags ‚ÍƒT[ƒrƒXŒŸõğŒ‚ğ‚³‚ç‚Éi‚è‚ŞBŒ»İAŒ‹‰ÊƒZƒbƒg‚ª‘å‚«‚·‚¬‚éê‡‚É‘Îˆ‚·‚éè’i‚Æ‚µ‚Ä LUP_FLUSHPREVIOUS ‚ª’è‹`‚³‚ê‚Ä‚¢‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚Å‚«‚È‚¢ê‡ALUP_FLUSHPREVIOUS ‚ğw’è‚·‚é‚ÆƒvƒƒoƒCƒ_‚Í’¼‘O‚Ì (‘å‚«‚·‚¬‚½) Œ‹‰ÊƒZƒbƒg‚ğ”jŠü‚µ‚ÄŸ‚ÌŒ‹‰ÊƒZƒbƒg‚Öi‚ŞBw’è‰Â”\‚È’l‚Í Winsock2.h ‚É’è‹`‚³‚ê‚Ä‚¨‚èAˆÈ‰º‚ÌƒIƒvƒVƒ‡ƒ“‚ğ‘g‚İ‡‚í‚¹‚Äw’è‚Å‚«‚éB
+lpdwBufferLength : [var] “ü—Í‚Í lpqsResults ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒoƒCƒg”Bo—ÍAŠÖ”‚ª WSAEFAULT ‚Å¸”s‚µ‚½‚Æ‚«‚ÍƒŒƒR[ƒhæ“¾‚Ì‚½‚ß‚É lpqsResults ‚É“n‚·‚×‚«Å¬ƒoƒCƒg”‚ªŠi”[‚³‚ê‚éB
+lpqsResults : [var] ƒƒ‚ƒŠƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^B–ß‚è‚É WSAQUERYSET \‘¢‘Ì‚ÉŠi”[‚³‚ê‚½ 1 ‚Â‚ÌŒ‹‰ÊƒZƒbƒg‚ğŠÜ‚ŞB
 %inst
-The WSALookupServiceNext function is called after obtaining a handle
-from a previous call to WSALookupServiceBegin in order to retrieve
-the requested service information. (Unicode)
+WSALookupServiceNext ŠÖ”‚ÍAWSALookupServiceBegin
+‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒnƒ“ƒhƒ‹‚ğg‚Á‚ÄA—v‹‚³‚ê‚½ƒT[ƒrƒXî•ñ‚ğæ“¾‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éB(Unicode)
 
 [–ß‚è’l]
-The return value is zero if the operation was successful. Otherwise,
-the value SOCKET_ERROR is returned, and a specific error number can
-be retrieved by calling WSAGetLastError.
-This doc was truncated.
+‘€ì‚ª¬Œ÷‚µ‚½ê‡‚Ì–ß‚è’l‚Íƒ[ƒB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The dwControlFlags parameter specified in this function and the ones
-specified at the time of WSALookupServiceBegin are treated as
-restrictions for the purpose of combination. The restrictions are
-combined between the ones at WSALookupServiceBegin time and the ones
-at WSALookupServiceNext time. Therefore the flags at
-WSALookupServiceNext can never increase the amount of data returned
-beyond what was requested at WSALookupServiceBegin, although it is
-not an error to specify more or fewer flags. The flags specified at a
-given WSALookupServiceNext apply only to that call. The
-dwControlFlags LUP_FLUSHPREVIOUS and LUP_RES_SERVICE are exceptions
-to the combined restrictions rule (because they are behavior flags
-instead of restriction flags). If either of these flags are used in
-WSALookupServiceNext they have their defined effect regardless of the
-setting of the same flags at WSALookupServiceBegin. For example, if
-LUP_RETURN_VERSION is specified at WSALookupServiceBegin the service
-provider retrieves records including the version. If
-LUP_RETURN_VERSION is NOT specified at WSALookupServiceNext, the
-returned information does not include the version, even though it was
-available. No error is generated. Also for example, if
-LUP_RETURN_BLOB is NOT specified at WSALookupServiceBegin but is
-specified at WSALookupServiceNext, the returned information does not
-include the private data. No error is generated. If the
-WSALookupServiceNext function fails with an error of WSAEFAULT, this
-indicates that the buffer pointed to by the lpqsResults parameter was
-too small to contain the query results. A new buffer for a
-WSAQUERYSET should be provided with a size specified by the value
-pointed to by the lpdwBufferLength parameter. This new buffer for the
-WSAQUERYSET needs to have some of the members of the WSAQUERYSET
-specified before calling the WSALookupServiceNext function again. At
-a minimum, the dwSize member of the WSAQUERYSET must be set to the
-new size of the buffer. Query Results The following table describes
-how the query results are represented in the WSAQUERYSET structure.
-This doc was truncated.
+–{ŠÖ”‚Æ WSALookupServiceBegin ‚Åw’è‚³‚ê‚½ dwControlFlags
+‚Í‘g‚İ‡‚í‚¹‚Ì‚½‚ß‚Ì§–ñ‚Æ‚µ‚Äˆµ‚í‚ê‚éB—¼Ò‚Ì§ŒÀ‚Í‘g‚İ‡‚í‚³‚ê‚é‚½‚ßAWSALookupServiceNext ‚Ìƒtƒ‰ƒO‚É‚æ‚Á‚Ä
+WSALookupServiceBegin
+‚É—v‹‚µ‚½ˆÈã‚Ìƒf[ƒ^‚ğ•Ô‚³‚¹‚é‚±‚Æ‚Í‚Å‚«‚È‚¢‚ªA‘½‚¢/­‚È‚¢ƒtƒ‰ƒOw’è‚ÍƒGƒ‰[‚Å‚Í‚È‚¢B‚ ‚éŒÄ‚Ño‚µ‚Å
+WSALookupServiceNext ‚Éw’è‚µ‚½ƒtƒ‰ƒO‚Í‚»‚ÌŒÄ‚Ño‚µ‚É‚Ì‚İ“K—p‚³‚ê‚éBdwControlFlags ‚Ì
+LUP_FLUSHPREVIOUS ‚¨‚æ‚Ñ LUP_RES_SERVICE ‚Í‚±‚Ì‘g‚İ‡‚í‚¹§–ñ‚Ì—áŠO‚Å‚ ‚é
+(§ŒÀƒtƒ‰ƒO‚Å‚Í‚È‚­U‚é•‘‚¢ƒtƒ‰ƒO‚Ì‚½‚ß)B‚±‚ê‚ç‚ğ WSALookupServiceNext
+‚Åw’è‚·‚é‚ÆAWSALookupServiceBegin ‚Å‚Ìƒtƒ‰ƒOw’è‚ÉŠÖŒW‚È‚­’è‹`‚³‚ê‚½Œø‰Ê‚ğ”­Šö‚·‚éB‚½‚Æ‚¦‚Î
+WSALookupServiceBegin ‚Å LUP_RETURN_VERSION
+‚ªw’è‚³‚ê‚Ä‚¢‚ê‚ÎƒT[ƒrƒXƒvƒƒoƒCƒ_‚Íƒo[ƒWƒ‡ƒ“î•ñ•t‚«‚ÅƒŒƒR[ƒh‚ğæ“¾‚·‚éBWSALookupServiceNext ‚Å
+LUP_RETURN_VERSION ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎAƒo[ƒWƒ‡ƒ“î•ñ‚Íæ“¾‰Â”\‚Å‚ ‚Á‚Ä‚à•Ô‚³‚ê‚È‚¢BƒGƒ‰[‚Í”­¶‚µ‚È‚¢B“¯—l‚É
+LUP_RETURN_BLOB ‚ª WSALookupServiceBegin ‚Åw’è‚³‚ê‚Ä‚¢‚È‚¢‚ª
+WSALookupServiceNext
+‚Åw’è‚³‚ê‚½ê‡Aƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚Í•Ô‚ç‚¸ƒGƒ‰[‚à”­¶‚µ‚È‚¢BWSALookupServiceNext ‚ª WSAEFAULT
+‚Å¸”s‚µ‚½ê‡AlpqsResults ‚ªw‚·ƒoƒbƒtƒ@‚ªƒNƒGƒŠŒ‹‰Ê‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚½‚±‚Æ‚ğˆÓ–¡‚·‚éBlpdwBufferLength
+‚ª¦‚·‘å‚«‚³‚ÌV‚µ‚¢ WSAQUERYSET —pƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚×‚«‚Å‚ ‚éBV‚µ‚¢ƒoƒbƒtƒ@‚Å‚ÍAWSALookupServiceNext
+‚ğÄ“xŒÄ‚Ño‚·‘O‚É‚¢‚­‚Â‚©‚Ì WSAQUERYSET ƒƒ“ƒo‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB­‚È‚­‚Æ‚à dwSize
+ƒƒ“ƒo‚É‚ÍV‚µ‚¢ƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒNƒGƒŠŒ‹‰Ê: ƒNƒGƒŠŒ‹‰Ê‚ª WSAQUERYSET
+\‘¢‘Ì‚É‚Ç‚Ì‚æ‚¤‚É•\Œ»‚³‚ê‚é‚©‚ÍŸ•\‚É¦‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSANSPIoctl
-Enables developers to make I/O control calls to a registered namespace.
+ŠJ”­Ò‚ª“o˜^Ï‚İ‚Ì–¼‘O‹óŠÔ‚É‘Î‚µ‚Ä I/O §ŒäŒÄ‚Ño‚µ‚ğs‚¦‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 ws2_32
 %prm
 hLookup, dwControlCode, lpvInBuffer, cbInBuffer, lpvOutBuffer, cbOutBuffer, lpcbBytesReturned, lpCompletion
-hLookup : [intptr] The lookup handle returned from a previous call to the WSALookupServiceBegin function.
-dwControlCode : [int] The control code of the operation to perform.
-lpvInBuffer : [intptr] A pointer to the input buffer.
-cbInBuffer : [int] The size, in bytes, of the input buffer.
-lpvOutBuffer : [intptr] A pointer to the output buffer.
-cbOutBuffer : [int] The size, in bytes, of the output buffer.
-lpcbBytesReturned : [var] A pointer to the number of bytes returned.
-lpCompletion : [var] A pointer to a WSACOMPLETION structure, used for asynchronous processing. Set lpCompletion to NULL to force blocking (synchronous) execution.
+hLookup : [intptr] WSALookupServiceBegin ‚Ö‚Ì’¼‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ŒŸõƒnƒ“ƒhƒ‹B
+dwControlCode : [int] Às‚·‚é‘€ì‚Ì§ŒäƒR[ƒhB
+lpvInBuffer : [intptr] “ü—Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbInBuffer : [int] “ü—Íƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+lpvOutBuffer : [intptr] o—Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbOutBuffer : [int] o—Íƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+lpcbBytesReturned : [var] •Ô‚³‚ê‚½ƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpCompletion : [var] ”ñ“¯Šúˆ—‚Ég‚¤ WSACOMPLETION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒuƒƒbƒLƒ“ƒO (“¯Šú) Às‚ğ‹­§‚·‚é‚É‚Í lpCompletion ‚ğ NULL ‚É‚·‚éB
 %inst
-Enables developers to make I/O control calls to a registered
-namespace.
+ŠJ”­Ò‚ª“o˜^Ï‚İ‚Ì–¼‘O‹óŠÔ‚É‘Î‚µ‚Ä I/O §ŒäŒÄ‚Ño‚µ‚ğs‚¦‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-Success returns NO_ERROR. Failure returns SOCKET_ERROR, and a
-specific error code can be retrieved by calling the WSAGetLastError
-function. The following table describes the error codes.
-This doc was truncated.
+¬Œ÷‚Í NO_ERROR ‚ğ•Ô‚·B¸”s‚Í SOCKET_ERROR ‚ğ•Ô‚µAWSAGetLastError
+‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBƒGƒ‰[ƒR[ƒh‚ÍŸ•\‚É¦‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSANSPIoctl function is used to set or retrieve operating
-parameters associated with a query handle to a namespace provider.
-The hLookup parameter is a handle to the namespace provider query
-previously returned by the WSALookupServiceBegin function (not a
-socket handle). Any IOCTL sent to a namespace provider may block
-indefinitely, depending upon the implementation of the namespace. If
-an application cannot tolerate blocking in a WSANSPIoctl function
-call, overlapped I/O should be used and the lpCompletion parameter
-should point to a WSACOMPLETION structure. To make a WSANSPIoctl
-function call nonblocking and return immediately, set the Type member
-of the WSACOMPLETION structure to NSP_NOTIFY_IMMEDIATELY. If
-lpCompletion is NULL, the WSANSPIoctl function executes as a blocking
-call. The namespace provider should return immediately and should not
-block. But each namespace is responsible for enforcing this behavior.
-The following IOCTL code is supported by several Microsoft name space
-provider: SIO_NSP_NOTIFY_CHANGE This operation checks if the results
-returned with previous calls using the hLookup parameter are still
-valid. These previous calls include the initial call to the
-WSALookupServiceBegin function to retrieve the hLookup parameter.
-These previous calls may also include calls to the
-WSALookupServiceNext function using the hLookup parameter.
-This doc was truncated.
+WSANSPIoctl ŠÖ”‚ÍAƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ö‚ÌƒNƒGƒŠƒnƒ“ƒhƒ‹‚ÉŠÖ˜A‚·‚é“®ìƒpƒ‰ƒ[ƒ^‚Ìİ’è‚âæ“¾‚É—p‚¢‚éBhLookup
+ˆø”‚Í WSALookupServiceBegin
+‚Å–‘O‚É•Ô‚³‚ê‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÌƒNƒGƒŠƒnƒ“ƒhƒ‹‚Å‚ ‚èAƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚Å‚Í‚È‚¢Bƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É‘—‚ç‚ê‚é IOCTL
+‚ÍA‚»‚ÌÀ‘•‚É‚æ‚Á‚Ä‚Í–³ŠúŒÀ‚ÉƒuƒƒbƒN‚·‚é‰Â”\«‚ª‚ ‚éBƒuƒƒbƒLƒ“ƒO‚É‘Ï‚¦‚ç‚ê‚È‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒI[ƒo[ƒ‰ƒbƒv I/O ‚ğg‚¢
+lpCompletion ‚É WSACOMPLETION \‘¢‘Ì‚ğw’è‚·‚×‚«‚Å‚ ‚éBWSANSPIoctl
+ŒÄ‚Ño‚µ‚ğ”ñƒuƒƒbƒLƒ“ƒO‚Å’¼‚¿‚É•Ô‚³‚¹‚é‚É‚ÍAWSACOMPLETION ‚Ì Type ƒƒ“ƒo‚ğ
+NSP_NOTIFY_IMMEDIATELY ‚Éİ’è‚·‚éBlpCompletion ‚ª NULL ‚Ìê‡AWSANSPIoctl
+‚ÍƒuƒƒbƒLƒ“ƒOŒÄ‚Ño‚µ‚Æ‚µ‚ÄÀs‚³‚ê‚éBƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Í‘¦À‚É•Ô‚èƒuƒƒbƒN‚·‚×‚«‚Å‚Í‚È‚¢‚ªAŠeƒvƒƒoƒCƒ_‚ª‚±‚ÌU‚é•‘‚¢‚ğç‚éÓ”C‚ğ•‰‚¤BŸ‚Ì
+IOCTL ƒR[ƒh‚Í‚¢‚­‚Â‚©‚Ì Microsoft ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é:
+SIO_NSP_NOTIFY_CHANGEB‚±‚Ì‘€ì‚ÍAhLookup
+‚ğg‚Á‚½æsŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½Œ‹‰Ê‚ª‚Ü‚¾—LŒø‚©‚ğŠm”F‚·‚éBæsŒÄ‚Ño‚µ‚É‚ÍAhLookup ‚ğæ“¾‚µ‚½Å‰‚Ì
+WSALookupServiceBegin ŒÄ‚Ño‚µ‚âAhLookup ‚ğg‚¤Œã‘±‚Ì WSALookupServiceNext
+ŒÄ‚Ño‚µ‚ªŠÜ‚Ü‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSANtohl
-The WSANtohl function converts a u_long from network byte order to host byte order.
+WSANtohl ŠÖ”‚Í u_long ‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚©‚çƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, netlong, lphostlong
-s : [int] A descriptor identifying a socket.
-netlong : [int] A 32-bit number in network byte order.
-lphostlong : [var] A pointer to a 32-bit number to receive the number in host byte order.
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+netlong : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’lB
+lphostlong : [var] ƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì”’l‚ğó‚¯æ‚é 32 ƒrƒbƒg”’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSANtohl function converts a u_long from network byte order to
-host byte order.
+WSANtohl ŠÖ”‚Í u_long ‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚©‚çƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, WSANtohl returns zero. Otherwise, a value of
-SOCKET_ERROR is returned, and a specific error code can be retrieved
-by calling WSAGetLastError.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSANtohl ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSANtohl function takes a 32-bit number in network byte order and
-returns a 32-bit number in host byte order in the 32-bit number
-pointed to by the lphostlong parameter. The socket passed in the s
-parameter is used to determine the network byte order required based
-on the Winsock catalog protocol entry associated with the socket.
-This feature supports Winsock providers that use different network
-byte orders. If the socket is for the AF_INET or AF_INET6 address
-family, the WSANtohl function can be used to convert an IPv4 address
-in network byte order to the IPv4 address in host byte order. This
-function does not do any checking to determine if the netlong
-parameter is a valid IPv4 address. The WSANtohl function requires
-that the Winsock DLL has previously been loaded with a successful
-call to the WSAStartup function. For use with the AF_INET or AF_INET6
-family, the ntohl function does not require that the Winsock DLL be
-loaded. Windows Phone 8: This function is supported for Windows Phone
-Store apps on Windows Phone 8 and later. Windows 8.1 and Windows
-Server 2012 R2: This function is supported for Windows Store apps on
-Windows 8.1, Windows Server 2012 R2, and later.
+WSANtohl ŠÖ”‚ÍAƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’l‚ğó‚¯æ‚èAlphostlong ‚ªw‚· 32
+ƒrƒbƒg”’l‚ÉƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 32 ƒrƒbƒg”’l‚ğ•Ô‚·Bs ˆø”‚É“n‚µ‚½ƒ\ƒPƒbƒg‚ÍAƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ Winsock
+ƒJƒ^ƒƒO‚ÌƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ÉŠî‚Ã‚¢‚Ä•K—v‚Èƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğŒˆ‚ß‚é‚½‚ß‚Ég‚í‚ê‚éB‚±‚Ì‹@”\‚ÍˆÙ‚È‚éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğg‚¤
+Winsock ƒvƒƒoƒCƒ_‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚Å‚ ‚éBƒ\ƒPƒbƒg‚ª AF_INET ‚Ü‚½‚Í AF_INET6
+ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì‚à‚Ì‚Å‚ ‚ê‚ÎAWSANtohl ‚Íƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì IPv4
+ƒAƒhƒŒƒX‚ğƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚é‚½‚ß‚Ég‚¦‚éB‚±‚ÌŠÖ”‚Í netlong ‚ª—LŒø‚È IPv4
+ƒAƒhƒŒƒX‚©‚Ìƒ`ƒFƒbƒN‚Ís‚í‚È‚¢BWSANtohl ‚ğg‚¤‚É‚ÍA–‘O‚É WSAStartup ‚Ì¬Œ÷ŒÄ‚Ño‚µ‚Å Winsock DLL
+‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BAF_INET ‚Ü‚½‚Í AF_INET6 ƒtƒ@ƒ~ƒŠ‚É‘Î‚µ‚Ä ntohl ŠÖ”‚ğg‚¤ê‡‚ÍAWinsock
+DLL ‚Ìƒ[ƒh‚Í•s—v‚Å‚ ‚éBWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows
+Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í
+Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSANtohs
-The WSANtohs function converts a u_short from network byte order to host byte order.
+WSANtohs ŠÖ”‚Í u_short ‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚©‚çƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, netshort, lphostshort
-s : [int] A descriptor identifying a socket.
-netshort : [int] A 16-bit number in network byte order.
-lphostshort : [var] A pointer to a 16-bit number to receive the number in host byte order.
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+netshort : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’lB
+lphostshort : [var] ƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì”’l‚ğó‚¯æ‚é 16 ƒrƒbƒg”’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSANtohs function converts a u_short from network byte order to
-host byte order.
+WSANtohs ŠÖ”‚Í u_short ‚ğƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚©‚çƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, WSANtohs returns zero. Otherwise, a value of
-SOCKET_ERROR is returned, and a specific error code can be retrieved
-by calling WSAGetLastError.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSANtohs ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSANtohs function takes a 16-bit number in network byte order and
-returns a 16-bit number in host byte order in the 16-bit number
-pointed to by the lphostshort parameter. The socket passed in the s
-parameter is used to determine the network byte order required based
-on the Winsock catalog protocol entry associated with the socket.
-This feature supports Winsock providers that use different network
-byte orders. If the socket is for the AF_INET or AF_INET6 address
-family, the WSANtohs function can be used to convert an IP port
-number in network byte order to the IP port number in host byte
-order. The WSANtohs function requires that the Winsock DLL has
-previously been loaded with a successful call to the WSAStartup
-function. For use with the AF_INET OR AF_INET6 address family, the
-ntohs function does not require that the Winsock DLL be loaded.
-Windows Phone 8: This function is supported for Windows Phone Store
-apps on Windows Phone 8 and later. Windows 8.1 and Windows Server
-2012 R2: This function is supported for Windows Store apps on Windows
-8.1, Windows Server 2012 R2, and later.
+WSANtohs ŠÖ”‚ÍAƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’l‚ğó‚¯æ‚èAlphostshort ‚ªw‚· 16
+ƒrƒbƒg”’l‚ÉƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚Ì 16 ƒrƒbƒg”’l‚ğ•Ô‚·Bs ˆø”‚É“n‚µ‚½ƒ\ƒPƒbƒg‚ÍAƒ\ƒPƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ Winsock
+ƒJƒ^ƒƒO‚ÌƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ÉŠî‚Ã‚¢‚Ä•K—v‚Èƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğŒˆ‚ß‚é‚½‚ß‚Ég‚í‚ê‚éB‚±‚Ì‹@”\‚ÍˆÙ‚È‚éƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚ğg‚¤
+Winsock ƒvƒƒoƒCƒ_‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚Å‚ ‚éBƒ\ƒPƒbƒg‚ª AF_INET ‚Ü‚½‚Í AF_INET6
+ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì‚à‚Ì‚Å‚ ‚ê‚ÎAWSANtohs ‚Íƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Ì IP
+ƒ|[ƒg”Ô†‚ğƒzƒXƒgƒoƒCƒgƒI[ƒ_[‚É•ÏŠ·‚·‚é‚½‚ß‚Ég‚¦‚éBWSANtohs ‚ğg‚¤‚É‚ÍA–‘O‚É WSAStartup ‚Ì¬Œ÷ŒÄ‚Ño‚µ‚Å
+Winsock DLL ‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BAF_INET ‚Ü‚½‚Í AF_INET6 ƒtƒ@ƒ~ƒŠ‚É‘Î‚µ‚Ä ntohs
+ŠÖ”‚ğg‚¤ê‡‚ÍAWinsock DLL ‚Ìƒ[ƒh‚Í•s—v‚Å‚ ‚éBWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone
+8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server
+2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSAPoll
-The WSAPoll function determines status of one or more sockets.
+WSAPoll ŠÖ”‚Í 1 ‚ÂˆÈã‚Ìƒ\ƒPƒbƒg‚Ìó‘Ô‚ğ”»’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 fdArray, fds, timeout
-fdArray : [var] An array of one or more POLLFD structures specifying the set  of sockets for which status is requested. The   array must contain at least one structure with a valid socket. Upon return, this parameter receives the updated sockets with the revents status flags member set on each one that matches the status query criteria.
-fds : [int] The number of WSAPOLLFD structures in fdarray. This is not necessarily the number of sockets for which status is requested.
-timeout : [int] A value that specifies the wait behavior, based on the following values.
+fdArray : [var] ó‘Ô‚ğ—v‹‚·‚éƒ\ƒPƒbƒgW‡‚ğw’è‚·‚é 1 ‚ÂˆÈã‚Ì POLLFD \‘¢‘Ì‚Ì”z—ñB”z—ñ‚É‚Í—LŒø‚Èƒ\ƒPƒbƒg‚ğŠÜ‚Ş\‘¢‘Ì‚ª­‚È‚­‚Æ‚à 1 ‚ÂŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B–ß‚è‚É‚ÍAó‘Ô–â‚¢‡‚í‚¹ğŒ‚É‡’v‚µ‚½ƒ\ƒPƒbƒg‚»‚ê‚¼‚ê‚É‘Î‚µ‚ÄXVŒã‚Ì revents ƒXƒe[ƒ^ƒXƒtƒ‰ƒO‚ªİ’è‚³‚ê‚½Œ`‚Å•Ô‚³‚ê‚éB
+fds : [int] fdarray “à‚Ì WSAPOLLFD \‘¢‘Ì‚Ì”Bó‘Ô‚ğ—v‹‚µ‚Ä‚¢‚éƒ\ƒPƒbƒg”‚Æˆê’v‚·‚é‚Æ‚ÍŒÀ‚ç‚È‚¢B
+timeout : [int] ˆÈ‰º‚Ì’l‚ÉŠî‚Ã‚¢‚Ä‘Ò‹@‚Ì‹““®‚ğw’è‚·‚é’lB
 %inst
-The WSAPoll function determines status of one or more sockets.
+WSAPoll ŠÖ”‚Í 1 ‚ÂˆÈã‚Ìƒ\ƒPƒbƒg‚Ìó‘Ô‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Returns one of the following values.
-This doc was truncated.
+Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSAPoll function is defined on Windows Vista and later. The
-[WSAPOLLFD](./ns-winsock2-wsapollfd.md) structures. An application
-sets the appropriate flags in the events member of the WSAPOLLFD
-structure to specify the type of status requested for each
-corresponding socket. The WSAPoll function returns the status of a
-socket in the revents member of the WSAPOLLFD structure. For each
-socket, a caller can request information on read or write status.
-Error conditions are always returned, so information on them need not
-be requested. The [WSAPOLLFD](./ns-winsock2-wsapollfd.md) structure
-pointed to by the fdarray parameter. All sockets that do not meet
-these criteria and have no error condition will have the
-corresponding revents member set to 0.
-This doc was truncated.
+WSAPoll ŠÖ”‚Í Windows Vista ˆÈ~‚Å’è‹`‚³‚ê‚Ä‚¢‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í WSAPOLLFD \‘¢‘Ì‚Ì events
+ƒƒ“ƒo‚É“KØ‚Èƒtƒ‰ƒO‚ğİ’è‚µA‘Î‰‚·‚éƒ\ƒPƒbƒg‚É—v‹‚·‚éó‘Ôí•Ê‚ğw’è‚·‚éBWSAPoll ŠÖ”‚Í WSAPOLLFD ‚Ì revents
+ƒƒ“ƒo‚Éƒ\ƒPƒbƒg‚Ìó‘Ô‚ğ•Ô‚·BŠeƒ\ƒPƒbƒg‚É‚Â‚¢‚ÄAŒÄ‚Ño‚µŒ³‚Í“Ç‚İo‚µó‘Ô‚Ü‚½‚Í‘‚«‚İó‘Ô‚Ìî•ñ‚ğ—v‹‚Å‚«‚éBƒGƒ‰[ğŒ‚Íí‚É•Ô‚³‚ê‚é‚Ì‚ÅA–¾¦“I‚É—v‹‚·‚é•K—v‚Í‚È‚¢Bw’è‚µ‚½ğŒ‚ğ–‚½‚³‚¸ƒGƒ‰[ğŒ‚à‚È‚¢ƒ\ƒPƒbƒg‚ÍA‘Î‰‚·‚é
+revents ƒƒ“ƒo‚ª 0 ‚Éİ’è‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSAProviderCompleteAsyncCall
-Notifies a client when an asynchronous call to a namespace version-2 provider is completed.
+ƒl[ƒ€ƒXƒy[ƒX version-2 ƒvƒƒoƒCƒ_‚Ö‚Ì”ñ“¯ŠúŒÄ‚Ño‚µ‚ªŠ®—¹‚µ‚½‚±‚Æ‚ğƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚éB
 %group
 Win32 ws2_32
 %prm
 hAsyncCall, iRetCode
-hAsyncCall : [intptr] The handle passed to the asynchronous call being completed. This handle is passed by the client to the namespace version-2 provider in the asynchronous function call.
-iRetCode : [int] The return code for the asynchronous call to the namespace version-2 provider.
+hAsyncCall : [intptr] Š®—¹‚³‚ê‚é”ñ“¯ŠúŒÄ‚Ño‚µ‚É“n‚³‚ê‚½ƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í”ñ“¯ŠúŠÖ”ŒÄ‚Ño‚µ‚É‚¨‚¢‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒl[ƒ€ƒXƒy[ƒX version-2 ƒvƒƒoƒCƒ_‚É“n‚³‚ê‚½‚à‚Ì‚Å‚ ‚éB
+iRetCode : [int] ƒl[ƒ€ƒXƒy[ƒX version-2 ƒvƒƒoƒCƒ_‚Ö‚Ì”ñ“¯ŠúŒÄ‚Ño‚µ‚É‘Î‚·‚é–ß‚èƒR[ƒhB
 %inst
-Notifies a client when an asynchronous call to a namespace version-2
-provider is completed.
+ƒl[ƒ€ƒXƒy[ƒX version-2 ƒvƒƒoƒCƒ_‚Ö‚Ì”ñ“¯ŠúŒÄ‚Ño‚µ‚ªŠ®—¹‚µ‚½‚±‚Æ‚ğƒNƒ‰ƒCƒAƒ“ƒg‚É’Ê’m‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSAProviderCompleteAsyncCall** returns zero. If
-the function fails, the return value is SOCKET_ERROR. To get extended
-error information, call WSAGetLastError, which returns one of the
-following extended error values.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSAProviderCompleteAsyncCall** ‚Íƒ[ƒ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚µ‚½ê‡‚Ì–ß‚è’l‚Í
+SOCKET_ERROR ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í WSAGetLastError
+‚ğŒÄ‚Ño‚·BˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚ÌŠg’£ƒGƒ‰[’l‚ª•Ô‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The **WSAProviderCompleteAsyncCall** function is used as part of the
-namespace service provider version-2 (NSPv2) architecture available
-on Windows Vista and later. On Windows Vista and Windows Server 2008,
-the WSAUnadvertiseProvider function can only be used for operations
-on NS_EMAIL namespace providers. Asynchronous calls to NSPv2
-providers are not supported on Windows Vista and Windows Server 2008.
-So the **WSAProviderCompleteAsyncCall** is not currently applicable.
-This function is planned for use in later versions of Windows when
-asynchronous calls to namespace providers are supported. In general,
-NSPv2 providers are implemented in processes other than the calling
-applications. NSPv2 providers are not activated as result of client
-activity. Each provider hosting application decides when to make a
-specific provider available or unavailable by calling the
-WSAAdvertiseProvider and WSAUnadvertiseProvider functions. The client
-activity only results in attempts to contact the provider, when
-available (when the namespace provider is advertised).
+**WSAProviderCompleteAsyncCall** ŠÖ”‚ÍAWindows Vista
+ˆÈ~‚Å—˜—p‰Â”\‚Èƒl[ƒ€ƒXƒy[ƒXƒT[ƒrƒXƒvƒƒoƒCƒ_ version-2 (NSPv2) ƒA[ƒLƒeƒNƒ`ƒƒ‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éBWindows
+Vista ‚¨‚æ‚Ñ Windows Server 2008 ‚Å‚ÍAWSAUnadvertiseProvider ŠÖ”‚Í NS_EMAIL
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É‘Î‚·‚é‘€ì‚Ì‚İ‚Ég—p‚Å‚«‚éBNSPv2 ƒvƒƒoƒCƒ_‚Ö‚Ì”ñ“¯ŠúŒÄ‚Ño‚µ‚Í Windows Vista ‚¨‚æ‚Ñ
+Windows Server 2008 ‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA**WSAProviderCompleteAsyncCall**
+‚ÍŒ»“_‚Å‚Í“K—p‚Å‚«‚È‚¢B‚±‚ÌŠÖ”‚ÍAƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ö‚Ì”ñ“¯ŠúŒÄ‚Ño‚µ‚ªƒTƒ|[ƒg‚³‚ê‚é«—ˆ‚Ì Windows
+ƒo[ƒWƒ‡ƒ“‚Å‚Ìg—p‚ğŒv‰æ‚³‚ê‚Ä‚¢‚éBˆê”Ê‚É NSPv2 ƒvƒƒoƒCƒ_‚ÍŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚Í•Ê‚ÌƒvƒƒZƒX‚ÅÀ‘•‚³‚ê‚éBNSPv2
+ƒvƒƒoƒCƒ_‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒAƒNƒeƒBƒrƒeƒB‚É‰‚¶‚ÄƒAƒNƒeƒBƒu‰»‚³‚ê‚é‚à‚Ì‚Å‚Í‚È‚¢BƒvƒƒoƒCƒ_‚ğƒzƒXƒg‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAWSAAdvertiseProvider
+‚Æ WSAUnadvertiseProvider ‚ğŒÄ‚Ño‚·ƒ^ƒCƒ~ƒ“ƒO‚ÅŠeƒvƒƒoƒCƒ_‚Ì—˜—p‰Â”Û‚ğŒˆ‚ß‚éBƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ÌŠˆ“®‚ÍA—˜—p‰Â”\‚È
+(L‚³‚ê‚Ä‚¢‚é) ƒvƒƒoƒCƒ_‚Ö‚ÌÚ‘±s‚Æ‚¢‚¤Œ`‚Å‚µ‚©Œ»‚ê‚È‚¢B
 
 
 %index
 WSAProviderConfigChange
-The WSAProviderConfigChange function notifies the application when the provider configuration is changed.
+WSAProviderConfigChange ŠÖ”‚ÍAƒvƒƒoƒCƒ_\¬‚ª•ÏX‚³‚ê‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö’Ê’m‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpNotificationHandle, lpOverlapped, lpCompletionRoutine
-lpNotificationHandle : [intptr] Pointer to notification handle. If the notification handle is set to NULL (the handle value not the pointer itself), this function returns a notification handle in the location pointed to by lpNotificationHandle.
-lpOverlapped : [var] Pointer to a WSAOVERLAPPED structure.
-lpCompletionRoutine : [int] Type: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) Pointer to the completion routine called when the provider change notification is received.
+lpNotificationHandle : [intptr] ’Ê’mƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B’Ê’mƒnƒ“ƒhƒ‹ (ƒ|ƒCƒ“ƒ^‚Å‚Í‚È‚­ƒnƒ“ƒhƒ‹’l) ‚ª NULL ‚Ìê‡AŠÖ”‚Í lpNotificationHandle ‚ªw‚·êŠ‚É’Ê’mƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
+lpOverlapped : [var] WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) ƒvƒƒoƒCƒ_•ÏX’Ê’m‚ğó‚¯‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSAProviderConfigChange function notifies the application when
-the provider configuration is changed.
+WSAProviderConfigChange ŠÖ”‚ÍAƒvƒƒoƒCƒ_\¬‚ª•ÏX‚³‚ê‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö’Ê’m‚·‚éB
 
 [–ß‚è’l]
-If no error occurs the WSAProviderConfigChange returns 0. Otherwise,
-a value of SOCKET_ERROR is returned and a specific error code may be
-retrieved by calling WSAGetLastError. The error code WSA_IO_PENDING
-indicates that the overlapped operation has been successfully
-initiated and that completion (and thus change event) will be
-indicated at a later time.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSAProviderConfigChange ‚Í 0 ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBWSA_IO_PENDING
+ƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚êAŒã‚ÅŠ®—¹ (‚·‚È‚í‚¿•ÏXƒCƒxƒ“ƒg) ‚ª’Ê’m‚³‚ê‚é‚±‚Æ‚ğ¦‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSAProviderConfigChange function notifies the application of
-provider (both transport and namespace) installation or removal in
-Windows operating environments that support such configuration change
-without requiring a restart. When called for the first time
-(lpNotificationHandle parameter points to NULL handle), this function
-completes immediately and returns notification handle in the location
-pointed by lpNotificationHandle that can be used in subsequent calls
-to receive notifications of provider installation and removal. The
-second and any subsequent calls only complete when provider
-information changes since the time the call was made It is expected
-(but not required) that the application uses overlapped I/O on second
-and subsequent calls to WSAProviderConfigChange, in which case the
-call will return immediately and application will be notified of
-provider configuration changes using the completion mechanism chosen
-through specified overlapped completion parameters. Notification
-handle returned by WSAProviderConfigChange is like any regular
-operating system handle that should be closed (when no longer needed)
-using Windows CloseHandle call. The following sequence of actions can
-be used to guarantee that application always has current protocol
-configuration information:
-This doc was truncated.
+WSAProviderConfigChange ŠÖ”‚ÍAÄ‹N“®‚¹‚¸‚É\¬•ÏX‚ª‰Â”\‚È Windows ŠÂ‹«‚É‚¨‚¢‚ÄAƒvƒƒoƒCƒ_
+(ƒgƒ‰ƒ“ƒXƒ|[ƒg‚¨‚æ‚Ñƒl[ƒ€ƒXƒy[ƒX) ‚ÌƒCƒ“ƒXƒg[ƒ‹/íœ‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚·‚éBÅ‰‚ÌŒÄ‚Ño‚µ
+(lpNotificationHandle ‚ª NULL ƒnƒ“ƒhƒ‹‚ğw‚µ‚Ä‚¢‚é‚Æ‚«)
+‚Í‘¦À‚ÉŠ®—¹‚µAˆÈ~‚ÌŒÄ‚Ño‚µ‚ÅƒvƒƒoƒCƒ_‚ÌƒCƒ“ƒXƒg[ƒ‹/íœ’Ê’m‚ğó‚¯‚é‚Ì‚Ég‚¦‚é’Ê’mƒnƒ“ƒhƒ‹‚ğ
+lpNotificationHandle ‚É•Ô‚·B2 ‰ñ–ÚˆÈ~‚ÌŒÄ‚Ño‚µ‚ÍAŒÄ‚Ño‚µ‚©‚çƒvƒƒoƒCƒ_î•ñ‚ª•Ï‰»‚µ‚½‚Æ‚«‚É‚Ì‚İŠ®—¹‚·‚éB2
+‰ñ–ÚˆÈ~‚ÌŒÄ‚Ño‚µ‚Å‚ÍƒI[ƒo[ƒ‰ƒbƒv I/O ‚Ìg—p‚ªŠú‘Ò‚³‚ê‚é‚ª•K{‚Å‚Í‚È‚¢BƒI[ƒo[ƒ‰ƒbƒv I/O
+‚ğg‚¤‚ÆŒÄ‚Ño‚µ‚Í‘¦À‚É–ß‚èAw’è‚³‚ê‚½ƒI[ƒo[ƒ‰ƒbƒvŠ®—¹ˆø”‚É]‚Á‚Ä’Ê’m‚³‚ê‚éBWSAProviderConfigChange
+‚ª•Ô‚·’Ê’mƒnƒ“ƒhƒ‹‚Í’Êí‚Ì OS ƒnƒ“ƒhƒ‹‚Æ“¯‚¶‚ÅA•s—v‚É‚È‚Á‚½‚ç Windows ‚Ì CloseHandle
+‚Å•Â‚¶‚é‚×‚«‚Å‚ ‚éBí‚ÉÅV‚ÌƒvƒƒgƒRƒ‹\¬î•ñ‚ğ“¾‚é‚½‚ß‚Ìè‡‚ÍŸ‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSARecv
-Receives data from a connected socket or a bound connectionless socket. (WSARecv)
+Ú‘±Ï‚İƒ\ƒPƒbƒg‚Ü‚½‚ÍƒoƒCƒ“ƒhÏ‚İƒRƒlƒNƒVƒ‡ƒ“ƒŒƒXƒ\ƒPƒbƒg‚©‚çƒf[ƒ^‚ğóM‚·‚éB(WSARecv)
 %group
 Win32 ws2_32
 %prm
 s, lpBuffers, dwBufferCount, lpNumberOfBytesRecvd, lpFlags, lpOverlapped, lpCompletionRoutine
-s : [int] A  descriptor identifying a connected socket.
-lpBuffers : [var] A pointer to an array of WSABUF structures. Each WSABUF structure contains a pointer to a buffer and the length, in bytes, of the buffer.
-dwBufferCount : [int] The number of WSABUF structures in the lpBuffers array.
-lpNumberOfBytesRecvd : [var] A pointer to the number, in bytes, of data received by this call if the receive operation completes immediately. Use NULL for this parameter if the lpOverlapped parameter is not NULL to avoid potentially erroneous results. This parameter can be NULL only  if the lpOverlapped parameter is not NULL.
-lpFlags : [var] A pointer to flags used to modify the behavior of the WSARecv function call. For more information, see the Remarks section.
-lpOverlapped : [var] A pointer to a WSAOVERLAPPED structure (ignored for nonoverlapped sockets).
-lpCompletionRoutine : [int] Type: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) A pointer to the completion routine called when the receive operation has been completed (ignored for nonoverlapped sockets).
+s : [int] Ú‘±Ï‚İƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+lpBuffers : [var] WSABUF \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe WSABUF \‘¢‘Ì‚Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Æ‚»‚ÌƒoƒCƒg’·‚ğŠÜ‚ŞB
+dwBufferCount : [int] lpBuffers ”z—ñ“à‚Ì WSABUF \‘¢‘Ì‚Ì”B
+lpNumberOfBytesRecvd : [var] óM‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡‚ÉA‚±‚ÌŒÄ‚Ño‚µ‚ÅóM‚µ‚½ƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡AŒë‚Á‚½Œ‹‰Ê‚ğ”ğ‚¯‚é‚½‚ß‚É–{ˆø”‚ğ NULL ‚É‚·‚éB–{ˆø”‚ğ NULL ‚É‚Å‚«‚é‚Ì‚Í lpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡‚Ì‚İB
+lpFlags : [var] WSARecv ‚Ì“®ì‚ğ•ÏX‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í”õl‚ğQÆB
+lpOverlapped : [var] WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) óM‘€ì‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B
 %inst
-Receives data from a connected socket or a bound connectionless
-socket. (WSARecv)
+Ú‘±Ï‚İƒ\ƒPƒbƒg‚Ü‚½‚ÍƒoƒCƒ“ƒhÏ‚İƒRƒlƒNƒVƒ‡ƒ“ƒŒƒXƒ\ƒPƒbƒg‚©‚çƒf[ƒ^‚ğóM‚·‚éB(WSARecv)
 
 [–ß‚è’l]
-If no error occurs and the receive operation has completed
-immediately, WSARecv returns zero. In this case, the completion
-routine will have already been scheduled to be called once the
-calling thread is in the alertable state. Otherwise, a value of
-SOCKET_ERROR is returned, and a specific error code can be retrieved
-by calling WSAGetLastError. The error code WSA_IO_PENDING indicates
-that the overlapped operation has been successfully initiated and
-that completion will be indicated at a later time. Any other error
-code indicates that the overlapped operation was not successfully
-initiated and no completion indication will occur.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚­óM‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡AWSARecv
+‚Íƒ[ƒ‚ğ•Ô‚·B‚±‚Ìê‡AŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ªƒAƒ‰[ƒg‰Â”\ó‘Ô‚É‚È‚Á‚½“_‚ÅŠ®—¹ƒ‹[ƒ`ƒ“‚ªŒÄ‚Ño‚³‚ê‚é‚æ‚¤ƒXƒPƒWƒ…[ƒ‹Ï‚İ‚Æ‚È‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í
+SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBWSA_IO_PENDING
+ƒGƒ‰[ƒR[ƒh‚ÍAƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚êAŠ®—¹‚ªŒã‚Å’Ê’m‚³‚ê‚é‚±‚Æ‚ğ¦‚·B‚»‚êˆÈŠO‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚ê‚¸AŠ®—¹’Ê’m‚Í”­¶‚µ‚È‚¢‚±‚Æ‚ğ¦‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSARecv function provides some additional features compared with
-the standard recv function in three important areas:
-This doc was truncated.
+WSARecv ŠÖ”‚ÍA•W€‚Ì recv ŠÖ”‚Æ”ä‚×‚ÄŸ‚Ì 3 ‚Â‚Ìd—v‚È—Ìˆæ‚Å’Ç‰Á‹@”\‚ğ’ñ‹Ÿ‚·‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSARecvDisconnect
-The WSARecvDisconnect function terminates reception on a socket, and retrieves the disconnect data if the socket is connection oriented.
+WSARecvDisconnect ŠÖ”‚ÍAƒ\ƒPƒbƒg‚ÌóM‚ğI—¹‚µAƒRƒlƒNƒVƒ‡ƒ“wŒüƒ\ƒPƒbƒg‚Å‚ ‚ê‚ÎØ’fƒf[ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, lpInboundDisconnectData
-s : [int] A descriptor identifying a socket.
-lpInboundDisconnectData : [var] A pointer to the incoming disconnect data.
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+lpInboundDisconnectData : [var] óM‘¤‚ÌØ’fƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSARecvDisconnect function terminates reception on a socket, and
-retrieves the disconnect data if the socket is connection oriented.
+WSARecvDisconnect ŠÖ”‚ÍAƒ\ƒPƒbƒg‚ÌóM‚ğI—¹‚µAƒRƒlƒNƒVƒ‡ƒ“wŒüƒ\ƒPƒbƒg‚Å‚ ‚ê‚ÎØ’fƒf[ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, WSARecvDisconnect returns zero. Otherwise, a
-value of SOCKET_ERROR is returned, and a specific error code can be
-retrieved by calling WSAGetLastError.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSARecvDisconnect ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ª•Ô‚³‚êAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSARecvDisconnect function is used on connection-oriented sockets
-to disable reception and retrieve any incoming disconnect data from
-the remote party. This is equivalent to a shutdown (SD_RECEIVE),
-except that WSARecvDisconnect also allows receipt of disconnect data
-(in protocols that support it). After this function has been
-successfully issued, subsequent receives on the socket will be
-disallowed. Calling WSARecvDisconnect has no effect on the lower
-protocol layers. For TCP sockets, if there is still data queued on
-the socket waiting to be received, or data arrives subsequently, the
-connection is reset, since the data cannot be delivered to the user.
-For UDP, incoming datagrams are accepted and queued. In no case will
-an ICMP error packet be generated. Note The native implementation of
-TCP/IP on Windows does not support disconnect data. Disconnect data
-is only supported with Windows Sockets providers that have the
-XP1_DISCONNECT_DATA flag in their WSAPROTOCOL_INFO structure. Use the
-WSAEnumProtocols function to obtain WSAPROTOCOL_INFO structures for
-all installed providers. To successfully receive incoming disconnect
-data, an application must use other mechanisms to determine that the
-circuit has been closed. For example, an application needs to receive
-an FD_CLOSE notification, to receive a zero return value, or to
-receive a WSAEDISCON or WSAECONNRESET error code from recv/WSARecv.
-The WSARecvDisconnect function does not close the socket, and
-resources attached to the socket will not be freed until closesocket
-is invoked. The WSARecvDisconnect function does not block regardless
-of the SO_LINGER setting on the socket. An application should not
-rely on being able to reuse a socket after it has been disconnected
-using WSARecvDisconnect. In particular, a Windows Sockets provider is
-not required to support the use of connect or WSAConnect on such a
-socket. Note When issuing a blocking Winsock call such as
-WSARecvDisconnect, Winsock may need to wait for a network event
-before the call can complete. Winsock performs an alertable wait in
-this situation, which can be interrupted by an asynchronous procedure
-call (APC) scheduled on the same thread. Issuing another blocking
-Winsock call inside an APC that interrupted an ongoing blocking
-Winsock call on the same thread will lead to undefined behavior, and
-must never be attempted by Winsock clients.
+WSARecvDisconnect
+ŠÖ”‚ÍƒRƒlƒNƒVƒ‡ƒ“wŒüƒ\ƒPƒbƒg‚Åg—p‚³‚êAóM‚ğ–³Œø‰»‚·‚é‚Æ‚Æ‚à‚ÉƒŠƒ‚[ƒg‚©‚çØ’fƒf[ƒ^‚ğæ“¾‚·‚éB‚±‚ê‚Í shutdown
+(SD_RECEIVE)
+‚Æ“™‰¿‚¾‚ªAƒvƒƒgƒRƒ‹‚ª‘Î‰‚µ‚Ä‚¢‚ê‚ÎØ’fƒf[ƒ^‚ÌóM‚à‚Å‚«‚é“_‚ªˆÙ‚È‚éB‚±‚ÌŠÖ”‚ª³í‚É”­s‚³‚ê‚½Œã‚ÍAƒ\ƒPƒbƒgã‚Ì‚»‚êˆÈ~‚ÌóM‚Í•s‹–‰Â‚Æ‚È‚éBWSARecvDisconnect
+‚ğŒÄ‚ñ‚Å‚à‰ºˆÊƒvƒƒgƒRƒ‹‘w‚É‚Í‰e‹¿‚µ‚È‚¢BTCP
+ƒ\ƒPƒbƒg‚Å‚ÍAƒ\ƒPƒbƒg‚É‚Ü‚¾óM‘Ò‚¿‚Ìƒf[ƒ^‚ª—­‚Ü‚Á‚Ä‚¢‚é‚©V‚½‚Éƒf[ƒ^‚ª“’…‚·‚é‚ÆAƒ†[ƒU[‚É”zM‚Å‚«‚È‚¢‚½‚ßÚ‘±‚ÍƒŠƒZƒbƒg‚³‚ê‚éBUDP
+‚Å‚ÍóMƒf[ƒ^ƒOƒ‰ƒ€‚Íó—‚³‚êƒLƒ…[‚É“ü‚éB‚¢‚¸‚ê‚à ICMP ƒGƒ‰[ƒpƒPƒbƒg‚ª¶¬‚³‚ê‚é‚±‚Æ‚Í‚È‚¢B’: Windows ‚ÌƒlƒCƒeƒBƒu
+TCP/IP À‘•‚ÍØ’fƒf[ƒ^‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢BØ’fƒf[ƒ^‚ÍAWSAPROTOCOL_INFO \‘¢‘Ì‚Å
+XP1_DISCONNECT_DATA ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚é Windows Sockets
+ƒvƒƒoƒCƒ_‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éBƒCƒ“ƒXƒg[ƒ‹Ï‚İƒvƒƒoƒCƒ_‚Ì WSAPROTOCOL_INFO \‘¢‘Ì‚ğæ“¾‚·‚é‚É‚Í
+WSAEnumProtocols
+‚ğg‚¤BóM‘¤Ø’fƒf[ƒ^‚ğ³í‚Éó‚¯æ‚é‚É‚ÍA‰ñ˜H‚ª•Â‚¶‚ç‚ê‚½‚±‚Æ‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“©g‚ª•Ê‚Ìè’i‚Å”»’è‚·‚é•K—v‚ª‚ ‚éB‚½‚Æ‚¦‚Î
+FD_CLOSE ’Ê’m‚ÌóMArecv/WSARecv ‚©‚ç‚Ì 0 •Ô‹p‚Ü‚½‚Í WSAEDISCON/WSAECONNRESET
+ƒGƒ‰[ƒR[ƒh‚ÌóM‚È‚Ç‚Å‚ ‚éBWSARecvDisconnect ‚Íƒ\ƒPƒbƒg‚ğ•Â‚¶‚È‚¢‚Ì‚ÅAclosesocket
+‚ªŒÄ‚Î‚ê‚é‚Ü‚Åƒ\ƒPƒbƒg‚É•R•t‚­ƒŠƒ\[ƒX‚Í‰ğ•ú‚³‚ê‚È‚¢BWSARecvDisconnect ‚Íƒ\ƒPƒbƒg‚Ì SO_LINGER
+İ’è‚ÉŠÖŒW‚È‚­ƒuƒƒbƒN‚µ‚È‚¢BWSARecvDisconnect Œã‚É“¯‚¶ƒ\ƒPƒbƒg‚ğÄ—˜—p‚Å‚«‚é‚ÆŠú‘Ò‚·‚×‚«‚Å‚Í‚È‚¢B“Á‚ÉAWinsock
+ƒvƒƒoƒCƒ_‚ª‚»‚Ì‚æ‚¤‚Èƒ\ƒPƒbƒg‚É‘Î‚·‚é connect/WSAConnect ‚Ìg—p‚ğ•ÛØ‚·‚é•K—v‚Í‚È‚¢B’:
+WSARecvDisconnect ‚Ì‚æ‚¤‚ÈƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚ÆAWinsock
+‚Íƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì”­¶‚ğ‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚éê‡‚ª‚ ‚éB‚±‚Ì‘Ò‹@‚ÍƒAƒ‰[ƒg‰Â”\‚È‘Ò‹@‚ÅA“¯‚¶ƒXƒŒƒbƒh‚ÉƒXƒPƒWƒ…[ƒ‹‚³‚ê‚½
+APC ‚É‚æ‚Á‚Ä’†’f‚³‚ê“¾‚éB’†’f’†‚Ì APC “à‚©‚ç‚³‚ç‚ÉƒuƒƒbƒLƒ“ƒO Winsock
+ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚Æ–¢’è‹`“®ì‚Æ‚È‚é‚½‚ßAWinsock ƒNƒ‰ƒCƒAƒ“ƒg‚ÍŒˆ‚µ‚Ä‚»‚ê‚ğs‚Á‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 WSARecvFrom
-Receives a datagram and stores the source address.
+ƒf[ƒ^ƒOƒ‰ƒ€‚ğóM‚µA‘—MŒ³ƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, lpBuffers, dwBufferCount, lpNumberOfBytesRecvd, lpFlags, lpFrom, lpFromlen, lpOverlapped, lpCompletionRoutine
-s : [int] A descriptor identifying a socket.
-lpBuffers : [var] A pointer to an array of WSABUF structures. Each WSABUF structure contains a pointer to a buffer and the length of the buffer.
-dwBufferCount : [int] The number of WSABUF structures in the lpBuffers array.
-lpNumberOfBytesRecvd : [var] A pointer to the number of bytes received by this call if the WSARecvFrom operation completes immediately. Use NULL for this parameter if the lpOverlapped parameter is not NULL to avoid potentially erroneous results. This parameter can be NULL only if the lpOverlapped parameter is not NULL.
-lpFlags : [var] A pointer to flags used to modify the behavior of the WSARecvFrom function call. See remarks below.
-lpFrom : [var] An optional pointer to a buffer that will hold the source address upon the completion of the overlapped operation.
-lpFromlen : [var] A pointer to the size, in bytes, of the "from" buffer required only if lpFrom is specified.
-lpOverlapped : [var] A pointer to a WSAOVERLAPPED structure (ignored for nonoverlapped sockets).
-lpCompletionRoutine : [int] Type: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) A pointer to the completion routine called when the WSARecvFrom operation has been completed (ignored for nonoverlapped sockets).
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+lpBuffers : [var] WSABUF \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe WSABUF \‘¢‘Ì‚Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Æ‚»‚Ì’·‚³‚ğŠÜ‚ŞB
+dwBufferCount : [int] lpBuffers ”z—ñ“à‚Ì WSABUF \‘¢‘Ì‚Ì”B
+lpNumberOfBytesRecvd : [var] WSARecvFrom ‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡‚ÉA‚±‚ÌŒÄ‚Ño‚µ‚ÅóM‚µ‚½ƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡AŒë‚Á‚½Œ‹‰Ê‚ğ”ğ‚¯‚é‚½‚ß‚É–{ˆø”‚ğ NULL ‚É‚·‚éB–{ˆø”‚ğ NULL ‚É‚Å‚«‚é‚Ì‚Í lpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡‚Ì‚İB
+lpFlags : [var] WSARecvFrom ‚Ì“®ì‚ğ•ÏX‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO‚Ö‚Ìƒ|ƒCƒ“ƒ^B‰º‹L‚Ì”õl‚ğQÆB
+lpFrom : [var] ƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ÌŠ®—¹‚É‘—MŒ³ƒAƒhƒŒƒX‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B
+lpFromlen : [var] lpFrom ‚ğw’è‚µ‚½‚Æ‚«‚¾‚¯•K—v‚Æ‚È‚é "from" ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpOverlapped : [var] WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) WSARecvFrom ‘€ì‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B
 %inst
-Receives a datagram and stores the source address.
+ƒf[ƒ^ƒOƒ‰ƒ€‚ğóM‚µA‘—MŒ³ƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 
 [–ß‚è’l]
-If no error occurs and the receive operation has completed
-immediately, WSARecvFrom returns zero. In this case, the completion
-routine will have already been scheduled to be called once the
-calling thread is in the alertable state. Otherwise, a value of
-SOCKET_ERROR is returned, and a specific error code can be retrieved
-by calling WSAGetLastError. The error code WSA_IO_PENDING indicates
-that the overlapped operation has been successfully initiated and
-that completion will be indicated at a later time. Any other error
-code indicates that the overlapped operation was not successfully
-initiated and no completion indication will occur.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚­óM‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡AWSARecvFrom
+‚Íƒ[ƒ‚ğ•Ô‚·B‚±‚Ìê‡AŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ªƒAƒ‰[ƒg‰Â”\ó‘Ô‚É‚È‚Á‚½“_‚ÅŠ®—¹ƒ‹[ƒ`ƒ“‚ªŒÄ‚Ño‚³‚ê‚é‚æ‚¤ƒXƒPƒWƒ…[ƒ‹Ï‚İ‚Æ‚È‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í
+SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBWSA_IO_PENDING
+ƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚êAŠ®—¹‚ªŒã‚Å’Ê’m‚³‚ê‚é‚±‚Æ‚ğ¦‚·B‚»‚êˆÈŠO‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚ê‚¸AŠ®—¹’Ê’m‚Í”­¶‚µ‚È‚¢‚±‚Æ‚ğ¦‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSARecvFrom function provides functionality over and above the
-standard recvfrom function in three important areas:
-This doc was truncated.
+WSARecvFrom ŠÖ”‚ÍA•W€‚Ì recvfrom ŠÖ”‚É‘Î‚µ‚ÄŸ‚Ì 3 ‚Â‚Ìd—v‚È—Ìˆæ‚Å‹@”\‚ğ’Ç‰Á‚·‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSARemoveServiceClass
-The WSARemoveServiceClass function permanently removes the service class schema from the registry.
+WSARemoveServiceClass ŠÖ”‚ÍAƒT[ƒrƒXƒNƒ‰ƒX‚ÌƒXƒL[ƒ}‚ğƒŒƒWƒXƒgƒŠ‚©‚ç‰i‹v‚Éíœ‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpServiceClassId
-lpServiceClassId : [var] Pointer to the GUID for the service class you want to remove.
+lpServiceClassId : [var] íœ‚µ‚½‚¢ƒT[ƒrƒXƒNƒ‰ƒX‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSARemoveServiceClass function permanently removes the service
-class schema from the registry.
+WSARemoveServiceClass ŠÖ”‚ÍAƒT[ƒrƒXƒNƒ‰ƒX‚ÌƒXƒL[ƒ}‚ğƒŒƒWƒXƒgƒŠ‚©‚ç‰i‹v‚Éíœ‚·‚éB
 
 [–ß‚è’l]
-The return value is zero if the operation was successful. Otherwise,
-the value SOCKET_ERROR is returned, and a specific error number can
-be retrieved by calling WSAGetLastError.
-This doc was truncated.
+‘€ì‚ª¬Œ÷‚µ‚½ê‡‚Ì–ß‚è’l‚Íƒ[ƒB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSAResetEvent
-The WSAResetEvent function resets the state of the specified event object to nonsignaled.
+WSAResetEvent ŠÖ”‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ”ñƒVƒOƒiƒ‹ó‘Ô‚ÉƒŠƒZƒbƒg‚·‚éB
 %group
 Win32 ws2_32
 %prm
 hEvent
-hEvent : [intptr] A handle that identifies an open event object handle.
+hEvent : [intptr] ŠJ‚¢‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹B
 %inst
-The WSAResetEvent function resets the state of the specified event
-object to nonsignaled.
+WSAResetEvent ŠÖ”‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ”ñƒVƒOƒiƒ‹ó‘Ô‚ÉƒŠƒZƒbƒg‚·‚éB
 
 [–ß‚è’l]
-If the WSAResetEvent function succeeds, the return value is TRUE. If
-the function fails, the return value is FALSE. To get extended error
-information, call WSAGetLastError.
-This doc was truncated.
+WSAResetEvent ŠÖ”‚ª¬Œ÷‚·‚é‚Æ–ß‚è’l‚Í TRUE ‚Å‚ ‚éB¸”s‚·‚é‚Æ FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+WSAGetLastError ‚ğŒÄ‚Ño‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSAResetEvent function is used to set the state of the event
-object to nonsignaled. The proper way to reset the state of an event
-object used with the WSAEventSelect function is to pass the handle of
-the event object to the WSAEnumNetworkEvents function in the
-hEventObject parameter. This will reset the event object and adjust
-the status of active FD events on the socket in an atomic fashion.
-Windows Phone 8: This function is supported for Windows Phone Store
-apps on Windows Phone 8 and later. Windows 8.1 and Windows Server
-2012 R2: This function is supported for Windows Store apps on Windows
-8.1, Windows Server 2012 R2, and later.
+WSAResetEvent ŠÖ”‚ÍAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ”ñƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éBWSAEventSelect
+‚Æ‹¤‚Ég‚í‚ê‚éƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğƒŠƒZƒbƒg‚·‚é“KØ‚È•û–@‚ÍAWSAEnumNetworkEvents ŠÖ”‚Ì
+hEventObject ˆø”‚É‚»‚Ìƒnƒ“ƒhƒ‹‚ğ“n‚·‚±‚Æ‚Å‚ ‚éB‚±‚ê‚É‚æ‚èƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌƒŠƒZƒbƒg‚Æƒ\ƒPƒbƒgã‚ÌƒAƒNƒeƒBƒu‚È FD
+ƒCƒxƒ“ƒgó‘Ô‚Ì’²®‚ªƒAƒgƒ~ƒbƒN‚És‚í‚ê‚éBWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì
+Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows Server 2012 R2:
+‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSASend
-Sends data on a connected socket. (WSASend)
+Ú‘±Ï‚İƒ\ƒPƒbƒg‚Åƒf[ƒ^‚ğ‘—M‚·‚éB(WSASend)
 %group
 Win32 ws2_32
 %prm
 s, lpBuffers, dwBufferCount, lpNumberOfBytesSent, dwFlags, lpOverlapped, lpCompletionRoutine
-s : [int] A descriptor that identifies a connected socket.
-lpBuffers : [var] A pointer to an array of WSABUF structures. Each WSABUF structure contains a pointer to a buffer and the length, in bytes, of the buffer. For a Winsock application, once the WSASend function is called, the system owns these buffers and the application may not access them. This array must remain valid for the duration of the send operation.
-dwBufferCount : [int] The number of WSABUF structures in the lpBuffers array.
-lpNumberOfBytesSent : [var] A pointer to the number, in bytes, sent by this call if the I/O operation completes immediately. Use NULL for this parameter if the lpOverlapped parameter is not NULL to avoid potentially erroneous results. This parameter can be NULL only  if the lpOverlapped parameter is not NULL.
-dwFlags : [int] The flags used to modify the behavior of the WSASend function call. For more information, see Using dwFlags in the Remarks section.
-lpOverlapped : [var] A pointer to a WSAOVERLAPPED structure. This parameter is ignored for nonoverlapped sockets.
-lpCompletionRoutine : [int] Type: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) A pointer to the completion routine called when the send operation has been completed. This parameter is ignored for nonoverlapped sockets.
+s : [int] Ú‘±Ï‚İƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+lpBuffers : [var] WSABUF \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe WSABUF \‘¢‘Ì‚Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Æ‚»‚ÌƒoƒCƒg’·‚ğŠÜ‚ŞBWinsock ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍAWSASend ŒÄ‚Ño‚µŒã‚Í‚±‚ê‚çƒoƒbƒtƒ@‚ÌŠ—LŒ ‚ÍƒVƒXƒeƒ€‚É‚ ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒAƒNƒZƒX‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚Ì”z—ñ‚Í‘—M‘€ì‚ÌŠÔ—LŒø‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwBufferCount : [int] lpBuffers ”z—ñ“à‚Ì WSABUF \‘¢‘Ì‚Ì”B
+lpNumberOfBytesSent : [var] I/O ‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡‚É‚±‚ÌŒÄ‚Ño‚µ‚Å‘—M‚µ‚½ƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡AŒë‚Á‚½Œ‹‰Ê‚ğ”ğ‚¯‚é‚½‚ß‚É–{ˆø”‚ğ NULL ‚É‚·‚éB–{ˆø”‚ğ NULL ‚É‚Å‚«‚é‚Ì‚Í lpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡‚Ì‚İB
+dwFlags : [int] WSASend ‚Ì“®ì‚ğ•ÏX‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOBÚ×‚Í”õl‚ÌuUsing dwFlagsv‚ğQÆB
+lpOverlapped : [var] WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚éB
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) ‘—M‘€ì‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^B”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚éB
 %inst
-Sends data on a connected socket. (WSASend)
+Ú‘±Ï‚İƒ\ƒPƒbƒg‚Åƒf[ƒ^‚ğ‘—M‚·‚éB(WSASend)
 
 [–ß‚è’l]
-If no error occurs and the send operation has completed immediately,
-WSASend returns zero. In this case, the completion routine will have
-already been scheduled to be called once the calling thread is in the
-alertable state. Otherwise, a value of SOCKET_ERROR is returned, and
-a specific error code can be retrieved by calling WSAGetLastError.
-The error code WSA_IO_PENDING indicates that the overlapped operation
-has been successfully initiated and that completion will be indicated
-at a later time. Any other error code indicates that the overlapped
-operation was not successfully initiated and no completion indication
-will occur.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚­‘—M‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡AWSASend
+‚Íƒ[ƒ‚ğ•Ô‚·B‚±‚Ìê‡AŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ªƒAƒ‰[ƒg‰Â”\ó‘Ô‚É‚È‚Á‚½“_‚ÅŠ®—¹ƒ‹[ƒ`ƒ“‚ªŒÄ‚Ño‚³‚ê‚é‚æ‚¤ƒXƒPƒWƒ…[ƒ‹Ï‚İ‚Æ‚È‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í
+SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBWSA_IO_PENDING
+ƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚êAŠ®—¹‚ªŒã‚Å’Ê’m‚³‚ê‚é‚±‚Æ‚ğ¦‚·B‚»‚êˆÈŠO‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚ê‚¸AŠ®—¹’Ê’m‚Í”­¶‚µ‚È‚¢‚±‚Æ‚ğ¦‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASend function provides functionality over and above the
-standard send function in two important areas:
-This doc was truncated.
+WSASend ŠÖ”‚ÍA•W€‚Ì send ŠÖ”‚É‘Î‚µ‚ÄŸ‚Ì 2 ‚Â‚Ìd—v‚È—Ìˆæ‚Å‹@”\‚ğ’Ç‰Á‚·‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSASendDisconnect
-The WSASendDisconnect function initiates termination of the connection for the socket and sends disconnect data.
+WSASendDisconnect ŠÖ”‚ÍAƒ\ƒPƒbƒg‚ÌÚ‘±I—¹‚ğŠJn‚µØ’fƒf[ƒ^‚ğ‘—M‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, lpOutboundDisconnectData
-s : [int] Descriptor identifying a socket.
-lpOutboundDisconnectData : [var] A pointer to the outgoing disconnect data.
+s : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+lpOutboundDisconnectData : [var] ‘—M‚·‚éØ’fƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSASendDisconnect function initiates termination of the
-connection for the socket and sends disconnect data.
+WSASendDisconnect ŠÖ”‚ÍAƒ\ƒPƒbƒg‚ÌÚ‘±I—¹‚ğŠJn‚µØ’fƒf[ƒ^‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, WSASendDisconnect returns zero. Otherwise, a
-value of SOCKET_ERROR is returned, and a specific error code can be
-retrieved by calling WSAGetLastError.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSASendDisconnect ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ª•Ô‚³‚êAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASendDisconnect function is used on connection-oriented sockets
-to disable transmission and to initiate termination of the connection
-along with the transmission of disconnect data, if any. This is
-equivalent to a shutdown (SD_SEND), except that WSASendDisconnect
-also allows sending disconnect data (in protocols that support it).
-After this function has been successfully issued, subsequent sends
-are disallowed. The lpOutboundDisconnectData parameter, if not NULL,
-points to a buffer containing the outgoing disconnect data to be sent
-to the remote party for retrieval by using WSARecvDisconnect. Note
-The native implementation of TCP/IP on Windows does not support
-disconnect data. Disconnect data is only supported with Windows
-Sockets providers that have the XP1_DISCONNECT_DATA flag in their
-WSAPROTOCOL_INFO structure. Use the WSAEnumProtocols function to
-obtain WSAPROTOCOL_INFO structures for all installed providers. The
-WSASendDisconnect function does not close the socket, and resources
-attached to the socket will not be freed until closesocket is
-invoked. The WSASendDisconnect function does not block regardless of
-the SO_LINGER setting on the socket. An application should not rely
-on being able to reuse a socket after calling WSASendDisconnect. In
-particular, a Windows Sockets provider is not required to support the
-use of connect/WSAConnect on such a socket. Note When issuing a
-blocking Winsock call such as WSASendDisconnect, Winsock may need to
-wait for a network event before the call can complete. Winsock
-performs an alertable wait in this situation, which can be
-interrupted by an asynchronous procedure call (APC) scheduled on the
-same thread. Issuing another blocking Winsock call inside an APC that
-interrupted an ongoing blocking Winsock call on the same thread will
-lead to undefined behavior, and must never be attempted by Winsock
-clients.
+WSASendDisconnect ŠÖ”‚ÍƒRƒlƒNƒVƒ‡ƒ“wŒüƒ\ƒPƒbƒg‚Åg—p‚³‚êA‘—M‚ğ–³Œø‰»‚·‚é‚Æ‚Æ‚à‚ÉAØ’fƒf[ƒ^ (‘¶İ‚·‚éê‡)
+‚Ì‘—M‚àŠÜ‚ß‚ÄÚ‘±I—¹‚ğŠJn‚·‚éB‚±‚ê‚Í shutdown (SD_SEND)
+‚Æ“™‰¿‚¾‚ªAƒvƒƒgƒRƒ‹‚ª‘Î‰‚µ‚Ä‚¢‚ê‚ÎØ’fƒf[ƒ^‚Ì‘—M‚à‚Å‚«‚é“_‚ªˆÙ‚È‚éB‚±‚ÌŠÖ”‚ª³í‚É”­s‚³‚ê‚½Œã‚ÍAˆÈ~‚Ì‘—M‚Í•s‹–‰Â‚Æ‚È‚éBlpOutboundDisconnectData
+‚ª NULL ‚Å‚È‚¯‚ê‚ÎAWSARecvDisconnect ‚Åæ“¾‚³‚ê‚éƒŠƒ‚[ƒg‚Ö‚ÌØ’fƒf[ƒ^‚ğŠÜ‚Şƒoƒbƒtƒ@‚ğw‚·B’: Windows
+‚ÌƒlƒCƒeƒBƒu TCP/IP À‘•‚ÍØ’fƒf[ƒ^‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢BØ’fƒf[ƒ^‚ÍAWSAPROTOCOL_INFO \‘¢‘Ì‚Å
+XP1_DISCONNECT_DATA ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚é Winsock ƒvƒƒoƒCƒ_‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éBƒCƒ“ƒXƒg[ƒ‹Ï‚İƒvƒƒoƒCƒ_‚Ì
+WSAPROTOCOL_INFO \‘¢‘Ì‚ğæ“¾‚·‚é‚É‚Í WSAEnumProtocols ‚ğg‚¤BWSASendDisconnect
+‚Íƒ\ƒPƒbƒg‚ğ•Â‚¶‚È‚¢‚Ì‚ÅAclosesocket ‚ªŒÄ‚Î‚ê‚é‚Ü‚Åƒ\ƒPƒbƒg‚É•R•t‚­ƒŠƒ\[ƒX‚Í‰ğ•ú‚³‚ê‚È‚¢BWSASendDisconnect
+‚Íƒ\ƒPƒbƒg‚Ì SO_LINGER İ’è‚ÉŠÖŒW‚È‚­ƒuƒƒbƒN‚µ‚È‚¢BWSASendDisconnect
+Œã‚É“¯‚¶ƒ\ƒPƒbƒg‚ğÄ—˜—p‚Å‚«‚é‚ÆŠú‘Ò‚·‚×‚«‚Å‚Í‚È‚¢B“Á‚ÉAWinsock ƒvƒƒoƒCƒ_‚ª‚»‚Ì‚æ‚¤‚Èƒ\ƒPƒbƒg‚É‘Î‚·‚é
+connect/WSAConnect ‚Ìg—p‚ğ•ÛØ‚·‚é•K—v‚Í‚È‚¢B’: WSASendDisconnect ‚Ì‚æ‚¤‚ÈƒuƒƒbƒLƒ“ƒO
+Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚ÆAWinsock
+‚Íƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚Ì”­¶‚ğ‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚éê‡‚ª‚ ‚éB‚±‚Ì‘Ò‹@‚ÍƒAƒ‰[ƒg‰Â”\‚È‘Ò‹@‚ÅA“¯‚¶ƒXƒŒƒbƒh‚ÉƒXƒPƒWƒ…[ƒ‹‚³‚ê‚½
+APC ‚É‚æ‚Á‚Ä’†’f‚³‚ê“¾‚éB’†’f’†‚Ì APC “à‚©‚ç‚³‚ç‚ÉƒuƒƒbƒLƒ“ƒO Winsock
+ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚Æ–¢’è‹`“®ì‚Æ‚È‚é‚½‚ßAWinsock ƒNƒ‰ƒCƒAƒ“ƒg‚ÍŒˆ‚µ‚Ä‚»‚ê‚ğs‚Á‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 WSASendMsg
-Sends data and optional control information from connected and unconnected sockets. Note??This function is a Microsoft-specific extension to the Windows Sockets specification.?.
+Ú‘±Ï‚İ/”ñÚ‘±‚Ìƒ\ƒPƒbƒg‚©‚çƒf[ƒ^‚ÆƒIƒvƒVƒ‡ƒ“‚Ì§Œäî•ñ‚ğ‘—M‚·‚éB’: ‚±‚ÌŠÖ”‚Í Winsock d—l‚É‘Î‚·‚é Microsoft “Æ©‚ÌŠg’£‚Å‚ ‚éB
 %group
 Win32 ws2_32
 %prm
 Handle, lpMsg, dwFlags, lpNumberOfBytesSent, lpOverlapped, lpCompletionRoutine
-Handle : [int] A descriptor identifying the  socket.
-lpMsg : [var] A WSAMSG structure storing the Posix.1g msghdr structure.
-dwFlags : [int] The flags used to modify the behavior of the WSASendMsg function call. For more information, see Using dwFlags in the Remarks section.
-lpNumberOfBytesSent : [var] A pointer to the number, in bytes, sent by this call if the I/O operation completes immediately. Use NULL for this parameter if the lpOverlapped parameter is not NULL to avoid potentially erroneous results. This parameter can be NULL only  if the lpOverlapped parameter is not NULL.
-lpOverlapped : [var] A pointer to a WSAOVERLAPPED structure. Ignored for non-overlapped sockets.
-lpCompletionRoutine : [int] Type: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) A pointer to the completion routine called when the send operation completes. Ignored for non-overlapped sockets.
+Handle : [int] ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+lpMsg : [var] Posix.1g msghdr \‘¢‘Ì‚ğŠi”[‚·‚é WSAMSG \‘¢‘ÌB
+dwFlags : [int] WSASendMsg ‚Ì“®ì‚ğ•ÏX‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOBÚ×‚Í”õl‚ÌuUsing dwFlagsv‚ğQÆB
+lpNumberOfBytesSent : [var] I/O ‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡‚É‚±‚ÌŒÄ‚Ño‚µ‚Å‘—M‚µ‚½ƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡AŒë‚Á‚½Œ‹‰Ê‚ğ”ğ‚¯‚é‚½‚ß‚É–{ˆø”‚ğ NULL ‚É‚·‚éB–{ˆø”‚ğ NULL ‚É‚Å‚«‚é‚Ì‚Í lpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡‚Ì‚İB
+lpOverlapped : [var] WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚éB
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) ‘—M‘€ì‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^B”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚éB
 %inst
-Sends data and optional control information from connected and
-unconnected sockets. Note This function is a Microsoft-specific
-extension to the Windows Sockets specification. .
+Ú‘±Ï‚İ/”ñÚ‘±‚Ìƒ\ƒPƒbƒg‚©‚çƒf[ƒ^‚ÆƒIƒvƒVƒ‡ƒ“‚Ì§Œäî•ñ‚ğ‘—M‚·‚éB’: ‚±‚ÌŠÖ”‚Í Winsock d—l‚É‘Î‚·‚é Microsoft
+“Æ©‚ÌŠg’£‚Å‚ ‚éB
 
 [–ß‚è’l]
-Returns zero when successful and immediate completion occurs. When
-zero is returned, the specified completion routine is called when the
-calling thread is in the alertable state. A return value of
-SOCKET_ERROR, and subsequent call to WSAGetLastError that returns
-WSA_IO_PENDING, indicates the overlapped operation has successfully
-initiated; completion is then indicated through other means, such as
-through events or completion ports. Upon failure, returns
-SOCKET_ERROR and a subsequent call to WSAGetLastError returns a value
-other than WSA_IO_PENDING. The following table lists error codes.
-This doc was truncated.
+
+¬Œ÷‚©‚Â‘¦Š®—¹‚Ìê‡‚Íƒ[ƒ‚ğ•Ô‚·Bƒ[ƒ‚ª•Ô‚Á‚½ê‡AŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªƒAƒ‰[ƒg‰Â”\ó‘Ô‚É‚È‚Á‚½“_‚Åw’è‚³‚ê‚½Š®—¹ƒ‹[ƒ`ƒ“‚ªŒÄ‚Ño‚³‚ê‚éBSOCKET_ERROR
+‚ª•Ô‚èA‘±‚­ WSAGetLastError ‚ª WSA_IO_PENDING
+‚ğ•Ô‚·ê‡‚ÍAƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚ê‚½‚±‚Æ‚ğ¦‚µAŠ®—¹‚ÍƒCƒxƒ“ƒg‚âŠ®—¹ƒ|[ƒg‚È‚Ç‘¼‚Ìè’i‚Å’Ê’m‚³‚ê‚éB¸”s‚Í
+SOCKET_ERROR ‚ª•Ô‚èAWSAGetLastError ‚Í WSA_IO_PENDING
+ˆÈŠO‚Ì’l‚ğ•Ô‚·BŸ‚Ì•\‚ÍƒGƒ‰[ƒR[ƒh‚Ìˆê——‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASendMsg function can be used in place of the WSASend and
-WSASendTo functions. The WSASendMsg function can only be used with
-datagrams and raw sockets. The socket descriptor in the s parameter
-must be opened with the socket type set to SOCK_DGRAM or SOCK_RAW.
-The dwFlags parameter can only contain a combination of the following
-control flags: MSG_DONTROUTE, MSG_PARTIAL, and MSG_OOB. The dwFlags
-member of the WSAMSG structure pointed to by the lpMsg parameter is
-ignored on input and not used on output.
-Note The function pointer for the WSASendMsg function must be
-obtained at run time by making a call to the WSAIoctl function with
-the SIO_GET_EXTENSION_FUNCTION_POINTER opcode specified. The input
-buffer passed to the WSAIoctl function must contain WSAID_WSASENDMSG,
-a globally unique identifier (GUID) whose value identifies the
-WSASendMsg extension function. On success, the output returned by the
-WSAIoctl function contains a pointer to the WSASendMsg function. The
-WSAID_WSASENDMSG GUID is defined in the Mswsock.h header file.
-Overlapped sockets are created with a WSASocket function call that
-has the WSA_FLAG_OVERLAPPED flag set. For overlapped sockets, sending
-information uses overlapped I/O unless both lpOverlapped and
-lpCompletionRoutine are NULL; when lpOverlapped and
-lpCompletionRoutine are NULL, the socket is treated as a
-nonoverlapped socket. A completion indication occurs with overlapped
-sockets; once the buffer or buffers have been consumed by the
-transport, a completion routine is triggered or an event object is
-set. If the operation does not complete immediately, the final
-completion status is retrieved through the completion routine or by
-calling the WSAGetOverlappedResult function. For nonoverlapped
-sockets, the lpOverlapped and lpCompletionRoutine parameters are
-ignored and WSASendMsg adopts the same blocking semantics as the send
-function: data is copied from the buffer or buffers into the
-transport's buffer. If the socket is nonblocking and stream oriented,
-and there is insufficient space in the transport's buffer, WSASendMsg
-returns with only part of the application's buffers having been
-consumed. In contrast, this buffer situation on a blocking socket
-results in WSASendMsg blocking until all of the application's buffer
-contents have been consumed.
-If this function is completed in an overlapped manner, it is the
-Winsock service provider's responsibility to capture this WSABUF
-structure before returning from this call. This enables applications
-to build stack-based WSABUF arrays pointed to by the lpBuffers member
-of the WSAMSG structure pointed to by the lpMsg parameter. For
-message-oriented sockets, care must be taken not to exceed the
-maximum message size of the underlying provider, which can be
-obtained by getting the value of socket option SO_MAX_MSG_SIZE. If
-the data is too long to pass atomically through the underlying
-protocol, the error WSAEMSGSIZE is returned and no data is
-transmitted.
-On an IPv4 socket of type SOCK_DGRAM or SOCK_RAW, an application can
-specific the local IP source address to use for sending with the
-WSASendMsg function. One of the control data objects passed in the
-WSAMSG structure to the WSASendMsg function may contain an in_pktinfo
-structure used to specify the local IPv4 source address to use for
-sending. On an IPv6 socket of type SOCK_DGRAM or SOCK_RAW, an
-application can specific the local IP source address to use for
-sending with the WSASendMsg function. One of the control data objects
-passed in the WSAMSG structure to the WSASendMsg function may contain
-an in6_pktinfo structure used to specify the local IPv6 source
-address to use for sending. For a dual-stack socket when sending
-datagrams with the WSASendMsg function and an application wants to
-specify a specific local IP source address to be used, the method to
-handle this depends on the destination IP address. When sending to an
-IPv4 destination address or an IPv4-mapped IPv6 destination address,
-one of the control data objects passed in the WSAMSG structure
-pointed to by the lpMsg parameter should contain an in_pktinfo
-structure containing the local IPv4 source address to use for
-sending. When sending to an IPv6 destination address that is not a an
-IPv4-mapped IPv6 address, one of the control data objects passed in
-the WSAMSG structure pointed to by the lpMsg parameter should contain
-an in6_pktinfo structure containing the local IPv6 source address to
-use for sending. Note The SO_SNDTIMEO socket option applies only to
-blocking sockets. Note The successful completion of a WSASendMsg does
-not indicate that the data was successfully delivered. Note When
-issuing a blocking Winsock call such as WSASendMsg with the
-lpOverlapped parameter set to NULL, Winsock may need to wait for a
-network event before the call can complete. Winsock performs an
-alertable wait in this situation, which can be interrupted by an
-asynchronous procedure call (APC) scheduled on the same thread.
-Issuing another blocking Winsock call inside an APC that interrupted
-an ongoing blocking Winsock call on the same thread will lead to
-undefined behavior, and must never be attempted by Winsock clients.
-dwFlags
-This doc was truncated.
+WSASendMsg ŠÖ”‚Í WSASend ‚¨‚æ‚Ñ WSASendTo ‚Ì‘ã‚í‚è‚Ég‚¤‚±‚Æ‚ª‚Å‚«‚éBWSASendMsg
+‚Íƒf[ƒ^ƒOƒ‰ƒ€‚¨‚æ‚Ñ raw ƒ\ƒPƒbƒg‚Å‚Ì‚İg‚¦‚éBs ˆø”‚Ìƒ\ƒPƒbƒg‹Lqq‚ÍAƒ\ƒPƒbƒgí•Ê‚ğ SOCK_DGRAM ‚Ü‚½‚Í
+SOCK_RAW ‚Æ‚µ‚ÄŠJ‚¢‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BdwFlags ˆø”‚É‚ÍŸ‚Ì§Œäƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹‚Ì‚İw’è‚Å‚«‚é:
+MSG_DONTROUTEAMSG_PARTIALAMSG_OOBBlpMsg ‚ªw‚· WSAMSG \‘¢‘Ì‚Ì dwFlags
+ƒƒ“ƒo‚Í“ü—Í‚É–³‹‚³‚êo—Í‚Å‚Íg‚í‚ê‚È‚¢B
+’: WSASendMsg ‚ÌŠÖ”ƒ|ƒCƒ“ƒ^‚ÍAWSAIoctl ŠÖ”‚É
+SIO_GET_EXTENSION_FUNCTION_POINTER ƒIƒyƒR[ƒh‚ğw’è‚µ‚ÄÀs‚Éæ“¾‚·‚é•K—v‚ª‚ ‚éBWSAIoctl
+‚É“n‚·“ü—Íƒoƒbƒtƒ@‚É‚ÍAWSASendMsg Šg’£ŠÖ”‚ğ¯•Ê‚·‚é GUID WSAID_WSASENDMSG ‚ğ“ü‚ê‚éB¬Œ÷‚·‚ê‚Î
+WSAIoctl ‚Ìo—Í‚É WSASendMsg ‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éBWSAID_WSASENDMSG GUID ‚Í
+Mswsock.h ‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+ƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Í WSA_FLAG_OVERLAPPED •t‚«‚Å WSASocket
+‚ğŒÄ‚Ô‚±‚Æ‚Åì¬‚³‚ê‚éBƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í lpOverlapped ‚Æ lpCompletionRoutine ‚Ì—¼•û‚ª
+NULL ‚Å‚È‚¢ŒÀ‚èƒI[ƒo[ƒ‰ƒbƒv I/O ‚Å‘—M‚ªs‚í‚ê‚éB—¼•û‚ª NULL
+‚Ìê‡‚Í”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Æ‚µ‚Äˆµ‚¤BƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚ÍAƒoƒbƒtƒ@‚ª“]‘—‚ÉÁ”ï‚³‚ê‚½“_‚ÅŠ®—¹ƒ‹[ƒ`ƒ“‚ªŒÄ‚Î‚ê‚é‚©ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒZƒbƒg‚³‚ê‚éB‘€ì‚ª‘¦Š®—¹‚µ‚È‚¢ê‡AÅI“I‚ÈŠ®—¹ó‘Ô‚ÍŠ®—¹ƒ‹[ƒ`ƒ“‚Ü‚½‚Í
+WSAGetOverlappedResult ‚Åæ“¾‚·‚éB”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í lpOverlapped ‚Æ
+lpCompletionRoutine ‚Í–³‹‚³‚êAWSASendMsg ‚Í send
+‚Æ“¯‚¶ƒuƒƒbƒLƒ“ƒOƒZƒ}ƒ“ƒeƒBƒNƒX‚ğ‚ÂB‚·‚È‚í‚¿ƒf[ƒ^‚Íƒoƒbƒtƒ@‚©‚çƒgƒ‰ƒ“ƒXƒ|[ƒg‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚³‚ê‚éBƒ\ƒPƒbƒg‚ª”ñƒuƒƒbƒLƒ“ƒO‚©‚ÂƒXƒgƒŠ[ƒ€wŒü‚ÅAƒgƒ‰ƒ“ƒXƒ|[ƒg‚Ìƒoƒbƒtƒ@—e—Ê‚ª•s‘«‚µ‚Ä‚¢‚éê‡AWSASendMsg
+‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒoƒbƒtƒ@‚Ìˆê•”‚Ì‚İÁ”ï‚µ‚Ä–ß‚éBˆê•ûAƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚Å‚Í‘Sƒoƒbƒtƒ@‚ªÁ”ï‚³‚ê‚é‚Ü‚Å WSASendMsg
+‚ÍƒuƒƒbƒN‚·‚éB
+‚±‚ÌŠÖ”‚ªƒI[ƒo[ƒ‰ƒbƒv•û®‚ÅŠ®—¹‚·‚éê‡AWinsock ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÍŒÄ‚Ño‚µ‚©‚ç–ß‚é‘O‚É WSABUF
+\‘¢‘Ì‚ğæ‚è‚ŞÓ”C‚ª‚ ‚éB‚±‚ê‚É‚æ‚èƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í lpMsg ‚ªw‚· WSAMSG ‚Ì lpBuffers ‚ÉƒXƒ^ƒbƒNã‚Ì
+WSABUF ”z—ñ‚ğw‚·‚±‚Æ‚à‚Å‚«‚éBƒƒbƒZ[ƒWwŒüƒ\ƒPƒbƒg‚Å‚ÍA‰ºˆÊƒvƒƒoƒCƒ_‚ÌÅ‘åƒƒbƒZ[ƒWƒTƒCƒY (SO_MAX_MSG_SIZE
+ƒ\ƒPƒbƒgƒIƒvƒVƒ‡ƒ“‚Åæ“¾‰Â”\)
+‚ğ’´‚¦‚È‚¢‚æ‚¤’ˆÓ‚·‚é•K—v‚ª‚ ‚éBƒf[ƒ^‚ª‰ºˆÊƒvƒƒgƒRƒ‹‚ÅƒAƒgƒ~ƒbƒN‚É‘—M‚·‚é‚É‚Í’·‚·‚¬‚éê‡AWSAEMSGSIZE
+ƒGƒ‰[‚ª•Ô‚è‰½‚à‘—M‚³‚ê‚È‚¢B
+IPv4 ‚Ì SOCK_DGRAM ‚Ü‚½‚Í SOCK_RAW ƒ\ƒPƒbƒg‚Å‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í WSAMSG ‚Ì§Œäƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚É
+in_pktinfo \‘¢‘Ì‚ğŠÜ‚ß‚Ä‘—MŒ³ IPv4 ƒAƒhƒŒƒX‚ğw’è‚Å‚«‚éBIPv6 ‚Ì SOCK_DGRAM ‚Ü‚½‚Í SOCK_RAW
+ƒ\ƒPƒbƒg‚Å‚ÍAin6_pktinfo \‘¢‘Ì‚ğŠÜ‚ß‚Ä‘—MŒ³ IPv6 ƒAƒhƒŒƒX‚ğw’è‚Å‚«‚éBƒfƒ…ƒAƒ‹ƒXƒ^ƒbƒNƒ\ƒPƒbƒg‚Å‚ÍAˆ¶æ IP
+‚É‰‚¶‚Ä•û–@‚ªˆÙ‚È‚éBIPv4 ˆ¶æ‚Ü‚½‚Í IPv4 ƒ}ƒbƒv IPv6 ˆ¶æ‚É‘—‚éê‡‚Í in_pktinfo ‚ğAIPv4 ƒ}ƒbƒv‚Å‚È‚¢
+IPv6 ˆ¶æ‚É‘—‚éê‡‚Í in6_pktinfo ‚ğg‚¤B’: SO_SNDTIMEO
+ƒ\ƒPƒbƒgƒIƒvƒVƒ‡ƒ“‚ÍƒuƒƒbƒLƒ“ƒOƒ\ƒPƒbƒg‚É‚Ì‚İ“K—p‚³‚ê‚éB’: WSASendMsg
+‚Ì¬Œ÷Š®—¹‚ÍAƒf[ƒ^‚ª³í‚É”zM‚³‚ê‚½‚±‚Æ‚ğ¦‚·‚à‚Ì‚Å‚Í‚È‚¢B’: lpOverlapped ‚ğ NULL ‚É‚µ‚Ä WSASendMsg
+‚Ì‚æ‚¤‚ÈƒuƒƒbƒLƒ“ƒO Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚ÆAWinsock
+‚Íƒlƒbƒgƒ[ƒNƒCƒxƒ“ƒg‚ğ‘Ò‚Âê‡‚ª‚ ‚éB‚±‚Ì‘Ò‹@‚ÍƒAƒ‰[ƒg‰Â”\‚Å APC ‚Å’†’f‚³‚ê‚¤‚éB’†’f’†‚Ì APC “à‚©‚ç•Ê‚ÌƒuƒƒbƒLƒ“ƒO
+Winsock ŒÄ‚Ño‚µ‚ğ”­s‚·‚é‚Æ–¢’è‹`“®ì‚Æ‚È‚éBdwFlags
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSASendTo
-Sends data to a specific destination, using overlapped I/O where applicable.
+‰Â”\‚Å‚ ‚ê‚ÎƒI[ƒo[ƒ‰ƒbƒv I/O ‚ğ—p‚¢‚ÄAw’è‚µ‚½ˆ¶æ‚Éƒf[ƒ^‚ğ‘—M‚·‚éB
 %group
 Win32 ws2_32
 %prm
 s, lpBuffers, dwBufferCount, lpNumberOfBytesSent, dwFlags, lpTo, iTolen, lpOverlapped, lpCompletionRoutine
-s : [int] A descriptor identifying a (possibly connected) socket.
-lpBuffers : [var] A pointer to an array of WSABUF structures. Each WSABUF structure contains a pointer to a buffer and the length of the buffer, in bytes. For a Winsock application, once the WSASendTo function is called, the system owns these buffers and the application may not access them. This array must remain valid for the duration of the send operation.
-dwBufferCount : [int] The number of WSABUF structures in the lpBuffers array.
-lpNumberOfBytesSent : [var] A pointer to the number of bytes sent by this call if the I/O operation completes immediately. Use NULL for this parameter if the lpOverlapped parameter is not NULL to avoid potentially erroneous results. This parameter can be NULL only  if the lpOverlapped parameter is not NULL.
-dwFlags : [int] The flags  used to modify the behavior of the WSASendTo function call.
-lpTo : [var] An optional pointer to the address of the target socket in the SOCKADDR structure.
-iTolen : [int] The size, in bytes, of the address in the lpTo parameter.
-lpOverlapped : [var] A pointer to a WSAOVERLAPPED structure (ignored for nonoverlapped sockets).
-lpCompletionRoutine : [int] Type: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) A pointer to the completion routine called when the send operation has been completed (ignored for nonoverlapped sockets).
+s : [int] (Ú‘±Ï‚İ‚Ìê‡‚à‚ ‚é) ƒ\ƒPƒbƒg‚ğ¯•Ê‚·‚é‹LqqB
+lpBuffers : [var] WSABUF \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe WSABUF \‘¢‘Ì‚Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Æ‚»‚ÌƒoƒCƒg’·‚ğŠÜ‚ŞBWinsock ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍAWSASendTo ŒÄ‚Ño‚µŒã‚Í‚±‚ê‚çƒoƒbƒtƒ@‚ÌŠ—LŒ ‚ÍƒVƒXƒeƒ€‚É‚ ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒAƒNƒZƒX‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚Ì”z—ñ‚Í‘—M‘€ì‚ÌŠÔ—LŒø‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwBufferCount : [int] lpBuffers ”z—ñ“à‚Ì WSABUF \‘¢‘Ì‚Ì”B
+lpNumberOfBytesSent : [var] I/O ‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡‚É‚±‚ÌŒÄ‚Ño‚µ‚Å‘—M‚µ‚½ƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡AŒë‚Á‚½Œ‹‰Ê‚ğ”ğ‚¯‚é‚½‚ß‚É–{ˆø”‚ğ NULL ‚É‚·‚éB–{ˆø”‚ğ NULL ‚É‚Å‚«‚é‚Ì‚Í lpOverlapped ‚ª NULL ‚Å‚È‚¢ê‡‚Ì‚İB
+dwFlags : [int] WSASendTo ‚Ì“®ì‚ğ•ÏX‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOB
+lpTo : [var] SOCKADDR \‘¢‘Ì‚Å•\‚³‚ê‚é‘—Mæƒ\ƒPƒbƒg‚ÌƒAƒhƒŒƒX‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B
+iTolen : [int] lpTo ˆø”‚ÌƒAƒhƒŒƒX‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+lpOverlapped : [var] WSAOVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B
+lpCompletionRoutine : [int] Œ^: \_In_opt\_ [**LPWSAOVERLAPPED_COMPLETION_ROUTINE**](./nc-winsock2-lpwsaoverlapped_completion_routine.md) ‘—M‘€ì‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Ño‚³‚ê‚éŠ®—¹ƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^ (”ñƒI[ƒo[ƒ‰ƒbƒvƒ\ƒPƒbƒg‚Å‚Í–³‹‚³‚ê‚é)B
 %inst
-Sends data to a specific destination, using overlapped I/O where
-applicable.
+‰Â”\‚Å‚ ‚ê‚ÎƒI[ƒo[ƒ‰ƒbƒv I/O ‚ğ—p‚¢‚ÄAw’è‚µ‚½ˆ¶æ‚Éƒf[ƒ^‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-If no error occurs and the send operation has completed immediately,
-WSASendTo returns zero. In this case, the completion routine will
-have already been scheduled to be called once the calling thread is
-in the alertable state. Otherwise, a value of SOCKET_ERROR is
-returned, and a specific error code can be retrieved by calling
-WSAGetLastError. The error code WSA_IO_PENDING indicates that the
-overlapped operation has been successfully initiated and that
-completion will be indicated at a later time. Any other error code
-indicates that the overlapped operation was not successfully
-initiated and no completion indication will occur.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚­‘—M‘€ì‚ª‘¦Š®—¹‚µ‚½ê‡AWSASendTo
+‚Íƒ[ƒ‚ğ•Ô‚·B‚±‚Ìê‡AŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ªƒAƒ‰[ƒg‰Â”\ó‘Ô‚É‚È‚Á‚½“_‚ÅŠ®—¹ƒ‹[ƒ`ƒ“‚ªŒÄ‚Ño‚³‚ê‚é‚æ‚¤ƒXƒPƒWƒ…[ƒ‹Ï‚İ‚Æ‚È‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í
+SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBWSA_IO_PENDING
+ƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚êAŠ®—¹‚ªŒã‚Å’Ê’m‚³‚ê‚é‚±‚Æ‚ğ¦‚·B‚»‚êˆÈŠO‚ÌƒGƒ‰[ƒR[ƒh‚ÍƒI[ƒo[ƒ‰ƒbƒv‘€ì‚ª³í‚ÉŠJn‚³‚ê‚¸AŠ®—¹’Ê’m‚Í”­¶‚µ‚È‚¢‚±‚Æ‚ğ¦‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASendTo function provides enhanced features over the standard
-sendto function in two important areas:
-This doc was truncated.
+WSASendTo ŠÖ”‚ÍA•W€‚Ì sendto ŠÖ”‚É‘Î‚µ‚ÄŸ‚Ì 2 ‚Â‚Ìd—v‚È—Ìˆæ‚Å‹@”\‚ğ’Ç‰Á‚·‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSASetBlockingHook
-This function has been removed in compliance with the Windows Sockets 2 specification, revision 2.2.0. (WSASetBlockingHook)
+‚±‚ÌŠÖ”‚Í Windows Sockets 2 d—l revision 2.2.0 ‚É]‚Á‚Äíœ‚³‚ê‚½B(WSASetBlockingHook)
 %group
 Win32 ws2_32
 %prm
 lpBlockFunc
 lpBlockFunc : [var] 
 %inst
-This function has been removed in compliance with the Windows Sockets
-2 specification, revision 2.2.0. (WSASetBlockingHook)
+‚±‚ÌŠÖ”‚Í Windows Sockets 2 d—l revision 2.2.0
+‚É]‚Á‚Äíœ‚³‚ê‚½B(WSASetBlockingHook)
 
 
 %index
 WSASetEvent
-The WSASetEvent function sets the state of the specified event object to signaled.
+WSASetEvent ŠÖ”‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 hEvent
-hEvent : [intptr] Handle that identifies an open event object.
+hEvent : [intptr] ŠJ‚¢‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹B
 %inst
-The WSASetEvent function sets the state of the specified event object
-to signaled.
+WSASetEvent ŠÖ”‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call WSAGetLastError.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚·‚é‚Æ–ß‚è’l‚Í TRUE ‚Å‚ ‚éB¸”s‚·‚é‚Æ FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í WSAGetLastError
+‚ğŒÄ‚Ño‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASetEvent function sets the state of the event object to be
-signaled. Windows Phone 8: This function is supported for Windows
-Phone Store apps on Windows Phone 8 and later. Windows 8.1 and
-Windows Server 2012 R2: This function is supported for Windows Store
-apps on Windows 8.1, Windows Server 2012 R2, and later.
+WSASetEvent ŠÖ”‚ÍAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éBWindows Phone 8: ‚±‚ÌŠÖ”‚Í
+Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ
+Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì
+Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSASetLastError
-The WSASetLastError function (winsock.h) sets the error code that can be retrieved through the WSAGetLastError function.
+WSASetLastError ŠÖ” (winsock.h) ‚ÍAWSAGetLastError ŠÖ”‚Åæ“¾‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğİ’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 iError
-iError : [int] Integer that specifies the error code to be returned by a subsequent WSAGetLastError call.
+iError : [int] ˆÈ~‚Ì WSAGetLastError ŒÄ‚Ño‚µ‚ª•Ô‚·ƒGƒ‰[ƒR[ƒh‚ğw’è‚·‚é®”B
 %inst
-The WSASetLastError function (winsock.h) sets the error code that can
-be retrieved through the WSAGetLastError function.
+WSASetLastError ŠÖ” (winsock.h) ‚ÍAWSAGetLastError ŠÖ”‚Åæ“¾‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-This function generates no return values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚É–ß‚è’l‚Í‚È‚¢B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASetLastError function allows an application to set the error
-code to be returned by a subsequent WSAGetLastError call for the
-current thread. Note that any subsequent Windows Sockets routine
-called by the application will override the error code as set by this
-routine. The error code set by WSASetLastError is different from the
-error code reset by calling the function getsockopt with SO_ERROR.
-The Windows Sockets error codes used by this function are listed
-under Windows Sockets Error Codes. Windows Phone 8: This function is
-supported for Windows Phone Store apps on Windows Phone 8 and later.
-Windows 8.1 and Windows Server 2012 R2: This function is supported
-for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and
-later.
+WSASetLastError ŠÖ”‚ÍAŒ»İ‚ÌƒXƒŒƒbƒh‚É‘Î‚µ‚ÄˆÈ~‚Ì WSAGetLastError
+ŒÄ‚Ño‚µ‚ª•Ô‚·ƒGƒ‰[ƒR[ƒh‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çİ’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB’ˆÓ‚Æ‚µ‚ÄAˆÈ~ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŒÄ‚Ño‚·”CˆÓ‚Ì Winsock
+ƒ‹[ƒ`ƒ“‚ÍA‚±‚Ìƒ‹[ƒ`ƒ“‚Åİ’è‚µ‚½ƒGƒ‰[ƒR[ƒh‚ğã‘‚«‚·‚éBWSASetLastError ‚Åİ’è‚·‚éƒGƒ‰[ƒR[ƒh‚ÍAgetsockopt
+‚É SO_ERROR ‚ğw’è‚µ‚ÄƒŠƒZƒbƒg‚·‚éƒGƒ‰[ƒR[ƒh‚Æ‚Í•Ê•¨‚Å‚ ‚éB‚±‚ÌŠÖ”‚Åg‚¤ Windows Sockets ƒGƒ‰[ƒR[ƒh‚Í
+Windows Sockets Error Codes ‚Ì€‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBWindows Phone 8: ‚±‚ÌŠÖ”‚Í Windows
+Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1 ‚¨‚æ‚Ñ Windows
+Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows
+ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 WSASetServiceW
-The WSASetService function registers or removes from the registry a service instance within one or more namespaces. (Unicode)
+WSASetService ŠÖ”‚ÍA1 ‚ÂˆÈã‚Ì–¼‘O‹óŠÔ“à‚ÌƒT[ƒrƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒŒƒWƒXƒgƒŠ‚É“o˜^‚Ü‚½‚Ííœ‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 lpqsRegInfo, essoperation, dwControlFlags
-lpqsRegInfo : [var] A pointer to the service information for registration or deregistration.
-essoperation : [int] A value that determines that operation requested. This parameter can be one of the values from the WSAESETSERVICEOP enumeration type defined in the Winsock2.h header file.
-dwControlFlags : [int] Service install flags value that further controls the operation performed of the WSASetService function. The possible values for this parameter are defined in the Winsock2.h header file.
+lpqsRegInfo : [var] “o˜^‚Ü‚½‚Í“o˜^‰ğœ‚ÌƒT[ƒrƒXî•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+essoperation : [int] —v‹‚·‚é‘€ì‚ğŒˆ‚ß‚é’lBWinsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚½ WSAESETSERVICEOP —ñ‹“Œ^‚Ì’l‚Ì‚¢‚¸‚ê‚©B
+dwControlFlags : [int] WSASetService ŠÖ”‚Ì“®ì‚ğ‚³‚ç‚É§Œä‚·‚éƒT[ƒrƒXƒCƒ“ƒXƒg[ƒ‹ƒtƒ‰ƒO’lBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The WSASetService function registers or removes from the registry a
-service instance within one or more namespaces. (Unicode)
+WSASetService ŠÖ”‚ÍA1 ‚ÂˆÈã‚Ì–¼‘O‹óŠÔ“à‚ÌƒT[ƒrƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒŒƒWƒXƒgƒŠ‚É“o˜^‚Ü‚½‚Ííœ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-The return value for WSASetService is zero if the operation was
-successful. Otherwise, the value SOCKET_ERROR is returned, and a
-specific error number can be retrieved by calling WSAGetLastError.
-This doc was truncated.
+‘€ì‚ª¬Œ÷‚µ‚½ê‡‚Ì–ß‚è’l‚Íƒ[ƒB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASetService function can be used to affect a specific namespace
-provider, all providers associated with a specific namespace, or all
-providers across all namespaces. The available values for
-essOperation and dwControlFlags combine to control operation of the
-WSASetService function as shown in the following table.
-This doc was truncated.
+WSASetService
+ŠÖ”‚ÍA“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_A“Á’è‚Ì–¼‘O‹óŠÔ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‘SƒvƒƒoƒCƒ_A‚Ü‚½‚Í‘S–¼‘O‹óŠÔ‚Ì‘SƒvƒƒoƒCƒ_‚Éì—p‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚éBessOperation
+‚Æ dwControlFlags ‚Ì‘g‚İ‡‚í‚¹‚Å WSASetService ‚Ì“®ì‚ğ§Œä‚·‚é (Ÿ•\QÆ)B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSASocketW
-The WSASocket function creates a socket that is bound to a specific transport-service provider. (Unicode)
+WSASocket ŠÖ”‚ÍA“Á’è‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒ\ƒPƒbƒg‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 ws2_32
 %prm
 af, type, protocol, lpProtocolInfo, g, dwFlags
-af : [int] The address family specification. Possible values for the address family are defined in the Winsock2.h header file. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and the possible values for the address family are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET or AF_INET6, which are the Internet address family formats for IPv4 and IPv6. Other options for address family (AF_NETBIOS for use with NetBIOS, for example) are supported if a Windows Sockets service provider for the address family is installed. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. The table below lists common values for address family although many other values are possible.
-type : [int] The type specification for the new socket.
-protocol : [int] The protocol to be used. The possible options for the protocol parameter are specific to the address family and socket type specified. Possible values for the protocol are defined are defined in the  Winsock2.h and Wsrm.h header files. On the Windows SDK released for Windows?Vista and later,, the organization of header files has changed and this parameter can be one of the values from the IPPROTO enumeration type defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. If a value of  0 is specified, the caller does not wish to specify a protocol and the service provider will choose the protocol to use.
-lpProtocolInfo : [var] A pointer to a WSAPROTOCOL_INFO structure that defines the characteristics of the socket to be created. If this parameter is not NULL, the socket will be bound to the provider associated with the indicated WSAPROTOCOL_INFO structure.
-g : [int] An existing socket group ID or an appropriate action to take when creating a new socket and a new socket group. If g is an existing socket group ID, join the new socket to this socket group, provided all the requirements set by this group are met. If g is not an existing socket group ID, then the following values are possible.
-dwFlags : [int] A set of flags used to specify additional socket attributes. A combination of these flags may be set, although some combinations are not allowed.
+af : [int] ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠw’èB‰Â”\‚È’l‚Í Winsock2.h ‚É’è‹`‚³‚ê‚Ä‚¢‚éBWindows Vista ˆÈ~Œü‚¯ SDK ‚Å‚Íƒwƒbƒ_\¬‚ª•ÏX‚³‚êA‰Â”\‚È’l‚Í Ws2def.h ‚É’è‹`‚³‚ê‚Ä‚¢‚éBWs2def.h ‚Í Winsock2.h ‚É©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ßA’¼Úg‚¤‚×‚«‚Å‚Í‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é’l‚Í AF_INET ‚Ü‚½‚Í AF_INET6 ‚ÅA‚±‚ê‚ç‚Í‚»‚ê‚¼‚ê IPv4 ‚Æ IPv6 ‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠŒ`®‚Å‚ ‚éB‚»‚ÌƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì Winsock ƒT[ƒrƒXƒvƒƒoƒCƒ_‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚ê‚ÎA‘¼‚ÌƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ (NetBIOS —p‚Ì AF_NETBIOS ‚È‚Ç) ‚àƒTƒ|[ƒg‚³‚ê‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Ì’l‚Í“¯ˆê‚È‚Ì‚Å (—á: AF_INET ‚Æ PF_INET)A‚Ç‚¿‚ç‚Ì’è”‚ğg‚Á‚Ä‚à‚æ‚¢BŸ‚Ì•\‚Íˆê”Ê“I‚È’l‚ğ¦‚·‚ªA‘¼‚É‚à‘½‚­‚Ì’l‚ª‘¶İ‚µ‚¤‚éB
+type : [int] V‹Kƒ\ƒPƒbƒg‚Ìí•ÊB
+protocol : [int] g—p‚·‚éƒvƒƒgƒRƒ‹Bw’è‰Â”\‚È’l‚ÍƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Æƒ\ƒPƒbƒgí•Ê‚ÉˆË‘¶‚µAWinsock2.h ‚Æ Wsrm.h ‚É’è‹`‚³‚ê‚Ä‚¢‚éBWindows Vista ˆÈ~Œü‚¯ SDK ‚Å‚Íƒwƒbƒ_\¬‚ª•ÏX‚³‚êAWs2def.h ‚É’è‹`‚³‚ê‚½ IPPROTO —ñ‹“Œ^‚Ì’l‚©‚çw’è‚Å‚«‚éBWs2def.h ‚Í Winsock2.h ‚É©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ßA’¼Úg‚¤‚×‚«‚Å‚Í‚È‚¢B0 ‚ğw’è‚·‚é‚ÆƒvƒƒgƒRƒ‹w’è‚È‚µ‚ğˆÓ–¡‚µAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ªg—p‚·‚éƒvƒƒgƒRƒ‹‚ğ‘I‘ğ‚·‚éB
+lpProtocolInfo : [var] ì¬‚·‚éƒ\ƒPƒbƒg‚Ì“Á«‚ğ’è‹`‚·‚é WSAPROTOCOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚È‚¯‚ê‚ÎAƒ\ƒPƒbƒg‚Íw’è‚³‚ê‚½ WSAPROTOCOL_INFO ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒoƒCƒ_‚ÉƒoƒCƒ“ƒh‚³‚ê‚éB
+g : [int] Šù‘¶‚Ìƒ\ƒPƒbƒgƒOƒ‹[ƒv IDA‚Ü‚½‚ÍV‹Kƒ\ƒPƒbƒg‚ÆV‹Kƒ\ƒPƒbƒgƒOƒ‹[ƒv‚ğì‚é‚Æ‚«‚Ì“KØ‚ÈƒAƒNƒVƒ‡ƒ“Bg ‚ªŠù‘¶‚Ìƒ\ƒPƒbƒgƒOƒ‹[ƒv ID ‚Å‚ ‚ê‚ÎA‚»‚ÌƒOƒ‹[ƒv‚Ì—vŒ‚ğ–‚½‚·ŒÀ‚èV‚µ‚¢ƒ\ƒPƒbƒg‚Í‚»‚Ìƒ\ƒPƒbƒgƒOƒ‹[ƒv‚ÉQ‰Á‚·‚éB‚»‚¤‚Å‚È‚¢ê‡‚ÍŸ‚Ì’l‚ªw’è‚Å‚«‚éB
+dwFlags : [int] ƒ\ƒPƒbƒg‚Ì’Ç‰Á‘®«‚ğw’è‚·‚éƒtƒ‰ƒOW‡B‘g‚İ‡‚í‚¹‰Â”\‚¾‚ªAˆê•”‚Í‹–‰Â‚³‚ê‚È‚¢B
 %inst
-The WSASocket function creates a socket that is bound to a specific
-transport-service provider. (Unicode)
+WSASocket ŠÖ”‚ÍA“Á’è‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒ\ƒPƒbƒg‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If no error occurs, WSASocket returns a descriptor referencing the
-new socket. Otherwise, a value of INVALID_SOCKET is returned, and a
-specific error code can be retrieved by calling WSAGetLastError. Note
-This error code description is Microsoft-specific.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡AWSASocket ‚ÍV‚µ‚¢ƒ\ƒPƒbƒg‚ğQÆ‚·‚é‹Lqq‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í INVALID_SOCKET
+‚ğ•Ô‚µAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB’: ‚±‚ÌƒGƒ‰[ƒR[ƒh‚Ìà–¾‚Í Microsoft
+“Æ©‚Ì‚à‚Ì‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSASocket function causes a socket descriptor and any related
-resources to be allocated and associated with a transport-service
-provider. Most sockets should be created with the WSA_FLAG_OVERLAPPED
-attribute set in the dwFlags parameter. A socket created with this
-attribute supports the use of overlapped I/O operations which provide
-higher performance. By default, a socket created with the WSASocket
-function will not have this overlapped attribute set. In contrast,
-the socket function creates a socket that supports overlapped I/O
-operations as the default behavior. If the lpProtocolInfo parameter
-is NULL, Winsock will utilize the first available transport-service
-provider that supports the requested combination of address family,
-socket type and protocol specified in the af, type, and protocol
-parameters. If the lpProtocolInfo parameter is not NULL, the socket
-will be bound to the provider associated with the indicated
-WSAPROTOCOL_INFO structure. In this instance, the application can
-supply the manifest constant FROM_PROTOCOL_INFO as the value for any
-of af, type, or protocol parameters. This indicates that the
-corresponding values from the indicated WSAPROTOCOL_INFO structure
-(iAddressFamily, iSocketType, iProtocol) are to be assumed. In any
-case, the values specified for af, type, and protocol are passed
-unmodified to the transport-service provider. When selecting a
-protocol and its supporting service provider based on af, type, and
-protocol, this procedure will only choose a base protocol or a
-protocol chain, not a protocol layer by itself. Unchained protocol
-layers are not considered to have partial matches on type or af,
-either. That is, they do not lead to an error code of WSAEAFNOSUPPORT
-or WSAEPROTONOSUPPORT, if no suitable protocol is found. Note The
-manifest constant AF_UNSPEC continues to be defined in the header
-file but its use is strongly discouraged, as this can cause ambiguity
-in interpreting the value of the protocol parameter. Applications are
-encouraged to use AF_INET6 for the af parameter and create a
-dual-mode socket that can be used with both IPv4 and IPv6. If a
-socket is created using the WSASocket function, then the dwFlags
-parameter must have the WSA_FLAG_OVERLAPPED attribute set for the
-SO_RCVTIMEO or SO_SNDTIMEO socket options to function properly.
-Otherwise the timeout never takes effect on the socket.
-Connection-oriented sockets such as SOCK_STREAM provide full-duplex
-connections, and must be in a connected state before any data can be
-sent or received on them. A connection to a specified socket is
-established with a connect or WSAConnect function call. Once
-connected, data can be transferred using send/WSASend and
-recv/WSARecv calls. When a session has been completed, the
-closesocket function should be called to release the resources
-associated with the socket. For connection-oriented sockets, the
-shutdown function should be called to stop data transfer on the
-socket before calling the closesocket function. The communications
-protocols used to implement a reliable, connection-oriented socket
-ensure that data is not lost or duplicated. If data for which the
-peer protocol has buffer space cannot be successfully transmitted
-within a reasonable length of time, the connection is considered
-broken and subsequent calls will fail with the error code set to
-WSAETIMEDOUT. Connectionless, message-oriented sockets allow sending
-and receiving of datagrams to and from arbitrary peers using
-sendto/WSASendTo and recvfrom/WSARecvFrom. If such a socket is
-connected to a specific peer, datagrams can be sent to that peer
-using send/WSASend and can be received from (only) this peer using
-recv/WSARecv. Support for sockets with type SOCK_RAW is not required,
-but service providers are encouraged to support raw sockets whenever
-possible. The WSASocket function can be used to create a socket to be
-used by a service so that if another socket tries to bind to the same
-port used by the service, and audit record is generated. To enable
-this option, an application would need to do the following:
-This doc was truncated.
+WSASocket
+ŠÖ”‚Íƒ\ƒPƒbƒg‹Lqq‚Æ‚»‚ê‚ÉŠÖ˜A‚·‚éƒŠƒ\[ƒX‚ğŠ„‚è“–‚ÄAƒgƒ‰ƒ“ƒXƒ|[ƒgƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÉŠÖ˜A•t‚¯‚éB‚Ù‚Æ‚ñ‚Ç‚Ìƒ\ƒPƒbƒg‚Í dwFlags
+‚É WSA_FLAG_OVERLAPPED ‘®«‚ğw’è‚µ‚Äì¬‚·‚×‚«‚Å‚ ‚éB‚±‚Ì‘®«•t‚«ƒ\ƒPƒbƒg‚Í‚æ‚è‚«”\‚ÈƒI[ƒo[ƒ‰ƒbƒv I/O
+‚ğƒTƒ|[ƒg‚·‚éBWSASocket ‚Åƒ\ƒPƒbƒg‚ğì¬‚·‚éê‡AŠù’è‚Å‚Í‚±‚ÌƒI[ƒo[ƒ‰ƒbƒv‘®«‚Í•t‚©‚È‚¢Bˆê•ûAsocket
+ŠÖ”‚Åì¬‚µ‚½ƒ\ƒPƒbƒg‚ÍŠù’è‚ÅƒI[ƒo[ƒ‰ƒbƒv I/O ‚ğƒTƒ|[ƒg‚·‚éBlpProtocolInfo ‚ª NULL ‚Ìê‡AWinsock
+‚Í afAtypeAprotocol ‚Å—v‹‚³‚ê‚½‘g‚İ‡‚í‚¹‚ğƒTƒ|[ƒg‚·‚éÅ‰‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒT[ƒrƒXƒvƒƒoƒCƒ_‚ğg—p‚·‚éBNULL
+‚Å‚È‚¢ê‡Aƒ\ƒPƒbƒg‚Íw’è‚³‚ê‚½ WSAPROTOCOL_INFO
+‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒoƒCƒ_‚ÉƒoƒCƒ“ƒh‚³‚ê‚éB‚±‚Ìê‡AafAtypeAprotocol ‚Ì‚¢‚¸‚ê‚©‚É FROM_PROTOCOL_INFO
+‚ğw’è‚·‚é‚±‚Æ‚ÅAWSAPROTOCOL_INFO \‘¢‘Ì‚Ì‘Î‰’l
+(iAddressFamilyAiSocketTypeAiProtocol)
+‚ğg‚¤‚±‚Æ‚ğˆÓ–¡‚·‚éB‚¢‚¸‚ê‚É‚¹‚æAafAtypeAprotocol
+‚Éw’è‚µ‚½’l‚Í•ÏX‚³‚ê‚¸‚Éƒgƒ‰ƒ“ƒXƒ|[ƒgƒT[ƒrƒXƒvƒƒoƒCƒ_‚Ö“n‚³‚ê‚éBafAtypeAprotocol
+‚ÉŠî‚Ã‚¢‚ÄƒvƒƒgƒRƒ‹‚ÆƒTƒ|[ƒg‚·‚éƒT[ƒrƒXƒvƒƒoƒCƒ_‚ğ‘I‘ğ‚·‚éÛA‚±‚Ìè‡‚Íƒx[ƒXƒvƒƒgƒRƒ‹‚Ü‚½‚ÍƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚Ì‚İ‚ğ‘I‚ÑAƒvƒƒgƒRƒ‹‘w’P“Æ‚Í‘I‚Î‚È‚¢Bƒ`ƒF[ƒ“‰»‚³‚ê‚Ä‚¢‚È‚¢ƒvƒƒgƒRƒ‹‘w‚Í
+type ‚â af ‚É‚Â‚¢‚Ä•”•ªˆê’v‚Æ‚àŒ©‚È‚³‚¸A“KØ‚ÈƒvƒƒgƒRƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«‚É WSAEAFNOSUPPORT ‚â
+WSAEPROTONOSUPPORT ‚ğ•Ô‚·‚±‚Æ‚à‚È‚¢B’: AF_UNSPEC ’è”‚Íˆø‚«‘±‚«ƒwƒbƒ_‚É’è‹`‚³‚ê‚Ä‚¢‚é‚ªAprotocol
+ˆø”‚Ì‰ğß‚ªB–†‚É‚È‚é‚½‚ßg—p‚Í‹­‚­„§‚µ‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í af ‚É AF_INET6 ‚ğw’è‚µ‚Ä IPv4 ‚Æ IPv6
+‚Ì—¼•û‚Åg‚¦‚éƒfƒ…ƒAƒ‹ƒ‚[ƒhƒ\ƒPƒbƒg‚ğì‚é‚±‚Æ‚ª„§‚³‚ê‚éBWSASocket ‚Åì¬‚µ‚½ƒ\ƒPƒbƒg‚Å SO_RCVTIMEO ‚â
+SO_SNDTIMEO ‚ğ³‚µ‚­‹@”\‚³‚¹‚é‚É‚ÍAdwFlags ‚É WSA_FLAG_OVERLAPPED
+‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¯‚ê‚Îƒ^ƒCƒ€ƒAƒEƒg‚Íƒ\ƒPƒbƒg‚É”½‰f‚³‚ê‚È‚¢BSOCK_STREAM
+‚Ì‚æ‚¤‚ÈƒRƒlƒNƒVƒ‡ƒ“wŒüƒ\ƒPƒbƒg‚Í‘S“ñdÚ‘±‚ğ’ñ‹Ÿ‚µAƒf[ƒ^‘—óM‘O‚ÉÚ‘±ó‘Ô‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ‘±‚Í connect ‚Ü‚½‚Í
+WSAConnect ‚ÅŠm—§‚·‚éBÚ‘±Œã‚Í send/WSASendArecv/WSARecv ‚Åƒf[ƒ^‚ğ“]‘—‚Å‚«‚éBƒZƒbƒVƒ‡ƒ“I—¹‚Í
+closesocket ‚Åƒ\ƒPƒbƒg‘Œ¹‚ğ‰ğ•ú‚·‚éBƒRƒlƒNƒVƒ‡ƒ“wŒüƒ\ƒPƒbƒg‚Ìê‡Aclosesocket ‘O‚É shutdown
+‚Åƒf[ƒ^“]‘—‚ğ’â~‚·‚×‚«‚Å‚ ‚éBM—Š«‚Ì‚ ‚éƒRƒlƒNƒVƒ‡ƒ“wŒüƒ\ƒPƒbƒg‚Ì’ÊMƒvƒƒgƒRƒ‹‚Íƒf[ƒ^‚Ì‘r¸Ed•¡‚ğ–h‚®B‘Šè‚Ìƒoƒbƒtƒ@‚É“ü‚é‚Í‚¸‚Ìƒf[ƒ^‚ğ‘Ã“–‚ÈŠÔ“à‚É‘—M‚Å‚«‚È‚©‚Á‚½ê‡AÚ‘±‚ÍØ‚ê‚½‚ÆŒ©‚È‚³‚êˆÈ~‚ÌŒÄ‚Ño‚µ‚Í
+WSAETIMEDOUT ‚Å¸”s‚·‚éBƒRƒlƒNƒVƒ‡ƒ“ƒŒƒX‚ÌƒƒbƒZ[ƒWwŒüƒ\ƒPƒbƒg‚Í sendto/WSASendTo ‚Æ
+recvfrom/WSARecvFrom ‚Å”CˆÓ‚ÌƒsƒA‚Æƒf[ƒ^ƒOƒ‰ƒ€‚ğ‘—óM‚Å‚«‚éB“Á’è‚ÌƒsƒA‚ÉÚ‘±‚µ‚Ä‚¨‚¯‚ÎA‚»‚ÌƒsƒA‚É‘Î‚µ‚Ä‚Í
+send/WSASend ‚Å‘—MArecv/WSARecv ‚ÅóM‚ª‰Â”\‚É‚È‚éBSOCK_RAW
+‚ÌƒTƒ|[ƒg‚Í•K{‚Å‚Í‚È‚¢‚ªA‰Â”\‚È‚çƒTƒ|[ƒg‚·‚é‚±‚Æ‚ª„§‚³‚ê‚éBWSASocket
+‚ÍƒT[ƒrƒX—p‚Ég‚¤ƒ\ƒPƒbƒg‚ğì¬‚·‚é—p“r‚É‚àg‚¦‚éB•Ê‚Ìƒ\ƒPƒbƒg‚ª“¯‚¶ƒ|[ƒg‚ÉƒoƒCƒ“ƒh‚µ‚æ‚¤‚Æ‚·‚é‚ÆŠÄ¸ƒŒƒR[ƒh‚ª¶¬‚³‚ê‚éB‚»‚Ì‚½‚ß‚É‚ÍŸ‚Ìè‡‚ª•K—v‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSAStringToAddressW
-The WSAStringToAddress function converts a network address in its standard text presentation form into its numeric binary form in a sockaddr structure, suitable for passing to Windows Sockets routines that take such a structure. (Unicode)
+WSAStringToAddress ŠÖ”‚ÍA•W€ƒeƒLƒXƒg•\Œ»‚Ìƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğ sockaddr \‘¢‘Ì‚Ì”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚µA“¯\‘¢‘Ì‚ğ•K—v‚Æ‚·‚é Winsock ƒ‹[ƒ`ƒ“‚É“n‚¹‚éŒ`‚Å•Ô‚·B(Unicode)
 %group
 Win32 ws2_32
 %prm
 AddressString, AddressFamily, lpProtocolInfo, lpAddress, lpAddressLength
-AddressString : [wstr] A pointer to the zero-terminated string that contains the network address in standard text form to convert.
-AddressFamily : [int] The address family of the network address pointed to by the AddressString parameter.
-lpProtocolInfo : [var] The WSAPROTOCOL_INFO structure associated with the provider to be used. If this is NULL, the call is routed to the provider of the first protocol supporting the indicated AddressFamily.
-lpAddress : [var] A pointer to a buffer that is filled with a  sockaddr structure for the address string if the function succeeds.
-lpAddressLength : [var] A pointer to the length, in bytes, of the buffer pointed to by the lpAddress parameter. If the function call is successful, this parameter returns a pointer to the size of the sockaddr structure returned in the lpAddress parameter. If the specified buffer is not large enough, the function fails with a specific error of WSAEFAULT and this parameter is updated with the required size in bytes.
+AddressString : [wstr] •ÏŠ·‘ÎÛ‚Æ‚È‚éA•W€ƒeƒLƒXƒgŒ`®‚Ìƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğŠÜ‚Şƒ[ƒI’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+AddressFamily : [int] AddressString ‚ªw‚·ƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ÌƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠB
+lpProtocolInfo : [var] g—p‚·‚éƒvƒƒoƒCƒ_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ WSAPROTOCOL_INFO \‘¢‘ÌBNULL ‚Ìê‡AŒÄ‚Ño‚µ‚Íw’è‚³‚ê‚½ AddressFamily ‚ğƒTƒ|[ƒg‚·‚éÅ‰‚ÌƒvƒƒgƒRƒ‹‚ÌƒvƒƒoƒCƒ_‚Éƒ‹[ƒeƒBƒ“ƒO‚³‚ê‚éB
+lpAddress : [var] ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉAƒAƒhƒŒƒX•¶š—ñ‚É‘Î‰‚·‚é sockaddr \‘¢‘Ì‚ª‘‚«‚Ü‚ê‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpAddressLength : [var] lpAddress ‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”ŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚ÆAlpAddress ‚É•Ô‚³‚ê‚½ sockaddr \‘¢‘Ì‚ÌƒTƒCƒY‚ğw‚·’l‚ª•Ô‚³‚ê‚éBƒoƒbƒtƒ@‚ª¬‚³‚·‚¬‚éê‡‚Í WSAEFAULT ‚Å¸”s‚µA–{ˆø”‚É‚Í•K—v‚ÈƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªİ’è‚³‚ê‚éB
 %inst
-The WSAStringToAddress function converts a network address in its
-standard text presentation form into its numeric binary form in a
-sockaddr structure, suitable for passing to Windows Sockets routines
-that take such a structure. (Unicode)
+WSAStringToAddress ŠÖ”‚ÍA•W€ƒeƒLƒXƒg•\Œ»‚Ìƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğ sockaddr
+\‘¢‘Ì‚Ì”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚µA“¯\‘¢‘Ì‚ğ•K—v‚Æ‚·‚é Winsock ƒ‹[ƒ`ƒ“‚É“n‚¹‚éŒ`‚Å•Ô‚·B(Unicode)
 
 [–ß‚è’l]
-The return value for WSAStringToAddress is zero if the operation was
-successful. Otherwise, the value SOCKET_ERROR is returned, and a
-specific error number can be retrieved by calling WSAGetLastError.
-This doc was truncated.
+‘€ì‚ª¬Œ÷‚µ‚½ê‡‚Ì–ß‚è’l‚Íƒ[ƒB‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR ‚ª•Ô‚³‚êAWSAGetLastError
+‚Å“Á’è‚ÌƒGƒ‰[”Ô†‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSAStringToAddress function converts a network address in
-standard text form into its numeric binary form in a sockaddr
-structure. Any missing components of the address will be defaulted to
-a reasonable value, if possible. For example, a missing port number
-will default to zero. If the caller wants the translation to be done
-by a particular provider, it should supply the corresponding
-WSAPROTOCOL_INFO structure in the lpProtocolInfo parameter. The
-WSAStringToAddress function fails (and returns WSAEINVAL) if the
-sin_family member of the SOCKADDR_IN structure, which is passed in
-the lpAddress parameter in the form of a sockaddr structure, is not
-set to AF_INET or AF_INET6. Support for IPv6 addresses using the
-WSAStringToAddress function was added on Windows XP with Service Pack
-1 (SP1)and later. IPv6 must also be installed on the local computer
-for the WSAStringToAddress function to support IPv6 addresses.
-Windows Phone 8: This function is supported for Windows Phone Store
-apps on Windows Phone 8 and later. Windows 8.1 and Windows Server
-2012 R2: This function is supported for Windows Store apps on Windows
-8.1, Windows Server 2012 R2, and later.
-> [!NOTE] > The winsock2.h header defines WSAStringToAddress as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+WSAStringToAddress ŠÖ”‚ÍA•W€ƒeƒLƒXƒgŒ`®‚Ìƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ğ sockaddr
+\‘¢‘Ì‚Ì”’lƒoƒCƒiƒŠŒ`®‚É•ÏŠ·‚·‚éB•s‘«‚µ‚Ä‚¢‚é—v‘f‚Í‰Â”\‚ÈŒÀ‚è‘Ã“–‚ÈŠù’è’l‚Å–„‚ß‚éB‚½‚Æ‚¦‚Îƒ|[ƒg”Ô†‚ª‚È‚¯‚ê‚Î 0
+‚ªŠù’è‚Æ‚È‚éB“Á’è‚ÌƒvƒƒoƒCƒ_‚Å•ÏŠ·‚ğs‚¢‚½‚¢ê‡AlpProtocolInfo ‚É‘Î‰‚·‚é WSAPROTOCOL_INFO
+‚ğ“n‚·BWSAStringToAddress ‚ÍAlpAddress ‚É sockaddr ‚Æ‚µ‚Ä“n‚³‚ê‚½ SOCKADDR_IN ‚Ì
+sin_family ƒƒ“ƒo‚ª AF_INET ‚Ü‚½‚Í AF_INET6 ‚Å‚È‚¢ê‡‚É WSAEINVAL
+‚Å¸”s‚·‚éBWSAStringToAddress ‚Å‚Ì IPv6 ƒAƒhƒŒƒXƒTƒ|[ƒg‚Í Windows XP SP1
+ˆÈ~‚Å’Ç‰Á‚³‚ê‚½BIPv6 ƒTƒ|[ƒg‚É‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚É IPv6 ‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é•K—v‚à‚ ‚éBWindows Phone
+8: ‚±‚ÌŠÖ”‚Í Windows Phone 8 ˆÈ~‚Ì Windows Phone ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows 8.1
+‚¨‚æ‚Ñ Windows Server 2012 R2: ‚±‚ÌŠÖ”‚Í Windows 8.1AWindows Server 2012 R2
+ˆÈ~‚Ì Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+> [!NOTE] > winsock2.h ƒwƒbƒ_‚ÍAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Æ
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä WSAStringToAddress
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğµ‚­•s®‡‚ª”­¶‚µ‚¤‚éBÚ‚µ‚­‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 WSAUnadvertiseProvider
-Makes a specific namespace version-2 provider no longer available for clients.
+“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒX version-2 ƒvƒƒoƒCƒ_‚ğƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç—˜—p•s‰Â‚É‚·‚éB
 %group
 Win32 ws2_32
 %prm
 puuidProviderId
-puuidProviderId : [var] A pointer to the provider ID of the namespace provider.
+puuidProviderId : [var] ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÌƒvƒƒoƒCƒ_ ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Makes a specific namespace version-2 provider no longer available for
-clients.
+“Á’è‚Ìƒl[ƒ€ƒXƒy[ƒX version-2 ƒvƒƒoƒCƒ_‚ğƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç—˜—p•s‰Â‚É‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSAUnadvertiseProvider** returns zero.
-Otherwise, it returns **SOCKET_ERROR**, and a specific error code is
-available by calling WSAGetLastError.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSAUnadvertiseProvider** ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í **SOCKET_ERROR**
+‚ğ•Ô‚µAWSAGetLastError ‚Å“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The **WSAUnadvertiseProvider** function is used as part of the
-namespace service provider version-2 (NSPv2) architecture available
-on Windows Vista and later. On Windows Vista and Windows Server 2008,
-the **WSAUnadvertiseProvider** function can only be used for
-operations on NS_EMAIL namespace providers. In general, NSPv2
-providers are implemented in processes other than the calling
-applications. NSPv2 providers are not activated as result of client
-activity. Each provider hosting application decides when to make a
-specific provider available or unavailable by calling the
-WSAAdvertiseProvider and **WSAUnadvertiseProvider** functions. The
-client activity only results in attempts to contact the provider,
-when available (when the namespace provider is advertised).
+**WSAUnadvertiseProvider** ŠÖ”‚ÍAWindows Vista ˆÈ~‚Å—˜—p‰Â”\‚È NSPv2
+ƒA[ƒLƒeƒNƒ`ƒƒ‚Ìˆê•”‚Æ‚µ‚Äg—p‚³‚ê‚éBWindows Vista ‚¨‚æ‚Ñ Windows Server 2008
+‚Å‚ÍA**WSAUnadvertiseProvider** ‚Í NS_EMAIL
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚É‘Î‚·‚é‘€ì‚Ì‚İ‚Ég—p‚Å‚«‚éBˆê”Ê‚É NSPv2
+ƒvƒƒoƒCƒ_‚ÍŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚Í•Ê‚ÌƒvƒƒZƒX‚ÅÀ‘•‚³‚êAƒNƒ‰ƒCƒAƒ“ƒg‚Ì“®ì‚É‰‚¶‚ÄŠˆ«‰»‚³‚ê‚é‚à‚Ì‚Å‚Í‚È‚¢BŠeƒvƒƒoƒCƒ_ƒzƒXƒeƒBƒ“ƒOƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAWSAAdvertiseProvider
+‚Æ **WSAUnadvertiseProvider** ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä“–ŠYƒvƒƒoƒCƒ_‚ÌŒöŠJ‰Â”Û‚ğŒˆ’è‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ÍŒöŠJ’†
+(L’†) ‚ÌƒvƒƒoƒCƒ_‚É‘Î‚µ‚ÄÚ‘±‚ğ‚İ‚é‚Ì‚İ‚Å‚ ‚éB
 
 
 %index
 WSAUnhookBlockingHook
-This function has been removed in compliance with the Windows Sockets 2 specification, revision 2.2.0. (WSAUnhookBlockingHook)
+‚±‚ÌŠÖ”‚Í Windows Sockets 2 d—l revision 2.2.0 ‚É]‚Á‚Äíœ‚³‚ê‚½B(WSAUnhookBlockingHook)
 %group
 Win32 ws2_32
 %prm
 
 %inst
-This function has been removed in compliance with the Windows Sockets
-2 specification, revision 2.2.0. (WSAUnhookBlockingHook)
+‚±‚ÌŠÖ”‚Í Windows Sockets 2 d—l revision 2.2.0
+‚É]‚Á‚Äíœ‚³‚ê‚½B(WSAUnhookBlockingHook)
 
 
 %index
 WSAWaitForMultipleEvents
-Returns when one or all of the specified event objects are in the signaled state, when the time-out interval expires, or when an I/O completion routine has executed.
+w’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í‚·‚×‚Ä‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚éAƒ^ƒCƒ€ƒAƒEƒg‚ªŒo‰ß‚·‚éA‚Ü‚½‚Í I/O Š®—¹ƒ‹[ƒ`ƒ“‚ªÀs‚³‚ê‚½‚Æ‚«‚É–ß‚éB
 %group
 Win32 ws2_32
 %prm
 cEvents, lphEvents, fWaitAll, dwTimeout, fAlertable
-cEvents : [int] The number of event object handles in the array pointed to by lphEvents. The maximum number of event object handles is WSA_MAXIMUM_WAIT_EVENTS. One or more events must be specified.
-lphEvents : [intptr] A pointer to an array of event object handles. The array can contain handles of objects of different types. It may not contain multiple copies of the same handle if the fWaitAll parameter is set to TRUE. If one of these handles is closed while the wait is still pending, the behavior of WSAWaitForMultipleEvents is undefined. The handles must have the SYNCHRONIZE access right.  For more information, see Standard Access Rights.
-fWaitAll : [int] A value that specifies the wait type. If TRUE, the function returns when the state of all objects in the lphEvents array is signaled. If FALSE, the function returns when any  of the event objects is signaled. In the latter case, the return value minus WSA_WAIT_EVENT_0 indicates the index of the event object whose state caused the function to return. If more than one event object became signaled during the call, this is the array index to the signaled event object with the smallest index value of all the signaled event objects.
-dwTimeout : [int] The time-out interval, in milliseconds. WSAWaitForMultipleEvents returns if the time-out interval expires, even if conditions specified by the fWaitAll parameter are not satisfied. If the dwTimeout parameter is zero, WSAWaitForMultipleEvents tests the state of the specified event objects and returns immediately. If dwTimeout is WSA_INFINITE, WSAWaitForMultipleEvents waits forever; that is, the time-out interval never expires.
-fAlertable : [int] A value that specifies whether the thread is placed in an alertable wait state so the system can execute I/O completion routines. If TRUE, the thread is placed in an alertable wait state and WSAWaitForMultipleEvents can return when the system executes an I/O completion routine. In this case, WSA_WAIT_IO_COMPLETION is returned and the event that was being waited on is not signaled yet. The application must call the WSAWaitForMultipleEvents function again. If FALSE, the thread is not placed in an alertable wait state and I/O completion routines are not executed.
+cEvents : [int] lphEvents ‚ªw‚·”z—ñ“à‚ÌƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹”BÅ‘å’l‚Í WSA_MAXIMUM_WAIT_EVENTSB1 ‚ÂˆÈã‚ÌƒCƒxƒ“ƒg‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lphEvents : [intptr] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B”z—ñ‚É‚ÍˆÙ‚È‚éŒ^‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ğŠÜ‚ß‚ç‚ê‚éBfWaitAll ‚ª TRUE ‚Ì‚Æ‚«‚Í“¯‚¶ƒnƒ“ƒhƒ‹‚ğ•¡”ŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B‘Ò‹@’†‚É‚¢‚¸‚ê‚©‚Ìƒnƒ“ƒhƒ‹‚ª•Â‚¶‚ç‚ê‚½ê‡‚Ì“®ì‚Í–¢’è‹`‚Å‚ ‚éBƒnƒ“ƒhƒ‹‚Í SYNCHRONIZE ƒAƒNƒZƒXŒ ‚ğ‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ‚µ‚­‚Í Standard Access Rights ‚ğQÆB
+fWaitAll : [int] ‘Ò‹@í•Ê‚ğw’è‚·‚é’lBTRUE ‚Ìê‡AlphEvents ”z—ñ“à‚Ì‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚Á‚½‚Æ‚«ŠÖ”‚ª–ß‚éBFALSE ‚Ìê‡A‚¢‚¸‚ê‚©‚ÌƒCƒxƒ“ƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚Á‚½‚Æ‚«‚ÉŠÖ”‚ª–ß‚éBŒãÒ‚Ìê‡A–ß‚è’l‚©‚ç WSA_WAIT_EVENT_0 ‚ğˆø‚¢‚½’l‚ª‚Ç‚ÌƒCƒxƒ“ƒg‚ÅƒVƒOƒiƒ‹‚ª—§‚Á‚½‚©‚ğ¦‚·ƒCƒ“ƒfƒbƒNƒX‚Æ‚È‚éBŒÄ‚Ño‚µ’†‚É•¡”‚ÌƒCƒxƒ“ƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚Á‚½ê‡AÅ¬ƒCƒ“ƒfƒbƒNƒX‚Ì‚à‚Ì‚ğ¦‚·B
+dwTimeout : [int] ƒ^ƒCƒ€ƒAƒEƒgŠÔ (ƒ~ƒŠ•b’PˆÊ)BfWaitAll ‚Åw’è‚µ‚½ğŒ‚ª–‚½‚³‚ê‚È‚­‚Ä‚àƒ^ƒCƒ€ƒAƒEƒg‚ªŒo‰ß‚·‚ê‚Î WSAWaitForMultipleEvents ‚Í–ß‚éBdwTimeout ‚ª 0 ‚È‚ç‚ÎAWSAWaitForMultipleEvents ‚Íw’èƒCƒxƒ“ƒg‚Ìó‘Ô‚ğ’²‚×‚Ä‘¦À‚É–ß‚éBWSA_INFINITE ‚È‚ç‚Î–³ŒÀ‚É‘Ò‹@‚·‚éB
+fAlertable : [int] ƒXƒŒƒbƒh‚ğ I/O Š®—¹ƒ‹[ƒ`ƒ“‚ªÀs‰Â”\‚ÈƒAƒ‰[ƒg‰Â”\‘Ò‹@ó‘Ô‚É’u‚­‚©‚ğw’è‚·‚é’lBTRUE ‚Ìê‡AƒXƒŒƒbƒh‚ÍƒAƒ‰[ƒg‰Â”\‘Ò‹@ó‘Ô‚É’u‚©‚êAƒVƒXƒeƒ€‚ª I/O Š®—¹ƒ‹[ƒ`ƒ“‚ğÀs‚µ‚½‚Æ‚«‚É WSAWaitForMultipleEvents ‚ª–ß‚é‚±‚Æ‚ª‚ ‚éB‚±‚Ì‚Æ‚« WSA_WAIT_IO_COMPLETION ‚ª•Ô‚èA‘Ò‹@’†‚ÌƒCƒxƒ“ƒg‚Í‚Ü‚¾ƒVƒOƒiƒ‹ó‘Ô‚Å‚Í‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í WSAWaitForMultipleEvents ‚ğÄ“xŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFALSE ‚Ìê‡AƒAƒ‰[ƒg‰Â”\‘Ò‹@ó‘Ô‚É‚Í’u‚©‚ê‚¸ I/O Š®—¹ƒ‹[ƒ`ƒ“‚ÍÀs‚³‚ê‚È‚¢B
 %inst
-Returns when one or all of the specified event objects are in the
-signaled state, when the time-out interval expires, or when an I/O
-completion routine has executed.
+w’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í‚·‚×‚Ä‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚éAƒ^ƒCƒ€ƒAƒEƒg‚ªŒo‰ß‚·‚éA‚Ü‚½‚Í I/O
+Š®—¹ƒ‹[ƒ`ƒ“‚ªÀs‚³‚ê‚½‚Æ‚«‚É–ß‚éB
 
 [–ß‚è’l]
-If the WSAWaitForMultipleEvents function succeeds, the return value
-upon success is one of the following values.
-This doc was truncated.
+WSAWaitForMultipleEvents ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The WSAWaitForMultipleEvents function determines whether the wait
-criteria have been met. If the criteria have not been met, the
-calling thread enters the wait state. It uses no processor time while
-waiting for the criteria to be met. The WSAWaitForMultipleEvents
-function returns when any one or all of the specified objects are in
-the signaled state, or when the time-out interval elapses. When the
-bWaitAll parameter is TRUE, the wait operation is completed only when
-the states of all objects have been set to signaled. The function
-does not modify the states of the specified objects until the states
-of all objects have been set to signaled. When bWaitAll parameter is
-FALSE, WSAWaitForMultipleEvents checks the handles in the lphEvents
-array in order starting with index 0, until one of the objects is
-signaled. If multiple objects become signaled, the function returns
-the index of the first handle in the lphEvents array whose object was
-signaled. This function is also used to perform an alertable wait by
-setting the fAlertable parameter to TRUE. This enables the function
-to return when the system executes an I/O completion routine by the
-calling thread. A thread must be in an alertable wait state in order
-for the system to execute I/O completion routines (asynchronous
-procedure calls or APCs). So if an application calls
-WSAWaitForMultipleEvents when there are pending asynchronous
-operations that have I/O completion routines and the fAlertable
-parameter is FALSE, then those I/O completion routines will not be
-executed even if those I/O operations are completed. If the
-fAlertable parameter is TRUE and one of the pending operations
-completes, the APC is executed and WSAWaitForMultipleEvents will
-return WSA_IO_COMPLETION. The pending event is not signaled yet. The
-application must call the WSAWaitForMultipleEvents function again.
-Applications that require an alertable wait state without waiting for
-any event objects to be signaled should use the Windows SleepEx
-function. The current implementation of WSAWaitForMultipleEvents
-calls the WaitForMultipleObjectsEx function. Note Use caution when
-calling the WSAWaitForMultipleEvents with code that directly or
-indirectly creates windows. If a thread creates any windows, it must
-process messages. Message broadcasts are sent to all windows in the
-system. A thread that uses WSAWaitForMultipleEvents with no time-out
-limit (the dwTimeout parameter set to WSA_INFINITE) may cause the
-system to become deadlocked. Example Code The following code example
-shows how to use the WSAWaitForMultipleEvents function.
-This doc was truncated.
+WSAWaitForMultipleEvents
+ŠÖ”‚ÍA‘Ò‹@ğŒ‚ª–‚½‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB–‚½‚³‚ê‚Ä‚¢‚È‚¢ê‡AŒÄ‚Ño‚µƒXƒŒƒbƒh‚Í‘Ò‹@ó‘Ô‚É“ü‚éB‘Ò‹@’†‚Í CPU
+ŠÔ‚ğÁ”ï‚µ‚È‚¢Bw’èƒIƒuƒWƒFƒNƒg‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í‚·‚×‚Ä‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚Á‚½‚Æ‚«A‚ ‚é‚¢‚Íƒ^ƒCƒ€ƒAƒEƒg‚ªŒo‰ß‚µ‚½‚Æ‚«‚É
+WSAWaitForMultipleEvents ‚Í–ß‚éBbWaitAll ‚ª TRUE
+‚Ì‚Æ‚«A‘Ò‹@‚Í‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚Á‚½“_‚Å‚Ì‚İŠ®—¹‚·‚éBbWaitAll ‚ª FALSE
+‚Ì‚Æ‚«AWSAWaitForMultipleEvents ‚Í lphEvents
+‚ğæ“ª‚©‚ç‡‚Éƒ`ƒFƒbƒN‚µAÅ‰‚ÉƒVƒOƒiƒ‹ó‘Ô‚É‚È‚Á‚½ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·BfAlertable ‚ğ TRUE
+‚É‚·‚ê‚ÎAƒAƒ‰[ƒg‰Â”\‘Ò‹@‚ª‰Â”\‚Æ‚È‚èAŒÄ‚Ño‚µƒXƒŒƒbƒh‚Å I/O Š®—¹ƒ‹[ƒ`ƒ“‚ªÀs‚³‚ê‚½‚Æ‚«‚ÉŠÖ”‚ª–ß‚éBƒXƒŒƒbƒh‚Í I/O
+Š®—¹ƒ‹[ƒ`ƒ“ (APC) ‚ğÀs‚³‚¹‚é‚½‚ß‚ÉƒAƒ‰[ƒg‰Â”\‘Ò‹@ó‘Ô‚É‚ ‚é•K—v‚ª‚ ‚éB‚µ‚½‚ª‚Á‚ÄAI/O
+Š®—¹ƒ‹[ƒ`ƒ“‚ğ‚Â•Û—¯’†‚Ì”ñ“¯Šú‘€ì‚ª‚ ‚Á‚Ä‚à fAlertable ‚ª FALSE ‚È‚çA‚»‚ê‚ç I/O
+Š®—¹ƒ‹[ƒ`ƒ“‚ÍŠ®—¹‚Å‚ ‚Á‚Ä‚àÀs‚³‚ê‚È‚¢BfAlertable ‚ª TRUE ‚Å•Û—¯’†‚Ì‘€ì‚Ì‚¢‚¸‚ê‚©‚ªŠ®—¹‚·‚é‚ÆAAPC ‚ªÀs‚³‚ê
+WSAWaitForMultipleEvents ‚Í WSA_IO_COMPLETION
+‚ğ•Ô‚·B‚±‚Ì‚Æ‚«‘Ò‹@ƒCƒxƒ“ƒg‚Í‚Ü‚¾ƒVƒOƒiƒ‹ó‘Ô‚Å‚Í‚È‚­AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍÄ“x WSAWaitForMultipleEvents
+‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒCƒxƒ“ƒg‚ğ‘Ò‚½‚¸‚ÉƒAƒ‰[ƒg‰Â”\‘Ò‹@‚¾‚¯s‚¢‚½‚¢ê‡‚Í Windows ‚Ì SleepEx
+‚ğg‚¤‚×‚«‚Å‚ ‚éBŒ»İ‚ÌÀ‘•‚Å‚Í WSAWaitForMultipleEvents ‚Í WaitForMultipleObjectsEx
+‚ğŒÄ‚Ño‚µ‚Ä‚¢‚éB’: ƒEƒBƒ“ƒhƒE‚ğ’¼Ú/ŠÔÚ‚Éì¬‚·‚éƒR[ƒh‚Æ‹¤‚É WSAWaitForMultipleEvents
+‚ğg‚¤ê‡‚Í’ˆÓ‚ª•K—v‚Å‚ ‚éBƒXƒŒƒbƒh‚ªƒEƒBƒ“ƒhƒE‚ğì¬‚·‚ê‚ÎƒƒbƒZ[ƒWˆ—‚ª•K—v‚Æ‚È‚éBƒƒbƒZ[ƒWƒuƒ[ƒhƒLƒƒƒXƒg‚ÍƒVƒXƒeƒ€“à‚Ì‚·‚×‚Ä‚ÌƒEƒBƒ“ƒhƒE‚É‘—‚ç‚ê‚éBdwTimeout
+‚É WSA_INFINITE ‚ğw’è‚µ‚½ƒXƒŒƒbƒh‚ªƒEƒBƒ“ƒhƒE‚ğ‚Â‚ÆƒfƒbƒhƒƒbƒN‚ÌŒ´ˆö‚É‚È‚è‚¤‚éBƒTƒ“ƒvƒ‹ƒR[ƒh: Ÿ‚Í
+WSAWaitForMultipleEvents ‚Ìg‚¢•û‚Ì—á‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSCDeinstallProvider
-Removes the specified transport provider from the system configuration database.
+w’è‚µ‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚ğƒVƒXƒeƒ€\¬ƒf[ƒ^ƒx[ƒX‚©‚çíœ‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, lpErrno
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the provider. This value is stored within each WSAProtocol_Info structure.
-lpErrno : [var] A pointer to the error code if the function fails.
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚ÍŠe WSAProtocol_Info \‘¢‘Ì‚ÉŠi”[‚³‚ê‚Ä‚¢‚éB
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Removes the specified transport provider from the system
-configuration database.
+w’è‚µ‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚ğƒVƒXƒeƒ€\¬ƒf[ƒ^ƒx[ƒX‚©‚çíœ‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCDeinstallProvider** returns zero. Otherwise,
-it returns **SOCKET_ERROR**, and a specific error code is available
-in lpErrno.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCDeinstallProvider** ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í **SOCKET_ERROR**
+‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The **WSCDeinstallProvider** function removes the common Windows
-Sockets 2 configuration information for the specified provider. After
-this routine completes successfully, the configuration information
-stored in the registry will be changed. However, any Ws2_32.dll
-instances currently in memory will not be able to recognize this
-change. On success, **WSCDeinstallProvider** will attempt to alert
-all interested applications that have registered for notification of
-the change by calling WSAProviderConfigChange. The
-**WSCDeinstallProvider** function can only be called by a user logged
-on as a member of the Administrators group. If
-**WSCDeinstallProvider** is called by a user that is not a member of
-the Administrators group, the function call will fail and
-**WSANO_RECOVERY** is returned in the lpErrno parameter.
-For computers running Windows Vista or Windows Server 2008, this
-function can also fail because of user account control (UAC). If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a **requestedExecutionLevel** set to
-**requireAdministrator**. If the application on Windows Vista or
-Windows Server 2008 lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (RunAs administrator) for this
-function to succeed.
-The caller of this function must remove any additional files or
-service provider?specific configuration information that is needed to
-completely uninstall the service provider.
+**WSCDeinstallProvider** ŠÖ”‚ÍAw’è‚µ‚½ƒvƒƒoƒCƒ_‚Ì‹¤’Ê Winsock 2
+\¬î•ñ‚ğíœ‚·‚éB³íI—¹ŒãAƒŒƒWƒXƒgƒŠ“à‚Ì\¬î•ñ‚Í•ÏX‚³‚ê‚é‚ªAŒ»İƒƒ‚ƒŠã‚É‚ ‚é Ws2_32.dll
+‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Í‚±‚Ì•ÏX‚ğ”F¯‚Å‚«‚È‚¢B¬Œ÷‚µ‚½ê‡A**WSCDeinstallProvider**
+‚Í•ÏX’Ê’m‚ğ“o˜^‚µ‚½ŠÖS‚ğ‚ÂƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µ WSAProviderConfigChange
+Œo—R‚Å’Ê’m‚ğ‚İ‚éB**WSCDeinstallProvider** ‚Í Administrators
+ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚éƒ†[ƒU[‚Ì‚İ‚ªŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ƒ†[ƒU[‚ªŒÄ‚Ño‚µ‚½ê‡‚Í¸”s‚µAlpErrno ‚É
+**WSANO_RECOVERY** ‚ª•Ô‚³‚ê‚éB
+Windows Vista ‚â Windows Server 2008 ‚ğÀs‚µ‚Ä‚¢‚éƒRƒ“ƒsƒ…[ƒ^‚Å‚ÍAƒ†[ƒU[ƒAƒJƒEƒ“ƒg§Œä (UAC)
+‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éB‘g‚İ‚İ‚Ì Administrator ˆÈŠO‚Ì Administrators
+ƒOƒ‹[ƒvƒƒ“ƒo‚ªAƒ}ƒjƒtƒFƒXƒgƒtƒ@ƒCƒ‹‚Å **requestedExecutionLevel** ‚ğ
+**requireAdministrator**
+‚Éİ’è‚µ‚Ä‚¢‚È‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğÀs‚·‚é‚Æ¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒgƒtƒ@ƒCƒ‹‚ª–³‚¢ê‡A‘g‚İ‚İ Administrator ˆÈŠO‚Ì
+Administrators ƒOƒ‹[ƒvƒƒ“ƒo‚ÍA‘g‚İ‚İ Administrator ‚Æ‚µ‚Ä (RunAs administrator)
+¸ŠiÏ‚İƒVƒFƒ‹‚©‚çƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğÀs‚µ‚È‚¯‚ê‚Î¬Œ÷‚µ‚È‚¢B
+
+–{ŠÖ”‚ÌŒÄ‚Ño‚µŒ³‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ğŠ®‘S‚ÉƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚·‚é‚½‚ß‚É•K—v‚È’Ç‰Áƒtƒ@ƒCƒ‹‚âƒT[ƒrƒXƒvƒƒoƒCƒ_ŒÅ—L‚Ì\¬î•ñ‚ğ•Ê“ríœ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 WSCEnableNSProvider
-Changes the state of a given namespace provider.
+w’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ìó‘Ô‚ğ•ÏX‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, fEnable
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the namespace provider.
-fEnable : [int] A Boolean value that, if **TRUE**, the provider is set to the active state. If **FALSE**, the provider is disabled and will not be available for query operations or service registration.
+lpProviderId : [var] ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fEnable : [int] **TRUE** ‚È‚çƒvƒƒoƒCƒ_‚ğƒAƒNƒeƒBƒuó‘Ô‚ÉA**FALSE** ‚È‚ç–³Œø‰»‚µ‚ÄƒNƒGƒŠ‘€ì‚âƒT[ƒrƒX“o˜^‚Åg‚¦‚È‚­‚·‚é Boolean ’lB
 %inst
-Changes the state of a given namespace provider.
+w’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ìó‘Ô‚ğ•ÏX‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, the **WSCEnableNSProvider** function returns
-**NO_ERROR** (zero). Otherwise, it returns **SOCKET_ERROR** if the
-function fails, and you must retrieve the appropriate error code
-using the WSAGetLastError function.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCEnableNSProvider** ‚Í **NO_ERROR** (0) ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚·‚é‚Æ
+**SOCKET_ERROR** ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“KØ‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The **WSCEnableNSProvider** function is intended to be used to change
-the state of the namespace providers. An independent software vendor
-(ISV) should not normally de-activate another ISV namespace provider
-in order to activate its own. The choice should be left to the user.
-The **WSCEnableNSProvider** function does not affect applications
-that are already running. Newly installed namespace providers will
-not be visible to applications nor will the changes in a namespace
-provider's activation state be visible. Applications launched after
-the call to **WSCEnableNSProvider** will see the changes. The
-**WSCEnableNSProvider** function can only be called by a user logged
-on as a member of the Administrators group. If
-**WSCEnableNSProvider** is called by a user that is not a member of
-the Administrators group, the function call will fail.
-For computers running Windows Vista or Windows Server 2008, this
-function can also fail because of user account control (UAC). If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a **requestedExecutionLevel** set to
-**requireAdministrator**. If the application on Windows Vista or
-Windows Server 2008 lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (RunAs administrator) for this
-function to succeed.
+**WSCEnableNSProvider** ŠÖ”‚Íƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ìó‘Ô‚ğ•ÏX‚·‚é‚½‚ß‚Ég‚¤B“Æ—§Œnƒ\ƒtƒgƒEƒFƒAƒxƒ“ƒ_[
+(ISV)
+‚ÍA©Ğ‚ÌƒvƒƒoƒCƒ_‚ğ—LŒø‰»‚·‚é‚½‚ß‚É‘¼Ğ‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğ–³Œø‰»‚·‚×‚«‚Å‚Í‚È‚¢B‘I‘ğ‚Íƒ†[ƒU[‚ÉˆÏ‚Ë‚é‚×‚«‚Å‚ ‚éB**WSCEnableNSProvider**
+‚Í‚·‚Å‚ÉÀs’†‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Í‰e‹¿‚µ‚È‚¢BV‹KƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚âó‘Ô•Ï‰»‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚ÍŒ©‚¦‚È‚¢B**WSCEnableNSProvider**
+ŒÄ‚Ño‚µŒã‚É‹N“®‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Ì‚İ•ÏX‚ª”½‰f‚³‚ê‚éB**WSCEnableNSProvider** ‚Í
+Administrators ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚éƒ†[ƒU[‚Ì‚İ‚ªŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í¸”s‚·‚éB
+Windows Vista ‚â Windows Server 2008 ‚ğÀs‚µ‚Ä‚¢‚éƒRƒ“ƒsƒ…[ƒ^‚Å‚ÍAUAC
+‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éB‘g‚İ‚İ‚Ì Administrator ˆÈŠO‚Ì Administrators ƒOƒ‹[ƒvƒƒ“ƒo‚ªAƒ}ƒjƒtƒFƒXƒg‚Å
+**requireAdministrator** ‚ğİ’è‚µ‚Ä‚¢‚È‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğÀs‚·‚é‚Æ¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª–³‚¢ê‡A‘g‚İ‚İ
+Administrator ˆÈŠO‚Ì Administrators ƒƒ“ƒo‚Í RunAs administrator ‚ÅÀs‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 WSCEnumProtocols
-The WSCEnumProtocols function retrieves information about available transport protocols.
+WSCEnumProtocols ŠÖ”‚ÍA—˜—p‰Â”\‚Èƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpiProtocols, lpProtocolBuffer, lpdwBufferLength, lpErrno
-lpiProtocols : [var] A **NULL**-terminated array of iProtocol values. This parameter is optional; if lpiProtocols is NULL, information on all available protocols is returned. Otherwise, information is retrieved only for those protocols listed in the array.
-lpProtocolBuffer : [var] A pointer to a buffer that is filled with WSAPROTOCOL_INFOW structures.
-lpdwBufferLength : [var] On input, size of the lpProtocolBuffer buffer passed to **WSCEnumProtocols**, in bytes. On output, the minimum buffer size, in bytes, that can be passed to **WSCEnumProtocols** to retrieve all the requested information.
-lpErrno : [var] A pointer to the error code.
+lpiProtocols : [var] iProtocol ’l‚Ì **NULL** I’[”z—ñB‚±‚Ìˆø”‚ÍÈ—ª‰Â”\‚ÅANULL ‚É‚·‚é‚Æ‚·‚×‚Ä‚Ì—˜—p‰Â”\ƒvƒƒgƒRƒ‹‚Ìî•ñ‚ª•Ô‚³‚ê‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í”z—ñ‚É—ñ‹“‚³‚ê‚½ƒvƒƒgƒRƒ‹‚Ì‚İî•ñ‚ªæ“¾‚³‚ê‚éB
+lpProtocolBuffer : [var] WSAPROTOCOL_INFOW \‘¢‘Ì‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwBufferLength : [var] “ü—Í‚Í **WSCEnumProtocols** ‚É“n‚· lpProtocolBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)Bo—Í‚ÍA—v‹‚µ‚½‘Sî•ñ‚ğæ“¾‚·‚é‚½‚ß‚É **WSCEnumProtocols** ‚É“n‚·‚×‚«Å¬ƒoƒbƒtƒ@ƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+lpErrno : [var] ƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSCEnumProtocols function retrieves information about available
-transport protocols.
+WSCEnumProtocols ŠÖ”‚ÍA—˜—p‰Â”\‚Èƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCEnumProtocols** returns the number of
-protocols to be reported on. Otherwise, a value of SOCKET_ERROR is
-returned and a specific error code is available in lpErrno.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCEnumProtocols** ‚Í•ñ‘ÎÛ‚ÌƒvƒƒgƒRƒ‹”‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The **WSCEnumProtocols** function is used to discover information
-about the collection of transport protocols installed on the local
-computer. This function differs from its API counterpart
-(WSAEnumProtocols) in that WSAPROTOCOL_INFOW structures for all
-installed protocols are returned. This includes protocols that the
-service provider has set the **PFL_HIDDEN** flag in the
-**dwProviderFlags** member of the **WSAPROTOCOL_INFOW** structure to
-indicate to the Ws2_32.dll that this protocol should not be returned
-in the result buffer generated by **WSAEnumProtocols** function. In
-addition, the **WSCEnumProtocols** also returns data for
-**WSAPROTOCOL_INFOW** structures that have a chain length of zero ( a
-dummy LSP provider). The **WSAEnumProtocols** only returns
-information on base protocols and protocol chains that lack the
-**PFL_HIDDEN** flag and don't have a protocol chain length of zero.
-**Note** Layered Service Providers are deprecated. Starting with
-Windows 8 and Windows Server 2012, use Windows Filtering Platform.
-The lpiProtocols parameter can be used as a filter to constrain the
-amount of information provided. Typically, a null pointer is supplied
-so the function will return information on all available transport
-protocols. A WSAPROTOCOL_INFOW structure is provided in the buffer
-pointed to by lpProtocolBuffer for each requested protocol. If the
-supplied buffer is not large enough (as indicated by the input value
-of lpdwBufferLength), the value pointed to by lpdwBufferLength will
-be updated to indicate the required buffer size. The Windows Sockets
-SPI client should then obtain a large enough buffer and call this
-function again. The **WSCEnumProtocols** function cannot enumerate
-over multiple calls; the passed-in buffer must be large enough to
-hold all expected entries in order for the function to succeed. This
-reduces the complexity of the function and should not pose a problem
-because the number of protocols loaded on a local computer is
-typically small. The order in which the WSAPROTOCOL_INFOW structures
-appear in the buffer coincides with the order in which the protocol
-entries were registered by the service provider with the WS2_32.dll,
-or with any subsequent reordering that may have occurred through the
-Windows Sockets applet supplied for establishing default transport
-providers.
+**WSCEnumProtocols**
+ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚ÌW‡‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ég‚¤B‚±‚ÌŠÖ”‚Í API ‘Š“–‚Ì
+WSAEnumProtocols ‚Æ‚ÍˆÙ‚È‚èAƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚·‚×‚Ä‚ÌƒvƒƒgƒRƒ‹‚Ì WSAPROTOCOL_INFOW
+\‘¢‘Ì‚ğ•Ô‚·B‚±‚ê‚É‚ÍAWs2_32.dll ‚É‘Î‚µ‚Ä WSAEnumProtocols ‚ÌŒ‹‰Êƒoƒbƒtƒ@‚É‚Í•Ô‚³‚È‚¢‚±‚Æ‚ğ¦‚·‚½‚ß
+**WSAPROTOCOL_INFOW** ‚Ì **dwProviderFlags** ‚É **PFL_HIDDEN**
+‚ğ—§‚Ä‚½ƒvƒƒoƒCƒ_‚âAchain ’·‚ª 0 ‚Ìƒ_ƒ~[ LSP ƒvƒƒoƒCƒ_‚àŠÜ‚Ü‚ê‚éBWSAEnumProtocols
+‚Íƒx[ƒXƒvƒƒgƒRƒ‹‚ÆA**PFL_HIDDEN** ƒtƒ‰ƒO‚ª—§‚½‚¸ chain ’·‚ª 0
+‚Å‚È‚¢ƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚µ‚©•Ô‚³‚È‚¢B**’**: Layered Service Provider ‚Í”ñ„§‚Å‚ ‚éBWindows 8
+‚¨‚æ‚Ñ Windows Server 2012 ˆÈ~‚Í Windows Filtering Platform
+‚ğg‚¤‚±‚ÆBlpiProtocols ‚ğg‚¦‚Îæ“¾î•ñ‚ği‚ê‚éB’Êí‚Í NULL
+‚ğ“n‚µA‘Sƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒgƒRƒ‹‚Ìî•ñ‚ğæ“¾‚·‚éB—v‹‚³‚ê‚½ŠeƒvƒƒgƒRƒ‹‚É‚Â‚¢‚Ä WSAPROTOCOL_INFOW \‘¢‘Ì‚ª
+lpProtocolBuffer ‚ªw‚·ƒoƒbƒtƒ@‚ÉŠi”[‚³‚ê‚éBƒoƒbƒtƒ@‚ª¬‚³‚·‚¬‚éê‡AlpdwBufferLength
+‚ª•K—vƒTƒCƒY‚ÅXV‚³‚ê‚éBWinsock SPI
+ƒNƒ‰ƒCƒAƒ“ƒg‚Í\•ª‚Èƒoƒbƒtƒ@‚ğŠm•Û‚µ‚ÄÄ“xŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB**WSCEnumProtocols**
+‚Í•¡”‰ñ‚ÌŒÄ‚Ño‚µ‚Å•ªŠ„—ñ‹“‚Å‚«‚È‚¢B“n‚·ƒoƒbƒtƒ@‚Í•K—v‚È‘SƒGƒ“ƒgƒŠ‚ğŠi”[‚Å‚«‚é‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ê‚É‚æ‚èŠÖ”‚Ì•¡G‚³‚ªŒ¸‚èAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚éƒvƒƒgƒRƒ‹”‚Í’Êí­‚È‚¢‚½‚ß–â‘è‚É‚È‚ç‚È‚¢B\‘¢‘Ì‚ªƒoƒbƒtƒ@“à‚É•À‚Ô‡˜‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ª
+WS2_32.dll ‚É“o˜^‚µ‚½‡A‚ ‚é‚¢‚Í‚»‚ÌŒã Winsock ƒAƒvƒŒƒbƒg‚Å•À‚Ñ‘Ö‚¦‚ç‚ê‚½‡‚Æˆê’v‚·‚éB
 
 
 %index
 WSCGetApplicationCategory
-Retrieves the layered service provider (LSP) categories associated with an application.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ LSP (Layered Service Provider) ƒJƒeƒSƒŠ‚ğæ“¾‚·‚éB
 %group
 Win32 ws2_32
 %prm
 Path, PathLength, Extra, ExtraLength, pPermittedLspCategories, lpErrno
-Path : [wstr] A pointer to a Unicode string that contains the load path to the executable image for the application. This string observes the usual rules for path resolution and can contain embedded environment strings (such as %SystemRoot%).
-PathLength : [int] The length, in characters, of the Path parameter. This length does not include the terminating **NULL**.
-Extra : [wstr] A pointer to a Unicode string which represents the command line arguments used when starting the application specified in the Path parameter. The Extra parameter is used to distinguish between multiple, distinct instances of an application when launched with a consistent command line.  This is to support different application categorizations for different instances of Svchost.exe or Rundll32.exe. If only the Path parameter is required and no command line arguments are needed to further distinguish between instances of an application, then the Extra parameter should be set to **NULL**.
-ExtraLength : [int] The length, in characters, of the Extra parameter. This length does not include the terminating **NULL**.
-pPermittedLspCategories : [var] A pointer to a DWORD value of permitted LSP categories which are permitted for all instances of this application. The application is identified by the combination of the values of the Path and Extra parameters.
-lpErrno : [var] A pointer to the error code if the function fails.
+Path : [wstr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÀsƒCƒ[ƒW‚Ö‚Ìƒ[ƒhƒpƒX‚ğŠÜ‚Ş Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’Êí‚ÌƒpƒX‰ğŒˆ‹K‘¥‚É]‚¢A%SystemRoot% ‚È‚Ç‚Ì–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ğŠÜ‚ß‚é‚±‚Æ‚à‚Å‚«‚éB
+PathLength : [int] Path ˆø”‚Ì’·‚³ (•¶š”)BI’[‚Ì **NULL** ‚ÍŠÜ‚Ü‚È‚¢B
+Extra : [wstr] Path ˆø”‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‹N“®‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ğ•\‚· Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BExtra ˆø”‚ÍA“¯‚¶ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Å‹N“®‚³‚ê‚é•¡”‚ÌˆÙ‚È‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‹æ•Ê‚·‚é‚½‚ß‚Ég‚¤BSvchost.exe ‚â Rundll32.exe ‚ÌˆÙ‚È‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‘Î‚µ‚ÄˆÙ‚È‚é•ª—Ş‚ğs‚¤‚½‚ß‚Ì‚à‚Ì‚Å‚ ‚éBPath ‚Ì‚İ‚Å\•ª‚ÅƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ª•s—v‚Èê‡AExtra ‚Í **NULL** ‚É‚·‚×‚«‚Å‚ ‚éB
+ExtraLength : [int] Extra ˆø”‚Ì’·‚³ (•¶š”)BI’[‚Ì **NULL** ‚ÍŠÜ‚Ü‚È‚¢B
+pPermittedLspCategories : [var] ‚±‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‘SƒCƒ“ƒXƒ^ƒ“ƒX‚Å‹–‰Â‚³‚ê‚é LSP ƒJƒeƒSƒŠ‚ğ•\‚· DWORD ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í Path ‚Æ Extra ‚Ì‘g‚İ‡‚í‚¹‚Å¯•Ê‚³‚ê‚éB
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the layered service provider (LSP) categories associated
-with an application.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ LSP (Layered Service Provider) ƒJƒeƒSƒŠ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCGetApplicationCategory** returns
-**ERROR_SUCCESS** (zero). Otherwise, it returns **SOCKET_ERROR**, and
-a specific error code is returned in the lpErrno parameter.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCGetApplicationCategory** ‚Í **ERROR_SUCCESS** (0)
+‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í **SOCKET_ERROR** ‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-**WSCGetApplicationCategory** is used to retrieve the LSP category
-flags associated with an application instance. Applications can
-determine which LSP behaviors are acceptable within the application's
-context. Therefore, by specifying permitted LSP categories, an
-application can permit only those layered service providers which
-implement acceptable behaviors to be loaded. The Extra parameter is
-required when the command line is used to distinguish between
-different instances of an application or service hosted within the
-same executable. Each instance can have different application
-categorization needs. Svchost.exe and Rundll32.exe are two examples
-where the command line is required to differentiate between different
-process instances. For SvcHost.exe, the **-k <svcinstance>** switch
-defines the process instance. For services, using the Service Name is
-not sufficient, since the Winsock Catalog is global to a given
-process, and a process may host several services. Window sockets
-determine an application's identity and retrieves the permitted LSP
-categories during the first call to WSAStartup. This will be the set
-of permitted LSP categories for the duration of the application
-instance. Subsequent changes to the permitted LSP categories for a
-given application identity will not be picked up until the next
-instance of the application. The permitted LSP categories are not
-mutable during the lifetime of the application instance. Winsock 2
-accommodates layered protocols. A layered protocol is one that
-implements only higher level communications functions, while relying
-on an underlying transport stack for the actual exchange of data with
-a remote endpoint. An example of a layered protocol or layered
-service provider would be a security layer that adds protocol to the
-connection establishment process in order to perform authentication
-and to establish a mutually agreed upon encryption scheme. Such a
-security protocol would generally require the services of an
-underlying reliable transport protocol such as TCP or SPX. The term
-base protocol refers to a protocol such as TCP or SPX which is
-capable of performing data communications with a remote endpoint. The
-term layered protocol is used to describe a protocol that cannot
-stand alone. During LSP initialization, the LSP must provide pointers
-to a number of Winsock SPI functions. These functions will be called
-during normal processing by the layer directly above the LSP (either
-another LSP or Ws2_32.DLL). An LSP that implements an installable
-file system (IFS) can selectively choose to provide pointers to
-functions which are implemented by itself, or pass back the pointers
-provided by the layer directly below the LSP. Non-IFS LSPs, because
-they provide their own handles, must implement all of the Winsock SPI
-functions. This is because each SPI will require the LSP to map all
-of the socket handles it created to the socket handle of the lower
-provider (either another LSP or the base protocol). However, all LSPs
-perform their specific work by doing extra processing on only a
-subset of the Winsock SPI functions. It is possible to define LSP
-categories based upon the subset of SPI functions an LSP implements
-and the nature of the extra processing performed for each of those
-functions. By classifying LSPs, as well as classifying applications
-which use Winsock sockets, it becomes possible to selectively
-determine if an LSP should be involved in a given process at runtime.
-On Windows Vista and later, an LSP can be classified based on how it
-interacts with Windows Sockets calls and data. An LSP category is an
-identifiable group of behaviors on a subset of Winsock SPI functions.
-For example, an HTTP content filter would be categorized as a data
-inspector (the LSP_INSPECTOR category). The LSP_INSPECTOR category
-will inspect (but not alter) parameters to data transfer SPI
-functions. An application can query for the category of an LSP and
-choose to not load the LSP based on the LSP category and the
-application's set of permitted LSP categories.
-This doc was truncated.
+**WSCGetApplicationCategory** ‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ LSP
+ƒJƒeƒSƒŠƒtƒ‰ƒO‚ğæ“¾‚·‚é‚½‚ß‚Ég‚¤BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚»‚ÌƒRƒ“ƒeƒLƒXƒg“à‚Å‚Ç‚Ì LSP ‹““®‚ª‹–—e‚³‚ê‚é‚©”»’f‚Å‚«‚éB‹–‰Â‚·‚é LSP
+ƒJƒeƒSƒŠ‚ğw’è‚·‚é‚±‚Æ‚ÅA‚»‚Ì‹““®‚ğÀ‘•‚·‚é Layered Service Provider ‚Ì‚İ‚ªƒ[ƒh‚³‚ê‚é‚æ‚¤‚É‚Å‚«‚éBExtra
+ˆø”‚ÍA“¯‚¶Àsƒtƒ@ƒCƒ‹“à‚ÅƒzƒXƒg‚³‚ê‚éˆÙ‚È‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âƒT[ƒrƒX‚ğƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Å‹æ•Ê‚·‚é•K—v‚ª‚ ‚é‚Æ‚«‚É•K{‚Å‚ ‚éBSvchost.exe
+‚Æ Rundll32.exe ‚Í‚»‚Ì‘ã•\—á‚ÅASvcHost.exe ‚Ì **-k <svcinstance>**
+ƒXƒCƒbƒ`‚ÅƒvƒƒZƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğ’è‹`‚·‚éBƒT[ƒrƒX‚Å‚ÍƒT[ƒrƒX–¼‚¾‚¯‚Å‚Í•s\•ª‚ÅAWinsock ƒJƒ^ƒƒO‚ÍƒvƒƒZƒX‚ÉƒOƒ[ƒoƒ‹‚Å‚ ‚èA1
+ƒvƒƒZƒX‚ª•¡”ƒT[ƒrƒX‚ğƒzƒXƒg‚·‚é‚±‚Æ‚ª‚ ‚é‚½‚ß‚Å‚ ‚éBWinsock ‚ÍÅ‰‚Ì WSAStartup
+ŒÄ‚Ño‚µ‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì¯•Ê‚Æ‹–‰Â LSP ƒJƒeƒSƒŠ‚Ìæ“¾‚ğs‚¤B‚±‚ê‚ª‚»‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶‘¶ŠúŠÔ’†‚Ì‹–‰Â LSP
+ƒJƒeƒSƒŠW‡‚Æ‚È‚éBˆÈ~‚Ì•ÏX‚ÍŸ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ü‚Å”½‰f‚³‚ê‚¸AƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶‘¶ŠúŠÔ’†‚É‹–‰ÂƒJƒeƒSƒŠ‚Í•Ï‰»‚µ‚È‚¢BWinsock 2
+‚ÍƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚éBƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚Í‚ƒŒƒxƒ‹’ÊM‹@”\‚Ì‚İ‚ğÀ‘•‚µAÀÛ‚Ìƒf[ƒ^ŒğŠ·‚Í‰ºˆÊ‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒXƒ^ƒbƒN‚ÉˆË‘¶‚·‚éB—á‚Æ‚µ‚ÄA”FØ‚ÆˆÃ†‰»‡ˆÓ‚Ì‚½‚ß‚ÉƒvƒƒgƒRƒ‹‚ğ’Ç‰Á‚·‚éƒZƒLƒ…ƒŠƒeƒB‘w‚ª‹“‚°‚ç‚ê‚éB‚±‚Ì‚æ‚¤‚ÈƒZƒLƒ…ƒŠƒeƒBƒvƒƒgƒRƒ‹‚Í
+TCP ‚â SPX ‚È‚Ç‰ºˆÊ‚ÌM—Š‚Å‚«‚éƒgƒ‰ƒ“ƒXƒ|[ƒg‚ğ•K—v‚Æ‚·‚éBƒx[ƒXƒvƒƒgƒRƒ‹‚Í TCP ‚â SPX
+‚Ì‚æ‚¤‚É’P“Æ‚Å’ÊM‰Â”\‚ÈƒvƒƒgƒRƒ‹AƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚Í’P“Æ‚Å‚Íg‚¦‚È‚¢ƒvƒƒgƒRƒ‹‚Å‚ ‚éBLSP ‰Šú‰»ALSP ‚Í Winsock
+SPI ŠÖ”‚ÌŠÖ”ƒ|ƒCƒ“ƒ^‚ğ—pˆÓ‚·‚éBIFS ‚ğÀ‘•‚·‚é LSP ‚Í©•ª‚ÅÀ‘•‚·‚é‚©’¼‰º‘w‚Ìƒ|ƒCƒ“ƒ^‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·‚©‚ğ‘I‘ğ‚Å‚«‚éB”ñ
+IFS LSP ‚Í“Æ©ƒnƒ“ƒhƒ‹‚ğ’ñ‹Ÿ‚·‚é‚Ì‚Å‘S SPI ‚ğÀ‘•‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BLSP ‚Í SPI
+‚Ì•”•ªW‡‚É“Á—L‚Ì’Ç‰Áˆ—‚ğs‚¤‚Ì‚ª’Êí‚Å‚ ‚éBÀ‘•‚µ‚Ä‚¢‚é SPI ‚Ì•”•ªW‡‚Æ’Ç‰Áˆ—‚Ì«¿‚ÉŠî‚Ã‚¢‚Ä LSP
+ƒJƒeƒSƒŠ‚ğ’è‹`‚Å‚«‚éBLSP ‚Æ Winsock ƒ\ƒPƒbƒg‚ğg‚¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ•ª—Ş‚·‚é‚±‚Æ‚ÅAÀs‚É“Á’èƒvƒƒZƒX‚Å LSP
+‚ğŠÖ—^‚³‚¹‚é‚©‚ğ‘I‘ğ“I‚ÉŒˆ‚ß‚ç‚ê‚éBWindows Vista ˆÈ~‚Å‚ÍALSP ‚Í Winsock
+ŒÄ‚Ño‚µ‚âƒf[ƒ^‚Æ‚Ì‘ŠŒİì—p‚Ì‚µ‚©‚½‚ÉŠî‚Ã‚¢‚Ä•ª—Ş‚Å‚«‚éBLSP ƒJƒeƒSƒŠ‚Í Winsock SPI
+ŠÖ”•”•ªW‡‚É‘Î‚·‚é¯•Ê‰Â”\‚È‹““®ƒOƒ‹[ƒv‚Å‚ ‚éB‚½‚Æ‚¦‚Î HTTP ƒRƒ“ƒeƒ“ƒcƒtƒBƒ‹ƒ^‚Íƒf[ƒ^ƒCƒ“ƒXƒyƒNƒ^
+(LSP_INSPECTOR) ‚É•ª—Ş‚³‚ê‚éBLSP_INSPECTOR ‚Íƒf[ƒ^“]‘— SPI
+ŠÖ”‚Ìˆø”‚ğŒŸ¸‚·‚é‚ª•ÏX‚Í‚µ‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í LSP ‚ÌƒJƒeƒSƒŠ‚ğƒNƒGƒŠ‚µA‹–‰ÂƒJƒeƒSƒŠW‡‚ÉŠî‚Ã‚¢‚Ä LSP
+‚ğ“Ç‚İ‚Ü‚È‚¢‘I‘ğ‚ª‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSCGetProviderInfo
-Retrieves the data associated with an information class for a layered service provider (LSP).
+Layered Service Provider (LSP) ‚Ìî•ñƒNƒ‰ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, InfoType, Info, InfoSize, Flags, lpErrno
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the provider.
-InfoType : [int] The information class that is requested for this LSP protocol entry.
-Info : [var] A pointer to a buffer to receive the information class data for the requested LSP protocol entry. If this parameter is **NULL**, then **WSCGetProviderInfo** returns failure and the size required for this buffer is returned in the InfoSize parameter.
-InfoSize : [var] The size, in bytes, of the buffer pointed to by the Info  parameter. If the Info parameter is **NULL**, then  **WSCGetProviderInfo** returns failure and the InfoSize parameter will receive the size of the required buffer.
-Flags : [int] The flags used to modify the behavior of the **WSCGetProviderInfo** function call.
-lpErrno : [var] A pointer to the error code if the function fails.
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+InfoType : [int] ‚±‚Ì LSP ƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚É‘Î‚µ‚Ä—v‹‚·‚éî•ñƒNƒ‰ƒXB
+Info : [var] —v‹‚³‚ê‚½ LSP ƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚Ìî•ñƒNƒ‰ƒXƒf[ƒ^‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B**NULL** ‚Ìê‡A**WSCGetProviderInfo** ‚Í¸”s‚µA•K—vƒoƒbƒtƒ@ƒTƒCƒY‚ª InfoSize ‚Å•Ô‚³‚ê‚éB
+InfoSize : [var] Info ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)BInfo ‚ª **NULL** ‚È‚ç **WSCGetProviderInfo** ‚Í¸”s‚µAInfoSize ‚É•K—v‚ÈƒTƒCƒY‚ª•Ô‚³‚ê‚éB
+Flags : [int] **WSCGetProviderInfo** ŒÄ‚Ño‚µ‚Ì“®ì‚ğ•ÏX‚·‚éƒtƒ‰ƒOB
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the data associated with an information class for a layered
-service provider (LSP).
+Layered Service Provider (LSP) ‚Ìî•ñƒNƒ‰ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCGetProviderInfo** returns **ERROR_SUCCESS**
-(zero). Otherwise, it returns **SOCKET_ERROR**, and a specific error
-code is returned in the lpErrno parameter.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCGetProviderInfo** ‚Í **ERROR_SUCCESS** (0) ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í
+**SOCKET_ERROR** ‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-**WSCGetProviderInfo** is used to retrieve information class data for
-a layered service provider. When the InfoType parameter is set to
-**ProviderInfoLspCategories**, on success **WSCGetProviderInfo**
-returns with the Info parameter set with appropriate LSP category
-flags implemented by the LSP. Winsock 2 accommodates layered
-protocols. A layered protocol is one that implements only higher
-level communications functions, while relying on an underlying
-transport stack for the actual exchange of data with a remote
-endpoint. An example of a layered protocol or layered service
-provider would be a security layer that adds protocol to the
-connection establishment process in order to perform authentication
-and to establish a mutually agreed upon encryption scheme. Such a
-security protocol would generally require the services of an
-underlying reliable transport protocol such as TCP or SPX. The term
-base protocol refers to a protocol such as TCP or SPX which is
-capable of performing data communications with a remote endpoint. The
-term layered protocol is used to describe a protocol that cannot
-stand alone. A protocol chain would then be defined as one or more
-layered protocols strung together and anchored by a base protocol. A
-base protocol has the **ChainLen** member of the WSAProtocol_Info
-structure set to **BASE_PROTOCOL** which is defined to be 1. A
-layered protocol has the **ChainLen** member of the
-**WSAPROTOCOL_INFO** structure set to **LAYERED_PROTOCOL** which is
-defined to be zero. A protocol chain has the **ChainLen** member of
-the **WSAPROTOCOL_INFO** structure set to greater than 1. During LSP
-initialization, the LSP must provide pointers to a number of Winsock
-SPI functions. These functions will be called during normal
-processing by the layer directly above the LSP (either another LSP or
-Ws2_32.DLL). An LSP that implements an installable file system (IFS)
-can selectively choose to provide pointers to functions which are
-implemented by itself, or pass back the pointers provided by the
-layer directly below the LSP. Non-IFS LSPs, because they provide
-their own handles, must implement all of the Winsock SPI functions.
-This is because each SPI will require the LSP to map all of the
-socket handles it created to the socket handle of the lower provider
-(either another LSP or the base protocol). However, all LSPs perform
-their specific work by doing extra processing on only a subset of the
-Winsock SPI functions. It is possible to define LSP categories based
-upon the subset of SPI functions an LSP implements and the nature of
-the extra processing performed for each of those functions. By
-classifying LSPs, as well as classifying applications which use
-Winsock sockets, it becomes possible to selectively determine if an
-LSP should be involved in a given process at runtime.
-On Windows Vista and later, an LSP can be classified based on how it
-interacts with Windows Sockets calls and data. An LSP category is an
-identifiable group of behaviors on a subset of Winsock SPI functions.
-For example, an HTTP content filter would be categorized as a data
-inspector (the LSP_INSPECTOR category). The LSP_INSPECTOR category
-will inspect (but not alter) parameters to data transfer SPI
-functions. An application can query for the category of an LSP and
-choose to not load the LSP based on the LSP category and the
-application's set of permitted LSP categories.
-This doc was truncated.
+**WSCGetProviderInfo** ‚ÍALayered Service Provider
+‚Ìî•ñƒNƒ‰ƒXƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚Ég‚¤BInfoType ‚É **ProviderInfoLspCategories**
+‚ğw’è‚µ‚½ê‡A¬Œ÷‚É **WSCGetProviderInfo** ‚Í LSP ‚ªÀ‘•‚·‚é“KØ‚È LSP ƒJƒeƒSƒŠƒtƒ‰ƒO‚ğ Info
+‚Éİ’è‚µ‚Ä•Ô‚·BWinsock 2
+‚ÍƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚éBƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚Í‚ƒŒƒxƒ‹’ÊM‹@”\‚Ì‚İ‚ğÀ‘•‚µA‰ºˆÊƒgƒ‰ƒ“ƒXƒ|[ƒgƒXƒ^ƒbƒN‚ÉÀƒf[ƒ^ŒğŠ·‚ğˆË‘¶‚·‚éB”FØ‚ÆˆÃ†‰»‡ˆÓ‚Ì‚½‚ß‚ÉƒvƒƒgƒRƒ‹‚ğ’Ç‰Á‚·‚éƒZƒLƒ…ƒŠƒeƒB‘w‚ª—á‚ÅA‚±‚Ì‚æ‚¤‚ÈƒvƒƒgƒRƒ‹‚Í
+TCP ‚â SPX
+“™‚ğ•K—v‚Æ‚·‚éBƒx[ƒXƒvƒƒgƒRƒ‹‚Í’P“Æ‚Å’ÊM‰Â”\‚ÈƒvƒƒgƒRƒ‹AƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚Í’P“Æ‚Å‚Íg‚¦‚È‚¢ƒvƒƒgƒRƒ‹‚Å‚ ‚éBƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚Í
+1 ‚ÂˆÈã‚ÌƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚ğƒx[ƒXƒvƒƒgƒRƒ‹‚ÅI’[‚µ‚½‚à‚Ì‚Å‚ ‚éBWSAProtocol_Info \‘¢‘Ì‚Ì
+**ChainLen** ‚ª **BASE_PROTOCOL** (1) ‚È‚çƒx[ƒXA**LAYERED_PROTOCOL** (0)
+‚È‚çƒŒƒCƒ„[ƒhA1 ‚æ‚è‘å‚«‚¯‚ê‚Îƒ`ƒF[ƒ“‚Å‚ ‚éBLSP ‰Šú‰»ALSP ‚Í Winsock SPI
+ŠÖ”‚Ìƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BIFS LSP ‚Í©‘OÀ‘•‚©’¼‰º‘w‚Ìƒ|ƒCƒ“ƒ^‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·‚©‚ğ‘I‘ğ‚Å‚«‚éB”ñ IFS LSP
+‚Í“Æ©ƒnƒ“ƒhƒ‹‚ğ‚Â‚½‚ß‘S SPI ‚ğÀ‘•‚·‚é•K—v‚ª‚ ‚éBLSP ‚Í SPI ‚Ì•”•ªW‡‚É’Ç‰Áˆ—‚ğs‚¤B‚±‚ê‚ğŠî‚É LSP
+ƒJƒeƒSƒŠ‚ª’è‹`‚³‚ê‚éBWindows Vista ˆÈ~‚Å‚Í Winsock ŒÄ‚Ño‚µ‚Æƒf[ƒ^‚Ö‚Ìì—p•û–@‚Å•ª—Ş‚³‚ê‚éBLSP ƒJƒeƒSƒŠ‚Í
+SPI •”•ªW‡ã‚Ì¯•Ê‰Â”\‚È‹““®ŒQ‚ÅA—á‚¦‚Î HTTP ƒRƒ“ƒeƒ“ƒcƒtƒBƒ‹ƒ^‚Í LSP_INSPECTOR
+‚É•ª—Ş‚³‚ê‚éBLSP_INSPECTOR ‚Íƒf[ƒ^“]‘— SPI ŠÖ”‚Ìˆø”‚ğŒŸ¸‚·‚é‚ª•ÏX‚µ‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í LSP
+‚ÌƒJƒeƒSƒŠ‚ğ–â‚¢‡‚í‚¹A‹–‰ÂƒJƒeƒSƒŠ‚ÉŠî‚Ã‚«ƒ[ƒh‚µ‚È‚¢‘I‘ğ‚ª‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSCGetProviderPath
-The WSCGetProviderPath function retrieves the DLL path for the specified provider.
+WSCGetProviderPath ŠÖ”‚ÍAw’è‚µ‚½ƒvƒƒoƒCƒ_‚Ì DLL ƒpƒX‚ğæ“¾‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, lpszProviderDllPath, lpProviderDllPathLen, lpErrno
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the provider. This value is obtained by using WSCEnumProtocols.
-lpszProviderDllPath : [wstr] A pointer to a buffer into which the provider DLL's path string is returned. The path is a null-terminated string and any embedded environment strings, such as %SystemRoot%, have not been expanded.
-lpProviderDllPathLen : [var] The size, in characters, of the buffer pointed to by the lpszProviderDllPath parameter.
-lpErrno : [var] A pointer to the error code if the function fails.
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚Í WSCEnumProtocols ‚Åæ“¾‚³‚ê‚éB
+lpszProviderDllPath : [wstr] ƒvƒƒoƒCƒ_ DLL ‚ÌƒpƒX•¶š—ñ‚ğ•Ô‚·ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒpƒX‚Í NULL I’[•¶š—ñ‚ÅA%SystemRoot% ‚Ì‚æ‚¤‚È–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚Í“WŠJ‚³‚ê‚È‚¢B
+lpProviderDllPathLen : [var] lpszProviderDllPath ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (•¶š”)B
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WSCGetProviderPath function retrieves the DLL path for the
-specified provider.
+WSCGetProviderPath ŠÖ”‚ÍAw’è‚µ‚½ƒvƒƒoƒCƒ_‚Ì DLL ƒpƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCGetProviderPath** returns zero. Otherwise,
-it returns SOCKET_ERROR. The specific error code is available in
-lpErrno.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCGetProviderPath** ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í SOCKET_ERROR
+‚ğ•Ô‚µA“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚Í lpErrno ‚©‚çæ“¾‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The **WSCGetProviderPath** function retrieves the DLL path for the
-specified provider. The DLL path can contain embedded environment
-strings, such as %SystemRoot%, and thus should be expanded prior to
-being used with the Windows LoadLibrary function. For more
-information, see **LoadLibrary**.
+**WSCGetProviderPath** ŠÖ”‚ÍAw’è‚³‚ê‚½ƒvƒƒoƒCƒ_‚Ì DLL ƒpƒX‚ğæ“¾‚·‚éBDLL ƒpƒX‚É‚Í
+%SystemRoot% ‚Ì‚æ‚¤‚È–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ªŠÜ‚Ü‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßAWindows ‚Ì LoadLibrary
+‚Åg‚¤‘O‚É“WŠJ‚·‚é•K—v‚ª‚ ‚éBÚ‚µ‚­‚Í **LoadLibrary** ‚ğQÆB
 
 
 %index
 WSCInstallNameSpace
-Installs a namespace provider. (WSCInstallNameSpace)
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB(WSCInstallNameSpace)
 %group
 Win32 ws2_32
 %prm
 lpszIdentifier, lpszPathName, dwNameSpace, dwVersion, lpProviderId
-lpszIdentifier : [wstr] A pointer to a string that identifies the provider associated with the globally unique identifier (GUID) passed in the lpProviderId parameter.
-lpszPathName : [wstr] A pointer to a Unicode string that contains the load path to the provider DLL. This string observes the usual rules for path resolution and can contain embedded environment strings (such as %SystemRoot%). Such environment strings are expanded when the Ws2_32.dll must subsequently load the provider DLL on behalf of an application. After any embedded environment strings are expanded, the Ws2_32.dll passes the resulting string to the LoadLibrary function which loads the provider into memory. For more information, see **LoadLibrary**.
-dwNameSpace : [int] The namespace supported by this provider.
-dwVersion : [int] The version number of the provider.
-lpProviderId : [var] A pointer to a GUID  for the provider. This GUID should be generated by Uuidgen.exe.
+lpszIdentifier : [wstr] lpProviderId ‚Ì GUID ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒoƒCƒ_‚ğ¯•Ê‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszPathName : [wstr] ƒvƒƒoƒCƒ_ DLL ‚Ö‚Ìƒ[ƒhƒpƒX‚ğŠÜ‚Ş Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’Êí‚ÌƒpƒX‰ğŒˆ‹K‘¥‚É]‚¢A%SystemRoot% ‚È‚Ç‚Ì–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ğŠÜ‚ß‚Ä‚æ‚¢B–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ÍAWs2_32.dll ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚½‚ß‚ÉƒvƒƒoƒCƒ_ DLL ‚ğƒ[ƒh‚·‚é‚Æ‚«‚É“WŠJ‚³‚ê‚éB“WŠJŒãAWs2_32.dll ‚ÍŒ‹‰Ê‚Ì•¶š—ñ‚ğ LoadLibrary ‚É“n‚µ‚ÄƒvƒƒoƒCƒ_‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éBÚ‚µ‚­‚Í **LoadLibrary** ‚ğQÆB
+dwNameSpace : [int] ‚±‚ÌƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚é–¼‘O‹óŠÔB
+dwVersion : [int] ƒvƒƒoƒCƒ_‚Ìƒo[ƒWƒ‡ƒ“”Ô†B
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì GUID ‚Í Uuidgen.exe ‚Å¶¬‚·‚×‚«‚Å‚ ‚éB
 %inst
-Installs a namespace provider. (WSCInstallNameSpace)
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB(WSCInstallNameSpace)
 
 [–ß‚è’l]
-If no error occurs, the **WSCInstallNameSpace** function returns
-**NO_ERROR** (zero). Otherwise, it returns **SOCKET_ERROR** if the
-function fails, and you must retrieve the appropriate error code
-using the WSAGetLastError function.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCInstallNameSpace** ‚Í **NO_ERROR** (0) ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚·‚é‚Æ
+**SOCKET_ERROR** ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“KØ‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The namespace?configuration functions do not affect applications that
-are already running. Newly installed namespace providers will not be
-visible to applications nor will the changes in a namespace
-provider's activation state. Applications launched after the call to
-**WSCInstallNameSpace** will see the changes. The
-**WSCInstallNameSpace** function can only be called by a user logged
-on as a member of the Administrators group. If
-**WSCInstallNameSpace** is called by a user that is not a member of
-the Administrators group, the function call will fail. For computers
-running on Windows Vista or Windows Server 2008, this function can
-also fail because of user account control (UAC). If an application
-that contains this function is executed by a user logged on as a
-member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a **requestedExecutionLevel** set to
-**requireAdministrator**. If the application on Windows Vista or
-Windows Server 2008 lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (RunAs administrator) for this
-function to succeed.
+
+–¼‘O‹óŠÔ\¬ŠÖ”‚Í‚·‚Å‚ÉÀs’†‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Í‰e‹¿‚µ‚È‚¢BV‹KƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚âó‘Ô•Ï‰»‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚ÍŒ©‚¦‚¸A**WSCInstallNameSpace**
+ŒÄ‚Ño‚µŒã‚É‹N“®‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Ì‚İ•ÏX‚ª”½‰f‚³‚ê‚éB**WSCInstallNameSpace** ‚Í
+Administrators ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚éƒ†[ƒU[‚Ì‚İ‚ªŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í¸”s‚·‚éBWindows
+Vista ‚â Windows Server 2008 ‚Å‚ÍAUAC ‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éBƒ}ƒjƒtƒFƒXƒg‚Å
+**requireAdministrator** ‚ğİ’è‚µ‚Ä‚¢‚È‚¢ê‡A‘g‚İ‚İ Administrator ˆÈŠO‚Ì
+Administrators ƒƒ“ƒo‚Í RunAs administrator ‚ÅÀs‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 WSCInstallNameSpaceEx
-Installs a namespace provider. (WSCInstallNameSpaceEx)
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB(WSCInstallNameSpaceEx)
 %group
 Win32 ws2_32
 %prm
 lpszIdentifier, lpszPathName, dwNameSpace, dwVersion, lpProviderId, lpProviderSpecific
-lpszIdentifier : [wstr] A pointer to a string that identifies the provider associated with the globally unique identifier (GUID) passed in the lpProviderId parameter.
-lpszPathName : [wstr] A pointer to a Unicode string that contains the load path to the provider DLL. This string observes the usual rules for path resolution and can contain embedded environment strings (such as %SystemRoot%). Such environment strings are expanded when the Ws2_32.dll must subsequently load the provider DLL on behalf of an application. After any embedded environment strings are expanded, the Ws2_32.dll passes the resulting string to the LoadLibrary function which loads the provider into memory. For more information, see **LoadLibrary**.
-dwNameSpace : [int] The namespace supported by this provider.
-dwVersion : [int] The version number of the provider.
-lpProviderId : [var] A pointer to a GUID  for the provider. This GUID should be generated by Uuidgen.exe.
-lpProviderSpecific : [var] A provider-specific data blob associated with namespace entry.
+lpszIdentifier : [wstr] lpProviderId ‚Ì GUID ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒoƒCƒ_‚ğ¯•Ê‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszPathName : [wstr] ƒvƒƒoƒCƒ_ DLL ‚Ö‚Ìƒ[ƒhƒpƒX‚ğŠÜ‚Ş Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’Êí‚ÌƒpƒX‰ğŒˆ‹K‘¥‚É]‚¢A%SystemRoot% ‚È‚Ç‚Ì–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ğŠÜ‚ß‚Ä‚æ‚¢B–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ÍAWs2_32.dll ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚½‚ß‚ÉƒvƒƒoƒCƒ_ DLL ‚ğƒ[ƒh‚·‚é‚Æ‚«‚É“WŠJ‚³‚ê‚éB“WŠJŒãAWs2_32.dll ‚ÍŒ‹‰Ê‚Ì•¶š—ñ‚ğ LoadLibrary ‚É“n‚µ‚ÄƒvƒƒoƒCƒ_‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éBÚ‚µ‚­‚Í **LoadLibrary** ‚ğQÆB
+dwNameSpace : [int] ‚±‚ÌƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚é–¼‘O‹óŠÔB
+dwVersion : [int] ƒvƒƒoƒCƒ_‚Ìƒo[ƒWƒ‡ƒ“”Ô†B
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì GUID ‚Í Uuidgen.exe ‚Å¶¬‚·‚×‚«‚Å‚ ‚éB
+lpProviderSpecific : [var] –¼‘O‹óŠÔƒGƒ“ƒgƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒoƒCƒ_ŒÅ—Lƒf[ƒ^ƒuƒƒuB
 %inst
-Installs a namespace provider. (WSCInstallNameSpaceEx)
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB(WSCInstallNameSpaceEx)
 
 [–ß‚è’l]
-If no error occurs, the **WSCInstallNameSpaceEx** function returns
-**NO_ERROR** (zero). Otherwise, it returns **SOCKET_ERROR** if the
-function fails, and you must retrieve the appropriate error code
-using the WSAGetLastError function.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCInstallNameSpaceEx** ‚Í **NO_ERROR** (0) ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚·‚é‚Æ
+**SOCKET_ERROR** ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“KØ‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The namespace?configuration functions do not affect applications that
-are already running. Newly installed name-space providers will not be
-visible to applications nor will the changes in a name-space
-provider's activation state. Applications launched after the call to
-**WSCInstallNameSpaceEx** will see the changes. The provider-specific
-data blob associated with namespace entry passed in the
-lpProviderInfo parameter can be queried using the
-WSAEnumNameSpaceProvidersEx function. Currently, the only namespace
-provider included with Windows that uses the lpProviderInfo parameter
-is the NS_EMAIL provider. The format of the buffer pointed to by the
-lpProviderInfo parameter for an NS_EMAIL namespace provider is a
-NAPI_PROVIDER_INSTALLATION_BLOB structure. The
-**WSCInstallNameSpaceEx** function can only be called by a user
-logged on as a member of the Administrators group. If
-**WSCInstallNameSpaceEx** is called by a user that is not a member of
-the Administrators group, the function call will fail. For computers
-running on Windows Vista or Windows Server 2008, this function can
-also fail because of user account control (UAC). If an application
-that contains this function is executed by a user logged on as a
-member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a **requestedExecutionLevel** set to
-**requireAdministrator**. If the application on Windows Vista or
-Windows Server 2008 lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (RunAs administrator) for this
-function to succeed.
+
+–¼‘O‹óŠÔ\¬ŠÖ”‚Í‚·‚Å‚ÉÀs’†‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Í‰e‹¿‚µ‚È‚¢BV‹KƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚âó‘Ô•Ï‰»‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚ÍŒ©‚¦‚¸A**WSCInstallNameSpaceEx**
+ŒÄ‚Ño‚µŒã‚É‹N“®‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Ì‚İ•ÏX‚ª”½‰f‚³‚ê‚éBlpProviderInfo
+ˆø”‚Å“n‚³‚ê‚é–¼‘O‹óŠÔƒGƒ“ƒgƒŠŠÖ˜A‚ÌƒvƒƒoƒCƒ_ŒÅ—Lƒf[ƒ^ƒuƒƒu‚ÍAWSAEnumNameSpaceProvidersEx
+‚Å–â‚¢‡‚í‚¹‰Â”\‚Å‚ ‚éBWindows ‚É“¯«‚³‚ê‚Ä‚¢‚éƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Å lpProviderInfo ‚ğg‚¤‚Ì‚Í
+NS_EMAIL ƒvƒƒoƒCƒ_‚Ì‚İ‚Å‚ ‚éBNS_EMAIL ‚Ìƒf[ƒ^ƒuƒƒu‚Í NAPI_PROVIDER_INSTALLATION_BLOB
+\‘¢‘Ì‚Å‚ ‚éB**WSCInstallNameSpaceEx** ‚Í Administrators
+ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚éƒ†[ƒU[‚Ì‚İ‚ªŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í¸”s‚·‚éBWindows Vista ‚â Windows
+Server 2008 ‚Å‚Í UAC ‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éBƒ}ƒjƒtƒFƒXƒg‚Å **requireAdministrator**
+‚ğİ’è‚µ‚Ä‚¢‚È‚¢ê‡A‘g‚İ‚İ Administrator ˆÈŠO‚Ì Administrators ƒƒ“ƒo‚Í RunAs
+administrator ‚ÅÀs‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 WSCInstallProvider
-Installs the specified transport provider into the system configuration database.
+w’è‚µ‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚ğƒVƒXƒeƒ€\¬ƒf[ƒ^ƒx[ƒX‚ÉƒCƒ“ƒXƒg[ƒ‹‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, lpszProviderDllPath, lpProtocolInfoList, dwNumberOfEntries, lpErrno
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the provider.
-lpszProviderDllPath : [wstr] A pointer to a Unicode string that contains the load path to the provider DLL. This string observes the usual rules for path resolution and can contain embedded environment strings (such as %SystemRoot%). Such environment strings are expanded when the Ws2_32.dll must subsequently load the provider DLL on behalf of an application. After any embedded environment strings are expanded, the Ws2_32.dll passes the resulting string to the LoadLibrary function which loads the provider into memory. For more information, see **LoadLibrary**.
-lpProtocolInfoList : [var] A pointer to an array of WSAProtocol_Info structures. Each structure defines a protocol, address family, and socket type supported by the provider.
-dwNumberOfEntries : [int] The number of entries in the lpProtocolInfoList array.
-lpErrno : [var] A pointer to the error code if the function fails.
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszProviderDllPath : [wstr] ƒvƒƒoƒCƒ_ DLL ‚Ö‚Ìƒ[ƒhƒpƒX‚ğŠÜ‚Ş Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’Êí‚ÌƒpƒX‰ğŒˆ‹K‘¥‚É]‚¢A%SystemRoot% ‚È‚Ç‚Ì–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ğŠÜ‚ß‚Ä‚æ‚¢B–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ÍAWs2_32.dll ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚½‚ß‚ÉƒvƒƒoƒCƒ_ DLL ‚ğƒ[ƒh‚·‚é‚Æ‚«‚É“WŠJ‚³‚ê‚éB“WŠJŒãAWs2_32.dll ‚ÍŒ‹‰Ê‚Ì•¶š—ñ‚ğ LoadLibrary ‚É“n‚µ‚ÄƒvƒƒoƒCƒ_‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éBÚ‚µ‚­‚Í **LoadLibrary** ‚ğQÆB
+lpProtocolInfoList : [var] WSAProtocol_Info \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe\‘¢‘Ì‚ÍAƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚éƒvƒƒgƒRƒ‹AƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠAƒ\ƒPƒbƒgí•Ê‚ğ’è‹`‚·‚éB
+dwNumberOfEntries : [int] lpProtocolInfoList ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Installs the specified transport provider into the system
-configuration database.
+w’è‚µ‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚ğƒVƒXƒeƒ€\¬ƒf[ƒ^ƒx[ƒX‚ÉƒCƒ“ƒXƒg[ƒ‹‚·‚éB
 
 [–ß‚è’l]
-If **WSCInstallProvider** succeeds, it returns zero. Otherwise, it
-returns **SOCKET_ERROR**, and a specific error code is returned in
-the lpErrno parameter.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡A**WSCInstallProvider** ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í **SOCKET_ERROR**
+‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-**WSCInstallProvider** is used to install a single transport service
-provider. This routine creates the necessary common Windows Sockets 2
-configuration information for the specified provider. It is
-applicable to base protocols, layered protocols, and protocol chains.
-If a layered service provider is being installed, then
-WSCInstallProviderAndChains should be used.
-**WSCInstallProviderAndChains** can install a layered protocol and
-one or more protocol chains with a single function call. To
-accomplish the same work using **WSCInstallProvider** would require
-multiple function calls. Winsock 2 accommodates layered protocols. A
-layered protocol is one that implements only higher level
-communications functions while relying on an underlying transport
-stack for the actual exchange of data with a remote endpoint. An
-example of a layered protocol would be a security layer that adds a
-protocol to the connection establishment process in order to perform
-authentication and to establish a mutually agreed upon encryption
-scheme. Such a security protocol would generally require the services
-of an underlying reliable transport protocol such as TCP or SPX. The
-term base protocol refers to a protocol such as TCP or SPX which is
-capable of performing data communications with a remote endpoint. The
-term layered protocol is used to describe a protocol that cannot
-stand alone. A protocol chain would then be defined as one or more
-layered protocols strung together and anchored by a base protocol. A
-base protocol has the **ChainLen** member of the WSAProtocol_Info
-structure set to **BASE_PROTOCOL** which is defined to be 1. A
-layered protocol has the **ChainLen** member of the
-**WSAPROTOCOL_INFO** structure set to **LAYERED_PROTOCOL** which is
-defined to be zero. A protocol chain has the **ChainLen** member of
-the **WSAPROTOCOL_INFO** structure set to greater than 1. The
-lpProtocolInfoList parameter contains a list of protocol entries to
-install. Callers of **WSCInstallProvider** are responsible for
-setting up the proper protocol entries. The lpProtocolInfoList
-parameter must not be **NULL**. Upon successful completion of this
-call, any subsequent calls to WSAEnumProtocols or WSCEnumProtocols
-will return the newly-created protocol entries. Be aware that in
-Windows environments, only instances of Ws_32.dll created by calling
-WSAStartup after the successful completion of **WSCInstallProvider**
-will include the new entries when **WSAEnumProtocols** and
-**WSCEnumProtocols** returns. **Note** The WSAEnumProtocols function
-does not enumerate a layered protocol entry while WSCEnumProtocols
-does.
-On success, **WSCInstallProvider** will attempt to alert all
-interested applications that have registered for notification of the
-change by calling WSAProviderConfigChange. The **WSCInstallProvider**
-function can only be called by a user logged on as a member of the
-Administrators group. If **WSCInstallProvider** is called by a user
-that is not a member of the Administrators group, the function call
-will fail and WSANO_RECOVERY is returned in the lpErrno parameter.
-For computers running Windows Vista or Windows Server 2008, this
-function can also fail because of user account control (UAC). If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a **requestedExecutionLevel** set to
-**requireAdministrator**. If the application on Windows Vista or
-Windows Server 2008 lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (**RunAs administrator**) for
-this function to succeed. Any file installation or service
-provider-specific configuration must be performed by the caller.
+**WSCInstallProvider**
+‚Í’Pˆê‚Ìƒgƒ‰ƒ“ƒXƒ|[ƒgƒT[ƒrƒXƒvƒƒoƒCƒ_‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚é‚½‚ß‚Ég‚¤B‚±‚Ìƒ‹[ƒ`ƒ“‚Íw’èƒvƒƒoƒCƒ_‚Ì‚½‚ß‚Ì‹¤’Ê Winsock 2
+\¬î•ñ‚ğì¬‚·‚éBƒx[ƒXƒvƒƒgƒRƒ‹AƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹AƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚É“K—p‚Å‚«‚éBLSP ‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éê‡‚Í
+WSCInstallProviderAndChains ‚ğg‚¤‚×‚«‚Å‚ ‚éB**WSCInstallProviderAndChains**
+‚Í 1 ‰ñ‚ÌŒÄ‚Ño‚µ‚ÅƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚Æ 1 ‚ÂˆÈã‚ÌƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚ğƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚éB“¯‚¶‚±‚Æ‚ğ
+**WSCInstallProvider** ‚Ås‚¤‚É‚Í•¡”‰ñ‚ÌŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éBWinsock 2
+‚ÍƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚éBƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚Í‚ƒŒƒxƒ‹’ÊM‹@”\‚Ì‚İ‚ğÀ‘•‚µAÀƒf[ƒ^ŒğŠ·‚Í‰ºˆÊƒgƒ‰ƒ“ƒXƒ|[ƒgƒXƒ^ƒbƒN‚ÉˆË‘¶‚·‚éBƒx[ƒXƒvƒƒgƒRƒ‹‚Í
+TCP ‚â SPX
+‚Ì‚æ‚¤‚É’P“Æ‚Å’ÊM‰Â”\‚ÈƒvƒƒgƒRƒ‹AƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚Í’P“Æ‚Åg‚¦‚È‚¢ƒvƒƒgƒRƒ‹‚Å‚ ‚éBlpProtocolInfoList
+‚ÍƒCƒ“ƒXƒg[ƒ‹‚·‚éƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ÌƒŠƒXƒg‚ÅAŒÄ‚Ño‚µŒ³‚ª“KØ‚É—pˆÓ‚·‚é•K—v‚ª‚ ‚éBNULL
+‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚ÆAˆÈ~‚Ì WSAEnumProtocols ‚â WSCEnumProtocols
+ŒÄ‚Ño‚µ‚ÍV‚µ‚­ì‚ç‚ê‚½ƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚à•Ô‚·BWindows ŠÂ‹«‚Å‚ÍA¬Œ÷Œã‚É WSAStartup ‚Åì¬‚³‚ê‚½
+Ws2_32.dll ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì‚İ‚ªV‚µ‚¢ƒGƒ“ƒgƒŠ‚ğ **WSAEnumProtocols** ‚â
+**WSCEnumProtocols** ‚Ì–ß‚è’l‚ÉŠÜ‚ŞB**’**: WSAEnumProtocols
+‚ÍƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚ğ—ñ‹“‚µ‚È‚¢‚ªAWSCEnumProtocols ‚Í—ñ‹“‚·‚éB
+¬Œ÷‚µ‚½ê‡A**WSCInstallProvider** ‚Í•ÏX’Ê’m‚ğ“o˜^‚µ‚½ŠÖS‚ğ‚ÂƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µ
+WSAProviderConfigChange Œo—R‚Å’Ê’m‚ğ‚İ‚éB**WSCInstallProvider** ‚Í
+Administrators ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚éƒ†[ƒU[‚Ì‚İ‚ªŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í¸”s‚µAlpErrno ‚É
+WSANO_RECOVERY ‚ª•Ô‚³‚ê‚éBWindows Vista ‚â Windows Server 2008 ‚Å‚Í UAC
+‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éBƒ}ƒjƒtƒFƒXƒg‚Å **requireAdministrator** ‚ğİ’è‚µ‚Ä‚¢‚È‚¢ê‡A‘g‚İ‚İ
+Administrator ˆÈŠO‚Ì Administrators ƒƒ“ƒo‚Í **RunAs administrator**
+‚ÅÀs‚·‚é•K—v‚ª‚ ‚éBƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒXƒg[ƒ‹‚âƒT[ƒrƒXƒvƒƒoƒCƒ_ŒÅ—L‚Ì\¬‚ÍŒÄ‚Ño‚µŒ³‚ªs‚¤B
 
 
 %index
 WSCSetApplicationCategory
-Sets the permitted layered service provider (LSP) categories associated with an application.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‹–‰Â LSP (Layered Service Provider) ƒJƒeƒSƒŠ‚ğİ’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 Path, PathLength, Extra, ExtraLength, PermittedLspCategories, pPrevPermLspCat, lpErrno
-Path : [wstr] A pointer to a Unicode string that contains the load path to the executable image for the application. This string observes the usual rules for path resolution and can contain embedded environment strings (such as %SystemRoot%).
-PathLength : [int] The length, in characters, of the Path parameter. This length does not include the terminating **NULL**.
-Extra : [wstr] A pointer to a Unicode string which represents the command line arguments used when starting the application specified in the Path parameter. The Extra parameter is used to distinguish between multiple, distinct instances of an application when launched with a consistent command line.  This is to support different application categorizations for different instances of Svchost.exe or Rundll32.exe. If only the Path parameter is required and no command line arguments are needed to further distinguish between instances of an application, then the Extra parameter should be set to **NULL**.
-ExtraLength : [int] The length, in characters, of the Extra parameter. This length does not include the terminating **NULL**.
-PermittedLspCategories : [int] A DWORD value of the LSP categories which are permitted for all instances of this application. The application is identified by the combination of the values of the Path and Extra parameters.
-pPrevPermLspCat : [var] A pointer to receive the previous set of permitted LSP categories which were permitted for all instances of this application. This parameter is optional can  be **NULL**.
-lpErrno : [var] A pointer to the error code if the function fails.
+Path : [wstr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÀsƒCƒ[ƒW‚Ö‚Ìƒ[ƒhƒpƒX‚ğŠÜ‚Ş Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’Êí‚ÌƒpƒX‰ğŒˆ‹K‘¥‚É]‚¢A%SystemRoot% ‚È‚Ç‚Ì–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ğŠÜ‚ß‚Ä‚æ‚¢B
+PathLength : [int] Path ˆø”‚Ì’·‚³ (•¶š”)BI’[‚Ì **NULL** ‚ÍŠÜ‚Ü‚È‚¢B
+Extra : [wstr] Path ˆø”‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‹N“®‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ğ•\‚· Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BExtra ˆø”‚Í“¯‚¶ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Å‹N“®‚³‚ê‚é•¡”‚ÌˆÙ‚È‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‹æ•Ê‚·‚é‚½‚ß‚Ég‚¤BPath ‚Ì‚İ‚Å\•ª‚Èê‡AExtra ‚Í **NULL** ‚É‚·‚×‚«‚Å‚ ‚éB
+ExtraLength : [int] Extra ˆø”‚Ì’·‚³ (•¶š”)BI’[‚Ì **NULL** ‚ÍŠÜ‚Ü‚È‚¢B
+PermittedLspCategories : [int] ‚±‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‘SƒCƒ“ƒXƒ^ƒ“ƒX‚Å‹–‰Â‚·‚é LSP ƒJƒeƒSƒŠ‚Ì DWORD ’lBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í Path ‚Æ Extra ‚Ì‘g‚İ‡‚í‚¹‚Å¯•Ê‚³‚ê‚éB
+pPrevPermLspCat : [var] ‚±‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‘SƒCƒ“ƒXƒ^ƒ“ƒX‚ÅˆÈ‘O‹–‰Â‚³‚ê‚Ä‚¢‚½ LSP ƒJƒeƒSƒŠW‡‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^BÈ—ª‰Â”\‚Å **NULL** ‚É‚Å‚«‚éB
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets the permitted layered service provider (LSP) categories
-associated with an application.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‹–‰Â LSP (Layered Service Provider) ƒJƒeƒSƒŠ‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCSetApplicationCategory** returns
-**ERROR_SUCCESS** (zero). Otherwise, it returns **SOCKET_ERROR**, and
-a specific error code is returned in the lpErrno parameter.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCSetApplicationCategory** ‚Í **ERROR_SUCCESS** (0)
+‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í **SOCKET_ERROR** ‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-**WSCSetApplicationCategory** is used to set the LSP category flags
-associated with an application instance. Applications can determine
-which LSP behaviors are acceptable within the application's context.
-Therefore, through specifying permitted LSP categories, an
-application can permit only those layered service providers which
-implement acceptable behaviors to be loaded. The Extra parameter is
-required when the command line is used to distinguish between
-different instances of an application or service hosted within the
-same executable. Each instance can have different application
-categorization needs. Svchost.exe and Rundll32.exe are two examples
-where the command line is required to differentiate between different
-process instances. For SvcHost.exe, the **-k <svcinstance>** switch
-defines the process instance. For services, using the Service Name is
-not sufficient, because the Winsock Catalog is global to a given
-process, and a process may host several services. If the
-**WSCSetApplicationCategory** function is called on the same
-application (the same fullpath, EXE name, and parameters) multiple
-times, then the categories are ORed together. For example if you
-categorized "c:\foo.exe -param" with LSP_SYSTEM and then called the
-**WSCSetApplicationCategory** function again with LSP_REDIRECTOR, the
-resulting entry for htis application contains LSP_SYSTEM |
-LSP_REDIRECTOR. This behavior is designed to support a single
-executable file that hosts multiple applications in a single EXE (the
-Windows system services svchost.exe, for example).
-Window sockets determine an application's identity and retrieves the
-permitted LSP categories during the first call to WSAStartup. This
-will be the set of permitted LSP categories for the duration of the
-application instance. Subsequent changes to the permitted LSP
-categories for a given application identity will not be picked up
-until the next instance of the application. The permitted LSP
-categories is not mutable during the lifetime of the application
-instance. Winsock 2 accommodates layered protocols. A layered
-protocol is one that implements only higher level communications
-functions, while relying on an underlying transport stack for the
-actual exchange of data with a remote endpoint. An example of a
-layered protocol or layered service provider would be a security
-layer that adds protocol to the connection establishment process in
-order to perform authentication and to establish a mutually agreed
-upon encryption scheme. Such a security protocol would generally
-require the services of an underlying reliable transport protocol
-such as TCP or SPX. The term base protocol refers to a protocol such
-as TCP or SPX which is capable of performing data communications with
-a remote endpoint. The term layered protocol is used to describe a
-protocol that cannot stand alone. During LSP initialization, the LSP
-must provide pointers to a number of Winsock SPI functions. These
-functions will be called during normal processing by the layer
-directly above the LSP (either another LSP or Ws2_32.dll). An LSP
-that implements an installable file system (IFS) can selectively
-choose to provide pointers to functions which are implemented by
-itself, or pass back the pointers provided by the layer directly
-below the LSP. Non-IFS LSPs, because they provide their own handles,
-must implement all of the Winsock SPI functions. This is because each
-SPI will require the LSP to map all of the socket handles it created
-to the socket handle of the lower provider (either another LSP or the
-base protocol). However, all LSPs perform their specific work by
-doing extra processing on only a subset of the Winsock SPI functions.
-It is possible to define LSP categories based upon the subset of SPI
-functions an LSP implements and the nature of the extra processing
-performed for each of those functions. By classifying LSPs, as well
-as classifying applications which use Winsock sockets, it becomes
-possible to selectively determine if an LSP should be involved in a
-given process at runtime. On Windows Vista and later, an LSP can be
-classified based on how it interacts with Windows Sockets calls and
-data. An LSP category is an identifiable group of behaviors on a
-subset of Winsock SPI functions. For example, an HTTP content filter
-would be categorized as a data inspector (the **LSP_INSPECTOR**
-category). The **LSP_INSPECTOR** category will inspect (but not
-alter) parameters to data transfer SPI functions. An application can
-query for the category of an LSP and choose to not load the LSP based
-on the LSP category and the application's set of permitted LSP
-categories.
-This doc was truncated.
+**WSCSetApplicationCategory** ‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ÉŠÖ˜A•t‚¯‚é LSP
+ƒJƒeƒSƒŠƒtƒ‰ƒO‚ğİ’è‚·‚é‚½‚ß‚Ég‚¤BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚Ç‚Ì LSP ‹““®‚ª‹–—e‚³‚ê‚é‚©‚ğ”»’f‚Å‚«Aw’è‚µ‚½‹““®‚ğÀ‘•‚·‚é LSP
+‚Ì‚İ‚ğƒ[ƒh‚Å‚«‚é‚æ‚¤‚É‚Å‚«‚éBExtra
+ˆø”‚ÍƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Å“¯ˆêÀsƒtƒ@ƒCƒ‹“à‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“/ƒT[ƒrƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‹æ•Ê‚·‚é•K—v‚ª‚ ‚é‚Æ‚«‚É•K{‚Å‚ ‚éB‘ã•\—á‚Í
+Svchost.exe ‚Æ Rundll32.exe ‚Å‚ ‚éBSvcHost.exe ‚Å‚Í **-k <svcinstance>**
+ƒXƒCƒbƒ`‚ÅƒvƒƒZƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğ’è‹`‚·‚éBƒT[ƒrƒX‚Å‚ÍƒT[ƒrƒX–¼‚¾‚¯‚Å‚Í•s\•ª‚Å‚ ‚éBWinsock ƒJƒ^ƒƒO‚ÍƒvƒƒZƒX‚ÉƒOƒ[ƒoƒ‹‚ÅA1
+ƒvƒƒZƒX‚ª•¡”ƒT[ƒrƒX‚ğƒzƒXƒg‚Å‚«‚é‚½‚ß‚Å‚ ‚éB“¯‚¶ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ (ƒtƒ‹ƒpƒXAEXE –¼Aˆø”‚ª“¯ˆê) ‚É‘Î‚µ‚Ä
+**WSCSetApplicationCategory** ‚ğ•¡”‰ñŒÄ‚Ô‚ÆAƒJƒeƒSƒŠ‚Í OR Œ‹‡‚³‚ê‚éB‚½‚Æ‚¦‚Î "c:\foo.exe
+-param" ‚É LSP_SYSTEM ‚ğİ’èŒã‚É LSP_REDIRECTOR ‚ğİ’è‚·‚é‚ÆAƒGƒ“ƒgƒŠ‚Í LSP_SYSTEM |
+LSP_REDIRECTOR ‚Æ‚È‚éB‚±‚ê‚Í 1 ‚Â‚Ì EXE ‚ª•¡”ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒzƒXƒg‚·‚éó‹µ (svchost.exe ‚È‚Ç)
+‚É‘Î‰‚·‚é‚½‚ß‚ÌİŒv‚Å‚ ‚éB
+Winsock ‚ÍÅ‰‚Ì WSAStartup ŒÄ‚Ño‚µ‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ¯•Ê‚µA‹–‰Â LSP
+ƒJƒeƒSƒŠ‚ğæ“¾‚·‚éBƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶‘¶ŠúŠÔ’†‚Í‚»‚ÌW‡‚ª‹–‰ÂƒJƒeƒSƒŠ‚Æ‚È‚éBˆÈ~‚Ì•ÏX‚ÍŸ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‹N“®‚Ü‚Å”½‰f‚³‚ê‚¸A¶‘¶ŠúŠÔ’†‚Í•s•Ï‚Å‚ ‚éBWinsock
+2 ‚ÍƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚é (ˆÈ‰ºAWSCGetApplicationCategory ‚Ìà–¾‚Æ“¯—l)BLSP
+ƒJƒeƒSƒŠ‚Ì•ª—ŞŠî€‚à“¯—l‚ÅA‚½‚Æ‚¦‚Î HTTP ƒRƒ“ƒeƒ“ƒcƒtƒBƒ‹ƒ^‚Í **LSP_INSPECTOR** ‚É•ª—Ş‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+LSP ‚ÌƒJƒeƒSƒŠ‚ğ–â‚¢‡‚í‚¹A‹–‰ÂƒJƒeƒSƒŠW‡‚ÉŠî‚Ã‚¢‚Äƒ[ƒh‚µ‚È‚¢‘I‘ğ‚ª‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSCSetProviderInfo
-Sets the data value for the specified information class for a layered service provider (LSP).
+Layered Service Provider (LSP) ‚Ìw’èî•ñƒNƒ‰ƒX‚É‘Î‚·‚éƒf[ƒ^’l‚ğİ’è‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, InfoType, Info, InfoSize, Flags, lpErrno
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the provider.
-InfoType : [int] The information class to be set for this LSP protocol entry.
-Info : [var] A pointer to a buffer that contains the information class data to set for the LSP protocol entry.
-InfoSize : [int] The size, in bytes, of the buffer pointed to by the Info parameter.
-Flags : [int] The flags used to modify the behavior of the **WSCSetProviderInfo** function call.
-lpErrno : [var] A pointer to the error code if the function fails.
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+InfoType : [int] ‚±‚Ì LSP ƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚É‘Î‚µ‚Äİ’è‚·‚éî•ñƒNƒ‰ƒXB
+Info : [var] LSP ƒvƒƒgƒRƒ‹ƒGƒ“ƒgƒŠ‚Éİ’è‚·‚éî•ñƒNƒ‰ƒXƒf[ƒ^‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+InfoSize : [int] Info ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+Flags : [int] **WSCSetProviderInfo** ŒÄ‚Ño‚µ‚Ì“®ì‚ğ•ÏX‚·‚éƒtƒ‰ƒOB
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets the data value for the specified information class for a layered
-service provider (LSP).
+Layered Service Provider (LSP) ‚Ìw’èî•ñƒNƒ‰ƒX‚É‘Î‚·‚éƒf[ƒ^’l‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCSetProviderInfo** returns **ERROR_SUCCESS**
-(zero). Otherwise, it returns **SOCKET_ERROR**, and a specific error
-code is returned in the lpErrno parameter.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCSetProviderInfo** ‚Í **ERROR_SUCCESS** (0) ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í
+**SOCKET_ERROR** ‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-**WSCSetProviderInfo** is used to set the information class data for
-a layered service provider. When the InfoType parameter is set to
-**ProviderInfoLspCategories**, on success **WSCSetProviderInfo** sets
-appropriate LSP category flags implemented by the provider based on
-the value passed in the Info parameter. Winsock 2 accommodates
-layered protocols. A layered protocol is one that implements only
-higher level communications functions, while relying on an underlying
-transport stack for the actual exchange of data with a remote
-endpoint. An example of a layered protocol or layered service
-provider would be a security layer that adds protocol to the
-connection establishment process in order to perform authentication
-and to establish a mutually agreed upon encryption scheme. Such a
-security protocol would generally require the services of an
-underlying reliable transport protocol such as TCP or SPX. The term
-base protocol refers to a protocol such as TCP or SPX which is
-capable of performing data communications with a remote endpoint. The
-term layered protocol is used to describe a protocol that cannot
-stand alone. A protocol chain would then be defined as one or more
-layered protocols strung together and anchored by a base protocol. A
-base protocol has the **ChainLen** member of the WSAPROTOCOL_INFO
-structure set to **BASE_PROTOCOL** which is defined to be 1. A
-layered protocol has the **ChainLen** member of the
-**WSAPROTOCOL_INFO** structure set to **LAYERED_PROTOCOL** which is
-defined to be zero. A protocol chain has the **ChainLen** member of
-the **WSAPROTOCOL_INFO** structure set to greater than 1. During LSP
-initialization, the LSP must provide pointers to a number of Winsock
-SPI functions. These functions will be called during normal
-processing by the layer directly above the LSP (either another LSP or
-Ws2_32.dll). An LSP that implements an installable file system (IFS)
-can selectively choose to provide pointers to functions which are
-implemented by itself, or pass back the pointers provided by the
-layer directly below the LSP. Non-IFS LSPs, because they provide
-their own handles, must implement all of the Winsock SPI functions.
-This is because each SPI will require the LSP to map all of the
-socket handles it created to the socket handle of the lower provider
-(either another LSP or the base protocol). However, all LSPs perform
-their specific work by doing extra processing on only a subset of the
-Winsock SPI functions. It is possible to define LSP categories based
-upon the subset of SPI functions an LSP implements and the nature of
-the extra processing performed for each of those functions. By
-classifying LSPs, as well as classifying applications which use
-Winsock sockets, it becomes possible to selectively determine if an
-LSP should be involved in a given process at runtime. On Windows
-Vista and later, an LSP can be classified based on how it interacts
-with Windows Sockets calls and data. An LSP category is an
-identifiable group of behaviors on a subset of Winsock SPI functions.
-For example, an HTTP content filter would be categorized as a data
-inspector (the **LSP_INSPECTOR** category). The **LSP_INSPECTOR**
-category will inspect, but not alter, parameters to data transfer SPI
-functions. An application can query for the category of an LSP and
-choose to not load the LSP based on the LSP category and the
-application's set of permitted LSP categories.
-This doc was truncated.
+**WSCSetProviderInfo** ‚ÍALayered Service Provider
+‚Ìî•ñƒNƒ‰ƒXƒf[ƒ^‚ğİ’è‚·‚é‚½‚ß‚Ég‚¤BInfoType ‚É **ProviderInfoLspCategories**
+‚ğw’è‚µ‚½ê‡AInfo ˆø”‚É“n‚µ‚½’l‚ÉŠî‚Ã‚¢‚ÄƒvƒƒoƒCƒ_‚ªÀ‘•‚·‚é LSP ƒJƒeƒSƒŠƒtƒ‰ƒO‚ğİ’è‚·‚éBWinsock 2
+‚ÍƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚é (ˆÈ‰ºAWSCGetProviderInfo ‚Ìà–¾‚Æ“¯—l)BLSP ƒJƒeƒSƒŠ‚Í SPI
+•”•ªW‡ã‚Ì¯•Ê‰Â”\‚È‹““®ŒQ‚ÅA—á‚¦‚Î HTTP ƒRƒ“ƒeƒ“ƒcƒtƒBƒ‹ƒ^‚Í **LSP_INSPECTOR**
+‚É•ª—Ş‚³‚ê‚éB**LSP_INSPECTOR** ‚Íƒf[ƒ^“]‘— SPI ŠÖ”‚Ìˆø”‚ğŒŸ¸‚·‚é‚ª•ÏX‚µ‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í LSP
+‚ÌƒJƒeƒSƒŠ‚ğ–â‚¢‡‚í‚¹A‹–‰ÂƒJƒeƒSƒŠW‡‚ÉŠî‚Ã‚¢‚Äƒ[ƒh‚µ‚È‚¢‘I‘ğ‚ª‚Å‚«‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSCUnInstallNameSpace
-Uninstalls the indicated name-space provider.
+w’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the name-space provider to be uninstalled.
+lpProviderId : [var] ƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚·‚éƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Uninstalls the indicated name-space provider.
+w’è‚µ‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCUnInstallNameSpace** returns **NO_ERROR**
-(zero). Otherwise, it returns **SOCKET_ERROR** if the function fails,
-and you must retrieve the appropriate error code using the
-WSAGetLastError function.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCUnInstallNameSpace** ‚Í **NO_ERROR** (0) ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚·‚é‚Æ
+**SOCKET_ERROR** ‚ª•Ô‚³‚êAWSAGetLastError ‚Å“KØ‚ÈƒGƒ‰[ƒR[ƒh‚ğæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The namespace configuration functions do not affect applications that
-are already running. Newly installed name-space providers will not be
-visible to applications nor will the changes in a name-space
-provider's activation state. Applications launched after the call to
-**WSCUnInstallNameSpace** will see the changes. On success,
-**WSCUnInstallNameSpace** will attempt to alert all interested
-applications that have registered for notification of the change by
-calling WSAProviderConfigChange. The **WSCUnInstallNameSpace**
-function can only be called by a user logged on as a member of the
-Administrators group. If **WSCUnInstallNameSpace** is called by a
-user that is not a member of the Administrators group, the function
-call will fail and **WSANO_RECOVERY** is returned in the lpErrno
-parameter.
-For computers running on Windows Vista or Windows Server 2008, this
-function can also fail because of user account control (UAC). If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a **requestedExecutionLevel** set to
-**requireAdministrator**. If the application on Windows Vista or
-Windows Server 2008 lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (RunAs administrator) for this
-function to succeed.
-The caller of this function must remove any additional files or
-service provider?specific configuration information that is required
-to completely uninstall the service provider.
+
+–¼‘O‹óŠÔ\¬ŠÖ”‚Í‚·‚Å‚ÉÀs’†‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Í‰e‹¿‚µ‚È‚¢BV‹KƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚âó‘Ô•Ï‰»‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚ÍŒ©‚¦‚¸A**WSCUnInstallNameSpace**
+ŒÄ‚Ño‚µŒã‚É‹N“®‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Ì‚İ•ÏX‚ª”½‰f‚³‚ê‚éB¬Œ÷‚µ‚½ê‡A**WSCUnInstallNameSpace**
+‚Í•ÏX’Ê’m‚ğ“o˜^‚µ‚½ŠÖS‚ğ‚ÂƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µ WSAProviderConfigChange
+Œo—R‚Å’Ê’m‚ğ‚İ‚éB**WSCUnInstallNameSpace** ‚Í Administrators
+ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚éƒ†[ƒU[‚Ì‚İ‚ªŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í¸”s‚µAlpErrno ‚É
+**WSANO_RECOVERY** ‚ª•Ô‚³‚ê‚éB
+Windows Vista ‚â Windows Server 2008 ‚Å‚Í UAC ‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éBƒ}ƒjƒtƒFƒXƒg‚Å
+**requireAdministrator** ‚ğİ’è‚µ‚Ä‚¢‚È‚¢ê‡A‘g‚İ‚İ Administrator ˆÈŠO‚Ì
+Administrators ƒƒ“ƒo‚Í RunAs administrator ‚ÅÀs‚·‚é•K—v‚ª‚ ‚éB
+
+–{ŠÖ”‚ÌŒÄ‚Ño‚µŒ³‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_‚ğŠ®‘S‚ÉƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚·‚é‚½‚ß‚É•K—v‚È’Ç‰Áƒtƒ@ƒCƒ‹‚âƒT[ƒrƒXƒvƒƒoƒCƒ_ŒÅ—L‚Ì\¬î•ñ‚ğ•Ê“ríœ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 WSCUpdateProvider
-Modifies the specified transport provider in the system configuration database.
+w’è‚µ‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚ğƒVƒXƒeƒ€\¬ƒf[ƒ^ƒx[ƒX“à‚Å•ÏX‚·‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, lpszProviderDllPath, lpProtocolInfoList, dwNumberOfEntries, lpErrno
-lpProviderId : [var] A pointer to a globally unique identifier (GUID)  for the provider.
-lpszProviderDllPath : [wstr] A pointer to a Unicode string that contains the load path to the provider 64-bit DLL. This string observes the usual rules for path resolution and can contain embedded environment strings (such as %SystemRoot%). Such environment strings are expanded when the Ws2_32.dll must subsequently load the provider DLL on behalf of an application. After any embedded environment strings are expanded, the Ws2_32.dll passes the resulting string to the LoadLibrary function which loads the provider into memory. For more information, see **LoadLibrary**.
-lpProtocolInfoList : [var] A pointer to an array of WSAProtocol_Info structures. Each structure specifies or modifies a protocol, address family, and socket type supported by the provider.
-dwNumberOfEntries : [int] The number of entries in the lpProtocolInfoList array.
-lpErrno : [var] A pointer to the error code if the function fails.
+lpProviderId : [var] ƒvƒƒoƒCƒ_‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszProviderDllPath : [wstr] ƒvƒƒoƒCƒ_‚Ì 64 ƒrƒbƒg DLL ‚Ö‚Ìƒ[ƒhƒpƒX‚ğŠÜ‚Ş Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’Êí‚ÌƒpƒX‰ğŒˆ‹K‘¥‚É]‚¢A%SystemRoot% ‚È‚Ç‚Ì–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ğŠÜ‚ß‚Ä‚æ‚¢B–„‚ß‚İŠÂ‹«•Ï”•¶š—ñ‚ÍAWs2_32.dll ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚½‚ß‚ÉƒvƒƒoƒCƒ_ DLL ‚ğƒ[ƒh‚·‚é‚Æ‚«‚É“WŠJ‚³‚ê‚éB“WŠJŒãAWs2_32.dll ‚ÍŒ‹‰Ê‚Ì•¶š—ñ‚ğ LoadLibrary ‚É“n‚µ‚ÄƒvƒƒoƒCƒ_‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éBÚ‚µ‚­‚Í **LoadLibrary** ‚ğQÆB
+lpProtocolInfoList : [var] WSAProtocol_Info \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe\‘¢‘Ì‚ÍAƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚·‚éƒvƒƒgƒRƒ‹AƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠAƒ\ƒPƒbƒgí•Ê‚ğw’è‚Ü‚½‚Í•ÏX‚·‚éB
+dwNumberOfEntries : [int] lpProtocolInfoList ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
+lpErrno : [var] ŠÖ”‚ª¸”s‚µ‚½ê‡‚ÌƒGƒ‰[ƒR[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Modifies the specified transport provider in the system configuration
-database.
+w’è‚µ‚½ƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚ğƒVƒXƒeƒ€\¬ƒf[ƒ^ƒx[ƒX“à‚Å•ÏX‚·‚éB
 
 [–ß‚è’l]
-If no error occurs, **WSCUpdateProvider** returns zero. Otherwise, it
-returns **SOCKET_ERROR**, and a specific error code is returned in
-the lpErrno parameter.
-This doc was truncated.
+ƒGƒ‰[‚ª‚È‚¢ê‡A**WSCUpdateProvider** ‚Íƒ[ƒ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í **SOCKET_ERROR**
+‚ğ•Ô‚µAlpErrno ‚É“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ªŠi”[‚³‚ê‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The **WSCUpdateProvider** function modifies Windows Sockets 2
-configuration information for the specified provider. It is
-applicable to base protocols, layered protocols, and protocol chains.
-Winsock 2 accommodates layered protocols. A layered protocol is one
-that implements only higher level communications functions, while
-relying on an underlying transport stack for the actual exchange of
-data with a remote endpoint. An example of a layered protocol would
-be a security layer that adds protocol to the connection
-establishment process in order to perform authentication and to
-establish a mutually agreed upon encryption scheme. Such a security
-protocol would generally require the services of an underlying
-reliable transport protocol such as TCP or SPX. The term base
-protocol refers to a protocol such as TCP or SPX which is capable of
-performing data communications with a remote endpoint. The term
-layered protocol is used to describe a protocol that cannot stand
-alone. A protocol chain would then be defined as one or more layered
-protocols strung together and anchored by a base protocol. A base
-protocol has the **ChainLen** member of the WSAProtocol_Info
-structure set to **BASE_PROTOCOL** which is defined to be 1. A
-layered protocol has the **ChainLen** member of the
-**WSAPROTOCOL_INFO** structure set to **LAYERED_PROTOCOL** which is
-defined to be zero. A protocol chain has the **ChainLen** member of
-the **WSAPROTOCOL_INFO** structure set to greater than 1. On success,
-**WSCUpdateProvider** will attempt to alert all interested
-applications that have registered for notification of the change by
-calling WSAProviderConfigChange. The **WSCUpdateProvider** function
-can only be called by a user logged on as a member of the
-Administrators group. If **WSCUpdateProvider** is called by a user
-that is not a member of the Administrators group, the function call
-will fail.
-For computers running on Windows Vista or Windows Server 2008, this
-function can also fail because of user account control (UAC). If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a **requestedExecutionLevel** set to
-**requireAdministrator**. If the application on Windows Vista or
-Windows Server 2008 lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (RunAs administrator) for this
-function to succeed. Any file installation or service
-provider-specific configuration must be performed by the caller.
+**WSCUpdateProvider** ŠÖ”‚ÍAw’è‚³‚ê‚½ƒvƒƒoƒCƒ_‚Ì Winsock 2
+\¬î•ñ‚ğ•ÏX‚·‚éBƒx[ƒXƒvƒƒgƒRƒ‹AƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹AƒvƒƒgƒRƒ‹ƒ`ƒF[ƒ“‚É“K—p‚Å‚«‚éBWinsock 2
+‚ÍƒŒƒCƒ„[ƒhƒvƒƒgƒRƒ‹‚É‘Î‰‚·‚é (ˆÈ‰ºA‘¼ LSP ŠÖ”‚Æ“¯—l‚Ìà–¾)B¬Œ÷‚µ‚½ê‡A**WSCUpdateProvider**
+‚Í•ÏX’Ê’m‚ğ“o˜^‚µ‚½ŠÖS‚ğ‚ÂƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µ WSAProviderConfigChange
+Œo—R‚Å’Ê’m‚ğ‚İ‚éB**WSCUpdateProvider** ‚Í Administrators
+ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚éƒ†[ƒU[‚Ì‚İ‚ªŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í¸”s‚·‚éB
+Windows Vista ‚â Windows Server 2008 ‚Å‚Í UAC ‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éBƒ}ƒjƒtƒFƒXƒg‚Å
+**requireAdministrator** ‚ğİ’è‚µ‚Ä‚¢‚È‚¢ê‡A‘g‚İ‚İ Administrator ˆÈŠO‚Ì
+Administrators ƒƒ“ƒo‚Í RunAs administrator
+‚ÅÀs‚·‚é•K—v‚ª‚ ‚éBƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒXƒg[ƒ‹‚âƒT[ƒrƒXƒvƒƒoƒCƒ_ŒÅ—L‚Ì\¬‚ÍŒÄ‚Ño‚µŒ³‚ªs‚¤B
 
 
 %index
 WSCWriteNameSpaceOrder
-Changes the order of available Windows Sockets (Winsock) 2 namespace providers. The order of the namespace providers determines the priority of the namespace when enumerated or queried for name resolution.
+—˜—p‰Â”\‚È Windows Sockets (Winsock) 2 ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‡˜‚ğ•ÏX‚·‚éBƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‡˜‚ÍA–¼‘O‰ğŒˆ‚Å—ñ‹“/–â‚¢‡‚í‚¹‚³‚ê‚éÛ‚Ì–¼‘O‹óŠÔ‚Ì—Dæ“x‚ğŒˆ‚ß‚éB
 %group
 Win32 ws2_32
 %prm
 lpProviderId, dwNumberOfEntries
-lpProviderId : [var] An array of NSProviderId elements as found in the WSANAMESPACE_INFO structure.  The order of the NSProviderId elements is the new priority ordering for the namespace providers.
-dwNumberOfEntries : [int] The number of elements in the NSProviderId array.
+lpProviderId : [var] WSANAMESPACE_INFO \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚é NSProviderId —v‘f‚Ì”z—ñBNSProviderId —v‘f‚Ì•À‚Ñ‚ªƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÌV‚µ‚¢—Dæ‡ˆÊ‚Æ‚È‚éB
+dwNumberOfEntries : [int] NSProviderId ”z—ñ‚Ì—v‘f”B
 %inst
-Changes the order of available Windows Sockets (Winsock) 2 namespace
-providers. The order of the namespace providers determines the
-priority of the namespace when enumerated or queried for name
-resolution.
+—˜—p‰Â”\‚È Windows Sockets (Winsock) 2
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‡˜‚ğ•ÏX‚·‚éBƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Ì‡˜‚ÍA–¼‘O‰ğŒˆ‚Å—ñ‹“/–â‚¢‡‚í‚¹‚³‚ê‚éÛ‚Ì–¼‘O‹óŠÔ‚Ì—Dæ“x‚ğŒˆ‚ß‚éB
 
 [–ß‚è’l]
-The function returns ERROR_SUCCESS (zero) if the routine is
-successful. Otherwise, it returns a specific error code.
-This doc was truncated.
+ƒ‹[ƒ`ƒ“‚ª¬Œ÷‚·‚é‚Æ ERROR_SUCCESS (0) ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-Namespace providers are installed using the WSCInstallNameSpace
-function. The order in which namespace providers are initially
-installed governs the default order in which they are enumerated
-through WSAEnumNameSpaceProviders. More importantly, this order also
-governs the order in which namespace providers are considered when a
-client requests name resolution. The order of namespace providers can
-be changed using the WSCWriteNameSpaceOrder function. On 64-bit
-platforms, the WSCWriteNameSpaceOrder32 function is provided to allow
-64-bit processes to change the order of namespace providers in the
-32-bit namespace provider catalog. On 64-bit platforms, namespace
-providers are installed in the 32-bit namespace provider catalog
-using the WSCInstallNameSpace32 function. The current namespace
-provider catalog is stored in the registry under the following
-registry key: HKEY_LOCAL_MACHINE\SYSTEM\Current Control
-Set\Services\Winsock2\Parameters\NameSpace_Catalog5
-A client request for name resolution uses the WSALookupServiceBegin,
-WSALookupServiceNext, and WSALookupServiceEnd routines. The
-dwNameSpace member of the WSAQUERYSET structure passed to
-WSALookupServiceBegin is set to the identifier of a single namespace
-(NS_DNS, for example) in which to constrain the search, or NS_ALL to
-include all namespaces. If multiple namespace providers support a
-specific namespace (NS_DNS, for example), then the results from all
-namespace providers that match the requested dwNameSpace are returned
-unless the lpNSProviderId member is set to a specific namespace
-provider. The results from all namespace providers is returned if
-NS_ALL is specified for the dwNameSpace member. The order that the
-results are returned is dependent on the namespace provider order in
-the catalog. The Windows SDK includes an application called
-SpOrder.exe that allows the catalog of installed namespace providers
-to be displayed. Windows Sockets 2 includes the ws2_32.dll that
-exports the WSCWriteNameSpaceOrder function for reordering namespace
-providers in the catalog. This interface can be imported by linking
-with WS2_32.lib. For computers running on Windows XP with Service
-Pack 2 (SP2) and Windows Server 2003 with Service Pack 1 (SP1) and
-later, the netsh.exe winsock show catalog command will display both
-the protocol and namespace providers installed on the system.
-WSCWriteNameSpaceOrder can only be called by a user logged on as a
-member of the Administrators group. If WSCWriteNameSpaceOrder is
-called by a user that is not a member of the Administrators group,
-the function call will fail and WSANO_RECOVERY is returned in the
-lpErrno parameter. For computers running on Windows Vista and Windows
-Vista, this function can also fail because of user account control
-(UAC). If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on Windows Vista and Windows
-Vista lacks this setting in the manifest file used to build the
-executable file, a user logged on as a member of the Administrators
-group other than the Administrator must then be executing the
-application in an enhanced shell as the Administrator (RunAs
-administrator) for this function to succeed. The following list
-describes scenarios in which the WSCWriteNameSpaceOrder function
-could fail:
-This doc was truncated.
+ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚Í WSCInstallNameSpace ŠÖ”‚ÅƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚éBƒCƒ“ƒXƒg[ƒ‹‡‚Í
+WSAEnumNameSpaceProviders ‚Å‚ÌŠù’è‚Ì—ñ‹“‡‚ğŒˆ‚ßA–¼‘O‰ğŒˆ‚Él—¶‚³‚ê‚é‡‚àŒˆ‚ß‚éB‚±‚Ì‡˜‚Í
+WSCWriteNameSpaceOrder ŠÖ”‚Å•ÏX‚Å‚«‚éB64 ƒrƒbƒgƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Å‚ÍA64 ƒrƒbƒgƒvƒƒZƒX‚©‚ç 32
+ƒrƒbƒgƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_ƒJƒ^ƒƒO‚Ì‡˜‚ğ•ÏX‚Å‚«‚é‚æ‚¤ WSCWriteNameSpaceOrder32 ŠÖ”‚ª—pˆÓ‚³‚ê‚Ä‚¢‚éB64
+ƒrƒbƒgƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Å‚ÍA32 ƒrƒbƒgƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_ƒJƒ^ƒƒO‚É‚Í WSCInstallNameSpace32
+‚ÅƒCƒ“ƒXƒg[ƒ‹‚·‚éBŒ»İ‚Ìƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_ƒJƒ^ƒƒO‚Í HKEY_LOCAL_MACHINE\SYSTEM\Current
+Control Set\Services\Winsock2\Parameters\NameSpace_Catalog5 ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éB
+–¼‘O‰ğŒˆ—v‹‚Í
+WSALookupServiceBeginAWSALookupServiceNextAWSALookupServiceEnd
+ƒ‹[ƒ`ƒ“‚Ås‚¤BWSALookupServiceBegin ‚É“n‚· WSAQUERYSET ‚Ì dwNameSpace
+ƒƒ“ƒo‚É‚ÍAŒŸõ‚ğ§ŒÀ‚·‚é’Pˆê–¼‘O‹óŠÔ (—á: NS_DNS) ‚Ü‚½‚Í NS_ALL ‚ğİ’è‚·‚éB“Á’è–¼‘O‹óŠÔ (—á: NS_DNS)
+‚ğ•¡”ƒvƒƒoƒCƒ_‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡AlpNSProviderId
+‚ğ“Á’èƒvƒƒoƒCƒ_‚Éİ’è‚µ‚È‚¢ŒÀ‚è‘SƒvƒƒoƒCƒ_‚ÌŒ‹‰Ê‚ª•Ô‚³‚ê‚éBdwNameSpace ‚ª NS_ALL
+‚È‚ç‘SƒvƒƒoƒCƒ_‚ÌŒ‹‰Ê‚ª•Ô‚éB•Ô‚³‚ê‚é‡˜‚ÍƒJƒ^ƒƒOã‚ÌƒvƒƒoƒCƒ_‡‚ÉˆË‘¶‚·‚éBWindows SDK ‚É‚Í SpOrder.exe
+‚ªŠÜ‚Ü‚ê‚Ä‚¨‚èAƒCƒ“ƒXƒg[ƒ‹Ï‚İƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ÌƒJƒ^ƒƒO‚ğ•\¦‚Å‚«‚éBWinsock 2 ‚É‚Í ws2_32.dll
+‚ªŠÜ‚Ü‚êAƒJƒ^ƒƒO‚ğ•À‚Ñ‘Ö‚¦‚é WSCWriteNameSpaceOrder ‚ğƒGƒNƒXƒ|[ƒg‚µ‚Ä‚¢‚éB‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Í
+WS2_32.lib ‚ÆƒŠƒ“ƒN‚·‚é‚±‚Æ‚Åæ‚è‚ß‚éBWindows XP SP2AWindows Server 2003 SP1
+ˆÈ~‚Å‚ÍAnetsh.exe winsock show catalog
+ƒRƒ}ƒ“ƒh‚ÅƒvƒƒgƒRƒ‹/ƒl[ƒ€ƒXƒy[ƒXƒvƒƒoƒCƒ_‚ğ•\¦‚Å‚«‚éBWSCWriteNameSpaceOrder ‚Í Administrators
+ƒOƒ‹[ƒvƒƒ“ƒo‚Ì‚İŒÄ‚Ño‚¹‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í¸”s‚µAlpErrno ‚É WSANO_RECOVERY ‚ª•Ô‚³‚ê‚éBWindows
+Vista ‚â Windows Server 2008 ‚Å‚Í UAC ‚ªŒ´ˆö‚Å¸”s‚·‚é‚±‚Æ‚à‚ ‚éBˆÈ‰º‚Í
+WSCWriteNameSpaceOrder ‚ª¸”s‚·‚éƒVƒiƒŠƒI—á‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 WSCWriteProviderOrder
-Used to reorder the available transport providers.
+—˜—p‰Â”\‚Èƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚Ì‡˜‚ğ•ÏX‚·‚é‚½‚ß‚Ég‚¤B
 %group
 Win32 ws2_32
 %prm
 lpwdCatalogEntryId, dwNumberOfEntries
-lpwdCatalogEntryId : [var] A pointer to an array of CatalogEntryId elements found in the WSAPROTOCOL_INFO structure. The order of the CatalogEntryId elements is the new priority ordering for the protocols.
-dwNumberOfEntries : [int] The number of elements in the lpwdCatalogEntryId array.
+lpwdCatalogEntryId : [var] WSAPROTOCOL_INFO \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚é CatalogEntryId —v‘f‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BCatalogEntryId —v‘f‚Ì•À‚Ñ‚ªƒvƒƒgƒRƒ‹‚ÌV‚µ‚¢—Dæ‡ˆÊ‚Æ‚È‚éB
+dwNumberOfEntries : [int] lpwdCatalogEntryId ”z—ñ‚Ì—v‘f”B
 %inst
-Used to reorder the available transport providers.
+—˜—p‰Â”\‚Èƒgƒ‰ƒ“ƒXƒ|[ƒgƒvƒƒoƒCƒ_‚Ì‡˜‚ğ•ÏX‚·‚é‚½‚ß‚Ég‚¤B
 
 [–ß‚è’l]
-The function returns ERROR_SUCCESS (zero) if the routine is
-successful. Otherwise, it returns a specific error code.
-This doc was truncated.
+ƒ‹[ƒ`ƒ“‚ª¬Œ÷‚·‚é‚Æ ERROR_SUCCESS (0) ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í“Á’è‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 
 [”õl]
-The order in which transport service providers are initially
-installed governs the order in which they are enumerated through
-WSCEnumProtocols at the service provider interface, or through
-WSAEnumProtocols at the application interface. More importantly, this
-order also governs the order in which protocols and service providers
-are considered when a client requests creation of a socket based on
-its address family, type, and protocol identifier. Windows Sockets 2
-includes an application called Sporder.exe that allows the catalog of
-installed protocols to be reordered interactively after protocols
-have already been installed. Windows Sockets 2 also includes an
-auxiliary DLL, Sporder.dll that exports this procedural interface for
-reordering protocols. This interface can be imported by linking with
-Sporder.lib.
-The following are scenarios in which the WSCWriteProviderOrder
-function could fail:
-This doc was truncated.
+ƒgƒ‰ƒ“ƒXƒ|[ƒgƒT[ƒrƒXƒvƒƒoƒCƒ_‚ÌƒCƒ“ƒXƒg[ƒ‹‡‚ÍAƒT[ƒrƒXƒvƒƒoƒCƒ_ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì
+WSCEnumProtocolsAƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì WSAEnumProtocols
+‚Å—ñ‹“‚³‚ê‚é‡‚ğŒˆ‚ß‚éB‚±‚Ì‡‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ªƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠAí•ÊAƒvƒƒgƒRƒ‹ ID
+‚ÉŠî‚Ã‚¢‚Äƒ\ƒPƒbƒgì¬‚ğ—v‹‚·‚é‚Æ‚«‚Él—¶‚³‚ê‚é‡‚àŒˆ‚ß‚éBWinsock 2 ‚É‚Í Sporder.exe
+‚ªŠÜ‚Ü‚êAƒCƒ“ƒXƒg[ƒ‹Ï‚İƒvƒƒgƒRƒ‹‚ÌƒJƒ^ƒƒO‚ğ‘Î˜b“I‚É•À‚Ñ‘Ö‚¦‚ç‚ê‚éBWinsock 2 ‚É‚Í•â• DLL Sporder.dll
+‚à‚ ‚èAƒvƒƒgƒRƒ‹•À‚Ñ‘Ö‚¦‚Ìè‘±‚«Œ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒGƒNƒXƒ|[ƒg‚µ‚Ä‚¢‚éBSporder.lib ‚ÆƒŠƒ“ƒN‚·‚é‚±‚Æ‚Åæ‚è‚ß‚éB
+ˆÈ‰º‚Í WSCWriteProviderOrder ‚ª¸”s‚·‚éƒVƒiƒŠƒI‚Å‚ ‚éB
+‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 

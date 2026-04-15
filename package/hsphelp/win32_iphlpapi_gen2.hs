@@ -6,176 +6,134 @@
 
 %index
 AddIPAddress
-The AddIPAddress function adds the specified IPv4 address to the specified adapter.
+AddIPAddress 関数は、指定した IPv4 アドレスを指定のアダプタに追加する。
 %group
 Win32 iphlpapi
 %prm
 Address, IpMask, IfIndex, NTEContext, NTEInstance
-Address : [int] The IPv4 address to add to the adapter, in the form of an IPAddr structure.
-IpMask : [int] The subnet mask for the IPv4 address specified in the Address parameter.   The IPMask parameter uses the same format as an IPAddr structure.
-IfIndex : [int] The index of the adapter on which to add the IPv4 address.
-NTEContext : [var] A pointer to a ULONG variable. On successful return, this parameter points to the Net Table Entry (NTE) context for the IPv4 address that was added. The caller can later use this context in a call to the DeleteIPAddress function.
-NTEInstance : [var] A pointer to a ULONG variable. On successful return, this parameter points to the NTE instance for the IPv4 address that was added.
+Address : [int] アダプタに追加する IPv4 アドレス。IPAddr 構造体の形式で指定する。
+IpMask : [int] Address パラメータで指定した IPv4 アドレスのサブネットマスク。IPMask パラメータは IPAddr 構造体と同じ形式を用いる。
+IfIndex : [int] IPv4 アドレスを追加するアダプタのインデックス。
+NTEContext : [var] ULONG 変数へのポインタ。成功時、このパラメータは追加された IPv4 アドレスに対する Net Table Entry (NTE) コンテキストを指す。呼び出し元は後で DeleteIPAddress 関数を呼ぶ際にこのコンテキストを利用できる。
+NTEInstance : [var] ULONG 変数へのポインタ。成功時、このパラメータは追加された IPv4 アドレスに対する NTE インスタンスを指す。
 %inst
-The AddIPAddress function adds the specified IPv4 address to the
-specified adapter.
+AddIPAddress 関数は、指定した IPv4 アドレスを指定のアダプタに追加する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The AddIPAddress function is used to add a new IPv4 address entry on
-a local computer. The IPv4 address added by the AddIPAddress function
-is not persistent. The IPv4 address exists only as long as the
-adapter object exists. Restarting the computer destroys the IPv4
-address, as does manually resetting the network interface card (NIC).
-Also, certain PnP events may destroy the address. To create an IPv4
-address that persists, the EnableStatic method of the
-Win32_NetworkAdapterConfiguration Class in the Windows Management
-Instrumentation (WMI) controls may be used. The netsh commands can
-also be used to create a persistent IPv4 address. For more
-information, please see the documentation on Netsh.exe in the Windows
-Sockets documentation. On Windows Server 2003, Windows XP, and
-Windows 2000, if the IPv4 address in the Address parameter already
-exists on the network, the AddIPAddress function returns NO_ERROR and
-the IPv4 address added is 0.0.0.0. On Windows Vista and later, if the
-IPv4 address passed in the Address parameter already exists on the
-network, the AddIPAddress function returns NO_ERROR and the duplicate
-IPv4 address is added with the IP_DAD_STATE member in the
-IP_ADAPTER_UNICAST_ADDRESS structure set to IpDadStateDuplicate. An
-IPv4 address that is added using the AddIPAddress function can later
-be deleted by calling the DeleteIPAddress function passing the
-NTEContext parameter returned by the AddIPAddress function. For
-information about the IPAddr and IPMask data types, see Windows Data
-Types. To convert an IPv4 address between dotted decimal notation and
-IPAddr format, use the inet_addr and inet_ntoa functions. On Windows
-Vista and later, the CreateUnicastIpAddressEntry function can be used
-to add a new unicast IPv4 or IPv6 address entry on a local computer.
+AddIPAddress 関数は、ローカルコンピュータ上に新しい IPv4 アドレスエントリを追加するのに使う。AddIPAddress
+が追加する IPv4 アドレスは永続的ではなく、アダプタオブジェクトが存在する間だけ有効である。コンピュータを再起動するか NIC
+を手動でリセットすると IPv4 アドレスは破棄される。特定の PnP イベントでも破棄されうる。永続的な IPv4
+アドレスを作成するには WMI の Win32_NetworkAdapterConfiguration クラスの EnableStatic
+メソッドや netsh コマンドを利用する。詳細は Windows Sockets ドキュメントの Netsh.exe
+に関する記述を参照。Windows Server 2003 / XP / 2000 では、Address に指定した IPv4
+アドレスがネットワーク上に既に存在する場合、AddIPAddress は NO_ERROR を返すが追加された IPv4 アドレスは
+0.0.0.0 となる。Windows Vista
+以降では、既存アドレスと重複する場合、IP_ADAPTER_UNICAST_ADDRESS 構造体の IP_DAD_STATE メンバが
+IpDadStateDuplicate に設定された状態で重複アドレスが追加される。AddIPAddress で追加した IPv4
+アドレスは、AddIPAddress が返した NTEContext を渡して DeleteIPAddress
+を呼ぶことで後から削除できる。IPAddr / IPMask データ型については Windows Data Types
+を参照。ドット区切り十進表記と IPAddr 形式を相互変換するには inet_addr / inet_ntoa を使う。Windows
+Vista 以降では CreateUnicastIpAddressEntry 関数を使ってユニキャスト IPv4/IPv6
+アドレスを追加できる。
 
 
 %index
 CancelIPChangeNotify
-Cancels notification of IPv4 address and route changes previously requested with successful calls to the NotifyAddrChange or NotifyRouteChange functions.
+NotifyAddrChange または NotifyRouteChange の呼び出しで以前に登録した IPv4 アドレスおよび経路変更通知をキャンセルする。
 %group
 Win32 iphlpapi
 %prm
 notifyOverlapped
-notifyOverlapped : [var] A pointer to the OVERLAPPED structure used in the previous call to NotifyAddrChange  or NotifyRouteChange.
+notifyOverlapped : [var] 直前の NotifyAddrChange または NotifyRouteChange 呼び出しで使用した OVERLAPPED 構造体へのポインタ。
 %inst
-Cancels notification of IPv4 address and route changes previously
-requested with successful calls to the NotifyAddrChange or
-NotifyRouteChange functions.
+NotifyAddrChange または NotifyRouteChange の呼び出しで以前に登録した IPv4
+アドレスおよび経路変更通知をキャンセルする。
 
 [備考]
-The CancelIPChangeNotify function deregisters for a change
-notification previously requested for IPv4 address or route changes
-on a local computer. These requests to register for notification are
-made by calling the NotifyAddrChange or NotifyRouteChange functions.
-The OVERLAPPED structure used in the previous call to one of these
-notification functions is passed to CancelIPChangeNotify function in
-the notifyOverlapped parameter to deregister for notifications. The
-CancelIPChangeNotify can return FALSE if no notification request was
-found or an invalid notifyOverlapped parameter was passed.
+CancelIPChangeNotify 関数は、ローカルコンピュータの IPv4
+アドレスまたは経路の変更通知として以前に登録した要求を解除する。通知登録は NotifyAddrChange または
+NotifyRouteChange で行う。これらの呼び出しで使った OVERLAPPED 構造体を notifyOverlapped
+に渡すことで通知登録を解除する。通知要求が見つからない場合や不正な notifyOverlapped
+を渡した場合、CancelIPChangeNotify は FALSE を返すことがある。
 
 
 %index
 UnregisterInterfaceTimestampConfigChange
-Cancels notifications about timestamp capability changes by unregistering the callback function you registered in a call to [**RegisterInterfaceTimestampConfigChange**](/windows/win32/api/iphlpapi/nf-iphlpapi-registerinterfacetimestampconfigchange).
+RegisterInterfaceTimestampConfigChange の呼び出しで登録したコールバック関数の登録解除により、タイムスタンプ機能変更に関する通知をキャンセルする。
 %group
 Win32 iphlpapi
 %prm
 NotificationHandle
-NotificationHandle : [intptr] Type: \_In\_ **HIFTIMESTAMPCHANGE** The handle that was returned by [**RegisterInterfaceTimestampConfigChange**](/windows/win32/api/iphlpapi/nf-iphlpapi-registerinterfacetimestampconfigchange). This identifies the registration to be canceled.
+NotificationHandle : [intptr] 型: _In_ HIFTIMESTAMPCHANGE RegisterInterfaceTimestampConfigChange が返したハンドル。キャンセルする登録を識別する。
 %inst
-Cancels notifications about timestamp capability changes by
-unregistering the callback function you registered in a call to
-[**RegisterInterfaceTimestampConfigChange**](/windows/win32/api/iphlpapi/nf-iphlpapi-registerinterfacetimestampconfigchange).
+RegisterInterfaceTimestampConfigChange
+の呼び出しで登録したコールバック関数の登録解除により、タイムスタンプ機能変更に関する通知をキャンセルする。
 
 [戻り値]
-Type: **[DWORD](/windows/win32/winprog/windows-data-types)** A
-**DWORD** return code indicating success or failure.
+型: DWORD 成功または失敗を示す DWORD 戻り値。
 
 
 %index
 CancelIfTimestampConfigChange
-This function is reserved for system use, and you should not call it from your code. (CancelIfTimestampConfigChange)
+この関数はシステムで予約されている。ユーザーコードから呼び出してはならない。(CancelIfTimestampConfigChange)
 %group
 Win32 iphlpapi
 %prm
 NotificationHandle
-NotificationHandle : [intptr] Reserved.
+NotificationHandle : [intptr] 予約済み。
 %inst
-This function is reserved for system use, and you should not call it
-from your code. (CancelIfTimestampConfigChange)
+この関数はシステムで予約されている。ユーザーコードから呼び出してはならない。(CancelIfTimestampConfigChange)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 CancelMibChangeNotify2
-Deregisters for change notifications for IP interface changes, IP address changes, IP route changes, Teredo port changes, and when the unicast IP address table is stable and can be retrieved.
+IP インターフェイス変更、IP アドレス変更、IP 経路変更、Teredo ポート変更、および安定ユニキャスト IP アドレステーブルの準備完了通知の登録を解除する。
 %group
 Win32 iphlpapi
 %prm
 NotificationHandle
-NotificationHandle : [intptr] The handle returned from a notification registration or retrieval function to indicate which notification to cancel.
+NotificationHandle : [intptr] 通知登録または取得関数から返されたハンドルで、どの通知をキャンセルするかを示す。
 %inst
-Deregisters for change notifications for IP interface changes, IP
-address changes, IP route changes, Teredo port changes, and when the
-unicast IP address table is stable and can be retrieved.
+IP インターフェイス変更、IP アドレス変更、IP 経路変更、Teredo ポート変更、および安定ユニキャスト IP
+アドレステーブルの準備完了通知の登録を解除する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CancelMibChangeNotify2 function is defined on Windows Vista and
-later. The CancelMibChangeNotify2 function deregisters for a change
-notification previously requested for IP interface changes, IP
-address changes, IP route changes, or Teredo port changes on a local
-computer. These requests are made by calling NotifyIpInterfaceChange,
-NotifyUnicastIpAddressChange, NotifyRouteChange2, or
-NotifyTeredoPortChange. The CancelMibChangeNotify2 function also
-cancels a previous request to be notified when the unicast IP address
-table is stable on a local computer and can be retrieved. This
-request is made by calling the NotifyStableUnicastIpAddressTable
-function. The NotificationHandle parameter returned to these
-notification functions is passed to CancelMibChangeNotify2 to
-deregister for notifications or cancel a pending request to retrieve
-the stable unicast IP address table. An application cannot make a
-call to the CancelMibChangeNotify2 function from the context of the
-thread which is currently executing the notification callback
-function for the same NotificationHandle parameter. Otherwise, the
-thread executing that callback will result in deadlock. So the
-CancelMibChangeNotify2 function must not be called directly as part
-of the notification callback routine. In a more general situation, a
-thread that executes the CancelMibChangeNotify2 function cannot own a
-resource on which the thread that executes a notification callback
-operation would wait because it would result in a similar deadlock.
-The CancelMibChangeNotify2 function should be called from a different
-thread, on which the thread that receives the notification callback
-doesn’t have dependencies on.
+CancelMibChangeNotify2 関数は Windows Vista
+以降で定義される。CancelMibChangeNotify2 は、NotifyIpInterfaceChange /
+NotifyUnicastIpAddressChange / NotifyRouteChange2 /
+NotifyTeredoPortChange で以前に登録した IP インターフェイス・IP アドレス・IP 経路・Teredo
+ポートの変更通知を解除する。NotifyStableUnicastIpAddressTable による安定ユニキャスト IP
+アドレステーブル通知要求のキャンセルにも使う。これらの関数が返した NotificationHandle
+を渡すことで通知解除もしくは保留中の取得要求を取り消す。同じ NotificationHandle
+に対する通知コールバックが実行中のスレッドから CancelMibChangeNotify2
+を呼び出してはならない。デッドロックを引き起こす。したがって通知コールバック内で直接呼んではならず、コールバックを受けるスレッドが依存するリソースを保持するスレッドからも呼んではならない。
 
 
 %index
 CaptureInterfaceHardwareCrossTimestamp
-Retrieves cross timestamp info for a network adapter.
+ネットワークアダプタのクロスタイムスタンプ情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, CrossTimestamp
-InterfaceLuid : [var] Type: \_In\_ **CONST [NET_LUID](/windows/win32/api/ifdef/ns-ifdef-net_luid_lh)\*** The network locally unique identifier (LUID) of the network adapter from which a cross timestamp is to be retrieved.
-CrossTimestamp : [var] Type: \_Inout\_ **[PINTERFACE_HARDWARE_CROSSTIMESTAMP](/windows/win32/api/iphlpapi/ns-iphlpapi-interface_hardware_crosstimestamp)** The timestamp is returned by the network adapter in the form of an [**INTERFACE_HARDWARE_CROSSTIMESTAMP**](/windows/win32/api/iphlpapi/ns-iphlpapi-interface_hardware_crosstimestamp) object.
+InterfaceLuid : [var] 型: _In_ CONST NET_LUID* クロスタイムスタンプを取得するネットワークアダプタの LUID。
+CrossTimestamp : [var] 型: _Inout_ PINTERFACE_HARDWARE_CROSSTIMESTAMP ネットワークアダプタから INTERFACE_HARDWARE_CROSSTIMESTAMP 形式でタイムスタンプを返す。
 %inst
-Retrieves cross timestamp info for a network adapter.
+ネットワークアダプタのクロスタイムスタンプ情報を取得する。
 
 [戻り値]
-Type: **[DWORD](/windows/win32/winprog/windows-data-types)** A
-**DWORD** return code indicating success or failure.
+型: DWORD 成功または失敗を示す DWORD 戻り値。
 
 
 %index
@@ -206,1693 +164,997 @@ CompartmentGuid : [var]
 
 %index
 ConvertInterfaceAliasToLuid
-Converts an interface alias name for a network interface to the locally unique identifier (LUID) for the interface.
+ネットワークインターフェイスのエイリアス名を、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceAlias, InterfaceLuid
-InterfaceAlias : [wstr] A pointer to a NULL-terminated Unicode string containing the alias name of the network interface.
-InterfaceLuid : [var] A pointer to the NET_LUID for this interface.
+InterfaceAlias : [wstr] ネットワークインターフェイスのエイリアス名を格納した NULL 終端 Unicode 文字列へのポインタ。
+InterfaceLuid : [var] このインターフェイスの NET_LUID へのポインタ。
 %inst
-Converts an interface alias name for a network interface to the
-locally unique identifier (LUID) for the interface.
+ネットワークインターフェイスのエイリアス名を、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 
 [戻り値]
-On success, ConvertInterfaceAliasToLuid returns NO_ERROR. Any nonzero
-return value indicates failure and a NULL is returned in the
-InterfaceLuid parameter.
-This doc was truncated.
+成功時、ConvertInterfaceAliasToLuid は NO_ERROR を返す。0
+以外の戻り値は失敗を示し、InterfaceLuid パラメータには NULL が返される。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceAliasToLuid function is available on Windows
-Vista and later. The ConvertInterfaceAliasToLuid function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol.
+ConvertInterfaceAliasToLuid 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方のネットワークインターフェイスに対応する。
 
 
 %index
 ConvertInterfaceGuidToLuid
-Converts a globally unique identifier (GUID) for a network interface to the locally unique identifier (LUID) for the interface.
+ネットワークインターフェイスのグローバル一意識別子 (GUID) を、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceGuid, InterfaceLuid
-InterfaceGuid : [var] A pointer to a GUID for a network interface.
-InterfaceLuid : [var] A pointer to the NET_LUID for this interface.
+InterfaceGuid : [var] ネットワークインターフェイスの GUID へのポインタ。
+InterfaceLuid : [var] このインターフェイスの NET_LUID へのポインタ。
 %inst
-Converts a globally unique identifier (GUID) for a network interface
-to the locally unique identifier (LUID) for the interface.
+ネットワークインターフェイスのグローバル一意識別子 (GUID) を、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 
 [戻り値]
-On success, ConvertInterfaceGuidToLuid returns NO_ERROR. Any nonzero
-return value indicates failure and a NULL is returned in the
-InterfaceLuid parameter.
-This doc was truncated.
+成功時、ConvertInterfaceGuidToLuid は NO_ERROR を返す。0
+以外の戻り値は失敗を示し、InterfaceLuid パラメータには NULL が返される。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceGuidToLuid function is available on Windows Vista
-and later. The ConvertInterfaceGuidToLuid function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol.
+ConvertInterfaceGuidToLuid 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方のネットワークインターフェイスに対応する。
 
 
 %index
 ConvertInterfaceIndexToLuid
-Converts a local index for a network interface to the locally unique identifier (LUID) for the interface.
+ネットワークインターフェイスのローカルインデックスを、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceIndex, InterfaceLuid
-InterfaceIndex : [int] The local index  value for a network interface.
-InterfaceLuid : [var] A pointer to the NET_LUID for this interface.
+InterfaceIndex : [int] ネットワークインターフェイスのローカルインデックス値。
+InterfaceLuid : [var] このインターフェイスの NET_LUID へのポインタ。
 %inst
-Converts a local index for a network interface to the locally unique
-identifier (LUID) for the interface.
+ネットワークインターフェイスのローカルインデックスを、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 
 [戻り値]
-On success, ConvertInterfaceIndexToLuid returns NO_ERROR. Any nonzero
-return value indicates failure and a NULL is returned in the
-InterfaceLuid parameter.
-This doc was truncated.
+成功時、ConvertInterfaceIndexToLuid は NO_ERROR を返す。0
+以外の戻り値は失敗を示し、InterfaceLuid パラメータには NULL が返される。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceIndexToLuid function is available on Windows
-Vista and later. The ConvertInterfaceIndexToLuid function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol.
+ConvertInterfaceIndexToLuid 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方のネットワークインターフェイスに対応する。
 
 
 %index
 ConvertInterfaceLuidToAlias
-Converts a locally unique identifier (LUID) for a network interface to an interface alias.
+ネットワークインターフェイスのローカル一意識別子 (LUID) をインターフェイスのエイリアス名に変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceAlias, Length
-InterfaceLuid : [var] A pointer to a NET_LUID for a network interface.
-InterfaceAlias : [wstr] A pointer to a buffer to hold the NULL-terminated Unicode string containing the alias name of the network interface when the function returns successfully.
-Length : [int] The length, in characters, of the buffer pointed to by the InterfaceAlias parameter. This value must be large enough to accommodate the alias name of the network interface and the terminating NULL character.  The maximum required length is NDIS_IF_MAX_STRING_SIZE + 1.
+InterfaceLuid : [var] ネットワークインターフェイスの NET_LUID へのポインタ。
+InterfaceAlias : [wstr] 成功時、ネットワークインターフェイスのエイリアス名を格納した NULL 終端 Unicode 文字列を受け取るバッファへのポインタ。
+Length : [int] InterfaceAlias が指すバッファの文字数。エイリアス名と終端 NULL 文字を格納するのに十分な大きさが必要。最大値は NDIS_IF_MAX_STRING_SIZE + 1。
 %inst
-Converts a locally unique identifier (LUID) for a network interface
-to an interface alias.
+ネットワークインターフェイスのローカル一意識別子 (LUID) をインターフェイスのエイリアス名に変換する。
 
 [戻り値]
-On success, ConvertInterfaceLuidToAlias returns NO_ERROR. Any nonzero
-return value indicates failure.
-This doc was truncated.
+成功時、ConvertInterfaceLuidToAlias は NO_ERROR を返す。0 以外の戻り値は失敗を示す。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceLuidToAlias function is available on Windows
-Vista and later. The ConvertInterfaceLuidToAlias function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol. The maximum length of the alias name for a network
-interface, NDIS_IF_MAX_STRING_SIZE, without the terminating NULL is
-declared in the Ntddndis.h header file. The NDIS_IF_MAX_STRING_SIZE
-is defined to be the IF_MAX_STRING_SIZE constant defined in the
-Ifdef.h header file. The Ntddndis.h and Ifdef.h header files are
-automatically included in the Netioapi.h header file which is
-automatically included by the Iphlpapi.h header file. The Ntddndis.h,
-Ifdef.h, and Netioapi.h header files should never be used directly.
+ConvertInterfaceLuidToAlias 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方に対応する。ネットワークインターフェイスのエイリアス名の最大長 NDIS_IF_MAX_STRING_SIZE (終端
+NULL を除く) は Ntddndis.h で宣言され、Ifdef.h の IF_MAX_STRING_SIZE
+として定義される。Ntddndis.h と Ifdef.h は Netioapi.h に自動的にインクルードされ、Netioapi.h は
+Iphlpapi.h に自動的にインクルードされる。これらのヘッダを直接使用してはならない。
 
 
 %index
 ConvertInterfaceLuidToGuid
-Converts a locally unique identifier (LUID) for a network interface to a globally unique identifier (GUID) for the interface.
+ネットワークインターフェイスのローカル一意識別子 (LUID) をグローバル一意識別子 (GUID) に変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceGuid
-InterfaceLuid : [var] A pointer to a NET_LUID for a network interface.
-InterfaceGuid : [var] A pointer to the GUID for this interface.
+InterfaceLuid : [var] ネットワークインターフェイスの NET_LUID へのポインタ。
+InterfaceGuid : [var] このインターフェイスの GUID へのポインタ。
 %inst
-Converts a locally unique identifier (LUID) for a network interface
-to a globally unique identifier (GUID) for the interface.
+ネットワークインターフェイスのローカル一意識別子 (LUID) をグローバル一意識別子 (GUID) に変換する。
 
 [戻り値]
-On success, ConvertInterfaceLuidToGuid returns NO_ERROR. Any nonzero
-return value indicates failure and a NULL is returned in the
-InterfaceGuid parameter.
-This doc was truncated.
+成功時、ConvertInterfaceLuidToGuid は NO_ERROR を返す。0
+以外の戻り値は失敗を示し、InterfaceGuid パラメータには NULL が返される。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceLuidToGuid function is available on Windows Vista
-and later. The ConvertInterfaceLuidToGuid function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol.
+ConvertInterfaceLuidToGuid 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方に対応する。
 
 
 %index
 ConvertInterfaceLuidToIndex
-Converts a locally unique identifier (LUID) for a network interface to the local index for the interface.
+ネットワークインターフェイスのローカル一意識別子 (LUID) をインターフェイスのローカルインデックスに変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceIndex
-InterfaceLuid : [var] A pointer to a NET_LUID for a network interface.
-InterfaceIndex : [var] The local index  value for the interface.
+InterfaceLuid : [var] ネットワークインターフェイスの NET_LUID へのポインタ。
+InterfaceIndex : [var] インターフェイスのローカルインデックス値。
 %inst
-Converts a locally unique identifier (LUID) for a network interface
-to the local index for the interface.
+ネットワークインターフェイスのローカル一意識別子 (LUID) をインターフェイスのローカルインデックスに変換する。
 
 [戻り値]
-On success, ConvertInterfaceLuidToIndex returns NO_ERROR. Any nonzero
-return value indicates failure and a NET_IFINDEX_UNSPECIFIED is
-returned in the InterfaceIndex parameter.
-This doc was truncated.
+成功時、ConvertInterfaceLuidToIndex は NO_ERROR を返す。0
+以外の戻り値は失敗を示し、InterfaceIndex パラメータには NET_IFINDEX_UNSPECIFIED が返される。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceLuidToIndex function is available on Windows
-Vista and later. The ConvertInterfaceLuidToIndex function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol.
+ConvertInterfaceLuidToIndex 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方に対応する。
 
 
 %index
 ConvertInterfaceLuidToNameW
-Converts a locally unique identifier (LUID) for a network interface to the Unicode interface name.
+ネットワークインターフェイスのローカル一意識別子 (LUID) を Unicode インターフェイス名に変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceName, Length
-InterfaceLuid : [var] A pointer to a NET_LUID for a network interface.
-InterfaceName : [wstr] A pointer to a buffer to hold the NULL-terminated Unicode string containing the interface name when the function returns successfully.
-Length : [int] The number of characters in the array pointed to by the InterfaceName parameter. This value must be large enough to accommodate the interface name and the terminating null character.  The maximum required length is NDIS_IF_MAX_STRING_SIZE + 1.
+InterfaceLuid : [var] ネットワークインターフェイスの NET_LUID へのポインタ。
+InterfaceName : [wstr] 成功時、インターフェイス名を格納した NULL 終端 Unicode 文字列を受け取るバッファへのポインタ。
+Length : [int] InterfaceName が指す配列の文字数。インターフェイス名と終端 NULL 文字を格納できる大きさが必要。最大値は NDIS_IF_MAX_STRING_SIZE + 1。
 %inst
-Converts a locally unique identifier (LUID) for a network interface
-to the Unicode interface name.
+ネットワークインターフェイスのローカル一意識別子 (LUID) を Unicode インターフェイス名に変換する。
 
 [戻り値]
-On success, ConvertInterfaceLuidToNameW returns NETIO_ERROR_SUCCESS.
-Any nonzero return value indicates failure.
-This doc was truncated.
+成功時、本関数は NETIO_ERROR_SUCCESS を返す。0 以外の戻り値は失敗を示す。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceLuidToNameW function is available on Windows
-Vista and later. The ConvertInterfaceLuidToNameW function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol. The ConvertInterfaceLuidToNameW converts a network
-interface LUID to a Unicode interface name. The
-ConvertInterfaceLuidToNameA converts an ANSI interface name to a
-LUID. The maximum length of an interface name,
-NDIS_IF_MAX_STRING_SIZE, without the terminating NULL is declared in
-the Ntddndis.h header file. The NDIS_IF_MAX_STRING_SIZE is defined to
-be the IF_MAX_STRING_SIZE constant defined in the Ifdef.h header
-file. The Ntddndis.h and Ifdef.h header files are automatically
-included in the Netioapi.h header file which is automatically
-included by the Iphlpapi.h header file. The Ntddndis.h, Ifdef.h, and
-Netioapi.h header files should never be used directly.
+ConvertInterfaceLuidToNameW 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方に対応する。ConvertInterfaceLuidToNameW はネットワークインターフェイスの LUID を
+Unicode インターフェイス名に変換する。ConvertInterfaceLuidToNameA は ANSI インターフェイス名を
+LUID に変換する。インターフェイス名の最大長 NDIS_IF_MAX_STRING_SIZE は Ntddndis.h
+で宣言され、Ifdef.h の IF_MAX_STRING_SIZE として定義される。Ntddndis.h / Ifdef.h /
+Netioapi.h は Iphlpapi.h から自動的にインクルードされ、直接使用してはならない。
 
 
 %index
 ConvertInterfaceNameToLuidW
-Converts a Unicode network interface name to the locally unique identifier (LUID) for the interface.
+Unicode のネットワークインターフェイス名を、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceName, InterfaceLuid
-InterfaceName : [wstr] A pointer to a NULL-terminated Unicode string containing the network interface name.
-InterfaceLuid : [var] A pointer to the NET_LUID for this interface.
+InterfaceName : [wstr] ネットワークインターフェイス名を格納した NULL 終端 Unicode 文字列へのポインタ。
+InterfaceLuid : [var] このインターフェイスの NET_LUID へのポインタ。
 %inst
-Converts a Unicode network interface name to the locally unique
-identifier (LUID) for the interface.
+Unicode のネットワークインターフェイス名を、そのインターフェイスのローカル一意識別子 (LUID) に変換する。
 
 [戻り値]
-On success, ConvertInterfaceNameToLuidW returns NETIO_ERROR_SUCCESS.
-Any nonzero return value indicates failure.
-This doc was truncated.
+成功時、本関数は NETIO_ERROR_SUCCESS を返す。0 以外の戻り値は失敗を示す。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertInterfaceNameToLuidW function is available on Windows
-Vista and later. The ConvertInterfaceNameToLuidW function is protocol
-independent and works with network interfaces for both the IPv6 and
-IPv4 protocol. The ConvertInterfaceNameToLuidW converts a Unicode
-interface name to a LUID. The ConvertInterfaceNameToLuidA converts an
-ANSI interface name to a LUID. The maximum length of an interface
-name, NDIS_IF_MAX_STRING_SIZE, without the terminating NULL is
-declared in the Ntddndis.h header file. The NDIS_IF_MAX_STRING_SIZE
-is defined to be the IF_MAX_STRING_SIZE constant defined in the
-Ifdef.h header file. The Ntddndis.h and Ifdef.h header files are
-automatically included in the Netioapi.h header file which is
-automatically included by the Iphlpapi.h header file. The Ntddndis.h,
-Ifdef.h, and Netioapi.h header files should never be used directly.
+ConvertInterfaceNameToLuidW 関数は Windows Vista 以降で利用できる。プロトコル非依存で IPv4
+/ IPv6 両方に対応する。ConvertInterfaceNameToLuidW は Unicode インターフェイス名を LUID
+に変換する。ConvertInterfaceNameToLuidA は ANSI 版。インターフェイス名の最大長
+NDIS_IF_MAX_STRING_SIZE は Ntddndis.h で宣言され、Ifdef.h の
+IF_MAX_STRING_SIZE として定義される。Ntddndis.h / Ifdef.h / Netioapi.h は
+Iphlpapi.h から自動的にインクルードされ、直接使用してはならない。
 
 
 %index
 ConvertIpv4MaskToLength
-Converts an IPv4 subnet mask to an IPv4 prefix length.
+IPv4 サブネットマスクを IPv4 プレフィックス長に変換する。
 %group
 Win32 iphlpapi
 %prm
 Mask, MaskLength
-Mask : [int] The IPv4 subnet mask.
-MaskLength : [var] A pointer to a UINT8 value to hold the IPv4 prefix length, in bits, when the function returns successfully.
+Mask : [int] IPv4 サブネットマスク。
+MaskLength : [var] 成功時、IPv4 プレフィックス長 (ビット単位) を受け取る UINT8 変数へのポインタ。
 %inst
-Converts an IPv4 subnet mask to an IPv4 prefix length.
+IPv4 サブネットマスクを IPv4 プレフィックス長に変換する。
 
 [戻り値]
-On success, ConvertIpv4MaskToLength returns NO_ERROR. Any nonzero
-return value indicates failure.
-This doc was truncated.
+成功時、ConvertIpv4MaskToLength は NO_ERROR を返す。0 以外の戻り値は失敗を示す。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertIpv4MaskToLength function is available on Windows Vista
-and later.
+ConvertIpv4MaskToLength 関数は Windows Vista 以降で利用できる。
 
 
 %index
 ConvertLengthToIpv4Mask
-Converts an IPv4 prefix length to an IPv4 subnet mask.
+IPv4 プレフィックス長を IPv4 サブネットマスクに変換する。
 %group
 Win32 iphlpapi
 %prm
 MaskLength, Mask
-MaskLength : [int] The IPv4 prefix length, in bits.
-Mask : [var] A pointer to a LONG value to hold the IPv4 subnet mask when the function returns successfully.
+MaskLength : [int] IPv4 プレフィックス長 (ビット単位)。
+Mask : [var] 成功時、IPv4 サブネットマスクを受け取る LONG 変数へのポインタ。
 %inst
-Converts an IPv4 prefix length to an IPv4 subnet mask.
+IPv4 プレフィックス長を IPv4 サブネットマスクに変換する。
 
 [戻り値]
-On success, ConvertLengthToIpv4Mask returns NO_ERROR. Any nonzero
-return value indicates failure and the Mask parameter is set to
-INADDR_NONE defined in the Ws2def.h header file.
-This doc was truncated.
+成功時、ConvertLengthToIpv4Mask は NO_ERROR を返す。0 以外の戻り値は失敗を示し、Mask
+パラメータには Ws2def.h で定義される INADDR_NONE が設定される。
+このドキュメントは省略されている。
 
 [備考]
-The ConvertLengthToIpv4Mask function is available on Windows Vista
-and later.
+ConvertLengthToIpv4Mask 関数は Windows Vista 以降で利用できる。
 
 
 %index
 CreateAnycastIpAddressEntry
-Adds a new anycast IP address entry on the local computer.
+ローカルコンピュータに新しいエニーキャスト IP アドレスエントリを追加する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_ANYCASTIPADDRESS_ROW structure entry for an anycast IP address entry.
+Row : [var] エニーキャスト IP アドレスエントリを表す MIB_ANYCASTIPADDRESS_ROW 構造体へのポインタ。
 %inst
-Adds a new anycast IP address entry on the local computer.
+ローカルコンピュータに新しいエニーキャスト IP アドレスエントリを追加する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CreateAnycastIpAddressEntry function is defined on Windows Vista
-and later. The CreateAnycastIpAddressEntry function is used to add a
-new anycast IP address entry on a local computer. The Address member
-in the MIB_ANYCASTIPADDRESS_ROW structure pointed to by the Row
-parameter must be initialized to a valid unicast IPv4 or IPv6 address
-and family. In addition, at least one of the following members in the
-MIB_ANYCASTIPADDRESS_ROW structure pointed to the Row parameter must
-be initialized to the interface: the InterfaceLuid or InterfaceIndex.
-The fields are used in the order listed above. So if the
-InterfaceLuid is specified, then this member is used to determine the
-interface on which to add the unicast IP address. If no value was set
-for the InterfaceLuid member (the values of this member was set to
-zero), then the InterfaceIndex member is next used to determine the
-interface. The ScopeId member of the MIB_ANYCASTIPADDRESS_ROW
-structure pointed to by the Row is ignored when the
-CreateAnycastIpAddressEntry function is called. The ScopeId member is
-automatically determined by the interface on which the address is
-added. The CreateAnycastIpAddressEntry function will fail if the
-anycast IP address passed in the Address member of the
-MIB_ANYCASTIPADDRESS_ROW pointed to by the Row parameter is a
-duplicate of an existing anycast IP address on the interface. The
-CreateAnycastIpAddressEntry function can only be called by a user
-logged on as a member of the Administrators group. If
-CreateAnycastIpAddressEntry is called by a user that is not a member
-of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+CreateAnycastIpAddressEntry 関数は Windows Vista
+以降で定義される。ローカルコンピュータに新しいエニーキャスト IP アドレスエントリを追加するのに使う。Row が指す
+MIB_ANYCASTIPADDRESS_ROW の Address メンバは有効なユニキャスト IPv4 / IPv6
+アドレスとファミリで初期化しておく必要がある。加えて InterfaceLuid または InterfaceIndex
+のいずれかを初期化する必要がある。InterfaceLuid が指定されていればそちらが優先され、ゼロであれば
+InterfaceIndex が使われる。Row の ScopeId
+メンバは無視され、アドレスを追加するインターフェイスから自動的に決定される。Address に指定したエニーキャスト IP
+アドレスが既存のインターフェイス上のアドレスと重複する場合、本関数は失敗する。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 CreateIpForwardEntry
-The CreateIpForwardEntry function creates a route in the local computer's IPv4 routing table.
+CreateIpForwardEntry 関数は、ローカルコンピュータの IPv4 ルーティングテーブルに経路を作成する。
 %group
 Win32 iphlpapi
 %prm
 pRoute
-pRoute : [var] A pointer to a MIB_IPFORWARDROW structure that specifies the information for the new route. The caller must specify values for all members of this structure. The caller must specify MIB_IPPROTO_NETMGMT for the dwForwardProto member of MIB_IPFORWARDROW.
+pRoute : [var] 新しい経路の情報を指定する MIB_IPFORWARDROW 構造体へのポインタ。呼び出し元はすべてのメンバに値を設定する必要がある。dwForwardProto メンバには MIB_IPPROTO_NETMGMT を指定しなければならない。
 %inst
-The CreateIpForwardEntry function creates a route in the local
-computer's IPv4 routing table.
+CreateIpForwardEntry 関数は、ローカルコンピュータの IPv4 ルーティングテーブルに経路を作成する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The dwForwardProto member of MIB_IPFORWARDROW structure pointed to by
-the route parameter must be set to MIB_IPPROTO_NETMGMT otherwise
-CreateIpForwardEntry will fail. Routing protocol identifiers are used
-to identify route information for the specified routing protocol. For
-example, MIB_IPPROTO_NETMGMT is used to identify route information
-for IP routing set through network management such as the Dynamic
-Host Configuration Protocol (DHCP), the Simple Network Management
-Protocol (SNMP), or by calls to the CreateIpForwardEntry,
-DeleteIpForwardEntry, or SetIpForwardEntry functions. On Windows
-Vista and Windows Server 2008, the route metric specified in the
-dwForwardMetric1 member of the MIB_IPFORWARDROW structure pointed to
-by pRoute parameter represents a combination of the route metric
-added to the interface metric specified in the Metric member of the
-MIB_IPINTERFACE_ROW structure of the associated interface. So the
-dwForwardMetric1 member of the MIB_IPFORWARDROW structure should be
-equal to or greater than Metric member of the associated
-MIB_IPINTERFACE_ROW structure. If an application would like to set
-the route metric to 0, then the dwForwardMetric1 member of the
-MIB_IPFORWARDROW structure should be set equal to the value of the
-interface metric specified in the Metric member of the associated
-MIB_IPINTERFACE_ROW structure. An application can retrieve the
-interface metric by calling the GetIpInterfaceEntry function. On
-Windows Vista and Windows Server 2008, the CreateIpForwardEntry only
-works on interfaces with a single sub-interface (where the interface
-LUID and subinterface LUID are the same). The dwForwardIfIndex member
-of the MIB_IPFORWARDROW structure specifies the interface. A number
-of members of the MIB_IPFORWARDROW structure pointed to by the route
-parameter are not currently used by CreateIpForwardEntry. These
-members include dwForwardPolicy, dwForwardType, dwForwardAge,
-dwForwardNextHopAS, dwForwardMetric2, dwForwardMetric3,
-dwForwardMetric4, and dwForwardMetric5. A new route created by
-CreateIpForwardEntry will automatically have a default value for
-dwForwardAge of INFINITE. To modify an existing route in the IPv4
-routing table, use the SetIpForwardEntry function. To retrieve the
-IPv4 routing table, call the GetIpForwardTable function. On Windows
-Vista and later, the CreateIpForwardEntry function can only be called
-by a user logged on as a member of the Administrators group. If
-CreateIpForwardEntry is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The CreateIpForwardEntry function
-can also fail because of user account control (UAC) on Windows Vista
-and later. If an application that contains this function is executed
-by a user logged on as a member of the Administrators group other
-than the built-in Administrator, this call will fail unless the
-application has been marked in the manifest file with a
-requestedExecutionLevel set to requireAdministrator. If the
-application lacks this manifest file, a user logged on as a member of
-the Administrators group other than the built-in Administrator must
-then be executing the application in an enhanced shell as the
-built-in Administrator (RunAs administrator) for this function to
-succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+pRoute が指す MIB_IPFORWARDROW の dwForwardProto には MIB_IPPROTO_NETMGMT
+を設定する必要がある。そうでなければ CreateIpForwardEntry は失敗する。ルーティングプロトコル識別子は、DHCP /
+SNMP あるいは CreateIpForwardEntry / DeleteIpForwardEntry /
+SetIpForwardEntry 呼び出しなど、ネットワーク管理経由で設定された経路情報を識別するために使われる。Windows
+Vista / Server 2008 では dwForwardMetric1
+は経路メトリックとインターフェイスメトリックの合算であり、関連する MIB_IPINTERFACE_ROW の Metric
+以上にする必要がある。経路メトリックを 0 にしたい場合は dwForwardMetric1
+をインターフェイスメトリックと同じ値に設定する。Windows Vista / Server 2008 では
+CreateIpForwardEntry は単一サブインターフェイスのインターフェイスでしか動作しない (インターフェイス LUID
+とサブインターフェイス LUID
+が同一のもの)。dwForwardPolicy、dwForwardType、dwForwardAge、dwForwardNextHopAS、dwForwardMetric2～5
+は現在使用されない。新しい経路の dwForwardAge は既定で INFINITE となる。既存経路の変更には
+SetIpForwardEntry、IPv4 ルーティングテーブル取得には GetIpForwardTable を使う。Windows
+Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: Windows NT 4.0 および Windows 2000 以降ではこの関数は特権操作を行う。成功させるには、呼び出し元が
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバーである必要がある。
 
 
 %index
 CreateIpForwardEntry2
-Creates a new IP route entry on the local computer.
+ローカルコンピュータに新しい IP 経路エントリを作成する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPFORWARD_ROW2 structure entry for an IP route entry.
+Row : [var] IP 経路エントリを表す MIB_IPFORWARD_ROW2 構造体へのポインタ。
 %inst
-Creates a new IP route entry on the local computer.
+ローカルコンピュータに新しい IP 経路エントリを作成する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CreateIpForwardEntry2 function is defined on Windows Vista and
-later. The CreateIpForwardEntry2 function is used to add a new
-neighbor IP address entry on a local computer. The
-InitializeIpForwardEntry function should be used to initialize the
-members of a MIB_IPFORWARD_ROW2 structure entry with default values.
-An application can then change the members in the MIB_IPFORWARD_ROW2
-entry it wishes to modify, and then call the CreateIpForwardEntry2
-function. The DestinationPrefix member in the MIB_IPFORWARD_ROW2
-structure pointed to by the Row parameter must be initialized to a
-valid IPv4 or IPv6 address prefix. The NextHop member in the
-MIB_IPFORWARD_ROW2 structure pointed to by the Row parameter must be
-initialized to a valid IPv4 or IPv6 address and family. In addition,
-at least one of the following members in the MIB_IPFORWARD_ROW2
-structure pointed to the Row parameter must be initialized to the
-interface: the InterfaceLuid or InterfaceIndex. The fields are used
-in the order listed above. So if the InterfaceLuid is specified, then
-this member is used to determine the interface on which to add the IP
-route entry. If no value was set for the InterfaceLuid member (the
-values of this member was set to zero), then the InterfaceIndex
-member is next used to determine the interface. The route metric
-offset specified in the Metric member of the MIB_IPFORWARD_ROW2
-structure pointed to by Row parameter represents only part of the
-complete route metric. The complete metric is a combination of this
-route metric offset added to the interface metric specified in the
-Metric member of the MIB_IPINTERFACE_ROW structure of the associated
-interface. An application can retrieve the interface metric by
-calling the GetIpInterfaceEntry function. The Age and Origin members
-of the MIB_IPFORWARD_ROW2 structure pointed to by the Row are ignored
-when the CreateIpForwardEntry2 function is called. These members are
-set by the network stack and cannot be set using the
-CreateIpForwardEntry2 function. The CreateIpForwardEntry2 function
-will fail if the DestinationPrefix and NextHop members of the
-MIB_IPFORWARD_ROW2 pointed to by the Row parameter are a duplicate of
-an existing IP route entry on the interface specified in the
-InterfaceLuid or InterfaceIndex members. The CreateIpForwardEntry2
-function can only be called by a user logged on as a member of the
-Administrators group. If CreateIpForwardEntry2 is called by a user
-that is not a member of the Administrators group, the function call
-will fail and ERROR_ACCESS_DENIED is returned. This function can also
-fail because of user account control (UAC) on Windows Vista and
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
+CreateIpForwardEntry2 関数は Windows Vista 以降で定義される。ローカルコンピュータに新しい IP
+経路エントリを追加するのに使う。MIB_IPFORWARD_ROW2 構造体のメンバは InitializeIpForwardEntry
+で既定値に初期化し、必要なメンバを変更してから CreateIpForwardEntry2 を呼ぶとよい。Row の
+DestinationPrefix は有効な IPv4 / IPv6 アドレスプレフィックスで、NextHop
+は有効なアドレスとファミリで初期化する必要がある。また InterfaceLuid または InterfaceIndex
+のいずれかを初期化する必要がある。InterfaceLuid が優先され、ゼロなら InterfaceIndex が使われる。Metric
+メンバの経路メトリックオフセットは完全なメトリックの一部に過ぎず、関連インターフェイスの MIB_IPINTERFACE_ROW の
+Metric と合算される。インターフェイスメトリックは GetIpInterfaceEntry で取得できる。Age と Origin
+メンバは無視され、ネットワークスタックが設定する。既存経路と DestinationPrefix / NextHop
+が重複する場合は失敗する。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 CreateIpNetEntry
-The CreateIpNetEntry function creates an Address Resolution Protocol (ARP) entry in the ARP table on the local computer.
+CreateIpNetEntry 関数は、ローカルコンピュータの ARP テーブルに ARP エントリを作成する。
 %group
 Win32 iphlpapi
 %prm
 pArpEntry
-pArpEntry : [var] A pointer to a MIB_IPNETROW structure that specifies information for the new entry. The caller must specify values for all members of this structure.
+pArpEntry : [var] 新しいエントリの情報を指定する MIB_IPNETROW 構造体へのポインタ。呼び出し元はすべてのメンバに値を設定する必要がある。
 %inst
-The CreateIpNetEntry function creates an Address Resolution Protocol
-(ARP) entry in the ARP table on the local computer.
+CreateIpNetEntry 関数は、ローカルコンピュータの ARP テーブルに ARP エントリを作成する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-To modify an existing ARP entry, use the SetIpNetEntry function. To
-retrieve the ARP table, call the GetIpNetTable function. To delete an
-existing ARP entry, call the DeleteIpNetEntry. On Windows Vista and
-later, the CreateIpNetEntry function can only be called by a user
-logged on as a member of the Administrators group. If
-CreateIpNetEntry is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The CreateIpNetEntry function can
-also fail because of user account control (UAC) on Windows Vista
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+既存 ARP エントリの変更には SetIpNetEntry、ARP テーブル取得には GetIpNetTable、削除には
+DeleteIpNetEntry を使う。Windows Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: Windows NT 4.0 および Windows 2000 以降ではこの関数は特権操作を行う。成功させるには、呼び出し元が
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバーである必要がある。
 
 
 %index
 CreateIpNetEntry2
-Creates a new neighbor IP address entry on the local computer.
+ローカルコンピュータに新しい近隣 IP アドレスエントリを作成する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPNET_ROW2 structure entry for a neighbor IP address entry.
+Row : [var] 近隣 IP アドレスエントリを表す MIB_IPNET_ROW2 構造体へのポインタ。
 %inst
-Creates a new neighbor IP address entry on the local computer.
+ローカルコンピュータに新しい近隣 IP アドレスエントリを作成する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CreateIpNetEntry2 function is defined on Windows Vista and later.
-The CreateIpNetEntry2 function is used to add a new neighbor IP
-address entry on a local computer. The Address member in the
-MIB_IPNET_ROW2 structure pointed to by the Row parameter must be
-initialized to a valid unicast, anycast, or multicast IPv4 or IPv6
-address and family. The PhysicalAddress and PhysicalAddressLength
-members in the MIB_IPNET_ROW2 structure pointed to by the Row
-parameter must be initialized to a valid physical address. In
-addition, at least one of the following members in the MIB_IPNET_ROW2
-structure pointed to the Row parameter must be initialized to the
-interface: the InterfaceLuid or InterfaceIndex. The fields are used
-in the order listed above. So if the InterfaceLuid is specified, then
-this member is used to determine the interface on which to add the
-unicast IP address. If no value was set for the InterfaceLuid member
-(the values of this member was set to zero), then the InterfaceIndex
-member is next used to determine the interface. The CreateIpNetEntry2
-function will fail if the IP address passed in the Address member of
-the MIB_IPNET_ROW2 pointed to by the Row parameter is a duplicate of
-an existing neighbor IP address on the interface. The
-CreateIpNetEntry2 function can only be called by a user logged on as
-a member of the Administrators group. If CreateIpNetEntry2 is called
-by a user that is not a member of the Administrators group, the
-function call will fail and ERROR_ACCESS_DENIED is returned. This
-function can also fail because of user account control (UAC) on
-Windows Vista and later. If an application that contains this
-function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will fail unless the application has been marked in the manifest file
-with a requestedExecutionLevel set to requireAdministrator. If the
-application lacks this manifest file, a user logged on as a member of
-the Administrators group other than the built-in Administrator must
-then be executing the application in an enhanced shell as the
-built-in Administrator (RunAs administrator) for this function to
-succeed.
+CreateIpNetEntry2 関数は Windows Vista 以降で定義される。ローカルコンピュータに新しい近隣 IP
+アドレスエントリを追加するのに使う。Address メンバは有効なユニキャスト / エニーキャスト / マルチキャスト IPv4 /
+IPv6 アドレスとファミリで初期化し、PhysicalAddress / PhysicalAddressLength
+も有効な物理アドレスで初期化する必要がある。さらに InterfaceLuid または InterfaceIndex
+のいずれかを初期化する必要がある (InterfaceLuid 優先)。Address が既存エントリと重複する場合は失敗する。本関数は
+Administrators グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators
+グループのメンバーでないユーザーが呼び出すと ERROR_ACCESS_DENIED を返して失敗する。Windows Vista
+以降のユーザーアカウント制御 (UAC) によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator
+以外の Administrators グループのメンバーが実行した場合、マニフェストファイルで
+requestedExecutionLevel を requireAdministrator
+に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル (管理者として実行) から起動する必要がある。
 
 
 %index
 CreatePersistentTcpPortReservation
-Creates a persistent TCP port reservation for a consecutive block of TCP ports on the local computer.
+ローカルコンピュータで連続する TCP ポートブロックに対する永続的な TCP ポート予約を作成する。
 %group
 Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
-StartPort : [int] The starting TCP port number in network byte order.
-NumberOfPorts : [int] The number of TCP port numbers to reserve.
-Token : [var] A pointer to a port reservation token that is returned if the function succeeds.
+StartPort : [int] ネットワークバイトオーダーでの開始 TCP ポート番号。
+NumberOfPorts : [int] 予約する TCP ポート番号の個数。
+Token : [var] 成功時に返されるポート予約トークンへのポインタ。
 %inst
-Creates a persistent TCP port reservation for a consecutive block of
-TCP ports on the local computer.
+ローカルコンピュータで連続する TCP ポートブロックに対する永続的な TCP ポート予約を作成する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CreatePersistentTcpPortReservation function is defined on Windows
-Vista and later. The CreatePersistentTcpPortReservation function is
-used to add a persistent reservation for a block of TCP ports.
-Applications and services which need to reserve ports fall into two
-categories. The first category includes components which need a
-particular port as part of their operation. Such components will
-generally prefer to specify their required port at installation time
-(in an application manifest, for example). The second category
-includes components which need any available port or block of ports
-at runtime. These two categories correspond to specific and wildcard
-port reservation requests. Specific reservation requests may be
-persistent or runtime, while wildcard port reservation requests are
-only supported at runtime. The CreatePersistentTcpPortReservation
-function provides the ability for an application or service to
-reserve a persistent block of TCP ports. Persistent TCP port
-reservations are recorded in a persistent store for the TCP module in
-Windows. A caller obtains a persistent port reservation by specifying
-how many ports are required and whether a specific range is needed.
-If the request can be satisfied, the
-CreatePersistentTcpPortReservation function returns a unique opaque
-ULONG64 token, which subsequently identifies the reservation. A
-persistent TCP port reservation may be released by calling the
-DeletePersistentTcpPortReservation function. Note that the token for
-a given persistent TCP port reservation may change each time the
-system is restarted.
-Windows does not implement inter-component security for persistent
-reservations obtained using these functions. This means that if a
-component is granted the ability to obtain any persistent port
-reservations, that component automatically gains the ability to
-consume any persistent port reservations granted to any other
-component on the system. Process-level security is enforced for
-runtime reservations, but such control cannot be extended to
-persistent port reservations created using the
-CreatePersistentTcpPortReservation or
-CreatePersistentUdpPortReservation function.
-Once a persistent TCP port reservation has been obtained, an
-application can request port assignments from the TCP port
-reservation by opening a TCP socket, then calling the WSAIoctl
-function specifying the SIO_ASSOCIATE_PORT_RESERVATION IOCTL and
-passing the reservation token before issuing a call to the bind
-function on the socket. The SIO_ACQUIRE_PORT_RESERVATION IOCTL can be
-used to request a runtime reservation for a block of TCP or UDP
-ports. For runtime port reservations, the port pool requires that
-reservations be consumed from the process on whose socket the
-reservation was granted. Runtime port reservations last only as long
-as the lifetime of the socket on which the
-SIO_ACQUIRE_PORT_RESERVATION IOCTL was called. In contrast,
-persistent port reservations created using the
-CreatePersistentTcpPortReservation function may be consumed by any
-process with the ability to obtain persistent reservations.
-The CreatePersistentTcpPortReservation function can only be called by
-a user logged on as a member of the Administrators group. If
-CreatePersistentTcpPortReservation is called by a user that is not a
-member of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+CreatePersistentTcpPortReservation 関数は Windows Vista 以降で定義され、TCP
+ポートブロックを永続的に予約する。アプリケーションやサービスがポートを予約する理由には 2 種類ある。動作に特定のポートを必要とする場合
+(インストール時にマニフェストで指定するケース) と、実行時に任意の空きポート (ブロック) を必要とする場合である。前者は永続予約 /
+ランタイム予約のどちらも可能だが、ワイルドカード予約はランタイムのみ対応する。本関数は永続 TCP
+ポートブロック予約を提供し、Windows の TCP
+モジュール用永続ストアに記録される。必要なポート数と特定範囲の要否を指定し、要求が満たせれば ULONG64
+型の不透明トークンが返される。解放は DeletePersistentTcpPortReservation
+で行う。再起動するとトークン値は変わりうる。永続予約にはコンポーネント間のセキュリティ制御はなく、永続予約を取得可能なコンポーネントは他コンポーネントの永続予約も消費できる。ランタイム予約はプロセスレベルのセキュリティが強制される。取得後は
+TCP ソケットに対し WSAIoctl で SIO_ASSOCIATE_PORT_RESERVATION IOCTL
+を呼んでトークンを渡し、その後 bind を行えばよい。SIO_ACQUIRE_PORT_RESERVATION IOCTL
+でランタイム予約も可能。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 CreatePersistentUdpPortReservation
-Creates a persistent UDP port reservation for a consecutive block of UDP ports on the local computer.
+ローカルコンピュータで連続する UDP ポートブロックに対する永続的な UDP ポート予約を作成する。
 %group
 Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
-StartPort : [int] The starting UDP port number in network byte order.
-NumberOfPorts : [int] The number of UDP port numbers to reserve.
-Token : [var] A pointer to a port reservation token that is returned if the function succeeds.
+StartPort : [int] ネットワークバイトオーダーでの開始 UDP ポート番号。
+NumberOfPorts : [int] 予約する UDP ポート番号の個数。
+Token : [var] 成功時に返されるポート予約トークンへのポインタ。
 %inst
-Creates a persistent UDP port reservation for a consecutive block of
-UDP ports on the local computer.
+ローカルコンピュータで連続する UDP ポートブロックに対する永続的な UDP ポート予約を作成する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CreatePersistentUdpPortReservation function is defined on Windows
-Vista and later. The CreatePersistentUdpPortReservation function is
-used to add a persistent reservation for a block of UDP ports.
-Applications and services which need to reserve ports fall into two
-categories. The first category includes components which need a
-particular port as part of their operation. Such components will
-generally prefer to specify their required port at installation time
-(in an application manifest, for example). The second category
-includes components which need any available port or block of ports
-at runtime. These two categories correspond to specific and wildcard
-port reservation requests. Specific reservation requests may be
-persistent or runtime, while wildcard port reservation requests are
-only supported at runtime. The CreatePersistentUdpPortReservation
-function provides the ability for an application or service to
-reserve persistently a block of UDP ports. Persistent TCP
-reservations are recorded in a persistent store for the UDP module in
-Windows. A caller obtains a persistent port reservation by specifying
-how many ports are required and whether a specific range is needed.
-If the request can be satisfied, the
-CreatePersistentUdpPortReservation function returns a unique opaque
-ULONG64 token, which subsequently identifies the reservation. A
-persistent UDP port reservation may be released by calling the
-DeletePersistentUdpPortReservation function. Note that the token for
-a given persistent UDP port reservation may change each time the
-system is restarted.
-Windows does not implement inter-component security for persistent
-reservations obtained using these functions. This means that if a
-component is granted the ability to obtain any persistent port
-reservations, that component automatically gains the ability to
-consume any persistent port reservations granted to any other
-component on the system. Process-level security is enforced for
-runtime reservations, but such control cannot be extended to
-persistent reservations created using the created using the
-CreatePersistentTcpPortReservation or
-CreatePersistentUdpPortReservation function.
-Once a persistent UDP port reservation has been obtained, an
-application can request port assignments from the UDP port
-reservation by opening a UDP socket, then calling the WSAIoctl
-function specifying the SIO_ASSOCIATE_PORT_RESERVATION IOCTL and
-passing the reservation token before issuing a call to the bind
-function on the socket. The SIO_ACQUIRE_PORT_RESERVATION IOCTL can be
-used to request a runtime reservation for a block of TCP or UDP
-ports. For runtime port reservations, the port pool requires that
-reservations be consumed from the process on whose socket the
-reservation was granted. Runtime port reservations last only as long
-as the lifetime of the socket on which the
-SIO_ACQUIRE_PORT_RESERVATION IOCTL was called. In contrast,
-persistent port reservations created using the
-CreatePersistentUdpPortReservation function may be consumed by any
-process with the ability to obtain persistent reservations.
-The CreatePersistentUdpPortReservation function can only be called by
-a user logged on as a member of the Administrators group. If
-CreatePersistentUdpPortReservation is called by a user that is not a
-member of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+CreatePersistentUdpPortReservation 関数は Windows Vista 以降で定義され、UDP
+ポートブロックを永続的に予約する。使い方は TCP 版 (CreatePersistentTcpPortReservation)
+とほぼ同じで、Windows の UDP モジュール用永続ストアに記録される。必要なポート数と範囲を指定し、成功すれば ULONG64
+の不透明トークンが返される。解放は DeletePersistentUdpPortReservation
+を呼ぶ。再起動するとトークンは変わりうる。永続予約にはコンポーネント間のセキュリティ制御はない。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 CreateProxyArpEntry
-The CreateProxyArpEnry function creates a Proxy Address Resolution Protocol (PARP) entry on the local computer for the specified IPv4 address.
+CreateProxyArpEntry 関数は、ローカルコンピュータ上に指定 IPv4 アドレス用のプロキシ ARP (PARP) エントリを作成する。
 %group
 Win32 iphlpapi
 %prm
 dwAddress, dwMask, dwIfIndex
-dwAddress : [int] The IPv4 address for which this computer acts as a proxy.
-dwMask : [int] The subnet mask for the IPv4 address specified in dwAddress.
-dwIfIndex : [int] The index of the interface on which to proxy ARP for the IPv4 address identified by dwAddress. In other words, when an ARP request for dwAddress is received on this interface, the local computer responds with the physical address of this interface. If this interface is of a type that does not support ARP, such as PPP, then the call fails.
+dwAddress : [int] このコンピュータがプロキシとして動作する対象の IPv4 アドレス。
+dwMask : [int] dwAddress で指定した IPv4 アドレスのサブネットマスク。
+dwIfIndex : [int] dwAddress で指定した IPv4 アドレスに対してプロキシ ARP を行うインターフェイスのインデックス。このインターフェイス上で dwAddress への ARP 要求を受けた場合、このインターフェイスの物理アドレスで応答する。ARP 非対応インターフェイス (PPP 等) では呼び出しは失敗する。
 %inst
-The CreateProxyArpEnry function creates a Proxy Address Resolution
-Protocol (PARP) entry on the local computer for the specified IPv4
-address.
+CreateProxyArpEntry 関数は、ローカルコンピュータ上に指定 IPv4 アドレス用のプロキシ ARP (PARP)
+エントリを作成する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-To retrieve the ARP table, call the GetIpNetTable function. To delete
-an existing PARP entry, call the DeleteProxyArpEntry. On Windows
-Vista and later, the CreateProxyArpEnry function can only be called
-by a user logged on as a member of the Administrators group. If
-CreateProxyArpEnry is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on Windows Vista and later
-lacks this manifest file, a user logged on as a member of the
-Administrators group other than the built-in Administrator must then
-be executing the application in an enhanced shell as the built-in
-Administrator (RunAs administrator) for this function to succeed.
-Note This function executes a privileged operation. For this function
-to execute successfully, the caller must be logged on as a member of
-the Administrators group or the NetworkConfigurationOperators group.
+ARP テーブル取得には GetIpNetTable、既存 PARP エントリの削除には DeleteProxyArpEntry
+を使う。Windows Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: この関数は特権操作を行う。成功させるには呼び出し元が Administrators グループまたは
+NetworkConfigurationOperators グループのメンバーである必要がある。
 
 
 %index
 CreateSortedAddressPairs
-Takes a supplied list of potential IP destination addresses, pairs the destination addresses with the host machine's local IP addresses, and sorts the pairs according to which address pair is best suited for communication between the two peers.
+与えられた IP 宛先候補リストに対し、ホストのローカル IP アドレスとペアを作り、通信に最適な順序でソートして返す。
 %group
 Win32 iphlpapi
 %prm
 SourceAddressList, SourceAddressCount, DestinationAddressList, DestinationAddressCount, AddressSortOptions, SortedAddressPairList, SortedAddressPairCount
-SourceAddressList : [var] Must be NULL. Reserved for future use.
-SourceAddressCount : [int] Must be 0. Reserved for future use.
-DestinationAddressList : [var] A pointer to an array of SOCKADDR_IN6 structures that contain a list of potential IPv6 destination addresses. Any IPv4 addresses must be represented in the IPv4-mapped IPv6 address format which enables an IPv6 only application to communicate with an IPv4 node.
-DestinationAddressCount : [int] The number of destination addresses pointed to by the DestinationAddressList parameter.
-AddressSortOptions : [int] Reserved for future use.
-SortedAddressPairList : [var] A pointer to store an array of SOCKADDR_IN6_PAIR structures that contain a list of pairs of IPv6 addresses sorted in the preferred order of communication, if the function call is successful.
-SortedAddressPairCount : [var] A pointer to store the number of address pairs pointed to by the SortedAddressPairList parameter, if the function call is successful.
+SourceAddressList : [var] NULL でなければならない。将来使用のために予約されている。
+SourceAddressCount : [int] 0 でなければならない。将来使用のために予約されている。
+DestinationAddressList : [var] IPv6 候補宛先アドレスの一覧を格納する SOCKADDR_IN6 構造体配列へのポインタ。IPv4 アドレスは IPv4-mapped IPv6 形式で表現する必要がある。
+DestinationAddressCount : [int] DestinationAddressList が指す宛先アドレスの個数。
+AddressSortOptions : [int] 将来使用のために予約されている。
+SortedAddressPairList : [var] 成功時に通信に最適な順序でソートされた IPv6 アドレスペアの SOCKADDR_IN6_PAIR 構造体配列を受け取るポインタ。
+SortedAddressPairCount : [var] 成功時に SortedAddressPairList 配列の要素数を受け取る変数へのポインタ。
 %inst
-Takes a supplied list of potential IP destination addresses, pairs
-the destination addresses with the host machine's local IP addresses,
-and sorts the pairs according to which address pair is best suited
-for communication between the two peers.
+与えられた IP 宛先候補リストに対し、ホストのローカル IP アドレスとペアを作り、通信に最適な順序でソートして返す。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CreateSortedAddressPairs function is defined on Windows Vista and
-later. The CreateSortedAddressPairs function takes a list of source
-and destination IPv6 addresses, and returns a list of pairs of
-addresses in sorted order. The list is sorted by which address pair
-is best suited for communication between the source and destination
-address. The list of source addresses pointed to by the
-SourceAddressList is currently reserved for future and must be a NULL
-pointer. The SourceAddressCount is currently reserved for future and
-must be zero. The CreateSortedAddressPairs function currently uses
-all of the host machine's local addresses for the source address
-list.
-The list of destination addresses is pointed to by the
-DestinationAddressList parameter. The list of destination addresses
-is an array of SOCKADDR_IN6 structures. Any IPv4 addresses must be
-represented in the IPv4-mapped IPv6 address format which enables an
-IPv6 only application to communicate with an IPv4 node. For more
-information on the IPv4-mapped IPv6 address format, see Dual-Stack
-Sockets. The DestinationAddressCount parameter contains the number of
-destination addresses pointed to by the DestinationAddressList
-parameter. The CreateSortedAddressPairs function supports a maximum
-of 500 destination addresses. If the CreateSortedAddressPairs
-function is successful, the SortedAddressPairList parameter points to
-an array of SOCKADDR_IN6_PAIR structures that contain the sorted
-address pairs. When this returned list is no longer required, free
-the memory used by the list by calling the FreeMibTable function.
+CreateSortedAddressPairs 関数は Windows Vista 以降で定義される。送信元と宛先の IPv6
+アドレスリストを受け取り、通信に最適な順序でソートしたアドレスペアのリストを返す。SourceAddressList と
+SourceAddressCount は現在予約されており、それぞれ NULL と 0
+でなければならない。本関数はホストの全ローカルアドレスを送信元として用いる。DestinationAddressList は
+SOCKADDR_IN6 の配列で、IPv4 は IPv4-mapped IPv6
+形式で表現する。DestinationAddressCount は 500 まで。成功時、SortedAddressPairList
+はソート済みの SOCKADDR_IN6_PAIR 配列を指す。不要になったら FreeMibTable で解放する。
 
 
 %index
 CreateUnicastIpAddressEntry
-Adds a new unicast IP address entry on the local computer.
+ローカルコンピュータに新しいユニキャスト IP アドレスエントリを追加する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_UNICASTIPADDRESS_ROW structure entry for a unicast IP address entry.
+Row : [var] ユニキャスト IP アドレスエントリを表す MIB_UNICASTIPADDRESS_ROW 構造体へのポインタ。
 %inst
-Adds a new unicast IP address entry on the local computer.
+ローカルコンピュータに新しいユニキャスト IP アドレスエントリを追加する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The CreateUnicastIpAddressEntry function is defined on Windows Vista
-and later. The CreateUnicastIpAddressEntry function is used to add a
-new unicast IP address entry on a local computer. The unicast IP
-address added by the CreateUnicastIpAddressEntry function is not
-persistent. The IP address exists only as long as the adapter object
-exists. Restarting the computer destroys the IP address, as does
-manually resetting the network interface card (NIC). Also, certain
-PnP events may destroy the address. To create an IPv4 address that
-persists, the EnableStatic method of the
-Win32_NetworkAdapterConfiguration Class in the Windows Management
-Instrumentation (WMI) controls may be used. The netsh command can
-also be used to create a persistent IPv4 or IPv6 address. For more
-information, please see the documentation on Netsh.exe in the Windows
-Sockets documentation. The InitializeUnicastIpAddressEntry function
-should be used to initialize the members of a
-MIB_UNICASTIPADDRESS_ROW structure entry with default values. An
-application can then change the members in the
-MIB_UNICASTIPADDRESS_ROW entry it wishes to modify, and then call the
-CreateUnicastIpAddressEntry function. The Address member in the
-MIB_UNICASTIPADDRESS_ROW structure pointed to by the Row parameter
-must be initialized to a valid unicast IPv4 or IPv6 address. The
-si_family member of the SOCKADDR_INET structure in the Address member
-must be initialized to either AF_INET or AF_INET6 and the related
-Ipv4 or Ipv6 member of the SOCKADDR_INET structure must be set to a
-valid unicast IP address. In addition, at least one of the following
-members in the MIB_UNICASTIPADDRESS_ROW structure pointed to the Row
-parameter must be initialized to the interface: the InterfaceLuid or
-InterfaceIndex. The fields are used in the order listed above. So if
-the InterfaceLuid is specified, then this member is used to determine
-the interface on which to add the unicast IP address. If no value was
-set for the InterfaceLuid member (the values of this member was set
-to zero), then the InterfaceIndex member is next used to determine
-the interface. If the OnLinkPrefixLength member of the
-MIB_UNICASTIPADDRESS_ROW pointed to by the Row parameter is set to
-255, then CreateUnicastIpAddressEntry will add the new unicast IP
-address with the OnLinkPrefixLength member set equal to the length of
-the IP address. So for a unicast IPv4 address, the OnLinkPrefixLength
-is set to 32 and the OnLinkPrefixLength is set to 128 for a unicast
-IPv6 address. If this would result in the incorrect subnet mask for
-an IPv4 address or the incorrect link prefix for an IPv6 address,
-then the application should set this member to the correct value
-before calling CreateUnicastIpAddressEntry. If a unicast IP address
-is created with the OnLinkPrefixLength member set incorrectly, then
-the IP address may be changed by calling SetUnicastIpAddressEntry
-with the OnLinkPrefixLength member set to the correct value. The
-DadState, ScopeId, and CreationTimeStamp members of the
-MIB_UNICASTIPADDRESS_ROW structure pointed to by the Row are ignored
-when the CreateUnicastIpAddressEntry function is called. These
-members are set by the network stack. The ScopeId member is
-automatically determined by the interface on which the address is
-added. Beginning in Windows 10, if DadState is set to
-IpDadStatePreferred in the MIB_UNICASTIPADDRESS_ROW structure when
-calling CreateUnicastIpAddressEntry, the stack will set the initial
-DAD state of the address to “preferred” instead of “tentative” and
-will do optimistic DAD for the address. The
-CreateUnicastIpAddressEntry function will fail if the unicast IP
-address passed in the Address member of the MIB_UNICASTIPADDRESS_ROW
-pointed to by the Row parameter is a duplicate of an existing unicast
-IP address on the interface. Note that a loopback IP address can only
-be added to a loopback interface using the
-CreateUnicastIpAddressEntry function. The unicast IP address passed
-in the Address member of the MIB_UNICASTIPADDRESS_ROW pointed to by
-the Row parameter is not usable immediately. The IP address is usable
-after the duplicate address detection process has completed
-successfully. It can take several seconds for the duplicate address
-detection process to complete since IP packets need to be sent and
-potential responses must be awaited. For IPv6, the duplicate address
-detection process typically takes about a second. For IPv4, the
-duplicate address detection process typically takes about three
-seconds. If an application that needs to know when an IP address is
-usable after a call to the CreateUnicastIpAddressEntry function,
-there are two methods that can be used. One method uses polling and
-the GetUnicastIpAddressEntry function. The second method calls one of
-the notification functions, NotifyAddrChange,
-NotifyIpInterfaceChange, or NotifyUnicastIpAddressChange to set up an
-asynchronous notification for when an address changes. The following
-method describes how to use the GetUnicastIpAddressEntry and polling.
-After the call to the CreateUnicastIpAddressEntry function returns
-successfully, pause for one to three seconds (depending on whether an
-IPv6 or IPv4 address is being created) to allow time for the
-successful completion of the duplication address detection process.
-Then call the GetUnicastIpAddressEntry function to retrieve the
-updated MIB_UNICASTIPADDRESS_ROW structure and examine the value of
-the DadState member. If the value of the DadState member is set to
-IpDadStatePreferred, the IP address is now usable. If the value of
-the DadState member is set to IpDadStateTentative, then duplicate
-address detection has not yet completed. In this case, call the
-GetUnicastIpAddressEntry function again every half a second while the
-DadState member is still set to IpDadStateTentative. If the value of
-the DadState member returns with some value other than
-IpDadStatePreferred or IpDadStateTentative, duplicate address
-detection has failed and the IP address is not usable. The following
-method describes how to use an appropriate notification function.
-After the call to the CreateUnicastIpAddressEntry function returns
-successfully, call the NotifyUnicastIpAddressChange function to
-register to be notified of changes to either IPv6 or IPv4 unicast IP
-addresses, depending on the type of IP address being created. When a
-notification is received for the IP address being created, call the
-GetUnicastIpAddressEntry function to retrieve the DadState member. If
-the value of the DadState member is set to IpDadStatePreferred, the
-IP address is now usable. If the value of the DadState member is set
-to IpDadStateTentative, then duplicate address detection has not yet
-completed and the application needs to wait for future notifications.
-If the value of the DadState member returns with some value other
-than IpDadStatePreferred or IpDadStateTentative, duplicate address
-detection has failed and the IP address is not usable. If during the
-duplicate address detection process the media is disconnected and
-then reconnected, the duplicate address detection process is
-restarted. So it is possible for the time to complete the process to
-increase beyond the typical 1 second value for IPv6 or 3 second value
-for IPv4. The CreateUnicastIpAddressEntry function can only be called
-by a user logged on as a member of the Administrators group. If
-CreateUnicastIpAddressEntry is called by a user that is not a member
-of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on lacks this manifest file,
-a user logged on as a member of the Administrators group other than
-the built-in Administrator must then be executing the application in
-an enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+CreateUnicastIpAddressEntry 関数は Windows Vista
+以降で定義される。ローカルコンピュータに新しいユニキャスト IP
+アドレスエントリを追加する。追加されたアドレスは永続的ではなく、アダプタが存在する間だけ有効である。再起動や NIC リセット、PnP
+イベントで破棄される。永続 IPv4 アドレスには WMI の Win32_NetworkAdapterConfiguration の
+EnableStatic や netsh を使う。InitializeUnicastIpAddressEntry
+でメンバを既定値に初期化してから必要なメンバを変更し本関数を呼ぶとよい。Address メンバは有効なユニキャスト IPv4 / IPv6
+アドレス (si_family を AF_INET / AF_INET6 にセット) で初期化し、InterfaceLuid または
+InterfaceIndex のいずれかも初期化する必要がある。OnLinkPrefixLength が 255
+の場合はアドレス長に等しいプレフィックス長 (IPv4 なら 32、IPv6 なら 128) が設定される。間違った場合は
+SetUnicastIpAddressEntry で修正できる。DadState、ScopeId、CreationTimeStamp
+は無視される。Windows 10 以降では DadState に IpDadStatePreferred を設定すると楽観的 DAD
+が実行される。既存アドレスと重複する場合は失敗する。ループバック IP アドレスはループバックインターフェイスにのみ追加可能。追加直後は
+DAD (重複アドレス検出) が完了するまでアドレスは使用できず、IPv6 で約 1 秒、IPv4 で約 3
+秒かかる。使用可能になったかは GetUnicastIpAddressEntry のポーリング、または NotifyAddrChange
+/ NotifyIpInterfaceChange / NotifyUnicastIpAddressChange
+による通知で確認できる。DadState が IpDadStatePreferred
+になれば使用可能、IpDadStateTentative なら未完了、それ以外は DAD 失敗でアドレスは使用できない。本関数は
+Administrators グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators
+グループのメンバーでないユーザーが呼び出すと ERROR_ACCESS_DENIED を返して失敗する。Windows Vista
+以降のユーザーアカウント制御 (UAC) によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator
+以外の Administrators グループのメンバーが実行した場合、マニフェストファイルで
+requestedExecutionLevel を requireAdministrator
+に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル (管理者として実行) から起動する必要がある。
 
 
 %index
 DeleteAnycastIpAddressEntry
-Deletes an existing anycast IP address entry on the local computer.
+ローカルコンピュータの既存エニーキャスト IP アドレスエントリを削除する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_ANYCASTIPADDRESS_ROW  structure entry for an existing anycast IP address entry to delete from the local computer.
+Row : [var] ローカルコンピュータから削除する既存のエニーキャスト IP アドレスエントリ (MIB_ANYCASTIPADDRESS_ROW) へのポインタ。
 %inst
-Deletes an existing anycast IP address entry on the local computer.
+ローカルコンピュータの既存エニーキャスト IP アドレスエントリを削除する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The DeleteAnycastIpAddressEntry function is defined on Windows Vista
-and later. The DeleteAnycastIpAddressEntry function is used to delete
-an existing MIB_ANYCASTIPADDRESS_ROW structure entry on the local
-computer. On input, the Address member in the
-MIB_ANYCASTIPADDRESS_ROW structure pointed to by the Row parameter
-must be set to a valid unicast IPv4 or IPv6 address and family. In
-addition, at least one of the following members in the
-MIB_ANYCASTIPADDRESS_ROW structure pointed to the Row parameter must
-be initialized: the InterfaceLuid or InterfaceIndex. The fields are
-used in the order listed above. So if the InterfaceLuid is specified,
-then this member is used to determine the interface. If no value was
-set for the InterfaceLuid member (the values of this member was set
-to zero), then the InterfaceIndex member is next used to determine
-the interface. If the function is successful, the existing IP address
-represented by the Row parameter was deleted. The
-GetAnycastIpAddressTable function can be called to enumerate the
-anycast IP address entries on a local computer. The
-GetAnycastIpAddressEntry function can be called to retrieve a
-specific existing anycast IP address entry. The
-DeleteAnycastIpAddressEntry function can only be called by a user
-logged on as a member of the Administrators group. If
-DeleteAnycastIpAddressEntry is called by a user that is not a member
-of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+DeleteAnycastIpAddressEntry 関数は Windows Vista 以降で定義される。既存の
+MIB_ANYCASTIPADDRESS_ROW エントリを削除するのに使う。入力時に Address メンバは有効なユニキャスト
+IPv4 / IPv6 アドレスとファミリに設定し、InterfaceLuid または InterfaceIndex
+のいずれかも初期化する必要がある (InterfaceLuid 優先)。GetAnycastIpAddressTable /
+GetAnycastIpAddressEntry でエニーキャスト IP アドレスを列挙・取得できる。本関数は
+Administrators グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators
+グループのメンバーでないユーザーが呼び出すと ERROR_ACCESS_DENIED を返して失敗する。Windows Vista
+以降のユーザーアカウント制御 (UAC) によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator
+以外の Administrators グループのメンバーが実行した場合、マニフェストファイルで
+requestedExecutionLevel を requireAdministrator
+に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル (管理者として実行) から起動する必要がある。
 
 
 %index
 DeleteIPAddress
-The DeleteIPAddress function deletes an IP address previously added using AddIPAddress.
+DeleteIPAddress 関数は、AddIPAddress で追加した IP アドレスを削除する。
 %group
 Win32 iphlpapi
 %prm
 NTEContext
-NTEContext : [int] The Net Table Entry (NTE) context for the IP address. This context was returned by the previous call to AddIPAddress.
+NTEContext : [int] IP アドレスの NTE コンテキスト。直前の AddIPAddress 呼び出しで返された値。
 %inst
-The DeleteIPAddress function deletes an IP address previously added
-using AddIPAddress.
+DeleteIPAddress 関数は、AddIPAddress で追加した IP アドレスを削除する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-On Windows Vista and later, the DeleteIPAddress function can only be
-called by a user logged on as a member of the Administrators group.
-If DeleteIPAddress is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on Windows Vista and later
-lacks this manifest file, a user logged on as a member of the
-Administrators group other than the built-in Administrator must then
-be executing the application in an enhanced shell as the built-in
-Administrator (RunAs administrator) for this function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+Windows Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: Windows NT 4.0 および Windows 2000 以降ではこの関数は特権操作を行う。成功させるには、呼び出し元が
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバーである必要がある。
 
 
 %index
 DeleteIpForwardEntry
-Deletes an existing route in the local computer's IPv4 routing table.
+ローカルコンピュータの IPv4 ルーティングテーブルから既存経路を削除する。
 %group
 Win32 iphlpapi
 %prm
 pRoute
-pRoute : [var] A pointer to an MIB_IPFORWARDROW structure. This structure specifies information that identifies the route to delete. The caller must specify values for the dwForwardIfIndex, dwForwardDest, dwForwardMask, dwForwardNextHop,  and dwForwardProto members of the structure.
+pRoute : [var] 削除対象の経路を識別する MIB_IPFORWARDROW 構造体へのポインタ。dwForwardIfIndex、dwForwardDest、dwForwardMask、dwForwardNextHop、dwForwardProto のメンバを設定する必要がある。
 %inst
-Deletes an existing route in the local computer's IPv4 routing table.
+ローカルコンピュータの IPv4 ルーティングテーブルから既存経路を削除する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the routine is successful. If
-the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The dwForwardProto member of MIB_IPFORWARDROW structure pointer to by
-the route parameter must be set to MIB_IPPROTO_NETMGMT otherwise
-DeleteIpForwardEntry will fail. Routing protocol identifiers are used
-to identify route information for the specified routing protocol. For
-example, MIB_IPPROTO_NETMGMT is used to identify route information
-for IP routing set through network management such as the Dynamic
-Host Configuration Protocol (DHCP), the Simple Network Management
-Protocol (SNMP), or by calls to the CreateIpForwardEntry,
-DeleteIpForwardEntry , or SetIpForwardEntry functions. On Windows
-Vista and Windows Server 2008, the DeleteIpForwardEntry only works on
-interfaces with a single sub-interface (where the interface LUID and
-subinterface LUID are the same). The dwForwardIfIndex member of the
-MIB_IPFORWARDROW structure specifies the interface. A number of
-members of the MIB_IPFORWARDROW structure pointed to by the route
-parameter are not currently used by CreateIpForwardEntry. These
-members include dwForwardPolicy, dwForwardType, dwForwardAge,
-dwForwardNextHopAS, dwForwardMetric1, dwForwardMetric2,
-dwForwardMetric3, dwForwardMetric4, and dwForwardMetric5. To modify
-an existing route in the IPv4 routing table, use the
-SetIpForwardEntry function. To retrieve the IPv4 routing table, call
-the GetIpForwardTable function. On Windows Vista and later, the
-DeleteIpForwardEntry function can only be called by a user logged on
-as a member of the Administrators group. If DeleteIpForwardEntry is
-called by a user that is not a member of the Administrators group,
-the function call will fail and ERROR_ACCESS_DENIED is returned. The
-DeleteIpForwardEntry function can also fail because of user account
-control (UAC) on Windows Vista and later. If an application that
-contains this function is executed by a user logged on as a member of
-the Administrators group other than the built-in Administrator, this
-call will fail unless the application has been marked in the manifest
-file with a requestedExecutionLevel set to requireAdministrator. If
-the application lacks this manifest file, a user logged on as a
-member of the Administrators group other than the built-in
-Administrator must then be executing the application in an enhanced
-shell as the built-in Administrator (RunAs administrator) for this
-function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+dwForwardProto は MIB_IPPROTO_NETMGMT に設定する必要がある。そうでないと失敗する。Windows
+Vista / Server 2008 では単一サブインターフェイスのインターフェイスでしか動作しない。dwForwardPolicy
+などいくつかのメンバは現在使用されない。既存経路の変更には SetIpForwardEntry、IPv4 ルーティングテーブル取得には
+GetIpForwardTable を使う。Windows Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: Windows NT 4.0 および Windows 2000 以降ではこの関数は特権操作を行う。成功させるには、呼び出し元が
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバーである必要がある。
 
 
 %index
 DeleteIpForwardEntry2
-Deletes an IP route entry on the local computer.
+ローカルコンピュータから IP 経路エントリを削除する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPFORWARD_ROW2 structure entry for an IP route entry. On successful return, this entry will be deleted.
+Row : [var] IP 経路エントリを表す MIB_IPFORWARD_ROW2 へのポインタ。成功時、このエントリは削除される。
 %inst
-Deletes an IP route entry on the local computer.
+ローカルコンピュータから IP 経路エントリを削除する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The DeleteIpForwardEntry2 function is defined on Windows Vista and
-later. The DeleteIpForwardEntry2 function is used to delete a
-MIB_IPFORWARD_ROW2 structure entry. On input, the DestinationPrefix
-member in the MIB_IPFORWARD_ROW2 structure pointed to by the Row
-parameter must be initialized to a valid IPv4 or IPv6 address prefix
-and family. On input, the NextHop member in the MIB_IPFORWARD_ROW2
-structure pointed to by the Row parameter must be initialized to a
-valid IPv4 or IPv6 address and family. In addition, at least one of
-the following members in the MIB_IPFORWARD_ROW2 structure pointed to
-the Row parameter must be initialized: the InterfaceLuid or
-InterfaceIndex. The fields are used in the order listed above. So if
-the InterfaceLuid is specified, then this member is used to determine
-the interface. If no value was set for the InterfaceLuid member (the
-values of this member was set to zero), then the InterfaceIndex
-member is next used to determine the interface. On output when the
-call is successful, DeleteIpForwardEntry2 deletes the IP route entry.
-The DeleteIpForwardEntry2 function will fail if the DestinationPrefix
-and NextHop members of the MIB_IPFORWARD_ROW2 pointed to by the Row
-parameter do not match an existing IP route entry on the interface
-specified in the InterfaceLuid or InterfaceIndex members. The
-GetIpForwardTable2 function can be called to enumerate the IP route
-entries on a local computer. The DeleteIpForwardEntry2 function can
-only be called by a user logged on as a member of the Administrators
-group. If DeleteIpForwardEntry2 is called by a user that is not a
-member of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+DeleteIpForwardEntry2 関数は Windows Vista 以降で定義される。MIB_IPFORWARD_ROW2
+エントリを削除する。DestinationPrefix は有効な IPv4 / IPv6
+アドレスプレフィックスとファミリで、NextHop は有効なアドレスとファミリで初期化する必要がある。InterfaceLuid または
+InterfaceIndex のいずれかも初期化すること (InterfaceLuid
+優先)。既存経路と一致しない場合は失敗する。GetIpForwardTable2 で経路エントリを列挙できる。本関数は
+Administrators グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators
+グループのメンバーでないユーザーが呼び出すと ERROR_ACCESS_DENIED を返して失敗する。Windows Vista
+以降のユーザーアカウント制御 (UAC) によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator
+以外の Administrators グループのメンバーが実行した場合、マニフェストファイルで
+requestedExecutionLevel を requireAdministrator
+に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル (管理者として実行) から起動する必要がある。
 
 
 %index
 DeleteIpNetEntry
-The DeleteIpNetEntry function deletes an ARP entry from the ARP table on the local computer.
+DeleteIpNetEntry 関数は、ローカルコンピュータの ARP テーブルから ARP エントリを削除する。
 %group
 Win32 iphlpapi
 %prm
 pArpEntry
-pArpEntry : [var] A pointer to a MIB_IPNETROW structure. The information in this structure specifies the entry to delete. The caller must specify values for at least the dwIndex and dwAddr members of this structure.
+pArpEntry : [var] 削除対象のエントリを指定する MIB_IPNETROW 構造体へのポインタ。少なくとも dwIndex と dwAddr に値を設定する必要がある。
 %inst
-The DeleteIpNetEntry function deletes an ARP entry from the ARP table
-on the local computer.
+DeleteIpNetEntry 関数は、ローカルコンピュータの ARP テーブルから ARP エントリを削除する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-To retrieve the ARP table, call the GetIpNetTable function. On
-Windows Vista and later, the DeleteIpNetEntry function can only be
-called by a user logged on as a member of the Administrators group.
-If DeleteIpNetEntry is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The DeleteIpNetEntry function can
-also fail because of user account control (UAC) on Windows Vista and
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+ARP テーブル取得には GetIpNetTable を使う。Windows Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: Windows NT 4.0 および Windows 2000 以降ではこの関数は特権操作を行う。成功させるには、呼び出し元が
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバーである必要がある。
 
 
 %index
 DeleteIpNetEntry2
-Deletes a neighbor IP address entry on the local computer.
+ローカルコンピュータから近隣 IP アドレスエントリを削除する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPNET_ROW2 structure entry for a neighbor IP address entry. On successful return, this entry will be deleted.
+Row : [var] 近隣 IP アドレスエントリを表す MIB_IPNET_ROW2 へのポインタ。成功時、このエントリは削除される。
 %inst
-Deletes a neighbor IP address entry on the local computer.
+ローカルコンピュータから近隣 IP アドレスエントリを削除する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The DeleteIpNetEntry2 function is defined on Windows Vista and later.
-The DeleteIpNetEntry2 function is used to delete a MIB_IPNET_ROW2
-structure entry. On input, the Address member in the MIB_IPNET_ROW2
-structure pointed to by the Row parameter must be initialized to a
-valid neighbor IPv4 or IPv6 address and family. In addition, at least
-one of the following members in the MIB_IPNET_ROW2 structure pointed
-to the Row parameter must be initialized: the InterfaceLuid or
-InterfaceIndex. The fields are used in the order listed above. So if
-the InterfaceLuid is specified, then this member is used to determine
-the interface. If no value was set for the InterfaceLuid member (the
-values of this member was set to zero), then the InterfaceIndex
-member is next used to determine the interface. On output when the
-call is successful, DeleteIpNetEntry2 deletes the neighbor IP
-address. The GetIpNetTable2 function can be called to enumerate the
-neighbor IP address entries on a local computer. The
-DeleteIpNetEntry2 function can only be called by a user logged on as
-a member of the Administrators group. If DeleteIpNetEntry2 is called
-by a user that is not a member of the Administrators group, the
-function call will fail and ERROR_ACCESS_DENIED is returned. This
-function can also fail because of user account control (UAC) on
-Windows Vista and later. If an application that contains this
-function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will fail unless the application has been marked in the manifest file
-with a requestedExecutionLevel set to requireAdministrator. If the
-application lacks this manifest file, a user logged on as a member of
-the Administrators group other than the built-in Administrator must
-then be executing the application in an enhanced shell as the
-built-in Administrator (RunAs administrator) for this function to
-succeed.
+DeleteIpNetEntry2 関数は Windows Vista 以降で定義される。MIB_IPNET_ROW2
+エントリを削除する。Address メンバは有効な近隣 IPv4 / IPv6 アドレスとファミリで初期化し、InterfaceLuid
+または InterfaceIndex のいずれかも初期化する (InterfaceLuid 優先)。GetIpNetTable2 で近隣
+IP アドレスを列挙できる。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 DeletePersistentTcpPortReservation
-Deletes a persistent TCP port reservation for a consecutive block of TCP ports on the local computer. (DeletePersistentTcpPortReservation)
+ローカルコンピュータの連続する TCP ポートブロックの永続予約を削除する。(DeletePersistentTcpPortReservation)
 %group
 Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts
-StartPort : [int] The starting TCP port number in network byte order.
-NumberOfPorts : [int] The number of TCP port numbers to delete.
+StartPort : [int] ネットワークバイトオーダーでの開始 TCP ポート番号。
+NumberOfPorts : [int] 削除する TCP ポート番号の個数。
 %inst
-Deletes a persistent TCP port reservation for a consecutive block of
-TCP ports on the local computer. (DeletePersistentTcpPortReservation)
+ローカルコンピュータの連続する TCP
+ポートブロックの永続予約を削除する。(DeletePersistentTcpPortReservation)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The DeletePersistentTcpPortReservation function is defined on Windows
-Vista and later. The DeletePersistentTcpPortReservation function is
-used to delete a persistent reservation for a block of TCP ports. The
-DeletePersistentTcpPortReservation function can only be called by a
-user logged on as a member of the Administrators group. If
-DeletePersistentTcpPortReservation is called by a user that is not a
-member of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+DeletePersistentTcpPortReservation 関数は Windows Vista 以降で定義される。TCP
+ポートブロックの永続予約を削除する。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 DeletePersistentUdpPortReservation
-Deletes a persistent TCP port reservation for a consecutive block of TCP ports on the local computer. (DeletePersistentUdpPortReservation)
+ローカルコンピュータの連続する UDP ポートブロックの永続予約を削除する。(DeletePersistentUdpPortReservation)
 %group
 Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts
-StartPort : [int] The starting UDP port number in network byte order.
-NumberOfPorts : [int] The number of UDP port numbers to delete.
+StartPort : [int] ネットワークバイトオーダーでの開始 UDP ポート番号。
+NumberOfPorts : [int] 削除する UDP ポート番号の個数。
 %inst
-Deletes a persistent TCP port reservation for a consecutive block of
-TCP ports on the local computer. (DeletePersistentUdpPortReservation)
+ローカルコンピュータの連続する UDP
+ポートブロックの永続予約を削除する。(DeletePersistentUdpPortReservation)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The DeletePersistentUdpPortReservation function is defined on Windows
-Vista and later. The DeletePersistentUdpPortReservation function is
-used to delete a persistent reservation for a block of UDP ports. The
-DeletePersistentUdpPortReservation function can only be called by a
-user logged on as a member of the Administrators group. If
-DeletePersistentUdpPortReservation is called by a user that is not a
-member of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+DeletePersistentUdpPortReservation 関数は Windows Vista 以降で定義される。UDP
+ポートブロックの永続予約を削除する。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 DeleteProxyArpEntry
-The DeleteProxyArpEntry function deletes the PARP entry on the local computer specified by the dwAddress and dwIfIndex parameters.
+DeleteProxyArpEntry 関数は、dwAddress と dwIfIndex で指定されるローカルコンピュータ上の PARP エントリを削除する。
 %group
 Win32 iphlpapi
 %prm
 dwAddress, dwMask, dwIfIndex
-dwAddress : [int] The IPv4 address for which this computer is acting as a proxy.
-dwMask : [int] The subnet mask for the IPv4 address specified in the dwAddress parameter.
-dwIfIndex : [int] The index of the interface on which this computer is supporting proxy ARP for the IP address specified by the dwAddress parameter.
+dwAddress : [int] このコンピュータがプロキシとして動作している対象の IPv4 アドレス。
+dwMask : [int] dwAddress で指定した IPv4 アドレスのサブネットマスク。
+dwIfIndex : [int] dwAddress で指定したアドレスに対するプロキシ ARP をサポートしているインターフェイスのインデックス。
 %inst
-The DeleteProxyArpEntry function deletes the PARP entry on the local
-computer specified by the dwAddress and dwIfIndex parameters.
+DeleteProxyArpEntry 関数は、dwAddress と dwIfIndex で指定されるローカルコンピュータ上の PARP
+エントリを削除する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-To retrieve the ARP table, call the GetIpNetTable function. On
-Windows Vista and later, the DeleteProxyArpEntry function can only be
-called by a user logged on as a member of the Administrators group.
-If DeleteProxyArpEntry is called by a user that is not a member of
-the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on Windows Vista and later
-lacks this manifest file, a user logged on as a member of the
-Administrators group other than the built-in Administrator must then
-be executing the application in an enhanced shell as the built-in
-Administrator (RunAs administrator) for this function to succeed.
-Note This function executes a privileged operation. For this function
-to execute successfully, the caller must be logged on as a member of
-the Administrators group or the NetworkConfigurationOperators group.
+ARP テーブル取得には GetIpNetTable を使う。Windows Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: この関数は特権操作を行う。Administrators グループまたは NetworkConfigurationOperators
+グループのメンバーでなければ成功しない。
 
 
 %index
 DeleteUnicastIpAddressEntry
-Deletes an existing unicast IP address entry on the local computer.
+ローカルコンピュータの既存ユニキャスト IP アドレスエントリを削除する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_UNICASTIPADDRESS_ROW structure entry for an existing unicast IP address entry to delete from the local computer.
+Row : [var] ローカルコンピュータから削除する既存のユニキャスト IP アドレスエントリ (MIB_UNICASTIPADDRESS_ROW) へのポインタ。
 %inst
-Deletes an existing unicast IP address entry on the local computer.
+ローカルコンピュータの既存ユニキャスト IP アドレスエントリを削除する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The DeleteUnicastIpAddressEntry function is defined on Windows Vista
-and later. The DeleteUnicastIpAddressEntry function is used to delete
-an existing MIB_UNICASTIPADDRESS_ROW structure entry on the local
-computer. On input, the Address member in the
-MIB_UNICASTIPADDRESS_ROW structure pointed to by the Row parameter
-must be set to a valid unicast IPv4 or IPv6 address and family. In
-addition, at least one of the following members in the
-MIB_UNICASTIPADDRESS_ROW structure pointed to the Row parameter must
-be initialized: the InterfaceLuid or InterfaceIndex. The fields are
-used in the order listed above. So if the InterfaceLuid is specified,
-then this member is used to determine the interface. If no value was
-set for the InterfaceLuid member (the values of this member was set
-to zero), then the InterfaceIndex member is next used to determine
-the interface. If the function is successful, the existing IP address
-represented by the Row parameter was deleted. The
-GetUnicastIpAddressTable function can be called to enumerate the
-unicast IP address entries on a local computer. The
-GetUnicastIpAddressEntry function can be called to retrieve a
-specific existing unicast IP address entry. The
-DeleteUnicastIpAddressEntry function can only be called by a user
-logged on as a member of the Administrators group. If
-DeleteUnicastIpAddressEntry is called by a user that is not a member
-of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+DeleteUnicastIpAddressEntry 関数は Windows Vista 以降で定義される。既存の
+MIB_UNICASTIPADDRESS_ROW エントリを削除する。Address は有効なユニキャスト IPv4 / IPv6
+アドレスとファミリに設定し、InterfaceLuid または InterfaceIndex のいずれかも初期化する
+(InterfaceLuid 優先)。GetUnicastIpAddressTable /
+GetUnicastIpAddressEntry で列挙・取得できる。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
 DisableMediaSense
-The DisableMediaSense function disables the media sensing capability of the TCP/IP stack on a local computer.
+DisableMediaSense 関数は、ローカルコンピュータ上の TCP/IP スタックのメディア検出機能を無効化する。
 %group
 Win32 iphlpapi
 %prm
 pHandle, pOverLapped
-pHandle : [intptr] A pointer to a variable that is used to store a handle. If the pOverlapped parameter is not NULL, this variable will be used internally to store a handle required to call the IP driver and disable the media sensing capability. An application should not use the value pointed to by this variable. This handle is for internal use and should not be closed.
-pOverLapped : [var] A pointer to an OVERLAPPED structure. Except for the hEvent member, all members of this structure must be set to zero. The hEvent member requires a handle to a valid event object. Use the CreateEvent function to create this event object.
+pHandle : [intptr] ハンドルを格納する変数へのポインタ。pOverlapped が非 NULL の場合、IP ドライバの呼び出しとメディア検出無効化に必要なハンドルを内部的に格納するのに使われる。この変数の値をアプリケーションから利用してはならない。ハンドルは内部用であり、閉じてはならない。
+pOverLapped : [var] OVERLAPPED 構造体へのポインタ。hEvent 以外のメンバはすべて 0 に設定する必要がある。hEvent には有効なイベントオブジェクトのハンドル (CreateEvent で作成) を設定する。
 %inst
-The DisableMediaSense function disables the media sensing capability
-of the TCP/IP stack on a local computer.
+DisableMediaSense 関数は、ローカルコンピュータ上の TCP/IP スタックのメディア検出機能を無効化する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-If the pHandle or pOverlapped parameters are NULL, the
-DisableMediaSense function is executed synchronously. If both the
-pHandle and pOverlapped parameters are not NULL, the
-DisableMediaSense function is executed asynchronously using the
-OVERLAPPED structure pointed to by the pOverlapped parameter. The
-DisableMediaSense function does not complete until the
-RestoreMediaSense function is called later to restore the media
-sensing capability. Until then, an I/O request packet (IRP) remains
-queued up. Alternatively, when the process that called
-DisableMediaSense exits, the IRP is canceled and a cancel routine is
-called that would again restore the media sensing capability.
-To call DisableMediaSense synchronously, an application needs to
-create a separate thread for this call. Otherwise it would keep
-waiting for IRP completion and the function will block. To call
-DisableMediaSense asynchronously, an application needs to allocate an
-OVERLAPPED structure. Except for the hEvent member, all members of
-this structure must be set to zero. The hEvent member requires a
-handle to a valid event object. Use the CreateEvent function to
-create this event. When called asynchronously, DisableMediaSense
-always returns ERROR_IO_PENDING. The IRP will be completed only when
-RestoreMediaSense is called later. Use the CloseHandle function to
-close the handle to the event object when it is no longer needed. The
-system closes the handle automatically when the process terminates.
-The event object is destroyed when its last handle has been closed.
-On Windows Server 2003and Windows XP, the TCP/IP stack implements a
-policy of deleting all IP addresses on an interface in response to a
-media sense disconnect event from an underlying network interface. If
-a network switch or hub that the local computer is connected to is
-powered off, or a network cable is disconnected, the network
-interface will deliver disconnection events. IP configuration
-information associated with the network interface is lost. As a
-result, the TCP/IP stack implements a policy of hiding disconnected
-interfaces so these interfaces and their associated IP addresses do
-not show up in configuration information retrieved through IP helper.
-This policy prevents some applications from easily detecting that a
-network interface is merely disconnected, rather than removed from
-the system. This behavior does not normally impact a local client
-computer if it is using DHCP requests to a DHCP server for IP
-configuration information. But this can have a serious impact on
-server computers, particularly computers used as part of clusters.
-The DisableMediaSense function can be used to temporarily disable the
-media sensing capability for these cases. At some later time, the
-RestoreMediaSense function would be called to restore the media
-sensing capability. The following registry setting is related to the
-DisableMediaSense and RestoreMediaSense functions:
-
-System\CurrentControlSet\Services\Tcpip\Parameters\DisableDHCPMediaSense
-There is an internal flag in Windows that is set if this registry key
-exists when the machine first boots up. The same internal flag also
-gets set and reset by calling DisableMediaSense and
-RestoreMediaSense. However with registry setting, you need to reboot
-the machine for the changes to take place.
-The TCP/IP stack on Windows Vista and later was changed to not hide
-disconnected interfaces when a disconnect event occurs. So on Windows
-Vista and later, the DisableMediaSense and RestoreMediaSense
-functions don't do anything and always returns NO_ERROR.
+pHandle か pOverlapped のいずれかが NULL なら DisableMediaSense は同期実行される。両方とも非
+NULL なら OVERLAPPED を用いて非同期実行される。本関数は後で RestoreMediaSense
+が呼ばれるまで完了しない。それまで IRP はキューに残る。呼び出しプロセスが終了すると IRP
+はキャンセルされてメディア検出が復元される。同期呼び出しは別スレッドで行う必要がある。非同期呼び出しでは常に
+ERROR_IO_PENDING を返し、IRP は RestoreMediaSense
+呼び出し時に完了する。イベントオブジェクトのハンドルは不要になったら CloseHandle
+で閉じる。プロセス終了時にシステムが自動的に閉じる。Windows Server 2003 / XP の TCP/IP
+スタックは、下位ネットワークインターフェイスからのメディアセンス切断イベントに対応して、そのインターフェイスの全 IP
+アドレスを削除する。スイッチ/ハブの電源オフやケーブル抜けで切断イベントが発生し、関連する IP 設定情報が失われる。さらに IP
+helper
+から切断インターフェイスを隠す方針により、アプリケーションからは単なる切断かシステムから削除されたかの区別が難しかった。クラスタなどのサーバには深刻な影響があり、DisableMediaSense
+でメディアセンスを一時的に無効化できる。後で RestoreMediaSense
+を呼んで復元する。System\CurrentControlSet\Services\Tcpip\Parameters\DisableDHCPMediaSense
+レジストリキーも関連する。Windows Vista 以降の TCP/IP
+スタックでは切断時にインターフェイスを隠さないよう変更されたため、DisableMediaSense /
+RestoreMediaSense は何もせず常に NO_ERROR を返す。
 
 
 %index
 EnableRouter
-The EnableRouter function turns on IPv4 forwarding on the local computer. EnableRouter also increments a reference count that tracks the number of requests to enable IPv4 forwarding.
+EnableRouter 関数は、ローカルコンピュータで IPv4 転送を有効化する。同時に IPv4 転送有効化要求数を追跡する参照カウントをインクリメントする。
 %group
 Win32 iphlpapi
 %prm
 pHandle, pOverlapped
-pHandle : [intptr] A pointer to a handle. This parameter is currently unused.
-pOverlapped : [var] A pointer to an OVERLAPPED structure. Except for the hEvent member, all members of this structure should be set to zero. The hEvent member should contain a handle to a valid event object. Use the CreateEvent function to create this event object.
+pHandle : [intptr] ハンドルへのポインタ。現在は未使用。
+pOverlapped : [var] OVERLAPPED 構造体へのポインタ。hEvent 以外のメンバはすべて 0 に設定する必要がある。hEvent には CreateEvent で作成した有効なイベントオブジェクトのハンドルを設定する。
 %inst
-The EnableRouter function turns on IPv4 forwarding on the local
-computer. EnableRouter also increments a reference count that tracks
-the number of requests to enable IPv4 forwarding.
+EnableRouter 関数は、ローカルコンピュータで IPv4 転送を有効化する。同時に IPv4
+転送有効化要求数を追跡する参照カウントをインクリメントする。
 
 [戻り値]
-If the EnableRouter function succeeds, the return value is
-ERROR_IO_PENDING. If the function fails, use FormatMessage to obtain
-the message string for the returned error.
-This doc was truncated.
+成功時、EnableRouter は ERROR_IO_PENDING を返す。失敗した場合は FormatMessage
+で戻り値のエラーメッセージ文字列を取得せよ。
+このドキュメントは省略されている。
 
 [備考]
-The EnableRouter function is specific to IPv4 forwarding. If the
-process that calls EnableRouter terminates without calling
-UnenableRouter, the system decrements the reference count that tracks
-the number of requests to enable IPv4 forwarding as though the
-process had called UnenableRouter.
+EnableRouter 関数は IPv4 の転送に特化している。EnableRouter を呼んだプロセスが
+UnenableRouter を呼ばずに終了した場合、システムは UnenableRouter が呼ばれたかのように IPv4
+転送有効化要求の参照カウントをデクリメントする。
 
 
 %index
 FlushIpNetTable
-The FlushIpNetTable function deletes all ARP entries for the specified interface from the ARP table on the local computer.
+FlushIpNetTable 関数は、ローカルコンピュータの ARP テーブルから指定インターフェイスに関する ARP エントリをすべて削除する。
 %group
 Win32 iphlpapi
 %prm
 dwIfIndex
-dwIfIndex : [int] The index of the interface for which to delete all ARP entries.
+dwIfIndex : [int] すべての ARP エントリを削除する対象インターフェイスのインデックス。
 %inst
-The FlushIpNetTable function deletes all ARP entries for the
-specified interface from the ARP table on the local computer.
+FlushIpNetTable 関数は、ローカルコンピュータの ARP テーブルから指定インターフェイスに関する ARP
+エントリをすべて削除する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-To retrieve the ARP table, call the GetIpNetTable function. On
-Windows Vista and later, the FlushIpNetTable function can only be
-called by a user logged on as a member of the Administrators group.
-If FlushIpNetTable is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on Windows Vista and later
-lacks this manifest file, a user logged on as a member of the
-Administrators group other than the built-in Administrator must then
-be executing the application in an enhanced shell as the built-in
-Administrator (RunAs administrator) for this function to succeed.
-Note This function executes a privileged operation. For this function
-to execute successfully, the caller must be logged on as a member of
-the Administrators group or the NetworkConfigurationOperators group.
+ARP テーブル取得には GetIpNetTable を使う。Windows Vista 以降では 本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
+注: この関数は特権操作を行う。Administrators グループまたは NetworkConfigurationOperators
+グループのメンバーでなければ成功しない。
 
 
 %index
 FlushIpNetTable2
-The FlushIpNetTable2 function flushes the IP neighbor table on the local computer.
+FlushIpNetTable2 関数は、ローカルコンピュータの IP 近隣テーブルをフラッシュする。
 %group
 Win32 iphlpapi
 %prm
 Family, InterfaceIndex
-Family : [int] The address family to flush. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-InterfaceIndex : [int] The interface index.  If the index is specified, flush the neighbor IP address entries on a specific interface, otherwise flush the neighbor IP address entries on all the interfaces. To ignore the interface, set this parameter to zero.
+Family : [int] フラッシュするアドレスファミリ。指定可能な値は Winsock2.h ヘッダファイルに列挙されている。AF_ アドレスファミリ定数と PF_ プロトコルファミリ定数は同じ値 (例: AF_INET と PF_INET) なのでどちらを使ってもよい。Windows Vista 以降向けの Windows SDK ではヘッダファイルの構成が変更され、この値は Ws2def.h ヘッダで定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるため直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+InterfaceIndex : [int] インターフェイスインデックス。指定すると特定のインターフェイス上の近隣 IP アドレスエントリをフラッシュし、そうでなければ全インターフェイスをフラッシュする。無視するには 0 を指定する。
 %inst
-The FlushIpNetTable2 function flushes the IP neighbor table on the
-local computer.
+FlushIpNetTable2 関数は、ローカルコンピュータの IP 近隣テーブルをフラッシュする。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The FlushIpNetTable2 function is defined on Windows Vista and later.
-The FlushIpNetTable2 function flushes or deletes the neighbor IP
-addresses on a local system. The Family parameter can be used to
-limit neighbor IP addresses to delete to a particular IP address
-family. If neighbor IP addresses for both IPv4 and IPv6 should be
-deleted, set the Family parameter to AF_UNSPEC. The InterfaceIndex
-parameter can be used to limit neighbor IP addresses to delete to a
-particular interface. If neighbor IP addresses for all interfaces
-should be deleted, set the InterfaceIndex parameter to zero. The
-Family parameter must be initialized to either AF_INET, AF_INET6, or
-AF_UNSPEC. The FlushIpNetTable2 function can only be called by a user
-logged on as a member of the Administrators group. If
-FlushIpNetTable2 is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
+FlushIpNetTable2 関数は Windows Vista 以降で定義される。ローカルシステム上の近隣 IP
+アドレスをフラッシュ (削除) する。Family で削除対象ファミリを限定できる。IPv4 / IPv6 両方を削除するなら
+AF_UNSPEC を指定する。InterfaceIndex でインターフェイスを限定でき、全インターフェイス対象なら 0
+を指定する。Family は AF_INET / AF_INET6 / AF_UNSPEC のいずれか。本関数は
+Administrators グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators
+グループのメンバーでないユーザーが呼び出すと ERROR_ACCESS_DENIED を返して失敗する。Windows Vista
+以降のユーザーアカウント制御 (UAC) によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator
+以外の Administrators グループのメンバーが実行した場合、マニフェストファイルで
+requestedExecutionLevel を requireAdministrator
+に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル (管理者として実行) から起動する必要がある。
 
 
 %index
 FlushIpPathTable
-The FlushIpPathTable function flushes the IP path table on the local computer.
+FlushIpPathTable 関数は、ローカルコンピュータの IP パステーブルをフラッシュする。
 %group
 Win32 iphlpapi
 %prm
 Family
-Family : [int] The address family to flush. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
+Family : [int] フラッシュするアドレスファミリ。指定可能な値は Winsock2.h ヘッダファイルに列挙されている。AF_ アドレスファミリ定数と PF_ プロトコルファミリ定数は同じ値 (例: AF_INET と PF_INET) なのでどちらを使ってもよい。Windows Vista 以降向けの Windows SDK ではヘッダファイルの構成が変更され、この値は Ws2def.h ヘッダで定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるため直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
 %inst
-The FlushIpPathTable function flushes the IP path table on the local
-computer.
+FlushIpPathTable 関数は、ローカルコンピュータの IP パステーブルをフラッシュする。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The FlushIpPathTable function is defined on Windows Vista and later.
-The FlushIpPathTable function flushes or deletes the IP path entries
-on a local system. The Family parameter can be used to limit the IP
-path entries to delete to a particular IP address family. If IP path
-entries for both IPv4 and IPv6 should be deleted, set the Family
-parameter to AF_UNSPEC. The Family parameter must be initialized to
-either AF_INET, AF_INET6, or AF_UNSPEC. The FlushIpPathTable function
-can only be called by a user logged on as a member of the
-Administrators group. If FlushIpPathTable is called by a user that is
-not a member of the Administrators group, the function call will fail
-and ERROR_ACCESS_DENIED is returned. This function can also fail
-because of user account control (UAC) on Windows Vista and later. If
-an application that contains this function is executed by a user
-logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
+FlushIpPathTable 関数は Windows Vista 以降で定義される。ローカルシステム上の IP
+パスエントリをフラッシュ (削除) する。Family で IP パスエントリ削除対象ファミリを限定できる。IPv4 / IPv6
+両方を削除するなら AF_UNSPEC を指定する。Family は AF_INET / AF_INET6 / AF_UNSPEC
+のいずれか。本関数は Administrators
+グループのメンバーとしてログオンしたユーザーからのみ呼び出せる。Administrators グループのメンバーでないユーザーが呼び出すと
+ERROR_ACCESS_DENIED を返して失敗する。Windows Vista 以降のユーザーアカウント制御 (UAC)
+によっても失敗しうる。この関数を含むアプリケーションをビルトイン Administrator 以外の Administrators
+グループのメンバーが実行した場合、マニフェストファイルで requestedExecutionLevel を
+requireAdministrator に設定していない限りこの呼び出しは失敗する。マニフェストがない場合は、昇格シェル
+(管理者として実行) から起動する必要がある。
 
 
 %index
@@ -1909,440 +1171,300 @@ Settings : [var]
 
 %index
 FreeInterfaceDnsSettings
-Frees the settings object returned by [GetInterfaceDnsSettings](/windows/win32/api/netioapi/nf-netioapi-getinterfacednssettings).
+GetInterfaceDnsSettings が返した設定オブジェクトを解放する。
 %group
 Win32 iphlpapi
 %prm
 Settings
 Settings : [var] 
 %inst
-Frees the settings object returned by
-[GetInterfaceDnsSettings](/windows/win32/api/netioapi/nf-netioapi-getinterfacednssettings).
+GetInterfaceDnsSettings が返した設定オブジェクトを解放する。
 
 
 %index
 FreeMibTable
-Frees the buffer allocated by the functions that return tables of network interfaces, addresses, and routes (GetIfTable2 and GetAnycastIpAddressTable, for example).
+ネットワークインターフェイス / アドレス / 経路テーブルを返す関数 (例: GetIfTable2、GetAnycastIpAddressTable) が確保したバッファを解放する。
 %group
 Win32 iphlpapi
 %prm
 Memory
-Memory : [intptr] A pointer to the buffer to free.
+Memory : [intptr] 解放するバッファへのポインタ。
 %inst
-Frees the buffer allocated by the functions that return tables of
-network interfaces, addresses, and routes (GetIfTable2 and
-GetAnycastIpAddressTable, for example).
+ネットワークインターフェイス / アドレス / 経路テーブルを返す関数 (例:
+GetIfTable2、GetAnycastIpAddressTable) が確保したバッファを解放する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The FreeMibTable function is defined on Windows Vista and later. The
-FreeMibTable function is used to free the internal buffers used by
-various functions to retrieve tables of interfaces, addresses, and
-routes. When these tables are no longer needed, then FreeMibTable
-should be called to release the memory used by these tables.
+FreeMibTable 関数は Windows Vista 以降で定義される。各種関数がインターフェイス / アドレス /
+経路テーブルの取得に使用した内部バッファを解放するのに用いる。これらのテーブルが不要になったら FreeMibTable
+を呼んでメモリを解放すること。
 
 
 %index
 GetAdapterIndex
-The GetAdapterIndex function obtains the index of an adapter, given its name.
+GetAdapterIndex 関数は、指定したアダプタ名からアダプタのインデックスを取得する。
 %group
 Win32 iphlpapi
 %prm
 AdapterName, IfIndex
-AdapterName : [wstr] A pointer to a Unicode string that specifies the name of the adapter.
-IfIndex : [var] A pointer to a ULONG variable that points to the index of the adapter.
+AdapterName : [wstr] アダプタ名を指定する Unicode 文字列へのポインタ。
+IfIndex : [var] アダプタのインデックスを受け取る ULONG 変数へのポインタ。
 %inst
-The GetAdapterIndex function obtains the index of an adapter, given
-its name.
+GetAdapterIndex 関数は、指定したアダプタ名からアダプタのインデックスを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合は FormatMessage
+を使って戻り値のエラーメッセージ文字列を取得せよ。
 
 [備考]
-Until an adapter is fully disabled, the GetAdapterIndex function
-reports the adapter as present. For example, the NotifyAddrChange
-function may indicate a recently disabled adapter's IP address is
-removed, but GetAdapterIndex continues to report an adapter index
-until the process of disabling the adapter is complete. When one or
-more adapters are present on the system, GetAdapterIndex returns
-ERROR_DEV_NOT_EXIST when the adapter being queried does not exist.
-When no adapters are present, the GetAdapterIndex function returns
-ERROR_NO_DATA. The adapter index may change when an adapter is
-disabled and then enabled, or under other circumstances, and should
-not be considered persistent.
+アダプタが完全に無効化されるまで、GetAdapterIndex 関数はそのアダプタを存在するものとして報告する。たとえば
+NotifyAddrChange は最近無効化されたアダプタの IP アドレス削除を通知しても、無効化処理が完了するまでは
+GetAdapterIndex が引き続きアダプタインデックスを報告する。システムに 1
+つ以上のアダプタがある状態で問い合わせ対象のアダプタが存在しなければ、ERROR_DEV_NOT_EXIST を返す。アダプタが 1
+つもなければ ERROR_NO_DATA
+を返す。アダプタインデックスは無効化・再有効化時などに変わる可能性があり、永続値として扱ってはならない。
 
 
 %index
 GetAdapterOrderMap
-The GetAdapterOrderMap function obtains an adapter order map that indicates priority for interfaces on the local computer.
+GetAdapterOrderMap 関数は、ローカルコンピュータのインターフェイスの優先度を示すアダプタ順序マップを取得する。
 %group
 Win32 iphlpapi
 %prm
 
 %inst
-The GetAdapterOrderMap function obtains an adapter order map that
-indicates priority for interfaces on the local computer.
+GetAdapterOrderMap 関数は、ローカルコンピュータのインターフェイスの優先度を示すアダプタ順序マップを取得する。
 
 [戻り値]
-Returns an IP_ADAPTER_ORDER_MAP structure filled with adapter
-priority information. See the IP_ADAPTER_ORDER_MAP structure for more
-information.
+アダプタ優先度情報を格納した IP_ADAPTER_ORDER_MAP 構造体を返す。詳細は IP_ADAPTER_ORDER_MAP
+構造体を参照。
 
 [備考]
-Interface indices appear in the order specified in the Adapters and
-Bindings dialog box in the Advanced Settings property sheet. This
-ordering is used as a tie breaker controlling the sequence in which
-interfaces are used on multihomed systems for situations including
-route selection, DNS name resolution, and other network related
-operations. This function should not be called directly. Instead, use
-the IP_ADAPTER_INFO structure returned in a GetAdaptersInfo function
-call. Note The caller is responsible for calling the LocalFree
-function to free the array returned by GetAdapterOrderMap.
+インターフェイスインデックスは [詳細設定] プロパティシートの [アダプターとバインド]
+ダイアログで指定された順序で現れる。この順序はマルチホームシステムでのインターフェイス使用順序を制御するタイブレーカとして使われ、経路選択や
+DNS 名前解決などに影響する。本関数を直接呼び出すのではなく、GetAdaptersInfo で返される IP_ADAPTER_INFO
+構造体を使うこと。注: 呼び出し元は GetAdapterOrderMap が返す配列を LocalFree で解放する責任がある。
 
 
 %index
 GetAdaptersAddresses
-Retrieves the addresses associated with the adapters on the local computer.
+ローカルコンピュータのアダプタに関連付けられたアドレスを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Flags, Reserved, AdapterAddresses, SizePointer
 Family : [int] 
-Flags : [int] The type of addresses to retrieve. The possible values are defined in the Iptypes.h header file. Note that the Iptypes.h header file is automatically included in Iphlpapi.h, and should never be used directly.
-Reserved : [intptr] This parameter is not currently used, but is reserved for future system use. The calling application should pass NULL for this parameter.
-AdapterAddresses : [var] A pointer to a buffer that contains a linked list of IP_ADAPTER_ADDRESSES structures on successful return.
-SizePointer : [var] A pointer to a variable that specifies the size of the buffer pointed to by AdapterAddresses.
+Flags : [int] 取得するアドレスの種類。指定可能な値は Iptypes.h で定義される。Iptypes.h は Iphlpapi.h から自動的にインクルードされるため直接使用してはならない。
+Reserved : [intptr] 現在未使用で、将来のシステム使用のために予約されている。呼び出し元は NULL を渡すこと。
+AdapterAddresses : [var] 成功時に IP_ADAPTER_ADDRESSES 構造体の連結リストを受け取るバッファへのポインタ。
+SizePointer : [var] AdapterAddresses が指すバッファのサイズを指定する変数へのポインタ。
 %inst
-Retrieves the addresses associated with the adapters on the local
-computer.
+ローカルコンピュータのアダプタに関連付けられたアドレスを取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS (defined
-to the same value as NO_ERROR). If the function fails, the return
-value is one of the following error codes.
-This doc was truncated.
+関数が成功すると ERROR_SUCCESS (NO_ERROR と同値)
+を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetAdaptersAddresses function can retrieve information for IPv4
-and IPv6 addresses. Addresses are returned as a linked list of
-IP_ADAPTER_ADDRESSES structures in the buffer pointed to by the
-AdapterAddresses parameter. The application that calls the
-GetAdaptersAddresses function must allocate the amount of memory
-needed to return the IP_ADAPTER_ADDRESSES structures pointed to by
-the AdapterAddresses parameter. When these returned structures are no
-longer required, the application should free the memory allocated.
-This can be accomplished by calling the HeapAlloc function to
-allocate memory and later calling the HeapFree function to free the
-allocated memory, as shown in the example code. Other memory
-allocation and free functions can be used as long as the same family
-of functions are used for both the allocation and the free function.
-GetAdaptersAddresses is implemented only as a synchronous function
-call. The GetAdaptersAddresses function requires a significant amount
-of network resources and time to complete since all of the low-level
-network interface tables must be traversed. One method that can be
-used to determine the memory needed to return the
-IP_ADAPTER_ADDRESSES structures pointed to by the AdapterAddresses
-parameter is to pass too small a buffer size as indicated in the
-SizePointer parameter in the first call to the GetAdaptersAddresses
-function, so the function will fail with ERROR_BUFFER_OVERFLOW. When
-the return value is ERROR_BUFFER_OVERFLOW, the SizePointer parameter
-returned points to the required size of the buffer to hold the
-adapter information. Note that it is possible for the buffer size
-required for the IP_ADAPTER_ADDRESSES structures pointed to by the
-AdapterAddresses parameter to change between subsequent calls to the
-GetAdaptersAddresses function if an adapter address is added or
-removed. However, this method of using the GetAdaptersAddresses
-function is strongly discouraged. This method requires calling the
-GetAdaptersAddresses function multiple times. The recommended method
-of calling the GetAdaptersAddresses function is to pre-allocate a
-15KB working buffer pointed to by the AdapterAddresses parameter. On
-typical computers, this dramatically reduces the chances that the
-GetAdaptersAddresses function returns ERROR_BUFFER_OVERFLOW, which
-would require calling GetAdaptersAddresses function multiple times.
-The example code illustrates this method of use. In versions prior to
-Windows 10, the order in which adapters appear in the list returned
-by this function can be controlled from the Network Connections
-folder: select the Advanced Settings menu item from the Advanced
-menu. Starting with Windows 10, the order in which adapters appear in
-the list is determined by the IPv4 or IPv6 route metric. If the
-GAA_FLAG_INCLUDE_ALL_INTERFACES is set, then all NDIS adapters will
-be retrieved even those addresses associated with adapters not bound
-to an address family specified in the Family parameter. When this
-flag is not set, then only the addresses that are bound to an adapter
-enabled for the address family specified in the Family parameter are
-returned. The size of the IP_ADAPTER_ADDRESSES structure was changed
-on Windows XP with Service Pack 1 (SP1) and later. Several additional
-members were added to this structure. The size of the
-IP_ADAPTER_ADDRESSES structure was also changed on Windows Vista and
-later. A number of additional members were added to this structure.
-The size of the IP_ADAPTER_ADDRESSES structure also changed on
-Windows Vista with Service Pack 1 (SP1)and later and onWindows Server
-2008 and later. One additional member was added to this structure.
-The Length member of the IP_ADAPTER_ADDRESSES structure returned in
-the linked list of structures in the buffer pointed to by the
-AdapterAddresses parameter should be used to determine which version
-of the IP_ADAPTER_ADDRESSES structure is being used. The
-GetIpAddrTable function retrieves the interface?to?IPv4 address
-mapping table on a local computer and returns this information in an
-MIB_IPADDRTABLE structure. On the Platform Software Development Kit
-(SDK) released for Windows Server 2003 and earlier, the return value
-for the GetAdaptersAddresses function was defined as a DWORD, rather
-than a ULONG. The SOCKET_ADDRESS structure is used in the
-IP_ADAPTER_ADDRESSES structure pointed to by the AdapterAddresses
-parameter. On the Microsoft Windows Software Development Kit (SDK)
-released for Windows Vista and later, the organization of header
-files has changed and the SOCKET_ADDRESS structure is defined in the
-Ws2def.h header file which is automatically included by the
-Winsock2.h header file. On the Platform SDK released for Windows
-Server 2003 and Windows XP, the SOCKET_ADDRESS structure is declared
-in the Winsock2.h header file. In order to use the
-IP_ADAPTER_ADDRESSES structure, the Winsock2.h header file must be
-included before the Iphlpapi.h header file.
+GetAdaptersAddresses 関数は IPv4 / IPv6 両方のアドレス情報を取得できる。アドレスは
+IP_ADAPTER_ADDRESSES 構造体の連結リストとして AdapterAddresses
+に返される。呼び出し元はバッファを確保し、不要になったら解放する責任がある (HeapAlloc / HeapFree
+等。確保と解放は同じ関数ファミリを使うこと)。GetAdaptersAddresses
+は同期呼び出しのみ。低レベルインターフェイステーブルを走査するため、かなりのリソースと時間を要する。必要なバッファサイズを得るには、まず小さいバッファで呼び出して
+ERROR_BUFFER_OVERFLOW を得る方法もあるが、この方法は複数回呼び出しが必要になり推奨されない。推奨は 15KB
+のバッファを事前確保する方法で、大半のケースで一発で成功する。Windows 10
+より前ではアダプタの順序はネットワーク接続フォルダの詳細設定から制御できたが、Windows 10 以降では IPv4 / IPv6
+の経路メトリックで決まる。GAA_FLAG_INCLUDE_ALL_INTERFACES を指定すると Family
+に束縛されていないアドレスも含め全 NDIS アダプタを取得する。IP_ADAPTER_ADDRESSES 構造体のサイズは
+Windows XP SP1、Windows Vista、Vista SP1 / Server 2008 で変更されている。Length
+メンバでバージョンを判別できる。GetIpAddrTable はローカルコンピュータのインターフェイスから IPv4
+アドレスへのマッピングテーブルを MIB_IPADDRTABLE で取得する。Windows Server 2003 以前の
+Platform SDK では戻り値型が ULONG ではなく DWORD と定義されていた。IP_ADAPTER_ADDRESSES
+では SOCKET_ADDRESS 構造体が使われる。Windows Vista 以降では Ws2def.h (Winsock2.h
+から自動インクルード) で定義され、Windows Server 2003 / XP の Platform SDK では
+Winsock2.h で宣言される。IP_ADAPTER_ADDRESSES を使うには Iphlpapi.h の前に
+Winsock2.h をインクルードする必要がある。
 
 
 %index
 GetAdaptersInfo
-The GetAdaptersInfo function retrieves adapter information for the local computer.
+GetAdaptersInfo 関数は、ローカルコンピュータのアダプタ情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 AdapterInfo, SizePointer
-AdapterInfo : [var] A pointer to a buffer that receives a linked list of IP_ADAPTER_INFO structures.
-SizePointer : [var] A pointer to a ULONG variable that specifies the size of the buffer pointed to by the pAdapterInfo parameter. If this size is insufficient to hold the adapter information, GetAdaptersInfo fills in this variable with the required size, and returns an error code of ERROR_BUFFER_OVERFLOW.
+AdapterInfo : [var] IP_ADAPTER_INFO 構造体の連結リストを受け取るバッファへのポインタ。
+SizePointer : [var] pAdapterInfo が指すバッファのサイズ (ULONG) へのポインタ。アダプタ情報を格納するには不十分な場合、必要サイズが書き込まれ ERROR_BUFFER_OVERFLOW が返される。
 %inst
-The GetAdaptersInfo function retrieves adapter information for the
-local computer.
+GetAdaptersInfo 関数は、ローカルコンピュータのアダプタ情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS (defined
-to the same value as NO_ERROR). If the function fails, the return
-value is one of the following error codes.
-This doc was truncated.
+関数が成功すると ERROR_SUCCESS (NO_ERROR と同値)
+を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetAdaptersInfo function can retrieve information only for IPv4
-addresses. In versions prior to Windows 10, the order in which
-adapters appear in the list returned by this function can be
-controlled from the Network Connections folder: select the Advanced
-Settings menu item from the Advanced menu. Starting with Windows 10,
-the order is unspecified. The GetAdaptersInfo and GetInterfaceInfo
-functions do not return information about the IPv4 loopback
-interface. Information on the loopback interface is returned by the
-GetIpAddrTable function. On Windows XP and later: The list of
-adapters returned by GetAdaptersInfo includes unidirectional
-adapters. To generate a list of adapters that can both send and
-receive data, call GetUniDirectionalAdapterInfo, and exclude the
-returned adapters from the list returned by GetAdaptersInfo.
+GetAdaptersInfo 関数は IPv4 アドレスの情報のみを取得できる。Windows 10
+より前ではアダプタ順序はネットワーク接続フォルダの詳細設定から制御できたが、Windows 10
+以降では順序は未規定。GetAdaptersInfo と GetInterfaceInfo は IPv4
+ループバックインターフェイスの情報を返さない。ループバックの情報は GetIpAddrTable で取得する。Windows XP
+以降では、GetAdaptersInfo の返すアダプタリストに単方向アダプタも含まれる。送受信両方可能なアダプタ一覧を得るには
+GetUniDirectionalAdapterInfo を呼んで除外すればよい。
 
 
 %index
 GetAnycastIpAddressEntry
-Retrieves information for an existing anycast IP address entry on the local computer.
+ローカルコンピュータの既存エニーキャスト IP アドレスエントリの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_ANYCASTIPADDRESS_ROW structure entry for an anycast IP address entry. On successful return, this structure will be updated with the properties for an existing anycast IP address.
+Row : [var] エニーキャスト IP アドレスエントリを表す MIB_ANYCASTIPADDRESS_ROW へのポインタ。成功時、既存エニーキャスト IP アドレスのプロパティで更新される。
 %inst
-Retrieves information for an existing anycast IP address entry on the
-local computer.
+ローカルコンピュータの既存エニーキャスト IP アドレスエントリの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetAnycastIpAddressEntry function is defined on Windows Vista and
-later. The GetAnycastIpAddressEntry function is used to retrieve an
-existing MIB_ANYCASTIPADDRESS_ROW structure entry. On input, the
-Address member in the MIB_ANYCASTIPADDRESS_ROW structure pointed to
-by the Row parameter must be initialized to a valid anycast IPv4 or
-IPv6 address and family. In addition, at least one of the following
-members in the MIB_ANYCASTIPADDRESS_ROW structure pointed to the Row
-parameter must be initialized: the InterfaceLuid or InterfaceIndex.
-The fields are used in the order listed above. So if the
-InterfaceLuid is specified, then this member is used to determine the
-interface. If no value is set for the InterfaceLuid member (the value
-of this member is set to zero), then the InterfaceIndex member is
-next used to determine the interface. On output when the call is
-successful, GetAnycastIpAddressEntry retrieves the other properties
-for the anycast IP address and fills out the MIB_ANYCASTIPADDRESS_ROW
-structure pointed to by the Row parameter. The
-GetAnycastIpAddressTable function can be called to enumerate the
-anycast IP address entries on a local computer.
+GetAnycastIpAddressEntry 関数は Windows Vista 以降で定義される。既存の
+MIB_ANYCASTIPADDRESS_ROW エントリを取得する。Address メンバは有効なエニーキャスト IPv4 / IPv6
+アドレスとファミリで初期化し、InterfaceLuid または InterfaceIndex のいずれかも初期化する
+(InterfaceLuid 優先)。成功時、その他のプロパティが埋められる。GetAnycastIpAddressTable
+で列挙可能。
 
 
 %index
 GetAnycastIpAddressTable
-Retrieves the anycast IP address table on the local computer.
+ローカルコンピュータのエニーキャスト IP アドレステーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table
-Family : [int] The address family to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a MIB_ANYCASTIPADDRESS_TABLE structure that contains a table of anycast IP address entries on the local computer.
+Family : [int] 取得するアドレスファミリ。指定可能な値は Winsock2.h ヘッダファイルに列挙されている。AF_ アドレスファミリ定数と PF_ プロトコルファミリ定数は同じ値 (例: AF_INET と PF_INET) なのでどちらを使ってもよい。Windows Vista 以降向けの Windows SDK ではヘッダファイルの構成が変更され、この値は Ws2def.h ヘッダで定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるため直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] ローカルコンピュータ上のエニーキャスト IP アドレスエントリのテーブルを含む MIB_ANYCASTIPADDRESS_TABLE へのポインタ。
 %inst
-Retrieves the anycast IP address table on the local computer.
+ローカルコンピュータのエニーキャスト IP アドレステーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetAnycastIpAddressTable function is defined on Windows Vista and
-later. The GetAnycastIpAddressTable function enumerates the anycast
-IP addresses on a local system and returns this information in a
-MIB_ANYCASTIPADDRESS_TABLE structure. The anycast IP address entries
-are returned in a MIB_ANYCASTIPADDRESS_TABLE structure in the buffer
-pointed to by the Table parameter. The MIB_ANYCASTIPADDRESS_TABLE
-structure contains an anycast IP address entry count and an array of
-MIB_ANYCASTIPADDRESS_ROW structures for each anycast IP address
-entry. When these returned structures are no longer required, free
-the memory by calling the FreeMibTable. The Family parameter must be
-initialized to either AF_INET, AF_INET6, or AF_UNSPEC. Note that the
-returned MIB_ANYCASTIPADDRESS_TABLE structure pointed to by the Table
-parameter may contain padding for alignment between the NumEntries
-member and the first MIB_ANYCASTIPADDRESS_ROW array entry in the
-Table member of the MIB_ANYCASTIPADDRESS_TABLE structure. Padding for
-alignment may also be present between the MIB_ANYCASTIPADDRESS_ROW
-array entries. Any access to a MIB_ANYCASTIPADDRESS_ROW array entry
-should assume padding may exist.
+GetAnycastIpAddressTable 関数は Windows Vista 以降で定義される。ローカルシステム上のエニーキャスト
+IP アドレスを列挙し MIB_ANYCASTIPADDRESS_TABLE で返す。Table にはエントリ数と
+MIB_ANYCASTIPADDRESS_ROW 配列が格納される。不要になったら FreeMibTable で解放すること。Family
+は AF_INET / AF_INET6 / AF_UNSPEC のいずれか。NumEntries
+と配列要素間にはアライメント用のパディングが含まれる可能性があるため、アクセス時はパディングを想定すること。
 
 
 %index
 GetBestInterface
-The GetBestInterface function retrieves the index of the interface that has the best route to the specified IPv4 address.
+GetBestInterface 関数は、指定した IPv4 アドレスに対する最適経路を持つインターフェイスのインデックスを取得する。
 %group
 Win32 iphlpapi
 %prm
 dwDestAddr, pdwBestIfIndex
-dwDestAddr : [int] The destination IPv4 address for which to retrieve the interface that has the best route, in the form of an IPAddr structure.
-pdwBestIfIndex : [var] A pointer to a DWORD variable that receives the index of the interface that has the best route to the IPv4 address specified by dwDestAddr.
+dwDestAddr : [int] 最適経路を持つインターフェイスを取得する対象の宛先 IPv4 アドレス (IPAddr 形式)。
+pdwBestIfIndex : [var] dwDestAddr で指定した IPv4 アドレスに対して最適経路を持つインターフェイスのインデックスを受け取る DWORD 変数へのポインタ。
 %inst
-The GetBestInterface function retrieves the index of the interface
-that has the best route to the specified IPv4 address.
+GetBestInterface 関数は、指定した IPv4 アドレスに対する最適経路を持つインターフェイスのインデックスを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetBestInterface function only works with IPv4 addresses. For use
-with IPv6 addresses, the GetBestInterfaceEx must be used. For
-information about the IPAddr data type, see Windows Data Types. To
-convert an IP address between dotted decimal notation and IPAddr
-format, use the inet_addr and inet_ntoa functions. On Windows Vista
-and later, the pdwBestIfIndex parameter is treated internally by IP
-Helper as a pointer to a NET_IFINDEX datatype.
+GetBestInterface 関数は IPv4 アドレスのみに対応する。IPv6 アドレスには GetBestInterfaceEx
+を使う。IPAddr データ型については Windows Data Types を参照。ドット区切り十進表記と IPAddr
+形式の変換には inet_addr / inet_ntoa を使う。Windows Vista 以降では、pdwBestIfIndex は
+IP Helper 内部で NET_IFINDEX 型ポインタとして扱われる。
 
 
 %index
 GetBestInterfaceEx
-The GetBestInterfaceEx function retrieves the index of the interface that has the best route to the specified IPv4 or IPv6 address.
+GetBestInterfaceEx 関数は、指定した IPv4 / IPv6 アドレスに対する最適経路を持つインターフェイスのインデックスを取得する。
 %group
 Win32 iphlpapi
 %prm
 pDestAddr, pdwBestIfIndex
-pDestAddr : [var] The destination IPv6 or IPv4 address for which to retrieve the interface with the best route, in the form of a sockaddr structure.
-pdwBestIfIndex : [var] A pointer to the index of the interface with the best route to the IPv6 or IPv4 address specified by pDestAddr.
+pDestAddr : [var] 最適経路を持つインターフェイスを取得する対象の宛先 IPv6 / IPv4 アドレス (sockaddr 構造体形式)。
+pdwBestIfIndex : [var] pDestAddr で指定した IPv6 / IPv4 アドレスに対して最適経路を持つインターフェイスのインデックスへのポインタ。
 %inst
-The GetBestInterfaceEx function retrieves the index of the interface
-that has the best route to the specified IPv4 or IPv6 address.
+GetBestInterfaceEx 関数は、指定した IPv4 / IPv6
+アドレスに対する最適経路を持つインターフェイスのインデックスを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetBestInterfaceEx function differs from the GetBestInterface
-function in that it can be used with either IPv4 or IPv6 addresses.
-The Family member of the sockaddr structure pointed to by the
-pDestAddr parameter must be set to one of the following values:
-AF_INET or AF_INET6. On Windows Vista and later, the pdwBestIfIndex
-parameter is treated internally by IP Helper as a pointer to a
-NET_IFINDEX datatype.
+GetBestInterfaceEx 関数は GetBestInterface と異なり IPv4 / IPv6
+両方に使用できる。pDestAddr が指す sockaddr 構造体の Family メンバは AF_INET または AF_INET6
+のいずれかに設定する必要がある。Windows Vista 以降では pdwBestIfIndex は IP Helper 内部で
+NET_IFINDEX 型ポインタとして扱われる。
 
 
 %index
 GetBestRoute
-The GetBestRoute function retrieves the best route to the specified destination IP address.
+GetBestRoute 関数は、指定した宛先 IP アドレスへの最適経路を取得する。
 %group
 Win32 iphlpapi
 %prm
 dwDestAddr, dwSourceAddr, pBestRoute
-dwDestAddr : [int] Destination IP address for which to obtain the best route.
-dwSourceAddr : [int] Source IP address. This IP address corresponds to an interface on the local computer. If multiple best routes to the destination address exist, the function selects the route that uses this interface.
-pBestRoute : [var] Pointer to a MIB_IPFORWARDROW structure containing the best route for the IP address specified by dwDestAddr.
+dwDestAddr : [int] 最適経路を取得する対象の宛先 IP アドレス。
+dwSourceAddr : [int] 送信元 IP アドレス。これはローカルコンピュータのインターフェイスに対応する。同じ宛先への最適経路が複数ある場合、このインターフェイスを使う経路が選択される。
+pBestRoute : [var] dwDestAddr で指定した IP アドレスへの最適経路を格納する MIB_IPFORWARDROW 構造体へのポインタ。
 %inst
-The GetBestRoute function retrieves the best route to the specified
-destination IP address.
+GetBestRoute 関数は、指定した宛先 IP アドレスへの最適経路を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合は FormatMessage
+を使って戻り値のエラーに対するメッセージ文字列を取得せよ。
 
 
 %index
 GetBestRoute2
-Retrieves the IP route entry on the local computer for the best route to the specified destination IP address.
+ローカルコンピュータ上で、指定した宛先 IP アドレスへの最適経路の IP 経路エントリを取得する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceIndex, SourceAddress, DestinationAddress, AddressSortOptions, BestRoute, BestSourceAddress
-InterfaceLuid : [var] The locally unique identifier (LUID) to specify the network interface associated with an IP route entry.
-InterfaceIndex : [int] The local index value to specify the network interface associated with an IP route entry. This index value may change when a network adapter is disabled and then enabled, or under other circumstances, and should not be considered persistent.
-SourceAddress : [var] The source IP address. This parameter may be omitted and passed as a NULL pointer.
-DestinationAddress : [var] The destination IP address.
-AddressSortOptions : [int] A set of options that affect how IP addresses are sorted. This parameter is not currently used.
-BestRoute : [var] A pointer to the MIB_IPFORWARD_ROW2 for the best route from the source IP address to the destination IP address.
-BestSourceAddress : [var] A pointer to the best source IP address.
+InterfaceLuid : [var] IP 経路エントリに関連付けるネットワークインターフェイスのローカル一意識別子 (LUID)。
+InterfaceIndex : [int] IP 経路エントリに関連付けるネットワークインターフェイスのローカルインデックス値。無効化・再有効化時などに変わることがあるため永続値として扱ってはならない。
+SourceAddress : [var] 送信元 IP アドレス。省略して NULL を渡してもよい。
+DestinationAddress : [var] 宛先 IP アドレス。
+AddressSortOptions : [int] IP アドレスのソート方法に影響するオプション一式。現在未使用。
+BestRoute : [var] 送信元 IP アドレスから宛先 IP アドレスへの最適経路の MIB_IPFORWARD_ROW2 へのポインタ。
+BestSourceAddress : [var] 最適な送信元 IP アドレスへのポインタ。
 %inst
-Retrieves the IP route entry on the local computer for the best route
-to the specified destination IP address.
+ローカルコンピュータ上で、指定した宛先 IP アドレスへの最適経路の IP 経路エントリを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetBestRoute2 function is defined on Windows Vista and later. The
-GetBestRoute2 function is used to retrieve a MIB_IPFORWARD_ROW2
-structure entry for the best route from a source IP address to a
-destination IP address. On input, the DestinationAddress parameter
-must be initialized to a valid IPv4 or IPv6 address and family. On
-input, the SourceAddress parameter may be initialized to the
-preferred IPv4 or IPv6 address and family. In addition, at least one
-of the following parameters must be initialized: the InterfaceLuid or
-InterfaceIndex. The parameters are used in the order listed above. So
-if the InterfaceLuid is specified, then this member is used to
-determine the interface. If no value was set for the InterfaceLuid
-member (the values of this member was set to zero), then the
-InterfaceIndex member is next used to determine the interface. On
-output when the call is successful, GetBestRoute2 retrieves and
-MIB_IPFORWARD_ROW2 structure for the best route from the source IP
-address the destination IP address.
+GetBestRoute2 関数は Windows Vista 以降で定義される。送信元 IP から宛先 IP への最適経路の
+MIB_IPFORWARD_ROW2 を取得する。DestinationAddress は有効な IPv4 / IPv6
+アドレスとファミリで初期化する。SourceAddress は希望するアドレスで初期化してもよい。InterfaceLuid または
+InterfaceIndex のいずれかも初期化する必要がある (InterfaceLuid 優先)。成功時、最適経路の
+MIB_IPFORWARD_ROW2 が返される。
 
 
 %index
 GetCurrentThreadCompartmentId
-Reserved for future use. Do not use this function. (GetCurrentThreadCompartmentId)
+将来使用のために予約されている。使用してはならない。(GetCurrentThreadCompartmentId)
 %group
 Win32 iphlpapi
 %prm
 
 %inst
-Reserved for future use. Do not use this function.
-(GetCurrentThreadCompartmentId)
+将来使用のために予約されている。使用してはならない。(GetCurrentThreadCompartmentId)
 
 
 %index
@@ -2360,20 +1482,18 @@ CompartmentId : [var]
 
 %index
 GetDefaultCompartmentId
-The GetDefaultCompartmentId function retrieves the default network routing compartment identifier for the local computer.
+GetDefaultCompartmentId 関数は、ローカルコンピュータの既定ネットワークルーティングコンパートメント識別子を取得する。
 %group
 Win32 iphlpapi
 %prm
 
 %inst
-The GetDefaultCompartmentId function retrieves the default network
-routing compartment identifier for the local computer.
+GetDefaultCompartmentId
+関数は、ローカルコンピュータの既定ネットワークルーティングコンパートメント識別子を取得する。
 
 [戻り値]
-If the function succeeds, the return value is the default Compartment
-ID. If the function fails, the return value is one of the following
-error codes.
-This doc was truncated.
+関数が成功すると戻り値は既定のコンパートメント ID となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 
 %index
@@ -2390,1169 +1510,746 @@ Settings : [var]
 
 %index
 GetExtendedTcpTable
-Retrieves a table that contains a list of TCP endpoints available to the application.
+アプリケーションから利用可能な TCP エンドポイントの一覧を含むテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 pTcpTable, pdwSize, bOrder, ulAf, TableClass, Reserved
-pTcpTable : [intptr] A pointer to the table structure that contains the filtered TCP endpoints available to the application. For information about how to determine the type of table returned based on specific input parameter combinations, see the Remarks section later in this document.
-pdwSize : [var] The estimated size of the structure returned in pTcpTable, in bytes. If this value is set too small, ERROR_INSUFFICIENT_BUFFER is returned by this function, and this field will contain the correct size of the structure.
-bOrder : [int] A value that specifies whether the TCP connection table should be sorted. If this parameter is set to TRUE, the TCP endpoints in the table are sorted in ascending order, starting with the lowest local IP address. If this parameter is set to FALSE, the TCP endpoints in the table appear in the order in which they were retrieved.
-ulAf : [int] The version of IP used by the TCP endpoints.
-TableClass : [int] The type of the TCP table structure to retrieve. This parameter can be one of the values from the TCP_TABLE_CLASS enumeration. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and the TCP_TABLE_CLASS enumeration is defined in the Iprtrmib.h header file, not in the Iphlpapi.h header file. The TCP_TABLE_CLASS enumeration value is combined with the value of the ulAf parameter to determine the extended TCP information to retrieve.
-Reserved : [int] Reserved. This value must be zero.
+pTcpTable : [intptr] アプリケーションで利用可能なフィルタ済み TCP エンドポイントを格納するテーブル構造体へのポインタ。具体的なテーブル型の決定は備考を参照。
+pdwSize : [var] pTcpTable に返される構造体の推定サイズ (バイト単位)。小さすぎる場合は ERROR_INSUFFICIENT_BUFFER が返り、正しいサイズがこのフィールドに書き込まれる。
+bOrder : [int] TCP 接続テーブルをソートするかどうか。TRUE にすると最小のローカル IP アドレスから昇順にソートされる。FALSE の場合は取得順のまま並ぶ。
+ulAf : [int] TCP エンドポイントで使われる IP のバージョン。
+TableClass : [int] 取得する TCP テーブル構造体の種類。TCP_TABLE_CLASS 列挙の値のいずれか。Windows Vista 以降の Windows SDK では TCP_TABLE_CLASS は Iprtrmib.h で定義される (Iphlpapi.h ではない)。TCP_TABLE_CLASS と ulAf の組み合わせで取得する拡張 TCP 情報が決まる。
+Reserved : [int] 予約済み。0 を指定する必要がある。
 %inst
-Retrieves a table that contains a list of TCP endpoints available to
-the application.
+アプリケーションから利用可能な TCP エンドポイントの一覧を含むテーブルを取得する。
 
 [戻り値]
-If the call is successful, the value NO_ERROR is returned. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+呼び出しが成功すると NO_ERROR を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The table type returned by this function depends on the specific
-combination of the ulAf parameter and the TableClass parameter. When
-the ulAf parameter is set to AF_INET, the following table indicates
-the TCP table type to retrieve in the structure pointed to by the
-pTcpTable parameter for each possible TableClass value.
-This doc was truncated.
+本関数が返すテーブル型は ulAf と TableClass の組み合わせで決まる。ulAf が AF_INET
+の場合、TableClass ごとの取得テーブル型は次表のとおり。
+このドキュメントは省略されている。
 
 
 %index
 GetExtendedUdpTable
-Retrieves a table that contains a list of UDP endpoints available to the application.
+アプリケーションから利用可能な UDP エンドポイントの一覧を含むテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 pUdpTable, pdwSize, bOrder, ulAf, TableClass, Reserved
-pUdpTable : [intptr] A pointer to the table structure that contains the filtered UDP endpoints available to the application.   For information about how to determine the type of table returned based on specific input parameter combinations, see the Remarks section later in this document.
-pdwSize : [var] The estimated size of the structure returned in pUdpTable, in bytes. If this value is set too small, ERROR_INSUFFICIENT_BUFFER is returned by this function, and this field will contain the correct size of the structure.
-bOrder : [int] A value that specifies whether the UDP endpoint table should be sorted. If this parameter is set to TRUE, the UDP endpoints in the table are sorted in ascending order, starting with the lowest local IP address. If this parameter is set to FALSE, the UDP endpoints in the table appear in the order in which they were retrieved.
-ulAf : [int] The version of IP used by the UDP endpoint.
-TableClass : [int] The type of the UDP table structure to retrieve.  This parameter can be one of the values from the UDP_TABLE_CLASS enumeration. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and the UDP_TABLE_CLASS enumeration  is defined in the Iprtrmib.h header file, not in the Iphlpapi.h header file. The UDP_TABLE_CLASS enumeration value is combined with the value of the ulAf parameter to determine the extended UDP information to retrieve.
-Reserved : [int] Reserved. This value must be zero.
+pUdpTable : [intptr] アプリケーションで利用可能なフィルタ済み UDP エンドポイントを格納するテーブル構造体へのポインタ。具体的なテーブル型の決定は備考を参照。
+pdwSize : [var] pUdpTable に返される構造体の推定サイズ (バイト単位)。小さすぎる場合は ERROR_INSUFFICIENT_BUFFER が返り、正しいサイズがこのフィールドに書き込まれる。
+bOrder : [int] UDP エンドポイントテーブルをソートするかどうか。TRUE にすると最小のローカル IP アドレスから昇順にソートされる。FALSE の場合は取得順のまま並ぶ。
+ulAf : [int] UDP エンドポイントで使われる IP のバージョン。
+TableClass : [int] 取得する UDP テーブル構造体の種類。UDP_TABLE_CLASS 列挙の値のいずれか。Windows Vista 以降の Windows SDK では UDP_TABLE_CLASS は Iprtrmib.h で定義される (Iphlpapi.h ではない)。UDP_TABLE_CLASS と ulAf の組み合わせで取得する拡張 UDP 情報が決まる。
+Reserved : [int] 予約済み。0 を指定する必要がある。
 %inst
-Retrieves a table that contains a list of UDP endpoints available to
-the application.
+アプリケーションから利用可能な UDP エンドポイントの一覧を含むテーブルを取得する。
 
 [戻り値]
-If the call is successful, the value NO_ERROR is returned. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+呼び出しが成功すると NO_ERROR を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The table type returned by this function depends on the specific
-combination of the ulAf parameter and the TableClass parameter. When
-the ulAf parameter is set to AF_INET, the following table indicates
-the UDP table type to retrieve in the structure pointed to by the
-pUdpTable parameter for each possible TableClass value.
-This doc was truncated.
+本関数が返すテーブル型は ulAf と TableClass の組み合わせで決まる。ulAf が AF_INET
+の場合、TableClass ごとの取得テーブル型は次表のとおり。
+このドキュメントは省略されている。
 
 
 %index
 GetFriendlyIfIndex
-Takes an interface index and returns a backward-compatible interface index, that is, an index that uses only the lower 24 bits.
+インターフェイスインデックスを受け取り、下位 24 ビットのみを使う後方互換インターフェイスインデックスを返す。
 %group
 Win32 iphlpapi
 %prm
 IfIndex
-IfIndex : [int] The interface index from which the backward-compatible or "friendly" interface index is derived.
+IfIndex : [int] 後方互換用 ("フレンドリ") インターフェイスインデックスを導出する元のインターフェイスインデックス。
 %inst
-Takes an interface index and returns a backward-compatible interface
-index, that is, an index that uses only the lower 24 bits.
+インターフェイスインデックスを受け取り、下位 24 ビットのみを使う後方互換インターフェイスインデックスを返す。
 
 [戻り値]
-A backward-compatible interface index that uses only the lower 24
-bits.
+下位 24 ビットのみを使う後方互換インターフェイスインデックス。
 
 
 %index
 GetIcmpStatistics
-The GetIcmpStatistics function retrieves the Internet Control Message Protocol (ICMP) for IPv4 statistics for the local computer.
+GetIcmpStatistics 関数は、ローカルコンピュータの IPv4 用 ICMP (Internet Control Message Protocol) 統計情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics
-Statistics : [var] A pointer to a MIB_ICMP structure that receives the ICMP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの ICMP 統計情報を受け取る MIB_ICMP 構造体へのポインタ。
 %inst
-The GetIcmpStatistics function retrieves the Internet Control Message
-Protocol (ICMP) for IPv4 statistics for the local computer.
+GetIcmpStatistics 関数は、ローカルコンピュータの IPv4 用 ICMP (Internet Control
+Message Protocol) 統計情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIcmpStatistics function returns the ICMP statistics for IPv4
-on the local computer. On Windows XP and later, the GetIpStatisticsEx
-can be used to obtain the ICMP statistics for either IPv4 or IPv6 on
-the local computer.
+GetIcmpStatistics 関数は、ローカルコンピュータの IPv4 用 ICMP 統計情報を返す。Windows XP 以降では
+GetIpStatisticsEx で IPv4 / IPv6 両方の ICMP 統計を取得できる。
 
 
 %index
 GetIcmpStatisticsEx
-The GetIcmpStatisticsEx function retrieves Internet Control Message Protocol (ICMP) statistics for the local computer. The GetIcmpStatisticsEx function is capable of retrieving IPv6 ICMP statistics.
+GetIcmpStatisticsEx 関数は、ローカルコンピュータの ICMP 統計情報を取得する。IPv6 ICMP 統計の取得にも対応する。
 %group
 Win32 iphlpapi
 %prm
 Statistics, Family
-Statistics : [var] A pointer to a MIB_ICMP_EX structure that contains ICMP statistics for the local computer.
-Family : [int] The protocol family for which to retrieve ICMP statistics. Must be one of the following:
+Statistics : [var] ローカルコンピュータの ICMP 統計情報を格納する MIB_ICMP_EX 構造体へのポインタ。
+Family : [int] ICMP 統計を取得するプロトコルファミリ。以下のいずれかでなければならない。
 %inst
-The GetIcmpStatisticsEx function retrieves Internet Control Message
-Protocol (ICMP) statistics for the local computer. The
-GetIcmpStatisticsEx function is capable of retrieving IPv6 ICMP
-statistics.
+GetIcmpStatisticsEx 関数は、ローカルコンピュータの ICMP 統計情報を取得する。IPv6 ICMP
+統計の取得にも対応する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpStatisticsEx can be used to obtain the ICMP statistics for
-either IPv4 or IPv6 on the local computer. The GetIcmpStatistics
-function returns the ICMP statistics for only IPv4 on the local
-computer.
+GetIpStatisticsEx で IPv4 / IPv6 両方の ICMP 統計を取得できる。GetIcmpStatistics は
+IPv4 のみ。
 
 
 %index
 GetIfEntry
-The GetIfEntry function retrieves information for the specified interface on the local computer.
+GetIfEntry 関数は、ローカルコンピュータ上の指定インターフェイスの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 pIfRow
-pIfRow : [var] A pointer to a MIB_IFROW structure that, on successful return, receives information for an interface on the local computer. On input, set the dwIndex member of MIB_IFROW to the index of the interface for which to retrieve information. The value for the dwIndex must be retrieved by a previous call to the GetIfTable, GetIfTable2, or GetIfTable2Ex function.
+pIfRow : [var] 成功時にローカルコンピュータのインターフェイス情報を受け取る MIB_IFROW へのポインタ。入力時には dwIndex メンバに、事前の GetIfTable / GetIfTable2 / GetIfTable2Ex 呼び出しで取得したインターフェイスのインデックスを設定する。
 %inst
-The GetIfEntry function retrieves information for the specified
-interface on the local computer.
+GetIfEntry 関数は、ローカルコンピュータ上の指定インターフェイスの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIfEntry function retrieves information for an interface on a
-local computer. The dwIndex member in the MIB_IFROW structure pointed
-to by the pIfRow parameter must be initialized to a valid network
-interface index retrieved by a previous call to the GetIfTable,
-GetIfTable2, or GetIfTable2Ex function. The GetIfEntry function will
-fail if the dwIndex member of the MIB_IFROW pointed to by the pIfRow
-parameter does not match an existing interface index on the local
-computer.
+GetIfEntry 関数はローカルコンピュータのインターフェイス情報を取得する。pIfRow の dwIndex メンバは事前の
+GetIfTable 系関数で取得した有効なネットワークインターフェイスインデックスで初期化する必要がある。dwIndex
+が既存インデックスと一致しない場合、本関数は失敗する。
 
 
 %index
 GetIfEntry2
-Retrieves information for the specified interface on the local computer.
+ローカルコンピュータ上の指定インターフェイスの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IF_ROW2 structure that, on successful return, receives information for an interface on the local computer. On input, the InterfaceLuid or the InterfaceIndex member of the MIB_IF_ROW2 must be set to the interface for which to retrieve information.
+Row : [var] 成功時にローカルコンピュータのインターフェイス情報を受け取る MIB_IF_ROW2 へのポインタ。入力時に InterfaceLuid または InterfaceIndex を取得対象のインターフェイスに設定しておく必要がある。
 %inst
-Retrieves information for the specified interface on the local
-computer.
+ローカルコンピュータ上の指定インターフェイスの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIfEntry2 function is defined on Windows Vista and later. On
-input, at least one of the following members in the MIB_IF_ROW2
-structure passed in the Row parameter must be initialized:
-InterfaceLuid or InterfaceIndex. The fields are used in the order
-listed above. So if the InterfaceLuid is specified, then this member
-is used to determine the interface. If no value was set for the
-InterfaceLuid member (the value of this member was set to zero), then
-the InterfaceIndex member is next used to determine the interface. On
-output, the remaining fields of the MIB_IF_ROW2 structure pointed to
-by the Row parameter are filled in. Note that the Netioapi.h header
-file is automatically included in Iphlpapi.h header file, and should
-never be used directly.
+GetIfEntry2 関数は Windows Vista 以降で定義される。入力時に InterfaceLuid または
+InterfaceIndex のいずれかを初期化する必要がある (InterfaceLuid 優先、ゼロなら
+InterfaceIndex)。出力時には MIB_IF_ROW2 の残りのフィールドが埋められる。Netioapi.h は
+Iphlpapi.h に自動インクルードされるため直接使用してはならない。
 
 
 %index
 GetIfEntry2Ex
-Retrieves the specified level of information for the specified interface on the local computer.
+ローカルコンピュータ上の指定インターフェイスについて、指定したレベルの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Level, Row
-Level : [int] The level of interface information to retrieve. This parameter can be one of the values from the MIB_IF_ENTRY_LEVEL enumeration type defined in the Netioapi.h header file.
-Row : [var] A pointer to a MIB_IF_ROW2 structure that, on successful return, receives information for an interface on the local computer. On input, the InterfaceLuid or the InterfaceIndex member of the MIB_IF_ROW2 must be set to the interface for which to retrieve information.
+Level : [int] 取得するインターフェイス情報のレベル。MIB_IF_ENTRY_LEVEL 列挙の値 (Netioapi.h で定義) のいずれか。
+Row : [var] 成功時にローカルコンピュータのインターフェイス情報を受け取る MIB_IF_ROW2 へのポインタ。入力時に InterfaceLuid または InterfaceIndex を設定する必要がある。
 %inst
-Retrieves the specified level of information for the specified
-interface on the local computer.
+ローカルコンピュータ上の指定インターフェイスについて、指定したレベルの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIfEntry2Ex function retrieves information for a specified
-interface on a local system and returns this information in a pointer
-to a MIB_IF_ROW2 structure. GetIfEntry2Ex is an enhanced version of
-the GetIfEntry2 function that allows selecting the level of interface
-information to retrieve. On input, at least one of the following
-members in the MIB_IF_ROW2 structure passed in the Row parameter must
-be initialized: InterfaceLuid or InterfaceIndex. The fields are used
-in the order listed above. So if the InterfaceLuid is specified, then
-this member is used to determine the interface. If no value was set
-for the InterfaceLuid member (the value of this member was set to
-zero), then the InterfaceIndex member is next used to determine the
-interface. On output, the remaining fields of the MIB_IF_ROW2
-structure pointed to by the Row parameter are filled in. Note that
-the Netioapi.h header file is automatically included in Iphlpapi.h
-header file, and should never be used directly.
+GetIfEntry2Ex 関数は、指定インターフェイスの情報を取得し MIB_IF_ROW2 へのポインタで返す。GetIfEntry2
+の拡張版で、取得する情報レベルを選択できる。入力時に InterfaceLuid または InterfaceIndex
+のいずれかを初期化する (InterfaceLuid 優先)。出力時には残りのフィールドが埋められる。Netioapi.h は
+Iphlpapi.h に自動インクルードされるため直接使用してはならない。
 
 
 %index
 GetIfStackTable
-Retrieves a table of network interface stack row entries that specify the relationship of the network interfaces on an interface stack.
+インターフェイススタック上のネットワークインターフェイスの関係を示すインターフェイススタック行エントリテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Table
-Table : [var] A pointer to a buffer that receives the table of interface stack row entries in a MIB_IFSTACK_TABLE structure.
+Table : [var] インターフェイススタック行エントリのテーブルを受け取る MIB_IFSTACK_TABLE バッファへのポインタ。
 %inst
-Retrieves a table of network interface stack row entries that specify
-the relationship of the network interfaces on an interface stack.
+インターフェイススタック上のネットワークインターフェイスの関係を示すインターフェイススタック行エントリテーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIfStackTable function is defined on Windows Vista and later.
-The GetIfStackTable function enumerates the physical and logical
-network interfaces on an interface stack on a local system and
-returns this information in a MIB_IFSTACK_TABLE structure. Interface
-stack entries are returned in a MIB_IFSTACK_TABLE structure in the
-buffer pointed to by the Table parameter. The MIB_IFSTACK_TABLE
-structure contains an interface stack entry count and an array of
-MIB_IFSTACK_ROW structures for each interface stack entry. The
-relationship between the interfaces in the interface stack is that
-the interface with index in the HigherLayerInterfaceIndex member of
-the MIB_IFSTACK_ROW structure is immediately above the interface with
-index in the LowerLayerInterfaceIndex member of the MIB_IFSTACK_ROW
-structure. Memory is allocated by the GetIfStackTable function for
-the MIB_IFSTACK_TABLE structure and the MIB_IFSTACK_ROW entries in
-this structure. When these returned structures are no longer
-required, free the memory by calling the FreeMibTable. Note that the
-returned MIB_IFSTACK_TABLE structure pointed to by the Table
-parameter may contain padding for alignment between the NumEntries
-member and the first MIB_IFSTACK_ROW array entry in the Table member
-of the MIB_IFSTACK_TABLE structure. Padding for alignment may also be
-present between the MIB_IFSTACK_ROW array entries. Any access to a
-MIB_IFSTACK_ROW array entry should assume padding may exist.
+GetIfStackTable 関数は Windows Vista
+以降で定義される。ローカルシステム上のインターフェイススタックの物理・論理ネットワークインターフェイスを列挙し
+MIB_IFSTACK_TABLE で返す。MIB_IFSTACK_ROW の HigherLayerInterfaceIndex は
+LowerLayerInterfaceIndex のインターフェイスの直上にあるインターフェイスを示す。不要になったら
+FreeMibTable で解放すること。NumEntries と配列要素間にはアライメント用のパディングが含まれる可能性がある。
 
 
 %index
 GetIfTable
-The GetIfTable function retrieves the MIB-II interface table.
+GetIfTable 関数は、MIB-II インターフェイステーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 pIfTable, pdwSize, bOrder
-pIfTable : [var] A pointer to a buffer that receives the interface table as a MIB_IFTABLE structure.
-pdwSize : [var] On input, specifies the size in bytes of the buffer pointed to by the pIfTable parameter. On output, if the buffer is not large enough to hold the returned interface table, the function sets this parameter equal to the required buffer size in bytes.
-bOrder : [int] A Boolean value that specifies whether the returned interface table should be sorted in ascending order by interface index. If this parameter is TRUE, the table is sorted.
+pIfTable : [var] インターフェイステーブルを MIB_IFTABLE として受け取るバッファへのポインタ。
+pdwSize : [var] 入力時は pIfTable が指すバッファのサイズ (バイト単位)。出力時はバッファが小さすぎる場合に必要サイズが設定される。
+bOrder : [int] 戻されるインターフェイステーブルをインターフェイスインデックスで昇順にソートするかを示すブール値。TRUE ならソートされる。
 %inst
-The GetIfTable function retrieves the MIB-II interface table.
+GetIfTable 関数は、MIB-II インターフェイステーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIfTable function enumerates physical interfaces on a local
-system and returns this information in a MIB_IFTABLE structure. The
-physical interfaces include the software loopback interface. The
-GetIfTable2 and GetIfTable2Ex functions available on Windows Vista
-and later are an enhanced version of the GetIfTable function that
-enumerate both the physical and logical interfaces on a local system.
-Logical interfaces include various WAN Miniport interfaces used for
-L2TP, PPTP, PPOE, and other tunnel encapsulations. Interfaces are
-returned in a MIB_IFTABLE structure in the buffer pointed to by the
-pIfTable parameter. The MIB_IFTABLE structure contains an interface
-count and an array of MIB_IFROW structures for each interface. Note
-that the returned MIB_IFTABLE structure pointed to by the pIfTable
-parameter may contain padding for alignment between the dwNumEntries
-member and the first MIB_IFROW array entry in the table member of the
-MIB_IFTABLE structure. Padding for alignment may also be present
-between the MIB_IFROW array entries. Any access to a MIB_IFROW array
-entry should assume padding may exist.
+GetIfTable 関数はローカルシステム上の物理インターフェイス (ソフトウェアループバックを含む) を列挙し MIB_IFTABLE
+で返す。Windows Vista 以降の GetIfTable2 / GetIfTable2Ex は論理インターフェイス (L2TP /
+PPTP / PPPoE などの WAN ミニポート) も列挙できる拡張版である。MIB_IFTABLE には dwNumEntries
+と MIB_IFROW の配列が含まれる。アクセス時はアライメント用パディングを想定すること。
 
 
 %index
 GetIfTable2
-Retrieves the MIB-II interface table. (GetIfTable2)
+MIB-II インターフェイステーブルを取得する。(GetIfTable2)
 %group
 Win32 iphlpapi
 %prm
 Table
-Table : [var] A pointer to a buffer that receives the table of interfaces in a MIB_IF_TABLE2 structure.
+Table : [var] インターフェイステーブルを受け取る MIB_IF_TABLE2 バッファへのポインタ。
 %inst
-Retrieves the MIB-II interface table. (GetIfTable2)
+MIB-II インターフェイステーブルを取得する。(GetIfTable2)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIfTable2 function enumerates the logical and physical
-interfaces on a local system and returns this information in a
-MIB_IF_TABLE2 structure. GetIfTable2 is an enhanced version of the
-GetIfTable function. A similar GetIfTable2Ex function can be used to
-specify the level of interfaces to return. Calling the GetIfTable2Ex
-function with the Level parameter set to MibIfTableNormal retrieves
-the same results as calling the GetIfTable2 function. Interfaces are
-returned in a MIB_IF_TABLE2 structure in the buffer pointed to by the
-Table parameter. The MIB_IF_TABLE2 structure contains an interface
-count and an array of MIB_IF_ROW2 structures for each interface.
-Memory is allocated by the GetIfTable2 function for the MIB_IF_TABLE2
-structure and the MIB_IF_ROW2 entries in this structure. When these
-returned structures are no longer required, free the memory by
-calling the FreeMibTable. Note that the returned MIB_IF_TABLE2
-structure pointed to by the Table parameter may contain padding for
-alignment between the NumEntries member and the first MIB_IF_ROW2
-array entry in the Table member of the MIB_IF_TABLE2 structure.
-Padding for alignment may also be present between the MIB_IF_ROW2
-array entries. Any access to a MIB_IF_ROW2 array entry should assume
-padding may exist.
+GetIfTable2 関数は、ローカルシステム上の論理・物理インターフェイスを列挙し MIB_IF_TABLE2
+で返す。GetIfTable の拡張版で、GetIfTable2Ex に Level=MibIfTableNormal
+を指定するのと同じ結果になる。Table にはインターフェイス数と MIB_IF_ROW2 配列が格納される。不要になったら
+FreeMibTable で解放すること。アライメント用のパディングが含まれる可能性がある。
 
 
 %index
 GetIfTable2Ex
-Retrieves the MIB-II interface table. (GetIfTable2Ex)
+MIB-II インターフェイステーブルを取得する。(GetIfTable2Ex)
 %group
 Win32 iphlpapi
 %prm
 Level, Table
-Level : [int] The level of interface information to retrieve. This parameter can be one of the values from the MIB_IF_TABLE_LEVEL enumeration type defined in the Netioapi.h header file.
-Table : [var] A pointer to a buffer that receives the table of interfaces in a MIB_IF_TABLE2 structure.
+Level : [int] 取得するインターフェイス情報のレベル。MIB_IF_TABLE_LEVEL 列挙の値 (Netioapi.h で定義) のいずれか。
+Table : [var] インターフェイステーブルを受け取る MIB_IF_TABLE2 バッファへのポインタ。
 %inst
-Retrieves the MIB-II interface table. (GetIfTable2Ex)
+MIB-II インターフェイステーブルを取得する。(GetIfTable2Ex)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIfTable2Ex function enumerates the logical and physical
-interfaces on a local system and returns this information in a
-MIB_IF_TABLE2 structure. GetIfTable2Ex is an enhanced version of the
-GetIfTable function that allows selecting the level of interface
-information to retrieve. A similar GetIfTable2 function can also be
-used to retrieve interfaces. but does not allow specifying the level
-of interfaces to return. Calling the GetIfTable2Ex function with the
-Level parameter set to MibIfTableNormal retrieves the same results as
-calling the GetIfTable2 function. Interfaces are returned in a
-MIB_IF_TABLE2 structure in the buffer pointed to by the Table
-parameter. The MIB_IF_TABLE2 structure contains an interface count
-and an array of MIB_IF_ROW2 structures for each interface. Memory is
-allocated by the GetIfTable2 function for the MIB_IF_TABLE2 structure
-and the MIB_IF_ROW2 entries in this structure. When these returned
-structures are no longer required, free the memory by calling the
-FreeMibTable. All interfaces including NDIS intermediate driver
-interfaces and NDIS filter driver interfaces are returned for either
-of the possible values for the Level parameter. The setting for the
-Level parameter affects how statistics and state members of the
-MIB_IF_ROW2 structure in the MIB_IF_TABLE2 structure pointed to by
-the Table parameter for the interface are returned. For example, a
-network interface card (NIC) will have a NDIS miniport driver. An
-NDIS intermediate driver can be installed to interface between
-upper-level protocol drivers and NDIS miniport drivers. An NDIS
-filter driver (LWF) can be attached on top of the NDIS intermediate
-driver. Assume that the NIC reports the MediaConnectState member of
-the MIB_IF_ROW2 structure as MediaConnectStateConnected but NDIS
-filter driver modifies the state and reports the state as
-MediaConnectStateDisconnected. When the interface information is
-queried with Level parameter set to MibIfTableNormal, the state at
-the top of the filter stack, that is MediaConnectStateDisconnected is
-reported. When the interface is queried with the Level parameter set
-to MibIfTableRaw, the state at the interface level directly, that is
-MediaConnectStateConnected is returned.
-Note that the returned MIB_IF_TABLE2 structure pointed to by the
-Table parameter may contain padding for alignment between the
-NumEntries member and the first MIB_IF_ROW2 array entry in the Table
-member of the MIB_IF_TABLE2 structure. Padding for alignment may also
-be present between the MIB_IF_ROW2 array entries. Any access to a
-MIB_IF_ROW2 array entry should assume padding may exist.
+GetIfTable2Ex 関数は、ローカルシステム上の論理・物理インターフェイスを列挙し MIB_IF_TABLE2
+で返す。GetIfTable の拡張版で、取得するインターフェイス情報レベルを選択できる。GetIfTable2 と違い Level
+を指定できる点が異なる。Level=MibIfTableNormal 時は GetIfTable2 と同じ結果になる。NDIS
+中間ドライバ・NDIS フィルタドライバ (LWF) のインターフェイスを含むすべてのインターフェイスが返される。Level は
+MIB_IF_ROW2 の統計および状態メンバの返し方に影響する。例えば NIC が MediaConnectStateConnected
+を報告し LWF が MediaConnectStateDisconnected に変更した場合、MibIfTableNormal
+ではフィルタスタック最上位の状態 (Disconnected) を返し、MibIfTableRaw ではインターフェイスレベルの状態
+(Connected) を返す。不要になったら FreeMibTable
+で解放すること。アライメント用のパディングが含まれる可能性がある。
 
 
 %index
 GetInterfaceCurrentTimestampCapabilities
-This function is reserved for system use, and you should not call it from your code. (GetInterfaceCurrentTimestampCapabilities)
+この関数はシステムで予約されている。ユーザーコードから呼び出してはならない。(GetInterfaceCurrentTimestampCapabilities)
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, TimestampCapabilites
-InterfaceLuid : [var] Reserved.
-TimestampCapabilites : [var] Reserved.
+InterfaceLuid : [var] 予約済み。
+TimestampCapabilites : [var] 予約済み。
 %inst
-This function is reserved for system use, and you should not call it
-from your code. (GetInterfaceCurrentTimestampCapabilities)
+
+この関数はシステムで予約されている。ユーザーコードから呼び出してはならない。(GetInterfaceCurrentTimestampCapabilities)
 
 [戻り値]
-Reserved.
+予約済み。
 
 
 %index
 GetInterfaceDnsSettings
-Retrieves the DNS settings from the interface specified in the *Interface* parameter.
+Interface パラメータで指定したインターフェイスの DNS 設定を取得する。
 %group
 Win32 iphlpapi
 %prm
 Interface, Settings
-Interface : [int] Type: \_In\_ **[GUID](/windows/win32/api/guiddef/ns-guiddef-guid)** The **GUID** of the COM interface that the settings refer to.
-Settings : [var] Type: \_Inout\_ const **[DNS_INTERFACE_SETTINGS](ns-netioapi-dns_interface_settings.md)\*** **GetInterfaceDnsSettings** populates all the settings in this structure. You should set only the *Version* member; the *Flags* field must be empty. If you set the *Version* member to **DNS_INTERFACE_SETTINGS_VERSION1**, then the *Settings* parameter must point to a valid [**DNS_INTERFACE_SETTINGS**](ns-netioapi-dns_interface_settings.md) structure. If you set the *Version* member to **DNS_INTERFACE_SETTINGS_VERSION3**, then the *Settings* parameter must point to a valid [**DNS_INTERFACE_SETTINGS3**](/windows/win32/api/netioapi/ns-netioapi-dns_interface_settings3) structure.
+Interface : [int] 型: _In_ GUID 設定を参照する COM インターフェイスの GUID。
+Settings : [var] 型: _Inout_ const DNS_INTERFACE_SETTINGS* GetInterfaceDnsSettings はこの構造体のすべての設定を埋める。呼び出し側は Version メンバのみを設定する (Flags は空にする)。Version が DNS_INTERFACE_SETTINGS_VERSION1 の場合は DNS_INTERFACE_SETTINGS を、DNS_INTERFACE_SETTINGS_VERSION3 の場合は DNS_INTERFACE_SETTINGS3 を指すポインタである必要がある。
 %inst
-Retrieves the DNS settings from the interface specified in the
-*Interface* parameter.
+Interface パラメータで指定したインターフェイスの DNS 設定を取得する。
 
 [戻り値]
-Returns **NO_ERROR** if successful. A non-zero return value indicates
-failure.
+成功時は NO_ERROR を返す。0 以外の戻り値は失敗を示す。
 
 
 %index
 GetInterfaceHardwareTimestampCapabilities
-This function is reserved for system use, and you should not call it from your code. (GetInterfaceHardwareTimestampCapabilities)
+この関数はシステムで予約されている。ユーザーコードから呼び出してはならない。(GetInterfaceHardwareTimestampCapabilities)
 %group
 Win32 iphlpapi
 %prm
 InterfaceLuid, TimestampCapabilites
-InterfaceLuid : [var] Reserved.
-TimestampCapabilites : [var] Reserved.
+InterfaceLuid : [var] 予約済み。
+TimestampCapabilites : [var] 予約済み。
 %inst
-This function is reserved for system use, and you should not call it
-from your code. (GetInterfaceHardwareTimestampCapabilities)
+
+この関数はシステムで予約されている。ユーザーコードから呼び出してはならない。(GetInterfaceHardwareTimestampCapabilities)
 
 [戻り値]
-Reserved.
+予約済み。
 
 
 %index
 GetInterfaceInfo
-The GetInterfaceInfo function obtains the list of the network interface adapters with IPv4 enabled on the local system.
+GetInterfaceInfo 関数は、ローカルシステムで IPv4 が有効なネットワークインターフェイスアダプタ一覧を取得する。
 %group
 Win32 iphlpapi
 %prm
 pIfTable, dwOutBufLen
-pIfTable : [var] A pointer to a buffer that specifies an IP_INTERFACE_INFO structure that receives the list of adapters. This buffer must be allocated by the caller.
-dwOutBufLen : [var] A pointer to a DWORD variable that specifies the size of the buffer pointed to by pIfTable parameter to receive the IP_INTERFACE_INFO structure. If this size is insufficient to hold the IPv4 interface information, GetInterfaceInfo fills in this variable with the required size, and returns an error code of ERROR_INSUFFICIENT_BUFFER.
+pIfTable : [var] アダプタ一覧を受け取る IP_INTERFACE_INFO 構造体を指定するバッファへのポインタ。呼び出し元がバッファを確保する必要がある。
+dwOutBufLen : [var] pIfTable が指す IP_INTERFACE_INFO 構造体用バッファのサイズを指定する DWORD 変数へのポインタ。IPv4 インターフェイス情報を格納するのに不十分な場合は必要サイズが書き込まれ ERROR_INSUFFICIENT_BUFFER が返される。
 %inst
-The GetInterfaceInfo function obtains the list of the network
-interface adapters with IPv4 enabled on the local system.
+GetInterfaceInfo 関数は、ローカルシステムで IPv4 が有効なネットワークインターフェイスアダプタ一覧を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetInterfaceInfo function is specific to network adapters with
-IPv4 enabled. The function returns an IP_INTERFACE_INFO structure
-pointed to by the pIfTable parameter that contains the number of
-network adapters with IPv4 enabled on the local system and an array
-of IP_ADAPTER_INDEX_MAP structures with information on each network
-adapter with IPv4 enabled. The IP_INTERFACE_INFO structure returned
-by GetInterfaceInfo contains at least one IP_ADAPTER_INDEX_MAP
-structure even if the NumAdapters member of the IP_INTERFACE_INFO
-structure indicates that no network adapters with IPv4 are enabled.
-When the NumAdapters member of the IP_INTERFACE_INFO structure
-returned by GetInterfaceInfo is zero, the value of the members of the
-single IP_ADAPTER_INDEX_MAP structure returned in the
-IP_INTERFACE_INFO structure is undefined. If the GetInterfaceInfo
-function is called with too small a buffer to retrieve the IPv4
-interface information (the dwOutBufLen parameter indicates that the
-buffer pointed to by the pIfTable parameter is too small), the
-function returns ERROR_INSUFFICIENT_BUFFER. The required size is
-returned in the DWORD variable pointed to by the dwOutBufLen
-parameter. The correct way to use the GetInterfaceInfo function is to
-call this function twice. In the first call, pass a NULL pointer in
-the pIfTable parameter and zero in the variable pointed to by the
-dwOutBufLen parameter. The call will fail with
-ERROR_INSUFFICIENT_BUFFER and the required size for this buffer is
-returned in the DWORD variable pointed to by the dwOutBufLen
-parameter. A buffer can then be allocated of the required size using
-the value pointed by the dwOutBufLen. Then the GetInterfaceInfo
-function can be called a second time with a pointer to this buffer
-passed in the pIfTable parameter and the length of the buffer set to
-the size of this buffer. The GetAdaptersInfo and GetInterfaceInfo
-functions do not return information about the loopback interface.
-Information on the loopback interface is returned by the
-GetIpAddrTable function. On Windows Vista and later, the Name member
-of the IP_ADAPTER_INDEX_MAP structure returned in the
-IP_INTERFACE_INFO structure may be a Unicode string of the GUID for
-the network interface (the string begins with the '{' character).
+GetInterfaceInfo 関数は IPv4 が有効なネットワークアダプタに特化している。pIfTable が指す
+IP_INTERFACE_INFO 構造体を介して、IPv4 有効ネットワークアダプタの数と IP_ADAPTER_INDEX_MAP
+配列を返す。NumAdapters が 0 でも少なくとも 1 つの IP_ADAPTER_INDEX_MAP が返される
+(内容は未定義)。バッファが小さすぎると ERROR_INSUFFICIENT_BUFFER が返り、必要サイズが dwOutBufLen
+に書き込まれる。正しい使い方は 2 回呼び出す方法で、1 回目は pIfTable に NULL / dwOutBufLen に 0
+を渡し、2 回目で取得サイズのバッファを渡す。GetAdaptersInfo / GetInterfaceInfo
+はループバックインターフェイスの情報を返さない (GetIpAddrTable で取得する)。Windows Vista 以降では
+IP_ADAPTER_INDEX_MAP の Name メンバがネットワークインターフェイス GUID の Unicode 文字列
+('{' で始まる) になる場合がある。
 
 
 %index
 GetInvertedIfStackTable
-Retrieves a table of inverted network interface stack row entries that specify the relationship of the network interfaces on an interface stack.
+インターフェイススタック上のネットワークインターフェイスの関係を示す反転インターフェイススタック行エントリテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Table
-Table : [var] A pointer to a buffer that receives the table of inverted interface stack row entries in a MIB_INVERTEDIFSTACK_TABLE structure.
+Table : [var] 反転インターフェイススタック行エントリのテーブルを受け取る MIB_INVERTEDIFSTACK_TABLE バッファへのポインタ。
 %inst
-Retrieves a table of inverted network interface stack row entries
-that specify the relationship of the network interfaces on an
-interface stack.
+インターフェイススタック上のネットワークインターフェイスの関係を示す反転インターフェイススタック行エントリテーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetInvertedIfStackTable function is defined on Windows Vista and
-later. The GetInvertedIfStackTable function enumerates the physical
-and logical network interfaces on an interface stack on a local
-system and returns this information in an inverted form in the
-MIB_INVERTEDIFSTACK_TABLE structure. Interface stack entries are
-returned in a MIB_INVERTEDIFSTACK_TABLE structure in the buffer
-pointed to by the Table parameter. The MIB_INVERTEDIFSTACK_TABLE
-structure contains an interface stack entry count and an array of
-MIB_INVERTEDIFSTACK_ROW structures for each interface stack entry.
-The relationship between the interfaces in the interface stack is
-that the interface with index in the HigherLayerInterfaceIndex member
-of the MIB_INVERTEDIFSTACK_ROW structure is immediately above the
-interface with index in the LowerLayerInterfaceIndex member of the
-MIB_INVERTEDIFSTACK_ROW structure. Memory is allocated by the
-GetInvertedIfStackTable function for the MIB_INVERTEDIFSTACK_TABLE
-structure and the MIB_INVERTEDIFSTACK_ROW entries in this structure.
-When these returned structures are no longer required, free the
-memory by calling the FreeMibTable. Note that the returned
-MIB_INVERTEDIFSTACK_TABLE structure pointed to by the Table parameter
-may contain padding for alignment between the NumEntries member and
-the first MIB_INVERTEDIFSTACK_ROW array entry in the Table member of
-the MIB_INVERTEDIFSTACK_TABLE structure. Padding for alignment may
-also be present between the MIB_INVERTEDIFSTACK_ROW array entries.
-Any access to a MIB_INVERTEDIFSTACK_ROW array entry should assume
-padding may exist.
+GetInvertedIfStackTable 関数は Windows Vista
+以降で定義される。インターフェイススタックの物理・論理ネットワークインターフェイスを反転形式で
+MIB_INVERTEDIFSTACK_TABLE として返す。MIB_INVERTEDIFSTACK_ROW の
+HigherLayerInterfaceIndex は LowerLayerInterfaceIndex
+のインターフェイスの直上にあるインターフェイスを示す。不要になったら FreeMibTable で解放すること。NumEntries
+と配列要素間にはアライメント用のパディングが含まれる可能性がある。
 
 
 %index
 GetIpAddrTable
-The GetIpAddrTable function retrieves the interface?to?IPv4 address mapping table.
+GetIpAddrTable 関数は、インターフェイスから IPv4 アドレスへのマッピングテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 pIpAddrTable, pdwSize, bOrder
-pIpAddrTable : [var] A pointer to a buffer that receives the interface?to?IPv4 address mapping table as a MIB_IPADDRTABLE structure.
-pdwSize : [var] On input, specifies the size in bytes  of the buffer pointed to by the pIpAddrTable parameter.
-bOrder : [int] If this parameter is TRUE, then the returned mapping table is sorted in ascending order by IPv4 address. The sorting is performed in network byte order. For example, 10.0.0.255 comes immediately before 10.0.1.0.
+pIpAddrTable : [var] インターフェイスから IPv4 アドレスへのマッピングテーブルを MIB_IPADDRTABLE として受け取るバッファへのポインタ。
+pdwSize : [var] 入力時は pIpAddrTable が指すバッファのサイズ (バイト単位)。出力時はバッファが小さすぎる場合に必要サイズが設定される。
+bOrder : [int] TRUE の場合、戻されるマッピングテーブルは IPv4 アドレスで昇順ソートされる。ネットワークバイトオーダーでのソートである (例: 10.0.0.255 は 10.0.1.0 の直前に来る)。
 %inst
-The GetIpAddrTable function retrieves the interface?to?IPv4 address
-mapping table.
+GetIpAddrTable 関数は、インターフェイスから IPv4 アドレスへのマッピングテーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpAddrTable function retrieves the interface?to?IPv4 address
-mapping table on a local computer and returns this information in an
-MIB_IPADDRTABLE structure. The IPv4 addresses returned by the
-GetIpAddrTable function are affected by the status of the network
-interfaces on a local computer. Manually resetting a network
-interface card (NIC) and certain PnP events may result in an IP
-address being removed or changed. On Windows Server 2003 and Windows
-XP, the IPv4 addresses returned by the GetIpAddrTable function are
-also affected if the media sensing capability of the TCP/IP stack on
-a local computer has been disabled by calling the DisableMediaSense
-function. When media sensing has been disabled, the GetIpAddrTable
-function may return IPv4 addresses associated with disconnected
-interfaces. These Ipv4 addresses for disconnected interfaces are not
-valid for use. On Windows Server 2008 and Windows Vista, the IPv4
-addresses returned by the GetIpAddrTable function are not affected by
-the media sensing capability of the TCP/IP stack on a local computer.
-The GetIpAddrTable function returns only valid IPv4 addresses. The
-GetAdaptersAddresses function available on Windows XP can be used to
-retrieve both IPv6 and IPv4 addresses and interface information. The
-MIB_IPADDRTABLE structure returned by the GetIpAddrTable function may
-contain padding for alignment between the dwNumEntries member and the
-first MIB_IPADDRROW array entry in the table member. Padding for
-alignment may also be present between the MIB_IPADDRROW array entries
-in the table member. Any access to a MIB_IPADDRROW array entry should
-assume padding may exist.
-On the Microsoft Windows Software Development Kit (SDK) released for
-Windows Vista and later, the organization of header files has changed
-and the MIB_IPADDRROW is defined in the Ipmib.h header file not in
-the Iprtrmib.h header file. Note that the Ipmib.h header file is
-automatically included in Iprtrmib.h which is automatically included
-in the Iphlpapi.h header file. The Ipmib.h and Iprtrmib.h header
-files should never be used directly.
+GetIpAddrTable 関数はローカルコンピュータのインターフェイスから IPv4 アドレスへのマッピングテーブルを
+MIB_IPADDRTABLE で返す。NIC の手動リセットや特定の PnP イベントでアドレスが変わることがある。Windows
+Server 2003 / XP では DisableMediaSense
+でメディア検出を無効化している場合、切断されたインターフェイスの IPv4 アドレスが返ることがあるが使用不可である。Windows
+Vista / Server 2008 以降ではメディア検出の影響を受けず、有効な IPv4 アドレスのみが返る。Windows XP
+以降で IPv6 / IPv4 両方とインターフェイス情報を取得するには GetAdaptersAddresses
+を使う。アクセス時はアライメント用のパディングを想定すること。Windows Vista 以降では MIB_IPADDRROW は
+Ipmib.h で定義される (Iprtrmib.h から自動インクルード、直接使用禁止)。
 
 
 %index
 GetIpErrorString
-The GetIpErrorString function retrieves an IP Helper error string.
+GetIpErrorString 関数は、IP Helper のエラー文字列を取得する。
 %group
 Win32 iphlpapi
 %prm
 ErrorCode, Buffer, Size
-ErrorCode : [int] The error code to be retrieved. The possible values for this parameter are defined in the Ipexport.h header file.
-Buffer : [wstr] A pointer to the buffer that contains the error code string if the function returns with NO_ERROR.
-Size : [var] A pointer to a DWORD that specifies the length, in characters, of the buffer pointed to by Buffer parameter, excluding the terminating null (i.e. the size of Buffer in characters, minus one).
+ErrorCode : [int] 取得するエラーコード。指定可能な値は Ipexport.h で定義される。
+Buffer : [wstr] 関数が NO_ERROR で戻った場合にエラーコード文字列を格納するバッファへのポインタ。
+Size : [var] Buffer が指すバッファの長さ (文字数、終端 NULL を除く。すなわちバッファ文字数 - 1) を示す DWORD へのポインタ。
 %inst
-The GetIpErrorString function retrieves an IP Helper error string.
+GetIpErrorString 関数は、IP Helper のエラー文字列を取得する。
 
 [戻り値]
-Returns NO_ERROR upon success. If the function fails, use
-FormatMessage to obtain the message string for the returned error.
+成功時は NO_ERROR を返す。失敗した場合は FormatMessage を使って戻り値のエラーメッセージ文字列を取得せよ。
 
 [備考]
-The GetIpErrorString function can be used to retrieve an IP Helper
-error string for an IP error code. The IP_STATUS error code passed in
-the ErrorCode parameter is returned in the Status member of the
-ICMP_ECHO_REPLY, ICMP_ECHO_REPLY32, and ICMPV6_ECHO_REPLY structures
-used by the ICMP and ICMPv6 functions. The functions that use these
-structures include Icmp6ParseReplies, Icmp6SendEcho2,
-IcmpParseReplies, IcmpSendEcho, IcmpSendEcho2, and IcmpSendEcho2Ex.
-The syntax for the GetIpErrorString function was slightly changed on
-the Microsoft Windows Software Development Kit (SDK) released for
-Windows Vista and later. The data type for the Buffer parameter was
-changed from PWCHAR to PWSTR.
+GetIpErrorString 関数は IP エラーコードに対する IP Helper
+のエラー文字列を取得するのに使う。ErrorCode に渡す IP_STATUS エラーコードは ICMP_ECHO_REPLY /
+ICMP_ECHO_REPLY32 / ICMPV6_ECHO_REPLY 構造体の Status
+メンバとして返されるもので、Icmp6ParseReplies、Icmp6SendEcho2、IcmpParseReplies、IcmpSendEcho、IcmpSendEcho2、IcmpSendEcho2Ex
+などで使われる。Windows Vista 以降の Windows SDK では Buffer のデータ型が PWCHAR から
+PWSTR に変更された。
 
 
 %index
 GetIpForwardEntry2
-Retrieves information for an IP route entry on the local computer.
+ローカルコンピュータ上の IP 経路エントリの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPFORWARD_ROW2 structure entry for an IP route entry. On successful return, this structure will be updated with the properties for the IP route entry.
+Row : [var] IP 経路エントリを表す MIB_IPFORWARD_ROW2 へのポインタ。成功時、IP 経路エントリのプロパティで更新される。
 %inst
-Retrieves information for an IP route entry on the local computer.
+ローカルコンピュータ上の IP 経路エントリの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpForwardEntry2 function is defined on Windows Vista and
-later. The GetIpForwardEntry2 function is used to retrieve a
-MIB_IPFORWARD_ROW2 structure entry. On input, the DestinationPrefix
-member in the MIB_IPFORWARD_ROW2 structure pointed to by the Row
-parameter must be initialized to a valid IPv4 or IPv6 address prefix
-and family. On input, the NextHop member in the MIB_IPFORWARD_ROW2
-structure pointed to by the Row parameter must be initialized to a
-valid IPv4 or IPv6 address and family. In addition, at least one of
-the following members in the MIB_IPFORWARD_ROW2 structure pointed to
-the Row parameter must be initialized: the InterfaceLuid or
-InterfaceIndex. The fields are used in the order listed above. So if
-the InterfaceLuid is specified, then this member is used to determine
-the interface. If no value was set for the InterfaceLuid member (the
-values of this member was set to zero), then the InterfaceIndex
-member is next used to determine the interface. On output when the
-call is successful, GetIpForwardEntry2 retrieves the other properties
-for the IP route entry and fills out the MIB_IPFORWARD_ROW2 structure
-pointed to by the Row parameter. The route metric offset specified in
-the Metric member of the MIB_IPFORWARD_ROW2 structure pointed to by
-Row parameter represents only part of the complete route metric. The
-complete metric is a combination of this route metric added to the
-interface metric specified in the Metric member of the
-MIB_IPINTERFACE_ROW structure of the associated interface. An
-application can retrieve the interface metric by calling the
-GetIpInterfaceEntry function. The GetIpForwardTable2 function can be
-called to enumerate the IP route entries on a local computer.
+GetIpForwardEntry2 関数は Windows Vista 以降で定義される。MIB_IPFORWARD_ROW2
+エントリを取得する。DestinationPrefix は有効な IPv4 / IPv6 アドレスプレフィックスとファミリ、NextHop
+は有効なアドレスとファミリで初期化し、InterfaceLuid または InterfaceIndex のいずれかも初期化する
+(InterfaceLuid 優先)。成功時、その他のプロパティが埋められる。Metric
+は完全メトリックの一部であり、関連インターフェイスの MIB_IPINTERFACE_ROW の Metric
+と合算される。インターフェイスメトリックは GetIpInterfaceEntry で取得できる。GetIpForwardTable2
+で経路エントリを列挙できる。
 
 
 %index
 GetIpForwardTable
-The GetIpForwardTable function retrieves the IPv4 routing table.
+GetIpForwardTable 関数は、IPv4 ルーティングテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 pIpForwardTable, pdwSize, bOrder
-pIpForwardTable : [var] A pointer to a buffer that receives the IPv4 routing table as a MIB_IPFORWARDTABLE structure.
-pdwSize : [var] On input, specifies the size in bytes  of the buffer pointed to by the pIpForwardTable parameter.
-bOrder : [int] A Boolean value that specifies whether the returned table should be sorted. If this parameter is TRUE, the table is sorted in the order of:
+pIpForwardTable : [var] IPv4 ルーティングテーブルを MIB_IPFORWARDTABLE として受け取るバッファへのポインタ。
+pdwSize : [var] 入力時は pIpForwardTable が指すバッファのサイズ (バイト単位)。出力時はバッファが小さすぎる場合に必要サイズが設定される。
+bOrder : [int] 戻されるテーブルをソートするかを示すブール値。TRUE ならテーブルは次の順序でソートされる:
 %inst
-The GetIpForwardTable function retrieves the IPv4 routing table.
+GetIpForwardTable 関数は、IPv4 ルーティングテーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR (zero). If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると NO_ERROR (0) を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The dwForwardProto member of the MIB_IPFORWARDROW structure specifies
-the protocol or routing mechanism that generated the route. See
-Protocol Identifiers for a list of possible protocols and routing
-mechanisms. The dwForwardDest, dwForwardMask, and dwForwardNextHop
-members of the MIB_IPFORWARDROW structure represent an IPv4 address
-in network byte order. An IPv4 address of 0.0.0.0 in the
-dwForwardDest member of the MIB_IPFORWARDROW structure is considered
-a default route. The MIB_IPFORWARDTABLE may contain multiple
-MIB_IPFORWARDROW entries with the dwForwardDest member set to 0.0.0.0
-when there are multiple network adapters installed. When dwForwardAge
-is set to INFINITE, the route will not be removed based on a timeout
-value. Any other value for dwForwardAge specifies the number of
-seconds since the route was added or modified in the network routing
-table.
-On Windows Server 2003 or Windows 2000 Server when the Routing and
-Remote Access Service (RRAS) is running, the MIB_IPFORWARDROW entries
-returned have the dwForwardType and dwForwardAge members set to zero.
-On Windows Vista and Windows Server 2008, the route metric specified
-in the dwForwardMetric1 member of the MIB_IPFORWARDROW structure
-represents a combination of the route metric added to the interface
-metric specified in the Metric member of the MIB_IPINTERFACE_ROW
-structure of the associated interface. So the dwForwardMetric1 member
-of the MIB_IPFORWARDROW structure should be equal to or greater than
-Metric member of the associated MIB_IPINTERFACE_ROW structure. If an
-application would like to set the route metric to 0 on Windows Vista
-and Windows Server 2008, then the dwForwardMetric1 member of the
-MIB_IPFORWARDROW structure should be set equal to the value of the
-interface metric specified in the Metric member of the associated
-MIB_IPINTERFACE_ROW structure. An application can retrieve the
-interface metric by calling the GetIpInterfaceEntry function. A
-number of members of the MIB_IPFORWARDROW structure entries returned
-by GetIpForwardTable are not currently used by IPv4 routing. These
-members include dwForwardPolicy, dwForwardNextHopAS,
-dwForwardMetric2, dwForwardMetric3, dwForwardMetric4, and
-dwForwardMetric5.
+MIB_IPFORWARDROW の dwForwardProto は、経路を生成したプロトコルやルーティング機構を示す。詳細は
+Protocol Identifiers を参照。dwForwardDest / dwForwardMask /
+dwForwardNextHop はネットワークバイトオーダーの IPv4 アドレスを表す。dwForwardDest が 0.0.0.0
+の場合は既定経路となる。複数のネットワークアダプタがインストールされている場合、MIB_IPFORWARDTABLE には
+dwForwardDest = 0.0.0.0 のエントリが複数含まれうる。dwForwardAge が INFINITE
+の場合、タイムアウトで削除されない。それ以外の値はテーブルへの追加・変更からの秒数を示す。Windows Server 2003 /
+Windows 2000 Server で RRAS が動作している場合、返される MIB_IPFORWARDROW の
+dwForwardType と dwForwardAge は 0 になる。Windows Vista / Server 2008 では
+dwForwardMetric1 は経路メトリックとインターフェイスメトリックの合算であり、関連する
+MIB_IPINTERFACE_ROW の Metric
+以上でなければならない。dwForwardPolicy、dwForwardNextHopAS、dwForwardMetric2～5 は現在
+IPv4 ルーティングで使用されない。
 
 
 %index
 GetIpForwardTable2
-The GetIpForwardTable2 function retrieves the IP route entries on the local computer.
+GetIpForwardTable2 関数は、ローカルコンピュータの IP 経路エントリを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table
-Family : [int] The address family to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a MIB_IPFORWARD_TABLE2 structure that contains a table of IP route entries on the local computer.
+Family : [int] 取得するアドレスファミリ。指定可能な値は Winsock2.h ヘッダファイルに列挙されている。AF_ アドレスファミリ定数と PF_ プロトコルファミリ定数は同じ値 (例: AF_INET と PF_INET) なのでどちらを使ってもよい。Windows Vista 以降向けの Windows SDK ではヘッダファイルの構成が変更され、この値は Ws2def.h ヘッダで定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるため直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] ローカルコンピュータ上の IP 経路エントリテーブルを格納する MIB_IPFORWARD_TABLE2 へのポインタ。
 %inst
-The GetIpForwardTable2 function retrieves the IP route entries on the
-local computer.
+GetIpForwardTable2 関数は、ローカルコンピュータの IP 経路エントリを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpForwardTable2 function is defined on Windows Vista and
-later. The GetIpForwardTable2 function enumerates the IP route
-entries on a local system and returns this information in a
-MIB_IPFORWARD_TABLE2 structure. The IP route entries are returned in
-a MIB_IPFORWARD_TABLE2 structure in the buffer pointed to by the
-Table parameter. The MIB_IPFORWARD_TABLE2 structure contains an IP
-route entry count and an array of MIB_IPFORWARD_ROW2 structures for
-each IP route entry. When these returned structures are no longer
-required, free the memory by calling the FreeMibTable. The Family
-parameter must be initialized to either AF_INET, AF_INET6, or
-AF_UNSPEC. Note that the returned MIB_IPFORWARD_TABLE2 structure
-pointed to by the Table parameter may contain padding for alignment
-between the NumEntries member and the first MIB_IPFORWARD_ROW2 array
-entry in the Table member of the MIB_IPFORWARD_TABLE2 structure.
-Padding for alignment may also be present between the
-MIB_IPFORWARD_ROW2 array entries. Any access to a MIB_IPFORWARD_ROW2
-array entry should assume padding may exist.
+GetIpForwardTable2 関数は Windows Vista 以降で定義される。ローカルシステム上の IP
+経路エントリを列挙し MIB_IPFORWARD_TABLE2 で返す。Table にはエントリ数と MIB_IPFORWARD_ROW2
+配列が格納される。不要になったら FreeMibTable で解放すること。Family は AF_INET / AF_INET6 /
+AF_UNSPEC のいずれか。アクセス時はアライメント用のパディングを想定すること。
 
 
 %index
 GetIpInterfaceEntry
-Retrieves IP information for the specified interface on the local computer.
+ローカルコンピュータ上の指定インターフェイスの IP 情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPINTERFACE_ROW structure that, on successful return, receives information for an interface on the local computer. On input, the InterfaceLuid or InterfaceIndex member of the MIB_IPINTERFACE_ROW must be set to the interface for which to retrieve information.
+Row : [var] 成功時にローカルコンピュータのインターフェイス情報を受け取る MIB_IPINTERFACE_ROW へのポインタ。入力時に InterfaceLuid または InterfaceIndex を設定する必要がある。
 %inst
-Retrieves IP information for the specified interface on the local
-computer.
+ローカルコンピュータ上の指定インターフェイスの IP 情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpInterfaceEntry function is defined on Windows Vista and
-later. On input, the Family member in the MIB_IPINTERFACE_ROW
-structure pointed to by the Row parameter must be initialized to
-either AF_INET or AF_INET6. In addition on input, at least one of the
-following members in the MIB_IPINTERFACE_ROW structure pointed to the
-Row parameter must be initialized: the InterfaceLuid or
-InterfaceIndex. The fields are used in the order listed above. So if
-the InterfaceLuid is specified, then this member is used to determine
-the interface. If no value was set for the InterfaceLuid member (the
-values of this member was set to zero), then the InterfaceIndex
-member is next used to determine the interface. On output, the
-InterfaceLuid member of the MIB_IPINTERFACE_ROW structure pointed to
-by the Row parameter is filled in if the InterfaceIndex was
-specified. The other members of MIB_IPINTERFACE_ROW structure pointed
-to by the Row parameter are also filled in. The
-InitializeIpInterfaceEntry function must be used to initialize the
-fields of a MIB_IPINTERFACE_ROW structure entry with default values.
-An application can then change the fields in the MIB_IPINTERFACE_ROW
-entry it wishes to modify, and then call the SetIpInterfaceEntry
-function. Unprivileged simultaneous access to multiple networks of
-different security requirements creates a security hole and allows an
-unprivileged application to accidentally relay data between the two
-networks. A typical example is simultaneous access to a virtual
-private network (VPN) and the Internet. Windows Server 2003 and
-Windows XP use a weak host model, where RAS prevents such
-simultaneous access by increasing the route metric of all default
-routes over other interfaces. Thus all traffic is routed through the
-VPN interface, disrupting other network connectivity. On Windows
-Vista and later, a strong host model is used by default. If a source
-IP address is specified in the route lookup using GetBestRoute2 or
-GetBestRoute, the route lookup is restricted to the interface of the
-source IP address. The route metric modification by RAS has no effect
-as the list of potential routes does not even have the route for the
-VPN interface thereby allowing traffic to the Internet. The
-DisableDefaultRoutes member of the MIB_IPINTERFACE_ROW can be used to
-disable using the default route on an interface. This member can be
-used as a security measure by VPN clients to restrict split tunneling
-when split tunneling is not required by the VPN client. A VPN client
-can call the SetIpInterfaceEntry function to set the
-DisableDefaultRoutes member to TRUE when required. A VPN client can
-query the current state of the DisableDefaultRoutes member by calling
-the GetIpInterfaceEntry function.
+GetIpInterfaceEntry 関数は Windows Vista 以降で定義される。Family は AF_INET または
+AF_INET6 で初期化する必要がある。さらに InterfaceLuid または InterfaceIndex のいずれかを初期化する
+(InterfaceLuid 優先)。出力時に残りのメンバが埋められる。MIB_IPINTERFACE_ROW の既定値初期化には
+InitializeIpInterfaceEntry を使う。変更後 SetIpInterfaceEntry
+を呼ぶ。セキュリティ要件の異なる複数ネットワークへの同時アクセスはセキュリティホールとなるため、Windows Server 2003 /
+XP では弱いホストモデルを採用し RAS が他インターフェイスの既定経路メトリックを上げることでこれを防いでいた (結果として VPN
+越しにルーティングされる)。Windows Vista 以降では既定で強いホストモデルが採用される。送信元 IP が
+GetBestRoute2 / GetBestRoute
+の経路検索で指定されると、検索はその送信元インターフェイスに限定される。DisableDefaultRoutes メンバを TRUE
+に設定すれば既定経路を無効化でき、VPN クライアントが必要に応じてスプリットトンネリングを禁止するのに使える。
 
 
 %index
 GetIpInterfaceTable
-Retrieves the IP interface entries on the local computer.
+ローカルコンピュータ上の IP インターフェイスエントリを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table
-Family : [int] The address family of IP interfaces to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On Windows?Vista and later as well as on the Windows SDK, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a buffer that receives the table of IP interface entries in a MIB_IPINTERFACE_TABLE structure.
+Family : [int] 取得する IP インターフェイスのアドレスファミリ。指定可能な値は Winsock2.h に列挙されている。AF_ と PF_ は同じ値。Windows Vista 以降ではこの値は Ws2def.h で定義される (Winsock2.h から自動インクルード)。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] IP インターフェイスエントリのテーブルを受け取る MIB_IPINTERFACE_TABLE バッファへのポインタ。
 %inst
-Retrieves the IP interface entries on the local computer.
+ローカルコンピュータ上の IP インターフェイスエントリを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpInterfaceTable function is defined on Windows Vista and
-later. The GetIpInterfaceTable function enumerates the IP interfaces
-on a local system and returns this information in an
-MIB_IPINTERFACE_TABLE structure. IP interface entries are returned in
-a MIB_IPINTERFACE_TABLE structure in the buffer pointed to by the
-Table parameter. The MIB_IPINTERFACE_TABLE structure contains an IP
-interface entry count and an array of MIB_IPINTERFACE_ROW structures
-for each IP interface entry. When these returned structures are no
-longer required, free the memory by calling the FreeMibTable. The
-Family parameter must be initialized to either AF_INET or AF_INET6.
-Note that the returned MIB_IPINTERFACE_TABLE structure pointed to by
-the Table parameter may contain padding for alignment between the
-NumEntries member and the first MIB_IPINTERFACE_ROW array entry in
-the Table member of the MIB_IPINTERFACE_TABLE structure. Padding for
-alignment may also be present between the MIB_IPINTERFACE_ROW array
-entries. Any access to a MIB_IPINTERFACE_ROW array entry should
-assume padding may exist.
+GetIpInterfaceTable 関数は Windows Vista 以降で定義される。ローカルシステム上の IP
+インターフェイスを列挙し MIB_IPINTERFACE_TABLE で返す。Table にはエントリ数と
+MIB_IPINTERFACE_ROW 配列が格納される。不要になったら FreeMibTable で解放すること。Family は
+AF_INET または AF_INET6 で初期化する必要がある。アクセス時はアライメント用のパディングを想定すること。
 
 
 %index
 GetIpNetEntry2
-Retrieves information for a neighbor IP address entry on the local computer.
+ローカルコンピュータ上の近隣 IP アドレスエントリの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPNET_ROW2 structure entry for a neighbor IP address entry. On successful return, this structure will be updated with the properties for neighbor IP address.
+Row : [var] 近隣 IP アドレスエントリを表す MIB_IPNET_ROW2 へのポインタ。成功時、近隣 IP アドレスのプロパティで更新される。
 %inst
-Retrieves information for a neighbor IP address entry on the local
-computer.
+ローカルコンピュータ上の近隣 IP アドレスエントリの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpNetEntry2 function is defined on Windows Vista and later.
-The GetIpNetEntry2 function is used to retrieve a MIB_IPNET_ROW2
-structure entry. On input, the Address member in the MIB_IPNET_ROW2
-structure pointed to by the Row parameter must be initialized to a
-valid neighbor IPv4 or IPv6 address and family. In addition, at least
-one of the following members in the MIB_IPNET_ROW2 structure pointed
-to the Row parameter must be initialized: the InterfaceLuid or
-InterfaceIndex. The fields are used in the order listed above. So if
-the InterfaceLuid is specified, then this member is used to determine
-the interface. If no value was set for the InterfaceLuid member (the
-values of this member was set to zero), then the InterfaceIndex
-member is next used to determine the interface. On output when the
-call is successful, GetIpNetEntry2 retrieves the other properties for
-the neighbor IP address and fills out the MIB_IPNET_ROW2 structure
-pointed to by the Row parameter. The GetIpNetTable2 function can be
-called to enumerate the neighbor IP address entries on a local
-computer.
+GetIpNetEntry2 関数は Windows Vista 以降で定義される。MIB_IPNET_ROW2
+エントリを取得する。Address メンバは有効な近隣 IPv4 / IPv6 アドレスとファミリで初期化し、InterfaceLuid
+または InterfaceIndex のいずれかも初期化する (InterfaceLuid
+優先)。成功時、その他のプロパティが埋められる。GetIpNetTable2 で近隣 IP アドレスを列挙できる。
 
 
 %index
 GetIpNetTable
-The GetIpNetTable function retrieves the IPv4 to physical address mapping table.
+GetIpNetTable 関数は、IPv4 から物理アドレスへのマッピングテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 IpNetTable, SizePointer, Order
-IpNetTable : [var] A pointer to a buffer that receives the IPv4 to physical address mapping table as a MIB_IPNETTABLE structure.
-SizePointer : [var] On input, specifies the size in bytes of the buffer pointed to by the pIpNetTable parameter. On output, if the buffer is not large enough to hold the returned mapping table, the function sets this parameter equal to the required buffer size in bytes.
-Order : [int] A Boolean value that specifies whether the returned mapping table should be sorted in ascending order by IP address. If this parameter is TRUE, the table is sorted.
+IpNetTable : [var] IPv4 から物理アドレスへのマッピングテーブルを MIB_IPNETTABLE として受け取るバッファへのポインタ。
+SizePointer : [var] 入力時は pIpNetTable が指すバッファのサイズ (バイト単位)。出力時はバッファが小さすぎる場合に必要サイズが設定される。
+Order : [int] マッピングテーブルを IP アドレスで昇順ソートするかを示すブール値。TRUE ならソートされる。
 %inst
-The GetIpNetTable function retrieves the IPv4 to physical address
-mapping table.
+GetIpNetTable 関数は、IPv4 から物理アドレスへのマッピングテーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR or
-ERROR_NO_DATA. If the function fails or does not return any data, the
-return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR または ERROR_NO_DATA
+となる。失敗したりデータが無い場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpNetTable function enumerates the Address Resolution Protocol
-(ARP) entries for IPv4 on a local system from the IPv4 to physical
-address mapping table and returns this information in a
-MIB_IPNETTABLE structure. The IPv4 address entries are returned in a
-MIB_IPNETTABLE structure in the buffer pointed to by the pIpNetTable
-parameter. The MIB_IPNETTABLE structure contains a count of ARP
-entries and an array of MIB_IPNETROW structures for each IPv4 address
-entry. Note that the returned MIB_IPNETTABLE structure pointed to by
-the pIpNetTable parameter may contain padding for alignment between
-the dwNumEntries member and the first MIB_IPNETROW array entry in the
-table member of the MIB_IPNETTABLE structure. Padding for alignment
-may also be present between the MIB_IPNETROW array entries. Any
-access to a MIB_IPNETROW array entry should assume padding may exist.
-on Windows Vista and later, the GetIpNetTable2 function can be used
-to retrieve the neighbor IP addresses for both IPv6 and IPv4.
+GetIpNetTable 関数はローカルシステムの IPv4 用 ARP エントリを IPv4
+から物理アドレスへのマッピングテーブルから列挙し MIB_IPNETTABLE で返す。ARP エントリ数と MIB_IPNETROW
+配列が格納される。アクセス時はアライメント用のパディングを想定すること。Windows Vista 以降では GetIpNetTable2
+で IPv6 / IPv4 両方の近隣 IP アドレスを取得できる。
 
 
 %index
 GetIpNetTable2
-The GetIpNetTable2 function retrieves the IP neighbor table on the local computer.
+GetIpNetTable2 関数は、ローカルコンピュータの IP 近隣テーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table
-Family : [int] The address family to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a MIB_IPNET_TABLE2 structure that contains a table of neighbor IP address entries on the local computer.
+Family : [int] 取得するアドレスファミリ。指定可能な値は Winsock2.h ヘッダファイルに列挙されている。AF_ アドレスファミリ定数と PF_ プロトコルファミリ定数は同じ値 (例: AF_INET と PF_INET) なのでどちらを使ってもよい。Windows Vista 以降向けの Windows SDK ではヘッダファイルの構成が変更され、この値は Ws2def.h ヘッダで定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるため直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] ローカルコンピュータ上の近隣 IP アドレスエントリテーブルを格納する MIB_IPNET_TABLE2 へのポインタ。
 %inst
-The GetIpNetTable2 function retrieves the IP neighbor table on the
-local computer.
+GetIpNetTable2 関数は、ローカルコンピュータの IP 近隣テーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR or
-ERROR_NOT_FOUND. If the function fails or returns no data, the return
-value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR または ERROR_NOT_FOUND
+となる。失敗したりデータが無い場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpNetTable2 function is defined on Windows Vista and later.
-The GetIpNetTable2 function enumerates the neighbor IP addresses on a
-local system and returns this information in a MIB_IPNET_TABLE2
-structure. The neighbor IP address entries are returned in a
-MIB_IPNET_TABLE2 structure in the buffer pointed to by the Table
-parameter. The MIB_IPNET_TABLE2 structure contains a neighbor IP
-address entry count and an array of MIB_IPNET_ROW2 structures for
-each neighbor IP address entry. When these returned structures are no
-longer required, free the memory by calling the FreeMibTable. The
-Family parameter must be initialized to either AF_INET, AF_INET6, or
-AF_UNSPEC. Note that the returned MIB_IPNET_TABLE2 structure pointed
-to by the Table parameter may contain padding for alignment between
-the NumEntries member and the first MIB_IPNET_ROW2 array entry in the
-Table member of the MIB_IPNET_TABLE2 structure. Padding for alignment
-may also be present between the MIB_IPNET_ROW2 array entries. Any
-access to a MIB_IPNET_ROW2 array entry should assume padding may
-exist.
+GetIpNetTable2 関数は Windows Vista 以降で定義される。ローカルシステム上の近隣 IP アドレスを列挙し
+MIB_IPNET_TABLE2 で返す。Table にはエントリ数と MIB_IPNET_ROW2 配列が格納される。不要になったら
+FreeMibTable で解放すること。Family は AF_INET / AF_INET6 / AF_UNSPEC
+のいずれか。アクセス時はアライメント用のパディングを想定すること。
 
 
 %index
 GetIpNetworkConnectionBandwidthEstimates
-Retrieves historical bandwidth estimates for a network connection on the specified interface.
+指定インターフェイスのネットワーク接続について帯域幅の履歴推定値を取得する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceIndex, AddressFamily, BandwidthEstimates
-InterfaceIndex : [int] The local index value for the network interface. This index value may change when a network adapter is disabled and then enabled, or under other circumstances, and should not be considered persistent.
-AddressFamily : [int] The address family. Possible values for the address family are listed in the Ws2def.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET or AF_INET6, which are the Internet address family formats for IPv4 and IPv6.
-BandwidthEstimates : [var] A pointer to a buffer that returns the historical bandwidth estimates maintained for the point of attachment to which the interface is currently connected.
+InterfaceIndex : [int] ネットワークインターフェイスのローカルインデックス値。無効化・再有効化時などに変わることがあるため永続値として扱ってはならない。
+AddressFamily : [int] アドレスファミリ。指定可能な値は Ws2def.h に列挙されている。AF_ と PF_ は同じ値。Ws2def.h は Winsock2.h から自動インクルードされるため直接使用してはならない。現在サポートされる値は IPv4 / IPv6 のインターネットアドレスファミリである AF_INET または AF_INET6。
+BandwidthEstimates : [var] インターフェイスが現在接続している接続点について維持されている帯域幅の履歴推定値を受け取るバッファへのポインタ。
 %inst
-Retrieves historical bandwidth estimates for a network connection on
-the specified interface.
+指定インターフェイスのネットワーク接続について帯域幅の履歴推定値を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpNetworkConnectionBandwidthEstimates function is defined on
-Windows 8 and later. On input, the AddressFamily parameter must be
-initialized to either AF_INET or AF_INET6. In addition on input, the
-InterfaceIndex parameter must be initialized with the specified
-interface index. A value must be set for the InterfaceIndex parameter
-(the value of this parameter must not be set to zero). On output, the
-MIB_IP_NETWORK_CONNECTION_BANDWIDTH_ESTIMATES structure pointed to by
-the BandwidthEstimates parameter is filled in if the AddressFamily
-and InterfaceIndex parameters were specified. The
-GetIpNetworkConnectionBandwidthEstimates function returns historical
-estimates of available bandwidth at the point of attachment (the
-first hop) for use by an application. The estimates are intended as a
-guide to tune performance parameters and the application should
-maintain thresholds and differentiate behavior for low and high
-bandwidth situations. It is possible that the true available
-bandwidth changes over time as more bandwidth is consumed by devices
-competing on the same network. So applications should be prepared to
-handle cases where the available bandwidth drops below historical
-limits reported by the GetIpNetworkConnectionBandwidthEstimates
-function. It is possible that the TCP/IP stack has not built up any
-estimates for the given interface, in a particular or both
-directions. In this case the estimate returned will be zero. The
-application should be prepared to handle such cases by picking
-reasonable defaults and fine tuning if required. The Netioapi.h
-header file is automatically included by the Iphlpapi.h header file.
-The Netioapi.h header file should never be used directly.
+GetIpNetworkConnectionBandwidthEstimates 関数は Windows 8
+以降で定義される。AddressFamily は AF_INET または AF_INET6、InterfaceIndex
+は有効な値で初期化する必要がある (0
+不可)。成功時、MIB_IP_NETWORK_CONNECTION_BANDWIDTH_ESTIMATES
+構造体が埋められる。本関数は最初のホップでの利用可能帯域幅の履歴推定値を返し、アプリのパフォーマンスチューニングに利用する。実際の帯域幅は時間とともに変化しうるため、履歴値を下回る場合に対応できる実装にすること。TCP/IP
+スタックが未集計の場合、推定値として 0 が返ることもあり、その場合は適切な既定値を使う。Netioapi.h は Iphlpapi.h
+から自動インクルードされるため直接使用してはならない。
 
 
 %index
 GetIpPathEntry
-Retrieves information for a IP path entry on the local computer.
+ローカルコンピュータ上の IP パスエントリの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPPATH_ROW structure entry for a IP path entry. On successful return, this structure will be updated with the properties for IP path entry.
+Row : [var] IP パスエントリを表す MIB_IPPATH_ROW へのポインタ。成功時、IP パスエントリのプロパティで更新される。
 %inst
-Retrieves information for a IP path entry on the local computer.
+ローカルコンピュータ上の IP パスエントリの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpPathEntry function is defined on Windows Vista and later.
-The GetIpPathEntry function is used to retrieve a MIB_IPPATH_ROW
-structure entry. On input, the Destination member in the
-MIB_IPPATH_ROW structure pointed to by the Row parameter must be
-initialized to a valid IPv4 or IPv6 address and family. The address
-family specified in Source member in the MIB_IPPATH_ROW structure
-must also either match the destination IP address family specified in
-the Destination member or the address family in the Source member
-must be specified as AF_UNSPEC. In addition , at least one of the
-following members in the MIB_IPPATH_ROW structure pointed to the Row
-parameter must be initialized: the InterfaceLuid or InterfaceIndex.
-The fields are used in the order listed above. So if the
-InterfaceLuid is specified, then this member is used to determine the
-interface. If no value is set for the InterfaceLuid member (the
-values of this member is set to zero), then the InterfaceIndex member
-is next used to determine the interface. On output when the call is
-successful, GetIpPathEntry retrieves the other properties for the IP
-path entry and fills out the MIB_IPPATH_ROW structure pointed to by
-the Row parameter. The GetIpPathTable function can be called to
-enumerate the IP path entries on a local computer.
+GetIpPathEntry 関数は Windows Vista 以降で定義される。MIB_IPPATH_ROW
+エントリを取得する。Destination は有効な IPv4 / IPv6 アドレスとファミリで初期化する。Source
+のアドレスファミリは Destination と一致するか AF_UNSPEC を指定する。InterfaceLuid または
+InterfaceIndex のいずれかも初期化する (InterfaceLuid
+優先)。成功時、その他のプロパティが埋められる。GetIpPathTable で IP パスを列挙できる。
 
 
 %index
 GetIpPathTable
-The GetIpPathTable function retrieves the IP path table on the local computer.
+GetIpPathTable 関数は、ローカルコンピュータの IP パステーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table
-Family : [int] The address family to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a MIB_IPPATH_TABLE structure that contains a table of IP path entries on the local computer.
+Family : [int] 取得するアドレスファミリ。指定可能な値は Winsock2.h ヘッダファイルに列挙されている。AF_ アドレスファミリ定数と PF_ プロトコルファミリ定数は同じ値 (例: AF_INET と PF_INET) なのでどちらを使ってもよい。Windows Vista 以降向けの Windows SDK ではヘッダファイルの構成が変更され、この値は Ws2def.h ヘッダで定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるため直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] ローカルコンピュータ上の IP パスエントリテーブルを格納する MIB_IPPATH_TABLE へのポインタ。
 %inst
-The GetIpPathTable function retrieves the IP path table on the local
-computer.
+GetIpPathTable 関数は、ローカルコンピュータの IP パステーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpPathTable function is defined on Windows Vista and later.
-The GetIpPathTable function enumerates the IP path entries on a local
-system and returns this information in a MIB_IPPATH_TABLE structure.
-The IP path entries are returned in a MIB_IPPATH_TABLE structure in
-the buffer pointed to by the Table parameter. The MIB_IPPATH_TABLE
-structure contains an IP path entry count and an array of
-MIB_IPPATH_ROW structures for each IP path entry. When these returned
-structures are no longer required, free the memory by calling the
-FreeMibTable. The Family parameter must be initialized to either
-AF_INET, AF_INET6, or AF_UNSPEC. Note that the returned
-MIB_IPPATH_TABLE structure pointed to by the Table parameter may
-contain padding for alignment between the NumEntries member and the
-first MIB_IPPATH_ROW array entry in the Table member of the
-MIB_IPPATH_TABLE structure. Padding for alignment may also be present
-between the MIB_IPPATH_ROW array entries. Any access to a
-MIB_IPPATH_ROW array entry should assume padding may exist.
+GetIpPathTable 関数は Windows Vista 以降で定義される。ローカルシステム上の IP パスエントリを列挙し
+MIB_IPPATH_TABLE で返す。Table にはエントリ数と MIB_IPPATH_ROW 配列が格納される。不要になったら
+FreeMibTable で解放すること。Family は AF_INET / AF_INET6 / AF_UNSPEC
+のいずれか。アクセス時はアライメント用のパディングを想定すること。
 
 
 %index
 GetIpStatistics
-The GetIpStatistics function retrieves the IP statistics for the current computer.
+GetIpStatistics 関数は、現在のコンピュータの IP 統計情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics
-Statistics : [var] A pointer to a MIB_IPSTATS structure that receives the IP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの IP 統計情報を受け取る MIB_IPSTATS 構造体へのポインタ。
 %inst
-The GetIpStatistics function retrieves the IP statistics for the
-current computer.
+GetIpStatistics 関数は、現在のコンピュータの IP 統計情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpStatistics function returns the statistics for IPv4 on the
-current computer. On Windows XP and later, the GetIpStatisticsEx can
-be used to obtain the IP statistics for either IPv4 or IPv6.
+GetIpStatistics 関数は現在のコンピュータの IPv4 統計情報を返す。Windows XP 以降では
+GetIpStatisticsEx で IPv4 / IPv6 両方の IP 統計を取得できる。
 
 
 %index
 GetIpStatisticsEx
-The GetIpStatisticsEx function retrieves the Internet Protocol (IP) statistics for the current computer.
+GetIpStatisticsEx 関数は、現在のコンピュータの IP (Internet Protocol) 統計情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics, Family
-Statistics : [var] A pointer to a MIB_IPSTATS structure that receives the IP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの IP 統計情報を受け取る MIB_IPSTATS 構造体へのポインタ。
 Family : [int] 
 %inst
-The GetIpStatisticsEx function retrieves the Internet Protocol (IP)
-statistics for the current computer.
+GetIpStatisticsEx 関数は、現在のコンピュータの IP (Internet Protocol) 統計情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetIpStatisticsEx can be used to obtain the IP statistics for
-either IPv4 or IPv6 on the local computer. The GetIpStatistics
-function returns the statistics for only IPv4 on the local computer.
+GetIpStatisticsEx は IPv4 / IPv6 両方の IP 統計情報を取得できる。GetIpStatistics は
+IPv4 のみ。
 
 
 %index
@@ -3569,197 +2266,147 @@ JobHandle : [intptr]
 
 %index
 GetMulticastIpAddressEntry
-Retrieves information for an existing multicast IP address entry on the local computer.
+ローカルコンピュータ上の既存マルチキャスト IP アドレスエントリの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_MULTICASTIPADDRESS_ROW structure entry for a multicast IP address entry. On successful return, this structure will be updated with the properties for an existing multicast IP address.
+Row : [var] マルチキャスト IP アドレスエントリを表す MIB_MULTICASTIPADDRESS_ROW へのポインタ。成功時、既存のマルチキャスト IP アドレスのプロパティで更新される。
 %inst
-Retrieves information for an existing multicast IP address entry on
-the local computer.
+ローカルコンピュータ上の既存マルチキャスト IP アドレスエントリの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetMulticastIpAddressEntry function is defined on Windows Vista
-and later. The GetMulticastIpAddressEntry function is used to
-retrieve an existing MIB_MULTICASTIPADDRESS_ROW structure entry. On
-input, the Address member in the MIB_MULTICASTIPADDRESS_ROW structure
-pointed to by the Row parameter must be initialized to a valid
-multicast IPv4 or IPv6 address and family. In addition, at least one
-of the following members in the MIB_MULTICASTIPADDRESS_ROW structure
-pointed to the Row parameter must be initialized: the InterfaceLuid
-or InterfaceIndex. The fields are used in the order listed above. So
-if the InterfaceLuid is specified, then this member is used to
-determine the interface. If no value is set for the InterfaceLuid
-member (the value of this member is set to zero), then the
-InterfaceIndex member is next used to determine the interface. On
-output when the call is successful, GetMulticastIpAddressEntry
-retrieves the other properties for the multicast IP address and fills
-out the MIB_MULTICASTIPADDRESS_ROW structure pointed to by the Row
-parameter. The GetMulticastIpAddressTable function can be called to
-enumerate the multicast IP address entries on a local computer.
+GetMulticastIpAddressEntry 関数は Windows Vista 以降で定義される。既存の
+MIB_MULTICASTIPADDRESS_ROW エントリを取得する。Address メンバは有効なマルチキャスト IPv4 /
+IPv6 アドレスとファミリで初期化し、InterfaceLuid または InterfaceIndex のいずれかも初期化する
+(InterfaceLuid 優先)。成功時、その他のプロパティが埋められる。GetMulticastIpAddressTable
+で列挙可能。
 
 
 %index
 GetMulticastIpAddressTable
-Retrieves the multicast IP address table on the local computer.
+ローカルコンピュータのマルチキャスト IP アドレステーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table
-Family : [int] The address family to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a MIB_MULTICASTIPADDRESS_TABLE structure that contains a table of anycast IP address entries on the local computer.
+Family : [int] 取得するアドレスファミリ。指定可能な値は Winsock2.h ヘッダファイルに列挙されている。AF_ アドレスファミリ定数と PF_ プロトコルファミリ定数は同じ値 (例: AF_INET と PF_INET) なのでどちらを使ってもよい。Windows Vista 以降向けの Windows SDK ではヘッダファイルの構成が変更され、この値は Ws2def.h ヘッダで定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるため直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] ローカルコンピュータ上のエニーキャスト IP アドレスエントリのテーブルを格納する MIB_MULTICASTIPADDRESS_TABLE へのポインタ。
 %inst
-Retrieves the multicast IP address table on the local computer.
+ローカルコンピュータのマルチキャスト IP アドレステーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると戻り値は NO_ERROR となる。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetMulticastIpAddressTable function is defined on Windows Vista
-and later. The GetMulticastIpAddressTable function enumerates the
-multicast IP addresses on a local system and returns this information
-in a MIB_MULTICASTIPADDRESS_TABLE structure. The multicast IP address
-entries are returned in a MIB_MULTICASTIPADDRESS_TABLE structure in
-the buffer pointed to by the Table parameter. The
-MIB_MULTICASTIPADDRESS_TABLE structure contains a multicast IP
-address entry count and an array of MIB_MULTICASTIPADDRESS_ROW
-structures for each multicast IP address entry. When these returned
-structures are no longer required, free the memory by calling the
-FreeMibTable. The Family parameter must be initialized to either
-AF_INET, AF_INET6, or AF_UNSPEC. Note that the returned
-MIB_MULTICASTIPADDRESS_TABLE structure pointed to by the Table
-parameter may contain padding for alignment between the NumEntries
-member and the first MIB_MULTICASTIPADDRESS_ROW array entry in the
-Table member of the MIB_MULTICASTIPADDRESS_TABLE structure. Padding
-for alignment may also be present between the
-MIB_MULTICASTIPADDRESS_ROW array entries. Any access to a
-MIB_MULTICASTIPADDRESS_ROW array entry should assume padding may
-exist.
+GetMulticastIpAddressTable 関数は Windows Vista
+以降で定義される。ローカルシステム上のマルチキャスト IP アドレスを列挙し MIB_MULTICASTIPADDRESS_TABLE
+で返す。Table にはエントリ数と MIB_MULTICASTIPADDRESS_ROW 配列が格納される。不要になったら
+FreeMibTable で解放すること。Family は AF_INET / AF_INET6 / AF_UNSPEC
+のいずれか。アクセス時はアライメント用のパディングを想定すること。
 
 
 %index
 GetNetworkConnectivityHint
-Retrieves the aggregate level and cost of network connectivity that an application or service is likely to experience.
+アプリケーションやサービスが体験する可能性の高いネットワーク接続の集計レベルとコストを取得する。
 %group
 Win32 iphlpapi
 %prm
 ConnectivityHint
-ConnectivityHint : [var] A pointer to a value of type [NL_NETWORK_CONNECTIVITY_HINT](../nldef/ns-nldef-nl_network_connectivity_hint.md). The function sets this value to the aggregate connectivity level and cost hints.
+ConnectivityHint : [var] NL_NETWORK_CONNECTIVITY_HINT 型の値へのポインタ。集計された接続レベルとコストヒントが設定される。
 %inst
-Retrieves the aggregate level and cost of network connectivity that
-an application or service is likely to experience.
+アプリケーションやサービスが体験する可能性の高いネットワーク接続の集計レベルとコストを取得する。
 
 [戻り値]
-In user mode, returns **NO_ERROR** on success, and a Win32 error code
-on failure. In kernel mode, returns **STATUS_SUCCESS** on success,
-and an NTSTATUS error code on failure.
+ユーザーモードでは成功時 NO_ERROR、失敗時は Win32 エラーコードを返す。カーネルモードでは成功時
+STATUS_SUCCESS、失敗時は NTSTATUS エラーコードを返す。
 
 
 %index
 GetNetworkConnectivityHintForInterface
-Retrieves the level and cost of network connectivity for the specified interface.
+指定インターフェイスのネットワーク接続レベルとコストを取得する。
 %group
 Win32 iphlpapi
 %prm
 InterfaceIndex, ConnectivityHint
-InterfaceIndex : [int] A value of type **NET_IFINDEX** representing the index of the interface for which to retrieve connectivity information.
-ConnectivityHint : [var] A pointer to a value of type [NL_NETWORK_CONNECTIVITY_HINT](../nldef/ns-nldef-nl_network_connectivity_hint.md). The function sets this value to the connectivity level and cost hints for the specified interface.
+InterfaceIndex : [int] 接続情報を取得する対象インターフェイスのインデックスを示す NET_IFINDEX 型の値。
+ConnectivityHint : [var] NL_NETWORK_CONNECTIVITY_HINT 型の値へのポインタ。指定インターフェイスの接続レベルとコストヒントが設定される。
 %inst
-Retrieves the level and cost of network connectivity for the
-specified interface.
+指定インターフェイスのネットワーク接続レベルとコストを取得する。
 
 [戻り値]
-In user mode, returns **NO_ERROR** on success, and a Win32 error code
-on failure. In kernel mode, returns **STATUS_SUCCESS** on success,
-and an NTSTATUS error code on failure.
+ユーザーモードでは成功時 NO_ERROR、失敗時は Win32 エラーコードを返す。カーネルモードでは成功時
+STATUS_SUCCESS、失敗時は NTSTATUS エラーコードを返す。
 
 
 %index
 GetNetworkInformation
-Reserved for future use. Do not use this function. (GetNetworkInformation)
+将来使用のために予約されている。使用してはならない。(GetNetworkInformation)
 %group
 Win32 iphlpapi
 %prm
 NetworkGuid, CompartmentId, SiteId, NetworkName, Length
-NetworkGuid : [var] Reserved.
-CompartmentId : [var] Reserved.
-SiteId : [var] Reserved.
-NetworkName : [wstr] Reserved.
-Length : [int] Reserved.
+NetworkGuid : [var] 予約済み。
+CompartmentId : [var] 予約済み。
+SiteId : [var] 予約済み。
+NetworkName : [wstr] 予約済み。
+Length : [int] 予約済み。
 %inst
-Reserved for future use. Do not use this function.
-(GetNetworkInformation)
+将来使用のために予約されている。使用してはならない。(GetNetworkInformation)
 
 
 %index
 GetNetworkParams
-The GetNetworkParams function retrieves network parameters for the local computer.
+GetNetworkParams 関数は、ローカルコンピュータのネットワークパラメータを取得する。
 %group
 Win32 iphlpapi
 %prm
 pFixedInfo, pOutBufLen
-pFixedInfo : [var] A pointer to a buffer that contains a FIXED_INFO structure that receives the network parameters for the local computer, if the function was successful. This buffer must be allocated by the caller prior to calling the GetNetworkParams function.
-pOutBufLen : [var] A pointer to a ULONG variable that specifies the size of the FIXED_INFO structure. If this size is insufficient to hold the information, GetNetworkParams fills in this variable with the required size, and returns an error code of ERROR_BUFFER_OVERFLOW.
+pFixedInfo : [var] 成功時、ローカルコンピュータのネットワークパラメータを受け取る FIXED_INFO 構造体を格納するバッファへのポインタ。呼び出し元は事前にバッファを確保する必要がある。
+pOutBufLen : [var] FIXED_INFO 構造体のサイズを指定する ULONG 変数へのポインタ。情報を格納するのに不十分な場合は必要サイズが書き込まれ ERROR_BUFFER_OVERFLOW が返される。
 %inst
-The GetNetworkParams function retrieves network parameters for the
-local computer.
+GetNetworkParams 関数は、ローカルコンピュータのネットワークパラメータを取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると ERROR_SUCCESS を返す。失敗した場合の戻り値は以下のいずれかのエラーコードとなる。
+このドキュメントは省略されている。
 
 [備考]
-The GetNetworkParams function is used to retrieve network parameters
-for the local computer. Network parameters are returned in a
-FIXED_INFO structure. The memory for the FIXED_INFO structure must be
-allocated by the application. It is the responsibility of the
-application to free this memory when it is no longer needed. In the
-Microsoft Windows Software Development Kit (SDK), the
-FIXED_INFO_WIN2KSP1 structure is defined. When compiling an
-application if the target platform is Windows 2000 with Service Pack
-1 (SP1) and later (NTDDI_VERSION >= NTDDI_WIN2KSP1, _WIN32_WINNT >=
-0x0501, or WINVER >= 0x0501), the FIXED_INFO_WIN2KSP1 struct is
-typedefed to the FIXED_INFO structure. When compiling an application
-if the target platform is not Windows 2000 with SP1 and later, the
-FIXED_INFO structure is undefined. The GetNetworkParams function and
-the FIXED_INFO structure are supported on Windows 98and later. But to
-build an application for a target platform earlier than Windows 2000
-with Service Pack 1 (SP1), an earlier version of the Platform
-Software Development Kit (SDK) must be used.
+GetNetworkParams 関数は、ローカルコンピュータのネットワークパラメータを取得するのに使う。パラメータは
+FIXED_INFO 構造体で返される。FIXED_INFO
+用のメモリはアプリケーションが確保し、不要になったら解放する必要がある。Windows SDK には
+FIXED_INFO_WIN2KSP1 構造体も定義されている。ターゲットが Windows 2000 SP1 以降の場合
+(NTDDI_VERSION / _WIN32_WINNT / WINVER 条件) は FIXED_INFO_WIN2KSP1 が
+FIXED_INFO 型として定義される。GetNetworkParams と FIXED_INFO 構造体は Windows 98
+以降でサポートされる。ただし Windows 2000 SP1 より前をターゲットにビルドするには古い Platform SDK
+を使う必要がある。
 
 
 %index
 GetNumberOfInterfaces
-The GetNumberOfInterfaces functions retrieves the number of interfaces on the local computer.
+GetNumberOfInterfaces 関数は、ローカルコンピュータ上のインターフェイス数を取得する。
 %group
 Win32 iphlpapi
 %prm
 pdwNumIf
-pdwNumIf : [var] Pointer to a DWORD variable that receives the number of interfaces on the local computer.
+pdwNumIf : [var] ローカルコンピュータ上のインターフェイス数を受け取る DWORD 変数へのポインタ。
 %inst
-The GetNumberOfInterfaces functions retrieves the number of
-interfaces on the local computer.
+GetNumberOfInterfaces 関数は、ローカルコンピュータ上のインターフェイス数を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
+関数が成功すると、戻り値は NO_ERROR である。関数が失敗した場合は、FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
 
 [備考]
-The GetNumberOfInterfaces function returns the number of interfaces
-on the local computer, including the loopback interface. This number
-is one more than the number of adapters returned by the
-GetAdaptersInfo and GetInterfaceInfo functions because these
-functions do not return information about the loopback interface.
+GetNumberOfInterfaces
+関数は、ループバックインターフェイスを含む、ローカルコンピュータ上のインターフェイス数を返す。この数は GetAdaptersInfo
+および GetInterfaceInfo が返すアダプタ数より 1
+多い。これらの関数はループバックインターフェイスの情報を返さないためである。
 
 
 %index
@@ -3780,1949 +2427,1382 @@ pdwSize : [var]
 
 %index
 GetOwnerModuleFromTcp6Entry
-Retrieves data about the module that issued the context bind for a specific IPv6 TCP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv6 TCP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 %group
 Win32 iphlpapi
 %prm
 pTcpEntry, Class, pBuffer, pdwSize
-pTcpEntry : [var] A pointer to a MIB_TCP6ROW_OWNER_MODULE structure that contains the IPv6 TCP endpoint entry used to obtain the owner module.
-Class : [int] A TCPIP_OWNER_MODULE_INFO_CLASS enumeration value that indicates the type of data to obtain regarding the owner module. The TCPIP_OWNER_MODULE_INFO_CLASS enumeration is defined in the Iprtrmib.h header file. This parameter must be set to TCPIP_OWNER_MODULE_INFO_BASIC.
-pBuffer : [intptr] A pointer to a buffer that contains a TCPIP_OWNER_MODULE_BASIC_INFO structure with the owner module data. The type of data returned in this buffer is indicated by the value of the Class parameter. The following structures are used for the data in Buffer when  Class is set to the corresponding value.
-pdwSize : [var] The estimated size of the structure returned in Buffer, in bytes. If this value is set too small, ERROR_INSUFFICIENT_BUFFER is returned by this function, and this field will contain the correct structure size.
+pTcpEntry : [var] 所有モジュールの取得に用いる IPv6 TCP エンドポイントエントリを含む MIB_TCP6ROW_OWNER_MODULE 構造体へのポインタ。
+Class : [int] 所有モジュールに関して取得するデータの種別を示す TCPIP_OWNER_MODULE_INFO_CLASS 列挙値。TCPIP_OWNER_MODULE_INFO_CLASS 列挙体は Iprtrmib.h ヘッダファイルで定義される。このパラメータには TCPIP_OWNER_MODULE_INFO_BASIC を設定しなければならない。
+pBuffer : [intptr] 所有モジュールのデータを格納した TCPIP_OWNER_MODULE_BASIC_INFO 構造体を含むバッファへのポインタ。このバッファに返されるデータの種別は Class パラメータの値で示される。Class に各値が設定されたとき、Buffer のデータには以下の構造体が用いられる。
+pdwSize : [var] Buffer に返される構造体の推定サイズ (バイト単位)。この値が小さすぎる場合、関数は ERROR_INSUFFICIENT_BUFFER を返し、このフィールドには正しい構造体サイズが格納される。
 %inst
-Retrieves data about the module that issued the context bind for a
-specific IPv6 TCP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv6 TCP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 
 [戻り値]
-If the function call is successful, the value NO_ERROR is returned.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数呼び出しが成功すると、値 NO_ERROR が返される。関数が失敗した場合、戻り値は以下のエラーコードのいずれかである。
+このドキュメントは省略されている。
 
 [備考]
-The Buffer parameter contains not only a structure with pointers to
-specific data, for example, pointers to the zero-terminated strings
-that contain the name and path of the owner module, but the actual
-data itself; that is the name and path strings. Therefore, when
-calculating the size of the buffer, ensure that you have enough space
-for both the structure as well as the data the members of the
-structure point to. The resolution of TCP table entries to owner
-modules is a best practice. In a few cases, the owner module name
-returned in the TCPIP_OWNER_MODULE_BASIC_INFO structure can be a
-process name (such as "svchost.exe"), a service name (such as "RPC"),
-or a component name (such as "timer.dll"). For computers running on
-Windows Vista or later, the pModuleName and pModulePath members of
-the TCPIP_OWNER_MODULE_BASIC_INFO retrieved by
-GetOwnerModuleFromTcpEntry function may point to an empty string for
-some TCP connections. Applications that start TCP connections located
-in the Windows system folder (C:\Windows\System32, by default) are
-considered protected. If the GetOwnerModuleFromTcpEntry function is
-called by a user that is not a member of the Administrators group,
-the function call will succeed but the pModuleName and pModulePath
-members will point to memory that contains an empty string for the
-TCP connections started by protected applications. For computers
-running on Windows Vista or later, accessing the pModuleName and
-pModulePath members of the TCPIP_OWNER_MODULE_BASIC_INFO structure is
-limited by user account control (UAC). If an application that calls
-this function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will succeed but access to these members returns an empty string
-unless the application has been marked in the manifest file with a
-requestedExecutionLevel set to requireAdministrator. If the
-application on Windows Vista or later lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for access to the protected pModuleName and pModulePath members to be
-allowed.
+Buffer パラメータには、特定のデータへのポインタ (例えば所有モジュール名とパスを含むゼロ終端文字列へのポインタ)
+を持つ構造体だけでなく、実際のデータそのもの (すなわち名前とパス文字列)
+が格納される。したがってバッファサイズを計算する際は、構造体自体と、そのメンバが指すデータの双方に十分な領域を確保すること。TCP
+テーブルエントリを所有モジュールに解決することはベストプラクティスであるが、TCPIP_OWNER_MODULE_BASIC_INFO
+に返される所有モジュール名はプロセス名 ("svchost.exe" など)、サービス名 ("RPC" など)、コンポーネント名
+("timer.dll" など) のいずれかになる場合がある。Windows Vista
+以降では、TCPIP_OWNER_MODULE_BASIC_INFO の pModuleName / pModulePath メンバが一部
+TCP 接続で空文字列を指すことがある。Windows システムフォルダ (既定では C:\Windows\System32)
+に配置されたアプリケーションが開始した TCP 接続は保護されており、Administrators
+グループのメンバでないユーザが呼び出した場合は関数自体は成功するものの、保護されたアプリケーションが開始した接続の pModuleName
+/ pModulePath は空文字列を指すメモリとなる。また、UAC の影響により、組み込み Administrator 以外の
+Administrators グループメンバが実行する場合、マニフェストで requestedExecutionLevel が
+requireAdministrator に設定されていないと、これらのメンバは空文字列を返す。マニフェストがない場合は、RunAs
+administrator で実行された拡張シェルから起動する必要がある。
 
 
 %index
 GetOwnerModuleFromTcpEntry
-Retrieves data about the module that issued the context bind for a specific IPv4 TCP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv4 TCP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 %group
 Win32 iphlpapi
 %prm
 pTcpEntry, Class, pBuffer, pdwSize
-pTcpEntry : [var] A pointer to a MIB_TCPROW_OWNER_MODULE structure that contains the IPv4 TCP endpoint entry used to obtain the owner module.
-Class : [int] A TCPIP_OWNER_MODULE_INFO_CLASS enumeration value that indicates the type of data to obtain regarding the owner module. The TCPIP_OWNER_MODULE_INFO_CLASS enumeration is defined in the Iprtrmib.h header file. This parameter must be set to TCPIP_OWNER_MODULE_INFO_BASIC.
-pBuffer : [intptr] A pointer a buffer that contains a TCPIP_OWNER_MODULE_BASIC_INFO structure with the owner module data. The type of data returned in this buffer is indicated by the value of the Class parameter. The following structures are used for the data in Buffer when  Class is set to the corresponding value.
-pdwSize : [var] The estimated size, in  bytes, of the structure returned in Buffer. If this value is set too small, ERROR_INSUFFICIENT_BUFFER is returned by this function, and this field will contain the correct size of the buffer. The size required is the size of the corresponding structure plus an additional number of bytes equal to the length of data pointed to in the structure (for example, the name and path strings).
+pTcpEntry : [var] 所有モジュールの取得に用いる IPv4 TCP エンドポイントエントリを含む MIB_TCPROW_OWNER_MODULE 構造体へのポインタ。
+Class : [int] 所有モジュールに関して取得するデータの種別を示す TCPIP_OWNER_MODULE_INFO_CLASS 列挙値。TCPIP_OWNER_MODULE_INFO_CLASS 列挙体は Iprtrmib.h ヘッダファイルで定義される。このパラメータには TCPIP_OWNER_MODULE_INFO_BASIC を設定しなければならない。
+pBuffer : [intptr] 所有モジュールのデータを格納した TCPIP_OWNER_MODULE_BASIC_INFO 構造体を含むバッファへのポインタ。このバッファに返されるデータの種別は Class パラメータの値で示される。Class に各値が設定されたとき、Buffer のデータには以下の構造体が用いられる。
+pdwSize : [var] Buffer に返される構造体の推定サイズ (バイト単位)。この値が小さすぎる場合、関数は ERROR_INSUFFICIENT_BUFFER を返し、このフィールドにはバッファに必要な正しいサイズが格納される。必要なサイズは対応する構造体のサイズに、構造体が指すデータ (例: 名前・パス文字列) の長さを加えたものである。
 %inst
-Retrieves data about the module that issued the context bind for a
-specific IPv4 TCP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv4 TCP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 
 [戻り値]
-If the function call is successful, the value NO_ERROR is returned.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数呼び出しが成功すると、値 NO_ERROR が返される。関数が失敗した場合、戻り値は以下のエラーコードのいずれかである。
+このドキュメントは省略されている。
 
 [備考]
-The Buffer parameter contains not only a structure with pointers to
-specific data, for example, pointers to the zero-terminated strings
-that contain the name and path of the owner module, but the actual
-data itself; that is the name and path strings. Therefore, when
-calculating the buffer size, ensure that you have enough space for
-both the structure as well as the data the members of the structure
-point to. The resolution of TCP table entries to owner modules is a
-best practice. In a few cases, the owner module name returned in the
-TCPIP_OWNER_MODULE_BASIC_INFO structure can be a process name, such
-as "svchost.exe", a service name (such as "RPC"), or a component
-name, such as "timer.dll". For computers running on Windows Vista or
-later, the pModuleName and pModulePath members of the
-TCPIP_OWNER_MODULE_BASIC_INFO retrieved by GetOwnerModuleFromTcpEntry
-function may point to an empty string for some TCP connections.
-Applications that start TCP connections located in the Windows system
-folder (C:\Windows\System32, by default) are considered protected. If
-the GetOwnerModuleFromTcpEntry function is called by a user that is
-not a member of the Administrators group, the function call will
-succeed but the pModuleName and pModulePath members will point to
-memory that contains an empty string for the TCP connections started
-by protected applications. For computers running on Windows Vista or
-later, accessing the pModuleName and pModulePath members of the
-TCPIP_OWNER_MODULE_BASIC_INFO structure is limited by user account
-control (UAC). If an application that calls this function is executed
-by a user logged on as a member of the Administrators group other
-than the built-in Administrator, this call will succeed but access to
-these members returns an empty string unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on Windows Vista or later
-lacks this manifest file, a user logged on as a member of the
-Administrators group other than the built-in Administrator must then
-be executing the application in an enhanced shell as the built-in
-Administrator (RunAs administrator) for access to the protected
-pModuleName and pModulePath members to be allowed.
+Buffer パラメータには構造体本体だけでなく、その構造体メンバが指す実データ (名前・パス文字列)
+も含まれる。そのためバッファサイズを計算する際は、構造体本体とポイントされるデータの両方に十分な領域を確保する必要がある。TCP
+テーブルエントリの所有モジュール解決はベストプラクティスだが、TCPIP_OWNER_MODULE_BASIC_INFO
+が返す所有モジュール名はプロセス名 ("svchost.exe")、サービス名 ("RPC")、コンポーネント名
+("timer.dll") のいずれかになる場合がある。Windows Vista 以降では、保護されたアプリケーション
+(C:\Windows\System32 配下など) が開始した TCP 接続の pModuleName / pModulePath
+は、Administrators 以外のユーザから呼び出すと空文字列になる。また UAC のため、組み込み Administrator
+以外の Administrators グループメンバからの呼び出しでは、requestedExecutionLevel が
+requireAdministrator に設定されたマニフェストまたは RunAs administrator 実行が必要である。
 
 
 %index
 GetOwnerModuleFromUdp6Entry
-Retrieves data about the module that issued the context bind for a specific IPv6 UDP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv6 UDP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 %group
 Win32 iphlpapi
 %prm
 pUdpEntry, Class, pBuffer, pdwSize
-pUdpEntry : [var] A pointer to a MIB_UDP6ROW_OWNER_MODULE structure that contains the IPv6 UDP endpoint entry used to obtain the owner module.
-Class : [int] TCPIP_OWNER_MODULE_INFO_CLASS enumeration value that indicates the type of data to obtain regarding the owner module.
-pBuffer : [intptr] The buffer that contains a TCPIP_OWNER_MODULE_BASIC_INFO structure with the owner module data. The type of data returned in this buffer is indicated by the value of the Class parameter. The following structures are used for the data in Buffer when  Class is set to the corresponding value.
-pdwSize : [var] The estimated size, in bytes, of the structure returned in Buffer. If this value is set too small, ERROR_INSUFFICIENT_BUFFER is returned by this function, and this field will contain the correct size of the structure.
+pUdpEntry : [var] 所有モジュールの取得に用いる IPv6 UDP エンドポイントエントリを含む MIB_UDP6ROW_OWNER_MODULE 構造体へのポインタ。
+Class : [int] 所有モジュールに関して取得するデータの種別を示す TCPIP_OWNER_MODULE_INFO_CLASS 列挙値。
+pBuffer : [intptr] 所有モジュールのデータを格納した TCPIP_OWNER_MODULE_BASIC_INFO 構造体を含むバッファ。Buffer に返されるデータの種別は Class パラメータで示される。Class に各値が設定されたとき、Buffer のデータには以下の構造体が用いられる。
+pdwSize : [var] Buffer に返される構造体の推定サイズ (バイト単位)。この値が小さすぎる場合、関数は ERROR_INSUFFICIENT_BUFFER を返し、このフィールドには正しい構造体サイズが格納される。
 %inst
-Retrieves data about the module that issued the context bind for a
-specific IPv6 UDP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv6 UDP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 
 [戻り値]
-If the call is successful, the value NO_ERROR is returned. Otherwise,
-the following error is returned.
-This doc was truncated.
+呼び出しが成功すると、値 NO_ERROR が返される。それ以外の場合は以下のエラーが返される。
+このドキュメントは省略されている。
 
 [備考]
-The Buffer parameter contains not only a structure with pointers to
-specific data, for example, pointers to the zero-terminated strings
-that contain the name and path of the owner module, but the actual
-data itself; that is the name and path strings. Therefore, when
-calculating the buffer size, ensure that you have enough space for
-both the structure as well as the data the members of the structure
-point to. The resolution of UDP table entries to owner modules is a
-best practice. In a few cases, the owner module name returned in the
-TCPIP_OWNER_MODULE_BASIC_INFO structure can be a process name, such
-as "svchost.exe", a service name, such as "RPC", or a component name,
-such as "timer.dll". For computers running on Windows Vista or later,
-accessing the pModuleName and pModulePath members of the
-TCPIP_OWNER_MODULE_BASIC_INFO structure is limited by user account
-control (UAC). If an application that calls this function is executed
-by a user logged on as a member of the Administrators group other
-than the built-in Administrator, this call will succeed but access to
-these members returns an empty string unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application on Windows Vista or later
-lacks this manifest file, a user logged on as a member of the
-Administrators group other than the built-in Administrator must then
-be executing the application in an enhanced shell as the built-in
-Administrator (RunAs administrator) for access to the protected
-pModuleName and pModulePath members to be allowed.
+Buffer
+パラメータには構造体本体と、そのメンバが指す名前・パス文字列などの実データの両方が含まれる。そのためバッファサイズ計算時は、構造体と参照データの両方を収められるよう十分な領域を確保すること。UDP
+テーブルエントリの所有モジュール解決はベストプラクティスだが、TCPIP_OWNER_MODULE_BASIC_INFO
+が返す所有モジュール名は "svchost.exe" などのプロセス名、"RPC" などのサービス名、"timer.dll"
+などのコンポーネント名になることがある。Windows Vista 以降では UAC により、組み込み Administrator 以外の
+Administrators グループメンバが実行すると、マニフェストの requestedExecutionLevel =
+requireAdministrator または RunAs administrator
+実行でない限り、これらのメンバへのアクセスは空文字列となる。
 
 
 %index
 GetOwnerModuleFromUdpEntry
-Retrieves data about the module that issued the context bind for a specific IPv4 UDP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv4 UDP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 %group
 Win32 iphlpapi
 %prm
 pUdpEntry, Class, pBuffer, pdwSize
-pUdpEntry : [var] A pointer to a MIB_UDPROW_OWNER_MODULE structure that contains the IPv4 UDP endpoint entry used to obtain the owner module.
-Class : [int] A TCPIP_OWNER_MODULE_INFO_CLASS enumeration value that indicates the type of data to obtain regarding the owner module.
-pBuffer : [intptr] The buffer that contains a TCPIP_OWNER_MODULE_BASIC_INFO structure with the owner module data. The type of data returned in this buffer is indicated by the value of the Class parameter. The following structures are used for the data in Buffer when  Class is set to the corresponding value.
-pdwSize : [var] The estimated size, in bytes, of the structure returned in Buffer. If this value is set too small, ERROR_INSUFFICIENT_BUFFER is returned by this function, and this field will contain the correct structure size.
+pUdpEntry : [var] 所有モジュールの取得に用いる IPv4 UDP エンドポイントエントリを含む MIB_UDPROW_OWNER_MODULE 構造体へのポインタ。
+Class : [int] 所有モジュールに関して取得するデータの種別を示す TCPIP_OWNER_MODULE_INFO_CLASS 列挙値。
+pBuffer : [intptr] 所有モジュールのデータを格納した TCPIP_OWNER_MODULE_BASIC_INFO 構造体を含むバッファ。Buffer に返されるデータの種別は Class パラメータで示される。Class に各値が設定されたとき、Buffer のデータには以下の構造体が用いられる。
+pdwSize : [var] Buffer に返される構造体の推定サイズ (バイト単位)。この値が小さすぎる場合、関数は ERROR_INSUFFICIENT_BUFFER を返し、このフィールドには正しい構造体サイズが格納される。
 %inst
-Retrieves data about the module that issued the context bind for a
-specific IPv4 UDP endpoint in a MIB table row.
+MIB テーブル行内の特定の IPv4 UDP エンドポイントに対してコンテキストバインドを発行したモジュールに関するデータを取得する。
 
 [戻り値]
-If the call is successful, the value NO_ERROR is returned. Otherwise,
-the following error is returned.
-This doc was truncated.
+呼び出しが成功すると、値 NO_ERROR が返される。それ以外の場合は以下のエラーが返される。
+このドキュメントは省略されている。
 
 [備考]
-The Buffer parameter contains not only a structure with pointers to
-specific data, for example, pointers to the zero-terminated strings
-that contain the name and path of the owner module, but also the
-actual data itself; that is the name and path strings. Therefore,
-when calculating the buffer size, ensure that you have enough space
-for both the structure as well as the data the members of the
-structure point to. The resolution of UDP table entries to owner
-modules is a best practice. In a few cases, the owner module name
-returned in the TCPIP_OWNER_MODULE_BASIC_INFO structure can be a
-process name, such as "svchost.exe", a service name, such as "RPC",
-or a component name, such as "timer.dll". For computers running on
-Windows Vista or later, accessing the pModuleName and pModulePath
-members of the TCPIP_OWNER_MODULE_BASIC_INFO structure is limited by
-user account control (UAC). If an application that calls this
-function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will succeed but access to these members returns an empty string
-unless the application has been marked in the manifest file with a
-requestedExecutionLevel set to requireAdministrator. If the
-application on Windows Vista or later lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for access to the protected pModuleName and pModulePath members to be
-allowed.
+Buffer
+パラメータには構造体本体と、そのメンバが指す名前・パス文字列などの実データの両方が含まれる。そのためバッファサイズ計算時は、構造体と参照データの両方を収められるよう十分な領域を確保すること。UDP
+テーブルエントリの所有モジュール解決はベストプラクティスだが、TCPIP_OWNER_MODULE_BASIC_INFO
+が返す所有モジュール名は "svchost.exe" などのプロセス名、"RPC" などのサービス名、"timer.dll"
+などのコンポーネント名になることがある。Windows Vista 以降では UAC により、組み込み Administrator 以外の
+Administrators グループメンバが実行する場合、マニフェストの requestedExecutionLevel =
+requireAdministrator または RunAs administrator
+実行でない限り、これらのメンバへのアクセスは空文字列となる。
 
 
 %index
 GetPerAdapterInfo
-The GetPerAdapterInfo function retrieves information about the adapter corresponding to the specified interface.
+GetPerAdapterInfo 関数は、指定インターフェイスに対応するアダプタの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 IfIndex, pPerAdapterInfo, pOutBufLen
-IfIndex : [int] Index of an interface. The GetPerAdapterInfo function retrieves information for the adapter corresponding to this interface.
-pPerAdapterInfo : [var] Pointer to an IP_PER_ADAPTER_INFO structure that receives information about the adapter.
-pOutBufLen : [var] Pointer to a ULONG variable that specifies the size of the IP_PER_ADAPTER_INFO structure. If this size is insufficient to hold the information, GetPerAdapterInfo fills in this variable with the required size, and returns an error code of ERROR_BUFFER_OVERFLOW.
+IfIndex : [int] インターフェイスのインデックス。GetPerAdapterInfo 関数はこのインターフェイスに対応するアダプタの情報を取得する。
+pPerAdapterInfo : [var] アダプタに関する情報を受け取る IP_PER_ADAPTER_INFO 構造体へのポインタ。
+pOutBufLen : [var] IP_PER_ADAPTER_INFO 構造体のサイズを指定する ULONG 変数へのポインタ。サイズが情報を保持するのに不足している場合、GetPerAdapterInfo は必要なサイズをこの変数に格納し、ERROR_BUFFER_OVERFLOW エラーコードを返す。
 %inst
-The GetPerAdapterInfo function retrieves information about the
-adapter corresponding to the specified interface.
+GetPerAdapterInfo 関数は、指定インターフェイスに対応するアダプタの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS である。関数が失敗した場合、戻り値は以下のエラーコードのいずれかである。
+このドキュメントは省略されている。
 
 [備考]
-An adapter index may change when the adapter is disabled and then
-enabled, or under other circumstances, and should not be considered
-persistent.
+アダプタのインデックスはアダプタが無効化されて再度有効化されたときなどに変更されることがあり、永続的と見なしてはならない。
 
 
 %index
 GetPerTcp6ConnectionEStats
-Retrieves extended statistics for an IPv6 TCP connection.
+IPv6 TCP 接続の拡張統計情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Ros, RosVersion, RosSize, Rod, RodVersion, RodSize
-Row : [var] A pointer to a MIB_TCP6ROW structure for an IPv6 TCP connection.
-EstatsType : [int] The type of extended statistics for TCP requested. This parameter determines the data and format of information that is returned in the Rw, Rod, and Ros parameters if the call is successful. This parameter can be one of the values from the TCP_ESTATS_TYPE enumeration type defined in the Tcpestats.h header file.
-Rw : [var] A pointer to a buffer to receive the read/write information. This parameter may be a NULL pointer if an application does not want to retrieve read/write information for the TCP connection.
-RwVersion : [int] The version of the read/write information requested. The current supported value is a version of zero.
-RwSize : [int] The size, in bytes, of the buffer pointed to by Rw parameter.
-Ros : [var] A pointer to a buffer to receive read-only static information. This parameter may be a NULL pointer if an application does not want to retrieve read-only static information for the TCP connection.
-RosVersion : [int] The version of the read-only static information requested. The current supported value is a version of zero.
-RosSize : [int] The size, in bytes, of the buffer pointed to by the Ros parameter.
-Rod : [var] A pointer to a buffer to receive read-only dynamic information. This parameter may be a NULL pointer if an application does not want to retrieve read-only dynamic information  for the TCP connection.
-RodVersion : [int] The version of the read-only dynamic information requested. The current supported value is a version of zero..
-RodSize : [int] The size, in bytes, of the buffer pointed to by the Rod parameter.
+Row : [var] IPv6 TCP 接続の MIB_TCP6ROW 構造体へのポインタ。
+EstatsType : [int] 要求する TCP 拡張統計情報の種別。このパラメータは、呼び出しが成功したとき Rw、Rod、Ros の各パラメータに返される情報のデータと形式を決定する。Tcpestats.h ヘッダで定義される TCP_ESTATS_TYPE 列挙型の値のいずれかを指定できる。
+Rw : [var] 読み取り/書き込み情報を受け取るバッファへのポインタ。必要がない場合は NULL を指定できる。
+RwVersion : [int] 要求する読み取り/書き込み情報のバージョン。現在サポートされる値は 0 のみ。
+RwSize : [int] Rw パラメータが指すバッファのサイズ (バイト単位)。
+Ros : [var] 読み取り専用静的情報を受け取るバッファへのポインタ。必要がない場合は NULL を指定できる。
+RosVersion : [int] 要求する読み取り専用静的情報のバージョン。現在サポートされる値は 0 のみ。
+RosSize : [int] Ros パラメータが指すバッファのサイズ (バイト単位)。
+Rod : [var] 読み取り専用動的情報を受け取るバッファへのポインタ。TCP 接続の読み取り専用動的情報を取得する必要がない場合は NULL を指定できる。
+RodVersion : [int] 要求する読み取り専用動的情報のバージョン。現在サポートされる値は 0 のみ。
+RodSize : [int] Rod パラメータが指すバッファのサイズ (バイト単位)。
 %inst
-Retrieves extended statistics for an IPv6 TCP connection.
+IPv6 TCP 接続の拡張統計情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetPerTcp6ConnectionEStats function is defined on Windows Vista
-and later. The GetPerTcp6ConnectionEStats function is designed to use
-TCP to diagnose performance problems in both the network and the
-application. If a network based application is performing poorly, TCP
-can determine if the bottleneck is in the sender, the receiver or the
-network itself. If the bottleneck is in the network, TCP can provide
-specific information about its nature.
-The GetPerTcp6ConnectionEStats function retrieves extended statistics
-for the IPv6 TCP connection passed in the Row parameter. The type of
-extended statistics that is retrieved is specified in the EstatsType
-parameter. Extended statistics on this TCP connection must have
-previously been enabled by calls to the SetPerTcp6ConnectionEStats
-function for all TCP_ESTATS_TYPE values except when
-TcpConnectionEstatsSynOpts is passed in the EstatsType parameter. The
-GetTcp6Table function is used to retrieve the IPv6 TCP connection
-table on the local computer. This function returns a MIB_TCP6TABLE
-structure that contain an array of MIB_TCP6ROW entries. The Row
-parameter passed to the GetPerTcp6ConnectionEStats function must be
-an entry for an existing IPv6 TCP connection. The only version of TCP
-connection statistics currently supported is version zero. So the
-RwVersion, RosVersion, and RodVersion parameters passed to
-GetPerTcp6ConnectionEStats should be set to 0. For information on
-extended TCP statistics on an IPv4 connection, see the
-GetPerTcpConnectionEStats and SetPerTcpConnectionEStats functions.
-The SetPerTcp6ConnectionEStats function can only be called by a user
-logged on as a member of the Administrators group. If
-SetPerTcp6ConnectionEStats is called by a user that is not a member
-of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed. The caller of
-**GetPerTcp6ConnectionEStats** should check the *EnableCollection*
-field in the returned *Rw* struct, and if it is not `TRUE`, then the
-caller should ignore the data in the *Ros* and *Rod* structs. If
-*EnableCollection* is set to `FALSE`, then the data returned in *Ros*
-and *Rod* are undefined. For example, one condition under which this
-can happen is when you're using **GetPerTcp6ConnectionEStats** to
-retrieve extended statistics for an IPv6 TCP connection, and you've
-previously called
-[SetPerTcp6ConnectionEStats](./nf-iphlpapi-setpertcp6connectionestats.md)
-to enable extended statistics. If the **SetPerTcp6ConnectionEStats**
-call fails then subsequent calls to **GetPerTcp6ConnectionEStats**
-will return meaningless random data, and not extended TCP statistics.
-You can observe that example by running the example below as both an
-administrator, and as a normal user.
+GetPerTcp6ConnectionEStats 関数は Windows Vista 以降で定義される。TCP
+によりネットワークおよびアプリケーション両面のパフォーマンス問題を診断するための関数で、ネットワークベースアプリケーションの性能劣化時に、送信側・受信側・ネットワークのどこがボトルネックかを
+TCP が判定し、ネットワークの場合は具体的な情報を提供できる。
+Row パラメータに渡された IPv6 TCP 接続に対する拡張統計情報を取得する。取得する統計種別は EstatsType
+で指定する。TcpConnectionEstatsSynOpts を除くすべての TCP_ESTATS_TYPE 値については、あらかじめ
+SetPerTcp6ConnectionEStats で拡張統計を有効化しておく必要がある。IPv6 TCP 接続テーブルは
+GetTcp6Table で取得でき、MIB_TCP6ROW の配列を含む MIB_TCP6TABLE 構造体が返される。Row
+には既存の IPv6 TCP 接続エントリを渡す必要がある。現在サポートされる TCP 接続統計のバージョンは 0
+のみで、RwVersion/RosVersion/RodVersion はすべて 0 に設定する。IPv4 接続の拡張 TCP
+統計については GetPerTcpConnectionEStats / SetPerTcpConnectionEStats
+を参照。SetPerTcp6ConnectionEStats は Administrators グループメンバのみが呼び出せ、それ以外では
+ERROR_ACCESS_DENIED が返る。UAC の影響も受け、組み込み Administrator 以外のメンバからは
+requestedExecutionLevel = requireAdministrator
+のマニフェストが必要となる。呼び出し元は、返された Rw 構造体の EnableCollection フィールドを確認し、TRUE
+でなければ Ros / Rod のデータを無視するべきである。EnableCollection が FALSE の場合、Ros / Rod
+の内容は未定義である。例えば SetPerTcp6ConnectionEStats の呼び出しが失敗していた場合、以後の
+GetPerTcp6ConnectionEStats は拡張統計ではなく無意味なランダムデータを返すことがある。
 
 
 %index
 GetPerTcpConnectionEStats
-Retrieves extended statistics for an IPv4 TCP connection.
+IPv4 TCP 接続の拡張統計情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Ros, RosVersion, RosSize, Rod, RodVersion, RodSize
-Row : [var] A pointer to a MIB_TCPROW structure for an IPv4 TCP connection.
-EstatsType : [int] The type of extended statistics for TCP requested. This parameter determines the data and format of information that is returned in the Rw, Rod, and Ros parameters if the call is successful. This parameter can be one of the values from the TCP_ESTATS_TYPE enumeration type defined in the Tcpestats.h header file.
-Rw : [var] A pointer to a buffer to receive the read/write information. This parameter may be a NULL pointer if an application does not want to retrieve read/write information for the TCP connection.
-RwVersion : [int] The version of the read/write information requested. The current supported value is a version of zero.
-RwSize : [int] The size, in bytes, of the buffer pointed to by Rw parameter.
-Ros : [var] A pointer to a buffer to receive read-only static information. This parameter may be a NULL pointer if an application does not want to retrieve read-only static information for the TCP connection.
-RosVersion : [int] The version of the read-only static information requested. The current supported value is a version of zero.
-RosSize : [int] The size, in bytes, of the buffer pointed to by the Ros parameter.
-Rod : [var] A pointer to a buffer to receive read-only dynamic information. This parameter may be a NULL pointer if an application does not want to retrieve read-only dynamic information  for the TCP connection.
-RodVersion : [int] The version of the read-only dynamic information requested. The current supported value is a version of zero.
-RodSize : [int] The size, in bytes, of the buffer pointed to by the Rod parameter.
+Row : [var] IPv4 TCP 接続の MIB_TCPROW 構造体へのポインタ。
+EstatsType : [int] 要求する TCP 拡張統計情報の種別。このパラメータは、呼び出しが成功したとき Rw、Rod、Ros の各パラメータに返される情報のデータと形式を決定する。Tcpestats.h ヘッダで定義される TCP_ESTATS_TYPE 列挙型の値のいずれかを指定できる。
+Rw : [var] 読み取り/書き込み情報を受け取るバッファへのポインタ。必要がない場合は NULL を指定できる。
+RwVersion : [int] 要求する読み取り/書き込み情報のバージョン。現在サポートされる値は 0 のみ。
+RwSize : [int] Rw パラメータが指すバッファのサイズ (バイト単位)。
+Ros : [var] 読み取り専用静的情報を受け取るバッファへのポインタ。必要がない場合は NULL を指定できる。
+RosVersion : [int] 要求する読み取り専用静的情報のバージョン。現在サポートされる値は 0 のみ。
+RosSize : [int] Ros パラメータが指すバッファのサイズ (バイト単位)。
+Rod : [var] 読み取り専用動的情報を受け取るバッファへのポインタ。TCP 接続の読み取り専用動的情報を取得する必要がない場合は NULL を指定できる。
+RodVersion : [int] 要求する読み取り専用動的情報のバージョン。現在サポートされる値は 0 のみ。
+RodSize : [int] Rod パラメータが指すバッファのサイズ (バイト単位)。
 %inst
-Retrieves extended statistics for an IPv4 TCP connection.
+IPv4 TCP 接続の拡張統計情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetPerTcpConnectionEStats function is defined on Windows Vista
-and later. The GetPerTcpConnectionEStats function is designed to use
-TCP to diagnose performance problems in both the network and the
-application. If a network based application is performing poorly, TCP
-can determine if the bottleneck is in the sender, the receiver or the
-network itself. If the bottleneck is in the network, TCP can provide
-specific information about its nature.
-The GetPerTcpConnectionEStats function retrieves extended statistics
-for the IPv4 TCP connection passed in the Row parameter. The type of
-extended statistics that is retrieved is specified in the EstatsType
-parameter. Extended statistics on this TCP connection must have
-previously been enabled by calls to the SetPerTcpConnectionEStats
-function for all TCP_ESTATS_TYPE values except when
-TcpConnectionEstatsSynOpts is passed in the EstatsType parameter. The
-GetTcpTable function is used to retrieve the IPv4 TCP connection
-table on the local computer. This function returns a MIB_TCPTABLE
-structure that contain an array of MIB_TCPROW entries. The Row
-parameter passed to the GetPerTcpConnectionEStats function must be an
-entry for an existing IPv4 TCP connection. The only version of TCP
-connection statistics currently supported is version zero. So the
-RwVersion, RosVersion, and RodVersion parameters passed to
-GetPerTcpConnectionEStats should be set to 0. For information on
-extended TCP statistics on an IPv6 connection, see the
-GetPerTcp6ConnectionEStats and SetPerTcp6ConnectionEStats functions.
-The SetPerTcpConnectionEStats function can only be called by a user
-logged on as a member of the Administrators group. If
-SetPerTcpConnectionEStats is called by a user that is not a member of
-the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed. The caller of
-**GetPerTcpConnectionEStats** should check the *EnableCollection*
-field in the returned *Rw* struct, and if it is not `TRUE`, then the
-caller should ignore the data in the *Ros* and *Rod* structs. If
-*EnableCollection* is set to `FALSE`, then the data returned in *Ros*
-and *Rod* are undefined. For example, one condition under which this
-can happen is when you're using **GetPerTcpConnectionEStats** to
-retrieve extended statistics for an IPv4 TCP connection, and you've
-previously called
-[SetPerTcpConnectionEStats](./nf-iphlpapi-setpertcpconnectionestats.md)
-to enable extended statistics. If the **SetPerTcpConnectionEStats**
-call fails then subsequent calls to **GetPerTcpConnectionEStats**
-will return meaningless random data, and not extended TCP statistics.
-You can observe that example by running the example below as both an
-administrator, and as a normal user.
+GetPerTcpConnectionEStats 関数は Windows Vista 以降で定義される。TCP
+によりネットワークおよびアプリケーション両面のパフォーマンス問題を診断するための関数である。
+Row に渡された IPv4 TCP 接続の拡張統計情報を取得する。取得する統計種別は EstatsType
+で指定する。TcpConnectionEstatsSynOpts を除くすべての TCP_ESTATS_TYPE 値については、あらかじめ
+SetPerTcpConnectionEStats で拡張統計を有効化しておく必要がある。IPv4 TCP 接続テーブルは
+GetTcpTable で取得でき、MIB_TCPROW の配列を含む MIB_TCPTABLE 構造体が返される。Row には既存の
+IPv4 TCP 接続エントリを渡す必要がある。現在サポートされる TCP 接続統計のバージョンは 0 のみで、RwVersion /
+RosVersion / RodVersion は 0 に設定する。IPv6 の場合は
+GetPerTcp6ConnectionEStats / SetPerTcp6ConnectionEStats
+を参照。SetPerTcpConnectionEStats は Administrators グループメンバのみ呼び出せ、それ以外では
+ERROR_ACCESS_DENIED が返る。UAC のため、組み込み Administrator 以外のメンバからは
+requestedExecutionLevel = requireAdministrator
+のマニフェストが必要となる。呼び出し元は返された Rw 構造体の EnableCollection が TRUE でなければ Ros /
+Rod のデータを無視するべきで、FALSE の場合 Ros / Rod の内容は未定義である。
 
 
 %index
 GetRTTAndHopCount
-The GetRTTAndHopCount function determines the round-trip time (RTT) and hop count to the specified destination.
+GetRTTAndHopCount 関数は、指定した宛先までの RTT (ラウンドトリップ時間) とホップ数を判定する。
 %group
 Win32 iphlpapi
 %prm
 DestIpAddress, HopCount, MaxHops, RTT
-DestIpAddress : [int] IP address of the destination for which to determine the RTT and hop count, in the form of an IPAddr structure.
-HopCount : [var] Pointer to a ULONG variable. This variable receives the hop count to the destination specified by the DestIpAddress parameter.
-MaxHops : [int] Maximum number of hops to search for the destination. If the number of hops to the destination exceeds this number, the function terminates the search and returns FALSE.
-RTT : [var] Round-trip time, in milliseconds, to the destination specified by DestIpAddress.
+DestIpAddress : [int] RTT とホップ数を判定する宛先の IP アドレス。IPAddr 構造体の形式で指定する。
+HopCount : [var] ULONG 変数へのポインタ。DestIpAddress で指定された宛先までのホップ数を受け取る。
+MaxHops : [int] 宛先を探索する際の最大ホップ数。宛先までのホップ数がこれを超えると、関数は探索を中断し FALSE を返す。
+RTT : [var] DestIpAddress で指定された宛先までのラウンドトリップ時間 (ミリ秒単位)。
 %inst
-The GetRTTAndHopCount function determines the round-trip time (RTT)
-and hop count to the specified destination.
+GetRTTAndHopCount 関数は、指定した宛先までの RTT (ラウンドトリップ時間) とホップ数を判定する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. Call GetLastError to obtain the
-error code for the failure.
+関数が成功すると、戻り値は TRUE である。失敗した場合は FALSE を返す。GetLastError
+を呼び出してエラーコードを取得できる。
 
 [備考]
-For information about the IPAddr data type, see Windows Data Types.
-To convert an IP address between dotted decimal notation and IPAddr
-format, use the inet_addr and inet_ntoa functions.
+IPAddr データ型については Windows データ型を参照。IP アドレスをドット区切り 10 進表記と IPAddr
+形式の間で変換するには inet_addr / inet_ntoa を使用する。
 
 
 %index
 GetSessionCompartmentId
-Reserved for future use. Do not use this function. (GetSessionCompartmentId)
+将来の使用のため予約されている。この関数は使用しないこと。(GetSessionCompartmentId)
 %group
 Win32 iphlpapi
 %prm
 SessionId
-SessionId : [int] Reserved.
+SessionId : [int] 予約済み。
 %inst
-Reserved for future use. Do not use this function.
-(GetSessionCompartmentId)
+将来の使用のため予約されている。この関数は使用しないこと。(GetSessionCompartmentId)
 
 
 %index
 GetTcp6Table
-Retrieves the TCP connection table for IPv6. (GetTcp6Table)
+IPv6 の TCP 接続テーブルを取得する。(GetTcp6Table)
 %group
 Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
-TcpTable : [var] A pointer to a buffer that receives the TCP connection table for IPv6 as a MIB_TCP6TABLE structure.
-SizePointer : [var] On input, specifies the size in bytes of the buffer pointed to by the TcpTable parameter. On output, if the buffer is not large enough to hold the returned TCP connection table, the function sets this parameter equal to the required buffer size in bytes.
-Order : [int] A Boolean value that specifies whether the TCP connection table should be sorted. If this parameter is TRUE, the table is sorted in ascending order, starting with the lowest local IP address.  If this parameter is FALSE, the table appears in the order in which they were retrieved. The following values are compared (as listed) when ordering the TCP endpoints:
+TcpTable : [var] IPv6 の TCP 接続テーブルを MIB_TCP6TABLE 構造体として受け取るバッファへのポインタ。
+SizePointer : [var] 入力時には、TcpTable が指すバッファのサイズをバイト単位で指定する。出力時、バッファが不足している場合、関数はこのパラメータに必要なバッファサイズをバイト単位で設定する。
+Order : [int] TCP 接続テーブルをソートするかどうかを指定する Boolean 値。TRUE の場合、最も小さいローカル IP アドレスから昇順でソートされる。FALSE の場合、取得順に並ぶ。TCP エンドポイントの順序付けでは以下の値が (列挙順に) 比較される:
 %inst
-Retrieves the TCP connection table for IPv6. (GetTcp6Table)
+IPv6 の TCP 接続テーブルを取得する。(GetTcp6Table)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetTcp6Table function is defined on Windows Vista and later.
+GetTcp6Table 関数は Windows Vista 以降で定義される。
 
 
 %index
 GetTcp6Table2
-Retrieves the TCP connection table for IPv6. (GetTcp6Table2)
+IPv6 の TCP 接続テーブルを取得する。(GetTcp6Table2)
 %group
 Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
-TcpTable : [var] A pointer to a buffer that receives the TCP connection table for IPv6 as a MIB_TCP6TABLE2 structure.
-SizePointer : [var] On input, specifies the size of the buffer pointed to by the TcpTable parameter.
-Order : [int] A value that specifies whether the TCP connection table should be sorted. If this parameter is TRUE, the table is sorted in ascending order, starting with the lowest local IP address.  If this parameter is FALSE, the table appears in the order in which they were retrieved. The following values are compared (as listed) when ordering the TCP endpoints:
+TcpTable : [var] IPv6 の TCP 接続テーブルを MIB_TCP6TABLE2 構造体として受け取るバッファへのポインタ。
+SizePointer : [var] 入力時には、TcpTable が指すバッファのサイズを指定する。
+Order : [int] TCP 接続テーブルをソートするかどうかを指定する値。TRUE の場合、最も小さいローカル IP アドレスから昇順でソートされる。FALSE の場合、取得順に並ぶ。TCP エンドポイントの順序付けでは以下の値が (列挙順に) 比較される:
 %inst
-Retrieves the TCP connection table for IPv6. (GetTcp6Table2)
+IPv6 の TCP 接続テーブルを取得する。(GetTcp6Table2)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetTcp6Table2 function is defined on Windows Vista and later. The
-GetTcp6Table2 function is an enhanced version of the GetTcp6Table
-function that also retrieves information on the TCP offload state of
-the TCP connection.
+GetTcp6Table2 関数は Windows Vista 以降で定義される。GetTcp6Table の拡張版で、TCP 接続の
+TCP オフロード状態に関する情報も取得する。
 
 
 %index
 GetTcpStatistics
-The GetTcpStatistics function retrieves the TCP statistics for the local computer.
+GetTcpStatistics 関数は、ローカルコンピュータの TCP 統計を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics
-Statistics : [var] A pointer to a MIB_TCPSTATS structure that receives the TCP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの TCP 統計を受け取る MIB_TCPSTATS 構造体へのポインタ。
 %inst
-The GetTcpStatistics function retrieves the TCP statistics for the
-local computer.
+GetTcpStatistics 関数は、ローカルコンピュータの TCP 統計を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetTcpStatistics function returns the TCP statistics for IPv4 on
-the current computer. On Windows XP and later, the GetTcpStatisticsEx
-can be used to obtain the TCP statistics for either IPv4 or IPv6.
+GetTcpStatistics 関数は、現在のコンピュータの IPv4 向け TCP 統計を返す。Windows XP
+以降では、GetTcpStatisticsEx を使って IPv4 / IPv6 どちらの TCP 統計も取得できる。
 
 
 %index
 GetTcpStatisticsEx
-The GetTcpStatisticsEx function retrieves the Transmission Control Protocol (TCP) statistics for the current computer.
+GetTcpStatisticsEx 関数は、現在のコンピュータの TCP (Transmission Control Protocol) 統計を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics, Family
-Statistics : [var] A pointer to a MIB_TCPSTATS structure that receives the TCP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの TCP 統計を受け取る MIB_TCPSTATS 構造体へのポインタ。
 Family : [int] 
 %inst
-The GetTcpStatisticsEx function retrieves the Transmission Control
-Protocol (TCP) statistics for the current computer.
+GetTcpStatisticsEx 関数は、現在のコンピュータの TCP (Transmission Control Protocol)
+統計を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 
 %index
 GetTcpStatisticsEx2
-The GetTcpStatisticsEx2 function retrieves the Transmission Control Protocol (TCP) statistics for the current computer.
+GetTcpStatisticsEx2 関数は、現在のコンピュータの TCP (Transmission Control Protocol) 統計を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics, Family
-Statistics : [var] A pointer to a MIB_TCPSTATS2 structure that receives the TCP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの TCP 統計を受け取る MIB_TCPSTATS2 構造体へのポインタ。
 Family : [int] 
 %inst
-The GetTcpStatisticsEx2 function retrieves the Transmission Control
-Protocol (TCP) statistics for the current computer.
+GetTcpStatisticsEx2 関数は、現在のコンピュータの TCP (Transmission Control
+Protocol) 統計を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 
 %index
 GetTcpTable
-Retrieves the IPv4 TCP connection table. (GetTcpTable)
+IPv4 の TCP 接続テーブルを取得する。(GetTcpTable)
 %group
 Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
-TcpTable : [var] A pointer to a buffer that receives the TCP connection table as a MIB_TCPTABLE structure.
-SizePointer : [var] On input, specifies the size in  bytes  of the buffer pointed to by the pTcpTable parameter. On output, if the buffer is not large enough to hold the returned connection table, the function sets this parameter equal to the required buffer size in bytes. On the Windows SDK released for Windows?Vista and later, the data type for this parameter is changed to a PULONG which is equivalent to a PDWORD.
-Order : [int] A Boolean value that specifies whether the TCP connection table should be sorted. If this parameter is TRUE, the table is sorted in the order of:
+TcpTable : [var] TCP 接続テーブルを MIB_TCPTABLE 構造体として受け取るバッファへのポインタ。
+SizePointer : [var] 入力時には、pTcpTable が指すバッファのサイズをバイト単位で指定する。出力時、バッファが不足している場合、関数はこのパラメータに必要なバッファサイズをバイト単位で設定する。Windows Vista 以降向けの Windows SDK では、このパラメータのデータ型は PDWORD と等価な PULONG に変更されている。
+Order : [int] TCP 接続テーブルをソートするかどうかを指定する Boolean 値。TRUE の場合、次の順でソートされる:
 %inst
-Retrieves the IPv4 TCP connection table. (GetTcpTable)
+IPv4 の TCP 接続テーブルを取得する。(GetTcpTable)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-On the Windows SDK released for Windows Vista and later, the return
-value from the GetTcpTable function is changed to a data type of
-ULONG which is equivalent to a DWORD.
+Windows Vista 以降向けの Windows SDK では、GetTcpTable 関数の戻り値のデータ型は DWORD
+と等価な ULONG に変更されている。
 
 
 %index
 GetTcpTable2
-Retrieves the IPv4 TCP connection table. (GetTcpTable2)
+IPv4 の TCP 接続テーブルを取得する。(GetTcpTable2)
 %group
 Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
-TcpTable : [var] A pointer to a buffer that receives the TCP connection table as a MIB_TCPTABLE2 structure.
-SizePointer : [var] On input, specifies the size of the buffer pointed to by the TcpTable parameter.
-Order : [int] A value that specifies whether the TCP connection table should be sorted. If this parameter is TRUE, the table is sorted in the order of:
+TcpTable : [var] TCP 接続テーブルを MIB_TCPTABLE2 構造体として受け取るバッファへのポインタ。
+SizePointer : [var] 入力時には、TcpTable が指すバッファのサイズを指定する。
+Order : [int] TCP 接続テーブルをソートするかどうかを指定する値。TRUE の場合、次の順でソートされる:
 %inst
-Retrieves the IPv4 TCP connection table. (GetTcpTable2)
+IPv4 の TCP 接続テーブルを取得する。(GetTcpTable2)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetTcpTable2 function is defined on Windows Vista and later. The
-GetTcpTable2 function is an enhanced version of the GetTcpTable
-function that also retrieves information on the TCP offload state of
-the TCP connection.
+GetTcpTable2 関数は Windows Vista 以降で定義される。GetTcpTable の拡張版であり、TCP 接続の
+TCP オフロード状態に関する情報も取得する。
 
 
 %index
 GetTeredoPort
-Retrieves the dynamic UDP port number used by the Teredo client on the local computer.
+ローカルコンピュータ上で Teredo クライアントが使用している動的 UDP ポート番号を取得する。
 %group
 Win32 iphlpapi
 %prm
 Port
-Port : [var] A pointer to the  UDP port number. On successful return, this parameter will be filled with the port number used by the Teredo client.
+Port : [var] UDP ポート番号へのポインタ。正常終了時、このパラメータには Teredo クライアントが使用するポート番号が格納される。
 %inst
-Retrieves the dynamic UDP port number used by the Teredo client on
-the local computer.
+ローカルコンピュータ上で Teredo クライアントが使用している動的 UDP ポート番号を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetTeredoPort function is defined on Windows Vista and later. The
-GetTeredoPort function retrieves the current UDP port number used by
-the Teredo client for the Teredo service port. The Teredo port is
-dynamic and can change any time the Teredo client is restarted on the
-local computer. An application can register to be notified when the
-Teredo service port changes by calling the NotifyTeredoPortChange
-function. The Teredo client also uses static UDP port 3544 for
-listening to multicast traffic sent on multicast IPv4 address
-224.0.0.253 as defined in RFC 4380. For more information, see
-http://www.ietf.org/rfc/rfc4380.txt. The GetTeredoPort function is
-used primarily by firewall applications in order to configure the
-appropriate exceptions to allow incoming and outgoing Teredo traffic.
+GetTeredoPort 関数は Windows Vista 以降で定義される。Teredo クライアントが Teredo
+サービスポートに用いている現在の UDP ポート番号を取得する。Teredo ポートは動的であり、ローカルコンピュータで Teredo
+クライアントが再起動されるたびに変更される可能性がある。NotifyTeredoPortChange 関数を呼び出すことで、Teredo
+サービスポートが変更されたときに通知を受けるよう登録できる。なお Teredo クライアントは、RFC 4380
+で定義されているマルチキャスト IPv4 アドレス 224.0.0.253 上で送信されるマルチキャストトラフィックの待ち受け用に、静的
+UDP ポート 3544 も使用する。GetTeredoPort は主にファイアウォールアプリケーションが Teredo
+トラフィックの送受信を許可する例外を設定するために使用される。
 
 
 %index
 GetUdp6Table
-Retrieves the IPv6 User Datagram Protocol (UDP) listener table.
+IPv6 の UDP (User Datagram Protocol) リスナーテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Udp6Table, SizePointer, Order
-Udp6Table : [var] A pointer to a buffer that receives the IPv6 UDP listener table as a MIB_UDP6TABLE structure.
-SizePointer : [var] On input, specifies the size in bytes of the buffer pointed to by the Udp6Table parameter.
-Order : [int] A Boolean value that specifies whether the returned UDP listener table should be sorted. If this parameter is TRUE, the table is sorted in the order of:
+Udp6Table : [var] IPv6 UDP リスナーテーブルを MIB_UDP6TABLE 構造体として受け取るバッファへのポインタ。
+SizePointer : [var] 入力時には、Udp6Table が指すバッファのサイズをバイト単位で指定する。
+Order : [int] 返される UDP リスナーテーブルをソートするかどうかを指定する Boolean 値。TRUE の場合、次の順でソートされる:
 %inst
-Retrieves the IPv6 User Datagram Protocol (UDP) listener table.
+IPv6 の UDP (User Datagram Protocol) リスナーテーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetUdp6Table function is defined on Windows Vista and later.
+GetUdp6Table 関数は Windows Vista 以降で定義される。
 
 
 %index
 GetUdpStatistics
-The GetUdpStatistics function retrieves the User Datagram Protocol (UDP) statistics for the local computer.
+GetUdpStatistics 関数は、ローカルコンピュータの UDP (User Datagram Protocol) 統計を取得する。
 %group
 Win32 iphlpapi
 %prm
 Stats
-Stats : [var] Pointer to a MIB_UDPSTATS structure that receives the UDP statistics for the local computer.
+Stats : [var] ローカルコンピュータの UDP 統計を受け取る MIB_UDPSTATS 構造体へのポインタ。
 %inst
-The GetUdpStatistics function retrieves the User Datagram Protocol
-(UDP) statistics for the local computer.
+GetUdpStatistics 関数は、ローカルコンピュータの UDP (User Datagram Protocol)
+統計を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
 
 [備考]
-Windows Server 2003 and Windows XP: Use the GetUdpStatisticsEx
-function to obtain the UDP statistics for the IPv6 protocol.
+Windows Server 2003 / Windows XP: IPv6 プロトコル向けの UDP 統計を取得するには
+GetUdpStatisticsEx を使用すること。
 
 
 %index
 GetUdpStatisticsEx
-The GetUdpStatisticsEx function retrieves the User Datagram Protocol (UDP) statistics for the current computer.
+GetUdpStatisticsEx 関数は、現在のコンピュータの UDP 統計を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics, Family
-Statistics : [var] A pointer to a MIB_UDPSTATS structure that receives the UDP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの UDP 統計を受け取る MIB_UDPSTATS 構造体へのポインタ。
 Family : [int] 
 %inst
-The GetUdpStatisticsEx function retrieves the User Datagram Protocol
-(UDP) statistics for the current computer.
+GetUdpStatisticsEx 関数は、現在のコンピュータの UDP 統計を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 
 %index
 GetUdpStatisticsEx2
-The GetUdpStatisticsEx2 function retrieves the User Datagram Protocol (UDP) statistics for the current computer.
+GetUdpStatisticsEx2 関数は、現在のコンピュータの UDP 統計を取得する。
 %group
 Win32 iphlpapi
 %prm
 Statistics, Family
-Statistics : [var] A pointer to a MIB_UDPSTATS2 structure that receives the UDP statistics for the local computer.
+Statistics : [var] ローカルコンピュータの UDP 統計を受け取る MIB_UDPSTATS2 構造体へのポインタ。
 Family : [int] 
 %inst
-The GetUdpStatisticsEx2 function retrieves the User Datagram Protocol
-(UDP) statistics for the current computer.
+GetUdpStatisticsEx2 関数は、現在のコンピュータの UDP 統計を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 
 %index
 GetUdpTable
-Retrieves the IPv4 User Datagram Protocol (UDP) listener table.
+IPv4 の UDP (User Datagram Protocol) リスナーテーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 UdpTable, SizePointer, Order
-UdpTable : [var] A pointer to a buffer that receives the IPv4 UDP listener table as a MIB_UDPTABLE structure.
-SizePointer : [var] On input, specifies the size in bytes of the buffer pointed to by the UdpTable parameter.
-Order : [int] A Boolean value that specifies whether the returned UDP listener table should be sorted. If this parameter is TRUE, the table is sorted in the order of:
+UdpTable : [var] IPv4 UDP リスナーテーブルを MIB_UDPTABLE 構造体として受け取るバッファへのポインタ。
+SizePointer : [var] 入力時には、UdpTable が指すバッファのサイズをバイト単位で指定する。
+Order : [int] 返される UDP リスナーテーブルをソートするかどうかを指定する Boolean 値。TRUE の場合、次の順でソートされる:
 %inst
-Retrieves the IPv4 User Datagram Protocol (UDP) listener table.
+IPv4 の UDP (User Datagram Protocol) リスナーテーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-On the Windows SDK released for Windows Vista and later, the return
-value from the GetUdpTable function is changed to a data type of
-ULONG which is equivalent to a DWORD.
+Windows Vista 以降向けの Windows SDK では、GetUdpTable 関数の戻り値のデータ型は DWORD
+と等価な ULONG に変更されている。
 
 
 %index
 GetUniDirectionalAdapterInfo
-The GetUniDirectionalAdapterInfo function retrieves information about the unidirectional adapters installed on the local computer. A unidirectional adapter is an adapter that can receive datagrams, but not transmit them.
+GetUniDirectionalAdapterInfo 関数は、ローカルコンピュータにインストールされている単方向アダプタに関する情報を取得する。単方向アダプタとは、データグラムを受信できるが送信はできないアダプタである。
 %group
 Win32 iphlpapi
 %prm
 pIPIfInfo, dwOutBufLen
-pIPIfInfo : [var] Pointer to an IP_UNIDIRECTIONAL_ADAPTER_ADDRESS structure that receives information about the unidirectional adapters installed on the local computer.
-dwOutBufLen : [var] Pointer to a ULONG variable that receives the size of the structure pointed to by the pIPIfInfo parameter.
+pIPIfInfo : [var] ローカルコンピュータにインストールされている単方向アダプタに関する情報を受け取る IP_UNIDIRECTIONAL_ADAPTER_ADDRESS 構造体へのポインタ。
+dwOutBufLen : [var] pIPIfInfo が指す構造体のサイズを受け取る ULONG 変数へのポインタ。
 %inst
-The GetUniDirectionalAdapterInfo function retrieves information about
-the unidirectional adapters installed on the local computer. A
-unidirectional adapter is an adapter that can receive datagrams, but
-not transmit them.
+GetUniDirectionalAdapterInfo
+関数は、ローカルコンピュータにインストールされている単方向アダプタに関する情報を取得する。単方向アダプタとは、データグラムを受信できるが送信はできないアダプタである。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
 
 
 %index
 GetUnicastIpAddressEntry
-Retrieves information for an existing unicast IP address entry on the local computer.
+ローカルコンピュータ上の既存のユニキャスト IP アドレスエントリの情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_UNICASTIPADDRESS_ROW structure entry for a unicast IP address entry. On successful return, this structure will be updated with the properties for an existing unicast IP address.
+Row : [var] ユニキャスト IP アドレスエントリの MIB_UNICASTIPADDRESS_ROW 構造体エントリへのポインタ。正常終了時、この構造体は既存のユニキャスト IP アドレスのプロパティで更新される。
 %inst
-Retrieves information for an existing unicast IP address entry on the
-local computer.
+ローカルコンピュータ上の既存のユニキャスト IP アドレスエントリの情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetUnicastIpAddressEntry function is defined on Windows Vista and
-later. The GetUnicastIpAddressEntry function is normally used to
-retrieve an existing MIB_UNICASTIPADDRESS_ROW structure entry to be
-modified. An application can then change the members in the
-MIB_UNICASTIPADDRESS_ROW entry it wishes to modify, and then call the
-SetUnicastIpAddressEntry function. On input, the Address member in
-the MIB_UNICASTIPADDRESS_ROW structure pointed to by the Row
-parameter must be initialized to a valid unicast IPv4 or IPv6
-address. The si_family member of the SOCKADDR_INET structure in the
-Address member must be initialized to either AF_INET or AF_INET6 and
-the related Ipv4 or Ipv6 member of the SOCKADDR_INET structure must
-be set to a valid unicast IP address. In addition, at least one of
-the following members in the MIB_UNICASTIPADDRESS_ROW structure
-pointed to the Row parameter must be initialized: the InterfaceLuid
-or InterfaceIndex. The fields are used in the order listed above. So
-if the InterfaceLuid is specified, then this member is used to
-determine the interface. If no value is set for the InterfaceLuid
-member (the value of this member is set to zero), then the
-InterfaceIndex member is next used to determine the interface. On
-output when the call is successful, GetUnicastIpAddressEntry
-retrieves the other properties for the unicast IP address and fills
-out the MIB_UNICASTIPADDRESS_ROW structure pointed to by the Row
-parameter. The GetUnicastIpAddressTable function can be called to
-enumerate the unicast IP address entries on a local computer.
+GetUnicastIpAddressEntry 関数は Windows Vista 以降で定義される。通常は、変更対象の既存の
+MIB_UNICASTIPADDRESS_ROW を取得するために使用される。アプリケーションは変更したい
+MIB_UNICASTIPADDRESS_ROW のメンバを書き換え、続いて SetUnicastIpAddressEntry
+関数を呼び出す。入力時、Row が指す MIB_UNICASTIPADDRESS_ROW 構造体の Address
+メンバは有効なユニキャスト IPv4 または IPv6 アドレスで初期化しなければならない。Address 内の
+SOCKADDR_INET 構造体の si_family メンバは AF_INET または AF_INET6 に初期化し、対応する
+Ipv4 または Ipv6 メンバを有効なユニキャスト IP アドレスに設定する。さらに Row の InterfaceLuid または
+InterfaceIndex のいずれかを初期化する必要がある。フィールドは列挙順に使用される。すなわち InterfaceLuid
+が指定されていればそれで、0 ならば InterfaceIndex
+でインターフェイスを決定する。呼び出しが成功すると、GetUnicastIpAddressEntry はユニキャスト IP
+アドレスの他のプロパティを取得し Row の MIB_UNICASTIPADDRESS_ROW
+を埋める。ローカルコンピュータ上のユニキャスト IP アドレスエントリの列挙には GetUnicastIpAddressTable
+を使用できる。
 
 
 %index
 GetUnicastIpAddressTable
-Retrieves the unicast IP address table on the local computer.
+ローカルコンピュータ上のユニキャスト IP アドレステーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table
-Family : [int] The address family to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a MIB_UNICASTIPADDRESS_TABLE structure that contains a table of unicast IP address entries on the local computer.
+Family : [int] 取得するアドレスファミリ。アドレスファミリの値は Winsock2.h ヘッダで定義される。AF_ と PF_ の定数は等価 (例: AF_INET と PF_INET) であり、どちらを使っても構わない。Windows Vista 以降向けの Windows SDK ではヘッダ構成が変更され、これらの値は Ws2def.h で定義される。Ws2def.h は Winsock2.h から自動的にインクルードされるので、直接インクルードしてはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] ローカルコンピュータ上のユニキャスト IP アドレスエントリのテーブルを格納する MIB_UNICASTIPADDRESS_TABLE 構造体へのポインタ。
 %inst
-Retrieves the unicast IP address table on the local computer.
+ローカルコンピュータ上のユニキャスト IP アドレステーブルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The GetUnicastIpAddressTable function is defined on Windows Vista and
-later. The GetUnicastIpAddressTable function enumerates the unicast
-IP addresses on a local system and returns this information in an
-MIB_UNICASTIPADDRESS_TABLE structure. The unicast IP address entries
-are returned in a MIB_UNICASTIPADDRESS_TABLE structure in the buffer
-pointed to by the Table parameter. The MIB_UNICASTIPADDRESS_TABLE
-structure contains a unicast IP address entry count and an array of
-MIB_UNICASTIPADDRESS_ROW structures for each unicast IP address
-entry. When these returned structures are no longer required, free
-the memory by calling the FreeMibTable. The Family parameter must be
-initialized to either AF_INET, AF_INET6, or AF_UNSPEC. Note that the
-returned MIB_UNICASTIPADDRESS_TABLE structure pointed to by the Table
-parameter may contain padding for alignment between the NumEntries
-member and the first MIB_UNICASTIPADDRESS_ROW array entry in the
-Table member of the MIB_UNICASTIPADDRESS_TABLE structure. Padding for
-alignment may also be present between the MIB_UNICASTIPADDRESS_ROW
-array entries. Any access to a MIB_UNICASTIPADDRESS_ROW array entry
-should assume padding may exist.
+GetUnicastIpAddressTable 関数は Windows Vista 以降で定義される。ローカルシステム上のユニキャスト
+IP アドレスを列挙し、MIB_UNICASTIPADDRESS_TABLE 構造体で返す。この構造体はエントリ数と、各ユニキャスト IP
+アドレスエントリに対応する MIB_UNICASTIPADDRESS_ROW の配列を含む。返された構造体が不要になった場合は
+FreeMibTable でメモリを解放する。Family は AF_INET、AF_INET6、AF_UNSPEC
+のいずれかで初期化しなければならない。なお返される MIB_UNICASTIPADDRESS_TABLE では、NumEntries
+メンバと Table の最初の MIB_UNICASTIPADDRESS_ROW
+エントリとの間、さらにエントリ間にもアライメントのためのパディングが存在しうるので、配列要素アクセス時はパディングを考慮すること。
 
 
 %index
 Icmp6CreateFile
-The Icmp6CreateFile function opens a handle on which IPv6 ICMP echo requests can be issued.
+Icmp6CreateFile 関数は、IPv6 ICMP エコー要求を発行できるハンドルをオープンする。
 %group
 Win32 iphlpapi
 %prm
 
 %inst
-The Icmp6CreateFile function opens a handle on which IPv6 ICMP echo
-requests can be issued.
+Icmp6CreateFile 関数は、IPv6 ICMP エコー要求を発行できるハンドルをオープンする。
 
 [戻り値]
-The Icmp6CreateFile function returns an open handle on success. On
-failure, the function returns INVALID_HANDLE_VALUE. Call the
-GetLastError function for extended error information.
+Icmp6CreateFile 関数は成功時にオープンされたハンドルを返す。失敗時は INVALID_HANDLE_VALUE
+を返す。拡張エラー情報は GetLastError 関数で取得する。
 
 [備考]
-The Icmp6CreateFile function opens a handle on which IPv6 ICMP echo
-requests can be issued. The Icmp6SendEcho2 function is used to send
-the IPv6 ICMP echo requests. The Icmp6ParseReplies function is used
-to parse the IPv6 ICMP replies. The IcmpCloseHandle function is used
-to close the ICMP handle opened by the Icmp6CreateFile function. For
-IPv4, use the IcmpCreateFile function. For IPv4, use the
-IcmpCreateFile, IcmpSendEcho, IcmpSendEcho2, IcmpSendEcho2Ex, and
-IcmpParseReplies functions. Note that the include directive for
-Iphlpapi.h header file must be placed before the Icmpapi.h header
-file.
+Icmp6CreateFile 関数は、IPv6 ICMP エコー要求を発行できるハンドルをオープンする。IPv6 ICMP
+エコー要求の送信には Icmp6SendEcho2 を、IPv6 ICMP 応答の解析には Icmp6ParseReplies
+を使用する。Icmp6CreateFile で開かれた ICMP ハンドルのクローズには IcmpCloseHandle
+を使用する。IPv4 の場合は IcmpCreateFile / IcmpSendEcho / IcmpSendEcho2 /
+IcmpSendEcho2Ex / IcmpParseReplies を使用する。Iphlpapi.h の include 指令は
+Icmpapi.h より前に置かなければならない。
 
 
 %index
 Icmp6ParseReplies
-The Icmp6ParseReplies function parses the reply buffer provided and returns an IPv6 ICMPv6 echo response reply if found.
+Icmp6ParseReplies 関数は、与えられた応答バッファを解析し、IPv6 ICMPv6 エコー応答を返す。
 %group
 Win32 iphlpapi
 %prm
 ReplyBuffer, ReplySize
-ReplyBuffer : [intptr] A pointer to the buffer passed to the Icmp6SendEcho2 function. This parameter is points to an ICMPV6_ECHO_REPLY structure to hold the response.
-ReplySize : [int] The size, in bytes, of the buffer pointed to by the ReplyBuffer parameter.
+ReplyBuffer : [intptr] Icmp6SendEcho2 関数に渡したバッファへのポインタ。このパラメータは応答を保持する ICMPV6_ECHO_REPLY 構造体を指す。
+ReplySize : [int] ReplyBuffer が指すバッファのサイズ (バイト単位)。
 %inst
-The Icmp6ParseReplies function parses the reply buffer provided and
-returns an IPv6 ICMPv6 echo response reply if found.
+Icmp6ParseReplies 関数は、与えられた応答バッファを解析し、IPv6 ICMPv6 エコー応答を返す。
 
 [戻り値]
-The Icmp6ParseReplies function returns 1 on success. In this case,
-the Status member in the ICMPV6_ECHO_REPLY structure pointed to by
-the ReplyBuffer parameter will be either IP_SUCCESS if the target
-node responded or IP_TTL_EXPIRED_TRANSIT. If the return value is
-zero, extended error information is available through GetLastError.
-This doc was truncated.
+Icmp6ParseReplies 関数は成功時に 1 を返す。このとき ReplyBuffer の ICMPV6_ECHO_REPLY
+の Status メンバは、対象ノードが応答した場合は IP_SUCCESS、あるいは IP_TTL_EXPIRED_TRANSIT
+のいずれかとなる。戻り値が 0 の場合は GetLastError から拡張エラー情報が取得できる。
+このドキュメントは省略されている。
 
 [備考]
-The Icmp6ParseReplies function is used by IPv6 to parse replies that
-result from an ICMPv6 echo request. The Icmp6ParseReplies function
-parses a reply buffer previously passed to the Icmp6SendEcho2
-function. Use the Icmp6ParseReplies function only with the
-Icmp6SendEcho2 function. The Icmp6ParseReplies function cannot be
-used on a reply buffer previously passed to IcmpSendEcho or
-IcmpSendEcho2 for IPv4. For IPv4, use the IcmpCreateFile,
-IcmpSendEcho, IcmpSendEcho2, IcmpSendEcho2Ex, and IcmpParseReplies
-functions. Note that the include directive for Iphlpapi.h header file
-must be placed before the Icmpapi.h header file.
+Icmp6ParseReplies 関数は、IPv6 の ICMPv6
+エコー要求の結果として得られた応答を解析するために使用される。以前に Icmp6SendEcho2
+に渡した応答バッファを解析する。Icmp6ParseReplies は Icmp6SendEcho2 とのみ併用する。IPv4 用の
+IcmpSendEcho / IcmpSendEcho2 の応答バッファには使用できない。IPv4 の場合は IcmpCreateFile
+/ IcmpSendEcho / IcmpSendEcho2 / IcmpSendEcho2Ex / IcmpParseReplies
+を使用する。Iphlpapi.h の include 指令は Icmpapi.h より前に置かなければならない。
 
 
 %index
 Icmp6SendEcho2
-The Icmp6SendEcho2 function sends an IPv6 ICMPv6 echo request and returns either immediately (if Event or ApcRoutine is non-NULL) or returns after the specified time-out. The ReplyBuffer contains the IPv6 ICMPv6 echo response, if any.
+Icmp6SendEcho2 関数は IPv6 ICMPv6 エコー要求を送信し、Event または ApcRoutine が NULL 以外なら即座に、そうでなければ指定したタイムアウト後に返る。ReplyBuffer には IPv6 ICMPv6 エコー応答が格納される。
 %group
 Win32 iphlpapi
 %prm
 IcmpHandle, Event, ApcRoutine, ApcContext, SourceAddress, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
-IcmpHandle : [intptr] The open handle returned by Icmp6CreateFile.
-Event : [intptr] An event to be signaled whenever an ICMPv6 response arrives. If this parameter is specified, it requires a handle to a valid event object. Use the CreateEvent or CreateEventEx function to create this event object. For more information on using events, see Event Objects.
-ApcRoutine : [int] The routine that is called when the calling thread is in an alertable thread and  an ICMPv6 reply arrives. On Windows?Vista and later, PIO_APC_ROUTINE_DEFINED must be defined to force the datatype for this parameter to PIO_APC_ROUTINE rather than FARPROC. On Windows Server?2003 and Windows?XP, PIO_APC_ROUTINE_DEFINED must not be defined to force the datatype for this parameter to FARPROC.
-ApcContext : [intptr] An optional parameter passed to the callback routine specified in the  ApcRoutine parameter whenever an ICMPv6 response arrives or an error occurs.
-SourceAddress : [var] The IPv6 source address on which to issue the echo request, in the form of a sockaddr structure.
-DestinationAddress : [var] The IPv6 destination address of the echo request, in the form of a sockaddr structure.
-RequestData : [intptr] A pointer to a buffer that contains data to send in the request.
-RequestSize : [int] The size, in bytes, of the request data buffer pointed to by the RequestData parameter.
-RequestOptions : [var] A pointer to the IPv6 header options for the request, in the form of an IP_OPTION_INFORMATION structure. On a 64-bit platform, this parameter is in the form for an IP_OPTION_INFORMATION32 structure. This parameter may be NULL if no IP header options need to be specified. Note??On Windows Server?2003 and Windows?XP, the RequestOptions parameter is not optional and must not be NULL and only the Ttl and Flags members are used.
-ReplyBuffer : [intptr] A pointer to a buffer to hold replies to the request. Upon return, the buffer contains an ICMPV6_ECHO_REPLY structure followed by the message body from the ICMPv6 echo response reply data. The buffer must be large enough to hold at least one ICMPV6_ECHO_REPLY structure plus the number of bytes of data specified in the RequestSize parameter. This buffer should also be large enough to also hold 8 more bytes of data (the size of an ICMP error message) plus space for an IO_STATUS_BLOCK structure.
-ReplySize : [int] The size, in bytes,  of the reply buffer pointed to by the ReplyBuffer parameter. This buffer should be large enough to hold at least one ICMPV6_ECHO_REPLY structure plus RequestSize bytes of data. This buffer should also be large enough to also hold 8 more bytes of data (the size of an ICMP error message) plus space for an IO_STATUS_BLOCK structure.
-Timeout : [int] The time, in milliseconds, to wait for replies. This parameter is only used if the Icmp6SendEcho2 function is called synchronously. So this parameter is not used if either the ApcRoutine or Event parameter are not NULL.
+IcmpHandle : [intptr] Icmp6CreateFile が返したオープンハンドル。
+Event : [intptr] ICMPv6 応答が到着したときにシグナル状態にするイベント。指定する場合は有効なイベントオブジェクトへのハンドルが必要。イベントオブジェクトは CreateEvent / CreateEventEx で作成する。イベントの使い方の詳細は Event Objects を参照。
+ApcRoutine : [int] 呼び出しスレッドがアラート可能な状態で ICMPv6 応答が到着したときに呼ばれるルーチン。Windows Vista 以降では、このパラメータの型を FARPROC ではなく PIO_APC_ROUTINE にするために PIO_APC_ROUTINE_DEFINED を定義する必要がある。Windows Server 2003 / Windows XP では PIO_APC_ROUTINE_DEFINED を定義してはならず、型は FARPROC のままにする。
+ApcContext : [intptr] ICMPv6 応答が到着したかエラーが発生したとき、ApcRoutine で指定したコールバックルーチンに渡される任意パラメータ。
+SourceAddress : [var] エコー要求を発行する IPv6 送信元アドレス。sockaddr 構造体の形式で指定する。
+DestinationAddress : [var] エコー要求の IPv6 宛先アドレス。sockaddr 構造体の形式で指定する。
+RequestData : [intptr] 要求で送信するデータを含むバッファへのポインタ。
+RequestSize : [int] RequestData が指す要求データバッファのサイズ (バイト単位)。
+RequestOptions : [var] 要求に対する IPv6 ヘッダオプションへのポインタ。IP_OPTION_INFORMATION 構造体の形式で指定する。64 ビットプラットフォームでは IP_OPTION_INFORMATION32 の形式となる。ヘッダオプションを指定しない場合は NULL でもよい。Windows Server 2003 / Windows XP ではこのパラメータは必須であり NULL にはできず、Ttl と Flags メンバのみが使用される。
+ReplyBuffer : [intptr] 応答を保持するバッファへのポインタ。戻り時、バッファには ICMPV6_ECHO_REPLY 構造体に続けて ICMPv6 エコー応答のメッセージ本体が格納される。バッファは ICMPV6_ECHO_REPLY 構造体 1 つ分と RequestSize バイトのデータ、さらに 8 バイトの ICMP エラーメッセージおよび IO_STATUS_BLOCK 構造体分の領域を収められる大きさでなければならない。
+ReplySize : [int] ReplyBuffer が指す応答バッファのサイズ (バイト単位)。少なくとも ICMPV6_ECHO_REPLY 構造体 1 つ分と RequestSize バイト、加えて 8 バイトの ICMP エラーメッセージ分と IO_STATUS_BLOCK 分を収められる必要がある。
+Timeout : [int] 応答を待機する時間 (ミリ秒単位)。Icmp6SendEcho2 が同期的に呼び出された場合にのみ使用される。ApcRoutine または Event が NULL 以外の場合は使用されない。
 %inst
-The Icmp6SendEcho2 function sends an IPv6 ICMPv6 echo request and
-returns either immediately (if Event or ApcRoutine is non-NULL) or
-returns after the specified time-out. The ReplyBuffer contains the
-IPv6 ICMPv6 echo response, if any.
+Icmp6SendEcho2 関数は IPv6 ICMPv6 エコー要求を送信し、Event または ApcRoutine が NULL
+以外なら即座に、そうでなければ指定したタイムアウト後に返る。ReplyBuffer には IPv6 ICMPv6 エコー応答が格納される。
 
 [戻り値]
-When called synchronously, the Icmp6SendEcho2 function returns the
-number of replies received and stored in ReplyBuffer. If the return
-value is zero, call GetLastError for extended error information. When
-called asynchronously, the Icmp6SendEcho2 function returns
-ERROR_IO_PENDING to indicate the operation is in progress. The
-results can be retrieved later when the event specified in the Event
-parameter signals or the callback function in the ApcRoutine
-parameter is called. If the return value is zero, call GetLastError
-for extended error information. If the function fails, the extended
-error code returned by GetLastError can be one of the following
-values.
-This doc was truncated.
+同期呼び出し時、Icmp6SendEcho2 は ReplyBuffer に格納された応答の数を返す。0 の場合は
+GetLastError で拡張エラー情報を取得する。非同期呼び出し時、Icmp6SendEcho2 は操作進行中を示す
+ERROR_IO_PENDING を返す。結果は Event のシグナル、または ApcRoutine
+の呼び出しで取得できる。関数が失敗した場合、GetLastError は以下のいずれかを返す。
+このドキュメントは省略されている。
 
 [備考]
-The Icmp6SendEcho2 function is called synchronously if the ApcRoutine
-or Event parameters are NULL. When called synchronously, the return
-value contains the number of replies received and stored in
-ReplyBuffer after waiting for the time specified in the Timeout
-parameter. If the return value is zero, call GetLastError for
-extended error information. The Icmp6SendEcho2 function is called
-asynchronously when either the ApcRoutine or Event parameters are
-specified. When called asynchronously, the ReplyBuffer and ReplySize
-parameters are required to accept the response. ICMP response data is
-copied to the ReplyBuffer provided and the application is signaled
-(when the Event parameter is specified) or the callback function is
-called (when the ApcRoutine parameter is specified). The application
-must parse the data pointed to by ReplyBuffer parameter using the
-Icmp6ParseReplies function. If the Event parameter is specified, the
-Icmp6SendEcho2 function is called asynchronously. The event specified
-in the Event parameter is signaled whenever an ICMPv6 response
-arrives. Use the CreateEvent function to create this event object. If
-the ApcRoutine parameter is specified, the Icmp6SendEcho2 function is
-called asynchronously. The ApcRoutine parameter should point to a
-user-defined callback function. The callback function specified in
-the ApcRoutine parameter is called whenever an ICMPv6 response
-arrives. The invocation of the callback function specified in the
-ApcRoutine parameter is serialized. If both the Event and ApcRoutine
-parameters are specified, the event specified in the Event parameter
-is signaled whenever an ICMPv6 response arrives, but the callback
-function specified in the ApcRoutine parameter is ignored . On
-Windows Vista and later, any application that calls Icmp6SendEcho2
-function asynchronously using the ApcRoutine parameter must define
-PIO_APC_ROUTINE_DEFINED to force the datatype for the ApcRoutine
-parameter to PIO_APC_ROUTINE rather than FARPROC. Note
-PIO_APC_ROUTINE_DEFINED must be defined before the Icmpapi.h header
-file is included.
-On Windows Vista and later, the callback function pointed to by the
-ApcRoutine must be defined as a function of type VOID with the
-following syntax:
-This doc was truncated.
+Icmp6SendEcho2 関数は ApcRoutine と Event が NULL
+の場合は同期的に呼び出される。同期呼び出し時の戻り値は、Timeout の時間待機した後に ReplyBuffer
+に格納された応答の数である。0 の場合は GetLastError で拡張エラー情報を取得できる。ApcRoutine または Event
+が指定されている場合は非同期呼び出しとなる。非同期時は ReplyBuffer / ReplySize が必要で、ICMP 応答データは
+ReplyBuffer にコピーされ、Event 指定時はイベントがシグナル状態になり、ApcRoutine
+指定時はコールバック関数が呼び出される。アプリケーションは Icmp6ParseReplies で ReplyBuffer
+を解析する必要がある。両方を指定した場合は Event のみが使用され ApcRoutine は無視される。Windows Vista
+以降で ApcRoutine による非同期呼び出しを行うアプリケーションは、型を PIO_APC_ROUTINE にするため
+Icmpapi.h をインクルードする前に PIO_APC_ROUTINE_DEFINED を定義しなければならない。
+コールバック関数は VOID 型で次の構文に従って定義する:
+このドキュメントは省略されている。
 
 
 %index
 IcmpCloseHandle
-The IcmpCloseHandle function closes a handle opened by a call to the IcmpCreateFile or Icmp6CreateFile functions.
+IcmpCloseHandle 関数は、IcmpCreateFile または Icmp6CreateFile でオープンされたハンドルをクローズする。
 %group
 Win32 iphlpapi
 %prm
 IcmpHandle
-IcmpHandle : [intptr] The handle to close. This handle must have been returned by a call to IcmpCreateFile or Icmp6CreateFile.
+IcmpHandle : [intptr] クローズするハンドル。このハンドルは IcmpCreateFile または Icmp6CreateFile の呼び出しで返されたものでなければならない。
 %inst
-The IcmpCloseHandle function closes a handle opened by a call to the
-IcmpCreateFile or Icmp6CreateFile functions.
+IcmpCloseHandle 関数は、IcmpCreateFile または Icmp6CreateFile
+でオープンされたハンドルをクローズする。
 
 [戻り値]
-If the handle is closed successfully the return value is TRUE,
-otherwise FALSE. Call the GetLastError function for extended error
-information.
+ハンドルが正常にクローズされた場合は TRUE、そうでない場合は FALSE を返す。拡張エラー情報は GetLastError
+関数で取得する。
 
 [備考]
-The IcmpCloseHandle function is exported from the Icmp.dll on Windows
-2000. The IcmpCloseHandle function is exported from the Iphlpapi.dll
-on Windows XP and later. Windows version checking is not recommended
-to use this function. Applications requiring portability with this
-function across Windows 2000, Windows XP, Windows Server 2003 and
-later Windows versions should not statically link to either the
-Icmp.lib or the Iphlpapi.lib file. Instead, the application should
-check for the presence of IcmpCloseHandle in the Iphlpapi.dll with
-calls to LoadLibrary and GetProcAddress. Failing that, the
-application should check for the presence of IcmpCloseHandle in the
-Icmp.dll with calls to LoadLibrary and GetProcAddress. Note that the
-include directive for Iphlpapi.h header file must be placed before
-the Icmpapi.h header file.
+IcmpCloseHandle 関数は、Windows 2000 では Icmp.dll から、Windows XP 以降では
+Iphlpapi.dll からエクスポートされる。この関数を使用する際に Windows
+バージョンチェックを行うことは推奨されない。Windows 2000 / XP / Server 2003
+以降で移植性が必要なアプリケーションは Icmp.lib / Iphlpapi.lib に静的リンクせず、LoadLibrary と
+GetProcAddress で Iphlpapi.dll に IcmpCloseHandle があるかを確認し、なければ
+Icmp.dll を確認するべきである。Iphlpapi.h の include 指令は Icmpapi.h より前に置くこと。
 
 
 %index
 IcmpCreateFile
-The IcmpCreateFile function opens a handle on which IPv4 ICMP echo requests can be issued.
+IcmpCreateFile 関数は、IPv4 ICMP エコー要求を発行できるハンドルをオープンする。
 %group
 Win32 iphlpapi
 %prm
 
 %inst
-The IcmpCreateFile function opens a handle on which IPv4 ICMP echo
-requests can be issued.
+IcmpCreateFile 関数は、IPv4 ICMP エコー要求を発行できるハンドルをオープンする。
 
 [戻り値]
-The IcmpCreateFile function returns an open handle on success. On
-failure, the function returns INVALID_HANDLE_VALUE. Call the
-GetLastError function for extended error information.
+IcmpCreateFile 関数は成功時にオープンされたハンドルを返す。失敗時は INVALID_HANDLE_VALUE
+を返す。拡張エラー情報は GetLastError 関数で取得する。
 
 [備考]
-The IcmpCreateFile function is exported from the Icmp.dll on Windows
-2000. The IcmpCreateFile function is exported from the Iphlpapi.dll
-on Windows XP and later. Windows version checking is not recommended
-to use this function. Applications requiring portability with this
-function across Windows 2000, Windows XP, Windows Server 2003 and
-later Windows versions should not statically link to either the
-Icmp.lib or the Iphlpapi.lib file. Instead, the application should
-check for the presence of IcmpCreateFile in the Iphlpapi.dll with
-calls to LoadLibrary and GetProcAddress. Failing that, the
-application should check for the presence of IcmpCreateFile in the
-Icmp.dll with calls to LoadLibrary and GetProcAddress. For IPv6, use
-the Icmp6CreateFile, Icmp6SendEcho2, and Icmp6ParseReplies functions.
-Note that the include directive for Iphlpapi.h header file must be
-placed before the Icmpapi.h header file.
+IcmpCreateFile 関数は、Windows 2000 では Icmp.dll から、Windows XP 以降では
+Iphlpapi.dll からエクスポートされる。Windows
+バージョンチェックを用いた使用は推奨されない。移植性が必要なアプリケーションは Icmp.lib / Iphlpapi.lib
+に静的リンクせず、LoadLibrary と GetProcAddress で Iphlpapi.dll に IcmpCreateFile
+があるかを確認し、なければ Icmp.dll を確認する。IPv6 の場合は Icmp6CreateFile /
+Icmp6SendEcho2 / Icmp6ParseReplies を使用する。Iphlpapi.h の include 指令は
+Icmpapi.h より前に置くこと。
 
 
 %index
 IcmpParseReplies
-Parses the reply buffer provided and returns the number of ICMP echo request responses found.
+与えられた応答バッファを解析し、見つかった ICMP エコー要求応答の数を返す。
 %group
 Win32 iphlpapi
 %prm
 ReplyBuffer, ReplySize
-ReplyBuffer : [intptr] The buffer passed to IcmpSendEcho2. This is rewritten to hold an array of ICMP_ECHO_REPLY structures, its type is PICMP_ECHO_REPLY. On a 64-bit platform, this buffer is rewritten to hold an array of ICMP_ECHO_REPLY32 structures, its type is PICMP_ECHO_REPLY32.
-ReplySize : [int] The size, in bytes, of the buffer pointed to by the ReplyBuffer parameter.
+ReplyBuffer : [intptr] IcmpSendEcho2 に渡したバッファ。このバッファは ICMP_ECHO_REPLY 構造体 (PICMP_ECHO_REPLY 型) の配列を保持するよう書き換えられる。64 ビットプラットフォームでは ICMP_ECHO_REPLY32 (PICMP_ECHO_REPLY32 型) の配列として書き換えられる。
+ReplySize : [int] ReplyBuffer が指すバッファのサイズ (バイト単位)。
 %inst
-Parses the reply buffer provided and returns the number of ICMP echo
-request responses found.
+与えられた応答バッファを解析し、見つかった ICMP エコー要求応答の数を返す。
 
 [戻り値]
-The IcmpParseReplies function returns the number of ICMP responses
-found on success. The function returns zero on error. Call
-GetLastError for additional error information.
+IcmpParseReplies 関数は成功時に見つかった ICMP 応答の数を返す。エラー時は 0 を返す。追加のエラー情報は
+GetLastError で取得する。
 
 [備考]
-The IcmpParseReplies function should not be used on a reply buffer
-previously passed to IcmpSendEcho. The IcmpSendEcho function parses
-that buffer before returning to the user. Use this function only with
-IcmpSendEcho2. The IcmpParseReplies function is exported from the
-Icmp.dll on Windows 2000. The IcmpParseReplies function is exported
-from the Iphlpapi.dll on Windows XP and later. Windows version
-checking is not recommended to use this function. Applications
-requiring portability with this function across Windows 2000, Windows
-XP, Windows Server 2003 and later Windows versions should not
-statically link to either the Icmp.lib or the Iphlpapi.lib file.
-Instead, the application should check for the presence of
-IcmpParseReplies in the Iphlpapi.dll with calls to LoadLibrary and
-GetProcAddress. Failing that, the application should check for the
-presence of IcmpParseReplies in the Icmp.dll with calls to
-LoadLibrary and GetProcAddress. Note that the include directive for
-Iphlpapi.h header file must be placed before the Icmpapi.h header
-file.
+IcmpParseReplies 関数は、以前に IcmpSendEcho
+に渡した応答バッファには使用してはならない。IcmpSendEcho は戻る前に自らバッファを解析する。IcmpSendEcho2
+とのみ併用すること。IcmpParseReplies は Windows 2000 では Icmp.dll から、Windows XP
+以降では Iphlpapi.dll からエクスポートされる。移植性が必要なアプリケーションは Icmp.lib /
+Iphlpapi.lib に静的リンクせず、LoadLibrary と GetProcAddress で Iphlpapi.dll に
+IcmpParseReplies があるかを確認し、なければ Icmp.dll を確認する。Iphlpapi.h の include
+指令は Icmpapi.h より前に置くこと。
 
 
 %index
 IcmpSendEcho
-The IcmpSendEcho function sends an IPv4 ICMP echo request and returns any echo response replies. The call returns when the time-out has expired or the reply buffer is filled.
+IcmpSendEcho 関数は IPv4 ICMP エコー要求を送信し、エコー応答を返す。タイムアウトか応答バッファが埋まった時点で関数は戻る。
 %group
 Win32 iphlpapi
 %prm
 IcmpHandle, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
-IcmpHandle : [intptr] The open handle returned by the IcmpCreateFile function.
-DestinationAddress : [int] The IPv4 destination address of the echo request, in the form of an IPAddr structure.
-RequestData : [intptr] A pointer to a buffer that contains data to send in the request.
-RequestSize : [int] The size, in bytes, of the request data buffer pointed to by the RequestData parameter.
-RequestOptions : [var] A pointer to the IP header options for the request, in the form of an IP_OPTION_INFORMATION structure. On a 64-bit platform, this parameter is in the form for an IP_OPTION_INFORMATION32 structure. This parameter may be NULL if no IP header options need to be specified.
-ReplyBuffer : [intptr] A buffer to hold any replies to the echo request. Upon return, the buffer contains an array of ICMP_ECHO_REPLY structures followed by the options and data for the replies. The buffer should be large enough to hold at least one ICMP_ECHO_REPLY structure plus RequestSize bytes of data.
-ReplySize : [int] The allocated size, in bytes,  of the reply buffer. The buffer should be large enough to hold at least one ICMP_ECHO_REPLY structure plus RequestSize bytes of data. This buffer should also be large enough to also hold 8 more bytes of data (the size of an ICMP error message).
-Timeout : [int] The time, in milliseconds, to wait for replies.
+IcmpHandle : [intptr] IcmpCreateFile 関数が返したオープンハンドル。
+DestinationAddress : [int] エコー要求の IPv4 宛先アドレス。IPAddr 構造体の形式で指定する。
+RequestData : [intptr] 要求で送信するデータを含むバッファへのポインタ。
+RequestSize : [int] RequestData が指す要求データバッファのサイズ (バイト単位)。
+RequestOptions : [var] 要求の IP ヘッダオプションへのポインタ。IP_OPTION_INFORMATION 構造体の形式で指定する。64 ビットプラットフォームでは IP_OPTION_INFORMATION32 形式となる。オプションを指定しない場合は NULL でもよい。
+ReplyBuffer : [intptr] エコー要求に対する応答を保持するバッファ。戻り時、バッファには ICMP_ECHO_REPLY 構造体の配列に続けて応答のオプションとデータが格納される。バッファは少なくとも ICMP_ECHO_REPLY 構造体 1 つと RequestSize バイトのデータを収められる大きさでなければならない。
+ReplySize : [int] 応答バッファの割り当てサイズ (バイト単位)。少なくとも ICMP_ECHO_REPLY 構造体 1 つと RequestSize バイトのデータ、加えて 8 バイトの ICMP エラーメッセージ分を収められる必要がある。
+Timeout : [int] 応答を待機する時間 (ミリ秒単位)。
 %inst
-The IcmpSendEcho function sends an IPv4 ICMP echo request and returns
-any echo response replies. The call returns when the time-out has
-expired or the reply buffer is filled.
+IcmpSendEcho 関数は IPv4 ICMP
+エコー要求を送信し、エコー応答を返す。タイムアウトか応答バッファが埋まった時点で関数は戻る。
 
 [戻り値]
-The IcmpSendEcho function returns the number of ICMP_ECHO_REPLY
-structures stored in the ReplyBuffer. The status of each reply is
-contained in the structure. If the return value is zero, call
-GetLastError for additional error information. If the function fails,
-the extended error code returned by GetLastError can be one of the
-following values.
-This doc was truncated.
+IcmpSendEcho 関数は ReplyBuffer に格納された ICMP_ECHO_REPLY
+構造体の数を返す。各応答のステータスは構造体内に含まれる。0 の場合は GetLastError
+で追加のエラー情報を取得できる。関数が失敗した場合、GetLastError の戻り値は次のいずれかとなる。
+このドキュメントは省略されている。
 
 [備考]
-The IcmpSendEcho function send an ICMP echo request to the specified
-address and returns the number of replies received and stored in
-ReplyBuffer. The IcmpSendEcho function is a synchronous function and
-returns after waiting for the time specified in the Timeout parameter
-for a response. If the return value is zero, call GetLastError for
-extended error information. The IcmpSendEcho2 and IcmpSendEcho2Ex
-functions are enhanced version of IcmpSendEcho that support
-asynchronous operation. The IcmpSendEcho2Ex function also allows the
-source IP address to be specified. This feature is useful on
-computers with multiple network interfaces. For IPv6, use the
-Icmp6CreateFile, Icmp6SendEcho2, and Icmp6ParseReplies functions. The
-IcmpSendEcho function is exported from the Icmp.dll on Windows 2000.
-The IcmpSendEcho function is exported from the Iphlpapi.dll on
-Windows XP and later. Windows version checking is not recommended to
-use this function. Applications requiring portability with this
-function across Windows 2000, Windows XP, Windows Server 2003 and
-later Windows versions should not statically link to either the
-Icmp.lib or the Iphlpapi.lib file. Instead, the application should
-check for the presence of IcmpSendEcho in the Iphlpapi.dll with calls
-to LoadLibrary and GetProcAddress. Failing that, the application
-should check for the presence of IcmpSendEcho in the Icmp.dll with
-calls to LoadLibrary and GetProcAddress. Note that the include
-directive for Iphlpapi.h header file must be placed before the
-Icmpapi.h header file.
+IcmpSendEcho 関数は指定アドレスへ ICMP エコー要求を送信し、ReplyBuffer
+に格納された応答の数を返す。これは同期関数で、Timeout で指定した時間応答を待った後に返る。戻り値が 0 のときは
+GetLastError で拡張エラー情報を取得する。IcmpSendEcho2 / IcmpSendEcho2Ex
+は非同期動作をサポートする拡張版で、IcmpSendEcho2Ex は送信元 IP アドレスも指定できる
+(複数ネットワークインターフェイスを持つコンピュータで有用)。IPv6 の場合は Icmp6CreateFile /
+Icmp6SendEcho2 / Icmp6ParseReplies を使用する。IcmpSendEcho は Windows 2000
+では Icmp.dll、Windows XP 以降では Iphlpapi.dll
+からエクスポートされる。移植性が必要な場合は静的リンクせず、LoadLibrary と GetProcAddress で
+Iphlpapi.dll の存在を確認し、なければ Icmp.dll を確認する。Iphlpapi.h の include 指令は
+Icmpapi.h より前に置くこと。
 
 
 %index
 IcmpSendEcho2
-The **IcmpSendEcho2** function sends an IPv4 ICMP echo request, and returns either immediately (if *Event* or *ApcRoutine* is non-**NULL**), or returns after the specified time-out. The *ReplyBuffer* contains the ICMP echo responses, if any.
+IcmpSendEcho2 関数は IPv4 ICMP エコー要求を送信し、Event または ApcRoutine が NULL 以外なら即座に、そうでなければ指定したタイムアウト後に返る。ReplyBuffer には ICMP エコー応答が格納される。
 %group
 Win32 iphlpapi
 %prm
 IcmpHandle, Event, ApcRoutine, ApcContext, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
-IcmpHandle : [intptr] The open handle returned by the [ICMPCreateFile](/windows/win32/api/icmpapi/nf-icmpapi-icmpcreatefile) function.
-Event : [intptr] An event to be signaled (at most once) when an ICMP response arrives. If this parameter is specified, then it requires a handle to a valid event object. Use the [CreateEvent](/windows/win32/api/synchapi/nf-synchapi-createeventa) or [CreateEventEx](/windows/win32/api/synchapi/nf-synchapi-createeventexa) function to create this event object. For more information on using events, see [Event objects](/windows/win32/Sync/event-objects).
-ApcRoutine : [int] The routine that's called when the calling thread is in an alertable thread, and an ICMPv4 reply arrives. **PIO_APC_ROUTINE_DEFINED** must be defined in order to force the datatype for this parameter to **PIO_APC_ROUTINE** rather than **FARPROC**.
-ApcContext : [intptr] An optional parameter passed to the callback routine specified in the *ApcRoutine* parameter (at most once) when an ICMP response arrives, or an error occurs.
-DestinationAddress : [int] The IPv4 destination of the echo request, in the form of an [IPAddr](/windows/win32/api/inaddr/ns-inaddr-in_addr) structure.
-RequestData : [intptr] A pointer to a buffer that contains data to send in the request.
-RequestSize : [int] The size, in bytes, of the request data buffer pointed to by the *RequestData* parameter.
-RequestOptions : [var] A pointer to the IP header options for the request, in the form of an [IP_OPTION_INFORMATION](/windows/win32/api/ipexport/ns-ipexport-ip_option_information) structure. This parameter may be **NULL** if no IP header options need to be specified.
-ReplyBuffer : [intptr] A pointer to a buffer to hold any replies to the request. Upon return, the buffer contains an array of [ICMP_ECHO_REPLY](/windows/win32/api/ipexport/ns-ipexport-icmp_echo_reply) structures followed by options and data. The buffer must be large enough to hold at least one **ICMP_ECHO_REPLY** structure, plus *RequestSize* bytes of data, plus an additional 8 bytes of data (the size of an ICMP error message).
-ReplySize : [int] The allocated size, in bytes, of the reply buffer. The buffer must be large enough to hold at least one **ICMP_ECHO_REPLY** structure, plus *RequestSize* bytes of data, plus an additional 8 bytes of data (the size of an ICMP error message).
-Timeout : [int] The time in milliseconds to wait for replies.
+IcmpHandle : [intptr] IcmpCreateFile 関数が返したオープンハンドル。
+Event : [intptr] ICMP 応答が到着したときに (最大 1 回) シグナル状態にするイベント。指定する場合は有効なイベントオブジェクトへのハンドルが必要。CreateEvent または CreateEventEx でイベントを作成する。イベントの使用方法については Event objects を参照。
+ApcRoutine : [int] 呼び出しスレッドがアラート可能な状態で ICMPv4 応答が到着したときに呼ばれるルーチン。このパラメータの型を FARPROC ではなく PIO_APC_ROUTINE にするため PIO_APC_ROUTINE_DEFINED を定義しなければならない。
+ApcContext : [intptr] ICMP 応答が到着したかエラーが発生したとき、ApcRoutine で指定したコールバックルーチンに (最大 1 回) 渡される任意パラメータ。
+DestinationAddress : [int] エコー要求の IPv4 宛先。IPAddr 構造体の形式で指定する。
+RequestData : [intptr] 要求で送信するデータを含むバッファへのポインタ。
+RequestSize : [int] RequestData が指す要求データバッファのサイズ (バイト単位)。
+RequestOptions : [var] 要求の IP ヘッダオプションへのポインタ。IP_OPTION_INFORMATION 構造体の形式で指定する。IP ヘッダオプションを指定しない場合は NULL でもよい。
+ReplyBuffer : [intptr] 要求に対する応答を保持するバッファへのポインタ。戻り時、バッファには ICMP_ECHO_REPLY 構造体の配列に続けてオプションとデータが格納される。バッファは少なくとも ICMP_ECHO_REPLY 構造体 1 つと RequestSize バイトのデータ、さらに 8 バイトの ICMP エラーメッセージ分を収められる大きさでなければならない。
+ReplySize : [int] 応答バッファの割り当てサイズ (バイト単位)。少なくとも ICMP_ECHO_REPLY 構造体 1 つと RequestSize バイトのデータ、さらに 8 バイトの ICMP エラーメッセージ分を収められる必要がある。
+Timeout : [int] 応答を待機する時間 (ミリ秒単位)。
 %inst
-The **IcmpSendEcho2** function sends an IPv4 ICMP echo request, and
-returns either immediately (if *Event* or *ApcRoutine* is
-non-**NULL**), or returns after the specified time-out. The
-*ReplyBuffer* contains the ICMP echo responses, if any.
+IcmpSendEcho2 関数は IPv4 ICMP エコー要求を送信し、Event または ApcRoutine が NULL
+以外なら即座に、そうでなければ指定したタイムアウト後に返る。ReplyBuffer には ICMP エコー応答が格納される。
 
 [戻り値]
-When called synchronously, the **IcmpSendEcho2** function returns the
-number of replies received and stored in *ReplyBuffer*. If the return
-value is zero, then for extended error information call
-[GetLastError](/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror).
-When called asynchronously, the **IcmpSendEcho2** function returns
-zero. A subsequent call to
-[GetLastError](/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror)
-returns extended error code **ERROR_IO_PENDING** to indicate that the
-operation is in progress. The results can be retrieved later when the
-event specified in the *Event* parameter signals, or the callback
-function in the *ApcRoutine* parameter is called. If the return value
-is zero, then for extended error information call
-[GetLastError](/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror).
-If the function fails, then the extended error code returned by
-**GetLastError** can be one of the following values. |Return
-code|Description| |-|-| |**ERROR_INVALID_PARAMETER**|An invalid
-parameter was passed to the function. This error is returned if the
-*IcmpHandle* parameter contains an invalid handle. This error can
-also be returned if the *ReplySize* parameter specifies a value less
-than the size of an
-[ICMP_ECHO_REPLY](/windows/win32/api/ipexport/ns-ipexport-icmp_echo_reply)
-structure.| |**ERROR_IO_PENDING**|The operation is in progress. This
-value is returned by a successful asynchronous call to
-**IcmpSendEcho2**, and is not an indication of an error.|
-|**ERROR_NOT_ENOUGH_MEMORY**|Not enough memory is available to
-complete the operation.| |**ERROR_NOT_SUPPORTED**|The request is not
-supported. This error is returned if no IPv4 stack is on the local
-computer.| |**IP_BUF_TOO_SMALL**|The size of the *ReplyBuffer*
-specified in the *ReplySize* parameter was too small.| |**Other**|Use
-[FormatMessage](/windows/win32/api/winbase/nf-winbase-formatmessage)
-to obtain the message string for the returned error.|
+同期呼び出し時、IcmpSendEcho2 は ReplyBuffer に格納された応答の数を返す。0 の場合は GetLastError
+で拡張エラー情報を取得する。非同期呼び出し時は 0 を返し、続く GetLastError の呼び出しが操作進行中を示す
+ERROR_IO_PENDING を返す。結果は Event のシグナル、または ApcRoutine
+の呼び出しで取得できる。関数が失敗した場合、GetLastError は次のいずれかを返す:
+- ERROR_INVALID_PARAMETER: 無効なパラメータ (IcmpHandle が無効、または ReplySize が
+ICMP_ECHO_REPLY 構造体より小さい)
+- ERROR_IO_PENDING: 操作進行中 (非同期呼び出しの成功時)
+- ERROR_NOT_ENOUGH_MEMORY: メモリ不足
+- ERROR_NOT_SUPPORTED: IPv4 スタックがローカルコンピュータに存在しないときの要求未サポート
+- IP_BUF_TOO_SMALL: ReplySize が小さすぎる
+- その他: FormatMessage でメッセージ文字列を取得する
 
 [備考]
-The **IcmpSendEcho2** function is called synchronously if the
-*ApcRoutine* or *Event* parameters are **NULL**. When called
-synchronously, the return value contains the number of replies
-received and stored in *ReplyBuffer* after waiting for the time
-specified in the *Timeout* parameter. If the return value is zero,
-then for extended error information call
-[GetLastError](/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror).
-The **IcmpSendEcho2** function is called asynchronously when either
-the *ApcRoutine* or *Event* parameters are specified. When called
-asynchronously, the *ReplyBuffer* and *ReplySize* parameters are
-required to accept the response. ICMP response data is copied to the
-*ReplyBuffer* provided, and the application is signaled (when the
-*Event* parameter is specified) or the callback function is called
-(when the *ApcRoutine* parameter is specified). The application must
-parse the data pointed to by *ReplyBuffer* parameter using the
-[IcmpParseReplies](/windows/win32/api/icmpapi/nf-icmpapi-icmpparsereplies)
-function. If the *Event* parameter is specified, then the
-**IcmpSendEcho2** function is called asynchronously. The event
-specified in the *Event* parameter is signaled (at most once) when an
-ICMP response arrives. Use the
-[CreateEvent](/windows/win32/api/synchapi/nf-synchapi-createeventa)
-or
-[CreateEventEx](/windows/win32/api/synchapi/nf-synchapi-createeventexa)
-function to create this event object. If the *ApcRoutine* parameter
-is specified, then the **IcmpSendEcho2** function is called
-asynchronously. The *ApcRoutine* parameter should point to a
-user-defined callback function. The callback function specified in
-the *ApcRoutine* parameter is called (at most once) when an ICMP
-response arrives. The invocation of the callback function specified
-in the *ApcRoutine* parameter is serialized. If both the *Event* and
-*ApcRoutine* parameters are specified, then the event specified in
-the *Event* parameter is signaled (at most once) when an ICMP
-response arrives, but the callback function specified in the
-*ApcRoutine* parameter is ignored. Any application that calls
-**IcmpSendEcho2** function asynchronously using the *ApcRoutine*
-parameter must define **PIO_APC_ROUTINE_DEFINED** to force the
-datatype for the *ApcRoutine* parameter to **PIO_APC_ROUTINE** rather
-than **FARPROC**. > [!NOTE] > **PIO_APC_ROUTINE_DEFINED** must be
-defined before the *Icmpapi.h* header file is included. The callback
-function pointed to by the *ApcRoutine* must be defined as a function
-of type **VOID** with the following syntax:
-This doc was truncated.
+IcmpSendEcho2 関数は ApcRoutine と Event が NULL
+の場合は同期的に呼び出される。同期呼び出し時の戻り値は、Timeout で指定した時間待機した後に ReplyBuffer
+に格納された応答の数である。0 の場合は GetLastError で拡張エラー情報を取得する。ApcRoutine または Event
+が指定されている場合は非同期呼び出しとなる。非同期時は ReplyBuffer / ReplySize が必要で、応答データが
+ReplyBuffer にコピーされ、Event または ApcRoutine に通知される。アプリケーションは
+IcmpParseReplies で ReplyBuffer を解析する必要がある。両方指定した場合は Event がシグナル状態になり
+ApcRoutine は無視される。ApcRoutine による非同期呼び出しを行うアプリケーションは、型を
+PIO_APC_ROUTINE にするため Icmpapi.h をインクルードする前に PIO_APC_ROUTINE_DEFINED
+を定義しなければならない。コールバック関数は VOID 型で次の構文に従って定義する:
+このドキュメントは省略されている。
 
 
 %index
 IcmpSendEcho2Ex
-Sends an IPv4 ICMP echo request and returns either immediately (if Event or ApcRoutine is non-NULL) or returns after the specified time-out. The ReplyBuffer contains the ICMP responses, if any.
+IPv4 ICMP エコー要求を送信し、Event または ApcRoutine が NULL 以外なら即座に、そうでなければ指定したタイムアウト後に返る。ReplyBuffer には ICMP 応答が格納される。
 %group
 Win32 iphlpapi
 %prm
 IcmpHandle, Event, ApcRoutine, ApcContext, SourceAddress, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
-IcmpHandle : [intptr] An open handle returned by the ICMPCreateFile function.
-Event : [intptr] An event to be signaled whenever an ICMP response arrives. If this parameter is specified, it requires a handle to a valid event object. Use the CreateEvent or CreateEventEx function to create this event object. For more information on using events, see Event Objects.
-ApcRoutine : [int] The routine that is called when the calling thread is in an alertable thread and  an ICMP reply arrives. PIO_APC_ROUTINE_DEFINED must be defined to force the datatype for this parameter to PIO_APC_ROUTINE rather than FARPROC.
-ApcContext : [intptr] An optional parameter passed to the callback routine specified in the  ApcRoutine parameter whenever an ICMP response arrives or an error occurs.
-SourceAddress : [int] The IPv4 source address on which to issue the echo request. This address is in the form of an IPAddr structure.
-DestinationAddress : [int] The IPv4 destination address for the echo request. This address is in the form of an IPAddr structure.
-RequestData : [intptr] A pointer to a buffer that contains data to send in the request.
-RequestSize : [int] The size, in bytes, of the request data buffer pointed to by the RequestData parameter.
-RequestOptions : [var] A pointer to the IP header options for the request, in the form of an IP_OPTION_INFORMATION structure. On a 64-bit platform, this parameter is in the form for an IP_OPTION_INFORMATION32 structure. This parameter may be NULL if no IP header options need to be specified.
-ReplyBuffer : [intptr] A pointer to a buffer to hold any replies to the request. Upon return, the buffer contains an array of ICMP_ECHO_REPLY structures followed by options and data. The buffer must be large enough to hold at least one ICMP_ECHO_REPLY structure plus RequestSize bytes of data. This buffer should also be large enough to also hold 8 more bytes of data (the size of an ICMP error message) plus space for an IO_STATUS_BLOCK structure.
-ReplySize : [int] The allocated size, in bytes,  of the reply buffer. The buffer should be large enough to hold at least one ICMP_ECHO_REPLY structure plus RequestSize bytes of data. This buffer should also be large enough to also hold 8 more bytes of data (the size of an ICMP error message) plus space for an IO_STATUS_BLOCK structure.
-Timeout : [int] The time, in milliseconds, to wait for replies.
+IcmpHandle : [intptr] IcmpCreateFile 関数が返したオープンハンドル。
+Event : [intptr] ICMP 応答が到着したときにシグナル状態にするイベント。指定する場合は有効なイベントオブジェクトへのハンドルが必要。CreateEvent または CreateEventEx でイベントを作成する。詳細は Event Objects を参照。
+ApcRoutine : [int] 呼び出しスレッドがアラート可能な状態で ICMP 応答が到着したときに呼ばれるルーチン。このパラメータの型を FARPROC ではなく PIO_APC_ROUTINE にするため PIO_APC_ROUTINE_DEFINED を定義しなければならない。
+ApcContext : [intptr] ICMP 応答が到着したかエラーが発生したとき、ApcRoutine で指定したコールバックルーチンに渡される任意パラメータ。
+SourceAddress : [int] エコー要求を発行する IPv4 送信元アドレス。IPAddr 構造体の形式で指定する。
+DestinationAddress : [int] エコー要求の IPv4 宛先アドレス。IPAddr 構造体の形式で指定する。
+RequestData : [intptr] 要求で送信するデータを含むバッファへのポインタ。
+RequestSize : [int] RequestData が指す要求データバッファのサイズ (バイト単位)。
+RequestOptions : [var] 要求の IP ヘッダオプションへのポインタ。IP_OPTION_INFORMATION 構造体の形式で指定する。64 ビットプラットフォームでは IP_OPTION_INFORMATION32 形式となる。オプションを指定しない場合は NULL でもよい。
+ReplyBuffer : [intptr] 要求に対する応答を保持するバッファへのポインタ。戻り時、バッファには ICMP_ECHO_REPLY 構造体の配列に続けてオプションとデータが格納される。バッファは少なくとも ICMP_ECHO_REPLY 構造体 1 つ分と RequestSize バイトのデータ、さらに 8 バイトの ICMP エラーメッセージおよび IO_STATUS_BLOCK 構造体分の領域を収められる大きさでなければならない。
+ReplySize : [int] 応答バッファの割り当てサイズ (バイト単位)。少なくとも ICMP_ECHO_REPLY 構造体 1 つと RequestSize バイトのデータ、加えて 8 バイトの ICMP エラーメッセージ分と IO_STATUS_BLOCK 分を収められる必要がある。
+Timeout : [int] 応答を待機する時間 (ミリ秒単位)。
 %inst
-Sends an IPv4 ICMP echo request and returns either immediately (if
-Event or ApcRoutine is non-NULL) or returns after the specified
-time-out. The ReplyBuffer contains the ICMP responses, if any.
+IPv4 ICMP エコー要求を送信し、Event または ApcRoutine が NULL
+以外なら即座に、そうでなければ指定したタイムアウト後に返る。ReplyBuffer には ICMP 応答が格納される。
 
 [戻り値]
-When called synchronously, the IcmpSendEcho2Ex function returns the
-number of replies received and stored in ReplyBuffer. If the return
-value is zero, call GetLastError for extended error information. When
-called asynchronously, the IcmpSendEcho2Ex function returns
-ERROR_IO_PENDING to indicate the operation is in progress. The
-results can be retrieved later when the event specified in the Event
-parameter signals or the callback function in the ApcRoutine
-parameter is called. If the return value is zero, call GetLastError
-for extended error information. If the function fails, the extended
-error code returned by GetLastError can be one of the following
-values.
-This doc was truncated.
+同期呼び出し時、IcmpSendEcho2Ex は ReplyBuffer に格納された応答の数を返す。0 の場合は
+GetLastError で拡張エラー情報を取得する。非同期呼び出し時、IcmpSendEcho2Ex は操作進行中を示す
+ERROR_IO_PENDING を返す。結果は Event のシグナル、または ApcRoutine
+の呼び出しで取得できる。失敗した場合、GetLastError は以下のいずれかを返す。
+このドキュメントは省略されている。
 
 [備考]
-The IcmpSendEcho2Ex function is available on Windows Server 2008 and
-later. The IcmpSendEcho2Ex function is an enhanced version of the
-IcmpSendEcho2 function that allows the user to specify the IPv4
-source address on which to issue the ICMP request. The
-IcmpSendEcho2Ex function is useful in cases where a computer has
-multiple network interfaces. The IcmpSendEcho2Ex function is called
-synchronously if the ApcRoutine or Event parameters are NULL. When
-called synchronously, the return value contains the number of replies
-received and stored in ReplyBuffer after waiting for the time
-specified in the Timeout parameter. If the return value is zero, call
-GetLastError for extended error information. The IcmpSendEcho2Ex
-function is called asynchronously when either the ApcRoutine or Event
-parameters are specified. When called asynchronously, the ReplyBuffer
-and ReplySize parameters are required to accept the response. ICMP
-response data is copied to the ReplyBuffer provided and the
-application is signaled (when the Event parameter is specified) or
-the callback function is called (when the ApcRoutine parameter is
-specified). The application must parse the data pointed to by
-ReplyBuffer parameter using the IcmpParseReplies function. If the
-Event parameter is specified, the IcmpSendEcho2Ex function is called
-asynchronously. The event specified in the Event parameter is
-signaled whenever an ICMP response arrives. Use the CreateEvent
-function to create this event object. If the ApcRoutine parameter is
-specified, the IcmpSendEcho2Ex function is called asynchronously. The
-ApcRoutine parameter should point to a user-defined callback
-function. The callback function specified in the ApcRoutine parameter
-is called whenever an ICMP response arrives. The invocation of the
-callback function specified in the ApcRoutine parameter is
-serialized. If both the Event and ApcRoutine parameters are
-specified, the event specified in the Event parameter is signaled
-whenever an ICMP response arrives, but the callback function
-specified in the ApcRoutine parameter is ignored . Any application
-that calls the IcmpSendEcho2Ex function asynchronously using the
-ApcRoutine parameter must define PIO_APC_ROUTINE_DEFINED to force the
-datatype for the ApcRoutine parameter to PIO_APC_ROUTINE rather than
-FARPROC. Note PIO_APC_ROUTINE_DEFINED must be defined before the
-Icmpapi.h header file is included.
-The callback function pointed to by the ApcRoutine must be defined as
-a function of type VOID with the following syntax:
-This doc was truncated.
+IcmpSendEcho2Ex 関数は Windows Server 2008 以降で利用可能であり、IcmpSendEcho2
+の拡張版でユーザが ICMP 要求を発行する IPv4
+送信元アドレスを指定できる。複数のネットワークインターフェイスを持つコンピュータで有用である。ApcRoutine と Event が
+NULL のときは同期的に呼び出され、戻り値は Timeout で指定した時間待機した後に ReplyBuffer
+に格納された応答数となる。0 のときは GetLastError で拡張エラー情報を取得する。ApcRoutine または Event
+指定時は非同期呼び出しとなり、ReplyBuffer / ReplySize が必須。応答は ReplyBuffer
+にコピーされ、Event シグナルまたは ApcRoutine コールバックで通知される。アプリケーションは
+IcmpParseReplies で解析する必要がある。両方指定時は Event のみが使用され ApcRoutine
+は無視される。ApcRoutine 非同期呼び出しを行うアプリケーションは、型を PIO_APC_ROUTINE にするため
+Icmpapi.h のインクルード前に PIO_APC_ROUTINE_DEFINED を定義しなければならない。
+コールバック関数は VOID 型で次の構文に従って定義する:
+このドキュメントは省略されている。
 
 
 %index
 InitializeIpForwardEntry
-Initializes a MIB_IPFORWARD_ROW2 structure with default values for an IP route entry on the local computer.
+MIB_IPFORWARD_ROW2 構造体を、ローカルコンピュータ上の IP 経路エントリの既定値で初期化する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] On entry, a pointer to a MIB_IPFORWARD_ROW2 structure entry for an IP route entry. On return, the  MIB_IPFORWARD_ROW2 structure pointed to by this parameter is initialized with default values for an IP route entry.
+Row : [var] 入力時、IP 経路エントリの MIB_IPFORWARD_ROW2 構造体エントリへのポインタ。戻り時、このポインタが指す構造体は IP 経路エントリの既定値で初期化される。
 %inst
-Initializes a MIB_IPFORWARD_ROW2 structure with default values for an
-IP route entry on the local computer.
+MIB_IPFORWARD_ROW2 構造体を、ローカルコンピュータ上の IP 経路エントリの既定値で初期化する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The InitializeIpForwardEntry function is defined on Windows Vista and
-later. The InitializeIpForwardEntry function must be used to
-initialize the members of a MIB_IPFORWARD_ROW2 structure entry with
-default values for an IP route entry for later use with the
-CreateIpForwardEntry2 function. On input, InitializeIpForwardEntry
-must be passed a new MIB_IPFORWARD_ROW2 structure to initialize. On
-output, the ValidLifetime and PreferredLifetime members of the
-MIB_IPFORWARD_ROW2 structure pointed to by Row parameter will be
-initialized to infinite and the Loopback, AutoconfigureAddress,
-Publish, and Immortal members will be initialized to TRUE. In
-addition, the SitePrefixLength, Metric, and Protocol members are set
-to an illegal value and other fields are initialized to zero. After
-calling InitializeIpForwardEntry, an application can then change the
-members in the MIB_IPFORWARD_ROW2 entry it wishes to modify, and then
-call the CreateIpForwardEntry2 to add the new IP route entry to the
-local computer.
+InitializeIpForwardEntry 関数は Windows Vista
+以降で定義される。CreateIpForwardEntry2 関数で後に使用する IP
+経路エントリとして、MIB_IPFORWARD_ROW2 のメンバを既定値で初期化するために使用する。入力時には初期化対象の新しい
+MIB_IPFORWARD_ROW2 を渡さなければならない。出力時、ValidLifetime と PreferredLifetime
+は無限に、Loopback / AutoconfigureAddress / Publish / Immortal は TRUE
+に初期化される。さらに SitePrefixLength、Metric、Protocol は不正な値に、その他は 0
+に初期化される。呼び出し後にアプリケーションは変更したいメンバを書き換え、CreateIpForwardEntry2 を呼び出して新規
+IP 経路エントリを追加できる。
 
 
 %index
 InitializeIpInterfaceEntry
-Initializes the members of an MIB_IPINTERFACE_ROW entry with default values.
+MIB_IPINTERFACE_ROW エントリのメンバを既定値で初期化する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPINTERFACE_ROW structure to initialize. On successful return, the fields in this parameter are initialized with default information for an interface on the local computer.
+Row : [var] 初期化する MIB_IPINTERFACE_ROW 構造体へのポインタ。正常終了時、このフィールドはローカルコンピュータ上のインターフェイスの既定情報で初期化される。
 %inst
-Initializes the members of an MIB_IPINTERFACE_ROW entry with default
-values.
+MIB_IPINTERFACE_ROW エントリのメンバを既定値で初期化する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The InitializeIpInterfaceEntry function is defined on Windows Vista
-and later. On output, the Family member in the MIB_IPINTERFACE_ROW
-structure pointed to by the Row parameter will be initialized to
-either AF_UNSPEC, the InterfaceLuid member in the MIB_IPINTERFACE_ROW
-structure will be initialized to an unspecified value, and other
-fields are initialized to zero. The InitializeIpInterfaceEntry
-function must be used to initialize the fields of a
-MIB_IPINTERFACE_ROW structure entry with default values. An
-application can then change the fields in the MIB_IPINTERFACE_ROW
-entry it wishes to modify, and then call the SetIpInterfaceEntry
-function.
+InitializeIpInterfaceEntry 関数は Windows Vista 以降で定義される。出力時、Row が指す構造体の
+Family メンバは AF_UNSPEC に、InterfaceLuid は未指定値に、その他は 0
+に初期化される。アプリケーションは変更したいフィールドを書き換え、SetIpInterfaceEntry
+を呼び出すことで変更を反映できる。
 
 
 %index
 InitializeUnicastIpAddressEntry
-Initializes a MIB_UNICASTIPADDRESS_ROW structure with default values for a unicast IP address entry on the local computer.
+MIB_UNICASTIPADDRESS_ROW 構造体を、ローカルコンピュータ上のユニキャスト IP アドレスエントリの既定値で初期化する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] On entry, a pointer to a MIB_UNICASTIPADDRESS_ROW structure entry for a unicast IP address entry. On return, the  MIB_UNICASTIPADDRESS_ROW structure pointed to by this parameter is initialized with default values for a unicast IP address.
+Row : [var] 入力時、ユニキャスト IP アドレスエントリの MIB_UNICASTIPADDRESS_ROW 構造体エントリへのポインタ。戻り時、このポインタが指す構造体はユニキャスト IP アドレスの既定値で初期化される。
 %inst
-Initializes a MIB_UNICASTIPADDRESS_ROW structure with default values
-for a unicast IP address entry on the local computer.
+MIB_UNICASTIPADDRESS_ROW 構造体を、ローカルコンピュータ上のユニキャスト IP
+アドレスエントリの既定値で初期化する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The InitializeUnicastIpAddressEntry function is defined on Windows
-Vista and later. The InitializeUnicastIpAddressEntry function must be
-used to initialize the members of a MIB_UNICASTIPADDRESS_ROW
-structure entry with default values for a unicast IP address for
-later use with the CreateUnicastIpAddressEntry function. On input,
-InitializeUnicastIpAddressEntry must be passed a new
-MIB_UNICASTIPADDRESS_ROW structure to initialize. On output, the
-PrefixOrigin member of the MIB_UNICASTIPADDRESS_ROW structure pointed
-to by Row parameter the will be initialized to
-IpPrefixOriginUnchanged, the SuffixOrigin member will be initialized
-to IpSuffixOriginUnchanged, and the OnLinkPrefixLength member will be
-initialized to an illegal value. In addition, the PreferredLifetime
-and ValidLifetime members are set to infinite, the SkipAsSource
-member is set to FALSE, and other fields are initialized to zero.
-After calling InitializeUnicastIpAddressEntry, an application can
-then change the members in the MIB_UNICASTIPADDRESS_ROW entry it
-wishes to modify, and then call the CreateUnicastIpAddressEntry to
-add the new unicast IP address to the local computer.
+InitializeUnicastIpAddressEntry 関数は Windows Vista
+以降で定義される。CreateUnicastIpAddressEntry で後に使用するユニキャスト IP
+アドレスとして、MIB_UNICASTIPADDRESS_ROW のメンバを既定値で初期化するために使用する。入力時には初期化対象の新しい
+MIB_UNICASTIPADDRESS_ROW を渡す。出力時、PrefixOrigin は
+IpPrefixOriginUnchanged に、SuffixOrigin は IpSuffixOriginUnchanged
+に、OnLinkPrefixLength は不正値に、PreferredLifetime と ValidLifetime
+は無限に、SkipAsSource は FALSE に、その他は 0
+に初期化される。呼び出し後にアプリケーションは変更したいメンバを書き換え、CreateUnicastIpAddressEntry
+を呼び出して新規ユニキャスト IP アドレスを追加できる。
 
 
 %index
 IpReleaseAddress
-The IpReleaseAddress function releases an IPv4 address previously obtained through the Dynamic Host Configuration Protocol (DHCP).
+IpReleaseAddress 関数は、DHCP で以前に取得した IPv4 アドレスを解放する。
 %group
 Win32 iphlpapi
 %prm
 AdapterInfo
-AdapterInfo : [var] A pointer to an IP_ADAPTER_INDEX_MAP structure that specifies the adapter associated with the IPv4 address to release.
+AdapterInfo : [var] 解放する IPv4 アドレスに関連するアダプタを指定する IP_ADAPTER_INDEX_MAP 構造体へのポインタ。
 %inst
-The IpReleaseAddress function releases an IPv4 address previously
-obtained through the Dynamic Host Configuration Protocol (DHCP).
+IpReleaseAddress 関数は、DHCP で以前に取得した IPv4 アドレスを解放する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
+このドキュメントは省略されている。
 
 [備考]
-The IpReleaseAddress function is specific to IPv4 and releases only
-an IPv4 address previously obtained through the Dynamic Host
-Configuration Protocol (DHCP). The Name member of the
-IP_ADAPTER_INDEX_MAP structure pointed to by the AdapterInfo
-parameter is the only member used to determine the DHCP address to
-release. An array of IP_ADAPTER_INDEX_MAP structures is returned in
-the IP_INTERFACE_INFO structure by the GetInterfaceInfo function. The
-IP_INTERFACE_INFO structure returned by GetInterfaceInfo contains at
-least one IP_ADAPTER_INDEX_MAP structure even if the NumAdapters
-member of the IP_INTERFACE_INFO structure indicates that no network
-adapters with IPv4 are enabled. When the NumAdapters member of the
-IP_INTERFACE_INFO structure returned by GetInterfaceInfo is zero, the
-value of the members of the single IP_ADAPTER_INDEX_MAP structure
-returned in the IP_INTERFACE_INFO structure is undefined. If the Name
-member of the IP_ADAPTER_INDEX_MAP structure pointed to by the
-AdapterInfo parameter is NULL, the IpReleaseAddress function returns
-ERROR_INVALID_PARAMETER. There are no functions available for
-releasing or renewing an IPv6 address. This can only be done by
-executing the Ipconfig command:
+IpReleaseAddress 関数は IPv4 専用で、DHCP で以前に取得した IPv4
+アドレスのみを解放する。AdapterInfo が指す IP_ADAPTER_INDEX_MAP の Name メンバのみが解放する
+DHCP アドレスの判定に使われる。IP_ADAPTER_INDEX_MAP の配列は GetInterfaceInfo によって
+IP_INTERFACE_INFO 構造体として返される。GetInterfaceInfo の返す IP_INTERFACE_INFO
+は、NumAdapters が 0 (IPv4 有効なアダプタがない) の場合でも最低 1 つの IP_ADAPTER_INDEX_MAP
+を含む。このとき単一の IP_ADAPTER_INDEX_MAP のメンバ値は未定義である。AdapterInfo が指す
+IP_ADAPTER_INDEX_MAP の Name メンバが NULL の場合、IpReleaseAddress は
+ERROR_INVALID_PARAMETER を返す。IPv6 アドレスの解放/更新を行う関数は提供されていない。これは
+Ipconfig コマンドの実行でのみ可能:
 ipconfig /release6 ipconfig /renew6
 
 
 %index
 IpRenewAddress
-The IpRenewAddressfunction renews a lease on an IPv4 address previously obtained through Dynamic Host Configuration Protocol (DHCP).
+IpRenewAddress 関数は、DHCP で以前に取得した IPv4 アドレスのリースを更新する。
 %group
 Win32 iphlpapi
 %prm
 AdapterInfo
-AdapterInfo : [var] A pointer to an IP_ADAPTER_INDEX_MAP structure that specifies the adapter associated with the IP address to renew.
+AdapterInfo : [var] 更新する IP アドレスに関連するアダプタを指定する IP_ADAPTER_INDEX_MAP 構造体へのポインタ。
 %inst
-The IpRenewAddressfunction renews a lease on an IPv4 address
-previously obtained through Dynamic Host Configuration Protocol
-(DHCP).
+IpRenewAddress 関数は、DHCP で以前に取得した IPv4 アドレスのリースを更新する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
+このドキュメントは省略されている。
 
 [備考]
-The IpRenewAddress function is specific to IPv4 and renews only an
-IPv4 address previously obtained through the Dynamic Host
-Configuration Protocol (DHCP). The Name member of the
-IP_ADAPTER_INDEX_MAP structure pointed to by the AdapterInfo
-parameter is the only member used to determine the DHCP address to
-renew. An array of IP_ADAPTER_INDEX_MAP structures are returned in
-the IP_INTERFACE_INFO structure by the GetInterfaceInfo function. The
-IP_INTERFACE_INFO structure returned by GetInterfaceInfo contains at
-least one IP_ADAPTER_INDEX_MAP structure even if the NumAdapters
-member of the IP_INTERFACE_INFO structure indicates that no network
-adapters with IPv4 are enabled. When the NumAdapters member of the
-IP_INTERFACE_INFO structure returned by GetInterfaceInfo is zero, the
-value of the members of the single IP_ADAPTER_INDEX_MAP structure
-returned in the IP_INTERFACE_INFO structure is undefined. If the Name
-member of the IP_ADAPTER_INDEX_MAP structure pointed to by the
-AdapterInfo parameter is NULL, the IpRenewAddress function returns
-ERROR_INVALID_PARAMETER. There are no functions available for
-releasing or renewing an IPv6 address. This can only be done by
-executing the Ipconfig command:
+IpRenewAddress 関数は IPv4 専用で、DHCP で以前に取得した IPv4
+アドレスのみを更新する。AdapterInfo が指す IP_ADAPTER_INDEX_MAP の Name メンバのみが更新する
+DHCP アドレスの判定に使われる。IP_ADAPTER_INDEX_MAP の配列は GetInterfaceInfo によって
+IP_INTERFACE_INFO 構造体として返される。GetInterfaceInfo の返す IP_INTERFACE_INFO
+は、NumAdapters が 0 (IPv4 有効なアダプタがない) の場合でも最低 1 つの IP_ADAPTER_INDEX_MAP
+を含む。このとき単一の IP_ADAPTER_INDEX_MAP のメンバ値は未定義である。Name メンバが NULL
+の場合、IpRenewAddress は ERROR_INVALID_PARAMETER を返す。IPv6
+アドレスの解放/更新を行う関数は提供されていない。これは Ipconfig コマンドの実行でのみ可能:
 ipconfig /release6 ipconfig /renew6
 
 
 %index
 LookupPersistentTcpPortReservation
-Looks up the token for a persistent TCP port reservation for a consecutive block of TCP ports on the local computer.
+ローカルコンピュータ上の連続する TCP ポートブロックに対する永続的な TCP ポート予約のトークンを検索する。
 %group
 Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
-StartPort : [int] The starting TCP port number in network byte order.
-NumberOfPorts : [int] The number of TCP port numbers  that were reserved.
-Token : [var] A pointer to a port reservation token that is returned if the function succeeds.
+StartPort : [int] ネットワークバイト順での開始 TCP ポート番号。
+NumberOfPorts : [int] 予約されていた TCP ポート番号の数。
+Token : [var] 関数が成功した場合に返されるポート予約トークンへのポインタ。
 %inst
-Looks up the token for a persistent TCP port reservation for a
-consecutive block of TCP ports on the local computer.
+ローカルコンピュータ上の連続する TCP ポートブロックに対する永続的な TCP ポート予約のトークンを検索する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The LookupPersistentTcpPortReservation function is defined on Windows
-Vista and later. The LookupPersistentTcpPortReservation function is
-used to lookup the token for a persistent reservation for a block of
-TCP ports. A persistent reservation for a block of TCP ports is
-created by a call to the CreatePersistentTcpPortReservation function.
-The StartPort or NumberOfPorts parameters passed to the
-LookupPersistentTcpPortReservation function must match the values
-used when the persistent reservation for a block of TCP ports was
-created by the CreatePersistentTcpPortReservation function. If the
-LookupPersistentTcpPortReservation function succeeds, the Token
-parameter returned will point to the token for the persistent port
-reservation for the block of TCP ports. Note that the token for a
-given persistent reservation for a block of TCP ports may change each
-time the system is restarted.
-An application can request port assignments from the TCP port
-reservation by opening a TCP socket, then calling the WSAIoctl
-function specifying the SIO_ASSOCIATE_PORT_RESERVATION IOCTL and
-passing the reservation token before issuing a call to the bind
-function on the socket.
+LookupPersistentTcpPortReservation 関数は Windows Vista 以降で定義される。TCP
+ポートのブロックに対する永続的な予約のトークンを検索する。TCP ポートブロックに対する永続的な予約は
+CreatePersistentTcpPortReservation 関数の呼び出しによって作成される。この関数に渡される
+StartPort / NumberOfPorts は、CreatePersistentTcpPortReservation
+で予約作成時に使用した値と一致しなければならない。関数が成功すると、Token パラメータには TCP
+ポートブロックの永続的な予約トークンが返される。ある永続的予約のトークンは、システム再起動のたびに変更されることがある点に注意する。
+アプリケーションは TCP ソケットをオープンし、bind を呼び出す前に WSAIoctl で
+SIO_ASSOCIATE_PORT_RESERVATION IOCTL と予約トークンを渡すことで、TCP
+ポート予約からのポート割り当てを要求できる。
 
 
 %index
 LookupPersistentUdpPortReservation
-Looks up the token for a persistent UDP port reservation for a consecutive block of TCP ports on the local computer.
+ローカルコンピュータ上の連続する UDP ポートブロックに対する永続的な UDP ポート予約のトークンを検索する。
 %group
 Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
-StartPort : [int] The starting UDP port number in network byte order.
-NumberOfPorts : [int] The number of UDP port numbers that were reserved.
-Token : [var] A pointer to a port reservation token that is returned if the function succeeds.
+StartPort : [int] ネットワークバイト順での開始 UDP ポート番号。
+NumberOfPorts : [int] 予約されていた UDP ポート番号の数。
+Token : [var] 関数が成功した場合に返されるポート予約トークンへのポインタ。
 %inst
-Looks up the token for a persistent UDP port reservation for a
-consecutive block of TCP ports on the local computer.
+ローカルコンピュータ上の連続する UDP ポートブロックに対する永続的な UDP ポート予約のトークンを検索する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The LookupPersistentUdpPortReservation function is defined on Windows
-Vista and later. The LookupPersistentUdpPortReservation function is
-used to lookup the token for a persistent reservation for a block of
-UDP ports. A persistent reservation for a block of UDP ports is
-created by a call to the CreatePersistentUdpPortReservation function.
-The StartPort or NumberOfPorts parameters passed to the
-LookupPersistentUdpPortReservation function must match the values
-used when the persistent reservation for a block of TCP ports was
-created by the CreatePersistentUdpPortReservation function. If the
-LookupPersistentUdpPortReservation function succeeds, the Token
-parameter returned will point to the token for the persistent port
-reservation for the block of UDP ports. Note that the token for a
-given persistent reservation for a block of TCP ports may change each
-time the system is restarted.
-An application can request port assignments from the UDP port
-reservation by opening a UDP socket, then calling the WSAIoctl
-function specifying the SIO_ASSOCIATE_PORT_RESERVATION IOCTL and
-passing the reservation token before issuing a call to the bind
-function on the socket.
+LookupPersistentUdpPortReservation 関数は Windows Vista 以降で定義される。UDP
+ポートのブロックに対する永続的な予約のトークンを検索する。UDP ポートブロックに対する永続的な予約は
+CreatePersistentUdpPortReservation 関数の呼び出しによって作成される。StartPort /
+NumberOfPorts は予約作成時の値と一致しなければならない。関数が成功すると、Token には UDP
+ポートブロックの永続的な予約トークンが返される。予約トークンはシステム再起動のたびに変更されることがある点に注意する。
+アプリケーションは UDP ソケットをオープンし、bind 呼び出し前に WSAIoctl で
+SIO_ASSOCIATE_PORT_RESERVATION IOCTL と予約トークンを渡すことで、UDP
+ポート予約からのポート割り当てを要求できる。
 
 
 %index
 NhpAllocateAndGetInterfaceInfoFromStack
-The NhpAllocateAndGetInterfaceInfoFromStack function obtains adapter information about the local computer.
+NhpAllocateAndGetInterfaceInfoFromStack 関数は、ローカルコンピュータのアダプタ情報を取得する。
 %group
 Win32 iphlpapi
 %prm
 ppTable, pdwCount, bOrder, hHeap, dwFlags
-ppTable : [var] An array of IP_INTERFACE_NAME_INFO structures that contains information about each adapter on the local system. The array contains one element for each adapter on the system.
-pdwCount : [var] The number of elements in the ppTable array.
-bOrder : [int] When TRUE, elements in the ppTable array are sorted by increasing index value.
-hHeap : [intptr] A handle that specifies the heap from which ppTable should be allocated. This parameter can be the process heap returned by a call to the GetProcessHeap function, or a private heap created by a call to the HeapCreate function.
-dwFlags : [int] A set of flags to be passed to the HeapAlloc function when allocating memory for ppTable. See the HeapAlloc function for more information.
+ppTable : [var] ローカルシステム上の各アダプタに関する情報を含む IP_INTERFACE_NAME_INFO 構造体の配列。システム上のアダプタごとに要素が 1 つ含まれる。
+pdwCount : [var] ppTable 配列の要素数。
+bOrder : [int] TRUE の場合、ppTable 配列の要素はインデックス値の昇順でソートされる。
+hHeap : [intptr] ppTable を割り当てるヒープを指定するハンドル。GetProcessHeap が返すプロセスヒープ、または HeapCreate で作成したプライベートヒープを指定できる。
+dwFlags : [int] ppTable のメモリ割り当てで HeapAlloc 関数に渡されるフラグセット。詳細は HeapAlloc を参照。
 %inst
-The NhpAllocateAndGetInterfaceInfoFromStack function obtains adapter
-information about the local computer.
+NhpAllocateAndGetInterfaceInfoFromStack 関数は、ローカルコンピュータのアダプタ情報を取得する。
 
 [戻り値]
-Returns ERROR_SUCCESS upon successful completion.
+正常完了時に ERROR_SUCCESS を返す。
 
 [備考]
-In the Microsoft Windows Software Development Kit (SDK), the
-NhpAllocateAndGetInterfaceInfoFromStack function is defined on
-Windows 2000 with Service Pack 1 (SP1) and later. When compiling an
-application, if the target platform is Windows 2000 with SP1 and
-later (NTDDI_VERSION >= NTDDI_WIN2KSP1, _WIN32_WINNT >= 0x0500, or
-WINVER >= 0x0500), the NhpAllocateAndGetInterfaceInfoFromStack is
-defined.
+Microsoft Windows SDK では、NhpAllocateAndGetInterfaceInfoFromStack 関数は
+Windows 2000 SP1 以降で定義される。ターゲットプラットフォームが Windows 2000 SP1 以降
+(NTDDI_VERSION >= NTDDI_WIN2KSP1、_WIN32_WINNT >= 0x0500、WINVER >=
+0x0500) の場合に定義される。
 
 
 %index
 NotifyAddrChange
-The NotifyAddrChange function causes a notification to be sent to the caller whenever a change occurs in the table that maps IPv4 addresses to interfaces.
+NotifyAddrChange 関数は、IPv4 アドレスとインターフェイスの対応テーブルに変更が発生したとき、呼び出し元に通知を送らせる。
 %group
 Win32 iphlpapi
 %prm
 Handle, overlapped
-Handle : [intptr] A pointer to a HANDLE variable that receives a file handle for use in a subsequent call to the GetOverlappedResult function. Warning??Do not close this handle, and do not associate it with a completion port.
-overlapped : [var] A pointer to an OVERLAPPED structure that  notifies the caller of any changes in the table that maps IP addresses to interfaces.
+Handle : [intptr] 後続の GetOverlappedResult 呼び出しで使用するファイルハンドルを受け取る HANDLE 変数へのポインタ。警告: このハンドルをクローズしてはならず、また完了ポートに関連付けてもならない。
+overlapped : [var] IP アドレスとインターフェイスの対応テーブルの変更を呼び出し元に通知する OVERLAPPED 構造体へのポインタ。
 %inst
-The NotifyAddrChange function causes a notification to be sent to the
-caller whenever a change occurs in the table that maps IPv4 addresses
-to interfaces.
+NotifyAddrChange 関数は、IPv4
+アドレスとインターフェイスの対応テーブルに変更が発生したとき、呼び出し元に通知を送らせる。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR if the caller
-specifies NULL for the Handle and overlapped parameters. If the
-caller specifies non-NULL parameters, the return value for success is
-ERROR_IO_PENDING. If the function fails, use FormatMessage to obtain
-the message string for the returned error.
-This doc was truncated.
+関数が成功した場合、Handle と overlapped の両方に NULL を指定していれば戻り値は NO_ERROR
+である。NULL 以外を指定した場合の成功の戻り値は ERROR_IO_PENDING となる。失敗した場合は FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
+このドキュメントは省略されている。
 
 [備考]
-The
-This doc was truncated.
+この説明は
+このドキュメントは省略されている。
 
 
 %index
 NotifyIfTimestampConfigChange
-This function is reserved for system use, and you should not call it from your code. (NotifyIfTimestampConfigChange)
+この関数はシステム用に予約されており、ユーザのコードから呼び出してはならない。(NotifyIfTimestampConfigChange)
 %group
 Win32 iphlpapi
 %prm
 CallerContext, Callback, NotificationHandle
-CallerContext : [intptr] Reserved.
-Callback : [int] Reserved.
-NotificationHandle : [intptr] Reserved.
+CallerContext : [intptr] 予約済み。
+Callback : [int] 予約済み。
+NotificationHandle : [intptr] 予約済み。
 %inst
-This function is reserved for system use, and you should not call it
-from your code. (NotifyIfTimestampConfigChange)
+
+この関数はシステム用に予約されており、ユーザのコードから呼び出してはならない。(NotifyIfTimestampConfigChange)
 
 [戻り値]
-Reserved.
+予約済み。
 
 
 %index
 NotifyIpInterfaceChange
-Registers to be notified for changes to all IP interfaces, IPv4 interfaces, or IPv6 interfaces on a local computer.
+ローカルコンピュータ上のすべての IP インターフェイス、IPv4 インターフェイス、IPv6 インターフェイスの変更通知を登録する。
 %group
 Win32 iphlpapi
 %prm
 Family, Callback, CallerContext, InitialNotification, NotificationHandle
-Family : [int] The address family on which to register for change notifications. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Callback : [int] A pointer to the function to call when a change occurs. This function will be invoked when an interface notification is received.
-CallerContext : [intptr] A user context passed to the callback function specified in the Callback parameter when an interface notification is received.
-InitialNotification : [int] A value that indicates whether the callback should be invoked immediately after registration for change notification completes. This initial notification does not indicate a change occurred to an IP interface. The purpose of this parameter to provide confirmation that the callback is registered.
-NotificationHandle : [intptr] A pointer used to return a handle that can be later used to deregister the change notification. On success, a notification handle is returned in this parameter. If an error occurs, NULL is returned.
+Family : [int] 変更通知を登録するアドレスファミリ。アドレスファミリの値は Winsock2.h で定義される。AF_ と PF_ の定数は等価 (例: AF_INET と PF_INET) である。Windows Vista 以降向け SDK では Ws2def.h で定義される。Ws2def.h は Winsock2.h から自動インクルードされるので直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Callback : [int] 変更発生時に呼び出す関数へのポインタ。インターフェイス通知受信時に起動される。
+CallerContext : [intptr] インターフェイス通知受信時に Callback に渡されるユーザコンテキスト。
+InitialNotification : [int] 変更通知の登録完了直後にコールバックを起動するかどうかを示す値。この初回通知は IP インターフェイスの変更を示すものではなく、コールバックの登録確認のためのものである。
+NotificationHandle : [intptr] 変更通知の解除に後で使用できるハンドルを返すためのポインタ。成功時はハンドルが返され、エラー時は NULL が返される。
 %inst
-Registers to be notified for changes to all IP interfaces, IPv4
-interfaces, or IPv6 interfaces on a local computer.
+ローカルコンピュータ上のすべての IP インターフェイス、IPv4 インターフェイス、IPv6 インターフェイスの変更通知を登録する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The NotifyIpInterfaceChange function is defined on Windows Vista and
-later. The Family parameter must be set to either AF_INET, AF_INET6,
-or AF_UNSPEC. The invocation of the callback function specified in
-the Callback parameter is serialized. The callback function should be
-defined as a function of type VOID. The parameters passed to the
-callback function include the following:
-This doc was truncated.
+NotifyIpInterfaceChange 関数は Windows Vista 以降で定義される。Family は
+AF_INET、AF_INET6、AF_UNSPEC のいずれかでなければならない。Callback
+の呼び出しはシリアライズされる。コールバック関数は VOID 型で定義する。コールバックに渡されるパラメータは次のとおり:
+このドキュメントは省略されている。
 
 
 %index
 NotifyNetworkConnectivityHintChange
-Registers an application-defined callback function, to be called when the aggregate network connectivity level and cost hints change.
+総合ネットワーク接続レベルおよびコストヒントが変更されたときに呼ばれる、アプリケーション定義のコールバック関数を登録する。
 %group
 Win32 iphlpapi
 %prm
 Callback, CallerContext, InitialNotification, NotificationHandle
-Callback : [int] A function pointer of type [PNETWORK_CONNECTIVITY_HINT_CHANGE_CALLBACK](./nc-netioapi-pnetwork_connectivity_hint_change_callback.md), which points to your application-defined callback function. The callback function will be invoked when a network connectivity level or cost change occurs.
-CallerContext : [intptr] The user-specific caller context. This context will be supplied to the callback function.
-InitialNotification : [int] `True` if an initialization notification should be provided, otherwise `false`.
-NotificationHandle : [intptr] A pointer to a **HANDLE**. The function sets the value to a handle to the notification registration.
+Callback : [int] アプリケーション定義のコールバック関数を指す PNETWORK_CONNECTIVITY_HINT_CHANGE_CALLBACK 型の関数ポインタ。ネットワーク接続レベルまたはコスト変更時に呼び出される。
+CallerContext : [intptr] 呼び出し元固有のコンテキスト。コールバック関数に渡される。
+InitialNotification : [int] 初期化通知を発行する場合は true、それ以外は false。
+NotificationHandle : [intptr] HANDLE へのポインタ。関数は通知登録へのハンドルを設定する。
 %inst
-Registers an application-defined callback function, to be called when
-the aggregate network connectivity level and cost hints change.
+総合ネットワーク接続レベルおよびコストヒントが変更されたときに呼ばれる、アプリケーション定義のコールバック関数を登録する。
 
 [戻り値]
-If the function succeeds, the return value is **NO_ERROR**.
-Otherwise, an error code is returned.
+関数が成功すると、戻り値は NO_ERROR である。それ以外の場合はエラーコードが返される。
 
 [備考]
-To deregister for change notifications, call the
-**CancelMibChangeNotify2** function, passing the *NotificationHandle*
-parameter returned by **NotifyNetworkConnectivityHintChange**.
+変更通知を解除するには、NotifyNetworkConnectivityHintChange が返した
+NotificationHandle を渡して CancelMibChangeNotify2 関数を呼び出す。
 
 
 %index
 NotifyRouteChange
-The NotifyRouteChange function causes a notification to be sent to the caller whenever a change occurs in the IPv4 routing table.
+NotifyRouteChange 関数は、IPv4 ルーティングテーブルに変更が発生したとき、呼び出し元に通知を送らせる。
 %group
 Win32 iphlpapi
 %prm
 Handle, overlapped
-Handle : [intptr] A pointer to a HANDLE variable that receives a handle to use in asynchronous notification.
-overlapped : [var] A pointer to an OVERLAPPED structure that  notifies the caller of any changes in the routing table.
+Handle : [intptr] 非同期通知で使用するハンドルを受け取る HANDLE 変数へのポインタ。
+overlapped : [var] ルーティングテーブルの変更を呼び出し元に通知する OVERLAPPED 構造体へのポインタ。
 %inst
-The NotifyRouteChange function causes a notification to be sent to
-the caller whenever a change occurs in the IPv4 routing table.
+NotifyRouteChange 関数は、IPv4 ルーティングテーブルに変更が発生したとき、呼び出し元に通知を送らせる。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR if the caller
-specifies NULL for the Handle and overlapped parameters. If the
-caller specifies non-NULL parameters, the return value for success is
-ERROR_IO_PENDING. If the function fails, use FormatMessage to obtain
-the message string for the returned error.
-This doc was truncated.
+関数が成功した場合、Handle と overlapped の両方に NULL を指定していれば戻り値は NO_ERROR
+である。NULL 以外を指定した場合の成功の戻り値は ERROR_IO_PENDING となる。失敗した場合は FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
+このドキュメントは省略されている。
 
 [備考]
-The
-This doc was truncated.
+この説明は
+このドキュメントは省略されている。
 
 
 %index
 NotifyRouteChange2
-Registers to be notified for changes to IP route entries on a local computer.
+ローカルコンピュータ上の IP 経路エントリの変更通知を登録する。
 %group
 Win32 iphlpapi
 %prm
 AddressFamily, Callback, CallerContext, InitialNotification, NotificationHandle
-AddressFamily : [int] The address family on which to register for change notifications. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Callback : [int] A pointer to the function to call when a change occurs. This function will be invoked when an IP route notification is received.
-CallerContext : [intptr] A user context passed to the callback function specified in the Callback parameter when an IP route notification is received.
-InitialNotification : [int] A value that indicates whether the callback should be invoked immediately after registration for change notification completes. This initial notification does not indicate a change occurred to an IP route entry. The purpose of this parameter to provide confirmation that the callback is registered.
-NotificationHandle : [intptr] A pointer used to return a handle that can be later used to deregister the change notification. On success, a notification handle is returned in this parameter. If an error occurs, NULL is returned.
+AddressFamily : [int] 変更通知を登録するアドレスファミリ。アドレスファミリの値は Winsock2.h で定義される。AF_ と PF_ の定数は等価 (例: AF_INET と PF_INET) である。Windows Vista 以降向け SDK では Ws2def.h で定義される。Ws2def.h は Winsock2.h から自動インクルードされるので直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Callback : [int] 変更発生時に呼び出す関数へのポインタ。IP 経路通知受信時に起動される。
+CallerContext : [intptr] IP 経路通知受信時に Callback に渡されるユーザコンテキスト。
+InitialNotification : [int] 変更通知の登録完了直後にコールバックを起動するかどうかを示す値。この初回通知は IP 経路エントリの変更を示すものではなく、コールバックの登録確認のためのものである。
+NotificationHandle : [intptr] 変更通知の解除に後で使用できるハンドルを返すためのポインタ。成功時はハンドルが返され、エラー時は NULL が返される。
 %inst
-Registers to be notified for changes to IP route entries on a local
-computer.
+ローカルコンピュータ上の IP 経路エントリの変更通知を登録する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The NotifyRouteChange2 function is defined on Windows Vista and
-later. The Family parameter must be set to either AF_INET, AF_INET6,
-or AF_UNSPEC. The invocation of the callback function specified in
-the Callback parameter is serialized. The callback function should be
-defined as a function of type VOID. The parameters passed to the
-callback function include the following:
-This doc was truncated.
+NotifyRouteChange2 関数は Windows Vista 以降で定義される。Family は
+AF_INET、AF_INET6、AF_UNSPEC のいずれかでなければならない。Callback
+の呼び出しはシリアライズされる。コールバック関数は VOID 型で定義する。コールバックに渡されるパラメータは次のとおり:
+このドキュメントは省略されている。
 
 
 %index
 NotifyStableUnicastIpAddressTable
-Retrieves the stable unicast IP address table on a local computer.
+ローカルコンピュータ上の安定したユニキャスト IP アドレステーブルを取得する。
 %group
 Win32 iphlpapi
 %prm
 Family, Table, CallerCallback, CallerContext, NotificationHandle
-Family : [int] The address family to retrieve. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Table : [var] A pointer to a MIB_UNICASTIPADDRESS_TABLE structure. When NotifyStableUnicastIpAddressTable is successful, this parameter returns the stable unicast IP address table on the local computer. When NotifyStableUnicastIpAddressTable returns ERROR_IO_PENDING indicating that the I/O request is pending, then the  stable unicast IP address table is returned to the function in the CallerCallback  parameter.
-CallerCallback : [int] A pointer to the function to call with the stable unicast IP address table. This function will be invoked if NotifyStableUnicastIpAddressTable returns ERROR_IO_PENDING, indicating that the I/O request is pending.
-CallerContext : [intptr] A user context passed to the callback function specified in the CallerCallback parameter when the stable unicast IP address table si available.
-NotificationHandle : [intptr] A pointer used to return a handle that can be used to cancel the request to retrieve the stable unicast IP address table. This parameter is returned if  the return value from NotifyStableUnicastIpAddressTable is ERROR_IO_PENDING indicating that the I/O request is pending.
+Family : [int] 取得するアドレスファミリ。アドレスファミリの値は Winsock2.h で定義される。AF_ と PF_ の定数は等価 (例: AF_INET と PF_INET) である。Windows Vista 以降向け SDK では Ws2def.h で定義される。Ws2def.h は Winsock2.h から自動インクルードされるので直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Table : [var] MIB_UNICASTIPADDRESS_TABLE 構造体へのポインタ。NotifyStableUnicastIpAddressTable が成功するとこのパラメータにローカルコンピュータの安定したユニキャスト IP アドレステーブルが返される。ERROR_IO_PENDING が返された場合は、テーブルは CallerCallback に渡される。
+CallerCallback : [int] 安定したユニキャスト IP アドレステーブルを伴って呼び出される関数へのポインタ。NotifyStableUnicastIpAddressTable が ERROR_IO_PENDING (I/O 要求保留中) を返した場合に起動される。
+CallerContext : [intptr] 安定したユニキャスト IP アドレステーブルが利用可能になったときに CallerCallback に渡されるユーザコンテキスト。
+NotificationHandle : [intptr] 安定したユニキャスト IP アドレステーブル取得要求をキャンセルするのに使えるハンドルを返すためのポインタ。戻り値が ERROR_IO_PENDING (I/O 要求保留中) の場合にのみ返される。
 %inst
-Retrieves the stable unicast IP address table on a local computer.
+ローカルコンピュータ上の安定したユニキャスト IP アドレステーブルを取得する。
 
 [戻り値]
-If the function succeeds immediately, the return value is NO_ERROR
-and the stable unicast IP table is returned in the Table parameter.
-If the I/O request is pending, the function returns ERROR_IO_PENDING
-and the function pointed to by the CallerCallback parameter is called
-when the I/O request has completed with the stable unicast IP address
-table. If the function fails, the return value is one of the
-following error codes.
-This doc was truncated.
+即座に成功した場合、戻り値は NO_ERROR となり Table にテーブルが返される。I/O 要求が保留の場合は
+ERROR_IO_PENDING が返され、I/O 完了時に CallerCallback
+が安定したテーブルを伴って呼び出される。失敗時は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The NotifyStableUnicastIpAddressTable function is defined on Windows
-Vista and later. If the NotifyStableUnicastIpAddressTable function
-succeeds immediately, the return value is NO_ERROR and the stable
-unicast IP table is returned in the Table parameter. The calling
-application should free the memory pointed to by the Table parameter
-using the FreeMibTable function when the MIB_UNICASTIPADDRESS_TABLE
-information is no longer needed. All unicast IP addresses except
-dial-on-demand addresses are considered stable only if they are in
-the preferred state. For a normal unicast IP address entry, this
-would correspond to a DadState member of the MIB_UNICASTIPADDRESS_ROW
-for the IP address set to IpDadStatePreferred. Every dial-on-demand
-address defines its own stability metric. Currently the only
-dial-on-demand address considered by this function is the unicast IP
-address used by the Teredo client on the local computer. The Family
-parameter must be set to either AF_INET, AF_INET6, or AF_UNSPEC. When
-NotifyStableUnicastIpAddressTable is successful and returns NO_ERROR,
-the Table parameter returns the stable unicast IP address table on
-the local computer. When NotifyStableUnicastIpAddressTable returns
-ERROR_IO_PENDING indicating that the I/O request is pending, then the
-stable unicast IP address table is returned to the function in the
-CallerCallback parameter. The NotifyStableUnicastIpAddressTable
-function is used primarily by applications that use the Teredo
-client. If the unicast IP address used by Teredo is available on the
-local computer but not in the stable (qualified) state,
-NotifyStableUnicastIpAddressTable returns ERROR_IO_PENDING and the
-stable unicast IP address table is eventually returned by calling the
-function in the CallerCallback parameter. If the Teredo address is
-not available or is in the stable state and the other unicast IP
-addresses are in a stable state, then the function in the
-CallerCallback parameter will never be invoked. The callback function
-specified in the CallerCallback parameter should be defined as a
-function of type VOID. The parameters passed to the callback function
-include the following:
-This doc was truncated.
+NotifyStableUnicastIpAddressTable 関数は Windows Vista
+以降で定義される。即座に成功した場合は NO_ERROR を返し、Table に安定したユニキャスト IP
+テーブルが返される。この場合、呼び出し元は FreeMibTable で Table
+のメモリを解放する必要がある。dial-on-demand アドレスを除くすべてのユニキャスト IP アドレスは、preferred 状態
+(MIB_UNICASTIPADDRESS_ROW の DadState が IpDadStatePreferred)
+のときのみ安定と見なされる。各 dial-on-demand アドレスは独自の安定性メトリックを定義する。現在この関数が対象とする
+dial-on-demand アドレスは Teredo クライアントのユニキャスト IP アドレスのみ。Family は
+AF_INET、AF_INET6、AF_UNSPEC のいずれかに設定する必要がある。成功時は Table
+にテーブルが返り、ERROR_IO_PENDING の場合は CallerCallback で後に返される。主に Teredo
+クライアントを使うアプリケーションで使用される。Teredo アドレスが安定 (qualified) 状態でない場合、関数は
+ERROR_IO_PENDING を返し、後で CallerCallback を介してテーブルが返される。Teredo
+アドレスが不在、あるいは既に安定状態で他のすべても安定なら、コールバックは呼び出されない。コールバック関数は VOID
+型で定義し、渡されるパラメータは次のとおり:
+このドキュメントは省略されている。
 
 
 %index
 NotifyTeredoPortChange
-Registers to be notified for changes to the UDP port number used by the Teredo client for the Teredo service port on a local computer.
+ローカルコンピュータ上で Teredo クライアントが Teredo サービスポートに用いる UDP ポート番号の変更通知を登録する。
 %group
 Win32 iphlpapi
 %prm
 Callback, CallerContext, InitialNotification, NotificationHandle
-Callback : [int] A pointer to the function to call when a Teredo client port change occurs. This function will be invoked when a Teredo port change notification is received.
-CallerContext : [intptr] A user context passed to the callback function specified in the Callback parameter when a Teredo port change  notification is received.
-InitialNotification : [int] A value that indicates whether the callback should be invoked immediately after registration for change notification completes. This initial notification does not indicate a change occurred to the Teredo client port. The purpose of this parameter to provide confirmation that the callback is registered.
-NotificationHandle : [intptr] A pointer used to return a handle that can be later used to deregister the change notification. On success, a notification handle is returned in this parameter. If an error occurs, NULL is returned.
+Callback : [int] Teredo クライアントのポート変更時に呼び出す関数へのポインタ。Teredo ポート変更通知受信時に起動される。
+CallerContext : [intptr] Teredo ポート変更通知受信時に Callback に渡されるユーザコンテキスト。
+InitialNotification : [int] 変更通知の登録完了直後にコールバックを起動するかどうかを示す値。この初回通知は Teredo クライアントポートの変更を示すものではなく、コールバックの登録確認のためのものである。
+NotificationHandle : [intptr] 変更通知の解除に後で使用できるハンドルを返すためのポインタ。成功時はハンドルが返され、エラー時は NULL が返される。
 %inst
-Registers to be notified for changes to the UDP port number used by
-the Teredo client for the Teredo service port on a local computer.
+ローカルコンピュータ上で Teredo クライアントが Teredo サービスポートに用いる UDP ポート番号の変更通知を登録する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The NotifyTeredoPortChange function is defined on Windows Vista and
-later. The GetTeredoPort function can be used to retrieve the initial
-UDP port number used by the Teredo client for the Teredo service
-port. The Teredo port is dynamic and can change any time the Teredo
-client is restarted on the local computer. An application can
-register to be notified when the Teredo service port changes by
-calling the NotifyTeredoPortChange function. The invocation of the
-callback function specified in the Callback parameter is serialized.
-The callback function should be defined as a function of type VOID.
-The parameters passed to the callback function include the following:
-This doc was truncated.
+NotifyTeredoPortChange 関数は Windows Vista 以降で定義される。GetTeredoPort で
+Teredo クライアントが使用する初期 UDP ポート番号を取得できる。Teredo
+ポートは動的でクライアントの再起動ごとに変化しうる。アプリケーションは NotifyTeredoPortChange で Teredo
+サービスポート変更通知の登録ができる。Callback の呼び出しはシリアライズされる。コールバック関数は VOID
+型で定義する。渡されるパラメータは次のとおり:
+このドキュメントは省略されている。
 
 
 %index
 NotifyUnicastIpAddressChange
-Registers to be notified for changes to all unicast IP interfaces, unicast IPv4 addresses, or unicast IPv6 addresses on a local computer.
+ローカルコンピュータ上のすべてのユニキャスト IP インターフェイス、ユニキャスト IPv4 アドレス、ユニキャスト IPv6 アドレスの変更通知を登録する。
 %group
 Win32 iphlpapi
 %prm
 Family, Callback, CallerContext, InitialNotification, NotificationHandle
-Family : [int] The address family on which to register for change notifications. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, AF_INET6, and AF_UNSPEC.
-Callback : [int] A pointer to the function to call when a change occurs. This function will be invoked when a unicast IP address notification is received.
-CallerContext : [intptr] A user context passed to the callback function specified in the Callback parameter when an interface notification is received.
-InitialNotification : [int] A value that indicates whether the callback should be invoked immediately after registration for change notification completes. This initial notification does not indicate a change occurred to a unicast IP address. The purpose of this parameter to provide confirmation that the callback is registered.
-NotificationHandle : [intptr] A pointer used to return a handle that can be later used to deregister the change notification. On success, a notification handle is returned in this parameter. If an error occurs, NULL is returned.
+Family : [int] 変更通知を登録するアドレスファミリ。アドレスファミリの値は Winsock2.h で定義される。AF_ と PF_ の定数は等価 (例: AF_INET と PF_INET) である。Windows Vista 以降向け SDK では Ws2def.h で定義される。Ws2def.h は Winsock2.h から自動インクルードされるので直接使用してはならない。現在サポートされる値は AF_INET、AF_INET6、AF_UNSPEC である。
+Callback : [int] 変更発生時に呼び出す関数へのポインタ。ユニキャスト IP アドレス通知受信時に起動される。
+CallerContext : [intptr] インターフェイス通知受信時に Callback に渡されるユーザコンテキスト。
+InitialNotification : [int] 変更通知の登録完了直後にコールバックを起動するかどうかを示す値。この初回通知はユニキャスト IP アドレスの変更を示すものではなく、コールバックの登録確認のためのものである。
+NotificationHandle : [intptr] 変更通知の解除に後で使用できるハンドルを返すためのポインタ。成功時はハンドルが返され、エラー時は NULL が返される。
 %inst
-Registers to be notified for changes to all unicast IP interfaces,
-unicast IPv4 addresses, or unicast IPv6 addresses on a local
-computer.
+ローカルコンピュータ上のすべてのユニキャスト IP インターフェイス、ユニキャスト IPv4 アドレス、ユニキャスト IPv6
+アドレスの変更通知を登録する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The NotifyUnicastIpAddressChange function is defined on Windows Vista
-and later. The Family parameter must be set to either AF_INET,
-AF_INET6, or AF_UNSPEC. The invocation of the callback function
-specified in the Callback parameter is serialized. The callback
-function should be defined as a function of type VOID. The parameters
-passed to the callback function include the following:
-This doc was truncated.
+NotifyUnicastIpAddressChange 関数は Windows Vista 以降で定義される。Family は
+AF_INET、AF_INET6、AF_UNSPEC のいずれかでなければならない。Callback
+の呼び出しはシリアライズされる。コールバック関数は VOID 型で定義する。コールバックに渡されるパラメータは次のとおり:
+このドキュメントは省略されている。
 
 
 %index
 ParseNetworkString
-Parses the input network string and checks whether it is a legal representation of the specified IP network string type. If the string matches a type and its specification, the function can optionally return the parsed result.
+入力ネットワーク文字列を解析し、指定した IP ネットワーク文字列型の正当な表現であるかを確認する。一致すれば任意で解析結果を返せる。
 %group
 Win32 iphlpapi
 %prm
 NetworkString, Types, AddressInfo, PortNumber, PrefixLength
-NetworkString : [wstr] A pointer to the NULL-terminated network string to parse.
-Types : [int] The type of IP network string to parse. This parameter consists of one of network string types as defined in the Iphlpapi.h header file.
-AddressInfo : [var] On success, the function returns a pointer to a NET_ADDRESS_INFO structure that contains the parsed IP address information if a NULL pointer was not passed in this parameter.
-PortNumber : [var] On success, the function returns a pointer to the parsed network port in host order if a NULL pointer was not passed in this parameter. If a network port was not present in the NetworkString parameter, then a pointer to a value of zero is returned.
-PrefixLength : [var] On success, the function returns a pointer to the parsed prefix length if a NULL pointer was not passed in this parameter. If a prefix was not present in the NetworkString parameter, then a pointer to a value of -1 is returned.
+NetworkString : [wstr] 解析する NULL 終端のネットワーク文字列へのポインタ。
+Types : [int] 解析する IP ネットワーク文字列の種別。このパラメータは Iphlpapi.h ヘッダで定義されるネットワーク文字列種別の一つである。
+AddressInfo : [var] 成功時、NULL 以外のポインタが渡されていれば、解析された IP アドレス情報を含む NET_ADDRESS_INFO 構造体へのポインタを返す。
+PortNumber : [var] 成功時、NULL 以外のポインタが渡されていれば、解析されたネットワークポート (ホストバイト順) へのポインタを返す。NetworkString にポートが含まれていない場合は 0 を指すポインタが返される。
+PrefixLength : [var] 成功時、NULL 以外のポインタが渡されていれば、解析されたプレフィックス長へのポインタを返す。NetworkString にプレフィックスが含まれていない場合は -1 を指すポインタが返される。
 %inst
-Parses the input network string and checks whether it is a legal
-representation of the specified IP network string type. If the string
-matches a type and its specification, the function can optionally
-return the parsed result.
+入力ネットワーク文字列を解析し、指定した IP ネットワーク文字列型の正当な表現であるかを確認する。一致すれば任意で解析結果を返せる。
 
 [戻り値]
-If the function succeeds, the return value is ERROR_SUCCESS. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は ERROR_SUCCESS である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The ParseNetworkString function parses the input network string
-passed in the NetworkString parameter and checks whether it is a
-legal representation of one of the string types as specified in the
-Types argument. If the string matches a type and its specification,
-the function succeeds and can optionally return the parsed result to
-the caller in the optional AddressInfo, PortNumber, and PrefixLength
-parameters when these parameters are not NULL pointers. The
-ParseNetworkString function can parse representations of IPv4 or IPv6
-addresses, services, and networks, as well as named Internet
-addresses and services using DNS names.
-The
-[NET_ADDRESS_INFO](/windows/desktop/api/iphlpapi/ns-iphlpapi-net_address_info)
-structure pointed to by the AddressInfo parameter. The SOCKADDR_IN
-and SOCKADDR structures are defined in the Ws2def.h header file which
-is automatically included by the Winsock2.h header file. The
-SOCKADDR_IN6 structure is defined in the Ws2ipdef.h header file which
-is automatically included by the Ws2tcpip.h header file. In order to
-use the ParseNetworkString function and the NET_ADDRESS_INFO
-structure, the Winsock2.h and Ws2tcpip.h header files must be
-included before the Iphlpapi.h header file.
+ParseNetworkString 関数は NetworkString に渡された入力ネットワーク文字列を解析し、Types
+で指定した文字列種別の正当な表現であるかを確認する。一致すれば成功し、AddressInfo / PortNumber /
+PrefixLength が NULL 以外ならそこに結果を返す。IPv4 / IPv6 アドレス、サービス、ネットワーク表現、および
+DNS 名を用いた名前付きインターネットアドレス/サービスを解析できる。
+AddressInfo が指す NET_ADDRESS_INFO 構造体について、SOCKADDR_IN および SOCKADDR は
+Ws2def.h (Winsock2.h から自動インクルード) で定義される。SOCKADDR_IN6 は Ws2ipdef.h
+(Ws2tcpip.h から自動インクルード) で定義される。ParseNetworkString と NET_ADDRESS_INFO
+を使用するには、Winsock2.h と Ws2tcpip.h を Iphlpapi.h より前にインクルードする必要がある。
 
 
 %index
@@ -5955,257 +4035,143 @@ pInterface : [intptr]
 
 %index
 ResolveIpNetEntry2
-Resolves the physical address for a neighbor IP address entry on the local computer. (ResolveIpNetEntry2)
+ローカルコンピュータ上の近隣 IP アドレスエントリの物理アドレスを解決する。(ResolveIpNetEntry2)
 %group
 Win32 iphlpapi
 %prm
 Row, SourceAddress
-Row : [var] A pointer to a MIB_IPNET_ROW2 structure entry for a neighbor IP address entry. On successful return, this structure will be updated with the properties for neighbor IP address.
-SourceAddress : [var] A pointer to a an optional source IP address used to select the interface to send the requests on for the neighbor IP address entry.
+Row : [var] 近隣 IP アドレスエントリの MIB_IPNET_ROW2 構造体エントリへのポインタ。正常終了時、この構造体は近隣 IP アドレスのプロパティで更新される。
+SourceAddress : [var] 近隣 IP アドレスエントリの要求を送信するインターフェイスを選択するための、オプションの送信元 IP アドレスへのポインタ。
 %inst
-Resolves the physical address for a neighbor IP address entry on the
-local computer. (ResolveIpNetEntry2)
+ローカルコンピュータ上の近隣 IP アドレスエントリの物理アドレスを解決する。(ResolveIpNetEntry2)
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The ResolveIpNetEntry2 function is defined on Windows Vista and
-later. The ResolveIpNetEntry2 function is used to resolve the
-physical address for a neighbor IP address entry on a local computer.
-This function flushes any existing neighbor entry that matches the IP
-address on the interface and then resolves the physical address (MAC)
-address by sending ARP requests for an IPv4 address or neighbor
-solicitation requests for an IPv6 address. If the SourceAddress
-parameter is specified, the ResolveIpNetEntry2 function will select
-the interface with this source IP address to send the requests on. If
-the SourceAddress parameter is not specified (NULL was passed in this
-parameter), the ResolveIpNetEntry2 function will automatically select
-the best interface to send the requests on.
-The Address member in the MIB_IPNET_ROW2 structure pointed to by the
-Row parameter must be initialized to a valid IPv4 or IPv6 address and
-family. In addition, at least one of the following members in the
-MIB_IPNET_ROW2 structure pointed to the Row parameter must be
-initialized to the interface: the InterfaceLuid or InterfaceIndex.
-The fields are used in the order listed above. So if the
-InterfaceLuid is specified, then this member is used to determine the
-interface on which to add the unicast IP address. If no value was set
-for the InterfaceLuid member (the values of this member was set to
-zero), then the InterfaceIndex member is next used to determine the
-interface. If the IP address passed in the Address member of the
-MIB_IPNET_ROW2 pointed to by the Row parameter is a duplicate of an
-existing neighbor IP address on the interface, the ResolveIpNetEntry2
-function will flush the existing entry before resolving the IP
-address. On output when the call is successful, ResolveIpNetEntry2
-retrieves the other properties for the neighbor IP address and fills
-out the MIB_IPNET_ROW2 structure pointed to by the Row parameter. The
-PhysicalAddress and PhysicalAddressLength members in the
-MIB_IPNET_ROW2 structure pointed to by the Row parameter will be
-initialized to a valid physical address.
+ResolveIpNetEntry2 関数は Windows Vista 以降で定義される。ローカルコンピュータ上の近隣 IP
+アドレスエントリの物理アドレスを解決するために使用される。インターフェイス上で該当 IP
+アドレスに合致する既存の近隣エントリをフラッシュしてから、IPv4 なら ARP 要求、IPv6 なら近隣要請要求を送信して物理
+(MAC) アドレスを解決する。SourceAddress が指定されている場合、その送信元 IP
+を持つインターフェイスから要求を送る。指定がない (NULL) 場合は自動的に最適なインターフェイスが選ばれる。
+Row が指す MIB_IPNET_ROW2 の Address メンバは有効な IPv4 / IPv6
+アドレスとファミリで初期化しなければならない。また InterfaceLuid または InterfaceIndex
+のいずれかを初期化する必要があり、列挙順で使用される (InterfaceLuid が 0 なら
+InterfaceIndex)。Address
+が既存の近隣エントリと重複する場合、まず既存エントリをフラッシュしてから解決する。呼び出し成功時、ResolveIpNetEntry2
+は他のプロパティを取得して Row に埋める。PhysicalAddress と PhysicalAddressLength
+は有効な物理アドレスで初期化される。
 
 
 %index
 ResolveNeighbor
-Resolves the physical address for a neighbor IP address entry on the local computer. (ResolveNeighbor)
+ローカルコンピュータ上の近隣 IP アドレスエントリの物理アドレスを解決する。(ResolveNeighbor)
 %group
 Win32 iphlpapi
 %prm
 NetworkAddress, PhysicalAddress, PhysicalAddressLength
-NetworkAddress : [var] A pointer to a   SOCKADDR structure that contains the neighbor IP address entry and address family.
-PhysicalAddress : [intptr] A pointer to a byte array buffer that will receive the physical address that corresponds to the IP address specified by the NetworkAddress parameter if the function is successful. The length of the byte array is passed in the PhysicalAddressLength parameter.
-PhysicalAddressLength : [var] On input, this parameter specifies the maximum length, in bytes, of the buffer passed in the PhysicalAddress parameter to receive the physical address. If the function is successful, this parameter will receive the length of the physical address returned in the buffer pointed to by the PhysicalAddress parameter. If ERROR_BUFFER_OVERFLOW is returned, this parameter contains the number of bytes required to hold the physical address.
+NetworkAddress : [var] 近隣 IP アドレスエントリとアドレスファミリを含む SOCKADDR 構造体へのポインタ。
+PhysicalAddress : [intptr] 関数が成功した場合、NetworkAddress で指定された IP アドレスに対応する物理アドレスを受け取るバイト配列バッファへのポインタ。配列の長さは PhysicalAddressLength で渡される。
+PhysicalAddressLength : [var] 入力時、このパラメータは PhysicalAddress で渡すバッファの最大長 (バイト単位) を指定する。関数が成功すると、このパラメータは PhysicalAddress に返された物理アドレスの長さを受け取る。ERROR_BUFFER_OVERFLOW が返された場合は物理アドレスに必要なバイト数が格納される。
 %inst
-Resolves the physical address for a neighbor IP address entry on the
-local computer. (ResolveNeighbor)
+ローカルコンピュータ上の近隣 IP アドレスエントリの物理アドレスを解決する。(ResolveNeighbor)
 
 [戻り値]
-The ResolveNeighbor function always fails and returns the following
-error code.
-This doc was truncated.
+ResolveNeighbor 関数は常に失敗し、以下のエラーコードを返す。
+このドキュメントは省略されている。
 
 
 %index
 RestoreMediaSense
-The RestoreMediaSense function restores the media sensing capability of the TCP/IP stack on a local computer on which the DisableMediaSense function was previously called.
+RestoreMediaSense 関数は、以前に DisableMediaSense を呼び出したローカルコンピュータ上の TCP/IP スタックのメディアセンス機能を復元する。
 %group
 Win32 iphlpapi
 %prm
 pOverlapped, lpdwEnableCount
-pOverlapped : [var] A pointer to an OVERLAPPED structure. Except for the hEvent member, all members of this structure must be set to zero. The hEvent member should contain a handle to a valid event object. Use the CreateEvent function to create this event object.
-lpdwEnableCount : [var] An optional pointer to a DWORD variable that receives the number of references remaining if the RestoreMediaSense function succeeds. The variable is also used by the EnableRouter and UnenableRouter functions.
+pOverlapped : [var] OVERLAPPED 構造体へのポインタ。hEvent メンバ以外はすべて 0 に設定し、hEvent には有効なイベントオブジェクトへのハンドルを設定する。CreateEvent でイベントオブジェクトを作成する。
+lpdwEnableCount : [var] RestoreMediaSense が成功した場合、残っている参照数を受け取るオプションの DWORD 変数へのポインタ。この変数は EnableRouter / UnenableRouter でも使用される。
 %inst
-The RestoreMediaSense function restores the media sensing capability
-of the TCP/IP stack on a local computer on which the
-DisableMediaSense function was previously called.
+RestoreMediaSense 関数は、以前に DisableMediaSense を呼び出したローカルコンピュータ上の TCP/IP
+スタックのメディアセンス機能を復元する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-If the pOverlapped parameter is NULL, the RestoreMediaSense function
-is executed synchronously. If the pOverlapped parameter is not NULL,
-the RestoreMediaSense function is executed asynchronously using the
-OVERLAPPED structure pointed to by the pOverlapped parameter. The
-DisableMediaSense function does not complete until the
-RestoreMediaSense function is called later to restore the media
-sensing capability. Until then, an I/O request packet (IRP) remains
-queued up. Alternatively, when the process that called
-DisableMediaSense exits, the IRP is canceled and a cancel routine is
-called that would again restore the media sensing capability.
-To call RestoreMediaSense synchronously, an application needs to pass
-a NULL pointer in the pOverlapped parameter. When RestoreMediaSense
-is called synchronously, the function returns when the I/O request
-packet (IRP) to restore the media sense has completed. To call
-RestoreMediaSense asynchronously, an application needs to allocate an
-OVERLAPPED structure. Except for the hEvent member, all members of
-this structure must be set to zero. The hEvent member requires a
-handle to a valid event object. Use the CreateEvent function to
-create this event. When called asynchronously, RestoreMediaSense can
-return return ERROR_IO_PENDING. The IRP completes when the media
-sensing capability has been restored. Use the CloseHandle function to
-close the handle to the event object when it is no longer needed. The
-system closes the handle automatically when the process terminates.
-The event object is destroyed when its last handle has been closed.
-If DisableMediaSense was not called prior to calling
-RestoreMediaSense, then RestoreMediaSense returns
-ERROR_INVALID_PARAMETER. On Windows Server 2003and Windows XP, the
-TCP/IP stack implements a policy of deleting all IP addresses on an
-interface in response to a media sense disconnect event from an
-underlying network interface. If a network switch or hub that the
-local computer is connected to is powered off, or a network cable is
-disconnected, the network interface will deliver disconnection
-events. IP configuration information associated with the network
-interface is lost. As a result, the TCP/IP stack implements a policy
-of hiding disconnected interfaces so these interfaces and their
-associated IP addresses do not show up in configuration information
-retrieved through IP helper. This policy prevents some applications
-from easily detecting that a network interface is merely
-disconnected, rather than removed from the system. This behavior does
-not normally impact a local client computer if it is using DHCP
-requests to a DHCP server for IP configuration information. But this
-can have a serious impact on server computers, particularly computers
-used as part of clusters. The DisableMediaSense function can be used
-to temporarily disable the media sense capability for these cases. At
-some later time, the RestoreMediaSense function would be called to
-restore the media sensing capability. The following registry setting
-is related to the DisableMediaSense and RestoreMediaSense functions:
-
+pOverlapped が NULL なら RestoreMediaSense は同期実行され、そうでなければ OVERLAPPED
+を用いて非同期実行される。DisableMediaSense は後に RestoreMediaSense
+が呼ばれるまで完了しない。その間、I/O 要求パケット (IRP) はキューに残る。また、DisableMediaSense
+を呼び出したプロセスが終了すると IRP はキャンセルされ、キャンセルルーチンによりメディアセンス機能が再度復元される。
+同期呼び出しでは NULL を渡し、IRP 完了時に関数が返る。非同期呼び出しでは OVERLAPPED を割り当て、hEvent 以外を
+0、hEvent に CreateEvent のハンドルを設定する。非同期時は ERROR_IO_PENDING を返すことがある。IRP
+はメディアセンス機能復元時に完了する。イベントオブジェクトが不要になれば CloseHandle でハンドルをクローズする
+(プロセス終了時は自動クローズ)。DisableMediaSense が先に呼ばれていない場合、RestoreMediaSense は
+ERROR_INVALID_PARAMETER を返す。Windows Server 2003 / Windows XP
+では、TCP/IP スタックが物理ネットワークインターフェイスのメディアセンス切断イベントに応じてインターフェイスの全 IP
+アドレスを削除するポリシーを実装している。スイッチやハブの電源断、ケーブル切断などで切断イベントが発生すると IP 設定情報が失われ、IP
+ヘルパ経由の取得にも表示されなくなる。この挙動はサーバやクラスタに影響し得るため、DisableMediaSense
+で一時的にメディアセンス機能を無効化し、後で RestoreMediaSense を呼び出して復元できる。関連するレジストリ設定:
 System\CurrentControlSet\Services\Tcpip\Parameters\DisableDHCPMediaSense
-There is an internal flag in Windows that is set if this registry key
-exists when the machine first boots up. The same internal flag also
-gets set and reset by calling DisableMediaSense and
-RestoreMediaSense. However with registry setting, you need to reboot
-the machine for the changes to take place.
-The TCP/IP stack on Windows Vista and later was changed to not hide
-disconnected interfaces when a disconnect event occurs. So on Windows
-Vista and later, the DisableMediaSense and RestoreMediaSense
-functions don't do anything and always returns NO_ERROR.
+マシン起動時にこのレジストリキーが存在すれば内部フラグがセットされる。同じ内部フラグは DisableMediaSense /
+RestoreMediaSense でも設定/解除される。レジストリ設定による変更は再起動が必要。
+Windows Vista 以降の TCP/IP スタックは切断時にインターフェイスを隠さなくなったため、これらの関数は何もせず常に
+NO_ERROR を返す。
 
 
 %index
 SendARP
-The SendARP function sends an Address Resolution Protocol (ARP) request to obtain the physical address that corresponds to the specified destination IPv4 address.
+SendARP 関数は、指定した宛先 IPv4 アドレスに対応する物理アドレスを取得するために、ARP (Address Resolution Protocol) 要求を送信する。
 %group
 Win32 iphlpapi
 %prm
 DestIP, SrcIP, pMacAddr, PhyAddrLen
-DestIP : [int] The destination IPv4 address, in the form of an IPAddr structure. The ARP request attempts to obtain the physical address that corresponds to this IPv4 address.
-SrcIP : [int] The source IPv4 address of the sender, in the form of an IPAddr structure. This parameter is optional and is used to select the interface to send the request on for the ARP entry. The caller may specify zero corresponding to the INADDR_ANY IPv4 address for this parameter.
-pMacAddr : [intptr] A pointer to an array of ULONG variables. This array must have at least two ULONG elements to hold an  Ethernet or token ring physical address. The first six bytes of this array receive the physical address that corresponds to the IPv4 address specified by the DestIP parameter.
-PhyAddrLen : [var] On input, a pointer to a ULONG value that specifies the maximum buffer size, in bytes, the application has set aside to receive the physical address or MAC address. The buffer size should be at least 6 bytes for an Ethernet or token ring physical address The buffer to receive the physical address is pointed to by the pMacAddr parameter. On successful output, this parameter points to a value that specifies the number of bytes written to the buffer pointed to by the pMacAddr.
+DestIP : [int] 宛先 IPv4 アドレス。IPAddr 構造体の形式で指定する。ARP 要求はこの IPv4 アドレスに対応する物理アドレスの取得を試みる。
+SrcIP : [int] 送信元 IPv4 アドレス。IPAddr 構造体の形式で指定する。任意で、ARP エントリ要求を送信するインターフェイスを選択するために用いる。呼び出し元はこのパラメータに INADDR_ANY に対応するゼロを指定できる。
+pMacAddr : [intptr] ULONG 変数配列へのポインタ。Ethernet / トークンリングの物理アドレスを保持するため、少なくとも 2 つの ULONG 要素を持つ必要がある。配列の最初の 6 バイトに、DestIP に対応する物理アドレスが格納される。
+PhyAddrLen : [var] 入力時、アプリケーションが物理 (MAC) アドレスを受け取るために確保したバッファの最大サイズ (バイト単位) を指定する ULONG 値へのポインタ。Ethernet / トークンリングの物理アドレスを格納するには少なくとも 6 バイトが必要。物理アドレスを受け取るバッファは pMacAddr が指す。正常終了時、このパラメータは pMacAddr に書き込まれたバイト数を指す値となる。
 %inst
-The SendARP function sends an Address Resolution Protocol (ARP)
-request to obtain the physical address that corresponds to the
-specified destination IPv4 address.
+SendARP 関数は、指定した宛先 IPv4 アドレスに対応する物理アドレスを取得するために、ARP (Address
+Resolution Protocol) 要求を送信する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SendARP function is used to request the physical hardware address
-(sometimes referred to as the MAC address) that corresponds to a
-specified destination IPv4 address. If the information requested is
-not in the ARP table on the local computer, then the SendARP function
-will cause an ARP request to be sent to obtain the physical address.
-If the function is successful, the physical address that corresponds
-to the specified destination IPv4 address is returned in the array
-pointed to by the pMacAddr parameter. The physical address of an IPv4
-address is only available if the destination IPv4 address is on the
-local subnet (the IPv4 address can be reached directly without going
-through any routers). The SendARP function will fail if the
-destination IPv4 address is not on the local subnet. If the SendARP
-function is successful on Windows Vista and later, the ARP table on
-the local computer is updated with the results. If the SendARP
-function is successful on Windows Server 2003 and earlier, the ARP
-table on the local computer is not affected. The SendARP function on
-Windows Vista and later returns different error return values than
-the SendARP function on Windows Server 2003 and earlier. On Windows
-Vista and later, a NULL pointer passed as the pMacAddr or PhyAddrLen
-parameter to the SendARP function causes an access violation and the
-application is terminated. If an error occurs on Windows Vista and
-later and ERROR_BAD_NET_NAME, ERROR_BUFFER_OVERFLOW, or
-ERROR_NOT_FOUND is returned, the ULONG value pointed to by the
-PhyAddrLen parameter is set to zero. If the ULONG value pointed to by
-the PhyAddrLen parameter is less than 6 on Windows Vista and later,
-SendARP function returns ERROR_BUFFER_OVERFLOW indicating the buffer
-to receive the physical address is too small. If the SrcIp parameter
-specifies an IPv4 address that is not an interface on the local
-computer, the SendARP function on Windows Vista and later returns
-ERROR_NOT_FOUND. On Windows Server 2003 and earlier, a NULL pointer
-passed as the pMacAddr or PhyAddrLen parameter to the SendARP
-function returns ERROR_INVALID_PARAMETER. If an error occurs on
-Windows Server 2003 and earlier and ERROR_GEN_FAILURE or
-ERROR_INVALID_USER_BUFFER is returned, the ULONG value pointed to by
-the PhyAddrLen parameter is set to zero. If the ULONG value pointed
-to by the PhyAddrLen parameter is less than 6 on Windows Server 2003
-and earlier, the SendARP function does not return an error but only
-returns part of the hardware address in the array pointed to by the
-pMacAddr parameter. So if the value pointed to by the PhyAddrLen
-parameter is 4, then only the first 4 bytes of the hardware address
-are returned in the array pointed to by the pMacAddr parameter. If
-the SrcIp parameter specifies an IPv4 address that is not an
-interface on the local computer, the SendARP function on Windows
-Server 2003 and earlier ignores the SrcIp parameter and uses an IPv4
-address on the local computer for the source IPv4 address. The
-GetIpNetTable function retrieves the ARP table on the local computer
-that maps IPv4 addresses to physical addresses. The CreateIpNetEntry
-function creates an ARP entry in the ARP table on the local computer.
-The DeleteIpNetEntry function deletes an ARP entry from the ARP table
-on the local computer. The SetIpNetEntry function modifies an
-existing ARP entry in the ARP table on the local computer. The
-FlushIpNetTable function deletes all ARP entries for the specified
-interface from the ARP table on the local computer.
-On Windows Vista and later, the ResolveIpNetEntry2 function can used
-to replace the SendARP function. An ARP request is sent if the
-Address member of the MIB_IPNET_ROW2 structure passed to the
-ResolveIpNetEntry2 function is an IPv4 address. On Windows Vista, a
-new group of functions can be used to access, modify, and delete the
-ARP table entries when the Address member of the MIB_IPNET_ROW2
-structure passed to these functions is an IPv4 address. The new
-functions include the following: GetIpNetTable2, CreateIpNetEntry2,
-DeleteIpNetEntry2, FlushIpNetTable2, and SetIpNetEntry2. For
-information about the IPAddr data type, see Windows Data Types. To
-convert an IP address between dotted decimal notation and IPAddr
-format, use the inet_addr and inet_ntoa functions.
+SendARP 関数は、指定した宛先 IPv4 アドレスに対応する物理ハードウェアアドレス (MAC アドレス)
+を要求する。要求された情報がローカル ARP テーブルに存在しない場合、SendARP は ARP
+要求を送信して物理アドレスを取得する。成功時、対応する物理アドレスは pMacAddr の配列に返される。物理アドレスは宛先 IPv4
+がローカルサブネット上にある場合にのみ取得可能で、ルータを経由する場合は失敗する。Windows Vista 以降では成功時にローカル
+ARP テーブルが更新されるが、Windows Server 2003 以前では影響はない。
+Windows Vista 以降では、pMacAddr や PhyAddrLen に NULL
+を渡すとアクセス違反で終了する。ERROR_BAD_NET_NAME、ERROR_BUFFER_OVERFLOW、ERROR_NOT_FOUND
+が返る場合、PhyAddrLen は 0 に設定される。PhyAddrLen が 6 未満なら ERROR_BUFFER_OVERFLOW
+を返す。SrcIp にローカルコンピュータ以外の IPv4 を指定すると ERROR_NOT_FOUND となる。Windows
+Server 2003 以前では、NULL を渡すと ERROR_INVALID_PARAMETER
+が返り、ERROR_GEN_FAILURE または ERROR_INVALID_USER_BUFFER が返る場合は PhyAddrLen
+が 0 になる。PhyAddrLen が 6 未満でもエラーにはならず、指定バイト数分のみ格納される。SrcIp
+にローカル以外を指定しても無視される。
+ARP テーブル操作には
+GetIpNetTable、CreateIpNetEntry、DeleteIpNetEntry、SetIpNetEntry、FlushIpNetTable
+を使う。Windows Vista 以降では ResolveIpNetEntry2 が SendARP の代替となり、IPv4 アドレスの
+MIB_IPNET_ROW2 を渡せば ARP 要求が送信される。また
+GetIpNetTable2、CreateIpNetEntry2、DeleteIpNetEntry2、FlushIpNetTable2、SetIpNetEntry2
+も利用できる。IPAddr データ型については Windows Data Types を、IP アドレスとドット区切り 10
+進表記の変換には inet_addr / inet_ntoa を参照。
 
 
 %index
 SetCurrentThreadCompartmentId
-Reserved for future use. Do not use this function. (SetCurrentThreadCompartmentId)
+将来の使用のため予約されている。この関数は使用しないこと。(SetCurrentThreadCompartmentId)
 %group
 Win32 iphlpapi
 %prm
 CompartmentId
-CompartmentId : [int] Reserved.
+CompartmentId : [int] 予約済み。
 %inst
-Reserved for future use. Do not use this function.
-(SetCurrentThreadCompartmentId)
+将来の使用のため予約されている。この関数は使用しないこと。(SetCurrentThreadCompartmentId)
 
 
 %index
@@ -6234,525 +4200,285 @@ Settings : [var]
 
 %index
 SetIfEntry
-The SetIfEntry function sets the administrative status of an interface.
+SetIfEntry 関数は、インターフェイスの管理状態を設定する。
 %group
 Win32 iphlpapi
 %prm
 pIfRow
-pIfRow : [var] A pointer to a
+pIfRow : [var] 次の構造体へのポインタ
 %inst
-The SetIfEntry function sets the administrative status of an
-interface.
+SetIfEntry 関数は、インターフェイスの管理状態を設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SetIfEntry function is used to set the administrative status of
-an interface on a local computer. The dwIndex member in the MIB_IFROW
-structure pointed to by the pIfRow parameter must be initialized to
-the interface index.
-The SetIfEntry function will fail if the dwIndex member of the
-MIB_IFROW pointed to by the pIfRow parameter does not match an
-existing interface on the local computer. On Windows Vista and later,
-the SetIfEntry function can only be called by a user logged on as a
-member of the Administrators group. If SetIfEntry is called by a user
-that is not a member of the Administrators group, the function call
-will fail and ERROR_ACCESS_DENIED is returned. The SetIfEntry
-function can also fail because of user account control (UAC) on
-Windows Vista and later. If an application that contains this
-function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will fail unless the application has been marked in the manifest file
-with a requestedExecutionLevel set to requireAdministrator. If the
-application lacks this manifest file, a user logged on as a member of
-the Administrators group other than the built-in Administrator must
-then be executing the application in an enhanced shell as the
-built-in Administrator (RunAs administrator) for this function to
-succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+SetIfEntry 関数は、ローカルコンピュータ上のインターフェイスの管理状態 (administrative status)
+を設定する。pIfRow が指す MIB_IFROW の dwIndex メンバはインターフェイスインデックスで初期化しなければならない。
+dwIndex が既存のインターフェイスに一致しなければ関数は失敗する。Windows Vista 以降では SetIfEntry は
+Administrators グループメンバのみが呼び出せ、それ以外では ERROR_ACCESS_DENIED が返る。UAC
+のため、組み込み Administrator 以外のメンバが実行する場合、マニフェストで requestedExecutionLevel
+が requireAdministrator でないと失敗する。マニフェストがない場合は RunAs administrator
+実行が必要である。
+Note: Windows NT 4.0 および Windows 2000
+以降では、この関数は特権操作を実行する。成功するには、呼び出し元が Administrators グループまたは
+NetworkConfigurationOperators グループのメンバとしてログオンしている必要がある。
 
 
 %index
 SetInterfaceDnsSettings
-Sets the per-interface DNS settings specified in the *Settings* parameter.
+Settings パラメータで指定したインターフェイス毎の DNS 設定を設定する。
 %group
 Win32 iphlpapi
 %prm
 Interface, Settings
-Interface : [int] Type: \_In\_ **[GUID](/windows/win32/api/guiddef/ns-guiddef-guid)** The **GUID** of the COM interface that the settings refer to.
-Settings : [var] Type: \_In\_ const **[DNS_INTERFACE_SETTINGS](ns-netioapi-dns_interface_settings.md)\*** A pointer to a **DNS_INTERFACE_SETTINGS**-type structure that contains the DNS interface settings. If this parameter points to a **DNS_INTERFACE_SETTINGS** structure, then the **DNS_INTERFACE_SETTINGS::Version** member must be set to **DNS_INTERFACE_SETTINGS_VERSION1**. If this parameter points to a **DNS_INTERFACE_SETTINGS3** structure, then the version must to be set to **DNS_INTERFACE_SETTINGS_VERSION3**. You must set appropriately all the desired options in the **DNS_INTERFACE_SETTINGS::Flags** field, and populate only the fields for which an option was set. You must zero out all other fields that don't have a corresponding option.
+Interface : [int] 型: _In_ GUID 設定が参照する COM インターフェイスの GUID。
+Settings : [var] 型: _In_ const DNS_INTERFACE_SETTINGS* DNS インターフェイス設定を含む DNS_INTERFACE_SETTINGS 型構造体へのポインタ。DNS_INTERFACE_SETTINGS を指す場合は Version メンバを DNS_INTERFACE_SETTINGS_VERSION1 に、DNS_INTERFACE_SETTINGS3 を指す場合は DNS_INTERFACE_SETTINGS_VERSION3 に設定する必要がある。Flags フィールドで設定したい全オプションを指定し、対応するフィールドのみ値を格納する。対応オプションが無いその他のフィールドは 0 クリアしなければならない。
 %inst
-Sets the per-interface DNS settings specified in the *Settings*
-parameter.
+Settings パラメータで指定したインターフェイス毎の DNS 設定を設定する。
 
 [戻り値]
-Returns **NO_ERROR** if successful. A non-zero return value indicates
-failure.
+成功時は NO_ERROR を返す。非 0 の戻り値は失敗を示す。
 
 
 %index
 SetIpForwardEntry
-The SetIpForwardEntry function modifies an existing route in the local computer's IPv4 routing table.
+SetIpForwardEntry 関数は、ローカルコンピュータの IPv4 ルーティングテーブル内の既存経路を変更する。
 %group
 Win32 iphlpapi
 %prm
 pRoute
-pRoute : [var] A pointer to a MIB_IPFORWARDROW structure that specifies the new information for the existing route. The caller must specify MIB_IPPROTO_NETMGMT for the dwForwardProto member of this structure. The caller must also specify values for the dwForwardIfIndex, dwForwardDest, dwForwardMask, dwForwardNextHop, and dwForwardPolicy members of the structure.
+pRoute : [var] 既存経路の新しい情報を指定する MIB_IPFORWARDROW 構造体へのポインタ。呼び出し元はこの構造体の dwForwardProto に MIB_IPPROTO_NETMGMT を指定しなければならず、さらに dwForwardIfIndex、dwForwardDest、dwForwardMask、dwForwardNextHop、dwForwardPolicy にも値を指定する必要がある。
 %inst
-The SetIpForwardEntry function modifies an existing route in the
-local computer's IPv4 routing table.
+SetIpForwardEntry 関数は、ローカルコンピュータの IPv4 ルーティングテーブル内の既存経路を変更する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The dwForwardProto member of MIB_IPFORWARDROW structure pointed to by
-the route parameter must be set to MIB_IPPROTO_NETMGMT otherwise
-SetIpForwardEntry will fail. Routing protocol identifiers are used to
-identify route information for the specified routing protocol. For
-example, MIB_IPPROTO_NETMGMT is used to identify route information
-for IP routing set through network management such as the Dynamic
-Host Configuration Protocol (DHCP), the Simple Network Management
-Protocol (SNMP), or by calls to the CreateIpForwardEntry,
-DeleteIpForwardEntry, or SetIpForwardEntry functions. On Windows
-Vista and Windows Server 2008, the route metric specified in the
-dwForwardMetric1 member of the MIB_IPFORWARDROW structure pointed to
-by pRoute parameter represents a combination of the route metric
-added to the interface metric specified in the Metric member of the
-MIB_IPINTERFACE_ROW structure of the associated interface. So the
-dwForwardMetric1 member of the MIB_IPFORWARDROW structure should be
-equal to or greater than Metric member of the associated
-MIB_IPINTERFACE_ROW structure. If an application would like to set
-the route metric to 0, then the dwForwardMetric1 member of the
-MIB_IPFORWARDROW structure should be set equal to the value of the
-interface metric specified in the Metric member of the associated
-MIB_IPINTERFACE_ROW structure. An application can retrieve the
-interface metric by calling the GetIpInterfaceEntry function. On
-Windows Vista and Windows Server 2008, the SetIpForwardEntry function
-only works on interfaces with a single sub-interface (where the
-interface LUID and subinterface LUID are the same). The
-dwForwardIfIndex member of the MIB_IPFORWARDROW structure specifies
-the interface. The dwForwardAge member the MIB_IPFORWARDROW structure
-pointed to by the route parameter is not currently used by
-SetIpForwardEntry. The dwForwardAge member is used only if the
-Routing and Remote Access Service (RRAS)is running, and then only for
-routes of type MIB_IPPROTO_NETMGMT as defined on the Protocol
-Identifiers reference page. When dwForwardAge is set to INFINITE, the
-route will not be removed based on a timeout value. Any other value
-for dwForwardAge specifies the number of seconds until the TCP/IP
-stack will remove the route from the network routing table. A route
-modified by SetIpForwardEntry will automatically have a default value
-for dwForwardAge of INFINITE. A number of members of the
-MIB_IPFORWARDROW structure pointed to by the route parameter are not
-currently used by SetIpForwardEntry. These members include
-dwForwardPolicy, dwForwardType, dwForwardAge, dwForwardNextHopAS,
-dwForwardMetric1, dwForwardMetric2, dwForwardMetric3,
-dwForwardMetric4, and dwForwardMetric5. To create a new route in the
-IP routing table, use the CreateIpForwardEntry function. To retrieve
-the IP routing table, call the GetIpForwardTable function. On Windows
-Vista and later, the SetIpForwardEntry function can only be called by
-a user logged on as a member of the Administrators group. If
-SetIpForwardEntry is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. This function can also fail because
-of user account control (UAC) on Windows Vista and later. If an
-application that contains this function is executed by a user logged
-on as a member of the Administrators group other than the built-in
-Administrator, this call will fail unless the application has been
-marked in the manifest file with a requestedExecutionLevel set to
-requireAdministrator. If the application lacks this manifest file, a
-user logged on as a member of the Administrators group other than the
-built-in Administrator must then be executing the application in an
-enhanced shell as the built-in Administrator (RunAs administrator)
-for this function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+route が指す MIB_IPFORWARDROW の dwForwardProto は MIB_IPPROTO_NETMGMT
+に設定しなければならず、そうでないと SetIpForwardEntry
+は失敗する。ルーティングプロトコル識別子は、指定ルーティングプロトコルの経路情報を識別するために使われる。例えば
+MIB_IPPROTO_NETMGMT は DHCP や SNMP によるネットワーク管理、あるいは
+CreateIpForwardEntry / DeleteIpForwardEntry / SetIpForwardEntry
+の呼び出しで設定された経路情報を識別する。Windows Vista / Windows Server 2008
+では、dwForwardMetric1 は関連インターフェイスの MIB_IPINTERFACE_ROW の Metric
+と合算した値であり、Metric 以上でなければならない。経路メトリックを 0 に設定したい場合は、dwForwardMetric1
+を関連インターフェイスの Metric と等しくする。インターフェイスメトリックは GetIpInterfaceEntry
+で取得できる。Windows Vista / Server 2008 では、SetIpForwardEntry はサブインターフェイスが
+1 つだけのインターフェイス (interface LUID と subinterface LUID が同一)
+のみを対象とする。dwForwardIfIndex がインターフェイスを指定する。dwForwardAge は現在
+SetIpForwardEntry では使われず、RRAS 実行時に MIB_IPPROTO_NETMGMT
+型の経路に対してのみ使用される。INFINITE のときはタイムアウトによる削除は行われない。それ以外の値は TCP/IP
+スタックが経路を削除するまでの秒数を指定する。SetIpForwardEntry で変更された経路は既定で dwForwardAge =
+INFINITE
+となる。dwForwardPolicy、dwForwardType、dwForwardAge、dwForwardNextHopAS、dwForwardMetric1～5
+は SetIpForwardEntry では現在使われない。新規経路は CreateIpForwardEntry、取得は
+GetIpForwardTable を使用する。Windows Vista 以降では SetIpForwardEntry は
+Administrators グループメンバのみが呼べ、それ以外は ERROR_ACCESS_DENIED。UAC のため、組み込み
+Administrator 以外は requestedExecutionLevel=requireAdministrator または
+RunAs administrator が必要。
+Note: Windows NT 4.0 および Windows 2000 以降では特権操作を実行する。成功には
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバとしてログオンしている必要がある。
 
 
 %index
 SetIpForwardEntry2
-Sets the properties of an IP route entry on the local computer.
+ローカルコンピュータ上の IP 経路エントリのプロパティを設定する。
 %group
 Win32 iphlpapi
 %prm
 Route
-Route : [var] A pointer to a MIB_IPFORWARD_ROW2 structure entry for an IP route entry. The DestinationPrefix member of the MIB_IPFORWARD_ROW2 must be set to a valid IP destination prefix, the NextHop member of the MIB_IPFORWARD_ROW2 must be set to a valid IP address family and IP address,   and the InterfaceLuid or the  InterfaceIndex member of the MIB_IPFORWARD_ROW2 must be specified.
+Route : [var] IP 経路エントリの MIB_IPFORWARD_ROW2 構造体エントリへのポインタ。DestinationPrefix は有効な IP 宛先プレフィックスに、NextHop は有効な IP アドレスファミリとアドレスに設定し、InterfaceLuid または InterfaceIndex を指定する必要がある。
 %inst
-Sets the properties of an IP route entry on the local computer.
+ローカルコンピュータ上の IP 経路エントリのプロパティを設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SetIpForwardEntry2 function is defined on Windows Vista and
-later. The SetIpForwardEntry2 function is used to set the properties
-for an existing IP route entry on a local computer. The
-DestinationPrefix member in the MIB_IPFORWARD_ROW2 structure pointed
-to by the Route parameter must be initialized to a valid IP address
-prefix and family. The NextHop member in the MIB_IPFORWARD_ROW2
-structure pointed to by the Route parameter must be initialized to a
-valid IP address and family. In addition, at least one of the
-following members in the MIB_IPFORWARD_ROW2 structure pointed to the
-Route parameter must be initialized to the interface: the
-InterfaceLuid or InterfaceIndex. The fields are used in the order
-listed above. So if the InterfaceLuid is specified, then this member
-is used to determine the interface on which to add the unicast IP
-address. If no value was set for the InterfaceLuid member (the values
-of this member was set to zero), then the InterfaceIndex member is
-next used to determine the interface. The route metric offset
-specified in the Metric member of the MIB_IPFORWARD_ROW2 structure
-pointed to by Route parameter represents only part of the complete
-route metric. The complete metric is a combination of this route
-metric offset added to the interface metric specified in the Metric
-member of the MIB_IPINTERFACE_ROW structure of the associated
-interface. An application can retrieve the interface metric by
-calling the GetIpInterfaceEntry function. The Age and Origin members
-of the MIB_IPFORWARD_ROW2 structure pointed to by the Row are ignored
-when the SetIpForwardEntry2 function is called. These members are set
-by the network stack and cannot be changed using the
-SetIpForwardEntry2 function. The SetIpForwardEntry2 function will
-fail if the DestinationPrefix and NextHop members of the
-MIB_IPFORWARD_ROW2 pointed to by the Route parameter do not match an
-IP route entry on the interface specified. The SetIpForwardEntry2
-function can only be called by a user logged on as a member of the
-Administrators group. If SetIpForwardEntry2 is called by a user that
-is not a member of the Administrators group, the function call will
-fail and ERROR_ACCESS_DENIED is returned. The SetIpForwardEntry2
-function can also fail because of user account control (UAC) on
-Windows Vista and later. If an application that contains this
-function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will fail unless the application has been marked in the manifest file
-with a requestedExecutionLevel set to requireAdministrator. If the
-application lacks this manifest file, a user logged on as a member of
-the Administrators group other than the built-in Administrator must
-then be executing the application in an enhanced shell as the
-built-in Administrator (RunAs administrator) for this function to
-succeed.
+SetIpForwardEntry2 関数は Windows Vista 以降で定義される。ローカルコンピュータ上の既存 IP
+経路エントリのプロパティを設定する。Route が指す構造体の DestinationPrefix は有効な IP
+アドレスプレフィックスとファミリで、NextHop は有効な IP アドレスとファミリで初期化する必要がある。さらに
+InterfaceLuid または InterfaceIndex のいずれかを初期化し、前者が 0 なら後者が使われる。Metric
+メンバの経路メトリックオフセットは完全な経路メトリックの一部に過ぎず、関連インターフェイスの MIB_IPINTERFACE_ROW の
+Metric と合計したものが完全なメトリックとなる。インターフェイスメトリックは GetIpInterfaceEntry
+で取得できる。Age と Origin メンバは SetIpForwardEntry2
+呼び出し時には無視され、ネットワークスタックが設定する (変更不可)。DestinationPrefix と NextHop
+が既存エントリと一致しなければ失敗する。Administrators グループメンバのみが呼び出せ、それ以外は
+ERROR_ACCESS_DENIED。UAC のため、組み込み Administrator 以外は
+requestedExecutionLevel=requireAdministrator または RunAs administrator
+実行が必要。
 
 
 %index
 SetIpInterfaceEntry
-Sets the properties of an IP interface on the local computer.
+ローカルコンピュータ上の IP インターフェイスのプロパティを設定する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPINTERFACE_ROW structure entry for an interface. On input, the Family member of the MIB_IPINTERFACE_ROW must be set to AF_INET6 or AF_INET  and the InterfaceLuid or the  InterfaceIndex member of the MIB_IPINTERFACE_ROW must be specified. On a successful return, the InterfaceLuid member of the MIB_IPINTERFACE_ROW is filled in if InterfaceIndex member of the MIB_IPINTERFACE_ROW entry was specified.
+Row : [var] インターフェイスの MIB_IPINTERFACE_ROW 構造体エントリへのポインタ。入力時、Family は AF_INET6 または AF_INET に設定し、InterfaceLuid または InterfaceIndex を指定する必要がある。正常終了時、InterfaceIndex を指定していた場合には InterfaceLuid が埋められる。
 %inst
-Sets the properties of an IP interface on the local computer.
+ローカルコンピュータ上の IP インターフェイスのプロパティを設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SetIpInterfaceEntry function is defined on Windows Vista and
-later. The SetIpInterfaceEntry function can is used to modify an
-existing IP interface entry. On input, the Family member in the
-MIB_IPINTERFACE_ROW structure pointed to by the Row parameter must be
-initialized to either AF_INET or AF_INET6. In addition on input, at
-least one of the following members in the MIB_IPINTERFACE_ROW
-structure pointed to the Row parameter must be initialized: the
-InterfaceLuid or InterfaceIndex. The fields are used in the order
-listed above. So if the InterfaceLuid is specified, then this member
-is used to determine the interface. If no value was set for the
-InterfaceLuid member (the values of this member was set to zero),
-then the InterfaceIndex member is next used to determine the
-interface. On output, the InterfaceLuid member of the
-MIB_IPINTERFACE_ROW structure pointed to by the Row parameter is
-filled in if the InterfaceIndex was specified. The MaxReassemblySize,
-MinRouterAdvertisementInterval, MaxRouterAdvertisementInterval ,
-Connected, SupportsWakeUpPatterns, SupportsNeighborDiscovery,
-SupportsRouterDiscovery, ReachableTime, TransmitOffload, and
-ReceiveOffload members of the MIB_IPINTERFACE_ROW structure pointed
-to by the Row are ignored when the SetIpInterfaceEntry function is
-called. These members are set by the network stack and cannot be
-changed using the SetIpInterfaceEntry function. An application would
-typically call the GetIpInterfaceTable function to retrieve the IP
-interface entries on the local computer or call the
-GetIpInterfaceEntry function to retrieve just the IP interface entry
-to modify. The MIB_IPINTERFACE_ROW structure for the specific IP
-interface entry could then be modified and a pointer to this
-structure passed to the SetIpInterfaceEntry function in the Row
-parameter. However for IPv4, an application must not try to modify
-the SitePrefixLength member of the MIB_IPINTERFACE_ROW structure. For
-IPv4, the SitePrefixLength member must be set to 0. Another possible
-method to modify an existing IP interface entry is to use
-InitializeIpInterfaceEntry function to initialize the fields of a
-MIB_IPINTERFACE_ROW structure entry with default values. Then set the
-Family member and either the InterfaceIndex or InterfaceLuid members
-in the MIB_IPINTERFACE_ROW structure pointed to by the Row parameter
-to match the IP interface to change. An application can then change
-the fields in the MIB_IPINTERFACE_ROW entry it wishes to modify, and
-then call the SetIpInterfaceEntry function. However for IPv4, an
-application must not try to modify the SitePrefixLength member of the
-MIB_IPINTERFACE_ROW structure. For IPv4, the SitePrefixLength member
-must be set to 0. Caution must be used with this approach because the
-only way to determine all of the fields being changed would be to
-compare the fields in the MIB_IPINTERFACE_ROW of the specific IP
-interface entry with fields set by the InitializeIpInterfaceEntry
-function when a MIB_IPINTERFACE_ROW is initialized to default values.
-Unprivileged simultaneous access to multiple networks of different
-security requirements creates a security hole and allows an
-unprivileged application to accidentally relay data between the two
-networks. A typical example is simultaneous access to a virtual
-private network (VPN) and the Internet. Windows Server 2003 and
-Windows XP use a weak host model, where RAS prevents such
-simultaneous access by increasing the route metric of all default
-routes over other interfaces. Thus all traffic is routed through the
-VPN interface, disrupting other network connectivity. On Windows
-Vista and later, a strong host model is used by default. If a source
-IP address is specified in the route lookup using GetBestRoute2 or
-GetBestRoute, the route lookup is restricted to the interface of the
-source IP address. The route metric modification by RAS has no effect
-as the list of potential routes does not even have the route for the
-VPN interface thereby allowing traffic to the Internet. The
-DisableDefaultRoutes member of the MIB_IPINTERFACE_ROW can be used to
-disable using the default route on an interface. This member can be
-used as a security measure by VPN clients to restrict split tunneling
-when split tunneling is not required by the VPN client. A VPN client
-can call the SetIpInterfaceEntry function to set the
-DisableDefaultRoutes member to TRUE when required. A VPN client can
-query the current state of the DisableDefaultRoutes member by calling
-the GetIpInterfaceEntry function. The The SetIpInterfaceEntry
-function can only be called by a user logged on as a member of the
-Administrators group. If SetIpInterfaceEntry is called by a user that
-is not a member of the Administrators group, the function call will
-fail and ERROR_ACCESS_DENIED is returned. This function can also fail
-because of user account control (UAC) on Windows Vista and later. If
-an application that contains this function is executed by a user
-logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
+SetIpInterfaceEntry 関数は Windows Vista 以降で定義され、既存の IP
+インターフェイスエントリを変更する。入力時、Family は AF_INET または AF_INET6、InterfaceLuid または
+InterfaceIndex の少なくとも一方を初期化しなければならない。前者が 0
+なら後者が使われる。出力時、InterfaceIndex 指定なら InterfaceLuid
+が埋められる。MaxReassemblySize、MinRouterAdvertisementInterval、MaxRouterAdvertisementInterval、Connected、SupportsWakeUpPatterns、SupportsNeighborDiscovery、SupportsRouterDiscovery、ReachableTime、TransmitOffload、ReceiveOffload
+は SetIpInterfaceEntry 呼び出し時には無視される (ネットワークスタックが設定)。通常は
+GetIpInterfaceTable / GetIpInterfaceEntry で取得し、構造体を変更して
+SetIpInterfaceEntry に渡す。IPv4 では SitePrefixLength は変更してはならず、0
+にしなければならない。あるいは InitializeIpInterfaceEntry で既定値に初期化し、Family と
+InterfaceIndex/InterfaceLuid を設定する方法もある。
+セキュリティ要件の異なる複数ネットワークへの特権なし同時アクセスはセキュリティホールを生じる。典型例として VPN
+とインターネットへの同時アクセスが挙げられる。Windows Server 2003 / XP は weak host model
+を用い、RAS が既定経路のメトリックを増やすことでトラフィックを VPN インターフェイス経由にルーティングする。Windows
+Vista 以降は strong host model が既定で、GetBestRoute2 / GetBestRoute に送信元 IP
+を指定すると経路ルックアップは送信元インターフェイスに限定され、RAS
+のメトリック変更の効果はない。DisableDefaultRoutes メンバを TRUE
+に設定することで既定経路の使用を無効化でき、VPN
+クライアントがスプリットトンネリングを制限するのに使用できる。SetIpInterfaceEntry は Administrators
+グループメンバのみが呼び出せ、それ以外は ERROR_ACCESS_DENIED。UAC のため、組み込み Administrator
+以外は requestedExecutionLevel=requireAdministrator または RunAs
+administrator 実行が必要。
 
 
 %index
 SetIpNetEntry
-The SetIpNetEntry function modifies an existing ARP entry in the ARP table on the local computer.
+SetIpNetEntry 関数は、ローカルコンピュータの ARP テーブル内の既存 ARP エントリを変更する。
 %group
 Win32 iphlpapi
 %prm
 pArpEntry
-pArpEntry : [var] A pointer to a MIB_IPNETROW structure. The information in this structure specifies the entry to modify and the new information for the entry. The caller must specify values for all members of this structure.
+pArpEntry : [var] MIB_IPNETROW 構造体へのポインタ。この構造体の情報は変更対象のエントリと新しい情報を指定する。呼び出し元は構造体のすべてのメンバに値を指定しなければならない。
 %inst
-The SetIpNetEntry function modifies an existing ARP entry in the ARP
-table on the local computer.
+SetIpNetEntry 関数は、ローカルコンピュータの ARP テーブル内の既存 ARP エントリを変更する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-On Windows Vista and later , the SetIpNetEntry function can only be
-called by a user logged on as a member of the Administrators group.
-If SetIpNetEntry is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The SetIpNetEntry function can also
-fail because of user account control (UAC) on Windows Vista and
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+Windows Vista 以降では SetIpNetEntry は Administrators
+グループメンバのみが呼び出せ、それ以外では ERROR_ACCESS_DENIED が返る。UAC のため、組み込み
+Administrator 以外のメンバが実行する場合、マニフェストで
+requestedExecutionLevel=requireAdministrator または RunAs administrator
+実行が必要。
+Note: Windows NT 4.0 および Windows 2000 以降では、この関数は特権操作を実行する。成功には
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバとしてログオンしている必要がある。
 
 
 %index
 SetIpNetEntry2
-Sets the physical address of an existing neighbor IP address entry on the local computer.
+ローカルコンピュータ上の既存の近隣 IP アドレスエントリの物理アドレスを設定する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_IPNET_ROW2 structure entry for a neighbor IP address entry.
+Row : [var] 近隣 IP アドレスエントリの MIB_IPNET_ROW2 構造体エントリへのポインタ。
 %inst
-Sets the physical address of an existing neighbor IP address entry on
-the local computer.
+ローカルコンピュータ上の既存の近隣 IP アドレスエントリの物理アドレスを設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SetIpNetEntry2 function is defined on Windows Vista and later.
-The SetIpNetEntry2 function is used to set the physical address for
-an existing neighbor IP address entry on a local computer. The
-Address member in the MIB_IPNET_ROW2 structure pointed to by the Row
-parameter must be initialized to a valid unicast, anycast, or
-multicast IPv4 or IPv6 address and family. The PhysicalAddress and
-PhysicalAddressLength members in the MIB_IPNET_ROW2 structure pointed
-to by the Row parameter must be initialized to a valid physical
-address. In addition, at least one of the following members in the
-MIB_IPNET_ROW2 structure pointed to the Row parameter must be
-initialized to the interface: the InterfaceLuid or InterfaceIndex.
-The fields are used in the order listed above. So if the
-InterfaceLuid is specified, then this member is used to determine the
-interface on which to add the unicast IP address. If no value was set
-for the InterfaceLuid member (the values of this member was set to
-zero), then the InterfaceIndex member is next used to determine the
-interface. The SetIpNetEntry2 function will fail if the IP address
-passed in the Address member of the MIB_IPNET_ROW2 pointed to by the
-Row parameter is not an existing neighbor IP address on the interface
-specified. The SetIpNetEntry2 function can only be called by a user
-logged on as a member of the Administrators group. If SetIpNetEntry2
-is called by a user that is not a member of the Administrators group,
-the function call will fail and ERROR_ACCESS_DENIED is returned. The
-SetIpNetEntry2 function can also fail because of user account control
-(UAC) on Windows Vista and later. If an application that contains
-this function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will fail unless the application has been marked in the manifest file
-with a requestedExecutionLevel set to requireAdministrator. If the
-application lacks this manifest file, a user logged on as a member of
-the Administrators group other than the built-in Administrator must
-then be executing the application in an enhanced shell as the
-built-in Administrator (RunAs administrator) for this function to
-succeed.
+SetIpNetEntry2 関数は Windows Vista 以降で定義され、ローカルコンピュータ上の既存の近隣 IP
+アドレスエントリの物理アドレスを設定する。Row が指す構造体の Address
+メンバは有効なユニキャスト/エニーキャスト/マルチキャスト IPv4 または IPv6
+アドレスとファミリで初期化し、PhysicalAddress および PhysicalAddressLength
+は有効な物理アドレスで初期化する。さらに InterfaceLuid または InterfaceIndex のいずれかを初期化し、前者が
+0 なら後者が使われる。Address が指定インターフェイス上の既存近隣 IP アドレスでなければ失敗する。Administrators
+グループメンバのみが呼び出せ、それ以外は ERROR_ACCESS_DENIED。UAC のため、組み込み Administrator
+以外は requestedExecutionLevel=requireAdministrator または RunAs
+administrator 実行が必要。
 
 
 %index
 SetIpStatistics
-The SetIpStatistics function toggles IP forwarding on or off and sets the default time-to-live (TTL) value for the local computer.
+SetIpStatistics 関数は、ローカルコンピュータ上の IP フォワーディングの有効/無効を切り替え、既定の TTL 値を設定する。
 %group
 Win32 iphlpapi
 %prm
 pIpStats
-pIpStats : [var] A pointer to a MIB_IPSTATS structure. The caller should set the dwForwarding and dwDefaultTTL members of this structure to the new values. To keep one of the members at its current value, use MIB_USE_CURRENT_TTL or MIB_USE_CURRENT_FORWARDING.
+pIpStats : [var] MIB_IPSTATS 構造体へのポインタ。呼び出し元は構造体の dwForwarding と dwDefaultTTL に新しい値を設定する。一方を現在値のまま保持したい場合は MIB_USE_CURRENT_TTL または MIB_USE_CURRENT_FORWARDING を使用する。
 %inst
-The SetIpStatistics function toggles IP forwarding on or off and sets
-the default time-to-live (TTL) value for the local computer.
+SetIpStatistics 関数は、ローカルコンピュータ上の IP フォワーディングの有効/無効を切り替え、既定の TTL
+値を設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-To set only the default TTL, the caller can also use the SetIpTTL
-function. On Windows Vista and later, the SetIpStatistics function
-can only be called by a user logged on as a member of the
-Administrators group. If SetIpStatistics is called by a user that is
-not a member of the Administrators group, the function call will fail
-and ERROR_ACCESS_DENIED is returned. The SetIpStatistics function can
-also fail because of user account control (UAC) on Windows Vista and
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+既定 TTL のみを設定する場合は SetIpTTL も使用可能。Windows Vista 以降では SetIpStatistics は
+Administrators グループメンバのみが呼び出せ、それ以外は ERROR_ACCESS_DENIED。UAC のため、組み込み
+Administrator 以外は requestedExecutionLevel=requireAdministrator または
+RunAs administrator 実行が必要。
+Note: Windows NT 4.0 および Windows 2000 以降では特権操作を実行する。成功には
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバとしてログオンしている必要がある。
 
 
 %index
 SetIpStatisticsEx
-Toggles IP forwarding on or off and sets the default time-to-live (TTL) value for the local computer.
+ローカルコンピュータ上の IP フォワーディングの有効/無効を切り替え、既定の TTL 値を設定する。
 %group
 Win32 iphlpapi
 %prm
 Statistics, Family
-Statistics : [var] A pointer to a MIB_IPSTATS structure. The caller should set the dwForwarding and dwDefaultTTL members of this structure to the new values. To keep one of the members at its current value, use MIB_USE_CURRENT_TTL or MIB_USE_CURRENT_FORWARDING.
-Family : [int] The address family for which forwarding and TTL is to be set. Possible values for the address family are listed in the Winsock2.h header file. Note that the values for the AF_ address family and PF_ protocol family constants  are identical (for example, AF_INET and PF_INET), so either constant can be used. On the Windows SDK released for Windows?Vista and later, the organization of header files has changed and possible values for this member are defined in the Ws2def.h header file. Note that the Ws2def.h header file is automatically included in Winsock2.h, and should never be used directly. The values currently supported are AF_INET, and AF_INET6.
+Statistics : [var] MIB_IPSTATS 構造体へのポインタ。呼び出し元は dwForwarding と dwDefaultTTL に新しい値を設定する。一方を現在値のまま保持したい場合は MIB_USE_CURRENT_TTL または MIB_USE_CURRENT_FORWARDING を使用する。
+Family : [int] フォワーディングと TTL を設定するアドレスファミリ。値は Winsock2.h で定義される。AF_ と PF_ 定数は等価 (例: AF_INET と PF_INET)。Windows Vista 以降向け SDK では Ws2def.h で定義される。Ws2def.h は Winsock2.h から自動インクルードされるので直接使用してはならない。現在サポートされる値は AF_INET と AF_INET6。
 %inst
-Toggles IP forwarding on or off and sets the default time-to-live
-(TTL) value for the local computer.
+ローカルコンピュータ上の IP フォワーディングの有効/無効を切り替え、既定の TTL 値を設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-To set only the default TTL, the caller can also use the SetIpTTL
-function. The SetIpStatisticsEx function can only be called by a user
-logged on as a member of the Administrators group. If
-SetIpStatisticsEx is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The SetIpStatisticsEx function can
-also fail because of user account control (UAC) on Windows Vista and
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application on lacks this
-manifest file, a user logged on as a member of the Administrators
-group other than the built-in Administrator must then be executing
-the application in an enhanced shell as the built-in Administrator
-(RunAs administrator) for this function to succeed.
+既定 TTL のみを設定する場合は SetIpTTL も使用可能。SetIpStatisticsEx は Administrators
+グループメンバのみが呼び出せ、それ以外は ERROR_ACCESS_DENIED。UAC のため、組み込み Administrator
+以外は requestedExecutionLevel=requireAdministrator または RunAs
+administrator 実行が必要。
 
 
 %index
 SetIpTTL
-The SetIpTTL function sets the default time-to-live (TTL) value for the local computer.
+SetIpTTL 関数は、ローカルコンピュータの既定の TTL (time-to-live) 値を設定する。
 %group
 Win32 iphlpapi
 %prm
 nTTL
-nTTL : [int] The new TTL value for the local computer.
+nTTL : [int] ローカルコンピュータの新しい TTL 値。
 %inst
-The SetIpTTL function sets the default time-to-live (TTL) value for
-the local computer.
+SetIpTTL 関数は、ローカルコンピュータの既定の TTL (time-to-live) 値を設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The default TTL can also be set using the SetIpStatistics function.
-On Windows Vista and later, the SetIpTTL function can only be called
-by a user logged on as a member of the Administrators group. If
-SetIpTTL is called by a user that is not a member of the
-Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The SetIpStatistics function can
-also fail because of user account control (UAC) on Windows Vista and
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
-Note On Windows NT 4.0 and Windows 2000 and later, this function
-executes a privileged operation. For this function to execute
-successfully, the caller must be logged on as a member of the
-Administrators group or the NetworkConfigurationOperators group.
+既定 TTL は SetIpStatistics でも設定可能。Windows Vista 以降では SetIpTTL は
+Administrators グループメンバのみが呼び出せ、それ以外は ERROR_ACCESS_DENIED。UAC のため、組み込み
+Administrator 以外は requestedExecutionLevel=requireAdministrator または
+RunAs administrator 実行が必要。
+Note: Windows NT 4.0 および Windows 2000 以降では特権操作を実行する。成功には
+Administrators グループまたは NetworkConfigurationOperators
+グループのメンバとしてログオンしている必要がある。
 
 
 %index
@@ -6770,269 +4496,171 @@ CompartmentId : [int]
 
 %index
 SetNetworkInformation
-Reserved for future use. Do not use this function. (SetNetworkInformation)
+将来の使用のため予約されている。この関数は使用しないこと。(SetNetworkInformation)
 %group
 Win32 iphlpapi
 %prm
 NetworkGuid, CompartmentId, NetworkName
-NetworkGuid : [var] Reserved.
-CompartmentId : [int] Reserved.
-NetworkName : [wstr] Reserved.
+NetworkGuid : [var] 予約済み。
+CompartmentId : [int] 予約済み。
+NetworkName : [wstr] 予約済み。
 %inst
-Reserved for future use. Do not use this function.
-(SetNetworkInformation)
+将来の使用のため予約されている。この関数は使用しないこと。(SetNetworkInformation)
 
 
 %index
 SetPerTcp6ConnectionEStats
-Sets a value in the read/write information for an IPv6 TCP connection. This function is used to enable or disable extended statistics for an IPv6 TCP connection.
+IPv6 TCP 接続の読み取り/書き込み情報の値を設定する。IPv6 TCP 接続の拡張統計の有効/無効切り替えに使用される。
 %group
 Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Offset
-Row : [var] A pointer to a MIB_TCP6ROW structure for an IPv6 TCP connection.
-EstatsType : [int] The type of extended statistics for TCP to set. This parameter determines the data and format of information that is expected in the Rw parameter. This parameter can be one of the values from the TCP_ESTATS_TYPE enumeration type defined in the Tcpestats.h header file.
-Rw : [var] A pointer to a buffer that contains the read/write information to set. The buffer should contain a value from the TCP_BOOLEAN_OPTIONAL enumeration for each structure member that specifies how each member should be updated.
-RwVersion : [int] The version of the read/write information to be set. This parameter should be set to zero for Windows?Vista, Windows Server?2008, and Windows?7.
-RwSize : [int] The size, in bytes, of the buffer pointed to by the Rw parameter.
-Offset : [int] The offset, in bytes, to the member in the structure pointed to by the Rw parameter to be set.  This parameter is currently unused and must be set to zero.
+Row : [var] IPv6 TCP 接続の MIB_TCP6ROW 構造体へのポインタ。
+EstatsType : [int] 設定する TCP 拡張統計情報の種別。このパラメータは Rw に想定されるデータ形式を決定する。Tcpestats.h で定義される TCP_ESTATS_TYPE 列挙型の値のいずれかを指定できる。
+Rw : [var] 設定する読み取り/書き込み情報を含むバッファへのポインタ。各メンバの更新方法を指定する TCP_BOOLEAN_OPTIONAL 列挙値を構造体メンバごとに格納する。
+RwVersion : [int] 設定する読み取り/書き込み情報のバージョン。Windows Vista / Windows Server 2008 / Windows 7 では 0 に設定する。
+RwSize : [int] Rw が指すバッファのサイズ (バイト単位)。
+Offset : [int] Rw の構造体メンバへの設定対象オフセット (バイト単位)。現時点では未使用であり、0 に設定しなければならない。
 %inst
-Sets a value in the read/write information for an IPv6 TCP
-connection. This function is used to enable or disable extended
-statistics for an IPv6 TCP connection.
+IPv6 TCP 接続の読み取り/書き込み情報の値を設定する。IPv6 TCP 接続の拡張統計の有効/無効切り替えに使用される。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SetPerTcp6ConnectionEStats function is defined on Windows Vista
-and later. The SetPerTcp6ConnectionEStats function is used to enable
-or disable extended statistics for the IPv6 TCP connection passed in
-the Row parameter. Extended statistics on a TCP connection are
-disabled by default. The SetPerTcp6ConnectionEStats function is used
-to set the value of a member in the read/write information for
-extended statistics for an IPv6 TCP connection. The type and format
-of the structure to be set is specified by the EstatsType parameter.
-The Rw parameter contains a pointer to the structure being passed.
-The member to set in this structure is specified by the Offset
-parameter. All members in the structure pointed to by Rw parameter
-must be specified. The only version of TCP connection statistics
-currently supported is version zero. So the RwVersion parameter
-passed to SetPerTcp6ConnectionEStats should be set to 0. The
-structure pointed to by the Rw parameter passed this function depends
-on the enumeration value passed in the EstatsType parameter. The
-following table below indicates the structure type that should be
-passed in the Rw parameter for each possible EstatsType parameter
-type.
-This doc was truncated.
+SetPerTcp6ConnectionEStats 関数は Windows Vista 以降で定義される。Row に渡された IPv6
+TCP 接続の拡張統計の有効/無効を切り替えるために使用される。TCP 接続の拡張統計は既定では無効である。IPv6 TCP
+接続の拡張統計の読み取り/書き込み情報メンバの値を設定するのに使われる。構造体の型と形式は EstatsType で指定され、Rw
+にはその構造体へのポインタを渡す。設定対象メンバは Offset
+で指定する。構造体のすべてのメンバを指定しなければならない。現在サポートされる TCP 接続統計のバージョンは 0
+のみで、RwVersion は 0 に設定する。EstatsType に応じて渡すべき構造体型は、以下の対応表のとおりである。
+このドキュメントは省略されている。
 
 
 %index
 SetPerTcpConnectionEStats
-Sets a value in the read/write information for an IPv4 TCP connection. This function is used to enable or disable extended statistics for an IPv4 TCP connection.
+IPv4 TCP 接続の読み取り/書き込み情報の値を設定する。IPv4 TCP 接続の拡張統計の有効/無効切り替えに使用される。
 %group
 Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Offset
-Row : [var] A pointer to a MIB_TCPROW structure for an IPv4 TCP connection.
-EstatsType : [int] The type of extended statistics for TCP to set. This parameter determines the data and format of information that is expected in the Rw parameter. This parameter can be one of the values from the TCP_ESTATS_TYPE enumeration type defined in the Tcpestats.h header file.
-Rw : [var] A pointer to a buffer that contains the read/write information to set. The buffer should contain a value from the TCP_BOOLEAN_OPTIONAL enumeration for each structure member that specifies how each member should be updated.
-RwVersion : [int] The version of the read/write information to be set. This parameter should be set to zero for Windows?Vista, Windows Server?2008, and Windows?7.
-RwSize : [int] The size, in bytes, of the buffer pointed to by the Rw parameter.
-Offset : [int] The offset, in bytes, to the member in the structure pointed to by the Rw parameter to be set. This parameter is currently unused and must be set to zero.
+Row : [var] IPv4 TCP 接続の MIB_TCPROW 構造体へのポインタ。
+EstatsType : [int] 設定する TCP 拡張統計情報の種別。このパラメータは Rw に想定されるデータ形式を決定する。Tcpestats.h で定義される TCP_ESTATS_TYPE 列挙型の値のいずれかを指定できる。
+Rw : [var] 設定する読み取り/書き込み情報を含むバッファへのポインタ。各メンバの更新方法を指定する TCP_BOOLEAN_OPTIONAL 列挙値を構造体メンバごとに格納する。
+RwVersion : [int] 設定する読み取り/書き込み情報のバージョン。Windows Vista / Windows Server 2008 / Windows 7 では 0 に設定する。
+RwSize : [int] Rw が指すバッファのサイズ (バイト単位)。
+Offset : [int] Rw の構造体メンバへの設定対象オフセット (バイト単位)。現時点では未使用であり、0 に設定しなければならない。
 %inst
-Sets a value in the read/write information for an IPv4 TCP
-connection. This function is used to enable or disable extended
-statistics for an IPv4 TCP connection.
+IPv4 TCP 接続の読み取り/書き込み情報の値を設定する。IPv4 TCP 接続の拡張統計の有効/無効切り替えに使用される。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SetPerTcpConnectionEStats function is defined on Windows Vista
-and later. The SetPerTcpConnectionEStats function is used to enable
-or disable extended statistics on an IPv4 TCP connection passed in
-the Row parameter. Extended statistics on a TCP connection are
-disabled by default. The SetPerTcpConnectionEStats function is used
-to set the value of a member in the read/write information for
-extended statistics for an IPv4 TCP connection. The type and format
-of the structure to be set is specified by the EstatsType parameter.
-The Rw parameter contains a pointer to the structure being passed.
-All members in the structure pointed to by Rw parameter must be
-specified. The only version of TCP connection statistics currently
-supported is version zero. So the RwVersion parameter passed to
-SetPerTcpConnectionEStats should be set to 0. The structure pointed
-to by the Rw parameter passed this function depends on the
-enumeration value passed in the EstatsType parameter. The following
-table below indicates the structure type that should be passed in the
-Rw parameter for each possible EstatsType parameter type.
-This doc was truncated.
+SetPerTcpConnectionEStats 関数は Windows Vista 以降で定義される。Row に渡された IPv4
+TCP 接続の拡張統計の有効/無効を切り替えるために使用される。TCP 接続の拡張統計は既定では無効である。IPv4 TCP
+接続の拡張統計の読み取り/書き込み情報メンバの値を設定するのに使われる。構造体の型と形式は EstatsType で指定され、Rw
+にはその構造体へのポインタを渡す。構造体のすべてのメンバを指定しなければならない。現在サポートされる TCP 接続統計のバージョンは 0
+のみで、RwVersion は 0 に設定する。EstatsType に応じて渡すべき構造体型は、以下の対応表のとおりである。
+このドキュメントは省略されている。
 
 
 %index
 SetSessionCompartmentId
-Reserved for future use. Do not use this function. (SetSessionCompartmentId)
+将来の使用のため予約されている。この関数は使用しないこと。(SetSessionCompartmentId)
 %group
 Win32 iphlpapi
 %prm
 SessionId, CompartmentId
-SessionId : [int] Reserved.
-CompartmentId : [int] Reserved.
+SessionId : [int] 予約済み。
+CompartmentId : [int] 予約済み。
 %inst
-Reserved for future use. Do not use this function.
-(SetSessionCompartmentId)
+将来の使用のため予約されている。この関数は使用しないこと。(SetSessionCompartmentId)
 
 
 %index
 SetTcpEntry
-The SetTcpEntry function sets the state of a TCP connection.
+SetTcpEntry 関数は、TCP 接続の状態を設定する。
 %group
 Win32 iphlpapi
 %prm
 pTcpRow
-pTcpRow : [var] A pointer to a MIB_TCPROW structure. This structure specifies information to identify the TCP connection to modify. It also specifies the new state for the TCP connection. The caller must specify values for all the members in this structure.
+pTcpRow : [var] MIB_TCPROW 構造体へのポインタ。この構造体は変更対象の TCP 接続を特定する情報と、新しい状態を指定する。呼び出し元はすべてのメンバに値を指定しなければならない。
 %inst
-The SetTcpEntry function sets the state of a TCP connection.
+SetTcpEntry 関数は、TCP 接続の状態を設定する。
 
 [戻り値]
-The function returns NO_ERROR (zero) if the function is successful.
-If the function fails, the return value is one of the following error
-codes.
-This doc was truncated.
+関数が成功した場合、NO_ERROR (ゼロ) を返す。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-Currently, the only state to which a TCP connection can be set is
-MIB_TCP_STATE_DELETE_TCB. On Windows Vista and later, the SetTcpEntry
-function can only be called by a user logged on as a member of the
-Administrators group. If SetTcpEntry is called by a user that is not
-a member of the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The SetTcpEntry function can also
-fail because of user account control (UAC) on Windows Vista and
-later. If an application that contains this function is executed by a
-user logged on as a member of the Administrators group other than the
-built-in Administrator, this call will fail unless the application
-has been marked in the manifest file with a requestedExecutionLevel
-set to requireAdministrator. If the application lacks this manifest
-file, a user logged on as a member of the Administrators group other
-than the built-in Administrator must then be executing the
-application in an enhanced shell as the built-in Administrator (RunAs
-administrator) for this function to succeed.
+現在、TCP 接続を設定できる唯一の状態は MIB_TCP_STATE_DELETE_TCB である。Windows Vista 以降では
+SetTcpEntry は Administrators グループメンバのみが呼び出せ、それ以外は
+ERROR_ACCESS_DENIED。UAC のため、組み込み Administrator 以外は
+requestedExecutionLevel=requireAdministrator または RunAs administrator
+実行が必要。
 
 
 %index
 SetUnicastIpAddressEntry
-Sets the properties of an existing unicast IP address entry on the local computer.
+ローカルコンピュータ上の既存のユニキャスト IP アドレスエントリのプロパティを設定する。
 %group
 Win32 iphlpapi
 %prm
 Row
-Row : [var] A pointer to a MIB_UNICASTIPADDRESS_ROW structure entry for an existing unicast IP address entry.
+Row : [var] 既存のユニキャスト IP アドレスエントリの MIB_UNICASTIPADDRESS_ROW 構造体エントリへのポインタ。
 %inst
-Sets the properties of an existing unicast IP address entry on the
-local computer.
+ローカルコンピュータ上の既存のユニキャスト IP アドレスエントリのプロパティを設定する。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, the return value is one of the following error codes.
-This doc was truncated.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は以下のエラーコードのいずれかが返される。
+このドキュメントは省略されている。
 
 [備考]
-The SetUnicastIpAddressEntry function is defined on Windows Vista and
-later. The GetUnicastIpAddressEntry function is normally used to
-retrieve an existing MIB_UNICASTIPADDRESS_ROW structure entry to be
-modified. An application can then change the members in the
-MIB_UNICASTIPADDRESS_ROW entry it wishes to modify, and then call the
-SetUnicastIpAddressEntry function. An application may call the
-InitializeUnicastIpAddressEntry function to initialize the members of
-a MIB_UNICASTIPADDRESS_ROW structure entry with default values before
-making changes. However, the application would normally save either
-the InterfaceLuid or InterfaceIndex member before calling
-InitializeUnicastIpAddressEntry and restore one of these members
-after the call. The Address member in the MIB_UNICASTIPADDRESS_ROW
-structure pointed to by the Row parameter must be initialized to a
-valid unicast IPv4 or IPv6 address and family. In addition, at least
-one of the following members in the MIB_UNICASTIPADDRESS_ROW
-structure pointed to the Row parameter must be initialized: the
-InterfaceLuid or InterfaceIndex. The fields are used in the order
-listed above. So if the InterfaceLuid is specified, then this member
-is used to determine the interface. If no value was set for the
-InterfaceLuid member (the values of this member was set to zero),
-then the InterfaceIndex member is next used to determine the
-interface. If the OnLinkPrefixLength member of the
-MIB_UNICASTIPADDRESS_ROW pointed to by the Row parameter is set to
-255, then SetUnicastIpAddressEntry will set the unicast IP address
-properties so that the OnLinkPrefixLength member is equal to the
-length of the IP address. So for a unicast IPv4 address, the
-OnLinkPrefixLength is set to 32 and the OnLinkPrefixLength is set to
-128 for a unicast IPv6 address. If this would result in the incorrect
-subnet mask for an IPv4 address or the incorrect link prefix for an
-IPv6 address, then the application should set this member to the
-correct value before calling SetUnicastIpAddressEntry. The DadState,
-ScopeId, and CreationTimeStamp members of the
-MIB_UNICASTIPADDRESS_ROW structure pointed to by the Row are ignored
-when the SetUnicastIpAddressEntry function is called. These members
-are set by the network stack and cannot be changed using the
-SetUnicastIpAddressEntry function. The ScopeId member is
-automatically determined by the interface on which the address was
-added. The SetUnicastIpAddressEntry function can only be called by a
-user logged on as a member of the Administrators group. If
-SetUnicastIpAddressEntry is called by a user that is not a member of
-the Administrators group, the function call will fail and
-ERROR_ACCESS_DENIED is returned. The SetUnicastIpAddressEntry
-function can also fail because of user account control (UAC) on
-Windows Vista and later. If an application that contains this
-function is executed by a user logged on as a member of the
-Administrators group other than the built-in Administrator, this call
-will fail unless the application has been marked in the manifest file
-with a requestedExecutionLevel set to requireAdministrator. If the
-application lacks this manifest file, a user logged on as a member of
-the Administrators group other than the built-in Administrator must
-then be executing the application in an enhanced shell as the
-built-in Administrator (RunAs administrator) for this function to
-succeed.
+SetUnicastIpAddressEntry 関数は Windows Vista 以降で定義される。通常は
+GetUnicastIpAddressEntry で既存の MIB_UNICASTIPADDRESS_ROW
+を取得し、変更したいメンバを書き換えて SetUnicastIpAddressEntry
+を呼ぶ。InitializeUnicastIpAddressEntry で既定値に初期化する方法も使えるが、その際は呼び出し前に
+InterfaceLuid または InterfaceIndex を保存し、呼び出し後に復元するのが普通である。Row の Address
+メンバは有効なユニキャスト IPv4 または IPv6 アドレスとファミリで初期化し、InterfaceLuid または
+InterfaceIndex のいずれかを初期化する (前者が 0 なら後者が使われる)。OnLinkPrefixLength を 255
+に設定すると、IP アドレス長と同じ値 (IPv4 なら 32、IPv6 なら 128) に設定される。IPv4 のサブネットマスクや
+IPv6
+のリンクプレフィックスが不正になる場合は事前に正しい値に設定する必要がある。DadState、ScopeId、CreationTimeStamp
+は呼び出し時に無視される (ネットワークスタックが設定)。ScopeId
+はアドレスが追加されたインターフェイスにより自動的に決定される。Administrators グループメンバのみが呼び出せ、それ以外は
+ERROR_ACCESS_DENIED。UAC のため、組み込み Administrator 以外は
+requestedExecutionLevel=requireAdministrator または RunAs administrator
+実行が必要。
 
 
 %index
 UnenableRouter
-The UnenableRouter function decrements the reference count that tracks the number of requests to enable IPv4 forwarding. When this reference count reaches zero, UnenableRouter turns off IPv4 forwarding on the local computer.
+UnenableRouter 関数は、IPv4 フォワーディング有効化要求数を追跡する参照カウントを減らす。参照カウントが 0 に達すると、ローカルコンピュータの IPv4 フォワーディングをオフにする。
 %group
 Win32 iphlpapi
 %prm
 pOverlapped, lpdwEnableCount
-pOverlapped : [var] A pointer to an OVERLAPPED structure. This structure should be the same as the one used in the call to the EnableRouter function.
-lpdwEnableCount : [var] An optional pointer to a DWORD variable. This variable receives the number of references remaining.
+pOverlapped : [var] OVERLAPPED 構造体へのポインタ。EnableRouter 呼び出しで使用したものと同一でなければならない。
+lpdwEnableCount : [var] 残っている参照数を受け取るオプションの DWORD 変数へのポインタ。
 %inst
-The UnenableRouter function decrements the reference count that
-tracks the number of requests to enable IPv4 forwarding. When this
-reference count reaches zero, UnenableRouter turns off IPv4
-forwarding on the local computer.
+UnenableRouter 関数は、IPv4 フォワーディング有効化要求数を追跡する参照カウントを減らす。参照カウントが 0
+に達すると、ローカルコンピュータの IPv4 フォワーディングをオフにする。
 
 [戻り値]
-If the function succeeds, the return value is NO_ERROR. If the
-function fails, use FormatMessage to obtain the message string for
-the returned error.
+関数が成功すると、戻り値は NO_ERROR である。失敗した場合は FormatMessage
+を使って返されたエラーのメッセージ文字列を取得する。
 
 [備考]
-The UnenableRouter function is specific to IPv4 forwarding. Each call
-that a process makes to UnenableRouter must correspond to a previous
-call to EnableRouter by the same process. The system returns an error
-on extraneous calls to UnenableRouter. As a result, a given process
-is not able to decrement the reference count that tracks the number
-of requests for enabling IPv4 forwarding for another process. Also,
-if IPv4 forwarding was enabled by a given process, it cannot be
-disabled by a different process. It is not possible to accurately
-determine the reference count that tracks the number of requests for
-enabling IPv4 forwarding since there might be other outstanding
-EnableRouter requests. So the value returned for the lpdwEnableCount
-parameter is always a large count equal to ULONG_MAX/2.
-If the process that calls EnableRouter terminates without calling
-UnenableRouter, the system decrements the reference count that tracks
-requests to enable IPv4 forwarding as though the process had called
-UnenableRouter. After calling the UnenableRouter, use the CloseHandle
-call to close the handle to the event object in the OVERLAPPED
-structure.
+UnenableRouter 関数は IPv4 フォワーディング専用である。各プロセスによる UnenableRouter
+呼び出しは、同一プロセスによる以前の EnableRouter 呼び出しに対応している必要がある。余分な UnenableRouter
+呼び出しに対してはシステムがエラーを返す。あるプロセスが別プロセスの IPv4
+フォワーディング有効化要求に対する参照カウントを減らすことはできない。また、あるプロセスが有効化したフォワーディングを別プロセスが無効化することもできない。IPv4
+フォワーディング有効化要求の参照カウントを正確に求めることはできないため、lpdwEnableCount には常に ULONG_MAX/2
+に等しい大きな値が返される。
+EnableRouter を呼び出したプロセスが UnenableRouter を呼ばずに終了した場合、システムは
+UnenableRouter が呼ばれたかのように参照カウントを減らす。UnenableRouter 呼び出し後、OVERLAPPED
+内のイベントオブジェクトのハンドルは CloseHandle でクローズする。
 

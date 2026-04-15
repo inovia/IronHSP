@@ -6,5975 +6,3076 @@
 
 %index
 glAccum
-The glAccum function operates on the accumulation buffer.
+glAccum 関数はアキュムレーションバッファに対して操作を行う。
 %group
 Win32 opengl32
 %prm
 op, value
-op : [int] The accumulation buffer operation. The accepted symbolic constants are as follows.
-value : [float] A floating-point value used in the accumulation buffer operation. The *op* parameter determines how *value* is used.
+op : [int] アキュムレーションバッファの操作。以下のシンボル定数を受け付ける。GL_ACCUM: 現在読み取り対象として選択されているバッファから R、G、B、A の値を取得する (glReadBuffer 参照)。各成分値を 2^n-1 で除算し (n は現在選択中のバッファで各色成分に割り当てられたビット数)、得られた [0,1] 範囲の浮動小数点値を value で乗算してアキュムレーションバッファの対応ピクセル成分に加算する。GL_LOAD: GL_ACCUM と同様だが、アキュムレーションバッファの現在値を計算に使用しない。すなわち現在選択中のバッファからの値を 2^n-1 で除算し value を乗じて対応するセルに格納し、現在値を上書きする。GL_ADD: アキュムレーションバッファ内の各 R、G、B、A に value を加算する。GL_MULT: 各 R、G、B、A に value を乗算し、スケール後の値を対応する場所に戻す。GL_RETURN: アキュムレーションバッファの値を現在書き込み対象のカラーバッファに転送する。各成分に value を乗算し、さらに 2^n-1 を乗算して [0, 2^n-1] にクランプし対応するディスプレイバッファセルに格納する。この転送時に適用されるフラグメント操作は、ピクセル所有権、シザー、ディザリング、カラー書き込みマスクのみである。
+value : [float] アキュムレーションバッファ操作に使用する浮動小数点値。op パラメータが value の使われ方を決定する。
 %inst
-The glAccum function operates on the accumulation buffer.
+glAccum 関数はアキュムレーションバッファに対して操作を行う。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The accumulation buffer is an extended-range color buffer. Images are
-not rendered into it. Rather, images rendered into one of the color
-buffers are added to the contents of the accumulation buffer after
-rendering. You can create effects such as antialiasing (of points,
-lines, and polygons), motion blur, and depth of field by accumulating
-images generated with different transformation matrices. Each pixel
-in the accumulation buffer consists of red, green, blue, and alpha
-values. The number of bits per component in the accumulation buffer
-depends on the implementation. You can examine this number by calling
-[**glGetIntegerv**](glgetintegerv.md) four times, with the arguments
-GL\_ACCUM\_RED\_BITS, GL\_ACCUM\_GREEN\_BITS, GL\_ACCUM\_BLUE\_BITS,
-and GL\_ACCUM\_ALPHA\_BITS, respectively. Regardless of the number of
-bits per component, however, the range of values stored by each
-component is \[ 1,?1\]. The accumulation buffer pixels are mapped
-one-to-one with framebuffer pixels. The **glAccum** function operates
-on the accumulation buffer. The first argument, *op*, is a symbolic
-constant that selects an accumulation buffer operation. The second
-argument, *value*, is a floating-point value to be used in that
-operation. Five operations are specified: GL\_ACCUM, GL\_LOAD,
-GL\_ADD, GL\_MULT, and GL\_RETURN. All accumulation buffer operations
-are limited to the area of the current scissor box and are applied
-identically to the red, green, blue, and alpha components of each
-pixel. The contents of an accumulation buffer pixel component are
-undefined if the **glAccum** operation results in a value outside the
-range \[ 1,1\]. To clear the accumulation buffer, use the
-[**glClearAccum**](glclearaccum.md) function to specify R, G, B, and
-A values to set it to, and issue a [**glClear**](glclear.md) function
-with the accumulation buffer enabled. Only those pixels within the
-current scissor box are updated by any **glAccum** operation. The
-following functions retrieve information related to the **glAccum**
-function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ACCUM\_RED\_BITS **glGet** with argument
-GL\_ACCUM\_GREEN\_BITS **glGet** with argument GL\_ACCUM\_BLUE\_BITS
-**glGet** with argument GL\_ACCUM\_ALPHA\_BITS
+
+アキュムレーションバッファは拡張レンジのカラーバッファである。直接画像をレンダリングするのではなく、カラーバッファにレンダリングされた画像を描画後にアキュムレーションバッファの内容に加算する。異なる変換行列で生成した画像を累積することで、アンチエイリアシング
+(点・線・ポリゴン)、モーションブラー、被写界深度などの効果を作れる。各ピクセルは R、G、B、A 値から成る。1
+成分あたりのビット数は実装依存で、glGetIntegerv を GL_ACCUM_RED_BITS / GREEN / BLUE /
+ALPHA_BITS で呼び出して取得できる。ビット数によらず、各成分の値範囲は [-1, 1]
+である。アキュムレーションバッファのピクセルはフレームバッファのピクセルと 1 対 1 で対応する。第 1 引数 op
+は操作を選択するシンボル定数、第 2 引数 value はその操作で使用する浮動小数点値である。操作は
+GL_ACCUM、GL_LOAD、GL_ADD、GL_MULT、GL_RETURN の 5
+種類。全ての操作は現在のシザー領域に制限され、各ピクセルの R、G、B、A に同じく適用される。操作結果が [-1, 1]
+の範囲外となった場合、ピクセル成分の内容は未定義である。アキュムレーションバッファをクリアするには glClearAccum で
+R、G、B、A 値を指定し、glClear をアキュムレーションバッファ有効で実行する。関連情報は glGet
+(GL_ACCUM_*_BITS) で取得できる。
 
 
 %index
 glAlphaFunc
-The glAlphaFunc function enables your application to set the alpha test function.
+glAlphaFunc 関数はアルファテスト関数を設定する。
 %group
 Win32 opengl32
 %prm
 func, ref
-func : [int] The alpha comparison function. The following are the accepted symbolic constants and their meanings.
+func : [int] アルファ比較関数。以下のシンボル定数とその意味を受け付ける。GL_NEVER: 決してパスしない。GL_LESS: 入力アルファ値が参照値未満のときパスする。GL_EQUAL: 入力アルファ値が参照値に等しいときパスする。GL_LEQUAL: 入力アルファ値が参照値以下のときパスする。GL_GREATER: 入力アルファ値が参照値より大きいときパスする。GL_NOTEQUAL: 入力アルファ値が参照値と異なるときパスする。GL_GEQUAL: 入力アルファ値が参照値以上のときパスする。GL_ALWAYS: 常にパスする (既定値)。
 ref : [int] 
 %inst
-The glAlphaFunc function enables your application to set the alpha
-test function.
+glAlphaFunc 関数はアルファテスト関数を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The alpha test discards fragments depending on the outcome of a
-comparison between the incoming fragments' alpha values and a
-constant reference value. The **glAlphaFunc** function specifies the
-reference and comparison function. The comparison is performed only
-if alpha testing is enabled. (For more information on
-GL\_ALPHA\_TEST, see [**glEnable**](glenable.md).) The *func* and
-*ref* parameters specify the conditions under which the pixel is
-drawn. The incoming alpha value is compared to *ref* using the
-function specified by *func*. If the comparison passes, the incoming
-fragment is drawn, conditional on subsequent stencil and depth-buffer
-tests. If the comparison fails, no change is made to the framebuffer
-at that pixel location. The **glAlphaFunc** function operates on all
-pixel writes, including those resulting from the scan conversion of
-points, lines, polygons, and bitmaps, and from pixel draw and copy
-operations. The **glAlphaFunc** function does not affect screen clear
-operations. Alpha testing is done only in RGBA mode. The following
-functions retrieve information related to the **glAlphaFunc**
-function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ALPHA\_TEST\_FUNC **glGet** with argument
-GL\_ALPHA\_TEST\_REF [**glIsEnabled**](glisenabled.md) with argument
-GL\_ALPHA\_TEST
+アルファテストは、入力フラグメントのアルファ値と定数参照値との比較結果に応じてフラグメントを破棄する。glAlphaFunc
+は参照値と比較関数を指定する。比較はアルファテストが有効なときのみ行われる (glEnable の GL_ALPHA_TEST
+を参照)。func と ref は描画条件を指定する。入力アルファ値は func で指定された関数により ref
+と比較される。比較がパスすれば以降のステンシル/デプステストを条件として描画される。パスしなければそのピクセル位置のフレームバッファは変更されない。glAlphaFunc
+は点・線・ポリゴン・ビットマップのスキャン変換、pixel draw/copy
+等に起因する全てのピクセル書き込みに作用する。画面クリア操作には影響しない。アルファテストは RGBA モードでのみ行われる。関連情報は
+glGet (GL_ALPHA_TEST_FUNC / REF) および glIsEnabled (GL_ALPHA_TEST)
+で取得できる。
 
 
 %index
 glAreTexturesResident
-The glAreTexturesResident function determines whether specified texture objects are resident in texture memory.
+glAreTexturesResident 関数は、指定されたテクスチャオブジェクトがテクスチャメモリに常駐しているかを判定する。
 %group
 Win32 opengl32
 %prm
 n, textures, residences
-n : [int] The number of textures to be queried.
-textures : [var] The address of an array containing the names of the textures to be queried.
-residences : [var] The address of an array in which the texture residence status is returned. The residence status of a texture named by an element of *textures* is returned in the corresponding element of *residences*.
+n : [int] 照会するテクスチャの数。
+textures : [var] 照会するテクスチャ名を格納した配列のアドレス。
+residences : [var] テクスチャの常駐状態が返される配列のアドレス。textures の各要素で指名されたテクスチャの常駐状態が residences の対応する要素に返される。
 %inst
-The glAreTexturesResident function determines whether specified
-texture objects are resident in texture memory.
+glAreTexturesResident 関数は、指定されたテクスチャオブジェクトがテクスチャメモリに常駐しているかを判定する。
 
 [備考]
-On machines with a limited amount of texture memory, OpenGL
-establishes a working set of textures that are resident in texture
-memory. These textures can be bound to a texture target much more
-efficiently than textures that are not resident. The
-**glAreTexturesResident** function queries the texture residence
-status of the *n* textures named by the elements of *textures*. If
-all the named textures are resident, **glAreTexturesResident**
-returns GL\_TRUE, and the contents of *residences* are undisturbed.
-If any of the named textures are not resident,
-**glAreTexturesResident** returns GL\_FALSE, and detailed status is
-returned in the *n* elements of *residences*. If an element of
-*residences* is GL\_TRUE, then the texture named by the corresponding
-element of *textures* is resident in texture memory. To query the
-residence status of a single bound texture, call
-[**glGetTexParameter**](glgettexparameter.md) with the *target*
-parameter set to the target texture to which the target is bound and
-set the *pname* parameter to GL\_TEXTURE\_RESIDENT. You must use this
-method to query the resident status of a default texture. You cannot
-include **glAreTexturesResident** in display lists. The
-**glAreTexturesResident** function returns the residency status of
-the textures at the time of invocation. It does not guarantee that
-the textures will remain resident at any other time. If textures
-reside in virtual memory (there is no texture memory), they are
-considered always resident. > [!Note] > The **glAreTexturesResident**
-function is only available in OpenGL version 1.1 or later.
+テクスチャメモリが限られているマシンでは、OpenGL
+はテクスチャメモリ内に常駐するテクスチャのワーキングセットを確立する。これらは非常駐テクスチャよりはるかに効率的にバインドできる。glAreTexturesResident
+は textures の n 個のテクスチャの常駐状態を照会する。全てが常駐なら GL_TRUE を返し residences
+は変更しない。いずれかが非常駐なら GL_FALSE を返し、詳細が residences に返される。residences の要素が
+GL_TRUE なら対応するテクスチャは常駐している。単一のバインド済みテクスチャを照会するには glGetTexParameter を
+target にそのテクスチャターゲットを、pname に GL_TEXTURE_RESIDENT
+を指定して呼び出す。既定テクスチャの常駐状態はこの方法で照会する必要がある。glAreTexturesResident
+は表示リストに含められない。この関数は呼び出し時点の常駐状態を返すが、それ以降の常駐を保証するものではない。仮想メモリ上にあるテクスチャ
+(テクスチャメモリが存在しない場合) は常に常駐とみなされる。注意: glAreTexturesResident は OpenGL 1.1
+以降でのみ利用可能である。
 
 
 %index
 glArrayElement
-The glArrayElement function specifies the array elements used to render a vertex.
+glArrayElement 関数は頂点の描画に使用する配列要素を指定する。
 %group
 Win32 opengl32
 %prm
 i
 i : [int] 
 %inst
-The glArrayElement function specifies the array elements used to
-render a vertex.
+glArrayElement 関数は頂点の描画に使用する配列要素を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use the **glArrayElement** function within [**glBegin**](glbegin.md)
-and [**glEnd**](glend.md) pairs to specify vertex and attribute data
-for point, line, and polygon primitives. The **glArrayElement**
-function specifies the data for a single vertex using vertex and
-attribute data located at the *index* of the enabled vertex arrays.
-You can use **glArrayElement** to construct primitives by indexing
-vertex data, rather than by streaming through arrays of data in
-first-to-last order. Because **glArrayElement** specifies a single
-vertex only, you can explicitly specify attributes for individual
-primitives. For example, you can set a single normal for each
-individual triangle. When you include calls to **glArrayElement** in
-display lists, the necessary array data, determined by the array
-pointers and enable values, is entered in the display list also.
-Array pointer and enable values are determined when display lists are
-created, not when display lists are executed. You can read and cache
-static array data at any time with **glArrayElement**. When you
-modify the elements of a static array without specifying the array
-again, the results of any subsequent calls to **glArrayElement** are
-undefined. When you call **glArrayElement** without first calling
-**glEnableClientState**(GL\_VERTEX\_ARRAY), no drawing occurs, but
-the attributes corresponding to enabled arrays are modified. Although
-no error is generated when you specify an array within **glBegin**
-and **glEnd** pairs, the results are undefined. > [!Note] > The
-**glArrayElement** function is only available in OpenGL version 1.1
-or later.
+glBegin / glEnd のペアの中で glArrayElement
+を使用し、点・線・ポリゴンプリミティブの頂点および属性データを指定する。この関数は、有効化された頂点配列の index
+の位置にある頂点・属性データを用いて単一頂点のデータを指定する。配列データをインデックスでアクセスしてプリミティブを構築でき、先頭から順にストリーミングする必要はない。単一の頂点のみを指定するため、個々のプリミティブに対して明示的に属性を設定できる。例えば三角形ごとに
+1
+つの法線を設定できる。表示リスト内で呼ぶと、必要な配列データも表示リストに記録される。配列ポインタと有効値は表示リスト作成時に決定され、実行時ではない。静的配列データはいつでも読み込みキャッシュできる。静的配列の要素を変更してから配列を再指定しない場合、その後の呼び出し結果は未定義。glEnableClientState(GL_VERTEX_ARRAY)
+を先に呼ばずに glArrayElement を呼ぶと描画は行われないが、有効配列に対応する属性は変更される。glBegin /
+glEnd ペア内で配列を指定してもエラーは発生しないが結果は未定義。注意: OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glBegin
-The glBegin and glend functions delimit the vertices of a primitive or a group of like primitives. | glBegin function (Gl.h)
+glBegin と glEnd 関数はプリミティブまたは同種プリミティブ群の頂点を区切る。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] The primitive or primitives that will be created from vertices presented between **glBegin** and the subsequent [**glend**](glend.md). The following are accepted symbolic constants and their meanings:
+mode : [int] glBegin と後続の glEnd の間で指定された頂点から生成されるプリミティブ。受け付けるシンボル定数と意味は次のとおり。GL_POINTS: 各頂点を単一点として扱う。頂点 n が点 n を定義し、N 個の点が描画される。GL_LINES: 各頂点ペアを独立した線分として扱う。頂点 2n-1, 2n が線 n を定義し、N/2 本描画される。GL_LINE_STRIP: 最初の頂点から最後へ接続された線分群を描画する。頂点 n, n+1 が線 n を定義し、N-1 本描画される。GL_LINE_LOOP: 最初の頂点から最後へ、さらに最初に戻る接続線分群。最終線は頂点 N と 1 で定義され、N 本描画される。GL_TRIANGLES: 頂点を 3 個ずつ独立した三角形として扱う。頂点 3n-2, 3n-1, 3n が三角形 n を定義し、N/3 個描画される。GL_TRIANGLE_STRIP: 接続された三角形群。最初の 2 頂点以降、1 頂点ごとに三角形を 1 個定義する。奇数 n では頂点 n, n+1, n+2、偶数 n では n+1, n, n+2 で三角形 n を定義し、N-2 個描画される。GL_TRIANGLE_FAN: 接続された三角形群。頂点 1, n+1, n+2 で三角形 n を定義し、N-2 個描画される。GL_QUADS: 頂点を 4 個ずつ独立した四角形として扱う。頂点 4n-3, 4n-2, 4n-1, 4n で四角形 n を定義し、N/4 個描画される。GL_QUAD_STRIP: 接続された四角形群。最初のペア以降、1 頂点ペアごとに 1 個の四角形を定義する。頂点 2n-1, 2n, 2n+2, 2n+1 で四角形 n を定義し、N/2-1 個描画される。頂点の使用順が独立データの場合と異なる点に注意。GL_POLYGON: 単一の凸ポリゴンを描画する。頂点 1 から N がポリゴンを定義する。
 %inst
-The glBegin and glend functions delimit the vertices of a primitive
-or a group of like primitives. | glBegin function (Gl.h)
+glBegin と glEnd 関数はプリミティブまたは同種プリミティブ群の頂点を区切る。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glBegin** and [**glend**](glend.md) functions delimit the
-vertices that define a primitive or a group of like primitives. The
-**glBegin** function accepts a single argument that specifies which
-of ten primitives the vertices compose. Taking *n* as an integer
-count starting at one, and *N* as the total number of vertices
-specified, the interpretations are as follows: - You can use only a
-subset of OpenGL functions between **glBegin** and
-[**glend**](glend.md). The functions you can use are:
-[**glVertex**](glvertex-functions.md)
-[**glColor**](glcolor-functions.md)
-[**glIndex**](glindex-functions.md)
-[**glNormal**](glnormal-functions.md)
-[**glTexCoord**](gltexcoord-functions.md)
-[**glEvalCoord**](glevalcoord-functions.md)
-[**glEvalPoint**](glevalpoint.md)
-[**glMaterial**](glmaterial-functions.md)
-[**glEdgeFlag**](gledgeflag-functions.md) You can also use
-[**glCallList**](glcalllist.md) or [**glCallLists**](glcalllists.md)
-to execute display lists that include only the preceding functions.
-If any other OpenGL function is called between **glBegin** and
-[**glend**](glend.md), the error flag is set and the function is
-ignored. - Regardless of the value chosen for *mode* in **glBegin**,
-there is no limit to the number of vertices you can define between
-**glBegin** and [**glend**](glend.md). Lines, triangles,
-quadrilaterals, and polygons that are incompletely specified are not
-drawn. Incomplete specification results when either too few vertices
-are provided to specify even a single primitive or when an incorrect
-multiple of vertices is specified. The incomplete primitive is
-ignored; the complete primitives are drawn. - The minimum
-specification of vertices for each primitive is: | Minimum number of
-vertices | Type of primitive |
-|----------------------------|-------------------| | 1 | point | | 2
-| line | | 3 | triangle | | 4 | quadrilateral | | 3 | polygon |
-- Modes that require a certain multiple of vertices are GL\_LINES
-(2), GL\_TRIANGLES (3), GL\_QUADS (4), and GL\_QUAD\_STRIP (2).
+glBegin と glEnd はプリミティブまたは同種プリミティブ群を定義する頂点を区切る。glBegin は mode 引数を 1
+つ受け取り、10 種類のプリミティブのいずれを構成するかを指定する。glBegin と glEnd の間で利用可能な関数は
+glVertex、glColor、glIndex、glNormal、glTexCoord、glEvalCoord、glEvalPoint、glMaterial、glEdgeFlag
+の各ファミリに限られる。これら以外を含む表示リストを glCallList / glCallLists で実行することも可能。それ以外の
+OpenGL 関数を呼び出すとエラーフラグがセットされ呼び出しは無視される。mode の値に関わらず glBegin / glEnd
+間の頂点数に上限はない。不完全に指定された線・三角形・四角形・ポリゴンは描画されない。プリミティブごとの最小頂点数: 点 1、線
+2、三角形 3、四角形 4、ポリゴン 3。特定倍数が必要なモード: GL_LINES (2)、GL_TRIANGLES
+(3)、GL_QUADS (4)、GL_QUAD_STRIP (2)。
 
 
 %index
 glBindTexture
-The glBindTexture function enables the creation of a named texture that is bound to a texture target.
+glBindTexture 関数はテクスチャターゲットにバインドされる名前付きテクスチャを作成する。
 %group
 Win32 opengl32
 %prm
 target, texture
-target : [int] The target to which the texture is bound. Must have the value GL\_TEXTURE\_1D or GL\_TEXTURE\_2D.
-texture : [int] The name of a texture; the texture name cannot currently be in use.
+target : [int] テクスチャをバインドするターゲット。GL_TEXTURE_1D または GL_TEXTURE_2D でなければならない。
+texture : [int] テクスチャの名前。現在使用中のテクスチャ名であってはならない。
 %inst
-The glBindTexture function enables the creation of a named texture
-that is bound to a texture target.
+glBindTexture 関数はテクスチャターゲットにバインドされる名前付きテクスチャを作成する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glBindTexture** function enables you to create a named texture.
-Calling **glBindTexture** with *target* set to GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D, and *texture* set to the name of the new texture you
-have created binds the texture name to the appropriate texture
-target. When a texture is bound to a target, the previous binding for
-that target is no longer in effect. Texture names are unsigned
-integers with the value zero reserved to represent the default
-texture for each texture target. Texture names and the corresponding
-texture contents are local to the shared display-list space of the
-current OpenGL rendering context; two rendering contexts share
-texture names only if they also share display lists. You can generate
-a set of new texture names using
-[**glGenTextures**](glgentextures.md). When a texture is first bound,
-it assumes the dimensionality of its texture target; a texture bound
-to GL\_TEXTURE\_1D becomes one-dimensional and a texture bound to
-GL\_TEXTURE\_2D becomes two-dimensional. Operations you perform on a
-texture target also affect a texture bound to the target. When you
-query a texture target, the return value is the state of the texture
-bound to it. Texture targets become aliases for textures currently
-bound to them. When you bind a texture with **glBindTexture**, the
-binding remains active until a different texture is bound to the same
-target or you delete the bound texture with the
-[**glDeleteTextures**](gldeletetextures.md) function. Once you create
-a named texture you can bind it to a texture target that has the same
-dimensionality as often as needed. It is usually much faster to use
-**glBindTexture** to bind an existing named texture to one of the
-texture targets than it is to reload the texture image using
-[**glTexImage1D**](glteximage1d.md) or
-[**glTexImage2D**](glteximage2d.md). For additional control of
-texturing performance, use
-[**glPrioritizeTextures**](glprioritizetextures.md). You can include
-calls to **glBindTexture** in display lists. > [!Note] > The
-**glBindTexture** function is only available in OpenGL version 1.1 or
-later.
-The following functions retrieve information related to
-**glBindTexture**: -
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_TEXTURE\_1D\_BINDING **glGet** with argument
-GL\_TEXTURE\_2D\_BINDING
+glBindTexture は名前付きテクスチャの作成を可能にする。target に GL_TEXTURE_1D または
+GL_TEXTURE_2D、texture
+に新しいテクスチャ名を指定して呼び出すと、その名前が該当テクスチャターゲットにバインドされる。テクスチャがターゲットにバインドされると、そのターゲットに対する以前のバインドは効力を失う。テクスチャ名は符号なし整数で、値
+0 は各ターゲットの既定テクスチャを表す予約値。テクスチャ名と内容は現在の OpenGL
+レンダリングコンテキストの共有表示リスト空間に対してローカルであり、2
+つのコンテキストはそれらを共有する場合に限りテクスチャ名を共有する。新しい名前群は glGenTextures
+で生成できる。初回バインド時にテクスチャは対象ターゲットの次元を取り、GL_TEXTURE_1D にバインドされたら 1
+次元、GL_TEXTURE_2D なら 2
+次元となる。ターゲットへの操作は、そのターゲットにバインドされたテクスチャにも影響する。バインドは、同じターゲットに別のテクスチャがバインドされるか、glDeleteTextures
+で削除されるまで有効。glTexImage* で再ロードするより glBindTexture
+によるバインドの方が通常ははるかに高速。テクスチャ優先度制御は glPrioritizeTextures
+を参照。glBindTexture は表示リストに含められる。注意: OpenGL 1.1 以降でのみ利用可能。関連情報は glGet
+(GL_TEXTURE_1D_BINDING / 2D_BINDING) で取得できる。
 
 
 %index
 glBitmap
-The glBitmap function draws a bitmap.
+glBitmap 関数はビットマップを描画する。
 %group
 Win32 opengl32
 %prm
 width, height, xorig, yorig, xmove, ymove, bitmap
-width : [int] The pixel width of the bitmap image.
-height : [int] The pixel height of the bitmap image.
-xorig : [float] The *x* location of the origin in the bitmap image. The origin is measured from the lower-left corner of the bitmap, with right and up directions being the positive axes.
-yorig : [float] The *y* location of the origin in the bitmap image. The origin is measured from the lower-left corner of the bitmap, with right and up directions being the positive axes.
-xmove : [float] The *x* offset to be added to the current raster position after the bitmap is drawn.
-ymove : [float] The *y* offset to be added to the current raster position after the bitmap is drawn.
-bitmap : [var] The address of the bitmap image.
+width : [int] ビットマップ画像のピクセル単位の幅。
+height : [int] ビットマップ画像のピクセル単位の高さ。
+xorig : [float] ビットマップ画像内の原点の x 位置。原点はビットマップの左下隅から測定され、右方向と上方向が正の軸となる。
+yorig : [float] ビットマップ画像内の原点の y 位置。原点はビットマップの左下隅から測定され、右方向と上方向が正の軸となる。
+xmove : [float] ビットマップ描画後に現在のラスタ位置に加算される x オフセット。
+ymove : [float] ビットマップ描画後に現在のラスタ位置に加算される y オフセット。
+bitmap : [var] ビットマップ画像のアドレス。
 %inst
-The glBitmap function draws a bitmap.
+glBitmap 関数はビットマップを描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-A bitmap is a binary image. When drawn, the bitmap is positioned
-relative to the current raster position, and framebuffer pixels
-corresponding to 1s in the bitmap are written using the current
-raster color or index. Frame-buffer pixels corresponding to zeros in
-the bitmap are not modified. The bitmap image is interpreted like
-image data for the [**glDrawPixels**](gldrawpixels.md) function, with
-*width* and *height* corresponding to the width and height arguments
-of that function, and with *type* set to GL\_BITMAP and *format* set
-to GL\_COLOR\_INDEX. Modes you specify using
-[**glPixelStore**](glpixelstore-functions.md) affect the
-interpretation of bitmap image data; modes you specify using
-[**glPixelTransfer**](glpixeltransfer.md) do not. If the current
-raster position is invalid, **glBitmap** is ignored. Otherwise, the
-lower-left corner of the bitmap image is positioned at the following
-window coordinates: *x*w = *x*r *x*? *y*w = *y*r *y*? In these
-coordinates, (*x*r , *y*r ) is the raster position, and (*x*? , *y*?
-) is the bitmap origin. Fragments are then generated for each pixel
-corresponding to a 1 in the bitmap image. These fragments are
-generated using the current raster *z*-coordinate, color or color
-index, and current raster texture coordinates. They are then treated
-just as if they had been generated by a point, line, or polygon,
-including texture mapping, fogging, and all per-fragment operations
-such as alpha and depth testing. After the bitmap has been drawn, the
-*x* and *y* coordinates of the current raster position are offset by
-*xmove* and *ymove*. No change is made to the *z*-coordinate of the
-current raster position, or to the current raster color, index, or
-texture coordinates. The following functions retrieve information
-related to the **glBitmap** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-**glGet** with argument GL\_CURRENT\_RASTER\_COLOR
-**glGet** with argument GL\_CURRENT\_RASTER\_INDEX
-**glGet** with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
-**glGet** with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
+ビットマップは 2 値画像である。描画されると、ビットマップは現在のラスタ位置を基準に配置され、ビットマップ内の 1
+に対応するフレームバッファピクセルが現在のラスタカラーまたはインデックスで書き込まれる。0
+に対応するピクセルは変更されない。ビットマップ画像データは glDrawPixels のように解釈され、width と height
+がその関数の引数に対応し、type は GL_BITMAP、format は GL_COLOR_INDEX
+となる。glPixelStore のモードはビットマップデータの解釈に影響するが、glPixelTransfer
+のモードは影響しない。現在のラスタ位置が無効なら glBitmap は無視される。そうでない場合、ビットマップの左下隅は (xr -
+xorig, yr - yorig) のウィンドウ座標に配置され、(xr, yr) はラスタ位置。ビットマップ内の各 1
+に対応してフラグメントが生成され、現在のラスタ z
+座標、色・インデックス、テクスチャ座標を用いる。生成されたフラグメントは点・線・ポリゴンと同様、テクスチャマッピング・フォグ・フラグメント単位の操作
+(アルファ・デプステスト等) を受ける。描画後、ラスタ位置の x, y は xmove, ymove でオフセットされる。z
+座標や色・インデックス・テクスチャ座標は変更されない。関連情報は glGet (GL_CURRENT_RASTER_*) で取得できる。
 
 
 %index
 glBlendFunc
-The glBlendFunc function specifies pixel arithmetic.
+glBlendFunc 関数はピクセル演算を指定する。
 %group
 Win32 opengl32
 %prm
 sfactor, dfactor
-sfactor : [int] Specifies how the red, green, blue, and alpha source-blending factors are computed. Nine symbolic constants are accepted: GL\_ZERO, GL\_ONE, GL\_DST\_COLOR, GL\_ONE\_MINUS\_DST\_COLOR, GL\_SRC\_ALPHA, GL\_ONE\_MINUS\_SRC\_ALPHA, GL\_DST\_ALPHA, GL\_ONE\_MINUS\_DST\_ALPHA, and GL\_SRC\_ALPHA\_SATURATE.
-dfactor : [int] Specifies how the red, green, blue, and alpha destination-blending factors are computed. Eight symbolic constants are accepted: GL\_ZERO, GL\_ONE, GL\_SRC\_COLOR, GL\_ONE\_MINUS\_SRC\_COLOR, GL\_SRC\_ALPHA, GL\_ONE\_MINUS\_SRC\_ALPHA, GL\_DST\_ALPHA, and GL\_ONE\_MINUS\_DST\_ALPHA.
+sfactor : [int] R、G、B、A のソースブレンド係数の計算方法を指定する。以下 9 つのシンボル定数を受け付ける: GL_ZERO、GL_ONE、GL_DST_COLOR、GL_ONE_MINUS_DST_COLOR、GL_SRC_ALPHA、GL_ONE_MINUS_SRC_ALPHA、GL_DST_ALPHA、GL_ONE_MINUS_DST_ALPHA、GL_SRC_ALPHA_SATURATE。
+dfactor : [int] R、G、B、A の宛先ブレンド係数の計算方法を指定する。以下 8 つのシンボル定数を受け付ける: GL_ZERO、GL_ONE、GL_SRC_COLOR、GL_ONE_MINUS_SRC_COLOR、GL_SRC_ALPHA、GL_ONE_MINUS_SRC_ALPHA、GL_DST_ALPHA、GL_ONE_MINUS_DST_ALPHA。
 %inst
-The glBlendFunc function specifies pixel arithmetic.
+glBlendFunc 関数はピクセル演算を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-In RGB mode, pixels can be drawn using a function that blends the
-incoming (source) RGBA values with the RGBA values that are already
-in the framebuffer (the destination values). By default, blending is
-disabled. Use [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md) with the GL\_BLEND argument to enable
-and disable blending. When enabled, **glBlendFunc** defines the
-operation of blending. The *sfactor* parameter specifies which of
-nine methods is used to scale the source color components. The
-*dfactor* parameter specifies which of eight methods is used to scale
-the destination color components. The eleven possible methods are
-described in the following table. Each method defines four scale
-factors one each for red, green, blue, and alpha. In the table and in
-subsequent equations, source and destination color components are
-referred to as (*R*? , *G*? , *B*? , *A*? ) and (*R*d , *G*d , *B*d ,
-*A*d ). They are understood to have integer values between zero and
-(*k*R , *k*G , *k*R , *k*A ), where *k*R = 2m*R* - 1 *k*G = 2m*G* - 1
-*k*B = 2m*B* - 1 *k*A = 2m*A* - 1 and (*m*R , *m*G , *m*B , *m*A ) is
-the number of red, green, blue, and alpha bitplanes. Source and
-destination scale factors are referred to as (*s*R , *s*G , *s*B ,
-*s*A ) and (*d*R , *d*G , *d*B , *d*A ). The scale factors described
-in the table, denoted (*f*R , *f*G , *f*B , *f*A ), represent either
-source or destination factors. All scale factors have range \[0,1\].
-| Parameter | (*f*R , *f*G , *f*B , *f*A ) |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GL\_ZERO | (0,0,0,0) | | GL\_ONE | (1,1,1,1) | | GL\_SRC\_COLOR |
-(*R*? / *k*R , *G*? / *k*G , *B*? / *k*B , *A*? / *k*A ) | |
-GL\_ONE\_MINUS\_SRC\_COLOR | (1,1,1,1) - (*R*? / *k*R , *G*? / *k*G ,
-*B*? / *k*B , *A*? / *k*A ) | | GL\_DST\_COLOR | (*R*d / *k*R , *G*d
-/ *k*G , *B*d / *k*B , *A*d / *k*A ) | | GL\_ONE\_MINUS\_DST\_COLOR |
-(1,1,1,1) - (*R*d / *k*R , *G*d / *k*G , *B*d / *k*B , *A*d / *k*A )
-| | GL\_SRC\_ALPHA | (*A*? / *k*A , *A*? / *k*A , *A*? / *k*A , *A*?
-/ *k*A ) | | GL\_ONE\_MINUS\_SRC\_ALPHA | (1,1,1,1) - (*A*? / *k*A ,
-*A*? / *k*A , *A*? / *k*A , *A*? / *k*A ) | | GL\_DST\_ALPHA | (*A*d
-/ *k*A , *A*d / *k*A , *A*d / *k*A , *A*d / *k*A ) | |
-GL\_ONE\_MINUS\_DST\_ALPHA | (1,1,1,1) - (*A*d / *k*A , *A*d / *k*A ,
-*A*d / *k*A , *A*d / *k*A ) | | GL\_SRC\_ALPHA\_SATURATE | (*i,i,i,*
-1) |
-In the table, *i* = min (*A*? , *k*A - *A*d ) / *k*A To determine the
-blended RGBA values of a pixel when drawing in RGBA mode, the system
-uses the following equations: *R* (*d*) = min( *k*R , *R*? *s*R +
-*R*d *d*R ) *G* (*d*) = min( *k*G , *G*? *s*G + *G*d *d*G ) *B* (*d*)
-= min( *k*B *, B*? *s*B + *B*d *d*B ) *A* (*d*) = min( *k*A , *A*?
-*s*A + *A*d *d*A ) Despite the apparent precision of the above
-equations, blending arithmetic is not exactly specified, because
-blending operates with imprecise integer color values. However, a
-blend factor that should be equal to one is guaranteed not to modify
-its multiplicand, and a blend factor equal to zero reduces its
-multiplicand to zero. Thus, for example, when *sfactor* is
-GL\_SRC\_ALPHA, *dfactor* is GL\_ONE\_MINUS\_SRC\_ALPHA, and *A*? is
-equal to *k*A, the equations reduce to simple replacement: *R*d =
-*R*? *G*d = *G*? Bd = *B*? *A*d = *A*?
+RGB モードでは、ピクセルは入力 (ソース) RGBA 値とフレームバッファ内の既存 (宛先) RGBA
+値をブレンドする関数で描画できる。既定ではブレンドは無効。glEnable / glDisable に GL_BLEND
+を渡して有効/無効を切り替える。有効時、glBlendFunc がブレンドの動作を定義する。sfactor は 9
+種類のソース色成分スケール方法、dfactor は 8 種類の宛先色成分スケール方法を指定する。各方法は R、G、B、A の 4
+つのスケール係数を定義する。ソース/宛先色成分を (Rs,Gs,Bs,As)、(Rd,Gd,Bd,Ad) とし、それぞれ 0 から
+(kR,kG,kB,kA) = (2^mR-1,...) の整数値を取る。スケール係数は 8 種類の定数に対応し、値域は
+[0,1]。RGBA モードのブレンド結果は R = min(kR, Rs*sR + Rd*dR)、G, B, A
+も同様。具体的な係数表は MSDN 参照。ブレンド算術は整数色値を用いるため厳密には規定されないが、1
+に等しいブレンド係数は被乗数を変更せず、0 は結果を 0 にすることが保証される。
 
 
 %index
 glCallList
-The glCallList function executes a display list.
+glCallList 関数は表示リストを実行する。
 %group
 Win32 opengl32
 %prm
 list
-list : [int] The integer name of the display list to be executed.
+list : [int] 実行する表示リストの整数名。
 %inst
-The glCallList function executes a display list.
+glCallList 関数は表示リストを実行する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Invoking the **glCallList** function begins execution of the named
-display list. The functions saved in the display list are executed in
-order, just as if you called them without using a display list. If
-*list* has not been defined as a display list, **glCallList** is
-ignored. The **glCallList** function can appear inside a display
-list. To avoid the possibility of infinite recursion resulting from
-display lists calling one another, a limit is placed on the nesting
-level of display lists during display-list execution. This limit is
-at least 64, however, it depends on the implementation. The OpenGL
-state is not saved and restored across a call to **glCallList**.
-Thus, changes made to the OpenGL state during the execution of a
-display list remain after execution of the display list is completed.
-To preserve the OpenGL state across **glCallList** calls, use
-[**glPushAttrib**](glpushattrib.md),
-[**glPopAttrib**](glpopattrib.md),
-[**glPushMatrix**](glpushmatrix.md), and
-[**glPopMatrix**](glpopmatrix.md). You can execute display lists
-between a call to [**glBegin**](glbegin.md) and the corresponding
-call to [**glEnd**](glend.md), as long as the display list includes
-only functions that are allowed in this interval. The following
-functions retrieve information related to **glCallList**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_LIST\_NESTING [**glIsList**](glislist.md)
+glCallList
+を呼ぶと指名された表示リストの実行が開始される。表示リストに保存された関数群が、表示リストを使わずに呼び出した場合と同じ順序で実行される。list
+が表示リストとして定義されていない場合、glCallList は無視される。glCallList
+は表示リスト内にも現れることができる。無限再帰を防ぐため、表示リスト実行時のネストレベルには上限が設けられている (最低
+64、実装依存)。OpenGL のステートは glCallList
+呼び出しをまたいで保存・復元されないため、実行中の変更は終了後も残る。ステートを維持するには glPushAttrib /
+glPopAttrib / glPushMatrix / glPopMatrix を使用する。glCallList は glBegin /
+glEnd 間でも実行可能 (表示リストがこの区間で許される関数のみを含む場合)。関連情報は glGet
+(GL_MAX_LIST_NESTING) および glIsList で取得できる。
 
 
 %index
 glCallLists
-The glCallLists function executes a list of display lists.
+glCallLists 関数は表示リスト群を実行する。
 %group
 Win32 opengl32
 %prm
 n, type, lists
-n : [int] The number of display lists to be executed.
-type : [int] The type of values in *lists*. The following symbolic constants are accepted.
-lists : [intptr] The address of an array of name offsets in the display list. The pointer type is void because the offsets can be bytes, shorts, ints, or floats, depending on the value of *type*.
+n : [int] 実行する表示リストの数。
+type : [int] lists 内の値の型。以下のシンボル定数を受け付ける。GL_BYTE: lists は符号付きバイト配列 (-128 から 127)。GL_UNSIGNED_BYTE: 符号なしバイト配列 (0 から 255)。GL_SHORT: 符号付き 2 バイト整数配列 (-32768 から 32767)。GL_UNSIGNED_SHORT: 符号なし 2 バイト整数配列 (0 から 65535)。GL_INT: 符号付き 4 バイト整数配列。GL_UNSIGNED_INT: 符号なし 4 バイト整数配列。GL_FLOAT: 4 バイト浮動小数点配列。GL_2_BYTES: 符号なしバイト配列。各 2 バイトペアが 1 つの表示リスト名を指定 (256*first + second)。GL_3_BYTES: 3 バイト単位 (65536*first + 256*second + third)。GL_4_BYTES: 4 バイト単位 (16777216*first + 65536*second + 256*third + fourth)。
+lists : [intptr] 表示リスト内の名前オフセット配列のアドレス。ポインタ型は void で、オフセットはバイト、ショート、int、float のいずれかを取りうる (type による)。
 %inst
-The glCallLists function executes a list of display lists.
+glCallLists 関数は表示リスト群を実行する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glCallLists** function causes each display list in the list of
-names passed as *lists* to be executed. As a result, the functions
-saved in each display list are executed in order, just as if they
-were called without using a display list. Names of display lists that
-have not been defined are ignored. The **glCallLists** function
-provides an efficient means for executing display lists. The *n*
-parameter specifies the number of lists with various name formats
-(specified by the *type* parameter) **glCallLists** executes. The
-list of display list names is not null-terminated. Rather, *n*
-specifies how many names are to be taken from *lists*. The
-[**glListBase**](gllistbase.md) function makes an additional level of
-indirection available. The **glListBase** function specifies an
-unsigned offset that is added to each display list name specified in
-*lists* before that display list is executed. The **glCallLists**
-function can appear inside a display list. To avoid the possibility
-of infinite recursion resulting from display lists calling one
-another, a limit is placed on the nesting level of display lists
-during display list execution. This limit must be at least 64, and it
-depends on the implementation. The OpenGL state is not saved and
-restored across a call to **glCallLists**. Thus, changes made to the
-OpenGL state during the execution of the display lists remain after
-execution is completed. Use [**glPushAttrib**](glpushattrib.md),
-[**glPopAttrib**](glpopattrib.md),
-[**glPushMatrix**](glpushmatrix.md), and
-[**glPopMatrix**](glpopmatrix.md) to preserve the OpenGL state across
-**glCallLists** calls. You can execute display lists between a call
-to [**glBegin**](glbegin.md) and the corresponding call to
-[**glEnd**](glend.md), as long as the display list includes only
-functions that are allowed in this interval. The following functions
-retrieve information related to the **glCallLists** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIST\_BASE **glGet** with argument
-GL\_MAX\_LIST\_NESTING [**glIsList**](glislist.md)
+glCallLists は lists
+に渡された名前リスト内の各表示リストを実行させる。結果として各表示リストに保存された関数群が順次実行される。未定義の表示リスト名は無視される。glCallLists
+は効率的な表示リスト実行手段を提供する。n は実行する表示リストの数を指定し、名前形式は type で指定する。リストは NULL
+終端ではなく、n が lists から取得する個数を決める。glListBase は lists
+の各名前に加算される符号なしオフセットを指定する追加の間接参照レベルを提供する。glCallLists
+は表示リスト内にも現れることができる。ネストレベルの上限は最低 64 で実装依存。OpenGL
+のステートは呼び出しをまたいで保存・復元されない。glPushAttrib / glPopAttrib / glPushMatrix /
+glPopMatrix でステートを維持できる。glBegin / glEnd 間でも実行可能 (許される関数のみの場合)。関連情報は
+glGet (GL_LIST_BASE / GL_MAX_LIST_NESTING) および glIsList で取得できる。
 
 
 %index
 glClear
-The glClear function clears buffers to preset values.
+glClear 関数はバッファを事前設定値にクリアする。
 %group
 Win32 opengl32
 %prm
 mask
-mask : [int] Bitwise OR operators of masks that indicate the buffers to be cleared. The four masks are as follows.
+mask : [int] クリアするバッファを示すマスクのビット単位 OR。マスクは以下の 4 つ。GL_COLOR_BUFFER_BIT: 現在カラー書き込みが有効なバッファ。GL_DEPTH_BUFFER_BIT: デプスバッファ。GL_ACCUM_BUFFER_BIT: アキュムレーションバッファ。GL_STENCIL_BUFFER_BIT: ステンシルバッファ。
 %inst
-The glClear function clears buffers to preset values.
+glClear 関数はバッファを事前設定値にクリアする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glClear** function sets the bitplane area of the window to
-values previously selected by [**glClearColor**](glclearcolor.md),
-[**glClearIndex**](glclearindex.md),
-[**glClearDepth**](glcleardepth.md),
-[**glClearStencil**](glclearstencil.md), and
-[**glClearAccum**](glclearaccum.md). You can clear multiple color
-buffers simultaneously by selecting more than one buffer at a time
-using [**glDrawBuffer**](gldrawbuffer.md). The pixel-ownership test,
-the scissor test, dithering, and the buffer writemasks affect the
-operation of **glClear**. The scissor box bounds the cleared region.
-The **glClear** function ignores the alpha function, blend function,
-logical operation, stenciling, texture mapping, and *z*-buffering.
-The **glClear** function takes a single argument (*mask*) that is the
-bitwise OR of several values indicating which buffer is to be
-cleared. The value to which each buffer is cleared depends on the
-setting of the clear value for that buffer. If a buffer is not
-present, a **glClear** call directed at that buffer has no effect.
-The following functions retrieve information related to **glClear**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ACCUM\_CLEAR\_VALUE **glGet** with argument
-GL\_DEPTH\_CLEAR\_VALUE **glGet** with argument
-GL\_INDEX\_CLEAR\_VALUE **glGet** with argument
-GL\_COLOR\_CLEAR\_VALUE **glGet** with argument
-GL\_STENCIL\_CLEAR\_VALUE
+glClear はウィンドウのビットプレーン領域を、glClearColor / glClearIndex / glClearDepth
+/ glClearStencil / glClearAccum で事前に選択された値に設定する。glDrawBuffer
+で複数のバッファを選択することで複数のカラーバッファを同時にクリアできる。ピクセル所有権テスト、シザーテスト、ディザリング、バッファ書き込みマスクは
+glClear
+の動作に影響する。シザーボックスがクリア領域を制限する。アルファ関数、ブレンド関数、論理演算、ステンシル、テクスチャマッピング、z
+バッファリングは無視される。引数 mask は、クリアするバッファを示すいくつかの値のビット単位
+OR。各バッファのクリア値は、そのバッファに対する設定に依存する。バッファが存在しない場合、そのバッファへの glClear
+呼び出しは無効。関連情報は glGet (GL_ACCUM_CLEAR_VALUE / GL_DEPTH_CLEAR_VALUE /
+GL_INDEX_CLEAR_VALUE / GL_COLOR_CLEAR_VALUE / GL_STENCIL_CLEAR_VALUE)
+で取得できる。
 
 
 %index
 glClearAccum
-The glClearAccum function specifies the clear values for the accumulation buffer.
+glClearAccum 関数はアキュムレーションバッファのクリア値を指定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [float] The red value used when the accumulation buffer is cleared. The default value is zero.
-green : [float] The green value used when the accumulation buffer is cleared. The default value is zero.
-blue : [float] The blue value used when the accumulation buffer is cleared. The default value is zero.
-alpha : [float] The alpha value used when the accumulation buffer is cleared. The default value is zero.
+red : [float] アキュムレーションバッファクリア時に使用する赤の値。既定値は 0。
+green : [float] アキュムレーションバッファクリア時に使用する緑の値。既定値は 0。
+blue : [float] アキュムレーションバッファクリア時に使用する青の値。既定値は 0。
+alpha : [float] アキュムレーションバッファクリア時に使用するアルファ値。既定値は 0。
 %inst
-The glClearAccum function specifies the clear values for the
-accumulation buffer.
+glClearAccum 関数はアキュムレーションバッファのクリア値を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glClearAccum** function specifies the red, green, blue, and
-alpha values used by [**glClear**](glclear.md) to clear the
-accumulation buffer. Values specified by **glClearAccum** are clamped
-to the range \[1,1\]. The following function retrieves information
-related to **glClearAccum**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ACCUM\_CLEAR\_VALUE
+glClearAccum は glClear でアキュムレーションバッファをクリアする際に使用される R、G、B、A
+値を指定する。指定値は [-1, 1] 範囲にクランプされる。関連情報は glGet (GL_ACCUM_CLEAR_VALUE)
+で取得できる。
 
 
 %index
 glClearColor
-The glClearColor function specifies clear values for the color buffers.
+glClearColor 関数はカラーバッファのクリア値を指定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [float] The red value that [**glClear**](glclear.md) uses to clear the color buffers. The default value is zero.
-green : [float] The green value that [**glClear**](glclear.md) uses to clear the color buffers. The default value is zero.
-blue : [float] The blue value that [**glClear**](glclear.md) uses to clear the color buffers. The default value is zero.
-alpha : [float] The alpha value that [**glClear**](glclear.md) uses to clear the color buffers. The default value is zero.
+red : [float] glClear がカラーバッファをクリアする際に使用する赤の値。既定値は 0。
+green : [float] glClear がカラーバッファをクリアする際に使用する緑の値。既定値は 0。
+blue : [float] glClear がカラーバッファをクリアする際に使用する青の値。既定値は 0。
+alpha : [float] glClear がカラーバッファをクリアする際に使用するアルファ値。既定値は 0。
 %inst
-The glClearColor function specifies clear values for the color
-buffers.
+glClearColor 関数はカラーバッファのクリア値を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glClearColor** function specifies the red, green, blue, and
-alpha values used by [**glClear**](glclear.md) to clear the color
-buffers. Values specified by **glClearColor** are clamped to the
-range \[0,1\]. The following functions retrieve information related
-to the **glClearColor** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ACCUM\_CLEAR\_VALUE **glGet** with argument
-GL\_COLOR\_CLEAR\_VALUE
+glClearColor は glClear でカラーバッファをクリアする際に使用される R、G、B、A 値を指定する。指定値は [0,
+1] 範囲にクランプされる。関連情報は glGet (GL_ACCUM_CLEAR_VALUE /
+GL_COLOR_CLEAR_VALUE) で取得できる。
 
 
 %index
 glClearDepth
-The glClearDepth function specifies the clear value for the depth buffer.
+glClearDepth 関数はデプスバッファのクリア値を指定する。
 %group
 Win32 opengl32
 %prm
 depth
-depth : [double] The depth value used when the depth buffer is cleared.
+depth : [double] デプスバッファクリア時に使用するデプス値。
 %inst
-The glClearDepth function specifies the clear value for the depth
-buffer.
+glClearDepth 関数はデプスバッファのクリア値を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glClearDepth** function specifies the depth value used by
-[**glClear**](glclear.md) to clear the depth buffer. Values specified
-by **glClearDepth** are clamped to the range \[0,1\]. The following
-function retrieves information related to the **glClearDepth**
-function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_DEPTH\_CLEAR\_VALUE
+glClearDepth は glClear でデプスバッファをクリアする際に使用されるデプス値を指定する。指定値は [0, 1]
+範囲にクランプされる。関連情報は glGet (GL_DEPTH_CLEAR_VALUE) で取得できる。
 
 
 %index
 glClearIndex
-The glClearIndex function specifies the clear value for the color-index buffers.
+glClearIndex 関数はカラーインデックスバッファのクリア値を指定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [float] The index used when the color-index buffers are cleared. The default value is zero.
+c : [float] カラーインデックスバッファクリア時に使用するインデックス。既定値は 0。
 %inst
-The glClearIndex function specifies the clear value for the
-color-index buffers.
+glClearIndex 関数はカラーインデックスバッファのクリア値を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glClearIndex** function specifies the index used by
-[**glClear**](glclear.md) to clear the color-index buffers. The *c*
-parameter is not clamped. Rather, *c* is converted to a fixed-point
-value with unspecified precision to the right of the binary point.
-The integer part of this value is then masked with 2m - 1, where *m*
-is the number of bits in a color index stored in the framebuffer. The
-following functions retrieve information related to **glClearIndex**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_INDEX\_CLEAR\_VALUE **glGet** with argument
-GL\_INDEX\_BITS
+glClearIndex は glClear でカラーインデックスバッファをクリアする際に使用されるインデックスを指定する。c
+パラメータはクランプされず、二進小数点以下の精度が未指定な固定小数点値に変換される。その整数部は 2^m-1 でマスクされる (m
+はフレームバッファに格納されるカラーインデックスのビット数)。関連情報は glGet (GL_INDEX_CLEAR_VALUE /
+GL_INDEX_BITS) で取得できる。
 
 
 %index
 glClearStencil
-The glClearStencil function specifies the clear value for the stencil buffer.
+glClearStencil 関数はステンシルバッファのクリア値を指定する。
 %group
 Win32 opengl32
 %prm
 s
-s : [int] The index used when the stencil buffer is cleared. The default value is zero.
+s : [int] ステンシルバッファクリア時に使用するインデックス。既定値は 0。
 %inst
-The glClearStencil function specifies the clear value for the stencil
-buffer.
+glClearStencil 関数はステンシルバッファのクリア値を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glClearStencil** function specifies the index used by
-[**glClear**](glclear.md) to clear the stencil buffer. The *s*
-parameter is masked with 2m - 1, where *m* is the number of bits in
-the stencil buffer. The following functions retrieve information
-related to the **glClearStencil** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_STENCIL\_CLEAR\_VALUE **glGet** with argument
-GL\_STENCIL\_BITS
+glClearStencil は glClear でステンシルバッファをクリアする際に使用されるインデックスを指定する。s は 2^m-1
+でマスクされる (m はステンシルバッファのビット数)。関連情報は glGet (GL_STENCIL_CLEAR_VALUE /
+GL_STENCIL_BITS) で取得できる。
 
 
 %index
 glClipPlane
-The glClipPlane function specifies a plane against which all geometry is clipped.
+glClipPlane 関数は全ての幾何図形がクリッピングされる平面を指定する。
 %group
 Win32 opengl32
 %prm
 plane, equation
-plane : [int] The clipping plane that is being positioned. Symbolic names of the form GL\_CLIP\_PLANE*i*, where *i* is an integer between 0 and GL\_MAX\_CLIP\_PLANES - 1, are accepted.
-equation : [var] The address of an array of four double-precision floating-point values. These values are interpreted as a plane equation.
+plane : [int] 位置決め対象のクリッピング平面。GL_CLIP_PLANEi 形式のシンボル名 (i は 0 から GL_MAX_CLIP_PLANES - 1 の整数) を受け付ける。
+equation : [var] 平面方程式として解釈される 4 つの倍精度浮動小数点値の配列のアドレス。
 %inst
-The glClipPlane function specifies a plane against which all geometry
-is clipped.
+glClipPlane 関数は全ての幾何図形がクリッピングされる平面を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Geometry is always clipped against the boundaries of a six-plane
-frustum in *x*, *y*, and *z*. The **glClipPlane** function allows the
-specification of additional planes, not necessarily perpendicular to
-the *x-*axis, *y-*axis, or *z*-axis, against which all geometry is
-clipped. Up to GL\_MAX\_CLIP\_PLANES planes can be specified, where
-GL\_MAX\_CLIP\_PLANES is at least six in all implementations. Because
-the resulting clipping region is the intersection of the defined
-half-spaces, it is always convex. The **glClipPlane** function
-specifies a half-space using a four-component plane equation. When
-you call **glClipPlane**,*equation* is transformed by the inverse of
-the modelview matrix and stored in the resulting eye coordinates.
-Subsequent changes to the modelview matrix have no effect on the
-stored plane-equation components. If the dot product of the eye
-coordinates of a vertex with the stored plane equation components is
-positive or zero, the vertex is in with respect to that clipping
-plane. Otherwise, it is out. Use the [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md) functions to enable and disable
-clipping planes. Call clipping planes with the argument
-GL\_CLIP\_PLANE*i*, where *i* is the plane number. By default, all
-clipping planes are defined as (0,0,0,0) in eye coordinates and are
-disabled. It is always the case that GL\_CLIP\_PLANE*i* =
-GL\_CLIP\_PLANE0 + *i*. The following functions retrieve information
-related to **glClipPlane**: [**glGetClipPlane**](glgetclipplane.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_CLIP\_PLANE *i*
+幾何図形は常に x、y、z の 6 平面フラスタム境界に対してクリッピングされる。glClipPlane
+は、軸に垂直とは限らない追加の平面を指定でき、全ての幾何図形はそれらに対してもクリッピングされる。最大
+GL_MAX_CLIP_PLANES 個 (全ての実装で最低 6)
+を指定可能。結果のクリッピング領域は半空間の交差であり、常に凸となる。glClipPlane は 4
+成分の平面方程式で半空間を指定する。呼び出し時に equation
+はモデルビュー行列の逆行列で変換され、アイ座標系で格納される。以後のモデルビュー行列の変更は格納された方程式に影響しない。頂点のアイ座標と格納された方程式の内積が正または
+0 なら、その頂点はクリッピング平面に対して「内側」となる。そうでなければ「外側」。glEnable / glDisable に
+GL_CLIP_PLANEi を指定してクリッピング平面を有効/無効化する。既定では全てのクリッピング平面はアイ座標系で
+(0,0,0,0) かつ無効。GL_CLIP_PLANEi = GL_CLIP_PLANE0 + i が常に成り立つ。関連情報は
+glGetClipPlane および glIsEnabled (GL_CLIP_PLANEi) で取得できる。
 
 
 %index
 glColor3b
-Sets the current color. | glColor3b function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3b function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+GL は現在の単値カラーインデックスと現在の 4 値 RGBA カラーの両方を保持する。glColor は新しい 4 値 RGBA
+カラーを設定する。glColor3 系は R、G、B を明示的に指定しアルファを 1.0 に暗黙設定。glColor4 系は 4
+成分すべてを明示指定。glColor3b / 4b / 3s / 4s / 3i / 4i は符号付きバイト/ショート/long
+整数を引数に取る。名前に v
+が付く形式は配列へのポインタを受け取る。現在色は浮動小数点形式で格納される。符号なし整数成分は最大表現可能値が 1.0、0 が 0.0
+に線形マップされる。符号付き整数成分は最大正値が 1.0、最大負値が -1.0 に線形マップされる (0 は厳密には 0.0
+にならない)。浮動小数点値は直接マップされる。浮動小数点・符号付き整数とも現在色更新前に [0,1]
+へはクランプされないが、補間やカラーバッファへの書き込み前にはクランプされる。
 
 
 %index
 glColor3bv
-Sets the current color from an already existing array of color values. | glColor3bv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3bv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。名前に v が付く形式は配列値へのポインタを受け取る。
 
 
 %index
 glColor3d
-Sets the current color. | glColor3d function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [double] The new red value for the current color.
-green : [double] The new green value for the current color.
-blue : [double] The new blue value for the current color.
+red : [double] 現在色の新しい赤の値。
+green : [double] 現在色の新しい緑の値。
+blue : [double] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3d function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。d は倍精度浮動小数点を引数に取る。
 
 
 %index
 glColor3dv
-Sets the current color from an already existing array of color values. | glColor3dv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3dv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。dv は倍精度浮動小数点配列を受け取る。
 
 
 %index
 glColor3f
-Sets the current color. | glColor3f function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [float] The new red value for the current color.
-green : [float] The new green value for the current color.
-blue : [float] The new blue value for the current color.
+red : [float] 現在色の新しい赤の値。
+green : [float] 現在色の新しい緑の値。
+blue : [float] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3f function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。f は単精度浮動小数点を引数に取る。
 
 
 %index
 glColor3fv
-Sets the current color from an already existing array of color values. | glColor3fv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3fv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。fv は単精度浮動小数点配列を受け取る。
 
 
 %index
 glColor3i
-Sets the current color. | glColor3i function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3i function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。i は符号付き 32 bit 整数を引数に取る。
 
 
 %index
 glColor3iv
-Sets the current color from an already existing array of color values. | glColor3iv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3iv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。iv は符号付き 32 bit 整数配列を受け取る。
 
 
 %index
 glColor3s
-Sets the current color. | glColor3s function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3s function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。s は符号付き 16 bit 整数を引数に取る。
 
 
 %index
 glColor3sv
-Sets the current color from an already existing array of color values. | glColor3sv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3sv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。sv は符号付き 16 bit 整数配列を受け取る。
 
 
 %index
 glColor3ub
-Sets the current color. | glColor3ub function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3ub function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。ub は符号なしバイトを引数に取る。
 
 
 %index
 glColor3ubv
-Sets the current color from an already existing array of color values. | glColor3ubv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3ubv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。ubv は符号なしバイト配列を受け取る。
 
 
 %index
 glColor3ui
-Sets the current color. | glColor3ui function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3ui function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。ui は符号なし 32 bit 整数を引数に取る。
 
 
 %index
 glColor3uiv
-Sets the current color from an already existing array of color values. | glColor3uiv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3uiv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。uiv は符号なし 32 bit 整数配列を受け取る。
 
 
 %index
 glColor3us
-Sets the current color. | glColor3us function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
 %inst
-Sets the current color. | glColor3us function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。us は符号なし 16 bit 整数を引数に取る。
 
 
 %index
 glColor3usv
-Sets the current color from an already existing array of color values. | glColor3usv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, and blue values.
+v : [var] R、G、B の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor3usv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。usv は符号なし 16 bit 整数配列を受け取る。
 
 
 %index
 glColor4b
-Sets the current color. | glColor4b function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
-alpha : [int] The new alpha value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
+alpha : [int] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4b function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。glColor4 は R、G、B、A を明示指定する。b は符号付きバイトを引数に取る。
 
 
 %index
 glColor4bv
-Sets the current color from an already existing array of color values. | glColor4bv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4bv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。bv は符号付きバイト配列を受け取る。
 
 
 %index
 glColor4d
-Sets the current color. | glColor4d function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [double] The new red value for the current color.
-green : [double] The new green value for the current color.
-blue : [double] The new blue value for the current color.
-alpha : [double] The new alpha value for the current color.
+red : [double] 現在色の新しい赤の値。
+green : [double] 現在色の新しい緑の値。
+blue : [double] 現在色の新しい青の値。
+alpha : [double] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4d function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。d は倍精度浮動小数点を引数に取る。
 
 
 %index
 glColor4dv
-Sets the current color from an already existing array of color values. | glColor4dv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4dv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。dv は倍精度浮動小数点配列を受け取る。
 
 
 %index
 glColor4f
-Sets the current color. | glColor4f function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [float] The new red value for the current color.
-green : [float] The new green value for the current color.
-blue : [float] The new blue value for the current color.
-alpha : [float] The new alpha value for the current color.
+red : [float] 現在色の新しい赤の値。
+green : [float] 現在色の新しい緑の値。
+blue : [float] 現在色の新しい青の値。
+alpha : [float] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4f function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。f は単精度浮動小数点を引数に取る。
 
 
 %index
 glColor4fv
-Sets the current color from an already existing array of color values. | glColor4fv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4fv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。fv は単精度浮動小数点配列を受け取る。
 
 
 %index
 glColor4i
-Sets the current color. | glColor4i function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
-alpha : [int] The new alpha value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
+alpha : [int] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4i function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。i は符号付き 32 bit 整数を引数に取る。
 
 
 %index
 glColor4iv
-Sets the current color from an already existing array of color values. | glColor4iv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4iv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。iv は符号付き 32 bit 整数配列を受け取る。
 
 
 %index
 glColor4s
-Sets the current color. | glColor4s function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
-alpha : [int] The new alpha value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
+alpha : [int] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4s function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。s は符号付き 16 bit 整数を引数に取る。
 
 
 %index
 glColor4sv
-Sets the current color from an already existing array of color values. | glColor4sv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4sv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。sv は符号付き 16 bit 整数配列を受け取る。
 
 
 %index
 glColor4ub
-Sets the current color. | glColor4ub function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
-alpha : [int] The new alpha value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
+alpha : [int] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4ub function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。ub は符号なしバイトを引数に取る。
 
 
 %index
 glColor4ubv
-Sets the current color from an already existing array of color values. | glColor4ubv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4ubv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。ubv は符号なしバイト配列を受け取る。
 
 
 %index
 glColor4ui
-Sets the current color. | glColor4ui function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
-alpha : [int] The new alpha value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
+alpha : [int] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4ui function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。ui は符号なし 32 bit 整数を引数に取る。
 
 
 %index
 glColor4uiv
-Sets the current color from an already existing array of color values. | glColor4uiv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4uiv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。uiv は符号なし 32 bit 整数配列を受け取る。
 
 
 %index
 glColor4us
-Sets the current color. | glColor4us function (Gl.h)
+現在色を設定する。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [int] The new red value for the current color.
-green : [int] The new green value for the current color.
-blue : [int] The new blue value for the current color.
-alpha : [int] The new alpha value for the current color.
+red : [int] 現在色の新しい赤の値。
+green : [int] 現在色の新しい緑の値。
+blue : [int] 現在色の新しい青の値。
+alpha : [int] 現在色の新しいアルファ値。
 %inst
-Sets the current color. | glColor4us function (Gl.h)
+現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。us は符号なし 16 bit 整数を引数に取る。
 
 
 %index
 glColor4usv
-Sets the current color from an already existing array of color values. | glColor4usv function (Gl.h)
+既存の色値配列から現在色を設定する。
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array that contains red, green, blue, and alpha values.
+v : [var] R、G、B、A の値を含む配列へのポインタ。
 %inst
-Sets the current color from an already existing array of color
-values. | glColor4usv function (Gl.h)
+既存の色値配列から現在色を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The GL stores both a current single-valued color index and a current
-four-valued RGBA color. **glcolor** sets a new four-valued RGBA
-color. **glcolor** has two major variants: **glcolor3** and
-**glcolor4**. **glcolor3** variants specify new red, green, and blue
-values explicitly and set the current alpha value to 1.0 (full
-intensity) implicitly. **glcolor4** variants specify all four color
-components explicitly. **glcolor3b**, **glcolor4b**, **glcolor3s**,
-**glcolor4s**, **glcolor3i**, and **glcolor4i** take three or four
-signed byte, short, or long integers as arguments. When v is appended
-to the name, the color commands can take a pointer to an array of
-such values. Current color values are stored in floating-point
-format, with unspecified mantissa and exponent sizes. Unsigned
-integer color components, when specified, are linearly mapped to
-floating-point values such that the largest representable value maps
-to 1.0 (full intensity), and 0 maps to 0.0 (zero intensity). Signed
-integer color components, when specified, are linearly mapped to
-floating-point values such that the most positive representable value
-maps to 1.0, and the most negative representable value maps to -1.0.
-(Note that this mapping does not convert 0 precisely to 0.0.)
-Floating-point values are mapped directly. Neither floating-point nor
-signed integer values are clamped to the range \[0,1\] before the
-current color is updated. However, color components are clamped to
-this range before they are interpolated or written into a color
-buffer.
+glColor3b の説明を参照。usv は符号なし 16 bit 整数配列を受け取る。
 
 
 %index
 glColorMask
-The glColorMask function enables and disables writing of frame-buffer color components.
+glColorMask 関数はフレームバッファ色成分の書き込みを有効/無効にする。
 %group
 Win32 opengl32
 %prm
 red, green, blue, alpha
-red : [int] Specify whether red can or cannot be written into the framebuffer. The default values is GL\_TRUE, indicating that the color component can be written.
-green : [int] Specify whether green can or cannot be written into the framebuffer. The default value is GL\_TRUE, indicating that the color component can be written.
-blue : [int] Specify whether blue can or cannot be written into the framebuffer. The default value is GL\_TRUE, indicating that the color component can be written.
-alpha : [int] Specify whether alpha can or cannot be written into the framebuffer. The default value is GL\_TRUE, indicating that the color component can be written.
+red : [int] フレームバッファに赤を書き込めるかを指定する。既定値は GL_TRUE で、色成分を書き込めることを意味する。
+green : [int] フレームバッファに緑を書き込めるかを指定する。既定値は GL_TRUE で、色成分を書き込めることを意味する。
+blue : [int] フレームバッファに青を書き込めるかを指定する。既定値は GL_TRUE で、色成分を書き込めることを意味する。
+alpha : [int] フレームバッファにアルファを書き込めるかを指定する。既定値は GL_TRUE で、色成分を書き込めることを意味する。
 %inst
-The glColorMask function enables and disables writing of frame-buffer
-color components.
+glColorMask 関数はフレームバッファ色成分の書き込みを有効/無効にする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glColorMask** function specifies whether the individual color
-components in the framebuffer can or cannot be written. If *red* is
-GL\_FALSE, for example, no change is made to the red component of any
-pixel in any of the color buffers, regardless of the drawing
-operation attempted. Changes to individual bits of components cannot
-be controlled. Rather, changes are either enabled or disabled for
-entire color components. The following functions retrieve information
-related to **glColorMask**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_COLOR\_WRITEMASK **glGet** with argument
-GL\_RGBA\_MODE
+glColorMask はフレームバッファの個別の色成分を書き込めるかどうかを指定する。例えば red が GL_FALSE
+なら、どのピクセルの赤成分も変更されない。マスクを変更しても、現在の色、インデックス値、レンダリング状態には影響しない。関連情報は
+glGet (GL_COLOR_WRITEMASK) で取得できる。
 
 
 %index
 glColorMaterial
-The glColorMaterial function causes a material color to track the current color.
+glColorMaterial 関数はマテリアル色を現在色で追跡させる。
 %group
 Win32 opengl32
 %prm
 face, mode
-face : [int] Specifies whether front, back, or both front and back material parameters should track the current color. Accepted values are GL\_FRONT, GL\_BACK, and GL\_FRONT\_AND\_BACK. The default value is GL\_FRONT\_AND\_BACK.
-mode : [int] Specifies which of several material parameters track the current color. Accepted values are GL\_EMISSION, GL\_AMBIENT, GL\_DIFFUSE, GL\_SPECULAR, and GL\_AMBIENT\_AND\_DIFFUSE. The default value is GL\_AMBIENT\_AND\_DIFFUSE.
+face : [int] 表面・裏面・両面のいずれのマテリアルパラメータを現在色で追跡させるかを指定する。受け付ける値は GL_FRONT、GL_BACK、GL_FRONT_AND_BACK。既定値は GL_FRONT_AND_BACK。
+mode : [int] 現在色で追跡するマテリアルパラメータを指定する。受け付ける値は GL_EMISSION、GL_AMBIENT、GL_DIFFUSE、GL_SPECULAR、GL_AMBIENT_AND_DIFFUSE。既定値は GL_AMBIENT_AND_DIFFUSE。
 %inst
-The glColorMaterial function causes a material color to track the
-current color.
+glColorMaterial 関数はマテリアル色を現在色で追跡させる。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glColorMaterial** function specifies which material parameters
-track the current color. When you enable GL\_COLOR\_MATERIAL, for
-each of the material or materials specified by *face*, the material
-parameter or parameters specified by *mode* track the current color
-at all times. Enable and disable GL\_COLOR\_MATERIAL with the
-functions [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md), which you call with
-GL\_COLOR\_MATERIAL as their argument. By default,
-GL\_COLOR\_MATERIAL is disabled. With **glColorMaterial**, you can
-change a subset of material parameters for each vertex using only the
-[**glColor**](glcolor-functions.md) function, without calling
-[**glMaterial**](glmaterial-functions.md). If you are going to
-specify only such a subset of parameters for each vertex, it is
-better to do so with **glColorMaterial** than with **glMaterial**.
-The following functions retrieve information related to
-**glColorMaterial**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_COLOR\_MATERIAL\_PARAMETER **glGet** with argument
-GL\_COLOR\_MATERIAL\_FACE [**glIsEnabled**](glisenabled.md) with
-argument GL\_COLOR\_MATERIAL
+glColorMaterial は、どのマテリアルパラメータが現在色を追跡するかを指定する。GL_COLOR_MATERIAL
+を有効にすると、face で指定されるマテリアルの mode で指定されるパラメータが、glColor
+系の呼び出しで指定された現在色に追従する。これにより glMaterial
+を使わずに色を変えられ、効率的なマテリアル変更が可能になる。glMaterial
+を呼び出しても追跡されているパラメータが上書きされるが、その後 glColor を呼ぶと再度上書きされる。関連情報は glGet
+(GL_COLOR_MATERIAL_PARAMETER / GL_COLOR_MATERIAL_FACE) および
+glIsEnabled (GL_COLOR_MATERIAL) で取得できる。
 
 
 %index
 glColorPointer
-The glColorPointer function defines an array of colors.
+glColorPointer 関数はカラー配列を定義する。
 %group
 Win32 opengl32
 %prm
 size, type, stride, pointer
-size : [int] The number of components per color. The value must be either 3 or 4.
-type : [int] The data type of each color component in a color array. Acceptable data types are specified with the following constants: GL\_BYTE, GL\_UNSIGNED\_BYTE, GL\_SHORT, GL\_UNSIGNED\_SHORT, GL\_INT, GL\_UNSIGNED\_INT, GL\_FLOAT, or GL\_DOUBLE.
-stride : [int] The byte offset between consecutive colors. When *stride* is zero, the colors are tightly packed in the array.
-pointer : [intptr] A pointer to the first component of the first color element in a color array.
+size : [int] カラーあたりの成分数。3 または 4 でなければならない。
+type : [int] カラー配列の各色成分のデータ型。指定可能な定数: GL_BYTE、GL_UNSIGNED_BYTE、GL_SHORT、GL_UNSIGNED_SHORT、GL_INT、GL_UNSIGNED_INT、GL_FLOAT、GL_DOUBLE。
+stride : [int] 連続するカラー間のバイトオフセット。stride が 0 のとき、カラーは配列内に密に格納されている。
+pointer : [intptr] カラー配列内の最初のカラー要素の最初の成分へのポインタ。
 %inst
-The glColorPointer function defines an array of colors.
+glColorPointer 関数はカラー配列を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glColorPointer** function specifies the location and data
-format of an array of color components to use when rendering. The
-*stride* parameter determines the byte offset from one color to the
-next, enabling the packing of vertex attributes in a single array or
-storage in separate arrays. In some implementations, storing vertex
-attributes in a single array can be more efficient than the use of
-separate arrays. Enabled the color array by specifying the
-GL\_COLOR\_ARRAY constant with
-[**glEnableClientState**](glenableclientstate.md). Calling
-[**glArrayElement**](glarrayelement.md),
-[**glDrawElements**](gldrawelements.md), or
-[**glDrawArrays**](gldrawarrays.md) uses the color array that is thus
-enabled. By default, the color array is disabled. The
-**glColorPointer** calls cannot by entered in display lists. When you
-specify a color array using **glColorPointer**, the values of all the
-function's color array parameters are saved in a client-side state,
-and you can cache static array elements. Because the color array
-parameters are in a client-side state,
-[**glPushAttrib**](glpushattrib.md) and
-[**glPopAttrib**](glpopattrib.md) do not save or restore the
-parameters' values. Although specifying the color array within
-[**glBegin**](glbegin.md) and [**glend**](glend.md) pairs does not
-generate an error, the results are undefined. The following functions
-retrieve information related to the **glColorPointer** function:
-[**glIsEnabled**](glisenabled.md) with argument GL\_COLOR\_ARRAY
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_COLOR\_ARRAY\_SIZE **glGet** with argument
-GL\_COLOR\_ARRAY\_TYPE **glGet** with argument
-GL\_COLOR\_ARRAY\_STRIDE **glGet** with argument
-GL\_COLOR\_ARRAY\_COUNT [**glGetPointerv**](glgetpointerv.md) with
-argument GL\_COLOR\_ARRAY\_POINTER
+glColorPointer はレンダリング時に使用する色成分配列の位置とデータ形式を指定する。stride は 1
+つのカラーから次のカラーまでのバイトオフセットを決定し、カラーを他の頂点属性と一緒にパックすることを可能にする。0
+なら密にパックされているとみなす。有効化するには glEnableClientState に GL_COLOR_ARRAY
+を指定する。通常 glDrawArrays / glDrawElements / glArrayElement
+と組み合わせて使用する。注意: OpenGL 1.1 以降でのみ利用可能。関連情報は glGet (GL_COLOR_ARRAY /
+GL_COLOR_ARRAY_SIZE / GL_COLOR_ARRAY_TYPE / GL_COLOR_ARRAY_STRIDE)
+および glGetPointerv (GL_COLOR_ARRAY_POINTER) で取得できる。
 
 
 %index
 glCopyPixels
-The glCopyPixels function copies pixels in the framebuffer.
+glCopyPixels 関数はフレームバッファ内のピクセルをコピーする。
 %group
 Win32 opengl32
 %prm
 x, y, width, height, type
-x : [int] The window x-plane coordinate of the lower-left corner of the rectangular region of pixels to be copied.
-y : [int] The window y-plane coordinate of the lower-left corner of the rectangular region of pixels to be copied.
-width : [int] The width dimension of the rectangular region of pixels to be copied. Must be nonnegative.
-height : [int] The height dimension of the rectangular region of pixels to be copied. Must be nonnegative.
-type : [int] Specifies whether **glCopyPixels** is to copy color values, depth values, or stencil values. The acceptable symbolic constants are.
+x : [int] コピーするピクセル矩形領域の左下隅のウィンドウ x 平面座標。
+y : [int] コピーするピクセル矩形領域の左下隅のウィンドウ y 平面座標。
+width : [int] コピーするピクセル矩形領域の幅。非負でなければならない。
+height : [int] コピーするピクセル矩形領域の高さ。非負でなければならない。
+type : [int] glCopyPixels がカラー値・デプス値・ステンシル値のいずれをコピーするかを指定する。受け付けるシンボル定数は次のとおり。このドキュメントは省略されている。
 %inst
-The glCopyPixels function copies pixels in the framebuffer.
+glCopyPixels 関数はフレームバッファ内のピクセルをコピーする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glCopyPixels** function copies a screen-aligned rectangle of
-pixels from the specified framebuffer location to a region relative
-to the current raster position. Its operation is well defined only if
-the entire pixel source region is within the exposed portion of the
-window. Results of copies from outside the window, or from regions of
-the window that are not exposed, are hardware dependent and
-undefined. The *x* and *y* parameters specify the window coordinates
-of the lower-left corner of the rectangular region to be copied. The
-*width* and *height* parameters specify the dimensions of the
-rectangular region to be copied. Both *width* and *height* must be
-nonnegative. Several parameters control the processing of the pixel
-data while it is being copied. These parameters are set with three
-functions: [**glPixelTransfer**](glpixeltransfer.md),
-[**glPixelMap**](glpixelmap.md), and
-[**glPixelZoom**](glpixelzoom.md). This topic describes the effects
-on **glCopyPixels** of most, but not all, of the parameters specified
-by these three functions. The **glCopyPixels** function copies values
-from each pixel with the lower-left corner at (*x* + *i*, *y* + *j*)
-for 0 = *i* r , *y*r ) is the current raster position, and a given
-pixel is in the *i* location in the *j* row of the source pixel
-rectangle, then fragments are generated for pixels whose centers are
-in the rectangle with corners at (*x*r + *zoom*? i, yr + *zoom*y *j*)
-and (*x*r + *zoom*? (*i* + 1), *y*r + *zoom*y (*j* + 1)) where
-*zoom*? is the value of GL\_ZOOM\_X and *zoom*y is the value of
-GL\_ZOOM\_Y. Modes specified by
-[**glPixelStore**](glpixelstore-functions.md) have no effect on the
-operation of **glCopyPixels**. The following functions retrieve
-information related to **glCopyPixels**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION **glGet** with argument
-GL\_CURRENT\_RASTER\_POSITION\_VALID To copy the color pixel in the
-lower-left corner of the window to the current raster position, use
-**glCopyPixels**( 0, 0, 1, 1, GL\_COLOR );
+glCopyPixels
+は指定されたフレームバッファ位置から現在のラスタ位置を基準とする領域へ、スクリーン整列のピクセル矩形をコピーする。動作は type が
+GL_COLOR で現在の読み取りバッファ (glReadBuffer 参照) がカラー情報を含む場合、type が GL_DEPTH
+でデプスバッファがある場合、type が GL_STENCIL でステンシルバッファがある場合にのみ定義される。x, y
+はソースの左下隅、width と height はコピー領域のサイズ。データは glDrawPixels と同じ変換を通るが、pixel
+transfer モードは適用されない。関連情報は glGet (GL_CURRENT_RASTER_POSITION /
+GL_CURRENT_RASTER_POSITION_VALID) で取得できる。
 
 
 %index
 glCopyTexImage1D
-The glCopyTexImage1D function copies pixels from the framebuffer into a one-dimensional texture image.
+glCopyTexImage1D 関数はフレームバッファから 1 次元テクスチャ画像にピクセルをコピーする。
 %group
 Win32 opengl32
 %prm
 target, level, internalFormat, x, y, width, border
-target : [int] The target for which the image data will be changed. Must have the value GL\_TEXTURE\_1D.
-level : [int] The level-of-detail number. Level 0 is the base image. Level *n* is the *n*th mipmap reduction image.
-internalFormat : [int] The internal format and resolution of the texture data. This parameter must be one of the following symbolic values.
-x : [int] The window x-plane coordinate of the lower-left corner of the row of pixels to be copied.
-y : [int] The window y-plane coordinate of the lower-left corner of the row of pixels to be copied.
-width : [int] The width of the texture image. Must be zero or 2n + 2(*border*) for some integer *n*. The height of the texture image is 1.
-border : [int] The width of the border. Must be either zero or 1.
+target : [int] 変更するイメージデータのターゲット。GL_TEXTURE_1D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基底画像。レベル n は n 番目のミップマップ縮小画像。
+internalFormat : [int] テクスチャデータの内部フォーマットと解像度。以下のシンボル値のいずれかでなければならない。このドキュメントは省略されている。
+x : [int] コピーするピクセル行の左下隅のウィンドウ x 平面座標。
+y : [int] コピーするピクセル行の左下隅のウィンドウ y 平面座標。
+width : [int] テクスチャ画像の幅。0 または 2^n + 2*border (ある整数 n で) でなければならない。テクスチャ画像の高さは 1。
+border : [int] ボーダーの幅。0 または 1 でなければならない。
 %inst
-The glCopyTexImage1D function copies pixels from the framebuffer into
-a one-dimensional texture image.
+glCopyTexImage1D 関数はフレームバッファから 1 次元テクスチャ画像にピクセルをコピーする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glCopyTexImage1D** function defines a one-dimensional texture
-image using pixels from the current framebuffer, rather than from
-main memory as is the case for [**glTexImage1D**](glteximage1d.md).
-Using the mipmap level specified with *level*, texture arrays are
-defined as a pixel row aligned with the lower-left corner of the
-window at the coordinates specified by *x* and *y*, with a length
-equal to *width* + 2 \* *border*. The internal format of the texture
-array is specified with the *internalFormat* parameter. The
-**glCopyTexImage1D** function processes the pixels in a row in the
-same way as [**glCopyPixels**](glcopypixels.md), except that before
-the final conversion of the pixels, all pixel component values are
-clamped to the range \[0,1\] and converted to the texture's internal
-format for storage in the texture array. Pixel ordering is determined
-with lower *x* coordinates corresponding to lower texture
-coordinates. If any of the pixels within a specified row of the
-current framebuffer are outside the window associated with the
-current rendering context, then their values are undefined. You
-cannot include calls to **glCopyTexImage1D** in display lists. >
-[!Note] > The **glCopyTexImage1D** function is only available in
-OpenGL version 1.1 or later.
-Texturing has no effect in color-index mode. The
-[**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) functions affect texture
-images in exactly the way they affect
-[**glDrawPixels**](gldrawpixels.md). The following function retrieves
-information related to **glCopyTexImage1D**:
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_1D
+glCopyTexImage1D は glTexImage1D のようにメインメモリからではなく、現在のフレームバッファのピクセルを用いて
+1 次元テクスチャ画像を定義する。現在の読み取りバッファ (glReadBuffer 参照)
+からピクセルを読み取る。読み取り時にピクセル転送モードは適用されるが、ピクセルストアモードは適用されない。注意: OpenGL 1.1
+以降でのみ利用可能。
 
 
 %index
 glCopyTexImage2D
-The glCopyTexImage2D function copies pixels from the framebuffer into a two-dimensional texture image.
+glCopyTexImage2D 関数はフレームバッファから 2 次元テクスチャ画像にピクセルをコピーする。
 %group
 Win32 opengl32
 %prm
 target, level, internalFormat, x, y, width, height, border
-target : [int] The target to which the image data will be changed. Must have the value GL\_TEXTURE\_2D.
-level : [int] The level-of-detail number. Level 0 is the base image. Level *n* is the *n*th mipmap reduction image.
-internalFormat : [int] The internal format and resolution of the texture data. The values 1, 2, 3, and 4 are not accepted for *internalFormat*. The parameter can assume one of the following symbolic values.
-x : [int] The window x-plane coordinate of the lower-left corner of the rectangular region of pixels to be copied.
-y : [int] The window y-plane coordinate of the lower-left corner of the rectangular region of pixels to be copied.
-width : [int] The width of the texture image. Must be 2n + 2 \* *border* for some integer *n*.
-height : [int] The height of the texture image. Must be 2n + 2 \* *border* for some integer *n*.
-border : [int] The width of the border. Must be either zero or 1.
+target : [int] 変更するイメージデータのターゲット。GL_TEXTURE_2D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基底画像。レベル n は n 番目のミップマップ縮小画像。
+internalFormat : [int] テクスチャデータの内部フォーマットと解像度。internalFormat には 1、2、3、4 は使用できない。以下のシンボル値のいずれかを取りうる。このドキュメントは省略されている。
+x : [int] コピーするピクセル矩形領域の左下隅のウィンドウ x 平面座標。
+y : [int] コピーするピクセル矩形領域の左下隅のウィンドウ y 平面座標。
+width : [int] テクスチャ画像の幅。2^n + 2*border (ある整数 n で) でなければならない。
+height : [int] テクスチャ画像の高さ。2^n + 2*border (ある整数 n で) でなければならない。
+border : [int] ボーダーの幅。0 または 1 でなければならない。
 %inst
-The glCopyTexImage2D function copies pixels from the framebuffer into
-a two-dimensional texture image.
+glCopyTexImage2D 関数はフレームバッファから 2 次元テクスチャ画像にピクセルをコピーする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glCopyTexImage2D** function defines a two-dimensional texture
-image using pixels from the current framebuffer, rather than from
-main memory as is the case for [**glTexImage2D**](glteximage2d.md).
-Using the mipmap level specified with *level*, texture arrays are
-defined as a rectangle of pixels with the lower-left corner located
-at the coordinates *x* and *y*, width equal to *width* + (2 \*
-*border*), and a height equal to *height* + (2 \* *border*). The
-internal format of the texture array is specified with the
-*internalFormat* parameter. The **glCopyTexImage2D** function
-processes the pixels in a row in the same way as
-[**glCopyPixels**](glcopypixels.md) except that before the final
-conversion of the pixels, all pixel component values are clamped to
-the range \[0,1\] and converted to the texture's internal format for
-storage in the texture array. Pixel ordering is determined with lower
-*x* and *y* coordinates corresponding to lower *s* and *t* texture
-coordinates. If any of the pixels within a specified row of the
-current framebuffer are outside the window associated with the
-current rendering context, then their values are undefined. You
-cannot include calls to **glCopyTexImage2D** in display lists. >
-[!Note] > The **glCopyTexImage2D** function is only available in
-OpenGL version 1.1 or later.
-Texturing has no effect in color-index mode. The
-[**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) functions affect texture
-images in exactly the way they affect
-[**glDrawPixels**](gldrawpixels.md). The following function retrieves
-information related to **glCopyTexImage2D**:
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_2D
+glCopyTexImage2D は glTexImage2D のようにメインメモリからではなく、現在のフレームバッファのピクセルを用いて
+2 次元テクスチャ画像を定義する。現在の読み取りバッファ (glReadBuffer 参照) からピクセルを読み取る。注意: OpenGL
+1.1 以降でのみ利用可能。
 
 
 %index
 glCopyTexSubImage1D
-The glCopyTexSubImage1D function copies a sub-image of a one-dimensional texture image from the framebuffer.
+glCopyTexSubImage1D 関数はフレームバッファから 1 次元テクスチャ画像のサブ画像をコピーする。
 %group
 Win32 opengl32
 %prm
 target, level, xoffset, x, y, width
-target : [int] The target to which the image data will be changed. Must have the value GL\_TEXTURE\_1D.
-level : [int] The level-of-detail number. Level 0 is the base image. Level *n* is the *n*th mipmap reduction image.
-xoffset : [int] The texel offset within the texture array.
-x : [int] The window x-plane coordinate of the lower-left corner of the row of pixels to be copied.
-y : [int] The window y-plane coordinate of the lower-left corner of the row of pixels to be copied.
-width : [int] The width of the sub-image of the texture image. Specifying a texture sub-image with zero width has no effect.
+target : [int] 変更するイメージデータのターゲット。GL_TEXTURE_1D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基底画像。レベル n は n 番目のミップマップ縮小画像。
+xoffset : [int] テクスチャ配列内のテクセルオフセット。
+x : [int] コピーするピクセル行の左下隅のウィンドウ x 平面座標。
+y : [int] コピーするピクセル行の左下隅のウィンドウ y 平面座標。
+width : [int] テクスチャ画像のサブイメージの幅。幅 0 のサブイメージを指定しても効果はない。
 %inst
-The glCopyTexSubImage1D function copies a sub-image of a
-one-dimensional texture image from the framebuffer.
+glCopyTexSubImage1D 関数はフレームバッファから 1 次元テクスチャ画像のサブ画像をコピーする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glCopyTexSubImage1D** function replaces a portion of a
-one-dimensional texture image using pixels from the current
-framebuffer, rather than from main memory as is the case for
-[**glTexSubImage1D**](gltexsubimage1d.md). A row of pixels beginning
-with the window coordinates specified by *x* and *y* and with the
-length *width* replaces the portion of the texture array with the
-indexes *xoffset* through *xoffset* + (*width* - 1). The destination
-in the texture array cannot include any texels outside the originally
-specified texture array. The **glCopyTexSubImage1D** function
-processes the pixels in a row in the same way as
-[**glCopyPixels**](glcopypixels.md) except that before the final
-conversion of the pixels, all pixel component values are clamped to
-the range \[0,1\] and converted to the texture's internal format for
-storage in the texture array. Pixel ordering is determined with lower
-*x* coordinates corresponding to lower texture coordinates. If any of
-the pixels within a specified row of the current framebuffer are
-outside the window associated with the current rendering context,
-then their values are undefined. No change is made to the
-*internalFormat*, *width*, or *border* parameter of the specified
-texture array or to texel values outside the specified texture
-sub-image. You cannot include calls to **glCopyTexSubImage1D** in
-display lists. > [!Note] > The **glCopyTexSubImage1D** function is
-only available in OpenGL version 1.1 or later.
-Texturing has no effect in color-index mode. The
-[**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) functions affect texture
-images in exactly the way they affect the way pixels are drawn using
-[**glDrawPixels**](gldrawpixels.md). The following functions retrieve
-information related to **glCopyTexSubImage1D**:
-[**glGetTexImage**](glgetteximage.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_1D
+glCopyTexSubImage1D は glTexSubImage1D
+のようにメインメモリからではなく、現在のフレームバッファのピクセルを用いて 1 次元テクスチャ画像の一部を置き換える。注意: OpenGL
+1.1 以降でのみ利用可能。
 
 
 %index
 glCopyTexSubImage2D
-The glCopyTexSubImage2D function copies a sub-image of a two-dimensional texture image from the framebuffer.
+glCopyTexSubImage2D 関数はフレームバッファから 2 次元テクスチャ画像のサブ画像をコピーする。
 %group
 Win32 opengl32
 %prm
 target, level, xoffset, yoffset, x, y, width, height
-target : [int] The target to which the image data will be changed. Must have the value GL\_TEXTURE\_2D.
-level : [int] The level-of-detail number. Level 0 is the base image. Level *n* is the *n*th mipmap reduction image.
-xoffset : [int] The texel offset in the *x* direction within the texture array.
-yoffset : [int] The texel offset in the *y* direction within the texture array.
-x : [int] The window x-plane coordinates of the lower-left corner of the row of pixels to be copied.
-y : [int] The window y-plane coordinates of the lower-left corner of the row of pixels to be copied.
-width : [int] The width of the sub-image of the texture image. Specifying a texture sub-image with zero width has no effect.
-height : [int] The height of the sub-image of the texture image. Specifying a texture sub-image with zero width has no effect.
+target : [int] 変更するイメージデータのターゲット。GL_TEXTURE_2D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基底画像。レベル n は n 番目のミップマップ縮小画像。
+xoffset : [int] テクスチャ配列内の x 方向のテクセルオフセット。
+yoffset : [int] テクスチャ配列内の y 方向のテクセルオフセット。
+x : [int] コピーするピクセル行の左下隅のウィンドウ x 平面座標。
+y : [int] コピーするピクセル行の左下隅のウィンドウ y 平面座標。
+width : [int] テクスチャ画像のサブイメージの幅。幅 0 のサブイメージを指定しても効果はない。
+height : [int] テクスチャ画像のサブイメージの高さ。幅 0 のサブイメージを指定しても効果はない。
 %inst
-The glCopyTexSubImage2D function copies a sub-image of a
-two-dimensional texture image from the framebuffer.
+glCopyTexSubImage2D 関数はフレームバッファから 2 次元テクスチャ画像のサブ画像をコピーする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glCopyTexSubImage2D** function replaces a rectangular portion
-of a two-dimensional texture image with pixels from the current
-framebuffer, rather than from main memory as is the case for
-[**glTexSubImage2D**](gltexsubimage2d.md). A rectangle of pixels
-beginning with the *x* and *y* window coordinates and with the
-dimensions *width* and *height* replaces the portion of the texture
-array with the indexes *xoffset* through *xoffset* + (*width* - 1),
-with the indexes *yoffset* through *yoffset* + (*width* - 1) at the
-mipmap level specified by *level*. The destination rectangle in the
-texture array cannot include any texels outside the originally
-specified texture array. The **glCopyTexSubImage2D** function
-processes the pixels in a row in the same way as
-[**glCopyPixels**](glcopypixels.md), except that before the final
-conversion of the pixels, all pixel component values are clamped to
-the range \[0,1\] and converted to the texture's internal format for
-storage in the texture array. Pixel ordering is determined with lower
-*x* coordinates corresponding to lower texture coordinates. If any of
-the pixels within a specified row of the current framebuffer are
-outside the window associated with the current rendering context,
-then their values are undefined. If any of the pixels within the
-specified rectangle of the current framebuffer are outside the read
-window associated with the current rendering context, then the values
-obtained for those pixels are undefined. No change is made to the
-*internalFormat*, *width*, *height*, or *border* parameter of the
-specified texture array or to texel values outside the specified
-texture sub-image. You cannot include calls to
-**glCopyTexSubImage2D** in display lists. > [!Note] > The
-**glCopyTexSubImage2D** function is only available in OpenGL version
-1.1 or later.
-Texturing has no effect in color-index mode. The
-[**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) functions affect texture
-images in exactly the way they affect the way pixels are drawn using
-[**glDrawPixels**](gldrawpixels.md). The following functions retrieve
-information related to **glCopyTexSubImage2D**:
-[**glGetTexImage**](glgetteximage.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_2D
+glCopyTexSubImage2D は glTexSubImage2D
+のようにメインメモリからではなく、現在のフレームバッファのピクセルを用いて 2 次元テクスチャ画像の矩形領域を置き換える。注意:
+OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glCullFace
-The glCullFace function specifies whether front-facing or back-facing facets can be culled.
+glCullFace 関数は表面または裏面のファセットをカリング可能にするかを指定する。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] Specifies whether front-facing or back-facing facets are candidates for culling. The symbolic constants GL\_FRONT, GL\_BACK, and GL\_FRONT\_AND\_BACK are accepted. The default value is GL\_BACK.
+mode : [int] 表面を向いたファセットと裏面を向いたファセットのいずれをカリング対象とするかを指定する。GL_FRONT、GL_BACK、GL_FRONT_AND_BACK を受け付ける。既定値は GL_BACK。
 %inst
-The glCullFace function specifies whether front-facing or back-facing
-facets can be culled.
+glCullFace 関数は表面または裏面のファセットをカリング可能にするかを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glCullFace** function specifies whether front-facing or
-back-facing facets are culled (as specified by *mode*) when facet
-culling is enabled. You enable and disable facet culling using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_CULL\_FACE. Facets include triangles,
-quadrilaterals, polygons, and rectangles. The
-[**glFrontFace**](glfrontface.md) function specifies which of the
-clockwise and counterclockwise facets are front-facing and
-back-facing. If *mode* is GL\_FRONT\_AND\_BACK, no facets are drawn,
-but other primitives, such as points and lines, are drawn. The
-following functions retrieve information related to **glCullFace**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CULL\_FACE\_MODE [**glIsEnabled**](glisenabled.md)
-with argument GL\_CULL\_FACE
+glCullFace は、ファセットカリングが有効なとき、mode
+で指定された表面または裏面のファセットをカリングするよう指定する。カリングは glEnable / glDisable に
+GL_CULL_FACE を指定して切り替える。ファセットは表面にも裏面にもなりうる。glFrontFace
+でどちらが表かを指定する。glCullFace で GL_FRONT_AND_BACK
+を指定すると、どのファセットも描画されなくなるが、点と線には影響しない。関連情報は glIsEnabled (GL_CULL_FACE)
+および glGet (GL_CULL_FACE_MODE) で取得できる。
 
 
 %index
 glDeleteLists
-The glDeleteLists function deletes a contiguous group of display lists.
+glDeleteLists 関数は連続する表示リスト群を削除する。
 %group
 Win32 opengl32
 %prm
 list, range
-list : [int] The integer name of the first display list to delete.
-range : [int] The number of display lists to delete.
+list : [int] 削除する最初の表示リストの整数名。
+range : [int] 削除する表示リストの数。
 %inst
-The glDeleteLists function deletes a contiguous group of display
-lists.
+glDeleteLists 関数は連続する表示リスト群を削除する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glDeleteLists** function causes a contiguous group of display
-lists to be deleted. The *list* parameter is the name of the first
-display list to be deleted, and *range* is the number of display
-lists to delete. All display lists *d* with *list* = *d* = *list* +
-*range* - 1 are deleted. All storage locations allocated to the
-specified display lists are freed, and the names are available for
-reuse at a later time. Names within the range that do not have an
-associated display list are ignored. If *range* is zero, nothing
-happens.
+glDeleteLists は連続する表示リスト群を削除させる。list は削除する最初の表示リストの名前、range
+は削除する数。空の表示リスト (名前使用中だが内容なし) と定義されていない表示リスト名は無視される。削除後、それらの名前は再び
+glGenLists で自由に使用できる。関連情報は glIsList で取得できる。
 
 
 %index
 glDeleteTextures
-The glDeleteTextures function deletes named textures.
+glDeleteTextures 関数は名前付きテクスチャを削除する。
 %group
 Win32 opengl32
 %prm
 n, textures
-n : [int] The number of textures to be deleted.
-textures : [var] An array of textures to be deleted.
+n : [int] 削除するテクスチャの数。
+textures : [var] 削除するテクスチャ配列。
 %inst
-The glDeleteTextures function deletes named textures.
+glDeleteTextures 関数は名前付きテクスチャを削除する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glDeleteTextures** function deletes *n* textures named by the
-elements of the array *textures*. After a texture is deleted, it has
-no contents or dimensionality, and its name is free for reuse (for
-example, by **glGenTextures**). The **glDeleteTextures** function
-ignores zeros and names that do not correspond to existing textures.
-If a texture that is currently bound is deleted, the binding reverts
-to zero (the default texture). You cannot include calls to
-**glDeleteTextures** in display lists. > [!Note] > The
-**glDeleteTextures** function is only available in OpenGL version 1.1
-or later.
-The following function retrieves information related to
-**glDeleteTextures**: - [**glIsTexture**](glistexture.md)
+glDeleteTextures は textures 配列の要素で指名された n
+個のテクスチャを削除する。削除後、テクスチャは内容も次元も持たず、名前は再利用可能となる (glGenTextures
+で再生成されるか、glBindTexture
+で新しく使われるまで)。現在バインドされているテクスチャを削除すると、影響のあったターゲットには既定テクスチャ (名前 0)
+がバインドされる。存在しないテクスチャ名や値 0 を渡しても無視され、エラーは発生しない。注意: OpenGL 1.1
+以降でのみ利用可能。
 
 
 %index
 glDepthFunc
-The glDepthFunc function specifies the value used for depth-buffer comparisons.
+glDepthFunc 関数はデプス比較に使用する値を指定する。
 %group
 Win32 opengl32
 %prm
 func
-func : [int] Specifies the depth-comparison function. The following symbolic constants are accepted.
+func : [int] デプス比較関数。受け付けるシンボル定数は GL_NEVER、GL_LESS、GL_EQUAL、GL_LEQUAL、GL_GREATER、GL_NOTEQUAL、GL_GEQUAL、GL_ALWAYS。既定値は GL_LESS。
 %inst
-The glDepthFunc function specifies the value used for depth-buffer
-comparisons.
+glDepthFunc 関数はデプス比較に使用する値を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glDepthFunc** function specifies the function used to compare
-each incoming pixel *z* value with the *z* value present in the depth
-buffer. The comparison is performed only if depth testing is enabled.
-(See [**glEnable**](glenable.md) with the argument GL\_DEPTH\_TEST.)
-Initially, depth testing is disabled. The following functions
-retrieve information related to **glDepthFunc**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_DEPTH\_FUNC [**glIsEnabled**](glisenabled.md) with
-argument GL\_DEPTH\_TEST
+glDepthFunc は入力ピクセルの z 値とデプスバッファ内の z 値を比較する関数を指定する。デプステストが有効
+(glEnable GL_DEPTH_TEST) なときのみ比較される。デプステストは既定で無効。関連情報は glGet
+(GL_DEPTH_FUNC) および glIsEnabled (GL_DEPTH_TEST) で取得できる。
 
 
 %index
 glDepthMask
-The glDepthMask function enables or disables writing into the depth buffer.
+glDepthMask 関数はデプスバッファへの書き込みを有効/無効にする。
 %group
 Win32 opengl32
 %prm
 flag
-flag : [int] Specifies whether the depth buffer is enabled for writing. If *flag* is zero, depth-buffer writing is disabled. Otherwise, it is enabled. Initially, depth-buffer writing is enabled.
+flag : [int] デプスバッファへの書き込みを有効/無効にするための値を指定する。flag が GL_FALSE なら書き込み無効、GL_TRUE なら有効。
 %inst
-The glDepthMask function enables or disables writing into the depth
-buffer.
+glDepthMask 関数はデプスバッファへの書き込みを有効/無効にする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The following function retrieves information related to
-**glDepthMask**: **glGet** with argument GL\_DEPTH\_WRITEMASK
+glDepthMask はデプスバッファが書き込み可能かを指定する。flag が GL_FALSE
+ならデプスバッファの書き込みは無効。GL_TRUE なら有効。関連情報は glGet (GL_DEPTH_WRITEMASK)
+で取得できる。
 
 
 %index
 glDepthRange
-The glDepthRange function specifies the mapping of z values from normalized device coordinates to window coordinates.
+glDepthRange 関数は z 座標から深度値への線形マッピングを指定する。
 %group
 Win32 opengl32
 %prm
 zNear, zFar
-zNear : [double] The mapping of the near clipping plane to window coordinates. The default value is zero.
-zFar : [double] The mapping of the far clipping plane to window coordinates. The default value is 1.
+zNear : [double] 近クリッピング平面のマッピング。範囲は [0, 1]。既定値は 0。
+zFar : [double] 遠クリッピング平面のマッピング。範囲は [0, 1]。既定値は 1。
 %inst
-The glDepthRange function specifies the mapping of z values from
-normalized device coordinates to window coordinates.
+glDepthRange 関数は z 座標から深度値への線形マッピングを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-After clipping and division by *w*, *z* -coordinates range from 0.0
-to 1.0, corresponding to the near and far clipping planes. The
-**glDepthRange** function specifies a linear mapping of the
-normalized *z*-coordinates in this range to window *z*-coordinates.
-Regardless of the actual depth buffer implementation, window
-coordinate depth values are treated as though they range from 0.0
-through 1.0 (like color components). Thus, the values accepted by
-**glDepthRange** are both clamped to this range before they are
-accepted. The default mapping of (0,1) maps the near plane to 0 and
-the far plane to 1. With this mapping, the depth buffer range is
-fully utilized. It is not necessary that *zNear* be less than *zFar*.
-Reverse mappings such as (1,0) are acceptable. The following function
-retrieves information related to **glDepthRange**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_DEPTH\_RANGE
+クリッピングと w による除算の後、z 座標は近クリッピング平面と遠クリッピング平面に対応して 0.0 から 1.0
+の範囲となる。glDepthRange はこの正規化された z 座標範囲からウィンドウ z
+座標への線形マッピングを指定する。実際のデプスバッファ実装によらず、ウィンドウ座標のデプス値は 0.0 から 1.0 の範囲とみなされる
+(カラー成分と同様)。よって受け付けられる値もこの範囲にクランプされる。既定 (0, 1) は近平面を 0、遠平面を 1
+にマップし、デプスバッファ範囲を完全に使い切る。zNear < zFar である必要はなく、(1, 0)
+のような逆マッピングも許される。関連情報は glGet (GL_DEPTH_RANGE) で取得できる。
 
 
 %index
 glDisable
-The glEnable and glDisable functions enable or disable OpenGL capabilities. | glDisable function (Gl.h)
+glDisable 関数は OpenGL 機能を無効にする。
 %group
 Win32 opengl32
 %prm
 cap
-cap : [int] A symbolic constant indicating an OpenGL capability. For discussion of the values *cap* can take, see the following Remarks section.
+cap : [int] 無効にする GL 機能を示すシンボル定数。詳細は glEnable の解説を参照。
 %inst
-The glEnable and glDisable functions enable or disable OpenGL
-capabilities. | glDisable function (Gl.h)
+glDisable 関数は OpenGL 機能を無効にする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glEnable**](glenable.md) and **glDisable** functions enable
-and disable various OpenGL graphics capabilities. Use
-[**glIsEnabled**](glisenabled.md) or
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-to determine the current setting of any capability. Both
-[**glEnable**](glenable.md) and **glDisable** take a single argument,
-*cap*, which can assume one of the following values:
-| Value | Meaning |
-|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GL\_ALPHA\_TEST | If enabled, do alpha testing. See
-[**glAlphaFunc**](glalphafunc.md). | | GL\_AUTO\_NORMAL | If enabled,
-compute surface normal vectors analytically when either
-GL\_MAP2\_VERTEX\_3 or GL\_MAP2\_VERTEX\_4 has generated vertices.
-See [**glMap2**](glmap2.md). | | GL\_BLEND | If enabled, blend the
-incoming RGBA color values with the values in the color buffers. See
-[**glBlendFunc**](glblendfunc.md). | | GL\_CLIP\_PLANE*i* | If
-enabled, clip geometry against user-defined clipping plane *i*. See
-[**glClipPlane**](glclipplane.md). | | GL\_COLOR\_LOGIC\_OP | If
-enabled, apply the current logical operation to the incoming RGBA
-color and color buffer values. See [**glLogicOp**](gllogicop.md). | |
-GL\_COLOR\_MATERIAL | If enabled, have one or more material
-parameters track the current color. See
-[**glColorMaterial**](glcolormaterial.md). | | GL\_CULL\_FACE | If
-enabled, cull polygons based on their winding in window coordinates.
-See [**glCullFace**](glcullface.md). | | GL\_DEPTH\_TEST | If
-enabled, do depth comparisons and update the depth buffer. See
-[**glDepthFunc**](gldepthfunc.md) and
-[**glDepthRange**](gldepthrange.md). | | GL\_DITHER | If enabled,
-dither color components or indexes before they are written to the
-color buffer. | | GL\_FOG | If enabled, blend a fog color into the
-post-texturing color. See [**glFog**](glfog.md). | |
-GL\_INDEX\_LOGIC\_OP | If enabled, apply the current logical
-operation to the incoming index and color buffer indices. See
-[**glLogicOp**](gllogicop.md). | | GL\_LIGHT*i* | If enabled, include
-light *i* in the evaluation of the lighting equation. See
-[**glLightModel**](gllightmodel-functions.md) and
-[**glLight**](gllight-functions.md). | | GL\_LIGHTING | If enabled,
-use the current lighting parameters to compute the vertex color or
-index. If disabled, associate the current color or index with each
-vertex. See [**glMaterial**](glmaterial-functions.md),
-**glLightModel**, and **glLight**. | | GL\_LINE\_SMOOTH | If enabled,
-draw lines with correct filtering. If disabled, draw aliased lines.
-See [**glLineWidth**](gllinewidth.md). | | GL\_LINE\_STIPPLE | If
-enabled, use the current line stipple pattern when drawing lines. See
-[**glLineStipple**](gllinestipple.md). | | GL\_LOGIC\_OP | If
-enabled, apply the currently selected logical operation to the
-incoming and color-buffer indexes. See [**glLogicOp**](gllogicop.md).
-| | GL\_MAP1\_COLOR\_4 | If enabled, calls to
-[**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate RGBA values. See also
-[**glMap1**](glmap1.md). | | GL\_MAP1\_INDEX | If enabled, calls to
-**glEvalCoord1**, **glEvalMesh1**, and **glEvalPoint1** generate
-color indexes. See also **glMap1**. | | GL\_MAP1\_NORMAL | If
-enabled, calls to [**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate normals. See also
-[**glMap1**](glmap1.md). | | GL\_MAP1\_TEXTURE\_COORD\_1 | If
-enabled, calls to **glEvalCoord1**, **glEvalMesh1**, and
-**glEvalPoint1** generate *s* texture coordinates. See also
-**glMap1**. | | GL\_MAP1\_TEXTURE\_COORD\_2 | If enabled, calls to
-[**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate *s* and *t* texture
-coordinates. See also [**glMap1**](glmap1.md). | |
-GL\_MAP1\_TEXTURE\_COORD\_3 | If enabled, calls to **glEvalCoord1**,
-**glEvalMesh1**, and **glEvalPoint1** generate *s*, *t*, and *r*
-texture coordinates. See also **glMap1**. | |
-GL\_MAP1\_TEXTURE\_COORD\_4 | If enabled, calls to
-[glEvalCoord1](glevalcoord-functions.md),
-[glEvalMesh1](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate *s*, *t*, *r*, and *q*
-texture coordinates. See also [**glMap1**](glmap1.md). | |
-GL\_MAP1\_VERTEX\_3 | If enabled, calls to **glEvalCoord1**,
-**glEvalMesh1**, and **glEvalPoint1** generate *x*, *y*, and *z*
-vertex coordinates. See also **glMap1**. | | GL\_MAP1\_VERTEX\_4 | If
-enabled, calls to [**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate homogeneous *x*, *y*,
-*z*, and *w* vertex coordinates. See also [**glMap1**](glmap1.md). |
-| GL\_MAP2\_COLOR\_4 | If enabled, calls to
-[**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate RGBA values. See also
-[**glMap2**](glmap2.md). | | GL\_MAP2\_INDEX | If enabled, calls to
-**glEvalCoord2**, **glEvalMesh2**, and **glEvalPoint2** generate
-color indexes. See also **glMap2**. | | GL\_MAP2\_NORMAL | If
-enabled, calls to [**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate normals. See also
-[**glMap2**](glmap2.md). | | GL\_MAP2\_TEXTURE\_COORD\_1 | If
-enabled, calls to **glEvalCoord2**, **glEvalMesh2**, and
-**glEvalPoint2** generate *s* texture coordinates. See also
-**glMap2**. | | GL\_MAP2\_TEXTURE\_COORD\_2 | If enabled, calls to
-[**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate *s* and *t* texture
-coordinates. See also [**glMap2**](glmap2.md). | |
-GL\_MAP2\_TEXTURE\_COORD\_3 | If enabled, calls to **glEvalCoord2**,
-**glEvalMesh2**, and **glEvalPoint2** generate *s*, *t*, and *r*
-texture coordinates. See also **glMap2**. | |
-GL\_MAP2\_TEXTURE\_COORD\_4 | If enabled, calls to
-[**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate *s*, *t*, *r*, and *q*
-texture coordinates. See also [**glMap2**](glmap2.md). | |
-GL\_MAP2\_VERTEX\_3 | If enabled, calls to **glEvalCoord2**,
-**glEvalMesh2**, and **glEvalPoint2** generate *x*, *y*, and *z*
-vertex coordinates. See also **glMap2**. | | GL\_MAP2\_VERTEX\_4 | If
-enabled, calls to [**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate homogeneous *x*, *y*,
-*z*, and *w* vertex coordinates. See also [**glMap2**](glmap2.md). |
-| GL\_NORMALIZE | If enabled, normal vectors specified with
-**glNormal** are scaled to unit length after transformation. See
-[**glNormal**](glnormal-functions.md). | | GL\_POINT\_SMOOTH | If
-enabled, draw points with proper filtering. If disabled, draw aliased
-points. See [**glPointSize**](glpointsize.md). | |
-GL\_POLYGON\_OFFSET\_FILL | If enabled, and if the polygon is
-rendered in GL\_FILL mode, an offset is added to depth values of a
-polygon's fragments before the depth comparison is performed. See
-[**glPolygonOffset**](glpolygonoffset.md)**.** | |
-GL\_POLYGON\_OFFSET\_LINE | If enabled, and if the polygon is
-rendered in GL\_LINE mode, an offset is added to depth values of a
-polygon's fragments before the depth comparison is performed. See
-**glPolygonOffset**. | | GL\_POLYGON\_OFFSET\_POINT | If enabled, an
-offset is added to depth values of a polygon's fragments before the
-depth comparison is performed, if the polygon is rendered in
-GL\_POINT mode. See [**glPolygonOffset**](glpolygonoffset.md). | |
-GL\_POLYGON\_SMOOTH | If enabled, draw polygons with proper
-filtering. If disabled, draw aliased polygons. See
-[**glPolygonMode**](glpolygonmode.md). | | GL\_POLYGON\_STIPPLE | If
-enabled, use the current polygon stipple pattern when rendering
-polygons. See [**glPolygonStipple**](glpolygonstipple.md). | |
-GL\_SCISSOR\_TEST | If enabled, discard fragments that are outside
-the scissor rectangle. See [**glScissor**](glscissor.md). | |
-GL\_STENCIL\_TEST | If enabled, do stencil testing and update the
-stencil buffer. See [**glStencilFunc**](glstencilfunc.md) and
-[**glStencilOp**](glstencilop.md). | | GL\_TEXTURE\_1D | If enabled,
-one-dimensional texturing is performed (unless two-dimensional
-texturing is also enabled). See [**glTexImage1D**](glteximage1d.md).
-| | GL\_TEXTURE\_2D | If enabled, two-dimensional texturing is
-performed. See [**glTexImage2D**](glteximage2d.md). | |
-GL\_TEXTURE\_GEN\_Q | If enabled, the *q* texture coordinate is
-computed using the texture-generation function defined with
-[**glTexGen**](gltexgen-functions.md). Otherwise, the current *q*
-texture coordinate is used. | | GL\_TEXTURE\_GEN\_R | If enabled, the
-*r* texture coordinate is computed using the texture generation
-function defined with [**glTexGen**](gltexgen-functions.md). If
-disabled, the current *r* texture coordinate is used. | |
-GL\_TEXTURE\_GEN\_S | If enabled, the *s* texture coordinate is
-computed using the texture generation function defined with
-**glTexGen**. If disabled, the current *s* texture coordinate is
-used. | | GL\_TEXTURE\_GEN\_T | If enabled, the *t* texture
-coordinate is computed using the texture generation function defined
-with [**glTexGen**](gltexgen-functions.md). If disabled, the current
-*t* texture coordinate is used. |
+glEnable と glDisable は、さまざまな OpenGL 機能を有効/無効にする。両者はどちらか 1 つの引数 cap
+を取り、どの機能を有効/無効にするかを示すシンボル定数である。glDisable は以下の機能を無効にできる: GL_ALPHA_TEST
+(アルファテスト)、GL_AUTO_NORMAL (評価された頂点に対する自動法線生成)、GL_BLEND
+(ブレンド)、GL_CLIP_PLANEi (ユーザー定義クリップ面)、GL_COLOR_LOGIC_OP /
+GL_INDEX_LOGIC_OP (論理演算)、GL_COLOR_MATERIAL (マテリアル色追跡)、GL_CULL_FACE
+(カリング)、GL_DEPTH_TEST (デプステスト)、GL_DITHER (ディザリング)、GL_FOG
+(フォグ)、GL_LIGHTi / GL_LIGHTING (ライティング)、GL_LINE_SMOOTH /
+GL_LINE_STIPPLE (線のアンチエイリアシング/破線)、GL_MAP1_* / GL_MAP2_*
+(評価器)、GL_NORMALIZE (法線正規化)、GL_POINT_SMOOTH
+(点のアンチエイリアシング)、GL_POLYGON_OFFSET_FILL/LINE/POINT
+(ポリゴンオフセット)、GL_POLYGON_SMOOTH/STIPPLE
+(ポリゴンのアンチ/スティップル)、GL_SCISSOR_TEST、GL_STENCIL_TEST、GL_TEXTURE_1D/2D、GL_TEXTURE_GEN_Q/R/S/T。有効/無効な機能は
+glIsEnabled または glGet で照会できる。glEnable / glDisable は glBegin / glEnd
+ペア内では使用できない。このドキュメントは省略されている。
 
 
 %index
 glDisableClientState
-The glEnableClientState and glDisableClientState functions enable and disable arrays respectively. | glDisableClientState function (Gl.h)
+glDisableClientState 関数はクライアントサイド機能を無効にする。
 %group
 Win32 opengl32
 %prm
 array
-array : [int] A symbolic constant for the array you want to enable or disable. This parameter can assume one of the following values.
+array : [int] 無効にするクライアントサイド機能を示すシンボル定数。受け付ける値は GL_COLOR_ARRAY、GL_EDGE_FLAG_ARRAY、GL_INDEX_ARRAY、GL_NORMAL_ARRAY、GL_TEXTURE_COORD_ARRAY、GL_VERTEX_ARRAY。
 %inst
-The glEnableClientState and glDisableClientState functions enable and
-disable arrays respectively. | glDisableClientState function (Gl.h)
+glDisableClientState 関数はクライアントサイド機能を無効にする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glEnableClientState**](glenableclientstate.md) and
-**glDisableClientState** functions enable and disable various
-individual arrays. Use [**glIsEnabled**](glisenabled.md) or
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-to determine the current setting of any capability. Calling
-[**glEnableClientState**](glenableclientstate.md) and
-**glDisableClientState** between calls to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md) can cause an
-error. If no error is generated, the behavior is undefined. > [!Note]
-> The [**glEnableClientState**](glenableclientstate.md) and
-**glDisableClientState** functions are only available in OpenGL
-version 1.1 or later.
+glEnableClientState / glDisableClientState は、個別の頂点配列機能を有効/無効にする。array
+パラメータはどの機能を切り替えるかを指定する。既定では、すべてのクライアントサイド機能は無効である。glDrawArrays /
+glDrawElements / glArrayElement / glInterleavedArrays
+を呼び出した際、有効な配列のデータが使用される。注意: OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glDrawArrays
-The glDrawArrays function specifies multiple primitives to render.
+glDrawArrays 関数は配列データから複数の幾何プリミティブを描画する。
 %group
 Win32 opengl32
 %prm
 mode, first, count
-mode : [int] The kind of primitives to render. The following constants specify acceptable types of primitives: GL\_POINTS, GL\_LINE\_STRIP, GL\_LINE\_LOOP, GL\_LINES, GL\_TRIANGLE\_STRIP, GL\_TRIANGLE\_FAN, GL\_TRIANGLES, GL\_QUAD\_STRIP, GL\_QUADS, and GL\_POLYGON.
-first : [int] The starting index in the enabled arrays.
-count : [int] The number of indexes to render.
+mode : [int] 構築するプリミティブの種類。受け付けるシンボル定数は GL_POINTS、GL_LINE_STRIP、GL_LINE_LOOP、GL_LINES、GL_TRIANGLE_STRIP、GL_TRIANGLE_FAN、GL_TRIANGLES、GL_QUAD_STRIP、GL_QUADS、GL_POLYGON。
+first : [int] 有効化された配列内で最初のインデックスを指定する。
+count : [int] レンダリングするインデックスの数。
 %inst
-The glDrawArrays function specifies multiple primitives to render.
+glDrawArrays 関数は配列データから複数の幾何プリミティブを描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-With **glDrawArrays**, you can specify multiple geometric primitives
-to render. Instead of calling separate OpenGL functions to pass each
-individual vertex, normal, or color, you can specify separate arrays
-of vertices, normals, and colors to define a sequence of primitives
-(all the same kind) with a single call to **glDrawArrays**. When you
-call **glDrawArrays**, *count* sequential elements from each enabled
-array are used to construct a sequence of geometric primitives,
-beginning with the *first* element. The *mode* parameter specifies
-what kind of primitive to construct and how to use the array elements
-to construct the primitives. After **glDrawArrays** returns, the
-values of vertex attributes that are modified by **glDrawArrays** are
-undefined. For example, if GL\_COLOR\_ARRAY is enabled, the value of
-the current color is undefined after **glDrawArrays** returns.
-Attributes not modified by **glDrawArrays** remain defined. When
-GL\_VERTEX\_ARRAY is not enabled, no geometric primitives are
-generated but the attributes corresponding to enabled arrays are
-modified. You can include **glDrawArrays** in display lists. When you
-include **glDrawArrays** in a display list, the necessary array data,
-determined by the array pointers and the enables, are generated and
-entered in the display list. The values of array pointers and enables
-are determined during the creation of display lists. You can read
-static array data at any time. If any static array elements are
-modified and the array is not specified again, the results of any
-subsequent calls to **glDrawArrays** are undefined. Although no error
-is generated when you specify an array more than once within
-[**glBegin**](glbegin.md) and [**glend**](glend.md) pairs, the
-results are undefined.
+glDrawArrays は複数の幾何プリミティブを 1 回の呼び出しで描画する。個別の OpenGL
+関数で頂点・法線・色を渡す代わりに、頂点・法線・色の別々の配列を事前指定しておき、glDrawArrays 1
+回の呼び出しで同種プリミティブ列を定義できる。呼び出し時、first を起点として各有効配列から count
+個の連続要素が使用される。mode でプリミティブの種類を指定する。戻り後、glDrawArrays
+が変更した頂点属性の値は未定義。例えば GL_COLOR_ARRAY
+が有効だった場合、現在の色の値は未定義となる。glDrawArrays は glBegin / glEnd ペア内では許されない。注意:
+OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glDrawBuffer
-The glDrawBuffer function specifies which color buffers are to be drawn into.
+glDrawBuffer 関数は描画対象のカラーバッファを指定する。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] Specifies up to four color buffers to be drawn into with the following acceptable symbolic constants.
+mode : [int] 描画対象の色バッファを指定する (最大 4 つ)。受け付けるシンボル定数は次のとおり。GL_NONE: どのバッファにも描画しない。GL_FRONT_LEFT: フロント左バッファ。GL_FRONT_RIGHT: フロント右バッファ。GL_BACK_LEFT: バック左バッファ。GL_BACK_RIGHT: バック右バッファ。GL_FRONT: 両フロント (左右)。GL_BACK: 両バック (左右)。GL_LEFT: 左 (フロント+バック)。GL_RIGHT: 右 (フロント+バック)。GL_FRONT_AND_BACK: 全 4 つ。GL_AUXi: 補助バッファ i (GL_AUX0 から GL_AUX3 まで、実装依存)。シングルバッファ環境では GL_FRONT_LEFT、GL_FRONT_RIGHT、GL_FRONT、GL_LEFT、GL_RIGHT、GL_FRONT_AND_BACK、GL_AUXi がデフォルトで有効。ダブルバッファ環境では GL_BACK_LEFT も加わる。
 %inst
-The glDrawBuffer function specifies which color buffers are to be
-drawn into.
+glDrawBuffer 関数は描画対象のカラーバッファを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-When colors are written to the framebuffer, they are written into the
-color buffers specified by **glDrawBuffer**. If more than one color
-buffer is selected for drawing, then blending or logical operations
-are computed and applied independently for each color buffer and can
-produce different results in each buffer. Monoscopic contexts include
-only left buffers, and stereoscopic contexts include both left and
-right buffers. Likewise, single-buffered contexts include only front
-buffers, and double-buffered contexts include both front and back
-buffers. The context is selected at OpenGL initialization. It is
-always the case that GL\_AUX *i* = GL\_AUX0 + *i*. The following
-functions retrieve information related to the **glDrawBuffer**
-function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_DRAW\_BUFFER **glGet** with argument
-GL\_AUX\_BUFFERS
+GL の実装は複数のバッファを持ちうる。glDrawBuffer は描画対象となるカラーバッファを指定する。シンボル定数は、どの単一
+(または複数) のカラーバッファに描画を向けるかを定義する。選択されなかったバッファは glDrawBuffer
+の影響を受けないピクセル書き込み以外では変更されない。無効なバッファ (例: ステレオでない環境で GL_FRONT_RIGHT)
+を指定しようとするとエラーが生成される。関連情報は glGet (GL_DRAW_BUFFER) で取得できる。
 
 
 %index
 glDrawElements
-The glDrawElements function renders primitives from array data.
+glDrawElements 関数は配列データから幾何プリミティブを描画する。
 %group
 Win32 opengl32
 %prm
 mode, count, type, indices
-mode : [int] The kind of primitives to render. It can assume one of the following symbolic values: GL\_POINTS, GL\_LINE\_STRIP, GL\_LINE\_LOOP, GL\_LINES, GL\_TRIANGLE\_STRIP, GL\_TRIANGLE\_FAN, GL\_TRIANGLES, GL\_QUAD\_STRIP, GL\_QUADS, and GL\_POLYGON.
-count : [int] The number of elements to be rendered.
-type : [int] The type of the values in indices. Must be one of GL\_UNSIGNED\_BYTE, GL\_UNSIGNED\_SHORT, or GL\_UNSIGNED\_INT.
-indices : [intptr] A pointer to the location where the indices are stored.
+mode : [int] 構築するプリミティブの種類。受け付けるシンボル定数は GL_POINTS、GL_LINE_STRIP、GL_LINE_LOOP、GL_LINES、GL_TRIANGLE_STRIP、GL_TRIANGLE_FAN、GL_TRIANGLES、GL_QUAD_STRIP、GL_QUADS、GL_POLYGON。
+count : [int] レンダリングする要素数。
+type : [int] インデックスの値の型。GL_UNSIGNED_BYTE、GL_UNSIGNED_SHORT、GL_UNSIGNED_INT のいずれか。
+indices : [intptr] インデックスへのポインタ。
 %inst
-The glDrawElements function renders primitives from array data.
+glDrawElements 関数は配列データから幾何プリミティブを描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glDrawElements** function enables you to specify multiple
-geometric primitives with very few function calls. Instead of calling
-an OpenGL function to pass each individual vertex, normal, or color,
-you can specify separate arrays of vertices, normals, and colors
-beforehand and use them to define a sequence of primitives (all of
-the same type) with a single call to **glDrawElements**. When you
-call the **glDrawElements** function, it uses *count* sequential
-elements from *indices* to construct a sequence of geometric
-primitives. The *mode* parameter specifies what kind of primitives
-are constructed, and how the array elements are used to construct
-these primitives. If GL\_VERTEX\_ARRAY is not enabled, no geometric
-primitives are generated. Vertex attributes that are modified by
-**glDrawElements** have an unspecified value after **glDrawElements**
-returns. For example, if GL\_COLOR\_ARRAY is enabled, the value of
-the current color is undefined after **glDrawElements** executes.
-Attributes that aren't modified remain unchanged. You can include the
-**glDrawElements** function in display lists. When **glDrawElements**
-is included in a display list, the necessary array data (determined
-by the array pointers and enables) is also entered into the display
-list. Because the array pointers and enables are client-side state
-variables, their values affect display lists when the lists are
-created, not when the lists are executed. > [!Note] > The
-**glDrawElements** function is only available in OpenGL version 1.1
-or later.
+glDrawElements
+は少ない関数呼び出し回数で複数の幾何プリミティブを指定できる。頂点・法線・色を個別に渡す代わりに、配列を事前指定しておき、glDrawElements
+1 回の呼び出しで同種プリミティブ列を定義できる。呼び出し時、indices から count 個の連続要素が使われ、mode
+がプリミティブの種類を指定する。GL_VERTEX_ARRAY
+が有効でなければ幾何プリミティブは生成されない。戻り後、glDrawElements
+が変更した頂点属性の値は未定義。glDrawElements は glBegin / glEnd ペア内では許されない。注意:
+OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glDrawPixels
-The glDrawPixels function writes a block of pixels to the framebuffer.
+glDrawPixels 関数はピクセルデータのブロックをフレームバッファに書き込む。
 %group
 Win32 opengl32
 %prm
 width, height, format, type, pixels
-width : [int] The width dimension of the pixel rectangle that will be written into the framebuffer.
-height : [int] The height dimension of the pixel rectangle that will be written into the framebuffer.
-format : [int] The format of the pixel data. Acceptable symbolic constants are as follows.
-type : [int] The data type for *pixels*. The following are the accepted symbolic constants and their meanings.
-pixels : [intptr] A pointer to the pixel data.
+width : [int] ピクセル矩形の幅。
+height : [int] ピクセル矩形の高さ。
+format : [int] ピクセルデータの形式。受け付けるシンボル定数は GL_COLOR_INDEX、GL_STENCIL_INDEX、GL_DEPTH_COMPONENT、GL_RGBA、GL_RED、GL_GREEN、GL_BLUE、GL_ALPHA、GL_RGB、GL_LUMINANCE、GL_LUMINANCE_ALPHA。このドキュメントは省略されている。
+type : [int] pixels のデータ型。受け付けるシンボル定数は次のとおり。GL_UNSIGNED_BYTE: 符号なし 8 bit 整数。GL_BYTE: 符号付き 8 bit 整数。GL_BITMAP: 符号なし 8 bit 整数内の単一ビット列。GL_UNSIGNED_SHORT: 符号なし 16 bit 整数。GL_SHORT: 符号付き 16 bit 整数。GL_UNSIGNED_INT: 符号なし 32 bit 整数。GL_INT: 符号付き 32 bit 整数。GL_FLOAT: 単精度浮動小数点。
+pixels : [intptr] ピクセルデータへのポインタ。
 %inst
-The glDrawPixels function writes a block of pixels to the
-framebuffer.
+glDrawPixels 関数はピクセルデータのブロックをフレームバッファに書き込む。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glDrawPixels** function reads pixel data from memory and writes
-it into the framebuffer relative to the current raster position. Use
-[**glRasterPos**](glrasterpos-functions.md) to set the current raster
-position, and use
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION to query the raster
-position. Several parameters define the encoding of pixel data in
-memory and control the processing of the pixel data before it is
-placed in the framebuffer. These parameters are set with four
-functions: [**glPixelStore**](glpixelstore-functions.md),
-[**glPixelTransfer**](glpixeltransfer.md),
-[**glPixelMap**](glpixelmap.md), and
-[**glPixelZoom**](glpixelzoom.md). This topic describes the effects
-on **glDrawPixels** of many, but not all, of the parameters specified
-by these four functions. Data is read from *pixels* as a sequence of
-signed or unsigned bytes, signed or unsigned shorts, signed or
-unsigned integers, or single-precision floating-point values,
-depending on *type*. Each of these bytes, shorts, integers, or
-floating-point values is interpreted as one color or depth component,
-or one index, depending on *format*. Indexes are always treated
-individually. Color components are treated as groups of one, two,
-three, or four values, again based on *format*. Both individual
-indexes and groups of components are referred to as pixels. If *type*
-is GL\_BITMAP, the data must be unsigned bytes, and *format* must be
-either GL\_COLOR\_INDEX or GL\_STENCIL\_INDEX. Each unsigned byte is
-treated as eight 1-bit pixels, with bit ordering determined by
-GL\_UNPACK\_LSB\_FIRST (see
-[**glPixelStore**](glpixelstore-functions.md)). The *width* by
-*height* pixels are read from memory, starting at location *pixels*.
-By default, these pixels are taken from adjacent memory locations,
-except that after all *width* pixels are read, the read pointer is
-advanced to the next 4-byte boundary. The **glPixelStore** function
-specifies the 4-byte row alignment with argument
-GL\_UNPACK\_ALIGNMENT, and you can set it to 1, 2, 4, or 8 bytes.
-Other pixel store parameters specify different read pointer
-advancements, both before the first pixel is read, and after all
-*width* pixels are read. The **glPixelStore** function operates on
-each of the *width-by-height* pixels that it reads from memory in the
-same way, based on the values of several parameters specified by
-[**glPixelTransfer**](glpixeltransfer.md) and
-[**glPixelMap**](glpixelmap.md). The details of these operations, as
-well as the target buffer into which the pixels are drawn, are
-specific to the format of the pixels, as specified by *format*. The
-rasterization described thus far assumes pixel zoom factors of 1.0.
-If you use [**glPixelZoom**](glpixelzoom.md) to change the *x* and
-*y* pixel zoom factors, pixels are converted to fragments as follows.
-If (*xr,yr*) is the current raster position, and a given pixel is in
-the *n*th column and *m*th row of the pixel rectangle, then fragments
-are generated for pixels whose centers are in the rectangle with
-corners at (*x*r + *zoom*? *n*, *y*r + *zoom*y *m*) (*x*r + *zoom*?
-(*n* + 1), *y*r + *zoom*y (*m* + 1)) where *zoom*? is the value of
-GL\_ZOOM\_X and *zoom*y is the value of GL\_ZOOM\_Y. The following
-functions retrieve information related to **glDrawPixels**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION **glGet** with argument
-GL\_CURRENT\_RASTER\_POSITION\_VALID
+glDrawPixels はメモリからピクセルデータを読み取り、現在のラスタ位置を基準にフレームバッファへ書き込む。現在のラスタ位置は
+glRasterPos で設定でき、glGet (GL_CURRENT_RASTER_POSITION)
+で照会できる。メモリ内のピクセルデータのエンコードと、フレームバッファに配置される前の処理は glPixelStore /
+glPixelTransfer / glPixelMap / glPixelZoom で設定する。width, height
+はピクセル矩形の寸法、format と type はピクセル配列の形式と型を指定する。pixels
+はピクセルデータへのポインタ。処理の流れは概ね「読み出し -> unpack -> pixel transfer -> ラスタ化 ->
+ピクセルごとの操作 -> フレームバッファ」となる。関連情報は glGet (GL_CURRENT_RASTER_*)
+で取得できる。このドキュメントは省略されている。
 
 
 %index
 glEdgeFlag
-Flags edges as either boundary or nonboundary. | glEdgeFlag function (Gl.h)
+エッジを境界または非境界としてフラグ付けする。
 %group
 Win32 opengl32
 %prm
 flag
-flag : [int] Specifies the current edge flag value, either **TRUE** or **FALSE**.
+flag : [int] 現在のエッジフラグ値を指定する。TRUE または FALSE。
 %inst
-Flags edges as either boundary or nonboundary. | glEdgeFlag function
-(Gl.h)
+エッジを境界または非境界としてフラグ付けする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Each vertex of a polygon, separate triangle, or separate
-quadrilateral specified between a
-[**glBegin**](/windows/desktop/OpenGL/glbegin)/[**glEnd**](/windows/desktop/OpenGL/glend)
-pair is marked as the start of either a boundary or nonboundary edge.
-If the current edge flag is **TRUE** when the vertex is specified,
-the vertex is marked as the start of a boundary edge. If the current
-edge flag is **FALSE**, the vertex is marked as the start of a
-nonboundary edge. The **glEdgeFlag** function sets the edge flag to
-**TRUE** if flag is nonzero, **FALSE** otherwise. The vertices of
-connected triangles and connected quadrilaterals are always marked as
-boundary, regardless of the value of the edge flag. Boundary and
-nonboundary edge flags on vertices are significant only if
-GL\_POLYGON\_MODE is set to GL\_POINT or GL\_LINE. See
-[**glPolygonMode**](/windows/desktop/OpenGL/glpolygonmode).
-Initially, the edge flag bit is **TRUE**. The current edge flag can
-be updated at any time. In particular, **glEdgeFlag** can be called
-between a call to [**glBegin**](/windows/desktop/OpenGL/glbegin) and
-the corresponding call to [**glEnd**](/windows/desktop/OpenGL/glend).
-The following functions retrieve information related to
-**glEdgeFlag**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_EDGE\_FLAG
+glBegin / glEnd 間で glPolygonMode が GL_LINE / GL_POINT
+でレンダリングされるポリゴン、分離三角形、分離四角形の各頂点は、境界エッジか非境界エッジかを示すブール値を持ちうる。glEdgeFlag
+および glEdgeFlagv はこのエッジフラグを更新する。現在のエッジフラグ値は GL_TRUE (境界) または GL_FALSE
+(非境界) のいずれか。現在のエッジフラグ値が GL_FALSE のとき glBegin / glEnd
+間で指定された頂点は非境界エッジの頂点となり、GL_TRUE なら境界エッジの頂点となる。glPolygonMode が GL_FILL
+の場合、現在のエッジフラグ値は無視される。glEdgeFlagPointer
+で頂点配列の一部としてエッジフラグを指定することもできる。関連情報は glGet (GL_EDGE_FLAG) で取得できる。
 
 
 %index
 glEdgeFlagPointer
-The glEdgeFlagPointer function defines an array of edge flags.
+glEdgeFlagPointer 関数はエッジフラグ配列を定義する。
 %group
 Win32 opengl32
 %prm
 stride, pointer
-stride : [int] The byte offset between consecutive edge flags. When *stride* is zero, the edge flags are tightly packed in the array.
-pointer : [intptr] A pointer to the first edge flag in the array.
+stride : [int] 連続するエッジフラグ間のバイトオフセット。stride が 0 なら、エッジフラグは配列内に密にパックされている。
+pointer : [intptr] 配列内の最初のエッジフラグへのポインタ。
 %inst
-The glEdgeFlagPointer function defines an array of edge flags.
+glEdgeFlagPointer 関数はエッジフラグ配列を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEdgeFlagPointer** function specifies the location and data of
-an array of Boolean edge flags to use when rendering. The *stride*
-parameter determines the byte offset from one edge flag to the next,
-which enables the packing of vertices and attributes in a single
-array or storage in separate arrays. In some implementations, storing
-the vertices and attributes in a single array can be more efficient
-than using separate arrays. An edge-flag array is enabled when you
-specify the GL\_EDGE\_FLAG\_ARRAY constant with
-[**glEnableClientState**](glenableclientstate.md). When enabled,
-[**glDrawArrays**](gldrawarrays.md) or
-[**glArrayElement**](glarrayelement.md) uses the edge-flag array. By
-default the edge-flag array is disabled. Use **glDrawArrays** to
-construct a sequence of primitives (all of the same type) from
-prespecified vertex and vertex attribute arrays. Use
-**glArrayElement** to specify primitives by indexing vertices and
-vertex attributes, and [**glDrawElements**](gldrawelements.md) to
-construct a sequence of primitives by indexing vertices and vertex
-attributes. You cannot include **glEdgeFlagPointer** in display
-lists. When you specify an edge-flag array using
-**glEdgeFlagPointer**, the values of all the function's edge-flag
-array parameters are saved in a client-side state and static array
-elements can be cached. Because the edge-flag array parameters are in
-a client-side state, [**glPushAttrib**](glpushattrib.md) and
-[**glPopAttrib**](glpopattrib.md) do not save or restore their
-values. Although calling **glEdgeFlagPointer** within a
-[**glBegin**](glbegin.md)/[**glend**](glend.md) pair does not
-generate an error, the results are undefined. The following functions
-retrieve information related to the **glEdgeFlagPointer** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_EDGE\_FLAG\_ARRAY\_STRIDE **glGet** with argument
-GL\_EDGE\_FLAG\_ARRAY\_COUNT [**glGetPointerv**](glgetpointerv.md)
-with argument GL\_EDGE\_FLAG\_ARRAY\_POINTER
-[**glIsEnabled**](glisenabled.md) with argument GL\_EDGE\_FLAG\_ARRAY
+glEdgeFlagPointer はレンダリング時に使用するブール型エッジフラグ配列の位置とデータを指定する。stride は 1
+つのエッジフラグから次のフラグまでのバイトオフセットを決定し、他の頂点属性と一緒にパックすることを可能にする。0
+なら密にパックされている。有効化するには glEnableClientState に GL_EDGE_FLAG_ARRAY
+を指定する。通常 glDrawArrays / glDrawElements / glArrayElement
+と組み合わせて使用する。注意: OpenGL 1.1 以降でのみ利用可能。関連情報は glGet (GL_EDGE_FLAG_ARRAY
+/ GL_EDGE_FLAG_ARRAY_STRIDE) および glGetPointerv
+(GL_EDGE_FLAG_ARRAY_POINTER) で取得できる。
 
 
 %index
 glEdgeFlagv
-Flags edges as either boundary or nonboundary. | glEdgeFlagv function (Gl.h)
+エッジを境界または非境界としてフラグ付けする。
 %group
 Win32 opengl32
 %prm
 flag
-flag : [var] Specifies a pointer to an array that contains a single Boolean element, which replaces the current edge flag value.
+flag : [var] 現在のエッジフラグ値を置き換える単一のブール要素を含む配列へのポインタ。
 %inst
-Flags edges as either boundary or nonboundary. | glEdgeFlagv function
-(Gl.h)
+エッジを境界または非境界としてフラグ付けする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Each vertex of a polygon, separate triangle, or separate
-quadrilateral specified between a
-[**glBegin**](/windows/desktop/OpenGL/glbegin)/[**glEnd**](/windows/desktop/OpenGL/glend)
-pair is marked as the start of either a boundary or nonboundary edge.
-If the current edge flag is **TRUE** when the vertex is specified,
-the vertex is marked as the start of a boundary edge. If the current
-edge flag is **FALSE**, the vertex is marked as the start of a
-nonboundary edge. The **glEdgeFlagv** function sets the edge flag to
-**TRUE** if flag is nonzero, **FALSE** otherwise. The vertices of
-connected triangles and connected quadrilaterals are always marked as
-boundary, regardless of the value of the edge flag. Boundary and
-nonboundary edge flags on vertices are significant only if
-GL\_POLYGON\_MODE is set to GL\_POINT or GL\_LINE. See
-[**glPolygonMode**](/windows/desktop/OpenGL/glpolygonmode).
-Initially, the edge flag bit is **TRUE**. The current edge flag can
-be updated at any time. In particular, **glEdgeFlagv** can be called
-between a call to [**glBegin**](/windows/desktop/OpenGL/glbegin) and
-the corresponding call to [**glEnd**](/windows/desktop/OpenGL/glend).
-The following functions retrieve information related to
-**glEdgeFlagv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_EDGE\_FLAG
+glEdgeFlag を参照。glEdgeFlagv はポインタ経由で単一のブール値を受け取る版。
 
 
 %index
 glEnable
-The glEnable and glDisable functions enable or disable OpenGL capabilities. | glEnable function (Gl.h)
+glEnable と glDisable 関数は OpenGL 機能を有効/無効にする。
 %group
 Win32 opengl32
 %prm
 cap
-cap : [int] A symbolic constant indicating an OpenGL capability. For discussion of the values *cap* can take, see the following Remarks section.
+cap : [int] OpenGL 機能を示すシンボル定数。cap に指定可能な値は Remarks を参照。
 %inst
-The glEnable and glDisable functions enable or disable OpenGL
-capabilities. | glEnable function (Gl.h)
+glEnable と glDisable 関数は OpenGL 機能を有効/無効にする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEnable** and **glDisable** functions enable and disable
-various OpenGL graphics capabilities. Use
-[**glIsEnabled**](glisenabled.md) or
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-to determine the current setting of any capability. Both **glEnable**
-and **glDisable** take a single argument, *cap*, which can assume one
-of the following values:
-| Value | Meaning |
-|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GL\_ALPHA\_TEST | If enabled, do alpha testing. See
-[**glAlphaFunc**](glalphafunc.md). | | GL\_AUTO\_NORMAL | If enabled,
-compute surface normal vectors analytically when either
-GL\_MAP2\_VERTEX\_3 or GL\_MAP2\_VERTEX\_4 has generated vertices.
-See [**glMap2**](glmap2.md). | | GL\_BLEND | If enabled, blend the
-incoming RGBA color values with the values in the color buffers. See
-[**glBlendFunc**](glblendfunc.md). | | GL\_CLIP\_PLANE*i* | If
-enabled, clip geometry against user-defined clipping plane *i*. See
-[**glClipPlane**](glclipplane.md). | | GL\_COLOR\_LOGIC\_OP | If
-enabled, apply the current logical operation to the incoming RGBA
-color and color buffer values. See [**glLogicOp**](gllogicop.md). | |
-GL\_COLOR\_MATERIAL | If enabled, have one or more material
-parameters track the current color. See
-[**glColorMaterial**](glcolormaterial.md). | | GL\_CULL\_FACE | If
-enabled, cull polygons based on their winding in window coordinates.
-See [**glCullFace**](glcullface.md). | | GL\_DEPTH\_TEST | If
-enabled, do depth comparisons and update the depth buffer. See
-[**glDepthFunc**](gldepthfunc.md) and
-[**glDepthRange**](gldepthrange.md). | | GL\_DITHER | If enabled,
-dither color components or indexes before they are written to the
-color buffer. | | GL\_FOG | If enabled, blend a fog color into the
-post-texturing color. See [**glFog**](glfog.md). | |
-GL\_INDEX\_LOGIC\_OP | If enabled, apply the current logical
-operation to the incoming index and color buffer indices. See
-[**glLogicOp**](gllogicop.md). | | GL\_LIGHT*i* | If enabled, include
-light *i* in the evaluation of the lighting equation. See
-[**glLightModel**](gllightmodel-functions.md) and
-[**glLight**](gllight-functions.md). | | GL\_LIGHTING | If enabled,
-use the current lighting parameters to compute the vertex color or
-index. If disabled, associate the current color or index with each
-vertex. See [**glMaterial**](glmaterial-functions.md),
-**glLightModel**, and **glLight**. | | GL\_LINE\_SMOOTH | If enabled,
-draw lines with correct filtering. If disabled, draw aliased lines.
-See [**glLineWidth**](gllinewidth.md). | | GL\_LINE\_STIPPLE | If
-enabled, use the current line stipple pattern when drawing lines. See
-[**glLineStipple**](gllinestipple.md). | | GL\_LOGIC\_OP | If
-enabled, apply the currently selected logical operation to the
-incoming and color-buffer indexes. See [**glLogicOp**](gllogicop.md).
-| | GL\_MAP1\_COLOR\_4 | If enabled, calls to
-[**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate RGBA values. See also
-[**glMap1**](glmap1.md). | | GL\_MAP1\_INDEX | If enabled, calls to
-**glEvalCoord1**, **glEvalMesh1**, and **glEvalPoint1** generate
-color indexes. See also **glMap1**. | | GL\_MAP1\_NORMAL | If
-enabled, calls to [**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate normals. See also
-[**glMap1**](glmap1.md). | | GL\_MAP1\_TEXTURE\_COORD\_1 | If
-enabled, calls to **glEvalCoord1**, **glEvalMesh1**, and
-**glEvalPoint1** generate *s* texture coordinates. See also
-**glMap1**. | | GL\_MAP1\_TEXTURE\_COORD\_2 | If enabled, calls to
-[**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate *s* and *t* texture
-coordinates. See also [**glMap1**](glmap1.md). | |
-GL\_MAP1\_TEXTURE\_COORD\_3 | If enabled, calls to **glEvalCoord1**,
-**glEvalMesh1**, and **glEvalPoint1** generate *s*, *t*, and *r*
-texture coordinates. See also **glMap1**. | |
-GL\_MAP1\_TEXTURE\_COORD\_4 | If enabled, calls to
-[glEvalCoord1](glevalcoord-functions.md),
-[glEvalMesh1](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate *s*, *t*, *r*, and *q*
-texture coordinates. See also [**glMap1**](glmap1.md). | |
-GL\_MAP1\_VERTEX\_3 | If enabled, calls to **glEvalCoord1**,
-**glEvalMesh1**, and **glEvalPoint1** generate *x*, *y*, and *z*
-vertex coordinates. See also **glMap1**. | | GL\_MAP1\_VERTEX\_4 | If
-enabled, calls to [**glEvalCoord1**](glevalcoord-functions.md),
-[**glEvalMesh1**](glevalmesh-functions.md), and
-[**glEvalPoint1**](glevalpoint.md) generate homogeneous *x*, *y*,
-*z*, and *w* vertex coordinates. See also [**glMap1**](glmap1.md). |
-| GL\_MAP2\_COLOR\_4 | If enabled, calls to
-[**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate RGBA values. See also
-[**glMap2**](glmap2.md). | | GL\_MAP2\_INDEX | If enabled, calls to
-**glEvalCoord2**, **glEvalMesh2**, and **glEvalPoint2** generate
-color indexes. See also **glMap2**. | | GL\_MAP2\_NORMAL | If
-enabled, calls to [**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate normals. See also
-[**glMap2**](glmap2.md). | | GL\_MAP2\_TEXTURE\_COORD\_1 | If
-enabled, calls to **glEvalCoord2**, **glEvalMesh2**, and
-**glEvalPoint2** generate *s* texture coordinates. See also
-**glMap2**. | | GL\_MAP2\_TEXTURE\_COORD\_2 | If enabled, calls to
-[**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate *s* and *t* texture
-coordinates. See also [**glMap2**](glmap2.md). | |
-GL\_MAP2\_TEXTURE\_COORD\_3 | If enabled, calls to **glEvalCoord2**,
-**glEvalMesh2**, and **glEvalPoint2** generate *s*, *t*, and *r*
-texture coordinates. See also **glMap2**. | |
-GL\_MAP2\_TEXTURE\_COORD\_4 | If enabled, calls to
-[**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate *s*, *t*, *r*, and *q*
-texture coordinates. See also [**glMap2**](glmap2.md). | |
-GL\_MAP2\_VERTEX\_3 | If enabled, calls to **glEvalCoord2**,
-**glEvalMesh2**, and **glEvalPoint2** generate *x*, *y*, and *z*
-vertex coordinates. See also **glMap2**. | | GL\_MAP2\_VERTEX\_4 | If
-enabled, calls to [**glEvalCoord2**](glevalcoord-functions.md),
-[**glEvalMesh2**](glevalmesh-functions.md), and
-[**glEvalPoint2**](glevalpoint.md) generate homogeneous *x*, *y*,
-*z*, and *w* vertex coordinates. See also [**glMap2**](glmap2.md). |
-| GL\_NORMALIZE | If enabled, normal vectors specified with
-**glNormal** are scaled to unit length after transformation. See
-[**glNormal**](glnormal-functions.md). | | GL\_POINT\_SMOOTH | If
-enabled, draw points with proper filtering. If disabled, draw aliased
-points. See [**glPointSize**](glpointsize.md). | |
-GL\_POLYGON\_OFFSET\_FILL | If enabled, and if the polygon is
-rendered in GL\_FILL mode, an offset is added to depth values of a
-polygon's fragments before the depth comparison is performed. See
-[**glPolygonOffset**](glpolygonoffset.md)**.** | |
-GL\_POLYGON\_OFFSET\_LINE | If enabled, and if the polygon is
-rendered in GL\_LINE mode, an offset is added to depth values of a
-polygon's fragments before the depth comparison is performed. See
-**glPolygonOffset**. | | GL\_POLYGON\_OFFSET\_POINT | If enabled, an
-offset is added to depth values of a polygon's fragments before the
-depth comparison is performed, if the polygon is rendered in
-GL\_POINT mode. See [**glPolygonOffset**](glpolygonoffset.md). | |
-GL\_POLYGON\_SMOOTH | If enabled, draw polygons with proper
-filtering. If disabled, draw aliased polygons. See
-[**glPolygonMode**](glpolygonmode.md). | | GL\_POLYGON\_STIPPLE | If
-enabled, use the current polygon stipple pattern when rendering
-polygons. See [**glPolygonStipple**](glpolygonstipple.md). | |
-GL\_SCISSOR\_TEST | If enabled, discard fragments that are outside
-the scissor rectangle. See [**glScissor**](glscissor.md). | |
-GL\_STENCIL\_TEST | If enabled, do stencil testing and update the
-stencil buffer. See [**glStencilFunc**](glstencilfunc.md) and
-[**glStencilOp**](glstencilop.md). | | GL\_TEXTURE\_1D | If enabled,
-one-dimensional texturing is performed (unless two-dimensional
-texturing is also enabled). See [**glTexImage1D**](glteximage1d.md).
-| | GL\_TEXTURE\_2D | If enabled, two-dimensional texturing is
-performed. See [**glTexImage2D**](glteximage2d.md). | |
-GL\_TEXTURE\_GEN\_Q | If enabled, the *q* texture coordinate is
-computed using the texture-generation function defined with
-[**glTexGen**](gltexgen-functions.md). Otherwise, the current *q*
-texture coordinate is used. | | GL\_TEXTURE\_GEN\_R | If enabled, the
-*r* texture coordinate is computed using the texture generation
-function defined with [**glTexGen**](gltexgen-functions.md). If
-disabled, the current *r* texture coordinate is used. | |
-GL\_TEXTURE\_GEN\_S | If enabled, the *s* texture coordinate is
-computed using the texture generation function defined with
-**glTexGen**. If disabled, the current *s* texture coordinate is
-used. | | GL\_TEXTURE\_GEN\_T | If enabled, the *t* texture
-coordinate is computed using the texture generation function defined
-with [**glTexGen**](gltexgen-functions.md). If disabled, the current
-*t* texture coordinate is used. |
+glEnable と glDisable は、さまざまな OpenGL 機能を有効/無効にする。glIsEnabled / glGet
+で有効な機能を照会できる。glEnable で有効にできる機能の一覧: GL_ALPHA_TEST
+(アルファテスト)、GL_AUTO_NORMAL (評価された曲面の自動法線生成)、GL_BLEND
+(ブレンド)、GL_CLIP_PLANEi (ユーザー定義クリップ平面)、GL_COLOR_LOGIC_OP /
+GL_INDEX_LOGIC_OP (論理演算)、GL_COLOR_MATERIAL (マテリアル色追跡)、GL_CULL_FACE
+(ポリゴンカリング)、GL_DEPTH_TEST (デプステスト)、GL_DITHER (ディザリング)、GL_FOG
+(フォグ)、GL_LIGHTi / GL_LIGHTING (ライティング)、GL_LINE_SMOOTH /
+GL_LINE_STIPPLE (線アンチエイリアシング/破線)、GL_MAP1_COLOR_4 など GL_MAP1_* および
+GL_MAP2_* (1D/2D 評価器)、GL_NORMALIZE (法線正規化)、GL_POINT_SMOOTH
+(点アンチエイリアシング)、GL_POLYGON_OFFSET_FILL/LINE/POINT
+(ポリゴンオフセット)、GL_POLYGON_SMOOTH (ポリゴンアンチエイリアシング)、GL_POLYGON_STIPPLE
+(ポリゴンスティップル)、GL_SCISSOR_TEST (シザーテスト)、GL_STENCIL_TEST
+(ステンシルテスト)、GL_TEXTURE_1D / GL_TEXTURE_2D (1D/2D
+テクスチャマッピング)、GL_TEXTURE_GEN_Q / R / S / T (テクスチャ座標自動生成)。glEnable /
+glDisable は glBegin / glEnd ペア内では使用できない。関連情報は glGet / glIsEnabled
+で取得できる。このドキュメントは省略されている。
 
 
 %index
 glEnableClientState
-The glEnableClientState and glDisableClientState functions enable and disable arrays respectively. | glEnableClientState function (Gl.h)
+glEnableClientState と glDisableClientState 関数は配列の有効化/無効化を行う。
 %group
 Win32 opengl32
 %prm
 array
-array : [int] A symbolic constant for the array you want to enable or disable. This parameter can assume one of the following values.
+array : [int] 有効/無効にする配列を示すシンボル定数。受け付ける値: GL_COLOR_ARRAY (色配列)、GL_EDGE_FLAG_ARRAY (エッジフラグ配列)、GL_INDEX_ARRAY (インデックス配列)、GL_NORMAL_ARRAY (法線配列)、GL_TEXTURE_COORD_ARRAY (テクスチャ座標配列)、GL_VERTEX_ARRAY (頂点配列)。
 %inst
-The glEnableClientState and glDisableClientState functions enable and
-disable arrays respectively. | glEnableClientState function (Gl.h)
+glEnableClientState と glDisableClientState 関数は配列の有効化/無効化を行う。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEnableClientState** and **glDisableClientState** functions
-enable and disable various individual arrays. Use
-[**glIsEnabled**](glisenabled.md) or
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-to determine the current setting of any capability. Calling
-**glEnableClientState** and **glDisableClientState** between calls to
-[**glBegin**](glbegin.md) and the corresponding call to
-[**glEnd**](glend.md) can cause an error. If no error is generated,
-the behavior is undefined. > [!Note] > The **glEnableClientState**
-and **glDisableClientState** functions are only available in OpenGL
-version 1.1 or later.
+glEnableClientState / glDisableClientState は個別の配列を有効/無効にする。array
+パラメータはどの配列を切り替えるかを指定する。既定ではすべての配列が無効。glDrawArrays / glDrawElements /
+glArrayElement / glInterleavedArrays を呼び出した際、有効な配列のデータが使われる。注意:
+OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glEnd
-The glBegin and glEnd functions delimit the vertices of a primitive or a group of like primitives. | glEnd function (Gl.h)
+glBegin と glEnd 関数はプリミティブまたは同種プリミティブ群の頂点を区切る。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glBegin and glEnd functions delimit the vertices of a primitive
-or a group of like primitives. | glEnd function (Gl.h)
+glBegin と glEnd 関数はプリミティブまたは同種プリミティブ群の頂点を区切る。
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数はパラメータを持たず、値も返さない。
 
 [備考]
-The [**glBegin**](glbegin.md) and **glEnd** functions delimit the
-vertices that define a primitive or a group of like primitives. The
-**glBegin** function accepts a single argument that specifies which
-of ten primitives the vertices compose. Taking *n* as an integer
-count starting at one, and *N* as the total number of vertices
-specified, the interpretations are as follows: - You can use only a
-subset of OpenGL functions between **glBegin** and **glEnd**. The
-functions you can use are: - [**glVertex**](glvertex-functions.md) -
-[**glColor**](glcolor-functions.md) -
-[**glIndex**](glindex-functions.md) -
-[**glNormal**](glnormal-functions.md) -
-[**glTexCoord**](gltexcoord-functions.md) -
-[**glEvalCoord**](glevalcoord-functions.md) -
-[**glEvalPoint**](glevalpoint.md) -
-[**glMaterial**](glmaterial-functions.md) -
-[**glEdgeFlag**](gledgeflag-functions.md) You can also use
-[**glCallList**](glcalllist.md) or [**glCallLists**](glcalllists.md)
-to execute display lists that include only the preceding functions.
-If any other OpenGL function is called between **glBegin** and
-**glEnd**, the error flag is set and the function is ignored. -
-Regardless of the value chosen for *mode* in **glBegin**, there is no
-limit to the number of vertices you can define between **glBegin**
-and **glEnd**. Lines, triangles, quadrilaterals, and polygons that
-are incompletely specified are not drawn. Incomplete specification
-results when either too few vertices are provided to specify even a
-single primitive or when an incorrect multiple of vertices is
-specified. The incomplete primitive is ignored; the complete
-primitives are drawn. - The minimum specification of vertices for
-each primitive is: | Minimum number of vertices | Type of primitive |
-|----------------------------|-------------------| | 1 | point | | 2
-| line | | 3 | triangle | | 4 | quadrilateral | | 3 | polygon |
-- Modes that require a certain multiple of vertices are GL\_LINES
-(2), GL\_TRIANGLES (3), GL\_QUADS (4), and GL\_QUAD\_STRIP (2).
+glBegin と glEnd はプリミティブまたは同種プリミティブ群を定義する頂点を区切る。glEnd は glBegin
+の対応を閉じる。詳細は glBegin の解説を参照。glBegin / glEnd 間で利用可能な関数は
+glVertex、glColor、glIndex、glNormal、glTexCoord、glEvalCoord、glEvalPoint、glMaterial、glEdgeFlag
+の各ファミリに限られる。それ以外の OpenGL 関数を呼ぶとエラーフラグがセットされ無視される。
 
 
 %index
 glEndList
-The glNewList and glEndList functions create or replace a display list. | glEndList function (Gl.h)
+glNewList と glEndList 関数は表示リストを作成または置き換える。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glNewList and glEndList functions create or replace a display
-list. | glEndList function (Gl.h)
+glNewList と glEndList 関数は表示リストを作成または置き換える。
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数はパラメータを持たず、値も返さない。
 
 [備考]
-Display lists are groups of OpenGL commands that have been stored for
-subsequent execution. The display lists are created with
-[**glNewList**](glnewlist.md). All subsequent commands are placed in
-the display list, in the order issued, until **glEndList** is called.
-The [**glNewList**](glnewlist.md) function has two parameters. The
-first parameter, *list*, is a positive integer that becomes the
-unique name for the display list. Names can be created and reserved
-with [**glGenLists**](glgenlists.md) and tested for uniqueness with
-[**glIsList**](glislist.md). The second parameter, *mode*, is a
-symbolic constant that can assume one of the two preceding values.
-Certain commands are not compiled into the display list, but are
-executed immediately, regardless of the display list mode. These
-commands are [**glColorPointer**](glcolorpointer.md),
-[**glDeleteLists**](gldeletelists.md),
-[**glDisableClientState**](gldisableclientstate.md),
-[**glEdgeFlagPointer**](gledgeflagpointer.md),
-[**glEnableClientState**](glenableclientstate.md),
-[**glFeedbackBuffer**](glfeedbackbuffer.md),
-[**glFinish**](glfinish.md), [**glFlush**](glflush.md),
-[**glGenLists**](glgenlists.md),
-[**glIndexPointer**](glindexpointer.md),
-[**glInterleavedArrays**](glinterleavedarrays.md),
-[**glIsEnabled**](glisenabled.md), [**glIsList**](glislist.md),
-[**glNormalPointer**](glnormalpointer.md),
-[**glPopClientAttrib**](glpopclientattrib.md),
-[**glPixelStore**](glpixelstore-functions.md),
-[**glPushClientAttrib**](glpushclientattrib.md),
-[**glReadPixels**](glreadpixels.md),
-[**glRenderMode**](glrendermode.md),
-[**glSelectBuffer**](glselectbuffer.md),
-[**glTexCoordPointer**](gltexcoordpointer.md),
-[**glVertexPointer**](glvertexpointer.md), and all of the
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-routines. Similarly, [**glTexImage2D**](glteximage2d.md) and
-[**glTexImage1D**](glteximage1d.md) are executed immediately and not
-compiled into the display list when their first argument is
-GL\_PROXY\_TEXTURE\_2D or GL\_PROXY\_TEXTURE\_1D, respectively. When
-the **glEndList** function is encountered, the display list
-definition is completed by associating the list with the unique name
-*list* (specified in the [**glNewList**](glnewlist.md) command). If a
-display list with name *list* already exists, it is replaced only
-when **glEndList** is called. The [**glCallList**](glcalllist.md) and
-[**glCallLists**](glcalllists.md) functions can be entered into
-display lists. The commands in the display list or lists executed by
-**glCallList** or **glCallLists** are not included in the display
-list being created, even if the list creation mode is
-GL\_COMPILE\_AND\_EXECUTE. The following function retrieves
-information related to [**glNewList**](glnewlist.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE
+表示リストは、後続の実行のために保存された OpenGL コマンド群である。表示リストは glNewList
+で作成する。glNewList / glEndList で囲まれた間に発行される OpenGL コマンドは、次の 1
+つを除き、表示リストに追加される: GL_COMPILE
+モードの場合、表示リストの作成のみが行われ、コマンドは実行されない。GL_COMPILE_AND_EXECUTE
+モードでは、コマンドが保存されると同時に実行もされる。表示リスト作成中、一部の関数は表示リストに入れずに直接実行される
+(glIsList、glGenLists、glDeleteLists、glFeedbackBuffer、glSelectBuffer、glRenderMode、glReadPixels、glPixelStore、glFlush、glFinish、glIsEnabled、glGet*、glAreTexturesResident
+など)。glNewList 呼び出しと対応する glEndList の間で glNewList を再度呼び出すと
+GL_INVALID_OPERATION エラーが発生する。
 
 
 %index
 glEvalCoord1d
-The glEvalCoord1d function evaluates enabled one-dimensional maps.
+glEvalCoord1d 関数は有効な 1 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u
-u : [double] A value that is the domain coordinate *u* to the basis function defined in a previous [**glMap1**](glmap1.md) function.
+u : [double] 先行する glMap1 関数で定義された基底関数に対する定義域座標 u となる値。
 %inst
-The glEvalCoord1d function evaluates enabled one-dimensional maps.
+glEvalCoord1d 関数は有効な 1 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEvalCoord1d** function evaluates enabled one-dimensional maps
-at argument *u*. Define maps with [**glMap1**](glmap1.md). Enable or
-disable them with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md). When one of the **glEvalCoord**
-functions is issued, all currently enabled maps of the indicated
-dimension are evaluated. Then, for each enabled map, it is as if the
-corresponding OpenGL function were issued with the computed value.
-That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is enabled, a
-[**glIndex**](glindex-functions.md) function is simulated. If
-GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. The following
-functions retrieve information related to the **glEvalCoord1d**
-function: [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_3 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_INDEX [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_COLOR\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_NORMAL [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord1d は引数 u で有効な 1 次元マップを評価する。マップは glMap1
+で定義する。評価されたマップは頂点・法線・テクスチャ座標・色・色インデックス値を生成でき、glVertex、glNormal、glTexCoord、glColor、glIndex
+関数を呼ぶのと同じ効果を持つ
+(ただし現在の法線/色/テクスチャ座標/インデックスは変更されない)。マップは個別に有効/無効化でき、複数有効なら対応するすべての属性が評価される。関連情報は
+glMap1 / glMap2 / glMapGrid / glEvalMesh / glEvalPoint を参照。
 
 
 %index
 glEvalCoord1dv
-The glEvalCoord1dv function evaluates enabled one-dimensional maps.
+glEvalCoord1dv 関数は有効な 1 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u
-u : [var] A pointer to an array containing the domain coordinate *u*.
+u : [var] 定義域座標 u を含む配列へのポインタ。
 %inst
-The glEvalCoord1dv function evaluates enabled one-dimensional maps.
+glEvalCoord1dv 関数は有効な 1 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEvalCoord1dv** function evaluates enabled one-dimensional
-maps at argument *u*. Define maps with [**glMap1**](glmap1.md).
-Enable or disable them with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md). When one of the **glEvalCoord**
-functions is issued, all currently enabled maps of the indicated
-dimension are evaluated. Then, for each enabled map, it is as if the
-corresponding OpenGL function were issued with the computed value.
-That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is enabled, a
-[**glIndex**](glindex-functions.md) function is simulated. If
-GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. The following
-functions retrieve information related to the **glEvalCoord1dv**
-function: [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_3 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_INDEX [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_COLOR\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_NORMAL [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord1d を参照。dv は配列ポインタを受け取る版。
 
 
 %index
 glEvalCoord1f
-The glEvalCoord1f function evaluates enabled one-dimensional maps.
+glEvalCoord1f 関数は有効な 1 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u
-u : [float] A value that is the domain coordinate *u* to the basis function defined in a previous [**glMap1**](glmap1.md) function.
+u : [float] 先行する glMap1 関数で定義された基底関数に対する定義域座標 u となる値。
 %inst
-The glEvalCoord1f function evaluates enabled one-dimensional maps.
+glEvalCoord1f 関数は有効な 1 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEvalCoord1f** function evaluates enabled one-dimensional maps
-at argument *u*. Define maps with [**glMap1**](glmap1.md). Enable or
-disable them with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md). When one of the **glEvalCoord**
-functions is issued, all currently enabled maps of the indicated
-dimension are evaluated. Then, for each enabled map, it is as if the
-corresponding OpenGL function were issued with the computed value.
-That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is enabled, a
-[**glIndex**](glindex-functions.md) function is simulated. If
-GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. The following
-functions retrieve information related to the **glEvalCoord1f**
-function: [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_3 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_INDEX [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_COLOR\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_NORMAL [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord1d を参照。単精度版。
 
 
 %index
 glEvalCoord1fv
-The glEvalCoord1fv function evaluates enabled one-dimensional maps.
+glEvalCoord1fv 関数は有効な 1 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u
-u : [var] A pointer to an array containing the domain coordinate *u*.
+u : [var] 定義域座標 u を含む配列へのポインタ。
 %inst
-The glEvalCoord1fv function evaluates enabled one-dimensional maps.
+glEvalCoord1fv 関数は有効な 1 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glEvalCoord1fv**](glevalcoord1dv.md) function evaluates
-enabled one-dimensional maps at argument *u*. Define maps with
-[**glMap1**](glmap1.md). Enable or disable them with
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md). When
-one of the **glEvalCoord** functions is issued, all currently enabled
-maps of the indicated dimension are evaluated. Then, for each enabled
-map, it is as if the corresponding OpenGL function were issued with
-the computed value. That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is
-enabled, a [**glIndex**](glindex-functions.md) function is simulated.
-If GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. The following
-functions retrieve information related to the **glEvalCoord1fv**
-function: [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_3 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_INDEX [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_COLOR\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_NORMAL [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord1d を参照。単精度配列ポインタ版。
 
 
 %index
 glEvalCoord2d
-The glEvalCoord2d function evaluates enabled two-dimensional maps.
+glEvalCoord2d 関数は有効な 2 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u, v
-u : [double] A value that is the domain coordinate *u* to the basis function defined in a previous [**glMap2**](glmap2.md) function.
-v : [double] A value that is the domain coordinate *v* to the basis function defined in a previous [**glMap2**](glmap2.md) function.
+u : [double] 先行する glMap2 関数で定義された基底関数に対する定義域座標 u となる値。
+v : [double] 先行する glMap2 関数で定義された基底関数に対する定義域座標 v となる値。
 %inst
-The glEvalCoord2d function evaluates enabled two-dimensional maps.
+glEvalCoord2d 関数は有効な 2 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEvalCoord2d** function evaluates enabled two-dimensional maps
-using two domain values, *u* and *v*. Define maps with
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). Enable or
-disable them with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md). When one of the **glEvalCoord**
-functions is issued, all currently enabled maps of the indicated
-dimension are evaluated. Then, for each enabled map, it is as if the
-corresponding OpenGL function were issued with the computed value.
-That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is enabled, a
-[**glIndex**](glindex-functions.md) function is simulated. If
-GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. If automatic
-normal generation is enabled, **glEvalCoord2d** calls
-[**glEnable**](glenable.md) with argument GL\_AUTO\_NORMAL to
-generate surface normals analytically, regardless of the contents or
-enabling of the GL\_MAP2\_NORMAL map. Let ![Equation showing a
-cross-product value for a map m.](images/evlcrd01.png) The generated
-normal **n** is ![Equation showing the generated normal n for the
-map.](images/evlcrd02.png) The following functions retrieve
-information related to the **glEvalCoord2d** function:
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord2d は 2 つの定義域値 u, v を用いて有効な 2 次元マップを評価する。マップは glMap2
+で定義する。評価結果は頂点・法線・テクスチャ座標・色・色インデックスを生成しうる。詳細は glEvalCoord1d の解説を参照。
 
 
 %index
 glEvalCoord2dv
-The glEvalCoord2dv function evaluates enabled two-dimensional maps.
+glEvalCoord2dv 関数は有効な 2 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u
-u : [var] A pointer to an array containing the domain coordinate *u*.
+u : [var] 定義域座標 u を含む配列へのポインタ。
 %inst
-The glEvalCoord2dv function evaluates enabled two-dimensional maps.
+glEvalCoord2dv 関数は有効な 2 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEvalCoord2dv** function evaluates enabled two-dimensional
-maps using two domain values, *u* and *v*. Define maps with
-[**glMap1**](glmap1.md). Enable or disable them with
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md). When
-one of the **glEvalCoord** functions is issued, all currently enabled
-maps of the indicated dimension are evaluated. Then, for each enabled
-map, it is as if the corresponding OpenGL function were issued with
-the computed value. That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is
-enabled, a [**glIndex**](glindex-functions.md) function is simulated.
-If GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. If automatic
-normal generation is enabled, **glEvalCoord2dv** calls
-[**glEnable**](glenable.md) with argument GL\_AUTO\_NORMAL to
-generate surface normals analytically, regardless of the contents or
-enabling of the GL\_MAP2\_NORMAL map. Let ![Equation showing a
-cross-product value for a map m.](images/evlcrd01.png) The generated
-normal **n** is ![Equation showing the generated normal n for the
-map.](images/evlcrd02.png) The following functions retrieve
-information related to the **glEvalCoord2dv** function:
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord2d を参照。dv は配列ポインタ版。
 
 
 %index
 glEvalCoord2f
-The glEvalCoord2f function evaluates enabled two-dimensional maps.
+glEvalCoord2f 関数は有効な 2 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u, v
-u : [float] A value that is the domain coordinate *u* to the basis function defined in a previous [**glMap2**](glmap2.md) function.
-v : [float] A value that is the domain coordinate *v* to the basis function defined in a previous [**glMap2**](glmap2.md) function.
+u : [float] 先行する glMap2 関数で定義された基底関数に対する定義域座標 u となる値。
+v : [float] 先行する glMap2 関数で定義された基底関数に対する定義域座標 v となる値。
 %inst
-The glEvalCoord2f function evaluates enabled two-dimensional maps.
+glEvalCoord2f 関数は有効な 2 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glEvalCoord2f**](glevalcoord2d.md) function evaluates enabled
-two-dimensional maps using two domain values, *u* and *v*. Define
-maps with [**glMap2**](glmap2.md). Enable or disable them with
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md). When
-one of the **glEvalCoord** functions is issued, all currently enabled
-maps of the indicated dimension are evaluated. Then, for each enabled
-map, it is as if the corresponding OpenGL function were issued with
-the computed value. That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is
-enabled, a [**glIndex**](glindex-functions.md) function is simulated.
-If GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. If automatic
-normal generation is enabled, [**glEvalCoord2f**](glevalcoord2d.md)
-calls [**glEnable**](glenable.md) with argument GL\_AUTO\_NORMAL to
-generate surface normals analytically, regardless of the contents or
-enabling of the GL\_MAP2\_NORMAL map. Let ![Equation showing a
-cross-product value for a map m.](images/evlcrd01.png) The generated
-normal **n** is ![Equation showing the generated normal n for the
-map.](images/evlcrd02.png) The following functions retrieve
-information related to the [**glEvalCoord2f**](glevalcoord2d.md)
-function: [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_3 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_VERTEX\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_INDEX [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_COLOR\_4 [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_NORMAL [**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord2d を参照。単精度版。
 
 
 %index
 glEvalCoord2fv
-The glEvalCoord2fv function evaluates enabled two-dimensional maps.
+glEvalCoord2fv 関数は有効な 2 次元マップを評価する。
 %group
 Win32 opengl32
 %prm
 u
-u : [var] A pointer to an array containing the domain coordinate *u*.
+u : [var] 定義域座標 u を含む配列へのポインタ。
 %inst
-The glEvalCoord2fv function evaluates enabled two-dimensional maps.
+glEvalCoord2fv 関数は有効な 2 次元マップを評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glEvalCoord2fv** function evaluates enabled two-dimensional
-maps using two domain values, *u* and *v*. Define maps with
-[**glMap1**](glmap1.md). Enable or disable them with
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md). When
-one of the **glEvalCoord** functions is issued, all currently enabled
-maps of the indicated dimension are evaluated. Then, for each enabled
-map, it is as if the corresponding OpenGL function were issued with
-the computed value. That is, if GL\_MAP1\_INDEX or GL\_MAP2\_INDEX is
-enabled, a [**glIndex**](glindex-functions.md) function is simulated.
-If GL\_MAP1\_COLOR\_4 or GL\_MAP2\_COLOR\_4 is enabled, a **glcolor**
-function is simulated. If GL\_MAP1\_NORMAL or GL\_MAP2\_NORMAL is
-enabled, a normal vector is produced, and if any of
-GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2,
-GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4,
-GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2,
-GL\_MAP2\_TEXTURE\_COORD\_3, and GL\_MAP2\_TEXTURE\_COORD\_4 is
-enabled, then an appropriate
-[**glTexCoord**](gltexcoord-functions.md) function is simulated.
-OpenGL uses evaluated values instead of current values for those
-evaluations that are enabled, and current values otherwise, for
-color, color index, normal, and texture coordinates. However, the
-evaluated values do not update the current values. Thus, if
-[**glVertex**](glvertex-functions.md) functions are interspersed with
-**glEvalCoord** functions, the color, normal, and texture coordinates
-associated with the **glVertex** functions are not affected by the
-values generated by the **glEvalCoord** functions, but only by the
-most recent [**glColor**](glcolor-functions.md),
-[**glIndex**](glindex-functions.md),
-[**glNormal**](glnormal-functions.md), and
-[**glTexCoord**](gltexcoord-functions.md) functions. If automatic
-normal generation is enabled, **glEvalCoord2fv** calls
-[**glEnable**](glenable.md) with argument GL\_AUTO\_NORMAL to
-generate surface normals analytically, regardless of the contents or
-enabling of the GL\_MAP2\_NORMAL map. Let ![Equation showing a
-cross-product value for a map m.](images/evlcrd01.png) The generated
-normal **n** is ![Equation showing the generated normal n for the
-map.](images/evlcrd02.png) The following functions retrieve
-information related to the **glEvalCoord2fv** function:
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP1\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP1\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_INDEX
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_COLOR\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_NORMAL
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_1 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_2
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_MAP2\_TEXTURE\_COORD\_3 [**glIsEnabled**](glisenabled.md) with
-argument GL\_MAP2\_TEXTURE\_COORD\_4
-[**glIsEnabled**](glisenabled.md) with argument GL\_AUTO\_NORMAL
+glEvalCoord2d を参照。単精度配列ポインタ版。
 
 
 %index
 glEvalMesh1
-Computes a one-dimensional grid of points or lines.
+点または線の 1 次元グリッドを計算する。
 %group
 Win32 opengl32
 %prm
 mode, i1, i2
-mode : [int] A value that specifies whether to compute a one-dimensional mesh of points or lines. The following symbolic constants are accepted: GL\_POINT and GL\_LINE.
-i1 : [int] The first integer value for grid domain variable i.
-i2 : [int] The last integer value for grid domain variable i.
+mode : [int] 点または線の 1 次元メッシュを計算するかを指定する値。受け付けるシンボル定数は GL_POINT、GL_LINE。
+i1 : [int] グリッド定義域変数 i の最初の整数値。
+i2 : [int] グリッド定義域変数 i の最後の整数値。
 %inst
-Computes a one-dimensional grid of points or lines.
+点または線の 1 次元グリッドを計算する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glEvalMesh2
-Computes a two-dimensional grid of points or lines.
+点または線の 2 次元グリッドを計算する。
 %group
 Win32 opengl32
 %prm
 mode, i1, i2, j1, j2
-mode : [int] A value that specifies whether to compute a two-dimensional mesh of points, lines, or polygons. The following symbolic constants are accepted: GL\_POINT, GL\_LINE, and GL\_FILL.
-i1 : [int] The first integer value for grid domain variable i.
-i2 : [int] The last integer value for grid domain variable i.
-j1 : [int] The first integer value for grid domain variable j.
-j2 : [int] The last integer value for grid domain variable j.
+mode : [int] 点・線・ポリゴンのいずれかの 2 次元メッシュを計算するかを指定する値。受け付けるシンボル定数は GL_POINT、GL_LINE、GL_FILL。
+i1 : [int] グリッド定義域変数 i の最初の整数値。
+i2 : [int] グリッド定義域変数 i の最後の整数値。
+j1 : [int] グリッド定義域変数 j の最初の整数値。
+j2 : [int] グリッド定義域変数 j の最後の整数値。
 %inst
-Computes a two-dimensional grid of points or lines.
+点または線の 2 次元グリッドを計算する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glEvalPoint1
-The glEvalPoint1 and glEvalPoint2 functions generate and evaluate a single point in a mesh. | glEvalPoint1 function (Gl.h)
+glEvalPoint1 と glEvalPoint2 関数はメッシュ内の単一点を生成・評価する。
 %group
 Win32 opengl32
 %prm
 i
-i : [int] The integer value for grid domain variable *i*.
+i : [int] グリッド定義域変数 i の整数値。
 %inst
-The glEvalPoint1 and glEvalPoint2 functions generate and evaluate a
-single point in a mesh. | glEvalPoint1 function (Gl.h)
+glEvalPoint1 と glEvalPoint2 関数はメッシュ内の単一点を生成・評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glMapGrid**](glmapgrid-functions.md) and
-[**glEvalMesh**](glevalmesh-functions.md) functions are used in
-tandem to efficiently generate and evaluate a series of evenly spaced
-map domain values. You can use **glEvalPoint** to evaluate a single
-grid point in the same gridspace that is traversed by **glEvalMesh**.
-Calling [**glEvalPoint1**](glevalpoint.md) is equivalent to calling
-**glEvalCoord1** (*i* ?*u* +*u*1 ); where ?*u* = (*u*2 *u*1 )/*n* and
-*n*, *u*1 , and *u*2 are the arguments to the most recent
-**glMapGrid1** function. The one absolute numeric requirement is that
-if *i* = *n*, then the value computed from (*i* ?*u* + u1 ) is
-exactly *u*2 . In the two-dimensional case, **glEvalPoint2**, let
-?*u* = (*u*2 *u*1 )/*n* ?*v* = (*v*2 *v*1 )/*m* where *n*, *u*1 ,
-*u*2 , *m*, *v*1 , and *v*2 are the arguments to the most recent
-**glMapGrid2** function. Then the **glEvalPoint2** function is
-equivalent to calling **glEvalCoord2** (*i* ?*u* + *u*1 , *j* ?*v* +
-*v*1 ); The only absolute numeric requirements are that if *i*=*n*,
-then the value computed from (*i* ?*u* + *u*1 ) is exactly u2 , and
-if *j* = *m*, then the value computed from (*j* ?*v* + *v*1 ) is
-exactly *v*2 . The following functions retrieve information relating
-to [**glEvalPoint1**](glevalpoint.md) and **glEvalPoint2**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_DOMAIN **glGet** with argument
-GL\_MAP2\_GRID\_DOMAIN **glGet** with argument
-GL\_MAP1\_GRID\_SEGMENTS **glGet** with argument
-GL\_MAP2\_GRID\_SEGMENTS
+glMapGrid と glEvalMesh は連携して効率的に一連のマップ位置を生成・評価する。glEvalPoint
+は同じ方式を使って 1 つの点を生成・評価する。glEvalPoint1 は引数 i を取り、1 次元マップをグリッド定義域座標 i
+で評価する。等価な glEvalCoord 呼び出しは u = i*Δu + u_min の形になる。関連情報は glEvalCoord
+/ glEvalMesh / glMap1 / glMap2 / glMapGrid を参照。
 
 
 %index
 glEvalPoint2
-The glEvalPoint1 and glEvalPoint2 functions generate and evaluate a single point in a mesh. | glEvalPoint2 function (Gl.h)
+glEvalPoint1 と glEvalPoint2 関数はメッシュ内の単一点を生成・評価する。
 %group
 Win32 opengl32
 %prm
 i, j
-i : [int] The integer value for grid domain variable *i*.
-j : [int] The integer value for grid domain variable *j* .
+i : [int] グリッド定義域変数 i の整数値。
+j : [int] グリッド定義域変数 j の整数値。
 %inst
-The glEvalPoint1 and glEvalPoint2 functions generate and evaluate a
-single point in a mesh. | glEvalPoint2 function (Gl.h)
+glEvalPoint1 と glEvalPoint2 関数はメッシュ内の単一点を生成・評価する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glMapGrid**](glmapgrid-functions.md) and
-[**glEvalMesh**](glevalmesh-functions.md) functions are used in
-tandem to efficiently generate and evaluate a series of evenly spaced
-map domain values. You can use **glEvalPoint** to evaluate a single
-grid point in the same gridspace that is traversed by **glEvalMesh**.
-Calling [**glEvalPoint1**](glevalpoint.md) is equivalent to calling
-**glEvalCoord1** (*i* ?*u* +*u*1 ); where ?*u* = (*u*2 *u*1 )/*n* and
-*n*, *u*1 , and *u*2 are the arguments to the most recent
-**glMapGrid1** function. The one absolute numeric requirement is that
-if *i* = *n*, then the value computed from (*i* ?*u* + u1 ) is
-exactly *u*2 . In the two-dimensional case, **glEvalPoint2**, let
-?*u* = (*u*2 *u*1 )/*n* ?*v* = (*v*2 *v*1 )/*m* where *n*, *u*1 ,
-*u*2 , *m*, *v*1 , and *v*2 are the arguments to the most recent
-**glMapGrid2** function. Then the **glEvalPoint2** function is
-equivalent to calling **glEvalCoord2** (*i* ?*u* + *u*1 , *j* ?*v* +
-*v*1 ); The only absolute numeric requirements are that if *i*=*n*,
-then the value computed from (*i* ?*u* + *u*1 ) is exactly u2 , and
-if *j* = *m*, then the value computed from (*j* ?*v* + *v*1 ) is
-exactly *v*2 . The following functions retrieve information relating
-to [**glEvalPoint1**](glevalpoint.md) and **glEvalPoint2**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_DOMAIN **glGet** with argument
-GL\_MAP2\_GRID\_DOMAIN **glGet** with argument
-GL\_MAP1\_GRID\_SEGMENTS **glGet** with argument
-GL\_MAP2\_GRID\_SEGMENTS
+glEvalPoint1 を参照。glEvalPoint2 は 2 次元版で i, j のグリッド座標で 2 次元マップを評価する。
 
 
 %index
 glFeedbackBuffer
-The glFeedbackBuffer function controls feedback mode.
+glFeedbackBuffer 関数はフィードバックモードを制御する。
 %group
 Win32 opengl32
 %prm
 size, type, buffer
-size : [int] The maximum number of values that can be written into *buffer*.
-type : [int] A symbolic constant that describes the information that will be returned for each vertex. The following symbolic constants are accepted: GL\_2D, GL\_3D, GL\_3D\_COLOR, GL\_3D\_COLOR\_TEXTURE, and GL\_4D\_COLOR\_TEXTURE.
-buffer : [var] Returns the feedback data.
+size : [int] buffer に書き込める最大値数。
+type : [int] 各頂点について返す情報を示すシンボル定数。受け付ける値は GL_2D、GL_3D、GL_3D_COLOR、GL_3D_COLOR_TEXTURE、GL_4D_COLOR_TEXTURE。それぞれ頂点ごとに返される値の数と内容を決定する。
+buffer : [var] フィードバックデータを返す。
 %inst
-The glFeedbackBuffer function controls feedback mode.
+glFeedbackBuffer 関数はフィードバックモードを制御する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glFinish
-The glFinish function blocks until all OpenGL execution is complete.
+glFinish 関数は全ての OpenGL 実行が完了するまでブロックする。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glFinish function blocks until all OpenGL execution is complete.
+glFinish 関数は全ての OpenGL 実行が完了するまでブロックする。
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数はパラメータを持たず、値も返さない。
 
 [備考]
-The **glFinish** function does not return until the effects of all
-previously called OpenGL functions are complete. Such effects include
-all changes to the OpenGL state, all changes to the connection state,
-and all changes to the framebuffer contents. The **glFinish**
-function requires a round trip to the server.
+glFinish は、先行して呼び出された全ての OpenGL 関数の効果が完了するまで戻らない。この効果には全ての変更
+(フレームバッファ内容、state 変更、ピクセル転送の効果など) が含まれる。glFinish は呼び出し側を同期させる待機関数である。
 
 
 %index
 glFlush
-The glFlush function forces execution of OpenGL functions in finite time.
+glFlush 関数は OpenGL 関数の実行を有限時間内に強制する。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glFlush function forces execution of OpenGL functions in finite
-time.
+glFlush 関数は OpenGL 関数の実行を有限時間内に強制する。
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数はパラメータを持たず、値も返さない。
 
 [備考]
-Different OpenGL implementations buffer commands in several different
-locations, including network buffers and the graphics accelerator
-itself. The **glFlush** function empties all these buffers, causing
-all issued commands to be executed as quickly as they are accepted by
-the actual rendering engine. Though this execution may not be
-completed in any particular time period, it does complete in a finite
-amount of time. Because any OpenGL program might be executed over a
-network, or on an accelerator that buffers commands, be sure to call
-**glFlush** in any programs requiring that all of their previously
-issued commands have been completed. For example, call **glFlush**
-before waiting for user input that depends on the generated image.
-The **glFlush** function can return at any time. It does not wait
-until the execution of all previously issued OpenGL functions is
-complete.
+OpenGL 実装はコマンドをさまざまな場所 (ネットワークバッファ、グラフィックスアクセラレータ自体など)
+にバッファリングしうる。glFlush はこれらのバッファを空にし、すべての発行済みコマンドを OpenGL パイプラインに進めて、GL
+状態を更新するのに必要なことがアクセラレータハードウェアによって行われるようにする。glFlush
+はすべての発行済み操作が完了することを保証するわけではないが、有限時間内に完了することを保証する。glFinish
+と異なり、すべての操作が完了するのを待たずに戻る。
 
 
 %index
 glFogf
-The glFogf and function specifies fog parameters.
+glFogf 関数はフォグパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] Specifies a single-valued fog parameter. Accepts one of the following values.
+pname : [int] 単一値のフォグパラメータを指定する。受け付ける値: GL_FOG_MODE (使用するフォグ式のシンボル定数。GL_LINEAR、GL_EXP、GL_EXP2 のいずれか。既定は GL_EXP)、GL_FOG_DENSITY (フォグ密度。GL_EXP/GL_EXP2 モードで使用、非負でなければならない。既定は 1.0)、GL_FOG_START (線形フォグの近距離。GL_LINEAR モードで使用。既定は 0.0)、GL_FOG_END (線形フォグの遠距離。GL_LINEAR モードで使用。既定は 1.0)、GL_FOG_INDEX (カラーインデックスモード時のフォグカラーインデックス。既定は 0)。
 param1 : [float] 
 %inst
-The glFogf and function specifies fog parameters.
+glFogf 関数はフォグパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-You enable and disable fog with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md), using the argument GL\_FOG. While
-enabled, fog affects rasterized geometry, bitmaps, and pixel blocks,
-but not buffer-clear operations. The **glFogf** function assigns the
-value or values in *params* to the fog parameter specified by
-*pname*. Fog blends a fog color with each rasterized pixel fragment's
-posttexturing color using a blending factor *f*. Factor *f* is
-computed in one of three ways, depending on the fog mode. Let *z* be
-the distance in eye coordinates from the origin to the fragment being
-fogged. The equation for GL\_LINEAR fog is: ![Equation showing the
-value of GL_LINEAR fog.](images/fog01.png) The equation for GL\_EXP
-fog is: ![Equation showing the value of the blending factor in GL_EXP
-fog mode.](images/fog02.png) The equation for GL\_EXP2 fog is:
-![Equation showing the value of the blending factor in GL_EXP2 fog
-mode.](images/fog03.png) Regardless of the fog mode, *f* is clamped
-to the range \[0,1\] after it is computed. Then, if OpenGL is in RGBA
-color mode, the fragment's color *C*r is replaced by ![Equation
-showing the fogged fragment's color as a function of blending factor
-and fog color.](images/fog04.png) In color-index mode, the fragment's
-color index *i*r is replaced by ![Equation showing the fogged
-fragment's color index as a function of blending factor and indexed
-color.](images/fog05.png) The following functions retrieve
-information related to the **glFog** functions:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_FOG\_COLOR **glGet** with argument GL\_FOG\_INDEX
-**glGet** with argument GL\_FOG\_DENSITY **glGet** with argument
-GL\_FOG\_START **glGet** with argument GL\_FOG\_END **glGet** with
-argument GL\_FOG\_MODE [**glIsEnabled**](glisenabled.md) with
-argument GL\_FOG
+glEnable / glDisable に GL_FOG を指定してフォグを有効/無効化する。glFog は pname
+で指定されたフォグパラメータを value 値に設定する。フォグは RGBA と色インデックスモードの両方に影響する。RGBA
+モードでは各フラグメントに対しフォグ因子 f を [0, 1] にクランプした後、現在のフォグ色 C_f と入力色 C_r を c =
+f*C_r + (1-f)*C_f で線形補間する。色インデックスモードではインデックス i に (1-f) * i_f
+を加算する。fog factor の計算は GL_FOG_MODE により異なる: GL_LINEAR は f = (end-z) /
+(end-start)、GL_EXP は f = exp(-d*z)、GL_EXP2 は f = exp(-(d*z)^2)。関連情報は
+glGet (GL_FOG_COLOR / GL_FOG_INDEX / GL_FOG_DENSITY / GL_FOG_START /
+GL_FOG_END / GL_FOG_MODE) および glIsEnabled (GL_FOG) で取得できる。
 
 
 %index
 glFogfv
-The glFogfv function specifies fog parameters. | glFogfv function (Gl.h)
+glFogfv 関数はフォグパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] Specifies a fog parameter. Accepts one of the following values.
+pname : [int] フォグパラメータを指定する。受け付ける値は GL_FOG_MODE、GL_FOG_DENSITY、GL_FOG_START、GL_FOG_END、GL_FOG_INDEX、GL_FOG_COLOR。単一値パラメータの説明は glFogf を参照。GL_FOG_COLOR は params に 4 値 (R, G, B, A) を指定し、フォグ色となる。各成分は [0, 1] にクランプされる。既定は (0, 0, 0, 0)。
 params : [int] 
 %inst
-The glFogfv function specifies fog parameters. | glFogfv function
-(Gl.h)
+glFogfv 関数はフォグパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-You enable and disable fog with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md), using the argument GL\_FOG. While
-enabled, fog affects rasterized geometry, bitmaps, and pixel blocks,
-but not buffer-clear operations. The **glFogfv** function assigns the
-value or values in *params* to the fog parameter specified by
-*pname*. Fog blends a fog color with each rasterized pixel fragment's
-posttexturing color using a blending factor *f*. Factor *f* is
-computed in one of three ways, depending on the fog mode. Let *z* be
-the distance in eye coordinates from the origin to the fragment being
-fogged. The equation for GL\_LINEAR fog is: ![Equation showing the
-value of GL_LINEAR fog.](images/fog01.png) The equation for GL\_EXP
-fog is: ![Equation showing the value of the blending factor in GL_EXP
-fog mode.](images/fog02.png) The equation for GL\_EXP2 fog is:
-![Equation showing the value of the blending factor in GL_EXP2 fog
-mode.](images/fog03.png) Regardless of the fog mode, *f* is clamped
-to the range \[0,1\] after it is computed. Then, if OpenGL is in RGBA
-color mode, the fragment's color *C*r is replaced by ![Equation
-showing the fogged fragment's color as a function of blending factor
-and fog color.](images/fog04.png) In color-index mode, the fragment's
-color index *i*r is replaced by ![Equation showing the fogged
-fragment's color index as a function of blending factor and indexed
-color.](images/fog05.png) The following functions retrieve
-information related to the **glFog** functions:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_FOG\_COLOR **glGet** with argument GL\_FOG\_INDEX
-**glGet** with argument GL\_FOG\_DENSITY **glGet** with argument
-GL\_FOG\_START **glGet** with argument GL\_FOG\_END **glGet** with
-argument GL\_FOG\_MODE [**glIsEnabled**](glisenabled.md) with
-argument GL\_FOG
+glFogf の説明を参照。fv は配列ポインタ版で、ベクトル値を受け取れる (例: GL_FOG_COLOR)。
 
 
 %index
 glFogi
-The glFogi function specifies fog parameters.
+glFogi 関数はフォグパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] Specifies a single-valued fog parameter. Accepts one of the following values.
+pname : [int] 単一値のフォグパラメータを指定する。受け付ける値とその意味は glFogf と同じ。整数版。
 param1 : [int] 
 %inst
-The glFogi function specifies fog parameters.
+glFogi 関数はフォグパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-You enable and disable fog with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md), using the argument GL\_FOG. While
-enabled, fog affects rasterized geometry, bitmaps, and pixel blocks,
-but not buffer-clear operations. The **glFogi** function assigns the
-value or values in *params* to the fog parameter specified by
-*pname*. Fog blends a fog color with each rasterized pixel fragment's
-posttexturing color using a blending factor *f*. Factor *f* is
-computed in one of three ways, depending on the fog mode. Let *z* be
-the distance in eye coordinates from the origin to the fragment being
-fogged. The equation for GL\_LINEAR fog is: ![Equation showing the
-value of GL_LINEAR fog.](images/fog01.png) The equation for GL\_EXP
-fog is: ![Equation showing the value of the blending factor in GL_EXP
-fog mode.](images/fog02.png) The equation for GL\_EXP2 fog is:
-![Equation showing the value of the blending factor in GL_EXP2 fog
-mode.](images/fog03.png) Regardless of the fog mode, *f* is clamped
-to the range \[0,1\] after it is computed. Then, if OpenGL is in RGBA
-color mode, the fragment's color *C*r is replaced by ![Equation
-showing the fogged fragment's color as a function of blending factor
-and fog color.](images/fog04.png) In color-index mode, the fragment's
-color index *i*r is replaced by ![Equation showing the fogged
-fragment's color index as a function of blending factor and indexed
-color.](images/fog05.png) The following functions retrieve
-information related to the **glFog** functions:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_FOG\_COLOR **glGet** with argument GL\_FOG\_INDEX
-**glGet** with argument GL\_FOG\_DENSITY **glGet** with argument
-GL\_FOG\_START **glGet** with argument GL\_FOG\_END **glGet** with
-argument GL\_FOG\_MODE [**glIsEnabled**](glisenabled.md) with
-argument GL\_FOG
+glFogf の説明を参照。整数版。
 
 
 %index
 glFogiv
-The glFogiv function specifies fog parameters. | glFogiv function (Gl.h)
+glFogiv 関数はフォグパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] Specifies a fog parameter. Accepts one of the following values.
+pname : [int] フォグパラメータを指定する。受け付ける値は glFogfv と同じ。整数配列版。GL_FOG_COLOR を指定した場合、整数値は浮動小数点に線形マップされてからクランプされる。
 params : [int] 
 %inst
-The glFogiv function specifies fog parameters. | glFogiv function
-(Gl.h)
+glFogiv 関数はフォグパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-You enable and disable fog with [**glEnable**](glenable.md) and
-[**glDisable**](gldisable.md), using the argument GL\_FOG. While
-enabled, fog affects rasterized geometry, bitmaps, and pixel blocks,
-but not buffer-clear operations. The **glFogiv** function assigns the
-value or values in *params* to the fog parameter specified by
-*pname*. Fog blends a fog color with each rasterized pixel fragment's
-posttexturing color using a blending factor *f*. Factor *f* is
-computed in one of three ways, depending on the fog mode. Let *z* be
-the distance in eye coordinates from the origin to the fragment being
-fogged. The equation for GL\_LINEAR fog is: ![Equation showing the
-value of the blending factor in GL_LINEAR fog mode as a function of
-distance.](images/fog01.png) The equation for GL\_EXP fog is:
-![Equation showing the value of the blending factor in GL_EXP fog
-mode.](images/fog02.png) The equation for GL\_EXP2 fog is: ![Equation
-showing the value of the blending factor in GL_EXP2 fog
-mode.](images/fog03.png) Regardless of the fog mode, *f* is clamped
-to the range \[0,1\] after it is computed. Then, if OpenGL is in RGBA
-color mode, the fragment's color *C*r is replaced by ![Equation
-showing the fogged fragment's color as a function of blending factor
-and fog color.](images/fog04.png) In color-index mode, the fragment's
-color index *i*r is replaced by ![Equation showing the fogged
-fragment's color index as a function of blending factor and indexed
-color.](images/fog05.png) The following functions retrieve
-information related to the **glFog** functions:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_FOG\_COLOR **glGet** with argument GL\_FOG\_INDEX
-**glGet** with argument GL\_FOG\_DENSITY **glGet** with argument
-GL\_FOG\_START **glGet** with argument GL\_FOG\_END **glGet** with
-argument GL\_FOG\_MODE [**glIsEnabled**](glisenabled.md) with
-argument GL\_FOG
+glFogf の説明を参照。iv は整数配列ポインタ版。
 
 
 %index
 glFrontFace
-The glFrontFace function defines front-facing and back-facing polygons.
+glFrontFace 関数は表面を向くポリゴンと裏面を向くポリゴンを定義する。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] The orientation of front-facing polygons. GL\_CW and GL\_CCW are accepted. The default value is GL\_CCW.
+mode : [int] 表面を向くポリゴンの向き。GL_CW および GL_CCW を受け付ける。既定値は GL_CCW。
 %inst
-The glFrontFace function defines front-facing and back-facing
-polygons.
+glFrontFace 関数は表面を向くポリゴンと裏面を向くポリゴンを定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-In a scene composed entirely of opaque closed surfaces, back-facing
-polygons are never visible. Eliminating these invisible polygons has
-the obvious benefit of speeding up the rendering of the image. You
-enable and disable elimination of back-facing polygons with
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) using
-argument GL\_CULL\_FACE. The projection of a polygon to window
-coordinates is said to have clockwise winding if an imaginary object
-following the path from its first vertex, its second vertex, and so
-on, to its last vertex, and finally back to its first vertex, moves
-in a clockwise direction about the interior of the polygon. The
-polygon's winding is said to be counterclockwise if the imaginary
-object following the same path moves in a counterclockwise direction
-about the interior of the polygon. The **glFrontFace** function
-specifies whether polygons with clockwise winding in window
-coordinates, or counterclockwise winding in window coordinates, are
-taken to be front-facing. Passing GL\_CCW to *mode* selects
-counterclockwise polygons as front-facing; GL\_CW selects clockwise
-polygons as front-facing. By default, counterclockwise polygons are
-taken to be front-facing. The following function retrieves
-information about **glFrontface**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_FRONT\_FACE
+
+不透明な閉曲面のみからなるシーンでは、裏面を向くポリゴンは決して可視にならない。これらを描画前に除去することで画像の品質に影響せずに描画を高速化できる。glFrontFace
+は表面の向きを指定することで、glCullFace が表裏いずれをカリングするかを決定する。glFrontFace に GL_CCW
+を渡すと、スクリーン座標系で頂点が反時計回りの順に射影されるポリゴンが表面となる。GL_CW なら時計回りが表面となる。関連情報は
+glGet (GL_FRONT_FACE) で取得できる。
 
 
 %index
 glFrustum
-The glFrustum function multiplies the current matrix by a perspective matrix.
+glFrustum 関数は現在の行列に透視行列を乗算する。
 %group
 Win32 opengl32
 %prm
 left, right, bottom, top, zNear, zFar
-left : [double] The coordinate for the left-vertical clipping plane.
-right : [double] The coordinate for the right-vertical clipping plane.
-bottom : [double] The coordinate for the bottom-horizontal clipping plane.
-top : [double] The coordinate for the bottom-horizontal clipping plane.
-zNear : [double] The distances to the near-depth clipping plane. Must be positive.
-zFar : [double] The distances to the far-depth clipping planes. Must be positive.
+left : [double] 左の垂直クリッピング平面の座標。
+right : [double] 右の垂直クリッピング平面の座標。
+bottom : [double] 下の水平クリッピング平面の座標。
+top : [double] 上の水平クリッピング平面の座標。
+zNear : [double] 近デプスクリッピング平面までの距離。正でなければならない。
+zFar : [double] 遠デプスクリッピング平面までの距離。正でなければならない。
 %inst
-The glFrustum function multiplies the current matrix by a perspective
-matrix.
+glFrustum 関数は現在の行列に透視行列を乗算する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glFrustum** function describes a perspective matrix that
-produces a perspective projection. The (*left*, *bottom*, *zNear*)
-and (*right*, *top*, *zNear*) parameters specify the points on the
-near clipping plane that are mapped to the lower-left and upper-right
-corners of the window, respectively, assuming that the eye is located
-at (0,0,0). The *zFar* parameter specifies the location of the far
-clipping plane. Both *zNear* and *zFar* must be positive. The
-corresponding matrix is shown in the following image. ![Diagram
-showing the perspective matrix that produces a perspective
-projection.](images/frust01.png)![Equations showing the glFrustum
-function that describes a perspective matrix.](images/frust02.png)
-The **glFrustum** function multiplies the current matrix by this
-matrix, with the result replacing the current matrix. That is, if M
-is the current matrix and F is the frustum perspective matrix, then
-**glFrustum** replaces M with M F. Use
-[**glPushMatrix**](glpushmatrix.md) and
-[**glPopMatrix**](glpopmatrix.md) to save and restore the current
-matrix stack. Depth-buffer precision is affected by the values
-specified for *zNear* and *zFar*. The greater the ratio of *zFar* to
-*zNear* is, the less effective the depth buffer will be at
-distinguishing between surfaces that are near each other. If
-![Equation showing the ratio of far to near.](images/frust03.png)
-roughly *log*2 (*r*) bits of depth buffer precision are lost. Because
-*r* approaches infinity as *zNear* approaches zero, you should never
-set *zNear* to zero. The following functions retrieve information
-about **glFrustum**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glFrustum は透視投影を生成する透視行列を記述する。(left, bottom, -zNear) と (right, top,
+-zNear) は、近クリッピング平面上の点でビュー面の左下と右上の隅にマップされるウィンドウ上の点を指定する。-zFar
+は遠クリッピング平面の位置を指定する。zNear と zFar はどちらも正でなければならない。現在の行列は glFrustum
+で定義される行列と乗算され、積で置き換えられる (詳細は
+glMultMatrix)。フラスタム行列を使うと、glRotate、glTranslate、glScale
+などの変換と組み合わせて目的のカメラ投影を生成できる。深度バッファの精度は zNear と zFar の比に影響され、比が大きくなる
+(zFar / zNear) ほど近接するデプスが区別しにくくなる。関連情報は glGet (GL_MATRIX_MODE) を参照。
 
 
 %index
 glGenLists
-The glGenLists function generates a contiguous set of empty display lists.
+glGenLists 関数は連続した空の表示リスト集合を生成する。
 %group
 Win32 opengl32
 %prm
 range
-range : [int] The number of contiguous empty display lists to be generated.
+range : [int] 生成する連続した空の表示リストの数。
 %inst
-The glGenLists function generates a contiguous set of empty display
-lists.
+glGenLists 関数は連続した空の表示リスト集合を生成する。
 
 [備考]
-The **glGenLists** function has one argument, *range*. It returns an
-integer *n* such that *range* contiguous empty display lists, named
-*n*, *n* + 1, . . ., *n* + (*range* - 1), are created. If *range* is
-zero, if there is no group of *range* contiguous names available, or
-if any error is generated, then no display lists are generated and
-zero is returned. The following function retrieves information
-related to **glGenLists**: [**glIsList**](glislist.md)
+glGenLists は引数 range を 1 つ取り、range 個の連続した空の表示リスト n, n+1, ...,
+n+range-1 が作成されるような整数 n を返す。要求された数の連続した空の表示リストが作成できない場合、または range が 0
+の場合、戻り値は 0 となる。
 
 
 %index
 glGenTextures
-The glGenTextures function generates texture names.
+glGenTextures 関数はテクスチャ名を生成する。
 %group
 Win32 opengl32
 %prm
 n, textures
-n : [int] The number of texture names to be generated.
-textures : [var] A pointer to the first element of an array in which the generated texture names are stored.
+n : [int] 生成するテクスチャ名の数。
+textures : [var] 生成されたテクスチャ名を格納する配列の先頭要素へのポインタ。
 %inst
-The glGenTextures function generates texture names.
+glGenTextures 関数はテクスチャ名を生成する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGenTextures** function returns *n* texture names in the
-*textures* parameter. The texture names are not necessarily a
-contiguous set of integers, however, none of the returned names can
-have been in use immediately prior to calling the **glGenTextures**
-function. The generated textures assume the dimensionality of the
-texture target to which they are first bound with the
-[**glBindTexture**](glbindtexture.md) function. Texture names
-returned by **glGenTextures** are not returned by subsequent calls to
-**glGenTextures** unless they are first deleted by calling
-[**glDeleteTextures**](gldeletetextures.md). You cannot include
-**glGenTextures** in display lists. > [!Note] > The **glGenTextures**
-function is only available in OpenGL version 1.1 or later.
-The following function retrieves information related to
-**glGenTextures**: - [**glIsTexture**](glistexture.md)
+glGenTextures は textures パラメータに n
+個のテクスチャ名を返す。テクスチャ名は必ずしも連続する整数ではない。glGenTextures で返された名前は、その後
+glDeleteTextures で削除されない限り、再度 glGenTextures で返されることはない。また、戻されたテクスチャ名は
+glBindTexture に渡されるまでテクスチャオブジェクトとしての状態を持たず、次元や内容も持たない。glBindTexture
+に初めて渡された時点で初めてテクスチャとなる。注意: OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glGetBooleanv
-The glGetBooleanv function returns the value or values of a selected parameter.
+glGetBooleanv 関数は選択されたパラメータの値を返す。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] The parameter value to be returned. The following symbolic constants are accepted.
+pname : [int] 返すパラメータ値。OpenGL が保持する多数の状態変数のシンボル定数のいずれかを指定する。主な例: GL_ACCUM_*_BITS (アキュムレーションバッファの各色成分のビット数)、GL_ACCUM_CLEAR_VALUE (クリア値)、GL_ALPHA_TEST (アルファテストの有効状態)、GL_ALPHA_TEST_FUNC / REF、GL_ATTRIB_STACK_DEPTH、GL_AUTO_NORMAL、GL_AUX_BUFFERS、GL_BLEND / BLEND_DST / BLEND_SRC、GL_CLIENT_ATTRIB_STACK_DEPTH、GL_CLIP_PLANEi、GL_COLOR_ARRAY / _SIZE / _STRIDE / _TYPE、GL_COLOR_CLEAR_VALUE、GL_COLOR_LOGIC_OP、GL_COLOR_MATERIAL / _FACE / _PARAMETER、GL_COLOR_WRITEMASK、GL_CULL_FACE / _MODE、GL_CURRENT_COLOR / _INDEX / _NORMAL / _RASTER_COLOR / _RASTER_DISTANCE / _RASTER_INDEX / _RASTER_POSITION / _POSITION_VALID / _RASTER_TEXTURE_COORDS / _TEXTURE_COORDS、GL_DEPTH_BIAS / _BITS / _CLEAR_VALUE / _FUNC / _RANGE / _SCALE / _TEST / _WRITEMASK、GL_DITHER、GL_DOUBLEBUFFER、GL_DRAW_BUFFER、GL_EDGE_FLAG / _ARRAY / _ARRAY_STRIDE、GL_FEEDBACK_BUFFER_POINTER / _SIZE / _TYPE、GL_FOG / _COLOR / _DENSITY / _END / _HINT / _INDEX / _MODE / _START、GL_FRONT_FACE、GL_INDEX_ARRAY / _STRIDE / _TYPE / _BITS / _CLEAR_VALUE / _LOGIC_OP / _MODE / _OFFSET / _SHIFT / _WRITEMASK、GL_LIGHTi / _LIGHTING、GL_LIGHT_MODEL_AMBIENT / _LOCAL_VIEWER / _TWO_SIDE、GL_LINE_SMOOTH / _SMOOTH_HINT / _STIPPLE / _STIPPLE_PATTERN / _STIPPLE_REPEAT / _WIDTH / _WIDTH_GRANULARITY / _WIDTH_RANGE、GL_LIST_BASE / _INDEX / _MODE / _MAX_LIST_NESTING、GL_LOGIC_OP、GL_MAP1_* / MAP2_* (評価器関連)、GL_MATRIX_MODE、GL_MAX_ATTRIB_STACK_DEPTH / _CLIENT_ATTRIB_STACK_DEPTH / _CLIP_PLANES / _EVAL_ORDER / _LIGHTS / _LIST_NESTING / _MODELVIEW_STACK_DEPTH / _NAME_STACK_DEPTH / _PIXEL_MAP_TABLE / _PROJECTION_STACK_DEPTH / _TEXTURE_SIZE / _TEXTURE_STACK_DEPTH / _VIEWPORT_DIMS、GL_MODELVIEW_MATRIX / _STACK_DEPTH、GL_NAME_STACK_DEPTH、GL_NORMAL_ARRAY / _STRIDE / _TYPE、GL_NORMALIZE、GL_PACK_* / UNPACK_* (ピクセルストア)、GL_PERSPECTIVE_CORRECTION_HINT、GL_PIXEL_MAP_*_SIZE、GL_POINT_SIZE / _SMOOTH / _SIZE_GRANULARITY / _SIZE_RANGE、GL_POLYGON_MODE / _OFFSET_FACTOR / _OFFSET_UNITS / _OFFSET_FILL / _OFFSET_LINE / _OFFSET_POINT / _SMOOTH / _STIPPLE、GL_PROJECTION_MATRIX / _STACK_DEPTH、GL_READ_BUFFER、GL_RED_BIAS / _BITS / _SCALE、GL_RENDER_MODE、GL_RGBA_MODE、GL_SCISSOR_BOX / _TEST、GL_SHADE_MODEL、GL_STENCIL_BITS / _CLEAR_VALUE / _FAIL / _FUNC / _PASS_DEPTH_FAIL / _PASS_DEPTH_PASS / _REF / _TEST / _VALUE_MASK / _WRITEMASK、GL_STEREO、GL_SUBPIXEL_BITS、GL_TEXTURE_1D / _2D / _BINDING_1D / _BINDING_2D / _COORD_ARRAY / _COORD_ARRAY_SIZE / _COORD_ARRAY_STRIDE / _COORD_ARRAY_TYPE / _ENV_COLOR / _ENV_MODE / _GEN_Q / _GEN_R / _GEN_S / _GEN_T / _MATRIX / _STACK_DEPTH、GL_VERTEX_ARRAY / _SIZE / _STRIDE / _TYPE、GL_VIEWPORT、GL_ZOOM_X / _Y など。詳細は OpenGL リファレンスを参照のこと。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetBooleanv function returns the value or values of a selected
-parameter.
+glGetBooleanv 関数は選択されたパラメータの値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-This function returns values for simple state variables in OpenGL.
-The *pname* parameter is a symbolic constant indicating the state
-variable to be returned, and *params* is a pointer to an array of the
-indicated type in which to place the returned data. Type conversion
-is performed if *params* has a different type from the state variable
-value being requested. If you call **glGetBooleanv**, a
-floating-point or integer value is converted to GL\_FALSE if and only
-if it is zero. Otherwise, it is converted to GL\_TRUE. If you call
-[**glGetIntegerv**](glgetintegerv.md), Boolean values are returned as
-GL\_TRUE or GL\_FALSE, and most floating-point values are rounded to
-the nearest integer value. Floating-point colors and normals,
-however, are returned with a linear mapping that maps 1.0 to the most
-positive representable integer value and 1.0 to the most negative
-representable integer value. If you call
-[**glGetFloatv**](glgetfloatv.md) or
-[**glGetDoublev**](glgetdoublev.md), Boolean values are returned as
-GL\_TRUE or GL\_FALSE, and integer values are converted to
-floating-point values. You can query many of the Boolean parameters
-more easily with [**glIsEnabled**](glisenabled.md).
+この関数は OpenGL の単純な状態変数の値を返す。pname は取得する状態変数を示すシンボル定数、params
+は値を格納する位置へのポインタ。データ型は glGetBooleanv / glGetDoublev / glGetFloatv /
+glGetIntegerv の関数名で決まる。値の型が実際の型と一致しない場合、線形マッピングが行われる。浮動小数点のブール値は 0.0
+で GL_FALSE、他は GL_TRUE となる。整数への変換はブール値 GL_TRUE が 1、GL_FALSE が 0
+となる。シザーボックス、ビューポート、色クリア値など複数値を持つパラメータもある。pname
+が複数の情報を表す場合、複数の値が返される。関連情報は glGetClipPlane / glGetError / glGetLight
+/ glGetMaterial / glGetPixelMap / glGetPolygonStipple / glGetString /
+glGetTexEnv / glGetTexGen / glGetTexImage / glGetTexLevelParameter /
+glGetTexParameter / glIsEnabled / glIsList を参照。
 
 
 %index
 glGetClipPlane
-The glGetClipPlane function returns the coefficients of the specified clipping plane.
+glGetClipPlane 関数は指定されたクリッピング平面の係数を返す。
 %group
 Win32 opengl32
 %prm
 plane, equation
-plane : [int] A clipping plane. The number of clipping planes depends on the implementation, but at least six clipping planes are supported. They are identified by symbolic names of the form GL\_CLIP\_PLANE *i* where 0 = *i* < GL\_MAX\_CLIP\_PLANES.
-equation : [var] Returns four double-precision values that are the coefficients of the plane equation of *plane* in eye coordinates.
+plane : [int] クリッピング平面。クリッピング平面の数は実装依存だが、少なくとも 6 つがサポートされる。これらは GL_CLIP_PLANE0 から GL_CLIP_PLANEi - 1 までのシンボル名で識別される。ここで i は実装がサポートするクリッピング平面の数である。
+equation : [var] plane のアイ座標系における平面方程式の係数を表す 4 つの倍精度値を返す。
 %inst
-The glGetClipPlane function returns the coefficients of the specified
-clipping plane.
+glGetClipPlane 関数は指定されたクリッピング平面の係数を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetClipPlane** function returns in *equation* the four
-coefficients of the plane equation for *plane*. It is always the case
-that GL\_CLIP\_PLANE*i* = GL\_CLIP\_PLANE0 + *i*. If an error is
-generated, no change is made to the contents of *equation*.
+glGetClipPlane は plane の平面方程式の 4 係数を equation に返す。GL_CLIP_PLANEi =
+GL_CLIP_PLANE0 + i が常に成り立つ。関連情報は glClipPlane / glIsEnabled を参照。
 
 
 %index
 glGetDoublev
-The glGetDoublev function returns the value or values of a selected parameter.
+glGetDoublev 関数は選択されたパラメータの値を返す。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] The parameter value to be returned. The following symbolic constants are accepted.
+pname : [int] 返すパラメータ値。シンボル定数は glGetBooleanv の pname 説明を参照 (GL_ACCUM_*、GL_ALPHA_TEST_*、GL_BLEND_*、GL_CLIP_PLANEi、GL_COLOR_*、GL_CURRENT_*、GL_DEPTH_*、GL_FOG_*、GL_LIGHT*、GL_MATRIX_*、GL_MAX_*、GL_MODELVIEW_MATRIX、GL_PROJECTION_MATRIX、GL_TEXTURE_MATRIX、GL_VIEWPORT、GL_ZOOM_* など、すべての単純状態変数)。詳細は OpenGL リファレンスを参照のこと。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetDoublev function returns the value or values of a selected
-parameter.
+glGetDoublev 関数は選択されたパラメータの値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-This function returns values for simple state variables in OpenGL.
-The *pname* parameter is a symbolic constant indicating the state
-variable to be returned, and *params* is a pointer to an array of the
-indicated type in which to place the returned data. Type conversion
-is performed if *params* has a different type from the state variable
-value being requested. If you call
-[**glGetBooleanv**](glgetbooleanv.md), a floating-point or integer
-value is converted to GL\_FALSE if and only if it is zero. Otherwise,
-it is converted to GL\_TRUE. If you call
-[**glGetIntegerv**](glgetintegerv.md), Boolean values are returned as
-GL\_TRUE or GL\_FALSE, and most floating-point values are rounded to
-the nearest integer value. Floating-point colors and normals,
-however, are returned with a linear mapping that maps 1.0 to the most
-positive representable integer value and 1.0 to the most negative
-representable integer value. If you call
-[**glGetFloatv**](glgetfloatv.md) or **glGetDoublev**, Boolean values
-are returned as GL\_TRUE or GL\_FALSE, and integer values are
-converted to floating-point values. You can query many of the Boolean
-parameters more easily with [**glIsEnabled**](glisenabled.md).
+この関数は OpenGL の単純な状態変数の値を返す。詳細は glGetBooleanv の remarks
+を参照。glGetDoublev は倍精度浮動小数点値を返す版。整数値は double に線形マップされ、ブール値は GL_TRUE が
+1.0、GL_FALSE が 0.0 となる。
 
 
 %index
 glGetError
-The glGetError function returns error information.
+glGetError 関数はエラー情報を返す。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glGetError function returns error information.
+glGetError 関数はエラー情報を返す。
 
 [戻り値]
-This function has no parameters.
-The **glGetError** function returns one of the following error codes.
-| Return code | Description |
-|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **GL\_INVALID\_ENUM** | An unacceptable value is specified for an
-enumerated argument. The offending function is ignored, having no
-side effect other than to set the error flag. | |
-**GL\_INVALID\_VALUE** | A numeric argument is out of range. The
-offending function is ignored, having no side effect other than to
-set the error flag. | | **GL\_INVALID\_OPERATION** | The specified
-operation is not allowed in the current state. The offending function
-is ignored, having no side effect other than to set the error flag. |
-| **GL\_NO\_ERROR** | No error has been recorded. The value of this
-symbolic constant is guaranteed to be zero. | |
-**GL\_STACK\_OVERFLOW** | This function would cause a stack overflow.
-The offending function is ignored, having no side effect other than
-to set the error flag. | | **GL\_STACK\_UNDERFLOW** | This function
-would cause a stack underflow. The offending function is ignored,
-having no side effect other than to set the error flag. | |
-**GL\_OUT\_OF\_MEMORY** | There is not enough memory left to execute
-the function. The state of OpenGL is undefined, except for the state
-of the error flags, after this error is recorded. |
-Note that **glGetError** returns GL\_INVALID\_OPERATION if it is
-called between a call to [**glBegin**](glbegin.md) and its
-corresponding call to [**glEnd**](glend.md).
+この関数はパラメータを持たない。glGetError は以下のエラーコードのいずれかを返す。GL_NO_ERROR:
+エラーは記録されていない。GL_INVALID_ENUM: 引数に受け付けられない値が渡された。GL_INVALID_VALUE:
+数値引数が範囲外である。GL_INVALID_OPERATION:
+現在の状態で操作が許可されていない。GL_STACK_OVERFLOW:
+操作によってスタックがオーバーフローした。GL_STACK_UNDERFLOW:
+操作によってスタックがアンダーフローした。GL_OUT_OF_MEMORY: コマンドを実行するのに十分なメモリがない。OpenGL
+の状態は未定義であるが、コマンドは無視される (OpenGL 実装の終了以外の選択肢はない)。
 
 [備考]
-Each detectable error is assigned a numeric code and symbolic name.
-When an error occurs, the error flag is set to the appropriate error
-code value. No other errors are recorded until **glGetError** is
-called, the error code is returned, and the flag is reset to
-GL\_NO\_ERROR. If a call to **glGetError** returns GL\_NO\_ERROR,
-there has been no detectable error since the last call to
-**glGetError**, or since OpenGL was initialized. To allow for
-distributed implementations, there may be several error flags. If any
-single error flag has recorded an error, the value of that flag is
-returned and that flag is reset to GL\_NO\_ERROR when **glGetError**
-is called. If more than one flag has recorded an error,
-**glGetError** returns and clears an arbitrary error flag value. If
-all error flags are to be reset, you should always call
-**glGetError** in a loop until it returns GL\_NO\_ERROR. Initially,
-all error flags are set to GL\_NO\_ERROR. When an error flag is set,
-results of an OpenGL operation are undefined only if
-GL\_OUT\_OF\_MEMORY has occurred. In all other cases, the function
-generating the error is ignored and has no effect on the OpenGL state
-or framebuffer contents.
+
+検出可能な各エラーには数値コードとシンボル名が割り当てられる。エラー発生時、エラーフラグが該当するエラーコード値に設定される。glGetError
+が呼ばれるまで、それ以上のエラー発生はフラグに影響しない (つまり元のエラーが上書きされない)。glGetError
+は現在のエラーコード値を返し、その後フラグを GL_NO_ERROR に戻す。エラー発生時はエラー状態が変わるまで OpenGL
+関数の実行結果は未定義となる場合がある。コンテキストに複数のエラーコードがキューされている場合があるが、glGetError は 1
+つずつ返し、GL_NO_ERROR が返るまで呼ぶ必要がある。
 
 
 %index
 glGetFloatv
-The glGetFloatv function returns the value or values of a selected parameter.
+glGetFloatv 関数は選択されたパラメータの値を返す。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] The parameter value to be returned. The following symbolic constants are accepted.
+pname : [int] 返すパラメータ値。シンボル定数は glGetBooleanv の pname 説明を参照 (GL_ACCUM_*、GL_ALPHA_TEST_*、GL_BLEND_*、GL_CLIP_PLANEi、GL_COLOR_*、GL_CURRENT_*、GL_DEPTH_*、GL_FOG_*、GL_LIGHT*、GL_MATRIX_*、GL_MAX_*、GL_MODELVIEW_MATRIX、GL_PROJECTION_MATRIX、GL_TEXTURE_MATRIX、GL_VIEWPORT、GL_ZOOM_* など、すべての単純状態変数)。詳細は OpenGL リファレンスを参照のこと。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetFloatv function returns the value or values of a selected
-parameter.
+glGetFloatv 関数は選択されたパラメータの値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-This function returns values for simple state variables in OpenGL.
-The *pname* parameter is a symbolic constant indicating the state
-variable to be returned, and *params* is a pointer to an array of the
-indicated type in which to place the returned data. Type conversion
-is performed if *params* has a different type from the state variable
-value being requested. If you call
-[**glGetBooleanv**](glgetbooleanv.md), a floating-point or integer
-value is converted to GL\_FALSE if and only if it is zero. Otherwise,
-it is converted to GL\_TRUE. If you call
-[**glGetIntegerv**](glgetintegerv.md), Boolean values are returned as
-GL\_TRUE or GL\_FALSE, and most floating-point values are rounded to
-the nearest integer value. Floating-point colors and normals,
-however, are returned with a linear mapping that maps 1.0 to the most
-positive representable integer value and 1.0 to the most negative
-representable integer value. If you call **glGetFloatv** or
-[**glGetDoublev**](glgetdoublev.md), Boolean values are returned as
-GL\_TRUE or GL\_FALSE, and integer values are converted to
-floating-point values. You can query many of the Boolean parameters
-more easily with [**glIsEnabled**](glisenabled.md).
+この関数は OpenGL の単純な状態変数の値を返す。詳細は glGetBooleanv の remarks
+を参照。glGetFloatv は単精度浮動小数点値を返す版。整数値は float に線形マップされ、ブール値は GL_TRUE が
+1.0、GL_FALSE が 0.0 となる。
 
 
 %index
 glGetIntegerv
-The glGetIntegerv function returns the value or values of a selected parameter.
+glGetIntegerv 関数は選択されたパラメータの値を返す。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] The parameter value to be returned. The following symbolic constants are accepted.
+pname : [int] 返すパラメータ値。シンボル定数は glGetBooleanv の pname 説明を参照 (GL_ACCUM_*、GL_ALPHA_TEST_*、GL_BLEND_*、GL_CLIP_PLANEi、GL_COLOR_*、GL_CURRENT_*、GL_DEPTH_*、GL_FOG_*、GL_LIGHT*、GL_MATRIX_*、GL_MAX_*、GL_MODELVIEW_MATRIX、GL_PROJECTION_MATRIX、GL_TEXTURE_MATRIX、GL_VIEWPORT、GL_ZOOM_* など、すべての単純状態変数)。詳細は OpenGL リファレンスを参照のこと。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetIntegerv function returns the value or values of a selected
-parameter.
+glGetIntegerv 関数は選択されたパラメータの値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-This function returns values for simple state variables in OpenGL.
-The *pname* parameter is a symbolic constant indicating the state
-variable to be returned, and *params* is a pointer to an array of the
-indicated type in which to place the returned data. Type conversion
-is performed if *params* has a different type from the state variable
-value being requested. If you call
-[**glGetBooleanv**](glgetbooleanv.md), a floating-point or integer
-value is converted to GL\_FALSE if and only if it is zero. Otherwise,
-it is converted to GL\_TRUE. If you call **glGetIntegerv**, Boolean
-values are returned as GL\_TRUE or GL\_FALSE, and most floating-point
-values are rounded to the nearest integer value. Floating-point
-colors and normals, however, are returned with a linear mapping that
-maps 1.0 to the most positive representable integer value and 1.0 to
-the most negative representable integer value. If you call
-[**glGetFloatv**](glgetfloatv.md) or
-[**glGetDoublev**](glgetdoublev.md), Boolean values are returned as
-GL\_TRUE or GL\_FALSE, and integer values are converted to
-floating-point values. You can query many of the Boolean parameters
-more easily with [**glIsEnabled**](glisenabled.md).
+この関数は OpenGL の単純な状態変数の値を返す。詳細は glGetBooleanv の remarks
+を参照。glGetIntegerv は整数値を返す版。浮動小数点値は丸められて整数になり、ブール値は GL_TRUE が
+1、GL_FALSE が 0 となる。
 
 
 %index
 glGetLightfv
-The glGetLightfv and glGetLightiv functions return light source parameter values. | glGetLightfv function (Gl.h)
+glGetLightfv と glGetLightiv 関数は光源パラメータ値を返す。
 %group
 Win32 opengl32
 %prm
 light, pname, params
-light : [int] A light source. The number of possible lights depends on the implementation, but at least eight lights are supported. They are identified by symbolic names of the form GL\_LIGHT *i* where 0 = *i* < GL\_MAX\_LIGHTS.
-pname : [int] A light source parameter for *light*. The following symbolic names are accepted.
+light : [int] 光源。光源の数は実装依存だが、少なくとも 8 つの光源がサポートされる。GL_LIGHT0 から GL_LIGHTi - 1 までのシンボル名で識別される。GL_LIGHTi = GL_LIGHT0 + i が常に成り立つ。
+pname : [int] light の光源パラメータ。受け付けるシンボル名: GL_AMBIENT (環境光成分、4 値 RGBA)、GL_DIFFUSE (拡散光成分、4 値 RGBA)、GL_SPECULAR (鏡面光成分、4 値 RGBA)、GL_POSITION (光源位置、4 値 X/Y/Z/W、モデルビュー行列で変換済みのアイ座標系)、GL_SPOT_DIRECTION (スポットライト方向、3 値)、GL_SPOT_EXPONENT (スポット指数、単一値)、GL_SPOT_CUTOFF (スポットカットオフ角、単一値)、GL_CONSTANT_ATTENUATION (定数減衰係数)、GL_LINEAR_ATTENUATION (線形減衰係数)、GL_QUADRATIC_ATTENUATION (2 次減衰係数)。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetLightfv and glGetLightiv functions return light source
-parameter values. | glGetLightfv function (Gl.h)
+glGetLightfv と glGetLightiv 関数は光源パラメータ値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glGetLightiv
-The glGetLightfv and glGetLightiv functions return light source parameter values. | glGetLightiv function (Gl.h)
+glGetLightfv と glGetLightiv 関数は光源パラメータ値を返す。
 %group
 Win32 opengl32
 %prm
 light, pname, params
-light : [int] A light source. The number of possible lights depends on the implementation, but at least eight lights are supported. They are identified by symbolic names of the form GL\_LIGHT *i* where 0 = *i* < GL\_MAX\_LIGHTS.
-pname : [int] A light source parameter for *light*. The following symbolic names are accepted.
+light : [int] 光源。光源の数は実装依存だが、少なくとも 8 つの光源がサポートされる。GL_LIGHT0 から GL_LIGHTi - 1 までのシンボル名で識別される。GL_LIGHTi = GL_LIGHT0 + i が常に成り立つ。
+pname : [int] light の光源パラメータ。glGetLightfv の pname 説明を参照。整数版。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetLightfv and glGetLightiv functions return light source
-parameter values. | glGetLightiv function (Gl.h)
+glGetLightfv と glGetLightiv 関数は光源パラメータ値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glGetMapdv
-The glGetMapdv, glGetMapfv, and glGetMapiv functions return evaluator parameters. | glGetMapdv function (Gl.h)
+glGetMapdv、glGetMapfv、glGetMapiv 関数は評価器パラメータを返す。
 %group
 Win32 opengl32
 %prm
 target, query, v
-target : [int] The symbolic name of a map. The following are accepted values: GL\_MAP1\_COLOR\_4, GL\_MAP1\_INDEX, GL\_MAP1\_NORMAL, GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2, GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4, GL\_MAP1\_VERTEX\_3, GL\_MAP1\_VERTEX\_4, GL\_MAP2\_COLOR\_4, GL\_MAP2\_INDEX, GL\_MAP2\_NORMAL, GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2, GL\_MAP2\_TEXTURE\_COORD\_3, GL\_MAP2\_TEXTURE\_COORD\_4, GL\_MAP2\_VERTEX\_3, and GL\_MAP2\_VERTEX\_4.
-query : [int] Specifies which parameter to return. The following symbolic names are accepted.
-v : [var] Returns the requested data.
+target : [int] マップのシンボル名。受け付ける値は GL_MAP1_COLOR_4、GL_MAP1_INDEX、GL_MAP1_NORMAL、GL_MAP1_TEXTURE_COORD_1、GL_MAP1_TEXTURE_COORD_2、GL_MAP1_TEXTURE_COORD_3、GL_MAP1_TEXTURE_COORD_4、GL_MAP1_VERTEX_3、GL_MAP1_VERTEX_4 およびそれらの GL_MAP2_* 版。
+query : [int] 返すパラメータを指定する。受け付けるシンボル名: GL_COEFF (制御点を返す。順序とサイズはマップの次元と成分数に依存)、GL_ORDER (次数。1D は 1 値、2D は 2 値)、GL_DOMAIN (マップの定義域を返す)。このドキュメントは省略されている。
+v : [var] 要求されたデータを返す。
 %inst
-The glGetMapdv, glGetMapfv, and glGetMapiv functions return evaluator
-parameters. | glGetMapdv function (Gl.h)
+glGetMapdv、glGetMapfv、glGetMapiv 関数は評価器パラメータを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetMap** function returns evaluator parameters. (The
-**glMap1** and **glMap2** functions define evaluators.) The *target*
-parameter specifies a map, *query* selects a specific parameter, and
-*v* points to storage where the values will be returned. The
-acceptable values for the *target* parameter are described in
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). If an error is
-generated, no change is made to the contents of *v*.
+glGetMap は評価器パラメータを返す (glMap1 と glMap2 が評価器を定義する)。target
+は評価されるマップ、query はどのパラメータを返すかを指定する。倍精度浮動小数点版。
 
 
 %index
 glGetMapfv
-The glGetMapdv, glGetMapfv, and glGetMapiv functions return evaluator parameters. | glGetMapfv function (Gl.h)
+glGetMapdv、glGetMapfv、glGetMapiv 関数は評価器パラメータを返す。
 %group
 Win32 opengl32
 %prm
 target, query, v
-target : [int] The symbolic name of a map. The following are accepted values: GL\_MAP1\_COLOR\_4, GL\_MAP1\_INDEX, GL\_MAP1\_NORMAL, GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2, GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4, GL\_MAP1\_VERTEX\_3, GL\_MAP1\_VERTEX\_4, GL\_MAP2\_COLOR\_4, GL\_MAP2\_INDEX, GL\_MAP2\_NORMAL, GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2, GL\_MAP2\_TEXTURE\_COORD\_3, GL\_MAP2\_TEXTURE\_COORD\_4, GL\_MAP2\_VERTEX\_3, and GL\_MAP2\_VERTEX\_4.
-query : [int] Specifies which parameter to return. The following symbolic names are accepted.
-v : [var] Returns the requested data.
+target : [int] マップのシンボル名。glGetMapdv の target 説明を参照。
+query : [int] 返すパラメータを指定する。GL_COEFF、GL_ORDER、GL_DOMAIN を受け付ける。glGetMapdv の query 説明を参照。このドキュメントは省略されている。
+v : [var] 要求されたデータを返す。
 %inst
-The glGetMapdv, glGetMapfv, and glGetMapiv functions return evaluator
-parameters. | glGetMapfv function (Gl.h)
+glGetMapdv、glGetMapfv、glGetMapiv 関数は評価器パラメータを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetMap** function returns evaluator parameters. (The
-**glMap1** and **glMap2** functions define evaluators.) The *target*
-parameter specifies a map, *query* selects a specific parameter, and
-*v* points to storage where the values will be returned. The
-acceptable values for the *target* parameter are described in
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). If an error is
-generated, no change is made to the contents of *v*.
+glGetMap は評価器パラメータを返す。glGetMapdv の解説を参照。単精度浮動小数点版。
 
 
 %index
 glGetMapiv
-The glGetMapdv, glGetMapfv, and glGetMapiv functions return evaluator parameters. | glGetMapiv function (Gl.h)
+glGetMapdv、glGetMapfv、glGetMapiv 関数は評価器パラメータを返す。
 %group
 Win32 opengl32
 %prm
 target, query, v
-target : [int] The symbolic name of a map. The following are accepted values: GL\_MAP1\_COLOR\_4, GL\_MAP1\_INDEX, GL\_MAP1\_NORMAL, GL\_MAP1\_TEXTURE\_COORD\_1, GL\_MAP1\_TEXTURE\_COORD\_2, GL\_MAP1\_TEXTURE\_COORD\_3, GL\_MAP1\_TEXTURE\_COORD\_4, GL\_MAP1\_VERTEX\_3, GL\_MAP1\_VERTEX\_4, GL\_MAP2\_COLOR\_4, GL\_MAP2\_INDEX, GL\_MAP2\_NORMAL, GL\_MAP2\_TEXTURE\_COORD\_1, GL\_MAP2\_TEXTURE\_COORD\_2, GL\_MAP2\_TEXTURE\_COORD\_3, GL\_MAP2\_TEXTURE\_COORD\_4, GL\_MAP2\_VERTEX\_3, and GL\_MAP2\_VERTEX\_4.
-query : [int] Specifies which parameter to return. The following symbolic names are accepted.
-v : [var] Returns the requested data.
+target : [int] マップのシンボル名。glGetMapdv の target 説明を参照。
+query : [int] 返すパラメータを指定する。GL_COEFF、GL_ORDER、GL_DOMAIN を受け付ける。glGetMapdv の query 説明を参照。このドキュメントは省略されている。
+v : [var] 要求されたデータを返す。
 %inst
-The glGetMapdv, glGetMapfv, and glGetMapiv functions return evaluator
-parameters. | glGetMapiv function (Gl.h)
+glGetMapdv、glGetMapfv、glGetMapiv 関数は評価器パラメータを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetMap** functions return evaluator parameters. (The
-**glMap1** and **glMap2** functions define evaluators.) The *target*
-parameter specifies a map, *query* selects a specific parameter, and
-*v* points to storage where the values will be returned. The
-acceptable values for the *target* parameter are described in
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). If an error is
-generated, no change is made to the contents of *v*.
+glGetMap 関数は評価器パラメータを返す。glGetMapdv の解説を参照。整数版。
 
 
 %index
 glGetMaterialfv
-The glGetMaterialfv and glGetMaterialiv functions return material parameters. | glGetMaterialfv function (Gl.h)
+glGetMaterialfv と glGetMaterialiv 関数はマテリアルパラメータを返す。
 %group
 Win32 opengl32
 %prm
 face, pname, params
-face : [int] Specifies which of the two materials is being queried. GL\_FRONT or GL\_BACK are accepted, representing the front and back materials, respectively.
-pname : [int] The material parameter to return. The following values are accepted.
+face : [int] 照会する 2 つのマテリアルのどちらを指定するか。GL_FRONT または GL_BACK を受け付け、表面と裏面のマテリアルを表す。
+pname : [int] 返すマテリアルパラメータ。受け付ける値: GL_AMBIENT (環境反射 RGBA)、GL_DIFFUSE (拡散反射 RGBA)、GL_SPECULAR (鏡面反射 RGBA)、GL_EMISSION (発光 RGBA)、GL_SHININESS (鏡面反射指数、単一値)、GL_COLOR_INDEXES (環境・拡散・鏡面の色インデックス、3 値)。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetMaterialfv and glGetMaterialiv functions return material
-parameters. | glGetMaterialfv function (Gl.h)
+glGetMaterialfv と glGetMaterialiv 関数はマテリアルパラメータを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetMaterial** function returns in *params* the value or
-values of parameter *pname* of material *face*. If an error is
-generated, no change is made to the contents of *params*.
+glGetMaterial は face のマテリアル pname パラメータの値を params に返す。エラーが生成されると
+params の内容は変更されない。関連情報は glMaterial を参照。
 
 
 %index
 glGetMaterialiv
-The glGetMaterialfv and glGetMaterialiv functions return material parameters. | glGetMaterialiv function (Gl.h)
+glGetMaterialfv と glGetMaterialiv 関数はマテリアルパラメータを返す。
 %group
 Win32 opengl32
 %prm
 face, pname, params
-face : [int] Specifies which of the two materials is being queried. GL\_FRONT or GL\_BACK are accepted, representing the front and back materials, respectively.
-pname : [int] The material parameter to return. The following values are accepted.
+face : [int] 照会する 2 つのマテリアルのどちらを指定するか。GL_FRONT または GL_BACK を受け付け、表面と裏面のマテリアルを表す。
+pname : [int] 返すマテリアルパラメータ。glGetMaterialfv の pname 説明を参照。整数版。このドキュメントは省略されている。
 params : [int] 
 %inst
-The glGetMaterialfv and glGetMaterialiv functions return material
-parameters. | glGetMaterialiv function (Gl.h)
+glGetMaterialfv と glGetMaterialiv 関数はマテリアルパラメータを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetMaterial** function returns in *params* the value or
-values of parameter *pname* of material *face*. If an error is
-generated, no change is made to the contents of *params*.
+glGetMaterial は face のマテリアル pname パラメータの値を params に返す。エラーが生成されると
+params の内容は変更されない。関連情報は glMaterial を参照。
 
 
 %index
 glGetPixelMapfv
-The glGetPixelMapfv, glGetPixelMapuiv, and glGetPixelMapusv functions return the specified pixel map. | glGetPixelMapfv function (Gl.h)
+glGetPixelMapfv、glGetPixelMapuiv、glGetPixelMapusv 関数は指定されたピクセルマップを返す。
 %group
 Win32 opengl32
 %prm
 map, values
-map : [int] The name of the pixel map to return. Accepted values are GL\_PIXEL\_MAP\_I\_TO\_I, GL\_PIXEL\_MAP\_S\_TO\_S, GL\_PIXEL\_MAP\_I\_TO\_R, GL\_PIXEL\_MAP\_I\_TO\_G, GL\_PIXEL\_MAP\_I\_TO\_B, GL\_PIXEL\_MAP\_I\_TO\_A, GL\_PIXEL\_MAP\_R\_TO\_R, GL\_PIXEL\_MAP\_G\_TO\_G, GL\_PIXEL\_MAP\_B\_TO\_B, and GL\_PIXEL\_MAP\_A\_TO\_A.
-values : [var] Returns the pixel map contents.
+map : [int] 返すピクセルマップの名前。受け付ける値: GL_PIXEL_MAP_I_TO_I、GL_PIXEL_MAP_S_TO_S、GL_PIXEL_MAP_I_TO_R、GL_PIXEL_MAP_I_TO_G、GL_PIXEL_MAP_I_TO_B、GL_PIXEL_MAP_I_TO_A、GL_PIXEL_MAP_R_TO_R、GL_PIXEL_MAP_G_TO_G、GL_PIXEL_MAP_B_TO_B、GL_PIXEL_MAP_A_TO_A。
+values : [var] ピクセルマップの内容を返す。
 %inst
-The glGetPixelMapfv, glGetPixelMapuiv, and glGetPixelMapusv functions
-return the specified pixel map. | glGetPixelMapfv function (Gl.h)
+glGetPixelMapfv、glGetPixelMapuiv、glGetPixelMapusv 関数は指定されたピクセルマップを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-See [**glPixelMap**](glpixelmap.md) for a description of the
-acceptable values for the *map* parameter. The **glGetPixelMap**
-function returns in *values* the contents of the pixel map specified
-in *map*. Use pixel maps during the execution of
-[**glReadPixels**](glreadpixels.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glCopyPixels**](glcopypixels.md),
-[**glTexImage1D**](glteximage1d.md), and
-[**glTexImage2D**](glteximage2d.md) to map color indexes, stencil
-indexes, color components, and depth components to other values.
-Unsigned integer values, if requested, are linearly mapped from the
-internal fixed or floating-point representation such that 1.0 maps to
-the largest representable integer value, and 0.0 maps to zero. Return
-unsigned integer values are undefined if the map value was not in the
-range \[0,1\]. To determine the required size of *map*, call
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with the appropriate symbolic constant. If an error is generated, no
-change is made to the contents of *values*. The following functions
-retrieve information related to **glGetPixelMap**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE
+map パラメータに受け付けられる値は glPixelMap を参照。glGetPixelMap は map
+で指定された現在設定中のピクセルマップの内容を values に返す。glGetPixelMap は非浮動小数点マップを浮動小数点へ
+(または逆方向へ) 変換して返すことができる。結果は glPixelMap で指定された時の形式とは異なりうるが、glPixelStore
+で変更されない限り正常に再読み込み可能。単一ピクセルマップのサイズは glGet (GL_PIXEL_MAP_*_SIZE)
+で照会できる。単精度版。
 
 
 %index
 glGetPixelMapuiv
-The glGetPixelMapfv, glGetPixelMapuiv, and glGetPixelMapusv functions return the specified pixel map. | glGetPixelMapuiv function (Gl.h)
+glGetPixelMapfv、glGetPixelMapuiv、glGetPixelMapusv 関数は指定したピクセルマップを返す。| glGetPixelMapuiv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 map, values
-map : [int] The name of the pixel map to return. Accepted values are GL\_PIXEL\_MAP\_I\_TO\_I, GL\_PIXEL\_MAP\_S\_TO\_S, GL\_PIXEL\_MAP\_I\_TO\_R, GL\_PIXEL\_MAP\_I\_TO\_G, GL\_PIXEL\_MAP\_I\_TO\_B, GL\_PIXEL\_MAP\_I\_TO\_A, GL\_PIXEL\_MAP\_R\_TO\_R, GL\_PIXEL\_MAP\_G\_TO\_G, GL\_PIXEL\_MAP\_B\_TO\_B, and GL\_PIXEL\_MAP\_A\_TO\_A.
-values : [var] Returns the pixel map contents.
+map : [int] 返すピクセルマップの名前。受け付ける値: GL_PIXEL_MAP_I_TO_I、GL_PIXEL_MAP_S_TO_S、GL_PIXEL_MAP_I_TO_R、GL_PIXEL_MAP_I_TO_G、GL_PIXEL_MAP_I_TO_B、GL_PIXEL_MAP_I_TO_A、GL_PIXEL_MAP_R_TO_R、GL_PIXEL_MAP_G_TO_G、GL_PIXEL_MAP_B_TO_B、GL_PIXEL_MAP_A_TO_A。
+values : [var] ピクセルマップの内容を返す。
 %inst
-The glGetPixelMapfv, glGetPixelMapuiv, and glGetPixelMapusv functions
-return the specified pixel map. | glGetPixelMapuiv function (Gl.h)
+glGetPixelMapfv、glGetPixelMapuiv、glGetPixelMapusv 関数は指定したピクセルマップを返す。|
+glGetPixelMapuiv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-See [**glPixelMap**](glpixelmap.md) for a description of the
-acceptable values for the *map* parameter. The **glGetPixelMap**
-function returns in *values* the contents of the pixel map specified
-in *map*. Use pixel maps during the execution of
-[**glReadPixels**](glreadpixels.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glCopyPixels**](glcopypixels.md),
-[**glTexImage1D**](glteximage1d.md), and
-[**glTexImage2D**](glteximage2d.md) to map color indexes, stencil
-indexes, color components, and depth components to other values.
-Unsigned integer values, if requested, are linearly mapped from the
-internal fixed or floating-point representation such that 1.0 maps to
-the largest representable integer value, and 0.0 maps to zero. Return
-unsigned integer values are undefined if the map value was not in the
-range \[0,1\]. To determine the required size of *map*, call
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with the appropriate symbolic constant. If an error is generated, no
-change is made to the contents of *values*. The following functions
-retrieve information related to **glGetPixelMap**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE
+map パラメータに受け付けられる値の説明は glPixelMap を参照。glGetPixelMap は map
+で指定したピクセルマップの内容を values に返す。ピクセルマップは
+glReadPixels、glDrawPixels、glCopyPixels、glTexImage1D、glTexImage2D
+実行時に、カラーインデックス・ステンシルインデックス・カラー成分・デプス成分を別の値にマップするために使う。符号なし整数値を要求した場合、マップ内の浮動小数点値は線形に
+[0, 2^b-1] に変換される (b は要求ビット数)。符号なしショートも同様に [0, 2^16-1]
+に変換される。glGetPixelMap を表示リストに含めることはできない。エラーが生成された場合、values
+の内容は変更されない。関連情報は glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE)
+で取得できる。
 
 
 %index
 glGetPixelMapusv
-The glGetPixelMapfv, glGetPixelMapuiv, and glGetPixelMapusv functions return the specified pixel map. | glGetPixelMapusv function (Gl.h)
+glGetPixelMapfv、glGetPixelMapuiv、glGetPixelMapusv 関数は指定したピクセルマップを返す。| glGetPixelMapusv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 map, values
-map : [int] The name of the pixel map to return. Accepted values are GL\_PIXEL\_MAP\_I\_TO\_I, GL\_PIXEL\_MAP\_S\_TO\_S, GL\_PIXEL\_MAP\_I\_TO\_R, GL\_PIXEL\_MAP\_I\_TO\_G, GL\_PIXEL\_MAP\_I\_TO\_B, GL\_PIXEL\_MAP\_I\_TO\_A, GL\_PIXEL\_MAP\_R\_TO\_R, GL\_PIXEL\_MAP\_G\_TO\_G, GL\_PIXEL\_MAP\_B\_TO\_B, and GL\_PIXEL\_MAP\_A\_TO\_A.
-values : [var] Returns the pixel map contents.
+map : [int] 返すピクセルマップの名前。受け付ける値は GL_PIXEL_MAP_I_TO_I、GL_PIXEL_MAP_S_TO_S、GL_PIXEL_MAP_I_TO_R、GL_PIXEL_MAP_I_TO_G、GL_PIXEL_MAP_I_TO_B、GL_PIXEL_MAP_I_TO_A、GL_PIXEL_MAP_R_TO_R、GL_PIXEL_MAP_G_TO_G、GL_PIXEL_MAP_B_TO_B、GL_PIXEL_MAP_A_TO_A。
+values : [var] ピクセルマップの内容を返す。
 %inst
-The glGetPixelMapfv, glGetPixelMapuiv, and glGetPixelMapusv functions
-return the specified pixel map. | glGetPixelMapusv function (Gl.h)
+glGetPixelMapfv、glGetPixelMapuiv、glGetPixelMapusv 関数は指定したピクセルマップを返す。|
+glGetPixelMapusv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-See [**glPixelMap**](glpixelmap.md) for a description of the
-acceptable values for the *map* parameter. The **glGetPixelMap**
-function returns in *values* the contents of the pixel map specified
-in *map*. Use pixel maps during the execution of
-[**glReadPixels**](glreadpixels.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glCopyPixels**](glcopypixels.md),
-[**glTexImage1D**](glteximage1d.md), and
-[**glTexImage2D**](glteximage2d.md) to map color indexes, stencil
-indexes, color components, and depth components to other values.
-Unsigned integer values, if requested, are linearly mapped from the
-internal fixed or floating-point representation such that 1.0 maps to
-the largest representable integer value, and 0.0 maps to zero. Return
-unsigned integer values are undefined if the map value was not in the
-range \[0,1\]. To determine the required size of *map*, call
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with the appropriate symbolic constant. If an error is generated, no
-change is made to the contents of *values*. The following functions
-retrieve information related to **glGetPixelMap**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE
+map パラメータに受け付けられる値の説明は glPixelMap を参照。glGetPixelMap は map
+で指定したピクセルマップの内容を values に返す。ピクセルマップは
+glReadPixels、glDrawPixels、glCopyPixels、glTexImage1D、glTexImage2D
+実行時に、カラーインデックス・ステンシルインデックス・カラー成分・デプス成分を別の値にマップするために使う。符号なし整数値を要求した場合、マップ内の浮動小数点値は線形に
+[0, 2^b-1] に変換される (b は要求ビット数)。符号なしショートも同様に [0, 2^16-1]
+に変換される。glGetPixelMap を表示リストに含めることはできない。エラーが生成された場合、values
+の内容は変更されない。関連情報は glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE)
+で取得できる。
 
 
 %index
 glGetPointerv
-The glGetPointerv function returns the address of a vertex data array.
+glGetPointerv 関数は頂点データ配列のアドレスを返す。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] The type of array pointer to return from the following symbolic constants: GL\_COLOR\_ARRAY\_POINTER, GL\_EDGE\_FLAG\_ARRAY\_POINTER, GL\_FEEDBACK\_BUFFER\_POINTER, GL\_INDEX\_ARRAY\_POINTER, GL\_NORMAL\_ARRAY\_POINTER, GL\_TEXTURE\_COORD\_ARRAY\_POINTER, GL\_SELECTION\_BUFFER\_POINTER, and GL\_VERTEX\_ARRAY\_POINTER.
+pname : [int] 返す配列ポインタの種類を次のシンボル定数から指定する: GL_COLOR_ARRAY_POINTER、GL_EDGE_FLAG_ARRAY_POINTER、GL_FEEDBACK_BUFFER_POINTER、GL_INDEX_ARRAY_POINTER、GL_NORMAL_ARRAY_POINTER、GL_TEXTURE_COORD_ARRAY_POINTER、GL_SELECTION_BUFFER_POINTER、GL_VERTEX_ARRAY_POINTER。
 params : [int] 
 %inst
-The glGetPointerv function returns the address of a vertex data
-array.
+glGetPointerv 関数は頂点データ配列のアドレスを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetPointerv** function returns array pointer information. The
-*pname* parameter is a symbolic constant specifying the kind of array
-pointer to return, and *params* is a pointer to a location to place
-the returned data.
+glGetPointerv は配列ポインタ情報を返す。pname は返すポインタ種別を指定するシンボル定数、params
+は返されるデータを格納する位置へのポインタ。
 
 
 %index
 glGetPolygonStipple
-The glGetPolygonStipple function returns the polygon stipple pattern.
+glGetPolygonStipple 関数はポリゴンスティップルパターンを返す。
 %group
 Win32 opengl32
 %prm
 mask
-mask : [var] Returns the stipple pattern.
+mask : [var] スティップルパターンを返す。
 %inst
-The glGetPolygonStipple function returns the polygon stipple pattern.
+glGetPolygonStipple 関数はポリゴンスティップルパターンを返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetPolygonStipple** function returns a 32x32 polygon stipple
-pattern through the *mask* parameter. The pattern is packed into
-memory as if [**glReadPixels**](glreadpixels.md) with both *height*
-and *width* of 32, *type* of GL\_BITMAP, and *format* of
-GL\_COLOR\_INDEX were called, and the stipple pattern were stored in
-an internal 32x32 color-index buffer. Unlike **glReadPixels**,
-however, pixel-transfer operations (shift, offset, and pixel map) are
-not applied to the returned stipple image. If an error is generated,
-no change is made to the contents of *mask*.
+glGetPolygonStipple は 32x32 のポリゴンスティップルパターンを mask に返す。パターンは
+glReadPixels を height/width=32、type=GL_BITMAP、format=GL_COLOR_INDEX
+で呼び、スティップルパターンが内部の 32x32 カラーインデックスバッファに格納されているかのようにメモリへパックされる。ただし
+glReadPixels と異なり、ピクセル転送操作 (シフト、オフセット、ピクセルマップ)
+は返されるスティップル画像には適用されない。エラーが生成された場合、mask の内容は変更されない。
 
 
 %index
 glGetString
-The glGetString function returns a string describing the current OpenGL connection.
+glGetString 関数は現在の OpenGL 接続を説明する文字列を返す。
 %group
 Win32 opengl32
 %prm
 name
-name : [int] One of the following symbolic constants.
+name : [int] 次のシンボル定数のいずれか。GL_VENDOR: 実装を担当する会社名を返す。GL_RENDERER: 特定構成 (通常ハードウェアプラットフォーム) に依存するレンダラ識別子を返す。GL_VERSION: 現 GL 接続のバージョン番号または GL 実装のリリース番号を返す。GL_EXTENSIONS: この実装でサポートされる拡張機能リストを空白区切りで返す。
 %inst
-The glGetString function returns a string describing the current
-OpenGL connection.
+glGetString 関数は現在の OpenGL 接続を説明する文字列を返す。
 
 [備考]
-The **glGetString** function returns a pointer to a static string
-describing some aspect of the current OpenGL connection. Because
-OpenGL does not include queries for the performance characteristics
-of an implementation, it is expected that some applications will be
-written to recognize known platforms and will modify their OpenGL
-usage based on known performance characteristics of these platforms.
-The strings GL\_VENDOR and GL\_RENDERER together uniquely specify a
-platform, and will not change from release to release. They should be
-used as such by platform recognition algorithms. The format and
-contents of the string that **glGetString** returns depend on the
-implementation, except that: - Extension names will not include space
-characters and will be separated by space characters in the
-GL\_EXTENSIONS string. - The GL\_VERSION string begins with a version
-number. The version number uses one of these forms:
-*major\_number*.*minor\_number*
-*major\_number*.*minor\_number*.*release\_number* - Vendor-specific
-information may follow the version number. Its format depends on the
-implementation, but a space always separates the version number and
-the vendor-specific information. - All strings are null-terminated.
-If an error is generated, **glGetString** returns zero.
+glGetString は現在の OpenGL 接続の状況を説明する静的文字列へのポインタを返す。OpenGL
+には実装の性能特性を問い合わせる機能が含まれないため、アプリケーションは既知プラットフォームを識別して OpenGL
+の使い方を調整することが期待される。GL_VENDOR と GL_RENDERER
+の組み合わせはプラットフォームを一意に指定し、リリース間で変化しない。GL_VERSION と GL_EXTENSIONS
+は異なるリリースで異なる可能性がある。GL_EXTENSIONS の各拡張名は空白で区切られる。エラーが生成された場合は NULL
+を返す。注意: glGetString を glBegin/glEnd 間で呼ぶとエラー GL_INVALID_OPERATION
+が生成される。関連情報は glGet で取得できる。
 
 
 %index
 glGetTexEnvfv
-The glGetTexEnvfv and glGetTexEnviv functions return texture environment parameters. | glGetTexEnvfv function (Gl.h)
+glGetTexEnvfv、glGetTexEnviv 関数はテクスチャ環境パラメータを返す。| glGetTexEnvfv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] A texture environment. Must be GL\_TEXTURE\_ENV.
-pname : [int] The symbolic name of a texture environment parameter. The following values are accepted.
+target : [int] テクスチャ環境。GL_TEXTURE_ENV でなければならない。
+pname : [int] テクスチャ環境パラメータのシンボル名。GL_TEXTURE_ENV_MODE (現在のテクスチャ関数モード: GL_MODULATE、GL_DECAL、GL_BLEND、GL_REPLACE のいずれか) と GL_TEXTURE_ENV_COLOR (テクスチャ環境カラー。整数値は線形に [-1,1] にマップされる) を受け付ける。
 params : [int] 
 %inst
-The glGetTexEnvfv and glGetTexEnviv functions return texture
-environment parameters. | glGetTexEnvfv function (Gl.h)
+glGetTexEnvfv、glGetTexEnviv 関数はテクスチャ環境パラメータを返す。| glGetTexEnvfv 関数
+(Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexEnv** function returns in *params* selected values of a
-texture environment that was specified with
-[**glTexEnv**](gltexenv-functions.md). The *target* parameter
-specifies a texture environment. Currently, only one texture
-environment is defined and supported: GL\_TEXTURE\_ENV. The *pname*
-parameter names a specific texture environment parameter. If an error
-is generated, no change is made to the contents of *params*.
+glGetTexEnv は glTexEnv で指定したテクスチャ環境の選択値を params に返す。target
+はテクスチャ環境を指定し、現在は GL_TEXTURE_ENV のみ定義されサポートされる。pname
+は特定のテクスチャ環境パラメータを指定する。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexEnviv
-The glGetTexEnvfv and glGetTexEnviv functions return texture environment parameters. | glGetTexEnviv function (Gl.h)
+glGetTexEnvfv、glGetTexEnviv 関数はテクスチャ環境パラメータを返す。| glGetTexEnviv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] A texture environment. Must be GL\_TEXTURE\_ENV.
-pname : [int] The symbolic name of a texture environment parameter. The following values are accepted.
+target : [int] テクスチャ環境。GL_TEXTURE_ENV でなければならない。
+pname : [int] テクスチャ環境パラメータのシンボル名。GL_TEXTURE_ENV_MODE (現在のテクスチャ関数モード: GL_MODULATE、GL_DECAL、GL_BLEND、GL_REPLACE のいずれか) と GL_TEXTURE_ENV_COLOR (テクスチャ環境カラー。整数値は線形に [-1,1] にマップされる) を受け付ける。
 params : [int] 
 %inst
-The glGetTexEnvfv and glGetTexEnviv functions return texture
-environment parameters. | glGetTexEnviv function (Gl.h)
+glGetTexEnvfv、glGetTexEnviv 関数はテクスチャ環境パラメータを返す。| glGetTexEnviv 関数
+(Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexEnv** function returns in *params* selected values of a
-texture environment that was specified with
-[**glTexEnv**](gltexenv-functions.md). The *target* parameter
-specifies a texture environment. Currently, only one texture
-environment is defined and supported: GL\_TEXTURE\_ENV. The *pname*
-parameter names a specific texture environment parameter. If an error
-is generated, no change is made to the contents of *params*.
+glGetTexEnv は glTexEnv で指定したテクスチャ環境の選択値を params に返す。target
+はテクスチャ環境を指定し、現在は GL_TEXTURE_ENV のみ定義されサポートされる。pname
+は特定のテクスチャ環境パラメータを指定する。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexGendv
-The glGetTexGendv, glGetTexGenfv, and glGetTexGeniv functions return texture coordinate generation parameters. | glGetTexGendv function (Gl.h)
+glGetTexGendv、glGetTexGenfv、glGetTexGeniv 関数はテクスチャ座標生成パラメータを返す。| glGetTexGendv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, params
-coord : [int] A texture coordinate. Must be GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the value(s) to be returned. Must be either GL\_TEXTURE\_GEN\_MODE or the name of one of the texture generation plane equations: GL\_OBJECT\_PLANE or GL\_EYE\_PLANE. These values are as follows.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] 返す値のシンボル名。GL_TEXTURE_GEN_MODE (現在のテクスチャ座標生成関数: GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP のいずれか) か、テクスチャ生成平面方程式 GL_OBJECT_PLANE (オブジェクト線形生成関数用の参照平面方程式) または GL_EYE_PLANE (アイ線形生成関数用の参照平面方程式) のいずれかでなければならない。
 params : [int] 
 %inst
-The glGetTexGendv, glGetTexGenfv, and glGetTexGeniv functions return
-texture coordinate generation parameters. | glGetTexGendv function
-(Gl.h)
+glGetTexGendv、glGetTexGenfv、glGetTexGeniv 関数はテクスチャ座標生成パラメータを返す。|
+glGetTexGendv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexGen** function returns in *params* selected parameters
-of a texture-coordinate generation function that you specified with
-**glTexGen**. The *coord* parameter names one of the (*s*, *t*, *r*,
-*q*) texture coordinates, using the symbolic constant GL\_S, GL\_T,
-GL\_R, or GL\_Q. If an error is generated, no change is made to the
-contents of *params*.
+glGetTexGen は glTexGen で指定したテクスチャ座標生成関数の選択パラメータを params に返す。coord
+はシンボル定数 GL_S、GL_T、GL_R、GL_Q を用いて (s, t, r, q)
+のいずれかを指定する。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexGenfv
-The glGetTexGendv, glGetTexGenfv, and glGetTexGeniv functions return texture coordinate generation parameters. | glGetTexGenfv function (Gl.h)
+glGetTexGendv、glGetTexGenfv、glGetTexGeniv 関数はテクスチャ座標生成パラメータを返す。| glGetTexGenfv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, params
-coord : [int] A texture coordinate. Must be GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the value(s) to be returned. Must be either GL\_TEXTURE\_GEN\_MODE or the name of one of the texture generation plane equations: GL\_OBJECT\_PLANE or GL\_EYE\_PLANE. These values are as follows.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] 返す値のシンボル名。GL_TEXTURE_GEN_MODE (現在のテクスチャ座標生成関数: GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP のいずれか) か、テクスチャ生成平面方程式 GL_OBJECT_PLANE (オブジェクト線形生成関数用の参照平面方程式) または GL_EYE_PLANE (アイ線形生成関数用の参照平面方程式) のいずれかでなければならない。
 params : [int] 
 %inst
-The glGetTexGendv, glGetTexGenfv, and glGetTexGeniv functions return
-texture coordinate generation parameters. | glGetTexGenfv function
-(Gl.h)
+glGetTexGendv、glGetTexGenfv、glGetTexGeniv 関数はテクスチャ座標生成パラメータを返す。|
+glGetTexGenfv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexGen** function returns in *params* selected parameters
-of a texture-coordinate generation function that you specified with
-**glTexGen**. The *coord* parameter names one of the (*s*, *t*, *r*,
-*q*) texture coordinates, using the symbolic constant GL\_S, GL\_T,
-GL\_R, or GL\_Q. If an error is generated, no change is made to the
-contents of *params*.
+glGetTexGen は glTexGen で指定したテクスチャ座標生成関数の選択パラメータを params に返す。coord
+はシンボル定数 GL_S、GL_T、GL_R、GL_Q を用いて (s, t, r, q)
+のいずれかを指定する。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexGeniv
-The glGetTexGendv, glGetTexGenfv, and glGetTexGeniv functions return texture coordinate generation parameters. | glGetTexGeniv function (Gl.h)
+glGetTexGendv、glGetTexGenfv、glGetTexGeniv 関数はテクスチャ座標生成パラメータを返す。| glGetTexGeniv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, params
-coord : [int] A texture coordinate. Must be GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the value(s) to be returned. Must be either GL\_TEXTURE\_GEN\_MODE or the name of one of the texture generation plane equations: GL\_OBJECT\_PLANE or GL\_EYE\_PLANE. These values are as follows.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] 返す値のシンボル名。GL_TEXTURE_GEN_MODE (現在のテクスチャ座標生成関数: GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP のいずれか) か、テクスチャ生成平面方程式 GL_OBJECT_PLANE (オブジェクト線形生成関数用の参照平面方程式) または GL_EYE_PLANE (アイ線形生成関数用の参照平面方程式) のいずれかでなければならない。
 params : [int] 
 %inst
-The glGetTexGendv, glGetTexGenfv, and glGetTexGeniv functions return
-texture coordinate generation parameters. | glGetTexGeniv function
-(Gl.h)
+glGetTexGendv、glGetTexGenfv、glGetTexGeniv 関数はテクスチャ座標生成パラメータを返す。|
+glGetTexGeniv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexGen** function returns in *params* selected parameters
-of a texture-coordinate generation function that you specified with
-**glTexGen**. The *coord* parameter names one of the (*s*, *t*, *r*,
-*q*) texture coordinates, using the symbolic constant GL\_S, GL\_T,
-GL\_R, or GL\_Q. If an error is generated, no change is made to the
-contents of *params*.
+glGetTexGen は glTexGen で指定したテクスチャ座標生成関数の選択パラメータを params に返す。coord
+はシンボル定数 GL_S、GL_T、GL_R、GL_Q を用いて (s, t, r, q)
+のいずれかを指定する。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexImage
-The glGetTexImage function returns a texture image.
+glGetTexImage 関数はテクスチャ画像を返す。
 %group
 Win32 opengl32
 %prm
 target, level, format, type, pixels
-target : [int] Specifies which texture is to be obtained. GL\_TEXTURE\_1D and GL\_TEXTURE\_2D are accepted.
-level : [int] The level-of-detail number of the desired image. Level 0 is the base image level. Level *n* is the *n*th mipmap reduction image.
-format : [int] A pixel format for the returned data. The supported formats are GL\_RED, GL\_GREEN, GL\_BLUE, GL\_ALPHA, GL\_RGB, GL\_RGBA, GL\_LUMINANCE, GL\_BGR\_EXT, GL\_BGRA\_EXT, and GL\_LUMINANCE\_ALPHA.
-type : [int] A pixel type for the returned data. The supported types are GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, and GL\_FLOAT.
-pixels : [intptr] Returns the texture image. Should be a pointer to an array of the type specified by *type*.
+target : [int] 取得するテクスチャを指定する。GL_TEXTURE_1D と GL_TEXTURE_2D を受け付ける。
+level : [int] 目的画像の詳細度レベル番号。レベル 0 が基本イメージレベルで、レベル n は n 段階目のミップマップ縮小画像。
+format : [int] 返されるデータのピクセルフォーマット。サポートされるフォーマットは GL_RED、GL_GREEN、GL_BLUE、GL_ALPHA、GL_RGB、GL_RGBA、GL_LUMINANCE、GL_BGR_EXT、GL_BGRA_EXT、GL_LUMINANCE_ALPHA。
+type : [int] 返されるデータのピクセル型。サポートされる型は GL_UNSIGNED_BYTE、GL_BYTE、GL_UNSIGNED_SHORT、GL_SHORT、GL_UNSIGNED_INT、GL_INT、GL_FLOAT。
+pixels : [intptr] テクスチャ画像を返す。type で指定された型の配列へのポインタであるべき。
 %inst
-The glGetTexImage function returns a texture image.
+glGetTexImage 関数はテクスチャ画像を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexImage** function returns a texture image into *pixels*.
-The *target* parameter specifies whether the desired texture image is
-one specified by
-[**glTexImage1D**](glteximage1d.md)**(**GL\_TEXTURE\_1D**)** or by
-[**glTexImage2D**](glteximage2d.md)**(**GL\_TEXTURE\_2D**)**. The
-*level* parameter specifies the level-of-detail number of the desired
-image. The *format* and *type* parameters specify the format and type
-of the desired image array. For a description of the acceptable
-values for the *format* and *type* parameters, respectively, see
-**glTexImage1D** and [**glDrawPixels**](gldrawpixels.md). Operation
-of **glGetTexImage** is best understood by considering the selected
-internal four-component texture image to be an RGBA color buffer the
-size of the image. The semantics of **glGetTexImage** are then
-identical to those of [**glReadPixels**](glreadpixels.md) called with
-the same *format* and *type*, with *x* and *y* set to zero, *width*
-set to the width of the texture image (including border if one was
-specified), and *height* set to one for 1-D images, or to the height
-of the texture image (including border, if one was specified) for 2-D
-images. Because the internal texture image is an RGBA image, pixel
-formats GL\_COLOR\_INDEX, GL\_STENCIL\_INDEX, and
-GL\_DEPTH\_COMPONENT are not accepted, and pixel type GL\_BITMAP is
-not accepted. If the selected texture image does not contain four
-components, the following mappings are applied. Single-component
-textures are treated as RGBA buffers with red set to the
-single-component value, and green, blue, and alpha set to zero.
-Two-component textures are treated as RGBA buffers, with red set to
-the value of component zero, alpha set to the value of component one,
-and green and blue set to zero. Finally, three-component textures are
-treated as RGBA buffers with red set to component zero, green set to
-component one, blue set to component two, and alpha set to zero. To
-determine the required size of *pixels*, use
-[**glGetTexLevelParameter**](glgettexlevelparameter.md) to ascertain
-the dimensions of the internal texture image, and then scale the
-required number of pixels by the storage required for each pixel,
-based on *format* and *type*. Be sure to take the pixel-storage
-parameters into account, especially GL\_PACK\_ALIGNMENT. If an error
-is generated, no change is made to the contents of *pixels*. The
-following functions retrieve information related to
-**glGetTexImage**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PACK\_ALIGNMENT and others
-[**glGetTexLevelParameter**](glgettexlevelparameter.md) with argument
-GL\_TEXTURE\_WIDTH **glGetTexLevelParameter** with argument
-GL\_TEXTURE\_HEIGHT **glGetTexLevelParameter** with argument
-GL\_TEXTURE\_BORDER **glGetTexLevelParameter** with argument
-GL\_TEXTURE\_COMPONENTS
+glGetTexImage はテクスチャ画像を pixels に返す。target は目的画像が
+glTexImage1D(GL_TEXTURE_1D) と glTexImage2D(GL_TEXTURE_2D)
+のどちらで指定されたかを示す。level は目的画像の詳細度レベル、format と type
+は返される画像配列のフォーマットと型を指定する。受け付ける値の説明はそれぞれ glTexImage1D と glDrawPixels
+を参照。glGetTexImage はテクスチャ画像を反転せずに pixels に復元する (つまり画像の左下隅が pixels
+の最初の位置になる)。glPixelStore の整列指定はピクセル転送操作と同じくピクセル格納に影響する。glGetTexImage
+は表示リストに含められない。テクスチャ画像に割り当てられる精度は実装依存だが、フレームバッファの色精度と同等以上。エラーが生成された場合、pixels
+の内容は変更されない。
 
 
 %index
 glGetTexLevelParameterfv
-The glGetTexLevelParameterfv and glGetTexLevelParameteriv functions return texture parameter values for a specific level of detail. | glGetTexLevelParameterfv function (Gl.h)
+glGetTexLevelParameterfv、glGetTexLevelParameteriv 関数は特定の詳細度レベルに対するテクスチャパラメータ値を返す。| glGetTexLevelParameterfv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, level, pname, params
-target : [int] The symbolic name of the target texture: either GL\_TEXTURE\_1D, GL\_TEXTURE\_2D, GL\_PROXY\_TEXTURE\_1D, or GL\_PROXY\_TEXTURE\_2D.
-level : [int] The level-of-detail number of the desired image. Level 0 is the base image level. Level *n* is the *n*th mipmap reduction image.
-pname : [int] The symbolic name of a texture parameter. The following parameter names are accepted.
+target : [int] 対象テクスチャのシンボル名。GL_TEXTURE_1D、GL_TEXTURE_2D、GL_PROXY_TEXTURE_1D、GL_PROXY_TEXTURE_2D のいずれか。
+level : [int] 目的画像の詳細度レベル番号。レベル 0 が基本イメージレベルで、レベル n は n 段階目のミップマップ縮小画像。
+pname : [int] テクスチャパラメータのシンボル名。GL_TEXTURE_WIDTH/HEIGHT/INTERNAL_FORMAT/BORDER/RED_SIZE/GREEN_SIZE/BLUE_SIZE/ALPHA_SIZE/LUMINANCE_SIZE/INTENSITY_SIZE/COMPONENTS を受け付ける。プロキシテクスチャでは幅・高さ・境界・内部フォーマットが問い合わせ可能だが、プロキシテクスチャには実データが無い点に注意する。
 params : [int] 
 %inst
-The glGetTexLevelParameterfv and glGetTexLevelParameteriv functions
-return texture parameter values for a specific level of detail. |
-glGetTexLevelParameterfv function (Gl.h)
+glGetTexLevelParameterfv、glGetTexLevelParameteriv
+関数は特定の詳細度レベルに対するテクスチャパラメータ値を返す。| glGetTexLevelParameterfv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexLevelParameter** function returns in *params* texture
-parameter values for a specific level-of-detail value, specified as
-*level*. The *target* parameter defines the target texture, either
-GL\_TEXTURE\_1D, GL\_TEXTURE\_2D, GL\_PROXY\_TEXTURE\_1D, or
-GL\_PROXY\_TEXTURE\_2D to specify one-dimensional or two-dimensional
-texturing. The *pname* parameter specifies the texture parameter
-whose value or values will be returned. If an error is generated, no
-change is made to the contents of *params*.
+glGetTexLevelParameter は、level で指定した特定の詳細度レベルに対するテクスチャパラメータ値を params
+に返す。target
+は対象テクスチャを指定し、GL_TEXTURE_1D、GL_TEXTURE_2D、GL_PROXY_TEXTURE_1D、GL_PROXY_TEXTURE_2D
+のいずれか。pname は値を取得するパラメータ名。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexLevelParameteriv
-The glGetTexLevelParameterfv and glGetTexLevelParameteriv functions return texture parameter values for a specific level of detail. | glGetTexLevelParameteriv function (Gl.h)
+glGetTexLevelParameterfv、glGetTexLevelParameteriv 関数は特定の詳細度レベルに対するテクスチャパラメータ値を返す。| glGetTexLevelParameteriv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, level, pname, params
-target : [int] The symbolic name of the target texture: either GL\_TEXTURE\_1D, GL\_TEXTURE\_2D, GL\_PROXY\_TEXTURE\_1D, or GL\_PROXY\_TEXTURE\_2D.
-level : [int] The level-of-detail number of the desired image. Level 0 is the base image level. Level *n* is the *n*th mipmap reduction image.
-pname : [int] The symbolic name of a texture parameter. The following parameter names are accepted.
+target : [int] 対象テクスチャのシンボル名。GL_TEXTURE_1D、GL_TEXTURE_2D、GL_PROXY_TEXTURE_1D、GL_PROXY_TEXTURE_2D のいずれか。
+level : [int] 目的画像の詳細度レベル番号。レベル 0 が基本イメージレベルで、レベル n は n 段階目のミップマップ縮小画像。
+pname : [int] テクスチャパラメータのシンボル名。GL_TEXTURE_WIDTH/HEIGHT/INTERNAL_FORMAT/BORDER/RED_SIZE/GREEN_SIZE/BLUE_SIZE/ALPHA_SIZE/LUMINANCE_SIZE/INTENSITY_SIZE/COMPONENTS を受け付ける。プロキシテクスチャでは幅・高さ・境界・内部フォーマットが問い合わせ可能だが、プロキシテクスチャには実データが無い点に注意する。
 params : [int] 
 %inst
-The glGetTexLevelParameterfv and glGetTexLevelParameteriv functions
-return texture parameter values for a specific level of detail. |
-glGetTexLevelParameteriv function (Gl.h)
+glGetTexLevelParameterfv、glGetTexLevelParameteriv
+関数は特定の詳細度レベルに対するテクスチャパラメータ値を返す。| glGetTexLevelParameteriv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexLevelParameter** function returns in *params* texture
-parameter values for a specific level-of-detail value, specified as
-*level*. The *target* parameter defines the target texture, either
-GL\_TEXTURE\_1D, GL\_TEXTURE\_2D, GL\_PROXY\_TEXTURE\_1D, or
-GL\_PROXY\_TEXTURE\_2D to specify one-dimensional or two-dimensional
-texturing. The *pname* parameter specifies the texture parameter
-whose value or values will be returned. If an error is generated, no
-change is made to the contents of *params*.
+glGetTexLevelParameter は、level で指定した特定の詳細度レベルに対するテクスチャパラメータ値を params
+に返す。target
+は対象テクスチャを指定し、GL_TEXTURE_1D、GL_TEXTURE_2D、GL_PROXY_TEXTURE_1D、GL_PROXY_TEXTURE_2D
+のいずれか。pname は値を取得するパラメータ名。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexParameterfv
-The glGetTexParameterfv and glGetTexParameteriv functions return texture parameter values. | glGetTexParameterfv function (Gl.h)
+glGetTexParameterfv、glGetTexParameteriv 関数はテクスチャパラメータ値を返す。| glGetTexParameterfv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] The symbolic name of the target texture. GL\_TEXTURE\_1D and GL\_TEXTURE\_2D are accepted.
-pname : [int] The symbolic name of a texture parameter. The following values are accepted.
+target : [int] 対象テクスチャのシンボル名。GL_TEXTURE_1D と GL_TEXTURE_2D を受け付ける。
+pname : [int] テクスチャパラメータのシンボル名。GL_TEXTURE_MAG_FILTER/MIN_FILTER/WRAP_S/WRAP_T/BORDER_COLOR/PRIORITY/RESIDENT を受け付ける。それぞれ拡大フィルタ、縮小フィルタ、s/t 座標のラップモード、境界色 (4 成分)、テクスチャ優先度、常駐フラグを返す。
 params : [int] 
 %inst
-The glGetTexParameterfv and glGetTexParameteriv functions return
-texture parameter values. | glGetTexParameterfv function (Gl.h)
+glGetTexParameterfv、glGetTexParameteriv 関数はテクスチャパラメータ値を返す。|
+glGetTexParameterfv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexParameter** function returns in *params* the value or
-values of the texture parameter specified as *pname*. The *target*
-parameter defines the target texture, either GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D, to specify one-dimensional or two-dimensional
-texturing. The *pname* parameter accepts the same symbols as
-[**glTexParameter**](gltexparameter-functions.md), with the same
-interpretations. If an error is generated, no change is made to the
-contents of *params*.
+glGetTexParameter は pname で指定したテクスチャパラメータの値を params に返す。target
+は対象テクスチャを定義し、GL_TEXTURE_1D または GL_TEXTURE_2D を指定して 1 次元または 2
+次元テクスチャリングを指定する。pname は glTexParameter
+と同じシンボルを同じ解釈で受け付ける。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glGetTexParameteriv
-The glGetTexParameterfv and glGetTexParameteriv functions return texture parameter values. | glGetTexParameteriv function (Gl.h)
+glGetTexParameterfv、glGetTexParameteriv 関数はテクスチャパラメータ値を返す。| glGetTexParameteriv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] The symbolic name of the target texture. GL\_TEXTURE\_1D and GL\_TEXTURE\_2D are accepted.
-pname : [int] The symbolic name of a texture parameter. The following values are accepted.
+target : [int] 対象テクスチャのシンボル名。GL_TEXTURE_1D と GL_TEXTURE_2D を受け付ける。
+pname : [int] テクスチャパラメータのシンボル名。GL_TEXTURE_MAG_FILTER/MIN_FILTER/WRAP_S/WRAP_T/BORDER_COLOR/PRIORITY/RESIDENT を受け付ける。それぞれ拡大フィルタ、縮小フィルタ、s/t 座標のラップモード、境界色 (4 成分)、テクスチャ優先度、常駐フラグを返す。
 params : [int] 
 %inst
-The glGetTexParameterfv and glGetTexParameteriv functions return
-texture parameter values. | glGetTexParameteriv function (Gl.h)
+glGetTexParameterfv、glGetTexParameteriv 関数はテクスチャパラメータ値を返す。|
+glGetTexParameteriv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glGetTexParameter** function returns in *params* the value or
-values of the texture parameter specified as *pname*. The *target*
-parameter defines the target texture, either GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D, to specify one-dimensional or two-dimensional
-texturing. The *pname* parameter accepts the same symbols as
-[**glTexParameter**](gltexparameter-functions.md), with the same
-interpretations. If an error is generated, no change is made to the
-contents of *params*.
+glGetTexParameter は pname で指定したテクスチャパラメータの値を params に返す。target
+は対象テクスチャを定義し、GL_TEXTURE_1D または GL_TEXTURE_2D を指定して 1 次元または 2
+次元テクスチャリングを指定する。pname は glTexParameter
+と同じシンボルを同じ解釈で受け付ける。エラーが生成された場合、params の内容は変更されない。
 
 
 %index
 glHint
-The glHint function specifies implementation-specific hints.
+glHint 関数は実装依存のヒントを指定する。
 %group
 Win32 opengl32
 %prm
 target, mode
-target : [int] A symbolic constant indicating the behavior to be controlled. The following symbolic constants, along with suggested semantics, are accepted.
-mode : [int] A symbolic constant indicating the desired behavior. The following symbolic constants are accepted.
+target : [int] 制御する動作を示すシンボル定数。受け付ける値: GL_FOG_HINT (フォグ計算の品質を指示)、GL_LINE_SMOOTH_HINT (アンチエイリアス線のサンプリング品質)、GL_PERSPECTIVE_CORRECTION_HINT (カラー・テクスチャ座標の透視補正品質)、GL_POINT_SMOOTH_HINT (アンチエイリアス点のサンプリング品質)、GL_POLYGON_SMOOTH_HINT (アンチエイリアスポリゴンのサンプリング品質)。
+mode : [int] 望む動作を示すシンボル定数。受け付ける値: GL_FASTEST (最も効率の良いオプションを選択する)、GL_NICEST (最も高品質なオプションを選択する)、GL_DONT_CARE (好みがないことを示す)。
 %inst
-The glHint function specifies implementation-specific hints.
+glHint 関数は実装依存のヒントを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-When there is room for interpretation, you can control certain
-aspects of OpenGL behavior with hints. You specify a hint with two
-arguments. The *target* parameter is a symbolic constant indicating
-the behavior to be controlled, and *mode* is another symbolic
-constant indicating the desired behavior. Though the implementation
-aspects that can be hinted are well defined, the interpretation of
-the hints depends on the implementation. The **glHint** function can
-be ignored.
+解釈に余地がある場合、OpenGL の特定動作をヒントで制御できる。ヒントは 2 つの引数で指定する。target
+は制御する動作を示すシンボル定数、mode
+は望む動作を示すシンボル定数。ヒントを指示できる実装面は定義されているものの、その解釈は実装依存である。glHint
+は無視される場合がある。
 
 
 %index
 glIndexMask
-The glIndexMask function controls the writing of individual bits in the color-index buffers.
+glIndexMask 関数はカラーインデックスバッファの個々のビット書き込みを制御する。
 %group
 Win32 opengl32
 %prm
 mask
-mask : [int] A bit mask to enable and disable the writing of individual bits in the color-index buffers. Initially, the mask is all ones.
+mask : [int] カラーインデックスバッファの個々のビット書き込みを有効/無効にするビットマスク。初期状態では全ビットが 1。
 %inst
-The glIndexMask function controls the writing of individual bits in
-the color-index buffers.
+glIndexMask 関数はカラーインデックスバッファの個々のビット書き込みを制御する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexMask** function controls the writing of individual bits
-in the color-index buffers. The least significant *n* bits of *mask*,
-where *1* is the number of bits in a color-index buffer, specify a
-mask. Wherever a one appears in the mask, the corresponding bit in
-the color-index buffer (or buffers) is made writable. Where a zero
-appears, the bit is write-protected. This mask is used only in
-color-index mode, and it affects only the buffers currently selected
-for writing (see [**glDrawBuffer**](gldrawbuffer.md)). Initially, all
-bits are enabled for writing. The following function retrieves
-information related to **glIndexMask**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_INDEX\_WRITEMASK
+glIndexMask はカラーインデックスバッファへの個々のビット書き込みを制御する。mask の下位 n ビット (n
+はカラーインデックスバッファのビット数) がマスクとして働き、1 の位置は対応ビットを書き込み可能とし、0
+の位置は書き込み禁止にする。このマスクはカラーインデックスモードのみで使用され、現在書き込み用に選択されているバッファ
+(glDrawBuffer 参照) にのみ作用する。初期状態では全ビットが書き込み可能。関連情報は glGet
+(GL_INDEX_WRITEMASK / GL_INDEX_BITS) で取得できる。
 
 
 %index
 glIndexPointer
-The glIndexPointer function defines an array of color indexes.
+glIndexPointer 関数はカラーインデックス配列を定義する。
 %group
 Win32 opengl32
 %prm
 type, stride, pointer
-type : [int] The data type of each color index in the array using the following symbolic constants: GL\_SHORT, GL\_INT, GL\_FLOAT, GL\_DOUBLE.
-stride : [int] The byte offset between consecutive color indexes. When *stride* is zero, the color indexes are tightly packed in the array.
-pointer : [intptr] A pointer to the first color index in the array.
+type : [int] 配列内の各カラーインデックスのデータ型。次のシンボル定数を用いる: GL_SHORT、GL_INT、GL_FLOAT、GL_DOUBLE。
+stride : [int] 連続するカラーインデックス間のバイトオフセット。stride が 0 のとき、配列内にカラーインデックスが密に詰めて格納される。
+pointer : [intptr] 配列内の最初のカラーインデックスへのポインタ。
 %inst
-The glIndexPointer function defines an array of color indexes.
+glIndexPointer 関数はカラーインデックス配列を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexPointer** function specifies the location and data of an
-array of color indexes to use when rendering. The *type* parameter
-specifies the data type of each color index and *stride* determines
-the byte offset from one color index to the next, enabling the
-packing of vertices and attributes in a single array or storage in
-separate arrays. In some implementations, storing the vertices and
-attributes in a single array can be more efficient than using
-separate arrays. For more information, see
-[**glInterleavedArrays**](glinterleavedarrays.md). A color-index
-array is enabled when you specify the GL\_INDEX\_ARRAY constant with
-[**glEnableClientState**](glenableclientstate.md). When enabled,
-[**glDrawArrays**](gldrawarrays.md) and
-[**glArrayElement**](glarrayelement.md) use the color-index array. By
-default the color-index array is disabled. You cannot include
-**glIndexPointer** in display lists. When you specify a color-index
-array using **glIndexPointer**, the values of all the function's
-color-index array parameters are saved in a client-side state and
-static array elements can be cached. Because the color-index array
-parameters are client-side state, their values are not saved or
-restored by [**glPushAttrib**](glpushattrib.md) and **glPopAttrib**.
-Although no error is generated when you call **glIndexPointer**
-within [**glBegin**](glbegin.md) and **glEnd** pairs, the results are
-undefined. The following functions retrieve information related to
-**glIndexPointer**: [**glIsEnabled**](glisenabled.md) with argument
-GL\_INDEX\_ARRAY
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_INDEX\_ARRAY\_STRIDE **glGet** with argument
-GL\_INDEX\_ARRAY\_COUNT **glGet** with argument
-GL\_INDEX\_ARRAY\_TYPE **glGet** with argument GL\_INDEX\_ARRAY\_SIZE
-[**glGetPointerv**](glgetpointerv.md) with argument
-GL\_INDEX\_ARRAY\_POINTER
+glIndexPointer はレンダリング時に使用するカラーインデックス配列の位置とデータを指定する。type
+は各インデックスのデータ型、stride
+はインデックス間のバイトオフセットで、頂点と属性を単一配列にパックするか別々の配列に格納するかを選べる。実装によっては単一配列に格納したほうが効率的なことがある
+(glInterleavedArrays 参照)。glEnableClientState(GL_INDEX_ARRAY)
+でインデックス配列を有効化する。無効時は描画関数でアクセスされない。glIndexPointer は通常 OpenGL
+のクライアント側で実装されるため、コンテキストごとのクライアントステートに属し、表示リストに保存されない。注意: OpenGL 1.1
+以降でのみ利用可能。
 
 
 %index
 glIndexd
-The glIndexd function sets the current color index.
+glIndexd 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [double] The new value for the current color index.
+c : [double] 現在のカラーインデックスの新しい値。
 %inst
-The glIndexd function sets the current color index.
+glIndexd 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexd** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexd** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexd**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
 glIndexdv
-The glIndexdv function sets the current color index.
+glIndexdv 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [var] A pointer to a one-element array that contains the new value for the current color index.
+c : [var] 現在のカラーインデックスの新しい値を含む 1 要素配列へのポインタ。
 %inst
-The glIndexdv function sets the current color index.
+glIndexdv 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexdv** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexdv** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexdv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
 glIndexf
-The glIndexf function sets the current color index.
+glIndexf 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [float] The new value for the current color index.
+c : [float] 現在のカラーインデックスの新しい値。
 %inst
-The glIndexf function sets the current color index.
+glIndexf 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexf** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexf** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexf**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
 glIndexfv
-The glIndexfv function sets the current color index.
+glIndexfv 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [var] A pointer to a one-element array that contains the new value for the current color index.
+c : [var] 現在のカラーインデックスの新しい値を含む 1 要素配列へのポインタ。
 %inst
-The glIndexfv function sets the current color index.
+glIndexfv 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexfv** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexfv** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexfv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
 glIndexi
-The glIndexi function sets the current color index.
+glIndexi 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [int] The new value for the current color index.
+c : [int] 現在のカラーインデックスの新しい値。
 %inst
-The glIndexi function sets the current color index.
+glIndexi 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexi** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexi** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexi**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
 glIndexiv
-The glIndexiv function sets the current color index.
+glIndexiv 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [var] A pointer to a one-element array that contains the new value for the current color index.
+c : [var] 現在のカラーインデックスの新しい値を含む 1 要素配列へのポインタ。
 %inst
-The glIndexiv function sets the current color index.
+glIndexiv 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexiv** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexiv** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexiv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
 glIndexs
-The glIndexs function sets the current color index.
+glIndexs 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [int] The new value for the current color index.
+c : [int] 現在のカラーインデックスの新しい値。
 %inst
-The glIndexs function sets the current color index.
+glIndexs 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexs** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexs** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexs**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
 glIndexsv
-The glIndexsv function sets the current color index.
+glIndexsv 関数は現在のカラーインデックスを設定する。
 %group
 Win32 opengl32
 %prm
 c
-c : [var] A pointer to a one-element array that contains the new value for the current color index.
+c : [var] 現在のカラーインデックスの新しい値を含む 1 要素配列へのポインタ。
 %inst
-The glIndexsv function sets the current color index.
+glIndexsv 関数は現在のカラーインデックスを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glIndexsv** function updates the current (single-valued) color
-index. It takes one argument: the new value for the current color
-index. The current index is stored as a floating-point value. Integer
-values are converted directly to floating-point values, with no
-special mapping. Index values outside the representable range of the
-color-index buffer are not clamped. However, before an index is
-dithered (if enabled) and written to the framebuffer, it is converted
-to fixed-point format. Any bits in the integer portion of the
-resulting fixed-point value that do not correspond to bits in the
-framebuffer are masked out. The current index can be updated at any
-time. In particular, **glIndexsv** can be called between a call to
-[**glBegin**](/windows/desktop/OpenGL/glbegin) and the corresponding
-call to [**glEnd**](glend.md). The following function retrieves
-information related to **glIndexsv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_INDEX
+glIndex* は現在の (単一値の) カラーインデックスを更新する。引数は 1
+つで、カラーインデックスの新しい値である。現在のインデックスは浮動小数点値として保持される。整数値は特別なマッピングなしに直接浮動小数点へ変換される。カラーインデックスバッファの表現可能範囲外のインデックスはクランプされない。ただしインデックスは
+(有効な場合) ディザリング前に固定小数点形式に変換され、フレームバッファ内のインデックス表現に対応しないビットはマスクされる。関連情報は
+glGet (GL_CURRENT_INDEX) で取得できる。
 
 
 %index
@@ -6003,6458 +3104,3211 @@ c : [var]
 
 %index
 glInitNames
-The glInitNames function initializes the name stack.
+glInitNames 関数はネームスタックを初期化する。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glInitNames function initializes the name stack.
+glInitNames 関数はネームスタックを初期化する。
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数は引数を持たず、値を返さない。
 
 [備考]
-The **glInitNames** function causes the name stack to be initialized
-to its default empty state. The name stack is used during selection
-mode to allow sets of rendering commands to be uniquely identified.
-It consists of an ordered set of unsigned integers. The name stack is
-always empty while the render mode is not GL\_SELECT. Calls to
-**glInitNames** while the render mode is not GL\_SELECT are ignored.
-The following functions retrieve information related to
-**glInitNames**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_NAME\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_NAME\_STACK\_DEPTH
+glInitNames
+はネームスタックを既定の空状態に初期化する。ネームスタックはセレクションモード中に、レンダリングコマンド群を一意に識別するために使われる順序付き符号なし整数集合である。レンダーモードが
+GL_SELECT でない間、ネームスタックは常に空で、そのとき glInitNames を呼んでも無視される。関連情報は glGet
+(GL_NAME_STACK_DEPTH / GL_MAX_NAME_STACK_DEPTH) および glRenderMode
+で取得できる。
 
 
 %index
 glInterleavedArrays
-The glInterleavedArrays function simultaneously specifies and enables several interleaved arrays in a larger aggregate array.
+glInterleavedArrays 関数は、より大きな集約配列内でインターリーブされた複数配列を同時に指定・有効化する。
 %group
 Win32 opengl32
 %prm
 format, stride, pointer
-format : [int] The type of array to enable. The parameter can assume one of the following symbolic values: GL\_V2F, GL\_V3F, GL\_C4UB\_V2F, GL\_C4UB\_V3F, GL\_C3F\_V3F, GL\_N3F\_V3F, GL\_C4F\_N3F\_V3F, GL\_T2F\_V3F, GL\_T4F\_V4F, GL\_T2F\_C4UB\_V3F, GL\_T2F\_C3F\_V3F, GL\_T2F\_N3F\_V3F, GL\_T2F\_C4F\_N3F\_V3F, or GL\_T4F\_C4F\_N3F\_V4F.
-stride : [int] The offset in bytes between each aggregate array element.
-pointer : [intptr] A pointer to the first element of an aggregate array.
+format : [int] 有効化する配列の型。次のシンボル定数のいずれかを指定する: GL_V2F、GL_V3F、GL_C4UB_V2F、GL_C4UB_V3F、GL_C3F_V3F、GL_N3F_V3F、GL_C4F_N3F_V3F、GL_T2F_V3F、GL_T4F_V4F、GL_T2F_C4UB_V3F、GL_T2F_C3F_V3F、GL_T2F_N3F_V3F、GL_T2F_C4F_N3F_V3F、GL_T4F_C4F_N3F_V4F。
+stride : [int] 集約配列要素間のバイトオフセット。
+pointer : [intptr] 集約配列の最初の要素へのポインタ。
 %inst
-The glInterleavedArrays function simultaneously specifies and enables
-several interleaved arrays in a larger aggregate array.
+glInterleavedArrays 関数は、より大きな集約配列内でインターリーブされた複数配列を同時に指定・有効化する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-With the **glInterleavedArrays** function, you can simultaneously
-specify and enable several interleaved color, normal, texture, and
-vertex arrays whose elements are part of a larger aggregate array
-element. For some memory architectures, this is more efficient than
-specifying the arrays separately. If the *stride* parameter is zero
-then the aggregate array elements are stored consecutively; otherwise
-*stride* bytes occur between aggregate array elements. The *format*
-parameter serves as a key that describes how to extract individual
-arrays from the aggregate array: - If *format* contains a T, then
-texture coordinates are extracted from the interleaved array. - If C
-is present, color values are extracted. - If N is present, normal
-coordinates are extracted. - Vertex coordinates are always extracted.
-- The digits 2, 3, and 4 denote how many values are extracted. - F
-indicates that values are extracted as floating point values. - If
-4UB follows the C, colors may also be extracted as 4 unsigned bytes.
-If a color is extracted as 4 unsigned bytes, the vertex array element
-that follows is located at the first possible floating-point aligned
-address. If you call **glInterleavedArrays** while compiling a
-display list, it is not compiled into the list but is executed
-immediately. You cannot include calls to **glInterleavedArrays** in
-**glDisableClientState** between calls to [**glBegin**](glbegin.md)
-and the corresponding call to **glEnd**. > [!Note] > The
-**glInterleavedArrays** function is only available in OpenGL version
-1.1 or later.
-The **glInterleavedArrays** function is implemented on the client
-side with no protocol. Because the vertex array parameters are
-client-side state, they are not saved or restored by
-[**glPushAttrib**](glpushattrib.md) and **glPopAttrib**. Use
-[**glPushClientAttrib**](glpushclientattrib.md) and
-**glPopClientAttrib** instead.
+glInterleavedArrays
+では、より大きな集約配列要素の一部となる複数のインターリーブされたカラー・法線・テクスチャ・頂点配列を同時に指定・有効化できる。メモリアーキテクチャによっては、別々の配列を指定するより効率的である。stride
+が 0 なら集約要素は連続して格納され、そうでなければ要素間に stride バイトが空く。format
+は集約配列から個々の配列をどう取り出すかを記述するキーで、T (テクスチャ座標配列)、C (カラー配列)、N (法線配列)、V
+(頂点配列) の有無と成分数・型を示す。各配列はそれぞれ glEnableClientState
+で有効化され、既定の配列ポインタ/ストライドに上書きされる。頂点配列は常に最後に置かれる。注意: OpenGL 1.1
+以降でのみ利用可能。
 
 
 %index
 glIsEnabled
-The gllsEnabled function tests whether a capability is enabled.
+glIsEnabled 関数は機能が有効かどうかを検査する。
 %group
 Win32 opengl32
 %prm
 cap
-cap : [int] A symbolic constant indicating an OpenGL capability. The following capabilities are accepted.
+cap : [int] OpenGL の機能を示すシンボル定数。GL_ALPHA_TEST、GL_AUTO_NORMAL、GL_BLEND、GL_CLIP_PLANEi、GL_COLOR_ARRAY、GL_COLOR_LOGIC_OP、GL_COLOR_MATERIAL、GL_CULL_FACE、GL_DEPTH_TEST、GL_DITHER、GL_EDGE_FLAG_ARRAY、GL_FOG、GL_INDEX_ARRAY、GL_INDEX_LOGIC_OP、GL_LIGHTi、GL_LIGHTING、GL_LINE_SMOOTH、GL_LINE_STIPPLE、GL_MAP1_*、GL_MAP2_*、GL_NORMAL_ARRAY、GL_NORMALIZE、GL_POINT_SMOOTH、GL_POLYGON_OFFSET_FILL/LINE/POINT、GL_POLYGON_SMOOTH、GL_POLYGON_STIPPLE、GL_SCISSOR_TEST、GL_STENCIL_TEST、GL_TEXTURE_1D、GL_TEXTURE_2D、GL_TEXTURE_COORD_ARRAY、GL_TEXTURE_GEN_Q/R/S/T、GL_VERTEX_ARRAY などを受け付ける。 このドキュメントは省略されている。
 %inst
-The gllsEnabled function tests whether a capability is enabled.
+glIsEnabled 関数は機能が有効かどうかを検査する。
 
 [備考]
-The **gllsEnabled** function returns GL\_TRUE if *cap* is an enabled
-capability and returns GL\_FALSE otherwise.
+glIsEnabled は cap が有効化された機能のとき GL_TRUE を返し、そうでなければ GL_FALSE を返す。
 
 
 %index
 glIsList
-The gllsList function tests for display list existence.
+glIsList 関数は表示リストの存在を検査する。
 %group
 Win32 opengl32
 %prm
 list
-list : [int] A potential display list name.
+list : [int] 表示リスト名の候補。
 %inst
-The gllsList function tests for display list existence.
+glIsList 関数は表示リストの存在を検査する。
 
 [備考]
-The **gllsList** function returns GL\_TRUE if *list* is the name of a
-display list and returns GL\_FALSE otherwise.
+glIsList は list が表示リストの名前なら GL_TRUE、そうでなければ GL_FALSE を返す。
 
 
 %index
 glIsTexture
-The glIsTexture function determines if a name corresponds to a texture.
+glIsTexture 関数は名前がテクスチャに対応するかを判定する。
 %group
 Win32 opengl32
 %prm
 texture
-texture : [int] A value that is the name of a texture.
+texture : [int] テクスチャ名となる値。
 %inst
-The glIsTexture function determines if a name corresponds to a
-texture.
+glIsTexture 関数は名前がテクスチャに対応するかを判定する。
 
 [備考]
-If the *texture* parameter is currently the name of a texture, the
-**glIsTexture** function returns GL\_TRUE. The **glIsTexture**
-function returns GL\_FALSE if *texture* is zero. It also returns
-GL\_FALSE if it is a non-zero value that is not currently the name of
-a texture, or if an error occurs. You cannot include calls to
-**glIsTexture** in display lists. > [!Note] > The **glIsTexture**
-function is only available in OpenGL version 1.1 or later.
+texture パラメータが現在テクスチャ名であれば glIsTexture は GL_TRUE を返す。texture が 0
+の場合、あるいは現在テクスチャ名でない非 0 値やエラー発生時には GL_FALSE を返す。glIsTexture
+呼び出しは表示リストに含められない。注意: OpenGL 1.1 以降でのみ利用可能。
 
 
 %index
 glLightModelf
-The glLightModelf function sets lighting model parameters.
+glLightModelf 関数はライティングモデルパラメータを設定する。
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] A single-valued lighting model parameter. The following values are accepted.
+pname : [int] 単一値のライティングモデルパラメータ。GL_LIGHT_MODEL_LOCAL_VIEWER (0 でない場合は視点位置からスペキュラ反射角を計算し、そうでなければ視線を -z 方向平行とみなす。既定 0)、GL_LIGHT_MODEL_TWO_SIDE (0 でない場合は両面ライティングを有効化し、裏面ポリゴンは裏向きマテリアルで計算する。既定 0) を受け付ける。
 param1 : [float] 
 %inst
-The glLightModelf function sets lighting model parameters.
+glLightModelf 関数はライティングモデルパラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLightModelf** function sets lighting model parameter. The
-*pname* parameter names a parameter and *param* gives the new
-value.the value or values of individual light source parameters. In
-RGBA mode, the lighted color of a vertex is the sum of the material
-emission intensity, the product of the material ambient reflectance
-and the lighting model full-scene ambient intensity, and the
-contribution of each enabled light source. Each light source
-contributes the sum of three terms: ambient, diffuse, and specular. -
-The ambient light source contribution is the product of the material
-ambient reflectance and the light's ambient intensity. - The diffuse
-light source contribution is the product of the material diffuse
-reflectance, the light's diffuse intensity, and the dot product of
-the vertex's normal with the normalized vector from the vertex to the
-light source. - The specular light source contribution is the product
-of the material specular reflectance, the light's specular intensity,
-and the dot product of the normalized vertex-to-eye and
-vertex-to-light vectors, raised to the power of the shininess of the
-material. All three light source contributions are attenuated equally
-based on the distance from the vertex to the light source and on
-light source direction, spread exponent, and spread cutoff angle. All
-dot products are replaced with zero if they evaluate to a negative
-value. The alpha component of the resulting lighted color is set to
-the alpha value of the material diffuse reflectance. In color-index
-mode, the value of the lighted index of a vertex ranges from the
-ambient to the specular values passed to
-[**glMaterial**](glmaterial-functions.md) using GL\_COLOR\_INDEXES.
-Diffuse and specular coefficients, computed with a (.30, .59, .11)
-weighting of the light's colors, the shininess of the material, and
-the same reflection and attenuation equations as in the RGBA case,
-determine how much above ambient the resulting index is. The
-following functions retrieve information related to the
-**glLightModelf** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_LOCAL\_VIEWER
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_TWO\_SIDE
-[**glIsEnabled**](glisenabled.md) with argument GL\_LIGHTING
+glLightModel* はライティングモデルのパラメータを設定する。pname はパラメータ名、param は新しい値である。RGBA
+モードでは頂点のライティング後の色は、マテリアルの発光強度、マテリアルアンビエント反射率とライティングモデルのシーンアンビエント強度の積、および有効な各光源の寄与の合計となる。各光源はアンビエント・ディフューズ・スペキュラの
+3
+項の和を寄与する。アンビエント寄与はマテリアルと光源のアンビエント色の積、ディフューズ寄与はマテリアルと光源のディフューズ色に法線と光源方向の内積を乗じた値、スペキュラ寄与は半角ベクトルと法線の内積を
+GL_SHININESS 乗した値で決まる。既定では両面ライティングは無効で、裏面ポリゴンも表面マテリアルで計算される。関連情報は
+glGet (GL_LIGHT_MODEL_AMBIENT / LOCAL_VIEWER / TWO_SIDE) および
+glIsEnabled (GL_LIGHTING) で取得できる。
 
 
 %index
 glLightModelfv
-The glLightModelfv function sets lighting model parameters.
+glLightModelfv 関数はライティングモデルパラメータを設定する。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] A lighting model parameter. The following values are accepted.
+pname : [int] ライティングモデルパラメータ。単一値のライティングモデルパラメータ。GL_LIGHT_MODEL_LOCAL_VIEWER (0 でない場合は視点位置からスペキュラ反射角を計算し、そうでなければ視線を -z 方向平行とみなす。既定 0)、GL_LIGHT_MODEL_TWO_SIDE (0 でない場合は両面ライティングを有効化し、裏面ポリゴンは裏向きマテリアルで計算する。既定 0) を受け付ける。 さらに GL_LIGHT_MODEL_AMBIENT (シーン全体のアンビエント強度。既定 (0.2, 0.2, 0.2, 1.0)) を受け付ける。
 params : [int] 
 %inst
-The glLightModelfv function sets lighting model parameters.
+glLightModelfv 関数はライティングモデルパラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLightModelfv** function sets lighting model parameter. The
-*pname* parameter names a parameter and *param* gives the new
-value.the value or values of individual light source parameters. In
-RGBA mode, the lighted color of a vertex is the sum of the material
-emission intensity, the product of the material ambient reflectance
-and the lighting model full-scene ambient intensity, and the
-contribution of each enabled light source. Each light source
-contributes the sum of three terms: ambient, diffuse, and specular. -
-The ambient light source contribution is the product of the material
-ambient reflectance and the light's ambient intensity. - The diffuse
-light source contribution is the product of the material diffuse
-reflectance, the light's diffuse intensity, and the dot product of
-the vertex's normal with the normalized vector from the vertex to the
-light source. - The specular light source contribution is the product
-of the material specular reflectance, the light's specular intensity,
-and the dot product of the normalized vertex-to-eye and
-vertex-to-light vectors, raised to the power of the shininess of the
-material. All three light source contributions are attenuated equally
-based on the distance from the vertex to the light source and on
-light source direction, spread exponent, and spread cutoff angle. All
-dot products are replaced with zero if they evaluate to a negative
-value. The alpha component of the resulting lighted color is set to
-the alpha value of the material diffuse reflectance. In color-index
-mode, the value of the lighted index of a vertex ranges from the
-ambient to the specular values passed to
-[**glMaterial**](glmaterial-functions.md) using GL\_COLOR\_INDEXES.
-Diffuse and specular coefficients, computed with a (.30, .59, .11)
-weighting of the light's colors, the shininess of the material, and
-the same reflection and attenuation equations as in the RGBA case,
-determine how much above ambient the resulting index is. The
-following functions retrieve information related to the
-**glLightModelfv** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_LOCAL\_VIEWER
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_TWO\_SIDE
-[**glIsEnabled**](glisenabled.md) with argument GL\_LIGHTING
+glLightModel* はライティングモデルのパラメータを設定する。pname はパラメータ名、param は新しい値である。RGBA
+モードでは頂点のライティング後の色は、マテリアルの発光強度、マテリアルアンビエント反射率とライティングモデルのシーンアンビエント強度の積、および有効な各光源の寄与の合計となる。各光源はアンビエント・ディフューズ・スペキュラの
+3
+項の和を寄与する。アンビエント寄与はマテリアルと光源のアンビエント色の積、ディフューズ寄与はマテリアルと光源のディフューズ色に法線と光源方向の内積を乗じた値、スペキュラ寄与は半角ベクトルと法線の内積を
+GL_SHININESS 乗した値で決まる。既定では両面ライティングは無効で、裏面ポリゴンも表面マテリアルで計算される。関連情報は
+glGet (GL_LIGHT_MODEL_AMBIENT / LOCAL_VIEWER / TWO_SIDE) および
+glIsEnabled (GL_LIGHTING) で取得できる。
 
 
 %index
 glLightModeli
-The glLightModeli function sets lighting model parameters.
+glLightModeli 関数はライティングモデルパラメータを設定する。
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] A single-valued lighting model parameter. The following values are accepted.
+pname : [int] 単一値のライティングモデルパラメータ。GL_LIGHT_MODEL_LOCAL_VIEWER (0 でない場合は視点位置からスペキュラ反射角を計算し、そうでなければ視線を -z 方向平行とみなす。既定 0)、GL_LIGHT_MODEL_TWO_SIDE (0 でない場合は両面ライティングを有効化し、裏面ポリゴンは裏向きマテリアルで計算する。既定 0) を受け付ける。
 param1 : [int] 
 %inst
-The glLightModeli function sets lighting model parameters.
+glLightModeli 関数はライティングモデルパラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLightModeli** function sets lighting model parameter. The
-*pname* parameter names a parameter and *param* gives the new
-value.the value or values of individual light source parameters. In
-RGBA mode, the lighted color of a vertex is the sum of the material
-emission intensity, the product of the material ambient reflectance
-and the lighting model full-scene ambient intensity, and the
-contribution of each enabled light source. Each light source
-contributes the sum of three terms: ambient, diffuse, and specular. -
-The ambient light source contribution is the product of the material
-ambient reflectance and the light's ambient intensity. - The diffuse
-light source contribution is the product of the material diffuse
-reflectance, the light's diffuse intensity, and the dot product of
-the vertex's normal with the normalized vector from the vertex to the
-light source. - The specular light source contribution is the product
-of the material specular reflectance, the light's specular intensity,
-and the dot product of the normalized vertex-to-eye and
-vertex-to-light vectors, raised to the power of the shininess of the
-material. All three light source contributions are attenuated equally
-based on the distance from the vertex to the light source and on
-light source direction, spread exponent, and spread cutoff angle. All
-dot products are replaced with zero if they evaluate to a negative
-value. The alpha component of the resulting lighted color is set to
-the alpha value of the material diffuse reflectance. In color-index
-mode, the value of the lighted index of a vertex ranges from the
-ambient to the specular values passed to
-[**glMaterial**](glmaterial-functions.md) using GL\_COLOR\_INDEXES.
-Diffuse and specular coefficients, computed with a (.30, .59, .11)
-weighting of the light's colors, the shininess of the material, and
-the same reflection and attenuation equations as in the RGBA case,
-determine how much above ambient the resulting index is. The
-following functions retrieve information related to the
-**glLightModeli** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_LOCAL\_VIEWER
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_TWO\_SIDE
-[**glIsEnabled**](glisenabled.md) with argument GL\_LIGHTING
+glLightModel* はライティングモデルのパラメータを設定する。pname はパラメータ名、param は新しい値である。RGBA
+モードでは頂点のライティング後の色は、マテリアルの発光強度、マテリアルアンビエント反射率とライティングモデルのシーンアンビエント強度の積、および有効な各光源の寄与の合計となる。各光源はアンビエント・ディフューズ・スペキュラの
+3
+項の和を寄与する。アンビエント寄与はマテリアルと光源のアンビエント色の積、ディフューズ寄与はマテリアルと光源のディフューズ色に法線と光源方向の内積を乗じた値、スペキュラ寄与は半角ベクトルと法線の内積を
+GL_SHININESS 乗した値で決まる。既定では両面ライティングは無効で、裏面ポリゴンも表面マテリアルで計算される。関連情報は
+glGet (GL_LIGHT_MODEL_AMBIENT / LOCAL_VIEWER / TWO_SIDE) および
+glIsEnabled (GL_LIGHTING) で取得できる。
 
 
 %index
 glLightModeliv
-The glLightModeliv function sets lighting model parameters.
+glLightModeliv 関数はライティングモデルパラメータを設定する。
 %group
 Win32 opengl32
 %prm
 pname, params
-pname : [int] A lighting model parameter. The following values are accepted.
+pname : [int] ライティングモデルパラメータ。単一値のライティングモデルパラメータ。GL_LIGHT_MODEL_LOCAL_VIEWER (0 でない場合は視点位置からスペキュラ反射角を計算し、そうでなければ視線を -z 方向平行とみなす。既定 0)、GL_LIGHT_MODEL_TWO_SIDE (0 でない場合は両面ライティングを有効化し、裏面ポリゴンは裏向きマテリアルで計算する。既定 0) を受け付ける。 さらに GL_LIGHT_MODEL_AMBIENT (シーン全体のアンビエント強度。既定 (0.2, 0.2, 0.2, 1.0)) を受け付ける。
 params : [int] 
 %inst
-The glLightModeliv function sets lighting model parameters.
+glLightModeliv 関数はライティングモデルパラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLightModeliv** function sets lighting model parameter. The
-*pname* parameter names a parameter and *param* gives the new
-value.the value or values of individual light source parameters. In
-RGBA mode, the lighted color of a vertex is the sum of the material
-emission intensity, the product of the material ambient reflectance
-and the lighting model full-scene ambient intensity, and the
-contribution of each enabled light source. Each light source
-contributes the sum of three terms: ambient, diffuse, and specular. -
-The ambient light source contribution is the product of the material
-ambient reflectance and the light's ambient intensity. - The diffuse
-light source contribution is the product of the material diffuse
-reflectance, the light's diffuse intensity, and the dot product of
-the vertex's normal with the normalized vector from the vertex to the
-light source. - The specular light source contribution is the product
-of the material specular reflectance, the light's specular intensity,
-and the dot product of the normalized vertex-to-eye and
-vertex-to-light vectors, raised to the power of the shininess of the
-material. All three light source contributions are attenuated equally
-based on the distance from the vertex to the light source and on
-light source direction, spread exponent, and spread cutoff angle. All
-dot products are replaced with zero if they evaluate to a negative
-value. The alpha component of the resulting lighted color is set to
-the alpha value of the material diffuse reflectance. In color-index
-mode, the value of the lighted index of a vertex ranges from the
-ambient to the specular values passed to
-[**glMaterial**](glmaterial-functions.md) using GL\_COLOR\_INDEXES.
-Diffuse and specular coefficients, computed with a (.30, .59, .11)
-weighting of the light's colors, the shininess of the material, and
-the same reflection and attenuation equations as in the RGBA case,
-determine how much above ambient the resulting index is. The
-following functions retrieve information related to the
-**glLightModeliv** function:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_LOCAL\_VIEWER
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIGHT\_MODEL\_TWO\_SIDE
-[**glIsEnabled**](glisenabled.md) with argument GL\_LIGHTING
+glLightModel* はライティングモデルのパラメータを設定する。pname はパラメータ名、param は新しい値である。RGBA
+モードでは頂点のライティング後の色は、マテリアルの発光強度、マテリアルアンビエント反射率とライティングモデルのシーンアンビエント強度の積、および有効な各光源の寄与の合計となる。各光源はアンビエント・ディフューズ・スペキュラの
+3
+項の和を寄与する。アンビエント寄与はマテリアルと光源のアンビエント色の積、ディフューズ寄与はマテリアルと光源のディフューズ色に法線と光源方向の内積を乗じた値、スペキュラ寄与は半角ベクトルと法線の内積を
+GL_SHININESS 乗した値で決まる。既定では両面ライティングは無効で、裏面ポリゴンも表面マテリアルで計算される。関連情報は
+glGet (GL_LIGHT_MODEL_AMBIENT / LOCAL_VIEWER / TWO_SIDE) および
+glIsEnabled (GL_LIGHTING) で取得できる。
 
 
 %index
 glLightf
-The glLightf function returns light source parameter values.
+glLightf 関数は光源パラメータ値を返す。
 %group
 Win32 opengl32
 %prm
 light, pname, param2
-light : [int] The identifier of a light. The number of possible lights depends on the implementation, but at least eight lights are supported. They are identified by symbolic names of the form GL\_LIGHT*i* where *i* is a value: 0 to GL\_MAX\_LIGHTS - 1.
-pname : [int] A single-valued light source parameter for *light*. The following symbolic names are accepted.
+light : [int] 光源の識別子。可能な光源数は実装依存だが最低 8 個をサポート。GL_LIGHTi の形のシンボル名で識別され、i は 0 から GL_MAX_LIGHTS - 1 の値。
+pname : [int] light の単一値光源パラメータ。GL_SPOT_EXPONENT (スポット指数、既定 0)、GL_SPOT_CUTOFF (スポット角 [0,90] または 180、既定 180)、GL_CONSTANT_ATTENUATION / GL_LINEAR_ATTENUATION / GL_QUADRATIC_ATTENUATION (距離減衰係数、既定 1/0/0) を受け付ける。
 param2 : [float] 
 %inst
-The glLightf function returns light source parameter values.
+glLightf 関数は光源パラメータ値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glLightfv
-The glLightfv function returns light source parameter values.
+glLightfv 関数は光源パラメータ値を返す。
 %group
 Win32 opengl32
 %prm
 light, pname, params
-light : [int] The identifier of a light. The number of possible lights depends on the implementation, but at least eight lights are supported. They are identified by symbolic names of the form GL\_LIGHT*i* where *i* is a value: 0 to GL\_MAX\_LIGHTS - 1.
-pname : [int] A light source parameter for *light*. The following symbolic names are accepted.
+light : [int] 光源の識別子。可能な光源数は実装依存だが最低 8 個をサポート。GL_LIGHTi の形のシンボル名で識別され、i は 0 から GL_MAX_LIGHTS - 1 の値。
+pname : [int] light の光源パラメータ。light の単一値光源パラメータ。GL_SPOT_EXPONENT (スポット指数、既定 0)、GL_SPOT_CUTOFF (スポット角 [0,90] または 180、既定 180)、GL_CONSTANT_ATTENUATION / GL_LINEAR_ATTENUATION / GL_QUADRATIC_ATTENUATION (距離減衰係数、既定 1/0/0) を受け付ける。 さらに GL_AMBIENT (アンビエント強度、既定 (0,0,0,1))、GL_DIFFUSE (ディフューズ強度、GL_LIGHT0 の既定 (1,1,1,1)、他は (0,0,0,1))、GL_SPECULAR (スペキュラ強度、GL_LIGHT0 の既定 (1,1,1,1)、他は (0,0,0,1))、GL_POSITION (位置。w=0 なら方向光、それ以外は位置光)、GL_SPOT_DIRECTION (スポット方向、既定 (0,0,-1)) を受け付ける。
 params : [int] 
 %inst
-The glLightfv function returns light source parameter values.
+glLightfv 関数は光源パラメータ値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glLighti
-The glLighti function returns light source parameter values.
+glLighti 関数は光源パラメータ値を返す。
 %group
 Win32 opengl32
 %prm
 light, pname, param2
-light : [int] The identifier of a light. The number of possible lights depends on the implementation, but at least eight lights are supported. They are identified by symbolic names of the form GL\_LIGHT*i* where *i* is a value: 0 to GL\_MAX\_LIGHTS - 1.
-pname : [int] A single-valued light source parameter for *light*. The following symbolic names are accepted.
+light : [int] 光源の識別子。可能な光源数は実装依存だが最低 8 個をサポート。GL_LIGHTi の形のシンボル名で識別され、i は 0 から GL_MAX_LIGHTS - 1 の値。
+pname : [int] light の単一値光源パラメータ。GL_SPOT_EXPONENT (スポット指数、既定 0)、GL_SPOT_CUTOFF (スポット角 [0,90] または 180、既定 180)、GL_CONSTANT_ATTENUATION / GL_LINEAR_ATTENUATION / GL_QUADRATIC_ATTENUATION (距離減衰係数、既定 1/0/0) を受け付ける。
 param2 : [int] 
 %inst
-The glLighti function returns light source parameter values.
+glLighti 関数は光源パラメータ値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glLightiv
-The glLightiv function returns light source parameter values.
+glLightiv 関数は光源パラメータ値を返す。
 %group
 Win32 opengl32
 %prm
 light, pname, params
-light : [int] The identifier of a light. The number of possible lights depends on the implementation, but at least eight lights are supported. They are identified by symbolic names of the form GL\_LIGHT*i* where *i* is a value: 0 to GL\_MAX\_LIGHTS - 1.
-pname : [int] A light source parameter for *light*. The following symbolic names are accepted.
+light : [int] 光源の識別子。可能な光源数は実装依存だが最低 8 個をサポート。GL_LIGHTi の形のシンボル名で識別され、i は 0 から GL_MAX_LIGHTS - 1 の値。
+pname : [int] light の光源パラメータ。light の単一値光源パラメータ。GL_SPOT_EXPONENT (スポット指数、既定 0)、GL_SPOT_CUTOFF (スポット角 [0,90] または 180、既定 180)、GL_CONSTANT_ATTENUATION / GL_LINEAR_ATTENUATION / GL_QUADRATIC_ATTENUATION (距離減衰係数、既定 1/0/0) を受け付ける。 さらに GL_AMBIENT (アンビエント強度、既定 (0,0,0,1))、GL_DIFFUSE (ディフューズ強度、GL_LIGHT0 の既定 (1,1,1,1)、他は (0,0,0,1))、GL_SPECULAR (スペキュラ強度、GL_LIGHT0 の既定 (1,1,1,1)、他は (0,0,0,1))、GL_POSITION (位置。w=0 なら方向光、それ以外は位置光)、GL_SPOT_DIRECTION (スポット方向、既定 (0,0,-1)) を受け付ける。
 params : [int] 
 %inst
-The glLightiv function returns light source parameter values.
+glLightiv 関数は光源パラメータ値を返す。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glLineStipple
-The glLineStipple function specifies the line stipple pattern.
+glLineStipple 関数は線スティップルパターンを指定する。
 %group
 Win32 opengl32
 %prm
 factor, pattern
-factor : [int] A multiplier for each bit in the line stipple pattern. If *factor* is 3, for example, each bit in the pattern will be used three times before the next bit in the pattern is used. The *factor* parameter is clamped to the range \[1, 256\] and defaults to one.
-pattern : [int] A 16-bit integer whose bit pattern determines which fragments of a line will be drawn when the line is rasterized. Bit zero is used first, and the default pattern is all ones.
+factor : [int] 線スティップルパターンの各ビットに対する乗数。factor が 3 なら、パターンの各ビットが次のビットに進む前に 3 回使われる。factor は [1, 256] にクランプされ、既定は 1。
+pattern : [int] 線のラスタライズ時にどのフラグメントを描画するかを決定するビットパターンを表す 16 ビット整数。ビット 0 が最初に使われ、既定パターンは全 1。
 %inst
-The glLineStipple function specifies the line stipple pattern.
+glLineStipple 関数は線スティップルパターンを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLineStipple** function specifies the line stipple pattern.
-Line stippling masks out certain fragments produced by rasterization;
-those fragments will not be drawn. The masking is achieved by using
-three parameters: the 16-bit line stipple pattern *pattern*, the
-repeat count *factor*, and an integer stipple counter *s*. Counter
-*s* is reset to zero whenever [**glBegin**](glbegin.md) is called,
-and before each line segment of a **glBegin**(GL\_LINES)/**glEnd**
-sequence is generated. It is incremented after each fragment of a
-unit width aliased line segment is generated, or after each *i*
-fragments of an *i* width line segment are generated. The *i*
-fragments associated with count *s* are masked out if *pattern* bit
-(*s* / *factor*) mod 16 is zero. Otherwise these fragments are sent
-to the framebuffer. Bit zero of *pattern* is the least significant
-bit. Antialiased lines are treated as a sequence of 1x*width*
-rectangles for purposes of stippling. Rectangle *s* is rasterized or
-not based on the fragment rule described for aliased lines; it counts
-rectangles rather than groups of fragments. Line stippling is enabled
-or disabled using [**glEnable**](glenable.md) and **glDisable** with
-argument GL\_LINE\_STIPPLE. When enabled, the line stipple pattern is
-applied as described above. When disabled, it is as if the pattern
-were all ones. Initially, line stippling is disabled. The following
-functions retrieve information related to **glLineStipple**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LINE\_STIPPLE\_PATTERN **glGet** with argument
-GL\_LINE\_STIPPLE\_REPEAT [**glIsEnabled**](glisenabled.md) with
-argument GL\_LINE\_STIPPLE
+glLineStipple
+は線スティップルパターンを指定する。線スティップリングはラスタライズで生成された特定フラグメントをマスクし、描画しない。マスクは 16
+ビットパターン pattern、繰り返し数 factor、整数カウンタ s の 3 パラメータで行う。s は glBegin
+呼び出し時および glBegin(GL_LINES)/glEnd 系列の各線分生成前に 0
+にリセットされ、単位幅エイリアス線のフラグメント生成ごと、あるいはアンチエイリアス線の区間ごとに増分される。ビット (s/factor)
+mod 16 が 0 のフラグメントは描画されない。スティップリングは glEnable/glDisable の
+GL_LINE_STIPPLE で有効/無効を切り替える。既定は無効 (直線は常時描画)。関連情報は glGet
+(GL_LINE_STIPPLE_PATTERN / GL_LINE_STIPPLE_REPEAT) および glIsEnabled
+(GL_LINE_STIPPLE) で取得できる。
 
 
 %index
 glLineWidth
-The glLineWidth function specifies the width of rasterized lines.
+glLineWidth 関数はラスタライズされる線の幅を指定する。
 %group
 Win32 opengl32
 %prm
 width
-width : [float] The width of rasterized lines. The default is 1.0.
+width : [float] ラスタライズされる線の幅。既定は 1.0。
 %inst
-The glLineWidth function specifies the width of rasterized lines.
+glLineWidth 関数はラスタライズされる線の幅を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLineWidth** function specifies the rasterized width of both
-aliased and antialiased lines. Using a line width other than 1.0 has
-different effects, depending on whether line antialiasing is enabled.
-Line antialiasing is controlled by calling
-[**glEnable**](glenable.md) and **glDisable** with argument
-GL\_LINE\_SMOOTH. If line antialiasing is disabled, the actual width
-is determined by rounding the supplied width to the nearest integer.
-(If the rounding results in the value 0.0, it is as if the line width
-were 1.0) If \| ? x \| = \| ? y \|, *i* pixels are filled in each
-column that is rasterized, where *i* is the rounded value of *width*.
-Otherwise, *i* pixels are filled in each row that is rasterized. If
-antialiasing is enabled, line rasterization produces a fragment for
-each pixel square that intersects the region lying within the
-rectangle having width equal to the current line width, length equal
-to the actual length of the line, and centered on the mathematical
-line segment. The coverage value for each fragment is the window
-coordinate area of the intersection of the rectangular region with
-the corresponding pixel square. This value is saved and used in the
-final rasterization step. Not all widths can be supported when line
-antialiasing is enabled. If an unsupported width is requested, the
-nearest supported width is used. Only width 1.0 is guaranteed to be
-supported; others depend on the implementation. The range of
-supported widths and the size difference between supported widths
-within the range can be queried by calling **glGet** with arguments
-GL\_LINE\_WIDTH\_RANGE and GL\_LINE\_WIDTH\_GRANULARITY. The line
-width specified by **glLineWidth** is always returned when
-GL\_LINE\_WIDTH is queried. Clamping and rounding for aliased and
-antialiased lines have no effect on the specified value.
-Non-antialiased line width may be clamped to an
-implementation-dependent maximum. Although this maximum cannot be
-queried, it must be no less than the maximum value for antialiased
-lines, rounded to the nearest integer value. The following functions
-retrieve information related to **glLineWidth**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LINE\_WIDTH **glGet** with argument
-GL\_LINE\_WIDTH\_RANGE **glGet** with argument
-GL\_LINE\_WIDTH\_GRANULARITY [**glIsEnabled**](glisenabled.md) with
-argument GL\_LINE\_SMOOTH
+glLineWidth はエイリアスとアンチエイリアス両方のラスタライズ線幅を指定する。1.0
+以外の線幅はアンチエイリアスの有無で効果が変わる。線アンチエイリアスは glEnable/glDisable の
+GL_LINE_SMOOTH で制御する。無効時は、指定幅を最も近い整数に丸めた値が実際の幅となる (0 に丸められたら 1
+として扱う)。有効時は指定幅そのものが使われ、最小 1.0 ピクセルから実装依存の最大幅まで対応する。幅は常に非負で、負値はエラー
+GL_INVALID_VALUE を生成する。関連情報は glGet (GL_LINE_WIDTH /
+GL_LINE_WIDTH_GRANULARITY / GL_LINE_WIDTH_RANGE) および glIsEnabled
+(GL_LINE_SMOOTH) で取得できる。
 
 
 %index
 glListBase
-The glListBase function sets the display list base for glCallLists.
+glListBase 関数は glCallLists 用の表示リストベースを設定する。
 %group
 Win32 opengl32
 %prm
 base
 base : [int] 
 %inst
-The glListBase function sets the display list base for glCallLists.
+glListBase 関数は glCallLists 用の表示リストベースを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glListBase** function specifies an array of offsets. Display
-list names are generated by adding *base* to each offset. Names that
-reference valid display lists are executed; others are ignored. The
-following function retrieves information related to **glListBase**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LIST\_BASE
+glListBase はオフセットの配列を指定する。表示リスト名は各オフセットに base
+を加算して生成される。有効な表示リストを参照する名前は実行され、それ以外は無視される。関連情報は glGet (GL_LIST_BASE)
+で取得できる。
 
 
 %index
 glLoadIdentity
-The glLoadIdentity function replaces the current matrix with the identity matrix.
+glLoadIdentity 関数は現在の行列を単位行列に置き換える。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glLoadIdentity function replaces the current matrix with the
-identity matrix.
+glLoadIdentity 関数は現在の行列を単位行列に置き換える。
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数は引数を持たず、値を返さない。
 
 [備考]
-The **glLoadIdentity** function replaces the current matrix with the
-identity matrix. It is semantically equivalent to calling
-[**glLoadMatrix**](glloadmatrix.md) with the following identity
-matrix. ![Diagram showing the identity matrix that glLoadIdentity
-calls.](images/load01.png) However, in some cases, it is more
-efficient. The following functions retrieve information related to
-**glLoadIdentity**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glLoadIdentity は現在の行列を単位行列に置き換える。意味的には単位行列を指定した glLoadMatrix
+呼び出しと等価だが、実装によっては効率的である。関連情報は glGet (GL_MATRIX_MODE /
+GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
+で取得できる。
 
 
 %index
 glLoadMatrixd
-The glLoadMatrixd function replaces the current matrix with an arbitrary matrix. | glLoadMatrixd function (Gl.h)
+glLoadMatrixd 関数は現在の行列を任意行列に置き換える。| glLoadMatrixd 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 m
-m : [var] A pointer to a 4x4 matrix stored in column-major order as 16 consecutive values.
+m : [var] 列優先順で連続 16 個の値として格納された 4x4 行列へのポインタ。
 %inst
-The glLoadMatrixd function replaces the current matrix with an
-arbitrary matrix. | glLoadMatrixd function (Gl.h)
+glLoadMatrixd 関数は現在の行列を任意行列に置き換える。| glLoadMatrixd 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLoadMatrix** function replaces the current matrix with the
-one specified in *m*. The current matrix is the projection matrix,
-modelview matrix, or texture matrix, determined by the current matrix
-mode (see [**glMatrixMode**](glmatrixmode.md)). The *m* parameter
-points to a 4x4 matrix of single-precision or double-precision
-floating-point values stored in column-major order. That is, the
-matrix is stored as shown in the following image. ![Diagram showing
-the 4x4 matrix that the m parameter points to.](images/load02.png)
-The following functions retrieve information related to
-**glLoadMatrix**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glLoadMatrix は現在の行列を m
+で指定した行列に置き換える。現在の行列はプロジェクション行列・モデルビュー行列・テクスチャ行列のいずれかで、現在の行列モード
+(glMatrixMode 参照) で決まる。m は列優先順 (column-major order) で格納された 4x4
+の単精度または倍精度浮動小数点行列を指す。関連情報は glGet (GL_MATRIX_MODE /
+GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
+で取得できる。
 
 
 %index
 glLoadMatrixf
-The glLoadMatrixf function replaces the current matrix with an arbitrary matrix. | glLoadMatrixf function (Gl.h)
+glLoadMatrixf 関数は現在の行列を任意行列に置き換える。| glLoadMatrixf 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 m
-m : [var] A pointer to a 4x4 matrix stored in column-major order as 16 consecutive values.
+m : [var] 列優先順で連続 16 個の値として格納された 4x4 行列へのポインタ。
 %inst
-The glLoadMatrixf function replaces the current matrix with an
-arbitrary matrix. | glLoadMatrixf function (Gl.h)
+glLoadMatrixf 関数は現在の行列を任意行列に置き換える。| glLoadMatrixf 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLoadMatrix** function replaces the current matrix with the
-one specified in *m*. The current matrix is the projection matrix,
-modelview matrix, or texture matrix, determined by the current matrix
-mode (see [**glMatrixMode**](glmatrixmode.md)). The *m* parameter
-points to a 4x4 matrix of single-precision or double-precision
-floating-point values stored in column-major order. That is, the
-matrix is stored as shown in the following image. ![Diagram showing
-the 4x4 matrix that the m parameter points to.](images/load02.png)
-The following functions retrieve information related to
-**glLoadMatrix**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glLoadMatrix は現在の行列を m
+で指定した行列に置き換える。現在の行列はプロジェクション行列・モデルビュー行列・テクスチャ行列のいずれかで、現在の行列モード
+(glMatrixMode 参照) で決まる。m は列優先順 (column-major order) で格納された 4x4
+の単精度または倍精度浮動小数点行列を指す。関連情報は glGet (GL_MATRIX_MODE /
+GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
+で取得できる。
 
 
 %index
 glLoadName
-The glLoadName function loads a name onto the name stack.
+glLoadName 関数はネームスタックに名前を読み込む。
 %group
 Win32 opengl32
 %prm
 name
-name : [int] A name that will replace the top value on the name stack.
+name : [int] ネームスタック最上段の値を置き換える名前。
 %inst
-The glLoadName function loads a name onto the name stack.
+glLoadName 関数はネームスタックに名前を読み込む。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLoadName** function causes *name* to replace the value on the
-top of the name stack, which is initially empty. The name stack is
-used during selection mode to allow sets of rendering commands to be
-uniquely identified. It consists of an ordered set of unsigned
-integers. The name stack is always empty while the render mode is not
-GL\_SELECT. Calls to **glLoadName** while the render mode is not
-GL\_SELECT are ignored. The following functions retrieve information
-related to **glLoadName**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_NAME\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_NAME\_STACK\_DEPTH
+glLoadName は当初空のネームスタックの最上段の値を name
+で置き換える。ネームスタックはセレクションモード中にレンダリングコマンド群を一意に識別するための順序付き符号なし整数集合。レンダーモードが
+GL_SELECT でない間は常に空で、このとき glLoadName は無視される。関連情報は glGet
+(GL_NAME_STACK_DEPTH / GL_MAX_NAME_STACK_DEPTH) および glRenderMode
+で取得できる。
 
 
 %index
 glLogicOp
-The glLogicOp function specifies a logical pixel operation for color index rendering.
+glLogicOp 関数はカラーインデックス描画用の論理的ピクセル演算を指定する。
 %group
 Win32 opengl32
 %prm
 opcode
-opcode : [int] A symbolic constant that selects a logical operation. The following symbols are accepted where s equals the value of the source bit and d is the value of the destination bit.
+opcode : [int] 論理演算を選択するシンボル定数。s をソースビット、d を宛先ビットとして次を受け付ける: GL_CLEAR (0)、GL_SET (1)、GL_COPY (s)、GL_COPY_INVERTED (~s)、GL_NOOP (d)、GL_INVERT (~d)、GL_AND (s & d)、GL_NAND (~(s & d))、GL_OR (s | d)、GL_NOR (~(s | d))、GL_XOR (s ^ d)、GL_EQUIV (~(s ^ d))、GL_AND_REVERSE (s & ~d)、GL_AND_INVERTED (~s & d)、GL_OR_REVERSE (s | ~d)、GL_OR_INVERTED (~s | d)。
 %inst
-The glLogicOp function specifies a logical pixel operation for color
-index rendering.
+glLogicOp 関数はカラーインデックス描画用の論理的ピクセル演算を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glLogicOp** function specifies a logical operation that, when
-enabled, is applied between the incoming color index and the color
-index at the corresponding location in the framebuffer. The logical
-operation is enabled or disabled with [**glEnable**](glenable.md) and
-**glDisable** using the symbolic constant GL\_LOGIC\_OP. The *opcode*
-parameter is a symbolic constant chosen from the list below. In the
-explanation of the logical operations, *s* represents the incoming
-color index and *d* represents the index in the framebuffer. Standard
-C-language operators are used. As these bitwise operators suggest,
-the logical operation is applied independently to each bit pair of
-the source and destination indexes. Logical pixel operations are not
-applied to RGBA color buffers. When more than one color-index buffer
-is enabled for drawing, logical operations are done separately for
-each enabled buffer, using the contents of that buffer for the
-destination index (see [**glDrawBuffer**](gldrawbuffer.md)). The
-*opcode* parameter must be one of the 16 accepted values. Other
-values result in an error. The following functions retrieve
-information related to **glLogicOp**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_LOGIC\_OP\_MODE [**glIsEnabled**](glisenabled.md)
-with argument GL\_LOGIC\_OP
+glLogicOp
+は、有効化時に入力カラーインデックスとフレームバッファの対応位置のカラーインデックスとの間に適用される論理演算を指定する。論理演算は
+glEnable/glDisable に GL_LOGIC_OP を渡して有効/無効を切り替える。opcode
+は下記のシンボル定数から選ぶ。s は入力カラーインデックス、d はフレームバッファのインデックス。C
+言語の演算子と同じ記法で、ビットごとに同じ演算が実行される。論理演算は RGBA モードでは無視される
+(GL_COLOR_LOGIC_OP が OpenGL 1.1 以降で定義される)。関連情報は glGet
+(GL_LOGIC_OP_MODE) および glIsEnabled (GL_LOGIC_OP) で取得できる。
 
 
 %index
 glMap1d
-The glMap1d function defines a one-dimensional evaluator. | glMap1d function (Gl.h)
+glMap1d 関数は 1 次元エバリュエータを定義する。| glMap1d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, u1, u2, stride, order, points
-target : [int] The kind of values that are generated by the evaluator. Symbolic constants. The *target* parameter is a symbolic constant that indicates what kind of control points are provided in *points*, and what output is generated when the map is evaluated. It can assume one of nine predefined values.
-u1 : [double] A linear mapping of *u*, as presented to [**glEvalCoord1**](glevalcoord-functions.md), to *u*^, the variable that is evaluated by the equations specified by this command.
-u2 : [double] A linear mapping of *u*, as presented to [**glEvalCoord1**](glevalcoord-functions.md), to *u*^, the variable that is evaluated by the equations specified by this command.
-stride : [int] The number of floats or doubles between the beginning of one control point and the beginning of the next one in the data structure referenced in *points*. This allows control points to be embedded in arbitrary data structures. The only constraint is that the values for a particular control point must occupy contiguous memory locations.
-order : [int] The number of control points. Must be positive.
-points : [var] A pointer to the array of control points.
+target : [int] エバリュエータが生成する値の種類。シンボル定数。target は points にどの種類の制御点が与えられ、マップ評価時にどの種類の出力が生成されるかを示す。9 つの定義済み値を取りうる: GL_MAP1_VERTEX_3 / GL_MAP1_VERTEX_4 (x,y,z (,w) の頂点座標)、GL_MAP1_INDEX (カラーインデックス)、GL_MAP1_COLOR_4 (R,G,B,A)、GL_MAP1_NORMAL (法線ベクトル)、GL_MAP1_TEXTURE_COORD_1..4 (s [,t [,r [,q]]] テクスチャ座標)。
+u1 : [double] glEvalCoord1 に渡される u から、このコマンドで指定される方程式が評価する変数 u^ への線形マッピング。
+u2 : [double] glEvalCoord1 に渡される u から、このコマンドで指定される方程式が評価する変数 u^ への線形マッピング。
+stride : [int] points が参照するデータ構造内で、ある制御点の先頭から次の制御点の先頭までにある float または double の個数。これにより任意のデータ構造に制御点を埋め込める。制約は、1 つの制御点の値が連続したメモリ位置を占めなければならない点のみ。
+order : [int] 制御点の数。正でなければならない。
+points : [var] 制御点の配列へのポインタ。
 %inst
-The glMap1d function defines a one-dimensional evaluator. | glMap1d
-function (Gl.h)
+glMap1d 関数は 1 次元エバリュエータを定義する。| glMap1d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Evaluators provide a way to use polynomial or rational polynomial
-mapping to produce vertices, normals, texture coordinates, and
-colors. The values produced by an evaluator are sent to further
-stages of OpenGL processing just as if they had been presented using
-[**glVertex**](glvertex-functions.md),
-[**glNormal**](glnormal-functions.md),
-[**glTexCoord**](gltexcoord-functions.md), and
-[**glColor**](glcolor-functions.md) commands, except that the
-generated values do not update the current normal, texture
-coordinates, or color. All polynomial or rational polynomial splines
-of any degree (up to the maximum degree supported by the OpenGL
-implementation) can be described using evaluators. These include
-almost all splines used in computer graphics, including B-splines,
-Bezier curves, Hermite splines, and so on. Evaluators define curves
-based on Bernstein polynomials. Define **p** () as ![Equation showing
-the definition of p ().](images/map01.png) where **R***i* is a
-control point and () is the *i* the Bernstein polynomial of degree
-*n* (*order* =*n* + 1): ![Equation showing the Bernstein polynomial
-of degree n.](images/map02.png) Recall that ![Equations showing
-equivalence to 1.](images/map03.png) The **glMap1** function is used
-to define the basis and to specify what kind of values are produced.
-Once defined, a map can be enabled and disabled by calling
-[**glEnable**](glenable.md) and **glDisable** with the map name, one
-of the nine predefined values for *target* described above. The
-[glEvalCoord1](glevalcoord-functions.md) function evaluates the
-one-dimensional maps that are enabled. When **glEvalCoord1** presents
-a value *u*, the Bernstein functions are evaluated using *u*^, where
-![Equation showing the definition of u^.](images/map04.png) The
-*stride*, *order*, and *points* parameters define the array
-addressing for accessing the control points. The *points* parameter
-is the location of the first control point, which occupies one, two,
-three, or four contiguous memory locations, depending on which map is
-being defined. The *order* parameter is the number of control points
-in the array. The *stride* parameter tells how many float or double
-locations to advance the internal memory pointer to reach the next
-control point. As is the case with all OpenGL commands that accept
-pointers to data, it is as if the contents of *points* were copied by
-**glMap1** before it returned. Changes to the contents of *points*
-have no effect after **glMap1** is called. The following functions
-retrieve information related to **glMap1**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_EVAL\_ORDER [**glGetMap**](glgetmap.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_3
-**glIsEnabled** with argument GL\_MAP1\_VERTEX\_4 **glIsEnabled**
-with argument GL\_MAP1\_INDEX **glIsEnabled** with argument
-GL\_MAP1\_COLOR\_4 **glIsEnabled** with argument GL\_MAP1\_NORMAL
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_1
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_2
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_3
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_4
+エバリュエータは多項式または有理多項式マッピングを用いて頂点・法線・テクスチャ座標・カラーを生成する手段を提供する。評価結果は通常の
+glVertex / glNormal / glTexCoord / glColor
+を用いた場合と同じ後続ステージへ送られるが、現在の法線・テクスチャ座標・カラーを更新しない点が異なる。次数 1 から
+GL_MAX_EVAL_ORDER までの多項式 / 有理多項式スプラインを定義でき、内部でバーンスタイン多項式表現を用いる。target
+は生成値の種類と制御点の意味を指定し、u1/u2 は u のマッピング、order は制御点の個数、stride
+は制御点間の浮動小数点数、points は制御点配列へのポインタ。エバリュエータを有効化するには glEnable に target
+を渡す。値を評価するには glEvalCoord1 を使う。関連情報は glGet
+(GL_MAX_EVAL_ORDER)、glGetMap、glIsEnabled で取得できる。
 
 
 %index
 glMap1f
-The glMap1f function defines a one-dimensional evaluator. | glMap1f function (Gl.h)
+glMap1f 関数は 1 次元エバリュエータを定義する。| glMap1f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, u1, u2, stride, order, points
-target : [int] The kind of values that are generated by the evaluator. Symbolic constants. The *target* parameter is a symbolic constant that indicates what kind of control points are provided in *points*, and what output is generated when the map is evaluated. It can assume one of nine predefined values.
-u1 : [float] A linear mapping of *u*, as presented to [**glEvalCoord1**](glevalcoord-functions.md), to *u*^, the variable that is evaluated by the equations specified by this command.
-u2 : [float] A linear mapping of *u*, as presented to [**glEvalCoord1**](glevalcoord-functions.md), to *u*^, the variable that is evaluated by the equations specified by this command.
-stride : [int] The number of floats or doubles between the beginning of one control point and the beginning of the next one in the data structure referenced in *points*. This allows control points to be embedded in arbitrary data structures. The only constraint is that the values for a particular control point must occupy contiguous memory locations.
-order : [int] The number of control points. Must be positive.
-points : [var] A pointer to the array of control points.
+target : [int] エバリュエータが生成する値の種類。シンボル定数。target は points にどの種類の制御点が与えられ、マップ評価時にどの種類の出力が生成されるかを示す。9 つの定義済み値を取りうる: GL_MAP1_VERTEX_3 / GL_MAP1_VERTEX_4 (x,y,z (,w) の頂点座標)、GL_MAP1_INDEX (カラーインデックス)、GL_MAP1_COLOR_4 (R,G,B,A)、GL_MAP1_NORMAL (法線ベクトル)、GL_MAP1_TEXTURE_COORD_1..4 (s [,t [,r [,q]]] テクスチャ座標)。
+u1 : [float] glEvalCoord1 に渡される u から、このコマンドで指定される方程式が評価する変数 u^ への線形マッピング。
+u2 : [float] glEvalCoord1 に渡される u から、このコマンドで指定される方程式が評価する変数 u^ への線形マッピング。
+stride : [int] points が参照するデータ構造内で、ある制御点の先頭から次の制御点の先頭までにある float または double の個数。これにより任意のデータ構造に制御点を埋め込める。制約は、1 つの制御点の値が連続したメモリ位置を占めなければならない点のみ。
+order : [int] 制御点の数。正でなければならない。
+points : [var] 制御点の配列へのポインタ。
 %inst
-The glMap1f function defines a one-dimensional evaluator. | glMap1f
-function (Gl.h)
+glMap1f 関数は 1 次元エバリュエータを定義する。| glMap1f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Evaluators provide a way to use polynomial or rational polynomial
-mapping to produce vertices, normals, texture coordinates, and
-colors. The values produced by an evaluator are sent to further
-stages of OpenGL processing just as if they had been presented using
-[**glVertex**](glvertex-functions.md),
-[**glNormal**](glnormal-functions.md),
-[**glTexCoord**](gltexcoord-functions.md), and
-[**glColor**](glcolor-functions.md) commands, except that the
-generated values do not update the current normal, texture
-coordinates, or color. All polynomial or rational polynomial splines
-of any degree (up to the maximum degree supported by the OpenGL
-implementation) can be described using evaluators. These include
-almost all splines used in computer graphics, including B-splines,
-Bezier curves, Hermite splines, and so on. Evaluators define curves
-based on Bernstein polynomials. Define **p** () as ![Equation showing
-the definition of p ().](images/map01.png) where **R***i* is a
-control point and () is the *i* the Bernstein polynomial of degree
-*n* (*order* =*n* + 1): ![Equation showing the Bernstein polynomial
-of degree n.](images/map02.png) Recall that ![Equations showing
-equivalence to 1.](images/map03.png) The **glMap1** function is used
-to define the basis and to specify what kind of values are produced.
-Once defined, a map can be enabled and disabled by calling
-[**glEnable**](glenable.md) and **glDisable** with the map name, one
-of the nine predefined values for *target* described above. The
-[glEvalCoord1](glevalcoord-functions.md) function evaluates the
-one-dimensional maps that are enabled. When **glEvalCoord1** presents
-a value *u*, the Bernstein functions are evaluated using *u*^, where
-![Equation showing the definition of u^.](images/map04.png) The
-*stride*, *order*, and *points* parameters define the array
-addressing for accessing the control points. The *points* parameter
-is the location of the first control point, which occupies one, two,
-three, or four contiguous memory locations, depending on which map is
-being defined. The *order* parameter is the number of control points
-in the array. The *stride* parameter tells how many float or double
-locations to advance the internal memory pointer to reach the next
-control point. As is the case with all OpenGL commands that accept
-pointers to data, it is as if the contents of *points* were copied by
-**glMap1** before it returned. Changes to the contents of *points*
-have no effect after **glMap1** is called. The following functions
-retrieve information related to **glMap1**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_EVAL\_ORDER [**glGetMap**](glgetmap.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP1\_VERTEX\_3
-**glIsEnabled** with argument GL\_MAP1\_VERTEX\_4 **glIsEnabled**
-with argument GL\_MAP1\_INDEX **glIsEnabled** with argument
-GL\_MAP1\_COLOR\_4 **glIsEnabled** with argument GL\_MAP1\_NORMAL
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_1
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_2
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_3
-**glIsEnabled** with argument GL\_MAP1\_TEXTURE\_COORD\_4
+エバリュエータは多項式または有理多項式マッピングを用いて頂点・法線・テクスチャ座標・カラーを生成する手段を提供する。評価結果は通常の
+glVertex / glNormal / glTexCoord / glColor
+を用いた場合と同じ後続ステージへ送られるが、現在の法線・テクスチャ座標・カラーを更新しない点が異なる。次数 1 から
+GL_MAX_EVAL_ORDER までの多項式 / 有理多項式スプラインを定義でき、内部でバーンスタイン多項式表現を用いる。target
+は生成値の種類と制御点の意味を指定し、u1/u2 は u のマッピング、order は制御点の個数、stride
+は制御点間の浮動小数点数、points は制御点配列へのポインタ。エバリュエータを有効化するには glEnable に target
+を渡す。値を評価するには glEvalCoord1 を使う。関連情報は glGet
+(GL_MAX_EVAL_ORDER)、glGetMap、glIsEnabled で取得できる。
 
 
 %index
 glMap2d
-The glMap2d function defines a two-dimensional evaluator. | glMap2d function (Gl.h)
+glMap2d 関数は 2 次元エバリュエータを定義する。| glMap2d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points
-target : [int] The kind of values that are generated by the evaluator. The following symbolic constants are accepted.
-u1 : [double] A linear mapping of *u*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *u*^, one of the two variables that is evaluated by the equations specified by this command.
-u2 : [double] A linear mapping of *u*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *u*^, one of the two variables that is evaluated by the equations specified by this command.
-ustride : [int] The number of floats or doubles between the beginning of control point **R** *ij* and the beginning of control point **R** (i\ +1\ )\ j, where *i* and *j* are the *u* and *v* control point indexes, respectively. This allows control points to be embedded in arbitrary data structures. The only constraint is that the values for a particular control point must occupy contiguous memory locations.
-uorder : [int] The dimension of the control point array in the *u*-axis. Must be positive.
-v1 : [double] A linear mapping of *v*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *v*^, one of the two variables that is evaluated by the equations specified by this command.
-v2 : [double] A linear mapping of *v*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *v*^, one of the two variables that is evaluated by the equations specified by this command.
-vstride : [int] The number of floats or doubles between the beginning of control point **R** *ij* and the beginning of control point **R** i(j\ +1\ ), where *i* and *j* are the *u* and *v* control point indexes, respectively. This allows control points to be embedded in arbitrary data structures. The only constraint is that the values for a particular control point must occupy contiguous memory locations.
-vorder : [int] The dimension of the control point array in the *v*-axis. Must be positive.
-points : [var] A pointer to the array of control points.
+target : [int] エバリュエータが生成する値の種類。次のシンボル定数を受け付ける: GL_MAP2_VERTEX_3 / GL_MAP2_VERTEX_4、GL_MAP2_INDEX、GL_MAP2_COLOR_4、GL_MAP2_NORMAL、GL_MAP2_TEXTURE_COORD_1..4。意味は glMap1 の対応定数と同じ。
+u1 : [double] glEvalCoord2 に渡される u から、このコマンドで指定される方程式が評価する 2 変数のうちの u^ への線形マッピング。
+u2 : [double] glEvalCoord2 に渡される u から、このコマンドで指定される方程式が評価する 2 変数のうちの u^ への線形マッピング。
+ustride : [int] 制御点 R_ij の先頭から R_(i+1)j の先頭までの float/double の個数 (i, j はそれぞれ u, v のインデックス)。任意のデータ構造に制御点を埋め込める。制約は 1 つの制御点の値が連続したメモリ位置を占めなければならない点のみ。
+uorder : [int] u 軸方向の制御点配列の次元。正でなければならない。
+v1 : [double] glEvalCoord2 に渡される v から、このコマンドで指定される方程式が評価する 2 変数のうちの v^ への線形マッピング。
+v2 : [double] glEvalCoord2 に渡される v から、このコマンドで指定される方程式が評価する 2 変数のうちの v^ への線形マッピング。
+vstride : [int] 制御点 R_ij の先頭から R_i(j+1) の先頭までの float/double の個数 (i, j はそれぞれ u, v のインデックス)。任意のデータ構造に制御点を埋め込める。制約は 1 つの制御点の値が連続したメモリ位置を占めなければならない点のみ。
+vorder : [int] v 軸方向の制御点配列の次元。正でなければならない。
+points : [var] 制御点の配列へのポインタ。
 %inst
-The glMap2d function defines a two-dimensional evaluator. | glMap2d
-function (Gl.h)
+glMap2d 関数は 2 次元エバリュエータを定義する。| glMap2d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Evaluators provide a way to use polynomial or rational polynomial
-mapping to produce vertices, normals, texture coordinates, and
-colors. The values produced by an evaluator are sent on to further
-stages of OpenGL processing just as if they had been presented using
-[**glVertex**](glvertex-functions.md),
-[**glNormal**](glnormal-functions.md),
-[**glTexCoord**](gltexcoord-functions.md), and
-[**glColor**](glcolor-functions.md) commands, except that the
-generated values do not update the current normal, texture
-coordinates, or color. All polynomial or rational polynomial splines
-of any degree (up to the maximum degree supported by the OpenGL
-implementation) can be described using evaluators. These include
-almost all surfaces used in computer graphics, including B-spline
-surfaces, NURBS surfaces, Bezier surfaces, and so on. Evaluators
-define surfaces based on bivariate Bernstein polynomials. Define
-**p** (*u*^,*v*^) as ![Equation showing the definition of p
-().](images/map05.png) where **R** *ij* is a control point, () is the
-*i*th Bernstein polynomial of degree *n* (*uorder* = *n* + 1)
-![Equation showing the Bernstein polynomial of degree
-n.](images/map06.png) and () is the *j*th Bernstein polynomial of
-degree *m* (*vorder* = *m* + 1) ![Equation showing the Bernstein
-polynomial of degree m.](images/map07.png) Recall that ![Equations
-showing equivalence to 1.](images/map08.png) The **glMap2** function
-is used to define the basis and to specify what kind of values are
-produced. Once defined, a map can be enabled and disabled by calling
-[**glEnable**](glenable.md) and **glDisable** with the map name, one
-of the nine predefined values for *target*, described above. When
-[**glEvalCoord2**](glevalcoord-functions.md) presents values *u* and
-*v*, the bivariate Bernstein polynomials are evaluated using *u*^ and
-*v*^, where ![Equation showing the definition of
-u^.](images/map09.png) and ![Equation showing the definition of
-v^.](images/map10.png) The *target* parameter is a symbolic constant
-that indicates what kind of control points are provided in *points*,
-and what output is generated when the map is evaluated. The
-*ustride*, *uorder*, *vstride*, *vorder*, and *points* parameters
-define the array addressing for accessing the control points. The
-*points* parameter is the location of the first control point, which
-occupies one, two, three, or four contiguous memory locations,
-depending on which map is being defined. There are *uorder* x
-*vorder* control points in the array. The *ustride* parameter tells
-how many float or double locations are skipped to advance the
-internal memory pointer from control point **R** *ij* to control
-point **R** (\ i+1\ )j. The *vstride* parameter tells how many float
-or double locations are skipped to advance the internal memory
-pointer from control point **R** *ij* to control point **R**i(j\ +1\
-). As is the case with all OpenGL commands that accept pointers to
-data, it is as if the contents of *points* were copied by **glMap2**
-before it returned. Changes to the contents of *points* have no
-effect after **glMap2** is called. The following functions retrieve
-information related to **glMap2**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_EVAL\_ORDER [**glGetMap**](glgetmap.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-**glIsEnabled** with argument GL\_MAP2\_VERTEX\_4 **glIsEnabled**
-with argument GL\_MAP2\_INDEX **glIsEnabled** with argument
-GL\_MAP2\_COLOR\_4 **glIsEnabled** with argument GL\_MAP2\_NORMAL
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_1
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_2
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_3
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_4
+エバリュエータは多項式または有理多項式マッピングを用いて 2 変数 u, v
+で頂点・法線・テクスチャ座標・カラーを生成する手段を提供する。生成値は通常の glVertex / glNormal /
+glTexCoord / glColor を用いた場合と同じ後続ステージへ送られるが、現在の法線・テクスチャ座標・カラーを更新しない。次数
+1 から GL_MAX_EVAL_ORDER までの多項式 /
+有理多項式スプラインを定義でき、内部でバーンスタイン多項式表現を用いる。target は生成値の種類と制御点の意味、u1/u2/v1/v2
+は u, v のマッピング、uorder/vorder は u, v 軸の制御点数、ustride/vstride
+は制御点間の浮動小数点数、points は 2 次元配列の先頭へのポインタ。エバリュエータを有効化するには glEnable に
+target を渡し、値を評価するには glEvalCoord2 を使う。
 
 
 %index
 glMap2f
-The glMap2f function defines a two-dimensional evaluator. | glMap2f function (Gl.h)
+glMap2f 関数は 2 次元エバリュエータを定義する。| glMap2f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points
-target : [int] The kind of values that are generated by the evaluator. The following symbolic constants are accepted.
-u1 : [float] A linear mapping of *u*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *u*^, one of the two variables that is evaluated by the equations specified by this command.
-u2 : [float] A linear mapping of *u*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *u*^, one of the two variables that is evaluated by the equations specified by this command.
-ustride : [int] The number of floats or doubles between the beginning of control point **R** *ij* and the beginning of control point **R** (i\ +1\ )\ j, where *i* and *j* are the *u* and *v* control point indexes, respectively. This allows control points to be embedded in arbitrary data structures. The only constraint is that the values for a particular control point must occupy contiguous memory locations.
-uorder : [int] The dimension of the control point array in the *u*-axis. Must be positive.
-v1 : [float] A linear mapping of *v*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *v*^, one of the two variables that is evaluated by the equations specified by this command.
-v2 : [float] A linear mapping of *v*, as presented to [**glEvalCoord2**](glevalcoord-functions.md), to *v*^, one of the two variables that is evaluated by the equations specified by this command.
-vstride : [int] The number of floats or doubles between the beginning of control point **R** *ij* and the beginning of control point **R** i(j\ +1\ ), where *i* and *j* are the *u* and *v* control point indexes, respectively. This allows control points to be embedded in arbitrary data structures. The only constraint is that the values for a particular control point must occupy contiguous memory locations.
-vorder : [int] The dimension of the control point array in the *v*-axis. Must be positive.
-points : [var] A pointer to the array of control points.
+target : [int] エバリュエータが生成する値の種類。次のシンボル定数を受け付ける: GL_MAP2_VERTEX_3 / GL_MAP2_VERTEX_4、GL_MAP2_INDEX、GL_MAP2_COLOR_4、GL_MAP2_NORMAL、GL_MAP2_TEXTURE_COORD_1..4。意味は glMap1 の対応定数と同じ。
+u1 : [float] glEvalCoord2 に渡される u から、このコマンドで指定される方程式が評価する 2 変数のうちの u^ への線形マッピング。
+u2 : [float] glEvalCoord2 に渡される u から、このコマンドで指定される方程式が評価する 2 変数のうちの u^ への線形マッピング。
+ustride : [int] 制御点 R_ij の先頭から R_(i+1)j の先頭までの float/double の個数 (i, j はそれぞれ u, v のインデックス)。任意のデータ構造に制御点を埋め込める。制約は 1 つの制御点の値が連続したメモリ位置を占めなければならない点のみ。
+uorder : [int] u 軸方向の制御点配列の次元。正でなければならない。
+v1 : [float] glEvalCoord2 に渡される v から、このコマンドで指定される方程式が評価する 2 変数のうちの v^ への線形マッピング。
+v2 : [float] glEvalCoord2 に渡される v から、このコマンドで指定される方程式が評価する 2 変数のうちの v^ への線形マッピング。
+vstride : [int] 制御点 R_ij の先頭から R_i(j+1) の先頭までの float/double の個数 (i, j はそれぞれ u, v のインデックス)。任意のデータ構造に制御点を埋め込める。制約は 1 つの制御点の値が連続したメモリ位置を占めなければならない点のみ。
+vorder : [int] v 軸方向の制御点配列の次元。正でなければならない。
+points : [var] 制御点の配列へのポインタ。
 %inst
-The glMap2f function defines a two-dimensional evaluator. | glMap2f
-function (Gl.h)
+glMap2f 関数は 2 次元エバリュエータを定義する。| glMap2f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Evaluators provide a way to use polynomial or rational polynomial
-mapping to produce vertices, normals, texture coordinates, and
-colors. The values produced by an evaluator are sent on to further
-stages of OpenGL processing just as if they had been presented using
-[**glVertex**](glvertex-functions.md),
-[**glNormal**](glnormal-functions.md),
-[**glTexCoord**](gltexcoord-functions.md), and
-[**glColor**](glcolor-functions.md) commands, except that the
-generated values do not update the current normal, texture
-coordinates, or color. All polynomial or rational polynomial splines
-of any degree (up to the maximum degree supported by the OpenGL
-implementation) can be described using evaluators. These include
-almost all surfaces used in computer graphics, including B-spline
-surfaces, NURBS surfaces, Bezier surfaces, and so on. Evaluators
-define surfaces based on bivariate Bernstein polynomials. Define
-**p** (*u*^,*v*^) as ![Equation showing the definition of p
-().](images/map05.png) where **R** *ij* is a control point, () is the
-*i*th Bernstein polynomial of degree *n* (*uorder* = *n* + 1)
-![Equation showing the Bernstein polynomial of degree
-n.](images/map06.png) and () is the *j*th Bernstein polynomial of
-degree *m* (*vorder* = *m* + 1) ![Equation showing the Bernstein
-polynomial of degree m.](images/map07.png) Recall that ![Equations
-showing equivalence to 1.](images/map08.png) The **glMap2** function
-is used to define the basis and to specify what kind of values are
-produced. Once defined, a map can be enabled and disabled by calling
-[**glEnable**](glenable.md) and **glDisable** with the map name, one
-of the nine predefined values for *target*, described above. When
-[**glEvalCoord2**](glevalcoord-functions.md) presents values *u* and
-*v*, the bivariate Bernstein polynomials are evaluated using *u*^ and
-*v*^, where ![Equation showing the definition of
-u^.](images/map09.png) and ![Equation showing the definition of
-v^.](images/map10.png) The *target* parameter is a symbolic constant
-that indicates what kind of control points are provided in *points*,
-and what output is generated when the map is evaluated. The
-*ustride*, *uorder*, *vstride*, *vorder*, and *points* parameters
-define the array addressing for accessing the control points. The
-*points* parameter is the location of the first control point, which
-occupies one, two, three, or four contiguous memory locations,
-depending on which map is being defined. There are *uorder* x
-*vorder* control points in the array. The *ustride* parameter tells
-how many float or double locations are skipped to advance the
-internal memory pointer from control point **R** *ij* to control
-point **R** (\ i+1\ )j. The *vstride* parameter tells how many float
-or double locations are skipped to advance the internal memory
-pointer from control point **R** *ij* to control point **R**i(j\ +1\
-). As is the case with all OpenGL commands that accept pointers to
-data, it is as if the contents of *points* were copied by **glMap2**
-before it returned. Changes to the contents of *points* have no
-effect after **glMap2** is called. The following functions retrieve
-information related to **glMap2**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_EVAL\_ORDER [**glGetMap**](glgetmap.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_MAP2\_VERTEX\_3
-**glIsEnabled** with argument GL\_MAP2\_VERTEX\_4 **glIsEnabled**
-with argument GL\_MAP2\_INDEX **glIsEnabled** with argument
-GL\_MAP2\_COLOR\_4 **glIsEnabled** with argument GL\_MAP2\_NORMAL
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_1
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_2
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_3
-**glIsEnabled** with argument GL\_MAP2\_TEXTURE\_COORD\_4
+エバリュエータは多項式または有理多項式マッピングを用いて 2 変数 u, v
+で頂点・法線・テクスチャ座標・カラーを生成する手段を提供する。生成値は通常の glVertex / glNormal /
+glTexCoord / glColor を用いた場合と同じ後続ステージへ送られるが、現在の法線・テクスチャ座標・カラーを更新しない。次数
+1 から GL_MAX_EVAL_ORDER までの多項式 /
+有理多項式スプラインを定義でき、内部でバーンスタイン多項式表現を用いる。target は生成値の種類と制御点の意味、u1/u2/v1/v2
+は u, v のマッピング、uorder/vorder は u, v 軸の制御点数、ustride/vstride
+は制御点間の浮動小数点数、points は 2 次元配列の先頭へのポインタ。エバリュエータを有効化するには glEnable に
+target を渡し、値を評価するには glEvalCoord2 を使う。
 
 
 %index
 glMapGrid1d
-Defines a one-dimensional mesh. | glMapGrid1d function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid1d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 un, u1, u2
-un : [int] The number of partitions in the grid range interval \[u1, u2\]. This value must be positive.
-u1 : [double] A value used as the mapping for integer grid domain value i = 0.
-u2 : [double] A value used as the mapping for integer grid domain value i = un.
+un : [int] グリッド範囲 [u1, u2] の分割数。正でなければならない。
+u1 : [double] 整数グリッドドメイン値 i = 0 に対するマッピングとして使われる値。
+u2 : [double] 整数グリッドドメイン値 i = un に対するマッピングとして使われる値。
 %inst
-Defines a one-dimensional mesh. | glMapGrid1d function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid1d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use the **glMapGrid** and [glEvalMesh](glevalmesh-functions.md)
-functions togetherto efficiently generate and evaluate a series of
-evenly spaced map domain values. The glEvalMesh function steps
-through the integer domain of a one- or two-dimensional grid, whose
-range is the domain of the evaluation maps specified by
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). The
-**glMapGrid1** and [**glMapGrid2**](glmapgrid2d.md) functions specify
-the linear grid mappings between the i (or i and j) integer grid
-coordinates, to the u (or u and v) floating-point evaluation map
-coordinates. See [**glMap1**](glmap1.md) and [**glMap2**](glmap2.md)
-for details of how u and v coordinates are evaluated. The
-**glMapGrid1** function specifies a single linear mapping such that
-integer grid coordinate 0 maps exactly to u1, and integer grid
-coordinate *un* maps exactly to *u2*. All other integer grid
-coordinates *i* are mapped such that: *u = i(u2 u1)/un + u1* The
-[**glMapGrid2**](glmapgrid2d.md) function specifies two such linear
-mappings. One maps integer grid coordinate *i = 0* exactly to *u1*,
-and integer grid coordinate *i = un* exactly to *u2*. The other maps
-integer grid coordinate *j = 0* exactly to *v1*, and integer grid
-coordinate *j = vn* exactly to *v2*. Other integer grid coordinates i
-and j are mapped such that *u = i(u2 u1)/un + u1* *v = j (v2 v1)/vn +
-v1* The mappings specified by **glMapGrid** are used identically by
-[glEvalMesh](glevalmesh-functions.md) and
-[**glEvalPoint**](glevalpoint.md). The following functions retrieve
-information related to **glMapGrid**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_SEGMENTS
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_SEGMENTS
+glMapGrid と glEvalMesh
+は、等間隔のマップドメイン値群を効率的に生成・評価するために組み合わせて使う。glEvalMesh は 1 次元または 2
+次元グリッドの整数ドメインを走査し、値域は glMap1 / glMap2 で指定した評価マップのドメインとなる。glMapGrid1 と
+glMapGrid2 は整数グリッド座標 i (または i, j) と浮動小数点評価マップ座標 u (または u, v)
+との間の線形グリッドマッピングを指定する。glMapGrid1 は整数 i=0 を u1、i=un を u2 にマップし、[u1, u2]
+区間を un 個の等分割に分ける。関連情報は glGet (GL_MAP1_GRID_DOMAIN /
+GL_MAP1_GRID_SEGMENTS)、glMap1、glMap2、glEvalMesh で取得できる。
 
 
 %index
 glMapGrid1f
-Defines a one-dimensional mesh. | glMapGrid1f function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid1f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 un, u1, u2
-un : [int] The number of partitions in the grid range interval \[u1, u2\]. This value must be positive.
-u1 : [float] A value used as the mapping for integer grid domain value i = 0.
-u2 : [float] A value used as the mapping for integer grid domain value i = un.
+un : [int] グリッド範囲 [u1, u2] の分割数。正でなければならない。
+u1 : [float] 整数グリッドドメイン値 i = 0 に対するマッピングとして使われる値。
+u2 : [float] 整数グリッドドメイン値 i = un に対するマッピングとして使われる値。
 %inst
-Defines a one-dimensional mesh. | glMapGrid1f function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid1f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMapGrid** and [glEvalMesh](glevalmesh-functions.md) functions
-are used in tandem to efficiently generate and evaluate a series of
-evenly spaced map domain values. The glEvalMesh function steps
-through the integer domain of a one- or two-dimensional grid, whose
-range is the domain of the evaluation maps specified by
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). The
-[**glMapGrid1**](glmapgrid1d.md) and [**glMapGrid2**](glmapgrid2d.md)
-functions specify the linear grid mappings between the i (or i and j)
-integer grid coordinates, to the u (or u and v) floating-point
-evaluation map coordinates. See [**glMap1**](glmap1.md) and
-[**glMap2**](glmap2.md) for details of how u and v coordinates are
-evaluated. The [**glMapGrid1**](glmapgrid1d.md) function specifies a
-single linear mapping such that integer grid coordinate 0 maps
-exactly to u1, and integer grid coordinate *un* maps exactly to *u2*.
-All other integer grid coordinates *i* are mapped such that: *u =
-i(u2 u1)/un + u1* The [**glMapGrid2**](glmapgrid2d.md) function
-specifies two such linear mappings. One maps integer grid coordinate
-*i = 0* exactly to *u1*, and integer grid coordinate *i = un* exactly
-to *u2*. The other maps integer grid coordinate *j = 0* exactly to
-*v1*, and integer grid coordinate *j = vn* exactly to *v2*. Other
-integer grid coordinates i and j are mapped such that *u = i(u2
-u1)/un + u1* *v = j (v2 v1)/vn + v1* The mappings specified by
-[**glMapGrid**](glmapgrid1d.md) are used identically by
-[glEvalMesh](glevalmesh-functions.md) and
-[**glEvalPoint**](glevalpoint.md). The following functions retrieve
-information related to [**glMapGrid**](glmapgrid1d.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_SEGMENTS
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_SEGMENTS
+glMapGrid と glEvalMesh
+は、等間隔のマップドメイン値群を効率的に生成・評価するために組み合わせて使う。glEvalMesh は 1 次元または 2
+次元グリッドの整数ドメインを走査し、値域は glMap1 / glMap2 で指定した評価マップのドメインとなる。glMapGrid1 と
+glMapGrid2 は整数グリッド座標 i (または i, j) と浮動小数点評価マップ座標 u (または u, v)
+との間の線形グリッドマッピングを指定する。glMapGrid1 は整数 i=0 を u1、i=un を u2 にマップし、[u1, u2]
+区間を un 個の等分割に分ける。関連情報は glGet (GL_MAP1_GRID_DOMAIN /
+GL_MAP1_GRID_SEGMENTS)、glMap1、glMap2、glEvalMesh で取得できる。
 
 
 %index
 glMapGrid2d
-Defines a one-dimensional mesh. | glMapGrid2d function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid2d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 un, u1, u2, vn, v1, v2
-un : [int] The number of partitions in the grid range interval \[u1, u2\]. This value must be positive.
-u1 : [double] A value used as the mapping for integer grid domain value i = 0.
-u2 : [double] A value used as the mapping for integer grid domain value i = un.
-vn : [int] The number of partitions in the grid range interval \[v1, v2\].
-v1 : [double] A value used as the mapping for integer grid domain value j = 0.
-v2 : [double] A value used as the mapping for integer grid domain value j = vn.
+un : [int] グリッド範囲 [u1, u2] の分割数。正でなければならない。
+u1 : [double] 整数グリッドドメイン値 i = 0 に対するマッピングとして使われる値。
+u2 : [double] 整数グリッドドメイン値 i = un に対するマッピングとして使われる値。
+vn : [int] グリッド範囲 [v1, v2] の分割数。
+v1 : [double] 整数グリッドドメイン値 j = 0 に対するマッピングとして使われる値。
+v2 : [double] 整数グリッドドメイン値 j = vn に対するマッピングとして使われる値。
 %inst
-Defines a one-dimensional mesh. | glMapGrid2d function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid2d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMapGrid** and [glEvalMesh](glevalmesh-functions.md) functions
-are used in tandem to efficiently generate and evaluate a series of
-evenly spaced map domain values. The glEvalMesh function steps
-through the integer domain of a one- or two-dimensional grid, whose
-range is the domain of the evaluation maps specified by
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). The
-[**glMapGrid1**](glmapgrid1d.md) and **glMapGrid2** functions specify
-the linear grid mappings between the i (or i and j) integer grid
-coordinates, to the u (or u and v) floating-point evaluation map
-coordinates. See [**glMap1**](glmap1.md) and [**glMap2**](glmap2.md)
-for details of how u and v coordinates are evaluated. The
-[**glMapGrid1**](glmapgrid1d.md) function specifies a single linear
-mapping such that integer grid coordinate 0 maps exactly to u1, and
-integer grid coordinate *un* maps exactly to *u2*. All other integer
-grid coordinates *i* are mapped such that: *u = i(u2 u1)/un + u1* The
-**glMapGrid2** function specifies two such linear mappings. One maps
-integer grid coordinate *i = 0* exactly to *u1*, and integer grid
-coordinate *i = un* exactly to *u2*. The other maps integer grid
-coordinate *j = 0* exactly to *v1*, and integer grid coordinate *j =
-vn* exactly to *v2*. Other integer grid coordinates i and j are
-mapped such that *u = i(u2 u1)/un + u1* *v = j (v2 v1)/vn + v1* The
-mappings specified by [**glMapGrid**](glmapgrid1d.md) are used
-identically by [glEvalMesh](glevalmesh-functions.md) and
-[**glEvalPoint**](glevalpoint.md). The following functions retrieve
-information related to [**glMapGrid**](glmapgrid1d.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_SEGMENTS
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_SEGMENTS
+glMapGrid と glEvalMesh
+は、等間隔のマップドメイン値群を効率的に生成・評価するために組み合わせて使う。glMapGrid2 は u 方向と v 方向の 2
+軸について、整数グリッド座標 (i, j) を浮動小数点評価マップ座標 (u, v) に線形マッピングする。i=0 → u1、i=un →
+u2、j=0 → v1、j=vn → v2。関連情報は glGet (GL_MAP2_GRID_DOMAIN /
+GL_MAP2_GRID_SEGMENTS)、glMap1、glMap2、glEvalMesh で取得できる。
 
 
 %index
 glMapGrid2f
-Defines a one-dimensional mesh. | glMapGrid2f function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid2f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 un, u1, u2, vn, v1, v2
-un : [int] The number of partitions in the grid range interval \[u1, u2\]. This value must be positive.
-u1 : [float] A value used as the mapping for integer grid domain value i = 0.
-u2 : [float] A value used as the mapping for integer grid domain value i = un.
-vn : [int] The number of partitions in the grid range interval \[v1, v2\].
-v1 : [float] A value used as the mapping for integer grid domain value j = 0.
-v2 : [float] A value used as the mapping for integer grid domain value j = vn.
+un : [int] グリッド範囲 [u1, u2] の分割数。正でなければならない。
+u1 : [float] 整数グリッドドメイン値 i = 0 に対するマッピングとして使われる値。
+u2 : [float] 整数グリッドドメイン値 i = un に対するマッピングとして使われる値。
+vn : [int] グリッド範囲 [v1, v2] の分割数。
+v1 : [float] 整数グリッドドメイン値 j = 0 に対するマッピングとして使われる値。
+v2 : [float] 整数グリッドドメイン値 j = vn に対するマッピングとして使われる値。
 %inst
-Defines a one-dimensional mesh. | glMapGrid2f function (Gl.h)
+1 次元メッシュを定義する。| glMapGrid2f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMapGrid** and [glEvalMesh](glevalmesh-functions.md) functions
-are used in tandem to efficiently generate and evaluate a series of
-evenly spaced map domain values. The glEvalMesh function steps
-through the integer domain of a one- or two-dimensional grid, whose
-range is the domain of the evaluation maps specified by
-[**glMap1**](glmap1.md) and [**glMap2**](glmap2.md). The
-[**glMapGrid1**](glmapgrid1d.md) and [**glMapGrid2**](glmapgrid2d.md)
-functions specify the linear grid mappings between the i (or i and j)
-integer grid coordinates, to the u (or u and v) floating-point
-evaluation map coordinates. See [**glMap1**](glmap1.md) and
-[**glMap2**](glmap2.md) for details of how u and v coordinates are
-evaluated. The [**glMapGrid1**](glmapgrid1d.md) function specifies a
-single linear mapping such that integer grid coordinate 0 maps
-exactly to u1, and integer grid coordinate *un* maps exactly to *u2*.
-All other integer grid coordinates *i* are mapped such that: *u =
-i(u2 u1)/un + u1* The [**glMapGrid2**](glmapgrid2d.md) function
-specifies two such linear mappings. One maps integer grid coordinate
-*i = 0* exactly to *u1*, and integer grid coordinate *i = un* exactly
-to *u2*. The other maps integer grid coordinate *j = 0* exactly to
-*v1*, and integer grid coordinate *j = vn* exactly to *v2*. Other
-integer grid coordinates i and j are mapped such that *u = i(u2
-u1)/un + u1* *v = j (v2 v1)/vn + v1* The mappings specified by
-[**glMapGrid**](glmapgrid1d.md) are used identically by
-[glEvalMesh](glevalmesh-functions.md) and
-[**glEvalPoint**](glevalpoint.md). The following functions retrieve
-information related to [**glMapGrid**](glmapgrid1d.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_DOMAIN
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP1\_GRID\_SEGMENTS
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP2\_GRID\_SEGMENTS
+glMapGrid と glEvalMesh
+は、等間隔のマップドメイン値群を効率的に生成・評価するために組み合わせて使う。glMapGrid2 は u 方向と v 方向の 2
+軸について、整数グリッド座標 (i, j) を浮動小数点評価マップ座標 (u, v) に線形マッピングする。i=0 → u1、i=un →
+u2、j=0 → v1、j=vn → v2。関連情報は glGet (GL_MAP2_GRID_DOMAIN /
+GL_MAP2_GRID_SEGMENTS)、glMap1、glMap2、glEvalMesh で取得できる。
 
 
 %index
 glMaterialf
-The glMaterialf function specifies material parameters for the lighting model.
+glMaterialf 関数はライティングモデル用のマテリアルパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 face, pname, param2
-face : [int] The face or faces that are being updated. Must be one of the following: GL\_FRONT, GL\_BACK, or GL\_FRONT and GL\_BACK.
-pname : [int] The single-valued material parameter of the face or faces being updated. Must be GL\_SHININESS.
+face : [int] 更新するフェース。GL_FRONT、GL_BACK、GL_FRONT_AND_BACK のいずれかでなければならない。
+pname : [int] 更新するフェースの単一値マテリアルパラメータ。GL_SHININESS でなければならない。値 [0, 128] のスペキュラ指数を指定する (既定 0)。
 param2 : [float] 
 %inst
-The glMaterialf function specifies material parameters for the
-lighting model.
+glMaterialf 関数はライティングモデル用のマテリアルパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMaterialf** function assigns values to material parameters.
-There are two matched sets of material parameters. One, the
-*front-facing* set, is used to shade points, lines, bitmaps, and all
-polygons (when two-sided lighting is disabled), or just front-facing
-polygons (when two-sided lighting is enabled). The other set,
-*back-facing*, is used to shade back-facing polygons only when
-two-sided lighting is enabled. Refer to
-[**glLightModel**](gllightmodel-functions.md) for details concerning
-one-sided and two-sided lighting calculations. The **glMaterialf**
-function takes three arguments. The first, *face*, specifies whether
-the GL\_FRONT materials, the GL\_BACK materials, or both
-GL\_FRONT\_AND\_BACK materials will be modified. The second, *pname*,
-specifies which of several parameters in one or both sets will be
-modified. The third, *param*, specifies what value will be assigned
-to the specified parameter. Material parameters are used in the
-lighting equation that is optionally applied to each vertex. The
-equation is discussed in
-[**glLightModel**](gllightmodel-functions.md). The material
-parameters can be updated at any time. In particular, **glMaterialf**
-can be called between a call to [**glBegin**](glbegin.md) and the
-corresponding call to [**glEnd**](glend.md). If only a single
-material parameter is to be changed per vertex, however,
-[**glColorMaterial**](glcolormaterial.md) is preferred over
-**glMaterialf**. The following function retrieves information related
-to **glMaterialf**: [**glGetMaterial**](glgetmaterial.md)
+glMaterial* はマテリアルパラメータに値を割り当てる。マテリアルパラメータには対応する 2 組のセットがあり、1 つは前面
+(front-facing)
+用で、点・線・ビットマップや両面ライティング無効時の全ポリゴン、または有効時の前面ポリゴンの陰影付けに使われる。もう 1 つは背面
+(back-facing) 用で、両面ライティング有効時の背面ポリゴンのみに使われる。片面・両面ライティング計算の詳細は
+glLightModel を参照。glMaterial* は 3 つの引数を取る。face は更新対象フェース、pname
+はパラメータ名、最後の引数は新しい値。関連情報は glGet (GL_MATERIAL / GL_COLOR_MATERIAL_*)
+および glIsEnabled (GL_LIGHTING / GL_COLOR_MATERIAL) で取得できる。
 
 
 %index
 glMaterialfv
-The glMaterialfv function specifies material parameters for the lighting model.
+glMaterialfv 関数はライティングモデル用のマテリアルパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 face, pname, params
-face : [int] The face or faces that are being updated. Must be one of the following: GL\_FRONT, GL\_BACK, or GL\_FRONT and GL\_BACK.
-pname : [int] The material parameter of the face or faces being updated. The parameters that can be specified using **glMaterialfv**, and their interpretations by the lighting equation, are as follows.
+face : [int] 更新するフェース。GL_FRONT、GL_BACK、GL_FRONT_AND_BACK のいずれかでなければならない。
+pname : [int] 更新するフェースのマテリアルパラメータ。GL_AMBIENT (アンビエント反射、既定 (0.2, 0.2, 0.2, 1.0))、GL_DIFFUSE (ディフューズ反射、既定 (0.8, 0.8, 0.8, 1.0))、GL_SPECULAR (スペキュラ反射、既定 (0, 0, 0, 1.0))、GL_EMISSION (発光色、既定 (0, 0, 0, 1.0))、GL_SHININESS (スペキュラ指数 [0, 128]、既定 0)、GL_AMBIENT_AND_DIFFUSE (アンビエントとディフューズに同じ値を設定)、GL_COLOR_INDEXES (カラーインデックスモードのアンビエント/ディフューズ/スペキュラ指数) を受け付ける。
 params : [int] 
 %inst
-The glMaterialfv function specifies material parameters for the
-lighting model.
+glMaterialfv 関数はライティングモデル用のマテリアルパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glMaterialfv**](glmaterialf.md) function assigns values to
-material parameters. There are two matched sets of material
-parameters. One, the *front-facing* set, is used to shade points,
-lines, bitmaps, and all polygons (when two-sided lighting is
-disabled), or just front-facing polygons (when two-sided lighting is
-enabled). The other set, *back-facing*, is used to shade back-facing
-polygons only when two-sided lighting is enabled. Refer to
-[**glLightModel**](gllightmodel-functions.md) for details concerning
-one-sided and two-sided lighting calculations. The
-[**glMaterialfv**](glmaterialf.md) function takes three arguments.
-The first, *face*, specifies whether the GL\_FRONT materials, the
-GL\_BACK materials, or both GL\_FRONT\_AND\_BACK materials will be
-modified. The second, *pname*, specifies which of several parameters
-in one or both sets will be modified. The third, *param*, specifies
-what value will be assigned to the specified parameter. Material
-parameters are used in the lighting equation that is optionally
-applied to each vertex. The equation is discussed in
-[**glLightModel**](gllightmodel-functions.md). The material
-parameters can be updated at any time. In particular,
-[**glMaterialfv**](glmaterialf.md) can be called between a call to
-[**glBegin**](glbegin.md) and the corresponding call to
-[**glEnd**](glend.md). If only a single material parameter is to be
-changed per vertex, however,
-[**glColorMaterial**](glcolormaterial.md) is preferred over
-**glMaterialfv**. The following function retrieves information
-related to [**glMaterialfv**](glmaterialf.md):
-[**glGetMaterial**](glgetmaterial.md)
+glMaterial* はマテリアルパラメータに値を割り当てる。マテリアルパラメータには対応する 2 組のセットがあり、1 つは前面
+(front-facing)
+用で、点・線・ビットマップや両面ライティング無効時の全ポリゴン、または有効時の前面ポリゴンの陰影付けに使われる。もう 1 つは背面
+(back-facing) 用で、両面ライティング有効時の背面ポリゴンのみに使われる。片面・両面ライティング計算の詳細は
+glLightModel を参照。glMaterial* は 3 つの引数を取る。face は更新対象フェース、pname
+はパラメータ名、最後の引数は新しい値。関連情報は glGet (GL_MATERIAL / GL_COLOR_MATERIAL_*)
+および glIsEnabled (GL_LIGHTING / GL_COLOR_MATERIAL) で取得できる。
 
 
 %index
 glMateriali
-TheglMateriali function specifies material parameters for the lighting model.
+glMateriali 関数はライティングモデル用のマテリアルパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 face, pname, param2
-face : [int] The face or faces that are being updated. Must be one of the following: GL\_FRONT, GL\_BACK, or GL\_FRONT and GL\_BACK.
-pname : [int] The single-valued material parameter of the face or faces being updated. Must be GL\_SHININESS.
+face : [int] 更新するフェース。GL_FRONT、GL_BACK、GL_FRONT_AND_BACK のいずれかでなければならない。
+pname : [int] 更新するフェースの単一値マテリアルパラメータ。GL_SHININESS でなければならない。値 [0, 128] のスペキュラ指数を指定する (既定 0)。
 param2 : [int] 
 %inst
-TheglMateriali function specifies material parameters for the
-lighting model.
+glMateriali 関数はライティングモデル用のマテリアルパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMateriali** function assigns values to material parameters.
-There are two matched sets of material parameters. One, the
-*front-facing* set, is used to shade points, lines, bitmaps, and all
-polygons (when two-sided lighting is disabled), or just front-facing
-polygons (when two-sided lighting is enabled). The other set,
-*back-facing*, is used to shade back-facing polygons only when
-two-sided lighting is enabled. Refer to
-[**glLightModel**](gllightmodel-functions.md) for details concerning
-one-sided and two-sided lighting calculations. The **glMateriali**
-function takes three arguments. The first, *face*, specifies whether
-the GL\_FRONT materials, the GL\_BACK materials, or both
-GL\_FRONT\_AND\_BACK materials will be modified. The second, *pname*,
-specifies which of several parameters in one or both sets will be
-modified. The third, *param*, specifies what value will be assigned
-to the specified parameter. Material parameters are used in the
-lighting equation that is optionally applied to each vertex. The
-equation is discussed in
-[**glLightModel**](gllightmodel-functions.md). The material
-parameters can be updated at any time. In particular, **glMateriali**
-can be called between a call to [**glBegin**](glbegin.md) and the
-corresponding call to [**glEnd**](glend.md). If only a single
-material parameter is to be changed per vertex, however,
-[**glColorMaterial**](glcolormaterial.md) is preferred over
-**glMateriali**. The following function retrieves information related
-to **glMateriali**: [**glGetMaterial**](glgetmaterial.md)
+glMaterial* はマテリアルパラメータに値を割り当てる。マテリアルパラメータには対応する 2 組のセットがあり、1 つは前面
+(front-facing)
+用で、点・線・ビットマップや両面ライティング無効時の全ポリゴン、または有効時の前面ポリゴンの陰影付けに使われる。もう 1 つは背面
+(back-facing) 用で、両面ライティング有効時の背面ポリゴンのみに使われる。片面・両面ライティング計算の詳細は
+glLightModel を参照。glMaterial* は 3 つの引数を取る。face は更新対象フェース、pname
+はパラメータ名、最後の引数は新しい値。関連情報は glGet (GL_MATERIAL / GL_COLOR_MATERIAL_*)
+および glIsEnabled (GL_LIGHTING / GL_COLOR_MATERIAL) で取得できる。
 
 
 %index
 glMaterialiv
-The glMaterialiv function specifies material parameters for the lighting model.
+glMaterialiv 関数はライティングモデル用のマテリアルパラメータを指定する。
 %group
 Win32 opengl32
 %prm
 face, pname, params
-face : [int] The face or faces that are being updated. Must be one of the following: GL\_FRONT, GL\_BACK, or GL\_FRONT and GL\_BACK.
-pname : [int] The material parameter of the face or faces being updated. The parameters that can be specified using [**glMaterialiv**](glmaterialfv.md), and their interpretations by the lighting equation, are as follows.
+face : [int] 更新するフェース。GL_FRONT、GL_BACK、GL_FRONT_AND_BACK のいずれかでなければならない。
+pname : [int] 更新するフェースのマテリアルパラメータ。GL_AMBIENT (アンビエント反射、既定 (0.2, 0.2, 0.2, 1.0))、GL_DIFFUSE (ディフューズ反射、既定 (0.8, 0.8, 0.8, 1.0))、GL_SPECULAR (スペキュラ反射、既定 (0, 0, 0, 1.0))、GL_EMISSION (発光色、既定 (0, 0, 0, 1.0))、GL_SHININESS (スペキュラ指数 [0, 128]、既定 0)、GL_AMBIENT_AND_DIFFUSE (アンビエントとディフューズに同じ値を設定)、GL_COLOR_INDEXES (カラーインデックスモードのアンビエント/ディフューズ/スペキュラ指数) を受け付ける。
 params : [int] 
 %inst
-The glMaterialiv function specifies material parameters for the
-lighting model.
+glMaterialiv 関数はライティングモデル用のマテリアルパラメータを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glMaterialiv**](glmaterialf.md) function assigns values to
-material parameters. There are two matched sets of material
-parameters. One, the *front-facing* set, is used to shade points,
-lines, bitmaps, and all polygons (when two-sided lighting is
-disabled), or just front-facing polygons (when two-sided lighting is
-enabled). The other set, *back-facing*, is used to shade back-facing
-polygons only when two-sided lighting is enabled. Refer to
-[**glLightModel**](gllightmodel-functions.md) for details concerning
-one-sided and two-sided lighting calculations. The
-[**glMaterialiv**](glmaterialf.md) function takes three arguments.
-The first, *face*, specifies whether the GL\_FRONT materials, the
-GL\_BACK materials, or both GL\_FRONT\_AND\_BACK materials will be
-modified. The second, *pname*, specifies which of several parameters
-in one or both sets will be modified. The third, *param*, specifies
-what value will be assigned to the specified parameter. Material
-parameters are used in the lighting equation that is optionally
-applied to each vertex. The equation is discussed in
-[**glLightModel**](gllightmodel-functions.md). The material
-parameters can be updated at any time. In particular,
-[**glMaterialiv**](glmaterialf.md) can be called between a call to
-[**glBegin**](glbegin.md) and the corresponding call to
-[**glEnd**](glend.md). If only a single material parameter is to be
-changed per vertex, however,
-[**glColorMaterial**](glcolormaterial.md) is preferred over
-**glMaterialiv**. The following function retrieves information
-related to [**glMaterialiv**](glmaterialf.md):
-[**glGetMaterial**](glgetmaterial.md)
+glMaterial* はマテリアルパラメータに値を割り当てる。マテリアルパラメータには対応する 2 組のセットがあり、1 つは前面
+(front-facing)
+用で、点・線・ビットマップや両面ライティング無効時の全ポリゴン、または有効時の前面ポリゴンの陰影付けに使われる。もう 1 つは背面
+(back-facing) 用で、両面ライティング有効時の背面ポリゴンのみに使われる。片面・両面ライティング計算の詳細は
+glLightModel を参照。glMaterial* は 3 つの引数を取る。face は更新対象フェース、pname
+はパラメータ名、最後の引数は新しい値。関連情報は glGet (GL_MATERIAL / GL_COLOR_MATERIAL_*)
+および glIsEnabled (GL_LIGHTING / GL_COLOR_MATERIAL) で取得できる。
 
 
 %index
 glMatrixMode
-The glMatrixMode function specifies which matrix is the current matrix.
+glMatrixMode 関数はどの行列が現在の行列かを指定する。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] The matrix stack that is the target for subsequent matrix operations. The *mode* parameter can assume one of three values.
+mode : [int] 後続の行列演算の対象となる行列スタック。mode は次の 3 つの値のいずれかを取る。GL_MODELVIEW: 後続の行列演算をモデルビュー行列スタックに適用する。GL_PROJECTION: 後続の行列演算をプロジェクション行列スタックに適用する。GL_TEXTURE: 後続の行列演算をテクスチャ行列スタックに適用する。
 %inst
-The glMatrixMode function specifies which matrix is the current
-matrix.
+glMatrixMode 関数はどの行列が現在の行列かを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMatrixMode** function sets the current matrix mode. The
-following function retrieves information related to **glMatrixMode**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE
+glMatrixMode は現在の行列モードを設定する。関連情報は glGet (GL_MATRIX_MODE) で取得できる。
 
 
 %index
 glMultMatrixd
-The glMultMatrixd function multiplies the current matrix by an arbitrary matrix. | glMultMatrixd function (Gl.h)
+glMultMatrixd 関数は現在の行列に任意行列を乗算する。| glMultMatrixd 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 m
-m : [var] A pointer to a 4x4 matrix stored in column-major order as 16 consecutive values.
+m : [var] 列優先順で連続 16 個の値として格納された 4x4 行列へのポインタ。
 %inst
-The glMultMatrixd function multiplies the current matrix by an
-arbitrary matrix. | glMultMatrixd function (Gl.h)
+glMultMatrixd 関数は現在の行列に任意行列を乗算する。| glMultMatrixd 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMultMatrix** function multiplies the current matrix by the
-one specified in *m*. That is, if M is the current matrix and T is
-the matrix passed to **glMultMatrix**, then M is replaced with M T.
-The current matrix is the projection matrix, modelview matrix, or
-texture matrix, determined by the current matrix mode (see
-[**glMatrixMode**](glmatrixmode.md)). The *m* parameter points to a
-4x4 matrix of single-precision or double-precision floating-point
-values stored in column-major order. That is, the matrix is stored as
-shown in the following image. ![![Diagram showing the 4x4 matrix that
-the m parameter points to.]](images/multi01.png) The following
-functions retrieve information related to **glMultMatrix**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glMultMatrix は現在の行列と m で指定した行列の積で現在の行列を置き換える。すなわち M を現在の行列、T
+を渡された行列とすると、M は M × T に置き換わる。現在の行列は現在の行列モード (glMatrixMode 参照)
+で決まるプロジェクション・モデルビュー・テクスチャ行列のいずれか。m は列優先順で格納された 4x4
+の単精度または倍精度浮動小数点行列を指す。OpenGL で多くの行列演算は列ベクトル (ポスト乗算) 表現を使うため、M × T
+による変換は T を先に適用した後 M を適用するのと等価となる。関連情報は glGet (GL_MATRIX_MODE /
+GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
+で取得できる。
 
 
 %index
 glMultMatrixf
-The glMultMatrixf function multiplies the current matrix by an arbitrary matrix. | glMultMatrixf function (Gl.h)
+glMultMatrixf 関数は現在の行列に任意行列を乗算する。| glMultMatrixf 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 m
-m : [var] A pointer to a 4x4 matrix stored in column-major order as 16 consecutive values.
+m : [var] 列優先順で連続 16 個の値として格納された 4x4 行列へのポインタ。
 %inst
-The glMultMatrixf function multiplies the current matrix by an
-arbitrary matrix. | glMultMatrixf function (Gl.h)
+glMultMatrixf 関数は現在の行列に任意行列を乗算する。| glMultMatrixf 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glMultMatrix** function multiplies the current matrix by the
-one specified in *m*. That is, if M is the current matrix and T is
-the matrix passed to **glMultMatrix**, then M is replaced with M T.
-The current matrix is the projection matrix, modelview matrix, or
-texture matrix, determined by the current matrix mode (see
-[**glMatrixMode**](glmatrixmode.md)). The *m* parameter points to a
-4x4 matrix of single-precision or double-precision floating-point
-values stored in column-major order. That is, the matrix is stored as
-shown in the following image. ![![Diagram showing the 4x4 matrix that
-the m parameter points to.]](images/multi01.png) The following
-functions retrieve information related to **glMultMatrix**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glMultMatrix は現在の行列と m で指定した行列の積で現在の行列を置き換える。すなわち M を現在の行列、T
+を渡された行列とすると、M は M × T に置き換わる。現在の行列は現在の行列モード (glMatrixMode 参照)
+で決まるプロジェクション・モデルビュー・テクスチャ行列のいずれか。m は列優先順で格納された 4x4
+の単精度または倍精度浮動小数点行列を指す。OpenGL で多くの行列演算は列ベクトル (ポスト乗算) 表現を使うため、M × T
+による変換は T を先に適用した後 M を適用するのと等価となる。関連情報は glGet (GL_MATRIX_MODE /
+GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
+で取得できる。
 
 
 %index
 glNewList
-The glNewList and glEndList functions create or replace a display list. | glNewList function (Gl.h)
+glNewList と glEndList 関数は表示リストを作成または置き換える。| glNewList 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 list, mode
-list : [int] The display list name.
-mode : [int] The compilation mode. The following values are accepted.
+list : [int] 表示リスト名。
+mode : [int] コンパイルモード。GL_COMPILE (コマンドを表示リストに単純にコンパイルする) と GL_COMPILE_AND_EXECUTE (コマンドを実行しつつ表示リストにコンパイルする) を受け付ける。
 %inst
-The glNewList and glEndList functions create or replace a display
-list. | glNewList function (Gl.h)
+glNewList と glEndList 関数は表示リストを作成または置き換える。| glNewList 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Display lists are groups of OpenGL commands that have been stored for
-subsequent execution. The display lists are created with
-**glNewList**. All subsequent commands are placed in the display
-list, in the order issued, until **glEndList** is called. The
-**glNewList** function has two parameters. The first parameter,
-*list*, is a positive integer that becomes the unique name for the
-display list. Names can be created and reserved with
-[**glGenLists**](glgenlists.md) and tested for uniqueness with
-[**glIsList**](glislist.md). The second parameter, *mode*, is a
-symbolic constant that can assume one of the two preceding values.
-Certain commands are not compiled into the display list, but are
-executed immediately, regardless of the display list mode. These
-commands are [**glColorPointer**](glcolorpointer.md),
-[**glDeleteLists**](gldeletelists.md),
-[**glDisableClientState**](gldisableclientstate.md),
-[**glEdgeFlagPointer**](gledgeflagpointer.md),
-[**glEnableClientState**](glenableclientstate.md),
-[**glFeedbackBuffer**](glfeedbackbuffer.md),
-[**glFinish**](glfinish.md), [**glFlush**](glflush.md),
-[**glGenLists**](glgenlists.md),
-[**glIndexPointer**](glindexpointer.md),
-[**glInterleavedArrays**](glinterleavedarrays.md),
-[**glIsEnabled**](glisenabled.md), [**glIsList**](glislist.md),
-[**glNormalPointer**](glnormalpointer.md),
-[**glPopClientAttrib**](glpopclientattrib.md),
-[**glPixelStore**](glpixelstore-functions.md),
-[**glPushClientAttrib**](glpushclientattrib.md),
-[**glReadPixels**](glreadpixels.md),
-[**glRenderMode**](glrendermode.md),
-[**glSelectBuffer**](glselectbuffer.md),
-[**glTexCoordPointer**](gltexcoordpointer.md),
-[**glVertexPointer**](glvertexpointer.md), and all of the
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-routines. Similarly, [**glTexImage2D**](glteximage2d.md) and
-[**glTexImage1D**](glteximage1d.md) are executed immediately and not
-compiled into the display list when their first argument is
-GL\_PROXY\_TEXTURE\_2D or GL\_PROXY\_TEXTURE\_1D, respectively. When
-the **glEndList** function is encountered, the display list
-definition is completed by associating the list with the unique name
-*list* (specified in the **glNewList** command). If a display list
-with name *list* already exists, it is replaced only when
-**glEndList** is called. The [**glCallList**](glcalllist.md) and
-[**glCallLists**](glcalllists.md) functions can be entered into
-display lists. The commands in the display list or lists executed by
-**glCallList** or **glCallLists** are not included in the display
-list being created, even if the list creation mode is
-GL\_COMPILE\_AND\_EXECUTE. The following function retrieves
-information related to **glNewList**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE
+表示リストは後続実行用に保存された OpenGL コマンド群である。glNewList で作成する。以降のコマンドは glEndList
+が呼ばれるまで発行順に表示リストに格納される。glNewList は 2 つの引数を取る。第 1 引数 list
+は表示リストの一意名となる正整数で、glGenLists で生成・予約でき、glIsList で一意性を検査できる。第 2 引数 mode
+は GL_COMPILE か GL_COMPILE_AND_EXECUTE のシンボル定数。GL_COMPILE
+は表示リストに関数を格納するだけで描画はせず、GL_COMPILE_AND_EXECUTE
+では格納と同時に実行される。表示リストに含められない関数もあり、それらが表示リスト作成中に呼ばれると即座に実行されて無視される。glNewList
+呼び出し中にエラーが発生すると、その呼び出しは無視されるが表示リストは作成される。glEndList で終了し、glCallList /
+glCallLists で実行する。関連情報は glGet / glGenLists / glIsList で取得できる。
 
 
 %index
 glNormal3b
-Sets the current normal vector. | glNormal3b function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3b 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 nx, ny, nz
-nx : [int] Specifies the x-coordinate for the new current normal vector.
-ny : [int] Specifies the y-coordinate for the new current normal vector.
-nz : [int] Specifies the z-coordinate for the new current normal vector.
+nx : [int] 新しい現在法線ベクトルの x 座標を指定する。
+ny : [int] 新しい現在法線ベクトルの y 座標を指定する。
+nz : [int] 新しい現在法線ベクトルの z 座標を指定する。
 %inst
-Sets the current normal vector. | glNormal3b function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3b 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the **glNormal3b** function. Byte, short, or integer arguments are
-converted to floating-point format by using a linear mapping that
-maps the most positive representable integer value to 1.0, and the
-most negative representable integer value to -1.0. Normals specified
-with **glNormal3b** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3b** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call**glNormal3b**between a call to [**glBegin**](glbegin.md) and the
-corresponding call to [**glEnd**](glend.md). The following functions
-retrieve information related to **glNormal3b**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3bv
-Sets the current normal vector. | glNormal3bv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3bv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements: the x, y, and z coordinates of the new current normal.
+v : [var] 新しい現在法線の x, y, z 座標からなる 3 要素配列へのポインタ。
 %inst
-Sets the current normal vector. | glNormal3bv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3bv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the**glNormal3bv**function. Byte, short, or integer arguments are
-converted to floating-point format by using a linear mapping that
-maps the most positive representable integer value to 1.0, and the
-most negative representable integer value to -1.0. Normals specified
-by using**glNormal3bv** need not have unit length. If normalization
-is enabled, then normals specified by using**glNormal3bv** are
-normalized after transformation. You can control normalization by
-using [**glEnable**](glenable.md) and [**glDisable**](gldisable.md)
-with the argument GL\_NORMALIZE. By default, normalization is
-disabled. You can update the current normal any time. In particular,
-you can call **glNormal3bv**between a call to
-[**glBegin**](glbegin.md) and the corresponding call to
-[**glEnd**](glend.md). The following functions retrieve information
-related to **glNormal3bv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3d
-Sets the current normal vector. | glNormal3d function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 nx, ny, nz
-nx : [double] Specifies the x-coordinate for the new current normal vector.
-ny : [double] Specifies the y-coordinate for the new current normal vector.
-nz : [double] Specifies the z-coordinate for the new current normal vector.
+nx : [double] 新しい現在法線ベクトルの x 座標を指定する。
+ny : [double] 新しい現在法線ベクトルの y 座標を指定する。
+nz : [double] 新しい現在法線ベクトルの z 座標を指定する。
 %inst
-Sets the current normal vector. | glNormal3d function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the **glNormal3d**function. Byte, short, or integer arguments are
-converted to floating-point format by using a linear mapping that
-maps the most positive representable integer value to 1.0, and the
-most negative representable integer value to -1.0. Normals specified
-by using**glNormal3d** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3d** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call**glNormal3d**between a call to [**glBegin**](glbegin.md) and the
-corresponding call to [**glEnd**](glend.md). The following functions
-retrieve information related to **glNormal3d**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3dv
-Sets the current normal vector. | glNormal3dv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements: the x, y, and z coordinates of the new current normal.
+v : [var] 新しい現在法線の x, y, z 座標からなる 3 要素配列へのポインタ。
 %inst
-Sets the current normal vector. | glNormal3dv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the **glNormal3dv**function. Byte, short, or integer arguments are
-converted to floating-point format with a linear mapping that maps
-the most positive representable integer value to 1.0, and the most
-negative representable integer value to -1.0. Normals specified by
-using**glNormal3dv** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3dv** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call**glNormal3dv**between a call to [**glBegin**](glbegin.md) and
-the corresponding call to [**glEnd**](glend.md). The following
-functions retrieve information related to **glNormal3dv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3f
-Sets the current normal vector. | glNormal3f function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 nx, ny, nz
-nx : [float] Specifies the x-coordinate for the new current normal vector.
-ny : [float] Specifies the y-coordinate for the new current normal vector.
-nz : [float] Specifies the z-coordinate for the new current normal vector.
+nx : [float] 新しい現在法線ベクトルの x 座標を指定する。
+ny : [float] 新しい現在法線ベクトルの y 座標を指定する。
+nz : [float] 新しい現在法線ベクトルの z 座標を指定する。
 %inst
-Sets the current normal vector. | glNormal3f function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the **glNormal3f** function. Byte, short, or integer arguments are
-converted to floating-point format with a linear mapping that maps
-the most positive representable integer value to 1.0, and the most
-negative representable integer value to -1.0. Normals specified by
-using **glNormal3f** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3f** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call **glNormal3f** between a call to [**glBegin**](glbegin.md) and
-the corresponding call to [**glEnd**](glend.md). The following
-functions retrieve information related to **glNormal3f**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3fv
-Sets the current normal vector. | glNormal3fv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements: the x, y, and z coordinates of the new current normal.
+v : [var] 新しい現在法線の x, y, z 座標からなる 3 要素配列へのポインタ。
 %inst
-Sets the current normal vector. | glNormal3fv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the**glNormal3fv**function. Byte, short, or integer arguments are
-converted to floating-point format with a linear mapping that maps
-the most positive representable integer value to 1.0, and the most
-negative representable integer value to -1.0. Normals specified by
-using**glNormal3fv** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3fv** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal can at any time. In particular, you
-can call**glNormal3fv** between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-functions retrieve information related to **glNormal3fv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3i
-Sets the current normal vector. | glNormal3i function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 nx, ny, nz
-nx : [int] Specifies the x-coordinate for the new current normal vector.
-ny : [int] Specifies the y-coordinate for the new current normal vector.
-nz : [int] Specifies the z-coordinate for the new current normal vector.
+nx : [int] 新しい現在法線ベクトルの x 座標を指定する。
+ny : [int] 新しい現在法線ベクトルの y 座標を指定する。
+nz : [int] 新しい現在法線ベクトルの z 座標を指定する。
 %inst
-Sets the current normal vector. | glNormal3i function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the **glNormal3i**function. Byte, short, or integer arguments are
-converted to floating-point format with a linear mapping that maps
-the most positive representable integer value to 1.0, and the most
-negative representable integer value to -1.0. Normals specified by
-using**glNormal3i** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3i** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call**glNormal3i**between a call to [**glBegin**](glbegin.md) and the
-corresponding call to [**glEnd**](glend.md). The following functions
-retrieve information related to **glNormal3i**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3iv
-Sets the current normal vector. | glNormal3iv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements: the x, y, and z coordinates of the new current normal.
+v : [var] 新しい現在法線の x, y, z 座標からなる 3 要素配列へのポインタ。
 %inst
-Sets the current normal vector. | glNormal3iv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the**glNormal3iv**function. Byte, short, or integer arguments are
-converted to floating-point format with a linear mapping that maps
-the most positive representable integer value to 1.0, and the most
-negative representable integer value to -1.0. Normals specified by
-using**glNormal3iv** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3iv** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call**glNormal3iv**between a call to [**glBegin**](glbegin.md) and
-the corresponding call to [**glEnd**](glend.md). The following
-functions retrieve information related to **glNormal3iv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3s
-Sets the current normal vector. | glNormal3s function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 nx, ny, nz
-nx : [int] Specifies the x-coordinate of the new current normal vector.
-ny : [int] Specifies the y-coordinate of the new current normal vector.
-nz : [int] Specifies the z-coordinate of the new current normal vector.
+nx : [int] 新しい現在法線ベクトルの x 座標を指定する。
+ny : [int] 新しい現在法線ベクトルの y 座標を指定する。
+nz : [int] 新しい現在法線ベクトルの z 座標を指定する。
 %inst
-Sets the current normal vector. | glNormal3s function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the**glNormal3s**function. Byte, short, or integer arguments are
-converted to floating-point format with a linear mapping that maps
-the most positive representable integer value to 1.0, and the most
-negative representable integer value to -1.0. Normals specified by
-using**glNormal3s** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3s** are normalized
-after transformation. You can control normalizationby using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call**glNormal3s**between a call to [**glBegin**](glbegin.md) and the
-corresponding call to [**glEnd**](glend.md). The following functions
-retrieve information related to **glNormal3s**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormal3sv
-Sets the current normal vector. | glNormal3sv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements: the x, y, and z coordinates of the new current normal.
+v : [var] 新しい現在法線の x, y, z 座標からなる 3 要素配列へのポインタ。
 %inst
-Sets the current normal vector. | glNormal3sv function (Gl.h)
+現在の法線ベクトルを設定する。| glNormal3sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The current normal is set to the given coordinates whenever you call
-the **glNormal3sv** function. Byte, short, or integer arguments are
-converted to floating-point format with a linear mapping that maps
-the most positive representable integer value to 1.0, and the most
-negative representable integer value to -1.0. Normals specified by
-using **glNormal3sv** need not have unit length. If normalization is
-enabled, then normals specified with **glNormal3sv** are normalized
-after transformation. You can control normalization by using
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-the argument GL\_NORMALIZE. By default, normalization is disabled.
-You can update the current normal at any time. In particular, you can
-call **glNormal3sv** between a call to [**glBegin**](glbegin.md) and
-the corresponding call to [**glEnd**](glend.md). The following
-functions retrieve information related to **glNormal3sv**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_NORMAL [**glIsEnable**](glisenabled.md)
-with argument GL\_NORMALIZE
+glNormal3* を呼ぶと、現在の法線が与えられた座標に設定される。バイト・ショート・整数引数は、最大正整数値を
+1.0、最小負整数値を -1.0
+にマップする線形変換により浮動小数点形式に変換される。指定された法線は単位長である必要はない。正規化が有効なら変換後に正規化される。正規化は
+glEnable / glDisable の GL_NORMALIZE で制御する。関連情報は glGet
+(GL_CURRENT_NORMAL) および glIsEnabled (GL_NORMALIZE) で取得できる。
 
 
 %index
 glNormalPointer
-The glNormalPointer function defines an array of normals.
+glNormalPointer 関数は法線配列を定義する。
 %group
 Win32 opengl32
 %prm
 type, stride, pointer
-type : [int] The data type of each coordinate in the array using the following symbolic constants: GL\_BYTE, GL\_SHORT, GL\_INT, GL\_FLOAT, and GL\_DOUBLE.
-stride : [int] The byte offset between consecutive normals. When *stride* is zero, the normals are tightly packed in the array.
-pointer : [intptr] A pointer to the first normal in the array.
+type : [int] 配列内の各座標のデータ型。次のシンボル定数を用いる: GL_BYTE、GL_SHORT、GL_INT、GL_FLOAT、GL_DOUBLE。
+stride : [int] 連続する法線間のバイトオフセット。stride が 0 のとき配列内に法線が密に詰めて格納される。
+pointer : [intptr] 配列内の最初の法線へのポインタ。
 %inst
-The glNormalPointer function defines an array of normals.
+glNormalPointer 関数は法線配列を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glNormalPointer** function specifies the location and data of
-an array of normals to use when rendering. The *type* parameter
-specifies the data type of each normal coordinate. The *stride*
-parameter determines the byte offset from one normal to the next,
-enabling the packing of vertices and attributes in a single array or
-storage in separate arrays. In some implementations storing the
-vertices and attributes in a single array can be more efficient than
-using separate arrays; see
-[**glInterleavedArrays**](glinterleavedarrays.md) for details. A
-normal array is enabled when you specify the GL\_NORMAL\_ARRAY
-constant with [**glEnableClientState**](glenableclientstate.md). When
-enabled, [**glDrawArrays**](gldrawarrays.md),
-[**glDrawElements**](gldrawelements.md) and
-[**glArrayElement**](glarrayelement.md) use the normal array. By
-default the normal array is disabled. You cannot include
-**glNormalPointer** in display lists. When you specify a normal array
-using **glNormalPointer**, the values of all the function's normal
-array parameters are saved in a client-side state. Because the normal
-array parameters are saved in a client-side state, their values are
-not saved or restored by [**glPushAttrib**](glpushattrib.md) and
-[**glPopAttrib**](glpopattrib.md). Although no error is generated
-when you call **glNormalPointer** within [**glBegin**](glbegin.md)
-and [**glEnd**](glend.md) pairs, the results are undefined. The
-following functions are associated with **glNormalPointer**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_NORMAL\_ARRAY\_STRIDE **glGet** with argument
-GL\_NORMAL\_ARRAY\_COUNT **glGet** with argument
-GL\_NORMAL\_ARRAY\_TYPE **glGetPointerv** with argument
-GL\_NORMAL\_ARRAY\_POINTER [**glIsEnabled**](glisenabled.md) with
-argument GL\_NORMAL\_ARRAY
+glNormalPointer はレンダリング時に使用する法線配列の位置とデータを指定する。type は各座標のデータ型、stride
+は法線間のバイトオフセットで、頂点と属性を単一配列にパックするか別々の配列に格納するかを選べる。実装によっては単一配列に格納したほうが効率的なことがある
+(glInterleavedArrays 参照)。glEnableClientState(GL_NORMAL_ARRAY)
+で法線配列を有効化する。無効時は描画関数でアクセスされない。glNormalPointer
+は通常クライアント側で実装されるためクライアントステートに属し、表示リストに保存されない。注意: OpenGL 1.1
+以降でのみ利用可能。
 
 
 %index
 glOrtho
-The glOrtho function multiplies the current matrix by an orthographic matrix.
+glOrtho 関数は現在の行列に正射影行列を乗算する。
 %group
 Win32 opengl32
 %prm
 left, right, bottom, top, zNear, zFar
-left : [double] The coordinates for the left vertical clipping plane.
-right : [double] The coordinates for theright vertical clipping plane.
-bottom : [double] The coordinates for the bottom horizontal clipping plane.
-top : [double] The coordinates for the top horizontal clipping plans.
-zNear : [double] The distances to the nearer depth clipping plane. This distance is negative if the plane is to be behind the viewer.
-zFar : [double] The distances to the farther depth clipping plane. This distance is negative if the plane is to be behind the viewer.
+left : [double] 左側の垂直クリッピング平面の座標。
+right : [double] 右側の垂直クリッピング平面の座標。
+bottom : [double] 下側の水平クリッピング平面の座標。
+top : [double] 上側の水平クリッピング平面の座標。
+zNear : [double] 近方のデプスクリッピング平面までの距離。平面が視点の後ろにある場合は負値。
+zFar : [double] 遠方のデプスクリッピング平面までの距離。平面が視点の後ろにある場合は負値。
 %inst
-The glOrtho function multiplies the current matrix by an orthographic
-matrix.
+glOrtho 関数は現在の行列に正射影行列を乗算する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glOrtho** function describes a perspective matrix that produces
-a parallel projection. The (*left*, *bottom*, *near*) and (*right*,
-*top*, *near*) parameters specify the points on the near clipping
-plane that are mapped to the lower-left and upper-right corners of
-the window, respectively, assuming that the eye is located at (0, 0,
-0). The *far* parameter specifies the location of the far clipping
-plane. Both *zNear* and *zFar* can be either positive or negative.
-The corresponding matrix is shown in the following image. ![Diagram
-showing the perspective matrix the glOrtho function
-describes.](images/ortho1.png) where ![Equations describing the
-perspective matrix.](images/ortho2.png) The current matrix is
-multiplied by this matrix with the result replacing the current
-matrix. That is, if M is the current matrix and O is the ortho
-matrix, then M is replaced with M O. Use
-[**glPushMatrix**](glpushmatrix.md) and **glPopMatrix** to save and
-restore the current matrix stack. Use
-[**glMatrixMode**](glmatrixmode.md) to set the current matrix. The
-following functions retrieve information related to **glOrtho**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glOrtho は平行投影を生成する透視行列を記述する。視点が (0,0,0) にあるとして、(left, bottom, -zNear)
+と (right, top, -zNear)
+はそれぞれウィンドウの左下隅と右上隅にマップされるニアクリッピング平面上の点を指定する。zFar
+はファークリッピング平面の位置を指定する。zNear と zFar は正負どちらも取りうる。対応する行列は列優先順で 2/(r-l),
+0, 0, 0, 0, 2/(t-b), 0, 0, 0, 0, -2/(f-n), 0, -(r+l)/(r-l),
+-(t+b)/(t-b), -(f+n)/(f-n), 1
+となる。現在の行列はこの行列との積で置き換えられる。以前のプロジェクション行列をリセットするには先に glLoadIdentity
+を呼ぶ。関連情報は glGet (GL_MATRIX_MODE / GL_MODELVIEW_MATRIX /
+GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX) で取得できる。
 
 
 %index
 glPassThrough
-The glPassThrough function places a marker in the feedback buffer.
+glPassThrough 関数はフィードバックバッファにマーカーを配置する。
 %group
 Win32 opengl32
 %prm
 token
-token : [float] A marker value to be placed in the feedback buffer. It is indicated with the following unique identifying value.
+token : [float] フィードバックバッファに配置されるマーカー値。GL_PASS_THROUGH_TOKEN という一意の識別値で示される。
 %inst
-The glPassThrough function places a marker in the feedback buffer.
+glPassThrough 関数はフィードバックバッファにマーカーを配置する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Feedback is an OpenGL render mode selected by calling
-[**glRenderMode**](glrendermode.md) with GL\_FEEDBACK. When OpenGL is
-in feedback mode, no pixels are produced by rasterization. Instead,
-information about primitives that would have been rasterized is fed
-back to the application by OpenGL. See
-[**glFeedbackBuffer**](glfeedbackbuffer.md) for a description of the
-feedback buffer and the values in it. The **glPassThrough** function
-inserts a user-defined marker in the feedback buffer when it is
-executed in feedback mode. The *token* parameter is returned as if it
-were a primitive. The **glPassThrough** function is ignored if OpenGL
-is not in feedback mode. The following function retrieves information
-related to **glPassThrough**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_RENDER\_MODE
+フィードバックは glRenderMode に GL_FEEDBACK を指定して選択される OpenGL
+レンダリングモードである。フィードバックモードではラスタライズによるピクセル生成は行われず、代わりにラスタライズされたはずのプリミティブに関する情報がアプリケーションに返される。フィードバックバッファの内容については
+glFeedbackBuffer を参照。glPassThrough
+はフィードバックモード実行時にユーザー定義のマーカーをフィードバックバッファへ挿入する。token
+はプリミティブのように返される。glPassThrough はフィードバックモードでないと効果がなく、glBegin / glEnd
+ペア内では使用できない。関連情報は glFeedbackBuffer、glPassThrough
+(GL_PASS_THROUGH_TOKEN)、glRenderMode、glGet (GL_RENDER_MODE) で取得できる。
 
 
 %index
 glPixelMapfv
-The glPixelMapfv function sets up pixel transfer maps.
+glPixelMapfv 関数はピクセル転送マップを設定する。
 %group
 Win32 opengl32
 %prm
 map, mapsize, values
-map : [int] A symbolic map name. The ten maps are as follows.
-mapsize : [int] The size of the map being defined.
-values : [var] An array of *mapsize* values.
+map : [int] シンボルマップ名。10 種類のマップは次のとおり。GL_PIXEL_MAP_I_TO_I (カラーインデックスをカラーインデックスにマップ)、GL_PIXEL_MAP_S_TO_S (ステンシルインデックスをステンシルインデックスにマップ)、GL_PIXEL_MAP_I_TO_R/G/B/A (カラーインデックスを R/G/B/A 成分にマップ)、GL_PIXEL_MAP_R_TO_R / GL_PIXEL_MAP_G_TO_G / GL_PIXEL_MAP_B_TO_B / GL_PIXEL_MAP_A_TO_A (色成分をそれぞれ同名成分にマップ)。
+mapsize : [int] 定義するマップのサイズ。
+values : [var] mapsize 個の値の配列。
 %inst
-The glPixelMapfv function sets up pixel transfer maps.
+glPixelMapfv 関数はピクセル転送マップを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelMap** function sets up translation tables, or *maps*,
-used by [**glCopyPixels**](glcopypixels.md),
-[**glCopyTexImage1D**](glcopyteximage1d.md),
-[**glCopyTexImage2D**](glcopyteximage2d.md),
-[**glCopyTexSubImage1D**](glcopytexsubimage1d.md),
-[**glCopyTexSubImage2D**](glcopytexsubimage2d.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md),
-[**glTexSubImage1D**](gltexsubimage1d.md), and
-[**glTexSubImage2D**](gltexsubimage2d.md). Use of these maps is
-described completely in the [**glPixelTransfer**](glpixeltransfer.md)
-topic, and partly in the topics for the pixel and texture image
-commands. Only the specification of the maps is described in this
-topic. The *map* parameter is a symbolic map name, indicating one of
-ten maps to set. The *mapsize* parameter specifies the number of
-entries in the map, and *values* is a pointer to an array of
-*mapsize* map values. The entries in a map can be specified as
-single-precision floating-point numbers, unsigned short integers, or
-unsigned long integers. Maps that store color component values (all
-but GL\_PIXEL\_MAP\_I\_TO\_I and GL\_PIXEL\_MAP\_S\_TO\_S) retain
-their values in floating-point format, with unspecified mantissa and
-exponent sizes. Floating-point values specified by
-[**glPixelMapfv**](glpixelmap.md) are converted directly to the
-internal floating-point format of these maps, and then clamped to the
-range \[0,1\]. Unsigned integer values specified by **glPixelMapusv**
-and **glPixelMapuiv** are converted linearly such that the largest
-representable integer maps to 1.0, and zero maps to 0.0. Maps that
-store indexes, GL\_PIXEL\_MAP\_I\_TO\_I and GL\_PIXEL\_MAP\_S\_TO\_S,
-retain their values in fixed-point format, with an unspecified number
-of bits to the right of the binary point. Floating-point values
-specified by [**glPixelMapfv**](glpixelmap.md) are converted directly
-to the internal fixed-point format of these maps. Unsigned integer
-values specified by **glPixelMapusv** and **glPixelMapuiv** specify
-integer values, with all zeros to the right of the binary point. The
-following table shows the initial sizes and values for each of the
-maps. Maps that are indexed by either color or stencil indexes must
-have *mapsize* = 2 ^ *n* for some *n* or results are undefined. The
-maximum allowable size for each map depends on the implementation and
-can be determined by calling **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE. The single maximum applies to all maps,
-and it is at least 32.
-| Map | Lookup Index | Lookup Value | Initial Size | Initial Value |
-|--------------------------|---------------|---------------|--------------|---------------|
-| GL\_PIXEL\_MAP\_I\_TO\_I | color index | color index | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_S\_TO\_S | stencil index | stencil index | 1 | 0.0 |
-| GL\_PIXEL\_MAP\_I\_TO\_R | color index | R | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_G | color index | G | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_B | color index | B | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_A | color index | A | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_R\_TO\_R | R | R | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_G\_TO\_G | G | G | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_B\_TO\_B | B | B | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_A\_TO\_A | A | A | 1 | 0.0 |
-The following functions retrieve information related to
-**glPixelMap**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE
+glPixelMap は
+glCopyPixels、glCopyTexImage1D/2D、glCopyTexSubImage1D/2D、glDrawPixels、glReadPixels、glTexImage1D/2D、glTexSubImage1D/2D
+が使用する変換テーブル (マップ) を設定する。マップの使用法は glPixelTransfer で詳説される。map は 10
+種類のマップ名のいずれか、mapsize は定義するマップサイズ、values は mapsize 個の値の配列。I_TO_R/G/B/A
+および R_TO_R 等は浮動小数点値として扱われ、R_TO_R/G_TO_G/B_TO_B/A_TO_A は [0,1]
+にクランプされる。I_TO_I と S_TO_S のテーブルは符号なし整数の表を生成する。カラーマップサイズは 2 のべき乗で 1 から
+GL_MAX_PIXEL_MAP_TABLE (最小 32) の範囲。エラーが生成された場合、対応するマップは変更されない。関連情報は
+glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE) で取得できる。
 
 
 %index
 glPixelMapuiv
-The glPixelMapuiv function sets up pixel transfer maps.
+glPixelMapuiv 関数はピクセル転送マップを設定する。
 %group
 Win32 opengl32
 %prm
 map, mapsize, values
-map : [int] A symbolic map name. The ten maps are as follows.
-mapsize : [int] The size of the map being defined.
-values : [var] An array of *mapsize* values.
+map : [int] シンボルマップ名。10 種類のマップは次のとおり。GL_PIXEL_MAP_I_TO_I (カラーインデックスをカラーインデックスにマップ)、GL_PIXEL_MAP_S_TO_S (ステンシルインデックスをステンシルインデックスにマップ)、GL_PIXEL_MAP_I_TO_R/G/B/A (カラーインデックスを R/G/B/A 成分にマップ)、GL_PIXEL_MAP_R_TO_R / GL_PIXEL_MAP_G_TO_G / GL_PIXEL_MAP_B_TO_B / GL_PIXEL_MAP_A_TO_A (色成分をそれぞれ同名成分にマップ)。
+mapsize : [int] 定義するマップのサイズ。
+values : [var] mapsize 個の値の配列。
 %inst
-The glPixelMapuiv function sets up pixel transfer maps.
+glPixelMapuiv 関数はピクセル転送マップを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelMap** function sets up translation tables, or *maps*,
-used by [**glCopyPixels**](glcopypixels.md),
-[**glCopyTexImage1D**](glcopyteximage1d.md),
-[**glCopyTexImage2D**](glcopyteximage2d.md),
-[**glCopyTexSubImage1D**](glcopytexsubimage1d.md),
-[**glCopyTexSubImage2D**](glcopytexsubimage2d.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md),
-[**glTexSubImage1D**](gltexsubimage1d.md), and
-[**glTexSubImage2D**](gltexsubimage2d.md). Use of these maps is
-described completely in the [**glPixelTransfer**](glpixeltransfer.md)
-topic, and partly in the topics for the pixel and texture image
-commands. Only the specification of the maps is described in this
-topic. The *map* parameter is a symbolic map name, indicating one of
-ten maps to set. The *mapsize* parameter specifies the number of
-entries in the map, and *values* is a pointer to an array of
-*mapsize* map values. The entries in a map can be specified as
-single-precision floating-point numbers, unsigned short integers, or
-unsigned long integers. Maps that store color component values (all
-but GL\_PIXEL\_MAP\_I\_TO\_I and GL\_PIXEL\_MAP\_S\_TO\_S) retain
-their values in floating-point format, with unspecified mantissa and
-exponent sizes. Floating-point values specified by
-[**glPixelMapfv**](glpixelmap.md) are converted directly to the
-internal floating-point format of these maps, and then clamped to the
-range \[0,1\]. Unsigned integer values specified by **glPixelMapusv**
-and **glPixelMapuiv** are converted linearly such that the largest
-representable integer maps to 1.0, and zero maps to 0.0. Maps that
-store indexes, GL\_PIXEL\_MAP\_I\_TO\_I and GL\_PIXEL\_MAP\_S\_TO\_S,
-retain their values in fixed-point format, with an unspecified number
-of bits to the right of the binary point. Floating-point values
-specified by [**glPixelMapfv**](glpixelmap.md) are converted directly
-to the internal fixed-point format of these maps. Unsigned integer
-values specified by **glPixelMapusv** and **glPixelMapuiv** specify
-integer values, with all zeros to the right of the binary point. The
-following table shows the initial sizes and values for each of the
-maps. Maps that are indexed by either color or stencil indexes must
-have *mapsize* = 2 ^ *n* for some *n* or results are undefined. The
-maximum allowable size for each map depends on the implementation and
-can be determined by calling **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE. The single maximum applies to all maps,
-and it is at least 32.
-| Map | Lookup Index | Lookup Value | Initial Size | Initial Value |
-|--------------------------|---------------|---------------|--------------|---------------|
-| GL\_PIXEL\_MAP\_I\_TO\_I | color index | color index | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_S\_TO\_S | stencil index | stencil index | 1 | 0.0 |
-| GL\_PIXEL\_MAP\_I\_TO\_R | color index | R | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_G | color index | G | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_B | color index | B | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_A | color index | A | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_R\_TO\_R | R | R | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_G\_TO\_G | G | G | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_B\_TO\_B | B | B | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_A\_TO\_A | A | A | 1 | 0.0 |
-The following functions retrieve information related to
-**glPixelMap**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE
+glPixelMap は
+glCopyPixels、glCopyTexImage1D/2D、glCopyTexSubImage1D/2D、glDrawPixels、glReadPixels、glTexImage1D/2D、glTexSubImage1D/2D
+が使用する変換テーブル (マップ) を設定する。マップの使用法は glPixelTransfer で詳説される。map は 10
+種類のマップ名のいずれか、mapsize は定義するマップサイズ、values は mapsize 個の値の配列。I_TO_R/G/B/A
+および R_TO_R 等は浮動小数点値として扱われ、R_TO_R/G_TO_G/B_TO_B/A_TO_A は [0,1]
+にクランプされる。I_TO_I と S_TO_S のテーブルは符号なし整数の表を生成する。カラーマップサイズは 2 のべき乗で 1 から
+GL_MAX_PIXEL_MAP_TABLE (最小 32) の範囲。エラーが生成された場合、対応するマップは変更されない。関連情報は
+glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE) で取得できる。
 
 
 %index
 glPixelMapusv
-The glPixelMapusv function sets up pixel transfer maps.
+glPixelMapusv 関数はピクセル転送マップを設定する。
 %group
 Win32 opengl32
 %prm
 map, mapsize, values
-map : [int] A symbolic map name. The ten maps are as follows.
-mapsize : [int] The size of the map being defined.
-values : [var] An array of *mapsize* values.
+map : [int] シンボルマップ名。10 種類のマップは次のとおり。GL_PIXEL_MAP_I_TO_I (カラーインデックスをカラーインデックスにマップ)、GL_PIXEL_MAP_S_TO_S (ステンシルインデックスをステンシルインデックスにマップ)、GL_PIXEL_MAP_I_TO_R/G/B/A (カラーインデックスを R/G/B/A 成分にマップ)、GL_PIXEL_MAP_R_TO_R / GL_PIXEL_MAP_G_TO_G / GL_PIXEL_MAP_B_TO_B / GL_PIXEL_MAP_A_TO_A (色成分をそれぞれ同名成分にマップ)。
+mapsize : [int] 定義するマップのサイズ。
+values : [var] mapsize 個の値の配列。
 %inst
-The glPixelMapusv function sets up pixel transfer maps.
+glPixelMapusv 関数はピクセル転送マップを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelMap** function sets up translation tables, or *maps*,
-used by [**glCopyPixels**](glcopypixels.md),
-[**glCopyTexImage1D**](glcopyteximage1d.md),
-[**glCopyTexImage2D**](glcopyteximage2d.md),
-[**glCopyTexSubImage1D**](glcopytexsubimage1d.md),
-[**glCopyTexSubImage2D**](glcopytexsubimage2d.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md),
-[**glTexSubImage1D**](gltexsubimage1d.md), and
-[**glTexSubImage2D**](gltexsubimage2d.md). Use of these maps is
-described completely in the [**glPixelTransfer**](glpixeltransfer.md)
-topic, and partly in the topics for the pixel and texture image
-commands. Only the specification of the maps is described in this
-topic. The *map* parameter is a symbolic map name, indicating one of
-ten maps to set. The *mapsize* parameter specifies the number of
-entries in the map, and *values* is a pointer to an array of
-*mapsize* map values. The entries in a map can be specified as
-single-precision floating-point numbers, unsigned short integers, or
-unsigned long integers. Maps that store color component values (all
-but GL\_PIXEL\_MAP\_I\_TO\_I and GL\_PIXEL\_MAP\_S\_TO\_S) retain
-their values in floating-point format, with unspecified mantissa and
-exponent sizes. Floating-point values specified by
-[**glPixelMapfv**](glpixelmap.md) are converted directly to the
-internal floating-point format of these maps, and then clamped to the
-range \[0,1\]. Unsigned integer values specified by **glPixelMapusv**
-and **glPixelMapuiv** are converted linearly such that the largest
-representable integer maps to 1.0, and zero maps to 0.0. Maps that
-store indexes, GL\_PIXEL\_MAP\_I\_TO\_I and GL\_PIXEL\_MAP\_S\_TO\_S,
-retain their values in fixed-point format, with an unspecified number
-of bits to the right of the binary point. Floating-point values
-specified by [**glPixelMapfv**](glpixelmap.md) are converted directly
-to the internal fixed-point format of these maps. Unsigned integer
-values specified by **glPixelMapusv** and **glPixelMapuiv** specify
-integer values, with all zeros to the right of the binary point. The
-following table shows the initial sizes and values for each of the
-maps. Maps that are indexed by either color or stencil indexes must
-have *mapsize* = 2 ^ *n* for some *n* or results are undefined. The
-maximum allowable size for each map depends on the implementation and
-can be determined by calling **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE. The single maximum applies to all maps,
-and it is at least 32.
-| Map | Lookup Index | Lookup Value | Initial Size | Initial Value |
-|--------------------------|---------------|---------------|--------------|---------------|
-| GL\_PIXEL\_MAP\_I\_TO\_I | color index | color index | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_S\_TO\_S | stencil index | stencil index | 1 | 0.0 |
-| GL\_PIXEL\_MAP\_I\_TO\_R | color index | R | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_G | color index | G | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_B | color index | B | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_I\_TO\_A | color index | A | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_R\_TO\_R | R | R | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_G\_TO\_G | G | G | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_B\_TO\_B | B | B | 1 | 0.0 | |
-GL\_PIXEL\_MAP\_A\_TO\_A | A | A | 1 | 0.0 |
-The following functions retrieve information related to
-**glPixelMap**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE **glGet** with argument
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE **glGet** with argument
-GL\_MAX\_PIXEL\_MAP\_TABLE
+glPixelMap は
+glCopyPixels、glCopyTexImage1D/2D、glCopyTexSubImage1D/2D、glDrawPixels、glReadPixels、glTexImage1D/2D、glTexSubImage1D/2D
+が使用する変換テーブル (マップ) を設定する。マップの使用法は glPixelTransfer で詳説される。map は 10
+種類のマップ名のいずれか、mapsize は定義するマップサイズ、values は mapsize 個の値の配列。I_TO_R/G/B/A
+および R_TO_R 等は浮動小数点値として扱われ、R_TO_R/G_TO_G/B_TO_B/A_TO_A は [0,1]
+にクランプされる。I_TO_I と S_TO_S のテーブルは符号なし整数の表を生成する。カラーマップサイズは 2 のべき乗で 1 から
+GL_MAX_PIXEL_MAP_TABLE (最小 32) の範囲。エラーが生成された場合、対応するマップは変更されない。関連情報は
+glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE) で取得できる。
 
 
 %index
 glPixelStoref
-Sets pixel storage modes. | glPixelStoref function (Gl.h)
+ピクセル格納モードを設定する。| glPixelStoref 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] The symbolic name of the parameter to be set. Six of the storage parameters affect how pixel data is returned to client memory, and are therefore significant only for [**glReadPixels**](glreadpixels.md) commands. They are as follows:
+pname : [int] 設定するパラメータのシンボル名。格納パラメータのうち 6 つはピクセルデータをクライアントメモリに返す方法に影響するので glReadPixels に対してのみ意味を持つ。6 つは glDrawPixels/glPolygonStipple/glBitmap/glTexImage*/glTexSubImage* のピクセル取り出し方に影響する。GL_PACK_SWAP_BYTES / GL_UNPACK_SWAP_BYTES (バイト順反転の真偽、既定 FALSE)、GL_PACK_LSB_FIRST / GL_UNPACK_LSB_FIRST (GL_BITMAP データ内のビット順序、既定 FALSE)、GL_PACK_ROW_LENGTH / GL_UNPACK_ROW_LENGTH (行あたりピクセル数、0 なら width を使う)、GL_PACK_SKIP_PIXELS / GL_UNPACK_SKIP_PIXELS (先頭スキップピクセル数)、GL_PACK_SKIP_ROWS / GL_UNPACK_SKIP_ROWS (先頭スキップ行数)、GL_PACK_ALIGNMENT / GL_UNPACK_ALIGNMENT (各行先頭のバイト整列、1/2/4/8 のいずれか、既定 4) を受け付ける。 このドキュメントは省略されている。
 param1 : [float] 
 %inst
-Sets pixel storage modes. | glPixelStoref function (Gl.h)
+ピクセル格納モードを設定する。| glPixelStoref 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelStore** function sets pixel storage modes that affect
-the operation of subsequent [**glDrawPixels**](gldrawpixels.md) and
-[**glReadPixels**](glreadpixels.md) as well as the unpacking of
-polygon stipple patterns (see
-[**glPolygonStipple**](glpolygonstipple.md)), bitmaps (see
-[**glBitmap**](glbitmap.md)), and texture patterns (see
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md),
-[**glTexSubImage1D**](gltexsubimage1d.md), and
-[**glTexSubImage2D**](gltexsubimage2d.md)). The following table gives
-the type, initial value, and range of valid values for each of the
-storage parameters that can be set with **glPixelStore**.
-| Pname | Type | Initial Value | Valid Range |
-|--------------------------|---------|---------------|---------------|
-| GL\_PACK\_SWAP\_BYTES | Boolean | false | true or false | |
-GL\_PACK\_SWAP\_BYTES | Boolean | false | true or false | |
-GL\_PACK\_ROW\_LENGTH | integer | 0 | \[0,?) | | GL\_PACK\_SKIP\_ROWS
-| integer | 0 | \[0,?) | | GL\_PACK\_SKIP\_PIXELS | integer | 0 |
-\[0,?) | | GL\_PACK\_ALIGNMENT | integer | 4 | 1, 2, 4, or 8 | |
-GL\_UNPACK\_SWAP\_BYTES | Boolean | false | true or false | |
-GL\_UNPACK\_LSB\_FIRST | Boolean | false | true or false | |
-GL\_UNPACK\_ROW\_LENGTH | integer | 0 | \[0,?) | |
-GL\_UNPACK\_SKIP\_ROWS | integer | 0 | \[0,?) | |
-GL\_UNPACK\_SKIP\_PIXELS | integer | 0 | \[0,?) | |
-GL\_UNPACK\_ALIGNMENT | integer | 4 | 1, 2, 4, or 8 |
-The **glPixelStoref** function can be used to set any pixel store
-parameter. If the parameter type is Boolean, and if *param* is 0.0,
-then the parameter is false; otherwise it is set to true. If *pname*
-is an integer type parameter, then *param* is rounded to the nearest
-integer. Likewise, the **glPixelStorei** function can also be used to
-set any of the pixel store parameters. Boolean parameters are set to
-false if *param* is 0 and true otherwise. The *param* parameter is
-converted to floating point before being assigned to real-valued
-parameters. The pixel storage modes in effect when
-[**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md), [**glBitmap**](glbitmap.md), or
-[**glPolygonStipple**](glpolygonstipple.md) is placed in a display
-list control the interpretation of memory data. The pixel storage
-modes in effect when a display list is executed are not significant.
-The following functions retrieve information related to
-**glPixelStore**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PACK\_SWAP\_BYTES **glGet** with argument
-GL\_PACK\_LSB\_FIRST **glGet** with argument GL\_PACK\_ROW\_LENGTH
-**glGet** with argument GL\_PACK\_SKIP\_ROWS **glGet** with argument
-GL\_PACK\_SKIP\_PIXELS **glGet** with argument GL\_PACK\_ALIGNMENT
-**glGet** with argument GL\_UNPACK\_SWAP\_BYTES **glGet** with
-argument GL\_UNPACK\_LSB\_FIRST **glGet** with argument
-GL\_UNPACK\_ROW\_LENGTH **glGet** with argument
-GL\_UNPACK\_SKIP\_ROWS **glGet** with argument
-GL\_UNPACK\_SKIP\_PIXELS **glGet** with argument
-GL\_UNPACK\_ALIGNMENT
+glPixelStore は、後続の glDrawPixels / glReadPixels、ポリゴンスティップルパターン
+(glPolygonStipple)、ビットマップ (glBitmap)、テクスチャパターン (glTexImage1D/2D,
+glTexSubImage1D/2D) のパックまたはアンパックに影響するピクセル格納モードを設定する。pname
+は変更するパラメータ、param は新しい値。パラメータの型・初期値・有効範囲はパラメータごとに定義されている (GL_PACK_*
+はフレームバッファからクライアントメモリへ返す際、GL_UNPACK_*
+はクライアントメモリから取り出す際に使われる)。glPixelStore* 呼び出しに与えた浮動小数点値は、ブール型パラメータに対しては
+FALSE (0.0) か TRUE (それ以外) に変換され、整数パラメータに対しては最も近い整数に丸められる。関連情報は glGet
+(GL_PACK_* / GL_UNPACK_*) で取得できる。
 
 
 %index
 glPixelStorei
-Sets pixel storage modes. | glPixelStorei function (Gl.h)
+ピクセル格納モードを設定する。| glPixelStorei 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] The symbolic name of the parameter to be set. Six of the storage parameters affect how pixel data is returned to client memory, and are therefore significant only for [**glReadPixels**](glreadpixels.md) commands. They are as follows.
+pname : [int] 設定するパラメータのシンボル名。格納パラメータのうち 6 つはピクセルデータをクライアントメモリに返す方法に影響するので glReadPixels に対してのみ意味を持つ。6 つは glDrawPixels/glPolygonStipple/glBitmap/glTexImage*/glTexSubImage* のピクセル取り出し方に影響する。GL_PACK_SWAP_BYTES / GL_UNPACK_SWAP_BYTES (バイト順反転の真偽、既定 FALSE)、GL_PACK_LSB_FIRST / GL_UNPACK_LSB_FIRST (GL_BITMAP データ内のビット順序、既定 FALSE)、GL_PACK_ROW_LENGTH / GL_UNPACK_ROW_LENGTH (行あたりピクセル数、0 なら width を使う)、GL_PACK_SKIP_PIXELS / GL_UNPACK_SKIP_PIXELS (先頭スキップピクセル数)、GL_PACK_SKIP_ROWS / GL_UNPACK_SKIP_ROWS (先頭スキップ行数)、GL_PACK_ALIGNMENT / GL_UNPACK_ALIGNMENT (各行先頭のバイト整列、1/2/4/8 のいずれか、既定 4) を受け付ける。 このドキュメントは省略されている。
 param1 : [int] 
 %inst
-Sets pixel storage modes. | glPixelStorei function (Gl.h)
+ピクセル格納モードを設定する。| glPixelStorei 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelStore** function sets pixel storage modes that affect
-the operation of subsequent [**glDrawPixels**](gldrawpixels.md) and
-[**glReadPixels**](glreadpixels.md) as well as the unpacking of
-polygon stipple patterns (see
-[**glPolygonStipple**](glpolygonstipple.md)), bitmaps (see
-[**glBitmap**](glbitmap.md)), and texture patterns (see
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md),
-[**glTexSubImage1D**](gltexsubimage1d.md), and
-[**glTexSubImage2D**](gltexsubimage2d.md)). The following table gives
-the type, initial value, and range of valid values for each of the
-storage parameters that can be set with **glPixelStore**.
-| Pname | Type | Initial Value | Valid Range |
-|--------------------------|---------|---------------|---------------|
-| GL\_PACK\_SWAP\_BYTES | Boolean | false | true or false | |
-GL\_PACK\_SWAP\_BYTES | Boolean | false | true or false | |
-GL\_PACK\_ROW\_LENGTH | integer | 0 | \[0,?) | | GL\_PACK\_SKIP\_ROWS
-| integer | 0 | \[0,?) | | GL\_PACK\_SKIP\_PIXELS | integer | 0 |
-\[0,?) | | GL\_PACK\_ALIGNMENT | integer | 4 | 1, 2, 4, or 8 | |
-GL\_UNPACK\_SWAP\_BYTES | Boolean | false | true or false | |
-GL\_UNPACK\_LSB\_FIRST | Boolean | false | true or false | |
-GL\_UNPACK\_ROW\_LENGTH | integer | 0 | \[0,?) | |
-GL\_UNPACK\_SKIP\_ROWS | integer | 0 | \[0,?) | |
-GL\_UNPACK\_SKIP\_PIXELS | integer | 0 | \[0,?) | |
-GL\_UNPACK\_ALIGNMENT | integer | 4 | 1, 2, 4, or 8 |
-The [**glPixelStoref**](glpixelstoref.md) function can be used to set
-any pixel store parameter. If the parameter type is Boolean, and if
-*param* is 0.0, then the parameter is false; otherwise it is set to
-true. If *pname* is an integer type parameter, then *param* is
-rounded to the nearest integer. Likewise, the **glPixelStorei**
-function can also be used to set any of the pixel store parameters.
-Boolean parameters are set to false if *param* is 0 and true
-otherwise. The *param* parameter is converted to floating point
-before being assigned to real-valued parameters. The pixel storage
-modes in effect when [**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md), [**glBitmap**](glbitmap.md), or
-[**glPolygonStipple**](glpolygonstipple.md) is placed in a display
-list control the interpretation of memory data. The pixel storage
-modes in effect when a display list is executed are not significant.
-The following functions retrieve information related to
-**glPixelStore**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PACK\_SWAP\_BYTES **glGet** with argument
-GL\_PACK\_LSB\_FIRST **glGet** with argument GL\_PACK\_ROW\_LENGTH
-**glGet** with argument GL\_PACK\_SKIP\_ROWS **glGet** with argument
-GL\_PACK\_SKIP\_PIXELS **glGet** with argument GL\_PACK\_ALIGNMENT
-**glGet** with argument GL\_UNPACK\_SWAP\_BYTES **glGet** with
-argument GL\_UNPACK\_LSB\_FIRST **glGet** with argument
-GL\_UNPACK\_ROW\_LENGTH **glGet** with argument
-GL\_UNPACK\_SKIP\_ROWS **glGet** with argument
-GL\_UNPACK\_SKIP\_PIXELS **glGet** with argument
-GL\_UNPACK\_ALIGNMENT
+glPixelStore は、後続の glDrawPixels / glReadPixels、ポリゴンスティップルパターン
+(glPolygonStipple)、ビットマップ (glBitmap)、テクスチャパターン (glTexImage1D/2D,
+glTexSubImage1D/2D) のパックまたはアンパックに影響するピクセル格納モードを設定する。pname
+は変更するパラメータ、param は新しい値。パラメータの型・初期値・有効範囲はパラメータごとに定義されている (GL_PACK_*
+はフレームバッファからクライアントメモリへ返す際、GL_UNPACK_*
+はクライアントメモリから取り出す際に使われる)。glPixelStore* 呼び出しに与えた浮動小数点値は、ブール型パラメータに対しては
+FALSE (0.0) か TRUE (それ以外) に変換され、整数パラメータに対しては最も近い整数に丸められる。関連情報は glGet
+(GL_PACK_* / GL_UNPACK_*) で取得できる。
 
 
 %index
 glPixelTransferf
-The glPixelTransferf and glPixelTransferi functions set pixel transfer modes. | glPixelTransferf function (Gl.h)
+glPixelTransferf、glPixelTransferi 関数はピクセル転送モードを設定する。| glPixelTransferf 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] The symbolic name of the pixel transfer parameter to be set. The following table gives the type, initial value, and range of valid values for each of the pixel transfer parameters that are set with **glPixelTransfer**.
+pname : [int] 設定するピクセル転送パラメータのシンボル名。以下のパラメータが glPixelTransfer で設定可能: GL_MAP_COLOR (Boolean、既定 FALSE)、GL_MAP_STENCIL (Boolean、既定 FALSE)、GL_INDEX_SHIFT (integer、既定 0)、GL_INDEX_OFFSET (integer、既定 0)、GL_RED_SCALE / GL_GREEN_SCALE / GL_BLUE_SCALE / GL_ALPHA_SCALE / GL_DEPTH_SCALE (float、既定 1)、GL_RED_BIAS / GL_GREEN_BIAS / GL_BLUE_BIAS / GL_ALPHA_BIAS / GL_DEPTH_BIAS (float、既定 0)。
 param1 : [float] 
 %inst
-The glPixelTransferf and glPixelTransferi functions set pixel
-transfer modes. | glPixelTransferf function (Gl.h)
+glPixelTransferf、glPixelTransferi 関数はピクセル転送モードを設定する。|
+glPixelTransferf 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelTransfer** function sets pixel transfer modes that
-affect the operation of subsequent
-[**glCopyPixels**](glcopypixels.md),
-[**glCopyTexImage1D**](glcopyteximage1d.md),
-[**glCopyTexImage2D**](glcopyteximage2d.md),
-[**glCopyTexSubImage1D**](glcopytexsubimage1d.md),
-[**glCopyTexSubImage2D**](glcopytexsubimage2d.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md),
-[**glTexSubImage1D**](gltexsubimage1d.md), and
-[**glTexSubImage2D**](gltexsubimage2d.md) commands. The algorithms
-that are specified by pixel transfer modes operate on pixels after
-they are read from the framebuffer (**glReadPixels** and
-**glCopyPixels**) or unpacked from client memory (**glDrawPixels**,
-**glTexImage1D**, and **glTexImage2D**). Pixel transfer operations
-happen in the same order, and in the same manner, regardless of the
-command that resulted in the pixel operation. Pixel storage modes
-([**glPixelStore**](glpixelstore-functions.md)) control the unpacking
-of pixels being read from client memory, and the packing of pixels
-being written back into client memory. Pixel transfer operations
-handle four fundamental pixel types: *color*, *color index*, *depth*,
-and *stencil*.Color pixels are made up of four floating-point values
-with unspecified mantissa and exponent sizes, scaled such that 0.0
-represents zero intensity and 1.0 represents full intensity. Color
-indexes comprise a single fixed-point value, with unspecified
-precision to the right of the binary point. Depth pixels comprise a
-single floating-point value, with unspecified mantissa and exponent
-sizes, scaled such that 0.0 represents the minimum depth buffer
-value, and 1.0 represents the maximum depth buffer value. Finally,
-stencil pixels comprise a single fixed-point value, with unspecified
-precision to the right of the binary point. The pixel transfer
-operations performed on the four basic pixel types are as follows:
-| Pixel type | Pixel transfer operation |
-|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Color | Each of the four color components is multiplied by a scale
-factor, and then added to a bias factor. That is, the red component
-is multiplied by GL\_RED\_SCALE, and then added to GL\_RED\_BIAS; the
-green component is multiplied by GL\_GREEN\_SCALE, and then added to
-GL\_GREEN\_BIAS; the blue component is multiplied by GL\_BLUE\_SCALE,
-and then added to GL\_BLUE\_BIAS; and the alpha component is
-multiplied by GL\_ALPHA\_SCALE, and then added to GL\_ALPHA\_BIAS.
-After all four color components are scaled and biased, each is
-clamped to the range \[0,1\]. All color scale and bias values are
-specified with **glPixelTransfer**. If GL\_MAP\_COLOR is true, each
-color component is scaled by the size of the corresponding
-color-to-color map, and then replaced by the contents of that map
-indexed by the scaled component. That is, the red component is scaled
-by GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE, and then replaced by the contents
-of GL\_PIXEL\_MAP\_R\_TO\_R indexed by itself. The green component is
-scaled by GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE, and then replaced by the
-contents of GL\_PIXEL\_MAP\_G\_TO\_G indexed by itself. The blue
-component is scaled by GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE, and then
-replaced by the contents of GL\_PIXEL\_MAP\_B\_TO\_B indexed by
-itself. The alpha component is scaled by
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE, and then replaced by the contents of
-GL\_PIXEL\_MAP\_A\_TO\_A indexed by itself. All components taken from
-the maps are then clamped to the range \[0,1\]. GL\_MAP\_COLOR is
-specified with **glPixelTransfer**. The contents of the various maps
-are specified with **glPixelMap**. | | Color index | Each color index
-is shifted left by GL\_INDEX\_SHIFT bits, filling with zeros any bits
-beyond the number of fraction bits carried by the fixed-point index.
-If GL\_INDEX\_SHIFT is negative, the shift is to the right, again
-zero filled. GL\_INDEX\_OFFSET is then added to the index.
-GL\_INDEX\_SHIFT and GL\_INDEX\_OFFSET are specified with
-**glPixelTransfer**. From this point, operation diverges depending on
-the required format of the resulting pixels. If the resulting pixels
-are to be written to a color-index buffer, or if they are being read
-back to client memory in GL\_COLOR\_INDEX format, the pixels continue
-to be treated as indexes. If GL\_MAP\_COLOR is true, then each index
-is masked by 2 ^ *n* 1, where *n* is GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE,
-and then replaced by the contents of GL\_PIXEL\_MAP\_I\_TO\_I indexed
-by the masked value. GL\_MAP\_COLOR is specified with
-**glPixelTransfer**. The contents of the index map are specified with
-**glPixelMap**. If the resulting pixels are to be written to an RGBA
-color buffer, or if they are being read back to client memory in a
-format other than GL\_COLOR\_INDEX, the pixels are converted from
-indexes to colors by referencing the four maps
-GL\_PIXEL\_MAP\_I\_TO\_R, GL\_PIXEL\_MAP\_I\_TO\_G,
-GL\_PIXEL\_MAP\_I\_TO\_B, and GL\_PIXEL\_MAP\_I\_TO\_A. Before being
-dereferenced, the index is masked by 2 n 1, where n is
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE for the red map,
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE for the green map,
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE for the blue map, and
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE for the alpha map. All components
-taken from the maps are then clamped to the range \[0,1\]. The
-contents of the four maps are specified with **glPixelMap**. | |
-Depth | Each depth value is multiplied by GL\_DEPTH\_SCALE, added to
-GL\_DEPTH\_BIAS, and then clamped to the range \[0,1\]. | | Stencil |
-Each index is shifted GL\_INDEX\_SHIFT bits just as a color index is,
-and then added to GL\_INDEX\_OFFSET. If GL\_MAP\_STENCIL is true,
-each index is masked by 2n 1, where *n* is
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE, then replaced by the contents of
-GL\_PIXEL\_MAP\_S\_TO\_S indexed by the masked value. |
-The [**glPixelTransferf**](glpixeltransfer.md) function can be used
-to set any pixel transfer parameter. If the parameter type is
-Boolean, 0.0 implies false and any other value implies true. If
-*pname* is an integer parameter, *param* is rounded to the nearest
-integer. Likewise, **glPixelTransferi** can also be used to set any
-of the pixel transfer parameters. Boolean parameters are set to false
-if *param* is 0 and true otherwise. The *param* parameter is
-converted to floating point before being assigned to real-valued
-parameters. If a [**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glCopyPixels**](glcopypixels.md),
-[**glTexImage1D**](glteximage1d.md), or
-[**glTexImage2D**](glteximage2d.md) command is placed in a display
-list (see [**glNewList**](glnewlist.md) and
-[**glCallList**](glcalllist.md)), the pixel transfer mode settings in
-effect when the display list is *executed* are the ones that are
-used. They may be different from the settings when the command was
-compiled into the display list. The following functions retrieve
-information related to **glPixelTransfer**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP\_COLOR **glGet** with argument GL\_MAP\_STENCIL
-**glGet** with argument GL\_INDEX\_SHIFT **glGet** with argument
-GL\_INDEX\_OFFSET **glGet** with argument GL\_RED\_SCALE **glGet**
-with argument GL\_RED\_BIAS **glGet** with argument GL\_GREEN\_SCALE
-**glGet** with argument GL\_GREEN\_BIAS **glGet** with argument
-GL\_BLUE\_SCALE **glGet** with argument GL\_BLUE\_BIAS **glGet** with
-argument GL\_ALPHA\_SCALE **glGet** with argument GL\_ALPHA\_BIAS
-**glGet** with argument GL\_DEPTH\_SCALE **glGet** with argument
-GL\_DEPTH\_BIAS
+glPixelTransfer は、後続の
+glCopyPixels、glCopyTexImage1D/2D、glCopyTexSubImage1D/2D、glDrawPixels、glReadPixels、glTexImage1D/2D、glTexSubImage1D/2D
+の動作に影響するピクセル転送モードを設定する。これらコマンドでピクセル成分はフラグメントやテクスチャ成分として扱われる前に、スケール・バイアス・マッピングで変換される。RGBA
+モードの色成分 (赤・緑・青・アルファ) はそれぞれ対応するスケールとバイアスを掛けて足し、[0,1] にクランプされる。その後
+GL_MAP_COLOR が真なら GL_PIXEL_MAP_R_TO_R 等のテーブルでマップされる。カラーインデックスは
+GL_INDEX_SHIFT と GL_INDEX_OFFSET で変換され、GL_MAP_COLOR が真なら
+GL_PIXEL_MAP_I_TO_I テーブルでマップされる。ステンシルインデックスも同様に GL_INDEX_SHIFT と
+GL_INDEX_OFFSET で変換され、GL_MAP_STENCIL が真なら GL_PIXEL_MAP_S_TO_S
+でマップされる。デプス成分はスケールとバイアスを掛けて [0,1] にクランプされる。glPixelTransfer
+は表示リストに含められる。関連情報は glGet (各パラメータ名) および glPixelMap で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glPixelTransferi
-The glPixelTransferf and glPixelTransferi functions set pixel transfer modes. | glPixelTransferi function (Gl.h)
+glPixelTransferf、glPixelTransferi 関数はピクセル転送モードを設定する。| glPixelTransferi 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 pname, param1
-pname : [int] The symbolic name of the pixel transfer parameter to be set. The following table gives the type, initial value, and range of valid values for each of the pixel transfer parameters that are set with **glPixelTransfer**.
+pname : [int] 設定するピクセル転送パラメータのシンボル名。以下のパラメータが glPixelTransfer で設定可能: GL_MAP_COLOR (Boolean、既定 FALSE)、GL_MAP_STENCIL (Boolean、既定 FALSE)、GL_INDEX_SHIFT (integer、既定 0)、GL_INDEX_OFFSET (integer、既定 0)、GL_RED_SCALE / GL_GREEN_SCALE / GL_BLUE_SCALE / GL_ALPHA_SCALE / GL_DEPTH_SCALE (float、既定 1)、GL_RED_BIAS / GL_GREEN_BIAS / GL_BLUE_BIAS / GL_ALPHA_BIAS / GL_DEPTH_BIAS (float、既定 0)。
 param1 : [int] 
 %inst
-The glPixelTransferf and glPixelTransferi functions set pixel
-transfer modes. | glPixelTransferi function (Gl.h)
+glPixelTransferf、glPixelTransferi 関数はピクセル転送モードを設定する。|
+glPixelTransferi 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelTransfer** function sets pixel transfer modes that
-affect the operation of subsequent
-[**glCopyPixels**](glcopypixels.md),
-[**glCopyTexImage1D**](glcopyteximage1d.md),
-[**glCopyTexImage2D**](glcopyteximage2d.md),
-[**glCopyTexSubImage1D**](glcopytexsubimage1d.md),
-[**glCopyTexSubImage2D**](glcopytexsubimage2d.md),
-[**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glTexImage1D**](glteximage1d.md),
-[**glTexImage2D**](glteximage2d.md),
-[**glTexSubImage1D**](gltexsubimage1d.md), and
-[**glTexSubImage2D**](gltexsubimage2d.md) commands. The algorithms
-that are specified by pixel transfer modes operate on pixels after
-they are read from the framebuffer (**glReadPixels** and
-**glCopyPixels**) or unpacked from client memory (**glDrawPixels**,
-**glTexImage1D**, and **glTexImage2D**). Pixel transfer operations
-happen in the same order, and in the same manner, regardless of the
-command that resulted in the pixel operation. Pixel storage modes
-([**glPixelStore**](glpixelstore-functions.md)) control the unpacking
-of pixels being read from client memory, and the packing of pixels
-being written back into client memory. Pixel transfer operations
-handle four fundamental pixel types: *color*, *color index*, *depth*,
-and *stencil*.Color pixels are made up of four floating-point values
-with unspecified mantissa and exponent sizes, scaled such that 0.0
-represents zero intensity and 1.0 represents full intensity. Color
-indexes comprise a single fixed-point value, with unspecified
-precision to the right of the binary point. Depth pixels comprise a
-single floating-point value, with unspecified mantissa and exponent
-sizes, scaled such that 0.0 represents the minimum depth buffer
-value, and 1.0 represents the maximum depth buffer value. Finally,
-stencil pixels comprise a single fixed-point value, with unspecified
-precision to the right of the binary point. The pixel transfer
-operations performed on the four basic pixel types are as follows:
-| Pixel type | Pixel transfer operation |
-|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Color | Each of the four color components is multiplied by a scale
-factor, and then added to a bias factor. That is, the red component
-is multiplied by GL\_RED\_SCALE, and then added to GL\_RED\_BIAS; the
-green component is multiplied by GL\_GREEN\_SCALE, and then added to
-GL\_GREEN\_BIAS; the blue component is multiplied by GL\_BLUE\_SCALE,
-and then added to GL\_BLUE\_BIAS; and the alpha component is
-multiplied by GL\_ALPHA\_SCALE, and then added to GL\_ALPHA\_BIAS.
-After all four color components are scaled and biased, each is
-clamped to the range \[0,1\]. All color scale and bias values are
-specified with **glPixelTransfer**. If GL\_MAP\_COLOR is true, each
-color component is scaled by the size of the corresponding
-color-to-color map, and then replaced by the contents of that map
-indexed by the scaled component. That is, the red component is scaled
-by GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE, and then replaced by the contents
-of GL\_PIXEL\_MAP\_R\_TO\_R indexed by itself. The green component is
-scaled by GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE, and then replaced by the
-contents of GL\_PIXEL\_MAP\_G\_TO\_G indexed by itself. The blue
-component is scaled by GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE, and then
-replaced by the contents of GL\_PIXEL\_MAP\_B\_TO\_B indexed by
-itself. The alpha component is scaled by
-GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE, and then replaced by the contents of
-GL\_PIXEL\_MAP\_A\_TO\_A indexed by itself. All components taken from
-the maps are then clamped to the range \[0,1\]. GL\_MAP\_COLOR is
-specified with **glPixelTransfer**. The contents of the various maps
-are specified with **glPixelMap**. | | Color index | Each color index
-is shifted left by GL\_INDEX\_SHIFT bits, filling with zeros any bits
-beyond the number of fraction bits carried by the fixed-point index.
-If GL\_INDEX\_SHIFT is negative, the shift is to the right, again
-zero filled. GL\_INDEX\_OFFSET is then added to the index.
-GL\_INDEX\_SHIFT and GL\_INDEX\_OFFSET are specified with
-**glPixelTransfer**. From this point, operation diverges depending on
-the required format of the resulting pixels. If the resulting pixels
-are to be written to a color-index buffer, or if they are being read
-back to client memory in GL\_COLOR\_INDEX format, the pixels continue
-to be treated as indexes. If GL\_MAP\_COLOR is true, then each index
-is masked by 2 ^ *n* 1, where *n* is GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE,
-and then replaced by the contents of GL\_PIXEL\_MAP\_I\_TO\_I indexed
-by the masked value. GL\_MAP\_COLOR is specified with
-**glPixelTransfer**. The contents of the index map are specified with
-**glPixelMap**. If the resulting pixels are to be written to an RGBA
-color buffer, or if they are being read back to client memory in a
-format other than GL\_COLOR\_INDEX, the pixels are converted from
-indexes to colors by referencing the four maps
-GL\_PIXEL\_MAP\_I\_TO\_R, GL\_PIXEL\_MAP\_I\_TO\_G,
-GL\_PIXEL\_MAP\_I\_TO\_B, and GL\_PIXEL\_MAP\_I\_TO\_A. Before being
-dereferenced, the index is masked by 2 n 1, where n is
-GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE for the red map,
-GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE for the green map,
-GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE for the blue map, and
-GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE for the alpha map. All components
-taken from the maps are then clamped to the range \[0,1\]. The
-contents of the four maps are specified with **glPixelMap**. | |
-Depth | Each depth value is multiplied by GL\_DEPTH\_SCALE, added to
-GL\_DEPTH\_BIAS, and then clamped to the range \[0,1\]. | | Stencil |
-Each index is shifted GL\_INDEX\_SHIFT bits just as a color index is,
-and then added to GL\_INDEX\_OFFSET. If GL\_MAP\_STENCIL is true,
-each index is masked by 2n 1, where *n* is
-GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE, then replaced by the contents of
-GL\_PIXEL\_MAP\_S\_TO\_S indexed by the masked value. |
-The [**glPixelTransferf**](glpixeltransfer.md) function can be used
-to set any pixel transfer parameter. If the parameter type is
-Boolean, 0.0 implies false and any other value implies true. If
-*pname* is an integer parameter, *param* is rounded to the nearest
-integer. Likewise, **glPixelTransferi** can also be used to set any
-of the pixel transfer parameters. Boolean parameters are set to false
-if *param* is 0 and true otherwise. The *param* parameter is
-converted to floating point before being assigned to real-valued
-parameters. If a [**glDrawPixels**](gldrawpixels.md),
-[**glReadPixels**](glreadpixels.md),
-[**glCopyPixels**](glcopypixels.md),
-[**glTexImage1D**](glteximage1d.md), or
-[**glTexImage2D**](glteximage2d.md) command is placed in a display
-list (see [**glNewList**](glnewlist.md) and
-[**glCallList**](glcalllist.md)), the pixel transfer mode settings in
-effect when the display list is *executed* are the ones that are
-used. They may be different from the settings when the command was
-compiled into the display list. The following functions retrieve
-information related to **glPixelTransfer**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAP\_COLOR **glGet** with argument GL\_MAP\_STENCIL
-**glGet** with argument GL\_INDEX\_SHIFT **glGet** with argument
-GL\_INDEX\_OFFSET **glGet** with argument GL\_RED\_SCALE **glGet**
-with argument GL\_RED\_BIAS **glGet** with argument GL\_GREEN\_SCALE
-**glGet** with argument GL\_GREEN\_BIAS **glGet** with argument
-GL\_BLUE\_SCALE **glGet** with argument GL\_BLUE\_BIAS **glGet** with
-argument GL\_ALPHA\_SCALE **glGet** with argument GL\_ALPHA\_BIAS
-**glGet** with argument GL\_DEPTH\_SCALE **glGet** with argument
-GL\_DEPTH\_BIAS
+glPixelTransfer は、後続の
+glCopyPixels、glCopyTexImage1D/2D、glCopyTexSubImage1D/2D、glDrawPixels、glReadPixels、glTexImage1D/2D、glTexSubImage1D/2D
+の動作に影響するピクセル転送モードを設定する。これらコマンドでピクセル成分はフラグメントやテクスチャ成分として扱われる前に、スケール・バイアス・マッピングで変換される。RGBA
+モードの色成分 (赤・緑・青・アルファ) はそれぞれ対応するスケールとバイアスを掛けて足し、[0,1] にクランプされる。その後
+GL_MAP_COLOR が真なら GL_PIXEL_MAP_R_TO_R 等のテーブルでマップされる。カラーインデックスは
+GL_INDEX_SHIFT と GL_INDEX_OFFSET で変換され、GL_MAP_COLOR が真なら
+GL_PIXEL_MAP_I_TO_I テーブルでマップされる。ステンシルインデックスも同様に GL_INDEX_SHIFT と
+GL_INDEX_OFFSET で変換され、GL_MAP_STENCIL が真なら GL_PIXEL_MAP_S_TO_S
+でマップされる。デプス成分はスケールとバイアスを掛けて [0,1] にクランプされる。glPixelTransfer
+は表示リストに含められる。関連情報は glGet (各パラメータ名) および glPixelMap で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glPixelZoom
-The glPixelZoom function specifies the pixel zoom factors.
+glPixelZoom 関数はピクセルズーム係数を指定する。
 %group
 Win32 opengl32
 %prm
 xfactor, yfactor
-xfactor : [float] The *x* zoom factor for pixel write operations.
-yfactor : [float] The *y* zoom factor for pixel write operations.
+xfactor : [float] ピクセル書き込み操作の x 方向ズーム係数。
+yfactor : [float] ピクセル書き込み操作の y 方向ズーム係数。
 %inst
-The glPixelZoom function specifies the pixel zoom factors.
+glPixelZoom 関数はピクセルズーム係数を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPixelZoom** function specifies values for the *x* and *y*
-zoom factors. During the execution of
-[**glDrawPixels**](gldrawpixels.md) or
-[**glCopyPixels**](glcopypixels.md), if (*x*r ,*y*r ) is the current
-raster position, and a given element is in the *n*th row and *m*th
-column of the pixel rectangle, then pixels whose centers are in the
-rectangle with corners at ![Equation showing the locations where
-pixels are candidates for replacement.](images/pix05.png) are
-candidates for replacement. Any pixel whose center lies on the bottom
-or left edge of this rectangular region is also modified. Pixel zoom
-factors are not limited to positive values. Negative zoom factors
-reflect the resulting image about the current raster position. The
-following functions retrieve information related to **glPixelZoom**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ZOOM\_X **glGet** with argument GL\_ZOOM\_Y
+glPixelZoom は x, y ズーム係数を指定する。glDrawPixels や glCopyPixels の実行時に、(xr,
+yr) を現在のラスタ位置、ある要素がピクセル矩形の n 行 m 列目にあるとすると、中心座標が (xr + m*xfactor, yr
++ n*yfactor) の矩形内に含まれるピクセルが置換候補となる。矩形の下辺または左辺上に中心を持つピクセルも変更される。既定の x,
+y ズーム係数は 1.0。xfactor または yfactor が負なら、対応する方向のピクセル描画方向が反転する。ズーム係数は
+glPixelStore のパラメータとは独立。関連情報は glGet (GL_ZOOM_X / GL_ZOOM_Y) で取得できる。
 
 
 %index
 glPointSize
-The glPointSize function specifies the diameter of rasterized points.
+glPointSize 関数はラスタライズされる点の直径を指定する。
 %group
 Win32 opengl32
 %prm
 size
-size : [float] The diameter of rasterized points. The default is 1.0.
+size : [float] ラスタライズされる点の直径。既定は 1.0。
 %inst
-The glPointSize function specifies the diameter of rasterized points.
+glPointSize 関数はラスタライズされる点の直径を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPointSize** function specifies the rasterized diameter of
-both aliased and antialiased points. Using a point size other than
-1.0 has different effects, depending on whether point antialiasing is
-enabled. Point antialiasing is controlled by calling
-[**glEnable**](glenable.md) and **glDisable** with argument
-GL\_POINT\_SMOOTH. If point antialiasing is disabled, the actual size
-is determined by rounding the supplied size to the nearest integer.
-(If the rounding results in the value 0, it is as if the point size
-were 1.) If the rounded size is odd, then the center point (*x*,*y*)
-of the pixel fragment that represents the point is computed as (*x*w
-+ .5, *y*w + .5) where *w* subscripts indicate window coordinates.
-All pixels that lie within the square grid of the rounded size
-centered at (*x*,*y*) make up the fragment. If the size is even, the
-center point is (*x*w + .5, *y*w + .5) and the rasterized fragment's
-centers are the half-integer window coordinates within the square of
-the rounded size centered at (*x*,*y*). All pixel fragments produced
-in rasterizing a nonantialiased point are assigned the same
-associated data; that of the vertex corresponding to the point. If
-antialiasing is enabled, then point rasterization produces a fragment
-for each pixel square that intersects the region lying within the
-circle having diameter equal to the current point size and centered
-at the points (*x*w ,*y*w ). The coverage value for each fragment is
-the window coordinate area of the intersection of the circular region
-with the corresponding pixel square. This value is saved and used in
-the final rasterization step. The data associated with each fragment
-is the data associated with the point being rasterized. Not all sizes
-are supported when point antialiasing is enabled. If an unsupported
-size is requested, the nearest supported size is used. Only size 1.0
-is guaranteed to be supported; others depend on the implementation.
-The range of supported sizes and the size difference between
-supported sizes within the range can be queried by calling
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with arguments GL\_POINT\_SIZE\_RANGE and
-GL\_POINT\_SIZE\_GRANULARITY. The point size specified by
-**glPointSize** is always returned when GL\_POINT\_SIZE is queried.
-Clamping and rounding for aliased and antialiased points have no
-effect on the specified value. Non-antialiased point size may be
-clamped to an implementation-dependent maximum. Although this maximum
-cannot be queried, it must be no less than the maximum value for
-antialiased points, rounded to the nearest integer value. The
-following functions retrieve information related to **glPointSize**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_POINT\_SIZE **glGet** with argument
-GL\_POINT\_SIZE\_RANGE **glGet** with argument
-GL\_POINT\_SIZE\_GRANULARITY [**glIsEnabled**](glisenabled.md) with
-argument GL\_POINT\_SMOOTH
+glPointSize はエイリアスとアンチエイリアス両方のラスタライズ点の直径を指定する。1.0
+以外のサイズはアンチエイリアスの有無で効果が変わる。点アンチエイリアスは glEnable/glDisable の
+GL_POINT_SMOOTH で制御する。無効時は指定サイズを最も近い整数に丸めた値が実際のサイズとなる (0 になった場合は 1
+として扱う)。大きな点はサイズ×サイズのピクセル四角形として塗られる。有効時は指定サイズそのものが使われ、点はディスク形状でラスタライズされ、各ピクセルのカバレッジ値が計算される。指定サイズは非負でなければならない。実装ごとのサポート範囲は
+GL_POINT_SIZE_RANGE で、粒度は GL_POINT_SIZE_GRANULARITY で取得できる。関連情報は
+glGet (GL_POINT_SIZE / GL_POINT_SIZE_RANGE /
+GL_POINT_SIZE_GRANULARITY) および glIsEnabled (GL_POINT_SMOOTH) で取得できる。
 
 
 %index
 glPolygonMode
-The glPolygonMode function selects a polygon rasterization mode.
+glPolygonMode 関数はポリゴンのラスタライズモードを選択する。
 %group
 Win32 opengl32
 %prm
 face, mode
-face : [int] The polygons that *mode* applies to. Must be GL\_FRONT for front-facing polygons, GL\_BACK for back-facing polygons, or GL\_FRONT\_AND\_BACK for front- and back-facing polygons.
-mode : [int] The way polygons will be rasterized. The following modes are defined and can be specified in *mode*. The default is GL\_FILL for both front- and back-facing polygons.
+face : [int] mode を適用するポリゴン。前面ポリゴン用に GL_FRONT、背面ポリゴン用に GL_BACK、両面用に GL_FRONT_AND_BACK のいずれかでなければならない。
+mode : [int] ポリゴンのラスタライズ方法。前面・背面とも既定は GL_FILL。GL_POINT: 頂点を単一点として扱い、点として描画する。GL_LINE: ポリゴンの境界辺を線分として描画する。GL_FILL: ポリゴンの内部を塗りつぶす。
 %inst
-The glPolygonMode function selects a polygon rasterization mode.
+glPolygonMode 関数はポリゴンのラスタライズモードを選択する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPolygonMode** function controls the interpretation of
-polygons for rasterization. The *face* parameter describes which
-polygons *mode* applies to: front-facing polygons (GL\_FRONT),
-back-facing polygons (GL\_BACK), or both (GL\_FRONT\_AND\_BACK). The
-polygon mode affects only the final rasterization of polygons. In
-particular, a polygon's vertices are lit and the polygon is clipped
-and possibly culled before these modes are applied. To draw a surface
-with filled back-facing polygons and outlined front-facing polygons,
-call **glPolygonMode**(GL\_FRONT, GL\_LINE); Vertices are marked as
-boundary or nonboundary with an edge flag. Edge flags are generated
-internally by OpenGL when it decomposes polygons, and they can be set
-explicitly using [**glEdgeFlag**](gledgeflag-functions.md). The
-following function retrieves information related to
-**glPolygonMode**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_POLYGON\_MODE
+glPolygonMode はラスタライズ用ポリゴン解釈を制御する。face は mode を適用するポリゴン (前面
+GL_FRONT、背面 GL_BACK、両方 GL_FRONT_AND_BACK)
+を指定する。ポリゴンモードは最終ラスタライズにのみ影響する
+(ポリゴンの頂点はライティングされ、クリッピング・カリング後に適用される)。背面を塗りつぶし前面を輪郭描画する例:
+glPolygonMode(GL_FRONT, GL_LINE)。頂点は glEdgeFlag または glEdgeFlagv
+により境界か非境界としてマークされ、GL_LINE モードで描画されるのは境界辺のみ。関連情報は glGet
+(GL_POLYGON_MODE) で取得できる。
 
 
 %index
 glPolygonOffset
-The glPolygonOffset function sets the scale and units OpenGL uses to calculate depth values.
+glPolygonOffset 関数は OpenGL がデプス値を計算する際のスケールと単位を設定する。
 %group
 Win32 opengl32
 %prm
 factor, units
-factor : [float] Specifies a scale factor that is used to create a variable depth offset for each polygon. The initial value is zero.
-units : [float] Specifies a value that is multiplied by an implementation-specific value to create a constant depth offset. The initial value is 0.
+factor : [float] 各ポリゴンに対する可変のデプスオフセットを作成するスケール係数。初期値は 0。
+units : [float] 実装依存の値と掛け合わせて定デプスオフセットを作る値。初期値は 0。
 %inst
-The glPolygonOffset function sets the scale and units OpenGL uses to
-calculate depth values.
+glPolygonOffset 関数は OpenGL がデプス値を計算する際のスケールと単位を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-When GL\_POLYGON\_OFFSET is enabled, each fragment's depth value will
-be offset after it is interpolated from the depth values of the
-appropriate vertices. The value of the offset is *factor* \* ?z + r
-\**units*, where ?z is a measurement of the change in depth relative
-to the screen area of the polygon, and r is the smallest value that
-is guaranteed to produce a resolvable offset for a given
-implementation. The offset is added before the depth test is
-performed and before the value is written into the depth buffer. The
-**glPolygonOffset** function is useful for rendering hidden-line
-images, for applying decals to surfaces, and for rendering solids
-with highlighted edges. The **glPolygonOffset** function has no
-effect on depth coordinates placed in the feedback buffer. It also
-has no effect on selection. The following functions retrieve
-information related to **glPolygonOffset**: -
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_POLYGON\_OFFSET\_FACTOR -
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_POLYGON\_OFFSET\_UNITS -
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_POLYGON\_OFFSET\_FILL - [**glIsEnabled**](glisenabled.md) with
-argument GL\_POLYGON\_OFFSET\_LINE -
-[**glIsEnabled**](glisenabled.md) with argument
-GL\_POLYGON\_OFFSET\_POINT > [!Note] > The **glPolygonOffset**
-function is only available in OpenGl version 1.1 or greater.
+GL_POLYGON_OFFSET が有効なとき、各フラグメントのデプス値は頂点から補間された後にオフセットされる。オフセット値は
+factor * Δz + r * units で、Δz はポリゴンのスクリーン面積に対するデプス変化の尺度、r
+は実装ごとに確実に解像可能なオフセットを生成する最小値。オフセットはデプステスト実行前、デプスバッファへの書き込み前に加算される。glPolygonOffset
+は隠線画像のレンダリング、隠面除去、同一ジオメトリでのシェーディング切替えなどで有用。GL_POLYGON_OFFSET は
+glEnable/glDisable で GL_POLYGON_OFFSET_FILL/LINE/POINT を渡して個別に有効化する
+(ポリゴンモード GL_FILL/LINE/POINT に対応)。関連情報は glGet
+(GL_POLYGON_OFFSET_FACTOR / UNITS) および glIsEnabled で取得できる。
 
 
 %index
 glPolygonStipple
-The glPolygonStipple function sets the polygon stippling pattern.
+glPolygonStipple 関数はポリゴンスティップリングパターンを設定する。
 %group
 Win32 opengl32
 %prm
 mask
-mask : [var] A pointer to a 32x32 stipple pattern that will be unpacked from memory in the same way that [**glDrawPixels**](gldrawpixels.md) unpacks pixels.
+mask : [var] glDrawPixels がピクセルをアンパックするのと同じ方法でメモリからアンパックされる 32x32 スティップルパターンへのポインタ。
 %inst
-The glPolygonStipple function sets the polygon stippling pattern.
+glPolygonStipple 関数はポリゴンスティップリングパターンを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPolygonStipple** function sets the polygon stippling pattern.
-Polygon stippling, like line stippling (see
-[**glLineStipple**](gllinestipple.md)), masks out certain fragments
-produced by rasterization, creating a pattern. Stippling is
-independent of polygon antialiasing. The *mask* parameter is a
-pointer to a 32x32 stipple pattern that is stored in memory just like
-the pixel data supplied to **glDrawPixels** with *height* and *width*
-both equal to 32, a pixel *format* of GL\_COLOR\_INDEX, and data
-*type* of GL\_BITMAP. That is, the stipple pattern is represented as
-a 32x32 array of 1-bit color indexes packed in unsigned bytes. The
-[**glPixelStore**](glpixelstore-functions.md) function parameters,
-such as GL\_UNPACK\_SWAP\_BYTES and GL\_UNPACK\_LSB\_FIRST, affect
-the assembling of the bits into a stipple pattern. Pixel transfer
-operations (shift, offset, and pixel map) are not applied to the
-stipple image, however. Polygon stippling is enabled and disabled
-with [**glEnable**](glenable.md) and **glDisable**, using argument
-GL\_POLYGON\_STIPPLE. If enabled, a rasterized polygon fragment with
-window coordinates *x*w and *y*w is sent to the next stage of OpenGL
-if and only if the (*x*w mod 32)th bit in the (*y*w mod 32)th row of
-the stipple pattern is one. When polygon stippling is disabled, it is
-as if the stipple pattern were all ones. The following functions
-retrieve information related to **glPolygonStipple**:
-[**glGetPolygonStipple**](glgetpolygonstipple.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_POLYGON\_STIPPLE
+glPolygonStipple はポリゴンスティップリングパターンを設定する。線スティップリング (glLineStipple 参照)
+と同様、ラスタライズ生成フラグメントをマスクしてパターンを作る。スティップリングはポリゴンアンチエイリアスと独立。mask は 32x32
+スティップルパターンへのポインタで、glDrawPixels の
+height/width=32、format=GL_COLOR_INDEX、type=GL_BITMAP
+で与えたピクセルデータと同じ形でメモリに格納される。スティップルパターンは 32x32 の 1
+ビット色インデックス配列として表現される。パターンは glPixelStore の GL_UNPACK_*
+パラメータの影響を受ける。スティップリングは glEnable/glDisable の GL_POLYGON_STIPPLE
+で有効/無効化する。関連情報は glGetPolygonStipple / glPixelStore で取得できる。
 
 
 %index
 glPopAttrib
-Pops the attribute stack.
+属性スタックをポップする。
 %group
 Win32 opengl32
 %prm
 
 %inst
-Pops the attribute stack.
+属性スタックをポップする。
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数は引数を持たず、値を返さない。
 
 [備考]
-The [**glPushAttrib**](glpushattrib.md) function takes one argument,
-a mask that indicates which groups of state variables to save on the
-attribute stack. Symbolic constants are used to set bits in the mask.
-The mask parameter is typically constructed by **OR**ing several of
-these constants together. The special mask GL\_ALL\_ATTRIB\_BITS can
-be used to save all stackable states. The **glPopAttrib** function
-restores the values of the state variables saved with the last
-[**glPushAttrib**](glpushattrib.md) command. Those not saved are left
-unchanged. It is an error to push attributes onto a full stack, or to
-pop attributes off an empty stack. In either case, the error flag is
-set and no other change is made to the OpenGL state. Initially, the
-attribute stack is empty. Not all values for the OpenGL state can be
-saved on the attribute stack. For example, pixel pack and unpack
-state, render mode state, and select and feedback state cannot be
-saved. The depth of the attribute stack depends on the
-implementation, but it must be at least 16. The following functions
-retrieve information related to [**glPushAttrib**](glpushattrib.md)
-and **glPopAttrib**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ATTRIB\_STACK\_DEPTH
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_ATTRIB\_STACK\_DEPTH
+glPushAttrib は属性スタックに保存する状態変数群を示すマスクを 1
+つ引数に取る。マスク中のビット設定にはシンボル定数が使われ、これらの OR で構築する。特別なマスク GL_ALL_ATTRIB_BITS
+で全ての保存可能状態を保存できる。glPopAttrib は最後の glPushAttrib
+で保存した状態変数を復元する。保存されていないものは変更されない。満杯の属性スタックへのプッシュ、または空スタックからのポップはエラーフラグを立て、他の変更は行われない。最小スタック深度は
+16。関連情報は glGet (GL_ATTRIB_STACK_DEPTH / GL_MAX_ATTRIB_STACK_DEPTH)
+で取得できる。
 
 
 %index
 glPopClientAttrib
-The glPushClientAttrib and glPopClientAttrib functions save and restore groups of client-state variables on the client-attribute stack. | glPopClientAttrib function (Gl.h)
+glPushClientAttrib と glPopClientAttrib 関数はクライアント属性スタック上でクライアントステート変数群を保存・復元する。| glPopClientAttrib 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glPushClientAttrib and glPopClientAttrib functions save and
-restore groups of client-state variables on the client-attribute
-stack. | glPopClientAttrib function (Gl.h)
+glPushClientAttrib と glPopClientAttrib
+関数はクライアント属性スタック上でクライアントステート変数群を保存・復元する。| glPopClientAttrib 関数 (Gl.h)
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数は引数を持たず、値を返さない。
 
 [備考]
-The **glPushClientAttrib** function uses its mask parameter to
-determine which groups of client-state variables are saved on the
-client-attribute stack. You can use the bitwise OR operator to join
-together accepted symbolic constants to set bits and construct a
-mask. The **glPopClientAttrib** function restores the values of the
-client-state variables last saved with **glPushclientAttrib**.
-Client-state variables not previously saved are left unchanged.
-Pushing attributes onto a full client-attribute stack or popping
-attributes off an empty stack sets an error flag and no other change
-is made to the OpenGL state. By default the client attribute stack is
-empty. Some OpenGL client-state values cannot be saved on the
-client-attribute stack. For example, you cannot save the select or
-feedback states on the client-attribute stack. The depth of the
-client-attribute stack is at least 16. The **glPushclientAttrib** and
-**glPopClientAttrib** functions are not compiled into display lists,
-but are executed immediately. The **glPushClientAttrib** and
-**glPopClientAttrib** functions can only push and pop pixel storage
-modes and vertex array client states. You must use
-[**glPushAttrib**](glpushattrib.md) and
-[**glPopAttrib**](glpopattrib.md) to push and pop states that are
-kept on the server. > [!Note] > The **glPushClientAttrib** and
-**glPopClientAttrib** functions are only available in OpenGL version
-1.1 or later.
-The following functions retrieve information related to
-**glPushClientAttrib** and **glPopClientAttrib**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CLIENT\_ATTRIB\_STACK\_DEPTH
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_CLIENT\_ATTRIB\_STACK\_DEPTH
+glPushClientAttrib はクライアント属性スタックに保存するクライアントステート変数群をマスクで指定する。ビット単位 OR
+で受け付けシンボル定数を結合してマスクを構築する。glPopClientAttrib は最後の glPushClientAttrib
+で保存したクライアントステート変数を復元する。保存されていないものは変更されない。満杯のクライアント属性スタックへのプッシュ、空スタックからのポップはエラーフラグを立て、他の変更は行われない。クライアントステートはサーバ側ステートと区別される。GL_CLIENT_PIXEL_STORE_BIT
+と GL_CLIENT_VERTEX_ARRAY_BIT のみが保存可能。glPushClientAttrib と
+glPopClientAttrib は表示リストに含められない。注意: OpenGL 1.1 以降でのみ利用可能。関連情報は glGet
+(GL_CLIENT_ATTRIB_STACK_DEPTH / GL_MAX_CLIENT_ATTRIB_STACK_DEPTH)
+で取得できる。
 
 
 %index
 glPopMatrix
-The glPushMatrix and glPopMatrix functions push and pop the current matrix stack. | glPopMatrix function (Gl.h)
+glPushMatrix と glPopMatrix 関数は現在の行列スタックをプッシュ・ポップする。| glPopMatrix 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glPushMatrix and glPopMatrix functions push and pop the current
-matrix stack. | glPopMatrix function (Gl.h)
+glPushMatrix と glPopMatrix 関数は現在の行列スタックをプッシュ・ポップする。| glPopMatrix 関数
+(Gl.h)
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数は引数を持たず、値を返さない。
 
 [備考]
-There is a stack of matrices for each of the matrix modes. In
-GL\_MODELVIEW mode, the stack depth is at least 32. In the other two
-modes, GL\_PROJECTION and GL\_TEXTURE, the depth is at least 2. The
-current matrix in any mode is the matrix on the top of the stack for
-that mode. The [**glPushMatrix**](glpushmatrix.md) function pushes
-the current matrix stack down by one, duplicating the current matrix.
-That is, after a **glPushMatrix** call, the matrix on the top of the
-stack is identical to the one below it. The **glPopMatrix** function
-pops the current matrix stack, replacing the current matrix with the
-one below it on the stack. Initially, each of the stacks contains one
-matrix, an identity matrix. The following functions retrieve
-information related to [**glPushMatrix**](glpushmatrix.md) and
-**glPopMatrix**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX **glGet** with argument
-GL\_MODELVIEW\_STACK\_DEPTH **glGet** with argument
-GL\_PROJECTION\_STACK\_DEPTH **glGet** with argument
-GL\_TEXTURE\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_MODELVIEW\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_PROJECTION\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_TEXTURE\_STACK\_DEPTH
+各行列モードごとに行列スタックが存在する。GL_MODELVIEW モードのスタック深度は最小 32、GL_PROJECTION と
+GL_TEXTURE の深度は最小 2。任意モードの現在の行列はそのモードのスタック最上段の行列。glPushMatrix
+は現在の行列スタックを 1 段下げ、現在行列を複製する (プッシュ後は最上段と直下が同一)。glPopMatrix
+は現在の行列スタックをポップし、現在行列を直下の行列で置き換える。満杯のスタックへのプッシュ、空のスタックからのポップはエラーフラグを立てる。関連情報は
+glGet (GL_MATRIX_MODE / GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX /
+GL_TEXTURE_MATRIX / GL_MAX_MODELVIEW_STACK_DEPTH /
+GL_MAX_PROJECTION_STACK_DEPTH / GL_MAX_TEXTURE_STACK_DEPTH /
+GL_MODELVIEW_STACK_DEPTH / GL_PROJECTION_STACK_DEPTH /
+GL_TEXTURE_STACK_DEPTH) で取得できる。
 
 
 %index
 glPopName
-The glPushName and glPopName functions push and pop the name stack. | glPopName function (Gl.h)
+glPushName と glPopName 関数はネームスタックをプッシュ・ポップする。| glPopName 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glPushName and glPopName functions push and pop the name stack. |
-glPopName function (Gl.h)
+glPushName と glPopName 関数はネームスタックをプッシュ・ポップする。| glPopName 関数 (Gl.h)
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数は引数を持たず、値を返さない。
 
 [備考]
-The [**glPushName**](glpushname.md) function causes name to be pushed
-onto the name stack, which is initially empty. The **glPopName**
-function pops one name off the top of the stack. The name stack is
-used during selection mode to allow sets of rendering commands to be
-uniquely identified. It consists of an ordered set of unsigned
-integers. The name stack is always empty while the render mode is not
-GL\_SELECT. Calls to [**glPushName**](glpushname.md) or **glPopName**
-while the render mode is not GL\_SELECT are ignored. The following
-functions retrieve information related to
-[**glPushName**](glpushname.md) and **glPopName**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_NAME\_STACK\_DEPTH
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_NAME\_STACK\_DEPTH
+glPushName は当初空のネームスタックに name をプッシュする。glPopName は 1
+つの名前をスタック最上段からポップする。ネームスタックはセレクションモード中にレンダリングコマンド群を一意に識別するための順序付き符号なし整数集合。レンダーモードが
+GL_SELECT でない間は常に空で、このとき glPushName と glPopName
+は無視される。満杯のネームスタックへのプッシュ、空スタックからのポップはエラーフラグを立てる。関連情報は glGet
+(GL_NAME_STACK_DEPTH / GL_MAX_NAME_STACK_DEPTH) および glRenderMode
+で取得できる。
 
 
 %index
 glPrioritizeTextures
-The glPrioritizeTextures function sets the residence priority of textures.
+glPrioritizeTextures 関数はテクスチャの常駐優先度を設定する。
 %group
 Win32 opengl32
 %prm
 n, textures, priorities
-n : [int] The number of textures to be prioritized.
-textures : [var] A pointer to the first element of an array containing the names of the textures to be prioritized.
-priorities : [var] A pointer to the first element of an array containing the texture priorities. A priority given in an element of the *priorities* parameter applies to the texture named by the corresponding element of the *textures* parameter.
+n : [int] 優先度を設定するテクスチャの数。
+textures : [var] 優先度を設定するテクスチャ名を含む配列の最初の要素へのポインタ。
+priorities : [var] テクスチャ優先度を含む配列の最初の要素へのポインタ。priorities の各要素の優先度は、textures の対応する要素で指名されたテクスチャに適用される。
 %inst
-The glPrioritizeTextures function sets the residence priority of
-textures.
+glPrioritizeTextures 関数はテクスチャの常駐優先度を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPrioritizeTextures** function assigns the *n* texture
-priorities specified in the *priorities* parameter to the *n*
-textures named in the *textures* parameter. On computers with a
-limited amount of texture memory, OpenGL establishes a "working set"
-of textures that are resident in texture memory. These textures can
-be bound to a texture target much more efficiently than textures that
-are not resident. By specifying a priority for each texture, the
-**glPrioritizeTextures** function enables you to determine which
-textures should be resident. The texture priorities elements in
-*priorities* are clamped to the range \[0.0, 1.0\] before being
-assigned. Zero indicates the lowest priority; thus textures with
-priority zero are least likely to be resident. The value 1.0
-indicates the highest priority; thus textures with priority 1.0 are
-most likely to be resident. However, textures are not guaranteed to
-be resident until they are bound. The **glPrioritizeTextures**
-function ignores attempts to prioritize texture 0, or any texture
-name that does not correspond to an existing texture. None of the
-functions named by the *textures* parameter need to be bound to a
-texture target. If a texture is currently bound, you can also use the
-[**glTexParameter**](gltexparameter-functions.md) function to set its
-priority. This is the only way to set the priority of a default
-texture. You can include **glPrioritizeTextures** in display lists.
-The following function retrieves the priority of a currently-bound
-texture related to **glPrioritizeTextures**: -
-[**glGetTexParameter**](glgettexparameter.md) with parameter name
-GL\_TEXTURE\_PRIORITY > [!Note] > The **glPrioritizeTextures**
-function is only available in OpenGL version 1.1 or later.
+glPrioritizeTextures は priorities で指定された n 個のテクスチャ優先度を textures
+で指名された n 個のテクスチャに割り当てる。テクスチャメモリが限られたマシンでは、OpenGL
+はテクスチャメモリ常駐の「ワーキングセット」を確立する。常駐テクスチャは非常駐より効率的にバインドできる。各テクスチャに優先度を指定することで常駐させるべきテクスチャを決定できる。priorities
+の優先度は [0, 1] にクランプされ、0 は最低、1 は最高。既定のテクスチャ優先度は glTexParameter で
+GL_TEXTURE_PRIORITY により設定され、glPrioritizeTextures
+はそれを上書きする。既に存在するテクスチャの優先度のみが設定され、存在しないテクスチャ名は無視される。glPrioritizeTextures
+は表示リストに含められない。注意: OpenGL 1.1 以降でのみ利用可能。関連情報は glAreTexturesResident /
+glBindTexture / glGetTexParameter で取得できる。
 
 
 %index
 glPushAttrib
-Pushes the attribute stack.
+属性スタックにプッシュする。
 %group
 Win32 opengl32
 %prm
 mask
-mask : [int] A mask that indicates which attributes to save. The symbolic mask constants and their associated OpenGL state are as follows (the indented paragraphs list which attributes are saved):
+mask : [int] 保存する属性を示すマスク。シンボルマスク定数と関連する OpenGL ステートは次のとおり (それぞれ保存される属性を列挙): GL_ACCUM_BUFFER_BIT (アキュムレーションバッファクリア値)、GL_COLOR_BUFFER_BIT (GL_ALPHA_TEST 有効フラグ・関数・参照値、GL_BLEND 有効フラグ・ソース/宛先関数、GL_DITHER 有効フラグ、GL_DRAW_BUFFER 設定、GL_LOGIC_OP 有効フラグ・関数、クリア値、書き込みマスク)、GL_CURRENT_BIT (現在 RGBA 色・カラーインデックス・法線・テクスチャ座標・ラスタ位置・関連色・ラスタテクスチャ座標・GL_EDGE_FLAG)、GL_DEPTH_BUFFER_BIT、GL_ENABLE_BIT、GL_EVAL_BIT、GL_FOG_BIT、GL_HINT_BIT、GL_LIGHTING_BIT、GL_LINE_BIT、GL_LIST_BIT、GL_PIXEL_MODE_BIT、GL_POINT_BIT、GL_POLYGON_BIT、GL_POLYGON_STIPPLE_BIT、GL_SCISSOR_BIT、GL_STENCIL_BUFFER_BIT、GL_TEXTURE_BIT、GL_TRANSFORM_BIT、GL_VIEWPORT_BIT、GL_ALL_ATTRIB_BITS。 このドキュメントは省略されている。
 %inst
-Pushes the attribute stack.
+属性スタックにプッシュする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPushAttrib** function takes one argument, a mask that
-indicates which groups of state variables to save on the attribute
-stack. Symbolic constants are used to set bits in the mask. The mask
-parameter is typically constructed by applying the logical **OR**
-operation to several of these constants. You can use the special mask
-GL\_ALL\_ATTRIB\_BITS to save all stackable states. The
-[**glPopAttrib**](glpopattrib.md) function restores the values of the
-state variables saved with the last **glPushAttrib** command. Those
-not saved are left unchanged. It is an error to push attributes onto
-a full stack, or to pop attributes off an empty stack. In either
-case, the error flag is set and no other change is made to the OpenGL
-state. Initially, the attribute stack is empty. Not all values for
-the OpenGL state can be saved on the attribute stack. For example,
-you cannot save pixel pack and unpack state, render mode state, and
-select and feedback state. The depth of the attribute stack depends
-on the implementation, but it must be at least 16. The following
-functions retrieve information related to **glPushAttrib** and
-[**glPopAttrib**](glpopattrib.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_ATTRIB\_STACK\_DEPTH
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_ATTRIB\_STACK\_DEPTH
+glPushAttrib は属性スタックに保存する状態変数群を示すマスクを 1
+つ引数に取る。マスク中のビット設定にはシンボル定数が使われ、論理 OR 演算でそれらを結合して構築する。特別なマスク
+GL_ALL_ATTRIB_BITS で全ての保存可能状態を保存できる。glPopAttrib は最後の glPushAttrib
+で保存した状態変数を復元する。保存されていないものは変更されない。満杯の属性スタックへのプッシュ、空スタックからのポップはエラーフラグを立て、他の変更は行われない。最小スタック深度は
+16。関連情報は glGet (GL_ATTRIB_STACK_DEPTH / GL_MAX_ATTRIB_STACK_DEPTH)
+で取得できる。
 
 
 %index
 glPushClientAttrib
-The glPushClientAttrib and glPopClientAttrib functions save and restore groups of client-state variables on the client-attribute stack. | glPushClientAttrib function (Gl.h)
+glPushClientAttrib と glPopClientAttrib 関数はクライアント属性スタック上でクライアントステート変数群を保存・復元する。| glPushClientAttrib 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 mask
-mask : [int] A mask that indicates which attributes to save. The following are the symbolic mask constants and their associated OpenGL client states.
+mask : [int] 保存する属性を示すマスク。シンボルマスク定数と関連する OpenGL クライアントステート: GL_CLIENT_PIXEL_STORE_BIT (ピクセル格納モード: GL_PACK_* と GL_UNPACK_* の全パラメータ)、GL_CLIENT_VERTEX_ARRAY_BIT (頂点配列状態: GL_VERTEX_ARRAY 有効フラグとポインタ/サイズ/型/ストライド、法線配列、カラー配列、インデックス配列、テクスチャ座標配列、エッジフラグ配列の同等状態)、GL_CLIENT_ALL_ATTRIB_BITS (全ビット)。
 %inst
-The glPushClientAttrib and glPopClientAttrib functions save and
-restore groups of client-state variables on the client-attribute
-stack. | glPushClientAttrib function (Gl.h)
+glPushClientAttrib と glPopClientAttrib
+関数はクライアント属性スタック上でクライアントステート変数群を保存・復元する。| glPushClientAttrib 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPushClientAttrib** function uses its mask parameter to
-determine which groups of client-state variables are saved on the
-client-attribute stack. You can use the bitwise OR operator to join
-together accepted symbolic constants to set bits and construct a
-mask. The [**glPopClientAttrib**](glpopclientattrib.md) function
-restores the values of the client-state variables last saved with
-**glPushclientAttrib**. Client-state variables not previously saved
-are left unchanged. Pushing attributes onto a full client-attribute
-stack or popping attributes off an empty stack sets an error flag and
-no other change is made to the OpenGL state. By default the client
-attribute stack is empty. Some OpenGL client-state values cannot be
-saved on the client-attribute stack. For example, you cannot save the
-select or feedback states on the client-attribute stack. The depth of
-the client-attribute stack is at least 16. The **glPushclientAttrib**
-and **glPopClientAttrib** functions are not compiled into display
-lists, but are executed immediately. The **glPushClientAttrib** and
-**glPopClientAttrib** functions can only push and pop pixel storage
-modes and vertex array client states. You must use
-[**glPushAttrib**](glpushattrib.md) and
-[**glPopAttrib**](glpopattrib.md) to push and pop states that are
-kept on the server. > [!Note] > The **glPushClientAttrib** and
-**glPopClientAttrib** functions are only available in OpenGL version
-1.1 or later.
-The following functions retrieve information related to
-**glPushClientAttrib** and **glPopClientAttrib**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CLIENT\_ATTRIB\_STACK\_DEPTH
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_CLIENT\_ATTRIB\_STACK\_DEPTH
+glPushClientAttrib はクライアント属性スタックに保存するクライアントステート変数群をマスクで指定する。ビット単位 OR
+で受け付けシンボル定数を結合してマスクを構築する。glPopClientAttrib は最後の glPushClientAttrib
+で保存したクライアントステート変数を復元する。保存されていないものは変更されない。満杯のクライアント属性スタックへのプッシュ、空スタックからのポップはエラーフラグを立て、他の変更は行われない。クライアントステートはサーバ側ステートと区別される。GL_CLIENT_PIXEL_STORE_BIT
+と GL_CLIENT_VERTEX_ARRAY_BIT のみが保存可能。glPushClientAttrib と
+glPopClientAttrib は表示リストに含められない。注意: OpenGL 1.1 以降でのみ利用可能。関連情報は glGet
+(GL_CLIENT_ATTRIB_STACK_DEPTH / GL_MAX_CLIENT_ATTRIB_STACK_DEPTH)
+で取得できる。
 
 
 %index
 glPushMatrix
-The glPushMatrix and glPopMatrix functions push and pop the current matrix stack. | glPushMatrix function (Gl.h)
+glPushMatrix と glPopMatrix 関数は現在の行列スタックをプッシュ・ポップする。| glPushMatrix 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 
 %inst
-The glPushMatrix and glPopMatrix functions push and pop the current
-matrix stack. | glPushMatrix function (Gl.h)
+glPushMatrix と glPopMatrix 関数は現在の行列スタックをプッシュ・ポップする。| glPushMatrix 関数
+(Gl.h)
 
 [戻り値]
-This function has no parameters.
-This function does not return a value.
+この関数は引数を持たず、値を返さない。
 
 [備考]
-There is a stack of matrices for each of the matrix modes. In
-GL\_MODELVIEW mode, the stack depth is at least 32. In the other two
-modes, GL\_PROJECTION and GL\_TEXTURE, the depth is at least 2. The
-current matrix in any mode is the matrix on the top of the stack for
-that mode. The **glPushMatrix** function pushes the current matrix
-stack down by one, duplicating the current matrix. That is, after a
-**glPushMatrix** call, the matrix on the top of the stack is
-identical to the one below it. The **glPopMatrix** function pops the
-current matrix stack, replacing the current matrix with the one below
-it on the stack. Initially, each of the stacks contains one matrix,
-an identity matrix. The following functions retrieve information
-related to **glPushMatrix** and **glPopMatrix**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX **glGet** with argument
-GL\_MODELVIEW\_STACK\_DEPTH **glGet** with argument
-GL\_PROJECTION\_STACK\_DEPTH **glGet** with argument
-GL\_TEXTURE\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_MODELVIEW\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_PROJECTION\_STACK\_DEPTH **glGet** with argument
-GL\_MAX\_TEXTURE\_STACK\_DEPTH
+各行列モードごとに行列スタックが存在する。GL_MODELVIEW モードのスタック深度は最小 32、GL_PROJECTION と
+GL_TEXTURE の深度は最小 2。任意モードの現在の行列はそのモードのスタック最上段の行列。glPushMatrix
+は現在の行列スタックを 1 段下げ、現在行列を複製する (プッシュ後は最上段と直下が同一)。glPopMatrix
+は現在の行列スタックをポップし、現在行列を直下の行列で置き換える。満杯のスタックへのプッシュ、空のスタックからのポップはエラーフラグを立てる。関連情報は
+glGet (GL_MATRIX_MODE / GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX /
+GL_TEXTURE_MATRIX / GL_MAX_MODELVIEW_STACK_DEPTH /
+GL_MAX_PROJECTION_STACK_DEPTH / GL_MAX_TEXTURE_STACK_DEPTH /
+GL_MODELVIEW_STACK_DEPTH / GL_PROJECTION_STACK_DEPTH /
+GL_TEXTURE_STACK_DEPTH) で取得できる。
 
 
 %index
 glPushName
-The glPushName and glPopName functions push and pop the name stack. | glPushName function (Gl.h)
+glPushName と glPopName 関数はネームスタックをプッシュ・ポップする。| glPushName 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 name
-name : [int] A name that will be pushed onto the name stack.
+name : [int] ネームスタックにプッシュされる名前。
 %inst
-The glPushName and glPopName functions push and pop the name stack. |
-glPushName function (Gl.h)
+glPushName と glPopName 関数はネームスタックをプッシュ・ポップする。| glPushName 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glPushName** function causes name to be pushed onto the name
-stack, which is initially empty. The [**glPopName**](glpopname.md)
-function pops one name off the top of the stack. The name stack is
-used during selection mode to allow sets of rendering commands to be
-uniquely identified. It consists of an ordered set of unsigned
-integers. The name stack is always empty while the render mode is not
-GL\_SELECT. Calls to **glPushName** or [**glPopName**](glpopname.md)
-while the render mode is not GL\_SELECT are ignored. The following
-functions retrieve information related to **glPushName** and
-[**glPopName**](glpopname.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_NAME\_STACK\_DEPTH
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MAX\_NAME\_STACK\_DEPTH
+glPushName は当初空のネームスタックに name をプッシュする。glPopName は 1
+つの名前をスタック最上段からポップする。ネームスタックはセレクションモード中にレンダリングコマンド群を一意に識別するための順序付き符号なし整数集合。レンダーモードが
+GL_SELECT でない間は常に空で、このとき glPushName と glPopName
+は無視される。満杯のネームスタックへのプッシュ、空スタックからのポップはエラーフラグを立てる。関連情報は glGet
+(GL_NAME_STACK_DEPTH / GL_MAX_NAME_STACK_DEPTH) および glRenderMode
+で取得できる。
 
 
 %index
 glRasterPos2d
-Specifies the raster position for pixel operations. | glRasterPos2d function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [double] Specifies the x-coordinate for the current raster position.
-y : [double] Specifies the y-coordinate for the current raster position.
+x : [double] 現在のラスタ位置の x 座標を指定する。
+y : [double] 現在のラスタ位置の y 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2d
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos2dv
-Specifies the raster position for pixel operations. | glRasterPos2dv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, specifying x and y coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y 座標を指定する 2 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2dv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos2f
-Specifies the raster position for pixel operations. | glRasterPos2f function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [float] Specifies the x-coordinate for the current raster position.
-y : [float] Specifies the y-coordinate for the current raster position.
+x : [float] 現在のラスタ位置の x 座標を指定する。
+y : [float] 現在のラスタ位置の y 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2f
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos2fv
-Specifies the raster position for pixel operations. | glRasterPos2fv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, specifying x and y coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y 座標を指定する 2 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2fv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos2i
-Specifies the raster position for pixel operations. | glRasterPos2i function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [int] Specifies the x-coordinate for the current raster position.
-y : [int] Specifies the y-coordinate for the current raster position.
+x : [int] 現在のラスタ位置の x 座標を指定する。
+y : [int] 現在のラスタ位置の y 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2i
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos2iv
-Specifies the raster position for pixel operations. | glRasterPos2iv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, specifying x and y coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y 座標を指定する 2 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2iv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos2s
-Specifies the raster position for pixel operations. | glRasterPos2s function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [int] Specifies the x-coordinate for the current raster position.
-y : [int] Specifies the y-coordinate for the current raster position.
+x : [int] 現在のラスタ位置の x 座標を指定する。
+y : [int] 現在のラスタ位置の y 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2s
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos2sv
-Specifies the raster position for pixel operations. | glRasterPos2sv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, specifying x and y coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y 座標を指定する 2 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos2sv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos2sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3d
-Specifies the raster position for pixel operations. | glRasterPos3d function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [double] Specifies the x-coordinate for the current raster position.
-y : [double] Specifies the y-coordinate for the current raster position.
-z : [double] Specifies the z-coordinate for the current raster position.
+x : [double] 現在のラスタ位置の x 座標を指定する。
+y : [double] 現在のラスタ位置の y 座標を指定する。
+z : [double] 現在のラスタ位置の z 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3d
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3dv
-Specifies the raster position for pixel operations. | glRasterPos3dv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, specifying x, y, and z coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z 座標を指定する 3 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3dv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3f
-Specifies the raster position for pixel operations. | glRasterPos3f function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [float] Specifies the x-coordinate for the current raster position.
-y : [float] Specifies the y-coordinate for the current raster position.
-z : [float] Specifies the z-coordinate for the current raster position.
+x : [float] 現在のラスタ位置の x 座標を指定する。
+y : [float] 現在のラスタ位置の y 座標を指定する。
+z : [float] 現在のラスタ位置の z 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3f
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3fv
-Specifies the raster position for pixel operations. | glRasterPos3fv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, specifying x, y, and z coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z 座標を指定する 3 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3fv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3i
-Specifies the raster position for pixel operations. | glRasterPos3i function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [int] Specifies the x-coordinate for the current raster position.
-y : [int] Specifies the y-coordinate for the current raster position.
-z : [int] Specifies the z-coordinate for the current raster position.
+x : [int] 現在のラスタ位置の x 座標を指定する。
+y : [int] 現在のラスタ位置の y 座標を指定する。
+z : [int] 現在のラスタ位置の z 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3i
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3iv
-Specifies the raster position for pixel operations. | glRasterPos3iv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, specifying x, y, and z coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z 座標を指定する 3 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3iv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3s
-Specifies the raster position for pixel operations. | glRasterPos3s function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [int] Specifies the x-coordinate for the current raster position.
-y : [int] Specifies the y-coordinate for the current raster position.
-z : [int] Specifies the z-coordinate for the current raster position.
+x : [int] 現在のラスタ位置の x 座標を指定する。
+y : [int] 現在のラスタ位置の y 座標を指定する。
+z : [int] 現在のラスタ位置の z 座標を指定する。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3s
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos3sv
-Specifies the raster position for pixel operations. | glRasterPos3sv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, specifying x, y, and z coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z 座標を指定する 3 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos3sv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos3sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos4d
-Specifies the raster position for pixel operations. | glRasterPos4d function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [double] Specifies the x-coordinate for the current raster position.
-y : [double] Specifies the y-coordinate for the current raster position.
-z : [double] Specifies the z-coordinate for the current raster position.
-w : [double] The w-coordinate for the current raster position.
+x : [double] 現在のラスタ位置の x 座標を指定する。
+y : [double] 現在のラスタ位置の y 座標を指定する。
+z : [double] 現在のラスタ位置の z 座標を指定する。
+w : [double] 現在のラスタ位置の w 座標。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4d
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos4dv
-Specifies the raster position for pixel operations. | glRasterPos4dv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, specifying x, y, z, and w coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z, w 座標を指定する 4 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4dv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos4f
-Specifies the raster position for pixel operations. | glRasterPos4f function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [float] Specifies the x-coordinate for the current raster position.
-y : [float] Specifies the y-coordinate for the current raster position.
-z : [float] Specifies the z-coordinate for the current raster position.
-w : [float] The w-coordinate for the current raster position.
+x : [float] 現在のラスタ位置の x 座標を指定する。
+y : [float] 現在のラスタ位置の y 座標を指定する。
+z : [float] 現在のラスタ位置の z 座標を指定する。
+w : [float] 現在のラスタ位置の w 座標。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4f
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos4fv
-Specifies the raster position for pixel operations. | glRasterPos4fv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, specifying x, y, z, and w coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z, w 座標を指定する 4 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4fv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos4i
-Specifies the raster position for pixel operations. | glRasterPos4i function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [int] Specifies the x-coordinate for the current raster position.
-y : [int] Specifies the y-coordinate for the current raster position.
-z : [int] Specifies the z-coordinate for the current raster position.
-w : [int] The w-coordinate for the current raster position.
+x : [int] 現在のラスタ位置の x 座標を指定する。
+y : [int] 現在のラスタ位置の y 座標を指定する。
+z : [int] 現在のラスタ位置の z 座標を指定する。
+w : [int] 現在のラスタ位置の w 座標。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4i
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos4iv
-Specifies the raster position for pixel operations. | glRasterPos4iv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, specifying x, y, z, and w coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z, w 座標を指定する 4 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4iv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標で 3D
+位置を保持する。この位置をラスタ位置と呼び、サブピクセル精度で保持される。ピクセル・ビットマップ書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連する色データとテクスチャ座標から成る。w
+座標はクリップ座標で、ウィンドウ座標に投影されない。glRasterPos4 は x, y, z, w
+を指定する。glRasterPos3 は w=1、glRasterPos2 は z=0, w=1
+で指定する。ラスタ位置の座標はモデルビュー行列とプロジェクション行列で変換され、通常の頂点と同様にビューボリュームに対してクリップテストされる。位置がクリップされれば有効ビットはクリアされ、現在のラスタ位置は未定義となる。そうでなければ有効ビットが設定される。ラスタ位置が有効な場合、ラスタ位置に関連する色データは現在の色・インデックスから設定される
+(ライティング有効時は通常の頂点と同様に計算される)。ラスタテクスチャ座標は現在のテクスチャ座標から変換される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / GL_CURRENT_RASTER_POSITION_VALID /
+GL_CURRENT_RASTER_DISTANCE / GL_CURRENT_RASTER_COLOR /
+GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) で取得できる。
+このドキュメントは省略されている。
 
 
 %index
 glRasterPos4s
-Specifies the raster position for pixel operations. | glRasterPos4s function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [int] Specifies the x-coordinate for the current raster position.
-y : [int] Specifies the y-coordinate for the current raster position.
-z : [int] Specifies the z-coordinate for the current raster position.
-w : [int] The w-coordinate for the current raster position.
+x : [int] 現在のラスタ位置の x 座標を指定する。
+y : [int] 現在のラスタ位置の y 座標を指定する。
+z : [int] 現在のラスタ位置の z 座標を指定する。
+w : [int] 現在のラスタ位置の w 座標。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4s
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標の 3D
+位置を保持する。この位置はラスタ位置と呼ばれ、サブピクセル精度で保持される。ピクセルやビットマップの書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連するカラーデータとテクスチャ座標から構成される。w
+はクリップ座標であり、ウィンドウ座標へは射影されない。glRasterPos4 はオブジェクト座標 x, y, z, w
+を明示的に指定する。glRasterPos3 は w が暗黙的に 1 に設定され、glRasterPos2 は z=0、w=1
+に設定される。glRasterPos が提示するオブジェクト座標は glVertex
+と同様に扱われ、現在のモデルビュー行列と投影行列で変換されてクリッピング段階に渡される。頂点がカリングされなければウィンドウ座標に射影・スケールされ、それが新しい現在のラスタ位置となり
+GL_CURRENT_RASTER_POSITION_VALID
+フラグが設定される。カリングされた場合は有効ビットがクリアされ、ラスタ位置と関連色/テクスチャ座標は未定義になる。ライティングが有効な場合、GL_CURRENT_RASTER_COLOR
+(RGBA モード) または GL_CURRENT_RASTER_INDEX (カラーインデックスモード)
+はライティング計算結果の色に設定される。ライティング無効時は現在のカラー (GL_CURRENT_COLOR) またはカラーインデックス
+(GL_CURRENT_INDEX) で更新される。同様に GL_CURRENT_RASTER_TEXTURE_COORDS
+はテクスチャ行列とテクスチャ生成関数に基づいて GL_CURRENT_TEXTURE_COORDS
+から更新される。最後に、モデルビュー行列のみで変換した頂点の原点からの距離が GL_CURRENT_RASTER_DISTANCE
+を置き換える。初期値はラスタ位置 (0,0,0,1)、距離 0、有効ビットあり、RGBA (1,1,1,1)、カラーインデックス
+1、テクスチャ座標 (0,0,0,1)。注意: ラスタ位置は glRasterPos と glBitmap
+の両方で変更される。ラスタ位置座標が無効な場合、ラスタ位置に基づく描画コマンドは無視される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / _VALID / _DISTANCE / _COLOR / _INDEX /
+_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glRasterPos4sv
-Specifies the raster position for pixel operations. | glRasterPos4sv function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, specifying x, y, z, and w coordinates for the current raster position.
+v : [var] 現在のラスタ位置の x, y, z, w 座標を指定する 4 要素配列へのポインタ。
 %inst
-Specifies the raster position for pixel operations. | glRasterPos4sv
-function (Gl.h)
+ピクセル操作用のラスタ位置を指定する。| glRasterPos4sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL maintains a 3-D position in window coordinates. This position,
-called the raster position, is maintained with subpixel accuracy. It
-is used to position pixel and bitmap write operations. See
-[**glBitmap**](glbitmap.md), [**glDrawPixels**](gldrawpixels.md), and
-[**glCopyPixels**](glcopypixels.md). The current raster position
-consists of three window coordinates (*x, y, z*), a clip coordinate
-*w* value, an eye coordinate distance, a valid bit, and associated
-color data and texture coordinates. The *w* coordinate is a clip
-coordinate, because *w* is not projected to window coordinates. The
-[glRasterPos4](glrasterpos-functions.md) function specifies object
-coordinates *x, y, z*, and *w* explicitly. The glRasterPos3 function
-specifies object coordinates *x, y,* and *z* explicitly, while *w* is
-implicitly set to one. The glRasterPos2 function uses the argument
-values for *x* and *y* while implicitly setting *z* and *w* to zero
-and one. The object coordinates presented by
-[glRasterPos](glrasterpos-functions.md) are treated just like those
-of a [glVertex](glvertex-functions.md) command. They are transformed
-by the current modelview and projection matrices and passed to the
-clipping stage. If the vertex is not culled, then it is projected and
-scaled to window coordinates, which become the new current raster
-position, and the GL\_CURRENT\_RASTER\_POSITION\_VALID flag is set.
-If the vertex is culled, then the valid bit is cleared and the
-current raster position and associated color and texture coordinates
-are undefined. The current raster position also includes some
-associated color data and texture coordinates. If lighting is
-enabled, then GL\_CURRENT\_RASTER\_COLOR, in RGBA mode, or the
-GL\_CURRENT\_RASTER\_INDEX, in color-index mode, is set to the color
-produced by the lighting calculation (see
-[glLight](gllight-functions.md),
-[glLightModel](gllightmodel-functions.md), and
-[**glShadeModel**](glshademodel.md)). If lighting is disabled,
-current color (in RGBA mode, state variable GL\_CURRENT\_COLOR) or
-color index (in color-index mode, state variable GL\_CURRENT\_INDEX)
-is used to update the current raster color. Likewise,
-GL\_CURRENT\_RASTER\_TEXTURE\_COORDS is updated as a function of
-GL\_CURRENT\_TEXTURE\_COORDS, based on the texture matrix and the
-texture generation functions (see [glTexGen](gltexgen-functions.md)).
-Finally, the distance from the origin of the eye coordinate system to
-the vertex, as transformed by only the modelview matrix, replaces
-GL\_CURRENT\_RASTER\_DISTANCE. Initially, the current raster position
-is (0,0,0,1), the current raster distance is 0, the valid bit is set,
-the associated RGBA color is (1,1,1,1), the associated color index is
-1, and the associated texture coordinates are (0, 0, 0, 1). In RGBA
-mode, GL\_CURRENT\_RASTER\_INDEX is always 1; in color-index mode,
-the current raster RGBA color always maintains its initial value. >
-[!Note] > The raster position is modified both by
-[glRasterPos](glrasterpos-functions.md) and by
-[**glBitmap**](glbitmap.md).
-> [!Note] > When the raster position coordinates are invalid, drawing
-commands that are based on the raster position are ignored (that is,
-they do not result in changes to the OpenGL state).
-The following functions retrieve information related to
-[glRasterPos](glrasterpos-functions.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_POSITION\_VALID
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_DISTANCE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_COLOR
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_INDEX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_RASTER\_TEXTURE\_COORDS
+OpenGL はウィンドウ座標の 3D
+位置を保持する。この位置はラスタ位置と呼ばれ、サブピクセル精度で保持される。ピクセルやビットマップの書き込み操作の位置決めに使われる
+(glBitmap、glDrawPixels、glCopyPixels 参照)。現在のラスタ位置は 3 つのウィンドウ座標 (x, y,
+z)、クリップ座標 w 値、アイ座標距離、有効ビット、関連するカラーデータとテクスチャ座標から構成される。w
+はクリップ座標であり、ウィンドウ座標へは射影されない。glRasterPos4 はオブジェクト座標 x, y, z, w
+を明示的に指定する。glRasterPos3 は w が暗黙的に 1 に設定され、glRasterPos2 は z=0、w=1
+に設定される。glRasterPos が提示するオブジェクト座標は glVertex
+と同様に扱われ、現在のモデルビュー行列と投影行列で変換されてクリッピング段階に渡される。頂点がカリングされなければウィンドウ座標に射影・スケールされ、それが新しい現在のラスタ位置となり
+GL_CURRENT_RASTER_POSITION_VALID
+フラグが設定される。カリングされた場合は有効ビットがクリアされ、ラスタ位置と関連色/テクスチャ座標は未定義になる。ライティングが有効な場合、GL_CURRENT_RASTER_COLOR
+(RGBA モード) または GL_CURRENT_RASTER_INDEX (カラーインデックスモード)
+はライティング計算結果の色に設定される。ライティング無効時は現在のカラー (GL_CURRENT_COLOR) またはカラーインデックス
+(GL_CURRENT_INDEX) で更新される。同様に GL_CURRENT_RASTER_TEXTURE_COORDS
+はテクスチャ行列とテクスチャ生成関数に基づいて GL_CURRENT_TEXTURE_COORDS
+から更新される。最後に、モデルビュー行列のみで変換した頂点の原点からの距離が GL_CURRENT_RASTER_DISTANCE
+を置き換える。初期値はラスタ位置 (0,0,0,1)、距離 0、有効ビットあり、RGBA (1,1,1,1)、カラーインデックス
+1、テクスチャ座標 (0,0,0,1)。注意: ラスタ位置は glRasterPos と glBitmap
+の両方で変更される。ラスタ位置座標が無効な場合、ラスタ位置に基づく描画コマンドは無視される。関連情報は glGet
+(GL_CURRENT_RASTER_POSITION / _VALID / _DISTANCE / _COLOR / _INDEX /
+_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glReadBuffer
-The glReadBuffer function selects a color buffer source for pixels.
+glReadBuffer 関数はピクセル用のカラーバッファソースを選択する。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] A color buffer. Accepted values are GL\_FRONT\_LEFT, GL\_FRONT\_RIGHT, GL\_BACK\_LEFT, GL\_BACK\_RIGHT, GL\_FRONT, GL\_BACK, GL\_LEFT, GL\_RIGHT, and GL\_AUX *i*, where *i* is between 0 and GL\_AUX\_BUFFERS 1.
+mode : [int] カラーバッファ。受け付ける値は GL_FRONT_LEFT、GL_FRONT_RIGHT、GL_BACK_LEFT、GL_BACK_RIGHT、GL_FRONT、GL_BACK、GL_LEFT、GL_RIGHT、GL_AUX i (i は 0 から GL_AUX_BUFFERS-1 の範囲)。
 %inst
-The glReadBuffer function selects a color buffer source for pixels.
+glReadBuffer 関数はピクセル用のカラーバッファソースを選択する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glReadBuffer** function specifies a color buffer as the source
-for subsequent [**glReadPixels**](glreadpixels.md) and
-[**glCopyPixels**](glcopypixels.md) commands. The *mode* parameter
-accepts one of twelve or more predefined values. (GL\_AUX0 through
-GL\_AUX3 are always defined.) In a fully configured system,
-GL\_FRONT, GL\_LEFT, and GL\_FRONT\_LEFT all name the front-left
-buffer, GL\_FRONT\_RIGHT and GL\_RIGHT name the front-right buffer,
-and GL\_BACK\_LEFT and GL\_BACK name the back-left buffer. Nonstereo
-double-buffered configurations have only a front-left and a back-left
-buffer. Single-buffered configurations have a front-left and a
-front-right buffer if stereo, and only a front-left buffer if
-nonstereo. It is an error to specify a nonexistent buffer to
-**glReadBuffer**. By default, *mode* is GL\_FRONT in single-buffered
-configurations, and GL\_BACK in double-buffered configurations. The
-following function retrieves information related to **glReadBuffer**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_READ\_BUFFER
+glReadBuffer は後続の glReadPixels と glCopyPixels
+のソースとなるカラーバッファを指定する。mode は 12 種類以上の定義済み値のいずれかを受け付ける (GL_AUX0~GL_AUX3
+は常に定義される)。完全に構成されたシステムでは GL_FRONT、GL_LEFT、GL_FRONT_LEFT は front-left
+バッファを、GL_FRONT_RIGHT と GL_RIGHT は front-right を、GL_BACK_LEFT と
+GL_BACK は back-left を指す。非ステレオダブルバッファ構成は front-left と back-left
+のみ、シングルバッファ構成はステレオなら front-left/right、非ステレオなら front-left
+のみを持つ。存在しないバッファを指定するとエラーになる。既定値はシングルバッファ構成で GL_FRONT、ダブルバッファ構成で
+GL_BACK。関連情報は glGet (GL_READ_BUFFER) で取得できる。
 
 
 %index
 glReadPixels
-The glReadPixels function reads a block of pixels from the framebuffer.
+glReadPixels 関数はフレームバッファからピクセルブロックを読み込む。
 %group
 Win32 opengl32
 %prm
 x, y, width, height, format, type, pixels
-x : [int] The window *x* coordinate of the first pixel that is read from the framebuffer. Together with the *y* coordinate, specifies the location of the lower-left corner of a rectangular block of pixels.
-y : [int] The window *y* coordinates of the first pixel that is read from the framebuffer. Together with the *x* coordinate, specifies the location of the lower-left corner of a rectangular block of pixels.
-width : [int] The width of the pixel rectangle.
-height : [int] The height of the pixel rectangle. *Width* and *height* parameters of value "1" correspond to a single pixel.
-format : [int] The format of the pixel data. The following symbolic values are accepted:
-type : [int] The data type of the pixel data. Must be one of the following values.
-pixels : [intptr] Returns the pixel data.
+x : [int] フレームバッファから読まれる最初のピクセルのウィンドウ x 座標。y 座標と合わせて矩形ピクセルブロックの左下隅の位置を指定する。
+y : [int] フレームバッファから読まれる最初のピクセルのウィンドウ y 座標。x 座標と合わせて矩形ピクセルブロックの左下隅の位置を指定する。
+width : [int] ピクセル矩形の幅。
+height : [int] ピクセル矩形の高さ。width / height が 1 の場合は単一ピクセルに対応する。
+format : [int] ピクセルデータのフォーマット。受け付ける主な値: GL_COLOR_INDEX (カラーインデックス。固定小数化、GL_INDEX_SHIFT/OFFSET 適用後 GL_PIXEL_MAP_I_TO_R/G/B/A で色成分に変換)、GL_STENCIL_INDEX (ステンシル値。glReadPixels 用)、GL_DEPTH_COMPONENT (デプス値。浮動小数化し GL_DEPTH_SCALE/BIAS を適用後 [0,1] にクランプ)、GL_RED/GL_GREEN/GL_BLUE/GL_ALPHA (それぞれ単一成分を浮動小数化して RGBA 要素に組み立て、scale/bias 適用後クランプ)、GL_RGB (RGB トリプル)、GL_RGBA (完全 RGBA)、GL_BGR_EXT/GL_BGRA_EXT (Windows DIB のメモリレイアウトに一致するフォーマット)、GL_LUMINANCE (単一輝度値を R/G/B に複製しアルファに 1.0 を付加)、GL_LUMINANCE_ALPHA (輝度/アルファペア)。
+type : [int] ピクセルデータのデータ型。次のいずれかを指定する: GL_UNSIGNED_BYTE、GL_BYTE、GL_BITMAP、GL_UNSIGNED_SHORT、GL_SHORT、GL_UNSIGNED_INT、GL_INT、GL_FLOAT。それぞれのインデックスマスクと成分変換式は元の表を参照。
+pixels : [intptr] ピクセルデータを返す。
 %inst
-The glReadPixels function reads a block of pixels from the
-framebuffer.
+glReadPixels 関数はフレームバッファからピクセルブロックを読み込む。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glRectd
-The glRectd function draws a rectangle.
+glRectd 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 x1, y1, x2, y2
-x1 : [double] The *x* coordinate of the vertex of a rectangle.
-y1 : [double] The *y* coordinate of the vertex of a rectangle.
-x2 : [double] The *x* coordinate of the opposite vertex of the rectangle.
-y2 : [double] The *y* coordinate of the opposite vertex of the rectangle.
+x1 : [double] 矩形の頂点の x 座標。
+y1 : [double] 矩形の頂点の y 座標。
+x2 : [double] 矩形の対頂点の x 座標。
+y2 : [double] 矩形の対頂点の y 座標。
 %inst
-The glRectd function draws a rectangle.
+glRectd 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRectd** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (*x*, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x*,
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRectd**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRectd は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRectd(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRectdv
-The glRectdv function draws a rectangle.
+glRectdv 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 v1, v2
-v1 : [var] A pointer to one vertex of a rectangle.
-v2 : [var] a pointer to the opposite vertex of the rectangle.
+v1 : [var] 矩形の一方の頂点へのポインタ。
+v2 : [var] 矩形の対頂点へのポインタ。
 %inst
-The glRectdv function draws a rectangle.
+glRectdv 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRectd** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (*x*, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x*,
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRectd**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRectd は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRectd(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRectf
-The glRectf function draws a rectangle.
+glRectf 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 x1, y1, x2, y2
-x1 : [float] The *x* coordinate of the vertex of a rectangle.
-y1 : [float] The *y* coordinate of the vertex of a rectangle.
-x2 : [float] The *x* coordinate of the opposite vertex of the rectangle.
-y2 : [float] The *y* coordinate of the opposite vertex of the rectangle.
+x1 : [float] 矩形の頂点の x 座標。
+y1 : [float] 矩形の頂点の y 座標。
+x2 : [float] 矩形の対頂点の x 座標。
+y2 : [float] 矩形の対頂点の y 座標。
 %inst
-The glRectf function draws a rectangle.
+glRectf 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRectf** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (*x*, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x*,
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRectf**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRectf は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRectf(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRectfv
-The glRectfv function draws a rectangle.
+glRectfv 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 v1, v2
-v1 : [var] A pointer to one vertex of a rectangle.
-v2 : [var] a pointer to the opposite vertex of the rectangle.
+v1 : [var] 矩形の一方の頂点へのポインタ。
+v2 : [var] 矩形の対頂点へのポインタ。
 %inst
-The glRectfv function draws a rectangle.
+glRectfv 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRectf** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (*x*, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x*,
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRectf**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRectf は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRectf(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRecti
-The glRecti function draws a rectangle.
+glRecti 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 x1, y1, x2, y2
-x1 : [int] The *x* coordinate of the vertex of a rectangle.
-y1 : [int] The *y* coordinate of the vertex of a rectangle.
-x2 : [int] The *x* coordinate of the opposite vertex of the rectangle.
-y2 : [int] The *y* coordinate of the opposite vertex of the rectangle.
+x1 : [int] 矩形の頂点の x 座標。
+y1 : [int] 矩形の頂点の y 座標。
+x2 : [int] 矩形の対頂点の x 座標。
+y2 : [int] 矩形の対頂点の y 座標。
 %inst
-The glRecti function draws a rectangle.
+glRecti 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRecti** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (*x*, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x*,
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRecti**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRecti は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRecti(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRectiv
-The glRectiv function draws a rectangle.
+glRectiv 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 v1, v2
-v1 : [var] A pointer to one vertex of a rectangle.
-v2 : [var] a pointer to the opposite vertex of the rectangle.
+v1 : [var] 矩形の一方の頂点へのポインタ。
+v2 : [var] 矩形の対頂点へのポインタ。
 %inst
-The glRectiv function draws a rectangle.
+glRectiv 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRecti** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (*x*, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x*,
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRecti**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRecti は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRecti(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRects
-The glRects function draws a rectangle.
+glRects 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 x1, y1, x2, y2
-x1 : [int] The *x* coordinate of the vertex of a rectangle.
-y1 : [int] The *y* coordinate of the vertex of a rectangle.
-x2 : [int] The *x* coordinate of the opposite vertex of the rectangle.
-y2 : [int] The *y* coordinate of the opposite vertex of the rectangle.
+x1 : [int] 矩形の頂点の x 座標。
+y1 : [int] 矩形の頂点の y 座標。
+x2 : [int] 矩形の対頂点の x 座標。
+y2 : [int] 矩形の対頂点の y 座標。
 %inst
-The glRects function draws a rectangle.
+glRects 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRects** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (x, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x*,
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRects**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRects は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRects(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRectsv
-The glRectsv function draws a rectangle.
+glRectsv 関数は矩形を描画する。
 %group
 Win32 opengl32
 %prm
 v1, v2
-v1 : [var] A pointer to one vertex of a rectangle.
-v2 : [var] a pointer to the opposite vertex of the rectangle.
+v1 : [var] 矩形の一方の頂点へのポインタ。
+v2 : [var] 矩形の対頂点へのポインタ。
 %inst
-The glRectsv function draws a rectangle.
+glRectsv 関数は矩形を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRects** function supports efficient specification of
-rectangles as two corner points. Each rectangle command takes four
-arguments, organized either as two consecutive pairs of (*x*, *y*)
-coordinates, or as two pointers to arrays, each containing an (*x,*
-*y*) pair. The resulting rectangle is defined in the *z* = 0 plane.
-The **glRects**(*x1,* *y1,* *x2,* *y2*) function is exactly
-equivalent to the following sequence: **glBegin**(GL\_POLYGON);
-**glVertex2**( *x1,* *y1* ); **glVertex2**( *x2,* *y1* );
-**glVertex2**( *x2,* *y2* ); **glVertex2**( *x1,* *y2* ); **glEnd**(
-); Notice that if the second vertex is above and to the right of the
-first vertex, the rectangle is constructed with a counterclockwise
-winding.
+glRects は 2 つのコーナー点として矩形を効率的に指定する。各 rect コマンドは 4 引数を取り、(x, y) の連続ペア 2
+組または (x, y) ペアを含む配列へのポインタ 2 つとして整理される。生成される矩形は z=0
+平面に定義される。glRects(x1,y1,x2,y2) は次のシーケンスと完全に等価である: glBegin(GL_POLYGON);
+glVertex2(x1,y1); glVertex2(x2,y1); glVertex2(x2,y2);
+glVertex2(x1,y2); glEnd();。第 2 頂点が第 1 頂点の右上にあれば矩形は反時計回りで構築される点に注意。
 
 
 %index
 glRenderMode
-The glRenderMode function sets the rasterization mode.
+glRenderMode 関数はラスタ化モードを設定する。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] The rasterization mode. The following three values are accepted. The default value is GL\_RENDER.
+mode : [int] ラスタ化モード。次の 3 つの値を受け付ける。既定値は GL_RENDER。GL_RENDER (レンダーモード。プリミティブをラスタ化しピクセルフラグメントを生成、フレームバッファに書き込む通常モード兼既定)、GL_SELECT (セレクションモード。ピクセルフラグメントは生成されず、描画されたであろうプリミティブの名前レコードがセレクトバッファに返される。事前に glSelectBuffer で作成しておく必要がある)、GL_FEEDBACK (フィードバックモード。ピクセルフラグメントは生成されず、描画されたであろう頂点の座標と属性がフィードバックバッファに返される。事前に glFeedbackBuffer で作成しておく必要がある)。
 %inst
-The glRenderMode function sets the rasterization mode.
+glRenderMode 関数はラスタ化モードを設定する。
 
 [備考]
-The **glRenderMode** function takes one argument, *mode*, which can
-assume one of three predefined values above. The return value of the
-**glRenderMode** function is determined by the render mode at the
-time **glRenderMode** is called, rather than by *mode*. The values
-returned for the three render modes are as follows.
-| Value | Meaning |
-|--------------|-------------------------------------------------------------------------|
-| GL\_RENDER | Zero. | | GL\_SELECT | The number of hit records
-transferred to the select buffer. | | GL\_FEEDBACK | The number of
-values (not vertices) transferred to the feedback buffer. |
-Refer to [**glSelectBuffer**](glselectbuffer.md) and
-[**glFeedbackBuffer**](glfeedbackbuffer.md) for more details
-concerning selection and feedback operation. If an error is
-generated, **glRenderMode** returns zero regardless of the current
-render mode. The following function retrieves information related to
-**glRenderMode**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_RENDER\_MODE
+glRenderMode は 1 引数 mode を取り、上記 3 つの定義済み値のいずれかを取り得る。glRenderMode
+の戻り値は引数 mode ではなく呼び出し時のレンダーモードによって決まる。3 種類のレンダーモードに対する戻り値: GL_RENDER
+は 0、GL_SELECT はセレクトバッファに転送されたヒットレコード数、GL_FEEDBACK
+はフィードバックバッファに転送された値の数 (頂点数ではない)。詳細は glSelectBuffer、glFeedbackBuffer
+を参照。エラーが生成された場合、現在のレンダーモードに関わらず 0 を返す。関連情報は glGet (GL_RENDER_MODE)
+で取得できる。
 
 
 %index
 glRotated
-The glRotated function multiplies the current matrix by a rotation matrix.
+glRotated 関数は現在の行列に回転行列を乗じる。
 %group
 Win32 opengl32
 %prm
 angle, x, y, z
-angle : [double] The angle of rotation, in degrees.
-x : [double] The *x* coordinate of a vector.
-y : [double] The *y* coordinate of a vector.
-z : [double] The *z* coordinate of a vector.
+angle : [double] 回転角度 (度)。
+x : [double] ベクトルの x 座標。
+y : [double] ベクトルの y 座標。
+z : [double] ベクトルの z 座標。
 %inst
-The glRotated function multiplies the current matrix by a rotation
-matrix.
+glRotated 関数は現在の行列に回転行列を乗じる。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRotated** function computes a matrix that performs a
-counterclockwise rotation of *angle* degrees about the vector from
-the origin through the point (*x*, *y*, *z*). The current matrix (see
-[**glMatrixMode**](glmatrixmode.md)) is multiplied by this rotation
-matrix, with the product replacing the current matrix. That is, if M
-is the current matrix and R is the translation matrix, then M is
-replaced with M R. If the matrix mode is either GL\_MODELVIEW or
-GL\_PROJECTION, all objects drawn after **glRotated** is called are
-rotated. Use [**glPushMatrix**](glpushmatrix.md) and
-[**glPopMatrix**](glpopmatrix.md) to save and restore the unrotated
-coordinate system. The following functions retrieve information
-related to **glRotated**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_RENDER\_MODE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MODELVIEW\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PROJECTION\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_TEXTURE\_MATRIX
+glRotated は原点から (x, y, z) への方向ベクトルを軸とした angle 度の反時計回り回転行列を計算する。現在の行列
+(glMatrixMode 参照) にこの回転行列を乗じ、その積で現在の行列を置き換える。すなわち M が現在の行列で R
+が回転行列なら、M は M?R に置き換わる。行列モードが GL_MODELVIEW または GL_PROJECTION
+なら、glRotated 呼び出し以降に描画される全オブジェクトが回転する。回転前の座標系を保存/復元するには glPushMatrix
+/ glPopMatrix を使う。関連情報は glGet (GL_RENDER_MODE / GL_MATRIX_MODE /
+GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
+で取得できる。
 
 
 %index
 glRotatef
-The glRotatef function multiplies the current matrix by a rotation matrix.
+glRotatef 関数は現在の行列に回転行列を乗じる。
 %group
 Win32 opengl32
 %prm
 angle, x, y, z
-angle : [float] The angle of rotation, in degrees.
-x : [float] The *x* coordinate of a vector.
-y : [float] The *y* coordinate of a vector.
-z : [float] The *z* coordinate of a vector.
+angle : [float] 回転角度 (度)。
+x : [float] ベクトルの x 座標。
+y : [float] ベクトルの y 座標。
+z : [float] ベクトルの z 座標。
 %inst
-The glRotatef function multiplies the current matrix by a rotation
-matrix.
+glRotatef 関数は現在の行列に回転行列を乗じる。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glRotatef** function computes a matrix that performs a
-counterclockwise rotation of *angle* degrees about the vector from
-the origin through the point (*x*, *y*, *z*). The current matrix (see
-[**glMatrixMode**](glmatrixmode.md)) is multiplied by this rotation
-matrix, with the product replacing the current matrix. That is, if M
-is the current matrix and R is the translation matrix, then M is
-replaced with M R. If the matrix mode is either GL\_MODELVIEW or
-GL\_PROJECTION, all objects drawn after **glRotatef** is called are
-rotated. Use [**glPushMatrix**](glpushmatrix.md) and
-[**glPopMatrix**](glpopmatrix.md) to save and restore the unrotated
-coordinate system. The following functions retrieve information
-related to **glRotatef**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_RENDER\_MODE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MODELVIEW\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PROJECTION\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_TEXTURE\_MATRIX
+glRotatef は原点から (x, y, z) への方向ベクトルを軸とした angle 度の反時計回り回転行列を計算する。現在の行列
+(glMatrixMode 参照) にこの回転行列を乗じ、その積で現在の行列を置き換える。すなわち M が現在の行列で R
+が回転行列なら、M は M?R に置き換わる。行列モードが GL_MODELVIEW または GL_PROJECTION
+なら、glRotatef 呼び出し以降に描画される全オブジェクトが回転する。回転前の座標系を保存/復元するには glPushMatrix
+/ glPopMatrix を使う。関連情報は glGet (GL_RENDER_MODE / GL_MATRIX_MODE /
+GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
+で取得できる。
 
 
 %index
 glScaled
-The glScaled and glScalef functions multiply the current matrix by a general scaling matrix. | glScaled function (Gl.h)
+glScaled / glScalef 関数は現在の行列に一般スケーリング行列を乗じる。| glScaled 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [double] Scale factors along the *x* axis.
-y : [double] Scale factors along the *y* axis.
-z : [double] Scale factors along the *z* axis.
+x : [double] x 軸に沿ったスケール係数。
+y : [double] y 軸に沿ったスケール係数。
+z : [double] z 軸に沿ったスケール係数。
 %inst
-The glScaled and glScalef functions multiply the current matrix by a
-general scaling matrix. | glScaled function (Gl.h)
+glScaled / glScalef 関数は現在の行列に一般スケーリング行列を乗じる。| glScaled 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glScaled** function produces a general scaling along the *x*,
-*y*, and *z* axes. The three arguments indicate the desired scale
-factors along each of the three axes. The resulting matrix is
-![Diagram showing the matrix of scale factors along the x, y, and z
-axes.](images/scale01.png) The current matrix (see
-[**glMatrixMode**](glmatrixmode.md)) is multiplied by this scale
-matrix, with the product replacing the current matrix. That is, if M
-is the current matrix and S is the scale matrix, then M is replaced
-with M S. If the matrix mode is either GL\_MODELVIEW or
-GL\_PROJECTION, all objects drawn after **glScaled** is called are
-scaled. Use [**glPushMatrix**](glpushmatrix.md) and
-[**glPopMatrix**](glpopmatrix.md) to save and restore the unscaled
-coordinate system. If scale factors other than 1.0 are applied to the
-modelview matrix and lighting is enabled, automatic normalization of
-normals should probably also be enabled ([**glEnable**](glenable.md)
-and [**glDisable**](gldisable.md) with argument GL\_NORMALIZE). The
-following functions retrieve information related to **glScaled**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MODELVIEW\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PROJECTION\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_TEXTURE\_MATRIX
+glScaled は x, y, z 軸に沿った一般スケーリングを行う。3 つの引数は各軸に沿ったスケール係数を示す。現在の行列
+(glMatrixMode 参照) にこのスケール行列を乗じ、その積で現在の行列を置き換える。M が現在の行列で S がスケール行列なら
+M は M?S に置き換わる。行列モードが GL_MODELVIEW または GL_PROJECTION なら、glScaled
+呼び出し以降に描画される全オブジェクトがスケールされる。スケール前の座標系を保存/復元するには glPushMatrix /
+glPopMatrix を使う。1.0 以外のスケール係数をモデルビュー行列に適用しライティングが有効な場合、法線の自動正規化
+(glEnable / glDisable に GL_NORMALIZE) も有効にすべき。関連情報は glGet
+(GL_MATRIX_MODE / GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX /
+GL_TEXTURE_MATRIX) で取得できる。
 
 
 %index
 glScalef
-The glScaled and glScalef functions multiply the current matrix by a general scaling matrix. | glScalef function (Gl.h)
+glScaled / glScalef 関数は現在の行列に一般スケーリング行列を乗じる。| glScalef 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [float] Scale factors along the *x* axis.
-y : [float] Scale factors along the *y* axis.
-z : [float] Scale factors along the *z* axis.
+x : [float] x 軸に沿ったスケール係数。
+y : [float] y 軸に沿ったスケール係数。
+z : [float] z 軸に沿ったスケール係数。
 %inst
-The glScaled and glScalef functions multiply the current matrix by a
-general scaling matrix. | glScalef function (Gl.h)
+glScaled / glScalef 関数は現在の行列に一般スケーリング行列を乗じる。| glScalef 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glScalef** function produces a general scaling along the *x*,
-*y*, and *z* axes. The three arguments indicate the desired scale
-factors along each of the three axes. The resulting matrix appears in
-the following image. ![Diagram showing the matrix of scale factors
-along the x, y, and z axes.](images/scale01.png) The current matrix
-(see [**glMatrixMode**](glmatrixmode.md)) is multiplied by this scale
-matrix, with the product replacing the current matrix. That is, if M
-is the current matrix and S is the scale matrix, then M is replaced
-with M S. If the matrix mode is either GL\_MODELVIEW or
-GL\_PROJECTION, all objects drawn after **glScalef** is called are
-scaled. Use [**glPushMatrix**](glpushmatrix.md) and
-[**glPopMatrix**](glpopmatrix.md) to save and restore the unscaled
-coordinate system. If scale factors other than 1.0 are applied to the
-modelview matrix and lighting is enabled, automatic normalization of
-normals should probably also be enabled ([**glEnable**](glenable.md)
-and [**glDisable**](gldisable.md) with argument GL\_NORMALIZE). The
-following functions retrieve information related to **glScalef**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MODELVIEW\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_PROJECTION\_MATRIX
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_TEXTURE\_MATRIX
+glScalef は x, y, z 軸に沿った一般スケーリングを行う。3 つの引数は各軸に沿ったスケール係数を示す。現在の行列
+(glMatrixMode 参照) にこのスケール行列を乗じ、その積で現在の行列を置き換える。M が現在の行列で S がスケール行列なら
+M は M?S に置き換わる。行列モードが GL_MODELVIEW または GL_PROJECTION なら、glScalef
+呼び出し以降に描画される全オブジェクトがスケールされる。スケール前の座標系を保存/復元するには glPushMatrix /
+glPopMatrix を使う。1.0 以外のスケール係数をモデルビュー行列に適用しライティングが有効な場合、法線の自動正規化
+(glEnable / glDisable に GL_NORMALIZE) も有効にすべき。関連情報は glGet
+(GL_MATRIX_MODE / GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX /
+GL_TEXTURE_MATRIX) で取得できる。
 
 
 %index
 glScissor
-The glScissor function defines the scissor box.
+glScissor 関数はシザーボックスを定義する。
 %group
 Win32 opengl32
 %prm
 x, y, width, height
-x : [int] The x (vertical axis) coordinate for the lower-left corner of the scissor box.
-y : [int] The y (horizontal axis) coordinate for the lower-left corner of the scissor box. Together, x and y specify the lower-left corner of the scissor box. Initially (0,0).
-width : [int] The width of the scissor box.
-height : [int] The height of the scissor box. When an OpenGL context is *first* attached to a window, *width* and *height* are set to the dimensions of that window.
+x : [int] シザーボックス左下隅の x (縦軸) 座標。
+y : [int] シザーボックス左下隅の y (横軸) 座標。x と y で左下隅を指定する。初期値は (0,0)。
+width : [int] シザーボックスの幅。
+height : [int] シザーボックスの高さ。OpenGL コンテキストが最初にウィンドウへアタッチされたとき、width / height はウィンドウの寸法に設定される。
 %inst
-The glScissor function defines the scissor box.
+glScissor 関数はシザーボックスを定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glScissor** function defines a rectangle, called the scissor
-box, in window coordinates. The first two parameters, *x* and *y*,
-specify the lower-left corner of the box. The *width* and *height*
-parameters specify the width and height of the box. The scissor test
-is enabled and disabled using [**glEnable**](glenable.md) and
-**glDisable** with argument GL\_SCISSOR\_TEST. While the scissor test
-is enabled, only pixels that lie within the scissor box can be
-modified by drawing commands. Window coordinates have integer values
-at the shared corners of framebuffer pixels, so
-**glScissor**(0,0,1,1) allows only the lower-left pixel in the window
-to be modified, and **glScissor**(0,0,0,0) disallows modification to
-all pixels in the window. When the scissor test is disabled, it is as
-though the scissor box includes the entire window. The following
-functions retrieve information related to **glScissor**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_SCISSOR\_BOX [**glIsEnabled**](glisenabled.md) with
-argument GL\_SCISSOR\_TEST
+glScissor はウィンドウ座標でシザーボックスと呼ばれる矩形を定義する。最初の 2 引数 x, y
+はボックスの左下隅を、width, height は幅と高さを指定する。シザーテストは glEnable / glDisable に
+GL_SCISSOR_TEST
+を指定して有効化/無効化する。シザーテストが有効な間、シザーボックス内のピクセルのみが描画コマンドで変更可能となる。ウィンドウ座標はフレームバッファピクセルの共有コーナーで整数値を取るため、glScissor(0,0,1,1)
+はウィンドウの左下ピクセルのみを変更可能とし、glScissor(0,0,0,0)
+は全ピクセルの変更を禁止する。無効時はシザーボックスがウィンドウ全体を含むのと同じ扱い。関連情報は glGet
+(GL_SCISSOR_BOX) と glIsEnabled (GL_SCISSOR_TEST) で取得できる。
 
 
 %index
 glSelectBuffer
-The glSelectBuffer function establishes a buffer for selection mode values.
+glSelectBuffer 関数はセレクションモード値用のバッファを確立する。
 %group
 Win32 opengl32
 %prm
 size, buffer
-size : [int] The size of *buffer*.
-buffer : [var] Returns the selection data.
+size : [int] buffer のサイズ。
+buffer : [var] 選択データを返す。
 %inst
-The glSelectBuffer function establishes a buffer for selection mode
-values.
+glSelectBuffer 関数はセレクションモード値用のバッファを確立する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glSelectBuffer** function has two parameters: *buffer* is a
-pointer to an array of unsigned integers, and *size* indicates the
-size of the array. The *buffer* parameter returns values from the
-name stack (see [**glInitNames**](glinitnames.md),
-[**glLoadName**](glloadname.md), [**glPushName**](glpushname.md))
-when the rendering mode is GL\_SELECT (see
-[**glRenderMode**](glrendermode.md)). The **glSelectBuffer** function
-must be issued before selection mode is enabled, and it must not be
-issued while the rendering mode is GL\_SELECT. Selection is used by a
-programmer to determine which primitives are drawn into some region
-of a window. The region is defined by the current modelview and
-perspective matrices. In selection mode, no pixel fragments are
-produced from rasterization. Instead, if a primitive intersects the
-clip volume defined by the viewing frustum and the user-defined
-clipping planes, this primitive causes a selection hit. (With
-polygons, no hit occurs if the polygon is culled.) When a change is
-made to the name stack, or when [**glRenderMode**](glrendermode.md)
-is called, a hit record is copied to *buffer* if any hits have
-occurred since the last such event (either a name stack change or a
-**glRenderMode** call). The hit record consists of the number of
-names in the name stack at the time of the event; followed by the
-minimum and maximum depth values of all vertices that hit since the
-previous event; followed by the name stack contents, bottom name
-first. Returned depth values are mapped such that the largest
-unsigned integer value corresponds to window coordinate depth 1.0,
-and zero corresponds to window coordinate depth 0.0. An internal
-index into *buffer* is reset to zero whenever selection mode is
-entered. Each time a hit record is copied into *buffer*, the index is
-incremented to point to the cell just past the end of the block of
-namesthat is, to the next available cell. If the hit record is larger
-than the number of remaining locations in *buffer*, as much data as
-can fit is copied, and the overflow flag is set. If the name stack is
-empty when a hit record is copied, that record consists of zero
-followed by the minimum and maximum depth values. Selection mode is
-exited by calling **glRenderMode** with an argument other than
-GL\_SELECT. Whenever **glRenderMode** is called while the render mode
-is GL\_SELECT, it returns the number of hit records copied to
-*buffer*, resets the overflow flag and the selection buffer pointer,
-and initializes the name stack to be empty. If the overflow bit was
-set when **glRenderMode** was called, a negative hit record count is
-returned. The contents of *buffer* are undefined until
-[**glRenderMode**](glrendermode.md) is called with an argument other
-than GL\_SELECT. The **glBegin**/**glEnd** primitives and calls to
-[**glRasterPos**](glrasterpos-functions.md) can result in hits. The
-following function retrieves information related to
-**glSelectBuffer**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_NAME\_STACK\_DEPTH
+glSelectBuffer は 2 引数を取る。buffer は符号なし整数配列へのポインタ、size
+はその配列サイズ。レンダリングモードが GL_SELECT のとき (glRenderMode 参照)、buffer はネームスタック
+(glInitNames、glLoadName、glPushName) からの値を返す。glSelectBuffer
+はセレクションモード有効化前に発行し、レンダリングモードが GL_SELECT
+の間は発行してはならない。セレクションはウィンドウのある領域に描画されるプリミティブを判定するために使う。領域は現在のモデルビューと透視行列で定義される。セレクションモードではラスタ化からピクセルフラグメントは生成されず、代わりにプリミティブが視錐台およびユーザー定義クリップ平面で定まるクリップ体積と交差すると、そのプリミティブはセレクションヒットを引き起こす
+(ポリゴンはカリングされるとヒットしない)。ネームスタックが変更されるか glRenderMode
+が呼ばれると、前回イベント以降にヒットがあれば buffer
+にヒットレコードがコピーされる。ヒットレコードはイベント時のネームスタックの名前数、前回イベント以降ヒットした全頂点の最小/最大デプス値、ネームスタックの内容
+(ボトムから順) で構成される。デプス値は最大の符号なし整数値がウィンドウ座標デプス 1.0、0 が 0.0
+に対応するようマップされる。内部インデックスはセレクションモードに入るたび 0
+にリセットされる。ヒットレコードが残り領域より大きい場合は入る分だけコピーされオーバーフローフラグが立つ。ネームスタックが空のときコピーされるレコードは
+0 と最小/最大デプス値のみで構成される。GL_SELECT 以外を引数として glRenderMode
+を呼ぶとセレクションモードを抜ける。GL_SELECT モード中に glRenderMode
+が呼ばれると、コピーされたヒットレコード数を返し、オーバーフローフラグとセレクションバッファポインタをリセットしネームスタックを空にする。オーバーフロービットが立っていたら負のヒットレコード数を返す。buffer
+の内容は GL_SELECT 以外で glRenderMode が呼ばれるまで未定義。glBegin/glEnd プリミティブと
+glRasterPos 呼び出しはヒットを発生させ得る。関連情報は glGet (GL_NAME_STACK_DEPTH) で取得できる。
 
 
 %index
 glShadeModel
-The glShadeModel function selects flat or smooth shading.
+glShadeModel 関数はフラットまたはスムーズシェーディングを選択する。
 %group
 Win32 opengl32
 %prm
 mode
-mode : [int] A symbolic value representing a shading technique. Accepted values are GL\_FLAT and GL\_SMOOTH. The default is GL\_SMOOTH.
+mode : [int] シェーディング手法を表すシンボル値。GL_FLAT と GL_SMOOTH を受け付ける。既定値は GL_SMOOTH。
 %inst
-The glShadeModel function selects flat or smooth shading.
+glShadeModel 関数はフラットまたはスムーズシェーディングを選択する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-OpenGL primitives can have either flat or smooth shading. Smooth
-shading, the default, causes the computed colors of vertices to be
-interpolated as the primitive is rasterized, typically assigning
-different colors to each resulting pixel fragment. Flat shading
-selects the computed color of just one vertex and assigns it to all
-the pixel fragments generated by rasterizing a single primitive. In
-either case, the computed color of a vertex is the result of
-lighting, if lighting is enabled, or it is the current color at the
-time the vertex was specified, if lighting is disabled. Flat and
-smooth shading are indistinguishable for points. Counting vertices
-and primitives from one, starting when [**glBegin**](glbegin.md) is
-issued, each flat-shaded line segment *i* is given the computed color
-of vertex *i* + 1, its second vertex. Counting similarly from one,
-each flat-shaded polygon is given the computed color of the vertex
-listed in the following table. This is the last vertex to specify the
-polygon in all cases except single polygons, where the first vertex
-specifies the flat-shaded color.
-| Primitive type of polygon i | Vertex |
-|-----------------------------|----------| | Single polygon (*I*=1) |
-1 | | Triangle strip | *i* + 2 | | Triangle fan | *i* + 2 | |
-Independent triangle | 3*I* | | Quad strip | 2*i* + 2 | | Independent
-quad | 4*I* |
-Flat and smooth shading are specified by **glShadeModel** with *mode*
-set to GL\_FLAT and GL\_SMOOTH, respectively. The following function
-retrieves information related to **glShadeModel**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_SHADE\_MODEL
+OpenGL
+のプリミティブはフラットまたはスムーズシェーディングを持てる。既定のスムーズシェーディングでは、頂点の計算カラーがプリミティブのラスタ化時に補間され、各ピクセルフラグメントに異なる色が割り当てられる。フラットシェーディングは
+1
+つの頂点の計算カラーを選び、そのプリミティブのラスタ化で生成される全フラグメントに割り当てる。いずれもライティングが有効ならその結果、無効なら頂点指定時の現在カラーが使われる。点ではフラットとスムーズは区別できない。glBegin
+から数えて、フラットシェーディングされた線分 i の色は頂点 i+1 (第 2 頂点)
+の計算カラーになる。フラットシェーディングされたポリゴンは表に示す頂点の色が使われる。これは単一ポリゴン以外では最後の指定頂点であり、単一ポリゴンの場合は最初の頂点が色を決める。フラット/スムーズは
+glShadeModel に GL_FLAT/GL_SMOOTH を指定する。関連情報は glGet (GL_SHADE_MODEL)
+で取得できる。
 
 
 %index
 glStencilFunc
-The glStencilFunc function sets the function and reference value for stencil testing.
+glStencilFunc 関数はステンシルテスト用の関数と参照値を設定する。
 %group
 Win32 opengl32
 %prm
 func, ref, mask
-func : [int] The test function. The following eight tokens are valid.
+func : [int] テスト関数。次の 8 トークンが有効: GL_NEVER (常に失敗)、GL_LESS / GL_LEQUAL / GL_GREATER / GL_GEQUAL / GL_EQUAL / GL_NOTEQUAL ((ref & mask) と (stencil & mask) の比較が条件を満たすとき合格)、GL_ALWAYS (常に合格)。
 ref : [int] 
-mask : [int] A mask that is **AND**ed with both the reference value and the stored stencil value when the test is done.
+mask : [int] テスト実行時に参照値および格納されたステンシル値の両方と AND されるマスク。
 %inst
-The glStencilFunc function sets the function and reference value for
-stencil testing.
+glStencilFunc 関数はステンシルテスト用の関数と参照値を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Stenciling, like *z*-buffering, enables and disables drawing on a
-per-pixel basis. You draw into the stencil planes using OpenGL
-drawing primitives, then render geometry and images, using the
-stencil planes to mask out portions of the screen. Stenciling is
-typically used in multipass rendering algorithms to achieve special
-effects, such as decals, outlining, and constructive solid geometry
-rendering. The stencil test conditionally eliminates a pixel based on
-the outcome of a comparison between the reference value and the value
-in the stencil buffer. The test is enabled by
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) with
-argument GL\_STENCIL\_TEST. Actions taken based on the outcome of the
-stencil test are specified with [**glStencilOp**](glstencilop.md).
-The *func* parameter is a symbolic constant that determines the
-stencil comparison function. It accepts one of the eight values shown
-above. The *ref* parameter is an integer reference value that is used
-in the stencil comparison. It is clamped to the range \[0, 2*n* 1\],
-where *n* is the number of bitplanes in the stencil buffer. The
-*mask* parameter is bitwise **AND**ed with both the reference value
-and the stored stencil value, with the **AND**ed values participating
-in the comparison. If *stencil* represents the value stored in the
-corresponding stencil buffer location, the preceding list shows the
-effect of each comparison function that can be specified by *func*.
-Only if the comparison succeeds is the pixel passed through to the
-next stage in the rasterization process (see
-[**glStencilOp**](glstencilop.md)). All tests treat *stencil* values
-as unsigned integers in the range \[0, 2*n* 1\], where *n* is the
-number of bitplanes in the stencil buffer. Initially, the stencil
-test is disabled. If there is no stencil buffer, no stencil
-modification can occur and it is as if the stencil test always
-passes. The following functions retrieve information related to
-**glStencilFunc**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_STENCIL\_FUNC **glGet** with argument
-GL\_STENCIL\_VALUE\_MASK **glGet** with argument GL\_STENCIL\_REF
-**glGet** with argument GL\_STENCIL\_BITS
-[**glIsEnabled**](glisenabled.md) with argument GL\_STENCIL\_TEST
+ステンシリングは z バッファリング同様にピクセル単位で描画を有効/無効にする。OpenGL
+の描画プリミティブでステンシルプレーンに描き、その後ジオメトリや画像をレンダリングする際にステンシルプレーンで画面の一部をマスクする。ステンシリングは通常マルチパスレンダリングでデカール、輪郭線、CSG
+描画などの特殊効果に使われる。ステンシルテストは参照値とステンシルバッファの値の比較結果に基づきピクセルを条件付きで除外する。glEnable
+/ glDisable に GL_STENCIL_TEST を指定して有効化する。テスト結果に応じた動作は glStencilOp
+で指定する。func はステンシル比較関数を決めるシンボル定数で 8 種類のいずれかを受け付ける。ref は比較に使う整数参照値で [0,
+2^n - 1] にクランプされる (n はステンシルバッファのビットプレーン数)。mask は参照値と格納値の両方とビット AND
+され、AND 結果が比較に使われる。比較に成功した場合のみピクセルがラスタ化の次段階に渡される。stencil
+値はすべて符号なし整数として扱われる。初期状態ではステンシルテストは無効。ステンシルバッファが無い場合、変更は起こらず常に合格扱いとなる。関連情報は
+glGet (GL_STENCIL_FUNC / VALUE_MASK / REF / BITS) と glIsEnabled
+(GL_STENCIL_TEST) で取得できる。
 
 
 %index
 glStencilMask
-The glStencilMask function controls the writing of individual bits in the stencil planes.
+glStencilMask 関数はステンシルプレーン内の個々のビット書き込みを制御する。
 %group
 Win32 opengl32
 %prm
 mask
-mask : [int] A bit mask to enable and disable writing of individual bits in the stencil planes. Initially, the mask is all ones.
+mask : [int] ステンシルプレーン内の個々のビット書き込みを有効化/無効化するビットマスク。初期値はすべて 1。
 %inst
-The glStencilMask function controls the writing of individual bits in
-the stencil planes.
+glStencilMask 関数はステンシルプレーン内の個々のビット書き込みを制御する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glStencilMask** function controls the writing of individual
-bits in the stencil planes. The least significant *n* bits of *mask*,
-where *n* is the number of bits in the stencil buffer, specify a
-mask. Wherever a one appears in the mask, the corresponding bit in
-the stencil buffer is made writable. Where a zero appears, the bit is
-write-protected. Initially, all bits are enabled for writing. The
-following functions retrieve information related to
-**glStencilMask**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_STENCIL\_WRITEMASK glGet with argument
-GL\_STENCIL\_BITS
+glStencilMask はステンシルプレーン内の個々のビット書き込みを制御する。mask の下位 n ビット (n
+はステンシルバッファのビット数) がマスクを指定する。マスクが 1 の位置はステンシルバッファの対応ビットが書き込み可能となり、0
+の位置は書き込み保護される。初期状態では全ビットが書き込み可能。関連情報は glGet (GL_STENCIL_WRITEMASK /
+GL_STENCIL_BITS) で取得できる。
 
 
 %index
 glStencilOp
-The glStencilOp function sets the stencil test actions.
+glStencilOp 関数はステンシルテスト動作を設定する。
 %group
 Win32 opengl32
 %prm
 fail, zfail, zpass
-fail : [int] The action to take when the stencil test fails. The following six symbolic constants are accepted.
-zfail : [int] Stencil action when the stencil test passes, but the depth test fails. Accepts the same symbolic constants as *fail.*
-zpass : [int] Stencil action when both the stencil test and the depth test pass, or when the stencil test passes and either there is no depth buffer or depth testing is not enabled. Accepts the same symbolic constants as *fail*.
+fail : [int] ステンシルテスト失敗時の動作。6 つのシンボル定数を受け付ける。GL_KEEP (現在値を保つ)、GL_ZERO (ステンシルバッファ値を 0 にする)、GL_REPLACE (glStencilFunc で指定した ref に設定する)、GL_INCR (現在値をインクリメント。表現可能最大値にクランプ)、GL_DECR (デクリメント。0 にクランプ)、GL_INVERT (ビット反転)。
+zfail : [int] ステンシルテストは合格したがデプステストが失敗したときのステンシル動作。fail と同じシンボル定数を受け付ける。
+zpass : [int] ステンシルテストとデプステストの両方が合格したとき、またはステンシルテストが合格しデプスバッファが無いかデプステストが無効なときのステンシル動作。fail と同じシンボル定数を受け付ける。
 %inst
-The glStencilOp function sets the stencil test actions.
+glStencilOp 関数はステンシルテスト動作を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Stenciling, like *z*-buffering, enables and disables drawing on a
-per-pixel basis. You draw into the stencil planes using OpenGL
-drawing primitives, then render geometry and images, using the
-stencil planes to mask out portions of the screen. Stenciling is
-typically used in multipass rendering algorithms to achieve special
-effects, such as decals, outlining, and constructive solid geometry
-rendering. The stencil test conditionally eliminates a pixel based on
-the outcome of a comparison between the value in the stencil buffer
-and a reference value. The test is enabled with
-[**glEnable**](glenable.md) and [**glDisable**](gldisable.md) calls
-with argument GL\_STENCIL\_TEST, and controlled with
-[**glStencilFunc**](glstencilfunc.md). The **glStencilOp** function
-takes three arguments that indicate what happens to the stored
-stencil value while stenciling is enabled. If the stencil test fails,
-no change is made to the pixel's color or depth buffers, and *fail*
-specifies what happens to the stencil buffer contents. Stencil buffer
-values are treated as unsigned integers. When incremented and
-decremented, values are clamped to 0 and 2*n* 1, where *n* is the
-value returned by querying GL\_STENCIL\_BITS. The other two arguments
-to **glStencilOp** specify stencil buffer actions should subsequent
-depth buffer tests succeed (*zpass*) or fail (*zfail*). (See
-[**glDepthFunc**](gldepthfunc.md).) They are specified using the same
-six symbolic constants as *fail*. Note that *zfail* is ignored when
-there is no depth buffer, or when the depth buffer is not enabled. In
-these cases, *fail* and *zpass* specify stencil action when the
-stencil test fails and passes, respectively. Initially the stencil
-test is disabled. If there is no stencil buffer, no stencil
-modification can occur and it is as if the stencil tests always pass,
-regardless of any call to **glStencilOp**. The following functions
-retrieve information related to **glStencilOp**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_STENCIL\_FAIL **glGet** with argument
-GL\_STENCIL\_PASS\_DEPTH\_PASS **glGet** with argument
-GL\_STENCIL\_PASS\_DEPTH\_FAIL **glGet** with argument
-GL\_STENCIL\_BITS [**glIsEnabled**](glisenabled.md) with argument
-GL\_STENCIL\_TEST
+ステンシリングは z バッファリング同様にピクセル単位で描画を有効/無効にする。OpenGL
+の描画プリミティブでステンシルプレーンに描き、その後ジオメトリや画像をレンダリングする際にステンシルプレーンで画面の一部をマスクする。マルチパスレンダリングでデカール、輪郭線、CSG
+描画などの特殊効果に使われる。ステンシルテストはステンシルバッファの値と参照値との比較結果に基づきピクセルを条件付きで除外する。glEnable
+/ glDisable に GL_STENCIL_TEST を指定して有効化し、glStencilFunc
+で制御する。glStencilOp は 3
+つの引数で、ステンシリング有効時の格納ステンシル値の扱いを指定する。ステンシルテストが失敗した場合はピクセルのカラー/デプスバッファは変更されず、fail
+がステンシルバッファ内容の扱いを指定する。ステンシル値は符号なし整数として扱われ、増減時は 0 と 2^n-1 (n は
+GL_STENCIL_BITS) にクランプされる。残り 2 つの引数は後続のデプステストが合格 (zpass) または失敗
+(zfail) した場合のステンシル動作を指定する。fail と同じ 6 つのシンボル定数を使う。デプスバッファが無いか無効な場合
+zfail は無視され、fail と zpass
+がそれぞれステンシルテスト失敗時/合格時の動作を指定する。初期状態ではステンシルテストは無効。ステンシルバッファが無い場合、glStencilOp
+の呼び出しに関わらず常に合格扱いとなる。関連情報は glGet (GL_STENCIL_FAIL / PASS_DEPTH_PASS /
+PASS_DEPTH_FAIL / BITS) と glIsEnabled (GL_STENCIL_TEST) で取得できる。
 
 
 %index
 glTexCoord1d
-Sets the current texture coordinates. | glTexCoord1d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s
-s : [double] The s texture coordinate.
+s : [double] s テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord1d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord1dv
-Sets the current texture coordinates. | glTexCoord1dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of texture coordinates.
+v : [var] テクスチャ座標配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord1dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord1f
-Sets the current texture coordinates. | glTexCoord1f function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s
-s : [float] The s texture coordinate.
+s : [float] s テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord1f function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord1fv
-Sets the current texture coordinates. | glTexCoord1fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of texture coordinates.
+v : [var] テクスチャ座標配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord1fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord1i
-Sets the current texture coordinates. | glTexCoord1i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s
-s : [int] The s texture coordinate.
+s : [int] s テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord1i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord1iv
-Sets the current texture coordinates. | glTexCoord1iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of texture coordinates.
+v : [var] テクスチャ座標配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord1iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord1s
-Sets the current texture coordinates. | glTexCoord1s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s
-s : [int] The s texture coordinate.
+s : [int] s テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord1s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord1sv
-Sets the current texture coordinates. | glTexCoord1sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of texture coordinates.
+v : [var] テクスチャ座標配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord1sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord1sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord2d
-Sets the current texture coordinates. | glTexCoord2d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t
-s : [double] The s texture coordinate.
-t : [double] The t texture coordinate.
+s : [double] s テクスチャ座標。
+t : [double] t テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord2d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord2dv
-Sets the current texture coordinates. | glTexCoord2dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, which in turn specifies the s and t texture coordinates.
+v : [var] s, t テクスチャ座標を指定する 2 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord2dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
@@ -12472,223 +6326,160 @@ t : [float]
 
 %index
 glTexCoord2fv
-Sets the current texture coordinates. | glTexCoord2fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, which in turn specifies the s and t texture coordinates.
+v : [var] s, t テクスチャ座標を指定する 2 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord2fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord2i
-Sets the current texture coordinates. | glTexCoord2i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t
-s : [int] The s texture coordinate.
-t : [int] The t texture coordinate.
+s : [int] s テクスチャ座標。
+t : [int] t テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord2i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord2iv
-Sets the current texture coordinates. | glTexCoord2iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, which in turn specifies the s and t texture coordinates.
+v : [var] s, t テクスチャ座標を指定する 2 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord2iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord2s
-Sets the current texture coordinates. | glTexCoord2s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t
-s : [int] The s texture coordinate.
-t : [int] The t texture coordinate.
+s : [int] s テクスチャ座標。
+t : [int] t テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord2s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord2sv
-Sets the current texture coordinates. | glTexCoord2sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements, which in turn specifies the s and t texture coordinates.
+v : [var] s, t テクスチャ座標を指定する 2 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord2sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord2sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord3d
-Sets the current texture coordinates. | glTexCoord3d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t, r
-s : [double] The s texture coordinate.
-t : [double] The t texture coordinate.
-r : [double] The r texture coordinate.
+s : [double] s テクスチャ座標。
+t : [double] t テクスチャ座標。
+r : [double] r テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord3d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord3dv
-Sets the current texture coordinates. | glTexCoord3dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, which in turn specifies the s, t, and r texture coordinates.
+v : [var] s, t, r テクスチャ座標を指定する 3 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord3dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
@@ -12707,2264 +6498,1504 @@ r : [float]
 
 %index
 glTexCoord3fv
-Sets the current texture coordinates. | glTexCoord3fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, which in turn specifies the s, t, and r texture coordinates.
+v : [var] s, t, r テクスチャ座標を指定する 3 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord3fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord3i
-Sets the current texture coordinates. | glTexCoord3i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t, r
-s : [int] The s texture coordinate.
-t : [int] The t texture coordinate.
-r : [int] The r texture coordinate.
+s : [int] s テクスチャ座標。
+t : [int] t テクスチャ座標。
+r : [int] r テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord3i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord3iv
-Sets the current texture coordinates. | glTexCoord3iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, which in turn specifies the s, t, and r texture coordinates.
+v : [var] s, t, r テクスチャ座標を指定する 3 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord3iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord3s
-Sets the current texture coordinates. | glTexCoord3s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t, r
-s : [int] The s texture coordinate.
-t : [int] The t texture coordinate.
-r : [int] The r texture coordinate.
+s : [int] s テクスチャ座標。
+t : [int] t テクスチャ座標。
+r : [int] r テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord3s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord3sv
-Sets the current texture coordinates. | glTexCoord3sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements, which in turn specifies the s, t, and r texture coordinates.
+v : [var] s, t, r テクスチャ座標を指定する 3 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord3sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord3sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4d
-Sets the current texture coordinates. | glTexCoord4d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t, r, q
-s : [double] The s texture coordinate.
-t : [double] The t texture coordinate.
-r : [double] The r texture coordinate.
-q : [double] The q texture coordinate.
+s : [double] s テクスチャ座標。
+t : [double] t テクスチャ座標。
+r : [double] r テクスチャ座標。
+q : [double] q テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord4d function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4dv
-Sets the current texture coordinates. | glTexCoord4dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, which in turn specifies the s, t, r, and q texture coordinates.
+v : [var] s, t, r, q テクスチャ座標を指定する 4 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord4dv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4f
-Sets the current texture coordinates. | glTexCoord4f function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t, r, q
-s : [float] The s texture coordinate.
-t : [float] The t texture coordinate.
-r : [float] The r texture coordinate.
-q : [float] The q texture coordinate.
+s : [float] s テクスチャ座標。
+t : [float] t テクスチャ座標。
+r : [float] r テクスチャ座標。
+q : [float] q テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord4f function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4fv
-Sets the current texture coordinates. | glTexCoord4fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, which in turn specifies the s, t, r, and q texture coordinates.
+v : [var] s, t, r, q テクスチャ座標を指定する 4 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord4fv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4i
-Sets the current texture coordinates. | glTexCoord4i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t, r, q
-s : [int] The s texture coordinate.
-t : [int] The t texture coordinate.
-r : [int] The r texture coordinate.
-q : [int] The q texture coordinate.
+s : [int] s テクスチャ座標。
+t : [int] t テクスチャ座標。
+r : [int] r テクスチャ座標。
+q : [int] q テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord4i function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4iv
-Sets the current texture coordinates. | glTexCoord4iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, which in turn specifies the s, t, r, and q texture coordinates.
+v : [var] s, t, r, q テクスチャ座標を指定する 4 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord4iv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4s
-Sets the current texture coordinates. | glTexCoord4s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 s, t, r, q
-s : [int] The s texture coordinate.
-t : [int] The t texture coordinate.
-r : [int] The r texture coordinate.
-q : [int] The q texture coordinate.
+s : [int] s テクスチャ座標。
+t : [int] t テクスチャ座標。
+r : [int] r テクスチャ座標。
+q : [int] q テクスチャ座標。
 %inst
-Sets the current texture coordinates. | glTexCoord4s function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoord4sv
-Sets the current texture coordinates. | glTexCoord4sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements, which in turn specifies the s, t, r, and q texture coordinates.
+v : [var] s, t, r, q テクスチャ座標を指定する 4 要素配列へのポインタ。
 %inst
-Sets the current texture coordinates. | glTexCoord4sv function (Gl.h)
+現在のテクスチャ座標を設定する。| glTexCoord4sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**glTexCoord**](gltexcoord-functions.md) function sets the
-current texture coordinates that are part of the data associated with
-polygon vertices. The **glTexCoord** function specifies texture
-coordinates in one, two, three, or four dimensions. The glTexCoord1
-function sets the current texture coordinates to (s, 0, 0, 1); a call
-to glTexCoord2 sets them to (s, t, 0, 1). Similarly, glTexCoord3
-specifies the texture coordinates as (s, t, r, 1), and glTexCoord4
-defines all four components explicitly as (s, t, r, q). You can
-update the current texture coordinates at any time. In particular,
-you can call glTexCoord between a call to [**glBegin**](glbegin.md)
-and the corresponding call to [**glEnd**](glend.md). The following
-function retrieves information related to **glTexCoord**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_CURRENT\_TEXTURE\_COORDS
+glTexCoord はポリゴン頂点に関連付けられたデータの一部である現在のテクスチャ座標を設定する。glTexCoord は 1～4
+次元のテクスチャ座標を指定する。glTexCoord1 は (s,0,0,1)、glTexCoord2 は
+(s,t,0,1)、glTexCoord3 は (s,t,r,1)、glTexCoord4 は (s,t,r,q)
+を設定する。現在のテクスチャ座標はいつでも更新でき、glBegin / glEnd の間でも呼び出せる。関連情報は glGet
+(GL_CURRENT_TEXTURE_COORDS) で取得できる。
 
 
 %index
 glTexCoordPointer
-The glTexCoordPointer function defines an array of texture coordinates.
+glTexCoordPointer 関数はテクスチャ座標配列を定義する。
 %group
 Win32 opengl32
 %prm
 size, type, stride, pointer
-size : [int] The number of coordinates per array element. The value of *size* must be 1, 2, 3, or 4.
-type : [int] The data type of each texture coordinate in the array using the following symbolic constants: **GL\_SHORT**, **GL\_INT**, **GL\_FLOAT**, and **GL\_DOUBLE**.
-stride : [int] The byte offset between consecutive array elements. When *stride* is zero, the array elements are tightly packed in the array.
-pointer : [intptr] A pointer to the first coordinate of the first element in the array.
+size : [int] 配列要素あたりの座標数。size は 1、2、3、4 のいずれか。
+type : [int] 配列内の各テクスチャ座標のデータ型。GL_SHORT、GL_INT、GL_FLOAT、GL_DOUBLE のシンボル定数を使う。
+stride : [int] 連続する配列要素間のバイトオフセット。stride が 0 なら配列要素は密にパックされる。
+pointer : [intptr] 配列内の最初の要素の最初の座標へのポインタ。
 %inst
-The glTexCoordPointer function defines an array of texture
-coordinates.
+glTexCoordPointer 関数はテクスチャ座標配列を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexCoordPointer** function specifies the location and data of
-an array of texture coordinates to use when rendering.The *size*
-parameter specifies the number of coordinates used for each element
-of the array.The *type* parameter specifies the data type of each
-texture coordinate. The *stride* parameter determines the byte offset
-from one array element to the next, enabling the packing of vertices
-and attributes in a single array or storage in separate arrays. In
-some implementations, storing the vertices and attributes in a single
-array can be more efficient than using separate arrays. For more
-information, see [**glInterleavedArrays**](glinterleavedarrays.md).
-When a texture coordinate array is specified, size, type, stride, and
-pointer are saved client-side state. A texture coordinate array is
-enabled when you specify the **GL\_TEXTURE\_COORD\_ARRAY** constant
-with [**glEnableClientState**](glenableclientstate.md). When enabled,
-[**glDrawArrays**](gldrawarrays.md),
-[**glDrawElements**](gldrawelements.md), and
-[**glArrayElement**](glarrayelement.md) use the texture coordinate
-array. By default the texture coordinate array is disabled. You
-cannot include **glTexCoordPointer** in display lists. When you
-specify a texture coordinate array using **glTexCoordPointer**, the
-values of all the function's texture coordinate array parameters are
-saved in a client-side state, and static array elements can be
-cached. Because the texture coordinate array parameters are
-client-side state, their values are not saved or restored by
-[**glPushAttrib**](glpushattrib.md) and
-[**glPopAttrib**](glpopattrib.md). Although no error is generated
-when you call **glTexCoordPointer** within [**glBegin**](glbegin.md)
-and [**glEnd**](glend.md) pairs, the results are undefined. The
-following functions retrieve information related to
-**glTexCoordPointer**: [**glIsEnabled**](glisenabled.md) with
-argument **GL\_TEXTURE\_COORD\_ARRAY**
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument **GL\_TEXTURE\_COORD\_ARRAY\_SIZE** **glGet** with
-argument **GL\_TEXTURE\_COORD\_ARRAY\_STRIDE** **glGet** with
-argument **GL\_TEXTURE\_COORD\_ARRAY\_COUNT** **glGet** with argument
-**GL\_TEXTURE\_COORD\_ARRAY\_TYPE**
-[**glGetPointerv**](glgetpointerv.md) with argument
-**GL\_TEXTURE\_COORD\_ARRAY\_POINTER**
+glTexCoordPointer はレンダリング時に使用するテクスチャ座標配列の位置とデータを指定する。size
+は配列の各要素に使われる座標数、type は各テクスチャ座標のデータ型、stride は配列要素間のバイトオフセットを指定し、頂点と属性を
+1 つの配列にパックするか別配列に格納するかを可能にする。実装によっては 1 つの配列に格納する方が別配列より効率的な場合がある
+(glInterleavedArrays 参照)。テクスチャ座標配列を指定すると size、type、stride、pointer
+はクライアント側状態として保存される。glEnableClientState に GL_TEXTURE_COORD_ARRAY
+を指定して有効化する。有効時は glDrawArrays、glDrawElements、glArrayElement
+がテクスチャ座標配列を使う。既定では無効。glTexCoordPointer は表示リストに含められない。クライアント側状態のため
+glPushAttrib / glPopAttrib では保存/復元されない。glBegin / glEnd
+ペア内で呼び出してもエラーは生成されないが結果は未定義。関連情報は glIsEnabled
+(GL_TEXTURE_COORD_ARRAY)、glGet
+(GL_TEXTURE_COORD_ARRAY_SIZE/STRIDE/COUNT/TYPE)、glGetPointerv
+(GL_TEXTURE_COORD_ARRAY_POINTER) で取得できる。
 
 
 %index
 glTexEnvf
-The glTexEnvf function sets a texture environment parameter.
+glTexEnvf 関数はテクスチャ環境パラメータを設定する。
 %group
 Win32 opengl32
 %prm
 target, pname, param2
-target : [int] A texture environment. Must be GL\_TEXTURE\_ENV.
-pname : [int] The symbolic name of a single-valued texture environment parameter. Must be GL\_TEXTURE\_ENV\_MODE.
+target : [int] テクスチャ環境。GL_TEXTURE_ENV でなければならない。
+pname : [int] 単一値テクスチャ環境パラメータのシンボル名。GL_TEXTURE_ENV_MODE でなければならない。
 param2 : [float] 
 %inst
-The glTexEnvf function sets a texture environment parameter.
+glTexEnvf 関数はテクスチャ環境パラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-A texture environment specifies how texture values are interpreted
-when a fragment is textured. The *target* parameter must be
-GL\_TEXTURE\_ENV. The *pname* parameter is GL\_TEXTURE\_ENV\_MODE.
-Three texture functions are defined: GL\_MODULATE, GL\_DECAL, and
-GL\_BLEND. A texture function acts on the fragment to be textured
-using the texture image value that applies to the fragment (see
-[**glTexParameter**](gltexparameter-functions.md)) and produces an
-RGBA color for that fragment. The following table shows how the RGBA
-color is produced for each of the three texture functions that can be
-chosen. *C* is a triple of color values (RGB) and *A* is the
-associated alpha value. RGBA values extracted from a texture image
-are in the range \[0, 1\]. The subscript *f* refers to the incoming
-fragment, the subscript *t* to the texture image, the subscript *c*
-to the texture environment color, and subscript *v* indicates a value
-produced by the texture function. A texture image can have up to four
-components per texture element (see
-[**glTexImage1D**](glteximage1d.md) and
-[**glTexImage2D**](glteximage2d.md)). In a one-component image, Lt
-indicates that single component. A two-component image uses *L?* and
-*A?* . A three-component image has only a color value, *C?* . A
-four-component image has both a color value *C?* and an alpha value
-*A?* .
-This doc was truncated.
+テクスチャ環境は、フラグメントがテクスチャリングされるときにテクスチャ値がどう解釈されるかを指定する。target は
+GL_TEXTURE_ENV、pname は GL_TEXTURE_ENV_MODE でなければならない。定義されているテクスチャ関数は
+GL_MODULATE、GL_DECAL、GL_BLEND の 3
+種類。テクスチャ関数はフラグメントに適用されるテクスチャ画像値を用いてフラグメントに作用し、そのフラグメントの RGBA
+カラーを生成する。テクスチャ画像から取り出される RGBA 値は [0,1] の範囲。添字 f は入力フラグメント、t
+はテクスチャ画像、c はテクスチャ環境カラー、v はテクスチャ関数が生成する値を表す。テクスチャ画像はテクスチャ要素ごとに最大 4
+成分を持てる (glTexImage1D / glTexImage2D 参照)。
+このドキュメントは省略されている。
 
 
 %index
 glTexEnvfv
-The glTexEnvfv function sets a texture environment parameter.
+glTexEnvfv 関数はテクスチャ環境パラメータを設定する。
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] A texture environment. Must be GL\_TEXTURE\_ENV.
-pname : [int] The symbolic name of a single-valued texture environment parameter. Accepted values are GL\_TEXTURE\_ENV\_MODE and GL\_TEXTURE\_ENV\_COLOR.
+target : [int] テクスチャ環境。GL_TEXTURE_ENV でなければならない。
+pname : [int] 単一値テクスチャ環境パラメータのシンボル名。GL_TEXTURE_ENV_MODE と GL_TEXTURE_ENV_COLOR を受け付ける。
 params : [int] 
 %inst
-The glTexEnvfv function sets a texture environment parameter.
+glTexEnvfv 関数はテクスチャ環境パラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-A texture environment specifies how texture values are interpreted
-when a fragment is textured. The *target* parameter must be
-GL\_TEXTURE\_ENV. The *pname* parameter can be either
-GL\_TEXTURE\_ENV\_MODE or GL\_TEXTURE\_ENV\_COLOR. If *pname* is
-GL\_TEXTURE\_ENV\_MODE, then *params* is (or points to) the symbolic
-name of a texture function. Three texture functions are defined:
-GL\_MODULATE, GL\_DECAL, and GL\_BLEND. A texture function acts on
-the fragment to be textured using the texture image value that
-applies to the fragment (see
-[**glTexParameter**](gltexparameter-functions.md)) and produces an
-RGBA color for that fragment. The following table shows how the RGBA
-color is produced for each of the three texture functions that can be
-chosen. *C* is a triple of color values (RGB) and *A* is the
-associated alpha value. RGBA values extracted from a texture image
-are in the range \[0, 1\]. The subscript *f* refers to the incoming
-fragment, the subscript *t* to the texture image, the subscript *c*
-to the texture environment color, and subscript *v* indicates a value
-produced by the texture function. A texture image can have up to four
-components per texture element (see
-[**glTexImage1D**](glteximage1d.md) and
-[**glTexImage2D**](glteximage2d.md)). In a one-component image, Lt
-indicates that single component. A two-component image uses *L?* and
-*A?* . A three-component image has only a color value, *C?* . A
-four-component image has both a color value *C?* and an alpha value
-*A?* .
-This doc was truncated.
+テクスチャ環境は、フラグメントがテクスチャリングされるときにテクスチャ値がどう解釈されるかを指定する。target は
+GL_TEXTURE_ENV でなければならない。pname は GL_TEXTURE_ENV_MODE か
+GL_TEXTURE_ENV_COLOR のいずれか。pname が GL_TEXTURE_ENV_MODE の場合、params
+はテクスチャ関数のシンボル名 (またはそのポインタ) を指す。定義されているテクスチャ関数は
+GL_MODULATE、GL_DECAL、GL_BLEND の 3
+種類。テクスチャ関数はフラグメントに適用されるテクスチャ画像値を用いてフラグメントに作用し、そのフラグメントの RGBA
+カラーを生成する。テクスチャ画像から取り出される RGBA 値は [0,1] の範囲。添字 f は入力フラグメント、t
+はテクスチャ画像、c はテクスチャ環境カラー、v はテクスチャ関数が生成する値を表す。テクスチャ画像はテクスチャ要素ごとに最大 4
+成分を持てる (glTexImage1D / glTexImage2D 参照)。
+このドキュメントは省略されている。
 
 
 %index
 glTexEnvi
-The glTexEnvi function sets a texture environment parameter.
+glTexEnvi 関数はテクスチャ環境パラメータを設定する。
 %group
 Win32 opengl32
 %prm
 target, pname, param2
-target : [int] A texture environment. Must be GL\_TEXTURE\_ENV.
-pname : [int] The symbolic name of a single-valued texture environment parameter. Must be GL\_TEXTURE\_ENV\_MODE.
+target : [int] テクスチャ環境。GL_TEXTURE_ENV でなければならない。
+pname : [int] 単一値テクスチャ環境パラメータのシンボル名。GL_TEXTURE_ENV_MODE でなければならない。
 param2 : [int] 
 %inst
-The glTexEnvi function sets a texture environment parameter.
+glTexEnvi 関数はテクスチャ環境パラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-A texture environment specifies how texture values are interpreted
-when a fragment is textured. The *target* parameter must be
-GL\_TEXTURE\_ENV. The *pname* parameter is GL\_TEXTURE\_ENV\_MODE.
-Three texture functions are defined: GL\_MODULATE, GL\_DECAL, and
-GL\_BLEND. A texture function acts on the fragment to be textured
-using the texture image value that applies to the fragment (see
-[**glTexParameter**](gltexparameter-functions.md)) and produces an
-RGBA color for that fragment. The following table shows how the RGBA
-color is produced for each of the three texture functions that can be
-chosen. *C* is a triple of color values (RGB) and *A* is the
-associated alpha value. RGBA values extracted from a texture image
-are in the range \[0, 1\]. The subscript *f* refers to the incoming
-fragment, the subscript *t* to the texture image, the subscript *c*
-to the texture environment color, and subscript *v* indicates a value
-produced by the texture function. A texture image can have up to four
-components per texture element (see
-[**glTexImage1D**](glteximage1d.md) and
-[**glTexImage2D**](glteximage2d.md)). In a one-component image, Lt
-indicates that single component. A two-component image uses *L?* and
-*A?* . A three-component image has only a color value, *C?* . A
-four-component image has both a color value *C?* and an alpha value
-*A?* .
-This doc was truncated.
+テクスチャ環境は、フラグメントがテクスチャリングされるときにテクスチャ値がどう解釈されるかを指定する。target は
+GL_TEXTURE_ENV、pname は GL_TEXTURE_ENV_MODE でなければならない。定義されているテクスチャ関数は
+GL_MODULATE、GL_DECAL、GL_BLEND の 3
+種類。テクスチャ関数はフラグメントに適用されるテクスチャ画像値を用いてフラグメントに作用し、そのフラグメントの RGBA
+カラーを生成する。テクスチャ画像から取り出される RGBA 値は [0,1] の範囲。添字 f は入力フラグメント、t
+はテクスチャ画像、c はテクスチャ環境カラー、v はテクスチャ関数が生成する値を表す。テクスチャ画像はテクスチャ要素ごとに最大 4
+成分を持てる (glTexImage1D / glTexImage2D 参照)。
+このドキュメントは省略されている。
 
 
 %index
 glTexEnviv
-The glTexEnviv function sets a texture environment parameter.
+glTexEnviv 関数はテクスチャ環境パラメータを設定する。
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] A texture environment. Must be GL\_TEXTURE\_ENV.
-pname : [int] The symbolic name of a single-valued texture environment parameter. Accepted values are GL\_TEXTURE\_ENV\_MODE and GL\_TEXTURE\_ENV\_COLOR.
+target : [int] テクスチャ環境。GL_TEXTURE_ENV でなければならない。
+pname : [int] 単一値テクスチャ環境パラメータのシンボル名。GL_TEXTURE_ENV_MODE と GL_TEXTURE_ENV_COLOR を受け付ける。
 params : [int] 
 %inst
-The glTexEnviv function sets a texture environment parameter.
+glTexEnviv 関数はテクスチャ環境パラメータを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-A texture environment specifies how texture values are interpreted
-when a fragment is textured. The *target* parameter must be
-GL\_TEXTURE\_ENV. The *pname* parameter can be either
-GL\_TEXTURE\_ENV\_MODE or GL\_TEXTURE\_ENV\_COLOR. If *pname* is
-GL\_TEXTURE\_ENV\_MODE, then *params* is (or points to) the symbolic
-name of a texture function. Three texture functions are defined:
-GL\_MODULATE, GL\_DECAL, and GL\_BLEND. A texture function acts on
-the fragment to be textured using the texture image value that
-applies to the fragment (see
-[**glTexParameter**](gltexparameter-functions.md)) and produces an
-RGBA color for that fragment. The following table shows how the RGBA
-color is produced for each of the three texture functions that can be
-chosen. *C* is a triple of color values (RGB) and *A* is the
-associated alpha value. RGBA values extracted from a texture image
-are in the range \[0, 1\]. The subscript *f* refers to the incoming
-fragment, the subscript *t* to the texture image, the subscript *c*
-to the texture environment color, and subscript *v* indicates a value
-produced by the texture function. A texture image can have up to four
-components per texture element (see
-[**glTexImage1D**](glteximage1d.md) and
-[**glTexImage2D**](glteximage2d.md)). In a one-component image, Lt
-indicates that single component. A two-component image uses *L?* and
-*A?* . A three-component image has only a color value, *C?* . A
-four-component image has both a color value *C?* and an alpha value
-*A?* .
-This doc was truncated.
+テクスチャ環境は、フラグメントがテクスチャリングされるときにテクスチャ値がどう解釈されるかを指定する。target は
+GL_TEXTURE_ENV でなければならない。pname は GL_TEXTURE_ENV_MODE か
+GL_TEXTURE_ENV_COLOR のいずれか。pname が GL_TEXTURE_ENV_MODE の場合、params
+はテクスチャ関数のシンボル名 (またはそのポインタ) を指す。定義されているテクスチャ関数は
+GL_MODULATE、GL_DECAL、GL_BLEND の 3
+種類。テクスチャ関数はフラグメントに適用されるテクスチャ画像値を用いてフラグメントに作用し、そのフラグメントの RGBA
+カラーを生成する。テクスチャ画像から取り出される RGBA 値は [0,1] の範囲。添字 f は入力フラグメント、t
+はテクスチャ画像、c はテクスチャ環境カラー、v はテクスチャ関数が生成する値を表す。テクスチャ画像はテクスチャ要素ごとに最大 4
+成分を持てる (glTexImage1D / glTexImage2D 参照)。
+このドキュメントは省略されている。
 
 
 %index
 glTexGend
-Controls the generation of texture coordinates. | glTexGend function (Gl.h)
+テクスチャ座標の生成を制御する。| glTexGend 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, param2
-coord : [int] A texture coordinate. Must be one of the following: GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the texture coordinate generation function.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] テクスチャ座標生成関数のシンボル名。
 param2 : [double] 
 %inst
-Controls the generation of texture coordinates. | glTexGend function
-(Gl.h)
+テクスチャ座標の生成を制御する。| glTexGend 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexGen** function selects a texture-coordinate generation
-function or supplies coefficients for one of the functions. The
-*coord* parameter names one of the (s,t,r,q) texture coordinates, and
-it must be one of these symbols: GL\_S, GL\_T, GL\_R, or GL\_Q. The
-*pname* parameter must be one of three symbolic constants:
-GL\_TEXTURE\_GEN\_MODE, GL\_OBJECT\_PLANE, or GL\_EYE\_PLANE. If
-*pname* is GL\_TEXTURE\_GEN\_MODE, then *param* specifies a mode, one
-of GL\_OBJECT\_LINEAR, GL\_EYE\_LINEAR, or GL\_SPHERE\_MAP. If
-*pname* is either GL\_OBJECT\_PLANE or GL\_EYE\_PLANE, *param*
-contains coefficients for the corresponding texture generation
-function. If the texture generation function is GL\_OBJECT\_LINEAR,
-the function ![Equation showing the glTexGen function when the
-texture generation function is GL_OBJECT_LINEAR.](images/tex02.png)
-is used, where g is the value computed for the coordinate named in
-coord; p1, p2, p3, and p4 are the four values supplied in params; and
-x?, y?, z?, and w? are the object coordinates of the vertex. You can
-use this function to texture-map terrain by using sea level as a
-reference plane (defined by p1, p2, p3, and p4). The
-GL\_OBJECT\_LINEAR coordinate generation function computes the
-altitude of a terrain vertex as its distance from sea level; that
-altitude is used to index the texture image to map white snow onto
-peaks and green grass onto foothills, for example. If the texture
-generation function is GL\_EYE\_LINEAR, the function ![Equation
-showing the glTexGen function when the texture generation function is
-GL_EYE_LINEAR.](images/tex02.png) is used, where ![Equation showing
-the eye coordinates of the vertex.](images/tex03.png) and x?, y?, z?,
-and w? are the eye coordinates of the vertex, p1, p2, p3, and p4 are
-the values supplied in *param*, and M is the modelview matrix when
-you call **glTexGen**. If M is poorly conditioned or singular,
-texture coordinates generated by the resulting function can be
-inaccurate or undefined. The values in *param* define a reference
-plane in eye coordinates. The modelview matrix that is applied to
-them cannot be the same one in effect when the polygon vertices are
-transformed. This function establishes a field of texture coordinates
-that can produce dynamic contour lines on moving objects. If *pname*
-is GL\_SPHERE\_MAP and *coord* is either GL\_S or GL\_T, s and t
-texture coordinates are generated as follows. Let u be the unit
-vector pointing from the origin to the polygon vertex (in eye
-coordinates). Let n be the current normal, after transformation to
-eye coordinates. Let f = (fx ( ) fy ( ) fz)T be the reflection vector
-such that ![Equation showing the reflection vector as a function of
-unit vector and current normal.](images/tex05.png) Finally, let
-![Equation showing m as a function of reflection
-vector.](images/tex07.png) Then the values assigned to the i and t
-texture coordinates are ![Equation showing values assigned to the i
-and t texture coordinates.](images/tex06.png) You can enable or
-disable a texture-coordinate generation function by using
-[**glEnable**](glenable.md) or [**glDisable**](gldisable.md) with one
-of the symbolic texture-coordinate names (GL\_TEXTURE\_GEN\_S,
-GL\_TEXTURE\_GEN\_T, GL\_TEXTURE\_GEN\_R, or GL\_TEXTURE\_GEN\_Q) as
-the argument. When this function is enabled, the specified texture
-coordinate is computed according to the generating function
-associated with that coordinate. When the function is disabled,
-subsequent vertices take the specified texture coordinate from the
-current set of texture coordinates. Initially, all texture generation
-functions are set to GL\_EYE\_LINEAR and are disabled. Both s plane
-equations are (1,0,0,0); both t plane equations are (0,1,0,0); and
-all r and q plane equations are (0,0,0,0). The following functions
-retrieve information related to glTexGen:
-[**glGetTexGen**](glgettexgen.md) [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_S [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_T [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_R [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_Q
+glTexGen はテクスチャ座標生成関数を選択するか、関数の係数を供給する。coord は (s,t,r,q) のうち 1 つを
+GL_S、GL_T、GL_R、GL_Q のシンボルで指定する。pname は
+GL_TEXTURE_GEN_MODE、GL_OBJECT_PLANE、GL_EYE_PLANE のいずれかでなければならない。pname
+が GL_TEXTURE_GEN_MODE の場合、param はモード
+GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP
+のいずれかを指定する。GL_OBJECT_PLANE か GL_EYE_PLANE の場合、param
+は対応するテクスチャ生成関数の係数を含む。GL_OBJECT_LINEAR
+ではオブジェクト座標から計算する関数が使われ、海抜を参照平面とする地形のテクスチャマッピングなどに利用できる。GL_EYE_LINEAR
+ではアイ座標から計算され、glTexGen 呼び出し時のモデルビュー行列が適用される。M
+が悪条件または特異なら生成テクスチャ座標は不正確/未定義となり得る。param
+の値はアイ座標での参照平面を定義する。GL_SPHERE_MAP かつ coord が GL_S または GL_T の場合、s/t
+は反射ベクトルと単位法線から計算される。glEnable / glDisable に GL_TEXTURE_GEN_S/T/R/Q
+を指定して有効化/無効化する。有効時は対応する生成関数で計算され、無効時は現在のテクスチャ座標が使われる。初期状態では全生成関数が
+GL_EYE_LINEAR で無効、s 平面方程式は (1,0,0,0)、t は (0,1,0,0)、r/q は
+(0,0,0,0)。関連情報は glGetTexGen と glIsEnabled (GL_TEXTURE_GEN_S/T/R/Q)
+で取得できる。
 
 
 %index
 glTexGendv
-Controls the generation of texture coordinates. | glTexGendv function (Gl.h)
+テクスチャ座標の生成を制御する。| glTexGendv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, params
-coord : [int] A texture coordinate. Must be one of the following: GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the texture coordinate generation function.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] テクスチャ座標生成関数のシンボル名。
 params : [int] 
 %inst
-Controls the generation of texture coordinates. | glTexGendv function
-(Gl.h)
+テクスチャ座標の生成を制御する。| glTexGendv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexGen** function selects a texture-coordinate generation
-function or supplies coefficients for one of the functions. The
-*coord* parameter names one of the (s,t,r,q) texture coordinates, and
-it must be one of these symbols: GL\_S, GL\_T, GL\_R, or GL\_Q. The
-*pname* parameter must be one of three symbolic constants:
-GL\_TEXTURE\_GEN\_MODE, GL\_OBJECT\_PLANE, or GL\_EYE\_PLANE. If
-*pname* is either GL\_OBJECT\_PLANE or GL\_EYE\_PLANE, *param*
-contains coefficients for the corresponding texture generation
-function. If the texture generation function is GL\_OBJECT\_LINEAR,
-the function ![Equation showing the glTexGen function when the
-texture generation function is GL_OBJECT_LINEAR.] is used, where g is
-the value computed for the coordinate named in coord; p1, p2, p3, and
-p4 are the four values supplied in params; and x?, y?, z?, and w? are
-the object coordinates of the vertex. You can use this function to
-texture-map terrain by using sea level as a reference plane (defined
-by p1, p2, p3, and p4). The GL\_OBJECT\_LINEAR coordinate generation
-function computes the altitude of a terrain vertex as its distance
-from sea level; that altitude is used to index the texture image to
-map white snow onto peaks and green grass onto foothills, for
-example. If the texture generation function is GL\_EYE\_LINEAR, the
-function ![Equation showing the glTexGen function when the texture
-generation function is GL_EYE_LINEAR.] is used, where ![Equation
-showing the eye coordinates of the vertex.](images/tex03.png) and x?,
-y?, z?, and w? are the eye coordinates of the vertex, p1, p2, p3, and
-p4 are the values supplied in *param*, and M is the modelview matrix
-when you **callglTexGen**. If M is poorly conditioned or singular,
-texture coordinates generated by the resulting function can be
-inaccurate or undefined. Note that the values in *param* define a
-reference plane in eye coordinates. The modelview matrix that is
-applied to them may not be the same one in effect when the polygon
-vertices are transformed. This function establishes a field of
-texture coordinates that can produce dynamic contour lines on moving
-objects. If *pname* is GL\_SPHERE\_MAP and *coord* is either GL\_S or
-GL\_T, s and t texture coordinates are generated as follows. Let u be
-the unit vector pointing from the origin to the polygon vertex (in
-eye coordinates). Let n be the current normal, after transformation
-to eye coordinates. Let f = (fx ( ) fy ( ) fz)T be the reflection
-vector such that ![Equation showing the reflection vector as a
-function of unit vector and current normal.](images/tex05.png)
-Finally, let ![Equation showing m as a function of reflection
-vector.](images/tex07.png) Then the values assigned to the i and t
-texture coordinates are ![Equation showing values assigned to the i
-and t texture coordinates.](images/tex06.png) You can enable or
-disable a texture-coordinate generation function by using
-[**glEnable**](glenable.md) or [**glDisable**](gldisable.md) with one
-of the symbolic texture-coordinate names (GL\_TEXTURE\_GEN\_S,
-GL\_TEXTURE\_GEN\_T, GL\_TEXTURE\_GEN\_R, or GL\_TEXTURE\_GEN\_Q) as
-the argument. When this function is enabled, the specified texture
-coordinate is computed according to the generating function
-associated with that coordinate. When this function is disabled,
-subsequent vertices take the specified texture coordinate from the
-current set of texture coordinates. Initially, all texture generation
-functions are set to GL\_EYE\_LINEAR and are disabled. Both s plane
-equations are (1,0,0,0); both t plane equations are (0,1,0,0); and
-all r and q plane equations are (0,0,0,0). The following functions
-retrieve information related to glTexGen:
-[**glGetTexGen**](glgettexgen.md) [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_S [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_T [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_R [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_Q
+glTexGen はテクスチャ座標生成関数を選択するか、関数の係数を供給する。coord は (s,t,r,q) のうち 1 つを
+GL_S、GL_T、GL_R、GL_Q のシンボルで指定する。pname は
+GL_TEXTURE_GEN_MODE、GL_OBJECT_PLANE、GL_EYE_PLANE のいずれかでなければならない。pname
+が GL_TEXTURE_GEN_MODE の場合、param はモード
+GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP
+のいずれかを指定する。GL_OBJECT_PLANE か GL_EYE_PLANE の場合、param
+は対応するテクスチャ生成関数の係数を含む。GL_OBJECT_LINEAR
+ではオブジェクト座標から計算する関数が使われ、海抜を参照平面とする地形のテクスチャマッピングなどに利用できる。GL_EYE_LINEAR
+ではアイ座標から計算され、glTexGen 呼び出し時のモデルビュー行列が適用される。M
+が悪条件または特異なら生成テクスチャ座標は不正確/未定義となり得る。param
+の値はアイ座標での参照平面を定義する。GL_SPHERE_MAP かつ coord が GL_S または GL_T の場合、s/t
+は反射ベクトルと単位法線から計算される。glEnable / glDisable に GL_TEXTURE_GEN_S/T/R/Q
+を指定して有効化/無効化する。有効時は対応する生成関数で計算され、無効時は現在のテクスチャ座標が使われる。初期状態では全生成関数が
+GL_EYE_LINEAR で無効、s 平面方程式は (1,0,0,0)、t は (0,1,0,0)、r/q は
+(0,0,0,0)。関連情報は glGetTexGen と glIsEnabled (GL_TEXTURE_GEN_S/T/R/Q)
+で取得できる。
 
 
 %index
 glTexGenf
-Controls the generation of texture coordinates. | glTexGenf function (Gl.h)
+テクスチャ座標の生成を制御する。| glTexGenf 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, param2
-coord : [int] A texture coordinate. Must be one of the following: GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the texture coordinate generation function.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] テクスチャ座標生成関数のシンボル名。
 param2 : [float] 
 %inst
-Controls the generation of texture coordinates. | glTexGenf function
-(Gl.h)
+テクスチャ座標の生成を制御する。| glTexGenf 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexGen** function selects a texture-coordinate generation
-function or supplies coefficients for one of the functions. The
-*coord* parameter names one of the (s,t,r,q) texture coordinates, and
-it must be one of these symbols: GL\_S, GL\_T, GL\_R, or GL\_Q. The
-*pname* parameter must be one of three symbolic constants:
-GL\_TEXTURE\_GEN\_MODE, GL\_OBJECT\_PLANE, or GL\_EYE\_PLANE. If
-*pname* is GL\_TEXTURE\_GEN\_MODE, then *param* specifies a mode, one
-of GL\_OBJECT\_LINEAR, GL\_EYE\_LINEAR, or GL\_SPHERE\_MAP. If
-*pname* is either GL\_OBJECT\_PLANE or GL\_EYE\_PLANE, *param*
-contains coefficients for the corresponding texture generation
-function. If the texture generation function is GL\_OBJECT\_LINEAR,
-the function ![Equation showing the glTexGen function when the
-texture generation function is GL_OBJECT_LINEAR.] is used, where g is
-the value computed for the coordinate named in coord; p1, p2, p3, and
-p4 are the four values supplied in params; and x?, y?, z?, and w? are
-the object coordinates of the vertex. You can use this function to
-texture-map terrain by using sea level as a reference plane (defined
-by p1, p2, p3, and p4). The GL\_OBJECT\_LINEAR coordinate generation
-function computes the altitude of a terrain vertex as its distance
-from sea level; that altitude is used to index the texture image to
-map white snow onto peaks and green grass onto foothills, for
-example. If the texture generation function is GL\_EYE\_LINEAR, the
-function ![Equation showing the glTexGen function when the texture
-generation function is GL_EYE_LINEAR.] is used, where ![Equation
-showing the eye coordinates of the vertex.](images/tex03.png) and x?,
-y?, z?, and w? are the eye coordinates of the vertex, p1, p2, p3, and
-p4 are the values supplied in *param*, and M is the modelview matrix
-when you call **glTexGen**. If M is poorly conditioned or singular,
-texture coordinates generated by the resulting function can be
-inaccurate or undefined. Note that the values in *param* define a
-reference plane in eye coordinates. The modelview matrix that is
-applied to them may not be the same one in effect when the polygon
-vertices are transformed. This function establishes a field of
-texture coordinates that can produce dynamic contour lines on moving
-objects. If *pname* is GL\_SPHERE\_MAP and *coord* is either GL\_S or
-GL\_T, s and t texture coordinates are generated as follows. Let u be
-the unit vector pointing from the origin to the polygon vertex (in
-eye coordinates). Let n be the current normal, after transformation
-to eye coordinates. Let f = (fx ( ) fy ( ) fz)T be the reflection
-vector such that ![Equation showing the reflection vector as a
-function of unit vector and current normal.](images/tex05.png)
-Finally, let ![Equation showing m as a function of reflection
-vector.](images/tex07.png) Then the values assigned to the i and t
-texture coordinates are ![Equation showing values assigned to the i
-and t texture coordinates.](images/tex06.png) You can enable or
-disable a texture-coordinate generation function by using
-[**glEnable**](glenable.md) or [**glDisable**](gldisable.md) with one
-of the symbolic texture-coordinate names (GL\_TEXTURE\_GEN\_S,
-GL\_TEXTURE\_GEN\_T, GL\_TEXTURE\_GEN\_R, or GL\_TEXTURE\_GEN\_Q) as
-the argument. When this function is enabled, the specified texture
-coordinate is computed according to the generating function
-associated with that coordinate. When this function is disabled,
-subsequent vertices take the specified texture coordinate from the
-current set of texture coordinates. Initially, all texture generation
-functions are set to GL\_EYE\_LINEAR and are disabled. Both s plane
-equations are (1,0,0,0); both t plane equations are (0,1,0,0); and
-all r and q plane equations are (0,0,0,0). The following functions
-retrieve information related to glTexGen:
-[**glGetTexGen**](glgettexgen.md) [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_S [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_T [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_R [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_Q
+glTexGen はテクスチャ座標生成関数を選択するか、関数の係数を供給する。coord は (s,t,r,q) のうち 1 つを
+GL_S、GL_T、GL_R、GL_Q のシンボルで指定する。pname は
+GL_TEXTURE_GEN_MODE、GL_OBJECT_PLANE、GL_EYE_PLANE のいずれかでなければならない。pname
+が GL_TEXTURE_GEN_MODE の場合、param はモード
+GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP
+のいずれかを指定する。GL_OBJECT_PLANE か GL_EYE_PLANE の場合、param
+は対応するテクスチャ生成関数の係数を含む。GL_OBJECT_LINEAR
+ではオブジェクト座標から計算する関数が使われ、海抜を参照平面とする地形のテクスチャマッピングなどに利用できる。GL_EYE_LINEAR
+ではアイ座標から計算され、glTexGen 呼び出し時のモデルビュー行列が適用される。M
+が悪条件または特異なら生成テクスチャ座標は不正確/未定義となり得る。param
+の値はアイ座標での参照平面を定義する。GL_SPHERE_MAP かつ coord が GL_S または GL_T の場合、s/t
+は反射ベクトルと単位法線から計算される。glEnable / glDisable に GL_TEXTURE_GEN_S/T/R/Q
+を指定して有効化/無効化する。有効時は対応する生成関数で計算され、無効時は現在のテクスチャ座標が使われる。初期状態では全生成関数が
+GL_EYE_LINEAR で無効、s 平面方程式は (1,0,0,0)、t は (0,1,0,0)、r/q は
+(0,0,0,0)。関連情報は glGetTexGen と glIsEnabled (GL_TEXTURE_GEN_S/T/R/Q)
+で取得できる。
 
 
 %index
 glTexGenfv
-Controls the generation of texture coordinates. | glTexGenfv function (Gl.h)
+テクスチャ座標の生成を制御する。| glTexGenfv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, params
-coord : [int] A texture coordinate. Must be one of the following: GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the texture coordinate generation function.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] テクスチャ座標生成関数のシンボル名。
 params : [int] 
 %inst
-Controls the generation of texture coordinates. | glTexGenfv function
-(Gl.h)
+テクスチャ座標の生成を制御する。| glTexGenfv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexGen** function selects a texture-coordinate generation
-function or supplies coefficients for one of the functions. The
-*coord* parameter names one of the (s,t,r,q) texture coordinates, and
-it must be one of these symbols: GL\_S, GL\_T, GL\_R, or GL\_Q. The
-*pname* parameter must be one of three symbolic constants:
-GL\_TEXTURE\_GEN\_MODE, GL\_OBJECT\_PLANE, or GL\_EYE\_PLANE. If
-*pname* is either GL\_OBJECT\_PLANE or GL\_EYE\_PLANE, *param*
-contains coefficients for the corresponding texture generation
-function. If the texture generation function is GL\_OBJECT\_LINEAR,
-the function ![Equation showing the glTexGen function when the
-texture generation function is GL_OBJECT_LINEAR.] is used, where g is
-the value computed for the coordinate named in coord; p1, p2, p3, and
-p4 are the four values supplied in params; and x?, y?, z?, and w? are
-the object coordinates of the vertex. You can use this function to
-texture-map terrain by using sea level as a reference plane (defined
-by p1, p2, p3, and p4). The GL\_OBJECT\_LINEAR coordinate generation
-function computes the altitude of a terrain vertex as its distance
-from sea level; that altitude is used to index the texture image to
-map white snow onto peaks and green grass onto foothills, for
-example. If the texture generation function is GL\_EYE\_LINEAR, the
-function ![Equation showing the glTexGen function when the texture
-generation function is GL_EYE_LINEAR.] is used, where ![Equation
-showing the eye coordinates of the vertex.](images/tex03.png) and x?,
-y?, z?, and w? are the eye coordinates of the vertex, p1, p2, p3, and
-p4 are the values supplied in *param*, and M is the modelview matrix
-when you call **glTexGen**. If M is poorly conditioned or singular,
-texture coordinates generated by the resulting function can be
-inaccurate or undefined. Note that the values in *param* define a
-reference plane in eye coordinates. The modelview matrix that is
-applied to them may not be the same one in effect when the polygon
-vertices are transformed. This function establishes a field of
-texture coordinates that can produce dynamic contour lines on moving
-objects. If *pname* is GL\_SPHERE\_MAP and *coord* is either GL\_S or
-GL\_T, s and t texture coordinates are generated as follows. Let u be
-the unit vector pointing from the origin to the polygon vertex (in
-eye coordinates). Let n be the current normal, after transformation
-to eye coordinates. Let f = (fx ( ) fy ( ) fz)T be the reflection
-vector such that ![Equation showing the reflection vector as a
-function of unit vector and current normal.](images/tex05.png)
-Finally, let ![Equation showing m as a function of reflection
-vector.](images/tex07.png) Then the values assigned to the i and t
-texture coordinates are ![Equation showing values assigned to the i
-and t texture coordinates.](images/tex06.png) You can enable or
-disable a texture-coordinate generation function by using
-[**glEnable**](glenable.md) or [**glDisable**](gldisable.md) with one
-of the symbolic texture-coordinate names (GL\_TEXTURE\_GEN\_S,
-GL\_TEXTURE\_GEN\_T, GL\_TEXTURE\_GEN\_R, or GL\_TEXTURE\_GEN\_Q) as
-the argument. When this function is enabled, the specified texture
-coordinate is computed according to the generating function
-associated with that coordinate. When this function is disabled,
-subsequent vertices take the specified texture coordinate from the
-current set of texture coordinates. Initially, all texture generation
-functions are set to GL\_EYE\_LINEAR and are disabled. Both s plane
-equations are (1,0,0,0); both t plane equations are (0,1,0,0); and
-all r and q plane equations are (0,0,0,0). The following functions
-retrieve information related to glTexGen:
-[**glGetTexGen**](glgettexgen.md) [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_S [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_T [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_R [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_Q
+glTexGen はテクスチャ座標生成関数を選択するか、関数の係数を供給する。coord は (s,t,r,q) のうち 1 つを
+GL_S、GL_T、GL_R、GL_Q のシンボルで指定する。pname は
+GL_TEXTURE_GEN_MODE、GL_OBJECT_PLANE、GL_EYE_PLANE のいずれかでなければならない。pname
+が GL_TEXTURE_GEN_MODE の場合、param はモード
+GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP
+のいずれかを指定する。GL_OBJECT_PLANE か GL_EYE_PLANE の場合、param
+は対応するテクスチャ生成関数の係数を含む。GL_OBJECT_LINEAR
+ではオブジェクト座標から計算する関数が使われ、海抜を参照平面とする地形のテクスチャマッピングなどに利用できる。GL_EYE_LINEAR
+ではアイ座標から計算され、glTexGen 呼び出し時のモデルビュー行列が適用される。M
+が悪条件または特異なら生成テクスチャ座標は不正確/未定義となり得る。param
+の値はアイ座標での参照平面を定義する。GL_SPHERE_MAP かつ coord が GL_S または GL_T の場合、s/t
+は反射ベクトルと単位法線から計算される。glEnable / glDisable に GL_TEXTURE_GEN_S/T/R/Q
+を指定して有効化/無効化する。有効時は対応する生成関数で計算され、無効時は現在のテクスチャ座標が使われる。初期状態では全生成関数が
+GL_EYE_LINEAR で無効、s 平面方程式は (1,0,0,0)、t は (0,1,0,0)、r/q は
+(0,0,0,0)。関連情報は glGetTexGen と glIsEnabled (GL_TEXTURE_GEN_S/T/R/Q)
+で取得できる。
 
 
 %index
 glTexGeni
-Controls the generation of texture coordinates. | glTexGeni function (Gl.h)
+テクスチャ座標の生成を制御する。| glTexGeni 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, param2
-coord : [int] A texture coordinate. Must be one of the following: GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the texture coordinate generation function.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] テクスチャ座標生成関数のシンボル名。
 param2 : [int] 
 %inst
-Controls the generation of texture coordinates. | glTexGeni function
-(Gl.h)
+テクスチャ座標の生成を制御する。| glTexGeni 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexGen** function selects a texture-coordinate generation
-function or supplies coefficients for one of the functions. The
-*coord* parameter names one of the (s,t,r,q) texture coordinates, and
-it must be one of these symbols: GL\_S, GL\_T, GL\_R, or GL\_Q. The
-*pname* parameter must be one of three symbolic constants:
-GL\_TEXTURE\_GEN\_MODE, GL\_OBJECT\_PLANE, or GL\_EYE\_PLANE. If
-*pname* is GL\_TEXTURE\_GEN\_MODE, then *param* specifies a mode, one
-of GL\_OBJECT\_LINEAR, GL\_EYE\_LINEAR, or GL\_SPHERE\_MAP. If
-*pname* is either GL\_OBJECT\_PLANE or GL\_EYE\_PLANE, *param*
-contains coefficients for the corresponding texture generation
-function. If the texture generation function is GL\_OBJECT\_LINEAR,
-the function ![Equation showing the glTexGen function when the
-texture generation function is GL_OBJECT_LINEAR.] is used, where g is
-the value computed for the coordinate named in coord; p1, p2, p3, and
-p4 are the four values supplied in params; and x?, y?, z?, and w? are
-the object coordinates of the vertex. You can use this function to
-texture-map terrain by using sea level as a reference plane (defined
-by p1, p2, p3, and p4). The GL\_OBJECT\_LINEAR coordinate generation
-function computes the altitude of a terrain vertex as its distance
-from sea level; that altitude is used to index the texture image to
-map white snow onto peaks and green grass onto foothills, for
-example. If the texture generation function is GL\_EYE\_LINEAR, the
-function ![Equation showing the glTexGen function when the texture
-generation function is GL_EYE_LINEAR.] is used, where ![Equation
-showing the eye coordinates of the vertex.](images/tex03.png) and x?,
-y?, z?, and w? are the eye coordinates of the vertex, p1, p2, p3, and
-p4 are the values supplied in *param*, and M is the modelview matrix
-when you call **glTexGen**. If M is poorly conditioned or singular,
-texture coordinates generated by the resulting function can be
-inaccurate or undefined. Note that the values in *param* define a
-reference plane in eye coordinates. The modelview matrix that is
-applied to them may not be the same one in effect when the polygon
-vertices are transformed. This function establishes a field of
-texture coordinates that can produce dynamic contour lines on moving
-objects. If *pname* is GL\_SPHERE\_MAP and *coord* is either GL\_S or
-GL\_T, s and t texture coordinates are generated as follows. Let u be
-the unit vector pointing from the origin to the polygon vertex (in
-eye coordinates). Let n be the current normal, after transformation
-to eye coordinates. Let f = (fx ( ) fy ( ) fz)T be the reflection
-vector such that ![Equation showing the reflection vector as a
-function of unit vector and current normal.](images/tex05.png)
-Finally, let ![Equation showing m as a function of reflection
-vector.](images/tex07.png) Then the values assigned to the i and t
-texture coordinates are ![Equation showing values assigned to the i
-and t texture coordinates.](images/tex06.png) You can enable or
-disable a texture-coordinate generation function by using
-[**glEnable**](glenable.md) or [**glDisable**](gldisable.md) with one
-of the symbolic texture-coordinate names (GL\_TEXTURE\_GEN\_S,
-GL\_TEXTURE\_GEN\_T, GL\_TEXTURE\_GEN\_R, or GL\_TEXTURE\_GEN\_Q) as
-the argument. When this function is enabled, the specified texture
-coordinate is computed according to the generating function
-associated with that coordinate. When this function is disabled,
-subsequent vertices take the specified texture coordinate from the
-current set of texture coordinates. Initially, all texture generation
-functions are set to GL\_EYE\_LINEAR and are disabled. Both s plane
-equations are (1,0,0,0); both t plane equations are (0,1,0,0); and
-all r and q plane equations are (0,0,0,0). The following functions
-retrieve information related to glTexGen:
-[**glGetTexGen**](glgettexgen.md) [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_S [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_T [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_R [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_Q
+glTexGen はテクスチャ座標生成関数を選択するか、関数の係数を供給する。coord は (s,t,r,q) のうち 1 つを
+GL_S、GL_T、GL_R、GL_Q のシンボルで指定する。pname は
+GL_TEXTURE_GEN_MODE、GL_OBJECT_PLANE、GL_EYE_PLANE のいずれかでなければならない。pname
+が GL_TEXTURE_GEN_MODE の場合、param はモード
+GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP
+のいずれかを指定する。GL_OBJECT_PLANE か GL_EYE_PLANE の場合、param
+は対応するテクスチャ生成関数の係数を含む。GL_OBJECT_LINEAR
+ではオブジェクト座標から計算する関数が使われ、海抜を参照平面とする地形のテクスチャマッピングなどに利用できる。GL_EYE_LINEAR
+ではアイ座標から計算され、glTexGen 呼び出し時のモデルビュー行列が適用される。M
+が悪条件または特異なら生成テクスチャ座標は不正確/未定義となり得る。param
+の値はアイ座標での参照平面を定義する。GL_SPHERE_MAP かつ coord が GL_S または GL_T の場合、s/t
+は反射ベクトルと単位法線から計算される。glEnable / glDisable に GL_TEXTURE_GEN_S/T/R/Q
+を指定して有効化/無効化する。有効時は対応する生成関数で計算され、無効時は現在のテクスチャ座標が使われる。初期状態では全生成関数が
+GL_EYE_LINEAR で無効、s 平面方程式は (1,0,0,0)、t は (0,1,0,0)、r/q は
+(0,0,0,0)。関連情報は glGetTexGen と glIsEnabled (GL_TEXTURE_GEN_S/T/R/Q)
+で取得できる。
 
 
 %index
 glTexGeniv
-Controls the generation of texture coordinates. | glTexGeniv function (Gl.h)
+テクスチャ座標の生成を制御する。| glTexGeniv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 coord, pname, params
-coord : [int] A texture coordinate. Must be one of the following: GL\_S, GL\_T, GL\_R, or GL\_Q.
-pname : [int] The symbolic name of the texture coordinate generation function.
+coord : [int] テクスチャ座標。GL_S、GL_T、GL_R、GL_Q のいずれかでなければならない。
+pname : [int] テクスチャ座標生成関数のシンボル名。
 params : [int] 
 %inst
-Controls the generation of texture coordinates. | glTexGeniv function
-(Gl.h)
+テクスチャ座標の生成を制御する。| glTexGeniv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexGen** function selects a texture-coordinate generation
-function or supplies coefficients for one of the functions. The
-*coord* parameter names one of the (s,t,r,q) texture coordinates, and
-it must be one of these symbols: GL\_S, GL\_T, GL\_R, or GL\_Q. The
-*pname* parameter must be one of three symbolic constants:
-GL\_TEXTURE\_GEN\_MODE, GL\_OBJECT\_PLANE, or GL\_EYE\_PLANE. If
-*pname* is either GL\_OBJECT\_PLANE or GL\_EYE\_PLANE, *param*
-contains coefficients for the corresponding texture generation
-function. If the texture generation function is GL\_OBJECT\_LINEAR,
-the function ![Equation showing the glTexGen function when the
-texture generation function is GL_OBJECT_LINEAR.] is used, where g is
-the value computed for the coordinate named in coord; p1, p2, p3, and
-p4 are the four values supplied in params; and x?, y?, z?, and w? are
-the object coordinates of the vertex. You can use this function to
-texture-map terrain by using sea level as a reference plane (defined
-by p1, p2, p3, and p4). The GL\_OBJECT\_LINEAR coordinate generation
-function computes the altitude of a terrain vertex as its distance
-from sea level; that altitude is used to index the texture image to
-map white snow onto peaks and green grass onto foothills, for
-example. If the texture generation function is GL\_EYE\_LINEAR, the
-function ![Equation showing the glTexGen function when the texture
-generation function is GL_EYE_LINEAR.] is used, where ![Equation
-showing the eye coordinates of the vertex.](images/tex03.png) and x?,
-y?, z?, and w? are the eye coordinates of the vertex, p1, p2, p3, and
-p4 are the values supplied in *param*, and M is the modelview matrix
-when you call **glTexGen**. If M is poorly conditioned or singular,
-texture coordinates generated by the resulting function can be
-inaccurate or undefined. Note that the values in *param* define a
-reference plane in eye coordinates. The modelview matrix that is
-applied to them may not be the same one in effect when the polygon
-vertices are transformed. This function establishes a field of
-texture coordinates that can produce dynamic contour lines on moving
-objects. If *pname* is GL\_SPHERE\_MAP and *coord* is either GL\_S or
-GL\_T, s and t texture coordinates are generated as follows. Let u be
-the unit vector pointing from the origin to the polygon vertex (in
-eye coordinates). Let n be the current normal, after transformation
-to eye coordinates. Let f = (fx ( ) fy ( ) fz)T be the reflection
-vector such that ![Equation showing the reflection vector as a
-function of unit vector and current normal.](images/tex05.png)
-Finally, let ![Equation showing m as a function of reflection
-vector.](images/tex07.png) Then the values assigned to the i and t
-texture coordinates are ![Equation showing values assigned to the i
-and t texture coordinates.](images/tex06.png) You can enable or
-disable a texture-coordinate generation function by using
-[**glEnable**](glenable.md) or [**glDisable**](gldisable.md) with one
-of the symbolic texture-coordinate names (GL\_TEXTURE\_GEN\_S,
-GL\_TEXTURE\_GEN\_T, GL\_TEXTURE\_GEN\_R, or GL\_TEXTURE\_GEN\_Q) as
-the argument. When this function is enabled, the specified texture
-coordinate is computed according to the generating function
-associated with that coordinate. When this function is disabled,
-subsequent vertices take the specified texture coordinate from the
-current set of texture coordinates. Initially, all texture generation
-functions are set to GL\_EYE\_LINEAR and are disabled. Both s plane
-equations are (1,0,0,0); both t plane equations are (0,1,0,0); and
-all r and q plane equations are (0,0,0,0). The following functions
-retrieve information related to glTexGen:
-[**glGetTexGen**](glgettexgen.md) [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_S [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_T [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_R [**glIsEnabled**](glisenabled.md)
-with argument GL\_TEXTURE\_GEN\_Q
+glTexGen はテクスチャ座標生成関数を選択するか、関数の係数を供給する。coord は (s,t,r,q) のうち 1 つを
+GL_S、GL_T、GL_R、GL_Q のシンボルで指定する。pname は
+GL_TEXTURE_GEN_MODE、GL_OBJECT_PLANE、GL_EYE_PLANE のいずれかでなければならない。pname
+が GL_TEXTURE_GEN_MODE の場合、param はモード
+GL_OBJECT_LINEAR、GL_EYE_LINEAR、GL_SPHERE_MAP
+のいずれかを指定する。GL_OBJECT_PLANE か GL_EYE_PLANE の場合、param
+は対応するテクスチャ生成関数の係数を含む。GL_OBJECT_LINEAR
+ではオブジェクト座標から計算する関数が使われ、海抜を参照平面とする地形のテクスチャマッピングなどに利用できる。GL_EYE_LINEAR
+ではアイ座標から計算され、glTexGen 呼び出し時のモデルビュー行列が適用される。M
+が悪条件または特異なら生成テクスチャ座標は不正確/未定義となり得る。param
+の値はアイ座標での参照平面を定義する。GL_SPHERE_MAP かつ coord が GL_S または GL_T の場合、s/t
+は反射ベクトルと単位法線から計算される。glEnable / glDisable に GL_TEXTURE_GEN_S/T/R/Q
+を指定して有効化/無効化する。有効時は対応する生成関数で計算され、無効時は現在のテクスチャ座標が使われる。初期状態では全生成関数が
+GL_EYE_LINEAR で無効、s 平面方程式は (1,0,0,0)、t は (0,1,0,0)、r/q は
+(0,0,0,0)。関連情報は glGetTexGen と glIsEnabled (GL_TEXTURE_GEN_S/T/R/Q)
+で取得できる。
 
 
 %index
 glTexImage1D
-The glTexImage1D function specifies a one-dimensional texture image.
+glTexImage1D 関数は 1 次元テクスチャ画像を指定する。
 %group
 Win32 opengl32
 %prm
 target, level, internalformat, width, border, format, type, pixels
-target : [int] The target texture. Must be GL\_TEXTURE\_1D.
-level : [int] The level-of-detail number. Level 0 is the base image level. Level *n* is the *n*Th mipmap reduction image.
-internalformat : [int] Specifies the number of color components in the texture. Must be 1, 2, 3, or 4, or one of the following symbolic constants: GL\_ALPHA, GL\_ALPHA4, GL\_ALPHA8, GL\_ALPHA12, GL\_ALPHA16, GL\_LUMINANCE, GL\_LUMINANCE4, GL\_LUMINANCE8, GL\_LUMINANCE12, GL\_LUMINANCE16, GL\_LUMINANCE\_ALPHA, GL\_LUMINANCE4\_ALPHA4, GL\_LUMINANCE6\_ALPHA2, GL\_LUMINANCE8\_ALPHA8, GL\_LUMINANCE12\_ALPHA4, GL\_LUMINANCE12\_ALPHA12, GL\_LUMINANCE16\_ALPHA16, GL\_INTENSITY, GL\_INTENSITY4, GL\_INTENSITY8, GL\_INTENSITY12, GL\_INTENSITY16, GL\_RGB, GL\_R3\_G3\_B2, GL\_RGB4, GL\_RGB5, GL\_RGB8, GL\_RGB10, GL\_RGB12, GL\_RGB16, GL\_RGBA, GL\_RGBA2, GL\_RGBA4, GL\_RGB5\_A1, GL\_RGBA8, GL\_RGB10\_A2, GL\_RGBA12, or GL\_RGBA16.
-width : [int] The width of the texture image. Must be 2*n* + 2( *border* ) for some integer *n*. The height of the texture image is 1.
-border : [int] The width of the border. Must be either 0 or 1.
-format : [int] The format of the pixel data. It can assume one of nine symbolic values.
-type : [int] The data type of the pixel data. The following symbolic values are accepted: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, and GL\_FLOAT.
-pixels : [intptr] A pointer to the image data in memory.
+target : [int] 対象テクスチャ。GL_TEXTURE_1D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基本イメージレベル、レベル n は n 段階目のミップマップ縮小画像。
+internalformat : [int] テクスチャのカラー成分数を指定する。1、2、3、4 のいずれか、または次のシンボル定数のいずれか: GL_ALPHA、GL_ALPHA4/8/12/16、GL_LUMINANCE、GL_LUMINANCE4/8/12/16、GL_LUMINANCE_ALPHA、GL_LUMINANCE4_ALPHA4/6_ALPHA2/8_ALPHA8/12_ALPHA4/12_ALPHA12/16_ALPHA16、GL_INTENSITY、GL_INTENSITY4/8/12/16、GL_RGB、GL_R3_G3_B2、GL_RGB4/5/8/10/12/16、GL_RGBA、GL_RGBA2/4、GL_RGB5_A1、GL_RGBA8、GL_RGB10_A2、GL_RGBA12、GL_RGBA16。
+width : [int] テクスチャ画像の幅。ある整数 n について 2^n + 2*border でなければならない。テクスチャ画像の高さは 1。
+border : [int] 境界の幅。0 か 1 でなければならない。
+format : [int] ピクセルデータのフォーマット。受け付ける主な値: GL_COLOR_INDEX (カラーインデックス。固定小数化、GL_INDEX_SHIFT/OFFSET 適用後 GL_PIXEL_MAP_I_TO_R/G/B/A で色成分に変換)、GL_STENCIL_INDEX (ステンシル値。glReadPixels 用)、GL_DEPTH_COMPONENT (デプス値。浮動小数化し GL_DEPTH_SCALE/BIAS を適用後 [0,1] にクランプ)、GL_RED/GL_GREEN/GL_BLUE/GL_ALPHA (それぞれ単一成分を浮動小数化して RGBA 要素に組み立て、scale/bias 適用後クランプ)、GL_RGB (RGB トリプル)、GL_RGBA (完全 RGBA)、GL_BGR_EXT/GL_BGRA_EXT (Windows DIB のメモリレイアウトに一致するフォーマット)、GL_LUMINANCE (単一輝度値を R/G/B に複製しアルファに 1.0 を付加)、GL_LUMINANCE_ALPHA (輝度/アルファペア)。
+type : [int] ピクセルデータのデータ型。受け付けるシンボル値: GL_UNSIGNED_BYTE、GL_BYTE、GL_BITMAP、GL_UNSIGNED_SHORT、GL_SHORT、GL_UNSIGNED_INT、GL_INT、GL_FLOAT。
+pixels : [intptr] メモリ内の画像データへのポインタ。
 %inst
-The glTexImage1D function specifies a one-dimensional texture image.
+glTexImage1D 関数は 1 次元テクスチャ画像を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexImage1D** function specifies a one-dimensional texture
-image. Texturing maps a portion of a specified *texture image* onto
-each graphical primitive for which texturing is enabled.
-One-dimensional texturing is enabled and disabled using
-[**glEnable**](glenable.md) and **glDisable** with argument
-GL\_TEXTURE\_1D. Texture images are defined with **glTexImage1D**.
-The arguments describe the parameters of the texture image, such as
-width, width of the border, level-of-detail number (see
-[**glTexParameter**](gltexparameter-functions.md)), and number of
-color components provided. The last three arguments describe the way
-the image is represented in memory. These arguments are identical to
-the pixel formats used for [**glDrawPixels**](gldrawpixels.md). Data
-is read from *pixels* as a sequence of signed or unsigned bytes,
-shorts or longs, or single-precision floating-point values, depending
-on *type*. These values are grouped into sets of one, two, three, or
-four values, depending on *format*, to form elements. If *type* is
-GL\_BITMAP, the data is considered as a string of unsigned bytes (and
-*format* must be GL\_COLOR\_INDEX). Each data byte is treated as
-eight 1-bit elements, with bit ordering determined by
-GL\_UNPACK\_LSB\_FIRST (see
-[**glPixelStore**](glpixelstore-functions.md)). A texture image can
-have up to four components per texture element, depending on
-*components*. A one-component texture image uses only the red
-component of the RGBA color extracted from *pixels*. A two-component
-image uses the R and A values. A three-component image uses the R, G,
-and B values. A four-component image uses all of the RGBA components.
-Texturing has no effect in color-index mode. The texture image can be
-represented by the same data formats as the pixels in a
-[**glDrawPixels**](gldrawpixels.md) command, except that
-GL\_STENCIL\_INDEX and GL\_DEPTH\_COMPONENT cannot be used. The
-[**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) modes affect texture images
-in exactly the way they affect **glDrawPixels**. A texture image with
-zero width indicates the null texture. If the null texture is
-specified for level-of-detail 0, it is as if texturing were disabled.
-The following functions retrieve information related to
-**glTexImageID**: [**glGetTexImage**](glgetteximage.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_1D
+glTexImage1D は 1
+次元テクスチャ画像を指定する。テクスチャリングは指定されたテクスチャ画像の一部を、テクスチャリング有効な各グラフィカルプリミティブにマップする。1
+次元テクスチャリングは glEnable / glDisable に GL_TEXTURE_1D
+を指定して有効化/無効化する。引数はテクスチャ画像のパラメータ (width、境界幅、詳細度レベル番号、カラー成分数) を表す。最後の 3
+引数は画像のメモリ表現を記述し、glDrawPixels で使うピクセルフォーマットと同一。データは type
+に応じて符号付き/符号なしのバイト・ショート・ロング、または単精度浮動小数点数列として pixels から読まれ、format に応じて
+1～4 個ずつ要素にグループ化される。type が GL_BITMAP のときデータは符号なしバイト列として扱われ (format は
+GL_COLOR_INDEX でなければならない)、各バイトはビット順が GL_UNPACK_LSB_FIRST で決まる 8 個の 1
+ビット要素として扱われる。テクスチャ画像はテクスチャ要素ごとに最大 4 成分を持つ。1 成分は R のみ、2 成分は R/A、3 成分は
+R/G/B、4 成分は RGBA を使う。カラーインデックスモードでは効果を持たない。GL_STENCIL_INDEX と
+GL_DEPTH_COMPONENT 以外は glDrawPixels と同じ形式で表現できる。glPixelStore と
+glPixelTransfer は glDrawPixels と同じく影響する。width=0
+のテクスチャ画像はヌルテクスチャを表し、レベル 0 で指定するとテクスチャリング無効と同じ扱い。関連情報は
+glGetTexImage、glIsEnabled (GL_TEXTURE_1D) で取得できる。
 
 
 %index
 glTexImage2D
-The glTexImage2D function specifies a two-dimensional texture image.
+glTexImage2D 関数は 2 次元テクスチャ画像を指定する。
 %group
 Win32 opengl32
 %prm
 target, level, internalformat, width, height, border, format, type, pixels
-target : [int] The target texture. Must be GL\_TEXTURE\_2D.
-level : [int] The level-of-detail number. Level 0 is the base image level. Level *n* is the *n* th mipmap reduction image.
-internalformat : [int] The number of color components in the texture. Must be 1, 2, 3, or 4, or one of the following symbolic constants: GL\_ALPHA, GL\_ALPHA4, GL\_ALPHA8, GL\_ALPHA12, GL\_ALPHA16, GL\_LUMINANCE, GL\_LUMINANCE4, GL\_LUMINANCE8, GL\_LUMINANCE12, GL\_LUMINANCE16, GL\_LUMINANCE\_ALPHA, GL\_LUMINANCE4\_ALPHA4, GL\_LUMINANCE6\_ALPHA2, GL\_LUMINANCE8\_ALPHA8, GL\_LUMINANCE12\_ALPHA4, GL\_LUMINANCE12\_ALPHA12, GL\_LUMINANCE16\_ALPHA16, GL\_INTENSITY, GL\_INTENSITY4, GL\_INTENSITY8, GL\_INTENSITY12, GL\_INTENSITY16, GL\_R3\_G3\_B2, GL\_RGB, GL\_RGB4, GL\_RGB5, GL\_RGB8, GL\_RGB10, GL\_RGB12, GL\_RGB16, GL\_RGBA, GL\_RGBA2, GL\_RGBA4, GL\_RGB5\_A1, GL\_RGBA8, GL\_RGB10\_A2, GL\_RGBA12, or GL\_RGBA16.
-width : [int] The width of the texture image. Must be 2*n* + 2(*border*) for some integer *n*.
-height : [int] The height of the texture image. Must be 2*m* + 2(*border*) for some integer *m*.
-border : [int] The width of the border. Must be either 0 or 1.
-format : [int] The format of the pixel data. It can assume one of nine symbolic values.
-type : [int] The data type of the pixel data. The following symbolic values are accepted: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, and GL\_FLOAT.
-pixels : [intptr] A pointer to the image data in memory.
+target : [int] 対象テクスチャ。GL_TEXTURE_2D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基本イメージレベル、レベル n は n 段階目のミップマップ縮小画像。
+internalformat : [int] テクスチャのカラー成分数。1～4、または GL_ALPHA、GL_ALPHA4/8/12/16、GL_LUMINANCE、GL_LUMINANCE4/8/12/16、GL_LUMINANCE_ALPHA 系、GL_INTENSITY、GL_INTENSITY4/8/12/16、GL_R3_G3_B2、GL_RGB、GL_RGB4/5/8/10/12/16、GL_RGBA、GL_RGBA2/4、GL_RGB5_A1、GL_RGBA8、GL_RGB10_A2、GL_RGBA12、GL_RGBA16 のいずれかでなければならない。
+width : [int] テクスチャ画像の幅。ある整数 n について 2^n + 2*border でなければならない。
+height : [int] テクスチャ画像の高さ。ある整数 m について 2^m + 2*border でなければならない。
+border : [int] 境界の幅。0 か 1 でなければならない。
+format : [int] ピクセルデータのフォーマット。受け付ける主な値: GL_COLOR_INDEX (カラーインデックス。固定小数化、GL_INDEX_SHIFT/OFFSET 適用後 GL_PIXEL_MAP_I_TO_R/G/B/A で色成分に変換)、GL_STENCIL_INDEX (ステンシル値。glReadPixels 用)、GL_DEPTH_COMPONENT (デプス値。浮動小数化し GL_DEPTH_SCALE/BIAS を適用後 [0,1] にクランプ)、GL_RED/GL_GREEN/GL_BLUE/GL_ALPHA (それぞれ単一成分を浮動小数化して RGBA 要素に組み立て、scale/bias 適用後クランプ)、GL_RGB (RGB トリプル)、GL_RGBA (完全 RGBA)、GL_BGR_EXT/GL_BGRA_EXT (Windows DIB のメモリレイアウトに一致するフォーマット)、GL_LUMINANCE (単一輝度値を R/G/B に複製しアルファに 1.0 を付加)、GL_LUMINANCE_ALPHA (輝度/アルファペア)。
+type : [int] ピクセルデータのデータ型。受け付けるシンボル値: GL_UNSIGNED_BYTE、GL_BYTE、GL_BITMAP、GL_UNSIGNED_SHORT、GL_SHORT、GL_UNSIGNED_INT、GL_INT、GL_FLOAT。
+pixels : [intptr] メモリ内の画像データへのポインタ。
 %inst
-The glTexImage2D function specifies a two-dimensional texture image.
+glTexImage2D 関数は 2 次元テクスチャ画像を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTexImage2D** function specifies a two-dimensional texture
-image. Texturing maps a portion of a specified *texture image* onto
-each graphical primitive for which texturing is enabled.
-Two-dimensional texturing is enabled and disabled using
-[**glEnable**](glenable.md) and **glDisable** with argument
-GL\_TEXTURE\_2D. Texture images are defined with **glTexImage2D**.
-The arguments describe the parameters of the texture image, such as
-height, width, width of the border, level-of-detail number (see
-[**glTexParameter**](gltexparameter-functions.md)), and number of
-color components provided. The last three arguments describe the way
-the image is represented in memory. These arguments are identical to
-the pixel formats used for [**glDrawPixels**](gldrawpixels.md). Data
-is read from *pixels* as a sequence of signed or unsigned bytes,
-shorts or longs, or single-precision floating-point values, depending
-on *type*. These values are grouped into sets of one, two, three, or
-four values, depending on *format*, to form elements. If *type* is
-GL\_BITMAP, the data is considered as a string of unsigned bytes (and
-*format* must be GL\_COLOR\_INDEX). Each data byte is treated as
-eight 1-bit elements, with bit ordering determined by
-GL\_UNPACK\_LSB\_FIRST (see
-[**glPixelStore**](glpixelstore-functions.md)). Please see
-[**glDrawPixels**](gldrawpixels.md) for a description of the
-acceptable values for the *type* parameter. A texture image can have
-up to four components per texture element, depending on *components*.
-A one-component texture image uses only the red component of the RGBA
-color extracted from *pixels*. A two-component image uses the R and A
-values. A three-component image uses the R, G, and B values. A
-four-component image uses all of the RGBA components. Texturing has
-no effect in color-index mode. The texture image can be represented
-by the same data formats as the pixels in a **glDrawPixels** command,
-except that GL\_STENCIL\_INDEX and GL\_DEPTH\_COMPONENT cannot be
-used. The [**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) modes affect texture images
-in exactly the way they affect **glDrawPixels**. A texture image with
-zero height or width indicates the null texture. If the null texture
-is specified for level-of-detail 0, it is as if texturing were
-disabled. The following functions retrieve information related to
-**glTexImage2D**: [**glGetTexImage**](glgetteximage.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_2D
+glTexImage2D は 2
+次元テクスチャ画像を指定する。テクスチャリングは指定されたテクスチャ画像の一部を、テクスチャリング有効な各グラフィカルプリミティブにマップする。2
+次元テクスチャリングは glEnable / glDisable に GL_TEXTURE_2D
+を指定して有効化/無効化する。引数はテクスチャ画像のパラメータ (height、width、境界幅、詳細度レベル番号、カラー成分数)
+を表す。最後の 3 引数は画像のメモリ表現を記述し、glDrawPixels と同一。データは type
+に応じて符号付き/符号なしのバイト・ショート・ロング、または単精度浮動小数点数列として pixels から読まれ、format に応じて
+1～4 個ずつ要素にグループ化される。type が GL_BITMAP のときデータは符号なしバイト列として扱われ (format は
+GL_COLOR_INDEX)、ビット順は GL_UNPACK_LSB_FIRST で決まる。type に受け付ける値は
+glDrawPixels を参照。テクスチャ画像はテクスチャ要素ごとに最大 4
+成分を持つ。カラーインデックスモードでは効果を持たない。GL_STENCIL_INDEX と GL_DEPTH_COMPONENT 以外は
+glDrawPixels と同じ形式で表現できる。glPixelStore と glPixelTransfer は
+glDrawPixels と同じく影響する。height か width が 0 のテクスチャ画像はヌルテクスチャを表し、レベル 0
+で指定するとテクスチャリング無効と同じ扱い。関連情報は glGetTexImage、glIsEnabled (GL_TEXTURE_2D)
+で取得できる。
 
 
 %index
 glTexParameterf
-Sets texture parameters. | glTexParameterf function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameterf 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, param2
-target : [int] The target texture, which must be either GL\_TEXTURE\_1D or GL\_TEXTURE\_2D.
-pname : [int] The symbolic name of a single valued texture parameter. The following symbols are accepted in *pname*.
+target : [int] 対象テクスチャ。GL_TEXTURE_1D または GL_TEXTURE_2D でなければならない。
+pname : [int] 単一値テクスチャパラメータのシンボル名。pname は次のシンボルを受け付ける: GL_TEXTURE_MIN_FILTER (テクスチャ縮小関数。1 ピクセルが 1 テクスチャ要素以上にマップされる場合に使われる。6 種類の関数がある)、GL_TEXTURE_MAG_FILTER (テクスチャ拡大関数。GL_NEAREST または GL_LINEAR)、GL_TEXTURE_WRAP_S (s 座標のラップ。GL_CLAMP または GL_REPEAT、既定 GL_REPEAT)、GL_TEXTURE_WRAP_T (t 座標のラップ。同上)、GL_TEXTURE_BORDER_COLOR (境界色。params に RGBA の 4 値、既定 (0,0,0,0))、GL_TEXTURE_PRIORITY (現在バインドされているテクスチャの常駐優先度。[0,1])。
 param2 : [float] 
 %inst
-Sets texture parameters. | glTexParameterf function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameterf 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Texture mapping is a technique that applies an image onto an object's
-surface as if the image were a decal or cellophane shrink-wrap. The
-image is created in texture space, with an (*s*, *t*) coordinate
-system. A texture is a one- or two-dimensional image and a set of
-parameters that determine how samples are derived from the image. The
-**glTexParameter** function assigns the value or values in params to
-the texture parameter specified as pname. The target parameter
-defines the target texture, either GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D. As more texture elements are sampled in the
-minification process, fewer aliasing artifacts will be apparent.
-While the GL\_NEAREST and GL\_LINEAR minification functions can be
-faster than the other four, they sample only one or four texture
-elements to determine the texture value of the pixel being rendered
-and can produce moire patterns or ragged transitions. The default
-value of GL\_TEXTURE\_MIN\_FILTER is GL\_NEAREST\_MIPMAP\_LINEAR.
-Suppose that texturing is enabled (by calling
-[**glEnable**](glenable.md) with argument GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D) and GL\_TEXTURE\_MIN\_FILTER is set to one of the
-functions that requires a mipmap. If either the dimensions of the
-texture images currently defined (with previous calls to
-[**glTexImage1D**](glteximage1d.md) or
-[**glTexImage2D**](glteximage2d.md)) do not follow the proper
-sequence for mipmaps, or there are fewer texture images defined than
-are needed, or the set of texture images have differing numbers of
-texture components, then it is as if texture mapping were disabled.
-Linear filtering accesses the four nearest texture elements only in
-2-D textures. In 1-D textures, linear filtering accesses the two
-nearest texture elements. The following function retrieves
-information related to **glTexParameterf**, **glTexParameteri**,
-**glTexParameterfv**, and **glTexParameteriv**.
+テクスチャマッピングは、デカールやセロハンの収縮包装のように画像を物体の表面に適用する手法である。画像は (s, t)
+座標系を持つテクスチャ空間で作成される。テクスチャは 1 次元または 2
+次元の画像と、画像からサンプルを導く方法を決定するパラメータの集合からなる。glTexParameter は params の値を
+pname で指定したテクスチャパラメータに代入する。target は対象テクスチャ (GL_TEXTURE_1D または
+GL_TEXTURE_2D)
+を定義する。縮小処理でより多くのテクスチャ要素をサンプリングするほどエイリアシングは目立たなくなる。GL_NEAREST と
+GL_LINEAR は他の 4 つより高速だが 1 個または 4
+個のテクスチャ要素しかサンプリングしないためモアレやギザギザを生じうる。GL_TEXTURE_MIN_FILTER の既定値は
+GL_NEAREST_MIPMAP_LINEAR。テクスチャリングが有効で MIN_FILTER
+がミップマップを要求する関数のとき、現在定義されているテクスチャ画像の寸法がミップマップの正しい順序に従わない、必要数より少ない、または成分数が異なる場合は、テクスチャマッピング無効と同じ扱いになる。線形フィルタリングは
+2D テクスチャでは 4 近傍、1D テクスチャでは 2 近傍のテクスチャ要素にアクセスする。
 
 
 %index
 glTexParameterfv
-Sets texture parameters. | glTexParameterfv function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameterfv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] The target texture, which must be either GL\_TEXTURE\_1D or GL\_TEXTURE\_2D.
-pname : [int] The symbolic name of a single valued texture parameter. The following symbols are accepted in *pname*.
+target : [int] 対象テクスチャ。GL_TEXTURE_1D または GL_TEXTURE_2D でなければならない。
+pname : [int] 単一値テクスチャパラメータのシンボル名。pname は次のシンボルを受け付ける: GL_TEXTURE_MIN_FILTER (テクスチャ縮小関数。1 ピクセルが 1 テクスチャ要素以上にマップされる場合に使われる。6 種類の関数がある)、GL_TEXTURE_MAG_FILTER (テクスチャ拡大関数。GL_NEAREST または GL_LINEAR)、GL_TEXTURE_WRAP_S (s 座標のラップ。GL_CLAMP または GL_REPEAT、既定 GL_REPEAT)、GL_TEXTURE_WRAP_T (t 座標のラップ。同上)、GL_TEXTURE_BORDER_COLOR (境界色。params に RGBA の 4 値、既定 (0,0,0,0))、GL_TEXTURE_PRIORITY (現在バインドされているテクスチャの常駐優先度。[0,1])。
 params : [int] 
 %inst
-Sets texture parameters. | glTexParameterfv function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameterfv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Texture mapping is a technique that applies an image onto an object's
-surface as if the image were a decal or cellophane shrink-wrap. The
-image is created in texture space, with an (*s*, *t*) coordinate
-system. A texture is a one- or two-dimensional image and a set of
-parameters that determine how samples are derived from the image. The
-**glTexParameter** function assigns the value or values in params to
-the texture parameter specified as pname. The target parameter
-defines the target texture, either GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D. As more texture elements are sampled in the
-minification process, fewer aliasing artifacts will be apparent.
-While the GL\_NEAREST and GL\_LINEAR minification functions can be
-faster than the other four, they sample only one or four texture
-elements to determine the texture value of the pixel being rendered
-and can produce moire patterns or ragged transitions. The default
-value of GL\_TEXTURE\_MIN\_FILTER is GL\_NEAREST\_MIPMAP\_LINEAR.
-Suppose that texturing is enabled (by calling
-[**glEnable**](glenable.md) with argument GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D) and GL\_TEXTURE\_MIN\_FILTER is set to one of the
-functions that requires a mipmap. If either the dimensions of the
-texture images currently defined (with previous calls to
-[**glTexImage1D**](glteximage1d.md) or
-[**glTexImage2D**](glteximage2d.md)) do not follow the proper
-sequence for mipmaps, or there are fewer texture images defined than
-are needed, or the set of texture images have differing numbers of
-texture components, then it is as if texture mapping were disabled.
-Linear filtering accesses the four nearest texture elements only in
-2-D textures. In 1-D textures, linear filtering accesses the two
-nearest texture elements. The following function retrieves
-information related to **glTexParameterf**, **glTexParameteri**,
-**glTexParameterfv**, and **glTexParameteriv**:
-[**glGetTexParameter**](glgettexparameter.md)
+テクスチャマッピングは、デカールやセロハンの収縮包装のように画像を物体の表面に適用する手法である。画像は (s, t)
+座標系を持つテクスチャ空間で作成される。テクスチャは 1 次元または 2
+次元の画像と、画像からサンプルを導く方法を決定するパラメータの集合からなる。glTexParameter は params の値を
+pname で指定したテクスチャパラメータに代入する。target は対象テクスチャ (GL_TEXTURE_1D または
+GL_TEXTURE_2D)
+を定義する。縮小処理でより多くのテクスチャ要素をサンプリングするほどエイリアシングは目立たなくなる。GL_NEAREST と
+GL_LINEAR は他の 4 つより高速だが 1 個または 4
+個のテクスチャ要素しかサンプリングしないためモアレやギザギザを生じうる。GL_TEXTURE_MIN_FILTER の既定値は
+GL_NEAREST_MIPMAP_LINEAR。MIN_FILTER
+がミップマップを要求する関数のとき、テクスチャ画像の寸法がミップマップの正しい順序に従わない、必要数より少ない、または成分数が異なる場合は、テクスチャマッピング無効と同じ扱いになる。線形フィルタリングは
+2D テクスチャでは 4 近傍、1D テクスチャでは 2 近傍のテクスチャ要素にアクセスする。関連情報は
+glGetTexParameter で取得できる。
 
 
 %index
 glTexParameteri
-Sets texture parameters. | glTexParameteri function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameteri 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, param2
-target : [int] The target texture, which must be either GL\_TEXTURE\_1D or GL\_TEXTURE\_2D.
-pname : [int] The symbolic name of a single valued texture parameter. The following symbols are accepted in *pname*.
+target : [int] 対象テクスチャ。GL_TEXTURE_1D または GL_TEXTURE_2D でなければならない。
+pname : [int] 単一値テクスチャパラメータのシンボル名。pname は次のシンボルを受け付ける: GL_TEXTURE_MIN_FILTER (テクスチャ縮小関数。1 ピクセルが 1 テクスチャ要素以上にマップされる場合に使われる。6 種類の関数がある)、GL_TEXTURE_MAG_FILTER (テクスチャ拡大関数。GL_NEAREST または GL_LINEAR)、GL_TEXTURE_WRAP_S (s 座標のラップ。GL_CLAMP または GL_REPEAT、既定 GL_REPEAT)、GL_TEXTURE_WRAP_T (t 座標のラップ。同上)、GL_TEXTURE_BORDER_COLOR (境界色。params に RGBA の 4 値、既定 (0,0,0,0))、GL_TEXTURE_PRIORITY (現在バインドされているテクスチャの常駐優先度。[0,1])。
 param2 : [int] 
 %inst
-Sets texture parameters. | glTexParameteri function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameteri 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Texture mapping is a technique that applies an image onto an object's
-surface as if the image were a decal or cellophane shrink-wrap. The
-image is created in texture space, with an (*s*, *t*) coordinate
-system. A texture is a one- or two-dimensional image and a set of
-parameters that determine how samples are derived from the image. The
-**glTexParameter** function assigns the value or values in params to
-the texture parameter specified as pname. The target parameter
-defines the target texture, either GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D. As more texture elements are sampled in the
-minification process, fewer aliasing artifacts will be apparent.
-While the GL\_NEAREST and GL\_LINEAR minification functions can be
-faster than the other four, they sample only one or four texture
-elements to determine the texture value of the pixel being rendered
-and can produce moire patterns or ragged transitions. The default
-value of GL\_TEXTURE\_MIN\_FILTER is GL\_NEAREST\_MIPMAP\_LINEAR.
-Suppose that texturing is enabled (by calling
-[**glEnable**](glenable.md) with argument GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D) and GL\_TEXTURE\_MIN\_FILTER is set to one of the
-functions that requires a mipmap. If either the dimensions of the
-texture images currently defined (with previous calls to
-[**glTexImage1D**](glteximage1d.md) or
-[**glTexImage2D**](glteximage2d.md)) do not follow the proper
-sequence for mipmaps, or there are fewer texture images defined than
-are needed, or the set of texture images have differing numbers of
-texture components, then it is as if texture mapping were disabled.
-Linear filtering accesses the four nearest texture elements only in
-2-D textures. In 1-D textures, linear filtering accesses the two
-nearest texture elements. The following function retrieves
-information related to **glTexParameterf**, **glTexParameteri**,
-**glTexParameterfv**, and **glTexParameteriv**:
-[**glGetTexParameter**](glgettexparameter.md)
+テクスチャマッピングは、デカールやセロハンの収縮包装のように画像を物体の表面に適用する手法である。画像は (s, t)
+座標系を持つテクスチャ空間で作成される。テクスチャは 1 次元または 2
+次元の画像と、画像からサンプルを導く方法を決定するパラメータの集合からなる。glTexParameter は params の値を
+pname で指定したテクスチャパラメータに代入する。target は対象テクスチャ (GL_TEXTURE_1D または
+GL_TEXTURE_2D)
+を定義する。縮小処理でより多くのテクスチャ要素をサンプリングするほどエイリアシングは目立たなくなる。GL_NEAREST と
+GL_LINEAR は他の 4 つより高速だが 1 個または 4
+個のテクスチャ要素しかサンプリングしないためモアレやギザギザを生じうる。GL_TEXTURE_MIN_FILTER の既定値は
+GL_NEAREST_MIPMAP_LINEAR。MIN_FILTER
+がミップマップを要求する関数のとき、テクスチャ画像の寸法がミップマップの正しい順序に従わない、必要数より少ない、または成分数が異なる場合は、テクスチャマッピング無効と同じ扱いになる。線形フィルタリングは
+2D テクスチャでは 4 近傍、1D テクスチャでは 2 近傍のテクスチャ要素にアクセスする。関連情報は
+glGetTexParameter で取得できる。
 
 
 %index
 glTexParameteriv
-Sets texture parameters. | glTexParameteriv function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameteriv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 target, pname, params
-target : [int] The target texture, which must be either GL\_TEXTURE\_1D or GL\_TEXTURE\_2D.
-pname : [int] The symbolic name of a single valued texture parameter. The following symbols are accepted in *pname*.
+target : [int] 対象テクスチャ。GL_TEXTURE_1D または GL_TEXTURE_2D でなければならない。
+pname : [int] 単一値テクスチャパラメータのシンボル名。pname は次のシンボルを受け付ける: GL_TEXTURE_MIN_FILTER (テクスチャ縮小関数。1 ピクセルが 1 テクスチャ要素以上にマップされる場合に使われる。6 種類の関数がある)、GL_TEXTURE_MAG_FILTER (テクスチャ拡大関数。GL_NEAREST または GL_LINEAR)、GL_TEXTURE_WRAP_S (s 座標のラップ。GL_CLAMP または GL_REPEAT、既定 GL_REPEAT)、GL_TEXTURE_WRAP_T (t 座標のラップ。同上)、GL_TEXTURE_BORDER_COLOR (境界色。params に RGBA の 4 値、既定 (0,0,0,0))、GL_TEXTURE_PRIORITY (現在バインドされているテクスチャの常駐優先度。[0,1])。
 params : [int] 
 %inst
-Sets texture parameters. | glTexParameteriv function (Gl.h)
+テクスチャパラメータを設定する。| glTexParameteriv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Texture mapping is a technique that applies an image onto an object's
-surface as if the image were a decal or cellophane shrink-wrap. The
-image is created in texture space, with an (*s*, *t*) coordinate
-system. A texture is a one- or two-dimensional image and a set of
-parameters that determine how samples are derived from the image. The
-**glTexParameter** function assigns the value or values in params to
-the texture parameter specified as pname. The target parameter
-defines the target texture, either GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D. As more texture elements are sampled in the
-minification process, fewer aliasing artifacts will be apparent.
-While the GL\_NEAREST and GL\_LINEAR minification functions can be
-faster than the other four, they sample only one or four texture
-elements to determine the texture value of the pixel being rendered
-and can produce moire patterns or ragged transitions. The default
-value of GL\_TEXTURE\_MIN\_FILTER is GL\_NEAREST\_MIPMAP\_LINEAR.
-Suppose that texturing is enabled (by calling
-[**glEnable**](glenable.md) with argument GL\_TEXTURE\_1D or
-GL\_TEXTURE\_2D) and GL\_TEXTURE\_MIN\_FILTER is set to one of the
-functions that requires a mipmap. If either the dimensions of the
-texture images currently defined (with previous calls to
-[**glTexImage1D**](glteximage1d.md) or
-[**glTexImage2D**](glteximage2d.md)) do not follow the proper
-sequence for mipmaps, or there are fewer texture images defined than
-are needed, or the set of texture images have differing numbers of
-texture components, then it is as if texture mapping were disabled.
-Linear filtering accesses the four nearest texture elements only in
-2-D textures. In 1-D textures, linear filtering accesses the two
-nearest texture elements. The following function retrieves
-information related to **glTexParameterf**, **glTexParameteri**,
-**glTexParameterfv**, and **glTexParameteriv**:
-[**glGetTexParameter**](glgettexparameter.md)
+テクスチャマッピングは、デカールやセロハンの収縮包装のように画像を物体の表面に適用する手法である。画像は (s, t)
+座標系を持つテクスチャ空間で作成される。テクスチャは 1 次元または 2
+次元の画像と、画像からサンプルを導く方法を決定するパラメータの集合からなる。glTexParameter は params の値を
+pname で指定したテクスチャパラメータに代入する。target は対象テクスチャ (GL_TEXTURE_1D または
+GL_TEXTURE_2D)
+を定義する。縮小処理でより多くのテクスチャ要素をサンプリングするほどエイリアシングは目立たなくなる。GL_NEAREST と
+GL_LINEAR は他の 4 つより高速だが 1 個または 4
+個のテクスチャ要素しかサンプリングしないためモアレやギザギザを生じうる。GL_TEXTURE_MIN_FILTER の既定値は
+GL_NEAREST_MIPMAP_LINEAR。MIN_FILTER
+がミップマップを要求する関数のとき、テクスチャ画像の寸法がミップマップの正しい順序に従わない、必要数より少ない、または成分数が異なる場合は、テクスチャマッピング無効と同じ扱いになる。線形フィルタリングは
+2D テクスチャでは 4 近傍、1D テクスチャでは 2 近傍のテクスチャ要素にアクセスする。関連情報は
+glGetTexParameter で取得できる。
 
 
 %index
 glTexSubImage1D
-The glTexSubImage1D function specifies a portion of an existing one-dimensional texture image. You cannot define a new texture with glTexSubImage1D.
+glTexSubImage1D 関数は既存の 1 次元テクスチャ画像の一部を指定する。glTexSubImage1D で新しいテクスチャを定義することはできない。
 %group
 Win32 opengl32
 %prm
 target, level, xoffset, width, format, type, pixels
-target : [int] The target texture. Must be GL\_TEXTURE\_1D.
-level : [int] The level-of-detail number. Level 0 is the base image. Level *n* is the *n*th mipmap reduction image.
-xoffset : [int] A texel offset in the *x* direction within the texture array.
-width : [int] The width of the texture sub-image.
-format : [int] The format of the pixel data. This parameter can assume one of the following symbolic values.
-type : [int] The data type of the pixel data. The following symbolic values are accepted: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, and GL\_FLOAT.
-pixels : [intptr] A pointer to the image data in memory.
+target : [int] 対象テクスチャ。GL_TEXTURE_1D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基本イメージ、レベル n は n 段階目のミップマップ縮小画像。
+xoffset : [int] テクスチャ配列内の x 方向のテクセルオフセット。
+width : [int] テクスチャサブ画像の幅。
+format : [int] ピクセルデータのフォーマット。受け付ける主な値: GL_COLOR_INDEX (カラーインデックス。固定小数化、GL_INDEX_SHIFT/OFFSET 適用後 GL_PIXEL_MAP_I_TO_R/G/B/A で色成分に変換)、GL_STENCIL_INDEX (ステンシル値。glReadPixels 用)、GL_DEPTH_COMPONENT (デプス値。浮動小数化し GL_DEPTH_SCALE/BIAS を適用後 [0,1] にクランプ)、GL_RED/GL_GREEN/GL_BLUE/GL_ALPHA (それぞれ単一成分を浮動小数化して RGBA 要素に組み立て、scale/bias 適用後クランプ)、GL_RGB (RGB トリプル)、GL_RGBA (完全 RGBA)、GL_BGR_EXT/GL_BGRA_EXT (Windows DIB のメモリレイアウトに一致するフォーマット)、GL_LUMINANCE (単一輝度値を R/G/B に複製しアルファに 1.0 を付加)、GL_LUMINANCE_ALPHA (輝度/アルファペア)。
+type : [int] ピクセルデータのデータ型。受け付けるシンボル値: GL_UNSIGNED_BYTE、GL_BYTE、GL_BITMAP、GL_UNSIGNED_SHORT、GL_SHORT、GL_UNSIGNED_INT、GL_INT、GL_FLOAT。
+pixels : [intptr] メモリ内の画像データへのポインタ。
 %inst
-The glTexSubImage1D function specifies a portion of an existing
-one-dimensional texture image. You cannot define a new texture with
-glTexSubImage1D.
+glTexSubImage1D 関数は既存の 1 次元テクスチャ画像の一部を指定する。glTexSubImage1D
+で新しいテクスチャを定義することはできない。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-One-dimensional texturing for a primitive is enabled using
-[**glEnable**](glenable.md) and **glDisable** with the argument
-GL\_TEXTURE\_1D. During texturing, part of a specified texture image
-is mapped into each enabled primitive. You use the
-**glTexSubImage1D** function to specify a contiguous sub-image of an
-existing one-dimensional texture image for texturing. The texels
-referenced by *pixels* replace a region of the existing texture array
-with *x* indexes of *xoffset* and *xoffset* + (*width* 1) inclusive.
-This region cannot include any texels outside the range of the
-originally specified texture array. Specifying a sub-image with a
-*width* of zero has no effect and does not generate an error.
-Texturing has no effect in color-index mode. In general, texture
-images can be represented by the same data formats as the pixels in a
-[**glDrawPixels**](gldrawpixels.md) command, except that
-GL\_STENCIL\_INDEX and GL\_DEPTH\_COMPONENT cannot be used. The
-[**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) modes affect texture images
-in exactly the way they affect **glDrawPixels**. The following
-functions retrieve information related to **glTexSubImage1D**:
-[**glGetTexImage**](glgetteximage.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_1D
+プリミティブの 1 次元テクスチャリングは glEnable / glDisable に GL_TEXTURE_1D
+を指定して有効化/無効化する。テクスチャリング中は指定したテクスチャ画像の一部が有効な各プリミティブにマップされる。glTexSubImage1D
+は既存の 1 次元テクスチャ画像の連続するサブ画像をテクスチャリング用に指定する。pixels が参照するテクセルは、xoffset から
+xoffset + (width-1) までの x
+インデックス範囲の既存テクスチャ配列領域を置き換える。この領域は元のテクスチャ配列の範囲外のテクセルを含めることはできない。width=0
+のサブ画像指定は効果を持たずエラーも生成しない。カラーインデックスモードではテクスチャリングは効果を持たない。一般にテクスチャ画像は
+glDrawPixels と同じデータ形式で表現できるが、GL_STENCIL_INDEX と GL_DEPTH_COMPONENT
+は使用できない。glPixelStore と glPixelTransfer のモードは glDrawPixels
+と同じくテクスチャ画像に影響する。関連情報は glGetTexImage、glIsEnabled (GL_TEXTURE_1D)
+で取得できる。
 
 
 %index
 glTexSubImage2D
-The glTexSubImage2D function specifies a portion of an existing one-dimensional texture image. You cannot define a new texture with glTexSubImage2D.
+glTexSubImage2D 関数は既存のテクスチャ画像の一部を指定する。glTexSubImage2D で新しいテクスチャを定義することはできない。
 %group
 Win32 opengl32
 %prm
 target, level, xoffset, yoffset, width, height, format, type, pixels
-target : [int] The target texture. Must be GL\_TEXTURE\_2D.
-level : [int] The level-of-detail number. Level 0 is the base image. Level *n* is the *n*th mipmap reduction image.
-xoffset : [int] A texel offset in the *x* direction within the texture array.
-yoffset : [int] A texel offset in the *y* direction within the texture array.
-width : [int] The width of the texture sub-image.
-height : [int] The height of the texture sub-image.
-format : [int] The format of the pixel data. It can assume one of the following symbolic values.
-type : [int] The data type of the pixel data. The following symbolic values are accepted: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, and GL\_FLOAT.
-pixels : [intptr] A pointer to the image data in memory.
+target : [int] 対象テクスチャ。GL_TEXTURE_2D でなければならない。
+level : [int] 詳細度レベル番号。レベル 0 が基本イメージ、レベル n は n 段階目のミップマップ縮小画像。
+xoffset : [int] テクスチャ配列内の x 方向のテクセルオフセット。
+yoffset : [int] テクスチャ配列内の y 方向のテクセルオフセット。
+width : [int] テクスチャサブ画像の幅。
+height : [int] テクスチャサブ画像の高さ。
+format : [int] ピクセルデータのフォーマット。受け付ける主な値: GL_COLOR_INDEX (カラーインデックス。固定小数化、GL_INDEX_SHIFT/OFFSET 適用後 GL_PIXEL_MAP_I_TO_R/G/B/A で色成分に変換)、GL_STENCIL_INDEX (ステンシル値。glReadPixels 用)、GL_DEPTH_COMPONENT (デプス値。浮動小数化し GL_DEPTH_SCALE/BIAS を適用後 [0,1] にクランプ)、GL_RED/GL_GREEN/GL_BLUE/GL_ALPHA (それぞれ単一成分を浮動小数化して RGBA 要素に組み立て、scale/bias 適用後クランプ)、GL_RGB (RGB トリプル)、GL_RGBA (完全 RGBA)、GL_BGR_EXT/GL_BGRA_EXT (Windows DIB のメモリレイアウトに一致するフォーマット)、GL_LUMINANCE (単一輝度値を R/G/B に複製しアルファに 1.0 を付加)、GL_LUMINANCE_ALPHA (輝度/アルファペア)。
+type : [int] ピクセルデータのデータ型。受け付けるシンボル値: GL_UNSIGNED_BYTE、GL_BYTE、GL_BITMAP、GL_UNSIGNED_SHORT、GL_SHORT、GL_UNSIGNED_INT、GL_INT、GL_FLOAT。
+pixels : [intptr] メモリ内の画像データへのポインタ。
 %inst
-The glTexSubImage2D function specifies a portion of an existing
-one-dimensional texture image. You cannot define a new texture with
-glTexSubImage2D.
+glTexSubImage2D 関数は既存のテクスチャ画像の一部を指定する。glTexSubImage2D
+で新しいテクスチャを定義することはできない。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Two-dimensional texturing for a primitive is enabled using
-[**glEnable**](glenable.md) and **glDisable** with the argument
-GL\_TEXTURE\_2D. During texturing, part of a specified texture image
-is mapped into each enabled primitive. You use the
-**glTexSubImage2D** function to specify a contiguous sub-image of an
-existing two-dimensional texture image for texturing. The texels
-referenced by *pixels* replace a region of the existing texture array
-with *x* indexes of *xoffset* and *xoffset* + (*width* 1) inclusive
-and *y* indexes of *yoffset* and *yoffset* + (*height* 1) inclusive.
-This region cannot include any texels outside the range of the
-originally specified texture array. Specifying a sub-image with a
-*width* of zero has no effect and does not generate an error.
-Texturing has no effect in color-index mode. In general, texture
-images can be represented by the same data formats as the pixels in a
-[**glDrawPixels**](gldrawpixels.md) command, except that
-GL\_STENCIL\_INDEX and GL\_DEPTH\_COMPONENT cannot be used. The
-[**glPixelStore**](glpixelstore-functions.md) and
-[**glPixelTransfer**](glpixeltransfer.md) modes affect texture images
-in exactly the way they affect **glDrawPixels**. The following
-functions retrieve information related to **glTexSubImage2D**:
-[**glGetTexImage**](glgetteximage.md)
-[**glIsEnabled**](glisenabled.md) with argument GL\_TEXTURE\_2D
+プリミティブの 2 次元テクスチャリングは glEnable / glDisable に GL_TEXTURE_2D
+を指定して有効化する。テクスチャリング中は指定したテクスチャ画像の一部が有効な各プリミティブにマップされる。glTexSubImage2D
+は既存の 2 次元テクスチャ画像の連続するサブ画像をテクスチャリング用に指定する。pixels が参照するテクセルは、xoffset から
+xoffset + (width-1) までの x インデックス、yoffset から yoffset + (height-1) までの
+y インデックスの既存テクスチャ配列領域を置き換える。この領域は元のテクスチャ配列の範囲外を含めることはできない。width=0
+のサブ画像指定は効果を持たずエラーも生成しない。カラーインデックスモードでは効果を持たない。一般にテクスチャ画像は
+GL_STENCIL_INDEX と GL_DEPTH_COMPONENT 以外は glDrawPixels
+と同じデータ形式で表現できる。glPixelStore と glPixelTransfer は glDrawPixels
+と同じく影響する。関連情報は glGetTexImage、glIsEnabled (GL_TEXTURE_2D) で取得できる。
 
 
 %index
 glTranslated
-The glTranslated function multiplies the current matrix by a translation matrix.
+glTranslated 関数は現在の行列に平行移動行列を乗じる。
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [double] The *x* coordinate of a translation vector.
-y : [double] The *y* coordinate of a translation vector.
-z : [double] The *z* coordinate of a translation vector.
+x : [double] 平行移動ベクトルの x 座標。
+y : [double] 平行移動ベクトルの y 座標。
+z : [double] 平行移動ベクトルの z 座標。
 %inst
-The glTranslated function multiplies the current matrix by a
-translation matrix.
+glTranslated 関数は現在の行列に平行移動行列を乗じる。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTranslated** function produces the translation specified by
-(*x*, *y*, *z*). The translation vector is used to compute a 4x4
-translation matrix: ![Diagram showing the 4x4 translation matrix
-specified by x, y, z.](images/trans01.png) The current matrix (see
-[**glMatrixMode**](glmatrixmode.md)) is multiplied by this
-translation matrix, with the product replacing the current matrix.
-That is, if M is the current matrix and T is the translation matrix,
-then M is replaced with M T. If the matrix mode is either
-GL\_MODELVIEW or GL\_PROJECTION, all objects drawn after
-**glTranslated** is called are translated. Use
-[**glPushMatrix**](glpushmatrix.md) and **glPopMatrix** to save and
-restore the untranslated coordinate system. The following functions
-retrieve information related to [**glTranslated**](gltranslate.md):
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glTranslated は (x, y, z) で指定される平行移動を行う。平行移動ベクトルは 4x4
+平行移動行列の計算に使われる。現在の行列 (glMatrixMode 参照) にこの行列を乗じ、その積で現在の行列を置き換える。M
+が現在の行列で T が平行移動行列なら M は M?T に置き換わる。行列モードが GL_MODELVIEW または
+GL_PROJECTION なら、glTranslated
+呼び出し以降に描画される全オブジェクトが平行移動する。移動前の座標系を保存/復元するには glPushMatrix /
+glPopMatrix を使う。関連情報は glGet (GL_MATRIX_MODE / GL_MODELVIEW_MATRIX /
+GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX) で取得できる。
 
 
 %index
 glTranslatef
-The glTranslatef function multiplies the current matrix by a translation matrix.
+glTranslatef 関数は現在の行列に平行移動行列を乗じる。
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [float] The *x* coordinate of a translation vector.
-y : [float] The *y* coordinate of a translation vector.
-z : [float] The *z* coordinate of a translation vector.
+x : [float] 平行移動ベクトルの x 座標。
+y : [float] 平行移動ベクトルの y 座標。
+z : [float] 平行移動ベクトルの z 座標。
 %inst
-The glTranslatef function multiplies the current matrix by a
-translation matrix.
+glTranslatef 関数は現在の行列に平行移動行列を乗じる。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glTranslatef** function produces the translation specified by
-(*x*, *y*, *z*). The translation vector is used to compute a 4x4
-translation matrix: ![Diagram showing the 4x4 translation matrix
-specified by x, y, z.](images/trans01.png) The current matrix (see
-[**glMatrixMode**](glmatrixmode.md)) is multiplied by this
-translation matrix, with the product replacing the current matrix.
-That is, if M is the current matrix and T is the translation matrix,
-then M is replaced with M T. If the matrix mode is either
-GL\_MODELVIEW or GL\_PROJECTION, all objects drawn after
-**glTranslatef** is called are translated. Use
-[**glPushMatrix**](glpushmatrix.md) and **glPopMatrix** to save and
-restore the untranslated coordinate system. The following functions
-retrieve information related to [**glTranslated**](gltranslate.md)
-and **glTranslatef**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_MATRIX\_MODE **glGet** with argument
-GL\_MODELVIEW\_MATRIX **glGet** with argument GL\_PROJECTION\_MATRIX
-**glGet** with argument GL\_TEXTURE\_MATRIX
+glTranslatef は (x, y, z) で指定される平行移動を行う。平行移動ベクトルは 4x4
+平行移動行列の計算に使われる。現在の行列 (glMatrixMode 参照) にこの行列を乗じ、その積で現在の行列を置き換える。M
+が現在の行列で T が平行移動行列なら M は M?T に置き換わる。行列モードが GL_MODELVIEW または
+GL_PROJECTION なら、glTranslatef
+呼び出し以降に描画される全オブジェクトが平行移動する。移動前の座標系を保存/復元するには glPushMatrix /
+glPopMatrix を使う。関連情報は glGet (GL_MATRIX_MODE / GL_MODELVIEW_MATRIX /
+GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX) で取得できる。
 
 
 %index
 glVertex2d
-Specifies a vertex. | glVertex2d function (Gl.h)
+頂点を指定する。| glVertex2d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [double] Specifies the x-coordinate of a vertex.
-y : [double] Specifies the y-coordinate of a vertex.
+x : [double] 頂点の x 座標を指定する。
+y : [double] 頂点の y 座標を指定する。
 %inst
-Specifies a vertex. | glVertex2d function (Gl.h)
+頂点を指定する。| glVertex2d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex2dv
-Specifies a vertex. | glVertex2dv function (Gl.h)
+頂点を指定する。| glVertex2dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements. The elements are the x and y coordinates of a vertex.
+v : [var] 頂点の x, y 座標である 2 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex2dv function (Gl.h)
+頂点を指定する。| glVertex2dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex2f
-Specifies a vertex. | glVertex2f function (Gl.h)
+頂点を指定する。| glVertex2f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [float] Specifies the x-coordinate of a vertex.
-y : [float] Specifies the y-coordinate of a vertex.
+x : [float] 頂点の x 座標を指定する。
+y : [float] 頂点の y 座標を指定する。
 %inst
-Specifies a vertex. | glVertex2f function (Gl.h)
+頂点を指定する。| glVertex2f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex2fv
-Specifies a vertex. | glVertex2fv function (Gl.h)
+頂点を指定する。| glVertex2fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements. The elements are the x and y coordinates of a vertex.
+v : [var] 頂点の x, y 座標である 2 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex2fv function (Gl.h)
+頂点を指定する。| glVertex2fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex2i
-Specifies a vertex. | glVertex2i function (Gl.h)
+頂点を指定する。| glVertex2i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [int] Specifies the x-coordinate of a vertex.
-y : [int] Specifies the y-coordinate of a vertex.
+x : [int] 頂点の x 座標を指定する。
+y : [int] 頂点の y 座標を指定する。
 %inst
-Specifies a vertex. | glVertex2i function (Gl.h)
+頂点を指定する。| glVertex2i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex2iv
-Specifies a vertex. | glVertex2iv function (Gl.h)
+頂点を指定する。| glVertex2iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements. The elements are the x and y coordinates of a vertex.
+v : [var] 頂点の x, y 座標である 2 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex2iv function (Gl.h)
+頂点を指定する。| glVertex2iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex2s
-Specifies a vertex. | glVertex2s function (Gl.h)
+頂点を指定する。| glVertex2s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y
-x : [int] Specifies the x-coordinate of a vertex.
-y : [int] Specifies the y-coordinate of a vertex.
+x : [int] 頂点の x 座標を指定する。
+y : [int] 頂点の y 座標を指定する。
 %inst
-Specifies a vertex. | glVertex2s function (Gl.h)
+頂点を指定する。| glVertex2s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex2sv
-Specifies a vertex. | glVertex2sv function (Gl.h)
+頂点を指定する。| glVertex2sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of two elements. The elements are the x and y coordinates of a vertex.
+v : [var] 頂点の x, y 座標である 2 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex2sv function (Gl.h)
+頂点を指定する。| glVertex2sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex3d
-Specifies a vertex. | glVertex3d function (Gl.h)
+頂点を指定する。| glVertex3d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [double] Specifies the x-coordinate of a vertex.
-y : [double] Specifies the y-coordinate of a vertex.
-z : [double] Specifies the z-coordinate of a vertex.
+x : [double] 頂点の x 座標を指定する。
+y : [double] 頂点の y 座標を指定する。
+z : [double] 頂点の z 座標を指定する。
 %inst
-Specifies a vertex. | glVertex3d function (Gl.h)
+頂点を指定する。| glVertex3d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex3dv
-Specifies a vertex. | glVertex3dv function (Gl.h)
+頂点を指定する。| glVertex3dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements. The elements are the x, y, and z coordinates of a vertex.
+v : [var] 頂点の x, y, z 座標である 3 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex3dv function (Gl.h)
+頂点を指定する。| glVertex3dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex3f
-Specifies a vertex. | glVertex3f function (Gl.h)
+頂点を指定する。| glVertex3f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [float] Specifies the x-coordinate of a vertex.
-y : [float] Specifies the y-coordinate of a vertex.
-z : [float] Specifies the z-coordinate of a vertex.
+x : [float] 頂点の x 座標を指定する。
+y : [float] 頂点の y 座標を指定する。
+z : [float] 頂点の z 座標を指定する。
 %inst
-Specifies a vertex. | glVertex3f function (Gl.h)
+頂点を指定する。| glVertex3f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex3fv
-Specifies a vertex. | glVertex3fv function (Gl.h)
+頂点を指定する。| glVertex3fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements. The elements are the x, y, and z coordinates of a vertex.
+v : [var] 頂点の x, y, z 座標である 3 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex3fv function (Gl.h)
+頂点を指定する。| glVertex3fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex3i
-Specifies a vertex. | glVertex3i function (Gl.h)
+頂点を指定する。| glVertex3i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [int] Specifies the x-coordinate of a vertex.
-y : [int] Specifies the y-coordinate of a vertex.
-z : [int] Specifies the z-coordinate of a vertex.
+x : [int] 頂点の x 座標を指定する。
+y : [int] 頂点の y 座標を指定する。
+z : [int] 頂点の z 座標を指定する。
 %inst
-Specifies a vertex. | glVertex3i function (Gl.h)
+頂点を指定する。| glVertex3i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex3iv
-Specifies a vertex. | glVertex3iv function (Gl.h)
+頂点を指定する。| glVertex3iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements. The elements are the x, y, and z coordinates of a vertex.
+v : [var] 頂点の x, y, z 座標である 3 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex3iv function (Gl.h)
+頂点を指定する。| glVertex3iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex3s
-Specifies a vertex. | glVertex3s function (Gl.h)
+頂点を指定する。| glVertex3s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z
-x : [int] Specifies the x-coordinate of a vertex.
-y : [int] Specifies the y-coordinate of a vertex.
-z : [int] Specifies the z-coordinate of a vertex.
+x : [int] 頂点の x 座標を指定する。
+y : [int] 頂点の y 座標を指定する。
+z : [int] 頂点の z 座標を指定する。
 %inst
-Specifies a vertex. | glVertex3s function (Gl.h)
+頂点を指定する。| glVertex3s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex3sv
-Specifies a vertex. | glVertex3sv function (Gl.h)
+頂点を指定する。| glVertex3sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of three elements. The elements are the x, y, and z coordinates of a vertex.
+v : [var] 頂点の x, y, z 座標である 3 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex3sv function (Gl.h)
+頂点を指定する。| glVertex3sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex4d
-Specifies a vertex. | glVertex4d function (Gl.h)
+頂点を指定する。| glVertex4d 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [double] Specifies the x-coordinate of a vertex.
-y : [double] Specifies the y-coordinate of a vertex.
-z : [double] Specifies the z-coordinate of a vertex.
-w : [double] Specifies the w-coordinate of a vertex.
+x : [double] 頂点の x 座標を指定する。
+y : [double] 頂点の y 座標を指定する。
+z : [double] 頂点の z 座標を指定する。
+w : [double] 頂点の w 座標を指定する。
 %inst
-Specifies a vertex. | glVertex4d function (Gl.h)
+頂点を指定する。| glVertex4d 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex4dv
-Specifies a vertex. | glVertex4dv function (Gl.h)
+頂点を指定する。| glVertex4dv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements. The elements are the x, y, z, and w coordinates of a vertex.
+v : [var] 頂点の x, y, z, w 座標である 4 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex4dv function (Gl.h)
+頂点を指定する。| glVertex4dv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex4f
-Specifies a vertex. | glVertex4f function (Gl.h)
+頂点を指定する。| glVertex4f 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [float] Specifies the x-coordinate of a vertex.
-y : [float] Specifies the y-coordinate of a vertex.
-z : [float] Specifies the z-coordinate of a vertex.
-w : [float] Specifies the w-coordinate of a vertex.
+x : [float] 頂点の x 座標を指定する。
+y : [float] 頂点の y 座標を指定する。
+z : [float] 頂点の z 座標を指定する。
+w : [float] 頂点の w 座標を指定する。
 %inst
-Specifies a vertex. | glVertex4f function (Gl.h)
+頂点を指定する。| glVertex4f 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex4fv
-Specifies a vertex. | glVertex4fv function (Gl.h)
+頂点を指定する。| glVertex4fv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements. The elements are the x, y, z, and w coordinates of a vertex.
+v : [var] 頂点の x, y, z, w 座標である 4 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex4fv function (Gl.h)
+頂点を指定する。| glVertex4fv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex4i
-Specifies a vertex. | glVertex4i function (Gl.h)
+頂点を指定する。| glVertex4i 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [int] Specifies the x-coordinate of a vertex.
-y : [int] Specifies the y-coordinate of a vertex.
-z : [int] Specifies the z-coordinate of a vertex.
-w : [int] Specifies the w-coordinate of a vertex.
+x : [int] 頂点の x 座標を指定する。
+y : [int] 頂点の y 座標を指定する。
+z : [int] 頂点の z 座標を指定する。
+w : [int] 頂点の w 座標を指定する。
 %inst
-Specifies a vertex. | glVertex4i function (Gl.h)
+頂点を指定する。| glVertex4i 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex4iv
-Specifies a vertex. | glVertex4iv function (Gl.h)
+頂点を指定する。| glVertex4iv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements. The elements are the x, y, z, and w coordinates of a vertex.
+v : [var] 頂点の x, y, z, w 座標である 4 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex4iv function (Gl.h)
+頂点を指定する。| glVertex4iv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertex4s
-Specifies a vertex. | glVertex4s function (Gl.h)
+頂点を指定する。| glVertex4s 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 x, y, z, w
-x : [int] Specifies the x-coordinate of a vertex.
-y : [int] Specifies the y-coordinate of a vertex.
-z : [int] Specifies the z-coordinate of a vertex.
-w : [int] Specifies the w-coordinate of a vertex.
+x : [int] 頂点の x 座標を指定する。
+y : [int] 頂点の y 座標を指定する。
+z : [int] 頂点の z 座標を指定する。
+w : [int] 頂点の w 座標を指定する。
 %inst
-Specifies a vertex. | glVertex4s function (Gl.h)
+頂点を指定する。| glVertex4s 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The glVertex function commands are used within
-[**glBegin**](glbegin.md)/[**glEnd**](glend.md) pairs to specify
-point, line, and polygon vertices. The current color, normal, and
-texture coordinates are associated with the vertex when glVertex is
-called. When only *x* and *y* are specified, *z* defaults to 0.0 and
-*w* defaults to 1.0. When *x*, *y*, and *z* are specified, *w*
-defaults to 1.0. Invoking glVertex outside of a **glBegin**/**glEnd**
-pair results in undefined behavior.
+glVertex 関数群は glBegin / glEnd ペア内で使い、点・線・ポリゴンの頂点を指定する。glVertex
+呼び出し時には現在のカラー、法線、テクスチャ座標が頂点に関連付けられる。x, y のみ指定時は z=0.0、w=1.0 が既定。x, y,
+z 指定時は w=1.0 が既定。glBegin / glEnd ペア外で glVertex を呼ぶと動作は未定義。
 
 
 %index
 glVertex4sv
-Specifies a vertex. | glVertex4sv function (Gl.h)
+頂点を指定する。| glVertex4sv 関数 (Gl.h)
 %group
 Win32 opengl32
 %prm
 v
-v : [var] A pointer to an array of four elements. The elements are the x, y, z, and w coordinates of a vertex.
+v : [var] 頂点の x, y, z, w 座標である 4 要素配列へのポインタ。
 %inst
-Specifies a vertex. | glVertex4sv function (Gl.h)
+頂点を指定する。| glVertex4sv 関数 (Gl.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 
 %index
 glVertexPointer
-The glVertexPointer function defines an array of vertex data.
+glVertexPointer 関数は頂点データ配列を定義する。
 %group
 Win32 opengl32
 %prm
 size, type, stride, pointer
-size : [int] The number of coordinates per vertex. The value of *size* must be 2, 3, or 4.
-type : [int] The data type of each coordinate in the array using the following symbolic constants: GL\_SHORT, GL\_INT, GL\_FLOAT, and GL\_DOUBLE.
-stride : [int] The byte offset between consecutive vertices. When *stride* is zero, the vertices are tightly packed in the array.
-pointer : [intptr] A pointer to the first coordinate of the first vertex in the array.
+size : [int] 頂点あたりの座標数。size は 2、3、4 のいずれか。
+type : [int] 配列内の各座標のデータ型。GL_SHORT、GL_INT、GL_FLOAT、GL_DOUBLE のシンボル定数を使う。
+stride : [int] 連続する頂点間のバイトオフセット。stride が 0 なら頂点は密にパックされる。
+pointer : [intptr] 配列内の最初の頂点の最初の座標へのポインタ。
 %inst
-The glVertexPointer function defines an array of vertex data.
+glVertexPointer 関数は頂点データ配列を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glVertexPointer** function specifies the location and data of
-an array of vertex coordinates to use when rendering. The *size*
-parameter specifies the number of coordinates per vertex. The *type*
-parameter specifies the data type of each vertex coordinate. The
-*stride* parameter determines the byte offset from one vertex to the
-next, enabling the packing of vertices and attributes in a single
-array or storage in separate arrays. In some implementations, storing
-the vertices and attributes in a single array can be more efficient
-than using separate arrays (see
-[**glInterleavedArrays**](glinterleavedarrays.md)). A vertex array is
-enabled when you specify the GL\_VERTEX\_ARRAY constant with
-[**glEnableClientState**](glenableclientstate.md). When enabled,
-[**glDrawArrays**](gldrawarrays.md),
-[**glDrawElements**](gldrawelements.md), and
-[**glArrayElement**](glarrayelement.md) use the vertex array. By
-default, the vertex array is disabled. You cannot include
-**glVertexPointer** in display lists. When you specify a vertex array
-using **glVertexPointer**, the values of all the function's vertex
-array parameters are saved in a client-side state, and static array
-elements can be cached. Because the vertex array parameters are
-client-side state, their values are not saved or restored by
-[**glPushAttrib**](glpushattrib.md) and **glPopAttrib**. Although no
-error is generated if you call **glVertexPointer** within
-[**glBegin**](glbegin.md) and [**glEnd**](glend.md) pairs, the
-results are undefined. The following functions retrieve information
-related to **glVertexPointer**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_VERTEX\_ARRAY\_SIZE **glGet** with argument
-GL\_VERTEX\_ARRAY\_STRIDE **glGet** with argument
-GL\_VERTEX\_ARRAY\_COUNT **glGet** with argument
-GL\_VERTEX\_ARRAY\_TYPE [**glGetPointerv**](glgetpointerv.md) with
-argument GL\_VERTEX\_ARRAY\_POINTER [**glIsEnabled**](glisenabled.md)
-with argument GL\_VERTEX\_ARRAY
+glVertexPointer はレンダリング時に使用する頂点座標配列の位置とデータを指定する。size は頂点あたりの座標数、type
+は各頂点座標のデータ型、stride は頂点間のバイトオフセットを指定し、頂点と属性を 1
+つの配列にパックするか別配列に格納するかを可能にする (glInterleavedArrays
+参照)。glEnableClientState に GL_VERTEX_ARRAY を指定して頂点配列を有効化する。有効時は
+glDrawArrays、glDrawElements、glArrayElement
+が頂点配列を使う。既定では無効。glVertexPointer は表示リストに含められない。クライアント側状態のため
+glPushAttrib / glPopAttrib では保存/復元されない。glBegin / glEnd
+ペア内で呼び出してもエラーは生成されないが結果は未定義。関連情報は glGet
+(GL_VERTEX_ARRAY_SIZE/STRIDE/COUNT/TYPE)、glGetPointerv
+(GL_VERTEX_ARRAY_POINTER)、glIsEnabled (GL_VERTEX_ARRAY) で取得できる。
 
 
 %index
 glViewport
-The glViewport function sets the viewport.
+glViewport 関数はビューポートを設定する。
 %group
 Win32 opengl32
 %prm
 x, y, width, height
-x : [int] The lower-left corner of the viewport rectangle, in pixels. The default is (0,0).
-y : [int] The lower-left corner of the viewport rectangle, in pixels. The default is (0,0).
-width : [int] The width of the viewport. When an OpenGL context is first attached to a window, *width* and *height* are set to the dimensions of that window.
-height : [int] The height of the viewport. When an OpenGL context is first attached to a window, *width* and *height* are set to the dimensions of that window.
+x : [int] ビューポート矩形の左下隅 (ピクセル単位)。既定値は (0,0)。
+y : [int] ビューポート矩形の左下隅 (ピクセル単位)。既定値は (0,0)。
+width : [int] ビューポートの幅。OpenGL コンテキストが最初にウィンドウへアタッチされたとき、width / height はウィンドウの寸法に設定される。
+height : [int] ビューポートの高さ。OpenGL コンテキストが最初にウィンドウへアタッチされたとき、width / height はウィンドウの寸法に設定される。
 %inst
-The glViewport function sets the viewport.
+glViewport 関数はビューポートを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **glViewport** function specifies the affine transformation of
-*x* and *y* from normalized device coordinates to window coordinates.
-Let (*x*nd , *y*nd ) be normalized device coordinates. The window
-coordinates (*x*w , *y*w ) are then computed as follows: ![Equation
-showing computation of the window coordinates.](images/view01.png)
-Viewport width and height are silently clamped to a range that
-depends on the implementation. This range is queried by calling
-**glGet** with argument GL\_MAX\_VIEWPORT\_DIMS. The following
-functions retrieve information related to **glViewport**:
-[**glGet**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md)
-with argument GL\_VIEWPORT **glGet** with argument
-GL\_MAX\_VIEWPORT\_DIMS
+glViewport は正規化デバイス座標からウィンドウ座標への x, y
+のアフィン変換を指定する。ビューポートの幅と高さは実装依存の範囲に暗黙にクランプされる。この範囲は glGet
+(GL_MAX_VIEWPORT_DIMS) で問い合わせる。関連情報は glGet (GL_VIEWPORT /
+GL_MAX_VIEWPORT_DIMS) で取得できる。
 
 
 %index
 wglDeleteContext
-The wglDeleteContext function deletes a specified OpenGL rendering context.
+wglDeleteContext 関数は指定された OpenGL レンダリングコンテキストを削除する。
 %group
 Win32 opengl32
 %prm
 param0
 param0 : [intptr] 
 %inst
-The wglDeleteContext function deletes a specified OpenGL rendering
-context.
+wglDeleteContext 関数は指定された OpenGL レンダリングコンテキストを削除する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-It is an error to delete an OpenGL rendering context that is the
-current context of another thread. However, if a rendering context is
-the calling thread's current context, the wglDeleteContext function
-changes the rendering context to being not current before deleting
-it. The wglDeleteContext function does not delete the device context
-associated with the OpenGL rendering context when you call the
-wglMakeCurrent function. After calling wglDeleteContext, you must
-call DeleteDC to delete the associated device context.
+他のスレッドのカレントコンテキストである OpenGL
+レンダリングコンテキストを削除することはエラーである。ただし、呼び出しスレッド自身のカレントコンテキストである場合、wglDeleteContext
+は削除前にそのレンダリングコンテキストを非カレントにする。wglDeleteContext は wglMakeCurrent で
+OpenGL レンダリングコンテキストに関連付けられたデバイスコンテキストを削除しない。wglDeleteContext を呼び出した後は
+DeleteDC で関連付けられたデバイスコンテキストを削除する必要がある。
 
 
 %index
 wglCopyContext
-The wglCopyContext function copies selected groups of rendering states from one OpenGL rendering context to another.
+wglCopyContext 関数はある OpenGL レンダリングコンテキストから別のレンダリングコンテキストへ選択したレンダリング状態のグループをコピーする。
 %group
 Win32 opengl32
 %prm
@@ -14973,61 +8004,50 @@ param0 : [intptr]
 param1 : [intptr] 
 param2 : [int] 
 %inst
-The wglCopyContext function copies selected groups of rendering
-states from one OpenGL rendering context to another.
+wglCopyContext 関数はある OpenGL
+レンダリングコンテキストから別のレンダリングコンテキストへ選択したレンダリング状態のグループをコピーする。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-Using the wglCopyContext function, you can synchronize the rendering
-state of two rendering contexts. You can only copy the rendering
-state between two rendering contexts within the same process. The
-rendering contexts must be from the same OpenGL implementation. For
-example, you can always copy a rendering state between two rendering
-contexts with identical pixel format in the same process. You can
-copy the same state information available only with the glPushAttrib
-function. You cannot copy some state information, such as pixel
-pack/unpack state, render mode state, select state, and feedback
-state. When you call wglCopyContext, make sure that the destination
-rendering context, hglrcDst, is not current to any thread.
+wglCopyContext を使うと 2 つのレンダリングコンテキストのレンダリング状態を同期できる。同じプロセス内の 2
+つのレンダリングコンテキスト間でのみコピー可能で、両方が同じ OpenGL
+実装でなければならない。例えば、同じプロセス内で同一ピクセルフォーマットの 2
+つのレンダリングコンテキスト間ではいつでもレンダリング状態をコピーできる。コピーできる状態情報は glPushAttrib
+で利用できるものと同じ。一部の状態 (ピクセルパック/アンパック状態、レンダーモード状態、セレクト状態、フィードバック状態など)
+はコピーできない。wglCopyContext 呼び出し時は、コピー先 hglrcDst がどのスレッドのカレントでもないことを確認する。
 
 
 %index
 wglCreateContext
-The wglCreateContext function creates a new OpenGL rendering context, which is suitable for drawing on the device referenced by hdc. The rendering context has the same pixel format as the device context.
+wglCreateContext 関数は hdc が参照するデバイスへの描画に適した新しい OpenGL レンダリングコンテキストを作成する。レンダリングコンテキストはデバイスコンテキストと同じピクセルフォーマットを持つ。
 %group
 Win32 opengl32
 %prm
 param0
 param0 : [intptr] 
 %inst
-The wglCreateContext function creates a new OpenGL rendering context,
-which is suitable for drawing on the device referenced by hdc. The
-rendering context has the same pixel format as the device context.
+wglCreateContext 関数は hdc が参照するデバイスへの描画に適した新しい OpenGL
+レンダリングコンテキストを作成する。レンダリングコンテキストはデバイスコンテキストと同じピクセルフォーマットを持つ。
 
 [戻り値]
-If the function succeeds, the return value is a valid handle to an
-OpenGL rendering context. If the function fails, the return value is
-NULL. To get extended error information, call GetLastError.
+成功時は OpenGL レンダリングコンテキストへの有効なハンドルを返す。失敗時は NULL。拡張エラー情報は GetLastError
+で取得する。
 
 [備考]
-A rendering context is not the same as a device context. Set the
-pixel format of the device context before creating a rendering
-context. For more information on setting the device context's pixel
-format, see the SetPixelFormat function. To use OpenGL, you create a
-rendering context, select it as a thread's current rendering context,
-and then call OpenGL functions. When you are finished with the
-rendering context, you dispose of it by calling the wglDeleteContext
-function. The following code example shows wglCreateContext usage.
-This doc was truncated.
+
+レンダリングコンテキストはデバイスコンテキストとは異なる。レンダリングコンテキストを作成する前にデバイスコンテキストのピクセルフォーマットを設定する。詳細は
+SetPixelFormat 関数を参照。OpenGL
+を使うには、レンダリングコンテキストを作成し、それをスレッドのカレントレンダリングコンテキストとして選択した後、OpenGL
+関数を呼ぶ。使い終わったら wglDeleteContext で破棄する。次のコード例は wglCreateContext
+の使い方を示す。
+このドキュメントは省略されている。
 
 
 %index
 wglCreateLayerContext
-The wglCreateLayerContext function creates a new OpenGL rendering context for drawing to a specified layer plane on a device context.
+wglCreateLayerContext 関数はデバイスコンテキスト上の指定したレイヤープレーンへ描画するための新しい OpenGL レンダリングコンテキストを作成する。
 %group
 Win32 opengl32
 %prm
@@ -15035,33 +8055,28 @@ param0, param1
 param0 : [intptr] 
 param1 : [int] 
 %inst
-The wglCreateLayerContext function creates a new OpenGL rendering
-context for drawing to a specified layer plane on a device context.
+wglCreateLayerContext 関数はデバイスコンテキスト上の指定したレイヤープレーンへ描画するための新しい OpenGL
+レンダリングコンテキストを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to an OpenGL
-rendering context. If the function fails, the return value is NULL.
-To get extended error information, call GetLastError.
+成功時は OpenGL レンダリングコンテキストへのハンドルを返す。失敗時は NULL。拡張エラー情報は GetLastError
+で取得する。
 
 [備考]
-A rendering context is a port through which all OpenGL commands pass.
-Every thread that makes OpenGL calls must have one current, active
-rendering context. A rendering context is not the same as a device
-context; a rendering context contains information specific to OpenGL,
-while a device context contains information specific to GDI. Before
-you create a rendering context, set the pixel format of the device
-context with the SetPixelFormat function. You can use a rendering
-context in a specified layer plane of a window with identical pixel
-formats only. With OpenGL applications that use multiple threads, you
-create a rendering context, select it as the current rendering
-context of a thread, and make OpenGL calls for the specified thread.
-When you are finished with the rendering context of the thread, call
-the wglDeleteContext function.
+レンダリングコンテキストは、すべての OpenGL コマンドが通過するポートである。OpenGL 呼び出しを行うすべてのスレッドは、1
+つのカレント (アクティブ)
+なレンダリングコンテキストを持つ必要がある。レンダリングコンテキストはデバイスコンテキストとは異なる。レンダリングコンテキストは
+OpenGL 固有の情報を持ち、デバイスコンテキストは GDI
+固有の情報を持つ。レンダリングコンテキストを作成する前に、SetPixelFormat
+関数でデバイスコンテキストのピクセルフォーマットを設定する。レンダリングコンテキストは、同一ピクセルフォーマットを持つウィンドウの指定したレイヤープレーンでのみ使用できる。マルチスレッドの
+OpenGL
+アプリケーションでは、レンダリングコンテキストを作成し、それをスレッドのカレントレンダリングコンテキストとして選択し、そのスレッドで
+OpenGL 呼び出しを行う。スレッドのレンダリングコンテキストを使い終わったら wglDeleteContext を呼ぶ。
 
 
 %index
 wglDescribeLayerPlane
-The wglDescribeLayerPlane function obtains information about the layer planes of a given pixel format.
+wglDescribeLayerPlane 関数は指定したピクセルフォーマットのレイヤープレーンに関する情報を取得する。
 %group
 Win32 opengl32
 %prm
@@ -15072,72 +8087,61 @@ param2 : [int]
 param3 : [int] 
 param4 : [var] 
 %inst
-The wglDescribeLayerPlane function obtains information about the
-layer planes of a given pixel format.
+wglDescribeLayerPlane 関数は指定したピクセルフォーマットのレイヤープレーンに関する情報を取得する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. In addition, the
-wglDescribeLayerPlane function sets the members of the
-LAYERPLANEDESCRIPTOR structure pointed to by plpd according to the
-specified layer plane (iLayerPlane ) of the specified pixel format
-(iPixelFormat ). If the function fails, the return value is FALSE.
+成功時は TRUE を返し、wglDescribeLayerPlane は指定したピクセルフォーマット (iPixelFormat)
+の指定したレイヤープレーン (iLayerPlane) に従って plpd が指す LAYERPLANEDESCRIPTOR
+のメンバーを設定する。失敗時は FALSE を返す。
 
 [備考]
-The numbering of planes (iLayerPlane ) determines their order.
-Higher-numbered planes overlay lower-numbered planes.
+プレーンの番号付け (iLayerPlane) は順序を決定する。番号が大きいプレーンは番号が小さいプレーンの上に重ねられる。
 
 
 %index
 wglGetCurrentContext
-The wglGetCurrentContext function obtains a handle to the current OpenGL rendering context of the calling thread.
+wglGetCurrentContext 関数は呼び出しスレッドのカレント OpenGL レンダリングコンテキストへのハンドルを取得する。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The wglGetCurrentContext function obtains a handle to the current
-OpenGL rendering context of the calling thread.
+wglGetCurrentContext 関数は呼び出しスレッドのカレント OpenGL レンダリングコンテキストへのハンドルを取得する。
 
 [戻り値]
-If the calling thread has a current OpenGL rendering context,
-wglGetCurrentContext returns a handle to that rendering context.
-Otherwise, the return value is NULL.
+呼び出しスレッドがカレント OpenGL レンダリングコンテキストを持つ場合、wglGetCurrentContext
+はそのレンダリングコンテキストへのハンドルを返す。そうでない場合は NULL を返す。
 
 [備考]
-The current OpenGL rendering context of a thread is associated with a
-device context by means of the wglMakeCurrent function. You can use
-the wglGetCurrentDC function to obtain a handle to the device context
-associated with the current OpenGL rendering context.
+スレッドのカレント OpenGL レンダリングコンテキストは wglMakeCurrent
+によりデバイスコンテキストに関連付けられる。wglGetCurrentDC でカレント OpenGL
+レンダリングコンテキストに関連付けられたデバイスコンテキストへのハンドルを取得できる。
 
 
 %index
 wglGetCurrentDC
-The wglGetCurrentDC function obtains a handle to the device context that is associated with the current OpenGL rendering context of the calling thread.
+wglGetCurrentDC 関数は呼び出しスレッドのカレント OpenGL レンダリングコンテキストに関連付けられたデバイスコンテキストへのハンドルを取得する。
 %group
 Win32 opengl32
 %prm
 
 %inst
-The wglGetCurrentDC function obtains a handle to the device context
-that is associated with the current OpenGL rendering context of the
-calling thread.
+wglGetCurrentDC 関数は呼び出しスレッドのカレント OpenGL
+レンダリングコンテキストに関連付けられたデバイスコンテキストへのハンドルを取得する。
 
 [戻り値]
-If the calling thread has a current OpenGL rendering context, the
-function returns a handle to the device context associated with that
-rendering context by means of the wglMakeCurrent function. Otherwise,
-the return value is NULL.
+呼び出しスレッドがカレント OpenGL レンダリングコンテキストを持つ場合、wglMakeCurrent
+によりそのレンダリングコンテキストに関連付けられたデバイスコンテキストへのハンドルを返す。そうでない場合は NULL を返す。
 
 [備考]
-You associate a device context with an OpenGL rendering context when
-it calls the wglMakeCurrent function. You can use the
-wglGetCurrentContext function to obtain a handle to the calling
-thread's current OpenGL rendering context.
+デバイスコンテキストは wglMakeCurrent 呼び出し時に OpenGL
+レンダリングコンテキストに関連付けられる。wglGetCurrentContext で呼び出しスレッドのカレント OpenGL
+レンダリングコンテキストへのハンドルを取得できる。
 
 
 %index
 wglGetLayerPaletteEntries
-Retrieves the palette entries from a given color-index layer plane for a specified device context.
+指定したデバイスコンテキストの指定したカラーインデックスレイヤープレーンからパレットエントリを取得する。
 %group
 Win32 opengl32
 %prm
@@ -15148,60 +8152,47 @@ param2 : [int]
 param3 : [int] 
 param4 : [var] 
 %inst
-Retrieves the palette entries from a given color-index layer plane
-for a specified device context.
+指定したデバイスコンテキストの指定したカラーインデックスレイヤープレーンからパレットエントリを取得する。
 
 [戻り値]
-Type: int If the function succeeds, the return value is the number of
-entries that were set in the palette in the specified layer plane of
-the window. If the function fails or when no pixel format is
-selected, the return value is zero. To get extended error
-information, call GetLastError.
+型: int
+関数が成功した場合、戻り値はウィンドウの指定したレイヤープレーンのパレットに設定されたエントリ数。失敗時またはピクセルフォーマットが選択されていない場合は
+0。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-Each color-index layer plane in a window has a palette with a size
-2^n, where n is the number of bit planes in the layer plane. You
-cannot modify the transparent index of a palette. Use the
-wglRealizeLayerPalette function to realize the layer palette.
-Initially the layer palette contains only entries for white.
+ウィンドウの各カラーインデックスレイヤープレーンは、レイヤープレーンのビットプレーン数 n に対してサイズ 2^n
+のパレットを持つ。パレットの透明インデックスは変更できない。レイヤーパレットを実現するには wglRealizeLayerPalette
+を使う。初期状態ではレイヤーパレットには白のエントリのみが含まれる。
 
 
 %index
 wglGetProcAddress
-The wglGetProcAddress function returns the address of an OpenGL extension function for use with the current OpenGL rendering context.
+wglGetProcAddress 関数はカレント OpenGL レンダリングコンテキストで使用する OpenGL 拡張関数のアドレスを返す。
 %group
 Win32 opengl32
 %prm
 param0
 param0 : [str] 
 %inst
-The wglGetProcAddress function returns the address of an OpenGL
-extension function for use with the current OpenGL rendering context.
+wglGetProcAddress 関数はカレント OpenGL レンダリングコンテキストで使用する OpenGL
+拡張関数のアドレスを返す。
 
 [戻り値]
-When the function succeeds, the return value is the address of the
-extension function. When no current rendering context exists or the
-function fails, the return value is NULL. To get extended error
-information, call GetLastError.
+関数成功時は拡張関数のアドレスを返す。カレントレンダリングコンテキストが無いか失敗時は NULL。拡張エラー情報は
+GetLastError で取得する。
 
 [備考]
-The OpenGL library supports multiple implementations of its
-functions. Extension functions supported in one rendering context are
-not necessarily available in a separate rendering context. Thus, for
-a given rendering context in an application, use the function
-addresses returned by the wglGetProcAddress function only. The
-spelling and the case of the extension function pointed to by
-lpszProc must be identical to that of a function supported and
-implemented by OpenGL. Because extension functions are not exported
-by OpenGL, you must use wglGetProcAddress to get the addresses of
-vendor-specific extension functions. The extension function addresses
-are unique for each pixel format. All rendering contexts of a given
-pixel format share the same extension function addresses.
+OpenGL
+ライブラリは関数の複数実装をサポートする。あるレンダリングコンテキストでサポートされる拡張関数は別のレンダリングコンテキストで利用できるとは限らない。したがってアプリケーション内のあるレンダリングコンテキストでは
+wglGetProcAddress が返す関数アドレスのみを使うこと。lpszProc が指す拡張関数の綴りと大文字小文字は OpenGL
+がサポート/実装する関数と同一でなければならない。拡張関数は OpenGL からエクスポートされないため、ベンダー固有拡張関数のアドレスは
+wglGetProcAddress
+で取得しなければならない。拡張関数アドレスはピクセルフォーマットごとに一意で、同じピクセルフォーマットのすべてのレンダリングコンテキストで共有される。
 
 
 %index
 wglMakeCurrent
-The wglMakeCurrent function makes a specified OpenGL rendering context the calling thread's current rendering context.
+wglMakeCurrent 関数は指定された OpenGL レンダリングコンテキストを呼び出しスレッドのカレントレンダリングコンテキストにする。
 %group
 Win32 opengl32
 %prm
@@ -15209,39 +8200,29 @@ param0, param1
 param0 : [intptr] 
 param1 : [intptr] 
 %inst
-The wglMakeCurrent function makes a specified OpenGL rendering
-context the calling thread's current rendering context.
+wglMakeCurrent 関数は指定された OpenGL
+レンダリングコンテキストを呼び出しスレッドのカレントレンダリングコンテキストにする。
 
 [戻り値]
-When the wglMakeCurrent function succeeds, the return value is TRUE;
-otherwise the return value is FALSE. To get extended error
-information, call GetLastError.
+wglMakeCurrent 関数が成功した場合は TRUE、それ以外は FALSE を返す。拡張エラー情報は GetLastError
+で取得する。
 
 [備考]
-The hdc parameter must refer to a drawing surface supported by
-OpenGL. It need not be the same hdc that was passed to
-wglCreateContext when hglrc was created, but it must be on the same
-device and have the same pixel format. GDI transformation and
-clipping in hdc are not supported by the rendering context. The
-current rendering context uses the hdc device context until the
-rendering context is no longer current. Before switching to the new
-rendering context, OpenGL flushes any previous rendering context that
-was current to the calling thread. A thread can have one current
-rendering context. A process can have multiple rendering contexts by
-means of multithreading. A thread must set a current rendering
-context before calling any OpenGL functions. Otherwise, all OpenGL
-calls are ignored. A rendering context can be current to only one
-thread at a time. You cannot make a rendering context current to
-multiple threads. An application can perform multithread drawing by
-making different rendering contexts current to different threads,
-supplying each thread with its own rendering context and device
-context. If an error occurs, the wglMakeCurrent function makes the
-thread's current rendering context not current before returning.
+hdc は OpenGL がサポートする描画サーフェスを参照する必要がある。hglrc 作成時に wglCreateContext
+に渡した hdc と同じである必要はないが、同じデバイス上で同じピクセルフォーマットでなければならない。hdc の GDI
+変換やクリッピングはレンダリングコンテキストではサポートされない。カレントレンダリングコンテキストはそのレンダリングコンテキストが非カレントになるまで
+hdc を使う。新しいレンダリングコンテキストへ切り替える前に、OpenGL
+は呼び出しスレッドのカレントだった以前のレンダリングコンテキストをフラッシュする。スレッドはカレントレンダリングコンテキストを 1
+つ持てる。プロセスはマルチスレッドにより複数のレンダリングコンテキストを持てる。スレッドは OpenGL
+関数呼び出し前にカレントレンダリングコンテキストを設定する必要があり、未設定なら全 OpenGL
+呼び出しは無視される。レンダリングコンテキストは一度に 1
+つのスレッドにしかカレントにできず、複数スレッドで同時にカレントにすることはできない。アプリケーションは異なるレンダリングコンテキストを異なるスレッドにカレントにしてマルチスレッド描画を行える。エラー発生時
+wglMakeCurrent はスレッドのカレントレンダリングコンテキストを非カレントにしてから返る。
 
 
 %index
 wglRealizeLayerPalette
-The wglRealizeLayerPalette function maps palette entries from a given color-index layer plane into the physical palette or initializes the palette of an RGBA layer plane.
+wglRealizeLayerPalette 関数は指定したカラーインデックスレイヤープレーンのパレットエントリを物理パレットへマップするか、RGBA レイヤープレーンのパレットを初期化する。
 %group
 Win32 opengl32
 %prm
@@ -15250,36 +8231,29 @@ param0 : [intptr]
 param1 : [int] 
 param2 : [int] 
 %inst
-The wglRealizeLayerPalette function maps palette entries from a given
-color-index layer plane into the physical palette or initializes the
-palette of an RGBA layer plane.
+wglRealizeLayerPalette
+関数は指定したカラーインデックスレイヤープレーンのパレットエントリを物理パレットへマップするか、RGBA
+レイヤープレーンのパレットを初期化する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE, even if bRealize
-is TRUE and the physical palette is not available. If the function
-fails or when no pixel format is selected, the return value is FALSE.
-To get extended error information, call GetLastError.
+関数が成功した場合、bRealize が TRUE で物理パレットが利用できない場合でも戻り値は
+TRUE。失敗時またはピクセルフォーマットが選択されていない場合は FALSE。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-The physical palette for a layer plane is a shared resource among
-windows with layer planes. When more than one window attempts to
-realize a palette for a given physical layer plane, only one palette
-at a time is realized. When you call the wglRealizeLayerPalette
-function, the layer palette of a foreground window is always realized
-first. When a window's layer palette is realized, its palette entries
-are always mapped one-to-one into the physical palette. Unlike GDI
-logical palettes, with wglRealizeLayerPalette there is no mapping of
-other windows' layer palettes to the current physical palette.
-Whenever a window becomes the foreground window, call
-wglRealizeLayerPalette to realize its layer palettes again, even if
-the pixel type of the layer plane is RGBA. Because
-wglRealizeLayerPalette doesn't realize the palette of the main plane,
-use GDI palette functions to realize the main plane palette.
+
+レイヤープレーンの物理パレットはレイヤープレーンを持つウィンドウ間で共有される資源である。複数ウィンドウが同じ物理レイヤープレーンのパレットを実現しようとすると、一度に
+1 つのパレットしか実現されない。wglRealizeLayerPalette
+呼び出し時にはフォアグラウンドウィンドウのレイヤーパレットが常に最初に実現される。ウィンドウのレイヤーパレットが実現されるとき、エントリは常に物理パレットへ
+1 対 1 でマップされる。GDI
+論理パレットと異なり、他ウィンドウのレイヤーパレットを現在の物理パレットへマップすることはない。ウィンドウがフォアグラウンドになるたびに、レイヤープレーンのピクセル型が
+RGBA であっても再度 wglRealizeLayerPalette
+を呼び出してレイヤーパレットを実現する必要がある。wglRealizeLayerPalette
+はメインプレーンのパレットを実現しないので、メインプレーンパレットには GDI のパレット関数を使う。
 
 
 %index
 wglSetLayerPaletteEntries
-Sets the palette entries in a given color-index layer plane for a specified device context.
+指定したデバイスコンテキストの指定したカラーインデックスレイヤープレーンにパレットエントリを設定する。
 %group
 Win32 opengl32
 %prm
@@ -15290,30 +8264,23 @@ param2 : [int]
 param3 : [int] 
 param4 : [var] 
 %inst
-Sets the palette entries in a given color-index layer plane for a
-specified device context.
+指定したデバイスコンテキストの指定したカラーインデックスレイヤープレーンにパレットエントリを設定する。
 
 [戻り値]
-Type: int If the function succeeds, the return value is the number of
-entries that were set in the palette in the specified layer plane of
-the window. If the function fails or no pixel format is selected, the
-return value is zero. To get extended error information, call
-GetLastError.
+型: int
+関数が成功した場合、戻り値はウィンドウの指定したレイヤープレーンのパレットに設定されたエントリ数。失敗時またはピクセルフォーマットが選択されていない場合は
+0。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-Each color-index plane in a window has a palette with a size 2^n,
-where n is the number of bit planes in the layer plane. You cannot
-modify the transparent index of a palette. Use the
-wglRealizeLayerPalette function to realize the layer palette.
-Initially the layer palette contains only entries for white. The
-wglSetLayerPaletteEntries function doesn't set the palette entries of
-the main plane palette. To update the main plane palette, use GDI
-palette functions.
+ウィンドウの各カラーインデックスプレーンは、レイヤープレーンのビットプレーン数 n に対してサイズ 2^n
+のパレットを持つ。パレットの透明インデックスは変更できない。レイヤーパレットを実現するには wglRealizeLayerPalette
+を使う。初期状態ではレイヤーパレットには白のエントリのみが含まれる。wglSetLayerPaletteEntries
+はメインプレーンパレットのエントリを設定しない。メインプレーンパレットを更新するには GDI のパレット関数を使う。
 
 
 %index
 wglShareLists
-The wglShareLists function enables multiple OpenGL rendering contexts to share a single display-list space.
+wglShareLists 関数は複数の OpenGL レンダリングコンテキストが単一の表示リスト空間を共有することを可能にする。
 %group
 Win32 opengl32
 %prm
@@ -15321,40 +8288,23 @@ param0, param1
 param0 : [intptr] 
 param1 : [intptr] 
 %inst
-The wglShareLists function enables multiple OpenGL rendering contexts
-to share a single display-list space.
+wglShareLists 関数は複数の OpenGL レンダリングコンテキストが単一の表示リスト空間を共有することを可能にする。
 
 [戻り値]
-When the function succeeds, the return value is TRUE. When the
-function fails, the return value is FALSE and the display lists are
-not shared. To get extended error information, call GetLastError.
+関数成功時は TRUE。失敗時は FALSE で表示リストは共有されない。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-When you create an OpenGL rendering context, it has its own
-display-list space. The wglShareLists function enables a rendering
-context to share the display-list space of another rendering context;
-any number of rendering contexts can share a single display-list
-space. Once a rendering context shares a display-list space, the
-rendering context always uses the display-list space until the
-rendering context is deleted. When the last rendering context of a
-shared display-list space is deleted, the shared display-list space
-is deleted. All the indexes and definitions of display lists in a
-shared display-list space are shared. You can only share display
-lists with rendering contexts within the same process. However, not
-all rendering contexts in a process can share display lists.
-Rendering contexts can share display lists only if they use the same
-implementation of OpenGL functions. All client rendering contexts of
-a given pixel format can always share display lists. All rendering
-contexts of a shared display list must use an identical pixel format.
-Otherwise the results depend on the implementation of OpenGL used.
-Note The wglShareLists function is only available with OpenGL version
-1.01 or later. To determine the version number of the implementation
-of OpenGL, call glGetString.
+OpenGL レンダリングコンテキストを作成すると、それ自身の表示リスト空間を持つ。wglShareLists
+はあるレンダリングコンテキストが別のレンダリングコンテキストの表示リスト空間を共有できるようにする。任意数のレンダリングコンテキストが単一の表示リスト空間を共有できる。共有した時点からレンダリングコンテキストが削除されるまで、そのレンダリングコンテキストは常にその共有表示リスト空間を使う。共有表示リスト空間の最後のレンダリングコンテキストが削除されると共有表示リスト空間も削除される。共有表示リスト空間内のすべての表示リストインデックスと定義が共有される。共有できるのは同じプロセス内のレンダリングコンテキストのみ。ただしプロセス内すべてのレンダリングコンテキストが共有できるわけではなく、共有可能なのは同じ
+OpenGL
+実装を使うレンダリングコンテキスト同士のみ。同一ピクセルフォーマットの全クライアントレンダリングコンテキストはいつでも共有可能。共有表示リストの全レンダリングコンテキストは同一ピクセルフォーマットを使う必要があり、そうでない場合の結果は
+OpenGL 実装依存。注意: wglShareLists は OpenGL バージョン 1.01 以降でのみ利用可能。バージョン番号は
+glGetString で取得できる。
 
 
 %index
 wglSwapLayerBuffers
-The wglSwapLayerBuffers function swaps the front and back buffers in the overlay, underlay, and main planes of the window referenced by a specified device context.
+wglSwapLayerBuffers 関数は指定されたデバイスコンテキストが参照するウィンドウのオーバーレイ、アンダーレイ、メインプレーンのフロント/バックバッファを入れ替える。
 %group
 Win32 opengl32
 %prm
@@ -15362,30 +8312,21 @@ param0, param1
 param0 : [intptr] 
 param1 : [int] 
 %inst
-The wglSwapLayerBuffers function swaps the front and back buffers in
-the overlay, underlay, and main planes of the window referenced by a
-specified device context.
+wglSwapLayerBuffers
+関数は指定されたデバイスコンテキストが参照するウィンドウのオーバーレイ、アンダーレイ、メインプレーンのフロント/バックバッファを入れ替える。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-When a layer plane doesn't include a back buffer, calling the
-wglSwapLayerBuffers function has no effect on that layer plane. After
-you call wglSwapLayerBuffers, the state of the back buffer content is
-given in the corresponding LAYERPLANEDESCRIPTOR structure of the
-layer plane or in the PIXELFORMATDESCRIPTOR structure of the main
-plane. The wglSwapLayerBuffers function swaps the front and back
-buffers in the specified layer planes simultaneously. Some devices
-don't support swapping layer planes individually; they swap all layer
-planes as a group. When the PFD_SWAP_LAYER_BUFFERS flag of the
-PIXELFORMATDESCRIPTOR structure is set, it indicates that a device
-can swap individual layer planes and that you can call
-wglSwapLayerBuffers. With applications that use multiple threads,
-before calling wglSwapLayerBuffers, clear all drawing commands in all
-threads drawing to the same window.
+レイヤープレーンがバックバッファを含まない場合、wglSwapLayerBuffers
+の呼び出しはそのレイヤープレーンに何の効果も持たない。呼び出し後のバックバッファ内容の状態はレイヤープレーンの
+LAYERPLANEDESCRIPTOR、メインプレーンの PIXELFORMATDESCRIPTOR
+で示される。wglSwapLayerBuffers
+は指定されたレイヤープレーンのフロント/バックバッファを同時に入れ替える。一部のデバイスはレイヤープレーンを個別に入れ替えられず、すべてをグループとして入れ替える。PIXELFORMATDESCRIPTOR
+の PFD_SWAP_LAYER_BUFFERS フラグが立っているデバイスは個別入れ替えに対応し wglSwapLayerBuffers
+を呼べる。マルチスレッドアプリケーションでは、wglSwapLayerBuffers
+呼び出し前に同じウィンドウへ描画する全スレッドの描画コマンドをクリアする。
 
 
 %index
@@ -15403,7 +8344,7 @@ param1 : [var]
 
 %index
 wglUseFontBitmapsW
-The wglUseFontBitmaps function creates a set of bitmap display lists for use in the current OpenGL rendering context. (Unicode)
+wglUseFontBitmaps 関数はカレント OpenGL レンダリングコンテキストで使用するビットマップ表示リスト群を作成する。(Unicode)
 %group
 Win32 opengl32
 %prm
@@ -15413,37 +8354,29 @@ param1 : [int]
 param2 : [int] 
 param3 : [int] 
 %inst
-The wglUseFontBitmaps function creates a set of bitmap display lists
-for use in the current OpenGL rendering context. (Unicode)
+wglUseFontBitmaps 関数はカレント OpenGL
+レンダリングコンテキストで使用するビットマップ表示リスト群を作成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-The wglUseFontBitmaps function defines count display lists in the
-current OpenGL rendering context. Each display list has an
-identifying number, starting at listBase. Each display list consists
-of a single call to glBitmap. The definition of bitmap listBase + i
-is taken from the glyph first + i of the font currently selected in
-the device context specified by hdc. If a glyph is not defined, then
-the function defines an empty display list for it. The
-wglUseFontBitmaps function creates bitmap text in the plane of the
-screen. It enables the labeling of objects in OpenGL. In the current
-version of Microsoft's implementation of OpenGL, you cannot make GDI
-calls to a device context that has a double-buffered pixel format.
-Therefore, you cannot use the GDI fonts and text functions with such
-device contexts. You can use the wglUseFontBitmaps function to
-circumvent this limitation and draw text in a double-buffered device
-context. The function determines the parameters of each call to
-glBitmap as follows.
-This doc was truncated.
+wglUseFontBitmaps はカレント OpenGL レンダリングコンテキストに count
+個の表示リストを定義する。各表示リストは listBase から始まる識別番号を持ち、glBitmap
+への単一の呼び出しから構成される。ビットマップ listBase + i の定義は hdc
+で指定したデバイスコンテキストで現在選択中のフォントのグリフ first + i
+から取られる。グリフが未定義ならその表示リストは空となる。wglUseFontBitmaps
+はスクリーン平面にビットマップテキストを作成し、OpenGL でのオブジェクトラベリングを可能にする。Microsoft の OpenGL
+実装の現バージョンではダブルバッファピクセルフォーマットのデバイスコンテキストに対して GDI 呼び出しができない。そのため GDI
+のフォント/テキスト関数は使えないが、wglUseFontBitmaps
+を使えばこの制限を回避してダブルバッファデバイスコンテキストにテキストを描画できる。各 glBitmap
+呼び出しのパラメータは次のように決定される。
+このドキュメントは省略されている。
 
 
 %index
 wglUseFontOutlinesW
-The wglUseFontOutlines function creates a set of display lists, one for each glyph of the currently selected outline font of a device context, for use with the current rendering context. (Unicode)
+wglUseFontOutlines 関数は、カレントレンダリングコンテキストで使用する、デバイスコンテキストで現在選択中のアウトラインフォントの各グリフに対応する表示リスト群を作成する。(Unicode)
 %group
 Win32 opengl32
 %prm
@@ -15457,36 +8390,24 @@ param5 : [float]
 param6 : [int] 
 param7 : [var] 
 %inst
-The wglUseFontOutlines function creates a set of display lists, one
-for each glyph of the currently selected outline font of a device
-context, for use with the current rendering context. (Unicode)
+wglUseFontOutlines
+関数は、カレントレンダリングコンテキストで使用する、デバイスコンテキストで現在選択中のアウトラインフォントの各グリフに対応する表示リスト群を作成する。(Unicode)
 
 [戻り値]
-When the function succeeds, the return value is TRUE. When the
-function fails, the return value is FALSE and no display lists are
-generated. To get extended error information, call GetLastError.
+関数成功時は TRUE。失敗時は FALSE で表示リストは生成されない。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-The wglUseFontOutlines function defines the glyphs of an outline font
-with display lists in the current rendering context. The
-wglUseFontOutlines function works with TrueType fonts only; stroke
-and raster fonts are not supported. Each display list consists of
-either line segments or polygons, and has a unique identifying number
-starting with the listBase number. The wglUseFontOutlines function
-approximates glyph outlines by subdividing the quadratic B-spline
-curves of the outline into line segments, until the distance between
-the outline and the interpolated midpoint is within the value
-specified by deviation. This is the final format used when format is
-WGL_FONT_LINES. When you specify WGL_FONT_OUTLINES, the display lists
-created don't contain any normals; thus lighting doesn't work
-properly. To get the correct lighting of lines use WGL_FONT_POLYGONS
-and set glPolygonMode( GL_FRONT, GL_LINE ). When you specify format
-as WGL_FONT_POLYGONS the outlines are further tessellated into
-separate triangles, triangle fans, triangle strips, or quadrilateral
-strips to create the surface of each glyph. With WGL_FONT_POLYGONS,
-the created display lists call glFrontFace( GL_CW ) or glFrontFace(
-GL_CCW ); thus the current front-face value might be altered. For the
-best appearance of text with WGL_FONT_POLYGONS, cull the back faces
-as follows:
-This doc was truncated.
+wglUseFontOutlines
+はカレントレンダリングコンテキストの表示リストでアウトラインフォントのグリフを定義する。TrueType
+フォントのみで動作し、ストロークフォントやラスタフォントはサポートされない。各表示リストは線分かポリゴンで構成され、listBase
+から始まる一意の識別番号を持つ。グリフのアウトラインは 2 次 B
+スプライン曲線を線分に細分化して近似され、アウトラインと補間中点との距離が deviation の値以内になるまで分割される。これは
+format が WGL_FONT_LINES の場合の最終形式。WGL_FONT_OUTLINES
+を指定した場合、生成される表示リストには法線が含まれないためライティングは正しく機能しない。線の正しいライティングを得るには
+WGL_FONT_POLYGONS を使い glPolygonMode(GL_FRONT, GL_LINE) を設定する。format に
+WGL_FONT_POLYGONS
+を指定するとアウトラインはさらに三角形・三角形ファン・三角形ストリップ・四角形ストリップにテッセレートされ、各グリフの面が作成される。WGL_FONT_POLYGONS
+では生成される表示リストは glFrontFace(GL_CW) または glFrontFace(GL_CCW)
+を呼ぶため、現在の前面値が変更されうる。WGL_FONT_POLYGONS でテキストを最適に表示するには次のように背面をカリングする。
+このドキュメントは省略されている。
 

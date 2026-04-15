@@ -29,9 +29,10 @@ for f in COMMON.glob("*_gen2.as"):
         continue
     dll = f.stem.replace("_gen2", "")
     for line in f.read_text(encoding="cp932", errors="replace").splitlines():
-        m = re.match(r"#cfunc\s+(\w+)|#func\s+(\w+)", line)
+        m = re.match(r"#(?:cfunc|func)(?:\s+global)?\s+(\w+)\s+\"(\w+)\"", line)
         if m:
-            func_to_dll[m.group(1) or m.group(2)] = dll
+            func_to_dll[m.group(1)] = dll
+            func_to_dll[m.group(2)] = dll
 
 # Group missing entries by DLL (or "structs" / "other").
 buckets: dict[str, dict[str, str]] = defaultdict(dict)

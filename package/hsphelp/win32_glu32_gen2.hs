@@ -6,540 +6,378 @@
 
 %index
 gluBeginCurve
-The gluBeginCurve and gluEndCurve functions delimit a Non-Uniform Rational B-Spline (NURBS) curve definition. | gluBeginCurve function (Glu.h)
+gluBeginCurve と gluEndCurve は NURBS 曲線定義を区切る。 | gluBeginCurve 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 nobj
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
 %inst
-The gluBeginCurve and gluEndCurve functions delimit a Non-Uniform
-Rational B-Spline (NURBS) curve definition. | gluBeginCurve function
+gluBeginCurve と gluEndCurve は NURBS 曲線定義を区切る。 | gluBeginCurve 関数
 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluBeginCurve** to mark the beginning of a NURBS curve
-definition. After calling **gluBeginCurve**, make one or more calls
-to [**gluNurbsCurve**](glunurbscurve.md) to define the attributes of
-the curve. Exactly one of the calls to **gluNurbsCurve** must have a
-curve type of GL\_MAP1\_VERTEX\_3 or GL\_MAP1\_VERTEX\_4. To mark the
-end of the NURBS curve definition, call
-[**gluEndCurve**](gluendcurve.md). OpenGL evaluators are used to
-render the NURBS curve as a series of line segments. Evaluator state
-is preserved during rendering with
-[**glPushAttrib**](glpushattrib.md) (GL\_EVAL\_BIT) and
-[**glPopAttrib**](glpopattrib.md). For information on exactly what
-state these calls preserve, see **glPushAttrib**.
+**gluBeginCurve** で NURBS 曲線定義の開始をマークする。**gluBeginCurve**
+呼び出し後、曲線属性を定義するために **gluNurbsCurve** を 1 回以上呼び出す。**gluNurbsCurve**
+呼び出しのうち 1 つはちょうど GL_MAP1_VERTEX_3 または GL_MAP1_VERTEX_4
+の曲線型でなければならない。NURBS 曲線定義の終了をマークするには **gluEndCurve** を呼び出す。NURBS 曲線は
+OpenGL evaluator により線分列としてレンダリングされる。レンダリング中は
+**glPushAttrib**(GL_EVAL_BIT) と **glPopAttrib** により evaluator
+状態が保存される。
 
 
 %index
 gluBeginPolygon
-The gluBeginPolygon and gluEndPolygon functions delimit a polygon description. | gluBeginPolygon function (Glu.h)
+gluBeginPolygon と gluEndPolygon はポリゴン記述を区切る。 | gluBeginPolygon 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 tess
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
 %inst
-The gluBeginPolygon and gluEndPolygon functions delimit a polygon
-description. | gluBeginPolygon function (Glu.h)
+gluBeginPolygon と gluEndPolygon はポリゴン記述を区切る。 | gluBeginPolygon 関数
+(Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluBeginPolygon** and **gluEndPolygon** to delimit the
-definition of a nonconvex polygon. 1. Call **gluBeginPolygon**. 2.
-Define the contours of the polygon by calling
-[**gluTessVertex**](glutessvertex.md) for each vertex and
-[**gluNextContour**](glunextcontour.md) to start each new contour. 3.
-Call **gluEndPolygon** to signal the end of the definition. Once
-**gluEndPolygon** is called, the polygon is tessellated, and the
-resulting triangles are described through callbacks. For descriptions
-of the callback functions, see [*gluTessCallback*](glutess.md).
+**gluBeginPolygon** と **gluEndPolygon** で非凸ポリゴンの定義を区切る。1.
+**gluBeginPolygon** を呼ぶ。2. 各頂点に対して **gluTessVertex**、新しい輪郭の開始には
+**gluNextContour** を呼ぶ。3. **gluEndPolygon**
+で定義終了を通知する。**gluEndPolygon**
+が呼ばれるとポリゴンがテッセレートされ、生成された三角形がコールバックで通知される。
 
 
 %index
 gluBeginSurface
-The gluBeginSurface and gluEndSurface functions delimit a Non-Uniform Rational B-Spline (NURBS) surface definition. | gluBeginSurface function (Glu.h)
+gluBeginSurface と gluEndSurface は NURBS サーフェス定義を区切る。 | gluBeginSurface 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 nobj
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
 %inst
-The gluBeginSurface and gluEndSurface functions delimit a Non-Uniform
-Rational B-Spline (NURBS) surface definition. | gluBeginSurface
-function (Glu.h)
+gluBeginSurface と gluEndSurface は NURBS サーフェス定義を区切る。 |
+gluBeginSurface 関数 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluBeginSurface** and **gluEndSurface** functions mark the
-beginning and end of NURBS surface definitions, which are defined
-with calls to **gluNurbsSurface**. 1. Call **gluBeginSurface** to
-mark the beginning of a NURBS surface definition. 2. Make one or more
-calls to **gluNurbsSurface** to define the attributes of the surface.
-Exactly one of these calls to **gluNurbsSurface** must have a surface
-type of GL\_MAP2\_VERTEX\_3 or GL\_MAP2\_VERTEX\_4. 3. To mark the
-end of the NURBS surface definition, call **gluEndSurface**. The
-[**gluBeginTrim**](glubegintrim.md),
-[**gluPwlCurve**](glupwlcurve.md),
-[**gluNurbsCurve**](glunurbscurve.md), and
-[**gluEndTrim**](gluendtrim.md) functions support trimming of NURBS
-surfaces. Use OpenGL evaluators to render the NURBS surface as a set
-of polygons. Preserve the evaluator state during rendering with
-[**glPushAttrib**](glpushattrib.md)(GL\_EVAL\_BIT) and
-[**glPopAttrib**](glpopattrib.md).
+**gluBeginSurface** と **gluEndSurface** は NURBS
+サーフェス定義の開始と終了をマークする。サーフェスは **gluNurbsSurface** の呼び出しで定義する。1.
+**gluBeginSurface** で開始をマークする。2. **gluNurbsSurface** を 1
+回以上呼び出す。これらのうち 1 つはちょうど GL_MAP2_VERTEX_3 または GL_MAP2_VERTEX_4
+の型でなければならない。3. **gluEndSurface**
+で終了をマークする。**gluBeginTrim**、**gluPwlCurve**、**gluNurbsCurve**、**gluEndTrim**
+で NURBS サーフェスのトリミングをサポートする。NURBS サーフェスは OpenGL evaluator
+によりポリゴン集合としてレンダリングされる。
 
 
 %index
 gluBeginTrim
-The gluBeginTrim and gluEndTrim functions delimit a Non-Uniform Rational B-Spline (NURBS) trimming loop definition. | gluBeginTrim function (Glu.h)
+gluBeginTrim と gluEndTrim は NURBS トリミングループ定義を区切る。 | gluBeginTrim 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 nobj
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
 %inst
-The gluBeginTrim and gluEndTrim functions delimit a Non-Uniform
-Rational B-Spline (NURBS) trimming loop definition. | gluBeginTrim
-function (Glu.h)
+gluBeginTrim と gluEndTrim は NURBS トリミングループ定義を区切る。 | gluBeginTrim 関数
+(Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluBeginTrim** to mark the beginning of a trimming loop, and
-**gluEndTrim** to mark the end of a trimming loop. A trimming loop is
-a set of oriented curve segments (forming a closed curve) that define
-boundaries of a NURBS surface. You include these trimming loops in
-the definition of a NURBS surface, between calls to
-[**gluBeginSurface**](glubeginsurface.md) and
-[**gluEndSurface**](gluendsurface.md). The definition for a NURBS
-surface can contain many trimming loops. For example, if you write a
-definition for a NURBS surface that resembles a rectangle with a hole
-punched out, the definition would contain two trimming loops. One
-loop would define the outer edge of the rectangle; the other would
-define the punched-out hole. The definitions of each of these
-trimming loops would be bracketed by a **gluBeginTrim** /
-**gluEndTrim** pair. The definition of a single closed trimming loop
-can consist of multiple curve segments, each described as a series of
-line segments that form a linear curve (see
-[**gluPwlCurve**](glupwlcurve.md)), as a single NURBS curve (see
-[**gluNurbsCurve**](glunurbscurve.md)), or as a combination of both
-in any order. The only library calls that can appear in a
-trimming-loop definition (between the calls to **gluBeginTrim** and
-**gluEndTrim**) are **gluPwlCurve** and **gluNurbsCurve**. The
-displayed area of the NURBS surface is the region in the domain to
-the left of the trimming curve as the curve parameter increases.
-Thus, the retained region of the NURBS surface is inside a
-counterclockwise trimming loop and outside a clockwise trimming loop.
-For the rectangle mentioned earlier, the trimming loop for the outer
-edge of the rectangle runs counterclockwise, while the trimming loop
-for the punched-out hole runs clockwise. If you use more than one
-curve to define a single trimming loop, the curve segments must form
-a closed loop (that is, the endpoint of each curve must be the
-starting point of the next curve, and the endpoint of the final curve
-must be the starting point of the first curve). If the endpoints of
-the curve are sufficiently close together but not exactly coincident,
-they will be forced to match. If the endpoints are not sufficiently
-close, an error results (see [*gluNurbsCallback*](glunurbs.md)). If a
-trimming-loop definition contains multiple curves, the direction of
-the curves must be consistent (that is, the inside must be to the
-left of all of the curves). You can use nested trimming loops as long
-as the curve orientations alternate correctly. Trimming curves cannot
-be self-intersecting, nor can they intersect one another (or an error
-results). If no trimming information is given for a NURBS surface,
-the entire surface is drawn.
+**gluBeginTrim** と **gluEndTrim** でトリミングループを区切る。トリミングループは NURBS
+サーフェスの境界を定義する閉曲線 (向き付き曲線セグメントの集合) である。**gluBeginSurface** と
+**gluEndSurface** の間で NURBS サーフェス定義に含める。1 つの NURBS
+サーフェス定義は複数のトリミングループを含められる。例えば穴の開いた長方形のようなサーフェスでは、外枠用と穴用の 2 つのループを使う。1
+つのトリミングループは複数の曲線セグメント (線形 **gluPwlCurve**、単一 NURBS
+**gluNurbsCurve**、またはこれらの組み合わせ)
+から構成できる。**gluBeginTrim**/**gluEndTrim** 間で呼べるのは **gluPwlCurve** と
+**gluNurbsCurve** のみである。NURBS サーフェスの表示領域はトリミング曲線の左側 (曲線パラメータが増加する方向)
+となる。すなわち反時計回りのループの内側、時計回りのループの外側が保持される。曲線終端は正確に一致する必要があり、十分近ければ強制的に一致させられ、そうでなければエラーとなる。複数曲線の向きは一貫している必要がある。ネストしたループも向きが交互に正しければ使用できる。自己交差や曲線同士の交差はエラー。トリミング情報が与えられない場合はサーフェス全体が描画される。
 
 
 %index
 gluBuild1DMipmaps
-The gluBuild1DMipmaps function creates 1-D mipmaps.
+gluBuild1DMipmaps 関数は 1 次元ミップマップを生成する。
 %group
 Win32 glu32
 %prm
 target, components, width, format, type, data
-target : [int] The target texture. Must be GL\_TEXTURE\_1D.
-components : [int] The number of color components in the texture. Must be 1, 2, 3, or 4.
-width : [int] The width of the texture image.
-format : [int] The format of the pixel data. The following values are valid: GL\_COLOR\_INDEX, GL\_RED, GL\_GREEN, GL\_BLUE, GL\_ALPHA, GL\_RGB, GL\_RGBA, GL\_BGR\_EXT, GL\_BGRA\_EXT, GL\_LUMINANCE, or GL\_LUMINANCE\_ALPHA.
-type : [int] The data type for *data*. The following values are valid: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, or GL\_FLOAT.
-data : [intptr] A pointer to the image data in memory.
+target : [int] 対象テクスチャ。GL_TEXTURE_1D でなければならない。
+components : [int] テクスチャのカラーコンポーネント数。1、2、3、4 のいずれか。
+width : [int] テクスチャ画像の幅。
+format : [int] ピクセルデータの形式。有効値: GL_COLOR_INDEX, GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA, GL_RGB, GL_RGBA, GL_BGR_EXT, GL_BGRA_EXT, GL_LUMINANCE, GL_LUMINANCE_ALPHA。
+type : [int] *data* のデータ型。有効値: GL_UNSIGNED_BYTE, GL_BYTE, GL_BITMAP, GL_UNSIGNED_SHORT, GL_SHORT, GL_UNSIGNED_INT, GL_INT, GL_FLOAT。
+data : [intptr] メモリ内の画像データへのポインタ。
 %inst
-The gluBuild1DMipmaps function creates 1-D mipmaps.
+gluBuild1DMipmaps 関数は 1 次元ミップマップを生成する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluBuild1DMipmaps** function obtains the input image and
-generates all mipmap images (using
-[**gluScaleImage**](gluscaleimage.md)) so that the input image can be
-used as a mipmapped texture image. The
-[**glTexImage1D**](glteximage1d.md) function is then called to load
-each of the images. If the width of the input image is not a power of
-two, then the image is scaled to the nearest power of two before the
-mipmaps are generated. A return value of zero indicates success.
-Otherwise, a GLU error code is returned (see
-[**gluErrorString**](gluerrorstring.md)). For a description of the
-acceptable values for the *format* parameter, see **glTexImage1D**.
-For a description of the acceptable values for the *type* parameter,
-see [**glDrawPixels**](gldrawpixels.md).
+**gluBuild1DMipmaps** は入力画像を取得し、**gluScaleImage**
+を使って全ミップマップ画像を生成する。各画像は **glTexImage1D** で読み込まれる。入力画像の幅が 2
+のべき乗でない場合、生成前に最も近い 2 のべき乗にスケールされる。戻り値 0 は成功を示し、そうでなければ GLU エラーコードが返る。
 
 
 %index
 gluBuild2DMipmaps
-The gluBuild2DMipmaps function creates 2-D mipmaps.
+gluBuild2DMipmaps 関数は 2 次元ミップマップを生成する。
 %group
 Win32 glu32
 %prm
 target, components, width, height, format, type, data
-target : [int] The target texture. Must be GL\_TEXTURE\_2D.
-components : [int] The number of color components in the texture. Must be 1, 2, 3, or 4.
-width : [int] The width of the texture image.
-height : [int] The height of the texture image.
-format : [int] The format of the pixel data. Must be one of the following: GL\_COLOR\_INDEX, GL\_RED, GL\_GREEN, GL\_BLUE, GL\_ALPHA, GL\_RGB, GL\_RGBA, GL\_BGR\_EXT, GL\_BGRA\_EXT, GL\_LUMINANCE, or GL\_LUMINANCE\_ALPHA.
-type : [int] The data type for *data*. Must be one of the following: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, or GL\_FLOAT.
-data : [intptr] A pointer to the image data in memory.
+target : [int] 対象テクスチャ。GL_TEXTURE_2D でなければならない。
+components : [int] テクスチャのカラーコンポーネント数。1、2、3、4 のいずれか。
+width : [int] テクスチャ画像の幅。
+height : [int] テクスチャ画像の高さ。
+format : [int] ピクセルデータの形式。有効値: GL_COLOR_INDEX, GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA, GL_RGB, GL_RGBA, GL_BGR_EXT, GL_BGRA_EXT, GL_LUMINANCE, GL_LUMINANCE_ALPHA。
+type : [int] *data* のデータ型。有効値: GL_UNSIGNED_BYTE, GL_BYTE, GL_BITMAP, GL_UNSIGNED_SHORT, GL_SHORT, GL_UNSIGNED_INT, GL_INT, GL_FLOAT。
+data : [intptr] メモリ内の画像データへのポインタ。
 %inst
-The gluBuild2DMipmaps function creates 2-D mipmaps.
+gluBuild2DMipmaps 関数は 2 次元ミップマップを生成する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluBuild2DMipmaps** function obtains the input image and
-generates all mipmap images (using
-[**gluScaleImage**](gluscaleimage.md)) so the input image can be used
-as a mipmapped texture image. To load each of the images, call
-[**glTexImage2D**](glteximage2d.md). If the dimensions of the input
-image are not powers of two, then the image is scaled so that both
-the width and height are powers of two before the mipmaps are
-generated. A return value of zero indicates success. Otherwise, a GLU
-error code is returned (see [**gluErrorString**](gluerrorstring.md)).
-For a description of the acceptable values for the *format*
-parameter, see **glTexImage2D**. For a description of the acceptable
-values for *type*, see [**glDrawPixels**](gldrawpixels.md).
+**gluBuild2DMipmaps** は入力画像を取得し、**gluScaleImage**
+で全ミップマップ画像を生成する。各画像は **glTexImage2D** で読み込まれる。入力画像の寸法が 2
+のべき乗でない場合、生成前に幅・高さの両方が 2 のべき乗にスケールされる。戻り値 0 は成功を示し、そうでなければ GLU
+エラーコードが返る。
 
 
 %index
 gluCylinder
-The gluCylinder function draws a cylinder.
+gluCylinder 関数は円柱を描画する。
 %group
 Win32 glu32
 %prm
 qobj, baseRadius, topRadius, height, slices, stacks
-qobj : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-baseRadius : [double] The radius of the cylinder at *z* = 0.
-topRadius : [double] The radius of the cylinder at *z* = *height*.
-height : [double] The height of the cylinder.
-slices : [int] The number of subdivisions around the z-axis.
-stacks : [int] The number of subdivisions along the z-axis.
+qobj : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+baseRadius : [double] *z* = 0 における円柱の半径。
+topRadius : [double] *z* = *height* における円柱の半径。
+height : [double] 円柱の高さ。
+slices : [int] z 軸周りの分割数。
+stacks : [int] z 軸方向の分割数。
 %inst
-The gluCylinder function draws a cylinder.
+gluCylinder 関数は円柱を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluCylinder** function draws a cylinder oriented along the
-z-axis. The base of the cylinder is placed at *z* = 0, and the top at
-*z* = *height*. Like a sphere, a cylinder is subdivided around the
-z-axis into slices, and along the z-axis into stacks. Note that if
-*topRadius* is set to zero, then this routine will generate a cone.
-If the orientation is set to GLU\_OUTSIDE (with
-[**gluQuadricOrientation**](gluquadricorientation.md)), then any
-generated normals point away from the z-axis. Otherwise, they point
-toward the z-axis. If texturing is turned on (with
-[**gluQuadricTexture**](gluquadrictexture.md)): texture coordinates
-are generated so that *t* ranges linearly from 0.0 at *z* = 0 to 1.0
-at *z* = *height*; and *s* ranges from 0.0 at the positive y-axis, to
-0.25 at the positive x-axis, to 0.5 at the negative y-axis, to 0.75
-at the negative x-axis, and back to 1.0 at the positive y-axis.
+**gluCylinder** は z 軸に沿って向き付けされた円柱を描画する。底面は *z* = 0、上面は *z* =
+*height* に配置される。球と同様に slices と stacks で分割される。*topRadius* を 0
+にすると円錐が生成される。向きが GLU_OUTSIDE (**gluQuadricOrientation**) の場合、法線は z
+軸から離れる方向を向く。テクスチャが有効 (**gluQuadricTexture**) の場合、*t* は *z* = 0 で 0.0
+から *z* = *height* で 1.0 まで線形変化し、*s* は y+ 軸 0.0、x+ 軸 0.25、y- 軸 0.5、x-
+軸 0.75、y+ 軸で 1.0 に戻る。
 
 
 %index
 gluDeleteNurbsRenderer
-The gluDeleteNurbsRenderer function destroys a Non-Uniform Rational B-Spline (NURBS) object.
+gluDeleteNurbsRenderer 関数は NURBS オブジェクトを破棄する。
 %group
 Win32 glu32
 %prm
 nobj
-nobj : [intptr] The NURBS object to be destroyed (created with **gluNewNurbsRenderer**).
+nobj : [intptr] 破棄する NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
 %inst
-The gluDeleteNurbsRenderer function destroys a Non-Uniform Rational
-B-Spline (NURBS) object.
+gluDeleteNurbsRenderer 関数は NURBS オブジェクトを破棄する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluDeleteNurbsRenderer** function destroys the NURBS object and
-frees any memory that it used. After you have called
-**gluDeleteNurbsRenderer**, you cannot use *nobj* again.
+**gluDeleteNurbsRenderer** は NURBS オブジェクトを破棄し、使用していたメモリを解放する。呼び出し後は
+*nobj* を使用できない。
 
 
 %index
 gluDeleteQuadric
-The gluDeleteQuadric function destroys a quadric object.
+gluDeleteQuadric 関数は Quadric オブジェクトを破棄する。
 %group
 Win32 glu32
 %prm
 state
-state : [intptr] The quadric object to be destroyed (created with [**gluNewQuadric**](glunewquadric.md)).
+state : [intptr] 破棄する Quadric オブジェクト (**gluNewQuadric** で作成)。
 %inst
-The gluDeleteQuadric function destroys a quadric object.
+gluDeleteQuadric 関数は Quadric オブジェクトを破棄する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluDeleteQuadric** function destroys the quadric object and
-frees any memory that it used. After you have called
-**gluDeleteQuadric**, you cannot use *state* again.
+**gluDeleteQuadric** は Quadric オブジェクトを破棄しメモリを解放する。呼び出し後は *state*
+を使用できない。
 
 
 %index
 gluDeleteTess
-The gluDeleteTess function destroys a tessellation object.
+gluDeleteTess 関数はテッセレーションオブジェクトを破棄する。
 %group
 Win32 glu32
 %prm
 tess
-tess : [intptr] The tessellation object to destroy (created with [**gluNewTess**](glunewtess.md)).
+tess : [intptr] 破棄するテッセレーションオブジェクト (**gluNewTess** で作成)。
 %inst
-The gluDeleteTess function destroys a tessellation object.
+gluDeleteTess 関数はテッセレーションオブジェクトを破棄する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluDeleteTess** function destroys the indicated tessellation
-object and frees any memory that it used.
+**gluDeleteTess** は指定テッセレーションオブジェクトを破棄しメモリを解放する。
 
 
 %index
 gluDisk
-The gluDisk function draws a disk.
+gluDisk 関数は円盤を描画する。
 %group
 Win32 glu32
 %prm
 qobj, innerRadius, outerRadius, slices, loops
-qobj : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-innerRadius : [double] The inner radius of the disk (may be zero).
-outerRadius : [double] The outer radius of the disk.
-slices : [int] The number of subdivisions around the z-axis.
-loops : [int] The number of concentric rings about the origin into which the disk is subdivided.
+qobj : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+innerRadius : [double] 円盤の内半径 (0 でもよい)。
+outerRadius : [double] 円盤の外半径。
+slices : [int] z 軸周りの分割数。
+loops : [int] 原点周りで円盤を分割する同心円リング数。
 %inst
-The gluDisk function draws a disk.
+gluDisk 関数は円盤を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluDisk** function renders a disk on the *z* = 0 plane. The
-disk has a radius of *outerRadius*, and contains a concentric
-circular hole with a radius of *innerRadius*. If *innerRadius* is 0,
-then no hole is generated. The disk is subdivided around the z-axis
-into slices (like pizza slices) and also about the z-axis into rings
-(as specified by *slices* and *loops*, respectively). With respect to
-orientation, the positive *z*-side of the disk is considered to be
-*outside* (see
-[**gluQuadricOrientation**](gluquadricorientation.md)). This means
-that if the orientation is set to GLU\_OUTSIDE, then any normals
-generated point along the positive z-axis. If texturing is turned on
-(with [**gluQuadricTexture**](gluquadrictexture.md)), texture
-coordinates are generated linearly such that where *r* =
-*outerRadius*, the value at (*r*, 0, 0) is (1, 0.5); at (0, *r*, 0)
-it is (0.5, 1); at (-*r*, 0, 0) it is (0, 0.5); and at (0, -*r*, 0)
-it is (0.5, 0).
+**gluDisk** は *z* = 0 平面に円盤を描画する。外半径は *outerRadius*、内半径は
+*innerRadius* の同心円穴を持つ。*innerRadius* が 0 なら穴はない。円盤は z 軸周りに slices、z
+軸周りに loops で分割される。向きに関して、正の *z* 側が外側と見なされる。GLU_OUTSIDE なら法線は正 z
+軸方向を指す。テクスチャが有効なら座標は線形に生成される。
 
 
 %index
 gluEndCurve
-The gluBeginCurve and gluEndCurve functions delimit a Non-Uniform Rational B-Spline (NURBS) curve definition. | gluEndCurve function (Glu.h)
+gluBeginCurve と gluEndCurve は NURBS 曲線定義を区切る。 | gluEndCurve 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 nobj
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
 %inst
-The gluBeginCurve and gluEndCurve functions delimit a Non-Uniform
-Rational B-Spline (NURBS) curve definition. | gluEndCurve function
+gluBeginCurve と gluEndCurve は NURBS 曲線定義を区切る。 | gluEndCurve 関数
 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use [**gluBeginCurve**](glubegincurve.md) to mark the beginning of a
-NURBS curve definition. After calling **gluBeginCurve**, make one or
-more calls to [**gluNurbsCurve**](glunurbscurve.md) to define the
-attributes of the curve. Exactly one of the calls to
-**gluNurbsCurve** must have a curve type of GL\_MAP1\_VERTEX\_3 or
-GL\_MAP1\_VERTEX\_4. To mark the end of the NURBS curve definition,
-call **gluEndCurve**. OpenGL evaluators are used to render the NURBS
-curve as a series of line segments. Evaluator state is preserved
-during rendering with [**glPushAttrib**](glpushattrib.md)
-(GL\_EVAL\_BIT ) and [**glPopAttrib**](glpopattrib.md). For
-information on exactly what state these calls preserve, see
-**glPushAttrib**.
+**gluBeginCurve** で NURBS 曲線定義の開始をマークする。**gluBeginCurve**
+後、**gluNurbsCurve** を 1 回以上呼ぶ。うち 1 つは GL_MAP1_VERTEX_3 または
+GL_MAP1_VERTEX_4 型でなければならない。終了は **gluEndCurve** でマークする。NURBS 曲線は
+OpenGL evaluator により線分列としてレンダリングされる。
 
 
 %index
 gluEndPolygon
-The gluBeginPolygon and gluEndPolygon functions delimit a polygon description. | gluEndPolygon function (Glu.h)
+gluBeginPolygon と gluEndPolygon はポリゴン記述を区切る。 | gluEndPolygon 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 tess
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
 %inst
-The gluBeginPolygon and gluEndPolygon functions delimit a polygon
-description. | gluEndPolygon function (Glu.h)
+gluBeginPolygon と gluEndPolygon はポリゴン記述を区切る。 | gluEndPolygon 関数
+(Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use [**gluBeginPolygon**](glubeginpolygon.md) and **gluEndPolygon**
-to delimit the definition of a nonconvex polygon. 1. Call
-**gluBeginPolygon**. 2. Define the contours of the polygon by calling
-[**gluTessVertex**](glutessvertex.md) for each vertex and
-[**gluNextContour**](glunextcontour.md) to start each new contour. 3.
-Call **gluEndPolygon** to signal the end of the definition. Once
-**gluEndPolygon** is called, the polygon is tessellated, and the
-resulting triangles are described through callbacks. For descriptions
-of the callback functions, see [*gluTessCallback*](glutess.md).
+**gluBeginPolygon** と **gluEndPolygon** で非凸ポリゴンの定義を区切る。1.
+**gluBeginPolygon** を呼ぶ。2. 頂点ごとに **gluTessVertex**、新輪郭ごとに
+**gluNextContour** を呼ぶ。3. **gluEndPolygon**
+で定義終了を通知する。ポリゴンはテッセレートされ三角形がコールバックで通知される。
 
 
 %index
 gluEndSurface
-The gluBeginSurface and gluEndSurface functions delimit a Non-Uniform Rational B-Spline (NURBS) surface definition. | gluEndSurface function (Glu.h)
+gluBeginSurface と gluEndSurface は NURBS サーフェス定義を区切る。 | gluEndSurface 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 nobj
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
 %inst
-The gluBeginSurface and gluEndSurface functions delimit a Non-Uniform
-Rational B-Spline (NURBS) surface definition. | gluEndSurface
-function (Glu.h)
+gluBeginSurface と gluEndSurface は NURBS サーフェス定義を区切る。 | gluEndSurface
+関数 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**gluBeginSurface**](glubeginsurface.md) and **gluEndSurface**
-functions mark the beginning and end of NURBS surface definitions,
-which are defined with calls to **gluNurbsSurface**. 1. Call
-**gluBeginSurface** to mark the beginning of a NURBS surface
-definition. 2. Make one or more calls to **gluNurbsSurface** to
-define the attributes of the surface. Exactly one of these calls to
-**gluNurbsSurface** must have a surface type of GL\_MAP2\_VERTEX\_3
-or GL\_MAP2\_VERTEX\_4. 3. To mark the end of the NURBS surface
-definition, call **gluEndSurface**. The
-[**gluBeginTrim**](glubegintrim.md),
-[**gluPwlCurve**](glupwlcurve.md),
-[**gluNurbsCurve**](glunurbscurve.md), and **gluEndTrim** functions
-support trimming of NURBS surfaces. Use OpenGL evaluators to render
-the NURBS surface as a set of polygons. Preserve the evaluator state
-during rendering with [**glPushAttrib**](glpushattrib.md)
-(GL\_EVAL\_BIT) and [**glPopAttrib**](glpopattrib.md).
+**gluBeginSurface** と **gluEndSurface** は NURBS
+サーフェス定義の開始と終了をマークし、**gluNurbsSurface** で定義する。1. **gluBeginSurface**
+で開始をマークする。2. **gluNurbsSurface** を 1 回以上呼ぶ。うち 1 つは GL_MAP2_VERTEX_3
+または GL_MAP2_VERTEX_4 型でなければならない。3. **gluEndSurface**
+で終了をマークする。**gluBeginTrim**、**gluPwlCurve**、**gluNurbsCurve**、**gluEndTrim**
+がトリミングをサポートする。
 
 
 %index
 gluEndTrim
-The gluBeginTrim and gluEndTrim functions delimit a Non-Uniform Rational B-Spline (NURBS) trimming loop definition. | gluEndTrim function (Glu.h)
+gluBeginTrim と gluEndTrim は NURBS トリミングループ定義を区切る。 | gluEndTrim 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 nobj
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
 %inst
-The gluBeginTrim and gluEndTrim functions delimit a Non-Uniform
-Rational B-Spline (NURBS) trimming loop definition. | gluEndTrim
-function (Glu.h)
+gluBeginTrim と gluEndTrim は NURBS トリミングループ定義を区切る。 | gluEndTrim 関数
+(Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use [**gluBeginTrim**](glubegintrim.md) to mark the beginning of a
-trimming loop, and **gluEndTrim** to mark the end of a trimming loop.
-A trimming loop is a set of oriented curve segments (forming a closed
-curve) that define boundaries of a NURBS surface. You include these
-trimming loops in the definition of a NURBS surface, between calls to
-[**gluBeginSurface**](glubeginsurface.md) and
-[**gluEndSurface**](gluendsurface.md). The definition for a NURBS
-surface can contain many trimming loops. For example, if you write a
-definition for a NURBS surface that resembles a rectangle with a hole
-punched out, the definition would contain two trimming loops. One
-loop would define the outer edge of the rectangle; the other would
-define the punched-out hole. The definitions of each of these
-trimming loops would be bracketed by a
-[**gluBeginTrim**](glubegintrim.md) / **gluEndTrim** pair. The
-definition of a single closed trimming loop can consist of multiple
-curve segments, each described as a series of line segments that form
-a linear curve (see [**gluPwlCurve**](glupwlcurve.md)), as a single
-NURBS curve (see [**gluNurbsCurve**](glunurbscurve.md)), or as a
-combination of both in any order. The only library calls that can
-appear in a trimming-loop definition (between the calls to
-[**gluBeginTrim**](glubegintrim.md) and **gluEndTrim**) are
-**gluPwlCurve** and **gluNurbsCurve**. The displayed area of the
-NURBS surface is the region in the domain to the left of the trimming
-curve as the curve parameter increases. Thus, the retained region of
-the NURBS surface is inside a counterclockwise trimming loop and
-outside a clockwise trimming loop. For the rectangle mentioned
-earlier, the trimming loop for the outer edge of the rectangle runs
-counterclockwise, while the trimming loop for the punched-out hole
-runs clockwise. If you use more than one curve to define a single
-trimming loop, the curve segments must form a closed loop (that is,
-the endpoint of each curve must be the starting point of the next
-curve, and the endpoint of the final curve must be the starting point
-of the first curve). If the endpoints of the curve are sufficiently
-close together but not exactly coincident, they will be forced to
-match. If the endpoints are not sufficiently close, an error results
-(see [*gluNurbsCallback*](glunurbs.md)). If a trimming-loop
-definition contains multiple curves, the direction of the curves must
-be consistent (that is, the inside must be to the left of all of the
-curves). You can use nested trimming loops as long as the curve
-orientations alternate correctly. Trimming curves cannot be
-self-intersecting, nor can they intersect one another (or an error
-results). If no trimming information is given for a NURBS surface,
-the entire surface is drawn.
+**gluBeginTrim** と **gluEndTrim** でトリミングループを区切る。トリミングループは NURBS
+サーフェスの境界を定義する閉曲線である。**gluBeginSurface** と **gluEndSurface**
+の間でサーフェス定義に含める。1 つのサーフェスは複数のトリミングループを持てる。各ループは複数曲線セグメント
+(**gluPwlCurve** や **gluNurbsCurve** またはその組み合わせ)
+から構成できる。**gluBeginTrim**/**gluEndTrim** 間で呼べるのは **gluPwlCurve** と
+**gluNurbsCurve**
+のみ。表示領域は曲線の左側。反時計回りループの内側、時計回りループの外側が保持される。曲線終端は正確に一致する必要があり、近ければ強制一致される。自己交差・相互交差はエラーとなる。
 
 
 %index
 gluErrorString
-The gluErrorString function produces an error string from an OpenGL or GLU error code. The error string is ANSI only.
+gluErrorString 関数は OpenGL または GLU のエラーコードから ANSI エラー文字列を生成する。
 %group
 Win32 glu32
 %prm
 errCode
-errCode : [int] An OpenGL or GLU error code.
+errCode : [int] OpenGL または GLU のエラーコード。
 %inst
-The gluErrorString function produces an error string from an OpenGL
-or GLU error code. The error string is ANSI only.
+gluErrorString 関数は OpenGL または GLU のエラーコードから ANSI エラー文字列を生成する。
 
 [備考]
-The **gluErrorString** function produces an error string from an
-OpenGL or GLU error code. The string is in an ISO Latin 1 format. For
-example, **gluErrorString**(GL\_OUT\_OF\_MEMORY) returns the string
-"out of memory". The standard GLU error codes are GLU\_INVALID\_ENUM,
-GLU\_INVALID\_VALUE, and GLU\_OUT\_OF\_MEMORY. Certain other GLU
-functions can return specialized error codes through callbacks. For
-the list of OpenGL error codes, see [**glGetError**](glgeterror.md).
-The **gluErrorString** function produces error strings in ANSI only.
-Whenever possible, use **gluErrorStringWIN**, which allows ANSI or
-Unicode error strings. This makes it easier to localize your program
-for use with another language.
+**gluErrorString** は OpenGL または GLU のエラーコードからエラー文字列を生成する。文字列は ISO
+Latin 1 形式である。例えば **gluErrorString**(GL_OUT_OF_MEMORY) は "out of
+memory" を返す。標準の GLU エラーコードは
+GLU_INVALID_ENUM、GLU_INVALID_VALUE、GLU_OUT_OF_MEMORY である。OpenGL
+のエラーコードについては **glGetError** を参照。**gluErrorString** は ANSI
+のみでエラー文字列を生成する。可能なら ANSI/Unicode 両対応の **gluErrorStringWIN**
+を使用する方がローカライズしやすい。
 
 
 %index
@@ -556,1134 +394,812 @@ errCode : [int]
 
 %index
 gluGetNurbsProperty
-The gluGetNurbsProperty function gets a Non-Uniform Rational B-Spline (NURBS) property.
+gluGetNurbsProperty 関数は NURBS プロパティを取得する。
 %group
 Win32 glu32
 %prm
 nobj, property, value
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
-property : [int] The property whose value is to be retrieved. The following values are valid: GLU\_SAMPLING\_TOLERANCE, GLU\_DISPLAY\_MODE, GLU\_CULLING, GLU\_AUTO\_LOAD\_MATRIX, GLU\_PARAMETRIC\_TOLERANCE, GLU\_SAMPLING\_METHOD, GLU\_U\_STEP, and GLU\_V\_STEP.
-value : [var] A pointer to the location into which the value of the named property is written.
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
+property : [int] 取得するプロパティ。有効値: GLU_SAMPLING_TOLERANCE、GLU_DISPLAY_MODE、GLU_CULLING、GLU_AUTO_LOAD_MATRIX、GLU_PARAMETRIC_TOLERANCE、GLU_SAMPLING_METHOD、GLU_U_STEP、GLU_V_STEP。
+value : [var] 指定プロパティの値を書き込むロケーションへのポインタ。
 %inst
-The gluGetNurbsProperty function gets a Non-Uniform Rational B-Spline
-(NURBS) property.
+gluGetNurbsProperty 関数は NURBS プロパティを取得する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluGetNurbsProperty** to retrieve properties stored in a NURBS
-object. These properties affect the way NURBS curves and surfaces are
-rendered. For information about NURBS properties, see
-[**gluNurbsProperty**](glunurbsproperty.md).
+**gluGetNurbsProperty** で NURBS オブジェクトに格納されたプロパティを取得する。プロパティは NURBS
+曲線・サーフェスのレンダリング方法に影響する。詳細は **gluNurbsProperty** を参照。
 
 
 %index
 gluGetString
-The gluGetString function gets a string that describes the GLU version number or supported GLU extension calls.
+gluGetString 関数は GLU バージョン番号またはサポートされている GLU 拡張呼び出しを示す文字列を取得する。
 %group
 Win32 glu32
 %prm
 name
-name : [int] Either the version number of GLU (GLU\_VERSION) or available vendor-specific extension calls (GLU\_EXTENSIONS).
+name : [int] GLU のバージョン番号 (GLU_VERSION) またはベンダー固有拡張呼び出し (GLU_EXTENSIONS) のいずれか。
 %inst
-The gluGetString function gets a string that describes the GLU
-version number or supported GLU extension calls.
+gluGetString 関数は GLU バージョン番号またはサポートされている GLU 拡張呼び出しを示す文字列を取得する。
 
 [備考]
-The **gluGetString** function returns a pointer to a static,
-null-terminated string. When *name* is GLU\_VERSION, the returned
-string is a value that represents the version number of GLU. The
-format of the version number is as follows:
-This doc was truncated.
+**gluGetString** は静的な NULL 終端文字列へのポインタを返す。*name* が GLU_VERSION
+の場合、戻り値は GLU のバージョン番号を表す。バージョン番号の形式は次のとおり。このドキュメントは省略されている。
 
 
 %index
 gluGetTessProperty
-The gluGetTessProperty function gets a tessellation object property.
+gluGetTessProperty 関数はテッセレーションオブジェクトのプロパティを取得する。
 %group
 Win32 glu32
 %prm
 tess, which, value
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
-which : [int] The property whose value is to be retrieved. The following values are valid: GLU\_TESS\_WINDING\_RULE, GLU\_TESS\_BOUNDARY\_ONLY, and GLU\_TESS\_TOLERANCE.
-value : [var] A pointer to the location where the value of the named property is written.
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
+which : [int] 取得するプロパティ。有効値: GLU_TESS_WINDING_RULE、GLU_TESS_BOUNDARY_ONLY、GLU_TESS_TOLERANCE。
+value : [var] 指定プロパティの値を書き込むロケーションへのポインタ。
 %inst
-The gluGetTessProperty function gets a tessellation object property.
+gluGetTessProperty 関数はテッセレーションオブジェクトのプロパティを取得する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluGetTessProperty** to retrieve properties stored in a
-tessellation object. These properties affect the way tessellation
-objects are interpreted and rendered. For information about what the
-properties are and what they do, see
-[**gluTessProperty**](glutessproperty.md).
+**gluGetTessProperty**
+はテッセレーションオブジェクトに格納されたプロパティを取得する。プロパティはテッセレーションオブジェクトの解釈・レンダリング方法に影響する。詳細は
+**gluTessProperty** を参照。
 
 
 %index
 gluLoadSamplingMatrices
-The gluLoadSamplingMatrices function loads Non-Uniform Rational B-Spline (NURBS) sampling and culling matrices.
+gluLoadSamplingMatrices 関数は NURBS のサンプリング行列とカリング行列をロードする。
 %group
 Win32 glu32
 %prm
 nobj, modelMatrix, projMatrix, viewport
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
-modelMatrix : [var] A modelview matrix (as from a [**glGetFloatv**](glgetfloatv.md) call).
-projMatrix : [var] A projection matrix (as from a **glGetFloatv** call).
-viewport : [var] A viewport (as from a [**glGetIntegerv**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md) call).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
+modelMatrix : [var] モデルビュー行列 (**glGetFloatv** から取得)。
+projMatrix : [var] 射影行列 (**glGetFloatv** から取得)。
+viewport : [var] ビューポート (**glGetIntegerv** から取得)。
 %inst
-The gluLoadSamplingMatrices function loads Non-Uniform Rational
-B-Spline (NURBS) sampling and culling matrices.
+gluLoadSamplingMatrices 関数は NURBS のサンプリング行列とカリング行列をロードする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluLoadSamplingMatrices** function uses *modelMatrix*,
-*projMatrix*, and *viewport* to recompute the sampling and culling
-matrices stored in *nobj*. The sampling matrix determines how finely
-a NURBS curve or surface must be tessellated to satisfy the sampling
-tolerance (as determined by the GLU\_SAMPLING\_TOLERANCE property).
-The culling matrix is used in deciding if a NURBS curve or surface
-should be culled before rendering (when the GLU\_CULLING property is
-turned on). The **gluLoadSamplingMatrices** function is necessary
-only if the GLU\_AUTO\_LOAD\_MATRIX property is turned off (see
-[**gluNurbsProperty**](glunurbsproperty.md)). Although it can be
-convenient to leave the GLU\_AUTO\_LOAD\_MATRIX property turned on,
-doing so necessitates a round trip to the OpenGL server to get the
-current values of the modelview matrix, projection matrix, and
-viewport.)
+**gluLoadSamplingMatrices** は *modelMatrix*、*projMatrix*、*viewport*
+を使って *nobj* に格納されたサンプリング行列とカリング行列を再計算する。サンプリング行列は
+GLU_SAMPLING_TOLERANCE を満たすためにどれだけ細かくテッセレートするかを決定する。カリング行列は NURBS
+曲線・サーフェスをレンダリング前にカリングするかを決定する (GLU_CULLING がオンのとき)。この関数は
+GLU_AUTO_LOAD_MATRIX がオフの場合にのみ必要である。GLU_AUTO_LOAD_MATRIX
+をオンにしておく方が便利だが、現在のモデルビュー行列・射影行列・ビューポートを取得するための OpenGL
+サーバーへのラウンドトリップが必要となる。
 
 
 %index
 gluLookAt
-The gluLookAt function defines a viewing transformation.
+gluLookAt 関数はビュー変換を定義する。
 %group
 Win32 glu32
 %prm
 eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz
-eyex : [double] The position of the eye point.
-eyey : [double] The position of the eye point.
-eyez : [double] The position of the eye point.
-centerx : [double] The position of the reference point.
-centery : [double] The position of the reference point.
-centerz : [double] The position of the reference point.
-upx : [double] The direction of the up vector.
-upy : [double] The direction of the up vector.
-upz : [double] The direction of the up vector.
+eyex : [double] 視点の位置。
+eyey : [double] 視点の位置。
+eyez : [double] 視点の位置。
+centerx : [double] 参照点の位置。
+centery : [double] 参照点の位置。
+centerz : [double] 参照点の位置。
+upx : [double] 上方向ベクトル。
+upy : [double] 上方向ベクトル。
+upz : [double] 上方向ベクトル。
 %inst
-The gluLookAt function defines a viewing transformation.
+gluLookAt 関数はビュー変換を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluLookAt** function creates a viewing matrix derived from an
-eye point, a reference point indicating the center of the scene, and
-an up vector. The matrix maps the reference point to the negative
-z-axis and the eye point to the origin, so that when you use a
-typical projection matrix, the center of the scene maps to the center
-of the viewport. Similarly, the direction described by the up vector
-projected onto the viewing plane is mapped to the positive y-axis so
-that it points upward in the viewport. The up vector must not be
-parallel to the line of sight from the eye to the reference point.
-The matrix generated by **gluLookAt** postmultiplies the current
-matrix.
+**gluLookAt** は視点、シーン中心を示す参照点、上方向ベクトルからビュー行列を生成する。行列は参照点を負の z
+軸に、視点を原点にマップするため、典型的な射影行列を使うとシーンの中心がビューポートの中心にマップされる。上方向ベクトルは視線と平行であってはならない。**gluLookAt**
+で生成された行列は現在の行列に右から乗算される。
 
 
 %index
 gluNewNurbsRenderer
-The gluNewNurbsRenderer function creates a Non-Uniform Rational B-Spline (NURBS) object.
+gluNewNurbsRenderer 関数は NURBS オブジェクトを作成する。
 %group
 Win32 glu32
 %prm
 
 %inst
-The gluNewNurbsRenderer function creates a Non-Uniform Rational
-B-Spline (NURBS) object.
+gluNewNurbsRenderer 関数は NURBS オブジェクトを作成する。
 
 [備考]
-This function has no parameters.
-The **gluNewNurbsRenderer** function creates and returns a pointer to
-a new NURBS object. Refer to this object when calling NURBS rendering
-and control functions. A return value of zero means there is not
-enough memory to allocate to the object.
+この関数に引数はない。**gluNewNurbsRenderer** は新しい NURBS
+オブジェクトを作成してそのポインタを返す。NURBS のレンダリング・制御関数を呼ぶときにこのオブジェクトを参照する。戻り値が 0
+の場合はメモリ不足を意味する。
 
 
 %index
 gluNewQuadric
-The gluNewQuadric function creates a quadric object.
+gluNewQuadric 関数は Quadric オブジェクトを作成する。
 %group
 Win32 glu32
 %prm
 
 %inst
-The gluNewQuadric function creates a quadric object.
+gluNewQuadric 関数は Quadric オブジェクトを作成する。
 
 [備考]
-This function has no parameters.
-The **gluNewQuadric** function creates and returns a pointer to a new
-quadric object. Refer to this object when calling quadric rendering
-and control functions. A return value of zero means there is not
-enough memory to allocate to the object.
+この関数に引数はない。**gluNewQuadric** は新しい Quadric オブジェクトを作成してそのポインタを返す。戻り値が 0
+の場合はメモリ不足を意味する。
 
 
 %index
 gluNewTess
-The gluNewTess function creates a tessellation object.
+gluNewTess 関数はテッセレーションオブジェクトを作成する。
 %group
 Win32 glu32
 %prm
 
 %inst
-The gluNewTess function creates a tessellation object.
+gluNewTess 関数はテッセレーションオブジェクトを作成する。
 
 [備考]
-This function has no parameters.
-The **gluNewTess** function creates and returns a pointer to a new
-tessellation object. Refer to this object when calling tessellation
-functions. A return value of zero means there is not enough memory to
-allocate to the object.
+この関数に引数はない。**gluNewTess** は新しいテッセレーションオブジェクトを作成してそのポインタを返す。戻り値が 0
+の場合はメモリ不足を意味する。
 
 
 %index
 gluNextContour
-The gluNextContour function marks the beginning of another contour.
+gluNextContour 関数は別の輪郭の開始をマークする。
 %group
 Win32 glu32
 %prm
 tess, type
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
-type : [int] The type of the contour being defined. The following values are valid.
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
+type : [int] 定義される輪郭の型。GLU_EXTERIOR は外側境界、GLU_INTERIOR は内側境界 (穴など)、GLU_UNKNOWN はライブラリが解析、GLU_CCW/GLU_CW は最初の輪郭を外側とし、同方向のものを外側、逆を内側と判定する。このドキュメントは省略されている。
 %inst
-The gluNextContour function marks the beginning of another contour.
+gluNextContour 関数は別の輪郭の開始をマークする。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use the **gluNextContour** function to describe polygons with
-multiple contours. After you describe the first contour through a
-series of [**gluTessVertex**](glutessvertex.md) calls, a
-**gluNextContour** call indicates that the previous contour is
-complete and that the next contour is about to begin. Perform another
-series of **gluTessVertex** calls to describe the new contour. Repeat
-this process until all contours have been described. The *type*
-parameter defines what type of contour follows. To define the type of
-the first contour, you can call **gluNextContour** before describing
-the first contour. If you do not call **gluNextContour** before the
-first contour, the first contour is marked GLU\_EXTERIOR.
+**gluNextContour** は複数輪郭を持つポリゴンを記述するために使う。最初の輪郭を一連の **gluTessVertex**
+呼び出しで記述した後、**gluNextContour** 呼び出しで前輪郭の終了と次輪郭の開始を示す。新しい輪郭に対して再度
+**gluTessVertex** を呼び、これを繰り返す。*type*
+は次の輪郭の型を定義する。最初の輪郭の型を指定するため、最初の輪郭の前に **gluNextContour**
+を呼び出せる。呼ばない場合は GLU_EXTERIOR としてマークされる。
 
 
 %index
 gluNurbsCallback
-The gluNurbsCallback function defines a callback for a Non-Uniform Rational B-Spline (NURBS) object.
+gluNurbsCallback 関数は NURBS オブジェクトのコールバックを定義する。
 %group
 Win32 glu32
 %prm
 nobj, which, fn
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
-which : [int] The callback being defined. The only valid value is GLU\_ERROR. The meaning of GLU\_ERROR means that the error function is called when an error is encountered. Its single argument is of type **GLenum**, and it indicates the specific error that occurred. There are 37 errors unique to NURBS, named GLU\_NURBS\_ERROR1 through GLU\_NURBS\_ERROR37. Character strings describing these errors can be retrieved with [**gluErrorString**](gluerrorstring.md).
-fn : [int] A pointer to the callback function.
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
+which : [int] 定義するコールバック。唯一の有効値は GLU_ERROR で、エラー発生時にエラー関数が呼ばれる。引数は **GLenum** 型で具体的エラーを示す。NURBS 固有の 37 個のエラー (GLU_NURBS_ERROR1 ～ GLU_NURBS_ERROR37) があり、**gluErrorString** で説明文字列を取得できる。
+fn : [int] コールバック関数へのポインタ。
 %inst
-The gluNurbsCallback function defines a callback for a Non-Uniform
-Rational B-Spline (NURBS) object.
+gluNurbsCallback 関数は NURBS オブジェクトのコールバックを定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluNurbsCallback** to define a callback to be used by a NURBS
-object. If the specified callback is already defined, it is replaced.
-If *fn* is **NULL**, then any existing callback is erased.
+**gluNurbsCallback** は NURBS
+オブジェクトで使用されるコールバックを定義する。既に定義されていれば置き換えられる。*fn* が **NULL**
+なら既存コールバックは消去される。
 
 
 %index
 gluNurbsCurve
-The gluNurbsCurve function defines the shape of a Non-Uniform Rational B-Spline (NURBS) curve.
+gluNurbsCurve 関数は NURBS 曲線の形状を定義する。
 %group
 Win32 glu32
 %prm
 nobj, nknots, knot, stride, ctlarray, order, type
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
-nknots : [int] The number of knots in *knot*. The *nknots* parameter equals the number of control points plus the order.
-knot : [var] An array of *nknots* nondecreasing knot values.
-stride : [int] The offset (as a number of single-precision floating-point values) between successive curve control points.
-ctlarray : [var] A pointer to an array of control points. The coordinates must agree with *type*.
-order : [int] The order of the NURBS curve. The *order* parameter equals degree + 1; hence a cubic curve has an order of 4.
-type : [int] The type of the curve. If this curve is defined within a [**gluBeginCurve**](glubegincurve.md)/[**gluEndCurve**](gluendcurve.md) pair, then the type can be any of the valid one-dimensional evaluator types (such as GL\_MAP1\_VERTEX\_3 or GL\_MAP1\_COLOR\_4). Between a [**gluBeginTrim**](glubegintrim.md)/[**gluEndTrim**](gluendtrim.md) pair, the only valid types are GLU\_MAP1\_TRIM\_2 and GLU\_MAP1\_TRIM\_3.
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
+nknots : [int] *knot* のノット数。*nknots* は制御点数 + オーダーに等しい。
+knot : [var] *nknots* 個の非減少ノット値の配列。
+stride : [int] 連続する制御点間のオフセット (単精度浮動小数点値の数)。
+ctlarray : [var] 制御点の配列へのポインタ。座標は *type* に合致する必要がある。
+order : [int] NURBS 曲線のオーダー。*order* = degree + 1、したがって 3 次曲線なら 4。
+type : [int] 曲線の型。**gluBeginCurve**/**gluEndCurve** 間で定義された曲線なら、GL_MAP1_VERTEX_3 や GL_MAP1_COLOR_4 など任意の 1 次元 evaluator 型を使える。**gluBeginTrim**/**gluEndTrim** 間では GLU_MAP1_TRIM_2 または GLU_MAP1_TRIM_3 のみ有効。
 %inst
-The gluNurbsCurve function defines the shape of a Non-Uniform
-Rational B-Spline (NURBS) curve.
+gluNurbsCurve 関数は NURBS 曲線の形状を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-When **gluNurbsCurve** appears between a
-**gluBeginCurve**/**gluEndCurve** pair, it describes a curve to be
-rendered. You associate positional, texture, and color coordinates by
-presenting each as a separate **gluNurbsCurve** between a
-**gluBeginCurve**/**gluEndCurve** pair. Do not make more than one
-call to **gluNurbsCurve** for color, position, and texture data
-within a single **gluBeginCurve**/**gluEndCurve** pair. Make exactly
-one call to describe the position of the curve (a *type* of
-GL\_MAP1\_VERTEX\_3 or GL\_MAP1\_VERTEX\_4). When **gluNurbsCurve**
-appears between a
-[**gluBeginTrim**](glubegintrim.md)/[**gluEndTrim**](gluendtrim.md)
-pair, it describes a trimming curve on a NURBS surface. If *type* is
-GLU\_MAP1\_TRIM\_2, it describes a curve in two-dimensional (*u* and
-*v*) parameter space. If it is GLU\_MAP1\_TRIM\_3, it describes a
-curve in two-dimensional homogeneous (*u*, *v*, and *w*) parameter
-space. For more discussion about trimming curves, see
-**gluBeginTrim**.
+**gluNurbsCurve** が **gluBeginCurve**/**gluEndCurve**
+対の中にあるときはレンダリング対象の曲線を表す。位置・テクスチャ・色座標はそれぞれ別の **gluNurbsCurve**
+呼び出しで関連付ける。1 対の中で同じ種別の呼び出しを 2 度以上してはならない。位置は GL_MAP1_VERTEX_3 または
+GL_MAP1_VERTEX_4 でちょうど 1 回呼ぶ。**gluBeginTrim**/**gluEndTrim**
+対の中ではトリミング曲線を表し、GLU_MAP1_TRIM_2 なら 2 次元 (*u*, *v*)
+パラメータ空間、GLU_MAP1_TRIM_3 なら同次 (*u*, *v*, *w*) 空間で曲線を定義する。
 
 
 %index
 gluNurbsProperty
-The gluNurbsProperty function sets a Non-Uniform Rational B-Spline (NURBS) property.
+gluNurbsProperty 関数は NURBS プロパティを設定する。
 %group
 Win32 glu32
 %prm
 nobj, property, value
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
-property : [int] The property to be set. The following values are valid:
-value : [float] The value to which to set the indicated property. The *value* parameter can be a numeric value or one of the following three values: GLU\_PATH\_LENGTH, GLU\_PARAMETRIC\_ERROR, or GLU\_DOMAIN\_DISTANCE.
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
+property : [int] 設定するプロパティ。GLU_SAMPLING_TOLERANCE (サンプリング方法が GLU_PATH_LENGTH のときの最大エッジ長ピクセル、既定 50.0)、GLU_DISPLAY_MODE (サーフェスの描画方法: GLU_FILL, GLU_OUTLINE_POLYGON, GLU_OUTLINE_PATCH)、GLU_CULLING (制御点が現ビューポート外のカーブをテッセレーション前に破棄するか、既定 GL_FALSE)、GLU_AUTO_LOAD_MATRIX (既定 GL_TRUE で NURBS コードが射影行列・モデルビュー行列・ビューポートをダウンロードする)、GLU_PARAMETRIC_TOLERANCE (GLU_PARAMETRIC_ERROR 時の最大距離ピクセル、既定 0.5)、GLU_SAMPLING_METHOD (テッセレーション方法: GLU_PATH_LENGTH, GLU_PARAMETRIC_ERROR, GLU_DOMAIN_DISTANCE)、GLU_U_STEP, GLU_V_STEP (GLU_DOMAIN_DISTANCE 時の単位長あたりサンプル数、既定 100)。このドキュメントは省略されている。
+value : [float] 指定プロパティに設定する値。*value* は数値または GLU_PATH_LENGTH、GLU_PARAMETRIC_ERROR、GLU_DOMAIN_DISTANCE の 3 値のいずれか。GLU_PATH_LENGTH は既定でテッセレーションポリゴンのエッジ最大長を GLU_SAMPLING_TOLERANCE 以下にする。GLU_PARAMETRIC_ERROR は GLU_PARAMETRIC_TOLERANCE を最大距離とする。GLU_DOMAIN_DISTANCE はパラメトリック座標で *u*/*v* 方向の単位長あたりサンプル数を指定する。
 %inst
-The gluNurbsProperty function sets a Non-Uniform Rational B-Spline
-(NURBS) property.
+gluNurbsProperty 関数は NURBS プロパティを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluNurbsProperty** to control properties stored in a NURBS
-object. These properties affect the way a NURBS curve is rendered.
+**gluNurbsProperty** は NURBS オブジェクトに格納されたプロパティを制御する。これらのプロパティは NURBS
+曲線のレンダリング方法に影響する。
 
 
 %index
 gluNurbsSurface
-The gluNurbsSurface function defines the shape of a Non-Uniform Rational B-Spline (NURBS) surface.
+gluNurbsSurface 関数は NURBS サーフェスの形状を定義する。
 %group
 Win32 glu32
 %prm
 nobj, sknot_count, sknot, tknot_count, tknot, s_stride, t_stride, ctlarray, sorder, torder, type
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。*sknot_count* はパラメトリック *u* 方向のノット数。
 sknot_count : [int] 
-sknot : [var] An array of *sknot\_count* nondecreasing knot values in the parametric *u* direction.
+sknot : [var] パラメトリック *u* 方向の *sknot_count* 個の非減少ノット値の配列。*tknot_count* はパラメトリック *v* 方向のノット数。
 tknot_count : [int] 
-tknot : [var] An array of *tknot\_count* nondecreasing knot values in the parametric *v* direction.
+tknot : [var] パラメトリック *v* 方向の *tknot_count* 個の非減少ノット値の配列。*s_stride*/*t_stride* は *ctlarray* 内での *u*/*v* 方向連続制御点間のオフセット (単精度浮動小数点値)。
 s_stride : [int] 
 t_stride : [int] 
-ctlarray : [var] An array containing control points for the NURBS surface. The offsets between successive control points in the parametric *u* and *v* directions are given by *s\_stride* and *t\_stride*.
-sorder : [int] The order of the NURBS surface in the parametric *u* direction. The order is one more than the degree, hence a surface that is cubic in *u* has a *u* order of 4.
-torder : [int] The order of the NURBS surface in the parametric *v* direction. The order is one more than the degree, hence a surface that is cubic in *v* has a *v* order of 4.
-type : [int] The type of the surface. The *type* parameter can be any of the valid two-dimensional evaluator types (such as GL\_MAP2\_VERTEX\_3 or GL\_MAP2\_COLOR\_4).
+ctlarray : [var] NURBS サーフェスの制御点配列。パラメトリック *u*/*v* 方向の連続制御点間オフセットは *s_stride* と *t_stride* で与えられる。
+sorder : [int] パラメトリック *u* 方向のオーダー。degree + 1 (3 次なら 4)。
+torder : [int] パラメトリック *v* 方向のオーダー。degree + 1 (3 次なら 4)。
+type : [int] サーフェスの型。GL_MAP2_VERTEX_3 や GL_MAP2_COLOR_4 など任意の 2 次元 evaluator 型を指定できる。
 %inst
-The gluNurbsSurface function defines the shape of a Non-Uniform
-Rational B-Spline (NURBS) surface.
+gluNurbsSurface 関数は NURBS サーフェスの形状を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluNurbsSurface** within a NURBS surface definition to describe
-the shape of a NURBS surface (before any trimming). To mark the
-beginning of a NURBS surface definition, use the
-[**gluBeginSurface**](glubeginsurface.md) function. To mark the end
-of a NURBS surface definition, use the
-[**gluEndSurface**](gluendsurface.md) function. Call
-**gluNurbsSurface** within a NURBS surface definition only. You
-associate positional, texture, and color coordinates with a surface
-by presenting each as a separate **gluNurbsSurface** between a
-**gluBeginSurface**/**gluEndSurface** pair. Within a single
-**gluBeginSurface**/**gluEndSurface** pair, you can make only one
-call to **gluNurbsSurface** for color, position, and texture data.
-Make exactly one call to describe the position of the surface (a
-*type* of GL\_MAP2\_VERTEX\_3 or GL\_MAP2\_VERTEX\_4). You can trim a
-NURBS surface by using the [**gluNurbsCurve**](glunurbscurve.md) and
-[**gluPwlCurve**](glupwlcurve.md) functions between calls to
-[**gluBeginTrim**](glubegintrim.md) and
-[**gluEndTrim**](gluendtrim.md). A **gluNurbsSurface** with
-*sknot\_count* knots in the *u* direction and *tknot\_count* knots in
-the *v* direction with orders *sorder* and *torder* must have
-(*sknot\_count* -*sorder*) multipied by (*tknot\_count* -*torder*)
-control points.
+**gluNurbsSurface** は NURBS サーフェス定義内で使用し、トリミング前の形状を記述する。開始は
+**gluBeginSurface**、終了は **gluEndSurface** でマークする。NURBS
+サーフェス定義内でのみ呼び出せる。位置・テクスチャ・色座標はそれぞれ別の **gluNurbsSurface**
+で関連付ける。位置はちょうど 1 回 GL_MAP2_VERTEX_3 または GL_MAP2_VERTEX_4
+で呼ぶ。**gluBeginTrim**/**gluEndTrim** 間の
+**gluNurbsCurve**/**gluPwlCurve** でトリミングできる。*u* に *sknot_count* 個、*v*
+に *tknot_count* 個のノット、オーダー *sorder*/*torder* のとき、制御点数は (*sknot_count*
+- *sorder*) × (*tknot_count* - *torder*) でなければならない。
 
 
 %index
 gluOrtho2D
-The gluOrtho2D function defines a 2-D orthographic projection matrix.
+gluOrtho2D 関数は 2 次元正射投影行列を定義する。
 %group
 Win32 glu32
 %prm
 left, right, bottom, top
-left : [double] The coordinate for the left vertical clipping plane.
-right : [double] The coordinate for the right vertical clipping plane.
-bottom : [double] The coordinate for the bottom horizontal clipping plane.
-top : [double] The coordinate for the top horizontal clipping plane.
+left : [double] 左側垂直クリッピング平面の座標。
+right : [double] 右側垂直クリッピング平面の座標。
+bottom : [double] 下側水平クリッピング平面の座標。
+top : [double] 上側水平クリッピング平面の座標。
 %inst
-The gluOrtho2D function defines a 2-D orthographic projection matrix.
+gluOrtho2D 関数は 2 次元正射投影行列を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluOrtho2D** function sets up a two-dimensional orthographic
-viewing region. This is equivalent to calling
-[**glOrtho**](glortho.md) with zNear = -1 and zFar = 1.
+**gluOrtho2D** は 2 次元正射投影ビュー領域を設定する。**glOrtho** を zNear = -1、zFar = 1
+で呼ぶのと等価である。
 
 
 %index
 gluPartialDisk
-The gluPartialDisk function draws an arc of a disk.
+gluPartialDisk 関数は円盤の弧を描画する。
 %group
 Win32 glu32
 %prm
 qobj, innerRadius, outerRadius, slices, loops, startAngle, sweepAngle
-qobj : [intptr] A quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-innerRadius : [double] The inner radius of the partial disk (can be zero).
-outerRadius : [double] The outer radius of the partial disk.
-slices : [int] The number of subdivisions around the z-axis.
-loops : [int] The number of concentric rings about the origin into which the partial disk is subdivided.
-startAngle : [double] The starting angle, in degrees, of the disk portion.
-sweepAngle : [double] The sweep angle, in degrees, of the disk portion.
+qobj : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+innerRadius : [double] 部分円盤の内半径 (0 でもよい)。
+outerRadius : [double] 部分円盤の外半径。
+slices : [int] z 軸周りの分割数。
+loops : [int] 原点周りで部分円盤を分割する同心円リング数。
+startAngle : [double] 円盤部分の開始角度 (度単位)。
+sweepAngle : [double] 円盤部分の掃引角度 (度単位)。
 %inst
-The gluPartialDisk function draws an arc of a disk.
+gluPartialDisk 関数は円盤の弧を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluPartialDisk** function renders a partial disk on the *z* = 0
-plane. A partial disk is similar to a full disk, except that only the
-subset of the disk from *startAngle* through *startAngle* +
-*sweepAngle* is included (where 0 degrees is along the positive
-y-axis, 90 degrees is along the positive x-axis, 180 degrees is along
-the negative y-axis, and 270 degrees is along the negative x-axis).
-The partial disk has a radius of *outerRadius* and contains a
-concentric circular hole with a radius of *innerRadius*. If
-*innerRadius* is zero, then no hole is generated. The partial disk is
-subdivided around the z-axis into slices (like pizza slices), and
-also about the z-axis into rings (as specified by *slices* and
-*loops*, respectively). With respect to orientation, the positive
-z-side of the partial disk is considered to be outside (see
-[**gluQuadricOrientation**](gluquadricorientation.md)). This means
-that if the orientation is set to GLU\_OUTSIDE, then any normals
-generated point along the positive z-axis. If you have turned on
-texturing (with [**gluQuadricTexture**](gluquadrictexture.md)),
-**gluPartialDisk** generates texture coordinates linearly such that
-where *r* = *outerRadius*, the value at (*r*, 0, 0) is (1, 0.5); at
-(0, *r*, 0) it is (0.5, 1); at (*r*, 0, 0) it is (0, 0.5); and at (0,
-*r*, 0) it is (0.5, 0).
+**gluPartialDisk** は *z* = 0 平面に部分円盤を描画する。完全な円盤と同じだが、*startAngle* から
+*startAngle* + *sweepAngle* の部分だけが含まれる (0 度は y+ 軸、90 度は x+ 軸、180 度は
+y- 軸、270 度は x- 軸)。半径は *outerRadius*、内側に *innerRadius*
+の穴。*innerRadius* が 0 なら穴なし。z 軸周りに slices、同心円に loops で分割される。正の z 側が外側。
 
 
 %index
 gluPerspective
-The gluPerspective function sets up a perspective projection matrix.
+gluPerspective 関数は透視投影行列を設定する。
 %group
 Win32 glu32
 %prm
 fovy, aspect, zNear, zFar
-fovy : [double] The field of view angle, in degrees, in the y-direction.
-aspect : [double] The aspect ratio that determines the field of view in the x-direction. The aspect ratio is the ratio of *x* (width) to *y* (height).
-zNear : [double] The distance from the viewer to the near clipping plane (always positive).
-zFar : [double] The distance from the viewer to the far clipping plane (always positive).
+fovy : [double] y 方向の視野角 (度単位)。
+aspect : [double] x 方向の視界を決めるアスペクト比。x (幅) 対 y (高さ) の比。
+zNear : [double] 視点から近方クリッピング平面までの距離 (常に正)。
+zFar : [double] 視点から遠方クリッピング平面までの距離 (常に正)。
 %inst
-The gluPerspective function sets up a perspective projection matrix.
+gluPerspective 関数は透視投影行列を設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluPerspective** function specifies a viewing frustum into the
-world coordinate system. In general, the aspect ratio in
-**gluPerspective** should match the aspect ratio of the associated
-viewport. For example, *aspect* = 2.0 means the viewer's angle of
-view is twice as wide in *x* as it is in *y*. If the viewport is
-twice as wide as it is tall, it displays the image without
-distortion. The matrix generated by **gluPerspective** is multiplied
-by the current matrix, just as if [**glMultMatrix**](glmultmatrix.md)
-were called with the generated matrix. To load the perspective matrix
-onto the current matrix stack instead, precede the call to
-**gluPerspective** with a call to
-[**glLoadIdentity**](glloadidentity.md).
+**gluPerspective** はワールド座標系への視野錘台を指定する。一般にアスペクト比は関連ビューポートに一致させる。例えば
+*aspect* = 2.0 は x 方向が y 方向の 2 倍の視野角。ビューポートが横 2 倍なら歪みなく表示される。生成行列は
+**glMultMatrix** と同様に現在行列に乗算される。代わりに行列スタックにロードするには、**gluPerspective**
+の前に **glLoadIdentity** を呼ぶ。
 
 
 %index
 gluPickMatrix
-The gluPickMatrix function defines a picking region.
+gluPickMatrix 関数はピッキング領域を定義する。
 %group
 Win32 glu32
 %prm
 x, y, width, height, viewport
-x : [double] The x window coordinate of a picking region.
-y : [double] The y window coordinate of a picking region.
-width : [double] The width of the picking region in window coordinates.
-height : [double] The height of the picking region in window coordinates.
-viewport : [var] The current viewport (as from a [**glGetIntegerv**](glgetintegerv.md) call).
+x : [double] ピッキング領域の x ウィンドウ座標。
+y : [double] ピッキング領域の y ウィンドウ座標。
+width : [double] ウィンドウ座標系でのピッキング領域の幅。
+height : [double] ウィンドウ座標系でのピッキング領域の高さ。
+viewport : [var] 現在のビューポート (**glGetIntegerv** から取得)。
 %inst
-The gluPickMatrix function defines a picking region.
+gluPickMatrix 関数はピッキング領域を定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluPickMatrix** function creates a projection matrix you can
-use to restrict drawing to a small region of the viewport. 1. Use
-**gluPickMatrix** to restrict drawing to a small region around the
-cursor. 2. Enter selection mode (with
-[**glRenderMode**](glrendermode.md)), and then rerender the scene.
-All primitives that would have been drawn near the cursor are
-identified and stored in the selection buffer. The matrix created by
-**gluPickMatrix** is multiplied by the current matrix just as if
-[**glMultMatrix**](glmultmatrix.md) were called with the generated
-matrix. 1. Call [**glLoadIdentity**](glloadidentity.md) to load an
-identity matrix onto the perspective matrix stack. 2. Call
-**gluPickMatrix**. 3. Call a function (such as
-[**gluPerspective**](gluperspective.md)) to multiply the perspective
-matrix by the pick matrix. When using **gluPickMatrix** to pick
-Non-Uniform Rational B-Spline
-([NURBS](using-nurbs-curves-and-surfaces.md)), be careful to turn off
-the NURBS property, GLU\_AUTO\_LOAD\_MATRIX. If
-GLU\_AUTO\_LOAD\_MATRIX is not turned off, any NURBS surface rendered
-is subdivided differently with the pick matrix from how it was
-subdivided without the pick matrix.
+**gluPickMatrix** はビューポートの小領域に描画を制限するための射影行列を生成する。1.
+**gluPickMatrix** でカーソル周辺の小領域に描画制限する。2. **glRenderMode**
+で選択モードに入り、シーンを再レンダリングする。カーソル近傍で描画されるはずだったプリミティブは識別され選択バッファに保存される。生成行列は現在行列に右から乗算される。1.
+**glLoadIdentity** で透視行列スタックに単位行列をロードする。2. **gluPickMatrix** を呼ぶ。3.
+**gluPerspective** のような関数を呼んで透視行列にピック行列を乗算する。NURBS のピック時は
+GLU_AUTO_LOAD_MATRIX をオフにしないとピック時と非ピック時で分割が異なることに注意。
 
 
 %index
 gluProject
-The gluProject function maps object coordinates to window coordinates.
+gluProject 関数はオブジェクト座標をウィンドウ座標にマップする。
 %group
 Win32 glu32
 %prm
 objx, objy, objz, modelMatrix, projMatrix, viewport, winx, winy, winz
-objx : [double] The x object coordinate.
-objy : [double] The y object coordinate.
-objz : [double] The z object coordinate.
-modelMatrix : [var] The current modelview matrix (as from a [**glGetDoublev**](glgetdoublev.md) call).
-projMatrix : [var] The current projection matrix (as from a **glGetDoublev** call).
-viewport : [var] The current viewport (as from a [**glGetIntegerv**](glgetintegerv.md) call).
-winx : [var] The computed x window coordinate.
-winy : [var] The computed y window coordinate.
-winz : [var] The computed z window coordinate.
+objx : [double] x オブジェクト座標。
+objy : [double] y オブジェクト座標。
+objz : [double] z オブジェクト座標。
+modelMatrix : [var] 現在のモデルビュー行列 (**glGetDoublev** から取得)。
+projMatrix : [var] 現在の射影行列 (**glGetDoublev** から取得)。
+viewport : [var] 現在のビューポート (**glGetIntegerv** から取得)。
+winx : [var] 計算された x ウィンドウ座標。
+winy : [var] 計算された y ウィンドウ座標。
+winz : [var] 計算された z ウィンドウ座標。
 %inst
-The gluProject function maps object coordinates to window
-coordinates.
+gluProject 関数はオブジェクト座標をウィンドウ座標にマップする。
 
 [戻り値]
-If the function succeeds, the return value is GL\_TRUE. If the
-function fails, the return value is GL\_FALSE.
+関数が成功すると戻り値は GL_TRUE となる。関数が失敗した場合、戻り値は GL_FALSE となる。
 
 [備考]
-The **gluProject** function transforms the specified object
-coordinates into window coordinates using *modelMatrix*,
-*projMatrix*, and *viewport*. The result is stored in *winx*, *winy*,
-and *winz*.
+**gluProject** は *modelMatrix*、*projMatrix*、*viewport*
+を使って指定オブジェクト座標をウィンドウ座標に変換する。結果は *winx*、*winy*、*winz* に格納される。
 
 
 %index
 gluPwlCurve
-The gluPwlCurve function describes a piecewise linear Non-Uniform Rational B-Spline (NURBS) trimming curve.
+gluPwlCurve 関数は区分線形 NURBS トリミング曲線を記述する。
 %group
 Win32 glu32
 %prm
 nobj, count, array, stride, type
-nobj : [intptr] The NURBS object (created with [**gluNewNurbsRenderer**](glunewnurbsrenderer.md)).
-count : [int] The number of points on the curve.
-array : [var] An array containing the curve points.
-stride : [int] The offset (a number of single-precision floating-point values) between points on the curve.
-type : [int] The type of curve. Must be either GLU\_MAP1\_TRIM\_2 or GLU\_MAP1\_TRIM\_3.
+nobj : [intptr] NURBS オブジェクト (**gluNewNurbsRenderer** で作成)。
+count : [int] 曲線上の点数。
+array : [var] 曲線点を含む配列。
+stride : [int] 曲線上の点間のオフセット (単精度浮動小数点値の数)。
+type : [int] 曲線の型。GLU_MAP1_TRIM_2 または GLU_MAP1_TRIM_3 でなければならない。
 %inst
-The gluPwlCurve function describes a piecewise linear Non-Uniform
-Rational B-Spline (NURBS) trimming curve.
+gluPwlCurve 関数は区分線形 NURBS トリミング曲線を記述する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluPwlCurve** function describes a piecewise linear trimming
-curve for a NURBS surface. A piecewise linear curve consists of a
-list of coordinates of points in the parameter space for the NURBS
-surface to be trimmed. These points are connected with line segments
-to form a curve. If the curve is an approximation to a real curve,
-the points should be close enough that the resulting path appears
-curved at the resolution used in the application. If *type* is
-GLU\_MAP1\_TRIM\_2, it describes a curve in two-dimensional (*u* and
-*v*) parameter space. If it is GLU\_MAP1\_TRIM\_3, then it describes
-a curve in two-dimensional homogeneous (*u*, *v*, and *w*) parameter
-space. For more information about trimming curves, see
-[**gluBeginTrim**](glubegintrim.md).
+**gluPwlCurve** は NURBS サーフェス用の区分線形トリミング曲線を記述する。区分線形曲線はトリミングされる NURBS
+サーフェスのパラメータ空間上の点座標リストから成り、点は線分で結ばれる。実曲線の近似なら、結果のパスがアプリの解像度で曲線に見える程度に十分近い点にする必要がある。*type*
+が GLU_MAP1_TRIM_2 なら 2 次元 (*u*, *v*) パラメータ空間、GLU_MAP1_TRIM_3 なら同次
+(*u*, *v*, *w*) 空間の曲線を表す。
 
 
 %index
 gluQuadricCallback
-The gluQuadricCallback function defines a callback for a quadric object.
+gluQuadricCallback 関数は Quadric オブジェクトのコールバックを定義する。
 %group
 Win32 glu32
 %prm
 qobj, which, fn
-qobj : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-which : [int] The callback being defined. The only valid value is GLU\_ERROR.
-fn : [int] The function to be called.
+qobj : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+which : [int] 定義するコールバック。唯一の有効値は GLU_ERROR で、エラー発生時に呼ばれる。引数は **GLenum** 型で具体的エラーを示し、**gluErrorString** で説明文字列を取得できる。
+fn : [int] 呼び出される関数。
 %inst
-The gluQuadricCallback function defines a callback for a quadric
-object.
+gluQuadricCallback 関数は Quadric オブジェクトのコールバックを定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluQuadricCallback** to define a new callback to be used by a
-quadric object. If the specified callback is already defined, it is
-replaced. If *fn* is **NULL**, any existing callback is erased.
+**gluQuadricCallback** は Quadric
+オブジェクトで使用される新しいコールバックを定義する。既に定義されていれば置き換えられる。*fn* が **NULL**
+なら既存コールバックは消去される。
 
 
 %index
 gluQuadricDrawStyle
-The gluQuadricDrawStyle function specifies the draw style desired for quadrics.
+gluQuadricDrawStyle 関数は Quadric の描画スタイルを指定する。
 %group
 Win32 glu32
 %prm
 quadObject, drawStyle
-quadObject : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-drawStyle : [int] The desired draw style. The following values are valid.
+quadObject : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+drawStyle : [int] 描画スタイル。GLU_FILL (ポリゴンプリミティブ、反時計回り)、GLU_LINE (線集合)、GLU_SILHOUETTE (同一平面のエッジは描かない線集合)、GLU_POINT (点集合) のいずれか。
 %inst
-The gluQuadricDrawStyle function specifies the draw style desired for
-quadrics.
+gluQuadricDrawStyle 関数は Quadric の描画スタイルを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluQuadricDrawStyle** function specifies the draw style for
-quadrics rendered with **quadObject**.
+**gluQuadricDrawStyle** は **quadObject** でレンダリングされる Quadric
+の描画スタイルを指定する。
 
 
 %index
 gluQuadricNormals
-The gluQuadricNormals function specifies what kind of normals are to be used for quadrics.
+gluQuadricNormals 関数は Quadric に使う法線の種類を指定する。
 %group
 Win32 glu32
 %prm
 quadObject, normals
-quadObject : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-normals : [int] The desired type of normals. The following values are valid.
+quadObject : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+normals : [int] 生成する法線の型。GLU_NONE (法線なし)、GLU_FLAT (面ごとに 1 法線)、GLU_SMOOTH (頂点ごとに 1 法線、既定)。
 %inst
-The gluQuadricNormals function specifies what kind of normals are to
-be used for quadrics.
+gluQuadricNormals 関数は Quadric に使う法線の種類を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluQuadricNormals** function specifies what kind of normals are
-to be used for quadrics rendered with **quadObject**.
+**gluQuadricNormals** は **quadObject** でレンダリングされる Quadric
+に使う法線の種類を指定する。
 
 
 %index
 gluQuadricOrientation
-The gluQuadricOrientation function specifies inside or outside orientation for quadrics.
+gluQuadricOrientation 関数は Quadric の内/外向きを指定する。
 %group
 Win32 glu32
 %prm
 quadObject, orientation
-quadObject : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-orientation : [int] The desired orientation. The following values are valid.
+quadObject : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+orientation : [int] 向き。GLU_OUTSIDE (法線を外向きに、既定)、GLU_INSIDE (法線を内向きに)。
 %inst
-The gluQuadricOrientation function specifies inside or outside
-orientation for quadrics.
+gluQuadricOrientation 関数は Quadric の内/外向きを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluQuadricOrientation** function specifies what kind of
-orientation is desired for quadrics rendered with **quadObject**. The
-interpretation of outward and inward depends on the quadric being
-drawn.
+**gluQuadricOrientation** は **quadObject** でレンダリングされる Quadric
+の向きを指定する。外側/内側の解釈は描画される Quadric に依存する。
 
 
 %index
 gluQuadricTexture
-The gluQuadricTexture function specifies whether quadrics are to be textured.
+gluQuadricTexture 関数は Quadric にテクスチャを適用するかを指定する。
 %group
 Win32 glu32
 %prm
 quadObject, textureCoords
-quadObject : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-textureCoords : [int] A flag indicating whether texture coordinates are to be generated. The following values are valid.
+quadObject : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+textureCoords : [int] テクスチャ座標を生成するかを示すフラグ。GL_TRUE で生成、GL_FALSE で生成しない (既定)。
 %inst
-The gluQuadricTexture function specifies whether quadrics are to be
-textured.
+gluQuadricTexture 関数は Quadric にテクスチャを適用するかを指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluQuadricTexture** function specifies whether texture
-coordinates are to be generated for quadrics rendered with
-**quadObject**. The manner in which texture coordinates are generated
-depends upon the specific quadric rendered.
+**gluQuadricTexture** は **quadObject** でレンダリングされる Quadric
+にテクスチャ座標を生成するかを指定する。座標生成方法は描画される Quadric に依存する。
 
 
 %index
 gluScaleImage
-The gluScaleImage function scales an image to an arbitrary size.
+gluScaleImage 関数は画像を任意サイズにスケールする。
 %group
 Win32 glu32
 %prm
 format, widthin, heightin, typein, datain, widthout, heightout, typeout, dataout
-format : [int] The format of the pixel data. The following symbolic values are valid: GL\_COLOR\_INDEX, GL\_STENCIL\_INDEX, GL\_DEPTH\_COMPONENT, GL\_RED, GL\_GREEN, GL\_BLUE, GL\_ALPHA, GL\_RGB, GL\_RGBA, GL\_BGR\_EXT, GL\_BGRA\_EXT, GL\_LUMINANCE, and GL\_LUMINANCE\_ALPHA.
-widthin : [int] The width of the source image that is scaled.
-heightin : [int] The height of the source image that is scaled.
-typein : [int] The data type for *datain*. Must be one of the following: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, or GL\_FLOAT.
-datain : [intptr] A pointer to the source image.
-widthout : [int] The width of the destination image.
-heightout : [int] The height of the destination image.
-typeout : [int] The data type for *dataout*. Must be one of the following: GL\_UNSIGNED\_BYTE, GL\_BYTE, GL\_BITMAP, GL\_UNSIGNED\_SHORT, GL\_SHORT, GL\_UNSIGNED\_INT, GL\_INT, or GL\_FLOAT.
-dataout : [intptr] A pointer to the destination image.
+format : [int] ピクセルデータの形式。有効シンボル: GL_COLOR_INDEX, GL_STENCIL_INDEX, GL_DEPTH_COMPONENT, GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA, GL_RGB, GL_RGBA, GL_BGR_EXT, GL_BGRA_EXT, GL_LUMINANCE, GL_LUMINANCE_ALPHA。
+widthin : [int] スケールされるソース画像の幅。
+heightin : [int] スケールされるソース画像の高さ。
+typein : [int] *datain* のデータ型。GL_UNSIGNED_BYTE, GL_BYTE, GL_BITMAP, GL_UNSIGNED_SHORT, GL_SHORT, GL_UNSIGNED_INT, GL_INT, GL_FLOAT のいずれか。
+datain : [intptr] ソース画像へのポインタ。
+widthout : [int] 出力画像の幅。
+heightout : [int] 出力画像の高さ。
+typeout : [int] *dataout* のデータ型。同上のいずれか。
+dataout : [intptr] 出力画像へのポインタ。
 %inst
-The gluScaleImage function scales an image to an arbitrary size.
+gluScaleImage 関数は画像を任意サイズにスケールする。
 
 [戻り値]
-If the function succeeds, the return value is zero. If the function
-fails, the return value is a GLU error code (see
-[**gluErrorString**](gluerrorstring.md)).
+関数が成功すると戻り値は 0 となる。関数が失敗した場合、戻り値は GLU エラーコードとなる (**gluErrorString**
+参照)。
 
 [備考]
-The **gluScaleImage** function scales a pixel image using the
-appropriate pixel store modes to unpack data from the source image
-and pack data into the destination image. When shrinking an image,
-**gluScaleImage** uses a box filter to sample the source image and
-create pixels for the destination image. When magnifying an image,
-the pixels from the source image are linearly interpolated to create
-the destination image. For a description of the acceptable values for
-the *format*, *typein*, and *typeout* parameters, see
-[**glReadPixels**](glreadpixels.md).
+**gluScaleImage** は pixel store
+モードを使ってソース画像からデータをアンパックし、出力画像にパックしながらピクセル画像をスケールする。縮小時はボックスフィルタでサンプリング、拡大時は線形補間を行う。
 
 
 %index
 gluSphere
-The gluSphere function draws a sphere.
+gluSphere 関数は球を描画する。
 %group
 Win32 glu32
 %prm
 qobj, radius, slices, stacks
-qobj : [intptr] The quadric object (created with [**gluNewQuadric**](glunewquadric.md)).
-radius : [double] The radius of the sphere.
-slices : [int] The number of subdivisions around the z-axis (similar to lines of longitude).
-stacks : [int] The number of subdivisions along the z-axis (similar to lines of latitude).
+qobj : [intptr] Quadric オブジェクト (**gluNewQuadric** で作成)。
+radius : [double] 球の半径。
+slices : [int] z 軸周りの分割数 (経線に相当)。
+stacks : [int] z 軸方向の分割数 (緯線に相当)。
 %inst
-The gluSphere function draws a sphere.
+gluSphere 関数は球を描画する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluSphere** function draws a sphere of the given radius
-centered around the origin. The sphere is subdivided around the
-z-axis into slices and along the z-axis into stacks (similar to lines
-of longitude and latitude). If the orientation is set to GLU\_OUTSIDE
-(with **gluQuadricOrientation**), any normals generated point away
-from the center of the sphere. Otherwise, they point toward the
-center of the sphere. If texturing is turned on (with
-**gluQuadricTexture**): texture coordinates are generated so that *t*
-ranges from 0.0 at *z* = -*radius* to 1.0 at *z* = *radius* (*t*
-increases linearly along longitudinal lines); and *s* ranges from 0.0
-at the positive y-axis, to 0.25 at the positive x-axis, to 0.5 at the
-negative y-axis, to 0.75 at the negative x-axis, and back to 1.0 at
-the positive y-axis.
+**gluSphere** は原点中心・指定半径の球を描画する。z 軸周りに slices、z 軸方向に stacks で分割される
+(経度・緯度のように)。GLU_OUTSIDE なら法線は球中心から離れる方向を向く。テクスチャが有効なら *t* は *z* =
+-*radius* で 0.0 から *z* = *radius* で 1.0 まで (経線上で線形)、*s* は y+ 軸 0.0 から
+x+ 軸 0.25、y- 軸 0.5、x- 軸 0.75、y+ 軸 1.0 まで変化する。
 
 
 %index
 gluTessBeginContour
-The gluTessBeginContour and gluTessEndContour functions delimit a contour description. | gluTessBeginContour function (Glu.h)
+gluTessBeginContour と gluTessEndContour は輪郭記述を区切る。 | gluTessBeginContour 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 tess
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
 %inst
-The gluTessBeginContour and gluTessEndContour functions delimit a
-contour description. | gluTessBeginContour function (Glu.h)
+gluTessBeginContour と gluTessEndContour は輪郭記述を区切る。 |
+gluTessBeginContour 関数 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluTessBeginContour** and
-[**gluTessEndPolygon**](glutessendpolygon.md) functions delimit the
-definition of a polygon contour. Within each
-**gluTessBeginContour**/**gluTessEndPolygon** pair, there can be zero
-or more calls to [**gluTessVertex**](glutessvertex.md). The vertexes
-specify a closed contour (the last vertex of each contour is
-automatically linked to the first). You can call
-**gluTessBeginContour** only between
-[**gluTessBeginPolygon**](glutessbeginpolygon.md) and
-**gluTessEndPolygon**.
+**gluTessBeginContour** と **gluTessEndPolygon** はポリゴン輪郭の定義を区切る。各
+**gluTessBeginContour**/**gluTessEndPolygon** 対の中には 0 個以上の
+**gluTessVertex** 呼び出しがあり得る。頂点は閉じた輪郭を指定する
+(最後の頂点は自動的に最初の頂点に結ばれる)。**gluTessBeginContour** は
+**gluTessBeginPolygon** と **gluTessEndPolygon** の間でのみ呼び出せる。
 
 
 %index
 gluTessBeginPolygon
-The gluTessBeginPolygon and gluTessEndPolygon functions delimit a polygon description. | gluTessBeginPolygon function (Glu.h)
+gluTessBeginPolygon と gluTessEndPolygon はポリゴン記述を区切る。 | gluTessBeginPolygon 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 tess, polygon_data
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。*polygon_data* はプログラマ定義のポリゴンデータ構造体へのポインタ。
 polygon_data : [intptr] 
 %inst
-The gluTessBeginPolygon and gluTessEndPolygon functions delimit a
-polygon description. | gluTessBeginPolygon function (Glu.h)
+gluTessBeginPolygon と gluTessEndPolygon はポリゴン記述を区切る。 |
+gluTessBeginPolygon 関数 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluTessBeginPolygon** and
-[**gluTessEndPolygon**](glutessendpolygon.md) functions delimit the
-definition of a nonconvex polygon. Within each
-**gluTessBeginPolygon** / **gluTessEndPolygon** pair, include one or
-more calls to [**gluTessBeginContour**](glutessbegincontour.md).
-Within each contour, there are zero or more calls to
-[**gluTessVertex**](glutessvertex.md). The vertexes specify a closed
-contour (the last vertex of each contour is automatically linked to
-the first). The *polygon\_data* parameter is a pointer to a
-programmer-defined data structure. If the appropriate callbacks are
-specified (see [*gluTessCallback*](glutess.md)), this pointer is
-returned to the callback function or functions, making it a
-convenient way to store per-polygon information. When you call
-[**gluTessEndPolygon**](glutessendpolygon.md), the polygon is
-tessellated, and the resulting triangles are described through
-callbacks. For descriptions of the callback functions, see
-[*gluTessCallback*](glutess.md).
+**gluTessBeginPolygon** と **gluTessEndPolygon** は非凸ポリゴンの定義を区切る。各対の中で
+1 つ以上の **gluTessBeginContour** を含む。各輪郭内には 0 個以上の **gluTessVertex**
+呼び出しがある。頂点は閉じた輪郭を指定する。*polygon_data*
+はプログラマ定義データ構造体へのポインタで、適切なコールバックが指定されていればコールバックに返されるので、ポリゴンごとの情報を格納する便利な方法となる。**gluTessEndPolygon**
+呼び出し時にテッセレートされ、結果の三角形がコールバックで通知される。
 
 
 %index
 gluTessCallback
-The gluTessCallback function defines a callback for a tessellation object.
+gluTessCallback 関数はテッセレーションオブジェクトのコールバックを定義する。
 %group
 Win32 glu32
 %prm
 tess, which, fn
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
-which : [int] The callback being defined. The following values are valid: GLU\_TESS\_BEGIN, GLU\_TESS\_BEGIN\_DATA, GLU\_TESS\_EDGE\_FLAG, GLU\_TESS\_EDGE\_FLAG\_DATA, GLU\_TESS\_VERTEX, GLU\_TESS\_VERTEX\_DATA, GLU\_TESS\_END, GLU\_TESS\_END\_DATA, GLU\_TESS\_COMBINE, GLU\_TESS\_COMBINE\_DATA, GLU\_TESS\_ERROR, and GLU\_TESS\_ERROR\_DATA. For more information on these callbacks, see the following Remarks section.
-fn : [int] The function to be called.
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
+which : [int] 定義するコールバック。有効値: GLU_TESS_BEGIN、GLU_TESS_BEGIN_DATA、GLU_TESS_EDGE_FLAG、GLU_TESS_EDGE_FLAG_DATA、GLU_TESS_VERTEX、GLU_TESS_VERTEX_DATA、GLU_TESS_END、GLU_TESS_END_DATA、GLU_TESS_COMBINE、GLU_TESS_COMBINE_DATA、GLU_TESS_ERROR、GLU_TESS_ERROR_DATA。
+fn : [int] 呼び出される関数。
 %inst
-The gluTessCallback function defines a callback for a tessellation
-object.
+gluTessCallback 関数はテッセレーションオブジェクトのコールバックを定義する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-Use **gluTessCallback** to specify a callback to be used by a
-tessellation object. If the specified callback is already defined,
-then it is replaced. If *fn* is **NULL**, then the existing callback
-becomes undefined. The tessellation object uses these callbacks to
-describe how a polygon that you specify is broken into triangles.
-There are two versions of each callback, one with polygon data that
-you can define and one without. If both versions of a particular
-callback are specified, the callback with the polygon data you
-specify will be used. The *polygon\_data* parameter of
-[**gluTessBeginPolygon**](glutessbeginpolygon.md) is a copy of the
-pointer that was specified when **gluTessBeginPolygon** was called.
-The following are valid callbacks:
-| Callback | Description | |----------|-------------| |
-GLU_TESS_BEGIN | The GLU_TESS_BEGIN callback is invoked like glBegin
-to indicate the start of a (triangle) primitive. The function takes a
-single argument of type GLenum. If you set the GLU_TESS_BOUNDARY_ONLY
-property to GL_FALSE, the argument is set to either GL_TRIANGLE_FAN,
-GL_TRIANGLE_STRIP, or GL_TRIANGLES. If you set the
-GLU_TESS_BOUNDARY_ONLY property to GL_TRUE, the argument is set to
-GL_LINE_LOOP. The function prototype for this callback is as follows:
-voidbegin (GLenumtype); | | GLU_TESS_BEGIN_DATA | GLU_TESS_BEGIN_DATA
-is the same as the GLU_TESS_BEGIN callback except that it takes an
-additional pointer argument. This pointer is identical to the opaque
-pointer provided when you call gluTessBeginPolygon. The function
-prototype for this callback is: voidbeginData (GLenumtype, void *
-polygon_data); | | GLU_TESS_EDGE_FLAG | The GLU_TESS_EDGE_FLAG
-callback is similar to glEdgeFlag. The function takes a single
-Boolean flag that indicates which edges lie on the polygon boundary.
-If the flag is GL_TRUE, then each vertex that follows begins an edge
-that lies on the polygon boundary; that is, an edge which separates
-an interior region from an exterior one. If the flag is GL_FALSE,
-then each vertex that follows begins an edge that lies in the polygon
-interior. The GLU_TESS_EDGE_FLAG callback (if defined) is invoked
-before the first vertex callback is made. Because triangle fans and
-triangle strips do not support edge flags, the begin callback is not
-called with GL_TRIANGLE_FAN or GL_TRIANGLE_STRIP if an edge flag
-callback is provided. Instead, the fans and strips are converted to
-independent triangles. The function prototype for this callback
-is:voidedgeFlag (GLbooleanflag); | | GLU_TESS_EDGE_FLAG_DATA | The
-GLU_TESS_EDGE_FLAG_DATA callback is the same as the
-GLU_TESS_EDGE_FLAG callback except that it takes an additional
-pointer argument. This pointer is identical to the opaque pointer
-provided when you call gluTessBeginPolygon. The function prototype
-for this callback is: voidedgeFlagData (GLbooleanflag, void *
-polygon_data); | | GLU_TESS_VERTEX | The GLU_TESS_VERTEX callback is
-invoked between the begin and end callbacks. It is similar to
-glVertex , and it defines the vertexes of the triangles created by
-the tessellation process. The function takes a pointer as its only
-argument. This pointer is identical to the opaque pointer that you
-provided when you defined the vertex (see gluTessVertex). The
-function prototype for this callback is: voidvertex (void *
-vertex_data); | | GLU_TESS_VERTEX_DATA | The GLU_TESS_VERTEX_DATA is
-the same as the GLU_TESS_VERTEX callback except that it takes an
-additional pointer argument. This pointer is identical to the opaque
-pointer provided when you call gluTessBeginPolygon. The function
-prototype for this callback is: voidvertexData (void * vertex_data,
-void * polygon_data); | | GLU_TESS_END | The GLU_TESS_END callback
-serves the same purpose as glEnd. It indicates the end of a
-primitive, and it takes no arguments. The function prototype for this
-callback is: voidend (void); | | GLU_TESS_END_DATA | The
-GLU_TESS_END_DATA callback is the same as the GLU_TESS_END callback
-except that it takes an additional pointer argument. This pointer is
-identical to the opaque pointer provided when you call
-gluTessBeginPolygon. The function prototype for this callback is:
-voidendData (void * polygon_data); | | GLU_TESS_COMBINE | Call the
-GLU_TESS_COMBINE callback to create a new vertex when the
-tessellation detects an intersection, or to merge features. The
-function takes four arguments: An array of three elements, each of
-type Gldouble. An array of four pointers. An array of four elements,
-each of type GLfloat. A pointer to a pointer. The function prototype
-for this callback is: voidcombine(GLdoublecoords[3], void *
-vertex_data[4], GLfloatweight[4], void **outData); The vertex is
-defined as a linear combination of up to four existing vertexes,
-stored in vertex_data. The coefficients of the linear combination are
-given by weight; these weights always sum to 1.0. All vertex pointers
-are valid even when some of the weights are zero. The coords
-parameter gives the location of the new vertex. Allocate another
-vertex, interpolate parameters using vertex_data and weight, and
-return the new vertex pointer in outData. This handle is supplied
-during rendering callbacks. Free the memory sometime after calling
-gluTessEndPolygon. For example, if the polygon lies in an arbitrary
-plane in three-dimensional space, and you associate a color with each
-vertex, the GLU_TESS_COMBINE callback might look like the
-following:void myCombine( GLdouble coords[3], VERTEX *d[4], GLfloat
-w[4], VERTEX **dataOut ) { VERTEX *newVertex = new_vertex();
-newVertex->x = coords[0]; newVertex->y = coords[1]; newVertex->z =
-coords[2]; newVertex->r = w[0]*d[0]->r + w[1]*d[1]->r + w[2]*d[2]->r
-+ w[3]*d[3]->r; newVertex->g = w[0]*d[0]->g + w[1]*d[1]->g +
-w[2]*d[2]->g + w[3]*d[3]->g; newVertex->b = w[0]*d[0]->b +
-w[1]*d[1]->b + w[2]*d[2]->b + w[3]*d[3]->b; newVertex->a =
-w[0]*d[0]->a + w[1]*d[1]->a + w[2]*d[2]->a + w[3]*d[3]->a; *dataOut =
-newVertex; }When the tessellation detects an intersection, the
-GLU_TESS_COMBINE or GLU_TESS_COMBINE_DATA callback (see below) must
-be defined, and must write a non-NULL pointer into dataOut. Otherwise
-the GLU_TESS_NEED_COMBINE_CALLBACK error occurs, and no output is
-generated. (This is the only error that can occur during tessellation
-and rendering.) | | GLU_TESS_COMBINE_DATA | The GLU_TESS_COMBINE_DATA
-callback is the same as the GLU_TESS_COMBINE callback except that it
-takes an additional pointer argument. This pointer is identical to
-the opaque pointer provided when you call gluTessBeginPolygon. The
-function prototype for this callback is: voidcombineData
-(GLdoublecoords[3], void *vertex_data[4], GLfloatweight[4], void
-**outData, void * polygon_data); | | GLU_TESS_ERROR | The
-GLU_TESS_ERROR callback is called when an error is encountered. The
-one argument is of type GLenum; it indicates the specific error that
-occurred and is set to one of the following:
-GLU_TESS_MISSING_BEGIN_POLYGON GLU_TESS_MISSING_END_POLYGON
-GLU_TESS_MISSING_BEGIN_CONTOUR GLU_TESS_MISSING_END_CONTOUR
-GLU_TESS_COORD_TOO_LARGE GLU_TESS_NEED_COMBINE_CALLBACK Call
-gluErrorString to retrieve character strings describing these errors.
-The function prototype for this callback is as follows:voiderror
-(GLenumerrno); The GLU library recovers from the first four errors by
-inserting the missing call or calls. GLU_TESS_COORD_TOO_LARGE
-indicates that some vertex coordinate exceeded the predefined
-constant GLU_TESS_MAX_COORD in absolute value, and that the value has
-been clamped. (Coordinate values must be small enough that two can be
-multiplied together without overflow.) GLU_TESS_NEED_COMBINE_CALLBACK
-indicates that the tessellation detected an intersection between two
-edges in the input data, and the GLU_TESS_COMBINE or
-GLU_TESS_COMBINE_DATA callback was not provided. No output will be
-generated. | | GLU_TESS_ERROR_DATA | The GLU_TESS_ERROR_DATA callback
-is the same as the GLU_TESS_ERROR callback, except that it takes an
-additional pointer argument. This pointer is identical to the opaque
-pointer provided when you call gluTessBeginPolygon. The function
-prototype for this callback is: voiderrorData (GLenumerrno, void *
-polygon_data); |
+**gluTessCallback**
+はテッセレーションオブジェクトで使用されるコールバックを指定する。既に定義されていれば置き換えられる。*fn* が **NULL**
+なら既存は未定義となる。テッセレーションオブジェクトはこれらのコールバックを用いてポリゴンがどのように三角形に分割されるかを記述する。各コールバックにはポリゴンデータ付き
+(_DATA) と無し 2 種類がある。GLU_TESS_BEGIN は glBegin
+相当でプリミティブ開始を通知、GL_TRIANGLE_FAN/GL_TRIANGLE_STRIP/GL_TRIANGLES または
+GL_LINE_LOOP を受け取る。GLU_TESS_EDGE_FLAG は glEdgeFlag
+相当で境界判定用。GLU_TESS_VERTEX は三角形頂点を通知。GLU_TESS_END
+はプリミティブ終了。GLU_TESS_COMBINE は交差検出時・特徴マージ時に新頂点を作る。GLU_TESS_ERROR
+は各種エラーを通知する。詳細は元ドキュメント参照。このドキュメントは省略されている。
 
 
 %index
 gluTessEndContour
-The gluTessBeginContour and gluTessEndContour functions delimit a contour description. | gluTessEndContour function (Glu.h)
+gluTessBeginContour と gluTessEndContour は輪郭記述を区切る。 | gluTessEndContour 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 tess
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
 %inst
-The gluTessBeginContour and gluTessEndContour functions delimit a
-contour description. | gluTessEndContour function (Glu.h)
+gluTessBeginContour と gluTessEndContour は輪郭記述を区切る。 |
+gluTessEndContour 関数 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**gluTessBeginContour**](glutessbegincontour.md) and
-**gluTessEndContour** functions delimit the definition of a polygon
-contour. Within each **gluTessBeginContour**/**gluTessEndContour**
-pair, there can be zero or more calls to
-[**gluTessVertex**](glutessvertex.md). The vertexes specify a closed
-contour (the last vertex of each contour is automatically linked to
-the first). You can call **gluTessBeginContour** only between
-[**gluTessBeginPolygon**](glutessbeginpolygon.md) and
-[**gluTessEndPolygon**](glutessendpolygon.md).
+**gluTessBeginContour** と **gluTessEndContour** はポリゴン輪郭の定義を区切る。各対の中には
+0 個以上の **gluTessVertex**
+呼び出しがあり得る。頂点は閉じた輪郭を指定する。**gluTessBeginContour** は
+**gluTessBeginPolygon** と **gluTessEndPolygon** の間でのみ呼び出せる。
 
 
 %index
 gluTessEndPolygon
-The gluTessBeginPolygon and gluTessEndPolygon functions delimit a polygon description. | gluTessEndPolygon function (Glu.h)
+gluTessBeginPolygon と gluTessEndPolygon はポリゴン記述を区切る。 | gluTessEndPolygon 関数 (Glu.h)
 %group
 Win32 glu32
 %prm
 tess
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
 %inst
-The gluTessBeginPolygon and gluTessEndPolygon functions delimit a
-polygon description. | gluTessEndPolygon function (Glu.h)
+gluTessBeginPolygon と gluTessEndPolygon はポリゴン記述を区切る。 |
+gluTessEndPolygon 関数 (Glu.h)
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The [**gluTessBeginPolygon**](glutessbeginpolygon.md) and
-**gluTessEndPolygon** functions delimit the definition of a nonconvex
-polygon. Within each **gluTessBeginPolygon** / **gluTessEndPolygon**
-pair, include one or more calls to
-[**gluTessBeginContour**](glutessbegincontour.md). Within each
-contour, there are zero or more calls to
-[**gluTessVertex**](glutessvertex.md). The vertexes specify a closed
-contour (the last vertex of each contour is automatically linked to
-the first). The *polygon\_data* parameter is a pointer to a
-programmer-defined data structure. If the appropriate callbacks are
-specified (see [*gluTessCallback*](glutess.md)), this pointer is
-returned to the callback function or functions, making it a
-convenient way to store per-polygon information. When you call
-**gluTessEndPolygon**, the polygon is tessellated, and the resulting
-triangles are described through callbacks. For descriptions of the
-callback functions, see [*gluTessCallback*](glutess.md).
+**gluTessBeginPolygon** と **gluTessEndPolygon** は非凸ポリゴンの定義を区切る。各対の中で
+1 つ以上の **gluTessBeginContour** を含み、各輪郭内に 0 個以上の **gluTessVertex**
+呼び出しがある。頂点は閉じた輪郭を指定する。*polygon_data*
+はプログラマ定義データ構造体へのポインタで、コールバックに返される。**gluTessEndPolygon**
+呼び出し時にテッセレートされ、結果の三角形がコールバックで通知される。
 
 
 %index
 gluTessNormal
-The gluTessNormal function specifies a normal for a polygon.
+gluTessNormal 関数はポリゴンの法線を指定する。
 %group
 Win32 glu32
 %prm
 tess, x, y, z
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
-x : [double] The x-coordinate component of a normal.
-y : [double] The y-coordinate component of a normal.
-z : [double] The z-coordinate component of a normal.
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
+x : [double] 法線の x 成分。
+y : [double] 法線の y 成分。
+z : [double] 法線の z 成分。
 %inst
-The gluTessNormal function specifies a normal for a polygon.
+gluTessNormal 関数はポリゴンの法線を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluTessNormal** function describes a normal for a polygon that
-you define. All input data is projected onto a plane perpendicular to
-one of the three coordinate axes before tessellation, and all output
-triangles are oriented counterclockwise with respect to the normal.
-(To obtain clockwise orientation, reverse the sign of the supplied
-normal). For example, if you know that all polygons lie in the x-y
-plane, call **gluTessNormal**(tess, 0.0, 0.0, 1.0) before rendering
-any polygons. If the supplied normal is (0.0, 0.0, 0.0) (the default
-value), the normal is determined as follows: 1. The direction of the
-normal, up to its sign, is found by fitting a plane to the vertexes,
-without regard to how the vertexes are connected. It is expected that
-the input data lies approximately in the plane; otherwise projection
-perpendicular to one of the three coordinate axes can change the
-geometry substantially. 2. The sign of the normal is chosen so that
-the sum of the signed areas of all input contours is nonnegative
-(where a counterclockwise contour has positive area). The supplied
-normal persists until another call to **gluTessNormal** changes it.
+**gluTessNormal**
+は定義するポリゴンの法線を記述する。全入力データはテッセレーション前にこの法線に垂直な平面に射影され、出力三角形は全て法線に対して反時計回りに向きづけられる
+(逆順を得るには法線を反転)。例えば全ポリゴンが x-y 平面上にあることが分かっている場合、描画前に
+**gluTessNormal**(tess, 0.0, 0.0, 1.0) を呼ぶ。(0.0, 0.0, 0.0) (既定)
+を与えた場合、法線は頂点への平面フィッティングで決まる。向きは入力輪郭の符号付き面積合計が非負となるよう選ばれる。設定した法線は次の呼び出しまで持続する。
 
 
 %index
 gluTessProperty
-The gluTessProperty function sets the property of a tessellation object.
+gluTessProperty 関数はテッセレーションオブジェクトのプロパティを設定する。
 %group
 Win32 glu32
 %prm
 tess, which, value
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
-which : [int] The property value to set. The following values are valid: GLU\_TESS\_WINDING\_RULE, GLU\_TESS\_BOUNDARY\_ONLY, and GLU\_TESS\_TOLERANCE.
-value : [double] The value of the indicated property.
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
+which : [int] 設定するプロパティ。有効値: GLU_TESS_WINDING_RULE、GLU_TESS_BOUNDARY_ONLY、GLU_TESS_TOLERANCE。GLU_TESS_WINDING_RULE はポリゴンのどの部分が内側かを決める (GLU_TESS_WINDING_ODD/NONZERO/POSITIVE/NEGATIVE/ABS_GEQ_TWO)。GLU_TESS_BOUNDARY_ONLY (Boolean) を GL_TRUE にするとテッセレーションの代わりに内外を分離する閉じた輪郭集合が返される。GLU_TESS_TOLERANCE は出力サイズ削減のための特徴マージの許容誤差を指定する (ヒントのみ、既定 0)。
+value : [double] 指定プロパティの値。
 %inst
-The gluTessProperty function sets the property of a tessellation
-object.
+gluTessProperty 関数はテッセレーションオブジェクトのプロパティを設定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluTessProperty** function controls properties stored in a
-tessellation object. These properties affect the way the polygons are
-interpreted and rendered.
+**gluTessProperty**
+はテッセレーションオブジェクトに格納されたプロパティを制御する。プロパティはポリゴンの解釈・レンダリング方法に影響する。
 
 
 %index
 gluTessVertex
-The gluTessVertex function specifies a vertex on a polygon.
+gluTessVertex 関数はポリゴンの頂点を指定する。
 %group
 Win32 glu32
 %prm
 tess, coords, data
-tess : [intptr] The tessellation object (created with [**gluNewTess**](glunewtess.md)).
-coords : [var] The location of the vertex.
-data : [intptr] An pointer passed back to the program with the vertex callback (as specified by [*gluTessCallback*](glutess.md)).
+tess : [intptr] テッセレーションオブジェクト (**gluNewTess** で作成)。
+coords : [var] 頂点の位置。
+data : [intptr] 頂点コールバックでプログラムに返されるポインタ。
 %inst
-The gluTessVertex function specifies a vertex on a polygon.
+gluTessVertex 関数はポリゴンの頂点を指定する。
 
 [戻り値]
-This function does not return a value.
+この関数は値を返さない。
 
 [備考]
-The **gluTessVertex** function describes a vertex on a polygon that
-the user is defining. Successive **gluTessVertex** calls describe a
-closed contour. For example, to describe a quadrilateral, call
-**gluTessVertex** four times. You can only call **gluTessVertex**
-between [**gluTessBeginContour**](glutessbegincontour.md) and
-[**gluTessEndContour**](glutessendcontour.md). The *data* parameter
-normally points to a structure containing the vertex location, as
-well as other per-vertex attributes such as color and normal. This
-pointer is passed back to the program through the GLU\_VERTEX
-callback after tessellation (see [*gluTessCallback*](glutess.md)).
+**gluTessVertex** はユーザが定義中のポリゴンの頂点を記述する。連続呼び出しで閉じた輪郭を記述する。例えば四角形なら 4
+回呼ぶ。**gluTessBeginContour** と **gluTessEndContour** の間でのみ呼び出せる。*data*
+は通常頂点位置と色・法線等の頂点属性を含む構造体を指すポインタで、テッセレーション後に GLU_VERTEX
+コールバックでプログラムに返される。
 
 
 %index
 gluUnProject
-The gluUnProject function maps window coordinates to object coordinates.
+gluUnProject 関数はウィンドウ座標をオブジェクト座標にマップする。
 %group
 Win32 glu32
 %prm
 winx, winy, winz, modelMatrix, projMatrix, viewport, objx, objy, objz
-winx : [double] The x window coordinate to be mapped.
-winy : [double] The y window coordinate to be mapped.
-winz : [double] The z window coordinate to be mapped.
-modelMatrix : [var] The modelview matrix (as from a [**glGetDoublev**](glgetdoublev.md) call).
-projMatrix : [var] The projection matrix (as from a **glGetDoublev** call).
-viewport : [var] The viewport (as from a [**glGetIntegerv**](glgetbooleanv--glgetdoublev--glgetfloatv--glgetintegerv.md) call).
-objx : [var] The computed x object coordinate.
-objy : [var] The computed y object coordinate.
-objz : [var] The computed z object coordinate.
+winx : [double] マップ対象の x ウィンドウ座標。
+winy : [double] マップ対象の y ウィンドウ座標。
+winz : [double] マップ対象の z ウィンドウ座標。
+modelMatrix : [var] モデルビュー行列 (**glGetDoublev** から取得)。
+projMatrix : [var] 射影行列 (**glGetDoublev** から取得)。
+viewport : [var] ビューポート (**glGetIntegerv** から取得)。
+objx : [var] 計算された x オブジェクト座標。
+objy : [var] 計算された y オブジェクト座標。
+objz : [var] 計算された z オブジェクト座標。
 %inst
-The gluUnProject function maps window coordinates to object
-coordinates.
+gluUnProject 関数はウィンドウ座標をオブジェクト座標にマップする。
 
 [戻り値]
-If the function succeeds, the return value is GL\_TRUE. If the
-function fails, the return value is GL\_FALSE.
+関数が成功すると戻り値は GL_TRUE となる。関数が失敗した場合、戻り値は GL_FALSE となる。
 
 [備考]
-The **gluUnProject** function maps the specified window coordinates
-into object coordinates using *modelMatrix*, *projMatrix*, and
-*viewport*. The result is stored in *objx*, *objy*, and *objz*.
+**gluUnProject** は *modelMatrix*、*projMatrix*、*viewport*
+を使って指定ウィンドウ座標をオブジェクト座標にマップする。結果は *objx*、*objy*、*objz* に格納される。
 

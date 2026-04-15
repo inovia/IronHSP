@@ -6,232 +6,198 @@
 
 %index
 CreateDirect3D11DeviceFromDXGIDevice
-Creates an instance of IDirect3DDevice from an IDXGIDevice.
+IDXGIDevice から IDirect3DDevice のインスタンスを作成する。
 %group
 Win32 d3d11
 %prm
 dxgiDevice, graphicsDevice
-dxgiDevice : [var] Type: **[IDXGIDevice](/windows/desktop/api/dxgi/nn-dxgi-idxgidevice)\*** The [IDXGIDevice](/windows/desktop/api/dxgi/nn-dxgi-idxgidevice) to create the Direct3DDevice from.
-graphicsDevice : [var] Type: **[IInspectable](/windows/desktop/api/inspectable/nn-inspectable-iinspectable)\*\*** A Direct3DDevice instance that wraps the DXGIDevice.
+dxgiDevice : [var] 型: **[IDXGIDevice](/windows/desktop/api/dxgi/nn-dxgi-idxgidevice)\*** Direct3DDevice を作成する元となる [IDXGIDevice](/windows/desktop/api/dxgi/nn-dxgi-idxgidevice)。
+graphicsDevice : [var] 型: **[IInspectable](/windows/desktop/api/inspectable/nn-inspectable-iinspectable)\*\*** DXGIDevice をラップする Direct3DDevice インスタンス。
 %inst
-Creates an instance of IDirect3DDevice from an IDXGIDevice.
+IDXGIDevice から IDirect3DDevice のインスタンスを作成する。
 
 [戻り値]
-Type:
-[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes) If
-the function succeeds, it returns **S_OK**. Otherwise, it returns an
+型: [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+関数が成功すると **S_OK** を返す。失敗時は
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-[error code](/windows/desktop/com/com-error-codes-10).
+[エラーコード](/windows/desktop/com/com-error-codes-10) を返す。
 
 [備考]
-While we recommend
-[C++/WinRT](/windows/uwp/cpp-and-winrt-apis/index), if you're using
-C++/CX then you should call
+[C++/WinRT](/windows/uwp/cpp-and-winrt-apis/index) の使用を推奨するが、C++/CX
+を使っている場合は **CreateDirect3D11DeviceFromDXGIDevice** ではなく
 [CreateDirect3DDevice](/windows/desktop/api/d3d11/nf-d3d11-d3d11createdevice)
-instead of **CreateDirect3D11DeviceFromDXGIDevice**. If you're using
-WRL then **CreateDirect3D11DeviceFromDXGIDevice** can be used as
-shown in this code example.
-This doc was truncated.
+を呼び出すべきである。WRL を使っている場合は、このコード例のように
+**CreateDirect3D11DeviceFromDXGIDevice** を利用できる。
+このドキュメントは省略されている。
 
 
 %index
 CreateDirect3D11SurfaceFromDXGISurface
-Creates an instance of IDirect3DSurface from an IDXGISurface.
+IDXGISurface から IDirect3DSurface のインスタンスを作成する。
 %group
 Win32 d3d11
 %prm
 dgxiSurface, graphicsSurface
 dgxiSurface : [var] 
-graphicsSurface : [var] Type: **[IInspectable](/windows/desktop/api/inspectable/nn-inspectable-iinspectable)\*\*** An [IDirect3DSurface](/uwp/api/windows.graphics.directx.direct3d11.idirect3dsurface) instance that wraps the [IDXGISurface](/windows/desktop/api/dxgi/nn-dxgi-idxgisurface).
+graphicsSurface : [var] 型: **[IInspectable](/windows/desktop/api/inspectable/nn-inspectable-iinspectable)\*\*** [IDXGISurface](/windows/desktop/api/dxgi/nn-dxgi-idxgisurface) をラップする [IDirect3DSurface](/uwp/api/windows.graphics.directx.direct3d11.idirect3dsurface) インスタンス。
 %inst
-Creates an instance of IDirect3DSurface from an IDXGISurface.
+IDXGISurface から IDirect3DSurface のインスタンスを作成する。
 
 [戻り値]
-Type:
-[**HRESULT**](/windows/desktop/com/structure-of-com-error-codes) If
-the function succeeds, it returns **S_OK**. Otherwise, it returns an
+型: [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
+関数が成功すると **S_OK** を返す。失敗時は
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-[error code](/windows/desktop/com/com-error-codes-10).
+[エラーコード](/windows/desktop/com/com-error-codes-10) を返す。
 
 [備考]
-While we recommend
-[C++/WinRT](/windows/uwp/cpp-and-winrt-apis/index), if you're using
-C++/CX then you should call
+[C++/WinRT](/windows/uwp/cpp-and-winrt-apis/index) の使用を推奨するが、C++/CX
+を使っている場合は **CreateDirect3D11DeviceFromDXGIDevice** ではなく
 [CreateDirect3DSurface](./nf-windows-graphics-directx-direct3d11-interop-createdirect3dsurface.md)
-instead of **CreateDirect3D11DeviceFromDXGIDevice**. If you're using
-WRL then **CreateDirect3D11DeviceFromDXGIDevice** can be used as
-shown in this code example.
-This doc was truncated.
+を呼び出すべきである。WRL を使っている場合は、このコード例のように
+**CreateDirect3D11DeviceFromDXGIDevice** を利用できる。
+このドキュメントは省略されている。
 
 
 %index
 D3D11CreateDevice
-Creates a device that represents the display adapter. (D3D11CreateDevice)
+ディスプレイアダプタを表すデバイスを作成する。(D3D11CreateDevice)
 %group
 Win32 d3d11
 %prm
 pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, ppDevice, pFeatureLevel, ppImmediateContext
-pAdapter : [var] Type: IDXGIAdapter* A pointer to the video adapter to use when creating a device. Pass NULL to use the default adapter, which is the first adapter that is enumerated by IDXGIFactory1::EnumAdapters. Note??Do not mix the use of DXGI 1.0 (IDXGIFactory) and DXGI 1.1 (IDXGIFactory1) in an application. Use IDXGIFactory or IDXGIFactory1, but not both in an application.
-DriverType : [int] Type: D3D_DRIVER_TYPE The D3D_DRIVER_TYPE, which represents the driver type to create.
-Software : [intptr] Type: HMODULE A handle to a DLL that implements a software rasterizer. If DriverType is D3D_DRIVER_TYPE_SOFTWARE, Software must not be NULL. Get the handle by calling LoadLibrary, LoadLibraryEx , or GetModuleHandle.
-Flags : [int] Type: UINT The runtime layers to enable (see D3D11_CREATE_DEVICE_FLAG); values can be bitwise OR'd together.
-pFeatureLevels : [var] Type: const D3D_FEATURE_LEVEL* A pointer to an array of D3D_FEATURE_LEVELs, which determine the order of feature levels to attempt to create. If pFeatureLevels is set to NULL, this function uses the following array of feature levels:
-FeatureLevels : [int] Type: UINT The number of elements in pFeatureLevels.
-SDKVersion : [int] Type: UINT The SDK version; use D3D11_SDK_VERSION.
-ppDevice : [var] Type: ID3D11Device** Returns the address of a pointer to an ID3D11Device object that represents the device created. If this parameter is NULL, no ID3D11Device will be returned.
-pFeatureLevel : [var] Type: D3D_FEATURE_LEVEL* If successful, returns the first D3D_FEATURE_LEVEL from the pFeatureLevels array which succeeded. Supply NULL as an input if you don't need to determine which feature level is supported.
-ppImmediateContext : [var] Type: ID3D11DeviceContext** Returns the address of a pointer to an ID3D11DeviceContext object that represents the device context. If this parameter is NULL, no ID3D11DeviceContext will be returned.
+pAdapter : [var] 型: IDXGIAdapter* デバイス作成時に使用するビデオアダプタへのポインタ。既定のアダプタを使う場合は NULL を渡す。既定のアダプタは IDXGIFactory1::EnumAdapters が最初に列挙するアダプタである。注意 DXGI 1.0 (IDXGIFactory) と DXGI 1.1 (IDXGIFactory1) を 1 つのアプリケーションで混在させてはならない。IDXGIFactory または IDXGIFactory1 のどちらか一方だけを使う。
+DriverType : [int] 型: D3D_DRIVER_TYPE 作成するドライバ種別を表す D3D_DRIVER_TYPE。
+Software : [intptr] 型: HMODULE ソフトウェアラスタライザを実装する DLL へのハンドル。DriverType が D3D_DRIVER_TYPE_SOFTWARE の場合、Software は NULL であってはならない。ハンドルは LoadLibrary、LoadLibraryEx、GetModuleHandle のいずれかで取得する。
+Flags : [int] 型: UINT 有効にするランタイムレイヤー (D3D11_CREATE_DEVICE_FLAG を参照)。複数の値をビット単位 OR で組み合わせ可能。
+pFeatureLevels : [var] 型: const D3D_FEATURE_LEVEL* 試行する機能レベルの順序を決める D3D_FEATURE_LEVEL 配列へのポインタ。pFeatureLevels に NULL を設定した場合、この関数は以下の既定の機能レベル配列を使用する。
+FeatureLevels : [int] 型: UINT pFeatureLevels の要素数。
+SDKVersion : [int] 型: UINT SDK バージョン。D3D11_SDK_VERSION を指定する。
+ppDevice : [var] 型: ID3D11Device** 作成されたデバイスを表す ID3D11Device オブジェクトへのポインタのアドレスを返す。このパラメータが NULL の場合、ID3D11Device は返されない。
+pFeatureLevel : [var] 型: D3D_FEATURE_LEVEL* 成功時、pFeatureLevels 配列のうち最初に成功した D3D_FEATURE_LEVEL を返す。どの機能レベルがサポートされているか判定する必要がない場合は NULL を指定する。
+ppImmediateContext : [var] 型: ID3D11DeviceContext** デバイスコンテキストを表す ID3D11DeviceContext オブジェクトへのポインタのアドレスを返す。このパラメータが NULL の場合、ID3D11DeviceContext は返されない。
 %inst
-Creates a device that represents the display adapter.
-(D3D11CreateDevice)
+ディスプレイアダプタを表すデバイスを作成する。(D3D11CreateDevice)
 
 [戻り値]
-Type: HRESULT This method can return one of the Direct3D 11 Return
-Codes.
-This method returns E_INVALIDARG if you set the pAdapter parameter to
-a non-NULL value and the DriverType parameter to the
-D3D_DRIVER_TYPE_HARDWARE value.
-This method returns DXGI_ERROR_SDK_COMPONENT_MISSING if you specify
-D3D11_CREATE_DEVICE_DEBUG in Flags and the incorrect version of the
-debug layer is installed on your computer. Install the latest Windows
-SDK to get the correct version.
+型: HRESULT このメソッドは Direct3D 11 の戻りコードのいずれかを返すことがある。
+pAdapter に NULL 以外を設定しつつ DriverType を D3D_DRIVER_TYPE_HARDWARE
+にすると、このメソッドは E_INVALIDARG を返す。
+Flags に D3D11_CREATE_DEVICE_DEBUG
+を指定したがコンピュータ上に不適切なバージョンのデバッグレイヤーしかインストールされていない場合、このメソッドは
+DXGI_ERROR_SDK_COMPONENT_MISSING を返す。正しいバージョンを入手するには最新の Windows SDK
+をインストールすること。
 
 [備考]
-This entry-point is supported by the Direct3D 11 runtime, which is
-available on Windows 7, Windows Server 2008 R2, and as an update to
-Windows Vista (KB971644).
-To create a Direct3D 11.1 device (ID3D11Device1), which is available
-on Windows 8, Windows Server 2012, and Windows 7 and Windows Server
-2008 R2 with the Platform Update for Windows 7 installed, you first
-create a ID3D11Device with this function, and then call the
-QueryInterface method on the ID3D11Device object to obtain the
-ID3D11Device1 interface.
-To create a Direct3D 11.2 device (ID3D11Device2), which is available
-on Windows 8.1 and Windows Server 2012 R2, you first create a
-ID3D11Device with this function, and then call the QueryInterface
-method on the ID3D11Device object to obtain the ID3D11Device2
-interface.
-Set ppDevice and ppImmediateContext to NULL to determine which
-feature level is supported by looking at pFeatureLevel without
-creating a device.
-For an example, see How To: Create a Device and Immediate Context; to
-create a device and a swap chain at the same time, use
-D3D11CreateDeviceAndSwapChain.
-If you set the pAdapter parameter to a non-NULL value, you must also
-set the DriverType parameter to the D3D_DRIVER_TYPE_UNKNOWN value. If
-you set the pAdapter parameter to a non-NULL value and the DriverType
-parameter to the D3D_DRIVER_TYPE_HARDWARE value, D3D11CreateDevice
-returns an HRESULT of E_INVALIDARG.
-This doc was truncated.
+このエントリポイントは Direct3D 11 ランタイムによりサポートされる。Direct3D 11 ランタイムは Windows
+7、Windows Server 2008 R2、および Windows Vista の更新プログラム (KB971644)
+として提供されている。
+Windows 8、Windows Server 2012、および Platform Update for Windows 7
+がインストールされた Windows 7 / Windows Server 2008 R2 で利用可能な Direct3D 11.1
+デバイス (ID3D11Device1) を作成するには、まずこの関数で ID3D11Device を作成し、その後
+ID3D11Device オブジェクトの QueryInterface メソッドを呼び出して ID3D11Device1
+インターフェースを取得する。
+Windows 8.1 および Windows Server 2012 R2 で利用可能な Direct3D 11.2 デバイス
+(ID3D11Device2) を作成するには、まずこの関数で ID3D11Device を作成し、その後 ID3D11Device
+オブジェクトの QueryInterface メソッドを呼び出して ID3D11Device2 インターフェースを取得する。
+デバイスを作成せずに pFeatureLevel だけでサポートされる機能レベルを判定するには、ppDevice と
+ppImmediateContext の両方を NULL に設定する。
+例については How To: Create a Device and Immediate Context
+を参照。デバイスとスワップチェーンを同時に作成するには D3D11CreateDeviceAndSwapChain を使用する。
+pAdapter パラメータに NULL 以外の値を指定する場合、DriverType パラメータには
+D3D_DRIVER_TYPE_UNKNOWN 値を指定しなければならない。pAdapter に NULL 以外を設定しつつ
+DriverType を D3D_DRIVER_TYPE_HARDWARE にすると、D3D11CreateDevice は
+E_INVALIDARG の HRESULT を返す。
+このドキュメントは省略されている。
 
 
 %index
 D3D11CreateDeviceAndSwapChain
-Creates a device that represents the display adapter and a swap chain used for rendering.
+ディスプレイアダプタを表すデバイスと、描画に使用するスワップチェーンを作成する。
 %group
 Win32 d3d11
 %prm
 pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, pSwapChainDesc, ppSwapChain, ppDevice, pFeatureLevel, ppImmediateContext
-pAdapter : [var] Type: IDXGIAdapter* A pointer to the video adapter to use when creating a device. Pass NULL to use the default adapter, which is the first adapter enumerated by IDXGIFactory1::EnumAdapters. Note??Do not mix the use of DXGI 1.0 (IDXGIFactory) and DXGI 1.1 (IDXGIFactory1) in an application. Use IDXGIFactory or IDXGIFactory1, but not both in an application.
-DriverType : [int] Type: D3D_DRIVER_TYPE The D3D_DRIVER_TYPE, which represents the driver type to create.
-Software : [intptr] Type: HMODULE A handle to a DLL that implements a software rasterizer. If DriverType is D3D_DRIVER_TYPE_SOFTWARE, Software must not be NULL. Get the handle by calling LoadLibrary, LoadLibraryEx , or GetModuleHandle. The value should be non-NULL when D3D_DRIVER_TYPE is D3D_DRIVER_TYPE_SOFTWARE and NULL otherwise.
-Flags : [int] Type: UINT The runtime layers to enable (see D3D11_CREATE_DEVICE_FLAG); values can be bitwise OR'd together.
-pFeatureLevels : [var] Type: const D3D_FEATURE_LEVEL* A pointer to an array of D3D_FEATURE_LEVELs, which determine the order of feature levels to attempt to create. If pFeatureLevels is set to NULL, this function uses the following array of feature levels:
-FeatureLevels : [int] Type: UINT The number of elements in pFeatureLevels.
-SDKVersion : [int] Type: UINT The SDK version; use D3D11_SDK_VERSION.
-pSwapChainDesc : [var] Type: const DXGI_SWAP_CHAIN_DESC* A pointer to a swap chain description (see DXGI_SWAP_CHAIN_DESC) that contains initialization parameters for the swap chain.
-ppSwapChain : [var] Type: IDXGISwapChain** Returns the address of a pointer to the IDXGISwapChain object that represents the swap chain used for rendering.
-ppDevice : [var] Type: ID3D11Device** Returns the address of a pointer to an ID3D11Device object that represents the device created. If this parameter is  NULL, no ID3D11Device will be returned'.
-pFeatureLevel : [var] Type: D3D_FEATURE_LEVEL* Returns a pointer to a D3D_FEATURE_LEVEL, which represents the first element in an array of feature levels supported by the device. Supply NULL as an input if you don't need to determine which feature level is supported.
-ppImmediateContext : [var] Type: ID3D11DeviceContext** Returns the address of a pointer to an ID3D11DeviceContext object that represents the device context. If this parameter is NULL, no ID3D11DeviceContext will be returned.
+pAdapter : [var] 型: IDXGIAdapter* デバイス作成時に使用するビデオアダプタへのポインタ。既定のアダプタを使う場合は NULL を渡す。既定のアダプタは IDXGIFactory1::EnumAdapters が最初に列挙するアダプタである。注意 DXGI 1.0 (IDXGIFactory) と DXGI 1.1 (IDXGIFactory1) を 1 つのアプリケーションで混在させてはならない。IDXGIFactory または IDXGIFactory1 のどちらか一方だけを使う。
+DriverType : [int] 型: D3D_DRIVER_TYPE 作成するドライバ種別を表す D3D_DRIVER_TYPE。
+Software : [intptr] 型: HMODULE ソフトウェアラスタライザを実装する DLL へのハンドル。DriverType が D3D_DRIVER_TYPE_SOFTWARE の場合、Software は NULL であってはならない。ハンドルは LoadLibrary、LoadLibraryEx、GetModuleHandle のいずれかで取得する。D3D_DRIVER_TYPE が D3D_DRIVER_TYPE_SOFTWARE の場合は非 NULL、それ以外は NULL とする。
+Flags : [int] 型: UINT 有効にするランタイムレイヤー (D3D11_CREATE_DEVICE_FLAG を参照)。複数の値をビット単位 OR で組み合わせ可能。
+pFeatureLevels : [var] 型: const D3D_FEATURE_LEVEL* 試行する機能レベルの順序を決める D3D_FEATURE_LEVEL 配列へのポインタ。pFeatureLevels に NULL を設定した場合、この関数は以下の既定の機能レベル配列を使用する。
+FeatureLevels : [int] 型: UINT pFeatureLevels の要素数。
+SDKVersion : [int] 型: UINT SDK バージョン。D3D11_SDK_VERSION を指定する。
+pSwapChainDesc : [var] 型: const DXGI_SWAP_CHAIN_DESC* スワップチェーンの初期化パラメータを保持するスワップチェーン記述 (DXGI_SWAP_CHAIN_DESC を参照) へのポインタ。
+ppSwapChain : [var] 型: IDXGISwapChain** 描画に使用されるスワップチェーンを表す IDXGISwapChain オブジェクトへのポインタのアドレスを返す。
+ppDevice : [var] 型: ID3D11Device** 作成されたデバイスを表す ID3D11Device オブジェクトへのポインタのアドレスを返す。このパラメータが NULL の場合、ID3D11Device は返されない。
+pFeatureLevel : [var] 型: D3D_FEATURE_LEVEL* デバイスがサポートする機能レベル配列の先頭要素を表す D3D_FEATURE_LEVEL へのポインタを返す。どの機能レベルがサポートされているか判定する必要がない場合は NULL を指定する。
+ppImmediateContext : [var] 型: ID3D11DeviceContext** デバイスコンテキストを表す ID3D11DeviceContext オブジェクトへのポインタのアドレスを返す。このパラメータが NULL の場合、ID3D11DeviceContext は返されない。
 %inst
-Creates a device that represents the display adapter and a swap chain
-used for rendering.
+ディスプレイアダプタを表すデバイスと、描画に使用するスワップチェーンを作成する。
 
 [戻り値]
-Type: HRESULT This method can return one of the Direct3D 11 Return
-Codes.
-This method returns DXGI_ERROR_NOT_CURRENTLY_AVAILABLE if you call it
-in a Session 0 process.
-This method returns E_INVALIDARG if you set the pAdapter parameter to
-a non-NULL value and the DriverType parameter to the
-D3D_DRIVER_TYPE_HARDWARE value.
-This method returns DXGI_ERROR_SDK_COMPONENT_MISSING if you specify
-D3D11_CREATE_DEVICE_DEBUG in Flags and the incorrect version of the
-debug layer is installed on your computer. Install the latest Windows
-SDK to get the correct version.
+型: HRESULT このメソッドは Direct3D 11 の戻りコードのいずれかを返すことがある。
+Session 0 プロセス内で呼び出した場合は DXGI_ERROR_NOT_CURRENTLY_AVAILABLE を返す。
+pAdapter に NULL 以外を設定しつつ DriverType を D3D_DRIVER_TYPE_HARDWARE
+にすると、E_INVALIDARG を返す。
+Flags に D3D11_CREATE_DEVICE_DEBUG
+を指定したがコンピュータ上に不適切なバージョンのデバッグレイヤーしかインストールされていない場合、DXGI_ERROR_SDK_COMPONENT_MISSING
+を返す。正しいバージョンを入手するには最新の Windows SDK をインストールすること。
 
 [備考]
-Note If you call this method in a Session 0 process, it returns
-DXGI_ERROR_NOT_CURRENTLY_AVAILABLE. This entry-point is supported by
-the Direct3D 11 runtime, which is available on Windows 7, Windows
-Server 2008 R2, and as an update to Windows Vista (KB971644).
-To create a Direct3D 11.1 device (ID3D11Device1), which is available
-on Windows 8, Windows Server 2012, and Windows 7 and Windows Server
-2008 R2 with the Platform Update for Windows 7 installed, you first
-create a ID3D11Device with this function, and then call the
-QueryInterface method on the ID3D11Device object to obtain the
-ID3D11Device1 interface.
-To create a Direct3D 11.2 device (ID3D11Device2), which is available
-on Windows 8.1 and Windows Server 2012 R2, you first create a
-ID3D11Device with this function, and then call the QueryInterface
-method on the ID3D11Device object to obtain the ID3D11Device2
-interface.
-Also, see the remarks section in D3D11CreateDevice for details about
-input parameter dependencies. To create a device without creating a
-swap chain, use the D3D11CreateDevice function.
-If you set the pAdapter parameter to a non-NULL value, you must also
-set the DriverType parameter to the D3D_DRIVER_TYPE_UNKNOWN value. If
-you set the pAdapter parameter to a non-NULL value and the DriverType
-parameter to the D3D_DRIVER_TYPE_HARDWARE value,
-D3D11CreateDeviceAndSwapChain returns an HRESULT of E_INVALIDARG.
-The function signature PFN_D3D11_CREATE_DEVICE_AND_SWAP_CHAIN is
-provided as a typedef, so that you can use dynamic linking techniques
-(GetProcAddress) instead of statically linking.
-Usage notes Note The D3D11CreateDeviceAndSwapChain function does not
-exist for Windows Store apps. Instead, Windows Store apps use the
-D3D11CreateDevice function and then use the
-IDXGIFactory2::CreateSwapChainForCoreWindow method. Note This
-function has not been updated to support recent additional features
-of swap chain creation. For the most up-to-date swap chain creation
-methods, refer to the methods of IDXGIFactory2 (including
-CreateSwapChainForHwnd, CreateSwapChainForCoreWindow and
-CreateSwapChainForComposition). Windows Phone 8: This API is
-supported.
+注意 このメソッドを Session 0 プロセス内で呼び出すと DXGI_ERROR_NOT_CURRENTLY_AVAILABLE
+を返す。 このエントリポイントは Direct3D 11 ランタイムによりサポートされ、Windows 7、Windows Server
+2008 R2、および Windows Vista の更新プログラム (KB971644) として提供されている。
+Windows 8、Windows Server 2012、および Platform Update for Windows 7
+がインストールされた Windows 7 / Windows Server 2008 R2 で利用可能な Direct3D 11.1
+デバイス (ID3D11Device1) を作成するには、まずこの関数で ID3D11Device を作成し、その後
+ID3D11Device オブジェクトの QueryInterface メソッドを呼び出して ID3D11Device1
+インターフェースを取得する。
+Windows 8.1 および Windows Server 2012 R2 で利用可能な Direct3D 11.2 デバイス
+(ID3D11Device2) を作成するには、まずこの関数で ID3D11Device を作成し、その後 ID3D11Device
+オブジェクトの QueryInterface メソッドを呼び出して ID3D11Device2 インターフェースを取得する。
+入力パラメータの依存関係の詳細については D3D11CreateDevice
+の備考も参照すること。スワップチェーンを作成せずにデバイスだけを作成するには D3D11CreateDevice 関数を使用する。
+pAdapter パラメータに NULL 以外の値を指定する場合、DriverType パラメータには
+D3D_DRIVER_TYPE_UNKNOWN 値を指定しなければならない。pAdapter に NULL 以外を設定しつつ
+DriverType を D3D_DRIVER_TYPE_HARDWARE
+にすると、D3D11CreateDeviceAndSwapChain は E_INVALIDARG の HRESULT を返す。
+関数シグネチャ PFN_D3D11_CREATE_DEVICE_AND_SWAP_CHAIN は typedef
+として提供されているので、静的リンクせずに動的リンク技法 (GetProcAddress) を使うこともできる。
+使用上の注意 注意 D3D11CreateDeviceAndSwapChain 関数は Windows
+ストアアプリでは利用できない。代わりに Windows ストアアプリでは D3D11CreateDevice 関数と
+IDXGIFactory2::CreateSwapChainForCoreWindow メソッドを用いる。 注意
+この関数はスワップチェーン作成の最近の追加機能をサポートするように更新されていない。最新のスワップチェーン作成手段については
+IDXGIFactory2 のメソッド
+(CreateSwapChainForHwnd、CreateSwapChainForCoreWindow、CreateSwapChainForComposition
+を含む) を参照。 Windows Phone 8: この API はサポートされる。
 
 
 %index
 D3D11On12CreateDevice
-Creates a device that uses Direct3D 11 functionality in Direct3D 12, specifying a pre-existing Direct3D 12 device to use for Direct3D 11 interop.
+Direct3D 12 の機能を用いて Direct3D 11 機能を提供するデバイスを作成する。Direct3D 11 との相互運用に使う既存の Direct3D 12 デバイスを指定する。
 %group
 Win32 d3d11
 %prm
 pDevice, Flags, pFeatureLevels, FeatureLevels, ppCommandQueues, NumQueues, NodeMask, ppDevice, ppImmediateContext, pChosenFeatureLevel
-pDevice : [var] Type: IUnknown* Specifies a pre-existing Direct3D 12 device to use for Direct3D 11 interop. May not be NULL.
-Flags : [int] Type: UINT One or more bitwise OR'd flags from D3D11_CREATE_DEVICE_FLAG. These are the same flags as those used by D3D11CreateDeviceAndSwapChain. Specifies which runtime layers to enable. Flags must be compatible with device flags, and its NodeMask must be a subset of the NodeMask provided to the present API.
-pFeatureLevels : [var] Type: const D3D_FEATURE_LEVEL* An array of any of the following:
-FeatureLevels : [int] Type: UINT The size of (that is, the number of elements in) the *pFeatureLevels* array.
-ppCommandQueues : [var] Type: IUnknown* const * An array of unique queues for D3D11On12 to use. The queues must be of the 3D command queue type.
-NumQueues : [int] Type: UINT The size of (that is, the number of elements in) the *ppCommandQueues* array.
-NodeMask : [int] Type: UINT Which node of the Direct3D 12 device to use. Only 1 bit may be set.
-ppDevice : [var] Type: ID3D11Device** Pointer to the returned ID3D11Device. May be NULL.
-ppImmediateContext : [var] Type: ID3D11DeviceContext** A pointer to the returned ID3D11DeviceContext. May be NULL.
-pChosenFeatureLevel : [var] Type: D3D_FEATURE_LEVEL* A pointer to the returned feature level. May be NULL.
+pDevice : [var] 型: IUnknown* Direct3D 11 との相互運用に使用する既存の Direct3D 12 デバイスを指定する。NULL にできない。
+Flags : [int] 型: UINT D3D11_CREATE_DEVICE_FLAG のフラグを 1 つ以上ビット単位 OR で組み合わせた値。D3D11CreateDeviceAndSwapChain が使うのと同じフラグで、有効にするランタイムレイヤーを指定する。フラグはデバイスフラグと互換性がなければならず、NodeMask は present API に渡した NodeMask のサブセットでなければならない。
+pFeatureLevels : [var] 型: const D3D_FEATURE_LEVEL* 以下のいずれかを含む配列。
+FeatureLevels : [int] 型: UINT *pFeatureLevels* 配列のサイズ (要素数)。
+ppCommandQueues : [var] 型: IUnknown* const * D3D11On12 が使用する一意なキューの配列。これらのキューは 3D コマンドキュー種別でなければならない。
+NumQueues : [int] 型: UINT *ppCommandQueues* 配列のサイズ (要素数)。
+NodeMask : [int] 型: UINT 使用する Direct3D 12 デバイスのノード。1 ビットだけを設定できる。
+ppDevice : [var] 型: ID3D11Device** 返される ID3D11Device へのポインタ。NULL を指定してもよい。
+ppImmediateContext : [var] 型: ID3D11DeviceContext** 返される ID3D11DeviceContext へのポインタ。NULL を指定してもよい。
+pChosenFeatureLevel : [var] 型: D3D_FEATURE_LEVEL* 返される機能レベルへのポインタ。NULL を指定してもよい。
 %inst
-Creates a device that uses Direct3D 11 functionality in Direct3D 12,
-specifying a pre-existing Direct3D 12 device to use for Direct3D 11
-interop.
+Direct3D 12 の機能を用いて Direct3D 11 機能を提供するデバイスを作成する。Direct3D 11
+との相互運用に使う既存の Direct3D 12 デバイスを指定する。
 
 [戻り値]
-Type: HRESULT This method returns one of the Direct3D 12 Return Codes
-that are documented for D3D11CreateDevice. This method returns
-DXGI_ERROR_SDK_COMPONENT_MISSING if you specify
-D3D11_CREATE_DEVICE_DEBUG in Flags and the incorrect version of the
-debug layer is installed on your computer. Install the latest Windows
-SDK to get the correct version.
+型: HRESULT このメソッドは D3D11CreateDevice に記載されている Direct3D 12
+の戻りコードのいずれかを返す。Flags に D3D11_CREATE_DEVICE_DEBUG
+を指定したがコンピュータ上に不適切なバージョンのデバッグレイヤーしかインストールされていない場合、DXGI_ERROR_SDK_COMPONENT_MISSING
+を返す。正しいバージョンを入手するには最新の Windows SDK をインストールすること。
 
 [備考]
-The function signature PFN_D3D11ON12_CREATE_DEVICE is provided as a
-typedef, so that you can use dynamic linking techniques
-(GetProcAddress) instead of statically linking.
+関数シグネチャ PFN_D3D11ON12_CREATE_DEVICE は typedef
+として提供されているので、静的リンクせずに動的リンク技法 (GetProcAddress) を使うこともできる。
 

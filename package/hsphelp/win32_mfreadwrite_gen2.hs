@@ -6,136 +6,123 @@
 
 %index
 MFCreateSinkWriterFromMediaSink
-Creates the sink writer from a media sink.
+メディアシンクからシンクライターを作成する。
 %group
 Win32 mfreadwrite
 %prm
 pMediaSink, pAttributes, ppSinkWriter
-pMediaSink : [var] Pointer to the IMFMediaSink interface of a media sink.
-pAttributes : [var] Pointer to the IMFAttributes interface. You can use this parameter to configure the sink writer. For more information, see Sink Writer Attributes. This parameter can be NULL.
-ppSinkWriter : [var] Receives a pointer to the IMFSinkWriter interface. The caller must release the interface.
+pMediaSink : [var] メディアシンクの IMFMediaSink インターフェースへのポインタ。
+pAttributes : [var] IMFAttributes インターフェースへのポインタ。このパラメータを使用してシンクライターを構成できる。詳細は Sink Writer Attributes を参照のこと。このパラメータは NULL でも構わない。
+ppSinkWriter : [var] IMFSinkWriter インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the sink writer from a media sink.
+メディアシンクからシンクライターを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-Call CoInitialize(Ex) and MFStartup before calling this function.
-When you are done using the media sink, call the media sink's
-IMFMediaSink::Shutdown method. (The sink writer does not shut down
-the media sink.) Release the sink writer before calling Shutdown on
-the media sink. This function is available on Windows Vista if
-Platform Update Supplement for Windows Vista is installed.
+この関数を呼び出す前に CoInitialize(Ex) と MFStartup
+を呼び出すこと。メディアシンクの使用が終わったら、メディアシンクの IMFMediaSink::Shutdown メソッドを呼び出す
+(シンクライターはメディアシンクをシャットダウンしない)。メディアシンクで Shutdown
+を呼び出す前にシンクライターを解放する。この関数は Platform Update Supplement for Windows
+Vista がインストールされていれば Windows Vista でも利用可能である。
 
 
 %index
 MFCreateSinkWriterFromURL
-Creates the sink writer from a URL or byte stream.
+URL またはバイトストリームからシンクライターを作成する。
 %group
 Win32 mfreadwrite
 %prm
 pwszOutputURL, pByteStream, pAttributes, ppSinkWriter
-pwszOutputURL : [wstr] A null-terminated string that contains the URL of the output file. This parameter can be NULL.
-pByteStream : [var] Pointer to the IMFByteStream interface of a byte stream. This parameter can be NULL. If this parameter is a valid pointer, the sink writer writes to the provided byte stream. (The byte stream must be writable.) Otherwise, if pByteStream is NULL, the sink writer creates a new file named pwszOutputURL.
-pAttributes : [var] Pointer to the IMFAttributes interface. You can use this parameter to configure the sink writer. For more information, see Sink Writer Attributes. This parameter can be NULL.
-ppSinkWriter : [var] Receives a pointer to the IMFSinkWriter interface. The caller must release the interface.
+pwszOutputURL : [wstr] 出力ファイルの URL を含む NULL 終端文字列。このパラメータは NULL でも構わない。
+pByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。このパラメータは NULL でも構わない。有効なポインタであればシンクライターは指定のバイトストリームに書き込む (そのバイトストリームは書き込み可能でなければならない)。一方 pByteStream が NULL の場合、シンクライターは pwszOutputURL という新しいファイルを作成する。
+pAttributes : [var] IMFAttributes インターフェースへのポインタ。このパラメータを使用してシンクライターを構成できる。詳細は Sink Writer Attributes を参照のこと。このパラメータは NULL でも構わない。
+ppSinkWriter : [var] IMFSinkWriter インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the sink writer from a URL or byte stream.
+URL またはバイトストリームからシンクライターを作成する。
 
 [戻り値]
-This function can return one of these values.
-This doc was truncated.
+この関数は次のいずれかの値を返しうる。
+このドキュメントは省略されている。
 
 [備考]
-Call CoInitialize(Ex) and MFStartup before calling this function. The
-first three parameters to this function can be NULL; however, only
-certain combinations are valid:
-This doc was truncated.
+この関数を呼び出す前に CoInitialize(Ex) と MFStartup を呼び出すこと。この関数の最初の 3 つのパラメータは
+NULL でもよいが、有効な組み合わせは限られる。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateSourceReaderFromByteStream
-Creates the source reader from a byte stream.
+バイトストリームからソースリーダーを作成する。
 %group
 Win32 mfreadwrite
 %prm
 pByteStream, pAttributes, ppSourceReader
-pByteStream : [var] A pointer to the IMFByteStream interface of a byte stream. This byte stream will provide the source data for the source reader.
-pAttributes : [var] Pointer to the IMFAttributes interface. You can use this parameter to configure the source reader. For more information, see Source Reader Attributes. This parameter can be NULL.
-ppSourceReader : [var] Receives a pointer to the IMFSourceReader interface. The caller must release the interface.
+pByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。このバイトストリームがソースリーダーへのソースデータを提供する。
+pAttributes : [var] IMFAttributes インターフェースへのポインタ。このパラメータを使用してソースリーダーを構成できる。詳細は Source Reader Attributes を参照のこと。このパラメータは NULL でも構わない。
+ppSourceReader : [var] IMFSourceReader インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the source reader from a byte stream.
+バイトストリームからソースリーダーを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-Call CoInitialize(Ex) and MFStartup before calling this function.
-Internally, the source reader calls the
-IMFSourceResolver::CreateObjectFromByteStream method to create a
-media source from the byte stream. Therefore, a byte-stream handler
-must be registered for the byte stream. For more information about
-byte-stream handlers, see Scheme Handlers and Byte-Stream Handlers.
-This function is available on Windows Vista if Platform Update
-Supplement for Windows Vista is installed.
+この関数を呼び出す前に CoInitialize(Ex) と MFStartup を呼び出すこと。内部でソースリーダーは
+IMFSourceResolver::CreateObjectFromByteStream
+メソッドを呼び出してバイトストリームからメディアソースを作成する。従って、対応するバイトストリームハンドラが登録されている必要がある。バイトストリームハンドラの詳細は
+Scheme Handlers and Byte-Stream Handlers を参照のこと。
+この関数は Platform Update Supplement for Windows Vista がインストールされていれば
+Windows Vista でも利用可能である。
 
 
 %index
 MFCreateSourceReaderFromMediaSource
-Creates the source reader from a media source.
+メディアソースからソースリーダーを作成する。
 %group
 Win32 mfreadwrite
 %prm
 pMediaSource, pAttributes, ppSourceReader
-pMediaSource : [var] A pointer to the IMFMediaSource interface of a media source.
-pAttributes : [var] Pointer to the IMFAttributes interface. You can use this parameter to configure the source reader. For more information, see Source Reader Attributes. This parameter can be NULL.
-ppSourceReader : [var] Receives a pointer to the IMFSourceReader interface. The caller must release the interface.
+pMediaSource : [var] メディアソースの IMFMediaSource インターフェースへのポインタ。
+pAttributes : [var] IMFAttributes インターフェースへのポインタ。このパラメータを使用してソースリーダーを構成できる。詳細は Source Reader Attributes を参照のこと。このパラメータは NULL でも構わない。
+ppSourceReader : [var] IMFSourceReader インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the source reader from a media source.
+メディアソースからソースリーダーを作成する。
 
 [戻り値]
-The method returns an HRESULT. Possible values include, but are not
-limited to, those in the following table.
-This doc was truncated.
+メソッドは HRESULT を返す。発生しうる値は次の表に示すものに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-Call CoInitialize(Ex) and MFStartup before calling this function. By
-default, when the application releases the source reader, the source
-reader shuts down the media source by calling
-IMFMediaSource::Shutdown on the media source. At that point, the
-application can no longer use the media source. To change this
-default behavior, set the
-MF_SOURCE_READER_DISCONNECT_MEDIASOURCE_ON_SHUTDOWN attribute in the
-pAttributes parameter. If this attribute is TRUE, the application is
-responsible for shutting down the media source.
-This doc was truncated.
+この関数を呼び出す前に CoInitialize(Ex) と MFStartup
+を呼び出すこと。既定では、アプリケーションがソースリーダーを解放すると、ソースリーダーはメディアソースに対し
+IMFMediaSource::Shutdown
+を呼び出してシャットダウンする。その時点で、アプリケーションはそのメディアソースを使用できなくなる。この既定動作を変更するには、pAttributes
+パラメータで MF_SOURCE_READER_DISCONNECT_MEDIASOURCE_ON_SHUTDOWN
+属性を設定する。この属性が TRUE の場合、メディアソースのシャットダウンはアプリケーションの責任となる。
+このドキュメントは省略されている。
 
 
 %index
 MFCreateSourceReaderFromURL
-Creates the source reader from a URL.
+URL からソースリーダーを作成する。
 %group
 Win32 mfreadwrite
 %prm
 pwszURL, pAttributes, ppSourceReader
-pwszURL : [wstr] The URL  of a media file to open.
-pAttributes : [var] Pointer to the IMFAttributes interface. You can use this parameter to configure the source reader. For more information, see Source Reader Attributes. This parameter can be NULL.
-ppSourceReader : [var] Receives a pointer to the IMFSourceReader interface. The caller must release the interface.
+pwszURL : [wstr] 開くメディアファイルの URL。
+pAttributes : [var] IMFAttributes インターフェースへのポインタ。このパラメータを使用してソースリーダーを構成できる。詳細は Source Reader Attributes を参照のこと。このパラメータは NULL でも構わない。
+ppSourceReader : [var] IMFSourceReader インターフェースへのポインタを受け取る。呼び出し元はインターフェースを解放する必要がある。
 %inst
-Creates the source reader from a URL.
+URL からソースリーダーを作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功すると S_OK を返す。そうでない場合は HRESULT エラーコードを返す。
 
 [備考]
-Call CoInitialize(Ex) and MFStartup before calling this function.
-Internally, the source reader calls the
-IMFSourceResolver::CreateObjectFromURL method to create a media
-source from the URL.
-This function is available on Windows Vista if Platform Update
-Supplement for Windows Vista is installed.
+この関数を呼び出す前に CoInitialize(Ex) と MFStartup を呼び出すこと。内部でソースリーダーは
+IMFSourceResolver::CreateObjectFromURL メソッドを呼び出して URL からメディアソースを作成する。
+この関数は Platform Update Supplement for Windows Vista がインストールされていれば
+Windows Vista でも利用可能である。
 
