@@ -1,0 +1,99 @@
+;
+; reg_edit.hsp - レジストリ読み書き (HKCU\Software\IronHSP\Sample)
+; Win32 API gen2 サンプル (hsp3net 必須)
+;
+; 使い方:
+;   hsp3net から実行する。HKCU\Software\IronHSP\Sample キーを作成し、
+;   文字列値 "Name" と DWORD 値 "Count" を書き込み、読み戻して表示し、
+;   最後にキーを削除する。
+;
+; 動作確認:
+;   画面に
+;     RegCreateKeyExW: OK (disp=1 作成 / 2 既存)
+;     RegSetValueExW  Name = IronHSP 2026
+;     RegSetValueExW  Count = 42
+;     ---
+;     RegQueryValueExW Name  = IronHSP 2026
+;     RegQueryValueExW Count = 42
+;     RegDeleteKeyW: OK
+;   と表示される。
+;
+
+#include "win32_types_gen2.as"
+#include "advapi32_gen2.as"
+
+; --- gen2 に無い定数 ---
+#define HKEY_CURRENT_USER   0x80000001
+#define ERROR_SUCCESS       0
+
+    sub_key = "Software\\IronHSP\\Sample"
+
+    ; ---- RegCreateKeyExW ----
+    ; HKEY_CURRENT_USER の下にキーを作成する。
+    ; phkResult は HKEY* (OUT) なので varptr(hKey) を渡す。
+    hKey = 0
+    dwDisp = 0
+    sa_null = 0
+
+    rc = RegCreateKeyExW(HKEY_CURRENT_USER, sub_key, 0, "", 0, KEY_ALL_ACCESS, sa_null, varptr(hKey), dwDisp)
+    if rc ! ERROR_SUCCESS {
+        mes "RegCreateKeyExW 失敗 rc=" + rc
+        end
+    }
+    mes "RegCreateKeyExW: OK (disp=" + dwDisp + ")"
+
+    ; ---- RegSetValueExW: 文字列 ----
+    ; REG_SZ はバイト列として wstr を書き込む。cnvstow でワイド文字列バッファを作る
+    sdim wname, 256
+    cnvstow wname, "IronHSP 2026"
+    ; wstr のバイト長 = (文字数+1) * 2。lstrlenW があればベターだが、簡易計算
+    ; 先に strlen 相当を取りたいが、ここは十分に取る: cnvstow が null 終端付きで書くので
+    ; (元文字列長+1)*2 バイトを書く
+    cb = (strlen("IronHSP 2026") + 1) * 2
+    rc = RegSetValueExW(hKey, "Name", 0, REG_SZ, wname, cb)
+    if rc ! ERROR_SUCCESS : mes "RegSetValueExW Name 失敗 rc=" + rc : goto *cleanup
+    mes "RegSetValueExW  Name = IronHSP 2026"
+
+    ; ---- RegSetValueExW: DWORD ----
+    dim dwval, 1
+    dwval = 42
+    rc = RegSetValueExW(hKey, "Count", 0, REG_DWORD, dwval, 4)
+    if rc ! ERROR_SUCCESS : mes "RegSetValueExW Count 失敗 rc=" + rc : goto *cleanup
+    mes "RegSetValueExW  Count = 42"
+
+    mes "---"
+
+    ; ---- RegQueryValueExW: 文字列 ----
+    sdim rbuf, 512
+    dim rtype, 1
+    dim rsize, 1
+    dim rreserved, 1 : rreserved = 0   ; lpReserved (var, NULL)
+    rtype = 0
+    rsize = 512
+    rc = RegQueryValueExW(hKey, "Name", rreserved, rtype, rbuf, rsize)
+    if rc ! ERROR_SUCCESS : mes "RegQueryValueExW Name 失敗 rc=" + rc : goto *cleanup
+    ; rbuf はワイド文字列 (null 終端あり)。cnvwtos で cp932 に戻す
+    sname = cnvwtos(rbuf)
+    mes "RegQueryValueExW Name  = " + sname + "  (type=" + rtype + ")"
+
+    ; ---- RegQueryValueExW: DWORD ----
+    dim rdword, 1
+    rtype = 0
+    rsize = 4
+    rc = RegQueryValueExW(hKey, "Count", rreserved, rtype, rdword, rsize)
+    if rc ! ERROR_SUCCESS : mes "RegQueryValueExW Count 失敗 rc=" + rc : goto *cleanup
+    mes "RegQueryValueExW Count = " + rdword + "  (type=" + rtype + ")"
+
+*cleanup
+    ; ---- RegCloseKey ----
+    if hKey ! 0 : RegCloseKey hKey
+
+    ; ---- RegDeleteKeyW: サンプル後片付け ----
+    rc = RegDeleteKeyW(HKEY_CURRENT_USER, sub_key)
+    if rc = ERROR_SUCCESS {
+        mes "RegDeleteKeyW: OK"
+    } else {
+        mes "RegDeleteKeyW: 失敗 rc=" + rc
+    }
+
+    stop

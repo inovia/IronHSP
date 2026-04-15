@@ -1,0 +1,111 @@
+;
+; file_watch.hsp - ReadDirectoryChangesW によるディレクトリ監視
+; Win32 API gen2 サンプル (hsp3net 必須)
+;
+; 使い方:
+;   hsp3net から実行する。カレントディレクトリ (curdir) を監視し、
+;   ファイルの作成/更新/削除/リネームを検出したらログに表示する。
+;   Ctrl+C もしくはウィンドウを閉じて終了。
+;
+; 動作確認:
+;   実行後、別のエクスプローラからカレントフォルダにファイルを
+;   作ったり削除したりすると、mes で
+;     [ADDED]    hoge.txt
+;     [MODIFIED] fuga.txt
+;   のように表示される。
+;
+
+#include "win32_types_gen2.as"
+#include "kernel32_gen2.as"
+
+; --- 未定義の定数を手動で補う ---
+#define FILE_LIST_DIRECTORY         0x00000001
+#define FILE_FLAG_OVERLAPPED        0x40000000
+
+; FILE_ACTION_* (ReadDirectoryChangesW の通知種別)
+#define FILE_ACTION_ADDED            0x00000001
+#define FILE_ACTION_REMOVED          0x00000002
+#define FILE_ACTION_MODIFIED         0x00000003
+#define FILE_ACTION_RENAMED_OLD_NAME 0x00000004
+#define FILE_ACTION_RENAMED_NEW_NAME 0x00000005
+
+; --- 監視対象ディレクトリ (curdir) を開く ---
+    dir_target = dir_cur
+    mes "監視対象: " + dir_target
+
+    ; CreateFileW(dir, FILE_LIST_DIRECTORY, SHARE_READ|WRITE|DELETE,
+    ;             NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL)
+    sd_null = 0
+    share_mode = FILE_SHARE_READ | FILE_SHARE_WRITE | 0x4  ; +FILE_SHARE_DELETE
+    hDir = CreateFileW(dir_target, FILE_LIST_DIRECTORY, share_mode, sd_null, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0)
+    if hDir = -1 {
+        mes "CreateFileW 失敗 (INVALID_HANDLE_VALUE)"
+        end
+    }
+
+    ; 通知バッファ (FILE_NOTIFY_INFORMATION 列)
+    sdim buf, 4096
+    dwBytes = 0
+    dim ovl_dummy, 1 : ovl_dummy = 0   ; OVERLAPPED* = null
+
+    ; 監視フラグ
+    notify = FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE
+
+    mes "変更を待機中... (終了するにはウィンドウを閉じる)"
+    objsel 0
+
+*loop
+    ; ブロッキング呼び出し: 何か変化があるまで戻らない
+    ; ReadDirectoryChangesW の buf は intptr (ポインタ) なので varptr(buf) を渡す
+    ret = ReadDirectoryChangesW(hDir, varptr(buf), 4096, 1, notify, dwBytes, ovl_dummy, 0)
+    if ret = 0 {
+        mes "ReadDirectoryChangesW 失敗"
+        CloseHandle hDir
+        stop
+    }
+
+    ; buf を FILE_NOTIFY_INFORMATION として走査
+    ;   offset  0: NextEntryOffset (DWORD)
+    ;   offset  4: Action          (DWORD)
+    ;   offset  8: FileNameLength  (DWORD, バイト数)
+    ;   offset 12: FileName[]      (WCHAR 列, null 終端ではない)
+    off = 0
+    repeat
+        next_off = lpeek(buf, off + 0)
+        action   = lpeek(buf, off + 4)
+        name_len = lpeek(buf, off + 8)   ; バイト数
+
+        ; WCHAR → cp932 文字列: 一旦別バッファに wchar を吸い出し lstrlenW/変換
+        ; 簡易的に wpoke で null 終端を付けた wstr バッファを作って str() する
+        sdim wname, name_len + 2
+        memcpy wname, buf, name_len, 0, off + 12
+        wpoke wname, name_len, 0  ; null 終端
+
+        ; wstr → cp932 変換は hsp3net の cnvwtos() を使う (関数形式)
+        fname = cnvwtos(wname)
+
+        switch action
+        case FILE_ACTION_ADDED
+            mes "[ADDED]    " + fname
+            swbreak
+        case FILE_ACTION_REMOVED
+            mes "[REMOVED]  " + fname
+            swbreak
+        case FILE_ACTION_MODIFIED
+            mes "[MODIFIED] " + fname
+            swbreak
+        case FILE_ACTION_RENAMED_OLD_NAME
+            mes "[RENAMED<] " + fname
+            swbreak
+        case FILE_ACTION_RENAMED_NEW_NAME
+            mes "[RENAMED>] " + fname
+            swbreak
+        default
+            mes "[ACTION=" + action + "] " + fname
+        swend
+
+        if next_off = 0 : break
+        off += next_off
+    loop
+
+    goto *loop

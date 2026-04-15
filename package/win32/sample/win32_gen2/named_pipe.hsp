@@ -1,0 +1,135 @@
+;
+; named_pipe.hsp - 名前付きパイプ simple echo (サーバモード)
+; Win32 API gen2 サンプル (hsp3net 必須)
+;
+; 使い方:
+;   hsp3net から実行する。デフォルトではサーバモードで起動し、
+;   \\.\pipe\IronHSPSample という名前付きパイプを作成してクライアント
+;   接続を待機する。クライアントが書き込んだバイト列をそのまま読み出して
+;   ログに表示する (echo)。
+;
+;   クライアントモードに切り替えたい場合はスクリプト冒頭の
+;       mode = 0   ; 0 = server, 1 = client
+;   を 1 に書き換えて保存しなおして実行する。
+;
+; 動作確認 (サーバモード):
+;   起動すると
+;     [server] pipe created: \\.\pipe\IronHSPSample
+;     [server] waiting for client...
+;   と表示され、クライアント接続で次のメッセージを読む。
+;
+; 動作確認 (クライアントモード):
+;   先にサーバモードで別プロセスを起動しておき、このスクリプトを
+;   mode=1 で実行すると "Hello from IronHSP" を書き込んで終了する。
+;
+
+#include "win32_types_gen2.as"
+#include "kernel32_gen2.as"
+
+; --- gen2 に無い定数 ---
+#define PIPE_UNLIMITED_INSTANCES    255
+#define INVALID_HANDLE_VALUE        -1
+
+    mode = 0   ; 0=server / 1=client
+    pipe_name = "\\\\.\\pipe\\IronHSPSample"
+
+    if mode = 1 : goto *client_main
+
+; ============================================================
+;   サーバモード
+; ============================================================
+*server_main
+    mes "[server] creating pipe: " + pipe_name
+
+    ; CreateNamedPipeW(name, openMode, pipeMode, maxInst, outBuf, inBuf, timeoutMs, sa)
+    sa_null = 0
+    open_mode = PIPE_ACCESS_DUPLEX
+    pipe_mode = PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT
+
+    hPipe = CreateNamedPipeW(pipe_name, open_mode, pipe_mode, PIPE_UNLIMITED_INSTANCES, 4096, 4096, 5000, sa_null)
+    if hPipe = INVALID_HANDLE_VALUE {
+        mes "[server] CreateNamedPipeW 失敗"
+        end
+    }
+    mes "[server] pipe created: " + pipe_name
+    mes "[server] waiting for client..."
+
+    ; ConnectNamedPipe: 同期モードではクライアント接続までブロック
+    ol_null = 0
+    ret = ConnectNamedPipe(hPipe, ol_null)
+    if ret = 0 {
+        mes "[server] ConnectNamedPipe 失敗"
+        CloseHandle hPipe
+        end
+    }
+    mes "[server] client connected"
+
+    ; クライアントから 1 メッセージ受信 → echo 返却
+    sdim rbuf, 4096
+    dim nread, 1
+    nread = 0
+    dim ovl_dummy, 1  ; OVERLAPPED* の代わり (未使用なら 0 でよいが var 型には変数が必要)
+    ovl_dummy = 0
+    ret = ReadFile(hPipe, rbuf, 4096, nread, ovl_dummy)
+    if ret = 0 {
+        mes "[server] ReadFile 失敗"
+    } else {
+        mes "[server] received " + nread + " bytes: " + rbuf
+        ; echo back
+        sdim echo_msg, 4096
+        echo_msg = "echo: " + rbuf
+        dim nwritten, 1
+        nwritten = 0
+        ret = WriteFile(hPipe, echo_msg, strlen(echo_msg) + 1, nwritten, ovl_dummy)
+        if ret = 0 {
+            mes "[server] WriteFile 失敗"
+        } else {
+            mes "[server] wrote " + nwritten + " bytes"
+        }
+    }
+
+    CloseHandle hPipe
+    mes "[server] done."
+    stop
+
+; ============================================================
+;   クライアントモード
+; ============================================================
+*client_main
+    mes "[client] opening pipe: " + pipe_name
+
+    ; 既存のパイプを普通の CreateFileW で開く
+    sa_null = 0
+    hPipe = CreateFileW(pipe_name, GENERIC_READ | GENERIC_WRITE, 0, sa_null, OPEN_EXISTING, 0, 0)
+    if hPipe = INVALID_HANDLE_VALUE {
+        mes "[client] CreateFileW 失敗 (サーバが起動していますか?)"
+        end
+    }
+    mes "[client] connected"
+
+    sdim send_msg, 256
+    send_msg = "Hello from IronHSP"
+    dim nwritten, 1
+    nwritten = 0
+    dim ovl_dummy, 1 : ovl_dummy = 0
+    ret = WriteFile(hPipe, send_msg, strlen(send_msg) + 1, nwritten, ovl_dummy)
+    if ret = 0 {
+        mes "[client] WriteFile 失敗"
+    } else {
+        mes "[client] sent " + nwritten + " bytes"
+    }
+
+    ; サーバからの echo を受信
+    sdim rbuf, 4096
+    dim nread, 1
+    nread = 0
+    ret = ReadFile(hPipe, rbuf, 4096, nread, ovl_dummy)
+    if ret = 0 {
+        mes "[client] ReadFile 失敗"
+    } else {
+        mes "[client] received " + nread + " bytes: " + rbuf
+    }
+
+    CloseHandle hPipe
+    mes "[client] done."
+    stop

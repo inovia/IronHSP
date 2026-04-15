@@ -1,0 +1,106 @@
+;
+; power_info.hsp - 電源情報 (バッテリ / AC 接続 / スリープ残時間) 表示
+; Win32 API gen2 サンプル (hsp3net 必須)
+;
+; 使い方:
+;   hsp3net から実行する。GetSystemPowerStatus (kernel32) で
+;   SYSTEM_POWER_STATUS 構造体を取得し、AC 接続状態 / バッテリ残量 /
+;   残稼働時間を表示する。CallNtPowerInformation (powrprof) で
+;   SystemPowerInformation を取得する例も添える。
+;
+; 動作確認:
+;   デスクトップ PC なら
+;     AC: Online / Battery: no battery / Percent: ---
+;   ノート PC なら
+;     AC: Online (充電中) / Battery: Charging / Percent: 78%
+;   のような表示になる。
+;
+; 備考:
+;   - SYSTEM_POWER_STATUS は BYTE×4 + DWORD×2 (計 12 バイト) で、gen2 の
+;     NSTRUCT 定義では int×6 扱いになっておりパッキングが一致しないため、
+;     本サンプルでは生バッファ (int×3 = 12 バイト) を使い peek / lpeek で
+;     各フィールドを取り出す。
+;
+
+#include "win32_types_gen2.as"
+#include "kernel32_gen2.as"
+#include "powrprof_gen2.as"
+
+    ; --- GetSystemPowerStatus ---
+    dim sps, 3    ; 12 バイト (BYTE×4 + DWORD×2)
+    ret = GetSystemPowerStatus(sps)
+    if ret = 0 {
+        mes "GetSystemPowerStatus 失敗"
+        end
+    }
+
+    ac_line        = peek(sps, 0)   ; 0=offline, 1=online, 255=unknown
+    battery_flag   = peek(sps, 1)   ; bit: 1=high, 2=low, 4=critical, 8=charging, 128=no battery, 255=unknown
+    battery_pct    = peek(sps, 2)   ; 0-100, 255=unknown
+    life_time      = lpeek(sps, 4)  ; 秒, -1=unknown
+    full_life_time = lpeek(sps, 8)  ; 秒, -1=unknown
+
+    mes "=== SYSTEM_POWER_STATUS ==="
+
+    ; AC
+    switch ac_line
+    case 0 : mes "AC LineStatus  : Offline (バッテリ駆動)" : swbreak
+    case 1 : mes "AC LineStatus  : Online (AC 接続中)"     : swbreak
+    case 255 : mes "AC LineStatus  : Unknown" : swbreak
+    default : mes "AC LineStatus  : " + ac_line
+    swend
+
+    ; Battery flag
+    if battery_flag = 255 {
+        mes "Battery Flag   : Unknown"
+    } else : if battery_flag = 128 {
+        mes "Battery Flag   : バッテリ非搭載"
+    } else {
+        s = ""
+        if battery_flag & 1   : s += "High "
+        if battery_flag & 2   : s += "Low "
+        if battery_flag & 4   : s += "Critical "
+        if battery_flag & 8   : s += "Charging "
+        if s = "" : s = "Normal "
+        mes "Battery Flag   : " + s + "(0x" + strf("%02X", battery_flag) + ")"
+    }
+
+    ; Percent
+    if battery_pct = 255 {
+        mes "Battery Percent: ---"
+    } else {
+        mes "Battery Percent: " + battery_pct + "%"
+    }
+
+    ; Life time
+    if life_time = -1 {
+        mes "Remaining Time : ---"
+    } else {
+        mes "Remaining Time : " + life_time + " 秒 (" + (life_time / 60) + " 分)"
+    }
+    if full_life_time = -1 {
+        mes "Full Life Time : ---"
+    } else {
+        mes "Full Life Time : " + full_life_time + " 秒"
+    }
+
+    mes ""
+    mes "=== CallNtPowerInformation (SystemPowerInformation) ==="
+
+    ; CallNtPowerInformation の引数は gen2 では intptr, int, intptr, int の
+    ; ポインタ引数が intptr 型 (スカラ) で宣言されているので、
+    ; バッファのアドレスを varptr() で渡す。
+    ; SystemPowerInformation (level=12) の OutputBuffer は SYSTEM_POWER_INFORMATION
+    ; 構造体 (16 バイト程度: DWORD×4)。
+    dim spi, 4   ; 16 バイト
+    status = CallNtPowerInformation(12, 0, 0, varptr(spi), 16)
+    if status = 0 {
+        mes "MaxIdlenessAllowed    : " + spi(0)
+        mes "Idleness              : " + spi(1)
+        mes "TimeRemaining         : " + spi(2)
+        mes "CoolingMode           : " + spi(3)
+    } else {
+        mes "CallNtPowerInformation 失敗 status=0x" + strf("%08X", status)
+    }
+
+    stop

@@ -1,0 +1,99 @@
+;
+; clipboard_history.hsp - クリップボード履歴ビューワ (GetClipboardSequenceNumber ポーリング)
+; Win32 API gen2 サンプル (hsp3net 必須)
+;
+; 使い方:
+;   hsp3net から実行する。定期的に GetClipboardSequenceNumber() を呼び、
+;   値が変化したら OpenClipboard → GetClipboardData(CF_UNICODETEXT) で
+;   テキストを取得し、履歴リストに追加して画面に表示する。
+;
+; 動作確認:
+;   起動後に任意のアプリで文字列をコピーすると、画面下部に
+;     [1] こんにちは
+;     [2] Hello World
+;     [3] ...
+;   のように追加されていく。
+;
+; 備考:
+;   - SetClipboardViewer はレガシー API であり、代わりに
+;     AddClipboardFormatListener が推奨されるが、サンプルとしては
+;     シーケンス番号ポーリング方式がもっとも単純。
+;
+
+#include "win32_types_gen2.as"
+#include "user32_gen2.as"
+#include "kernel32_gen2.as"
+
+; --- 定数 ---
+; CF_UNICODETEXT は win32_types_gen2 側で定義済み (0xD)
+
+    title "クリップボード履歴ビューワ"
+    screen 0, 480, 480
+
+    sdim history, 1024, 64
+    hist_count = 0
+
+    last_seq = GetClipboardSequenceNumber()
+    mes "起動時シーケンス番号: " + last_seq
+    mes "(任意のアプリでテキストをコピーしてください)"
+    mes "----"
+    base_y = ginfo_cy
+
+    repeat
+        await 200   ; 200ms ポーリング
+        cur_seq = GetClipboardSequenceNumber()
+        if cur_seq = last_seq : continue
+        last_seq = cur_seq
+
+        ; テキスト形式が入っているか?
+        if IsClipboardFormatAvailable(CF_UNICODETEXT) = 0 : continue
+
+        ; OpenClipboard → GetClipboardData → GlobalLock → 文字列コピー
+        if OpenClipboard(0) = 0 : continue
+        hData = GetClipboardData(CF_UNICODETEXT)
+        if hData = 0 {
+            CloseClipboard
+            continue
+        }
+        pText = GlobalLock(hData)
+        if pText = 0 {
+            CloseClipboard
+            continue
+        }
+
+        ; pText は LPCWSTR (生アドレス)。dupptr でアドレスを var に alias して
+        ; cnvwtos でそのまま cp932 に変換する。アドレス範囲は 8KB 決め打ち
+        ; (十分大きめ) にする。
+        dupptr wsrc, pText, 8192
+        txt = cnvwtos(wsrc)
+
+        GlobalUnlock hData
+        CloseClipboard
+
+        if hist_count < 64 {
+            history(hist_count) = txt
+            hist_count++
+        } else {
+            ; 先頭を落としてシフト
+            i = 0
+            repeat 63
+                history(i) = history(i + 1)
+                i++
+            loop
+            history(63) = txt
+        }
+
+        ; 再描画
+        redraw 0
+        color 255, 255, 255 : boxf
+        color 0, 0, 0
+        pos 8, 8
+        mes "クリップボード履歴 (seq=" + cur_seq + ")"
+        mes "----"
+        i = 0
+        repeat hist_count
+            mes "[" + (i + 1) + "] " + history(i)
+            i++
+        loop
+        redraw 1
+    loop
