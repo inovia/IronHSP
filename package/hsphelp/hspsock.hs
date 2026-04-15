@@ -21,6 +21,9 @@ http://hsp.tv/
 Win
 
 
+%group
+hspsock (ソケット)
+
 %index
 sockopen
 ソケットを初期化して接続

@@ -1,10 +1,10 @@
 ;
-; hspllama.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; llama.cpp (local LLM) ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
+; hspllama.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; llama.cpp (local LLM) ƒvƒ‰ƒOƒCƒ“
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,164 +14,167 @@ IronHSP / hspllama
 %dll
 hspllama.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-hspllama.dll ã¯ llama.cpp (https://github.com/ggerganov/llama.cpp) ã‚’
-embed ã—ãŸ local LLM æ¨è«–ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã™ã€‚HSP ã‹ã‚‰ GGUF å½¢å¼ã®
-é‡å­åŒ–æ¸ˆãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€åŒæœŸã¾ãŸã¯ streaming ã§è£œå®Œ / ãƒãƒ£ãƒƒãƒˆãŒ
-å¯èƒ½ã§ã™ã€‚
+hspllama.dll ‚Í llama.cpp (https://github.com/ggerganov/llama.cpp) ‚ğ
+embed ‚µ‚½ local LLM „˜_ƒvƒ‰ƒOƒCƒ“‚Å‚·BHSP ‚©‚ç GGUF Œ`®‚Ì
+—Êq‰»Ïƒ‚ƒfƒ‹‚ğ“Ç‚İ‚İA“¯Šú‚Ü‚½‚Í streaming ‚Å•âŠ® / ƒ`ƒƒƒbƒg‚ª
+‰Â”\‚Å‚·B
 
-ãƒ“ãƒ«ãƒ‰ã«ã¯ llama.cpp ã® static lib ã¾ãŸã¯ dll é…ç½®ãŒå¿…è¦ã§ã™ã€‚
-plugins/win32/hspllama/third_party/llamacpp/README.md ã®æ‰‹é †ã§
-CMake ãƒ“ãƒ«ãƒ‰ â†’ hspllama.vcxproj ã« lib ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
-llama.cpp æœªé…ç½®ã§ã‚‚ã‚¹ã‚¿ãƒ–ã¨ã—ã¦ãƒ“ãƒ«ãƒ‰ã¯é€šã‚Šã¾ã™ (å®Ÿæ¨è«–ã¯ä¸å¯)ã€‚
+ƒrƒ‹ƒh‚É‚Í llama.cpp ‚Ì static lib ‚Ü‚½‚Í dll ”z’u‚ª•K—v‚Å‚·B
+plugins/win32/hspllama/third_party/llamacpp/README.md ‚Ìè‡‚Å
+CMake ƒrƒ‹ƒh ¨ hspllama.vcxproj ‚É lib ‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+llama.cpp –¢”z’u‚Å‚àƒXƒ^ƒu‚Æ‚µ‚Äƒrƒ‹ƒh‚Í’Ê‚è‚Ü‚· (À„˜_‚Í•s‰Â)B
 
-åŒæ™‚ã« 4 ãƒ¢ãƒ‡ãƒ«ã¾ã§ä¿æŒã§ãã¾ã™ã€‚LLM ã¯ VRAM / RAM ã‚’å¤§é‡ã«
-æ¶ˆè²»ã™ã‚‹ã®ã§ã€ä½¿ã‚ãªã„ãƒ¢ãƒ‡ãƒ«ã¯ llama_close ã§é€Ÿã‚„ã‹ã«é–‹æ”¾ã—ã¦
-ãã ã•ã„ã€‚
+“¯‚É 4 ƒ‚ƒfƒ‹‚Ü‚Å•Û‚Å‚«‚Ü‚·BLLM ‚Í VRAM / RAM ‚ğ‘å—Ê‚É
+Á”ï‚·‚é‚Ì‚ÅAg‚í‚È‚¢ƒ‚ƒfƒ‹‚Í llama_close ‚Å‘¬‚â‚©‚ÉŠJ•ú‚µ‚Ä
+‚­‚¾‚³‚¢B
 
-iron_ai.hsp ã« LOCAL_LLAMA ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã‚’è¿½åŠ ã—ã¦ãŠã‚Šã€
-é€šå¸¸ã¯ iron_ai_set_backend / iron_ai_chat çµŒç”±ã§å‘¼ã³å‡ºã™ã®ãŒ
-ç°¡å˜ã§ã™ (iron_ai.hsp å‚ç…§)ã€‚
+iron_ai.hsp ‚É LOCAL_LLAMA ƒoƒbƒNƒGƒ“ƒh‚ğ’Ç‰Á‚µ‚Ä‚¨‚èA
+’Êí‚Í iron_ai_set_backend / iron_ai_chat Œo—R‚ÅŒÄ‚Ño‚·‚Ì‚ª
+ŠÈ’P‚Å‚· (iron_ai.hsp QÆ)B
+
+%group
+hspllama (llama.cpp LLM)
 
 %index
 llama_init
-llama.cpp ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰åˆæœŸåŒ–
+llama.cpp ƒoƒbƒNƒGƒ“ƒh‰Šú‰»
 %group
-hspllama â€” åˆæœŸåŒ– / çµ‚äº†
+hspllama \ ‰Šú‰» / I—¹
 %prm
 
 %inst
-ggml backend ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚ã‚¢ãƒ—ãƒªèµ·å‹•æ™‚ã« 1 å›ã ã‘å‘¼ã³å‡ºã—ã¾ã™ã€‚
+ggml backend ‚ğ‰Šú‰»‚µ‚Ü‚·BƒAƒvƒŠ‹N“®‚É 1 ‰ñ‚¾‚¯ŒÄ‚Ño‚µ‚Ü‚·B
 
 %index
 llama_shutdown
-llama.cpp ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰çµ‚äº†
+llama.cpp ƒoƒbƒNƒGƒ“ƒhI—¹
 %group
-hspllama â€” åˆæœŸåŒ– / çµ‚äº†
+hspllama \ ‰Šú‰» / I—¹
 %prm
 
 %index
 llama_load
-GGUF ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰
+GGUF ƒ‚ƒfƒ‹‚ğƒ[ƒh
 %group
-hspllama â€” ã‚»ãƒƒã‚·ãƒ§ãƒ³
+hspllama \ ƒZƒbƒVƒ‡ƒ“
 %prm
 "model.gguf", n_ctx, n_gpu_layers, var_h
-"model.gguf"  : GGUF ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
-n_ctx         : ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆé•· (0 æŒ‡å®šæ™‚ 2048)
-n_gpu_layers  : GPU ã¸ã‚ªãƒ•ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ãƒ¬ã‚¤ãƒ¤æ•° (0=CPU ã®ã¿, 99=å…¨éƒ¨)
-var_h         : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ« (>=0) ã¾ãŸã¯è² ã®ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+"model.gguf"  : GGUF ƒtƒ@ƒCƒ‹ƒpƒX
+n_ctx         : ƒRƒ“ƒeƒLƒXƒg’· (0 w’è 2048)
+n_gpu_layers  : GPU ‚ÖƒIƒtƒ[ƒh‚·‚éƒŒƒCƒ„” (0=CPU ‚Ì‚İ, 99=‘S•”)
+var_h         : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹ (>=0) ‚Ü‚½‚Í•‰‚ÌƒGƒ‰[ƒR[ƒh
 
 %inst
-ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¦ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚4 ã‚¹ãƒ­ãƒƒãƒˆã¾ã§åŒæ™‚ä¿æŒå¯èƒ½ã€‚
+ƒ‚ƒfƒ‹‚ğƒ[ƒh‚µ‚ÄƒRƒ“ƒeƒLƒXƒg‚ğì¬‚µ‚Ü‚·B4 ƒXƒƒbƒg‚Ü‚Å“¯•Û‰Â”\B
 
-ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰:
-  -1  : ãƒãƒ³ãƒ‰ãƒ«æº€æ¯
-  -2  : ãƒ¢ãƒ‡ãƒ«ãƒ­ãƒ¼ãƒ‰å¤±æ•— (ãƒ•ã‚¡ã‚¤ãƒ«ä¸æ­£ / ãƒ¡ãƒ¢ãƒªä¸è¶³)
-  -3  : ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆä½œæˆå¤±æ•—
- -100 : llama.cpp æœªãƒªãƒ³ã‚¯ (ã‚¹ã‚¿ãƒ–ãƒ“ãƒ«ãƒ‰)
+ƒGƒ‰[ƒR[ƒh:
+  -1  : ƒnƒ“ƒhƒ‹–”t
+  -2  : ƒ‚ƒfƒ‹ƒ[ƒh¸”s (ƒtƒ@ƒCƒ‹•s³ / ƒƒ‚ƒŠ•s‘«)
+  -3  : ƒRƒ“ƒeƒLƒXƒgì¬¸”s
+ -100 : llama.cpp –¢ƒŠƒ“ƒN (ƒXƒ^ƒuƒrƒ‹ƒh)
 
 %index
 llama_close
-ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’é–‰ã˜ã‚‹
+ƒZƒbƒVƒ‡ƒ“‚ğ•Â‚¶‚é
 %group
-hspllama â€” ã‚»ãƒƒã‚·ãƒ§ãƒ³
+hspllama \ ƒZƒbƒVƒ‡ƒ“
 %prm
 h
 
 %index
 llama_complete
-å˜ç™ºè£œå®Œ (åŒæœŸ)
+’P”­•âŠ® (“¯Šú)
 %group
-hspllama â€” æ¨è«–
+hspllama \ „˜_
 %prm
 h, "prompt", max_tokens, var_result_str, buf_size
-h               : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
-"prompt"        : ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆæ–‡å­—åˆ—
-max_tokens      : ç”Ÿæˆã™ã‚‹æœ€å¤§ãƒˆãƒ¼ã‚¯ãƒ³æ•°
-var_result_str  : çµæœã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size        : var_result_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+h               : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
+"prompt"        : ƒvƒƒ“ƒvƒg•¶š—ñ
+max_tokens      : ¶¬‚·‚éÅ‘åƒg[ƒNƒ“”
+var_result_str  : Œ‹‰Ê‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size        : var_result_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’æµã—è¾¼ã¿ã€æœ€å¤§ max_tokens å€‹ã®ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ç”Ÿæˆã—ã¦
-çµæœæ–‡å­—åˆ—ã‚’ var_result_str ã«æ ¼ç´ã—ã¾ã™ã€‚EOS ãƒˆãƒ¼ã‚¯ãƒ³ã«åˆ°é”ã—ãŸ
-æ™‚ç‚¹ã§æ‰“ã¡åˆ‡ã‚‰ã‚Œã¾ã™ã€‚
-var_result_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim
-ã‚µã‚¤ã‚ºã‚’ buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+ƒvƒƒ“ƒvƒg‚ğ—¬‚µ‚İAÅ‘å max_tokens ŒÂ‚Ìƒg[ƒNƒ“‚ğ¶¬‚µ‚Ä
+Œ‹‰Ê•¶š—ñ‚ğ var_result_str ‚ÉŠi”[‚µ‚Ü‚·BEOS ƒg[ƒNƒ“‚É“’B‚µ‚½
+“_‚Å‘Å‚¿Ø‚ç‚ê‚Ü‚·B
+var_result_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim
+ƒTƒCƒY‚ğ buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 llama_chat
-chat å½¢å¼ã®è£œå®Œ (åŒæœŸ, chat template é©ç”¨)
+chat Œ`®‚Ì•âŠ® (“¯Šú, chat template “K—p)
 %group
-hspllama â€” æ¨è«–
+hspllama \ „˜_
 %prm
 h, "system", "user", max_tokens, var_result_str, buf_size
-h               : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
-"system"        : system ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆ
-"user"          : user ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆ
-max_tokens      : ç”Ÿæˆã™ã‚‹æœ€å¤§ãƒˆãƒ¼ã‚¯ãƒ³æ•°
-var_result_str  : çµæœã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size        : var_result_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+h               : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
+"system"        : system ƒvƒƒ“ƒvƒg
+"user"          : user ƒvƒƒ“ƒvƒg
+max_tokens      : ¶¬‚·‚éÅ‘åƒg[ƒNƒ“”
+var_result_str  : Œ‹‰Ê‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size        : var_result_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-ãƒ¢ãƒ‡ãƒ«çµ„ã¿è¾¼ã¿ã® chat template ã‚’é©ç”¨ã—ã¦ system + user ã‚’
-é©åˆ‡ãªå½¢å¼ã«æ•´å½¢ã—ã€assistant ã®è¿”ç­”ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-var_result_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim
-ã‚µã‚¤ã‚ºã‚’ buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+ƒ‚ƒfƒ‹‘g‚İ‚İ‚Ì chat template ‚ğ“K—p‚µ‚Ä system + user ‚ğ
+“KØ‚ÈŒ`®‚É®Œ`‚µAassistant ‚Ì•Ô“š‚ğ¶¬‚µ‚Ü‚·B
+var_result_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim
+ƒTƒCƒY‚ğ buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 llama_stream_begin
-ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°é–‹å§‹
+ƒXƒgƒŠ[ƒ~ƒ“ƒOŠJn
 %group
-hspllama â€” ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°
+hspllama \ ƒXƒgƒŠ[ƒ~ƒ“ƒO
 %prm
 h, "prompt", max_tokens
 
 %inst
-ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°æ¨è«–ã‚’é–‹å§‹ã—ã¾ã™ã€‚ä»¥å¾Œ llama_stream_next ã‚’
-ãƒ«ãƒ¼ãƒ—ã§å‘¼ã¶ã¨ 1 ãƒˆãƒ¼ã‚¯ãƒ³ãšã¤ (token piece ã®æ–‡å­—åˆ—) ãŒ
-è¿”ã‚Šã¾ã™ã€‚ç©ºæ–‡å­—åˆ—ãŒè¿”ã£ãŸã‚‰çµ‚äº†ã§ã™ã€‚
+ƒXƒgƒŠ[ƒ~ƒ“ƒO„˜_‚ğŠJn‚µ‚Ü‚·BˆÈŒã llama_stream_next ‚ğ
+ƒ‹[ƒv‚ÅŒÄ‚Ô‚Æ 1 ƒg[ƒNƒ“‚¸‚Â (token piece ‚Ì•¶š—ñ) ‚ª
+•Ô‚è‚Ü‚·B‹ó•¶š—ñ‚ª•Ô‚Á‚½‚çI—¹‚Å‚·B
 
 %index
 llama_stream_next
-æ¬¡ã®ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—
+Ÿ‚Ìƒg[ƒNƒ“‚ğæ“¾
 %group
-hspllama â€” ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°
+hspllama \ ƒXƒgƒŠ[ƒ~ƒ“ƒO
 %prm
 var_token_str, buf_size
-var_token_str : ãƒˆãƒ¼ã‚¯ãƒ³ç‰‡ã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size      : var_token_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+var_token_str : ƒg[ƒNƒ“•Ğ‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size      : var_token_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°ä¸­ã«æ¬¡ã®ãƒˆãƒ¼ã‚¯ãƒ³ç‰‡ã‚’ var_token_str ã«æ ¼ç´ã—ã¾ã™ã€‚
-ç©ºæ–‡å­—åˆ—ãŒè¿”ã£ãŸå ´åˆã¯ EOS ã‹ max_tokens åˆ°é”ã§ã™ã€‚
-var_token_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim
-ã‚µã‚¤ã‚ºã‚’ buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+ƒXƒgƒŠ[ƒ~ƒ“ƒO’†‚ÉŸ‚Ìƒg[ƒNƒ“•Ğ‚ğ var_token_str ‚ÉŠi”[‚µ‚Ü‚·B
+‹ó•¶š—ñ‚ª•Ô‚Á‚½ê‡‚Í EOS ‚© max_tokens “’B‚Å‚·B
+var_token_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim
+ƒTƒCƒY‚ğ buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 llama_stream_end
-ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°çµ‚äº†
+ƒXƒgƒŠ[ƒ~ƒ“ƒOI—¹
 %group
-hspllama â€” ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°
+hspllama \ ƒXƒgƒŠ[ƒ~ƒ“ƒO
 %prm
 
 %index
 llama_n_ctx
-ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆé•·ã‚’å–å¾—
+ƒRƒ“ƒeƒLƒXƒg’·‚ğæ“¾
 %group
-hspllama â€” ãƒ¡ã‚¿æƒ…å ±
+hspllama \ ƒƒ^î•ñ
 %prm
 h, var_int
 
 %index
 llama_n_vocab
-èªå½™ã‚µã‚¤ã‚ºã‚’å–å¾—
+ŒêœbƒTƒCƒY‚ğæ“¾
 %group
-hspllama â€” ãƒ¡ã‚¿æƒ…å ±
+hspllama \ ƒƒ^î•ñ
 %prm
 h, var_int
 

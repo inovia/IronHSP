@@ -1,10 +1,10 @@
 ;
-; iron_csv.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; RFC 4180 æº–æ‹  CSV ãƒ‘ãƒ¼ã‚µ / ãƒ“ãƒ«ãƒ€ (Pure HSP)
+; iron_csv.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; RFC 4180 €‹’ CSV ƒp[ƒT / ƒrƒ‹ƒ_ (Pure HSP)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,126 +12,130 @@
 %author
 IronHSP / iron_csv
 %dll
+iron_csv.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_csv.hsp ã¯ RFC 4180 æº–æ‹ ã® CSV ãƒ‘ãƒ¼ã‚µ / ãƒ“ãƒ«ãƒ€ã‚’ Pure HSP ã§å®Ÿè£…ã—ãŸ
-ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚å¤–éƒ¨ DLL ã¯ä¸è¦ã§ã™ã€‚
+iron_csv.hsp ‚Í RFC 4180 €‹’‚Ì CSV ƒp[ƒT / ƒrƒ‹ƒ_‚ğ Pure HSP ‚ÅÀ‘•‚µ‚½
+ƒ‚ƒWƒ…[ƒ‹‚Å‚·BŠO•” DLL ‚Í•s—v‚Å‚·B
 
   #include "iron_csv.hsp"
 
-å¯¾å¿œæ©Ÿèƒ½:
-  - ã‚«ãƒ³ãƒ / ä»»æ„ãƒ‡ãƒªãƒŸã‚¿ (TSV ç­‰) å¯¾å¿œ
-  - ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ ("..." ã§å›²ã‚€)
-  - ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å†…ã® " ã‚’ "" ã§ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—
-  - è¡ŒåŒºåˆ‡ã‚Š CRLF / LF / CR è‡ªå‹•åˆ¤åˆ¥
-  - æ–‡å­—ã‚³ãƒ¼ãƒ‰ cp932 / SJIS
+‘Î‰‹@”\:
+  - ƒJƒ“ƒ} / ”CˆÓƒfƒŠƒ~ƒ^ (TSV “™) ‘Î‰
+  - ƒ_ƒuƒ‹ƒNƒH[ƒgƒtƒB[ƒ‹ƒh ("..." ‚ÅˆÍ‚Ş)
+  - ƒtƒB[ƒ‹ƒh“à‚Ì " ‚ğ "" ‚ÅƒGƒXƒP[ƒv
+  - s‹æØ‚è CRLF / LF / CR ©“®”»•Ê
+  - •¶šƒR[ƒh cp932 / SJIS
+
+%group
+iron_csv (CSV“üo—Í)
 
 %index
 csv_parse
-CSV æ–‡å­—åˆ—ã‚’ãƒ‘ãƒ¼ã‚¹
+CSV •¶š—ñ‚ğƒp[ƒX
 %group
-iron_csv â€” ãƒ‘ãƒ¼ã‚¹
+iron_csv \ ƒp[ƒX
 %prm
 var data, var rows, var cols, "csv_text", "sep"
-data    : ãƒ‘ãƒ¼ã‚¹çµæœã‚’æ ¼ç´ã™ã‚‹ str é…åˆ— (sdim æ¸ˆã¿ã€å†…éƒ¨ã§å†ç¢ºä¿)
-rows    : è¡Œæ•°ãŒè¿”ã‚‹å¤‰æ•°
-cols    : æœ€å¤§åˆ—æ•°ãŒè¿”ã‚‹å¤‰æ•°
-"csv_text" : ãƒ‘ãƒ¼ã‚¹å¯¾è±¡ã® CSV æ–‡å­—åˆ—
-"sep"   : ãƒ‡ãƒªãƒŸã‚¿ (çœç•¥æ™‚ ",")
+data    : ƒp[ƒXŒ‹‰Ê‚ğŠi”[‚·‚é str ”z—ñ (sdim Ï‚İA“à•”‚ÅÄŠm•Û)
+rows    : s”‚ª•Ô‚é•Ï”
+cols    : Å‘å—ñ”‚ª•Ô‚é•Ï”
+"csv_text" : ƒp[ƒX‘ÎÛ‚Ì CSV •¶š—ñ
+"sep"   : ƒfƒŠƒ~ƒ^ (È—ª ",")
 
 %inst
-CSV æ–‡å­—åˆ—ã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦ 2 æ¬¡å…ƒãƒ•ãƒ©ãƒƒãƒˆé…åˆ—ã«æ ¼ç´ã—ã¾ã™ã€‚
-data ã¯å†…éƒ¨ã§ sdim data, 1024, rows*cols ã¨ã—ã¦å†ç¢ºä¿ã•ã‚Œã¾ã™ã€‚
-å€‹ã€…ã®ã‚»ãƒ«ã¯ data(r*cols + c) ã¾ãŸã¯ csv_cell(data, r, c, cols) ã§
-å–ã‚Šå‡ºã›ã¾ã™ã€‚
+CSV •¶š—ñ‚ğƒp[ƒX‚µ‚Ä 2 ŸŒ³ƒtƒ‰ƒbƒg”z—ñ‚ÉŠi”[‚µ‚Ü‚·B
+data ‚Í“à•”‚Å sdim data, 1024, rows*cols ‚Æ‚µ‚ÄÄŠm•Û‚³‚ê‚Ü‚·B
+ŒÂX‚ÌƒZƒ‹‚Í data(r*cols + c) ‚Ü‚½‚Í csv_cell(data, r, c, cols) ‚Å
+æ‚èo‚¹‚Ü‚·B
 
-ä¾‹:
+—á:
   sdim data, 256, 100
   csv_parse data, rows, cols, "a,b,c\n1,2,3\n"
   mes "rows=" + rows + " cols=" + cols
-  mes csv_cell(data, 1, 0, cols)   ; â†’ "1"
+  mes csv_cell(data, 1, 0, cols)   ; ¨ "1"
 
 %index
 csv_load
-CSV ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ãƒ‘ãƒ¼ã‚¹
+CSV ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚Åƒp[ƒX
 %group
-iron_csv â€” ãƒ‘ãƒ¼ã‚¹
+iron_csv \ ƒp[ƒX
 %prm
 var data, var rows, var cols, "file.csv", "sep"
 
 %inst
-æŒ‡å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’ bload ã—ã¦ csv_parse ã§ãƒ‘ãƒ¼ã‚¹ã—ã¾ã™ã€‚stat ã« 0 (æˆåŠŸ) /
--1 (ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„) ãŒè¿”ã‚Šã¾ã™ã€‚
+w’èƒtƒ@ƒCƒ‹‚ğ bload ‚µ‚Ä csv_parse ‚Åƒp[ƒX‚µ‚Ü‚·Bstat ‚É 0 (¬Œ÷) /
+-1 (ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢) ‚ª•Ô‚è‚Ü‚·B
 
 %index
 csv_cell
-ã‚»ãƒ«å€¤ã‚’å–å¾—
+ƒZƒ‹’l‚ğæ“¾
 %group
-iron_csv â€” ãƒ‘ãƒ¼ã‚¹
+iron_csv \ ƒp[ƒX
 %prm
 var data, int row, int col, int cols
 %inst
-csv_parse ã§æ ¼ç´ã•ã‚ŒãŸ 2 æ¬¡å…ƒãƒ•ãƒ©ãƒƒãƒˆé…åˆ—ã‹ã‚‰ã‚»ãƒ«å€¤ã‚’å–å¾—ã™ã‚‹
-ãƒ˜ãƒ«ãƒ‘é–¢æ•° (cfunc) ã§ã™ã€‚data(row*cols + col) ã¨ç­‰ä¾¡ã€‚
+csv_parse ‚ÅŠi”[‚³‚ê‚½ 2 ŸŒ³ƒtƒ‰ƒbƒg”z—ñ‚©‚çƒZƒ‹’l‚ğæ“¾‚·‚é
+ƒwƒ‹ƒpŠÖ” (cfunc) ‚Å‚·Bdata(row*cols + col) ‚Æ“™‰¿B
 
-ä¾‹:
+—á:
   mes csv_cell(data, 2, 1, cols)
 
 %index
 csv_escape
-1 ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’ã‚¯ã‚©ãƒ¼ãƒˆå‡¦ç† (cfunc)
+1 ƒtƒB[ƒ‹ƒh‚ğƒNƒH[ƒgˆ— (cfunc)
 %group
-iron_csv â€” ãƒ“ãƒ«ãƒ‰
+iron_csv \ ƒrƒ‹ƒh
 %prm
 "raw"
 %inst
-"raw" æ–‡å­—åˆ—ã‚’ CSV ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¨ã—ã¦ã‚¯ã‚©ãƒ¼ãƒˆå‡¦ç†ã—ãŸçµæœã‚’è¿”ã—ã¾ã™ã€‚
-ã‚«ãƒ³ãƒ / æ”¹è¡Œ / ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆ / ã‚¿ãƒ– ã‚’å«ã‚€å ´åˆã®ã¿ "..." ã§å›²ã¾ã‚Œã€
-å†…éƒ¨ã® " ã¯ "" ã«ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã•ã‚Œã¾ã™ã€‚ä¸è¦ãªå ´åˆã¯å…ƒã®æ–‡å­—åˆ—ãã®ã¾ã¾ã‚’
-è¿”ã—ã¾ã™ã€‚
+"raw" •¶š—ñ‚ğ CSV ƒtƒB[ƒ‹ƒh‚Æ‚µ‚ÄƒNƒH[ƒgˆ—‚µ‚½Œ‹‰Ê‚ğ•Ô‚µ‚Ü‚·B
+ƒJƒ“ƒ} / ‰üs / ƒ_ƒuƒ‹ƒNƒH[ƒg / ƒ^ƒu ‚ğŠÜ‚Şê‡‚Ì‚İ "..." ‚ÅˆÍ‚Ü‚êA
+“à•”‚Ì " ‚Í "" ‚ÉƒGƒXƒP[ƒv‚³‚ê‚Ü‚·B•s—v‚Èê‡‚ÍŒ³‚Ì•¶š—ñ‚»‚Ì‚Ü‚Ü‚ğ
+•Ô‚µ‚Ü‚·B
 
-ä¾‹:
-  mes csv_escape("hello, world")   ; â†’ "hello, world"
-  mes csv_escape("plain")          ; â†’ plain
+—á:
+  mes csv_escape("hello, world")   ; ¨ "hello, world"
+  mes csv_escape("plain")          ; ¨ plain
 
 %index
 csv_row_begin
-1 è¡Œã®çµ„ã¿ç«‹ã¦ã‚’é–‹å§‹
+1 s‚Ì‘g‚İ—§‚Ä‚ğŠJn
 %group
-iron_csv â€” ãƒ“ãƒ«ãƒ‰
+iron_csv \ ƒrƒ‹ƒh
 %prm
 
 %inst
-csv_row_add / csv_row_end ã‚’ä½¿ã£ã¦ 1 è¡Œã‚’çµ„ã¿ç«‹ã¦ã‚‹éš›ã€æœ€åˆã«å‘¼ã³ã¾ã™ã€‚
-ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å†…éƒ¨ã®è¡Œãƒãƒƒãƒ•ã‚¡ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
+csv_row_add / csv_row_end ‚ğg‚Á‚Ä 1 s‚ğ‘g‚İ—§‚Ä‚éÛAÅ‰‚ÉŒÄ‚Ñ‚Ü‚·B
+ƒ‚ƒWƒ…[ƒ‹“à•”‚Ìsƒoƒbƒtƒ@‚ğƒNƒŠƒA‚µ‚Ü‚·B
 
 %index
 csv_row_add
-ã‚»ãƒ«ã‚’ 1 å€‹è¿½åŠ 
+ƒZƒ‹‚ğ 1 ŒÂ’Ç‰Á
 %group
-iron_csv â€” ãƒ“ãƒ«ãƒ‰
+iron_csv \ ƒrƒ‹ƒh
 %prm
 "value"
 %inst
-ç¾åœ¨çµ„ã¿ç«‹ã¦ä¸­ã®è¡Œã« 1 ã‚»ãƒ«è¿½åŠ ã—ã¾ã™ã€‚å€¤ã¯è‡ªå‹•ã§ csv_escape ã•ã‚Œã¾ã™ã€‚
+Œ»İ‘g‚İ—§‚Ä’†‚Ìs‚É 1 ƒZƒ‹’Ç‰Á‚µ‚Ü‚·B’l‚Í©“®‚Å csv_escape ‚³‚ê‚Ü‚·B
 
 %index
 csv_row_end
-çµ„ã¿ç«‹ã¦ä¸­ã®è¡Œã‚’å‡ºåŠ›å¤‰æ•°ã«è¿½è¨˜
+‘g‚İ—§‚Ä’†‚Ìs‚ğo—Í•Ï”‚É’Ç‹L
 %group
-iron_csv â€” ãƒ“ãƒ«ãƒ‰
+iron_csv \ ƒrƒ‹ƒh
 %prm
 var out
 %inst
-csv_row_begin / csv_row_add ã§çµ„ã¿ç«‹ã¦ãŸ 1 è¡Œã‚’ã€out å¤‰æ•°ã« CRLF ä»˜ãã§
-è¿½è¨˜ã—ã¾ã™ã€‚out ã¯å‘¼ã³å‡ºã—å´ã§ sdim æ¸ˆã¿ã® str å¤‰æ•°ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+csv_row_begin / csv_row_add ‚Å‘g‚İ—§‚Ä‚½ 1 s‚ğAout •Ï”‚É CRLF •t‚«‚Å
+’Ç‹L‚µ‚Ü‚·Bout ‚ÍŒÄ‚Ño‚µ‘¤‚Å sdim Ï‚İ‚Ì str •Ï”‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B
 
-ä¾‹:
+—á:
   sdim buf, 4096 : buf = ""
   csv_row_begin
   csv_row_add "name" : csv_row_add "age"
@@ -143,11 +147,11 @@ csv_row_begin / csv_row_add ã§çµ„ã¿ç«‹ã¦ãŸ 1 è¡Œã‚’ã€out å¤‰æ•°ã« CRLF ä»˜
 
 %index
 csv_write
-CSV æ–‡å­—åˆ—ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãå‡ºã™
+CSV •¶š—ñ‚ğƒtƒ@ƒCƒ‹‚É‘‚«o‚·
 %group
-iron_csv â€” ãƒ“ãƒ«ãƒ‰
+iron_csv \ ƒrƒ‹ƒh
 %prm
 "file.csv", var csv_text
 %inst
-csv_text (var) ã®å†…å®¹ã‚’æŒ‡å®šãƒ•ã‚¡ã‚¤ãƒ«ã« bsave ã§æ›¸ãå‡ºã—ã¾ã™ã€‚
-stat ã«æ›¸ãå‡ºã—ãŸãƒã‚¤ãƒˆæ•°ãŒè¿”ã‚Šã¾ã™ã€‚
+csv_text (var) ‚Ì“à—e‚ğw’èƒtƒ@ƒCƒ‹‚É bsave ‚Å‘‚«o‚µ‚Ü‚·B
+stat ‚É‘‚«o‚µ‚½ƒoƒCƒg”‚ª•Ô‚è‚Ü‚·B

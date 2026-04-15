@@ -1,10 +1,10 @@
 ;
-; iron_perf.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; QueryPerformanceCounter ãƒ™ãƒ¼ã‚¹é«˜ç²¾åº¦ã‚¿ã‚¤ãƒãƒ¼
+; iron_perf.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; QueryPerformanceCounter ƒx[ƒX‚¸“xƒ^ƒCƒ}[
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,74 +12,78 @@
 %author
 IronHSP / iron_perf
 %dll
+iron_perf.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_perf.hsp ã¯ QueryPerformanceCounter / QueryPerformanceFrequency
-ã«ã‚ˆã‚‹ã‚µãƒ–ãƒŸãƒªç§’ç²¾åº¦ã®ã‚¿ã‚¤ãƒãƒ¼ã§ã™ã€‚ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒªãƒ³ã‚°ã€FPS è¨ˆæ¸¬ã€
-ãƒ™ãƒ³ãƒãƒãƒ¼ã‚¯ç­‰ã«ä½¿ç”¨ã—ã¾ã™ã€‚
+iron_perf.hsp ‚Í QueryPerformanceCounter / QueryPerformanceFrequency
+‚É‚æ‚éƒTƒuƒ~ƒŠ•b¸“x‚Ìƒ^ƒCƒ}[‚Å‚·Bƒvƒƒtƒ@ƒCƒŠƒ“ƒOAFPS Œv‘ªA
+ƒxƒ“ƒ`ƒ}[ƒN“™‚Ég—p‚µ‚Ü‚·B
 
-timeGetTime (winmm) ã¯ ms ç²¾åº¦ã§ OS ã‚¿ã‚¤ãƒãƒ¼ä¾å­˜ã§ã™ãŒã€
-QueryPerformanceCounter ã¯ CPU ã®é«˜ç²¾åº¦ã‚«ã‚¦ãƒ³ã‚¿ (~100ns) ã‚’ä½¿ã„ã¾ã™ã€‚
+timeGetTime (winmm) ‚Í ms ¸“x‚Å OS ƒ^ƒCƒ}[ˆË‘¶‚Å‚·‚ªA
+QueryPerformanceCounter ‚Í CPU ‚Ì‚¸“xƒJƒEƒ“ƒ^ (~100ns) ‚ğg‚¢‚Ü‚·B
 
   #include "iron_perf.hsp"
 
+%group
+iron_perf (‚¸“xƒ^ƒCƒ}[)
+
 %index
 perf_now
-ç¾åœ¨ã®çµŒéç§’ã‚’å–å¾—
+Œ»İ‚ÌŒo‰ß•b‚ğæ“¾
 %group
 iron_perf
 %prm
 
 %inst
-refdval ã«çµŒéç§’ (èµ·å‹•ã‹ã‚‰ã®ç›¸å¯¾å€¤) ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+refdval ‚ÉŒo‰ß•b (‹N“®‚©‚ç‚Ì‘Š‘Î’l) ‚ğ‘‚«‚İ‚Ü‚·B
 
 %index
 perf_now_us
-ç¾åœ¨ã®ãƒã‚¤ã‚¯ãƒ­ç§’ã‚’å–å¾—
+Œ»İ‚Ìƒ}ƒCƒNƒ•b‚ğæ“¾
 %group
 iron_perf
 %prm
 
 %inst
-stat ã«ãƒã‚¤ã‚¯ãƒ­ç§’ (32bit ç¯„å›²ã€ç´„ 70 åˆ†ã§ãƒ©ãƒƒãƒ—) ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+stat ‚Éƒ}ƒCƒNƒ•b (32bit ”ÍˆÍA–ñ 70 •ª‚Åƒ‰ƒbƒv) ‚ğ‘‚«‚İ‚Ü‚·B
 
 %index
 perf_start
-ã‚¹ãƒˆãƒƒãƒ—ã‚¦ã‚©ãƒƒãƒé–‹å§‹
+ƒXƒgƒbƒvƒEƒHƒbƒ`ŠJn
 %group
 iron_perf
 %prm
 
 %inst
-å†…éƒ¨ã‚«ã‚¦ãƒ³ã‚¿ã‚’ç¾åœ¨ã® QPC å€¤ã§åˆæœŸåŒ–ã—ã¾ã™ã€‚
+“à•”ƒJƒEƒ“ƒ^‚ğŒ»İ‚Ì QPC ’l‚Å‰Šú‰»‚µ‚Ü‚·B
 
 %index
 perf_lap
-ã‚¹ãƒˆãƒƒãƒ—ã‚¦ã‚©ãƒƒãƒçµŒéæ™‚é–“
+ƒXƒgƒbƒvƒEƒHƒbƒ`Œo‰ßŠÔ
 %group
 iron_perf
 %prm
 
 %inst
-refdval ã«é–‹å§‹ã‹ã‚‰ã®çµŒéç§’ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+refdval ‚ÉŠJn‚©‚ç‚ÌŒo‰ß•b‚ğ‘‚«‚İ‚Ü‚·B
 
-ä¾‹:
+—á:
   perf_start
   repeat 1000000 : a = cnt * 2 : loop
   perf_lap
-  mes "elapsed: " + refdval + " ç§’"
+  mes "elapsed: " + refdval + " •b"
 
 %index
 perf_freq
-QPC ã®å‘¨æ³¢æ•° (Hz) ã‚’å–å¾—
+QPC ‚Ìü”g” (Hz) ‚ğæ“¾
 %group
 iron_perf
 %prm
 
 %inst
-refdval ã« Hz ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+refdval ‚É Hz ‚ğ‘‚«‚İ‚Ü‚·B

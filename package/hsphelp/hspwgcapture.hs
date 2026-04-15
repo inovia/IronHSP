@@ -1,10 +1,10 @@
 ;
-; hspwgcapture.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èªž)
-; Windows.Graphics.Capture (Win10 1903+) ãƒ©ãƒƒãƒ‘ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
+; hspwgcapture.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Windows.Graphics.Capture (Win10 1903+) ƒ‰ƒbƒpƒvƒ‰ƒOƒCƒ“
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,105 +14,108 @@ IronHSP / hspwgcapture
 %dll
 hspwgcapture.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win32 / Win64 (Windows 10 1903 ä»¥é™)
+Win32 / Win64 (Windows 10 1903 ˆÈ~)
 
 %note
-hspwgcapture.dll ã¯ Windows 10 1903 (19H1) ä»¥é™ã«æ­è¼‰ã•ã‚ŒãŸ
-Windows.Graphics.Capture API (WinRT) ã‚’ HSP3 ã‹ã‚‰ç›´æŽ¥å‘¼ã³å‡ºã™
-ãŸã‚ã®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã™ã€‚
+hspwgcapture.dll ‚Í Windows 10 1903 (19H1) ˆÈ~‚É“‹Ú‚³‚ê‚½
+Windows.Graphics.Capture API (WinRT) ‚ð HSP3 ‚©‚ç’¼ÚŒÄ‚Ño‚·
+‚½‚ß‚Ìƒvƒ‰ƒOƒCƒ“‚Å‚·B
 
-Windows.Graphics.Capture API ã¯ãƒ¢ãƒ€ãƒ³ãª DWM é€£æºã‚­ãƒ£ãƒ—ãƒãƒ£ã‚’
-æä¾›ã—ã€å¾“æ¥ã® BitBlt / PrintWindow ã‚ˆã‚Šã‚‚é«˜ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆã§
-GPU ä¸Šã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ / ãƒ¢ãƒ‹ã‚¿å†…å®¹ã‚’å–å¾—ã§ãã¾ã™ã€‚ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢
-ã‚¢ã‚¯ã‚»ãƒ©ãƒ¬ãƒ¼ãƒˆã•ã‚ŒãŸ D3D11 ãƒ†ã‚¯ã‚¹ãƒãƒ£çµŒç”±ã§ãƒ”ã‚¯ã‚»ãƒ«ãŒæ¸¡ã•ã‚Œã‚‹
-ãŸã‚ã€å…¨ç”»é¢ã‚²ãƒ¼ãƒ ã‚„ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢åˆæˆã•ã‚ŒãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§ã‚‚æ­£ã—ã
-ã‚­ãƒ£ãƒ—ãƒãƒ£ã§ãã¾ã™ã€‚
+Windows.Graphics.Capture API ‚Íƒ‚ƒ_ƒ“‚È DWM ˜AŒgƒLƒƒƒvƒ`ƒƒ‚ð
+’ñ‹Ÿ‚µA]—ˆ‚Ì BitBlt / PrintWindow ‚æ‚è‚à‚ƒtƒŒ[ƒ€ƒŒ[ƒg‚Å
+GPU ã‚ÌƒEƒBƒ“ƒhƒE / ƒ‚ƒjƒ^“à—e‚ðŽæ“¾‚Å‚«‚Ü‚·Bƒn[ƒhƒEƒFƒA
+ƒAƒNƒZƒ‰ƒŒ[ƒg‚³‚ê‚½ D3D11 ƒeƒNƒXƒ`ƒƒŒo—R‚ÅƒsƒNƒZƒ‹‚ª“n‚³‚ê‚é
+‚½‚ßA‘S‰æ–ÊƒQ[ƒ€‚âƒn[ƒhƒEƒFƒA‡¬‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Å‚à³‚µ‚­
+ƒLƒƒƒvƒ`ƒƒ‚Å‚«‚Ü‚·B
 
-å®Ÿè£…ã¯ C++/WinRT + D3D11 + WIC ã§ã€éžåŒæœŸ API ã¯ä½¿ç”¨ã—ã¦ã„ã¾
-ã›ã‚“ (Direct3D11CaptureFramePool::CreateFreeThreaded ã®åŒæœŸ
-ãƒãƒ¼ãƒªãƒ³ã‚°åž‹)ã€‚HSP å´ã‹ã‚‰ã¯é€šå¸¸ã®åŒæœŸå‘½ä»¤ã¨ã—ã¦æ‰±ãˆã¾ã™ã€‚
+ŽÀ‘•‚Í C++/WinRT + D3D11 + WIC ‚ÅA”ñ“¯Šú API ‚ÍŽg—p‚µ‚Ä‚¢‚Ü
+‚¹‚ñ (Direct3D11CaptureFramePool::CreateFreeThreaded ‚Ì“¯Šú
+ƒ|[ƒŠƒ“ƒOŒ^)BHSP ‘¤‚©‚ç‚Í’Êí‚Ì“¯Šú–½—ß‚Æ‚µ‚Äˆµ‚¦‚Ü‚·B
 
-æ³¨æ„: Windows.Graphics.Capture ã‚’åˆ©ç”¨ã™ã‚‹ã¨ã€å¯¾è±¡ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
-ã«é»„è‰²ã®ã€Œã‚­ãƒ£ãƒ—ãƒãƒ£ä¸­ã€ãƒã‚¤ãƒ©ã‚¤ãƒˆæž ãŒè¡¨ç¤ºã•ã‚Œã‚‹ã®ãŒæ—¢å®šå‹•ä½œ
-ã§ã™ (Windows 11 ä»¥é™ã¯è¨­å®šã§ç„¡åŠ¹åŒ–å¯èƒ½)ã€‚
+’ˆÓ: Windows.Graphics.Capture ‚ð—˜—p‚·‚é‚ÆA‘ÎÛƒEƒBƒ“ƒhƒE
+‚É‰©F‚ÌuƒLƒƒƒvƒ`ƒƒ’†vƒnƒCƒ‰ƒCƒg˜g‚ª•\Ž¦‚³‚ê‚é‚Ì‚ªŠù’è“®ì
+‚Å‚· (Windows 11 ˆÈ~‚ÍÝ’è‚Å–³Œø‰»‰Â”\)B
+
+%group
+hspwgcapture (‰æ–ÊƒLƒƒƒvƒ`ƒƒ)
 
 %index
 wgc_init
-ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ åˆæœŸåŒ–
+ƒLƒƒƒvƒ`ƒƒƒTƒuƒVƒXƒeƒ€‰Šú‰»
 %group
-hspwgcapture â€” åŸºæœ¬
+hspwgcapture \ Šî–{
 %prm
 
 %inst
-Windows.Graphics.Capture ã‚’åˆ©ç”¨å¯èƒ½ã‹ç¢ºèªã—ã€ã‚­ãƒ£ãƒ—ãƒãƒ£ç”¨ã®
-D3D11 ãƒ‡ãƒã‚¤ã‚¹ã‚’ä½œæˆã—ã¾ã™ã€‚ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ä½¿ç”¨å‰ã« 1 å›žå‘¼ã³ã¾ã™ã€‚
+Windows.Graphics.Capture ‚ð—˜—p‰Â”\‚©Šm”F‚µAƒLƒƒƒvƒ`ƒƒ—p‚Ì
+D3D11 ƒfƒoƒCƒX‚ðì¬‚µ‚Ü‚·Bƒvƒ‰ƒOƒCƒ“Žg—p‘O‚É 1 ‰ñŒÄ‚Ñ‚Ü‚·B
 
-æˆ»ã‚Šå€¤ (stat):
-  0  : æˆåŠŸ
- -1  : ä¾‹å¤–ç™ºç”Ÿ
- -2  : ã“ã® OS ã§ã¯æœªã‚µãƒãƒ¼ãƒˆ (Win10 1903 æœªæº€)
- -3  : D3D11 ãƒ‡ãƒã‚¤ã‚¹ä½œæˆå¤±æ•—
+–ß‚è’l (stat):
+  0  : ¬Œ÷
+ -1  : —áŠO”­¶
+ -2  : ‚±‚Ì OS ‚Å‚Í–¢ƒTƒ|[ƒg (Win10 1903 –¢–ž)
+ -3  : D3D11 ƒfƒoƒCƒXì¬Ž¸”s
 
 %href
 wgc_shutdown
 
 %index
 wgc_shutdown
-ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ è§£æ”¾
+ƒLƒƒƒvƒ`ƒƒƒTƒuƒVƒXƒeƒ€‰ð•ú
 %group
-hspwgcapture â€” åŸºæœ¬
+hspwgcapture \ Šî–{
 %prm
 
 %inst
-ä½œæˆã—ãŸ D3D11 ãƒ‡ãƒã‚¤ã‚¹ã¨ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ã™ã¹ã¦è§£æ”¾
-ã—ã¾ã™ã€‚DLL_PROCESS_DETACH æ™‚ã«ã‚‚è‡ªå‹•è§£æ”¾ã•ã‚Œã¾ã™ãŒã€æ˜Žç¤ºçš„
-ã«å‘¼ã¶ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+ì¬‚µ‚½ D3D11 ƒfƒoƒCƒX‚ÆƒAƒNƒeƒBƒu‚ÈƒZƒbƒVƒ‡ƒ“‚ð‚·‚×‚Ä‰ð•ú
+‚µ‚Ü‚·BDLL_PROCESS_DETACH Žž‚É‚àŽ©“®‰ð•ú‚³‚ê‚Ü‚·‚ªA–¾Ž¦“I
+‚ÉŒÄ‚Ô‚±‚Æ‚à‚Å‚«‚Ü‚·B
 
 %href
 wgc_init
 
 %index
 wgc_list_windows
-ã‚­ãƒ£ãƒ—ãƒãƒ£å¯èƒ½ãªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä¸€è¦§ã‚’å–å¾—
+ƒLƒƒƒvƒ`ƒƒ‰Â”\‚ÈƒEƒBƒ“ƒhƒEˆê——‚ðŽæ“¾
 %group
-hspwgcapture â€” åˆ—æŒ™
+hspwgcapture \ —ñ‹“
 %prm
 var, buf_size
-var      : çµæžœã‚’å—ã‘å–ã‚‹æ–‡å­—åˆ—å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+var      : Œ‹‰Ê‚ðŽó‚¯Žæ‚é•¶Žš—ñ•Ï” (sdim Ï)
+buf_size : var ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-EnumWindows ã§ãƒˆãƒƒãƒ—ãƒ¬ãƒ™ãƒ«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’åˆ—æŒ™ã—ã€å¯è¦–ã‹ã¤ã‚¿ã‚¤
-ãƒˆãƒ«æœ‰ã‚Šã®ã‚‚ã®ã‚’ "title<TAB>HWND\n" å½¢å¼ã§ var ã«æ ¼ç´ã—ã¾ã™ã€‚
-HWND ã¯ 16 é€²æ•°è¡¨è¨˜ (ä¾‹: 0000000000123456)ã€‚
+EnumWindows ‚ÅƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ð—ñ‹“‚µA‰ÂŽ‹‚©‚Âƒ^ƒC
+ƒgƒ‹—L‚è‚Ì‚à‚Ì‚ð "title<TAB>HWND\n" Œ`Ž®‚Å var ‚ÉŠi”[‚µ‚Ü‚·B
+HWND ‚Í 16 i”•\‹L (—á: 0000000000123456)B
 
-ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ã‚­ãƒ£ãƒ—ãƒãƒ£ã™ã‚‹ã«ã¯ã€ã“ã® HWND ã‚’æ•´æ•°åŒ–ã—ã¦
-wgc_start_window ã«æ¸¡ã—ã¾ã™ã€‚
+ƒEƒBƒ“ƒhƒE‚ðƒLƒƒƒvƒ`ƒƒ‚·‚é‚É‚ÍA‚±‚Ì HWND ‚ð®”‰»‚µ‚Ä
+wgc_start_window ‚É“n‚µ‚Ü‚·B
 
 %href
 wgc_start_window
 
 %index
 wgc_start_window
-æŒ‡å®šã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚’é–‹å§‹
+Žw’èƒEƒBƒ“ƒhƒE‚ÌƒLƒƒƒvƒ`ƒƒ‚ðŠJŽn
 %group
-hspwgcapture â€” ã‚­ãƒ£ãƒ—ãƒãƒ£
+hspwgcapture \ ƒLƒƒƒvƒ`ƒƒ
 %prm
 hwnd, var_handle
-hwnd       : ã‚­ãƒ£ãƒ—ãƒãƒ£å¯¾è±¡ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ« (int)
-var_handle : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«ã‚’å—ã‘å–ã‚‹æ•´æ•°å¤‰æ•°
+hwnd       : ƒLƒƒƒvƒ`ƒƒ‘ÎÛƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹ (int)
+var_handle : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ðŽó‚¯Žæ‚é®”•Ï”
 
 %inst
-GraphicsCaptureItem::CreateForWindow ã§æŒ‡å®š HWND ã®ã‚­ãƒ£ãƒ—ãƒãƒ£
-ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ä½œæˆã—ã€Direct3D11CaptureFramePool ã‚’ CreateFreeThreaded
-ã§ç”Ÿæˆã—ãŸã®ã¡ã€GraphicsCaptureSession::StartCapture() ã‚’å‘¼ã³ã¾ã™ã€‚
+GraphicsCaptureItem::CreateForWindow ‚ÅŽw’è HWND ‚ÌƒLƒƒƒvƒ`ƒƒ
+ƒZƒbƒVƒ‡ƒ“‚ðì¬‚µADirect3D11CaptureFramePool ‚ð CreateFreeThreaded
+‚Å¶¬‚µ‚½‚Ì‚¿AGraphicsCaptureSession::StartCapture() ‚ðŒÄ‚Ñ‚Ü‚·B
 
-var_handle ã« 0 ä»¥ä¸Šã®å†…éƒ¨ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¹ãƒ­ãƒƒãƒˆç•ªå·ãŒæ ¼ç´ã•ã‚Œã¾ã™ã€‚
-                -1 = å¤±æ•— / -2 = ç„¡åŠ¹ãª HWNDã€‚
+var_handle ‚É 0 ˆÈã‚Ì“à•”ƒZƒbƒVƒ‡ƒ“ƒXƒƒbƒg”Ô†‚ªŠi”[‚³‚ê‚Ü‚·B
+                -1 = Ž¸”s / -2 = –³Œø‚È HWNDB
 
-åŒæ™‚ã«æœ€å¤§ 4 ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ä¿æŒã§ãã¾ã™ã€‚
+“¯Žž‚ÉÅ‘å 4 ƒZƒbƒVƒ‡ƒ“‚ð•ÛŽ‚Å‚«‚Ü‚·B
 
 %href
 wgc_start_monitor
@@ -121,20 +124,20 @@ wgc_grab_frame
 
 %index
 wgc_start_monitor
-æŒ‡å®šãƒ¢ãƒ‹ã‚¿å…¨ä½“ã®ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚’é–‹å§‹
+Žw’èƒ‚ƒjƒ^‘S‘Ì‚ÌƒLƒƒƒvƒ`ƒƒ‚ðŠJŽn
 %group
-hspwgcapture â€” ã‚­ãƒ£ãƒ—ãƒãƒ£
+hspwgcapture \ ƒLƒƒƒvƒ`ƒƒ
 %prm
 idx, var_handle
-idx        : ãƒ¢ãƒ‹ã‚¿ index (0 = ãƒ—ãƒ©ã‚¤ãƒžãƒª, 1 = ã‚µãƒ–, ...)
-var_handle : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«ã‚’å—ã‘å–ã‚‹æ•´æ•°å¤‰æ•°
+idx        : ƒ‚ƒjƒ^ index (0 = ƒvƒ‰ƒCƒ}ƒŠ, 1 = ƒTƒu, ...)
+var_handle : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ðŽó‚¯Žæ‚é®”•Ï”
 
 %inst
-EnumDisplayMonitors ã§å–å¾—ã—ãŸ idx ç•ªç›®ã® HMONITOR ã«å¯¾ã—ã¦
-GraphicsCaptureItem::CreateForMonitor ã§ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚»ãƒƒã‚·ãƒ§ãƒ³
-ã‚’ä½œæˆã—ã¾ã™ã€‚
+EnumDisplayMonitors ‚ÅŽæ“¾‚µ‚½ idx ”Ô–Ú‚Ì HMONITOR ‚É‘Î‚µ‚Ä
+GraphicsCaptureItem::CreateForMonitor ‚ÅƒLƒƒƒvƒ`ƒƒƒZƒbƒVƒ‡ƒ“
+‚ðì¬‚µ‚Ü‚·B
 
-idx=0 ã‚’æŒ‡å®šã™ã‚Œã°ãƒ—ãƒ©ã‚¤ãƒžãƒªãƒ¢ãƒ‹ã‚¿å…¨ç”»é¢ã‚­ãƒ£ãƒ—ãƒãƒ£ã«ãªã‚Šã¾ã™ã€‚
+idx=0 ‚ðŽw’è‚·‚ê‚Îƒvƒ‰ƒCƒ}ƒŠƒ‚ƒjƒ^‘S‰æ–ÊƒLƒƒƒvƒ`ƒƒ‚É‚È‚è‚Ü‚·B
 
 %href
 wgc_start_window
@@ -142,71 +145,71 @@ wgc_stop
 
 %index
 wgc_stop
-ã‚­ãƒ£ãƒ—ãƒãƒ£åœæ­¢
+ƒLƒƒƒvƒ`ƒƒ’âŽ~
 %group
-hspwgcapture â€” ã‚­ãƒ£ãƒ—ãƒãƒ£
+hspwgcapture \ ƒLƒƒƒvƒ`ƒƒ
 %prm
 handle
-handle : wgc_start_* ãŒè¿”ã—ãŸã‚¹ãƒ­ãƒƒãƒˆç•ªå·
+handle : wgc_start_* ‚ª•Ô‚µ‚½ƒXƒƒbƒg”Ô†
 
 %inst
-æŒ‡å®šã‚»ãƒƒã‚·ãƒ§ãƒ³ã® GraphicsCaptureSession / FramePool ã‚’ Close
-ã—ã¦ã‚¹ãƒ­ãƒƒãƒˆã‚’è§£æ”¾ã—ã¾ã™ã€‚
+Žw’èƒZƒbƒVƒ‡ƒ“‚Ì GraphicsCaptureSession / FramePool ‚ð Close
+‚µ‚ÄƒXƒƒbƒg‚ð‰ð•ú‚µ‚Ü‚·B
 
 %href
 wgc_start_window
 
 %index
 wgc_grab_frame
-æœ€æ–°ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ BGRA ãƒã‚¤ãƒˆåˆ—ã§å–å¾—
+ÅVƒtƒŒ[ƒ€‚ð BGRA ƒoƒCƒg—ñ‚ÅŽæ“¾
 %group
-hspwgcapture â€” ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—
+hspwgcapture \ ƒtƒŒ[ƒ€Žæ“¾
 %prm
 handle, buf, buf_size, w, h
-handle   : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
-buf      : ç”»ç´ ãƒ‡ãƒ¼ã‚¿ã‚’å—ã‘å–ã‚‹å¤‰æ•° (sx*sy*4 ãƒã‚¤ãƒˆã® BGRA)
-buf_size : buf ã«ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º (ãƒã‚¤ãƒˆæ•°)
-w, h     : å¹…ã¨é«˜ã•ã‚’å—ã‘å–ã‚‹ int å¤‰æ•°
+handle   : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
+buf      : ‰æ‘fƒf[ƒ^‚ðŽó‚¯Žæ‚é•Ï” (sx*sy*4 ƒoƒCƒg‚Ì BGRA)
+buf_size : buf ‚ÉŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY (ƒoƒCƒg”)
+w, h     : •‚Æ‚‚³‚ðŽó‚¯Žæ‚é int •Ï”
 
 %inst
-FramePool::TryGetNextFrame() ã§æœ€æ–°ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’å–ã‚Šå‡ºã—ã€
-IDirect3DDxgiInterfaceAccess çµŒç”±ã§ ID3D11Texture2D ã‚’å¾—ã¦ã€
-staging ãƒ†ã‚¯ã‚¹ãƒãƒ£ã«ã‚³ãƒ”ãƒ¼ â†’ Map() â†’ memcpy ã®é †ã§ãƒ”ã‚¯ã‚»ãƒ«
-ã‚’ CPU ã¸èª­ã¿æˆ»ã—ã¾ã™ã€‚
+FramePool::TryGetNextFrame() ‚ÅÅVƒtƒŒ[ƒ€‚ðŽæ‚èo‚µA
+IDirect3DDxgiInterfaceAccess Œo—R‚Å ID3D11Texture2D ‚ð“¾‚ÄA
+staging ƒeƒNƒXƒ`ƒƒ‚ÉƒRƒs[ ¨ Map() ¨ memcpy ‚Ì‡‚ÅƒsƒNƒZƒ‹
+‚ð CPU ‚Ö“Ç‚Ý–ß‚µ‚Ü‚·B
 
-format ã¯ B8G8R8A8UIntNormalized (å„ç”»ç´  4 ãƒã‚¤ãƒˆ BGRA)ã€‚
-buf ã¯å‘¼ã³å‡ºã—å´ã§ sdim ã‚„ memexpand ç­‰ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿
-ã—ã¦ã‹ã‚‰æ¸¡ã—ã¦ãã ã•ã„ã€‚ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’ buf_size ã«
-æŒ‡å®šã—ã¾ã™ã€‚
+format ‚Í B8G8R8A8UIntNormalized (Še‰æ‘f 4 ƒoƒCƒg BGRA)B
+buf ‚ÍŒÄ‚Ño‚µ‘¤‚Å sdim ‚â memexpand “™‚Å\•ª‚ÈƒTƒCƒY‚ðŠm•Û
+‚µ‚Ä‚©‚ç“n‚µ‚Ä‚­‚¾‚³‚¢BŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY‚ð buf_size ‚É
+Žw’è‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤ (stat):
-  0  : æˆåŠŸ
- -1  : æœªåˆæœŸåŒ–
- -2  : ä¸æ­£ãƒãƒ³ãƒ‰ãƒ«
- -3  : éžã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã‚»ãƒƒã‚·ãƒ§ãƒ³
- -4  : ãƒ•ãƒ¬ãƒ¼ãƒ æœªåˆ°ç€ (TryGetNextFrame ãŒ null ã‚’è¿”ã—ãŸå ´åˆ)
+–ß‚è’l (stat):
+  0  : ¬Œ÷
+ -1  : –¢‰Šú‰»
+ -2  : •s³ƒnƒ“ƒhƒ‹
+ -3  : ”ñƒAƒNƒeƒBƒuƒZƒbƒVƒ‡ƒ“
+ -4  : ƒtƒŒ[ƒ€–¢“ž’… (TryGetNextFrame ‚ª null ‚ð•Ô‚µ‚½ê‡)
 
 %href
 wgc_save_png
 
 %index
 wgc_save_png
-æœ€æ–°ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ PNG ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜
+ÅVƒtƒŒ[ƒ€‚ð PNG ƒtƒ@ƒCƒ‹‚É•Û‘¶
 %group
-hspwgcapture â€” ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—
+hspwgcapture \ ƒtƒŒ[ƒ€Žæ“¾
 %prm
 handle, "path"
-handle : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
-path   : å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+handle : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
+path   : o—Íƒtƒ@ƒCƒ‹ƒpƒX
 
 %inst
-wgc_grab_frame ã¨åŒã˜æ–¹æ³•ã§æœ€æ–°ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’å–å¾—ã—ã€ãã®å ´ã§
-WIC (Windows Imaging Component) ã® IWICBitmapEncoder ã‚’ä½¿ã£ã¦
-PNG ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãå‡ºã—ã¾ã™ã€‚
+wgc_grab_frame ‚Æ“¯‚¶•û–@‚ÅÅVƒtƒŒ[ƒ€‚ðŽæ“¾‚µA‚»‚Ìê‚Å
+WIC (Windows Imaging Component) ‚Ì IWICBitmapEncoder ‚ðŽg‚Á‚Ä
+PNG ƒGƒ“ƒR[ƒh‚µ‚Äƒtƒ@ƒCƒ‹‚É‘‚«o‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤ (stat):
-  0  : æˆåŠŸ
- è² å€¤ : å¤±æ•—
+–ß‚è’l (stat):
+  0  : ¬Œ÷
+ •‰’l : Ž¸”s
 
 %href
 wgc_grab_frame

@@ -1,10 +1,10 @@
 ;
-; hspmfcam.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Webcam / ä»®æƒ³ã‚«ãƒ¡ãƒ© / ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚«ãƒ¼ãƒ‰ã®å–ã‚Šè¾¼ã¿ + éŒ²ç”»
+; hspmfcam.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Webcam / ‰¼‘zƒJƒƒ‰ / ƒLƒƒƒvƒ`ƒƒƒJ[ƒh‚Ìæ‚è‚İ + ˜^‰æ
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,38 +14,41 @@ IronHSP / hspmfcam
 %dll
 hspmfcam.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-hspmfcam.dll ã¯ Microsoft Media Foundation (MF) ã‚’ç›´æ¥ãƒ©ãƒƒãƒ—ã—ã¦ã€
-Webcam ã‚„ä»®æƒ³ã‚«ãƒ¡ãƒ© (OBS/NDI)ã€ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚«ãƒ¼ãƒ‰ (Magewell/Elgato/Blackmagic)
-ã‹ã‚‰ã®æ˜ åƒå–ã‚Šè¾¼ã¿ãƒ»éŒ²ç”»ã‚’ 1 è¡Œã§è¡Œãˆã‚‹ã‚ˆã†ã«ã™ã‚‹ C++ è£½ãƒ˜ãƒ«ãƒ‘ DLL ã§ã™ã€‚
+hspmfcam.dll ‚Í Microsoft Media Foundation (MF) ‚ğ’¼Úƒ‰ƒbƒv‚µ‚ÄA
+Webcam ‚â‰¼‘zƒJƒƒ‰ (OBS/NDI)AƒLƒƒƒvƒ`ƒƒƒJ[ƒh (Magewell/Elgato/Blackmagic)
+‚©‚ç‚Ì‰f‘œæ‚è‚İE˜^‰æ‚ğ 1 s‚Ås‚¦‚é‚æ‚¤‚É‚·‚é C++ »ƒwƒ‹ƒp DLL ‚Å‚·B
 
-ç‰¹å¾´:
-  - å†…éƒ¨ã§ worker thread + child window ã‚’ä½œæˆ (MFPlay ã¨åŒã˜æ–¹å¼)
-  - HSP main thread ãŒ title bar drag ç­‰ã§åœæ­¢ã—ã¦ã‚‚æ˜ åƒã¯æ­¢ã¾ã‚‰ãªã„
-  - æœ€å¤§ 256 ãƒ‡ãƒã‚¤ã‚¹ã‚’åŒæ™‚ã« open å¯èƒ½
-  - è‡ªå‹•ãƒ‡ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ãƒ¼ã‚¹ (ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚«ãƒ¼ãƒ‰ã® 1080i ç­‰ã«ã‚‚å¯¾å¿œ)
-  - PNG/JPEG/BMP/GIF/TIFF ã‚¹ãƒŠãƒƒãƒ—ã‚·ãƒ§ãƒƒãƒˆä¿å­˜ (WIC)
-  - H.264/HEVC/WMV9/VP9/MJPG éŒ²ç”» + AAC/WMA/FLAC/MP3 åŒæ™‚éŒ²éŸ³
-  - ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ (æ˜ã‚‹ã•/éœ²å‡º/ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ç­‰) ã‚¢ã‚¯ã‚»ã‚¹
+“Á’¥:
+  - “à•”‚Å worker thread + child window ‚ğì¬ (MFPlay ‚Æ“¯‚¶•û®)
+  - HSP main thread ‚ª title bar drag “™‚Å’â~‚µ‚Ä‚à‰f‘œ‚Í~‚Ü‚ç‚È‚¢
+  - Å‘å 256 ƒfƒoƒCƒX‚ğ“¯‚É open ‰Â”\
+  - ©“®ƒfƒCƒ“ƒ^[ƒŒ[ƒX (ƒLƒƒƒvƒ`ƒƒƒJ[ƒh‚Ì 1080i “™‚É‚à‘Î‰)
+  - PNG/JPEG/BMP/GIF/TIFF ƒXƒiƒbƒvƒVƒ‡ƒbƒg•Û‘¶ (WIC)
+  - H.264/HEVC/WMV9/VP9/MJPG ˜^‰æ + AAC/WMA/FLAC/MP3 “¯˜^‰¹
+  - ƒJƒƒ‰ƒvƒƒpƒeƒB (–¾‚é‚³/˜Io/ƒtƒH[ƒJƒX“™) ƒAƒNƒZƒX
 
-HSP å´ã‹ã‚‰ã¯ package/win32/common/iron_camera_mf.hsp ã‚’ include ã—ã¦
-iron_cam_* ç³»ã®ãƒ©ãƒƒãƒ‘å‘½ä»¤ã§æ‰±ã†ã®ãŒæ¨å¥¨ã§ã™ (raw API ã¯ mfcam_* ç³»)ã€‚
+HSP ‘¤‚©‚ç‚Í package/win32/common/iron_camera_mf.hsp ‚ğ include ‚µ‚Ä
+iron_cam_* Œn‚Ìƒ‰ƒbƒp–½—ß‚Åˆµ‚¤‚Ì‚ª„§‚Å‚· (raw API ‚Í mfcam_* Œn)B
+
+%group
+hspmfcam (Media Foundation ƒJƒƒ‰)
 
 %index
 mfcam_count
-æ¥ç¶šã‚«ãƒ¡ãƒ©æ•°ã‚’å–å¾—
+Ú‘±ƒJƒƒ‰”‚ğæ“¾
 %group
-hspmfcam â€” ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™
+hspmfcam \ ƒfƒoƒCƒX—ñ‹“
 %prm
 
 %inst
-ã‚·ã‚¹ãƒ†ãƒ ã«æ¥ç¶šã•ã‚Œã¦ã„ã‚‹ Video Capture ãƒ‡ãƒã‚¤ã‚¹
-(Webcam, ä»®æƒ³ã‚«ãƒ¡ãƒ©, ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚«ãƒ¼ãƒ‰) ã®ç·æ•°ã‚’è¿”ã—ã¾ã™ã€‚
-ANSI æ–‡å­—åˆ—ã€‚
+ƒVƒXƒeƒ€‚ÉÚ‘±‚³‚ê‚Ä‚¢‚é Video Capture ƒfƒoƒCƒX
+(Webcam, ‰¼‘zƒJƒƒ‰, ƒLƒƒƒvƒ`ƒƒƒJ[ƒh) ‚Ì‘”‚ğ•Ô‚µ‚Ü‚·B
+ANSI •¶š—ñB
 
 %href
 mfcam_get_name
@@ -54,18 +57,18 @@ mfcam_audio_count
 
 %index
 mfcam_get_name
-ã‚«ãƒ¡ãƒ© friendly name ã®å–å¾—
+ƒJƒƒ‰ friendly name ‚Ìæ“¾
 %group
-hspmfcam â€” ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™
+hspmfcam \ ƒfƒoƒCƒX—ñ‹“
 %prm
 p1, p2, p3
-p1=0~  : ãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ (0 ã‹ã‚‰é †)
-p2     : çµæœã‚’æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—å¤‰æ•°
-p3=1~  : å¤‰æ•°ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+p1=0~  : ƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX (0 ‚©‚ç‡)
+p2     : Œ‹‰Ê‚ğŠi”[‚·‚é•¶š—ñ•Ï”
+p3=1~  : •Ï”ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-idx ç•ªç›®ã®ã‚«ãƒ¡ãƒ©ã® "friendly name" (ä¾‹: "Logicool BRIO") ã‚’ p2 ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-HSP å´ã§ sdim ã§äºˆã‚ãƒãƒƒãƒ•ã‚¡ç¢ºä¿ã—ã¦ãŠãã“ã¨ã€‚
+idx ”Ô–Ú‚ÌƒJƒƒ‰‚Ì "friendly name" (—á: "Logicool BRIO") ‚ğ p2 ‚É‘‚«‚İ‚Ü‚·B
+HSP ‘¤‚Å sdim ‚Å—\‚ßƒoƒbƒtƒ@Šm•Û‚µ‚Ä‚¨‚­‚±‚ÆB
 
 %href
 mfcam_count
@@ -73,32 +76,32 @@ mfcam_get_id
 
 %index
 mfcam_get_id
-ã‚«ãƒ¡ãƒ©ã®ãƒ¦ãƒ‹ãƒ¼ã‚¯ ID (Symbolic Link) ã‚’å–å¾—
+ƒJƒƒ‰‚Ìƒ†ƒj[ƒN ID (Symbolic Link) ‚ğæ“¾
 %group
-hspmfcam â€” ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™
+hspmfcam \ ƒfƒoƒCƒX—ñ‹“
 %prm
 p1, p2, p3
-p1=0~  : ãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-p2     : çµæœã‚’æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—å¤‰æ•° (1024 byte æ¨å¥¨)
-p3=1~  : å¤‰æ•°ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+p1=0~  : ƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX
+p2     : Œ‹‰Ê‚ğŠi”[‚·‚é•¶š—ñ•Ï” (1024 byte „§)
+p3=1~  : •Ï”ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-idx ç•ªç›®ã®ã‚«ãƒ¡ãƒ©ã® SymbolicLink (USB device path ç­‰) ã‚’å–å¾—ã—ã¾ã™ã€‚
-friendly name ã¨é•ã£ã¦ã€åŒã˜è£½å“ãŒè¤‡æ•°æ¥ç¶šã•ã‚Œã¦ã„ã¦ã‚‚ USB ãƒãƒ¼ãƒˆã”ã¨ã«
-ãƒ¦ãƒ‹ãƒ¼ã‚¯ãªå€¤ã«ãªã‚Šã¾ã™ã€‚ãƒ‡ãƒã‚¤ã‚¹ã‚’è¨˜æ†¶ã—ã¦ãŠããŸã„å ´åˆã«ä½¿ç”¨ã€‚
+idx ”Ô–Ú‚ÌƒJƒƒ‰‚Ì SymbolicLink (USB device path “™) ‚ğæ“¾‚µ‚Ü‚·B
+friendly name ‚Æˆá‚Á‚ÄA“¯‚¶»•i‚ª•¡”Ú‘±‚³‚ê‚Ä‚¢‚Ä‚à USB ƒ|[ƒg‚²‚Æ‚É
+ƒ†ƒj[ƒN‚È’l‚É‚È‚è‚Ü‚·BƒfƒoƒCƒX‚ğ‹L‰¯‚µ‚Ä‚¨‚«‚½‚¢ê‡‚Ég—pB
 
 %href
 mfcam_get_name
 
 %index
 mfcam_audio_count
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ‡ãƒã‚¤ã‚¹æ•°
+ƒI[ƒfƒBƒIƒLƒƒƒvƒ`ƒƒƒfƒoƒCƒX”
 %group
-hspmfcam â€” ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™
+hspmfcam \ ƒfƒoƒCƒX—ñ‹“
 %prm
 
 %inst
-ãƒã‚¤ã‚¯ã‚„ LineIn ç­‰ã®ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ‡ãƒã‚¤ã‚¹ã®ç·æ•°ã‚’è¿”ã—ã¾ã™ã€‚
+ƒ}ƒCƒN‚â LineIn “™‚ÌƒI[ƒfƒBƒIƒLƒƒƒvƒ`ƒƒƒfƒoƒCƒX‚Ì‘”‚ğ•Ô‚µ‚Ü‚·B
 
 %href
 mfcam_audio_get_name
@@ -106,45 +109,45 @@ mfcam_audio_get_id
 
 %index
 mfcam_audio_get_name
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ª friendly name å–å¾—
+ƒI[ƒfƒBƒI friendly name æ“¾
 %group
-hspmfcam â€” ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™
+hspmfcam \ ƒfƒoƒCƒX—ñ‹“
 %prm
 p1, p2, p3
-p1=0~ : ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-p2    : æ–‡å­—åˆ—å¤‰æ•°
-p3=1~ : ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+p1=0~ : ƒCƒ“ƒfƒbƒNƒX
+p2    : •¶š—ñ•Ï”
+p3=1~ : ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã® friendly name ã‚’å–å¾—ã—ã¾ã™ã€‚
+ƒI[ƒfƒBƒIƒfƒoƒCƒX‚Ì friendly name ‚ğæ“¾‚µ‚Ü‚·B
 
 %index
 mfcam_audio_get_id
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã®ãƒ¦ãƒ‹ãƒ¼ã‚¯ ID å–å¾—
+ƒI[ƒfƒBƒIƒfƒoƒCƒX‚Ìƒ†ƒj[ƒN ID æ“¾
 %group
-hspmfcam â€” ãƒ‡ãƒã‚¤ã‚¹åˆ—æŒ™
+hspmfcam \ ƒfƒoƒCƒX—ñ‹“
 %prm
 p1, p2, p3
-p1=0~ : ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-p2    : æ–‡å­—åˆ—å¤‰æ•° (1024 byte æ¨å¥¨)
-p3=1~ : ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+p1=0~ : ƒCƒ“ƒfƒbƒNƒX
+p2    : •¶š—ñ•Ï” (1024 byte „§)
+p3=1~ : ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã® WASAPI EndpointID ã‚’å–å¾—ã—ã¾ã™ã€‚
+ƒI[ƒfƒBƒIƒfƒoƒCƒX‚Ì WASAPI EndpointID ‚ğæ“¾‚µ‚Ü‚·B
 
 %index
 mfcam_format_count
-ã‚«ãƒ¡ãƒ©å¯¾å¿œãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ•°
+ƒJƒƒ‰‘Î‰ƒtƒH[ƒ}ƒbƒg”
 %group
-hspmfcam â€” ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆåˆ—æŒ™
+hspmfcam \ ƒtƒH[ƒ}ƒbƒg—ñ‹“
 %prm
 p1
-p1=0~ : ãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+p1=0~ : ƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX
 
 %inst
-æŒ‡å®šã‚«ãƒ¡ãƒ©ãŒãƒã‚¤ãƒ†ã‚£ãƒ–ã§å¯¾å¿œã—ã¦ã„ã‚‹ (è§£åƒåº¦ Ã— FPS Ã— FOURCC) ã®
-çµ„ã¿åˆã‚ã›æ•°ã‚’è¿”ã—ã¾ã™ã€‚ä¾‹ãˆã° 1080p30/720p60/MJPG 1080p30 ç­‰ãŒ
-åˆ¥ã€…ã«ã‚«ã‚¦ãƒ³ãƒˆã•ã‚Œã¾ã™ã€‚
+w’èƒJƒƒ‰‚ªƒlƒCƒeƒBƒu‚Å‘Î‰‚µ‚Ä‚¢‚é (‰ğ‘œ“x ~ FPS ~ FOURCC) ‚Ì
+‘g‚İ‡‚í‚¹”‚ğ•Ô‚µ‚Ü‚·B—á‚¦‚Î 1080p30/720p60/MJPG 1080p30 “™‚ª
+•ÊX‚ÉƒJƒEƒ“ƒg‚³‚ê‚Ü‚·B
 
 %href
 mfcam_format_get
@@ -152,26 +155,26 @@ mfcam_open_ex
 
 %index
 mfcam_format_get
-å¯¾å¿œãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæƒ…å ±ã®å–å¾—
+‘Î‰ƒtƒH[ƒ}ƒbƒgî•ñ‚Ìæ“¾
 %group
-hspmfcam â€” ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆåˆ—æŒ™
+hspmfcam \ ƒtƒH[ƒ}ƒbƒg—ñ‹“
 %prm
 p1, p2, p3, p4, p5, p6, p7, p8
-p1=0~ : ãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-p2=0~ : ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-p3    : å¹… (out int å¤‰æ•°)
-p4    : é«˜ã• (out int å¤‰æ•°)
-p5    : fps åˆ†å­ (out int å¤‰æ•°)
-p6    : fps åˆ†æ¯ (out int å¤‰æ•°)
-p7    : FOURCC (out æ–‡å­—åˆ—å¤‰æ•°, 32 byte æ¨å¥¨)
-p8=1~ : FOURCC ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+p1=0~ : ƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX
+p2=0~ : ƒtƒH[ƒ}ƒbƒgƒCƒ“ƒfƒbƒNƒX
+p3    : • (out int •Ï”)
+p4    : ‚‚³ (out int •Ï”)
+p5    : fps •ªq (out int •Ï”)
+p6    : fps •ª•ê (out int •Ï”)
+p7    : FOURCC (out •¶š—ñ•Ï”, 32 byte „§)
+p8=1~ : FOURCC ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-idx ç•ªç›®ã®ã‚«ãƒ¡ãƒ©ã® fmt_idx ç•ªç›®ã®å¯¾å¿œãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
-FOURCC ã¯ "NV12" "YUY2" "MJPG" "RGB32" ç­‰ã®æ–‡å­—åˆ—ã€‚
-fps ã¯ num/den å½¢å¼ (30 fps ã®å ´åˆ 30/1)ã€‚
+idx ”Ô–Ú‚ÌƒJƒƒ‰‚Ì fmt_idx ”Ô–Ú‚Ì‘Î‰ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚µ‚Ü‚·B
+FOURCC ‚Í "NV12" "YUY2" "MJPG" "RGB32" “™‚Ì•¶š—ñB
+fps ‚Í num/den Œ`® (30 fps ‚Ìê‡ 30/1)B
 
-æˆ»ã‚Šå€¤: æˆåŠŸ 1 / å¤±æ•— 0
+–ß‚è’l: ¬Œ÷ 1 / ¸”s 0
 
 %href
 mfcam_format_count
@@ -179,29 +182,29 @@ mfcam_open_ex
 
 %index
 mfcam_open
-ã‚«ãƒ¡ãƒ©ã‚’é–‹ã„ã¦å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤º
+ƒJƒƒ‰‚ğŠJ‚¢‚ÄqƒEƒBƒ“ƒhƒE‚ÉƒvƒŒƒrƒ…[•\¦
 %group
-hspmfcam â€” open / close
+hspmfcam \ open / close
 %prm
 p1, p2, p3, p4, p5, p6, p7, p8
-p1=0~      : ãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-p2         : è¦ª HWND (HSP ã® hwnd ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°ã‚’æ¸¡ã™)
-p3, p4     : å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã® x, y
-p5, p6     : å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å¹…, é«˜ã•
-p7         : å–å¾—è§£åƒåº¦ width (out int)
-p8         : å–å¾—è§£åƒåº¦ height (out int)
+p1=0~      : ƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX
+p2         : e HWND (HSP ‚Ì hwnd ƒVƒXƒeƒ€•Ï”‚ğ“n‚·)
+p3, p4     : qƒEƒBƒ“ƒhƒE‚Ì x, y
+p5, p6     : qƒEƒBƒ“ƒhƒE‚Ì•, ‚‚³
+p7         : æ“¾‰ğ‘œ“x width (out int)
+p8         : æ“¾‰ğ‘œ“x height (out int)
 
 %inst
-idx ç•ªç›®ã®ã‚«ãƒ¡ãƒ©ã‚’é–‹ãã€parent_hwnd ã®å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ (ä½ç½® x,y ã‚µã‚¤ã‚º w,h)
-ã¨ã—ã¦ãƒªã‚¢ãƒ«ã‚¿ã‚¤ãƒ ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚å†…éƒ¨ã§ worker thread ã‚’èµ·å‹•ã—ã¦
-MF SourceReader â†’ StretchDIBits ã§ãƒ•ãƒ¬ãƒ¼ãƒ æç”»ã‚’è¡Œã„ã¾ã™ã€‚
+idx ”Ô–Ú‚ÌƒJƒƒ‰‚ğŠJ‚«Aparent_hwnd ‚ÌqƒEƒBƒ“ƒhƒE (ˆÊ’u x,y ƒTƒCƒY w,h)
+‚Æ‚µ‚ÄƒŠƒAƒ‹ƒ^ƒCƒ€ƒvƒŒƒrƒ…[‚ğ•\¦‚µ‚Ü‚·B“à•”‚Å worker thread ‚ğ‹N“®‚µ‚Ä
+MF SourceReader ¨ StretchDIBits ‚ÅƒtƒŒ[ƒ€•`‰æ‚ğs‚¢‚Ü‚·B
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« (>=0) / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ (>=0) / -1 ¸”s
 
-ãƒãƒ³ãƒ‰ãƒ«ã¯ mfcam_set_pos / mfcam_read / mfcam_record_start / mfcam_close
-ç­‰ã®ä»¥é™ã®å‘¼ã³å‡ºã—ã§ä½¿ã„ã¾ã™ã€‚
+ƒnƒ“ƒhƒ‹‚Í mfcam_set_pos / mfcam_read / mfcam_record_start / mfcam_close
+“™‚ÌˆÈ~‚ÌŒÄ‚Ño‚µ‚Åg‚¢‚Ü‚·B
 
-æœ€å¤§ 256 ãƒ‡ãƒã‚¤ã‚¹ã¾ã§ä¸¦åˆ—ã« open å¯èƒ½ã€‚
+Å‘å 256 ƒfƒoƒCƒX‚Ü‚Å•À—ñ‚É open ‰Â”\B
 
 %href
 mfcam_open_ex
@@ -210,27 +213,27 @@ mfcam_set_pos
 
 %index
 mfcam_open_ex
-ä»»æ„ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæŒ‡å®šã§ã‚«ãƒ¡ãƒ©ã‚’é–‹ã
+”CˆÓƒtƒH[ƒ}ƒbƒgw’è‚ÅƒJƒƒ‰‚ğŠJ‚­
 %group
-hspmfcam â€” open / close
+hspmfcam \ open / close
 %prm
 p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12
-p1=0~      : ãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-p2         : è¦ª HWND
-p3,p4,p5,p6: è¡¨ç¤ºä½ç½® x,y,w,h
-p7=0~      : æœ›ã‚€è§£åƒåº¦ width (0=ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
-p8=0~      : æœ›ã‚€è§£åƒåº¦ height (0=ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
-p9=0~      : æœ›ã‚€ fps åˆ†å­ (0=ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ, ä¾‹ 30)
-p10=0~     : æœ›ã‚€ fps åˆ†æ¯ (0=ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ, ä¾‹ 1)
-p11        : å–å¾—è§£åƒåº¦ width (out)
-p12        : å–å¾—è§£åƒåº¦ height (out)
+p1=0~      : ƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX
+p2         : e HWND
+p3,p4,p5,p6: •\¦ˆÊ’u x,y,w,h
+p7=0~      : –]‚Ş‰ğ‘œ“x width (0=ƒfƒtƒHƒ‹ƒg)
+p8=0~      : –]‚Ş‰ğ‘œ“x height (0=ƒfƒtƒHƒ‹ƒg)
+p9=0~      : –]‚Ş fps •ªq (0=ƒfƒtƒHƒ‹ƒg, —á 30)
+p10=0~     : –]‚Ş fps •ª•ê (0=ƒfƒtƒHƒ‹ƒg, —á 1)
+p11        : æ“¾‰ğ‘œ“x width (out)
+p12        : æ“¾‰ğ‘œ“x height (out)
 
 %inst
-mfcam_open ã¨åŒã˜ã ãŒã€è§£åƒåº¦ã¨ fps ã‚’æŒ‡å®šã—ã¦ open ã§ãã¾ã™ã€‚
-å†…éƒ¨ã§ã¯ mfcam_format_get ã§å¾—ã‚‰ã‚Œã‚‹ native ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆä¸­ã€
-desired_w/h/fps ã«æœ€ã‚‚è¿‘ã„ type ã‚’é¸æŠ â†’ å‡ºåŠ› RGB32 ã«å¤‰æ›ã—ã¾ã™ã€‚
+mfcam_open ‚Æ“¯‚¶‚¾‚ªA‰ğ‘œ“x‚Æ fps ‚ğw’è‚µ‚Ä open ‚Å‚«‚Ü‚·B
+“à•”‚Å‚Í mfcam_format_get ‚Å“¾‚ç‚ê‚é native ƒtƒH[ƒ}ƒbƒg’†A
+desired_w/h/fps ‚ÉÅ‚à‹ß‚¢ type ‚ğ‘I‘ğ ¨ o—Í RGB32 ‚É•ÏŠ·‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ / -1 ¸”s
 
 %href
 mfcam_open
@@ -238,110 +241,110 @@ mfcam_format_count
 
 %index
 mfcam_set_pos
-ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒªã‚µã‚¤ã‚º
+ƒvƒŒƒrƒ…[qƒEƒBƒ“ƒhƒE‚ÌƒŠƒTƒCƒY
 %group
-hspmfcam â€” ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
+hspmfcam \ ƒŒƒCƒAƒEƒg
 %prm
 p1, p2, p3, p4, p5
-p1   : ãƒãƒ³ãƒ‰ãƒ«
-p2,p3: æ–°ã—ã„ x, y
-p4,p5: æ–°ã—ã„ w, h
+p1   : ƒnƒ“ƒhƒ‹
+p2,p3: V‚µ‚¢ x, y
+p4,p5: V‚µ‚¢ w, h
 
 %inst
-HSP ã®è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒãƒªã‚µã‚¤ã‚ºã•ã‚ŒãŸéš›ãªã©ã«ã€å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’
-è¿½å¾“ã•ã›ã‚‹ãŸã‚ã«å‘¼ã³ã¾ã™ã€‚
+HSP ‚ÌeƒEƒBƒ“ƒhƒE‚ªƒŠƒTƒCƒY‚³‚ê‚½Û‚È‚Ç‚ÉAqƒEƒBƒ“ƒhƒE‚ğ
+’Ç]‚³‚¹‚é‚½‚ß‚ÉŒÄ‚Ñ‚Ü‚·B
 
 %index
 mfcam_set_aspect
-ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”ãƒ¢ãƒ¼ãƒ‰ã®åˆ‡æ›¿
+ƒAƒXƒyƒNƒg”äƒ‚[ƒh‚ÌØ‘Ö
 %group
-hspmfcam â€” ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
+hspmfcam \ ƒŒƒCƒAƒEƒg
 %prm
 p1, p2
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : 0=stretch (å¼•ãä¼¸ã°ã—) / 1=letterbox (ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”å›ºå®š + é»’å¸¯)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : 0=stretch (ˆø‚«L‚Î‚µ) / 1=letterbox (ƒAƒXƒyƒNƒg”äŒÅ’è + •‘Ñ)
 
 %inst
-ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã®è¡¨ç¤ºãƒ¢ãƒ¼ãƒ‰ã‚’åˆ‡ã‚Šæ›¿ãˆã¾ã™ã€‚
-letterbox ãƒ¢ãƒ¼ãƒ‰ã§ã¯ä½™ç™½ã‚’é»’ã§å¡—ã‚Šã¤ã¶ã—ã¾ã™ã€‚
+ƒvƒŒƒrƒ…[‚Ì•\¦ƒ‚[ƒh‚ğØ‚è‘Ö‚¦‚Ü‚·B
+letterbox ƒ‚[ƒh‚Å‚Í—]”’‚ğ•‚Å“h‚è‚Â‚Ô‚µ‚Ü‚·B
 
 %index
 mfcam_get_state
-ã‚«ãƒ¡ãƒ©ã®ç¾åœ¨çŠ¶æ…‹
+ƒJƒƒ‰‚ÌŒ»İó‘Ô
 %group
-hspmfcam â€” çŠ¶æ…‹
+hspmfcam \ ó‘Ô
 %prm
 p1
-p1 : ãƒãƒ³ãƒ‰ãƒ«
+p1 : ƒnƒ“ƒhƒ‹
 
 %inst
-ã‚«ãƒ¡ãƒ©ã®çŠ¶æ…‹ã‚’è¿”ã—ã¾ã™:
-  0 = FREE     (ã‚¹ãƒ­ãƒƒãƒˆæœªä½¿ç”¨)
-  1 = OPENING  (worker èµ·å‹•ä¸­ã€ã¾ã ãƒ•ãƒ¬ãƒ¼ãƒ æœªå–å¾—)
-  2 = READY    (å†ç”Ÿä¸­ã€ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—å¯)
-  3 = ERROR    (open å¤±æ•— / ç•°å¸¸çµ‚äº†)
+ƒJƒƒ‰‚Ìó‘Ô‚ğ•Ô‚µ‚Ü‚·:
+  0 = FREE     (ƒXƒƒbƒg–¢g—p)
+  1 = OPENING  (worker ‹N“®’†A‚Ü‚¾ƒtƒŒ[ƒ€–¢æ“¾)
+  2 = READY    (Ä¶’†AƒtƒŒ[ƒ€æ“¾‰Â)
+  3 = ERROR    (open ¸”s / ˆÙíI—¹)
 
 %index
 mfcam_read
-æœ€æ–°ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ byte é…åˆ—ã«ã‚³ãƒ”ãƒ¼
+ÅVƒtƒŒ[ƒ€‚ğ byte ”z—ñ‚ÉƒRƒs[
 %group
-hspmfcam â€” ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—
+hspmfcam \ ƒtƒŒ[ƒ€æ“¾
 %prm
 p1, p2
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : BGRA32 ã‚’æ›¸ãè¾¼ã‚€å¤‰æ•° (sdim _, w*h*4 ã§ç¢ºä¿)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : BGRA32 ‚ğ‘‚«‚Ş•Ï” (sdim _, w*h*4 ‚ÅŠm•Û)
 
 %inst
-æœ€æ–°ã®å–å¾—æ¸ˆã¿ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ BGRA32 (top-down) ã¨ã—ã¦ p2 ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-ç”»åƒå‡¦ç†ã‚’ HSP å´ã§è¡Œã„ãŸã„å ´åˆã«ä½¿ç”¨ã€‚
+ÅV‚Ìæ“¾Ï‚İƒtƒŒ[ƒ€‚ğ BGRA32 (top-down) ‚Æ‚µ‚Ä p2 ‚É‘‚«‚İ‚Ü‚·B
+‰æ‘œˆ—‚ğ HSP ‘¤‚Ås‚¢‚½‚¢ê‡‚Ég—pB
 
 %href
 mfcam_save_snapshot
 
 %index
 mfcam_save_snapshot
-ã‚¹ãƒŠãƒƒãƒ—ã‚·ãƒ§ãƒƒãƒˆã‚’ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜
+ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚ğƒtƒ@ƒCƒ‹•Û‘¶
 %group
-hspmfcam â€” ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—
+hspmfcam \ ƒtƒŒ[ƒ€æ“¾
 %prm
 p1, p2
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : å‡ºåŠ›ãƒ‘ã‚¹ (æ‹¡å¼µå­ã§å½¢å¼è‡ªå‹•åˆ¤åˆ¥)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : o—ÍƒpƒX (Šg’£q‚ÅŒ`®©“®”»•Ê)
 
 %inst
-æœ€æ–°ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã¨ã—ã¦ä¿å­˜ã—ã¾ã™ã€‚
-æ‹¡å¼µå­ã§å½¢å¼ãŒæ±ºã¾ã‚Šã¾ã™:
-  .png   â†’ PNG
-  .jpg   â†’ JPEG
-  .bmp   â†’ BMP
-  .gif   â†’ GIF
-  .tif   â†’ TIFF
+ÅV‚ÌƒtƒŒ[ƒ€‚ğ‰æ‘œƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä•Û‘¶‚µ‚Ü‚·B
+Šg’£q‚ÅŒ`®‚ªŒˆ‚Ü‚è‚Ü‚·:
+  .png   ¨ PNG
+  .jpg   ¨ JPEG
+  .bmp   ¨ BMP
+  .gif   ¨ GIF
+  .tif   ¨ TIFF
 
-WIC (Windows Imaging Component) ã‚’ä½¿ã£ãŸã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã§ã™ã€‚
+WIC (Windows Imaging Component) ‚ğg‚Á‚½ƒGƒ“ƒR[ƒh‚Å‚·B
 
 %href
 mfcam_read
 
 %index
 mfcam_prop_get
-ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤ã¨ãƒ¬ãƒ³ã‚¸å–å¾—
+ƒJƒƒ‰ƒvƒƒpƒeƒB’l‚ÆƒŒƒ“ƒWæ“¾
 %group
-hspmfcam â€” ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+hspmfcam \ ƒvƒƒpƒeƒB
 %prm
 p1, p2, p3, p4, p5, p6, p7, p8
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ID (ä¸‹è¨˜å‚ç…§)
-p3 : ç¾åœ¨å€¤ (out)
-p4 : æœ€å°å€¤ (out)
-p5 : æœ€å¤§å€¤ (out)
-p6 : ã‚¹ãƒ†ãƒƒãƒ— (out)
-p7 : ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ (out)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : ƒvƒƒpƒeƒB ID (‰º‹LQÆ)
+p3 : Œ»İ’l (out)
+p4 : Å¬’l (out)
+p5 : Å‘å’l (out)
+p6 : ƒXƒeƒbƒv (out)
+p7 : ƒfƒtƒHƒ‹ƒg’l (out)
 p8 : flags (out, 1=AUTO 2=MANUAL)
 
 %inst
-ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ç¾åœ¨å€¤ã¨ãƒ¬ãƒ³ã‚¸ã‚’å–å¾—ã—ã¾ã™ã€‚
+ƒJƒƒ‰ƒvƒƒpƒeƒB‚ÌŒ»İ’l‚ÆƒŒƒ“ƒW‚ğæ“¾‚µ‚Ü‚·B
 
-ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ID:
+ƒvƒƒpƒeƒB ID:
   0 = Brightness    1 = Contrast      2 = Hue
   3 = Saturation    4 = Sharpness     5 = Gamma
   6 = ColorEnable   7 = WhiteBalance  8 = BacklightCompensation
@@ -350,47 +353,47 @@ p8 : flags (out, 1=AUTO 2=MANUAL)
  13 = Zoom         14 = Exposure     15 = Iris
  16 = Focus
 
-æˆ»ã‚Šå€¤: 1=æˆåŠŸ / 0=å¤±æ•— (ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£éå¯¾å¿œ)
+–ß‚è’l: 1=¬Œ÷ / 0=¸”s (ƒvƒƒpƒeƒB”ñ‘Î‰)
 
 %href
 mfcam_prop_set
 
 %index
 mfcam_prop_set
-ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤ã®è¨­å®š
+ƒJƒƒ‰ƒvƒƒpƒeƒB’l‚Ìİ’è
 %group
-hspmfcam â€” ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+hspmfcam \ ƒvƒƒpƒeƒB
 %prm
 p1, p2, p3, p4
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ID
-p3 : è¨­å®šå€¤
-p4 : flags (1=AUTO, 2=MANUAL, 0=ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ MANUAL)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : ƒvƒƒpƒeƒB ID
+p3 : İ’è’l
+p4 : flags (1=AUTO, 2=MANUAL, 0=ƒfƒtƒHƒ‹ƒg MANUAL)
 
 %inst
-ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¨­å®šã—ã¾ã™ã€‚å€¤ã®ç¯„å›²ã¯ mfcam_prop_get ã§ç¢ºèªå¯èƒ½ã€‚
+ƒJƒƒ‰ƒvƒƒpƒeƒB‚ğİ’è‚µ‚Ü‚·B’l‚Ì”ÍˆÍ‚Í mfcam_prop_get ‚ÅŠm”F‰Â”\B
 
-æˆ»ã‚Šå€¤: 1=æˆåŠŸ / 0=å¤±æ•—
+–ß‚è’l: 1=¬Œ÷ / 0=¸”s
 
 %index
 mfcam_record_start
-æ˜ åƒã®ã¿ MP4 éŒ²ç”»é–‹å§‹
+‰f‘œ‚Ì‚İ MP4 ˜^‰æŠJn
 %group
-hspmfcam â€” éŒ²ç”»
+hspmfcam \ ˜^‰æ
 %prm
 p1, p2, p3, p4
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : å‡ºåŠ›ãƒ‘ã‚¹ (ä¾‹ "out.mp4")
-p3 : å‹•ç”»ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯ ("" or "H264" / "HEVC" / "WMV9" / "VP9" / "MJPG")
-p4 : ãƒ“ãƒƒãƒˆãƒ¬ãƒ¼ãƒˆ bps (ä¾‹ 4000000 = 4 Mbpsã€0 ã§ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ 4 Mbps)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : o—ÍƒpƒX (—á "out.mp4")
+p3 : “®‰æƒR[ƒfƒbƒN ("" or "H264" / "HEVC" / "WMV9" / "VP9" / "MJPG")
+p4 : ƒrƒbƒgƒŒ[ƒg bps (—á 4000000 = 4 MbpsA0 ‚ÅƒfƒtƒHƒ‹ƒg 4 Mbps)
 
 %inst
-SinkWriter ã‚’æ§‹ç¯‰ã—ã¦éŒ²ç”»ã‚’é–‹å§‹ã—ã¾ã™ã€‚worker thread ãŒ ReadSample ã§
-å–å¾—ã—ãŸãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ WriteSample ã«ãƒ‘ã‚¹ã‚¹ãƒ«ãƒ¼ã—ã¾ã™ã€‚
+SinkWriter ‚ğ\’z‚µ‚Ä˜^‰æ‚ğŠJn‚µ‚Ü‚·Bworker thread ‚ª ReadSample ‚Å
+æ“¾‚µ‚½ƒtƒŒ[ƒ€‚ğ WriteSample ‚ÉƒpƒXƒXƒ‹[‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: 1=æˆåŠŸ / 0=å¤±æ•— (open å¤±æ•—ã€ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯éå¯¾å¿œ ç­‰)
+–ß‚è’l: 1=¬Œ÷ / 0=¸”s (open ¸”sAƒR[ƒfƒbƒN”ñ‘Î‰ “™)
 
-mfcam_record_stop ã§åœæ­¢ + ãƒ•ã‚¡ã‚¤ãƒ« finalize ã•ã‚Œã¾ã™ã€‚
+mfcam_record_stop ‚Å’â~ + ƒtƒ@ƒCƒ‹ finalize ‚³‚ê‚Ü‚·B
 
 %href
 mfcam_record_start_av
@@ -398,26 +401,26 @@ mfcam_record_stop
 
 %index
 mfcam_record_start_av
-éŸ³å£° + æ˜ åƒ åŒæ™‚éŒ²ç”»é–‹å§‹
+‰¹º + ‰f‘œ “¯˜^‰æŠJn
 %group
-hspmfcam â€” éŒ²ç”»
+hspmfcam \ ˜^‰æ
 %prm
 p1, p2, p3, p4, p5, p6, p7
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : å‡ºåŠ›ãƒ‘ã‚¹
-p3 : å‹•ç”»ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯ ("H264" ç­‰)
-p4 : å‹•ç”»ãƒ“ãƒƒãƒˆãƒ¬ãƒ¼ãƒˆ
-p5 : ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ (mfcam_audio_count ã§å–å¾—)
-p6 : éŸ³å£°ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯ ("" or "AAC" / "WMA" / "FLAC" / "MP3")
-p7 : éŸ³å£°ãƒ“ãƒƒãƒˆãƒ¬ãƒ¼ãƒˆ (ãƒã‚¤ãƒˆ/ç§’, ä¾‹ 16000 = 128 kbps)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : o—ÍƒpƒX
+p3 : “®‰æƒR[ƒfƒbƒN ("H264" “™)
+p4 : “®‰æƒrƒbƒgƒŒ[ƒg
+p5 : ƒI[ƒfƒBƒIƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX (mfcam_audio_count ‚Åæ“¾)
+p6 : ‰¹ºƒR[ƒfƒbƒN ("" or "AAC" / "WMA" / "FLAC" / "MP3")
+p7 : ‰¹ºƒrƒbƒgƒŒ[ƒg (ƒoƒCƒg/•b, —á 16000 = 128 kbps)
 
 %inst
-mfcam_record_start ã«åŠ ãˆã¦ã€åˆ¥ worker thread ã§ audio_dev_idx ã®
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ãã€SinkWriter ã« audio stream ã‚’
-è¿½åŠ ã—ã¦æ˜ åƒã¨åŒæ™‚éŒ²ç”»ã—ã¾ã™ã€‚PCM 16bit 48kHz stereo ã‚’
-æŒ‡å®šã‚³ãƒ¼ãƒ‡ãƒƒã‚¯ã§åœ§ç¸®ã—ã¦ muxer ã«æµã—ã¾ã™ã€‚
+mfcam_record_start ‚É‰Á‚¦‚ÄA•Ê worker thread ‚Å audio_dev_idx ‚Ì
+ƒI[ƒfƒBƒIƒLƒƒƒvƒ`ƒƒƒfƒoƒCƒX‚ğŠJ‚«ASinkWriter ‚É audio stream ‚ğ
+’Ç‰Á‚µ‚Ä‰f‘œ‚Æ“¯˜^‰æ‚µ‚Ü‚·BPCM 16bit 48kHz stereo ‚ğ
+w’èƒR[ƒfƒbƒN‚Åˆ³k‚µ‚Ä muxer ‚É—¬‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: 1=æˆåŠŸ / 0=å¤±æ•—
+–ß‚è’l: 1=¬Œ÷ / 0=¸”s
 
 %href
 mfcam_record_start
@@ -426,60 +429,60 @@ mfcam_audio_count
 
 %index
 mfcam_record_stop
-éŒ²ç”»åœæ­¢ + finalize
+˜^‰æ’â~ + finalize
 %group
-hspmfcam â€” éŒ²ç”»
+hspmfcam \ ˜^‰æ
 %prm
 p1
-p1 : ãƒãƒ³ãƒ‰ãƒ«
+p1 : ƒnƒ“ƒhƒ‹
 
 %inst
-éŒ²ç”»ã‚’åœæ­¢ã—ã¦ SinkWriter ã‚’ finalize â†’ release ã—ã¾ã™ã€‚
-audio worker thread ã‚‚åŒæ™‚ã«åœæ­¢ã€‚
-mfcam_close ã§ã‚‚è‡ªå‹•çš„ã«å‘¼ã°ã‚Œã¾ã™ã€‚
+˜^‰æ‚ğ’â~‚µ‚Ä SinkWriter ‚ğ finalize ¨ release ‚µ‚Ü‚·B
+audio worker thread ‚à“¯‚É’â~B
+mfcam_close ‚Å‚à©“®“I‚ÉŒÄ‚Î‚ê‚Ü‚·B
 
 %index
 mfcam_close
-ã‚«ãƒ¡ãƒ©ã‚’é–‰ã˜ã‚‹
+ƒJƒƒ‰‚ğ•Â‚¶‚é
 %group
-hspmfcam â€” open / close
+hspmfcam \ open / close
 %prm
 p1
-p1 : ãƒãƒ³ãƒ‰ãƒ«
+p1 : ƒnƒ“ƒhƒ‹
 
 %inst
-worker thread ã‚’åœæ­¢ã—ã¦ child window ã‚’ç ´æ£„ã€ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã—ã¾ã™ã€‚
-éŒ²ç”»ä¸­ã®å ´åˆã¯å…ˆã« mfcam_record_stop ã‚’è‡ªå‹•å®Ÿè¡Œã—ã¾ã™ã€‚
+worker thread ‚ğ’â~‚µ‚Ä child window ‚ğ”jŠüAƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚Ü‚·B
+˜^‰æ’†‚Ìê‡‚Íæ‚É mfcam_record_stop ‚ğ©“®Às‚µ‚Ü‚·B
 
 %href
 mfcam_open
 
 ;============================================================
 ; Audio-only capture API (Phase 2-G)
-; ãƒã‚¤ã‚¯å˜ç‹¬éŒ²éŸ³ + ç”Ÿ PCM + WAV + ã‚¨ãƒ³ã‚³ãƒ¼ãƒ€éŒ²éŸ³
+; ƒ}ƒCƒN’P“Æ˜^‰¹ + ¶ PCM + WAV + ƒGƒ“ƒR[ƒ_˜^‰¹
 ;============================================================
 
 %index
 mfcam_audio_open
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã„ã¦ worker thread èµ·å‹•
+ƒI[ƒfƒBƒIƒfƒoƒCƒX‚ğŠJ‚¢‚Ä worker thread ‹N“®
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1, p2, p3, p4
-p1 : ãƒ‡ãƒã‚¤ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ (mfcam_audio_count ã§å–å¾—)
-p2 : sample rate (ä¾‹ 16000 / 44100 / 48000ã€0 ã§ 48000)
-p3 : channels (1=mono / 2=stereoã€0 ã§ 2)
-p4 : bits per sample (8/16/24/32ã€0 ã§ 16)
+p1 : ƒfƒoƒCƒXƒCƒ“ƒfƒbƒNƒX (mfcam_audio_count ‚Åæ“¾)
+p2 : sample rate (—á 16000 / 44100 / 48000A0 ‚Å 48000)
+p3 : channels (1=mono / 2=stereoA0 ‚Å 2)
+p4 : bits per sample (8/16/24/32A0 ‚Å 16)
 
 %inst
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã‚’ open ã—ã¦ MF SourceReader ã‚’èµ·å‹•ã€‚è¦æ±‚ã•ã‚ŒãŸ PCM
-ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆãŒãƒã‚¤ãƒ†ã‚£ãƒ–ã¨é•ã£ã¦ã„ã¦ã‚‚ MF ã® Audio Resampler MFT ãŒ
-è‡ªå‹•ã§æŒ¿å…¥ã•ã‚Œã¦å¤‰æ›ã•ã‚Œã¾ã™ (å¾—ã‚‰ã‚ŒãŸ format ã¯ mfcam_audio_get_format
-ã§ç¢ºèªå¯èƒ½)ã€‚
+ƒI[ƒfƒBƒIƒfƒoƒCƒX‚ğ open ‚µ‚Ä MF SourceReader ‚ğ‹N“®B—v‹‚³‚ê‚½ PCM
+ƒtƒH[ƒ}ƒbƒg‚ªƒlƒCƒeƒBƒu‚Æˆá‚Á‚Ä‚¢‚Ä‚à MF ‚Ì Audio Resampler MFT ‚ª
+©“®‚Å‘}“ü‚³‚ê‚Ä•ÏŠ·‚³‚ê‚Ü‚· (“¾‚ç‚ê‚½ format ‚Í mfcam_audio_get_format
+‚ÅŠm”F‰Â”\)B
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« (>=0) / -1 å¤±æ•— / -2 ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆéå¯¾å¿œ
+–ß‚è’l: ƒnƒ“ƒhƒ‹ (>=0) / -1 ¸”s / -2 ƒtƒH[ƒ}ƒbƒg”ñ‘Î‰
 
-æœ€å¤§ 64 ãƒ‡ãƒã‚¤ã‚¹ä¸¦åˆ—ã€‚
+Å‘å 64 ƒfƒoƒCƒX•À—ñB
 
 %href
 mfcam_audio_close
@@ -487,104 +490,104 @@ mfcam_audio_get_format
 
 %index
 mfcam_audio_get_format
-å®Ÿéš›ã«å¾—ã‚‰ã‚ŒãŸ sample rate / ch / bits ã‚’å–å¾—
+ÀÛ‚É“¾‚ç‚ê‚½ sample rate / ch / bits ‚ğæ“¾
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1, p2, p3, p4
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : çµæœ sample rate (out int)
-p3 : çµæœ channels   (out int)
-p4 : çµæœ bits       (out int)
+p1 : ƒnƒ“ƒhƒ‹
+p2 : Œ‹‰Ê sample rate (out int)
+p3 : Œ‹‰Ê channels   (out int)
+p4 : Œ‹‰Ê bits       (out int)
 
 %inst
-mfcam_audio_open ã§ãƒã‚´å¾Œã®å®Ÿãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¿”ã—ã¾ã™ã€‚
-è¦æ±‚ã¨é•ã†ã“ã¨ãŒã‚ã‚‹ã®ã§éŒ²éŸ³å‰ã«å¿…ãšç¢ºèªã—ã¦ãã ã•ã„ã€‚
+mfcam_audio_open ‚ÅƒlƒSŒã‚ÌÀƒtƒH[ƒ}ƒbƒg‚ğ•Ô‚µ‚Ü‚·B
+—v‹‚Æˆá‚¤‚±‚Æ‚ª‚ ‚é‚Ì‚Å˜^‰¹‘O‚É•K‚¸Šm”F‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 mfcam_audio_pcm_avail
-ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã«æºœã¾ã£ã¦ã„ã‚‹ PCM byte æ•°
+ƒŠƒ“ƒOƒoƒbƒtƒ@‚É—­‚Ü‚Á‚Ä‚¢‚é PCM byte ”
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1
 
 %inst
-worker thread ãŒè£ã§å–å¾—ã—ãŸ PCM ã®ç¾åœ¨ã®è“„ç©é‡ã‚’è¿”ã—ã¾ã™ã€‚
+worker thread ‚ª— ‚Åæ“¾‚µ‚½ PCM ‚ÌŒ»İ‚Ì’~Ï—Ê‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 mfcam_audio_read_pcm
-ãƒªãƒ³ã‚°ã‹ã‚‰ PCM ã‚’å–ã‚Šå‡ºã™
+ƒŠƒ“ƒO‚©‚ç PCM ‚ğæ‚èo‚·
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1, p2, p3
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : çµæœ byte é…åˆ— (sdim æ¸ˆã® char å¤‰æ•°)
-p3 : æœ€å¤§èª­ã¿è¾¼ã¿ byte æ•°
+p1 : ƒnƒ“ƒhƒ‹
+p2 : Œ‹‰Ê byte ”z—ñ (sdim Ï‚Ì char •Ï”)
+p3 : Å‘å“Ç‚İ‚İ byte ”
 
 %inst
-ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­ã‹ã‚‰æŒ‡å®š byte æ•°ã ã‘ã‚³ãƒ”ãƒ¼ã—ã¦å–ã‚Šå‡ºã—ã¾ã™ã€‚
-å–ã‚Šå‡ºã—ãŸåˆ†ã¯ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰æ¶ˆãˆã¾ã™ã€‚
+ƒŠƒ“ƒOƒoƒbƒtƒ@‚Ìæ“ª‚©‚çw’è byte ”‚¾‚¯ƒRƒs[‚µ‚Äæ‚èo‚µ‚Ü‚·B
+æ‚èo‚µ‚½•ª‚Íƒoƒbƒtƒ@‚©‚çÁ‚¦‚Ü‚·B
 
-æˆ»ã‚Šå€¤: å®Ÿéš›ã«èª­ã‚ãŸ byte æ•°
+–ß‚è’l: ÀÛ‚É“Ç‚ß‚½ byte ”
 
 %index
 mfcam_audio_save_wav_start
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ç›´æ›¸ãé–‹å§‹
+WAV ƒtƒ@ƒCƒ‹’¼‘‚«ŠJn
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1, p2
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : å‡ºåŠ› WAV ãƒ‘ã‚¹
+p1 : ƒnƒ“ƒhƒ‹
+p2 : o—Í WAV ƒpƒX
 
 %inst
-RIFF ãƒ˜ãƒƒãƒ€ã‚’æ›¸ã„ã¦ã€ä»¥é™ worker ãŒ ReadSample ã§å–å¾—ã—ãŸ PCM ã‚’ç›´æ¥
-WriteFile ã—ã¾ã™ã€‚ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ç„¡ã—ã€ä½ CPUã€ç„¡åœ§ç¸®ã€‚æ–‡å­—èµ·ã“ã—ç”¨é€”å‘ãã€‚
+RIFF ƒwƒbƒ_‚ğ‘‚¢‚ÄAˆÈ~ worker ‚ª ReadSample ‚Åæ“¾‚µ‚½ PCM ‚ğ’¼Ú
+WriteFile ‚µ‚Ü‚·BƒGƒ“ƒR[ƒh–³‚µA’á CPUA–³ˆ³kB•¶š‹N‚±‚µ—p“rŒü‚«B
 
 %index
 mfcam_audio_save_wav_stop
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ç›´æ›¸ãåœæ­¢
+WAV ƒtƒ@ƒCƒ‹’¼‘‚«’â~
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1
 
 %inst
-RIFF/data ãƒãƒ£ãƒ³ã‚¯ã‚µã‚¤ã‚ºã‚’ finalize ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã¾ã™ã€‚
+RIFF/data ƒ`ƒƒƒ“ƒNƒTƒCƒY‚ğ finalize ‚µ‚Äƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚Ü‚·B
 
 %index
 mfcam_audio_record_start
-ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰éŒ²éŸ³é–‹å§‹ (AAC/MP3/WMA/FLAC)
+ƒGƒ“ƒR[ƒh˜^‰¹ŠJn (AAC/MP3/WMA/FLAC)
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1, p2, p3, p4
-p1 : ãƒãƒ³ãƒ‰ãƒ«
-p2 : å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+p1 : ƒnƒ“ƒhƒ‹
+p2 : o—Íƒtƒ@ƒCƒ‹ƒpƒX
 p3 : codec ("" or "AAC" / "MP3" / "WMA" / "FLAC")
-p4 : ãƒ“ãƒƒãƒˆãƒ¬ãƒ¼ãƒˆ (0 ã§ 16000 = 128 kbps ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
+p4 : ƒrƒbƒgƒŒ[ƒg (0 ‚Å 16000 = 128 kbps ƒfƒtƒHƒ‹ƒg)
 
 %inst
-SinkWriter ã‚’æ§‹ç¯‰ã—ã¦åœ§ç¸®éŒ²éŸ³ã‚’é–‹å§‹ã—ã¾ã™ã€‚
+SinkWriter ‚ğ\’z‚µ‚Äˆ³k˜^‰¹‚ğŠJn‚µ‚Ü‚·B
 
 %index
 mfcam_audio_record_stop
-ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰éŒ²éŸ³åœæ­¢ + finalize
+ƒGƒ“ƒR[ƒh˜^‰¹’â~ + finalize
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1
 
 %index
 mfcam_audio_close
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
+ƒI[ƒfƒBƒIƒfƒoƒCƒX‚ğ•Â‚¶‚é
 %group
-hspmfcam â€” audio capture
+hspmfcam \ audio capture
 %prm
 p1
 
 %inst
-worker thread ã‚’åœæ­¢ â†’ reader releaseã€‚
-WAV / ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰éŒ²éŸ³ä¸­ã®å ´åˆã¯è‡ªå‹•ã§ stop ã—ã¦ãã‚Œã¾ã™ã€‚
+worker thread ‚ğ’â~ ¨ reader releaseB
+WAV / ƒGƒ“ƒR[ƒh˜^‰¹’†‚Ìê‡‚Í©“®‚Å stop ‚µ‚Ä‚­‚ê‚Ü‚·B

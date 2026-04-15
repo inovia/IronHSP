@@ -1,10 +1,10 @@
 ;
-; iron_shell.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èªž)
-; Windows ã‚·ã‚§ãƒ«æ“ä½œ (ShellExecute / ã‚´ãƒŸç®± / .lnk ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆ)
+; iron_shell.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Windows ƒVƒFƒ‹‘€ì (ShellExecute / ƒSƒ~”  / .lnk ƒVƒ‡[ƒgƒJƒbƒg)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,40 +12,44 @@
 %author
 IronHSP / iron_shell
 %dll
+iron_shell.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_shell.hsp ã¯ shell32.dll ã® ShellExecute / SHFileOperation /
-IShellLink ç­‰ã‚’ HSP ã‹ã‚‰æ‰‹è»½ã«å‘¼ã³å‡ºã™ãŸã‚ã®ãƒ©ãƒƒãƒ‘ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚
+iron_shell.hsp ‚Í shell32.dll ‚Ì ShellExecute / SHFileOperation /
+IShellLink “™‚ð HSP ‚©‚çŽèŒy‚ÉŒÄ‚Ño‚·‚½‚ß‚Ìƒ‰ƒbƒpƒ‚ƒWƒ…[ƒ‹‚Å‚·B
 
   #include "iron_shell.hsp"
 
-ã‚µãƒãƒ¼ãƒˆ:
-  ãƒ•ã‚¡ã‚¤ãƒ« / URL ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¢ãƒ—ãƒªã§é–‹ã
-  ä»»æ„ã‚³ãƒžãƒ³ãƒ‰ã®å®Ÿè¡Œ (é€šå¸¸ / ç®¡ç†è€…æ˜‡æ ¼)
-  ãƒ•ã‚¡ã‚¤ãƒ« / ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚´ãƒŸç®±ã¸é€ã‚‹
-  ã‚¨ã‚¯ã‚¹ãƒ—ãƒ­ãƒ¼ãƒ©ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é¸æŠžè¡¨ç¤º
-  .lnk ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ä½œæˆ (IShellLinkA COM)
+ƒTƒ|[ƒg:
+  ƒtƒ@ƒCƒ‹ / URL ‚ðƒfƒtƒHƒ‹ƒgƒAƒvƒŠ‚ÅŠJ‚­
+  ”CˆÓƒRƒ}ƒ“ƒh‚ÌŽÀs (’Êí / ŠÇ—ŽÒ¸Ši)
+  ƒtƒ@ƒCƒ‹ / ƒtƒHƒ‹ƒ_‚ðƒSƒ~” ‚Ö‘—‚é
+  ƒGƒNƒXƒvƒ[ƒ‰‚Åƒtƒ@ƒCƒ‹‚ð‘I‘ð•\Ž¦
+  .lnk ƒVƒ‡[ƒgƒJƒbƒgƒtƒ@ƒCƒ‹‚Ìì¬ (IShellLinkA COM)
+
+%group
+iron_shell (ƒVƒFƒ‹‘€ì)
 
 %index
 shell_open
-ãƒ•ã‚¡ã‚¤ãƒ«/URL ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¢ãƒ—ãƒªã§é–‹ã
+ƒtƒ@ƒCƒ‹/URL ‚ðƒfƒtƒHƒ‹ƒgƒAƒvƒŠ‚ÅŠJ‚­
 %group
-iron_shell â€” èµ·å‹•
+iron_shell \ ‹N“®
 %prm
 "path"
-"path" : ãƒ•ã‚¡ã‚¤ãƒ«ã€ãƒ•ã‚©ãƒ«ãƒ€ã€ã¾ãŸã¯ URL
+"path" : ƒtƒ@ƒCƒ‹AƒtƒHƒ‹ƒ_A‚Ü‚½‚Í URL
 
 %inst
-ShellExecute ã® verb = "open" ã‚’å‘¼ã³å‡ºã—ã€æ‹¡å¼µå­ã«é–¢é€£ä»˜ã‘ã‚‰ã‚ŒãŸ
-ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ path ã‚’é–‹ãã¾ã™ã€‚URL ã‚’æ¸¡ã™ã¨æ—¢å®šã®ãƒ–ãƒ©ã‚¦ã‚¶ãŒ
-èµ·å‹•ã—ã¾ã™ã€‚
+ShellExecute ‚Ì verb = "open" ‚ðŒÄ‚Ño‚µAŠg’£Žq‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å path ‚ðŠJ‚«‚Ü‚·BURL ‚ð“n‚·‚ÆŠù’è‚Ìƒuƒ‰ƒEƒU‚ª
+‹N“®‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   shell_open "https://www.google.com/"
   shell_open "readme.txt"
 
@@ -55,19 +59,19 @@ shell_runas
 
 %index
 shell_execute
-ä»»æ„ã‚³ãƒžãƒ³ãƒ‰ã‚’å®Ÿè¡Œ
+”CˆÓƒRƒ}ƒ“ƒh‚ðŽÀs
 %group
-iron_shell â€” èµ·å‹•
+iron_shell \ ‹N“®
 %prm
 "cmd", "args", "workdir"
-"cmd"     : å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã¾ãŸã¯ã‚³ãƒžãƒ³ãƒ‰
-"args"    : ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•° (ç©ºæ–‡å­—å¯)
-"workdir" : ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª (ç©ºæ–‡å­—å¯)
+"cmd"     : ŽÀsƒtƒ@ƒCƒ‹ƒpƒX‚Ü‚½‚ÍƒRƒ}ƒ“ƒh
+"args"    : ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø” (‹ó•¶Žš‰Â)
+"workdir" : ì‹ÆƒfƒBƒŒƒNƒgƒŠ (‹ó•¶Žš‰Â)
 
 %inst
-ShellExecute verb = "open" ã§ä»»æ„ã®ã‚³ãƒžãƒ³ãƒ‰ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+ShellExecute verb = "open" ‚Å”CˆÓ‚ÌƒRƒ}ƒ“ƒh‚ðŽÀs‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   shell_execute "notepad.exe", "readme.txt", ""
 
 %href
@@ -76,19 +80,19 @@ shell_runas
 
 %index
 shell_runas
-ç®¡ç†è€…æ¨©é™ã§å®Ÿè¡Œ (UAC æ˜‡æ ¼)
+ŠÇ—ŽÒŒ ŒÀ‚ÅŽÀs (UAC ¸Ši)
 %group
-iron_shell â€” èµ·å‹•
+iron_shell \ ‹N“®
 %prm
 "cmd", "args"
-"cmd"  : å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«
-"args" : å¼•æ•°
+"cmd"  : ŽÀsƒtƒ@ƒCƒ‹
+"args" : ˆø”
 
 %inst
-ShellExecute verb = "runas" ã§ UAC ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’å‡ºã—ã¦ç®¡ç†è€…æ¨©é™ã§
-èµ·å‹•ã—ã¾ã™ã€‚ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸå ´åˆã¯å¤±æ•—ã—ã¾ã™ã€‚
+ShellExecute verb = "runas" ‚Å UAC ƒvƒƒ“ƒvƒg‚ðo‚µ‚ÄŠÇ—ŽÒŒ ŒÀ‚Å
+‹N“®‚µ‚Ü‚·Bƒ†[ƒU[‚ªƒLƒƒƒ“ƒZƒ‹‚µ‚½ê‡‚ÍŽ¸”s‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   shell_runas "cmd.exe", "/c netsh http show urlacl"
 
 %href
@@ -96,61 +100,61 @@ shell_execute
 
 %index
 shell_recycle
-ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚´ãƒŸç®±ã¸é€ã‚‹
+ƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_‚ðƒSƒ~” ‚Ö‘—‚é
 %group
-iron_shell â€” ãƒ•ã‚¡ã‚¤ãƒ«
+iron_shell \ ƒtƒ@ƒCƒ‹
 %prm
 "path"
-"path" : å‰Šé™¤å¯¾è±¡ã®ãƒ‘ã‚¹
+"path" : íœ‘ÎÛ‚ÌƒpƒX
 
 %inst
-SHFileOperationA + FO_DELETE + FOF_ALLOWUNDO ã§ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯
-ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚´ãƒŸç®±ã¸é€ã‚Šã¾ã™ã€‚FOF_NOCONFIRMATION | FOF_SILENT ã‚‚
-ä»˜ããŸã‚ç¢ºèªãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã¯å‡ºã¾ã›ã‚“ã€‚å¾©å…ƒã¯ã‚¨ã‚¯ã‚¹ãƒ—ãƒ­ãƒ¼ãƒ©ã®ã‚´ãƒŸç®±ã‹ã‚‰
-è¡Œãˆã¾ã™ã€‚
+SHFileOperationA + FO_DELETE + FOF_ALLOWUNDO ‚Åƒtƒ@ƒCƒ‹‚Ü‚½‚Í
+ƒtƒHƒ‹ƒ_‚ðƒSƒ~” ‚Ö‘—‚è‚Ü‚·BFOF_NOCONFIRMATION | FOF_SILENT ‚à
+•t‚­‚½‚ßŠm”Fƒ_ƒCƒAƒƒO‚Ío‚Ü‚¹‚ñB•œŒ³‚ÍƒGƒNƒXƒvƒ[ƒ‰‚ÌƒSƒ~” ‚©‚ç
+s‚¦‚Ü‚·B
 
-ä¾‹:
+—á:
   shell_recycle "tmp_output.txt"
 
 %index
 shell_show_in_explorer
-ã‚¨ã‚¯ã‚¹ãƒ—ãƒ­ãƒ¼ãƒ©ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é¸æŠžè¡¨ç¤º
+ƒGƒNƒXƒvƒ[ƒ‰‚Åƒtƒ@ƒCƒ‹‚ð‘I‘ð•\Ž¦
 %group
-iron_shell â€” ã‚¨ã‚¯ã‚¹ãƒ—ãƒ­ãƒ¼ãƒ©
+iron_shell \ ƒGƒNƒXƒvƒ[ƒ‰
 %prm
 "path"
-"path" : è¡¨ç¤ºã—ãŸã„ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+"path" : •\Ž¦‚µ‚½‚¢ƒtƒ@ƒCƒ‹‚ÌƒpƒX
 
 %inst
-explorer.exe /select,path ã‚’å®Ÿè¡Œã—ã€ãƒ•ã‚¡ã‚¤ãƒ«ãŒé¸æŠžã•ã‚ŒãŸçŠ¶æ…‹ã§
-è¦ªãƒ•ã‚©ãƒ«ãƒ€ã‚’é–‹ãã¾ã™ã€‚
+explorer.exe /select,path ‚ðŽÀs‚µAƒtƒ@ƒCƒ‹‚ª‘I‘ð‚³‚ê‚½ó‘Ô‚Å
+eƒtƒHƒ‹ƒ_‚ðŠJ‚«‚Ü‚·B
 
-ä¾‹:
+—á:
   shell_show_in_explorer "C:\\Users\\me\\report.pdf"
 
 %index
 shell_mklink
-.lnk ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆã‚’ä½œæˆ (IShellLinkA COM)
+.lnk ƒVƒ‡[ƒgƒJƒbƒg‚ðì¬ (IShellLinkA COM)
 %group
-iron_shell â€” ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆ
+iron_shell \ ƒVƒ‡[ƒgƒJƒbƒg
 %prm
 "target", "link", "args", "desc", "workdir"
-"target"  : ãƒªãƒ³ã‚¯å…ˆã®ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€
-"link"    : ä½œæˆã™ã‚‹ .lnk ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-"args"    : èµ·å‹•æ™‚å¼•æ•° (ç©ºæ–‡å­—å¯)
-"desc"    : èª¬æ˜Ž (tooltipã€ç©ºæ–‡å­—å¯)
-"workdir" : ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª (ç©ºæ–‡å­—å¯)
+"target"  : ƒŠƒ“ƒNæ‚Ìƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_
+"link"    : ì¬‚·‚é .lnk ƒtƒ@ƒCƒ‹‚ÌƒpƒX
+"args"    : ‹N“®Žžˆø” (‹ó•¶Žš‰Â)
+"desc"    : à–¾ (tooltipA‹ó•¶Žš‰Â)
+"workdir" : ì‹ÆƒfƒBƒŒƒNƒgƒŠ (‹ó•¶Žš‰Â)
 
 %inst
-shell32.dll ã® CLSID_ShellLink (IShellLinkA) ã‚’ newcom ã§ç”Ÿæˆã—ã€
-SetPath / SetArguments / SetDescription / SetWorkingDir ã‚’å‘¼ã³å‡ºã—ã¦
-IPersistFile::Save ã§ .lnk ã‚’ä¿å­˜ã—ã¾ã™ã€‚æˆ»ã‚Šå€¤ã¯ 0 ã§æˆåŠŸã€
--1 ã§ QueryInterface å¤±æ•—ã§ã™ã€‚
+shell32.dll ‚Ì CLSID_ShellLink (IShellLinkA) ‚ð newcom ‚Å¶¬‚µA
+SetPath / SetArguments / SetDescription / SetWorkingDir ‚ðŒÄ‚Ño‚µ‚Ä
+IPersistFile::Save ‚Å .lnk ‚ð•Û‘¶‚µ‚Ü‚·B–ß‚è’l‚Í 0 ‚Å¬Œ÷A
+-1 ‚Å QueryInterface Ž¸”s‚Å‚·B
 
-ä¾‹:
+—á:
   shell_mklink "C:\\app\\foo.exe", "C:\\Users\\me\\Desktop\\foo.lnk", "--verbose", "My App", "C:\\app\\"
 
-å‚™è€ƒ:
-  å†…éƒ¨ã§ä½¿ç”¨ã—ã¦ã„ã‚‹ã®ã¯ IShellLinkA (ANSI ç‰ˆ) ã§ã™ã€‚ãƒ‘ã‚¹ã«éž ASCII æ–‡å­—
-  (æ—¥æœ¬èªžãƒ•ã‚©ãƒ«ãƒ€åç­‰) ãŒå«ã¾ã‚Œã‚‹å ´åˆã¯ IShellLinkW ç‰ˆã®ä½¿ç”¨ã‚’æ¤œè¨Ž
-  ã—ã¦ãã ã•ã„ã€‚
+”õl:
+  “à•”‚ÅŽg—p‚µ‚Ä‚¢‚é‚Ì‚Í IShellLinkA (ANSI ”Å) ‚Å‚·BƒpƒX‚É”ñ ASCII •¶Žš
+  (“ú–{ŒêƒtƒHƒ‹ƒ_–¼“™) ‚ªŠÜ‚Ü‚ê‚éê‡‚Í IShellLinkW ”Å‚ÌŽg—p‚ðŒŸ“¢
+  ‚µ‚Ä‚­‚¾‚³‚¢B

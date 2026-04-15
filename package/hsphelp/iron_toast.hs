@@ -1,10 +1,10 @@
 ;
-; iron_toast.hsp  HSP3 ヘルプ (日本語)
-; Shell_NotifyIcon バルーン通知ラッパ
+; iron_toast.hsp  HSP3 �w���v (���{��)
+; Shell_NotifyIcon �o���[���ʒm���b�p
 ;
 
 %type
-拡張命令
+�g������
 %ver
 1.0
 %date
@@ -12,40 +12,44 @@
 %author
 IronHSP / iron_toast
 %dll
+iron_toast.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win32 (32bit のみ)
+Win32 (32bit �̂�)
 
 %note
-iron_toast.hsp は Windows のタスクトレイ領域にバルーン通知を表示する
-ラッパです。Win10/11 ではトースト風の右下スライドイン通知になります。
+iron_toast.hsp �� Windows �̃^�X�N�g���C�̈�Ƀo���[���ʒm��\������
+���b�p�ł��BWin10/11 �ł̓g�[�X�g���̉E���X���C�h�C���ʒm�ɂȂ�܂��B
 
-Shell_NotifyIconA + NOTIFYICONDATAA を sdim/lpoke で構造体手組み。
-WinRT 不要、追加 DLL 不要。
+Shell_NotifyIconA + NOTIFYICONDATAA �� sdim/lpoke �ō\���̎�g�݁B
+WinRT �s�v�A�ǉ� DLL �s�v�B
 
   #include "iron_toast.hsp"
 
-注意: 32bit 専用です (NOTIFYICONDATAA の構造体レイアウトを 32bit
-固定で作成しているため)。x64 対応は将来課題。
+����: 32bit ��p�ł� (NOTIFYICONDATAA �̍\���̃��C�A�E�g�� 32bit
+�Œ�ō쐬���Ă��邽��)�Bx64 �Ή��͏����ۑ�B
+
+%group
+iron_toast (�g�[�X�g�ʒm)
 
 %index
 toast
-情報通知 (青 i アイコン) を表示
+���ʒm (�� i �A�C�R��) ��\��
 %group
 iron_toast
 %prm
 "title", "body"
-"title" : 通知タイトル (最大 63 byte)
-"body"  : 通知本文 (最大 255 byte)
+"title" : �ʒm�^�C�g�� (�ő� 63 byte)
+"body"  : �ʒm�{�� (�ő� 255 byte)
 
 %inst
-タスクトレイにバルーン通知を表示します。
-初回は NIM_ADD でアイコンを追加、2 回目以降は NIM_MODIFY で更新。
+�^�X�N�g���C�Ƀo���[���ʒm��\�����܂��B
+����� NIM_ADD �ŃA�C�R����ǉ��A2 ��ڈȍ~�� NIM_MODIFY �ōX�V�B
 
-例:
-  toast "IronHSP", "ビルドが完了しました"
+��:
+  toast "IronHSP", "�r���h���������܂���"
 
 %href
 toast_warning
@@ -54,39 +58,39 @@ toast_clear
 
 %index
 toast_warning
-警告通知 (黄 ! アイコン) を表示
+�x���ʒm (�� ! �A�C�R��) ��\��
 %group
 iron_toast
 %prm
 "title", "body"
 
 %inst
-NIIF_WARNING フラグで黄色の警告マーク付き通知を表示します。
+NIIF_WARNING �t���O�ŉ��F�̌x���}�[�N�t���ʒm��\�����܂��B
 
-例:
-  toast_warning "警告", "ディスク空き容量が少なくなっています"
+��:
+  toast_warning "�x��", "�f�B�X�N�󂫗e�ʂ����Ȃ��Ȃ��Ă��܂�"
 
 %index
 toast_error
-エラー通知 (赤 × アイコン) を表示
+�G���[�ʒm (�� �~ �A�C�R��) ��\��
 %group
 iron_toast
 %prm
 "title", "body"
 
 %inst
-NIIF_ERROR フラグで赤色のエラーマーク付き通知を表示します。
+NIIF_ERROR �t���O�ŐԐF�̃G���[�}�[�N�t���ʒm��\�����܂��B
 
-例:
-  toast_error "エラー", "ファイルが見つかりません"
+��:
+  toast_error "�G���[", "�t�@�C����������܂���"
 
 %index
 toast_clear
-タスクトレイからアイコンを削除
+�^�X�N�g���C����A�C�R�����폜
 %group
 iron_toast
 %prm
 
 %inst
-NIM_DELETE で登録済みアイコンを削除します。アプリ終了前に呼び出す
-ことを推奨。
+NIM_DELETE �œo�^�ς݃A�C�R�����폜���܂��B�A�v���I���O�ɌĂяo��
+���Ƃ𐄏��B

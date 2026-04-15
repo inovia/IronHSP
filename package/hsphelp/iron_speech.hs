@@ -1,10 +1,10 @@
 ;
-; iron_speech.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; éŸ³å£°èªè­˜çµ±ä¸€ API (ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰åˆ‡æ›¿å¯¾å¿œ)
+; iron_speech.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; ‰¹º”F¯“ˆê API (ƒoƒbƒNƒGƒ“ƒhØ‘Ö‘Î‰)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,125 +12,129 @@
 %author
 IronHSP / iron_speech
 %dll
+iron_speech.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_speech.hsp ã¯è¤‡æ•°ã®éŸ³å£°èªè­˜ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã‚’çµ±ä¸€ API ã§æ‰±ãˆã‚‹ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
-ã‚¹ã‚¯ãƒªãƒ—ãƒˆå´ã§ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã ã‘ã§ cloud / offline ã‚’é¸ã¹ã¾ã™ã€‚
+iron_speech.hsp ‚Í•¡”‚Ì‰¹º”F¯ƒoƒbƒNƒGƒ“ƒh‚ğ“ˆê API ‚Åˆµ‚¦‚éƒ‰ƒbƒp‚Å‚·B
+ƒXƒNƒŠƒvƒg‘¤‚ÅƒoƒbƒNƒGƒ“ƒh‚ğØ‚è‘Ö‚¦‚é‚¾‚¯‚Å cloud / offline ‚ğ‘I‚×‚Ü‚·B
 
-ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ä¸€è¦§:
-  SPEECH_BACKEND_CLOUD    : iron_ai çµŒç”±ã§ã‚¯ãƒ©ã‚¦ãƒ‰ Whisper API
-                             (OpenAI, Groq, Cloudflare ç­‰ã® OpenAI äº’æ›)
-  SPEECH_BACKEND_WHISPER  : whisper.cpp (ã‚ªãƒ•ãƒ©ã‚¤ãƒ³é«˜å“è³ª)  â€»æœªå®Ÿè£…
-  SPEECH_BACKEND_SAPI     : Windows SAPI 5                  â€»æœªå®Ÿè£…
-  SPEECH_BACKEND_WINRT    : WinRT Speech                    â€»æœªå®Ÿè£…
-  SPEECH_BACKEND_VOSK     : Kaldi/Vosk                      â€»æœªå®Ÿè£…
+ƒoƒbƒNƒGƒ“ƒhˆê——:
+  SPEECH_BACKEND_CLOUD    : iron_ai Œo—R‚ÅƒNƒ‰ƒEƒh Whisper API
+                             (OpenAI, Groq, Cloudflare “™‚Ì OpenAI ŒİŠ·)
+  SPEECH_BACKEND_WHISPER  : whisper.cpp (ƒIƒtƒ‰ƒCƒ“‚•i¿)  ¦–¢À‘•
+  SPEECH_BACKEND_SAPI     : Windows SAPI 5                  ¦–¢À‘•
+  SPEECH_BACKEND_WINRT    : WinRT Speech                    ¦–¢À‘•
+  SPEECH_BACKEND_VOSK     : Kaldi/Vosk                      ¦–¢À‘•
 
-ç¾çŠ¶: CLOUD ã®ã¿å‹•ä½œã€‚ä»–ã¯ SPEECH_ERR_NOT_IMPL ã‚’è¿”ã™ã‚¹ã‚¿ãƒ–ã€‚
-  â†’ å°†æ¥çš„ã« hspwhisper.dll / hspsapi.dll / hspwinrtspeech.dll /
-    hspvosk.dll ã‚’è¿½åŠ ã—ã¦åˆ‡ã‚Šæ›¿ãˆå¯èƒ½ã«ãªã‚‹äºˆå®šã€‚
+Œ»ó: CLOUD ‚Ì‚İ“®ìB‘¼‚Í SPEECH_ERR_NOT_IMPL ‚ğ•Ô‚·ƒXƒ^ƒuB
+  ¨ «—ˆ“I‚É hspwhisper.dll / hspsapi.dll / hspwinrtspeech.dll /
+    hspvosk.dll ‚ğ’Ç‰Á‚µ‚ÄØ‚è‘Ö‚¦‰Â”\‚É‚È‚é—\’èB
 
-ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰:
+ƒXƒe[ƒ^ƒXƒR[ƒh:
   SPEECH_OK             0
-  SPEECH_ERR_BACKEND   -1   æœªå¯¾å¿œãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰
-  SPEECH_ERR_NOT_IMPL  -2   æœªå®Ÿè£…
-  SPEECH_ERR_NOT_OPEN  -3   open ã•ã‚Œã¦ã„ãªã„
-  SPEECH_ERR_HTTP      -4   HTTP ã‚¨ãƒ©ãƒ¼ (cloud ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰)
+  SPEECH_ERR_BACKEND   -1   –¢‘Î‰ƒoƒbƒNƒGƒ“ƒh
+  SPEECH_ERR_NOT_IMPL  -2   –¢À‘•
+  SPEECH_ERR_NOT_OPEN  -3   open ‚³‚ê‚Ä‚¢‚È‚¢
+  SPEECH_ERR_HTTP      -4   HTTP ƒGƒ‰[ (cloud ƒoƒbƒNƒGƒ“ƒh)
 
   #include "iron_speech.hsp"
 
+%group
+iron_speech (‰¹º”F¯)
+
 %index
 iron_speech_set_backend
-ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã‚’é¸æŠ
+ƒoƒbƒNƒGƒ“ƒh‚ğ‘I‘ğ
 %group
-iron_speech â€” è¨­å®š
+iron_speech \ İ’è
 %prm
 backend_id
 
 %inst
-SPEECH_BACKEND_CLOUD / WHISPER / SAPI / WINRT / VOSK ã®ã„ãšã‚Œã‹ã‚’æŒ‡å®šã€‚
+SPEECH_BACKEND_CLOUD / WHISPER / SAPI / WINRT / VOSK ‚Ì‚¢‚¸‚ê‚©‚ğw’èB
 
 %index
 iron_speech_set_endpoint
-ã‚¯ãƒ©ã‚¦ãƒ‰ endpoint URL ã‚’è¨­å®š
+ƒNƒ‰ƒEƒh endpoint URL ‚ğİ’è
 %group
-iron_speech â€” è¨­å®š
+iron_speech \ İ’è
 %prm
 "url"
 
 %inst
-CLOUD ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰æ™‚ã«ä½¿ç”¨ã€‚OpenAI äº’æ› API ã®ãƒ™ãƒ¼ã‚¹ URL ã‚’æŒ‡å®š:
+CLOUD ƒoƒbƒNƒGƒ“ƒh‚Ég—pBOpenAI ŒİŠ· API ‚Ìƒx[ƒX URL ‚ğw’è:
   OpenAI: https://api.openai.com/v1
   Groq:   https://api.groq.com/openai/v1
 
 %index
 iron_speech_set_key
-ã‚¯ãƒ©ã‚¦ãƒ‰ API ã‚­ãƒ¼ã‚’è¨­å®š
+ƒNƒ‰ƒEƒh API ƒL[‚ğİ’è
 %group
-iron_speech â€” è¨­å®š
+iron_speech \ İ’è
 %prm
 "key"
 
 %index
 iron_speech_set_model
-ãƒ¢ãƒ‡ãƒ«å/ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’è¨­å®š
+ƒ‚ƒfƒ‹–¼/ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹ƒpƒX‚ğİ’è
 %group
-iron_speech â€” è¨­å®š
+iron_speech \ İ’è
 %prm
 "model"
 
 %inst
-CLOUD: "whisper-1" (OpenAI), "whisper-large-v3" (Groq) ç­‰
-ã‚ªãƒ•ãƒ©ã‚¤ãƒ³: ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ (whisper.cpp ã® GGML model ç­‰)
+CLOUD: "whisper-1" (OpenAI), "whisper-large-v3" (Groq) “™
+ƒIƒtƒ‰ƒCƒ“: ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹ƒpƒX (whisper.cpp ‚Ì GGML model “™)
 
 %index
 iron_speech_set_language
-è¨€èªãƒ’ãƒ³ãƒˆã‚’è¨­å®š
+Œ¾Œêƒqƒ“ƒg‚ğİ’è
 %group
-iron_speech â€” è¨­å®š
+iron_speech \ İ’è
 %prm
 "lang"
 
 %inst
-"ja", "en" ç­‰ã® ISO 639-1 è¨€èªã‚³ãƒ¼ãƒ‰ã€‚ä¸€éƒ¨ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã§ä½¿ç”¨ã€‚
-çœç•¥æ™‚ã¯ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ãŒè‡ªå‹•åˆ¤åˆ¥ã€‚
+"ja", "en" “™‚Ì ISO 639-1 Œ¾ŒêƒR[ƒhBˆê•”ƒoƒbƒNƒGƒ“ƒh‚Åg—pB
+È—ª‚ÍƒoƒbƒNƒGƒ“ƒh‚ª©“®”»•ÊB
 
 %index
 iron_speech_open
-ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã‚’åˆæœŸåŒ–
+ƒoƒbƒNƒGƒ“ƒh‚ğ‰Šú‰»
 %group
-iron_speech â€” ãƒ¡ã‚¤ãƒ³
+iron_speech \ ƒƒCƒ“
 %prm
 
 %inst
-é¸æŠä¸­ã®ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚
-CLOUD: iron_ai ã« endpoint/key/model ã‚’ä¼ãˆã‚‹ã ã‘ (no-op ã«è¿‘ã„)
-ã‚ªãƒ•ãƒ©ã‚¤ãƒ³: ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
+‘I‘ğ’†‚ÌƒoƒbƒNƒGƒ“ƒh‚ğ‰Šú‰»‚µ‚Ü‚·B
+CLOUD: iron_ai ‚É endpoint/key/model ‚ğ“`‚¦‚é‚¾‚¯ (no-op ‚É‹ß‚¢)
+ƒIƒtƒ‰ƒCƒ“: ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹“Ç‚İ‚İ
 
-æˆ»ã‚Šå€¤: SPEECH_OK / å„ç¨® ERR
+–ß‚è’l: SPEECH_OK / Šeí ERR
 
 %href
 iron_speech_close
 
 %index
 iron_speech_transcribe
-éŸ³å£°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ–‡å­—èµ·ã“ã—
+‰¹ºƒtƒ@ƒCƒ‹‚ğ•¶š‹N‚±‚µ
 %group
-iron_speech â€” ãƒ¡ã‚¤ãƒ³
+iron_speech \ ƒƒCƒ“
 %prm
 "audio_path", out_text
 
 %inst
-ãƒ­ãƒ¼ã‚«ãƒ«éŸ³å£°ãƒ•ã‚¡ã‚¤ãƒ« (wav/mp3/m4a/ogg/webm/flac ç­‰) ã‚’æ–‡å­—èµ·ã“ã—ã—ã¦
-out_text ã«çµæœæ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+ƒ[ƒJƒ‹‰¹ºƒtƒ@ƒCƒ‹ (wav/mp3/m4a/ogg/webm/flac “™) ‚ğ•¶š‹N‚±‚µ‚µ‚Ä
+out_text ‚ÉŒ‹‰Ê•¶š—ñ‚ğ‘‚«‚İ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: SPEECH_OK / å„ç¨® ERR
+–ß‚è’l: SPEECH_OK / Šeí ERR
 
-ä¾‹:
+—á:
   iron_speech_set_backend SPEECH_BACKEND_CLOUD
   iron_speech_set_endpoint "https://api.groq.com/openai/v1"
   iron_speech_set_key "gsk_..."
@@ -142,17 +146,17 @@ out_text ã«çµæœæ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
 
 %index
 iron_speech_close
-ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã‚’è§£æ”¾
+ƒoƒbƒNƒGƒ“ƒh‚ğ‰ğ•ú
 %group
-iron_speech â€” ãƒ¡ã‚¤ãƒ³
+iron_speech \ ƒƒCƒ“
 %prm
 
 %index
 iron_speech_backend_name
-ç¾åœ¨ã®ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰åã‚’æ–‡å­—åˆ—ã§å–å¾— (defcfunc)
+Œ»İ‚ÌƒoƒbƒNƒGƒ“ƒh–¼‚ğ•¶š—ñ‚Åæ“¾ (defcfunc)
 %group
-iron_speech â€” æƒ…å ±
+iron_speech \ î•ñ
 %prm
 
 %inst
-defcfuncã€‚"cloud" / "whisper.cpp (not impl)" ç­‰ã‚’è¿”ã—ã¾ã™ã€‚
+defcfuncB"cloud" / "whisper.cpp (not impl)" “™‚ğ•Ô‚µ‚Ü‚·B

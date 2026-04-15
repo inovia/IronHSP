@@ -1,10 +1,10 @@
 ;
-; iron_db.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èªž)
-; SQLite ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æ“ä½œ (hspdb.dll wrapper)
+; iron_db.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; SQLite ƒf[ƒ^ƒx[ƒX‘€ì (hspdb.dll wrapper)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -15,18 +15,18 @@ IronHSP / iron_db
 hspdb.dll
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_db.hsp ã¯ hspdb.dll (SQLite 3.46 amalgamation åŸ‹ã‚è¾¼ã¿) ã‚’
-HSP ã‹ã‚‰æ‰±ã„ã‚„ã™ãã—ãŸãƒ©ãƒƒãƒ‘ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚çµ„ã¿è¾¼ã¿ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’
-1 è¡Œ API ã§åˆ©ç”¨ã§ãã¾ã™ã€‚
+iron_db.hsp ‚Í hspdb.dll (SQLite 3.46 amalgamation –„‚ßž‚Ý) ‚ð
+HSP ‚©‚çˆµ‚¢‚â‚·‚­‚µ‚½ƒ‰ƒbƒpƒ‚ƒWƒ…[ƒ‹‚Å‚·B‘g‚Ýž‚Ýƒf[ƒ^ƒx[ƒX‚ð
+1 s API ‚Å—˜—p‚Å‚«‚Ü‚·B
 
   #include "iron_db.hsp"
 
-å…¸åž‹çš„ãªä½¿ã„æ–¹:
+“TŒ^“I‚ÈŽg‚¢•û:
   h = db_open("test.db")
   db_exec h, "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)"
   db_exec h, "INSERT INTO users (name, age) VALUES ('Alice', 30)"
@@ -41,20 +41,23 @@ HSP ã‹ã‚‰æ‰±ã„ã‚„ã™ãã—ãŸãƒ©ãƒƒãƒ‘ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚çµ„ã¿è¾¼ã¿ãƒ‡ã
   db_query_close qh
   db_close h
 
+%group
+iron_db (SQLiteƒf[ƒ^ƒx[ƒX)
+
 %index
 db_open
-ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’é–‹ã
+ƒf[ƒ^ƒx[ƒX‚ðŠJ‚­
 %group
-iron_db â€” æŽ¥ç¶š
+iron_db \ Ú‘±
 %prm
 "path"
-"path" : SQLite DB ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ (å­˜åœ¨ã—ãªã‘ã‚Œã°ä½œæˆ)
+"path" : SQLite DB ƒtƒ@ƒCƒ‹ƒpƒX (‘¶Ý‚µ‚È‚¯‚ê‚Îì¬)
 
 %inst
-SQLite ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã€DB ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã—ã¾ã™ (é–¢æ•°)ã€‚
-":memory:" ã‚’æ¸¡ã™ã¨ãƒ¡ãƒ¢ãƒªä¸Šã®ä¸€æ™‚ DB ã«ãªã‚Šã¾ã™ã€‚
+SQLite ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹‚ðŠJ‚«ADB ƒnƒ“ƒhƒ‹‚ð•Ô‚µ‚Ü‚· (ŠÖ”)B
+":memory:" ‚ð“n‚·‚Æƒƒ‚ƒŠã‚ÌˆêŽž DB ‚É‚È‚è‚Ü‚·B
 
-ä¾‹:
+—á:
   h = db_open("test.db")
 
 %href
@@ -62,52 +65,52 @@ db_close
 
 %index
 db_close
-ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’é–‰ã˜ã‚‹
+ƒf[ƒ^ƒx[ƒX‚ð•Â‚¶‚é
 %group
-iron_db â€” æŽ¥ç¶š
+iron_db \ Ú‘±
 %prm
 h
-h : db_open ã§å¾—ãŸ DB ãƒãƒ³ãƒ‰ãƒ«
+h : db_open ‚Å“¾‚½ DB ƒnƒ“ƒhƒ‹
 
 %inst
-DB æŽ¥ç¶šã‚’é–‰ã˜ã¾ã™ã€‚é–‹ã„ãŸã¾ã¾ã® query ãƒãƒ³ãƒ‰ãƒ«ãŒã‚ã‚‹å ´åˆã¯äº‹å‰ã«
-db_query_close ã§é–‰ã˜ã¦ãã ã•ã„ã€‚
+DB Ú‘±‚ð•Â‚¶‚Ü‚·BŠJ‚¢‚½‚Ü‚Ü‚Ì query ƒnƒ“ƒhƒ‹‚ª‚ ‚éê‡‚ÍŽ–‘O‚É
+db_query_close ‚Å•Â‚¶‚Ä‚­‚¾‚³‚¢B
 
 %href
 db_open
 
 %index
 db_exec
-SQL ã‚’ 1 æ–‡å®Ÿè¡Œ (çµæžœã‚»ãƒƒãƒˆä¸è¦)
+SQL ‚ð 1 •¶ŽÀs (Œ‹‰ÊƒZƒbƒg•s—v)
 %group
-iron_db â€” å®Ÿè¡Œ
+iron_db \ ŽÀs
 %prm
 h, "sql"
-h     : DB ãƒãƒ³ãƒ‰ãƒ«
-"sql" : CREATE / INSERT / UPDATE / DELETE ãªã©
+h     : DB ƒnƒ“ƒhƒ‹
+"sql" : CREATE / INSERT / UPDATE / DELETE ‚È‚Ç
 
 %inst
-çµæžœã‚»ãƒƒãƒˆã‚’è¿”ã•ãªã„ SQL æ–‡ã‚’å®Ÿè¡Œã™ã‚‹é–¢æ•°ã§ã™ã€‚æˆ»ã‚Šå€¤ã¯ 0 ã§æˆåŠŸã€
-éž 0 ã§ SQLite ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã€‚SELECT ã«ã¯ db_query ã‚’ä½¿ã„ã¾ã™ã€‚
+Œ‹‰ÊƒZƒbƒg‚ð•Ô‚³‚È‚¢ SQL •¶‚ðŽÀs‚·‚éŠÖ”‚Å‚·B–ß‚è’l‚Í 0 ‚Å¬Œ÷A
+”ñ 0 ‚Å SQLite ƒGƒ‰[ƒR[ƒhBSELECT ‚É‚Í db_query ‚ðŽg‚¢‚Ü‚·B
 
-ä¾‹:
+—á:
   db_exec h, "INSERT INTO users VALUES (NULL, 'Bob', 25)"
 
 %index
 db_query
-SELECT æ–‡ã‚’ prepare + å®Ÿè¡Œ
+SELECT •¶‚ð prepare + ŽÀs
 %group
-iron_db â€” ã‚¯ã‚¨ãƒª
+iron_db \ ƒNƒGƒŠ
 %prm
 h, "sql"
-h     : DB ãƒãƒ³ãƒ‰ãƒ«
-"sql" : SELECT æ–‡
+h     : DB ƒnƒ“ƒhƒ‹
+"sql" : SELECT •¶
 
 %inst
-SQL ã‚’ prepare ã—ã¦ query ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã™é–¢æ•°ã§ã™ã€‚è¿”ã•ã‚ŒãŸãƒãƒ³ãƒ‰ãƒ«ã¯
-db_step ã§ãƒ•ã‚§ãƒƒãƒã—ã€ä½¿ã„çµ‚ã‚ã£ãŸã‚‰ db_query_close ã§è§£æ”¾ã—ã¾ã™ã€‚
+SQL ‚ð prepare ‚µ‚Ä query ƒnƒ“ƒhƒ‹‚ð•Ô‚·ŠÖ”‚Å‚·B•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Í
+db_step ‚ÅƒtƒFƒbƒ`‚µAŽg‚¢I‚í‚Á‚½‚ç db_query_close ‚Å‰ð•ú‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   qh = db_query(h, "SELECT name, age FROM users")
 
 %href
@@ -116,16 +119,16 @@ db_query_close
 
 %index
 db_step
-æ¬¡ã®è¡Œã‚’ãƒ•ã‚§ãƒƒãƒ
+ŽŸ‚Ìs‚ðƒtƒFƒbƒ`
 %group
-iron_db â€” ã‚¯ã‚¨ãƒª
+iron_db \ ƒNƒGƒŠ
 %prm
 qh
-qh : db_query ã®æˆ»ã‚Šå€¤ (query ãƒãƒ³ãƒ‰ãƒ«)
+qh : db_query ‚Ì–ß‚è’l (query ƒnƒ“ƒhƒ‹)
 
 %inst
-æ¬¡ã®è¡Œã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚stat ã« 1 (è¡Œã‚ã‚Š) / 0 (çµ‚ç«¯) / è² å€¤ (ã‚¨ãƒ©ãƒ¼) ãŒ
-è¿”ã‚Šã¾ã™ã€‚è¡Œãƒ‡ãƒ¼ã‚¿ã¯ db_col_text / db_col_int / db_col_dbl ã§å–å¾—ã—ã¾ã™ã€‚
+ŽŸ‚Ìs‚ðŽæ‚èo‚µ‚Ü‚·Bstat ‚É 1 (s‚ ‚è) / 0 (I’[) / •‰’l (ƒGƒ‰[) ‚ª
+•Ô‚è‚Ü‚·Bsƒf[ƒ^‚Í db_col_text / db_col_int / db_col_dbl ‚ÅŽæ“¾‚µ‚Ü‚·B
 
 %href
 db_query
@@ -134,115 +137,115 @@ db_col_int
 
 %index
 db_query_close
-query ãƒãƒ³ãƒ‰ãƒ«ã‚’é–‰ã˜ã‚‹
+query ƒnƒ“ƒhƒ‹‚ð•Â‚¶‚é
 %group
-iron_db â€” ã‚¯ã‚¨ãƒª
+iron_db \ ƒNƒGƒŠ
 %prm
 qh
-qh : query ãƒãƒ³ãƒ‰ãƒ«
+qh : query ƒnƒ“ƒhƒ‹
 
 %inst
-db_query ã§å–å¾—ã—ãŸ query ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾ã—ã¾ã™ã€‚
+db_query ‚ÅŽæ“¾‚µ‚½ query ƒnƒ“ƒhƒ‹‚ð‰ð•ú‚µ‚Ü‚·B
 
 %index
 db_col_count
-ç¾åœ¨è¡Œã®ã‚«ãƒ©ãƒ æ•°
+Œ»Ýs‚ÌƒJƒ‰ƒ€”
 %group
-iron_db â€” ã‚«ãƒ©ãƒ 
+iron_db \ ƒJƒ‰ƒ€
 %prm
 qh
-qh : query ãƒãƒ³ãƒ‰ãƒ«
+qh : query ƒnƒ“ƒhƒ‹
 
 %inst
-query ã®çµæžœã‚«ãƒ©ãƒ æ•°ã‚’è¿”ã™é–¢æ•°ã§ã™ã€‚
+query ‚ÌŒ‹‰ÊƒJƒ‰ƒ€”‚ð•Ô‚·ŠÖ”‚Å‚·B
 
 %index
 db_col_name
-ã‚«ãƒ©ãƒ åã‚’å–å¾—
+ƒJƒ‰ƒ€–¼‚ðŽæ“¾
 %group
-iron_db â€” ã‚«ãƒ©ãƒ 
+iron_db \ ƒJƒ‰ƒ€
 %prm
 qh, col, out_name
-qh       : query ãƒãƒ³ãƒ‰ãƒ«
-col      : 0 å§‹ã¾ã‚Šã®ã‚«ãƒ©ãƒ ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-out_name : ã‚«ãƒ©ãƒ åã‚’å—ã‘å–ã‚‹å¤‰æ•° (sdim è‡ªå‹•ã€æœ€å¤§ 255 byte)
+qh       : query ƒnƒ“ƒhƒ‹
+col      : 0 Žn‚Ü‚è‚ÌƒJƒ‰ƒ€ƒCƒ“ƒfƒbƒNƒX
+out_name : ƒJƒ‰ƒ€–¼‚ðŽó‚¯Žæ‚é•Ï” (sdim Ž©“®AÅ‘å 255 byte)
 
 %inst
-æŒ‡å®šã‚«ãƒ©ãƒ ã®åå‰ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—ã—ã¾ã™ã€‚
+Žw’èƒJƒ‰ƒ€‚Ì–¼‘O‚ð•¶Žš—ñ‚Æ‚µ‚ÄŽæ“¾‚µ‚Ü‚·B
 
 %index
 db_col_text
-ã‚«ãƒ©ãƒ å€¤ã‚’ TEXT ã§å–å¾—
+ƒJƒ‰ƒ€’l‚ð TEXT ‚ÅŽæ“¾
 %group
-iron_db â€” ã‚«ãƒ©ãƒ 
+iron_db \ ƒJƒ‰ƒ€
 %prm
 qh, col, out_text
-qh       : query ãƒãƒ³ãƒ‰ãƒ«
-col      : 0 å§‹ã¾ã‚Šã®ã‚«ãƒ©ãƒ ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-out_text : å€¤ã‚’å—ã‘å–ã‚‹å¤‰æ•° (sdim è‡ªå‹•ã€æœ€å¤§ 4095 byte)
+qh       : query ƒnƒ“ƒhƒ‹
+col      : 0 Žn‚Ü‚è‚ÌƒJƒ‰ƒ€ƒCƒ“ƒfƒbƒNƒX
+out_text : ’l‚ðŽó‚¯Žæ‚é•Ï” (sdim Ž©“®AÅ‘å 4095 byte)
 
 %inst
-æŒ‡å®šã‚«ãƒ©ãƒ ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—ã—ã¾ã™ã€‚
+Žw’èƒJƒ‰ƒ€‚ð•¶Žš—ñ‚Æ‚µ‚ÄŽæ“¾‚µ‚Ü‚·B
 
 %index
 db_col_int
-ã‚«ãƒ©ãƒ å€¤ã‚’ int ã§å–å¾—
+ƒJƒ‰ƒ€’l‚ð int ‚ÅŽæ“¾
 %group
-iron_db â€” ã‚«ãƒ©ãƒ 
+iron_db \ ƒJƒ‰ƒ€
 %prm
 qh, col
-qh  : query ãƒãƒ³ãƒ‰ãƒ«
-col : ã‚«ãƒ©ãƒ ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+qh  : query ƒnƒ“ƒhƒ‹
+col : ƒJƒ‰ƒ€ƒCƒ“ƒfƒbƒNƒX
 
 %inst
-æŒ‡å®šã‚«ãƒ©ãƒ ã‚’ int ã¨ã—ã¦è¿”ã™é–¢æ•°ã§ã™ã€‚
+Žw’èƒJƒ‰ƒ€‚ð int ‚Æ‚µ‚Ä•Ô‚·ŠÖ”‚Å‚·B
 
 %index
 db_col_dbl
-ã‚«ãƒ©ãƒ å€¤ã‚’ double ã§å–å¾—
+ƒJƒ‰ƒ€’l‚ð double ‚ÅŽæ“¾
 %group
-iron_db â€” ã‚«ãƒ©ãƒ 
+iron_db \ ƒJƒ‰ƒ€
 %prm
 qh, col
-qh  : query ãƒãƒ³ãƒ‰ãƒ«
-col : ã‚«ãƒ©ãƒ ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+qh  : query ƒnƒ“ƒhƒ‹
+col : ƒJƒ‰ƒ€ƒCƒ“ƒfƒbƒNƒX
 
 %inst
-æŒ‡å®šã‚«ãƒ©ãƒ ã‚’ double ã¨ã—ã¦è¿”ã™é–¢æ•°ã§ã™ã€‚
+Žw’èƒJƒ‰ƒ€‚ð double ‚Æ‚µ‚Ä•Ô‚·ŠÖ”‚Å‚·B
 
 %index
 db_last_rowid
-ç›´è¿‘ INSERT ã® rowid
+’¼‹ß INSERT ‚Ì rowid
 %group
-iron_db â€” ãƒ¡ã‚¿
+iron_db \ ƒƒ^
 %prm
 h
-h : DB ãƒãƒ³ãƒ‰ãƒ«
+h : DB ƒnƒ“ƒhƒ‹
 
 %inst
-æœ€å¾Œã® INSERT ã§ç”Ÿæˆã•ã‚ŒãŸ rowid (AUTOINCREMENT ã®å€¤) ã‚’è¿”ã™é–¢æ•°ã§ã™ã€‚
+ÅŒã‚Ì INSERT ‚Å¶¬‚³‚ê‚½ rowid (AUTOINCREMENT ‚Ì’l) ‚ð•Ô‚·ŠÖ”‚Å‚·B
 
 %index
 db_changes
-ç›´è¿‘ SQL ã®å½±éŸ¿è¡Œæ•°
+’¼‹ß SQL ‚Ì‰e‹¿s”
 %group
-iron_db â€” ãƒ¡ã‚¿
+iron_db \ ƒƒ^
 %prm
 h
-h : DB ãƒãƒ³ãƒ‰ãƒ«
+h : DB ƒnƒ“ƒhƒ‹
 
 %inst
-ç›´è¿‘ã® INSERT / UPDATE / DELETE ã§å½±éŸ¿ã‚’å—ã‘ãŸè¡Œæ•°ã‚’è¿”ã™é–¢æ•°ã§ã™ã€‚
+’¼‹ß‚Ì INSERT / UPDATE / DELETE ‚Å‰e‹¿‚ðŽó‚¯‚½s”‚ð•Ô‚·ŠÖ”‚Å‚·B
 
 %index
 db_errmsg
-ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—
+ƒGƒ‰[ƒƒbƒZ[ƒW‚ðŽæ“¾
 %group
-iron_db â€” ãƒ¡ã‚¿
+iron_db \ ƒƒ^
 %prm
 h, out_msg
-h       : DB ãƒãƒ³ãƒ‰ãƒ«
-out_msg : ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å—ã‘å–ã‚‹å¤‰æ•° (sdim è‡ªå‹•ã€æœ€å¤§ 1023 byte)
+h       : DB ƒnƒ“ƒhƒ‹
+out_msg : ƒƒbƒZ[ƒW‚ðŽó‚¯Žæ‚é•Ï” (sdim Ž©“®AÅ‘å 1023 byte)
 
 %inst
-ç›´è¿‘ã® SQLite ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æ–‡å­—åˆ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+’¼‹ß‚Ì SQLite ƒGƒ‰[ƒƒbƒZ[ƒW•¶Žš—ñ‚ðŽæ“¾‚µ‚Ü‚·B

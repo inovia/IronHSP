@@ -1,10 +1,10 @@
 ;
-; iron_dialog.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; ãƒ¢ãƒ€ãƒ³ (Vista+) ãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãƒ©ãƒƒãƒ‘
+; iron_dialog.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; ƒ‚ƒ_ƒ“ (Vista+) ƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒOƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,61 +12,65 @@
 %author
 IronHSP / iron_dialog
 %dll
+iron_dialog.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win32 / hsp3net å°‚ç”¨ (#usecom ä½¿ç”¨)
+Win32 / hsp3net ê—p (#usecom g—p)
 
 %note
-iron_dialog.hsp ã¯ Win32 IFileOpenDialog / IFileSaveDialog COM
-ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’ HSP ã‹ã‚‰æ‰‹è»½ã«ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹è–„ã„ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
+iron_dialog.hsp ‚Í Win32 IFileOpenDialog / IFileSaveDialog COM
+ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ HSP ‚©‚çèŒy‚Ég‚¦‚é‚æ‚¤‚É‚·‚é”–‚¢ƒ‰ƒbƒp‚Å‚·B
 
-ç‰¹å¾´:
-  - Windows Vista ä»¥é™ã®ãƒ¢ãƒ€ãƒ³ UI (æ—§ GetOpenFileName ã‚ˆã‚Šè¦‹ãŸç›®è‰¯ã„)
-  - Win10/11 ãƒã‚¤ãƒ†ã‚£ãƒ–ã®ã€Œæœ€è¿‘ã®ãƒ•ã‚©ãƒ«ãƒ€ã€ã€ŒãŠæ°—ã«å…¥ã‚Šã€ã€ŒOneDriveã€
-    ã€Œã‚¯ã‚¤ãƒƒã‚¯ã‚¢ã‚¯ã‚»ã‚¹ã€ç­‰ã®å·¦ãƒšã‚¤ãƒ³ãŒãã®ã¾ã¾ä½¿ãˆã‚‹
-  - hsp3net å°‚ç”¨ (#usecom / #comfunc / newcom -2 ã‚¢ã‚¿ãƒƒãƒã‚’ä½¿ã†ãŸã‚)
+“Á’¥:
+  - Windows Vista ˆÈ~‚Ìƒ‚ƒ_ƒ“ UI (‹Œ GetOpenFileName ‚æ‚èŒ©‚½–Ú—Ç‚¢)
+  - Win10/11 ƒlƒCƒeƒBƒu‚ÌuÅ‹ß‚ÌƒtƒHƒ‹ƒ_vu‚¨‹C‚É“ü‚èvuOneDrivev
+    uƒNƒCƒbƒNƒAƒNƒZƒXv“™‚Ì¶ƒyƒCƒ“‚ª‚»‚Ì‚Ü‚Üg‚¦‚é
+  - hsp3net ê—p (#usecom / #comfunc / newcom -2 ƒAƒ^ƒbƒ`‚ğg‚¤‚½‚ß)
 
   #include "iron_dialog.hsp"
 
-filter ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ (NULL åŒºåˆ‡ã‚Š):
+filter ƒtƒH[ƒ}ƒbƒg (NULL ‹æØ‚è):
   "PNG (*.png)|*.png|JPEG (*.jpg)|*.jpg|All|*.*|"
-  å†…éƒ¨ã§ | ã‚’ NULL ã«å¤‰æ›ã—ã¾ã™ã€‚
+  “à•”‚Å | ‚ğ NULL ‚É•ÏŠ·‚µ‚Ü‚·B
+
+%group
+iron_dialog (ƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒO)
 
 %index
 dialog_open
-ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ããƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ƒtƒ@ƒCƒ‹‚ğŠJ‚­ƒ_ƒCƒAƒƒO
 %group
 iron_dialog
 %prm
 ["title"], ["filter"]
-"title"  : ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚¿ã‚¤ãƒˆãƒ« (çœç•¥å¯)
-"filter" : ãƒ•ã‚¡ã‚¤ãƒ«ã‚¿ã‚¤ãƒ—ãƒ•ã‚£ãƒ«ã‚¿ (çœç•¥å¯)
+"title"  : ƒ_ƒCƒAƒƒOƒ^ƒCƒgƒ‹ (È—ª‰Â)
+"filter" : ƒtƒ@ƒCƒ‹ƒ^ƒCƒvƒtƒBƒ‹ƒ^ (È—ª‰Â)
 
 %inst
-ãƒ¢ãƒ€ãƒ³ãªãƒ•ã‚¡ã‚¤ãƒ«é¸æŠãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚
-  refstr : é¸æŠã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
-  stat   : 0 æˆåŠŸ / 1 ã‚­ãƒ£ãƒ³ã‚»ãƒ« / è² å€¤ ã‚¨ãƒ©ãƒ¼
+ƒ‚ƒ_ƒ“‚Èƒtƒ@ƒCƒ‹‘I‘ğƒ_ƒCƒAƒƒO‚ğ•\¦‚µ‚Ü‚·B
+  refstr : ‘I‘ğ‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒpƒX
+  stat   : 0 ¬Œ÷ / 1 ƒLƒƒƒ“ƒZƒ‹ / •‰’l ƒGƒ‰[
 
-ä¾‹:
-  dialog_open "ç”»åƒã‚’é–‹ã„ã¦ãã ã•ã„", "ç”»åƒ (*.png;*.jpg)|*.png;*.jpg|All|*.*|"
+—á:
+  dialog_open "‰æ‘œ‚ğŠJ‚¢‚Ä‚­‚¾‚³‚¢", "‰æ‘œ (*.png;*.jpg)|*.png;*.jpg|All|*.*|"
   if stat = 0 {
     picload refstr
   }
 
 %index
 dialog_save
-ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¿å­˜ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ƒtƒ@ƒCƒ‹‚ğ•Û‘¶ƒ_ƒCƒAƒƒO
 %group
 iron_dialog
 %prm
 ["title"], ["filter"], ["default_ext"]
-"default_ext" : æ‹¡å¼µå­çœç•¥æ™‚ã«è£œå®Œã•ã‚Œã‚‹æ‹¡å¼µå­ (ä¾‹ "txt")
+"default_ext" : Šg’£qÈ—ª‚É•âŠ®‚³‚ê‚éŠg’£q (—á "txt")
 
 %inst
-ä¿å­˜å…ˆé¸æŠãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚
+•Û‘¶æ‘I‘ğƒ_ƒCƒAƒƒO‚ğ•\¦‚µ‚Ü‚·B
 
-ä¾‹:
-  dialog_save "ä¿å­˜å…ˆã‚’æŒ‡å®š", "ãƒ†ã‚­ã‚¹ãƒˆ|*.txt|", "txt"
+—á:
+  dialog_save "•Û‘¶æ‚ğw’è", "ƒeƒLƒXƒg|*.txt|", "txt"
   if stat = 0 : notesave refstr

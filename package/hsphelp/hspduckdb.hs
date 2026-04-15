@@ -1,10 +1,10 @@
 ;
-; hspduckdb.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; DuckDB C API ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ / iron_duckdb.hsp ç³–è¡£
+; hspduckdb.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; DuckDB C API ƒvƒ‰ƒOƒCƒ“ / iron_duckdb.hsp “œˆß
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -20,139 +20,142 @@ https://duckdb.org
 Win32 / Win64
 
 %note
-hspduckdb.dll ã¯ DuckDB (https://duckdb.org) ã® C API ã‚’ embed ã—ãŸ
-HSP ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã™ã€‚embedded OLAP DB ã¨ã—ã¦ SQLite é¡ä¼¼ã®ä½¿ã„å‹æ‰‹ã§ã€
-CSV / Parquet / JSON / httpfs æ‹¡å¼µã‚’çµ„ã¿è¾¼ã¿æ¸ˆã¿ (SQL ã§ç›´æ¥ãƒ•ã‚¡ã‚¤ãƒ«
-select å¯èƒ½) ã¨ã„ã†å¼·åŠ›ãªç‰¹å¾´ãŒã‚ã‚Šã¾ã™ã€‚
+hspduckdb.dll ‚Í DuckDB (https://duckdb.org) ‚Ì C API ‚ğ embed ‚µ‚½
+HSP ƒvƒ‰ƒOƒCƒ“‚Å‚·Bembedded OLAP DB ‚Æ‚µ‚Ä SQLite —Ş—‚Ìg‚¢Ÿè‚ÅA
+CSV / Parquet / JSON / httpfs Šg’£‚ğ‘g‚İ‚İÏ‚İ (SQL ‚Å’¼Úƒtƒ@ƒCƒ‹
+select ‰Â”\) ‚Æ‚¢‚¤‹­—Í‚È“Á’¥‚ª‚ ‚è‚Ü‚·B
 
   #include "hspduckdb.as"
-  #include "iron_duckdb.hsp"    ; ç³–è¡£é–¢æ•° (db_open / db_query / db_fetch_*)
+  #include "iron_duckdb.hsp"    ; “œˆßŠÖ” (db_open / db_query / db_fetch_*)
 
-DuckDB amalgamation (duckdb.h / duckdb.cpp) ã‚’
+DuckDB amalgamation (duckdb.h / duckdb.cpp) ‚ğ
   plugins/win32/hspduckdb/third_party/duckdb/
-ã«é…ç½®ã—ã€vcxproj å´ã§ã‚³ãƒ¡ãƒ³ãƒˆè§£é™¤ã—ã¦ãƒ“ãƒ«ãƒ‰ã—ã¦ãã ã•ã„ã€‚
-æ‰‹é †ã¯ third_party/duckdb/README.md ã‚’å‚ç…§ã€‚
+‚É”z’u‚µAvcxproj ‘¤‚ÅƒRƒƒ“ƒg‰ğœ‚µ‚Äƒrƒ‹ƒh‚µ‚Ä‚­‚¾‚³‚¢B
+è‡‚Í third_party/duckdb/README.md ‚ğQÆB
 
-amalgamation æœªé…ç½®ã§ã‚‚ stub ã¨ã—ã¦ãƒ“ãƒ«ãƒ‰å¯èƒ½ã§ã€ãã®å ´åˆã¯å…¨å‘½ä»¤ãŒ
--100 ã‚’è¿”ã—ã¾ã™ã€‚
+amalgamation –¢”z’u‚Å‚à stub ‚Æ‚µ‚Äƒrƒ‹ƒh‰Â”\‚ÅA‚»‚Ìê‡‚Í‘S–½—ß‚ª
+-100 ‚ğ•Ô‚µ‚Ü‚·B
 
-ç‰¹å¾´:
-  - 1 ã¤ã® DLL ã§ OLAP SQL ã‚¨ãƒ³ã‚¸ãƒ³ (SQLite ç›¸å½“ã®æ‰‹è»½ã•)
-  - SELECT * FROM 'data.csv' / 'data.parquet' ãŒç›´æ¥å‹•ã
-  - :memory: DB / file DB ä¸¡å¯¾å¿œ
-  - 1M è¡Œ / GB ç´šãƒ‡ãƒ¼ã‚¿ã§ã‚‚ã‚¤ãƒ³ã‚¿ãƒ©ã‚¯ãƒ†ã‚£ãƒ–ã«å‡¦ç†å¯
+“Á’¥:
+  - 1 ‚Â‚Ì DLL ‚Å OLAP SQL ƒGƒ“ƒWƒ“ (SQLite ‘Š“–‚ÌèŒy‚³)
+  - SELECT * FROM 'data.csv' / 'data.parquet' ‚ª’¼Ú“®‚­
+  - :memory: DB / file DB —¼‘Î‰
+  - 1M s / GB ‹‰ƒf[ƒ^‚Å‚àƒCƒ“ƒ^ƒ‰ƒNƒeƒBƒu‚Éˆ—‰Â
+
+%group
+hspduckdb (DuckDB)
 
 %index
 duckdb_open_db
-DB ã‚’ open ã—ã¦ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã™
+DB ‚ğ open ‚µ‚Äƒnƒ“ƒhƒ‹‚ğ•Ô‚·
 %group
-hspduckdb â€” æ¥ç¶š
+hspduckdb \ Ú‘±
 %prm
 "file", var_handle
-"file" : ":memory:" ã§ in-memory DB / ãã‚Œä»¥å¤–ã¯ãƒ•ã‚¡ã‚¤ãƒ« DB
+"file" : ":memory:" ‚Å in-memory DB / ‚»‚êˆÈŠO‚Íƒtƒ@ƒCƒ‹ DB
 
 %inst
-DuckDB ã‚’ open ã—ã¦æ¥ç¶šãƒãƒ³ãƒ‰ãƒ« (var_handle) ã‚’å¾—ã¾ã™ã€‚
-è² æ•°ã¯ã‚¨ãƒ©ãƒ¼ (-100 ã¯ amalgamation æœªé…ç½®)ã€‚
+DuckDB ‚ğ open ‚µ‚ÄÚ‘±ƒnƒ“ƒhƒ‹ (var_handle) ‚ğ“¾‚Ü‚·B
+•‰”‚ÍƒGƒ‰[ (-100 ‚Í amalgamation –¢”z’u)B
 
-ä¾‹:
+—á:
   duckdb_open_db ":memory:", db
-  ; iron_duckdb.hsp ã®ç³–è¡£: db_open ":memory:" â†’ db = stat
+  ; iron_duckdb.hsp ‚Ì“œˆß: db_open ":memory:" ¨ db = stat
 
 %index
 duckdb_close_db
-DB ãƒãƒ³ãƒ‰ãƒ«ã‚’é–‰ã˜ã‚‹
+DB ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é
 %group
-hspduckdb â€” æ¥ç¶š
+hspduckdb \ Ú‘±
 %prm
 handle
 
 %inst
-æ¥ç¶šã¨ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’è§£æ”¾ã—ã¾ã™ã€‚
+Ú‘±‚Æƒf[ƒ^ƒx[ƒX‚ğ‰ğ•ú‚µ‚Ü‚·B
 
 %index
 duckdb_exec
-çµæœã‚’è¿”ã•ãªã„ SQL ã‚’å®Ÿè¡Œ
+Œ‹‰Ê‚ğ•Ô‚³‚È‚¢ SQL ‚ğÀs
 %group
-hspduckdb â€” ã‚¯ã‚¨ãƒª
+hspduckdb \ ƒNƒGƒŠ
 %prm
 handle, "sql", var_rc
 
 %inst
-CREATE / INSERT / UPDATE / DELETE ãªã©çµæœã‚»ãƒƒãƒˆã‚’å‚ç…§ã—ãªã„ SQL ã‚’
-å®Ÿè¡Œã—ã¾ã™ã€‚var_rc ã¯ 0 (æˆåŠŸ) / è² æ•° (ã‚¨ãƒ©ãƒ¼)ã€‚
+CREATE / INSERT / UPDATE / DELETE ‚È‚ÇŒ‹‰ÊƒZƒbƒg‚ğQÆ‚µ‚È‚¢ SQL ‚ğ
+Às‚µ‚Ü‚·Bvar_rc ‚Í 0 (¬Œ÷) / •‰” (ƒGƒ‰[)B
 
 %index
 duckdb_query
-SELECT ã‚’å®Ÿè¡Œã—ã¦ result ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã™
+SELECT ‚ğÀs‚µ‚Ä result ƒnƒ“ƒhƒ‹‚ğ•Ô‚·
 %group
-hspduckdb â€” ã‚¯ã‚¨ãƒª
+hspduckdb \ ƒNƒGƒŠ
 %prm
 handle, "sql", var_result_handle
 
 %inst
-SELECT ç³» SQL ã‚’å®Ÿè¡Œã—ã€çµæœã‚»ãƒƒãƒˆãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã—ã¾ã™ã€‚
-å–å¾—å¾Œã¯ duckdb_result_free ã§è§£æ”¾ã—ã¦ãã ã•ã„ã€‚
+SELECT Œn SQL ‚ğÀs‚µAŒ‹‰ÊƒZƒbƒgƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚Ü‚·B
+æ“¾Œã‚Í duckdb_result_free ‚Å‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 duckdb_result_rows
-çµæœã®è¡Œæ•°ã‚’å–å¾—
+Œ‹‰Ê‚Ìs”‚ğæ“¾
 %group
-hspduckdb â€” çµæœå–å¾—
+hspduckdb \ Œ‹‰Êæ“¾
 %prm
 rh, var_rows
 
 %index
 duckdb_result_cols
-çµæœã®åˆ—æ•°ã‚’å–å¾—
+Œ‹‰Ê‚Ì—ñ”‚ğæ“¾
 %group
-hspduckdb â€” çµæœå–å¾—
+hspduckdb \ Œ‹‰Êæ“¾
 %prm
 rh, var_cols
 
 %index
 duckdb_result_col_name
-åˆ—åã‚’å–å¾—
+—ñ–¼‚ğæ“¾
 %group
-hspduckdb â€” çµæœå–å¾—
+hspduckdb \ Œ‹‰Êæ“¾
 %prm
 rh, col, var_str, buf_size
 col      : 0-origin
-var_str  : åˆ—åã‚’å—ã‘å–ã‚‹æ–‡å­—åˆ—å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+var_str  : —ñ–¼‚ğó‚¯æ‚é•¶š—ñ•Ï” (sdim Ï)
+buf_size : var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-åˆ—åã‚’ var_str ã«æ ¼ç´ã—ã¾ã™ã€‚var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’
-ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’ buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+—ñ–¼‚ğ var_str ‚ÉŠi”[‚µ‚Ü‚·Bvar_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğ
+Šm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 duckdb_result_cell_str
-ã‚»ãƒ«å€¤ã‚’æ–‡å­—åˆ—ã§å–å¾—
+ƒZƒ‹’l‚ğ•¶š—ñ‚Åæ“¾
 %group
-hspduckdb â€” çµæœå–å¾—
+hspduckdb \ Œ‹‰Êæ“¾
 %prm
 rh, row, col, var_str, buf_size
 row, col : 0-origin
-var_str  : ã‚»ãƒ«å€¤ã‚’å—ã‘å–ã‚‹æ–‡å­—åˆ—å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+var_str  : ƒZƒ‹’l‚ğó‚¯æ‚é•¶š—ñ•Ï” (sdim Ï)
+buf_size : var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-DuckDB ã® any å‹ã‚’æ–‡å­—åˆ—åŒ–ã—ã¦è¿”ã—ã¾ã™ (NULL ã¯ç©ºæ–‡å­—åˆ—)ã€‚
-var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+DuckDB ‚Ì any Œ^‚ğ•¶š—ñ‰»‚µ‚Ä•Ô‚µ‚Ü‚· (NULL ‚Í‹ó•¶š—ñ)B
+var_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 duckdb_result_cell_dbl
-ã‚»ãƒ«å€¤ã‚’ double ã§å–å¾—
+ƒZƒ‹’l‚ğ double ‚Åæ“¾
 %group
-hspduckdb â€” çµæœå–å¾—
+hspduckdb \ Œ‹‰Êæ“¾
 %prm
 rh, row, col, var_dbl
 
 %index
 duckdb_result_free
-çµæœãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾
+Œ‹‰Êƒnƒ“ƒhƒ‹‚ğ‰ğ•ú
 %group
-hspduckdb â€” çµæœå–å¾—
+hspduckdb \ Œ‹‰Êæ“¾
 %prm
 rh

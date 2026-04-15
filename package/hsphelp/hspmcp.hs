@@ -1,10 +1,10 @@
 ;
-; hspmcp.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; ãƒ—ãƒ­ã‚»ã‚¹ pipe + stdin/stdout helper (Model Context Protocol ç”¨)
+; hspmcp.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; ƒvƒƒZƒX pipe + stdin/stdout helper (Model Context Protocol —p)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,46 +14,49 @@ IronHSP / hspmcp
 %dll
 hspmcp.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-hspmcp.dll ã¯ HSP ã‹ã‚‰ã¯æ‰±ã„ã¥ã‚‰ã„ä»¥ä¸‹ã®å‡¦ç†ã‚’ C++ ã§éš è”½ã—ã¾ã™:
-  * CreateProcess + åŒ¿å pipe ã§å­ãƒ—ãƒ­ã‚»ã‚¹ã‚’ spawn
-  * å­ãƒ—ãƒ­ã‚»ã‚¹ stdin/stdout ã‚’è¡Œå˜ä½ã§èª­ã¿æ›¸ã
-  * ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ reader thread + å†…éƒ¨ line buffer
-  * è‡ªãƒ—ãƒ­ã‚»ã‚¹ã® stdin/stdout (HSP3CL ã‚’ MCP server ã¨ã—ã¦å‹•ã‹ã™ã¨ã)
+hspmcp.dll ‚Í HSP ‚©‚ç‚Íˆµ‚¢‚Ã‚ç‚¢ˆÈ‰º‚Ìˆ—‚ğ C++ ‚Å‰B•Á‚µ‚Ü‚·:
+  * CreateProcess + “½–¼ pipe ‚ÅqƒvƒƒZƒX‚ğ spawn
+  * qƒvƒƒZƒX stdin/stdout ‚ğs’PˆÊ‚Å“Ç‚İ‘‚«
+  * ƒoƒbƒNƒOƒ‰ƒEƒ“ƒh reader thread + “à•” line buffer
+  * ©ƒvƒƒZƒX‚Ì stdin/stdout (HSP3CL ‚ğ MCP server ‚Æ‚µ‚Ä“®‚©‚·‚Æ‚«)
 
-ä¸»ã« Anthropic Model Context Protocol (MCP) ã® stdio transport
-å®Ÿè£…ã«ä½¿ã†ãŸã‚ã«ä½œã‚Šã¾ã—ãŸãŒã€æ±ç”¨ã® "process pipe wrapper" ã¨ã—ã¦
-ä»–ã®ç”¨é€”ã«ã‚‚ä½¿ãˆã¾ã™ (å­ãƒ—ãƒ­ã‚»ã‚¹èµ·å‹• + ãƒ‘ã‚¤ãƒ—é€šä¿¡ãŒå¿…è¦ãªä»»æ„ã®å ´é¢)ã€‚
+å‚É Anthropic Model Context Protocol (MCP) ‚Ì stdio transport
+À‘•‚Ég‚¤‚½‚ß‚Éì‚è‚Ü‚µ‚½‚ªA”Ä—p‚Ì "process pipe wrapper" ‚Æ‚µ‚Ä
+‘¼‚Ì—p“r‚É‚àg‚¦‚Ü‚· (qƒvƒƒZƒX‹N“® + ƒpƒCƒv’ÊM‚ª•K—v‚È”CˆÓ‚Ìê–Ê)B
 
-HSP ã‹ã‚‰ã¯ package/win32/common/iron_mcp_client.hsp ã¨
-iron_mcp_server.hsp ã‚’ include ã—ã¦ä½¿ã†ã®ãŒæ¨å¥¨ã§ã™ã€‚
+HSP ‚©‚ç‚Í package/win32/common/iron_mcp_client.hsp ‚Æ
+iron_mcp_server.hsp ‚ğ include ‚µ‚Äg‚¤‚Ì‚ª„§‚Å‚·B
+
+%group
+hspmcp (Model Context Protocol)
 
 %index
 mcp_proc_open
-å­ãƒ—ãƒ­ã‚»ã‚¹ã‚’èµ·å‹•ã—ã¦ pipe ã‚’ç¢ºç«‹
+qƒvƒƒZƒX‚ğ‹N“®‚µ‚Ä pipe ‚ğŠm—§
 %group
-hspmcp â€” process spawn
+hspmcp \ process spawn
 %prm
 "command", "working_dir"
-"command"     : ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¾ãŸã¯å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ + å¼•æ•°
-"working_dir" : ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª ("" ã§ã‚«ãƒ¬ãƒ³ãƒˆ)
+"command"     : ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Ü‚½‚ÍÀsƒtƒ@ƒCƒ‹ƒpƒX + ˆø”
+"working_dir" : ì‹ÆƒfƒBƒŒƒNƒgƒŠ ("" ‚ÅƒJƒŒƒ“ƒg)
 
 %inst
-"command" ã®ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã§å­ãƒ—ãƒ­ã‚»ã‚¹ã‚’èµ·å‹•ã—ã¦ã€stdin/stdout ã‚’
-åŒ¿å pipe ã§æ¥ç¶šã—ã¾ã™ã€‚ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ reader thread ãŒå­ãƒ—ãƒ­ã‚»ã‚¹
-stdout ã‚’èª­ã¿ç¶šã‘ã¦è¡Œ buffer ã«æºœã‚ã‚‹ã®ã§ã€HSP å´ã‹ã‚‰ã¯
-mcp_proc_recv_line ã§ 1 è¡Œãšã¤å–ã‚Šå‡ºã›ã¾ã™ã€‚
+"command" ‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÅqƒvƒƒZƒX‚ğ‹N“®‚µ‚ÄAstdin/stdout ‚ğ
+“½–¼ pipe ‚ÅÚ‘±‚µ‚Ü‚·BƒoƒbƒNƒOƒ‰ƒEƒ“ƒh reader thread ‚ªqƒvƒƒZƒX
+stdout ‚ğ“Ç‚İ‘±‚¯‚Äs buffer ‚É—­‚ß‚é‚Ì‚ÅAHSP ‘¤‚©‚ç‚Í
+mcp_proc_recv_line ‚Å 1 s‚¸‚Âæ‚èo‚¹‚Ü‚·B
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« (>=0) / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ (>=0) / -1 ¸”s
 
-CreateProcess ã® dwCreationFlags ã«ã¯ CREATE_NO_WINDOW ã‚’æŒ‡å®šã—ã¦
-ã‚ã‚‹ã®ã§ã€å­ãƒ—ãƒ­ã‚»ã‚¹ã®ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¯è¡¨ç¤ºã•ã‚Œã¾ã›ã‚“ã€‚
+CreateProcess ‚Ì dwCreationFlags ‚É‚Í CREATE_NO_WINDOW ‚ğw’è‚µ‚Ä
+‚ ‚é‚Ì‚ÅAqƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹ƒEƒBƒ“ƒhƒE‚Í•\¦‚³‚ê‚Ü‚¹‚ñB
 
-æœ€å¤§ 64 ãƒ—ãƒ­ã‚»ã‚¹ã¾ã§ä¸¦åˆ—ã§é–‹ã‘ã¾ã™ã€‚
+Å‘å 64 ƒvƒƒZƒX‚Ü‚Å•À—ñ‚ÅŠJ‚¯‚Ü‚·B
 
 %href
 mcp_proc_send
@@ -62,114 +65,114 @@ mcp_proc_close
 
 %index
 mcp_proc_send
-å­ãƒ—ãƒ­ã‚»ã‚¹ stdin ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
+qƒvƒƒZƒX stdin ‚Éƒf[ƒ^‚ğ‘‚«‚Ş
 %group
-hspmcp â€” process spawn
+hspmcp \ process spawn
 %prm
 hid, "data", len
-hid    : mcp_proc_open ã§å–å¾—ã—ãŸãƒãƒ³ãƒ‰ãƒ«
-"data" : æ›¸ãè¾¼ã‚€ãƒã‚¤ãƒˆåˆ—
-len    : ãƒã‚¤ãƒˆæ•° (0 ã§ strlen)
+hid    : mcp_proc_open ‚Åæ“¾‚µ‚½ƒnƒ“ƒhƒ‹
+"data" : ‘‚«‚ŞƒoƒCƒg—ñ
+len    : ƒoƒCƒg” (0 ‚Å strlen)
 
 %inst
-å­ãƒ—ãƒ­ã‚»ã‚¹ã® stdin ã« data ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚æ”¹è¡Œã¯è‡ªå‹•ä»˜ä¸ã•ã‚Œã¾ã›ã‚“
-ã®ã§ JSON-RPC over stdio ç­‰ã§è¡ŒåŒºåˆ‡ã‚ŠãŒå¿…è¦ãªå ´åˆã¯å‘¼ã³å‡ºã—å´ã§
-"\n" ã‚’ä»˜ã‘ã¦ãã ã•ã„ã€‚
+qƒvƒƒZƒX‚Ì stdin ‚É data ‚ğ‘‚«‚İ‚Ü‚·B‰üs‚Í©“®•t—^‚³‚ê‚Ü‚¹‚ñ
+‚Ì‚Å JSON-RPC over stdio “™‚Ås‹æØ‚è‚ª•K—v‚Èê‡‚ÍŒÄ‚Ño‚µ‘¤‚Å
+"\n" ‚ğ•t‚¯‚Ä‚­‚¾‚³‚¢B
 
-æˆ»ã‚Šå€¤: å®Ÿéš›ã«æ›¸ãè¾¼ã‚“ã ãƒã‚¤ãƒˆæ•° / 0 å¤±æ•—
+–ß‚è’l: ÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg” / 0 ¸”s
 
 %index
 mcp_proc_recv_line
-å­ãƒ—ãƒ­ã‚»ã‚¹ stdout ã‹ã‚‰ 1 è¡Œå–å¾—
+qƒvƒƒZƒX stdout ‚©‚ç 1 sæ“¾
 %group
-hspmcp â€” process spawn
+hspmcp \ process spawn
 %prm
 hid, var, buflen
-hid    : ãƒãƒ³ãƒ‰ãƒ«
-var    : çµæœã‚’æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—å¤‰æ•° (sdim æ¸ˆ)
-buflen : å¤‰æ•°ã®ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+hid    : ƒnƒ“ƒhƒ‹
+var    : Œ‹‰Ê‚ğŠi”[‚·‚é•¶š—ñ•Ï” (sdim Ï)
+buflen : •Ï”‚Ìƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-å­ãƒ—ãƒ­ã‚»ã‚¹ã® stdout ã‹ã‚‰æ”¹è¡Œ (\n) ã§åŒºåˆ‡ã‚‰ã‚ŒãŸ 1 è¡Œã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚
-ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ reader thread ãŒå¸¸æ™‚ ReadFile ã‚’å›ã—ã¦ã„ã‚‹ã®ã§ã€
-æœ¬å‘½ä»¤ã¯ãƒãƒ³ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã§ã€buffer ã«æœªåˆ°é”ã®å ´åˆã¯ã™ã 0 ã‚’è¿”ã—ã¾ã™ã€‚
+qƒvƒƒZƒX‚Ì stdout ‚©‚ç‰üs (\n) ‚Å‹æØ‚ç‚ê‚½ 1 s‚ğæ‚èo‚µ‚Ü‚·B
+ƒoƒbƒNƒOƒ‰ƒEƒ“ƒh reader thread ‚ªí ReadFile ‚ğ‰ñ‚µ‚Ä‚¢‚é‚Ì‚ÅA
+–{–½—ß‚Íƒmƒ“ƒuƒƒbƒLƒ“ƒO‚ÅAbuffer ‚É–¢“’B‚Ìê‡‚Í‚·‚® 0 ‚ğ•Ô‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤:
-  >0 : èª­ã‚ãŸãƒã‚¤ãƒˆæ•° (æ”¹è¡Œã¯å«ã¾ãªã„)
-   0 : ã¾ã  buffer ã«è¡ŒãŒç„¡ã„ (await ã§ãƒªãƒˆãƒ©ã‚¤å¯)
-  -1 : ãƒãƒ³ãƒ‰ãƒ«ç„¡åŠ¹
+–ß‚è’l:
+  >0 : “Ç‚ß‚½ƒoƒCƒg” (‰üs‚ÍŠÜ‚Ü‚È‚¢)
+   0 : ‚Ü‚¾ buffer ‚És‚ª–³‚¢ (await ‚ÅƒŠƒgƒ‰ƒC‰Â)
+  -1 : ƒnƒ“ƒhƒ‹–³Œø
 
 %href
 mcp_proc_send
 
 %index
 mcp_proc_alive
-å­ãƒ—ãƒ­ã‚»ã‚¹ãŒç”Ÿãã¦ã„ã‚‹ã‹åˆ¤å®š
+qƒvƒƒZƒX‚ª¶‚«‚Ä‚¢‚é‚©”»’è
 %group
-hspmcp â€” process spawn
+hspmcp \ process spawn
 %prm
 hid
 
 %inst
-GetExitCodeProcess ã§ STILL_ACTIVE ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
+GetExitCodeProcess ‚Å STILL_ACTIVE ‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: 1 = å‹•ä½œä¸­ / 0 = çµ‚äº†
+–ß‚è’l: 1 = “®ì’† / 0 = I—¹
 
 %index
 mcp_proc_close
-å­ãƒ—ãƒ­ã‚»ã‚¹ã‚’çµ‚äº†ã—ã¦ pipe ã‚’é–‰ã˜ã‚‹
+qƒvƒƒZƒX‚ğI—¹‚µ‚Ä pipe ‚ğ•Â‚¶‚é
 %group
-hspmcp â€” process spawn
+hspmcp \ process spawn
 %prm
 hid
 
 %inst
-reader thread ã‚’åœæ­¢ â†’ stdin pipe ã‚’ close â†’ å¿…è¦ãªã‚‰ TerminateProcess
-â†’ ãƒãƒ³ãƒ‰ãƒ«ã‚’å…¨éƒ¨ closeã€‚HSP ãƒ—ãƒ­ã‚°ãƒ©ãƒ çµ‚äº†æ™‚ã«ã¯ DllMain ã§å…¨ active
-ãƒãƒ³ãƒ‰ãƒ«ã‚’è‡ªå‹• close ã™ã‚‹ã®ã§æ˜ç¤ºå‘¼ã³å‡ºã—ã¯çœç•¥ã—ã¦ã‚‚ OKã€‚
+reader thread ‚ğ’â~ ¨ stdin pipe ‚ğ close ¨ •K—v‚È‚ç TerminateProcess
+¨ ƒnƒ“ƒhƒ‹‚ğ‘S•” closeBHSP ƒvƒƒOƒ‰ƒ€I—¹‚É‚Í DllMain ‚Å‘S active
+ƒnƒ“ƒhƒ‹‚ğ©“® close ‚·‚é‚Ì‚Å–¾¦ŒÄ‚Ño‚µ‚ÍÈ—ª‚µ‚Ä‚à OKB
 
 %index
 mcp_stdin_read_line
-è‡ªãƒ—ãƒ­ã‚»ã‚¹ã® stdin ã‹ã‚‰ 1 è¡Œå–å¾— (server ç”¨)
+©ƒvƒƒZƒX‚Ì stdin ‚©‚ç 1 sæ“¾ (server —p)
 %group
-hspmcp â€” server side stdin/stdout
+hspmcp \ server side stdin/stdout
 %prm
 var, buflen
-var    : çµæœã‚’æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—å¤‰æ•°
-buflen : ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+var    : Œ‹‰Ê‚ğŠi”[‚·‚é•¶š—ñ•Ï”
+buflen : ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-è‡ªãƒ—ãƒ­ã‚»ã‚¹ (HSP3CL) ã® stdin ã‹ã‚‰æ”¹è¡ŒåŒºåˆ‡ã‚Šã§ 1 è¡Œèª­ã¿å–ã‚Šã¾ã™ã€‚
-HSP3CL ã‚’ MCP server ã¨ã—ã¦å‹•ã‹ã™éš›ã€è¦ªãƒ—ãƒ­ã‚»ã‚¹ (Claude Desktop ç­‰)
-ã‹ã‚‰ JSON-RPC ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’å—ã‘å–ã‚‹ãŸã‚ã«ä½¿ã„ã¾ã™ã€‚
+©ƒvƒƒZƒX (HSP3CL) ‚Ì stdin ‚©‚ç‰üs‹æØ‚è‚Å 1 s“Ç‚İæ‚è‚Ü‚·B
+HSP3CL ‚ğ MCP server ‚Æ‚µ‚Ä“®‚©‚·ÛAeƒvƒƒZƒX (Claude Desktop “™)
+‚©‚ç JSON-RPC ƒŠƒNƒGƒXƒg‚ğó‚¯æ‚é‚½‚ß‚Ég‚¢‚Ü‚·B
 
-ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°èª­ã¿: stdin ã«å…¥åŠ›ãŒæ¥ã‚‹ã¾ã§æˆ»ã£ã¦ãã¾ã›ã‚“ã€‚
+ƒuƒƒbƒLƒ“ƒO“Ç‚İ: stdin ‚É“ü—Í‚ª—ˆ‚é‚Ü‚Å–ß‚Á‚Ä‚«‚Ü‚¹‚ñB
 
-æˆ»ã‚Šå€¤:
-  >=0 : èª­ã‚ãŸãƒã‚¤ãƒˆæ•°
-   -1 : EOF ã¾ãŸã¯ error
+–ß‚è’l:
+  >=0 : “Ç‚ß‚½ƒoƒCƒg”
+   -1 : EOF ‚Ü‚½‚Í error
 
 %href
 mcp_stdout_write
 
 %index
 mcp_stdout_write
-è‡ªãƒ—ãƒ­ã‚»ã‚¹ã® stdout ã«æ›¸ãè¾¼ã‚€ (server ç”¨)
+©ƒvƒƒZƒX‚Ì stdout ‚É‘‚«‚Ş (server —p)
 %group
-hspmcp â€” server side stdin/stdout
+hspmcp \ server side stdin/stdout
 %prm
 "data", len
-"data" : æ›¸ãè¾¼ã‚€ãƒã‚¤ãƒˆåˆ—
-len    : ãƒã‚¤ãƒˆæ•° (0 ã§ strlen)
+"data" : ‘‚«‚ŞƒoƒCƒg—ñ
+len    : ƒoƒCƒg” (0 ‚Å strlen)
 
 %inst
-è‡ªãƒ—ãƒ­ã‚»ã‚¹ã® stdout ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚“ã§ FlushFileBuffers ã‚’å‘¼ã³ã¾ã™ã€‚
-HSP3CL ã‚’ MCP server ã¨ã—ã¦å‹•ã‹ã™éš›ã€è¦ªãƒ—ãƒ­ã‚»ã‚¹ã¸ JSON-RPC ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’
-è¿”ã™ãŸã‚ã«ä½¿ã„ã¾ã™ã€‚
+©ƒvƒƒZƒX‚Ì stdout ‚Éƒf[ƒ^‚ğ‘‚«‚ñ‚Å FlushFileBuffers ‚ğŒÄ‚Ñ‚Ü‚·B
+HSP3CL ‚ğ MCP server ‚Æ‚µ‚Ä“®‚©‚·ÛAeƒvƒƒZƒX‚Ö JSON-RPC ƒŒƒXƒ|ƒ“ƒX‚ğ
+•Ô‚·‚½‚ß‚Ég‚¢‚Ü‚·B
 
-mcp_stdin_read_line ã¨çµ„ã¿åˆã‚ã›ã¦è¡Œå˜ä½ã®åŒæ–¹å‘é€šä¿¡ã‚’å®Ÿç¾ã—ã¾ã™ã€‚
+mcp_stdin_read_line ‚Æ‘g‚İ‡‚í‚¹‚Äs’PˆÊ‚Ì‘o•ûŒü’ÊM‚ğÀŒ»‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: å®Ÿéš›ã«æ›¸ãè¾¼ã‚“ã ãƒã‚¤ãƒˆæ•°
+–ß‚è’l: ÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”
 
 %href
 mcp_stdin_read_line

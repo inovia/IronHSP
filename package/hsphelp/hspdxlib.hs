@@ -20,6 +20,9 @@ DxLib ゲームライブラリ
 %port
 Win
 
+%group
+hspdxlib (DXライブラリ)
+
 %index
 DxLib_Init
 ライブラリ初期化を行う

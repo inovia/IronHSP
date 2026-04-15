@@ -1,10 +1,10 @@
 ;
-; hsponnx.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; ONNX Runtime ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
+; hsponnx.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; ONNX Runtime ƒvƒ‰ƒOƒCƒ“
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,203 +14,206 @@ IronHSP / hsponnx
 %dll
 hsponnx.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-hsponnx.dll ã¯ Microsoft å…¬å¼ã® ONNX Runtime (onnxruntime.dll) ã‚’
-å‹•çš„ãƒªãƒ³ã‚¯ã—ã¦ã€HSP ã‹ã‚‰ .onnx ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ / æ¨è«–ã§ãã‚‹ã‚ˆã†ã«
-ã™ã‚‹è–„ã„ãƒ©ãƒƒãƒ‘ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã™ã€‚
+hsponnx.dll ‚Í Microsoft Œö®‚Ì ONNX Runtime (onnxruntime.dll) ‚ğ
+“®“IƒŠƒ“ƒN‚µ‚ÄAHSP ‚©‚ç .onnx ƒ‚ƒfƒ‹‚ğƒ[ƒh / „˜_‚Å‚«‚é‚æ‚¤‚É
+‚·‚é”–‚¢ƒ‰ƒbƒpƒvƒ‰ƒOƒCƒ“‚Å‚·B
 
-DirectML execution provider ã«å¯¾å¿œã—ã¦ãŠã‚Šã€onnx_set_backend_dml ã§
-DirectX 12 äº’æ› GPU (NVIDIA / AMD / Intel / Qualcomm) ã§ã®
-ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢æ¨è«–ãŒå¯èƒ½ã§ã™ã€‚
+DirectML execution provider ‚É‘Î‰‚µ‚Ä‚¨‚èAonnx_set_backend_dml ‚Å
+DirectX 12 ŒİŠ· GPU (NVIDIA / AMD / Intel / Qualcomm) ‚Å‚Ì
+ƒn[ƒhƒEƒFƒA„˜_‚ª‰Â”\‚Å‚·B
 
-v1 ã® onnx_run ã¯ã€Œ1 input / 1 output, float32 tensorã€ã¨ã„ã†
-å˜ç´”ãªã‚±ãƒ¼ã‚¹å°‚ç”¨ã§ã™ã€‚ResNet / MobileNet / YOLOv5 ã®ç”»åƒåˆ†é¡ãƒ»æ¤œå‡º
-ãƒ¢ãƒ‡ãƒ«ã®å¤šãã¯ã“ã®ã‚·ã‚°ãƒãƒãƒ£ã§å‹•ãã¾ã™ã€‚
+v1 ‚Ì onnx_run ‚Íu1 input / 1 output, float32 tensorv‚Æ‚¢‚¤
+’Pƒ‚ÈƒP[ƒXê—p‚Å‚·BResNet / MobileNet / YOLOv5 ‚Ì‰æ‘œ•ª—ŞEŒŸo
+ƒ‚ƒfƒ‹‚Ì‘½‚­‚Í‚±‚ÌƒVƒOƒlƒ`ƒƒ‚Å“®‚«‚Ü‚·B
 
-å®Ÿéš›ã«æ¨è«–ã™ã‚‹ã«ã¯ä»¥ä¸‹ãŒå¿…è¦ã§ã™:
+ÀÛ‚É„˜_‚·‚é‚É‚ÍˆÈ‰º‚ª•K—v‚Å‚·:
   - hsponnx.dll / hsponnx_64.dll
   - onnxruntime.dll
-  - DirectML.dll  (DML backend ã‚’ä½¿ã†å ´åˆã®ã¿)
+  - DirectML.dll  (DML backend ‚ğg‚¤ê‡‚Ì‚İ)
 
-ã„ãšã‚Œã‚‚ plugins/win32/hsponnx/third_party/onnxruntime/README.md
-ã®æ‰‹é †ã§ NuGet or å…¬å¼ zip ã‹ã‚‰å…¥æ‰‹ã—ã¦ HSP ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã¨åŒã˜
-ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®ã—ã¦ãã ã•ã„ã€‚
+‚¢‚¸‚ê‚à plugins/win32/hsponnx/third_party/onnxruntime/README.md
+‚Ìè‡‚Å NuGet or Œö® zip ‚©‚ç“üè‚µ‚Ä HSP ƒ‰ƒ“ƒ^ƒCƒ€‚Æ“¯‚¶
+ƒfƒBƒŒƒNƒgƒŠ‚É”z’u‚µ‚Ä‚­‚¾‚³‚¢B
 
-ç³–è¡£ã¨ã—ã¦ package/win32/common/iron_onnx.hsp ã‚’ include ã™ã‚‹ã¨
-iron_onnx_open / iron_onnx_input_info ç­‰ãŒã¾ã¨ã‚ã¦ä½¿ãˆã¾ã™ã€‚
+“œˆß‚Æ‚µ‚Ä package/win32/common/iron_onnx.hsp ‚ğ include ‚·‚é‚Æ
+iron_onnx_open / iron_onnx_input_info “™‚ª‚Ü‚Æ‚ß‚Äg‚¦‚Ü‚·B
+
+%group
+hsponnx (ONNX Runtime)
 
 %index
 onnx_init
-ONNX Runtime ã®åˆæœŸåŒ–
+ONNX Runtime ‚Ì‰Šú‰»
 %group
-hsponnx â€” åˆæœŸåŒ– / çµ‚äº†
+hsponnx \ ‰Šú‰» / I—¹
 %prm
 
 %inst
-ãƒ—ãƒ©ã‚°ã‚¤ãƒ³å†…éƒ¨ã§ OrtApi ã‚’å–å¾—ã—ã€OrtEnv ã‚’ä½œæˆã—ã¾ã™ã€‚é€šå¸¸ã¯
-æœ€åˆã® onnx_load_model å‘¼ã³å‡ºã—æ™‚ã«è‡ªå‹•çš„ã«å®Ÿè¡Œã•ã‚Œã‚‹ãŸã‚ã€
-æ˜ç¤ºçš„ã«å‘¼ã¶å¿…è¦ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
+ƒvƒ‰ƒOƒCƒ““à•”‚Å OrtApi ‚ğæ“¾‚µAOrtEnv ‚ğì¬‚µ‚Ü‚·B’Êí‚Í
+Å‰‚Ì onnx_load_model ŒÄ‚Ño‚µ‚É©“®“I‚ÉÀs‚³‚ê‚é‚½‚ßA
+–¾¦“I‚ÉŒÄ‚Ô•K—v‚Í‚ ‚è‚Ü‚¹‚ñB
 
-onnxruntime.dll ãŒè¦‹ã¤ã‹ã‚‰ãªã„ç’°å¢ƒã§ã¯ä½•ã‚‚ã›ãšè¿”ã‚Šã¾ã™ã€‚
+onnxruntime.dll ‚ªŒ©‚Â‚©‚ç‚È‚¢ŠÂ‹«‚Å‚Í‰½‚à‚¹‚¸•Ô‚è‚Ü‚·B
 
 %index
 onnx_shutdown
-ONNX Runtime ã®çµ‚äº†
+ONNX Runtime ‚ÌI—¹
 %group
-hsponnx â€” åˆæœŸåŒ– / çµ‚äº†
+hsponnx \ ‰Šú‰» / I—¹
 %prm
 
 %inst
-é–‹ã„ã¦ã„ã‚‹å…¨ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’è§£æ”¾ã—ã¦ OrtEnv ã‚’ç ´æ£„ã—ã¾ã™ã€‚
-DLL ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰æ™‚ã«ã‚‚è‡ªå‹•çš„ã«å‘¼ã°ã‚Œã¾ã™ã€‚
+ŠJ‚¢‚Ä‚¢‚é‘SƒZƒbƒVƒ‡ƒ“‚ğ‰ğ•ú‚µ‚Ä OrtEnv ‚ğ”jŠü‚µ‚Ü‚·B
+DLL ƒAƒ“ƒ[ƒh‚É‚à©“®“I‚ÉŒÄ‚Î‚ê‚Ü‚·B
 
 %index
 onnx_load_model
-ONNX ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰
+ONNX ƒ‚ƒfƒ‹‚ğƒ[ƒh
 %group
-hsponnx â€” ã‚»ãƒƒã‚·ãƒ§ãƒ³
+hsponnx \ ƒZƒbƒVƒ‡ƒ“
 %prm
 "path", var_h
-"path" : .onnx ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
-var_h : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ« (>=0) ã¾ãŸã¯è² ã®ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å—ã‘å–ã‚‹å¤‰æ•°
+"path" : .onnx ƒtƒ@ƒCƒ‹ƒpƒX
+var_h : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹ (>=0) ‚Ü‚½‚Í•‰‚ÌƒGƒ‰[ƒR[ƒh‚ğó‚¯æ‚é•Ï”
 
 %inst
-æŒ‡å®šãƒ‘ã‚¹ã® .onnx ãƒ¢ãƒ‡ãƒ«ã‚’ ONNX Runtime ã«ãƒ­ãƒ¼ãƒ‰ã—ã¦
-ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ä½œæˆã—ã¾ã™ã€‚æˆåŠŸã™ã‚‹ã¨ãƒãƒ³ãƒ‰ãƒ« (0ã€œ15) ãŒè¿”ã‚Šã¾ã™ã€‚
+w’èƒpƒX‚Ì .onnx ƒ‚ƒfƒ‹‚ğ ONNX Runtime ‚Éƒ[ƒh‚µ‚Ä
+ƒZƒbƒVƒ‡ƒ“‚ğì¬‚µ‚Ü‚·B¬Œ÷‚·‚é‚Æƒnƒ“ƒhƒ‹ (0`15) ‚ª•Ô‚è‚Ü‚·B
 
-ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰:
-  -1  : ãƒãƒ³ãƒ‰ãƒ«æº€æ¯ (16 è¶…)
-  -2  : SessionOptions ä½œæˆå¤±æ•—
-  -3  : Session ä½œæˆå¤±æ•— (ãƒ¢ãƒ‡ãƒ«ä¸æ­£ / ãƒ¡ãƒ¢ãƒªä¸è¶³ / ãƒ‘ã‚¹ä¸æ­£)
- -100 : onnxruntime ãŒæœªãƒªãƒ³ã‚¯ (ã‚¹ã‚¿ãƒ–ãƒ“ãƒ«ãƒ‰)
+ƒGƒ‰[ƒR[ƒh:
+  -1  : ƒnƒ“ƒhƒ‹–”t (16 ’´)
+  -2  : SessionOptions ì¬¸”s
+  -3  : Session ì¬¸”s (ƒ‚ƒfƒ‹•s³ / ƒƒ‚ƒŠ•s‘« / ƒpƒX•s³)
+ -100 : onnxruntime ‚ª–¢ƒŠƒ“ƒN (ƒXƒ^ƒuƒrƒ‹ƒh)
 
 %index
 onnx_close
-ONNX ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’é–‰ã˜ã‚‹
+ONNX ƒZƒbƒVƒ‡ƒ“‚ğ•Â‚¶‚é
 %group
-hsponnx â€” ã‚»ãƒƒã‚·ãƒ§ãƒ³
+hsponnx \ ƒZƒbƒVƒ‡ƒ“
 %prm
 h
-h : onnx_load_model ã§å¾—ãŸãƒãƒ³ãƒ‰ãƒ«
+h : onnx_load_model ‚Å“¾‚½ƒnƒ“ƒhƒ‹
 
 %inst
-æŒ‡å®šã—ãŸã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’è§£æ”¾ã—ã€å†…éƒ¨ãƒªã‚½ãƒ¼ã‚¹ã‚’é–‹æ”¾ã—ã¾ã™ã€‚
+w’è‚µ‚½ƒZƒbƒVƒ‡ƒ“‚ğ‰ğ•ú‚µA“à•”ƒŠƒ\[ƒX‚ğŠJ•ú‚µ‚Ü‚·B
 
 %index
 onnx_input_count
-å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ«ã®æ•°ã‚’å–å¾—
+“ü—Íƒeƒ“ƒ\ƒ‹‚Ì”‚ğæ“¾
 %group
-hsponnx â€” ãƒ¡ã‚¿æƒ…å ±
+hsponnx \ ƒƒ^î•ñ
 %prm
 h, var_int
 
 %inst
-ã‚»ãƒƒã‚·ãƒ§ãƒ³ h ã®å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ«æ•°ã‚’ var_int ã«æ ¼ç´ã—ã¾ã™ã€‚
+ƒZƒbƒVƒ‡ƒ“ h ‚Ì“ü—Íƒeƒ“ƒ\ƒ‹”‚ğ var_int ‚ÉŠi”[‚µ‚Ü‚·B
 
 %index
 onnx_input_name
-å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ«åã‚’å–å¾—
+“ü—Íƒeƒ“ƒ\ƒ‹–¼‚ğæ“¾
 %group
-hsponnx â€” ãƒ¡ã‚¿æƒ…å ±
+hsponnx \ ƒƒ^î•ñ
 %prm
 h, idx, var_str, buf_size
-h        : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
-idx      : å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ«ç•ªå· (0ã€œ)
-var_str  : åå‰ã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+h        : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
+idx      : “ü—Íƒeƒ“ƒ\ƒ‹”Ô† (0`)
+var_str  : –¼‘O‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size : var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-idx ç•ªç›®ã®å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ«åã‚’ var_str ã«æ ¼ç´ã—ã¾ã™ (ä¾‹ "input" / "images")ã€‚
-var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+idx ”Ô–Ú‚Ì“ü—Íƒeƒ“ƒ\ƒ‹–¼‚ğ var_str ‚ÉŠi”[‚µ‚Ü‚· (—á "input" / "images")B
+var_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 onnx_input_shape
-å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ«å½¢çŠ¶ã‚’å–å¾—
+“ü—Íƒeƒ“ƒ\ƒ‹Œ`ó‚ğæ“¾
 %group
-hsponnx â€” ãƒ¡ã‚¿æƒ…å ±
+hsponnx \ ƒƒ^î•ñ
 %prm
 h, idx, var_shape, var_rank
 
 %inst
-idx ç•ªç›®ã®å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ«ã®å„æ¬¡å…ƒé•·ã‚’ var_shape (int é…åˆ—) ã«ã€
-rank (æ¬¡å…ƒæ•°) ã‚’ var_rank ã«æ ¼ç´ã—ã¾ã™ã€‚
+idx ”Ô–Ú‚Ì“ü—Íƒeƒ“ƒ\ƒ‹‚ÌŠeŸŒ³’·‚ğ var_shape (int ”z—ñ) ‚ÉA
+rank (ŸŒ³”) ‚ğ var_rank ‚ÉŠi”[‚µ‚Ü‚·B
 
-å‹•çš„æ¬¡å…ƒ (-1) ã¯è² å€¤ã®ã¾ã¾æ ¼ç´ã•ã‚Œã‚‹ãŸã‚ã€HSP å´ã§ batch æ¬¡å…ƒãªã©ã‚’
-åŸ‹ã‚ã¦ã‹ã‚‰ onnx_run ã«æ¸¡ã—ã¦ãã ã•ã„ã€‚
+“®“IŸŒ³ (-1) ‚Í•‰’l‚Ì‚Ü‚ÜŠi”[‚³‚ê‚é‚½‚ßAHSP ‘¤‚Å batch ŸŒ³‚È‚Ç‚ğ
+–„‚ß‚Ä‚©‚ç onnx_run ‚É“n‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 onnx_output_count
-å‡ºåŠ›ãƒ†ãƒ³ã‚½ãƒ«ã®æ•°ã‚’å–å¾—
+o—Íƒeƒ“ƒ\ƒ‹‚Ì”‚ğæ“¾
 %group
-hsponnx â€” ãƒ¡ã‚¿æƒ…å ±
+hsponnx \ ƒƒ^î•ñ
 %prm
 h, var_int
 
 %index
 onnx_output_name
-å‡ºåŠ›ãƒ†ãƒ³ã‚½ãƒ«åã‚’å–å¾—
+o—Íƒeƒ“ƒ\ƒ‹–¼‚ğæ“¾
 %group
-hsponnx â€” ãƒ¡ã‚¿æƒ…å ±
+hsponnx \ ƒƒ^î•ñ
 %prm
 h, idx, var_str, buf_size
-h        : ã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
-idx      : å‡ºåŠ›ãƒ†ãƒ³ã‚½ãƒ«ç•ªå· (0ã€œ)
-var_str  : åå‰ã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+h        : ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
+idx      : o—Íƒeƒ“ƒ\ƒ‹”Ô† (0`)
+var_str  : –¼‘O‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size : var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-idx ç•ªç›®ã®å‡ºåŠ›ãƒ†ãƒ³ã‚½ãƒ«åã‚’ var_str ã«æ ¼ç´ã—ã¾ã™ã€‚
-var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+idx ”Ô–Ú‚Ìo—Íƒeƒ“ƒ\ƒ‹–¼‚ğ var_str ‚ÉŠi”[‚µ‚Ü‚·B
+var_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 onnx_output_shape
-å‡ºåŠ›ãƒ†ãƒ³ã‚½ãƒ«å½¢çŠ¶ã‚’å–å¾—
+o—Íƒeƒ“ƒ\ƒ‹Œ`ó‚ğæ“¾
 %group
-hsponnx â€” ãƒ¡ã‚¿æƒ…å ±
+hsponnx \ ƒƒ^î•ñ
 %prm
 h, idx, var_shape, var_rank
 
 %index
 onnx_set_backend_dml
-DirectML (GPU) ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã«åˆ‡ã‚Šæ›¿ãˆ
+DirectML (GPU) ƒoƒbƒNƒGƒ“ƒh‚ÉØ‚è‘Ö‚¦
 %group
-hsponnx â€” ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰
+hsponnx \ ƒoƒbƒNƒGƒ“ƒh
 %prm
 h
 
 %inst
-DirectML execution provider ã‚’æœ‰åŠ¹åŒ–ã—ã€ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿæˆã—ã¾ã™ã€‚
-DirectX 12 å¯¾å¿œ GPU (Win10 ä»¥é™) ã§å‹•ä½œã—ã¾ã™ã€‚
-DirectML.dll ãŒå­˜åœ¨ã—ãªã„ç’°å¢ƒã§ã¯ç„¡è¦–ã•ã‚Œã¾ã™ã€‚
+DirectML execution provider ‚ğ—LŒø‰»‚µAƒZƒbƒVƒ‡ƒ“‚ğÄ¶¬‚µ‚Ü‚·B
+DirectX 12 ‘Î‰ GPU (Win10 ˆÈ~) ‚Å“®ì‚µ‚Ü‚·B
+DirectML.dll ‚ª‘¶İ‚µ‚È‚¢ŠÂ‹«‚Å‚Í–³‹‚³‚ê‚Ü‚·B
 
 %index
 onnx_set_backend_cpu
-CPU ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã«åˆ‡ã‚Šæ›¿ãˆ
+CPU ƒoƒbƒNƒGƒ“ƒh‚ÉØ‚è‘Ö‚¦
 %group
-hsponnx â€” ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰
+hsponnx \ ƒoƒbƒNƒGƒ“ƒh
 %prm
 h
 
 %index
 onnx_run
-æ¨è«–ã‚’å®Ÿè¡Œ (1 input / 1 output, float32)
+„˜_‚ğÀs (1 input / 1 output, float32)
 %group
-hsponnx â€” æ¨è«–
+hsponnx \ „˜_
 %prm
 h, var_in_buf, var_in_shape, in_rank, var_out_buf, var_out_shape, var_out_rank
 
 %inst
-å…¥åŠ›ãƒ†ãƒ³ã‚½ãƒ« (float32 ã®é€£ç¶šãƒ¡ãƒ¢ãƒª) ã¨ shape ã‚’æ¸¡ã—ã¦æ¨è«–ã‚’å®Ÿè¡Œã—ã€
-å‡ºåŠ›ãƒ†ãƒ³ã‚½ãƒ«ã‚’ var_out_buf / var_out_shape ã«æ›¸ãæˆ»ã—ã¾ã™ã€‚
-var_out_buf ã¯å‘¼ã³å‡ºã—å‰ã«ååˆ†ãª size ã‚’ sdim ã§ç¢ºä¿ã—ã¦ãŠãã“ã¨ã€‚
+“ü—Íƒeƒ“ƒ\ƒ‹ (float32 ‚Ì˜A‘±ƒƒ‚ƒŠ) ‚Æ shape ‚ğ“n‚µ‚Ä„˜_‚ğÀs‚µA
+o—Íƒeƒ“ƒ\ƒ‹‚ğ var_out_buf / var_out_shape ‚É‘‚«–ß‚µ‚Ü‚·B
+var_out_buf ‚ÍŒÄ‚Ño‚µ‘O‚É\•ª‚È size ‚ğ sdim ‚ÅŠm•Û‚µ‚Ä‚¨‚­‚±‚ÆB
 
-è¤‡æ•°å…¥å‡ºåŠ›ãƒ¢ãƒ‡ãƒ«ã¯ v1 ã§ã¯éå¯¾å¿œã§ã™ã€‚
+•¡”“üo—Íƒ‚ƒfƒ‹‚Í v1 ‚Å‚Í”ñ‘Î‰‚Å‚·B
 
 %href
 onnx_load_model

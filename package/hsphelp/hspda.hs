@@ -22,6 +22,9 @@ Win
 
 
 
+%group
+hspda (”z—ñ‘€ì)
+
 %index
 csvstr
 CSV‚Ì‚Ps‚ğ”z—ñ‚É•ÏŠ·

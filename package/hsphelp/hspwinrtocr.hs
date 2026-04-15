@@ -1,10 +1,10 @@
 ;
-; hspwinrtocr.dll  HSP3 ヘルプ (日本語)
-; Windows.Media.Ocr (WinRT) ラッパプラグイン
+; hspwinrtocr.dll  HSP3 �w���v (���{��)
+; Windows.Media.Ocr (WinRT) ���b�p�v���O�C��
 ;
 
 %type
-拡張命令
+�g������
 %ver
 1.0
 %date
@@ -14,49 +14,52 @@ IronHSP / hspwinrtocr
 %dll
 hspwinrtocr.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win32 / Win64 (Windows 10 以降)
+Win32 / Win64 (Windows 10 �ȍ~)
 
 %note
-hspwinrtocr.dll は Windows 10 以降に標準搭載されている WinRT
-OCR エンジン (Windows.Media.Ocr.OcrEngine) を HSP3 から直接呼び
-出すためのプラグインです。
+hspwinrtocr.dll �� Windows 10 �ȍ~�ɕW�����ڂ���Ă��� WinRT
+OCR �G���W�� (Windows.Media.Ocr.OcrEngine) �� HSP3 ���璼�ڌĂ�
+�o�����߂̃v���O�C���ł��B
 
-追加のモデルダウンロードは不要で、OS にインストール済みの言語パ
-ックがそのまま OCR の認識言語になります (日本語 OCR は OS の
-言語設定に日本語が含まれている必要があります)。
+�ǉ��̃��f���_�E�����[�h�͕s�v�ŁAOS �ɃC���X�g�[���ς݂̌���p
+�b�N�����̂܂� OCR �̔F������ɂȂ�܂� (���{�� OCR �� OS ��
+����ݒ�ɓ��{�ꂪ�܂܂�Ă���K�v������܂�)�B
 
-実装は C++/WinRT (header-only) + windowsapp.lib で、非同期
-API はすべて内部で .get() による同期待ち扱いになっています。
-HSP 側からは通常の同期呼び出しとして使えます。
+������ C++/WinRT (header-only) + windowsapp.lib �ŁA�񓯊�
+API �͂��ׂē����� .get() �ɂ�铯���҂������ɂȂ��Ă��܂��B
+HSP ������͒ʏ�̓����Ăяo���Ƃ��Ďg���܂��B
 
-API は画像ファイルからの OCR (ocr_run_file) と、HSP カレント
-ウィンドウの描画内容からの OCR (ocr_run_hwnd) の 2 種類を提供
-します。
+API �͉摜�t�@�C������� OCR (ocr_run_file) �ƁAHSP �J�����g
+�E�B���h�E�̕`����e����� OCR (ocr_run_hwnd) �� 2 ��ނ��
+���܂��B
+
+%group
+hspwinrtocr (WinRT OCR)
 
 %index
 ocr_init
-OCR エンジンを初期化
+OCR �G���W����������
 %group
-hspwinrtocr — 基本
+hspwinrtocr �\ ��{
 %prm
 [, "lang"]
-lang : BCP-47 言語タグ (例 "ja" / "en-US")。省略時はユーザー
-       プロファイル言語から自動選択。
+lang : BCP-47 ����^�O (�� "ja" / "en-US")�B�ȗ����̓��[�U�[
+       �v���t�@�C�����ꂩ�玩���I���B
 
 %inst
-Windows.Media.Ocr.OcrEngine を作成します。
+Windows.Media.Ocr.OcrEngine ���쐬���܂��B
 
-引数を省略した場合は OcrEngine::TryCreateFromUserProfileLanguages()
-を使って OS 側の言語設定から自動で選ばれます。言語タグを指定
-した場合は IsLanguageSupported() で利用可能か確認してから
-TryCreateFromLanguage() で作成します。
+�������ȗ������ꍇ�� OcrEngine::TryCreateFromUserProfileLanguages()
+���g���� OS ���̌���ݒ肩�玩���őI�΂�܂��B����^�O���w��
+�����ꍇ�� IsLanguageSupported() �ŗ��p�\���m�F���Ă���
+TryCreateFromLanguage() �ō쐬���܂��B
 
-戻り値 (stat):
-  0  : 成功
- -1  : エンジン作成失敗 (言語パック未インストール等)
- -2  : 指定言語がサポート外
+�߂�l (stat):
+  0  : ����
+ -1  : �G���W���쐬���s (����p�b�N���C���X�g�[����)
+ -2  : �w�茾�ꂪ�T�|�[�g�O
 
 %href
 ocr_free
@@ -65,68 +68,68 @@ ocr_run_file
 
 %index
 ocr_free
-OCR エンジンを解放
+OCR �G���W�������
 %group
-hspwinrtocr — 基本
+hspwinrtocr �\ ��{
 %prm
 
 %inst
-ocr_init で確保した OcrEngine を解放します。アプリ終了時
-(DLL PROCESS_DETACH) に自動解放もされますが、明示的に呼ぶ
-ことも可能です。
+ocr_init �Ŋm�ۂ��� OcrEngine ��������܂��B�A�v���I����
+(DLL PROCESS_DETACH) �Ɏ������������܂����A�����I�ɌĂ�
+���Ƃ��\�ł��B
 
 %href
 ocr_init
 
 %index
 ocr_langs
-利用可能な OCR 言語一覧を取得
+���p�\�� OCR ����ꗗ���擾
 %group
-hspwinrtocr — 基本
+hspwinrtocr �\ ��{
 %prm
 var, buf_size
-var      : 結果を受け取る文字列変数 (sdim 済)
-buf_size : var に sdim で確保したバッファサイズ
+var      : ���ʂ��󂯎�镶����ϐ� (sdim ��)
+buf_size : var �� sdim �Ŋm�ۂ����o�b�t�@�T�C�Y
 
 %inst
-OcrEngine::AvailableRecognizerLanguages() から現在の OS で
-利用可能な OCR 認識言語の一覧を取得し、BCP-47 言語タグを
-LF 区切りで var に格納します。
+OcrEngine::AvailableRecognizerLanguages() ���猻�݂� OS ��
+���p�\�� OCR �F������̈ꗗ���擾���ABCP-47 ����^�O��
+LF ��؂�� var �Ɋi�[���܂��B
 
-例: "en-US\nja\nzh-Hans-CN" のような文字列が返ります。
+��: "en-US\nja\nzh-Hans-CN" �̂悤�ȕ����񂪕Ԃ�܂��B
 
-この命令は ocr_init を呼ぶ前でも使用できます。
+���̖��߂� ocr_init ���ĂԑO�ł��g�p�ł��܂��B
 
 %href
 ocr_init
 
 %index
 ocr_run_file
-画像ファイルを OCR する
+�摜�t�@�C���� OCR ����
 %group
-hspwinrtocr — 実行
+hspwinrtocr �\ ���s
 %prm
 var, buf_size, "path"
-var      : 認識結果テキストを受け取る文字列変数 (sdim 済)
-buf_size : var に sdim で確保したバッファサイズ
-path     : 画像ファイルのパス (相対/絶対どちらでも可)
+var      : �F�����ʃe�L�X�g���󂯎�镶����ϐ� (sdim ��)
+buf_size : var �� sdim �Ŋm�ۂ����o�b�t�@�T�C�Y
+path     : �摜�t�@�C���̃p�X (����/��΂ǂ���ł���)
 
 %inst
-指定したファイルを StorageFile::GetFileFromPathAsync で開き、
-BitmapDecoder で SoftwareBitmap に展開してから
-OcrEngine::RecognizeAsync に渡して認識を行います。
+�w�肵���t�@�C���� StorageFile::GetFileFromPathAsync �ŊJ���A
+BitmapDecoder �� SoftwareBitmap �ɓW�J���Ă���
+OcrEngine::RecognizeAsync �ɓn���ĔF�����s���܂��B
 
-対応フォーマットは WIC が扱えるもの (BMP/PNG/JPEG/GIF/TIFF
-/WebP/HEIF など) です。
+�Ή��t�H�[�}�b�g�� WIC ����������� (BMP/PNG/JPEG/GIF/TIFF
+/WebP/HEIF �Ȃ�) �ł��B
 
-結果テキストは OcrResult::Text() の全文 (改行なしで 1 行に
-結合された文字列) を cp932 に変換して var に書き込みます。
+���ʃe�L�X�g�� OcrResult::Text() �̑S�� (���s�Ȃ��� 1 �s��
+�������ꂽ������) �� cp932 �ɕϊ����� var �ɏ������݂܂��B
 
-戻り値 (stat):
-  0  : 成功
- -1  : 例外発生 (ファイル not found / OCR エンジン未初期化 等)
- -2  : path が空
- -3  : GetFullPathName 失敗
+�߂�l (stat):
+  0  : ����
+ -1  : ��O���� (�t�@�C�� not found / OCR �G���W���������� ��)
+ -2  : path ����
+ -3  : GetFullPathName ���s
 
 %href
 ocr_init
@@ -134,27 +137,27 @@ ocr_run_hwnd
 
 %index
 ocr_run_hwnd
-カレントウィンドウの描画内容を OCR する
+�J�����g�E�B���h�E�̕`����e�� OCR ����
 %group
-hspwinrtocr — 実行
+hspwinrtocr �\ ���s
 %prm
 var, buf_size
-var      : 認識結果テキストを受け取る文字列変数 (sdim 済)
-buf_size : var に sdim で確保したバッファサイズ
+var      : �F�����ʃe�L�X�g���󂯎�镶����ϐ� (sdim ��)
+buf_size : var �� sdim �Ŋm�ۂ����o�b�t�@�T�C�Y
 
 %inst
-HSP のカレントウィンドウ (gsel で選択中の ID) の BMSCR から
-24bit BGR DIB を読み取り、Bgra8 SoftwareBitmap に変換して
-OcrEngine::RecognizeAsync に渡します。
+HSP �̃J�����g�E�B���h�E (gsel �őI�𒆂� ID) �� BMSCR ����
+24bit BGR DIB ��ǂݎ��ABgra8 SoftwareBitmap �ɕϊ�����
+OcrEngine::RecognizeAsync �ɓn���܂��B
 
-これにより画面上に描画したテキスト (たとえば picload した
-画像や、boxf/mes で書いた内容) をファイルに保存せずに直接
-OCR できます。
+����ɂ���ʏ�ɕ`�悵���e�L�X�g (���Ƃ��� picload ����
+�摜��Aboxf/mes �ŏ��������e) ���t�@�C���ɕۑ������ɒ���
+OCR �ł��܂��B
 
-注意:
-  - OCR 対象は redraw された可視の描画内容です。
-  - bottom-up DIB を top-down に変換しているため、サイズが
-    大きいと変換コストが発生します。
+����:
+  - OCR �Ώۂ� redraw ���ꂽ���̕`����e�ł��B
+  - bottom-up DIB �� top-down �ɕϊ����Ă��邽�߁A�T�C�Y��
+    �傫���ƕϊ��R�X�g���������܂��B
 
 %href
 ocr_init

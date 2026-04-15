@@ -1,10 +1,10 @@
 ;
-; iron_mcp_server.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
+; iron_mcp_server.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
 ; Run HSP3CL as MCP stdio server
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,30 +12,31 @@
 %author
 IronHSP / iron_mcp_server
 %dll
+iron_mcp_server.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_mcp_server.hsp ã¯ HSP ã®é–¢æ•°ã‚’ Model Context Protocol ã® "tool"
-ã¨ã—ã¦å…¬é–‹ã—ã¦ã€Claude Desktop ã‚„ VSCode/Cursor ç­‰ã® MCP å¯¾å¿œã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
-ã‹ã‚‰å‘¼ã³å‡ºã—ã¦ã‚‚ã‚‰ã†ãŸã‚ã® server-side ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
+iron_mcp_server.hsp ‚Í HSP ‚ÌŠÖ”‚ğ Model Context Protocol ‚Ì "tool"
+‚Æ‚µ‚ÄŒöŠJ‚µ‚ÄAClaude Desktop ‚â VSCode/Cursor “™‚Ì MCP ‘Î‰ƒNƒ‰ƒCƒAƒ“ƒg
+‚©‚çŒÄ‚Ño‚µ‚Ä‚à‚ç‚¤‚½‚ß‚Ì server-side ƒ‰ƒbƒp‚Å‚·B
 
-ä¾å­˜:
+ˆË‘¶:
   - hspmcp.dll (mcp_stdin_read_line / mcp_stdout_write)
   - iron_json.hsp
 
   #include "iron_mcp_server.hsp"
 
-ä½¿ã„æ–¹ã®æµã‚Œ:
-  1. iron_mcp_server_tool ã§è¤‡æ•°ã®ãƒ„ãƒ¼ãƒ«ã‚’ *handler_label ä»˜ãã§ç™»éŒ²
-  2. iron_mcp_server_run ã§ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—é–‹å§‹ (stdin EOF ã¾ã§æˆ»ã£ã¦ã“ãªã„)
-  3. tools/call ãŒæ¥ã‚‹ã¨ handler ã« gosub ã•ã‚Œã‚‹
-  4. handler å†…ã§ iron_mcp_argp_* ã§å¼•æ•°å–å¾—ã€iron_mcp_set_result ã§çµæœè¨­å®š
+g‚¢•û‚Ì—¬‚ê:
+  1. iron_mcp_server_tool ‚Å•¡”‚Ìƒc[ƒ‹‚ğ *handler_label •t‚«‚Å“o˜^
+  2. iron_mcp_server_run ‚ÅƒƒCƒ“ƒ‹[ƒvŠJn (stdin EOF ‚Ü‚Å–ß‚Á‚Ä‚±‚È‚¢)
+  3. tools/call ‚ª—ˆ‚é‚Æ handler ‚É gosub ‚³‚ê‚é
+  4. handler “à‚Å iron_mcp_argp_* ‚Åˆø”æ“¾Airon_mcp_set_result ‚ÅŒ‹‰Êİ’è
 
-Claude Desktop ã® claude_desktop_config.json:
+Claude Desktop ‚Ì claude_desktop_config.json:
   {
     "mcpServers": {
       "ironhsp_demo": {
@@ -45,80 +46,83 @@ Claude Desktop ã® claude_desktop_config.json:
     }
   }
 
+%group
+iron_mcp_server (MCPƒT[ƒo)
+
 %index
 iron_mcp_server_tool
-ãƒ„ãƒ¼ãƒ«ã‚’ç™»éŒ²
+ƒc[ƒ‹‚ğ“o˜^
 %group
 iron_mcp_server
 %prm
 "name", "description", *handler_label
-"name"        : tool å (è‹±æ•°å­—)
-"description" : tool ã®èª¬æ˜ (Claude ãŒèª­ã‚€)
-*handler      : å‘¼ã³å‡ºã•ã‚ŒãŸã¨ãã« gosub ã™ã‚‹ãƒ©ãƒ™ãƒ«
+"name"        : tool –¼ (‰p”š)
+"description" : tool ‚Ìà–¾ (Claude ‚ª“Ç‚Ş)
+*handler      : ŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É gosub ‚·‚éƒ‰ƒxƒ‹
 
 %inst
-æœ€å¤§ 64 å€‹ã¾ã§ç™»éŒ²å¯èƒ½ã€‚tool name ã®ä¸€æ„æ€§ã¯å‘¼ã³å‡ºã—å´è²¬ä»»ã€‚
+Å‘å 64 ŒÂ‚Ü‚Å“o˜^‰Â”\Btool name ‚ÌˆêˆÓ«‚ÍŒÄ‚Ño‚µ‘¤Ó”CB
 
-ä¾‹:
+—á:
   iron_mcp_server_tool "say_hello", "Greet a user", *handler_hello
 
 %index
 iron_mcp_server_run
-ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—é–‹å§‹
+ƒƒCƒ“ƒ‹[ƒvŠJn
 %group
 iron_mcp_server
 %prm
 
 %inst
-stdin ã‹ã‚‰ JSON-RPC ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ 1 è¡Œãšã¤èª­ã¿ç¶šã‘ã¦ dispatch:
-  initialize â†’ capabilities ã‚’è¿”ã™
-  tools/list â†’ ç™»éŒ²æ¸ˆã¿ãƒ„ãƒ¼ãƒ«ä¸€è¦§ã‚’è¿”ã™
-  tools/call â†’ è©²å½“ handler ã« gosub
-  notifications/initialized â†’ ç„¡å¿œç­”
-  resources/list / prompts/list â†’ ç©ºé…åˆ—ã‚’è¿”ã™
+stdin ‚©‚ç JSON-RPC ƒŠƒNƒGƒXƒg‚ğ 1 s‚¸‚Â“Ç‚İ‘±‚¯‚Ä dispatch:
+  initialize ¨ capabilities ‚ğ•Ô‚·
+  tools/list ¨ “o˜^Ï‚İƒc[ƒ‹ˆê——‚ğ•Ô‚·
+  tools/call ¨ ŠY“– handler ‚É gosub
+  notifications/initialized ¨ –³‰“š
+  resources/list / prompts/list ¨ ‹ó”z—ñ‚ğ•Ô‚·
 
-stdin EOF ã¾ãŸã¯ Ctrl+C ã§æŠœã‘ã¾ã™ã€‚
+stdin EOF ‚Ü‚½‚Í Ctrl+C ‚Å”²‚¯‚Ü‚·B
 
 %index
 iron_mcp_argp_str
-handler å†…ã§ string å¼•æ•°ã‚’å–å¾—
+handler “à‚Å string ˆø”‚ğæ“¾
 %group
-iron_mcp_server â€” handler
+iron_mcp_server \ handler
 %prm
 "key", out_var
 
 %inst
-arguments JSON ã®æŒ‡å®šã‚­ãƒ¼ã‹ã‚‰æ–‡å­—åˆ—ã‚’å–ã‚Šå‡ºã—ã¾ã™ã€‚
+arguments JSON ‚Ìw’èƒL[‚©‚ç•¶š—ñ‚ğæ‚èo‚µ‚Ü‚·B
 
 %index
 iron_mcp_argp_int
-handler å†…ã§ int å¼•æ•°ã‚’å–å¾—
+handler “à‚Å int ˆø”‚ğæ“¾
 %group
-iron_mcp_server â€” handler
+iron_mcp_server \ handler
 %prm
 "key", out_var
 
 %index
 iron_mcp_argp_dbl
-handler å†…ã§ double å¼•æ•°ã‚’å–å¾—
+handler “à‚Å double ˆø”‚ğæ“¾
 %group
-iron_mcp_server â€” handler
+iron_mcp_server \ handler
 %prm
 "key", out_var
 
 %index
 iron_mcp_set_result
-handler ã®çµæœæ–‡å­—åˆ—ã‚’è¨­å®š
+handler ‚ÌŒ‹‰Ê•¶š—ñ‚ğİ’è
 %group
-iron_mcp_server â€” handler
+iron_mcp_server \ handler
 %prm
 "text"
 
 %inst
-handler å®Œäº†æ™‚ã€ã“ã®æ–‡å­—åˆ—ãŒ JSON-RPC result ã® content[0].text ã¨ã—ã¦
-ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«è¿”ã•ã‚Œã¾ã™ã€‚
+handler Š®—¹A‚±‚Ì•¶š—ñ‚ª JSON-RPC result ‚Ì content[0].text ‚Æ‚µ‚Ä
+ƒNƒ‰ƒCƒAƒ“ƒg‚É•Ô‚³‚ê‚Ü‚·B
 
-ä¾‹:
+—á:
   *handler_hello
       iron_mcp_argp_str "name", name_arg
       iron_mcp_set_result "Hello, " + name_arg + "!"

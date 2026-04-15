@@ -1,10 +1,10 @@
 ;
-; iron_ai.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; OpenAI äº’æ› Chat API ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
+; iron_ai.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; OpenAI ŒİŠ· Chat API ƒNƒ‰ƒCƒAƒ“ƒg
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,117 +12,121 @@
 %author
 IronHSP / iron_ai
 %dll
+iron_ai.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_ai.hsp ã¯ OpenAI äº’æ›ã® /chat/completions ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã‚’ 1 è¡Œã§
-å©ã‘ã‚‹ç´” HSP3 ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã§ã™ã€‚
+iron_ai.hsp ‚Í OpenAI ŒİŠ·‚Ì /chat/completions ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚ğ 1 s‚Å
+’@‚¯‚éƒ HSP3 ƒNƒ‰ƒCƒAƒ“ƒg‚Å‚·B
 
-å¯¾å¿œã‚µãƒ¼ãƒ:
+‘Î‰ƒT[ƒo:
   OpenAI    (api.openai.com)
   Anthropic (api.anthropic.com)
   Ollama    (localhost:11434)
   LM Studio (localhost:1234)
   llama.cpp (localhost:8080)
-  GitHub Models / Groq / DeepSeek / xAI ç­‰
+  GitHub Models / Groq / DeepSeek / xAI “™
 
-ä¾å­˜: iron_http.hsp + iron_json.hsp (æœ¬ãƒ•ã‚¡ã‚¤ãƒ«ã§ auto include)
-æ³¨æ„: HTTPS ã¯ WinHTTP ã®ã‚·ã‚¹ãƒ†ãƒ è¨¼æ˜æ›¸ã‚¹ãƒˆã‚¢ã‚’ä½¿ç”¨ã€‚
-ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°ã¯æœªå¯¾å¿œ (å°†æ¥ Phase 2)ã€‚
+ˆË‘¶: iron_http.hsp + iron_json.hsp (–{ƒtƒ@ƒCƒ‹‚Å auto include)
+’ˆÓ: HTTPS ‚Í WinHTTP ‚ÌƒVƒXƒeƒ€Ø–¾‘ƒXƒgƒA‚ğg—pB
+ƒXƒgƒŠ[ƒ~ƒ“ƒO‚Í–¢‘Î‰ («—ˆ Phase 2)B
 
   #include "iron_ai.hsp"
 
+%group
+iron_ai (AIƒ`ƒƒƒbƒg)
+
 %index
 iron_ai_set_endpoint
-ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆ URL ã‚’è¨­å®š
+ƒGƒ“ƒhƒ|ƒCƒ“ƒg URL ‚ğİ’è
 %group
-iron_ai â€” è¨­å®š
+iron_ai \ İ’è
 %prm
 "url"
 
 %inst
-"https://api.openai.com/v1" ç­‰ã®ãƒ™ãƒ¼ã‚¹ URL ã‚’è¨­å®šã€‚
-æœ«å°¾ã« /chat/completions ã‚’å†…éƒ¨ã§ä»˜åŠ ã—ã¾ã™ã€‚
+"https://api.openai.com/v1" “™‚Ìƒx[ƒX URL ‚ğİ’èB
+––”ö‚É /chat/completions ‚ğ“à•”‚Å•t‰Á‚µ‚Ü‚·B
 
 %index
 iron_ai_set_key
-API ã‚­ãƒ¼ (Authorization: Bearer) ã‚’è¨­å®š
+API ƒL[ (Authorization: Bearer) ‚ğİ’è
 %group
-iron_ai â€” è¨­å®š
+iron_ai \ İ’è
 %prm
 "key"
 
 %inst
-ãƒ­ãƒ¼ã‚«ãƒ« LLM (Ollama ç­‰) ã®å ´åˆã¯ç©ºæ–‡å­— "" ã§ OKã€‚
-OpenAI/Anthropic ç­‰ã¯ "sk-..." ã‚’æ¸¡ã—ã¾ã™ã€‚
+ƒ[ƒJƒ‹ LLM (Ollama “™) ‚Ìê‡‚Í‹ó•¶š "" ‚Å OKB
+OpenAI/Anthropic “™‚Í "sk-..." ‚ğ“n‚µ‚Ü‚·B
 
 %index
 iron_ai_set_model
-ãƒ¢ãƒ‡ãƒ«åã‚’è¨­å®š
+ƒ‚ƒfƒ‹–¼‚ğİ’è
 %group
-iron_ai â€” è¨­å®š
+iron_ai \ İ’è
 %prm
 "model"
 
 %inst
-"gpt-4o-mini", "claude-3-5-sonnet-20241022", "llama3.2" ç­‰ã€‚
+"gpt-4o-mini", "claude-3-5-sonnet-20241022", "llama3.2" “™B
 
 %index
 iron_ai_set_system
-ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’è¨­å®š
+ƒVƒXƒeƒ€ƒvƒƒ“ƒvƒg‚ğİ’è
 %group
-iron_ai â€” è¨­å®š
+iron_ai \ İ’è
 %prm
 "system_prompt"
 
 %inst
-"ã‚ãªãŸã¯è¦ªåˆ‡ãªæ—¥æœ¬èªã‚¢ã‚·ã‚¹ã‚¿ãƒ³ãƒˆã§ã™" ç­‰ã€‚
-chat å‘¼ã³å‡ºã—æ™‚ã« messages é…åˆ—ã®å…ˆé ­ã« system role ã¨ã—ã¦æŒ¿å…¥ã•ã‚Œã¾ã™ã€‚
+"‚ ‚È‚½‚ÍeØ‚È“ú–{ŒêƒAƒVƒXƒ^ƒ“ƒg‚Å‚·" “™B
+chat ŒÄ‚Ño‚µ‚É messages ”z—ñ‚Ìæ“ª‚É system role ‚Æ‚µ‚Ä‘}“ü‚³‚ê‚Ü‚·B
 
 %index
 iron_ai_set_max_tokens
-æœ€å¤§ãƒˆãƒ¼ã‚¯ãƒ³æ•°ã‚’è¨­å®š
+Å‘åƒg[ƒNƒ“”‚ğİ’è
 %group
-iron_ai â€” è¨­å®š
+iron_ai \ İ’è
 %prm
 n
-n : max_tokens (0 ã§ã‚µãƒ¼ãƒãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
+n : max_tokens (0 ‚ÅƒT[ƒoƒfƒtƒHƒ‹ƒg)
 
 %index
 iron_ai_set_temperature
-æ¸©åº¦ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®š (x100 æ•´æ•°)
+‰·“xƒpƒ‰ƒ[ƒ^‚ğİ’è (x100 ®”)
 %group
-iron_ai â€” è¨­å®š
+iron_ai \ İ’è
 %prm
 t_x100
-t_x100 : æ¸©åº¦ Ã— 100 (ä¾‹ 70 = 0.7 / -1 ã§ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
+t_x100 : ‰·“x ~ 100 (—á 70 = 0.7 / -1 ‚ÅƒfƒtƒHƒ‹ƒg)
 
 %inst
-HSP ã¯ double å¼•æ•°ã‚ˆã‚Š int ã®æ–¹ãŒå®‰å®šã™ã‚‹ãŸã‚ x100 è¡¨ç¾ã«ã—ã¦ã‚ã‚Šã¾ã™ã€‚
+HSP ‚Í double ˆø”‚æ‚è int ‚Ì•û‚ªˆÀ’è‚·‚é‚½‚ß x100 •\Œ»‚É‚µ‚Ä‚ ‚è‚Ü‚·B
 
 %index
 iron_ai_chat
-ãƒ¦ãƒ¼ã‚¶ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ä¿¡ã—ã¦å¿œç­”ã‚’å–å¾—
+ƒ†[ƒU[ƒƒbƒZ[ƒW‚ğ‘—M‚µ‚Ä‰“š‚ğæ“¾
 %group
-iron_ai â€” ãƒãƒ£ãƒƒãƒˆ
+iron_ai \ ƒ`ƒƒƒbƒg
 %prm
 "msg", reply
-"msg" : ãƒ¦ãƒ¼ã‚¶ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
-reply : å¿œç­”ã‚’å—ã‘å–ã‚‹ var
+"msg" : ƒ†[ƒU[ƒƒbƒZ[ƒW
+reply : ‰“š‚ğó‚¯æ‚é var
 
 %inst
-chat completion ã‚’å‘¼ã³å‡ºã—ã¦ assistant ã®å¿œç­”ã‚’ reply ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-å®Œäº†å¾Œã€user/assistant ã®ä¸¡æ–¹ã‚’å†…éƒ¨ history ã«è‡ªå‹•è¿½åŠ ã—ã¾ã™
-(multi-turn ç”¨)ã€‚
+chat completion ‚ğŒÄ‚Ño‚µ‚Ä assistant ‚Ì‰“š‚ğ reply ‚É‘‚«‚İ‚Ü‚·B
+Š®—¹ŒãAuser/assistant ‚Ì—¼•û‚ğ“à•” history ‚É©“®’Ç‰Á‚µ‚Ü‚·
+(multi-turn —p)B
 
-æˆ»ã‚Šå€¤: stat = HTTP status (200 = æˆåŠŸ)
+–ß‚è’l: stat = HTTP status (200 = ¬Œ÷)
 
-ä¾‹:
-  iron_ai_chat "HSP3 ã¨ã¯?", reply
+—á:
+  iron_ai_chat "HSP3 ‚Æ‚Í?", reply
   if stat = 200 : mes reply
 
 %href
@@ -131,24 +135,24 @@ iron_ai_history_add
 
 %index
 iron_ai_history_clear
-ä¼šè©±å±¥æ­´ã‚’ã‚¯ãƒªã‚¢
+‰ï˜b—š—ğ‚ğƒNƒŠƒA
 %group
-iron_ai â€” å±¥æ­´
+iron_ai \ —š—ğ
 %prm
 
 %inst
-å†…éƒ¨ history JSON ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚æ–°ã—ã„ä¼šè©±ã‚’å§‹ã‚ã‚‹å‰ã«å‘¼ã³å‡ºã—ã¾ã™ã€‚
+“à•” history JSON ‚ğƒNƒŠƒA‚µ‚Ü‚·BV‚µ‚¢‰ï˜b‚ğn‚ß‚é‘O‚ÉŒÄ‚Ño‚µ‚Ü‚·B
 
 %index
 iron_ai_history_add
-ä¼šè©±å±¥æ­´ã«æ‰‹å‹•ã§ã‚¨ãƒ³ãƒˆãƒªè¿½åŠ 
+‰ï˜b—š—ğ‚Éè“®‚ÅƒGƒ“ƒgƒŠ’Ç‰Á
 %group
-iron_ai â€” å±¥æ­´
+iron_ai \ —š—ğ
 %prm
 "role", "content"
 "role"    : "user" / "assistant" / "system" / "tool"
-"content" : å†…å®¹
+"content" : “à—e
 
 %inst
-éå»ã®ä¼šè©±ã‚’å¾©å…ƒã—ãŸã„å ´åˆç­‰ã«ä½¿ç”¨ã€‚chat å‘¼ã³å‡ºã—ã¯è‡ªå‹•ã§
-history ã«è¿½åŠ ã™ã‚‹ã®ã§ã€é€šå¸¸ã¯ä½¿ã†å¿…è¦ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
+‰ß‹‚Ì‰ï˜b‚ğ•œŒ³‚µ‚½‚¢ê‡“™‚Ég—pBchat ŒÄ‚Ño‚µ‚Í©“®‚Å
+history ‚É’Ç‰Á‚·‚é‚Ì‚ÅA’Êí‚Íg‚¤•K—v‚Í‚ ‚è‚Ü‚¹‚ñB

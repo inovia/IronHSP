@@ -1,10 +1,10 @@
 ;
-; iron_xlsx.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; OpenXML (.xlsx) èª­ã¿æ›¸ããƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ« (Pure HSP + hsp7z)
+; iron_xlsx.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; OpenXML (.xlsx) “Ç‚İ‘‚«ƒ‚ƒWƒ…[ƒ‹ (Pure HSP + hsp7z)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,162 +12,166 @@
 %author
 IronHSP / iron_xlsx
 %dll
+iron_xlsx.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_xlsx.hsp ã¯ Microsoft Excel (.xlsx) ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ Pure HSP ã§èª­ã¿æ›¸ã
-ã™ã‚‹ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚.xlsx ã¯å®Ÿä½“ã¨ã—ã¦ ZIP + XML ã®é›†åˆãªã®ã§ã€
-iron_7z.hsp (hsp7z.dll) ã§ä¸€æ™‚ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«å±•é–‹ã—ã€XML ã‚’ç›´æ¥ãƒ‘ãƒ¼ã‚¹ã—ã¦
-ã‚»ãƒ«å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
+iron_xlsx.hsp ‚Í Microsoft Excel (.xlsx) ƒtƒ@ƒCƒ‹‚ğ Pure HSP ‚Å“Ç‚İ‘‚«
+‚·‚éƒ‚ƒWƒ…[ƒ‹‚Å‚·B.xlsx ‚ÍÀ‘Ì‚Æ‚µ‚Ä ZIP + XML ‚ÌW‡‚È‚Ì‚ÅA
+iron_7z.hsp (hsp7z.dll) ‚ÅˆêƒfƒBƒŒƒNƒgƒŠ‚É“WŠJ‚µAXML ‚ğ’¼Úƒp[ƒX‚µ‚Ä
+ƒZƒ‹’l‚ğæ“¾‚µ‚Ü‚·B
 
   #include "iron_xlsx.hsp"
 
-Microsoft Office ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã¯ä¸è¦ã§ã™ã€‚iron_office.hsp (COM/VBS
-bridge) ã‚ˆã‚Šè»½é‡ã§ã€ã‚µãƒ¼ãƒãƒ¼ç’°å¢ƒã§ã‚‚å‹•ä½œã—ã¾ã™ã€‚
+Microsoft Office ‚ÌƒCƒ“ƒXƒg[ƒ‹‚Í•s—v‚Å‚·Biron_office.hsp (COM/VBS
+bridge) ‚æ‚èŒy—Ê‚ÅAƒT[ƒo[ŠÂ‹«‚Å‚à“®ì‚µ‚Ü‚·B
 
-v1 ã‚¹ã‚³ãƒ¼ãƒ—:
-  èª­ã¿å–ã‚Š : sharedStrings / inline string / æ•°å€¤ã«å¯¾å¿œ
-  æ›¸ãè¾¼ã¿ : xlsx_new â†’ xlsx_set_cell â†’ xlsx_save ã®æœ€å°ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆçµŒç”±
-             æ—¢å­˜ xlsx ã¸ã®è¿½è¨˜ã‚„æ›¸å¼ä¿æŒã¯éå¯¾å¿œ
+v1 ƒXƒR[ƒv:
+  “Ç‚İæ‚è : sharedStrings / inline string / ”’l‚É‘Î‰
+  ‘‚«‚İ : xlsx_new ¨ xlsx_set_cell ¨ xlsx_save ‚ÌÅ¬ƒeƒ“ƒvƒŒ[ƒgŒo—R
+             Šù‘¶ xlsx ‚Ö‚Ì’Ç‹L‚â‘®•Û‚Í”ñ‘Î‰
 
-ä¾å­˜:
+ˆË‘¶:
   iron_7z.hsp (hsp7z.dll + 7za_*.exe)
-  row, col ã¯ 1-origin (Excel ã® A1 = row 1, col 1)
+  row, col ‚Í 1-origin (Excel ‚Ì A1 = row 1, col 1)
+
+%group
+iron_xlsx (Excel“üo—Í)
 
 %index
 xlsx_open
-xlsx ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ã¦ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã™
+xlsx ƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚Äƒnƒ“ƒhƒ‹‚ğ•Ô‚·
 %group
-iron_xlsx â€” èª­ã¿å–ã‚Š
+iron_xlsx \ “Ç‚İæ‚è
 %prm
 "file.xlsx"
-"file.xlsx" : å¯¾è±¡ãƒ•ã‚¡ã‚¤ãƒ«
+"file.xlsx" : ‘ÎÛƒtƒ@ƒCƒ‹
 
 %inst
-.xlsx ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ hsp7z ã§ä¸€æ™‚ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«å±•é–‹ã—ã¦ãƒ‘ãƒ¼ã‚¹ã—ã¾ã™ã€‚
-æˆ»ã‚Šå€¤ (stat) ã¯ãƒãƒ³ãƒ‰ãƒ« (0 ä»¥ä¸Š) ã¾ãŸã¯è² æ•°ã®ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã§ã™ã€‚
+.xlsx ƒtƒ@ƒCƒ‹‚ğ hsp7z ‚ÅˆêƒfƒBƒŒƒNƒgƒŠ‚É“WŠJ‚µ‚Äƒp[ƒX‚µ‚Ü‚·B
+–ß‚è’l (stat) ‚Íƒnƒ“ƒhƒ‹ (0 ˆÈã) ‚Ü‚½‚Í•‰”‚ÌƒGƒ‰[ƒR[ƒh‚Å‚·B
 
-ä¾‹:
+—á:
   xlsx_open "book.xlsx"
   h = stat
 
 %index
 xlsx_close
-xlsx ãƒãƒ³ãƒ‰ãƒ«ã‚’é–‰ã˜ã‚‹
+xlsx ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é
 %group
-iron_xlsx â€” èª­ã¿å–ã‚Š
+iron_xlsx \ “Ç‚İæ‚è
 %prm
 handle
 
 %inst
-ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾ã—ã¾ã™ã€‚ä¸€æ™‚ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯ %TEMP% ã«æ®‹ã‚Šã¾ã™ãŒå®³ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
+ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚µ‚Ü‚·BˆêƒfƒBƒŒƒNƒgƒŠ‚Í %TEMP% ‚Éc‚è‚Ü‚·‚ªŠQ‚Í‚ ‚è‚Ü‚¹‚ñB
 
 %index
 xlsx_sheet_count
-sheet æ•°ã‚’å–å¾—
+sheet ”‚ğæ“¾
 %group
-iron_xlsx â€” èª­ã¿å–ã‚Š
+iron_xlsx \ “Ç‚İæ‚è
 %prm
 handle
 
 %inst
-workbook å†…ã® sheet æ•°ã‚’ stat ã«è¿”ã—ã¾ã™ã€‚
+workbook “à‚Ì sheet ”‚ğ stat ‚É•Ô‚µ‚Ü‚·B
 
 %index
 xlsx_sheet_name
-sheet åã‚’å–å¾—
+sheet –¼‚ğæ“¾
 %group
-iron_xlsx â€” èª­ã¿å–ã‚Š
+iron_xlsx \ “Ç‚İæ‚è
 %prm
 handle, idx, var_str
 idx : 0-origin
 
 %inst
-sheet ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ (0-origin) ã‹ã‚‰åå‰ã‚’å–å¾—ã—ã¾ã™ã€‚
+sheet ‚ÌƒCƒ“ƒfƒbƒNƒX (0-origin) ‚©‚ç–¼‘O‚ğæ“¾‚µ‚Ü‚·B
 
 %index
 xlsx_cell_str
-ã‚»ãƒ«ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—
+ƒZƒ‹‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾
 %group
-iron_xlsx â€” èª­ã¿å–ã‚Š
+iron_xlsx \ “Ç‚İæ‚è
 %prm
 handle, sheet_idx, row, col, var_str
 sheet_idx : 0-origin
 row, col  : 1-origin
 
 %inst
-æŒ‡å®šã‚»ãƒ«ã®å€¤ã‚’æ–‡å­—åˆ—ã§å–å¾—ã—ã¾ã™ã€‚æ•°å€¤ã‚»ãƒ«ã¯æ–‡å­—åˆ—åŒ–ã•ã‚Œã¦è¿”ã‚Šã¾ã™ã€‚
+w’èƒZƒ‹‚Ì’l‚ğ•¶š—ñ‚Åæ“¾‚µ‚Ü‚·B”’lƒZƒ‹‚Í•¶š—ñ‰»‚³‚ê‚Ä•Ô‚è‚Ü‚·B
 
-ä¾‹:
-  xlsx_cell_str h, 0, 1, 1, v   ; sheet[0] ã® A1
+—á:
+  xlsx_cell_str h, 0, 1, 1, v   ; sheet[0] ‚Ì A1
 
 %index
 xlsx_cell_num
-ã‚»ãƒ«ã‚’æ•°å€¤ã¨ã—ã¦å–å¾—
+ƒZƒ‹‚ğ”’l‚Æ‚µ‚Äæ“¾
 %group
-iron_xlsx â€” èª­ã¿å–ã‚Š
+iron_xlsx \ “Ç‚İæ‚è
 %prm
 handle, sheet_idx, row, col, var_dbl
 
 %inst
-æŒ‡å®šã‚»ãƒ«ã®å€¤ã‚’ double ã¨ã—ã¦å–å¾—ã—ã¾ã™ã€‚
+w’èƒZƒ‹‚Ì’l‚ğ double ‚Æ‚µ‚Äæ“¾‚µ‚Ü‚·B
 
 %index
 xlsx_used_range
-ä½¿ç”¨ç¯„å›²ã‚’å–å¾—
+g—p”ÍˆÍ‚ğæ“¾
 %group
-iron_xlsx â€” èª­ã¿å–ã‚Š
+iron_xlsx \ “Ç‚İæ‚è
 %prm
 handle, sheet_idx, var_rows, var_cols
 
 %inst
-sheet å†…ã§å€¤ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹æœ€å¤§ row / col (1-origin) ã‚’å–å¾—ã—ã¾ã™ã€‚
+sheet “à‚Å’l‚ªŠi”[‚³‚ê‚Ä‚¢‚éÅ‘å row / col (1-origin) ‚ğæ“¾‚µ‚Ü‚·B
 
 %index
 xlsx_new
-ç©º book ã‚’æ–°è¦ä½œæˆ
+‹ó book ‚ğV‹Kì¬
 %group
-iron_xlsx â€” æ›¸ãè¾¼ã¿
+iron_xlsx \ ‘‚«‚İ
 %prm
 var_handle
 
 %inst
-ç©ºã® book (1 sheet: "Sheet1") ã‚’æ–°è¦ä½œæˆã—ã¦ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã—ã¾ã™ã€‚
+‹ó‚Ì book (1 sheet: "Sheet1") ‚ğV‹Kì¬‚µ‚Äƒnƒ“ƒhƒ‹‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 xlsx_set_cell
-ã‚»ãƒ«ã«æ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã‚€
+ƒZƒ‹‚É•¶š—ñ‚ğ‘‚«‚Ş
 %group
-iron_xlsx â€” æ›¸ãè¾¼ã¿
+iron_xlsx \ ‘‚«‚İ
 %prm
 handle, sheet_idx, row, col, "value"
 
 %inst
-ã‚»ãƒ«ã«æ–‡å­—åˆ—å€¤ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚inlineStr å½¢å¼ã§ä¿å­˜ã•ã‚Œã¾ã™ã€‚
+ƒZƒ‹‚É•¶š—ñ’l‚ğ‘‚«‚İ‚Ü‚·BinlineStr Œ`®‚Å•Û‘¶‚³‚ê‚Ü‚·B
 
 %index
 xlsx_set_num
-ã‚»ãƒ«ã«æ•°å€¤ã‚’æ›¸ãè¾¼ã‚€
+ƒZƒ‹‚É”’l‚ğ‘‚«‚Ş
 %group
-iron_xlsx â€” æ›¸ãè¾¼ã¿
+iron_xlsx \ ‘‚«‚İ
 %prm
 handle, sheet_idx, row, col, value_dbl
 
 %inst
-ã‚»ãƒ«ã«æ•°å€¤ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+ƒZƒ‹‚É”’l‚ğ‘‚«‚İ‚Ü‚·B
 
 %index
 xlsx_save
-.xlsx ãƒ•ã‚¡ã‚¤ãƒ«ã¨ã—ã¦ä¿å­˜
+.xlsx ƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä•Û‘¶
 %group
-iron_xlsx â€” æ›¸ãè¾¼ã¿
+iron_xlsx \ ‘‚«‚İ
 %prm
 handle, "file.xlsx"
 
 %inst
-æœ€å°ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã® OpenXML æ§‹é€ ã‚’ä¸€æ™‚ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«æ›¸ãå‡ºã—ã€
-hsp7z ã§ zip åŒ–ã—ã¦ .xlsx ã¨ã—ã¦ä¿å­˜ã—ã¾ã™ã€‚
+Å¬ƒeƒ“ƒvƒŒ[ƒg‚Ì OpenXML \‘¢‚ğˆêƒfƒBƒŒƒNƒgƒŠ‚É‘‚«o‚µA
+hsp7z ‚Å zip ‰»‚µ‚Ä .xlsx ‚Æ‚µ‚Ä•Û‘¶‚µ‚Ü‚·B

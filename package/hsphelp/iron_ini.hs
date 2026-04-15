@@ -1,10 +1,10 @@
 ;
-; iron_ini.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; INI è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ç°¡æ˜“ãƒ©ãƒƒãƒ‘
+; iron_ini.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; INI İ’èƒtƒ@ƒCƒ‹ŠÈˆÕƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,130 +12,134 @@
 %author
 IronHSP / iron_ini
 %dll
+iron_ini.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_ini.hsp ã¯ Win32 GetPrivateProfile* / WritePrivateProfile* API ã‚’
-HSP ã‹ã‚‰æ‰‹è»½ã«ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹è–„ã„ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
+iron_ini.hsp ‚Í Win32 GetPrivateProfile* / WritePrivateProfile* API ‚ğ
+HSP ‚©‚çèŒy‚Ég‚¦‚é‚æ‚¤‚É‚·‚é”–‚¢ƒ‰ƒbƒp‚Å‚·B
 
   #include "iron_ini.hsp"
 
-ç‰¹å¾´:
-  - 1 è¡Œã§èª­ã¿æ›¸ã
-  - SJIS ãƒ™ãƒ¼ã‚¹ (HSP æ¨™æº–) ãªã®ã§ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°å¤‰æ›ä¸è¦
-  - INI ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã¯ç›¸å¯¾ / çµ¶å¯¾ã©ã¡ã‚‰ã‚‚å¯
-  - æ—¢å®šå€¤ä»˜ãå–å¾—ã‚‚ã‚µãƒãƒ¼ãƒˆ
+“Á’¥:
+  - 1 s‚Å“Ç‚İ‘‚«
+  - SJIS ƒx[ƒX (HSP •W€) ‚È‚Ì‚ÅƒGƒ“ƒR[ƒfƒBƒ“ƒO•ÏŠ·•s—v
+  - INI ƒtƒ@ƒCƒ‹ƒpƒX‚Í‘Š‘Î / â‘Î‚Ç‚¿‚ç‚à‰Â
+  - Šù’è’l•t‚«æ“¾‚àƒTƒ|[ƒg
 
-æ³¨æ„: å¿…ãšæœ€åˆã« ini_setpath ã§å¯¾è±¡ INI ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+’ˆÓ: •K‚¸Å‰‚É ini_setpath ‚Å‘ÎÛ INI ƒtƒ@ƒCƒ‹‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+
+%group
+iron_ini (INIİ’èƒtƒ@ƒCƒ‹)
 
 %index
 ini_setpath
-ã‚«ãƒ¬ãƒ³ãƒˆ INI ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨­å®š
+ƒJƒŒƒ“ƒg INI ƒtƒ@ƒCƒ‹‚ğİ’è
 %group
 iron_ini
 %prm
 "path"
 
 %inst
-ä»¥é™ã® ini_get/set ç³»å‘½ä»¤ãŒå¯¾è±¡ã¨ã™ã‚‹ INI ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨­å®šã—ã¾ã™ã€‚
-ç›¸å¯¾ãƒ‘ã‚¹ã®å ´åˆã¯ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåŸºæº–ã§ WritePrivateProfileString
-ãŒè§£æ±ºã—ã¾ã™ã€‚
+ˆÈ~‚Ì ini_get/set Œn–½—ß‚ª‘ÎÛ‚Æ‚·‚é INI ƒtƒ@ƒCƒ‹‚ğİ’è‚µ‚Ü‚·B
+‘Š‘ÎƒpƒX‚Ìê‡‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠŠî€‚Å WritePrivateProfileString
+‚ª‰ğŒˆ‚µ‚Ü‚·B
 
 %index
 ini_get
-æ–‡å­—åˆ—å€¤ã‚’å–å¾—
+•¶š—ñ’l‚ğæ“¾
 %group
-iron_ini â€” å–å¾—
+iron_ini \ æ“¾
 %prm
 "section", "key", "default"
 
 %inst
-refstr ã«å€¤ã‚’è¿”ã—ã¾ã™ã€‚ã‚­ãƒ¼ãŒç„¡ã‘ã‚Œã° default ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É’l‚ğ•Ô‚µ‚Ü‚·BƒL[‚ª–³‚¯‚ê‚Î default ‚ğ•Ô‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   ini_get "Window", "Title", "untitled" : title = refstr
 
 %index
 ini_geti
-æ•´æ•°å€¤ã‚’å–å¾—
+®”’l‚ğæ“¾
 %group
-iron_ini â€” å–å¾—
+iron_ini \ æ“¾
 %prm
 "section", "key", default_int
 
 %inst
-stat ã«å€¤ã‚’è¿”ã—ã¾ã™ã€‚
+stat ‚É’l‚ğ•Ô‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   ini_geti "Window", "Width", 800 : w = stat
 
 %index
 ini_getd
-double å€¤ã‚’å–å¾—
+double ’l‚ğæ“¾
 %group
-iron_ini â€” å–å¾—
+iron_ini \ æ“¾
 %prm
 "section", "key", default_double
 
 %inst
-refdval ã«å€¤ã‚’è¿”ã—ã¾ã™ã€‚
+refdval ‚É’l‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 ini_set
-æ–‡å­—åˆ—å€¤ã‚’æ›¸ãè¾¼ã‚€
+•¶š—ñ’l‚ğ‘‚«‚Ş
 %group
-iron_ini â€” æ›¸ãè¾¼ã¿
+iron_ini \ ‘‚«‚İ
 %prm
 "section", "key", "value"
 
 %index
 ini_seti
-æ•´æ•°å€¤ã‚’æ›¸ãè¾¼ã‚€
+®”’l‚ğ‘‚«‚Ş
 %group
-iron_ini â€” æ›¸ãè¾¼ã¿
+iron_ini \ ‘‚«‚İ
 %prm
 "section", "key", value_int
 
 %index
 ini_setd
-double å€¤ã‚’æ›¸ãè¾¼ã‚€
+double ’l‚ğ‘‚«‚Ş
 %group
-iron_ini â€” æ›¸ãè¾¼ã¿
+iron_ini \ ‘‚«‚İ
 %prm
 "section", "key", value_double
 
 %index
 ini_delete_key
-ã‚­ãƒ¼ã‚’å‰Šé™¤
+ƒL[‚ğíœ
 %group
-iron_ini â€” å‰Šé™¤
+iron_ini \ íœ
 %prm
 "section", "key"
 
 %index
 ini_delete_section
-ã‚»ã‚¯ã‚·ãƒ§ãƒ³å…¨ä½“ã‚’å‰Šé™¤
+ƒZƒNƒVƒ‡ƒ“‘S‘Ì‚ğíœ
 %group
-iron_ini â€” å‰Šé™¤
+iron_ini \ íœ
 %prm
 "section"
 
 %index
 ini_section_keys
-ã‚»ã‚¯ã‚·ãƒ§ãƒ³å†…ã®ã‚­ãƒ¼ä¸€è¦§ã‚’å–å¾—
+ƒZƒNƒVƒ‡ƒ““à‚ÌƒL[ˆê——‚ğæ“¾
 %group
-iron_ini â€” åˆ—æŒ™
+iron_ini \ —ñ‹“
 %prm
 "section", out_array
 
 %index
 ini_section_names
-ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®å…¨ã‚»ã‚¯ã‚·ãƒ§ãƒ³åã‚’å–å¾—
+ƒtƒ@ƒCƒ‹“à‚Ì‘SƒZƒNƒVƒ‡ƒ“–¼‚ğæ“¾
 %group
-iron_ini â€” åˆ—æŒ™
+iron_ini \ —ñ‹“
 %prm
 out_array

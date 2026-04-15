@@ -1,10 +1,10 @@
 ;
-; iron_url.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; URL / HTML ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ãƒ»ãƒ‡ã‚³ãƒ¼ãƒ‰ (C# WebUtility ç›¸å½“ã€Pure HSP)
+; iron_url.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; URL / HTML ƒGƒ“ƒR[ƒhEƒfƒR[ƒh (C# WebUtility ‘Š“–APure HSP)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,43 +12,47 @@
 %author
 IronHSP / iron_url
 %dll
+iron_url.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_url.hsp ã¯ C# ã® System.Net.WebUtility.UrlEncode / UrlDecode ã¨
-System.Web.HttpUtility.HtmlEncode / HtmlDecode ã«ç›¸å½“ã™ã‚‹é–¢æ•°ç¾¤ã‚’
-Pure HSP ã§å®Ÿè£…ã—ãŸãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚å¤–éƒ¨ DLL ã¯ä¸è¦ã§ã™ã€‚
+iron_url.hsp ‚Í C# ‚Ì System.Net.WebUtility.UrlEncode / UrlDecode ‚Æ
+System.Web.HttpUtility.HtmlEncode / HtmlDecode ‚É‘Š“–‚·‚éŠÖ”ŒQ‚ğ
+Pure HSP ‚ÅÀ‘•‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Å‚·BŠO•” DLL ‚Í•s—v‚Å‚·B
 
   #include "iron_url.hsp"
 
-ã‚µãƒãƒ¼ãƒˆ:
-  URL Percent-Encoding (RFC 3986ã€unreserved æ–‡å­—ã¯éã‚¨ã‚¹ã‚±ãƒ¼ãƒ—)
-  application/x-www-form-urlencoded ("+" = space å¤‰æ›) å¯¾å¿œ
-  HTML ã‚¨ã‚¹ã‚±ãƒ¼ãƒ— 5 ç¨® (& < > " ') + æ•°å€¤æ–‡å­—å‚ç…§ãƒ‡ã‚³ãƒ¼ãƒ‰
-  ã‚¯ã‚¨ãƒªæ–‡å­—åˆ—ãƒ‘ãƒ¼ã‚¹ (?a=1&b=2 ã‚’ keys/vals é…åˆ—ã«åˆ†è§£)
+ƒTƒ|[ƒg:
+  URL Percent-Encoding (RFC 3986Aunreserved •¶š‚Í”ñƒGƒXƒP[ƒv)
+  application/x-www-form-urlencoded ("+" = space •ÏŠ·) ‘Î‰
+  HTML ƒGƒXƒP[ƒv 5 í (& < > " ') + ”’l•¶šQÆƒfƒR[ƒh
+  ƒNƒGƒŠ•¶š—ñƒp[ƒX (?a=1&b=2 ‚ğ keys/vals ”z—ñ‚É•ª‰ğ)
+
+%group
+iron_url (URL/HTMLƒGƒ“ƒR[ƒh)
 
 %index
 url_encode
-URL ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ (ç©ºç™½ã¯ %20)
+URL ƒp[ƒZƒ“ƒgƒGƒ“ƒR[ƒh (‹ó”’‚Í %20)
 %group
-iron_url â€” URL
+iron_url \ URL
 %prm
 "src", dst
-"src" : å…¥åŠ›æ–‡å­—åˆ—
-dst   : ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰çµæœã‚’å—ã‘å–ã‚‹å¤‰æ•° (sdim è‡ªå‹•)
+"src" : “ü—Í•¶š—ñ
+dst   : ƒGƒ“ƒR[ƒhŒ‹‰Ê‚ğó‚¯æ‚é•Ï” (sdim ©“®)
 
 %inst
-RFC 3986 ã«å¾“ã„ unreserved æ–‡å­— (A-Z a-z 0-9 - _ . ~) ä»¥å¤–ã‚’
-%XX å½¢å¼ã«å¤‰æ›ã—ã¾ã™ã€‚ç©ºç™½ã¯ %20 ã«ãªã‚Šã¾ã™ã€‚
+RFC 3986 ‚É]‚¢ unreserved •¶š (A-Z a-z 0-9 - _ . ~) ˆÈŠO‚ğ
+%XX Œ`®‚É•ÏŠ·‚µ‚Ü‚·B‹ó”’‚Í %20 ‚É‚È‚è‚Ü‚·B
 
-ä¾‹:
+—á:
   url_encode "hello world!", enc
   mes enc
-  ; â†’ hello%20world%21
+  ; ¨ hello%20world%21
 
 %href
 url_encode_form
@@ -56,18 +60,18 @@ url_decode
 
 %index
 url_encode_form
-form-urlencoded ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ (ç©ºç™½ã¯ +)
+form-urlencoded ƒGƒ“ƒR[ƒh (‹ó”’‚Í +)
 %group
-iron_url â€” URL
+iron_url \ URL
 %prm
 "src", dst
-"src" : å…¥åŠ›æ–‡å­—åˆ—
-dst   : ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰çµæœã‚’å—ã‘å–ã‚‹å¤‰æ•°
+"src" : “ü—Í•¶š—ñ
+dst   : ƒGƒ“ƒR[ƒhŒ‹‰Ê‚ğó‚¯æ‚é•Ï”
 
 %inst
-application/x-www-form-urlencoded å½¢å¼ã§ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã—ã¾ã™ã€‚
-url_encode ã¨ã®é•ã„ã¯ç©ºç™½ãŒ "+" ã«ãªã‚‹ç‚¹ã ã‘ã§ã™ã€‚HTML ãƒ•ã‚©ãƒ¼ãƒ ã®
-POST body ã‚’çµ„ã¿ç«‹ã¦ã‚‹ã¨ãã«ä½¿ç”¨ã—ã¾ã™ã€‚
+application/x-www-form-urlencoded Œ`®‚ÅƒGƒ“ƒR[ƒh‚µ‚Ü‚·B
+url_encode ‚Æ‚Ìˆá‚¢‚Í‹ó”’‚ª "+" ‚É‚È‚é“_‚¾‚¯‚Å‚·BHTML ƒtƒH[ƒ€‚Ì
+POST body ‚ğ‘g‚İ—§‚Ä‚é‚Æ‚«‚Ég—p‚µ‚Ü‚·B
 
 %href
 url_encode
@@ -75,84 +79,84 @@ url_decode
 
 %index
 url_decode
-URL ãƒ‡ã‚³ãƒ¼ãƒ‰
+URL ƒfƒR[ƒh
 %group
-iron_url â€” URL
+iron_url \ URL
 %prm
 "src", dst
-"src" : ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æ¸ˆã¿æ–‡å­—åˆ—
-dst   : ãƒ‡ã‚³ãƒ¼ãƒ‰çµæœã‚’å—ã‘å–ã‚‹å¤‰æ•°
+"src" : ƒGƒ“ƒR[ƒhÏ‚İ•¶š—ñ
+dst   : ƒfƒR[ƒhŒ‹‰Ê‚ğó‚¯æ‚é•Ï”
 
 %inst
-%XX ã‚’ãƒã‚¤ãƒˆã«å¾©å…ƒã—ã€"+" ã¯ç©ºç™½ã«å¤‰æ›ã—ã¾ã™ã€‚
-url_encode / url_encode_form ã®ã©ã¡ã‚‰ã§ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã•ã‚ŒãŸæ–‡å­—åˆ—ã§ã‚‚
-æ­£ã—ããƒ‡ã‚³ãƒ¼ãƒ‰ã§ãã¾ã™ã€‚
+%XX ‚ğƒoƒCƒg‚É•œŒ³‚µA"+" ‚Í‹ó”’‚É•ÏŠ·‚µ‚Ü‚·B
+url_encode / url_encode_form ‚Ì‚Ç‚¿‚ç‚ÅƒGƒ“ƒR[ƒh‚³‚ê‚½•¶š—ñ‚Å‚à
+³‚µ‚­ƒfƒR[ƒh‚Å‚«‚Ü‚·B
 
-ä¾‹:
+—á:
   url_decode "hello%20world%21", dec
   mes dec
-  ; â†’ hello world!
+  ; ¨ hello world!
 
 %index
 html_encode
-HTML ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—
+HTML ƒGƒXƒP[ƒv
 %group
-iron_url â€” HTML
+iron_url \ HTML
 %prm
 "src", dst
-"src" : å…¥åŠ›æ–‡å­—åˆ—
-dst   : ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—çµæœã‚’å—ã‘å–ã‚‹å¤‰æ•°
+"src" : “ü—Í•¶š—ñ
+dst   : ƒGƒXƒP[ƒvŒ‹‰Ê‚ğó‚¯æ‚é•Ï”
 
 %inst
-HTML ç‰¹æ®Šæ–‡å­— 5 ç¨®ã‚’å®Ÿä½“å‚ç…§ã«å¤‰æ›ã—ã¾ã™:
-  &  â†’ &amp;
-  <  â†’ &lt;
-  >  â†’ &gt;
-  "  â†’ &quot;
-  '  â†’ &#39;
+HTML “Áê•¶š 5 í‚ğÀ‘ÌQÆ‚É•ÏŠ·‚µ‚Ü‚·:
+  &  ¨ &amp;
+  <  ¨ &lt;
+  >  ¨ &gt;
+  "  ¨ &quot;
+  '  ¨ &#39;
 
-ä¾‹:
+—á:
   html_encode "<b>hi</b>", h
   mes h
-  ; â†’ &lt;b&gt;hi&lt;/b&gt;
+  ; ¨ &lt;b&gt;hi&lt;/b&gt;
 
 %href
 html_decode
 
 %index
 html_decode
-HTML ã‚¢ãƒ³ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—
+HTML ƒAƒ“ƒGƒXƒP[ƒv
 %group
-iron_url â€” HTML
+iron_url \ HTML
 %prm
 "src", dst
-"src" : HTML ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’å«ã‚€æ–‡å­—åˆ—
-dst   : ãƒ‡ã‚³ãƒ¼ãƒ‰çµæœã‚’å—ã‘å–ã‚‹å¤‰æ•°
+"src" : HTML ƒGƒ“ƒeƒBƒeƒB‚ğŠÜ‚Ş•¶š—ñ
+dst   : ƒfƒR[ƒhŒ‹‰Ê‚ğó‚¯æ‚é•Ï”
 
 %inst
-&amp; &lt; &gt; &quot; &apos; ã®åå‰ä»˜ãå®Ÿä½“ã¨ã€&#NNN; å½¢å¼ã®
-æ•°å€¤æ–‡å­—å‚ç…§ (0ã€œ255) ã‚’ãƒ‡ã‚³ãƒ¼ãƒ‰ã—ã¾ã™ã€‚æœªçŸ¥ã®å®Ÿä½“ã¯ãã®ã¾ã¾æ®‹ã—ã¾ã™ã€‚
+&amp; &lt; &gt; &quot; &apos; ‚Ì–¼‘O•t‚«À‘Ì‚ÆA&#NNN; Œ`®‚Ì
+”’l•¶šQÆ (0`255) ‚ğƒfƒR[ƒh‚µ‚Ü‚·B–¢’m‚ÌÀ‘Ì‚Í‚»‚Ì‚Ü‚Üc‚µ‚Ü‚·B
 
 %href
 html_encode
 
 %index
 url_parse_query
-ã‚¯ã‚¨ãƒªæ–‡å­—åˆ—ã‚’ keys/vals é…åˆ—ã«ãƒ‘ãƒ¼ã‚¹
+ƒNƒGƒŠ•¶š—ñ‚ğ keys/vals ”z—ñ‚Éƒp[ƒX
 %group
-iron_url â€” URL
+iron_url \ URL
 %prm
 "query", keys, vals
-"query" : ã‚¯ã‚¨ãƒªæ–‡å­—åˆ— ("?a=1&b=2" ã¾ãŸã¯ "a=1&b=2")
-keys    : ã‚­ãƒ¼ã‚’å—ã‘å–ã‚‹é…åˆ— (sdim è‡ªå‹•)
-vals    : å€¤ã‚’å—ã‘å–ã‚‹é…åˆ— (sdim è‡ªå‹•)
+"query" : ƒNƒGƒŠ•¶š—ñ ("?a=1&b=2" ‚Ü‚½‚Í "a=1&b=2")
+keys    : ƒL[‚ğó‚¯æ‚é”z—ñ (sdim ©“®)
+vals    : ’l‚ğó‚¯æ‚é”z—ñ (sdim ©“®)
 
 %inst
-"&" ã§åŒºåˆ‡ã£ã¦å„ pair ã‚’ "=" ã§åˆ†è§£ã—ã€key / value ãã‚Œãã‚Œã‚’
-url_decode ã—ã¦ã‹ã‚‰é…åˆ—ã«æ ¼ç´ã—ã¾ã™ã€‚stat ã«ã‚¨ãƒ³ãƒˆãƒªä»¶æ•°ãŒè¿”ã‚Šã¾ã™ã€‚
-å…ˆé ­ã® "?" ã¯è‡ªå‹•çš„ã«å–ã‚Šé™¤ã‹ã‚Œã¾ã™ã€‚æœ€å¤§ 32 ã‚¨ãƒ³ãƒˆãƒªã¾ã§ã€‚
+"&" ‚Å‹æØ‚Á‚ÄŠe pair ‚ğ "=" ‚Å•ª‰ğ‚µAkey / value ‚»‚ê‚¼‚ê‚ğ
+url_decode ‚µ‚Ä‚©‚ç”z—ñ‚ÉŠi”[‚µ‚Ü‚·Bstat ‚ÉƒGƒ“ƒgƒŠŒ”‚ª•Ô‚è‚Ü‚·B
+æ“ª‚Ì "?" ‚Í©“®“I‚Éæ‚èœ‚©‚ê‚Ü‚·BÅ‘å 32 ƒGƒ“ƒgƒŠ‚Ü‚ÅB
 
-ä¾‹:
+—á:
   url_parse_query "?name=Alice&age=30", ks, vs
   repeat stat
       mes ks(cnt) + " = " + vs(cnt)

@@ -1,10 +1,10 @@
 ;
-; hspmidi.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; winmm ãƒ™ãƒ¼ã‚¹ MIDI in/out ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
+; hspmidi.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; winmm ƒx[ƒX MIDI in/out ƒvƒ‰ƒOƒCƒ“
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,63 +14,66 @@ IronHSP / hspmidi
 %dll
 hspmidi.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-hspmidi.dll ã¯ Windows ã® winmm (midiOut* / midiIn*) ã‚’ä½¿ã£ãŸ
-MIDI å…¥å‡ºåŠ›ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã™ã€‚ã‚·ãƒ§ãƒ¼ãƒˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ (Note On/Off,
-Program Change ç­‰) ã®é€å—ä¿¡ã®ã¿ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚SysEx ã¯ v1 ã§ã¯éå¯¾å¿œã€‚
+hspmidi.dll ‚Í Windows ‚Ì winmm (midiOut* / midiIn*) ‚ğg‚Á‚½
+MIDI “üo—Íƒvƒ‰ƒOƒCƒ“‚Å‚·BƒVƒ‡[ƒgƒƒbƒZ[ƒW (Note On/Off,
+Program Change “™) ‚Ì‘—óM‚Ì‚İƒTƒ|[ƒg‚µ‚Ü‚·BSysEx ‚Í v1 ‚Å‚Í”ñ‘Î‰B
 
-  #include "hspmidi.as"     ; ç›´æ¥ä½¿ç”¨
-  #include "iron_midi.hsp"  ; note_name("C4") ç­‰ã®ä¾¿åˆ© cfunc ä»˜ã
+  #include "hspmidi.as"     ; ’¼Úg—p
+  #include "iron_midi.hsp"  ; note_name("C4") “™‚Ì•Ö—˜ cfunc •t‚«
 
-åˆ¶ç´„ (v1):
-  - MIDI out / in ãã‚Œãã‚Œãƒãƒ³ãƒ‰ãƒ«ã¯åŒæ™‚ 1 å€‹ã®ã¿
-  - MIDI in ã¯ãƒ¯ãƒ¼ã‚«ãƒ¼ã‚¹ãƒ¬ãƒƒãƒ‰ callback â†’ å†…éƒ¨ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ (1024)
-    ã«è“„ãˆã€HSP å´ã¯ midi_in_poll ã§å–ã‚Šå‡ºã™ãƒãƒ¼ãƒªãƒ³ã‚°å¼
-  - SysEx / MIM_LONGDATA ã¯æœªå¯¾å¿œ
+§–ñ (v1):
+  - MIDI out / in ‚»‚ê‚¼‚êƒnƒ“ƒhƒ‹‚Í“¯ 1 ŒÂ‚Ì‚İ
+  - MIDI in ‚Íƒ[ƒJ[ƒXƒŒƒbƒh callback ¨ “à•”ƒŠƒ“ƒOƒoƒbƒtƒ@ (1024)
+    ‚É’~‚¦AHSP ‘¤‚Í midi_in_poll ‚Åæ‚èo‚·ƒ|[ƒŠƒ“ƒO®
+  - SysEx / MIM_LONGDATA ‚Í–¢‘Î‰
 
-æˆ»ã‚Šå€¤è¦ç´„:
-  0  ... æˆåŠŸ
-  è²  ... å¤±æ•— (winmm ã® MMRESULT ã‚’è² ç¬¦å·åŒ–ã—ãŸã‚‚ã®)
+–ß‚è’l‹K–ñ:
+  0  ... ¬Œ÷
+  •‰ ... ¸”s (winmm ‚Ì MMRESULT ‚ğ•‰•„†‰»‚µ‚½‚à‚Ì)
 
 ;------------------------------------------------------------
-; MIDI å‡ºåŠ›
+; MIDI o—Í
 ;------------------------------------------------------------
+
+%group
+hspmidi (MIDI“üo—Í)
 
 %index
 midi_out_count
-MIDI out ãƒ‡ãƒã‚¤ã‚¹æ•°å–å¾—
+MIDI out ƒfƒoƒCƒX”æ“¾
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 var_count
-var_count ... ãƒ‡ãƒã‚¤ã‚¹æ•°ã‚’å—ã‘å–ã‚‹æ•´æ•°å¤‰æ•°
+var_count ... ƒfƒoƒCƒX”‚ğó‚¯æ‚é®”•Ï”
 
 %inst
-MIDI å‡ºåŠ›ãƒ‡ãƒã‚¤ã‚¹ã®æ•°ã‚’ var_count ã«æ ¼ç´ã—ã¾ã™ (midiOutGetNumDevs)ã€‚
-é€šå¸¸ "Microsoft GS Wavetable Synth" ãŒ devid=0 ã«ã‚ã‚Šã¾ã™ã€‚
+MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğ var_count ‚ÉŠi”[‚µ‚Ü‚· (midiOutGetNumDevs)B
+’Êí "Microsoft GS Wavetable Synth" ‚ª devid=0 ‚É‚ ‚è‚Ü‚·B
 
 %index
 midi_out_name
-MIDI out ãƒ‡ãƒã‚¤ã‚¹åå–å¾—
+MIDI out ƒfƒoƒCƒX–¼æ“¾
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 var_str, buf_size, devid
-var_str  ... ãƒ‡ãƒã‚¤ã‚¹åã‚’æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—å¤‰æ•° (sdim æ¸ˆ)
-buf_size ... var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
-devid    ... ãƒ‡ãƒã‚¤ã‚¹ç•ªå· (0 ã€œ midi_out_count-1)
+var_str  ... ƒfƒoƒCƒX–¼‚ğŠi”[‚·‚é•¶š—ñ•Ï” (sdim Ï)
+buf_size ... var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
+devid    ... ƒfƒoƒCƒX”Ô† (0 ` midi_out_count-1)
 
 %inst
-æŒ‡å®šãƒ‡ãƒã‚¤ã‚¹ã®åç§°ã‚’ var_str ã« cp932 ã§æ ¼ç´ã—ã¾ã™ã€‚å†…éƒ¨çš„ã«ã¯
-midiOutGetDevCapsW ã§ UTF-16 å–å¾—å¾Œã€CP_ACP ã§å¤‰æ›ã—ã¦ã„ã¾ã™ã€‚
-var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+w’èƒfƒoƒCƒX‚Ì–¼Ì‚ğ var_str ‚É cp932 ‚ÅŠi”[‚µ‚Ü‚·B“à•”“I‚É‚Í
+midiOutGetDevCapsW ‚Å UTF-16 æ“¾ŒãACP_ACP ‚Å•ÏŠ·‚µ‚Ä‚¢‚Ü‚·B
+var_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
-ä¾‹:
+—á:
   sdim nm, 256
   midi_out_count cnt_dev
   repeat cnt_dev
@@ -80,91 +83,91 @@ buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
 
 %index
 midi_out_open
-MIDI out ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã
+MIDI out ƒfƒoƒCƒX‚ğŠJ‚­
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 devid
-devid ... ãƒ‡ãƒã‚¤ã‚¹ç•ªå· (0 = æ—¢å®šã®éŸ³æº)
+devid ... ƒfƒoƒCƒX”Ô† (0 = Šù’è‚Ì‰¹Œ¹)
 
 %inst
-MIDI å‡ºåŠ›ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ãã¾ã™ã€‚æˆåŠŸã™ã‚‹ã¨ 0ã€å¤±æ•—ãªã‚‰è² æ•°ã€‚
-æ—¢ã«é–‹ã„ã¦ã„ãŸå ´åˆã¯å†…éƒ¨ã§ä¸€æ—¦ close ã—ã¦ã‹ã‚‰é–‹ãç›´ã—ã¾ã™ã€‚
+MIDI o—ÍƒfƒoƒCƒX‚ğŠJ‚«‚Ü‚·B¬Œ÷‚·‚é‚Æ 0A¸”s‚È‚ç•‰”B
+Šù‚ÉŠJ‚¢‚Ä‚¢‚½ê‡‚Í“à•”‚Åˆê’U close ‚µ‚Ä‚©‚çŠJ‚«’¼‚µ‚Ü‚·B
 
 %index
 midi_out_close
-MIDI out ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
+MIDI out ƒfƒoƒCƒX‚ğ•Â‚¶‚é
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 
 %inst
-MIDI å‡ºåŠ›ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã¾ã™ã€‚é–‹ã„ã¦ã„ãªã‘ã‚Œã°ä½•ã‚‚ã›ãš 0 ã‚’è¿”ã—ã¾ã™ã€‚
-å†…éƒ¨ã§ midiOutReset (All Sound Off) ã—ã¦ã‹ã‚‰ close ã—ã¾ã™ã€‚
+MIDI o—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚Ü‚·BŠJ‚¢‚Ä‚¢‚È‚¯‚ê‚Î‰½‚à‚¹‚¸ 0 ‚ğ•Ô‚µ‚Ü‚·B
+“à•”‚Å midiOutReset (All Sound Off) ‚µ‚Ä‚©‚ç close ‚µ‚Ü‚·B
 
 %index
 midi_out_short
-short MIDI ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é€ä¿¡
+short MIDI ƒƒbƒZ[ƒW‘—M
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 status, data1, data2
-status ... ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒã‚¤ãƒˆ (ä¾‹: $90=Note On ch0)
-data1  ... ãƒ‡ãƒ¼ã‚¿ãƒã‚¤ãƒˆ 1 (0ã€œ127)
-data2  ... ãƒ‡ãƒ¼ã‚¿ãƒã‚¤ãƒˆ 2 (0ã€œ127)
+status ... ƒXƒe[ƒ^ƒXƒoƒCƒg (—á: $90=Note On ch0)
+data1  ... ƒf[ƒ^ƒoƒCƒg 1 (0`127)
+data2  ... ƒf[ƒ^ƒoƒCƒg 2 (0`127)
 
 %inst
-ä»»æ„ã®ã‚·ãƒ§ãƒ¼ãƒˆãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ä¿¡ã—ã¾ã™ (midiOutShortMsg)ã€‚status ã®
-ä¸‹ä½ 4bit ãŒãƒãƒ£ãƒ³ãƒãƒ«ç•ªå·ã§ã™ã€‚
+”CˆÓ‚ÌƒVƒ‡[ƒgƒƒbƒZ[ƒW‚ğ‘—M‚µ‚Ü‚· (midiOutShortMsg)Bstatus ‚Ì
+‰ºˆÊ 4bit ‚ªƒ`ƒƒƒ“ƒlƒ‹”Ô†‚Å‚·B
 
-ä¾‹:
+—á:
   midi_out_short $90, 60, 100   ; ch0 C4 Note On vel 100
   await 500
   midi_out_short $80, 60, 0     ; ch0 C4 Note Off
 
 %index
 midi_out_note_on
-Note On é€ä¿¡ (ä¾¿åˆ©ãƒ©ãƒƒãƒ‘)
+Note On ‘—M (•Ö—˜ƒ‰ƒbƒp)
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 ch, note, vel
-ch   ... MIDI ãƒãƒ£ãƒ³ãƒãƒ« (0ã€œ15)
-note ... ãƒãƒ¼ãƒˆç•ªå· (C4 = 60)
-vel  ... ãƒ™ãƒ­ã‚·ãƒ†ã‚£ (1ã€œ127)
+ch   ... MIDI ƒ`ƒƒƒ“ƒlƒ‹ (0`15)
+note ... ƒm[ƒg”Ô† (C4 = 60)
+vel  ... ƒxƒƒVƒeƒB (1`127)
 
 %inst
-$90 + ch ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã§ Note On ã‚’é€ã‚Šã¾ã™ã€‚
+$90 + ch ‚ÌƒXƒe[ƒ^ƒX‚Å Note On ‚ğ‘—‚è‚Ü‚·B
 
 %index
 midi_out_note_off
-Note Off é€ä¿¡ (ä¾¿åˆ©ãƒ©ãƒƒãƒ‘)
+Note Off ‘—M (•Ö—˜ƒ‰ƒbƒp)
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 ch, note, vel
-ch   ... MIDI ãƒãƒ£ãƒ³ãƒãƒ« (0ã€œ15)
-note ... ãƒãƒ¼ãƒˆç•ªå·
-vel  ... ãƒ™ãƒ­ã‚·ãƒ†ã‚£ (é€šå¸¸ 0)
+ch   ... MIDI ƒ`ƒƒƒ“ƒlƒ‹ (0`15)
+note ... ƒm[ƒg”Ô†
+vel  ... ƒxƒƒVƒeƒB (’Êí 0)
 
 %inst
-$80 + ch ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã§ Note Off ã‚’é€ã‚Šã¾ã™ã€‚vel ã«ã¯ release
-velocity ã‚’å…¥ã‚Œã¾ã™ãŒã€0 ã§å•é¡Œã‚ã‚Šã¾ã›ã‚“ã€‚
+$80 + ch ‚ÌƒXƒe[ƒ^ƒX‚Å Note Off ‚ğ‘—‚è‚Ü‚·Bvel ‚É‚Í release
+velocity ‚ğ“ü‚ê‚Ü‚·‚ªA0 ‚Å–â‘è‚ ‚è‚Ü‚¹‚ñB
 
 %index
 midi_out_program_change
-éŸ³è‰²åˆ‡æ›¿ (Program Change)
+‰¹FØ‘Ö (Program Change)
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 ch, program
-ch      ... MIDI ãƒãƒ£ãƒ³ãƒãƒ« (0ã€œ15)
-program ... éŸ³è‰²ç•ªå· (GM æº–æ‹ : 0 = Acoustic Grand Piano ç­‰)
+ch      ... MIDI ƒ`ƒƒƒ“ƒlƒ‹ (0`15)
+program ... ‰¹F”Ô† (GM €‹’: 0 = Acoustic Grand Piano “™)
 
 %inst
-$C0 + ch ã® Program Change ã‚’é€ä¿¡ã—ã¾ã™ã€‚
+$C0 + ch ‚Ì Program Change ‚ğ‘—M‚µ‚Ü‚·B
 
-ä¸»ãª GM éŸ³è‰²ç•ªå· (hspmidi.as ã«ã‚‚ #define ã‚ã‚Š):
+å‚È GM ‰¹F”Ô† (hspmidi.as ‚É‚à #define ‚ ‚è):
   0  Acoustic Grand Piano
   4  Electric Piano
   6  Harpsichord
@@ -179,61 +182,61 @@ $C0 + ch ã® Program Change ã‚’é€ä¿¡ã—ã¾ã™ã€‚
 
 %index
 midi_out_reset
-å…¨ãƒãƒ¼ãƒˆã‚ªãƒ• (midiOutReset)
+‘Sƒm[ƒgƒIƒt (midiOutReset)
 %group
-hspmidi â€” MIDI out
+hspmidi \ MIDI out
 %prm
 
 %inst
-midiOutReset ã‚’å‘¼ã³ã€å…¨ãƒãƒ£ãƒ³ãƒãƒ«ã§é³´ã£ã¦ã„ã‚‹éŸ³ã‚’åœæ­¢ã—ã¾ã™ã€‚
-æ¼”å¥ä¸­ã«å¼·åˆ¶åœæ­¢ã—ãŸã„ã¨ãã«ä½¿ç”¨ã—ã¾ã™ã€‚
+midiOutReset ‚ğŒÄ‚ÑA‘Sƒ`ƒƒƒ“ƒlƒ‹‚Å–Â‚Á‚Ä‚¢‚é‰¹‚ğ’â~‚µ‚Ü‚·B
+‰‰‘t’†‚É‹­§’â~‚µ‚½‚¢‚Æ‚«‚Ég—p‚µ‚Ü‚·B
 
 ;------------------------------------------------------------
-; MIDI å…¥åŠ› (ãƒãƒ¼ãƒªãƒ³ã‚°å¼)
+; MIDI “ü—Í (ƒ|[ƒŠƒ“ƒO®)
 ;------------------------------------------------------------
 
 %index
 midi_in_count
-MIDI in ãƒ‡ãƒã‚¤ã‚¹æ•°å–å¾—
+MIDI in ƒfƒoƒCƒX”æ“¾
 %group
-hspmidi â€” MIDI in
+hspmidi \ MIDI in
 %prm
 var_count
-var_count ... ãƒ‡ãƒã‚¤ã‚¹æ•°ã‚’å—ã‘å–ã‚‹æ•´æ•°å¤‰æ•°
+var_count ... ƒfƒoƒCƒX”‚ğó‚¯æ‚é®”•Ï”
 
 %inst
-MIDI å…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ã®æ•°ã‚’ var_count ã«æ ¼ç´ã—ã¾ã™ (midiInGetNumDevs)ã€‚
+MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğ var_count ‚ÉŠi”[‚µ‚Ü‚· (midiInGetNumDevs)B
 
 %index
 midi_in_name
-MIDI in ãƒ‡ãƒã‚¤ã‚¹åå–å¾—
+MIDI in ƒfƒoƒCƒX–¼æ“¾
 %group
-hspmidi â€” MIDI in
+hspmidi \ MIDI in
 %prm
 var_str, buf_size, devid
-var_str  ... ãƒ‡ãƒã‚¤ã‚¹åã‚’æ ¼ç´ã™ã‚‹æ–‡å­—åˆ—å¤‰æ•° (sdim æ¸ˆ)
-buf_size ... var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
-devid    ... ãƒ‡ãƒã‚¤ã‚¹ç•ªå·
+var_str  ... ƒfƒoƒCƒX–¼‚ğŠi”[‚·‚é•¶š—ñ•Ï” (sdim Ï)
+buf_size ... var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
+devid    ... ƒfƒoƒCƒX”Ô†
 
 %inst
-æŒ‡å®š MIDI å…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ã®åç§°ã‚’ cp932 ã§æ ¼ç´ã—ã¾ã™ã€‚
-var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+w’è MIDI “ü—ÍƒfƒoƒCƒX‚Ì–¼Ì‚ğ cp932 ‚ÅŠi”[‚µ‚Ü‚·B
+var_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 midi_in_open
-MIDI in ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã
+MIDI in ƒfƒoƒCƒX‚ğŠJ‚­
 %group
-hspmidi â€” MIDI in
+hspmidi \ MIDI in
 %prm
 devid
 
 %inst
-MIDI å…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ãã¾ã™ã€‚æˆåŠŸã§ 0ã€å¤±æ•—ã§è² æ•°ã€‚
-é–‹ã„ãŸæ™‚ç‚¹ã§ã¯ã¾ã å—ä¿¡ã¯å§‹ã¾ã‚Šã¾ã›ã‚“ã€‚midi_in_start ã‚’å‘¼ã‚“ã§
-ãã ã•ã„ã€‚å†…éƒ¨ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã¯ã“ã“ã§ã‚¯ãƒªã‚¢ã•ã‚Œã¾ã™ã€‚
+MIDI “ü—ÍƒfƒoƒCƒX‚ğŠJ‚«‚Ü‚·B¬Œ÷‚Å 0A¸”s‚Å•‰”B
+ŠJ‚¢‚½“_‚Å‚Í‚Ü‚¾óM‚Ín‚Ü‚è‚Ü‚¹‚ñBmidi_in_start ‚ğŒÄ‚ñ‚Å
+‚­‚¾‚³‚¢B“à•”ƒŠƒ“ƒOƒoƒbƒtƒ@‚Í‚±‚±‚ÅƒNƒŠƒA‚³‚ê‚Ü‚·B
 
-ä½¿ã„æ–¹ã®æµã‚Œ:
+g‚¢•û‚Ì—¬‚ê:
   midi_in_open 0
   midi_in_start
   repeat
@@ -246,62 +249,62 @@ MIDI å…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ãã¾ã™ã€‚æˆåŠŸã§ 0ã€å¤±æ•—ã§è² æ•°ã€‚
 
 %index
 midi_in_start
-MIDI å…¥åŠ›ã®å—ä¿¡é–‹å§‹
+MIDI “ü—Í‚ÌóMŠJn
 %group
-hspmidi â€” MIDI in
+hspmidi \ MIDI in
 %prm
 
 %inst
-midiInStart ã‚’å‘¼ã³ã€ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯çµŒç”±ã§ã®å—ä¿¡ã‚’é–‹å§‹ã—ã¾ã™ã€‚
-å—ä¿¡ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯å†…éƒ¨ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ (1024 ä»¶) ã«è“„ãˆã‚‰ã‚Œã€
-midi_in_poll ã§å–ã‚Šå‡ºã—ã¾ã™ã€‚
+midiInStart ‚ğŒÄ‚ÑAƒR[ƒ‹ƒoƒbƒNŒo—R‚Å‚ÌóM‚ğŠJn‚µ‚Ü‚·B
+óMƒƒbƒZ[ƒW‚Í“à•”ƒŠƒ“ƒOƒoƒbƒtƒ@ (1024 Œ) ‚É’~‚¦‚ç‚êA
+midi_in_poll ‚Åæ‚èo‚µ‚Ü‚·B
 
 %index
 midi_in_stop
-MIDI å…¥åŠ›ã®å—ä¿¡åœæ­¢
+MIDI “ü—Í‚ÌóM’â~
 %group
-hspmidi â€” MIDI in
+hspmidi \ MIDI in
 %prm
 
 %inst
-midiInStop ã‚’å‘¼ã³å—ä¿¡ã‚’åœæ­¢ã—ã¾ã™ã€‚ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã®ä¸­èº«ã¯
-æ®‹ã‚Šã¾ã™ (ç¶šã‘ã¦ poll ã§å–ã‚Œã¾ã™)ã€‚
+midiInStop ‚ğŒÄ‚ÑóM‚ğ’â~‚µ‚Ü‚·BƒŠƒ“ƒOƒoƒbƒtƒ@‚Ì’†g‚Í
+c‚è‚Ü‚· (‘±‚¯‚Ä poll ‚Åæ‚ê‚Ü‚·)B
 
 %index
 midi_in_close
-MIDI in ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
+MIDI in ƒfƒoƒCƒX‚ğ•Â‚¶‚é
 %group
-hspmidi â€” MIDI in
+hspmidi \ MIDI in
 %prm
 
 %inst
-MIDI å…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã¾ã™ã€‚å†…éƒ¨ã§ midi_in_stop ã—ã¦ã‹ã‚‰ close
-ã—ã¾ã™ã€‚
+MIDI “ü—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚Ü‚·B“à•”‚Å midi_in_stop ‚µ‚Ä‚©‚ç close
+‚µ‚Ü‚·B
 
 %index
 midi_in_poll
-å—ä¿¡ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å–å¾—
+óMƒƒbƒZ[ƒW‚Ìæ“¾
 %group
-hspmidi â€” MIDI in
+hspmidi \ MIDI in
 %prm
 var_got, var_status, var_d1, var_d2
-var_got    ... å–å¾—çµæœãƒ•ãƒ©ã‚° (int å¤‰æ•°: 1=å–å¾—æˆåŠŸ / 0=ãƒãƒƒãƒ•ã‚¡ç©º)
-var_status ... çµæœã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒã‚¤ãƒˆ (int å¤‰æ•°)
-var_d1     ... ãƒ‡ãƒ¼ã‚¿1 (int å¤‰æ•°)
-var_d2     ... ãƒ‡ãƒ¼ã‚¿2 (int å¤‰æ•°)
+var_got    ... æ“¾Œ‹‰Êƒtƒ‰ƒO (int •Ï”: 1=æ“¾¬Œ÷ / 0=ƒoƒbƒtƒ@‹ó)
+var_status ... Œ‹‰Ê‚ÌƒXƒe[ƒ^ƒXƒoƒCƒg (int •Ï”)
+var_d1     ... ƒf[ƒ^1 (int •Ï”)
+var_d2     ... ƒf[ƒ^2 (int •Ï”)
 
 %inst
-å†…éƒ¨ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰ 1 ä»¶å–ã‚Šå‡ºã—ã¾ã™ã€‚
-  var_got = 1 ... å–å¾—æˆåŠŸ (status/d1/d2 ã«å€¤ãŒå…¥ã‚‹)
-  var_got = 0 ... ãƒãƒƒãƒ•ã‚¡ç©º (status/d1/d2 ã¯ 0)
+“à•”ƒŠƒ“ƒOƒoƒbƒtƒ@‚©‚ç 1 Œæ‚èo‚µ‚Ü‚·B
+  var_got = 1 ... æ“¾¬Œ÷ (status/d1/d2 ‚É’l‚ª“ü‚é)
+  var_got = 0 ... ƒoƒbƒtƒ@‹ó (status/d1/d2 ‚Í 0)
 
-status ã«ã¯ã€Œãƒãƒ£ãƒ³ãƒãƒ«ä»˜ãã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒã‚¤ãƒˆã€(ä¾‹: $90 ch0 Note On)
-ãŒãã®ã¾ã¾å…¥ã‚Šã¾ã™ã€‚ãƒãƒ£ãƒ³ãƒãƒ«åˆ†é›¢ãŒå¿…è¦ãªå ´åˆã¯
+status ‚É‚Íuƒ`ƒƒƒ“ƒlƒ‹•t‚«ƒXƒe[ƒ^ƒXƒoƒCƒgv(—á: $90 ch0 Note On)
+‚ª‚»‚Ì‚Ü‚Ü“ü‚è‚Ü‚·Bƒ`ƒƒƒ“ƒlƒ‹•ª—£‚ª•K—v‚Èê‡‚Í
   ch = st & $0F
   kind = st & $F0
-ã®ã‚ˆã†ã«ãƒã‚¹ã‚¯ã—ã¦ãã ã•ã„ã€‚
+‚Ì‚æ‚¤‚Éƒ}ƒXƒN‚µ‚Ä‚­‚¾‚³‚¢B
 
-ä¾‹ (å—ä¿¡ãƒ«ãƒ¼ãƒ—):
+—á (óMƒ‹[ƒv):
   midi_in_open 0
   midi_in_start
   *poll
@@ -318,18 +321,18 @@ status ã«ã¯ã€Œãƒãƒ£ãƒ³ãƒãƒ«ä»˜ãã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒã‚¤ãƒˆã€(ä¾‹: $90 ch0 No
 
 %index
 note_name
-éŸ³å â†’ ãƒãƒ¼ãƒˆç•ªå· å¤‰æ› (iron_midi)
+‰¹–¼ ¨ ƒm[ƒg”Ô† •ÏŠ· (iron_midi)
 %group
-iron_midi â€” ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+iron_midi \ ƒ†[ƒeƒBƒŠƒeƒB
 %prm
 "name"
-name ... "C4", "C#4", "Db4", "A-1" ç­‰
+name ... "C4", "C#4", "Db4", "A-1" “™
 
 %inst
-iron_midi.hsp ã«å®šç¾©ã•ã‚ŒãŸ cfuncã€‚éŸ³åã‚’ MIDI ãƒãƒ¼ãƒˆç•ªå·ã«å¤‰æ›ã—ã¾ã™ã€‚
-æ›¸å¼: [éŸ³å][è‡¨æ™‚è¨˜å·(#|b)][ã‚ªã‚¯ã‚¿ãƒ¼ãƒ–ç•ªå·] ä¾‹: "F#3"ã€‚
-C4 = 60, C-1 = 0, G9 = 127ã€‚
+iron_midi.hsp ‚É’è‹`‚³‚ê‚½ cfuncB‰¹–¼‚ğ MIDI ƒm[ƒg”Ô†‚É•ÏŠ·‚µ‚Ü‚·B
+‘®: [‰¹–¼][—Õ‹L†(#|b)][ƒIƒNƒ^[ƒu”Ô†] —á: "F#3"B
+C4 = 60, C-1 = 0, G9 = 127B
 
-ä¾‹:
+—á:
   n = note_name("C4")    ; 60
   midi_out_note_on 0, n, 100

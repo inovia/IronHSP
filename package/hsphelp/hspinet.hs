@@ -22,6 +22,9 @@ http://hsp.tv/
 Win
 
 
+%group
+hspinet (インターネット)
+
 %index
 netinit
 ネット接続の初期化

@@ -1,10 +1,10 @@
 ;
-; iron_office.hsp  HSP3 ヘルプ (日本語)
-; Microsoft Office COM 自動化 (VBScript bridge)
+; iron_office.hsp  HSP3 �w���v (���{��)
+; Microsoft Office COM ������ (VBScript bridge)
 ;
 
 %type
-拡張命令
+�g������
 %ver
 1.0
 %date
@@ -12,48 +12,52 @@
 %author
 IronHSP / iron_office
 %dll
+iron_office.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_office.hsp は Microsoft Excel / Word / PowerPoint を
-COM Automation 経由で操作するためのラッパです。
+iron_office.hsp �� Microsoft Excel / Word / PowerPoint ��
+COM Automation �o�R�ő��삷�邽�߂̃��b�p�ł��B
 
   #include "iron_office.hsp"
 
-妥協設計:
-  pure HSP から IDispatch late binding を直接駆動するのは労力が大きい
-  ため、本モジュールは **VBScript ブリッジ方式** を採用しています。
-  実行時に一時 .vbs を書き出して cscript.exe で実行し、結果を一時
-  ファイル経由で受け取る仕組みです。
+�Ë��݌v:
+  pure HSP ���� IDispatch late binding �𒼐ڋ쓮����̂͘J�͂��傫��
+  ���߁A�{���W���[���� **VBScript �u���b�W����** ���̗p���Ă��܂��B
+  ���s���Ɉꎞ .vbs �������o���� cscript.exe �Ŏ��s���A���ʂ��ꎞ
+  �t�@�C���o�R�Ŏ󂯎��d�g�݂ł��B
 
-要件:
-  Microsoft Office (Excel / Word / PowerPoint) が導入されていること
-  Office 非導入環境では全関数が失敗します
+�v��:
+  Microsoft Office (Excel / Word / PowerPoint) ����������Ă��邱��
+  Office �񓱓����ł͑S�֐������s���܂�
 
-大量セル操作などの性能重視用途では iron_xlsx.hsp (Pure HSP + OpenXML
-直読み) を推奨します。iron_office.hsp は以下のような用途向けです:
-  - 既存 Office ファイルの PDF エクスポート (レイアウト保持)
-  - 少量のセル読み書き
-  - VBA マクロ実行
+��ʃZ������Ȃǂ̐��\�d���p�r�ł� iron_xlsx.hsp (Pure HSP + OpenXML
+���ǂ�) �𐄏����܂��Biron_office.hsp �͈ȉ��̂悤�ȗp�r�����ł�:
+  - ���� Office �t�@�C���� PDF �G�N�X�|�[�g (���C�A�E�g�ێ�)
+  - ���ʂ̃Z���ǂݏ���
+  - VBA �}�N�����s
+
+%group
+iron_office (Office COM)
 
 %index
 office_excel_run
-任意の VBScript を cscript 経由で実行
+�C�ӂ� VBScript �� cscript �o�R�Ŏ��s
 %group
-iron_office — Excel
+iron_office �\ Excel
 %prm
 "vbs_code", var_out
 
 %inst
-与えられた VBScript を一時ファイルに書き出して cscript.exe //nologo で
-実行します。スクリプト側では変数 IRON_OFFICE_OUT (出力先一時ファイル
-パス) が定義済みなので、そこに書き込めば var_out に読み戻されます。
+�^����ꂽ VBScript ���ꎞ�t�@�C���ɏ����o���� cscript.exe //nologo ��
+���s���܂��B�X�N���v�g���ł͕ϐ� IRON_OFFICE_OUT (�o�͐�ꎞ�t�@�C��
+�p�X) ����`�ς݂Ȃ̂ŁA�����ɏ������߂� var_out �ɓǂݖ߂���܂��B
 
-例:
+��:
   vbs = "Dim fso : Set fso = CreateObject(\"Scripting.FileSystemObject\")\n"
   vbs += "Dim f : Set f = fso.CreateTextFile(IRON_OFFICE_OUT, True)\n"
   vbs += "f.Write \"hello\" : f.Close\n"
@@ -61,60 +65,60 @@ iron_office — Excel
 
 %index
 office_excel_get_cell
-Excel のセル値を読む
+Excel �̃Z���l��ǂ�
 %group
-iron_office — Excel
+iron_office �\ Excel
 %prm
 "file.xlsx", sheet, row, col, var_str
-sheet : 1-origin (VBA の Sheets(n) 準拠)
+sheet : 1-origin (VBA �� Sheets(n) ����)
 row, col : 1-origin
 
 %inst
-Excel.Application を起動して file.xlsx を開き、Sheets(sheet).Cells(row, col)
-の値を var_str に読み込みます。
+Excel.Application ���N������ file.xlsx ���J���ASheets(sheet).Cells(row, col)
+�̒l�� var_str �ɓǂݍ��݂܂��B
 
 %index
 office_excel_set_cell
-Excel のセル値を書く
+Excel �̃Z���l������
 %group
-iron_office — Excel
+iron_office �\ Excel
 %prm
 "file.xlsx", sheet, row, col, "value"
 
 %inst
-Excel.Application を起動して file.xlsx を開き、指定セルに値を書き込み
-Save してから閉じます。
+Excel.Application ���N������ file.xlsx ���J���A�w��Z���ɒl����������
+Save ���Ă�����܂��B
 
 %index
 office_excel_to_pdf
-Excel ファイルを PDF 変換
+Excel �t�@�C���� PDF �ϊ�
 %group
-iron_office — Excel
+iron_office �\ Excel
 %prm
 "src.xlsx", "dst.pdf"
 
 %inst
-Workbook.ExportAsFixedFormat (xlTypePDF = 0) で PDF 変換を行います。
-Excel 2007 SP2 以上が必要です。
+Workbook.ExportAsFixedFormat (xlTypePDF = 0) �� PDF �ϊ����s���܂��B
+Excel 2007 SP2 �ȏオ�K�v�ł��B
 
 %index
 office_word_to_pdf
-Word ファイルを PDF 変換
+Word �t�@�C���� PDF �ϊ�
 %group
-iron_office — Word
+iron_office �\ Word
 %prm
 "src.docx", "dst.pdf"
 
 %inst
-Document.ExportAsFixedFormat (wdExportFormatPDF = 17) で PDF 変換。
+Document.ExportAsFixedFormat (wdExportFormatPDF = 17) �� PDF �ϊ��B
 
 %index
 office_ppt_to_pdf
-PowerPoint ファイルを PDF 変換
+PowerPoint �t�@�C���� PDF �ϊ�
 %group
-iron_office — PowerPoint
+iron_office �\ PowerPoint
 %prm
 "src.pptx", "dst.pdf"
 
 %inst
-Presentation.SaveAs (ppSaveAsPDF = 32) で PDF 変換。
+Presentation.SaveAs (ppSaveAsPDF = 32) �� PDF �ϊ��B

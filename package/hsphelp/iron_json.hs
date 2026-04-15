@@ -1,10 +1,10 @@
 ;
-; iron_json.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; hspjson.dll ã® HSP å´è–„ãƒ©ãƒƒãƒ‘
+; iron_json.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; hspjson.dll ‚Ì HSP ‘¤”–ƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,34 +12,38 @@
 %author
 IronHSP / iron_json
 %dll
+iron_json.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_json.hsp ã¯ hspjson.dll ã‚’ HSP3 ã‹ã‚‰æ‰±ã„ã‚„ã™ãã™ã‚‹ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
-å‡ºåŠ› var ã® sdim ã‚’å†…éƒ¨ã§è‡ªå‹•åŒ–ã—ã€defcfunc å½¢å¼ã§å€¤ã‚’è¿”ã™ã®ã§
-1 è¡Œã§å–å¾—ã§ãã¾ã™ã€‚
+iron_json.hsp ‚Í hspjson.dll ‚ğ HSP3 ‚©‚çˆµ‚¢‚â‚·‚­‚·‚éƒ‰ƒbƒp‚Å‚·B
+o—Í var ‚Ì sdim ‚ğ“à•”‚Å©“®‰»‚µAdefcfunc Œ`®‚Å’l‚ğ•Ô‚·‚Ì‚Å
+1 s‚Åæ“¾‚Å‚«‚Ü‚·B
 
   #include "iron_json.hsp"
 
-ä¾å­˜: hspjson.dll ã‚’å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã¨åŒã˜ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®ã€‚
+ˆË‘¶: hspjson.dll ‚ğÀsƒtƒ@ƒCƒ‹‚Æ“¯‚¶ƒfƒBƒŒƒNƒgƒŠ‚É”z’uB
+
+%group
+iron_json (JSON‰ğÍ)
 
 %index
 json_load
-JSON æ–‡å­—åˆ—ã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦ãƒãƒ³ãƒ‰ãƒ«å–å¾—
+JSON •¶š—ñ‚ğƒp[ƒX‚µ‚Äƒnƒ“ƒhƒ‹æ“¾
 %group
 iron_json
 %prm
 "text"
 
 %inst
-JSON ãƒ†ã‚­ã‚¹ãƒˆã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦æ•´æ•°ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã—ã¾ã™ã€‚
-å¤±æ•—æ™‚ã¯ -1ã€‚
+JSON ƒeƒLƒXƒg‚ğƒp[ƒX‚µ‚Ä®”ƒnƒ“ƒhƒ‹‚ğ•Ô‚µ‚Ü‚·B
+¸”s‚Í -1B
 
-ä¾‹:
+—á:
   hid = json_load("{\"name\":\"Alice\",\"age\":30}")
   if hid >= 0 {
     mes json_str(hid, "name")
@@ -53,54 +57,54 @@ json_int
 
 %index
 json_release
-ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾
+ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú
 %group
 iron_json
 %prm
 hid
 
 %inst
-json_load ã§å–å¾—ã—ãŸãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾ã—ã¾ã™ã€‚
+json_load ‚Åæ“¾‚µ‚½ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚µ‚Ü‚·B
 
 %index
 json_close
-å…¨ JSON ãƒãƒ³ãƒ‰ãƒ«ã‚’ä¸€æ‹¬è§£æ”¾
+‘S JSON ƒnƒ“ƒhƒ‹‚ğˆêŠ‡‰ğ•ú
 %group
 iron_json
 %prm
 
 %inst
-å…¨ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾ã—ã¾ã™ã€‚
+‘Sƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚µ‚Ü‚·B
 
 %index
 json_str
-JSON æ–‡å­—åˆ—å€¤ã®å–å¾—
+JSON •¶š—ñ’l‚Ìæ“¾
 %group
 iron_json
 %prm
 hid, "path"
 
 %inst
-æŒ‡å®šãƒ‘ã‚¹ã®æ–‡å­—åˆ—å€¤ã‚’è¿”ã—ã¾ã™ (defcfunc)ã€‚
-ãƒ‘ã‚¹ã¯ "name", "user.email", "tags[2]" å½¢å¼ã€‚
+w’èƒpƒX‚Ì•¶š—ñ’l‚ğ•Ô‚µ‚Ü‚· (defcfunc)B
+ƒpƒX‚Í "name", "user.email", "tags[2]" Œ`®B
 
-ä¾‹:
+—á:
   s = json_str(hid, "address.city")
 
 %index
 json_int
-JSON æ•´æ•°å€¤ã®å–å¾—
+JSON ®”’l‚Ìæ“¾
 %group
 iron_json
 %prm
 hid, "path"
 
 %inst
-æ•´æ•°å€¤ã‚’è¿”ã—ã¾ã™ (defcfunc)ã€‚
+®”’l‚ğ•Ô‚µ‚Ü‚· (defcfunc)B
 
 %index
 json_dbl
-JSON double å€¤ã®å–å¾—
+JSON double ’l‚Ìæ“¾
 %group
 iron_json
 %prm
@@ -108,16 +112,16 @@ hid, "path"
 
 %index
 json_len
-é…åˆ—/ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¦ç´ æ•°ã‚’å–å¾—
+”z—ñ/ƒIƒuƒWƒFƒNƒg—v‘f”‚ğæ“¾
 %group
 iron_json
 %prm
 hid, "path"
 
 %inst
-è¦ç´ æ•°ã‚’è¿”ã—ã¾ã™ã€‚é…åˆ—ã® repeat ãƒ«ãƒ¼ãƒ—ã§ä½¿ã„ã¾ã™ã€‚
+—v‘f”‚ğ•Ô‚µ‚Ü‚·B”z—ñ‚Ì repeat ƒ‹[ƒv‚Åg‚¢‚Ü‚·B
 
-ä¾‹:
+—á:
   n = json_len(hid, "tags")
   repeat n
     mes json_str(hid, "tags[" + cnt + "]")
@@ -125,18 +129,18 @@ hid, "path"
 
 %index
 json_kind
-ãƒãƒ¼ãƒ‰ã®å‹ ID ã‚’å–å¾—
+ƒm[ƒh‚ÌŒ^ ID ‚ğæ“¾
 %group
 iron_json
 %prm
 hid, "path"
 
 %inst
-0=null 1=bool 2=num 3=str 4=arr 5=obj ã‚’è¿”ã—ã¾ã™ã€‚
+0=null 1=bool 2=num 3=str 4=arr 5=obj ‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 json_text
-ãƒãƒ³ãƒ‰ãƒ«ã‚’ minify JSON æ–‡å­—åˆ—ã«ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º
+ƒnƒ“ƒhƒ‹‚ğ minify JSON •¶š—ñ‚ÉƒVƒŠƒAƒ‰ƒCƒY
 %group
 iron_json
 %prm
@@ -144,7 +148,7 @@ hid
 
 %index
 json_pretty
-ãƒãƒ³ãƒ‰ãƒ«ã‚’æ•´å½¢ JSON æ–‡å­—åˆ—ã«ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚º
+ƒnƒ“ƒhƒ‹‚ğ®Œ` JSON •¶š—ñ‚ÉƒVƒŠƒAƒ‰ƒCƒY
 %group
 iron_json
 %prm

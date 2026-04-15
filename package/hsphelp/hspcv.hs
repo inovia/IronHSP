@@ -22,6 +22,9 @@ http://hsp.tv/
 Win
 
 
+%group
+hspcv (OpenCV 1.x)
+
 %index
 cvreset
 HSPCV‚Ì‰Šú‰»

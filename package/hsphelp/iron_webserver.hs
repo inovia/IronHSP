@@ -1,10 +1,10 @@
 ;
-; iron_webserver.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; HTTP / HTTPS / WebSocket ã‚µãƒ¼ãƒ (HTTP.sys backend)
+; iron_webserver.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; HTTP / HTTPS / WebSocket ƒT[ƒo (HTTP.sys backend)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -15,39 +15,42 @@ IronHSP / iron_webserver
 hspwebsrv.dll
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_webserver.hsp ã¯ hspwebsrv.dll (Windows HTTP Server API v2 =
-HTTP.sys çµŒç”±) ã‚’ãƒ©ãƒƒãƒ—ã—ãŸ HSP å‘ã‘æœ¬æ ¼ HTTP ã‚µãƒ¼ãƒãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚
-C# ã® HttpListener ã¨åŒã˜ backend ã‚’ä½¿ã£ã¦ã„ã‚‹ãŸã‚ã€HTTP / HTTPS /
-WebSocket ã‚’å˜ä¸€ DLL ã§æ‰±ãˆã¾ã™ã€‚
+iron_webserver.hsp ‚Í hspwebsrv.dll (Windows HTTP Server API v2 =
+HTTP.sys Œo—R) ‚ğƒ‰ƒbƒv‚µ‚½ HSP Œü‚¯–{Ši HTTP ƒT[ƒoƒ‚ƒWƒ…[ƒ‹‚Å‚·B
+C# ‚Ì HttpListener ‚Æ“¯‚¶ backend ‚ğg‚Á‚Ä‚¢‚é‚½‚ßAHTTP / HTTPS /
+WebSocket ‚ğ’Pˆê DLL ‚Åˆµ‚¦‚Ü‚·B
 
   #include "iron_webserver.hsp"
 
-ç‰¹å¾´:
-  HTTP.sys (kernel-mode) backend ã«ã‚ˆã‚‹é«˜æ€§èƒ½å‡¦ç†
-  http://localhost:port/ ã¯ admin æ¨©é™ä¸è¦
-  http://+:port/ ãªã©ã¯ admin å¿…è¦ (netsh http add urlacl)
-  HTTPS ã¯äº‹å‰ã« netsh http add sslcert ã§è¨¼æ˜æ›¸ãƒã‚¤ãƒ³ãƒ‰ãŒå¿…è¦
-  WebSocket ã® handshake + ãƒ•ãƒ¬ãƒ¼ãƒ  parser ã‚‚å†…åŒ…
+“Á’¥:
+  HTTP.sys (kernel-mode) backend ‚É‚æ‚é‚«”\ˆ—
+  http://localhost:port/ ‚Í admin Œ ŒÀ•s—v
+  http://+:port/ ‚È‚Ç‚Í admin •K—v (netsh http add urlacl)
+  HTTPS ‚Í–‘O‚É netsh http add sslcert ‚ÅØ–¾‘ƒoƒCƒ“ƒh‚ª•K—v
+  WebSocket ‚Ì handshake + ƒtƒŒ[ƒ€ parser ‚à“à•ï
+
+%group
+iron_webserver (HTTPƒT[ƒo)
 
 %index
 web_open
-ãƒãƒ¼ãƒˆç•ªå·æŒ‡å®šã§ã‚µãƒ¼ãƒã‚’é–‹å§‹ (localhost)
+ƒ|[ƒg”Ô†w’è‚ÅƒT[ƒo‚ğŠJn (localhost)
 %group
-iron_webserver â€” ã‚µãƒ¼ãƒ
+iron_webserver \ ƒT[ƒo
 %prm
 port
-port : å¾…ã¡å—ã‘ãƒãƒ¼ãƒˆç•ªå·
+port : ‘Ò‚¿ó‚¯ƒ|[ƒg”Ô†
 
 %inst
-http://localhost:port/ ã§å¾…ã¡å—ã‘ã‚’é–‹å§‹ã—ã¾ã™ã€‚localhost ãƒã‚¤ãƒ³ãƒ‰ã®ã¿
-ãªã®ã§ admin æ¨©é™ã¯ä¸è¦ã§ã™ã€‚æˆ»ã‚Šå€¤ã¯å†…éƒ¨ãƒãƒ³ãƒ‰ãƒ« (å¤±æ•—æ™‚ã¯è² å€¤)ã€‚
+http://localhost:port/ ‚Å‘Ò‚¿ó‚¯‚ğŠJn‚µ‚Ü‚·Blocalhost ƒoƒCƒ“ƒh‚Ì‚İ
+‚È‚Ì‚Å admin Œ ŒÀ‚Í•s—v‚Å‚·B–ß‚è’l‚Í“à•”ƒnƒ“ƒhƒ‹ (¸”s‚Í•‰’l)B
 
-ä¾‹:
+—á:
   web_open 8080
 
 %href
@@ -56,19 +59,19 @@ web_close
 
 %index
 web_open_url
-URL ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹æŒ‡å®šã§ã‚µãƒ¼ãƒã‚’é–‹å§‹
+URL ƒvƒŒƒtƒBƒbƒNƒXw’è‚ÅƒT[ƒo‚ğŠJn
 %group
-iron_webserver â€” ã‚µãƒ¼ãƒ
+iron_webserver \ ƒT[ƒo
 %prm
 "url"
-"url" : URL ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ (ä¾‹ "https://localhost:8443/")
+"url" : URL ƒvƒŒƒtƒBƒbƒNƒX (—á "https://localhost:8443/")
 
 %inst
-ä»»æ„ã® URL ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã§å¾…ã¡å—ã‘ã‚’é–‹å§‹ã—ã¾ã™ã€‚"http://+:port/" ã®ã‚ˆã†ãª
-é localhost ãƒã‚¤ãƒ³ãƒ‰ã‚„ HTTPS ã‚’ä½¿ã†å ´åˆã¯ã“ã¡ã‚‰ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
-admin æ¨©é™ã‚„äº‹å‰ã® urlacl / sslcert è¨­å®šãŒå¿…è¦ã«ãªã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ã€‚
+”CˆÓ‚Ì URL ƒvƒŒƒtƒBƒbƒNƒX‚Å‘Ò‚¿ó‚¯‚ğŠJn‚µ‚Ü‚·B"http://+:port/" ‚Ì‚æ‚¤‚È
+”ñ localhost ƒoƒCƒ“ƒh‚â HTTPS ‚ğg‚¤ê‡‚Í‚±‚¿‚ç‚ğg—p‚µ‚Ü‚·B
+admin Œ ŒÀ‚â–‘O‚Ì urlacl / sslcert İ’è‚ª•K—v‚É‚È‚éê‡‚ª‚ ‚è‚Ü‚·B
 
-ä¾‹:
+—á:
   web_open_url "https://localhost:8443/"
 
 %href
@@ -77,36 +80,36 @@ web_close
 
 %index
 web_close
-ã‚µãƒ¼ãƒã‚’åœæ­¢
+ƒT[ƒo‚ğ’â~
 %group
-iron_webserver â€” ã‚µãƒ¼ãƒ
+iron_webserver \ ƒT[ƒo
 %prm
 
 %inst
-ç¨¼åƒä¸­ã®ã‚µãƒ¼ãƒã‚’åœæ­¢ã—ã€å†…éƒ¨ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾ã—ã¾ã™ã€‚
+‰Ò“­’†‚ÌƒT[ƒo‚ğ’â~‚µA“à•”ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚µ‚Ü‚·B
 
 %href
 web_open
 
 %index
 web_accept
-ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ 1 ä»¶å—ã‘å–ã‚‹
+ƒŠƒNƒGƒXƒg‚ğ 1 Œó‚¯æ‚é
 %group
-iron_webserver â€” HTTP
+iron_webserver \ HTTP
 %prm
 method, path, body, is_ws, timeout_ms
-method     : ãƒ¡ã‚½ãƒƒãƒ‰æ–‡å­—åˆ—ã‚’å—ã‘å–ã‚‹å¤‰æ•° ("GET" ç­‰)
-path       : ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ‘ã‚¹ã‚’å—ã‘å–ã‚‹å¤‰æ•°
-body       : ãƒªã‚¯ã‚¨ã‚¹ãƒˆ body ã‚’å—ã‘å–ã‚‹å¤‰æ•° (æœ€å¤§ 16KB)
-is_ws      : WebSocket upgrade ã®å ´åˆ 1 ãŒå…¥ã‚‹å¤‰æ•°
-timeout_ms : ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ (ãƒŸãƒªç§’ã€0 æŒ‡å®šã§ 100ms)
+method     : ƒƒ\ƒbƒh•¶š—ñ‚ğó‚¯æ‚é•Ï” ("GET" “™)
+path       : ƒŠƒNƒGƒXƒgƒpƒX‚ğó‚¯æ‚é•Ï”
+body       : ƒŠƒNƒGƒXƒg body ‚ğó‚¯æ‚é•Ï” (Å‘å 16KB)
+is_ws      : WebSocket upgrade ‚Ìê‡ 1 ‚ª“ü‚é•Ï”
+timeout_ms : ƒ^ƒCƒ€ƒAƒEƒg (ƒ~ƒŠ•bA0 w’è‚Å 100ms)
 
 %inst
-æ¬¡ã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’å¾…ã¡å—ã‘ã¾ã™ã€‚æˆ»ã‚Šå€¤ã¯ 1 (ãƒªã‚¯ã‚¨ã‚¹ãƒˆå—ä¿¡) / 0 (timeout) /
--1 (ã‚¨ãƒ©ãƒ¼)ã€‚is_ws = 1 ã®å ´åˆã¯ WebSocket ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰è¦æ±‚ã§ã™ã€‚
-é€šå¸¸ã¯ stat ã‚’è¦‹ã¦ãƒ«ãƒ¼ãƒ—ã‚’å›ã—ã¾ã™ã€‚
+Ÿ‚ÌƒŠƒNƒGƒXƒg‚ğ‘Ò‚¿ó‚¯‚Ü‚·B–ß‚è’l‚Í 1 (ƒŠƒNƒGƒXƒgóM) / 0 (timeout) /
+-1 (ƒGƒ‰[)Bis_ws = 1 ‚Ìê‡‚Í WebSocket ƒAƒbƒvƒOƒŒ[ƒh—v‹‚Å‚·B
+’Êí‚Í stat ‚ğŒ©‚Äƒ‹[ƒv‚ğ‰ñ‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   repeat
       web_accept method, path, body, is_ws, 100
       if stat = 1 : web_respond 200, "text/html", "<h1>Hello</h1>"
@@ -119,19 +122,19 @@ web_accept_ws
 
 %index
 web_respond
-HTTP ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¿”ã™
+HTTP ƒŒƒXƒ|ƒ“ƒX‚ğ•Ô‚·
 %group
-iron_webserver â€” HTTP
+iron_webserver \ HTTP
 %prm
 status, "ctype", "body"
-status  : HTTP ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ (200 ç­‰)
-"ctype" : Content-Type ("text/html", "application/json" ç­‰)
-"body"  : å¿œç­” body æ–‡å­—åˆ—
+status  : HTTP ƒXƒe[ƒ^ƒXƒR[ƒh (200 “™)
+"ctype" : Content-Type ("text/html", "application/json" “™)
+"body"  : ‰“š body •¶š—ñ
 
 %inst
-ç›´å‰ã® web_accept ã§å—ä¿¡ã—ãŸãƒªã‚¯ã‚¨ã‚¹ãƒˆã«å¯¾ã™ã‚‹ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’é€ä¿¡ã—ã¾ã™ã€‚
+’¼‘O‚Ì web_accept ‚ÅóM‚µ‚½ƒŠƒNƒGƒXƒg‚É‘Î‚·‚éƒŒƒXƒ|ƒ“ƒX‚ğ‘—M‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   web_respond 200, "application/json", "{\"ok\":true}"
 
 %href
@@ -139,16 +142,16 @@ web_accept
 
 %index
 web_accept_ws
-WebSocket ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰ã‚’å—è«¾
+WebSocket ƒAƒbƒvƒOƒŒ[ƒh‚ğó‘ø
 %group
-iron_webserver â€” WebSocket
+iron_webserver \ WebSocket
 %prm
 
 %inst
-is_ws = 1 ã® web_accept ç›´å¾Œã«å‘¼ã³å‡ºã™ã¨ WebSocket ãƒãƒ³ãƒ‰ã‚·ã‚§ã‚¤ã‚¯ã‚’
-å®Œäº†ã—ã€ws ãƒãƒ³ãƒ‰ãƒ« (é–¢æ•°æˆ»ã‚Šå€¤) ã‚’è¿”ã—ã¾ã™ã€‚å¤±æ•—æ™‚ã¯è² å€¤ã€‚
+is_ws = 1 ‚Ì web_accept ’¼Œã‚ÉŒÄ‚Ño‚·‚Æ WebSocket ƒnƒ“ƒhƒVƒFƒCƒN‚ğ
+Š®—¹‚µAws ƒnƒ“ƒhƒ‹ (ŠÖ”–ß‚è’l) ‚ğ•Ô‚µ‚Ü‚·B¸”s‚Í•‰’lB
 
-ä¾‹:
+—á:
   ws = web_accept_ws()
 
 %href
@@ -158,17 +161,17 @@ web_ws_recv
 
 %index
 web_ws_send
-WebSocket ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ä¿¡
+WebSocket ƒƒbƒZ[ƒW‚ğ‘—M
 %group
-iron_webserver â€” WebSocket
+iron_webserver \ WebSocket
 %prm
 ws, "text", is_binary
-ws        : web_accept_ws ã®æˆ»ã‚Šå€¤
-"text"    : é€ä¿¡ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ws        : web_accept_ws ‚Ì–ß‚è’l
+"text"    : ‘—M‚·‚éƒƒbƒZ[ƒW
 is_binary : 0 = text frame / 1 = binary frame
 
 %inst
-WebSocket ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ 1 ãƒ•ãƒ¬ãƒ¼ãƒ é€ä¿¡ã—ã¾ã™ã€‚
+WebSocket ƒNƒ‰ƒCƒAƒ“ƒg‚ÉƒƒbƒZ[ƒW‚ğ 1 ƒtƒŒ[ƒ€‘—M‚µ‚Ü‚·B
 
 %href
 web_ws_recv
@@ -176,20 +179,20 @@ web_ws_close
 
 %index
 web_ws_recv
-WebSocket ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å—ä¿¡
+WebSocket ƒƒbƒZ[ƒW‚ğóM
 %group
-iron_webserver â€” WebSocket
+iron_webserver \ WebSocket
 %prm
 ws, out_buf, timeout_ms
-ws         : ws ãƒãƒ³ãƒ‰ãƒ«
-out_buf    : å—ä¿¡ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å—ã‘å–ã‚‹å¤‰æ•° (sdim è‡ªå‹•ã€æœ€å¤§ 16KB)
-timeout_ms : ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ (ãƒŸãƒªç§’ã€0 æŒ‡å®šã§ 1000ms)
+ws         : ws ƒnƒ“ƒhƒ‹
+out_buf    : óMƒƒbƒZ[ƒW‚ğó‚¯æ‚é•Ï” (sdim ©“®AÅ‘å 16KB)
+timeout_ms : ƒ^ƒCƒ€ƒAƒEƒg (ƒ~ƒŠ•bA0 w’è‚Å 1000ms)
 
 %inst
-WebSocket ã‹ã‚‰ 1 ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å—ä¿¡ã—ã¾ã™ã€‚æˆ»ã‚Šå€¤ã¯å—ä¿¡ãƒã‚¤ãƒˆæ•° /
-0 (timeout) / -1 (close or error)ã€‚
+WebSocket ‚©‚ç 1 ƒƒbƒZ[ƒW‚ğóM‚µ‚Ü‚·B–ß‚è’l‚ÍóMƒoƒCƒg” /
+0 (timeout) / -1 (close or error)B
 
-ä¾‹:
+—á:
   repeat
       web_ws_recv ws, msg, 10000
       if stat <= 0 : break
@@ -202,16 +205,16 @@ web_ws_close
 
 %index
 web_ws_close
-WebSocket æ¥ç¶šã‚’é–‰ã˜ã‚‹
+WebSocket Ú‘±‚ğ•Â‚¶‚é
 %group
-iron_webserver â€” WebSocket
+iron_webserver \ WebSocket
 %prm
 ws
-ws : ws ãƒãƒ³ãƒ‰ãƒ«
+ws : ws ƒnƒ“ƒhƒ‹
 
 %inst
-WebSocket æ¥ç¶šã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™ã€‚recv ãƒ«ãƒ¼ãƒ—çµ‚äº†æ™‚ã«å¿…ãšå‘¼ã³å‡ºã—ã¦
-ãã ã•ã„ã€‚
+WebSocket Ú‘±‚ğƒNƒ[ƒY‚µ‚Ü‚·Brecv ƒ‹[ƒvI—¹‚É•K‚¸ŒÄ‚Ño‚µ‚Ä
+‚­‚¾‚³‚¢B
 
 %href
 web_ws_recv

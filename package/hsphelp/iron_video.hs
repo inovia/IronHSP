@@ -1,10 +1,10 @@
 ;
-; iron_video.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Media Foundation MFPlay å‹•ç”»/éŸ³å£°å†ç”Ÿãƒ©ãƒƒãƒ‘
+; iron_video.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Media Foundation MFPlay “®‰æ/‰¹ºÄ¶ƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,41 +12,45 @@
 %author
 IronHSP / iron_video
 %dll
+iron_video.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_video.hsp ã¯ Microsoft Media Foundation MFPlay (IMFPMediaPlayer)
-ã‚’ HSP ã® #usecom + #comfunc ã§ç›´æ¥å©ã„ãŸå‹•ç”»ãƒ»éŸ³å£°å†ç”Ÿãƒ©ãƒƒãƒ‘ã€‚
+iron_video.hsp ‚Í Microsoft Media Foundation MFPlay (IMFPMediaPlayer)
+‚ğ HSP ‚Ì #usecom + #comfunc ‚Å’¼Ú’@‚¢‚½“®‰æE‰¹ºÄ¶ƒ‰ƒbƒpB
 
-Win Media Foundation ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯å¯¾å¿œã®ãŸã‚:
-  - å‹•ç”»: MP4 / MKV / AVI / WMV / MOV / WebM ç­‰
-  - éŸ³å£°: MP3 / WAV / AAC / WMA / FLAC ç­‰
+Win Media Foundation ƒR[ƒfƒbƒN‘Î‰‚Ì‚½‚ß:
+  - “®‰æ: MP4 / MKV / AVI / WMV / MOV / WebM “™
+  - ‰¹º: MP3 / WAV / AAC / WMA / FLAC “™
 
   #include "iron_video.hsp"
 
-æ³¨æ„:
-  - HWND ã‚’æ¸¡ã›ã°å‹•ç”»ã¯ HSP ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«è²¼ã‚Šä»˜ã‘ã‚‰ã‚Œã‚‹
-  - HWND=0 ãªã‚‰éŸ³å£°ã®ã¿å†ç”Ÿ
-  - Position/Duration ã®å–å¾—ã¯ PROPVARIANT çµŒç”±ã®ãŸã‚æœªå®Ÿè£… (å°†æ¥å¯¾å¿œ)
+’ˆÓ:
+  - HWND ‚ğ“n‚¹‚Î“®‰æ‚Í HSP ƒEƒBƒ“ƒhƒE“à‚É“\‚è•t‚¯‚ç‚ê‚é
+  - HWND=0 ‚È‚ç‰¹º‚Ì‚İÄ¶
+  - Position/Duration ‚Ìæ“¾‚Í PROPVARIANT Œo—R‚Ì‚½‚ß–¢À‘• («—ˆ‘Î‰)
+
+%group
+iron_video (“®‰æÄ¶)
 
 %index
 iron_video_open
-å‹•ç”»/éŸ³å£°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ã¦å†ç”Ÿé–‹å§‹
+“®‰æ/‰¹ºƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚ÄÄ¶ŠJn
 %group
 iron_video
 %prm
 "path", hwnd
-"path" : ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ (çµ¶å¯¾ or ç›¸å¯¾)
-hwnd   : è¦ª HWND (HSP ã® hwnd ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•° / 0 ã§éŸ³å£°ã®ã¿)
+"path" : ƒtƒ@ƒCƒ‹ƒpƒX (â‘Î or ‘Š‘Î)
+hwnd   : e HWND (HSP ‚Ì hwnd ƒVƒXƒeƒ€•Ï” / 0 ‚Å‰¹º‚Ì‚İ)
 
 %inst
-ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ã¦ MFPCreateMediaPlayer ã§å†ç”Ÿã‚’é–‹å§‹ã—ã¾ã™ã€‚
-hwnd ã‚’æ¸¡ã—ãŸå ´åˆã¯å‹•ç”»ãŒãã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«æç”»ã•ã‚Œã¾ã™ (ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
-è‡ªå‹•èª¿æ•´ä»˜ã)ã€‚
+ƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚Ä MFPCreateMediaPlayer ‚ÅÄ¶‚ğŠJn‚µ‚Ü‚·B
+hwnd ‚ğ“n‚µ‚½ê‡‚Í“®‰æ‚ª‚»‚ÌƒEƒBƒ“ƒhƒE‚É•`‰æ‚³‚ê‚Ü‚· (ƒAƒXƒyƒNƒg”ä
+©“®’²®•t‚«)B
 
 %href
 iron_video_play
@@ -54,73 +58,73 @@ iron_video_close
 
 %index
 iron_video_play
-å†ç”Ÿé–‹å§‹ (ä¸€æ™‚åœæ­¢ã‹ã‚‰ã®å†é–‹)
+Ä¶ŠJn (ˆê’â~‚©‚ç‚ÌÄŠJ)
 %group
 iron_video
 %prm
 
 %index
 iron_video_pause
-ä¸€æ™‚åœæ­¢
+ˆê’â~
 %group
 iron_video
 %prm
 
 %index
 iron_video_stop
-åœæ­¢ (é ­ã«å·»ãæˆ»ã‚‹)
+’â~ (“ª‚ÉŠª‚«–ß‚é)
 %group
 iron_video
 %prm
 
 %index
 iron_video_step
-1 ãƒ•ãƒ¬ãƒ¼ãƒ é€²ã‚ã‚‹
+1 ƒtƒŒ[ƒ€i‚ß‚é
 %group
 iron_video
 %prm
 
 %inst
-ä¸€æ™‚åœæ­¢çŠ¶æ…‹ã§ 1 ãƒ•ãƒ¬ãƒ¼ãƒ ãšã¤é€²ã‚ã¾ã™ã€‚ã‚³ãƒé€ã‚Šã«ä½¿ç”¨ã€‚
+ˆê’â~ó‘Ô‚Å 1 ƒtƒŒ[ƒ€‚¸‚Âi‚ß‚Ü‚·BƒRƒ}‘—‚è‚Ég—pB
 
 %index
 iron_video_set_rate
-å†ç”Ÿé€Ÿåº¦ã‚’å¤‰æ›´
+Ä¶‘¬“x‚ğ•ÏX
 %group
 iron_video
 %prm
 rate
-rate : 1.0=ç­‰é€Ÿ, 0.5=ã‚¹ãƒ­ãƒ¼, 2.0=å€é€Ÿ
+rate : 1.0=“™‘¬, 0.5=ƒXƒ[, 2.0=”{‘¬
 
 %index
 iron_video_set_volume
-éŸ³é‡ã‚’è¨­å®š
+‰¹—Ê‚ğİ’è
 %group
 iron_video
 %prm
 vol
-vol : 0.0 ã€œ 1.0 (0 ã§ç„¡éŸ³, 1 ã§æœ€å¤§)
+vol : 0.0 ` 1.0 (0 ‚Å–³‰¹, 1 ‚ÅÅ‘å)
 
 %index
 iron_video_update
-å‹•ç”»ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’å†æç”»
+“®‰æƒEƒBƒ“ƒhƒE‚ğÄ•`‰æ
 %group
 iron_video
 %prm
 
 %inst
-è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒªã‚µã‚¤ã‚ºå¾Œãªã©ã«å‘¼ã³å‡ºã™ã¨å‹•ç”»ä½ç½®ãŒæ›´æ–°ã•ã‚Œã¾ã™ã€‚
+eƒEƒBƒ“ƒhƒE‚ÌƒŠƒTƒCƒYŒã‚È‚Ç‚ÉŒÄ‚Ño‚·‚Æ“®‰æˆÊ’u‚ªXV‚³‚ê‚Ü‚·B
 
 %index
 iron_video_state
-ç¾åœ¨ã®å†ç”ŸçŠ¶æ…‹ã‚’å–å¾—
+Œ»İ‚ÌÄ¶ó‘Ô‚ğæ“¾
 %group
 iron_video
 %prm
 
 %inst
-defcfuncã€‚çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰ã‚’è¿”ã—ã¾ã™:
-  -1 = ãƒ­ãƒ¼ãƒ‰å‰
+defcfuncBó‘ÔƒR[ƒh‚ğ•Ô‚µ‚Ü‚·:
+  -1 = ƒ[ƒh‘O
    1 = Stopped
    2 = Playing
    3 = Paused
@@ -128,10 +132,10 @@ defcfuncã€‚çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰ã‚’è¿”ã—ã¾ã™:
 
 %index
 iron_video_close
-è§£æ”¾
+‰ğ•ú
 %group
 iron_video
 %prm
 
 %inst
-IMFPMediaPlayer_Shutdown â†’ delcom â†’ MFShutdown ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+IMFPMediaPlayer_Shutdown ¨ delcom ¨ MFShutdown ‚ğÀs‚µ‚Ü‚·B

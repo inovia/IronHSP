@@ -1,10 +1,10 @@
 ;
-; hspwinrtspeech.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Windows.Media.SpeechRecognition (WinRT) ãƒ©ã‚¤ãƒ–ãƒã‚¤ã‚¯èªè­˜
+; hspwinrtspeech.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Windows.Media.SpeechRecognition (WinRT) ƒ‰ƒCƒuƒ}ƒCƒN”F¯
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,46 +14,49 @@ IronHSP / hspwinrtspeech
 %dll
 hspwinrtspeech_64.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win64 å°‚ç”¨ (C++/WinRT)
+Win64 ê—p (C++/WinRT)
 
 %note
-hspwinrtspeech.dll ã¯ Windows.Media.SpeechRecognition.SpeechRecognizer
-(WinRT) ã‚’ C++/WinRT (header-only) ã§å©ã„ã¦ãƒã‚¤ã‚¯å…¥åŠ›ã‹ã‚‰ã®éŸ³å£°èªè­˜ã‚’
-HSP ã«æä¾›ã™ã‚‹ãƒ˜ãƒ«ãƒ‘ DLLã€‚
+hspwinrtspeech.dll ‚Í Windows.Media.SpeechRecognition.SpeechRecognizer
+(WinRT) ‚ğ C++/WinRT (header-only) ‚Å’@‚¢‚Äƒ}ƒCƒN“ü—Í‚©‚ç‚Ì‰¹º”F¯‚ğ
+HSP ‚É’ñ‹Ÿ‚·‚éƒwƒ‹ƒp DLLB
 
-é‡è¦: WinRT SpeechRecognition ã¯ä»•æ§˜ä¸Š microphone-onlyã€‚
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ç­‰ã®äº‹å‰éŒ²éŸ³éŸ³å£°ã¯å—ã‘ä»˜ã‘ã¾ã›ã‚“ã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰æ–‡å­—èµ·ã“ã—
-ã—ãŸã„å ´åˆã¯ SPEECH_BACKEND_WHISPER / SPEECH_BACKEND_VOSK /
-SPEECH_BACKEND_SAPI / SPEECH_BACKEND_CLOUD ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
+d—v: WinRT SpeechRecognition ‚Íd—lã microphone-onlyB
+WAV ƒtƒ@ƒCƒ‹“™‚Ì–‘O˜^‰¹‰¹º‚Íó‚¯•t‚¯‚Ü‚¹‚ñBƒtƒ@ƒCƒ‹‚©‚ç•¶š‹N‚±‚µ
+‚µ‚½‚¢ê‡‚Í SPEECH_BACKEND_WHISPER / SPEECH_BACKEND_VOSK /
+SPEECH_BACKEND_SAPI / SPEECH_BACKEND_CLOUD ‚ğg‚Á‚Ä‚­‚¾‚³‚¢B
 
-ç‰¹å¾´:
-  * Windows 10/11 æ¨™æº– (cppwinrt header-only)
-  * ãƒ©ã‚¤ãƒ–ãƒã‚¤ã‚¯ã‹ã‚‰ dictation èªè­˜
-  * å¤šè¨€èª: OS ã® Speech Recognition Language ã«ä¾å­˜
-    (en-US æ¨™æº–ã€ja-JP ã¯åˆ¥é€” Speech Pack ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«è¦)
+“Á’¥:
+  * Windows 10/11 •W€ (cppwinrt header-only)
+  * ƒ‰ƒCƒuƒ}ƒCƒN‚©‚ç dictation ”F¯
+  * ‘½Œ¾Œê: OS ‚Ì Speech Recognition Language ‚ÉˆË‘¶
+    (en-US •W€Aja-JP ‚Í•Ê“r Speech Pack ƒCƒ“ƒXƒg[ƒ‹—v)
 
-iron_speech.hsp ã¨ã®é€£æº:
-  * SPEECH_BACKEND_WINRT ã§ open
-  * iron_speech_listen_once ã§ 1 phrase å–å¾—
-  * iron_speech_transcribe (WAV file) ã¯ WinRT ã§ã¯æœªå¯¾å¿œ (NOT_IMPL)
+iron_speech.hsp ‚Æ‚Ì˜AŒg:
+  * SPEECH_BACKEND_WINRT ‚Å open
+  * iron_speech_listen_once ‚Å 1 phrase æ“¾
+  * iron_speech_transcribe (WAV file) ‚Í WinRT ‚Å‚Í–¢‘Î‰ (NOT_IMPL)
+
+%group
+hspwinrtspeech (WinRT‰¹º”F¯)
 
 %index
 winrt_speech_open
-SpeechRecognizer ã‚’ open
+SpeechRecognizer ‚ğ open
 %group
 hspwinrtspeech
 %prm
 "lang"
 
 %inst
-init_apartment(STA) â†’ SpeechRecognizer{ Language(lang) } â†’
-CompileConstraintsAsync (dictation) ã‚’å®Ÿè¡Œã€‚
+init_apartment(STA) ¨ SpeechRecognizer{ Language(lang) } ¨
+CompileConstraintsAsync (dictation) ‚ğÀsB
 
-lang : "en-US" / "ja-JP" / "" (ã‚·ã‚¹ãƒ†ãƒ æ—¢å®š)
+lang : "en-US" / "ja-JP" / "" (ƒVƒXƒeƒ€Šù’è)
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ / -1 ¸”s
 
 %href
 winrt_speech_listen_once
@@ -61,22 +64,22 @@ winrt_speech_close
 
 %index
 winrt_speech_listen_once
-ãƒã‚¤ã‚¯ã‹ã‚‰ 1 phrase ã®èªè­˜
+ƒ}ƒCƒN‚©‚ç 1 phrase ‚Ì”F¯
 %group
 hspwinrtspeech
 %prm
 handle, out_text, out_len
 
 %inst
-SpeechRecognizer::RecognizeAsync().get() ã‚’å‘¼ã‚“ã§ãƒã‚¤ã‚¯ã‹ã‚‰ã® 1 å›ã®
-ç™ºè©±ã‚’å¾…ã¡ã¾ã™ã€‚ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚° (æœ€å¤§ ~10 ç§’)ã€‚å®Œäº†å¾Œã€çµæœãƒ†ã‚­ã‚¹ãƒˆã‚’
-out_text ã« UTF-8 ã§æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+SpeechRecognizer::RecognizeAsync().get() ‚ğŒÄ‚ñ‚Åƒ}ƒCƒN‚©‚ç‚Ì 1 ‰ñ‚Ì
+”­˜b‚ğ‘Ò‚¿‚Ü‚·BƒuƒƒbƒLƒ“ƒO (Å‘å ~10 •b)BŠ®—¹ŒãAŒ‹‰ÊƒeƒLƒXƒg‚ğ
+out_text ‚É UTF-8 ‚Å‘‚«‚İ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: æ›¸ãè¾¼ã‚“ã  byte æ•° / -1 å¤±æ•— (èªè­˜å¤±æ•— / ãƒã‚¤ã‚¯ã‚¨ãƒ©ãƒ¼ / è¨€èªéå¯¾å¿œ)
+–ß‚è’l: ‘‚«‚ñ‚¾ byte ” / -1 ¸”s (”F¯¸”s / ƒ}ƒCƒNƒGƒ‰[ / Œ¾Œê”ñ‘Î‰)
 
 %index
 winrt_speech_close
-SpeechRecognizer ã‚’è§£æ”¾
+SpeechRecognizer ‚ğ‰ğ•ú
 %group
 hspwinrtspeech
 %prm

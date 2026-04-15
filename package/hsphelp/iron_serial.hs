@@ -1,10 +1,10 @@
 ;
-; iron_serial.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èªž)
-; ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ãƒˆ (RS-232 / USB CDC) é€šä¿¡ãƒ©ãƒƒãƒ‘
+; iron_serial.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; ƒVƒŠƒAƒ‹ƒ|[ƒg (RS-232 / USB CDC) ’ÊMƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,45 +12,49 @@
 %author
 IronHSP / iron_serial
 %dll
+iron_serial.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_serial.hsp ã¯ Win32 ã® CreateFile + SetCommState + ReadFile /
-WriteFile ã‚’ç›´æŽ¥ãƒ©ãƒƒãƒ—ã—ãŸã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ãƒˆèª­ã¿æ›¸ããƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚
-kernel32.dll ã®ã¿åˆ©ç”¨ã™ã‚‹ã®ã§è¿½åŠ  DLL ã¯ä¸è¦ã§ã€Arduino / ãƒžã‚¤ã‚³ãƒ³ã¨ã®
-UART é€£æºã«é©ã—ã¦ã„ã¾ã™ã€‚
+iron_serial.hsp ‚Í Win32 ‚Ì CreateFile + SetCommState + ReadFile /
+WriteFile ‚ð’¼Úƒ‰ƒbƒv‚µ‚½ƒVƒŠƒAƒ‹ƒ|[ƒg“Ç‚Ý‘‚«ƒ‚ƒWƒ…[ƒ‹‚Å‚·B
+kernel32.dll ‚Ì‚Ý—˜—p‚·‚é‚Ì‚Å’Ç‰Á DLL ‚Í•s—v‚ÅAArduino / ƒ}ƒCƒRƒ“‚Æ‚Ì
+UART ˜AŒg‚É“K‚µ‚Ä‚¢‚Ü‚·B
 
   #include "iron_serial.hsp"
 
-æ³¨æ„:
-  ç¾çŠ¶ 1 ãƒãƒ¼ãƒˆã®ã¿åŒæ™‚ã« open å¯èƒ½ã§ã™ (å†…éƒ¨ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹)ã€‚
-  COM1ã€œCOM9 ã¯ "COM3" ã®ã‚ˆã†ã«æ›¸ã‘ã¾ã™ãŒã€COM10 ä»¥é™ã¯
-  "\\\\.\\COM10" ã¨ã„ã†å½¢å¼ãŒå¿…è¦ã§ã™ã€‚
+’ˆÓ:
+  Œ»ó 1 ƒ|[ƒg‚Ì‚Ý“¯Žž‚É open ‰Â”\‚Å‚· (“à•”ƒOƒ[ƒoƒ‹ó‘Ô)B
+  COM1`COM9 ‚Í "COM3" ‚Ì‚æ‚¤‚É‘‚¯‚Ü‚·‚ªACOM10 ˆÈ~‚Í
+  "\\\\.\\COM10" ‚Æ‚¢‚¤Œ`Ž®‚ª•K—v‚Å‚·B
+
+%group
+iron_serial (ƒVƒŠƒAƒ‹’ÊM)
 
 %index
 serial_open
-ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ãƒˆã‚’é–‹ã
+ƒVƒŠƒAƒ‹ƒ|[ƒg‚ðŠJ‚­
 %group
-iron_serial â€” æŽ¥ç¶š
+iron_serial \ Ú‘±
 %prm
 "port", baud, bits, parity, stop
-"port"  : ãƒãƒ¼ãƒˆå ("COM3" ç­‰)
-baud    : ãƒœãƒ¼ãƒ¬ãƒ¼ãƒˆ (0 æŒ‡å®šã§ 9600)
-bits    : ãƒ‡ãƒ¼ã‚¿ãƒ“ãƒƒãƒˆæ•° (0 æŒ‡å®šã§ 8)
-parity  : ãƒ‘ãƒªãƒ†ã‚£ (0=N 1=O 2=E 3=M 4=S)
-stop    : ã‚¹ãƒˆãƒƒãƒ—ãƒ“ãƒƒãƒˆ (0=1bit 1=1.5bit 2=2bit)
+"port"  : ƒ|[ƒg–¼ ("COM3" “™)
+baud    : ƒ{[ƒŒ[ƒg (0 Žw’è‚Å 9600)
+bits    : ƒf[ƒ^ƒrƒbƒg” (0 Žw’è‚Å 8)
+parity  : ƒpƒŠƒeƒB (0=N 1=O 2=E 3=M 4=S)
+stop    : ƒXƒgƒbƒvƒrƒbƒg (0=1bit 1=1.5bit 2=2bit)
 
 %inst
-æŒ‡å®šãƒãƒ¼ãƒˆã‚’ GENERIC_READ | GENERIC_WRITE ã§é–‹ãã€DCB ã¨
-COMMTIMEOUTS ã‚’è¨­å®šã—ã¾ã™ã€‚æˆ»ã‚Šå€¤ã¯ 0 ã§æˆåŠŸã€-1 ã§ CreateFile å¤±æ•—ã€
--2 ã§ SetCommState å¤±æ•—ã§ã™ã€‚æ—¢ã«ä»–ã®ãƒãƒ¼ãƒˆãŒ open ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯
-å…ˆã« close ã•ã‚Œã¾ã™ã€‚
+Žw’èƒ|[ƒg‚ð GENERIC_READ | GENERIC_WRITE ‚ÅŠJ‚«ADCB ‚Æ
+COMMTIMEOUTS ‚ðÝ’è‚µ‚Ü‚·B–ß‚è’l‚Í 0 ‚Å¬Œ÷A-1 ‚Å CreateFile Ž¸”sA
+-2 ‚Å SetCommState Ž¸”s‚Å‚·BŠù‚É‘¼‚Ìƒ|[ƒg‚ª open ‚³‚ê‚Ä‚¢‚éê‡‚Í
+æ‚É close ‚³‚ê‚Ü‚·B
 
-ä¾‹:
+—á:
   serial_open "COM3", 115200, 8, 0, 0
 
 %href
@@ -58,32 +62,32 @@ serial_close
 
 %index
 serial_close
-ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ãƒˆã‚’é–‰ã˜ã‚‹
+ƒVƒŠƒAƒ‹ƒ|[ƒg‚ð•Â‚¶‚é
 %group
-iron_serial â€” æŽ¥ç¶š
+iron_serial \ Ú‘±
 %prm
 
 %inst
-ç¾åœ¨é–‹ã„ã¦ã„ã‚‹ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ãƒˆã‚’é–‰ã˜ã¾ã™ã€‚open ã—ã¦ã„ãªã„å ´åˆã¯
-ä½•ã‚‚ã—ã¾ã›ã‚“ã€‚
+Œ»ÝŠJ‚¢‚Ä‚¢‚éƒVƒŠƒAƒ‹ƒ|[ƒg‚ð•Â‚¶‚Ü‚·Bopen ‚µ‚Ä‚¢‚È‚¢ê‡‚Í
+‰½‚à‚µ‚Ü‚¹‚ñB
 
 %href
 serial_open
 
 %index
 serial_write
-æ–‡å­—åˆ—ã‚’é€ä¿¡
+•¶Žš—ñ‚ð‘—M
 %group
-iron_serial â€” é€ä¿¡
+iron_serial \ ‘—M
 %prm
 "text"
-"text" : é€ä¿¡ã™ã‚‹æ–‡å­—åˆ—
+"text" : ‘—M‚·‚é•¶Žš—ñ
 
 %inst
-æ–‡å­—åˆ—ã‚’ strlen ãƒã‚¤ãƒˆåˆ†é€ä¿¡ã—ã¾ã™ã€‚æˆ»ã‚Šå€¤ã¯å®Ÿéš›ã«æ›¸ãè¾¼ã¾ã‚ŒãŸ
-ãƒã‚¤ãƒˆæ•°ã§ã™ã€‚æ”¹è¡ŒãŒå¿…è¦ãªå ´åˆã¯ "\r\n" ã‚’æ–‡å­—åˆ—ã«å«ã‚ã¦ãã ã•ã„ã€‚
+•¶Žš—ñ‚ð strlen ƒoƒCƒg•ª‘—M‚µ‚Ü‚·B–ß‚è’l‚ÍŽÀÛ‚É‘‚«ž‚Ü‚ê‚½
+ƒoƒCƒg”‚Å‚·B‰üs‚ª•K—v‚Èê‡‚Í "\r\n" ‚ð•¶Žš—ñ‚ÉŠÜ‚ß‚Ä‚­‚¾‚³‚¢B
 
-ä¾‹:
+—á:
   serial_write "hello\r\n"
 
 %href
@@ -91,33 +95,33 @@ serial_write_buf
 
 %index
 serial_write_buf
-ãƒã‚¤ãƒŠãƒªãƒãƒƒãƒ•ã‚¡ã‚’é€ä¿¡
+ƒoƒCƒiƒŠƒoƒbƒtƒ@‚ð‘—M
 %group
-iron_serial â€” é€ä¿¡
+iron_serial \ ‘—M
 %prm
 buf, len
-buf : é€ä¿¡ãƒãƒƒãƒ•ã‚¡å¤‰æ•°
-len : é€ä¿¡ãƒã‚¤ãƒˆæ•°
+buf : ‘—Mƒoƒbƒtƒ@•Ï”
+len : ‘—MƒoƒCƒg”
 
 %inst
-æ–‡å­—åˆ—çµ‚ç«¯ã«ä¾å­˜ã—ãªã„ãƒã‚¤ãƒŠãƒªé€ä¿¡ã§ã™ã€‚æˆ»ã‚Šå€¤ã¯æ›¸ãè¾¼ã¾ã‚ŒãŸãƒã‚¤ãƒˆæ•°ã€‚
+•¶Žš—ñI’[‚ÉˆË‘¶‚µ‚È‚¢ƒoƒCƒiƒŠ‘—M‚Å‚·B–ß‚è’l‚Í‘‚«ž‚Ü‚ê‚½ƒoƒCƒg”B
 
 %href
 serial_write
 
 %index
 serial_avail
-å—ä¿¡ãƒãƒƒãƒ•ã‚¡å†…ã®ãƒã‚¤ãƒˆæ•°ã‚’å–å¾—
+ŽóMƒoƒbƒtƒ@“à‚ÌƒoƒCƒg”‚ðŽæ“¾
 %group
-iron_serial â€” å—ä¿¡
+iron_serial \ ŽóM
 %prm
 
 %inst
-ClearCommError ã§ COMSTAT ã® cbInQue ã‚’å–å¾—ã—ã€stat ã«å—ä¿¡å¾…ã¡ã®
-ãƒã‚¤ãƒˆæ•°ã‚’è¿”ã—ã¾ã™ã€‚ãƒãƒ¼ãƒªãƒ³ã‚°ãƒ«ãƒ¼ãƒ—ã‹ã‚‰ read ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‚’è¨ˆã‚‹ã®ã«
-ä½¿ã„ã¾ã™ã€‚
+ClearCommError ‚Å COMSTAT ‚Ì cbInQue ‚ðŽæ“¾‚µAstat ‚ÉŽóM‘Ò‚¿‚Ì
+ƒoƒCƒg”‚ð•Ô‚µ‚Ü‚·Bƒ|[ƒŠƒ“ƒOƒ‹[ƒv‚©‚ç read ‚Ìƒ^ƒCƒ~ƒ“ƒO‚ðŒv‚é‚Ì‚É
+Žg‚¢‚Ü‚·B
 
-ä¾‹:
+—á:
   serial_avail
   if stat > 0 : serial_read buf, 255
 
@@ -126,20 +130,20 @@ serial_read
 
 %index
 serial_read
-å—ä¿¡ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿å–ã‚‹
+ŽóMƒf[ƒ^‚ð“Ç‚ÝŽæ‚é
 %group
-iron_serial â€” å—ä¿¡
+iron_serial \ ŽóM
 %prm
 out_buf, max_bytes
-out_buf   : å—ä¿¡å…ˆå¤‰æ•° (sdim è‡ªå‹•ã€max_bytes + 16)
-max_bytes : æœ€å¤§èª­ã¿å–ã‚Šãƒã‚¤ãƒˆæ•°
+out_buf   : ŽóMæ•Ï” (sdim Ž©“®Amax_bytes + 16)
+max_bytes : Å‘å“Ç‚ÝŽæ‚èƒoƒCƒg”
 
 %inst
-æœ€å¤§ max_bytes ã¾ã§éžãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚° read ã—ã¾ã™ (å†…éƒ¨ timeout ã¯
-MAXDWORD = ãƒŽãƒ³ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°)ã€‚æˆ»ã‚Šå€¤ã¯å®Ÿéš›ã«èª­ã¿å–ã£ãŸãƒã‚¤ãƒˆæ•°ã§ã™ã€‚
-serial_avail ã§ãƒãƒƒãƒ•ã‚¡å†…ã®ãƒã‚¤ãƒˆæ•°ã‚’å…ˆã«ãƒã‚§ãƒƒã‚¯ã™ã‚‹é‹ç”¨ã‚’æŽ¨å¥¨ã—ã¾ã™ã€‚
+Å‘å max_bytes ‚Ü‚Å”ñƒuƒƒbƒLƒ“ƒO read ‚µ‚Ü‚· (“à•” timeout ‚Í
+MAXDWORD = ƒmƒ“ƒuƒƒbƒLƒ“ƒO)B–ß‚è’l‚ÍŽÀÛ‚É“Ç‚ÝŽæ‚Á‚½ƒoƒCƒg”‚Å‚·B
+serial_avail ‚Åƒoƒbƒtƒ@“à‚ÌƒoƒCƒg”‚ðæ‚Éƒ`ƒFƒbƒN‚·‚é‰^—p‚ð„§‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   serial_avail
   if stat > 0 {
       sdim buf, 256

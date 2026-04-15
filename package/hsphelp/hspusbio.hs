@@ -19,6 +19,9 @@ hspusbio.asまたはmod_usbio.asをインクルードして使用します。
 %type
 ユーザー拡張命令
 
+%group
+hspusbio (USB I/O)
+
 %index
 uio_find
 USB-IOを検索・初期化

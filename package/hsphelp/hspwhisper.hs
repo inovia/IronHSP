@@ -1,10 +1,10 @@
 ;
-; hspwhisper.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; whisper.cpp ãƒ™ãƒ¼ã‚¹ ã‚ªãƒ•ãƒ©ã‚¤ãƒ³éŸ³å£°èªè­˜
+; hspwhisper.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; whisper.cpp ƒx[ƒX ƒIƒtƒ‰ƒCƒ“‰¹º”F¯
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,43 +14,46 @@ IronHSP / hspwhisper
 %dll
 hspwhisper_64.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win64 å°‚ç”¨ (whisper.cpp ã® SIMD ä¾å­˜)
+Win64 ê—p (whisper.cpp ‚Ì SIMD ˆË‘¶)
 
 %note
-hspwhisper.dll ã¯ OpenAI Whisper ã®é«˜é€Ÿ C++ ç§»æ¤ç‰ˆ whisper.cpp
-(ggerganov è£½) ã‚’ HSP ã‹ã‚‰ãƒ©ãƒƒãƒ—ã—ãŸã‚ªãƒ•ãƒ©ã‚¤ãƒ³éŸ³å£°èªè­˜ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã€‚
+hspwhisper.dll ‚Í OpenAI Whisper ‚Ì‚‘¬ C++ ˆÚA”Å whisper.cpp
+(ggerganov ») ‚ğ HSP ‚©‚çƒ‰ƒbƒv‚µ‚½ƒIƒtƒ‰ƒCƒ“‰¹º”F¯ƒvƒ‰ƒOƒCƒ“B
 
-ç‰¹å¾´:
-  * ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ (ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ä¸è¦ã€API ã‚­ãƒ¼ä¸è¦)
-  * å¤šè¨€èªå¯¾å¿œ (æ—¥æœ¬èªå«ã‚€ 99 è¨€èª)
-  * GGML é‡å­åŒ–ãƒ¢ãƒ‡ãƒ« (tiny 75MB / base 140MB / small 470MB / medium 1.5GB / large 3GB)
-  * CPU æ¨è«– (4 thread ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
+“Á’¥:
+  * ƒIƒtƒ‰ƒCƒ“ (ƒlƒbƒgƒ[ƒN•s—vAAPI ƒL[•s—v)
+  * ‘½Œ¾Œê‘Î‰ (“ú–{ŒêŠÜ‚Ş 99 Œ¾Œê)
+  * GGML —Êq‰»ƒ‚ƒfƒ‹ (tiny 75MB / base 140MB / small 470MB / medium 1.5GB / large 3GB)
+  * CPU „˜_ (4 thread ƒfƒtƒHƒ‹ƒg)
 
-ä¾å­˜:
-  third_party/whisper.cpp ã® cmake build æ¸ˆ whisper.lib + ggml*.lib
-  GGML model file (åˆ¥é€” DL)
+ˆË‘¶:
+  third_party/whisper.cpp ‚Ì cmake build Ï whisper.lib + ggml*.lib
+  GGML model file (•Ê“r DL)
 
-HSP ã‹ã‚‰ã¯ package/win32/common/iron_speech.hsp ã‚’ SPEECH_BACKEND_WHISPER
-ã§ä½¿ã†ã®ãŒæ¨å¥¨ã§ã™ã€‚ç”Ÿ API ã¯æœ¬ãƒ˜ãƒ«ãƒ—å‚ç…§ã€‚
+HSP ‚©‚ç‚Í package/win32/common/iron_speech.hsp ‚ğ SPEECH_BACKEND_WHISPER
+‚Åg‚¤‚Ì‚ª„§‚Å‚·B¶ API ‚Í–{ƒwƒ‹ƒvQÆB
 
-ãƒ“ãƒ«ãƒ‰ + ãƒ¢ãƒ‡ãƒ« DL ã®æ‰‹é †:
-  plugins/win32/hspwhisper/README.md å‚ç…§
+ƒrƒ‹ƒh + ƒ‚ƒfƒ‹ DL ‚Ìè‡:
+  plugins/win32/hspwhisper/README.md QÆ
+
+%group
+hspwhisper (whisper.cpp‰¹º”F¯)
 
 %index
 whisper_open
-ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ãƒãƒ³ãƒ‰ãƒ«å–å¾—
+ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚Åƒnƒ“ƒhƒ‹æ“¾
 %group
 hspwhisper
 %prm
 "model_path"
 
 %inst
-GGML ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã® whisper ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ« (ä¾‹ ggml-base.bin) ã‚’
-èª­ã¿è¾¼ã‚“ã§ context ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+GGML ƒtƒH[ƒ}ƒbƒg‚Ì whisper ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹ (—á ggml-base.bin) ‚ğ
+“Ç‚İ‚ñ‚Å context ‚ğ¶¬‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« (>=0) / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ (>=0) / -1 ¸”s
 
 %href
 whisper_transcribe_wav
@@ -58,44 +61,44 @@ whisper_close
 
 %index
 whisper_transcribe_wav
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ–‡å­—èµ·ã“ã—
+WAV ƒtƒ@ƒCƒ‹‚ğ•¶š‹N‚±‚µ
 %group
 hspwhisper
 %prm
 handle, "wav_path", "lang", out_text, text_len
-handle    : ãƒãƒ³ãƒ‰ãƒ«
-"wav_path": 16bit PCM WAV ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ (16kHz mono ãŒæ¨å¥¨ã€ãã‚Œä»¥å¤–ã¯
-            å†…éƒ¨ã§ç·šå½¢è£œé–“ãƒªã‚µãƒ³ãƒ—ãƒ« + ãƒ€ã‚¦ãƒ³ãƒŸãƒƒã‚¯ã‚¹)
-"lang"    : è¨€èªã‚³ãƒ¼ãƒ‰ "ja", "en", "auto", ""
-out_text  : çµæœã‚’æ›¸ãè¾¼ã‚€æ–‡å­—åˆ—å¤‰æ•° (sdim 65536 æ¨å¥¨)
-text_len  : ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+handle    : ƒnƒ“ƒhƒ‹
+"wav_path": 16bit PCM WAV ƒtƒ@ƒCƒ‹ƒpƒX (16kHz mono ‚ª„§A‚»‚êˆÈŠO‚Í
+            “à•”‚ÅüŒ`•âŠÔƒŠƒTƒ“ƒvƒ‹ + ƒ_ƒEƒ“ƒ~ƒbƒNƒX)
+"lang"    : Œ¾ŒêƒR[ƒh "ja", "en", "auto", ""
+out_text  : Œ‹‰Ê‚ğ‘‚«‚Ş•¶š—ñ•Ï” (sdim 65536 „§)
+text_len  : ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-WAV ã‚’ 16kHz mono float32 ã«å¤‰æ› â†’ whisper_full ã§æ¨è«– â†’
-å…¨ segment ãƒ†ã‚­ã‚¹ãƒˆã‚’é€£çµã—ã¦ out_text ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+WAV ‚ğ 16kHz mono float32 ‚É•ÏŠ· ¨ whisper_full ‚Å„˜_ ¨
+‘S segment ƒeƒLƒXƒg‚ğ˜AŒ‹‚µ‚Ä out_text ‚É‘‚«‚İ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: æ›¸ãè¾¼ã¿ byte æ•° (>=0) / -1 å¤±æ•—
+–ß‚è’l: ‘‚«‚İ byte ” (>=0) / -1 ¸”s
 
 %index
 whisper_transcribe_pcm
-ç”Ÿ float32 PCM ã‚’æ–‡å­—èµ·ã“ã—
+¶ float32 PCM ‚ğ•¶š‹N‚±‚µ
 %group
 hspwhisper
 %prm
 handle, pcm_var, sample_count, "lang", out_text, text_len
 
 %inst
-16kHz mono float32 PCM é…åˆ—ã‚’ç›´æ¥æ¸¡ã—ã¦æ–‡å­—èµ·ã“ã—ã€‚
-WAV loader ã‚’çµŒç”±ã—ãªã„ã®ã§ã€è‡ªå‰ã§ãƒªã‚µãƒ³ãƒ—ãƒ«æ¸ˆã¿ã®éŸ³å£° (ä¾‹ãˆã°
-mfcam_audio_read_pcm ã®ç”Ÿ PCM) ã‚’ãã®ã¾ã¾æ¸¡ã›ã¾ã™ã€‚
+16kHz mono float32 PCM ”z—ñ‚ğ’¼Ú“n‚µ‚Ä•¶š‹N‚±‚µB
+WAV loader ‚ğŒo—R‚µ‚È‚¢‚Ì‚ÅA©‘O‚ÅƒŠƒTƒ“ƒvƒ‹Ï‚İ‚Ì‰¹º (—á‚¦‚Î
+mfcam_audio_read_pcm ‚Ì¶ PCM) ‚ğ‚»‚Ì‚Ü‚Ü“n‚¹‚Ü‚·B
 
 %index
 whisper_close
-ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾
+ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú
 %group
 hspwhisper
 %prm
 handle
 
 %inst
-whisper context ã‚’ whisper_free ã§è§£æ”¾ã—ã¾ã™ã€‚
+whisper context ‚ğ whisper_free ‚Å‰ğ•ú‚µ‚Ü‚·B

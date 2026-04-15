@@ -1,10 +1,10 @@
 ;
-; iron_camera_mf.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; hspmfcam.dll ãƒ™ãƒ¼ã‚¹ Pure Media Foundation Webcam ãƒ©ãƒƒãƒ‘
+; iron_camera_mf.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; hspmfcam.dll ƒx[ƒX Pure Media Foundation Webcam ƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,125 +12,129 @@
 %author
 IronHSP / iron_camera_mf
 %dll
+iron_camera_mf.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_camera_mf.hsp ã¯ hspmfcam.dll ã‚’çµŒç”±ã—ã¦ Microsoft Media
-Foundation ã® SourceReader ã‹ã‚‰ Webcam ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹ HSP ãƒ©ãƒƒãƒ‘ã€‚
-OpenCV ä¸è¦ã€ä¾å­˜ã¯ hspmfcam.dll ã®ã¿ã€‚
+iron_camera_mf.hsp ‚Í hspmfcam.dll ‚ğŒo—R‚µ‚Ä Microsoft Media
+Foundation ‚Ì SourceReader ‚©‚ç Webcam ƒtƒŒ[ƒ€‚ğæ“¾‚·‚é HSP ƒ‰ƒbƒpB
+OpenCV •s—vAˆË‘¶‚Í hspmfcam.dll ‚Ì‚İB
 
-ç‰¹å¾´:
-  - å†…éƒ¨ã§ worker thread + child window ã‚’ä½œæˆ (MFPlay ã¨åŒã˜æ–¹å¼)
-  - HSP main thread ãŒ title bar drag ç­‰ã§æ­¢ã¾ã£ã¦ã‚‚ prefetch ç¶™ç¶š
-  - è‡ªå‹•ãƒ‡ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ¬ãƒ¼ã‚¹ (ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚«ãƒ¼ãƒ‰ã® 1080i ç­‰ã«ã‚‚å¯¾å¿œ)
-  - æœ€å¤§ 256 ãƒ‡ãƒã‚¤ã‚¹ä¸¦åˆ— (ä»®æƒ³ webcam / ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚«ãƒ¼ãƒ‰å¯¾å¿œ)
-  - PNG/JPEG/BMP/GIF/TIFF ã‚¹ãƒŠãƒƒãƒ—ã‚·ãƒ§ãƒƒãƒˆä¿å­˜
-  - H.264/HEVC/WMV9/VP9/MJPG éŒ²ç”» + AAC/WMA/FLAC/MP3 åŒæ™‚éŒ²éŸ³
-  - ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ (æ˜ã‚‹ã•/éœ²å‡º/ãƒ•ã‚©ãƒ¼ã‚«ã‚¹) ã‚¢ã‚¯ã‚»ã‚¹
+“Á’¥:
+  - “à•”‚Å worker thread + child window ‚ğì¬ (MFPlay ‚Æ“¯‚¶•û®)
+  - HSP main thread ‚ª title bar drag “™‚Å~‚Ü‚Á‚Ä‚à prefetch Œp‘±
+  - ©“®ƒfƒCƒ“ƒ^[ƒŒ[ƒX (ƒLƒƒƒvƒ`ƒƒƒJ[ƒh‚Ì 1080i “™‚É‚à‘Î‰)
+  - Å‘å 256 ƒfƒoƒCƒX•À—ñ (‰¼‘z webcam / ƒLƒƒƒvƒ`ƒƒƒJ[ƒh‘Î‰)
+  - PNG/JPEG/BMP/GIF/TIFF ƒXƒiƒbƒvƒVƒ‡ƒbƒg•Û‘¶
+  - H.264/HEVC/WMV9/VP9/MJPG ˜^‰æ + AAC/WMA/FLAC/MP3 “¯˜^‰¹
+  - ƒJƒƒ‰ƒvƒƒpƒeƒB (–¾‚é‚³/˜Io/ƒtƒH[ƒJƒX) ƒAƒNƒZƒX
 
   #include "iron_camera_mf.hsp"
 
-è©³ç´°ãªå‘½ä»¤ä»•æ§˜ã¯ hspmfcam.hs ã‚’å‚ç…§ã€‚æœ¬ãƒ•ã‚¡ã‚¤ãƒ«ã¯ hspmfcam.dll ã®
-HSP ãƒ©ãƒƒãƒ‘ã§ã€ãƒãƒ³ãƒ‰ãƒ«ç®¡ç† + ã‚ˆã‚Š HSP è¦ªå’Œçš„ãª API ã‚’æä¾›ã—ã¾ã™ã€‚
+Ú×‚È–½—ßd—l‚Í hspmfcam.hs ‚ğQÆB–{ƒtƒ@ƒCƒ‹‚Í hspmfcam.dll ‚Ì
+HSP ƒ‰ƒbƒp‚ÅAƒnƒ“ƒhƒ‹ŠÇ— + ‚æ‚è HSP e˜a“I‚È API ‚ğ’ñ‹Ÿ‚µ‚Ü‚·B
+
+%group
+iron_camera_mf (WebƒJƒƒ‰/˜^‰æ/ƒ}ƒCƒN)
 
 %index
 iron_cam_count
-æ¥ç¶šã‚«ãƒ¡ãƒ©æ•°ã‚’å–å¾— (defcfunc)
+Ú‘±ƒJƒƒ‰”‚ğæ“¾ (defcfunc)
 %group
-iron_camera_mf â€” åˆ—æŒ™
+iron_camera_mf \ —ñ‹“
 %prm
 
 %inst
-defcfuncã€‚Video capture ãƒ‡ãƒã‚¤ã‚¹æ•°ã‚’è¿”ã—ã¾ã™ã€‚
+defcfuncBVideo capture ƒfƒoƒCƒX”‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 iron_cam_name
-ã‚«ãƒ¡ãƒ© friendly name ã‚’å–å¾—
+ƒJƒƒ‰ friendly name ‚ğæ“¾
 %group
-iron_camera_mf â€” åˆ—æŒ™
+iron_camera_mf \ —ñ‹“
 %prm
 idx, var
 
 %inst
-idx ç•ªç›®ã®ã‚«ãƒ¡ãƒ©ã® friendly name ã‚’ var ã«æ›¸ãè¾¼ã¿ã¾ã™ (sdim è‡ªå‹• 256 byte)ã€‚
+idx ”Ô–Ú‚ÌƒJƒƒ‰‚Ì friendly name ‚ğ var ‚É‘‚«‚İ‚Ü‚· (sdim ©“® 256 byte)B
 
 %index
 iron_cam_id
-ã‚«ãƒ¡ãƒ©ã® SymbolicLink ã‚’å–å¾— (ãƒ¦ãƒ‹ãƒ¼ã‚¯ ID)
+ƒJƒƒ‰‚Ì SymbolicLink ‚ğæ“¾ (ƒ†ƒj[ƒN ID)
 %group
-iron_camera_mf â€” åˆ—æŒ™
+iron_camera_mf \ —ñ‹“
 %prm
 idx, var
 
 %inst
-USB device path ç­‰ã®ãƒ¦ãƒ‹ãƒ¼ã‚¯ ID ã‚’å–å¾—ã—ã¾ã™ã€‚åŒåè£½å“ãŒè¤‡æ•°æ¥ç¶š
-ã•ã‚Œã¦ã„ã‚‹å ´åˆã®åŒºåˆ¥ã«ä½¿ç”¨ã€‚
+USB device path “™‚Ìƒ†ƒj[ƒN ID ‚ğæ“¾‚µ‚Ü‚·B“¯–¼»•i‚ª•¡”Ú‘±
+‚³‚ê‚Ä‚¢‚éê‡‚Ì‹æ•Ê‚Ég—pB
 
 %index
 iron_cam_audio_count
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ‡ãƒã‚¤ã‚¹æ•° (defcfunc)
+ƒI[ƒfƒBƒIƒLƒƒƒvƒ`ƒƒƒfƒoƒCƒX” (defcfunc)
 %group
-iron_camera_mf â€” åˆ—æŒ™
+iron_camera_mf \ —ñ‹“
 
 %index
 iron_cam_audio_name
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ friendly name ã‚’å–å¾—
+ƒI[ƒfƒBƒIƒfƒoƒCƒX friendly name ‚ğæ“¾
 %group
-iron_camera_mf â€” åˆ—æŒ™
+iron_camera_mf \ —ñ‹“
 %prm
 idx, var
 
 %index
 iron_cam_audio_id
-ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã® EndpointID ã‚’å–å¾—
+ƒI[ƒfƒBƒIƒfƒoƒCƒX‚Ì EndpointID ‚ğæ“¾
 %group
-iron_camera_mf â€” åˆ—æŒ™
+iron_camera_mf \ —ñ‹“
 %prm
 idx, var
 
 %index
 iron_cam_format_count
-ã‚«ãƒ¡ãƒ©ã®å¯¾å¿œãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ•° (defcfunc)
+ƒJƒƒ‰‚Ì‘Î‰ƒtƒH[ƒ}ƒbƒg” (defcfunc)
 %group
-iron_camera_mf â€” ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆåˆ—æŒ™
+iron_camera_mf \ ƒtƒH[ƒ}ƒbƒg—ñ‹“
 %prm
 dev_idx
 
 %inst
-æŒ‡å®šã‚«ãƒ¡ãƒ©ãŒãƒã‚¤ãƒ†ã‚£ãƒ–ã§å¯¾å¿œã™ã‚‹ (è§£åƒåº¦ Ã— FPS Ã— FOURCC) ã®
-çµ„ã¿åˆã‚ã›æ•°ã‚’è¿”ã—ã¾ã™ã€‚
+w’èƒJƒƒ‰‚ªƒlƒCƒeƒBƒu‚Å‘Î‰‚·‚é (‰ğ‘œ“x ~ FPS ~ FOURCC) ‚Ì
+‘g‚İ‡‚í‚¹”‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 iron_cam_format_get
-å¯¾å¿œãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæƒ…å ±ã‚’å–å¾—
+‘Î‰ƒtƒH[ƒ}ƒbƒgî•ñ‚ğæ“¾
 %group
-iron_camera_mf â€” ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆåˆ—æŒ™
+iron_camera_mf \ ƒtƒH[ƒ}ƒbƒg—ñ‹“
 %prm
 dev_idx, fmt_idx, ow, oh, ofn, ofd, ofcc
 
 %inst
-fmt_idx ç•ªç›®ã®å¯¾å¿œãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’å–å¾—:
-  ow / oh : å¹… / é«˜ã•
-  ofn / ofd : fps åˆ†å­ / åˆ†æ¯
-  ofcc : "NV12" "YUY2" "MJPG" "RGB32" ç­‰ã® FOURCC æ–‡å­—åˆ—
+fmt_idx ”Ô–Ú‚Ì‘Î‰ƒtƒH[ƒ}ƒbƒg‚ğæ“¾:
+  ow / oh : • / ‚‚³
+  ofn / ofd : fps •ªq / •ª•ê
+  ofcc : "NV12" "YUY2" "MJPG" "RGB32" “™‚Ì FOURCC •¶š—ñ
 
 %index
 iron_cam_open
-ã‚«ãƒ¡ãƒ©ã‚’é–‹ã„ã¦ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼é–‹å§‹ (defcfunc)
+ƒJƒƒ‰‚ğŠJ‚¢‚ÄƒvƒŒƒrƒ…[ŠJn (defcfunc)
 %group
-iron_camera_mf â€” open
+iron_camera_mf \ open
 %prm
 dev_idx, x, y, w, h
 
 %inst
-defcfuncã€‚dev_idx ç•ªç›®ã®ã‚«ãƒ¡ãƒ©ã‚’é–‹ãã€HSP ã®ç¾åœ¨ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…
-(x, y, w, h) ã« child window ã¨ã—ã¦ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã‚’ä½œæˆã—ã¾ã™ã€‚
+defcfuncBdev_idx ”Ô–Ú‚ÌƒJƒƒ‰‚ğŠJ‚«AHSP ‚ÌŒ»İƒEƒBƒ“ƒhƒE“à
+(x, y, w, h) ‚É child window ‚Æ‚µ‚ÄƒvƒŒƒrƒ…[‚ğì¬‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« (>=0) / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ (>=0) / -1 ¸”s
 
 %href
 iron_cam_open_ex
@@ -138,22 +142,22 @@ iron_cam_close
 
 %index
 iron_cam_open_ex
-ä»»æ„ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæŒ‡å®šã§ã‚«ãƒ¡ãƒ©ã‚’é–‹ã (defcfunc)
+”CˆÓƒtƒH[ƒ}ƒbƒgw’è‚ÅƒJƒƒ‰‚ğŠJ‚­ (defcfunc)
 %group
-iron_camera_mf â€” open
+iron_camera_mf \ open
 %prm
 dev_idx, x, y, w, h, des_w, des_h, des_fn, des_fd
 
 %inst
-è§£åƒåº¦ã¨ fps ã‚’æŒ‡å®šã—ã¦ openã€‚des_w/des_h/des_fn/des_fd ã‚’ 0 ã«ã™ã‚‹ã¨
-ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå‹•ä½œ (iron_cam_open ã¨åŒã˜)ã€‚
+‰ğ‘œ“x‚Æ fps ‚ğw’è‚µ‚Ä openBdes_w/des_h/des_fn/des_fd ‚ğ 0 ‚É‚·‚é‚Æ
+ƒfƒtƒHƒ‹ƒg“®ì (iron_cam_open ‚Æ“¯‚¶)B
 
-ä¾‹ (1280x720 30fps):
+—á (1280x720 30fps):
   h = iron_cam_open_ex(0, 0, 0, 800, 600, 1280, 720, 30, 1)
 
 %index
 iron_cam_size
-ã‚«ãƒ¡ãƒ©ã®ãƒã‚¤ãƒ†ã‚£ãƒ–è§£åƒåº¦ã‚’å–å¾—
+ƒJƒƒ‰‚ÌƒlƒCƒeƒBƒu‰ğ‘œ“x‚ğæ“¾
 %group
 iron_camera_mf
 %prm
@@ -161,99 +165,99 @@ h, ow, oh
 
 %index
 iron_cam_set_pos
-ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒªã‚µã‚¤ã‚º
+ƒvƒŒƒrƒ…[qƒEƒBƒ“ƒhƒE‚ÌƒŠƒTƒCƒY
 %group
 iron_camera_mf
 %prm
 h, x, y, w, hh
 
 %inst
-è¦ª HSP ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒªã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦å‘¼ã³å‡ºã—ã¾ã™ã€‚
+e HSP ƒEƒBƒ“ƒhƒE‚ÌƒŠƒTƒCƒY‚É‡‚í‚¹‚ÄŒÄ‚Ño‚µ‚Ü‚·B
 
 %index
 iron_cam_set_aspect
-ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”ãƒ¢ãƒ¼ãƒ‰åˆ‡æ›¿
+ƒAƒXƒyƒNƒg”äƒ‚[ƒhØ‘Ö
 %group
 iron_camera_mf
 %prm
 h, mode
-mode : 0=stretch (å¼•ãä¼¸ã°ã—) / 1=letterbox (ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”å›ºå®š + é»’å¸¯)
+mode : 0=stretch (ˆø‚«L‚Î‚µ) / 1=letterbox (ƒAƒXƒyƒNƒg”äŒÅ’è + •‘Ñ)
 
 %index
 iron_cam_state
-ã‚«ãƒ¡ãƒ©ã®ç¾åœ¨çŠ¶æ…‹ã‚’å–å¾— (defcfunc)
+ƒJƒƒ‰‚ÌŒ»İó‘Ô‚ğæ“¾ (defcfunc)
 %group
 iron_camera_mf
 %prm
 h
 
 %inst
-0=FREE 1=OPENING 2=READY 3=ERROR ã‚’è¿”ã—ã¾ã™ã€‚
-å®šæ•°: IRON_CAM_FREE / OPENING / READY / ERROR
+0=FREE 1=OPENING 2=READY 3=ERROR ‚ğ•Ô‚µ‚Ü‚·B
+’è”: IRON_CAM_FREE / OPENING / READY / ERROR
 
 %index
 iron_cam_save
-ã‚¹ãƒŠãƒƒãƒ—ã‚·ãƒ§ãƒƒãƒˆã‚’ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜
+ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚ğ‰æ‘œƒtƒ@ƒCƒ‹‚É•Û‘¶
 %group
 iron_camera_mf
 %prm
 h, "path"
 
 %inst
-æ‹¡å¼µå­ã§ PNG/JPEG/BMP/GIF/TIFF ã‚’è‡ªå‹•åˆ¤åˆ¥ã€‚WIC ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã€‚
+Šg’£q‚Å PNG/JPEG/BMP/GIF/TIFF ‚ğ©“®”»•ÊBWIC ƒGƒ“ƒR[ƒhB
 
 %index
 iron_cam_read
-æœ€æ–°ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ byte é…åˆ—ã«ã‚³ãƒ”ãƒ¼
+ÅVƒtƒŒ[ƒ€‚ğ byte ”z—ñ‚ÉƒRƒs[
 %group
 iron_camera_mf
 %prm
 h, var
 
 %inst
-BGRA32 (top-down) ã‚’ var ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-buffer ã‚µã‚¤ã‚ºã¯ width*height*4 å¿…è¦ã€‚
+BGRA32 (top-down) ‚ğ var ‚É‘‚«‚İ‚Ü‚·B
+buffer ƒTƒCƒY‚Í width*height*4 •K—vB
 
 %index
 iron_cam_prop_get
-ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤ã¨ãƒ¬ãƒ³ã‚¸ã‚’å–å¾—
+ƒJƒƒ‰ƒvƒƒpƒeƒB’l‚ÆƒŒƒ“ƒW‚ğæ“¾
 %group
-iron_camera_mf â€” ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+iron_camera_mf \ ƒvƒƒpƒeƒB
 %prm
 h, prop_id, val, minv, maxv, step, defv, flags
 
 %inst
-ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ID:
+ƒvƒƒpƒeƒB ID:
   0=Brightness 1=Contrast 2=Hue 3=Saturation 4=Sharpness 5=Gamma
   6=ColorEnable 7=WhiteBalance 8=BacklightCompensation 9=Gain
   10=Pan 11=Tilt 12=Roll 13=Zoom 14=Exposure 15=Iris 16=Focus
 
-å®šæ•°: IRON_CAM_PROP_BRIGHTNESS ç­‰ã€‚
+’è”: IRON_CAM_PROP_BRIGHTNESS “™B
 
 %index
 iron_cam_prop_set
-ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å€¤ã‚’è¨­å®š
+ƒJƒƒ‰ƒvƒƒpƒeƒB’l‚ğİ’è
 %group
-iron_camera_mf â€” ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+iron_camera_mf \ ƒvƒƒpƒeƒB
 %prm
 h, prop_id, val, flags
 
 %inst
-flags: 1=AUTO 2=MANUAL (0=ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ MANUAL)
-å®šæ•°: IRON_CAM_PROP_AUTO / IRON_CAM_PROP_MANUAL
+flags: 1=AUTO 2=MANUAL (0=ƒfƒtƒHƒ‹ƒg MANUAL)
+’è”: IRON_CAM_PROP_AUTO / IRON_CAM_PROP_MANUAL
 
 %index
 iron_cam_record
-æ˜ åƒã®ã¿ MP4 éŒ²ç”»é–‹å§‹
+‰f‘œ‚Ì‚İ MP4 ˜^‰æŠJn
 %group
-iron_camera_mf â€” éŒ²ç”»
+iron_camera_mf \ ˜^‰æ
 %prm
 h, "path", "vcodec", vbr
 
 %inst
-SinkWriter ã‚’æ§‹ç¯‰ã—ã¦éŒ²ç”»é–‹å§‹ã€‚
+SinkWriter ‚ğ\’z‚µ‚Ä˜^‰æŠJnB
 vcodec: "" (=H264) / "H264" / "HEVC" / "WMV9" / "VP9" / "MJPG"
-vbr: ãƒ“ãƒƒãƒˆãƒ¬ãƒ¼ãƒˆ bps (0 = ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ 4 Mbps)
+vbr: ƒrƒbƒgƒŒ[ƒg bps (0 = ƒfƒtƒHƒ‹ƒg 4 Mbps)
 
 %href
 iron_cam_record_av
@@ -261,55 +265,55 @@ iron_cam_record_stop
 
 %index
 iron_cam_record_av
-éŸ³å£° + æ˜ åƒ åŒæ™‚éŒ²ç”»é–‹å§‹
+‰¹º + ‰f‘œ “¯˜^‰æŠJn
 %group
-iron_camera_mf â€” éŒ²ç”»
+iron_camera_mf \ ˜^‰æ
 %prm
 h, "path", audio_dev, "vcodec", vbr, "acodec", abr
 
 %inst
-åˆ¥ worker thread ã§ audio_dev ã®ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã„ã¦
-SinkWriter ã« audio stream ã‚’è¿½åŠ ã—ã¦åŒæ™‚éŒ²ç”»ã€‚
+•Ê worker thread ‚Å audio_dev ‚ÌƒI[ƒfƒBƒIƒLƒƒƒvƒ`ƒƒƒfƒoƒCƒX‚ğŠJ‚¢‚Ä
+SinkWriter ‚É audio stream ‚ğ’Ç‰Á‚µ‚Ä“¯˜^‰æB
 
 acodec: "" (=AAC) / "AAC" / "WMA" / "FLAC" / "MP3"
-abr: å¹³å‡ãƒã‚¤ãƒˆ/ç§’ (16000 = 128 kbps ç›¸å½“)
+abr: •½‹ÏƒoƒCƒg/•b (16000 = 128 kbps ‘Š“–)
 
 %index
 iron_cam_record_stop
-éŒ²ç”»åœæ­¢ + finalize
+˜^‰æ’â~ + finalize
 %group
-iron_camera_mf â€” éŒ²ç”»
+iron_camera_mf \ ˜^‰æ
 %prm
 h
 
 %index
 iron_cam_close
-ã‚«ãƒ¡ãƒ©ã‚’é–‰ã˜ã‚‹
+ƒJƒƒ‰‚ğ•Â‚¶‚é
 %group
 iron_camera_mf
 %prm
 h
 
 %inst
-worker thread ã‚’åœæ­¢ â†’ child window ã‚’ç ´æ£„ â†’ éŒ²ç”»ä¸­ãªã‚‰è‡ªå‹• finalizeã€‚
+worker thread ‚ğ’â~ ¨ child window ‚ğ”jŠü ¨ ˜^‰æ’†‚È‚ç©“® finalizeB
 
 ;============================================================
-; ãƒã‚¤ã‚¯å˜ç‹¬ audio-only API (Phase 2-G)
+; ƒ}ƒCƒN’P“Æ audio-only API (Phase 2-G)
 ;============================================================
 
 %index
 iron_mic_open
-ãƒã‚¤ã‚¯ (ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹) ã‚’é–‹ã (defcfunc)
+ƒ}ƒCƒN (ƒI[ƒfƒBƒIƒfƒoƒCƒX) ‚ğŠJ‚­ (defcfunc)
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 dev_idx, sample_rate, channels, bits
 
 %inst
-defcfuncã€‚æŒ‡å®šã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã„ã¦ worker thread èµ·å‹•ã€‚
-sample_rate=0 ã§ 48000ã€channels=0 ã§ 2ã€bits=0 ã§ 16 ãŒãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã€‚
+defcfuncBw’èƒI[ƒfƒBƒIƒfƒoƒCƒX‚ğŠJ‚¢‚Ä worker thread ‹N“®B
+sample_rate=0 ‚Å 48000Achannels=0 ‚Å 2Abits=0 ‚Å 16 ‚ªƒfƒtƒHƒ‹ƒgB
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« / -1 å¤±æ•— / -2 ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆéå¯¾å¿œ
+–ß‚è’l: ƒnƒ“ƒhƒ‹ / -1 ¸”s / -2 ƒtƒH[ƒ}ƒbƒg”ñ‘Î‰
 
 %href
 iron_mic_close
@@ -318,80 +322,80 @@ iron_mic_record
 
 %index
 iron_mic_close
-ãƒã‚¤ã‚¯ã‚’é–‰ã˜ã‚‹
+ƒ}ƒCƒN‚ğ•Â‚¶‚é
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h
 
 %index
 iron_mic_get_format
-å®Ÿ sample rate / ch / bits ã‚’å–å¾—
+À sample rate / ch / bits ‚ğæ“¾
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h, var_sr, var_ch, var_bits
 
 %inst
-mfcam_audio_open ã§ãƒã‚´å¾Œã®å®Ÿãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¿”ã—ã¾ã™ã€‚
+mfcam_audio_open ‚ÅƒlƒSŒã‚ÌÀƒtƒH[ƒ}ƒbƒg‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 iron_mic_avail
-ãƒªãƒ³ã‚°å†… PCM byte æ•° (defcfunc)
+ƒŠƒ“ƒO“à PCM byte ” (defcfunc)
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h
 
 %index
 iron_mic_read
-ãƒªãƒ³ã‚°ã‹ã‚‰ PCM ã‚’èª­ã¿å‡ºã™
+ƒŠƒ“ƒO‚©‚ç PCM ‚ğ“Ç‚İo‚·
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h, var_buf, max_bytes
 
 %inst
-worker ãŒè£ã§è“„ç©ã—ãŸ PCM ã‚’æœ€å¤§ max_bytes byte ã ã‘ var_buf ã«ã‚³ãƒ”ãƒ¼ã€‚
-å–ã‚Šå‡ºã—ãŸåˆ†ã¯ãƒªãƒ³ã‚°ã‹ã‚‰æ¶ˆãˆã¾ã™ã€‚
-stat ã«å®Ÿéš›ã«èª­ã‚ãŸ byte æ•°ã€‚
+worker ‚ª— ‚Å’~Ï‚µ‚½ PCM ‚ğÅ‘å max_bytes byte ‚¾‚¯ var_buf ‚ÉƒRƒs[B
+æ‚èo‚µ‚½•ª‚ÍƒŠƒ“ƒO‚©‚çÁ‚¦‚Ü‚·B
+stat ‚ÉÀÛ‚É“Ç‚ß‚½ byte ”B
 
 %index
 iron_mic_save_wav
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ç›´æ›¸ãé–‹å§‹
+WAV ƒtƒ@ƒCƒ‹’¼‘‚«ŠJn
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h, "path"
 
 %inst
-RIFF header + ç”Ÿ PCM ç›´æ¥æ›¸ãè¾¼ã¿ã€‚ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ç„¡ã—ã€ä½ CPUã€‚
-æ–‡å­—èµ·ã“ã—ç”¨é€” (whisper å‘ã‘ 16kHz mono 16bit) ã«æœ€é©ã€‚
+RIFF header + ¶ PCM ’¼Ú‘‚«‚İBƒGƒ“ƒR[ƒh–³‚µA’á CPUB
+•¶š‹N‚±‚µ—p“r (whisper Œü‚¯ 16kHz mono 16bit) ‚ÉÅ“KB
 
 %index
 iron_mic_save_wav_stop
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ç›´æ›¸ãåœæ­¢
+WAV ƒtƒ@ƒCƒ‹’¼‘‚«’â~
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h
 
 %index
 iron_mic_record
-ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰éŒ²éŸ³é–‹å§‹ (AAC/MP3/WMA/FLAC)
+ƒGƒ“ƒR[ƒh˜^‰¹ŠJn (AAC/MP3/WMA/FLAC)
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h, "path", "codec", bitrate
 
 %inst
-SinkWriter ã§åœ§ç¸®éŒ²éŸ³ã€‚codec="" ã§ AAC ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã€‚
-bitrate=0 ã§ 128 kbps ç›¸å½“ã€‚
+SinkWriter ‚Åˆ³k˜^‰¹Bcodec="" ‚Å AAC ƒfƒtƒHƒ‹ƒgB
+bitrate=0 ‚Å 128 kbps ‘Š“–B
 
 %index
 iron_mic_record_stop
-ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰éŒ²éŸ³åœæ­¢
+ƒGƒ“ƒR[ƒh˜^‰¹’â~
 %group
-iron_camera_mf â€” ãƒã‚¤ã‚¯éŒ²éŸ³
+iron_camera_mf \ ƒ}ƒCƒN˜^‰¹
 %prm
 h

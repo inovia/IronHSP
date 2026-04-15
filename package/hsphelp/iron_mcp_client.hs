@@ -1,10 +1,10 @@
 ;
-; iron_mcp_client.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Model Context Protocol ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ (stdio + HTTP)
+; iron_mcp_client.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Model Context Protocol ƒNƒ‰ƒCƒAƒ“ƒg (stdio + HTTP)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,45 +12,49 @@
 %author
 IronHSP / iron_mcp_client
 %dll
+iron_mcp_client.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_mcp_client.hsp ã¯ Anthropic è£½ã® Model Context Protocol (MCP)
-ã‚µãƒ¼ãƒã‚’ HSP ã‹ã‚‰å©ãã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ©ãƒƒãƒ‘ã§ã™ã€‚
+iron_mcp_client.hsp ‚Í Anthropic »‚Ì Model Context Protocol (MCP)
+ƒT[ƒo‚ğ HSP ‚©‚ç’@‚­ƒNƒ‰ƒCƒAƒ“ƒgƒ‰ƒbƒp‚Å‚·B
 
-stdio (å­ãƒ—ãƒ­ã‚»ã‚¹ pipe) ã¨ HTTP (POST) ã®ä¸¡æ–¹ã‚’ã‚µãƒãƒ¼ãƒˆ:
-  - stdio: hspmcp.dll çµŒç”±ã§å­ãƒ—ãƒ­ã‚»ã‚¹ã‚’ spawn ã—ã¦ JSON-RPC é€šä¿¡
-  - HTTP : iron_http çµŒç”±ã§ POST + JSON å¿œç­”ãƒ‘ãƒ¼ã‚¹
+stdio (qƒvƒƒZƒX pipe) ‚Æ HTTP (POST) ‚Ì—¼•û‚ğƒTƒ|[ƒg:
+  - stdio: hspmcp.dll Œo—R‚ÅqƒvƒƒZƒX‚ğ spawn ‚µ‚Ä JSON-RPC ’ÊM
+  - HTTP : iron_http Œo—R‚Å POST + JSON ‰“šƒp[ƒX
 
-ä¾å­˜:
+ˆË‘¶:
   - hspmcp.dll
-  - iron_http.hsp + iron_json.hsp (æœ¬ãƒ•ã‚¡ã‚¤ãƒ«ã§ auto include)
+  - iron_http.hsp + iron_json.hsp (–{ƒtƒ@ƒCƒ‹‚Å auto include)
 
   #include "iron_mcp_client.hsp"
 
-æ³¨æ„:
-  åŒæ™‚ã« 1 å€‹ã¾ã§ã® transport (stdio ã¾ãŸã¯ HTTP) ã—ã‹ open ã§ããªã„
-  å†…éƒ¨çŠ¶æ…‹ãŒã‚°ãƒ­ãƒ¼ãƒãƒ«è¨­è¨ˆ
+’ˆÓ:
+  “¯‚É 1 ŒÂ‚Ü‚Å‚Ì transport (stdio ‚Ü‚½‚Í HTTP) ‚µ‚© open ‚Å‚«‚È‚¢
+  “à•”ó‘Ô‚ªƒOƒ[ƒoƒ‹İŒv
+
+%group
+iron_mcp_client (MCPƒNƒ‰ƒCƒAƒ“ƒg)
 
 %index
 iron_mcp_open_stdio
-å­ãƒ—ãƒ­ã‚»ã‚¹ã¨ã—ã¦ MCP server ã‚’èµ·å‹•
+qƒvƒƒZƒX‚Æ‚µ‚Ä MCP server ‚ğ‹N“®
 %group
-iron_mcp_client â€” open
+iron_mcp_client \ open
 %prm
 "command", "working_dir"
-"command"     : ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ (ä¾‹ "npx -y @modelcontextprotocol/server-filesystem C:\\")
-"working_dir" : ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª ("" ã§ã‚«ãƒ¬ãƒ³ãƒˆ)
+"command"     : ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ (—á "npx -y @modelcontextprotocol/server-filesystem C:\\")
+"working_dir" : ì‹ÆƒfƒBƒŒƒNƒgƒŠ ("" ‚ÅƒJƒŒƒ“ƒg)
 
 %inst
-hspmcp.dll ã® mcp_proc_open ã§ãƒ—ãƒ­ã‚»ã‚¹ spawn â†’ JSON-RPC over stdio ã§
-é€šä¿¡ã‚’é–‹å§‹ã—ã¾ã™ã€‚
+hspmcp.dll ‚Ì mcp_proc_open ‚ÅƒvƒƒZƒX spawn ¨ JSON-RPC over stdio ‚Å
+’ÊM‚ğŠJn‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: 0=æˆåŠŸ / -1=å¤±æ•—
+–ß‚è’l: 0=¬Œ÷ / -1=¸”s
 
 %href
 iron_mcp_open_http
@@ -58,15 +62,15 @@ iron_mcp_initialize
 
 %index
 iron_mcp_open_http
-HTTP transport ã§ MCP server ã«æ¥ç¶š
+HTTP transport ‚Å MCP server ‚ÉÚ‘±
 %group
-iron_mcp_client â€” open
+iron_mcp_client \ open
 %prm
 "url"
 
 %inst
-HTTP transport ã¯ iron_http ã® http_post çµŒç”±ã€‚
-ãƒªã‚¯ã‚¨ã‚¹ãƒˆ/ãƒ¬ã‚¹ãƒãƒ³ã‚¹ 1 å¾€å¾©ã”ã¨ã« POST ã—ã¾ã™ã€‚
+HTTP transport ‚Í iron_http ‚Ì http_post Œo—RB
+ƒŠƒNƒGƒXƒg/ƒŒƒXƒ|ƒ“ƒX 1 ‰•œ‚²‚Æ‚É POST ‚µ‚Ü‚·B
 
 %index
 iron_mcp_initialize
@@ -76,69 +80,69 @@ iron_mcp_client
 %prm
 
 %inst
-JSON-RPC ã§ initialize ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’é€ã‚Šã€ç¶šã‘ã¦
-notifications/initialized ã‚’æŠ•ã’ã¾ã™ (stdio ã®ã¿)ã€‚
-open_* ã®ã‚ã¨å¿…ãšå‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
+JSON-RPC ‚Å initialize ƒŠƒNƒGƒXƒg‚ğ‘—‚èA‘±‚¯‚Ä
+notifications/initialized ‚ğ“Š‚°‚Ü‚· (stdio ‚Ì‚İ)B
+open_* ‚Ì‚ ‚Æ•K‚¸ŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
 
 %index
 iron_mcp_tools_count
-åˆ©ç”¨å¯èƒ½ tool æ•°ã‚’å–å¾— (defcfunc)
+—˜—p‰Â”\ tool ”‚ğæ“¾ (defcfunc)
 %group
-iron_mcp_client â€” tools
+iron_mcp_client \ tools
 %prm
 
 %inst
-defcfuncã€‚åˆå›å‘¼ã³å‡ºã—æ™‚ã« tools/list ã‚’å†…éƒ¨å®Ÿè¡Œã—ã¦ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¾ã™ã€‚
+defcfuncB‰‰ñŒÄ‚Ño‚µ‚É tools/list ‚ğ“à•”Às‚µ‚ÄƒLƒƒƒbƒVƒ…‚µ‚Ü‚·B
 
 %index
 iron_mcp_tools_refresh
-tool ãƒªã‚¹ãƒˆã‚’å†å–å¾—
+tool ƒŠƒXƒg‚ğÄæ“¾
 %group
-iron_mcp_client â€” tools
+iron_mcp_client \ tools
 %prm
 
 %inst
-tools/list ã‚’å¼·åˆ¶çš„ã«å†å‘¼ã³å‡ºã— â†’ å†…éƒ¨ JSON ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’æ›´æ–°ã—ã¾ã™ã€‚
+tools/list ‚ğ‹­§“I‚ÉÄŒÄ‚Ño‚µ ¨ “à•” JSON ƒLƒƒƒbƒVƒ…‚ğXV‚µ‚Ü‚·B
 
 %index
 iron_mcp_tool_name
-idx ç•ªç›®ã® tool åã‚’å–å¾—
+idx ”Ô–Ú‚Ì tool –¼‚ğæ“¾
 %group
-iron_mcp_client â€” tools
+iron_mcp_client \ tools
 %prm
 idx, var
 
 %index
 iron_mcp_tool_desc
-idx ç•ªç›®ã® tool èª¬æ˜ã‚’å–å¾—
+idx ”Ô–Ú‚Ì tool à–¾‚ğæ“¾
 %group
-iron_mcp_client â€” tools
+iron_mcp_client \ tools
 %prm
 idx, var
 
 %index
 iron_mcp_call
-tool ã‚’å‘¼ã³å‡ºã™
+tool ‚ğŒÄ‚Ño‚·
 %group
-iron_mcp_client â€” tools
+iron_mcp_client \ tools
 %prm
 "tool_name", "args_json", out_var
-"tool_name" : tool å
-"args_json" : arguments ã‚’ JSON æ–‡å­—åˆ—ã§æ¸¡ã™ (ä¾‹ "{\"path\":\"C:\\\\\"}")
-out_var     : çµæœã‚’å—ã‘å–ã‚‹ var
+"tool_name" : tool –¼
+"args_json" : arguments ‚ğ JSON •¶š—ñ‚Å“n‚· (—á "{\"path\":\"C:\\\\\"}")
+out_var     : Œ‹‰Ê‚ğó‚¯æ‚é var
 
 %inst
-JSON-RPC tools/call ã‚’ç™ºè¡Œ â†’ result.content[0].text ã‚’ out_var ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-text ãŒç„¡ã‘ã‚Œã° raw JSON ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+JSON-RPC tools/call ‚ğ”­s ¨ result.content[0].text ‚ğ out_var ‚É‘‚«‚İ‚Ü‚·B
+text ‚ª–³‚¯‚ê‚Î raw JSON ƒŒƒXƒ|ƒ“ƒX‚ğ•Ô‚µ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: stat = 0 æˆåŠŸ / è² å€¤ å¤±æ•—
+–ß‚è’l: stat = 0 ¬Œ÷ / •‰’l ¸”s
 
 %index
 iron_mcp_close
-æ¥ç¶šã‚’é–‰ã˜ã‚‹
+Ú‘±‚ğ•Â‚¶‚é
 %group
 iron_mcp_client
 %prm
 
 %inst
-stdio ã®å ´åˆã¯å­ãƒ—ãƒ­ã‚»ã‚¹ã‚’çµ‚äº†ã€‚HTTP ã®å ´åˆã¯å†…éƒ¨çŠ¶æ…‹ã‚’ã‚¯ãƒªã‚¢ã€‚
+stdio ‚Ìê‡‚ÍqƒvƒƒZƒX‚ğI—¹BHTTP ‚Ìê‡‚Í“à•”ó‘Ô‚ğƒNƒŠƒAB

@@ -24,6 +24,9 @@ Win
 Windowsのプリンタ環境が必要です。
 
 
+%group
+hspprint (印刷)
+
 %index
 prnflags
 リンタ列挙フラグを設定する

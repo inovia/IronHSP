@@ -1,10 +1,10 @@
 ;
-; hspsapi.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Windows SAPI 5 ã‚ªãƒ•ãƒ©ã‚¤ãƒ³éŸ³å£°èªè­˜
+; hspsapi.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Windows SAPI 5 ƒIƒtƒ‰ƒCƒ“‰¹º”F¯
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,46 +14,49 @@ IronHSP / hspsapi
 %dll
 hspsapi_64.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-hspsapi.dll ã¯ Windows æ¨™æº–ã® SAPI 5 (sapi.dll) ã‚’ ISpRecognizer +
-ISpRecoContext + ISpRecoGrammar ã® COM éšå±¤ã§å©ã„ã¦ã€HSP ã‹ã‚‰
-ã‚ªãƒ•ãƒ©ã‚¤ãƒ³éŸ³å£°èªè­˜ã‚’ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ helper DLL ã§ã™ã€‚
+hspsapi.dll ‚Í Windows •W€‚Ì SAPI 5 (sapi.dll) ‚ğ ISpRecognizer +
+ISpRecoContext + ISpRecoGrammar ‚Ì COM ŠK‘w‚Å’@‚¢‚ÄAHSP ‚©‚ç
+ƒIƒtƒ‰ƒCƒ“‰¹º”F¯‚ğ‚Å‚«‚é‚æ‚¤‚É‚·‚é helper DLL ‚Å‚·B
 
-ç‰¹å¾´:
-  * Windows æ¨™æº–ã€è¿½åŠ  DL ä¸è¦ (sapi.dll ã¯ OS åŒæ¢±)
-  * ãƒ‡ã‚£ã‚¯ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¢ãƒ¼ãƒ‰ (é€£ç¶šéŸ³å£°èªè­˜)
-  * å¤šè¨€èª: OS ã® Speech Recognition Language ã«ä¾å­˜
+“Á’¥:
+  * Windows •W€A’Ç‰Á DL •s—v (sapi.dll ‚Í OS “¯«)
+  * ƒfƒBƒNƒe[ƒVƒ‡ƒ“ƒ‚[ƒh (˜A‘±‰¹º”F¯)
+  * ‘½Œ¾Œê: OS ‚Ì Speech Recognition Language ‚ÉˆË‘¶
 
-æ³¨æ„:
-  * èªè­˜å“è³ªã¯ whisper.cpp / Vosk ã‚ˆã‚Šä½ã„ (è‹±èªå°‚ç”¨æƒ³å®š)
-  * æ—¥æœ¬èªèªè­˜ã¯ Windows è¨­å®š â†’ è¨€èª â†’ éŸ³å£°èªè­˜ ã§æ—¥æœ¬èªãƒ‘ãƒƒã‚¯ã®
-    ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãŒå¿…è¦ (ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ã¯å…¥ã£ã¦ã„ãªã„)
-  * ãƒ©ã‚¤ãƒ–ãƒã‚¤ã‚¯å…¥åŠ›ã¯æœªå®Ÿè£… (WAV ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®èªè­˜ã®ã¿)
-  * SpInprocRecognizer + SPBindToFile + SPRS_ACTIVE ã®ãƒ•ãƒ­ãƒ¼
+’ˆÓ:
+  * ”F¯•i¿‚Í whisper.cpp / Vosk ‚æ‚è’á‚¢ (‰pŒêê—p‘z’è)
+  * “ú–{Œê”F¯‚Í Windows İ’è ¨ Œ¾Œê ¨ ‰¹º”F¯ ‚Å“ú–{ŒêƒpƒbƒN‚Ì
+    ƒCƒ“ƒXƒg[ƒ‹‚ª•K—v (ƒfƒtƒHƒ‹ƒg‚Å‚Í“ü‚Á‚Ä‚¢‚È‚¢)
+  * ƒ‰ƒCƒuƒ}ƒCƒN“ü—Í‚Í–¢À‘• (WAV ƒtƒ@ƒCƒ‹‚©‚ç‚Ì”F¯‚Ì‚İ)
+  * SpInprocRecognizer + SPBindToFile + SPRS_ACTIVE ‚Ìƒtƒ[
 
-HSP ã‹ã‚‰ã¯ package/win32/common/iron_speech.hsp ã‚’ SPEECH_BACKEND_SAPI
-ã§ä½¿ã†ã®ãŒæ¨å¥¨ã§ã™ã€‚
+HSP ‚©‚ç‚Í package/win32/common/iron_speech.hsp ‚ğ SPEECH_BACKEND_SAPI
+‚Åg‚¤‚Ì‚ª„§‚Å‚·B
+
+%group
+hspsapi (SAPI 5‰¹º”F¯)
 
 %index
 sapi_open
-SAPI èªè­˜ã‚¨ãƒ³ã‚¸ãƒ³ã‚’é–‹ã
+SAPI ”F¯ƒGƒ“ƒWƒ“‚ğŠJ‚­
 %group
 hspsapi
 %prm
 "lang"
 
 %inst
-ISpRecognizer (CLSID_SpInprocRecognizer) ã‚’ CoCreateInstance ã§
-ç”Ÿæˆã—ã€SPBindToFile / RecoContext / Dictation Grammar ã‚’æº–å‚™ã—ã¾ã™ã€‚
+ISpRecognizer (CLSID_SpInprocRecognizer) ‚ğ CoCreateInstance ‚Å
+¶¬‚µASPBindToFile / RecoContext / Dictation Grammar ‚ğ€”õ‚µ‚Ü‚·B
 
-lang : "en-US" / "ja-JP" / "" (ã‚·ã‚¹ãƒ†ãƒ æ—¢å®š)
-       SpFindBestToken ã§å¯¾å¿œã™ã‚‹ Recognition Engine token ã‚’é¸ã¶ã€‚
+lang : "en-US" / "ja-JP" / "" (ƒVƒXƒeƒ€Šù’è)
+       SpFindBestToken ‚Å‘Î‰‚·‚é Recognition Engine token ‚ğ‘I‚ÔB
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ / -1 ¸”s
 
 %href
 sapi_transcribe_wav
@@ -61,25 +64,25 @@ sapi_close
 
 %index
 sapi_transcribe_wav
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ–‡å­—èµ·ã“ã—
+WAV ƒtƒ@ƒCƒ‹‚ğ•¶š‹N‚±‚µ
 %group
 hspsapi
 %prm
 handle, "wav_path", out_text, out_len
 
 %inst
-SPBindToFile ã§ WAV ã‚’ ISpStream ã¨ã—ã¦é–‹ã„ã¦ recognizer ã®å…¥åŠ›ã«
-ã‚»ãƒƒãƒˆ â†’ SetRecoState(SPRST_ACTIVE) â†’ èªè­˜å®Œäº†ã¾ã§ GetEvents ã§
-ã‚¤ãƒ™ãƒ³ãƒˆãƒ«ãƒ¼ãƒ— â†’ SPEI_RECOGNITION ã§ ISpRecoResult::GetText ã‚’å–å¾— â†’
-å…¨ phrase ã‚’ç©ºç™½åŒºåˆ‡ã‚Šã§é€£çµã—ã¦ out_text ã«è¿”ã—ã¾ã™ã€‚
+SPBindToFile ‚Å WAV ‚ğ ISpStream ‚Æ‚µ‚ÄŠJ‚¢‚Ä recognizer ‚Ì“ü—Í‚É
+ƒZƒbƒg ¨ SetRecoState(SPRST_ACTIVE) ¨ ”F¯Š®—¹‚Ü‚Å GetEvents ‚Å
+ƒCƒxƒ“ƒgƒ‹[ƒv ¨ SPEI_RECOGNITION ‚Å ISpRecoResult::GetText ‚ğæ“¾ ¨
+‘S phrase ‚ğ‹ó”’‹æØ‚è‚Å˜AŒ‹‚µ‚Ä out_text ‚É•Ô‚µ‚Ü‚·B
 
-æœ€å¤§ ~10 åˆ†ã§ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã€‚
+Å‘å ~10 •ª‚Åƒ^ƒCƒ€ƒAƒEƒgB
 
-æˆ»ã‚Šå€¤: æ›¸ãè¾¼ã‚“ã  byte æ•° / -1 å¤±æ•—
+–ß‚è’l: ‘‚«‚ñ‚¾ byte ” / -1 ¸”s
 
 %index
 sapi_close
-ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾
+ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú
 %group
 hspsapi
 %prm

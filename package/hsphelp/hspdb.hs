@@ -24,6 +24,9 @@ Win
 Windows+ODBC環境が必要です。
 
 
+%group
+hspdb (SQLite)
+
 %index
 dbini
 ODBCの初期化を行なう

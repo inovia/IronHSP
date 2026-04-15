@@ -1,10 +1,10 @@
 ;
-; iron_hash.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; ãƒãƒƒã‚·ãƒ¥ / Base64 ç°¡æ˜“ãƒ©ãƒƒãƒ‘ (BCrypt CNG)
+; iron_hash.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; ƒnƒbƒVƒ… / Base64 ŠÈˆÕƒ‰ƒbƒp (BCrypt CNG)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,139 +12,143 @@
 %author
 IronHSP / iron_hash
 %dll
+iron_hash.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_hash.hsp ã¯ Win32 BCrypt (CNG) ã¨ CryptStringToBinary /
-CryptBinaryToString ã‚’ä½¿ã£ãŸ 1 è¡Œ ãƒãƒƒã‚·ãƒ¥ + Base64 ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
+iron_hash.hsp ‚Í Win32 BCrypt (CNG) ‚Æ CryptStringToBinary /
+CryptBinaryToString ‚ğg‚Á‚½ 1 s ƒnƒbƒVƒ… + Base64 ƒ‰ƒbƒp‚Å‚·B
 
   #include "iron_hash.hsp"
 
-ã‚µãƒãƒ¼ãƒˆ:
+ƒTƒ|[ƒg:
   MD5, SHA-1, SHA-256, SHA-384, SHA-512
   Base64 encode / decode
 
+%group
+iron_hash (ƒnƒbƒVƒ…/Base64)
+
 %index
 hash_md5
-MD5 ãƒãƒƒã‚·ãƒ¥
+MD5 ƒnƒbƒVƒ…
 %group
-iron_hash â€” ãƒãƒƒã‚·ãƒ¥
+iron_hash \ ƒnƒbƒVƒ…
 %prm
 "text"
 
 %inst
-refstr ã« hex è¡¨è¨˜ã® MD5 (32 æ–‡å­—) ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É hex •\‹L‚Ì MD5 (32 •¶š) ‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 hash_sha1
-SHA-1 ãƒãƒƒã‚·ãƒ¥
+SHA-1 ƒnƒbƒVƒ…
 %group
-iron_hash â€” ãƒãƒƒã‚·ãƒ¥
+iron_hash \ ƒnƒbƒVƒ…
 %prm
 "text"
 
 %inst
-refstr ã« hex (40 æ–‡å­—) ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É hex (40 •¶š) ‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 hash_sha256
-SHA-256 ãƒãƒƒã‚·ãƒ¥
+SHA-256 ƒnƒbƒVƒ…
 %group
-iron_hash â€” ãƒãƒƒã‚·ãƒ¥
+iron_hash \ ƒnƒbƒVƒ…
 %prm
 "text"
 
 %inst
-refstr ã« hex (64 æ–‡å­—) ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É hex (64 •¶š) ‚ğ•Ô‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   hash_sha256 "hello world"
   mes refstr
-  ; â†’ b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9
+  ; ¨ b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9
 
 %index
 hash_sha384
-SHA-384 ãƒãƒƒã‚·ãƒ¥
+SHA-384 ƒnƒbƒVƒ…
 %group
-iron_hash â€” ãƒãƒƒã‚·ãƒ¥
+iron_hash \ ƒnƒbƒVƒ…
 %prm
 "text"
 
 %index
 hash_sha512
-SHA-512 ãƒãƒƒã‚·ãƒ¥
+SHA-512 ƒnƒbƒVƒ…
 %group
-iron_hash â€” ãƒãƒƒã‚·ãƒ¥
+iron_hash \ ƒnƒbƒVƒ…
 %prm
 "text"
 
 %index
 hash_md5_buf
-ãƒã‚¤ãƒŠãƒªãƒãƒƒãƒ•ã‚¡ã® MD5
+ƒoƒCƒiƒŠƒoƒbƒtƒ@‚Ì MD5
 %group
-iron_hash â€” ãƒã‚¤ãƒŠãƒª
+iron_hash \ ƒoƒCƒiƒŠ
 %prm
 var, len
 
 %index
 hash_sha1_buf
-ãƒã‚¤ãƒŠãƒªãƒãƒƒãƒ•ã‚¡ã® SHA-1
+ƒoƒCƒiƒŠƒoƒbƒtƒ@‚Ì SHA-1
 %group
-iron_hash â€” ãƒã‚¤ãƒŠãƒª
+iron_hash \ ƒoƒCƒiƒŠ
 %prm
 var, len
 
 %index
 hash_sha256_buf
-ãƒã‚¤ãƒŠãƒªãƒãƒƒãƒ•ã‚¡ã® SHA-256
+ƒoƒCƒiƒŠƒoƒbƒtƒ@‚Ì SHA-256
 %group
-iron_hash â€” ãƒã‚¤ãƒŠãƒª
+iron_hash \ ƒoƒCƒiƒŠ
 %prm
 var, len
 
 %index
 hash_sha512_buf
-ãƒã‚¤ãƒŠãƒªãƒãƒƒãƒ•ã‚¡ã® SHA-512
+ƒoƒCƒiƒŠƒoƒbƒtƒ@‚Ì SHA-512
 %group
-iron_hash â€” ãƒã‚¤ãƒŠãƒª
+iron_hash \ ƒoƒCƒiƒŠ
 %prm
 var, len
 
 %index
 base64_encode
-æ–‡å­—åˆ—ã‚’ Base64 ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
+•¶š—ñ‚ğ Base64 ƒGƒ“ƒR[ƒh
 %group
-iron_hash â€” Base64
+iron_hash \ Base64
 %prm
 "text"
 
 %inst
-refstr ã« Base64 æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É Base64 •¶š—ñ‚ğ•Ô‚µ‚Ü‚·B
 
-ä¾‹:
+—á:
   base64_encode "Hello, World!"
   mes refstr
-  ; â†’ SGVsbG8sIFdvcmxkIQ==
+  ; ¨ SGVsbG8sIFdvcmxkIQ==
 
 %index
 base64_encode_buf
-ãƒã‚¤ãƒŠãƒªãƒãƒƒãƒ•ã‚¡ã‚’ Base64 ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
+ƒoƒCƒiƒŠƒoƒbƒtƒ@‚ğ Base64 ƒGƒ“ƒR[ƒh
 %group
-iron_hash â€” Base64
+iron_hash \ Base64
 %prm
 var, len
 
 %index
 base64_decode
-Base64 ã‚’ãƒ‡ã‚³ãƒ¼ãƒ‰
+Base64 ‚ğƒfƒR[ƒh
 %group
-iron_hash â€” Base64
+iron_hash \ Base64
 %prm
 "base64_text"
 
 %inst
-refstr ã«ãƒ‡ã‚³ãƒ¼ãƒ‰çµæœãƒã‚¤ãƒˆåˆ—ã€stat ã«ã‚µã‚¤ã‚ºãŒè¿”ã‚Šã¾ã™ã€‚
+refstr ‚ÉƒfƒR[ƒhŒ‹‰ÊƒoƒCƒg—ñAstat ‚ÉƒTƒCƒY‚ª•Ô‚è‚Ü‚·B

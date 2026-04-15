@@ -22,6 +22,9 @@ Win
 
 
 
+%group
+hspext (拡張命令)
+
 %index
 aplsel
 任意のウィンドウ捕獲

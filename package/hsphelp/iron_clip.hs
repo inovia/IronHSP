@@ -1,10 +1,10 @@
 ;
-; iron_clip.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Win32 ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰æ–‡å­—åˆ—ãƒ©ãƒƒãƒ‘
+; iron_clip.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Win32 ƒNƒŠƒbƒvƒ{[ƒh•¶š—ñƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,68 +12,72 @@
 %author
 IronHSP / iron_clip
 %dll
+iron_clip.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32
 
 %note
-iron_clip.hsp ã¯ Win32 OpenClipboard / GetClipboardData /
-SetClipboardData / CloseClipboard / GlobalAlloc / GlobalLock ã‚’çµ„ã¿
-åˆã‚ã›ãŸæ–‡å­—åˆ—ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
+iron_clip.hsp ‚Í Win32 OpenClipboard / GetClipboardData /
+SetClipboardData / CloseClipboard / GlobalAlloc / GlobalLock ‚ğ‘g‚İ
+‡‚í‚¹‚½•¶š—ñƒNƒŠƒbƒvƒ{[ƒhƒ‰ƒbƒp‚Å‚·B
 
   #include "iron_clip.hsp"
 
-HSP æ¨™æº–ã® clipget / clipset ã§ã‚‚æ–‡å­—åˆ—ã¯ã‚„ã‚Šå–ã‚Šã§ãã¾ã™ãŒã€
-ã“ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¯ã‚µã‚¤ã‚ºå–å¾—ã‚„ CF_TEXT/CF_UNICODETEXT åˆ‡ã‚Šæ›¿ãˆã€
-has_text åˆ¤å®šç­‰ã®ãƒ˜ãƒ«ãƒ‘ã‚’è¿½åŠ ã—ã¾ã™ã€‚
+HSP •W€‚Ì clipget / clipset ‚Å‚à•¶š—ñ‚Í‚â‚èæ‚è‚Å‚«‚Ü‚·‚ªA
+‚±‚Ìƒ‚ƒWƒ…[ƒ‹‚ÍƒTƒCƒYæ“¾‚â CF_TEXT/CF_UNICODETEXT Ø‚è‘Ö‚¦A
+has_text ”»’è“™‚Ìƒwƒ‹ƒp‚ğ’Ç‰Á‚µ‚Ü‚·B
+
+%group
+iron_clip (ƒNƒŠƒbƒvƒ{[ƒh)
 
 %index
 clip_get_text
-ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‹ã‚‰æ–‡å­—åˆ—å–å¾—
+ƒNƒŠƒbƒvƒ{[ƒh‚©‚ç•¶š—ñæ“¾
 %group
 iron_clip
 %prm
 
 %inst
-ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã®ãƒ†ã‚­ã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚
-  refstr : å–å¾—æ–‡å­—åˆ—
-  stat   : æ–‡å­—æ•° (å¤±æ•—æ™‚ -1)
+ƒNƒŠƒbƒvƒ{[ƒh‚ÌƒeƒLƒXƒg‚ğæ“¾‚µ‚Ü‚·B
+  refstr : æ“¾•¶š—ñ
+  stat   : •¶š” (¸”s -1)
 
-ä¾‹:
+—á:
   clip_get_text
-  if stat >= 0 : mes "ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰: " + refstr
+  if stat >= 0 : mes "ƒNƒŠƒbƒvƒ{[ƒh: " + refstr
 
 %index
 clip_set_text
-ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«æ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã‚€
+ƒNƒŠƒbƒvƒ{[ƒh‚É•¶š—ñ‚ğ‘‚«‚Ş
 %group
 iron_clip
 %prm
 "text"
 
 %inst
-ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«æ–‡å­—åˆ—ã‚’è¨­å®šã—ã¾ã™ã€‚
-GlobalAlloc â†’ GlobalLock â†’ memcpy â†’ SetClipboardData ã®é †ã§
-é«˜é€Ÿã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+ƒNƒŠƒbƒvƒ{[ƒh‚É•¶š—ñ‚ğİ’è‚µ‚Ü‚·B
+GlobalAlloc ¨ GlobalLock ¨ memcpy ¨ SetClipboardData ‚Ì‡‚Å
+‚‘¬‚É‘‚«‚İ‚Ü‚·B
 
 %index
 clip_clear
-ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰å†…å®¹ã‚’ã‚¯ãƒªã‚¢
+ƒNƒŠƒbƒvƒ{[ƒh“à—e‚ğƒNƒŠƒA
 %group
 iron_clip
 %prm
 
 %inst
-EmptyClipboard ã§ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‚’ç©ºã«ã—ã¾ã™ã€‚
+EmptyClipboard ‚ÅƒNƒŠƒbƒvƒ{[ƒh‚ğ‹ó‚É‚µ‚Ü‚·B
 
 %index
 clip_has_text
-ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«ãƒ†ã‚­ã‚¹ãƒˆãŒã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
+ƒNƒŠƒbƒvƒ{[ƒh‚ÉƒeƒLƒXƒg‚ª‚ ‚é‚©ƒ`ƒFƒbƒN
 %group
 iron_clip
 %prm
 
 %inst
-stat = 1 (ãƒ†ã‚­ã‚¹ãƒˆã‚ã‚Š) / 0 (ãªã—)
+stat = 1 (ƒeƒLƒXƒg‚ ‚è) / 0 (‚È‚µ)

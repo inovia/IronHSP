@@ -1,10 +1,10 @@
 ;
-; iron_http.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; WinHTTP ç°¡æ˜“ HTTP ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ©ãƒƒãƒ‘
+; iron_http.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; WinHTTP ŠÈˆÕ HTTP ƒNƒ‰ƒCƒAƒ“ƒgƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,37 +12,41 @@
 %author
 IronHSP / iron_http
 %dll
+iron_http.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_http.hsp ã¯ Win32 WinHTTP API ã‚’ç›´æ¥ãƒ©ãƒƒãƒ—ã—ãŸ HTTP ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
-ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚.NET ä¸è¦ã€HTTPS è‡ªå‹• (ã‚·ã‚¹ãƒ†ãƒ è¨¼æ˜æ›¸ã‚¹ãƒˆã‚¢ä½¿ç”¨)ã€
-ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆè‡ªå‹•è¿½å°¾ã€‚
+iron_http.hsp ‚Í Win32 WinHTTP API ‚ğ’¼Úƒ‰ƒbƒv‚µ‚½ HTTP ƒNƒ‰ƒCƒAƒ“ƒg
+ƒ‚ƒWƒ…[ƒ‹‚Å‚·B.NET •s—vAHTTPS ©“® (ƒVƒXƒeƒ€Ø–¾‘ƒXƒgƒAg—p)A
+ƒŠƒ_ƒCƒŒƒNƒg©“®’Ç”öB
 
   #include "iron_http.hsp"
 
-GET / POST ã‚’ 1 è¡Œã§å©ã‘ã¾ã™ã€‚å¿œç­” body ã¯å‡ºåŠ› var ã«æ›¸ãè¾¼ã¾ã‚Œã€
-HTTP status ã¯ stat ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°ã«å…¥ã‚Šã¾ã™ã€‚
+GET / POST ‚ğ 1 s‚Å’@‚¯‚Ü‚·B‰“š body ‚Ío—Í var ‚É‘‚«‚Ü‚êA
+HTTP status ‚Í stat ƒVƒXƒeƒ€•Ï”‚É“ü‚è‚Ü‚·B
+
+%group
+iron_http (HTTPƒNƒ‰ƒCƒAƒ“ƒg)
 
 %index
 http_get
-HTTP GET ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
+HTTP GET ƒŠƒNƒGƒXƒg
 %group
 iron_http
 %prm
 url, body
-url  : URL æ–‡å­—åˆ—
-body : å¿œç­” body ã‚’å—ã‘å–ã‚‹ var (sdim è‡ªå‹•)
+url  : URL •¶š—ñ
+body : ‰“š body ‚ğó‚¯æ‚é var (sdim ©“®)
 
 %inst
-GET ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ç™ºè¡Œã—ã¦ body å¤‰æ•°ã«å¿œç­”å†…å®¹ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-HTTP ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã¯ stat ã«æ ¼ç´ã•ã‚Œã¾ã™ (200 ãŒæˆåŠŸ)ã€‚
+GET ƒŠƒNƒGƒXƒg‚ğ”­s‚µ‚Ä body •Ï”‚É‰“š“à—e‚ğ‘‚«‚İ‚Ü‚·B
+HTTP ƒXƒe[ƒ^ƒXƒR[ƒh‚Í stat ‚ÉŠi”[‚³‚ê‚Ü‚· (200 ‚ª¬Œ÷)B
 
-ä¾‹:
+—á:
   http_get "https://api.open-meteo.com/v1/forecast?...", body
   if stat = 200 : mes body
 
@@ -52,21 +56,21 @@ http_set_timeout
 
 %index
 http_post
-HTTP POST ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
+HTTP POST ƒŠƒNƒGƒXƒg
 %group
 iron_http
 %prm
 url, send_body, body, [content_type]
 url       : URL
-send_body : POST ã™ã‚‹ body æ–‡å­—åˆ—
-body      : å¿œç­” body ã‚’å—ã‘å–ã‚‹ var
-ctype     : Content-Type (çœç•¥æ™‚ application/x-www-form-urlencoded)
+send_body : POST ‚·‚é body •¶š—ñ
+body      : ‰“š body ‚ğó‚¯æ‚é var
+ctype     : Content-Type (È—ª application/x-www-form-urlencoded)
 
 %inst
-POST ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ç™ºè¡Œã€‚JSON ã‚’æŠ•ã’ã‚‹å ´åˆã¯ ctype ã« "application/json"
-ã‚’æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+POST ƒŠƒNƒGƒXƒg‚ğ”­sBJSON ‚ğ“Š‚°‚éê‡‚Í ctype ‚É "application/json"
+‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
-ä¾‹:
+—á:
   http_post "https://example.com/api", "{\"key\":\"v\"}", body, "application/json"
 
 %href
@@ -74,30 +78,30 @@ http_get
 
 %index
 http_set_timeout
-ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆè¨­å®š
+ƒ^ƒCƒ€ƒAƒEƒgİ’è
 %group
 iron_http
 %prm
 sec
-sec : ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆç§’æ•° (ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ 30)
+sec : ƒ^ƒCƒ€ƒAƒEƒg•b” (ƒfƒtƒHƒ‹ƒg 30)
 
 %inst
-æ¥ç¶š/é€å—ä¿¡ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã‚’è¨­å®šã—ã¾ã™ã€‚
+Ú‘±/‘—óMƒ^ƒCƒ€ƒAƒEƒg‚ğİ’è‚µ‚Ü‚·B
 
 %index
 http_set_header
-è¿½åŠ  HTTP ãƒ˜ãƒƒãƒ€ã®è¨­å®š
+’Ç‰Á HTTP ƒwƒbƒ_‚Ìİ’è
 %group
 iron_http
 %prm
 "header_string"
-"header_string" : "Authorization: Bearer xxx\r\n" ç­‰ã®è¿½åŠ ãƒ˜ãƒƒãƒ€
+"header_string" : "Authorization: Bearer xxx\r\n" “™‚Ì’Ç‰Áƒwƒbƒ_
 
 %inst
-Content-Type ä»¥å¤–ã®è¿½åŠ ãƒ˜ãƒƒãƒ€ã‚’å¾Œç¶šã® http_get/http_post ã«ä»˜ä¸ã—ã¾ã™ã€‚
-Authorization, X-API-Key, User-Agent ã‚«ã‚¹ã‚¿ãƒ ç­‰ã«ä½¿ç”¨ã€‚
-ç©ºæ–‡å­—ã§ã‚¯ãƒªã‚¢ã€‚
+Content-Type ˆÈŠO‚Ì’Ç‰Áƒwƒbƒ_‚ğŒã‘±‚Ì http_get/http_post ‚É•t—^‚µ‚Ü‚·B
+Authorization, X-API-Key, User-Agent ƒJƒXƒ^ƒ€“™‚Ég—pB
+‹ó•¶š‚ÅƒNƒŠƒAB
 
-ä¾‹:
+—á:
   http_set_header "Authorization: Bearer sk-..."
   http_get "https://api.openai.com/v1/models", body

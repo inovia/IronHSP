@@ -22,6 +22,9 @@ http://hsp.tv/
 Win
 
 
+%group
+hspcmp (HSPƒRƒ“ƒpƒCƒ‰)
+
 %index
 hsc_ini
 HSPCMP.DLL‚Ì‰Šú‰»

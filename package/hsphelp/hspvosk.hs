@@ -1,10 +1,10 @@
 ;
-; hspvosk.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Vosk (Kaldi) ãƒ™ãƒ¼ã‚¹ ã‚ªãƒ•ãƒ©ã‚¤ãƒ³éŸ³å£°èªè­˜
+; hspvosk.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Vosk (Kaldi) ƒx[ƒX ƒIƒtƒ‰ƒCƒ“‰¹º”F¯
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,44 +14,47 @@ IronHSP / hspvosk
 %dll
 hspvosk_64.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win64 å°‚ç”¨ (Vosk prebuilt ãŒ x64 ã®ã¿)
+Win64 ê—p (Vosk prebuilt ‚ª x64 ‚Ì‚İ)
 
 %note
-hspvosk.dll ã¯ Vosk (alphacephei/vosk-api, Kaldi ãƒ™ãƒ¼ã‚¹) ã® prebuilt
-libvosk.dll ã‚’ HSP ã‹ã‚‰ãƒ©ãƒƒãƒ—ã—ãŸã‚ªãƒ•ãƒ©ã‚¤ãƒ³éŸ³å£°èªè­˜ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã€‚
+hspvosk.dll ‚Í Vosk (alphacephei/vosk-api, Kaldi ƒx[ƒX) ‚Ì prebuilt
+libvosk.dll ‚ğ HSP ‚©‚çƒ‰ƒbƒv‚µ‚½ƒIƒtƒ‰ƒCƒ“‰¹º”F¯ƒvƒ‰ƒOƒCƒ“B
 
-ç‰¹å¾´:
-  * ã‚ªãƒ•ãƒ©ã‚¤ãƒ³ (ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ä¸è¦)
-  * è»½é‡ (small model 47 MB ã€œ)
-  * å¤šè¨€èªå¯¾å¿œ (æ—¥æœ¬èª/è‹±èª/ä¸­å›½èª/ãƒ•ãƒ©ãƒ³ã‚¹èª/ãƒ­ã‚·ã‚¢èªç­‰ 24 è¨€èªä»¥ä¸Š)
-  * é€£ç¶šèªè­˜ (partial result) ã‚‚å†…éƒ¨ API ã¯å¯¾å¿œ (HSP wrapper ã¯ final ã®ã¿)
+“Á’¥:
+  * ƒIƒtƒ‰ƒCƒ“ (ƒlƒbƒgƒ[ƒN•s—v)
+  * Œy—Ê (small model 47 MB `)
+  * ‘½Œ¾Œê‘Î‰ (“ú–{Œê/‰pŒê/’†‘Œê/ƒtƒ‰ƒ“ƒXŒê/ƒƒVƒAŒê“™ 24 Œ¾ŒêˆÈã)
+  * ˜A‘±”F¯ (partial result) ‚à“à•” API ‚Í‘Î‰ (HSP wrapper ‚Í final ‚Ì‚İ)
 
-ä¾å­˜:
+ˆË‘¶:
   third_party/vosk-win64-0.3.45/libvosk.dll, libvosk.lib, vosk_api.h
-  Vosk model directory (åˆ¥é€” DL)
+  Vosk model directory (•Ê“r DL)
 
-ãƒ©ãƒ³ã‚¿ã‚¤ãƒ é…ç½®:
-  hspvosk_64.dll ä»¥å¤–ã«ã€libvosk.dll + libgcc_s_seh-1.dll +
-  libstdc++-6.dll + libwinpthread-1.dll ã‚’å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«æ¨ªã«ç½®ãå¿…è¦ã‚ã‚Š
+ƒ‰ƒ“ƒ^ƒCƒ€”z’u:
+  hspvosk_64.dll ˆÈŠO‚ÉAlibvosk.dll + libgcc_s_seh-1.dll +
+  libstdc++-6.dll + libwinpthread-1.dll ‚ğÀsƒtƒ@ƒCƒ‹‰¡‚É’u‚­•K—v‚ ‚è
 
-HSP ã‹ã‚‰ã¯ package/win32/common/iron_speech.hsp ã‚’ SPEECH_BACKEND_VOSK
-ã§ä½¿ã†ã®ãŒæ¨å¥¨ã§ã™ã€‚
+HSP ‚©‚ç‚Í package/win32/common/iron_speech.hsp ‚ğ SPEECH_BACKEND_VOSK
+‚Åg‚¤‚Ì‚ª„§‚Å‚·B
+
+%group
+hspvosk (Vosk‰¹º”F¯)
 
 %index
 hvosk_open
-ãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ãƒãƒ³ãƒ‰ãƒ«å–å¾—
+ƒ‚ƒfƒ‹‚ğ“Ç‚İ‚ñ‚Åƒnƒ“ƒhƒ‹æ“¾
 %group
 hspvosk
 %prm
 "model_path", sample_rate
 
 %inst
-Vosk model ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’èª­ã¿è¾¼ã‚“ã§ Recognizer ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-sample_rate ã¯æ¨è«–æ™‚ã®å…¥åŠ›ã‚µãƒ³ãƒ—ãƒ«ãƒ¬ãƒ¼ãƒˆ (é€šå¸¸ 16000)ã€‚
+Vosk model ƒfƒBƒŒƒNƒgƒŠ‚ğ“Ç‚İ‚ñ‚Å Recognizer ‚ğ¶¬‚µ‚Ü‚·B
+sample_rate ‚Í„˜_‚Ì“ü—ÍƒTƒ“ƒvƒ‹ƒŒ[ƒg (’Êí 16000)B
 
-æˆ»ã‚Šå€¤: ãƒãƒ³ãƒ‰ãƒ« / -1 å¤±æ•—
+–ß‚è’l: ƒnƒ“ƒhƒ‹ / -1 ¸”s
 
 %href
 hvosk_transcribe_wav
@@ -59,30 +62,30 @@ hvosk_close
 
 %index
 hvosk_transcribe_wav
-WAV ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ–‡å­—èµ·ã“ã—
+WAV ƒtƒ@ƒCƒ‹‚ğ•¶š‹N‚±‚µ
 %group
 hspvosk
 %prm
 handle, "wav_path", out_text, out_len
 
 %inst
-WAV (16bit PCM) ã‚’ 16kHz mono ã«ãƒªã‚µãƒ³ãƒ—ãƒ« â†’ Vosk Recognizer â†’
-JSON çµæœã‹ã‚‰ "text" æŠ½å‡º â†’ out_text ã«æ›¸ãè¾¼ã¿ã€‚
+WAV (16bit PCM) ‚ğ 16kHz mono ‚ÉƒŠƒTƒ“ƒvƒ‹ ¨ Vosk Recognizer ¨
+JSON Œ‹‰Ê‚©‚ç "text" ’Šo ¨ out_text ‚É‘‚«‚İB
 
 %index
 hvosk_transcribe_pcm_s16
-ç”Ÿ 16bit PCM ã‚’æ–‡å­—èµ·ã“ã—
+¶ 16bit PCM ‚ğ•¶š‹N‚±‚µ
 %group
 hspvosk
 %prm
 handle, pcm_var, sample_count, out_text, out_len
 
 %inst
-16bit signed PCM é…åˆ—ã‚’ç›´æ¥æ¸¡ã—ã¦æ–‡å­—èµ·ã“ã—ã€‚
+16bit signed PCM ”z—ñ‚ğ’¼Ú“n‚µ‚Ä•¶š‹N‚±‚µB
 
 %index
 hvosk_close
-ãƒãƒ³ãƒ‰ãƒ«ã‚’è§£æ”¾
+ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú
 %group
 hspvosk
 %prm

@@ -1,10 +1,10 @@
 ;
-; hspble.dll  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Bluetooth LE GATT ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ (Windows.Devices.Bluetooth)
+; hspble.dll  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Bluetooth LE GATT ƒNƒ‰ƒCƒAƒ“ƒg (Windows.Devices.Bluetooth)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,69 +14,72 @@ IronHSP / hspble
 %dll
 hspble.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
-Win32 / Win64 (Windows 10 ä»¥é™ã€BLE å¯¾å¿œã‚¢ãƒ€ãƒ—ã‚¿å¿…é ˆ)
+Win32 / Win64 (Windows 10 ˆÈ~ABLE ‘Î‰ƒAƒ_ƒvƒ^•K{)
 
 %note
-hspble.dll ã¯ Windows 10 ä»¥é™ã«æ­è¼‰ã•ã‚ŒãŸ Windows.Devices.Bluetooth
-(WinRT) ã‚’ä½¿ã£ã¦ã€BLE ã‚»ãƒ³ãƒˆãƒ©ãƒ«æ©Ÿèƒ½ (GATT ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ) ã‚’
-HSP3 ã«æä¾›ã—ã¾ã™ã€‚
+hspble.dll ‚Í Windows 10 ˆÈ~‚É“‹Ú‚³‚ê‚½ Windows.Devices.Bluetooth
+(WinRT) ‚ğg‚Á‚ÄABLE ƒZƒ“ƒgƒ‰ƒ‹‹@”\ (GATT ƒNƒ‰ƒCƒAƒ“ƒg) ‚ğ
+HSP3 ‚É’ñ‹Ÿ‚µ‚Ü‚·B
 
-æä¾›æ©Ÿèƒ½:
-  - BluetoothLEAdvertisementWatcher ã«ã‚ˆã‚‹ã‚¢ãƒ‰ãƒã‚¿ã‚¤ã‚ºã‚¹ã‚­ãƒ£ãƒ³
-  - BluetoothLEDevice::FromBluetoothAddressAsync ã«ã‚ˆã‚‹æ¥ç¶š
-  - GATT ã‚µãƒ¼ãƒ“ã‚¹ / ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒªã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®åˆ—æŒ™
+’ñ‹Ÿ‹@”\:
+  - BluetoothLEAdvertisementWatcher ‚É‚æ‚éƒAƒhƒoƒ^ƒCƒYƒXƒLƒƒƒ“
+  - BluetoothLEDevice::FromBluetoothAddressAsync ‚É‚æ‚éÚ‘±
+  - GATT ƒT[ƒrƒX / ƒLƒƒƒ‰ƒNƒ^ƒŠƒXƒeƒBƒbƒN‚Ì—ñ‹“
   - Read / Write / Notify
 
-éåŒæœŸ WinRT API ã¯å†…éƒ¨ã§ .get() ã«ã‚ˆã‚‹åŒæœŸå¾…ã¡ã«ã—ã¦ã„ã‚‹ã®ã§ã€
-HSP å´ã‹ã‚‰ã¯é€šå¸¸ã®åŒæœŸå‘½ä»¤ã¨ã—ã¦æ‰±ãˆã¾ã™ã€‚ãŸã ã—æ¥ç¶šã‚„ Read ã¯
-æ•°ç™¾ ms ãƒ–ãƒ­ãƒƒã‚¯ã™ã‚‹ã“ã¨ãŒã‚ã‚‹ã®ã§ã€ãƒªã‚¢ãƒ«ã‚¿ã‚¤ãƒ æç”»ãƒ«ãƒ¼ãƒ—ã¨
-ä½µç”¨ã™ã‚‹å ´åˆã¯æ³¨æ„ã—ã¦ãã ã•ã„ã€‚
+”ñ“¯Šú WinRT API ‚Í“à•”‚Å .get() ‚É‚æ‚é“¯Šú‘Ò‚¿‚É‚µ‚Ä‚¢‚é‚Ì‚ÅA
+HSP ‘¤‚©‚ç‚Í’Êí‚Ì“¯Šú–½—ß‚Æ‚µ‚Äˆµ‚¦‚Ü‚·B‚½‚¾‚µÚ‘±‚â Read ‚Í
+”•S ms ƒuƒƒbƒN‚·‚é‚±‚Æ‚ª‚ ‚é‚Ì‚ÅAƒŠƒAƒ‹ƒ^ƒCƒ€•`‰æƒ‹[ƒv‚Æ
+•¹—p‚·‚éê‡‚Í’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢B
 
-ã‚¹ã‚­ãƒ£ãƒ³çµæœã¨ Notify ã¯ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ã‚¹ãƒ¬ãƒƒãƒ‰ã§å†…éƒ¨ã‚­ãƒ¥ãƒ¼
-ã«è“„ç©ã•ã‚Œã€ble_scan_poll / ble_notify_poll ã§ 1 ä»¶ãšã¤å–ã‚Š
-å‡ºã™æ–¹å¼ã§ã™ (STA ä¸è¦)ã€‚
+ƒXƒLƒƒƒ“Œ‹‰Ê‚Æ Notify ‚ÍƒoƒbƒNƒOƒ‰ƒEƒ“ƒhƒXƒŒƒbƒh‚Å“à•”ƒLƒ…[
+‚É’~Ï‚³‚êAble_scan_poll / ble_notify_poll ‚Å 1 Œ‚¸‚Âæ‚è
+o‚·•û®‚Å‚· (STA •s—v)B
+
+%group
+hspble (BLE GATT)
 
 %index
 ble_init
-BLE ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ åˆæœŸåŒ–
+BLE ƒTƒuƒVƒXƒeƒ€‰Šú‰»
 %group
-hspble â€” åŸºæœ¬
+hspble \ Šî–{
 %prm
 
 %inst
-WinRT apartment (multi_threaded) ã¯ DllMain ã§è‡ªå‹•åˆæœŸåŒ–ã•ã‚Œã‚‹
-ã®ã§ã€ã“ã®å‘½ä»¤ã¯å†…éƒ¨çŠ¶æ…‹ãƒ•ãƒ©ã‚°ã® ON ã®ã¿ã‚’è¡Œã„ã¾ã™ã€‚ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
-ã‚’ä½¿ã†å‰ã« 1 å›å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
+WinRT apartment (multi_threaded) ‚Í DllMain ‚Å©“®‰Šú‰»‚³‚ê‚é
+‚Ì‚ÅA‚±‚Ì–½—ß‚Í“à•”ó‘Ôƒtƒ‰ƒO‚Ì ON ‚Ì‚İ‚ğs‚¢‚Ü‚·Bƒvƒ‰ƒOƒCƒ“
+‚ğg‚¤‘O‚É 1 ‰ñŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
 
 %href
 ble_shutdown
 
 %index
 ble_shutdown
-BLE ã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ è§£æ”¾
+BLE ƒTƒuƒVƒXƒeƒ€‰ğ•ú
 %group
-hspble â€” åŸºæœ¬
+hspble \ Šî–{
 %prm
 
 %inst
-ã‚¹ã‚­ãƒ£ãƒ³ã‚’åœæ­¢ã—ã€æ¥ç¶šä¸­ã®ã™ã¹ã¦ã®ãƒ‡ãƒã‚¤ã‚¹ã‚’åˆ‡æ–­ã—ã¾ã™ã€‚
+ƒXƒLƒƒƒ“‚ğ’â~‚µAÚ‘±’†‚Ì‚·‚×‚Ä‚ÌƒfƒoƒCƒX‚ğØ’f‚µ‚Ü‚·B
 
 %href
 ble_init
 
 %index
 ble_scan_start
-ã‚¢ãƒ‰ãƒã‚¿ã‚¤ã‚ºã‚¹ã‚­ãƒ£ãƒ³é–‹å§‹
+ƒAƒhƒoƒ^ƒCƒYƒXƒLƒƒƒ“ŠJn
 %group
-hspble â€” ã‚¹ã‚­ãƒ£ãƒ³
+hspble \ ƒXƒLƒƒƒ“
 %prm
 
 %inst
-BluetoothLEAdvertisementWatcher ã‚’ Active ãƒ¢ãƒ¼ãƒ‰ã§ Start ã—ã¾ã™ã€‚
-å—ä¿¡ã—ãŸã‚¢ãƒ‰ãƒã‚¿ã‚¤ã‚ºã¯å†…éƒ¨ã‚­ãƒ¥ãƒ¼ (æœ€å¤§ 4096 ä»¶) ã«è“„ç©ã•ã‚Œã€
-ble_scan_poll ã§å–ã‚Šå‡ºã—ã¾ã™ã€‚
+BluetoothLEAdvertisementWatcher ‚ğ Active ƒ‚[ƒh‚Å Start ‚µ‚Ü‚·B
+óM‚µ‚½ƒAƒhƒoƒ^ƒCƒY‚Í“à•”ƒLƒ…[ (Å‘å 4096 Œ) ‚É’~Ï‚³‚êA
+ble_scan_poll ‚Åæ‚èo‚µ‚Ü‚·B
 
 %href
 ble_scan_stop
@@ -84,133 +87,133 @@ ble_scan_poll
 
 %index
 ble_scan_stop
-ã‚¹ã‚­ãƒ£ãƒ³åœæ­¢
+ƒXƒLƒƒƒ“’â~
 %group
-hspble â€” ã‚¹ã‚­ãƒ£ãƒ³
+hspble \ ƒXƒLƒƒƒ“
 %prm
 
 %inst
-AdvertisementWatcher ã‚’ Stop ã—ã€å—ä¿¡ã‚­ãƒ¥ãƒ¼ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
+AdvertisementWatcher ‚ğ Stop ‚µAóMƒLƒ…[‚ğƒNƒŠƒA‚µ‚Ü‚·B
 
 %href
 ble_scan_start
 
 %index
 ble_scan_poll
-ã‚¹ã‚­ãƒ£ãƒ³çµæœã‚’ 1 ä»¶å–ã‚Šå‡ºã™
+ƒXƒLƒƒƒ“Œ‹‰Ê‚ğ 1 Œæ‚èo‚·
 %group
-hspble â€” ã‚¹ã‚­ãƒ£ãƒ³
+hspble \ ƒXƒLƒƒƒ“
 %prm
 var_addr, addr_size, var_name, name_size, var_rssi
-var_addr  : MAC ã‚¢ãƒ‰ãƒ¬ã‚¹æ–‡å­—åˆ— ("aa:bb:cc:dd:ee:ff") ã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-addr_size : var_addr ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
-var_name  : ãƒ­ãƒ¼ã‚«ãƒ«åã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ) (ç„¡ã„å ´åˆã¯ç©ºæ–‡å­—)
-name_size : var_name ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+var_addr  : MAC ƒAƒhƒŒƒX•¶š—ñ ("aa:bb:cc:dd:ee:ff") ‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+addr_size : var_addr ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
+var_name  : ƒ[ƒJƒ‹–¼‚ğó‚¯æ‚é str •Ï” (sdim Ï) (–³‚¢ê‡‚Í‹ó•¶š)
+name_size : var_name ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 var_rssi  : RSSI (dBm, int)
 
 %inst
-å†…éƒ¨ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ 1 ä»¶å–ã‚Šå‡ºã—ã¦å¼•æ•°ã®å„å¤‰æ•°ã«æ ¼ç´ã—ã¾ã™ã€‚
-stat=1 ã§å–å¾—æˆåŠŸã€stat=0 ã§ã‚­ãƒ¥ãƒ¼ãŒç©ºã€‚
-var_addr / var_name ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã®
-sdim ã‚µã‚¤ã‚ºã‚’ addr_size / name_size ã«ãã‚Œãã‚ŒæŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+“à•”ƒLƒ…[‚©‚ç 1 Œæ‚èo‚µ‚Äˆø”‚ÌŠe•Ï”‚ÉŠi”[‚µ‚Ü‚·B
+stat=1 ‚Åæ“¾¬Œ÷Astat=0 ‚ÅƒLƒ…[‚ª‹óB
+var_addr / var_name ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì
+sdim ƒTƒCƒY‚ğ addr_size / name_size ‚É‚»‚ê‚¼‚êw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %href
 ble_scan_start
 
 %index
 ble_connect
-BLE ãƒ‡ãƒã‚¤ã‚¹ã«æ¥ç¶š
+BLE ƒfƒoƒCƒX‚ÉÚ‘±
 %group
-hspble â€” æ¥ç¶š
+hspble \ Ú‘±
 %prm
 "addr", var_handle
-addr       : MAC ã‚¢ãƒ‰ãƒ¬ã‚¹æ–‡å­—åˆ— ("aa:bb:cc:dd:ee:ff")
-var_handle : ãƒ‡ãƒã‚¤ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‚’å—ã‘å–ã‚‹æ•´æ•°å¤‰æ•°
+addr       : MAC ƒAƒhƒŒƒX•¶š—ñ ("aa:bb:cc:dd:ee:ff")
+var_handle : ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é®”•Ï”
 
 %inst
-BluetoothLEDevice::FromBluetoothAddressAsync ã§æ¥ç¶šã‚’ç¢ºç«‹ã—ã€
-å†…éƒ¨ã‚¹ãƒ­ãƒƒãƒˆ (æœ€å¤§ 16) ã«æ ¼ç´ã—ã¾ã™ã€‚var_handle ã« 0ã€œ15 ã®
-ãƒ‡ãƒã‚¤ã‚¹ãƒãƒ³ãƒ‰ãƒ«ãŒæ ¼ç´ã•ã‚Œã¾ã™ã€‚è² å€¤ã¯ã‚¨ãƒ©ãƒ¼ã€‚
+BluetoothLEDevice::FromBluetoothAddressAsync ‚ÅÚ‘±‚ğŠm—§‚µA
+“à•”ƒXƒƒbƒg (Å‘å 16) ‚ÉŠi”[‚µ‚Ü‚·Bvar_handle ‚É 0`15 ‚Ì
+ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚Ü‚·B•‰’l‚ÍƒGƒ‰[B
 
 %href
 ble_disconnect
 
 %index
 ble_disconnect
-BLE ãƒ‡ãƒã‚¤ã‚¹ã®åˆ‡æ–­
+BLE ƒfƒoƒCƒX‚ÌØ’f
 %group
-hspble â€” æ¥ç¶š
+hspble \ Ú‘±
 %prm
 dev_h
 
 %inst
-ç™»éŒ²ã—ãŸ ValueChanged ã‚¤ãƒ™ãƒ³ãƒˆã‚’ã™ã¹ã¦è§£é™¤ã—ã€BluetoothLEDevice
-ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è§£æ”¾ã—ã¦ã‚¹ãƒ­ãƒƒãƒˆã‚’ç©ºã‘ã¾ã™ã€‚
+“o˜^‚µ‚½ ValueChanged ƒCƒxƒ“ƒg‚ğ‚·‚×‚Ä‰ğœ‚µABluetoothLEDevice
+ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚µ‚ÄƒXƒƒbƒg‚ğ‹ó‚¯‚Ü‚·B
 
 %href
 ble_connect
 
 %index
 ble_services
-GATT ã‚µãƒ¼ãƒ“ã‚¹ä¸€è¦§ã‚’å–å¾—
+GATT ƒT[ƒrƒXˆê——‚ğæ“¾
 %group
-hspble â€” GATT
+hspble \ GATT
 %prm
 dev_h, var_list, buf_size
-dev_h    : ãƒ‡ãƒã‚¤ã‚¹ãƒãƒ³ãƒ‰ãƒ«
-var_list : UUID æ–‡å­—åˆ—ã‚’ LF åŒºåˆ‡ã‚Šã§å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_list ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+dev_h    : ƒfƒoƒCƒXƒnƒ“ƒhƒ‹
+var_list : UUID •¶š—ñ‚ğ LF ‹æØ‚è‚Åó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size : var_list ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-GetGattServicesAsync(Uncached) ã§ã‚µãƒ¼ãƒ“ã‚¹ã‚’åˆ—æŒ™ã—ã€å„ UUID ã‚’
-å°æ–‡å­—ã® 128bit å½¢å¼ ("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
-ã§ LF åŒºåˆ‡ã‚Šã®æ–‡å­—åˆ—ã¨ã—ã¦ var ã«æ ¼ç´ã—ã¾ã™ã€‚
+GetGattServicesAsync(Uncached) ‚ÅƒT[ƒrƒX‚ğ—ñ‹“‚µAŠe UUID ‚ğ
+¬•¶š‚Ì 128bit Œ`® ("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+‚Å LF ‹æØ‚è‚Ì•¶š—ñ‚Æ‚µ‚Ä var ‚ÉŠi”[‚µ‚Ü‚·B
 
 %href
 ble_characteristics
 
 %index
 ble_characteristics
-ç‰¹å®šã‚µãƒ¼ãƒ“ã‚¹ã® characteristic ä¸€è¦§
+“Á’èƒT[ƒrƒX‚Ì characteristic ˆê——
 %group
-hspble â€” GATT
+hspble \ GATT
 %prm
 dev_h, "svc_uuid", var_list, buf_size
-dev_h    : ãƒ‡ãƒã‚¤ã‚¹ãƒãƒ³ãƒ‰ãƒ«
-svc_uuid : ã‚µãƒ¼ãƒ“ã‚¹ UUID
-var_list : characteristic UUID æ–‡å­—åˆ—ã‚’ LF åŒºåˆ‡ã‚Šã§å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_list ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+dev_h    : ƒfƒoƒCƒXƒnƒ“ƒhƒ‹
+svc_uuid : ƒT[ƒrƒX UUID
+var_list : characteristic UUID •¶š—ñ‚ğ LF ‹æØ‚è‚Åó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size : var_list ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-æŒ‡å®šã‚µãƒ¼ãƒ“ã‚¹ã«å±ã™ã‚‹ GattCharacteristic ã‚’åˆ—æŒ™ã—ã€UUID ã‚’ LF
-åŒºåˆ‡ã‚Šã§è¿”ã—ã¾ã™ã€‚ble_services â†’ ble_characteristics ã®é †ã«
-å‘¼ã¶ã“ã¨ã§å±æ€§ãƒ„ãƒªãƒ¼ãŒå–ã‚Œã¾ã™ã€‚
-var_list ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+w’èƒT[ƒrƒX‚É‘®‚·‚é GattCharacteristic ‚ğ—ñ‹“‚µAUUID ‚ğ LF
+‹æØ‚è‚Å•Ô‚µ‚Ü‚·Bble_services ¨ ble_characteristics ‚Ì‡‚É
+ŒÄ‚Ô‚±‚Æ‚Å‘®«ƒcƒŠ[‚ªæ‚ê‚Ü‚·B
+var_list ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %href
 ble_services
 
 %index
 ble_read
-characteristic ã‚’èª­ã¿å–ã‚‹
+characteristic ‚ğ“Ç‚İæ‚é
 %group
-hspble â€” GATT I/O
+hspble \ GATT I/O
 %prm
 dev_h, "svc", "chr", var_buf, buf_size, var_len
-dev_h    : ãƒ‡ãƒã‚¤ã‚¹ãƒãƒ³ãƒ‰ãƒ«
-svc      : ã‚µãƒ¼ãƒ“ã‚¹ UUID
+dev_h    : ƒfƒoƒCƒXƒnƒ“ƒhƒ‹
+svc      : ƒT[ƒrƒX UUID
 chr      : characteristic UUID
-var_buf  : ãƒã‚¤ãƒˆåˆ—ã‚’å—ã‘å–ã‚‹å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_buf ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
-var_len  : å—ä¿¡ãƒã‚¤ãƒˆæ•°ã‚’å—ã‘å–ã‚‹ int å¤‰æ•°
+var_buf  : ƒoƒCƒg—ñ‚ğó‚¯æ‚é•Ï” (sdim Ï)
+buf_size : var_buf ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
+var_len  : óMƒoƒCƒg”‚ğó‚¯æ‚é int •Ï”
 
 %inst
-GattCharacteristic::ReadValueAsync ã‚’åŒæœŸå®Ÿè¡Œã—ã€å–å¾—ã—ãŸãƒã‚¤
-ãƒˆåˆ—ã‚’ var_buf ã¸æ›¸ãè¾¼ã¿ã¾ã™ã€‚å®Ÿéš›ã«æ›¸ãè¾¼ã¾ã‚ŒãŸãƒã‚¤ãƒˆæ•°ã¯
-var_len ã« int ã§è¿”ã—ã¾ã™ã€‚
-var_buf ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+GattCharacteristic::ReadValueAsync ‚ğ“¯ŠúÀs‚µAæ“¾‚µ‚½ƒoƒC
+ƒg—ñ‚ğ var_buf ‚Ö‘‚«‚İ‚Ü‚·BÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚Í
+var_len ‚É int ‚Å•Ô‚µ‚Ü‚·B
+var_buf ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %href
 ble_write
@@ -218,54 +221,54 @@ ble_notify_enable
 
 %index
 ble_write
-characteristic ã«æ›¸ãè¾¼ã‚€
+characteristic ‚É‘‚«‚Ş
 %group
-hspble â€” GATT I/O
+hspble \ GATT I/O
 %prm
 dev_h, "svc", "chr", var_buf, len
 
 %inst
-var_buf å…ˆé ­ã‹ã‚‰ len ãƒã‚¤ãƒˆã‚’ IBuffer ã«è©°ã‚ã¦
-WriteValueAsync(WriteWithResponse) ã§é€ä¿¡ã—ã¾ã™ã€‚
+var_buf æ“ª‚©‚ç len ƒoƒCƒg‚ğ IBuffer ‚É‹l‚ß‚Ä
+WriteValueAsync(WriteWithResponse) ‚Å‘—M‚µ‚Ü‚·B
 
 %href
 ble_read
 
 %index
 ble_notify_enable
-Notify è³¼èª­ã‚’æœ‰åŠ¹åŒ–
+Notify w“Ç‚ğ—LŒø‰»
 %group
-hspble â€” Notify
+hspble \ Notify
 %prm
 dev_h, "svc", "chr"
 
 %inst
-CCCD (Client Characteristic Configuration Descriptor) ã« Notify
-ã‚’æ›¸ãè¾¼ã¿ã€ValueChanged ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™»éŒ²ã—ã¦å†…éƒ¨ã‚­ãƒ¥ãƒ¼ã«æºœã‚å§‹ã‚
-ã¾ã™ã€‚å—ä¿¡ã—ãŸãƒ‡ãƒ¼ã‚¿ã¯ ble_notify_poll ã§å–ã‚Šå‡ºã—ã¾ã™ã€‚
+CCCD (Client Characteristic Configuration Descriptor) ‚É Notify
+‚ğ‘‚«‚İAValueChanged ƒCƒxƒ“ƒg‚ğ“o˜^‚µ‚Ä“à•”ƒLƒ…[‚É—­‚ßn‚ß
+‚Ü‚·BóM‚µ‚½ƒf[ƒ^‚Í ble_notify_poll ‚Åæ‚èo‚µ‚Ü‚·B
 
 %href
 ble_notify_poll
 
 %index
 ble_notify_poll
-Notify ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ 1 ä»¶å–ã‚Šå‡ºã™
+Notify ƒLƒ…[‚©‚ç 1 Œæ‚èo‚·
 %group
-hspble â€” Notify
+hspble \ Notify
 %prm
 dev_h, "chr", var_buf, buf_size, var_len
-dev_h    : ãƒ‡ãƒã‚¤ã‚¹ãƒãƒ³ãƒ‰ãƒ«
-chr      : characteristic UUID (ç©ºæ–‡å­—ãªã‚‰ä»»æ„ã® chr)
-var_buf  : ãƒã‚¤ãƒˆåˆ—ã‚’å—ã‘å–ã‚‹å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_buf ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
-var_len  : å—ä¿¡ãƒã‚¤ãƒˆæ•°ã‚’å—ã‘å–ã‚‹ int å¤‰æ•°
+dev_h    : ƒfƒoƒCƒXƒnƒ“ƒhƒ‹
+chr      : characteristic UUID (‹ó•¶š‚È‚ç”CˆÓ‚Ì chr)
+var_buf  : ƒoƒCƒg—ñ‚ğó‚¯æ‚é•Ï” (sdim Ï)
+buf_size : var_buf ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
+var_len  : óMƒoƒCƒg”‚ğó‚¯æ‚é int •Ï”
 
 %inst
-æŒ‡å®š characteristic ã®ã‚­ãƒ¥ãƒ¼ã‹ã‚‰æœ€å¤ã® 1 ä»¶ã‚’å–ã‚Šå‡ºã—ã¦ var_buf
-ã¨ var_len ã«æ ¼ç´ã—ã¾ã™ã€‚chr ã‚’ç©ºæ–‡å­—ã«ã—ãŸå ´åˆã¯ä»»æ„ã® chr ã®
-1 ä»¶ã‚’å–ã‚Šã¾ã™ã€‚stat=1 ã§æˆåŠŸã€stat=0 ã§ã‚­ãƒ¥ãƒ¼ãŒç©ºã€‚
-var_buf ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
+w’è characteristic ‚ÌƒLƒ…[‚©‚çÅŒÃ‚Ì 1 Œ‚ğæ‚èo‚µ‚Ä var_buf
+‚Æ var_len ‚ÉŠi”[‚µ‚Ü‚·Bchr ‚ğ‹ó•¶š‚É‚µ‚½ê‡‚Í”CˆÓ‚Ì chr ‚Ì
+1 Œ‚ğæ‚è‚Ü‚·Bstat=1 ‚Å¬Œ÷Astat=0 ‚ÅƒLƒ…[‚ª‹óB
+var_buf ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 %href
 ble_notify_enable

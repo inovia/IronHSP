@@ -1,10 +1,10 @@
 ;
-; iron_camera.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; hspcv4 ãƒ™ãƒ¼ã‚¹ Webcam ãƒ©ãƒƒãƒ‘
+; iron_camera.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; hspcv4 ƒx[ƒX Webcam ƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,95 +12,99 @@
 %author
 IronHSP / iron_camera
 %dll
+iron_camera.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_camera.hsp ã¯ hspcv4 (OpenCV 4.x) ã® VideoCapture ã‚’ 1 è¡Œ API ã§
-ãƒ©ãƒƒãƒ—ã—ãŸ Webcam ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚OpenCV ã¯å†…éƒ¨ã§ MSMF ã‚’ä½¿ã†ã®ã§
-çµæœã¨ã—ã¦ã¯ Media Foundation ãƒãƒƒã‚¯ã‚¨ãƒ³ãƒ‰ã§ã™ã€‚
+iron_camera.hsp ‚Í hspcv4 (OpenCV 4.x) ‚Ì VideoCapture ‚ğ 1 s API ‚Å
+ƒ‰ƒbƒv‚µ‚½ Webcam ƒ‚ƒWƒ…[ƒ‹‚Å‚·BOpenCV ‚Í“à•”‚Å MSMF ‚ğg‚¤‚Ì‚Å
+Œ‹‰Ê‚Æ‚µ‚Ä‚Í Media Foundation ƒoƒbƒNƒGƒ“ƒh‚Å‚·B
 
   #include "hspcv4.as"
   #include "iron_camera.hsp"
 
-iron_camera_mf.hsp ã¨ã®é•ã„:
-  - æœ¬ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¯ hspcv4 çµŒç”± (OpenCV æ©Ÿèƒ½ã‚’ãƒ•ãƒ«æ´»ç”¨ã—ãŸã„æ™‚ã«ä¾¿åˆ©)
-  - iron_camera_mf ã¯ pure MF (hspmfcam.dll çµŒç”±)
+iron_camera_mf.hsp ‚Æ‚Ìˆá‚¢:
+  - –{ƒ‚ƒWƒ…[ƒ‹‚Í hspcv4 Œo—R (OpenCV ‹@”\‚ğƒtƒ‹Šˆ—p‚µ‚½‚¢‚É•Ö—˜)
+  - iron_camera_mf ‚Í pure MF (hspmfcam.dll Œo—R)
+
+%group
+iron_camera (WebƒJƒƒ‰)
 
 %index
 iron_camera_open
-ã‚«ãƒ¡ãƒ©ã‚’é–‹ã
+ƒJƒƒ‰‚ğŠJ‚­
 %group
 iron_camera
 %prm
 [dev_idx]
-dev_idx : ãƒ‡ãƒã‚¤ã‚¹ç•ªå· (çœç•¥æ™‚ 0 = å…ˆé ­)
+dev_idx : ƒfƒoƒCƒX”Ô† (È—ª 0 = æ“ª)
 
 %inst
-cv4_video_open ã§ã‚«ãƒ¡ãƒ©ã‚’é–‹ãã¾ã™ã€‚
+cv4_video_open ‚ÅƒJƒƒ‰‚ğŠJ‚«‚Ü‚·B
 
-æˆ»ã‚Šå€¤: 0=æˆåŠŸ / -1=å¤±æ•—
+–ß‚è’l: 0=¬Œ÷ / -1=¸”s
 
 %href
 iron_camera_close
 
 %index
 iron_camera_read
-1 ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—
+1 ƒtƒŒ[ƒ€æ“¾
 %group
 iron_camera
 %prm
 
 %inst
-cv4_video_read ã§ 1 ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’å†…éƒ¨ç”»åƒ ID ã«å–ã‚Šè¾¼ã¿ã¾ã™ã€‚
+cv4_video_read ‚Å 1 ƒtƒŒ[ƒ€‚ğ“à•”‰æ‘œ ID ‚Éæ‚è‚İ‚Ü‚·B
 
-æˆ»ã‚Šå€¤: stat = 0 æˆåŠŸ / 1 çµ‚ç«¯
+–ß‚è’l: stat = 0 ¬Œ÷ / 1 I’[
 
 %index
 iron_camera_draw
-ã‚«ãƒ¬ãƒ³ãƒˆ HSP window ã«æç”»
+ƒJƒŒƒ“ƒg HSP window ‚É•`‰æ
 %group
 iron_camera
 %prm
 [x, y]
-x, y : æç”»ä½ç½® (çœç•¥æ™‚ 0,0)
+x, y : •`‰æˆÊ’u (È—ª 0,0)
 
 %inst
-å†…éƒ¨ç”»åƒã‚’ cv4getimg çµŒç”±ã§ HSP ã®ç¾åœ¨ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«æç”»ã—ã¾ã™ã€‚
-å‘¼ã³å‡ºã—å‰å¾Œã‚’ redraw 0 / redraw 1 ã§å›²ã‚“ã§ãã ã•ã„ã€‚
+“à•”‰æ‘œ‚ğ cv4getimg Œo—R‚Å HSP ‚ÌŒ»İƒEƒBƒ“ƒhƒE‚É•`‰æ‚µ‚Ü‚·B
+ŒÄ‚Ño‚µ‘OŒã‚ğ redraw 0 / redraw 1 ‚ÅˆÍ‚ñ‚Å‚­‚¾‚³‚¢B
 
 %index
 iron_camera_save
-ç¾åœ¨ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜
+Œ»İƒtƒŒ[ƒ€‚ğ‰æ‘œƒtƒ@ƒCƒ‹‚É•Û‘¶
 %group
 iron_camera
 %prm
 "path"
 
 %inst
-cv4save ã§ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã¨ã—ã¦ä¿å­˜ã—ã¾ã™ã€‚
-æ‹¡å¼µå­ã§å½¢å¼è‡ªå‹•åˆ¤åˆ¥ (PNG/JPEG/BMP/TIFF...)ã€‚
+cv4save ‚Å‰æ‘œƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä•Û‘¶‚µ‚Ü‚·B
+Šg’£q‚ÅŒ`®©“®”»•Ê (PNG/JPEG/BMP/TIFF...)B
 
 %index
 iron_camera_size
-ã‚«ãƒ¡ãƒ©è§£åƒåº¦ã‚’å–å¾—
+ƒJƒƒ‰‰ğ‘œ“x‚ğæ“¾
 %group
 iron_camera
 %prm
 var_w, var_h
 
 %inst
-ã‚«ãƒ¡ãƒ©ã®ãƒã‚¤ãƒ†ã‚£ãƒ–è§£åƒåº¦ã‚’ w, h ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+ƒJƒƒ‰‚ÌƒlƒCƒeƒBƒu‰ğ‘œ“x‚ğ w, h ‚É‘‚«‚İ‚Ü‚·B
 
 %index
 iron_camera_close
-ã‚«ãƒ¡ãƒ©ã‚’é–‰ã˜ã‚‹
+ƒJƒƒ‰‚ğ•Â‚¶‚é
 %group
 iron_camera
 %prm
 
 %inst
-cv4_video_close ã§ã‚«ãƒ¡ãƒ©ã‚’è§£æ”¾ã—ã¾ã™ã€‚
+cv4_video_close ‚ÅƒJƒƒ‰‚ğ‰ğ•ú‚µ‚Ü‚·B

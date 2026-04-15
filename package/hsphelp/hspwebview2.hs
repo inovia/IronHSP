@@ -1,10 +1,10 @@
 ;
-; hspwebview2.hs  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; Microsoft Edge WebView2 ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ + iron_webview2.hsp ç³–è¡£
+; hspwebview2.hs  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Microsoft Edge WebView2 ƒvƒ‰ƒOƒCƒ“ + iron_webview2.hsp “œˆß
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -14,202 +14,205 @@ IronHSP / hspwebview2
 %dll
 hspwebview2.dll
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-hspwebview2.dll ã¯ Microsoft Edge WebView2 ã‚’ HSP ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«åŸ‹ã‚è¾¼ã¿ã€
-HTML/JS ã‚’è¡¨ç¤ºã—ã¦ HSP ã¨ JavaScript ã®åŒæ–¹å‘ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ³ã‚°ã‚’è¡Œã†
-ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã™ã€‚
+hspwebview2.dll ‚Í Microsoft Edge WebView2 ‚ğ HSP ƒEƒBƒ“ƒhƒE‚É–„‚ß‚İA
+HTML/JS ‚ğ•\¦‚µ‚Ä HSP ‚Æ JavaScript ‚Ì‘o•ûŒüƒƒbƒZ[ƒWƒ“ƒO‚ğs‚¤
+ƒvƒ‰ƒOƒCƒ“‚Å‚·B
 
-  #include "iron_webview2.hsp"   ; ç³–è¡£ (æ¨å¥¨)
-  ã¾ãŸã¯
-  #include "hspwebview2.as"      ; ç”Ÿ API
+  #include "iron_webview2.hsp"   ; “œˆß („§)
+  ‚Ü‚½‚Í
+  #include "hspwebview2.as"      ; ¶ API
 
-ä¾å­˜:
-  - Microsoft Edge WebView2 Runtime (ã»ã¼å…¨ Win10/11 ã«åŒæ¢±æ¸ˆã¿)
-  - hspwebview2.dll / hspwebview2_64.dll ã‚’å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã¨åŒãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®
+ˆË‘¶:
+  - Microsoft Edge WebView2 Runtime (‚Ù‚Ú‘S Win10/11 ‚É“¯«Ï‚İ)
+  - hspwebview2.dll / hspwebview2_64.dll ‚ğÀsƒtƒ@ƒCƒ‹‚Æ“¯ƒfƒBƒŒƒNƒgƒŠ‚É”z’u
 
-JS ã‹ã‚‰ã®é€ä¿¡:
+JS ‚©‚ç‚Ì‘—M:
   window.chrome.webview.postMessage("text");
-JS ã§ã®å—ä¿¡:
+JS ‚Å‚ÌóM:
   window.chrome.webview.addEventListener('message', e => { ... e.data ... });
+
+%group
+hspwebview2 (WebView2)
 
 %index
 wv2_init
-WebView2 ç’°å¢ƒã‚’åˆæœŸåŒ–
+WebView2 ŠÂ‹«‚ğ‰Šú‰»
 %group
 hspwebview2
 %prm
 "user_data_dir"
 
 %inst
-WebView2 ç’°å¢ƒ (ICoreWebView2Environment) ã‚’ä½œæˆã—ã¾ã™ã€‚
-user_data_dir ã¯ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç­‰ã‚’ç½®ããƒ•ã‚©ãƒ«ãƒ€ã€‚"" ã§
-%LOCALAPPDATA%\IronHSP\WebView2 ãŒä½¿ã‚ã‚Œã¾ã™ã€‚
-stat=0 æˆåŠŸã€è² å€¤ã¯ã‚¨ãƒ©ãƒ¼ã€‚
-2 å›ç›®ä»¥é™ã®å‘¼ã³å‡ºã—ã¯ä½•ã‚‚ã—ã¾ã›ã‚“ (idempotent)ã€‚
+WebView2 ŠÂ‹« (ICoreWebView2Environment) ‚ğì¬‚µ‚Ü‚·B
+user_data_dir ‚ÍƒLƒƒƒbƒVƒ…“™‚ğ’u‚­ƒtƒHƒ‹ƒ_B"" ‚Å
+%LOCALAPPDATA%\IronHSP\WebView2 ‚ªg‚í‚ê‚Ü‚·B
+stat=0 ¬Œ÷A•‰’l‚ÍƒGƒ‰[B
+2 ‰ñ–ÚˆÈ~‚ÌŒÄ‚Ño‚µ‚Í‰½‚à‚µ‚Ü‚¹‚ñ (idempotent)B
 
 %href
 wv2_attach
 
 %index
 wv2_attach
-WebView2 ã‚’ HWND ã«è²¼ã‚Šä»˜ã‘
+WebView2 ‚ğ HWND ‚É“\‚è•t‚¯
 %group
 hspwebview2
 %prm
 hwnd, x, y, w, h
 
 %inst
-æŒ‡å®š HWND (é€šå¸¸ã¯ hsp ã® hwnd) ã« ICoreWebView2Controller ã‚’ä½œæˆã—ã¦
-ã‚¢ã‚¿ãƒƒãƒã—ã¾ã™ã€‚stat ã¯ãƒ“ãƒ¥ãƒ¼ ID (0..15) ã§ã€å¤±æ•—æ™‚ã¯è² å€¤ã€‚
-å†…éƒ¨ã§éåŒæœŸå¾…ã¡ã‚’è¡Œã„ã¾ã™ãŒã€HSP ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ—ã¯æ­¢ã‚ã¾ã›ã‚“ã€‚
+w’è HWND (’Êí‚Í hsp ‚Ì hwnd) ‚É ICoreWebView2Controller ‚ğì¬‚µ‚Ä
+ƒAƒ^ƒbƒ`‚µ‚Ü‚·Bstat ‚Íƒrƒ…[ ID (0..15) ‚ÅA¸”s‚Í•‰’lB
+“à•”‚Å”ñ“¯Šú‘Ò‚¿‚ğs‚¢‚Ü‚·‚ªAHSP ƒƒbƒZ[ƒWƒ|ƒ“ƒv‚Í~‚ß‚Ü‚¹‚ñB
 
 %href
 wv2_detach wv2_navigate
 
 %index
 wv2_detach
-WebView2 ã‚’ç ´æ£„
+WebView2 ‚ğ”jŠü
 %group
 hspwebview2
 %prm
 id
 
 %inst
-æŒ‡å®š ID ã®ãƒ“ãƒ¥ãƒ¼ã‚’ç ´æ£„ã—ã¾ã™ã€‚wv2_close ã¨åŒã˜ã€‚
+w’è ID ‚Ìƒrƒ…[‚ğ”jŠü‚µ‚Ü‚·Bwv2_close ‚Æ“¯‚¶B
 
 %index
 wv2_close
-WebView2 ã‚’ç ´æ£„
+WebView2 ‚ğ”jŠü
 %group
 hspwebview2
 %prm
 id
 
 %inst
-wv2_detach ã¨åŒç¾©ã€‚
+wv2_detach ‚Æ“¯‹`B
 
 %index
 wv2_navigate
-URL é·ç§»
+URL ‘JˆÚ
 %group
 hspwebview2
 %prm
 id, "url"
 
 %inst
-æŒ‡å®š ID ã® WebView2 ã§ URL ã‚’é–‹ãã¾ã™ã€‚
+w’è ID ‚Ì WebView2 ‚Å URL ‚ğŠJ‚«‚Ü‚·B
 
 %index
 wv2_navigate_to_string
-HTML æ–‡å­—åˆ—ã‚’è¡¨ç¤º
+HTML •¶š—ñ‚ğ•\¦
 %group
 hspwebview2
 %prm
 id, "html"
 
 %inst
-HTML ã‚½ãƒ¼ã‚¹æ–‡å­—åˆ—ã‚’ãã®ã¾ã¾è¡¨ç¤ºã—ã¾ã™ã€‚
+HTML ƒ\[ƒX•¶š—ñ‚ğ‚»‚Ì‚Ü‚Ü•\¦‚µ‚Ü‚·B
 
 %index
 wv2_resize
-çŸ©å½¢ã‚’æ›´æ–°
+‹éŒ`‚ğXV
 %group
 hspwebview2
 %prm
 id, x, y, w, h
 
 %inst
-WebView2 ã®è¡¨ç¤ºçŸ©å½¢ã‚’å¤‰æ›´ã—ã¾ã™ã€‚ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºå¤‰æ›´æ™‚ã«å‘¼ã³ã¾ã™ã€‚
+WebView2 ‚Ì•\¦‹éŒ`‚ğ•ÏX‚µ‚Ü‚·BƒEƒBƒ“ƒhƒEƒTƒCƒY•ÏX‚ÉŒÄ‚Ñ‚Ü‚·B
 
 %index
 wv2_visible
-è¡¨ç¤º/éè¡¨ç¤º
+•\¦/”ñ•\¦
 %group
 hspwebview2
 %prm
 id, 0/1
 
 %inst
-1 ã§è¡¨ç¤ºã€0 ã§éè¡¨ç¤ºã€‚
+1 ‚Å•\¦A0 ‚Å”ñ•\¦B
 
 %index
 wv2_execute_script
-JS ã‚’å®Ÿè¡Œã—ã¦çµæœã‚’å—ã‘å–ã‚‹
+JS ‚ğÀs‚µ‚ÄŒ‹‰Ê‚ğó‚¯æ‚é
 %group
 hspwebview2
 %prm
 id, "js", var_str, buf_size
-id       : ãƒ“ãƒ¥ãƒ¼ ID
-"js"     : å®Ÿè¡Œã™ã‚‹ JavaScript ã‚½ãƒ¼ã‚¹
-var_str  : çµæœ JSON æ–‡å­—åˆ—ã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+id       : ƒrƒ…[ ID
+"js"     : Às‚·‚é JavaScript ƒ\[ƒX
+var_str  : Œ‹‰Ê JSON •¶š—ñ‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size : var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-æŒ‡å®š JS ã‚’è©•ä¾¡ã—ã€JSON ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã•ã‚ŒãŸçµæœã‚’ var_str ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
-éåŒæœŸå‡¦ç†ã‚’å†…éƒ¨ã§åŒæœŸå¾…ã¡ã—ã¾ã™ (HSP ãƒãƒ³ãƒ—ã‚’æ­¢ã‚ã¾ã›ã‚“)ã€‚
+w’è JS ‚ğ•]‰¿‚µAJSON ƒVƒŠƒAƒ‰ƒCƒY‚³‚ê‚½Œ‹‰Ê‚ğ var_str ‚É‘‚«‚İ‚Ü‚·B
+var_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
+”ñ“¯Šúˆ—‚ğ“à•”‚Å“¯Šú‘Ò‚¿‚µ‚Ü‚· (HSP ƒ|ƒ“ƒv‚ğ~‚ß‚Ü‚¹‚ñ)B
 
 %href
 wv2_post_message wv2_poll_message
 
 %index
 wv2_post_message
-HSP -> JS ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é€ä¿¡
+HSP -> JS ‚ÉƒƒbƒZ[ƒW‘—M
 %group
 hspwebview2
 %prm
 id, "text"
 
 %inst
-PostWebMessageAsString ã‚’å‘¼ã³ã€JS å´ã®
-window.chrome.webview.addEventListener('message', ...) ã«å±Šã‘ã¾ã™ã€‚
+PostWebMessageAsString ‚ğŒÄ‚ÑAJS ‘¤‚Ì
+window.chrome.webview.addEventListener('message', ...) ‚É“Í‚¯‚Ü‚·B
 
 %index
 wv2_poll_message
-JS -> HSP ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å–ã‚Šå‡ºã—
+JS -> HSP ‚ÌƒƒbƒZ[ƒWæ‚èo‚µ
 %group
 hspwebview2
 %prm
 id, var_str, buf_size
-id       : ãƒ“ãƒ¥ãƒ¼ ID
-var_str  : ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å—ã‘å–ã‚‹ str å¤‰æ•° (sdim æ¸ˆ)
-buf_size : var_str ã« sdim ã§ç¢ºä¿ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+id       : ƒrƒ…[ ID
+var_str  : ƒƒbƒZ[ƒW‚ğó‚¯æ‚é str •Ï” (sdim Ï)
+buf_size : var_str ‚É sdim ‚ÅŠm•Û‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒY
 
 %inst
-JS å´ãŒ window.chrome.webview.postMessage() ã§é€ã£ãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’
-1 ä»¶å–ã‚Šå‡ºã—ã¦ var_str ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚
-var_str ã¯äº‹å‰ã« sdim ã§ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã—ã€ãã® sdim ã‚µã‚¤ã‚ºã‚’
-buf_size ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
-stat=1 å–å¾—ã€stat=0 ç©ºã€‚
+JS ‘¤‚ª window.chrome.webview.postMessage() ‚Å‘—‚Á‚½ƒƒbƒZ[ƒW‚ğ
+1 Œæ‚èo‚µ‚Ä var_str ‚É‘‚«‚İ‚Ü‚·B
+var_str ‚Í–‘O‚É sdim ‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µA‚»‚Ì sdim ƒTƒCƒY‚ğ
+buf_size ‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢B
+stat=1 æ“¾Astat=0 ‹óB
 
 %index
 wv2_add_script
-DocumentCreated æ™‚ã«å®Ÿè¡Œã™ã‚‹ JS ã‚’æ³¨å…¥
+DocumentCreated ‚ÉÀs‚·‚é JS ‚ğ’“ü
 %group
 hspwebview2
 %prm
 id, "js"
 
 %inst
-ãƒšãƒ¼ã‚¸èª­ã¿è¾¼ã¿å‰ã«å¿…ãšå®Ÿè¡Œã•ã‚Œã‚‹ JS ã‚’ç™»éŒ²ã—ã¾ã™
-(AddScriptToExecuteOnDocumentCreated)ã€‚
+ƒy[ƒW“Ç‚İ‚İ‘O‚É•K‚¸Às‚³‚ê‚é JS ‚ğ“o˜^‚µ‚Ü‚·
+(AddScriptToExecuteOnDocumentCreated)B
 
 %index
 wv_open
-iron_webview2 ç³–è¡£ â€” WebView2 ã‚’é–‹ã
+iron_webview2 “œˆß \ WebView2 ‚ğŠJ‚­
 %group
 iron_webview2
 %prm
 x, y, w, h, "udir"
 
 %inst
-ç¾åœ¨ã®ã‚¢ã‚¯ãƒ†ã‚£ãƒ– HSP ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã« WebView2 ã‚’è²¼ã‚Šä»˜ã‘ã¾ã™ã€‚
-åˆå›å‘¼ã³å‡ºã—æ™‚ã¯ wv2_init ã‚’è‡ªå‹•ã§å‘¼ã³ã¾ã™ã€‚stat=idã€‚
+Œ»İ‚ÌƒAƒNƒeƒBƒu HSP ƒEƒBƒ“ƒhƒE‚É WebView2 ‚ğ“\‚è•t‚¯‚Ü‚·B
+‰‰ñŒÄ‚Ño‚µ‚Í wv2_init ‚ğ©“®‚ÅŒÄ‚Ñ‚Ü‚·Bstat=idB
 
   #include "iron_webview2.hsp"
   wv_open 0, 0, 640, 480
@@ -221,7 +224,7 @@ wv_close wv_go wv_send wv_recv
 
 %index
 wv_go
-URL é·ç§» (ç³–è¡£)
+URL ‘JˆÚ (“œˆß)
 %group
 iron_webview2
 %prm
@@ -229,7 +232,7 @@ id, "url"
 
 %index
 wv_html
-HTML ç›´æ¥è¡¨ç¤º (ç³–è¡£)
+HTML ’¼Ú•\¦ (“œˆß)
 %group
 iron_webview2
 %prm
@@ -237,7 +240,7 @@ id, "html"
 
 %index
 wv_send
-HSP -> JS é€ä¿¡ (ç³–è¡£)
+HSP -> JS ‘—M (“œˆß)
 %group
 iron_webview2
 %prm
@@ -245,22 +248,22 @@ id, "text"
 
 %index
 wv_recv
-JS -> HSP å—ä¿¡ (ç³–è¡£)
+JS -> HSP óM (“œˆß)
 %group
 iron_webview2
 %prm
 id
 
 %inst
-s = wv_recv(id) ã§ 1 ä»¶å–ã‚Šå‡ºã—ã€‚ç©ºãªã‚‰ "" ãŒè¿”ã‚Šã¾ã™ã€‚
+s = wv_recv(id) ‚Å 1 Œæ‚èo‚µB‹ó‚È‚ç "" ‚ª•Ô‚è‚Ü‚·B
 
 %index
 wv_eval
-JS è©•ä¾¡ (ç³–è¡£)
+JS •]‰¿ (“œˆß)
 %group
 iron_webview2
 %prm
 id, "js"
 
 %inst
-s = wv_eval(id, "js") â€” JSON æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ã€‚
+s = wv_eval(id, "js") \ JSON •¶š—ñ‚ğ•Ô‚µ‚Ü‚·B

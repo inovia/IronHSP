@@ -1,10 +1,10 @@
 ;
-; iron_mediapipe.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; MediaPipe é«˜ãƒ¬ãƒ™ãƒ«ãƒ©ãƒƒãƒ‘ (hsptflite.dll ã‚’åŸºç›¤)
+; iron_mediapipe.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; MediaPipe ‚ƒŒƒxƒ‹ƒ‰ƒbƒp (hsptflite.dll ‚ğŠî”Õ)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤ (ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«)
+Šg’£–½—ß (ƒ‚ƒWƒ…[ƒ‹)
 %ver
 1.0
 %date
@@ -12,38 +12,42 @@
 %author
 IronHSP / iron_mediapipe
 %dll
+iron_mediapipe.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_mediapipe.hsp ã¯ Google MediaPipe ã® .tflite ãƒ¢ãƒ‡ãƒ«ç¾¤ã‚’ HSP
-ã‹ã‚‰ä½¿ã†ãŸã‚ã®é«˜ãƒ¬ãƒ™ãƒ«ãƒ©ãƒƒãƒ‘ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§ã™ã€‚hsptflite.dll çµŒç”±ã§
-Tensorflow Lite C API ã‚’å©ãã¾ã™ã€‚
+iron_mediapipe.hsp ‚Í Google MediaPipe ‚Ì .tflite ƒ‚ƒfƒ‹ŒQ‚ğ HSP
+‚©‚çg‚¤‚½‚ß‚Ì‚ƒŒƒxƒ‹ƒ‰ƒbƒpƒ‚ƒWƒ…[ƒ‹‚Å‚·Bhsptflite.dll Œo—R‚Å
+Tensorflow Lite C API ‚ğ’@‚«‚Ü‚·B
 
-v1 å®Ÿè£…ç¯„å›²:
-  - mp_hand_*   : æ‰‹æ¤œå‡º (palm_detector 1 æ®µç›®ã®ã¿)
-  - mp_pose_*   : ã‚¹ã‚¿ãƒ– (æœªå®Ÿè£…)
-  - mp_face_*   : ã‚¹ã‚¿ãƒ– (æœªå®Ÿè£…)
-  - mp_bgr_to_rgb / mp_resize_bilinear ãƒ˜ãƒ«ãƒ‘
+v1 À‘•”ÍˆÍ:
+  - mp_hand_*   : èŒŸo (palm_detector 1 ’i–Ú‚Ì‚İ)
+  - mp_pose_*   : ƒXƒ^ƒu (–¢À‘•)
+  - mp_face_*   : ƒXƒ^ƒu (–¢À‘•)
+  - mp_bgr_to_rgb / mp_resize_bilinear ƒwƒ‹ƒp
 
-ãƒ¢ãƒ‡ãƒ«ã®å…¥æ‰‹ã«ã¤ã„ã¦ã¯ plugins/win32/hsptflite/third_party/tflite/
-README.md ã®ã€Œãƒ¢ãƒ‡ãƒ«å…¥æ‰‹ã€ç¯€ã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚
+ƒ‚ƒfƒ‹‚Ì“üè‚É‚Â‚¢‚Ä‚Í plugins/win32/hsptflite/third_party/tflite/
+README.md ‚Ìuƒ‚ƒfƒ‹“üèvß‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
+
+%group
+iron_mediapipe (MediaPipe„˜_)
 
 %index
 mp_hand_init
-æ‰‹æ¤œå‡º (MediaPipe Hand) ã®åˆæœŸåŒ–
+èŒŸo (MediaPipe Hand) ‚Ì‰Šú‰»
 
 %prm
 "palm_detector.tflite", "hand_landmarker.tflite"
-ç¬¬ 2 å¼•æ•°ã¯ landmark ãƒ¢ãƒ‡ãƒ«ã€‚v1 ã§ã¯ä½¿ç”¨ã—ãªã„ãŸã‚ "" ã§ã‚‚å¯ã€‚
+‘æ 2 ˆø”‚Í landmark ƒ‚ƒfƒ‹Bv1 ‚Å‚Íg—p‚µ‚È‚¢‚½‚ß "" ‚Å‚à‰ÂB
 
 %inst
-MediaPipe Hand ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚2 æ®µç›®ã®
-hand_landmarker ã¯ v1 ã§ã¯å‘¼ã³å‡ºã•ã‚Œã¾ã›ã‚“ (ã‚¹ã‚¿ãƒ–)ã€‚
-å¤±æ•—æ™‚ã¯ stat ã«è² ã®å€¤ (-100 ã¯ã‚¹ã‚¿ãƒ–ãƒ“ãƒ«ãƒ‰)ã€‚
+MediaPipe Hand ƒpƒCƒvƒ‰ƒCƒ“‚ğ‰Šú‰»‚µ‚Ü‚·B2 ’i–Ú‚Ì
+hand_landmarker ‚Í v1 ‚Å‚ÍŒÄ‚Ño‚³‚ê‚Ü‚¹‚ñ (ƒXƒ^ƒu)B
+¸”s‚Í stat ‚É•‰‚Ì’l (-100 ‚ÍƒXƒ^ƒuƒrƒ‹ƒh)B
 
 %href
 mp_hand_close
@@ -51,30 +55,30 @@ mp_hand_run
 
 %index
 mp_hand_close
-æ‰‹æ¤œå‡ºãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®çµ‚äº†
+èŒŸoƒpƒCƒvƒ‰ƒCƒ“‚ÌI—¹
 
 %prm
 
 %inst
-ãƒ­ãƒ¼ãƒ‰ã—ãŸãƒ¢ãƒ‡ãƒ«ã‚’å…¨ã¦è§£æ”¾ã—ã¾ã™ã€‚
+ƒ[ƒh‚µ‚½ƒ‚ƒfƒ‹‚ğ‘S‚Ä‰ğ•ú‚µ‚Ü‚·B
 
 %index
 mp_hand_run
-æ‰‹æ¤œå‡ºã®å®Ÿè¡Œ
+èŒŸo‚ÌÀs
 
 %prm
 var_rgb, w, h
-var_rgb : RGB 8bit w*h*3 ã®ç”Ÿãƒã‚¤ãƒˆåˆ—
-w, h    : ç”»åƒã®ã‚µã‚¤ã‚º (ãƒ”ã‚¯ã‚»ãƒ«)
+var_rgb : RGB 8bit w*h*3 ‚Ì¶ƒoƒCƒg—ñ
+w, h    : ‰æ‘œ‚ÌƒTƒCƒY (ƒsƒNƒZƒ‹)
 
 %inst
-RGB ç”»åƒã«å¯¾ã—ã¦ palm_detector æ¨è«–ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚stat ã«æ¤œå‡ºæ•°
-(0..8) ãŒè¿”ã‚Šã¾ã™ã€‚
+RGB ‰æ‘œ‚É‘Î‚µ‚Ä palm_detector „˜_‚ğÀs‚µ‚Ü‚·Bstat ‚ÉŒŸo”
+(0..8) ‚ª•Ô‚è‚Ü‚·B
 
-v1 ã®æ³¨è¨˜:
-- å‰å‡¦ç†ã¯ HSP å´ bilinear resize + ç°¡æ˜“æ­£è¦åŒ–ã§ã€æ€§èƒ½ã¯äºŒã®æ¬¡ã€‚
-- å¾Œå‡¦ç†ã® anchor decode / sigmoid / NMS ã¯ v1 ã§ã¯ç°¡ç•¥åŒ–ã•ã‚Œã¦ãŠã‚Šã€
-  å®Ÿéš›ã®é‹ç”¨ã§ã¯ C++ ãƒ˜ãƒ«ãƒ‘ç§»æ¤ãŒæ¨å¥¨ã€‚
+v1 ‚Ì’‹L:
+- ‘Oˆ—‚Í HSP ‘¤ bilinear resize + ŠÈˆÕ³‹K‰»‚ÅA«”\‚Í“ñ‚ÌŸB
+- Œãˆ—‚Ì anchor decode / sigmoid / NMS ‚Í v1 ‚Å‚ÍŠÈ—ª‰»‚³‚ê‚Ä‚¨‚èA
+  ÀÛ‚Ì‰^—p‚Å‚Í C++ ƒwƒ‹ƒpˆÚA‚ª„§B
 
 %href
 mp_hand_count
@@ -83,87 +87,87 @@ mp_hand_score
 
 %index
 mp_hand_count
-æ¤œå‡ºã•ã‚ŒãŸæ‰‹ã®æ•°ã‚’å–å¾—
+ŒŸo‚³‚ê‚½è‚Ì”‚ğæ“¾
 
 %prm
 var_n
 
 %index
 mp_hand_score
-æ¤œå‡ºä¿¡é ¼åº¦ã‚’å–å¾—
+ŒŸoM—Š“x‚ğæ“¾
 
 %prm
 idx, var_score
-0.0 ã€œ 1.0 ã® sigmoid æ¸ˆã¿ä¿¡é ¼åº¦ã€‚
+0.0 ` 1.0 ‚Ì sigmoid Ï‚İM—Š“xB
 
 %index
 mp_hand_bbox
-æ¤œå‡ºçŸ©å½¢ã‚’å–å¾—
+ŒŸo‹éŒ`‚ğæ“¾
 
 %prm
 idx, var_x, var_y, var_w, var_h
-å…¥åŠ›ç”»åƒåº§æ¨™ç³»ã§ã®ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹ã€‚
+“ü—Í‰æ‘œÀ•WŒn‚Å‚ÌƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒXB
 
 %index
 mp_hand_landmark
-21 ç‚¹ãƒ©ãƒ³ãƒ‰ãƒãƒ¼ã‚¯ã®å–å¾— (v1 ã‚¹ã‚¿ãƒ–)
+21 “_ƒ‰ƒ“ƒhƒ}[ƒN‚Ìæ“¾ (v1 ƒXƒ^ƒu)
 
 %prm
 idx, pt_idx, var_x, var_y, var_z
 
 %inst
-v1 ã§ã¯å¸¸ã« 0 ã‚’è¿”ã—ã¾ã™ã€‚hand_landmarker (2 æ®µç›®) ã®å®Ÿè£…ã¯
-v2 ã§å¯¾å¿œäºˆå®šã§ã™ã€‚
+v1 ‚Å‚Íí‚É 0 ‚ğ•Ô‚µ‚Ü‚·Bhand_landmarker (2 ’i–Ú) ‚ÌÀ‘•‚Í
+v2 ‚Å‘Î‰—\’è‚Å‚·B
 
 %index
 mp_pose_init
-å§¿å‹¢æ¤œå‡ºã®åˆæœŸåŒ– (v1 ã‚¹ã‚¿ãƒ–)
+p¨ŒŸo‚Ì‰Šú‰» (v1 ƒXƒ^ƒu)
 
 %prm
 "pose_landmark.tflite"
 
 %inst
-v1 ã§ã¯ -100 ã‚’è¿”ã—ã¦ã‚¹ã‚¿ãƒ–å‹•ä½œã—ã¾ã™ã€‚
+v1 ‚Å‚Í -100 ‚ğ•Ô‚µ‚ÄƒXƒ^ƒu“®ì‚µ‚Ü‚·B
 
 %index
 mp_pose_run
-å§¿å‹¢æ¤œå‡ºã®å®Ÿè¡Œ (v1 ã‚¹ã‚¿ãƒ–)
+p¨ŒŸo‚ÌÀs (v1 ƒXƒ^ƒu)
 
 %prm
 var_rgb, w, h
 
 %index
 mp_face_init
-é¡”æ¤œå‡ºã®åˆæœŸåŒ– (v1 ã‚¹ã‚¿ãƒ–)
+ŠçŒŸo‚Ì‰Šú‰» (v1 ƒXƒ^ƒu)
 
 %prm
 "face_detector.tflite"
 
 %index
 mp_face_run
-é¡”æ¤œå‡ºã®å®Ÿè¡Œ (v1 ã‚¹ã‚¿ãƒ–)
+ŠçŒŸo‚ÌÀs (v1 ƒXƒ^ƒu)
 
 %prm
 var_rgb, w, h
 
 %index
 mp_bgr_to_rgb
-BGR â†’ RGB å¤‰æ›ãƒ˜ãƒ«ãƒ‘
+BGR ¨ RGB •ÏŠ·ƒwƒ‹ƒp
 
 %prm
 var_bgr, var_rgb, w, h
 
 %inst
-bmscr ç­‰ã§å–å¾—ã—ãŸ 24bit BGR ãƒãƒƒãƒ•ã‚¡ã‚’ RGB ã«ä¸¦ã³æ›¿ãˆã¾ã™ã€‚
-var_rgb ã¯è‡ªå‹•ã§ sdim ã•ã‚Œã¾ã™ã€‚
+bmscr “™‚Åæ“¾‚µ‚½ 24bit BGR ƒoƒbƒtƒ@‚ğ RGB ‚É•À‚Ñ‘Ö‚¦‚Ü‚·B
+var_rgb ‚Í©“®‚Å sdim ‚³‚ê‚Ü‚·B
 
 %index
 mp_resize_bilinear
-ãƒã‚¤ãƒªãƒ‹ã‚¢è£œé–“ã«ã‚ˆã‚‹ç”»åƒãƒªã‚µã‚¤ã‚º
+ƒoƒCƒŠƒjƒA•âŠÔ‚É‚æ‚é‰æ‘œƒŠƒTƒCƒY
 
 %prm
 var_src, sw, sh, var_dst, dw, dh, channels
 
 %inst
-ç´ æœ´ãªãƒã‚¤ãƒªãƒ‹ã‚¢è£œé–“ã§ç”»åƒã‚’ãƒªã‚µã‚¤ã‚ºã—ã¾ã™ã€‚v1 ã§ã¯ HSP å®Ÿè£…ã®
-ãŸã‚ãƒ•ãƒ¬ãƒ¼ãƒ æ¯å®Ÿè¡Œã¯ã‚„ã‚„é‡ã„ã§ã™ã€‚
+‘f–p‚ÈƒoƒCƒŠƒjƒA•âŠÔ‚Å‰æ‘œ‚ğƒŠƒTƒCƒY‚µ‚Ü‚·Bv1 ‚Å‚Í HSP À‘•‚Ì
+‚½‚ßƒtƒŒ[ƒ€–ˆÀs‚Í‚â‚âd‚¢‚Å‚·B

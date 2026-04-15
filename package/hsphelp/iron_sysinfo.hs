@@ -1,10 +1,10 @@
 ;
-; iron_sysinfo.hsp  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; OS / CPU / ãƒ¦ãƒ¼ã‚¶ãƒ¼æƒ…å ±å–å¾—ãƒ©ãƒƒãƒ‘
+; iron_sysinfo.hsp  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; OS / CPU / ƒ†[ƒU[î•ñæ“¾ƒ‰ƒbƒp
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 1.0
 %date
@@ -12,108 +12,112 @@
 %author
 IronHSP / iron_sysinfo
 %dll
+iron_sysinfo.hsp
 
 %url
-https://github.com/HNWorks/IronHSP_2026
+https://github.com/inovia/IronHSP
 %port
 Win32 / Win64
 
 %note
-iron_sysinfo.hsp ã¯ GetUserNameA / GetComputerNameA / GetSystemInfo /
-GetTickCount / GlobalMemoryStatusEx ç­‰ã‚’ç°¡å˜ã«å‘¼ã³å‡ºã™ãƒ©ãƒƒãƒ‘ã§ã™ã€‚
+iron_sysinfo.hsp ‚Í GetUserNameA / GetComputerNameA / GetSystemInfo /
+GetTickCount / GlobalMemoryStatusEx “™‚ğŠÈ’P‚ÉŒÄ‚Ño‚·ƒ‰ƒbƒp‚Å‚·B
 
   #include "iron_sysinfo.hsp"
 
+%group
+iron_sysinfo (ƒVƒXƒeƒ€î•ñ)
+
 %index
 sys_username
-Windows ãƒ­ã‚°ã‚ªãƒ³ãƒ¦ãƒ¼ã‚¶ãƒ¼åã‚’å–å¾—
+Windows ƒƒOƒIƒ“ƒ†[ƒU[–¼‚ğæ“¾
 %group
-iron_sysinfo â€” ãƒ¦ãƒ¼ã‚¶ãƒ¼
+iron_sysinfo \ ƒ†[ƒU[
 %prm
 
 %inst
-refstr ã« %USERNAME% ã«ç›¸å½“ã™ã‚‹æ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+refstr ‚É %USERNAME% ‚É‘Š“–‚·‚é•¶š—ñ‚ğ‘‚«‚İ‚Ü‚·B
 
 %index
 sys_computername
-ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿åã‚’å–å¾—
+ƒRƒ“ƒsƒ…[ƒ^–¼‚ğæ“¾
 %group
-iron_sysinfo â€” ãƒ›ã‚¹ãƒˆ
+iron_sysinfo \ ƒzƒXƒg
 %prm
 
 %inst
-refstr ã« %COMPUTERNAME% ã‚’æ›¸ãè¾¼ã¿ã¾ã™ã€‚
+refstr ‚É %COMPUTERNAME% ‚ğ‘‚«‚İ‚Ü‚·B
 
 %index
 sys_cpucount
-è«–ç†ãƒ—ãƒ­ã‚»ãƒƒã‚µæ•°
+˜_—ƒvƒƒZƒbƒT”
 %group
-iron_sysinfo â€” CPU
+iron_sysinfo \ CPU
 %prm
 
 %inst
-stat ã« CPU ã®è«–ç†ã‚³ã‚¢æ•°ã‚’è¿”ã—ã¾ã™ã€‚
+stat ‚É CPU ‚Ì˜_—ƒRƒA”‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 sys_pagesize
-ãƒ¡ãƒ¢ãƒªãƒšãƒ¼ã‚¸ã‚µã‚¤ã‚º
+ƒƒ‚ƒŠƒy[ƒWƒTƒCƒY
 %group
-iron_sysinfo â€” ãƒ¡ãƒ¢ãƒª
+iron_sysinfo \ ƒƒ‚ƒŠ
 %prm
 
 %inst
-stat ã«ãƒšãƒ¼ã‚¸ã‚µã‚¤ã‚º (é€šå¸¸ 4096) ã‚’è¿”ã—ã¾ã™ã€‚
+stat ‚Éƒy[ƒWƒTƒCƒY (’Êí 4096) ‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 sys_uptime
-èµ·å‹•ã‹ã‚‰ã®ãƒŸãƒªç§’
+‹N“®‚©‚ç‚Ìƒ~ƒŠ•b
 %group
-iron_sysinfo â€” ãã®ä»–
+iron_sysinfo \ ‚»‚Ì‘¼
 %prm
 
 %inst
-stat ã« GetTickCount ã®å€¤ã‚’è¿”ã—ã¾ã™ (32bitã€ç´„ 49 æ—¥ã§ãƒ©ãƒƒãƒ—)ã€‚
+stat ‚É GetTickCount ‚Ì’l‚ğ•Ô‚µ‚Ü‚· (32bitA–ñ 49 “ú‚Åƒ‰ƒbƒv)B
 
 %index
 sys_temp_path
-%TEMP% ãƒ‘ã‚¹
+%TEMP% ƒpƒX
 %group
-iron_sysinfo â€” ãƒ‘ã‚¹
+iron_sysinfo \ ƒpƒX
 %prm
 
 %inst
-refstr ã« temp ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É temp ƒfƒBƒŒƒNƒgƒŠƒpƒX‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 sys_windows_dir
-Windows ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹
+Windows ƒfƒBƒŒƒNƒgƒŠƒpƒX
 %group
-iron_sysinfo â€” ãƒ‘ã‚¹
+iron_sysinfo \ ƒpƒX
 %prm
 
 %inst
-refstr ã« C:\Windows ç­‰ã®ãƒ‘ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É C:\Windows “™‚ÌƒpƒX‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 sys_system_dir
-System32 ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹
+System32 ƒfƒBƒŒƒNƒgƒŠƒpƒX
 %group
-iron_sysinfo â€” ãƒ‘ã‚¹
+iron_sysinfo \ ƒpƒX
 %prm
 
 %inst
-refstr ã« C:\Windows\System32 ç­‰ã®ãƒ‘ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+refstr ‚É C:\Windows\System32 “™‚ÌƒpƒX‚ğ•Ô‚µ‚Ü‚·B
 
 %index
 sys_appdata
-%APPDATA% (Roaming) ãƒ‘ã‚¹
+%APPDATA% (Roaming) ƒpƒX
 %group
-iron_sysinfo â€” ãƒ‘ã‚¹
+iron_sysinfo \ ƒpƒX
 %prm
 
 %index
 sys_localappdata
-%LOCALAPPDATA% ãƒ‘ã‚¹
+%LOCALAPPDATA% ƒpƒX
 %group
-iron_sysinfo â€” ãƒ‘ã‚¹
+iron_sysinfo \ ƒpƒX
 %prm
