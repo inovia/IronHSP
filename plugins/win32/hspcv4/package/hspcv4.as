@@ -260,7 +260,7 @@
 #func global cv4_dnn_load_tf      cv4_dnn_load_tf      $202
 #func global cv4_dnn_load_darknet cv4_dnn_load_darknet $202
 #func global cv4_dnn_set_backend  cv4_dnn_set_backend  $202
-#func global cv4_dnn_nms_boxes    cv4_dnn_nms_boxes    $202
+#func global cv4_dnn_nms_boxes    "cv4_dnn_nms_boxes"  pexinfo, pval, pval, pval, int, int
 
 ; ---- morphology ----
 ;   shape : CV4_MORPH_RECT / CROSS / ELLIPSE
@@ -285,8 +285,8 @@
 ;   例 (emboss):  cv4_filter2d_3x3 dst, src, -2,-1,0, -1,1,1, 0,1,2, 128
 ; cv4_filter2d_mat dst, src, kernel_mat_id [, delta]
 ;   任意サイズの kernel を Mat ハンドルで渡す版 (高度用途)
-#func global cv4_filter2d_3x3   cv4_filter2d_3x3   $202
-#func global cv4_filter2d_mat   cv4_filter2d_mat   $202
+#func global cv4_filter2d_3x3   "cv4_filter2d_3x3"   int, int, double, double, double, double, double, double, double, double, double, double
+#func global cv4_filter2d_mat   "cv4_filter2d_mat"   int, int, int, double
 
 ; ---- histogram / LUT / normalize ----
 #func global cv4_equalize_hist  "cv4_equalize_hist"  int, int
@@ -301,22 +301,22 @@
 ; ---- Hough transforms ----
 ; 出力は Mat ハンドル (Nx2 / Nx4 / Nx3 の行列)。cv4_mat_shape と
 ; cv4_mat_geti / cv4_mat_getf でイテレートする。
-#func global cv4_hough_lines    cv4_hough_lines    $202
-#func global cv4_hough_linesp   cv4_hough_linesp   $202
-#func global cv4_hough_circles  cv4_hough_circles  $202
+#func global cv4_hough_lines    "cv4_hough_lines"    int, int, double, double, int
+#func global cv4_hough_linesp   "cv4_hough_linesp"   int, int, double, double, int, double, double
+#func global cv4_hough_circles  "cv4_hough_circles"  int, int, double, double, double, double, int, int
 
 ; ---- template matching ----
-#func global cv4_match_template cv4_match_template $202
+#func global cv4_match_template "cv4_match_template" int, int, int, int
 
 ; ---- image pyramids ----
 #func global cv4_pyr_up         "cv4_pyr_up"         int, int
 #func global cv4_pyr_down       "cv4_pyr_down"       int, int
 
 ; ---- Mat generic accessors (Hough 結果や DNN 出力を HSP から読む) ----
-#func global cv4_mat_shape      cv4_mat_shape      $202
-#func global cv4_mat_geti       cv4_mat_geti       $202
-#func global cv4_mat_getf       cv4_mat_getf       $202
-#func global cv4_min_max_loc    cv4_min_max_loc    $202
+#func global cv4_mat_shape      "cv4_mat_shape"      int, var, var, var, var
+#func global cv4_mat_geti       "cv4_mat_geti"       int, int, int, var
+#func global cv4_mat_getf       "cv4_mat_getf"       int, int, int, var
+#func global cv4_min_max_loc    "cv4_min_max_loc"    int, var, var, var, var, var, var
 
 ; ---- core Mat operations ----
 ; 算術演算 (2 つの Mat 間)
@@ -344,10 +344,10 @@
 #func global cv4_split          cv4_split          $202
 #func global cv4_merge          cv4_merge          $202
 ; Mat 作成
-#func global cv4_mat_zeros      cv4_mat_zeros      $202
-#func global cv4_mat_full       cv4_mat_full       $202
+#func global cv4_mat_zeros      "cv4_mat_zeros"      int, int, int, int
+#func global cv4_mat_full       "cv4_mat_full"       int, int, int, int, int, int
 ; マスクコピー
-#func global cv4_copy_masked    cv4_copy_masked    $202
+#func global cv4_copy_masked    "cv4_copy_masked"    int, int, int
 
 ; ---- contours and shape analysis ----
 ;
@@ -379,7 +379,7 @@
 #func global cv4_min_enclosing_circle cv4_min_enclosing_circle $202
 #func global cv4_approx_poly_dp       cv4_approx_poly_dp       $202
 #func global cv4_convex_hull          cv4_convex_hull          $202
-#func global cv4_contour_size         cv4_contour_size         $202
+#func global cv4_contour_size         "cv4_contour_size"       int, int, var
 #func global cv4_contour_point        cv4_contour_point        $202
 #func global cv4_moments              cv4_moments              $202
 
@@ -431,10 +431,10 @@
 #func global cv4_tracker_free        cv4_tracker_free        $202
 
 ; ---- calib3d : homography / perspective transforms ----
-#func global cv4_find_homography            cv4_find_homography            $202
-#func global cv4_warp_perspective           cv4_warp_perspective           $202
-#func global cv4_get_perspective_transform  cv4_get_perspective_transform  $202
-#func global cv4_get_affine_transform       cv4_get_affine_transform       $202
+#func global cv4_find_homography            "cv4_find_homography"            int, int, int, int, double
+#func global cv4_warp_perspective           "cv4_warp_perspective"           int, int, int, int, int
+#func global cv4_get_perspective_transform  "cv4_get_perspective_transform"  int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int
+#func global cv4_get_affine_transform       "cv4_get_affine_transform"       int, int, int, int, int, int, int, int, int, int, int, int, int
 
 ; ---- ML module (Phase 18): SVM / KNN / RTrees / ANN_MLP ----
 ; algo type 定数 (cv4_ml_load 第 3 引数)
@@ -593,10 +593,10 @@
 ; cv4_solve_pnp     rvec, tvec, obj_pts, img_pts, K, D [, flags=0]
 ; cv4_project_points img_pts, obj_pts, rvec, tvec, K, D
 ; cv4_find_chessboard_corners corners, img, w, h
-#func global cv4_camera_matrix           cv4_camera_matrix           $202
-#func global cv4_dist_coeffs             cv4_dist_coeffs             $202
-#func global cv4_undistort               cv4_undistort               $202
-#func global cv4_rodrigues               cv4_rodrigues               $202
+#func global cv4_camera_matrix           "cv4_camera_matrix"         int, double, double, double, double
+#func global cv4_dist_coeffs             "cv4_dist_coeffs"           int, double, double, double, double, double
+#func global cv4_undistort               "cv4_undistort"             int, int, int, int
+#func global cv4_rodrigues               "cv4_rodrigues"             int, int
 #func global cv4_solve_pnp               cv4_solve_pnp               $202
 #func global cv4_project_points          cv4_project_points          $202
 #func global cv4_find_chessboard_corners cv4_find_chessboard_corners $202
@@ -613,9 +613,9 @@
 ;   cv4_barcode_detect rects, count_var, src_id
 ;   cv4_barcode_decode src_id, refstr_var
 ;
-#func global cv4_hog_detect_people  cv4_hog_detect_people  $202
-#func global cv4_qr_detect          cv4_qr_detect          $202
-#func global cv4_qr_decode          cv4_qr_decode          $202
+#func global cv4_hog_detect_people  "cv4_hog_detect_people"  pexinfo, pval, pval, int, double
+#func global cv4_qr_detect          "cv4_qr_detect"          pexinfo, pval, pval, int
+#func global cv4_qr_decode          "cv4_qr_decode"          pexinfo, int, pval
 #func global cv4_qr_encode          cv4_qr_encode          $202
 #func global cv4_barcode_detect     cv4_barcode_detect     $202
 #func global cv4_barcode_decode     cv4_barcode_decode     $202
@@ -641,7 +641,7 @@
 #func global cv4_draw_arrow     "cv4_draw_arrow"     int, int, int, int, int, int, int, int, int, int
 #func global cv4_draw_marker    "cv4_draw_marker"    int, int, int, int, int, int, int, int, int
 #func global cv4_draw_ellipse   "cv4_draw_ellipse"   int, int, int, int, int, double, double, double, int, int, int, int
-#func global cv4_fill_poly      cv4_fill_poly      $202
+#func global cv4_fill_poly      "cv4_fill_poly"      pexinfo, int, pval, int, int, int, int
 
 ; ---- misc utilities ----
 #func global cv4_mat_clone      "cv4_mat_clone"      int, int
