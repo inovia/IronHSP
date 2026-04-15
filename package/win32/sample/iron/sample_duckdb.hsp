@@ -1,0 +1,98 @@
+;============================================================
+;   sample_duckdb.hsp — hspduckdb.dll / iron_duckdb.hsp サンプル
+;
+;   DuckDB の in-memory DB を open して CRUD と CSV 直読みを試す。
+;============================================================
+
+#include "iron_duckdb.hsp"
+
+    title "hspduckdb sample"
+    screen 0, 800, 600
+    font "MS Gothic", 14
+    pos 8, 8
+
+    mes "hspduckdb sample"
+    mes "================"
+    mes ""
+
+; ------------------------------------------------------------
+; 1) in-memory DB を open
+; ------------------------------------------------------------
+    db_open ":memory:"
+    db = stat
+    if db < 0 {
+        mes "open failed: " + db
+        mes "(duckdb amalgamation 未配置なら -100 が返る)"
+        stop
+    }
+    mes "db opened: handle=" + db
+    mes ""
+
+; ------------------------------------------------------------
+; 2) テーブル作成 + INSERT
+; ------------------------------------------------------------
+    db_exec db, "CREATE TABLE users (id INT, name TEXT, score DOUBLE)"
+    db_exec db, "INSERT INTO users VALUES (1, 'Alice', 95.5), (2, 'Bob', 82.0), (3, 'Carol', 77.25)"
+    mes "[1] inserted 3 rows"
+    mes ""
+
+; ------------------------------------------------------------
+; 3) SELECT
+; ------------------------------------------------------------
+    db_query db, "SELECT * FROM users ORDER BY score DESC", rh
+    nrows = db_rows(rh)
+    ncols = db_cols(rh)
+    mes "[2] query: " + nrows + " rows, " + ncols + " cols"
+    ; ヘッダ
+    hdr = ""
+    repeat ncols
+        hdr += db_col_name(rh, cnt) + "\t"
+    loop
+    mes "  " + hdr
+    ; ボディ
+    repeat nrows
+        r = cnt
+        line = ""
+        repeat ncols
+            line += db_fetch_str(rh, r, cnt) + "\t"
+        loop
+        mes "  " + line
+    loop
+    db_free rh
+    mes ""
+
+; ------------------------------------------------------------
+; 4) 集約
+; ------------------------------------------------------------
+    db_query db, "SELECT AVG(score) FROM users", rh
+    avg = db_fetch_dbl(rh, 0, 0)
+    mes "[3] AVG(score) = " + avg
+    db_free rh
+    mes ""
+
+; ------------------------------------------------------------
+; 5) CSV 直読み (SELECT * FROM 'data.csv')
+;    data.csv があれば動く
+; ------------------------------------------------------------
+    mes "[4] SELECT * FROM 'data.csv' (data.csv があれば)"
+    exist "data.csv"
+    if strsize > 0 {
+        db_query db, "SELECT * FROM 'data.csv' LIMIT 5", rh
+        nrows = db_rows(rh)
+        ncols = db_cols(rh)
+        mes "  " + nrows + " rows, " + ncols + " cols"
+        repeat nrows
+            r = cnt
+            line = ""
+            repeat ncols
+                line += db_fetch_str(rh, r, cnt) + "\t"
+            loop
+            mes "  " + line
+        loop
+        db_free rh
+    } else {
+        mes "  data.csv なし (skip)"
+    }
+
+    db_close db
+    stop

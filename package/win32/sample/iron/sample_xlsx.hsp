@@ -1,0 +1,65 @@
+;============================================================
+;   sample_xlsx.hsp — iron_xlsx.hsp サンプル
+;
+;   .xlsx ファイルの読み取り・書き込みを試すサンプル。
+;   hsp7z.dll + 7za_*.exe が runtime にある前提。
+;============================================================
+
+#include "iron_xlsx.hsp"
+
+    title "iron_xlsx sample"
+    screen 0, 800, 600
+    font "MS Gothic", 14
+    pos 8, 8
+    color 0, 0, 0
+
+; ------------------------------------------------------------
+; 1) 新規作成 → 値を入れて保存
+; ------------------------------------------------------------
+    mes "[1] xlsx_new で新規 book を作成"
+    xlsx_new h_new
+    if h_new < 0 {
+        mes "  xlsx_new failed"
+        stop
+    }
+    xlsx_set_cell h_new, 0, 1, 1, "name"
+    xlsx_set_cell h_new, 0, 1, 2, "score"
+    xlsx_set_cell h_new, 0, 2, 1, "Alice"
+    xlsx_set_num  h_new, 0, 2, 2, 95.5
+    xlsx_set_cell h_new, 0, 3, 1, "Bob"
+    xlsx_set_num  h_new, 0, 3, 2, 82.0
+    xlsx_save h_new, "test_out.xlsx"
+    mes "  saved: test_out.xlsx (rc=" + stat + ")"
+    xlsx_close h_new
+
+; ------------------------------------------------------------
+; 2) 保存した xlsx を開いて中身を読む
+; ------------------------------------------------------------
+    mes ""
+    mes "[2] xlsx_open で読み取り"
+    xlsx_open "test_out.xlsx"
+    h = stat
+    if h < 0 {
+        mes "  xlsx_open failed: " + h
+        stop
+    }
+    xlsx_sheet_count h
+    mes "  sheets: " + stat
+    xlsx_sheet_name h, 0, nm
+    mes "  sheet[0] name: " + nm
+    xlsx_used_range h, 0, rows, cols
+    mes "  used range: " + rows + " rows x " + cols + " cols"
+    mes ""
+    repeat rows
+        r = cnt + 1
+        line = ""
+        repeat cols
+            c = cnt + 1
+            xlsx_cell_str h, 0, r, c, v
+            line += v + "\t"
+        loop
+        mes "  " + line
+    loop
+    xlsx_close h
+
+    stop

@@ -1,0 +1,12 @@
+LIBRARY hspduckdb
+EXPORTS
+    duckdb_open_db
+    duckdb_close_db
+    duckdb_exec
+    duckdb_query
+    duckdb_result_rows
+    duckdb_result_cols
+    duckdb_result_col_name
+    duckdb_result_cell_str
+    duckdb_result_cell_dbl
+    duckdb_result_free

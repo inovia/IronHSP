@@ -1,0 +1,89 @@
+;============================================================
+;   iron_duckdb.hsp — hspduckdb.dll 糖衣 (読みやすい HSP ラッパ)
+;
+;   生 hspduckdb.as は命令数が多いので、よく使う open/query/fetch を
+;   1 行で書けるマクロ・関数を提供する。
+;
+;   API:
+;     #include "iron_duckdb.hsp"
+;     db_open    "file"                 → stat=handle (":memory:" で in-memory)
+;     db_close   handle
+;     db_exec    handle, "sql"          → stat (0 = success)
+;     db_query   handle, "sql", var_rh
+;     db_fetch_str rh, row, col         → str
+;     db_fetch_dbl rh, row, col         → double
+;     db_rows    rh                     → int
+;     db_cols    rh                     → int
+;     db_col_name rh, col               → str
+;     db_free    rh
+;
+;   例:
+;     #include "hspduckdb.as"
+;     #include "iron_duckdb.hsp"
+;
+;         db_open ":memory:"
+;         db = stat
+;         db_exec db, "CREATE TABLE t (id INT, name TEXT)"
+;         db_exec db, "INSERT INTO t VALUES (1, 'Alice'), (2, 'Bob')"
+;         db_query db, "SELECT * FROM t ORDER BY id", rh
+;         n = db_rows(rh)
+;         repeat n
+;             mes db_fetch_str(rh, cnt, 0) + ": " + db_fetch_str(rh, cnt, 1)
+;         loop
+;         db_free rh
+;         db_close db
+;============================================================
+
+#ifndef __iron_duckdb_hsp__
+#define __iron_duckdb_hsp__
+
+#include "hspduckdb.as"
+
+#module iron_duckdb
+
+#deffunc db_open str path, local _h
+    duckdb_open_db path, _h
+    return _h
+
+#deffunc db_close int h
+    duckdb_close_db h
+    return
+
+#deffunc db_exec int h, str sql, local _rc
+    duckdb_exec h, sql, _rc
+    return _rc
+
+#deffunc db_query int h, str sql, var out_rh
+    duckdb_query h, sql, out_rh
+    return out_rh
+
+#defcfunc db_rows int rh, local _n
+    duckdb_result_rows rh, _n
+    return _n
+
+#defcfunc db_cols int rh, local _n
+    duckdb_result_cols rh, _n
+    return _n
+
+#defcfunc db_col_name int rh, int col, local _s
+    sdim _s, 256
+    duckdb_result_col_name rh, col, _s
+    return _s
+
+#defcfunc db_fetch_str int rh, int row, int col, local _s
+    sdim _s, 4096
+    duckdb_result_cell_str rh, row, col, _s
+    return _s
+
+#defcfunc db_fetch_dbl int rh, int row, int col, local _v
+    _v = 0.0
+    duckdb_result_cell_dbl rh, row, col, _v
+    return _v
+
+#deffunc db_free int rh
+    duckdb_result_free rh
+    return
+
+#global
+
+#endif

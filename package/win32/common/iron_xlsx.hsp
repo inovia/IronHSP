@@ -1,0 +1,714 @@
+;============================================================
+;   iron_xlsx.hsp — OpenXML (.xlsx) 読み書きラッパ (Pure HSP)
+;
+;   .xlsx は ZIP + XML なので、hsp7z (iron_7z.hsp) で一時ディレクトリに
+;   展開してから XML を読み、セル値を取得する。書き込みはテンプレートを
+;   埋め込んで最小限の sheet を作り、hsp7z で ZIP 化する。
+;
+;   依存:
+;     #include "iron_7z.hsp"   ; hsp7z.dll + 7za_*.exe
+;
+;   スコープ:
+;     v1: 読み取り API は実装済み (sharedStrings + inline string + number)
+;         書き込みは最小テンプレート経由の新規作成のみ (xlsx_new/set/save)
+;         既存 xlsx への追記や書式保持はサポートしない
+;
+;   API:
+;     xlsx_open         "file.xlsx"                    → stat=book_handle
+;     xlsx_close        handle
+;     xlsx_sheet_count  handle                         → stat
+;     xlsx_sheet_name   handle, idx, var_str
+;     xlsx_cell_str     handle, sheet_idx, row, col, var_str  (row,col は 1-origin)
+;     xlsx_cell_num     handle, sheet_idx, row, col, var_dbl
+;     xlsx_used_range   handle, sheet_idx, var_rows, var_cols
+;     xlsx_new          var_handle                     ; 空 book 作成 (1 sheet)
+;     xlsx_set_cell     handle, sheet_idx, row, col, "value"
+;     xlsx_set_num      handle, sheet_idx, row, col, value_dbl
+;     xlsx_save         handle, "file.xlsx"
+;
+;   実装メモ:
+;     - 内部ハンドル = 0..7 の小さな int で、_xlsx_used(h) 配列に状態格納
+;     - 展開先は <tempdir>\iron_xlsx_<pid>_<h>\ ディレクトリ
+;     - セルデータは読み取り時にパースして 1 次元配列に格納:
+;         _xlsx_cell_val(h, sheet, idx) (文字列)
+;         _xlsx_cell_typ(h, sheet, idx) (0=str / 1=num)
+;       idx = (row-1) * max_cols + (col-1)  (row,col は 1-origin)
+;     - 書き込みは xlsx_new → set で in-memory 配列に値を積む → save で
+;       sheet1.xml を組み立てて hsp7z で zip 化
+;============================================================
+
+#ifndef __iron_xlsx_hsp__
+#define __iron_xlsx_hsp__
+
+#include "iron_7z.hsp"
+
+#module iron_xlsx
+
+;------------------------------------------------------------
+; 内部静的
+;   _XLSX_MAX_BOOK = 8
+;   _XLSX_MAX_SHEET_PER_BOOK = 8
+;   _XLSX_MAX_CELLS = 65536 (= 256 cols * 256 rows 目安)
+;------------------------------------------------------------
+#define global _XLSX_MAX_BOOK    8
+#define global _XLSX_MAX_SHEET   8
+#define global _XLSX_MAX_CELLS   65536
+
+#deffunc _xlsx_init_static
+    if _xlsx_inited = 1 : return
+    _xlsx_inited = 1
+    dim   _xlsx_used,       _XLSX_MAX_BOOK
+    sdim  _xlsx_tmpdir,     512, _XLSX_MAX_BOOK
+    dim   _xlsx_sheets,     _XLSX_MAX_BOOK
+    sdim  _xlsx_sheet_name_, 128, _XLSX_MAX_BOOK * _XLSX_MAX_SHEET
+    dim   _xlsx_rows,       _XLSX_MAX_BOOK * _XLSX_MAX_SHEET
+    dim   _xlsx_cols,       _XLSX_MAX_BOOK * _XLSX_MAX_SHEET
+    ; セル格納 (文字列)
+    sdim  _xlsx_cell_val,   256, _XLSX_MAX_BOOK * _XLSX_MAX_SHEET * _XLSX_MAX_CELLS
+    dim   _xlsx_cell_typ,   _XLSX_MAX_BOOK * _XLSX_MAX_SHEET * _XLSX_MAX_CELLS
+    return
+
+;------------------------------------------------------------
+; 内部: slot 操作
+;------------------------------------------------------------
+#defcfunc _xlsx_alloc_slot, local _i
+    _xlsx_init_static
+    repeat _XLSX_MAX_BOOK
+        if _xlsx_used(cnt) = 0 : return cnt
+    loop
+    return -1
+
+#defcfunc _xlsx_cell_index int h, int sh, int row, int col
+    ; (h, sh) ごとに _XLSX_MAX_CELLS 個のセル領域を持つ
+    return ((h * _XLSX_MAX_SHEET) + sh) * _XLSX_MAX_CELLS + ((row - 1) * 256 + (col - 1))
+
+#defcfunc _xlsx_sh_index int h, int sh
+    return h * _XLSX_MAX_SHEET + sh
+
+;------------------------------------------------------------
+; 内部: A1 形式 → col(1-origin) / row(1-origin) パーサ
+;   "AB12" → col=28, row=12
+;------------------------------------------------------------
+#deffunc _xlsx_parse_a1 str addr, var out_row, var out_col, \
+        local _i, local _c, local _len, local _col, local _row
+    _col = 0
+    _row = 0
+    _i = 0
+    _len = strlen(addr)
+    repeat
+        if _i >= _len : break
+        _c = peek(addr, _i)
+        if (_c >= 0x41) & (_c <= 0x5A) {
+            _col = _col * 26 + (_c - 0x40)
+            _i++
+            continue
+        }
+        if (_c >= 0x61) & (_c <= 0x7A) {
+            _col = _col * 26 + (_c - 0x60)
+            _i++
+            continue
+        }
+        break
+    loop
+    repeat
+        if _i >= _len : break
+        _c = peek(addr, _i)
+        if (_c >= 0x30) & (_c <= 0x39) {
+            _row = _row * 10 + (_c - 0x30)
+            _i++
+            continue
+        }
+        break
+    loop
+    out_row = _row
+    out_col = _col
+    return
+
+;------------------------------------------------------------
+; 内部: col(1-origin) → A1 列文字列
+;------------------------------------------------------------
+#defcfunc _xlsx_col_a1 int col, local _c, local _out, local _n
+    _n = col
+    _out = ""
+    if _n <= 0 : return "A"
+    repeat
+        if _n <= 0 : break
+        _c = ((_n - 1) \ 26) + 0x41
+        _out = strf("%c", _c) + _out
+        _n = (_n - 1) / 26
+    loop
+    return _out
+
+;------------------------------------------------------------
+; 内部: 1 ファイルを全部読む
+;------------------------------------------------------------
+#deffunc _xlsx_load_file str path, var out_buf, local _sz
+    sdim out_buf, 16
+    exist path
+    _sz = strsize
+    if _sz <= 0 : return 0
+    sdim out_buf, _sz + 16
+    bload path, out_buf, _sz
+    return _sz
+
+;------------------------------------------------------------
+; 内部: 簡易 XML 属性抽出 " key=\"value\" " の value
+;------------------------------------------------------------
+#defcfunc _xlsx_attr str tag_text, str key, \
+        local _kk, local _pos, local _q1, local _q2, local _s
+    _s = tag_text
+    _kk = " " + key + "=\""
+    _pos = instr(_s, 0, _kk)
+    if _pos < 0 {
+        _kk = key + "=\""
+        _pos = instr(_s, 0, _kk)
+        if _pos < 0 : return ""
+    }
+    _q1 = _pos + strlen(_kk)
+    _q2 = instr(_s, _q1, "\"")
+    if _q2 < 0 : return ""
+    return strmid(_s, _q1, _q2 - _q1)
+
+;------------------------------------------------------------
+; 内部: <sst> sharedStrings.xml をパースしてテーブルを作る
+;   t タグを列挙。v1 は <si><t>value</t></si> のシンプル形のみ対応。
+;   <si><r><t>...</t></r></si> (rich text) は全 t を連結して扱う。
+;------------------------------------------------------------
+#deffunc _xlsx_parse_shared_strings var xml_buf, array out_ss, var out_count, \
+        local _p, local _len, local _start, local _end, local _si_end, \
+        local _cur, local _t_start, local _t_body, local _t_end, local _tmp, \
+        local _cnt, local _text, local _text_end, local _gt
+    sdim out_ss, 256, 32
+    _cnt = 0
+    _len = strlen(xml_buf)
+    _p = 0
+    sdim _text, 4096
+    repeat
+        if _p >= _len : break
+        _start = instr(xml_buf, _p, "<si")
+        if _start < 0 : break
+        _end = instr(xml_buf, _start, "</si>")
+        if _end < 0 : break
+        _si_end = _end
+        ; この <si>...</si> 内の <t> ... </t> を全て連結
+        _cur = _start
+        _text = ""
+        repeat
+            _t_start = instr(xml_buf, _cur, "<t")
+            if _t_start < 0 : break
+            if _t_start >= _si_end : break
+            _gt = instr(xml_buf, _t_start, ">")
+            if _gt < 0 : break
+            _t_body = _gt + 1
+            _t_end = instr(xml_buf, _t_body, "</t>")
+            if _t_end < 0 : break
+            if _t_end > _si_end : break
+            _tmp = strmid(xml_buf, _t_body, _t_end - _t_body)
+            _text += _tmp
+            _cur = _t_end + 4
+        loop
+        ; XML エンティティの最低限デコード
+        _text = _xlsx_unescape(_text)
+        if _cnt < 65536 {
+            out_ss(_cnt) = _text
+            _cnt++
+        }
+        _p = _si_end + 5
+    loop
+    out_count = _cnt
+    return
+
+;------------------------------------------------------------
+; 内部: XML エンティティデコード
+;------------------------------------------------------------
+#defcfunc _xlsx_unescape str s, local _out, local _i, local _len, local _c, local _rest, local _pos
+    _out = ""
+    _i = 0
+    _len = strlen(s)
+    repeat
+        if _i >= _len : break
+        _c = peek(s, _i)
+        if _c = 0x26 {       ; &
+            _rest = strmid(s, _i, 6)
+            if strmid(_rest, 0, 4) = "&lt;" {
+                _out += "<"
+                _i += 4
+                continue
+            }
+            if strmid(_rest, 0, 4) = "&gt;" {
+                _out += ">"
+                _i += 4
+                continue
+            }
+            if strmid(_rest, 0, 5) = "&amp;" {
+                _out += "&"
+                _i += 5
+                continue
+            }
+            if strmid(_rest, 0, 6) = "&quot;" {
+                _out += "\""
+                _i += 6
+                continue
+            }
+            if strmid(_rest, 0, 6) = "&apos;" {
+                _out += "'"
+                _i += 6
+                continue
+            }
+        }
+        _out += strf("%c", _c)
+        _i++
+    loop
+    return _out
+
+#defcfunc _xlsx_escape str s, local _out, local _i, local _len, local _c
+    _out = ""
+    _i = 0
+    _len = strlen(s)
+    repeat
+        if _i >= _len : break
+        _c = peek(s, _i)
+        if _c = 0x26 : _out += "&amp;"  : _i++ : continue
+        if _c = 0x3C : _out += "&lt;"   : _i++ : continue
+        if _c = 0x3E : _out += "&gt;"   : _i++ : continue
+        if _c = 0x22 : _out += "&quot;" : _i++ : continue
+        _out += strf("%c", _c)
+        _i++
+    loop
+    return _out
+
+;------------------------------------------------------------
+; 内部: sheet?.xml をパースしてセル値を _xlsx_cell_val / _typ に格納
+;------------------------------------------------------------
+#deffunc _xlsx_parse_sheet var xml_buf, array ss, int ss_count, int h, int sh, \
+        local _p, local _len, local _c_start, local _c_end, local _gt, \
+        local _tag, local _ref, local _typ, local _body, local _body_end, \
+        local _vpos, local _vend, local _vbody_pos, local _vbody_end, local _val, \
+        local _row, local _col, local _max_r, local _max_c, local _idx, \
+        local _ss_idx, local _shidx
+    _len = strlen(xml_buf)
+    _p = 0
+    _max_r = 0
+    _max_c = 0
+    _shidx = _xlsx_sh_index(h, sh)
+    repeat
+        if _p >= _len : break
+        _c_start = instr(xml_buf, _p, "<c ")
+        if _c_start < 0 : break
+        _gt = instr(xml_buf, _c_start, ">")
+        if _gt < 0 : break
+        _tag = strmid(xml_buf, _c_start, _gt - _c_start + 1)
+        _ref = _xlsx_attr(_tag, "r")
+        _typ = _xlsx_attr(_tag, "t")
+        if _ref = "" {
+            _p = _gt + 1
+            continue
+        }
+        _xlsx_parse_a1 _ref, _row, _col
+        if (_row <= 0) | (_col <= 0) | (_row > 256) | (_col > 256) {
+            _p = _gt + 1
+            continue
+        }
+        ; <c ... /> (self close) か <c ...> ... </c> か
+        if peek(_tag, strlen(_tag) - 2) = 0x2F {
+            ; self close: 値なし
+            _p = _gt + 1
+            continue
+        }
+        _body_end = instr(xml_buf, _gt, "</c>")
+        if _body_end < 0 : break
+        _body = _gt + 1
+        ; <v>...</v> を探す
+        _vpos = instr(xml_buf, _body, "<v>")
+        _val = ""
+        if (_vpos >= 0) & (_vpos < _body_end) {
+            _vbody_pos = _vpos + 3
+            _vend = instr(xml_buf, _vbody_pos, "</v>")
+            if (_vend > 0) & (_vend <= _body_end) {
+                _val = strmid(xml_buf, _vbody_pos, _vend - _vbody_pos)
+            }
+        } else {
+            ; <is><t>...</t></is> (inline string)
+            _vpos = instr(xml_buf, _body, "<t")
+            if (_vpos >= 0) & (_vpos < _body_end) {
+                _vbody_pos = instr(xml_buf, _vpos, ">")
+                if _vbody_pos >= 0 {
+                    _vbody_pos++
+                    _vend = instr(xml_buf, _vbody_pos, "</t>")
+                    if (_vend > 0) & (_vend <= _body_end) {
+                        _val = strmid(xml_buf, _vbody_pos, _vend - _vbody_pos)
+                    }
+                }
+            }
+        }
+        _idx = _xlsx_cell_index(h, sh, _row, _col)
+        if _typ = "s" {
+            _ss_idx = int(_val)
+            if (_ss_idx >= 0) & (_ss_idx < ss_count) {
+                _xlsx_cell_val(_idx) = ss(_ss_idx)
+            } else {
+                _xlsx_cell_val(_idx) = ""
+            }
+            _xlsx_cell_typ(_idx) = 0
+        } else : if _typ = "inlineStr" {
+            _xlsx_cell_val(_idx) = _xlsx_unescape(_val)
+            _xlsx_cell_typ(_idx) = 0
+        } else : if _typ = "str" {
+            _xlsx_cell_val(_idx) = _xlsx_unescape(_val)
+            _xlsx_cell_typ(_idx) = 0
+        } else {
+            ; 数値 (typ 空 or n)
+            _xlsx_cell_val(_idx) = _val
+            _xlsx_cell_typ(_idx) = 1
+        }
+        if _row > _max_r : _max_r = _row
+        if _col > _max_c : _max_c = _col
+        _p = _body_end + 4
+    loop
+    _xlsx_rows(_shidx) = _max_r
+    _xlsx_cols(_shidx) = _max_c
+    return
+
+;------------------------------------------------------------
+; 内部: workbook.xml から sheet 名とインデックス順を取る
+;------------------------------------------------------------
+#deffunc _xlsx_parse_workbook var xml_buf, int h, \
+        local _p, local _len, local _start, local _gt, local _tag, \
+        local _name, local _cnt, local _shidx
+    _len = strlen(xml_buf)
+    _p = 0
+    _cnt = 0
+    repeat
+        if _p >= _len : break
+        _start = instr(xml_buf, _p, "<sheet ")
+        if _start < 0 : break
+        _gt = instr(xml_buf, _start, ">")
+        if _gt < 0 : break
+        _tag = strmid(xml_buf, _start, _gt - _start + 1)
+        _name = _xlsx_attr(_tag, "name")
+        if _cnt < _XLSX_MAX_SHEET {
+            _shidx = _xlsx_sh_index(h, _cnt)
+            _xlsx_sheet_name_(_shidx) = _xlsx_unescape(_name)
+            _cnt++
+        }
+        _p = _gt + 1
+    loop
+    _xlsx_sheets(h) = _cnt
+    return
+
+;------------------------------------------------------------
+; 内部: 一時ディレクトリ名を作る
+;------------------------------------------------------------
+#defcfunc _xlsx_make_tmpdir int h, local _buf, local _tmp
+    sdim _buf, 1024
+    _tmp = getpath(dir_temp, -1) ; 動かない環境向けに代替
+    if _tmp = "" {
+        ; 環境変数 TEMP
+        sdim _tmp, 512
+        _tmp = dir_tv
+        if _tmp = "" : _tmp = "."
+    }
+    _buf = _tmp + "\\iron_xlsx_" + h + "_" + rnd(1000000) + "\\"
+    return _buf
+
+;============================================================
+; public: 読み取り API
+;============================================================
+
+;------------------------------------------------------------
+; xlsx_open "file.xlsx"  → stat = handle (負なら失敗)
+;------------------------------------------------------------
+#deffunc xlsx_open str path,  \
+        local _h, local _tmpdir, local _rc, local _buf, local _sz, \
+        local _ss, local _ss_count, local _sh_path, local _sh_idx
+    _xlsx_init_static
+    _h = _xlsx_alloc_slot()
+    if _h < 0 : return -1
+
+    _tmpdir = _xlsx_make_tmpdir(_h)
+    ; 作成
+    mkdir _tmpdir
+    ; hsp7z で展開
+    iron_7z_extract path, _tmpdir
+    if stat ! 0 {
+        return -2
+    }
+    _xlsx_tmpdir(_h) = _tmpdir
+    _xlsx_used(_h) = 1
+
+    ; sharedStrings.xml (なくても OK)
+    sdim _ss, 256, 32
+    _ss_count = 0
+    _xlsx_load_file _tmpdir + "xl\\sharedStrings.xml", _buf
+    if strlen(_buf) > 0 {
+        _xlsx_parse_shared_strings _buf, _ss, _ss_count
+    }
+
+    ; workbook.xml
+    _xlsx_load_file _tmpdir + "xl\\workbook.xml", _buf
+    if strlen(_buf) = 0 : return -3
+    _xlsx_parse_workbook _buf, _h
+
+    ; 各 sheet の XML を読む
+    _sh_idx = 0
+    repeat _xlsx_sheets(_h)
+        _sh_path = _tmpdir + "xl\\worksheets\\sheet" + (cnt + 1) + ".xml"
+        _xlsx_load_file _sh_path, _buf
+        if strlen(_buf) > 0 {
+            _xlsx_parse_sheet _buf, _ss, _ss_count, _h, cnt
+        }
+    loop
+    return _h
+
+;------------------------------------------------------------
+; xlsx_close handle
+;------------------------------------------------------------
+#deffunc xlsx_close int h
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return
+    if _xlsx_used(h) = 0 : return
+    ; 一時ディレクトリ削除は保守的に skip (OS 側 %TEMP% に残るが害はない)
+    _xlsx_used(h) = 0
+    _xlsx_sheets(h) = 0
+    return
+
+;------------------------------------------------------------
+; xlsx_sheet_count h  → stat
+;------------------------------------------------------------
+#deffunc xlsx_sheet_count int h
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return 0
+    if _xlsx_used(h) = 0 : return 0
+    return _xlsx_sheets(h)
+
+;------------------------------------------------------------
+; xlsx_sheet_name h, idx, var_str
+;------------------------------------------------------------
+#deffunc xlsx_sheet_name int h, int idx, var out_str
+    out_str = ""
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return
+    if _xlsx_used(h) = 0 : return
+    if (idx < 0) | (idx >= _xlsx_sheets(h)) : return
+    out_str = _xlsx_sheet_name_(_xlsx_sh_index(h, idx))
+    return
+
+;------------------------------------------------------------
+; xlsx_cell_str h, sheet, row, col, var_str  (1-origin)
+;------------------------------------------------------------
+#deffunc xlsx_cell_str int h, int sh, int row, int col, var out_str, local _idx
+    out_str = ""
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return
+    if _xlsx_used(h) = 0 : return
+    if (sh < 0) | (sh >= _xlsx_sheets(h)) : return
+    if (row <= 0) | (col <= 0) | (row > 256) | (col > 256) : return
+    _idx = _xlsx_cell_index(h, sh, row, col)
+    out_str = _xlsx_cell_val(_idx)
+    return
+
+;------------------------------------------------------------
+; xlsx_cell_num h, sheet, row, col, var_dbl
+;------------------------------------------------------------
+#deffunc xlsx_cell_num int h, int sh, int row, int col, var out_dbl, local _idx
+    out_dbl = 0.0
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return
+    if _xlsx_used(h) = 0 : return
+    if (sh < 0) | (sh >= _xlsx_sheets(h)) : return
+    if (row <= 0) | (col <= 0) | (row > 256) | (col > 256) : return
+    _idx = _xlsx_cell_index(h, sh, row, col)
+    out_dbl = double(_xlsx_cell_val(_idx))
+    return
+
+;------------------------------------------------------------
+; xlsx_used_range h, sheet, var_rows, var_cols
+;------------------------------------------------------------
+#deffunc xlsx_used_range int h, int sh, var out_rows, var out_cols, local _shidx
+    out_rows = 0
+    out_cols = 0
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return
+    if _xlsx_used(h) = 0 : return
+    if (sh < 0) | (sh >= _xlsx_sheets(h)) : return
+    _shidx = _xlsx_sh_index(h, sh)
+    out_rows = _xlsx_rows(_shidx)
+    out_cols = _xlsx_cols(_shidx)
+    return
+
+;============================================================
+; public: 書き込み API (最小テンプレート経由)
+;============================================================
+
+;------------------------------------------------------------
+; xlsx_new var_handle
+;   空 book (1 sheet: "Sheet1") を作成
+;------------------------------------------------------------
+#deffunc xlsx_new var out_h, local _h, local _shidx
+    _xlsx_init_static
+    _h = _xlsx_alloc_slot()
+    if _h < 0 {
+        out_h = -1
+        return
+    }
+    _xlsx_used(_h) = 1
+    _xlsx_sheets(_h) = 1
+    _shidx = _xlsx_sh_index(_h, 0)
+    _xlsx_sheet_name_(_shidx) = "Sheet1"
+    _xlsx_rows(_shidx) = 0
+    _xlsx_cols(_shidx) = 0
+    _xlsx_tmpdir(_h) = ""
+    out_h = _h
+    return
+
+;------------------------------------------------------------
+; xlsx_set_cell h, sheet, row, col, "value"
+;------------------------------------------------------------
+#deffunc xlsx_set_cell int h, int sh, int row, int col, str val, \
+        local _idx, local _shidx
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return
+    if _xlsx_used(h) = 0 : return
+    if (sh < 0) | (sh >= _xlsx_sheets(h)) : return
+    if (row <= 0) | (col <= 0) | (row > 256) | (col > 256) : return
+    _idx = _xlsx_cell_index(h, sh, row, col)
+    _xlsx_cell_val(_idx) = val
+    _xlsx_cell_typ(_idx) = 0
+    _shidx = _xlsx_sh_index(h, sh)
+    if row > _xlsx_rows(_shidx) : _xlsx_rows(_shidx) = row
+    if col > _xlsx_cols(_shidx) : _xlsx_cols(_shidx) = col
+    return
+
+;------------------------------------------------------------
+; xlsx_set_num h, sheet, row, col, value_dbl
+;------------------------------------------------------------
+#deffunc xlsx_set_num int h, int sh, int row, int col, double v, \
+        local _idx, local _shidx
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return
+    if _xlsx_used(h) = 0 : return
+    if (sh < 0) | (sh >= _xlsx_sheets(h)) : return
+    if (row <= 0) | (col <= 0) | (row > 256) | (col > 256) : return
+    _idx = _xlsx_cell_index(h, sh, row, col)
+    _xlsx_cell_val(_idx) = str(v)
+    _xlsx_cell_typ(_idx) = 1
+    _shidx = _xlsx_sh_index(h, sh)
+    if row > _xlsx_rows(_shidx) : _xlsx_rows(_shidx) = row
+    if col > _xlsx_cols(_shidx) : _xlsx_cols(_shidx) = col
+    return
+
+;------------------------------------------------------------
+; 内部: 1 sheet の xml を組み立てる
+;------------------------------------------------------------
+#deffunc _xlsx_build_sheet int h, int sh, var out_xml, \
+        local _shidx, local _rows, local _cols, local _r, local _c, \
+        local _idx, local _addr, local _v, local _t, local _row_has
+    _shidx = _xlsx_sh_index(h, sh)
+    _rows = _xlsx_rows(_shidx)
+    _cols = _xlsx_cols(_shidx)
+    out_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+    out_xml += "<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"><sheetData>"
+    _r = 1
+    repeat _rows
+        _row_has = 0
+        repeat _cols
+            _c = cnt + 1
+            _idx = _xlsx_cell_index(h, sh, _r, _c)
+            _v = _xlsx_cell_val(_idx)
+            if strlen(_v) > 0 : _row_has = 1 : break
+        loop
+        if _row_has {
+            out_xml += "<row r=\"" + _r + "\">"
+            repeat _cols
+                _c = cnt + 1
+                _idx = _xlsx_cell_index(h, sh, _r, _c)
+                _v = _xlsx_cell_val(_idx)
+                if strlen(_v) = 0 : continue
+                _addr = _xlsx_col_a1(_c) + str(_r)
+                _t = _xlsx_cell_typ(_idx)
+                if _t = 1 {
+                    out_xml += "<c r=\"" + _addr + "\"><v>" + _v + "</v></c>"
+                } else {
+                    out_xml += "<c r=\"" + _addr + "\" t=\"inlineStr\"><is><t>" + _xlsx_escape(_v) + "</t></is></c>"
+                }
+            loop
+            out_xml += "</row>"
+        }
+        _r++
+    loop
+    out_xml += "</sheetData></worksheet>"
+    return
+
+;------------------------------------------------------------
+; xlsx_save h, "file.xlsx"
+;   最小テンプレート xlsx を一時ディレクトリに吐き出して hsp7z で zip 化
+;------------------------------------------------------------
+#deffunc xlsx_save int h, str path, \
+        local _dir, local _xml, local _n, local _wb_xml, local _rels_xml, \
+        local _ct_xml, local _wb_rels, local _sh, local _shpath, local _name, \
+        local _shidx
+    if (h < 0) | (h >= _XLSX_MAX_BOOK) : return -1
+    if _xlsx_used(h) = 0 : return -2
+
+    _dir = _xlsx_make_tmpdir(h)
+    mkdir _dir
+    mkdir _dir + "_rels"
+    mkdir _dir + "xl"
+    mkdir _dir + "xl\\_rels"
+    mkdir _dir + "xl\\worksheets"
+
+    ; [Content_Types].xml
+    _ct_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+    _ct_xml += "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">"
+    _ct_xml += "<Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>"
+    _ct_xml += "<Default Extension=\"xml\" ContentType=\"application/xml\"/>"
+    _ct_xml += "<Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>"
+    _n = _xlsx_sheets(h)
+    repeat _n
+        _ct_xml += "<Override PartName=\"/xl/worksheets/sheet" + (cnt + 1) + ".xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\"/>"
+    loop
+    _ct_xml += "</Types>"
+    bsave _dir + "[Content_Types].xml", _ct_xml, strlen(_ct_xml)
+
+    ; _rels/.rels
+    _rels_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+    _rels_xml += "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">"
+    _rels_xml += "<Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"xl/workbook.xml\"/>"
+    _rels_xml += "</Relationships>"
+    bsave _dir + "_rels\\.rels", _rels_xml, strlen(_rels_xml)
+
+    ; xl/workbook.xml
+    _wb_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+    _wb_xml += "<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><sheets>"
+    repeat _n
+        _shidx = _xlsx_sh_index(h, cnt)
+        _name = _xlsx_sheet_name_(_shidx)
+        if strlen(_name) = 0 : _name = "Sheet" + (cnt + 1)
+        _wb_xml += "<sheet name=\"" + _xlsx_escape(_name) + "\" sheetId=\"" + (cnt + 1) + "\" r:id=\"rId" + (cnt + 1) + "\"/>"
+    loop
+    _wb_xml += "</sheets></workbook>"
+    bsave _dir + "xl\\workbook.xml", _wb_xml, strlen(_wb_xml)
+
+    ; xl/_rels/workbook.xml.rels
+    _wb_rels = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+    _wb_rels += "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">"
+    repeat _n
+        _wb_rels += "<Relationship Id=\"rId" + (cnt + 1) + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet\" Target=\"worksheets/sheet" + (cnt + 1) + ".xml\"/>"
+    loop
+    _wb_rels += "</Relationships>"
+    bsave _dir + "xl\\_rels\\workbook.xml.rels", _wb_rels, strlen(_wb_rels)
+
+    ; 各 sheet
+    repeat _n
+        _sh = cnt
+        _xlsx_build_sheet h, _sh, _xml
+        _shpath = _dir + "xl\\worksheets\\sheet" + (_sh + 1) + ".xml"
+        bsave _shpath, _xml, strlen(_xml)
+    loop
+
+    ; 既存の出力先を消してから zip 化
+    exist path
+    if strsize >= 0 {
+        delete path
+    }
+    ; hsp7z で zip 形式作成: 拡張子を zip にすると自動判定
+    ; 7za a -tzip out.xlsx <dir>\*
+    sdim _buf, 16384
+    sevenz_run "a -tzip -y \"" + path + "\" \"" + _dir + "*\"", _buf, 16383
+    return stat
+
+#global
+
+#endif

@@ -1,0 +1,56 @@
+;============================================================
+;   sample_office.hsp — iron_office.hsp サンプル (Office COM bridge)
+;
+;   Microsoft Excel / Word / PowerPoint がインストールされている必要あり。
+;   内部では cscript.exe + 一時 VBScript ファイルを使った bridge 方式。
+;============================================================
+
+#include "iron_office.hsp"
+
+    title "iron_office sample"
+    screen 0, 800, 600
+    font "MS Gothic", 14
+    pos 8, 8
+
+    mes "iron_office sample"
+    mes "=================="
+    mes ""
+
+; ------------------------------------------------------------
+; 1) 既存 xlsx のセル A1 を読む
+; ------------------------------------------------------------
+    mes "[1] office_excel_get_cell で A1 を読む"
+    office_excel_get_cell "test_out.xlsx", 1, 1, 1, v
+    mes "  sheet1 A1 = [" + v + "]"
+    mes ""
+
+; ------------------------------------------------------------
+; 2) 同じ xlsx の B1 に値を書き込む
+; ------------------------------------------------------------
+    mes "[2] office_excel_set_cell で B1 に書き込み"
+    office_excel_set_cell "test_out.xlsx", 1, 1, 2, "updated_from_hsp"
+    mes "  written"
+    mes ""
+
+; ------------------------------------------------------------
+; 3) PDF 変換
+; ------------------------------------------------------------
+    mes "[3] office_excel_to_pdf で PDF 変換"
+    office_excel_to_pdf "test_out.xlsx", "test_out.pdf"
+    mes "  -> test_out.pdf"
+    mes ""
+
+; ------------------------------------------------------------
+; 4) 任意 VBS の実行
+; ------------------------------------------------------------
+    mes "[4] office_excel_run で任意 VBS を実行"
+    vbs  = "Dim app : Set app = CreateObject(\"Excel.Application\")\n"
+    vbs += "Dim fso : Set fso = CreateObject(\"Scripting.FileSystemObject\")\n"
+    vbs += "Dim f   : Set f   = fso.CreateTextFile(IRON_OFFICE_OUT, True)\n"
+    vbs += "f.Write app.Version\n"
+    vbs += "f.Close\n"
+    vbs += "app.Quit\n"
+    office_excel_run vbs, ver
+    mes "  Excel version = " + ver
+
+    stop
