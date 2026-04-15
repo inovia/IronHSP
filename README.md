@@ -24,7 +24,7 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 
 ### 新規プラグイン
 
-- **hspcv4** ([`plugins/win32/hspcv4/`](plugins/win32/hspcv4/)) — OpenCV 4.12 + opencv_contrib をベースに新規開発したプラグイン。**全 200 命令以上** (main 12 + contrib 8 = 20 モジュールカバー)。FreeType / HarfBuzz による日本語フォント描画、Tesseract OCR、wechat_qrcode、saliency、SWT text detection、stereo / xfeatures2d / ximgproc / ml / face / dnn 等、フル装備。**Phase I (QR/Barcode)**: `cv4_qr_encode` で QR コード生成、`cv4_barcode_detect`/`cv4_barcode_decode` で 1D バーコード (Code128/EAN-13/EAN-8/UPC-A) 検出 + デコード。**アルファチャンネル対応 (Phase 1-3)**: `cv4load` がデフォルトで `IMREAD_UNCHANGED` を使い PNG 等の BGRA を保持、`with_alpha_preserved` ヘルパーで blur/filter2d/canny/sobel/morphology 等の主要フィルタ系がアルファを自動分離・再合成、`cv4_get_pixela` で 4ch ピクセル読み取り対応。
+- **hspcv4** ([`plugins/win32/hspcv4/`](plugins/win32/hspcv4/)) — OpenCV 4.12 + opencv_contrib をベースに新規開発したプラグイン。**全 277 命令** (main DLL + hspcv4_contrib.dll の 2 モジュール構成)。FreeType / HarfBuzz による日本語フォント描画、Tesseract OCR、wechat_qrcode、saliency、SWT text detection、stereo / xfeatures2d / ximgproc / ml / face / dnn 等、フル装備。**Phase I (QR/Barcode)**: `cv4_qr_encode` で QR コード生成、`cv4_barcode_detect`/`cv4_barcode_decode` で 1D バーコード (Code128/EAN-13/EAN-8/UPC-A) 検出 + デコード。**アルファチャンネル対応 (Phase 1-3)**: `cv4load` がデフォルトで `IMREAD_UNCHANGED` を使い PNG 等の BGRA を保持、`with_alpha_preserved` ヘルパーで blur/filter2d/canny/sobel/morphology 等の主要フィルタ系がアルファを自動分離・再合成、`cv4_get_pixela` で 4ch ピクセル読み取り対応。**Phase F1-F6 (2026-04-16)**: OLDDLL `$202` 形式から typed `#func` 新形式へ 277 関数全部を移行済 (混合戦略: typed 引数 / `pval` / `bmscr`)。
 
 ### 大幅拡張したプラグイン
 
@@ -242,7 +242,7 @@ IronHSP_2026/
 ├── hsp3cnv/ hsp3dish/ hsp3embed/ hsp3ll/ hsp3rd/ hsp3rtest/
 ├── hspcmp/                     — HSP コンパイラ (#defstruct / NSTRUCT 対応)
 ├── plugins/win32/              — 同梱プラグイン
-│   ├── hspcv4/                 — OpenCV 4.12 (200+ 命令 / 20 モジュール / QR encode + Barcode)
+│   ├── hspcv4/                 — OpenCV 4.12 (277 命令 / main + contrib / QR encode + Barcode)
 │   ├── hspdxlib/               — DXLib プラグイン化
 │   ├── hspvoicevox/            — VOICEVOX 連携 (TTS)
 │   ├── hspjson/                — 自前 JSON parser/writer

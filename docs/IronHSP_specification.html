@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14 (Phase G/H/I/J/K 全完了 + 拡張ラウンド — Media Foundation / hspjson / hspcv4 QR/Barcode / iron_video/camera/ai/mcp/speech / 5 種音声認識 backend / webserver / zip / db / shell / serial / A1〜A4 補完 + D2〜D4 デモ/ドキュメント)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-16 (Phase L 全走破 + 新規プラグイン 11 個 + OLDDLL <code>$202</code> 完全撤廃 / hsp3net runtime 配置 / hspcv4 277 関数を typed <code>#func</code> 化)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -2049,9 +2049,9 @@ package/hsphelp/
 <li>C 関数は <code>int __stdcall fn(int x, const char* s, int* out)</code> 形式の普通の C 関数として書ける</li>
 </ul>
 
-<p>例外: <code>hspcv4.dll</code> (278 関数) のみ依然として <code>$202</code> 形式。サイズが大きく回帰リスクを慎重に管理する必要があるため、別バッチで移行予定。</p>
+<p><strong>hspcv4.dll (277 関数) も 2026-04-16 に Phase F1〜F6 で完全移行済み</strong>。hsp3net 用 IronHSP プラグインから OLDDLL <code>$202</code> 形式は全廃され、HSPEXINFO callback 機構への依存も一掃された。混合戦略 (typed 引数 / <code>pval</code> 型で <code>PVal*</code> 直渡し / <code>bmscr</code> 型で <code>BMSCR*</code> 直渡し / ごく一部で <code>pexinfo</code>) により HSP スクリプト側 API は完全不変のまま内部実装を刷新している。</p>
 
-<h3>16.5 音声認識バックエンド比較</h3>
+<h3>16.6 音声認識バックエンド比較</h3>
 
 <p><code>iron_speech.hsp</code> は 5 種類のバックエンドを統一 API で切り替え可能:</p>
 
@@ -2158,6 +2158,12 @@ package/hsphelp/
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/16 00:06</td><td><code>deb148bd</code></td><td><span class="badge">リファクタ</span> <strong>Phase F6 (最終)</strong>: hspcv4 残り 78 関数 + contrib proxy + helper cleanup を typed <code>#func</code> 化。<code>grep "$202"</code> = 0 件で OLDDLL 完全撤廃。contrib DLL (hspcv4_contrib.dll) の <code>_impl</code> 関数も typed 化、関数ポインタは per-callsite typedef 化。<code>g_hei</code> / <code>set_hei</code> / <code>getint</code> / <code>getstr</code> helper を全削除。累計 277 関数</td></tr>
+<tr><td>4/16 00:01〜05</td><td><code>4c6b7f80 / 93586cad / 9671e6ea / 029edccb / 94afca7a</code></td><td><span class="badge">リファクタ</span> <strong>hspcv4 Phase F1〜F5</strong>: 基本 49 関数 (画像IO/描画/フィルタ/モルフォ) → imgproc拡張 27 → core Mat演算+DNN+video 34 → contours+features2d+photo+cascade 41 → video+tracker+ml+face+stereo+xphoto+aruco+calib3d 48 を段階的に typed <code>#func</code> 化。混合戦略 (typed 引数 / <code>pval</code> / <code>bmscr</code>) で HSP スクリプト側 API 完全不変</td></tr>
+<tr><td>4/15 21:07</td><td><code>c3a4eb78</code></td><td><span class="badge">新機能</span> <strong>hspllama do_complete_impl 完成</strong>: ggml_backend_load_all + llama_backend_init → tokenize → greedy sampler → decode loop → detokenize → llama_vocab_is_eog で終端判定。SmolLM-135M で実機動作確認 ("The capital of Japan is" → "the country's currency, the Japanese Yen...")</td></tr>
+<tr><td>4/15 22:05〜</td><td>多数</td><td><span class="badge">リファクタ</span> <strong>OLDDLL $202 排除プロジェクト</strong>: hsp3net 用プラグインから OLDDLL <code>$202</code> 形式を完全撤廃。hspllama POC → hspjson / hspmidi / hspwasm / hspduckdb / hspwinrtocr / hspwgcapture / hspble / hsppdf / hspwebview2 / hsponnx / hsptflite の 11 プラグイン × 138 関数を typed <code>#func</code> + HSPEXINFO callback 機構廃止で一斉移行。hspllama は SmolLM-135M で旧形式と同一出力の回帰確認済</td></tr>
+<tr><td>4/15 22:00</td><td><code>c6e15488</code></td><td><span class="badge">インフラ</span> <strong>Phase B</strong>: hsp3net 系ランタイムバイナリを <code>package/win32/</code> に配置。<code>hsp3_net.exe</code> / <code>hsp3_net_64.exe</code> / <code>hsp3cl_net.exe</code> / <code>hsp3cl_net_64.exe</code> / <code>hspcmp_net.exe</code> / <code>hspcmp_net_64.exe</code> 本体、対応する .hrt、および <code>common/hsp3_net.as</code> / <code>hsp3_net_64.as</code> / <code>hsp3cl_net.as</code> / <code>hsp3cl_net_64.as</code> を新規作成。バニラと共存、HSP 側は <code>#include "hsp3_net_64.as"</code> で切替</td></tr>
+<tr><td>4/15</td><td>多数</td><td><span class="badge">Phase L</span> <strong>L0〜L8 大型ロードマップ全走破</strong>: L0-1 Phase E+F 翻訳残 6789 entries / L0-2 iron_* 6 helpfiles / L0-3 hspcv4.hs / L0-4 win32 gen2 サンプル / L0-5 iron_toast WinRT / L1-1 iron_csv / L1-2 GIF アニメ (hspd2d) / L1-4 hspwinrtocr / L1-5 hspmidi / L2 hspwasm v1 (Wasm3) / L3 hspwebview2 / L4 WebView2 派生 (ruffle/webpdf/ribbon/designer) / L5 hsppdf (PDFium) / L6 iron_xlsx/office/duckdb / L7 hsponnx/hspllama + iron_ai LOCAL_LLAMA backend / L8 hspwgcapture/hspble / hsptflite + MediaPipe hand detection を連続実装</td></tr>
 <tr><td>4/10 18:00</td><td><code>a61b1f32</code></td><td>OpenHSP 3.7 (SVN r1616) をインポート</td></tr>
 <tr><td>4/10 18:30</td><td><code>ca517453</code></td><td>3.7 を master にマージ（3-way merge）</td></tr>
 <tr><td>4/10 19:00</td><td><code>51f7a621</code></td><td>hsp3net を 3.7 ベースに更新（87ファイル置換 + 6ファイル 3-way merge）</td></tr>
