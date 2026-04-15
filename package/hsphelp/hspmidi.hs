@@ -46,9 +46,11 @@ MIDI out デバイス数取得
 %group
 hspmidi — MIDI out
 %prm
+var_count
+var_count ... デバイス数を受け取る整数変数
 
 %inst
-stat に MIDI 出力デバイスの数が格納されます (midiOutGetNumDevs)。
+MIDI 出力デバイスの数を var_count に格納します (midiOutGetNumDevs)。
 通常 "Microsoft GS Wavetable Synth" が devid=0 にあります。
 
 %index
@@ -57,18 +59,22 @@ MIDI out デバイス名取得
 %group
 hspmidi — MIDI out
 %prm
-var_str, devid
-var_str ... デバイス名を格納する文字列変数
-devid   ... デバイス番号 (0 〜 midi_out_count-1)
+var_str, buf_size, devid
+var_str  ... デバイス名を格納する文字列変数 (sdim 済)
+buf_size ... var_str に sdim で確保したバッファサイズ
+devid    ... デバイス番号 (0 〜 midi_out_count-1)
 
 %inst
 指定デバイスの名称を var_str に cp932 で格納します。内部的には
 midiOutGetDevCapsW で UTF-16 取得後、CP_ACP で変換しています。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 例:
-  midi_out_count
-  repeat stat
-    midi_out_name nm, cnt
+  sdim nm, 256
+  midi_out_count cnt_dev
+  repeat cnt_dev
+    midi_out_name nm, 256, cnt
     mes strf("%d: %s", cnt, nm)
   loop
 
@@ -192,9 +198,11 @@ MIDI in デバイス数取得
 %group
 hspmidi — MIDI in
 %prm
+var_count
+var_count ... デバイス数を受け取る整数変数
 
 %inst
-stat に MIDI 入力デバイスの数が格納されます (midiInGetNumDevs)。
+MIDI 入力デバイスの数を var_count に格納します (midiInGetNumDevs)。
 
 %index
 midi_in_name
@@ -202,10 +210,15 @@ MIDI in デバイス名取得
 %group
 hspmidi — MIDI in
 %prm
-var_str, devid
+var_str, buf_size, devid
+var_str  ... デバイス名を格納する文字列変数 (sdim 済)
+buf_size ... var_str に sdim で確保したバッファサイズ
+devid    ... デバイス番号
 
 %inst
 指定 MIDI 入力デバイスの名称を cp932 で格納します。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %index
 midi_in_open
@@ -224,8 +237,8 @@ MIDI 入力デバイスを開きます。成功で 0、失敗で負数。
   midi_in_open 0
   midi_in_start
   repeat
-    midi_in_poll st, d1, d2
-    if stat == 0 : await 5 : continue
+    midi_in_poll got, st, d1, d2
+    if got == 0 : await 5 : continue
     mes strf("%02x %d %d", st, d1, d2)
   loop
   midi_in_stop
@@ -271,15 +284,16 @@ midi_in_poll
 %group
 hspmidi — MIDI in
 %prm
-var_status, var_d1, var_d2
+var_got, var_status, var_d1, var_d2
+var_got    ... 取得結果フラグ (int 変数: 1=取得成功 / 0=バッファ空)
 var_status ... 結果のステータスバイト (int 変数)
 var_d1     ... データ1 (int 変数)
 var_d2     ... データ2 (int 変数)
 
 %inst
 内部リングバッファから 1 件取り出します。
-  stat = 1 ... 取得成功 (3 変数に値が入る)
-  stat = 0 ... バッファ空 (変数は全部 0)
+  var_got = 1 ... 取得成功 (status/d1/d2 に値が入る)
+  var_got = 0 ... バッファ空 (status/d1/d2 は 0)
 
 status には「チャンネル付きステータスバイト」(例: $90 ch0 Note On)
 がそのまま入ります。チャンネル分離が必要な場合は
@@ -291,8 +305,8 @@ status には「チャンネル付きステータスバイト」(例: $90 ch0 No
   midi_in_open 0
   midi_in_start
   *poll
-    midi_in_poll st, d1, d2
-    if stat {
+    midi_in_poll got, st, d1, d2
+    if got {
       kind = st & $F0
       ch   = st & $0F
       if kind == MIDI_NOTE_ON  : mes strf("ON  ch%d note=%d vel=%d", ch, d1, d2)

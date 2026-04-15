@@ -117,10 +117,16 @@ onnx_input_name
 %group
 hsponnx — メタ情報
 %prm
-h, idx, var_str
+h, idx, var_str, buf_size
+h        : セッションハンドル
+idx      : 入力テンソル番号 (0〜)
+var_str  : 名前を受け取る str 変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
 
 %inst
 idx 番目の入力テンソル名を var_str に格納します (例 "input" / "images")。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %index
 onnx_input_shape
@@ -151,7 +157,16 @@ onnx_output_name
 %group
 hsponnx — メタ情報
 %prm
-h, idx, var_str
+h, idx, var_str, buf_size
+h        : セッションハンドル
+idx      : 出力テンソル番号 (0〜)
+var_str  : 名前を受け取る str 変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
+
+%inst
+idx 番目の出力テンソル名を var_str に格納します。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %index
 onnx_output_shape

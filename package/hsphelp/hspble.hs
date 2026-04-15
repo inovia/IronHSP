@@ -101,14 +101,18 @@ ble_scan_poll
 %group
 hspble — スキャン
 %prm
-var_addr, var_name, var_rssi
-var_addr : MAC アドレス文字列 ("aa:bb:cc:dd:ee:ff")
-var_name : ローカル名 (無い場合は空文字)
-var_rssi : RSSI (dBm, int)
+var_addr, addr_size, var_name, name_size, var_rssi
+var_addr  : MAC アドレス文字列 ("aa:bb:cc:dd:ee:ff") を受け取る str 変数 (sdim 済)
+addr_size : var_addr に sdim で確保したバッファサイズ
+var_name  : ローカル名を受け取る str 変数 (sdim 済) (無い場合は空文字)
+name_size : var_name に sdim で確保したバッファサイズ
+var_rssi  : RSSI (dBm, int)
 
 %inst
 内部キューから 1 件取り出して引数の各変数に格納します。
 stat=1 で取得成功、stat=0 でキューが空。
+var_addr / var_name は事前に sdim で十分なサイズを確保し、その
+sdim サイズを addr_size / name_size にそれぞれ指定してください。
 
 %href
 ble_scan_start
@@ -119,13 +123,14 @@ BLE デバイスに接続
 %group
 hspble — 接続
 %prm
-"addr"
-addr : MAC アドレス文字列 ("aa:bb:cc:dd:ee:ff")
+"addr", var_handle
+addr       : MAC アドレス文字列 ("aa:bb:cc:dd:ee:ff")
+var_handle : デバイスハンドルを受け取る整数変数
 
 %inst
 BluetoothLEDevice::FromBluetoothAddressAsync で接続を確立し、
-内部スロット (最大 16) に格納します。戻り値 (stat) は 0〜15 の
-デバイスハンドル。負値はエラー。
+内部スロット (最大 16) に格納します。var_handle に 0〜15 の
+デバイスハンドルが格納されます。負値はエラー。
 
 %href
 ble_disconnect
@@ -151,9 +156,10 @@ GATT サービス一覧を取得
 %group
 hspble — GATT
 %prm
-dev_h, var_list
+dev_h, var_list, buf_size
 dev_h    : デバイスハンドル
-var_list : UUID 文字列を LF 区切りで受け取る str 変数
+var_list : UUID 文字列を LF 区切りで受け取る str 変数 (sdim 済)
+buf_size : var_list に sdim で確保したバッファサイズ
 
 %inst
 GetGattServicesAsync(Uncached) でサービスを列挙し、各 UUID を
@@ -169,12 +175,18 @@ ble_characteristics
 %group
 hspble — GATT
 %prm
-dev_h, "svc_uuid", var_list
+dev_h, "svc_uuid", var_list, buf_size
+dev_h    : デバイスハンドル
+svc_uuid : サービス UUID
+var_list : characteristic UUID 文字列を LF 区切りで受け取る str 変数 (sdim 済)
+buf_size : var_list に sdim で確保したバッファサイズ
 
 %inst
 指定サービスに属する GattCharacteristic を列挙し、UUID を LF
 区切りで返します。ble_services → ble_characteristics の順に
 呼ぶことで属性ツリーが取れます。
+var_list は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %href
 ble_services
@@ -185,12 +197,20 @@ characteristic を読み取る
 %group
 hspble — GATT I/O
 %prm
-dev_h, "svc", "chr", var_buf, var_len
+dev_h, "svc", "chr", var_buf, buf_size, var_len
+dev_h    : デバイスハンドル
+svc      : サービス UUID
+chr      : characteristic UUID
+var_buf  : バイト列を受け取る変数 (sdim 済)
+buf_size : var_buf に sdim で確保したバッファサイズ
+var_len  : 受信バイト数を受け取る int 変数
 
 %inst
 GattCharacteristic::ReadValueAsync を同期実行し、取得したバイ
-ト列を var_buf へ書き込みます (文字列変数に resize + memcpy)。
-バイト数は var_len に int で返します。
+ト列を var_buf へ書き込みます。実際に書き込まれたバイト数は
+var_len に int で返します。
+var_buf は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %href
 ble_write
@@ -233,12 +253,19 @@ Notify キューから 1 件取り出す
 %group
 hspble — Notify
 %prm
-dev_h, "chr", var_buf, var_len
+dev_h, "chr", var_buf, buf_size, var_len
+dev_h    : デバイスハンドル
+chr      : characteristic UUID (空文字なら任意の chr)
+var_buf  : バイト列を受け取る変数 (sdim 済)
+buf_size : var_buf に sdim で確保したバッファサイズ
+var_len  : 受信バイト数を受け取る int 変数
 
 %inst
 指定 characteristic のキューから最古の 1 件を取り出して var_buf
 と var_len に格納します。chr を空文字にした場合は任意の chr の
 1 件を取ります。stat=1 で成功、stat=0 でキューが空。
+var_buf は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %href
 ble_notify_enable

@@ -89,12 +89,19 @@ llama_complete
 %group
 hspllama — 推論
 %prm
-h, "prompt", max_tokens, var_result_str
+h, "prompt", max_tokens, var_result_str, buf_size
+h               : セッションハンドル
+"prompt"        : プロンプト文字列
+max_tokens      : 生成する最大トークン数
+var_result_str  : 結果を受け取る str 変数 (sdim 済)
+buf_size        : var_result_str に sdim で確保したバッファサイズ
 
 %inst
 プロンプトを流し込み、最大 max_tokens 個のトークンを生成して
 結果文字列を var_result_str に格納します。EOS トークンに到達した
 時点で打ち切られます。
+var_result_str は事前に sdim で十分なサイズを確保し、その sdim
+サイズを buf_size に指定してください。
 
 %index
 llama_chat
@@ -102,11 +109,19 @@ chat 形式の補完 (同期, chat template 適用)
 %group
 hspllama — 推論
 %prm
-h, "system", "user", max_tokens, var_result_str
+h, "system", "user", max_tokens, var_result_str, buf_size
+h               : セッションハンドル
+"system"        : system プロンプト
+"user"          : user プロンプト
+max_tokens      : 生成する最大トークン数
+var_result_str  : 結果を受け取る str 変数 (sdim 済)
+buf_size        : var_result_str に sdim で確保したバッファサイズ
 
 %inst
 モデル組み込みの chat template を適用して system + user を
 適切な形式に整形し、assistant の返答を生成します。
+var_result_str は事前に sdim で十分なサイズを確保し、その sdim
+サイズを buf_size に指定してください。
 
 %index
 llama_stream_begin
@@ -127,11 +142,15 @@ llama_stream_next
 %group
 hspllama — ストリーミング
 %prm
-var_token_str
+var_token_str, buf_size
+var_token_str : トークン片を受け取る str 変数 (sdim 済)
+buf_size      : var_token_str に sdim で確保したバッファサイズ
 
 %inst
 ストリーミング中に次のトークン片を var_token_str に格納します。
 空文字列が返った場合は EOS か max_tokens 到達です。
+var_token_str は事前に sdim で十分なサイズを確保し、その sdim
+サイズを buf_size に指定してください。
 
 %index
 llama_stream_end

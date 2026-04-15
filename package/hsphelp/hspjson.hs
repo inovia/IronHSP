@@ -90,14 +90,16 @@ JSON 文字列値の取得
 %group
 hspjson — 値取得
 %prm
-hid, "path", var
-hid    : ハンドル
-"path" : JSONPath 風のパス (例 "name", "user.email", "tags[2]")
-var    : 結果を格納する文字列変数 (sdim 済)
+hid, "path", var, buf_size
+hid      : ハンドル
+"path"   : JSONPath 風のパス (例 "name", "user.email", "tags[2]")
+var      : 結果を格納する文字列変数 (sdim 済)
+buf_size : var に sdim で確保したバッファサイズ
 
 %inst
 指定パスの文字列値を取り出して p3 の変数に書き込みます。
-変数は事前に sdim で十分なサイズ確保しておく必要があります。
+変数は事前に sdim で十分なサイズ確保しておき、その sdim サイズを
+p4 (buf_size) に指定してください。
 
 パス形式:
   "name"        → トップレベルのキー
@@ -192,13 +194,16 @@ json_stringify
 %group
 hspjson — シリアライズ
 %prm
-hid, var
-hid : ハンドル
-var : 結果を格納する文字列変数
+hid, var, buf_size
+hid      : ハンドル
+var      : 結果を格納する文字列変数 (sdim 済)
+buf_size : var に sdim で確保したバッファサイズ
 
 %inst
 ハンドルが保持しているツリーを改行/インデントなしの最小 JSON 文字列に
 シリアライズして p2 の変数に書き込みます。
+p2 は事前に sdim で十分なサイズを確保し、その sdim サイズを
+p3 (buf_size) に指定してください。
 
 %href
 json_stringify_pretty
@@ -209,13 +214,16 @@ json_stringify_pretty
 %group
 hspjson — シリアライズ
 %prm
-hid, var
-hid : ハンドル
-var : 結果を格納する文字列変数
+hid, var, buf_size
+hid      : ハンドル
+var      : 結果を格納する文字列変数 (sdim 済)
+buf_size : var に sdim で確保したバッファサイズ
 
 %inst
 ハンドルが保持しているツリーをインデント付きで読みやすく整形した
 JSON 文字列を p2 に書き込みます。
+p2 は事前に sdim で十分なサイズを確保し、その sdim サイズを
+p3 (buf_size) に指定してください。
 
 %href
 json_stringify

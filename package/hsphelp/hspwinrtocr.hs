@@ -84,8 +84,9 @@ ocr_langs
 %group
 hspwinrtocr — 基本
 %prm
-var
-var : 結果を受け取る文字列変数
+var, buf_size
+var      : 結果を受け取る文字列変数 (sdim 済)
+buf_size : var に sdim で確保したバッファサイズ
 
 %inst
 OcrEngine::AvailableRecognizerLanguages() から現在の OS で
@@ -105,9 +106,10 @@ ocr_run_file
 %group
 hspwinrtocr — 実行
 %prm
-var, "path"
-var  : 認識結果テキストを受け取る文字列変数
-path : 画像ファイルのパス (相対/絶対どちらでも可)
+var, buf_size, "path"
+var      : 認識結果テキストを受け取る文字列変数 (sdim 済)
+buf_size : var に sdim で確保したバッファサイズ
+path     : 画像ファイルのパス (相対/絶対どちらでも可)
 
 %inst
 指定したファイルを StorageFile::GetFileFromPathAsync で開き、
@@ -136,8 +138,9 @@ ocr_run_hwnd
 %group
 hspwinrtocr — 実行
 %prm
-var
-var : 認識結果テキストを受け取る文字列変数
+var, buf_size
+var      : 認識結果テキストを受け取る文字列変数 (sdim 済)
+buf_size : var に sdim で確保したバッファサイズ
 
 %inst
 HSP のカレントウィンドウ (gsel で選択中の ID) の BMSCR から

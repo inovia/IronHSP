@@ -116,8 +116,14 @@ duckdb_result_col_name
 %group
 hspduckdb — 結果取得
 %prm
-rh, col, var_str
-col : 0-origin
+rh, col, var_str, buf_size
+col      : 0-origin
+var_str  : 列名を受け取る文字列変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
+
+%inst
+列名を var_str に格納します。var_str は事前に sdim で十分なサイズを
+確保し、その sdim サイズを buf_size に指定してください。
 
 %index
 duckdb_result_cell_str
@@ -125,11 +131,15 @@ duckdb_result_cell_str
 %group
 hspduckdb — 結果取得
 %prm
-rh, row, col, var_str
+rh, row, col, var_str, buf_size
 row, col : 0-origin
+var_str  : セル値を受け取る文字列変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
 
 %inst
 DuckDB の any 型を文字列化して返します (NULL は空文字列)。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %index
 duckdb_result_cell_dbl

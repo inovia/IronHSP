@@ -79,8 +79,9 @@ wgc_list_windows
 %group
 hspwgcapture — 列挙
 %prm
-var
-var : 結果を受け取る文字列変数
+var, buf_size
+var      : 結果を受け取る文字列変数 (sdim 済)
+buf_size : var に sdim で確保したバッファサイズ
 
 %inst
 EnumWindows でトップレベルウィンドウを列挙し、可視かつタイ
@@ -99,15 +100,16 @@ wgc_start_window
 %group
 hspwgcapture — キャプチャ
 %prm
-hwnd
-hwnd : キャプチャ対象ウィンドウハンドル (int)
+hwnd, var_handle
+hwnd       : キャプチャ対象ウィンドウハンドル (int)
+var_handle : セッションハンドルを受け取る整数変数
 
 %inst
 GraphicsCaptureItem::CreateForWindow で指定 HWND のキャプチャ
 セッションを作成し、Direct3D11CaptureFramePool を CreateFreeThreaded
 で生成したのち、GraphicsCaptureSession::StartCapture() を呼びます。
 
-戻り値 (stat): 0 以上で内部セッションスロット番号 (ハンドル)。
+var_handle に 0 以上の内部セッションスロット番号が格納されます。
                 -1 = 失敗 / -2 = 無効な HWND。
 
 同時に最大 4 セッションを保持できます。
@@ -123,8 +125,9 @@ wgc_start_monitor
 %group
 hspwgcapture — キャプチャ
 %prm
-idx
-idx : モニタ index (0 = プライマリ, 1 = サブ, ...)
+idx, var_handle
+idx        : モニタ index (0 = プライマリ, 1 = サブ, ...)
+var_handle : セッションハンドルを受け取る整数変数
 
 %inst
 EnumDisplayMonitors で取得した idx 番目の HMONITOR に対して
@@ -159,10 +162,11 @@ wgc_grab_frame
 %group
 hspwgcapture — フレーム取得
 %prm
-handle, buf, w, h
-handle : セッションハンドル
-buf    : 画素データを受け取る文字列変数 (sx*sy*4 バイトの BGRA)
-w, h   : 幅と高さを受け取る int 変数
+handle, buf, buf_size, w, h
+handle   : セッションハンドル
+buf      : 画素データを受け取る変数 (sx*sy*4 バイトの BGRA)
+buf_size : buf に確保したバッファサイズ (バイト数)
+w, h     : 幅と高さを受け取る int 変数
 
 %inst
 FramePool::TryGetNextFrame() で最新フレームを取り出し、
@@ -171,8 +175,9 @@ staging テクスチャにコピー → Map() → memcpy の順でピクセル
 を CPU へ読み戻します。
 
 format は B8G8R8A8UIntNormalized (各画素 4 バイト BGRA)。
-buf は自動で必要サイズに resize されるので、呼び出し前の
-割り当ては不要です。
+buf は呼び出し側で sdim や memexpand 等で十分なサイズを確保
+してから渡してください。確保したバッファサイズを buf_size に
+指定します。
 
 戻り値 (stat):
   0  : 成功

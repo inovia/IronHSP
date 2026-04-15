@@ -199,10 +199,11 @@ pdf_get_text
 %group
 hsppdf — テキスト
 %prm
-hid, page, var_str
-hid     : ハンドル
-page    : ページ番号
-var_str : 結果を受け取る str 変数 (sdim で十分なサイズ確保済み)
+hid, page, var_str, buf_size
+hid      : ハンドル
+page     : ページ番号
+var_str  : 結果を受け取る str 変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
 
 %inst
 ページ内の全テキストを UTF-16 で取得し、CP_ACP (cp932) に変換して
@@ -211,8 +212,9 @@ var_str に書き込みます。PDF 側が日本語フォントを埋め込ん�
 空文字になる場合があります。
 
 var_str は `sdim s, 65536` 等で十分なサイズを確保してから渡して
-ください。iron_pdf.hsp の pdf_text ラッパは refstr で文字列を
-返すため、バッファ確保は不要です。
+ください。確保した sdim サイズを buf_size に指定します。
+iron_pdf.hsp の pdf_text ラッパは refstr で文字列を返すため、
+バッファ確保は不要です。
 
 iron_ai と組み合わせて「PDF 全文要約」を作る場合は、ページ毎に
 pdf_get_text で取り出して結合してから ai_chat に投げます。長大な
@@ -228,13 +230,16 @@ pdf_doc_title
 %group
 hsppdf — メタデータ
 %prm
-hid, var_str
-hid     : ハンドル
-var_str : 結果を受け取る str 変数
+hid, var_str, buf_size
+hid      : ハンドル
+var_str  : 結果を受け取る str 変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
 
 %inst
 PDF ドキュメントの Info 辞書から /Title エントリを UTF-16 で取得し、
 CP_ACP に変換して var_str に書き込みます。設定されていなければ空文字。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %href
 pdf_doc_author
@@ -245,13 +250,16 @@ pdf_doc_author
 %group
 hsppdf — メタデータ
 %prm
-hid, var_str
-hid     : ハンドル
-var_str : 結果を受け取る str 変数
+hid, var_str, buf_size
+hid      : ハンドル
+var_str  : 結果を受け取る str 変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
 
 %inst
 PDF ドキュメントの Info 辞書から /Author エントリを取得します。
 仕様は pdf_doc_title と同じ。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 
 %href
 pdf_doc_title

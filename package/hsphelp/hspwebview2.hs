@@ -142,10 +142,16 @@ JS を実行して結果を受け取る
 %group
 hspwebview2
 %prm
-id, "js", var_str
+id, "js", var_str, buf_size
+id       : ビュー ID
+"js"     : 実行する JavaScript ソース
+var_str  : 結果 JSON 文字列を受け取る str 変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
 
 %inst
 指定 JS を評価し、JSON シリアライズされた結果を var_str に書き込みます。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 非同期処理を内部で同期待ちします (HSP ポンプを止めません)。
 
 %href
@@ -169,11 +175,16 @@ JS -> HSP のメッセージ取り出し
 %group
 hspwebview2
 %prm
-id, var_str
+id, var_str, buf_size
+id       : ビュー ID
+var_str  : メッセージを受け取る str 変数 (sdim 済)
+buf_size : var_str に sdim で確保したバッファサイズ
 
 %inst
 JS 側が window.chrome.webview.postMessage() で送ったメッセージを
 1 件取り出して var_str に書き込みます。
+var_str は事前に sdim で十分なサイズを確保し、その sdim サイズを
+buf_size に指定してください。
 stat=1 取得、stat=0 空。
 
 %index
