@@ -203,9 +203,9 @@
 ;     cv4rect img_id, rects(cnt)->x, rects(cnt)->y, rects(cnt)->w, rects(cnt)->h, 0,255,0, 2
 ;   loop
 ;
-#func global cv4_cascade_load  cv4_cascade_load  $202
-#func global cv4_cascade_free  cv4_cascade_free  $202
-#func global cv4_detect        cv4_detect        $202
+#func global cv4_cascade_load  "cv4_cascade_load"  int, str
+#func global cv4_cascade_free  "cv4_cascade_free"  int
+#func global cv4_detect        "cv4_detect"        pexinfo, int, int, pval, var, double, int
 
 ; ---- video I/O : VideoCapture / VideoWriter ----
 ;
@@ -361,59 +361,59 @@
 ;   loop
 ;   cv4_contours_free 0
 ;
-#func global cv4_find_contours        cv4_find_contours        $202
+#func global cv4_find_contours        "cv4_find_contours"        int, int, int, int
 ; --- Phase 17: hierarchical contours ---
 ; cv4_find_contours_hier cid, hier_mat_id, src [, mode=RETR_TREE] [, method=CHAIN_APPROX_SIMPLE]
 ;   階層情報を hier_mat (Nx4 CV_32S) で同時取得
 ; cv4_contour_hier_get hier_mat_id, idx, var_next, var_prev, var_child, var_parent
 ;   特定 contour の階層関係 (隣接 / 親子 index、なしは -1) を取得
-#func global cv4_find_contours_hier   cv4_find_contours_hier   $202
-#func global cv4_contour_hier_get     cv4_contour_hier_get     $202
-#func global cv4_contours_free        cv4_contours_free        $202
-#func global cv4_contours_count       cv4_contours_count       $202
-#func global cv4_draw_contours        cv4_draw_contours        $202
-#func global cv4_contour_area         cv4_contour_area         $202
-#func global cv4_contour_length       cv4_contour_length       $202
-#func global cv4_bounding_rect        cv4_bounding_rect        $202
-#func global cv4_min_area_rect        cv4_min_area_rect        $202
-#func global cv4_min_enclosing_circle cv4_min_enclosing_circle $202
-#func global cv4_approx_poly_dp       cv4_approx_poly_dp       $202
-#func global cv4_convex_hull          cv4_convex_hull          $202
-#func global cv4_contour_size         "cv4_contour_size"       int, int, var
-#func global cv4_contour_point        cv4_contour_point        $202
-#func global cv4_moments              cv4_moments              $202
+#func global cv4_find_contours_hier   "cv4_find_contours_hier"   int, int, int, int, int
+#func global cv4_contour_hier_get     "cv4_contour_hier_get"     int, int, var, var, var, var
+#func global cv4_contours_free        "cv4_contours_free"        int
+#func global cv4_contours_count       "cv4_contours_count"       int, var
+#func global cv4_draw_contours        "cv4_draw_contours"        int, int, int, int, int, int, int
+#func global cv4_contour_area         "cv4_contour_area"         int, int, var
+#func global cv4_contour_length       "cv4_contour_length"       int, int, int, var
+#func global cv4_bounding_rect        "cv4_bounding_rect"        int, int, var, var, var, var
+#func global cv4_min_area_rect        "cv4_min_area_rect"        int, int, var, var, var, var, var
+#func global cv4_min_enclosing_circle "cv4_min_enclosing_circle" int, int, var, var, var
+#func global cv4_approx_poly_dp       "cv4_approx_poly_dp"       int, int, int, double, int
+#func global cv4_convex_hull          "cv4_convex_hull"          int, int, int
+#func global cv4_contour_size         "cv4_contour_size"         int, int, var
+#func global cv4_contour_point        "cv4_contour_point"        int, int, int, var, var
+#func global cv4_moments              "cv4_moments"              int, int, var, var, var
 
 ; ---- features2d : ORB / AKAZE / SIFT / matchers ----
 ; 検出器はキーポイント + 記述子をハンドルとして返す。
 ; キーポイントは cv4_kp_count / cv4_kp_get で、マッチは
 ; cv4_match_count / cv4_match_get で HSP 側から反復する。
-#func global cv4_orb_detect_compute   cv4_orb_detect_compute   $202
-#func global cv4_akaze_detect_compute cv4_akaze_detect_compute $202
-#func global cv4_sift_detect_compute  cv4_sift_detect_compute  $202
-#func global cv4_good_features_to_track cv4_good_features_to_track $202
-#func global cv4_corner_harris        cv4_corner_harris        $202
-#func global cv4_bf_match             cv4_bf_match             $202
-#func global cv4_kp_free              cv4_kp_free              $202
-#func global cv4_kp_count             cv4_kp_count             $202
-#func global cv4_kp_get               cv4_kp_get               $202
-#func global cv4_match_free           cv4_match_free           $202
-#func global cv4_match_count          cv4_match_count          $202
-#func global cv4_match_get            cv4_match_get            $202
-#func global cv4_draw_keypoints       cv4_draw_keypoints       $202
-#func global cv4_draw_matches         cv4_draw_matches         $202
+#func global cv4_orb_detect_compute     "cv4_orb_detect_compute"     int, int, int, int
+#func global cv4_akaze_detect_compute   "cv4_akaze_detect_compute"   int, int, int
+#func global cv4_sift_detect_compute    "cv4_sift_detect_compute"    int, int, int, int
+#func global cv4_good_features_to_track "cv4_good_features_to_track" int, int, int, double, double
+#func global cv4_corner_harris          "cv4_corner_harris"          int, int, int, int, double
+#func global cv4_bf_match               "cv4_bf_match"               int, int, int, int
+#func global cv4_kp_free                "cv4_kp_free"                int
+#func global cv4_kp_count               "cv4_kp_count"               int, var
+#func global cv4_kp_get                 "cv4_kp_get"                 int, int, var, var, var, var, var
+#func global cv4_match_free             "cv4_match_free"             int
+#func global cv4_match_count            "cv4_match_count"            int, var
+#func global cv4_match_get              "cv4_match_get"              int, int, var, var, var
+#func global cv4_draw_keypoints         "cv4_draw_keypoints"         int, int, int, int
+#func global cv4_draw_matches           "cv4_draw_matches"           int, int, int, int, int, int
 
 ; ---- photo : denoising / inpaint / bilateral / seamless / stylization ----
 ; photo モジュールの主要関数。seamless_clone は別の画像をベースに
 ; src をブレンド、stylization/pencil_sketch は芸術的フィルタ。
-#func global cv4_bilateral       cv4_bilateral       $202
-#func global cv4_denoise         cv4_denoise         $202
-#func global cv4_inpaint         cv4_inpaint         $202
-#func global cv4_seamless_clone  cv4_seamless_clone  $202
-#func global cv4_decolor         cv4_decolor         $202
-#func global cv4_detail_enhance  cv4_detail_enhance  $202
-#func global cv4_edge_preserve   cv4_edge_preserve   $202
-#func global cv4_stylization     cv4_stylization     $202
-#func global cv4_pencil_sketch   cv4_pencil_sketch   $202
+#func global cv4_bilateral       "cv4_bilateral"       int, int, int, double, double
+#func global cv4_denoise         "cv4_denoise"         int, int, double, int, int
+#func global cv4_inpaint         "cv4_inpaint"         int, int, int, double, int
+#func global cv4_seamless_clone  "cv4_seamless_clone"  int, int, int, int, int, int, int
+#func global cv4_decolor         "cv4_decolor"         int, int
+#func global cv4_detail_enhance  "cv4_detail_enhance"  int, int, double, double
+#func global cv4_edge_preserve   "cv4_edge_preserve"   int, int, int, double, double
+#func global cv4_stylization     "cv4_stylization"     int, int, double, double
+#func global cv4_pencil_sketch   "cv4_pencil_sketch"   int, int, int, double, double, double
 
 ; ---- video : optical flow / background subtraction / trackers ----
 ; オプティカルフロー
