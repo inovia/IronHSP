@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+httpapi.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì httpapi.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 HttpAddFragmentToCache
 HttpAddFragmentToCache ŠÖ”‚Íw’è‚³‚ê‚½–¼‘O‚Åƒf[ƒ^ƒtƒ‰ƒOƒƒ“ƒg‚ğƒLƒƒƒbƒVƒ…‚µAŒã‚©‚çæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚éB‚Ü‚½‚ÍŠù‘¶‚ÌƒLƒƒƒbƒVƒ…‚ğXV‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, UrlPrefix, DataChunk, CachePolicy, Overlapped
 RequestQueueHandle : [intptr] ‚±‚ÌƒLƒƒƒbƒVƒ…‚ªŠÖ˜A•t‚¯‚ç‚ê‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ŠÖ”‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -29,8 +49,6 @@ HttpAddFragmentToCache
 %index
 HttpAddUrl
 w’è‚³‚ê‚½ URL ‚ğ“o˜^‚µA‡’v‚·‚éƒŠƒNƒGƒXƒg‚ª HTTP Server API ‚Ìw’èƒŠƒNƒGƒXƒgƒLƒ…[‚Éƒ‹[ƒeƒBƒ“ƒO‚³‚ê‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, FullyQualifiedUrl, Reserved
 RequestQueueHandle : [intptr] w’è URL ‚Ö‚ÌƒŠƒNƒGƒXƒg‚ğƒ‹[ƒeƒBƒ“ƒO‚·‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ŠÖ”‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -54,8 +72,6 @@ UrlPrefix •¶š—ñƒgƒsƒbƒN‚É‚ ‚é‚Æ‚¨‚èA“o˜^‚·‚é UrlPrefix ‚ÌƒXƒL[ƒ€w’è‚Í¬•¶š‚
 %index
 HttpAddUrlToUrlGroup
 URL ƒOƒ‹[ƒv ID ‚Å¯•Ê‚³‚ê‚é URL ƒOƒ‹[ƒv‚Éw’è URL ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 httpapi
 %prm
 UrlGroupId, pFullyQualifiedUrl, UrlContext, Reserved
 UrlGroupId : [int64] w’è URL ‚Ö‚ÌƒŠƒNƒGƒXƒg‚ğƒ‹[ƒeƒBƒ“ƒO‚·‚é URL ƒOƒ‹[ƒv‚ÌƒOƒ‹[ƒv IDBURL ƒOƒ‹[ƒv‚Í HttpCreateUrlGroup ŠÖ”‚Åì¬‚³‚ê‚éB
@@ -78,8 +94,6 @@ HttpAddUrlToUrlGroup ‚ğg—p‚·‚×‚«‚ÅAHttpAddUrl
 %index
 HttpCancelHttpRequest
 HttpCancelHttpRequest ŠÖ”‚Íw’è‚³‚ê‚½ƒŠƒNƒGƒXƒg‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Overlapped
 RequestQueueHandle : [intptr] ƒŠƒNƒGƒXƒgŒ³‚ÌƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -99,8 +113,6 @@ HttpCancelHttpRequest ŠÖ”‚Íw’è‚³‚ê‚½ƒŠƒNƒGƒXƒg‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
 %index
 HttpCloseRequestQueue
 HttpCreateRequestQueue ‚Åì¬‚³‚ê‚½w’èƒŠƒNƒGƒXƒgƒLƒ…[‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle
 RequestQueueHandle : [intptr] •Â‚¶‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ŠÖ”‚Åì¬‚³‚ê‚éB
@@ -118,8 +130,6 @@ HttpCloseRequestQueue ‚ğŒÄ‚ÑA‘SƒŠƒ\[ƒX‚ª‰ğ•ú‚³‚ê‚é‚æ‚¤‚É‚·‚é‚±‚ÆB
 %index
 HttpCloseServerSession
 ƒT[ƒo[ƒZƒbƒVƒ‡ƒ“ ID ‚Å¯•Ê‚³‚ê‚éƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚ğíœ‚·‚éB
-%group
-Win32 httpapi
 %prm
 ServerSessionId
 ServerSessionId : [int64] •Â‚¶‚éƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚Ì IDB
@@ -138,8 +148,6 @@ URL ƒOƒ‹[ƒv‚ğ•Â‚¶‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 %index
 HttpCloseUrlGroup
 URL ƒOƒ‹[ƒv ID ‚Å¯•Ê‚³‚ê‚é URL ƒOƒ‹[ƒv‚ğ•Â‚¶‚éB
-%group
-Win32 httpapi
 %prm
 UrlGroupId
 UrlGroupId : [int64] íœ‚·‚é URL ƒOƒ‹[ƒv‚Ì IDB
@@ -157,8 +165,6 @@ URL ƒOƒ‹[ƒv ID ‚Å¯•Ê‚³‚ê‚é URL ƒOƒ‹[ƒv‚ğ•Â‚¶‚éB
 %index
 HttpCreateHttpHandle
 ŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—p‚Ì HTTP ƒŠƒNƒGƒXƒgƒLƒ…[‚ğì¬‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, Reserved
 RequestQueueHandle : [intptr] ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -180,8 +186,6 @@ CloseHandle ‚Åƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
 %index
 HttpCreateRequestQueue
 V‚µ‚¢ƒŠƒNƒGƒXƒgƒLƒ…[‚ğì¬‚·‚é‚©AŠù‘¶‚ÌƒŠƒNƒGƒXƒgƒLƒ…[‚ğŠJ‚­B
-%group
-Win32 httpapi
 %prm
 Version, Name, SecurityAttributes, Flags, RequestQueueHandle
 Version : [var] ƒŠƒNƒGƒXƒgƒLƒ…[‚Ìƒo[ƒWƒ‡ƒ“‚ğ¦‚· HTTPAPI_VERSION \‘¢‘ÌBƒo[ƒWƒ‡ƒ“ 2.0 ‚Ìê‡‚Í\‘¢‘Ì‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µ–‘O’è‹`’l HTTPAPI_VERSION_2 ‚Éİ’è‚µ‚Ä‚©‚ç“n‚·Bƒo[ƒWƒ‡ƒ“‚Í 2.0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BHttpCreateRequestQueue ‚Í 1.0 ‚ÌƒŠƒNƒGƒXƒgƒLƒ…[‚ğƒTƒ|[ƒg‚µ‚È‚¢B
@@ -217,8 +221,6 @@ HttpSetRequestQueueProperty ‚ÅƒvƒƒpƒeƒB‚ğİ’è‚Å‚«‚éBHttpCreateRequestQueue
 %index
 HttpCreateServerSession
 w’è‚³‚ê‚½ƒo[ƒWƒ‡ƒ“‚ÌƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 httpapi
 %prm
 Version, ServerSessionId, Reserved
 Version : [var] ƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚Ìƒo[ƒWƒ‡ƒ“‚ğ¦‚· HTTPAPI_VERSION \‘¢‘ÌBƒo[ƒWƒ‡ƒ“ 2.0 ‚Ìê‡‚Í\‘¢‘Ì‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µ HTTPAPI_VERSION_2 ‚Éİ’è‚µ‚Ä‚©‚ç“n‚·Bƒo[ƒWƒ‡ƒ“‚Í 2.0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BHttpCreateServerSession ‚Í 1.0 ‚ÌƒŠƒNƒGƒXƒgƒLƒ…[‚ğƒTƒ|[ƒg‚µ‚È‚¢B
@@ -241,8 +243,6 @@ I/O ‚ğƒTƒ|[ƒg‚µ‚È‚¢BƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚ª•s—v‚É‚È‚é‚©ƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹‘O‚É H
 %index
 HttpCreateUrlGroup
 w’èƒT[ƒo[ƒZƒbƒVƒ‡ƒ“”z‰º‚É URL ƒOƒ‹[ƒv‚ğì¬‚·‚éB
-%group
-Win32 httpapi
 %prm
 ServerSessionId, pUrlGroupId, Reserved
 ServerSessionId : [int64] URL ƒOƒ‹[ƒv‚ğì¬‚·‚éƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚Ì¯•ÊqB
@@ -268,8 +268,6 @@ HttpServerBindingProperty
 %index
 HttpDeclarePush
 HTTP ƒT[ƒo[ƒvƒbƒVƒ…‚Åg‚¤ƒŠƒ\[ƒX‘ÎƒTƒuƒŠƒ\[ƒX‚ÌŠÖŒW‚ğéŒ¾‚·‚éBƒvƒƒgƒRƒ‹EÚ‘±EƒNƒ‰ƒCƒAƒ“ƒgEƒ|ƒŠƒV[‚ª‹–‚·ê‡AHTTP.sys ‚ÍŠY“–ƒŠƒ\[ƒX‚É‘Î‚·‚é HTTP 2.0 ƒT[ƒo[ƒvƒbƒVƒ…‚ğÀs‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Verb, Path, Query, Headers
 RequestQueueHandle : [intptr] HttpCreateRequestQueue ŠÖ”‚ª•Ô‚µ‚½ HTTP.sys ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -295,8 +293,6 @@ HttpDeclarePush ‚ğg—p‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢‚Æ‘Ñˆæ‚Æ CPU ‚ğ–³‘Ê‚Ég‚¤B
 %index
 HttpDelegateRequestEx
 ‘—MŒ³ƒŠƒNƒGƒXƒgƒLƒ…[‚©‚ç‘ÎÛƒŠƒNƒGƒXƒgƒLƒ…[‚ÖƒŠƒNƒGƒXƒg‚ğˆÏ÷‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, DelegateQueueHandle, RequestId, DelegateUrlGroupId, PropertyInfoSetSize, PropertyInfoSet
 RequestQueueHandle : [intptr] Œ^: _In_ **HANDLE** ‘—MŒ³ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -315,8 +311,6 @@ NTSTATUS Š®—¹ƒXƒe[ƒ^ƒX‚ğŠÜ‚Ş **ULONG**B
 %index
 HttpDeleteServiceConfiguration
 IP ƒAƒhƒŒƒX‚â SSL Ø–¾‘‚È‚Ç‚Ìw’èƒf[ƒ^‚ğ HTTP Server API İ’èƒXƒgƒA‚©‚ç 1 ƒŒƒR[ƒh‚¸‚Âíœ‚·‚éB
-%group
-Win32 httpapi
 %prm
 ServiceHandle, ConfigId, pConfigInformation, ConfigInformationLength, pOverlapped
 ServiceHandle : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚è 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -334,8 +328,6 @@ IP ƒAƒhƒŒƒX‚â SSL Ø–¾‘‚È‚Ç‚Ìw’èƒf[ƒ^‚ğ HTTP Server API İ’èƒXƒgƒA‚©‚ç 1 ƒŒƒR
 %index
 HttpFindUrlGroupId
 URL ‚ÆƒŠƒNƒGƒXƒgƒLƒ…[‚É‘Î‰‚·‚é URL ƒOƒ‹[ƒv ID ‚ğæ“¾‚·‚éB
-%group
-Win32 httpapi
 %prm
 FullyQualifiedUrl, RequestQueueHandle, UrlGroupId
 FullyQualifiedUrl : [wstr] Œ^: _In_ **PCWSTR** URL ƒOƒ‹[ƒv‚ğ–â‚¢‡‚í‚¹‚é‘ÎÛ‚Ì URLB
@@ -351,8 +343,6 @@ NTSTATUS Š®—¹ƒXƒe[ƒ^ƒX‚ğŠÜ‚Ş **ULONG**B
 %index
 HttpFlushResponseCache
 w’èƒŠƒNƒGƒXƒgƒLƒ…[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ HTTP Server API ƒLƒƒƒbƒVƒ…‚©‚çA–¼‘O‚ÌƒTƒCƒg•”‚ªw’è UrlPrefix ‚Éˆê’v‚·‚é‘S‰“šƒtƒ‰ƒOƒƒ“ƒg‚ğíœ‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, UrlPrefix, Flags, Overlapped
 RequestQueueHandle : [intptr] ‚±‚ÌƒLƒƒƒbƒVƒ…‚ªŠÖ˜A•t‚¯‚ç‚ê‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -371,8 +361,6 @@ Overlapped : [var] ”ñ“¯ŠúŒÄ‚Ño‚µ‚Ìê‡‚Í pOverlapped ‚É OVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|
 %index
 HttpGetExtension
 (no summary)
-%group
-Win32 httpapi
 %prm
 Version, Extension, Buffer, BufferSize
 Version : [var] 
@@ -386,8 +374,6 @@ BufferSize : [int]
 %index
 HttpInitialize
 HttpInitialize ŠÖ”‚Í HTTP Server API ƒhƒ‰ƒCƒo‚ğ‰Šú‰»‚µA‚Ü‚¾ŠJn‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎŠJn‚µA‰“šƒLƒ…[ì¬‚»‚Ì‘¼‚Ì‘€ì‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚Ìƒf[ƒ^\‘¢‚ğŠm•Û‚·‚éB
-%group
-Win32 httpapi
 %prm
 Version, Flags, pReserved
 Version : [var] HTTP ƒo[ƒWƒ‡ƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í HTTPAPI_VERSION \‘¢‘Ì‚Å‚ ‚éBŒ»sƒo[ƒWƒ‡ƒ“‚Ìê‡‚Í\‘¢‘Ì‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µ–‘O’è‹`’l **HTTPAPI_VERSION_1** ‚Éİ’è‚µ‚Ä‚©‚ç“n‚·B
@@ -410,8 +396,6 @@ HttpTerminate ‚É‚à“¯—l‚É“n‚·•K—v‚ª‚ ‚éBŠe HttpInitialize ŒÄ‚Ño‚µ‚É‘Î‰‚·‚é Htt
 %index
 HttpIsFeatureSupported
 “Á’è‚Ì‹@”\‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ’²‚×‚éB
-%group
-Win32 httpapi
 %prm
 FeatureId
 FeatureId : [int] Œ^: _In_ **HTTP_FEATURE_ID** ‹@”\‚Ì¯•ÊqB
@@ -425,8 +409,6 @@ FeatureId : [int] Œ^: _In_ **HTTP_FEATURE_ID** ‹@”\‚Ì¯•ÊqB
 %index
 HttpPrepareUrl
 ”ñ³‹K‰»‚È Unicode ‚Ü‚½‚Í punycode URL ‚ğ‰ğÍE•ªÍE³‹K‰»‚µA‘¼‚Ì HTTP ŠÖ”‚ÅˆÀ‘S‚©‚Â—LŒø‚Ég‚¦‚éŒ`‚É‚·‚éB
-%group
-Win32 httpapi
 %prm
 Reserved, Flags, Url, PreparedUrl
 Reserved : [intptr] —\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -444,8 +426,6 @@ PreparedUrl : [var] o—Í¬Œ÷A³‹K‰»Ï‚İ URL ‚ğ•\‚·•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’: Pre
 %index
 HttpQueryRequestQueueProperty
 w’èƒnƒ“ƒhƒ‹‚ÌƒŠƒNƒGƒXƒgƒLƒ…[‚ÌƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, Property, PropertyInformation, PropertyInformationLength, Reserved1, ReturnLength, Reserved2
 RequestQueueHandle : [intptr] 
@@ -465,8 +445,6 @@ Reserved2 : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 HttpQueryServerSessionProperty
 w’èƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚ÌƒT[ƒo[ƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 httpapi
 %prm
 ServerSessionId, Property, PropertyInformation, PropertyInformationLength, ReturnLength
 ServerSessionId : [int64] ƒvƒƒpƒeƒBİ’è‚ğæ“¾‚·‚éƒT[ƒo[ƒZƒbƒVƒ‡ƒ“B
@@ -492,8 +470,6 @@ HTTP_TIMEOUT_LIMIT_INFO \‘¢‘ÌƒTƒCƒY‚Ìƒoƒbƒtƒ@‚ğw‚·•K—v‚ª‚ ‚éBHttpServerQosPro
 %index
 HttpQueryServiceConfiguration
 1 ‚ÂˆÈã‚Ì HTTP Server API İ’èƒŒƒR[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 httpapi
 %prm
 ServiceHandle, ConfigId, pInput, InputLength, pOutput, OutputLength, pReturnLength, pOverlapped
 ServiceHandle : [intptr] —\–ñ‚³‚ê‚Ä‚¢‚éB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -515,8 +491,6 @@ pOverlapped : [var] ”ñ“¯Šú‘€ì‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È
 %index
 HttpQueryUrlGroupProperty
 w’è URL ƒOƒ‹[ƒv‚ÌƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 httpapi
 %prm
 UrlGroupId, Property, PropertyInformation, PropertyInformationLength, ReturnLength
 UrlGroupId : [int64] ƒvƒƒpƒeƒBİ’è‚ğæ“¾‚·‚é URL ƒOƒ‹[ƒv‚Ì IDB
@@ -537,8 +511,6 @@ HttpServerLoggingProperty ‚Ì–â‚¢‡‚í‚¹‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
 %index
 HttpReadFragmentFromCache
 HttpReadFragmentFromCache ŠÖ”‚Í HTTP Server API ƒLƒƒƒbƒVƒ…‚©‚çw’è–¼‚Ì‰“šƒtƒ‰ƒOƒƒ“ƒg‚ğæ“¾‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, UrlPrefix, ByteRange, Buffer, BufferLength, BytesRead, Overlapped
 RequestQueueHandle : [intptr] w’è‰“šƒtƒ‰ƒOƒƒ“ƒg‚ªŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -560,8 +532,6 @@ HttpReadFragmentFromCache ŠÖ”‚Í HTTP Server API
 %index
 HttpReceiveClientCertificate
 HttpReceiveClientCertificate ŠÖ”‚ÍƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒNƒ‰ƒCƒAƒ“ƒg SSL Ø–¾‘‚Ü‚½‚Íƒ`ƒƒƒlƒ‹ƒoƒCƒ“ƒfƒBƒ“ƒOƒg[ƒNƒ“ (CBT) ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, ConnectionId, Flags, SslClientCertInfo, SslClientCertInfoSize, BytesReceived, Overlapped
 RequestQueueHandle : [intptr] w’è SSL ƒNƒ‰ƒCƒAƒ“ƒg‚Ü‚½‚Í CBT ‚ªŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -588,8 +558,6 @@ lpNumberOfBytesTransferred)B
 %index
 HttpReceiveHttpRequest
 w’èƒŠƒNƒGƒXƒgƒLƒ…[‚©‚çŸ‚Ì—˜—p‰Â”\‚È HTTP ƒŠƒNƒGƒXƒg‚ğ“¯Šú‚Ü‚½‚Í”ñ“¯Šú‚Åæ“¾‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, RequestBuffer, RequestBufferLength, BytesReturned, Overlapped
 RequestQueueHandle : [intptr] Ÿ‚É—˜—p‰Â”\‚ÈƒŠƒNƒGƒXƒg‚ğæ“¾‚·‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -623,8 +591,6 @@ HTTP_REQUEST.RequestId ‚ğ“n‚µ‚Â‚Â ERROR_HANDLE_EOF ‚ª•Ô‚é‚Ü‚Å’Ç‰ÁŒÄ‚Ño‚µ‚ğ‘±‚¯‚
 %index
 HttpReceiveRequestEntityBody
 w’è HTTP ƒŠƒNƒGƒXƒg‚Ì’Ç‰ÁƒGƒ“ƒeƒBƒeƒBƒ{ƒfƒBƒf[ƒ^‚ğóM‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, EntityBuffer, EntityBufferLength, BytesReturned, Overlapped
 RequestQueueHandle : [intptr] w’èƒGƒ“ƒeƒBƒeƒBƒ{ƒfƒBƒf[ƒ^‚ğæ“¾‚·‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -650,8 +616,6 @@ HttpReceiveRequestEntityBody
 %index
 HttpRemoveUrl
 w’è UrlPrefix •¶š—ñ‚É‡’v‚·‚éƒŠƒNƒGƒXƒg‚ğw’èƒŠƒNƒGƒXƒgƒLƒ…[‚Éƒ‹[ƒeƒBƒ“ƒO‚·‚é‚±‚Æ‚ğƒVƒXƒeƒ€‚É’â~‚³‚¹‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, FullyQualifiedUrl
 RequestQueueHandle : [intptr] URL “o˜^‚ğíœ‚·‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -667,8 +631,6 @@ FullyQualifiedUrl : [wstr] w’èƒŠƒNƒGƒXƒgƒLƒ…[‚É“o˜^‚³‚ê‚½ UrlPrefix •¶š—ñ‚Ö‚Ì
 %index
 HttpRemoveUrlFromUrlGroup
 URL ƒOƒ‹[ƒv ID ‚Å¯•Ê‚³‚ê‚éƒOƒ‹[ƒv‚©‚çw’è URL ‚ğíœ‚·‚éB
-%group
-Win32 httpapi
 %prm
 UrlGroupId, pFullyQualifiedUrl, Flags
 UrlGroupId : [int64] pFullyQualifiedUrl ‚Åw’è‚³‚ê‚½ URL ‚ğíœ‚·‚é URL ƒOƒ‹[ƒv‚Ì IDB
@@ -689,8 +651,6 @@ HttpRemoveUrlFromUrlGroup ‚ğg—p‚·‚×‚«‚Å HttpRemoveUrl ‚Íg—p‚·‚×‚«‚Å‚Í‚È‚¢B•s—
 %index
 HttpSendHttpResponse
 w’è HTTP ƒŠƒNƒGƒXƒg‚É‘Î‚·‚é HTTP ‰“š‚ğ‘—M‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, HttpResponse, CachePolicy, BytesSent, Reserved1, Reserved2, Overlapped, LogData
 RequestQueueHandle : [intptr] w’èƒŠƒNƒGƒXƒg‚ğæ“¾‚µ‚½ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -725,8 +685,6 @@ HttpSendHttpResponse ‚Æ HttpSendResponseEntityBody
 %index
 HttpSendResponseEntityBody
 HTTP ‰“š‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒGƒ“ƒeƒBƒeƒBƒ{ƒfƒBƒf[ƒ^‚ğ‘—M‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, RequestId, Flags, EntityChunkCount, EntityChunks, BytesSent, Reserved1, Reserved2, Overlapped, LogData
 RequestQueueHandle : [intptr] w’èƒŠƒNƒGƒXƒg‚ğæ“¾‚µ‚½ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -757,8 +715,6 @@ HttpSendResponseEntityBody ‚ğ•ÊƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚ñ‚Å‚Í‚È‚ç‚È‚¢B
 %index
 HttpSetRequestQueueProperty
 w’èƒnƒ“ƒhƒ‹‚ÌƒŠƒNƒGƒXƒgƒLƒ…[‚ÉV‚µ‚¢ƒvƒƒpƒeƒB‚ğİ’è‚·‚é‚©Šù‘¶ƒvƒƒpƒeƒB‚ğ•ÏX‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, Property, PropertyInformation, PropertyInformationLength, Reserved1, Reserved2
 RequestQueueHandle : [intptr] ƒvƒƒpƒeƒB‚ğİ’è‚·‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éB
@@ -777,8 +733,6 @@ Reserved2 : [intptr] —\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 HttpSetServerSessionProperty
 w’èƒT[ƒo[ƒZƒbƒVƒ‡ƒ“‚ÉV‚µ‚¢ƒvƒƒpƒeƒB‚ğİ’è‚·‚é‚©Šù‘¶ƒvƒƒpƒeƒB‚ğ•ÏX‚·‚éB
-%group
-Win32 httpapi
 %prm
 ServerSessionId, Property, PropertyInformation, PropertyInformationLength
 ServerSessionId : [int64] ƒvƒƒpƒeƒB‚ğİ’è‚·‚éƒT[ƒo[ƒZƒbƒVƒ‡ƒ“B
@@ -802,8 +756,6 @@ HTTP_TIMEOUT_LIMIT_INFO ƒTƒCƒYˆÈã‚Ìƒoƒbƒtƒ@‚ğw‚·•K—v‚ª‚ ‚éB
 %index
 HttpSetServiceConfiguration
 HTTP Server API İ’èƒXƒgƒA‚Éİ’èƒŒƒR[ƒh‚ğì¬Eİ’è‚·‚éB
-%group
-Win32 httpapi
 %prm
 ServiceHandle, ConfigId, pConfigInformation, ConfigInformationLength, pOverlapped
 ServiceHandle : [intptr] —\–ñ‚³‚ê‚Ä‚¢‚éB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -826,8 +778,6 @@ HttpSetServiceConfiguration ‚Åİ’è‚µ‚½\¬ƒpƒ‰ƒ[ƒ^‚Íƒ}ƒVƒ“ã‚Ì‘S HTTP Server A
 %index
 HttpSetUrlGroupProperty
 w’è URL ƒOƒ‹[ƒv‚ÉV‚µ‚¢ƒvƒƒpƒeƒB‚ğİ’è‚·‚é‚©Šù‘¶ƒvƒƒpƒeƒB‚ğ•ÏX‚·‚éB
-%group
-Win32 httpapi
 %prm
 UrlGroupId, Property, PropertyInformation, PropertyInformationLength
 UrlGroupId : [int64] ƒvƒƒpƒeƒB‚ğİ’è‚·‚é URL ƒOƒ‹[ƒv‚Ì IDB
@@ -850,8 +800,6 @@ HttpServerBindingProperty
 %index
 HttpShutdownRequestQueue
 w’èƒŠƒNƒGƒXƒgƒLƒ…[ƒvƒƒZƒX‚Ö‚ÌƒŠƒNƒGƒXƒg‚ÌƒLƒ…[ƒCƒ“ƒO‚ğ’â~‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle
 RequestQueueHandle : [intptr] ƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éB
@@ -869,8 +817,6 @@ HttpShutdownRequestQueue
 %index
 HttpTerminate
 HTTP Server API ‚ªƒAƒvƒŠ‚ÌŒÄ‚Ño‚µ‚ğˆ—‚·‚é‚½‚ß‚Ég—p‚·‚éƒŠƒ\[ƒX‚ğƒNƒŠ[ƒ“ƒAƒbƒv‚·‚éB
-%group
-Win32 httpapi
 %prm
 Flags, pReserved
 Flags : [int] 
@@ -893,8 +839,6 @@ HttpInitialize ‚ğ 2 ‰ñŒÄ‚ñ‚¾ê‡A—¼ƒtƒ‰ƒO‚ğw’è‚µ‚Ä HttpTerminate ‚ğ 1 ‰ñŒÄ‚×‚Î
 %index
 HttpUpdateServiceConfiguration
 HTTP Server API İ’èƒXƒgƒA“à‚Ìİ’èƒŒƒR[ƒh‚ÅATLS Ø–¾‘‚ğw’è‚·‚éƒT[ƒrƒX\¬ƒpƒ‰ƒ[ƒ^‚ğƒAƒgƒ~ƒbƒN‚ÉXV‚·‚éB
-%group
-Win32 httpapi
 %prm
 Handle, ConfigId, ConfigInfo, ConfigInfoLength, Overlapped
 Handle : [intptr] —\–ñ‚³‚ê‚Ä‚¨‚è NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -917,8 +861,6 @@ HttpUpdateServiceConfiguration ‚ÅXV‚·‚é\¬ƒpƒ‰ƒ[ƒ^‚Íƒ}ƒVƒ“ã‚Ì‘S HTTP Serve
 %index
 HttpWaitForDemandStart
 V‚µ‚¢ƒŠƒNƒGƒXƒgƒLƒ…[ƒvƒƒZƒX‚Åˆ—‰Â”\‚ÈV‚µ‚¢ƒŠƒNƒGƒXƒg‚Ì“’…‚ğ‘Ò‚ÂB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, Overlapped
 RequestQueueHandle : [intptr] ƒfƒ}ƒ“ƒhƒXƒ^[ƒg‚ğ“o˜^‚·‚éƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éB
@@ -944,8 +886,6 @@ Server API ‚Í“¯‚É 1
 %index
 HttpWaitForDisconnect
 ‰½‚ç‚©‚Ì——R‚Å HTTP ƒNƒ‰ƒCƒAƒ“ƒg‚Ö‚ÌÚ‘±‚ªØ’f‚³‚ê‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚·‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, ConnectionId, Overlapped
 RequestQueueHandle : [intptr] w’èÚ‘±‚©‚ç‚ÌƒŠƒNƒGƒXƒg‚ğˆµ‚¤ƒŠƒNƒGƒXƒgƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŠƒNƒGƒXƒgƒLƒ…[‚Í HttpCreateRequestQueue ‚Åì¬‚³‚ê‚éBWindows Server 2003 SP1 ‚¨‚æ‚Ñ Windows XP SP2 ‚Å‚Íƒnƒ“ƒhƒ‹‚Í HttpCreateHttpHandle ‚É‚æ‚èì¬‚³‚ê‚éB
@@ -962,8 +902,6 @@ Overlapped : [var] ”ñ“¯ŠúŒÄ‚Ño‚µ‚Ìê‡‚Í pOverlapped ‚É OVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|
 %index
 HttpWaitForDisconnectEx
 ‚±‚ÌŠÖ”‚Í HttpWaitForDisconnect ‚ÌŠg’£”Å‚Å‚ ‚éB
-%group
-Win32 httpapi
 %prm
 RequestQueueHandle, ConnectionId, Reserved, Overlapped
 RequestQueueHandle : [intptr] 

@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+shell32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì shell32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 AssocGetDetailsOfPropKey
 –¼‘O‹óŠÔŠg’£‚ª’ñ‹Ÿ‚·‚éƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯î•ñ‚ğg‚Á‚ÄAw’è‚µ‚½ƒvƒƒpƒeƒBƒL[‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 psf, pidl, pkey, pv, pfFoundPropKey
 psf : [var] Œ^: IShellFolder* ƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯‚ÌƒvƒƒpƒeƒBƒL[‚ÌÚ×‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒVƒFƒ‹ƒtƒHƒ‹ƒ_‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -33,8 +53,6 @@ pfFoundPropKey : [var] Œ^: BOOL* ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAƒvƒƒpƒeƒBƒL[‚ªŒ©‚Â‚©‚Á‚
 %index
 CDefFolderMenu_Create2
 ‘I‘ğ‚³‚ê‚½ˆêŒQ‚Ìƒtƒ@ƒCƒ‹ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğì¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pidlFolder, hwnd, cidl, apidl, psf, pfn, nKeys, ahkeys, ppcm
 pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE eƒtƒHƒ‹ƒ_‚Ì ITEMIDLIST \‘¢‘ÌB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
@@ -56,8 +74,6 @@ ppcm : [var] Œ^: IContextMenu** ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğ•\
 %index
 CIDLData_CreateFromIDArray
 CIDLData_CreateFromIDArray ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pidlFolder, cidl, apidl, ppdtobj
 pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE apidl ‚Åw’è‚³‚ê‚½ƒAƒCƒeƒ€‚Ìƒ‹[ƒg‚ğ•\‚·Š®‘SCü IDLISTB
@@ -78,8 +94,6 @@ CIDLData_CreateFromIDArray ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %index
 CommandLineToArgvW
 Unicode ‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñ‚ğ‰ğÍ‚µA•W€ C ƒ‰ƒ“ƒ^ƒCƒ€‚Ì argv ‚¨‚æ‚Ñ argc ‚Ì’l‚Æ“¯—l‚ÉAƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚Æ‚»‚Ìˆø”‚Ì”‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 lpCmdLine, pNumArgs
 lpCmdLine : [wstr] Œ^: LPCWSTR ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‘S‘Ì‚ğŠi”[‚µ‚½ƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª‹ó•¶š—ñ‚Ìê‡AŠÖ”‚ÍŒ»İ‚ÌÀsƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚ğ•Ô‚·B
@@ -108,8 +122,6 @@ Definitionsv‚¨‚æ‚ÑuParsing C Command-Line Argumentsv‚ğQÆBlpCmdLine
 %index
 DAD_AutoScroll
 ƒCƒ[ƒW‚Ìƒhƒ‰ƒbƒO’†‚ÉƒEƒBƒ“ƒhƒE‚ğƒXƒNƒ[ƒ‹‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, pad, pptNow
 hwnd : [intptr] Œ^: HWND ƒXƒNƒ[ƒ‹‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -131,8 +143,6 @@ NUM_POINTS ‚Æ“™‚µ‚­‚È‚é‚Æ bFull ‚ª TRUE ‚Éİ’è‚³‚êAŠÖ”‚ª¬Œ÷‚µ‚ÄƒEƒBƒ“ƒhƒE‚ªƒX
 %index
 DAD_DragEnterEx
 ƒhƒ‰ƒbƒO‘€ì’†‚Éw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ö‚ÌXV‚ğƒƒbƒN‚µAƒEƒBƒ“ƒhƒE“à‚Ìw’èˆÊ’u‚Éƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éB(DAD_DragEnterEx)
-%group
-Win32 shell32
 %prm
 hwndTarget, ptStart
 hwndTarget : [intptr] Œ^: HWND ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -148,8 +158,6 @@ ptStart : [int] Œ^: const POINT ƒhƒ‰ƒbƒOƒCƒ[ƒW‚Ì•\¦‚ğŠJn‚·‚éÀ•WBÀ•W‚ÍƒNƒ‰
 %index
 DAD_DragEnterEx2
 ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ÌŠÔAw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ö‚ÌXV‚ğƒƒbƒN‚µAƒEƒBƒ“ƒhƒE“à‚Ìw’èˆÊ’u‚Éƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éB
-%group
-Win32 shell32
 %prm
 hwndTarget, ptStart, pdtObject
 hwndTarget : [intptr] Œ^: HWND ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -165,8 +173,6 @@ pdtObject : [var] Œ^: IDataObject* ƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^ƒtƒF
 %index
 DAD_DragLeave
 DAD_DragEnterEx ŠÖ”‚É‚æ‚Á‚ÄƒƒbƒN‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
-%group
-Win32 shell32
 %prm
 
 %inst
@@ -179,8 +185,6 @@ DAD_DragEnterEx ŠÖ”‚É‚æ‚Á‚ÄƒƒbƒN‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 %index
 DAD_DragMove
 ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì’†‚Éƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğˆÚ“®‚·‚éB
-%group
-Win32 shell32
 %prm
 pt
 pt : [int] Œ^: POINT ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éÀ•WBÀ•W‚ÍƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚­AƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚·‚éB
@@ -194,8 +198,6 @@ pt : [int] Œ^: POINT ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éÀ•WBÀ•W‚ÍƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚
 %index
 DAD_SetDragImage
 ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğİ’è‚·‚éB
-%group
-Win32 shell32
 %prm
 him, pptOffset
 him : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Å‚Í ImageList ‚ÌƒCƒ“ƒfƒbƒNƒX 0 ‚ğg—p‚·‚éB
@@ -214,8 +216,6 @@ him ƒpƒ‰ƒ[ƒ^‚É -1ApptOffset ƒpƒ‰ƒ[ƒ^‚É NULL
 %index
 DAD_ShowDragImage
 ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB(DAD_ShowDragImage)
-%group
-Win32 shell32
 %prm
 fShow
 fShow : [int] Œ^: BOOL ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğ•\¦‚·‚é‚©”ñ•\¦‚É‚·‚é‚©‚ğw’è‚·‚é’lB
@@ -232,8 +232,6 @@ fShow : [int] Œ^: BOOL ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğ•\¦‚·‚é‚©”ñ•\¦‚É‚·‚é‚©‚ğw’
 %index
 DoEnvironmentSubstW
 1 ‚ÂˆÈã‚ÌŠÂ‹«•Ï”‚Ö‚ÌQÆ‚ğŠÜ‚Ş“ü—Í•¶š—ñ‚ğ‰ğÍ‚µA‚»‚ê‚ç‚ğŠ®‘S‚É“WŠJ‚µ‚½’l‚É’u‚«Š·‚¦‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszSrc, cchSrc
 pszSrc : [wstr] Œ^: LPTSTR 1 ‚ÂˆÈã‚ÌŠÂ‹«•Ï”‚Ö‚ÌQÆ‚ğŸ‚ÌŒ`®‚ÅŠÜ‚Şƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘å•¶š¬•¶š‚Í‹æ•Ê‚³‚ê‚È‚¢B
@@ -259,8 +257,6 @@ cchSrc ƒoƒbƒtƒ@‚ÉŠ„‚è“–‚Ä‚éƒTƒCƒY‚Í Unicode •¶š—ñ‚Ìƒoƒbƒtƒ@‚æ‚è 1 ‘å‚«‚­‚·‚é•K—
 %index
 DragAcceptFiles
 ƒEƒBƒ“ƒhƒE‚ªƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğó‚¯•t‚¯‚é‚©‚ğ“o˜^‚·‚éB
-%group
-Win32 shell32
 %prm
 hWnd, fAccept
 hWnd : [intptr] Œ^: HWND ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğó‚¯•t‚¯‚é‚©‚Ç‚¤‚©‚ğ“o˜^‚·‚éƒEƒBƒ“ƒhƒE‚Ì¯•ÊqB
@@ -276,8 +272,6 @@ WM_DROPFILES ƒƒbƒZ[ƒW‚ğˆ—‚Å‚«‚é‚±‚Æ‚ğ¦‚·B
 %index
 DragFinish
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Öƒtƒ@ƒCƒ‹–¼‚ğ“]‘—‚·‚é‚½‚ß‚ÉƒVƒXƒeƒ€‚ªŠ„‚è“–‚Ä‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 shell32
 %prm
 hDrop
 hDrop : [intptr] Œ^: HDROP ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ‹Lq‚·‚é\‘¢‘Ì‚Ì¯•ÊqB‚±‚Ìƒnƒ“ƒhƒ‹‚Í WM_DROPFILES ƒƒbƒZ[ƒW‚Ì wParam ‚©‚çæ“¾‚·‚éB
@@ -288,8 +282,6 @@ hDrop : [intptr] Œ^: HDROP ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ‹Lq‚·‚é\‘¢‘Ì‚Ì¯•ÊqB‚±‚Ìƒ
 %index
 DragQueryFileW
 ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚ÌŒ‹‰Ê‚Æ‚µ‚Äƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hDrop, iFile, lpszFile, cch
 hDrop : [intptr] Œ^: HDROP ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş\‘¢‘Ì‚Ì¯•ÊqB
@@ -313,8 +305,6 @@ shellapi.h ƒwƒbƒ_‚Í UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä ANSI ‚Ü‚½‚Í Unico
 %index
 DragQueryPoint
 ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Åƒtƒ@ƒCƒ‹‚ªƒhƒƒbƒv‚³‚ê‚½“_‚Ìƒ}ƒEƒXƒ|ƒCƒ“ƒ^ˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 hDrop, ppt
 hDrop : [intptr] Œ^: HDROP ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ‹Lq‚·‚éƒhƒƒbƒv\‘¢‘Ì‚Ìƒnƒ“ƒhƒ‹B
@@ -332,8 +322,6 @@ ppt : [var] Œ^: POINT* ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Éƒtƒ@ƒCƒ‹‚ªƒhƒƒbƒv‚³‚ê‚½‚Ìƒ}ƒEƒXƒ|ƒ
 %index
 DriveType
 DriveType ŠÖ”‚Íƒhƒ‰ƒCƒu”Ô†‚©‚çƒhƒ‰ƒCƒu‚Ìí—Ş‚ğ”»•Ê‚·‚éB(DriveType function)
-%group
-Win32 shell32
 %prm
 iDrive
 iDrive : [int] Œ^: int ’²‚×‚½‚¢ƒhƒ‰ƒCƒu‚Ì”Ô†B"A:" ‚Í 0A"B:" ‚Í 1A‚Æ‚¢‚¤‚æ‚¤‚É‘Î‰‚·‚éB
@@ -351,8 +339,6 @@ DriveType ‚Í RealDriveType ‚ğŒÄ‚Ño‚·‚Ì‚Æ“™‰¿‚Å‚ ‚éBRealDriveType ‚Ì•û‚ª„§‚³‚
 %index
 DuplicateIcon
 w’è‚µ‚½ƒAƒCƒRƒ“‚Ì•¡»‚ğì¬‚·‚éB
-%group
-Win32 shell32
 %prm
 hInst, hIcon
 hInst : [intptr] Œ^: HINSTANCE
@@ -371,8 +357,6 @@ DuplicateIcon ‚ª•Ô‚µ‚½ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚ÍA•s—v‚É‚È‚Á‚½“_‚ÅŒÄ‚Ño‚µ‘¤‚ª Destroy
 %index
 ExtractAssociatedIconW
 ƒtƒ@ƒCƒ‹“à‚ÉƒŠƒ\[ƒX‚Æ‚µ‚ÄŠi”[‚³‚ê‚½ƒAƒCƒRƒ“A‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹“à‚ÉŠi”[‚³‚ê‚½ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hInst, pszIconPath, piIcon
 hInst : [intptr] Œ^: HINSTANCE ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -403,8 +387,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ExtractAssociatedIconExW
 ExtractAssociatedIconEx ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hInst, pszIconPath, piIconIndex, piIconId
 hInst : [intptr] Œ^: HINSTANCE ƒAƒCƒRƒ“‚ğ’Šo‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -430,8 +412,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ExtractIconW
 w’è‚³‚ê‚½Àsƒtƒ@ƒCƒ‹ADLLA‚Ü‚½‚ÍƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚©‚çƒAƒCƒRƒ“‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB‘å/¬ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚Ì”z—ñ‚ğæ“¾‚·‚é‚É‚Í ExtractIconEx ‚ğg‚¤B(Unicode)
-%group
-Win32 shell32
 %prm
 hInst, pszExeFileName, nIconIndex
 hInst : [intptr] Œ^: HINSTANCE ŠÖ”‚ğŒÄ‚Ño‚·ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -453,8 +433,6 @@ ExtractIconEx ‚ğg‚¤B(Unicode)
 %index
 ExtractIconExW
 ExtractIconEx ŠÖ”‚ÍAw’è‚³‚ê‚½Àsƒtƒ@ƒCƒ‹ADLLA‚Ü‚½‚ÍƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚©‚ç’Šo‚³‚ê‚½‘å‚Ü‚½‚Í¬ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ì”z—ñ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 lpszFile, nIconIndex, phiconLarge, phiconSmall, nIcons
 lpszFile : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğ’Šo‚·‚éÀsƒtƒ@ƒCƒ‹ADLLA‚Ü‚½‚ÍƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -493,8 +471,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FindExecutableW
 “Á’è‚ÌƒhƒLƒ…ƒƒ“ƒgƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Às‰Â”\i.exejƒtƒ@ƒCƒ‹‚Ì–¼‘O‚¨‚æ‚Ñƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 lpFile, lpDirectory, lpResult
 lpFile : [wstr] Œ^: LPCTSTR ƒtƒ@ƒCƒ‹–¼‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚ÌƒAƒhƒŒƒXB‚±‚Ìƒtƒ@ƒCƒ‹‚ÍƒhƒLƒ…ƒƒ“ƒg‚Å‚ ‚é•K—v‚ª‚ ‚éB
@@ -516,8 +492,6 @@ lpResult : [wstr] Œ^: LPTSTR ŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğó‚¯æ‚éƒoƒ
 %index
 GetCurrentProcessExplicitAppUserModelID
 Œ»İ‚ÌƒvƒƒZƒX‚É‘Î‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì–¾¦“I‚È Application User Model IDiAppUserModelIDj‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 AppID
 AppID : [var] Œ^: PWSTR* ƒvƒƒZƒX‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ AppUserModelID ‚ÌƒAƒhƒŒƒX‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‘¤‚ÍA•s—v‚É‚È‚Á‚½“_‚Å‚±‚Ì•¶š—ñ‚ğ CoTaskMemFree ‚Å‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
@@ -539,8 +513,6 @@ AppUserModelID ‚Íæ“¾‚Å‚«‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª©g‚Ì AppUserModelID
 %index
 GetFileNameFromBrowse
 GetFileNameFromBrowse ŠÖ”‚ÍAƒ†[ƒU‚ªŠJ‚­ƒtƒ@ƒCƒ‹‚Ìƒhƒ‰ƒCƒuAƒfƒBƒŒƒNƒgƒŠA–¼‘O‚ğw’è‚Å‚«‚éuŠJ‚­vƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, pszFilePath, cchFilePath, pszWorkingDir, pszDefExt, pszFilters, pszTitle
 hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒƒ“ƒo‚É‚Í—LŒø‚ÈƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğw’è‚Å‚«Aƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÉƒI[ƒi[‚ª‚È‚¢ê‡‚Í NULL ‚ğw’è‚Å‚«‚éB
@@ -563,8 +535,6 @@ FALSE ‚ğ•Ô‚·B
 %index
 ILAppendID
 SHITEMID \‘¢‘Ì‚ğ ITEMIDLIST \‘¢‘Ì‚Ì––”ö‚Ü‚½‚Íæ“ª‚É’Ç‰Á‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl, pmkid, fAppend
 pidl : [var] Œ^: PIDLIST_RELATIVE ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚Á‚½“_‚ÅApmkid ‚Åw’è‚³‚ê‚½ SHITEMID \‘¢‘Ì‚ª––”ö‚Ü‚½‚Íæ“ª‚É’Ç‰Á‚³‚ê‚Ä‚¢‚éB
@@ -581,8 +551,6 @@ SHITEMID \‘¢‘Ì‚ğ ITEMIDLIST \‘¢‘Ì‚Ì––”ö‚Ü‚½‚Íæ“ª‚É’Ç‰Á‚·‚éB
 %index
 ILClone
 ITEMIDLIST \‘¢‘Ì‚ğƒNƒ[ƒ“‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PCUIDLIST_RELATIVE ƒNƒ[ƒ“‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -599,8 +567,6 @@ ITEMIDLIST \‘¢‘Ì‚ğƒNƒ[ƒ“‚·‚éB
 %index
 ILCloneFirst
 ITEMIDLIST \‘¢‘Ì“à‚ÌÅ‰‚Ì SHITEMID \‘¢‘Ì‚ğƒNƒ[ƒ“‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PCUIDLIST_RELATIVE ƒNƒ[ƒ“‚µ‚½‚¢ ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -615,8 +581,6 @@ ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 %index
 ILCombine
 2 ‚Â‚Ì ITEMIDLIST \‘¢‘Ì‚ğŒ‹‡‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl1, pidl2
 pidl1 : [var] Œ^: PCIDLIST_ABSOLUTE 1 ‚Â–Ú‚Ì ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -633,8 +597,6 @@ NULL ‚Ìê‡‚Í NULL ‚ğ•Ô‚·B
 %index
 ILCreateFromPathW
 ILCreateFromPathW (Unicode) ŠÖ”‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒpƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ITEMIDLIST \‘¢‘Ì‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pszPath
 pszPath : [wstr] Œ^: PCTSTR ƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -658,8 +620,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ILFindChild
 w’è‚µ‚½ ITEMIDLIST \‘¢‘Ì‚ª•Ê‚Ì ITEMIDLIST \‘¢‘Ì‚Ìq‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 shell32
 %prm
 pidlParent, pidlChild
 pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE e‘¤‚Ì ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -678,8 +638,6 @@ SHITEMID \‘¢‘Ì‚ğæ‚èœ‚¢‚½‚à‚Ì‚Å‚ ‚éBpidlChild ‚ª pidlParent ‚Ìq‚Å‚È‚¢ê‡‚Í 
 %index
 ILFindLastID
 ITEMIDLIST \‘¢‘Ì“à‚ÌÅŒã‚Ì SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PCUIDLIST_RELATIVE ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -696,8 +654,6 @@ ITEMIDLIST \‘¢‘Ì“à‚ÌÅŒã‚Ì SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %index
 ILFree
 ƒVƒFƒ‹‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½ ITEMIDLIST \‘¢‘Ì‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PIDLIST_RELATIVE ‰ğ•ú‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
@@ -715,8 +671,6 @@ Model (COM) ‚Ìƒ^ƒXƒNƒAƒƒP[ƒ^‚ÅŠm•Û‚³‚ê‚éB
 %index
 ILGetNext
 ITEMIDLIST \‘¢‘Ì“à‚ÌŸ‚Ì SHITEMID \‘¢‘Ì‚ğæ“¾‚·‚éB(ILGetNext)
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PCUIDLIST_RELATIVE ‘å‚«‚È ITEMIDLIST \‘¢‘Ì“à‚Ì“Á’è‚Ì SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -731,8 +685,6 @@ ITEMIDLIST \‘¢‘Ì“à‚ÌŸ‚Ì SHITEMID \‘¢‘Ì‚ğæ“¾‚·‚éB(ILGetNext)
 %index
 ILGetSize
 ITEMIDLIST \‘¢‘Ì‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Å•Ô‚·B
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PCUIDLIST_RELATIVE ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -746,8 +698,6 @@ ITEMIDLIST \‘¢‘Ì‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Å•Ô‚·B
 %index
 ILIsEqual
 2 ‚Â‚Ì ITEMIDLIST \‘¢‘Ì‚ªƒoƒCƒiƒŠ”äŠr‚Å“™‚µ‚¢‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl1, pidl2
 pidl1 : [var] Œ^: PCIDLIST_ABSOLUTE 1 ‚Â–Ú‚Ì ITEMIDLIST \‘¢‘ÌB
@@ -766,8 +716,6 @@ ILIsEqual ‚ÍƒAƒCƒeƒ€ƒf[ƒ^‚ÌƒoƒCƒiƒŠ”äŠr‚ğs‚¤B“¯‚¶ƒAƒCƒeƒ€‚ğQÆ‚µ‚Ä‚¢‚Ä‚àƒoƒC
 %index
 ILIsParent
 ‚ ‚é ITEMIDLIST \‘¢‘Ì‚ª•Ê‚Ì ITEMIDLIST \‘¢‘Ì‚Ìe‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl1, pidl2, fImmediate
 pidl1 : [var] Œ^: PCIDLIST_ABSOLUTE e‚ğ•\‚· ITEMIDLIST (PIDL) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Íâ‘Î PIDL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -784,8 +732,6 @@ pidl1 ‚ª pidl2 ‚Ì’¼Ú‚Ìe‚Å‚ ‚éê‡‚É‚Ì‚İ TRUE ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ
 %index
 ILLoadFromStreamEx
 ‚±‚ÌŠÖ”‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pstm, pidl
 pstm : [var] Œ^: IStream* â‘Î ITEMIDLIST ‚ğƒ[ƒh‚·‚éŒ³‚Ì IStream ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -803,8 +749,6 @@ STRICT_TYPED_ITEMIDS ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚Ég—p‚·‚éB
 %index
 ILRemoveLastID
 ITEMIDLIST \‘¢‘Ì‚©‚çÅŒã‚Ì SHITEMID \‘¢‘Ì‚ğæ‚èœ‚­B
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PUIDLIST_RELATIVE ’Zk‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚é‚ÆA‚±‚Ì•Ï”‚Í’Zk‚³‚ê‚½\‘¢‘Ì‚ğw‚·B
@@ -818,8 +762,6 @@ ITEMIDLIST \‘¢‘Ì‚©‚çÅŒã‚Ì SHITEMID \‘¢‘Ì‚ğæ‚èœ‚­B
 %index
 ILSaveToStream
 ITEMIDLIST \‘¢‘Ì‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
-%group
-Win32 shell32
 %prm
 pstm, pidl
 pstm : [var] Œ^: IStream * ITEMIDLIST ‚ğ•Û‘¶‚·‚éæ‚Ì IStream ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -837,8 +779,6 @@ ITEMIDLIST \‘¢‘Ì‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
 %index
 InitNetworkAddressControl
 ƒlƒbƒgƒ[ƒNƒAƒhƒŒƒXƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 shell32
 %prm
 
 %inst
@@ -856,8 +796,6 @@ WC_NETADDRESS ‚ğ‰Šú‰»‚·‚éB‚±‚ÌŠÖ”‚ª TRUE ‚ğ•Ô‚µ‚½ê‡AƒRƒ“ƒgƒ[ƒ‹‚ğ¶¬‚Å‚«
 %index
 IsLFNDriveW
 (no summary)
-%group
-Win32 shell32
 %prm
 pszPath
 pszPath : [wstr] 
@@ -868,8 +806,6 @@ pszPath : [wstr]
 %index
 IsNetDrive
 ƒhƒ‰ƒCƒu‚ªƒlƒbƒgƒ[ƒNƒhƒ‰ƒCƒu‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 shell32
 %prm
 iDrive
 iDrive : [int] Œ^: int ’²‚×‚½‚¢ƒhƒ‰ƒCƒu•¶š‚ğ¦‚·®”BA: ‚É‚Í 0AB: ‚É‚Í 1 ‚Æ‚¢‚¤‚æ‚¤‚Éİ’è‚·‚éB
@@ -884,8 +820,6 @@ iDrive : [int] Œ^: int ’²‚×‚½‚¢ƒhƒ‰ƒCƒu•¶š‚ğ¦‚·®”BA: ‚É‚Í 0AB: ‚É‚Í 1 ‚Æ‚¢
 %index
 IsUserAnAdmin
 IsUserAnAdmin ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 
 %inst
@@ -902,8 +836,6 @@ IsUserAnAdmin ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %index
 OpenRegStream
 OpenRegStream ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SHOpenRegStream2 ‚© SHOpenRegStream ‚ğg‚¤‚±‚ÆB
-%group
-Win32 shell32
 %prm
 hkey, pszSubkey, pszValue, grfMode
 hkey : [intptr] Œ^: HKEY Œ»İŠJ‚¢‚Ä‚¢‚éƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -921,8 +853,6 @@ SHOpenRegStream ‚ğg‚¤‚±‚ÆB
 %index
 PathCleanupSpec
 PathCleanupSpec ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pszDir, pszSpec
 pszDir : [wstr] Œ^: PCWSTR pszSpec ‚Åw’è‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğŠi”[‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒpƒX‚ÍI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌƒpƒX‚Í•ÏX‚³‚ê‚È‚¢B
@@ -942,8 +872,6 @@ PathCleanupSpec ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %index
 PathGetShortPath
 PathGetShortPath ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pszLongPath
 pszLongPath : [wstr] Œ^: PWSTR ’·‚¢ƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚é‚ÆA‘Î‰‚·‚é’Z‚¢ƒpƒX‚ªŠi”[‚³‚ê‚éB
@@ -954,8 +882,6 @@ PathGetShortPath ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %index
 PathIsExe
 PathIsExe ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pszPath
 pszPath : [wstr] Œ^: PCWSTR ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒtƒ@ƒCƒ‹ƒpƒX‚ğŠi”[‚µ‚½ƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -970,8 +896,6 @@ TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 %index
 PathIsSlowW
 PathIsSlow ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszFile, dwAttr
 pszFile : [wstr] Œ^: LPCTSTR ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -998,8 +922,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 PathMakeUniqueName
 ƒeƒ“ƒvƒŒ[ƒg‚©‚çˆêˆÓ‚ÈƒpƒX–¼‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pszUniqueName, cchMax, pszTemplate, pszLongPlate, pszDir
 pszUniqueName : [wstr] Œ^: PWSTR ˆêˆÓ‚ÈƒpƒX–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@B­‚È‚­‚Æ‚à MAX_PATH •¶š‚Ì’·‚³‚ª•K—v‚Å‚ ‚éB
@@ -1023,8 +945,6 @@ pszDir : [wstr] Œ^: PCWSTR V‹Kƒtƒ@ƒCƒ‹‚ª’u‚©‚ê‚éƒfƒBƒŒƒNƒgƒŠ‚ğŠÜ‚Şƒkƒ‹I’[•¶š—
 %index
 PathQualify
 (no summary)
-%group
-Win32 shell32
 %prm
 psz
 psz : [wstr] 
@@ -1035,8 +955,6 @@ psz : [wstr]
 %index
 PathResolve
 PathResolve ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pszPath, dirs, fFlags
 pszPath : [wstr] Œ^: PWSTR ‰ğŒˆ‘ÎÛ‚ÌƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñBŠÖ”‚©‚ç–ß‚é‚ÆA‘Î‰‚·‚éŠ®‘SCüƒpƒX‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à MAX_PATH •¶š‚Ì’·‚³‚ª•K—v‚Å‚ ‚éB
@@ -1060,8 +978,6 @@ FALSE
 %index
 PathYetAnotherMakeUniqueName
 Šù‘¶‚Ìƒtƒ@ƒCƒ‹–¼‚ğŠî‚ÉˆêˆÓ‚Èƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pszUniqueName, pszPath, pszShort, pszFileSpec
 pszUniqueName : [wstr] Œ^: PWSTR ˆêˆÓ‚Èƒtƒ@ƒCƒ‹–¼‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚ğó‚¯æ‚é•¶š—ñƒoƒbƒtƒ@Bƒoƒbƒtƒ@ƒI[ƒo[ƒ‰ƒ“‚ğ”ğ‚¯‚é‚½‚ßA­‚È‚­‚Æ‚à MAX_PATH •¶š‚Ì’·‚³‚ª•K—v‚Å‚ ‚éB
@@ -1082,8 +998,6 @@ pszFileSpec : [wstr] Œ^: PCWSTR ˆêˆÓ‚È–¼‘O‚ÌŒ³‚É‚È‚é’·‚¢ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒkƒ‹I’[
 %index
 PickIconDlg
 PickIconDlg ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hwnd, pszIconPath, cchIconPath, piIconIndex
 hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
@@ -1100,8 +1014,6 @@ PickIconDlg ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %index
 PifMgr_CloseProperties
 PifMgr_OpenProperties ‚ÅŠJ‚¢‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚ğ•Â‚¶‚éB
-%group
-Win32 shell32
 %prm
 hProps, flOpt
 hProps : [intptr] Œ^: HANDLE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í PifMgr_OpenProperties ‚ª•Ô‚µ‚½’l‚ğİ’è‚·‚éB
@@ -1116,8 +1028,6 @@ PifMgr_OpenProperties ‚ÅŠJ‚¢‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚ğ•Â‚¶‚éB
 %index
 PifMgr_GetProperties
 w’è‚³‚ê‚½ .pif ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^ƒuƒƒbƒN‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 hProps, pszGroup, lpProps, cbProps, flOpt
 hProps : [intptr] Œ^: HANDLE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í PifMgr_OpenProperties ‚ª•Ô‚µ‚½’l‚ğİ’è‚·‚éB
@@ -1151,8 +1061,6 @@ PifMgr_GetProperties(GROUP_TSK) ‚ÍA‚·‚×‚Ä‚Ìƒ^ƒXƒNŠÖ˜Aî•ñ‚ğ .pif
 %index
 PifMgr_OpenProperties
 Microsoft MS-DOS ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ .pif ƒtƒ@ƒCƒ‹‚ğŠJ‚«A‚»‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pszApp, pszPIF, hInf, flOpt
 pszApp : [wstr] Œ^: PCWSTR ƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB
@@ -1180,8 +1088,6 @@ PifMgr_OpenProperties ‚Í‚Ç‚±‚©‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­ŠÖ”‚¾‚Æl‚¦‚é‚×‚«‚Å‚Í‚È‚¢B.pif
 %index
 PifMgr_SetProperties
 ’l‚ğ .pif ƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^ƒuƒƒbƒN‚ÉŠ„‚è“–‚Ä‚éB
-%group
-Win32 shell32
 %prm
 hProps, pszGroup, lpProps, cbProps, flOpt
 hProps : [intptr] Œ^: HANDLE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í PifMgr_OpenProperties ‚ª•Ô‚µ‚½’l‚ğİ’è‚·‚éB
@@ -1199,8 +1105,6 @@ flOpt : [int] Œ^: UINT í‚É SETPROPS_NONEB
 %index
 ReadCabinetState
 ReadCabinetState ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pcs, cLength
 pcs : [var] Œ^: CABINETSTATE* ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAƒŒƒWƒXƒgƒŠ‚©‚çæ“¾‚µ‚½î•ñ‚Ü‚½‚ÍŠù’èî•ñ‚Ì‚¢‚¸‚ê‚©‚ğŠÜ‚Ş CABINETSTATE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1215,8 +1119,6 @@ ReadCabinetState ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %index
 RealDriveType
 RealDriveType ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 iDrive, fOKToHitNet
 iDrive : [int] Œ^: int ’²‚×‚½‚¢ƒhƒ‰ƒCƒu‚Ì”Ô†B"A:" ‚Í 0A"B:" ‚Í 1A‚Æ‚¢‚¤‚æ‚¤‚É‘Î‰‚·‚éB
@@ -1232,8 +1134,6 @@ RealDriveType ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %index
 RestartDialog
 ƒ†[ƒU‚É Windows ‚ÌÄ‹N“®‚ğ‘£‚·ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éBƒ†[ƒU‚ªƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŠÖ”‚Í ExitWindowsEx ‚ğŒÄ‚Ño‚µ‚Ä Windows ‚ÌÄ‹N“®‚ğ‚İ‚éB
-%group
-Win32 shell32
 %prm
 hwnd, pszPrompt, dwReturn
 hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1250,8 +1150,6 @@ dwReturn : [int] Œ^: DWORD ƒVƒƒƒbƒgƒ_ƒEƒ“‚Ìí—Ş‚ğw’è‚·‚éƒtƒ‰ƒOB
 %index
 RestartDialogEx
 ƒ†[ƒU‚É Windows ‚ÌÄ‹N“®‚ğ‹‚ß‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éBƒ†[ƒU‚ªƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŠÖ”‚Í ExitWindowsEx ‚ğŒÄ‚Ño‚µ‚Ä Windows ‚ÌÄ‹N“®‚ğ‚İ‚éB
-%group
-Win32 shell32
 %prm
 hwnd, pszPrompt, dwReturn, dwReasonCode
 hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1269,8 +1167,6 @@ dwReasonCode : [int] Œ^: DWORD Windows XP: ƒVƒƒƒbƒgƒ_ƒEƒ“‚ğŠJn‚·‚é——R‚ğw’è‚·‚
 %index
 SHAddDefaultPropertiesByExt
 w’è‚µ‚½ƒtƒ@ƒCƒ‹Šg’£q‚É‘Î‚µ‚Ä“o˜^‚³‚ê‚Ä‚¢‚éŠù’èƒvƒƒpƒeƒB‚ğƒvƒƒpƒeƒBƒXƒgƒA‚É’Ç‰Á‚·‚éB
-%group
-Win32 shell32
 %prm
 pszExt, pPropStore
 pszExt : [wstr] Œ^: PCWSTR Šg’£q‚ğw’è‚·‚éƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1297,8 +1193,6 @@ System.Photo.DateTaken ‚É‚ÍŒ»İ‚Ì“ú•t‚ª“ü‚éB‚±‚ê‚ç 3
 %index
 SHDestroyPropSheetExtArray
 SHCreatePropSheetExtArray ‚É‚æ‚Á‚Äì¬‚³‚ê‚½”z—ñ‚ªw‚·ƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰[‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 shell32
 %prm
 hpsxa
 hpsxa : [intptr] Œ^: HPSXA ”jŠü‚·‚éƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰[‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚µ‚Ä‚¢‚é”z—ñ‚Ìƒnƒ“ƒhƒ‹B
@@ -1309,8 +1203,6 @@ SHCreatePropSheetExtArray ‚É‚æ‚Á‚Äì¬‚³‚ê‚½”z—ñ‚ªw‚·ƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰[
 %index
 SHAddFromPropSheetExtArray
 SHCreatePropSheetExtArray ‚Åì¬‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒgŠg’£”z—ñ‚Éƒy[ƒW‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 shell32
 %prm
 hpsxa, lpfnAddPage, lParam
 hpsxa : [intptr] Œ^: HPSXA SHCreatePropSheetExtArray ‚ª•Ô‚µ‚½ƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰‚Ì”z—ñB
@@ -1330,8 +1222,6 @@ IShellPropSheetExt::AddPages ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BÚ×‚Í‚»‚Ìƒy[ƒW‚ğQÆB
 %index
 SHAddToRecentDocs
 Å‹ßg—p‚µ‚½ƒAƒCƒeƒ€‚âÅ‚à•p”É‚Ég—p‚µ‚½ƒAƒCƒeƒ€‚ğ’ÇÕ‚·‚é–Ú“I‚ÅAƒAƒCƒeƒ€‚ªƒAƒNƒZƒX‚³‚ê‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éB‚±‚ÌŠÖ”‚Í‚·‚×‚Ä‚Ìg—pó‹µƒf[ƒ^‚ğÁ‹‚·‚é‚½‚ß‚É‚àg—p‚Å‚«‚éB
-%group
-Win32 shell32
 %prm
 uFlags, pv
 uFlags : [int] Œ^: UINT pv ƒpƒ‰ƒ[ƒ^‚ªw‚·î•ñ‚ÌŒ`®‚ğ¦‚· SHARD —ñ‹“‘Ì‚Ì’lB
@@ -1350,8 +1240,6 @@ pv : [intptr] Œ^: LPCVOID ƒAƒNƒZƒX‚³‚ê‚½ƒAƒCƒeƒ€‚ğ¯•Ê‚·‚éƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒA
 %index
 SHAlloc
 ƒVƒFƒ‹‚Ìƒq[ƒv‚©‚çƒƒ‚ƒŠ‚ğŠm•Û‚·‚éB
-%group
-Win32 shell32
 %prm
 cb
 cb : [int] Œ^: SIZE_T Šm•Û‚·‚éƒƒ‚ƒŠ‚ÌƒoƒCƒg”B
@@ -1368,8 +1256,6 @@ cb : [int] Œ^: SIZE_T Šm•Û‚·‚éƒƒ‚ƒŠ‚ÌƒoƒCƒg”B
 %index
 SHAssocEnumHandlers
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£qƒnƒ“ƒhƒ‰‚ÌW‡‚É‘Î‚·‚é—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pszExtra, afFilter, ppEnumHandler
 pszExtra : [wstr] Œ^: PCWSTR ’Pˆê‚Ìƒtƒ@ƒCƒ‹í•ÊŠg’£qi‚½‚Æ‚¦‚Î ".jpg"j‚ğŠÜ‚Şƒkƒ‹I’[ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bw’è‚³‚ê‚½Šg’£q‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒnƒ“ƒhƒ‰‚Ì‚İ‚ª—ñ‹“‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ **NULL** ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -1385,8 +1271,6 @@ ppEnumHandler : [var] Œ^: IEnumAssocHandlers** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAIEnumAs
 %index
 SHAssocEnumHandlersForProtocolByApplication
 w’è‚³‚ê‚½ƒvƒƒgƒRƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒnƒ“ƒhƒ‰‚ÖƒAƒNƒZƒX‚·‚é‚½‚ß‚Ì—ñ‹“ƒCƒ“ƒ^ƒtƒF[ƒX‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 protocol, riid, enumHandlers
 protocol : [wstr] Œ^: PCWSTR ƒvƒƒgƒRƒ‹‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1407,8 +1291,6 @@ Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg‚Á‚Ä riid ‚Æ enumHandlers
 %index
 SHBindToFolderIDListParent
 ƒtƒHƒ‹ƒ_Œ`®‚Åw’è‚³‚ê‚½ƒVƒFƒ‹–¼‘O‹óŠÔƒAƒCƒeƒ€‚ÆA‚»‚ÌƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚½ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğ—^‚¦‚é‚ÆA‚±‚ÌŠÖ”‚Í–¼‘O‹óŠÔƒAƒCƒeƒ€‚Ìe‚ÉƒoƒCƒ“ƒh‚µA•K—v‚É‰‚¶‚ÄƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ÌÅI—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 psfRoot, pidl, riid, ppv, ppidlLast
 psfRoot : [var] Œ^: IShellFolder* ƒVƒFƒ‹ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BpsfRoot ‚ª NULL ‚Ìê‡A“n‚³‚ê‚½ IDList ‚ÍƒfƒXƒNƒgƒbƒv‚ğŠî€‚Æ‚·‚é‚±‚Æ‚ğ¦‚·B
@@ -1431,8 +1313,6 @@ SHBindToFolderIDListParentEx ŠÖ”‚ğŒÄ‚Ño‚·‚Ì‚Æ“™‰¿‚Å‚ ‚éB
 %index
 SHBindToFolderIDListParentEx
 ŒÄ‚Ño‚µ‘¤‚ªƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚Å SHBindToFolderIDListParent ŠÖ”‚ğŠg’£‚·‚éB
-%group
-Win32 shell32
 %prm
 psfRoot, pidl, ppbc, riid, ppv, ppidlLast
 psfRoot : [var] Œ^: IShellFolder* ƒVƒFƒ‹ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BpsfRoot ‚ª NULL ‚Ìê‡A“n‚³‚ê‚½ IDList ‚ÍƒfƒXƒNƒgƒbƒv‚ğŠî€‚Æ‚·‚é‚±‚Æ‚ğ¦‚·B
@@ -1451,8 +1331,6 @@ ppidlLast : [var] Œ^: PCUITEMID_CHILD* pidl ƒpƒ‰ƒ[ƒ^‚ÌÅŒã‚Ì ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å
 %index
 SHBindToObject
 ƒVƒFƒ‹–¼‘O‹óŠÔ‚Ì IShellFolder::BindToObject ƒƒ\ƒbƒh‚ğg‚Á‚ÄAw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚ÄƒoƒCƒ“ƒh‚·‚éB
-%group
-Win32 shell32
 %prm
 psf, pidl, pbc, riid, ppv
 psf : [var] Œ^: IShellFolder* IShellFolder ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢Bpsf ‚ª NULL ‚Ìê‡A‚±‚ê‚Í pidl ‚ªƒfƒXƒNƒgƒbƒv‚ğŠî€‚Æ‚·‚é‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡Apidl ‚Íâ‘Î ITEMIDLIST ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1473,8 +1351,6 @@ Note ‚±‚ê‚Í SHGetDesktopFolder ‚ğŒÄ‚Ño‚µ‚ÄƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éƒwƒ
 %index
 SHBindToParent
 Š®‘SCüƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚èAeƒIƒuƒWƒFƒNƒgã‚Ìw’è‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pidl, riid, ppv, ppidlLast
 pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒAƒCƒeƒ€‚Ì PIDLB
@@ -1491,8 +1367,6 @@ ppidlLast : [var] Œ^: PCUITEMID_CHILD* eƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚½ƒAƒCƒeƒ€‚Ì PIDLB‚±
 %index
 SHBrowseForFolderW
 ƒ†[ƒU‚ª Shell ƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚Å‚«‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 lpbi
 lpbi : [var] Œ^: LPBROWSEINFO ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ì•\¦‚Ég—p‚·‚éî•ñ‚ğŠÜ‚Ş BROWSEINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1517,8 +1391,6 @@ CoTaskMemFree ‚Å‰ğ•ú‚·‚éB
 %index
 SHCLSIDFromString
 ƒNƒ‰ƒX¯•Êq (CLSID) ‚Ì•¶š—ñŒ`®‚ğó‚¯æ‚èA‘Î‰‚·‚é CLSID ‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 psz, pclsid
 psz : [wstr] Œ^: PCWSTR {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx} ‚ÌŒ`®‚Å CLSID ‚ğŠÜ‚Ş Unicode •¶š—ñB
@@ -1533,8 +1405,6 @@ pclsid : [var] Œ^: CLSID* ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉA•ÏŠ·‚³‚ê‚½•¶š—ñ‚ğ CLSID ‚Æ‚µ‚
 %index
 SHChangeNotification_Lock
 ƒVƒFƒ‹•ÏX’Ê’mƒCƒxƒ“ƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‹¤—Lƒƒ‚ƒŠ‚ğƒƒbƒN‚·‚éB
-%group
-Win32 shell32
 %prm
 hChange, dwProcId, pppidl, plEvent
 hChange : [intptr] Œ^: HANDLE w’è‚³‚ê‚½ƒVƒFƒ‹•ÏX’Ê’mƒƒbƒZ[ƒW“à‚É wParam ‚Æ‚µ‚Äó‚¯æ‚Á‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1552,8 +1422,6 @@ SHChangeNotification_Unlock ‚É“n‚·B
 %index
 SHChangeNotification_Unlock
 •ÏX’Ê’m‚Ì‚½‚ß‚Ì‹¤—Lƒƒ‚ƒŠ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
-%group
-Win32 shell32
 %prm
 hLock
 hLock : [intptr] Œ^: HANDLE ƒƒ‚ƒŠƒƒbƒN‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í SHChangeNotification_Lock ‚ªƒƒ‚ƒŠ‚ğƒƒbƒN‚µ‚½Û‚É•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚Å‚ ‚éB
@@ -1567,8 +1435,6 @@ hLock : [intptr] Œ^: HANDLE ƒƒ‚ƒŠƒƒbƒN‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í SHChangeNotificatio
 %index
 SHChangeNotify
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÀs‚µ‚½ƒCƒxƒ“ƒg‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éBShell ‚É‰e‹¿‚·‚é‰Â”\«‚ª‚ ‚éƒAƒNƒVƒ‡ƒ“‚ğÀs‚µ‚½ê‡‚Ég—p‚·‚×‚«B
-%group
-Win32 shell32
 %prm
 wEventId, uFlags, dwItem1, dwItem2
 wEventId : [int] Œ^: LONG
@@ -1588,8 +1454,6 @@ dwItem2 ‚ªw‚·•¶š—ñ‚Í ANSI ‚Ü‚½‚Í Unicode ‚Ì‚¢‚¸‚ê‚©B
 %index
 SHChangeNotifyDeregister
 ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒEƒBƒ“ƒhƒEƒvƒƒZƒX‚ğ SHChangeNotify ƒƒbƒZ[ƒW‚ÌóM‚©‚ç“o˜^‰ğœ‚·‚éB
-%group
-Win32 shell32
 %prm
 ulID
 ulID : [int] Œ^: ULONG SHChangeNotifyRegister ‚ª•Ô‚µ‚½“o˜^ ID ‚ğw’è‚·‚é ULONG Œ^‚Ì’lB
@@ -1608,8 +1472,6 @@ NTSHChangeNotifyDeregister ŠÖ”‚Í SHChangeNotifyDeregister ‚Æ“™‰¿‚Å‚ ‚Á‚½B
 %index
 SHChangeNotifyRegister
 ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ª’Ê’m‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡Aƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚âƒVƒFƒ‹‚©‚ç’Ê’m‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚ğ“o˜^‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, fSources, fEvents, wMsg, cEntries, pshcne
 hwnd : [intptr] Œ^: HWND •ÏX‚â’Ê’mƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1634,8 +1496,6 @@ Notify Watcher Sample ‚ğQÆB•ÏX’Ê’mƒCƒxƒ“ƒg‚ª”­¶‚·‚é‚ÆAwMsg ‚Åw’è‚³‚ê‚½ƒƒ
 %index
 SHChangeNotifyRegisterThread
 ƒXƒŒƒbƒh‚Ì”ñ“¯Šú“o˜^‚¨‚æ‚Ñ“o˜^‰ğœ‚ğ—LŒø‚É‚·‚éB
-%group
-Win32 shell32
 %prm
 status
 status : [int] Œ^: SCNRT_STATUS ƒXƒŒƒbƒh‚ğ“o˜^‚·‚é‚½‚ß‚ÉŠÖ”‚ğg‚¤‚Ì‚©“o˜^‰ğœ‚·‚é‚½‚ß‚Ég‚¤‚Ì‚©‚ğ¦‚·BSCNRT_STATUS ‚Ì‚¢‚¸‚ê‚©‚Ì’lB
@@ -1646,8 +1506,6 @@ status : [int] Œ^: SCNRT_STATUS ƒXƒŒƒbƒh‚ğ“o˜^‚·‚é‚½‚ß‚ÉŠÖ”‚ğg‚¤‚Ì‚©“o˜^‰ğœ‚·
 %index
 SHCloneSpecialIDList
 SHCloneSpecialIDList ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SHGetSpecialFolderLocation ‚ğg‚¤‚±‚ÆB
-%group
-Win32 shell32
 %prm
 hwnd, csidl, fCreate
 hwnd : [intptr] Œ^: HWND —\–ñB
@@ -1668,8 +1526,6 @@ SHGetSpecialFolderLocation ‚ğg‚¤‚±‚ÆB
 %index
 SHCoCreateInstance
 SHCoCreateInstance ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É CoCreateInstance ‚ğg‚¤‚±‚ÆB
-%group
-Win32 shell32
 %prm
 pszCLSID, pclsid, pUnkOuter, riid, ppv
 pszCLSID : [wstr] Œ^: PCWSTR CLSID ‚É•ÏŠ·‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡‚Í pclsid ‚ª CLSID ‚Æ‚µ‚Äg—p‚³‚ê‚éB
@@ -1693,8 +1549,6 @@ Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg‚Á‚Ä riid ‚Æ ppv
 %index
 SHCreateAssociationRegistration
 Windows ‚ª’ñ‹Ÿ‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì•W€À‘•‚ÉŠî‚Ã‚­ IApplicationAssociationRegistration ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 riid, ppv
 riid : [var] Œ^: REFIID —v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB
@@ -1710,8 +1564,6 @@ Windows ‚ª’ñ‹Ÿ‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì•W€À‘•‚ÉŠî‚Ã‚­ IApplicationAssociationRegist
 %index
 SHCreateDataObject
 eƒtƒHƒ‹ƒ_“à‚Éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pidlFolder, cidl, apidl, pdtInner, riid, ppv
 pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğŠi”[‚·‚éeƒtƒHƒ‹ƒ_‚Ì ITEMIDLIST (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1741,8 +1593,6 @@ ppv ‚Ì’l‚ªw‚·ƒCƒ“ƒ^ƒtƒF[ƒX‚ÉŠî‚Ã‚¢‚Ä³‚µ‚¢ IID ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAriid
 %index
 SHCreateDefaultContextMenu
 ƒVƒFƒ‹‚ÌŠù’èƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[À‘•‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pdcm, riid, ppv
 pdcm : [var] Œ^: const DEFCONTEXTMENU* ’è” DEFCONTEXTMENU \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1767,8 +1617,6 @@ DEFCONTEXTMENU \‘¢‘Ì‚Åw’è‚³‚ê‚½ IContextMenu
 %index
 SHCreateDefaultExtractIcon
 •W€‚ÌƒAƒCƒRƒ“’ŠoŠí‚ğ¶¬‚·‚éB‚»‚ÌŠù’è“®ì‚Í IDefaultExtractIconInit ƒCƒ“ƒ^ƒtƒF[ƒX‚ğ’Ê‚¶‚Ä‚³‚ç‚Éİ’è‚Å‚«‚éB
-%group
-Win32 shell32
 %prm
 riid, ppv
 riid : [var] Œ^: REFIID ƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB
@@ -1787,8 +1635,6 @@ ppv : [var] Œ^: void** IDefaultExtractIconInit ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX
 %index
 SHCreateDefaultPropertiesOp
 ƒVƒFƒ‹ƒAƒCƒeƒ€ã‚ÅA‚Ü‚¾İ’è‚³‚ê‚Ä‚¢‚È‚¢Šù’èƒvƒƒpƒeƒB‚ğİ’è‚·‚éƒtƒ@ƒCƒ‹‘€ì‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 psi, ppFileOp
 psi : [var] Œ^: IShellItem* ƒ\[ƒXƒVƒFƒ‹ƒAƒCƒeƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^BIShellItem ‚ğQÆB
@@ -1811,8 +1657,6 @@ SetDefaultsFor ƒGƒ“ƒgƒŠ‚ÅŒ©‚Â‚©‚Á‚½Šù’è’l‚ğg‚¤B
 %index
 SHCreateDirectory
 V‚µ‚¢ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, pszPath
 hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒ†[ƒUƒCƒ“ƒ^ƒtƒF[ƒX‚ğ•\¦‚µ‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚Å‚«‚éB
@@ -1835,8 +1679,6 @@ SHCreateDirectoryEx ‚ğg‚¤‚±‚ÆB
 %index
 SHCreateDirectoryExW
 ƒIƒvƒVƒ‡ƒ“‚ÅƒZƒLƒ…ƒŠƒeƒB‘®«‚ğw’è‚µ‚ÄV‚µ‚¢ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hwnd, pszPath, psa
 hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒ†[ƒUƒCƒ“ƒ^ƒtƒF[ƒX‚ğ•\¦‚µ‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚Å‚«‚éB
@@ -1861,8 +1703,6 @@ Codesv‚ğQÆB
 %index
 SHCreateFileExtractIconW
 SHCreateFileExtractIcon ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszFile, dwFileAttributes, riid, ppv
 pszFile : [wstr] Œ^: LPCTSTR ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚Í MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1879,8 +1719,6 @@ SHCreateFileExtractIcon ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Uni
 %index
 SHCreateItemFromIDList
 ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB¶¬‚³‚ê‚éƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚Í IShellItem ƒCƒ“ƒ^ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl, riid, ppv
 pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒ\[ƒX PIDLB
@@ -1897,8 +1735,6 @@ IShellItem ƒCƒ“ƒ^ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚·‚éB
 %index
 SHCreateItemFromParsingName
 ‰ğÍ–¼‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB
-%group
-Win32 shell32
 %prm
 pszPath, pbc, riid, ppv
 pszPath : [wstr] Œ^: PCWSTR •\¦–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1920,8 +1756,6 @@ Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg‚Á‚Ä riid ‚Æ ppv
 %index
 SHCreateItemFromRelativeName
 ‘Š‘Î‰ğÍ–¼‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB
-%group
-Win32 shell32
 %prm
 psiParent, pszName, pbc, riid, ppv
 psiParent : [var] Œ^: IShellItem* eƒVƒFƒ‹ƒAƒCƒeƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1939,8 +1773,6 @@ ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒC
 %index
 SHCreateItemInKnownFolder
 Šù’mƒtƒHƒ‹ƒ_“à‚É‘¶İ‚·‚é’Pˆêƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 kfid, dwKFFlags, pszItem, riid, ppv
 kfid : [var] Œ^: REFKNOWNFOLDERID ƒAƒCƒeƒ€‚ğŠi”[‚·‚éƒtƒHƒ‹ƒ_‚ğ¦‚· KNOWNFOLDERIDiGUIDj‚Ö‚ÌQÆB
@@ -1958,8 +1790,6 @@ ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[
 %index
 SHCreateItemWithParent
 eƒtƒHƒ‹ƒ_‚ÆqƒAƒCƒeƒ€ ID ‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pidlParent, psfParent, pidl, riid, ppvItem
 pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE ¶¬‘ÎÛƒAƒCƒeƒ€‚ÌeƒtƒHƒ‹ƒ_‚Ì IDListA‚·‚È‚í‚¿ psfParent ‚Ì IDListBpsfParent ‚ªw’è‚³‚ê‚Ä‚¢‚ê‚ÎA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
@@ -1977,8 +1807,6 @@ ppvItem : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒX
 %index
 SHCreatePropSheetExtArray
 SHCreatePropSheetExtArray ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hKey, pszSubKey, max_iface
 hKey : [intptr] Œ^: HKEY ƒvƒƒpƒeƒBƒV[ƒgŠg’£ƒnƒ“ƒhƒ‰‚ğŠÜ‚ŞƒTƒuƒL[‚ª‚ ‚éƒŒƒWƒXƒgƒŠ‚Ìƒ‹[ƒgƒL[B‚½‚Æ‚¦‚Î HKEY_LOCAL_MACHINEB
@@ -2000,8 +1828,6 @@ SHAddFromPropSheetExtArray ‚É“n‚³‚ê‚éB
 %index
 SHCreateQueryCancelAutoPlayMoniker
 ”ñ„§BÀs’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚É IQueryCancelAutoPlay ƒnƒ“ƒhƒ‰‚ğ“o˜^‚·‚é‚Ì‚É—˜—p‚Å‚«‚é QueryCancelAutoPlay ƒNƒ‰ƒXƒ‚ƒjƒJ‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 ppmoniker
 ppmoniker : [var] Œ^: IMoniker** ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAQueryCancelAutoPlay ƒNƒ‰ƒXƒ‚ƒjƒJ‚ğó‚¯æ‚é IMoniker ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB‚±‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡A‚±‚Ì’l‚Í NULL ‚É‚È‚éB
@@ -2020,8 +1846,6 @@ QueryCancelAutoPlay ƒNƒ‰ƒXƒ‚ƒjƒJ‚ğ¶¬‚·‚éB
 %index
 SHCreateShellItem
 IShellItem ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pidlParent, psfParent, pidl, ppsi
 pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE e‚Ö‚Ì PIDLB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
@@ -2044,8 +1868,6 @@ psfParent ‚Éeî•ñ‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‘ã‚í‚è‚É pidl ƒpƒ‰ƒ[ƒ^‚Éâ‘Î IDLis
 %index
 SHCreateShellItemArray
 ƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pidlParent, psf, cidl, ppidl, ppsiItemArray
 pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE ppidl ‚Åw’è‚³‚ê‚½ƒAƒCƒeƒ€‚ÌeƒtƒHƒ‹ƒ_‚Ì ID ƒŠƒXƒgBpsf ‚ªw’è‚³‚ê‚Ä‚¢‚ê‚ÎA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢BpidlParent ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AIPersistFolder2 ‚ğg‚Á‚Ä psf ƒpƒ‰ƒ[ƒ^‚©‚çŒvZ‚³‚ê‚éB
@@ -2063,8 +1885,6 @@ ppsiItemArray : [var] Œ^: IShellItemArray** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAIShellItemArra
 %index
 SHCreateShellItemArrayFromDataObject
 ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pdo, riid, ppv
 pdo : [var] Œ^: IDataObject* IDataObject ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2088,8 +1908,6 @@ IDropTarget ƒƒ\ƒbƒh‚É“n‚³‚ê‚½ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Íƒhƒƒbƒv‘€ìŠ®—¹Œã‚Í–³Œø‚Æ‚È‚é
 %index
 SHCreateShellItemArrayFromIDLists
 ITEMIDLIST \‘¢‘Ì‚ÌƒŠƒXƒg‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
-%group
-Win32 shell32
 %prm
 cidl, rgpidl, ppsiItemArray
 cidl : [int] Œ^: UINT ”z—ñ‚Ì—v‘f”B
@@ -2105,8 +1923,6 @@ ITEMIDLIST \‘¢‘Ì‚ÌƒŠƒXƒg‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %index
 SHCreateShellItemArrayFromShellItem
 ’Pˆê‚ÌƒVƒFƒ‹ƒAƒCƒeƒ€‚©‚ç 1 —v‘f‚Ì”z—ñ‚ğì¬‚·‚éB
-%group
-Win32 shell32
 %prm
 psi, riid, ppv
 psi : [var] Œ^: IShellItem* ƒAƒCƒeƒ€‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2126,8 +1942,6 @@ ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒX
 %index
 SHCreateStdEnumFmtEtc
 SHCreateStdEnumFmtEtc ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 cfmt, afmt, ppenumFormatEtc
 cfmt : [int] Œ^: UINT afmt ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
@@ -2143,8 +1957,6 @@ SHCreateStdEnumFmtEtc ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHDefExtractIconW
 ƒtƒ@ƒCƒ‹‚©‚çƒAƒCƒRƒ“‚ğ’Šo‚·‚é‚½‚ß‚ÌŠù’è‚Ìƒnƒ“ƒhƒ‰[‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszIconFile, iIndex, uFlags, phiconLarge, phiconSmall, nIconSize
 pszIconFile : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğ’Šo‚·‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Æ–¼‘O‚ğŠÜ‚ŞAnull I’[ƒoƒbƒtƒ@[‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2173,8 +1985,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHDoDragDrop
 ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ğÀs‚·‚éB•K—v‚É‰‚¶‚Äƒhƒ‰ƒbƒOƒ\[ƒX‚Ì¶¬‚¨‚æ‚Ñƒhƒ‰ƒbƒO‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, pdata, pdsrc, dwEffect, pdwEffect
 hwnd : [intptr] Œ^: HWND ƒhƒ‰ƒbƒO‰æ‘œ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢BÚ×‚Í”õl‚ğQÆB
@@ -2198,8 +2008,6 @@ Windows Vista ˆÈ~‚Å‚ÍAƒf[ƒ^ƒIƒuƒWƒFƒNƒg pdtobj ‚Éƒhƒ‰ƒbƒO‰æ‘œ‚ªŠi”[‚³‚ê‚Ä‚¨‚ç
 %index
 SHEmptyRecycleBinW
 w’è‚µ‚½ƒhƒ‰ƒCƒu‚Ì‚²‚İ” ‚ğ‹ó‚É‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hwnd, pszRootPath, dwFlags
 hwnd : [intptr] Œ^: HWND ‘€ì’†‚É•\¦‚³‚ê‚é‰Â”\«‚Ì‚ ‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
@@ -2223,8 +2031,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHEnumerateUnreadMailAccountsW
 –¢“Çƒ[ƒ‹‚ª‘¶İ‚·‚éƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hKeyUser, dwIndex, pszMailAddress, cchMailAddress
 hKeyUser : [intptr] Œ^: HKEY w’è‚µ‚½ƒ†[ƒU[‚É‘Î‚·‚é—LŒø‚È HKEYB
@@ -2251,8 +2057,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHEvaluateSystemCommandTemplate
 CreateProcess ‚Ü‚½‚Í ShellExecute ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^[‚ÌŒµ–§‚ÈŒŸØ‚ğs‚¤B
-%group
-Win32 shell32
 %prm
 pszCmdTemplate, ppszApplication, ppszCommandLine, ppszParameters
 pszCmdTemplate : [wstr] Œ^: PCWSTR ƒpƒ‰ƒ[ƒ^[‚ğŠÜ‚Şê‡‚ÆŠÜ‚Ü‚È‚¢ê‡‚ª‚ ‚éAƒRƒ}ƒ“ƒhƒ‰ƒCƒ“Bƒpƒ‰ƒ[ƒ^[‚ª’uŠ·ƒpƒ‰ƒ[ƒ^[‚Å‚ ‚éê‡‚ÍAƒpƒ‰ƒ[ƒ^[‚ª’uŠ·‚³‚ê‚é‘O‚É SHEvaluateSystemCommandTemplate ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
@@ -2275,8 +2079,6 @@ CreateProcess ‚Ü‚½‚Í ShellExecute ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^[‚ÌŒµ–§‚ÈŒŸØ
 %index
 SHFindFiles
 SHFindFiles ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pidlFolder, pidlSaveFile
 pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE ŒŸõ‚ğŠJn‚·‚éƒtƒHƒ‹ƒ_B‚±‚ÌƒtƒHƒ‹ƒ_‚ÍŒŸõƒEƒBƒ“ƒhƒE‚Ìu’T‚·êŠ:vƒ{ƒbƒNƒX‚É•\¦‚³‚ê‚éBŒŸõƒEƒBƒ“ƒhƒE‚ÌuÚ×ƒIƒvƒVƒ‡ƒ“v‚Åƒ†[ƒU[‚ª‘¼‚ÌƒIƒvƒVƒ‡ƒ“‚ğ‘I‘ğ‚µ‚È‚¢ŒÀ‚èA‚±‚ÌƒtƒHƒ‹ƒ_‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒTƒuƒtƒHƒ‹ƒ_‚ªŒŸõ‚³‚ê‚éB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
@@ -2291,8 +2093,6 @@ SHFindFiles ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHFind_InitMenuPopup
 SHFind_InitMenuPopup ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hmenu, hwndOwner, idCmdFirst, idCmdLast
 hmenu : [intptr] Œ^: HMENU ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹B
@@ -2309,8 +2109,6 @@ SHFind_InitMenuPopup ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHFlushSFCache
 SHFlushSFCache ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 
 %inst
@@ -2325,8 +2123,6 @@ a Folder's ID ‚Ì Special Folders and CSIDLs ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 SHFormatDrive
 SHFormatDrive ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hwnd, drive, fmtID, options
 hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BƒtƒH[ƒ}ƒbƒgƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚É‚ÍeƒEƒBƒ“ƒhƒE‚ª•K—v‚Å‚ ‚é‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -2350,8 +2146,6 @@ SHFormatDrive ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHFree
 SHAlloc ‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 shell32
 %prm
 pv
 pv : [intptr] Œ^: void* SHAlloc ‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2362,8 +2156,6 @@ SHAlloc ‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
 %index
 SHFreeNameMappings
 SHFileOperation ŠÖ”‚É‚æ‚Á‚Äæ“¾‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 shell32
 %prm
 hNameMappings
 hNameMappings : [intptr] Œ^: HANDLE ‰ğ•ú‚·‚éƒtƒ@ƒCƒ‹–¼ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2374,8 +2166,6 @@ SHFileOperation ŠÖ”‚É‚æ‚Á‚Äæ“¾‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚é
 %index
 SHGetAttributesFromDataObject
 SHGetAttributesFromDataObject ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pdo, dwAttributeMask, pdwAttributes, pcItems
 pdo : [var] Œ^: IDataObject* î•ñ‚ğæ“¾‚·‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒgB
@@ -2393,8 +2183,6 @@ SHGetAttributesFromDataObject ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHGetDataFromIDListW
 ‘Š‘ÎƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚©‚çŠg’£ƒvƒƒpƒeƒBƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 psf, pidl, nFormat, pv, cb
 psf : [var] Œ^: IShellFolder* e IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒAƒhƒŒƒXB‚±‚ê‚ÍApidl ƒpƒ‰ƒ[ƒ^[‚ªQÆ‚·‚é ITEMIDLIST \‘¢‘Ì‚Ì’¼Ú‚Ìe‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2428,8 +2216,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHGetDesktopFolder
 ƒVƒFƒ‹‚Ì–¼‘O‹óŠÔ‚Ìƒ‹[ƒg‚Å‚ ‚éƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 ppshf
 ppshf : [var] Œ^: IShellFolder** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAÅI“I‚É IUnknown::Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
@@ -2443,8 +2229,6 @@ ppshf : [var] Œ^: IShellFolder** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚
 %index
 SHGetDiskFreeSpaceExW
 ƒfƒBƒXƒNƒ{ƒŠƒ…[ƒ€‚ÌƒfƒBƒXƒN—Ìˆæî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszDirectoryName, pulFreeBytesAvailableToCaller, pulTotalNumberOfBytes, pulTotalNumberOfFreeBytes
 pszDirectoryName : [wstr] Œ^: LPCTSTR ƒTƒCƒYî•ñ‚ğæ“¾‚·‚éƒ{ƒŠƒ…[ƒ€‚ğw’è‚·‚é null I’[•¶š—ñBƒhƒ‰ƒCƒu•¶šAUNC –¼A‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ÌƒpƒX‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éBŒ»İ‚Ìƒhƒ‰ƒCƒu‚ğ•\‚·‚½‚ß‚É NULL ‚ğg—p‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -2474,8 +2258,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHGetDriveMedia
 w’è‚µ‚½ƒhƒ‰ƒCƒu‚É“ü‚Á‚Ä‚¢‚éƒƒfƒBƒA‚Ìí—Ş‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pszDrive, pdwMediaContent
 pszDrive : [wstr] Œ^: PCWSTR ƒƒfƒBƒA‚Ìí—Ş‚ğƒ`ƒFƒbƒN‚·‚éƒhƒ‰ƒCƒuB
@@ -2490,8 +2272,6 @@ pdwMediaContent : [var] Œ^: DWORD* w’è‚µ‚½ƒhƒ‰ƒCƒu“à‚ÌƒƒfƒBƒA‚Ìí—Ş‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 SHGetFolderLocation
 ”ñ„§BƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğ ITEMIDLIST \‘¢‘Ì‚Æ‚µ‚Äæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, csidl, hToken, dwFlags, ppidl
 hwnd : [intptr] Œ^: HWND —\–ñÏ‚İB
@@ -2522,8 +2302,6 @@ SHGetSpecialFolderLocation ‚ÌãˆÊW‡‚Å‚ ‚éB
 %index
 SHGetFolderPathW
 ”ñ„§B(SHGetFolderPathW)
-%group
-Win32 shell32
 %prm
 hwnd, csidl, hToken, dwFlags, pszPath
 hwnd : [intptr] Œ^: HWND —\–ñB
@@ -2545,8 +2323,6 @@ pszPath : [wstr] Œ^: LPWSTR ƒpƒX‚ğó‚¯æ‚é’·‚³ MAX_PATH ‚Ì NULL I’[•¶š—ñ‚Ö‚Ìƒ|
 %index
 SHGetFolderPathAndSubDirW
 ƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğæ“¾‚µAƒ†[ƒU[w’è‚ÌƒTƒuƒtƒHƒ‹ƒ_ƒpƒX‚ğ’Ç‰Á‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hwnd, csidl, hToken, dwFlags, pszSubDir, pszPath
 hwnd : [intptr] Œ^: HWND —\–ñÏ‚İB
@@ -2573,8 +2349,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHGetIDListFromObject
 ƒIƒuƒWƒFƒNƒg‚ÌƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 punk, ppidl
 punk : [var] Œ^: IUnknown* PIDL ‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ì IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2589,8 +2363,6 @@ ppidl : [var] Œ^: PIDLIST_ABSOLUTE* ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì
 %index
 SHGetIconOverlayIndexW
 ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒI[ƒo[ƒŒƒCƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·B(Unicode)
-%group
-Win32 shell32
 %prm
 pszIconPath, iIconIndex
 pszIconPath : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğŠi”[‚·‚éAÅ‘å’· MAX_PATH ‚Ì null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2623,8 +2395,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHGetImageList
 ƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 iImageList, riid, ppvObj
 iImageList : [int] Œ^: int
@@ -2648,8 +2418,6 @@ HIMAGELIST ‚ÉƒLƒƒƒXƒg‚Å‚«‚éB‹t‚ÉAHIMAGELIST ‚ğ IImageList
 %index
 SHGetInstanceExplorer
 ƒzƒXƒg‚³‚ê‚½ƒVƒFƒ‹Šg’£‚â‚»‚Ì‘¼‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªA‚»‚ê‚ç‚ÌƒzƒXƒgƒvƒƒZƒX‚Ì‘ŠúI—¹‚ğ–h‚®‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 ppunk
 ppunk : [var] Œ^: IUnknown** ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡AƒzƒXƒgƒvƒƒZƒX‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚ê‚ÍƒzƒXƒgƒvƒƒZƒX‚ÌI—¹‚ğ–h‚®‚½‚ß‚Ég—p‚³‚ê‚éƒtƒŠ[ƒXƒŒƒbƒhƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚éBŠÖ”ŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡A‚±‚Ì’l‚Í NULL ‚Éİ’è‚³‚ê‚éB
@@ -2677,8 +2445,6 @@ SHSetInstanceExplorer ‚ğŒÄ‚Ño‚µ‚ÄƒvƒƒZƒXQÆ‚ğİ’è‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çŒÄ‚Ñ
 %index
 SHGetItemFromDataObject
 IDataObject ‚É‚æ‚Á‚Äw’è‚³‚ê‚½€–Ú‚ÉŠî‚Ã‚¢‚ÄAIShellItem ‚Ü‚½‚ÍŠÖ˜AƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pdtobj, dwFlags, riid, ppv
 pdtobj : [var] Œ^: IDataObject* ƒ\[ƒX IDataObject ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2700,8 +2466,6 @@ Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg—p‚µ‚Ä riid ‚Æ ppv
 %index
 SHGetItemFromObject
 ƒIƒuƒWƒFƒNƒg‚Ì IShellItem ‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 punk, riid, ppv
 punk : [var] Œ^: IUnknown* ƒIƒuƒWƒFƒNƒg‚Ì IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2721,8 +2485,6 @@ SHGetIDListFromObject ‚æ‚è‚àD‚Ü‚µ‚¢B
 %index
 SHGetKnownFolderIDList
 known folder ‚ÌƒpƒX‚ğ ITEMIDLIST \‘¢‘Ì‚Æ‚µ‚Äæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 rfid, dwFlags, hToken, ppidl
 rfid : [var] Œ^: REFKNOWNFOLDERID ƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é KNOWNFOLDERID ‚Ö‚ÌQÆBknown folder ID ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ‹ƒ_‚ÍA“Á’è‚ÌƒVƒXƒeƒ€‚É‚Í‘¶İ‚µ‚È‚¢ê‡‚ª‚ ‚éB
@@ -2747,8 +2509,6 @@ NULL ‚Ìê‡AAPI ‚ÍŒ»İ‚Ìƒ†[ƒU[‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éBhTo
 %index
 SHGetKnownFolderItem
 known folder ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 rfid, flags, hToken, riid, ppv
 rfid : [var] Œ^: REFKNOWNFOLDERID €–Ú‚ğŠÜ‚ŞƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é GUID ‚Å‚ ‚é KNOWNFOLDERID ‚Ö‚ÌQÆB
@@ -2778,8 +2538,6 @@ KF_CATEGORY_FIXED ‚¨‚æ‚Ñ KF_CATEGORY_VIRTUAL
 %index
 SHGetKnownFolderPath
 ƒtƒHƒ‹ƒ_‚Ì KNOWNFOLDERID ‚Å¯•Ê‚³‚ê‚éŠù’mƒtƒHƒ‹ƒ_‚ÌŠ®‘SƒpƒX‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 rfid, dwFlags, hToken, ppszPath
 rfid : [var] Œ^: REFKNOWNFOLDERID ƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é KNOWNFOLDERID ‚Ö‚ÌQÆB
@@ -2801,8 +2559,6 @@ ppszPath : [var] Œ^: PWSTR* ƒƒ\ƒbƒh‚©‚ç–ß‚é‚Æ‚«AŠù’mƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğw’è‚·‚é N
 %index
 SHGetLocalizedName
 ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 pszPath, pszResModule, cch, pidsRes
 pszPath : [wstr] Œ^: PCWSTR ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2819,8 +2575,6 @@ pidsRes : [var] Œ^: int* ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAƒŠƒ\[ƒXƒtƒ@ƒCƒ‹“à‚Ìƒ[ƒJƒ‰ƒCƒY‚
 %index
 SHGetMalloc
 ƒVƒFƒ‹‚Ì IMalloc ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 ppMalloc
 ppMalloc : [var] Œ^: LPMALLOC* ƒVƒFƒ‹‚Ì IMalloc ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
@@ -2841,8 +2595,6 @@ CoTaskMemFree ‚ğg—p‚µ‚Ä‚à\‚í‚È‚¢‚µA„§‚³‚ê‚éB
 %index
 SHGetNameFromIDList
 IDList ‚Å¯•Ê‚³‚ê‚é€–Ú‚Ì•\¦–¼‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl, sigdnName, ppszName
 pidl : [var] Œ^: PCIDLIST_ABSOLUTE €–Ú‚ğ¯•Ê‚·‚é PIDLB
@@ -2862,8 +2614,6 @@ CoTaskMemFree ‚ğŒÄ‚Ño‚·B
 %index
 SHGetNewLinkInfoW
 ƒVƒ‡[ƒgƒJƒbƒg‚Ì’ñˆÄ‚³‚ê‚½ƒ^[ƒQƒbƒg‚ÉŠî‚Ã‚¢‚ÄV‚µ‚¢ƒVƒ‡[ƒgƒJƒbƒg‚Ì–¼‘O‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍƒVƒ‡[ƒgƒJƒbƒg©‘Ì‚Íì¬‚¹‚¸A–¼‘O‚Ì‚İ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszLinkTo, pszDir, pszName, pfMustCopy, uFlags
 pszLinkTo : [wstr] Œ^: LPCTSTR ƒVƒ‡[ƒgƒJƒbƒg‚Ìƒ^[ƒQƒbƒg‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^[BuFlags ‚É SHGNLI_PIDL ’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒ^[ƒQƒbƒg‚ğŠi”[‚·‚é null I’[•¶š—ñ‚ÌƒAƒhƒŒƒX‚Å‚ ‚éBuFlags ‚É SHGNLI_PIDL ’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒ^[ƒQƒbƒg‚ğ•\‚· PIDL ‚Å‚ ‚éB
@@ -2893,8 +2643,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHGetPathFromIDListW
 ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pidl, pszPath
 pidl : [var] Œ^: PCIDLIST_ABSOLUTE –¼‘O‹óŠÔ‚Ìƒ‹[ƒg(ƒfƒXƒNƒgƒbƒv)‚©‚ç‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠˆÊ’u‚ğw’è‚·‚éƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ÌƒAƒhƒŒƒXB
@@ -2913,8 +2661,6 @@ pidl ‚ªw’è‚·‚éˆÊ’u‚ªƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìˆê•”‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í¸”s‚·‚éBpidl 
 %index
 SHGetPathFromIDListEx
 ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚ÍA•¶š—ñƒoƒbƒtƒ@[‚Ì‰ŠúƒTƒCƒY‚ğİ’è‚µAˆÈ‰º‚ÌƒIƒvƒVƒ‡ƒ“‚ğéŒ¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚Å SHGetPathFromIDList ‚ğŠg’£‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl, pszPath, cchPath, uOpts
 pidl : [var] Œ^: PCIDLIST_ABSOLUTE –¼‘O‹óŠÔ‚Ìƒ‹[ƒg (ƒfƒXƒNƒgƒbƒv) ‚ğŠî€‚Æ‚µ‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÌêŠ‚ğw’è‚·‚éƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2938,8 +2684,6 @@ UNC ƒvƒŠƒ“ƒ^[–¼‚ğœ‚«Apidl ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½êŠ‚ªƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìˆê•
 %index
 SHGetPropertyStoreForWindow
 “Á’è‚ÌƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒB‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µA‚»‚ê‚ç‚ÌƒvƒƒpƒeƒB‚ğƒNƒGƒŠ‚µ‚½‚èİ’è‚µ‚½‚è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, riid, ppv
 hwnd : [intptr] Œ^: HWND ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2969,8 +2713,6 @@ AppUserModelID
 %index
 SHGetPropertyStoreFromIDList
 ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚©‚çAIPropertyStore ‚Ü‚½‚ÍŠÖ˜AƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 pidl, flags, riid, ppv
 pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒAƒCƒeƒ€ ID ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2985,8 +2727,6 @@ ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|
 %index
 SHGetPropertyStoreFromParsingName
 ƒpƒX‚Ü‚½‚Í‰ğÍ–¼‚©‚çA€–Ú‚ÌƒvƒƒpƒeƒBƒXƒgƒA‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pszPath, pbc, flags, riid, ppv
 pszPath : [wstr] Œ^: PCWSTR €–Ú‚ÌƒpƒX‚ğw’è‚·‚é null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3004,8 +2744,6 @@ ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|
 %index
 SHGetRealIDL
 SHGetRealIDL ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 psf, pidlSimple, ppidlReal
 psf : [var] Œ^: IShellFolder* ƒVƒ“ƒvƒ‹ PIDL ‚ğ•ÏŠ·‚·‚é‘ÎÛ‚Ì IShellFolder ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3021,8 +2759,6 @@ SHGetRealIDL ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHGetSetFolderCustomSettings
 SHGetSetFolderCustomSettings ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pfcs, pszPath, dwReadWrite
 pfcs : [var] Œ^: LPSHFOLDERCUSTOMSETTINGS ƒJƒXƒ^ƒ€ƒtƒHƒ‹ƒ_İ’è‚ğ’ñ‹Ÿ‚Ü‚½‚Íó‚¯æ‚é SHFOLDERCUSTOMSETTINGS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3042,8 +2778,6 @@ SHGetSetFolderCustomSettings ‚Í ANSI •¶š—ñ‚Æ Unicode •¶š—ñ‚Ì—¼•û‚ğƒTƒ|[ƒg‚·‚é
 %index
 SHGetSetSettings
 SHGetSetSettings ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 lpss, dwMask, bSet
 lpss : [var] Œ^: LPSHELLSTATE ƒVƒFƒ‹ó‘Ôİ’è‚ğ’ñ‹Ÿ‚Ü‚½‚Íó‚¯æ‚é SHELLSTATE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3056,8 +2790,6 @@ SHGetSetSettings ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHGetSettings
 Œ»İ‚ÌƒVƒFƒ‹ƒIƒvƒVƒ‡ƒ“İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 psfs, dwMask
 psfs : [var] Œ^: LPSHELLFLAGSTATE ƒVƒFƒ‹ƒIƒvƒVƒ‡ƒ“İ’è‚ğó‚¯æ‚é SHELLFLAGSTATE \‘¢‘Ì‚ÌƒAƒhƒŒƒXB
@@ -3069,8 +2801,6 @@ dwMask : [int] Œ^: DWORD
 %index
 SHGetSpecialFolderLocation
 SHGetSpecialFolderLocation ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸A«—ˆ•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SHGetFolderLocation ‚ğg—p‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, csidl, ppidl
 hwnd : [intptr] Œ^: HWND —\–ñÏ‚İB
@@ -3087,8 +2817,6 @@ SHGetFolderLocation ‚ğg—p‚·‚éB
 %index
 SHGetSpecialFolderPathW
 SHGetSpecialFolderPath ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B‘ã‚í‚è‚É SHGetFolderPath ‚ğg‚¤B(Unicode)
-%group
-Win32 shell32
 %prm
 hwnd, pszPath, csidl, fCreate
 hwnd : [intptr] Œ^: HWND —\–ñB
@@ -3110,8 +2838,6 @@ SHGetSpecialFolderPath ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B‘ã‚í‚è‚É SHGetFolderPath ‚ğg‚¤B
 %index
 SHGetTemporaryPropertyForItem
 w’è‚µ‚½€–Ú‚ÌˆêƒvƒƒpƒeƒB‚ğæ“¾‚·‚éBˆêƒvƒƒpƒeƒB‚ÍA€–Ú‚É‰i‘±‰»‚³‚ê‚é‚Ì‚Å‚Í‚È‚­AIShellItem ƒIƒuƒWƒFƒNƒg‚Ì‘¶‘±ŠúŠÔ’†‚¾‚¯ƒvƒƒpƒeƒB‚ğ•Û‚·‚é“Ç‚İ‘‚«‰Â”\‚ÈƒXƒgƒA‚Å‚ ‚éB
-%group
-Win32 shell32
 %prm
 psi, propkey, ppropvar
 psi : [var] Œ^: IShellItem* ˆêƒvƒƒpƒeƒB‚ğæ“¾‚·‚é‘ÎÛ‚Ì€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3128,8 +2854,6 @@ ppropvar : [var] Œ^: PROPVARIANT* €–Ú‚ÌˆêƒvƒƒpƒeƒB‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 SHGetUnreadMailCountW
 w’è‚µ‚½ƒ†[ƒU[‚Ì–¢“ÇƒƒbƒZ[ƒW”‚ğA”CˆÓ‚Ü‚½‚Í‚·‚×‚Ä‚Ìƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚É‚Â‚¢‚Äæ“¾‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hKeyUser, pszMailAddress, pdwCount, pFileTime, pszShellExecuteCommand, cchShellExecuteCommand
 hKeyUser : [intptr] Œ^: HKEY w’è‚µ‚½ƒ†[ƒU[‚É‘Î‚·‚é—LŒø‚È HKEYBŠÖ”‚ªƒ†[ƒU[‚ÌŠÂ‹«‚ÅŒÄ‚Ño‚³‚ê‚éê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚É‚·‚×‚«‚ÅA‚»‚Ìê‡‚Í HKEY_CURRENT_USER ‚ªg—p‚³‚ê‚éBŠÖ”‚ª SYSTEM ƒRƒ“ƒeƒLƒXƒg‚©‚çŒÄ‚Ño‚³‚ê‚éê‡‚à‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚É‚·‚×‚«‚ÅA‚»‚Ìê‡‚Í HKEY_USERS\{SID} ‚ªg—p‚³‚ê‚éB
@@ -3148,8 +2872,6 @@ cchShellExecuteCommand : [int] Œ^: int pszShellExecuteCommand ‚ªw‚· ShellExecut
 %index
 SHHandleUpdateImage
 SHHandleUpdateImage ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pidlExtra
 pidlExtra : [var] Œ^: PCIDLIST_ABSOLUTE IShellChangeNotify::OnChange ‚Ì pidl2 ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½A•ÏX‚³‚ê‚½ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -3167,8 +2889,6 @@ SHHandleUpdateImage ‚ÍA•ÏX’Ê’mƒR[ƒ‹ƒoƒbƒN‚ªó‚¯æ‚Á‚½ pidl2 ƒpƒ‰ƒ[ƒ^[‚ª”ñ 
 %index
 SHILCreateFromPath
 SHILCreateFromPath ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pszPath, ppidl, rgfInOut
 pszPath : [wstr] Œ^: PCWSTR •ÏŠ·‚·‚éƒpƒX‚ğŠÜ‚ŞAÅ‘å’· MAX_PATH ‚Ì null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3184,8 +2904,6 @@ SHILCreateFromPath ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHInvokePrinterCommandW
 ƒvƒŠƒ“ƒ^[ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hwnd, uAction, lpBuf1, lpBuf2, fModal
 hwnd : [intptr] Œ^: HWND ‘€ì’†‚Éì¬‚³‚ê‚éƒEƒBƒ“ƒhƒE‚âƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -3208,8 +2926,6 @@ lpBuf1
 %index
 SHIsFileAvailableOffline
 ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ªƒIƒtƒ‰ƒCƒ“‚Åg—p‰Â”\‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB‚±‚ÌŠÖ”‚Í‚Ü‚½Aƒtƒ@ƒCƒ‹‚ªƒlƒbƒgƒ[ƒNEƒ[ƒJƒ‹‚ÌƒIƒtƒ‰ƒCƒ“ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…E—¼•û‚ÌêŠ‚Ì‚¤‚¿‚Ç‚±‚©‚çŠJ‚©‚ê‚é‚©‚à”»’è‚·‚éB
-%group
-Win32 shell32
 %prm
 pwszPath, pdwStatus
 pwszPath : [wstr] Œ^: PCWSTR ƒlƒbƒgƒ[ƒNƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒtƒ‹ƒpƒX‚ğw’è‚·‚é•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ÌƒpƒX‚Í UNC Œ`®‚Å‚ ‚é•K—v‚Í‚È‚¢BpszPath ‚ªƒlƒbƒgƒ[ƒNƒpƒX‚Å‚È‚¢ê‡AŠÖ”‚Í E_INVALIDARG ‚ğ•Ô‚·B
@@ -3232,8 +2948,6 @@ OFFLINE_STATUS_LOCAL ‚Æ OFFLINE_STATUS_REMOTE
 %index
 SHLimitInputEdit
 ƒGƒfƒBƒbƒgƒRƒ“ƒgƒ[ƒ‹‚É—LŒø‚È•¶š‚Ì§ŒÀ‚ğİ’è‚·‚éB
-%group
-Win32 shell32
 %prm
 hwndEdit, psf
 hwndEdit : [intptr] Œ^: HWND ƒGƒfƒBƒbƒgƒRƒ“ƒgƒ[ƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -3248,8 +2962,6 @@ psf : [var] Œ^: IShellFolder* IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B‚±‚ÌƒIƒuƒ
 %index
 SHLoadInProc
 ƒVƒFƒ‹‚ÌƒvƒƒZƒX‚ÌƒRƒ“ƒeƒLƒXƒg“à‚©‚çw’è‚µ‚½ƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éBWindows Vista ˆÈ~:\_‚±‚ÌŠÖ”‚Í–³Œø‰»‚³‚ê‚Ä‚¨‚èAE_NOTIMPL ‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 rclsid
 rclsid : [var] Œ^: REFCLSID ì¬‚·‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì CLSIDB
@@ -3273,8 +2985,6 @@ DllCanUnloadNow ŠÖ”‚©‚ç S_OK ‚ğ•Ô‚µ‚½‚Æ‚«‚ÉA•W€‚Ì Component Object Model (COM
 %index
 SHLoadNonloadedIconOverlayIdentifiers
 Ÿ‚ÉƒI[ƒo[ƒŒƒCî•ñ‚ğ•K—v‚Æ‚·‚é‘€ì‚ÌÛ‚ÉA‹N“®‚Éì¬‚É¸”s‚µ‚½‚©ì¬‚Ì‚½‚ß‚É‘¶İ‚µ‚È‚©‚Á‚½ƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC¯•Êq‚ğƒ[ƒh‚·‚×‚«‚Å‚ ‚é‚±‚Æ‚ğƒVƒFƒ‹‚É’Ê’m‚·‚éBŠù‚Éƒ[ƒhÏ‚İ‚Ì¯•Êq‚Í‰e‹¿‚ğó‚¯‚È‚¢B
-%group
-Win32 shell32
 %prm
 
 %inst
@@ -3298,8 +3008,6 @@ Overlay Handlers ‚ğQÆB
 %index
 SHMapPIDLToSystemImageListIndex
 SHMapPIDLToSystemImageListIndex ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pshf, pidl, piIndexSel
 pshf : [var] Œ^: IShellFolder* €–Ú‚ğŠÜ‚ŞƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B
@@ -3315,8 +3023,6 @@ SHMapPIDLToSystemImageListIndex ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHMultiFileProperties
 ƒtƒ@ƒCƒ‹ƒZƒbƒg‚É‘Î‚µ‚Äƒ}[ƒW‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒg‚ğ•\¦‚·‚éB‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚É‹¤’Ê‚·‚éƒvƒƒpƒeƒB’l‚ª•\¦‚³‚êAˆÙ‚È‚é‚à‚Ì‚É‚Â‚¢‚Ä‚Í•¶š—ñu(•¡”‚Ì’l)v‚ª•\¦‚³‚ê‚éB
-%group
-Win32 shell32
 %prm
 pdtobj, dwFlags
 pdtobj : [var] Œ^: IDataObject* ƒ}[ƒW‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒg‚ğ•\¦‚·‚é‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚Ì PIDL ‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[Bƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Í CFSTR_SHELLIDLIST ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğg—p‚·‚é•K—v‚ª‚ ‚éBeƒtƒHƒ‹ƒ_‚Ì IShellFolder::GetDisplayNameOf ‚ÌÀ‘•‚ÍASHGDN_FORPARSING ƒtƒ‰ƒO‚É‰“š‚µ‚ÄŠe€–Ú‚ÌŠ®‘SCüƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚ğ•Ô‚·•K—v‚ª‚ ‚éB
@@ -3332,8 +3038,6 @@ dwFlags : [int] Œ^: DWORD —\–ñÏ‚İB0 ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB
 %index
 SHObjectProperties
 SHObjectProperties ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hwnd, shopObjectType, pszObjectName, pszPropertyPage
 hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
@@ -3350,8 +3054,6 @@ SHObjectProperties ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHOpenFolderAndSelectItems
 “Á’è‚ÌƒtƒHƒ‹ƒ_“à‚Ìw’è‚µ‚½€–Ú‚ª‘I‘ğ‚³‚ê‚½ó‘Ô‚Å Windows Explorer ƒEƒBƒ“ƒhƒE‚ğŠJ‚­B
-%group
-Win32 shell32
 %prm
 pidlFolder, cidl, apidl, dwFlags
 pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE ƒtƒHƒ‹ƒ_‚ğw’è‚·‚éŠ®‘SCüƒAƒCƒeƒ€ ID ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3372,8 +3074,6 @@ SHOpenFolderAndSelectItems ‚ğg—p‚·‚é‘O‚É CoInitialize ‚Ü‚½‚Í CoInitializeEx
 %index
 SHOpenWithDialog
 uƒtƒ@ƒCƒ‹‚ğŠJ‚­ƒvƒƒOƒ‰ƒ€‚Ì‘I‘ğvƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
-%group
-Win32 shell32
 %prm
 hwndParent, poainfo
 hwndParent : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
@@ -3396,8 +3096,6 @@ Windows 10
 %index
 SHParseDisplayName
 ƒVƒFƒ‹–¼‘O‹óŠÔƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚É•ÏŠ·‚µAƒIƒuƒWƒFƒNƒg‚Ì‘®«‚ğ•Ô‚·B‚±‚ÌŠÖ”‚Í•¶š—ñ‚ğƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚É•ÏŠ·‚·‚é‚½‚ß‚Ì„§•û–@‚Å‚ ‚éB
-%group
-Win32 shell32
 %prm
 pszName, pbc, ppidl, sfgaoIn, psfgaoOut
 pszName : [wstr] Œ^: LPCWSTR ‰ğÍ‚·‚é•\¦–¼‚ğŠÜ‚Şƒ[ƒI’[‚ÌƒƒCƒh•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3419,8 +3117,6 @@ psfgaoOut : [var] Œ^: SFGAOF* ULONG ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B–ß‚è‚ÉAsfgaoIn ‚Å—v‹‚³‚ê
 %index
 SHPathPrepareForWriteW
 ƒpƒX‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hwnd, punkEnableModless, pszPath, dwFlags
 hwnd : [intptr] Œ^: HWND ì¬‚·‚é•K—v‚Ì‚ ‚éƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒEƒBƒ“ƒhƒE‚Ég—p‚³‚ê‚éeƒEƒBƒ“ƒhƒE‚ğw’è‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Éİ’è‚·‚é‚ÆAƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒEƒBƒ“ƒhƒE‚Íì¬‚³‚ê‚È‚¢B
@@ -3448,8 +3144,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHPropStgCreate
 —v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‘€ì‚É‘Î‚·‚éƒR[ƒhƒy[ƒW‚Ìæ“¾‚âŠ„‚è“–‚Ä‚ğ“KØ‚Éˆ—‚·‚éB
-%group
-Win32 shell32
 %prm
 psstg, fmtid, pclsid, grfFlags, grfMode, dwDisposition, ppstg, puCodePage
 psstg : [var] Œ^: IPropertySetStorage* IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3470,8 +3164,6 @@ puCodePage : [var] Œ^: UINT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒZƒbƒg‚ÌƒR[ƒhƒy[ƒW ID ‚
 %index
 SHPropStgReadMultiple
 ”ñ„§‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚É‘Î‚µ‚Ä ANSI ‚Æ Unicode ‚Ì•ÏŠ·‚ª“KØ‚Éˆ—‚³‚ê‚é‚æ‚¤AIPropertyStorage::ReadMultiple ŠÖ”‚ğƒ‰ƒbƒv‚·‚éB
-%group
-Win32 shell32
 %prm
 pps, uCodePage, cpspec, rgpspec, rgvar
 pps : [var] Œ^: IPropertyStorage* ƒvƒƒpƒeƒBƒXƒgƒA‚ğ¯•Ê‚·‚é IPropertyStorage ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B
@@ -3490,8 +3182,6 @@ rgvar : [var] Œ^: PROPVARIANT[] ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉAƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é
 %index
 SHPropStgWriteMultiple
 ”ñ„§‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚É‘Î‚µ‚Ä ANSI ‚Æ Unicode ‚Ì•ÏŠ·‚ª“KØ‚Éˆ—‚³‚ê‚é‚æ‚¤AIPropertyStorage::WriteMultiple ŠÖ”‚ğƒ‰ƒbƒv‚·‚éB
-%group
-Win32 shell32
 %prm
 pps, puCodePage, cpspec, rgpspec, rgvar, propidNameFirst
 pps : [var] Œ^: IPropertyStorage* ƒvƒƒpƒeƒBƒXƒgƒA‚ğ¯•Ê‚·‚é IPropertyStorage ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B
@@ -3511,8 +3201,6 @@ propidNameFirst : [int] Œ^: PROPID ƒvƒƒpƒeƒB¯•Êq‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚éê‡‚Ì
 %index
 SHQueryUserNotificationState
 Œ»İ‚Ìƒ†[ƒU[‚É‘Î‚µ‚Ä’Ê’m‚ğ‘—M‚·‚é‚Ì‚ª“KØ‚©‚ğ”»’è‚·‚é‚½‚ßAƒRƒ“ƒsƒ…[ƒ^[‚Ìó‘Ô‚ğƒ`ƒFƒbƒN‚·‚éB
-%group
-Win32 shell32
 %prm
 pquns
 pquns : [var] Œ^: QUERY_USER_NOTIFICATION_STATE* ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAQUERY_USER_NOTIFICATION_STATE —ñ‹“‘Ì‚Ì’l‚Ì 1 ‚Â‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB
@@ -3535,8 +3223,6 @@ QUNS_QUIET_TIME ‚ğ•Ô‚µ‚½ê‡A’Ê’m‚Íd—v‚È‚à‚Ì‚ÉŒÀ‚è•\¦‚·‚×‚«‚Å‚ ‚éB
 %index
 SHRemoveLocalizedName
 ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğíœ‚·‚éB
-%group
-Win32 shell32
 %prm
 pszPath
 pszPath : [wstr] Œ^: PCWSTR ƒ^[ƒQƒbƒgƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3557,8 +3243,6 @@ IShellFolder::GetDisplayNameOf ƒƒ\ƒbƒh‚ğg‚¢ASIGDN_NORMALDISPLAY ƒtƒ‰ƒO‚Å•\¦
 %index
 SHReplaceFromPropSheetExtArray
 ƒvƒƒpƒeƒBƒV[ƒgŠg’£”z—ñ“à‚ÌŠeƒvƒƒpƒeƒBƒV[ƒg‚Éƒy[ƒW‚ğ’u‚«Š·‚¦‚é‚æ‚¤—v‹‚·‚éBŠeƒy[ƒW‚ÍÅ‘å 1 ‰ñ‚Ì’uŠ·‚ª‹–‰Â‚³‚ê‚éB
-%group
-Win32 shell32
 %prm
 hpsxa, uPageID, lpfnReplaceWith, lParam
 hpsxa : [intptr] Œ^: HPSXA SHCreatePropSheetExtArray ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒg”z—ñƒnƒ“ƒhƒ‹ (HPSXA)B
@@ -3575,8 +3259,6 @@ lParam : [intptr] Œ^: LPARAM ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’lB
 %index
 SHResolveLibrary
 ƒ‰ƒCƒuƒ‰ƒŠ“à‚Ì‚·‚×‚Ä‚ÌêŠ‚ğAˆÚ“®‚Ü‚½‚Í–¼‘O•ÏX‚³‚ê‚½‚à‚Ì‚àŠÜ‚ß‚Ä‰ğŒˆ‚·‚éB
-%group
-Win32 shell32
 %prm
 psiLibrary
 psiLibrary : [var] Œ^: IShellItem* ƒ‰ƒCƒuƒ‰ƒŠ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3596,8 +3278,6 @@ psiLibrary : [var] Œ^: IShellItem* ƒ‰ƒCƒuƒ‰ƒŠ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ
 %index
 SHRestricted
 SHRestricted ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 rest
 rest : [int] Œ^: RESTRICTIONS RESTRICTIONS —ñ‹“Œ^‚É‹Lq‚³‚ê‚½ƒtƒ‰ƒO‚Ì 1 ‚Â‚ğw’è‚·‚éB
@@ -3611,8 +3291,6 @@ SHRestricted ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHSetDefaultProperties
 ƒVƒFƒ‹€–Ú‚ÉŠù’è‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚ğ“K—p‚·‚éB
-%group
-Win32 shell32
 %prm
 hwnd, psi, dwFileOpFlags, pfops
 hwnd : [intptr] Œ^: HWND ƒGƒ‰[’Ê’m‚ğóM‚·‚é€–Ú‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
@@ -3636,8 +3314,6 @@ SetDefaultsFor ƒGƒ“ƒgƒŠ‚É‚ ‚éŠù’è’l‚ğg—p‚·‚éB
 %index
 SHSetFolderPathW
 ”ñ„§BCSIDL ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ÉV‚µ‚¢ƒpƒX‚ğŠ„‚è“–‚Ä‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 csidl, hToken, dwFlags, pszPath
 csidl : [int] Œ^: int ƒpƒX‚ğİ’è‚·‚éƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é CSIDL ’lB•¨—ƒtƒHƒ‹ƒ_‚Ì‚İ‚ª—LŒø‚Å‚ ‚éB‰¼‘zƒtƒHƒ‹ƒ_‚ğw’è‚·‚é‚Æ‚±‚ÌŠÖ”‚Í¸”s‚·‚éB•¶š—ñ‚ª’ñ‹Ÿ‚³‚ê‚½‚Æ‚¨‚è‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚Ü‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚é‚É‚ÍACSIDL ‚É CSIDL_FLAG_DONT_UNEXPAND ’l‚ğ‰Á‚¦‚éBCSIDL_FLAG_DONT_UNEXPAND ƒtƒ‰ƒO‚ğŠÜ‚ß‚È‚¢ê‡AƒpƒX‚Ìˆê•”‚ª %USERPROFILE% ‚È‚Ç‚ÌŠÂ‹«•¶š—ñ‚É’u‚«Š·‚¦‚ç‚ê‚éê‡‚ª‚ ‚éB
@@ -3671,8 +3347,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHSetInstanceExplorer
 ƒzƒXƒg‚³‚ê‚½ƒVƒFƒ‹Šg’£‚â‚»‚Ì‘¼‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªA‚»‚ê‚ç‚ÌƒzƒXƒgƒvƒƒZƒX‚Ì‘ŠúI—¹‚ğ–h‚®‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 shell32
 %prm
 punk
 punk : [var] Œ^: IUnknown* ƒtƒŠ[ƒXƒŒƒbƒh‚Ì IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒRƒ“ƒ|[ƒlƒ“ƒg‚Í (SHGetInstanceExplorer ‚ğ‰î‚µ‚Ä) ‚±‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğg‚Á‚ÄƒzƒXƒgƒvƒƒZƒX‚ÌI—¹‚ğ–h‚®‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡AƒvƒƒZƒXQÆ‚ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚©‚ç—˜—p‚Å‚«‚È‚­‚È‚éB
@@ -3699,8 +3373,6 @@ AddRef ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BƒRƒ“ƒ|[ƒlƒ“ƒg‚Íˆ—‚ªŠ®—¹‚µ‚½‚Æ‚«‚É IUnknown::Releas
 %index
 SHSetKnownFolderPath
 known folder ‚ğV‚µ‚¢êŠ‚ÉƒŠƒ_ƒCƒŒƒNƒg‚·‚éB
-%group
-Win32 shell32
 %prm
 rfid, dwFlags, hToken, pszPath
 rfid : [var] Œ^: REFKNOWNFOLDERID known folder ‚ğ¯•Ê‚·‚é GUIDB
@@ -3730,8 +3402,6 @@ KF_CATEGORY_FIXED ‚¨‚æ‚Ñ KF_CATEGORY_VIRTUAL
 %index
 SHSetLocalizedName
 ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğİ’è‚·‚éB
-%group
-Win32 shell32
 %prm
 pszPath, pszResModule, idsRes
 pszPath : [wstr] Œ^: PCWSTR ƒ^[ƒQƒbƒgƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3754,8 +3424,6 @@ SIGDN_DESKTOPABSOLUTEPARSING ƒtƒ‰ƒO‚ğw’è‚µ‚Ä‰ğÍ (ƒ[ƒJƒ‰ƒCƒY‚³‚ê‚Ä‚¢‚È‚¢)
 %index
 SHSetTemporaryPropertyForItem
 w’è‚µ‚½€–Ú‚ÉˆêƒvƒƒpƒeƒB‚ğİ’è‚·‚éBˆêƒvƒƒpƒeƒB‚ÍA€–Ú‚É‘‚«–ß‚³‚ê‚é‚Ì‚Å‚Í‚È‚­AIShellItem ƒIƒuƒWƒFƒNƒg‚Ì‘¶‘±ŠúŠÔ’†‚¾‚¯ƒvƒƒpƒeƒB‚ğ•Û‚·‚é“Ç‚İ‘‚«‰Â”\‚ÈƒXƒgƒA‚É•Û‚³‚ê‚éB
-%group
-Win32 shell32
 %prm
 psi, propkey, propvar
 psi : [var] Œ^: IShellItem* ˆêƒvƒƒpƒeƒB‚ğİ’è‚·‚é‘ÎÛ‚Ì€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3776,8 +3444,6 @@ propvar : [var] Œ^: REFPROPVARIANT ˆêƒvƒƒpƒeƒB‚Ì’l‚ğŠi”[‚·‚é PROPVARIANT ‚Ö‚Ì
 %index
 SHSetUnreadMailCountW
 Œ»İ‚Ìƒ†[ƒU[‚Ìw’è‚µ‚½ƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚Ì–¢“ÇƒƒbƒZ[ƒW”‚ğƒŒƒWƒXƒgƒŠ‚ÉŠi”[‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszMailAddress, dwCount, pszShellExecuteCommand
 pszMailAddress : [wstr] Œ^: LPCTSTR Œ»İ‚Ìƒ†[ƒU[‚ÌŠ®‘S‚Èƒ[ƒ‹ƒAƒhƒŒƒX‚ğŠi”[‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3802,8 +3468,6 @@ HKEY_CURRENT_USER ‚ğg—p‚·‚é‚½‚ßAƒ†[ƒU[‚ğ‹U‘•‚·‚éƒVƒXƒeƒ€ƒvƒƒZƒX‚©‚çŒÄ‚Ño‚·
 %index
 SHShellFolderView_Message
 SHShellFolderView_Message ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hwndMain, uMsg, lParam
 hwndMain : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3819,8 +3483,6 @@ SHShellFolderView_Message ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SHShowManageLibraryUI
 ƒ†[ƒU[‚ªƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒtƒHƒ‹ƒ_‚ÆŠù’è‚Ì•Û‘¶êŠ‚ğŠÇ—‚Å‚«‚éƒ‰ƒCƒuƒ‰ƒŠŠÇ—ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
-%group
-Win32 shell32
 %prm
 psiLibrary, hwndOwner, pszTitle, pszInstruction, lmdOptions
 psiLibrary : [var] Œ^: IShellItem* ŠÇ—‘ÎÛ‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3838,8 +3500,6 @@ lmdOptions : [int] Œ^: LIBRARYMANAGEDIALOGOPTIONS ŠÇ—ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ì“®ì‚ğ
 %index
 SHSimpleIDListFromPath
 ”ñ„§BƒpƒX‚ğ“n‚³‚ê‚é‚Æ ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B
-%group
-Win32 shell32
 %prm
 pszPath
 pszPath : [wstr] Œ^: PCWSTR PIDL ‚É•ÏŠ·‚·‚éƒpƒX‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3860,8 +3520,6 @@ Windows ‚Ìƒo[ƒWƒ‡ƒ“‚Å‚Í‘¶İ‚µ‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì‘ã‘ÖˆÄ‚ÍŸ‚Ì‚Æ‚¨‚è
 %index
 SHStartNetConnectionDialogW
 SHStartNetConnectionDialog ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hwnd, pszRemoteName, dwType
 hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3885,8 +3543,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHTestTokenMembership
 CheckTokenMembership ‚ğg—p‚µ‚ÄAw’è‚µ‚½ƒg[ƒNƒ“‚ªw’è‚³‚ê‚½ RID ‚ğ‚Âƒ[ƒJƒ‹ƒOƒ‹[ƒv‚Ìƒƒ“ƒo[‚©‚Ç‚¤‚©‚ğƒeƒXƒg‚·‚éB
-%group
-Win32 shell32
 %prm
 hToken, ulRID
 hToken : [intptr] Œ^: HANDLE ƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
@@ -3905,8 +3561,6 @@ CheckTokenMembership ‚ğg—p‚µ‚ÄAw’è‚µ‚½ƒg[ƒNƒ“‚ªw’è‚³‚ê‚½ RID
 %index
 SHUpdateImageW
 ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ[ƒW‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğƒVƒFƒ‹‚É’Ê’m‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 pszHashItem, iIndex, uFlags, iImageIndex
 pszHashItem : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[BIExtractIcon::GetIconLocation ‚Ì szIconFile ƒpƒ‰ƒ[ƒ^[‚ªw‚·ƒoƒbƒtƒ@[‚Å•Ô‚³‚ê‚½ƒpƒX‚ğg—p‚·‚éB
@@ -3932,8 +3586,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SHValidateUNC
 SHValidateUNC ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hwndOwner, pszFile, fConnect
 hwndOwner : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BUI ‚ğ•\¦‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‚±‚ê‚ª•K—v‚È‚¢ê‡A‚±‚Ì’l‚Í NULL ‚Éİ’è‚Å‚«‚éB
@@ -3950,8 +3602,6 @@ SHValidateUNC ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SetCurrentProcessExplicitAppUserModelID
 Œ»İ‚ÌƒvƒƒZƒX‚ğƒ^ƒXƒNƒo[‚É‘Î‚µ‚Ä¯•Ê‚·‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌˆêˆÓ‚È Application User Model ID (AppUserModelID) ‚ğw’è‚·‚éB‚±‚Ì¯•Êq‚É‚æ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŠÖ˜A‚·‚éƒvƒƒZƒX‚ÆƒEƒBƒ“ƒhƒE‚ğ’Pˆê‚Ìƒ^ƒXƒNƒo[ƒ{ƒ^ƒ“‚Ì‰º‚ÉƒOƒ‹[ƒv‰»‚Å‚«‚éB
-%group
-Win32 shell32
 %prm
 AppID
 AppID : [wstr] Œ^: PCWSTR Œ»İ‚ÌƒvƒƒZƒX‚ÉŠ„‚è“–‚Ä‚é AppUserModelID ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -3971,8 +3621,6 @@ SHAddToRecentDocs ‚ÌŒÄ‚Ño‚µ‚àŠÜ‚Ü‚ê‚éB
 %index
 ShellAboutW
 ShellAbout ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB(Unicode)
-%group
-Win32 shell32
 %prm
 hWnd, szApp, szOtherStuff, hIcon
 hWnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
@@ -4000,8 +3648,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ShellExecuteW
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚É‘Î‚·‚é‘€ì‚ğÀs‚·‚éB(ShellExecuteW)
-%group
-Win32 shell32
 %prm
 hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd
 hwnd : [intptr] Œ^: HWND UI ‚âƒGƒ‰[ƒƒbƒZ[ƒW‚ğ•\¦‚·‚é‚½‚ß‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A‚µ‚È‚¢‘€ì‚Ìê‡‚Í NULL ‚ğw’è‰Â”\B
@@ -4029,8 +3675,6 @@ ShellExecute ‚Í Shell Šg’£(ƒf[ƒ^ƒ\[ƒXAƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ƒnƒ“ƒhƒ‰Averb
 %index
 Shell_GetCachedImageIndex
 Shell_GetCachedImageIndex ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pwszIconPath, iIconIndex, uIconFlags
 pwszIconPath : [wstr] Œ^: PCWSTR ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚ğŠi”[‚·‚éƒoƒbƒtƒ@[‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -4054,8 +3698,6 @@ Windows XP: Shell_GetCachedImageIndex
 %index
 Shell_GetImageLists
 ‘åƒAƒCƒRƒ“‚Æ¬ƒAƒCƒRƒ“—p‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 shell32
 %prm
 phiml, phimlSmall
 phiml : [intptr] Œ^: HIMAGELIST* ¬Œ÷‚É‘å (32 x 32) ƒAƒCƒRƒ“—p‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚ğó‚¯æ‚éƒCƒ[ƒWƒŠƒXƒg‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -4075,8 +3717,6 @@ phimlSmall : [intptr] Œ^: HIMAGELIST* ¬Œ÷‚É¬ (16 x 16) ƒAƒCƒRƒ“—p‚ÌƒVƒXƒeƒ€ƒ
 %index
 Shell_MergeMenus
 Shell_MergeMenus ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 hmDst, hmSrc, uInsert, uIDAdjust, uIDAdjustMax, uFlags
 hmDst : [intptr] Œ^: HMENU hmSrc ‚ª’Ç‰Á‚³‚ê‚éˆ¶æƒƒjƒ…[B
@@ -4095,8 +3735,6 @@ Shell_MergeMenus ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 SignalFileOpen
 SignalFileOpen ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pidl
 pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒtƒ@ƒCƒ‹‚ğw’è‚·‚é PIDLB
@@ -4110,8 +3748,6 @@ SignalFileOpen ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 StgMakeUniqueName
 ƒeƒ“ƒvƒŒ[ƒg‚©‚çƒXƒgƒŠ[ƒ€‚Ü‚½‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌˆêˆÓ‚È–¼‘O‚ğì¬‚·‚éB
-%group
-Win32 shell32
 %prm
 pstgParent, pszFileSpec, grfMode, riid, ppv
 pstgParent : [var] Œ^: IStorage* IStorage ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -4134,8 +3770,6 @@ Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg—p‚µ‚Ä riid ‚Æ ppv
 %index
 Win32DeleteFile
 Win32DeleteFile ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pszPath
 pszPath : [wstr] Œ^: PCWSTR íœ‚·‚éƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒl[ƒ€‚ğŠi”[‚·‚éƒoƒbƒtƒ@[‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -4149,8 +3783,6 @@ Win32DeleteFile ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 WriteCabinetState
 WriteCabinetState ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 shell32
 %prm
 pcs
 pcs : [var] Œ^: CABINETSTATE* İ’è‚·‚é’l‚ğ•Û‚·‚é CABINETSTATE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B

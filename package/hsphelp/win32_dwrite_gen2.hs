@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+dwrite.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の dwrite.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 DWriteCreateFactory
 その後の個別 DirectWrite オブジェクト生成に使用される DirectWrite ファクトリオブジェクトを作成する。
-%group
-Win32 dwrite
 %prm
 factoryType, iid, factory
 factoryType : [int] 型: DWRITE_FACTORY_TYPE ファクトリオブジェクトを共有にするか分離するかを指定する値。

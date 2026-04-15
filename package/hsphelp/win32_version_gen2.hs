@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+version.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の version.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 GetFileVersionInfoW
 指定ファイルのバージョン情報を取得する。(GetFileVersionInfoW)
-%group
-Win32 version
 %prm
 lptstrFilename, dwHandle, dwLen, lpData
 lptstrFilename : [wstr] 型: LPCTSTR ファイル名。フルパス指定でない場合は LoadLibrary と同じ検索順序を使う。
@@ -33,8 +53,6 @@ ANSI/Unicode 版のエイリアスとして定義する。
 %index
 GetFileVersionInfoExW
 指定されたファイルのバージョン情報を取得する。(GetFileVersionInfoExW)
-%group
-Win32 version
 %prm
 dwFlags, lpwstrFilename, dwHandle, dwLen, lpData
 dwFlags : [int] 型: DWORD バージョンリソースを抽出する MUI DLL（存在する場合）を制御する。このフラグの値は、dwLen パラメータに渡すバッファサイズを決定するために使用した対応する GetFileVersionInfoSizeEx 呼び出しに渡したフラグと一致する必要がある。以下のフラグから 0 個以上を指定する。
@@ -63,8 +81,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetFileVersionInfoSizeW
 OS が指定ファイルのバージョン情報を取得できるかを判定し、取得可能ならそのサイズ(バイト単位)を返す。(Unicode)
-%group
-Win32 version
 %prm
 lptstrFilename, lpdwHandle
 lptstrFilename : [wstr] 型: LPCTSTR 対象ファイルの名前。LoadLibrary と同じ検索順序を使う。
@@ -86,8 +102,6 @@ ANSI/Unicode 版のエイリアスとして定義する。
 %index
 GetFileVersionInfoSizeExW
 オペレーティングシステムが指定されたファイルのバージョン情報を取得できるかどうかを判定する。バージョン情報が利用可能な場合、GetFileVersionInfoSizeEx はその情報のサイズ（バイト単位）を返す。(Unicode)
-%group
-Win32 version
 %prm
 dwFlags, lpwstrFilename, lpdwHandle
 dwFlags : [int] 型: DWORD バージョンリソースを抽出する MUI DLL（存在する場合）を制御する。以下のフラグから 0 個以上を指定する。
@@ -117,8 +131,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 VerFindFileW
 システム内に該当ファイルの別バージョンがあるかどうかに基づいて、ファイルをインストールする場所を決定する。VerFindFile が指定バッファに返す値は、後続の VerInstallFile 関数呼び出しで使用される。(Unicode)
-%group
-Win32 version
 %prm
 uFlags, szFileName, szWinDir, szAppDir, szCurDir, puCurDirLen, szDestDir, puDestDirLen
 uFlags : [int] 型: DWORD このパラメータには次の値を指定できる。その他のビットはすべて予約されている。
@@ -158,8 +170,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 VerInstallFileW
 VerFindFile 関数から返された情報に基づいて、指定されたファイルをインストールする。VerInstallFile は必要に応じてファイルを展開し、一意のファイル名を割り当て、古いファイルなどのエラーをチェックする。(Unicode)
-%group
-Win32 version
 %prm
 uFlags, szSrcFileName, szDestFileName, szSrcDir, szDestDir, szCurDir, szTmpFile, puTmpFileLen
 uFlags : [int] 型: DWORD
@@ -197,8 +207,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 VerQueryValueW
 指定のバージョン情報リソースから指定の情報を取得する。(Unicode)
-%group
-Win32 version
 %prm
 pBlock, lpSubBlock, lplpBuffer, puLen
 pBlock : [intptr] 型: LPCVOID GetFileVersionInfo が返したバージョン情報リソース。

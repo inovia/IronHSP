@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+normaliz.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の normaliz.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 IdnToAscii
 国際化ドメイン名 (IDN) またはその他の国際化ラベルを、Punycode 転送エンコーディング構文で名前を表現する ASCII 文字列の Unicode (ワイド文字) 表現に変換する。
-%group
-Win32 normaliz
 %prm
 dwFlags, lpUnicodeCharStr, cchUnicodeChar, lpASCIICharStr, cchASCIIChar
 dwFlags : [int] 変換オプションを指定するフラグ。指定可能な値を次の表に示す。
@@ -42,8 +62,6 @@ Internationalized Domain Name (IDN) Mitigation API
 %index
 IdnToUnicode
 国際化ドメイン名 (IDN) またはその他の国際化ラベルの Punycode 形式を、通常の Unicode UTF-16 エンコーディング構文に変換する。
-%group
-Win32 normaliz
 %prm
 dwFlags, lpASCIICharStr, cchASCIIChar, lpUnicodeCharStr, cchUnicodeChar
 dwFlags : [int] 変換オプションを指定するフラグ。詳細な定義については、IdnToAscii の dwFlags パラメータを参照のこと。

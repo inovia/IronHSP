@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+ole32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì ole32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 BindMoniker
 ƒ‚ƒjƒJ‚ğg‚Á‚ÄƒIƒuƒWƒFƒNƒg‚ğ“Á’è‚µA”ñƒAƒNƒeƒBƒu‚Å‚ ‚ê‚ÎƒAƒNƒeƒBƒu‰»‚µAw’è‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 pmk, grfOpt, iidResult, ppvResult
 pmk : [var] ƒIƒuƒWƒFƒNƒg‚Ìƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^BIMoniker ‚ğQÆB
@@ -32,8 +52,6 @@ BindMoniker
 %index
 CoAllowSetForegroundWindow
 ƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀiƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE‚ğİ’è‚·‚éŒ ŒÀj‚ğA‚ ‚éƒvƒƒZƒX‚©‚ç•Ê‚ÌƒvƒƒZƒX‚Öˆø‚«“n‚·BƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀ‚ğ‚ÂƒvƒƒZƒX‚ª‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒ[ƒJƒ‹ COM ƒT[ƒo[ƒvƒƒZƒX‚É‚»‚ÌŒ ŒÀ‚ğˆø‚«“n‚·‚±‚Æ‚ª‚Å‚«‚éB
-%group
-Win32 ole32
 %prm
 pUnk, lpvReserved
 pUnk : [var] ‘ÎÛ COM ƒT[ƒo[‚ÌƒvƒƒLƒVã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -63,8 +81,6 @@ IForegroundTransfer
 %index
 CoBuildVersion
 (no summary)
-%group
-Win32 ole32
 %prm
 
 %inst
@@ -74,8 +90,6 @@ Win32 ole32
 %index
 CoDosDateTimeToFileTime
 MS-DOS Œ`®‚Ì“ú•t‚Æ‚ğAWindows ‚Åg—p‚³‚ê‚é FILETIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 nDosDate, nDosTime, lpFileTime
 nDosDate : [int] MS-DOS Œ`®‚Ì“ú•tB
@@ -95,8 +109,6 @@ MS-DOS Œ`®‚Ì“ú•t‚ÍˆÈ‰º‚ÌŒ`®‚ğ‚ÂB
 %index
 CoFileTimeToDosDateTime
 FILETIME ‚ğ MS-DOS Œ`®‚Ì“ú•t‚Æ‚Ì’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 lpFileTime, lpDosDate, lpDosTime
 lpFileTime : [var] FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -112,8 +124,6 @@ FILETIME ‚ğ MS-DOS Œ`®‚Ì“ú•t‚Æ‚Ì’l‚É•ÏŠ·‚·‚éB
 %index
 CoFreeAllLibraries
 CoLoadLibrary ŠÖ”‚É‚æ‚Á‚Äƒ[ƒh‚³‚ê‚½‚·‚×‚Ä‚Ì DLLiCoGetClassObject ‚©‚ç“à•”“I‚ÉŒÄ‚Ño‚³‚ê‚½‚à‚Ì‚ğŠÜ‚Şj‚ğAŒ»İg—p’†‚©‚Ç‚¤‚©‚É‚©‚©‚í‚ç‚¸‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 
 %inst
@@ -129,8 +139,6 @@ CoFreeAllLibraries ‚Í DLL ‚ğƒAƒ“ƒ[ƒh‚·‚é‚½‚ß‚ÉACOM ƒ‰ƒCƒuƒ‰ƒŠ‚ªƒvƒƒZƒX‚²‚Æ‚É
 %index
 CoFreeLibrary
 ƒ[ƒh‚É–¾¦“I‰ğ•ú‚ªw’è‚³‚ê‚½ƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 hInst
 hInst : [intptr] ‰ğ•ú‚·‚éƒ‰ƒCƒuƒ‰ƒŠƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BCoLoadLibrary ŠÖ”‚©‚ç•Ô‚³‚ê‚½‚à‚ÌB
@@ -146,8 +154,6 @@ bAutoFree ƒpƒ‰ƒ[ƒ^‚ğ FALSE ‚Éİ’è‚µ‚Äƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚µ‚½‚Æ‚«‚ÉŒˆ’è‚³‚ê‚éB‘
 %index
 CoGetInterceptor
 ƒCƒ“ƒ^[ƒZƒvƒg‚µ‚½‚¢ƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‘Î‰‚·‚éƒCƒ“ƒ^[ƒZƒvƒ^‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µAV‚µ‚­ì¬‚µ‚½ƒCƒ“ƒ^[ƒZƒvƒ^‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 iidIntercepted, punkOuter, iid, ppv
 iidIntercepted : [var] ƒCƒ“ƒ^[ƒZƒvƒ^‚ğ•Ô‚·‘ÎÛ‚Æ‚È‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
@@ -165,8 +171,6 @@ ppv : [var] iid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒ
 %index
 CoGetInterceptorFromTypeInfo
 (no summary)
-%group
-Win32 ole32
 %prm
 iidIntercepted, punkOuter, typeInfo, iid, ppv
 iidIntercepted : [var] 
@@ -181,8 +185,6 @@ ppv : [var]
 %index
 CoGetObject
 •\¦–¼‚ğAw’è‚³‚ê‚½–¼‘O‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚É•ÏŠ·‚µA‚»‚Ìƒ‚ƒjƒJ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éB
-%group
-Win32 ole32
 %prm
 pszName, pBindOptions, riid, ppv
 pszName : [wstr] ì¬‚·‚éƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼B
@@ -204,8 +206,6 @@ IMoniker::BindToObject ‚ÌŒÄ‚Ño‚µ‚ğƒJƒvƒZƒ‹‰»‚·‚éB
 %index
 CoInitialize
 Œ»İ‚ÌƒXƒŒƒbƒh‚Å COM ƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰Šú‰»‚µA“¯Àsƒ‚ƒfƒ‹‚ğƒVƒ“ƒOƒ‹ƒXƒŒƒbƒhƒAƒp[ƒgƒƒ“ƒg(STA)‚Æ‚µ‚Ä¯•Ê‚·‚éB
-%group
-Win32 ole32
 %prm
 pvReserved
 pvReserved : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB
@@ -229,8 +229,6 @@ CoUninitialize ŒÄ‚Ño‚µ‚Æ‘Î‰‚³‚¹‚éBDllMain ‚©‚ç‚±‚ê‚ç‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚
 %index
 CoInstall
 —v‹‚³‚ê‚½ COM ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB
-%group
-Win32 ole32
 %prm
 pbc, dwFlags, pClassSpec, pQuery, pszCodeBase
 pbc : [var] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ì’l‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -249,8 +247,6 @@ pszCodeBase : [wstr] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ì’l‚Í NULL ‚Å‚È‚¯‚ê‚Î‚
 %index
 CoIsOle1Class
 w’è‚³‚ê‚½ CLSID ‚ª OLE 1 ƒIƒuƒWƒFƒNƒg‚ğ•\‚·‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 ole32
 %prm
 rclsid
 rclsid : [var] Šm”F‘ÎÛ‚Ì CLSIDB
@@ -274,8 +270,6 @@ OLE ‚ÌŠÔ‚ÅƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒWŒ`®‚ğ•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 %index
 CoLoadLibrary
 w’è‚³‚ê‚½ DLL ‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Éƒ[ƒh‚·‚éB
-%group
-Win32 ole32
 %prm
 lpszLibName, bAutoFree
 lpszLibName : [wstr] ƒ[ƒh‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ì–¼‘OB
@@ -297,8 +291,6 @@ CoLoadLibrary ‚ğ’¼ÚŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢B“à•”“I‚É‚ÍACoLoadLibrary
 %index
 CoRegisterMessageFilter
 Œ»İ‚ÌƒXƒŒƒbƒh‚Å‚Ì•Às«–â‘è‚ğˆ—‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é IMessageFilter ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ OLE ‚É“o˜^‚·‚éB
-%group
-Win32 ole32
 %prm
 lpMessageFilter, lplpMessageFilter
 lpMessageFilter : [var] ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^ã‚Ì IMessageFilter ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ÍŒ»İ‚ÌƒXƒŒƒbƒh‚É“o˜^‚³‚êAi‘¶İ‚·‚éê‡‚ÍjˆÈ‘O‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğ’u‚«Š·‚¦‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚ğw’è‚Å‚«A‚»‚Ìê‡‚ÍŒ»İ‚ÌƒXƒŒƒbƒh‚ÉƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğ“o˜^‚µ‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚éB‚È‚¨A‚±‚ÌŠÖ”‚ÍƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚·“_‚É’ˆÓ‚·‚é‚±‚ÆB
@@ -318,8 +310,6 @@ lplpMessageFilter : [var] ˆÈ‘O‚É“o˜^‚³‚ê‚Ä‚¢‚½ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF
 %index
 CoTreatAsClass
 ‚ ‚éƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ğ•ÊƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Äˆµ‚¤ƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğİ’è‚Ü‚½‚Í‰ğœ‚·‚éB
-%group
-Win32 ole32
 %prm
 clsidOld, clsidNew
 clsidOld : [var] ƒGƒ~ƒ…ƒŒ[ƒg‚³‚ê‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ì CLSIDB
@@ -344,8 +334,6 @@ CoTreatAsClass ‚ğŒÄ‚Ño‚·B
 %index
 CreateAntiMoniker
 V‚µ‚¢ƒAƒ“ƒ`ƒ‚ƒjƒJ‚ğì¬‚µ‚Ä•Ô‚·B
-%group
-Win32 ole32
 %prm
 ppmk
 ppmk : [var] V‚µ‚¢ƒAƒ“ƒ`ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚ÍƒAƒ“ƒ`ƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[”­¶AƒAƒ“ƒ`ƒ‚ƒjƒJ‚Ìƒ|ƒCƒ“ƒ^‚Í NULL ‚Æ‚È‚éB
@@ -368,8 +356,6 @@ ppmk : [var] V‚µ‚¢ƒAƒ“ƒ`ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* 
 %index
 CreateBindCtx
 IBindCtxiƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒgj‚ÌÀ‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚±‚ÌƒIƒuƒWƒFƒNƒg‚Í“Á’è‚Ìƒ‚ƒjƒJƒoƒCƒ“ƒh‘€ì‚ÉŠÖ‚·‚éî•ñ‚ğ•Û‚·‚éB
-%group
-Win32 ole32
 %prm
 reserved, ppbc
 reserved : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -390,8 +376,6 @@ CreateBindCtx
 %index
 CreateClassMoniker
 w’è‚³‚ê‚½ƒNƒ‰ƒX‚ğQÆ‚·‚éƒNƒ‰ƒXƒ‚ƒjƒJ‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 rclsid, ppmk
 rclsid : [var] ‚±‚Ìƒ‚ƒjƒJ‚ªƒoƒCƒ“ƒh‚·‚éƒIƒuƒWƒFƒNƒgŒ^‚Ì CLSID ‚Ö‚ÌQÆB
@@ -410,8 +394,6 @@ ppmk : [var] V‚µ‚¢ƒNƒ‰ƒXƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* 
 %index
 CreateDataAdviseHolder
 CreateDataAdviseHolder ŠÖ”iole2.hj‚ÍAƒf[ƒ^ƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒgã‚Ì IDataAdviseHolder ‚Ì OLE À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 ppDAHolder
 ppDAHolder : [var] V‚µ‚¢ƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IDataAdviseHolder ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
@@ -433,8 +415,6 @@ IDataAdviseHolder::Advise ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚Å IDataObject::DAdvise
 %index
 CreateDataCache
 OLE ’ñ‹Ÿ‚Ìƒf[ƒ^ƒLƒƒƒbƒVƒ…À‘•‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 pUnkOuter, rclsid, iid, ppv
 pUnkOuter : [var] ƒLƒƒƒbƒVƒ…‚ğW–ñ‚Ìˆê•”‚Æ‚µ‚Äì¬‚·‚éê‡AW–ñ‚Ì§Œä—p IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚»‚¤‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚·‚éB
@@ -458,8 +438,6 @@ IViewObject2 ƒCƒ“ƒ^[ƒtƒFƒCƒX‚àƒTƒ|[ƒg‚·‚éB
 %index
 CreateFileMoniker
 w’è‚³‚ê‚½ƒpƒX‚ÉŠî‚Ã‚­ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 lpszPathName, ppmk
 lpszPathName : [wstr] ‚±‚Ìƒ‚ƒjƒJ‚ÌŠî‚Æ‚È‚éƒpƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í‘Š‘ÎƒpƒXAUNC ƒpƒXA‚Ü‚½‚Íƒhƒ‰ƒCƒuƒŒƒ^[•t‚«ƒpƒX‚ğw’è‚Å‚«‚éB‘Š‘ÎƒpƒX‚ğŠî‚É‚µ‚Ä‚¢‚éê‡AŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚éƒ‚ƒjƒJ‚ÍAƒoƒCƒ“ƒh‚·‚é‘O‚É•Ê‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Æ‡¬‚·‚é•K—v‚ª‚ ‚éB
@@ -485,8 +463,6 @@ OLE
 %index
 CreateGenericComposite
 2 ‚Â‚Ìƒ‚ƒjƒJ‚ğ”Ä—p‡¬‚µAŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚é‡¬ƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 pmkFirst, pmkRest, ppmkComposite
 pmkFirst : [var] pmkRest ‚ªw‚·ƒ‚ƒjƒJ‚Ì¶‚É‡¬‚³‚ê‚éƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^B”Ä—p‡¬ƒ‚ƒjƒJ‚ğŠÜ‚ßA”CˆÓ‚Ìí—Ş‚Ìƒ‚ƒjƒJ‚ğw‚·‚±‚Æ‚ª‚Å‚«‚éB
@@ -518,8 +494,6 @@ ComposeWith ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éBComposeWith ‚ÌÀ‘•‚ÍiOLE
 %index
 CreateILockBytesOnHGlobal
 •¡‡ƒtƒ@ƒCƒ‹‚Ìƒƒ‚ƒŠ“àƒXƒgƒŒ[ƒW‚Ég—p‚·‚éƒoƒCƒg‚ğŠi”[‚·‚é‚½‚ß‚Ì HGLOBAL ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğ—p‚¢‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 hGlobal, fDeleteOnRelease, pplkbyt
 hGlobal : [int] GlobalAlloc ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠƒnƒ“ƒhƒ‹BNULL ‚Ìê‡‚ÍV‚µ‚¢ƒnƒ“ƒhƒ‹‚ªŠ„‚è“–‚Ä‚ç‚ê‚éBƒnƒ“ƒhƒ‹‚ÍˆÚ“®‰Â”\‚©‚Â”jŠü•s‰Â‚Æ‚µ‚ÄŠ„‚è“–‚Ä‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -552,8 +526,6 @@ CreateILockBytesOnHGlobal ‚É“n‚µ‚½ê‡A‚Ü‚½‚Í GetHGlobalFromILockBytes
 %index
 CreateItemMoniker
 e‚Æ‚È‚éƒIƒuƒWƒFƒNƒgi’Êí‚Í•¡‡ƒhƒLƒ…ƒƒ“ƒgj“à‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒAƒCƒeƒ€ƒ‚ƒjƒJ‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 lpszDelim, lpszItem, ppmk
 lpszDelim : [wstr] ‚±‚ÌƒAƒCƒeƒ€‚Ì•\¦–¼‚ğA‚»‚ê‚ğŠÜ‚ŞƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚©‚ç‹æØ‚é‚½‚ß‚Ég—p‚·‚é‹æØ‚è•¶ši’Êí‚Í "!"j‚ğŠÜ‚ŞAƒ[ƒI’[‚ÌƒƒCƒh•¶š—ñi1 •¶š‚É‚Â‚« 2 ƒoƒCƒgj‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -588,8 +560,6 @@ CreateItemMoniker ‚ğŒÄ‚Ño‚µA‚»‚ê‚¼‚ê‚ª“Æ©‚Ì IOleItemContainer
 %index
 CreateObjrefMoniker
 ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠî‚Ã‚­ OBJREF ƒ‚ƒjƒJ‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 punk, ppmk
 punk : [var] ƒ‚ƒjƒJ‚ª•\‚·ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -622,8 +592,6 @@ GetObject(strMyName) ‚Æ‚¢‚¤s‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éBƒXƒNƒŠƒvƒgƒGƒ“ƒWƒ“‚Í“à•”‚Å Mk
 %index
 CreateOleAdviseHolder
 •¡‡ƒhƒLƒ…ƒƒ“ƒg’Ê’m‚ğŠÇ—‚·‚é‚½‚ß‚ÌƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ì IOleAdviseHolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì OLE À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 ppOAHolder
 ppOAHolder : [var] V‚µ‚¢ƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IOleAdviseHolder ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
@@ -646,8 +614,6 @@ IOleAdviseHolder::EnumAdvise
 %index
 CreatePointerMoniker
 ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠî‚Ã‚­ƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 punk, ppmk
 punk : [var] Œ‹‰Ê‚Ìƒ‚ƒjƒJ‚Å¯•Ê‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -667,8 +633,6 @@ ppmk : [var] V‚µ‚¢ƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker
 %index
 CreateStdProgressIndicator
 (no summary)
-%group
-Win32 ole32
 %prm
 hwndParent, pszTitle, pIbscCaller, ppIbsc
 hwndParent : [intptr] 
@@ -682,8 +646,6 @@ ppIbsc : [var]
 %index
 DoDragDrop
 OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚ğÀs‚·‚éB
-%group
-Win32 ole32
 %prm
 pDataObj, pDropSource, dwOKEffects, pdwEffect
 pDataObj : [var] ƒhƒ‰ƒbƒO‚³‚ê‚éƒf[ƒ^‚ğŠÜ‚Şƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -709,8 +671,6 @@ IDropSource ‚ğÀ‘•‚µAƒ^[ƒQƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í IDropTarget ‚ğÀ‘•‚µ‚È‚¯‚ê‚Î‚
 %index
 FmtIdToPropStgName
 ƒvƒƒpƒeƒBƒZƒbƒgŒ`®¯•ÊqiFMTIDj‚ğ‚»‚ÌƒXƒgƒŒ[ƒW–¼‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€–¼‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 pfmtid, oszName
 pfmtid : [var] ƒvƒƒpƒeƒBƒZƒbƒg‚Ì FMTID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -732,8 +692,6 @@ PROPSETFLAG Constants ‚ğQÆB
 %index
 FreePropVariantArray
 FreePropVariantArray ŠÖ”‚ÍArgvars ”z—ñ“à‚ÌŠe PROPVARIANT \‘¢‘Ì‚É‘Î‚µ‚Ä PropVariantClear ‚ğŒÄ‚Ño‚µA”z—ñ‚ÌŠeƒƒ“ƒo‚Ì’l‚ğƒ[ƒ‚É‚·‚éB
-%group
-Win32 ole32
 %prm
 cVariants, rgvars
 cVariants : [int] PROPVARIANT ”z—ñirgvarsj‚Ì—v‘f”B
@@ -755,8 +713,6 @@ PROPVARIANT \‘¢‘Ì‚ª•s³‚È VT Œ^‚ğŠÜ‚Şê‡A—LŒø‚Èƒƒ“ƒo‚Í‰ğ•ú‚³‚êAŠÖ”‚Í STG_E
 %index
 GetClassFile
 w’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 szFilename, pclsid
 szFilename : [wstr] ŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ğ—v‹‚·‚é‘ÎÛ‚Ìƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -780,8 +736,6 @@ GetClassFile ‚ÍA“KØ‚È CLSID ‚ğŒˆ’è‚·‚é‚½‚ß‚ÉŸ‚Ì•û–@‚ğg—p‚·‚éB
 %index
 GetConvertStg
 GetConvertStg ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ì•ÏŠ·ƒrƒbƒg‚ÌŒ»İ‚Ì’l‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 pStg
 pStg : [var] •ÏŠ·ƒrƒbƒg‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B
@@ -809,8 +763,6 @@ SetConvertStg ŠÖ”‚ğ fConvert ƒpƒ‰ƒ[ƒ^‚ğ FALSE ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚µA•ÏŠ·ƒrƒbƒg‚
 %index
 GetHGlobalFromILockBytes
 GetHGlobalFromILockBytes ŠÖ”‚ÍACreateILockBytesOnHGlobal ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 plkbyt, phglobal
 plkbyt : [var] ˆÈ‘O‚É CreateILockBytesOnHGlobal ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äì¬‚³‚ê‚½ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚Ì ILockBytes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -834,8 +786,6 @@ GlobalReAlloc
 %index
 GetRunningObjectTable
 ƒ[ƒJƒ‹‚ÌÀs’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹iROTjã‚Ì IRunningObjectTable ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 reserved, pprot
 reserved : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -863,8 +813,6 @@ IBindCtx::GetRunningObjectTable ‚ğŒÄ‚Ño‚·‚±‚ÆB‚±‚ê‚É‚æ‚èAIBindCtx
 %index
 IsAccelerator
 w’è‚³‚ê‚½ƒL[ƒXƒgƒ[ƒN‚ªAw’è‚³‚ê‚½ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹“à‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^‚É‘Î‰‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 ole32
 %prm
 hAccel, cAccelEntries, lpMsg, lpwCmd
 hAccel : [intptr] ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -892,8 +840,6 @@ OleTranslateAccelerator
 %index
 MkParseDisplayName
 •¶š—ñ‚ğA‚»‚Ì•¶š—ñ‚Åw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 pbc, szUserName, pchEaten, ppmk
 pbc : [var] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒgã‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -929,8 +875,6 @@ IMoniker::ParseDisplayName ‚ğŒÄ‚Ño‚µA•\¦–¼‚Ìc‚è‚ğ“n‚·BParseDisplayName
 %index
 MonikerCommonPrefixWith
 ‚±‚Ìƒ‚ƒjƒJi‚±‚Ìƒ‚ƒjƒJƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚ğ\¬‚·‚éƒ‚ƒjƒJj‚Æ•Ê‚Ìƒ‚ƒjƒJ‚ª‹¤—L‚·‚é‹¤’ÊƒvƒŒƒtƒBƒbƒNƒX‚ÉŠî‚Ã‚«AV‚µ‚¢ƒ‚ƒjƒJ‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pmkThis, pmkOther, ppmkCommon
 pmkThis : [var] ‹¤’ÊƒvƒŒƒtƒBƒbƒNƒX‚ğ‹‚ß‚é‘ÎÛ‚Ìˆê•û‚Ìƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B’ÊíA‚±‚ÌŒÄ‚Ño‚µ‚ğ IMoniker::CommonPrefixWith ‚ÌÀ‘•‚Ég—p‚µ‚Ä‚¢‚éƒ‚ƒjƒJ©g‚ğw‚·B
@@ -955,8 +899,6 @@ pmkThisA‘Šè‚Ìƒ‚ƒjƒJ‚ğ pmkOther ‚Æ‚µ‚Ä MonikerCommonPrefixWith
 %index
 MonikerRelativePathTo
 Å‰‚Éw’è‚³‚ê‚½ƒ‚ƒjƒJi‚Ü‚½‚Í—Ş—‚Ì\‘¢‚ğ‚Âƒ‚ƒjƒJj‚Ì––”ö‚É‡¬‚·‚é‚±‚Æ‚ÅA2 ‚Â–Ú‚Éw’è‚³‚ê‚½ƒ‚ƒjƒJ‚ª“¾‚ç‚ê‚é‚æ‚¤‚Èƒ‚ƒjƒJ‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 ole32
 %prm
 pmkSrc, pmkDest, ppmkRelPath, dwReserved
 pmkSrc : [var] ì¬‚·‚é‘Š‘Îƒ‚ƒjƒJ‚Æ‡¬‚·‚é‚±‚Æ‚Å pmkDest ‚ª“¾‚ç‚ê‚éƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ‚ƒjƒJ‚ÍAì¬‚·‚é‘Š‘Îƒ‚ƒjƒJ‚Ìuƒ\[ƒXv‚ğ¯•Ê‚·‚éB
@@ -983,8 +925,6 @@ pmkThisA‘Šè‚Ìƒ‚ƒjƒJ‚ğ pmkOther ‚Æ‚µ‚Ä MonikerRelativePathTo
 %index
 OleBuildVersion
 ‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éB
-%group
-Win32 ole32
 %prm
 
 %inst
@@ -997,8 +937,6 @@ Win32 ole32
 %index
 OleConvertIStorageToOLESTREAM
 OleConvertIStorageToOLESTREAM ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒW‚©‚ç OLE 1 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgƒ‚ƒfƒ‹‚É•ÏŠ·‚·‚é‚ªA•\¦ƒf[ƒ^‚ÍŠÜ‚ß‚È‚¢B‚±‚ê‚Í•¡”‚ÌŒİŠ·ŠÖ”‚Ìˆê‚Â‚Å‚ ‚éB
-%group
-Win32 ole32
 %prm
 pstg, lpolestream
 pstg : [var] OLE 1 ƒXƒgƒŒ[ƒW‚É•ÏŠ·‚·‚é‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1024,8 +962,6 @@ OleConvertIStorageToOLESTREAM ‚Å•ÏŠ·‚·‚éê‡AOLESTREAM
 %index
 OleConvertIStorageToOLESTREAMEx
 OleConvertIStorageToOLESTREAMEx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒW‚©‚ç OLE 1 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgƒ‚ƒfƒ‹‚ÉA•\¦ƒf[ƒ^‚ğŠÜ‚ß‚Ä•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 pstg, cfFormat, lWidth, lHeight, dwSize, pmedium, polestm
 pstg : [var] OLE 1 ƒXƒgƒŒ[ƒW‚É•ÏŠ·‚·‚é‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1056,8 +992,6 @@ OleConvertIStorageToOLESTREAMEx ŠÖ”‚Í OLE 2 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 1
 %index
 OleConvertOLESTREAMToIStorage
 w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğA•\¦ƒf[ƒ^‚ğw’è‚¹‚¸‚É OLE 1 ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚©‚ç OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 lpolestream, pstg, ptd
 lpolestream : [var] OLE 1 ƒXƒgƒŒ[ƒWŒ`®‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰i‘±“I•\Œ»‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1091,8 +1025,6 @@ OleConvertOLESTREAMToIStorageEx
 %index
 OleConvertOLESTREAMToIStorage2
 (no summary)
-%group
-Win32 ole32
 %prm
 lpolestream, pstg, ptd, opt, pvCallbackContext, pQueryConvertOLELinkCallback
 lpolestream : [var] 
@@ -1108,8 +1040,6 @@ pQueryConvertOLELinkCallback : [int]
 %index
 OleConvertOLESTREAMToIStorageEx
 OleConvertOLESTREAMToIStorageEx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ•\¦ƒf[ƒ^‚ğŠÜ‚ß‚Ä OLE 1 ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚©‚ç OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB‚±‚ê‚Í•¡”‚ÌŒİŠ·ŠÖ”‚Ìˆê‚Â‚Å‚ ‚éB
-%group
-Win32 ole32
 %prm
 polestm, pstg, pcfFormat, plwWidth, plHeight, pdwSize, pmedium
 polestm : [var] OLE 1 ƒXƒgƒŒ[ƒWŒ`®‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰i‘±“I•\Œ»‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1141,8 +1071,6 @@ TYMED_NULL ‚Ü‚½‚Í TYMED_ISTREAM ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BTYMED_NULL ‚Ìê‡Aƒf[ƒ^‚Í 
 %index
 OleConvertOLESTREAMToIStorageEx2
 (no summary)
-%group
-Win32 ole32
 %prm
 polestm, pstg, pcfFormat, plwWidth, plHeight, pdwSize, pmedium, opt, pvCallbackContext, pQueryConvertOLELinkCallback
 polestm : [var] 
@@ -1162,8 +1090,6 @@ pQueryConvertOLELinkCallback : [int]
 %index
 OleCreate
 OleCreate ŠÖ”iole2.hj‚ÍACLSID ‚Å¯•Ê‚³‚ê‚é–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ê‚ÍƒGƒ“ƒhƒ†[ƒU[‚ªƒIƒuƒWƒFƒNƒg‚ğ‘}“ü‚Å‚«‚éƒƒjƒ…[€–Ú‚ÌÀ‘•‚Ég—p‚Å‚«‚éB
-%group
-Win32 ole32
 %prm
 rclsid, riid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
 rclsid : [var] ì¬‘ÎÛ‚Ì–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ì CLSIDB
@@ -1210,8 +1136,6 @@ NULL ‚Å‚È‚¢ê‡AOleCreate ‚Í pClientSite ƒ|ƒCƒ“ƒ^‚ğ’Ê‚¶‚Ä IOleObject::SetClient
 %index
 OleCreateDefaultHandler
 ƒfƒtƒHƒ‹ƒg‚Ì–„‚ß‚İƒnƒ“ƒhƒ‰‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ÍA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É“ü‚Á‚½‚Æ‚«‚Éƒ[ƒJƒ‹ƒT[ƒo[‚ğì¬‚·‚é‚æ‚¤‚É‰Šú‰»‚³‚ê‚éB
-%group
-Win32 ole32
 %prm
 clsid, pUnkOuter, riid, lplpObj
 clsid : [var] –„‚ß‚İƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É“ü‚Á‚½‚Æ‚«‚Éƒ[ƒh‚³‚ê‚é OLE ƒT[ƒo[‚ğ¯•Ê‚·‚é CLSIDB
@@ -1239,8 +1163,6 @@ OleCreateDefaultHandler ‚ğŒÄ‚Ño‚·‚±‚ÆBOLE ‚ÍAƒIƒuƒWƒFƒNƒgì¬ŒÄ‚Ño‚µ‚Åw’è‚³
 %index
 OleCreateEmbeddingHelper
 OLE ƒfƒtƒHƒ‹ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚ÌŠe•”•ª‚ÆW–ñ‚³‚ê‚½AƒAƒvƒŠƒP[ƒVƒ‡ƒ“’ñ‹Ÿ‚ÌƒR[ƒh‚ğ—p‚¢‚Ä OLE –„‚ß‚İƒwƒ‹ƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚Ìƒwƒ‹ƒp[ƒIƒuƒWƒFƒNƒg‚ÍAŒÄ‚Ño‚µ‘¤‚ªw’è‚·‚é“Á’è‚ÌƒRƒ“ƒeƒLƒXƒg‚¨‚æ‚Ñ–ğŠ„‚Åì¬‚µg—p‚Å‚«‚éB
-%group
-Win32 ole32
 %prm
 clsid, pUnkOuter, flags, pCF, riid, lplpObj
 clsid : [var] •â•‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX‚Ì CLSIDB
@@ -1267,8 +1189,6 @@ OleCreateEmbeddingHelper
 %index
 OleCreateEx
 OleCreate ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreate ‚Ì‹@”\‚ğŠg’£‚·‚éB
-%group
-Win32 ole32
 %prm
 rclsid, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
 rclsid : [var] ì¬‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX‚ğ¯•Ê‚·‚éB
@@ -1300,8 +1220,6 @@ OleCreate
 %index
 OleCreateFromData
 ƒNƒŠƒbƒvƒ{[ƒh‚©‚çæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìˆê•”‚Æ‚µ‚Äæ“¾‚µ‚½ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚ç–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBOLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚©‚ç‚Ì“\‚è•t‚¯À‘•‚Ég—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB
-%group
-Win32 ole32
 %prm
 pSrcDataObj, riid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
 pSrcDataObj : [var] ƒIƒuƒWƒFƒNƒgì¬‚ÌŒ³‚Æ‚È‚éƒf[ƒ^‚ğ•Û‚·‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1349,8 +1267,6 @@ OleCreateFromData ‚ª CF_EMBEDDEDOBJECT ‚Ü‚½‚Í CF_EMBEDSOURCE
 %index
 OleCreateFromDataEx
 OleCreateFromData ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateFromData ‚Ì‹@”\‚ğŠg’£‚·‚éB
-%group
-Win32 ole32
 %prm
 pSrcDataObj, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
 pSrcDataObj : [var] V‚µ‚¢ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚Ég—p‚·‚éV‚µ‚¢ƒf[ƒ^‚ğ•Û‚·‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^iOleCreateFromData ‚ğQÆjB
@@ -1382,8 +1298,6 @@ OleCreateFromData
 %index
 OleCreateFromFile
 OleCreateFromFile ŠÖ”iole2.hj‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì“à—e‚©‚ç–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 rclsid, lpszFileName, riid, renderopt, lpFormatEtc, pClientSite, pStg, ppvObj
 rclsid : [var] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èACLSID_NULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1414,8 +1328,6 @@ GetClassFile ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä lpszFileName ƒpƒ‰ƒ[ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ğæ
 %index
 OleCreateFromFileEx
 OleCreateFromFile ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateFromFile ‚Ì‹@”\‚ğŠg’£‚·‚éB
-%group
-Win32 ole32
 %prm
 rclsid, lpszFileName, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
 rclsid : [var] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èACLSID_NULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1448,8 +1360,6 @@ OleCreateFromFile
 %index
 OleCreateLink
 OLE •¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pmkLinkSrc, riid, renderopt, lpFormatEtc, pClientSite, pStg, ppvObj
 pmkLinkSrc : [var] ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌŒ³‚ğ“Á’è‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1473,8 +1383,6 @@ OLE •¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 OleCreateLinkEx
 OleCreateLink ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateLink ‚Ì‹@”\‚ğŠg’£‚·‚éB
-%group
-Win32 ole32
 %prm
 pmkLinkSrc, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
 pmkLinkSrc : [var] ƒŠƒ“ƒN‚ğì¬‚·‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1506,8 +1414,6 @@ OleCreateLink
 %index
 OleCreateLinkFromData
 ƒNƒŠƒbƒvƒ{[ƒh‚©‚çæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìˆê•”‚Æ‚µ‚Äæ“¾‚µ‚½ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚çƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pSrcDataObj, riid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
 pSrcDataObj : [var] ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éŒ³‚Æ‚È‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1542,8 +1448,6 @@ OleCreateLinkFromData ‚ÌƒLƒƒƒbƒVƒ…‰Šú‰»•û–@‚É‹y‚Ú‚·‹ï‘Ì“I‚È‰e‹¿‚ª‚¢‚­‚Â‚©‚ ‚éB
 %index
 OleCreateLinkFromDataEx
 OleCreateLinkFromData ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateLinkFromData ‚Ì‹@”\‚ğŠg’£‚·‚éB
-%group
-Win32 ole32
 %prm
 pSrcDataObj, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
 pSrcDataObj : [var] ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‘ÎÛ‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1575,8 +1479,6 @@ OleCreateLinkFromData
 %index
 OleCreateLinkToFile
 ƒtƒ@ƒCƒ‹‚ÉƒŠƒ“ƒN‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 lpszFileName, riid, renderopt, lpFormatEtc, pClientSite, pStg, ppvObj
 lpszFileName : [wstr] ƒŠƒ“ƒNæ‚Æ‚È‚éƒ\[ƒXƒtƒ@ƒCƒ‹‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1601,8 +1503,6 @@ OleCreateLinkToFile ŠÖ”‚Í OleCreateLink ŠÖ”‚ÆˆÙ‚È‚èAOLE
 %index
 OleCreateLinkToFileEx
 OleCreateLinkToFile ‚Ì‹@”\‚ğŠg’£‚µAOleCreateLinkToFile ‚ªƒTƒ|[ƒg‚·‚é’PˆêŒ`®‚Å‚Í‚È‚­A•¡”‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚âƒf[ƒ^Œ`®‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi‚É‚¨‚¯‚éƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‚æ‚èŒø—¦“I‚És‚¦‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 ole32
 %prm
 lpszFileName, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
 lpszFileName : [wstr] ƒŠƒ“ƒNæ‚Æ‚È‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1633,8 +1533,6 @@ OleCreateLinkToFile ‚Ö‚ÌˆÈ‰º‚ÌŒÄ‚Ño‚µF
 %index
 OleCreateMenuDescriptor
 ƒƒjƒ…[ƒƒbƒZ[ƒW‚ÆƒRƒ}ƒ“ƒh‚ğƒfƒBƒXƒpƒbƒ`‚·‚éÛ‚É OLE ‚ªg—p‚·‚é‚½‚ß‚Ì OLE ƒƒjƒ…[‹Lqqiƒƒjƒ…[‚ğ‹Lq‚·‚é OLE ‚ª’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢j‚ğì¬‚µ‚Ä•Ô‚·B
-%group
-Win32 ole32
 %prm
 hmenuCombined, lpMenuWidths
 hmenuCombined : [intptr] ƒIƒuƒWƒFƒNƒg‚ªì¬‚µ‚½Œ‹‡ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1655,8 +1553,6 @@ OleDestroyMenuDescriptor ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 %index
 OleCreateStaticFromData
 ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚çAƒlƒCƒeƒBƒuƒf[ƒ^‚ğ‚½‚¸•\Œ»‚Ì‚İ‚ğŠÜ‚ŞÃ“IƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pSrcDataObj, iid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
 pSrcDataObj : [var] ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚Ìƒf[ƒ^‚ğ•Û‚·‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1697,8 +1593,6 @@ OleCreateStaticFromData ‚ª–ß‚Á‚½‚ ‚Æ‚à—LŒø‚Å‚ ‚éBpSrcDataObject
 %index
 OleDestroyMenuDescriptor
 ƒRƒ“ƒeƒi‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚êAOleCreateMenuDescriptor ŠÖ”‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½‹¤—Lƒƒjƒ…[‹Lqq‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 holemenu
 holemenu : [int] OleCreateMenuDescriptor ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‹¤—Lƒƒjƒ…[‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1712,8 +1606,6 @@ holemenu : [int] OleCreateMenuDescriptor ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‹¤—Lƒƒjƒ…[‹Lqq‚
 %index
 OleDoAutoConvert
 ‚»‚ÌƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì©“®•ÏŠ·‚ªƒŒƒWƒXƒgƒŠ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AƒIƒuƒWƒFƒNƒg‚ğV‚µ‚¢ƒNƒ‰ƒX‚É©“®“I‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 pStg, pClsidNew
 pStg : [var] •ÏŠ·‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1744,8 +1636,6 @@ OLE 1 ƒIƒuƒWƒFƒNƒg‚Ìê‡AItemName •¶š—ñ‚Í "\1Ole10ItemName"
 %index
 OleDraw
 OleDraw ŠÖ”iole2.hj‚ÍƒIƒuƒWƒFƒNƒg‚Ì•`‰æ‚ğ—eˆÕ‚É‚·‚éBIViewObject::Draw ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚Ég—p‚Å‚«‚éB
-%group
-Win32 ole32
 %prm
 pUnknown, dwAspect, hdcDraw, lprcBounds
 pUnknown : [var] •`‰æ‘ÎÛ‚Ìƒrƒ…[ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1770,8 +1660,6 @@ IViewObject::Draw ‚ğŒÄ‚Ño‚·F
 %index
 OleDuplicateData
 w’è‚³‚ê‚½ƒnƒ“ƒhƒ‹“à‚Ìƒf[ƒ^‚ğ•¡»‚µA•¡»‚³‚ê‚½ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·Bƒ\[ƒXƒf[ƒ^‚ÍƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Å‚ ‚éBIDataObject ‚È‚Ç‚Ìƒf[ƒ^“]‘—ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•‚ğx‰‡‚·‚é‚½‚ß‚Ég—p‚·‚éB
-%group
-Win32 ole32
 %prm
 hSrc, cfFormat, uiFlags
 hSrc : [intptr] ƒ\[ƒXƒf[ƒ^‚Ìƒnƒ“ƒhƒ‹B
@@ -1793,8 +1681,6 @@ CF_METAFILEPICTACF_PALETTEACF_BITMAP ‚ÌŠeŒ`®‚Í“Á•Ê‚Èˆµ‚¢‚ğó‚¯‚éB‚±‚ê‚ç‚Í GD
 %index
 OleFlushClipboard
 ƒNƒŠƒbƒvƒ{[ƒh‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“ƒV[ƒPƒ“ƒX‚ğÀs‚·‚éB‚Ü‚½AOleSetClipboard ŠÖ”‚É‚æ‚Á‚ÄƒNƒŠƒbƒvƒ{[ƒh‚É’u‚©‚ê‚½ IDataObject ƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 
 %inst
@@ -1831,8 +1717,6 @@ IStorage ƒIƒuƒWƒFƒNƒgã‚Å’ñ‹Ÿ‚µAOleFlushClipboard
 %index
 OleGetAutoConvert
 w’è‚³‚ê‚½ CLSID ‚ÌƒIƒuƒWƒFƒNƒg‚ª•Ê‚Ì CLSID ‚É©“®•ÏŠ·‚³‚ê‚é‚æ‚¤‚ÉƒŒƒWƒXƒgƒŠ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚µAİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÍV‚µ‚¢ CLSID ‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 clsidOld, pClsidNew
 clsidOld : [var] ƒIƒuƒWƒFƒNƒg‚Ì CLSIDB
@@ -1862,8 +1746,6 @@ OleDoAutoConvert ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒRƒ“ƒeƒi‚ª OleLoad ƒwƒ‹ƒp[ŠÖ”‚ğg—p‚·‚é
 %index
 OleGetClipboard
 ƒNƒŠƒbƒvƒ{[ƒh‚Ì“à—e‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 ppDataObj
 ppDataObj : [var] ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IDataObject ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
@@ -1886,8 +1768,6 @@ ppDataObj : [var] ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğ
 %index
 OleGetClipboardWithEnterpriseInfo
 Windows Information Protection ‚É‘Î‰‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAƒf[ƒ^‚Æƒ\[ƒXƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ‚·‚é Windows Information Protection î•ñ‚ğ”º‚Á‚Ä OLE ƒNƒŠƒbƒvƒ{[ƒh‚©‚ç IDataObject ‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 ole32
 %prm
 dataObject, dataEnterpriseId, sourceDescription, targetDescription, dataDescription
 dataObject : [var] ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IDataObject ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
@@ -1916,8 +1796,6 @@ Windows Information Protection î•ñ‚ğ”º‚Á‚Ä OLE ƒNƒŠƒbƒvƒ{[ƒh‚©‚ç IDataObject
 %index
 OleGetIconOfClass
 w’è‚³‚ê‚½ CLSID ‚ÌƒAƒCƒRƒ“‚Æ•¶š—ñƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 rclsid, lpszLabel, fUseTypeAsLabel
 rclsid : [var] ƒAƒCƒRƒ“‚Æ•¶š—ñ‚ª—v‹‚³‚ê‚é CLSIDB
@@ -1934,8 +1812,6 @@ fUseTypeAsLabel : [int] ƒAƒCƒRƒ“ƒ‰ƒxƒ‹‚Æ‚µ‚Ä CLSID “à‚Ìƒ†[ƒUƒ^ƒCƒv•¶š—ñ‚ğg—p‚
 %index
 OleGetIconOfFile
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚ÌƒAƒCƒRƒ“‚Æ•¶š—ñƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 lpszPath, fUseFileAsLabel
 lpszPath : [wstr] ƒAƒCƒRƒ“‚Æ•¶š—ñ‚ª—v‹‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1951,8 +1827,6 @@ CLSID ‚ª‚È‚¢ê‡AŠÖ”‚Í•¶š—ñ "Document" ‚ğ•Ô‚·BlpszPath ‚ª NULL ‚Ìê‡AŠÖ”‚
 %index
 OleInitialize
 Œ»İ‚ÌƒAƒp[ƒgƒƒ“ƒg‚Å COM ƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰Šú‰»‚µA•Às«ƒ‚ƒfƒ‹‚ğƒVƒ“ƒOƒ‹ƒXƒŒƒbƒhƒAƒp[ƒgƒƒ“ƒgiSTAj‚Æ‚µ‚Ä¯•Ê‚µAŒãq‚Ì Remarks ‚É‹LÚ‚³‚ê‚é’Ç‰Á‹@”\‚ğ—LŒø‚É‚·‚éB
-%group
-Win32 ole32
 %prm
 pvReserved
 pvReserved : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1973,8 +1847,6 @@ Remarks ‚É‹LÚ‚³‚ê‚é’Ç‰Á‹@”\‚ğ—LŒø‚É‚·‚éB
 %index
 OleIsCurrentClipboard
 OleSetClipboard ŠÖ”‚É‚æ‚Á‚ÄˆÈ‘O‚ÉƒNƒŠƒbƒvƒ{[ƒh‚É’u‚©‚ê‚½ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒ|ƒCƒ“ƒ^‚ªA‚Ü‚¾ƒNƒŠƒbƒvƒ{[ƒhã‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 ole32
 %prm
 pDataObj
 pDataObj : [var] ŒÄ‚Ño‚µŒ³‚ªˆÈ‘O‚ÉƒNƒŠƒbƒvƒ{[ƒh‚É’u‚¢‚½ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^‚ğŠÜ‚Şƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1995,8 +1867,6 @@ OleIsCurrentClipboard ‚Í OleSetClipboard
 %index
 OleIsRunning
 •¡‡ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªŒ»İÀsó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 ole32
 %prm
 pObject
 pObject : [var] ‘ÎÛƒIƒuƒWƒFƒNƒgã‚Ì IOleObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2016,8 +1886,6 @@ IRunnableObject::IsRunning ŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚ğ•Ô‚·B
 %index
 OleLoad
 w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg“à‚ÉƒlƒXƒg‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éB
-%group
-Win32 ole32
 %prm
 pStg, riid, pClientSite, ppvObj
 pStg : [var] w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2043,8 +1911,6 @@ OLE î•ñ‚ğg—p‚µ‚ÄAƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰i’Êí‚ÍŠù’è‚Ìƒnƒ“ƒhƒ‰j‚ªƒIƒuƒWƒFƒNƒg‚ğ
 %index
 OleLoadFromStream
 OleLoadFromStream ŠÖ”iole2.hj‚ÍƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éB
-%group
-Win32 ole32
 %prm
 pStm, iidInterface, ppvObj
 pStm : [var] ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éŒ³‚ÌƒXƒgƒŠ[ƒ€ã‚Ì IStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2069,8 +1935,6 @@ OleSaveToStreami‚Ü‚½‚Í‚»‚ÌƒgƒsƒbƒN‚Åà–¾‚³‚ê‚éAƒ‰ƒbƒv‚·‚é‘€ìj‚É‚æ‚Á‚Ä’B¬‚³‚
 %index
 OleLockRunning
 Šù‚ÉÀs’†‚ÌƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚ÉƒƒbƒN‚·‚é‚©AÀsó‘Ô‚©‚çƒAƒ“ƒƒbƒN‚·‚éBiOleLockRunningj
-%group
-Win32 ole32
 %prm
 pUnknown, fLock, fLastUnlockCloses
 pUnknown : [var] ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í‚±‚ê‚ğg—p‚µ‚Ä IRunnableObject ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚·‚éB
@@ -2095,8 +1959,6 @@ IRunnableObject ƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚·‚éB¬Œ÷‚µ‚½ê‡AIRunnableObject::LockRunning
 %index
 OleMetafilePictFromIconAndLabel
 w’è‚³‚ê‚½ƒAƒCƒRƒ“‚Æƒ‰ƒxƒ‹‚ª•`‰æ‚³‚ê‚½ƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 hIcon, lpszLabel, lpszSourceFile, iIconIndex
 hIcon : [intptr] ƒƒ^ƒtƒ@ƒCƒ‹‚É•`‰æ‚³‚ê‚éƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢BhIcon ‚ª NULL ‚Ìê‡A‚±‚ÌŠÖ”‚Íƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚¹‚¸‚É NULL ‚ğ•Ô‚·B
@@ -2120,8 +1982,6 @@ iIconIndex ‚Å“n‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚ªƒRƒƒ“ƒgƒŒƒR[ƒh‚Æ‚µ‚Äì¬‚³‚ê‚éƒƒ^ƒtƒ@ƒCƒ‹‚
 %index
 OleNoteObjectVisible
 ƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚É•Û‚ÂŠO•”QÆ‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚Ü‚½‚ÍƒfƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 ole32
 %prm
 pUnknown, fVisible
 pUnknown : [var] ƒƒbƒN‚Ü‚½‚ÍƒAƒ“ƒƒbƒN‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2141,8 +2001,6 @@ OleNoteObjectVisible ŠÖ”‚Í CoLockObjectExternal
 %index
 OleQueryCreateFromData
 ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÉAOleCreateFromData ‚Ü‚½‚Í OleCreateStaticFromData ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä–„‚ß‚İƒIƒuƒWƒFƒNƒg‚É‚È‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éŒ`®‚Ì‚¢‚¸‚ê‚©‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚ğƒ`ƒFƒbƒN‚·‚éB
-%group
-Win32 ole32
 %prm
 pSrcDataObject
 pSrcDataObject : [var] ƒNƒGƒŠ‚³‚ê‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2164,8 +2022,6 @@ OleQueryCreateFromData ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ê‚Íƒf[ƒ^ƒIƒuƒWƒFƒNƒg“à‚ÉˆÈ‰º‚ÌŒ
 %index
 OleQueryLinkFromData
 ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚ç OLE –„‚ß‚İƒIƒuƒWƒFƒNƒg‚Å‚Í‚È‚­ OLE ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 ole32
 %prm
 pSrcDataObject
 pSrcDataObject : [var] ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éŒ³‚Æ‚È‚éƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2188,8 +2044,6 @@ OleCreateLinkFromData
 %index
 OleRegEnumFormatEtc
 OLE ƒIƒuƒWƒFƒNƒgƒT[ƒo‚ªƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚É“o˜^‚µ‚½ƒf[ƒ^Œ`®‚ğ—ñ‹“‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 clsid, dwDirection, ppenum
 clsid : [var] Œ`®‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX‚Ì CLSIDB
@@ -2219,8 +2073,6 @@ OleRegGetUserTypeAOleRegGetMiscStatusAOleRegEnumVerbs ‚ÍAƒJƒXƒ^ƒ€ DLL
 %index
 OleRegEnumVerbs
 w’è‚³‚ê‚½ƒNƒ‰ƒX‚É“o˜^‚³‚ê‚½“®Œ‚Ì—ñ‹“‚ğ’ñ‹Ÿ‚·‚éBƒJƒXƒ^ƒ€ DLL ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠJ”­Ò‚ÍA‚±‚ÌŠÖ”‚ğg—p‚µ‚ÄŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Ì“®ì‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚éB
-%group
-Win32 ole32
 %prm
 clsid, ppenum
 clsid : [var] “®Œ‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX¯•ÊqB
@@ -2250,8 +2102,6 @@ OleRegGetUserTypeAOleRegGetMiscStatusAOleRegEnumFormatEtc ‚ÍAƒJƒXƒ^ƒ€ DLL
 %index
 OleRegGetMiscStatus
 w’è‚³‚ê‚½ CLSID ‚ªƒTƒ|[ƒg‚·‚é•\Œ»‚Æ“®ì‚ÉŠÖ‚·‚éG‘½‚Èî•ñ‚ğƒŒƒWƒXƒgƒŠ‚©‚ç•Ô‚·B
-%group
-Win32 ole32
 %prm
 clsid, dwAspect, pdwStatus
 clsid : [var] ó‘Ôî•ñ‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX‚Ì CLSIDB
@@ -2280,8 +2130,6 @@ OleRegGetUserTypeAOleRegEnumFormatEtcAOleRegEnumVerbs ‚ÍAƒJƒXƒ^ƒ€ DLL
 %index
 OleRegGetUserType
 w’è‚³‚ê‚½ƒNƒ‰ƒX‚Ìƒ†[ƒUƒ^ƒCƒv‚ğƒŒƒWƒXƒgƒŠ‚©‚çæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 clsid, dwFormOfType, pszUserType
 clsid : [var] ƒ†[ƒUƒ^ƒCƒv‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX‚Ì CLSIDB
@@ -2310,8 +2158,6 @@ OleRegGetMiscStatusAOleRegEnumFormatEtcAOleRegEnumVerbs ‚ÍAƒJƒXƒ^ƒ€ DLL
 %index
 OleRun
 OLE •¡‡ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚É‚·‚éB
-%group
-Win32 ole32
 %prm
 pUnknown
 pUnknown : [var] ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ğg—p‚µ‚Ä IRunnableObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚µA‚»‚Ì Run ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B
@@ -2333,8 +2179,6 @@ IRunnableObject::Run ‚ğQÆ‚Ì‚±‚ÆB
 %index
 OleSave
 ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•Û‘¶‚·‚éB
-%group
-Win32 ole32
 %prm
 pPS, pStg, fSameAsLoad
 pPS : [var] •Û‘¶‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IPersistStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2359,8 +2203,6 @@ OleSave ‚ÍŸ‚Ìˆ—‚ğs‚¤F
 %index
 OleSaveToStream
 OleSaveToStream ŠÖ”iole2.hj‚ÍAIPersistStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
-%group
-Win32 ole32
 %prm
 pPStm, pStm
 pPStm : [var] ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IPersistStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BpPStm ƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
@@ -2384,8 +2226,6 @@ OleSaveToStream ŠÖ”iole2.hj‚ÍAIPersistStream
 %index
 OleSetAutoConvert
 ‚ ‚éƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ªƒ[ƒh‚³‚ê‚½‚Æ‚«‚É•Ê‚ÌƒNƒ‰ƒX‚Ö©“®•ÏŠ·‚·‚é‚½‚ß‚Ì CLSID ‚ğw’è‚·‚éB
-%group
-Win32 ole32
 %prm
 clsidOld, clsidNew
 clsidOld : [var] •ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì CLSIDB
@@ -2417,8 +2257,6 @@ AutoConvertTo ’l‚ğİ’è‚·‚é‘O‚ÉAƒZƒbƒgƒAƒbƒvƒvƒƒOƒ‰ƒ€‚ÍVƒNƒ‰ƒX‚ğ clsidOld
 %index
 OleSetClipboard
 “Á’è‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚É’u‚­B‚±‚ê‚É‚æ‚èAƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ª OleGetClipboard ŠÖ”‚©‚çƒAƒNƒZƒX‰Â”\‚É‚È‚éB
-%group
-Win32 ole32
 %prm
 pDataObj
 pDataObj : [var] ƒNƒŠƒbƒvƒ{[ƒh‚É’u‚­ƒf[ƒ^‚ğæ“¾‚Å‚«‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡‚ÍƒNƒŠƒbƒvƒ{[ƒh‚ª‹ó‚É‚³‚ê‚éB
@@ -2438,8 +2276,6 @@ pDataObj : [var] ƒNƒŠƒbƒvƒ{[ƒh‚É’u‚­ƒf[ƒ^‚ğæ“¾‚Å‚«‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì ID
 %index
 OleSetContainedObject
 ƒIƒuƒWƒFƒNƒg‚ª OLE ƒRƒ“ƒeƒi‚É–„‚ß‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ğ’Ê’m‚µA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒi‚ÅQÆƒJƒEƒ“ƒg‚ª³‚µ‚­s‚í‚ê‚é‚æ‚¤‚É‚·‚éBiOleSetContainedObjectj
-%group
-Win32 ole32
 %prm
 pUnknown, fContained
 pUnknown : [var] ƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2465,8 +2301,6 @@ IRunnableObject::SetContainedObject
 %index
 OleSetMenuDescriptor
 ƒRƒ“ƒeƒi‚ÌƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒE‚©‚ç OLE ƒfƒBƒXƒpƒbƒ`ƒR[ƒh‚ğƒCƒ“ƒXƒg[ƒ‹‚Ü‚½‚Ííœ‚·‚éB
-%group
-Win32 ole32
 %prm
 holemenu, hwndFrame, hwndActiveObject, lpFrame, lpActiveObj
 holemenu : [int] OleCreateMenuDescriptor ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½•¡‡ƒƒjƒ…[‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒfƒBƒXƒpƒbƒ`ƒR[ƒh‚ªæ‚èŠO‚³‚ê‚éB
@@ -2491,8 +2325,6 @@ lpActiveObj : [var] ƒAƒNƒeƒBƒu‚ÈƒCƒ“ƒvƒŒ[ƒXƒIƒuƒWƒFƒNƒgã‚Ì IOleInPlaceActiveOb
 %index
 OleTranslateAccelerator
 ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚êAƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒeƒi‚ªƒRƒ“ƒeƒi‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚É]‚Á‚ÄƒAƒNƒZƒ‰ƒŒ[ƒ^‚ğ•ÏŠ·‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 ole32
 %prm
 lpFrame, lpFrameInfo, lpmsg
 lpFrame : [var] ƒL[ƒXƒgƒ[ƒN‚ğ‘—M‚Å‚«‚é IOleInPlaceFrame ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2523,8 +2355,6 @@ OleTranslateAccelerator
 %index
 OleUninitialize
 ƒAƒp[ƒgƒƒ“ƒgã‚Ì COM ƒ‰ƒCƒuƒ‰ƒŠ‚ğ•Â‚¶AƒAƒp[ƒgƒƒ“ƒg‚ª•Û‚·‚éƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠA‚»‚Ì‘¼‚Ì COM ƒIƒuƒWƒFƒNƒgAƒT[ƒo‚ğ‰ğ•ú‚µAƒAƒp[ƒgƒƒ“ƒgã‚Ì RPC ‚ğ–³Œø‰»‚µAƒAƒp[ƒgƒƒ“ƒg‚ª•Û‚·‚éƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 
 %inst
@@ -2547,8 +2377,6 @@ OleInitialize ŒÄ‚Ño‚µ‚É‘Î‰‚·‚é OleUninitialize
 %index
 PropStgNameToFmtId
 ƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŒ[ƒW–¼‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€–¼‚ğA‚»‚ÌŒ`®¯•Êq‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 oszName, pfmtid
 oszName : [wstr] ƒVƒ“ƒvƒ‹‚ÈƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŠ[ƒ€–¼A‚Ü‚½‚Í”ñƒVƒ“ƒvƒ‹‚ÈƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŒ[ƒW–¼‚ğŠÜ‚ŞAnull I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2570,8 +2398,6 @@ PROPSETFLAG Constants ‚ğQÆ‚Ì‚±‚ÆB
 %index
 PropVariantClear
 w’è‚³‚ê‚½ PROPVARIANT \‘¢‘Ì“à‚Å‰ğ•ú‰Â”\‚È—v‘f‚ğ‚·‚×‚Ä‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 pvar
 pvar : [var] ‰ğ•ú‰Â”\‚È—v‘f‚ğ‰ğ•ú‚·‚é‰Šú‰»Ï‚İ‚Ì PROPVARIANT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B–ß‚è‚É‚Í PROPVARIANT \‘¢‘Ì‚É‚·‚×‚Ä 0 ‚ª‘‚«‚Ü‚ê‚éB
@@ -2595,8 +2421,6 @@ PROPVARIANT \‘¢‘Ì‚ğw‚µ‚Ä‚¢‚é‚Æ‚·‚éBPROPVARIANT \‘¢‘Ì‚Ì pclipdata ƒƒ“ƒo[‚Í 
 %index
 PropVariantCopy
 PropVariantCopy ŠÖ”‚ÍA‚ ‚é PROPVARIANT \‘¢‘Ì‚Ì“à—e‚ğ•Ê‚Ì PROPVARIANT \‘¢‘Ì‚ÉƒRƒs[‚·‚éB
-%group
-Win32 ole32
 %prm
 pvarDest, pvarSrc
 pvarDest : [var] ƒRƒs[‚ğó‚¯æ‚é‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ PROPVARIANT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2619,8 +2443,6 @@ PropVariantClear ‚ÌŒÄ‚Ño‚µ‚Å“Æ—§‚É‰ğ•ú‚Å‚«‚éBPropVariantCopy ‚Í VariantCopy
 %index
 ReadClassStg
 ReadClassStg ŠÖ”‚ÍAWriteClassStg ŠÖ”‚ÅƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉˆÈ‘O‘‚«‚Ü‚ê‚½ CLSID ‚ğ“Ç‚İæ‚éB
-%group
-Win32 ole32
 %prm
 pStg, pclsid
 pStg : [var] æ“¾‚·‚é CLSID ‚ğŠÜ‚ŞƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2640,8 +2462,6 @@ ReadClassStg ‚Í IStorage::Stat ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µAWriteClassStg
 %index
 ReadClassStm
 WriteClassStm ŠÖ”‚ÅƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉˆÈ‘O‘‚«‚Ü‚ê‚½ CLSID ‚ğ“Ç‚İæ‚éB
-%group
-Win32 ole32
 %prm
 pStm, pclsid
 pStm : [var] “Ç‚İæ‚é CLSID ‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgã‚Ì IStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì CLSID ‚Í WriteClassStm ‚ğg‚Á‚Ä–‘O‚ÉƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘‚«‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2660,8 +2480,6 @@ IPersistStream::Load À‘•‚ğŒÄ‚Ño‚·‘O‚É‚±‚ê‚ğŒÄ‚Ño‚·B
 %index
 ReadFmtUserTypeStg
 ReadFmtUserTypeStg ŠÖ”‚ÍAWriteFmtUserTypeStg ŠÖ”‚ÅˆÈ‘O•Û‘¶‚³‚ê‚½ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Æƒ†[ƒUƒ^ƒCƒv‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 pstg, pcf, lplpszUserType
 pstg : [var] î•ñ‚ğ“Ç‚İæ‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2684,8 +2502,6 @@ ReadFmtUserTypeStg
 %index
 RegisterDragDrop
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğ OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚È‚è“¾‚é‚à‚Ì‚Æ‚µ‚Ä“o˜^‚µAƒhƒƒbƒv‘€ì‚Ég—p‚·‚é IDropTarget ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚·‚éB
-%group
-Win32 ole32
 %prm
 hwnd, pDropTarget
 hwnd : [intptr] OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚È‚è“¾‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2717,8 +2533,6 @@ IDropTarget ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚·‚éB
 %index
 ReleaseStgMedium
 w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒƒfƒBƒA‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 param0
 param0 : [var] 
@@ -2743,8 +2557,6 @@ IUnknown ƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä IUnknown::Release ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚éB
 %index
 RevokeDragDrop
 w’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ğ OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìöİ“I‚Èƒ^[ƒQƒbƒg‚Æ‚µ‚Ä‚Ì“o˜^‚ğæ‚èÁ‚·B
-%group
-Win32 ole32
 %prm
 hwnd
 hwnd : [intptr] OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚µ‚ÄˆÈ‘O‚É“o˜^‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2764,8 +2576,6 @@ hwnd : [intptr] OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚µ‚ÄˆÈ‘O‚É“o˜^‚³‚ê‚½
 %index
 SNB_UserFree
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1
 param0 : [var] 
@@ -2777,8 +2587,6 @@ param1 : [var]
 %index
 SNB_UserFree64
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1
 param0 : [var] 
@@ -2790,8 +2598,6 @@ param1 : [var]
 %index
 SNB_UserMarshal
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2804,8 +2610,6 @@ param2 : [var]
 %index
 SNB_UserMarshal64
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2818,8 +2622,6 @@ param2 : [var]
 %index
 SNB_UserSize
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2832,8 +2634,6 @@ param2 : [var]
 %index
 SNB_UserSize64
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2846,8 +2646,6 @@ param2 : [var]
 %index
 SNB_UserUnmarshal
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2860,8 +2658,6 @@ param2 : [var]
 %index
 SNB_UserUnmarshal64
 (no summary)
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2874,8 +2670,6 @@ param2 : [var]
 %index
 STGMEDIUM_UserFree
 STGMEDIUM_UserFree ŠÖ”ioleidl.hj‚ÍARPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒT[ƒo‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1
 param0 : [var] 
@@ -2888,8 +2682,6 @@ STGMEDIUM_UserFree ŠÖ”ioleidl.hj‚ÍARPC
 %index
 STGMEDIUM_UserFree64
 STGMEDIUM_UserFree64 ŠÖ”ioleidl.hj‚ÍARPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒT[ƒo‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1
 param0 : [var] 
@@ -2902,8 +2694,6 @@ STGMEDIUM_UserFree64 ŠÖ”ioleidl.hj‚ÍARPC
 %index
 STGMEDIUM_UserMarshal
 STGMEDIUM_UserMarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Éƒ}[ƒVƒƒƒ‹‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2917,8 +2707,6 @@ STGMEDIUM_UserMarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
 %index
 STGMEDIUM_UserMarshal64
 STGMEDIUM_UserMarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Éƒ}[ƒVƒƒƒ‹‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2932,8 +2720,6 @@ STGMEDIUM_UserMarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
 %index
 STGMEDIUM_UserSize
 STGMEDIUM_UserSize ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚Ì“]‘—ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2947,8 +2733,6 @@ STGMEDIUM_UserSize ŠÖ”ioleidl.hj‚ÍASTGMEDIUM
 %index
 STGMEDIUM_UserSize64
 STGMEDIUM_UserSize64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚Ì“]‘—ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2962,8 +2746,6 @@ STGMEDIUM_UserSize64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM
 %index
 STGMEDIUM_UserUnmarshal
 STGMEDIUM_UserUnmarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚©‚çƒAƒ“ƒ}[ƒVƒƒƒ‹‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2977,8 +2759,6 @@ STGMEDIUM_UserUnmarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
 %index
 STGMEDIUM_UserUnmarshal64
 STGMEDIUM_UserUnmarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚©‚çƒAƒ“ƒ}[ƒVƒƒƒ‹‚·‚éB
-%group
-Win32 ole32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2992,8 +2772,6 @@ STGMEDIUM_UserUnmarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
 %index
 SetConvertStg
 SetConvertStg ŠÖ”‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·ƒrƒbƒg‚ğİ’è‚µAŠJ‚©‚ê‚½‚Æ‚«‚ÉƒIƒuƒWƒFƒNƒg‚ªV‚µ‚¢ƒNƒ‰ƒX‚É•ÏŠ·‚³‚ê‚é‚±‚Æ‚ğ¦‚·Bİ’è‚Í GetConvertStg ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚Å‚«‚éB
-%group
-Win32 ole32
 %prm
 pStg, fConvert
 pStg : [var] •ÏŠ·ƒrƒbƒg‚ğİ’è‚·‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B
@@ -3019,8 +2797,6 @@ OleUIConvert
 %index
 StgConvertPropertyToVariant
 SERIALIZEDPROPERTYVALUE ƒf[ƒ^Œ^‚ğ PROPVARIANT ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 pprop, CodePage, pvar, pma
 pprop : [var] SERIALIZEDPROPERTYVALUE ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3042,8 +2818,6 @@ SERIALIZEDPROPERTYVALUE ƒf[ƒ^Œ^‚ğ PROPVARIANT ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éB
 %index
 StgConvertVariantToProperty
 PROPVARIANT ƒf[ƒ^Œ^‚ğ SERIALIZEDPROPERTYVALUE ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éB
-%group
-Win32 ole32
 %prm
 pvar, CodePage, pprop, pcb, pid, fReserved, pcIndirect
 pvar : [var] PROPVARIANT ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3067,8 +2841,6 @@ NT_STATUS ‚ğ•\‚·—áŠO‚ğƒXƒ[‚·‚éB
 %index
 StgCreateDocfile
 IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì COM ‚ª’ñ‹Ÿ‚·‚é•¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚µ‚ÄAV‚µ‚¢•¡‡ƒtƒ@ƒCƒ‹ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pwcsName, grfMode, reserved, ppstgOpen
 pwcsName : [wstr] ì¬‚³‚ê‚é•¡‡ƒtƒ@ƒCƒ‹‚Ì null I’[‚Ì Unicode •¶š—ñ–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í‰ğß‚³‚ê‚¸‚Éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É“n‚³‚ê‚éB‚±‚ê‚Í‘Š‘Î–¼‚Ü‚½‚Í NULL ‚Å‚à‚æ‚¢BNULL ‚Ìê‡AˆêˆÓ‚Ì–¼‘O‚Åˆê“I‚È•¡‡ƒtƒ@ƒCƒ‹‚ªŠ„‚è“–‚Ä‚ç‚ê‚éB
@@ -3108,8 +2880,6 @@ pwcsName ƒpƒ‰ƒ[ƒ^‚É NULL
 %index
 StgCreateDocfileOnILockBytes
 ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ìã‚ÉV‚µ‚¢•¡‡ƒtƒ@ƒCƒ‹ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚ÄŠJ‚­B
-%group
-Win32 ole32
 %prm
 plkbyt, grfMode, reserved, ppstgOpen
 plkbyt : [var] •¡‡ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚Ì ILockBytes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3152,8 +2922,6 @@ COM ‚ÌÌ—p‚É‚æ‚Á‚Ä©•ª‚Ìƒtƒ@ƒCƒ‹Œ`®‚É—^‚¦‚é‰e‹¿‚ğÅ¬‰»‚·‚é‚½‚ß‚É‚±‚ê‚ğs‚¤‚©‚à
 %index
 StgCreatePropSetStg
 w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚©‚çƒvƒƒpƒeƒBƒZƒbƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pStorage, dwReserved, ppPropSetStg
 pStorage : [var] 1 ‚ÂˆÈã‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚ğŠÜ‚ŞA‚Ü‚½‚ÍŠÜ‚Ş‚±‚Æ‚É‚È‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3176,8 +2944,6 @@ pStorage ‚Åw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IUnknown::AddRef
 %index
 StgCreatePropStg
 w’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚ÉƒvƒƒpƒeƒBƒZƒbƒg‚ğì¬‚µ‚ÄŠJ‚­B
-%group
-Win32 ole32
 %prm
 pUnk, fmtid, pclsid, grfFlags, dwReserved, ppPropStg
 pUnk : [var] V‚µ‚¢ƒvƒƒpƒeƒBƒZƒbƒg‚ğŠi”[‚·‚éƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3219,8 +2985,6 @@ Service Pack 2 (SP2) ˆÈ~‚ÉŠÜ‚Ü‚ê‚Ä‚¨‚èAWindows 95AWindows 98
 %index
 StgCreateStorageEx
 IStorage ‚Ü‚½‚Í IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì’ñ‹Ÿ‚³‚ê‚½À‘•‚ğg—p‚µ‚ÄV‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pwcsName, grfMode, stgfmt, grfAttrs, pStgOptions, pSecurityDescriptor, riid, ppObjectOpen
 pwcsName : [wstr] ì¬‚·‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í‰ğß‚³‚ê‚¸‚Éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É“n‚³‚ê‚éB‚±‚ê‚Í‘Š‘Î–¼‚Ü‚½‚Í NULL ‚Å‚à‚æ‚¢BNULL ‚Ìê‡AˆêˆÓ‚Ì–¼‘O‚Åˆêƒtƒ@ƒCƒ‹‚ªŠ„‚è“–‚Ä‚ç‚ê‚éBNULL ‚Å‚È‚¢ê‡A•¶š—ñ‚ÌƒTƒCƒY‚Í MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
@@ -3286,8 +3050,6 @@ STGM Constants ‚ğQÆ‚Ì‚±‚ÆB
 %index
 StgGetIFillLockBytesOnFile
 ˆêƒtƒ@ƒCƒ‹ã‚Éƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
-%group
-Win32 ole32
 %prm
 pwcsName, ppflb
 pwcsName : [wstr] ƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ì null I’[‚Ì Unicode •¶š—ñ–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3309,8 +3071,6 @@ StgOpenAsyncDocfileOnIFillLockBytes
 %index
 StgGetIFillLockBytesOnILockBytes
 ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚ÉV‚µ‚¢ƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 ole32
 %prm
 pilb, ppflb
 pilb : [var] Šù‘¶‚ÌƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3329,8 +3089,6 @@ StgGetIFillLockBytesOnILockBytes
 %index
 StgIsStorageFile
 StgIsStorageFile ŠÖ”‚ÍA“Á’è‚ÌƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
-%group
-Win32 ole32
 %prm
 pwcsName
 pwcsName : [wstr] ’²¸‚³‚ê‚éƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚Ì null I’[‚Ì Unicode •¶š—ñ–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^BpwcsName ƒpƒ‰ƒ[ƒ^‚Í‰ğß‚³‚ê‚¸‚ÉŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É“n‚³‚ê‚éB
@@ -3351,8 +3109,6 @@ S_OK ‚ğ•Ô‚·B
 %index
 StgIsStorageILockBytes
 StgIsStorageILockBytes ŠÖ”‚ÍAw’è‚³‚ê‚½ƒoƒCƒg”z—ñ‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
-%group
-Win32 ole32
 %prm
 plkbyt
 plkbyt : [var] ’²¸‚³‚ê‚éƒoƒCƒg”z—ñ‚Ö‚Ì ILockBytes ƒ|ƒCƒ“ƒ^B
@@ -3374,8 +3130,6 @@ Errors ‚ğQÆ‚Ì‚±‚ÆB
 %index
 StgOpenAsyncDocfileOnIFillLockBytes
 ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒgã‚ÌŠù‘¶‚Ìƒ‹[ƒg”ñ“¯ŠúƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
-%group
-Win32 ole32
 %prm
 pflb, grfMode, asyncFlags, ppstgOpen
 pflb : [var] ŠJ‚©‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ŞƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚Ö‚Ì IFillLockBytes ƒ|ƒCƒ“ƒ^B
@@ -3402,8 +3156,6 @@ StgGetIFillLockBytesOnFile
 %index
 StgOpenPropStg
 w’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚Ìw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‚ğŠJ‚­B
-%group
-Win32 ole32
 %prm
 pUnk, fmtid, grfFlags, dwReserved, ppPropStg
 pUnk : [var] —v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒgƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ŞƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^B
@@ -3441,8 +3193,6 @@ Windows NT 4.0 with Service Pack 2 (SP2) ‚ÉŠÜ‚Ü‚ê‚Ä‚¨‚èAWindows 95
 %index
 StgOpenStorage
 ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€“à‚ÌŠù‘¶‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
-%group
-Win32 ole32
 %prm
 pwcsName, pstgPriority, grfMode, snbExclude, reserved, ppstgOpen
 pwcsName : [wstr] ŠJ‚­ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Ö‚Ì null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BpstgPriority ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
@@ -3470,8 +3220,6 @@ StgOpenStorage ŠÖ”‚Í grfMode
 %index
 StgOpenStorageEx
 ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€“à‚ÌŠù‘¶‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B•¡‡ƒtƒ@ƒCƒ‹‚Æ’Êí‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­‚É‚Í‚±‚ÌŠÖ”‚ğg—p‚·‚éB
-%group
-Win32 ole32
 %prm
 pwcsName, grfMode, stgfmt, grfAttrs, pStgOptions, pSecurityDescriptor, riid, ppObjectOpen
 pwcsName : [wstr] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Ö‚Ì null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÌƒTƒCƒY‚Í MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢BWindows Server 2003 ‚Æ Windows XP/2000FCreateFile ŠÖ”‚Æ‚ÍˆÙ‚È‚èA"\\?\" ƒvƒŒƒtƒBƒbƒNƒX‚ğg—p‚µ‚Ä MAX_PATH §ŒÀ‚ğ’´‚¦‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -3515,8 +3263,6 @@ STGM_CREATEASTGM_DELETEONRELEASEASTGM_CONVERT
 %index
 StgOpenStorageOnILockBytes
 StgOpenStorageOnILockBytes ŠÖ”‚ÍAƒfƒBƒXƒNƒtƒ@ƒCƒ‹“à‚É‚Í‘¶İ‚¹‚¸A‘ã‚í‚è‚ÉŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñ‚ğ‚ÂŠù‘¶‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
-%group
-Win32 ole32
 %prm
 plkbyt, pstgPriority, grfMode, snbExclude, reserved, ppstgOpen
 plkbyt : [var] ŠJ‚©‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ŞŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ö‚Ì ILockBytes ƒ|ƒCƒ“ƒ^B
@@ -3560,8 +3306,6 @@ StgOpenStorageOnILockBytes ‚ğŒÄ‚Ño‚·‘O‚ÉƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚é‚±‚Æ‚ÅAŒÄ‚Ño‚µŒ
 %index
 StgPropertyLengthAsVariant
 StgPropertyLengthAsVariant ŠÖ”‚ÍASERIALIZEDPROPERTYVALUE ‚ğ’²¸‚µA‚±‚ÌƒvƒƒpƒeƒB‚ª PROPVARIANT ‚Æ‚µ‚Äè—L‚·‚éƒƒ‚ƒŠ—Ê‚ğ•Ô‚·B
-%group
-Win32 ole32
 %prm
 pProp, cbProp, CodePage, bReserved
 pProp : [var] SERIALIZEDPROPERTYVALUE ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3583,8 +3327,6 @@ PROPVARIANT ‚Æ‚µ‚Äè—L‚·‚éƒƒ‚ƒŠ—Ê‚ğ•Ô‚·B
 %index
 StgSetTimes
 StgSetTimes ŠÖ”‚ÍAŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡Aw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ìì¬AƒAƒNƒZƒXAXV‚Ì‚ğİ’è‚·‚éB
-%group
-Win32 ole32
 %prm
 lpszName, pctime, patime, pmtime
 lpszName : [wstr] •ÏX‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3608,8 +3350,6 @@ StgSetTimes ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì’l‚ğİ’è‚·‚éBŠe’lƒpƒ‰ƒ[ƒ^‚Í NUL
 %index
 WriteClassStg
 WriteClassStg ŠÖ”‚ÍAw’è‚³‚ê‚½ƒNƒ‰ƒX¯•ÊqiCLSIDj‚ğƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éB
-%group
-Win32 ole32
 %prm
 pStg, rclsid
 pStg : [var] V‚µ‚¢ CLSID ‚ğæ“¾‚·‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B
@@ -3628,8 +3368,6 @@ WriteClassStg ŠÖ”‚ÍAReadClassStg ŠÖ”‚Å“Ç‚İæ‚ê‚é‚æ‚¤‚ÉAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒ
 %index
 WriteClassStm
 WriteClassStm ŠÖ”‚ÍAw’è‚³‚ê‚½ CLSID ‚ğƒXƒgƒŠ[ƒ€‚ÉŠi”[‚·‚éB
-%group
-Win32 ole32
 %prm
 pStm, rclsid
 pStm : [var] CLSID ‚ª‘‚«‚Ü‚ê‚éƒXƒgƒŠ[ƒ€‚Ö‚Ì IStream ƒ|ƒCƒ“ƒ^B
@@ -3649,8 +3387,6 @@ IPersistStream::Save ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚É‚±‚ê‚ğŒÄ‚Ño‚·B
 %index
 WriteFmtUserTypeStg
 WriteFmtUserTypeStg ŠÖ”‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Æƒ†[ƒUƒ^ƒCƒv‚ğ‘‚«‚ŞB
-%group
-Win32 ole32
 %prm
 pstg, cf, lpszUserType
 pstg : [var] î•ñ‚ª‘‚«‚Ü‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B

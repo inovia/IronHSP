@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+userenv.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì userenv.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 CreateAppContainerProfile
 Windows ƒXƒgƒAƒAƒvƒŠ—p‚ÉAƒ†[ƒU[’PˆÊ‚©‚ÂƒAƒvƒŠ’PˆÊ‚Ìƒvƒƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
-%group
-Win32 userenv
 %prm
 pszAppContainerName, pszDisplayName, pszDescription, pCapabilities, dwCapabilityCount, ppSidAppContainerSid
 pszAppContainerName : [wstr] ƒAƒvƒŠƒRƒ“ƒeƒi‚Ì–¼‘OBˆêˆÓ«‚ğ•Û‚Â‚½‚ßA•¶š—ñ‚É‚ÍƒAƒvƒŠ–¼‚É‰Á‚¦‚Ä”­sÒ–¼‚ğŠÜ‚ß‚é‚±‚Æ‚ª„§‚³‚ê‚éB‚±‚Ì•¶š—ñ‚ÍÅ‘å 64 •¶š‚Ü‚Åw’è‚Å‚«‚éB‚³‚ç‚ÉA³‹K•\Œ» "[-_. A-Za-z0-9]+" ‚É¦‚·ƒpƒ^[ƒ“‚Éˆê’v‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -34,8 +54,6 @@ CreateAppContainerProfile ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 %index
 CreateEnvironmentBlock
 w’èƒ†[ƒU[‚ÌŠÂ‹«•Ï”‚ğæ“¾‚·‚éB‚±‚ÌƒuƒƒbƒN‚Í CreateProcessAsUser ‚É“n‚¹‚éB
-%group
-Win32 userenv
 %prm
 lpEnvironment, hToken, bInherit
 lpEnvironment : [var] Œ^: LPVOID* ŠÖ”•œ‹AAV‚µ‚¢ŠÂ‹«ƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŠÂ‹«ƒuƒƒbƒN‚Í NULL I’[ Unicode •¶š—ñ‚Ì”z—ñ‚ÅA2 ‚Â‚Ì NULL (\0\0) ‚ÅI‚í‚éB
@@ -58,8 +76,6 @@ LoadUserProfile ‚ğŒÄ‚ÔB
 %index
 CreateProfile
 V‚µ‚¢ƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
-%group
-Win32 userenv
 %prm
 pszUserSid, pszUserName, pszProfilePath, cchProfilePath
 pszUserSid : [wstr] Œ^: LPCWSTR ƒ†[ƒU[‚Ì SID ‚ğ•¶š—ñ‚Æ‚µ‚Äw‚·ƒ|ƒCƒ“ƒ^B
@@ -80,8 +96,6 @@ cchProfilePath : [int] Œ^: DWORD pszProfilePath ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (•¶š’PˆÊ
 %index
 DeleteAppContainerProfile
 w’è‚µ‚½ƒ†[ƒU[’PˆÊ‚©‚ÂƒAƒvƒŠ’PˆÊ‚Ìƒvƒƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB
-%group
-Win32 userenv
 %prm
 pszAppContainerName
 pszAppContainerName : [wstr] CreateAppContainerProfile ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åw’è‚µ‚½ƒvƒƒtƒ@ƒCƒ‹–¼B‚±‚Ì•¶š—ñ‚ÍÅ‘å 64 •¶š‚ÅA³‹K•\Œ» "[-_. A-Za-z0-9]+" ‚É¦‚·ƒpƒ^[ƒ“‚Éˆê’v‚·‚éB
@@ -101,8 +115,6 @@ DeleteAppContainerProfile ‚ğÄ“xŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 %index
 DeleteProfileW
 w’è‚µ‚½ƒRƒ“ƒsƒ…[ƒ^[‚©‚çƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚Æ‚·‚×‚Ä‚Ìƒ†[ƒU[ŠÖ˜Aİ’è‚ğíœ‚·‚éBŒÄ‚Ño‚µ‘¤‚Íƒ†[ƒU[‚Ìƒvƒƒtƒ@ƒCƒ‹‚ğíœ‚·‚é‚½‚ß‚ÌŠÇ—ÒŒ ŒÀ‚ª•K—v‚Å‚ ‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 lpSidString, lpProfilePath, lpComputerName
 lpSidString : [wstr] Œ^: LPCTSTR ƒ†[ƒU[ SID ‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -130,8 +142,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 DeriveAppContainerSidFromAppContainerName
 w’è‚µ‚½ƒvƒƒtƒ@ƒCƒ‹‚Ì SID ‚ğæ“¾‚·‚éB
-%group
-Win32 userenv
 %prm
 pszAppContainerName, ppsidAppContainerSid
 pszAppContainerName : [wstr] ƒvƒƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -147,8 +157,6 @@ ppsidAppContainerSid : [var] ƒvƒƒtƒ@ƒCƒ‹‚Ì SIDB‚±‚Ìƒoƒbƒtƒ@‚Í FreeSid ŠÖ”‚Å‰ğ
 %index
 DeriveRestrictedAppContainerSidFromAppContainerSidAndRestrictedName
 DeriveRestrictedAppContainerSidFromAppContainerSidAndRestrictedName ‚Í«—ˆ‚Ì—˜—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB
-%group
-Win32 userenv
 %prm
 psidAppContainerSid, pszRestrictedAppContainerName, ppsidRestrictedAppContainerSid
 psidAppContainerSid : [int] —\–ñÏ‚İB
@@ -165,8 +173,6 @@ DeriveRestrictedAppContainerSidFromAppContainerSidAndRestrictedName
 %index
 DestroyEnvironmentBlock
 CreateEnvironmentBlock ‚Åì¬‚³‚ê‚½ŠÂ‹«•Ï”‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 userenv
 %prm
 lpEnvironment
 lpEnvironment : [intptr] Œ^: LPVOID CreateEnvironmentBlock ‚Åì¬‚³‚ê‚½ŠÂ‹«ƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL I’[ Unicode •¶š—ñ‚Ì”z—ñ‚ÅA2 ‚Â‚Ì NULL (\0\0) ‚ÅI‚í‚éB
@@ -180,8 +186,6 @@ CreateEnvironmentBlock ‚Åì¬‚³‚ê‚½ŠÂ‹«•Ï”‚ğ‰ğ•ú‚·‚éB
 %index
 EnterCriticalPolicySection
 EnterCriticalPolicySection ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ|ƒŠƒV[İ’è‚ğˆÀ‘S‚É“Ç‚İæ‚ê‚é‚æ‚¤‚É‚·‚é‚½‚ßAƒ|ƒŠƒV[‚Ì“K—p‚ğˆê’â~‚·‚éB
-%group
-Win32 userenv
 %prm
 bMachine
 bMachine : [int] ƒRƒ“ƒsƒ…[ƒ^[ƒ|ƒŠƒV[‚Æƒ†[ƒU[ƒ|ƒŠƒV[‚Ì‚Ç‚¿‚ç‚Ì“K—p‚ğ’â~‚·‚é‚©‚ğw’è‚·‚é’lBTRUE ‚Ìê‡AƒVƒXƒeƒ€‚ÍƒRƒ“ƒsƒ…[ƒ^[ƒ|ƒŠƒV[‚Ì“K—p‚ğ’â~‚·‚éBFALSE ‚Ìê‡AƒVƒXƒeƒ€‚Íƒ†[ƒU[ƒ|ƒŠƒV[‚Ì“K—p‚ğ’â~‚·‚éB
@@ -202,8 +206,6 @@ LeaveCriticalPolicySection ŠÖ”‚ğŒÄ‚Ño‚·Bƒ|ƒŠƒV[ƒZƒNƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Í‘¼‚Ì Wind
 %index
 ExpandEnvironmentStringsForUserW
 w’èƒ†[ƒU[—p‚ÉŠm—§‚³‚ê‚½ŠÂ‹«ƒuƒƒbƒN‚ğg—p‚µ‚Äƒ\[ƒX•¶š—ñ‚ğ“WŠJ‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 hToken, lpSrc, lpDest, dwSize
 hToken : [intptr] Œ^: HANDLE ƒ†[ƒU[‚Ìƒg[ƒNƒ“BLogonUserACreateRestrictedTokenADuplicateTokenAOpenProcessTokenAOpenThreadToken ‚È‚Ç‚Åæ“¾‚·‚éBTOKEN_IMPERSONATEATOKEN_QUERYAWindows 7 ˆÈ~‚Í TOKEN_DUPLICATE ‚à•K—vBNULL ‚Ìê‡AŠÂ‹«ƒuƒƒbƒN‚ÍƒVƒXƒeƒ€•Ï”‚Ì‚İ‚ğŠÜ‚ŞB
@@ -224,8 +226,6 @@ dwSize : [int] Œ^: DWORD lpDest ƒoƒbƒtƒ@‚ÌƒTƒCƒY(TCHAR ’PˆÊ)B
 %index
 FreeGPOListW
 FreeGPOList ŠÖ”‚Íw’è‚µ‚½ GPO ‚ÌƒŠƒXƒg‚ğ‰ğ•ú‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 pGPOList
 pGPOList : [var] GPO \‘¢‘Ì‚ÌƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒŠƒXƒg‚Í GetGPOList ‚Ü‚½‚Í GetAppliedGPOList ŠÖ”‚©‚ç•Ô‚³‚ê‚éBÚ×‚Í GROUP_POLICY_OBJECT ‚ğQÆB
@@ -247,8 +247,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GenerateGPNotification
 (no summary)
-%group
-Win32 userenv
 %prm
 bMachine, lpwszMgmtProduct, dwMgmtProductOptions
 bMachine : [int] 
@@ -261,8 +259,6 @@ dwMgmtProductOptions : [int]
 %index
 GetAllUsersProfileDirectoryW
 ‚·‚×‚Ä‚Ìƒ†[ƒU[‚Å‹¤—L‚³‚ê‚éƒvƒƒOƒ‰ƒ€ƒf[ƒ^‚ªŠi”[‚³‚ê‚éƒfƒBƒŒƒNƒgƒŠ‚Ìƒ‹[ƒg‚Ö‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 lpProfileDir, lpcchSize
 lpProfileDir : [wstr] Œ^: LPTSTR ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚é‚Æ‚«‚ÉƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY (I’[‚Ì null •¶š‚ğŠÜ‚Ş) ‚ğ’²‚×‚é‚É‚Í NULL ‚ğİ’è‚·‚éB
@@ -282,8 +278,6 @@ lpcchSize : [var] Œ^: LPDWORD lpProfileDir ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ) ‚Ö‚Ìƒ|ƒ
 %index
 GetAppContainerFolderPath
 w’è‚µ‚½ƒAƒvƒŠƒRƒ“ƒeƒi‚Ìƒ[ƒJƒ‹ƒAƒvƒŠƒf[ƒ^ƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğæ“¾‚·‚éB
-%group
-Win32 userenv
 %prm
 pszAppContainerSid, ppszPath
 pszAppContainerSid : [wstr] ƒAƒvƒŠƒRƒ“ƒeƒi‚Ì SID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -304,8 +298,6 @@ ID ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒvƒŠƒRƒ“ƒeƒi‚ğg‚¤B
 %index
 GetAppContainerRegistryLocation
 ƒAƒvƒŠƒRƒ“ƒeƒi‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŒƒWƒXƒgƒŠŠi”[êŠ‚ğæ“¾‚·‚éB
-%group
-Win32 userenv
 %prm
 desiredAccess, phAppContainerKey
 desiredAccess : [int] Œ^: REGSAM –]‚ŞƒŒƒWƒXƒgƒŠƒAƒNƒZƒXB
@@ -325,8 +317,6 @@ phAppContainerKey : [intptr] Œ^: PHKEY ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚é‚Æ‚«‚ÉAŒ»İ‚Ìƒvƒƒtƒ@ƒ
 %index
 GetAppliedGPOListW
 GetAppliedGPOList ŠÖ”‚ÍAw’è‚µ‚½ƒ†[ƒU[‚Ü‚½‚ÍƒRƒ“ƒsƒ…[ƒ^[‚É“K—p‚³‚ê‚½ GPO ‚Ìˆê——‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 dwFlags, pMachineName, pSidUser, pGuidExtension, ppGPOList
 dwFlags : [int] ƒ|ƒŠƒV[‚Ìí—Ş‚ğw’è‚·‚é’lB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍŸ‚Ì’l‚ğw’è‚Å‚«‚éB
@@ -354,8 +344,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetDefaultUserProfileDirectoryW
 ƒfƒtƒHƒ‹ƒgƒ†[ƒU[‚Ìƒvƒƒtƒ@ƒCƒ‹‚Ìƒ‹[ƒg‚Ö‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 lpProfileDir, lpcchSize
 lpProfileDir : [wstr] Œ^: LPTSTR ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚é‚Æ‚«‚ÉƒfƒtƒHƒ‹ƒgƒ†[ƒU[‚Ìƒvƒƒtƒ@ƒCƒ‹ƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ’²‚×‚é‚É‚Í NULL ‚ğİ’è‚·‚éB
@@ -375,8 +363,6 @@ lpcchSize : [var] Œ^: LPDWORD lpProfileDir ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ) ‚ğw’è‚
 %index
 GetGPOListW
 GetGPOList ŠÖ”‚ÍAw’è‚µ‚½ƒ†[ƒU[‚Ü‚½‚ÍƒRƒ“ƒsƒ…[ƒ^[‚É‘Î‚·‚é GPO ‚Ìˆê——‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 hToken, lpName, lpHostName, lpComputerName, dwFlags, pGPOList
 hToken : [intptr] LogonUserACreateRestrictedTokenADuplicateTokenAOpenProcessTokenAOpenThreadToken ŠÖ”‚©‚ç•Ô‚³‚ê‚éAƒ†[ƒU[‚Ü‚½‚ÍƒRƒ“ƒsƒ…[ƒ^[‚Ìƒg[ƒNƒ“B‚±‚Ìƒg[ƒNƒ“‚É‚Í TOKEN_IMPERSONATE ‚Æ TOKEN_QUERY ‚ÌƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í Access Rights for Access-Token Objects ‚¨‚æ‚ÑˆÈ‰º‚Ì‰ğàƒZƒNƒVƒ‡ƒ“‚ğQÆB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AlpName ‚Æ lpHostName ƒpƒ‰ƒ[ƒ^‚É’l‚ğw’è‚·‚é•K—v‚ª‚ ‚éB
@@ -410,8 +396,6 @@ GetGPOList
 %index
 GetProfileType
 Œ»İ‚Ìƒ†[ƒU[‚É‘Î‚µ‚Ä“Ç‚İ‚Ü‚ê‚Ä‚¢‚éƒvƒƒtƒ@ƒCƒ‹‚Ìí—Ş‚ğæ“¾‚·‚éB
-%group
-Win32 userenv
 %prm
 dwFlags
 dwFlags : [var] Œ^: DWORD*
@@ -432,8 +416,6 @@ Security and Access Rights ‚ğQÆBƒvƒƒtƒ@ƒCƒ‹‚Ìí—Ş‚ª PT_ROAMING_PREEXISTING
 %index
 GetProfilesDirectoryW
 ƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚ªŠi”[‚³‚ê‚éƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 lpProfileDir, lpcchSize
 lpProfileDir : [wstr] Œ^: LPTSTR ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚é‚Æ‚«‚Éƒvƒƒtƒ@ƒCƒ‹ƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ’²‚×‚é‚É‚Í NULL ‚ğİ’è‚·‚éB
@@ -453,8 +435,6 @@ lpcchSize : [var] Œ^: LPDWORD lpProfilesDir ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ) ‚ğw’è
 %index
 GetUserProfileDirectoryW
 w’èƒ†[ƒU[‚Ìƒvƒƒtƒ@ƒCƒ‹ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 hToken, lpProfileDir, lpcchSize
 hToken : [intptr] Œ^: HANDLE ƒ†[ƒU[‚Ìƒg[ƒNƒ“BLogonUser ‚È‚Ç‚Åæ“¾BTOKEN_QUERY ƒAƒNƒZƒX‚ª•K—vB
@@ -474,8 +454,6 @@ Windows XP ‚Å‚ÍAGetUserProfileDirectory ‚ª•Ô‚·ƒpƒX‚Ì—á‚ÍˆÈ‰º‚Ì’Ê‚èB
 %index
 LeaveCriticalPolicySection
 LeaveCriticalPolicySection ŠÖ”‚ÍAƒoƒbƒNƒOƒ‰ƒEƒ“ƒh‚Å‚Ìƒ|ƒŠƒV[“K—p‚ğÄŠJ‚·‚éB‚±‚ÌŠÖ”‚Íƒ|ƒŠƒV[ƒZƒNƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 userenv
 %prm
 hSection
 hSection : [intptr] EnterCriticalPolicySection ŠÖ”‚©‚ç•Ô‚³‚ê‚éƒ|ƒŠƒV[ƒZƒNƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -490,8 +468,6 @@ LeaveCriticalPolicySection
 %index
 LoadUserProfileW
 w’è‚µ‚½ƒ†[ƒU[‚Ìƒvƒƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞBƒvƒƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚Ü‚½‚ÍˆÚ“®ƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éB(Unicode)
-%group
-Win32 userenv
 %prm
 hToken, lpProfileInfo
 hToken : [intptr] Œ^: HANDLE LogonUserACreateRestrictedTokenADuplicateTokenAOpenProcessTokenAOpenThreadToken ŠÖ”‚©‚ç•Ô‚³‚ê‚éƒ†[ƒU[‚Ìƒg[ƒNƒ“B‚±‚Ìƒg[ƒNƒ“‚É‚Í TOKEN_QUERYATOKEN_IMPERSONATEATOKEN_DUPLICATE ‚ÌƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í Access Rights for Access-Token Objects ‚ğQÆB
@@ -537,8 +513,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ProcessGroupPolicyCompleted
 ProcessGroupPolicyCompleted ŠÖ”‚ÍAw’è‚µ‚½Šg’£‹@”\‚ªƒ|ƒŠƒV[‚Ì“K—p‚ğŠ®—¹‚µ‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éB
-%group
-Win32 userenv
 %prm
 extensionId, pAsyncHandle, dwStatus
 extensionId : [var] Šg’£‹@”\‚ğ¯•Ê‚·‚éˆêˆÓ‚Ì GUID ‚ğw’è‚·‚éB
@@ -555,8 +529,6 @@ System Error Codes ‚Ü‚½‚Íƒwƒbƒ_[ƒtƒ@ƒCƒ‹ WinError.h ‚ğQÆB
 %index
 ProcessGroupPolicyCompletedEx
 ProcessGroupPolicyCompletedEx ŠÖ”‚ÍAw’è‚µ‚½ƒ|ƒŠƒV[Šg’£‹@”\‚ªƒ|ƒŠƒV[‚Ì“K—p‚ğŠ®—¹‚µ‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éB‚±‚ÌŠÖ”‚Í RSoP ƒƒO‚Ìó‘Ô‚à•ñ‚·‚éB
-%group
-Win32 userenv
 %prm
 extensionId, pAsyncHandle, dwStatus, RsopStatus
 extensionId : [var] ƒ|ƒŠƒV[Šg’£‹@”\‚ğ¯•Ê‚·‚éˆêˆÓ‚Ì GUID ‚ğw’è‚·‚éB
@@ -575,8 +547,6 @@ System Error Codes ‚Ü‚½‚Íƒwƒbƒ_[ƒtƒ@ƒCƒ‹ WinError.h ‚ğQÆB
 %index
 RefreshPolicy
 RefreshPolicy ŠÖ”‚ÍAƒNƒ‰ƒCƒAƒ“ƒgƒRƒ“ƒsƒ…[ƒ^[ã‚Åƒ|ƒŠƒV[‚ğ‘¦À‚É“K—p‚·‚éB
-%group
-Win32 userenv
 %prm
 bMachine
 bMachine : [int] ƒRƒ“ƒsƒ…[ƒ^[ƒ|ƒŠƒV[‚Æƒ†[ƒU[ƒ|ƒŠƒV[‚Ì‚Ç‚¿‚ç‚ğXV‚·‚é‚©‚ğw’è‚·‚éBTRUE ‚Ìê‡AƒVƒXƒeƒ€‚ÍƒRƒ“ƒsƒ…[ƒ^[ƒ|ƒŠƒV[‚ğXV‚·‚éBFALSE ‚Ìê‡AƒVƒXƒeƒ€‚Íƒ†[ƒU[ƒ|ƒŠƒV[‚ğXV‚·‚éB
@@ -593,8 +563,6 @@ RefreshPolicy ŠÖ”‚ÍAƒNƒ‰ƒCƒAƒ“ƒgƒRƒ“ƒsƒ…[ƒ^[ã‚Åƒ|ƒŠƒV[‚ğ‘¦À‚É“K—p‚·‚éB
 %index
 RefreshPolicyEx
 RefreshPolicyEx ŠÖ”‚ÍƒRƒ“ƒsƒ…[ƒ^[ã‚Åƒ|ƒŠƒV[‚ğ‘¦À‚É“K—p‚·‚éB‚±‚ÌŠg’£ŠÖ”‚Í“K—p‚·‚éƒ|ƒŠƒV[XV‚Ìí—Ş‚ğw’è‚Å‚«‚éB
-%group
-Win32 userenv
 %prm
 bMachine, dwOptions
 bMachine : [int] ƒRƒ“ƒsƒ…[ƒ^[ƒ|ƒŠƒV[‚Æƒ†[ƒU[ƒ|ƒŠƒV[‚Ì‚Ç‚¿‚ç‚ğXV‚·‚é‚©‚ğw’è‚·‚éBTRUE ‚Ìê‡AƒVƒXƒeƒ€‚ÍƒRƒ“ƒsƒ…[ƒ^[ƒ|ƒŠƒV[‚ğXV‚·‚éBFALSE ‚Ìê‡AƒVƒXƒeƒ€‚Íƒ†[ƒU[ƒ|ƒŠƒV[‚ğXV‚·‚éB
@@ -613,8 +581,6 @@ dwOptions ƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚é•K—v‚ª‚È‚¢ê‡‚ÍA‘ã‚í‚è‚É RefreshPolicy ŠÖ”‚ğŒÄ‚
 %index
 RegisterGPNotification
 RegisterGPNotification ŠÖ”‚ÍAƒ|ƒŠƒV[‚É•ÏX‚ª‚ ‚Á‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª’Ê’m‚ğó‚¯æ‚ê‚é‚æ‚¤‚É‚·‚éBƒ|ƒŠƒV[•ÏX‚ª”­¶‚·‚é‚ÆAw’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚³‚ê‚éB
-%group
-Win32 userenv
 %prm
 hEvent, bMachine
 hEvent : [intptr] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìì¬‚É‚Í CreateEvent ŠÖ”‚ğg‚¤B
@@ -637,8 +603,6 @@ CloseHandle ŠÖ”‚ğŒÄ‚Ño‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í WM_SETTINGCHANGE
 %index
 RsopAccessCheckByType
 RSoPAccessCheckByType ŠÖ”‚ÍARSOPTOKEN ‚Å¯•Ê‚³‚ê‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚ÄƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªw’è‚µ‚½ƒAƒNƒZƒXŒ ƒZƒbƒg‚ğ•t—^‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 userenv
 %prm
 pSecurityDescriptor, pPrincipalSelfSid, pRsopToken, dwDesiredAccessMask, pObjectTypeList, ObjectTypeListLength, pGenericMapping, pPrivilegeSet, pdwPrivilegeSetLength, pdwGrantedAccessMask, pbAccessStatus
 pSecurityDescriptor : [int] ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒAƒNƒZƒX‚ğƒ`ƒFƒbƒN‚·‚é SECURITY_DESCRIPTOR ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -668,8 +632,6 @@ RSoPAccessCheckByType ŠÖ”‚ÍAw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğw’è‚µ‚½ RSOPTOKEN
 %index
 RsopFileAccessCheck
 RSoPFileAccessCheck ŠÖ”‚ÍAƒtƒ@ƒCƒ‹‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ª RSOPTOKEN ‚Å¯•Ê‚³‚ê‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äw’è‚µ‚½ƒtƒ@ƒCƒ‹ƒAƒNƒZƒXŒ ƒZƒbƒg‚ğ•t—^‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 userenv
 %prm
 pszFileName, pRsopToken, dwDesiredAccessMask, pdwGrantedAccessMask, pbAccessStatus
 pszFileName : [wstr] ‘ÎÛƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒ‹‚ÍŠù‚É‘¶İ‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -694,8 +656,6 @@ pbAccessStatus
 %index
 RsopResetPolicySettingStatus
 RSoPResetPolicySettingStatus ŠÖ”‚ÍARSOP_PolicySettingStatus ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ RSOP_PolicySetting ƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çƒŠƒ“ƒN‰ğœ‚·‚éB
-%group
-Win32 userenv
 %prm
 dwFlags, pServices, pSettingInstance
 dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İg‚í‚ê‚Ä‚¢‚È‚¢B
@@ -717,8 +677,6 @@ RSOP_PolicySettingStatus ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ RSOP_PolicySetting ƒCƒ“ƒXƒ^ƒ“ƒX‚ÉƒŠƒ“ƒN 
 %index
 RsopSetPolicySettingStatus
 RSoPSetPolicySettingStatus ŠÖ”‚ÍARSOP_PolicySettingStatus ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Æ RSOP_PolicySettingLink ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚Í RSOP_PolicySettingStatus ‚ğ‚»‚Ì RSOP_PolicySetting ƒCƒ“ƒXƒ^ƒ“ƒX‚ÉƒŠƒ“ƒN (ŠÖ˜A•t‚¯) ‚·‚éB
-%group
-Win32 userenv
 %prm
 dwFlags, pServices, pSettingInstance, nInfo, pStatus
 dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒ»İg‚í‚ê‚Ä‚¢‚È‚¢B
@@ -743,8 +701,6 @@ RSOP_PolicySettingStatus ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ RSOP_PolicySetting
 %index
 UnloadUserProfile
 LoadUserProfile ŠÖ”‚Å“Ç‚İ‚Ü‚ê‚½ƒ†[ƒU[‚Ìƒvƒƒtƒ@ƒCƒ‹‚ğƒAƒ“ƒ[ƒh‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍƒRƒ“ƒsƒ…[ƒ^[ã‚ÅŠÇ—ÒŒ ŒÀ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í LoadUserProfile ŠÖ”‚Ì‰ğàƒZƒNƒVƒ‡ƒ“‚ğQÆB
-%group
-Win32 userenv
 %prm
 hToken, hProfile
 hToken : [intptr] Œ^: HANDLE LogonUserACreateRestrictedTokenADuplicateTokenAOpenProcessTokenAOpenThreadToken ŠÖ”‚©‚ç•Ô‚³‚ê‚éƒ†[ƒU[‚Ìƒg[ƒNƒ“B‚±‚Ìƒg[ƒNƒ“‚É‚Í TOKEN_IMPERSONATE ‚Æ TOKEN_DUPLICATE ‚ÌƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í Access Rights for Access-Token Objects ‚ğQÆB
@@ -768,8 +724,6 @@ Registry Key Security and Access Rights ‚¨‚æ‚Ñ Registry Hives
 %index
 UnregisterGPNotification
 UnregisterGPNotification ŠÖ”‚ÍAw’è‚µ‚½ƒ|ƒŠƒV[’Ê’mƒnƒ“ƒhƒ‹‚ğƒ|ƒŠƒV[•ÏX’Ê’m‚ÌóM‘ÎÛ‚©‚ç“o˜^‰ğœ‚·‚éB
-%group
-Win32 userenv
 %prm
 hEvent
 hEvent : [intptr] RegisterGPNotification ŠÖ”‚É“n‚µ‚½ƒ|ƒŠƒV[’Ê’mƒnƒ“ƒhƒ‹B

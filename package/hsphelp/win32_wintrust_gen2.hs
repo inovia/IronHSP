@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+wintrust.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の wintrust.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 CryptSIPCreateIndirectData
 指定された SIP_SUBJECTINFO 構造体のハッシュ、ダイジェストアルゴリズム、およびエンコーディング属性を含む SIP_INDIRECT_DATA 構造体を返す。このハッシュはデータへの間接参照として使用できる。
-%group
-Win32 wintrust
 %prm
 pSubjectInfo, pcbIndirectData, pIndirectData
 pSubjectInfo : [var] 間接データ参照が指し示す対象（サブジェクト）を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
@@ -32,8 +52,6 @@ pcbIndirectData に返される。
 %index
 CryptSIPGetCaps
 サブジェクトインターフェイスパッケージ (SIP) の機能を取得する。
-%group
-Win32 wintrust
 %prm
 pSubjInfo, pCaps
 pSubjInfo : [var] SIP API に対して対象情報データを指定する [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
@@ -50,8 +68,6 @@ pCaps : [var] SIP の機能を定義する SIP_CAP_SET 構造体へのポインタ。
 %index
 CryptSIPGetSealedDigest
 (no summary)
-%group
-Win32 wintrust
 %prm
 pSubjectInfo, pSig, dwSig, pbDigest, pcbDigest
 pSubjectInfo : [var] 
@@ -66,8 +82,6 @@ pcbDigest : [var]
 %index
 CryptSIPGetSignedDataMsg
 ファイルから Authenticode 署名を取得する。
-%group
-Win32 wintrust
 %prm
 pSubjectInfo, pdwEncodingType, dwIndex, pcbSignedDataMsg, pbSignedDataMsg
 pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
@@ -92,8 +106,6 @@ SIP 仕様が存在する。
 %index
 CryptSIPPutSignedDataMsg
 対象ファイルに Authenticode 署名を格納する。
-%group
-Win32 wintrust
 %prm
 pSubjectInfo, dwEncodingType, pdwIndex, cbSignedDataMsg, pbSignedDataMsg
 pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
@@ -117,8 +129,6 @@ SIP 仕様が存在する。
 %index
 CryptSIPRemoveSignedDataMsg
 指定された Authenticode 署名を削除する。
-%group
-Win32 wintrust
 %prm
 pSubjectInfo, dwIndex
 pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
@@ -134,8 +144,6 @@ dwIndex : [int] このパラメータは予約されており、0 に設定する必要がある。
 %index
 CryptSIPVerifyIndirectData
 間接ハッシュ化データを指定されたサブジェクトに対して検証する。
-%group
-Win32 wintrust
 %prm
 pSubjectInfo, pIndirectData
 pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。

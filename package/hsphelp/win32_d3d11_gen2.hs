@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+d3d11.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の d3d11.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 CreateDirect3D11DeviceFromDXGIDevice
 IDXGIDevice から IDirect3DDevice のインスタンスを作成する。
-%group
-Win32 d3d11
 %prm
 dxgiDevice, graphicsDevice
 dxgiDevice : [var] 型: **[IDXGIDevice](/windows/desktop/api/dxgi/nn-dxgi-idxgidevice)\*** Direct3DDevice を作成する元となる [IDXGIDevice](/windows/desktop/api/dxgi/nn-dxgi-idxgidevice)。
@@ -34,8 +54,6 @@ IDXGIDevice から IDirect3DDevice のインスタンスを作成する。
 %index
 CreateDirect3D11SurfaceFromDXGISurface
 IDXGISurface から IDirect3DSurface のインスタンスを作成する。
-%group
-Win32 d3d11
 %prm
 dgxiSurface, graphicsSurface
 dgxiSurface : [var] 
@@ -61,8 +79,6 @@ IDXGISurface から IDirect3DSurface のインスタンスを作成する。
 %index
 D3D11CreateDevice
 ディスプレイアダプタを表すデバイスを作成する。(D3D11CreateDevice)
-%group
-Win32 d3d11
 %prm
 pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, ppDevice, pFeatureLevel, ppImmediateContext
 pAdapter : [var] 型: IDXGIAdapter* デバイス作成時に使用するビデオアダプタへのポインタ。既定のアダプタを使う場合は NULL を渡す。既定のアダプタは IDXGIFactory1::EnumAdapters が最初に列挙するアダプタである。注意 DXGI 1.0 (IDXGIFactory) と DXGI 1.1 (IDXGIFactory1) を 1 つのアプリケーションで混在させてはならない。IDXGIFactory または IDXGIFactory1 のどちらか一方だけを使う。
@@ -113,8 +129,6 @@ E_INVALIDARG の HRESULT を返す。
 %index
 D3D11CreateDeviceAndSwapChain
 ディスプレイアダプタを表すデバイスと、描画に使用するスワップチェーンを作成する。
-%group
-Win32 d3d11
 %prm
 pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, pSwapChainDesc, ppSwapChain, ppDevice, pFeatureLevel, ppImmediateContext
 pAdapter : [var] 型: IDXGIAdapter* デバイス作成時に使用するビデオアダプタへのポインタ。既定のアダプタを使う場合は NULL を渡す。既定のアダプタは IDXGIFactory1::EnumAdapters が最初に列挙するアダプタである。注意 DXGI 1.0 (IDXGIFactory) と DXGI 1.1 (IDXGIFactory1) を 1 つのアプリケーションで混在させてはならない。IDXGIFactory または IDXGIFactory1 のどちらか一方だけを使う。
@@ -173,8 +187,6 @@ IDXGIFactory2 のメソッド
 %index
 D3D11On12CreateDevice
 Direct3D 12 の機能を用いて Direct3D 11 機能を提供するデバイスを作成する。Direct3D 11 との相互運用に使う既存の Direct3D 12 デバイスを指定する。
-%group
-Win32 d3d11
 %prm
 pDevice, Flags, pFeatureLevels, FeatureLevels, ppCommandQueues, NumQueues, NodeMask, ppDevice, ppImmediateContext, pChosenFeatureLevel
 pDevice : [var] 型: IUnknown* Direct3D 11 との相互運用に使用する既存の Direct3D 12 デバイスを指定する。NULL にできない。

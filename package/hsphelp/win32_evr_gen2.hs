@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+evr.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì evr.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 MFGetPlaneSize
 ”ñˆ³kƒrƒfƒIŒ`®‚É‚Â‚¢‚Ä‰æ‘œƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğæ“¾‚·‚éB(MFGetPlaneSize)
-%group
-Win32 evr
 %prm
 format, dwWidth, dwHeight, pdwPlaneSize
 format : [int] ƒrƒfƒIŒ`®‚ğw’è‚·‚é FOURCC ƒR[ƒh‚Ü‚½‚Í D3DFORMAT ’lB
@@ -31,8 +51,6 @@ mfplat.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚êAevr.dll ‚Í mfplat.dll ‚ğŒÄ‚Ño‚·ƒXƒ^ƒuŠÖ”‚ğƒGƒ
 %index
 MFCreateVideoMixer
 Enhanced Video Renderer (EVR) ‚ÌŠù’è‚ÌƒrƒfƒIƒ~ƒLƒT[‚ğì¬‚·‚éB
-%group
-Win32 evr
 %prm
 pOwner, riidDevice, riid, ppv
 pOwner : [var] ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÌŠ—LÒ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒIƒuƒWƒFƒNƒg‚ªW–ñ‚³‚ê‚Ä‚¢‚éê‡‚ÍAW–ñƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚éB
@@ -50,8 +68,6 @@ Enhanced Video Renderer (EVR) ‚ÌŠù’è‚ÌƒrƒfƒIƒ~ƒLƒT[‚ğì¬‚·‚éB
 %index
 MFCreateVideoMixerAndPresenter
 Enhanced Video Renderer (EVR) ‚ÌŠù’è‚ÌƒrƒfƒIƒ~ƒLƒT[‚ÆƒrƒfƒIƒvƒŒƒ[ƒ“ƒ^[‚ğì¬‚·‚éB
-%group
-Win32 evr
 %prm
 pMixerOwner, pPresenterOwner, riidMixer, ppvVideoMixer, riidPresenter, ppvVideoPresenter
 pMixerOwner : [var] ƒrƒfƒIƒ~ƒLƒT[‚ÌŠ—LÒ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒ~ƒLƒT[‚ªW–ñ‚³‚ê‚Ä‚¢‚éê‡‚ÍAW–ñƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚éB
@@ -71,8 +87,6 @@ Enhanced Video Renderer (EVR) ‚ÌŠù’è‚ÌƒrƒfƒIƒ~ƒLƒT[‚ÆƒrƒfƒIƒvƒŒƒ[ƒ“ƒ^[‚ğì¬‚·
 %index
 MFCreateVideoPresenter
 Enhanced Video Renderer (EVR) ‚ÌŠù’è‚ÌƒrƒfƒIƒvƒŒƒ[ƒ“ƒ^[‚ğì¬‚·‚éB
-%group
-Win32 evr
 %prm
 pOwner, riidDevice, riid, ppVideoPresenter
 pOwner : [var] ƒIƒuƒWƒFƒNƒg‚ÌŠ—LÒ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒIƒuƒWƒFƒNƒg‚ªW–ñ‚³‚ê‚Ä‚¢‚éê‡‚ÍAW–ñƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚éB
@@ -90,8 +104,6 @@ Enhanced Video Renderer (EVR) ‚ÌŠù’è‚ÌƒrƒfƒIƒvƒŒƒ[ƒ“ƒ^[‚ğì¬‚·‚éB
 %index
 MFCreateVideoSampleAllocator
 ƒrƒfƒIƒTƒ“ƒvƒ‹‚ğŠ„‚è“–‚Ä‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 evr
 %prm
 riid, ppSampleAllocator
 riid : [var] 
@@ -106,8 +118,6 @@ ppSampleAllocator : [var] —v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ñ
 %index
 MFCreateVideoSampleFromSurface
 Direct3D ƒT[ƒtƒFƒX‚ğŠÇ—‚·‚éƒƒfƒBƒAƒTƒ“ƒvƒ‹‚ğì¬‚·‚éB
-%group
-Win32 evr
 %prm
 pUnkSurface, ppSample
 pUnkSurface : [var] Direct3D ƒT[ƒtƒFƒX‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
@@ -126,8 +136,6 @@ Direct3D ƒT[ƒtƒFƒX‚ğŠÇ—‚·‚éƒƒfƒBƒAƒTƒ“ƒvƒ‹‚ğì¬‚·‚éB
 %index
 MFIsFormatYUV
 FOURCC ƒR[ƒh‚Ü‚½‚Í D3DFORMAT ’l‚ª YUV Œ`®‚Å‚ ‚é‚©‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 evr
 %prm
 Format
 Format : [int] FOURCC ƒR[ƒh‚Ü‚½‚Í D3DFORMAT ’lB

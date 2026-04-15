@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+wmvcore.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の wmvcore.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 WMCreateBackupRestorer
 WMCreateBackupRestorer 関数はバックアップリストアラーオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 pCallback, ppBackup
 pCallback : [var] 新しいバックアップリストアラーオブジェクトが使用する OnStatus コールバックメソッドを含む IWMStatusCallback インターフェースへのポインタ。
@@ -28,8 +48,6 @@ IWMLicenseBackup::QueryInterface を使用して IWMBackupRestoreProps
 %index
 WMCreateEditor
 WMCreateEditor 関数はメタデータエディタオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 ppEditor
 ppEditor : [var] 新しく作成されたメタデータエディタオブジェクトの IWMMetadataEditor インターフェースへのポインタへのポインタ。
@@ -44,8 +62,6 @@ WMCreateEditor 関数はメタデータエディタオブジェクトを作成する。
 %index
 WMCreateIndexer
 WMCreateIndexer 関数はインデクサーオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 ppIndexer
 ppIndexer : [var] 新しく作成されたインデクサーオブジェクトの IWMIndexer インターフェースへのポインタへのポインタ。
@@ -60,8 +76,6 @@ WMCreateIndexer 関数はインデクサーオブジェクトを作成する。
 %index
 WMCreateProfileManager
 WMCreateProfileManager 関数はプロファイルマネージャオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 ppProfileManager
 ppProfileManager : [var] 新しく作成されたプロファイルマネージャオブジェクトの IWMProfileManager インターフェースへのポインタへのポインタ。
@@ -80,8 +94,6 @@ WMCreateProfileManager 関数はプロファイルマネージャオブジェクトを作成する。
 %index
 WMCreateReader
 WMCreateReader 関数はリーダーオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 pUnkCert, dwRights, ppReader
 pUnkCert : [var] この値は NULL に設定しなければならない。
@@ -105,8 +117,6 @@ WMCreateReader 関数はリーダーオブジェクトを作成する。
 %index
 WMCreateSyncReader
 WMCreateSyncReader 関数は同期リーダーオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 pUnkCert, dwRights, ppSyncReader
 pUnkCert : [var] IUnknown インターフェースへのポインタ。この値は NULL に設定しなければならない。
@@ -123,8 +133,6 @@ WMCreateSyncReader 関数は同期リーダーオブジェクトを作成する。
 %index
 WMCreateWriter
 WMCreateWriter 関数はライターオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 pUnkCert, ppWriter
 pUnkCert : [var] IUnknown インターフェースへのポインタ。この値は使用されず、NULL に設定しなければならない。
@@ -140,8 +148,6 @@ WMCreateWriter 関数はライターオブジェクトを作成する。
 %index
 WMCreateWriterFileSink
 WMCreateWriterFileSink 関数はライターファイルシンクオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 ppSink
 ppSink : [var] 新しく作成されたライターファイルシンクオブジェクトの IWMWriterFileSink インターフェースへのポインタへのポインタ。
@@ -156,8 +162,6 @@ WMCreateWriterFileSink 関数はライターファイルシンクオブジェクトを作成する。
 %index
 WMCreateWriterNetworkSink
 WMCreateWriterNetworkSink 関数はライターネットワークシンクオブジェクトを作成する。
-%group
-Win32 wmvcore
 %prm
 ppSink
 ppSink : [var] 新しく作成されたライターネットワークシンクオブジェクトの IWMWriterNetworkSink インターフェースへのポインタへのポインタ。
@@ -172,8 +176,6 @@ WMCreateWriterNetworkSink 関数はライターネットワークシンクオブジェクトを作成する
 %index
 WMCreateWriterPushSink
 WMCreateWriterPushSink 関数はライタープッシュシンクオブジェクトを作成する。プッシュシンクは、配信のために他のメディアサーバーへストリーミングコンテンツを配送するのに使用される。
-%group
-Win32 wmvcore
 %prm
 ppSink
 ppSink : [var] 新しく作成されたライタープッシュシンクオブジェクトの IWMWriterPushSink インターフェースへのポインタへのポインタ。
@@ -189,8 +191,6 @@ WMCreateWriterPushSink
 %index
 WMIsContentProtected
 WMIsContentProtected 関数はファイルに DRM 保護コンテンツが含まれているかをチェックする。この関数は、アプリケーションが保護されたファイルを迅速に識別するためのショートカットである。
-%group
-Win32 wmvcore
 %prm
 pwszFileName, pfIsProtected
 pwszFileName : [wstr] DRM 保護コンテンツの有無をチェックするファイルの名前を含むワイド文字 NULL 終端文字列へのポインタ。

@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+avrt.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の avrt.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 AvQuerySystemResponsiveness
 マルチメディアクラススケジューラサービスが使用するシステム応答性の設定を取得する。
-%group
-Win32 avrt
 %prm
 AvrtHandle, SystemResponsivenessValue
 AvrtHandle : [intptr] タスクへのハンドル。このハンドルは AvSetMmThreadCharacteristics または AvSetMmMaxThreadCharacteristics 関数から返される。
@@ -24,8 +44,6 @@ GetLastError を呼び出す。
 %index
 AvRevertMmThreadCharacteristics
 スレッドが指定されたタスクに関連する作業をもはや行っていないことを示す。
-%group
-Win32 avrt
 %prm
 AvrtHandle
 AvrtHandle : [intptr] タスクへのハンドル。このハンドルは AvSetMmThreadCharacteristics または AvSetMmMaxThreadCharacteristics 関数から返される。
@@ -45,8 +63,6 @@ AvSetMmMaxThreadCharacteristics
 %index
 AvRtCreateThreadOrderingGroup
 スレッド順序付けグループを作成する。
-%group
-Win32 avrt
 %prm
 Context, Period, ThreadOrderingGuid, Timeout
 Context : [intptr] コンテキストハンドルへのポインタ。
@@ -73,8 +89,6 @@ ERROR_ALREADY_EXISTS に設定する。
 %index
 AvRtCreateThreadOrderingGroupExW
 スレッド順序付けグループを作成し、サーバースレッドをタスクに関連付ける。(Unicode)
-%group
-Win32 avrt
 %prm
 Context, Period, ThreadOrderingGuid, Timeout, TaskName
 Context : [intptr] コンテキストハンドルへのポインタ。
@@ -103,8 +117,6 @@ TaskName パラメータは、サーバースレッドに関連付けられるタスクを指定する。
 %index
 AvRtDeleteThreadOrderingGroup
 呼び出し元が作成した指定のスレッド順序付けグループを削除する。コンテキスト情報を含むグループのリソースをクリーンアップして返る。
-%group
-Win32 avrt
 %prm
 Context
 Context : [intptr] コンテキストハンドル。このハンドルはグループ作成時に AvRtCreateThreadOrderingGroup 関数から返される。
@@ -125,8 +137,6 @@ ERROR_INVALID_PARAMETER になる。
 %index
 AvRtJoinThreadOrderingGroup
 クライアントスレッドをスレッド順序付けグループに参加させる。
-%group
-Win32 avrt
 %prm
 Context, ThreadOrderingGuid, Before
 Context : [intptr] コンテキストハンドルへのポインタ。
@@ -147,8 +157,6 @@ GetLastError を呼び出す。
 %index
 AvRtLeaveThreadOrderingGroup
 クライアントスレッドがスレッド順序付けグループから離脱できるようにする。
-%group
-Win32 avrt
 %prm
 Context
 Context : [intptr] コンテキストハンドル。このハンドルは AvRtJoinThreadOrderingGroup 関数から返される。
@@ -168,8 +176,6 @@ LastError は ERROR_INVALID_PARAMETER となる。
 %index
 AvRtWaitOnThreadOrderingGroup
 スレッド順序付けグループのクライアントスレッドが実行すべきタイミングまで待機できるようにする。
-%group
-Win32 avrt
 %prm
 Context
 Context : [intptr] コンテキストハンドル。このハンドルは AvRtCreateThreadOrderingGroup または AvRtJoinThreadOrderingGroup 関数から返される。
@@ -191,8 +197,6 @@ ERROR_ACCESS_DENIED を返す。
 %index
 AvSetMmMaxThreadCharacteristicsW
 呼び出し元スレッドを指定された複数のタスクに関連付ける。(Unicode)
-%group
-Win32 avrt
 %prm
 FirstTask, SecondTask, TaskIndex
 FirstTask : [wstr] 実行する最初のタスクの名前。この名前は次のキーのサブキーの 1 つと一致していなければならない。HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks。
@@ -221,8 +225,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AvSetMmThreadCharacteristicsW
 呼び出し元スレッドを指定されたタスクに関連付ける。(Unicode)
-%group
-Win32 avrt
 %prm
 TaskName, TaskIndex
 TaskName : [wstr] 実行するタスクの名前。この名前は次のキーのサブキーの 1 つと一致していなければならない。HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks。
@@ -249,8 +251,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AvSetMmThreadPriority
 同じタスクを実行する他のスレッドに対する呼び出し元スレッドの優先度を調整する。
-%group
-Win32 avrt
 %prm
 AvrtHandle, Priority
 AvrtHandle : [intptr] タスクへのハンドル。このハンドルは AvSetMmThreadCharacteristics または AvSetMmMaxThreadCharacteristics 関数から返される。

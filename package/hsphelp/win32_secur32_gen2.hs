@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+secur32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の secur32.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 GetComputerObjectNameW
 ローカルコンピュータ名を指定された形式で取得する。(Unicode)
-%group
-Win32 secur32
 %prm
 NameFormat, lpNameBuffer, nSize
 NameFormat : [int] 名前の形式。このパラメータは EXTENDED_NAME_FORMAT 列挙体の値。NameUnknown は指定できない。
@@ -32,8 +52,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 TranslateNameW
 ディレクトリサービスオブジェクトの名前をある形式から別の形式へ変換する。(Unicode)
-%group
-Win32 secur32
 %prm
 lpAccountName, AccountNameFormat, DesiredNameFormat, lpTranslatedName, nSize
 lpAccountName : [wstr] 変換対象の名前。

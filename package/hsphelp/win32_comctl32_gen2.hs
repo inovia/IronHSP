@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+comctl32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì comctl32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 ImageList_Destroy
 ƒCƒ[ƒWƒŠƒXƒg‚ğ”jŠü‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl
 himl : [intptr] Œ^: HIMAGELIST ”jŠü‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -22,8 +42,6 @@ himl : [intptr] Œ^: HIMAGELIST ”jŠü‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 DestroyPropertySheetPage
 ƒvƒƒpƒeƒBƒV[ƒg‚Ìƒy[ƒW‚ğ”jŠü‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAPropertySheet ŠÖ”‚É“n‚³‚ê‚È‚©‚Á‚½ƒy[ƒW‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
-%group
-Win32 comctl32
 %prm
 param0
 param0 : [intptr] 
@@ -38,8 +56,6 @@ param0 : [intptr]
 %index
 CreateMappedBitmap
 ƒc[ƒ‹ƒo[‚Åg—p‚·‚éƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 hInstance, idBitmap, wFlags, lpColorMap, iNumMaps
 hInstance : [intptr] Œ^: HINSTANCE ƒrƒbƒgƒ}ƒbƒvƒŠƒ\[ƒX‚ğŠÜ‚ŞÀs‰Â”\ƒtƒ@ƒCƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -63,8 +79,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CreatePropertySheetPageW
 ƒvƒƒpƒeƒBƒV[ƒg—p‚ÌV‚µ‚¢ƒy[ƒW‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 comctl32
 %prm
 constPropSheetPagePointer
 constPropSheetPagePointer : [var] Œ^: LPCPROPSHEETPAGE ƒvƒƒpƒeƒBƒV[ƒg‚ÉŠÜ‚ß‚éƒy[ƒW‚ğ’è‹`‚·‚é PROPSHEETPAGE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -91,8 +105,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateStatusWindowW
 ’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìó‘Ô‚ğ•\¦‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 comctl32
 %prm
 style, lpszText, hwndParent, wID
 style : [int] Œ^: LONG ƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í WS_CHILD ƒXƒ^ƒCƒ‹‚ğŠÜ‚ß‚é•K—v‚ª‚ ‚èA’Êí‚Í WS_VISIBLE ƒXƒ^ƒCƒ‹‚àŠÜ‚ß‚é‚×‚«‚Å‚ ‚éB
@@ -121,8 +133,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateUpDownControl
 ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ğì¬‚·‚éBƒƒ‚: ‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éB16 ƒrƒbƒgŠÖ”‚Å‚ ‚èA”ÍˆÍ‚ÆˆÊ’u‚É 32 ƒrƒbƒg’l‚ğˆµ‚¤‚±‚Æ‚ª‚Å‚«‚È‚¢B
-%group
-Win32 comctl32
 %prm
 dwStyle, x, y, cx, cy, hParent, nID, hInst, hBuddy, nUpper, nLower, nPos
 dwStyle : [int] Œ^: DWORD ƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í WS_CHILDAWS_BORDERAWS_VISIBLE ‚ÌŠeƒXƒ^ƒCƒ‹‚ğŠÜ‚ß‚é‚×‚«‚Å‚ ‚èAƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹ŒÅ—L‚ÌƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹‚à”CˆÓ‚ÉŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB
@@ -149,8 +159,6 @@ nPos : [int] Œ^: int ƒRƒ“ƒgƒ[ƒ‹‚ÌˆÊ’uB
 %index
 DPA_Destroy
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -164,8 +172,6 @@ hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 DPA_Clone
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ•¡»‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, hdpaNew
 hdpa : [intptr] Œ^: const HDPA ƒRƒs[Œ³‚Æ‚È‚éŠù‘¶‚Ì DPA ‚Ìƒnƒ“ƒhƒ‹B
@@ -184,8 +190,6 @@ DPA_Clone ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸AŒöŠJƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É‚àéŒ¾‚³‚ê‚Ä‚¢‚È
 %index
 DPA_Create
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 cItemGrow
 cItemGrow : [int] Œ^: int DPA ‚ÌŠg’£‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉA”z—ñ‚ğŠg’£‚·‚é—v‘f”B
@@ -199,8 +203,6 @@ cItemGrow : [int] Œ^: int DPA ‚ÌŠg’£‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉA”z—ñ‚ğŠg’£‚·‚é—v‘f”B
 %index
 DPA_CreateEx
 w’è‚³‚ê‚½ƒTƒCƒY‚Æƒq[ƒv‚ÌêŠ‚ğg—p‚µ‚ÄA“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 cpGrow, hheap
 cpGrow : [int] Œ^: int DPA ‚ÌŠg’£‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉA”z—ñ‚ğŠg’£‚·‚é—v‘f”B
@@ -219,8 +221,6 @@ ComCtl32.dll ‚©‚ç˜” 340 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 %index
 DPA_DeleteAllPtrs
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç‚·‚×‚Ä‚Ì€–Ú‚ğíœ‚µA‚»‚ê‚É‰‚¶‚Ä DPA ‚ğk¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -234,8 +234,6 @@ hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 DPA_DeletePtr
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç€–Ú‚ğíœ‚·‚éBíœŒã‚Í•K—v‚É‰‚¶‚Ä DPA ‚ªk¬‚³‚ê‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, i
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -250,8 +248,6 @@ i : [int] Œ^: int DPA ‚©‚çíœ‚·‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒXB
 %index
 DPA_DestroyCallback
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ÌŠe—v‘f‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚µ‚½ŒãADPA ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, pfnCB, pData
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -264,8 +260,6 @@ pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpData ‚Í pfnCB ‚Éƒpƒ‰
 %index
 DPA_EnumCallback
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 hdpa, pfnCB, pData
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -278,8 +272,6 @@ pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpData ‚Í pfnCB ‚Éƒpƒ‰
 %index
 DPA_GetPtr
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç€–Ú‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, i
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -294,8 +286,6 @@ i : [int] Œ^: int æ“¾‚·‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒXB
 %index
 DPA_GetPtrIndex
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Åˆê’v‚·‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, p
 hdpa : [intptr] Œ^: HDPA Šù‘¶‚Ì DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -314,8 +304,6 @@ ComCtl32.dll ‚©‚ç˜” 333 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 %index
 DPA_Grow
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ìƒ|ƒCƒ“ƒ^”‚ğ•ÏX‚·‚éB
-%group
-Win32 comctl32
 %prm
 pdpa, cp
 pdpa : [intptr] Œ^: HDPA Šù‘¶‚Ì DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -334,8 +322,6 @@ cp ‚ªŠù‚É DPA ‚É‚ ‚éƒ|ƒCƒ“ƒ^”‚æ‚è­‚È‚¢ê‡ADPA ‚Í•ÏX‚³‚ê‚È‚¢Bcp ‚ª DPA
 %index
 DPA_InsertPtr
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ìw’è‚³‚ê‚½ˆÊ’u‚ÉV‚µ‚¢€–Ú‚ğ‘}“ü‚·‚éB•K—v‚É‰‚¶‚Ä DPA ‚ÍV‚µ‚¢€–Ú‚ğû‚ß‚é‚½‚ß‚ÉŠg’£‚³‚ê‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, i, p
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -351,8 +337,6 @@ p : [intptr] Œ^: void* ‘}“ü‚·‚é€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 DPA_LoadStream
 w’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠe—v‘f‚ğ“Ç‚İ‚Ş‚±‚Æ‚É‚æ‚èAƒXƒgƒŠ[ƒ€‚©‚ç“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğƒ[ƒh‚·‚éB
-%group
-Win32 comctl32
 %prm
 phdpa, pfn, pstream, pvInstData
 phdpa : [intptr] Œ^: HDPA* DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -374,8 +358,6 @@ pvInstData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpvInstData ‚Í pf
 %index
 DPA_Merge
 2 ‚Â‚Ì“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ì“à—e‚ğŒ‹‡‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpaDest, hdpaSrc, dwFlags, pfnCompare, pfnMerge, lParam
 hdpaDest : [intptr] Œ^: HDPA Å‰‚Ì DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì”z—ñ‚Í–‘O‚Éƒ\[ƒg‚µ‚Ä‚¨‚¢‚Ä‚à‚æ‚¢BŠÖ”‚©‚ç•Ô‚Á‚½‚Æ‚«‚É‚ÍAƒ}[ƒW‚³‚ê‚½”z—ñ‚Ìƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éB
@@ -398,8 +380,6 @@ DPA_Merge ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚
 %index
 DPA_SaveStream
 ƒwƒbƒ_‚ğ‘‚«o‚µ‚½ŒãAw’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠe—v‘f‚ğ‘‚«‚Ş‚±‚Æ‚É‚æ‚èA“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, pfn, pstream, pvInstData
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éB
@@ -422,8 +402,6 @@ pvInstData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpvInstData ‚Í pf
 %index
 DPA_Search
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Å€–Ú‚ğŒŸõ‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, pFind, iStart, pfnCompare, lParam, options
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -442,8 +420,6 @@ options : [int] Œ^: UINT ‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍAŸ‚Ì’l‚Ì‚¤‚¿ 1 ‚ÂˆÈã‚ğw’è‚Å‚«‚éB
 %index
 DPA_SetPtr
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ì€–Ú‚É’l‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, i, p
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -459,8 +435,6 @@ p : [intptr] Œ^: void* w’è‚³‚ê‚½ DPA ‚Ì€–Ú‚ÉŠ„‚è“–‚Ä‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 DPA_Sort
 “®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Ì€–Ú‚ğƒ\[ƒg‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdpa, pfnCompare, lParam
 hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -476,8 +450,6 @@ lParam : [intptr] Œ^: LPARAM pfnCmp ‚É“n‚³‚ê‚é’Ç‰Á‚Ìƒpƒ‰ƒ[ƒ^B
 %index
 DSA_Destroy
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdsa
 hdsa : [intptr] Œ^: HDSA ”jŠü‚·‚é DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -491,8 +463,6 @@ hdsa : [intptr] Œ^: HDSA ”jŠü‚·‚é DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 DSA_Create
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 cbItem, cItemGrow
 cbItem : [int] Œ^: int €–Ú‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
@@ -510,8 +480,6 @@ cItemGrow : [int] Œ^: int DSA ‚ÌŠg’£‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉA”z—ñ‚ğŠg’£‚·‚é€–Ú”B
 %index
 DSA_DeleteAllItems
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç‚·‚×‚Ä‚Ì€–Ú‚ğíœ‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdsa
 hdsa : [intptr] Œ^: HDSA Šù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -525,8 +493,6 @@ hdsa : [intptr] Œ^: HDSA Šù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 DSA_DeleteItem
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç€–Ú‚ğíœ‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdsa, i
 hdsa : [intptr] Œ^: HDSA Šù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -545,8 +511,6 @@ ComCtl32.dll ‚©‚ç˜” 326 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 %index
 DSA_DestroyCallback
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Äw’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B”z—ñ‚Ì––”ö‚É’B‚µ‚½‚ç DSA ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdsa, pfnCB, pData
 hdsa : [intptr] Œ^: HDSA ‘–¸‚µ‚Ä”jŠü‚·‚é DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -559,8 +523,6 @@ pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚Í pfnCB 
 %index
 DSA_EnumCallback
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 hdsa, pfnCB, pData
 hdsa : [intptr] Œ^: HDSA Šù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -573,8 +535,6 @@ pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpData ‚Í pfnCB ‚Éƒpƒ‰
 %index
 DSA_GetItem
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç—v‘f‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdsa, i, pitem
 hdsa : [intptr] Œ^: HDSA —v‘f‚ğŠÜ‚Ş DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -595,8 +555,6 @@ DSA_GetItem ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—
 %index
 DSA_GetItemPtr
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdsa, i
 hdsa : [intptr] Œ^: HDSA —v‘f‚ğŠÜ‚Ş DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -615,8 +573,6 @@ i : [int] Œ^: int æ“¾‚·‚é—v‘f‚ÌƒCƒ“ƒfƒbƒNƒXiƒ[ƒ‚©‚çn‚Ü‚éjB
 %index
 DSA_InsertItem
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚ÉV‚µ‚¢€–Ú‚ğ‘}“ü‚·‚éB•K—v‚É‰‚¶‚Ä DSA ‚ÍV‚µ‚¢€–Ú‚ğû‚ß‚é‚½‚ß‚ÉŠg’£‚³‚ê‚éB
-%group
-Win32 comctl32
 %prm
 hdsa, i, pitem
 hdsa : [intptr] Œ^: HDSA €–Ú‚ğ‘}“ü‚·‚é DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -635,8 +591,6 @@ pItem ‚ªw‚·ÀÛ‚Ìƒf[ƒ^‚Í DSA ‚ÉƒRƒs[‚³‚ê‚éB‚»‚Ì‚½‚ßAŒ³‚Ì€–Ú‚É‘Î‚·‚éŒã‘±‚Ì‘
 %index
 DSA_SetItem
 “®“I\‘¢‘Ì”z—ñ (DSA) ‚Ì—v‘f‚Ì“à—e‚ğİ’è‚·‚éB
-%group
-Win32 comctl32
 %prm
 hdsa, i, pitem
 hdsa : [intptr] Œ^: HDSA —v‘f‚ğŠÜ‚ŞŠù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -656,8 +610,6 @@ DSA_SetItem ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—
 %index
 DefSubclassProc
 ƒEƒBƒ“ƒhƒE‚ÌƒTƒuƒNƒ‰ƒXƒ`ƒF[ƒ““à‚ÌŸ‚Ìƒnƒ“ƒhƒ‰‚ğŒÄ‚Ño‚·BƒTƒuƒNƒ‰ƒXƒ`ƒF[ƒ“‚ÌÅŒã‚Ìƒnƒ“ƒhƒ‰‚ÍA‚»‚ÌƒEƒBƒ“ƒhƒE‚ÌŒ³‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 hWnd, uMsg, wParam, lParam
 hWnd : [intptr] Œ^: HWND ƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚Ä‚¢‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -684,8 +636,6 @@ API ‚ª’ñ‹Ÿ‚³‚ê‚éBƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ÍAƒR[ƒ‹ƒoƒbƒNŠÖ”ƒ|ƒCƒ“ƒ^‚Æ•„†‚È‚µ I
 %index
 DrawInsert
 w’è‚³‚ê‚½ƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚É‘}“üƒAƒCƒRƒ“‚ğ•`‰æ‚·‚éB
-%group
-Win32 comctl32
 %prm
 handParent, hLB, nItem
 handParent : [intptr] Œ^: HWND ƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -698,8 +648,6 @@ nItem : [int] Œ^: int •`‰æ‚·‚éƒAƒCƒRƒ“€–Ú‚Ì¯•ÊqB
 %index
 DrawStatusTextW
 DrawStatusText ŠÖ”‚ÍA‹«ŠEü•t‚«‚ÌƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB(Unicode)
-%group
-Win32 comctl32
 %prm
 hDC, lprc, pszText, uFlags
 hDC : [intptr] Œ^: HDC ƒEƒBƒ“ƒhƒE‚Ì•\¦ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -725,8 +673,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FlatSB_EnableScrollBar
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ì•Ğ•û‚Ü‚½‚Í—¼•û‚Ì•ûŒüƒ{ƒ^ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì EnableScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, param1, param2
 param0 : [intptr] 
@@ -748,8 +694,6 @@ EnableScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 FlatSB_GetScrollInfo
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ìî•ñ‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì GetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, code, param2
 param0 : [intptr] 
@@ -770,8 +714,6 @@ GetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 FlatSB_GetScrollPos
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[“à‚Ì‚Â‚Ü‚İ‚ÌˆÊ’u‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì GetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, code
 param0 : [intptr] 
@@ -791,8 +733,6 @@ GetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 FlatSB_GetScrollProp
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍA‚±‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Ä InitializeFlatSB ‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ì”»’è‚É‚àg—p‚Å‚«‚éB
-%group
-Win32 comctl32
 %prm
 param0, propIndex, param2
 param0 : [intptr] 
@@ -814,8 +754,6 @@ param2 : [var]
 %index
 FlatSB_GetScrollRange
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹”ÍˆÍ‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì GetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, code, param2, param3
 param0 : [intptr] 
@@ -837,8 +775,6 @@ GetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 FlatSB_SetScrollInfo
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ìî•ñ‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì SetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, code, psi, fRedraw
 param0 : [intptr] 
@@ -861,8 +797,6 @@ SetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 FlatSB_SetScrollPos
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[“à‚Ì‚Â‚Ü‚İ‚ÌŒ»İˆÊ’u‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì SetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, code, pos, fRedraw
 param0 : [intptr] 
@@ -884,8 +818,6 @@ SetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 FlatSB_SetScrollProp
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 comctl32
 %prm
 param0, index, newValue, param3
 param0 : [intptr] 
@@ -906,8 +838,6 @@ param3 : [int]
 %index
 FlatSB_SetScrollRange
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹”ÍˆÍ‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì SetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, code, min, max, fRedraw
 param0 : [intptr] 
@@ -930,8 +860,6 @@ SetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 FlatSB_ShowScrollBar
 ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì ShowScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 comctl32
 %prm
 param0, code, param2
 param0 : [intptr] 
@@ -952,8 +880,6 @@ ShowScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 GetEffectiveClientRect
 w’è‚³‚ê‚½‚·‚×‚Ä‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚ŞAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚Ì‹éŒ`‚Ì¡–@‚ğŒvZ‚·‚éB
-%group
-Win32 comctl32
 %prm
 hWnd, lprc, lpInfo
 hWnd : [intptr] Œ^: HWND Šm”F‚·‚éƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -970,8 +896,6 @@ lprc
 %index
 GetMUILanguage
 “Á’è‚ÌƒvƒƒZƒX‚É‘Î‚µ‚ÄƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ªŒ»İg—p‚µ‚Ä‚¢‚éŒ¾Œê‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 
 %inst
@@ -991,8 +915,6 @@ MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL) ‚ğ•Ô‚·B
 %index
 ImageList_Add
 ƒCƒ[ƒWƒŠƒXƒg‚É 1 ‚ÂˆÈã‚ÌƒCƒ[ƒW‚ğ’Ç‰Á‚·‚éB(ImageList_Add)
-%group
-Win32 comctl32
 %prm
 himl, hbmImage, hbmMask
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1012,8 +934,6 @@ hbmMask ‚ğ•K‚¸íœ‚·‚éB
 %index
 ImageList_AddMasked
 w’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚©‚çƒ}ƒXƒN‚ğ¶¬‚µ‚È‚ª‚çAƒCƒ[ƒWƒŠƒXƒg‚É‰æ‘œ‚ğ’Ç‰Á‚·‚éB(ImageList_AddMasked)
-%group
-Win32 comctl32
 %prm
 himl, hbmImage, crMask
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1034,8 +954,6 @@ ImageList_AddMasked ŠÖ”‚ÍAƒrƒbƒgƒ}ƒbƒv‚ğ“à•”ƒf[ƒ^\‘¢‚ÉƒRƒs[‚·‚éB8bpp
 %index
 ImageList_BeginDrag
 ‰æ‘œ‚Ìƒhƒ‰ƒbƒO‚ğŠJn‚·‚éB(ImageList_BeginDrag)
-%group
-Win32 comctl32
 %prm
 himlTrack, iTrack, dxHotspot, dyHotspot
 himlTrack : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1057,8 +975,6 @@ dyHotspot : [int] Œ^: int ‰æ‘œ‚Ì¶ã‹÷‚É‘Î‚·‚éƒhƒ‰ƒbƒOˆÊ’u‚Ì y À•WB
 %index
 ImageList_Copy
 w’è‚³‚ê‚½ƒCƒ[ƒWƒŠƒXƒg“à‚Å‰æ‘œ‚ğƒRƒs[‚·‚éB
-%group
-Win32 comctl32
 %prm
 himlDst, iDst, himlSrc, iSrc, uFlags
 himlDst : [intptr] Œ^: HIMAGELIST ƒRƒs[‘€ì‚Ì‘ÎÛ‚Æ‚È‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚Ì Windows ‚Å‚ÍAhimlDst ‚Æ himlSrc ‚Í“¯ˆê‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1076,8 +992,6 @@ uFlags : [int] Œ^: UINT
 %index
 ImageList_Create
 V‚µ‚¢ƒCƒ[ƒWƒŠƒXƒg‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 cx, cy, flags, cInitial, cGrow
 cx : [int] Œ^: int ŠeƒCƒ[ƒW‚Ì•(ƒsƒNƒZƒ‹’PˆÊ)B
@@ -1099,8 +1013,6 @@ cGrow : [int] Œ^: int ƒVƒXƒeƒ€‚ªV‚µ‚¢ƒCƒ[ƒW‚Ì‚½‚ß‚É‹ó‚«‚ğì‚é•K—v‚ª‚ ‚é‚Æ‚«‚É
 %index
 ImageList_DragEnter
 ƒEƒBƒ“ƒhƒE“à‚Ìw’è‚³‚ê‚½ˆÊ’u‚Éƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚éB
-%group
-Win32 comctl32
 %prm
 hwndLock, x, y
 hwndLock : [intptr] Œ^: HWND ƒhƒ‰ƒbƒO‰æ‘œ‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1119,8 +1031,6 @@ y : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚é y À•WBÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚
 %index
 ImageList_DragLeave
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒƒbƒN‚ğ‰ğœ‚µAƒhƒ‰ƒbƒO‰æ‘œ‚ğ”ñ•\¦‚É‚µ‚ÄAƒEƒBƒ“ƒhƒE‚ğXV‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 comctl32
 %prm
 hwndLock
 hwndLock : [intptr] Œ^: HWND ƒhƒ‰ƒbƒO‰æ‘œ‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1134,8 +1044,6 @@ hwndLock : [intptr] Œ^: HWND ƒhƒ‰ƒbƒO‰æ‘œ‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 ImageList_DragMove
 ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì’†‚Éƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğˆÚ“®‚·‚éB‚±‚ÌŠÖ”‚Í’ÊíAWM_MOUSEMOVE ƒƒbƒZ[ƒW‚Ö‚Ì‰“š‚Æ‚µ‚ÄŒÄ‚Ño‚³‚ê‚éB(ImageList_DragMove)
-%group
-Win32 comctl32
 %prm
 x, y
 x : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚é x À•WBÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚µAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚¢B
@@ -1154,8 +1062,6 @@ y : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚é y À•WBÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚
 %index
 ImageList_DragShowNolock
 ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB(ImageList_DragShowNolock)
-%group
-Win32 comctl32
 %prm
 fShow
 fShow : [int] Œ^: BOOL ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğ•\¦‚·‚é‚©”ñ•\¦‚É‚·‚é‚©‚ğw’è‚·‚é’lB‰æ‘œ‚ğ•\¦‚·‚é‚É‚Í TRUE ‚ğA”ñ•\¦‚É‚·‚é‚É‚Í FALSE ‚ğw’è‚·‚éB
@@ -1169,8 +1075,6 @@ fShow : [int] Œ^: BOOL ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğ•\¦‚·‚é‚©”ñ•\¦‚É‚·‚é‚©‚ğw’è‚·‚
 %index
 ImageList_Draw
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒCƒ[ƒWƒŠƒXƒg€–Ú‚ğ•`‰æ‚·‚éB(ImageList_Draw)
-%group
-Win32 comctl32
 %prm
 himl, i, hdcDst, x, y, fStyle
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1194,8 +1098,6 @@ ImageList_SetOverlayImage ‚ÅƒI[ƒo[ƒŒƒCƒCƒ[ƒW‚Æ‚µ‚Äw’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 %index
 ImageList_DrawEx
 w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒCƒ[ƒWƒŠƒXƒg‚Ì€–Ú‚ğ•`‰æ‚·‚éB‚±‚ÌŠÖ”‚Íw’è‚³‚ê‚½•`‰æƒXƒ^ƒCƒ‹‚ğg—p‚µA‰æ‘œ‚ğw’è‚³‚ê‚½F‚ÆƒuƒŒƒ“ƒh‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1226,8 +1128,6 @@ fStyle : [int] Œ^: UINT
 %index
 ImageList_DrawIndirect
 IMAGELISTDRAWPARAMS \‘¢‘Ì‚ÉŠî‚Ã‚¢‚ÄƒCƒ[ƒWƒŠƒXƒg‚Ì‰æ‘œ‚ğ•`‰æ‚·‚éB
-%group
-Win32 comctl32
 %prm
 pimldp
 pimldp : [var] Œ^: IMAGELISTDRAWPARAMS* •`‰æ‘€ì‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş IMAGELISTDRAWPARAMS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1241,8 +1141,6 @@ IMAGELISTDRAWPARAMS \‘¢‘Ì‚ÉŠî‚Ã‚¢‚ÄƒCƒ[ƒWƒŠƒXƒg‚Ì‰æ‘œ‚ğ•`‰æ‚·‚éB
 %index
 ImageList_Duplicate
 Šù‘¶‚ÌƒCƒ[ƒWƒŠƒXƒg‚Ì•¡»‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl
 himl : [intptr] Œ^: HIMAGELIST •¡»‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BŒ³‚ÌƒCƒ[ƒWƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚é’Êí‰æ‘œ‚Ì‚·‚×‚Ä‚Ìî•ñ‚ªV‚µ‚¢ƒCƒ[ƒWƒŠƒXƒg‚ÉƒRƒs[‚³‚ê‚éBƒI[ƒo[ƒŒƒC‰æ‘œ‚ÍƒRƒs[‚³‚ê‚È‚¢B
@@ -1256,8 +1154,6 @@ himl : [intptr] Œ^: HIMAGELIST •¡»‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BŒ³‚ÌƒCƒ[ƒWƒ
 %index
 ImageList_EndDrag
 ƒhƒ‰ƒbƒO‘€ì‚ğI—¹‚·‚éB(ImageList_EndDrag)
-%group
-Win32 comctl32
 %prm
 
 %inst
@@ -1272,8 +1168,6 @@ ImageList_EndDrag
 %index
 ImageList_GetBkColor
 ƒCƒ[ƒWƒŠƒXƒg‚ÌŒ»İ‚Ì”wŒiF‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1287,8 +1181,6 @@ himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 ImageList_GetDragImage
 ƒhƒ‰ƒbƒO‰æ‘œ‚Ég—p‚³‚ê‚éˆê“I‚ÈƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍAŒ»İ‚Ìƒhƒ‰ƒbƒOˆÊ’u‚Æƒhƒ‰ƒbƒOˆÊ’u‚É‘Î‚·‚éƒhƒ‰ƒbƒO‰æ‘œ‚ÌƒIƒtƒZƒbƒg‚àæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 ppt, pptHotspot
 ppt : [var] Œ^: POINT* Œ»İ‚Ìƒhƒ‰ƒbƒOˆÊ’u‚ğó‚¯æ‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğw’è‚Å‚«‚éB
@@ -1309,8 +1201,6 @@ ImageList_EndDrag
 %index
 ImageList_GetIcon
 ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Æƒ}ƒXƒN‚©‚çƒAƒCƒRƒ“‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl, i, flags
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1329,8 +1219,6 @@ flags : [int] Œ^: UINT •`‰æƒXƒ^ƒCƒ‹‚ğw’è‚·‚éƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹B’l‚Ìˆê——‚É‚Â‚¢‚
 %index
 ImageList_GetIconSize
 ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì¡–@‚ğæ“¾‚·‚éBƒCƒ[ƒWƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚Ì‰æ‘œ‚Í“¯‚¶¡–@‚ğ‚ÂB
-%group
-Win32 comctl32
 %prm
 himl, cx, cy
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1346,8 +1234,6 @@ cy : [var] Œ^: int* Še‰æ‘œ‚Ì‚‚³iƒsƒNƒZƒ‹’PˆÊj‚ğó‚¯æ‚é®”•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 ImageList_GetImageCount
 ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ[ƒW”‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1361,8 +1247,6 @@ himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 ImageList_GetImageInfo
 ‰æ‘œ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl, i, pImageInfo
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1382,8 +1266,6 @@ pImageInfo : [var] Œ^: IMAGEINFO* ‰æ‘œ‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é IMAGEINFO \‘¢‘Ì‚Ö‚
 %index
 ImageList_LoadImageW
 w’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚©‚çƒCƒ[ƒWƒŠƒXƒg‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 comctl32
 %prm
 hi, lpbmp, cx, cGrow, crMask, uType, uFlags
 hi : [intptr] Œ^: HINSTANCE ƒŠƒ\[ƒX‚ğŠÜ‚ŞƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹‚©‚ç‰æ‘œ‚ğ“Ç‚İ‚Şê‡‚â OEM ƒŠƒ\[ƒX‚ğ“Ç‚İ‚Şê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚ğw’è‚Å‚«‚éB
@@ -1416,8 +1298,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImageList_Merge
 2 ‚Â‚ÌŠù‘¶‰æ‘œ‚ğŒ‹‡‚µ‚ÄV‚µ‚¢‰æ‘œ‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍA‰æ‘œ‚ğŠi”[‚·‚éV‚µ‚¢ƒCƒ[ƒWƒŠƒXƒg‚àì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 himl1, i1, himl2, i2, dx, dy
 himl1 : [intptr] Œ^: HIMAGELIST 1 ‚Â–Ú‚ÌƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1440,8 +1320,6 @@ OR ‰‰Z‚ğs‚Á‚½Œ‹‰Ê‚Å‚ ‚éB
 %index
 ImageList_Read
 ƒXƒgƒŠ[ƒ€‚©‚çƒCƒ[ƒWƒŠƒXƒg‚ğ“Ç‚İ‚ŞB
-%group
-Win32 comctl32
 %prm
 pstm
 pstm : [var] Œ^: LPSTREAM ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1455,8 +1333,6 @@ pstm : [var] Œ^: LPSTREAM ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 ImageList_Remove
 ƒCƒ[ƒWƒŠƒXƒg‚©‚ç‰æ‘œ‚ğíœ‚·‚éB(ImageList_Remove)
-%group
-Win32 comctl32
 %prm
 himl, i
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1476,8 +1352,6 @@ i : [int] Œ^: int íœ‚·‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª -1 ‚Ìê‡AŠÖ”‚Í
 %index
 ImageList_Replace
 ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚ğV‚µ‚¢‰æ‘œ‚É’u‚«Š·‚¦‚éB(ImageList_Replace)
-%group
-Win32 comctl32
 %prm
 himl, i, hbmImage, hbmMask
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1498,8 +1372,6 @@ ImageList_Replace ŠÖ”‚ÍAƒrƒbƒgƒ}ƒbƒv‚ğ“à•”ƒf[ƒ^\‘¢‚ÉƒRƒs[‚·‚éBŠÖ”‚ª–ß‚Á‚½
 %index
 ImageList_ReplaceIcon
 ‰æ‘œ‚ğƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚Å’u‚«Š·‚¦‚éB(ImageList_ReplaceIcon)
-%group
-Win32 comctl32
 %prm
 himl, i, hicon
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1520,8 +1392,6 @@ hicon : [intptr] Œ^: HICON V‚µ‚¢‰æ‘œ‚Ì‚½‚ß‚Ìƒrƒbƒgƒ}ƒbƒv‚Æƒ}ƒXƒN‚ğŠÜ‚ŞƒAƒCƒRƒ“‚
 %index
 ImageList_SetBkColor
 ƒCƒ[ƒWƒŠƒXƒg‚Ì”wŒiF‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚ÍAƒAƒCƒRƒ“‚ğ’Ç‰Á‚µ‚½ê‡A‚Ü‚½‚Í”’•ƒrƒbƒgƒ}ƒbƒv‚Å ImageList_AddMasked ‚ğg—p‚µ‚½ê‡‚É‚Ì‚İ‹@”\‚·‚éBƒ}ƒXƒN‚ª‚È‚¢‚Æ‰æ‘œ‘S‘Ì‚ª•`‰æ‚³‚ê‚é‚½‚ßA”wŒiF‚ÍŒ©‚¦‚È‚¢B
-%group
-Win32 comctl32
 %prm
 himl, clrBk
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1537,8 +1407,6 @@ clrBk : [int] Œ^: COLORREF İ’è‚·‚é”wŒiFB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É CLR_NONE ’l‚ğw’è‚·‚
 %index
 ImageList_SetDragCursorImage
 w’è‚³‚ê‚½‰æ‘œi’Êí‚Íƒ}ƒEƒXƒJ[ƒ\ƒ‹‰æ‘œj‚ğŒ»İ‚Ìƒhƒ‰ƒbƒO‰æ‘œ‚ÆŒ‹‡‚µ‚ÄAV‚µ‚¢ƒhƒ‰ƒbƒO‰æ‘œ‚ğì¬‚·‚éB
-%group
-Win32 comctl32
 %prm
 himlDrag, iDrag, dxHotspot, dyHotspot
 himlDrag : [intptr] Œ^: HIMAGELIST ƒhƒ‰ƒbƒO‰æ‘œ‚ÆŒ‹‡‚·‚éV‚µ‚¢‰æ‘œ‚ğŠÜ‚ŞƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1555,8 +1423,6 @@ dyHotspot : [int] Œ^: int V‚µ‚¢‰æ‘œ“à‚ÌƒzƒbƒgƒXƒ|ƒbƒg‚Ì y À•WB
 %index
 ImageList_SetIconSize
 ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì¡–@‚ğİ’è‚µAƒŠƒXƒg‚©‚ç‚·‚×‚Ä‚Ì‰æ‘œ‚ğíœ‚·‚éB(ImageList_SetIconSize)
-%group
-Win32 comctl32
 %prm
 himl, cx, cy
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1572,8 +1438,6 @@ cy : [int] Œ^: int ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì‚‚³iƒsƒNƒZƒ‹’PˆÊjBƒCƒ[ƒWƒŠƒXƒg“
 %index
 ImageList_SetImageCount
 Šù‘¶‚ÌƒCƒ[ƒWƒŠƒXƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB(ImageList_SetImageCount)
-%group
-Win32 comctl32
 %prm
 himl, uNewCount
 himl : [intptr] Œ^: HIMAGELIST ƒTƒCƒY‚ğ•ÏX‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1592,8 +1456,6 @@ uNewCount : [int] Œ^: UINT ƒCƒ[ƒWƒŠƒXƒg‚ÌV‚µ‚¢ƒTƒCƒY‚ğw’è‚·‚é’lB
 %index
 ImageList_SetOverlayImage
 ƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚Æ‚µ‚Äg—p‚³‚ê‚é‰æ‘œ‚ÌƒŠƒXƒg‚ÉAw’è‚³‚ê‚½‰æ‘œ‚ğ’Ç‰Á‚·‚éBƒCƒ[ƒWƒŠƒXƒg‚Íƒo[ƒWƒ‡ƒ“ 4.70 ˆÈ‘O‚ÅÅ‘å 4 ŒÂAƒo[ƒWƒ‡ƒ“ 4.71 ‚ÅÅ‘å 15 ŒÂ‚ÌƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ğ‚Â‚±‚Æ‚ª‚Å‚«‚éBŠÖ”‚Íw’è‚³‚ê‚½‰æ‘œ‚ÉƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ÌƒCƒ“ƒfƒbƒNƒX‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 comctl32
 %prm
 himl, iImage, iOverlay
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1619,8 +1481,6 @@ iOverlay : [int] Œ^: int ƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚Ì 1 ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒXB
 %index
 ImageList_Write
 ƒXƒgƒŠ[ƒ€‚ÉƒCƒ[ƒWƒŠƒXƒg‚ğ‘‚«‚ŞB(ImageList_Write)
-%group
-Win32 comctl32
 %prm
 himl, pstm
 himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1635,8 +1495,6 @@ pstm : [var] Œ^: LPSTREAM ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 InitCommonControls
 “Á’è‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ“o˜^‚¨‚æ‚Ñ‰Šú‰»‚·‚éB‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éBV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í InitCommonControlsEx ŠÖ”‚ğg—p‚·‚é‚×‚«‚Å‚ ‚éB
-%group
-Win32 comctl32
 %prm
 
 %inst
@@ -1655,8 +1513,6 @@ Comctl32.dll ƒo[ƒWƒ‡ƒ“ 5.x ‚Å‚ÍAInitCommonControls ‚ğ’Ê‚¶‚Ä“o˜^‚Å‚«‚é‚Ì‚Í Wind
 %index
 InitCommonControlsEx
 ƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹ DLL(Comctl32.dll)‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ•ÛØ‚µADLL ‚©‚ç“Á’è‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX‚ğ“o˜^‚·‚éBƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ğì¬‚·‚é‘O‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB
-%group
-Win32 comctl32
 %prm
 picce
 picce : [var] Œ^: const LPINITCOMMONCONTROLSEX ‚Ç‚ÌƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX‚ğ“o˜^‚·‚é‚©‚ğw’è‚·‚éî•ñ‚ğŠÜ‚Ş INITCOMMONCONTROLSEX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1675,8 +1531,6 @@ ICC_HOTKEY_CLASS ‚ÅŒÄ‚Î‚ê‚½ê‡AƒAƒbƒvƒ_ƒEƒ“‚ÆƒzƒbƒgƒL[‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹ƒNƒ
 %index
 InitMUILanguage
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAƒVƒXƒeƒ€Œ¾Œê‚Æ‚ÍˆÙ‚È‚éŒ¾Œê‚ğƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚Åg—p‚·‚é‚±‚Æ‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 comctl32
 %prm
 uiLang
 uiLang : [int] Œ^: LANGID ƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚Åg—p‚·‚éŒ¾Œê‚ÌŒ¾Œê¯•ÊqB
@@ -1692,8 +1546,6 @@ uiLang : [int] Œ^: LANGID ƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚Åg—p‚·‚éŒ¾Œê‚ÌŒ¾Œê¯•ÊqB
 %index
 InitializeFlatSB
 “Á’è‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 comctl32
 %prm
 param0
 param0 : [intptr] 
@@ -1714,8 +1566,6 @@ FlatSB_SetScrollProp ŠÖ”‚Å•ÏX‚Å‚«‚éBƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl
 %index
 LBItemFromPt
 ƒŠƒXƒgƒ{ƒbƒNƒX“à‚Ìw’è‚³‚ê‚½“_‚É‚ ‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 comctl32
 %prm
 hLB, pt, bAutoScroll
 hLB : [intptr] Œ^: HWND ’²‚×‚éƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1738,8 +1588,6 @@ bAutoScroll ‚ª TRUE ‚Ìê‡AŠÖ”‚Í€–Ú¯•Êq‚ğ•Ô‚·‘ã‚í‚è‚ÉƒŠƒXƒgƒ{ƒbƒNƒX‚ğƒXƒNƒ
 %index
 MakeDragList
 w’è‚³‚ê‚½’Pˆê‘I‘ğƒŠƒXƒgƒ{ƒbƒNƒX‚ğƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚É•ÏX‚·‚éB
-%group
-Win32 comctl32
 %prm
 hLB
 hLB : [intptr] Œ^: HWND ’Pˆê‘I‘ğƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1753,8 +1601,6 @@ hLB : [intptr] Œ^: HWND ’Pˆê‘I‘ğƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 MenuHelp
 WM_MENUSELECT ƒƒbƒZ[ƒW‚Æ WM_COMMAND ƒƒbƒZ[ƒW‚ğˆ—‚µAŒ»İ‚Ìƒƒjƒ…[‚ÉŠÖ‚·‚éƒwƒ‹ƒvƒeƒLƒXƒg‚ğw’è‚³‚ê‚½ƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚É•\¦‚·‚éB
-%group
-Win32 comctl32
 %prm
 uMsg, wParam, lParam, hMainMenu, hInst, hwndStatus, lpwIDs
 uMsg : [int] Œ^: UINT ˆ—‘ÎÛ‚ÌƒƒbƒZ[ƒWBWM_MENUSELECT ‚Ü‚½‚Í WM_COMMAND ‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
@@ -1777,8 +1623,6 @@ MenuHelp ŠÖ”‚Íƒwƒ‹ƒp[ŠÖ”‚Å‚ ‚éBƒwƒ‹ƒp[ŠÖ”‚ÍƒvƒƒOƒ‰ƒ~ƒ“ƒO‚ğ—eˆÕ‚É‚·‚é‚½‚ß‚
 %index
 PropertySheetW
 ƒvƒƒpƒeƒBƒV[ƒg‚ğì¬‚µAw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒgƒwƒbƒ_\‘¢‘Ì‚Å’è‹`‚³‚ê‚½ƒy[ƒW‚ğ’Ç‰Á‚·‚éB(Unicode)
-%group
-Win32 comctl32
 %prm
 param0
 param0 : [var] 
@@ -1822,8 +1666,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RemoveWindowSubclass
 ƒEƒBƒ“ƒhƒE‚©‚çƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğíœ‚·‚éB
-%group
-Win32 comctl32
 %prm
 hWnd, pfnSubclass, uIdSubclass
 hWnd : [intptr] Œ^: HWND ƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚Ä‚¢‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -1846,8 +1688,6 @@ API ‚ª’ñ‹Ÿ‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒN‚É‘Î‚µ‚ÄQÆƒJƒEƒ“ƒg‚Ís‚í‚ê‚È‚¢BSetWindowSubclas
 %index
 SetWindowSubclass
 ƒEƒBƒ“ƒhƒEƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğƒCƒ“ƒXƒg[ƒ‹‚Ü‚½‚ÍXV‚·‚éB
-%group
-Win32 comctl32
 %prm
 hWnd, pfnSubclass, uIdSubclass, dwRefData
 hWnd : [intptr] Œ^: HWND ƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -1873,8 +1713,6 @@ DWORD_PTR 1
 %index
 ShowHideMenuCtl
 w’è‚³‚ê‚½ƒƒjƒ…[€–Ú‚Ìƒ`ƒFƒbƒNƒ}[ƒN‘®«‚ğİ’è‚Ü‚½‚Í‰ğœ‚µA‘Î‰‚·‚éƒRƒ“ƒgƒ[ƒ‹‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB
-%group
-Win32 comctl32
 %prm
 hWnd, uFlags, lpInfo
 hWnd : [intptr] Œ^: HWND ƒƒjƒ…[‚ÆƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1890,8 +1728,6 @@ lpInfo : [var] Œ^: LPINT ’l‚ÌƒyƒA‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BÅ‰‚ÌƒyƒA‚Ì 2 ”Ô–Ú‚Ì’l
 %index
 Str_SetPtrW
 ppszCurrent ‚É pszNew ‚ÌƒRƒs[‚ğİ’è‚µA•K—v‚É‰‚¶‚Ä•ÏX‘O‚Ì’l‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 comctl32
 %prm
 ppsz, psz
 ppsz : [var] Œ^: LPTSTR* Œ»İ‚Ì•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXBŒ»İ‚Ì•¶š—ñ‚Í‰ğ•ú‚³‚êAƒ|ƒCƒ“ƒ^‚Í pszNew ‚ÌƒRƒs[‚Éİ’è‚³‚ê‚éB
@@ -1911,8 +1747,6 @@ ComCtl32.dll ‚©‚ç˜” 234 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 %index
 UninitializeFlatSB
 “Á’è‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ì‰Šú‰»‚ğ‰ğœ‚·‚éBw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Í•W€‚ÌƒXƒNƒ[ƒ‹ƒo[‚É–ß‚éB
-%group
-Win32 comctl32
 %prm
 param0
 param0 : [intptr] 

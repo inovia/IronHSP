@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+mfplat.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì mfplat.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 MFCreateSourceResolver
 URL ‚Ü‚½‚ÍƒoƒCƒgƒXƒgƒŠ[ƒ€‚©‚çƒƒfƒBƒAƒ\[ƒX‚ğì¬‚·‚é‚½‚ß‚Ìƒ\[ƒXƒŠƒ]ƒ‹ƒo‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppISourceResolver
 ppISourceResolver : [var] ƒ\[ƒXƒŠƒ]ƒ‹ƒo‚Ì IMFSourceResolver ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -26,8 +46,6 @@ Windows 7 ‚æ‚è‘O‚Í mf.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚½BWindows 7 ˆÈ~‚Í mfplat.dl
 %index
 MFGetSupportedMimeTypes
 ƒ\[ƒXƒŠƒ]ƒ‹ƒo‚É“o˜^‚³‚ê‚Ä‚¢‚é MIME Œ^‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 pPropVarMimeTypeArray
 pPropVarMimeTypeArray : [var] MIME Œ^‚ğó‚¯æ‚é PROPVARIANT ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‘O‚É PropVariantInit ‚Å‰Šú‰»‚·‚éB¬Œ÷APROPVARIANT ‚ÍƒƒCƒh•¶š—ñ‚Ì”z—ñ (VT_VECTOR | VT_LPWSTR) ‚ğŠÜ‚ŞBŒÄ‚Ño‚µŒ³‚Í PropVariantClear ‚Å‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -41,8 +59,6 @@ pPropVarMimeTypeArray : [var] MIME Œ^‚ğó‚¯æ‚é PROPVARIANT ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño
 %index
 MFGetSupportedSchemes
 ƒ\[ƒXƒŠƒ]ƒ‹ƒo‚É“o˜^‚³‚ê‚Ä‚¢‚é URL ƒXƒL[ƒ€‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 pPropVarSchemeArray
 pPropVarSchemeArray : [var] URL ƒXƒL[ƒ€‚ğó‚¯æ‚é PROPVARIANT ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -56,8 +72,6 @@ pPropVarSchemeArray : [var] URL ƒXƒL[ƒ€‚ğó‚¯æ‚é PROPVARIANT ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 CreatePropertyStore
 ‹ó‚ÌƒvƒƒpƒeƒBƒXƒgƒAƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppStore
 ppStore : [var] IPropertyStore ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -76,8 +90,6 @@ ppStore : [var] IPropertyStore ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ
 %index
 MFAllocateWorkQueue
 V‚µ‚¢ƒ[ƒNƒLƒ…[‚ğì¬‚·‚éB(MFAllocateWorkQueue)
-%group
-Win32 mfplat
 %prm
 pdwWorkQueue
 pdwWorkQueue : [var] ƒ[ƒNƒLƒ…[‚Ì¯•Êq‚ğó‚¯æ‚éB
@@ -94,8 +106,6 @@ pdwWorkQueue : [var] ƒ[ƒNƒLƒ…[‚Ì¯•Êq‚ğó‚¯æ‚éB
 %index
 MFAverageTimePerFrameToFrameRate
 ƒrƒfƒIƒtƒŒ[ƒ€‚Ì•½‹ÏŒp‘±ŠÔ‚©‚çƒtƒŒ[ƒ€ƒŒ[ƒg (ƒtƒŒ[ƒ€/•b) ‚ğŒvZ‚·‚éB
-%group
-Win32 mfplat
 %prm
 unAverageTimePerFrame, punNumerator, punDenominator
 unAverageTimePerFrame : [int64] ƒrƒfƒIƒtƒŒ[ƒ€‚Ì•½‹ÏŒp‘±ŠÔ‚ğ 100 ƒiƒm•b’PˆÊ‚Åw’è‚·‚éB
@@ -117,8 +127,6 @@ MFFrameRateToAverageTimePerFrame ŠÖ”‚Ì Remarks ß‚É‹LÚ‚³‚ê‚Ä‚¢‚éB
 %index
 MFBeginCreateFile
 ƒtƒ@ƒCƒ‹‚©‚çƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚é”ñ“¯Šú—v‹‚ğŠJn‚·‚éB
-%group
-Win32 mfplat
 %prm
 AccessMode, OpenMode, fFlags, pwszFilePath, pCallback, pState, ppCancelCookie
 AccessMode : [int] —v‹‚·‚éƒAƒNƒZƒXƒ‚[ƒhBMF_FILE_ACCESSMODE —ñ‹“Œ^‚Ìƒƒ“ƒo‚Åw’è‚·‚éB
@@ -143,8 +151,6 @@ ppCancelCookie : [var] IUnknown ƒ|ƒCƒ“ƒ^‚Ü‚½‚Í NULL ‚ğó‚¯æ‚éBNULL ‚Å‚È‚¢ê‡
 %index
 MFBeginRegisterWorkQueueWithMMCSS
 ƒ[ƒNƒLƒ…[‚ğ Multimedia Class Scheduler Service (MMCSS) ƒ^ƒXƒN‚ÉŠÖ˜A•t‚¯‚éB(MFBeginRegisterWorkQueueWithMMCSS)
-%group
-Win32 mfplat
 %prm
 dwWorkQueueId, wszClass, dwTaskId, pDoneCallback, pDoneState
 dwWorkQueueId : [int] ƒ[ƒNƒLƒ…[‚Ì¯•ÊqBƒvƒ‰ƒCƒx[ƒgƒ[ƒNƒLƒ…[‚Å‚Í MFAllocateWorkQueue ŠÖ”‚©‚ç•Ô‚³‚ê‚é¯•Êq‚ğw’è‚·‚éBƒvƒ‰ƒbƒgƒtƒH[ƒ€ƒ[ƒNƒLƒ…[‚É‚Â‚¢‚Ä‚Í Work Queue Identifiers ‚ğQÆB
@@ -169,8 +175,6 @@ MFBeginUnregisterWorkQueueWithMMCSS ‚ğŒÄ‚Ño‚·B
 %index
 MFCalculateBitmapImageSize
 ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚Ì‰æ‘œƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 pBMIH, cbBufSize, pcbImageSize, pbKnown
 pBMIH : [var] ƒtƒH[ƒ}ƒbƒg‚ğ‹Lq‚·‚é BITMAPINFOHEADER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -191,8 +195,6 @@ pbKnown : [var] ŠÖ”‚ªƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ğ”F¯‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSE 
 %index
 MFCalculateImageSize
 ”ñˆ³kƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚Ì‰æ‘œƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åæ“¾‚·‚éB(MFCalculateImageSize)
-%group
-Win32 mfplat
 %prm
 guidSubtype, unWidth, unHeight, pcbImageSize
 guidSubtype : [var] ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌƒƒfƒBƒAƒTƒuƒ^ƒCƒvBƒTƒuƒ^ƒCƒv‚Ìˆê——‚Í Media Type GUIDs ‚ğQÆB
@@ -209,8 +211,6 @@ pcbImageSize : [var] ŠeƒtƒŒ[ƒ€‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğó‚¯æ‚éBƒtƒH[ƒ}ƒbƒg‚ªˆ
 %index
 MFCancelCreateFile
 ƒtƒ@ƒCƒ‹‚©‚çƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚é”ñ“¯Šú—v‹‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 mfplat
 %prm
 pCancelCookie
 pCancelCookie : [var] ƒLƒƒƒ“ƒZƒ‹—pƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚Í MFBeginCreateFile ŠÖ”‚Ì ppCancelCookie ƒpƒ‰ƒ[ƒ^‚Åó‚¯æ‚éB
@@ -228,8 +228,6 @@ pCancelCookie : [var] ƒLƒƒƒ“ƒZƒ‹—pƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|
 %index
 MFCombineSamples
 ‡ŒvŒp‘±ŠÔ‚ªw’è‚ÌŠÔ‚ğ’´‚¦‚È‚¢ê‡AƒƒfƒBƒAƒTƒ“ƒvƒ‹‚ğ•Ê‚ÌƒTƒ“ƒvƒ‹‚É˜AŒ‹‚·‚éB
-%group
-Win32 mfplat
 %prm
 pSample, pSampleToAdd, dwMaxMergedDurationInMS, pMerged
 pSample : [var] pSampleToAdd ‚Åw’è‚³‚ê‚½ƒTƒ“ƒvƒ‹‚ğ’Ç‰Á‚·‚éæ‚Ì IMFSample ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -249,8 +247,6 @@ HRESULT ‚ğ•Ô‚·B
 %index
 MFCompareFullToPartialMediaType
 Š®‘S‚ÈƒƒfƒBƒAŒ^‚ğ•”•ª“I‚ÈƒƒfƒBƒAŒ^‚Æ”äŠr‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFTypeFull, pMFTypePartial
 pMFTypeFull : [var] Š®‘S‚ÈƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -271,8 +267,6 @@ GUID ‚ğ‚Â‚ªAŠ®‘S‚É‹Lq‚·‚é‚½‚ß‚É•K—v‚È‘®«‚Ìˆê•”‚ªŒ‡‚¯‚Ä‚¢‚éê‡‚ª‚ ‚éBŒ‡‚¯‚
 %index
 MFConvertColorInfoFromDXVA
 MFVIDEOFORMAT \‘¢‘Ì‚ÉŠg’£Fî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 mfplat
 %prm
 pToFormat, dwFromDXVA
 pToFormat : [var] MFVIDEOFORMAT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í dwFromDXVA ‚Ì DXVA Fî•ñ‚É‘Î‰‚·‚é\‘¢‘Ìƒƒ“ƒo‚ğ–„‚ß‚éB‘¼‚Ìƒƒ“ƒo‚Í•ÏX‚µ‚È‚¢B
@@ -290,8 +284,6 @@ MFVIDEOFORMAT \‘¢‘Ì‚ÉŠg’£Fî•ñ‚ğİ’è‚·‚éB
 %index
 MFConvertColorInfoToDXVA
 MFVIDEOFORMAT ‚ÌŠg’£Fî•ñ‚ğ DXVA ‚ÌFî•ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 pdwToDXVA, pFromFormat
 pdwToDXVA : [var] DXVA Šg’£Fî•ñ‚ğó‚¯æ‚éBƒrƒbƒgƒtƒB[ƒ‹ƒh‚Í DXVA2_ExtendedFormat \‘¢‘Ì‚Å’è‹`‚³‚ê‚éB
@@ -310,8 +302,6 @@ Windows 7 ‚æ‚è‘O‚Í evr.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚½BWindows 7 ˆÈ~‚Í mfplat.d
 %index
 MFConvertFromFP16Array
 16 ƒrƒbƒg•‚“®¬”“_”‚Ì”z—ñ‚ğ 32 ƒrƒbƒg•‚“®¬”“_”‚Ì”z—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 pDest, pSrc, dwCount
 pDest : [var] float ’l‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B”z—ñ‚Í­‚È‚­‚Æ‚à dwCount —v‘f‚ğŠÜ‚Ş•K—v‚ª‚ ‚éB
@@ -331,8 +321,6 @@ pSrc ”z—ñ‚Ì dwCount ŒÂ‚Ì’l‚ğ•ÏŠ·‚µ‚Ä pDest ”z—ñ‚É‘‚«‚ŞBWindows 7 ‚æ‚è‘O‚Í ev
 %index
 MFConvertToFP16Array
 32 ƒrƒbƒg•‚“®¬”“_”‚Ì”z—ñ‚ğ 16 ƒrƒbƒg•‚“®¬”“_”‚Ì”z—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 pDest, pSrc, dwCount
 pDest : [var] WORD ’l‚Æ‚µ‚ÄŒ^•t‚¯‚³‚ê‚½ 16 ƒrƒbƒg•‚“®¬”“_’l‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -351,8 +339,6 @@ pSrc ”z—ñ‚Ì’l‚ğ•ÏŠ·‚µ‚Ä pDest ”z—ñ‚É‘‚«‚ŞBWindows 7 ‚æ‚è‘O‚Í evr.dll ‚©‚çƒGƒ
 %index
 MFCopyImage
 ‰æ‘œ‚Ü‚½‚Í‰æ‘œƒvƒŒ[ƒ“‚ğ‚ ‚éƒoƒbƒtƒ@‚©‚ç•Ê‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 mfplat
 %prm
 pDest, lDestStride, pSrc, lSrcStride, dwWidthInBytes, dwLines
 pDest : [var] ƒRƒs[æƒoƒbƒtƒ@‚ÌÅ‰‚Ìs‚Ìæ“ªƒsƒNƒZƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -376,8 +362,6 @@ dwLines : [int] ƒRƒs[‚·‚éƒsƒNƒZƒ‹‚Ìs”B
 %index
 MFCreate2DMediaBuffer
 2D ‰æ‘œƒf[ƒ^‚ğ•Û‚·‚éƒVƒXƒeƒ€ƒƒ‚ƒŠƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 dwWidth, dwHeight, dwFourCC, fBottomUp, ppBuffer
 dwWidth : [int] ‰æ‘œ‚Ì• (ƒsƒNƒZƒ‹’PˆÊ)B
@@ -398,8 +382,6 @@ ppBuffer : [var] IMFMediaBuffer ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %index
 MFCreateAMMediaTypeFromMFMediaType
 Media Foundation ‚ÌƒƒfƒBƒAŒ^‚©‚ç DirectShow AM_MEDIA_TYPE \‘¢‘Ì‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, guidFormatBlockType, ppAMType
 pMFType : [var] •ÏŠ·Œ³‚Æ‚È‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -418,8 +400,6 @@ AM_MEDIA_TYPE ‚Æ“™‰¿‚ÈˆÈ‰º‚ÌƒtƒH[ƒ}ƒbƒg\‘¢‘Ì‚Å‚àg—p‚Å‚«‚éB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚Í
 %index
 MFCreateAlignedMemoryBuffer
 w’è‚µ‚½ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg‚ÅƒVƒXƒeƒ€ƒƒ‚ƒŠ‚ğŠm•Û‚µA‚»‚ê‚ğŠÇ—‚·‚éƒƒfƒBƒAƒoƒbƒtƒ@‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 cbMaxLength, cbAligment, ppBuffer
 cbMaxLength : [int] ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
@@ -438,8 +418,6 @@ ppBuffer : [var] ƒƒfƒBƒAƒoƒbƒtƒ@‚Ì IMFMediaBuffer ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚
 %index
 MFCreateAttributes
 ‹ó‚Ì‘®«ƒXƒgƒA‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppMFAttributes, cInitialSize
 ppMFAttributes : [var] IMFAttributes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -459,8 +437,6 @@ Media Foundation ‚ğQÆB
 %index
 MFCreateAudioMediaType
 WAVEFORMATEX \‘¢‘Ì‚©‚çƒI[ƒfƒBƒIƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pAudioFormat, ppIAudioMediaType
 pAudioFormat : [var] ƒI[ƒfƒBƒIƒtƒH[ƒ}ƒbƒg‚ğ‹Lq‚·‚é WAVEFORMATEX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -480,8 +456,6 @@ IMFAudioMediaType
 %index
 MFCreateCollection
 ‹ó‚ÌƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppIMFCollection
 ppIMFCollection : [var] ƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFCollection ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -495,8 +469,6 @@ ppIMFCollection : [var] ƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFCollection ƒCƒ“ƒ^[ƒtƒFƒCƒ
 %index
 MFCreateContentDecryptorContext
 w’è‚µ‚½ƒƒfƒBƒA•ÛŒìƒVƒXƒeƒ€—p‚Ì IMFContentDecryptorContext ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 guidMediaProtectionSystemId, pD3DManager, pContentProtectionDevice, ppContentDecryptorContext
 guidMediaProtectionSystemId : [var] IMFContentDecryptorContext ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğì¬‚·‚éƒƒfƒBƒA•ÛŒìƒVƒXƒeƒ€‚Ì¯•ÊqB
@@ -510,8 +482,6 @@ ppContentDecryptorContext : [var] ì¬‚³‚ê‚½ IMFContentDecryptorContext ƒCƒ“ƒ^[
 %index
 MFCreateContentProtectionDevice
 w’è‚µ‚½ƒƒfƒBƒA•ÛŒìƒVƒXƒeƒ€—p‚Ì IMFContentProtectionDevice ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ProtectionSystemId, ContentProtectionDevice
 ProtectionSystemId : [var] IMFContentProtectionDevice ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğì¬‚·‚éƒƒfƒBƒA•ÛŒìƒVƒXƒeƒ€‚Ì¯•ÊqB
@@ -523,8 +493,6 @@ ContentProtectionDevice : [var] ì¬‚³‚ê‚½ IMFContentProtectionDevice ƒCƒ“ƒ^[ƒt
 %index
 MFCreateD3D12SynchronizationObject
 Media Foundation ƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚³‚ê‚½ D3D12 ƒŠƒ\[ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ“¯Šú‚·‚é Media Foundation D3D12 “¯ŠúƒvƒŠƒ~ƒeƒBƒu‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pDevice, riid, ppvSyncObject
 pDevice : [var] ì¬‚·‚éƒŠƒ\[ƒX‚¨‚æ‚ÑƒvƒŠƒ~ƒeƒBƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚é ID3D12DeviceB
@@ -542,8 +510,6 @@ MF_E_UNSUPPORTED_MEDIATYPE_AT_D3D_FEATURE_LEVEL “™)B
 %index
 MFCreateDXGIDeviceManager
 Microsoft DirectX Graphics Infrastructure (DXGI) Device Manager ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 resetToken, ppDeviceManager
 resetToken : [var] ‚±‚Ì DXGI Device Manager ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¯•Ê‚·‚éƒg[ƒNƒ“‚ğó‚¯æ‚éBIMFDXGIDeviceManager::ResetDevice ‚ÌŒÄ‚Ño‚µ‚É‚±‚Ìƒg[ƒNƒ“‚ğg—p‚·‚éB
@@ -565,8 +531,6 @@ Direct3D 11 ƒfƒoƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·BDirect3D 11 ƒfƒoƒCƒX‚ğì¬‚·‚é‚É‚Í D3D11
 %index
 MFCreateDXGISurfaceBuffer
 Microsoft DirectX Graphics Infrastructure (DXGI) ƒT[ƒtƒFƒX‚ğŠÇ—‚·‚éƒƒfƒBƒAƒoƒbƒtƒ@‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 riid, punkSurface, uSubresourceIndex, fBottomUpWhenLinear, ppBuffer
 riid : [var] DXGI ƒT[ƒtƒFƒX‚ÌŒ^‚ğ¯•Ê‚·‚éB‚±‚Ì’l‚Í IID_ID3D11Texture2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -588,8 +552,6 @@ Microsoft DirectX Graphics Infrastructure (DXGI)
 %index
 MFCreateDXSurfaceBuffer
 Direct3D 9 ƒT[ƒtƒFƒX‚ğŠÇ—‚·‚éƒƒfƒBƒAƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 riid, punkSurface, fBottomUpWhenLinear, ppBuffer
 riid : [var] Direct3D 9 ƒT[ƒtƒFƒX‚ÌŒ^‚ğ¯•Ê‚·‚éBŒ»İ‚±‚Ì’l‚Í IID_IDirect3DSurface9 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -611,8 +573,6 @@ Direct3D ƒT[ƒtƒFƒX©‘Ì‚ğŠ„‚è“–‚Ä‚È‚¢BDXGI ƒT[ƒtƒFƒX‚É‚Í‘Î‰‚µ‚È‚¢B
 %index
 MFCreateEventQueue
 ƒCƒxƒ“ƒgƒLƒ…[‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppMediaEventQueue
 ppMediaEventQueue : [var] ƒCƒxƒ“ƒgƒLƒ…[‚Ì IMFMediaEventQueue ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -630,8 +590,6 @@ ppMediaEventQueue : [var] ƒCƒxƒ“ƒgƒLƒ…[‚Ì IMFMediaEventQueue ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö
 %index
 MFCreateFile
 ƒtƒ@ƒCƒ‹‚©‚çƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 AccessMode, OpenMode, fFlags, pwszFileURL, ppIByteStream
 AccessMode : [int] —v‹‚·‚éƒAƒNƒZƒXƒ‚[ƒhBMF_FILE_ACCESSMODE —ñ‹“Œ^‚Ìƒƒ“ƒo‚Åw’è‚·‚éB
@@ -653,8 +611,6 @@ Windows Media Format 11 SDK
 %index
 MFCreateLegacyMediaBufferOnMFMediaBuffer
 Media Foundation ƒƒfƒBƒAƒoƒbƒtƒ@‚ğ DirectX Media Objects (DMO) ŒİŠ·‚Ìƒoƒbƒtƒ@‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 pSample, pMFMediaBuffer, cbOffset, ppMediaBuffer
 pSample : [var] Media Foundation ƒoƒbƒtƒ@‚ğŠÜ‚ŞƒTƒ“ƒvƒ‹‚Ì IMFSample ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚à‚æ‚¢B
@@ -677,8 +633,6 @@ IMF2DBuffer ‚ğŒöŠJ‚·‚éB
 %index
 MFCreateMFByteStreamOnStream
 IStream ƒ|ƒCƒ“ƒ^‚ğƒ‰ƒbƒv‚·‚é Microsoft Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pStream, ppByteStream
 pStream : [var] IStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -697,8 +651,6 @@ API ‚É“n‚¹‚é‚æ‚¤‚É‚·‚éB
 %index
 MFCreateMFByteStreamOnStreamEx
 IRandomAccessStream ƒIƒuƒWƒFƒNƒg‚ğƒ‰ƒbƒv‚·‚é Microsoft Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 punkStream, ppByteStream
 punkStream : [var] IRandomAccessStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -714,8 +666,6 @@ IRandomAccessStream ƒIƒuƒWƒFƒNƒg‚ğƒ‰ƒbƒv‚·‚é Microsoft Media Foundation
 %index
 MFCreateMFByteStreamWrapper
 ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ìƒ‰ƒbƒp[‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pStream, ppStreamWrapper
 pStream : [var] Œ³‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -735,8 +685,6 @@ ppStreamWrapper : [var] ƒ‰ƒbƒp[‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ
 %index
 MFCreateMFVideoFormatFromMFMediaType
 ƒrƒfƒIƒƒfƒBƒAŒ^‚©‚ç MFVIDEOFORMAT \‘¢‘Ì‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, ppMFVF, pcbSize
 pMFType : [var] ƒrƒfƒIƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -752,8 +700,6 @@ pcbSize : [var] MFVIDEOFORMAT \‘¢‘Ì‚ÌƒTƒCƒY‚ğó‚¯æ‚éB
 %index
 MFCreateMediaBufferFromMediaType
 w’è‚µ‚½ƒƒfƒBƒAŒ^‚ÉÅ“K‚ÈƒVƒXƒeƒ€ƒƒ‚ƒŠƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 mfplat
 %prm
 pMediaType, llDuration, dwMinLength, dwMinAlignment, ppBuffer
 pMediaType : [var] ƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -777,8 +723,6 @@ dwMinLength ‚Ì‚¤‚¿‘å‚«‚¢•û‚ğŠÜ‚Ş‚Ì‚É\•ª‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚éBí‚ÉƒVƒX
 %index
 MFCreateMediaBufferWrapper
 Šù‘¶‚ÌƒƒfƒBƒAƒoƒbƒtƒ@‚ğƒ‰ƒbƒv‚·‚éƒƒfƒBƒAƒoƒbƒtƒ@‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pBuffer, cbOffset, dwLength, ppBuffer
 pBuffer : [var] Œ³‚ÌƒƒfƒBƒAƒoƒbƒtƒ@‚Ì IMFMediaBuffer ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -800,8 +744,6 @@ IMFMediaBuffer::SetCurrentLength ‚ğŒÄ‚Ño‚·B‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 %index
 MFCreateMediaEvent
 ƒƒfƒBƒAƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 met, guidExtendedType, hrStatus, pvValue, ppEvent
 met : [int] ƒCƒxƒ“ƒgŒ^BIMFMediaEvent::GetType ‚ğQÆBƒCƒxƒ“ƒgŒ^‚Ìˆê——‚Í Media Foundation Events ‚ğQÆB
@@ -822,8 +764,6 @@ ppEvent : [var] IMFMediaEvent ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³
 %index
 MFCreateMediaExtensionActivate
 Windows ƒ‰ƒ“ƒ^ƒCƒ€ƒNƒ‰ƒX—p‚ÌƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 szActivatableClassId, pConfiguration, riid, ppvObject
 szActivatableClassId : [wstr] ƒAƒNƒeƒBƒx[ƒg‰Â”\‚Èƒ‰ƒ“ƒ^ƒCƒ€ƒNƒ‰ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒ‰ƒX¯•ÊqB
@@ -844,8 +784,6 @@ IClassFactory::CreateInstance ‚ğŒÄ‚Ño‚·B
 %index
 MFCreateMediaType
 ‹ó‚ÌƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppMFType
 ppMFType : [var] IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -862,8 +800,6 @@ ppMFType : [var] IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³
 %index
 MFCreateMediaTypeFromProperties
 ƒvƒƒpƒeƒB‚©‚ç IMFMediaType ‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 punkStream, ppMediaType
 punkStream : [var] ƒvƒƒpƒeƒB‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -878,8 +814,6 @@ ppMediaType : [var] IMFMediaType ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒ
 %index
 MFCreateMediaTypeFromRepresentation
 •Ê‚ÌƒtƒH[ƒ}ƒbƒg•\Œ»‚©‚ç Media Foundation ƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 guidRepresentation, pvRepresentation, ppIMediaType
 guidRepresentation : [int] •ÏŠ·Œ³‚ÌƒtƒH[ƒ}ƒbƒg•\Œ»‚ğw’è‚·‚é GUIDB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -899,8 +833,6 @@ ppIMediaType : [var] IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño
 %index
 MFCreateMemoryBuffer
 ƒVƒXƒeƒ€ƒƒ‚ƒŠ‚ğŠm•Û‚µA‚»‚ê‚ğŠÇ—‚·‚éƒƒfƒBƒAƒoƒbƒtƒ@‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 cbMaxLength, ppBuffer
 cbMaxLength : [int] ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
@@ -919,8 +851,6 @@ MFCreateAlignedMemoryBuffer ‚ğg—p‚·‚éB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 %index
 MFCreateMuxStreamAttributes
 ‘½d‰»ƒTƒuƒXƒgƒŠ[ƒ€‚Ì“à—e‚ğ‹Lq‚·‚é IMFAttributes ‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pAttributesToMux, ppMuxAttribs
 pAttributesToMux : [var] ‘½d‰»‚³‚ê‚éŠeƒTƒuƒXƒgƒŠ[ƒ€‚Ì IMFAttributes ‚ğŠÜ‚ŞƒRƒŒƒNƒVƒ‡ƒ“B
@@ -935,8 +865,6 @@ ppMuxAttribs : [var] ‘½d‰»ƒTƒuƒXƒgƒŠ[ƒ€‚Ì‘®«‚ğŠÜ‚Ş IMFAttributesB
 %index
 MFCreateMuxStreamMediaType
 ‘½d‰»ƒTƒuƒXƒgƒŠ[ƒ€‚ÌƒƒfƒBƒAŒ^‚ğ‹Lq‚·‚é IMFMediaType ‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMediaTypesToMux, ppMuxMediaType
 pMediaTypesToMux : [var] ‘½d‰»‚³‚ê‚éŠeƒTƒuƒXƒgƒŠ[ƒ€‚Ì IMFMediaType ‚ğŠÜ‚ŞƒRƒŒƒNƒVƒ‡ƒ“B
@@ -951,8 +879,6 @@ ppMuxMediaType : [var] ‘½d‰»ƒTƒuƒXƒgƒŠ[ƒ€‚ÌƒƒfƒBƒAŒ^‚ğŠÜ‚Ş IMFMediaTypeB
 %index
 MFCreateMuxStreamSample
 ‘½d‰»ƒTƒuƒXƒgƒŠ[ƒ€‚ÌƒTƒ“ƒvƒ‹‚ğŠÜ‚Ş IMFSample ‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pSamplesToMux, ppMuxSample
 pSamplesToMux : [var] ‘½d‰»‚³‚ê‚éŠeƒTƒuƒXƒgƒŠ[ƒ€‚Ì IMFSample ‚ğŠÜ‚ŞƒRƒŒƒNƒVƒ‡ƒ“B
@@ -967,8 +893,6 @@ ppMuxSample : [var] ‘½d‰»ƒTƒuƒXƒgƒŠ[ƒ€‚ÌƒTƒ“ƒvƒ‹‚ğŠÜ‚Ş IMFSampleB
 %index
 MFCreatePresentationDescriptor
 ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‹Lqq‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 cStreamDescriptors, apStreamDescriptors, ppPresentationDescriptor
 cStreamDescriptors : [int] apStreamDescriptors ”z—ñ‚Ì—v‘f”B
@@ -990,8 +914,6 @@ ppPresentationDescriptor : [var] ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‹Lqq‚Ì IMFPresentationDescr
 %index
 MFCreatePropertiesFromMediaType
 IMFMediaType ‚©‚çƒvƒƒpƒeƒB‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMediaType, riid, ppv
 pMediaType : [var] IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1007,8 +929,6 @@ IMFMediaType ‚©‚çƒvƒƒpƒeƒB‚ğì¬‚·‚éB
 %index
 MFCreateSample
 ‹ó‚ÌƒƒfƒBƒAƒTƒ“ƒvƒ‹‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppIMFSample
 ppIMFSample : [var] ƒƒfƒBƒAƒTƒ“ƒvƒ‹‚Ì IMFSample ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -1025,8 +945,6 @@ ppIMFSample : [var] ƒƒfƒBƒAƒTƒ“ƒvƒ‹‚Ì IMFSample ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ
 %index
 MFCreateStreamDescriptor
 ƒXƒgƒŠ[ƒ€‹Lqq‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 dwStreamIdentifier, cMediaTypes, apMediaTypes, ppDescriptor
 dwStreamIdentifier : [int] ƒXƒgƒŠ[ƒ€¯•ÊqB
@@ -1048,8 +966,6 @@ IMFMediaTypeHandler::SetCurrentMediaType ‚ğŒÄ‚Ño‚·B‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚
 %index
 MFCreateStreamOnMFByteStream
 Microsoft Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğƒ‰ƒbƒv‚·‚é IStream ƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 mfplat
 %prm
 pByteStream, ppStream
 pByteStream : [var] Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1067,8 +983,6 @@ Microsoft Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğƒ‰ƒbƒv‚·‚é IStream ƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %index
 MFCreateStreamOnMFByteStreamEx
 Microsoft Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğƒ‰ƒbƒv‚·‚é IRandomAccessStream ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pByteStream, riid, ppv
 pByteStream : [var] Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1090,8 +1004,6 @@ Microsoft Media Foundation ƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğƒ‰ƒbƒv‚·‚é IRandomAccessStream
 %index
 MFCreateSystemTimeSource
 ƒVƒXƒeƒ€‚ÉŠî‚Ã‚­ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ\[ƒX‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppSystemTimeSource
 ppSystemTimeSource : [var] ƒIƒuƒWƒFƒNƒg‚Ì IMFPresentationTimeSource ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -1105,8 +1017,6 @@ ppSystemTimeSource : [var] ƒIƒuƒWƒFƒNƒg‚Ì IMFPresentationTimeSource ƒCƒ“ƒ^[ƒtƒF
 %index
 MFCreateTempFile
 ˆêƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ğ— •t‚¯‚Æ‚·‚éƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 AccessMode, OpenMode, fFlags, ppIByteStream
 AccessMode : [int] —v‹‚·‚éƒAƒNƒZƒXƒ‚[ƒhBMF_FILE_ACCESSMODE —ñ‹“Œ^‚Ìƒƒ“ƒo‚Åw’è‚·‚éB
@@ -1128,8 +1038,6 @@ MF_BYTESTREAM_ORIGIN_NAME ‘®«‚ÉŠi”[‚³‚ê‚éBƒtƒ@ƒCƒ‹‚Í FILE_FLAG_DELETE_ON_CLOSE
 %index
 MFCreateTrackedSample
 ƒrƒfƒIƒƒfƒBƒAƒTƒ“ƒvƒ‹‚ÌQÆƒJƒEƒ“ƒg‚ğ’ÇÕ‚·‚é IMFTrackedSample ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppMFSample
 ppMFSample : [var] IMFTrackedSample ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
@@ -1140,8 +1048,6 @@ ppMFSample : [var] IMFTrackedSample ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %index
 MFCreateTransformActivate
 Media Foundation transform (MFT) —p‚Ì”Ä—pƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppActivate
 ppActivate : [var] IMFActivate ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -1160,8 +1066,6 @@ Media Foundation transform (MFT) —p‚Ì”Ä—pƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚
 %index
 MFCreateVideoMediaType
 MFVIDEOFORMAT \‘¢‘Ì‚©‚çƒrƒfƒIƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pVideoFormat, ppIVideoMediaType
 pVideoFormat : [var] ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ğ‹Lq‚·‚é MFVIDEOFORMAT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1179,8 +1083,6 @@ MFVIDEOFORMAT \‘¢‘Ì‚ğg—p‚·‚é‘ã‚í‚è‚É MFCreateMediaType ‚ğŒÄ‚Ño‚µ‚Ä‘®«‚ğ’¼Ú
 %index
 MFCreateVideoMediaTypeFromBitMapInfoHeader
 ‚±‚ÌŠÖ”‚ÍÀ‘•‚³‚ê‚Ä‚¢‚È‚¢B(MFCreateVideoMediaTypeFromBitMapInfoHeader)
-%group
-Win32 mfplat
 %prm
 pbmihBitMapInfoHeader, dwPixelAspectRatioX, dwPixelAspectRatioY, InterlaceMode, VideoFlags, qwFramesPerSecondNumerator, qwFramesPerSecondDenominator, dwMaxBitRate, ppIVideoMediaType
 pbmihBitMapInfoHeader : [var] —\–ñB
@@ -1205,8 +1107,6 @@ Windows 7 ‚æ‚è‘O‚Í evr.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚½B
 %index
 MFCreateVideoMediaTypeFromBitMapInfoHeaderEx
 BITMAPINFOHEADER \‘¢‘Ì‚©‚çƒrƒfƒIƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pbmihBitMapInfoHeader, cbBitMapInfoHeader, dwPixelAspectRatioX, dwPixelAspectRatioY, InterlaceMode, VideoFlags, dwFramesPerSecondNumerator, dwFramesPerSecondDenominator, dwMaxBitRate, ppIVideoMediaType
 pbmihBitMapInfoHeader : [var] •ÏŠ·‚·‚é BITMAPINFOHEADER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1229,8 +1129,6 @@ BITMAPINFOHEADER \‘¢‘Ì‚©‚çƒrƒfƒIƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
 %index
 MFCreateVideoMediaTypeFromSubtype
 w’è‚µ‚½ƒTƒuƒ^ƒCƒv‚ğ‚Â•”•ª“I‚ÈƒrƒfƒIƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pAMSubtype, ppIVideoMediaType
 pAMSubtype : [var] ƒTƒuƒ^ƒCƒv‚ğw’è‚·‚é GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^BVideo Subtype GUIDs ‚ğQÆB
@@ -1249,8 +1147,6 @@ ppIVideoMediaType : [var] IMFVideoMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ
 %index
 MFCreateVideoSampleAllocatorEx
 Microsoft DirectX Graphics Infrastructure (DXGI) ‚ÆŒİŠ·«‚Ì‚ ‚éƒrƒfƒIƒTƒ“ƒvƒ‹‚ğŠ„‚è“–‚Ä‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 riid, ppSampleAllocator
 riid : [var] 
@@ -1271,8 +1167,6 @@ MFCreateVideoSampleAllocator ‚ğŒÄ‚Ño‚·B
 %index
 MFCreateWICBitmapBuffer
 Windows Imaging Component (WIC) ‚ğŠÇ—‚·‚éƒƒfƒBƒAƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 riid, punkSurface, ppBuffer
 riid : [var] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í __uuidof(IWICBitmap) ‚Éİ’è‚·‚éB
@@ -1288,8 +1182,6 @@ Windows Imaging Component (WIC) ‚ğŠÇ—‚·‚éƒƒfƒBƒAƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
 %index
 MFCreateWaveFormatExFromMFMediaType
 Media Foundation ƒI[ƒfƒBƒIƒƒfƒBƒAŒ^‚ğ WAVEFORMATEX \‘¢‘Ì‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, ppWF, pcbSize, Flags
 pMFType : [var] ƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1310,8 +1202,6 @@ WAVEFORMATEXTENSIBLE \‘¢‘Ì‚ÉƒLƒƒƒXƒg‚Å‚«‚éB
 %index
 MFDeserializeAttributesFromStream
 ƒXƒgƒŠ[ƒ€‚©‚ç‘®«‚ğ‘®«ƒXƒgƒA‚É“Ç‚İ‚ŞB
-%group
-Win32 mfplat
 %prm
 pAttr, dwOptions, pStm
 pAttr : [var] ‘®«ƒXƒgƒA‚Ì IMFAttributes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1332,8 +1222,6 @@ MF_ATTRIBUTE_SERIALIZE_UNKNOWN_BYREF ‚ªŠÜ‚Ü‚ê‚éê‡AIUnknown
 %index
 MFDeserializePresentationDescriptor
 ƒoƒCƒg”z—ñ‚©‚çƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‹Lqq‚ğƒfƒVƒŠƒAƒ‰ƒCƒY‚·‚éB
-%group
-Win32 mfplat
 %prm
 cbData, pbData, ppPD
 cbData : [int] pbData ”z—ñ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
@@ -1349,8 +1237,6 @@ ppPD : [var] ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‹Lqq‚Ì IMFPresentationDescriptor ƒCƒ“ƒ^[ƒtƒFƒC
 %index
 MFEndCreateFile
 ƒtƒ@ƒCƒ‹‚©‚çƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚é”ñ“¯Šú—v‹‚ğŠ®—¹‚·‚éB
-%group
-Win32 mfplat
 %prm
 pResult, ppFile
 pResult : [var] IMFAsyncResult ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ª Invoke ƒƒ\ƒbƒh‚Åó‚¯æ‚Á‚½‚Ì‚Æ“¯‚¶ƒ|ƒCƒ“ƒ^‚ğ“n‚·B
@@ -1368,8 +1254,6 @@ MFBeginCreateFile ŠÖ”‚ª”ñ“¯Šú‚ÅŠ®—¹‚µ‚½‚Æ‚«‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 MFFrameRateToAverageTimePerFrame
 ƒrƒfƒIƒtƒŒ[ƒ€ƒŒ[ƒg‚ğƒtƒŒ[ƒ€Œp‘±ŠÔ‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 unNumerator, unDenominator, punAverageTimePerFrame
 unNumerator : [int] ƒtƒŒ[ƒ€ƒŒ[ƒg‚Ì•ªqB
@@ -1389,8 +1273,6 @@ punAverageTimePerFrame : [var] ƒrƒfƒIƒtƒŒ[ƒ€‚Ì•½‹ÏŒp‘±ŠÔ‚ğ 100 ƒiƒm•b’PˆÊ‚Åó
 %index
 MFGetAttributesAsBlob
 ‘®«ƒXƒgƒA‚Ì“à—e‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 pAttributes, pBuf, cbBufSize
 pAttributes : [var] ‘®«ƒXƒgƒA‚Ì IMFAttributes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1411,8 +1293,6 @@ IUnknown ƒ|ƒCƒ“ƒ^’l (MF_ATTRIBUTE_IUNKNOWN)
 %index
 MFGetAttributesAsBlobSize
 MFGetAttributesAsBlob ŠÖ”‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 pAttributes, pcbBufSize
 pAttributes : [var] ‘®«ƒXƒgƒA‚Ì IMFAttributes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1430,8 +1310,6 @@ MFGetAttributesAsBlob ŠÖ”‚É•K—v‚È”z—ñƒTƒCƒY‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚·‚éB
 %index
 MFGetContentProtectionSystemCLSID
 ƒRƒ“ƒeƒ“ƒc•ÛŒìƒVƒXƒeƒ€‚ÌƒNƒ‰ƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 guidProtectionSystemID, pclsid
 guidProtectionSystemID : [var] ƒRƒ“ƒeƒ“ƒc•ÛŒìƒVƒXƒeƒ€‚ğ¯•Ê‚·‚é GUIDB
@@ -1450,8 +1328,6 @@ IMFPMPHost::CreateObjectByCLSID ‚ğŒÄ‚Ño‚µ‚Ä IMFTrustedInput ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é
 %index
 MFGetMFTMerit
 ƒn[ƒhƒEƒFƒAƒR[ƒfƒbƒN‚ÌƒƒŠƒbƒg’l‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFT, cbVerifier, verifier, merit
 pMFT : [var] ƒR[ƒfƒbƒN‚ğ•\‚· Media Foundation transform (MFT) ‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1472,8 +1348,6 @@ MFT ‚ª—LŒø‚È Output Protection Manager (OPM)
 %index
 MFGetPluginControl
 Microsoft Media Foundation ƒvƒ‰ƒOƒCƒ“ƒ}ƒl[ƒWƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 ppPluginControl
 ppPluginControl : [var] IMFPluginControl ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -1487,8 +1361,6 @@ Microsoft Media Foundation ƒvƒ‰ƒOƒCƒ“ƒ}ƒl[ƒWƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %index
 MFGetStrideForBitmapInfoHeader
 ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÌÅ¬ƒT[ƒtƒFƒXƒXƒgƒ‰ƒCƒh‚ğŒvZ‚·‚éB
-%group
-Win32 mfplat
 %prm
 format, dwWidth, pStride
 format : [int] ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ğw’è‚·‚é FOURCC ƒR[ƒh‚Ü‚½‚Í D3DFORMAT ’lB
@@ -1509,8 +1381,6 @@ YUV ƒtƒH[ƒ}ƒbƒg‚Å‚Í Y ƒvƒŒ[ƒ“‚ÌƒXƒgƒ‰ƒCƒh‚ğ•Ô‚·B
 %index
 MFGetSystemTime
 ƒVƒXƒeƒ€‚ğ•Ô‚·B
-%group
-Win32 mfplat
 %prm
 
 %inst
@@ -1523,8 +1393,6 @@ Win32 mfplat
 %index
 MFGetTimerPeriodicity
 MFAddPeriodicCallback ŠÖ”‚Ìƒ^ƒCƒ}[ŠÔŠu‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 Periodicity
 Periodicity : [var] ƒ^ƒCƒ}[ŠÔŠu‚ğƒ~ƒŠ•b’PˆÊ‚Åó‚¯æ‚éB
@@ -1538,8 +1406,6 @@ MFAddPeriodicCallback ŠÖ”‚Ìƒ^ƒCƒ}[ŠÔŠu‚ğæ“¾‚·‚éB
 %index
 MFGetUncompressedVideoFormat
 ”ñˆ³kƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚Ì FOURCC ‚Ü‚½‚Í D3DFORMAT ’l‚ğ•Ô‚·B
-%group
-Win32 mfplat
 %prm
 pVideoFormat
 pVideoFormat : [var] MFVIDEOFORMAT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1557,8 +1423,6 @@ Windows 7 ‚æ‚è‘O‚Í evr.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚½B
 %index
 MFHeapAlloc
 ƒƒ‚ƒŠƒuƒƒbƒN‚ğŠ„‚è“–‚Ä‚éB(MFHeapAlloc)
-%group
-Win32 mfplat
 %prm
 nSize, dwFlags, pszFile, line, eat
 nSize : [int] Š„‚è“–‚Ä‚éƒoƒCƒg”B
@@ -1580,8 +1444,6 @@ eat : [int] —\–ñBeAllocationTypeIgnore ‚ğw’è‚·‚éB
 %index
 MFHeapFree
 MFHeapAlloc ‚ÅŠ„‚è“–‚Ä‚½ƒƒ‚ƒŠƒuƒƒbƒN‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 mfplat
 %prm
 pv
 pv : [intptr] ‰ğ•ú‚·‚éƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1592,8 +1454,6 @@ MFHeapAlloc ‚ÅŠ„‚è“–‚Ä‚½ƒƒ‚ƒŠƒuƒƒbƒN‚ğ‰ğ•ú‚·‚éB
 %index
 MFInitAMMediaTypeFromMFMediaType
 Media Foundation ƒƒfƒBƒAŒ^‚©‚ç DirectShow AM_MEDIA_TYPE \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, guidFormatBlockType, pAMType
 pMFType : [var] •ÏŠ·Œ³‚ÌƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1612,8 +1472,6 @@ AM_MEDIA_TYPE ‚Æ“™‰¿‚ÈˆÈ‰º‚ÌƒtƒH[ƒ}ƒbƒg\‘¢‘Ì‚Å‚àg—p‚Å‚«‚éB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚Í
 %index
 MFInitAttributesFromBlob
 ƒoƒCƒg”z—ñ‚©‚ç‘®«ƒXƒgƒA‚Ì“à—e‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pAttributes, pBuf, cbBufSize
 pAttributes : [var] ‘®«ƒXƒgƒA‚Ì IMFAttributes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1633,8 +1491,6 @@ MFGetAttributesAsBlob ‚ÅƒVƒŠƒAƒ‰ƒCƒY‚³‚ê‚½‘®«ƒXƒgƒA‚ğƒfƒVƒŠƒAƒ‰ƒCƒY‚·‚éBpAttri
 %index
 MFInitMediaTypeFromAMMediaType
 DirectShow AM_MEDIA_TYPE \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, pAMType
 pMFType : [var] ‰Šú‰»‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¢‰Šú‰»‚ÌƒƒfƒBƒAŒ^ƒIƒuƒWƒFƒNƒg‚Í MFCreateMediaType ‚Åì¬‚·‚éB
@@ -1652,8 +1508,6 @@ AM_MEDIA_TYPE ‚Æ“™‰¿‚ÈˆÈ‰º‚ÌƒtƒH[ƒ}ƒbƒg\‘¢‘Ì‚Å‚àg—p‚Å‚«‚éB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚Í
 %index
 MFInitMediaTypeFromMFVideoFormat
 MFVIDEOFORMAT \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, pMFVF, cbBufSize
 pMFType : [var] ‰Šú‰»‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1669,8 +1523,6 @@ MFVIDEOFORMAT \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
 %index
 MFInitMediaTypeFromMPEG1VideoInfo
 DirectShow MPEG1VIDEOINFO \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, pMP1VI, cbBufSize, pSubtype
 pMFType : [var] ‰Šú‰»‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1687,8 +1539,6 @@ DirectShow MPEG1VIDEOINFO \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
 %index
 MFInitMediaTypeFromMPEG2VideoInfo
 DirectShow MPEG2VIDEOINFO \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, pMP2VI, cbBufSize, pSubtype
 pMFType : [var] ‰Šú‰»‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1705,8 +1555,6 @@ DirectShow MPEG2VIDEOINFO \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
 %index
 MFInitMediaTypeFromVideoInfoHeader
 DirectShow VIDEOINFOHEADER \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, pVIH, cbBufSize, pSubtype
 pMFType : [var] ‰Šú‰»‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1726,8 +1574,6 @@ DirectShow VIDEOINFOHEADER \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
 %index
 MFInitMediaTypeFromVideoInfoHeader2
 DirectShow VIDEOINFOHEADER2 \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, pVIH2, cbBufSize, pSubtype
 pMFType : [var] ‰Šú‰»‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1744,8 +1590,6 @@ DirectShow VIDEOINFOHEADER2 \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
 %index
 MFInitMediaTypeFromWaveFormatEx
 WAVEFORMATEX \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pMFType, pWaveFormat, cbBufSize
 pMFType : [var] ‰Šú‰»‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1761,8 +1605,6 @@ WAVEFORMATEX \‘¢‘Ì‚©‚çƒƒfƒBƒAŒ^‚ğ‰Šú‰»‚·‚éB
 %index
 MFInitVideoFormat
 DVDAƒAƒiƒƒOƒeƒŒƒrAATSC ƒfƒWƒ^ƒ‹ƒeƒŒƒr‚È‚Ç‚Ì•W€“I‚ÈƒrƒfƒIƒtƒH[ƒ}ƒbƒg—p‚É MFVIDEOFORMAT \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pVideoFormat, type
 pVideoFormat : [var] MFVIDEOFORMAT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í type ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒrƒfƒIƒtƒH[ƒ}ƒbƒg‚ÉŠî‚Ã‚¢‚Ä\‘¢‘Ìƒƒ“ƒo‚ğ–„‚ß‚éB
@@ -1780,8 +1622,6 @@ Windows 7 ‚æ‚è‘O‚Í evr.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚½B
 %index
 MFInitVideoFormat_RGB
 ”ñˆ³k RGB ƒrƒfƒIƒtƒH[ƒ}ƒbƒg—p‚É MFVIDEOFORMAT \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 pVideoFormat, dwWidth, dwHeight, D3Dfmt
 pVideoFormat : [var] MFVIDEOFORMAT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ªƒtƒH[ƒ}ƒbƒgî•ñ‚Å\‘¢‘Ìƒƒ“ƒo‚ğ–„‚ß‚éB
@@ -1802,8 +1642,6 @@ D3Dfmt : [int] RGB ƒtƒH[ƒ}ƒbƒg‚ğw’è‚·‚é D3DFORMAT ’lB
 %index
 MFIsContentProtectionDeviceSupported
 w’è‚µ‚½ƒƒfƒBƒA•ÛŒìƒVƒXƒeƒ€Œü‚¯‚Éƒn[ƒhƒEƒFƒAƒZƒLƒ…ƒŠƒeƒBƒvƒƒZƒbƒT‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğŠm”F‚·‚éB
-%group
-Win32 mfplat
 %prm
 ProtectionSystemId, isSupported
 ProtectionSystemId : [var] Šm”F‚·‚é•ÛŒìƒVƒXƒeƒ€‚Ì¯•ÊqB
@@ -1815,8 +1653,6 @@ isSupported : [var] w’è‚µ‚½•ÛŒìƒVƒXƒeƒ€‚É‘Î‚µ‚Äƒn[ƒhƒEƒFƒAƒZƒLƒ…ƒŠƒeƒBƒvƒƒZƒb
 %index
 MFLockDXGIDeviceManager
 ‹¤—L‚Ì Microsoft DirectX Graphics Infrastructure (DXGI) Device Manager ‚ğƒƒbƒN‚·‚éB
-%group
-Win32 mfplat
 %prm
 pResetToken, ppManager
 pResetToken : [var] ‚±‚Ì DXGI Device Manager ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¯•Ê‚·‚éƒg[ƒNƒ“‚ğó‚¯æ‚éBIMFDXGIDeviceManager::ResetDevice ŒÄ‚Ño‚µ‚Ég—p‚·‚éBNULL ‚Å‚à‚æ‚¢B
@@ -1837,8 +1673,6 @@ MFUnlockDXGIDeviceManager ‚ğŒÄ‚Ño‚·B
 %index
 MFMapDX9FormatToDXGIFormat
 Microsoft Direct3D 9 ƒtƒH[ƒ}ƒbƒg¯•Êq‚ğ Microsoft DirectX Graphics Infrastructure (DXGI) ƒtƒH[ƒ}ƒbƒg¯•Êq‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 dx9
 dx9 : [int] •ÏŠ·‚·‚é D3DFORMAT ’l‚Ü‚½‚Í FOURCC ƒR[ƒhB
@@ -1853,8 +1687,6 @@ DXGI_FORMAT ’l‚ğ•Ô‚·B
 %index
 MFMapDXGIFormatToDX9Format
 DXGI ƒtƒH[ƒ}ƒbƒg¯•Êq‚ğ Direct3D 9 ƒtƒH[ƒ}ƒbƒg¯•Êq‚É•ÏŠ·‚·‚éB
-%group
-Win32 mfplat
 %prm
 dx11
 dx11 : [int] •ÏŠ·‚·‚é DXGI_FORMAT ’lB
@@ -1868,8 +1700,6 @@ D3DFORMAT ’l‚Ü‚½‚Í FOURCC ƒR[ƒh‚ğ•Ô‚·B
 %index
 MFPutWorkItem
 ”ñ“¯Šú‘€ì‚ğƒ[ƒNƒLƒ…[‚É“o˜^‚·‚éB(MFPutWorkItem)
-%group
-Win32 mfplat
 %prm
 dwQueue, pCallback, pState
 dwQueue : [int] ƒ[ƒNƒLƒ…[‚Ì¯•ÊqB
@@ -1889,8 +1719,6 @@ IMFAsyncCallback::Invoke ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B
 %index
 MFPutWorkItem2
 ”ñ“¯Šú‘€ì‚ğw’è‚µ‚½—Dæ“x‚Åƒ[ƒNƒLƒ…[‚É“o˜^‚·‚éB(MFPutWorkItem2)
-%group
-Win32 mfplat
 %prm
 dwQueue, Priority, pCallback, pState
 dwQueue : [int] ƒ[ƒNƒLƒ…[‚Ì¯•ÊqBMedia Foundation ‚Ì•W€ƒ[ƒNƒLƒ…[‚Ü‚½‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªì¬‚µ‚½ƒ[ƒNƒLƒ…[‚ğw’è‚Å‚«‚éB
@@ -1907,8 +1735,6 @@ HRESULT ’l‚ğ•Ô‚·B‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 %index
 MFPutWorkItemEx
 ”ñ“¯Šú‘€ì‚ğƒ[ƒNƒLƒ…[‚É“o˜^‚·‚éB(MFPutWorkItemEx)
-%group
-Win32 mfplat
 %prm
 dwQueue, pResult
 dwQueue : [int] ƒ[ƒNƒLƒ…[‚Ì¯•ÊqB
@@ -1926,8 +1752,6 @@ pResult ‚ğ MFInvokeCallback ‚É“n‚·B‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 %index
 MFPutWorkItemEx2
 ”ñ“¯Šú‘€ì‚ğw’è‚µ‚½—Dæ“x‚Åƒ[ƒNƒLƒ…[‚É“o˜^‚·‚éB(MFPutWorkItemEx2)
-%group
-Win32 mfplat
 %prm
 dwQueue, Priority, pResult
 dwQueue : [int] ƒ[ƒNƒLƒ…[‚Ì¯•ÊqB
@@ -1947,8 +1771,6 @@ HRESULT ’l‚ğ•Ô‚·B‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 %index
 MFRegisterLocalByteStreamHandler
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX“à‚ÉƒoƒCƒgƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‰‚ğ“o˜^‚·‚éB
-%group
-Win32 mfplat
 %prm
 szFileExtension, szMimeType, pActivate
 szFileExtension : [wstr] ‚±‚Ìƒnƒ“ƒhƒ‰‚Ìƒtƒ@ƒCƒ‹Šg’£q‚ğŠÜ‚Ş•¶š—ñB
@@ -1969,8 +1791,6 @@ pActivate : [var] ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFActivate ƒCƒ“ƒ^[ƒtƒFƒCƒX‚
 %index
 MFRegisterLocalSchemeHandler
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX“à‚ÉƒXƒL[ƒ€ƒnƒ“ƒhƒ‰‚ğ“o˜^‚·‚éB
-%group
-Win32 mfplat
 %prm
 szScheme, pActivate
 szScheme : [wstr] ƒXƒL[ƒ€‚ğŠÜ‚Ş•¶š—ñB––”ö‚Ì ':' •¶š‚ğŠÜ‚Ş (—á: "http:")B
@@ -1988,8 +1808,6 @@ pActivate : [var] ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFActivate ƒCƒ“ƒ^[ƒtƒFƒCƒX‚
 %index
 MFScheduleWorkItem
 w’è‚µ‚½ŠÔŠuŒã‚É”ñ“¯Šú‘€ì‚ğŠ®—¹‚·‚é‚æ‚¤ƒXƒPƒWƒ…[ƒ‹‚·‚éB(MFScheduleWorkItem)
-%group
-Win32 mfplat
 %prm
 pCallback, pState, Timeout, pKey
 pCallback : [var] IMFAsyncCallback ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2010,8 +1828,6 @@ pKey : [var] ƒ^ƒCƒ}[‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚ÌƒL[‚ğó‚¯æ‚éBMFCancelWorkItem ‚Ì K
 %index
 MFSerializeAttributesToStream
 ‘®«ƒXƒgƒA‚Ì“à—e‚ğƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞB
-%group
-Win32 mfplat
 %prm
 pAttr, dwOptions, pStm
 pAttr : [var] ‘®«ƒXƒgƒA‚Ì IMFAttributes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2031,8 +1847,6 @@ IUnknown ƒ|ƒCƒ“ƒ^‚ğƒVƒŠƒAƒ‰ƒCƒY‚·‚éB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 %index
 MFSerializePresentationDescriptor
 ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‹Lqq‚ğƒoƒCƒg”z—ñ‚ÉƒVƒŠƒAƒ‰ƒCƒY‚·‚éB
-%group
-Win32 mfplat
 %prm
 pPD, pcbData, ppbData
 pPD : [var] ƒVƒŠƒAƒ‰ƒCƒY‚·‚éƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‹Lqq‚Ì IMFPresentationDescriptor ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2051,8 +1865,6 @@ ppbData : [var] ƒVƒŠƒAƒ‰ƒCƒY‚³‚ê‚½ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‹Lqq‚ğŠÜ‚ŞƒoƒCƒg”z—ñ‚Ö‚Ìƒ|
 %index
 MFShutdown
 Microsoft Media Foundation ƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éB
-%group
-Win32 mfplat
 %prm
 
 %inst
@@ -2069,8 +1881,6 @@ MFShutdown
 %index
 MFSplitSample
 Œ‹‡‚³‚ê‚½ƒƒfƒBƒAƒTƒ“ƒvƒ‹‚ğŒÂ•Ê‚ÌƒTƒ“ƒvƒ‹‚É•ªŠ„‚·‚éB
-%group
-Win32 mfplat
 %prm
 pSample, pOutputSamples, dwOutputSampleMaxCount, pdwOutputSampleCount
 pSample : [var] •ªŠ„‚³‚ê‚éŒ‹‡ƒTƒ“ƒvƒ‹‚ğ•\‚· IMFSample ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2087,8 +1897,6 @@ pdwOutputSampleCount : [var] pOutputSamples ”z—ñ‚ÉŠÜ‚Ü‚ê‚éƒTƒ“ƒvƒ‹”‚ğó‚¯æ‚éo
 %index
 MFStartup
 Microsoft Media Foundation ‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 mfplat
 %prm
 Version, dwFlags
 Version : [int] ƒo[ƒWƒ‡ƒ“”Ô†Bmfapi.h ‚Å’è‹`‚³‚ê‚½ MF_VERSION ‚ğg—p‚·‚éB
@@ -2108,8 +1916,6 @@ Microsoft Media Foundation ‚ğ‰Šú‰»‚·‚éB
 %index
 MFTEnum
 ƒŒƒWƒXƒgƒŠ“à‚Ì Media Foundation transform (MFT) ‚ğ—ñ‹“‚·‚éB
-%group
-Win32 mfplat
 %prm
 guidCategory, Flags, pInputType, pOutputType, pAttributes, ppclsidMFT, pcMFTs
 guidCategory : [int] —ñ‹“‚·‚é MFT ‚ÌƒJƒeƒSƒŠ‚ğw’è‚·‚é GUIDB
@@ -2133,8 +1939,6 @@ pcMFTs : [var] ppclsidMFT ”z—ñ‚Ì—v‘f”‚ğó‚¯æ‚éB
 %index
 MFTEnum2
 w’è‚µ‚½ŒŸõğŒ‚Éƒ}ƒbƒ`‚·‚é Microsoft Media Foundation transform (MFT) ‚Ìˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 guidCategory, Flags, pInputType, pOutputType, pAttributes, pppMFTActivate, pnumMFTActivate
 guidCategory : [int] —ñ‹“‚·‚é MFT ‚ÌƒJƒeƒSƒŠ‚ğw’è‚·‚é GUIDBMFT ƒJƒeƒSƒŠ‚Ìˆê——‚Í MFT_CATEGORY ‚ğQÆB
@@ -2157,8 +1961,6 @@ Flags ƒpƒ‰ƒ[ƒ^‚Í—ñ‹“‚·‚é MFT ‚Æ•Ô‹p‡‚ğ§Œä‚·‚éB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚
 %index
 MFTEnumEx
 w’èğŒ‚É‡’v‚·‚é MFT ‚Ìˆê——‚ğæ“¾‚·‚éBMFTEnum ‚ğŠg’£‚µ‚½ŠÖ”B
-%group
-Win32 mfplat
 %prm
 guidCategory, Flags, pInputType, pOutputType, pppMFTActivate, pnumMFTActivate
 guidCategory : [int] —ñ‹“‚·‚é MFT ‚ÌƒJƒeƒSƒŠ‚ğw’è‚·‚é GUIDB
@@ -2180,8 +1982,6 @@ Flags ‚Í—ñ‹“‘ÎÛ‚Æ‡˜‚ğ§Œä‚·‚éB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
 %index
 MFTGetInfo
 ƒŒƒWƒXƒgƒŠ‚©‚ç Media Foundation transform (MFT) ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 clsidMFT, pszName, ppInputTypes, pcInputTypes, ppOutputTypes, pcOutputTypes, ppAttributes
 clsidMFT : [int] MFT ‚Ì CLSIDB
@@ -2201,8 +2001,6 @@ ppAttributes : [var] ‘®«ƒXƒgƒA‚Ì IMFAttributes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó
 %index
 MFTRegister
 Media Foundation transform (MFT) ‚Ìî•ñ‚ğƒŒƒWƒXƒgƒŠ‚É’Ç‰Á‚·‚éB
-%group
-Win32 mfplat
 %prm
 clsidMFT, guidCategory, pszName, Flags, cInputTypes, pInputTypes, cOutputTypes, pOutputTypes, pAttributes
 clsidMFT : [int] MFT ‚Ì CLSIDBMFT ‚Í“¯‚¶ CLSID ‚Å COM ƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä‚à“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2227,8 +2025,6 @@ Media Foundation transform (MFT) ‚Ìî•ñ‚ğƒŒƒWƒXƒgƒŠ‚É’Ç‰Á‚·‚éB
 %index
 MFTRegisterLocal
 Media Foundation transform (MFT) ‚ğŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚É“o˜^‚·‚éB(MFTRegisterLocal)
-%group
-Win32 mfplat
 %prm
 pClassFactory, guidCategory, pszName, Flags, cInputTypes, pInputTypes, cOutputTypes, pOutputTypes
 pClassFactory : [var] MFT ‚ğì¬‚·‚éƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚Ì IClassFactory ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2257,8 +2053,6 @@ IClassFactory::CreateInstance ‚Í IMFTransform
 %index
 MFTRegisterLocalByCLSID
 Media Foundation transform (MFT) ‚ğŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚É“o˜^‚·‚éB(MFTRegisterLocalByCLSID)
-%group
-Win32 mfplat
 %prm
 clisdMFT, guidCategory, pszName, Flags, cInputTypes, pInputTypes, cOutputTypes, pOutputTypes
 clisdMFT : [var] MFT ‚ÌƒNƒ‰ƒX¯•Êq (CLSID)B
@@ -2285,8 +2079,6 @@ IMFLocalMFTRegistration ‚ğg—p‚·‚éB
 %index
 MFTUnregister
 Media Foundation transform (MFT) ‚Ì“o˜^‚ğ‰ğœ‚·‚éB
-%group
-Win32 mfplat
 %prm
 clsidMFT
 clsidMFT : [int] MFT ‚Ì CLSIDB
@@ -2304,8 +2096,6 @@ MFTRegister ŠÖ”‚ªì¬‚µ‚½ƒŒƒWƒXƒgƒŠƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB“¯‚¶ CLSID ‚Å 2 ‰ñŒÄ‚Ño
 %index
 MFTUnregisterLocal
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚©‚ç 1 ‚ÂˆÈã‚Ì Media Foundation transform (MFT) ‚ğ“o˜^‰ğœ‚·‚éB
-%group
-Win32 mfplat
 %prm
 pClassFactory
 pClassFactory : [var] ƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚Ì IClassFactory ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚à‚æ‚¢B
@@ -2324,8 +2114,6 @@ MFTRegisterLocal ‚Å“o˜^‚µ‚½ƒ[ƒJƒ‹ MFT ‚Ì“o˜^‚ğ‰ğœ‚·‚éBpClassFactory ‚ª NULL
 %index
 MFTUnregisterLocalByCLSID
 Media Foundation transform (MFT) ‚ğŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚©‚ç“o˜^‰ğœ‚·‚éB
-%group
-Win32 mfplat
 %prm
 clsidMFT
 clsidMFT : [int] MFT ‚ÌƒNƒ‰ƒX¯•Êq (CLSID)B
@@ -2342,8 +2130,6 @@ MFTRegisterLocalByCLSID ‚Å“o˜^‚µ‚½ƒ[ƒJƒ‹ MFT ‚Ì“o˜^‚ğ‰ğœ‚·‚éB
 %index
 MFUnlockDXGIDeviceManager
 ‹¤—L‚Ì Microsoft DirectX Graphics Infrastructure (DXGI) Device Manager ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
-%group
-Win32 mfplat
 %prm
 
 %inst
@@ -2360,8 +2146,6 @@ MFLockDXGIDeviceManager ‚ÌŒÄ‚Ño‚µ‚É¬Œ÷‚µ‚½Œã‚ÉŒÄ‚Ño‚·B
 %index
 MFUnwrapMediaType
 MFWrapMediaType ‚Å•Ê‚ÌƒƒfƒBƒAŒ^‚Éƒ‰ƒbƒv‚³‚ê‚½ƒƒfƒBƒAŒ^‚ğæ“¾‚·‚éB
-%group
-Win32 mfplat
 %prm
 pWrap, ppOrig
 pWrap : [var] MFWrapMediaType ‚Åæ“¾‚µ‚½ƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2379,8 +2163,6 @@ MFWrapMediaType ‚Å•Ê‚ÌƒƒfƒBƒAŒ^‚Éƒ‰ƒbƒv‚³‚ê‚½ƒƒfƒBƒAŒ^‚ğæ“¾‚·‚éB
 %index
 MFValidateMediaTypeSize
 ƒrƒfƒIƒtƒH[ƒ}ƒbƒgƒuƒƒbƒN‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğŒŸØ‚·‚éB
-%group
-Win32 mfplat
 %prm
 FormatType, pBlock, cbSize
 FormatType : [int] 
@@ -2399,8 +2181,6 @@ cbSize : [int] pBlock ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %index
 MFWrapMediaType
 •Ê‚ÌƒƒfƒBƒAŒ^‚ğƒ‰ƒbƒv‚·‚éƒƒfƒBƒAŒ^‚ğì¬‚·‚éB
-%group
-Win32 mfplat
 %prm
 pOrig, MajorType, SubType, ppWrap
 pOrig : [var] V‚µ‚¢ƒƒfƒBƒAŒ^‚Éƒ‰ƒbƒv‚·‚éƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2421,8 +2201,6 @@ ppWrap : [var] Œ³‚ÌƒƒfƒBƒAŒ^‚ğƒ‰ƒbƒv‚·‚éV‚µ‚¢ƒƒfƒBƒAŒ^‚Ì IMFMediaType ƒCƒ“ƒ^
 %index
 MFllMulDiv
 ((a * b) + d) / c ‚ğŒvZ‚·‚éBŠe€‚Í 64 ƒrƒbƒg•„†•t‚«’lB
-%group
-Win32 mfplat
 %prm
 a, b, c, d
 a : [int64] æ”B

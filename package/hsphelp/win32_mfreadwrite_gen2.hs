@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+mfreadwrite.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の mfreadwrite.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 MFCreateSinkWriterFromMediaSink
 メディアシンクからシンクライターを作成する。
-%group
-Win32 mfreadwrite
 %prm
 pMediaSink, pAttributes, ppSinkWriter
 pMediaSink : [var] メディアシンクの IMFMediaSink インターフェースへのポインタ。
@@ -31,8 +51,6 @@ Vista がインストールされていれば Windows Vista でも利用可能である。
 %index
 MFCreateSinkWriterFromURL
 URL またはバイトストリームからシンクライターを作成する。
-%group
-Win32 mfreadwrite
 %prm
 pwszOutputURL, pByteStream, pAttributes, ppSinkWriter
 pwszOutputURL : [wstr] 出力ファイルの URL を含む NULL 終端文字列。このパラメータは NULL でも構わない。
@@ -55,8 +73,6 @@ NULL でもよいが、有効な組み合わせは限られる。
 %index
 MFCreateSourceReaderFromByteStream
 バイトストリームからソースリーダーを作成する。
-%group
-Win32 mfreadwrite
 %prm
 pByteStream, pAttributes, ppSourceReader
 pByteStream : [var] バイトストリームの IMFByteStream インターフェースへのポインタ。このバイトストリームがソースリーダーへのソースデータを提供する。
@@ -80,8 +96,6 @@ Windows Vista でも利用可能である。
 %index
 MFCreateSourceReaderFromMediaSource
 メディアソースからソースリーダーを作成する。
-%group
-Win32 mfreadwrite
 %prm
 pMediaSource, pAttributes, ppSourceReader
 pMediaSource : [var] メディアソースの IMFMediaSource インターフェースへのポインタ。
@@ -107,8 +121,6 @@ IMFMediaSource::Shutdown
 %index
 MFCreateSourceReaderFromURL
 URL からソースリーダーを作成する。
-%group
-Win32 mfreadwrite
 %prm
 pwszURL, pAttributes, ppSourceReader
 pwszURL : [wstr] 開くメディアファイルの URL。

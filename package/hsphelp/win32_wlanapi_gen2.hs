@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+wlanapi.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì wlanapi.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 WFDCancelOpenSession
 ‚Ü‚¾Š®—¹‚µ‚Ä‚¢‚È‚¢•Û—¯’†‚Ì WFDStartOpenSession ‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒLƒƒƒ“ƒZƒ‹‚µ‚½‚¢‚±‚Æ‚ğ¦‚·B
-%group
-Win32 wlanapi
 %prm
 hSessionHandle
 hSessionHandle : [intptr] ƒLƒƒƒ“ƒZƒ‹‚·‚é Wi-Fi Direct ƒZƒbƒVƒ‡ƒ“‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B‚±‚ê‚ÍˆÈ‘O‚Ì WFDStartOpenSession ŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹‚Å‚ ‚éB
@@ -34,8 +54,6 @@ WFDStartOpenSession ‚Ì‘z’è“®ì‚Í•ÏX‚³‚ê‚È‚¢BWFDStartOpenSession
 %index
 WFDCloseHandle
 Wi-Fi Direct ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle
 hClientHandle : [intptr] Wi-Fi Direct ƒT[ƒrƒX‚Ö‚ÌƒNƒ‰ƒCƒAƒ“ƒg ƒnƒ“ƒhƒ‹BWFDOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚·‚éB
@@ -56,8 +74,6 @@ WFDCloseHandle ‚Í Wi-Fi Direct (Windows 8 ‚¨‚æ‚Ñ Windows Server 2012)
 %index
 WFDCloseSession
 WFDStartOpenSession ‚Ì¬Œ÷ŒÄ‚Ño‚µŒã‚ÉƒZƒbƒVƒ‡ƒ“‚ğ•Â‚¶‚éB
-%group
-Win32 wlanapi
 %prm
 hSessionHandle
 hSessionHandle : [intptr] Wi-Fi Direct ƒZƒbƒVƒ‡ƒ“‚Ö‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹BˆÈ‘O‚Ì WFDStartOpenSession ŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½‚à‚ÌB
@@ -79,8 +95,6 @@ WFDStartOpenSession
 %index
 WFDOpenHandle
 Wi-Fi Direct ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğŠJ‚«Ag—p‚·‚é Wi-Fi Direct API ƒo[ƒWƒ‡ƒ“‚ğƒlƒSƒVƒG[ƒg‚·‚éB
-%group
-Win32 wlanapi
 %prm
 dwClientVersion, pdwNegotiatedVersion, phClientHandle
 dwClientVersion : [int] ƒNƒ‰ƒCƒAƒ“ƒg‚ªƒTƒ|[ƒg‚·‚é Wi-Fi Direct API ‚ÌÅ‚ƒo[ƒWƒ‡ƒ“BWindows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í Wlanapi.h ‚Å’è‹`‚³‚ê‚é WFD_API_VERSION ‚ğİ’è‚·‚éB
@@ -103,8 +117,6 @@ WFDCloseHandle ‚ğŒÄ‚ñ‚ÅƒT[ƒrƒX‚É’Ê’m‚µAƒŠƒ\[ƒX‚ğ‰ğ•ú‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %index
 WFDOpenLegacySession
 Wi-Fi Direct ƒŒƒKƒV[ ƒfƒoƒCƒX‚Ì•Û‘¶Ï‚İƒvƒƒtƒ@ƒCƒ‹‚ğæ“¾‚µ‚Ä“K—p‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pLegacyMacAddress, phSessionHandle, pGuidSessionInterface
 hClientHandle : [intptr] ‚±‚ÌƒZƒbƒVƒ‡ƒ“—p‚Ì Wi-Fi Direct ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BWFDOpenHandle ‚Åæ“¾‚·‚éB
@@ -130,8 +142,6 @@ Pairing) ‚ÌŒ‹‰Êì¬‚³‚ê‚½ƒfƒoƒCƒX ƒm[ƒh‚©‚çæ“¾‚·‚é•K—v‚ª‚ ‚éBg‚¢I‚í‚Á‚½‚ç W
 %index
 WFDStartOpenSession
 Windows ƒyƒAƒŠƒ“ƒO ƒGƒNƒXƒyƒŠƒGƒ“ƒX‚ÅˆÈ‘O‚ÉƒyƒAƒŠƒ“ƒOÏ‚İ‚Ì“Á’è‚Ì Wi-Fi Direct ƒfƒoƒCƒX‚Ö‚ÌƒIƒ“ƒfƒ}ƒ“ƒhÚ‘±‚ğŠJn‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pDeviceAddress, pvContext, pfnCallback, phSessionHandle
 hClientHandle : [intptr] Wi-Fi Direct ƒT[ƒrƒX‚Ö‚ÌƒNƒ‰ƒCƒAƒ“ƒg ƒnƒ“ƒhƒ‹BWFDOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚·‚éB
@@ -158,8 +168,6 @@ WFDStartOpenSession ‚ÌŠ®—¹‚Ü‚Å‘Ò‹@‚·‚éB
 %index
 WFDUpdateDeviceVisibility
 ƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ì Wi-Fi Direct ƒfƒoƒCƒX ƒm[ƒh‚Ì Wi-Fi Direct ƒfƒoƒCƒX ƒAƒhƒŒƒX‚É‚Â‚¢‚ÄƒfƒoƒCƒX‚Ì‰Â‹«‚ğXV‚·‚éB
-%group
-Win32 wlanapi
 %prm
 pDeviceAddress
 pDeviceAddress : [var] ƒNƒ‰ƒCƒAƒ“ƒg ƒfƒoƒCƒX‚Ì Wi-Fi Direct ƒfƒoƒCƒX ƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒCƒ“ƒ{ƒbƒNƒX ƒyƒAƒŠƒ“ƒO ƒGƒNƒXƒyƒŠƒGƒ“ƒX‚ÌŒ‹‰Êì¬‚³‚ê‚½ƒfƒoƒCƒX ƒm[ƒh‚©‚çæ“¾‚·‚éB
@@ -180,8 +188,6 @@ DEVPKEY_WiFiDirect_IsVisibile ƒvƒƒpƒeƒB ƒL[‚ğXV‚·‚éB
 %index
 WlanAllocateMemory
 ƒƒ‚ƒŠ‚ğŠm•Û‚·‚éB
-%group
-Win32 wlanapi
 %prm
 dwMemorySize
 dwMemorySize : [int] —v‹‚·‚éƒƒ‚ƒŠ—Ê (ƒoƒCƒg’PˆÊ)B
@@ -196,8 +202,6 @@ dwMemorySize : [int] —v‹‚·‚éƒƒ‚ƒŠ—Ê (ƒoƒCƒg’PˆÊ)B
 %index
 WlanCloseHandle
 ƒT[ƒo[‚Ö‚ÌÚ‘±‚ğ•Â‚¶‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pReserved
 hClientHandle : [intptr] •Â‚¶‚éÚ‘±‚ğ¯•Ê‚·‚éƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹BWlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚·‚éB
@@ -219,8 +223,6 @@ DLL ‚Ì DllMain ‚©‚ç‚àŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %index
 WlanConnect
 “Á’è‚Ìƒlƒbƒgƒ[ƒN‚Ö‚ÌÚ‘±‚ğ‚İ‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pConnectionParameters, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -248,8 +250,6 @@ connect ‚ğg‚¤BWindows XP SP3 ‚¨‚æ‚Ñ Windows XP SP2 —p API: WlanConnect
 %index
 WlanDeleteProfile
 ƒ[ƒJƒ‹ ƒRƒ“ƒsƒ…[ƒ^‚ÌƒƒCƒ„ƒŒƒX ƒCƒ“ƒ^[ƒtƒFƒCƒX—p‚ÌƒƒCƒ„ƒŒƒX ƒvƒƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -274,8 +274,6 @@ wlan delete profile ‚ğg‚¤B
 %index
 WlanDeviceServiceCommand
 OEM ‚Ü‚½‚Í IHV ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª“Á’è‚ÌƒƒCƒ„ƒŒƒX LAN ƒCƒ“ƒ^[ƒtƒFƒCƒXã‚ÌƒfƒoƒCƒX ƒT[ƒrƒX‚Æ’ÊM‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pDeviceServiceGuid, dwOpCode, dwInBufferSize, pInBuffer, dwOutBufferSize, pOutBuffer, pdwBytesReturned
 hClientHandle : [intptr] Œ^: HANDLE WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -298,8 +296,6 @@ OEM ‚Ü‚½‚Í IHV ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª“Á’è‚ÌƒƒCƒ„ƒŒƒX LAN ƒCƒ“ƒ^[ƒtƒFƒCƒXã‚ÌƒfƒoƒCƒX
 %index
 WlanDisconnect
 ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğŒ»İ‚Ìƒlƒbƒgƒ[ƒN‚©‚çØ’f‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -325,8 +321,6 @@ Configuration ƒT[ƒrƒX‚ª©“®Ú‘±‚µ‚È‚¢Bƒvƒƒtƒ@ƒCƒ‹‚ğƒIƒ“ƒfƒ}ƒ“ƒh‚É•ÏX‚µ‚½‚¢ê
 %index
 WlanEnumInterfaces
 ƒ[ƒJƒ‹ ƒRƒ“ƒsƒ…[ƒ^‚ÅŒ»İ—LŒø‚È‚·‚×‚Ä‚ÌƒƒCƒ„ƒŒƒX LAN ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ—ñ‹“‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pReserved, ppInterfaceList
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -347,8 +341,6 @@ WlanFreeMemory ‚Å‰ğ•ú‚·‚éB
 %index
 WlanExtractPsdIEDataList
 ƒr[ƒRƒ“‚ÉŠÜ‚Ü‚ê‚é¶ IE ƒf[ƒ^‚©‚ç‹ßÚƒT[ƒrƒXŒŸo (PSD) IE ƒf[ƒ^ ƒŠƒXƒg‚ğ’Šo‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, dwIeDataSize, pRawIeData, strFormat, pReserved, ppPsdIEDataList
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -371,8 +363,6 @@ PSD IE ‚¨‚æ‚Ñ IE ‚ÌŒ`®‚ÌÚ×‚Í WlanSetPsdIEDataList ‚ğQÆB
 %index
 WlanFreeMemory
 ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 wlanapi
 %prm
 pMemory
 pMemory : [intptr] ‰ğ•ú‚·‚éƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -388,8 +378,6 @@ Wireless LAN API ‚É‚ÍAWlanFreeMemory ‚Æ WlanGetAvailableNetworkList
 %index
 WlanGetAvailableNetworkList
 ƒƒCƒ„ƒŒƒX LAN ƒCƒ“ƒ^[ƒtƒFƒCƒXã‚Ì—˜—p‰Â”\ƒlƒbƒgƒ[ƒN‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, dwFlags, pReserved, ppAvailableNetworkList
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -413,8 +401,6 @@ WlanFreeMemory ‚ğ‘½”‰ñŒÄ‚Ôê‡‚Ì«”\Œüã‚ÌC³ƒvƒƒOƒ‰ƒ€‚ª‚ ‚éB
 %index
 WlanGetAvailableNetworkList2
 (no summary)
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, dwFlags, pReserved, ppAvailableNetworkList
 hClientHandle : [intptr] 
@@ -429,8 +415,6 @@ ppAvailableNetworkList : [var]
 %index
 WlanGetFilterList
 ƒOƒ‹[ƒv ƒ|ƒŠƒV[‚Ü‚½‚Íƒ†[ƒU[Œ ŒÀƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, wlanFilterListType, pReserved, ppNetworkList
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -451,8 +435,6 @@ ppNetworkList : [var] ‹–‰Â‚Ü‚½‚Í‹‘”Û‚³‚ê‚½ƒlƒbƒgƒ[ƒN‚ÌƒŠƒXƒg‚ğŠÜ‚Ş DOT11_NETWO
 %index
 WlanGetInterfaceCapability
 ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì‹@”\‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pReserved, ppCapability
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -473,8 +455,6 @@ ppCapability ‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ÍŒÄ‚Ño‚µŒ³‚ª WlanFreeMemory ‚Å‰ğ•ú‚·‚éÓ”C‚
 %index
 WlanGetNetworkBssList
 w’è‚ÌƒƒCƒ„ƒŒƒX LAN ƒCƒ“ƒ^[ƒtƒFƒCƒXã‚ÌƒƒCƒ„ƒŒƒX ƒlƒbƒgƒ[ƒN‚Ì BSS ƒGƒ“ƒgƒŠ ƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pDot11Ssid, dot11BssType, bSecurityEnabled, pReserved, ppWlanBssList
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -504,8 +484,6 @@ ERROR_SUCCESS ‚ğ•Ô‚·‚ª BSS ‚Í•Ô‚ç‚È‚¢B‘Sƒlƒbƒgƒ[ƒN‚ÌƒŠƒXƒg‚ğ“¾‚é‚É‚Í pDot11Ss
 %index
 WlanGetProfile
 w’è‚³‚ê‚½ƒƒCƒ„ƒŒƒX ƒvƒƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚é‚·‚×‚Ä‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, pReserved, pstrProfileXml, pdwFlags, pdwGrantedAccess
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -539,8 +517,6 @@ XP SP2 —p API: Œ®‚ÍˆÃ†‰»‚³‚ê‚È‚¢B
 %index
 WlanGetProfileCustomUserData
 ƒƒCƒ„ƒŒƒX ƒvƒƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒXƒ^ƒ€ ƒ†[ƒU[ ƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, pReserved, pdwDataSize, ppData
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -567,8 +543,6 @@ WlanSetProfileCustomUserData ‚Åİ’è‚Å‚«‚éBWlanSetProfile ‚Åƒvƒƒtƒ@ƒCƒ‹‚ğXV‚·
 %index
 WlanGetProfileList
 ƒvƒƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pReserved, ppProfileList
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -594,8 +568,6 @@ WlanSetProfilePosition ‚ğg‚¤B‚æ‚èÚ×‚Èî•ñ‚Í WlanGetProfile
 %index
 WlanGetSecuritySettings
 \¬‰Â”\ƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒZƒLƒ…ƒŠƒeƒBİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, SecurableObject, pValueType, pstrCurrentSDDL, pdwGrantedAccess
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -618,8 +590,6 @@ pdwGrantedAccess : [var] ƒIƒuƒWƒFƒNƒg‚ÌƒAƒNƒZƒX ƒ}ƒXƒNB
 %index
 WlanGetSupportedDeviceServices
 w’è‚ÌƒƒCƒ„ƒŒƒX LAN ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒfƒoƒCƒX ƒT[ƒrƒX‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, ppDevSvcGuidList
 hClientHandle : [intptr] Œ^: HANDLE WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -639,8 +609,6 @@ ppDevSvcGuidList : [var] Œ^: PWLAN_DEVICE_SERVICE_GUID_LIST* •Ô‚³‚ê‚éƒfƒoƒCƒX ƒT
 %index
 WlanHostedNetworkForceStart
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŒÄ‚Ño‚µƒnƒ“ƒhƒ‹‚ÆŠÖ˜A•t‚¯‚¸‚ÉƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ğ wlan_hosted_network_active ó‘Ô‚É‘JˆÚ‚³‚¹‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -668,8 +636,6 @@ WlanHostedNetworkForceStop
 %index
 WlanHostedNetworkForceStop
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŒÄ‚Ño‚µƒnƒ“ƒhƒ‹‚ÆŠÖ˜A•t‚¯‚¸‚ÉƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ğ wlan_hosted_network_idle ‚É‘JˆÚ‚³‚¹‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -696,8 +662,6 @@ WlanEnumInterfaces ‚Ì•Ô‚·ƒŠƒXƒg‚É‚ÍŒ»‚ê‚È‚¢B•¨—ƒAƒ_ƒvƒ^‚ª–³Œø‰»‚³‚ê‚é‚Æ‰¼‘zƒfƒ
 %index
 WlanHostedNetworkInitSettings
 –¢İ’è‚Ìê‡‚ÉƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚Ìƒlƒbƒgƒ[ƒNÚ‘±İ’è (SSID ‚âÅ‘åƒsƒA”‚È‚Ç) ‚ğ\¬‚µƒXƒgƒŒ[ƒW‚É‰i‘±‰»‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -722,8 +686,6 @@ WlanHostedNetworkSetProperty ‚ğŒÄ‚ÔB
 %index
 WlanHostedNetworkQueryProperty
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ÌŒ»İ‚ÌÃ“IƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, OpCode, pdwDataSize, ppvData, pWlanOpcodeValueType, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -750,8 +712,6 @@ WlanFreeMemory ‚Å‰ğ•ú‚·‚éBppvData ‚Ìƒf[ƒ^Œ^‚Í OpCode ‚Ì’l‚É‚æ‚èŸ‚Ì‚æ‚¤‚ÉŒˆ‚Ü‚
 %index
 WlanHostedNetworkQuerySecondaryKey
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚Åg—p‚·‚é‚æ‚¤‚É\¬‚³‚ê‚½ƒZƒJƒ“ƒ_ƒŠ ƒZƒLƒ…ƒŠƒeƒB ƒL[‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pdwKeyLength, ppucKeyData, pbIsPassPhrase, pbPersistent, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -778,8 +738,6 @@ Windows 7 / Server 2008 R2 ‚ÌŠg’£BƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚Åg—p‚³‚ê‚
 %index
 WlanHostedNetworkQueryStatus
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ÌŒ»İ‚Ìó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, ppWlanHostedNetworkStatus, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -801,8 +759,6 @@ WlanFreeMemory ‚Å‰ğ•ú‚·‚éB’N‚Å‚àŒÄ‚Ño‚¹‚é‚ªAƒhƒƒCƒ“‚ÌƒOƒ‹[ƒv ƒ|ƒŠƒV[‚É‚æ‚è
 %index
 WlanHostedNetworkRefreshSecuritySettings
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ÌƒZƒLƒ…ƒŠƒeƒBİ’è‚Ì\¬‰Â”\‚¨‚æ‚Ñ©“®¶¬•”•ª‚ğXV‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -824,8 +780,6 @@ Windows 7 / Server 2008 R2 ‚ÌŠg’£B\¬‰Â”\‚¨‚æ‚Ñ©“®¶¬‚³‚ê‚éƒZƒLƒ…ƒŠƒeƒBİ’è 
 %index
 WlanHostedNetworkSetProperty
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ÌÃ“IƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, OpCode, dwDataSize, pvData, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -851,8 +805,6 @@ OpCode ‚ÉˆË‘¶‚·‚é:
 %index
 WlanHostedNetworkSetSecondaryKey
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚Åg—p‚·‚éƒZƒJƒ“ƒ_ƒŠ ƒZƒLƒ…ƒŠƒeƒB ƒL[‚ğ\¬‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, dwKeyLength, pucKeyData, bIsPassPhrase, bPersistent, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -879,8 +831,6 @@ OS ‚ª‚æ‚è‚‚¢ƒZƒLƒ…ƒŠƒeƒB‹­“x‚Å¶¬‚·‚éB
 %index
 WlanHostedNetworkStartUsing
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ğŠJn‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -903,8 +853,6 @@ wlan_hosted_network_unavailable
 %index
 WlanHostedNetworkStopUsing
 ƒƒCƒ„ƒŒƒX ƒzƒXƒeƒbƒh ƒlƒbƒgƒ[ƒN‚ğ’â~‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pFailReason, pvReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -928,8 +876,6 @@ WlanHostedNetworkStopUsing ‚ğŒÄ‚Ô‚©AWlanHostedNetworkForceStop
 %index
 WlanIhvControl
 “Æ—§ƒn[ƒhƒEƒFƒA ƒxƒ“ƒ_[ (IHV) ‚ª WLAN ƒhƒ‰ƒCƒo‚Ü‚½‚ÍƒT[ƒrƒX‚ğ§Œä‚·‚é‚½‚ß‚Ìd‘g‚İ‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, Type, dwInBufferSize, pInBuffer, dwOutBufferSize, pOutBuffer, pdwBytesReturned
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -951,8 +897,6 @@ pdwBytesReturned : [var] •Ô‚³‚ê‚½ƒoƒCƒg”B
 %index
 WlanOpenHandle
 ƒT[ƒo[‚Ö‚ÌÚ‘±‚ğŠJ‚­B
-%group
-Win32 wlanapi
 %prm
 dwClientVersion, pReserved, pdwNegotiatedVersion, phClientHandle
 dwClientVersion : [int] ƒNƒ‰ƒCƒAƒ“ƒg‚ªƒTƒ|[ƒg‚·‚é WLAN API ‚ÌÅ‚ƒo[ƒWƒ‡ƒ“B
@@ -977,8 +921,6 @@ Configuration ƒT[ƒrƒX‚ªŠJn‚µ‚Ä‚¢‚È‚¢‚©‰“š‚µ‚È‚¢ê‡AWlanOpenHandle ‚ÍƒGƒ‰[‚
 %index
 WlanQueryAutoConfigParameter
 ©“®\¬ƒT[ƒrƒX‚Ìƒpƒ‰ƒ[ƒ^‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, OpCode, pReserved, pdwDataSize, ppData, pWlanOpcodeValueType
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1002,8 +944,6 @@ WlanQueryAutoConfigParameter ‚Í Windows Vista ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚é©“®\¬ƒ‚ƒWƒ…
 %index
 WlanQueryInterface
 WlanQueryInterface ŠÖ”‚Íw’è‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŠeíƒpƒ‰ƒ[ƒ^‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, OpCode, pReserved, pdwDataSize, ppData, pWlanOpcodeValueType
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1030,8 +970,6 @@ DOT11_OPERATION_MODE_NETWORK_MONITOR ‚Ì 2 í—Ş‚ªƒTƒ|[ƒg‚³‚ê‚é (Windot11.h ’è‹`)
 %index
 WlanReasonCodeToString
 w’è‚Ì——RƒR[ƒh‚ğà–¾‚·‚é•¶š—ñ‚ğæ“¾‚·‚éB
-%group
-Win32 wlanapi
 %prm
 dwReasonCode, dwBufferSize, pStringBuffer, pReserved
 dwReasonCode : [int] •¶š—ñà–¾‚ğ—v‹‚·‚é WLAN_REASON_CODE ’lB
@@ -1049,8 +987,6 @@ pReserved : [intptr] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚é
 %index
 WlanRegisterDeviceServiceNotification
 ŠÇ—ÒŒ ŒÀ‚ğ‚Âƒ†[ƒU[ ƒ‚[ƒh ƒNƒ‰ƒCƒAƒ“ƒg‚Ü‚½‚Í UMDF ƒhƒ‰ƒCƒo‚ªAŠÖS‚Ì‚ ‚éƒfƒoƒCƒX ƒT[ƒrƒX‚É‘Î‰‚·‚é”ñ¿‹’Ê’m‚ğ“o˜^‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pDevSvcGuidList
 hClientHandle : [intptr] Œ^: HANDLE WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1080,8 +1016,6 @@ WlanGetSupportedDeviceServices ‚ÅŠm”F‚·‚é‚±‚ÆB
 %index
 WlanRegisterNotification
 ‚·‚×‚Ä‚ÌƒƒCƒ„ƒŒƒX ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚Ì’Ê’m‚Ì“o˜^‚¨‚æ‚Ñ‰ğœ‚Ég—p‚³‚ê‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, dwNotifSource, bIgnoreDuplicate, funcCallback, pCallbackContext, pReserved, pdwPrevNotifSource
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1111,8 +1045,6 @@ WLAN_NOTIFICATION_SOURCE_NONE ˆÈŠO‚ÅƒR[ƒ‹ƒoƒbƒN‚ª NULL ‚¾‚ÆƒGƒ‰[‚Æ‚È‚éB“o˜^Œã
 %index
 WlanRegisterVirtualStationNotification
 ‰¼‘zƒXƒe[ƒVƒ‡ƒ“ã‚Ì’Ê’m‚Ì“o˜^‚¨‚æ‚Ñ‰ğœ‚Ég—p‚³‚ê‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, bRegister, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1135,8 +1067,6 @@ bRegister=TRUE ‚ÅŒÄ‚ÑA‚©‚Â WlanRegisterNotification ‚àŒÄ‚Ô•K—v‚ª‚ ‚éB“o˜^‚Íƒnƒ
 %index
 WlanRenameProfile
 w’è‚³‚ê‚½ƒvƒƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•ÏX‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strOldProfileName, strNewProfileName, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1155,8 +1085,6 @@ pReserved : [intptr] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 WlanSaveTemporaryProfile
 ˆêƒvƒƒtƒ@ƒCƒ‹‚ğƒvƒƒtƒ@ƒCƒ‹ ƒXƒgƒA‚É•Û‘¶‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, strAllUserProfileSecurity, dwFlags, bOverWrite, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1184,8 +1112,6 @@ pReserved : [intptr] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚é
 %index
 WlanScan
 w’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å—˜—p‰Â”\‚Èƒlƒbƒgƒ[ƒN‚ÌƒXƒLƒƒƒ“‚ğ—v‹‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, pDot11Ssid, pIeData, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1211,8 +1137,6 @@ IE)BpIeData ƒoƒbƒtƒ@‚Í Element ID ‚©‚çn‚Ü‚éŠ®‘S‚È IE ‚ğŠÜ‚Ş•K—v‚ª‚ ‚éBpIeData
 %index
 WlanSetAutoConfigParameter
 ©“®\¬ƒT[ƒrƒX‚Ìƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, OpCode, dwDataSize, pData, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1235,8 +1159,6 @@ WlanSetAutoConfigParameter ‚Í Windows Vista ˆÈ~‚Ì©“®\¬ƒ‚ƒWƒ…[ƒ‹ (ACM)
 %index
 WlanSetFilterList
 ‹–‰Â/‹‘”ÛƒŠƒXƒg‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, wlanFilterListType, pNetworkList, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1262,8 +1184,6 @@ DOT11_NETWORK ‚ğw’è‚·‚éB‘S BSS í•Ê‚ğŠÜ‚ß‚é‚É‚Í dot11BssType=dot11_BSS_type_an
 %index
 WlanSetInterface
 ƒ†[ƒU[\¬‰Â”\‚Èƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, OpCode, dwDataSize, pData, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1291,8 +1211,6 @@ WLAN_PHY_RADIO_STATE ‚ğw‚·)Bƒn[ƒhƒEƒFƒA–³üó‘Ô‚Í•ÏX‚Å‚«‚È‚¢BPHY
 %index
 WlanSetProfile
 “Á’èƒvƒƒtƒ@ƒCƒ‹‚Ì“à—e‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, dwFlags, strProfileXml, strAllUserProfileSecurity, bOverwrite, pReserved, pdwReasonCode
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1322,8 +1240,6 @@ WlanSetProfile ‚ÍV‹K WLAN ƒvƒƒtƒ@ƒCƒ‹’Ç‰Á‚Ü‚½‚ÍŠù‘¶’uŠ·‚Ég—p‚·‚éBVƒvƒƒtƒ@ƒ
 %index
 WlanSetProfileCustomUserData
 ƒvƒƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚éƒJƒXƒ^ƒ€ ƒ†[ƒU[ ƒf[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, dwDataSize, pData, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1349,8 +1265,6 @@ Native Wifi AutoConfig ƒT[ƒrƒX‚ªg—p‚·‚éŠe WLAN ƒvƒƒtƒ@ƒCƒ‹‚É‘Î‚µAWindows ‚Íƒ
 %index
 WlanSetProfileEapUserData
 ¶ EAP ƒf[ƒ^‚Åw’è‚³‚ê‚½ Extensible Authentication Protocol (EAP) ƒ†[ƒU[‘Šiî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, eapType, dwFlags, dwEapUserDataSize, pbEapUserData, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1381,8 +1295,6 @@ pbEapUserData=NULLAdwFlags=WLAN_SET_EAPHOST_DATA_ALL_USERSAdwEapUserDataSize=0
 %index
 WlanSetProfileEapXmlUserData
 XML •¶š—ñ‚Åw’è‚³‚ê‚½ Extensible Authentication Protocol (EAP) ƒ†[ƒU[‘Šiî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, dwFlags, strEapXmlUserData, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1410,8 +1322,6 @@ WlanSetProfileEapXmlUserData ‚Íƒvƒƒtƒ@ƒCƒ‹‚Åg—p‚·‚é EAP ƒ†[ƒU[‘Šiî•ñ‚ğİ’è
 %index
 WlanSetProfileList
 ƒvƒƒtƒ@ƒCƒ‹‚Ì—Dæ‡ˆÊ‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, dwItems, strProfileNames, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1436,8 +1346,6 @@ WlanGetProfileList ‚ª•Ô‚·Œ»ƒvƒƒtƒ@ƒCƒ‹‚Æ 1 ‘Î 1 ‚É‘Î‰‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒ
 %index
 WlanSetProfilePosition
 —DæƒŠƒXƒg“à‚Ìw’è‚³‚ê‚½’Pˆêƒvƒƒtƒ@ƒCƒ‹‚ÌˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, pInterfaceGuid, strProfileName, dwPosition, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1465,8 +1373,6 @@ ERROR_INVALID_PARAMETER ‚Å¸”s‚µ‚¤‚éB
 %index
 WlanSetPsdIEDataList
 ‹ßÚƒT[ƒrƒXŒŸo (PSD) î•ñ—v‘f (IE) ƒf[ƒ^ ƒŠƒXƒg‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, strFormat, pPsdIEDataList, pReserved
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B
@@ -1495,8 +1401,6 @@ Wireless LAN Service ‚Å‚ÍƒAƒhƒzƒbƒN ƒNƒ‰ƒCƒAƒ“ƒgAƒAƒhƒzƒbƒN ƒT[ƒrƒXAƒCƒ“ƒtƒ‰ƒ
 %index
 WlanSetSecuritySettings
 \¬‰Â”\ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒBİ’è‚ğİ’è‚·‚éB
-%group
-Win32 wlanapi
 %prm
 hClientHandle, SecurableObject, strModifiedSDDL
 hClientHandle : [intptr] WlanOpenHandle ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒZƒbƒVƒ‡ƒ“ ƒnƒ“ƒhƒ‹B

@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+crypt32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì crypt32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 CertAddCRLContextToStore
 w’è‚µ‚½Ø–¾‘ƒXƒgƒA‚ÉØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pCrlContext, dwAddDisposition, ppStoreContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -35,8 +55,6 @@ CertDeleteCRLFromStore ŠÖ”‚ğg—p‚·‚éB
 %index
 CertAddCRLLinkToStore
 ‚ ‚éƒXƒgƒA“à‚ÉA•Ê‚ÌƒXƒgƒA‚É‚ ‚éØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚Ö‚ÌƒŠƒ“ƒN‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pCrlContext, dwAddDisposition, ppStoreContext
 hCertStore : [int] ƒŠƒ“ƒN‚ğ’Ç‰Á‚·‚éØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -67,8 +85,6 @@ CertDeleteCRLFromStore ŠÖ”‚ğg—p‚·‚éB
 %index
 CertAddCTLContextToStore
 Ø–¾‘ƒXƒgƒA‚ÉØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pCtlContext, dwAddDisposition, ppStoreContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -95,8 +111,6 @@ CertDeleteCTLFromStore ŠÖ”‚ğg—p‚·‚éB
 %index
 CertAddCTLLinkToStore
 CertAddCTLLinkToStore ŠÖ”‚ÍA‚ ‚éƒXƒgƒA“à‚ÉA•Ê‚ÌƒXƒgƒA‚É‚ ‚éØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚Ö‚ÌƒŠƒ“ƒN‚ğ’Ç‰Á‚·‚éBCTL ƒRƒ“ƒeƒLƒXƒg‚Ì•¡»‚ğì¬‚µ‚Ä’Ç‰Á‚·‚é‘ã‚í‚è‚ÉAŒ³‚Ì CTL ƒRƒ“ƒeƒLƒXƒg‚Ö‚ÌƒŠƒ“ƒN‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pCtlContext, dwAddDisposition, ppStoreContext
 hCertStore : [int] ƒŠƒ“ƒN‚ğ’Ç‰Á‚·‚éØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -128,8 +142,6 @@ CertDeleteCTLFromStore ŠÖ”‚ğg—p‚·‚éB
 %index
 CertAddCertificateContextToStore
 Ø–¾‘ƒXƒgƒA‚ÉØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pCertContext, dwAddDisposition, ppStoreContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -156,8 +168,6 @@ CertDeleteCertificateFromStore ŠÖ”‚ğg—p‚·‚éB’:
 %index
 CertAddCertificateLinkToStore
 Ø–¾‘ƒXƒgƒA“à‚ÉA•Ê‚ÌƒXƒgƒA‚É‚ ‚éØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚Ö‚ÌƒŠƒ“ƒN‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pCertContext, dwAddDisposition, ppStoreContext
 hCertStore : [int] ƒŠƒ“ƒN‚ğ’Ç‰Á‚·‚éØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -187,8 +197,6 @@ CertDeleteCertificateFromStore ŠÖ”‚ğg—p‚·‚éB
 %index
 CertAddEncodedCRLToStore
 ƒGƒ“ƒR[ƒh‚³‚ê‚½ CRL ‚©‚çØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚µAØ–¾‘ƒXƒgƒA‚É’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, pbCrlEncoded, cbCrlEncoded, dwAddDisposition, ppCrlContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -209,8 +217,6 @@ ppCrlContext : [var] ƒfƒR[ƒh‚³‚ê‚½ CRL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 CertAddEncodedCTLToStore
 ƒGƒ“ƒR[ƒh‚³‚ê‚½ CTL ‚©‚çØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚µAØ–¾‘ƒXƒgƒA‚É’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwMsgAndCertEncodingType, pbCtlEncoded, cbCtlEncoded, dwAddDisposition, ppCtlContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -231,8 +237,6 @@ ppCtlContext : [var] ƒfƒR[ƒh‚³‚ê‚½ CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 CertAddEncodedCertificateToStore
 ƒGƒ“ƒR[ƒh‚³‚ê‚½Ø–¾‘‚©‚çØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚µAØ–¾‘ƒXƒgƒA‚É’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, pbCertEncoded, cbCertEncoded, dwAddDisposition, ppCertContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -253,8 +257,6 @@ ppCertContext : [var] ƒfƒR[ƒh‚³‚ê‚½Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 CertAddEncodedCertificateToSystemStoreW
 w’è‚µ‚½ƒVƒXƒeƒ€ƒXƒgƒA‚ğŠJ‚«AƒGƒ“ƒR[ƒhÏ‚İØ–¾‘‚ğ’Ç‰Á‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 szCertStoreName, pbCertEncoded, cbCertEncoded
 szCertStoreName : [wstr] ƒGƒ“ƒR[ƒhÏ‚İØ–¾‘‚ğŠi”[‚·‚éƒVƒXƒeƒ€ƒXƒgƒA‚Ì–¼‘O‚ğŠÜ‚ŞANULL I’[•¶š—ñB
@@ -278,8 +280,6 @@ CertOpenSystemStore ‚Æ CertAddEncodedCertificateToStore ‚ğŒÄ‚Ño‚·B
 %index
 CertAddEnhancedKeyUsageIdentifier
 CertAddEnhancedKeyUsageIdentifier ŠÖ”‚ÍAØ–¾‘‚ÌŠg’£ƒL[g—p–@ (EKU) Šg’£ƒvƒƒpƒeƒB‚ÉAg—p–@¯•ÊqƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, pszUsageIdentifier
 pCertContext : [var] g—p–@¯•Êq‚ğ’Ç‰Á‚·‚é‘ÎÛ‚ÌØ–¾‘‚Ì CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -296,8 +296,6 @@ GetLastError ‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éB
 %index
 CertAddRefServerOcspResponse
 HCERT_SERVER_OCSP_RESPONSE ƒnƒ“ƒhƒ‹‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 hServerOcspResponse
 hServerOcspResponse : [intptr] CertOpenServerOcspResponse ‚ª•Ô‚· HCERT_SERVER_OCSP_RESPONSE ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -312,8 +310,6 @@ CertOpenServerOcspResponse ‚¨‚æ‚Ñ CertAddRefServerOcspResponse
 %index
 CertAddRefServerOcspResponseContext
 CERT_SERVER_OCSP_RESPONSE_CONTEXT \‘¢‘Ì‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 pServerOcspResponseContext
 pServerOcspResponseContext : [var] CertGetServerOcspResponseContext ‚ª•Ô‚· CERT_SERVER_OCSP_RESPONSE_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -329,8 +325,6 @@ CertFreeServerOcspResponseContext ‚ÌŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éB
 %index
 CertAddSerializedElementToStore
 ƒVƒŠƒAƒ‹‰»‚³‚ê‚½Ø–¾‘AØ–¾‘¸ŒøƒŠƒXƒg (CRL)A‚Ü‚½‚ÍØ–¾‘M—ŠƒŠƒXƒg (CTL) —v‘f‚ğƒXƒgƒA‚É’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pbElement, cbElement, dwAddDisposition, dwFlags, dwContextTypeFlags, pdwContextType, ppvContext
 hCertStore : [int] ì¬‚³‚ê‚éØ–¾‘‚ğŠi”[‚·‚éØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹BhCertStore ‚ª NULL ‚Ìê‡A–{ŠÖ”‚ÍØ–¾‘ACRLA‚Ü‚½‚Í CTL ƒRƒ“ƒeƒLƒXƒg‚ÌƒRƒs[‚ğŠg’£ƒvƒƒpƒeƒB‚Æ‚Æ‚à‚Éì¬‚·‚é‚ªAØ–¾‘ACRLA‚Ü‚½‚Í CTL ‚Í‚Ç‚ÌƒXƒgƒA‚É‚à‰i‘±‰»‚³‚ê‚È‚¢B
@@ -353,8 +347,6 @@ ppvContext : [var] ƒfƒR[ƒh‚³‚ê‚½Ø–¾‘ACRLA‚Ü‚½‚Í CTL ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 CertAddStoreToCollection
 CertAddStoreToCollection ŠÖ”‚ÍAƒRƒŒƒNƒVƒ‡ƒ“Ø–¾‘ƒXƒgƒA‚ÉŒZ’íØ–¾‘ƒXƒgƒA‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCollectionStore, hSiblingStore, dwUpdateFlags, dwPriority
 hCollectionStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -383,8 +375,6 @@ CertCloseStore ‚Å CERT_CLOSE_STORE_FORCE_FLAG
 %index
 CertAlgIdToOID
 CryptoAPI ƒAƒ‹ƒSƒŠƒYƒ€¯•Êq (ALG_ID) ‚ğ ASN.1 ƒIƒuƒWƒFƒNƒg¯•Êq (OID) •¶š—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwAlgId
 dwAlgId : [int] OID ‚É•ÏŠ·‚·‚é’lB
@@ -399,8 +389,6 @@ CryptoAPI ƒAƒ‹ƒSƒŠƒYƒ€¯•Êq (ALG_ID) ‚ğ ASN.1 ƒIƒuƒWƒFƒNƒg¯•Êq (OID) •¶š—ñ‚É
 %index
 CertCloseServerOcspResponse
 ƒIƒ“ƒ‰ƒCƒ“Ø–¾‘ó‘ÔƒvƒƒgƒRƒ‹ (OCSP) ƒT[ƒo[‰“š‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 crypt32
 %prm
 hServerOcspResponse, dwFlags
 hServerOcspResponse : [intptr] •Â‚¶‚é OCSP ƒT[ƒo[‰“š‚Ìƒnƒ“ƒhƒ‹B
@@ -416,8 +404,6 @@ CertAddRefServerOcspResponse ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
 %index
 CertCloseStore
 Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶AƒXƒgƒA‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·B
-%group
-Win32 crypt32
 %prm
 hCertStore, dwFlags
 hCertStore : [int] •Â‚¶‚éØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -450,8 +436,6 @@ CERT_STORE_NO_CRYPT_RELEASE_FLAG ‚ğw’è‚µ‚Ä‚¢‚È‚¯‚ê‚ÎAƒNƒ[ƒY‚É CSP ƒnƒ“ƒhƒ‹
 %index
 CertCompareCertificate
 Ø–¾‘‚Ì”­sÒ–¼‚ÆƒVƒŠƒAƒ‹”Ô†‚ğ”äŠr‚·‚é‚±‚Æ‚É‚æ‚èA2 ‚Â‚ÌØ–¾‘‚ª“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pCertId1, pCertId2
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒhí•Ê‚ğw’è‚·‚éBØ–¾‘ƒGƒ“ƒR[ƒhí•Ê‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒhí•Ê‚ğAŸ‚Ì—á‚Ì‚æ‚¤‚Éƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‰Â”\‚Å‚ ‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒhí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -467,8 +451,6 @@ pCertId2 : [var] ”äŠr‚·‚é 2 ‚Â–Ú‚ÌØ–¾‘‚Ì CERT_INFO ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 CertCompareCertificateName
 CertCompareCertificateName ŠÖ”‚ÍA2 ‚Â‚ÌØ–¾‘‚Ì CERT_NAME_BLOB \‘¢‘Ì‚ğ”äŠr‚µ‚ÄA“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éBCERT_NAME_BLOB \‘¢‘Ì‚ÍØ–¾‘‚ÌƒTƒuƒWƒFƒNƒg‚¨‚æ‚Ñ”­sÒ‚Ì‚½‚ß‚Ég—p‚³‚ê‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pCertName1, pCertName2
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒhí•Ê‚ğw’è‚·‚éBØ–¾‘ƒGƒ“ƒR[ƒhí•Ê‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒhí•Ê‚ğAŸ‚Ì—á‚Ì‚æ‚¤‚Éƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‰Â”\‚Å‚ ‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒhí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -485,8 +467,6 @@ CertCompareCertificateName ŠÖ”‚ÍA2 ‚Â‚ÌØ–¾‘‚Ì CERT_NAME_BLOB
 %index
 CertCompareIntegerBlob
 CertCompareIntegerBlob ŠÖ”‚ÍA2 ‚Â‚Ì®” BLOB ‚ğ”äŠr‚µ‚ÄA“™‚µ‚¢”’l‚ğ•\‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 pInt1, pInt2
 pInt1 : [var] ”äŠr‚·‚é 1 ‚Â–Ú‚Ì®”‚ğŠÜ‚Ş CRYPT_INTEGER_BLOB \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -509,8 +489,6 @@ CertCompareIntegerBlob ŠÖ”‚ÍA2 ‚Â‚Ì®” BLOB ‚ğ”äŠr‚µ‚ÄA“™‚µ‚¢”’l‚ğ•\‚µ‚Ä‚¢‚
 %index
 CertComparePublicKeyInfo
 CertComparePublicKeyInfo ŠÖ”‚ÍAƒGƒ“ƒR[ƒh‚³‚ê‚½ 2 ‚Â‚ÌŒöŠJŒ®‚ğ”äŠr‚µ‚ÄA“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pPublicKey1, pPublicKey2
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒhí•Ê‚ğw’è‚·‚éBØ–¾‘ƒGƒ“ƒR[ƒhí•Ê‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒhí•Ê‚ğAŸ‚Ì—á‚Ì‚æ‚¤‚Éƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‰Â”\‚Å‚ ‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒhí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -526,8 +504,6 @@ CertComparePublicKeyInfo ŠÖ”‚ÍAƒGƒ“ƒR[ƒh‚³‚ê‚½ 2 ‚Â‚ÌŒöŠJŒ®‚ğ”äŠr‚µ‚ÄA“¯ˆê‚©
 %index
 CertControlStore
 g—p’†‚ÌƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒXƒgƒA‚Ì“à—e‚ÆA‰i‘±‰»ƒXƒgƒŒ[ƒWã‚Ì‚»‚Ì“à—e‚Æ‚ÌŠÔ‚É·ˆÙ‚ª‚ ‚éê‡‚ÉAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwFlags, dwCtrlType, pvCtrlPara
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -560,8 +536,6 @@ pvCtrlPara : [intptr] dwCtrlType ‚ª CERT_STORE_NOTIFY_CHANGE ‚Ìê‡ApvCtrlPara 
 %index
 CertCreateCRLContext
 CertCreateCRLContext ŠÖ”‚ÍAƒGƒ“ƒR[ƒh‚³‚ê‚½ CRL ‚©‚çØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éBì¬‚³‚ê‚½ƒRƒ“ƒeƒLƒXƒg‚ÍØ–¾‘ƒXƒgƒA‚É‚Í‰i‘±‰»‚³‚ê‚È‚¢Bì¬‚³‚ê‚½ƒRƒ“ƒeƒLƒXƒg“à‚ÉƒGƒ“ƒR[ƒhÏ‚İ CRL ‚ÌƒRƒs[‚ğ•Û‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pbCrlEncoded, cbCrlEncoded
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒhí•Ê‚ğw’è‚·‚éBØ–¾‘ƒGƒ“ƒR[ƒhí•Ê‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒhí•Ê‚ğAŸ‚Ì—á‚Ì‚æ‚¤‚Éƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‰Â”\‚Å‚ ‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒhí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -587,8 +561,6 @@ CertSetCRLContextProperty ‚¨‚æ‚Ñ CertGetCRLContextProperty ‚ğŒÄ‚Ño‚¹‚éB
 %index
 CertCreateCTLContext
 CertCreateCTLContext ŠÖ”‚ÍAƒGƒ“ƒR[ƒh‚³‚ê‚½ CTL ‚©‚çØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éBì¬‚³‚ê‚½ƒRƒ“ƒeƒLƒXƒg‚ÍØ–¾‘ƒXƒgƒA‚É‚Í‰i‘±‰»‚³‚ê‚È‚¢B–{ŠÖ”‚ÍAì¬‚µ‚½ƒRƒ“ƒeƒLƒXƒg“à‚ÉƒGƒ“ƒR[ƒhÏ‚İ CTL ‚ÌƒRƒs[‚ğ•Û‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwMsgAndCertEncodingType, pbCtlEncoded, cbCtlEncoded
 dwMsgAndCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒhí•Ê‚ğw’è‚·‚éBØ–¾‘ƒGƒ“ƒR[ƒhí•Ê‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒhí•Ê‚Ì—¼•û‚ğAŸ‚Ì—á‚Ì‚æ‚¤‚Éƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒhí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -614,8 +586,6 @@ CertSetCTLContextProperty ‚¨‚æ‚Ñ CertGetCTLContextProperty ‚ğŒÄ‚Ño‚¹‚éB
 %index
 CertCreateCTLEntryFromCertificateContextProperties
 CertCreateCTLEntryFromCertificateContextProperties ŠÖ”‚ÍA‘®«‚ªØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ÌƒvƒƒpƒeƒB‚Å‚ ‚éØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒGƒ“ƒgƒŠ‚ğì¬‚·‚éBCTL ƒGƒ“ƒgƒŠ‚Ì SubjectIdentifier ‚ÍØ–¾‘‚Ì SHA1 ƒnƒbƒVƒ…‚Å‚ ‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, cOptAttr, rgOptAttr, dwFlags, pvReserved, pCtlEntry, pcbCtlEntry
 pCertContext : [var] CTL ‚Ìì¬‚Ég—p‚·‚é CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -638,8 +608,6 @@ GetLastError ‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éB
 %index
 CertFreeCertificateChainEngine
 CertFreeCertificateChainEngine ŠÖ”‚ÍAØ–¾‘M—ŠƒGƒ“ƒWƒ“‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 crypt32
 %prm
 hChainEngine
 hChainEngine : [intptr] ‰ğ•ú‚·‚éƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“‚Ìƒnƒ“ƒhƒ‹B
@@ -650,8 +618,6 @@ CertFreeCertificateChainEngine ŠÖ”‚ÍAØ–¾‘M—ŠƒGƒ“ƒWƒ“‚ğ‰ğ•ú‚·‚éB
 %index
 CertCreateCertificateChainEngine
 CertCreateCertificateChainEngine ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“—p‚ÉV‚µ‚¢Šù’èˆÈŠO‚Ìƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“‚ğì¬‚·‚éB
-%group
-Win32 crypt32
 %prm
 pConfig, phChainEngine
 pConfig : [var] ƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“‚Ìƒpƒ‰ƒ[ƒ^[‚ğw’è‚·‚é CERT_CHAIN_ENGINE_CONFIG ƒf[ƒ^\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -667,8 +633,6 @@ GetLastError ‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éBphChainEngine ƒpƒ‰ƒ[ƒ^[‚Íƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“‚
 %index
 CertCreateCertificateContext
 ƒGƒ“ƒR[ƒh‚³‚ê‚½Ø–¾‘‚©‚çØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éBì¬‚³‚ê‚½ƒRƒ“ƒeƒLƒXƒg‚ÍØ–¾‘ƒXƒgƒA‚É‚Í‰i‘±‰»‚³‚ê‚È‚¢Bì¬‚³‚ê‚½ƒRƒ“ƒeƒLƒXƒg“à‚ÉƒGƒ“ƒR[ƒhÏ‚İØ–¾‘‚ÌƒRƒs[‚ğ•Û‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pbCertEncoded, cbCertEncoded
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒhí•Ê‚ğw’è‚·‚éBØ–¾‘ƒGƒ“ƒR[ƒhí•Ê‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒhí•Ê‚ğAŸ‚Ì—á‚Ì‚æ‚¤‚Éƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‰Â”\‚Å‚ ‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒhí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -695,8 +659,6 @@ CertGetCertificateContextProperty ‚ğŒÄ‚Ño‚¹‚éB
 %index
 CertCreateContext
 ƒGƒ“ƒR[ƒh‚³‚ê‚½ƒoƒCƒg—ñ‚©‚çw’è‚µ‚½ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éBì¬‚³‚ê‚½ƒRƒ“ƒeƒLƒXƒg‚É‚ÍŠg’£ƒvƒƒpƒeƒB‚ÍŠÜ‚Ü‚ê‚È‚¢B
-%group
-Win32 crypt32
 %prm
 dwContextType, dwEncodingType, pbEncoded, cbEncoded, dwFlags, pCreatePara
 dwContextType : [int] ì¬‰Â”\‚ÈƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB‚½‚Æ‚¦‚ÎØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚é‚É‚ÍAdwContextType ‚É CERT_STORE_CERTIFICATE_CONTEXT ‚ğİ’è‚·‚éB
@@ -719,8 +681,6 @@ ERROR_CANCELLED ‚ğ•Ô‚µ‚½ê‡A‚»‚ê‚Í PFN_CERT_CREATE_CONTEXT_SORT_FUNC
 %index
 CertCreateSelfSignCertificate
 ©ŒÈ–¼Ø–¾‘‚ğ\’z‚µA‚»‚ÌØ–¾‘‚ğ•\‚· CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, pSubjectIssuerBlob, dwFlags, pKeyProvInfo, pSignatureAlgorithm, pStartTime, pEndTime, pExtensions
 hCryptProvOrNCryptKey : [int] ì¬‚·‚éØ–¾‘‚Ì–¼‚Ég—p‚·‚éˆÃ†‰»ƒvƒƒoƒCƒ_[‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡A•K—v‚Èƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚½‚ß‚É pKeyProvInfo ƒpƒ‰ƒ[ƒ^[‚Ìî•ñ‚ªg—p‚³‚ê‚éBpKeyProvInfo ‚à NULL ‚Ìê‡AŠù’è‚ÌƒvƒƒoƒCƒ_[í•Ê‚Å‚ ‚é PROV_RSA_FULLAŠù’è‚ÌƒL[d—l‚Å‚ ‚é AT_SIGNATUREA‚¨‚æ‚ÑˆêˆÓ‚ÈƒRƒ“ƒeƒi[–¼‚ÅV‚µ‚­ì¬‚µ‚½ƒL[ƒRƒ“ƒeƒi[‚ªg—p‚³‚ê‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚ÍACryptAcquireContext ŠÖ”‚Åì¬‚³‚ê‚½ HCRYPTPROV ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í NCryptOpenKey ŠÖ”‚Åì¬‚³‚ê‚½ NCRYPT_KEY_HANDLE ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍA•K‚¸ CNG CSP ‚Ì NCRYPT_KEY_HANDLE ƒnƒ“ƒhƒ‹‚ğ“n‚·‚×‚«‚Å‚ ‚éB
@@ -749,8 +709,6 @@ year readiness
 %index
 CertDeleteCRLFromStore
 CertDeleteCRLFromStore ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğØ–¾‘ƒXƒgƒA‚©‚çíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCrlContext
 pCrlContext : [var] íœ‚·‚é CRL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -771,8 +729,6 @@ CertDeleteCRLFromStore ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğØ–¾
 %index
 CertDeleteCTLFromStore
 CertDeleteCTLFromStore ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğØ–¾‘ƒXƒgƒA‚©‚çíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext
 pCtlContext : [var] íœ‚·‚é CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -793,8 +749,6 @@ CertDeleteCTLFromStore ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğØ–¾
 %index
 CertDeleteCertificateFromStore
 CertDeleteCertificateFromStore ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğØ–¾‘ƒXƒgƒA‚©‚çíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext
 pCertContext : [var] íœ‚·‚é CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -818,8 +772,6 @@ CertDeleteCertificateFromStore ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğØ–¾‘ƒXƒgƒA‚
 %index
 CertDuplicateCRLContext
 CertDuplicateCRLContext ŠÖ”‚ÍAQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğ•¡»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCrlContext
 pCrlContext : [var] QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‘ÎÛ‚Ì CRL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -834,8 +786,6 @@ CertDuplicateCRLContext ŠÖ”‚ÍAQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘¸
 %index
 CertDuplicateCTLContext
 CertDuplicateCTLContext ŠÖ”‚ÍAQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğ•¡»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext
 pCtlContext : [var] QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‘ÎÛ‚Ì CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -851,8 +801,6 @@ NULL ‚ğ“n‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 %index
 CertDuplicateCertificateChain
 CertDuplicateCertificateChain ŠÖ”‚ÍAƒ`ƒF[ƒ“‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘ƒ`ƒF[ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•¡»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pChainContext
 pChainContext : [var] •¡»‚·‚é CERT_CHAIN_CONTEXT ƒ`ƒF[ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -869,8 +817,6 @@ CertDuplicateCertificateChain
 %index
 CertDuplicateCertificateContext
 QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğ•¡»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext
 pCertContext : [var] QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‘ÎÛ‚Ì CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -886,8 +832,6 @@ NULL ‚ğ•Ô‚·B•¡»‚µ‚½ƒRƒ“ƒeƒLƒXƒg‚Ìg—p‚ğI‚¦‚½‚çACertFreeCertificateContext
 %index
 CertDuplicateStore
 ƒXƒgƒA‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAƒXƒgƒAƒnƒ“ƒhƒ‹‚ğ•¡»‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore
 hCertStore : [int] QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‘ÎÛ‚ÌØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -902,8 +846,6 @@ hCertStore : [int] QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‘ÎÛ‚ÌØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹
 %index
 CertEnumCRLContextProperties
 CertEnumCRLContextProperties ŠÖ”‚ÍAØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Å‰‚Ü‚½‚ÍŸ‚ÌŠg’£ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCrlContext, dwPropId
 pCrlContext : [var] CRL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -920,8 +862,6 @@ dwPropId ‚Éw’è‚Å‚«‚éB—ñ‹“‚·‚×‚«ƒvƒƒpƒeƒB‚ª‚à‚¤‚È‚¢ê‡A‚Ü‚½‚ÍŠÖ”‚ª¸”s‚µ‚½
 %index
 CertEnumCRLsInStore
 CertEnumCRLsInStore ŠÖ”‚ÍAØ–¾‘ƒXƒgƒA“à‚ÌÅ‰‚Ü‚½‚ÍŸ‚ÌØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éBƒ‹[ƒv“à‚Åg—p‚·‚é‚±‚Æ‚ÅAØ–¾‘ƒXƒgƒA“à‚Ì‚·‚×‚Ä‚Ì CRL ƒRƒ“ƒeƒLƒXƒg‚ğ‡‚Éæ“¾‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pPrevCrlContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -946,8 +886,6 @@ CRL ƒRƒ“ƒeƒLƒXƒg‚Ì•¡»‚Í CertDuplicateCRLContext ‚ğŒÄ‚Ño‚µ‚Äì¬‚Å‚«‚éB
 %index
 CertEnumCTLContextProperties
 CertEnumCTLContextProperties ŠÖ”‚ÍAØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Å‰‚Ü‚½‚ÍŸ‚ÌŠg’£ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éBƒ‹[ƒv“à‚Åg—p‚·‚é‚±‚Æ‚ÅACTL ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌŠg’£ƒvƒƒpƒeƒB‚ğ‡‚Éæ“¾‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext, dwPropId
 pCtlContext : [var] CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -965,8 +903,6 @@ dwPropId ‚Éw’è‚Å‚«‚éB—ñ‹“‚·‚×‚«ƒvƒƒpƒeƒB‚ª‚à‚¤‚È‚¢ê‡A‚Ü‚½‚ÍŠÖ”‚ª¸”s‚µ‚½
 %index
 CertEnumCTLsInStore
 CertEnumCTLsInStore ŠÖ”‚ÍAØ–¾‘ƒXƒgƒA“à‚ÌÅ‰‚Ü‚½‚ÍŸ‚ÌØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éBƒ‹[ƒv“à‚Åg—p‚·‚é‚±‚Æ‚ÅAØ–¾‘ƒXƒgƒA“à‚Ì‚·‚×‚Ä‚Ì CTL ƒRƒ“ƒeƒLƒXƒg‚ğ‡‚Éæ“¾‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pPrevCtlContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -990,8 +926,6 @@ NULLBŠg’£ƒGƒ‰[î•ñ‚Í GetLastError ‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éB‘z’è‚³‚ê‚éƒGƒ‰[ƒR[ƒh
 %index
 CertEnumCertificateContextProperties
 CertEnumCertificateContextProperties ŠÖ”‚ÍAØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Å‰‚Ü‚½‚ÍŸ‚ÌŠg’£ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, dwPropId
 pCertContext : [var] —ñ‹“‘ÎÛ‚ÌƒvƒƒpƒeƒB‚ğŠÜ‚ŞØ–¾‘‚Ì CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1012,8 +946,6 @@ CERT_KEY_PROV_HANDLE_PROP_ID ‚¨‚æ‚Ñ CERT_KEY_SPEC_PROP_ID
 %index
 CertEnumCertificatesInStore
 Ø–¾‘ƒXƒgƒA“à‚ÌÅ‰‚Ü‚½‚ÍŸ‚ÌØ–¾‘‚ğæ“¾‚·‚éBƒ‹[ƒv‚ÅŒÄ‚Ño‚·‚±‚Æ‚Å‘SØ–¾‘‚ğ‡‚É—ñ‹“‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pPrevCertContext
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1036,8 +968,6 @@ CertFreeCertificateContext ‚Å–¾¦“I‚É‰ğ•ú‚·‚é•K—v‚ª‚ ‚éBNULL ‚Å‚È‚¢ pPrevCertCo
 %index
 CertEnumPhysicalStore
 CertEnumPhysicalStore ŠÖ”‚ÍAƒRƒ“ƒsƒ…[ƒ^[ã‚Ì•¨—ƒXƒgƒA‚ğæ“¾‚·‚éBŒ©‚Â‚©‚Á‚½Še•¨—ƒXƒgƒA‚É‚Â‚¢‚ÄAw’è‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pvArg, pfnEnum
 pvSystemStore : [intptr] dwFlags ‚É CERT_SYSTEM_STORE_RELOCATE_FLAG ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡ApvSystemStore ‚ÍA—ñ‹“‘ÎÛ‚ÌƒVƒXƒeƒ€ƒXƒgƒA‚Ì–¼‘O‚ÆêŠ‚Ì—¼•û‚ğ¦‚· CERT_SYSTEM_STORE_RELOCATE_PARA \‘¢‘Ì‚ğw‚·B‚»‚¤‚Å‚È‚¢ê‡ApvSystemStore ‚Í•¨—ƒXƒgƒA‚ğ—ñ‹“‚·‚é‘ÎÛ‚ÌƒVƒXƒeƒ€ƒXƒgƒA–¼‚ğ•Û‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BServiceName ‚Ü‚½‚Í ComputerName ‚ğƒVƒXƒeƒ€ƒXƒgƒA–¼‚Ì‘O‚É•t‰Á‚·‚é•û–@‚É‚Â‚¢‚Ä‚Í CertRegisterSystemStore ‚ğQÆB
@@ -1063,8 +993,6 @@ CertEnumPhysicalStore ‚ğg—p‚·‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í ENUM_ARG
 %index
 CertEnumSubjectInSortedCTL
 ƒ\[ƒg‚³‚ê‚½Ø–¾‘M—ŠƒŠƒXƒg (CTL) “à‚ÌÅ‰‚Ü‚½‚ÍŸ‚Ì TrustedSubject ‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext, ppvNextSubject, pSubjectIdentifier, pEncodedAttributes
 pCtlContext : [var] ŒŸõ‘ÎÛ‚Ì CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1089,8 +1017,6 @@ CERT_CREATE_CONTEXT_SORTED_FLAG ƒtƒ‰ƒO‚ğw’è‚µ‚Äƒ\[ƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡AƒGƒ‰[‚ª
 %index
 CertEnumSystemStore
 CertEnumSystemStore ŠÖ”‚ÍA—˜—p‰Â”\‚ÈƒVƒXƒeƒ€ƒXƒgƒA‚ğæ“¾‚·‚éBŒ©‚Â‚©‚Á‚½ŠeƒVƒXƒeƒ€ƒXƒgƒA‚É‚Â‚¢‚ÄAw’è‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 crypt32
 %prm
 dwFlags, pvSystemStoreLocationPara, pvArg, pfnEnum
 dwFlags : [int] ƒVƒXƒeƒ€ƒXƒgƒA‚ÌêŠ‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ìƒtƒ‰ƒO‚ğw’è‚Å‚«‚éB
@@ -1112,8 +1038,6 @@ CertEnumSystemStoreCallback ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğéŒ¾E’è‹`‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 CertEnumSystemStoreLocation
 CertEnumSystemStoreLocation ŠÖ”‚ÍA‚·‚×‚Ä‚ÌƒVƒXƒeƒ€ƒXƒgƒA‚ÌêŠ‚ğæ“¾‚·‚éBŒ©‚Â‚©‚Á‚½ŠeƒVƒXƒeƒ€ƒXƒgƒA‚ÌêŠ‚É‚Â‚¢‚ÄAw’è‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 crypt32
 %prm
 dwFlags, pvArg, pfnEnum
 dwFlags : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1135,8 +1059,6 @@ CertEnumSystemStoreLocation ‚ğg—p‚·‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í ENUM_ARG
 %index
 CertFindAttribute
 CertFindAttribute ŠÖ”‚ÍACRYPT_ATTRIBUTE ”z—ñ“à‚ÅAƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Å¯•Ê‚³‚ê‚éÅ‰‚Ì‘®«‚ğŒ©‚Â‚¯‚éB
-%group
-Win32 crypt32
 %prm
 pszObjId, cAttr, rgAttr
 pszObjId : [str] ŒŸõ‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1153,8 +1075,6 @@ CertFindAttribute ŠÖ”‚ÍACRYPT_ATTRIBUTE ”z—ñ“à‚ÅAƒIƒuƒWƒFƒNƒg¯•Êq (OID)
 %index
 CertFindCRLInStore
 dwFindType ƒpƒ‰ƒ[ƒ^[‚ÆŠÖ˜A‚·‚é pvFindPara ƒpƒ‰ƒ[ƒ^[‚É‚æ‚Á‚Äw’è‚³‚ê‚½ŒŸõğŒ‚Éˆê’v‚·‚éØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚Ì‚¤‚¿AÅ‰‚Ü‚½‚ÍŸ‚Ì‚à‚Ì‚ğØ–¾‘ƒXƒgƒA‚©‚çŒ©‚Â‚¯‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCrlContext
 hCertStore : [int] ŒŸõ‘ÎÛ‚ÌØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1188,8 +1108,6 @@ CertAddCRLContextToStore ‚ğg—p‚µ‚Ä•Ê‚ÌØ–¾‘ƒXƒgƒA‚É’Ç‰Á‚Å‚«‚éB‚Ü‚½ACertAddCR
 %index
 CertFindCTLInStore
 dwFindType ‚Æ‚»‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ pvFindPara ‚É‚æ‚Á‚Äw’è‚³‚ê‚½ŒŸõğŒ‚Éˆê’v‚·‚éØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚Ì‚¤‚¿AÅ‰‚Ü‚½‚ÍŸ‚Ì‚à‚Ì‚ğŒ©‚Â‚¯‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwMsgAndCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCtlContext
 hCertStore : [int] ŒŸõ‘ÎÛ‚ÌØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1220,8 +1138,6 @@ CertAddCTLContextToStore ‚ğg—p‚µ‚Ä•Ê‚ÌØ–¾‘ƒXƒgƒA‚É’Ç‰Á‚Å‚«‚éB‚Ü‚½ACertAddCT
 %index
 CertFindCertificateInCRL
 CertFindCertificateInCRL ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘‚ğØ–¾‘¸ŒøƒŠƒXƒg (CRL) ‚©‚çŒŸõ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCert, pCrlContext, dwFlags, pvReserved, ppCrlEntry
 pCert : [var] CRL “à‚ğŒŸõ‚·‚éØ–¾‘‚Ì CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1239,8 +1155,6 @@ CertFindCertificateInCRL ŠÖ”‚ÍAw’è‚µ‚½Ø–¾‘‚ğØ–¾‘¸ŒøƒŠƒXƒg (CRL) ‚©‚çŒŸõ
 %index
 CertFindCertificateInStore
 dwFindType ‚ÆŠÖ˜A‚·‚é pvFindPara ‚Åw’è‚µ‚½ŒŸõğŒ‚Éˆê’v‚·‚éAƒXƒgƒA“à‚ÌÅ‰‚Ü‚½‚ÍŸ‚ÌØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğŒŸõ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCertContext
 hCertStore : [int] ŒŸõ‘ÎÛ‚ÌØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1277,8 +1191,6 @@ CertFreeCertificateContext ‚É‚æ‚è‰ğ•ú‚³‚ê‚éB
 %index
 CertFindChainInStore
 ƒXƒgƒA“à‚Åw’è‚µ‚½ğŒ‚ğ–‚½‚·Å‰‚Ü‚½‚ÍŸ‚ÌØ–¾‘‚ğŒ©‚Â‚¯‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevChainContext
 hCertStore : [int] ƒ`ƒF[ƒ“‚ğ\’z‚·‚éØ–¾‘‚ğŒŸõ‚·‚é‘ÎÛ‚ÌƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍAƒ`ƒF[ƒ“\’z‚É’Ç‰Á‚ÌƒXƒgƒA‚Æ‚µ‚Ä CertGetCertificateChain ŠÖ”‚É“n‚³‚ê‚éB
@@ -1307,8 +1219,6 @@ CERT_CHAIN_CONTEXT \‘¢‘Ì‚ğİ’è‚·‚éBpPrevChainContext ‚ª NULL
 %index
 CertFindExtension
 CertFindExtension ŠÖ”‚ÍACERT_EXTENSION ”z—ñ“à‚ÅAƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Å¯•Ê‚³‚ê‚éÅ‰‚ÌŠg’£‚ğŒ©‚Â‚¯‚éB
-%group
-Win32 crypt32
 %prm
 pszObjId, cExtensions, rgExtensions
 pszObjId : [str] ŒŸõ‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1325,8 +1235,6 @@ CertFindExtension ŠÖ”‚ÍACERT_EXTENSION ”z—ñ“à‚ÅAƒIƒuƒWƒFƒNƒg¯•Êq (OID)
 %index
 CertFindRDNAttr
 CertFindRDNAttr ŠÖ”‚ÍA‘Š‘Î¯•Ê–¼ (RDN) ‚ÌƒŠƒXƒg‚©‚çAƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Å¯•Ê‚³‚ê‚éÅ‰‚Ì RDN ‘®«‚ğŒ©‚Â‚¯‚éB
-%group
-Win32 crypt32
 %prm
 pszObjId, pName
 pszObjId : [str] ŒŸõ‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1342,8 +1250,6 @@ CertFindRDNAttr ŠÖ”‚ÍA‘Š‘Î¯•Ê–¼ (RDN) ‚ÌƒŠƒXƒg‚©‚çAƒIƒuƒWƒFƒNƒg¯•Êq (OID) 
 %index
 CertFindSubjectInCTL
 CertFindSubjectInCTL ŠÖ”‚ÍAØ–¾‘M—ŠƒŠƒXƒg (CTL) “à‚©‚çw’è‚µ‚½ƒTƒuƒWƒFƒNƒg‚ğŒ©‚Â‚¯‚é‚±‚Æ‚ğ‚İ‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, dwSubjectType, pvSubject, pCtlContext, dwFlags
 dwEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒhí•Ê‚ğw’è‚·‚éBŒ»İ‚Í X509_ASN_ENCODING ‚Æ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ‚ÍƒGƒ“ƒR[ƒhí•Ê‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì‚Ç‚¿‚ç‚ÌƒGƒ“ƒR[ƒhí•Ê‚É‚àŸ‚ğg—p‚·‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGB
@@ -1368,8 +1274,6 @@ SubjectIdentifier ƒƒ“ƒo[‚ªƒL[‚Æ‚µ‚Äg—p‚³‚ê‚éBƒL[‚ÆƒGƒ“ƒgƒŠ‚Ì SubjectIdenti
 %index
 CertFindSubjectInSortedCTL
 CertFindSubjectInSortedCTL ŠÖ”‚ÍAƒ\[ƒg‚³‚ê‚½Ø–¾‘M—ŠƒŠƒXƒg (CTL) “à‚©‚çw’è‚µ‚½ƒTƒuƒWƒFƒNƒg‚ğŒ©‚Â‚¯‚é‚±‚Æ‚ğ‚İ‚éB
-%group
-Win32 crypt32
 %prm
 pSubjectIdentifier, pCtlContext, dwFlags, pvReserved, pEncodedAttributes
 pSubjectIdentifier : [var] ƒTƒuƒWƒFƒNƒg‚ğˆêˆÓ‚É¯•Ê‚·‚é CRYPT_DATA_BLOB \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì\‘¢‘Ì‚Ìî•ñ‚ÍƒnƒbƒVƒ…‚Ü‚½‚Í”CˆÓ‚ÌˆêˆÓ‚ÈƒoƒCƒg—ñ‚Å‚æ‚¢B
@@ -1389,8 +1293,6 @@ TRUEBŠÖ”‚ª¸”s‚µAˆê’v‚·‚éƒTƒuƒWƒFƒNƒg¯•Êq‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡A–ß‚è’l‚Í F
 %index
 CertFreeCRLContext
 QÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCrlContext
 pCrlContext : [var] ‰ğ•ú‚·‚é CRL_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1404,8 +1306,6 @@ pCrlContext : [var] ‰ğ•ú‚·‚é CRL_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 CertFreeCTLContext
 QÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext
 pCtlContext : [var] ‰ğ•ú‚·‚é CTL_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1419,8 +1319,6 @@ pCtlContext : [var] ‰ğ•ú‚·‚é CTL_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 CertFreeCertificateChain
 CertFreeCertificateChain ŠÖ”‚ÍAØ–¾‘ƒ`ƒF[ƒ“‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚µ‚Ä‰ğ•ú‚·‚éBQÆƒJƒEƒ“ƒg‚ª 0 ‚É‚È‚é‚ÆA‚»‚Ìƒ`ƒF[ƒ“‚Ì‚½‚ß‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ª‰ğ•ú‚³‚ê‚éB
-%group
-Win32 crypt32
 %prm
 pChainContext
 pChainContext : [var] ‰ğ•ú‚·‚é CERT_CHAIN_CONTEXT Ø–¾‘ƒ`ƒF[ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒRƒ“ƒeƒLƒXƒg‚ÌQÆƒJƒEƒ“ƒg‚ª 0 ‚É’B‚·‚é‚ÆA‚»‚ÌƒRƒ“ƒeƒLƒXƒg‚Ì‚½‚ß‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒXƒgƒŒ[ƒW‚ª‰ğ•ú‚³‚ê‚éB
@@ -1432,8 +1330,6 @@ CertFreeCertificateChain ŠÖ”‚ÍAØ–¾‘ƒ`ƒF[ƒ“‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚µ‚Ä‰ğ•ú‚·‚é
 %index
 CertFreeCertificateChainList
 ƒ`ƒF[ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[”z—ñ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 crypt32
 %prm
 prgpSelection
 prgpSelection : [var] CertSelectCertificateChains ŠÖ”‚ª•Ô‚µ‚½ PCCERT_CHAIN_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1449,8 +1345,6 @@ CertFreeCertificateChainList ŠÖ”‚ğŒÄ‚Ño‚·‘O‚ÉAprgpSelection
 %index
 CertFreeCertificateContext
 QÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚ÅAØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğ‰ğ•ú‚·‚éBQÆƒJƒEƒ“ƒg‚ª 0 ‚É‚È‚é‚ÆACertFreeCertificateContext ‚ÍØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚Åg—p‚³‚ê‚Ä‚¢‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext
 pCertContext : [var] ‰ğ•ú‚·‚é CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1465,8 +1359,6 @@ pCertContext : [var] ‰ğ•ú‚·‚é CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 CertFreeServerOcspResponseContext
 CERT_SERVER_OCSP_RESPONSE_CONTEXT \‘¢‘Ì‚ÌQÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 pServerOcspResponseContext
 pServerOcspResponseContext : [var] CertGetServerOcspResponseContext ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½’l‚ğŠÜ‚Ş CERT_SERVER_OCSP_RESPONSE_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1477,8 +1369,6 @@ CERT_SERVER_OCSP_RESPONSE_CONTEXT \‘¢‘Ì‚ÌQÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚éB
 %index
 CertGetCRLContextProperty
 w’è‚µ‚½Ø–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ÌŠg’£ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCrlContext, dwPropId, pvData, pcbData
 pCrlContext : [var] CRL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1498,8 +1388,6 @@ pcbData : [var] pvData ƒpƒ‰ƒ[ƒ^[‚ªw‚·ƒoƒbƒtƒ@[‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊj‚ğw’è‚
 %index
 CertGetCRLFromStore
 w’è‚µ‚½”­sÒ‚É‚Â‚¢‚ÄAØ–¾‘ƒXƒgƒA‚©‚çÅ‰‚Ü‚½‚ÍŸ‚ÌØ–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pIssuerContext, pPrevCrlContext, pdwFlags
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1529,8 +1417,6 @@ CERT_STORE_TIME_VALIDITY_FLAG ‚Éİ’è‚³‚ê‚éB
 %index
 CertGetCTLContextProperty
 Ø–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ÌŠg’£ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext, dwPropId, pvData, pcbData
 pCtlContext : [var] CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1550,8 +1436,6 @@ CryptHashCertificate ‚ÌƒGƒ‰[‚ª‚±‚ÌŠÖ”‚É“`”d‚·‚é‚±‚Æ‚ª‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“
 %index
 CertGetCertificateChain
 ––’[Ø–¾‘‚©‚ço”­‚µA‰Â”\‚Å‚ ‚ê‚ÎM—Š‚³‚ê‚½ƒ‹[ƒgØ–¾‘‚Ü‚Å‘k‚éØ–¾‘ƒ`ƒF[ƒ“ƒRƒ“ƒeƒLƒXƒg‚ğ\’z‚·‚éB
-%group
-Win32 crypt32
 %prm
 hChainEngine, pCertContext, pTime, hAdditionalStore, pChainPara, dwFlags, pvReserved, ppChainContext
 hChainEngine : [intptr] g—p‚·‚éƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“ (–¼‘O‹óŠÔ‚¨‚æ‚ÑƒLƒƒƒbƒVƒ…) ‚Ìƒnƒ“ƒhƒ‹BhChainEngine ‚ª NULL ‚Ìê‡AŠù’è‚Ìƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“ HCCE_CURRENT_USER ‚ªg—p‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É HCCE_LOCAL_MACHINE ‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚éB
@@ -1579,8 +1463,6 @@ CERT_SIMPLE_CHAIN
 %index
 CertGetCertificateContextProperty
 Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚ÌŠg’£ƒvƒƒpƒeƒB‚ÉŠÜ‚Ü‚ê‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, dwPropId, pvData, pcbData
 pCertContext : [var] æ“¾‘ÎÛ‚ÌƒvƒƒpƒeƒB‚ğŠÜ‚ŞØ–¾‘‚Ì CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1605,8 +1487,6 @@ CertSetCertificateContextProperty ‚ğQÆB
 %index
 CertGetEnhancedKeyUsage
 Ø–¾‘‚ÌŠg’£ƒL[g—p–@ (EKU) Šg’£‚Ü‚½‚Í EKU Šg’£ƒvƒƒpƒeƒB‚©‚çî•ñ‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 pCertContext, dwFlags, pUsage, pcbUsage
 pCertContext : [var] CERT_CONTEXT Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1628,8 +1508,6 @@ pcbUsage : [var] pUsage ‚ªw‚·\‘¢‘Ì‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚é DWORD ‚Ö‚Ìƒ|ƒ
 %index
 CertGetIntendedKeyUsage
 Ø–¾‘‚©‚çˆÓ}‚³‚ê‚½ƒL[—p“rƒoƒCƒg‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pCertInfo, pbKeyUsage, cbKeyUsage
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ğw’è‚·‚éBŸ‚Ì—á‚Ì‚æ‚¤‚ÉØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğƒrƒbƒg’PˆÊ OR ‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Œ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -1649,8 +1527,6 @@ cbKeyUsage : [int] pbKeyUsage ‚ªw‚·ƒoƒbƒtƒ@[‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)BŒ»İAˆÓ}‚
 %index
 CertGetIssuerCertificateFromStore
 w’è‚µ‚½ƒTƒuƒWƒFƒNƒgØ–¾‘‚ÌÅ‰‚Ü‚½‚ÍŸ‚Ì”­sÒ‚É‚Â‚¢‚ÄAØ–¾‘ƒXƒgƒA‚©‚çØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB–{ŠÖ”‚æ‚è‚àV‚µ‚¢uØ–¾‘ƒ`ƒF[ƒ“ŒŸØŠÖ”v‚Ìg—p‚ğ„§‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, pSubjectContext, pPrevIssuerContext, pdwFlags
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1685,8 +1561,6 @@ CERT_STORE_TIME_VALIDITY_FLAG ŒŸØ‚ª¸”s‚·‚é‚ÆAo—Í‚Ì dwFlags ‚Í 0x00000002 ‚
 %index
 CertGetNameStringW
 Ø–¾‘‚Ì CERT_CONTEXT \‘¢‘Ì‚©‚çƒTƒuƒWƒFƒNƒg–¼‚Ü‚½‚Í”­sÒ–¼‚ğæ“¾‚µANULL I’[•¶š—ñ‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 pCertContext, dwType, dwFlags, pvTypePara, pszNameString, cchNameString
 pCertContext : [var] •ÏŠ·‘ÎÛ‚ÌƒTƒuƒWƒFƒNƒg–¼‚¨‚æ‚Ñ”­sÒ–¼‚ğŠÜ‚Ş CERT_CONTEXT Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1714,8 +1588,6 @@ cchNameString : [int] •Ô‚³‚ê‚é•¶š—ñ‚Ì‚½‚ß‚ÉŠm•Û‚µ‚½—Ìˆæ‚ÌƒTƒCƒY (•¶š”)B‚±‚Ìƒ
 %index
 CertGetPublicKeyLength
 CertGetPublicKeyLength ŠÖ”‚ÍAŒöŠJŒ® BLOB ‚©‚çŒöŠJŒ®/”é–§Œ®‚Ìƒrƒbƒg’·‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pPublicKey
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ğw’è‚·‚éBŸ‚Ì—á‚Ì‚æ‚¤‚ÉØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğƒrƒbƒg’PˆÊ OR ‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Œ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -1731,8 +1603,6 @@ CertGetPublicKeyLength ŠÖ”‚ÍAŒöŠJŒ® BLOB ‚©‚çŒöŠJŒ®/”é–§Œ®‚Ìƒrƒbƒg’·‚ğæ“¾‚·‚é
 %index
 CertGetServerOcspResponseContext
 w’è‚µ‚½ƒnƒ“ƒhƒ‹‚É‘Î‚µ‚ÄAƒmƒ“ƒuƒƒbƒLƒ“ƒO‚©‚Â—LŒø‚È OCSP (ƒIƒ“ƒ‰ƒCƒ“Ø–¾‘ó‘ÔƒvƒƒgƒRƒ‹) ‰“šƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 hServerOcspResponse, dwFlags, pvReserved
 hServerOcspResponse : [intptr] ‰“šƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚é OCSP ƒT[ƒo[‰“šƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CertOpenServerOcspResponse ŠÖ”‚©‚ç•Ô‚³‚ê‚éB
@@ -1760,8 +1630,6 @@ CERT_SERVER_OCSP_RESPONSE_CONTEXT
 %index
 CertGetStoreProperty
 ƒXƒgƒAƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwPropId, pvData, pcbData
 hCertStore : [int] ƒI[ƒvƒ“Ï‚İØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1785,8 +1653,6 @@ CRYPT_E_NOT_FOUND ‚ğ•Ô‚·B
 %index
 CertGetSubjectCertificateFromStore
 ”­sÒ‚ÆƒVƒŠƒAƒ‹”Ô†‚É‚æ‚Á‚ÄˆêˆÓ‚É¯•Ê‚³‚ê‚éƒTƒuƒWƒFƒNƒgØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğAØ–¾‘ƒXƒgƒA‚©‚ç•Ô‚·B
-%group
-Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, pCertId
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -1810,8 +1676,6 @@ CertDuplicateCertificateContext ‚ğŒÄ‚Ño‚·‚ÆAØ–¾‘‚Ì•¡»‚ğì¬‚Å‚«‚éB
 %index
 CertGetValidUsages
 Ø–¾‘”z—ñ“à‚Ì‘SØ–¾‘‚Ì—LŒø—p“r‚ÌÏW‡‚Æ‚È‚é—p“r‚Ì”z—ñ‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 cCerts, rghCerts, cNumOIDs, rghOIDs, pcbOIDs
 cCerts : [int] Šm”F‘ÎÛ‚Ì”z—ñ‚ÉŠÜ‚Ü‚ê‚éØ–¾‘”B
@@ -1830,8 +1694,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CertIsRDNAttrsInCertificateName
 CertIsRDNAttrsInCertificateName ŠÖ”‚ÍAØ–¾‘–¼‚Ì‘®«‚Æw’è‚µ‚½ CERT_RDN ‚ğ”äŠr‚µA‚·‚×‚Ä‚Ì‘®«‚ª‚»‚Ì’†‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, dwFlags, pCertName, pRDN
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ğw’è‚·‚éBŸ‚Ì—á‚Ì‚æ‚¤‚ÉØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğƒrƒbƒg’PˆÊ OR ‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Œ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -1855,8 +1717,6 @@ CertIsRDNAttrsInCertificateName ŠÖ”‚ÍAØ–¾‘–¼‚Ì‘®«‚Æw’è‚µ‚½ CERT_RDN
 %index
 CertIsStrongHashToSign
 w’è‚µ‚½ƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€‚Æ–¼Ø–¾‘‚ÌŒöŠJŒ®‚ªA‹­‚¢–¼ (strong signing) ‚Ég—p‰Â”\‚Å‚ ‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 pStrongSignPara, pwszCNGHashAlgid, pSigningCert
 pStrongSignPara : [var] ƒTƒ|[ƒg‚³‚ê‚é–¼‚¨‚æ‚ÑƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş CERT_STRONG_SIGN_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1874,8 +1734,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚ÍŸ‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 %index
 CertIsValidCRLForCertificate
 CertIsValidCRLForCertificate ŠÖ”‚ÍA“Á’è‚ÌØ–¾‘‚ª¸Œø‚µ‚Ä‚¢‚½ê‡‚É‚»‚ê‚ğŠÜ‚İ“¾‚é CRL ‚©‚Ç‚¤‚©‚ğŠm”F‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCert, pCrl, dwFlags, pvReserved
 pCert : [var] Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1897,8 +1755,6 @@ CRL ‚ªØ–¾‘‚É‘Î‚µ‚Ä—LŒø‚Å‚ ‚é‚½‚ß‚ÉACertIsValidCRLForCertificate ŠÖ”‚ÍACRL
 %index
 CertIsWeakHash
 (no summary)
-%group
-Win32 crypt32
 %prm
 dwHashUseType, pwszCNGHashAlgid, dwChainFlags, pSignerChainContext, pTimeStamp, pwszFileName
 dwHashUseType : [int] 
@@ -1914,8 +1770,6 @@ pwszFileName : [wstr]
 %index
 CertNameToStrW
 CERT_NAME_BLOB \‘¢‘Ì“à‚ÌƒGƒ“ƒR[ƒhÏ‚İ–¼‘O‚ğ NULL I’[•¶š—ñ‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pName, dwStrType, psz, csz
 dwCertEncodingType : [int] –¼‘O‚ÌƒGƒ“ƒR[ƒh‚Ég—p‚³‚ê‚½Ø–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒOí•ÊB‚±‚Ì’l‚ÌãˆÊ WORD ‚ÉŠÜ‚Ü‚ê‚éƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê¯•Êq‚ÍA–{ŠÖ”‚Å‚Í–³‹‚³‚ê‚éB
@@ -1940,8 +1794,6 @@ RFC 1779 ‚Ì¯•Ê–¼d—l‚É]‚¤‚ªAŸ‚Ìˆê——‚É‹LÚ‚µ‚½“_‚ªˆÙ‚È‚éB
 %index
 CertOIDToAlgId
 ALG_ID ¯•Êq‚Í CNG ‚ÅƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½‚½‚ßA–{ŠÖ”‚Ì‘ã‚í‚è‚É CryptFindOIDInfo ŠÖ”‚ğg—p‚·‚é‚±‚ÆB
-%group
-Win32 crypt32
 %prm
 pszObjId
 pszObjId : [str] ƒAƒ‹ƒSƒŠƒYƒ€¯•Êq‚É•ÏŠ·‚·‚é ASN.1 OID ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -1955,8 +1807,6 @@ ALG_ID ¯•Êq‚Í CNG ‚ÅƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½‚½‚ßA–{ŠÖ”‚Ì‘ã‚í‚è‚É CryptFindOIDI
 %index
 CertOpenServerOcspResponse
 ƒT[ƒo[Ø–¾‘ƒ`ƒF[ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ OCSP (ƒIƒ“ƒ‰ƒCƒ“Ø–¾‘ó‘ÔƒvƒƒgƒRƒ‹) ‰“š‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğŠJ‚­B
-%group
-Win32 crypt32
 %prm
 pChainContext, dwFlags, pOpenPara
 pChainContext : [var] Ø–¾‘ƒ`ƒF[ƒ“‚ğŠÜ‚Ş CERT_CHAIN_CONTEXT \‘¢‘Ì‚ÌƒAƒhƒŒƒXB
@@ -1987,8 +1837,6 @@ pChainContext
 %index
 CertOpenStore
 w’è‚µ‚½ƒXƒgƒAƒvƒƒoƒCƒ_[í•Ê‚ğg—p‚µ‚ÄØ–¾‘ƒXƒgƒA‚ğŠJ‚­B
-%group
-Win32 crypt32
 %prm
 lpszStoreProvider, dwEncodingType, hCryptProv, dwFlags, pvPara
 lpszStoreProvider : [str] ƒXƒgƒAƒvƒƒoƒCƒ_[í•Ê‚ğŠÜ‚Ş NULL I’[ ANSI •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BŸ‚Ì’l‚ª–‘O’è‹`‚³‚ê‚½ƒXƒgƒAí•Ê‚ğ•\‚·BƒXƒgƒAƒvƒƒoƒCƒ_[í•Ê‚É‚æ‚èApvPara ƒpƒ‰ƒ[ƒ^[‚Ì“à—eA‚¨‚æ‚Ñ dwFlags ƒpƒ‰ƒ[ƒ^[‚ÌãˆÊƒ[ƒh‚Ì—p“r‚ÆˆÓ–¡‚ªŒˆ‚Ü‚éB’Ç‰Á‚ÌƒXƒgƒAƒvƒƒoƒCƒ_[‚Í CryptInstallOIDFunctionAddress ‚Ü‚½‚Í CryptRegisterOIDFunction ŠÖ”‚ÅƒCƒ“ƒXƒg[ƒ‹/“o˜^‚Å‚«‚éBƒXƒgƒAƒvƒƒoƒCƒ_[‚Ì’Ç‰Á‚É‚Â‚¢‚ÄÚ‚µ‚­‚ÍuCertOpenStore ‹@”\‚ÌŠg’£v‚ğQÆB
@@ -2023,8 +1871,6 @@ CertAddStoreToCollection
 %index
 CertOpenSystemStoreW
 Å‚àˆê”Ê“I‚ÈƒVƒXƒeƒ€Ø–¾‘ƒXƒgƒA‚ğŠJ‚­Bƒtƒ@ƒCƒ‹ƒx[ƒX‚âƒƒ‚ƒŠƒx[ƒX‚ÌƒXƒgƒA‚È‚Ç‚æ‚è•¡G‚ÈƒXƒgƒA‚É‚Í CertOpenStore ‚ğg—p‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 hProv, szSubsystemProtocol
 hProv : [int] g—p‚³‚ê‚È‚¢B0 ‚ğw’è‚·‚é‚±‚ÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: CSP ‚Ìƒnƒ“ƒhƒ‹B0 ‚ÅŠù’è CSP ‚ğg—pB0 ‚Å‚È‚¢ê‡‚Í CryptAcquireContext ‚Åì¬‚µ‚½ CSP ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒf[ƒ^Œ^‚Í HCRYPTPROVB
@@ -2046,8 +1892,6 @@ CertCloseStore ‚Å•Â‚¶‚éB©“®ˆÚs‚³‚ê‚éƒXƒgƒA‚É‚Â‚¢‚Ä‚Í Certificate Store Migrat
 %index
 CertRDNValueToStrW
 CertRDNValueToStr ŠÖ”‚ÍACERT_RDN_VALUE_BLOB “à‚Ì–¼‘O‚ğ NULL I’[•¶š—ñ‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 dwValueType, pValue, psz, csz
 dwValueType : [int] •ÏŠ·‚·‚é RDN ’l‚Ìí—Ş‚ğ¦‚·B
@@ -2073,8 +1917,6 @@ psz ‚ª NULL ‚Å‚È‚­ csz ‚ª 0 ‚Å‚È‚¢ê‡A•Ô‚³‚ê‚é psz ‚Íí‚É (ê‡‚É‚æ‚Á‚Ä‚Í‹ó‚Ì)
 %index
 CertRegisterPhysicalStore
 ƒŒƒWƒXƒgƒŠ‚ÌƒVƒXƒeƒ€ƒXƒgƒAƒRƒŒƒNƒVƒ‡ƒ“‚É•¨—ƒXƒgƒA‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pwszStoreName, pStoreInfo, pvReserved
 pvSystemStore : [intptr] •¨—ƒXƒgƒA‚ğ’Ç‰Á‚·‚éƒVƒXƒeƒ€ƒXƒgƒAƒRƒŒƒNƒVƒ‡ƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL I’[‚Ì Unicode •¶š—ñ‚Ü‚½‚Í CERT_SYSTEM_STORE_RELOCATE_PARA \‘¢‘Ì‚Ì‚¢‚¸‚ê‚©‚ğw‚·B\‘¢‘Ì‚Ìg—p•û–@A‚¨‚æ‚ÑƒVƒXƒeƒ€ƒXƒgƒA–¼•¶š—ñ‚Ì‘O‚Ö‚Ì ServiceName ‚â ComputerName ‚Ì•t‰Á•û–@‚É‚Â‚¢‚Ä‚ÍACertRegisterSystemStore ‚ğQÆB
@@ -2092,8 +1934,6 @@ pvReserved : [intptr] «—ˆ‚Ìg—p‚Ì‚½‚ß—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚
 %index
 CertRegisterSystemStore
 ƒVƒXƒeƒ€ƒXƒgƒA‚ğ“o˜^‚·‚éB
-%group
-Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pStoreInfo, pvReserved
 pvSystemStore : [intptr] “o˜^‚·‚éƒVƒXƒeƒ€ƒXƒgƒA‚ğ¯•Ê‚·‚éBdwFlags ‚É CERT_SYSTEM_STORE_RELOCATE_FLAG ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡ApvSystemStore ‚Í CERT_SYSTEM_STORE_RELOCATE_PARA \‘¢‘Ì‚ğw‚·B‚»‚êˆÈŠO‚Ìê‡AƒVƒXƒeƒ€ƒXƒgƒA–¼‚Ì NULL I’[ Unicode •¶š—ñ‚ğw‚·B
@@ -2113,8 +1953,6 @@ pvReserved : [intptr] «—ˆ‚Ìg—p‚Ì‚½‚ß—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚
 %index
 CertRemoveEnhancedKeyUsageIdentifier
 CertRemoveEnhancedKeyUsageIdentifier ŠÖ”‚ÍAØ–¾‘‚ÌŠg’£ƒL[g—p–@ (EKU) Šg’£ƒvƒƒpƒeƒB‚©‚ç—p“r¯•ÊqƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚ğíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, pszUsageIdentifier
 pCertContext : [var] —p“r¯•Êq OID ‚ğíœ‚·‚é‘ÎÛ‚ÌØ–¾‘‚Ì CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2131,8 +1969,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CertRemoveStoreFromCollection
 ƒRƒŒƒNƒVƒ‡ƒ“ƒXƒgƒA‚©‚çŒZ’íØ–¾‘ƒXƒgƒA‚ğíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCollectionStore, hSiblingStore
 hCollectionStore : [int] ƒRƒŒƒNƒVƒ‡ƒ“Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -2144,8 +1980,6 @@ hSiblingStore : [int] ƒRƒŒƒNƒVƒ‡ƒ“ƒXƒgƒA‚©‚çíœ‚·‚éŒZ’íØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
 %index
 CertResyncCertificateChainEngine
 Ø–¾‘ƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“‚ğÄ“¯Šú‚µA‚»‚ÌƒGƒ“ƒWƒ“‚ªQÆ‚·‚éƒXƒgƒA‚ğÄ“¯Šú‚µAƒGƒ“ƒWƒ“ƒLƒƒƒbƒVƒ…‚ğXV‚·‚éB
-%group
-Win32 crypt32
 %prm
 hChainEngine
 hChainEngine : [intptr] Ä“¯Šú‚·‚éƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“B
@@ -2159,8 +1993,6 @@ hChainEngine : [intptr] Ä“¯Šú‚·‚éƒ`ƒF[ƒ“ƒGƒ“ƒWƒ“B
 %index
 CertRetrieveLogoOrBiometricInfo
 szOID_LOGOTYPE_EXT ‚Ü‚½‚Í szOID_BIOMETRIC_EXT Ø–¾‘Šg’£‚Åw’è‚³‚ê‚½ƒƒS‚Ü‚½‚Í¶‘Ìî•ñ‚ğ URL Œo—R‚Åæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, lpszLogoOrBiometricType, dwRetrievalFlags, dwTimeout, dwFlags, pvReserved, ppbData, pcbData, ppwszMimeType
 pCertContext : [var] Ø–¾‘‚ğŠÜ‚Ş CERT_CONTEXT \‘¢‘Ì‚ÌƒAƒhƒŒƒXB
@@ -2185,8 +2017,6 @@ szOID_LOGOTYPE_EXT ‚Ü‚½‚Í szOID_BIOMETRIC_EXT Ø–¾‘Šg’£‚Åw’è‚³‚ê‚½ƒƒS‚Ü‚½‚Í¶
 %index
 CertSaveStore
 Ø–¾‘ƒXƒgƒA‚ğƒtƒ@ƒCƒ‹‚Ü‚½‚Íƒƒ‚ƒŠ BLOB ‚É•Û‘¶‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwEncodingType, dwSaveAs, dwSaveTo, pvSaveToPara, dwFlags
 hCertStore : [int] •Û‘¶‚·‚éØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -2207,8 +2037,6 @@ CRYPT_E_FILE_ERROR ‚ª‚ ‚èA‚±‚ê‚Íƒtƒ@ƒCƒ‹‚Ö‚Ì‘‚«‚İ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚½‚±‚Æ‚ğ
 %index
 CertSelectCertificateChains
 w’è‚µ‚½‘I‘ğğŒ‚ÉŠî‚Ã‚¢‚ÄØ–¾‘ƒ`ƒF[ƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pSelectionContext, dwFlags, pChainParameters, cCriteria, rgpCriteria, hStore, pcSelection, pprgpSelection
 pSelectionContext : [var] ‚±‚ÌŒÄ‚Ño‚µ‚Åg—p‚·‚éØ–¾‘‘I‘ğƒVƒiƒŠƒI‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2239,8 +2067,6 @@ GetLastError ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 CertSerializeCRLStoreElement
 CertSerializeCRLStoreElement ŠÖ”‚ÍAƒGƒ“ƒR[ƒh‚³‚ê‚½ CRL (Ø–¾‘¸ŒøƒŠƒXƒg) ƒRƒ“ƒeƒLƒXƒg‚ÆA‚»‚ÌƒvƒƒpƒeƒB‚ÌƒGƒ“ƒR[ƒh•\Œ»‚ğƒVƒŠƒAƒ‹‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCrlContext, dwFlags, pbElement, pcbElement
 pCrlContext : [var] ƒVƒŠƒAƒ‹‰»‚·‚é CRL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2259,8 +2085,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CertSerializeCTLStoreElement
 CertSerializeCTLStoreElement ŠÖ”‚ÍAƒGƒ“ƒR[ƒh‚³‚ê‚½ CTL (Ø–¾‘M—ŠƒŠƒXƒg) ƒRƒ“ƒeƒLƒXƒg‚ÆA‚»‚ÌƒvƒƒpƒeƒB‚ÌƒGƒ“ƒR[ƒh•\Œ»‚ğƒVƒŠƒAƒ‹‰»‚·‚éBŒ‹‰Ê‚ÍƒXƒgƒŒ[ƒW‚É‰i‘±‰»‚Å‚«AŒã‚Å CTL ‚ÆƒvƒƒpƒeƒB‚ğæ“¾‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext, dwFlags, pbElement, pcbElement
 pCtlContext : [var] ƒVƒŠƒAƒ‹‰»‚·‚é CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2279,8 +2103,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CertSerializeCertificateStoreElement
 CertSerializeCertificateStoreElement ŠÖ”‚ÍAØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ÌƒGƒ“ƒR[ƒhÏ‚İØ–¾‘‚Æ‚»‚ÌƒGƒ“ƒR[ƒhÏ‚İƒvƒƒpƒeƒB‚ğƒVƒŠƒAƒ‹‰»‚·‚éBŒ‹‰Ê‚ÍƒXƒgƒŒ[ƒW‚É‰i‘±‰»‚Å‚«AŒã‚ÅØ–¾‘‚ÆƒvƒƒpƒeƒB‚ğæ“¾‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, dwFlags, pbElement, pcbElement
 pCertContext : [var] ƒVƒŠƒAƒ‹‰»‚·‚é CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2299,8 +2121,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CertSetCRLContextProperty
 w’è‚µ‚½Ø–¾‘¸ŒøƒŠƒXƒg (CRL) ƒRƒ“ƒeƒLƒXƒg‚ÉŠg’£ƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCrlContext, dwPropId, dwFlags, pvData
 pCrlContext : [var] CRL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2322,8 +2142,6 @@ GetLastError ‚ğŒÄ‚Ño‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[ƒR[ƒh‚Ìˆê‚Â‚ğˆÈ‰º‚É¦‚·B
 %index
 CertSetCTLContextProperty
 w’è‚µ‚½Ø–¾‘M—ŠƒŠƒXƒg (CTL) ƒRƒ“ƒeƒLƒXƒg‚ÉŠg’£ƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCtlContext, dwPropId, dwFlags, pvData
 pCtlContext : [var] CTL_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2345,8 +2163,6 @@ GetLastError ‚ğŒÄ‚Ño‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[ƒR[ƒh‚Ìˆê‚Â‚ğˆÈ‰º‚É¦‚·B
 %index
 CertSetCertificateContextPropertiesFromCTLEntry
 w’è‚µ‚½Ø–¾‘M—ŠƒŠƒXƒg (CTL) ƒGƒ“ƒgƒŠ[“à‚Ì‘®«‚ğg—p‚µ‚ÄAØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ÉƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, pCtlEntry, dwFlags
 pCertContext : [var] ‘®«‚ğİ’è‚·‚é‘ÎÛ‚Ì CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2362,8 +2178,6 @@ dwFlags : [int] DWORD ’lB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É CERT_SET_PROPERTY_IGNORE_PERSIST_ER
 %index
 CertSetCertificateContextProperty
 w’è‚µ‚½Ø–¾‘ƒRƒ“ƒeƒLƒXƒg‚ÉŠg’£ƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, dwPropId, dwFlags, pvData
 pCertContext : [var] CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2391,8 +2205,6 @@ IS_CHAIN_HASH_PROP_ID(X) Šeƒ}ƒNƒ‚Í dwPropId ‚Ì’l (X)
 %index
 CertSetEnhancedKeyUsage
 CertSetEnhancedKeyUsage ŠÖ”‚ÍAØ–¾‘‚ÌŠg’£ƒL[g—p–@ (EKU) ƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCertContext, pUsage
 pCertContext : [var] w’è‚µ‚½Ø–¾‘‚Ì CERT_CONTEXT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2408,8 +2220,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CertSetStoreProperty
 CertSetStoreProperty ŠÖ”‚ÍAƒXƒgƒAƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCertStore, dwPropId, dwFlags, pvData
 hCertStore : [int] Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -2430,8 +2240,6 @@ CertSetStoreProperty ŠÖ”‚ÍAƒXƒgƒAƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
 %index
 CertStrToNameW
 NULL I’[‚³‚ê‚½ X.500 •¶š—ñ‚ğƒGƒ“ƒR[ƒh‚³‚ê‚½Ø–¾‘–¼‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pszX500, dwStrType, pvReserved, pbEncoded, pcbEncoded, ppszError
 dwCertEncodingType : [int] •¶š—ñ‚ÌƒGƒ“ƒR[ƒh‚Ég—p‚³‚ê‚½Ø–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒOí•ÊB‚±‚Ì’l‚ÌãˆÊ WORD ‚ÉŠÜ‚Ü‚ê‚éƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê¯•Êq‚ÍA–{ŠÖ”‚Å‚Í–³‹‚³‚ê‚éB
@@ -2457,8 +2265,6 @@ NULL I’[‚³‚ê‚½ X.500 •¶š—ñ‚ğƒGƒ“ƒR[ƒh‚³‚ê‚½Ø–¾‘–¼‚É•ÏŠ·‚·‚éB(Unicode)
 %index
 CertUnregisterPhysicalStore
 CertUnregisterPhysicalStore ŠÖ”‚ÍAw’è‚µ‚½ƒVƒXƒeƒ€ƒXƒgƒAƒRƒŒƒNƒVƒ‡ƒ“‚©‚ç•¨—ƒXƒgƒA‚ğíœ‚·‚éBCertUnregisterPhysicalStore ‚Í•¨—ƒXƒgƒA‚Ìíœ‚É‚àg—p‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pwszStoreName
 pvSystemStore : [intptr] •¨—ƒXƒgƒA‚ğíœ‚·‚éƒVƒXƒeƒ€ƒXƒgƒAƒRƒŒƒNƒVƒ‡ƒ“‚Ì¯•Êq‚Ö‚Ìƒ|ƒCƒ“ƒ^[BNULL I’[‚Ì Unicode •¶š—ñ‚Ü‚½‚Í CERT_SYSTEM_STORE_RELOCATE_PARA \‘¢‘Ì‚Ì‚¢‚¸‚ê‚©‚ğw‚·B\‘¢‘Ì‚Ìg—p•û–@A‚¨‚æ‚ÑƒVƒXƒeƒ€ƒXƒgƒA–¼•¶š—ñ‚Ì––”ö‚Ö‚Ì ServiceName ‚â ComputerName ‚Ì•t‰Á•û–@‚É‚Â‚¢‚Ä‚ÍACertRegisterSystemStore ‚ğQÆB
@@ -2476,8 +2282,6 @@ CertUnregisterPhysicalStore
 %index
 CertUnregisterSystemStore
 CertUnregisterSystemStore ŠÖ”‚ÍAw’è‚µ‚½ƒVƒXƒeƒ€ƒXƒgƒA‚ğ“o˜^‰ğœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pvSystemStore, dwFlags
 pvSystemStore : [intptr] “o˜^‰ğœ‚·‚éƒVƒXƒeƒ€ƒXƒgƒA‚ğ¯•Ê‚·‚éBNULL I’[‚Ì Unicode •¶š—ñ‚Ü‚½‚Í CERT_SYSTEM_STORE_RELOCATE_PARA \‘¢‘Ì‚Ì‚¢‚¸‚ê‚©‚ğw‚·B\‘¢‘Ì‚Ìg—p•û–@A‚¨‚æ‚ÑƒVƒXƒeƒ€ƒXƒgƒA–¼•¶š—ñ‚Ì––”ö‚Ö‚Ì ServiceName ‚â ComputerName ‚Ì•t‰Á•û–@‚É‚Â‚¢‚Ä‚ÍACertRegisterSystemStore ‚ğQÆB
@@ -2492,8 +2296,6 @@ CertUnregisterSystemStore ŠÖ”‚ÍAw’è‚µ‚½ƒVƒXƒeƒ€ƒXƒgƒA‚ğ“o˜^‰ğœ‚·‚éB
 %index
 CertVerifyCRLRevocation
 Ø–¾‘¸ŒøƒŠƒXƒg (CRL) ‚ğ’²‚×AƒTƒuƒWƒFƒNƒg‚ÌØ–¾‘‚ª¸Œø‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pCertId, cCrlInfo, rgpCrlInfo
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ğw’è‚·‚éBŸ‚Ì—á‚Ì‚æ‚¤‚ÉØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğƒrƒbƒg’PˆÊ OR ‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Œ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -2511,8 +2313,6 @@ rgpCrlInfo : [var] CRL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[”z—ñB
 %index
 CertVerifyCRLTimeValidity
 CertVerifyCRLTimeValidity ŠÖ”‚ÍACRL ‚Ì—LŒø«‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pTimeToVerify, pCrlInfo
 pTimeToVerify : [var] ŒŸØ‚É—p‚¢‚é‚ğŠÜ‚Ş FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[BNULL ‚Éİ’è‚µ‚½ê‡AŒ»İ‚ªg—p‚³‚ê‚éB
@@ -2528,8 +2328,6 @@ NextUpdate ‚æ‚èŒã‚Ìê‡‚Í +1 ‚ğ•Ô‚·BCRL ‚É‚Æ‚Á‚Ä—LŒø‚È‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 %index
 CertVerifyCTLUsage
 –¼‚³‚ê‚Ä‚¨‚è“I‚É—LŒø‚ÈØ–¾‘M—ŠƒŠƒXƒg (CTL) ‚ğŒŸõ‚µAƒTƒuƒWƒFƒNƒg‚ğŠÜ‚Ş—p“r¯•Êq‚ğ‚Â‚±‚Æ‚ğŠm”F‚·‚é‚±‚Æ‚ÅAƒTƒuƒWƒFƒNƒg‚ªw’è‚Ì—p“r‚É‚Â‚¢‚ÄM—Š‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, dwSubjectType, pvSubject, pSubjectUsage, dwFlags, pVerifyUsagePara, pVerifyUsageStatus
 dwEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ğw’è‚·‚éBŒ»İg—p‚³‚ê‚Ä‚¢‚é‚Ì‚Í X509_ASN_ENCODING ‚Æ PKCS_7_ASN_ENCODING ‚Ì‚İ‚Å‚ ‚é‚ªA«—ˆƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»ó‚Ì‚Ç‚¿‚ç‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO‚Å‚àA
@@ -2560,8 +2358,6 @@ CertVerifyCTLUsage ‚ÍAƒIƒuƒWƒFƒNƒg¯•Êq (OID)
 %index
 CertVerifyCertificateChainPolicy
 Ø–¾‘ƒ`ƒF[ƒ“‚ª—LŒø‚Å‚ ‚é‚©‚ğŒŸØ‚·‚éBw’è‚³‚ê‚½—LŒø«ƒ|ƒŠƒV[ğŒ‚Ö‚Ì€‹’‚àŠÜ‚ß‚ÄŠm”F‚·‚éB
-%group
-Win32 crypt32
 %prm
 pszPolicyOID, pChainContext, pPolicyPara, pPolicyStatus
 pszPolicyOID : [str] Œ»İ–‘O’è‹`‚³‚ê‚Ä‚¢‚éƒ`ƒF[ƒ“ŒŸØƒ|ƒŠƒV[\‘¢‚ğŸ‚Ì•\‚É¦‚·B
@@ -2596,8 +2392,6 @@ pChainContext->rgpChain[lChainIndex]->rgpElement[lElementIndex];
 %index
 CertVerifyRevocation
 rgpvContext ”z—ñ‚ÉŠÜ‚Ü‚ê‚éØ–¾‘‚Ì¸Œøó‘Ô‚ğŠm”F‚·‚éBƒŠƒXƒg“à‚Ì‚¢‚¸‚ê‚©‚ÌØ–¾‘‚ª¸Œø‚µ‚Ä‚¢‚é‚Æ”»’è‚³‚ê‚½“_‚ÅA‚»‚êˆÈã‚ÌŠm”F‚Ís‚í‚ê‚È‚¢B
-%group
-Win32 crypt32
 %prm
 dwEncodingType, dwRevType, cContext, rgpvContext, dwFlags, pRevPara, pRevStatus
 dwEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ğw’è‚·‚éBŒ»İg—p‚³‚ê‚Ä‚¢‚é‚Ì‚Í X509_ASN_ENCODING ‚Æ PKCS_7_ASN_ENCODING ‚Ì‚İ‚Å‚ ‚é‚ªA«—ˆƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»ó‚Ì‚Ç‚¿‚ç‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO‚Å‚àAX509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éB
@@ -2635,8 +2429,6 @@ rgpvContext[1] ‚Í¸Œø‚µ‚Ä‚¢‚È‚¢‚±‚Æ‚ªŠm”F‚³‚êArgpvContext[2]
 %index
 CertVerifySubjectCertificateContext
 CertVerifySubjectCertificateContext ŠÖ”‚ÍAØ–¾‘‚Ì”­sÒ‚Ì³“–«‚ğŠm”F‚·‚é‚±‚Æ‚ÅAØ–¾‘‚É‘Î‚µ‚Ä—LŒø‰»‚³‚ê‚½ŒŸØƒ`ƒFƒbƒN‚ğs‚¤B–{ŠÖ”‚æ‚è‚àV‚µ‚¢uØ–¾‘ƒ`ƒF[ƒ“ŒŸØŠÖ”v‚Ìg—p‚ğ„§‚·‚éB
-%group
-Win32 crypt32
 %prm
 pSubject, pIssuer, pdwFlags
 pSubject : [var] ƒTƒuƒWƒFƒNƒg‚ÌØ–¾‘‚ğŠÜ‚Ş CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2661,8 +2453,6 @@ CertVerifySubjectCertificateContext
 %index
 CertVerifyTimeValidity
 CertVerifyTimeValidity ŠÖ”‚ÍAØ–¾‘‚Ì—LŒø«‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pTimeToVerify, pCertInfo
 pTimeToVerify : [var] ”äŠr‚ğŠÜ‚Ş FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[BNULL ‚Ìê‡AŒ»İ‚ªg—p‚³‚ê‚éB
@@ -2678,8 +2468,6 @@ CertVerifyTimeValidity ŠÖ”‚ÍAØ–¾‘‚Ì—LŒø«‚ğŒŸØ‚·‚éB
 %index
 CertVerifyValidityNesting
 CertVerifyValidityNesting ŠÖ”‚ÍAƒTƒuƒWƒFƒNƒgØ–¾‘‚Ì—LŒøŠúŠÔ‚ªA‚»‚Ì”­sÒ‚Ì—LŒøŠúŠÔ‚Ì’†‚É³‚µ‚­“ü‚êq‚É‚È‚Á‚Ä‚¢‚é‚©‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pSubjectInfo, pIssuerInfo
 pSubjectInfo : [var] ƒTƒuƒWƒFƒNƒgØ–¾‘‚Ì CERT_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -2696,8 +2484,6 @@ NotAfter ‚ª”­sÒØ–¾‘‚Ì NotAfter ‚æ‚èŒã‚Å‚È‚¢ê‡ATRUE ‚ğ•Ô‚·B‚»‚¤‚Å
 %index
 CryptAcquireCertificatePrivateKey
 Ø–¾‘‚Ì”é–§Œ®‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCert, dwFlags, pvParameters, phCryptProvOrNCryptKey, pdwKeySpec, pfCallerFreeProvOrNCryptKey
 pCert : [var] ”é–§Œ®‚ğæ“¾‚·‚é‘ÎÛ‚ÌØ–¾‘ƒRƒ“ƒeƒLƒXƒg‚ğŠÜ‚Ş CERT_CONTEXT \‘¢‘Ì‚ÌƒAƒhƒŒƒXB
@@ -2728,8 +2514,6 @@ CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡AŒÄ‚Ño‚µŒ³‚Í HWND
 %index
 CryptBinaryToStringW
 ƒoƒCƒg”z—ñ‚ğ‘®‰»‚³‚ê‚½•¶š—ñ‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 pbBinary, cbBinary, dwFlags, pszString, pcchString
 pbBinary : [var] •¶š—ñ‰»‚·‚éƒoƒCƒg”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2755,8 +2539,6 @@ ANSI/Unicode
 %index
 CryptCloseAsyncHandle
 CryptCloseAsyncHandle ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 crypt32
 %prm
 hAsync
 hAsync : [intptr] •Â‚¶‚é”ñ“¯Šúƒnƒ“ƒhƒ‹B
@@ -2770,8 +2552,6 @@ CryptCloseAsyncHandle ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
 %index
 CryptCreateAsyncHandle
 CryptCreateAsyncHandle ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwFlags, phAsync
 dwFlags : [int] ƒnƒ“ƒhƒ‹ì¬ƒtƒ‰ƒOB
@@ -2783,8 +2563,6 @@ CryptCreateAsyncHandle ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB
 %index
 CryptCreateKeyIdentifierFromCSP
 d—v: ‚±‚Ì API ‚Í”ñ„§‚Å‚ ‚éB(CryptCreateKeyIdentifierFromCSP)
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pszPubKeyOID, pPubKeyStruc, cbPubKeyStruc, dwFlags, pvReserved, pbHash, pcbHash
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ğw’è‚·‚éBŸ‚Ì—á‚Ì‚æ‚¤‚ÉØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÆƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğƒrƒbƒg’PˆÊ OR ‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚é: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Œ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOí•Ê‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -2806,8 +2584,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CryptDecodeMessage
 ˆÃ†ƒƒbƒZ[ƒW‚ğ•œ†E•œ†‰»EŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwMsgTypeFlags, pDecryptPara, pVerifyPara, dwSignerIndex, pbEncodedBlob, cbEncodedBlob, dwPrevInnerContentType, pdwMsgType, pdwInnerContentType, pbDecoded, pcbDecoded, ppXchgCert, ppSignerCert
 dwMsgTypeFlags : [int] ƒƒbƒZ[ƒWí•Ê‚ğ¦‚·BƒƒbƒZ[ƒWí•Ê‚Íƒrƒbƒg’PˆÊ OR ‰‰Zq‚Å‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚ÍŸ‚ÌƒƒbƒZ[ƒWí•Ê‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
@@ -2847,8 +2623,6 @@ ppSignerCert ‚ÌŠeƒpƒ‰ƒ[ƒ^‚ÍAŠÖ”ŒÄ‚Ño‚µ‘O‚É NULL
 %index
 CryptDecodeObject
 CryptDecodeObject ŠÖ”‚ÍAlpszStructType ƒpƒ‰ƒ[ƒ^‚ª¦‚·Œ^‚Ì\‘¢‘Ì‚ğ•œ†‚·‚éB‘å•‚È«”\Œüã‚ğ”º‚¤“¯‚¶‹@”\‚ğÀŒ»‚·‚é API ‚Æ‚µ‚Ä CryptDecodeObjectEx ‚Ìg—p‚ª„§‚³‚ê‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pbEncoded, cbEncoded, dwFlags, pvStructInfo, pcbStructInfo
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^BØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -2876,8 +2650,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BŸ‚Ì•\‚ÉA‘z’è‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚Ìˆê•”‚ğ¦‚·B
 %index
 CryptDecodeObjectEx
 lpszStructType ƒpƒ‰ƒ[ƒ^‚ª¦‚·Œ^‚Ì\‘¢‘Ì‚ğ•œ†‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pbEncoded, cbEncoded, dwFlags, pDecodePara, pvStructInfo, pcbStructInfo
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^BØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -2907,8 +2679,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BŸ‚Ì•\‚É‚¢‚­‚Â‚©‚Ì‘z’è‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğ¦‚·B
 %index
 CryptDecryptAndVerifyMessageSignature
 CryptDecryptAndVerifyMessageSignature ŠÖ”‚ÍAƒƒbƒZ[ƒW‚ğ•œ†‚µ–¼‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pDecryptPara, pVerifyPara, dwSignerIndex, pbEncryptedBlob, cbEncryptedBlob, pbDecrypted, pcbDecrypted, ppXchgCert, ppSignerCert
 pDecryptPara : [var] •œ†ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_DECRYPT_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2941,8 +2711,6 @@ ppSignerCert ƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚éB
 %index
 CryptDecryptMessage
 CryptDecryptMessage ŠÖ”‚ÍƒƒbƒZ[ƒW‚ğ•œ†‰»‚¨‚æ‚Ñ•œ†‚·‚éB
-%group
-Win32 crypt32
 %prm
 pDecryptPara, pbEncryptedBlob, cbEncryptedBlob, pbDecrypted, pcbDecrypted, ppXchgCert
 pDecryptPara : [var] •œ†ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_DECRYPT_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2971,8 +2739,6 @@ pbDecrypted ‚É NULL ‚ª“n‚³‚êApcbDecrypted ‚ª NULL ‚Å‚È‚¢ê‡AppXchgCert
 %index
 CryptEncodeObject
 CryptEncodeObject ŠÖ”‚ÍAlpszStructType ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª¦‚·Œ^‚Ì\‘¢‘Ì‚ğ•„†‰»‚·‚éB‘å•‚È«”\Œüã‚ğ”º‚¤“¯‚¶‹@”\‚ğÀŒ»‚·‚é API ‚Æ‚µ‚Ä CryptEncodeObjectEx ‚Ìg—p‚ª„§‚³‚ê‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pvStructInfo, pbEncoded, pcbEncoded
 dwCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^BØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -2998,8 +2764,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BŸ‚Ì•\‚É‘z’è‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚Ìˆê•”‚ğ¦‚·B
 %index
 CryptEncodeObjectEx
 lpszStructType ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª¦‚·Œ^‚Ì\‘¢‘Ì‚ğ•„†‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pvStructInfo, dwFlags, pEncodePara, pvEncoded, pcbEncoded
 dwCertEncodingType : [int] 
@@ -3034,8 +2798,6 @@ IA5String •„†‰»‚ª‚Å‚«‚È‚¢ê‡AdwFlag ƒpƒ‰ƒ[ƒ^‚É CRYPT_ENCODE_ENABLE_PUNYCODE
 %index
 CryptEncryptMessage
 CryptEncryptMessage ŠÖ”‚ÍƒƒbƒZ[ƒW‚ğˆÃ†‰»‚¨‚æ‚Ñ•„†‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pEncryptPara, cRecipientCert, rgpRecipientCert, pbToBeEncrypted, cbToBeEncrypted, pbEncryptedBlob, pcbEncryptedBlob
 pEncryptPara : [var] ˆÃ†‰»ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_ENCRYPT_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCryptEncryptMessage ŠÖ”‚Í SHA2 Œn OID ‚Å‚ ‚é szOID_DH_SINGLE_PASS_STDDH_SHA256_KDF ‚¨‚æ‚Ñ szOID_DH_SINGLE_PASS_STDDH_SHA384_KDF ‚ğƒTƒ|[ƒg‚µ‚È‚¢B
@@ -3059,8 +2821,6 @@ CryptGenKeyACryptEncryptACryptImportKeyACryptExportKey
 %index
 CryptEnumKeyIdentifierProperties
 CryptEnumKeyIdentifierProperties ŠÖ”‚ÍŒ®¯•Êq‚Æ‚»‚ÌƒvƒƒpƒeƒB‚ğ—ñ‹“‚·‚éB
-%group
-Win32 crypt32
 %prm
 pKeyIdentifier, dwPropId, dwFlags, pwszComputerName, pvReserved, pvArg, pfnEnum
 pKeyIdentifier : [var] Œ®¯•Êq‚ğŠÜ‚Ş CRYPT_HASH_BLOB \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3086,8 +2846,6 @@ CryptEnumKeyIdentifierProperties ŠÖ”‚ÍAÅŒã‚ÌŒ®¯•Êq‚ª—ñ‹“‚³‚ê‚é‚©AƒR[ƒ‹ƒoƒ
 %index
 CryptEnumOIDFunction
 CryptEnumOIDFunction ŠÖ”‚ÍA“o˜^‚³‚ê‚½ƒIƒuƒWƒFƒNƒg¯•Êq (OID) ŠÖ”‚ğ—ñ‹“‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, dwFlags, pvArg, pfnEnumOIDFunc
 dwEncodingType : [int] ˆê’v‚³‚¹‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ CRYPT_MATCH_ANY_ENCODING_TYPE ‚Éİ’è‚·‚é‚Æ”CˆÓ‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Æˆê’v‚·‚éBCRYPT_MATCH_ANY_ENCODING_TYPE ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AØ–¾‘‚Ü‚½‚ÍƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì‚¢‚¸‚ê‚©‚ª•K—v‚Å‚ ‚é‚±‚Æ‚É’ˆÓBØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğŠÜ‚Ş‰ºˆÊƒ[ƒh‚ª 0 ˆÈŠO‚Ìê‡A‚»‚ê‚ªg—p‚³‚ê‚éB‚»‚¤‚Å‚È‚¢ê‡AƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğŠÜ‚ŞãˆÊƒ[ƒh‚ªg—p‚³‚ê‚éB—¼•û‚ªw’è‚³‚ê‚Ä‚¢‚éê‡A‰ºˆÊƒ[ƒh‚ÌØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ªg—p‚³‚ê‚éB
@@ -3107,8 +2865,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CryptEnumOIDInfo
 ’è‹`Ï‚İ‚¨‚æ‚Ñ“o˜^Ï‚İ‚ÌƒIƒuƒWƒFƒNƒg¯•Êq (OID) CRYPT_OID_INFO \‘¢‘Ì‚ğ—ñ‹“‚·‚éB‚±‚ÌŠÖ”‚Í’è‹`Ï‚İ‚Æ“o˜^Ï‚İ‚Ì‚·‚×‚Ä‚Ì\‘¢‘ÌA‚Ü‚½‚Í‘I‘ğ‚³‚ê‚½ OID ƒOƒ‹[ƒv‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚é\‘¢‘Ì‚Ì‚İ‚ğ—ñ‹“‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwGroupId, dwFlags, pvArg, pfnEnumOIDInfo
 dwGroupId : [int] ˆê’v‚³‚¹‚é OID ƒOƒ‹[ƒv‚ğ¦‚·BdwGroupId ‚ğ 0 ‚Éİ’è‚·‚é‚Æ‚·‚×‚Ä‚ÌƒOƒ‹[ƒv‚Æˆê’v‚·‚éBdwGroupId ‚ª 0 ‚æ‚è‘å‚«‚¢ê‡Aw’è‚³‚ê‚½ƒOƒ‹[ƒv‚Ì OID ƒGƒ“ƒgƒŠ‚Ì‚İ‚ª—ñ‹“‚³‚ê‚éB
@@ -3126,8 +2882,6 @@ pfnEnumOIDInfo : [int] —ñ‹“‚³‚ê‚éŠe OID î•ñƒGƒ“ƒgƒŠ‚É‘Î‚µ‚ÄÀs‚³‚ê‚éƒR[ƒ‹ƒoƒb
 %index
 CryptExportPKCS8
 PKCS Œ`®‚Å”é–§Œ®‚ğƒGƒNƒXƒ|[ƒg‚·‚é (CryptExportPKCS8)B
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwKeySpec, pszPrivateKeyObjId, dwFlags, pvAuxInfo, pbPrivateKeyBlob, pcbPrivateKeyBlob
 hCryptProv : [int] ˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚ğŠÜ‚Ş HCRYPTPROV •Ï”B‚±‚ê‚Í CryptAcquireContext ‚ğŒÄ‚Ño‚µ‚Äæ“¾‚µ‚½ CSP ‚Ìƒnƒ“ƒhƒ‹B
@@ -3152,8 +2906,6 @@ PKCS Œ`®‚Å”é–§Œ®‚ğƒGƒNƒXƒ|[ƒg‚·‚é (CryptExportPKCS8)B
 %index
 CryptExportPublicKeyInfo
 CryptExportPublicKeyInfo ŠÖ”‚ÍAƒvƒƒoƒCƒ_‚Ì‘Î‰‚·‚é”é–§Œ®‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ŒöŠJŒ®î•ñ‚ğƒGƒNƒXƒ|[ƒg‚·‚éB‚±‚ÌŠÖ”‚ÌXV”Å‚É‚Â‚¢‚Ä‚Í CryptExportPublicKeyInfoEx ‚ğQÆB
-%group
-Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, pInfo, pcbInfo
 hCryptProvOrNCryptKey : [int] ŒöŠJŒ®î•ñ‚ğƒGƒNƒXƒ|[ƒg‚·‚é‚Æ‚«‚Ég—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ HCRYPTPROV ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í NCryptOpenKey ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ NCRYPT_KEY_HANDLE ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚Íí‚É CNG CSP ‚Ì NCRYPT_KEY_HANDLE ƒnƒ“ƒhƒ‹‚ğ“n‚·‚±‚ÆB
@@ -3176,8 +2928,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B’ˆÓ ŒÄ‚Ño‚³‚ê‚½ CryptGetUserKey ‚¨‚æ‚Ñ CryptExportKey
 %index
 CryptExportPublicKeyInfoEx
 ƒvƒƒoƒCƒ_‚Ì‘Î‰‚·‚é”é–§Œ®‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ŒöŠJŒ®î•ñ‚ğƒGƒNƒXƒ|[ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, pszPublicKeyObjId, dwFlags, pvAuxInfo, pInfo, pcbInfo
 hCryptProvOrNCryptKey : [int] ŒöŠJŒ®î•ñ‚ğƒGƒNƒXƒ|[ƒg‚·‚é‚Æ‚«‚Ég—p‚·‚é CSP ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ HCRYPTPROV ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í NCryptOpenKey ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ NCRYPT_KEY_HANDLE ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚Íí‚É CNG CSP ‚Ì NCRYPT_KEY_HANDLE ƒnƒ“ƒhƒ‹‚ğ“n‚·‚±‚ÆB
@@ -3201,8 +2951,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B’ˆÓ ŒÄ‚Ño‚³‚ê‚½ CryptGetUserKey ‚¨‚æ‚Ñ CryptExportKey
 %index
 CryptExportPublicKeyInfoFromBCryptKeyHandle
 ƒvƒƒoƒCƒ_‚Ì‘Î‰‚·‚é”é–§Œ®‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ŒöŠJŒ®î•ñ‚ğƒGƒNƒXƒ|[ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 hBCryptKey, dwCertEncodingType, pszPublicKeyObjId, dwFlags, pvAuxInfo, pInfo, pcbInfo
 hBCryptKey : [int] ŒöŠJŒ®î•ñ‚ğƒGƒNƒXƒ|[ƒg‚·‚éŒ®‚Ìƒnƒ“ƒhƒ‹B
@@ -3228,8 +2976,6 @@ CryptExportPublicKeyInfoFromBCryptKeyHandle ŠÖ”‚ª pszPublicKeyObjId
 %index
 CryptFindCertificateKeyProvInfo
 ˆÃ†ƒvƒƒoƒCƒ_‚Æ‚»‚ÌƒRƒ“ƒeƒi‚ğ—ñ‹“‚µAØ–¾‘‚ÌŒöŠJŒ®‚É‘Î‰‚·‚é”é–§Œ®‚ğŒŸõ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pCert, dwFlags, pvReserved
 pCert : [var] ŒöŠJŒ®î•ñ‚ğƒGƒNƒXƒ|[ƒg‚·‚é‚Æ‚«‚Ég—p‚·‚éØ–¾‘‚Ì CERT_CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3253,8 +2999,6 @@ CERT_KEY_PROV_INFO_PROP_ID ƒvƒƒpƒeƒB‚ğXV‚·‚éBCERT_KEY_PROV_INFO_PROP_ID
 %index
 CryptFindLocalizedName
 "Root" ƒVƒXƒeƒ€ƒXƒgƒA‚Ìƒ[ƒJƒ‰ƒCƒY–¼‚È‚ÇAw’è‚³‚ê‚½–¼‘O‚Ìƒ[ƒJƒ‰ƒCƒY–¼‚ğŒŸõ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pwszCryptName
 pwszCryptName : [wstr] w’è‚³‚ê‚½–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B“à•”ƒe[ƒuƒ‹‚ªŒŸõ‚³‚êA’è‹`Ï‚İ‚Ìƒ[ƒJƒ‰ƒCƒY–¼‚Æw’è‚³‚ê‚½–¼‘O‚ğ”äŠr‚·‚éBŒŸõ‚Å‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢•¶š—ñ”äŠr‚ğg—p‚µ‚Äƒ[ƒJƒ‰ƒCƒY–¼‚ğÆ‡‚·‚éB
@@ -3280,8 +3024,6 @@ NULL cbValueData = 0B“o˜^‚³‚ê‚½–¼‘O‚ÍA‚ ‚ç‚©‚¶‚ßƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½–¼‘O‚æ‚è‚àæ
 %index
 CryptFindOIDInfo
 w’è‚³‚ê‚½ƒL[Œ^‚ÆƒL[‚Éˆê’v‚·‚éAÅ‰‚Ì’è‹`Ï‚İ‚Ü‚½‚Í“o˜^Ï‚İ‚Ì CRYPT_OID_INFO \‘¢‘Ì‚ğæ“¾‚·‚éBŒŸõ‚ÍAw’è‚³‚ê‚½ OID ƒOƒ‹[ƒv“à‚ÌƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚É§ŒÀ‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 dwKeyType, pvKey, dwGroupId
 dwKeyType : [int] OID î•ñ‚ğŒŸõ‚·‚é‚Æ‚«‚Ég—p‚·‚éƒL[Œ^‚ğw’è‚·‚éB
@@ -3304,8 +3046,6 @@ CryptFindOIDInfo ŠÖ”‚ÍAŸ‚ÌğŒ‰º‚Å OID ‚ÌƒtƒŒƒ“ƒhƒŠ[–¼‚ğæ“¾‚·‚é‚½‚ß‚É Activ
 %index
 CryptFormatObject
 CryptFormatObject ŠÖ”‚ÍA•„†‰»Ï‚İƒf[ƒ^‚ğ‘®‰»‚µAØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚É]‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒoƒbƒtƒ@“à‚Ì Unicode •¶š—ñ‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, dwFormatType, dwFormatStrType, pFormatStruct, lpszStructType, pbEncoded, cbEncoded, pbFormat, pcbFormat
 dwCertEncodingType : [int] Ø–¾‘‚Ég—p‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^BŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éØ–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Í X509_ASN_ENCODINGB
@@ -3336,8 +3076,6 @@ Unicode •¶š—ñ‚ğ•Ô‚·B
 %index
 CryptFreeOIDFunctionAddress
 CryptFreeOIDFunctionAddress ŠÖ”‚ÍAŠÖ”ƒnƒ“ƒhƒ‹‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·‚±‚Æ‚Å CryptGetOIDFunctionAddress ‚Ü‚½‚Í CryptGetDefaultOIDFunctionAddress ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 crypt32
 %prm
 hFuncAddr, dwFlags
 hFuncAddr : [intptr] CryptGetOIDFunctionAddress ‚Ü‚½‚Í CryptGetDefaultOIDFunctionAddress ‚ÌŒÄ‚Ño‚µ‚©‚çˆÈ‘O‚Éæ“¾‚³‚ê‚½ŠÖ”‚Ìƒnƒ“ƒhƒ‹B
@@ -3363,8 +3101,6 @@ CryptGetDefaultOIDFunctionAddress ‚ª 15
 %index
 CryptGetAsyncParam
 CryptGetAsyncParam ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒpƒ‰ƒ[ƒ^’l‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 hAsync, pszParamOid, ppvParam, ppfnFree
 hAsync : [intptr] ”ñ“¯Šúƒnƒ“ƒhƒ‹B
@@ -3381,8 +3117,6 @@ CryptGetAsyncParam ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒpƒ‰ƒ[ƒ^’l‚ğİ’è‚·‚éB
 %index
 CryptGetDefaultOIDDllList
 CryptGetDefaultOIDDllList ŠÖ”‚ÍAw’è‚³‚ê‚½ŠÖ”ƒZƒbƒg‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚É‘Î‚µ‚Ä“o˜^‚³‚ê‚½Šù’è‚ÌƒIƒuƒWƒFƒNƒg¯•Êq (OID) ŠÖ”‚ğŠÜ‚Ş DLL ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Ìˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 hFuncSet, dwEncodingType, pwszDllList, pcchDllList
 hFuncSet : [intptr] CryptInitOIDFunctionSet ‚ÌŒÄ‚Ño‚µ‚©‚çˆÈ‘O‚Éæ“¾‚³‚ê‚½ŠÖ”ƒZƒbƒgƒnƒ“ƒhƒ‹B
@@ -3403,8 +3137,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚É‚ÍŸ‚ÌƒGƒ‰[ƒR[ƒh‚ª‚ ‚éB
 %index
 CryptGetDefaultOIDFunctionAddress
 CryptGetDefaultOIDFunctionAddress ŠÖ”‚ÍAŠù’è‚ÌŠÖ”ƒAƒhƒŒƒX‚ğŠÜ‚Ş DLL ‚ğ“Ç‚İ‚ŞB
-%group
-Win32 crypt32
 %prm
 hFuncSet, dwEncodingType, pwszDll, dwFlags, ppvFuncAddr, phFuncAddr
 hFuncSet : [intptr] CryptInitOIDFunctionSet ‚ÌŒÄ‚Ño‚µ‚©‚çˆÈ‘O‚Éæ“¾‚³‚ê‚½ŠÖ”ƒZƒbƒgƒnƒ“ƒhƒ‹B
@@ -3423,8 +3155,6 @@ CryptGetDefaultOIDFunctionAddress ŠÖ”‚ÍAŠù’è‚ÌŠÖ”ƒAƒhƒŒƒX‚ğŠÜ‚Ş DLL ‚ğ“Ç‚İ‚
 %index
 CryptGetKeyIdentifierProperty
 CryptGetKeyIdentifierProperty ‚Íw’è‚³‚ê‚½Œ®¯•Êq‚©‚ç“Á’è‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 pKeyIdentifier, dwPropId, dwFlags, pwszComputerName, pvReserved, pvData, pcbData
 pKeyIdentifier : [var] Œ®¯•Êq‚ğŠÜ‚Ş CRYPT_HASH_BLOB ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3445,8 +3175,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CryptGetMessageCertificates
 CryptGetMessageCertificates ŠÖ”‚ÍAƒƒbƒZ[ƒW‚ÌØ–¾‘‚¨‚æ‚Ñ CRL ‚ğŠÜ‚ŞŠJ‚©‚ê‚½Ø–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚±‚ÌŠÖ”‚Í lpszStoreProvider ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚ÄƒvƒƒoƒCƒ_Œ^ CERT_STORE_PROV_PKCS7 ‚ğg—p‚µ‚Ä CertOpenStore ‚ğŒÄ‚Ño‚·B
-%group
-Win32 crypt32
 %prm
 dwMsgAndCertEncodingType, hCryptProv, dwFlags, pbSignedBlob, cbSignedBlob
 dwMsgAndCertEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -3471,8 +3199,6 @@ CERT_STORE_PROV_PKCS7 ‚ğg—p‚µ‚Ä CertOpenStore ‚ğŒÄ‚Ño‚·B
 %index
 CryptGetMessageSignerCount
 CryptGetMessageSignerCount ŠÖ”‚ÍA–¼‚³‚ê‚½ƒƒbƒZ[ƒW‚Ì–¼Ò”‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 dwMsgEncodingType, pbSignedBlob, cbSignedBlob
 dwMsgEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -3490,8 +3216,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BŸ‚ÌƒGƒ‰[ƒR[ƒh‚ªÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éB
 %index
 CryptGetOIDFunctionAddress
 “o˜^Ï‚İ‚¨‚æ‚ÑƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚ÌŠÖ”‚Ìˆê——‚©‚çAƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÆƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Ìˆê’v‚ğŒŸõ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hFuncSet, dwEncodingType, pszOID, dwFlags, ppvFuncAddr, phFuncAddr
 hFuncSet : [intptr] CryptInitOIDFunctionSet ŠÖ”‚ÌŒÄ‚Ño‚µ‚©‚çˆÈ‘O‚Éæ“¾‚³‚ê‚½ŠÖ”ƒZƒbƒgƒnƒ“ƒhƒ‹B
@@ -3517,8 +3241,6 @@ CMSG_DEFAULT_INSTALLABLE_FUNC_OID ‚Éİ’è‚µ‚Ä CryptGetOIDFunctionAddress
 %index
 CryptGetOIDFunctionValue
 CryptGetOIDFunctionValue ŠÖ”‚ÍAOID ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’l‚ğÆ‰ï‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, pwszValueName, pdwValueType, pbValueData, pcbValueData
 dwEncodingType : [int] ˆê’v‚³‚¹‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğw’è‚·‚éBŒ»İAX509_ASN_ENCODING ‚¨‚æ‚Ñ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ’Ç‰Á‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì—¼•û‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Æˆê’v‚³‚¹‚é‚É‚Í X509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éB
@@ -3540,8 +3262,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚É‚ÍŸ‚ÌƒGƒ‰[ƒR[ƒh‚ª‚ ‚éB
 %index
 CryptHashCertificate
 CryptHashCertificate ŠÖ”‚ÍA–¼‚ğŠÜ‚ŞØ–¾‘‚Ì•„†‰»Ï‚İƒRƒ“ƒeƒ“ƒc‘S‘Ì‚ğƒnƒbƒVƒ…‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProv, Algid, dwFlags, pbEncoded, cbEncoded, pbComputedHash, pcbComputedHash
 hCryptProv : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒbƒVƒ…‚ÌŒvZ‚Ég—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B
@@ -3564,8 +3284,6 @@ CryptCreateHashACryptGetHashParamACryptHashData
 %index
 CryptHashCertificate2
 CNG ƒnƒbƒVƒ…ƒvƒƒoƒCƒ_‚ğg—p‚µ‚Äƒf[ƒ^ƒuƒƒbƒN‚ğƒnƒbƒVƒ…‚·‚éB
-%group
-Win32 crypt32
 %prm
 pwszCNGHashAlgid, dwFlags, pvReserved, pbEncoded, cbEncoded, pbComputedHash, pcbComputedHash
 pwszCNGHashAlgid : [wstr] Ø–¾‘‚ğƒnƒbƒVƒ…‚·‚é‚½‚ß‚Ég—p‚·‚éƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€‚Ì CNG ƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€¯•Êq‚ğŠÜ‚Ş NULL I’[‚Ì Unicode •¶š—ñ‚ÌƒAƒhƒŒƒXB‚±‚ê‚ÍƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€‚ğ•\‚· CNG ƒAƒ‹ƒSƒŠƒYƒ€¯•ÊqA‚Ü‚½‚Í‚»‚Ì‘¼‚Ì“o˜^Ï‚İƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€¯•Êq‚É‚Å‚«‚éB
@@ -3587,8 +3305,6 @@ GetLastError
 %index
 CryptHashMessage
 ƒƒbƒZ[ƒW‚ÌƒnƒbƒVƒ…‚ğì¬‚·‚éB
-%group
-Win32 crypt32
 %prm
 pHashPara, fDetachedHash, cToBeHashed, rgpbToBeHashed, rgcbToBeHashed, pbHashedBlob, pcbHashedBlob, pbComputedHash, pcbComputedHash
 pHashPara : [var] ƒnƒbƒVƒ…ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_HASH_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3614,8 +3330,6 @@ CryptCreateHashACryptHashDataACryptGetHashParam
 %index
 CryptHashPublicKeyInfo
 CERT_PUBLIC_KEY_INFO \‘¢‘Ì“à‚ÌŒöŠJŒ®î•ñ‚ğ•„†‰»‚µA•„†‰»‚³‚ê‚½ƒoƒCƒg—ñ‚ÌƒnƒbƒVƒ…‚ğŒvZ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProv, Algid, dwFlags, dwCertEncodingType, pInfo, pbComputedHash, pcbComputedHash
 hCryptProv : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒbƒVƒ…‚ÌŒvZ‚Ég—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^Œ^‚Í HCRYPTPROVBhCryptProv ‚Å“Á’è‚ÌˆÃ†ƒvƒƒoƒCƒ_‚ğ“n‚·‹­‚¢——R‚ª‚È‚¢ŒÀ‚èA0 ‚ğ“n‚·B0 ‚ğ“n‚·‚ÆAƒnƒbƒVƒ…A–¼ŒŸØA‚Ü‚½‚ÍóMÒˆÃ†‰»‘€ì‚ğs‚¤‘O‚ÉŠù’è‚Ì RSA ‚Ü‚½‚Í Digital Signature Standard (DSS) ƒvƒƒoƒCƒ_‚ªæ“¾‚³‚ê‚éB
@@ -3639,8 +3353,6 @@ CryptCreateHashACryptGetHashParamACryptHashData
 %index
 CryptHashToBeSigned
 d—v ‚±‚Ì API ‚Í”p~—\’èB(CryptHashToBeSigned)
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pbEncoded, cbEncoded, pbComputedHash, pcbComputedHash
 hCryptProv : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒbƒVƒ…‚ÌŒvZ‚Ég—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^Œ^‚Í HCRYPTPROVBhCryptProv ‚Å“Á’è‚ÌˆÃ†ƒvƒƒoƒCƒ_‚ğ“n‚·‹­‚¢——R‚ª‚È‚¢ŒÀ‚èA0 ‚ğ“n‚·B0 ‚ğ“n‚·‚ÆAƒnƒbƒVƒ…A–¼ŒŸØA‚Ü‚½‚ÍóMÒˆÃ†‰»‘€ì‚ğs‚¤‘O‚ÉŠù’è‚Ì RSA ‚Ü‚½‚Í Digital Signature Standard (DSS) ƒvƒƒoƒCƒ_‚ªæ“¾‚³‚ê‚éB
@@ -3663,8 +3375,6 @@ CryptCreateHashACryptGetHashParamACryptHashData
 %index
 CryptImportPKCS8
 PKCS Œ`®‚Å”é–§Œ®‚ğƒCƒ“ƒ|[ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 sPrivateKeyAndParams, dwFlags, phCryptProv, pvAuxInfo
 sPrivateKeyAndParams : [var] ”é–§Œ® BLOB ‚Æ‘Î‰‚·‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_PKCS8_IMPORT_PARAMS \‘¢‘ÌB
@@ -3689,8 +3399,6 @@ NULL ‚Ìê‡AŠù’è‚ÌƒvƒƒoƒCƒ_‚ªg—p‚³‚ê‚éB‚±‚ÌŠÖ”‚Í”ñ‘ÎÌŒ®‚É‘Î‚µ‚Ä‚Ì‚İƒTƒ|[ƒ
 %index
 CryptImportPublicKeyInfo
 ŒöŠJŒ®î•ñ‚ğ•ÏŠ·‚µ‚ÄƒvƒƒoƒCƒ_‚ÉƒCƒ“ƒ|[ƒg‚µAŒöŠJŒ®‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pInfo, phKey
 hCryptProv : [int] ŒöŠJŒ®‚ğƒCƒ“ƒ|[ƒg‚·‚é‚Æ‚«‚Ég—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ‚ğg—p‚µ‚Ä‚ ‚ç‚©‚¶‚ßì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -3715,8 +3423,6 @@ CERT_PUBLIC_KEY_INFO \‘¢‘Ì‚ğ“n‚·‚±‚Æ‚Ås‚í‚ê‚éB
 %index
 CryptImportPublicKeyInfoEx
 d—v ‚±‚Ì API ‚Í”p~—\’èB(CryptImportPublicKeyInfoEx)
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pInfo, aiKeyAlg, dwFlags, pvAuxInfo, phKey
 hCryptProv : [int] ƒCƒ“ƒ|[ƒg‚³‚ê‚½ŒöŠJŒ®‚ğó‚¯æ‚é CSP ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ‚ğg—p‚µ‚Ä‚ ‚ç‚©‚¶‚ßì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -3744,8 +3450,6 @@ CERT_PUBLIC_KEY_INFO \‘¢‘Ì‚ğ“n‚·‚±‚Æ‚Ås‚í‚ê‚éB
 %index
 CryptImportPublicKeyInfoEx2
 ŒöŠJŒ®ƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚É‘Î‰‚·‚é CNG ”ñ‘ÎÌƒvƒƒoƒCƒ_‚ÉŒöŠJŒ®‚ğƒCƒ“ƒ|[ƒg‚µAŒ®‚Ì CNG ƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 dwCertEncodingType, pInfo, dwFlags, pvAuxInfo, phKey
 dwCertEncodingType : [int] ƒTƒuƒWƒFƒNƒg‚ğˆÃ†‰»‚·‚é‚½‚ß‚Ég—p‚³‚ê‚½Ø–¾‘ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^B‚±‚Ì’l‚ÌãˆÊ WORD ‚ÉŠÜ‚Ü‚ê‚éƒƒbƒZ[ƒWƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^¯•Êq‚ÍA‚±‚ÌŠÖ”‚Å‚Í–³‹‚³‚ê‚éB
@@ -3765,8 +3469,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚É‚ÍŸ‚Ì‚à‚Ì‚ªŠÜ‚Ü‚ê‚é‚ªA‚±‚ê‚ç‚
 %index
 CryptInitOIDFunctionSet
 CryptInitOIDFunctionSet ‚ÍAw’è‚³‚ê‚½ŠÖ”ƒZƒbƒg–¼‚Å¯•Ê‚³‚ê‚é OID ŠÖ”ƒZƒbƒg‚ğ‰Šú‰»‚µ‚Ä‚»‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 pszFuncName, dwFlags
 pszFuncName : [str] OID ŠÖ”ƒZƒbƒg‚Ì–¼‘OB
@@ -3781,8 +3483,6 @@ pszFuncName ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚é OID ŠÖ”ƒZƒbƒg‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BŠÖ”‚ª¸”s‚µ‚½ê
 %index
 CryptInstallDefaultContext
 w’è‚³‚ê‚½ƒAƒ‹ƒSƒŠƒYƒ€‚ÌŠù’è‚ÌƒRƒ“ƒeƒLƒXƒgƒvƒƒoƒCƒ_‚Æ‚µ‚Ä“Á’è‚ÌƒvƒƒoƒCƒ_‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwDefaultType, pvDefaultPara, dwFlags, pvReserved, phDefaultContext
 hCryptProv : [int] Šù’è‚ÌƒRƒ“ƒeƒLƒXƒg‚Æ‚µ‚Äg—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ŠÖ”‚ğg—p‚µ‚Äæ“¾‚³‚ê‚éB
@@ -3807,8 +3507,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CryptInstallOIDFunctionAddress
 CryptInstallOIDFunctionAddress ŠÖ”‚ÍAŒÄ‚Ño‚µ‰Â”\‚ÈƒIƒuƒWƒFƒNƒg¯•Êq (OID) ŠÖ”ƒAƒhƒŒƒX‚ÌƒZƒbƒg‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB
-%group
-Win32 crypt32
 %prm
 hModule, dwEncodingType, pszFuncName, cFuncEntry, rgFuncEntry, dwFlags
 hModule : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍACryptGetOIDFunctionAddress ‚Ü‚½‚Í CryptFreeOIDFunctionAddress ‚É‚æ‚Á‚ÄAŠÖ”ƒAƒhƒŒƒX‚ğŠÜ‚Ş DLL ‚ªƒAƒ“ƒ[ƒh‚³‚ê‚È‚¢‚æ‚¤‚ÉADllMain ‚É“n‚³‚ê‚é hModule ƒpƒ‰ƒ[ƒ^‚ÅXV‚³‚ê‚éB‚±‚ê‚ÍADLL ‚ª CryptRegisterOIDFunction ‚ğ‰î‚µ‚Ä OID ŠÖ”‚à“o˜^‚µ‚Ä‚¢‚éê‡‚É“–‚Ä‚Í‚Ü‚éB
@@ -3828,8 +3526,6 @@ CryptInstallOIDFunctionAddress ŠÖ”‚ÍAŒÄ‚Ño‚µ‰Â”\‚ÈƒIƒuƒWƒFƒNƒg¯•Êq (OID)
 %index
 CryptMemAlloc
 CryptMemAlloc ŠÖ”‚Íƒoƒbƒtƒ@‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBŠ„‚è“–‚Ä‚ç‚ê‚½ƒoƒbƒtƒ@‚ğ•Ô‚·‚·‚×‚Ä‚Ì Crypt32.lib ŠÖ”‚Åg—p‚³‚ê‚éB
-%group
-Win32 crypt32
 %prm
 cbSize
 cbSize : [int] Š„‚è“–‚Ä‚éƒoƒCƒg”B
@@ -3845,8 +3541,6 @@ CryptMemAlloc ŠÖ”‚Íƒoƒbƒtƒ@‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBŠ„‚è“–‚Ä‚ç‚ê‚½ƒoƒbƒtƒ@‚ğ•Ô‚·‚·
 %index
 CryptMemFree
 CryptMemFree ŠÖ”‚ÍACryptMemAlloc ‚Ü‚½‚Í CryptMemRealloc ‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 crypt32
 %prm
 pv
 pv : [intptr] ‰ğ•ú‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3858,8 +3552,6 @@ CryptMemFree ŠÖ”‚ÍACryptMemAlloc ‚Ü‚½‚Í CryptMemRealloc
 %index
 CryptMemRealloc
 CryptMemRealloc ŠÖ”‚ÍAƒoƒbƒtƒ@‚ÉŒ»İŠ„‚è“–‚Ä‚ç‚ê‚Ä‚¢‚éƒƒ‚ƒŠ‚ğ‰ğ•ú‚µAV‚µ‚¢ƒoƒbƒtƒ@‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 crypt32
 %prm
 pv, cbSize
 pv : [intptr] Œ»İŠ„‚è“–‚Ä‚ç‚ê‚Ä‚¢‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3875,8 +3567,6 @@ CryptMemRealloc ŠÖ”‚ÍAƒoƒbƒtƒ@‚ÉŒ»İŠ„‚è“–‚Ä‚ç‚ê‚Ä‚¢‚éƒƒ‚ƒŠ‚ğ‰ğ•ú‚µAV‚µ‚¢ƒo
 %index
 CryptMsgCalculateEncodedLength
 ƒƒbƒZ[ƒW‚ÌŒ^AƒGƒ“ƒR[ƒfƒBƒ“ƒOƒpƒ‰ƒ[ƒ^A‚¨‚æ‚Ñ•„†‰»‚³‚ê‚éƒf[ƒ^‚Ì‡Œv’·‚ğw’è‚µ‚ÄA•„†‰»‚³‚ê‚½ˆÃ†ƒƒbƒZ[ƒW‚É•K—v‚ÈÅ‘åƒoƒCƒg”‚ğŒvZ‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwMsgEncodingType, dwFlags, dwMsgType, pvMsgEncodeInfo, pszInnerContentObjID, cbData
 dwMsgEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -3898,8 +3588,6 @@ cbData : [int] ƒRƒ“ƒeƒ“ƒc‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %index
 CryptMsgClose
 CryptMsgClose ŠÖ”‚ÍˆÃ†ƒƒbƒZ[ƒWƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB‚±‚ÌŠÖ”‚ÌŒÄ‚Ño‚µ‚²‚Æ‚ÉAƒƒbƒZ[ƒW‚ÌQÆƒJƒEƒ“ƒg‚ª 1 ‚ÂŒ¸‚ç‚³‚ê‚éBQÆƒJƒEƒ“ƒg‚ª 0 ‚É’B‚·‚é‚ÆAƒƒbƒZ[ƒW‚ÍŠ®‘S‚É‰ğ•ú‚³‚ê‚éB
-%group
-Win32 crypt32
 %prm
 hCryptMsg
 hCryptMsg : [intptr] •Â‚¶‚éˆÃ†ƒƒbƒZ[ƒW‚Ìƒnƒ“ƒhƒ‹B
@@ -3915,8 +3603,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CryptMsgControl
 CryptMsgUpdate ŠÖ”‚Ö‚ÌÅŒã‚ÌŒÄ‚Ño‚µ‚ÅƒƒbƒZ[ƒW‚ª•œ†‚³‚ê‚½Œã‚ÉA§Œä‘€ì‚ğÀs‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptMsg, dwFlags, dwCtrlType, pvCtrlPara
 hCryptMsg : [intptr] §Œä‚ğ“K—p‚·‚éˆÃ†ƒƒbƒZ[ƒW‚Ìƒnƒ“ƒhƒ‹B
@@ -3942,8 +3628,6 @@ SetLastError
 %index
 CryptMsgCountersign
 ƒƒbƒZ[ƒW“à‚ÌŠù‘¶‚Ì–¼‚ğ•›‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptMsg, dwIndex, cCountersigners, rgCountersigners
 hCryptMsg : [intptr] g—p‚·‚éˆÃ†ƒƒbƒZ[ƒWƒnƒ“ƒhƒ‹B
@@ -3963,8 +3647,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BCryptMsgCountersignEncoded
 %index
 CryptMsgCountersignEncoded
 Šù‘¶‚Ì PKCS ‚É•›‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pbSignerInfo, cbSignerInfo, cCountersigners, rgCountersigners, pbCountersignature, pcbCountersignature
 dwEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBŒ»İAX509_ASN_ENCODING ‚¨‚æ‚Ñ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ’Ç‰Á‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì—¼•û‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚É‚Í X509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éB
@@ -3986,8 +3668,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BŸ‚Ì•\‚ÉAGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[
 %index
 CryptMsgDuplicate
 CryptMsgDuplicate ŠÖ”‚ÍAQÆƒJƒEƒ“ƒg‚ğ‘‚â‚·‚±‚Æ‚É‚æ‚Á‚ÄˆÃ†ƒƒbƒZ[ƒWƒnƒ“ƒhƒ‹‚ğ•¡»‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptMsg
 hCryptMsg : [intptr] •¡»‚·‚éˆÃ†ƒƒbƒZ[ƒW‚Ìƒnƒ“ƒhƒ‹B•¡»‚ÍƒƒbƒZ[ƒW‚ÌQÆƒJƒEƒ“ƒg‚ğ‘‚â‚·‚±‚Æ‚É‚æ‚Á‚Äs‚í‚ê‚éBƒƒbƒZ[ƒW‚ÌƒRƒs[‚Íì¬‚³‚ê‚È‚¢B
@@ -4007,8 +3687,6 @@ CryptMsgClose ‚ğ•¡”‰ñŒÄ‚Ño‚·•K—v‚ª‚ ‚é‚æ‚¤‚É‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
 %index
 CryptMsgEncodeAndSignCTL
 CryptMsgEncodeAndSignCTL ŠÖ”‚ÍACTL ‚ğ•„†‰»‚µA•„†‰»‚³‚ê‚½ CTL ‚ğŠÜ‚Ş–¼Ï‚İƒƒbƒZ[ƒW‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚Í‚Ü‚¸ pCtlInfo ‚ªw‚· CTL ‚ğ•„†‰»‚µAŸ‚É CryptMsgSignCTL ‚ğŒÄ‚Ño‚µ‚Ä•„†‰»‚³‚ê‚½ƒƒbƒZ[ƒW‚É–¼‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwMsgEncodingType, pCtlInfo, pSignInfo, dwFlags, pbEncoded, pcbEncoded
 dwMsgEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -4031,8 +3709,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BCryptMsgOpenToEncode ‚¨‚æ‚Ñ CryptMsgUpdate
 %index
 CryptMsgGetAndVerifySigner
 CryptMsgGetAndVerifySigner ŠÖ”‚ÍˆÃ†ƒƒbƒZ[ƒW‚Ì–¼‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptMsg, cSignerStore, rghSignerStore, dwFlags, ppSigner, pdwSignerIndex
 hCryptMsg : [intptr] ˆÃ†ƒƒbƒZ[ƒW‚Ìƒnƒ“ƒhƒ‹B
@@ -4052,8 +3728,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CryptMsgGetParam
 ˆÃ†ƒƒbƒZ[ƒW‚ª•„†‰»‚Ü‚½‚Í•œ†‰»‚³‚ê‚½Œã‚ÉƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptMsg, dwParamType, dwIndex, pvData, pcbData
 hCryptMsg : [intptr] ˆÃ†ƒƒbƒZ[ƒW‚Ìƒnƒ“ƒhƒ‹B
@@ -4078,8 +3752,6 @@ CMSG_VERSION_PARAM ‚ğ dwParamType ‚Éİ’è‚µ‚½ CryptMsgGetParam
 %index
 CryptMsgOpenToDecode
 •œ†‚Ì‚½‚ß‚ÉˆÃ†ƒƒbƒZ[ƒW‚ğŠJ‚«AŠJ‚©‚ê‚½ƒƒbƒZ[ƒW‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 dwMsgEncodingType, dwFlags, dwMsgType, hCryptProv, pRecipientInfo, pStreamInfo
 dwMsgEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING
@@ -4100,8 +3772,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BŸ‚Ì•\‚ÉAGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[
 %index
 CryptMsgOpenToEncode
 •„†‰»‚Ì‚½‚ß‚ÉˆÃ†ƒƒbƒZ[ƒW‚ğŠJ‚«AŠJ‚©‚ê‚½ƒƒbƒZ[ƒW‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 dwMsgEncodingType, dwFlags, dwMsgType, pvMsgEncodeInfo, pszInnerContentObjID, pStreamInfo
 dwMsgEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -4136,8 +3806,6 @@ ContentEncryptionAlgorithm ƒƒ“ƒo‚Ì ASN IV ƒIƒNƒeƒbƒg•¶š—ñƒpƒ‰ƒ[ƒ^‚ğˆ—‚·‚é‚
 %index
 CryptMsgSignCTL
 CryptMsgSignCTL ŠÖ”‚ÍA•„†‰»‚³‚ê‚½ CTL ‚ğŠÜ‚Ş–¼Ï‚İƒƒbƒZ[ƒW‚ğì¬‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwMsgEncodingType, pbCtlContent, cbCtlContent, pSignInfo, dwFlags, pbEncoded, pcbEncoded
 dwMsgEncodingType : [int] g—p‚·‚éƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÌŒ^‚ğw’è‚·‚éBØ–¾‘‚ÆƒƒbƒZ[ƒW‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Ì—¼•û‚ğƒrƒbƒg‚²‚Æ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚¹‚Äw’è‚·‚é‚±‚Æ‚àí‚É‹–—e‚³‚ê‚éB—á: X509_ASN_ENCODING | PKCS_7_ASN_ENCODINGBŒ»İ’è‹`‚³‚ê‚Ä‚¢‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -4159,8 +3827,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚Í CryptMsgOpenToEncode ‚¨‚æ‚Ñ CryptMsgUpdate
 %index
 CryptMsgUpdate
 ˆÃ†ƒƒbƒZ[ƒW‚ÉƒRƒ“ƒeƒ“ƒc‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptMsg, pbData, cbData, fFinal
 hCryptMsg : [intptr] XV‚·‚éƒƒbƒZ[ƒW‚ÌˆÃ†ƒƒbƒZ[ƒWƒnƒ“ƒhƒ‹B
@@ -4185,8 +3851,6 @@ SetLastError
 %index
 CryptMsgVerifyCountersignatureEncoded
 SignerInfo \‘¢‘Ì (PKCS ‚Å’è‹`) ‚ÌŠÏ“_‚©‚ç•›‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwEncodingType, pbSignerInfo, cbSignerInfo, pbSignerInfoCountersignature, cbSignerInfoCountersignature, pciCountersigner
 hCryptProv : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: NULLA‚Ü‚½‚Í pbSignerInfo ‚Ì encryptedDigest ƒtƒB[ƒ‹ƒh‚ğƒnƒbƒVƒ…‚·‚é‚½‚ß‚Ég—p‚·‚éˆÃ†ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^Œ^‚Í HCRYPTPROVBhCryptProv ‚Å“Á’è‚ÌˆÃ†ƒvƒƒoƒCƒ_‚ğ“n‚·‹­‚¢——R‚ª‚È‚¢ŒÀ‚èAŠù’è‚Ì RSA ‚Ü‚½‚Í DSS ƒvƒƒoƒCƒ_‚ğg—p‚³‚¹‚é‚½‚ß‚É NULL ‚ğ“n‚·B
@@ -4217,8 +3881,6 @@ SerialNumberAIssuerASubjectPublicKeyInfoBSubjectPublicKeyInfo
 %index
 CryptMsgVerifyCountersignatureEncodedEx
 pbSignerInfoCounterSignature ƒpƒ‰ƒ[ƒ^‚ª pbSignerInfo ƒpƒ‰ƒ[ƒ^\‘¢‘Ì‚Ì encryptedDigest ƒtƒB[ƒ‹ƒh‚ÌˆÃ†‰»ƒnƒbƒVƒ…‚ğŠÜ‚ñ‚Å‚¢‚é‚±‚Æ‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwEncodingType, pbSignerInfo, cbSignerInfo, pbSignerInfoCountersignature, cbSignerInfoCountersignature, dwSignerType, pvSigner, dwFlags, pvExtra
 hCryptProv : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: NULLA‚Ü‚½‚Í pbSignerInfo ‚Ì encryptedDigest ƒtƒB[ƒ‹ƒh‚ğƒnƒbƒVƒ…‚·‚é‚½‚ß‚Ég—p‚·‚éˆÃ†ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^Œ^‚Í HCRYPTPROVBhCryptProv ‚Å“Á’è‚ÌˆÃ†ƒvƒƒoƒCƒ_‚ğ“n‚·‹­‚¢——R‚ª‚È‚¢ŒÀ‚èAŠù’è‚Ì RSA ‚Ü‚½‚Í DSS ƒvƒƒoƒCƒ_‚ğg—p‚³‚¹‚é‚½‚ß‚É NULL ‚ğ“n‚·B
@@ -4253,8 +3915,6 @@ SerialNumberAIssuerASubjectPublicKeyInfoBSubjectPublicKeyInfo
 %index
 CryptProtectData
 DATA_BLOB \‘¢‘Ì’†‚Ìƒf[ƒ^‚ğˆÃ†‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pDataIn, szDataDescr, pOptionalEntropy, pvReserved, pPromptStruct, dwFlags, pDataOut
 pDataIn : [var] ˆÃ†‰»‚·‚é•½•¶‚ğ•Û‚·‚é DATA_BLOB \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4280,8 +3940,6 @@ MAC ‚à•t‰Á‚·‚éBˆê“I‚É“¯ˆêƒvƒƒZƒX“à‚Ü‚½‚Í•¡”ƒvƒƒZƒXŠÔ‚Åƒƒ‚ƒŠ‚ğ•ÛŒì‚·‚é‚É‚Í
 %index
 CryptQueryObject
 Ø–¾‘AØ–¾‘¸ŒøƒŠƒXƒgA‚Ü‚½‚ÍØ–¾‘M—ŠƒŠƒXƒg‚È‚Ç‚ÌˆÃ† API ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒeƒ“ƒc‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwObjectType, pvObject, dwExpectedContentTypeFlags, dwExpectedFormatTypeFlags, dwFlags, pdwMsgAndCertEncodingType, pdwContentType, pdwFormatType, phCertStore, phMsg, ppvContext
 dwObjectType : [int] 
@@ -4306,8 +3964,6 @@ ppvContext : [var] ƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚é’Ç‰Áî•ñ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 CryptRegisterDefaultOIDFunction
 CryptRegisterDefaultOIDFunction ‚ÍAw’è‚³‚ê‚½ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÆŠÖ”–¼‚É‘Î‚µ‚ÄŒÄ‚Ño‚³‚ê‚éŠù’è‚ÌŠÖ”‚ğŠÜ‚Ş DLL ‚ğ“o˜^‚·‚éBCryptRegisterOIDFunction ‚Æ‚ÍˆÙ‚È‚èADLL ‚É‚æ‚Á‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éŠÖ”–¼‚ÍƒI[ƒo[ƒ‰ƒCƒh‚Å‚«‚È‚¢B
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, dwIndex, pwszDll
 dwEncodingType : [int] ˆê’v‚³‚¹‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğw’è‚·‚éBŒ»İAX509_ASN_ENCODING ‚¨‚æ‚Ñ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ’Ç‰Á‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì—¼•û‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Æˆê’v‚³‚¹‚é‚É‚Í X509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éB
@@ -4327,8 +3983,6 @@ CryptRegisterDefaultOIDFunction
 %index
 CryptRegisterOIDFunction
 w’è‚³‚ê‚½ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^AŠÖ”–¼A‚¨‚æ‚ÑƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚É‘Î‚µ‚ÄŒÄ‚Ño‚³‚ê‚éŠÖ”‚ğŠÜ‚Ş DLL ‚ğ“o˜^‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, pwszDll, pszOverrideFuncName
 dwEncodingType : [int] ˆê’v‚³‚¹‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğw’è‚·‚éBŒ»İAX509_ASN_ENCODING ‚¨‚æ‚Ñ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ’Ç‰Á‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì—¼•û‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Æˆê’v‚³‚¹‚é‚É‚Í X509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éB
@@ -4349,8 +4003,6 @@ OID ŠÖ”‚Ìg—p‚ªI—¹‚µ‚½‚çACryptUnregisterOIDFunction ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä“o˜^‚ğ‰ğ
 %index
 CryptRegisterOIDInfo
 CryptRegisterOIDInfo ŠÖ”‚ÍACRYPT_OID_INFO \‘¢‘Ì‚Åw’è‚³‚ê‚½ OID î•ñ‚ğ“o˜^‚µAƒŒƒWƒXƒgƒŠ‚É‰i‘±‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pInfo, dwFlags
 pInfo : [var] “o˜^‚·‚é OID î•ñ‚ğŠÜ‚Ş CRYPT_OID_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚Ì dwGroupId ƒƒ“ƒo‚ğİ’è‚µ‚ÄAOID î•ñ‚ğ“o˜^‚·‚éƒOƒ‹[ƒv‚ğw’è‚·‚éB’ˆÓ Cryptography API: Next Generation (CNG) ‚ÅÀ‘•‚³‚ê‚½ Suite B ƒAƒ‹ƒSƒŠƒYƒ€‚Ì OID î•ñ‚ğ“o˜^‚·‚é‚Æ‚«‚ÍACRYPT_OID_INFO \‘¢‘Ì‚Ì Algid ƒƒ“ƒo‚ğ CALG_OID_INFO_CNG_ONLY (0xFFFFFFFF) ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -4369,8 +4021,6 @@ OID î•ñ‚Ìg—p‚ªI—¹‚µ‚½‚çACryptUnregisterOIDInfo ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä“o˜^‚ğ‰ğœ‚·‚
 %index
 CryptRetrieveTimeStamp
 ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv—v‹‚ğ•„†‰»‚µAƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‹Ç (TSA) ‚Ì URL ‚Åw’è‚³‚ê‚½êŠ‚©‚çƒ^ƒCƒ€ƒXƒ^ƒ“ƒvƒg[ƒNƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 wszUrl, dwRetrievalFlags, dwTimeout, pszHashId, pPara, pbData, cbData, ppTsContext, ppTsSigner, phStore
 wszUrl : [wstr] —v‹‚Ì‘—Mæ TSA ‚Ì URL ‚ğŠÜ‚Ş NULL I’[ƒƒCƒh•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4394,8 +4044,6 @@ GetLastError ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 CryptSIPAddProvider
 CryptSIPAddProvider ŠÖ”‚ÍASubject Interface Package (SIP) ‚ğÀ‘•‚·‚éw’è‚³‚ê‚½ DLL ƒtƒ@ƒCƒ‹‚É‚æ‚Á‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éŠÖ”‚ğ“o˜^‚·‚éB
-%group
-Win32 crypt32
 %prm
 psNewProv
 psNewProv : [var] “o˜^‚·‚é DLL ƒtƒ@ƒCƒ‹‚ÆŠÖ”–¼‚ğw’è‚·‚é [SIP_ADD_NEWPROVIDER](/windows/desktop/api/mssip/ns-mssip-sip_add_newprovider) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4416,8 +4064,6 @@ GetLastError ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 CryptSIPLoad
 ƒTƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒFƒCƒXƒpƒbƒP[ƒW (SIP) ‚ğÀ‘•‚·‚éƒ_ƒCƒiƒ~ƒbƒNƒŠƒ“ƒNƒ‰ƒCƒuƒ‰ƒŠ (DLL) ‚ğ“Ç‚İ‚İA“KØ‚Èƒ‰ƒCƒuƒ‰ƒŠƒGƒNƒXƒ|[ƒgŠÖ”‚ğ SIP_DISPATCH_INFO \‘¢‘Ì‚ÉŠ„‚è“–‚Ä‚éB
-%group
-Win32 crypt32
 %prm
 pgSubject, dwFlags, pSipDispatch
 pgSubject : [var] CryptSIPRetrieveSubjectGuid ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4434,8 +4080,6 @@ pSipDispatch : [var] ƒTƒuƒWƒFƒNƒgŒ^‚ÉŒÅ—L‚Ì SIP ƒvƒƒoƒCƒ_ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠÜ‚Ş
 %index
 CryptSIPRemoveProvider
 ˆÈ‘O‚Ì CryptSIPAddProvider ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å’Ç‰Á‚³‚ê‚½ Subject Interface Package (SIP) DLL ƒtƒ@ƒCƒ‹‚ÌƒŒƒWƒXƒgƒŠ‚ÌÚ×‚ğíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pgProv
 pgProv : [var] íœ‚·‚é SIP DLL ‚ğ¯•Ê‚·‚é GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4455,8 +4099,6 @@ GetLastError ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 CryptSIPRetrieveSubjectGuid
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹“à‚Ìƒwƒbƒ_î•ñ‚ÉŠî‚Ã‚¢‚Ä GUID ‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 FileName, hFileIn, pgSubject
 FileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -4472,8 +4114,6 @@ pgSubject : [var] ƒTƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚é GUIDB
 %index
 CryptSIPRetrieveSubjectGuidForCatalogFile
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒTƒuƒWƒFƒNƒg GUID ‚ğæ“¾‚·‚éB
-%group
-Win32 crypt32
 %prm
 FileName, hFileIn, pgSubject
 FileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OBhFileIn ƒpƒ‰ƒ[ƒ^‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚Í–³‹‚³‚ê‚éB
@@ -4496,8 +4136,6 @@ pgSubject : [var] ƒTƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒOƒ[ƒoƒ‹ˆêˆÓ IDB
 %index
 CryptSetAsyncParam
 CryptSetAsyncParam ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 hAsync, pszParamOid, pvParam, pfnFree
 hAsync : [intptr] ”ñ“¯Šúƒnƒ“ƒhƒ‹B
@@ -4514,8 +4152,6 @@ CryptSetAsyncParam ŠÖ” (wincrypt.h) ‚Í”ñ“¯Šúƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
 %index
 CryptSetKeyIdentifierProperty
 CryptSetKeyIdentifierProperty ŠÖ”‚Íw’è‚³‚ê‚½Œ®¯•Êq‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚Í pwszComputerName ‚Å¯•Ê‚³‚ê‚éƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒvƒƒpƒeƒB‚ğİ’è‚Å‚«‚éB
-%group
-Win32 crypt32
 %prm
 pKeyIdentifier, dwPropId, dwFlags, pwszComputerName, pvReserved, pvData
 pKeyIdentifier : [var] Œ®¯•Êq‚ğŠÜ‚Ş CRYPT_HASH_BLOB ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4537,8 +4173,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B’ˆÓ CRYPT_KEYID_SET_NEW_FLAG
 %index
 CryptSetOIDFunctionValue
 CryptSetOIDFunctionValue ŠÖ”‚ÍAw’è‚³‚ê‚½ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^AŠÖ”–¼AOIDA‚¨‚æ‚Ñ’l–¼‚Ì’l‚ğİ’è‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, pwszValueName, dwValueType, pbValueData, cbValueData
 dwEncodingType : [int] ˆê’v‚³‚¹‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğw’è‚·‚éBŒ»İAX509_ASN_ENCODING ‚¨‚æ‚Ñ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ’Ç‰Á‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì—¼•û‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Æˆê’v‚³‚¹‚é‚É‚Í X509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éB
@@ -4558,8 +4192,6 @@ CryptSetOIDFunctionValue ŠÖ”‚ÍAw’è‚³‚ê‚½ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^AŠÖ”–¼AOIDA‚¨‚æ
 %index
 CryptSignAndEncodeCertificate
 Ø–¾‘AØ–¾‘¸ŒøƒŠƒXƒg (CRL)AØ–¾‘M—ŠƒŠƒXƒg (CTL)A‚Ü‚½‚ÍØ–¾‘—v‹‚ğ•„†‰»‚¨‚æ‚Ñ–¼‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, lpszStructType, pvStructInfo, pSignatureAlgorithm, pvHashAuxInfo, pbEncoded, pcbEncoded
 hCryptProvOrNCryptKey : [int] 
@@ -4585,8 +4217,6 @@ CryptCreateHashACryptSignHashACryptHashData
 %index
 CryptSignAndEncryptMessage
 CryptSignAndEncryptMessage ŠÖ”‚ÍAw’è‚³‚ê‚½ƒRƒ“ƒeƒ“ƒc‚ÌƒnƒbƒVƒ…‚ğì¬‚µAƒnƒbƒVƒ…‚É–¼‚µAƒRƒ“ƒeƒ“ƒc‚ğˆÃ†‰»‚µAˆÃ†‰»‚³‚ê‚½ƒRƒ“ƒeƒ“ƒc‚Æ–¼Ï‚İƒnƒbƒVƒ…‚ğƒnƒbƒVƒ…‚µAŸ‚ÉˆÃ†‰»‚³‚ê‚½ƒRƒ“ƒeƒ“ƒc‚Æ–¼Ï‚İƒnƒbƒVƒ…‚Ì—¼•û‚ğ•„†‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pSignPara, pEncryptPara, cRecipientCert, rgpRecipientCert, pbToBeSignedAndEncrypted, cbToBeSignedAndEncrypted, pbSignedAndEncryptedBlob, pcbSignedAndEncryptedBlob
 pSignPara : [var] –¼ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_SIGN_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4610,8 +4240,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğˆÈ
 %index
 CryptSignCertificate
 CryptSignCertificate ŠÖ”‚ÍA•„†‰»–¼Ï‚İƒRƒ“ƒeƒ“ƒc“à‚Ìu–¼‚³‚ê‚évî•ñ‚É–¼‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, pbEncodedToBeSigned, cbEncodedToBeSigned, pSignatureAlgorithm, pvHashAuxInfo, pbSignature, pcbSignature
 hCryptProvOrNCryptKey : [int] 
@@ -4637,8 +4265,6 @@ CryptCreateHashACryptSignHashACryptHashData
 %index
 CryptSignMessage
 CryptSignMessage ŠÖ”‚ÍAw’è‚³‚ê‚½ƒRƒ“ƒeƒ“ƒc‚ÌƒnƒbƒVƒ…‚ğì¬‚µAƒnƒbƒVƒ…‚É–¼‚µAŒ³‚ÌƒƒbƒZ[ƒWƒRƒ“ƒeƒ“ƒc‚Æ–¼Ï‚İƒnƒbƒVƒ…‚Ì—¼•û‚ğ•„†‰»‚·‚éB
-%group
-Win32 crypt32
 %prm
 pSignPara, fDetachedSignature, cToBeSigned, rgpbToBeSigned, rgcbToBeSigned, pbSignedBlob, pcbSignedBlob
 pSignPara : [var] –¼ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_SIGN_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4661,8 +4287,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğˆÈ
 %index
 CryptSignMessageWithKey
 ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ CSP ‚Ì”é–§Œ®‚ğg—p‚µ‚ÄƒƒbƒZ[ƒW‚É–¼‚·‚éB
-%group
-Win32 crypt32
 %prm
 pSignPara, pbToBeSigned, cbToBeSigned, pbSignedBlob, pcbSignedBlob
 pSignPara : [var] –¼ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_KEY_SIGN_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4682,8 +4306,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğˆÈ
 %index
 CryptStringToBinaryW
 ‘®‰»‚³‚ê‚½•¶š—ñ‚ğƒoƒCƒg”z—ñ‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 crypt32
 %prm
 pszString, cchString, dwFlags, pbBinary, pcbBinary, pdwSkip, pdwFlags
 pszString : [wstr] •ÏŠ·‘ÎÛ‚Ì‘®‰»•¶š—ñ‚ğw‚·ƒ|ƒCƒ“ƒ^B
@@ -4713,8 +4335,6 @@ CryptStringToBinary ‚ğ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 CryptUninstallDefaultContext
 d—v ‚±‚Ì API ‚Í”p~—\’èB(CryptUninstallDefaultContext)
-%group
-Win32 crypt32
 %prm
 hDefaultContext, dwFlags, pvReserved
 hDefaultContext : [intptr] ‰ğ•ú‚·‚éƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4731,8 +4351,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CryptUnprotectData
 DATA_BLOB \‘¢‘Ì’†‚Ìƒf[ƒ^‚ğ•œ†‚µA®‡«ƒ`ƒFƒbƒN‚ğs‚¤B
-%group
-Win32 crypt32
 %prm
 pDataIn, ppszDataDescr, pOptionalEntropy, pvReserved, pPromptStruct, dwFlags, pDataOut
 pDataIn : [var] ˆÃ†‰»ƒf[ƒ^‚ğ•Û‚·‚é DATA_BLOB \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BcbData ƒƒ“ƒo‚É‚ÍˆÃ†‰»‘ÎÛƒeƒLƒXƒg‚ğŠÜ‚Ş pbData ƒoƒCƒg—ñ‚Ì’·‚³‚ª“ü‚éB
@@ -4758,8 +4376,6 @@ LocalFree ‚Å‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB‹@–§î•ñg—pŒã‚Í SecureZeroMemory ‚Åƒƒ‚ƒŠ‚ğƒNƒŠ
 %index
 CryptUnregisterDefaultOIDFunction
 CryptUnregisterDefaultOIDFunction ‚ÍAw’è‚³‚ê‚½ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ÆŠÖ”–¼‚É‘Î‚µ‚ÄŒÄ‚Ño‚³‚ê‚éŠù’è‚ÌŠÖ”‚ğŠÜ‚Ş DLL ‚Ì“o˜^‚ğíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pwszDll
 dwEncodingType : [int] ˆê’v‚³‚¹‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğw’è‚·‚éBŒ»İAX509_ASN_ENCODING ‚¨‚æ‚Ñ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ’Ç‰Á‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì—¼•û‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Æˆê’v‚³‚¹‚é‚É‚Í X509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éB
@@ -4776,8 +4392,6 @@ CryptUnregisterDefaultOIDFunction
 %index
 CryptUnregisterOIDFunction
 w’è‚³‚ê‚½ƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^AŠÖ”–¼A‚¨‚æ‚Ñ OID ‚É‘Î‚µ‚ÄŒÄ‚Ño‚³‚ê‚éŠÖ”‚ğŠÜ‚Ş DLL ‚Ì“o˜^‚ğíœ‚·‚éB
-%group
-Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID
 dwEncodingType : [int] ˆê’v‚³‚¹‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğw’è‚·‚éBŒ»İAX509_ASN_ENCODING ‚¨‚æ‚Ñ PKCS_7_ASN_ENCODING ‚Ì‚İ‚ªg—p‚³‚ê‚Ä‚¢‚é‚ªA«—ˆ’Ç‰Á‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ª’Ç‰Á‚³‚ê‚é‰Â”\«‚ª‚ ‚éBŒ»İ‚Ì—¼•û‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚Æˆê’v‚³‚¹‚é‚É‚Í X509_ASN_ENCODING | PKCS_7_ASN_ENCODING ‚ğg—p‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒOŒ^‚ğg—p‚µ‚È‚¢ŠÖ”‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ 0 ‚Éİ’è‚·‚éB
@@ -4793,8 +4407,6 @@ pszOID : [str] “o˜^‚ğ‰ğœ‚·‚éŠÖ”‚Ì–¼‘O‚É‘Î‰‚·‚éƒIƒuƒWƒFƒNƒg¯•Êq (OID) ‚Ö‚Ìƒ|
 %index
 CryptUnregisterOIDInfo
 CryptUnregisterOIDInfo ŠÖ”‚ÍAw’è‚³‚ê‚½ CRYPT_OID_INFO OID î•ñ\‘¢‘Ì‚Ì“o˜^‚ğíœ‚·‚éB“o˜^‚ğ‰ğœ‚·‚é\‘¢‘Ì‚ÍA\‘¢‘Ì‚Ì pszOID ‚¨‚æ‚Ñ dwGroupId ƒƒ“ƒo‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éB
-%group
-Win32 crypt32
 %prm
 pInfo
 pInfo : [var] “o˜^‚ğíœ‚·‚éƒIƒuƒWƒFƒNƒg¯•Êq (OID) î•ñ‚ğw’è‚·‚éB“o˜^‚ğíœ‚·‚éƒOƒ‹[ƒv‚Í pInfo “à‚Ì dwGroupId ƒƒ“ƒo‚É‚æ‚Á‚Äw’è‚³‚ê‚éB
@@ -4809,8 +4421,6 @@ CryptUnregisterOIDInfo ŠÖ”‚ÍAw’è‚³‚ê‚½ CRYPT_OID_INFO OID
 %index
 CryptVerifyCertificateSignature
 CERT_PUBLIC_KEY_INFO \‘¢‘Ì“à‚ÌŒöŠJŒ®‚ğg—p‚µ‚ÄAØ–¾‘AØ–¾‘¸ŒøƒŠƒXƒg (CRL)A‚Ü‚½‚ÍØ–¾‘—v‹‚Ì–¼‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pbEncoded, cbEncoded, pPublicKey
 hCryptProv : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: –¼‚ÌŒŸØ‚Ég—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^Œ^‚Í HCRYPTPROVB“Á’è‚ÌˆÃ†ƒvƒƒoƒCƒ_‚ğ“n‚·‹­‚¢——R‚ª‚È‚¢ŒÀ‚èANULL ‚ğ“n‚·BNULL ‚ğ“n‚·‚ÆAŠù’è‚Ì RSA ‚Ü‚½‚Í DSS ƒvƒƒoƒCƒ_‚ªæ“¾‚³‚ê‚éB
@@ -4836,8 +4446,6 @@ CryptCreateHashACryptImportKeyACryptVerifySignatureACryptHashData
 %index
 CryptVerifyCertificateSignatureEx
 ”­sÒ‚ÌŒöŠJŒ®‚ğg—p‚µ‚ÄAƒTƒuƒWƒFƒNƒgØ–¾‘AØ–¾‘¸ŒøƒŠƒXƒgAØ–¾‘—v‹A‚Ü‚½‚Í keygen —v‹‚Ì–¼‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, dwSubjectType, pvSubject, dwIssuerType, pvIssuer, dwFlags, pvExtra
 hCryptProv : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: –¼‚ÌŒŸØ‚Ég—p‚·‚éˆÃ†ƒT[ƒrƒXƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ìƒf[ƒ^Œ^‚Í HCRYPTPROVB“Á’è‚ÌˆÃ†ƒvƒƒoƒCƒ_‚ğ“n‚·‹­‚¢——R‚ª‚È‚¢ŒÀ‚èANULL ‚ğ“n‚·BNULL ‚ğ“n‚·‚ÆAŠù’è‚Ì RSA ‚Ü‚½‚Í DSS ƒvƒƒoƒCƒ_‚ªæ“¾‚³‚ê‚éB
@@ -4868,8 +4476,6 @@ CryptCreateHashACryptImportKeyACryptVerifySignatureACryptHashData
 %index
 CryptVerifyDetachedMessageHash
 CryptVerifyDetachedMessageHash ŠÖ”‚Í•ª—£ƒnƒbƒVƒ…‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pHashPara, pbDetachedHashBlob, cbDetachedHashBlob, cToBeHashed, rgpbToBeHashed, rgcbToBeHashed, pbComputedHash, pcbComputedHash
 pHashPara : [var] ƒnƒbƒVƒ…ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_HASH_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4892,8 +4498,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğˆÈ
 %index
 CryptVerifyDetachedMessageSignature
 CryptVerifyDetachedMessageSignature ŠÖ”‚ÍA•ª—£–¼‚ğŠÜ‚Ş–¼Ï‚İƒƒbƒZ[ƒW‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pVerifyPara, dwSignerIndex, pbDetachedSignBlob, cbDetachedSignBlob, cToBeSigned, rgpbToBeSigned, rgcbToBeSigned, ppSignerCert
 pVerifyPara : [var] ŒŸØƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_VERIFY_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4916,8 +4520,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğˆÈ
 %index
 CryptVerifyMessageHash
 CryptVerifyMessageHash ŠÖ”‚ÍAw’è‚³‚ê‚½ƒRƒ“ƒeƒ“ƒc‚ÌƒnƒbƒVƒ…‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pHashPara, pbHashedBlob, cbHashedBlob, pbToBeHashed, pcbToBeHashed, pbComputedHash, pcbComputedHash
 pHashPara : [var] ƒnƒbƒVƒ…ƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_HASH_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4939,8 +4541,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BGetLastError ŠÖ”‚ÅÅ‚àˆê”Ê“I‚É•Ô‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚ğˆÈ
 %index
 CryptVerifyMessageSignature
 –¼Ï‚İƒƒbƒZ[ƒW‚Ì–¼‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pVerifyPara, dwSignerIndex, pbSignedBlob, cbSignedBlob, pbDecoded, pcbDecoded, ppSignerCert
 pVerifyPara : [var] ŒŸØƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_VERIFY_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4970,8 +4570,6 @@ NULL ‚Éİ’è‚³‚ê‚éBØ–¾‘‚Æ CRL ‚Ì‚İ‚ğŠÜ‚ŞƒƒbƒZ[ƒW‚É‚Â‚¢‚Ä‚ÍApcbDecoded ‚Í NU
 %index
 CryptVerifyMessageSignatureWithKey
 w’è‚³‚ê‚½ŒöŠJŒ®î•ñ‚ğg—p‚µ‚ÄA–¼Ï‚İƒƒbƒZ[ƒW‚Ì–¼‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pVerifyPara, pPublicKeyInfo, pbSignedBlob, cbSignedBlob, pbDecoded, pcbDecoded
 pVerifyPara : [var] ŒŸØƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş CRYPT_KEY_VERIFY_MESSAGE_PARA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4992,8 +4590,6 @@ pcbDecoded : [var] pbDecoded ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é DWORD ’l‚Ö
 %index
 CryptVerifyTimeStampSignature
 w’è‚³‚ê‚½ƒoƒCƒg”z—ñ‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv–¼‚ğŒŸØ‚·‚éB
-%group
-Win32 crypt32
 %prm
 pbTSContentInfo, cbTSContentInfo, pbData, cbData, hAdditionalStore, ppTsContext, ppTsSigner, phStore
 pbTSContentInfo : [var] ƒ^ƒCƒ€ƒXƒ^ƒ“ƒvƒRƒ“ƒeƒ“ƒc‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5020,8 +4616,6 @@ pszTSAPolicyId ƒƒ“ƒo‚ğŒŸØ‚·‚é•K—v‚ª‚ ‚éB—v‹‚Å TSA ƒ|ƒŠƒV[‚ªw’è‚³‚ê‚Ä‚¨‚èA
 %index
 PFXExportCertStore
 QÆ‚³‚ê‚½Ø–¾‘ƒXƒgƒA‚©‚çØ–¾‘A‚¨‚æ‚Ñ—˜—p‰Â”\‚Å‚ ‚ê‚ÎŠÖ˜A‚·‚é”é–§Œ®‚ğƒGƒNƒXƒ|[ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 hStore, pPFX, szPassword, dwFlags
 hStore : [int] ƒGƒNƒXƒ|[ƒg‚·‚éØ–¾‘‚ğŠÜ‚ŞØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -5039,8 +4633,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 PFXExportCertStoreEx
 QÆ‚³‚ê‚½Ø–¾‘ƒXƒgƒA‚©‚çØ–¾‘A‚¨‚æ‚Ñ—˜—p‰Â”\‚Å‚ ‚ê‚ÎŠÖ˜A‚·‚é”é–§Œ®‚ğƒGƒNƒXƒ|[ƒg‚·‚éB
-%group
-Win32 crypt32
 %prm
 hStore, pPFX, szPassword, pvPara, dwFlags
 hStore : [int] ƒGƒNƒXƒ|[ƒg‚·‚éØ–¾‘‚ğŠÜ‚ŞØ–¾‘ƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹B
@@ -5069,8 +4661,6 @@ REG_DWORD
 %index
 PFXImportCertStore
 PFX BLOB ‚ğƒCƒ“ƒ|[ƒg‚µAØ–¾‘‚ÆŠÖ˜A‚·‚é”é–§Œ®‚ğŠÜ‚ŞƒXƒgƒA‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 crypt32
 %prm
 pPFX, szPassword, dwFlags
 pPFX : [var] ƒGƒNƒXƒ|[ƒg‚¨‚æ‚ÑˆÃ†‰»‚³‚ê‚½Ø–¾‘‚ÆŒ®‚ğŠÜ‚Ş PFX ƒpƒPƒbƒg‚ğŠÜ‚Ş [CRYPT_DATA_BLOB](/previous-versions/windows/desktop/legacy/aa381414(v=vs.85)) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5126,8 +4716,6 @@ PowerShell ‚Å PFX ‚ğƒGƒNƒXƒ|[ƒg‚Å‚«‚éB
 %index
 PFXIsPFXBlob
 PFXIsPFXBlob ŠÖ”‚ÍABLOB ‚ÌŠO‘w‚ğ PFX ƒpƒPƒbƒg‚Æ‚µ‚Ä•œ†‚ğ‚İ‚éB
-%group
-Win32 crypt32
 %prm
 pPFX
 pPFX : [var] ŠÖ”‚ª PFX ƒpƒPƒbƒg‚Æ‚µ‚Ä•œ†‚ğ‚İ‚é CRYPT_DATA_BLOB \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5142,8 +4730,6 @@ PFXIsPFXBlob ŠÖ”‚ÍABLOB ‚ÌŠO‘w‚ğ PFX ƒpƒPƒbƒg‚Æ‚µ‚Ä•œ†‚ğ‚İ‚éB
 %index
 PFXVerifyPassword
 PFXVerifyPassword ŠÖ”‚ÍABLOB ‚ÌŠO‘w‚ğ Personal Information Exchange (PFX) ƒpƒPƒbƒg‚Æ‚µ‚Ä•œ†‚µAw’è‚³‚ê‚½ƒpƒXƒ[ƒh‚Å•œ†‚ğ‚İ‚éBBLOB ‚©‚çƒCƒ“ƒ|[ƒg‚³‚ê‚éƒf[ƒ^‚Í‚È‚¢B
-%group
-Win32 crypt32
 %prm
 pPFX, szPassword, dwFlags
 pPFX : [var] ŠÖ”‚ª PFX ƒpƒPƒbƒg‚Æ‚µ‚Ä•œ†‚ğ‚İ‚é CRYPT_DATA_BLOB \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B

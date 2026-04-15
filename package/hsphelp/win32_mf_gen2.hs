@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+mf.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì mf.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 MFCreate3GPMediaSink
 3GP ƒtƒ@ƒCƒ‹ì¬—p‚ÌƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIByteStream, pVideoMediaType, pAudioMediaType, ppIMediaSink
 pIByteStream : [var] ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒƒfƒBƒAƒVƒ“ƒN‚Í 3GP ƒtƒ@ƒCƒ‹‚ğ‚±‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞBƒoƒCƒgƒXƒgƒŠ[ƒ€‚Í‘‚«‚İ‰Â”\‚©‚ÂƒV[ƒN‘Î‰‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -33,8 +53,6 @@ MFCreateMPEG4MediaSink ŠÖ”‚ğg—p‚·‚éB
 %index
 MFCreateAC3MediaSink
 AC-3 ƒƒfƒBƒAƒVƒ“ƒN‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pTargetByteStream, pAudioMediaType, ppMediaSink
 pTargetByteStream : [var] ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒƒfƒBƒAƒVƒ“ƒN‚Í AC-3 ƒtƒ@ƒCƒ‹‚ğ‚±‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞBƒoƒCƒgƒXƒgƒŠ[ƒ€‚Í‘‚«‚İ‰Â”\‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -55,8 +73,6 @@ AC-3 ƒƒfƒBƒAƒVƒ“ƒN‚Íˆ³kÏ‚İ AC-3
 %index
 MFCreateADTSMediaSink
 Audio Data Transport Stream (ADTS) ƒƒfƒBƒAƒVƒ“ƒN‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pTargetByteStream, pAudioMediaType, ppMediaSink
 pTargetByteStream : [var] ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒƒfƒBƒAƒVƒ“ƒN‚Í ADTS ƒXƒgƒŠ[ƒ€‚ğ‚±‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞBƒoƒCƒgƒXƒgƒŠ[ƒ€‚Í‘‚«‚İ‰Â”\‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -81,8 +97,6 @@ AAC ƒtƒŒ[ƒ€ (MF_MT_AAC_PAYLOAD_TYPE = 0) ‚Ü‚½‚Í ADTS ƒpƒPƒbƒg
 %index
 MFCreateASFContentInfo
 ASF ƒwƒbƒ_ƒIƒuƒWƒFƒNƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 ppIContentInfo
 ppIContentInfo : [var] IMFASFContentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -97,8 +111,6 @@ ASF ƒwƒbƒ_ƒIƒuƒWƒFƒNƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 MFCreateASFIndexer
 ASF ƒCƒ“ƒfƒNƒT[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 ppIIndexer
 ppIIndexer : [var] IMFASFIndexer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -113,8 +125,6 @@ ASF ƒCƒ“ƒfƒNƒT[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 MFCreateASFIndexerByteStream
 ASF ƒXƒgƒŠ[ƒ€“à‚ÌƒCƒ“ƒfƒbƒNƒX‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIContentByteStream, cbIndexStartOffset, pIIndexByteStream
 pIContentByteStream : [var] ASF ƒXƒgƒŠ[ƒ€‚ğŠÜ‚ŞƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -131,8 +141,6 @@ ASF ƒXƒgƒŠ[ƒ€“à‚ÌƒCƒ“ƒfƒbƒNƒX‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚ğì¬‚·‚éB
 %index
 MFCreateASFMediaSink
 ASF ƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIByteStream, ppIMediaSink
 pIByteStream : [var] ASF ƒXƒgƒŠ[ƒ€‚Ì‘‚«‚İ‚Ég—p‚³‚ê‚éƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -148,8 +156,6 @@ ASF ƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚éB
 %index
 MFCreateASFMediaSinkActivate
 ASF ƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pwszFileName, pContentInfo, ppIActivate
 pwszFileName : [wstr] o—Íƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş NULL I’[ƒƒCƒh•¶š—ñB
@@ -166,8 +172,6 @@ ASF ƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬
 %index
 MFCreateASFMultiplexer
 ASF ƒ}ƒ‹ƒ`ƒvƒŒƒNƒT‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 ppIMultiplexer
 ppIMultiplexer : [var] IMFASFMultiplexer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -182,8 +186,6 @@ ASF ƒ}ƒ‹ƒ`ƒvƒŒƒNƒT‚ğì¬‚·‚éB
 %index
 MFCreateASFProfile
 ASF ƒvƒƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 ppIProfile
 ppIProfile : [var] IMFASFProfile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -198,8 +200,6 @@ ASF ƒvƒƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 MFCreateASFProfileFromPresentationDescriptor
 ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒfƒBƒXƒNƒŠƒvƒ^‚©‚ç ASF ƒvƒƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIPD, ppIProfile
 pIPD : [var] ƒvƒƒtƒ@ƒCƒ‹î•ñ‚ğŠÜ‚ŞƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒfƒBƒXƒNƒŠƒvƒ^‚Ì IMFPresentationDescriptor ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -215,8 +215,6 @@ ppIProfile : [var] IMFASFProfile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚
 %index
 MFCreateASFSplitter
 ASF ƒXƒvƒŠƒbƒ^‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 ppISplitter
 ppISplitter : [var] IMFASFSplitter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -231,8 +229,6 @@ ASF ƒXƒvƒŠƒbƒ^‚ğì¬‚·‚éB
 %index
 MFCreateASFStreamSelector
 ASF ƒXƒgƒŠ[ƒ€ƒZƒŒƒNƒ^‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIASFProfile, ppSelector
 pIASFProfile : [var] IMFASFProfile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -248,8 +244,6 @@ ASF ƒXƒgƒŠ[ƒ€ƒZƒŒƒNƒ^‚ğì¬‚·‚éB
 %index
 MFCreateASFStreamingMediaSink
 ASF ƒXƒgƒŠ[ƒ~ƒ“ƒOƒVƒ“ƒN—p‚ÌƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(MFCreateASFStreamingMediaSink)
-%group
-Win32 mf
 %prm
 pIByteStream, ppIMediaSink
 pIByteStream : [var] ASF ƒƒfƒBƒAƒVƒ“ƒN‚ªƒXƒgƒŠ[ƒ~ƒ“ƒOƒRƒ“ƒeƒ“ƒc‚ğ‘‚«‚ŞƒoƒCƒgƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -274,8 +268,6 @@ ASF ƒwƒbƒ_ƒIƒuƒWƒFƒNƒg‚É”½‰f‚³‚ê‚éBÚ×‚Í Setting Properties in the ContentInfo
 %index
 MFCreateASFStreamingMediaSinkActivate
 ASF ƒXƒgƒŠ[ƒ~ƒ“ƒOƒVƒ“ƒN—p‚ÌƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(MFCreateASFStreamingMediaSinkActivate)
-%group
-Win32 mf
 %prm
 pByteStreamActivate, pContentInfo, ppIActivate
 pByteStreamActivate : [var] ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFActivate ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ÍŒÄ‚Ño‚µŒ³‚ªÀ‘•‚·‚éBƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFActivate::ActivateObject ƒƒ\ƒbƒh‚ÍƒoƒCƒgƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é•K—v‚ª‚ ‚éBƒoƒCƒgƒXƒgƒŠ[ƒ€‚Í IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğŒöŠJ‚·‚éBASF ƒXƒgƒŠ[ƒ~ƒ“ƒOƒVƒ“ƒN‚Í‚±‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚Éƒf[ƒ^‚ğ‘‚«‚ŞB
@@ -302,8 +294,6 @@ Output Trust Authority (OTA) ‚ğƒzƒXƒg‚·‚éBÚ×‚Í IMFDRMNetHelper
 %index
 MFCreateCredentialCache
 ‘Šiî•ñƒLƒƒƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌƒIƒuƒWƒFƒNƒg‚ğg—p‚µ‚ÄƒJƒXƒ^ƒ€‘Šiî•ñƒ}ƒl[ƒWƒƒ‚ğÀ‘•‚Å‚«‚éB
-%group
-Win32 mf
 %prm
 ppCache
 ppCache : [var] V‚µ‚¢‘Šiî•ñƒLƒƒƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ì IMFNetCredentialCache ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -318,8 +308,6 @@ ppCache : [var] V‚µ‚¢‘Šiî•ñƒLƒƒƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ì IMFNetCredentialCache ƒCƒ
 %index
 MFCreateFMPEG4MediaSink
 ƒtƒ‰ƒOƒƒ“ƒg‰» MP4 ƒtƒ@ƒCƒ‹ì¬—p‚ÌƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIByteStream, pVideoMediaType, pAudioMediaType, ppIMediaSink
 pIByteStream : [var] ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒƒfƒBƒAƒVƒ“ƒN‚Í MP4 ƒtƒ@ƒCƒ‹‚ğ‚±‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞBƒoƒCƒgƒXƒgƒŠ[ƒ€‚Í‘‚«‚İ‰Â”\‚©‚ÂƒV[ƒN‘Î‰‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -336,8 +324,6 @@ ppIMediaSink : [var] MP4 ƒƒfƒBƒAƒVƒ“ƒN‚Ì IMFMediaSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ
 %index
 MFCreateMP3MediaSink
 MP3 ƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pTargetByteStream, ppMediaSink
 pTargetByteStream : [var] ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒƒfƒBƒAƒVƒ“ƒN‚Í MP3 ƒtƒ@ƒCƒ‹‚ğ‚±‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞBƒoƒCƒgƒXƒgƒŠ[ƒ€‚Í‘‚«‚İ‰Â”\‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -356,8 +342,6 @@ MP3 ƒƒfƒBƒAƒVƒ“ƒN‚Íˆ³kÏ‚İ MP3 ƒI[ƒfƒBƒIƒTƒ“ƒvƒ‹‚ğ“ü—Í‚Æ‚µ‚Äó‚¯æ‚èAID3 ƒwƒ
 %index
 MFCreateMPEG4MediaSink
 MP4 ƒtƒ@ƒCƒ‹ì¬—p‚ÌƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIByteStream, pVideoMediaType, pAudioMediaType, ppIMediaSink
 pIByteStream : [var] ƒoƒCƒgƒXƒgƒŠ[ƒ€‚Ì IMFByteStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒƒfƒBƒAƒVƒ“ƒN‚Í MP4 ƒtƒ@ƒCƒ‹‚ğ‚±‚ÌƒoƒCƒgƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞBƒoƒCƒgƒXƒgƒŠ[ƒ€‚Í‘‚«‚İ‰Â”\‚©‚ÂƒV[ƒN‘Î‰‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -382,8 +366,6 @@ MFCreate3GPMediaSink ŠÖ”‚ğg—p‚·‚éB
 %index
 MFCreateMuxSink
 ƒ}ƒ‹ƒ`ƒvƒŒƒNƒT Microsoft Media Foundation Transform (MFT) ‚ğƒ‰ƒbƒv‚·‚é”Ä—pƒƒfƒBƒAƒVƒ“ƒN‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 guidOutputSubType, pOutputAttributes, pOutputByteStream, ppMuxSink
 guidOutputSubType : [int] MFT ‚Ìo—Íƒ^ƒCƒv‚ÌƒTƒuƒ^ƒCƒv GUIDB
@@ -405,8 +387,6 @@ ppMuxSink : [var] ƒƒfƒBƒAƒVƒ“ƒN‚Ì IMFMediaSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó
 %index
 MFCreateNetSchemePlugin
 ƒlƒbƒgƒ[ƒNƒ\[ƒX—p‚ÌƒXƒL[ƒ€ƒnƒ“ƒhƒ‰‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 riid, ppvHandler
 riid : [var] æ“¾‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IIDB
@@ -422,8 +402,6 @@ ppvHandler : [var] —v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚
 %index
 MFCreatePresentationDescriptorFromASFProfile
 ASF ƒvƒƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚©‚çƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒfƒBƒXƒNƒŠƒvƒ^‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pIProfile, ppIPD
 pIProfile : [var] ASF ƒvƒƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Ì IMFASFProfile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -439,8 +417,6 @@ ASF ƒvƒƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚©‚çƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒfƒBƒXƒNƒŠƒvƒ^‚ğì¬‚·‚éB
 %index
 MFCreateProtectedEnvironmentAccess
 ƒRƒ“ƒeƒ“ƒc•ÛŒìƒVƒXƒeƒ€‚ª•ÛŒì‚³‚ê‚½ŠÂ‹«‚Æƒnƒ“ƒhƒVƒFƒCƒN‚ğÀs‚Å‚«‚é‚æ‚¤‚É‚·‚é IMFProtectedEnvironmentAccess ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 ppAccess
 ppAccess : [var] IMFProtectedEnvironmentAccess ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
@@ -452,8 +428,6 @@ ppAccess : [var] IMFProtectedEnvironmentAccess ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚
 %index
 MFCreateProxyLocator
 Šù’è‚ÌƒvƒƒLƒVƒƒP[ƒ^‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 pszProtocol, pProxyConfig, ppProxyLocator
 pszProtocol : [wstr] ƒvƒƒgƒRƒ‹–¼B’: ‚±‚ÌƒŠƒŠ[ƒX‚Ì Media Foundation ‚Å‚ÍAŠù’è‚ÌƒvƒƒLƒVƒƒP[ƒ^‚Í RTSP ‚ğƒTƒ|[ƒg‚µ‚È‚¢B
@@ -470,8 +444,6 @@ ppProxyLocator : [var] IMFNetProxyLocator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é
 %index
 MFCreateRemoteDesktopPlugin
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒvƒ‰ƒOƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ^[ƒ~ƒiƒ‹ƒT[ƒrƒXƒNƒ‰ƒCƒAƒ“ƒgƒZƒbƒVƒ‡ƒ“‚ÅÀs‚³‚ê‚Ä‚¢‚éê‡‚É‚±‚ÌƒIƒuƒWƒFƒNƒg‚ğg—p‚·‚éB
-%group
-Win32 mf
 %prm
 ppPlugin
 ppPlugin : [var] ƒvƒ‰ƒOƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFRemoteDesktopPlugin ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éBŒÄ‚Ño‚µŒ³‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
@@ -487,8 +459,6 @@ ppPlugin : [var] ƒvƒ‰ƒOƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì IMFRemoteDesktopPlugin ƒCƒ“ƒ^[ƒtƒF[ƒ
 %index
 MFCreateVideoRenderer
 Enhanced Video Renderer (EVR) ƒƒfƒBƒAƒVƒ“ƒN‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 riidRenderer, ppVideoRenderer
 riidRenderer : [var] EVR ‚Å—v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IIDB
@@ -509,8 +479,6 @@ CoCreateInstance ‚ğŒÄ‚Ño‚·B
 %index
 MFCreateVideoRendererActivate
 Enhanced Video Renderer (EVR) ƒƒfƒBƒAƒVƒ“ƒN—p‚ÌƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 mf
 %prm
 hwndVideo, ppActivate
 hwndVideo : [intptr] ƒrƒfƒI‚ğ•\¦‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -533,8 +501,6 @@ ActivateObject ‚ğŒÄ‚Ño‚·)BEVR ‚ğ\¬‚·‚é‚É‚ÍAActivateObject ‚ğŒÄ‚Ño‚·‘O‚É IM
 %index
 MFGetLocalId
 ƒ[ƒJƒ‹ƒVƒXƒeƒ€ ID ‚ğæ“¾‚·‚éB
-%group
-Win32 mf
 %prm
 verifier, size, id
 verifier : [var] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L‚ÌŒŸØ’lB
@@ -550,8 +516,6 @@ id : [var] •Ô‚³‚ê‚é ID •¶š—ñB‚±‚Ì’l‚ÍŒÄ‚Ño‚µŒ³‚ª CoTaskMemFree ‚ğŒÄ‚Ño‚µ‚Ä‰ğ
 %index
 MFGetSystemId
 ƒVƒXƒeƒ€ ID ƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚Ì IMFSystemId ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
-%group
-Win32 mf
 %prm
 ppId
 ppId : [var] IMFSystemId ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
@@ -562,8 +526,6 @@ ppId : [var] IMFSystemId ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %index
 MFLoadSignedLibrary
 •ÛŒì‚³‚ê‚½ŠÂ‹«Œü‚¯‚É–¼‚³‚ê‚½ƒ_ƒCƒiƒ~ƒbƒNƒŠƒ“ƒNƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚·‚éB
-%group
-Win32 mf
 %prm
 pszName, ppLib
 pszName : [wstr] ƒ[ƒh‚·‚éƒ_ƒCƒiƒ~ƒbƒNƒŠƒ“ƒNƒ‰ƒCƒuƒ‰ƒŠ‚Ì–¼‘OB‚±‚Ìƒ_ƒCƒiƒ~ƒbƒNƒŠƒ“ƒNƒ‰ƒCƒuƒ‰ƒŠ‚Í•ÛŒì‚³‚ê‚½ŠÂ‹«Œü‚¯‚É–¼‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -580,8 +542,6 @@ ppLib : [var] ƒ‰ƒCƒuƒ‰ƒŠ‚Ì IMFSignedLibrary ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ
 %index
 MFShutdownObject
 Media Foundation ƒIƒuƒWƒFƒNƒg‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚µA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(MFShutdownObject)
-%group
-Win32 mf
 %prm
 pUnk
 pUnk : [var] ƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B

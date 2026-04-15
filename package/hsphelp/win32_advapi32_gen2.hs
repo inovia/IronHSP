@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+advapi32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì advapi32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 FreeSid
 AllocateAndInitializeSid ŠÖ”‚ğg—p‚µ‚ÄˆÈ‘O‚ÉŠ„‚è“–‚Ä‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSid
 pSid : [int] ‰ğ•ú‚·‚é SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -22,8 +42,6 @@ AllocateAndInitializeSid ŠÖ”‚ğg—p‚µ‚ÄˆÈ‘O‚ÉŠ„‚è“–‚Ä‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) 
 %index
 CreateProcessAsUserW
 V‚µ‚¢ƒvƒƒZƒX‚Æ‚»‚Ìƒvƒ‰ƒCƒ}ƒŠƒXƒŒƒbƒh‚ğì¬‚·‚éBV‚µ‚¢ƒvƒƒZƒX‚ÍAw’è‚µ‚½ƒg[ƒNƒ“‚ª•\‚·ƒ†[ƒU[‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚Å“®ì‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hToken, lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation
 hToken : [intptr] ƒ†[ƒU[‚ğ•\‚·ƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í TOKEN_QUERYATOKEN_DUPLICATEATOKEN_ASSIGN_PRIMARY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍuAccess Rights for Access-Token Objectsv‚ğQÆ‚Ì‚±‚ÆBƒg[ƒNƒ“‚ª•\‚·ƒ†[ƒU[‚ÍAlpApplicationName ‚Ü‚½‚Í lpCommandLine ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µ‚Ä“Ç‚İæ‚è‚¨‚æ‚ÑÀsƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -97,8 +115,6 @@ Processv‚ğQÆ‚Ì‚±‚ÆBŠù’è‚Å‚ÍAbInheritHandles ƒpƒ‰ƒ[ƒ^‚Ì’l‚Æ‚µ‚Ä TRUE
 %index
 RegCloseKey
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 advapi32
 %prm
 hKey
 hKey : [intptr] •Â‚¶‚éƒI[ƒvƒ“ƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BRegCreateKeyExARegCreateKeyTransactedARegOpenKeyExARegOpenKeyTransactedARegConnectRegistry ‚Ì‚¢‚¸‚ê‚©‚ÅŠJ‚©‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -120,8 +136,6 @@ RegFlushKey ‚ğg‚¦‚é‚ªA‘½‚­‚ÌƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğÁ”ï‚·‚é‚Ì‚Å•K—v‚Ì‚İŒÄ‚Ô‚±‚ÆB
 %index
 RegCopyTreeW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚Æ‚»‚Ì’l‚¨‚æ‚ÑƒTƒuƒL[‚ğAw’è‚µ‚½ˆ¶æƒL[‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKeySrc, lpSubKey, hKeyDest
 hKeySrc : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_READ ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -149,8 +163,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegCreateKeyExW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ğì¬‚·‚éBƒL[‚ªŠù‚É‘¶İ‚·‚éê‡‚ÍŠJ‚­BƒL[–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, Reserved, lpClass, dwOptions, samDesired, lpSecurityAttributes, phkResult, lpdwDisposition
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÍƒL[‚Ö‚Ì KEY_CREATE_SUB_KEY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBRegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í HKEY_CLASSES_ROOTAHKEY_CURRENT_CONFIGAHKEY_CURRENT_USERAHKEY_LOCAL_MACHINEAHKEY_USERS ‚Ì‚¢‚¸‚ê‚©B
@@ -180,8 +192,6 @@ Virtualization)B
 %index
 RegDeleteKeyExW
 w’è‚³‚ê‚½ƒvƒ‰ƒbƒgƒtƒH[ƒ€ŒÅ—L‚ÌƒŒƒWƒXƒgƒŠƒrƒ…[‚©‚çAƒTƒuƒL[‚Æ‚»‚Ì’l‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, samDesired, Reserved
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒL[‚ÌƒAƒNƒZƒXŒ ‚Ííœ‘€ì‚É‰e‹¿‚µ‚È‚¢BƒAƒNƒZƒXŒ ‚ÌÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ŠÖ”‚ª•Ô‚·‚©AˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é: HKEY_CLASSES_ROOT HKEY_CURRENT_CONFIG HKEY_CURRENT_USER HKEY_LOCAL_MACHINE HKEY_USERS
@@ -213,8 +223,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegDeleteTreeW
 w’è‚µ‚½ƒL[‚ÌƒTƒuƒL[‚Æ’l‚ğÄ‹A“I‚Éíœ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚ÍŸ‚ÌƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚é: DELETEAKEY_ENUMERATE_SUB_KEYSAKEY_QUERY_VALUEBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyExARegCreateKeyTransactedARegOpenKeyExA‚Ü‚½‚Í RegOpenKeyTransacted ŠÖ”‚ª•Ô‚·‚©AˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é: HKEY_CLASSES_ROOT HKEY_CURRENT_CONFIG HKEY_CURRENT_USER HKEY_LOCAL_MACHINE HKEY_USERS
@@ -243,8 +251,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegDeleteValueW
 w’è‚³‚ê‚½ƒŒƒWƒXƒgƒŠƒL[‚©‚ç–¼‘O•t‚«’l‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpValueName
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BKEY_SET_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -263,8 +269,6 @@ winreg.h ƒwƒbƒ_‚Í UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä RegDeleteValue ‚ğ A
 %index
 RegDisablePredefinedCacheEx
 Œ»İ‚ÌƒvƒƒZƒX‚É‚¨‚¢‚ÄA‚·‚×‚Ä‚Ì’è‹`Ï‚İƒŒƒWƒXƒgƒŠƒnƒ“ƒhƒ‹‚Ìƒnƒ“ƒhƒ‹ƒLƒƒƒbƒVƒ…‚ğ–³Œø‚É‚·‚éB
-%group
-Win32 advapi32
 %prm
 
 %inst
@@ -284,8 +288,6 @@ HKEY_CURRENT_USER ‚ÉƒAƒNƒZƒX‚·‚é‚ÆAHKEY_USERS\SID_of_current_user
 %index
 RegEnumKeyExW
 w’è‚³‚ê‚½ƒI[ƒvƒ“ƒŒƒWƒXƒgƒŠƒL[‚ÌƒTƒuƒL[‚ğ—ñ‹“‚·‚éB1 ‰ñ‚ÌŒÄ‚Ño‚µ‚É‚Â‚« 1 ‚Â‚ÌƒTƒuƒL[‚Ìî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, dwIndex, lpName, lpcchName, lpReserved, lpClass, lpcchClass, lpftLastWriteTime
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BKEY_ENUMERATE_SUB_KEYS ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBRegCreateKeyEx “™‚Åæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©B
@@ -311,8 +313,6 @@ ERROR_NO_MORE_ITEMSBlpName ƒoƒbƒtƒ@‚ª¬‚³‚·‚¬‚éê‡‚Í ERROR_MORE_DATAB
 %index
 RegEnumValueW
 w’è‚³‚ê‚½ƒI[ƒvƒ“ƒŒƒWƒXƒgƒŠƒL[‚Ì’l‚ğ—ñ‹“‚·‚éBŒÄ‚Ño‚µ‚²‚Æ‚É 1 ‚Â‚ÌƒCƒ“ƒfƒbƒNƒX•t‚«‚Ì’l–¼‚Æƒf[ƒ^ƒuƒƒbƒN‚ğƒL[‚©‚çƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, dwIndex, lpValueName, lpcchValueName, lpReserved, lpType, lpData, lpcbData
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BKEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -341,8 +341,6 @@ RegQueryInfoKey ‚Åæ“¾‚Å‚«‚éB
 %index
 RegFlushKey
 w’è‚µ‚½ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ì‚·‚×‚Ä‚Ì‘®«‚ğƒŒƒWƒXƒgƒŠ‚É‘‚«‚ŞB
-%group
-Win32 advapi32
 %prm
 hKey
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -366,8 +364,6 @@ RegFlushKey
 %index
 RegGetKeySecurity
 w’è‚µ‚½ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚ğ•ÛŒì‚µ‚Ä‚¢‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌƒRƒs[‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, SecurityInformation, pSecurityDescriptor, lpcbSecurityDescriptor
 hKey : [intptr] ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚·‚é‘ÎÛ‚ÌAŠJ‚©‚ê‚Ä‚¢‚éƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -397,8 +393,6 @@ ERROR_INSUFFICIENT_BUFFER ‚ğ•Ô‚µAlpcbSecurityDescriptor
 %index
 RegGetValueW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠ’l‚ÌŒ^‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData
 hkey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -439,8 +433,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegLoadKeyW
 HKEY_USERS ‚Ü‚½‚Í HKEY_LOCAL_MACHINE ‚Ì‰º‚ÉƒTƒuƒL[‚ğì¬‚µAw’è‚µ‚½ƒŒƒWƒXƒgƒŠƒnƒCƒu‚©‚ç‚Ìƒf[ƒ^‚ğ‚»‚ÌƒTƒuƒL[‚Éƒ[ƒh‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, lpFile
 hKey : [intptr] ƒTƒuƒL[‚ğì¬‚·‚é‘ÎÛ‚ÌƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í RegConnectRegistry ‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İƒnƒ“ƒhƒ‹‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚é:
@@ -474,8 +466,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegLoadMUIStringW
 w’è‚µ‚½ƒL[‚ÆƒTƒuƒL[‚©‚çw’è‚µ‚½•¶š—ñ‚ğƒ[ƒh‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, pszValue, pszOutBuf, cbOutBuf, pcbData, Flags, pszDirectory
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ŠÖ”‚ª•Ô‚·BˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚é: HKEY_CLASSES_ROOT HKEY_CURRENT_CONFIG HKEY_CURRENT_USER HKEY_LOCAL_MACHINE HKEY_USERS
@@ -510,8 +500,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegNotifyChangeKeyValue
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚Ì‘®«‚Ü‚½‚Í“à—e‚Ì•ÏX‚ğŒÄ‚Ño‚µ‘¤‚É’Ê’m‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, bWatchSubtree, dwNotifyFilter, hEvent, fAsynchronous
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ŠÖ”‚ª•Ô‚·BˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚é:
@@ -560,8 +548,6 @@ RegNotifyChangeKeyValue
 %index
 RegOpenCurrentUser
 Œ»İ‚ÌƒXƒŒƒbƒh‚ªƒCƒ“ƒp[ƒ\ƒl[ƒg‚µ‚Ä‚¢‚éƒ†[ƒU‚Ì HKEY_CURRENT_USER ƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 samDesired, phkResult
 samDesired : [int] ƒL[‚É‘Î‚µ‚Ä—v‹‚·‚éƒAƒNƒZƒXŒ ‚ğw’è‚·‚éƒ}ƒXƒNBƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚É‘Î‚µ‚Ä—v‹‚³‚ê‚½ƒAƒNƒZƒX‚ğ‹–‰Â‚µ‚È‚¢ê‡AŠÖ”‚Í¸”s‚·‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -583,8 +569,6 @@ HKEY_CURRENT_USER ƒL[‚ÍAHKEY_USERS
 %index
 RegOpenKeyExW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ğŠJ‚­BƒL[–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, ulOptions, samDesired, phkResult
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BRegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ‚Åæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í HKEY_CLASSES_ROOTAHKEY_CURRENT_CONFIGAHKEY_CURRENT_USERAHKEY_LOCAL_MACHINEAHKEY_USERS ‚Ì‚¢‚¸‚ê‚©B
@@ -607,8 +591,6 @@ HKEY_CURRENT_USER ‚Æˆê‚Ég‚í‚¸ RegOpenCurrentUser ‚ğg‚¤‚±‚ÆB
 %index
 RegOpenUserClassesRoot
 w’è‚µ‚½ƒ†[ƒU‚Ì HKEY_CLASSES_ROOT ƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBƒ†[ƒU‚ÍƒAƒNƒZƒXƒg[ƒNƒ“‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 hToken, dwOptions, samDesired, phkResult
 hToken : [intptr] ‘ÎÛ‚Ìƒ†[ƒU‚ğ¯•Ê‚·‚éƒvƒ‰ƒCƒ}ƒŠ‚Ü‚½‚ÍƒCƒ“ƒp[ƒ\ƒl[ƒVƒ‡ƒ“ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í LogonUserACreateRestrictedTokenADuplicateTokenADuplicateTokenExAOpenProcessTokenAOpenThreadToken ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚éƒg[ƒNƒ“ƒnƒ“ƒhƒ‹‚Å‚ ‚éB
@@ -639,8 +621,6 @@ HKEY_CLASSES_ROOT ƒL[‚Ìƒ}[ƒW‚³‚ê‚½ƒrƒ…[‚ğæ“¾‚Å‚«‚éB
 %index
 RegQueryInfoKeyW
 w’è‚³‚ê‚½ƒŒƒWƒXƒgƒŠƒL[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpClass, lpcchClass, lpReserved, lpcSubKeys, lpcbMaxSubKeyLen, lpcbMaxClassLen, lpcValues, lpcbMaxValueNameLen, lpcbMaxValueLen, lpcbSecurityDescriptor, lpftLastWriteTime
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BKEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -670,8 +650,6 @@ winreg.h ƒwƒbƒ_‚Í RegQueryInfoKey ‚ğ UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚ÉŠî‚Ã‚­ ANSI/Uni
 %index
 RegQueryValueExW
 ƒI[ƒvƒ“ƒŒƒWƒXƒgƒŠƒL[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’è‚³‚ê‚½’l–¼‚Ìƒ^ƒCƒv‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpValueName, lpReserved, lpType, lpData, lpcbData
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BKEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -699,8 +677,6 @@ ERROR_MORE_DATABw’è‚³‚ê‚½’l‚ª‘¶İ‚µ‚È‚¢ê‡‚Í ERROR_FILE_NOT_FOUNDB
 %index
 RegRestoreKeyW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹“à‚ÌƒŒƒWƒXƒgƒŠî•ñ‚ğ“Ç‚İæ‚èAw’è‚µ‚½ƒL[‚Ìã‚ÉƒRƒs[‚·‚éB‚±‚ÌƒŒƒWƒXƒgƒŠî•ñ‚ÍƒL[‚Æ•¡”ƒŒƒxƒ‹‚ÌƒTƒuƒL[‚ÌŒ`®‚ğ‚Æ‚é‚±‚Æ‚ª‚Å‚«‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpFile, dwFlags
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ŠÖ”‚ª•Ô‚·BˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚é:
@@ -737,8 +713,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegSaveKeyExW
 w’è‚µ‚½ƒL[‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒTƒuƒL[‚¨‚æ‚Ñ’l‚ğAw’è‚µ‚½Œ`®‚ÅƒŒƒWƒXƒgƒŠƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpFile, lpSecurityAttributes, Flags
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌŠÖ”‚Í HKEY_CLASSES_ROOT ’è‹`Ï‚İƒL[‚ğƒTƒ|[ƒg‚µ‚È‚¢B
@@ -779,8 +753,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegSetKeySecurity
 ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, SecurityInformation, pSecurityDescriptor
 hKey : [intptr] ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğİ’è‚·‚é‘ÎÛ‚ÌAŠJ‚©‚ê‚Ä‚¢‚éƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -803,8 +775,6 @@ hKey
 %index
 RegSetValueExW
 ƒŒƒWƒXƒgƒŠƒL[”z‰º‚Ìw’è‚³‚ê‚½’l‚Ìƒf[ƒ^‚Æƒ^ƒCƒv‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpValueName, Reserved, dwType, lpData, cbData
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BKEY_SET_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBRegCreateKeyEx “™‚Åæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©B
@@ -829,8 +799,6 @@ cbData : [int] lpData ‚ªw‚·î•ñ‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)BREG_SZAREG_EXPAND_SZAREG
 %index
 RegUnLoadKeyW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚Æ‚»‚ÌƒTƒuƒL[‚ğƒŒƒWƒXƒgƒŠ‚©‚çƒAƒ“ƒ[ƒh‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey
 hKey : [intptr] ƒAƒ“ƒ[ƒh‚·‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í RegConnectRegistry ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İƒnƒ“ƒhƒ‹‚Ì‚¢‚¸‚ê‚©‚É‚Å‚«‚é: * HKEY_LOCAL_MACHINE * HKEY_USERS
@@ -858,8 +826,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AbortSystemShutdownW
 ŠJnÏ‚İ‚ÌƒVƒXƒeƒ€ƒVƒƒƒbƒgƒ_ƒEƒ“‚ğ’†~‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpMachineName
 lpMachineName : [wstr] ƒVƒƒƒbƒgƒ_ƒEƒ“‚ğ’†~‚·‚éƒRƒ“ƒsƒ…[ƒ^‚Ìƒlƒbƒgƒ[ƒN–¼BlpMachineName ‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡A–{ŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“‚ğ’â~‚·‚éB
@@ -886,8 +852,6 @@ SE_SHUTDOWN_NAME “ÁŒ ‚ğ—LŒø‰»‚Å‚«AŠÇ—Ò‚ÍƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^ã‚Å SE_REMOTE_SH
 %index
 AccessCheck
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªAƒAƒNƒZƒXƒg[ƒNƒ“‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äw’è‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(AccessCheck)
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, ClientToken, DesiredAccess, GenericMapping, PrivilegeSet, PrivilegeSetLength, GrantedAccess, AccessStatus
 pSecurityDescriptor : [int] ƒAƒNƒZƒXƒ`ƒFƒbƒN‘ÎÛ‚Ì SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -922,8 +886,6 @@ AccessCheckAndAuditAlarmAAccessCheckByTypeAndAuditAlarmAAccessCheckByTypeResul
 %index
 AccessCheckAndAuditAlarmW
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªAŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ª‹U‘•‚µ‚Ä‚¢‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äw’è‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, ObjectTypeName, ObjectName, SecurityDescriptor, DesiredAccess, GenericMapping, ObjectCreation, GrantedAccess, AccessStatus, pfGenerateOnClose
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚¢‚éƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚éAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚É•\¦‚³‚ê‚éB
@@ -954,8 +916,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 AccessCheckByType
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªAƒAƒNƒZƒXƒg[ƒNƒ“‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äw’è‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(AccessCheckByType)
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, PrincipalSelfSid, ClientToken, DesiredAccess, ObjectTypeList, ObjectTypeListLength, GenericMapping, PrivilegeSet, PrivilegeSetLength, GrantedAccess, AccessStatus
 pSecurityDescriptor : [int] ƒAƒNƒZƒXƒ`ƒFƒbƒN‘ÎÛ‚Ì SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -998,8 +958,6 @@ to an Object's Propertiesv‚ğQÆ‚Ì‚±‚ÆBƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì DACL ‚ª NULL
 %index
 AccessCheckByTypeAndAuditAlarmW
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªAŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ª‹U‘•‚µ‚Ä‚¢‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äw’è‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(AccessCheckByTypeAndAuditAlarmW)
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, ObjectTypeName, ObjectName, SecurityDescriptor, PrincipalSelfSid, DesiredAccess, AuditType, Flags, ObjectTypeList, ObjectTypeListLength, GenericMapping, ObjectCreation, GrantedAccess, AccessStatus, pfGenerateOnClose
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚¢‚éƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚éAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚É•\¦‚³‚ê‚éB
@@ -1054,8 +1012,6 @@ SE_AUDIT_NAME
 %index
 AccessCheckByTypeResultList
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªAƒAƒNƒZƒXƒg[ƒNƒ“‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äw’è‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(AccessCheckByTypeResultList)
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, PrincipalSelfSid, ClientToken, DesiredAccess, ObjectTypeList, ObjectTypeListLength, GenericMapping, PrivilegeSet, PrivilegeSetLength, GrantedAccessList, AccessStatusList
 pSecurityDescriptor : [int] ƒAƒNƒZƒXƒ`ƒFƒbƒN‘ÎÛ‚Ì SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1098,8 +1054,6 @@ ERROR_INVALID_SECURITY_DESCR ‚Å¸”s‚·‚éB
 %index
 AccessCheckByTypeResultListAndAuditAlarmW
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªAŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ª‹U‘•‚µ‚Ä‚¢‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚Äw’è‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(AccessCheckByTypeResultListAndAuditAlarmW)
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, ObjectTypeName, ObjectName, SecurityDescriptor, PrincipalSelfSid, DesiredAccess, AuditType, Flags, ObjectTypeList, ObjectTypeListLength, GenericMapping, ObjectCreation, GrantedAccessList, AccessStatusList, pfGenerateOnClose
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚¢‚éƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚éAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚É•\¦‚³‚ê‚éB
@@ -1152,8 +1106,6 @@ ERROR_INVALID_SECURITY_DESCR ‚Å¸”s‚·‚éB
 %index
 AccessCheckByTypeResultListAndAuditAlarmByHandleW
 AccessCheckByTypeResultListAndAuditAlarmByHandleW (Unicode) ŠÖ” (securitybaseapi.h) ‚ÍAƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ª‹U‘•‚µ‚Ä‚¢‚éƒNƒ‰ƒCƒAƒ“ƒg‚É‘Î‚µ‚ÄƒAƒNƒZƒXŒ ‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, ClientToken, ObjectTypeName, ObjectName, SecurityDescriptor, PrincipalSelfSid, DesiredAccess, AuditType, Flags, ObjectTypeList, ObjectTypeListLength, GenericMapping, ObjectCreation, GrantedAccessList, AccessStatusList, pfGenerateOnClose
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚¢‚éƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚éAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚É•\¦‚³‚ê‚éB
@@ -1210,8 +1162,6 @@ ERROR_INVALID_SECURITY_DESCR ‚Å¸”s‚·‚éB
 %index
 AddAccessAllowedAce
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ÉƒAƒNƒZƒX‹–‰ÂƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éBƒAƒNƒZƒX‚Íw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚É‘Î‚µ‚Ä‹–‰Â‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AccessMask, pSid
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ŠÖ”‚Í‚±‚Ì ACL ‚Ì––”ö‚ÉƒAƒNƒZƒX‹–‰Â ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í ACCESS_ALLOWED_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1238,8 +1188,6 @@ ACE_HEADER \‘¢‘Ì‚ÍAí—Ş‚ÆƒTƒCƒY‚ğw’è‚·‚é‚ªAŒp³î•ñ‚â ACE ƒtƒ‰ƒO‚Íİ’è‚µ‚È‚¢
 %index
 AddAccessAllowedAceEx
 ”CˆÓƒAƒNƒZƒX§ŒäƒŠƒXƒg (DACL) ‚Ì––”ö‚ÉƒAƒNƒZƒX‹–‰ÂƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB(AddAccessAllowedAceEx)
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AceFlags, AccessMask, pSid
 pAcl : [var] DACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BAddAccessAllowedAceEx ŠÖ”‚Í‚±‚Ì DACL ‚Ì––”ö‚ÉƒAƒNƒZƒX‹–‰Â ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í ACCESS_ALLOWED_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1264,8 +1212,6 @@ DACLv‚ğQÆ‚Ì‚±‚ÆB
 %index
 AddAccessAllowedObjectAce
 ”CˆÓƒAƒNƒZƒX§ŒäƒŠƒXƒg (DACL) ‚Ì––”ö‚ÉƒAƒNƒZƒX‹–‰ÂƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB(AddAccessAllowedObjectAce)
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AceFlags, AccessMask, ObjectTypeGuid, InheritedObjectTypeGuid, pSid
 pAcl : [var] DACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BAddAccessAllowedObjectAce ŠÖ”‚Í‚±‚Ì DACL ‚Ì––”ö‚ÉƒAƒNƒZƒX‹–‰Â ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í ACCESS_ALLOWED_OBJECT_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1295,8 +1241,6 @@ in a DACLv‚ğQÆ‚Ì‚±‚ÆB
 %index
 AddAccessDeniedAce
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ÉƒAƒNƒZƒX‹‘”ÛƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éBƒAƒNƒZƒX‚Íw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚É‘Î‚µ‚Ä‹‘”Û‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AccessMask, pSid
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ŠÖ”‚Í‚±‚Ì ACL ‚Ì––”ö‚ÉƒAƒNƒZƒX‹‘”Û ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í ACCESS_DENIED_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1323,8 +1267,6 @@ ACE ‚ÍŒp³•s‰Â‚Å‚ ‚éB
 %index
 AddAccessDeniedAceEx
 ”CˆÓƒAƒNƒZƒX§ŒäƒŠƒXƒg (DACL) ‚Ì––”ö‚ÉƒAƒNƒZƒX‹‘”ÛƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AceFlags, AccessMask, pSid
 pAcl : [var] DACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BAddAccessDeniedAceEx ŠÖ”‚Í‚±‚Ì DACL ‚Ì––”ö‚ÉƒAƒNƒZƒX‹‘”Û ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í ACCESS_DENIED_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1349,8 +1291,6 @@ in a DACLv‚ğQÆ‚Ì‚±‚ÆB
 %index
 AddAccessDeniedObjectAce
 ”CˆÓƒAƒNƒZƒX§ŒäƒŠƒXƒg (DACL) ‚Ì––”ö‚ÉƒAƒNƒZƒX‹‘”ÛƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éBV‚µ‚¢ ACE ‚ÍAƒIƒuƒWƒFƒNƒgA‚Ü‚½‚ÍƒIƒuƒWƒFƒNƒgã‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚âƒvƒƒpƒeƒB‚Ö‚ÌƒAƒNƒZƒX‚ğ‹‘”Û‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AceFlags, AccessMask, ObjectTypeGuid, InheritedObjectTypeGuid, pSid
 pAcl : [var] DACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BAddAccessDeniedObjectAce ŠÖ”‚Í‚±‚Ì DACL ‚Ì––”ö‚ÉƒAƒNƒZƒX‹‘”Û ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í ACCESS_DENIED_OBJECT_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1381,8 +1321,6 @@ ObjectTypeGuid ‚Æ InheritedObjectTypeGuid ‚Ì—¼•û‚ª NULL
 %index
 AddAce
 w’è‚µ‚½ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚É 1 ‚ÂˆÈã‚ÌƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, dwStartingAceIndex, pAceList, nAceListLength
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ŠÖ”‚Í‚±‚Ì ACL ‚É ACE ‚ğ’Ç‰Á‚·‚éB
@@ -1407,8 +1345,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BˆÈ‰º‚ÌƒGƒ‰[’l‚ª•Ô‚³‚ê‚é‰Â”\«‚ª‚ ‚éB
 %index
 AddAuditAccessAce
 ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ÉƒVƒXƒeƒ€ŠÄ¸ƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éBw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ÌƒAƒNƒZƒX‚ªŠÄ¸‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, dwAccessMask, pSid, bAuditSuccess, bAuditFailure
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ŠÖ”‚Í‚±‚Ì ACL ‚ÉƒVƒXƒeƒ€ŠÄ¸ ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í SYSTEM_AUDIT_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1434,8 +1370,6 @@ AddAuditAccessAce ŠÖ”‚ª ACE ‚É”z’u‚·‚é ACE_HEADER \‘¢‘Ì‚ÍAí—Ş‚ÆƒTƒCƒY‚ğw’è‚
 %index
 AddAuditAccessAceEx
 ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚Ì––”ö‚ÉƒVƒXƒeƒ€ŠÄ¸ƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB(AddAuditAccessAceEx)
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AceFlags, dwAccessMask, pSid, bAuditSuccess, bAuditFailure
 pAcl : [var] SACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BAddAuditAccessAceEx ŠÖ”‚Í‚±‚Ì SACL ‚ÉƒVƒXƒeƒ€ŠÄ¸ ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í SYSTEM_AUDIT_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1458,8 +1392,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BˆÈ‰º‚ÌƒGƒ‰[’l‚ª•Ô‚³‚ê‚é‰Â”\«‚ª‚ ‚éB
 %index
 AddAuditAccessObjectAce
 ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚Ì––”ö‚ÉƒVƒXƒeƒ€ŠÄ¸ƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB(AddAuditAccessObjectAce)
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AceFlags, AccessMask, ObjectTypeGuid, InheritedObjectTypeGuid, pSid, bAuditSuccess, bAuditFailure
 pAcl : [var] SACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BAddAuditAccessObjectAce ŠÖ”‚Í‚±‚Ì SACL ‚Ì––”ö‚ÉƒVƒXƒeƒ€ŠÄ¸ ACE ‚ğ’Ç‰Á‚·‚éBACE ‚Í SYSTEM_AUDIT_OBJECT_ACE \‘¢‘Ì‚ÌŒ`®‚ÅŠi”[‚³‚ê‚éB
@@ -1490,8 +1422,6 @@ ObjectTypeGuid ‚Æ InheritedObjectTypeGuid ‚Ì—¼•û‚ª NULL
 %index
 AddConditionalAce
 w’è‚µ‚½ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ÉğŒ•t‚«ƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceRevision, AceFlags, AceType, AccessMask, pSid, ConditionStr, ReturnLength
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ŠÖ”‚Í‚±‚Ì ACL ‚É ACE ‚ğ’Ç‰Á‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ NULL ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -1514,8 +1444,6 @@ ReturnLength : [var] ACL ‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjBpACL ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒoƒbƒt
 %index
 AddUsersToEncryptedFile
 w’è‚µ‚½ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Éƒ†[ƒU[ƒL[‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 advapi32
 %prm
 lpFileName, pEncryptionCertificates
 lpFileName : [wstr] ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -1536,8 +1464,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ˆÈ~‚Å‚ÍA–{ŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚Á‚ÄƒTƒ|[ƒ
 %index
 AdjustTokenGroups
 w’è‚µ‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚ÉŠù‚É‘¶İ‚·‚éƒOƒ‹[ƒv‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éBƒAƒNƒZƒXƒg[ƒNƒ““à‚ÌƒOƒ‹[ƒv‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚é‚É‚Í TOKEN_ADJUST_GROUPS ‚Ö‚ÌƒAƒNƒZƒX‚ª•K—v‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 TokenHandle, ResetToDefault, NewState, BufferLength, PreviousState, ReturnLength
 TokenHandle : [intptr] —LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éƒOƒ‹[ƒv‚ğŠÜ‚ŞƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Íƒg[ƒNƒ“‚É‘Î‚·‚é TOKEN_ADJUST_GROUPS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBPreviousState ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡Aƒnƒ“ƒhƒ‹‚Í TOKEN_QUERY ƒAƒNƒZƒXŒ ‚à‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1567,8 +1493,6 @@ CreateRestrictedToken ‚ğg—p‚·‚éBSE_GROUP_USE_FOR_DENY_ONLY
 %index
 AdjustTokenPrivileges
 w’è‚µ‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚Ì“ÁŒ ‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éBƒAƒNƒZƒXƒg[ƒNƒ“‚Ì“ÁŒ ‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚é‚É‚Í TOKEN_ADJUST_PRIVILEGES ƒAƒNƒZƒX‚ª•K—v‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 TokenHandle, DisableAllPrivileges, NewState, BufferLength, PreviousState, ReturnLength
 TokenHandle : [intptr] •ÏX‚·‚é“ÁŒ ‚ğŠÜ‚ŞƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Íƒg[ƒNƒ“‚É‘Î‚·‚é TOKEN_ADJUST_PRIVILEGES ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBPreviousState ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡Aƒnƒ“ƒhƒ‹‚Í TOKEN_QUERY ƒAƒNƒZƒXŒ ‚à‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1601,8 +1525,6 @@ AdjustTokenPrivileges ŠÖ”ŒÄ‚Ño‚µ‚Ì NewState ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä PreviousState
 %index
 AllocateAndInitializeSid
 Å‘å 8 ŒÂ‚ÌƒTƒuƒI[ƒ\ƒŠƒeƒB‚ğ‚ÂƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğŠ„‚è“–‚ÄA‰Šú‰»‚·‚éB
-%group
-Win32 advapi32
 %prm
 pIdentifierAuthority, nSubAuthorityCount, nSubAuthority0, nSubAuthority1, nSubAuthority2, nSubAuthority3, nSubAuthority4, nSubAuthority5, nSubAuthority6, nSubAuthority7, pSid
 pIdentifierAuthority : [var] SID_IDENTIFIER_AUTHORITY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Í SID ‚Éİ’è‚·‚éÅãˆÊ‚Ì¯•ÊqƒI[ƒ\ƒŠƒeƒB’l‚ğ’ñ‹Ÿ‚·‚éB
@@ -1632,8 +1554,6 @@ AllocateAndInitializeSid ŠÖ”‚ÅŠ„‚è“–‚Ä‚½ SID ‚ÍAFreeSid ŠÖ”‚ğg‚Á‚Ä‰ğ•ú‚·‚é•K
 %index
 AllocateLocallyUniqueId
 ƒ[ƒJƒ‹‚ÅˆêˆÓ‚È¯•Êq (LUID) ‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 advapi32
 %prm
 Luid
 Luid : [var] Š„‚è“–‚Ä‚ç‚ê‚½ LUID ‚ğó‚¯æ‚é LUID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1653,8 +1573,6 @@ LUID ‚Í•K‚¸ 0 ˆÈŠO‚Å‚ ‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éB
 %index
 AreAllAccessesGranted
 —v‹‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚ª‹–‰Â‚³‚ê‚½‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚éBƒAƒNƒZƒXŒ ‚ÍƒAƒNƒZƒXƒ}ƒXƒN“à‚Ìƒrƒbƒgƒtƒ‰ƒO‚Æ‚µ‚Ä•\‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 GrantedAccess, DesiredAccess
 GrantedAccess : [int] ‹–‰Â‚³‚ê‚½ƒAƒNƒZƒXŒ ‚ğw’è‚·‚éƒAƒNƒZƒXƒ}ƒXƒNB
@@ -1676,8 +1594,6 @@ AreAllAccessesGranted
 %index
 AreAnyAccessesGranted
 —v‹‚³‚ê‚½ˆê˜A‚ÌƒAƒNƒZƒXŒ ‚Ì‚¢‚¸‚ê‚©‚ª‹–‰Â‚³‚ê‚½‚©‚Ç‚¤‚©‚ğƒeƒXƒg‚·‚éBƒAƒNƒZƒXŒ ‚ÍƒAƒNƒZƒXƒ}ƒXƒN“à‚Ìƒrƒbƒgƒtƒ‰ƒO‚Æ‚µ‚Ä•\‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 GrantedAccess, DesiredAccess
 GrantedAccess : [int] ‹–‰Â‚³‚ê‚½ƒAƒNƒZƒXƒ}ƒXƒN‚ğw’è‚·‚éB
@@ -1699,8 +1615,6 @@ AreAnyAccessesGranted
 %index
 AuditComputeEffectivePolicyBySid
 w’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒBƒvƒŠƒ“ƒVƒpƒ‹‚É‘Î‚·‚é 1 ‚ÂˆÈã‚ÌƒTƒuƒJƒeƒSƒŠ‚ÌÀŒøŠÄ¸ƒ|ƒŠƒV[‚ğŒvZ‚·‚éB–{ŠÖ”‚ÍAƒVƒXƒeƒ€ŠÄ¸ƒ|ƒŠƒV[‚Æƒ†[ƒU[’PˆÊƒ|ƒŠƒV[‚ğ‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ÅÀŒøŠÄ¸ƒ|ƒŠƒV[‚ğŒvZ‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSid, pSubCategoryGuids, dwPolicyCount, ppAuditPolicy
 pSid : [int] ÀŒøŠÄ¸ƒ|ƒŠƒV[‚ğŒvZ‚·‚éƒvƒŠƒ“ƒVƒpƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒOƒ‹[ƒv SID ‚É‘Î‚·‚éƒ†[ƒU[’PˆÊƒ|ƒŠƒV[‚ÍŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
@@ -1725,8 +1639,6 @@ AUDIT_QUERY_USER_POLICY ƒAƒNƒZƒX‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %index
 AuditComputeEffectivePolicyByToken
 w’è‚µ‚½ƒg[ƒNƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒZƒLƒ…ƒŠƒeƒBƒvƒŠƒ“ƒVƒpƒ‹‚É‘Î‚·‚é 1 ‚ÂˆÈã‚ÌƒTƒuƒJƒeƒSƒŠ‚ÌÀŒøŠÄ¸ƒ|ƒŠƒV[‚ğŒvZ‚·‚éB–{ŠÖ”‚ÍAƒVƒXƒeƒ€ŠÄ¸ƒ|ƒŠƒV[‚Æƒ†[ƒU[’PˆÊƒ|ƒŠƒV[‚ğ‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ÅÀŒøŠÄ¸ƒ|ƒŠƒV[‚ğŒvZ‚·‚éB
-%group
-Win32 advapi32
 %prm
 hTokenHandle, pSubCategoryGuids, dwPolicyCount, ppAuditPolicy
 hTokenHandle : [intptr] ÀŒøŠÄ¸ƒ|ƒŠƒV[‚ğŒvZ‚·‚éƒvƒŠƒ“ƒVƒpƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒg[ƒNƒ“‚Í TOKEN_QUERY ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒOƒ‹[ƒv SID ‚É‘Î‚·‚éƒ†[ƒU[’PˆÊƒ|ƒŠƒV[‚ÍŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
@@ -1751,8 +1663,6 @@ AUDIT_QUERY_USER_POLICY ƒAƒNƒZƒX‚Ì—¼•û‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %index
 AuditEnumerateCategories
 —˜—p‰Â”\‚ÈŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğ—ñ‹“‚·‚éB
-%group
-Win32 advapi32
 %prm
 ppAuditCategoriesArray, pdwCountReturned
 ppAuditCategoriesArray : [var] GUID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚ÆA‚»‚ê‚ç‚Ì\‘¢‘Ì©‘Ì‚Ì—¼•û‚ğŠÜ‚Ş’Pˆê‚Ìƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BGUID \‘¢‘Ì‚ÍAƒRƒ“ƒsƒ…[ƒ^‚Å—˜—p‰Â”\‚ÈŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğ•\‚·B‚±‚Ìƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚½‚ç AuditFree ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚éB
@@ -1768,8 +1678,6 @@ pdwCountReturned : [var] ppAuditCategoriesArray ”z—ñ‚Ì—v‘f”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 AuditEnumeratePerUserPolicy
 ƒ†[ƒU[’PˆÊ‚ÌŠÄ¸ƒ|ƒŠƒV[‚ªw’è‚³‚ê‚Ä‚¢‚éƒ†[ƒU[‚ğ—ñ‹“‚·‚éB
-%group
-Win32 advapi32
 %prm
 ppAuditSidArray
 ppAuditSidArray : [var] POLICY_AUDIT_SID_ARRAY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚ÆA‚»‚ê‚ç‚Ì\‘¢‘Ì©‘Ì‚Ì—¼•û‚ğŠÜ‚Ş’Pˆê‚Ìƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BPOLICY_AUDIT_SID_ARRAY \‘¢‘Ì‚ÍAƒ†[ƒU[’PˆÊ‚ÌŠÄ¸ƒ|ƒŠƒV[‚ªw’è‚³‚ê‚Ä‚¢‚éƒ†[ƒU[‚ğ•\‚·B‚±‚Ìƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚½‚ç AuditFree ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚éB
@@ -1789,8 +1697,6 @@ ppAuditSidArray : [var] POLICY_AUDIT_SID_ARRAY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚ÆA‚»‚ê‚
 %index
 AuditEnumerateSubCategories
 —˜—p‰Â”\‚ÈŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚ğ—ñ‹“‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAuditCategoryGuid, bRetrieveAllSubCategories, ppAuditSubCategoriesArray, pdwCountReturned
 pAuditCategoryGuid : [var] ƒTƒuƒJƒeƒSƒŠ‚ğ—ñ‹“‚·‚éŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚Ì GUIDBbRetrieveAllSubCategories ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª TRUE ‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
@@ -1808,8 +1714,6 @@ pdwCountReturned : [var] ppAuditSubCategoriesArray ”z—ñ‚Å•Ô‚³‚ê‚éŠÄ¸ƒ|ƒŠƒV[ƒTƒ
 %index
 AuditFree
 ŠÄ¸ŠÖ”‚ªw’è‚µ‚½ƒoƒbƒtƒ@‚É‘Î‚µ‚ÄŠm•Û‚µ‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 Buffer
 Buffer : [intptr] ‰ğ•ú‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1820,8 +1724,6 @@ Buffer : [intptr] ‰ğ•ú‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 AuditLookupCategoryGuidFromCategoryId
 w’è‚µ‚½ŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğ•\‚· GUID \‘¢‘Ì‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 AuditCategoryId, pAuditCategoryGuid
 AuditCategoryId : [int] ŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğw’è‚·‚é POLICY_AUDIT_EVENT_TYPE —ñ‹“Œ^‚Ì—v‘fB
@@ -1837,8 +1739,6 @@ pAuditCategoryGuid : [var] AuditCategoryId ‚Åw’è‚µ‚½ŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğ•\‚· 
 %index
 AuditLookupCategoryIdFromCategoryGuid
 w’è‚µ‚½ŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğ•\‚· POLICY_AUDIT_EVENT_TYPE —ñ‹“Œ^‚Ì—v‘f‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAuditCategoryGuid, pAuditCategoryId
 pAuditCategoryGuid : [var] ŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğw’è‚·‚é GUID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1854,8 +1754,6 @@ pAuditCategoryId : [var] pAuditCategoryGuid ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ŠÄ¸ƒ|ƒŠƒV[ƒJƒe
 %index
 AuditLookupCategoryNameW
 w’è‚µ‚½ŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚Ì•\¦–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pAuditCategoryGuid, ppszCategoryName
 pAuditCategoryGuid : [var] ŠÄ¸ƒ|ƒŠƒV[ƒJƒeƒSƒŠ‚ğw’è‚·‚é GUID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1879,8 +1777,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AuditLookupSubCategoryNameW
 w’è‚µ‚½ŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚Ì•\¦–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pAuditSubCategoryGuid, ppszSubCategoryName
 pAuditSubCategoryGuid : [var] ŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚ğw’è‚·‚é GUID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1904,8 +1800,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AuditQueryGlobalSaclW
 ŠÄ¸ƒƒbƒZ[ƒW‚Ö‚ÌƒAƒNƒZƒX‚ğˆÏ”C‚·‚éƒOƒ[ƒoƒ‹ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 ObjectTypeName, Acl
 ObjectTypeName : [wstr] ƒAƒNƒZƒX‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍA‘ÎÛ‚ªƒtƒ@ƒCƒ‹‚©ƒŒƒWƒXƒgƒŠ‚©‚É‰‚¶‚Ä "File" ‚Ü‚½‚Í "Key" ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚É•\¦‚³‚ê‚éB
@@ -1931,8 +1825,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AuditQueryPerUserPolicy
 w’è‚µ‚½ƒvƒŠƒ“ƒVƒpƒ‹‚É‘Î‚·‚é 1 ‚ÂˆÈã‚ÌŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚Ìƒ†[ƒU[’PˆÊŠÄ¸ƒ|ƒŠƒV[‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSid, pSubCategoryGuids, dwPolicyCount, ppAuditPolicy
 pSid : [int] ŠÄ¸ƒ|ƒŠƒV[‚ğ–â‚¢‡‚í‚¹‚éƒvƒŠƒ“ƒVƒpƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒOƒ‹[ƒv SID ‚É‘Î‚·‚éƒ†[ƒU[’PˆÊƒ|ƒŠƒV[‚ÍŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
@@ -1955,8 +1847,6 @@ ppAuditPolicy : [var] AUDIT_POLICY_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚ÆA‚»‚ê‚
 %index
 AuditQuerySecurity
 ŠÄ¸ƒ|ƒŠƒV[‚Ö‚ÌƒAƒNƒZƒX‚ğˆÏ”C‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityInformation, ppSecurityDescriptor
 SecurityInformation : [int] –{ŠÖ”‚ªİ’è‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì•”•ª‚ğw’è‚·‚é SECURITY_INFORMATION ’lBSACL_SECURITY_INFORMATION ‚Æ DACL_SECURITY_INFORMATION ‚Ì‚İ‚ªƒTƒ|[ƒg‚³‚êA‚»‚êˆÈŠO‚Ì’l‚Í–³‹‚³‚ê‚éBSACL_SECURITY_INFORMATION ‚à DACL_SECURITY_INFORMATION ‚àw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A–{ŠÖ”‚Í¸”s‚µ ERROR_INVALID_PARAMETER ‚ğ•Ô‚·B
@@ -1976,8 +1866,6 @@ ppSecurityDescriptor : [var] Audit ƒZƒLƒ…ƒŠƒeƒBƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ğ§Œä‚·‚
 %index
 AuditQuerySystemPolicy
 1 ‚ÂˆÈã‚ÌŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚É‘Î‚·‚éƒVƒXƒeƒ€ŠÄ¸ƒ|ƒŠƒV[‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSubCategoryGuids, dwPolicyCount, ppAuditPolicy
 pSubCategoryGuids : [var] ŠÄ¸ƒ|ƒŠƒV[‚ğ–â‚¢‡‚í‚¹‚éƒTƒuƒJƒeƒSƒŠ‚ğw’è‚·‚é GUID ’l‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B’è‹`‚³‚ê‚Ä‚¢‚éŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚Ìˆê——‚É‚Â‚¢‚Ä‚ÍAŠÄ¸’è”‚ğQÆ‚Ì‚±‚ÆB
@@ -1999,8 +1887,6 @@ AUDIT_QUERY_SYSTEM_POLICY ƒAƒNƒZƒX‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %index
 AuditSetGlobalSaclW
 ŠÄ¸ƒƒbƒZ[ƒW‚Ö‚ÌƒAƒNƒZƒX‚ğˆÏ”C‚·‚éƒOƒ[ƒoƒ‹ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 ObjectTypeName, Acl
 ObjectTypeName : [wstr] ì¬’†‚Ü‚½‚ÍƒAƒNƒZƒX’†‚ÌƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄƒOƒ[ƒoƒ‹ SACL ‚ğİ’è‚·‚éê‡‚Í "File" ‚ÉAƒŒƒWƒXƒgƒŠ‚É‘Î‚µ‚ÄƒOƒ[ƒoƒ‹ SACL ‚ğİ’è‚·‚éê‡‚Í "Key" ‚Éİ’è‚·‚éB‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚É•\¦‚³‚ê‚éB
@@ -2026,8 +1912,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AuditSetPerUserPolicy
 w’è‚µ‚½ƒvƒŠƒ“ƒVƒpƒ‹‚É‘Î‚µ‚ÄA1 ‚ÂˆÈã‚ÌŠÄ¸ƒTƒuƒJƒeƒSƒŠ‚Ìƒ†[ƒU[’PˆÊŠÄ¸ƒ|ƒŠƒV[‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSid, pAuditPolicy, dwPolicyCount
 pSid : [int] ŠÄ¸ƒ|ƒŠƒV[‚ğİ’è‚·‚éƒvƒŠƒ“ƒVƒpƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒOƒ‹[ƒv SID ‚É‘Î‚·‚éƒ†[ƒU[’PˆÊƒ|ƒŠƒV[‚ÍŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
@@ -2049,8 +1933,6 @@ dwPolicyCount : [int] pAuditPolicy ”z—ñ‚Ì—v‘f”B
 %index
 AuditSetSecurity
 ŠÄ¸ƒ|ƒŠƒV[‚Ö‚ÌƒAƒNƒZƒX‚ğˆÏ”C‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityInformation, pSecurityDescriptor
 SecurityInformation : [int] –{ŠÖ”‚ªİ’è‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì•”•ª‚ğw’è‚·‚é SECURITY_INFORMATION ’lBSACL_SECURITY_INFORMATION ‚Æ DACL_SECURITY_INFORMATION ‚Ì‚İ‚ªƒTƒ|[ƒg‚³‚êA‚»‚êˆÈŠO‚Ì’l‚Í–³‹‚³‚ê‚éBSACL_SECURITY_INFORMATION ‚à DACL_SECURITY_INFORMATION ‚àw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A–{ŠÖ”‚Í¸”s‚µ ERROR_INVALID_PARAMETER ‚ğ•Ô‚·B
@@ -2070,8 +1952,6 @@ pSecurityDescriptor : [int] Audit ƒZƒLƒ…ƒŠƒeƒBƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ğ§Œä‚·‚é
 %index
 AuditSetSystemPolicy
 1 ‚ÂˆÈã‚ÌŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚É‘Î‚·‚éƒVƒXƒeƒ€ŠÄ¸ƒ|ƒŠƒV[‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAuditPolicy, dwPolicyCount
 pAuditPolicy : [var] AUDIT_POLICY_INFORMATION \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠe\‘¢‘Ì‚ÍA1 ‚Â‚ÌŠÄ¸ƒ|ƒŠƒV[ƒTƒuƒJƒeƒSƒŠ‚É‘Î‚·‚éƒVƒXƒeƒ€ŠÄ¸ƒ|ƒŠƒV[‚ğw’è‚·‚éB‚±‚ê‚ç‚Ì\‘¢‘Ì‚Ì AuditCategoryGuid ƒƒ“ƒo‚Í–³‹‚³‚ê‚éB
@@ -2092,8 +1972,6 @@ dwPolicyCount : [int] pAuditPolicy ”z—ñ‚Ì—v‘f”B
 %index
 BackupEventLogW
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚ğƒoƒbƒNƒAƒbƒvƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hEventLog, lpBackupFileName
 hEventLog : [intptr] ŠJ‚¢‚Ä‚¢‚éƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ŠÖ”‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -2119,8 +1997,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 BuildExplicitAccessWithNameW
 ŒÄ‚Ño‚µ‘¤‚ªw’è‚µ‚½ƒf[ƒ^‚Å EXPLICIT_ACCESS \‘¢‘Ì‚ğ‰Šú‰»‚·‚éBƒgƒ‰ƒXƒeƒB‚Í–¼‘O•¶š—ñ‚Å¯•Ê‚³‚ê‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pExplicitAccess, pTrusteeName, AccessPermissions, AccessMode, Inheritance
 pExplicitAccess : [var] ‰Šú‰»‚·‚é EXPLICIT_ACCESS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuildExplicitAccessWithName ŠÖ”‚Íƒƒ‚ƒŠ‚ğˆêØŠm•Û‚µ‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -2143,8 +2019,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 BuildImpersonateExplicitAccessWithNameW
 (no summary)
-%group
-Win32 advapi32
 %prm
 pExplicitAccess, pTrusteeName, pTrustee, AccessPermissions, AccessMode, Inheritance
 pExplicitAccess : [var] 
@@ -2160,8 +2034,6 @@ Inheritance : [int]
 %index
 BuildImpersonateTrusteeW
 (no summary)
-%group
-Win32 advapi32
 %prm
 pTrustee, pImpersonateTrustee
 pTrustee : [var] 
@@ -2173,8 +2045,6 @@ pImpersonateTrustee : [var]
 %index
 BuildSecurityDescriptorW
 V‚µ‚¢ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğŠ„‚è“–‚Ä‚Ä‰Šú‰»‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pOwner, pGroup, cCountOfAccessEntries, pListOfAccessEntries, cCountOfAuditEntries, pListOfAuditEntries, pOldSD, pSizeNewSD, pNewSD
 pOwner : [var] V‚µ‚¢ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌŠ—LÒ‚ğ¯•Ê‚·‚é TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚ª TRUSTEE_IS_NAME Œ`®‚ğg—p‚µ‚Ä‚¢‚éê‡ABuildSecurityDescriptor ‚Íw’è‚µ‚½ƒgƒ‰ƒXƒeƒB–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ SID ‚ğŒŸõ‚·‚éB
@@ -2207,8 +2077,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 BuildTrusteeWithNameW
 TRUSTEE \‘¢‘Ì‚ğ‰Šú‰»‚·‚éBŒÄ‚Ño‚µ‘¤‚Íƒgƒ‰ƒXƒeƒB–¼‚ğw’è‚·‚éBŠÖ”‚Í\‘¢‘Ì‚Ì‘¼‚Ìƒƒ“ƒo‚ğŠù’è’l‚Éİ’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pTrustee, pName
 pTrustee : [var] ‰Šú‰»‚·‚é TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuildTrusteeWithName ŠÖ”‚Íƒƒ‚ƒŠ‚ğˆêØŠm•Û‚µ‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚©—LŒø‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚Ìê‡AŒ‹‰Ê‚Í•s’è‚Æ‚È‚éB
@@ -2228,8 +2096,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 BuildTrusteeWithObjectsAndNameW
 ƒIƒuƒWƒFƒNƒgŒÅ—L‚ÌƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) î•ñ‚ğ—p‚¢‚Ä TRUSTEE \‘¢‘Ì‚ğ‰Šú‰»‚µA\‘¢‘Ì‚Ìc‚è‚Ìƒƒ“ƒo‚ğŠù’è’l‚É‰Šú‰»‚·‚éBŒÄ‚Ño‚µ‘¤‚Íƒgƒ‰ƒXƒeƒB‚Ì–¼‘O‚àw’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pTrustee, pObjName, ObjectType, ObjectTypeName, InheritedObjectTypeName, Name
 pTrustee : [var] –{ŠÖ”‚É‚æ‚Á‚Ä‰Šú‰»‚³‚ê‚é TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚ª NULL ‚©—LŒø‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚Ìê‡AŒ‹‰Ê‚Í•s’è‚Æ‚È‚éB
@@ -2256,8 +2122,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 BuildTrusteeWithObjectsAndSidW
 ƒIƒuƒWƒFƒNƒgŒÅ—L‚ÌƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) î•ñ‚ğ—p‚¢‚Ä TRUSTEE \‘¢‘Ì‚ğ‰Šú‰»‚µA\‘¢‘Ì‚Ìc‚è‚Ìƒƒ“ƒo‚ğŠù’è’l‚É‰Šú‰»‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pTrustee, pObjSid, pObjectGuid, pInheritedObjectGuid, pSid
 pTrustee : [var] ‰Šú‰»‚·‚é TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuildTrusteeWithObjectsAndSid ŠÖ”‚Íƒƒ‚ƒŠ‚ğˆêØŠm•Û‚µ‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚©—LŒø‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚Ìê‡AŒ‹‰Ê‚Í•s’è‚Æ‚È‚éB
@@ -2283,8 +2147,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 BuildTrusteeWithSidW
 TRUSTEE \‘¢‘Ì‚ğ‰Šú‰»‚·‚éBŒÄ‚Ño‚µ‘¤‚Íƒgƒ‰ƒXƒeƒB‚ÌƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğw’è‚·‚éBŠÖ”‚Í\‘¢‘Ì‚Ì‘¼‚Ìƒƒ“ƒo‚ğŠù’è’l‚Éİ’è‚µASID ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½–¼‘O‚ÌŒŸõ‚Ís‚í‚È‚¢B(Unicode)
-%group
-Win32 advapi32
 %prm
 pTrustee, pSid
 pTrustee : [var] ‰Šú‰»‚·‚é TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuildTrusteeWithSid ŠÖ”‚Íƒƒ‚ƒŠ‚ğˆêØŠm•Û‚µ‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚©—LŒø‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚Ìê‡AŒ‹‰Ê‚Í•s’è‚Æ‚È‚éB
@@ -2305,8 +2167,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CloseServiceHandle
 ƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒ‚Ü‚½‚ÍƒT[ƒrƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 advapi32
 %prm
 hSCObject
 hSCObject : [intptr] •Â‚¶‚éƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒƒIƒuƒWƒFƒNƒg‚Ü‚½‚ÍƒT[ƒrƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager ŠÖ”‚ª•Ô‚µAƒT[ƒrƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·B
@@ -2328,8 +2188,6 @@ DeleteService ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚Å”jŠü‚Å‚«‚éB
 %index
 ChangeServiceConfigW
 ƒT[ƒrƒX‚Ì\¬ƒpƒ‰ƒ[ƒ^‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hService, dwServiceType, dwStartType, dwErrorControl, lpBinaryPathName, lpLoadOrderGroup, lpdwTagId, lpDependencies, lpServiceStartName, lpPassword, lpDisplayName
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_CHANGE_CONFIG ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -2366,8 +2224,6 @@ QueryServiceConfig ŠÖ”‚Åæ“¾‚Å‚«‚éBÀs’†‚ÌƒT[ƒrƒX‚Ì\¬‚ª•ÏX‚³‚ê‚½ê‡AlpD
 %index
 ChangeServiceConfig2A
 ƒT[ƒrƒX‚ÌÈ—ª‰Â”\‚È\¬ƒpƒ‰ƒ[ƒ^‚ğ•ÏX‚·‚éB(ANSI)
-%group
-Win32 advapi32
 %prm
 hService, dwInfoLevel, lpInfo
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_CHANGE_CONFIG ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -2396,8 +2252,6 @@ SERVICE_CONFIG_LAUNCH_PROTECTED ‚Ì—á:
 %index
 ChangeServiceConfig2W
 ƒT[ƒrƒX‚ÌÈ—ª‰Â”\‚È\¬ƒpƒ‰ƒ[ƒ^‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hService, dwInfoLevel, lpInfo
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_CHANGE_CONFIG ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -2426,8 +2280,6 @@ SERVICE_CONFIG_LAUNCH_PROTECTED ‚Ì—á:
 %index
 CheckForHiberboot
 (no summary)
-%group
-Win32 advapi32
 %prm
 pHiberboot, bClearFlag
 pHiberboot : [var] 
@@ -2439,8 +2291,6 @@ bClearFlag : [int]
 %index
 CheckTokenMembership
 w’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ªƒAƒNƒZƒXƒg[ƒNƒ““à‚Å—LŒø‚É‚È‚Á‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 TokenHandle, SidToCheck, IsMember
 TokenHandle : [intptr] ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Íƒg[ƒNƒ“‚É‘Î‚·‚é TOKEN_QUERY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒg[ƒNƒ“‚Í‹U‘•ƒg[ƒNƒ“‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2468,8 +2318,6 @@ TokenHandle ‚ª NULL
 %index
 ClearEventLogW
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚ğƒNƒŠƒA‚µA”CˆÓ‚ÅƒƒO‚ÌŒ»İ‚ÌƒRƒs[‚ğƒoƒbƒNƒAƒbƒvƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hEventLog, lpBackupFileName
 hEventLog : [intptr] ƒNƒŠƒA‚·‚éƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ŠÖ”‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -2495,8 +2343,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CloseEncryptedFileRaw
 ƒoƒbƒNƒAƒbƒv‚Ü‚½‚Í•œŒ³‘€ì‚ÌŒã‚ÉˆÃ†‰»ƒtƒ@ƒCƒ‹‚ğ•Â‚¶AŠÖ˜A‚·‚éƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 pvContext
 pvContext : [intptr] ƒVƒXƒeƒ€’è‹`‚ÌƒRƒ“ƒeƒLƒXƒgƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^BOpenEncryptedFileRaw ŠÖ”‚ªƒRƒ“ƒeƒLƒXƒgƒuƒƒbƒN‚ğ•Ô‚·B
@@ -2514,8 +2360,6 @@ BackupRead ‚¨‚æ‚Ñ BackupWrite ŠÖ”‚ªˆµ‚¤BWindows 8AWindows Server 2012
 %index
 CloseEventLog
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚ğ•Â‚¶‚éB(CloseEventLog)
-%group
-Win32 advapi32
 %prm
 hEventLog
 hEventLog : [intptr] •Â‚¶‚éƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ‚Ü‚½‚Í OpenBackupEventLog ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -2530,8 +2374,6 @@ hEventLog : [intptr] •Â‚¶‚éƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ‚Ü‚½‚Í OpenBac
 %index
 CloseThreadWaitChainSession
 w’è‚µ‚½ WCT ƒZƒbƒVƒ‡ƒ“‚ğ•Â‚¶A–¢‰ğŒˆ‚Ì”ñ“¯Šú‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 advapi32
 %prm
 WctHandle
 WctHandle : [intptr] OpenThreadWaitChainSession ŠÖ”‚Åì¬‚µ‚½ WCT ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2546,8 +2388,6 @@ WCT ƒZƒbƒVƒ‡ƒ“‚ª”ñ“¯Šúƒ‚[ƒhiWCT_ASYNC_OPEN_FLAG
 %index
 CloseTrace
 CloseTrace ŠÖ”‚ÍAOpenTrace ‚Åì¬‚³‚ê‚½ƒgƒŒ[ƒXˆ—ƒZƒbƒVƒ‡ƒ“‚ğ•Â‚¶‚éB
-%group
-Win32 advapi32
 %prm
 TraceHandle
 TraceHandle : [int] •Â‚¶‚éƒgƒŒ[ƒXˆ—ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B[OpenTrace](/windows/win32/api/evntrace/nf-evntrace-opentracea) ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -2588,8 +2428,6 @@ CloseTrace ŠÖ”‚ÍAOpenTrace ‚Åì¬‚³‚ê‚½ƒgƒŒ[ƒXˆ—ƒZƒbƒVƒ‡ƒ“‚ğ•Â‚¶‚éB
 %index
 CommandLineFromMsiDescriptor
 (no summary)
-%group
-Win32 advapi32
 %prm
 Descriptor, CommandLine, CommandLineLength
 Descriptor : [wstr] 
@@ -2602,8 +2440,6 @@ CommandLineLength : [var]
 %index
 ControlService
 ƒT[ƒrƒX‚É§ŒäƒR[ƒh‚ğ‘—M‚·‚éB(ControlService)
-%group
-Win32 advapi32
 %prm
 hService, dwControl, lpServiceStatus
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·B‚±‚Ìƒnƒ“ƒhƒ‹‚É•K—v‚ÈƒAƒNƒZƒXŒ ‚Í—v‹‚·‚é dwControl ƒR[ƒh‚ÉˆË‘¶‚·‚éB
@@ -2641,8 +2477,6 @@ SERVICE_CONTROL_STOP ‚¨‚æ‚Ñ SERVICE_CONTROL_INTERROGATE
 %index
 ControlServiceExW
 ƒT[ƒrƒX‚É§ŒäƒR[ƒh‚ğ‘—M‚·‚éB(ControlServiceExW)
-%group
-Win32 advapi32
 %prm
 hService, dwControl, dwInfoLevel, pControlParams
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·B‚±‚Ìƒnƒ“ƒhƒ‹‚É•K—v‚ÈƒAƒNƒZƒXŒ ‚Í—v‹‚·‚é dwControl ƒR[ƒh‚ÉˆË‘¶‚·‚éB
@@ -2682,8 +2516,6 @@ SERVICE_CONTROL_STOP ‚¨‚æ‚Ñ SERVICE_CONTROL_INTERROGATE
 %index
 ControlTraceW
 ControlTraceW (Unicode) ŠÖ” (evntrace.h) ‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ğƒtƒ‰ƒbƒVƒ…A–â‚¢‡‚í‚¹AXVA‚Ü‚½‚Í’â~‚·‚éB
-%group
-Win32 advapi32
 %prm
 TraceHandle, InstanceName, Properties, ControlCode
 TraceHandle : [int] ƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í 0B_InstanceName_ ‚ª **NULL** ‚Ìê‡‚Í 0 ˆÈŠO‚Ì _TraceHandle_ ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB_InstanceName_ ‚ª **NULL** ‚Å‚È‚¢ê‡AETW ‚Íƒnƒ“ƒhƒ‹‚ğ–³‹‚·‚éB[StartTrace](/windows/win32/api/evntrace/nf-evntrace-starttracew) ŠÖ”‚ÍV‚µ‚¢ƒgƒŒ[ƒX‚ªŠJn‚³‚ê‚é‚Æ‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BŠù‘¶‚ÌƒgƒŒ[ƒX‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚ÍA**ControlTrace** ‚ğg‚Á‚ÄƒgƒŒ[ƒX–¼‚ÉŠî‚Ã‚«ƒgƒŒ[ƒXƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹A•Ô‚³‚ê‚½ `EVENT_TRACE_PROPERTIES` ƒf[ƒ^‚Ì **Wnode.HistoricalContext** ƒtƒB[ƒ‹ƒh‚©‚çƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
@@ -2736,8 +2568,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ConvertSecurityDescriptorToStringSecurityDescriptorW
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğ•¶š—ñŒ`®‚É•ÏŠ·‚·‚éB•¶š—ñŒ`®‚ÍƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì•Û‘¶‚â‘—M‚Ég—p‚Å‚«‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 SecurityDescriptor, RequestedStringSDRevision, SecurityInformation, StringSecurityDescriptor, StringSecurityDescriptorLen
 SecurityDescriptor : [int] •ÏŠ·‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Íâ‘ÎŒ`®‚Ü‚½‚Í©ŒÈ‘Š‘ÎŒ`®‚Ì‚¢‚¸‚ê‚Å‚à‚æ‚¢B
@@ -2770,8 +2600,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ConvertSidToStringSidW
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğA•\¦E•Û‘¶E‘—M‚É“K‚µ‚½•¶š—ñŒ`®‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 Sid, StringSid
 Sid : [int] •ÏŠ·‚·‚é SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2798,8 +2626,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ConvertStringSecurityDescriptorToSecurityDescriptorW
 •¶š—ñŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğA—LŒø‚Å‹@”\“I‚ÈƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 StringSecurityDescriptor, StringSDRevision, SecurityDescriptor, SecurityDescriptorSize
 StringSecurityDescriptor : [wstr] •ÏŠ·‚·‚é•¶š—ñŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2833,8 +2659,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ConvertStringSidToSidW
 •¶š—ñŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğA—LŒø‚Å‹@”\“I‚È SID ‚É•ÏŠ·‚·‚éB–{ŠÖ”‚ğg—p‚µ‚ÄAConvertSidToStringSid ŠÖ”‚Å•¶š—ñŒ`®‚É•ÏŠ·‚³‚ê‚½ SID ‚ğæ“¾‚Å‚«‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 StringSid, Sid
 StringSid : [wstr] •ÏŠ·‚·‚é•¶š—ñŒ`®‚Ì SID ‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2861,8 +2685,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ConvertToAutoInheritPrivateObjectSecurity
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Æ‚»‚ÌƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ğAŒp³‰Â”\‚ÈƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚Ì©“®“`”d‚ğƒTƒ|[ƒg‚·‚éŒ`®‚É•ÏŠ·‚·‚éB
-%group
-Win32 advapi32
 %prm
 ParentDescriptor, CurrentSecurityDescriptor, NewSecurityDescriptor, ObjectType, IsDirectoryObject, GenericMapping
 ParentDescriptor : [int] ƒIƒuƒWƒFƒNƒg‚ÌeƒRƒ“ƒeƒi‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ö‚Ìƒ|ƒCƒ“ƒ^BeƒRƒ“ƒeƒi‚ª‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚·‚éB
@@ -2905,8 +2727,6 @@ ACL_REVISION ‚¨‚æ‚Ñ ACL_REVISION_DS ‚Ì ACL ‚É‘Î‚µ‚Ä“®ì‚·‚éB
 %index
 CopySid
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 advapi32
 %prm
 nDestinationSidLength, pDestinationSid, pSourceSid
 nDestinationSidLength : [int] SID ‚ÌƒRƒs[‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ì’·‚³iƒoƒCƒg’PˆÊj‚ğw’è‚·‚éB
@@ -2927,8 +2747,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CreatePrivateObjectSecurity
 V‚µ‚¢ƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg—p‚Ì©ŒÈ‘Š‘ÎƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğŠ„‚è“–‚Ä‚Ä‰Šú‰»‚·‚éB•ÛŒì‚³‚ê‚½ƒT[ƒo‚ªV‚µ‚¢ƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éÛ‚É–{ŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 advapi32
 %prm
 ParentDescriptor, CreatorDescriptor, NewDescriptor, IsDirectoryObject, Token, GenericMapping
 ParentDescriptor : [int] V‚µ‚¢ƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚ê‚éeƒfƒBƒŒƒNƒgƒŠ‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ö‚Ìƒ|ƒCƒ“ƒ^BeƒfƒBƒŒƒNƒgƒŠ‚ª‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚éB
@@ -2955,8 +2773,6 @@ CreatorDescriptor ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ SECURITY_DESCRIPTOR ‚ÉƒVƒXƒeƒ€ƒAƒNƒZƒX§Œ
 %index
 CreatePrivateObjectSecurityEx
 –{ŠÖ”‚ğŒÄ‚Ño‚·ƒŠƒ\[ƒXƒ}ƒl[ƒWƒƒ‚ªì¬‚·‚éV‚µ‚¢ƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg‚Ì‚½‚ß‚Ì©ŒÈ‘Š‘ÎƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğŠ„‚è“–‚Ä‚Ä‰Šú‰»‚·‚éB(CreatePrivateObjectSecurityEx)
-%group
-Win32 advapi32
 %prm
 ParentDescriptor, CreatorDescriptor, NewDescriptor, ObjectType, IsContainerObject, AutoInheritFlags, Token, GenericMapping
 ParentDescriptor : [int] ƒIƒuƒWƒFƒNƒg‚ÌeƒRƒ“ƒeƒi‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ö‚Ìƒ|ƒCƒ“ƒ^BeƒRƒ“ƒeƒi‚ª‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚·‚éB
@@ -2989,8 +2805,6 @@ CreatePrivateObjectSecurity ŠÖ”‚ÍAObjectType ‚ğ NULLAAutoInheritFlags ‚ğ
 %index
 CreatePrivateObjectSecurityWithMultipleInheritance
 –{ŠÖ”‚ğŒÄ‚Ño‚·ƒŠƒ\[ƒXƒ}ƒl[ƒWƒƒ‚ªì¬‚·‚éV‚µ‚¢ƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg‚Ì‚½‚ß‚Ì©ŒÈ‘Š‘ÎƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğŠ„‚è“–‚Ä‚Ä‰Šú‰»‚·‚éB(CreatePrivateObjectSecurityWithMultipleInheritance)
-%group
-Win32 advapi32
 %prm
 ParentDescriptor, CreatorDescriptor, NewDescriptor, ObjectTypes, GuidCount, IsContainerObject, AutoInheritFlags, Token, GenericMapping
 ParentDescriptor : [int] ƒIƒuƒWƒFƒNƒg‚ÌeƒRƒ“ƒeƒi‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ö‚Ìƒ|ƒCƒ“ƒ^BeƒRƒ“ƒeƒi‚ª‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚·‚éB
@@ -3024,8 +2838,6 @@ CreatePrivateObjectSecurityWithMultipleInheritance
 %index
 CreateProcessWithLogonW
 V‚µ‚¢ƒvƒƒZƒX‚Æ‚»‚Ìƒvƒ‰ƒCƒ}ƒŠƒXƒŒƒbƒh‚ğì¬‚·‚éBŸ‚ÉAV‚µ‚¢ƒvƒƒZƒX‚Íw’è‚µ‚½‘Šiî•ñiƒ†[ƒU[AƒhƒƒCƒ“AƒpƒXƒ[ƒhj‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚Åw’è‚µ‚½Às‰Â”\ƒtƒ@ƒCƒ‹‚ğÀs‚·‚éB”CˆÓ‚Åw’è‚µ‚½ƒ†[ƒU[‚Ìƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş‚±‚Æ‚à‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 lpUsername, lpDomain, lpPassword, dwLogonFlags, lpApplicationName, lpCommandLine, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation
 lpUsername : [wstr] ƒ†[ƒU[‚Ì–¼‘OBƒƒOƒIƒ“‚·‚éƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚Ì–¼‘O‚Å‚ ‚éBUPN Œ`® user@DNS_domain_name ‚ğg—p‚·‚éê‡AlpDomain ƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3096,8 +2908,6 @@ lpApplicationName ƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«A‚»‚Ìê‡‚ÍÀs‰Â”\–¼‚ª lpCommandLine
 %index
 CreateProcessWithTokenW
 V‚µ‚¢ƒvƒƒZƒX‚Æ‚»‚Ìƒvƒ‰ƒCƒ}ƒŠƒXƒŒƒbƒh‚ğì¬‚·‚éBV‚µ‚¢ƒvƒƒZƒX‚ÍAw’è‚µ‚½ƒg[ƒNƒ“‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚Å“®ì‚·‚éB”CˆÓ‚Åw’è‚µ‚½ƒ†[ƒU[‚Ìƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş‚±‚Æ‚à‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 hToken, dwLogonFlags, lpApplicationName, lpCommandLine, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation
 hToken : [intptr] ƒ†[ƒU[‚ğ•\‚·ƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í TOKEN_QUERYATOKEN_DUPLICATEATOKEN_ASSIGN_PRIMARY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍuAccess Rights for Access-Token Objectsv‚ğQÆ‚Ì‚±‚ÆBƒg[ƒNƒ“‚ª•\‚·ƒ†[ƒU[‚ÍAlpApplicationName ‚Ü‚½‚Í lpCommandLine ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µ‚Ä“Ç‚İæ‚è‚¨‚æ‚ÑÀsƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -3156,8 +2966,6 @@ lpApplicationName ƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«A‚»‚Ìê‡‚ÍÀs‰Â”\–¼‚ª lpCommandLine
 %index
 CreateRestrictedToken
 Šù‘¶‚ÌƒAƒNƒZƒXƒg[ƒNƒ“‚Ì§ŒÀ•t‚«ƒo[ƒWƒ‡ƒ“‚Å‚ ‚éV‚µ‚¢ƒAƒNƒZƒXƒg[ƒNƒ“‚ğì¬‚·‚éB§ŒÀ•t‚«ƒg[ƒNƒ“‚ÍA–³Œø‰»‚³‚ê‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID)Aíœ‚³‚ê‚½“ÁŒ A§ŒÀ‚·‚é SID ‚ÌƒŠƒXƒg‚ğ‚Â‚±‚Æ‚ª‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 ExistingTokenHandle, Flags, DisableSidCount, SidsToDisable, DeletePrivilegeCount, PrivilegesToDelete, RestrictedSidCount, SidsToRestrict, NewTokenHandle
 ExistingTokenHandle : [intptr] ƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ü‚½‚Í‹U‘•ƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒg[ƒNƒ“‚Í§ŒÀ•t‚«ƒg[ƒNƒ“‚Å‚à‚æ‚¢Bƒnƒ“ƒhƒ‹‚Í‘ÎÛ‚Ìƒg[ƒNƒ“‚É‘Î‚·‚é TOKEN_DUPLICATE ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -3185,8 +2993,6 @@ CreateRestrictedToken ŠÖ”‚ÍAˆÈ‰º‚Ì•û–@‚Åƒg[ƒNƒ“‚ğ§ŒÀ‚Å‚«‚é:
 %index
 CreateServiceW
 ƒT[ƒrƒXƒIƒuƒWƒFƒNƒg‚ğì¬‚µAw’è‚µ‚½ƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚É’Ç‰Á‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hSCManager, lpServiceName, lpDisplayName, dwDesiredAccess, dwServiceType, dwStartType, dwErrorControl, lpBinaryPathName, lpLoadOrderGroup, lpdwTagId, lpDependencies, lpServiceStartName, lpPassword
 hSCManager : [intptr] ƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASC_MANAGER_CREATE_SERVICE ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍuService Security and Access Rightsv‚ğQÆ‚Ì‚±‚ÆB
@@ -3223,8 +3029,6 @@ CreateServiceAChangeServiceConfigAChangeServiceConfig2
 %index
 CreateWellKnownSid
 ’è‹`Ï‚İƒGƒCƒŠƒAƒX‚Ì SID ‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 WellKnownSidType, DomainSid, pSid, cbSid
 WellKnownSidType : [int] SID ‚ª¯•Ê‚·‚é‘ÎÛ‚ğw’è‚·‚é WELL_KNOWN_SID_TYPE —ñ‹“Œ^‚Ìƒƒ“ƒoB
@@ -3242,8 +3046,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 CredDeleteW
 ƒ†[ƒU[‚Ì‘Šiî•ñƒZƒbƒg‚©‚ç‘Šiî•ñ‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 TargetName, Type, Flags
 TargetName : [wstr] íœ‚·‚é‘Šiî•ñ‚Ì–¼‘O‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3269,8 +3071,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CredEnumerateW
 ƒ†[ƒU[‚Ì‘Šiî•ñƒZƒbƒg‚©‚ç‘Šiî•ñ‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 Filter, Flags, Count, Credential
 Filter : [wstr] •Ô‚³‚ê‚é‘Šiî•ñ‚ÌƒtƒBƒ‹ƒ^‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒtƒBƒ‹ƒ^‚Éˆê’v‚·‚é TargetName ‚ğ‚Â‘Šiî•ñ‚Ì‚İ‚ª•Ô‚³‚ê‚éBƒtƒBƒ‹ƒ^‚Í–¼‘OƒvƒŒƒtƒBƒbƒNƒX‚ÌŒã‚ÉƒAƒXƒ^ƒŠƒXƒN‚ğ•t‚¯‚Äw’è‚·‚éB‚½‚Æ‚¦‚ÎAƒtƒBƒ‹ƒ^ "FRED*" ‚Í "FRED" ‚Ån‚Ü‚é TargetName ‚ğ‚Â‚·‚×‚Ä‚Ì‘Šiî•ñ‚ğ•Ô‚·B
@@ -3297,8 +3097,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CredFindBestCredentialW
 ‘Šiî•ñŠÇ— (CredMan) ƒf[ƒ^ƒx[ƒX‚ğŒŸõ‚µAŒ»İ‚ÌƒƒOƒIƒ“ƒZƒbƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚ÄAw’è‚µ‚½ƒ^[ƒQƒbƒgƒŠƒ\[ƒX‚ÉÅ‚à‚æ‚­ˆê’v‚·‚é”Ä—p‘Šiî•ñ‚ÌƒZƒbƒg‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 TargetName, Type, Flags, Credential
 TargetName : [wstr] ‘Šiî•ñ‚ğŒŸõ‚·‚éƒ^[ƒQƒbƒgƒŠƒ\[ƒX‚Ì–¼‘O‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3325,8 +3123,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CredFree
 CredFree ŠÖ”‚ÍA‘Šiî•ñŠÇ—ŠÖ”‚Ì‚¢‚¸‚ê‚©‚ª•Ô‚µ‚½ƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 Buffer
 Buffer : [intptr] ‰ğ•ú‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3337,8 +3133,6 @@ CredFree ŠÖ”‚ÍA‘Šiî•ñŠÇ—ŠÖ”‚Ì‚¢‚¸‚ê‚©‚ª•Ô‚µ‚½ƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚éB
 %index
 CredGetSessionTypes
 CredGetSessionTypes ŠÖ”‚ÍAŒ»İ‚ÌƒƒOƒIƒ“ƒZƒbƒVƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚éÅ‘å‘±«‚ğ•Ô‚·BŠe‘Šiî•ñí•Ê‚²‚Æ‚É•ÊŒÂ‚ÌÅ‘å‘±«‚ª•Ô‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 MaximumPersistCount, MaximumPersist
 MaximumPersistCount : [int] MaximumPersist ”z—ñ“à‚Ì—v‘f”BŒ»İ’è‹`‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚Ì‘Šiî•ñí•Ê‚ğ•Ô‚·‚É‚Í CRED_TYPE_MAXIMUM ‚ğg—p‚·‚éB
@@ -3356,8 +3150,6 @@ CredGetSessionTypes
 %index
 CredGetTargetInfoW
 CredGetTargetInfo ŠÖ”‚ÍAw’è‚µ‚½–¼‘O‚Ìƒ^[ƒQƒbƒgƒRƒ“ƒsƒ…[ƒ^‚É‘Î‚·‚éŠù’m‚Ìƒ^[ƒQƒbƒg–¼î•ñ‚ğ‚·‚×‚Äæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 TargetName, Flags, TargetInfo
 TargetName : [wstr] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ^[ƒQƒbƒgƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘O‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3384,8 +3176,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CredIsMarshaledCredentialW
 w’è‚µ‚½ƒ†[ƒU[–¼•¶š—ñ‚ªˆÈ‘O‚É CredMarshalCredential ‚É‚æ‚Á‚Äƒ}[ƒVƒƒƒŠƒ“ƒO‚³‚ê‚½‘Šiî•ñ‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 MarshaledCredential
 MarshaledCredential : [wstr] ƒ}[ƒVƒƒƒŠƒ“ƒO‚³‚ê‚½‘Šiî•ñ‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3409,8 +3199,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CredIsProtectedW
 w’è‚µ‚½‘Šiî•ñ‚ªAˆÈ‘O‚ÉŒÄ‚Ño‚³‚ê‚½ CredProtect ŠÖ”‚É‚æ‚Á‚ÄˆÃ†‰»‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B(Unicode)
-%group
-Win32 advapi32
 %prm
 pszProtectedCredentials, pProtectionType
 pszProtectedCredentials : [wstr] ƒeƒXƒg‚·‚é‘Šiî•ñ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3433,8 +3221,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CredMarshalCredentialW
 CredMarshalCredential ŠÖ”‚ÍA‘Šiî•ñ‚ğƒeƒLƒXƒg•¶š—ñ‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 CredType, Credential, MarshaledCredential
 CredType : [int] ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚é‘Šiî•ñ‚ÌŒ^B
@@ -3459,8 +3245,6 @@ CredMarshalCredential ŠÖ”‚ÍA‘Šiî•ñ‚ğƒeƒLƒXƒg•¶š—ñ‚É•ÏŠ·‚·‚éB(Unicode)
 %index
 CredProtectW
 w’è‚µ‚½‘Šiî•ñ‚ğAŒ»İ‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚Å‚Ì‚İ•œ†‚Å‚«‚é‚æ‚¤‚ÉˆÃ†‰»‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 fAsSelf, pszCredentials, cchCredentials, pszProtectedCredentials, pcchMaxChars, ProtectionType
 fAsSelf : [int] ‘Šiî•ñ‚ğŒ»İ‚ÌƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚ÅˆÃ†‰»‚·‚éê‡‚Í TRUE ‚ğw’è‚·‚éBŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚ÅˆÃ†‰»‚·‚éê‡‚Í FALSE ‚ğw’è‚·‚éB
@@ -3489,8 +3273,6 @@ CredProtect ŠÖ”‚Ìo—Í‚Í®‡«•ÛŒì‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßAo—Í‚ª‰ü•Ï‚³‚ê‚Ä‚à CredUnpro
 %index
 CredReadW
 ƒ†[ƒU[‚Ì‘Šiî•ñƒZƒbƒg‚©‚ç‘Šiî•ñ‚ğ“Ç‚İæ‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 TargetName, Type, Flags, Credential
 TargetName : [wstr] “Ç‚İæ‚é‘Šiî•ñ‚Ì–¼‘O‚ğŠi”[‚·‚éAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3519,8 +3301,6 @@ CRED_TYPE_DOMAIN_EXTENDED
 %index
 CredReadDomainCredentialsW
 ƒ†[ƒU[‚Ì‘Šiî•ñƒZƒbƒg‚©‚çƒhƒƒCƒ“‘Šiî•ñ‚ğ“Ç‚İæ‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 TargetInfo, Flags, Count, Credential
 TargetInfo : [var] ‘ÎÛƒT[ƒo‚ğ¯•Ê‚·‚éƒ^[ƒQƒbƒgî•ñB–½–¼ƒƒ“ƒo‚Ì‚¤‚¿­‚È‚­‚Æ‚à 1 ‚Â‚Í NULL ‚Å‚Í‚È‚¢•K—v‚ª‚ ‚éBNetbiosServerNameADnsServerNameANetbiosDomainNameADnsDomainNameADnsTreeName ‚Ì‚¢‚¸‚ê‚©B
@@ -3545,8 +3325,6 @@ Credential : [var] ‘Šiî•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BTargetInfo ‚Éˆê’v‚·‚é
 %index
 CredRenameW
 CredRename ‚ÍŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(Unicode)
-%group
-Win32 advapi32
 %prm
 OldTargetName, NewTargetName, Type, Flags
 OldTargetName : [wstr] –¼‘O‚ğ•ÏX‚·‚é‘Šiî•ñ‚ÌŒ»İ‚Ì–¼‘O‚ğŠi”[‚·‚éAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3572,8 +3350,6 @@ CredRename ‚ÍŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(Unicode)
 %index
 CredUnmarshalCredentialW
 CredUnmarshalCredential ŠÖ”‚ÍAƒ}[ƒVƒƒƒŠƒ“ƒOÏ‚İ‘Šiî•ñ‚ğŒ³‚ÌŒ`®‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 MarshaledCredential, CredType, Credential
 MarshaledCredential : [wstr] ƒ}[ƒVƒƒƒŠƒ“ƒOÏ‚İ‘Šiî•ñ‚ğŠi”[‚·‚éAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3598,8 +3374,6 @@ MarshaledCredential ‚ª—LŒø‚Å‚Í‚È‚¢B
 %index
 CredUnprotectW
 CredProtect ŠÖ”‚ğg—p‚µ‚ÄˆÈ‘O‚ÉˆÃ†‰»‚³‚ê‚½‘Šiî•ñ‚ğ•œ†‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 fAsSelf, pszProtectedCredentials, cchProtectedCredentials, pszCredentials, pcchMaxChars
 fAsSelf : [int] ‘Šiî•ñ‚ªŒ»İ‚ÌƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚ÅˆÃ†‰»‚³‚ê‚½‚±‚Æ‚ğw’è‚·‚éê‡‚Í TRUE ‚ğw’è‚·‚éBŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚ÅˆÃ†‰»‚³‚ê‚½ê‡‚Í FALSE ‚ğw’è‚·‚éB
@@ -3626,8 +3400,6 @@ CredProtect ŠÖ”‚ğg—p‚µ‚ÄˆÈ‘O‚ÉˆÃ†‰»‚³‚ê‚½‘Šiî•ñ‚ğ•œ†‚·‚éB(Unicode)
 %index
 CredWriteW
 ƒ†[ƒU[‚Ì‘Šiî•ñƒZƒbƒg‚ÉV‚µ‚¢‘Šiî•ñ‚ğì¬‚·‚é‚©AŠù‘¶‚Ì‘Šiî•ñ‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 Credential, Flags
 Credential : [var] ‘‚«‚Ş CREDENTIAL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3661,8 +3433,6 @@ CREDENTIAL \‘¢‘Ì‚Ì Type ƒƒ“ƒo‚ª CRED_TYPE_DOMAIN_EXTENDED
 %index
 CredWriteDomainCredentialsW
 ƒ†[ƒU[‚Ì‘Šiî•ñƒZƒbƒg‚ÉƒhƒƒCƒ“‘Šiî•ñ‚ğ‘‚«‚ŞB(Unicode)
-%group
-Win32 advapi32
 %prm
 TargetInfo, Credential, Flags
 TargetInfo : [var] ‘ÎÛƒT[ƒo‚ğ¯•Ê‚·‚éB–½–¼ƒƒ“ƒo‚Ì‚¤‚¿­‚È‚­‚Æ‚à 1 ‚Â‚Í NULL ˆÈŠO‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸ANetbiosServerNameADnsServerNameANetbiosDomainNameADnsDomainNameADnsTreeName ‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
@@ -3697,8 +3467,6 @@ CREDENTIAL \‘¢‘Ì‚Ì Type ƒƒ“ƒo‚ª CRED_TYPE_DOMAIN_EXTENDED
 %index
 CryptAcquireContextW
 “Á’è‚ÌˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) “à‚Ì“Á’è‚ÌƒL[ƒRƒ“ƒeƒi‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚·‚éB•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ÍA‘I‘ğ‚µ‚½ CSP ‚ğg—p‚·‚é CryptoAPI ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 phProv, szContainer, szProvider, dwProvType, dwFlags
 phProv : [var] CSP ‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^BCSP ‚Ìg—p‚ªI‚í‚Á‚½‚çACryptReleaseContext ŠÖ”‚ğŒÄ‚Ño‚µ‚Äƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
@@ -3738,8 +3506,6 @@ CRYPT_VERIFYCONTEXT ‚Éİ’è‚·‚é‚±‚Æ‚ğŒŸ“¢‚·‚×‚«‚Å‚ ‚éB
 %index
 CryptContextAddRef
 HCRYPTPROV ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ƒnƒ“ƒhƒ‹‚ÌQÆƒJƒEƒ“ƒg‚É 1 ‚ğ‰ÁZ‚·‚éB
-%group
-Win32 advapi32
 %prm
 hProv, pdwReserved, dwFlags
 hProv : [int] QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é HCRYPTPROV ƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ‚ÅŠù‚Éì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -3761,8 +3527,6 @@ CryptReleaseContext ŒÄ‚Ño‚µ‚ª•K—v‚Æ‚È‚é‚æ‚¤‚É‚·‚éB
 %index
 CryptCreateHash
 ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÌƒnƒbƒVƒ…ˆ—‚ğŠJn‚·‚éBˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚ÌƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ¶¬‚µAŒÄ‚Ño‚µŒ³‚É•Ô‚·B
-%group
-Win32 advapi32
 %prm
 hProv, Algid, hKey, dwFlags, phHash
 hProv : [int] CryptAcquireContext ‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ CSP ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3790,8 +3554,6 @@ CryptHashSessionKey
 %index
 CryptDecrypt
 CryptEncrypt ŠÖ”‚ÅˆÈ‘O‚ÉˆÃ†‰»‚³‚ê‚½ƒf[ƒ^‚ğ•œ†‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, hHash, Final, dwFlags, pbData, pdwDataLen
 hKey : [int] •œ†‚Ég—p‚·‚éŒ®‚Ö‚Ìƒnƒ“ƒhƒ‹BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğ CryptGenKey ‚Ü‚½‚Í CryptImportKey ŠÖ”‚ğg—p‚µ‚Äæ“¾‚·‚éB
@@ -3819,8 +3581,6 @@ CryptDecrypt ‚ÌÅŒã‚ÌŒÄ‚Ño‚µ‚Å‚Ì‚İ TRUE
 %index
 CryptDeriveKey
 Šî€ƒf[ƒ^‚©‚ç”h¶‚µ‚½ˆÃ†ƒZƒbƒVƒ‡ƒ“Œ®‚ğ¶¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 hProv, Algid, hBaseData, dwFlags, phKey
 hProv : [int] CryptAcquireContext ‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ CSP ‚Ì HCRYPTPROV ƒnƒ“ƒhƒ‹B
@@ -3850,8 +3610,6 @@ CryptSetKeyParam ŠÖ”‚ğg—p‚·‚éBCryptDeriveKey ŠÖ”‚ÍƒnƒbƒVƒ…‚ğŠm’è‚³‚¹‚éBCryp
 %index
 CryptDestroyHash
 hHash ƒpƒ‰ƒ[ƒ^‚ÅQÆ‚³‚ê‚éƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
-%group
-Win32 advapi32
 %prm
 hHash
 hHash : [int] ”jŠü‚·‚éƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3875,8 +3633,6 @@ CryptDestroyHash ‚ÌŒÄ‚Ño‚µ‚Í 1 ‘Î 1 ‚Å‘Î‰‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB“Á’è‚Ì CSP
 %index
 CryptDestroyKey
 hKey ƒpƒ‰ƒ[ƒ^‚ÅQÆ‚³‚ê‚éƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey
 hKey : [int] ”jŠü‚·‚éŒ®‚Ìƒnƒ“ƒhƒ‹B
@@ -3898,8 +3654,6 @@ CryptReleaseContext ŠÖ”‚Å‰ğ•ú‚·‚é‘O‚É”jŠü‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 CryptDuplicateHash
 •¡»‚ªs‚í‚ê‚½“_‚Ü‚Å‚ÌƒnƒbƒVƒ…‚Ì³Šm‚ÈƒRƒs[‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 hHash, pdwReserved, dwFlags, phHash
 hHash : [int] •¡»‚·‚éƒnƒbƒVƒ…‚Ìƒnƒ“ƒhƒ‹B
@@ -3927,8 +3681,6 @@ CryptDuplicateHash ‚ÍƒnƒbƒVƒ…‚Æ‚»‚Ì³Šm‚Èó‘Ô‚ÌƒRƒs[‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍAŒÄ‚
 %index
 CryptDuplicateKey
 Œ®‚Æ‚»‚Ìó‘Ô‚Ì³Šm‚ÈƒRƒs[‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, pdwReserved, dwFlags, phKey
 hKey : [int] •¡»‚·‚éŒ®‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3957,8 +3709,6 @@ CryptDuplicateKey ‚Åì¬‚³‚ê‚½Œ®‚ğ”jŠü‚·‚é‚É‚ÍACryptDestroyKey
 %index
 CryptEncrypt
 ƒf[ƒ^‚ğˆÃ†‰»‚·‚éBƒf[ƒ^‚ÌˆÃ†‰»‚Ég—p‚³‚ê‚éƒAƒ‹ƒSƒŠƒYƒ€‚ÍACSP ƒ‚ƒWƒ…[ƒ‹‚ª•Û‚·‚éŒ®‚Åw’è‚³‚êAhKey ƒpƒ‰ƒ[ƒ^‚©‚çQÆ‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 hKey, hHash, Final, dwFlags, pbData, pdwDataLen, dwBufLen
 hKey : [int] ˆÃ†‰»Œ®‚Ö‚Ìƒnƒ“ƒhƒ‹BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğ CryptGenKey ‚Ü‚½‚Í CryptImportKey ŠÖ”‚ğg—p‚µ‚Äæ“¾‚·‚éBŒ®‚ªg—p‚·‚éˆÃ†‰»ƒAƒ‹ƒSƒŠƒYƒ€‚ğw’è‚·‚éB
@@ -3989,8 +3739,6 @@ CryptEncrypt ‚ÌÅŒã‚ÌŒÄ‚Ño‚µ‚Å TRUE
 %index
 CryptEnumProviderTypesW
 ƒRƒ“ƒsƒ…[ƒ^‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìí—Ş‚ğAÅ‰‚Ì‚à‚Ì‚©‚ç‡‚Éæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 dwIndex, pdwReserved, dwFlags, pdwProvType, szTypeName, pcbTypeName
 dwIndex : [int] Ÿ‚É—ñ‹“‚·‚éƒvƒƒoƒCƒ_‚Ìí—Ş‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -4016,8 +3764,6 @@ CryptEnumProviders ‚ğg—p‚µ‚Ä—ñ‹“‚Å‚«‚éB
 %index
 CryptEnumProvidersW
 d—v: ‚±‚Ì API ‚Í”ñ„§‚Å‚ ‚éB(CryptEnumProvidersW)
-%group
-Win32 advapi32
 %prm
 dwIndex, pdwReserved, dwFlags, pdwProvType, szProvName, pcbProvName
 dwIndex : [int] Ÿ‚É—ñ‹“‚·‚éƒvƒƒoƒCƒ_‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -4043,8 +3789,6 @@ pcbProvName : [var] pszProvName ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğ
 %index
 CryptExportKey
 ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚©‚çˆÃ†Œ®‚Ü‚½‚ÍŒ®ƒyƒA‚ğˆÀ‘S‚ÉƒGƒNƒXƒ|[ƒg‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, hExpKey, dwBlobType, dwFlags, pbData, pdwDataLen
 hKey : [int] ƒGƒNƒXƒ|[ƒg‚·‚éŒ®‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4071,8 +3815,6 @@ PLAINTEXTKEYBLOB ‚ğg—p‚·‚é DES
 %index
 CryptGenKey
 ƒ‰ƒ“ƒ_ƒ€‚ÈˆÃ†ƒZƒbƒVƒ‡ƒ“Œ®‚Ü‚½‚ÍŒöŠJ/”é–§Œ®ƒyƒA‚ğ¶¬‚·‚éBŒ®‚Ü‚½‚ÍŒ®ƒyƒA‚Ö‚Ìƒnƒ“ƒhƒ‹‚ª phKey ‚É•Ô‚³‚ê‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚ÍAŒ®ƒnƒ“ƒhƒ‹‚ğ•K—v‚Æ‚·‚é”CˆÓ‚Ì CryptoAPI ŠÖ”‚Åg—p‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 hProv, Algid, dwFlags, phKey
 hProv : [int] CryptAcquireContext ‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4098,8 +3840,6 @@ CryptSetKeyParam ŠÖ”‚ğg—p‚·‚éB“KØ‚ÈŒ®’·‚ğ‘I‘ğ‚·‚é‚É‚ÍAŸ‚Ì•û–@‚ª„§‚³‚ê‚é
 %index
 CryptGenRandom
 ƒoƒbƒtƒ@‚ğˆÃ†˜_“I‚É—”‚ÈƒoƒCƒg—ñ‚Å–‚½‚·B
-%group
-Win32 advapi32
 %prm
 hProv, dwLen, pbBuffer
 hProv : [int] CryptAcquireContext ‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B
@@ -4136,8 +3876,6 @@ Service Pack 1 (SP1) ˆÈ~‚Å‚ÍANIST Special Publication 800-90 ‚Å‹K’è‚³‚ê‚½ AES
 %index
 CryptGetDefaultProviderW
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ü‚½‚ÍŒ»İ‚Ìƒ†[ƒU[‚É‘Î‚·‚éAw’è‚µ‚½ƒvƒƒoƒCƒ_í•Ê‚ÌŠù’è‚ÌˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 dwProvType, pdwReserved, dwFlags, pszProvName, pcbProvName
 dwProvType : [int] Šù’è‚Ì CSP –¼‚ğŒ©‚Â‚¯‚éƒvƒƒoƒCƒ_‚Ìí—ŞB’è‹`‚³‚ê‚Ä‚¢‚éƒvƒƒoƒCƒ_‚Ìí—Ş‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
@@ -4163,8 +3901,6 @@ pcbProvName : [var] pszProvName ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğ
 %index
 CryptGetHashParam
 ƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ì“®ì‚ğ§Œä‚·‚éƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hHash, dwParam, pbData, pdwDataLen, dwFlags
 hHash : [int] ƒNƒGƒŠ‘ÎÛ‚ÌƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4185,8 +3921,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BuNTEv‚Ån‚Ü‚éƒGƒ‰[ƒR[ƒh‚Íg—p’†‚Ì“Á’è‚Ì CSP
 %index
 CryptGetKeyParam
 Œ®‚Ì“®ì‚ğ§Œä‚·‚éƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, dwParam, pbData, pdwDataLen, dwFlags
 hKey : [int] ƒNƒGƒŠ‘ÎÛ‚ÌŒ®‚Ìƒnƒ“ƒhƒ‹B
@@ -4206,8 +3940,6 @@ dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ[ƒ‚Éİ’è‚µ‚È
 %index
 CryptGetProvParam
 ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ì“®ì‚ğ§Œä‚·‚éƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hProv, dwParam, pbData, pdwDataLen, dwFlags
 hProv : [int] ƒNƒGƒŠ‘ÎÛ‚Æ‚È‚é CSP ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4233,8 +3965,6 @@ dwFlags : [int] dwParam ‚ª PP_KEYSET_SEC_DESCR ‚Ìê‡AŒ®‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒL[ƒRƒ
 %index
 CryptGetUserKey
 ƒ†[ƒU[‚Ì 2 ‚Â‚ÌŒöŠJ/”é–§Œ®ƒyƒA‚Ì‚¢‚¸‚ê‚©‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hProv, dwKeySpec, phUserKey
 hProv : [int] CryptAcquireContext ‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ì HCRYPTPROV ƒnƒ“ƒhƒ‹B
@@ -4253,8 +3983,6 @@ phUserKey : [var] æ“¾‚³‚ê‚½Œ®‚Ì HCRYPTKEY ƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒ®‚Ìg—p‚ªI‚í‚
 %index
 CryptHashData
 w’è‚µ‚½ƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Éƒf[ƒ^‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 advapi32
 %prm
 hHash, pbData, dwDataLen, dwFlags
 hHash : [int] ƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4274,8 +4002,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BuNTEv‚Ån‚Ü‚éƒGƒ‰[ƒR[ƒh‚Íg—p’†‚Ì“Á’è‚Ì CSP
 %index
 CryptHashSessionKey
 ƒZƒbƒVƒ‡ƒ“Œ®ƒIƒuƒWƒFƒNƒg‚ÌˆÃ†ƒnƒbƒVƒ…‚ğŒvZ‚·‚éB
-%group
-Win32 advapi32
 %prm
 hHash, hKey, dwFlags
 hHash : [int] ƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4294,8 +4020,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BuNTEv‚Ån‚Ü‚éƒGƒ‰[ƒR[ƒh‚Íg—p’†‚Ì“Á’è‚Ì CSP
 %index
 CryptImportKey
 Œ® BLOB ‚©‚çˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚ÉˆÃ†Œ®‚ğ“]‘—‚·‚éB
-%group
-Win32 advapi32
 %prm
 hProv, pbData, dwDataLen, hPubKey, dwFlags, phKey
 hProv : [int] CryptAcquireContext ŠÖ”‚Åæ“¾‚µ‚½ CSP ‚Ìƒnƒ“ƒhƒ‹B
@@ -4327,8 +4051,6 @@ Importing a Plaintext Key ‚ğQÆBŸ‚Ì—á‚ÍAƒwƒbƒ_[ƒtƒB[ƒ‹ƒh‚Ìİ’è•û–@‚ğ¦‚·B
 %index
 CryptReleaseContext
 ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚ÆƒL[ƒRƒ“ƒeƒi‚Ìƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 hProv, dwFlags
 hProv : [int] CryptAcquireContext ‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ìƒnƒ“ƒhƒ‹B
@@ -4351,8 +4073,6 @@ dwFlags : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BdwFlag
 %index
 CryptSetHashParam
 ƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ì“®ì‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚éB‰ŠúƒnƒbƒVƒ…“à—e‚Ìİ’è‚â“Á’è‚ÌƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€‚Ì‘I‘ğ‚È‚Ç‚ğs‚¤B
-%group
-Win32 advapi32
 %prm
 hHash, dwParam, pbData, dwFlags
 hHash : [int] ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4375,8 +4095,6 @@ dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ[ƒ‚Éİ’è‚µ‚È
 %index
 CryptSetKeyParam
 ƒZƒbƒVƒ‡ƒ“Œ®‚Ì“®ì‚Ì‚³‚Ü‚´‚Ü‚È‘¤–Ê‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, dwParam, pbData, dwFlags
 hKey : [int] ’l‚ğİ’è‚·‚éŒ®‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4402,8 +4120,6 @@ KP_QAKP_PA‚Ü‚½‚Í KP_X ƒpƒ‰ƒ[ƒ^‚ğ PREGEN Diffie-Hellman ‚Ü‚½‚Í DSS
 %index
 CryptSetProvParam
 ˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚Ì“®ì‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚éB‚±‚ÌŠÖ”‚ÍACSP ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒL[ƒRƒ“ƒeƒi‚ÉƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğİ’è‚µ‚ÄA‚»‚ÌƒL[ƒRƒ“ƒeƒi“à‚Ì”é–§Œ®‚Ö‚ÌƒAƒNƒZƒX‚ğ§Œä‚·‚é‚½‚ß‚É‚æ‚­g—p‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 hProv, dwParam, pbData, dwFlags
 hProv : [int] ’l‚ğİ’è‚·‚é CSP ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CryptAcquireContext ŠÖ”‚ğg—p‚µ‚ÄŠù‚Éì¬‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4424,8 +4140,6 @@ dwFlags : [int] dwParam ‚ª PP_KEYSET_SEC_DESCR ‚ğŠÜ‚Şê‡AdwFlags ‚É‚Í Platform
 %index
 CryptSetProviderW
 Œ»İ‚Ìƒ†[ƒU[‚ÌŠù’è‚ÌˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚ğw’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pszProvName, dwProvType
 pszProvName : [wstr] V‚µ‚¢Šù’è‚Ì CSP ‚Ì–¼‘OBw’è‚µ‚½ CSP ‚ÍƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B—˜—p‰Â”\‚ÈˆÃ†‰»ƒvƒƒoƒCƒ_‚Ìˆê——‚É‚Â‚¢‚Ä‚Í Cryptographic Provider Names ‚ğQÆB
@@ -4454,8 +4168,6 @@ CSP ‚ğ©—R‚É‘I‘ğ‚Å‚«‚éBCryptSetProvider
 %index
 CryptSetProviderExW
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ü‚½‚ÍŒ»İ‚Ìƒ†[ƒU[‚É‘Î‚µ‚ÄAw’è‚µ‚½ƒvƒƒoƒCƒ_í•Ê‚ÌŠù’è‚ÌˆÃ†‰»ƒT[ƒrƒXƒvƒƒoƒCƒ_ (CSP) ‚ğw’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pszProvName, dwProvType, pdwReserved, dwFlags
 pszProvName : [wstr] V‚µ‚¢Šù’è‚Ì CSP ‚Ì–¼‘OBƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é CSP ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B—˜—p‰Â”\‚ÈˆÃ†‰»ƒvƒƒoƒCƒ_‚Ìˆê——‚É‚Â‚¢‚Ä‚Í Cryptographic Provider Names ‚ğQÆB
@@ -4486,8 +4198,6 @@ dwFlags : [int] ˆÈ‰º‚Ìƒtƒ‰ƒO’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 CryptSignHashW
 ƒf[ƒ^‚É–¼‚·‚éB(CryptSignHashW)
-%group
-Win32 advapi32
 %prm
 hHash, dwKeySpec, szDescription, dwFlags, pbSignature, pdwSigLen
 hHash : [int] –¼‚·‚éƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4522,8 +4232,6 @@ OID ‚É©“®“I‚Éİ’è‚³‚ê‚éBCRYPT_NOHASHOID ƒtƒ‰ƒO‚ğg—p‚·‚é‚ÆA‚±‚Ì OID
 %index
 CryptVerifySignatureW
 ƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ì–¼‚ğŒŸØ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hHash, pbSignature, dwSigLen, hPubKey, szDescription, dwFlags
 hHash : [int] ŒŸØ‚·‚éƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4558,8 +4266,6 @@ NTE_BAD_SIGNATURE ‚ğ•Ô‚·B‚±‚ê‚ÍƒlƒCƒeƒBƒu Win32 API ‚Æ .NET Framework API
 %index
 DecryptFileW
 ˆÃ†‰»‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğ•œ†‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpFileName, dwReserved
 lpFileName : [wstr] •œ†‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OBŒÄ‚Ño‚µ‘¤‚Í FILE_READ_DATAAFILE_WRITE_DATAAFILE_READ_ATTRIBUTESAFILE_WRITE_ATTRIBUTESASYNCHRONIZE ‚ÌŠeƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -4585,8 +4291,6 @@ Server 2012 ˆÈ~‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 DeleteAce
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚©‚çƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğíœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceIndex
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BdwAceIndex ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ ACE ‚ª‚±‚Ì ACL ‚©‚çíœ‚³‚ê‚éB
@@ -4605,8 +4309,6 @@ dwAceIndex : [int] íœ‚·‚é ACEB’lƒ[ƒ‚Í ACL ‚ÌÅ‰‚Ì ACEA1 ‚Í 2 ”Ô–Ú‚Ì ACE ‚É
 %index
 DeleteService
 w’è‚µ‚½ƒT[ƒrƒX‚ğƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚©‚çíœ‚·‚é‚æ‚¤‚Éƒ}[ƒN‚·‚éB
-%group
-Win32 advapi32
 %prm
 hService
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êADELETE ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Service Security and Access Rights ‚ğQÆB
@@ -4630,8 +4332,6 @@ CloseServiceHandle ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å•Â‚¶‚ç‚êA‚©‚ÂƒT[ƒrƒX‚ªÀs’†‚Å‚È‚¢ó‘Ô‚É‚È‚
 %index
 DeregisterEventSource
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚ğ•Â‚¶‚éB(DeregisterEventSource)
-%group
-Win32 advapi32
 %prm
 hEventLog
 hEventLog : [intptr] ƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BRegisterEventSource ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -4646,8 +4346,6 @@ hEventLog : [intptr] ƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BRegisterEventSource ŠÖ”‚ª‚±‚Ìƒnƒ
 %index
 DestroyPrivateObjectSecurity
 ƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğíœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 ObjectDescriptor
 ObjectDescriptor : [var] íœ‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Í CreatePrivateObjectSecurity ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4662,8 +4360,6 @@ ObjectDescriptor : [var] íœ‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒC
 %index
 DuplicateEncryptionInfoFile
 ‚ ‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚©‚ç•Ê‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚É EFS ƒƒ^ƒf[ƒ^‚ğƒRƒs[‚·‚éB
-%group
-Win32 advapi32
 %prm
 SrcFileName, DstFileName, dwCreationDistribution, dwAttributes, lpSecurityAttributes
 SrcFileName : [wstr] EFS ƒƒ^ƒf[ƒ^‚ÌƒRƒs[Œ³‚Æ‚È‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OB‚±‚ÌƒRƒs[Œ³ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÍˆÃ†‰»‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -4691,8 +4387,6 @@ WinError.h ƒwƒbƒ_[ƒtƒ@ƒCƒ‹‚ğQÆB
 %index
 DuplicateToken
 Šù‘¶‚ÌƒAƒNƒZƒXƒg[ƒNƒ“‚ğ•¡»‚µ‚ÄV‚µ‚¢ƒAƒNƒZƒXƒg[ƒNƒ“‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 ExistingTokenHandle, ImpersonationLevel, DuplicateTokenHandle
 ExistingTokenHandle : [intptr] TOKEN_DUPLICATE ƒAƒNƒZƒX‚ÅŠJ‚¢‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4715,8 +4409,6 @@ CreateProcessAsUser ŠÖ”‚Å‚Íg—p‚Å‚«‚È‚¢BCreateProcessAsUser
 %index
 DuplicateTokenEx
 Šù‘¶‚Ìƒg[ƒNƒ“‚ğ•¡»‚µ‚ÄV‚µ‚¢ƒAƒNƒZƒXƒg[ƒNƒ“‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍAƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ü‚½‚Í‹U‘•ƒg[ƒNƒ“‚Ì‚¢‚¸‚ê‚©‚ğì¬‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 hExistingToken, dwDesiredAccess, lpTokenAttributes, ImpersonationLevel, TokenType, phNewToken
 hExistingToken : [intptr] TOKEN_DUPLICATE ƒAƒNƒZƒX‚ÅŠJ‚¢‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4746,8 +4438,6 @@ DuplicateTokenEx ‚ÌŒÄ‚Ño‚µ‚Åw’è‚µATokenPrimary ƒtƒ‰ƒO‚ğw’è‚·‚éBDuplicateTok
 %index
 EnableTrace
 ƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“ ƒRƒ“ƒgƒ[ƒ‰‚ÍAEnableTrace ‚ğŒÄ‚Ño‚µ‚Ä ETW ƒCƒxƒ“ƒgƒvƒƒoƒCƒ_‚ªƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ÉƒCƒxƒ“ƒg‚ğ‚Ç‚Ì‚æ‚¤‚ÉƒƒO‹L˜^‚·‚é‚©‚ğ\¬‚·‚éBEnableTraceEx2 ŠÖ”‚ª‚±‚ÌŠÖ”‚É‘ã‚í‚éB
-%group
-Win32 advapi32
 %prm
 Enable, EnableFlag, EnableLevel, ControlGuid, TraceHandle
 Enable : [int] ƒvƒƒoƒCƒ_‚©‚ç‚ÌƒCƒxƒ“ƒgóM‚ğ—LŒø‰»‚·‚éê‡A‚Ü‚½‚ÍƒvƒƒoƒCƒ_‚©‚ç‚ÌƒCƒxƒ“ƒgóM‚Ég—p‚·‚éİ’è‚ğ’²®‚·‚éê‡ (‚½‚Æ‚¦‚ÎƒŒƒxƒ‹‚âƒL[ƒ[ƒh‚ğ•ÏX‚·‚éê‡) ‚Í 1 ‚ğİ’è‚·‚éBƒvƒƒoƒCƒ_‚©‚ç‚ÌƒCƒxƒ“ƒgóM‚ğ–³Œø‰»‚·‚éê‡‚Í 0 ‚ğİ’è‚·‚éB
@@ -4789,8 +4479,6 @@ Service Pack 4
 %index
 EnableTraceEx
 ƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“ ƒRƒ“ƒgƒ[ƒ‰‚ÍAEnableTraceEx ‚ğŒÄ‚Ño‚µ‚Ä ETW ƒCƒxƒ“ƒgƒvƒƒoƒCƒ_‚ªƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ÉƒCƒxƒ“ƒg‚ğ‚Ç‚Ì‚æ‚¤‚ÉƒƒO‹L˜^‚·‚é‚©‚ğ\¬‚·‚éBEnableTraceEx2 ŠÖ”‚ª‚±‚ÌŠÖ”‚É‘ã‚í‚éB
-%group
-Win32 advapi32
 %prm
 ProviderId, SourceId, TraceHandle, IsEnabled, Level, MatchAnyKeyword, MatchAllKeyword, EnableProperty, EnableFilterDesc
 ProviderId : [var] \¬‚µ‚½‚¢ƒCƒxƒ“ƒgƒvƒƒoƒCƒ_‚ÌƒvƒƒoƒCƒ_ ID (§Œä GUID)B
@@ -4834,8 +4522,6 @@ codes](/windows/win32/debug/system-error-codes)
 %index
 EnableTraceEx2
 ƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“ ƒRƒ“ƒgƒ[ƒ‰‚ÍAEnableTraceEx2 ‚ğŒÄ‚Ño‚µ‚Ä ETW ƒCƒxƒ“ƒgƒvƒƒoƒCƒ_‚ªƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ÉƒCƒxƒ“ƒg‚ğ‚Ç‚Ì‚æ‚¤‚ÉƒƒO‹L˜^‚·‚é‚©‚ğ\¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 TraceHandle, ProviderId, ControlCode, Level, MatchAnyKeyword, MatchAllKeyword, Timeout, EnableParameters
 TraceHandle : [int] ƒvƒƒoƒCƒ_‚ğ\¬‚·‚éƒCƒxƒ“ƒgƒgƒŒ[ƒVƒ“ƒOƒZƒbƒVƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹BV‚µ‚¢ƒgƒŒ[ƒX‚ªŠJn‚³‚ê‚½‚Æ‚«A[StartTrace](/windows/win32/api/evntrace/nf-evntrace-starttracea) ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BŠù‘¶‚ÌƒgƒŒ[ƒX‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚ÍA[ControlTrace](/windows/win32/api/evntrace/nf-evntrace-controltracew) ‚ğg—p‚µ‚ÄƒgƒŒ[ƒX–¼‚ÉŠî‚Ã‚¢‚ÄƒgƒŒ[ƒXƒvƒƒpƒeƒB‚ğƒNƒGƒŠ‚µA•Ô‚³‚ê‚½ `EVENT_TRACE_PROPERTIES` ƒf[ƒ^‚Ì **Wnode.HistoricalContext** ƒtƒB[ƒ‹ƒh‚©‚çƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
@@ -4900,8 +4586,6 @@ GUIDAƒŒƒxƒ‹AƒL[ƒ[ƒh‚Ìî•ñ‚È‚µ‚ÉƒCƒxƒ“ƒg‚ª“Á’è‚ÌƒZƒbƒVƒ‡ƒ“‚É’¼Ú‘—M‚³‚ê‚é‚½
 %index
 EncryptFileW
 ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğˆÃ†‰»‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpFileName
 lpFileName : [wstr] ˆÃ†‰»‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OBŒÄ‚Ño‚µ‘¤‚Í FILE_READ_DATAAFILE_WRITE_DATAAFILE_READ_ATTRIBUTESAFILE_WRITE_ATTRIBUTESASYNCHRONIZE ‚ÌŠeƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -4927,8 +4611,6 @@ DecryptFile ŠÖ”‚ğg—p‚·‚éBWindows 8AWindows Server 2012
 %index
 EncryptionDisable
 w’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚Æ‚»‚Ì’†‚Ìƒtƒ@ƒCƒ‹‚ÌˆÃ†‰»‚ğ–³Œø‰»‚Ü‚½‚Í—LŒø‰»‚·‚éB
-%group
-Win32 advapi32
 %prm
 DirPath, Disable
 DirPath : [wstr] ˆÃ†‰»‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OB
@@ -4955,8 +4637,6 @@ TRUE ‚ğ“n‚µ‚½ê‡AEncryptionDisable ‚Í•K—v‚É‰‚¶‚ÄƒfƒBƒŒƒNƒgƒŠ“à‚Ì Desktop.ini
 %index
 EnumDependentServicesW
 w’è‚µ‚½ƒT[ƒrƒX‚ÉˆË‘¶‚·‚éŠeƒT[ƒrƒX‚Ì–¼‘O‚Æó‘Ô‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hService, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êASERVICE_ENUMERATE_DEPENDENTS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Service Security and Access Rights ‚ğQÆB
@@ -4982,8 +4662,6 @@ lpServicesReturned : [var] •Ô‚³‚ê‚½ƒT[ƒrƒXƒGƒ“ƒgƒŠ‚Ì”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 EnumDynamicTimeZoneInformation
 ƒŒƒWƒXƒgƒŠ‚ÉŠi”[‚³‚ê‚Ä‚¢‚é DYNAMIC_TIME_ZONE_INFORMATION ƒGƒ“ƒgƒŠ‚ğ—ñ‹“‚·‚éB
-%group
-Win32 advapi32
 %prm
 dwIndex, lpTimeZoneInformation
 dwIndex : [int] DYNAMIC_TIME_ZONE_INFORMATION ƒGƒ“ƒgƒŠ‚ÌˆÊ’u‚ğ•\‚·ƒCƒ“ƒfƒbƒNƒX’lB
@@ -5007,8 +4685,6 @@ lpTimeZoneInformation : [var] ƒ^ƒCƒ€ƒ][ƒ“‚Æ“®“I‚È‰ÄŠÔ‚Ìİ’è‚ğw’è‚·‚éB
 %index
 EnumServicesStatusW
 w’è‚µ‚½ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX“à‚ÌƒT[ƒrƒX‚ğ—ñ‹“‚·‚éBŠeƒT[ƒrƒX‚Ì–¼‘O‚Æó‘Ô‚ª’ñ‹Ÿ‚³‚ê‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hSCManager, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle
 hSCManager : [intptr] ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êASC_MANAGER_ENUMERATE_SERVICE ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Service Security and Access Rights ‚ğQÆB
@@ -5039,8 +4715,6 @@ lpResumeHandle : [var] “ü—Í‚É—ñ‹“‚ÌŠJn“_‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚
 %index
 EnumServicesStatusExW
 w’è‚µ‚½ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX“à‚ÌƒT[ƒrƒX‚ğ—ñ‹“‚·‚éBŠeƒT[ƒrƒX‚Ì–¼‘O‚Æó‘Ô‚ª’ñ‹Ÿ‚³‚ê‚é‚Æ‚Æ‚à‚ÉAw’è‚µ‚½î•ñƒŒƒxƒ‹‚ÉŠî‚Ã‚­’Ç‰Áƒf[ƒ^‚ª’ñ‹Ÿ‚³‚ê‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hSCManager, InfoLevel, dwServiceType, dwServiceState, lpServices, cbBufSize, pcbBytesNeeded, lpServicesReturned, lpResumeHandle, pszGroupName
 hSCManager : [intptr] ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êASC_MANAGER_ENUMERATE_SERVICE ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Service Security and Access Rights ‚ğQÆB
@@ -5075,8 +4749,6 @@ pszGroupName : [wstr] “Ç‚İ‚İ‡ƒOƒ‹[ƒv–¼B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª•¶š—ñ‚Ìê‡A—ñ‹“‚³
 %index
 EnumerateTraceGuids
 Œ»İƒRƒ“ƒsƒ…[ƒ^‚Å“®ì‚µ‚Ä‚¢‚éƒCƒxƒ“ƒg ƒgƒŒ[ƒX ƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBEnumerateTraceGuidsEx ŠÖ”‚ª‚±‚ÌŠÖ”‚É‘ã‚í‚éB
-%group
-Win32 advapi32
 %prm
 GuidPropertiesArray, PropertyArrayCount, GuidCount
 GuidPropertiesArray : [var] [TRACE_GUID_PROPERTIES](/windows/win32/api/evntrace/ns-evntrace-trace_guid_properties) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñB”z—ñ“à‚ÌŠeƒ|ƒCƒ“ƒ^‚ÍA**TRACE_GUID_PROPERTIES** \‘¢‘Ì‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È—Ìˆæ‚ğ‚Âƒoƒbƒtƒ@‚ğw‚·•K—v‚ª‚ ‚éB
@@ -5113,8 +4785,6 @@ SystemTraceProvider ‚ÌƒvƒƒoƒCƒ_‚ÍŠÜ‚Ü‚ê‚È‚¢B
 %index
 EnumerateTraceGuidsEx
 Œ»İƒRƒ“ƒsƒ…[ƒ^‚Å“®ì‚µ‚Ä‚¢‚éƒCƒxƒ“ƒg ƒgƒŒ[ƒX ƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 TraceQueryInfoClass, InBuffer, InBufferSize, OutBuffer, OutBufferSize, ReturnLength
 TraceQueryInfoClass : [int] •Ô‚·î•ñ‚Ìí—Ş‚ğŒˆ’è‚·‚éBw’è‰Â”\‚È’l‚É‚Â‚¢‚Ä‚Í [TRACE_QUERY_INFO_CLASS](/windows/win32/api/evntrace/ne-evntrace-trace_query_info_class) —ñ‹“‚ğQÆB
@@ -5154,8 +4824,6 @@ codes](/windows/win32/debug/system-error-codes)
 %index
 EqualDomainSid
 2 ‚Â‚Ì SID ‚ª“¯‚¶ƒhƒƒCƒ“‚Ì‚à‚Ì‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSid1, pSid2, pfEqual
 pSid1 : [int] ”äŠr‚·‚é 2 ‚Â‚Ì SID ‚Ì‚¤‚¿‚Ìˆê•û‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì SID ‚ÍƒAƒJƒEƒ“ƒg ƒhƒƒCƒ“ SID ‚Ü‚½‚Í BUILTIN SID ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -5175,8 +4843,6 @@ BUILTIN SID ‚Å‚Í‚È‚¢ê‡AGetLastError ‚Í ERROR_NON_DOMAIN_SID ‚ğ•Ô‚·B
 %index
 EqualPrefixSid
 2 ‚Â‚ÌƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ÌƒvƒŒƒtƒBƒbƒNƒX’l‚ª“™‚µ‚¢‚©‚Ç‚¤‚©‚ğŒŸ¸‚·‚éBSID ƒvƒŒƒtƒBƒbƒNƒX‚Æ‚ÍAÅŒã‚ÌƒTƒu‹@ŠÖ’l‚ğœ‚­ SID ‘S‘Ì‚Ì‚±‚Æ‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 pSid1, pSid2
 pSid1 : [int] ”äŠr‚·‚éÅ‰‚Ì SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Í—LŒø‚Å‚ ‚é‚Æ‰¼’è‚³‚ê‚éB
@@ -5208,8 +4874,6 @@ RemoteDomain ‚Ì SID ‚Æ”äŠr‚Å‚«‚éBSID
 %index
 EqualSid
 2 ‚Â‚ÌƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚Ì’l‚ª“™‚µ‚¢‚©‚Ç‚¤‚©‚ğŒŸ¸‚·‚éB2 ‚Â‚Ì SID ‚Í“™‚µ‚¢‚Æ”»’f‚³‚ê‚é‚½‚ß‚É‚ÍŠ®‘S‚Éˆê’v‚·‚é•K—v‚ª‚ ‚éB
-%group
-Win32 advapi32
 %prm
 pSid1, pSid2
 pSid1 : [int] ”äŠr‚·‚éÅ‰‚Ì SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Í—LŒø‚Å‚ ‚é‚Æ‰¼’è‚³‚ê‚éB
@@ -5226,8 +4890,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B‚¢‚¸‚ê‚©‚Ì SID \‘¢‘Ì‚ª—LŒø‚Å‚È‚¢ê‡A–ß‚è’l‚Í–¢’è‹`‚Å
 %index
 EventAccessControl
 w’è‚µ‚½ƒvƒƒoƒCƒ_‚Ü‚½‚ÍƒZƒbƒVƒ‡ƒ“‚ÌŒ ŒÀ‚ğ’Ç‰Á‚Ü‚½‚Í•ÏX‚·‚éB
-%group
-Win32 advapi32
 %prm
 Guid, Operation, Sid, Rights, AllowOrDeny
 Guid : [var] Œ ŒÀ‚ğ’Ç‰Á‚Ü‚½‚Í•ÏX‚·‚éƒvƒƒoƒCƒ_‚Ü‚½‚ÍƒZƒbƒVƒ‡ƒ“‚ğˆêˆÓ‚É¯•Ê‚·‚é GUIDB
@@ -5265,8 +4927,6 @@ TRACELOG_ACCESS_REALTIME Œ ŒÀ‚ğ•t—^‚·‚é‚©Aƒ†[ƒU[‚ª Performance Log Users
 %index
 EventAccessQuery
 w’è‚µ‚½ƒRƒ“ƒgƒ[ƒ‰‚Ü‚½‚ÍƒvƒƒoƒCƒ_‚ÌŒ ŒÀ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 Guid, Buffer, BufferSize
 Guid : [var] ƒvƒƒoƒCƒ_‚Ü‚½‚ÍƒZƒbƒVƒ‡ƒ“‚ğˆêˆÓ‚É¯•Ê‚·‚é GUIDB
@@ -5290,8 +4950,6 @@ ACE \‘¢‘Ì‚ğQÆB
 %index
 EventAccessRemove
 w’è‚µ‚½ƒvƒƒoƒCƒ_‚Ü‚½‚ÍƒZƒbƒVƒ‡ƒ“‚É‚Â‚¢‚ÄƒŒƒWƒXƒgƒŠ‚É’è‹`‚³‚ê‚½Œ ŒÀ‚ğíœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 Guid
 Guid : [var] ƒŒƒWƒXƒgƒŠ‚©‚çŒ ŒÀ‚ğíœ‚·‚éƒvƒƒoƒCƒ_‚Ü‚½‚ÍƒZƒbƒVƒ‡ƒ“‚ğˆêˆÓ‚É¯•Ê‚·‚é GUIDB
@@ -5309,8 +4967,6 @@ EventAccessControl ‚ğQÆB
 %index
 FileEncryptionStatusW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÌˆÃ†‰»ó‘Ô‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpFileName, lpStatus
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -5330,8 +4986,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚
 %index
 FindFirstFreeAce
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ÌÅ‰‚Ì‹ó‚«ƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, pAce
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5347,8 +5001,6 @@ pAce : [var] ŠÖ”‚ª–ß‚Á‚½‚Æ‚«‚ÉAì¬‚³‚ê‚½ ACL ‚ÌÅ‰‚Ì‹ó‚«ˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒA
 %index
 FlushTraceW
 FlushTraceW (Unicode) ŠÖ” (evntrace.h) ‚ÍAw’è‚µ‚½ƒZƒbƒVƒ‡ƒ“‚É‘Î‚µ‚ÄƒCƒxƒ“ƒgƒgƒŒ[ƒVƒ“ƒOƒZƒbƒVƒ‡ƒ“‚ªƒoƒbƒtƒ@ƒŠƒ“ƒO‚³‚ê‚½ƒCƒxƒ“ƒg‚ğ’¼‚¿‚É”zM‚·‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 advapi32
 %prm
 TraceHandle, InstanceName, Properties
 TraceHandle : [int] ƒtƒ‰ƒbƒVƒ…‚·‚éƒCƒxƒ“ƒgƒgƒŒ[ƒVƒ“ƒOƒZƒbƒVƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í 0B_InstanceName_ ‚ª **NULL** ‚Ìê‡Aƒ[ƒˆÈŠO‚Ì _TraceHandle_ ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í _InstanceName_ ‚ª **NULL** ‚Ìê‡‚É‚Ì‚İg—p‚³‚ê‚éBƒnƒ“ƒhƒ‹‚Í [StartTrace](/windows/win32/api/evntrace/nf-evntrace-starttracew) ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -5394,8 +5046,6 @@ Users ƒOƒ‹[ƒv‚É’Ç‰Á‚·‚éB**Windows XP ‚Æ Windows 2000:** ’N‚Å‚àƒgƒŒ[ƒXƒZƒbƒVƒ‡
 %index
 FreeEncryptedFileMetadata
 (no summary)
-%group
-Win32 advapi32
 %prm
 pbMetadata
 pbMetadata : [var] 
@@ -5406,8 +5056,6 @@ pbMetadata : [var]
 %index
 FreeEncryptionCertificateHashList
 Ø–¾‘ƒnƒbƒVƒ…ƒŠƒXƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 pUsers
 pUsers : [var] QueryUsersOnEncryptedFile ‚Ü‚½‚Í QueryRecoveryAgentsOnEncryptedFile ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½Ø–¾‘ƒnƒbƒVƒ…ƒŠƒXƒg\‘¢‘Ì ENCRYPTION_CERTIFICATE_HASH_LIST ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5421,8 +5069,6 @@ ReFS: ‚±‚ÌŠÖ”‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
 %index
 FreeInheritedFromArray
 GetInheritanceSource ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 pInheritArray, AceCnt, pfnArray
 pInheritArray : [var] GetInheritanceSource ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ INHERITED_FROM \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5438,8 +5084,6 @@ GetInheritanceSource ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
 %index
 GetAce
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) “à‚ÌƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, dwAceIndex, pAce
 pAcl : [var] æ“¾‚·‚é ACE ‚ğŠÜ‚Ş ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5455,8 +5099,6 @@ pAce : [var] ŠÖ”‚ª ACE ‚ÌƒAƒhƒŒƒX‚ğİ’è‚·‚éƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetAclInformation
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, pAclInformation, nAclInformationLength, dwAclInformationClass
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í‚±‚Ì ACL ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBnull ’l‚ğ“n‚·‚ÆAŠÖ”‚ÍƒAƒNƒZƒXˆá”½‚ğˆø‚«‹N‚±‚·B
@@ -5474,8 +5116,6 @@ dwAclInformationClass : [int] —v‹‚³‚ê‚éî•ñ‚ÌƒNƒ‰ƒX‚ğ¦‚· ACL_INFORMATION_CLASS
 %index
 GetAuditedPermissionsFromAclW
 w’è‚µ‚½ó‰vÒ (trustee) ‚ÌŠÄ¸‘ÎÛƒAƒNƒZƒXŒ ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pacl, pTrustee, pSuccessfulAuditedRights, pFailedAuditRights
 pacl : [var] ó‰vÒ‚ÌŠÄ¸‘ÎÛƒAƒNƒZƒXŒ ‚ğæ“¾‚·‚éŒ³‚Æ‚È‚é ACL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5503,8 +5143,6 @@ GetAuditedPermissionsFromAcl ŠÖ”‚ÍAACL “à‚Ì‚·‚×‚Ä‚ÌƒVƒXƒeƒ€ŠÄ¸ ACE
 %index
 GetCurrentHwProfileW
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌŒ»İ‚Ìƒn[ƒhƒEƒFƒAƒvƒƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpHwProfileInfo
 lpHwProfileInfo : [var] Œ»İ‚Ìƒn[ƒhƒEƒFƒAƒvƒƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é HW_PROFILE_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5532,8 +5170,6 @@ GUID •¶š—ñ‚ğæ“¾‚µAHKEY_CURRENT_USER “à‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“\¬İ’èƒL[‚Ì‰º‚ÌƒŒƒ
 %index
 GetDynamicTimeZoneInformationEffectiveYears
 DYNAMIC_TIME_ZONE_INFORMATION ‚É—LŒø‚ÈƒGƒ“ƒgƒŠ‚ª‚ ‚é”ÍˆÍ (”N’PˆÊ) ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 lpTimeZoneInformation, FirstYear, LastYear
 lpTimeZoneInformation : [var] ƒ^ƒCƒ€ƒ][ƒ“‚Æ“®“I‚È‰ÄŠÔ‚Ìİ’è‚ğw’è‚·‚éB
@@ -5549,8 +5185,6 @@ DYNAMIC_TIME_ZONE_INFORMATION ‚É—LŒø‚ÈƒGƒ“ƒgƒŠ‚ª‚ ‚é”ÍˆÍ (”N’PˆÊ) ‚ğæ“¾‚·‚éB
 %index
 GetEffectiveRightsFromAclW
 ACL \‘¢‘Ì‚ªw’è‚µ‚½ó‰vÒ‚É•t—^‚·‚éÀŒøƒAƒNƒZƒXŒ ‚ğæ“¾‚·‚éBó‰vÒ‚ÌÀŒøƒAƒNƒZƒXŒ ‚ÍAACL ‚ªó‰vÒ‚Ü‚½‚Í‚»‚Ìó‰vÒ‚ªƒƒ“ƒo‚Å‚ ‚éƒOƒ‹[ƒv‚É•t—^‚·‚éƒAƒNƒZƒXŒ ‚Å‚ ‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pacl, pTrustee, pAccessRights
 pacl : [var] ó‰vÒ‚ÌÀŒøƒAƒNƒZƒXŒ ‚ğæ“¾‚·‚éŒ³‚Æ‚È‚é ACL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5577,8 +5211,6 @@ GetEffectiveRightsFromAcl ‚É‚æ‚Á‚Äƒ[ƒJƒ‹ ƒRƒ“ƒsƒ…[ƒ^ã‚Å—ñ‹“‚³‚ê‚éBó‰vÒ‚ªƒ
 %index
 GetEncryptedFileMetadata
 (no summary)
-%group
-Win32 advapi32
 %prm
 lpFileName, pcbMetadata, ppbMetadata
 lpFileName : [wstr] 
@@ -5591,8 +5223,6 @@ ppbMetadata : [var]
 %index
 GetEventLogInformation
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hEventLog, dwInfoLevel, lpBuffer, cbBufSize, pcbBytesNeeded
 hEventLog : [intptr] ƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ‚Ü‚½‚Í RegisterEventSource ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -5611,8 +5241,6 @@ pcbBytesNeeded : [var] ŠÖ”‚Ì¬”Û‚É‚©‚©‚í‚ç‚¸A—v‹‚³‚ê‚½î•ñ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒ
 %index
 GetExplicitEntriesFromAclW
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) “à‚ÌƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ‹Lq‚·‚é\‘¢‘Ì‚Ì”z—ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pacl, pcCountOfExplicitEntries, pListOfExplicitEntries
 pacl : [var] ACE î•ñ‚ğæ“¾‚·‚éŒ³‚Æ‚È‚é ACL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5643,8 +5271,6 @@ ACCESS_MODE ‚ğQÆB
 %index
 GetFileSecurityW
 ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÉŠÖ‚·‚éw’è‚³‚ê‚½î•ñ‚ğæ“¾‚·‚éBæ“¾‚Å‚«‚éî•ñ‚ÍAŒÄ‚Ño‚µ‘¤‚ÌƒAƒNƒZƒXŒ ‚Æ“ÁŒ ‚É‚æ‚Á‚Ä§–ñ‚³‚ê‚éB(GetFileSecurityW)
-%group
-Win32 advapi32
 %prm
 lpFileName, RequestedInformation, pSecurityDescriptor, nLength, lpnLengthNeeded
 lpFileName : [wstr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğæ“¾‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5670,8 +5296,6 @@ lpnLengthNeeded : [var] Š®‘S‚ÈƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğŠi”[‚·‚é‚Ì‚É•K—v‚ÈƒoƒCƒg”‚ğó
 %index
 GetInheritanceSourceW
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) “à‚ÌŒp³‚³‚ê‚½ƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚Ìƒ\[ƒX‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B(Unicode)
-%group
-Win32 advapi32
 %prm
 pObjectName, ObjectType, SecurityInfo, Container, pObjectClassGuids, GuidCount, pAcl, pfnArray, pGenericMapping, pInheritArray
 pObjectName : [wstr] ƒ`ƒFƒbƒN‚·‚é ACL ‚ğg—p‚·‚éƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5707,8 +5331,6 @@ FreeInheritedFromArray
 %index
 GetKernelObjectSecurity
 ƒJ[ƒlƒ‹ ƒIƒuƒWƒFƒNƒg‚ğ•ÛŒì‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌƒRƒs[‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 Handle, RequestedInformation, pSecurityDescriptor, nLength, lpnLengthNeeded
 Handle : [intptr] ƒJ[ƒlƒ‹ ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5737,8 +5359,6 @@ ACCESS_SYSTEM_SECURITY
 %index
 GetLengthSid
 —LŒø‚ÈƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 pSid
 pSid : [int] ’·‚³‚ª•Ô‚³‚ê‚é SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚Í—LŒø‚Å‚ ‚é‚Æ‰¼’è‚³‚ê‚éB
@@ -5754,8 +5374,6 @@ SID ‚ª—LŒø‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚·‚éB
 %index
 GetLocalManagedApplicationData
 (no summary)
-%group
-Win32 advapi32
 %prm
 ProductCode, DisplayName, SupportUrl
 ProductCode : [wstr] 
@@ -5768,8 +5386,6 @@ SupportUrl : [var]
 %index
 GetLocalManagedApplications
 GetLocalManagedApplications ŠÖ”‚ÍA‘ÎÛƒRƒ“ƒsƒ…[ƒ^‚ÅÀs‚µ‚ÄA‚»‚ÌƒRƒ“ƒsƒ…[ƒ^ã‚ÌŠÇ—‘ÎÛƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìˆê——‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 bUserApps, pdwApps, prgLocalApps
 bUserApps : [int] TRUE ‚Ìê‡AprgLocalApps ƒpƒ‰ƒ[ƒ^‚É‚Íƒ†[ƒU[‚É“K—p‚³‚ê‚éŠÇ—‘ÎÛƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìˆê——‚ªŠÜ‚Ü‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚ª FALSE ‚Ìê‡AprgLocalApps ƒpƒ‰ƒ[ƒ^‚É‚Íƒ[ƒJƒ‹ ƒRƒ“ƒsƒ…[ƒ^‚É“K—p‚³‚ê‚éŠÇ—‘ÎÛƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìˆê——‚ªŠÜ‚Ü‚ê‚éB
@@ -5788,8 +5404,6 @@ GetLocalManagedApplications
 %index
 GetManagedApplicationCategories
 GetManagedApplicationCategories ŠÖ”‚ÍAƒhƒƒCƒ“‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ ƒJƒeƒSƒŠ‚Ìˆê——‚ğæ“¾‚·‚éBˆê——‚ÍƒhƒƒCƒ““à‚Ì‚·‚×‚Ä‚Ìƒ†[ƒU[‚É‘Î‚µ‚Ä“¯‚¶‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 dwReserved, pAppCategory
 dwReserved : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚éB’l‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -5811,8 +5425,6 @@ GetManagedApplicationCategories ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚é\‘¢‘Ì‚ÍAˆê——‚ª•s—v‚É‚È‚Á‚½‚ç L
 %index
 GetManagedApplications
 GetManagedApplications ŠÖ”‚ÍAw’è‚µ‚½ƒ†[ƒU[ ƒRƒ“ƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒvƒƒOƒ‰ƒ€‚Ì’Ç‰Á‚Æíœ (ARP) ‚Ì’Ç‰ÁƒyƒCƒ“‚É•\¦‚³‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pCategory, dwQueryFlags, dwInfoLevel, pdwApps, prgManagedApps
 pCategory : [var] ˆê——•\¦‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒJƒeƒSƒŠ‚ğw’è‚·‚é GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^BpCategory ‚ª null ‚Å‚È‚¢ê‡AdwQueryFlags ‚É‚Í MANAGED_APPS_FROMCATEGORY ‚ªŠÜ‚Ü‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BpCategory ‚ª null ‚Ìê‡AdwQueryFlags ‚É‚Í MANAGED_APPS_FROMCATEGORY ‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -5833,8 +5445,6 @@ GetManagedApplications ŠÖ”‚ÍAw’è‚µ‚½ƒ†[ƒU[ ƒRƒ“ƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒvƒƒOƒ‰ƒ€‚Ì
 %index
 GetMultipleTrusteeW
 (no summary)
-%group
-Win32 advapi32
 %prm
 pTrustee
 pTrustee : [var] 
@@ -5845,8 +5455,6 @@ pTrustee : [var]
 %index
 GetMultipleTrusteeOperationW
 (no summary)
-%group
-Win32 advapi32
 %prm
 pTrustee
 pTrustee : [var] 
@@ -5857,8 +5465,6 @@ pTrustee : [var]
 %index
 GetNamedSecurityInfoW
 –¼‘O‚Åw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌƒRƒs[‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pObjectName, ObjectType, SecurityInfo, ppsidOwner, ppsidGroup, ppDacl, ppSacl, ppSecurityDescriptor
 pObjectName : [wstr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğæ“¾‚·‚éƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BˆÙ‚È‚éƒIƒuƒWƒFƒNƒgŒ^‚Ì•¶š—ñŒ`®‚Ìà–¾‚É‚Â‚¢‚Ä‚Í SE_OBJECT_TYPE ‚ğQÆB
@@ -5892,8 +5498,6 @@ Privileges ‚ğQÆBGetNamedSecurityInfo ŠÖ”‚ÍŸ‚Ìí—Ş‚ÌƒIƒuƒWƒFƒNƒg‚Åg—p‚Å‚«‚é
 %index
 GetNumberOfEventLogRecords
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO“à‚ÌƒŒƒR[ƒh”‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hEventLog, NumberOfRecords
 hEventLog : [intptr] ŠJ‚¢‚Ä‚¢‚éƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ‚Ü‚½‚Í OpenBackupEventLog ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -5913,8 +5517,6 @@ GetOldestEventLogRecord ŠÖ”‚ğg—p‚·‚éB
 %index
 GetOldestEventLogRecord
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO“à‚ÌÅ‚àŒÃ‚¢ƒŒƒR[ƒh‚Ìâ‘ÎƒŒƒR[ƒh”Ô†‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hEventLog, OldestRecord
 hEventLog : [intptr] ŠJ‚¢‚Ä‚¢‚éƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ‚Ü‚½‚Í OpenBackupEventLog ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -5933,8 +5535,6 @@ OldestRecord : [var] w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO“à‚ÌÅ‚àŒÃ‚¢ƒŒƒR[ƒh‚Ìâ‘ÎƒŒƒR[ƒh”Ô†‚
 %index
 GetPrivateObjectSecurity
 ƒvƒ‰ƒCƒx[ƒg ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚©‚çî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 ObjectDescriptor, SecurityInformation, ResultantDescriptor, DescriptorLength, ReturnLength
 ObjectDescriptor : [int] SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍƒNƒGƒŠ‘ÎÛ‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Å‚ ‚éB
@@ -5959,8 +5559,6 @@ ReturnLength : [var] ‹Lqq‚ª³í‚ÉƒRƒs[‚³‚ê‚½ê‡AŠÖ”‚Í‚±‚Ì•Ï”‚Éƒ[ƒ‚ğİ’è‚
 %index
 GetSecurityDescriptorControl
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì§Œäî•ñ‚ÆƒŠƒrƒWƒ‡ƒ“î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, pControl, lpdwRevision
 pSecurityDescriptor : [int] ŠÖ”‚ª§Œäî•ñ‚ÆƒŠƒrƒWƒ‡ƒ“î•ñ‚ğæ“¾‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5977,8 +5575,6 @@ lpdwRevision : [var] ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌƒŠƒrƒWƒ‡ƒ“’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 GetSecurityDescriptorDacl
 w’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒB‹Lqq“à‚Ì”CˆÓƒAƒNƒZƒX§ŒäƒŠƒXƒg (DACL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, lpbDaclPresent, pDacl, lpbDaclDefaulted
 pSecurityDescriptor : [int] DACL ‚ğŠÜ‚Ş SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í‚»‚ê‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
@@ -5995,8 +5591,6 @@ lpbDaclDefaulted : [var] ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É DACL ‚ª‘¶İ‚·‚éê‡ASECURITY_DESC
 %index
 GetSecurityDescriptorGroup
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚©‚çƒvƒ‰ƒCƒ}ƒŠ ƒOƒ‹[ƒvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, pGroup, lpbGroupDefaulted
 pSecurityDescriptor : [int] ŠÖ”‚ªƒvƒ‰ƒCƒ}ƒŠ ƒOƒ‹[ƒvî•ñ‚ğæ“¾‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6012,8 +5606,6 @@ lpbGroupDefaulted : [var] ŠÖ”‚ª–ß‚é‚Æ‚«‚ÉASECURITY_DESCRIPTOR_CONTROL \‘¢‘Ì‚Ì
 %index
 GetSecurityDescriptorLength
 \‘¢“I‚É—LŒø‚ÈƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğ•Ô‚·B’·‚³‚É‚ÍŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì\‘¢‘Ì‚Ì’·‚³‚ªŠÜ‚Ü‚ê‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor
 pSecurityDescriptor : [int] ŠÖ”‚ª’·‚³‚ğ•Ô‚· SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒ|ƒCƒ“ƒ^‚Í—LŒø‚Å‚ ‚é‚Æ‰¼’è‚³‚ê‚éB
@@ -6032,8 +5624,6 @@ pSecurityDescriptor : [int] ŠÖ”‚ª’·‚³‚ğ•Ô‚· SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ
 %index
 GetSecurityDescriptorOwner
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚©‚çŠ—LÒî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, pOwner, lpbOwnerDefaulted
 pSecurityDescriptor : [int] ŠÖ”‚ªŠ—LÒî•ñ‚ğæ“¾‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6050,8 +5640,6 @@ lpbOwnerDefaulted : [var] ŠÖ”‚ª–ß‚é‚Æ‚«‚ÉASECURITY_DESCRIPTOR_CONTROL \‘¢‘Ì‚Ì
 %index
 GetSecurityDescriptorRMControl
 ƒŠƒ\[ƒX ƒ}ƒl[ƒWƒƒ§Œäƒrƒbƒg‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityDescriptor, RMControl
 SecurityDescriptor : [int] ƒŠƒ\[ƒX ƒ}ƒl[ƒWƒƒ§Œäƒrƒbƒg‚ğŠÜ‚Ş SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BControl ƒƒ“ƒo‚Ì’l‚Í SE_RM_CONTROL_VALID ‚Éİ’è‚³‚ê‚éB
@@ -6073,8 +5661,6 @@ GetSecurityDescriptorRMControl ŠÖ”‚Æ SetSecurityDescriptorRMControl
 %index
 GetSecurityDescriptorSacl
 w’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒB‹Lqq“à‚ÌƒVƒXƒeƒ€ ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, lpbSaclPresent, pSacl, lpbSaclDefaulted
 pSecurityDescriptor : [int] ŠÖ”‚ªƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é SACL ‚ğŠÜ‚Ş SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6092,8 +5678,6 @@ lpbSaclDefaulted : [var] ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É SACL ‚ª‘¶İ‚·‚éê‡ASECURITY_DESC
 %index
 GetSecurityInfo
 ƒnƒ“ƒhƒ‹‚Åw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌƒRƒs[‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 handle, ObjectType, SecurityInfo, ppsidOwner, ppsidGroup, ppDacl, ppSacl, ppSecurityDescriptor
 handle : [intptr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğæ“¾‚·‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6130,8 +5714,6 @@ with Special Privileges ‚ğQÆBGetSecurityInfo ŠÖ”‚ÍŸ‚Ìí—Ş‚ÌƒIƒuƒWƒFƒNƒg‚Åg
 %index
 GetServiceDisplayNameW
 w’è‚µ‚½ƒT[ƒrƒX‚Ì•\¦–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hSCManager, lpServiceName, lpDisplayName, lpcchBuffer
 hSCManager : [intptr] OpenSCManager ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6160,8 +5742,6 @@ Services ƒRƒ“ƒgƒ[ƒ‹ ƒpƒlƒ‹ ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É•\¦‚³‚ê‚éƒ†[ƒU[ƒtƒŒƒ“ƒhƒŠ‚È–¼‘
 %index
 GetServiceKeyNameW
 w’è‚µ‚½ƒT[ƒrƒX‚ÌƒT[ƒrƒX–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hSCManager, lpDisplayName, lpServiceName, lpcchBuffer
 hSCManager : [intptr] OpenSCManager ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éƒRƒ“ƒsƒ…[ƒ^‚ÌƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6194,8 +5774,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetSidIdentifierAuthority
 w’è‚³‚ê‚½ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) “à‚Ì SID_IDENTIFIER_AUTHORITY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 pSid
 pSid : [int] SID_IDENTIFIER_AUTHORITY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª•Ô‚³‚ê‚é SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚Í–³Œø‚È SID \‘¢‘Ì‚ğˆ—‚µ‚È‚¢B‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚É IsValidSid ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä SID \‘¢‘Ì‚ª—LŒø‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB
@@ -6215,8 +5793,6 @@ pSid : [int] SID_IDENTIFIER_AUTHORITY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª•Ô‚³‚ê‚é SID \‘¢‘Ì‚Ö‚
 %index
 GetSidLengthRequired
 w’è‚³‚ê‚½”‚ÌƒTƒuƒI[ƒ\ƒŠƒeƒB‚ğ‚Â SID ‚ğŠi”[‚·‚é‚Ì‚É•K—v‚Èƒoƒbƒtƒ@‚Ì’·‚³‚ğƒoƒCƒg’PˆÊ‚Å•Ô‚·B
-%group
-Win32 advapi32
 %prm
 nSubAuthorityCount
 nSubAuthorityCount : [int] SID \‘¢‘Ì‚ÉŠi”[‚·‚éƒTƒuƒI[ƒ\ƒŠƒeƒB‚Ì”‚ğw’è‚·‚éB
@@ -6234,8 +5810,6 @@ nSubAuthorityCount ‚Åw’è‚³‚ê‚é SID \‘¢‘Ì‚Í 32 ƒrƒbƒg‚Ì RID ’l‚ğg—p‚·‚éB‚æ‚è’
 %index
 GetSidSubAuthority
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) “à‚Ìw’è‚³‚ê‚½ƒTƒuƒI[ƒ\ƒŠƒeƒB‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·BƒTƒuƒI[ƒ\ƒŠƒeƒB’l‚Í‘Š‘Î¯•Êq (RID) ‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 pSid, nSubAuthority
 pSid : [int] ƒTƒuƒI[ƒ\ƒŠƒeƒB‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚· SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚Í–³Œø‚È SID \‘¢‘Ì‚ğˆ—‚µ‚È‚¢B‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚É IsValidSid ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä SID \‘¢‘Ì‚ª—LŒø‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB
@@ -6256,8 +5830,6 @@ pSid ‚Åw’è‚³‚ê‚é SID \‘¢‘Ì‚Í 32 ƒrƒbƒg‚Ì RID ’l‚ğg—p‚·‚éB‚æ‚è’·‚¢ RID
 %index
 GetSidSubAuthorityCount
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) \‘¢‘Ì“à‚ÌƒTƒuƒI[ƒ\ƒŠƒeƒB”‚ğ•Û‚·‚éƒƒ“ƒo‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 pSid
 pSid : [int] ƒTƒuƒI[ƒ\ƒŠƒeƒB”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚· SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚Í–³Œø‚È SID \‘¢‘Ì‚ğˆ—‚µ‚È‚¢B‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚É IsValidSid ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä SID \‘¢‘Ì‚ª—LŒø‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB
@@ -6277,8 +5849,6 @@ pSid ‚Åw’è‚³‚ê‚é SID \‘¢‘Ì‚Í 32 ƒrƒbƒg’l‚ğg—p‚·‚éB‚æ‚è’·‚¢ RID
 %index
 GetThreadWaitChain
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ì‘Ò‹@ƒ`ƒF[ƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 WctHandle, Context, Flags, ThreadId, NodeCount, NodeInfoArray, IsCycle
 WctHandle : [intptr] OpenThreadWaitChainSession ŠÖ”‚Åì¬‚µ‚½ WCT ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6310,8 +5880,6 @@ ObjectStatus ƒƒ“ƒo‚ª WctStatusNoAcces
 %index
 GetTokenInformation
 ƒAƒNƒZƒXƒg[ƒNƒ“‚ÉŠÖ‚·‚éw’è‚³‚ê‚½í—Ş‚Ìî•ñ‚ğæ“¾‚·‚éBŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÍAî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ì“KØ‚ÈƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
-%group
-Win32 advapi32
 %prm
 TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength, ReturnLength
 TokenHandle : [intptr] î•ñ‚ğæ“¾‚·‚éƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹BTokenInformationClass ‚ª TokenSource ‚ğw’è‚·‚éê‡Aƒnƒ“ƒhƒ‹‚Í TOKEN_QUERY_SOURCE ƒAƒNƒZƒX‚ğ‚Â•K—v‚ª‚ ‚éB‚»‚êˆÈŠO‚Ì‚·‚×‚Ä‚Ì TokenInformationClass ’l‚Å‚ÍAƒnƒ“ƒhƒ‹‚Í TOKEN_QUERY ƒAƒNƒZƒX‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -6330,8 +5898,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 GetTrusteeFormW
 w’è‚³‚ê‚½ TRUSTEE \‘¢‘Ì‚©‚çƒgƒ‰ƒXƒeƒB–¼‚ğæ“¾‚·‚éB‚±‚Ì’l‚ÍA\‘¢‘Ì‚ª–¼‘O•¶š—ñ‚ğg—p‚·‚é‚©ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğg—p‚µ‚Äƒgƒ‰ƒXƒeƒB‚ğ¯•Ê‚·‚é‚©‚ğ¦‚·B(Unicode)
-%group
-Win32 advapi32
 %prm
 pTrustee
 pTrustee : [var] TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6354,8 +5920,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetTrusteeNameW
 w’è‚³‚ê‚½ TRUSTEE \‘¢‘Ì‚©‚çƒgƒ‰ƒXƒeƒB–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pTrustee
 pTrustee : [var] TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6380,8 +5944,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetTrusteeTypeW
 w’è‚³‚ê‚½ TRUSTEE \‘¢‘Ì‚©‚çƒgƒ‰ƒXƒeƒBí•Ê‚ğæ“¾‚·‚éB‚±‚Ì’l‚ÍAƒgƒ‰ƒXƒeƒB‚ªƒ†[ƒU[AƒOƒ‹[ƒvA‚Ü‚½‚Í•s–¾‚Ì‚¢‚¸‚ê‚Å‚ ‚é‚©‚ğ¦‚·B(Unicode)
-%group
-Win32 advapi32
 %prm
 pTrustee
 pTrustee : [var] TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6404,8 +5966,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetUserNameW
 Œ»İ‚ÌƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ†[ƒU[‚Ì–¼‘O‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpBuffer, pcbBuffer
 lpBuffer : [wstr] ƒ†[ƒU[‚ÌƒƒOƒIƒ“–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒoƒbƒtƒ@‚ªƒ†[ƒU[–¼‘S‘Ì‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚·‚éB(UNLEN + 1) •¶š‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ÅAI’[ null •¶š‚ğŠÜ‚ŞÅ‘å’·‚Ìƒ†[ƒU[–¼‚ğŠi”[‚Å‚«‚éBUNLEN ‚Í Lmcons.h ‚Å’è‹`‚³‚ê‚éB
@@ -6429,8 +5989,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 GetWindowsAccountDomainSid
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğó‚¯æ‚èA‚»‚Ì SID ‚ÌƒhƒƒCƒ“‚ğ•\‚· SID ‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 pSid, pDomainSid, cbDomainSid
 pSid : [int] ’²¸‘ÎÛ‚Ì SID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6446,8 +6004,6 @@ cbDomainSid : [var] GetWindowsAccountDomainSid ‚ªƒhƒƒCƒ“ SID ‚ÌƒTƒCƒY‚ğƒoƒCƒg’P
 %index
 ImpersonateAnonymousToken
 w’è‚µ‚½ƒXƒŒƒbƒh‚ªƒVƒXƒeƒ€‚Ì“½–¼ƒƒOƒIƒ“ƒg[ƒNƒ“‚ğ‹U‘•‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 advapi32
 %prm
 ThreadHandle
 ThreadHandle : [intptr] ƒVƒXƒeƒ€‚Ì“½–¼ƒƒOƒIƒ“ƒg[ƒNƒ“‚ğ‹U‘•‚·‚éƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹BƒXƒŒƒbƒh‚ªƒVƒXƒeƒ€‚Ì“½–¼ƒƒOƒIƒ“ƒg[ƒNƒ“‚ğ‹U‘•‚·‚é‚½‚ß‚É‚ÍAƒXƒŒƒbƒhƒnƒ“ƒhƒ‹‚ª THREAD_IMPERSONATE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB‚±‚ÌƒAƒNƒZƒXŒ ‚ğ•t—^‚·‚é‚É‚ÍATHREAD_IMPERSONATE Š–]‚ÌƒAƒNƒZƒXŒ ‚Å OpenThread ‚ğŒÄ‚Ño‚µ‚ÄƒXƒŒƒbƒh‚ğŠJ‚­•K—v‚ª‚ ‚éB
@@ -6473,8 +6029,6 @@ ACCESS_DENIED ‚ª•Ô‚³‚ê‚éB
 %index
 ImpersonateLoggedOnUser
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ªƒƒOƒIƒ“Ï‚İƒ†[ƒU[‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚ğ‹U‘•‚Å‚«‚é‚æ‚¤‚É‚·‚éBƒ†[ƒU[‚Íƒg[ƒNƒ“ƒnƒ“ƒhƒ‹‚É‚æ‚Á‚Ä•\‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 hToken
 hToken : [intptr] ƒƒOƒIƒ“Ï‚İƒ†[ƒU[‚ğ•\‚·ƒvƒ‰ƒCƒ}ƒŠ‚Ü‚½‚Í‹U‘•ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚ÍALogonUserACreateRestrictedTokenADuplicateTokenADuplicateTokenExAOpenProcessTokenAOpenThreadToken ‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éƒg[ƒNƒ“ƒnƒ“ƒhƒ‹‚Å‚æ‚¢BhToken ‚ªƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éê‡Aƒg[ƒNƒ“‚Í TOKEN_QUERY ‚¨‚æ‚Ñ TOKEN_DUPLICATE ƒAƒNƒZƒX‚ğ‚Â•K—v‚ª‚ ‚éBhToken ‚ª‹U‘•ƒg[ƒNƒ“‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éê‡Aƒg[ƒNƒ“‚Í TOKEN_QUERY ‚¨‚æ‚Ñ TOKEN_IMPERSONATE ƒAƒNƒZƒX‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -6498,8 +6052,6 @@ LocalSystem
 %index
 ImpersonateNamedPipeClient
 –¼‘O•t‚«ƒpƒCƒv‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹U‘•‚·‚éB
-%group
-Win32 advapi32
 %prm
 hNamedPipe
 hNamedPipe : [intptr] –¼‘O•t‚«ƒpƒCƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6522,8 +6074,6 @@ RevertToSelf ŠÖ”‚ğŒÄ‚Ño‚¹‚éBd—v ImpersonateNamedPipeClient
 %index
 ImpersonateSelf
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚ğ‹U‘•‚·‚éƒAƒNƒZƒXƒg[ƒNƒ“‚ğæ“¾‚·‚éBƒg[ƒNƒ“‚ÍŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚ç‚ê‚éB
-%group
-Win32 advapi32
 %prm
 ImpersonationLevel
 ImpersonationLevel : [int] V‚µ‚¢ƒg[ƒNƒ“‚Ì‹U‘•ƒŒƒxƒ‹‚ğ—^‚¦‚é SECURITY_IMPERSONATION_LEVEL —ñ‹“Œ^‚ğw’è‚·‚éB
@@ -6545,8 +6095,6 @@ ImpersonateSelf
 %index
 InitializeAcl
 V‚µ‚¢ ACL \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, nAclLength, dwAclRevision
 pAcl : [var] ‚±‚ÌŠÖ”‚Å‰Šú‰»‚·‚é ACL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚É pAcl ‚Ìƒƒ‚ƒŠ‚ğŠm•Û‚·‚é‚±‚ÆB
@@ -6571,8 +6119,6 @@ ACE ‚Ì”‚ÉˆË‘¶‚·‚éB—á‚¦‚ÎAACL ‚Éƒ†[ƒU[‚ÆƒOƒ‹[ƒv‚Ì ACE ‚ğŠÜ‚ß‚é—\’è‚Å‚ ‚ê‚Î
 %index
 InitializeSecurityDescriptor
 V‚µ‚¢ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, dwRevision
 pSecurityDescriptor : [int] ‚±‚ÌŠÖ”‚Å‰Šú‰»‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6595,8 +6141,6 @@ InitializeSecurityDescriptor
 %index
 InitializeSid
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 advapi32
 %prm
 Sid, pIdentifierAuthority, nSubAuthorityCount
 Sid : [int] ‰Šú‰»‚·‚é SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6619,8 +6163,6 @@ AllocateAndInitializeSid ŠÖ”‚ğg—p‚µ‚Ä SID ‚ğ‰Šú‰»‚µA‚»‚ÌƒTƒuƒI[ƒ\ƒŠƒeƒB’l‚ğ
 %index
 InitiateShutdownW
 w’è‚µ‚½ƒRƒ“ƒsƒ…[ƒ^‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“‚ÆÄ‹N“®‚ğŠJn‚µAÄ‹N“®‚Ì‚½‚ß‚É“o˜^‚³‚ê‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğÄ‹N“®‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpMachineName, lpMessage, dwGracePeriod, dwShutdownFlags, dwReason
 lpMachineName : [wstr] ƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚ª NULL ‚Ìê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ªƒVƒƒƒbƒgƒ_ƒEƒ“‚³‚ê‚éB
@@ -6659,8 +6201,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InitiateSystemShutdownW
 w’è‚µ‚½ƒRƒ“ƒsƒ…[ƒ^‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“‚Æ”CˆÓ‚ÌÄ‹N“®‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpMachineName, lpMessage, dwTimeout, bForceAppsClosed, bRebootAfterShutdown
 lpMachineName : [wstr] ƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éƒRƒ“ƒsƒ…[ƒ^‚Ìƒlƒbƒgƒ[ƒN–¼BlpMachineName ‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éB
@@ -6696,8 +6236,6 @@ FALSE ‚Ìê‡AÅŒã‚ÌƒGƒ‰[ƒR[ƒh‚Í ERROR_MACHINE_LOCKED
 %index
 InitiateSystemShutdownExW
 w’è‚µ‚½ƒRƒ“ƒsƒ…[ƒ^‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“‚Æ”CˆÓ‚ÌÄ‹N“®‚ğŠJn‚µA”CˆÓ‚ÅƒVƒƒƒbƒgƒ_ƒEƒ“‚Ì——R‚ğ‹L˜^‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpMachineName, lpMessage, dwTimeout, bForceAppsClosed, bRebootAfterShutdown, dwReason
 lpMachineName : [wstr] ƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éƒRƒ“ƒsƒ…[ƒ^‚Ìƒlƒbƒgƒ[ƒN–¼BlpMachineName ‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éB
@@ -6739,8 +6277,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InstallApplication
 InstallApplication ŠÖ”‚ÍAƒhƒƒCƒ“‚ÉŠ‘®‚·‚é‘ÎÛƒ†[ƒU[‚É”z’u‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 pInstallInfo
 pInstallInfo : [var] ƒCƒ“ƒXƒg[ƒ‹‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğw’è‚·‚é INSTALLDATA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6768,8 +6304,6 @@ InstallApplication
 %index
 IsTextUnicode
 ƒoƒbƒtƒ@‚ª Unicode ƒeƒLƒXƒg‚ÌŒ`®‚ğŠÜ‚ñ‚Å‚¢‚é‰Â”\«‚ª‚ ‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 lpv, iSize, lpiResult
 lpv : [intptr] ’²¸‚·‚é“ü—Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6795,8 +6329,6 @@ ASCII •¶š—ñ‚Í‚·‚è”²‚¯‚é‚±‚Æ‚ª‚ ‚éB—á‚¦‚ÎAlpv ‚ª ASCII •¶š—ñ 0x41, 0x0A, 0x0D
 %index
 IsTokenRestricted
 ƒg[ƒNƒ“‚ª§ŒÀ•t‚«ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ÌƒŠƒXƒg‚ğŠÜ‚ñ‚Å‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
-%group
-Win32 advapi32
 %prm
 TokenHandle
 TokenHandle : [intptr] ƒeƒXƒg‘ÎÛ‚ÌƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6817,8 +6349,6 @@ SID ‚ª‚È‚¢ê‡AIsTokenRestricted ‚ÍA‚½‚Æ‚¦ƒg[ƒNƒ“‚ª CreateRestrictedToken
 %index
 IsTokenUntrusted
 (no summary)
-%group
-Win32 advapi32
 %prm
 TokenHandle
 TokenHandle : [intptr] 
@@ -6829,8 +6359,6 @@ TokenHandle : [intptr]
 %index
 IsValidAcl
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ğŒŸØ‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl
 pAcl : [var] ‚±‚ÌŠÖ”‚ÅŒŸØ‚·‚é ACL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -6849,8 +6377,6 @@ ACL ‚ª—LŒø‚Å‚È‚¢ê‡AŠÖ”‚Í 0 ‚ğ•Ô‚·B‚±‚ÌŠÖ”‚É‚ÍŠg’£ƒGƒ‰[î•ñ‚Í‚È‚¢BGetLast
 %index
 IsValidSecurityDescriptor
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì\¬—v‘f‚ª—LŒø‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor
 pSecurityDescriptor : [int] ŠÖ”‚ªŒŸØ‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6869,8 +6395,6 @@ IsValidSecurityDescriptor
 %index
 IsValidSid
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğAƒŠƒrƒWƒ‡ƒ“”Ô†‚ªŠù’m‚Ì”ÍˆÍ“à‚É‚ ‚èAƒTƒuƒI[ƒ\ƒŠƒeƒB”‚ªÅ‘å’l–¢–‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚µ‚ÄŒŸØ‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSid
 pSid : [int] ŒŸØ‚·‚é SID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
@@ -6888,8 +6412,6 @@ pSid ‚ª NULL ‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒAƒNƒZƒXˆá”½‚Å¸”s‚·‚éB
 %index
 IsWellKnownSid
 SID ‚ğŠù’m‚Ì SID ‚Æ”äŠr‚µAˆê’v‚·‚éê‡‚Í TRUE ‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 pSid, WellKnownSidType
 pSid : [int] ƒeƒXƒg‘ÎÛ‚Ì SID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6905,8 +6427,6 @@ FALSE ‚ğ•Ô‚·B
 %index
 LockServiceDatabase
 ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒ (SCM) ƒf[ƒ^ƒx[ƒXƒƒbƒN‚ÌŠ—LŒ ‚ğ—v‹‚·‚éB”CˆÓ‚Ì“_‚ÅƒƒbƒN‚ğŠ—L‚Å‚«‚é‚Ì‚Í 1 ‚Â‚ÌƒvƒƒZƒX‚¾‚¯‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 hSCManager
 hSCManager : [intptr] SCM ƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êASC_MANAGER_LOCK ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚É‚Â‚¢‚Ä‚ÍuService Security and Access Rightsv‚ğQÆB
@@ -6931,8 +6451,6 @@ hSCManager : [intptr] SCM ƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager
 %index
 LogonUserW
 Win32 LogonUser ŠÖ”‚ÍAƒ†[ƒU[‚ğƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒƒOƒIƒ“‚µ‚æ‚¤‚Æ‚·‚éBLogonUser ‚Íƒ†[ƒU[‚ğ‹U‘•‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒ†[ƒU[ƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B(Unicode)
-%group
-Win32 advapi32
 %prm
 lpszUsername, lpszDomain, lpszPassword, dwLogonType, dwLogonProvider, phToken
 lpszUsername : [wstr] ƒ†[ƒU[‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍƒƒOƒIƒ“æ‚Ìƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚Ì–¼‘O‚Å‚ ‚éBƒ†[ƒU[ƒvƒŠƒ“ƒVƒpƒ‹–¼ (UPN) Œ`® (User@DNSDomainName) ‚ğg—p‚·‚éê‡AlpszDomain ƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6956,8 +6474,6 @@ LOGON32_LOGON_NETWORK ƒƒOƒIƒ“ƒ^ƒCƒv‚ÍÅ‘¬‚¾‚ªAˆÈ‰º‚Ì§ŒÀ‚ª‚ ‚éB
 %index
 LogonUserExW
 LogonUserEx ŠÖ”‚ÍAƒ†[ƒU[‚ğƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒƒOƒIƒ“‚µ‚æ‚¤‚Æ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpszUsername, lpszDomain, lpszPassword, dwLogonType, dwLogonProvider, phToken, ppLogonSid, ppProfileBuffer, pdwProfileLength, pQuotaLimits
 lpszUsername : [wstr] ƒ†[ƒU[‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍƒƒOƒIƒ“æ‚Ìƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚Ì–¼‘O‚Å‚ ‚éBƒ†[ƒU[ƒvƒŠƒ“ƒVƒpƒ‹–¼ (UPN) Œ`® (user@DNS_domain_name) ‚ğg—p‚·‚éê‡AlpszDomain ƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6985,8 +6501,6 @@ LOGON32_LOGON_NETWORK ƒƒOƒIƒ“ƒ^ƒCƒv‚ÍÅ‘¬‚¾‚ªAˆÈ‰º‚Ì§ŒÀ‚ª‚ ‚éB
 %index
 LookupAccountNameW
 ƒVƒXƒeƒ€–¼‚ÆƒAƒJƒEƒ“ƒg‚ğ“ü—Í‚Æ‚µ‚Äó‚¯æ‚éBƒAƒJƒEƒ“ƒg‚ÌƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ÆAƒAƒJƒEƒ“ƒg‚ªŒ©‚Â‚©‚Á‚½ƒhƒƒCƒ“‚Ì–¼‘O‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpSystemName, lpAccountName, Sid, cbSid, ReferencedDomainName, cchReferencedDomainName, peUse
 lpSystemName : [wstr] ƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘O‚Å‚à‚æ‚¢B‚±‚Ì•¶š—ñ‚ª NULL ‚Ìê‡AƒAƒJƒEƒ“ƒg–¼‚Ì•ÏŠ·‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ÅŠJn‚³‚ê‚éBƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Å–¼‘O‚ğ‰ğŒˆ‚Å‚«‚È‚¢ê‡A‚±‚ÌŠÖ”‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ªM—Š‚·‚éƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚ğg—p‚µ‚Ä–¼‘O‚ğ‰ğŒˆ‚µ‚æ‚¤‚Æ‚·‚éBˆê”Ê‚ÉAlpSystemName ‚Ì’l‚ÍAƒAƒJƒEƒ“ƒg‚ªM—Š‚³‚ê‚Ä‚¢‚È‚¢ƒhƒƒCƒ“‚É‘¶İ‚µA‚»‚ÌƒhƒƒCƒ““à‚ÌƒRƒ“ƒsƒ…[ƒ^–¼‚ªŠù’m‚Å‚ ‚éê‡‚É‚Ì‚İw’è‚·‚éB
@@ -7020,8 +6534,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 LookupAccountSidW
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğ“ü—Í‚Æ‚µ‚Äó‚¯æ‚éB‚±‚Ì SID ‚ÌƒAƒJƒEƒ“ƒg–¼‚ÆA‚±‚Ì SID ‚ªŒ©‚Â‚©‚Á‚½Å‰‚ÌƒhƒƒCƒ“‚Ì–¼‘O‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpSystemName, Sid, Name, cchName, ReferencedDomainName, cchReferencedDomainName, peUse
 lpSystemName : [wstr] ‘ÎÛƒRƒ“ƒsƒ…[ƒ^‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘O‚Å‚à‚æ‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒAƒJƒEƒ“ƒg–¼‚Ì•ÏŠ·‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ÅŠJn‚³‚ê‚éBƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Å–¼‘O‚ğ‰ğŒˆ‚Å‚«‚È‚¢ê‡A‚±‚ÌŠÖ”‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ªM—Š‚·‚éƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚ğg—p‚µ‚Ä–¼‘O‚ğ‰ğŒˆ‚µ‚æ‚¤‚Æ‚·‚éB
@@ -7057,8 +6569,6 @@ SID ‚Ì‚æ‚¤‚É‘Î‰‚·‚éƒAƒJƒEƒ“ƒg–¼‚ª‚È‚¢ SID
 %index
 LookupPrivilegeDisplayNameW
 w’è‚³‚ê‚½“ÁŒ ‚ğ•\‚·•\¦–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpSystemName, lpName, lpDisplayName, cchDisplayName, lpLanguageId
 lpSystemName : [wstr] “ÁŒ –¼‚ªæ“¾‚³‚ê‚éƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bnull •¶š—ñ‚ªw’è‚³‚ê‚½ê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Å•\¦–¼‚ğŒ©‚Â‚¯‚æ‚¤‚Æ‚·‚éB
@@ -7086,8 +6596,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 LookupPrivilegeNameW
 w’è‚³‚ê‚½ƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚É‚æ‚Á‚Ä“Á’è‚ÌƒVƒXƒeƒ€ã‚Å•\‚³‚ê‚é“ÁŒ ‚É‘Î‰‚·‚é–¼‘O‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpSystemName, lpLuid, lpName, cchName
 lpSystemName : [wstr] “ÁŒ –¼‚ªæ“¾‚³‚ê‚éƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bnull •¶š—ñ‚ªw’è‚³‚ê‚½ê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Å“ÁŒ –¼‚ğŒ©‚Â‚¯‚æ‚¤‚Æ‚·‚éB
@@ -7114,8 +6622,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 LookupPrivilegeValueW
 w’è‚³‚ê‚½ƒVƒXƒeƒ€ã‚Åw’è‚³‚ê‚½“ÁŒ –¼‚ğƒ[ƒJƒ‹‚É•\‚·‚½‚ß‚Ég—p‚³‚ê‚éƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpSystemName, lpName, lpLuid
 lpSystemName : [wstr] “ÁŒ –¼‚ªæ“¾‚³‚ê‚éƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bnull •¶š—ñ‚ªw’è‚³‚ê‚½ê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Å“ÁŒ –¼‚ğŒ©‚Â‚¯‚æ‚¤‚Æ‚·‚éB
@@ -7136,8 +6642,6 @@ LookupPrivilegeValue ŠÖ”‚ÍAWinnt.h ‚Ì Defined Privileges
 %index
 LookupSecurityDescriptorPartsW
 ©ŒÈ‘Š‘ÎƒZƒLƒ…ƒŠƒeƒB‹Lqq‚©‚çƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 ppOwner, ppGroup, pcCountOfAccessEntries, ppListOfAccessEntries, pcCountOfAuditEntries, ppListOfAuditEntries, pSD
 ppOwner : [var] TRUSTEE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í pSD ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌŠ—LÒƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½–¼‘O‚ğŒŸõ‚µATRUSTEE \‘¢‘Ì‚Ì ptstrName ƒƒ“ƒo‚É–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·BŠÖ”‚Í TrusteeForm ƒƒ“ƒo‚ğ TRUSTEE_IS_NAME ‚Éİ’è‚·‚éB
@@ -7173,8 +6677,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 LsaClose
 LsaClose ŠÖ”‚ÍAPolicy ‚Ü‚½‚Í TrustedDomain ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 advapi32
 %prm
 ObjectHandle
 ObjectHandle : [intptr] LsaOpenPolicy ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í LsaOpenTrustedDomainByName ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ TrustedDomain ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌŒÄ‚Ño‚µ‚ÌŠ®—¹ŒãAƒnƒ“ƒhƒ‹‚Í–³Œø‚É‚È‚éB
@@ -7191,8 +6693,6 @@ Valuesv‚ğQÆBLsaNtStatusToWinError ŠÖ”‚ğg—p‚µ‚Ä NTSTATUS ƒR[ƒh‚ğ Windows
 %index
 LsaAddAccountRights
 ƒAƒJƒEƒ“ƒg‚É 1 ‚ÂˆÈã‚Ì“ÁŒ ‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, AccountSid, UserRights, CountOfRights
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBAccountSid ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒJƒEƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡Aƒnƒ“ƒhƒ‹‚Í POLICY_CREATE_ACCOUNT ƒAƒNƒZƒXŒ ‚à‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7215,8 +6715,6 @@ Permissionsv‚ğQÆB
 %index
 LsaCreateTrustedDomainEx
 LsaCreateTrustedDomainEx ŠÖ”‚ÍAV‚µ‚¢ TrustedDomain ƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚ÄV‚µ‚¢M—Š‚³‚ê‚½ƒhƒƒCƒ“‚ğŠm—§‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainInformation, AuthenticationInformation, DesiredAccess, TrustedDomainHandle
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚É‚ÍAŒÄ‚Ño‚µŒ³‚ª System ƒRƒ“ƒeƒi‚Éq‚ğì¬‚·‚éŒ ŒÀ‚ğ‚Â•K—v‚ª‚ ‚éBƒ|ƒŠƒV[ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚Ìî•ñ‚É‚Â‚¢‚Ä‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7241,8 +6739,6 @@ LsaCreateTrustedDomainEx ‚ÍAw’è‚³‚ê‚½ƒhƒƒCƒ“–¼‚ªw’è‚³‚ê‚½ SID ‚Æˆê’v‚·‚é‚©‚Ç
 %index
 LsaDeleteTrustedDomain
 LsaDeleteTrustedDomain ŠÖ”‚ÍAƒVƒXƒeƒ€‚ÌM—Š‚³‚ê‚½ƒhƒƒCƒ“‚ÌƒŠƒXƒg‚©‚çM—Š‚³‚ê‚½ƒhƒƒCƒ“‚ğíœ‚µAŠÖ˜A‚·‚é TrustedDomain ƒIƒuƒWƒFƒNƒg‚ğíœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainSid
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7261,8 +6757,6 @@ Valuesv‚ğQÆBLsaNtStatusToWinError ŠÖ”‚ğg—p‚µ‚Ä NTSTATUS ƒR[ƒh‚ğ Windows
 %index
 LsaEnumerateAccountRights
 LsaEnumerateAccountRights ŠÖ”‚ÍAƒAƒJƒEƒ“ƒg‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½“ÁŒ ‚ğ—ñ‹“‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, AccountSid, UserRights, CountOfRights
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7283,8 +6777,6 @@ Valuesv‚ğQÆBLsaNtStatusToWinError ŠÖ”‚ğg—p‚µ‚Ä NTSTATUS ƒR[ƒh‚ğ Windows
 %index
 LsaEnumerateAccountsWithUserRight
 w’è‚³‚ê‚½“ÁŒ ‚ğ•Û‚·‚éƒ[ƒJƒ‹ƒZƒLƒ…ƒŠƒeƒB‹@ŠÖ (LSA) Policy ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^ƒx[ƒX“à‚ÌƒAƒJƒEƒ“ƒg‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 PolicyHandle, UserRight, Buffer, CountReturned
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ‚¨‚æ‚Ñ POLICY_VIEW_LOCAL_INFORMATION ƒ†[ƒU[Œ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7303,8 +6795,6 @@ LSA Policy Function Return Values ‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
 %index
 LsaEnumerateTrustedDomains
 LsaEnumerateTrustedDomains ŠÖ”‚ÍAƒƒOƒIƒ“‘Šiî•ñ‚ğ”FØ‚·‚é‚½‚ß‚ÉM—Š‚³‚ê‚½ƒhƒƒCƒ“‚Ì–¼‘O‚Æ SID ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, EnumerationContext, Buffer, PreferedMaximumLength, CountReturned
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_VIEW_LOCAL_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7339,8 +6829,6 @@ Windows 2000 ƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚Ì‚İ‚ªŠÜ‚Ü‚ê‚é (‚½‚¾‚µAƒhƒƒCƒ““à‚Ìƒƒ“ƒo[‚É‚
 %index
 LsaEnumerateTrustedDomainsEx
 ƒ[ƒJƒ‹ƒVƒXƒeƒ€‚É‚æ‚Á‚ÄM—Š‚³‚ê‚½ƒhƒƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 PolicyHandle, EnumerationContext, Buffer, PreferedMaximumLength, CountReturned
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌŒÄ‚Ño‚µ‚É‚Í Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ì POLICY_VIEW_LOCAL_INFORMATION ƒAƒNƒZƒX‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7365,8 +6853,6 @@ LSA Policy Function Return Values ‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
 %index
 LsaFreeMemory
 LsaFreeMemory ŠÖ”‚ÍALSA ŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Äo—Íƒoƒbƒtƒ@‚ÉŠm•Û‚³‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 advapi32
 %prm
 Buffer
 Buffer : [intptr] LSA ŠÖ”ŒÄ‚Ño‚µ‚ÅŠm•Û‚³‚ê‚½ƒƒ‚ƒŠƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BLsaFreeMemory ‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒoƒbƒtƒ@‚Í‰ğ•ú‚³‚ê‚éB
@@ -7382,8 +6868,6 @@ LsaFreeMemory ŠÖ”‚ÍALSA ŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Äo—Íƒoƒbƒtƒ@‚ÉŠm•Û‚³‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ
 %index
 LsaGetAppliedCAPIDs
 “Á’è‚ÌƒRƒ“ƒsƒ…[ƒ^‚É“K—p‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚Ì CAP ‚ÌƒZƒ“ƒgƒ‰ƒ‹ƒAƒNƒZƒXƒ|ƒŠƒV[ (CAP) ¯•Êq (CAPID) ‚Ì”z—ñ‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 SystemName, CAPIDs, CAPIDCount
 SystemName : [var] “Á’è‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘O‚ğŠÜ‚Ş LSA_UNICODE_STRING \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O‚ÌŒ`®‚Í "ComputerName" ‚Ü‚½‚Í "\\ComputerName" ‚Å‚æ‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì CAPID ‚ğ•Ô‚·B
@@ -7406,8 +6890,6 @@ CAPID ‚Ì‚¢‚¸‚ê‚©‚Æˆê’v‚·‚éƒIƒuƒWƒFƒNƒg‚ğ’T‚·B
 %index
 LsaLookupNames
 ƒ†[ƒU[AƒOƒ‹[ƒvA‚Ü‚½‚Íƒ[ƒJƒ‹ƒOƒ‹[ƒv–¼‚Ì”z—ñ‚É‘Î‰‚·‚éƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, Count, Names, ReferencedDomains, Sids
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7434,8 +6916,6 @@ someone@example.com) ‚àƒTƒ|[ƒg‚·‚éB
 %index
 LsaLookupNames2
 w’è‚³‚ê‚½ƒAƒJƒEƒ“ƒg–¼‚ÌƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğæ“¾‚·‚éBLsaLookupNames2 ‚ÍAWindows ƒtƒHƒŒƒXƒg“à‚Ì”CˆÓ‚ÌƒhƒƒCƒ“‚Ì”CˆÓ‚ÌƒAƒJƒEƒ“ƒg‚Ì SID ‚ğŒŸõ‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, Flags, Count, Names, ReferencedDomains, Sids
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7465,8 +6945,6 @@ Someone@Example.com)
 %index
 LsaLookupSids
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚Ì”z—ñ‚É‘Î‰‚·‚é–¼‘O‚ğƒ‹ƒbƒNƒAƒbƒv‚·‚éBLsaLookupSids ‚ª SID ‚É‘Î‰‚·‚é–¼‘O‚ğŒ©‚Â‚¯‚ç‚ê‚È‚¢ê‡AŠÖ”‚Í SID ‚ğ•¶šŒ`®‚Å•Ô‚·B
-%group
-Win32 advapi32
 %prm
 PolicyHandle, Count, Sids, ReferencedDomains, Names
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7493,8 +6971,6 @@ user_name)BƒAƒJƒEƒ“ƒg‚Ì•¡‡–¼‚ª•K—v‚Èê‡ (—á: Acctg\user_name)AReferencedDoma
 %index
 LsaLookupSids2
 ƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚Ì”z—ñ‚É‘Î‰‚·‚é–¼‘O‚ğƒ‹ƒbƒNƒAƒbƒv‚µAƒCƒ“ƒ^[ƒlƒbƒgƒvƒƒoƒCƒ_‚Ì ID ‚ğƒTƒ|[ƒg‚·‚éBLsaLookupSids2 ‚ª SID ‚É‘Î‰‚·‚é–¼‘O‚ğŒ©‚Â‚¯‚ç‚ê‚È‚¢ê‡AŠÖ”‚Í SID ‚ğ•¶šŒ`®‚Å•Ô‚·B
-%group
-Win32 advapi32
 %prm
 PolicyHandle, LookupOptions, Count, Sids, ReferencedDomains, Names
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7525,8 +7001,6 @@ Directory ƒAƒJƒEƒ“ƒg‚È‚Ç‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒAƒJƒEƒ“ƒg‚Ég—p‚·‚éB‚±‚Ìƒtƒ‰ƒO‚ªw’è‚³
 %index
 LsaNtStatusToWinError
 LsaNtStatusToWinError ŠÖ”‚ÍALSA ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ NTSTATUS ƒR[ƒh‚ğ Windows ƒGƒ‰[ƒR[ƒh‚É•ÏŠ·‚·‚éB
-%group
-Win32 advapi32
 %prm
 Status
 Status : [intptr] LSA ŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ NTSTATUS ƒR[ƒhB‚±‚Ì’l‚ÍƒVƒXƒeƒ€ƒGƒ‰[ƒR[ƒh‚É•ÏŠ·‚³‚ê‚éB
@@ -7542,8 +7016,6 @@ LsaNtStatusToWinError ŠÖ”‚ÍALSA ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ NTSTATUS ƒR[ƒh‚ğ Windows
 %index
 LsaOpenPolicy
 ƒ[ƒJƒ‹‚Ü‚½‚ÍƒŠƒ‚[ƒgƒVƒXƒeƒ€‚Ì Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğŠJ‚­B
-%group
-Win32 advapi32
 %prm
 SystemName, ObjectAttributes, DesiredAccess, PolicyHandle
 SystemName : [var] ‘ÎÛƒVƒXƒeƒ€‚Ì–¼‘O‚ğŠÜ‚Ş LSA_UNICODE_STRING \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O‚ÌŒ`®‚Í "ComputerName" ‚Ü‚½‚Í "\\ComputerName" ‚Å‚æ‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Ì Policy ƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
@@ -7569,8 +7041,6 @@ a Policy Object Handlev‚ğQÆB
 %index
 LsaOpenTrustedDomainByName
 LsaOpenTrustedDomainByName ŠÖ”‚ÍAƒŠƒ‚[ƒgM—ŠƒhƒƒCƒ“‚Ì LSA ƒ|ƒŠƒV[ƒnƒ“ƒhƒ‹‚ğŠJ‚­B‚±‚Ìƒnƒ“ƒhƒ‹‚ğ LSA ŠÖ”ŒÄ‚Ño‚µ‚É“n‚µ‚ÄAƒŠƒ‚[ƒgƒ}ƒVƒ“‚Ì LSA ƒ|ƒŠƒV[‚ğİ’è‚Ü‚½‚ÍƒNƒGƒŠ‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainName, DesiredAccess, TrustedDomainHandle
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Íƒ[ƒJƒ‹ƒ}ƒVƒ“‚Ìƒ|ƒŠƒV[ƒnƒ“ƒhƒ‹‚Å‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7590,8 +7060,6 @@ LSA ŠÖ”ŒÄ‚Ño‚µ‚É“n‚µ‚ÄAƒŠƒ‚[ƒgƒ}ƒVƒ“‚Ì LSA ƒ|ƒŠƒV[‚ğİ’è‚Ü‚½‚ÍƒNƒGƒŠ‚Å‚«‚é
 %index
 LsaQueryCAPs
 w’è‚³‚ê‚½ ID ‚ÌƒZƒ“ƒgƒ‰ƒ‹ƒAƒNƒZƒXƒ|ƒŠƒV[ (CAP) ‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 CAPIDs, CAPIDCount, CAPs, CAPCount
 CAPIDs : [var] ƒNƒGƒŠ‚³‚ê‚é CAP ‚ğ¯•Ê‚·‚é CAPID ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7609,8 +7077,6 @@ Policy Function Return Values ‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
 %index
 LsaQueryDomainInformationPolicy
 Policy ƒIƒuƒWƒFƒNƒg‚©‚çƒhƒƒCƒ“î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, InformationClass, Buffer
 PolicyHandle : [intptr] ƒVƒXƒeƒ€‚Ì Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7632,8 +7098,6 @@ Policy ƒIƒuƒWƒFƒNƒg‚©‚çƒhƒƒCƒ“î•ñ‚ğæ“¾‚·‚é‚É‚ÍAPOLICY_VIEW_LOCAL_INFORMATION
 %index
 LsaQueryForestTrustInformation
 w’è‚³‚ê‚½ƒ[ƒJƒ‹ƒZƒLƒ…ƒŠƒeƒB‹@ŠÖ TrustedDomain ƒIƒuƒWƒFƒNƒg‚ÌƒtƒHƒŒƒXƒgM—Šî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainName, ForestTrustInfo
 PolicyHandle : [intptr] ƒVƒXƒeƒ€‚Ì Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7654,8 +7118,6 @@ ForestTrustInfo : [var] TrustedDomainName ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ TrustedDomain ƒ
 %index
 LsaQueryForestTrustInformation2
 (no summary)
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainName, HighestRecordType, ForestTrustInfo
 PolicyHandle : [intptr] 
@@ -7669,8 +7131,6 @@ ForestTrustInfo : [var]
 %index
 LsaQueryInformationPolicy
 Policy ƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, InformationClass, Buffer
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚É•K—v‚ÈƒAƒNƒZƒXŒ ‚Í InformationClass ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÉˆË‘¶‚·‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7692,8 +7152,6 @@ Valuesv‚ğQÆBLsaNtStatusToWinError ŠÖ”‚ğg—p‚µ‚Ä NTSTATUS ƒR[ƒh‚ğ Windows
 %index
 LsaQueryTrustedDomainInfo
 LsaQueryTrustedDomainInfo ŠÖ”‚ÍAM—Š‚³‚ê‚½ƒhƒƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainSid, InformationClass, Buffer
 PolicyHandle : [intptr] TrustedDomainSid ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚ê‚éƒhƒƒCƒ“‚ÆM—ŠŠÖŒW‚ª‚ ‚éƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚Ì Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_VIEW_LOCAL_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7712,8 +7170,6 @@ LsaQueryTrustedDomainInfo ŠÖ”‚ÍAM—Š‚³‚ê‚½ƒhƒƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %index
 LsaQueryTrustedDomainInfoByName
 LsaQueryTrustedDomainInfoByName ŠÖ”‚ÍAM—Š‚³‚ê‚½ƒhƒƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainName, InformationClass, Buffer
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í POLICY_VIEW_LOCAL_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7732,8 +7188,6 @@ Policy Function Return Values ‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
 %index
 LsaRemoveAccountRights
 ƒAƒJƒEƒ“ƒg‚©‚ç 1 ‚ÂˆÈã‚Ì“ÁŒ ‚ğíœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, AccountSid, AllRights, UserRights, CountOfRights
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_LOOKUP_NAMES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7753,8 +7207,6 @@ CountOfRights : [int] UserRights ”z—ñ‚Ì—v‘f”‚ğw’è‚·‚éB
 %index
 LsaRetrievePrivateData
 LSA ƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ŠÖ”‚Íg—p‚µ‚È‚¢‚±‚ÆB‘ã‚í‚è‚É CryptProtectData ‚¨‚æ‚Ñ CryptUnprotectData ŠÖ”‚ğg—p‚·‚éB(LsaRetrievePrivateData)
-%group
-Win32 advapi32
 %prm
 PolicyHandle, KeyName, PrivateData
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í POLICY_GET_PRIVATE_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7776,8 +7228,6 @@ Policy Function Return Values ‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚éB
 %index
 LsaSetCAPs
 (no summary)
-%group
-Win32 advapi32
 %prm
 CAPDNs, CAPDNCount, Flags
 CAPDNs : [var] 
@@ -7790,8 +7240,6 @@ Flags : [int]
 %index
 LsaSetDomainInformationPolicy
 Policy ƒIƒuƒWƒFƒNƒg‚ÉƒhƒƒCƒ“î•ñ‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, InformationClass, Buffer
 PolicyHandle : [intptr] ƒVƒXƒeƒ€‚Ì Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7813,8 +7261,6 @@ Policy ƒIƒuƒWƒFƒNƒg‚ÉƒhƒƒCƒ“î•ñ‚ğİ’è‚·‚é‚É‚ÍAPOLICY_TRUST_ADMIN
 %index
 LsaSetForestTrustInformation
 w’è‚³‚ê‚½ƒ[ƒJƒ‹ƒZƒLƒ…ƒŠƒeƒB‹@ŠÖ TrustedDomain ƒIƒuƒWƒFƒNƒg‚ÌƒtƒHƒŒƒXƒgM—Šî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainName, ForestTrustInfo, CheckOnly, CollisionInfo
 PolicyHandle : [intptr] ƒVƒXƒeƒ€‚Ì Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7834,8 +7280,6 @@ CollisionInfo : [var] ”­¶‚µ‚½Õ“Ë‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚· LSA_FOREST_TRUST_COLLISION_
 %index
 LsaSetForestTrustInformation2
 (no summary)
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainName, HighestRecordType, ForestTrustInfo, CheckOnly, CollisionInfo
 PolicyHandle : [intptr] 
@@ -7851,8 +7295,6 @@ CollisionInfo : [var]
 %index
 LsaSetInformationPolicy
 Policy ƒIƒuƒWƒFƒNƒg“à‚Ìî•ñ‚ğ•ÏX‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, InformationClass, Buffer
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚É•K—v‚ÈƒAƒNƒZƒXŒ ‚Í InformationClass ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÉˆË‘¶‚·‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7871,8 +7313,6 @@ Valuesv‚ğQÆBLsaNtStatusToWinError ŠÖ”‚ğg—p‚µ‚Ä NTSTATUS ƒR[ƒh‚ğ Windows
 %index
 LsaSetTrustedDomainInfoByName
 LsaSetTrustedDomainInfoByName ŠÖ”‚ÍATrustedDomain ƒIƒuƒWƒFƒNƒg‚Ì’l‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainName, InformationClass, Buffer
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BM—ŠƒhƒƒCƒ“ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªAŒÄ‚Ño‚µŒ³‚Ì•ÏX‚ªó‚¯“ü‚ê‚ç‚ê‚é‚©‚Ç‚¤‚©‚ğŒˆ’è‚·‚éBƒ|ƒŠƒV[ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚Ìî•ñ‚É‚Â‚¢‚Ä‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7892,8 +7332,6 @@ Windows ƒGƒ‰[ƒR[ƒh‚É•ÏŠ·‚Å‚«‚éB
 %index
 LsaSetTrustedDomainInformation
 LsaSetTrustedDomainInformation ŠÖ”‚ÍAM—Š‚³‚ê‚½ƒhƒƒCƒ“‚ÉŠÖ‚·‚é Policy ƒIƒuƒWƒFƒNƒg‚Ìî•ñ‚ğ•ÏX‚·‚éB
-%group
-Win32 advapi32
 %prm
 PolicyHandle, TrustedDomainSid, InformationClass, Buffer
 PolicyHandle : [intptr] ƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚Ì Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚É•K—v‚Èƒ†[ƒU[Œ ‚Í InformationClass ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÉˆË‘¶‚·‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7914,8 +7352,6 @@ Valuesv‚ğQÆBLsaNtStatusToWinError ŠÖ”‚ğg—p‚µ‚Ä NTSTATUS ƒR[ƒh‚ğ Windows
 %index
 LsaStorePrivateData
 LSA ƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ŠÖ”‚Íg—p‚µ‚È‚¢‚±‚ÆB‘ã‚í‚è‚É CryptProtectData ‚¨‚æ‚Ñ CryptUnprotectData ŠÖ”‚ğg—p‚·‚éB(LsaStorePrivateData)
-%group
-Win32 advapi32
 %prm
 PolicyHandle, KeyName, PrivateData
 PolicyHandle : [intptr] Policy ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BKeyName ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒL[‚Ì‰º‚Éƒf[ƒ^‚ğŠi”[‚·‚é‚Ì‚ª‰‚ß‚Ä‚Ìê‡Aƒnƒ“ƒhƒ‹‚Í POLICY_CREATE_SECRET ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuOpening a Policy Object Handlev‚ğQÆB
@@ -7945,8 +7381,6 @@ DACL ‚ª‚ ‚éBLsaStorePrivateData ‚É‚æ‚Á‚ÄŠi”[‚³‚ê‚½’l‚ğæ“¾‚·‚é‚É‚Í LsaRetrieveP
 %index
 MSChapSrvChangePassword
 ƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ÌƒpƒXƒ[ƒh‚ğ•ÏX‚·‚éB
-%group
-Win32 advapi32
 %prm
 ServerName, UserName, LmOldPresent, LmOldOwfPassword, LmNewOwfPassword, NtOldOwfPassword, NtNewOwfPassword
 ServerName : [wstr] ‘€ì‘ÎÛ‚ÌƒT[ƒo[‚Ì”Ä—p–¼‘O•t‚¯‹K‘¥ (UNC) –¼‚ğw’è‚·‚é null I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Å“®ì‚·‚éB
@@ -7975,8 +7409,6 @@ STATUS_PASSWORD_RESTRICTION ‚Å¸”s‚·‚éB
 %index
 MSChapSrvChangePassword2
 MSChapSrvChangePassword2 ŠÖ”‚ÍA‘ŠŒİˆÃ†‰»‚ğƒTƒ|[ƒg‚µ‚È‚ª‚çƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ÌƒpƒXƒ[ƒh‚ğ•ÏX‚·‚éB
-%group
-Win32 advapi32
 %prm
 ServerName, UserName, NewPasswordEncryptedWithOldNt, OldNtOwfPasswordEncryptedWithNewNt, LmPresent, NewPasswordEncryptedWithOldLm, OldLmOwfPasswordEncryptedWithNewLmOrNt
 ServerName : [wstr] ‘€ì‘ÎÛ‚ÌƒT[ƒo[‚Ì”Ä—p–¼‘O•t‚¯‹K‘¥ (UNC) –¼‚ğw’è‚·‚é null I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Å“®ì‚·‚éB
@@ -8003,8 +7435,6 @@ STATUS_PASSWORD_RESTRICTION ‚Å¸”s‚·‚éB
 %index
 MakeAbsoluteSD
 ©ŒÈ‘Š‘ÎŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğƒeƒ“ƒvƒŒ[ƒg‚Æ‚µ‚Äg—p‚µ‚ÄAâ‘ÎŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 pSelfRelativeSecurityDescriptor, pAbsoluteSecurityDescriptor, lpdwAbsoluteSecurityDescriptorSize, pDacl, lpdwDaclSize, pSacl, lpdwSaclSize, pOwner, lpdwOwnerSize, pPrimaryGroup, lpdwPrimaryGroupSize
 pSelfRelativeSecurityDescriptor : [int] ©ŒÈ‘Š‘ÎŒ`®‚Ì SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ÍŒ³‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğ•ÏX‚¹‚¸‚ÉA‚±‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ìâ‘ÎŒ`®ƒo[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
@@ -8037,8 +7467,6 @@ lpdwPrimaryGroupSize : [var] pPrimaryGroup ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğw’
 %index
 MakeSelfRelativeSD
 â‘ÎŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğƒeƒ“ƒvƒŒ[ƒg‚Æ‚µ‚Äg—p‚µ‚ÄA©ŒÈ‘Š‘ÎŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAbsoluteSecurityDescriptor, pSelfRelativeSecurityDescriptor, lpdwBufferLength
 pAbsoluteSecurityDescriptor : [int] â‘ÎŒ`®‚Ì SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ÍŒ³‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğ•ÏX‚¹‚¸‚ÉA‚±‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì©ŒÈ‘Š‘ÎŒ`®ƒo[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
@@ -8063,8 +7491,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B‰Â”\‚È–ß‚èƒR[ƒh‚ÍˆÈ‰º‚ğŠÜ‚Ş‚ª‚±‚ê‚ÉŒÀ’è‚³‚ê‚È‚¢B
 %index
 MapGenericMask
 ƒAƒNƒZƒXƒ}ƒXƒN“à‚Ì”Ä—pƒAƒNƒZƒXŒ ‚ğ“Á’è‚¨‚æ‚Ñ•W€ƒAƒNƒZƒXŒ ‚Éƒ}ƒbƒv‚·‚éBŠÖ”‚Í GENERIC_MAPPING \‘¢‘Ì‚Å’ñ‹Ÿ‚³‚ê‚éƒ}ƒbƒsƒ“ƒO‚ğ“K—p‚·‚éB
-%group
-Win32 advapi32
 %prm
 AccessMask, GenericMapping
 AccessMask : [var] ƒAƒNƒZƒXƒ}ƒXƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -8082,8 +7508,6 @@ MapGenericMask ŠÖ”‚ÌŒÄ‚Ño‚µŒãAAccessMask ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒAƒNƒZƒXƒ}ƒXƒN‚ÍA”Ä
 %index
 NotifyBootConfigStatus
 ƒu[ƒgó‘Ô‚ğƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒ‚É•ñ‚·‚éBƒu[ƒgŒŸØƒvƒƒOƒ‰ƒ€‚É‚æ‚Á‚Äg—p‚³‚ê‚éB
-%group
-Win32 advapi32
 %prm
 BootAcceptable
 BootAcceptable : [int] ’l‚ª TRUE ‚Ìê‡AƒVƒXƒeƒ€‚Í\¬‚ğÅŒã‚ÉŠm”F‚³‚ê‚½³í‚È\¬‚Æ‚µ‚Ä•Û‘¶‚·‚éB’l‚ª FALSE ‚Ìê‡AƒVƒXƒeƒ€‚ÍˆÈ‘O‚É•Û‘¶‚³‚ê‚½ÅŒã‚ÉŠm”F‚³‚ê‚½³í‚È\¬‚ğg—p‚µ‚Ä‘¦À‚ÉÄ‹N“®‚·‚éB
@@ -8106,8 +7530,6 @@ Security and Access Rightsv‚ğQÆB
 %index
 NotifyChangeEventLog
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚ÉƒCƒxƒ“ƒg‚ª‘‚«‚Ü‚ê‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª’Ê’m‚ğó‚¯æ‚ê‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 advapi32
 %prm
 hEventLog, hEvent
 hEventLog : [intptr] ƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -8130,8 +7552,6 @@ CloseEventLog ‚Ü‚½‚Í DeregisterEventSource ŠÖ”‚ğg—p‚·‚éB
 %index
 NotifyServiceStatusChangeW
 w’è‚µ‚½ƒT[ƒrƒX‚ªì¬‚Ü‚½‚Ííœ‚³‚ê‚½‚Æ‚«A‚Ü‚½‚Í‚»‚Ìó‘Ô‚ª•Ï‰»‚µ‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª’Ê’m‚ğó‚¯æ‚ê‚é‚æ‚¤‚É‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hService, dwNotifyMask, pNotifyBuffer
 hService : [intptr] ƒT[ƒrƒX‚Ü‚½‚ÍƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒ‚Ö‚Ìƒnƒ“ƒhƒ‹BƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êASERVICE_QUERY_STATUS ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒ‚Ö‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êASC_MANAGER_ENUMERATE_SERVICE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚ÍuService Security and Access Rightsv‚ğQÆBƒT[ƒrƒX‚²‚Æ‚É–¢ˆ—‚Ì’Ê’m—v‹‚Í 1 ‚Â‚¾‚¯‘¶İ‚Å‚«‚éB
@@ -8164,8 +7584,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ObjectCloseAuditAlarmW
 ƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ªíœ‚³‚ê‚½‚Æ‚«‚ÉAƒZƒLƒ…ƒŠƒeƒBƒCƒxƒ“ƒgƒƒO‚ÉŠÄ¸ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éB(ObjectCloseAuditAlarmW)
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, GenerateOnClose
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚·ƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚ÉŒ»‚ê‚éB
@@ -8187,8 +7605,6 @@ ObjectCloseAuditAlarm ŠÖ”‚ÍAŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª SE_AUDIT_NAME
 %index
 ObjectDeleteAuditAlarmW
 ObjectDeleteAuditAlarmW (Unicode) ŠÖ” (securitybaseapi.h) ‚ÍAƒIƒuƒWƒFƒNƒg‚ªíœ‚³‚ê‚½‚Æ‚«‚ÉŠÄ¸ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, GenerateOnClose
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚·ƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚ÉŒ»‚ê‚éB
@@ -8210,8 +7626,6 @@ ObjectDeleteAuditAlarm ŠÖ”‚ÍAŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª SE_AUDIT_NAME
 %index
 ObjectOpenAuditAlarmW
 ƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚Ü‚½‚ÍV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Ìì¬‚ğ‚İ‚½‚Æ‚«‚ÉŠÄ¸ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éB(ObjectOpenAuditAlarmW)
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, ObjectTypeName, ObjectName, pSecurityDescriptor, ClientToken, DesiredAccess, GrantedAccess, Privileges, ObjectCreation, AccessGranted, GenerateOnClose
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚·ƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÖ”‚ª¶¬‚·‚éŠÄ¸ƒƒbƒZ[ƒW‚ÉŒ»‚ê‚éB
@@ -8242,8 +7656,6 @@ ObjectOpenAuditAlarm ŠÖ”‚ÍAŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª SE_AUDIT_NAME
 %index
 ObjectPrivilegeAuditAlarmW
 ƒZƒLƒ…ƒŠƒeƒBƒCƒxƒ“ƒgƒƒO‚ÉŠÄ¸ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éB(ObjectPrivilegeAuditAlarmW)
-%group
-Win32 advapi32
 %prm
 SubsystemName, HandleId, ClientToken, DesiredAccess, Privileges, AccessGranted
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚·ƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍŠÄ¸ƒƒbƒZ[ƒW‚ÉŒ»‚ê‚éB
@@ -8272,8 +7684,6 @@ SE_AUDIT_NAME
 %index
 OpenBackupEventLogW
 BackupEventLog ŠÖ”‚Åì¬‚³‚ê‚½ƒoƒbƒNƒAƒbƒvƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğŠJ‚­B(Unicode)
-%group
-Win32 advapi32
 %prm
 lpUNCServerName, lpFileName
 lpUNCServerName : [wstr] ‚±‚Ì‘€ì‚ğÀs‚·‚éƒŠƒ‚[ƒgƒT[ƒo[‚Ì”Ä—p–¼‘O•t‚¯‹K‘¥ (UNC) –¼B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ªg—p‚³‚ê‚éB
@@ -8299,8 +7709,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 OpenEncryptedFileRawW
 ƒoƒbƒNƒAƒbƒv (ƒGƒNƒXƒ|[ƒg) ‚Ü‚½‚Í•œŒ³ (ƒCƒ“ƒ|[ƒg) ‚Ì‚½‚ß‚ÉˆÃ†‰»‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğŠJ‚­B(Unicode)
-%group
-Win32 advapi32
 %prm
 lpFileName, ulFlags, pvContext
 lpFileName : [wstr] ŠJ‚­ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•¶š—ñ‚Í Windows •¶šƒZƒbƒg‚Ì•¶š‚Å\¬‚³‚ê‚é•K—v‚ª‚ ‚éB
@@ -8326,8 +7734,6 @@ OpenEncryptedFileRaw ‚ğŒÄ‚Ño‚µAŸ‚É WriteEncryptedFileRaw ‚ğ 1 ‰ñŒÄ‚Ño‚·B
 %index
 OpenEventLogW
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğŠJ‚­B(Unicode)
-%group
-Win32 advapi32
 %prm
 lpUNCServerName, lpSourceName
 lpUNCServerName : [wstr] ƒCƒxƒ“ƒgƒƒO‚ğŠJ‚­ƒŠƒ‚[ƒgƒT[ƒo[‚Ì”Ä—p–¼‘O•t‚¯‹K‘¥ (UNC) –¼B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ªg—p‚³‚ê‚éB
@@ -8346,8 +7752,6 @@ lpSourceName : [wstr] ƒƒO‚Ì–¼‘OBƒJƒXƒ^ƒ€ƒƒO‚ğw’è‚µA‚»‚ê‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡A
 %index
 OpenProcessToken
 ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚ğŠJ‚­B
-%group
-Win32 advapi32
 %prm
 ProcessHandle, DesiredAccess, TokenHandle
 ProcessHandle : [intptr] ƒAƒNƒZƒXƒg[ƒNƒ“‚ğŠJ‚­ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒvƒƒZƒX‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒX‹–‰Â‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Process Security and Access Rights](/windows/win32/procthread/process-security-and-access-rights) ‚ğQÆB
@@ -8371,8 +7775,6 @@ SE_DEBUG_NAME “ÁŒ ‚ğ—LŒø‚É‚·‚é•K—v‚ª‚ ‚éBÚ×‚Í [Privilege Constants
 %index
 OpenSCManagerW
 w’è‚µ‚½ƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒ‚Ö‚ÌÚ‘±‚ğŠm—§‚µAw’è‚µ‚½ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚ğŠJ‚­B(Unicode)
-%group
-Win32 advapi32
 %prm
 lpMachineName, lpDatabaseName, dwDesiredAccess
 lpMachineName : [wstr] ‘ÎÛƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘OBƒ|ƒCƒ“ƒ^‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚ğw‚·ê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒ‚ÉÚ‘±‚·‚éB
@@ -8403,8 +7805,6 @@ RPC/TCPv‚ğQÆBŠÇ—Ò“ÁŒ ‚ğ‚ÂƒvƒƒZƒX‚Ì‚İ‚ªACreateService
 %index
 OpenServiceW
 Šù‘¶‚ÌƒT[ƒrƒX‚ğŠJ‚­B(Unicode)
-%group
-Win32 advapi32
 %prm
 hSCManager, lpServiceName, dwDesiredAccess
 hSCManager : [intptr] ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenSCManager ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BÚ×‚ÍuService Security and Access Rightsv‚ğQÆB
@@ -8426,8 +7826,6 @@ GetLastError ‚ğŒÄ‚Ño‚·BˆÈ‰º‚ÌƒGƒ‰[ƒR[ƒh‚ªƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‹ƒ}ƒl[ƒWƒƒ‚É‚æ‚
 %index
 OpenThreadToken
 ƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚ğŠJ‚­B
-%group
-Win32 advapi32
 %prm
 ThreadHandle, DesiredAccess, OpenAsSelf, TokenHandle
 ThreadHandle : [intptr] ƒAƒNƒZƒXƒg[ƒNƒ“‚ğŠJ‚­ƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8450,8 +7848,6 @@ CloseHandle ‚ğŒÄ‚Ño‚µ‚Ä•Â‚¶‚éB
 %index
 OpenThreadWaitChainSession
 V‚µ‚¢ WCT ƒZƒbƒVƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 Flags, callback
 Flags : [int] 
@@ -8470,8 +7866,6 @@ callback : [int] ƒZƒbƒVƒ‡ƒ“‚ª”ñ“¯Šú‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í WaitChainCallback ƒR
 %index
 OpenTraceW
 OpenTraceW (Unicode) ŠÖ” (evntrace.h) ‚ÍAETW ƒŠƒAƒ‹ƒ^ƒCƒ€ƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ü‚½‚Í ETW ƒƒOƒtƒ@ƒCƒ‹‚©‚çƒCƒxƒ“ƒg‚ğæ“¾‚·‚é‚½‚ß‚Ì ETW ƒgƒŒ[ƒXˆ—ƒnƒ“ƒhƒ‹‚ğŠJ‚­B
-%group
-Win32 advapi32
 %prm
 Logfile
 Logfile : [var] [EVENT_TRACE_LOGFILE](/windows/win32/api/evntrace/ns-evntrace-event_trace_logfilew) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚ÍAƒCƒxƒ“ƒg‚ğæ“¾‚·‚éƒ\[ƒX (ETW ƒƒOƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒŠƒAƒ‹ƒ^ƒCƒ€ ETW ƒZƒbƒVƒ‡ƒ“) ‚ğw’è‚µAƒRƒ“ƒVƒ…[ƒ}‚ªƒCƒxƒ“ƒg‚ğó‚¯æ‚é‚½‚ß‚Ég—p‚·‚éƒR[ƒ‹ƒoƒbƒN‚ğw’è‚·‚éB¬Œ÷‚É‚Í **OpenTrace** ‚ÍAŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒZƒbƒVƒ‡ƒ“‚©‚ç‚Ìî•ñ‚Å\‘¢‘Ì‚ğXV‚·‚éB
@@ -8495,8 +7889,6 @@ OpenTraceW (Unicode) ŠÖ” (evntrace.h) ‚ÍAETW ƒŠƒAƒ‹ƒ^ƒCƒ€ƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ü‚
 %index
 OperationEnd
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğI—¹‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚é‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éB
-%group
-Win32 advapi32
 %prm
 OperationEndParams
 OperationEndParams : [var] VERSIONAOPERATION_IDAFLAGS ‚ğw’è‚·‚é _OPERATION_END_PARAMETERS \‘¢‘ÌB
@@ -8514,8 +7906,6 @@ OPERATION_API_VERSION ‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éBOperationEnd ŠÖ”‚Í‚Ç‚ÌƒXƒŒƒbƒh‚©‚ç‚
 %index
 OperationStart
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘€ì‚ğŠJn‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚é‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éB
-%group
-Win32 advapi32
 %prm
 OperationStartParams
 OperationStartParams : [var] VERSIONAOPERATION_IDAFLAGS ‚ğw’è‚·‚é _OPERATION_START_PARAMETERS \‘¢‘ÌB
@@ -8537,8 +7927,6 @@ OPERATION_API_VERSION ‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éBOperationStart
 %index
 PerfAddCounters
 w’è‚µ‚½ƒNƒGƒŠ‚ÉƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^d—l‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 advapi32
 %prm
 hQuery, pCounters, cbCounters
 hQuery : [intptr] ƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^d—l‚ğ’Ç‰Á‚·‚éƒNƒGƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8562,8 +7950,6 @@ PERF_COUNTER_IDENTIFIER ƒuƒƒbƒN‚É‘Î‚µ‚Ä
 %index
 PerfCloseQueryHandle
 PerfOpenQueryHandle ‚ğŒÄ‚Ño‚µ‚ÄŠJ‚¢‚½ƒNƒGƒŠƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 advapi32
 %prm
 hQuery
 hQuery : [intptr] •Â‚¶‚éƒNƒGƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8578,8 +7964,6 @@ PerfOpenQueryHandle ‚ğŒÄ‚Ño‚µ‚ÄŠJ‚¢‚½ƒNƒGƒŠƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
 %index
 PerfDeleteCounters
 w’è‚µ‚½ƒNƒGƒŠ‚©‚çw’è‚µ‚½ƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^d—l‚ğíœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 hQuery, pCounters, cbCounters
 hQuery : [intptr] ƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^d—l‚ğíœ‚·‚éƒNƒGƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8605,8 +7989,6 @@ Status ƒƒ“ƒo‚ÅXV‚·‚éB
 %index
 PerfEnumerateCounterSet
 w’è‚µ‚½ƒVƒXƒeƒ€‚É“o˜^‚³‚ê‚Ä‚¢‚éƒJƒEƒ“ƒ^ƒZƒbƒg‚ÌƒJƒEƒ“ƒ^ƒZƒbƒg¯•Êq‚ğæ“¾‚·‚éBƒJƒEƒ“ƒ^ƒZƒbƒg¯•Êq‚ÍƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq (GUID) ‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 szMachine, pCounterSetIds, cCounterSetIds, pcCounterSetIdsActual
 szMachine : [wstr] ƒJƒEƒ“ƒ^ƒZƒbƒg¯•Êq‚ğæ“¾‚·‚éƒ}ƒVƒ“‚Ì–¼‘OBNULL ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒ}ƒVƒ“‚ÌƒJƒEƒ“ƒ^ƒZƒbƒg¯•Êq‚ğæ“¾‚·‚éB
@@ -8624,8 +8006,6 @@ pcCounterSetIdsActual : [var] ƒJƒEƒ“ƒ^ƒZƒbƒg¯•Êq‚ğæ“¾‚·‚é‚Ì‚ÉÀÛ‚É•K—v‚Èƒoƒb
 %index
 PerfEnumerateCounterSetInstances
 w’è‚µ‚½ƒVƒXƒeƒ€ã‚ÌƒJƒEƒ“ƒ^ƒZƒbƒg‚ÌƒAƒNƒeƒBƒuƒCƒ“ƒXƒ^ƒ“ƒX‚Ì–¼‘O‚Æ¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 szMachine, pCounterSetId, pInstances, cbInstances, pcbInstancesActual
 szMachine : [wstr] pCounterSet ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒJƒEƒ“ƒ^ƒZƒbƒg‚ÌƒAƒNƒeƒBƒuƒCƒ“ƒXƒ^ƒ“ƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éƒ}ƒVƒ“‚Ì–¼‘OBNULL ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒ}ƒVƒ“‚Ìw’è‚µ‚½ƒJƒEƒ“ƒ^ƒZƒbƒg‚ÌƒAƒNƒeƒBƒuƒCƒ“ƒXƒ^ƒ“ƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
@@ -8650,8 +8030,6 @@ PERF_INSTANCE_HEADER ƒuƒƒbƒN‚ÌƒTƒCƒY‚ª 8 ƒoƒCƒg‚Ì”{”‚É‚È‚é‚æ‚¤‚ÉƒpƒfƒBƒ“ƒO‚ª‘±
 %index
 PerfOpenQueryHandle
 w’è‚µ‚½ƒVƒXƒeƒ€ã‚ÌƒNƒGƒŠ‚ğQÆ‚·‚éƒnƒ“ƒhƒ‹‚ğì¬‚·‚éBƒNƒGƒŠ‚ÍƒJƒEƒ“ƒ^d—l‚ÌƒŠƒXƒg‚Å‚ ‚éB
-%group
-Win32 advapi32
 %prm
 szMachine, phQuery
 szMachine : [wstr] ƒNƒGƒŠƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éƒ}ƒVƒ“‚Ì–¼‘OB
@@ -8673,8 +8051,6 @@ phQuery : [intptr] ƒNƒGƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B•s—v‚É‚È‚Á‚½‚ç PerfCloseQueryHandle ‚ğŒÄ‚
 %index
 PerfQueryCounterData
 w’è‚µ‚½ƒNƒGƒŠ“à‚ÌƒJƒEƒ“ƒ^d—l‚Éˆê’v‚·‚éƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hQuery, pCounterBlock, cbCounterBlock, pcbCounterBlockActual
 hQuery : [intptr] ’l‚ğæ“¾‚·‚éƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^‚ÌƒJƒEƒ“ƒ^d—l‚ÌƒNƒGƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8696,8 +8072,6 @@ pcbCounterBlockActual : [var] ƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^’l‚ğæ“¾‚·‚é‚Ì‚ÉÀÛ‚É•K—v‚È
 %index
 PerfQueryCounterInfo
 w’è‚µ‚½ƒNƒGƒŠ“à‚ÌƒJƒEƒ“ƒ^d—l‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hQuery, pCounters, cbCounters, pcbCountersActual
 hQuery : [intptr] ƒJƒEƒ“ƒ^d—l‚ğæ“¾‚·‚éƒNƒGƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8721,8 +8095,6 @@ null I’[ UTF-16LE ƒCƒ“ƒXƒ^ƒ“ƒX–¼‚ª‘±‚«A‚»‚ÌŒã‚É PERF_COUNTER_IDENTIFIER ƒuƒƒb
 %index
 PerfQueryCounterSetRegistrationInfo
 w’è‚µ‚½ƒVƒXƒeƒ€ã‚ÌƒJƒEƒ“ƒ^ƒZƒbƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 szMachine, pCounterSetId, requestCode, requestLangId, pbRegInfo, cbRegInfo, pcbRegInfoActual
 szMachine : [wstr] pCounterSet ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒJƒEƒ“ƒ^ƒZƒbƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éƒ}ƒVƒ“‚Ì–¼‘OBNULL ‚Ìê‡AŠÖ”‚Íƒ[ƒJƒ‹ƒ}ƒVƒ“‚Ìw’è‚µ‚½ƒJƒEƒ“ƒ^ƒZƒbƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
@@ -8745,8 +8117,6 @@ pcbRegInfoActual : [var] ƒJƒEƒ“ƒ^ƒZƒbƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚Ì‚ÉÀÛ‚É•K—v‚Èƒoƒ
 %index
 PrivilegeCheck
 w’è‚µ‚½“ÁŒ ‚ÌƒZƒbƒg‚ªƒAƒNƒZƒXƒg[ƒNƒ“‚Å—LŒø‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 ClientToken, RequiredPrivileges, pfResult
 ClientToken : [intptr] ƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒZƒX‚ğ•\‚·ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ğ‹U‘•‚·‚éƒXƒŒƒbƒh‚Ìƒg[ƒNƒ“‚ğŠJ‚­‚±‚Æ‚Åæ“¾‚·‚é•K—v‚ª‚ ‚éBƒg[ƒNƒ“‚Í TOKEN_QUERY ƒAƒNƒZƒX‚ÅŠJ‚­•K—v‚ª‚ ‚éB
@@ -8769,8 +8139,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 PrivilegedServiceAuditAlarmW
 ƒZƒLƒ…ƒŠƒeƒBƒCƒxƒ“ƒgƒƒO‚ÉŠÄ¸ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éB(PrivilegedServiceAuditAlarmW)
-%group
-Win32 advapi32
 %prm
 SubsystemName, ServiceName, ClientToken, Privileges, AccessGranted
 SubsystemName : [wstr] ŠÖ”‚ğŒÄ‚Ño‚·ƒTƒuƒVƒXƒeƒ€‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìî•ñ‚ÍƒZƒLƒ…ƒŠƒeƒBƒCƒxƒ“ƒgƒƒOƒŒƒR[ƒh‚ÉŒ»‚ê‚éB
@@ -8798,8 +8166,6 @@ SE_AUDIT_NAME
 %index
 ProcessTrace
 1 ‚ÂˆÈã‚ÌƒgƒŒ[ƒXˆ—ƒZƒbƒVƒ‡ƒ“‚©‚çƒRƒ“ƒVƒ…[ƒ}‚ÉƒCƒxƒ“ƒg‚ğ”zM‚·‚éB
-%group
-Win32 advapi32
 %prm
 HandleArray, HandleCount, StartTime, EndTime
 HandleArray : [var] ˆÈ‘O‚Ì [OpenTrace](/windows/win32/api/evntrace/nf-evntrace-opentracea) ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒgƒŒ[ƒXˆ—ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B”z—ñ‚É‚ÍÅ‘å 64 ŒÂ‚Ìƒtƒ@ƒCƒ‹ˆ—ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í 1 ŒÂ‚ÌƒŠƒAƒ‹ƒ^ƒCƒ€ˆ—ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB”z—ñ‚Éƒtƒ@ƒCƒ‹ˆ—ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ÆƒŠƒAƒ‹ƒ^ƒCƒ€ˆ—ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Ì—¼•û‚ğŠÜ‚ß‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -8827,8 +8193,6 @@ codes](/windows/win32/debug/system-error-codes) ‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éB
 %index
 QueryAllTracesW
 QueryAllTracesW (Unicode) ŠÖ” (evntrace.h) ‚ÍAŒÄ‚Ño‚µŒ³‚ªƒNƒGƒŠ‚Å‚«‚é‚·‚×‚Ä‚ÌƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Æ“Œv‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 PropertyArray, PropertyArrayCount, LoggerCount
 PropertyArray : [var] ƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ÌƒZƒbƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚Æ“Œv‚ğó‚¯æ‚é [EVENT_TRACE_PROPERTIES](/windows/desktop/ETW/event-trace-properties) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñB[EVENT_TRACE_PROPERTIES](/windows/desktop/ETW/event-trace-properties) \‘¢‘Ì‚Ì **Wnode.BufferSize**A**LoggerNameOffset**A**LogFileNameOffset** ƒƒ“ƒo‚Ì‚İ‚ğİ’è‚·‚ê‚Î‚æ‚¢B‘¼‚Ìƒƒ“ƒo‚Í‚·‚×‚Äƒ[ƒ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -8854,8 +8218,6 @@ Log Users ƒOƒ‹[ƒv‚Ìƒ†[ƒU[ALocalSystemALocalServiceANetworkService
 %index
 QueryRecoveryAgentsOnEncryptedFile
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚É‘Î‚·‚é‰ñ•œƒG[ƒWƒFƒ“ƒg‚Ìˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 lpFileName, pRecoveryAgents
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -8877,8 +8239,6 @@ WinError.h ‚ğQÆ‚Ì‚±‚ÆB
 %index
 QuerySecurityAccessMask
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğ–â‚¢‡‚í‚¹‚é‚½‚ß‚É•K—v‚Æ‚È‚éƒAƒNƒZƒXŒ ŒÀ‚ğ•\‚·ƒAƒNƒZƒXƒ}ƒXƒN‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityInformation, DesiredAccess
 SecurityInformation : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğw’è‚·‚é SECURITY_INFORMATION \‘¢‘ÌB
@@ -8890,8 +8250,6 @@ DesiredAccess : [var] ‚±‚ÌŠÖ”‚ªì¬‚·‚éƒAƒNƒZƒXƒ}ƒXƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 QueryServiceConfigW
 w’è‚µ‚½ƒT[ƒrƒX‚Ì\¬ƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hService, lpServiceConfig, cbBufSize, pcbBytesNeeded
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_QUERY_CONFIG ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -8919,8 +8277,6 @@ CreateService ŠÖ”‚Åİ’è‚·‚éB‚»‚ÌŒãAƒT[ƒrƒX\¬ƒvƒƒOƒ‰ƒ€‚ª ChangeServiceConf
 %index
 QueryServiceConfig2A
 w’è‚µ‚½ƒT[ƒrƒX‚ÌÈ—ª‰Â”\‚È\¬ƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB(ANSI)
-%group
-Win32 advapi32
 %prm
 hService, dwInfoLevel, lpBuffer, cbBufSize, pcbBytesNeeded
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_QUERY_CONFIG ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -8947,8 +8303,6 @@ QueryServiceConfig ŠÖ”‚ğg—p‚µ‚Ä‚»‚ê‚¼‚ê•ÏXE–â‚¢‡‚í‚¹‚ª‚Å‚«‚éB
 %index
 QueryServiceConfig2W
 w’è‚µ‚½ƒT[ƒrƒX‚ÌÈ—ª‰Â”\‚È\¬ƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hService, dwInfoLevel, lpBuffer, cbBufSize, pcbBytesNeeded
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_QUERY_CONFIG ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -8975,8 +8329,6 @@ QueryServiceConfig ŠÖ”‚ğg—p‚µ‚Ä‚»‚ê‚¼‚ê•ÏXE–â‚¢‡‚í‚¹‚ª‚Å‚«‚éB
 %index
 QueryServiceDynamicInformation
 Œ»İ‚ÌƒT[ƒrƒXŠJn‚ÉŠÖ˜A‚·‚é“®“Iî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hServiceStatus, dwInfoLevel, ppDynamicInfo
 hServiceStatus : [intptr] RegisterServiceCtrlHandlerEx ‚É‚æ‚Á‚Ä’ñ‹Ÿ‚³‚ê‚éƒT[ƒrƒXƒXƒe[ƒ^ƒXƒnƒ“ƒhƒ‹B
@@ -8993,8 +8345,6 @@ ppDynamicInfo : [var] “®“Iî•ñƒoƒbƒtƒ@B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª—LŒø‚Èê‡AƒR[ƒ‹ƒoƒbƒN
 %index
 QueryServiceLockStatusW
 w’è‚µ‚½ƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚ÌƒƒbƒNó‘Ô‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hSCManager, lpLockStatus, cbBufSize, pcbBytesNeeded
 hSCManager : [intptr] ƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenSCManager ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µASC_MANAGER_QUERY_LOCK_STATUS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9028,8 +8378,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 QueryServiceObjectSecurity
 ƒT[ƒrƒXƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌƒRƒs[‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hService, dwSecurityInformation, lpSecurityDescriptor, cbBufSize, pcbBytesNeeded
 hService : [intptr] ƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒ‚Ü‚½‚ÍƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒ‚Ö‚Ìƒnƒ“ƒhƒ‹‚Í OpenSCManager ŠÖ”‚ª•Ô‚µAƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·Bƒnƒ“ƒhƒ‹‚Í READ_CONTROL ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -9063,8 +8411,6 @@ ACCESS_SYSTEM_SECURITY
 %index
 QueryServiceStatus
 w’è‚µ‚½ƒT[ƒrƒX‚ÌŒ»İ‚Ìó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hService, lpServiceStatus
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_QUERY_STATUS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9086,8 +8432,6 @@ QueryServiceStatus
 %index
 QueryServiceStatusEx
 w’è‚µ‚½î•ñƒŒƒxƒ‹‚ÉŠî‚Ã‚«Aw’è‚µ‚½ƒT[ƒrƒX‚ÌŒ»İ‚Ìó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 hService, InfoLevel, lpBuffer, cbBufSize, pcbBytesNeeded
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateService ‚Ü‚½‚Í OpenService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_QUERY_STATUS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9116,8 +8460,6 @@ SERVICE_RUNNINGASERVICE_PAUSE_PENDINGASERVICE_PAUSEDASERVICE_CONTINUE_PENDING
 %index
 QueryTraceW
 QueryTraceW (Unicode) ŠÖ” (evntrace.h) ‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒBİ’è‚ÆƒZƒbƒVƒ‡ƒ““Œvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 TraceHandle, InstanceName, Properties
 TraceHandle : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í 0B_InstanceName_ ‚ª **NULL** ‚Ìê‡‚ÍA0 ˆÈŠO‚Ì _TraceHandle_ ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í _InstanceName_ ‚ª **NULL** ‚Ìê‡‚É‚Ì‚İg—p‚³‚ê‚éBƒnƒ“ƒhƒ‹‚Í [StartTrace](/windows/win32/api/evntrace/nf-evntrace-starttracew) ‚ª•Ô‚·B
@@ -9159,8 +8501,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 QueryTraceProcessingHandle
 OpenTrace ‚É‚æ‚Á‚ÄŠJ‚©‚ê‚½ ETW ƒgƒŒ[ƒXˆ—ƒZƒbƒVƒ‡ƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 ProcessingHandle, InformationClass, InBuffer, InBufferSize, OutBuffer, OutBufferSize, ReturnLength
 ProcessingHandle : [int] ƒf[ƒ^‚Ì–â‚¢‡‚í‚¹‘ÎÛ‚Æ‚È‚éA[OpenTrace](/windows/win32/api/evntrace/nf-evntrace-opentracea) ‚Åì¬‚³‚ê‚½—LŒø‚Èƒnƒ“ƒhƒ‹B
@@ -9181,8 +8521,6 @@ OpenTrace ‚É‚æ‚Á‚ÄŠJ‚©‚ê‚½ ETW ƒgƒŒ[ƒXˆ—ƒZƒbƒVƒ‡ƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %index
 QueryUsersOnEncryptedFile
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒ†[ƒU‚Ìˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 lpFileName, pUsers
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -9204,8 +8542,6 @@ WinError.h ‚ğQÆ‚Ì‚±‚ÆB
 %index
 ReadEncryptedFileRaw
 ˆÃ†‰»‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğƒoƒbƒNƒAƒbƒviƒGƒNƒXƒ|[ƒgj‚·‚éB
-%group
-Win32 advapi32
 %prm
 pfExportCallback, pvCallbackContext, pvContext
 pfExportCallback : [int] ƒGƒNƒXƒ|[ƒgƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒVƒXƒeƒ€‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ•¡”‰ñŒÄ‚Ño‚µAƒtƒ@ƒCƒ‹‘S‘Ì‚ª“Ç‚İæ‚ç‚ê‚é‚Ü‚ÅA‚»‚Ì“s“xƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^ƒuƒƒbƒN‚ğƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·BÚ×‚É‚Â‚¢‚Ä‚Í ExportCallback ‚ğQÆ‚Ì‚±‚ÆB
@@ -9240,8 +8576,6 @@ BackupRead ‚ğQÆ‚Ì‚±‚ÆBWindows 8AWindows Server 2012
 %index
 ReadEventLogW
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚©‚çAw’è‚µ‚½”‚ÌƒGƒ“ƒgƒŠ‚ğ“Ç‚İæ‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hEventLog, dwReadFlags, dwRecordOffset, lpBuffer, nNumberOfBytesToRead, pnBytesRead, pnMinNumberOfBytesNeeded
 hEventLog : [intptr] “Ç‚İæ‚è‘ÎÛ‚ÌƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenEventLog ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -9267,8 +8601,6 @@ pnMinNumberOfBytesNeeded : [var] lpBuffer ƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY‚ğó‚¯æ‚é•Ï”‚Ö
 %index
 RegConnectRegistryW
 •Ê‚ÌƒRƒ“ƒsƒ…[ƒ^ã‚Ì’è‹`Ï‚İƒŒƒWƒXƒgƒŠƒL[‚Ö‚ÌÚ‘±‚ğŠm—§‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpMachineName, hKey, phkResult
 lpMachineName : [wstr] ƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘OB•¶š—ñ‚ÍŸ‚ÌŒ`®‚Å‚ ‚é:
@@ -9309,8 +8641,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegConnectRegistryExW
 (no summary)
-%group
-Win32 advapi32
 %prm
 lpMachineName, hKey, Flags, phkResult
 lpMachineName : [wstr] 
@@ -9324,8 +8654,6 @@ phkResult : [intptr]
 %index
 RegCreateKeyW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ğì¬‚·‚éBƒL[‚ªƒŒƒWƒXƒgƒŠ‚É‚·‚Å‚É‘¶İ‚·‚éê‡AŠÖ”‚Í‚»‚ê‚ğŠJ‚­B(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, phkResult
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Í‚»‚ÌƒL[‚É‘Î‚·‚é KEY_CREATE_SUB_KEY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9360,8 +8688,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegCreateKeyTransactedW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ğì¬‚µAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, Reserved, lpClass, dwOptions, samDesired, lpSecurityAttributes, phkResult, lpdwDisposition, hTransaction, pExtendedParemeter
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Í‚»‚ÌƒL[‚É‘Î‚·‚é KEY_CREATE_SUB_KEY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆBƒL[ì¬‚ÌƒAƒNƒZƒXŒ ‚ÍAƒnƒ“ƒhƒ‹æ“¾‚Éw’è‚µ‚½ƒAƒNƒZƒXƒ}ƒXƒN‚Å‚Í‚È‚­AƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É‘Î‚µ‚ÄŒŸ¸‚³‚ê‚éB‚µ‚½‚ª‚Á‚ÄAhKey ‚ª KEY_READ ‚Ì samDesired ‚ÅŠJ‚©‚ê‚Ä‚¢‚Ä‚àAƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ª‹–‰Â‚µ‚Ä‚¢‚ê‚ÎƒL[ì¬‘€ì‚Ég—p‚Å‚«‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyTransacted ‚Ü‚½‚Í RegOpenKeyTransacted ŠÖ”‚ª•Ô‚·‚©AˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é:
@@ -9408,8 +8734,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegDeleteKeyW
 ƒTƒuƒL[‚Æ‚»‚Ì’l‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey
 hKey : [intptr] ƒI[ƒvƒ“’†‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒL[‚ÌƒAƒNƒZƒXŒ ‚Ííœ‘€ì‚É‰e‹¿‚µ‚È‚¢BRegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ‚Åæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í HKEY_CLASSES_ROOTAHKEY_CURRENT_CONFIGAHKEY_CURRENT_USERAHKEY_LOCAL_MACHINEAHKEY_USERS ‚Ì‚¢‚¸‚ê‚©B
@@ -9429,8 +8753,6 @@ lpSubKey : [wstr] íœ‚·‚éƒL[‚Ì–¼‘OBhKey ‚Å¯•Ê‚³‚ê‚éƒL[‚ÌƒTƒuƒL[‚Å‚È‚¯‚ê‚Î‚
 %index
 RegDeleteKeyTransactedW
 w’è‚³‚ê‚½ƒvƒ‰ƒbƒgƒtƒH[ƒ€ŒÅ—L‚ÌƒŒƒWƒXƒgƒŠƒrƒ…[‚©‚çAƒTƒuƒL[‚Æ‚»‚Ì’l‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‰»‚³‚ê‚½‘€ì‚Æ‚µ‚Äíœ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, samDesired, Reserved, hTransaction, pExtendedParameter
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒL[‚ÌƒAƒNƒZƒXŒ ‚Ííœ‘€ì‚É‰e‹¿‚µ‚È‚¢BƒAƒNƒZƒXŒ ‚ÌÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyExARegCreateKeyTransactedARegOpenKeyExA‚Ü‚½‚Í RegOpenKeyTransacted ŠÖ”‚ª•Ô‚·BˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚é: HKEY_CLASSES_ROOT HKEY_CURRENT_CONFIG HKEY_CURRENT_USER HKEY_LOCAL_MACHINE HKEY_USERS
@@ -9465,8 +8787,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegDeleteKeyValueW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚¨‚æ‚ÑƒTƒuƒL[‚©‚çAw’è‚µ‚½’l‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, lpValueName
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_SET_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9495,8 +8815,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegDisablePredefinedCache
 Œ»İ‚ÌƒvƒƒZƒX‚É‚¨‚¢‚ÄAHKEY_CURRENT_USER ’è‹`Ï‚İƒŒƒWƒXƒgƒŠƒnƒ“ƒhƒ‹‚Ìƒnƒ“ƒhƒ‹ƒLƒƒƒbƒVƒ…‚ğ–³Œø‚É‚·‚éB
-%group
-Win32 advapi32
 %prm
 
 %inst
@@ -9515,8 +8833,6 @@ Win32 advapi32
 %index
 RegDisableReflectionKey
 w’è‚µ‚½ƒL[‚ÌƒŒƒWƒXƒgƒŠƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ğ–³Œø‚É‚·‚éBƒL[‚ÌƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ğ–³Œø‚É‚µ‚Ä‚àA‚»‚ÌƒTƒuƒL[‚ÌƒŠƒtƒŒƒNƒVƒ‡ƒ“‚É‚Í‰e‹¿‚µ‚È‚¢B
-%group
-Win32 advapi32
 %prm
 hBase
 hBase : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyExARegCreateKeyTransactedARegOpenKeyExA‚Ü‚½‚Í RegOpenKeyTransacted ŠÖ”‚ª•Ô‚·BƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒL[‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BƒL[‚ªƒŠƒtƒŒƒNƒVƒ‡ƒ“‘ÎÛƒŠƒXƒg‚É‚È‚¢ê‡AŠÖ”‚Í¬Œ÷‚·‚é‚ª‰½‚às‚í‚È‚¢BÚ×‚ÍƒŒƒWƒXƒgƒŠƒŠƒ_ƒCƒŒƒNƒ^‚ÆƒŒƒWƒXƒgƒŠƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ğQÆ‚Ì‚±‚ÆB
@@ -9538,8 +8854,6 @@ WOW64 ‚Å‚ÍA32 ƒrƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í 64
 %index
 RegEnableReflectionKey
 w’è‚µ‚½–³Œø‰»Ï‚İƒL[‚ÌƒŒƒWƒXƒgƒŠƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ğ•œŒ³‚·‚éBƒL[‚ÌƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ğ•œŒ³‚µ‚Ä‚àA‚»‚ÌƒTƒuƒL[‚ÌƒŠƒtƒŒƒNƒVƒ‡ƒ“‚É‚Í‰e‹¿‚µ‚È‚¢B
-%group
-Win32 advapi32
 %prm
 hBase
 hBase : [intptr] RegDisableReflectionKey ŠÖ”‚É‚æ‚Á‚ÄˆÈ‘O‚É–³Œø‰»‚³‚ê‚½ƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyExARegCreateKeyTransactedARegOpenKeyExA‚Ü‚½‚Í RegOpenKeyTransacted ŠÖ”‚ª•Ô‚·BƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒL[‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BƒL[‚ªƒŠƒtƒŒƒNƒVƒ‡ƒ“‘ÎÛƒŠƒXƒg‚É‚È‚¢ê‡AŠÖ”‚Í¬Œ÷‚·‚é‚ª‰½‚às‚í‚È‚¢BÚ×‚ÍƒŒƒWƒXƒgƒŠƒŠƒ_ƒCƒŒƒNƒ^‚ÆƒŒƒWƒXƒgƒŠƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ğQÆ‚Ì‚±‚ÆB
@@ -9560,8 +8874,6 @@ WOW64 ‚Å‚ÍA32 ƒrƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í 64
 %index
 RegEnumKeyW
 w’è‚µ‚½ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚ÌƒTƒuƒL[‚ğ—ñ‹“‚·‚éB(RegEnumKeyW)
-%group
-Win32 advapi32
 %prm
 hKey, dwIndex, lpName, cchName
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_ENUMERATE_SUB_KEYS ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9595,8 +8907,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegLoadAppKeyW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒnƒCƒu‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒnƒCƒu‚Æ‚µ‚Äƒ[ƒh‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpFile, phkResult, samDesired, dwOptions, Reserved
 lpFile : [wstr] ƒnƒCƒuƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚ÌƒnƒCƒu‚Í RegSaveKey ‚Ü‚½‚Í RegSaveKeyEx ŠÖ”‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡Aw’è‚µ‚½–¼‘O‚Å‹ó‚ÌƒnƒCƒuƒtƒ@ƒCƒ‹‚ªì¬‚³‚ê‚éB
@@ -9639,8 +8949,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegOpenKeyW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ğŠJ‚­B(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, phkResult
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ŠÖ”‚ª•Ô‚·‚©AˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é: * HKEY_CLASSES_ROOT * HKEY_CURRENT_CONFIG * HKEY_CURRENT_USER * HKEY_LOCAL_MACHINE * HKEY_USERS
@@ -9672,8 +8980,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegOpenKeyTransactedW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ğŠJ‚«Aƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, ulOptions, samDesired, phkResult, hTransaction, pExtendedParemeter
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyExARegCreateKeyTransactedARegOpenKeyExA‚Ü‚½‚Í RegOpenKeyTransacted ŠÖ”‚ª•Ô‚·BˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚é: HKEY_CLASSES_ROOT HKEY_CURRENT_USER HKEY_LOCAL_MACHINE HKEY_USERS
@@ -9715,8 +9021,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegOverridePredefKey
 ’è‹`Ï‚İƒŒƒWƒXƒgƒŠƒL[‚ğw’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚Éƒ}ƒbƒv‚·‚éB
-%group
-Win32 advapi32
 %prm
 hKey, hNewHKey
 hKey : [intptr] ˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚Ö‚Ìƒnƒ“ƒhƒ‹: - HKEY_CLASSES_ROOT - HKEY_CURRENT_CONFIG - HKEY_CURRENT_USER - HKEY_LOCAL_MACHINE - HKEY_PERFORMANCE_DATA - HKEY_USERS
@@ -9751,8 +9055,6 @@ HKEY_CLASSES_ROOT ‚ÉƒRƒs[‚Å‚«‚éBRegOverridePredefKey ‚ÌŒÄ‚Ño‚µŒãARegCloseKey
 %index
 RegQueryMultipleValuesW
 ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ˆê˜A‚Ì’l–¼‚É‚Â‚¢‚ÄAŒ^‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, val_list, num_vals, lpValueBuf, ldwTotsize
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9785,8 +9087,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegQueryReflectionKey
 w’è‚µ‚½ƒL[‚É‘Î‚µ‚ÄƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ª–³Œø‰»‚³‚ê‚Ä‚¢‚é‚©—LŒø‰»‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 hBase, bIsReflectionDisabled
 hBase : [intptr] ƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyExARegCreateKeyTransactedARegOpenKeyExA‚Ü‚½‚Í RegOpenKeyTransacted ŠÖ”‚ª•Ô‚·BƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒL[‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -9809,8 +9109,6 @@ WOW64 ‚Å‚ÍA32 ƒrƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í 64
 %index
 RegQueryValueW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ÌŠù’è’l‚Ü‚½‚Í–³–¼’l‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚ğæ“¾‚·‚éBƒf[ƒ^‚Í null ‚ÅI’[‚³‚ê‚½•¶š—ñ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, lpData, lpcbData
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_QUERY_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9845,8 +9143,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegRenameKey
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚Ì–¼‘O‚ğ•ÏX‚·‚éB(RegRenameKey)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKeyName, lpNewKeyName
 hKey : [intptr] –¼‘O‚ğ•ÏX‚·‚éƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í KEY_WRITE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Registry Key Security and Access Rights](/windows/win32/SysInfo/registry-key-security-and-access-rights) ‚ğQÆ‚Ì‚±‚ÆB‚±‚Ìƒnƒ“ƒhƒ‹‚Í [RegCreateKeyEx](nf-winreg-regcreatekeyexa.md) ‚Ü‚½‚Í [RegOpenKeyEx](nf-winreg-regopenkeyexa.md) ŠÖ”‚ª•Ô‚·‚©AˆÈ‰º‚Ì [’è‹`Ï‚İƒL[](/windows/win32/SysInfo/predefined-keys) ‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é: * HKEY_CLASSES_ROOT * HKEY_CURRENT_CONFIG * HKEY_CURRENT_USER * HKEY_LOCAL_MACHINE * HKEY_USERS
@@ -9870,8 +9166,6 @@ KEY_CREATE_SUB_KEY ƒAƒNƒZƒXŒ A‚¨‚æ‚Ñ–¼‘O•ÏX‘ÎÛ‚ÌƒTƒuƒcƒŠ[‘S‘Ì‚É‘Î‚·‚é DELETE
 %index
 RegReplaceKeyW
 ƒŒƒWƒXƒgƒŠƒL[‚¨‚æ‚Ñ‚»‚Ì‚·‚×‚Ä‚ÌƒTƒuƒL[‚ğx‚¦‚éƒtƒ@ƒCƒ‹‚ğ•Ê‚Ìƒtƒ@ƒCƒ‹‚É’u‚«Š·‚¦‚é‚±‚Æ‚ÅAŸ‰ñ‚ÌƒVƒXƒeƒ€‹N“®‚ÉƒL[‚ÆƒTƒuƒL[‚ªV‚µ‚¢ƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚½’l‚ğ‚Â‚æ‚¤‚É‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, lpNewFile, lpOldFile
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ŠÖ”‚ª•Ô‚·‚©AˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é:
@@ -9905,8 +9199,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegSaveKeyW
 w’è‚µ‚½ƒL[‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒTƒuƒL[‚¨‚æ‚Ñ’l‚ğA•W€Œ`®‚ÅV‚µ‚¢ƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpFile, lpSecurityAttributes
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegCreateKeyEx ‚Ü‚½‚Í RegOpenKeyEx ŠÖ”‚ª•Ô‚·‚©AˆÈ‰º‚Ì’è‹`Ï‚İƒL[‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é:
@@ -9944,8 +9236,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegSetKeyValueW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚¨‚æ‚ÑƒTƒuƒL[“à‚Ìw’è‚µ‚½’l‚Éƒf[ƒ^‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, lpValueName, dwType, lpData, cbData
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_SET_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -9976,8 +9266,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegSetValueW
 w’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ÌŠù’è’l‚Ü‚½‚Í–³–¼’l‚Éƒf[ƒ^‚ğİ’è‚·‚éBƒf[ƒ^‚ÍƒeƒLƒXƒg•¶š—ñ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(Unicode)
-%group
-Win32 advapi32
 %prm
 hKey, lpSubKey, dwType, lpData, cbData
 hKey : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒŒƒWƒXƒgƒŠƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹BƒL[‚Í KEY_SET_VALUE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒŒƒWƒXƒgƒŠƒL[‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -10009,8 +9297,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegisterEventSourceW
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚É‘Î‚·‚é“o˜^Ï‚İƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpUNCServerName, lpSourceName
 lpUNCServerName : [wstr] ‚±‚Ì‘€ì‚ğÀs‚·‚éƒŠƒ‚[ƒgƒT[ƒo‚Ì UNC (Universal Naming Convention) –¼B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ªg—p‚³‚ê‚éB
@@ -10033,8 +9319,6 @@ lpSourceName : [wstr] ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éƒCƒxƒ“ƒgƒ\[ƒX‚Ì–¼‘OBƒ\[ƒX–¼‚Í Eventlo
 %index
 RegisterServiceCtrlHandlerW
 ƒT[ƒrƒX§Œä—v‹‚ğˆ—‚·‚éŠÖ”‚ğ“o˜^‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpServiceName, lpHandlerProc
 lpServiceName : [wstr] ŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªÀs‚·‚éƒT[ƒrƒX‚Ì–¼‘OB‚±‚ê‚ÍAƒT[ƒrƒX§ŒäƒvƒƒOƒ‰ƒ€‚ªƒT[ƒrƒXì¬‚É CreateService ŠÖ”‚Åw’è‚µ‚½ƒT[ƒrƒX–¼‚Å‚ ‚éB
@@ -10062,8 +9346,6 @@ SetServiceStatus
 %index
 RegisterServiceCtrlHandlerExW
 Šg’£ƒT[ƒrƒX§Œä—v‹‚ğˆ—‚·‚éŠÖ”‚ğ“o˜^‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpServiceName, lpHandlerProc, lpContext
 lpServiceName : [wstr] ŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªÀs‚·‚éƒT[ƒrƒX‚Ì–¼‘OB‚±‚ê‚ÍAƒT[ƒrƒX§ŒäƒvƒƒOƒ‰ƒ€‚ªƒT[ƒrƒXì¬‚É CreateService ŠÖ”‚Åw’è‚µ‚½ƒT[ƒrƒX–¼‚Å‚ ‚éB
@@ -10099,8 +9381,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RegisterWaitChainCOMCallback
 WCT —p‚Ì COM ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB
-%group
-Win32 advapi32
 %prm
 CallStateCallback, ActivationStateCallback
 CallStateCallback : [int] CoGetCallState ŠÖ”‚ÌƒAƒhƒŒƒXB
@@ -10116,8 +9396,6 @@ WCT —p‚Ì COM ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB
 %index
 RemoveUsersFromEncryptedFile
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚©‚çw’è‚µ‚½Ø–¾‘ƒnƒbƒVƒ…‚ğíœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 lpFileName, pHashes
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -10140,8 +9418,6 @@ RemoveUsersFromEncryptedFile
 %index
 ReportEventW
 w’è‚µ‚½ƒCƒxƒ“ƒgƒƒO‚Ì––”ö‚ÉƒGƒ“ƒgƒŠ‚ğ‘‚«‚ŞB(Unicode)
-%group
-Win32 advapi32
 %prm
 hEventLog, wType, wCategory, dwEventID, lpUserSid, wNumStrings, dwDataSize, lpStrings, lpRawData
 hEventLog : [intptr] ƒCƒxƒ“ƒgƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹BRegisterEventSource ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BWindows XP SP2 ˆÈ~A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í Security ƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹‚É‚Å‚«‚È‚¢BSecurity ƒƒO‚ÉƒCƒxƒ“ƒg‚ğ‘‚«‚Ş‚É‚ÍAAuthzReportSecurityEvent ŠÖ”‚ğg—p‚·‚éB
@@ -10179,8 +9455,6 @@ Windows ƒo[ƒWƒ‡ƒ“‚É‰‚¶‚ÄˆÙ‚È‚éBƒT[ƒo‚Í RegisterEventSource ŠÖ”‚É“n‚³‚ê‚é lp
 %index
 RevertToSelf
 ƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒp[ƒ\ƒl[ƒVƒ‡ƒ“‚ğI—¹‚·‚éB
-%group
-Win32 advapi32
 %prm
 
 %inst
@@ -10204,8 +9478,6 @@ SetThreadToken ŠÖ”‚ğg—p‚µ‚ÄŠJn‚µ‚½ƒCƒ“ƒp[ƒ\ƒl[ƒVƒ‡ƒ“‚ğI—¹‚µ‚½ŒãARevertToS
 %index
 SaferCloseLevel
 SaferIdentifyLevel ŠÖ”‚Ü‚½‚Í SaferCreateLevel ŠÖ”‚ğg—p‚µ‚ÄŠJ‚©‚ê‚½ SAFER_LEVEL_HANDLE ‚ğ•Â‚¶‚éB
-%group
-Win32 advapi32
 %prm
 hLevelHandle
 hLevelHandle : [intptr] •Â‚¶‚é SAFER_LEVEL_HANDLEB
@@ -10220,8 +9492,6 @@ SAFER_LEVEL_HANDLE ‚ğ•Â‚¶‚éB
 %index
 SaferComputeTokenFromLevel
 SAFER_LEVEL_HANDLE ‚Åw’è‚³‚ê‚½§ŒÀ‚ğg—p‚µ‚Äƒg[ƒNƒ“‚ğ§ŒÀ‚·‚éB
-%group
-Win32 advapi32
 %prm
 LevelHandle, InAccessToken, OutAccessToken, dwFlags, lpReserved
 LevelHandle : [intptr] “ü—Íƒg[ƒNƒ“‚É“K—p‚·‚é§ŒÀ‚ğŠÜ‚Ş SAFER_LEVEL_HANDLEBLevelId ‚ª SAFER_LEVELID_FULLYTRUSTED ‚Ü‚½‚Í SAFER_LEVELID_DISALLOWED ‚Ìƒnƒ“ƒhƒ‹‚ğ‚±‚ÌŠÖ”‚É“n‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ê‚ÍASAFER_LEVELID_FULLYTRUSTED ‚Í§ŒÀ‚ª‚È‚­ASAFER_LEVELID_DISALLOWED ‚Íƒg[ƒNƒ“‚ğŠÜ‚Ü‚È‚¢‚½‚ß‚Å‚ ‚éB
@@ -10239,8 +9509,6 @@ SAFER_LEVEL_HANDLE ‚Åw’è‚³‚ê‚½§ŒÀ‚ğg—p‚µ‚Äƒg[ƒNƒ“‚ğ§ŒÀ‚·‚éB
 %index
 SaferCreateLevel
 SAFER_LEVEL_HANDLE ‚ğŠJ‚­B
-%group
-Win32 advapi32
 %prm
 dwScopeId, dwLevelId, OpenFlags, pLevelHandle, lpReserved
 dwScopeId : [int] ì¬‚·‚éƒŒƒxƒ‹‚ÌƒXƒR[ƒvBŸ‚Ì•\‚Éw’è‰Â”\‚È’l‚ğ¦‚·B
@@ -10259,8 +9527,6 @@ SAFER_LEVEL_HANDLE ‚ğŠJ‚­B
 %index
 SaferGetLevelInformation
 ƒ|ƒŠƒV[ƒŒƒxƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 LevelHandle, dwInfoType, lpQueryBuffer, dwInBufferSize, lpdwOutBufferSize
 LevelHandle : [intptr] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒŒƒxƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -10278,8 +9544,6 @@ lpdwOutBufferSize : [var] lpQueryBuffer ƒpƒ‰ƒ[ƒ^‚Ìo—ÍƒTƒCƒY‚ğ•Ô‚·‚½‚ß‚Ìƒ|ƒCƒ“
 %index
 SaferGetPolicyInformation
 ƒ|ƒŠƒV[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 dwScopeId, SaferPolicyInfoClass, InfoBufferSize, InfoBuffer, InfoBufferRetSize, lpReserved
 dwScopeId : [int] –â‚¢‡‚í‚¹‚ÌƒXƒR[ƒvBŸ‚Ì•\‚Éw’è‰Â”\‚È’l‚ğ¦‚·B
@@ -10298,8 +9562,6 @@ lpReserved : [intptr] «—ˆ‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚·
 %index
 SaferIdentifyLevel
 ƒŒƒxƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 advapi32
 %prm
 dwNumProperties, pCodeProperties, pLevelHandle, lpReserved
 dwNumProperties : [int] pCodeproperties ƒpƒ‰ƒ[ƒ^“à‚Ì SAFER_CODE_PROPERTIES \‘¢‘Ì‚Ì”B
@@ -10317,8 +9579,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SaferRecordEventLogEntry
 ƒƒbƒZ[ƒW‚ğƒCƒxƒ“ƒgƒƒO‚É•Û‘¶‚·‚éB
-%group
-Win32 advapi32
 %prm
 hLevel, szTargetPath, lpReserved
 hLevel : [intptr] ƒCƒxƒ“ƒgƒƒO‚É‘—M‚·‚éƒ‹[ƒ‹‚ÌÚ×‚ğŠÜ‚Ş SAFER_LEVEL_HANDLEB
@@ -10342,8 +9602,6 @@ Safer ŠÖ”‚Í SaferRecordEventLogEntry ‚ğŒÄ‚Ño‚µ‚ÄƒCƒxƒ“ƒg‚ğƒCƒxƒ“ƒgƒƒO‚É‘—M‚·
 %index
 SaferSetLevelInformation
 ƒ|ƒŠƒV[ƒŒƒxƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 LevelHandle, dwInfoType, lpQueryBuffer, dwInBufferSize
 LevelHandle : [intptr] İ’è‚·‚éƒŒƒxƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -10360,8 +9618,6 @@ dwInBufferSize : [int] lpQueryBuffer ƒpƒ‰ƒ[ƒ^‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %index
 SaferSetPolicyInformation
 ƒOƒ[ƒoƒ‹ƒ|ƒŠƒV[§Œä‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 dwScopeId, SaferPolicyInfoClass, InfoBufferSize, InfoBuffer, lpReserved
 dwScopeId : [int] –â‚¢‡‚í‚¹‚ÌƒXƒR[ƒvBŸ‚Ì•\‚Éw’è‰Â”\‚È’l‚ğ¦‚·B
@@ -10379,8 +9635,6 @@ lpReserved : [intptr] «—ˆ‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚·
 %index
 SaferiIsExecutableFileType
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ªÀs‰Â”\ƒtƒ@ƒCƒ‹‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 szFullPathname, bFromShellExecute
 szFullPathname : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•\‚· null I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒ‹–¼Šg’£q‚Ì‚İ‚ª•]‰¿‚³‚ê‚é‚½‚ßAƒpƒX‚ÍÈ—ª‰Â”\‚Å‚ ‚éBƒtƒ@ƒCƒ‹–¼Šg’£q‚Ì•]‰¿‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚â‹ó•¶š—ñ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚¸Aw’è‚µ‚½ƒtƒ@ƒCƒ‹‚Íƒtƒ@ƒCƒ‹–¼Šg’£q‚ğŠÜ‚ñ‚Å‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -10400,8 +9654,6 @@ szFullPath ‚ªÀs‰Â”\‚Å‚È‚¢Šg’£q‚Ìƒtƒ@ƒCƒ‹–¼‚ğ¯•Ê‚·‚éê‡AŠÖ”‚Í FALSE ‚ğ•Ô‚·
 %index
 SetAclInformation
 ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ÉŠÖ‚·‚éî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 pAcl, pAclInformation, nAclInformationLength, dwAclInformationClass
 pAcl : [var] ACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚Í‚±‚Ì ACL ‚Éî•ñ‚ğİ’è‚·‚éB
@@ -10419,8 +9671,6 @@ dwAclInformationClass : [int] —v‹‚³‚ê‚½î•ñ‚ÌƒNƒ‰ƒX‚ğ—^‚¦‚é ACL_INFORMATION_CLA
 %index
 SetEncryptedFileMetadata
 (no summary)
-%group
-Win32 advapi32
 %prm
 lpFileName, pbOldMetadata, pbNewMetadata, pOwnerHash, dwOperation, pCertificatesAdded
 lpFileName : [wstr] 
@@ -10436,8 +9686,6 @@ pCertificatesAdded : [var]
 %index
 SetEntriesInAclW
 Šù‘¶‚Ì ACL \‘¢‘Ì‚ÉV‚µ‚¢ƒAƒNƒZƒX§Œäî•ñ‚Ü‚½‚ÍŠÄ¸§Œäî•ñ‚ğƒ}[ƒW‚µ‚ÄAV‚µ‚¢ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 cCountOfExplicitEntries, pListOfExplicitEntries, OldAcl, NewAcl
 cCountOfExplicitEntries : [int] pListOfExplicitEntries ”z—ñ“à‚Ì EXPLICIT_ACCESS \‘¢‘Ì‚Ì”B
@@ -10467,8 +9715,6 @@ EXPLICIT_ACCESS \‘¢‘Ì‚Ì”z—ñ“à‚ÌŠeƒGƒ“ƒgƒŠ‚ÍAw’è‚³‚ê‚½ó‘õÒ (trustee)
 %index
 SetFileSecurityW
 SetFileSecurityW (Unicode) ŠÖ” (securitybaseapi.h) ‚ÍAƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 lpFileName, SecurityInformation, pSecurityDescriptor
 lpFileName : [wstr] ƒZƒLƒ…ƒŠƒeƒB‚ğİ’è‚·‚é‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒfƒBƒŒƒNƒgƒŠ‚É“K—p‚³‚ê‚éƒZƒLƒ…ƒŠƒeƒB‚Í‚»‚Ìq‚É‚ÍŒp³‚³‚ê‚È‚¢“_‚É’ˆÓ‚Ì‚±‚ÆB
@@ -10490,8 +9736,6 @@ SetFileSecurity ŠÖ”‚ÍAŸ‚ÌğŒ‚ğ–‚½‚·ê‡‚É‚Ì‚İ¬Œ÷‚·‚é:
 %index
 SetKernelObjectSecurity
 ƒJ[ƒlƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 Handle, SecurityInformation, SecurityDescriptor
 Handle : [intptr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚é‘ÎÛ‚ÌƒJ[ƒlƒ‹ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10508,8 +9752,6 @@ SecurityDescriptor : [int] V‚µ‚¢ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğŠÜ‚Ş SECURITY_DESCRIPTOR \‘¢
 %index
 SetNamedSecurityInfoW
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÉAw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pObjectName, ObjectType, SecurityInfo, psidOwner, psidGroup, pDacl, pSacl
 pObjectName : [wstr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í NTFS ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚Ìƒ[ƒJƒ‹‚Ü‚½‚ÍƒŠƒ‚[ƒgƒtƒ@ƒCƒ‹/ƒfƒBƒŒƒNƒgƒŠAƒlƒbƒgƒ[ƒN‹¤—LAƒŒƒWƒXƒgƒŠƒL[AƒZƒ}ƒtƒHAƒCƒxƒ“ƒgAƒ~ƒ…[ƒeƒbƒNƒXAƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOA‚Ü‚½‚Í‘Ò‹@‰Â”\ƒ^ƒCƒ}‚Ì–¼‘O‚É‚Å‚«‚éB
@@ -10536,8 +9778,6 @@ pSacl : [var] ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ SACL ‚Ö‚Ìƒ|ƒCƒ“ƒ^BSecurityInfo ƒpƒ‰ƒ[ƒ^‚Í
 %index
 SetPrivateObjectSecurity
 ƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğ•ÏX‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityInformation, ModificationDescriptor, ObjectsSecurityDescriptor, GenericMapping, Token
 SecurityInformation : [int] İ’è‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì•”•ª‚ğ¦‚·B‚±‚Ì’l‚Í SECURITY_INFORMATION ƒrƒbƒgƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹‚É‚Å‚«‚éB
@@ -10562,8 +9802,6 @@ SetPrivateObjectSecurity ‚ğŒÄ‚Ño‚·‘O‚ÉˆÈ‰º‚ÌğŒ‚ğ–‚½‚·‚±‚Æ‚ğŠm”F‚·‚é•K—v‚ª‚ ‚
 %index
 SetPrivateObjectSecurityEx
 ‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·ƒŠƒ\[ƒXƒ}ƒl[ƒWƒƒ‚ªŠÇ—‚·‚éƒvƒ‰ƒCƒx[ƒgƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğ•ÏX‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityInformation, ModificationDescriptor, ObjectsSecurityDescriptor, AutoInheritFlags, GenericMapping, Token
 SecurityInformation : [int] İ’è‚·‚éƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì•”•ªB‚±‚Ì’l‚Í SECURITY_INFORMATION ƒrƒbƒgƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹‚É‚Å‚«‚éB
@@ -10591,8 +9829,6 @@ SetPrivateObjectSecurity
 %index
 SetSecurityAccessMask
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚é‚½‚ß‚É•K—v‚Æ‚È‚éƒAƒNƒZƒXŒ ŒÀ‚ğ•\‚·ƒAƒNƒZƒXƒ}ƒXƒN‚ğì¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityInformation, DesiredAccess
 SecurityInformation : [int] İ’è‚·‚éƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğw’è‚·‚é SECURITY_INFORMATION \‘¢‘ÌB
@@ -10604,8 +9840,6 @@ DesiredAccess : [var] ‚±‚ÌŠÖ”‚ªì¬‚·‚éƒAƒNƒZƒXƒ}ƒXƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 SetSecurityDescriptorControl
 ƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì§Œäƒrƒbƒg‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚Í ACE ‚Ì©“®Œp³‚ÉŠÖ˜A‚·‚é§Œäƒrƒbƒg‚Ì‚İ‚ğİ’è‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, ControlBitsOfInterest, ControlBitsToSet
 pSecurityDescriptor : [int] §Œäî•ñ‚¨‚æ‚ÑƒŠƒrƒWƒ‡ƒ“î•ñ‚ªİ’è‚³‚ê‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -10625,8 +9859,6 @@ SetSecurityDescriptorControl ŠÖ”‚ÍA•ÏX‚·‚é§Œäƒrƒbƒg‚ÆA‚»‚Ìƒrƒbƒg‚ğƒIƒ“‚É‚·‚
 %index
 SetSecurityDescriptorDacl
 ”CˆÓƒAƒNƒZƒX§ŒäƒŠƒXƒg (DACL) ‚Éî•ñ‚ğİ’è‚·‚éBƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É‚·‚Å‚É DACL ‚ª‘¶İ‚·‚éê‡ADACL ‚Í’u‚«Š·‚¦‚ç‚ê‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, bDaclPresent, pDacl, bDaclDefaulted
 pSecurityDescriptor : [int] ŠÖ”‚ª DACL ‚ğ’Ç‰Á‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Íâ‘ÎŒ`®‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸A‚»‚Ìƒƒ“ƒo‚Í˜A‘±ƒf[ƒ^‚Ö‚ÌƒIƒtƒZƒbƒg‚Å‚Í‚È‚­‘¼‚Ì\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -10653,8 +9885,6 @@ bDaclDefaulted : [int] DACL ‚Ìƒ\[ƒX‚ğ¦‚·ƒtƒ‰ƒOB‚±‚Ìƒtƒ‰ƒO‚ª TRUE ‚Ìê‡ADACL
 %index
 SetSecurityDescriptorGroup
 â‘ÎŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ìƒvƒ‰ƒCƒ}ƒŠƒOƒ‹[ƒvî•ñ‚ğİ’è‚µAƒZƒLƒ…ƒŠƒeƒB‹Lqq“à‚ÉŠù‚É‘¶İ‚·‚éƒvƒ‰ƒCƒ}ƒŠƒOƒ‹[ƒvî•ñ‚ğ’u‚«Š·‚¦‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, pGroup, bGroupDefaulted
 pSecurityDescriptor : [int] ‚±‚ÌŠÖ”‚É‚æ‚Á‚Äƒvƒ‰ƒCƒ}ƒŠƒOƒ‹[ƒv‚ªİ’è‚³‚ê‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ÍŠù‘¶‚Ìƒvƒ‰ƒCƒ}ƒŠƒOƒ‹[ƒv‚ğV‚µ‚¢ƒvƒ‰ƒCƒ}ƒŠƒOƒ‹[ƒv‚Å’u‚«Š·‚¦‚éB
@@ -10671,8 +9901,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SetSecurityDescriptorOwner
 â‘ÎŒ`®‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÌŠ—LÒî•ñ‚ğİ’è‚·‚éBƒZƒLƒ…ƒŠƒeƒB‹Lqq“à‚ÉŠù‚É‘¶İ‚·‚éŠ—LÒî•ñ‚Í’u‚«Š·‚¦‚ç‚ê‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, pOwner, bOwnerDefaulted
 pSecurityDescriptor : [int] ‚±‚ÌŠÖ”‚É‚æ‚Á‚ÄŠ—LÒ‚ªİ’è‚³‚ê‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ÍŠù‘¶‚ÌŠ—LÒ‚ğV‚µ‚¢Š—LÒ‚Å’u‚«Š·‚¦‚éB
@@ -10689,8 +9917,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SetSecurityDescriptorRMControl
 SECURITY_DESCRIPTOR \‘¢‘Ì“à‚ÌƒŠƒ\[ƒXƒ}ƒl[ƒWƒƒ§Œäƒrƒbƒg‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 SecurityDescriptor, RMControl
 SecurityDescriptor : [int] ƒŠƒ\[ƒXƒ}ƒl[ƒWƒƒ§Œäƒrƒbƒg‚ğŠÜ‚Ş SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -10711,8 +9937,6 @@ GetSecurityDescriptorRMControl ‚¨‚æ‚Ñ SetSecurityDescriptorRMControl
 %index
 SetSecurityDescriptorSacl
 ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚Éî•ñ‚ğİ’è‚·‚éBƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É‚·‚Å‚É SACL ‚ª‘¶İ‚·‚éê‡A’u‚«Š·‚¦‚ç‚ê‚éB
-%group
-Win32 advapi32
 %prm
 pSecurityDescriptor, bSaclPresent, pSacl, bSaclDefaulted
 pSecurityDescriptor : [int] ŠÖ”‚ª SACL ‚ğ’Ç‰Á‚·‚é SECURITY_DESCRIPTOR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Íâ‘ÎŒ`®‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸A‚»‚Ìƒƒ“ƒo‚Í˜A‘±ƒf[ƒ^‚Ö‚ÌƒIƒtƒZƒbƒg‚Å‚Í‚È‚­‘¼‚Ì\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -10730,8 +9954,6 @@ bSaclDefaulted : [int] SACL ‚Ìƒ\[ƒX‚ğ¦‚·B‚±‚Ìƒtƒ‰ƒO‚ª TRUE ‚Ìê‡ASACL ‚Í‰½‚
 %index
 SetSecurityInfo
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÉAw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚éBŒÄ‚Ño‚µ‘¤‚Íƒnƒ“ƒhƒ‹‚É‚æ‚Á‚ÄƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éB
-%group
-Win32 advapi32
 %prm
 handle, ObjectType, SecurityInfo, psidOwner, psidGroup, pDacl, pSacl
 handle : [intptr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10758,8 +9980,6 @@ SetSecurityInfo ŠÖ”‚ÍˆÈ‰º‚Ìí—Ş‚ÌƒIƒuƒWƒFƒNƒg‚Ég—p‚Å‚«‚é:
 %index
 SetServiceBits
 ƒT[ƒrƒX‚Ìí—Ş‚ğƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒ‚¨‚æ‚Ñ Server ƒT[ƒrƒX‚É“o˜^‚·‚éB
-%group
-Win32 advapi32
 %prm
 hServiceStatus, dwServiceBits, bSetBitsOn, bUpdateImmediately
 hServiceStatus : [intptr] ƒT[ƒrƒX‚ÌƒXƒe[ƒ^ƒXî•ñ\‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹BƒT[ƒrƒX‚Í RegisterServiceCtrlHandlerEx ŠÖ”‚ğŒÄ‚Ño‚µ‚Äƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
@@ -10777,8 +9997,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SetServiceObjectSecurity
 ƒT[ƒrƒXƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 hService, dwSecurityInformation, lpSecurityDescriptor
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·B‚±‚Ìƒnƒ“ƒhƒ‹‚É•K—v‚ÈƒAƒNƒZƒXŒ ‚ÍAdwSecurityInformation ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚éƒZƒLƒ…ƒŠƒeƒBî•ñ‚É‚æ‚Á‚ÄˆÙ‚È‚éB
@@ -10804,8 +10022,6 @@ SetServiceObjectSecurity ŠÖ”‚ÍAlpSecurityDescriptor
 %index
 SetServiceStatus
 ŒÄ‚Ño‚µ‘¤ƒT[ƒrƒX‚É‚Â‚¢‚ÄAƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒ‚ÌƒXƒe[ƒ^ƒXî•ñ‚ğXV‚·‚éB
-%group
-Win32 advapi32
 %prm
 hServiceStatus, lpServiceStatus
 hServiceStatus : [intptr] Œ»İ‚ÌƒT[ƒrƒX‚ÌƒXƒe[ƒ^ƒXî•ñ\‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í RegisterServiceCtrlHandlerEx ŠÖ”‚ª•Ô‚·B
@@ -10837,8 +10053,6 @@ dwCurrentState ƒƒ“ƒo‚ğ SERVICE_STOPPED ‚ÉAdwWin32ExitCode ƒƒ“ƒo‚ğ 0
 %index
 SetThreadToken
 ƒCƒ“ƒp[ƒ\ƒl[ƒVƒ‡ƒ“ƒg[ƒNƒ“‚ğƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚éB‚±‚ÌŠÖ”‚ÍAƒXƒŒƒbƒh‚ªƒCƒ“ƒp[ƒ\ƒl[ƒVƒ‡ƒ“ƒg[ƒNƒ“‚Ìg—p‚ğ’â~‚·‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚à‚Å‚«‚éB
-%group
-Win32 advapi32
 %prm
 Thread, Token
 Thread : [intptr] ƒCƒ“ƒp[ƒ\ƒl[ƒVƒ‡ƒ“ƒg[ƒNƒ“‚ªŠ„‚è“–‚Ä‚ç‚ê‚éƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -10859,8 +10073,6 @@ SetThreadToken ŠÖ”‚ğg—p‚µ‚ÄƒCƒ“ƒp[ƒ\ƒl[ƒg‚·‚éê‡AƒCƒ“ƒp[ƒ\ƒl[ƒg“ÁŒ ‚ğ‚
 %index
 SetTokenInformation
 w’è‚µ‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚É‘Î‚µ‚ÄŠeíî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 TokenHandle, TokenInformationClass, TokenInformation, TokenInformationLength
 TokenHandle : [intptr] î•ñ‚ğİ’è‚·‚é‘ÎÛ‚ÌƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10883,8 +10095,6 @@ TokenInformationLength : [int] TokenInformation ‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³‚ğƒoƒCƒg’PˆÊ
 %index
 SetUserFileEncryptionKey
 ƒ†[ƒU‚ÌŒ»İ‚ÌƒL[‚ğw’è‚µ‚½Ø–¾‘‚Éİ’è‚·‚éB
-%group
-Win32 advapi32
 %prm
 pEncryptionCertificate
 pEncryptionCertificate : [var] ƒ†[ƒU‚ÌƒL[‚Æ‚È‚éØ–¾‘‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í ENCRYPTION_CERTIFICATE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éB
@@ -10904,8 +10114,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA–{ŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚
 %index
 SetUserFileEncryptionKeyEx
 (no summary)
-%group
-Win32 advapi32
 %prm
 pEncryptionCertificate, dwCapabilities, dwFlags, pvReserved
 pEncryptionCertificate : [var] 
@@ -10919,8 +10127,6 @@ pvReserved : [intptr]
 %index
 StartServiceW
 ƒT[ƒrƒX‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 hService, dwNumServiceArgs, lpServiceArgVectors
 hService : [intptr] ƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í OpenService ‚Ü‚½‚Í CreateService ŠÖ”‚ª•Ô‚·‚à‚Ì‚ÅASERVICE_START ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒT[ƒrƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ‚ğQÆ‚Ì‚±‚ÆB
@@ -10948,8 +10154,6 @@ GetLastError
 %index
 StartServiceCtrlDispatcherW
 ƒT[ƒrƒXƒvƒƒZƒX‚ÌƒƒCƒ“ƒXƒŒƒbƒh‚ğƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒ‚ÉÚ‘±‚µA‚»‚ÌƒXƒŒƒbƒh‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒT[ƒrƒX§ŒäƒfƒBƒXƒpƒbƒ`ƒƒƒXƒŒƒbƒh‚É‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 lpServiceStartTable
 lpServiceStartTable : [var] ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÅÀs‚Å‚«‚éŠeƒT[ƒrƒX‚É‚Â‚¢‚Ä 1 ƒGƒ“ƒgƒŠ‚ğŠÜ‚Ş SERVICE_TABLE_ENTRY \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒe[ƒuƒ‹‚ÌI‚í‚è‚ğ¦‚·‚½‚ßAƒe[ƒuƒ‹‚ÌÅŒã‚ÌƒGƒ“ƒgƒŠ‚Ìƒƒ“ƒo‚Í NULL ’l‚ğ‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -10988,8 +10192,6 @@ StartServiceCtrlDispatcher
 %index
 StartTraceW
 StartTrace ŠÖ”‚ÍƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 TraceHandle, InstanceName, Properties
 TraceHandle : [var] [ControlTrace](/windows/win32/api/evntrace/nf-evntrace-controltracew) ‚È‚Ç‚Ì API ‚Å‚ÌŒã‘±‚Ìg—p‚Ì‚½‚ß‚ÉAƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A‚±‚Ìƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ğ INVALID_HANDLE_VALUE ‚Æ”äŠr‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒnƒ“ƒhƒ‹‚ª—LŒø‚Å‚È‚¢ê‡AƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Í 0 ‚Æ‚È‚éB
@@ -11056,8 +10258,6 @@ Session](/windows/win32/etw/configuring-and-starting-the-global-logger-session)
 %index
 StopTraceW
 StopTraceW (Unicode) ŠÖ” (evntrace.h) ‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ğ’â~‚·‚éBControlTrace ŠÖ”‚ª‚±‚ÌŠÖ”‚Éæ‚Á‚Ä‘ã‚í‚éB
-%group
-Win32 advapi32
 %prm
 TraceHandle, InstanceName, Properties
 TraceHandle : [int] ’â~‚·‚éƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í 0B_InstanceName_ ‚ª **NULL** ‚Ìê‡‚ÍA0 ˆÈŠO‚Ì _TraceHandle_ ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í _InstanceName_ ‚ª **NULL** ‚Ìê‡‚É‚Ì‚İg—p‚³‚ê‚éBƒnƒ“ƒhƒ‹‚Í [StartTrace](/windows/win32/api/evntrace/nf-evntrace-starttracew) ‚ª•Ô‚·B
@@ -11102,8 +10302,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 TraceSetInformation
 ƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ìİ’è‚ğ\¬‚·‚éB
-%group
-Win32 advapi32
 %prm
 SessionHandle, InformationClass, TraceInformation, InformationLength
 SessionHandle : [int] \¬‚·‚éƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹BV‚µ‚¢ƒgƒŒ[ƒX‚ªŠJn‚³‚ê‚½‚Æ‚«A[StartTrace](/windows/win32/api/evntrace/nf-evntrace-starttracea) ŠÖ”‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BŠù‘¶‚ÌƒgƒŒ[ƒX‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚ÍA[ControlTrace](/windows/win32/api/evntrace/nf-evntrace-controltracew) ‚ğg—p‚µ‚ÄƒgƒŒ[ƒX‚Ì–¼‘O‚ÉŠî‚Ã‚¢‚ÄƒgƒŒ[ƒXƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹A•Ô‚³‚ê‚½ `EVENT_TRACE_PROPERTIES` ƒf[ƒ^‚Ì **Wnode.HistoricalContext** ƒtƒB[ƒ‹ƒh‚©‚çƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
@@ -11139,8 +10337,6 @@ Manager\Memory Management`B‚±‚ê‚ÍƒVƒXƒeƒ€‚Ìƒƒ‚ƒŠg—p—Ê‚ğ‘‰Á‚³‚¹‚é‚½‚ßAˆê“I
 %index
 TreeResetNamedSecurityInfoW
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒgƒcƒŠ[‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq“à‚Ìw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğƒŠƒZƒbƒg‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pObjectName, ObjectType, SecurityInfo, pOwner, pGroup, pDacl, pSacl, KeepExplicit, fnProgress, ProgressInvokeSetting, Args
 pObjectName : [wstr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ÌXV‚ğó‚¯‚éƒIƒuƒWƒFƒNƒg‚Ìƒ‹[ƒgƒm[ƒhƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒTƒ|[ƒg‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÍƒŒƒWƒXƒgƒŠƒL[‚Æƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Å‚ ‚éBƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚²‚Æ‚Ì•¶š—ñŒ`®‚Ìà–¾‚É‚Â‚¢‚Ä‚ÍASE_OBJECT_TYPE ‚ğQÆ‚Ì‚±‚ÆB
@@ -11171,8 +10367,6 @@ TreeSetNamedSecurityInfo ŠÖ”‚Æ—Ş—‚µ‚Ä‚¢‚é:
 %index
 TreeSetNamedSecurityInfoW
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒgƒcƒŠ[‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq“à‚Ìw’è‚µ‚½ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 advapi32
 %prm
 pObjectName, ObjectType, SecurityInfo, pOwner, pGroup, pDacl, pSacl, dwAction, fnProgress, ProgressInvokeSetting, Args
 pObjectName : [wstr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ÌXV‚ğó‚¯‚éƒIƒuƒWƒFƒNƒg‚Ìƒ‹[ƒgƒm[ƒhƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒTƒ|[ƒg‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÍƒŒƒWƒXƒgƒŠƒL[‚Æƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Å‚ ‚éBƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚²‚Æ‚Ì•¶š—ñŒ`®‚Ìà–¾‚É‚Â‚¢‚Ä‚ÍASE_OBJECT_TYPE ‚ğQÆ‚Ì‚±‚ÆB
@@ -11207,8 +10401,6 @@ SetNamedSecurityInfo ŠÖ”‚Æ“¯‚¶‹@”\‚ğ’ñ‹Ÿ‚·‚éB‚±‚ÌŠÖ”‚Í TreeResetNamedSecurity
 %index
 UninstallApplication
 UninstallApplication ŠÖ”‚ÍAWindows ƒCƒ“ƒXƒg[ƒ‰ .msi ƒtƒ@ƒCƒ‹‚ğg—p‚µ‚ÄƒZƒbƒgƒAƒbƒv‚ÆƒCƒ“ƒXƒg[ƒ‹‚ğˆ—‚·‚éƒOƒ‹[ƒvƒ|ƒŠƒV[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚·‚éB
-%group
-Win32 advapi32
 %prm
 ProductCode, dwStatus
 ProductCode : [wstr] ƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‘ÎÛ‚Ì»•i‚Ì Windows ƒCƒ“ƒXƒg[ƒ‰»•iƒR[ƒhBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì»•iƒR[ƒh‚ÍA”g‚©‚Á‚±‚ÅˆÍ‚Ü‚ê‚½•¶š—ñ‚Æ‚µ‚Ä‚Ì Windows ƒCƒ“ƒXƒg[ƒ‰ GUID ‚ÌŒ`®‚Å’ñ‹Ÿ‚·‚é•K—v‚ª‚ ‚éB
@@ -11237,8 +10429,6 @@ UninstallApplication
 %index
 UnlockServiceDatabase
 w’è‚µ‚½ƒƒbƒN‚ğ‰ğ•ú‚µ‚ÄƒT[ƒrƒX§Œäƒ}ƒl[ƒWƒƒƒf[ƒ^ƒx[ƒX‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
-%group
-Win32 advapi32
 %prm
 ScLock
 ScLock : [intptr] LockServiceDatabase ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚çæ“¾‚µ‚½ƒƒbƒNB
@@ -11255,8 +10445,6 @@ GetLastError
 %index
 UpdateTraceW
 UpdateTraceW (Unicode) ŠÖ” (evntrace.h) ‚ÍAw’è‚µ‚½ƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒBİ’è‚ğXV‚·‚éB
-%group
-Win32 advapi32
 %prm
 TraceHandle, InstanceName, Properties
 TraceHandle : [int] XV‚·‚éƒCƒxƒ“ƒgƒgƒŒ[ƒXƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í 0B_InstanceName_ ‚ª **NULL** ‚Ìê‡‚ÍA0 ˆÈŠO‚Ì _TraceHandle_ ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í _InstanceName_ ‚ª **NULL** ‚Ìê‡‚É‚Ì‚İg—p‚³‚ê‚éBƒnƒ“ƒhƒ‹‚Í [StartTrace](/windows/win32/api/evntrace/nf-evntrace-starttracew) ‚ª•Ô‚·B
@@ -11319,8 +10507,6 @@ Log Users ƒOƒ‹[ƒv‚É’Ç‰Á‚·‚é‚±‚ÆB**Windows XP ‚¨‚æ‚Ñ Windows 2000:**
 %index
 WaitServiceState
 (no summary)
-%group
-Win32 advapi32
 %prm
 hService, dwNotify, dwTimeout, hCancelEvent
 hService : [intptr] 
@@ -11334,8 +10520,6 @@ hCancelEvent : [intptr]
 %index
 WriteEncryptedFileRaw
 ˆÃ†‰»‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ•œŒ³iƒCƒ“ƒ|[ƒgj‚·‚éB
-%group
-Win32 advapi32
 %prm
 pfImportCallback, pvCallbackContext, pvContext
 pfImportCallback : [int] ƒCƒ“ƒ|[ƒgƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒVƒXƒeƒ€‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ•¡”‰ñŒÄ‚Ño‚µAƒoƒbƒNƒAƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^‚Ìˆê•”‚ªƒR[ƒ‹ƒoƒbƒNŠÖ”‚É‚æ‚Á‚Ä–‚½‚³‚ê‚éƒoƒbƒtƒ@‚ğ–ˆ‰ñ“n‚·BƒR[ƒ‹ƒoƒbƒNŠÖ”‚ªƒtƒ@ƒCƒ‹‘S‘Ì‚ªˆ—‚³‚ê‚½‚±‚Æ‚ğƒVƒOƒiƒ‹‚Å“`‚¦‚é‚ÆA•œŒ³‘€ì‚ªI—¹‚µ‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É“`‚¦‚éBÚ×‚É‚Â‚¢‚Ä‚Í ImportCallback ‚ğQÆ‚Ì‚±‚ÆB

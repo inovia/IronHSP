@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+netapi32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の netapi32.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 NetAccessAdd
 サポートされていない。(NetAccessAdd)
-%group
-Win32 netapi32
 %prm
 servername, level, buf, parm_err
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -29,8 +49,6 @@ System Error Codes を参照。
 %index
 NetAccessDel
 サポートされていない。(NetAccessDel)
-%group
-Win32 netapi32
 %prm
 servername, resource
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -49,8 +67,6 @@ System Error Codes を参照。
 %index
 NetAccessEnum
 サポートされていない。(NetAccessEnum)
-%group
-Win32 netapi32
 %prm
 servername, BasePath, Recursive, level, bufptr, prefmaxlen, entriesread, totalentries, resume_handle
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -76,8 +92,6 @@ System Error Codes を参照。
 %index
 NetAccessGetInfo
 サポートされていない。(NetAccessGetInfo)
-%group
-Win32 netapi32
 %prm
 servername, resource, level, bufptr
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -98,8 +112,6 @@ System Error Codes を参照。
 %index
 NetAccessGetUserPerms
 サポートされていない。(NetAccessGetUserPerms)
-%group
-Win32 netapi32
 %prm
 servername, UGname, resource, Perms
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -121,8 +133,6 @@ System Error Codes を参照。
 %index
 NetAccessSetInfo
 サポートされていない。(NetAccessSetInfo)
-%group
-Win32 netapi32
 %prm
 servername, resource, level, buf, parm_err
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -144,8 +154,6 @@ System Error Codes を参照。
 %index
 NetAlertRaise
 NetAlertRaise 関数は、特定のイベントが発生した際に登録済みのすべてのクライアントに通知する。
-%group
-Win32 netapi32
 %prm
 AlertType, Buffer, BufferSize
 AlertType : [wstr] 発生させるアラートクラス (アラートの種類) を指定する定数文字列へのポインタ。このパラメータには、次の定義済みの値のいずれか、またはネットワークアプリケーション用にユーザー定義したアラートクラスを指定できる。アラートのイベント名には任意のテキスト文字列を指定できる。
@@ -169,8 +177,6 @@ ERROR_FILE_NOT_FOUND で失敗する。
 %index
 NetAlertRaiseEx
 NetAlertRaiseEx 関数は、特定のイベントが発生した際に登録済みのすべてのクライアントに通知する。この拡張関数は STD_ALERT 構造体の指定を必要としないため、アラートメッセージの送信を簡単にできる。
-%group
-Win32 netapi32
 %prm
 AlertType, VariableInfo, VariableInfoSize, ServiceName
 AlertType : [wstr] 発生させるアラートクラス (アラートの種類) を指定する定数文字列へのポインタ。このパラメータには、次の定義済みの値のいずれか、またはネットワークアプリケーション用にユーザー定義したアラートクラスを指定できる。(アラートのイベント名には任意のテキスト文字列を指定できる。)
@@ -196,8 +202,6 @@ ERROR_FILE_NOT_FOUND で失敗する。
 %index
 NetAuditClear
 NetAuditClear 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
-%group
-Win32 netapi32
 %prm
 server, backupfile, service
 server : [wstr] 
@@ -211,8 +215,6 @@ NetAuditClear 関数は廃止されている。16 ビット版 Windows
 %index
 NetAuditRead
 NetAuditRead 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
-%group
-Win32 netapi32
 %prm
 server, service, auditloghandle, offset, reserved1, reserved2, offsetflag, bufptr, prefmaxlen, bytesread, totalavailable
 server : [wstr] 
@@ -234,8 +236,6 @@ NetAuditRead 関数は廃止されている。16 ビット版 Windows
 %index
 NetAuditWrite
 NetAuditWrite 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
-%group
-Win32 netapi32
 %prm
 type, buf, numbytes, service, reserved
 type : [int] 
@@ -251,8 +251,6 @@ NetAuditWrite 関数は廃止されている。16 ビット版 Windows
 %index
 NetConfigGet
 NetConfigGet 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
-%group
-Win32 netapi32
 %prm
 server, component, parameter, bufptr
 server : [wstr] 未定。
@@ -267,8 +265,6 @@ NetConfigGet 関数は廃止されている。16 ビット版 Windows
 %index
 NetConfigGetAll
 NetConfigGetAll 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
-%group
-Win32 netapi32
 %prm
 server, component, bufptr
 server : [wstr] 未定。
@@ -282,8 +278,6 @@ NetConfigGetAll 関数は廃止されている。16 ビット版 Windows
 %index
 NetConfigSet
 NetConfigSet 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
-%group
-Win32 netapi32
 %prm
 server, reserved1, component, level, reserved2, buf, reserved3
 server : [wstr] 未定。
@@ -301,8 +295,6 @@ NetConfigSet 関数は廃止されている。16 ビット版 Windows
 %index
 NetErrorLogClear
 NetErrorLogClear 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
-%group
-Win32 netapi32
 %prm
 UncServerName, BackupFile, Reserved
 UncServerName : [wstr] 未定。
@@ -316,8 +308,6 @@ NetErrorLogClear 関数は廃止されている。16 ビット版 Windows
 %index
 NetErrorLogRead
 NetErrorLogRead 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
-%group
-Win32 netapi32
 %prm
 UncServerName, Reserved1, ErrorLogHandle, Offset, Reserved2, Reserved3, OffsetFlag, BufPtr, PrefMaxSize, BytesRead, TotalAvailable
 UncServerName : [wstr] 未定。
@@ -339,8 +329,6 @@ NetErrorLogRead 関数は廃止されている。16 ビット版 Windows
 %index
 NetErrorLogWrite
 NetErrorLogWrite 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
-%group
-Win32 netapi32
 %prm
 Reserved1, Code, Component, Buffer, NumBytes, MsgBuf, StrCount, Reserved2
 Reserved1 : [var] 未定。
@@ -359,8 +347,6 @@ NetErrorLogWrite 関数は廃止されている。16 ビット版 Windows
 %index
 NetMessageBufferSend
 NetMessageBufferSend 関数は、情報のバッファを登録済みのメッセージエイリアスに送信する。
-%group
-Win32 netapi32
 %prm
 servername, msgname, fromname, buf, buflen
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -387,8 +373,6 @@ Management Functions を参照。ACL と ACE の詳細については Access Control Model を
 %index
 NetMessageNameAdd
 NetMessageNameAdd 関数は、メッセージ名テーブルにメッセージエイリアスを登録する。この関数は messenger サービスが開始されている必要がある。
-%group
-Win32 netapi32
 %prm
 servername, msgname
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -412,8 +396,6 @@ NetMessageNameAdd 関数にあった forward action
 %index
 NetMessageNameDel
 NetMessageNameDel 関数は、メッセージ名テーブルからメッセージエイリアスを削除する。この関数は messenger サービスが開始されている必要がある。
-%group
-Win32 netapi32
 %prm
 servername, msgname
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -434,8 +416,6 @@ NetMessageNameDel 関数は、メッセージ名テーブルからメッセージエイリアスを削除する
 %index
 NetMessageNameEnum
 NetMessageNameEnum 関数は、指定したコンピューターでメッセージを受信するメッセージエイリアスの一覧を取得する。この関数は messenger サービスが開始されている必要がある。
-%group
-Win32 netapi32
 %prm
 servername, level, bufptr, prefmaxlen, entriesread, totalentries, resume_handle
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -462,8 +442,6 @@ messenger サービスが開始されている必要がある。
 %index
 NetMessageNameGetInfo
 NetMessageNameGetInfo 関数は、メッセージ名テーブル内の特定のメッセージエイリアスに関する情報を取得する。この関数は messenger サービスが開始されている必要がある。
-%group
-Win32 netapi32
 %prm
 servername, msgname, level, bufptr
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -487,8 +465,6 @@ messenger サービスが開始されている必要がある。
 %index
 NetReplExportDirAdd
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, level, buf, parm_err
 servername : [wstr] 
@@ -502,8 +478,6 @@ parm_err : [var]
 %index
 NetReplExportDirDel
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname
 servername : [wstr] 
@@ -515,8 +489,6 @@ dirname : [wstr]
 %index
 NetReplExportDirEnum
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, level, bufptr, prefmaxlen, entriesread, totalentries, resumehandle
 servername : [wstr] 
@@ -533,8 +505,6 @@ resumehandle : [var]
 %index
 NetReplExportDirGetInfo
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname, level, bufptr
 servername : [wstr] 
@@ -548,8 +518,6 @@ bufptr : [var]
 %index
 NetReplExportDirLock
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname
 servername : [wstr] 
@@ -561,8 +529,6 @@ dirname : [wstr]
 %index
 NetReplExportDirSetInfo
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname, level, buf, parm_err
 servername : [wstr] 
@@ -577,8 +543,6 @@ parm_err : [var]
 %index
 NetReplExportDirUnlock
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname, unlockforce
 servername : [wstr] 
@@ -591,8 +555,6 @@ unlockforce : [int]
 %index
 NetReplGetInfo
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, level, bufptr
 servername : [wstr] 
@@ -605,8 +567,6 @@ bufptr : [var]
 %index
 NetReplImportDirAdd
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, level, buf, parm_err
 servername : [wstr] 
@@ -620,8 +580,6 @@ parm_err : [var]
 %index
 NetReplImportDirDel
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname
 servername : [wstr] 
@@ -633,8 +591,6 @@ dirname : [wstr]
 %index
 NetReplImportDirEnum
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, level, bufptr, prefmaxlen, entriesread, totalentries, resumehandle
 servername : [wstr] 
@@ -651,8 +607,6 @@ resumehandle : [var]
 %index
 NetReplImportDirGetInfo
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname, level, bufptr
 servername : [wstr] 
@@ -666,8 +620,6 @@ bufptr : [var]
 %index
 NetReplImportDirLock
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname
 servername : [wstr] 
@@ -679,8 +631,6 @@ dirname : [wstr]
 %index
 NetReplImportDirUnlock
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, dirname, unlockforce
 servername : [wstr] 
@@ -693,8 +643,6 @@ unlockforce : [int]
 %index
 NetReplSetInfo
 (no summary)
-%group
-Win32 netapi32
 %prm
 servername, level, buf, parm_err
 servername : [wstr] 
@@ -708,8 +656,6 @@ parm_err : [var]
 %index
 NetServerEnum
 NetServerEnum 関数は、ドメイン内で可視の指定した種類のすべてのサーバーを一覧表示する。
-%group
-Win32 netapi32
 %prm
 servername, level, bufptr, prefmaxlen, entriesread, totalentries, servertype, domain, resume_handle
 servername : [wstr] 予約済み。NULL でなければならない。
@@ -754,8 +700,6 @@ ERROR_NO_BROWSER_SERVERS_FOUND で失敗する。Active Directory
 %index
 NetServiceControl
 NetServiceControl 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
-%group
-Win32 netapi32
 %prm
 servername, service, opcode, arg, bufptr
 servername : [wstr] 
@@ -771,8 +715,6 @@ NetServiceControl 関数は廃止されている。16 ビット版 Windows
 %index
 NetServiceEnum
 NetServiceEnum 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
-%group
-Win32 netapi32
 %prm
 servername, level, bufptr, prefmaxlen, entriesread, totalentries, resume_handle
 servername : [wstr] 
@@ -790,8 +732,6 @@ NetServiceEnum 関数は廃止されている。16 ビット版 Windows
 %index
 NetServiceGetInfo
 NetServiceGetInfo 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
-%group
-Win32 netapi32
 %prm
 servername, service, level, bufptr
 servername : [wstr] 
@@ -806,8 +746,6 @@ NetServiceGetInfo 関数は廃止されている。16 ビット版 Windows
 %index
 NetServiceInstall
 NetServiceInstall 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
-%group
-Win32 netapi32
 %prm
 servername, service, argc, argv, bufptr
 servername : [wstr] 
@@ -823,8 +761,6 @@ NetServiceInstall 関数は廃止されている。16 ビット版 Windows
 %index
 NetStatisticsGet
 サービスの動作統計情報を取得する。現在はワークステーションおよびサーバーサービスのみがサポートされている。
-%group
-Win32 netapi32
 %prm
 ServerName, Service, Level, Options, Buffer
 ServerName : [var] 関数を実行するサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
@@ -847,8 +783,6 @@ System Error Codes を参照。
 %index
 NetWkstaGetInfo
 NetWkstaGetInfo 関数はワークステーションの構成情報を返す。
-%group
-Win32 netapi32
 %prm
 servername, level, bufptr
 servername : [wstr] 実行対象のリモートサーバーの DNS/NetBIOS 名を指定する文字列へのポインタ。NULL ならローカル。
@@ -874,8 +808,6 @@ Administrators、Server、System、Print Operator
 %index
 NetWkstaSetInfo
 NetWkstaSetInfo 関数は、システムを再初期化した後も有効な情報でワークステーションを構成する。
-%group
-Win32 netapi32
 %prm
 servername, level, buffer, parm_err
 servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。

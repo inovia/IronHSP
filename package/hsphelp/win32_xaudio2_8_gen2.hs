@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+xaudio2_8.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の xaudio2_8.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 CreateAudioReverb
 (no summary)
-%group
-Win32 xaudio2_8
 %prm
 ppApo
 ppApo : [var] 
@@ -19,8 +39,6 @@ ppApo : [var]
 %index
 CreateAudioVolumeMeter
 (no summary)
-%group
-Win32 xaudio2_8
 %prm
 ppApo
 ppApo : [var] 
@@ -31,8 +49,6 @@ ppApo : [var]
 %index
 CreateFX
 指定された XAPOFX エフェクトのインスタンスを作成する。
-%group
-Win32 xaudio2_8
 %prm
 clsid, pEffect, pInitDat, InitDataByteSize
 clsid : [var] 作成するエフェクトの ID。エフェクトクラス名に対して __uuidof を用いると、当該エフェクトの CLSID を取得できる。たとえば __uuidof(FXReverb) は FXReverb エフェクトの CLSID を返す。XAPOFX が提供するエフェクト一覧については XAPOFX Overview を参照。エフェクト CLSID 取得の例は How to: Use XAPOFX in XAudio2 を参照。
@@ -61,8 +77,6 @@ Phone 8 (XAudio 2.8)、DirectX SDK (XAudio 2.7)
 %index
 XAudio2CreateWithVersionInfo
 (no summary)
-%group
-Win32 xaudio2_8
 %prm
 ppXAudio2, Flags, XAudio2Processor, ntddiVersion
 ppXAudio2 : [var] 

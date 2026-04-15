@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+windowscodecs.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の windowscodecs.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 WICConvertBitmapSource
 指定された IWICBitmapSource から、目的のピクセル形式の IWICBitmapSource を取得する。
-%group
-Win32 windowscodecs
 %prm
 dstFormat, pISrc, ppIDst
 dstFormat : [var] 型: REFWICPixelFormatGUID 変換先のピクセル形式。
@@ -29,8 +49,6 @@ dstFormat 形式のフォーマットコンバータをインスタンス化し、pISrc で初期化する。
 %index
 WICCreateBitmapFromSection
 Windows Graphics Device Interface (GDI) セクションハンドルのピクセル領域を背後に持つ IWICBitmapSource を返す。(WICCreateBitmapFromSection)
-%group
-Win32 windowscodecs
 %prm
 width, height, pixelFormat, hSection, stride, offset, ppIBitmap
 width : [int] 型: UINT ビットマップピクセルの幅。
@@ -55,8 +73,6 @@ WICSectionAccessLevelRead を指定して WICCreateBitmapFromSectionEx 関数を呼び出す
 %index
 WICCreateBitmapFromSectionEx
 Windows Graphics Device Interface (GDI) セクションハンドルのピクセル領域を背後に持つ IWICBitmapSource を返す。(WICCreateBitmapFromSectionEx)
-%group
-Win32 windowscodecs
 %prm
 width, height, pixelFormat, hSection, stride, offset, desiredAccessLevel, ppIBitmap
 width : [int] 型: UINT ビットマップピクセルの幅。
@@ -78,8 +94,6 @@ IWICBitmapSource を返す。(WICCreateBitmapFromSectionEx)
 %index
 WICGetMetadataContentSize
 指定された IWICMetadataWriter が保持するメタデータ内容のサイズを返す。返されるサイズにはヘッダとメタデータの長さも含まれる。
-%group
-Win32 windowscodecs
 %prm
 guidContainerFormat, pIWriter, pcbSize
 guidContainerFormat : [var] 型: REFGUID コンテナ GUID。
@@ -96,8 +110,6 @@ pcbSize : [var] 型: ULARGE_INTEGER* メタデータ内容のサイズを受け取るポインタ。
 %index
 WICMapGuidToShortName
 指定された GUID に関連付けられたショートネームを取得する。
-%group
-Win32 windowscodecs
 %prm
 guid, cchName, wzName, pcchActual
 guid : [var] 型: REFGUID ショートネームを取得する対象の GUID。
@@ -119,8 +131,6 @@ Namespace ...
 %index
 WICMapSchemaToName
 指定されたスキーマに関連付けられた名前を取得する。
-%group
-Win32 windowscodecs
 %prm
 guidMetadataFormat, pwzSchema, cchName, wzName, pcchActual
 guidMetadataFormat : [var] 型: REFGUID メタデータフォーマットの GUID。
@@ -144,8 +154,6 @@ Schemas BB5ACC38-F216-4CEC-A6C5-5F6E739763A9 ...
 %index
 WICMapShortNameToGuid
 指定されたショートネームに関連付けられた GUID を取得する。
-%group
-Win32 windowscodecs
 %prm
 wzName, pguid
 wzName : [wstr] 型: const WCHAR* ショートネームへのポインタ。
@@ -166,8 +174,6 @@ Namespace ...
 %index
 WICMatchMetadataContent
 指定されたコンテナフォーマットおよびベンダに対し、与えられたストリーム内のコンテンツに最も合致するメタデータフォーマット GUID を取得する。
-%group
-Win32 windowscodecs
 %prm
 guidContainerFormat, pguidVendor, pIStream, pguidMetadataFormat
 guidContainerFormat : [var] 型: REFGUID コンテナフォーマットの GUID。
@@ -185,8 +191,6 @@ pguidMetadataFormat : [var] 型: GUID* 指定されたパラメータに対するメタデータフォ
 %index
 WICSerializeMetadataContent
 指定されたストリームにメタデータを書き込む。
-%group
-Win32 windowscodecs
 %prm
 guidContainerFormat, pIWriter, dwPersistOptions, pIStream
 guidContainerFormat : [var] 型: REFGUID コンテナフォーマットの GUID。

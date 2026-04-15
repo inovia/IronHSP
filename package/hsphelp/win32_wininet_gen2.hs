@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+wininet.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì wininet.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 AppCacheCheckManifest
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszMasterUrl, pwszManifestUrl, pbManifestData, dwManifestDataSize, pbManifestResponseHeaders, dwManifestResponseHeadersSize, peState, phNewAppCache
 pwszMasterUrl : [wstr] 
@@ -26,8 +46,6 @@ phNewAppCache : [var]
 %index
 AppCacheCloseHandle
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache
 hAppCache : [intptr] 
@@ -38,8 +56,6 @@ hAppCache : [intptr]
 %index
 AppCacheCreateAndCommitFile
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pwszSourceFilePath, pwszUrl, pbResponseHeaders, dwResponseHeadersSize
 hAppCache : [intptr] 
@@ -54,8 +70,6 @@ dwResponseHeadersSize : [int]
 %index
 AppCacheDeleteGroup
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszManifestUrl
 pwszManifestUrl : [wstr] 
@@ -66,8 +80,6 @@ pwszManifestUrl : [wstr]
 %index
 AppCacheDeleteIEGroup
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszManifestUrl
 pwszManifestUrl : [wstr] 
@@ -78,8 +90,6 @@ pwszManifestUrl : [wstr]
 %index
 AppCacheDuplicateHandle
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, phDuplicatedAppCache
 hAppCache : [intptr] 
@@ -91,8 +101,6 @@ phDuplicatedAppCache : [var]
 %index
 AppCacheFinalize
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pbManifestData, dwManifestDataSize, peState
 hAppCache : [intptr] 
@@ -106,8 +114,6 @@ peState : [var]
 %index
 AppCacheFreeDownloadList
 (no summary)
-%group
-Win32 wininet
 %prm
 pDownloadList
 pDownloadList : [var] 
@@ -118,8 +124,6 @@ pDownloadList : [var]
 %index
 AppCacheFreeGroupList
 (no summary)
-%group
-Win32 wininet
 %prm
 pAppCacheGroupList
 pAppCacheGroupList : [var] 
@@ -130,8 +134,6 @@ pAppCacheGroupList : [var]
 %index
 AppCacheFreeIESpace
 (no summary)
-%group
-Win32 wininet
 %prm
 ftCutOff
 ftCutOff : [int] 
@@ -142,8 +144,6 @@ ftCutOff : [int]
 %index
 AppCacheFreeSpace
 (no summary)
-%group
-Win32 wininet
 %prm
 ftCutOff
 ftCutOff : [int] 
@@ -154,8 +154,6 @@ ftCutOff : [int]
 %index
 AppCacheGetDownloadList
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pDownloadList
 hAppCache : [intptr] 
@@ -167,8 +165,6 @@ pDownloadList : [var]
 %index
 AppCacheGetFallbackUrl
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pwszUrl, ppwszFallbackUrl
 hAppCache : [intptr] 
@@ -181,8 +177,6 @@ ppwszFallbackUrl : [var]
 %index
 AppCacheGetGroupList
 (no summary)
-%group
-Win32 wininet
 %prm
 pAppCacheGroupList
 pAppCacheGroupList : [var] 
@@ -193,8 +187,6 @@ pAppCacheGroupList : [var]
 %index
 AppCacheGetIEGroupList
 (no summary)
-%group
-Win32 wininet
 %prm
 pAppCacheGroupList
 pAppCacheGroupList : [var] 
@@ -205,8 +197,6 @@ pAppCacheGroupList : [var]
 %index
 AppCacheGetInfo
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pAppCacheInfo
 hAppCache : [intptr] 
@@ -218,8 +208,6 @@ pAppCacheInfo : [var]
 %index
 AppCacheGetManifestUrl
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, ppwszManifestUrl
 hAppCache : [intptr] 
@@ -231,8 +219,6 @@ ppwszManifestUrl : [var]
 %index
 AppCacheLookup
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszUrl, dwFlags, phAppCache
 pwszUrl : [wstr] 
@@ -245,8 +231,6 @@ phAppCache : [var]
 %index
 CommitUrlCacheEntryW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^‚ğƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚ÉŠi”[‚µAw’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlName, lpszLocalFileName, ExpireTime, LastModifiedTime, CacheEntryType, lpszHeaderInfo, cchHeaderInfo, lpszFileExtension, lpszOriginalUrl
 lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìƒ\[ƒX–¼‚ğŠi”[‚µ‚½•¶š—ñ•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÍˆêˆÓ‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸AƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -292,8 +276,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CommitUrlCacheEntryBinaryBlob
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszUrlName, dwType, ftExpireTime, ftModifiedTime, pbBlob, cbBlob
 pwszUrlName : [wstr] 
@@ -309,8 +291,6 @@ cbBlob : [int]
 %index
 CreateMD5SSOHash
 CreateMD5SSOHash ŠÖ” (wininet.h) ‚Í Microsoft Passport ƒpƒXƒ[ƒh‚ğæ“¾‚µA“Á’è‚Ì•¶š—ñ‚ğ—p‚¢‚Ä MD5 ƒnƒbƒVƒ…‚ğì¬‚µA‚»‚ÌŒ‹‰Ê‚ğ•Ô‚·B
-%group
-Win32 wininet
 %prm
 pszChallengeInfo, pwszRealm, pwszTarget, pbHexHash
 pszChallengeInfo : [wstr] MD5 ƒnƒbƒVƒ…‚Ég—p‚·‚éƒƒCƒh•¶š‚Ìƒ`ƒƒƒŒƒ“ƒW•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -340,8 +320,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 CreateUrlCacheContainerW
 w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒpƒX‚ÉAw’è‚µ‚½–¼‘OEƒLƒƒƒbƒVƒ…ƒvƒŒƒtƒBƒbƒNƒXEƒRƒ“ƒeƒií•Ê‚ÉŠî‚Ã‚¢‚ÄƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 Name, lpCachePrefix, lpszCachePath, KBCacheLimit, dwContainerType, dwOptions, pvBuffer, cbBuffer
 Name : [wstr] ƒLƒƒƒbƒVƒ…‚É•t‚¯‚é–¼‘OB
@@ -371,8 +349,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateUrlCacheEntryW
 w’è‚µ‚½ URL ‚Æƒtƒ@ƒCƒ‹Šg’£q‚ÉŠî‚Ã‚¢‚ÄAƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‘¶‚·‚é‚½‚ß‚Ìƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹–¼‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlName, dwExpectedFileSize, lpszFileExtension, lpszFileName, dwReserved
 lpszUrlName : [wstr] URL ‚Ì–¼‘O‚ğŠi”[‚µ‚½•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B•¶š—ñ‚Í’l‚ğŠÜ‚Ş•K—v‚ª‚ ‚èA‹ó•¶š—ñ‚ğw’è‚·‚é‚Æ CreateUrlCacheEntry ‚Í¸”s‚·‚éB‚³‚ç‚ÉA•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -400,8 +376,6 @@ InternetSetOption ‚ğg‚Á‚ÄƒVƒXƒeƒ€‚ÌƒR[ƒhƒy[ƒW‚ğİ’è‚Å‚«‚éB
 %index
 CreateUrlCacheEntryExW
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszUrlName, dwExpectedFileSize, lpszFileExtension, lpszFileName, dwReserved, fPreserveIncomingFileName
 lpszUrlName : [wstr] 
@@ -417,8 +391,6 @@ fPreserveIncomingFileName : [int]
 %index
 CreateUrlCacheGroup
 ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•Êq‚ğ¶¬‚·‚éB
-%group
-Win32 wininet
 %prm
 dwFlags, lpReserved
 dwFlags : [int] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ìì¬‚ğ§Œä‚·‚éB–{ƒpƒ‰ƒ[ƒ^‚É‚Í CACHEGROUP_FLAG_GIDONLY ‚ğw’è‚Å‚«A‚±‚ê‚É‚æ‚è CreateUrlCacheGroup ‚ÍˆêˆÓ‚Ì GROUPID ‚ğ¶¬‚·‚é‚ªA•¨—“I‚ÈƒOƒ‹[ƒv‚Íì¬‚µ‚È‚¢B
@@ -438,8 +410,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 DeleteIE3Cache
 (no summary)
-%group
-Win32 wininet
 %prm
 hwnd, hinst, lpszCmd, nCmdShow
 hwnd : [intptr] 
@@ -453,8 +423,6 @@ nCmdShow : [int]
 %index
 DeleteUrlCacheContainerW
 w’è‚µ‚½–¼‘O‚ÉŠî‚Ã‚¢‚ÄAƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 Name, dwOptions
 Name : [wstr] íœ‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚Ì–¼‘OB
@@ -480,8 +448,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 DeleteUrlCacheEntry
 DeleteUrlCacheEntry ŠÖ” (wininet.h) ‚ÍAw’è‚µ‚½ƒ\[ƒX–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹‚ªƒLƒƒƒbƒVƒ…‚É‘¶İ‚·‚éê‡A‚»‚ê‚ğíœ‚·‚éB
-%group
-Win32 wininet
 %prm
 lpszUrlName
 lpszUrlName : [str] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚É‘Î‰‚·‚éƒ\[ƒX–¼‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -502,8 +468,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 DeleteUrlCacheGroup
 w’è‚µ‚½ GROUPID ‚ÆAƒLƒƒƒbƒVƒ…ƒCƒ“ƒfƒbƒNƒXƒtƒ@ƒCƒ‹“à‚ÌŠÖ˜A‚·‚éó‘Ô‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 wininet
 %prm
 GroupId, dwFlags, lpReserved
 GroupId : [int64] ‰ğ•ú‚·‚éƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì IDB
@@ -523,8 +487,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 DeleteWpadCacheForNetworks
 (no summary)
-%group
-Win32 wininet
 %prm
 param0
 param0 : [int] 
@@ -535,8 +497,6 @@ param0 : [int]
 %index
 DetectAutoProxyUrl
 DetectAutoProxyUrl ŠÖ” (wininet.h) ‚Í WPAD ©“®ƒvƒƒLƒVƒXƒNƒŠƒvƒg‚ÌêŠ‚ğŒŸo‚µ‚æ‚¤‚Æ‚·‚éB
-%group
-Win32 wininet
 %prm
 pszAutoProxyUrl, cchAutoProxyUrl, dwDetectFlags
 pszAutoProxyUrl : [str] WPAD ©“®ƒvƒƒLƒVƒXƒNƒŠƒvƒg‚Ìƒ_ƒEƒ“ƒ[ƒhŒ³ URL ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -556,8 +516,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 FindCloseUrlCache
 w’è‚µ‚½ƒLƒƒƒbƒVƒ…—ñ‹“ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 wininet
 %prm
 hEnumHandle
 hEnumHandle : [intptr] FindFirstUrlCacheEntry ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -575,8 +533,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 FindFirstUrlCacheContainerW
 (no summary)
-%group
-Win32 wininet
 %prm
 pdwModified, lpContainerInfo, lpcbContainerInfo, dwOptions
 pdwModified : [var] 
@@ -590,8 +546,6 @@ dwOptions : [int]
 %index
 FindFirstUrlCacheEntryW
 ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚Ì—ñ‹“‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlSearchPattern, lpFirstCacheEntryInfo, lpcbCacheEntryInfo
 lpszUrlSearchPattern : [wstr] ŒŸõ‚·‚éƒ\[ƒX–¼‚Ìƒpƒ^[ƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É‚Í "cookie:"A"visited:"A‚Ü‚½‚Í NULL ‚Ì‚İ‚ğw’è‚Å‚«‚éBƒNƒbƒL[‚ğ—ñ‹“‚·‚é‚É‚Í "cookie:" ‚ğAURL —š—ğƒGƒ“ƒgƒŠ‚ğ—ñ‹“‚·‚é‚É‚Í "visited:" ‚ğw’è‚·‚éB–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AFindFirstUrlCacheEntry ‚ÍƒLƒƒƒbƒVƒ…“à‚Ì‚·‚×‚Ä‚ÌƒRƒ“ƒeƒ“ƒcƒGƒ“ƒgƒŠ‚ğ•Ô‚·B
@@ -629,8 +583,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FindFirstUrlCacheEntryExW
 ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚ÌƒtƒBƒ‹ƒ^•t‚«—ñ‹“‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlSearchPattern, dwFlags, dwFilter, GroupId, lpFirstCacheEntryInfo, lpcbCacheEntryInfo, lpGroupAttributes, lpcbGroupAttributes, lpReserved
 lpszUrlSearchPattern : [wstr] ŒŸõ‚·‚éƒ\[ƒX–¼‚Ìƒpƒ^[ƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É‚Í "cookie:"A"visited:"A‚Ü‚½‚Í NULL ‚Ì‚İ‚ğw’è‚Å‚«‚éBƒNƒbƒL[‚ğ—ñ‹“‚·‚é‚É‚Í "cookie:" ‚ğAURL —š—ğƒGƒ“ƒgƒŠ‚ğ—ñ‹“‚·‚é‚É‚Í "visited:" ‚ğw’è‚·‚éB–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AFindFirstUrlCacheEntryEx ‚ÍƒLƒƒƒbƒVƒ…“à‚Ì‚·‚×‚Ä‚ÌƒRƒ“ƒeƒ“ƒcƒGƒ“ƒgƒŠ‚ğ•Ô‚·B
@@ -667,8 +619,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FindFirstUrlCacheGroup
 ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…“à‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì—ñ‹“‚ğŠJn‚·‚éB
-%group
-Win32 wininet
 %prm
 dwFlags, dwFilter, lpSearchCondition, dwSearchCondition, lpGroupId, lpReserved
 dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -697,8 +647,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 FindNextUrlCacheContainerW
 (no summary)
-%group
-Win32 wininet
 %prm
 hEnumHandle, lpContainerInfo, lpcbContainerInfo
 hEnumHandle : [intptr] 
@@ -711,8 +659,6 @@ lpcbContainerInfo : [var]
 %index
 FindNextUrlCacheEntryW
 ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…“à‚ÌŸ‚ÌƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hEnumHandle, lpNextCacheEntryInfo, lpcbCacheEntryInfo
 hEnumHandle : [intptr] FindFirstUrlCacheEntry ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½—ñ‹“‚Ìƒnƒ“ƒhƒ‹B
@@ -743,8 +689,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FindNextUrlCacheEntryExW
 FindFirstUrlCacheEntryEx ŠÖ”‚ÅŠJn‚³‚ê‚½ƒLƒƒƒbƒVƒ…—ñ‹“‚ÌŸ‚ÌƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hEnumHandle, lpNextCacheEntryInfo, lpcbCacheEntryInfo, lpGroupAttributes, lpcbGroupAttributes, lpReserved
 hEnumHandle : [intptr] ƒLƒƒƒbƒVƒ…—ñ‹“‚ğŠJn‚µ‚½ FindFirstUrlCacheEntryEx ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -776,8 +720,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FindNextUrlCacheGroup
 FindFirstUrlCacheGroup ‚ÅŠJn‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv—ñ‹“‚ÌŸ‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚ğæ“¾‚·‚éB
-%group
-Win32 wininet
 %prm
 hFind, lpGroupId, lpReserved
 hFind : [intptr] FindFirstUrlCacheGroup ‚©‚ç•Ô‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv—ñ‹“ƒnƒ“ƒhƒ‹B
@@ -800,8 +742,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 FreeUrlCacheSpaceW
 ƒLƒƒƒbƒVƒ…“à‚Ì—Ìˆæ‚ğ‰ğ•ú‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszCachePath, dwSize, dwFilter
 lpszCachePath : [wstr] ƒLƒƒƒbƒVƒ…‚ÌƒpƒXB
@@ -828,8 +768,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpCommandW
 FTP ƒT[ƒo[‚É’¼ÚƒRƒ}ƒ“ƒh‚ğ‘—M‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, fExpectResponse, dwFlags, lpszCommand, dwContext, phFtpCommand
 hConnect : [intptr] InternetConnect ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -864,8 +802,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpCreateDirectoryW
 FTP ƒT[ƒo[ã‚ÉV‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszDirectory
 hConnect : [intptr] INTERNET_SERVICE_FTP ‚ğw’è‚µ‚½ InternetConnect ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -899,8 +835,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpDeleteFileW
 FTP ƒT[ƒo[‚É•Û‘¶‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszFileName
 hConnect : [intptr] INTERNET_SERVICE_FTP ‚ğw’è‚µ‚½ InternetConnect ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -929,8 +863,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpFindFirstFileW
 w’è‚³‚ê‚½ FTP ƒZƒbƒVƒ‡ƒ“‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğŒŸõ‚·‚éBƒtƒ@ƒCƒ‹‚ÆƒfƒBƒŒƒNƒgƒŠ‚ÌƒGƒ“ƒgƒŠ‚Í WIN32_FIND_DATA \‘¢‘Ì‚Æ‚µ‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É•Ô‚³‚ê‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszSearchFile, lpFindFileData, dwFlags, dwContext
 hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -980,8 +912,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpGetCurrentDirectoryW
 w’è‚µ‚½ FTP ƒZƒbƒVƒ‡ƒ“‚ÌƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszCurrentDirectory, lpdwCurrentDirectory
 hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1011,8 +941,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpGetFileW
 FTP ƒT[ƒo[‚©‚çƒtƒ@ƒCƒ‹‚ğæ“¾‚µAw’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚Å•Û‘¶‚·‚éB‚»‚Ì‰ß’ö‚ÅV‚µ‚¢ƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszRemoteFile, lpszNewFile, fFailIfExists, dwFlagsAndAttributes, dwFlags, dwContext
 hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1050,8 +978,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpGetFileEx
 (no summary)
-%group
-Win32 wininet
 %prm
 hFtpSession, lpszRemoteFile, lpszNewFile, fFailIfExists, dwFlagsAndAttributes, dwFlags, dwContext
 hFtpSession : [intptr] 
@@ -1068,8 +994,6 @@ dwContext : [int]
 %index
 FtpGetFileSize
 —v‹‚³‚ê‚½ FTP ƒŠƒ\[ƒX‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 wininet
 %prm
 hFile, lpdwFileSizeHigh
 hFile : [intptr] FtpOpenFile ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -1088,8 +1012,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 FtpOpenFileW
 FTP ƒT[ƒo[ã‚ÌƒŠƒ‚[ƒgƒtƒ@ƒCƒ‹‚Ö‚Ì“Ç‚İæ‚è‚Ü‚½‚Í‘‚«‚İƒAƒNƒZƒX‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszFileName, dwAccess, dwFlags, dwContext
 hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1126,8 +1048,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpPutFileW
 FTP ƒT[ƒo[ã‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszLocalFile, lpszNewRemoteFile, dwFlags, dwContext
 hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1164,8 +1084,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpPutFileEx
 (no summary)
-%group
-Win32 wininet
 %prm
 hFtpSession, lpszLocalFile, lpszNewRemoteFile, dwFlags, dwContext
 hFtpSession : [intptr] 
@@ -1180,8 +1098,6 @@ dwContext : [int]
 %index
 FtpRemoveDirectoryW
 FTP ƒT[ƒo[ã‚Ìw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszDirectory
 hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1215,8 +1131,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpRenameFileW
 FTP ƒT[ƒo[ã‚É•Û‘¶‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszExisting, lpszNew
 hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1247,8 +1161,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FtpSetCurrentDirectoryW
 FTP ƒT[ƒo[ã‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszDirectory
 hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1282,8 +1194,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetUrlCacheConfigInfoW
 ƒLƒƒƒbƒVƒ…\¬‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpCacheConfigInfo, lpcbCacheConfigInfo, dwFieldControl
 lpCacheConfigInfo : [var] ƒLƒƒƒbƒVƒ…\¬î•ñ‚ğó‚¯æ‚é INTERNET_CACHE_CONFIG_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚Ì dwStructSize ƒtƒB[ƒ‹ƒh‚Í INTERNET_CACHE_CONFIG_INFO ‚ÌƒTƒCƒY‚Å‰Šú‰»‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1309,8 +1219,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetUrlCacheEntryBinaryBlob
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszUrlName, dwType, pftExpireTime, pftAccessTime, pftModifiedTime, ppbBlob, pcbBlob
 pwszUrlName : [wstr] 
@@ -1327,8 +1235,6 @@ pcbBlob : [var]
 %index
 GetUrlCacheEntryInfoW
 ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, lpcbCacheEntryInfo
 lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1362,8 +1268,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetUrlCacheEntryInfoExW
 w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éBHttpSendRequest ŠÖ”‚É‚æ‚èƒIƒtƒ‰ƒCƒ“ƒ‚[ƒh‚Å“K—p‚³‚ê‚éƒŠƒ_ƒCƒŒƒNƒg‚ğl—¶‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrl, lpCacheEntryInfo, lpcbCacheEntryInfo, lpszRedirectUrl, lpcbRedirectUrl, lpReserved, dwFlags
 lpszUrl : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1402,8 +1306,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetUrlCacheGroupAttributeW
 w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì‘®«î•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 gid, dwFlags, dwAttributes, lpGroupInfo, lpcbGroupInfo, lpReserved
 gid : [int64] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•ÊqB
@@ -1432,8 +1334,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetUrlCacheHeaderData
 (no summary)
-%group
-Win32 wininet
 %prm
 nIdx, lpdwData
 nIdx : [int] 
@@ -1445,8 +1345,6 @@ lpdwData : [var]
 %index
 GopherCreateLocatorW
 ƒZƒŒƒNƒ^•¶š—ñ‚Ì\¬—v‘f‚©‚ç Gopher ‚Ü‚½‚Í Gopher+ ƒƒP[ƒ^•¶š—ñ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszHost, nServerPort, lpszDisplayString, lpszSelectorString, dwGopherType, lpszLocator, lpdwBufferLength
 lpszHost : [wstr] ƒzƒXƒg–¼A‚Ü‚½‚Íƒhƒbƒg‹æØ‚è 10 i IP ƒAƒhƒŒƒX (—á: 198.105.232.1) ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1481,8 +1379,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GopherFindFirstFileW
 Gopher ƒƒP[ƒ^‚ÆŒŸõğŒ‚ğg—p‚µ‚ÄƒT[ƒo[‚Æ‚ÌƒZƒbƒVƒ‡ƒ“‚ğì¬‚µA—v‹‚³‚ê‚½•¶‘AƒoƒCƒiƒŠƒtƒ@ƒCƒ‹AƒCƒ“ƒfƒbƒNƒXƒT[ƒo[A‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠƒcƒŠ[‚ğŒŸõ‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszLocator, lpszSearchString, lpFindData, dwFlags, dwContext
 hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ Gopher ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1521,8 +1417,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GopherGetAttributeW
 ƒT[ƒo[‚©‚ç“Á’è‚Ì‘®«î•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszLocator, lpszAttributeName, lpBuffer, dwBufferLength, lpdwCharactersReturned, lpfnEnumerator, dwContext
 hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ Gopher ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1558,8 +1452,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GopherGetLocatorTypeW
 Gopher ƒƒP[ƒ^‚ğ‰ğÍ‚µ‚Ä‚»‚Ì‘®«‚ğ”»’è‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszLocator, lpdwGopherType
 lpszLocator : [wstr] ‰ğÍ‚·‚é Gopher ƒƒP[ƒ^‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1589,8 +1481,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GopherOpenFileW
 Gopher ƒT[ƒo[‚©‚ç Gopher ƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ì“Ç‚İæ‚è‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszLocator, lpszView, dwFlags, dwContext
 hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ Gopher ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1626,8 +1516,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 HttpAddRequestHeadersW
 1 ‚ÂˆÈã‚Ì HTTP ƒŠƒNƒGƒXƒgƒwƒbƒ_[‚ğ HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚É’Ç‰Á‚·‚éB(HttpAddRequestHeadersW)
-%group
-Win32 wininet
 %prm
 hRequest, lpszHeaders, dwHeadersLength, dwModifiers
 hRequest : [intptr] HttpOpenRequest ŠÖ”‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -1665,8 +1553,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 HttpCheckDavComplianceW
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszUrl, lpszComplianceToken, lpfFound, hWnd, lpvReserved
 lpszUrl : [wstr] 
@@ -1681,8 +1567,6 @@ lpvReserved : [intptr]
 %index
 HttpCloseDependencyHandle
 (no summary)
-%group
-Win32 wininet
 %prm
 hDependencyHandle
 hDependencyHandle : [intptr] 
@@ -1693,8 +1577,6 @@ hDependencyHandle : [intptr]
 %index
 HttpDuplicateDependencyHandle
 (no summary)
-%group
-Win32 wininet
 %prm
 hDependencyHandle, phDuplicatedDependencyHandle
 hDependencyHandle : [intptr] 
@@ -1706,8 +1588,6 @@ phDuplicatedDependencyHandle : [var]
 %index
 HttpEndRequestW
 HttpSendRequestEx ‚É‚æ‚Á‚ÄŠJn‚³‚ê‚½ HTTP ƒŠƒNƒGƒXƒg‚ğI—¹‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hRequest, lpBuffersOut, dwFlags, dwContext
 hRequest : [intptr] HttpOpenRequest ‚É‚æ‚Á‚Ä•Ô‚³‚êAHttpSendRequestEx ‚Å‘—M‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -1739,8 +1619,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 HttpGetServerCredentials
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszUrl, ppwszUserName, ppwszPassword
 pwszUrl : [wstr] 
@@ -1753,8 +1631,6 @@ ppwszPassword : [var]
 %index
 HttpIndicatePageLoadComplete
 (no summary)
-%group
-Win32 wininet
 %prm
 hDependencyHandle
 hDependencyHandle : [intptr] 
@@ -1765,8 +1641,6 @@ hDependencyHandle : [intptr]
 %index
 HttpIsHostHstsEnabled
 (no summary)
-%group
-Win32 wininet
 %prm
 pcwszUrl, pfIsHsts
 pcwszUrl : [wstr] 
@@ -1778,8 +1652,6 @@ pfIsHsts : [var]
 %index
 HttpOpenDependencyHandle
 (no summary)
-%group
-Win32 wininet
 %prm
 hRequestHandle, fBackground, phDependencyHandle
 hRequestHandle : [intptr] 
@@ -1792,8 +1664,6 @@ phDependencyHandle : [var]
 %index
 HttpOpenRequestW
 HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext
 hConnect : [intptr] InternetConnect ‚ª•Ô‚µ‚½ HTTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1825,8 +1695,6 @@ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 HttpPushClose
 (no summary)
-%group
-Win32 wininet
 %prm
 hWait
 hWait : [intptr] 
@@ -1837,8 +1705,6 @@ hWait : [intptr]
 %index
 HttpPushEnable
 (no summary)
-%group
-Win32 wininet
 %prm
 hRequest, pTransportSetting, phWait
 hRequest : [intptr] 
@@ -1851,8 +1717,6 @@ phWait : [intptr]
 %index
 HttpPushWait
 (no summary)
-%group
-Win32 wininet
 %prm
 hWait, eType, pNotificationStatus
 hWait : [intptr] 
@@ -1865,8 +1729,6 @@ pNotificationStatus : [var]
 %index
 HttpQueryInfoW
 HTTP ƒŠƒNƒGƒXƒg‚ÉŠÖ˜A‚·‚éƒwƒbƒ_î•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex
 hRequest : [intptr] HttpOpenRequest ‚Ü‚½‚Í InternetOpenUrl ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹B
@@ -1888,8 +1750,6 @@ HTTP ƒŠƒNƒGƒXƒg‚ÉŠÖ˜A‚·‚éƒwƒbƒ_î•ñ‚ğæ“¾‚·‚éB(Unicode)
 %index
 HttpSendRequestW
 w’è‚ÌƒŠƒNƒGƒXƒg‚ğ HTTP ƒT[ƒo[‚É‘—M‚·‚éB(Unicode) HttpSendRequestEx ‚æ‚è‘½‚­‚Ìƒf[ƒ^‚ğ‘—M‚Å‚«‚éB
-%group
-Win32 wininet
 %prm
 hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength
 hRequest : [intptr] HttpOpenRequest ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹B
@@ -1917,8 +1777,6 @@ ERROR_INVALID_PARAMETER)BHttpSendRequestW ‚Í ISO-8859-1 ‚ğ UTF-16LE
 %index
 HttpSendRequestExW
 w’è‚³‚ê‚½ƒŠƒNƒGƒXƒg‚ğ HTTP ƒT[ƒo[‚É‘—M‚·‚éB(HttpSendRequestExW)
-%group
-Win32 wininet
 %prm
 hRequest, lpBuffersIn, lpBuffersOut, dwFlags, dwContext
 hRequest : [intptr] HttpOpenRequest ŠÖ”‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -1958,8 +1816,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 HttpWebSocketClose
 (no summary)
-%group
-Win32 wininet
 %prm
 hWebSocket, usStatus, pvReason, dwReasonLength
 hWebSocket : [intptr] 
@@ -1973,8 +1829,6 @@ dwReasonLength : [int]
 %index
 HttpWebSocketCompleteUpgrade
 (no summary)
-%group
-Win32 wininet
 %prm
 hRequest, dwContext
 hRequest : [intptr] 
@@ -1986,8 +1840,6 @@ dwContext : [int]
 %index
 HttpWebSocketQueryCloseStatus
 (no summary)
-%group
-Win32 wininet
 %prm
 hWebSocket, pusStatus, pvReason, dwReasonLength, pdwReasonLengthConsumed
 hWebSocket : [intptr] 
@@ -2002,8 +1854,6 @@ pdwReasonLengthConsumed : [var]
 %index
 HttpWebSocketReceive
 (no summary)
-%group
-Win32 wininet
 %prm
 hWebSocket, pvBuffer, dwBufferLength, pdwBytesRead, pBufferType
 hWebSocket : [intptr] 
@@ -2018,8 +1868,6 @@ pBufferType : [var]
 %index
 HttpWebSocketSend
 (no summary)
-%group
-Win32 wininet
 %prm
 hWebSocket, BufferType, pvBuffer, dwBufferLength
 hWebSocket : [intptr] 
@@ -2033,8 +1881,6 @@ dwBufferLength : [int]
 %index
 HttpWebSocketShutdown
 (no summary)
-%group
-Win32 wininet
 %prm
 hWebSocket, usStatus, pvReason, dwReasonLength
 hWebSocket : [intptr] 
@@ -2048,8 +1894,6 @@ dwReasonLength : [int]
 %index
 IncrementUrlCacheHeaderData
 (no summary)
-%group
-Win32 wininet
 %prm
 nIdx, lpdwData
 nIdx : [int] 
@@ -2061,8 +1905,6 @@ lpdwData : [var]
 %index
 InternetAlgIdToStringW
 (no summary)
-%group
-Win32 wininet
 %prm
 ai, lpstr, lpdwstrLength, dwReserved
 ai : [int] 
@@ -2076,8 +1918,6 @@ dwReserved : [int]
 %index
 InternetAttemptConnect
 ƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğ‚İ‚éB
-%group
-Win32 wininet
 %prm
 dwReserved
 dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2099,8 +1939,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetAutodial
 InternetAutodial ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ÉŠù’è‚ÌƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ğ©“®‚Åƒ_ƒCƒAƒ‹‚³‚¹‚éB
-%group
-Win32 wininet
 %prm
 dwFlags, hwndParent
 dwFlags : [int] 
@@ -2129,8 +1967,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetAutodialHangup
 InternetAutodialHangup ŠÖ” (wininet.h) ‚Í©“®ƒ_ƒCƒAƒ‹ƒAƒbƒvÚ‘±‚ğØ’f‚·‚éB
-%group
-Win32 wininet
 %prm
 dwReserved
 dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2153,8 +1989,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetCanonicalizeUrlW
 URL ‚ğ³‹K‰»‚·‚éBˆÀ‘S‚Å‚È‚¢•¶š‚â‹ó”’‚ğƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX‚É•ÏŠ·‚·‚éˆ—‚ğŠÜ‚ŞB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrl, lpszBuffer, lpdwBufferLength, dwFlags
 lpszUrl : [wstr] ³‹K‰»‚·‚é URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2200,8 +2034,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetCheckConnectionW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚Å‚«‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚Å‚«‚é‚æ‚¤‚É‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrl, dwFlags, dwReserved
 lpszUrl : [wstr] Ú‘±‚ğƒ`ƒFƒbƒN‚·‚é‚½‚ß‚Ég—p‚·‚é URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{’l‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
@@ -2233,8 +2065,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetClearAllPerSiteCookieDecisions
 ƒTƒCƒg‚²‚Æ‚És‚í‚ê‚½ƒNƒbƒL[‚ÉŠÖ‚·‚é‚·‚×‚Ä‚Ì”»’f‚ğƒNƒŠƒA‚·‚éB
-%group
-Win32 wininet
 %prm
 
 %inst
@@ -2251,8 +2081,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetCloseHandle
 ’Pˆê‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 wininet
 %prm
 hInternet
 hInternet : [intptr] •Â‚¶‚éƒnƒ“ƒhƒ‹B
@@ -2274,8 +2102,6 @@ ERROR_IO_PENDING ‚ğ•Ô‚µ‚½ŒãA‚»‚êˆÈ~‚É API ŒÄ‚Ño‚µ‚ğs‚í‚È‚¢ŒÀ‚èˆÀ‘S‚É I/O
 %index
 InternetCombineUrlW
 ƒx[ƒX URL ‚Æ‘Š‘Î URL ‚ğ 1 ‚Â‚Ì URL ‚ÉŒ‹‡‚·‚éBŒ‹‡‚³‚ê‚½ URL ‚Í³‹K‰»‚³‚ê‚é (InternetCanonicalizeUrl ‚ğQÆ)B(Unicode)
-%group
-Win32 wininet
 %prm
 lpszBaseUrl, lpszRelativeUrl, lpszBuffer, lpdwBufferLength, dwFlags
 lpszBaseUrl : [wstr] ƒx[ƒX URL ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2306,8 +2132,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetConfirmZoneCrossing
 InternetConfirmZoneCrossing ŠÖ” (wininet.h) ‚ÍƒZƒLƒ…ƒA URL ‚Æ”ñƒZƒLƒ…ƒA URL ‚ÌŠÔ‚Ì•ÏX‚ğƒ`ƒFƒbƒN‚·‚éB
-%group
-Win32 wininet
 %prm
 hWnd, szUrlPrev, szUrlNew, bPost
 hWnd : [intptr] •K—v‚Æ‚È‚éƒ_ƒCƒAƒƒO‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2334,8 +2158,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetConnectW
 w’èƒTƒCƒg‚É‘Î‚·‚é FTP ‚Ü‚½‚Í HTTP ƒZƒbƒVƒ‡ƒ“‚ğŠJ‚­B(Unicode)
-%group
-Win32 wininet
 %prm
 hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext
 hInternet : [intptr] InternetOpen ‚ÌŒÄ‚Ño‚µ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹B
@@ -2361,8 +2183,6 @@ lpszUsername ‚Æ lpszPassword ‚Ì 4 ‚Â‚Ì‘g‚İ‡‚í‚¹‚É‘Î‚·‚é“®ì‚ÍˆÈ‰º‚Ì•\‚Ì’Ê‚èB
 %index
 InternetConvertUrlFromWireToWideChar
 (no summary)
-%group
-Win32 wininet
 %prm
 pcszUrl, cchUrl, pcwszBaseUrl, dwCodePageHost, dwCodePagePath, fEncodePathExtra, dwCodePageExtra, ppwszConvertedUrl
 pcszUrl : [str] 
@@ -2380,8 +2200,6 @@ ppwszConvertedUrl : [var]
 %index
 InternetCrackUrlW
 URL ‚ğ\¬—v‘f‚É•ª‰ğ‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrl, dwUrlLength, dwFlags, lpUrlComponents
 lpszUrl : [wstr] ‰ğÍ‚·‚é³‹K‰»‚³‚ê‚½ URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2423,8 +2241,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetCreateUrlW
 \¬—v‘f‚©‚ç URL ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpUrlComponents, dwFlags, lpszUrl, lpdwUrlLength
 lpUrlComponents : [var] URL ‚ğì¬‚·‚é‚½‚ß‚Ì\¬—v‘f‚ğŠi”[‚µ‚½ URL_COMPONENTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2456,8 +2272,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetDial
 InternetDial ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ğg—p‚µ‚ÄƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğŠJn‚·‚éB
-%group
-Win32 wininet
 %prm
 hwndParent, lpszConnectoid, dwFlags, lpdwConnection, dwReserved
 hwndParent : [intptr] eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2486,8 +2300,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetEnumPerSiteCookieDecisionW
 InternetEnumPerSiteCookieDecisionW (Unicode) ŠÖ” (wininet.h) ‚ÍAƒTƒCƒgŒÅ—L‚ÌƒNƒbƒL[‹K§‚ªİ’è‚³‚ê‚½ Web ƒTƒCƒg‚ÌƒhƒƒCƒ“‚ÆƒNƒbƒL[İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 wininet
 %prm
 pszSiteName, pcSiteNameSize, pdwDecision, dwIndex
 pszSiteName : [wstr] Web ƒTƒCƒgƒhƒƒCƒ“‚ğw’è‚·‚é•¶š—ñ‚ğó‚¯æ‚é LPSTRB
@@ -2521,8 +2333,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetErrorDlg
 “KØ‚Èƒ_ƒCƒAƒƒO‚ª‘¶İ‚·‚éê‡AInternetErrorDlg ‚É“n‚³‚ê‚½ƒGƒ‰[‚É‘Î‚·‚éƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚éB
-%group
-Win32 wininet
 %prm
 hWnd, hRequest, dwError, dwFlags, lppvData
 hWnd : [intptr] •K—v‚Æ‚È‚éƒ_ƒCƒAƒƒO‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒ_ƒCƒAƒƒO‚ª•s—v‚ÅAdwFlags ‚É FLAGS_ERROR_UI_FLAGS_NO_UI ‚ª“n‚³‚ê‚éê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
@@ -2544,8 +2354,6 @@ lppvData : [var] ƒf[ƒ^\‘¢‘Ì‚ÌƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚Íˆ—‚ª•K—v‚ÈŠeƒGƒ‰
 %index
 InternetFindNextFileW
 FtpFindFirstFile ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ‚µ‚ÄŠJn‚³‚ê‚½ƒtƒ@ƒCƒ‹ŒŸõ‚ğŒp‘±‚·‚éBWindows XP ‚¨‚æ‚Ñ Windows Server 2003 R2 ˆÈ‘O: GopherFindFirstFile ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ‚µ‚Ä‚Ìƒtƒ@ƒCƒ‹ŒŸõ‚ÌŒp‘±‚É‚àg—p‚Å‚«‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hFind, lpvFindData
 hFind : [intptr] FtpFindFirstFile ‚Ü‚½‚Í InternetOpenUrl (ƒfƒBƒŒƒNƒgƒŠ‚Ì‚İ) ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹BWindows XP ‚¨‚æ‚Ñ Windows Server 2003 R2 ˆÈ‘O: GopherFindFirstFile ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚àw’è‰Â”\B
@@ -2573,8 +2381,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetFortezzaCommand
 (no summary)
-%group
-Win32 wininet
 %prm
 dwCommand, hwnd, dwReserved
 dwCommand : [int] 
@@ -2587,8 +2393,6 @@ dwReserved : [int]
 %index
 InternetFreeCookies
 INTERNET_COOKIE2 \‘¢‘Ì‚Ì”z—ñ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 wininet
 %prm
 pCookies, dwCookieCount
 pCookies : [var] [**INTERNET\_COOKIE2**](ns-wininet-internet_cookie2.md) \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2606,8 +2410,6 @@ Windows HTTP Services
 %index
 InternetFreeProxyInfoList
 (no summary)
-%group
-Win32 wininet
 %prm
 pProxyInfoList
 pProxyInfoList : [var] 
@@ -2618,8 +2420,6 @@ pProxyInfoList : [var]
 %index
 InternetGetConnectedState
 InternetGetConnectedState ŠÖ” (wininet.h) ‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ÌÚ‘±ó‘Ô‚ğæ“¾‚·‚éBg—p‚Í„§‚³‚ê‚È‚¢B
-%group
-Win32 wininet
 %prm
 lpdwFlags, dwReserved
 lpdwFlags : [var] 
@@ -2652,8 +2452,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetGetConnectedStateEx
 InternetGetConnectedStateEx ŠÖ” (wininet.h) ‚Íw’è‚µ‚½ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ÌÚ‘±ó‘Ô‚ğæ“¾‚·‚éBg—p‚Í„§‚³‚ê‚È‚¢B
-%group
-Win32 wininet
 %prm
 lpdwFlags, lpszConnectionName, dwNameLen, dwReserved
 lpdwFlags : [var] 
@@ -2688,8 +2486,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetGetCookieW
 w’è‚µ‚½ URL ‚ÌƒNƒbƒL[‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData, lpdwSize
 lpszUrl : [wstr] ƒNƒbƒL[‚ğæ“¾‚·‚é‘ÎÛ‚Ì URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2728,8 +2524,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetGetCookieExW
 w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData, lpdwSize, dwFlags, lpReserved
 lpszUrl : [wstr] æ“¾‚·‚éƒNƒbƒL[‚ªŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é URL ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BNULL ‚ğw’è‚·‚é‚Æ InternetGetCookieEx ‚Í¸”s‚µAERROR_INVALID_PARAMETER ƒGƒ‰[‚ğ•Ô‚·B
@@ -2763,8 +2557,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetGetCookieEx2
 w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ 1 ‚ÂˆÈã‚ÌƒNƒbƒL[‚ğæ“¾‚·‚éB
-%group
-Win32 wininet
 %prm
 pcwszUrl, pcwszCookieName, dwFlags, ppCookies, pdwCookieCount
 pcwszUrl : [wstr] ƒNƒbƒL[‚ğæ“¾‚·‚é URLB
@@ -2789,8 +2581,6 @@ Windows HTTP Services
 %index
 InternetGetLastResponseInfoW
 –{ŠÖ”‚ğŒÄ‚Ño‚µ‚½ƒXƒŒƒbƒhã‚Å‚ÌÅŒã‚ÌƒGƒ‰[à–¾‚Ü‚½‚ÍƒT[ƒo[ƒŒƒXƒ|ƒ“ƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpdwError, lpszBuffer, lpdwBufferLength
 lpdwError : [var] ¸”s‚µ‚½‘€ì‚ÉŠÖ˜A‚·‚éƒGƒ‰[ƒƒbƒZ[ƒW‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2827,8 +2617,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetGetPerSiteCookieDecisionW
 w’è‚µ‚½ƒhƒƒCƒ“‚ÌƒNƒbƒL[‚ÉŠÖ‚·‚é”»’f‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 pchHostName, pResult
 pchHostName : [wstr] ƒhƒƒCƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚ğw‚· LPCTSTRB
@@ -2859,8 +2647,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetGetProxyForUrl
 (no summary)
-%group
-Win32 wininet
 %prm
 hInternet, pcwszUrl, pProxyInfoList
 hInternet : [intptr] 
@@ -2873,8 +2659,6 @@ pProxyInfoList : [var]
 %index
 InternetGetSecurityInfoByURL
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszURL, ppCertChain, pdwSecureFlags
 lpszURL : [str] 
@@ -2887,8 +2671,6 @@ pdwSecureFlags : [var]
 %index
 InternetGetSecurityInfoByURLA
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszURL, ppCertChain, pdwSecureFlags
 lpszURL : [str] 
@@ -2901,8 +2683,6 @@ pdwSecureFlags : [var]
 %index
 InternetGetSecurityInfoByURLW
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszURL, ppCertChain, pdwSecureFlags
 lpszURL : [wstr] 
@@ -2915,8 +2695,6 @@ pdwSecureFlags : [var]
 %index
 InternetGoOnline
 InternetGoOnline ŠÖ” (wininet.h) ‚Í URL ‚Ö‚ÌÚ‘±ŠJn‚Ì‹–‰Â‚ğƒ†[ƒU[‚É‹‚ß‚éB
-%group
-Win32 wininet
 %prm
 lpszURL, hwndParent, dwFlags
 lpszURL : [str] Ú‘±æ Web ƒTƒCƒg‚Ì URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2939,8 +2717,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetHangUp
 InternetHangUp ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ÉƒCƒ“ƒ^[ƒlƒbƒg‚©‚ç‚ÌØ’f‚ğw¦‚·‚éB
-%group
-Win32 wininet
 %prm
 dwConnection, dwReserved
 dwConnection : [int] Ø’f‚·‚éÚ‘±‚ÌÚ‘±”Ô†B
@@ -2959,8 +2735,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetInitializeAutoProxyDll
 InternetInitializeAutoProxyDll ŠÖ” (wininet.h) ‚ÍAInternetInitializeAutoProxyDll ‚Æ‚¢‚¤–¼‘O‚ğ‚Â 2 ‚Â‚Ì WinINet ŠÖ”‚Ì‚¤‚¿‚Ì 1 ‚Â‚Å‚ ‚éB
-%group
-Win32 wininet
 %prm
 dwReserved
 dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2982,8 +2756,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetLockRequestFile
 g—p’†‚Ìƒtƒ@ƒCƒ‹‚ÉƒƒbƒN‚ğŠ|‚¯‚éB
-%group
-Win32 wininet
 %prm
 hInternet, lphLockRequestInfo
 hInternet : [intptr] FtpOpenFileAGopherOpenFileAHttpOpenRequestA‚Ü‚½‚Í InternetOpenUrl ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -3010,8 +2782,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetOpenW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚é WinINet ŠÖ”‚Ìg—p‚ğ‰Šú‰»‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags
 lpszAgent : [wstr] WinINet ŠÖ”‚ğŒÄ‚Ño‚·ƒAƒvƒŠ–¼‚Ü‚½‚Íå‘Ì–¼‚ğw’è‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BHTTP ‚Ì user agent ‚Æ‚µ‚Äg—p‚³‚ê‚éB
@@ -3038,8 +2808,6 @@ InternetOpen ‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÅ‰‚ÉŒÄ‚Ô WinINet ŠÖ”BƒCƒ“ƒ^[ƒlƒbƒg DLL
 %index
 InternetOpenUrlW
 Š®‘S‚È FTP ‚Ü‚½‚Í HTTP URL ‚Åw’è‚³‚ê‚½ƒŠƒ\[ƒX‚ğŠJ‚­B(Unicode)
-%group
-Win32 wininet
 %prm
 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext
 hInternet : [intptr] Œ»İ‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹BInternetOpen ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚Å‚ ‚é•K—v‚ª‚ ‚éB
@@ -3070,8 +2838,6 @@ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 InternetQueryDataAvailable
 ƒT[ƒo[‚É–â‚¢‡‚í‚¹‚Ä—˜—p‰Â”\‚Èƒf[ƒ^‚Ì—Ê‚ğæ“¾‚·‚éB
-%group
-Win32 wininet
 %prm
 hFile, lpdwNumberOfBytesAvailable, dwFlags, dwContext
 hFile : [intptr] InternetOpenUrlAFtpOpenFileAGopherOpenFileA‚Ü‚½‚Í HttpOpenRequest ŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -3100,8 +2866,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetQueryFortezzaStatus
 (no summary)
-%group
-Win32 wininet
 %prm
 pdwStatus, dwReserved
 pdwStatus : [var] 
@@ -3113,8 +2877,6 @@ dwReserved : [int]
 %index
 InternetQueryOptionW
 w’è‚µ‚½ƒnƒ“ƒhƒ‹ã‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“‚ğ–â‚¢‡‚í‚¹‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hInternet, dwOption, lpBuffer, lpdwBufferLength
 hInternet : [intptr] î•ñ‚ğ–â‚¢‡‚í‚¹‚é‘ÎÛ‚Ìƒnƒ“ƒhƒ‹B
@@ -3146,8 +2908,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetReadFile
 InternetOpenUrlAFtpOpenFileAHttpOpenRequest ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éB
-%group
-Win32 wininet
 %prm
 hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead
 hFile : [intptr] InternetOpenUrlAFtpOpenFileAHttpOpenRequest ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -3175,8 +2935,6 @@ INTERNET_STATUS_REQUEST_COMPLETE ‚ÅŒÄ‚Î‚ê‚éBWinINet ‚ÍƒT[ƒrƒXÀ‘•‚Å‚Íg—p‚µ‚È‚
 %index
 InternetReadFileExW
 InternetOpenUrl ‚Ü‚½‚Í HttpOpenRequest ŠÖ”‚ÅŠJ‚©‚ê‚½ƒnƒ“ƒhƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hFile, lpBuffersOut, dwFlags, dwContext
 hFile : [intptr] InternetOpenUrl ‚Ü‚½‚Í HttpOpenRequest ŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -3204,8 +2962,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetSecurityProtocolToStringW
 (no summary)
-%group
-Win32 wininet
 %prm
 dwProtocol, lpstr, lpdwstrLength, dwReserved
 dwProtocol : [int] 
@@ -3219,8 +2975,6 @@ dwReserved : [int]
 %index
 InternetSetCookieW
 w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ğì¬‚·‚éB(InternetSetCookieW)
-%group
-Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData
 lpszUrl : [wstr] ƒNƒbƒL[‚ğİ’è‚·‚é URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3258,8 +3012,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetSetCookieExW
 InternetSetCookieEx ŠÖ”‚ÍAw’è‚³‚ê‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’è‚Ì–¼‘O‚ÌƒNƒbƒL[‚ğì¬‚·‚éB–{ŠÖ”‚ÍƒT[ƒhƒp[ƒeƒBƒNƒbƒL[‚ğì¬‚Å‚«‚é“_‚Å InternetSetCookie ŠÖ”‚ÆˆÙ‚È‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData, dwFlags, dwReserved
 lpszUrl : [wstr] ƒNƒbƒL[‚ğİ’è‚·‚é URL ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒ|ƒCƒ“ƒ^‚ª NULL ‚Ìê‡AInternetSetCookieEx ‚Í ERROR_INVALID_PARAMETER ƒGƒ‰[‚Å¸”s‚·‚éB
@@ -3291,8 +3043,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetSetCookieEx2
 w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ğì¬‚·‚éB(InternetSetCookieEx2)
-%group
-Win32 wininet
 %prm
 pcwszUrl, pCookie, pcwszP3PPolicy, dwFlags, pdwCookieState
 pcwszUrl : [wstr] ƒNƒbƒL[‚ğİ’è‚·‚é URLB
@@ -3317,8 +3067,6 @@ Windows HTTP Services
 %index
 InternetSetDialState
 InternetSetDialState ŠÖ” (wininet.h) ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸A”p~‚³‚ê‚Ä‚¨‚èAg—p‚·‚×‚«‚Å‚Í‚È‚¢B
-%group
-Win32 wininet
 %prm
 lpszConnectoid, dwState, dwReserved
 lpszConnectoid : [str] –¢g—pB
@@ -3338,8 +3086,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetSetFilePointer
 InternetReadFile ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ğİ’è‚·‚éB–{ŒÄ‚Ño‚µ‚Í“¯Šú‚¾‚ªAŒã‘±‚Ì InternetReadFile ‚ÌŒÄ‚Ño‚µ‚ÍAƒf[ƒ^‚ªƒLƒƒƒbƒVƒ…‚©‚ç—˜—p‰Â”\‚Å‚È‚­A‚©‚ÂƒT[ƒo[‚ªƒ‰ƒ“ƒ_ƒ€ƒAƒNƒZƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡‚ÉƒuƒƒbƒN‚µ‚½‚è pending ‚ğ•Ô‚µ‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 wininet
 %prm
 hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod, dwContext
 hFile : [intptr] InternetOpenUrl (HTTP ‚Ü‚½‚Í HTTPS URL ‚É‘Î‚·‚é‚à‚Ì)A‚Ü‚½‚Í HttpOpenRequest (GET ‚Ü‚½‚Í HEAD HTTP “®Œ‚ğg—p‚µ HttpSendRequest ‚Ü‚½‚Í HttpSendRequestEx ‚É“n‚³‚ê‚½‚à‚Ì) ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B–{ƒnƒ“ƒhƒ‹‚Í INTERNET_FLAG_DONT_CACHE ‚Ü‚½‚Í INTERNET_FLAG_NO_CACHE_WRITE ‚ğİ’è‚µ‚Äì¬‚³‚ê‚½‚à‚Ì‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -3387,8 +3133,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetSetOptionW
 ƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 hInternet, dwOption, lpBuffer, dwBufferLength
 hInternet : [intptr] î•ñ‚ğİ’è‚·‚éƒnƒ“ƒhƒ‹B
@@ -3411,8 +3155,6 @@ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 InternetSetOptionExW
 ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢BInternetSetOption ŠÖ”‚ğŒÄ‚Ño‚·ƒXƒ^ƒu‚Æ‚µ‚Ä‚Ì‚İÀ‘•‚³‚ê‚Ä‚¨‚èAInternetSetOptionEx ©‘Ì‚É‚Í‹@”\‚ª‚È‚¢BŒ»“_‚Å‚Í–{ŠÖ”‚ğg—p‚µ‚È‚¢‚±‚ÆB(Unicode)
-%group
-Win32 wininet
 %prm
 hInternet, dwOption, lpBuffer, dwBufferLength, dwFlags
 hInternet : [intptr] –¢g—pB
@@ -3442,8 +3184,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetSetPerSiteCookieDecisionW
 w’è‚µ‚½ƒhƒƒCƒ“‚ÌƒNƒbƒL[‚ÉŠÖ‚·‚é”»’f‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 pchHostName, dwDecision
 pchHostName : [wstr] ƒhƒƒCƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚ğw‚· LPCTSTRB
@@ -3473,8 +3213,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 InternetShowSecurityInfoByURL
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszURL, hwndParent
 lpszURL : [str] 
@@ -3486,8 +3224,6 @@ hwndParent : [intptr]
 %index
 InternetShowSecurityInfoByURLA
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszURL, hwndParent
 lpszURL : [str] 
@@ -3499,8 +3235,6 @@ hwndParent : [intptr]
 %index
 InternetShowSecurityInfoByURLW
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszURL, hwndParent
 lpszURL : [wstr] 
@@ -3512,8 +3246,6 @@ hwndParent : [intptr]
 %index
 InternetTimeFromSystemTime
 InternetTimeFromSystemTime ŠÖ” (wininet.h) ‚Í HTTP ƒo[ƒWƒ‡ƒ“ 1.0 d—l‚É]‚Á‚Ä“ú‚ğ‘®‰»‚·‚éB
-%group
-Win32 wininet
 %prm
 pst, dwRFC, lpszTime, cbTime
 pst : [var] ‘®‰»‚·‚é“ú‚ğŠi”[‚µ‚½ SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3536,8 +3268,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetTimeToSystemTime
 InternetTimeToSystemTime ŠÖ” (wininet.h) ‚Í HTTP ‚Ì/“ú•t•¶š—ñ‚ğ SYSTEMTIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
-%group
-Win32 wininet
 %prm
 lpszTime, pst, dwReserved
 lpszTime : [str] •ÏŠ·‚·‚é“ú‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3559,8 +3289,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetUnlockRequestFile
 InternetLockRequestFile ‚ğg—p‚µ‚ÄƒƒbƒN‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
-%group
-Win32 wininet
 %prm
 hLockRequestInfo
 hLockRequestInfo : [intptr] InternetLockRequestFile ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒƒbƒN—v‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3579,8 +3307,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetWriteFile
 ŠJ‚©‚ê‚½ƒCƒ“ƒ^[ƒlƒbƒgƒtƒ@ƒCƒ‹‚Éƒf[ƒ^‚ğ‘‚«‚ŞB
-%group
-Win32 wininet
 %prm
 hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten
 hFile : [intptr] FtpOpenFile ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í HttpSendRequestEx ‚Å‘—M‚³‚ê‚½ HINTERNET ƒnƒ“ƒhƒ‹B
@@ -3605,8 +3331,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 InternetWriteFileExW
 (no summary)
-%group
-Win32 wininet
 %prm
 hFile, lpBuffersIn, dwFlags, dwContext
 hFile : [intptr] 
@@ -3620,8 +3344,6 @@ dwContext : [int]
 %index
 IsHostInProxyBypassList
 (no summary)
-%group
-Win32 wininet
 %prm
 tScheme, lpszHost, cchHost
 tScheme : [int] 
@@ -3634,8 +3356,6 @@ cchHost : [int]
 %index
 IsUrlCacheEntryExpiredW
 (no summary)
-%group
-Win32 wininet
 %prm
 lpszUrlName, dwFlags, pftLastModified
 lpszUrlName : [wstr] 
@@ -3648,8 +3368,6 @@ pftLastModified : [var]
 %index
 LoadUrlCacheContent
 (no summary)
-%group
-Win32 wininet
 %prm
 
 %inst
@@ -3659,8 +3377,6 @@ Win32 wininet
 %index
 ParseX509EncodedCertificateForListBoxEntry
 (no summary)
-%group
-Win32 wininet
 %prm
 lpCert, cbCert, lpszListBoxEntry, lpdwListBoxEntry
 lpCert : [var] 
@@ -3674,8 +3390,6 @@ lpdwListBoxEntry : [var]
 %index
 PrivacyGetZonePreferenceW
 PrivacyGetZonePreferenceW (Unicode) ŠÖ” (wininet.h) ‚ÍAw’è‚³‚ê‚½ URLZONE ‚Æ PrivacyType ‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 wininet
 %prm
 dwZone, dwType, pdwTemplate, pszBuffer, pdwBufferLength
 dwZone : [int] ƒvƒ‰ƒCƒoƒV[İ’è‚ğæ“¾‚·‚é URLZONE ‚ğw’è‚·‚é DWORD Œ^‚Ì’lB
@@ -3701,8 +3415,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 PrivacySetZonePreferenceW
 PrivacySetZonePreferenceW (Unicode) ŠÖ” (wininet.h) ‚ÍAw’è‚³‚ê‚½ URLZONE ‚Æ PrivacyType ‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ğs‚¤B
-%group
-Win32 wininet
 %prm
 dwZone, dwType, dwTemplate, pszPreference
 dwZone : [int] ƒvƒ‰ƒCƒoƒV[İ’è‚ğs‚¤ URLZONE ‚ğw’è‚·‚é DWORD Œ^‚Ì’lB
@@ -3740,8 +3452,6 @@ decision •¶š‚ğ¦‚·B
 %index
 ReadUrlCacheEntryStream
 RetrieveUrlCacheEntryStream ŠÖ”‚ğg—p‚µ‚ÄŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çAƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒf[ƒ^‚ğ“Ç‚İæ‚éB
-%group
-Win32 wininet
 %prm
 hUrlCacheStream, dwLocation, lpBuffer, lpdwLen, Reserved
 hUrlCacheStream : [intptr] RetrieveUrlCacheEntryStream ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -3766,8 +3476,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 ReadUrlCacheEntryStreamEx
 (no summary)
-%group
-Win32 wininet
 %prm
 hUrlCacheStream, qwLocation, lpBuffer, lpdwLen
 hUrlCacheStream : [intptr] 
@@ -3781,8 +3489,6 @@ lpdwLen : [var]
 %index
 RegisterUrlCacheNotification
 (no summary)
-%group
-Win32 wininet
 %prm
 hWnd, uMsg, gid, dwOpsFilter, dwReserved
 hWnd : [intptr] 
@@ -3797,8 +3503,6 @@ dwReserved : [int]
 %index
 ResumeSuspendedDownload
 ResumeSuspendedDownload ŠÖ”‚ÍAƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ_ƒCƒAƒƒO‚É‚æ‚Á‚Ä’†’f‚³‚ê‚½—v‹‚ğÄŠJ‚·‚éB
-%group
-Win32 wininet
 %prm
 hRequest, dwResultCode
 hRequest : [intptr] ƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ_ƒCƒAƒƒO‚É‚æ‚Á‚Ä’†’f‚³‚ê‚½—v‹‚Ìƒnƒ“ƒhƒ‹B
@@ -3823,8 +3527,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 RetrieveUrlCacheEntryFileW
 w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠƒtƒ@ƒCƒ‹‚ğƒƒbƒN‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, lpcbCacheEntryInfo, dwReserved
 lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒX‚Ì URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍˆêˆÓ‚È–¼‘O‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -3863,8 +3565,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RetrieveUrlCacheEntryStreamW
 ƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌAÅ‚àŒø—¦“I‚ÅÀ‘•”ñˆË‘¶‚Èè’i‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, lpcbCacheEntryInfo, fRandomRead, dwReserved
 lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìƒ\[ƒX–¼‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍˆêˆÓ‚È–¼‘O‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -3902,8 +3602,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 RunOnceUrlCache
 (no summary)
-%group
-Win32 wininet
 %prm
 hwnd, hinst, lpszCmd, nCmdShow
 hwnd : [intptr] 
@@ -3917,8 +3615,6 @@ nCmdShow : [int]
 %index
 SetUrlCacheConfigInfoW
 (no summary)
-%group
-Win32 wininet
 %prm
 lpCacheConfigInfo, dwFieldControl
 lpCacheConfigInfo : [var] 
@@ -3930,8 +3626,6 @@ dwFieldControl : [int]
 %index
 SetUrlCacheEntryGroup
 SetUrlCacheEntryGroup ŠÖ” (wininet.h) ‚ÍƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚ÖƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚·‚é‚©AƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚©‚çƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-%group
-Win32 wininet
 %prm
 lpszUrlName, dwFlags, GroupId, pbGroupAttributes, cbGroupAttributes, lpReserved
 lpszUrlName : [str] ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒŠƒ\[ƒX‚Ì URL ‚ğw’è‚·‚é null I’[•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3957,8 +3651,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 SetUrlCacheEntryInfoW
 INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ìw’è‚µ‚½ƒƒ“ƒo‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, dwFieldControl
 lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -3986,8 +3678,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SetUrlCacheGroupAttributeW
 w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì‘®«î•ñ‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 wininet
 %prm
 gid, dwFlags, dwAttributes, lpGroupInfo, lpReserved
 gid : [int64] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•ÊqB
@@ -4015,8 +3705,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SetUrlCacheHeaderData
 (no summary)
-%group
-Win32 wininet
 %prm
 nIdx, dwData
 nIdx : [int] 
@@ -4028,8 +3716,6 @@ dwData : [int]
 %index
 ShowClientAuthCerts
 (no summary)
-%group
-Win32 wininet
 %prm
 hWndParent
 hWndParent : [intptr] 
@@ -4040,8 +3726,6 @@ hWndParent : [intptr]
 %index
 ShowSecurityInfo
 (no summary)
-%group
-Win32 wininet
 %prm
 hWndParent, pSecurityInfo
 hWndParent : [intptr] 
@@ -4053,8 +3737,6 @@ pSecurityInfo : [var]
 %index
 ShowX509EncodedCertificate
 (no summary)
-%group
-Win32 wininet
 %prm
 hWndParent, lpCert, cbCert
 hWndParent : [intptr] 
@@ -4067,8 +3749,6 @@ cbCert : [int]
 %index
 UnlockUrlCacheEntryFile
 UnlockUrlCacheEntryFile ŠÖ” (wininet.h) ‚ÍAƒLƒƒƒbƒVƒ…‚©‚ç‚Ìg—p‚Ì‚½‚ß‚Éƒtƒ@ƒCƒ‹‚ªæ“¾‚³‚ê‚éÛ‚ÉƒƒbƒN‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
-%group
-Win32 wininet
 %prm
 lpszUrlName, dwReserved
 lpszUrlName : [str] ƒƒbƒN‚ğ‰ğœ‚·‚éƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìƒ\[ƒX–¼‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
@@ -4094,8 +3774,6 @@ HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 UnlockUrlCacheEntryStream
 RetrieveUrlCacheEntryStream ŠÖ”‚ğg—p‚µ‚Äæ“¾‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
-%group
-Win32 wininet
 %prm
 hUrlCacheStream, Reserved
 hUrlCacheStream : [intptr] RetrieveUrlCacheEntryStream ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -4114,8 +3792,6 @@ Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 %index
 UpdateUrlCacheContentPath
 (no summary)
-%group
-Win32 wininet
 %prm
 szNewPath
 szNewPath : [str] 
@@ -4126,8 +3802,6 @@ szNewPath : [str]
 %index
 UrlCacheCheckEntriesExist
 (no summary)
-%group
-Win32 wininet
 %prm
 rgpwszUrls, cEntries, rgfExist
 rgpwszUrls : [var] 
@@ -4140,8 +3814,6 @@ rgfExist : [var]
 %index
 UrlCacheCloseEntryHandle
 (no summary)
-%group
-Win32 wininet
 %prm
 hEntryFile
 hEntryFile : [intptr] 
@@ -4152,8 +3824,6 @@ hEntryFile : [intptr]
 %index
 UrlCacheContainerSetEntryMaximumAge
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszPrefix, dwEntryMaxAge
 pwszPrefix : [wstr] 
@@ -4165,8 +3835,6 @@ dwEntryMaxAge : [int]
 %index
 UrlCacheCreateContainer
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszName, pwszPrefix, pwszDirectory, ullLimit, dwOptions
 pwszName : [wstr] 
@@ -4181,8 +3849,6 @@ dwOptions : [int]
 %index
 UrlCacheFindFirstEntry
 (no summary)
-%group
-Win32 wininet
 %prm
 pwszPrefix, dwFlags, dwFilter, GroupId, pCacheEntryInfo, phFind
 pwszPrefix : [wstr] 
@@ -4198,8 +3864,6 @@ phFind : [intptr]
 %index
 UrlCacheFindNextEntry
 (no summary)
-%group
-Win32 wininet
 %prm
 hFind, pCacheEntryInfo
 hFind : [intptr] 
@@ -4211,8 +3875,6 @@ pCacheEntryInfo : [var]
 %index
 UrlCacheFreeEntryInfo
 (no summary)
-%group
-Win32 wininet
 %prm
 pCacheEntryInfo
 pCacheEntryInfo : [var] 
@@ -4223,8 +3885,6 @@ pCacheEntryInfo : [var]
 %index
 UrlCacheFreeGlobalSpace
 (no summary)
-%group
-Win32 wininet
 %prm
 ullTargetSize, dwFilter
 ullTargetSize : [int64] 
@@ -4236,8 +3896,6 @@ dwFilter : [int]
 %index
 UrlCacheGetContentPaths
 (no summary)
-%group
-Win32 wininet
 %prm
 pppwszDirectories, pcDirectories
 pppwszDirectories : [var] 
@@ -4249,8 +3907,6 @@ pcDirectories : [var]
 %index
 UrlCacheGetEntryInfo
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pcwszUrl, pCacheEntryInfo
 hAppCache : [intptr] 
@@ -4263,8 +3919,6 @@ pCacheEntryInfo : [var]
 %index
 UrlCacheGetGlobalCacheSize
 (no summary)
-%group
-Win32 wininet
 %prm
 dwFilter, pullSize, pullLimit
 dwFilter : [int] 
@@ -4277,8 +3931,6 @@ pullLimit : [var]
 %index
 UrlCacheGetGlobalLimit
 (no summary)
-%group
-Win32 wininet
 %prm
 limitType, pullLimit
 limitType : [int] 
@@ -4290,8 +3942,6 @@ pullLimit : [var]
 %index
 UrlCacheReadEntryStream
 (no summary)
-%group
-Win32 wininet
 %prm
 hUrlCacheStream, ullLocation, pBuffer, dwBufferLen, pdwBufferLen
 hUrlCacheStream : [intptr] 
@@ -4306,8 +3956,6 @@ pdwBufferLen : [var]
 %index
 UrlCacheReloadSettings
 (no summary)
-%group
-Win32 wininet
 %prm
 
 %inst
@@ -4317,8 +3965,6 @@ Win32 wininet
 %index
 UrlCacheRetrieveEntryFile
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pcwszUrl, pCacheEntryInfo, phEntryFile
 hAppCache : [intptr] 
@@ -4332,8 +3978,6 @@ phEntryFile : [var]
 %index
 UrlCacheRetrieveEntryStream
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pcwszUrl, fRandomRead, pCacheEntryInfo, phEntryStream
 hAppCache : [intptr] 
@@ -4348,8 +3992,6 @@ phEntryStream : [var]
 %index
 UrlCacheServer
 (no summary)
-%group
-Win32 wininet
 %prm
 
 %inst
@@ -4359,8 +4001,6 @@ Win32 wininet
 %index
 UrlCacheSetGlobalLimit
 (no summary)
-%group
-Win32 wininet
 %prm
 limitType, ullLimit
 limitType : [int] 
@@ -4372,8 +4012,6 @@ ullLimit : [int64]
 %index
 UrlCacheUpdateEntryExtraData
 (no summary)
-%group
-Win32 wininet
 %prm
 hAppCache, pcwszUrl, pbExtraData, cbExtraData
 hAppCache : [intptr] 

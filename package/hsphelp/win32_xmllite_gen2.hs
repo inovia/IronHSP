@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+xmllite.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の xmllite.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 CreateXmlReader
 (no summary)
-%group
-Win32 xmllite
 %prm
 riid, ppvObject, pMalloc
 riid : [var] 
@@ -21,8 +41,6 @@ pMalloc : [var]
 %index
 CreateXmlReaderInputWithEncodingCodePage
 (no summary)
-%group
-Win32 xmllite
 %prm
 pInputStream, pMalloc, nEncodingCodePage, fEncodingHint, pwszBaseUri, ppInput
 pInputStream : [var] 
@@ -38,8 +56,6 @@ ppInput : [var]
 %index
 CreateXmlReaderInputWithEncodingName
 (no summary)
-%group
-Win32 xmllite
 %prm
 pInputStream, pMalloc, pwszEncodingName, fEncodingHint, pwszBaseUri, ppInput
 pInputStream : [var] 
@@ -55,8 +71,6 @@ ppInput : [var]
 %index
 CreateXmlWriter
 (no summary)
-%group
-Win32 xmllite
 %prm
 riid, ppvObject, pMalloc
 riid : [var] 
@@ -69,8 +83,6 @@ pMalloc : [var]
 %index
 CreateXmlWriterOutputWithEncodingCodePage
 (no summary)
-%group
-Win32 xmllite
 %prm
 pOutputStream, pMalloc, nEncodingCodePage, ppOutput
 pOutputStream : [var] 
@@ -84,8 +96,6 @@ ppOutput : [var]
 %index
 CreateXmlWriterOutputWithEncodingName
 (no summary)
-%group
-Win32 xmllite
 %prm
 pOutputStream, pMalloc, pwszEncodingName, ppOutput
 pOutputStream : [var] 

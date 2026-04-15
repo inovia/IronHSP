@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+opengl32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì opengl32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 glAccum
 glAccum ŠÖ”‚ÍƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚É‘Î‚µ‚Ä‘€ì‚ğs‚¤B
-%group
-Win32 opengl32
 %prm
 op, value
 op : [int] ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚Ì‘€ìBˆÈ‰º‚ÌƒVƒ“ƒ{ƒ‹’è”‚ğó‚¯•t‚¯‚éBGL_ACCUM: Œ»İ“Ç‚İæ‚è‘ÎÛ‚Æ‚µ‚Ä‘I‘ğ‚³‚ê‚Ä‚¢‚éƒoƒbƒtƒ@‚©‚ç RAGABAA ‚Ì’l‚ğæ“¾‚·‚é (glReadBuffer QÆ)BŠe¬•ª’l‚ğ 2^n-1 ‚ÅœZ‚µ (n ‚ÍŒ»İ‘I‘ğ’†‚Ìƒoƒbƒtƒ@‚ÅŠeF¬•ª‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒrƒbƒg”)A“¾‚ç‚ê‚½ [0,1] ”ÍˆÍ‚Ì•‚“®¬”“_’l‚ğ value ‚ÅæZ‚µ‚ÄƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚Ì‘Î‰ƒsƒNƒZƒ‹¬•ª‚É‰ÁZ‚·‚éBGL_LOAD: GL_ACCUM ‚Æ“¯—l‚¾‚ªAƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚ÌŒ»İ’l‚ğŒvZ‚Ég—p‚µ‚È‚¢B‚·‚È‚í‚¿Œ»İ‘I‘ğ’†‚Ìƒoƒbƒtƒ@‚©‚ç‚Ì’l‚ğ 2^n-1 ‚ÅœZ‚µ value ‚ğæ‚¶‚Ä‘Î‰‚·‚éƒZƒ‹‚ÉŠi”[‚µAŒ»İ’l‚ğã‘‚«‚·‚éBGL_ADD: ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@“à‚ÌŠe RAGABAA ‚É value ‚ğ‰ÁZ‚·‚éBGL_MULT: Še RAGABAA ‚É value ‚ğæZ‚µAƒXƒP[ƒ‹Œã‚Ì’l‚ğ‘Î‰‚·‚éêŠ‚É–ß‚·BGL_RETURN: ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚Ì’l‚ğŒ»İ‘‚«‚İ‘ÎÛ‚ÌƒJƒ‰[ƒoƒbƒtƒ@‚É“]‘—‚·‚éBŠe¬•ª‚É value ‚ğæZ‚µA‚³‚ç‚É 2^n-1 ‚ğæZ‚µ‚Ä [0, 2^n-1] ‚ÉƒNƒ‰ƒ“ƒv‚µ‘Î‰‚·‚éƒfƒBƒXƒvƒŒƒCƒoƒbƒtƒ@ƒZƒ‹‚ÉŠi”[‚·‚éB‚±‚Ì“]‘—‚É“K—p‚³‚ê‚éƒtƒ‰ƒOƒƒ“ƒg‘€ì‚ÍAƒsƒNƒZƒ‹Š—LŒ AƒVƒU[AƒfƒBƒUƒŠƒ“ƒOAƒJƒ‰[‘‚«‚İƒ}ƒXƒN‚Ì‚İ‚Å‚ ‚éB
@@ -37,8 +57,6 @@ RAGABAA ’l‚ğw’è‚µAglClear ‚ğƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@—LŒø‚ÅÀs‚·‚éBŠÖ˜A
 %index
 glAlphaFunc
 glAlphaFunc ŠÖ”‚ÍƒAƒ‹ƒtƒ@ƒeƒXƒgŠÖ”‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 func, ref
 func : [int] ƒAƒ‹ƒtƒ@”äŠrŠÖ”BˆÈ‰º‚ÌƒVƒ“ƒ{ƒ‹’è”‚Æ‚»‚ÌˆÓ–¡‚ğó‚¯•t‚¯‚éBGL_NEVER: Œˆ‚µ‚ÄƒpƒX‚µ‚È‚¢BGL_LESS: “ü—ÍƒAƒ‹ƒtƒ@’l‚ªQÆ’l–¢–‚Ì‚Æ‚«ƒpƒX‚·‚éBGL_EQUAL: “ü—ÍƒAƒ‹ƒtƒ@’l‚ªQÆ’l‚É“™‚µ‚¢‚Æ‚«ƒpƒX‚·‚éBGL_LEQUAL: “ü—ÍƒAƒ‹ƒtƒ@’l‚ªQÆ’lˆÈ‰º‚Ì‚Æ‚«ƒpƒX‚·‚éBGL_GREATER: “ü—ÍƒAƒ‹ƒtƒ@’l‚ªQÆ’l‚æ‚è‘å‚«‚¢‚Æ‚«ƒpƒX‚·‚éBGL_NOTEQUAL: “ü—ÍƒAƒ‹ƒtƒ@’l‚ªQÆ’l‚ÆˆÙ‚È‚é‚Æ‚«ƒpƒX‚·‚éBGL_GEQUAL: “ü—ÍƒAƒ‹ƒtƒ@’l‚ªQÆ’lˆÈã‚Ì‚Æ‚«ƒpƒX‚·‚éBGL_ALWAYS: í‚ÉƒpƒX‚·‚é (Šù’è’l)B
@@ -63,8 +81,6 @@ glGet (GL_ALPHA_TEST_FUNC / REF) ‚¨‚æ‚Ñ glIsEnabled (GL_ALPHA_TEST)
 %index
 glAreTexturesResident
 glAreTexturesResident ŠÖ”‚ÍAw’è‚³‚ê‚½ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ªƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠ‚Éí’“‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 n, textures, residences
 n : [int] Æ‰ï‚·‚éƒeƒNƒXƒ`ƒƒ‚Ì”B
@@ -89,8 +105,6 @@ target ‚É‚»‚ÌƒeƒNƒXƒ`ƒƒƒ^[ƒQƒbƒg‚ğApname ‚É GL_TEXTURE_RESIDENT
 %index
 glArrayElement
 glArrayElement ŠÖ”‚Í’¸“_‚Ì•`‰æ‚Ég—p‚·‚é”z—ñ—v‘f‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 i
 i : [int] 
@@ -113,8 +127,6 @@ glEnd ƒyƒA“à‚Å”z—ñ‚ğw’è‚µ‚Ä‚àƒGƒ‰[‚Í”­¶‚µ‚È‚¢‚ªŒ‹‰Ê‚Í–¢’è‹`B’ˆÓ: OpenGL 1.1
 %index
 glBegin
 glBegin ‚Æ glEnd ŠÖ”‚ÍƒvƒŠƒ~ƒeƒBƒu‚Ü‚½‚Í“¯íƒvƒŠƒ~ƒeƒBƒuŒQ‚Ì’¸“_‚ğ‹æØ‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] glBegin ‚ÆŒã‘±‚Ì glEnd ‚ÌŠÔ‚Åw’è‚³‚ê‚½’¸“_‚©‚ç¶¬‚³‚ê‚éƒvƒŠƒ~ƒeƒBƒuBó‚¯•t‚¯‚éƒVƒ“ƒ{ƒ‹’è”‚ÆˆÓ–¡‚ÍŸ‚Ì‚Æ‚¨‚èBGL_POINTS: Še’¸“_‚ğ’Pˆê“_‚Æ‚µ‚Äˆµ‚¤B’¸“_ n ‚ª“_ n ‚ğ’è‹`‚µAN ŒÂ‚Ì“_‚ª•`‰æ‚³‚ê‚éBGL_LINES: Še’¸“_ƒyƒA‚ğ“Æ—§‚µ‚½ü•ª‚Æ‚µ‚Äˆµ‚¤B’¸“_ 2n-1, 2n ‚ªü n ‚ğ’è‹`‚µAN/2 –{•`‰æ‚³‚ê‚éBGL_LINE_STRIP: Å‰‚Ì’¸“_‚©‚çÅŒã‚ÖÚ‘±‚³‚ê‚½ü•ªŒQ‚ğ•`‰æ‚·‚éB’¸“_ n, n+1 ‚ªü n ‚ğ’è‹`‚µAN-1 –{•`‰æ‚³‚ê‚éBGL_LINE_LOOP: Å‰‚Ì’¸“_‚©‚çÅŒã‚ÖA‚³‚ç‚ÉÅ‰‚É–ß‚éÚ‘±ü•ªŒQBÅIü‚Í’¸“_ N ‚Æ 1 ‚Å’è‹`‚³‚êAN –{•`‰æ‚³‚ê‚éBGL_TRIANGLES: ’¸“_‚ğ 3 ŒÂ‚¸‚Â“Æ—§‚µ‚½OŠpŒ`‚Æ‚µ‚Äˆµ‚¤B’¸“_ 3n-2, 3n-1, 3n ‚ªOŠpŒ` n ‚ğ’è‹`‚µAN/3 ŒÂ•`‰æ‚³‚ê‚éBGL_TRIANGLE_STRIP: Ú‘±‚³‚ê‚½OŠpŒ`ŒQBÅ‰‚Ì 2 ’¸“_ˆÈ~A1 ’¸“_‚²‚Æ‚ÉOŠpŒ`‚ğ 1 ŒÂ’è‹`‚·‚éBŠï” n ‚Å‚Í’¸“_ n, n+1, n+2A‹ô” n ‚Å‚Í n+1, n, n+2 ‚ÅOŠpŒ` n ‚ğ’è‹`‚µAN-2 ŒÂ•`‰æ‚³‚ê‚éBGL_TRIANGLE_FAN: Ú‘±‚³‚ê‚½OŠpŒ`ŒQB’¸“_ 1, n+1, n+2 ‚ÅOŠpŒ` n ‚ğ’è‹`‚µAN-2 ŒÂ•`‰æ‚³‚ê‚éBGL_QUADS: ’¸“_‚ğ 4 ŒÂ‚¸‚Â“Æ—§‚µ‚½lŠpŒ`‚Æ‚µ‚Äˆµ‚¤B’¸“_ 4n-3, 4n-2, 4n-1, 4n ‚ÅlŠpŒ` n ‚ğ’è‹`‚µAN/4 ŒÂ•`‰æ‚³‚ê‚éBGL_QUAD_STRIP: Ú‘±‚³‚ê‚½lŠpŒ`ŒQBÅ‰‚ÌƒyƒAˆÈ~A1 ’¸“_ƒyƒA‚²‚Æ‚É 1 ŒÂ‚ÌlŠpŒ`‚ğ’è‹`‚·‚éB’¸“_ 2n-1, 2n, 2n+2, 2n+1 ‚ÅlŠpŒ` n ‚ğ’è‹`‚µAN/2-1 ŒÂ•`‰æ‚³‚ê‚éB’¸“_‚Ìg—p‡‚ª“Æ—§ƒf[ƒ^‚Ìê‡‚ÆˆÙ‚È‚é“_‚É’ˆÓBGL_POLYGON: ’Pˆê‚Ì“Êƒ|ƒŠƒSƒ“‚ğ•`‰æ‚·‚éB’¸“_ 1 ‚©‚ç N ‚ªƒ|ƒŠƒSƒ“‚ğ’è‹`‚·‚éB
@@ -138,8 +150,6 @@ OpenGL ŠÖ”‚ğŒÄ‚Ño‚·‚ÆƒGƒ‰[ƒtƒ‰ƒO‚ªƒZƒbƒg‚³‚êŒÄ‚Ño‚µ‚Í–³‹‚³‚ê‚éBmode ‚Ì’l‚É
 %index
 glBindTexture
 glBindTexture ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒƒ^[ƒQƒbƒg‚ÉƒoƒCƒ“ƒh‚³‚ê‚é–¼‘O•t‚«ƒeƒNƒXƒ`ƒƒ‚ğì¬‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, texture
 target : [int] ƒeƒNƒXƒ`ƒƒ‚ğƒoƒCƒ“ƒh‚·‚éƒ^[ƒQƒbƒgBGL_TEXTURE_1D ‚Ü‚½‚Í GL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -169,8 +179,6 @@ GL_TEXTURE_2DAtexture
 %index
 glBitmap
 glBitmap ŠÖ”‚Íƒrƒbƒgƒ}ƒbƒv‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 width, height, xorig, yorig, xmove, ymove, bitmap
 width : [int] ƒrƒbƒgƒ}ƒbƒv‰æ‘œ‚ÌƒsƒNƒZƒ‹’PˆÊ‚Ì•B
@@ -203,8 +211,6 @@ xorig, yr - yorig) ‚ÌƒEƒBƒ“ƒhƒEÀ•W‚É”z’u‚³‚êA(xr, yr) ‚Íƒ‰ƒXƒ^ˆÊ’uBƒrƒbƒgƒ}ƒb
 %index
 glBlendFunc
 glBlendFunc ŠÖ”‚ÍƒsƒNƒZƒ‹‰‰Z‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 sfactor, dfactor
 sfactor : [int] RAGABAA ‚Ìƒ\[ƒXƒuƒŒƒ“ƒhŒW”‚ÌŒvZ•û–@‚ğw’è‚·‚éBˆÈ‰º 9 ‚Â‚ÌƒVƒ“ƒ{ƒ‹’è”‚ğó‚¯•t‚¯‚é: GL_ZEROAGL_ONEAGL_DST_COLORAGL_ONE_MINUS_DST_COLORAGL_SRC_ALPHAAGL_ONE_MINUS_SRC_ALPHAAGL_DST_ALPHAAGL_ONE_MINUS_DST_ALPHAAGL_SRC_ALPHA_SATURATEB
@@ -230,8 +236,6 @@ RGB ƒ‚[ƒh‚Å‚ÍAƒsƒNƒZƒ‹‚Í“ü—Í (ƒ\[ƒX) RGBA ’l‚ÆƒtƒŒ[ƒ€ƒoƒbƒtƒ@“à‚ÌŠù‘¶ (ˆ¶æ)
 %index
 glCallList
 glCallList ŠÖ”‚Í•\¦ƒŠƒXƒg‚ğÀs‚·‚éB
-%group
-Win32 opengl32
 %prm
 list
 list : [int] Às‚·‚é•\¦ƒŠƒXƒg‚Ì®”–¼B
@@ -256,8 +260,6 @@ glEnd ŠÔ‚Å‚àÀs‰Â”\ (•\¦ƒŠƒXƒg‚ª‚±‚Ì‹æŠÔ‚Å‹–‚³‚ê‚éŠÖ”‚Ì‚İ‚ğŠÜ‚Şê‡)BŠÖ˜Aî•
 %index
 glCallLists
 glCallLists ŠÖ”‚Í•\¦ƒŠƒXƒgŒQ‚ğÀs‚·‚éB
-%group
-Win32 opengl32
 %prm
 n, type, lists
 n : [int] Às‚·‚é•\¦ƒŠƒXƒg‚Ì”B
@@ -284,8 +286,6 @@ glGet (GL_LIST_BASE / GL_MAX_LIST_NESTING) ‚¨‚æ‚Ñ glIsList ‚Åæ“¾‚Å‚«‚éB
 %index
 glClear
 glClear ŠÖ”‚Íƒoƒbƒtƒ@‚ğ–‘Oİ’è’l‚ÉƒNƒŠƒA‚·‚éB
-%group
-Win32 opengl32
 %prm
 mask
 mask : [int] ƒNƒŠƒA‚·‚éƒoƒbƒtƒ@‚ğ¦‚·ƒ}ƒXƒN‚Ìƒrƒbƒg’PˆÊ ORBƒ}ƒXƒN‚ÍˆÈ‰º‚Ì 4 ‚ÂBGL_COLOR_BUFFER_BIT: Œ»İƒJƒ‰[‘‚«‚İ‚ª—LŒø‚Èƒoƒbƒtƒ@BGL_DEPTH_BUFFER_BIT: ƒfƒvƒXƒoƒbƒtƒ@BGL_ACCUM_BUFFER_BIT: ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@BGL_STENCIL_BUFFER_BIT: ƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@B
@@ -311,8 +311,6 @@ GL_INDEX_CLEAR_VALUE / GL_COLOR_CLEAR_VALUE / GL_STENCIL_CLEAR_VALUE)
 %index
 glClearAccum
 glClearAccum ŠÖ”‚ÍƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚ÌƒNƒŠƒA’l‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [float] ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@ƒNƒŠƒA‚Ég—p‚·‚éÔ‚Ì’lBŠù’è’l‚Í 0B
@@ -334,8 +332,6 @@ glClearAccum ‚Í glClear ‚ÅƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚ğƒNƒŠƒA‚·‚éÛ‚Ég—p‚³‚ê‚é R
 %index
 glClearColor
 glClearColor ŠÖ”‚ÍƒJƒ‰[ƒoƒbƒtƒ@‚ÌƒNƒŠƒA’l‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [float] glClear ‚ªƒJƒ‰[ƒoƒbƒtƒ@‚ğƒNƒŠƒA‚·‚éÛ‚Ég—p‚·‚éÔ‚Ì’lBŠù’è’l‚Í 0B
@@ -357,8 +353,6 @@ GL_COLOR_CLEAR_VALUE) ‚Åæ“¾‚Å‚«‚éB
 %index
 glClearDepth
 glClearDepth ŠÖ”‚ÍƒfƒvƒXƒoƒbƒtƒ@‚ÌƒNƒŠƒA’l‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 depth
 depth : [double] ƒfƒvƒXƒoƒbƒtƒ@ƒNƒŠƒA‚Ég—p‚·‚éƒfƒvƒX’lB
@@ -376,8 +370,6 @@ glClearDepth ‚Í glClear ‚ÅƒfƒvƒXƒoƒbƒtƒ@‚ğƒNƒŠƒA‚·‚éÛ‚Ég—p‚³‚ê‚éƒfƒvƒX’l‚ğw’è
 %index
 glClearIndex
 glClearIndex ŠÖ”‚ÍƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ÌƒNƒŠƒA’l‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [float] ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒNƒŠƒA‚Ég—p‚·‚éƒCƒ“ƒfƒbƒNƒXBŠù’è’l‚Í 0B
@@ -397,8 +389,6 @@ GL_INDEX_BITS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glClearStencil
 glClearStencil ŠÖ”‚ÍƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@‚ÌƒNƒŠƒA’l‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 s
 s : [int] ƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@ƒNƒŠƒA‚Ég—p‚·‚éƒCƒ“ƒfƒbƒNƒXBŠù’è’l‚Í 0B
@@ -417,8 +407,6 @@ GL_STENCIL_BITS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glClipPlane
 glClipPlane ŠÖ”‚Í‘S‚Ä‚ÌŠô‰½}Œ`‚ªƒNƒŠƒbƒsƒ“ƒO‚³‚ê‚é•½–Ê‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 plane, equation
 plane : [int] ˆÊ’uŒˆ‚ß‘ÎÛ‚ÌƒNƒŠƒbƒsƒ“ƒO•½–ÊBGL_CLIP_PLANEi Œ`®‚ÌƒVƒ“ƒ{ƒ‹–¼ (i ‚Í 0 ‚©‚ç GL_MAX_CLIP_PLANES - 1 ‚Ì®”) ‚ğó‚¯•t‚¯‚éB
@@ -445,8 +433,6 @@ glGetClipPlane ‚¨‚æ‚Ñ glIsEnabled (GL_CLIP_PLANEi) ‚Åæ“¾‚Å‚«‚éB
 %index
 glColor3b
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -472,8 +458,6 @@ GL ‚ÍŒ»İ‚Ì’P’lƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÆŒ»İ‚Ì 4 ’l RGBA ƒJƒ‰[‚Ì—¼•û‚ğ•Û‚·‚éBglCo
 %index
 glColor3bv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -490,8 +474,6 @@ glColor3b ‚Ìà–¾‚ğQÆB–¼‘O‚É v ‚ª•t‚­Œ`®‚Í”z—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %index
 glColor3d
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [double] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -510,8 +492,6 @@ glColor3b ‚Ìà–¾‚ğQÆBd ‚Í”{¸“x•‚“®¬”“_‚ğˆø”‚Éæ‚éB
 %index
 glColor3dv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -528,8 +508,6 @@ glColor3b ‚Ìà–¾‚ğQÆBdv ‚Í”{¸“x•‚“®¬”“_”z—ñ‚ğó‚¯æ‚éB
 %index
 glColor3f
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [float] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -548,8 +526,6 @@ glColor3b ‚Ìà–¾‚ğQÆBf ‚Í’P¸“x•‚“®¬”“_‚ğˆø”‚Éæ‚éB
 %index
 glColor3fv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -566,8 +542,6 @@ glColor3b ‚Ìà–¾‚ğQÆBfv ‚Í’P¸“x•‚“®¬”“_”z—ñ‚ğó‚¯æ‚éB
 %index
 glColor3i
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -586,8 +560,6 @@ glColor3b ‚Ìà–¾‚ğQÆBi ‚Í•„†•t‚« 32 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor3iv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -604,8 +576,6 @@ glColor3b ‚Ìà–¾‚ğQÆBiv ‚Í•„†•t‚« 32 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColor3s
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -624,8 +594,6 @@ glColor3b ‚Ìà–¾‚ğQÆBs ‚Í•„†•t‚« 16 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor3sv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -642,8 +610,6 @@ glColor3b ‚Ìà–¾‚ğQÆBsv ‚Í•„†•t‚« 16 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColor3ub
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -662,8 +628,6 @@ glColor3b ‚Ìà–¾‚ğQÆBub ‚Í•„†‚È‚µƒoƒCƒg‚ğˆø”‚Éæ‚éB
 %index
 glColor3ubv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -680,8 +644,6 @@ glColor3b ‚Ìà–¾‚ğQÆBubv ‚Í•„†‚È‚µƒoƒCƒg”z—ñ‚ğó‚¯æ‚éB
 %index
 glColor3ui
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -700,8 +662,6 @@ glColor3b ‚Ìà–¾‚ğQÆBui ‚Í•„†‚È‚µ 32 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor3uiv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -718,8 +678,6 @@ glColor3b ‚Ìà–¾‚ğQÆBuiv ‚Í•„†‚È‚µ 32 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColor3us
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -738,8 +696,6 @@ glColor3b ‚Ìà–¾‚ğQÆBus ‚Í•„†‚È‚µ 16 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor3usv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGAB ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -756,8 +712,6 @@ glColor3b ‚Ìà–¾‚ğQÆBusv ‚Í•„†‚È‚µ 16 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4b
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -777,8 +731,6 @@ glColor3b ‚Ìà–¾‚ğQÆBglColor4 ‚Í RAGABAA ‚ğ–¾¦w’è‚·‚éBb ‚Í•„†•t‚«ƒoƒCƒ
 %index
 glColor4bv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -795,8 +747,6 @@ glColor3b ‚Ìà–¾‚ğQÆBbv ‚Í•„†•t‚«ƒoƒCƒg”z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4d
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [double] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -816,8 +766,6 @@ glColor3b ‚Ìà–¾‚ğQÆBd ‚Í”{¸“x•‚“®¬”“_‚ğˆø”‚Éæ‚éB
 %index
 glColor4dv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -834,8 +782,6 @@ glColor3b ‚Ìà–¾‚ğQÆBdv ‚Í”{¸“x•‚“®¬”“_”z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4f
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [float] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -855,8 +801,6 @@ glColor3b ‚Ìà–¾‚ğQÆBf ‚Í’P¸“x•‚“®¬”“_‚ğˆø”‚Éæ‚éB
 %index
 glColor4fv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -873,8 +817,6 @@ glColor3b ‚Ìà–¾‚ğQÆBfv ‚Í’P¸“x•‚“®¬”“_”z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4i
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -894,8 +836,6 @@ glColor3b ‚Ìà–¾‚ğQÆBi ‚Í•„†•t‚« 32 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor4iv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -912,8 +852,6 @@ glColor3b ‚Ìà–¾‚ğQÆBiv ‚Í•„†•t‚« 32 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4s
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -933,8 +871,6 @@ glColor3b ‚Ìà–¾‚ğQÆBs ‚Í•„†•t‚« 16 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor4sv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -951,8 +887,6 @@ glColor3b ‚Ìà–¾‚ğQÆBsv ‚Í•„†•t‚« 16 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4ub
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -972,8 +906,6 @@ glColor3b ‚Ìà–¾‚ğQÆBub ‚Í•„†‚È‚µƒoƒCƒg‚ğˆø”‚Éæ‚éB
 %index
 glColor4ubv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -990,8 +922,6 @@ glColor3b ‚Ìà–¾‚ğQÆBubv ‚Í•„†‚È‚µƒoƒCƒg”z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4ui
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -1011,8 +941,6 @@ glColor3b ‚Ìà–¾‚ğQÆBui ‚Í•„†‚È‚µ 32 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor4uiv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1029,8 +957,6 @@ glColor3b ‚Ìà–¾‚ğQÆBuiv ‚Í•„†‚È‚µ 32 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColor4us
 Œ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [int] Œ»İF‚ÌV‚µ‚¢Ô‚Ì’lB
@@ -1050,8 +976,6 @@ glColor3b ‚Ìà–¾‚ğQÆBus ‚Í•„†‚È‚µ 16 bit ®”‚ğˆø”‚Éæ‚éB
 %index
 glColor4usv
 Šù‘¶‚ÌF’l”z—ñ‚©‚çŒ»İF‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 v
 v : [var] RAGABAA ‚Ì’l‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1068,8 +992,6 @@ glColor3b ‚Ìà–¾‚ğQÆBusv ‚Í•„†‚È‚µ 16 bit ®””z—ñ‚ğó‚¯æ‚éB
 %index
 glColorMask
 glColorMask ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@F¬•ª‚Ì‘‚«‚İ‚ğ—LŒø/–³Œø‚É‚·‚éB
-%group
-Win32 opengl32
 %prm
 red, green, blue, alpha
 red : [int] ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ÉÔ‚ğ‘‚«‚ß‚é‚©‚ğw’è‚·‚éBŠù’è’l‚Í GL_TRUE ‚ÅAF¬•ª‚ğ‘‚«‚ß‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB
@@ -1091,8 +1013,6 @@ glGet (GL_COLOR_WRITEMASK) ‚Åæ“¾‚Å‚«‚éB
 %index
 glColorMaterial
 glColorMaterial ŠÖ”‚Íƒ}ƒeƒŠƒAƒ‹F‚ğŒ»İF‚Å’ÇÕ‚³‚¹‚éB
-%group
-Win32 opengl32
 %prm
 face, mode
 face : [int] •\–ÊE— –ÊE—¼–Ê‚Ì‚¢‚¸‚ê‚Ìƒ}ƒeƒŠƒAƒ‹ƒpƒ‰ƒ[ƒ^‚ğŒ»İF‚Å’ÇÕ‚³‚¹‚é‚©‚ğw’è‚·‚éBó‚¯•t‚¯‚é’l‚Í GL_FRONTAGL_BACKAGL_FRONT_AND_BACKBŠù’è’l‚Í GL_FRONT_AND_BACKB
@@ -1116,8 +1036,6 @@ glIsEnabled (GL_COLOR_MATERIAL) ‚Åæ“¾‚Å‚«‚éB
 %index
 glColorPointer
 glColorPointer ŠÖ”‚ÍƒJƒ‰[”z—ñ‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 size, type, stride, pointer
 size : [int] ƒJƒ‰[‚ ‚½‚è‚Ì¬•ª”B3 ‚Ü‚½‚Í 4 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1143,8 +1061,6 @@ GL_COLOR_ARRAY_SIZE / GL_COLOR_ARRAY_TYPE / GL_COLOR_ARRAY_STRIDE)
 %index
 glCopyPixels
 glCopyPixels ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@“à‚ÌƒsƒNƒZƒ‹‚ğƒRƒs[‚·‚éB
-%group
-Win32 opengl32
 %prm
 x, y, width, height, type
 x : [int] ƒRƒs[‚·‚éƒsƒNƒZƒ‹‹éŒ`—Ìˆæ‚Ì¶‰º‹÷‚ÌƒEƒBƒ“ƒhƒE x •½–ÊÀ•WB
@@ -1171,8 +1087,6 @@ GL_CURRENT_RASTER_POSITION_VALID) ‚Åæ“¾‚Å‚«‚éB
 %index
 glCopyTexImage1D
 glCopyTexImage1D ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚©‚ç 1 ŸŒ³ƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ÉƒsƒNƒZƒ‹‚ğƒRƒs[‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, level, internalFormat, x, y, width, border
 target : [int] •ÏX‚·‚éƒCƒ[ƒWƒf[ƒ^‚Ìƒ^[ƒQƒbƒgBGL_TEXTURE_1D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1198,8 +1112,6 @@ glCopyTexImage1D ‚Í glTexImage1D ‚Ì‚æ‚¤‚ÉƒƒCƒ“ƒƒ‚ƒŠ‚©‚ç‚Å‚Í‚È‚­AŒ»İ‚ÌƒtƒŒ[ƒ
 %index
 glCopyTexImage2D
 glCopyTexImage2D ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚©‚ç 2 ŸŒ³ƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ÉƒsƒNƒZƒ‹‚ğƒRƒs[‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, level, internalFormat, x, y, width, height, border
 target : [int] •ÏX‚·‚éƒCƒ[ƒWƒf[ƒ^‚Ìƒ^[ƒQƒbƒgBGL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1225,8 +1137,6 @@ glCopyTexImage2D ‚Í glTexImage2D ‚Ì‚æ‚¤‚ÉƒƒCƒ“ƒƒ‚ƒŠ‚©‚ç‚Å‚Í‚È‚­AŒ»İ‚ÌƒtƒŒ[ƒ
 %index
 glCopyTexSubImage1D
 glCopyTexSubImage1D ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚©‚ç 1 ŸŒ³ƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ÌƒTƒu‰æ‘œ‚ğƒRƒs[‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, level, xoffset, x, y, width
 target : [int] •ÏX‚·‚éƒCƒ[ƒWƒf[ƒ^‚Ìƒ^[ƒQƒbƒgBGL_TEXTURE_1D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1250,8 +1160,6 @@ glCopyTexSubImage1D ‚Í glTexSubImage1D
 %index
 glCopyTexSubImage2D
 glCopyTexSubImage2D ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚©‚ç 2 ŸŒ³ƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ÌƒTƒu‰æ‘œ‚ğƒRƒs[‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, level, xoffset, yoffset, x, y, width, height
 target : [int] •ÏX‚·‚éƒCƒ[ƒWƒf[ƒ^‚Ìƒ^[ƒQƒbƒgBGL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1277,8 +1185,6 @@ OpenGL 1.1 ˆÈ~‚Å‚Ì‚İ—˜—p‰Â”\B
 %index
 glCullFace
 glCullFace ŠÖ”‚Í•\–Ê‚Ü‚½‚Í— –Ê‚Ìƒtƒ@ƒZƒbƒg‚ğƒJƒŠƒ“ƒO‰Â”\‚É‚·‚é‚©‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] •\–Ê‚ğŒü‚¢‚½ƒtƒ@ƒZƒbƒg‚Æ— –Ê‚ğŒü‚¢‚½ƒtƒ@ƒZƒbƒg‚Ì‚¢‚¸‚ê‚ğƒJƒŠƒ“ƒO‘ÎÛ‚Æ‚·‚é‚©‚ğw’è‚·‚éBGL_FRONTAGL_BACKAGL_FRONT_AND_BACK ‚ğó‚¯•t‚¯‚éBŠù’è’l‚Í GL_BACKB
@@ -1300,8 +1206,6 @@ GL_CULL_FACE ‚ğw’è‚µ‚ÄØ‚è‘Ö‚¦‚éBƒtƒ@ƒZƒbƒg‚Í•\–Ê‚É‚à— –Ê‚É‚à‚È‚è‚¤‚éBglFront
 %index
 glDeleteLists
 glDeleteLists ŠÖ”‚Í˜A‘±‚·‚é•\¦ƒŠƒXƒgŒQ‚ğíœ‚·‚éB
-%group
-Win32 opengl32
 %prm
 list, range
 list : [int] íœ‚·‚éÅ‰‚Ì•\¦ƒŠƒXƒg‚Ì®”–¼B
@@ -1321,8 +1225,6 @@ glGenLists ‚Å©—R‚Ég—p‚Å‚«‚éBŠÖ˜Aî•ñ‚Í glIsList ‚Åæ“¾‚Å‚«‚éB
 %index
 glDeleteTextures
 glDeleteTextures ŠÖ”‚Í–¼‘O•t‚«ƒeƒNƒXƒ`ƒƒ‚ğíœ‚·‚éB
-%group
-Win32 opengl32
 %prm
 n, textures
 n : [int] íœ‚·‚éƒeƒNƒXƒ`ƒƒ‚Ì”B
@@ -1345,8 +1247,6 @@ glDeleteTextures ‚Í textures ”z—ñ‚Ì—v‘f‚Åw–¼‚³‚ê‚½ n
 %index
 glDepthFunc
 glDepthFunc ŠÖ”‚ÍƒfƒvƒX”äŠr‚Ég—p‚·‚é’l‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 func
 func : [int] ƒfƒvƒX”äŠrŠÖ”Bó‚¯•t‚¯‚éƒVƒ“ƒ{ƒ‹’è”‚Í GL_NEVERAGL_LESSAGL_EQUALAGL_LEQUALAGL_GREATERAGL_NOTEQUALAGL_GEQUALAGL_ALWAYSBŠù’è’l‚Í GL_LESSB
@@ -1365,8 +1265,6 @@ glDepthFunc ‚Í“ü—ÍƒsƒNƒZƒ‹‚Ì z ’l‚ÆƒfƒvƒXƒoƒbƒtƒ@“à‚Ì z ’l‚ğ”äŠr‚·‚éŠÖ”‚ğw’è‚·
 %index
 glDepthMask
 glDepthMask ŠÖ”‚ÍƒfƒvƒXƒoƒbƒtƒ@‚Ö‚Ì‘‚«‚İ‚ğ—LŒø/–³Œø‚É‚·‚éB
-%group
-Win32 opengl32
 %prm
 flag
 flag : [int] ƒfƒvƒXƒoƒbƒtƒ@‚Ö‚Ì‘‚«‚İ‚ğ—LŒø/–³Œø‚É‚·‚é‚½‚ß‚Ì’l‚ğw’è‚·‚éBflag ‚ª GL_FALSE ‚È‚ç‘‚«‚İ–³ŒøAGL_TRUE ‚È‚ç—LŒøB
@@ -1385,8 +1283,6 @@ glDepthMask ‚ÍƒfƒvƒXƒoƒbƒtƒ@‚ª‘‚«‚İ‰Â”\‚©‚ğw’è‚·‚éBflag ‚ª GL_FALSE
 %index
 glDepthRange
 glDepthRange ŠÖ”‚Í z À•W‚©‚ç[“x’l‚Ö‚ÌüŒ`ƒ}ƒbƒsƒ“ƒO‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 zNear, zFar
 zNear : [double] ‹ßƒNƒŠƒbƒsƒ“ƒO•½–Ê‚Ìƒ}ƒbƒsƒ“ƒOB”ÍˆÍ‚Í [0, 1]BŠù’è’l‚Í 0B
@@ -1409,8 +1305,6 @@ glDepthRange ŠÖ”‚Í z À•W‚©‚ç[“x’l‚Ö‚ÌüŒ`ƒ}ƒbƒsƒ“ƒO‚ğw’è‚·‚éB
 %index
 glDisable
 glDisable ŠÖ”‚Í OpenGL ‹@”\‚ğ–³Œø‚É‚·‚éB
-%group
-Win32 opengl32
 %prm
 cap
 cap : [int] –³Œø‚É‚·‚é GL ‹@”\‚ğ¦‚·ƒVƒ“ƒ{ƒ‹’è”BÚ×‚Í glEnable ‚Ì‰ğà‚ğQÆB
@@ -1440,8 +1334,6 @@ glIsEnabled ‚Ü‚½‚Í glGet ‚ÅÆ‰ï‚Å‚«‚éBglEnable / glDisable ‚Í glBegin / glEnd
 %index
 glDisableClientState
 glDisableClientState ŠÖ”‚ÍƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒh‹@”\‚ğ–³Œø‚É‚·‚éB
-%group
-Win32 opengl32
 %prm
 array
 array : [int] –³Œø‚É‚·‚éƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒh‹@”\‚ğ¦‚·ƒVƒ“ƒ{ƒ‹’è”Bó‚¯•t‚¯‚é’l‚Í GL_COLOR_ARRAYAGL_EDGE_FLAG_ARRAYAGL_INDEX_ARRAYAGL_NORMAL_ARRAYAGL_TEXTURE_COORD_ARRAYAGL_VERTEX_ARRAYB
@@ -1461,8 +1353,6 @@ glDrawElements / glArrayElement / glInterleavedArrays
 %index
 glDrawArrays
 glDrawArrays ŠÖ”‚Í”z—ñƒf[ƒ^‚©‚ç•¡”‚ÌŠô‰½ƒvƒŠƒ~ƒeƒBƒu‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode, first, count
 mode : [int] \’z‚·‚éƒvƒŠƒ~ƒeƒBƒu‚Ìí—ŞBó‚¯•t‚¯‚éƒVƒ“ƒ{ƒ‹’è”‚Í GL_POINTSAGL_LINE_STRIPAGL_LINE_LOOPAGL_LINESAGL_TRIANGLE_STRIPAGL_TRIANGLE_FANAGL_TRIANGLESAGL_QUAD_STRIPAGL_QUADSAGL_POLYGONB
@@ -1487,8 +1377,6 @@ OpenGL 1.1 ˆÈ~‚Å‚Ì‚İ—˜—p‰Â”\B
 %index
 glDrawBuffer
 glDrawBuffer ŠÖ”‚Í•`‰æ‘ÎÛ‚ÌƒJƒ‰[ƒoƒbƒtƒ@‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] •`‰æ‘ÎÛ‚ÌFƒoƒbƒtƒ@‚ğw’è‚·‚é (Å‘å 4 ‚Â)Bó‚¯•t‚¯‚éƒVƒ“ƒ{ƒ‹’è”‚ÍŸ‚Ì‚Æ‚¨‚èBGL_NONE: ‚Ç‚Ìƒoƒbƒtƒ@‚É‚à•`‰æ‚µ‚È‚¢BGL_FRONT_LEFT: ƒtƒƒ“ƒg¶ƒoƒbƒtƒ@BGL_FRONT_RIGHT: ƒtƒƒ“ƒg‰Eƒoƒbƒtƒ@BGL_BACK_LEFT: ƒoƒbƒN¶ƒoƒbƒtƒ@BGL_BACK_RIGHT: ƒoƒbƒN‰Eƒoƒbƒtƒ@BGL_FRONT: —¼ƒtƒƒ“ƒg (¶‰E)BGL_BACK: —¼ƒoƒbƒN (¶‰E)BGL_LEFT: ¶ (ƒtƒƒ“ƒg+ƒoƒbƒN)BGL_RIGHT: ‰E (ƒtƒƒ“ƒg+ƒoƒbƒN)BGL_FRONT_AND_BACK: ‘S 4 ‚ÂBGL_AUXi: •â•ƒoƒbƒtƒ@ i (GL_AUX0 ‚©‚ç GL_AUX3 ‚Ü‚ÅAÀ‘•ˆË‘¶)BƒVƒ“ƒOƒ‹ƒoƒbƒtƒ@ŠÂ‹«‚Å‚Í GL_FRONT_LEFTAGL_FRONT_RIGHTAGL_FRONTAGL_LEFTAGL_RIGHTAGL_FRONT_AND_BACKAGL_AUXi ‚ªƒfƒtƒHƒ‹ƒg‚Å—LŒøBƒ_ƒuƒ‹ƒoƒbƒtƒ@ŠÂ‹«‚Å‚Í GL_BACK_LEFT ‚à‰Á‚í‚éB
@@ -1508,8 +1396,6 @@ GL ‚ÌÀ‘•‚Í•¡”‚Ìƒoƒbƒtƒ@‚ğ‚¿‚¤‚éBglDrawBuffer ‚Í•`‰æ‘ÎÛ‚Æ‚È‚éƒJƒ‰[ƒoƒbƒtƒ@
 %index
 glDrawElements
 glDrawElements ŠÖ”‚Í”z—ñƒf[ƒ^‚©‚çŠô‰½ƒvƒŠƒ~ƒeƒBƒu‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode, count, type, indices
 mode : [int] \’z‚·‚éƒvƒŠƒ~ƒeƒBƒu‚Ìí—ŞBó‚¯•t‚¯‚éƒVƒ“ƒ{ƒ‹’è”‚Í GL_POINTSAGL_LINE_STRIPAGL_LINE_LOOPAGL_LINESAGL_TRIANGLE_STRIPAGL_TRIANGLE_FANAGL_TRIANGLESAGL_QUAD_STRIPAGL_QUADSAGL_POLYGONB
@@ -1535,8 +1421,6 @@ OpenGL 1.1 ˆÈ~‚Å‚Ì‚İ—˜—p‰Â”\B
 %index
 glDrawPixels
 glDrawPixels ŠÖ”‚ÍƒsƒNƒZƒ‹ƒf[ƒ^‚ÌƒuƒƒbƒN‚ğƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚É‘‚«‚ŞB
-%group
-Win32 opengl32
 %prm
 width, height, format, type, pixels
 width : [int] ƒsƒNƒZƒ‹‹éŒ`‚Ì•B
@@ -1564,8 +1448,6 @@ glPixelTransfer / glPixelMap / glPixelZoom ‚Åİ’è‚·‚éBwidth, height
 %index
 glEdgeFlag
 ƒGƒbƒW‚ğ‹«ŠE‚Ü‚½‚Í”ñ‹«ŠE‚Æ‚µ‚Äƒtƒ‰ƒO•t‚¯‚·‚éB
-%group
-Win32 opengl32
 %prm
 flag
 flag : [int] Œ»İ‚ÌƒGƒbƒWƒtƒ‰ƒO’l‚ğw’è‚·‚éBTRUE ‚Ü‚½‚Í FALSEB
@@ -1588,8 +1470,6 @@ glBegin / glEnd ŠÔ‚Å glPolygonMode ‚ª GL_LINE / GL_POINT
 %index
 glEdgeFlagPointer
 glEdgeFlagPointer ŠÖ”‚ÍƒGƒbƒWƒtƒ‰ƒO”z—ñ‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 stride, pointer
 stride : [int] ˜A‘±‚·‚éƒGƒbƒWƒtƒ‰ƒOŠÔ‚ÌƒoƒCƒgƒIƒtƒZƒbƒgBstride ‚ª 0 ‚È‚çAƒGƒbƒWƒtƒ‰ƒO‚Í”z—ñ“à‚É–§‚ÉƒpƒbƒN‚³‚ê‚Ä‚¢‚éB
@@ -1613,8 +1493,6 @@ glEdgeFlagPointer ‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ég—p‚·‚éƒu[ƒ‹Œ^ƒGƒbƒWƒtƒ‰ƒO”z—ñ‚ÌˆÊ’u‚Æƒf[
 %index
 glEdgeFlagv
 ƒGƒbƒW‚ğ‹«ŠE‚Ü‚½‚Í”ñ‹«ŠE‚Æ‚µ‚Äƒtƒ‰ƒO•t‚¯‚·‚éB
-%group
-Win32 opengl32
 %prm
 flag
 flag : [var] Œ»İ‚ÌƒGƒbƒWƒtƒ‰ƒO’l‚ğ’u‚«Š·‚¦‚é’Pˆê‚Ìƒu[ƒ‹—v‘f‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1631,8 +1509,6 @@ glEdgeFlag ‚ğQÆBglEdgeFlagv ‚Íƒ|ƒCƒ“ƒ^Œo—R‚Å’Pˆê‚Ìƒu[ƒ‹’l‚ğó‚¯æ‚é”ÅB
 %index
 glEnable
 glEnable ‚Æ glDisable ŠÖ”‚Í OpenGL ‹@”\‚ğ—LŒø/–³Œø‚É‚·‚éB
-%group
-Win32 opengl32
 %prm
 cap
 cap : [int] OpenGL ‹@”\‚ğ¦‚·ƒVƒ“ƒ{ƒ‹’è”Bcap ‚Éw’è‰Â”\‚È’l‚Í Remarks ‚ğQÆB
@@ -1664,8 +1540,6 @@ glDisable ‚Í glBegin / glEnd ƒyƒA“à‚Å‚Íg—p‚Å‚«‚È‚¢BŠÖ˜Aî•ñ‚Í glGet / glIsEnab
 %index
 glEnableClientState
 glEnableClientState ‚Æ glDisableClientState ŠÖ”‚Í”z—ñ‚Ì—LŒø‰»/–³Œø‰»‚ğs‚¤B
-%group
-Win32 opengl32
 %prm
 array
 array : [int] —LŒø/–³Œø‚É‚·‚é”z—ñ‚ğ¦‚·ƒVƒ“ƒ{ƒ‹’è”Bó‚¯•t‚¯‚é’l: GL_COLOR_ARRAY (F”z—ñ)AGL_EDGE_FLAG_ARRAY (ƒGƒbƒWƒtƒ‰ƒO”z—ñ)AGL_INDEX_ARRAY (ƒCƒ“ƒfƒbƒNƒX”z—ñ)AGL_NORMAL_ARRAY (–@ü”z—ñ)AGL_TEXTURE_COORD_ARRAY (ƒeƒNƒXƒ`ƒƒÀ•W”z—ñ)AGL_VERTEX_ARRAY (’¸“_”z—ñ)B
@@ -1685,8 +1559,6 @@ OpenGL 1.1 ˆÈ~‚Å‚Ì‚İ—˜—p‰Â”\B
 %index
 glEnd
 glBegin ‚Æ glEnd ŠÖ”‚ÍƒvƒŠƒ~ƒeƒBƒu‚Ü‚½‚Í“¯íƒvƒŠƒ~ƒeƒBƒuŒQ‚Ì’¸“_‚ğ‹æØ‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -1705,8 +1577,6 @@ glVertexAglColorAglIndexAglNormalAglTexCoordAglEvalCoordAglEvalPointAglMa
 %index
 glEndList
 glNewList ‚Æ glEndList ŠÖ”‚Í•\¦ƒŠƒXƒg‚ğì¬‚Ü‚½‚Í’u‚«Š·‚¦‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -1729,8 +1599,6 @@ GL_INVALID_OPERATION ƒGƒ‰[‚ª”­¶‚·‚éB
 %index
 glEvalCoord1d
 glEvalCoord1d ŠÖ”‚Í—LŒø‚È 1 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u
 u : [double] æs‚·‚é glMap1 ŠÖ”‚Å’è‹`‚³‚ê‚½Šî’êŠÖ”‚É‘Î‚·‚é’è‹`ˆæÀ•W u ‚Æ‚È‚é’lB
@@ -1751,8 +1619,6 @@ glMap1 / glMap2 / glMapGrid / glEvalMesh / glEvalPoint ‚ğQÆB
 %index
 glEvalCoord1dv
 glEvalCoord1dv ŠÖ”‚Í—LŒø‚È 1 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u
 u : [var] ’è‹`ˆæÀ•W u ‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1769,8 +1635,6 @@ glEvalCoord1d ‚ğQÆBdv ‚Í”z—ñƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é”ÅB
 %index
 glEvalCoord1f
 glEvalCoord1f ŠÖ”‚Í—LŒø‚È 1 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u
 u : [float] æs‚·‚é glMap1 ŠÖ”‚Å’è‹`‚³‚ê‚½Šî’êŠÖ”‚É‘Î‚·‚é’è‹`ˆæÀ•W u ‚Æ‚È‚é’lB
@@ -1787,8 +1651,6 @@ glEvalCoord1d ‚ğQÆB’P¸“x”ÅB
 %index
 glEvalCoord1fv
 glEvalCoord1fv ŠÖ”‚Í—LŒø‚È 1 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u
 u : [var] ’è‹`ˆæÀ•W u ‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1805,8 +1667,6 @@ glEvalCoord1d ‚ğQÆB’P¸“x”z—ñƒ|ƒCƒ“ƒ^”ÅB
 %index
 glEvalCoord2d
 glEvalCoord2d ŠÖ”‚Í—LŒø‚È 2 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u, v
 u : [double] æs‚·‚é glMap2 ŠÖ”‚Å’è‹`‚³‚ê‚½Šî’êŠÖ”‚É‘Î‚·‚é’è‹`ˆæÀ•W u ‚Æ‚È‚é’lB
@@ -1825,8 +1685,6 @@ glEvalCoord2d ‚Í 2 ‚Â‚Ì’è‹`ˆæ’l u, v ‚ğ—p‚¢‚Ä—LŒø‚È 2 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éBƒ}ƒb
 %index
 glEvalCoord2dv
 glEvalCoord2dv ŠÖ”‚Í—LŒø‚È 2 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u
 u : [var] ’è‹`ˆæÀ•W u ‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1843,8 +1701,6 @@ glEvalCoord2d ‚ğQÆBdv ‚Í”z—ñƒ|ƒCƒ“ƒ^”ÅB
 %index
 glEvalCoord2f
 glEvalCoord2f ŠÖ”‚Í—LŒø‚È 2 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u, v
 u : [float] æs‚·‚é glMap2 ŠÖ”‚Å’è‹`‚³‚ê‚½Šî’êŠÖ”‚É‘Î‚·‚é’è‹`ˆæÀ•W u ‚Æ‚È‚é’lB
@@ -1862,8 +1718,6 @@ glEvalCoord2d ‚ğQÆB’P¸“x”ÅB
 %index
 glEvalCoord2fv
 glEvalCoord2fv ŠÖ”‚Í—LŒø‚È 2 ŸŒ³ƒ}ƒbƒv‚ğ•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 u
 u : [var] ’è‹`ˆæÀ•W u ‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1880,8 +1734,6 @@ glEvalCoord2d ‚ğQÆB’P¸“x”z—ñƒ|ƒCƒ“ƒ^”ÅB
 %index
 glEvalMesh1
 “_‚Ü‚½‚Íü‚Ì 1 ŸŒ³ƒOƒŠƒbƒh‚ğŒvZ‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode, i1, i2
 mode : [int] “_‚Ü‚½‚Íü‚Ì 1 ŸŒ³ƒƒbƒVƒ…‚ğŒvZ‚·‚é‚©‚ğw’è‚·‚é’lBó‚¯•t‚¯‚éƒVƒ“ƒ{ƒ‹’è”‚Í GL_POINTAGL_LINEB
@@ -1897,8 +1749,6 @@ i2 : [int] ƒOƒŠƒbƒh’è‹`ˆæ•Ï” i ‚ÌÅŒã‚Ì®”’lB
 %index
 glEvalMesh2
 “_‚Ü‚½‚Íü‚Ì 2 ŸŒ³ƒOƒŠƒbƒh‚ğŒvZ‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode, i1, i2, j1, j2
 mode : [int] “_EüEƒ|ƒŠƒSƒ“‚Ì‚¢‚¸‚ê‚©‚Ì 2 ŸŒ³ƒƒbƒVƒ…‚ğŒvZ‚·‚é‚©‚ğw’è‚·‚é’lBó‚¯•t‚¯‚éƒVƒ“ƒ{ƒ‹’è”‚Í GL_POINTAGL_LINEAGL_FILLB
@@ -1916,8 +1766,6 @@ j2 : [int] ƒOƒŠƒbƒh’è‹`ˆæ•Ï” j ‚ÌÅŒã‚Ì®”’lB
 %index
 glEvalPoint1
 glEvalPoint1 ‚Æ glEvalPoint2 ŠÖ”‚ÍƒƒbƒVƒ…“à‚Ì’Pˆê“_‚ğ¶¬E•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 i
 i : [int] ƒOƒŠƒbƒh’è‹`ˆæ•Ï” i ‚Ì®”’lB
@@ -1937,8 +1785,6 @@ glMapGrid ‚Æ glEvalMesh ‚Í˜AŒg‚µ‚ÄŒø—¦“I‚Éˆê˜A‚Ìƒ}ƒbƒvˆÊ’u‚ğ¶¬E•]‰¿‚·‚éBglEv
 %index
 glEvalPoint2
 glEvalPoint1 ‚Æ glEvalPoint2 ŠÖ”‚ÍƒƒbƒVƒ…“à‚Ì’Pˆê“_‚ğ¶¬E•]‰¿‚·‚éB
-%group
-Win32 opengl32
 %prm
 i, j
 i : [int] ƒOƒŠƒbƒh’è‹`ˆæ•Ï” i ‚Ì®”’lB
@@ -1956,8 +1802,6 @@ glEvalPoint1 ‚ğQÆBglEvalPoint2 ‚Í 2 ŸŒ³”Å‚Å i, j ‚ÌƒOƒŠƒbƒhÀ•W‚Å 2 ŸŒ³ƒ}ƒb
 %index
 glFeedbackBuffer
 glFeedbackBuffer ŠÖ”‚ÍƒtƒB[ƒhƒoƒbƒNƒ‚[ƒh‚ğ§Œä‚·‚éB
-%group
-Win32 opengl32
 %prm
 size, type, buffer
 size : [int] buffer ‚É‘‚«‚ß‚éÅ‘å’l”B
@@ -1973,8 +1817,6 @@ glFeedbackBuffer ŠÖ”‚ÍƒtƒB[ƒhƒoƒbƒNƒ‚[ƒh‚ğ§Œä‚·‚éB
 %index
 glFinish
 glFinish ŠÖ”‚Í‘S‚Ä‚Ì OpenGL Às‚ªŠ®—¹‚·‚é‚Ü‚ÅƒuƒƒbƒN‚·‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -1991,8 +1833,6 @@ glFinish ‚ÍAæs‚µ‚ÄŒÄ‚Ño‚³‚ê‚½‘S‚Ä‚Ì OpenGL ŠÖ”‚ÌŒø‰Ê‚ªŠ®—¹‚·‚é‚Ü‚Å–ß‚ç‚È‚¢
 %index
 glFlush
 glFlush ŠÖ”‚Í OpenGL ŠÖ”‚ÌÀs‚ğ—LŒÀŠÔ“à‚É‹­§‚·‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -2012,8 +1852,6 @@ OpenGL À‘•‚ÍƒRƒ}ƒ“ƒh‚ğ‚³‚Ü‚´‚Ü‚ÈêŠ (ƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@AƒOƒ‰ƒtƒBƒbƒNƒXƒAƒNƒ
 %index
 glFogf
 glFogf ŠÖ”‚ÍƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] ’Pˆê’l‚ÌƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBó‚¯•t‚¯‚é’l: GL_FOG_MODE (g—p‚·‚éƒtƒHƒO®‚ÌƒVƒ“ƒ{ƒ‹’è”BGL_LINEARAGL_EXPAGL_EXP2 ‚Ì‚¢‚¸‚ê‚©BŠù’è‚Í GL_EXP)AGL_FOG_DENSITY (ƒtƒHƒO–§“xBGL_EXP/GL_EXP2 ƒ‚[ƒh‚Åg—pA”ñ•‰‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŠù’è‚Í 1.0)AGL_FOG_START (üŒ`ƒtƒHƒO‚Ì‹ß‹——£BGL_LINEAR ƒ‚[ƒh‚Åg—pBŠù’è‚Í 0.0)AGL_FOG_END (üŒ`ƒtƒHƒO‚Ì‰“‹——£BGL_LINEAR ƒ‚[ƒh‚Åg—pBŠù’è‚Í 1.0)AGL_FOG_INDEX (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒ‚[ƒh‚ÌƒtƒHƒOƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXBŠù’è‚Í 0)B
@@ -2038,8 +1876,6 @@ GL_FOG_END / GL_FOG_MODE) ‚¨‚æ‚Ñ glIsEnabled (GL_FOG) ‚Åæ“¾‚Å‚«‚éB
 %index
 glFogfv
 glFogfv ŠÖ”‚ÍƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] ƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBó‚¯•t‚¯‚é’l‚Í GL_FOG_MODEAGL_FOG_DENSITYAGL_FOG_STARTAGL_FOG_ENDAGL_FOG_INDEXAGL_FOG_COLORB’Pˆê’lƒpƒ‰ƒ[ƒ^‚Ìà–¾‚Í glFogf ‚ğQÆBGL_FOG_COLOR ‚Í params ‚É 4 ’l (R, G, B, A) ‚ğw’è‚µAƒtƒHƒOF‚Æ‚È‚éBŠe¬•ª‚Í [0, 1] ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éBŠù’è‚Í (0, 0, 0, 0)B
@@ -2057,8 +1893,6 @@ glFogf ‚Ìà–¾‚ğQÆBfv ‚Í”z—ñƒ|ƒCƒ“ƒ^”Å‚ÅAƒxƒNƒgƒ‹’l‚ğó‚¯æ‚ê‚é (—á: GL_FOG_C
 %index
 glFogi
 glFogi ŠÖ”‚ÍƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] ’Pˆê’l‚ÌƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBó‚¯•t‚¯‚é’l‚Æ‚»‚ÌˆÓ–¡‚Í glFogf ‚Æ“¯‚¶B®””ÅB
@@ -2076,8 +1910,6 @@ glFogf ‚Ìà–¾‚ğQÆB®””ÅB
 %index
 glFogiv
 glFogiv ŠÖ”‚ÍƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] ƒtƒHƒOƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBó‚¯•t‚¯‚é’l‚Í glFogfv ‚Æ“¯‚¶B®””z—ñ”ÅBGL_FOG_COLOR ‚ğw’è‚µ‚½ê‡A®”’l‚Í•‚“®¬”“_‚ÉüŒ`ƒ}ƒbƒv‚³‚ê‚Ä‚©‚çƒNƒ‰ƒ“ƒv‚³‚ê‚éB
@@ -2095,8 +1927,6 @@ glFogf ‚Ìà–¾‚ğQÆBiv ‚Í®””z—ñƒ|ƒCƒ“ƒ^”ÅB
 %index
 glFrontFace
 glFrontFace ŠÖ”‚Í•\–Ê‚ğŒü‚­ƒ|ƒŠƒSƒ“‚Æ— –Ê‚ğŒü‚­ƒ|ƒŠƒSƒ“‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] •\–Ê‚ğŒü‚­ƒ|ƒŠƒSƒ“‚ÌŒü‚«BGL_CW ‚¨‚æ‚Ñ GL_CCW ‚ğó‚¯•t‚¯‚éBŠù’è’l‚Í GL_CCWB
@@ -2117,8 +1947,6 @@ glGet (GL_FRONT_FACE) ‚Åæ“¾‚Å‚«‚éB
 %index
 glFrustum
 glFrustum ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É“§‹s—ñ‚ğæZ‚·‚éB
-%group
-Win32 opengl32
 %prm
 left, right, bottom, top, zNear, zFar
 left : [double] ¶‚Ì‚’¼ƒNƒŠƒbƒsƒ“ƒO•½–Ê‚ÌÀ•WB
@@ -2146,8 +1974,6 @@ glMultMatrix)Bƒtƒ‰ƒXƒ^ƒ€s—ñ‚ğg‚¤‚ÆAglRotateAglTranslateAglScale
 %index
 glGenLists
 glGenLists ŠÖ”‚Í˜A‘±‚µ‚½‹ó‚Ì•\¦ƒŠƒXƒgW‡‚ğ¶¬‚·‚éB
-%group
-Win32 opengl32
 %prm
 range
 range : [int] ¶¬‚·‚é˜A‘±‚µ‚½‹ó‚Ì•\¦ƒŠƒXƒg‚Ì”B
@@ -2163,8 +1989,6 @@ n+range-1 ‚ªì¬‚³‚ê‚é‚æ‚¤‚È®” n ‚ğ•Ô‚·B—v‹‚³‚ê‚½”‚Ì˜A‘±‚µ‚½‹ó‚Ì•\¦ƒŠƒXƒg‚
 %index
 glGenTextures
 glGenTextures ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒ–¼‚ğ¶¬‚·‚éB
-%group
-Win32 opengl32
 %prm
 n, textures
 n : [int] ¶¬‚·‚éƒeƒNƒXƒ`ƒƒ–¼‚Ì”B
@@ -2186,8 +2010,6 @@ glBindTexture ‚É“n‚³‚ê‚é‚Ü‚ÅƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä‚Ìó‘Ô‚ğ‚½‚¸AŸŒ³‚â“à
 %index
 glGetBooleanv
 glGetBooleanv ŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] •Ô‚·ƒpƒ‰ƒ[ƒ^’lBOpenGL ‚ª•Û‚·‚é‘½”‚Ìó‘Ô•Ï”‚ÌƒVƒ“ƒ{ƒ‹’è”‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚éBå‚È—á: GL_ACCUM_*_BITS (ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@‚ÌŠeF¬•ª‚Ìƒrƒbƒg”)AGL_ACCUM_CLEAR_VALUE (ƒNƒŠƒA’l)AGL_ALPHA_TEST (ƒAƒ‹ƒtƒ@ƒeƒXƒg‚Ì—LŒøó‘Ô)AGL_ALPHA_TEST_FUNC / REFAGL_ATTRIB_STACK_DEPTHAGL_AUTO_NORMALAGL_AUX_BUFFERSAGL_BLEND / BLEND_DST / BLEND_SRCAGL_CLIENT_ATTRIB_STACK_DEPTHAGL_CLIP_PLANEiAGL_COLOR_ARRAY / _SIZE / _STRIDE / _TYPEAGL_COLOR_CLEAR_VALUEAGL_COLOR_LOGIC_OPAGL_COLOR_MATERIAL / _FACE / _PARAMETERAGL_COLOR_WRITEMASKAGL_CULL_FACE / _MODEAGL_CURRENT_COLOR / _INDEX / _NORMAL / _RASTER_COLOR / _RASTER_DISTANCE / _RASTER_INDEX / _RASTER_POSITION / _POSITION_VALID / _RASTER_TEXTURE_COORDS / _TEXTURE_COORDSAGL_DEPTH_BIAS / _BITS / _CLEAR_VALUE / _FUNC / _RANGE / _SCALE / _TEST / _WRITEMASKAGL_DITHERAGL_DOUBLEBUFFERAGL_DRAW_BUFFERAGL_EDGE_FLAG / _ARRAY / _ARRAY_STRIDEAGL_FEEDBACK_BUFFER_POINTER / _SIZE / _TYPEAGL_FOG / _COLOR / _DENSITY / _END / _HINT / _INDEX / _MODE / _STARTAGL_FRONT_FACEAGL_INDEX_ARRAY / _STRIDE / _TYPE / _BITS / _CLEAR_VALUE / _LOGIC_OP / _MODE / _OFFSET / _SHIFT / _WRITEMASKAGL_LIGHTi / _LIGHTINGAGL_LIGHT_MODEL_AMBIENT / _LOCAL_VIEWER / _TWO_SIDEAGL_LINE_SMOOTH / _SMOOTH_HINT / _STIPPLE / _STIPPLE_PATTERN / _STIPPLE_REPEAT / _WIDTH / _WIDTH_GRANULARITY / _WIDTH_RANGEAGL_LIST_BASE / _INDEX / _MODE / _MAX_LIST_NESTINGAGL_LOGIC_OPAGL_MAP1_* / MAP2_* (•]‰¿ŠíŠÖ˜A)AGL_MATRIX_MODEAGL_MAX_ATTRIB_STACK_DEPTH / _CLIENT_ATTRIB_STACK_DEPTH / _CLIP_PLANES / _EVAL_ORDER / _LIGHTS / _LIST_NESTING / _MODELVIEW_STACK_DEPTH / _NAME_STACK_DEPTH / _PIXEL_MAP_TABLE / _PROJECTION_STACK_DEPTH / _TEXTURE_SIZE / _TEXTURE_STACK_DEPTH / _VIEWPORT_DIMSAGL_MODELVIEW_MATRIX / _STACK_DEPTHAGL_NAME_STACK_DEPTHAGL_NORMAL_ARRAY / _STRIDE / _TYPEAGL_NORMALIZEAGL_PACK_* / UNPACK_* (ƒsƒNƒZƒ‹ƒXƒgƒA)AGL_PERSPECTIVE_CORRECTION_HINTAGL_PIXEL_MAP_*_SIZEAGL_POINT_SIZE / _SMOOTH / _SIZE_GRANULARITY / _SIZE_RANGEAGL_POLYGON_MODE / _OFFSET_FACTOR / _OFFSET_UNITS / _OFFSET_FILL / _OFFSET_LINE / _OFFSET_POINT / _SMOOTH / _STIPPLEAGL_PROJECTION_MATRIX / _STACK_DEPTHAGL_READ_BUFFERAGL_RED_BIAS / _BITS / _SCALEAGL_RENDER_MODEAGL_RGBA_MODEAGL_SCISSOR_BOX / _TESTAGL_SHADE_MODELAGL_STENCIL_BITS / _CLEAR_VALUE / _FAIL / _FUNC / _PASS_DEPTH_FAIL / _PASS_DEPTH_PASS / _REF / _TEST / _VALUE_MASK / _WRITEMASKAGL_STEREOAGL_SUBPIXEL_BITSAGL_TEXTURE_1D / _2D / _BINDING_1D / _BINDING_2D / _COORD_ARRAY / _COORD_ARRAY_SIZE / _COORD_ARRAY_STRIDE / _COORD_ARRAY_TYPE / _ENV_COLOR / _ENV_MODE / _GEN_Q / _GEN_R / _GEN_S / _GEN_T / _MATRIX / _STACK_DEPTHAGL_VERTEX_ARRAY / _SIZE / _STRIDE / _TYPEAGL_VIEWPORTAGL_ZOOM_X / _Y ‚È‚ÇBÚ×‚Í OpenGL ƒŠƒtƒ@ƒŒƒ“ƒX‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -2213,8 +2035,6 @@ glGetTexParameter / glIsEnabled / glIsList ‚ğQÆB
 %index
 glGetClipPlane
 glGetClipPlane ŠÖ”‚Íw’è‚³‚ê‚½ƒNƒŠƒbƒsƒ“ƒO•½–Ê‚ÌŒW”‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 plane, equation
 plane : [int] ƒNƒŠƒbƒsƒ“ƒO•½–ÊBƒNƒŠƒbƒsƒ“ƒO•½–Ê‚Ì”‚ÍÀ‘•ˆË‘¶‚¾‚ªA­‚È‚­‚Æ‚à 6 ‚Â‚ªƒTƒ|[ƒg‚³‚ê‚éB‚±‚ê‚ç‚Í GL_CLIP_PLANE0 ‚©‚ç GL_CLIP_PLANEi - 1 ‚Ü‚Å‚ÌƒVƒ“ƒ{ƒ‹–¼‚Å¯•Ê‚³‚ê‚éB‚±‚±‚Å i ‚ÍÀ‘•‚ªƒTƒ|[ƒg‚·‚éƒNƒŠƒbƒsƒ“ƒO•½–Ê‚Ì”‚Å‚ ‚éB
@@ -2233,8 +2053,6 @@ GL_CLIP_PLANE0 + i ‚ªí‚É¬‚è—§‚ÂBŠÖ˜Aî•ñ‚Í glClipPlane / glIsEnabled ‚ğQÆB
 %index
 glGetDoublev
 glGetDoublev ŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] •Ô‚·ƒpƒ‰ƒ[ƒ^’lBƒVƒ“ƒ{ƒ‹’è”‚Í glGetBooleanv ‚Ì pname à–¾‚ğQÆ (GL_ACCUM_*AGL_ALPHA_TEST_*AGL_BLEND_*AGL_CLIP_PLANEiAGL_COLOR_*AGL_CURRENT_*AGL_DEPTH_*AGL_FOG_*AGL_LIGHT*AGL_MATRIX_*AGL_MAX_*AGL_MODELVIEW_MATRIXAGL_PROJECTION_MATRIXAGL_TEXTURE_MATRIXAGL_VIEWPORTAGL_ZOOM_* ‚È‚ÇA‚·‚×‚Ä‚Ì’Pƒó‘Ô•Ï”)BÚ×‚Í OpenGL ƒŠƒtƒ@ƒŒƒ“ƒX‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -2254,8 +2072,6 @@ glGetDoublev ŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•Ô‚·B
 %index
 glGetError
 glGetError ŠÖ”‚ÍƒGƒ‰[î•ñ‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -2282,8 +2098,6 @@ glGetError ŠÖ”‚ÍƒGƒ‰[î•ñ‚ğ•Ô‚·B
 %index
 glGetFloatv
 glGetFloatv ŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] •Ô‚·ƒpƒ‰ƒ[ƒ^’lBƒVƒ“ƒ{ƒ‹’è”‚Í glGetBooleanv ‚Ì pname à–¾‚ğQÆ (GL_ACCUM_*AGL_ALPHA_TEST_*AGL_BLEND_*AGL_CLIP_PLANEiAGL_COLOR_*AGL_CURRENT_*AGL_DEPTH_*AGL_FOG_*AGL_LIGHT*AGL_MATRIX_*AGL_MAX_*AGL_MODELVIEW_MATRIXAGL_PROJECTION_MATRIXAGL_TEXTURE_MATRIXAGL_VIEWPORTAGL_ZOOM_* ‚È‚ÇA‚·‚×‚Ä‚Ì’Pƒó‘Ô•Ï”)BÚ×‚Í OpenGL ƒŠƒtƒ@ƒŒƒ“ƒX‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -2303,8 +2117,6 @@ glGetFloatv ŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•Ô‚·B
 %index
 glGetIntegerv
 glGetIntegerv ŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] •Ô‚·ƒpƒ‰ƒ[ƒ^’lBƒVƒ“ƒ{ƒ‹’è”‚Í glGetBooleanv ‚Ì pname à–¾‚ğQÆ (GL_ACCUM_*AGL_ALPHA_TEST_*AGL_BLEND_*AGL_CLIP_PLANEiAGL_COLOR_*AGL_CURRENT_*AGL_DEPTH_*AGL_FOG_*AGL_LIGHT*AGL_MATRIX_*AGL_MAX_*AGL_MODELVIEW_MATRIXAGL_PROJECTION_MATRIXAGL_TEXTURE_MATRIXAGL_VIEWPORTAGL_ZOOM_* ‚È‚ÇA‚·‚×‚Ä‚Ì’Pƒó‘Ô•Ï”)BÚ×‚Í OpenGL ƒŠƒtƒ@ƒŒƒ“ƒX‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -2324,8 +2136,6 @@ glGetIntegerv ŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ•Ô‚·B
 %index
 glGetLightfv
 glGetLightfv ‚Æ glGetLightiv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 light, pname, params
 light : [int] ŒõŒ¹BŒõŒ¹‚Ì”‚ÍÀ‘•ˆË‘¶‚¾‚ªA­‚È‚­‚Æ‚à 8 ‚Â‚ÌŒõŒ¹‚ªƒTƒ|[ƒg‚³‚ê‚éBGL_LIGHT0 ‚©‚ç GL_LIGHTi - 1 ‚Ü‚Å‚ÌƒVƒ“ƒ{ƒ‹–¼‚Å¯•Ê‚³‚ê‚éBGL_LIGHTi = GL_LIGHT0 + i ‚ªí‚É¬‚è—§‚ÂB
@@ -2341,8 +2151,6 @@ glGetLightfv ‚Æ glGetLightiv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
 %index
 glGetLightiv
 glGetLightfv ‚Æ glGetLightiv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 light, pname, params
 light : [int] ŒõŒ¹BŒõŒ¹‚Ì”‚ÍÀ‘•ˆË‘¶‚¾‚ªA­‚È‚­‚Æ‚à 8 ‚Â‚ÌŒõŒ¹‚ªƒTƒ|[ƒg‚³‚ê‚éBGL_LIGHT0 ‚©‚ç GL_LIGHTi - 1 ‚Ü‚Å‚ÌƒVƒ“ƒ{ƒ‹–¼‚Å¯•Ê‚³‚ê‚éBGL_LIGHTi = GL_LIGHT0 + i ‚ªí‚É¬‚è—§‚ÂB
@@ -2358,8 +2166,6 @@ glGetLightfv ‚Æ glGetLightiv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
 %index
 glGetMapdv
 glGetMapdvAglGetMapfvAglGetMapiv ŠÖ”‚Í•]‰¿Šíƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 target, query, v
 target : [int] ƒ}ƒbƒv‚ÌƒVƒ“ƒ{ƒ‹–¼Bó‚¯•t‚¯‚é’l‚Í GL_MAP1_COLOR_4AGL_MAP1_INDEXAGL_MAP1_NORMALAGL_MAP1_TEXTURE_COORD_1AGL_MAP1_TEXTURE_COORD_2AGL_MAP1_TEXTURE_COORD_3AGL_MAP1_TEXTURE_COORD_4AGL_MAP1_VERTEX_3AGL_MAP1_VERTEX_4 ‚¨‚æ‚Ñ‚»‚ê‚ç‚Ì GL_MAP2_* ”ÅB
@@ -2379,8 +2185,6 @@ glGetMap ‚Í•]‰¿Šíƒpƒ‰ƒ[ƒ^‚ğ•Ô‚· (glMap1 ‚Æ glMap2 ‚ª•]‰¿Ší‚ğ’è‹`‚·‚é)Btarget
 %index
 glGetMapfv
 glGetMapdvAglGetMapfvAglGetMapiv ŠÖ”‚Í•]‰¿Šíƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 target, query, v
 target : [int] ƒ}ƒbƒv‚ÌƒVƒ“ƒ{ƒ‹–¼BglGetMapdv ‚Ì target à–¾‚ğQÆB
@@ -2399,8 +2203,6 @@ glGetMap ‚Í•]‰¿Šíƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·BglGetMapdv ‚Ì‰ğà‚ğQÆB’P¸“x•‚“®¬”“_”ÅB
 %index
 glGetMapiv
 glGetMapdvAglGetMapfvAglGetMapiv ŠÖ”‚Í•]‰¿Šíƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 target, query, v
 target : [int] ƒ}ƒbƒv‚ÌƒVƒ“ƒ{ƒ‹–¼BglGetMapdv ‚Ì target à–¾‚ğQÆB
@@ -2419,8 +2221,6 @@ glGetMap ŠÖ”‚Í•]‰¿Šíƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·BglGetMapdv ‚Ì‰ğà‚ğQÆB®””ÅB
 %index
 glGetMaterialfv
 glGetMaterialfv ‚Æ glGetMaterialiv ŠÖ”‚Íƒ}ƒeƒŠƒAƒ‹ƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 face, pname, params
 face : [int] Æ‰ï‚·‚é 2 ‚Â‚Ìƒ}ƒeƒŠƒAƒ‹‚Ì‚Ç‚¿‚ç‚ğw’è‚·‚é‚©BGL_FRONT ‚Ü‚½‚Í GL_BACK ‚ğó‚¯•t‚¯A•\–Ê‚Æ— –Ê‚Ìƒ}ƒeƒŠƒAƒ‹‚ğ•\‚·B
@@ -2440,8 +2240,6 @@ params ‚Ì“à—e‚Í•ÏX‚³‚ê‚È‚¢BŠÖ˜Aî•ñ‚Í glMaterial ‚ğQÆB
 %index
 glGetMaterialiv
 glGetMaterialfv ‚Æ glGetMaterialiv ŠÖ”‚Íƒ}ƒeƒŠƒAƒ‹ƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 face, pname, params
 face : [int] Æ‰ï‚·‚é 2 ‚Â‚Ìƒ}ƒeƒŠƒAƒ‹‚Ì‚Ç‚¿‚ç‚ğw’è‚·‚é‚©BGL_FRONT ‚Ü‚½‚Í GL_BACK ‚ğó‚¯•t‚¯A•\–Ê‚Æ— –Ê‚Ìƒ}ƒeƒŠƒAƒ‹‚ğ•\‚·B
@@ -2461,8 +2259,6 @@ params ‚Ì“à—e‚Í•ÏX‚³‚ê‚È‚¢BŠÖ˜Aî•ñ‚Í glMaterial ‚ğQÆB
 %index
 glGetPixelMapfv
 glGetPixelMapfvAglGetPixelMapuivAglGetPixelMapusv ŠÖ”‚Íw’è‚³‚ê‚½ƒsƒNƒZƒ‹ƒ}ƒbƒv‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 map, values
 map : [int] •Ô‚·ƒsƒNƒZƒ‹ƒ}ƒbƒv‚Ì–¼‘OBó‚¯•t‚¯‚é’l: GL_PIXEL_MAP_I_TO_IAGL_PIXEL_MAP_S_TO_SAGL_PIXEL_MAP_I_TO_RAGL_PIXEL_MAP_I_TO_GAGL_PIXEL_MAP_I_TO_BAGL_PIXEL_MAP_I_TO_AAGL_PIXEL_MAP_R_TO_RAGL_PIXEL_MAP_G_TO_GAGL_PIXEL_MAP_B_TO_BAGL_PIXEL_MAP_A_TO_AB
@@ -2484,8 +2280,6 @@ map ƒpƒ‰ƒ[ƒ^‚Éó‚¯•t‚¯‚ç‚ê‚é’l‚Í glPixelMap ‚ğQÆBglGetPixelMap ‚Í map
 %index
 glGetPixelMapuiv
 glGetPixelMapfvAglGetPixelMapuivAglGetPixelMapusv ŠÖ”‚Íw’è‚µ‚½ƒsƒNƒZƒ‹ƒ}ƒbƒv‚ğ•Ô‚·B| glGetPixelMapuiv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 map, values
 map : [int] •Ô‚·ƒsƒNƒZƒ‹ƒ}ƒbƒv‚Ì–¼‘OBó‚¯•t‚¯‚é’l: GL_PIXEL_MAP_I_TO_IAGL_PIXEL_MAP_S_TO_SAGL_PIXEL_MAP_I_TO_RAGL_PIXEL_MAP_I_TO_GAGL_PIXEL_MAP_I_TO_BAGL_PIXEL_MAP_I_TO_AAGL_PIXEL_MAP_R_TO_RAGL_PIXEL_MAP_G_TO_GAGL_PIXEL_MAP_B_TO_BAGL_PIXEL_MAP_A_TO_AB
@@ -2511,8 +2305,6 @@ glReadPixelsAglDrawPixelsAglCopyPixelsAglTexImage1DAglTexImage2D
 %index
 glGetPixelMapusv
 glGetPixelMapfvAglGetPixelMapuivAglGetPixelMapusv ŠÖ”‚Íw’è‚µ‚½ƒsƒNƒZƒ‹ƒ}ƒbƒv‚ğ•Ô‚·B| glGetPixelMapusv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 map, values
 map : [int] •Ô‚·ƒsƒNƒZƒ‹ƒ}ƒbƒv‚Ì–¼‘OBó‚¯•t‚¯‚é’l‚Í GL_PIXEL_MAP_I_TO_IAGL_PIXEL_MAP_S_TO_SAGL_PIXEL_MAP_I_TO_RAGL_PIXEL_MAP_I_TO_GAGL_PIXEL_MAP_I_TO_BAGL_PIXEL_MAP_I_TO_AAGL_PIXEL_MAP_R_TO_RAGL_PIXEL_MAP_G_TO_GAGL_PIXEL_MAP_B_TO_BAGL_PIXEL_MAP_A_TO_AB
@@ -2538,8 +2330,6 @@ glReadPixelsAglDrawPixelsAglCopyPixelsAglTexImage1DAglTexImage2D
 %index
 glGetPointerv
 glGetPointerv ŠÖ”‚Í’¸“_ƒf[ƒ^”z—ñ‚ÌƒAƒhƒŒƒX‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] •Ô‚·”z—ñƒ|ƒCƒ“ƒ^‚Ìí—Ş‚ğŸ‚ÌƒVƒ“ƒ{ƒ‹’è”‚©‚çw’è‚·‚é: GL_COLOR_ARRAY_POINTERAGL_EDGE_FLAG_ARRAY_POINTERAGL_FEEDBACK_BUFFER_POINTERAGL_INDEX_ARRAY_POINTERAGL_NORMAL_ARRAY_POINTERAGL_TEXTURE_COORD_ARRAY_POINTERAGL_SELECTION_BUFFER_POINTERAGL_VERTEX_ARRAY_POINTERB
@@ -2558,8 +2348,6 @@ glGetPointerv ‚Í”z—ñƒ|ƒCƒ“ƒ^î•ñ‚ğ•Ô‚·Bpname ‚Í•Ô‚·ƒ|ƒCƒ“ƒ^í•Ê‚ğw’è‚·‚éƒVƒ“ƒ{
 %index
 glGetPolygonStipple
 glGetPolygonStipple ŠÖ”‚Íƒ|ƒŠƒSƒ“ƒXƒeƒBƒbƒvƒ‹ƒpƒ^[ƒ“‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 mask
 mask : [var] ƒXƒeƒBƒbƒvƒ‹ƒpƒ^[ƒ“‚ğ•Ô‚·B
@@ -2580,8 +2368,6 @@ glReadPixels ‚ÆˆÙ‚È‚èAƒsƒNƒZƒ‹“]‘—‘€ì (ƒVƒtƒgAƒIƒtƒZƒbƒgAƒsƒNƒZƒ‹ƒ}ƒbƒv)
 %index
 glGetString
 glGetString ŠÖ”‚ÍŒ»İ‚Ì OpenGL Ú‘±‚ğà–¾‚·‚é•¶š—ñ‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 name
 name : [int] Ÿ‚ÌƒVƒ“ƒ{ƒ‹’è”‚Ì‚¢‚¸‚ê‚©BGL_VENDOR: À‘•‚ğ’S“–‚·‚é‰ïĞ–¼‚ğ•Ô‚·BGL_RENDERER: “Á’è\¬ (’Êíƒn[ƒhƒEƒFƒAƒvƒ‰ƒbƒgƒtƒH[ƒ€) ‚ÉˆË‘¶‚·‚éƒŒƒ“ƒ_ƒ‰¯•Êq‚ğ•Ô‚·BGL_VERSION: Œ» GL Ú‘±‚Ìƒo[ƒWƒ‡ƒ“”Ô†‚Ü‚½‚Í GL À‘•‚ÌƒŠƒŠ[ƒX”Ô†‚ğ•Ô‚·BGL_EXTENSIONS: ‚±‚ÌÀ‘•‚ÅƒTƒ|[ƒg‚³‚ê‚éŠg’£‹@”\ƒŠƒXƒg‚ğ‹ó”’‹æØ‚è‚Å•Ô‚·B
@@ -2601,8 +2387,6 @@ glGetString ‚ÍŒ»İ‚Ì OpenGL Ú‘±‚Ìó‹µ‚ğà–¾‚·‚éÃ“I•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·BOp
 %index
 glGetTexEnvfv
 glGetTexEnvfvAglGetTexEnviv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒŠÂ‹«ƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B| glGetTexEnvfv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ƒeƒNƒXƒ`ƒƒŠÂ‹«BGL_TEXTURE_ENV ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2624,8 +2408,6 @@ glGetTexEnv ‚Í glTexEnv ‚Åw’è‚µ‚½ƒeƒNƒXƒ`ƒƒŠÂ‹«‚Ì‘I‘ğ’l‚ğ params ‚É•Ô‚·Btarget
 %index
 glGetTexEnviv
 glGetTexEnvfvAglGetTexEnviv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒŠÂ‹«ƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B| glGetTexEnviv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ƒeƒNƒXƒ`ƒƒŠÂ‹«BGL_TEXTURE_ENV ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2647,8 +2429,6 @@ glGetTexEnv ‚Í glTexEnv ‚Åw’è‚µ‚½ƒeƒNƒXƒ`ƒƒŠÂ‹«‚Ì‘I‘ğ’l‚ğ params ‚É•Ô‚·Btarget
 %index
 glGetTexGendv
 glGetTexGendvAglGetTexGenfvAglGetTexGeniv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒÀ•W¶¬ƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B| glGetTexGendv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, params
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2670,8 +2450,6 @@ glGetTexGen ‚Í glTexGen ‚Åw’è‚µ‚½ƒeƒNƒXƒ`ƒƒÀ•W¶¬ŠÖ”‚Ì‘I‘ğƒpƒ‰ƒ[ƒ^‚ğ param
 %index
 glGetTexGenfv
 glGetTexGendvAglGetTexGenfvAglGetTexGeniv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒÀ•W¶¬ƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B| glGetTexGenfv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, params
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2693,8 +2471,6 @@ glGetTexGen ‚Í glTexGen ‚Åw’è‚µ‚½ƒeƒNƒXƒ`ƒƒÀ•W¶¬ŠÖ”‚Ì‘I‘ğƒpƒ‰ƒ[ƒ^‚ğ param
 %index
 glGetTexGeniv
 glGetTexGendvAglGetTexGenfvAglGetTexGeniv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒÀ•W¶¬ƒpƒ‰ƒ[ƒ^‚ğ•Ô‚·B| glGetTexGeniv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, params
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2716,8 +2492,6 @@ glGetTexGen ‚Í glTexGen ‚Åw’è‚µ‚½ƒeƒNƒXƒ`ƒƒÀ•W¶¬ŠÖ”‚Ì‘I‘ğƒpƒ‰ƒ[ƒ^‚ğ param
 %index
 glGetTexImage
 glGetTexImage ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 target, level, format, type, pixels
 target : [int] æ“¾‚·‚éƒeƒNƒXƒ`ƒƒ‚ğw’è‚·‚éBGL_TEXTURE_1D ‚Æ GL_TEXTURE_2D ‚ğó‚¯•t‚¯‚éB
@@ -2745,8 +2519,6 @@ glTexImage1D(GL_TEXTURE_1D) ‚Æ glTexImage2D(GL_TEXTURE_2D)
 %index
 glGetTexLevelParameterfv
 glGetTexLevelParameterfvAglGetTexLevelParameteriv ŠÖ”‚Í“Á’è‚ÌÚ×“xƒŒƒxƒ‹‚É‘Î‚·‚éƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B| glGetTexLevelParameterfv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, level, pname, params
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒ‚ÌƒVƒ“ƒ{ƒ‹–¼BGL_TEXTURE_1DAGL_TEXTURE_2DAGL_PROXY_TEXTURE_1DAGL_PROXY_TEXTURE_2D ‚Ì‚¢‚¸‚ê‚©B
@@ -2770,8 +2542,6 @@ glGetTexLevelParameter ‚ÍAlevel ‚Åw’è‚µ‚½“Á’è‚ÌÚ×“xƒŒƒxƒ‹‚É‘Î‚·‚éƒeƒNƒXƒ`ƒƒƒ
 %index
 glGetTexLevelParameteriv
 glGetTexLevelParameterfvAglGetTexLevelParameteriv ŠÖ”‚Í“Á’è‚ÌÚ×“xƒŒƒxƒ‹‚É‘Î‚·‚éƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B| glGetTexLevelParameteriv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, level, pname, params
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒ‚ÌƒVƒ“ƒ{ƒ‹–¼BGL_TEXTURE_1DAGL_TEXTURE_2DAGL_PROXY_TEXTURE_1DAGL_PROXY_TEXTURE_2D ‚Ì‚¢‚¸‚ê‚©B
@@ -2795,8 +2565,6 @@ glGetTexLevelParameter ‚ÍAlevel ‚Åw’è‚µ‚½“Á’è‚ÌÚ×“xƒŒƒxƒ‹‚É‘Î‚·‚éƒeƒNƒXƒ`ƒƒƒ
 %index
 glGetTexParameterfv
 glGetTexParameterfvAglGetTexParameteriv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B| glGetTexParameterfv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒ‚ÌƒVƒ“ƒ{ƒ‹–¼BGL_TEXTURE_1D ‚Æ GL_TEXTURE_2D ‚ğó‚¯•t‚¯‚éB
@@ -2819,8 +2587,6 @@ glGetTexParameter ‚Í pname ‚Åw’è‚µ‚½ƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ params ‚É•Ô‚·Bt
 %index
 glGetTexParameteriv
 glGetTexParameterfvAglGetTexParameteriv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B| glGetTexParameteriv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒ‚ÌƒVƒ“ƒ{ƒ‹–¼BGL_TEXTURE_1D ‚Æ GL_TEXTURE_2D ‚ğó‚¯•t‚¯‚éB
@@ -2843,8 +2609,6 @@ glGetTexParameter ‚Í pname ‚Åw’è‚µ‚½ƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ params ‚É•Ô‚·Bt
 %index
 glHint
 glHint ŠÖ”‚ÍÀ‘•ˆË‘¶‚Ìƒqƒ“ƒg‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, mode
 target : [int] §Œä‚·‚é“®ì‚ğ¦‚·ƒVƒ“ƒ{ƒ‹’è”Bó‚¯•t‚¯‚é’l: GL_FOG_HINT (ƒtƒHƒOŒvZ‚Ì•i¿‚ğw¦)AGL_LINE_SMOOTH_HINT (ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXü‚ÌƒTƒ“ƒvƒŠƒ“ƒO•i¿)AGL_PERSPECTIVE_CORRECTION_HINT (ƒJƒ‰[EƒeƒNƒXƒ`ƒƒÀ•W‚Ì“§‹•â³•i¿)AGL_POINT_SMOOTH_HINT (ƒAƒ“ƒ`ƒGƒCƒŠƒAƒX“_‚ÌƒTƒ“ƒvƒŠƒ“ƒO•i¿)AGL_POLYGON_SMOOTH_HINT (ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ|ƒŠƒSƒ“‚ÌƒTƒ“ƒvƒŠƒ“ƒO•i¿)B
@@ -2865,8 +2629,6 @@ glHint ŠÖ”‚ÍÀ‘•ˆË‘¶‚Ìƒqƒ“ƒg‚ğw’è‚·‚éB
 %index
 glIndexMask
 glIndexMask ŠÖ”‚ÍƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ÌŒÂX‚Ìƒrƒbƒg‘‚«‚İ‚ğ§Œä‚·‚éB
-%group
-Win32 opengl32
 %prm
 mask
 mask : [int] ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ÌŒÂX‚Ìƒrƒbƒg‘‚«‚İ‚ğ—LŒø/–³Œø‚É‚·‚éƒrƒbƒgƒ}ƒXƒNB‰Šúó‘Ô‚Å‚Í‘Sƒrƒbƒg‚ª 1B
@@ -2887,8 +2649,6 @@ glIndexMask ‚ÍƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ö‚ÌŒÂX‚Ìƒrƒbƒg‘‚«‚İ‚ğ§Œä‚·‚éBmask
 %index
 glIndexPointer
 glIndexPointer ŠÖ”‚ÍƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX”z—ñ‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 type, stride, pointer
 type : [int] ”z—ñ“à‚ÌŠeƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚Ìƒf[ƒ^Œ^BŸ‚ÌƒVƒ“ƒ{ƒ‹’è”‚ğ—p‚¢‚é: GL_SHORTAGL_INTAGL_FLOATAGL_DOUBLEB
@@ -2913,8 +2673,6 @@ glIndexPointer ‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ég—p‚·‚éƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX”z—ñ‚ÌˆÊ’u‚Æƒf[ƒ^‚ğ
 %index
 glIndexd
 glIndexd ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [double] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’lB
@@ -2934,8 +2692,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexdv
 glIndexdv ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [var] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’l‚ğŠÜ‚Ş 1 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2955,8 +2711,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexf
 glIndexf ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [float] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’lB
@@ -2976,8 +2730,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexfv
 glIndexfv ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [var] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’l‚ğŠÜ‚Ş 1 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2997,8 +2749,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexi
 glIndexi ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [int] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’lB
@@ -3018,8 +2768,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexiv
 glIndexiv ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [var] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’l‚ğŠÜ‚Ş 1 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3039,8 +2787,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexs
 glIndexs ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [int] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’lB
@@ -3060,8 +2806,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexsv
 glIndexsv ŠÖ”‚ÍŒ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 c
 c : [var] Œ»İ‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ÌV‚µ‚¢’l‚ğŠÜ‚Ş 1 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3081,8 +2825,6 @@ glGet (GL_CURRENT_INDEX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glIndexub
 (no summary)
-%group
-Win32 opengl32
 %prm
 c
 c : [int] 
@@ -3093,8 +2835,6 @@ c : [int]
 %index
 glIndexubv
 (no summary)
-%group
-Win32 opengl32
 %prm
 c
 c : [var] 
@@ -3105,8 +2845,6 @@ c : [var]
 %index
 glInitNames
 glInitNames ŠÖ”‚Íƒl[ƒ€ƒXƒ^ƒbƒN‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -3126,8 +2864,6 @@ GL_SELECT ‚Å‚È‚¢ŠÔAƒl[ƒ€ƒXƒ^ƒbƒN‚Íí‚É‹ó‚ÅA‚»‚Ì‚Æ‚« glInitNames ‚ğŒÄ‚ñ‚Å‚à–³
 %index
 glInterleavedArrays
 glInterleavedArrays ŠÖ”‚ÍA‚æ‚è‘å‚«‚ÈW–ñ”z—ñ“à‚ÅƒCƒ“ƒ^[ƒŠ[ƒu‚³‚ê‚½•¡””z—ñ‚ğ“¯‚Éw’èE—LŒø‰»‚·‚éB
-%group
-Win32 opengl32
 %prm
 format, stride, pointer
 format : [int] —LŒø‰»‚·‚é”z—ñ‚ÌŒ^BŸ‚ÌƒVƒ“ƒ{ƒ‹’è”‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚é: GL_V2FAGL_V3FAGL_C4UB_V2FAGL_C4UB_V3FAGL_C3F_V3FAGL_N3F_V3FAGL_C4F_N3F_V3FAGL_T2F_V3FAGL_T4F_V4FAGL_T2F_C4UB_V3FAGL_T2F_C3F_V3FAGL_T2F_N3F_V3FAGL_T2F_C4F_N3F_V3FAGL_T4F_C4F_N3F_V4FB
@@ -3152,8 +2888,6 @@ glInterleavedArrays
 %index
 glIsEnabled
 glIsEnabled ŠÖ”‚Í‹@”\‚ª—LŒø‚©‚Ç‚¤‚©‚ğŒŸ¸‚·‚éB
-%group
-Win32 opengl32
 %prm
 cap
 cap : [int] OpenGL ‚Ì‹@”\‚ğ¦‚·ƒVƒ“ƒ{ƒ‹’è”BGL_ALPHA_TESTAGL_AUTO_NORMALAGL_BLENDAGL_CLIP_PLANEiAGL_COLOR_ARRAYAGL_COLOR_LOGIC_OPAGL_COLOR_MATERIALAGL_CULL_FACEAGL_DEPTH_TESTAGL_DITHERAGL_EDGE_FLAG_ARRAYAGL_FOGAGL_INDEX_ARRAYAGL_INDEX_LOGIC_OPAGL_LIGHTiAGL_LIGHTINGAGL_LINE_SMOOTHAGL_LINE_STIPPLEAGL_MAP1_*AGL_MAP2_*AGL_NORMAL_ARRAYAGL_NORMALIZEAGL_POINT_SMOOTHAGL_POLYGON_OFFSET_FILL/LINE/POINTAGL_POLYGON_SMOOTHAGL_POLYGON_STIPPLEAGL_SCISSOR_TESTAGL_STENCIL_TESTAGL_TEXTURE_1DAGL_TEXTURE_2DAGL_TEXTURE_COORD_ARRAYAGL_TEXTURE_GEN_Q/R/S/TAGL_VERTEX_ARRAY ‚È‚Ç‚ğó‚¯•t‚¯‚éB ‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -3167,8 +2901,6 @@ glIsEnabled ‚Í cap ‚ª—LŒø‰»‚³‚ê‚½‹@”\‚Ì‚Æ‚« GL_TRUE ‚ğ•Ô‚µA‚»‚¤‚Å‚È‚¯‚ê‚Î GL_FA
 %index
 glIsList
 glIsList ŠÖ”‚Í•\¦ƒŠƒXƒg‚Ì‘¶İ‚ğŒŸ¸‚·‚éB
-%group
-Win32 opengl32
 %prm
 list
 list : [int] •\¦ƒŠƒXƒg–¼‚ÌŒó•âB
@@ -3182,8 +2914,6 @@ glIsList ‚Í list ‚ª•\¦ƒŠƒXƒg‚Ì–¼‘O‚È‚ç GL_TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î GL_FALSE ‚ğ•Ô‚·
 %index
 glIsTexture
 glIsTexture ŠÖ”‚Í–¼‘O‚ªƒeƒNƒXƒ`ƒƒ‚É‘Î‰‚·‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 texture
 texture : [int] ƒeƒNƒXƒ`ƒƒ–¼‚Æ‚È‚é’lB
@@ -3199,8 +2929,6 @@ texture ƒpƒ‰ƒ[ƒ^‚ªŒ»İƒeƒNƒXƒ`ƒƒ–¼‚Å‚ ‚ê‚Î glIsTexture ‚Í GL_TRUE ‚ğ•Ô‚·Btext
 %index
 glLightModelf
 glLightModelf ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] ’Pˆê’l‚Ìƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^BGL_LIGHT_MODEL_LOCAL_VIEWER (0 ‚Å‚È‚¢ê‡‚Í‹“_ˆÊ’u‚©‚çƒXƒyƒLƒ…ƒ‰”½ËŠp‚ğŒvZ‚µA‚»‚¤‚Å‚È‚¯‚ê‚Î‹ü‚ğ -z •ûŒü•½s‚Æ‚İ‚È‚·BŠù’è 0)AGL_LIGHT_MODEL_TWO_SIDE (0 ‚Å‚È‚¢ê‡‚Í—¼–Êƒ‰ƒCƒeƒBƒ“ƒO‚ğ—LŒø‰»‚µA— –Êƒ|ƒŠƒSƒ“‚Í— Œü‚«ƒ}ƒeƒŠƒAƒ‹‚ÅŒvZ‚·‚éBŠù’è 0) ‚ğó‚¯•t‚¯‚éB
@@ -3224,8 +2952,6 @@ glIsEnabled (GL_LIGHTING) ‚Åæ“¾‚Å‚«‚éB
 %index
 glLightModelfv
 glLightModelfv ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] ƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^B’Pˆê’l‚Ìƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^BGL_LIGHT_MODEL_LOCAL_VIEWER (0 ‚Å‚È‚¢ê‡‚Í‹“_ˆÊ’u‚©‚çƒXƒyƒLƒ…ƒ‰”½ËŠp‚ğŒvZ‚µA‚»‚¤‚Å‚È‚¯‚ê‚Î‹ü‚ğ -z •ûŒü•½s‚Æ‚İ‚È‚·BŠù’è 0)AGL_LIGHT_MODEL_TWO_SIDE (0 ‚Å‚È‚¢ê‡‚Í—¼–Êƒ‰ƒCƒeƒBƒ“ƒO‚ğ—LŒø‰»‚µA— –Êƒ|ƒŠƒSƒ“‚Í— Œü‚«ƒ}ƒeƒŠƒAƒ‹‚ÅŒvZ‚·‚éBŠù’è 0) ‚ğó‚¯•t‚¯‚éB ‚³‚ç‚É GL_LIGHT_MODEL_AMBIENT (ƒV[ƒ“‘S‘Ì‚ÌƒAƒ“ƒrƒGƒ“ƒg‹­“xBŠù’è (0.2, 0.2, 0.2, 1.0)) ‚ğó‚¯•t‚¯‚éB
@@ -3249,8 +2975,6 @@ glIsEnabled (GL_LIGHTING) ‚Åæ“¾‚Å‚«‚éB
 %index
 glLightModeli
 glLightModeli ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] ’Pˆê’l‚Ìƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^BGL_LIGHT_MODEL_LOCAL_VIEWER (0 ‚Å‚È‚¢ê‡‚Í‹“_ˆÊ’u‚©‚çƒXƒyƒLƒ…ƒ‰”½ËŠp‚ğŒvZ‚µA‚»‚¤‚Å‚È‚¯‚ê‚Î‹ü‚ğ -z •ûŒü•½s‚Æ‚İ‚È‚·BŠù’è 0)AGL_LIGHT_MODEL_TWO_SIDE (0 ‚Å‚È‚¢ê‡‚Í—¼–Êƒ‰ƒCƒeƒBƒ“ƒO‚ğ—LŒø‰»‚µA— –Êƒ|ƒŠƒSƒ“‚Í— Œü‚«ƒ}ƒeƒŠƒAƒ‹‚ÅŒvZ‚·‚éBŠù’è 0) ‚ğó‚¯•t‚¯‚éB
@@ -3274,8 +2998,6 @@ glIsEnabled (GL_LIGHTING) ‚Åæ“¾‚Å‚«‚éB
 %index
 glLightModeliv
 glLightModeliv ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 pname, params
 pname : [int] ƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^B’Pˆê’l‚Ìƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹ƒpƒ‰ƒ[ƒ^BGL_LIGHT_MODEL_LOCAL_VIEWER (0 ‚Å‚È‚¢ê‡‚Í‹“_ˆÊ’u‚©‚çƒXƒyƒLƒ…ƒ‰”½ËŠp‚ğŒvZ‚µA‚»‚¤‚Å‚È‚¯‚ê‚Î‹ü‚ğ -z •ûŒü•½s‚Æ‚İ‚È‚·BŠù’è 0)AGL_LIGHT_MODEL_TWO_SIDE (0 ‚Å‚È‚¢ê‡‚Í—¼–Êƒ‰ƒCƒeƒBƒ“ƒO‚ğ—LŒø‰»‚µA— –Êƒ|ƒŠƒSƒ“‚Í— Œü‚«ƒ}ƒeƒŠƒAƒ‹‚ÅŒvZ‚·‚éBŠù’è 0) ‚ğó‚¯•t‚¯‚éB ‚³‚ç‚É GL_LIGHT_MODEL_AMBIENT (ƒV[ƒ“‘S‘Ì‚ÌƒAƒ“ƒrƒGƒ“ƒg‹­“xBŠù’è (0.2, 0.2, 0.2, 1.0)) ‚ğó‚¯•t‚¯‚éB
@@ -3299,8 +3021,6 @@ glIsEnabled (GL_LIGHTING) ‚Åæ“¾‚Å‚«‚éB
 %index
 glLightf
 glLightf ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 light, pname, param2
 light : [int] ŒõŒ¹‚Ì¯•ÊqB‰Â”\‚ÈŒõŒ¹”‚ÍÀ‘•ˆË‘¶‚¾‚ªÅ’á 8 ŒÂ‚ğƒTƒ|[ƒgBGL_LIGHTi ‚ÌŒ`‚ÌƒVƒ“ƒ{ƒ‹–¼‚Å¯•Ê‚³‚êAi ‚Í 0 ‚©‚ç GL_MAX_LIGHTS - 1 ‚Ì’lB
@@ -3316,8 +3036,6 @@ glLightf ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
 %index
 glLightfv
 glLightfv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 light, pname, params
 light : [int] ŒõŒ¹‚Ì¯•ÊqB‰Â”\‚ÈŒõŒ¹”‚ÍÀ‘•ˆË‘¶‚¾‚ªÅ’á 8 ŒÂ‚ğƒTƒ|[ƒgBGL_LIGHTi ‚ÌŒ`‚ÌƒVƒ“ƒ{ƒ‹–¼‚Å¯•Ê‚³‚êAi ‚Í 0 ‚©‚ç GL_MAX_LIGHTS - 1 ‚Ì’lB
@@ -3333,8 +3051,6 @@ glLightfv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
 %index
 glLighti
 glLighti ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 light, pname, param2
 light : [int] ŒõŒ¹‚Ì¯•ÊqB‰Â”\‚ÈŒõŒ¹”‚ÍÀ‘•ˆË‘¶‚¾‚ªÅ’á 8 ŒÂ‚ğƒTƒ|[ƒgBGL_LIGHTi ‚ÌŒ`‚ÌƒVƒ“ƒ{ƒ‹–¼‚Å¯•Ê‚³‚êAi ‚Í 0 ‚©‚ç GL_MAX_LIGHTS - 1 ‚Ì’lB
@@ -3350,8 +3066,6 @@ glLighti ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
 %index
 glLightiv
 glLightiv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 light, pname, params
 light : [int] ŒõŒ¹‚Ì¯•ÊqB‰Â”\‚ÈŒõŒ¹”‚ÍÀ‘•ˆË‘¶‚¾‚ªÅ’á 8 ŒÂ‚ğƒTƒ|[ƒgBGL_LIGHTi ‚ÌŒ`‚ÌƒVƒ“ƒ{ƒ‹–¼‚Å¯•Ê‚³‚êAi ‚Í 0 ‚©‚ç GL_MAX_LIGHTS - 1 ‚Ì’lB
@@ -3367,8 +3081,6 @@ glLightiv ŠÖ”‚ÍŒõŒ¹ƒpƒ‰ƒ[ƒ^’l‚ğ•Ô‚·B
 %index
 glLineStipple
 glLineStipple ŠÖ”‚ÍüƒXƒeƒBƒbƒvƒ‹ƒpƒ^[ƒ“‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 factor, pattern
 factor : [int] üƒXƒeƒBƒbƒvƒ‹ƒpƒ^[ƒ“‚ÌŠeƒrƒbƒg‚É‘Î‚·‚éæ”Bfactor ‚ª 3 ‚È‚çAƒpƒ^[ƒ“‚ÌŠeƒrƒbƒg‚ªŸ‚Ìƒrƒbƒg‚Éi‚Ş‘O‚É 3 ‰ñg‚í‚ê‚éBfactor ‚Í [1, 256] ‚ÉƒNƒ‰ƒ“ƒv‚³‚êAŠù’è‚Í 1B
@@ -3394,8 +3106,6 @@ GL_LINE_STIPPLE ‚Å—LŒø/–³Œø‚ğØ‚è‘Ö‚¦‚éBŠù’è‚Í–³Œø (’¼ü‚Íí•`‰æ)BŠÖ˜Aî•ñ‚Í
 %index
 glLineWidth
 glLineWidth ŠÖ”‚Íƒ‰ƒXƒ^ƒ‰ƒCƒY‚³‚ê‚éü‚Ì•‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 width
 width : [float] ƒ‰ƒXƒ^ƒ‰ƒCƒY‚³‚ê‚éü‚Ì•BŠù’è‚Í 1.0B
@@ -3418,8 +3128,6 @@ GL_LINE_WIDTH_GRANULARITY / GL_LINE_WIDTH_RANGE) ‚¨‚æ‚Ñ glIsEnabled
 %index
 glListBase
 glListBase ŠÖ”‚Í glCallLists —p‚Ì•\¦ƒŠƒXƒgƒx[ƒX‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 base
 base : [int] 
@@ -3438,8 +3146,6 @@ glListBase ‚ÍƒIƒtƒZƒbƒg‚Ì”z—ñ‚ğw’è‚·‚éB•\¦ƒŠƒXƒg–¼‚ÍŠeƒIƒtƒZƒbƒg‚É base
 %index
 glLoadIdentity
 glLoadIdentity ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚ğ’PˆÊs—ñ‚É’u‚«Š·‚¦‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -3458,8 +3164,6 @@ GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
 %index
 glLoadMatrixd
 glLoadMatrixd ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚ğ”CˆÓs—ñ‚É’u‚«Š·‚¦‚éB| glLoadMatrixd ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 m
 m : [var] —ñ—Dæ‡‚Å˜A‘± 16 ŒÂ‚Ì’l‚Æ‚µ‚ÄŠi”[‚³‚ê‚½ 4x4 s—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3481,8 +3185,6 @@ GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
 %index
 glLoadMatrixf
 glLoadMatrixf ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚ğ”CˆÓs—ñ‚É’u‚«Š·‚¦‚éB| glLoadMatrixf ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 m
 m : [var] —ñ—Dæ‡‚Å˜A‘± 16 ŒÂ‚Ì’l‚Æ‚µ‚ÄŠi”[‚³‚ê‚½ 4x4 s—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3504,8 +3206,6 @@ GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
 %index
 glLoadName
 glLoadName ŠÖ”‚Íƒl[ƒ€ƒXƒ^ƒbƒN‚É–¼‘O‚ğ“Ç‚İ‚ŞB
-%group
-Win32 opengl32
 %prm
 name
 name : [int] ƒl[ƒ€ƒXƒ^ƒbƒNÅã’i‚Ì’l‚ğ’u‚«Š·‚¦‚é–¼‘OB
@@ -3526,8 +3226,6 @@ GL_SELECT ‚Å‚È‚¢ŠÔ‚Íí‚É‹ó‚ÅA‚±‚Ì‚Æ‚« glLoadName ‚Í–³‹‚³‚ê‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glLogicOp
 glLogicOp ŠÖ”‚ÍƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX•`‰æ—p‚Ì˜_—“IƒsƒNƒZƒ‹‰‰Z‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 opcode
 opcode : [int] ˜_—‰‰Z‚ğ‘I‘ğ‚·‚éƒVƒ“ƒ{ƒ‹’è”Bs ‚ğƒ\[ƒXƒrƒbƒgAd ‚ğˆ¶æƒrƒbƒg‚Æ‚µ‚ÄŸ‚ğó‚¯•t‚¯‚é: GL_CLEAR (0)AGL_SET (1)AGL_COPY (s)AGL_COPY_INVERTED (~s)AGL_NOOP (d)AGL_INVERT (~d)AGL_AND (s & d)AGL_NAND (~(s & d))AGL_OR (s | d)AGL_NOR (~(s | d))AGL_XOR (s ^ d)AGL_EQUIV (~(s ^ d))AGL_AND_REVERSE (s & ~d)AGL_AND_INVERTED (~s & d)AGL_OR_REVERSE (s | ~d)AGL_OR_INVERTED (~s | d)B
@@ -3550,8 +3248,6 @@ glEnable/glDisable ‚É GL_LOGIC_OP ‚ğ“n‚µ‚Ä—LŒø/–³Œø‚ğØ‚è‘Ö‚¦‚éBopcode
 %index
 glMap1d
 glMap1d ŠÖ”‚Í 1 ŸŒ³ƒGƒoƒŠƒ…ƒG[ƒ^‚ğ’è‹`‚·‚éB| glMap1d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, u1, u2, stride, order, points
 target : [int] ƒGƒoƒŠƒ…ƒG[ƒ^‚ª¶¬‚·‚é’l‚Ìí—ŞBƒVƒ“ƒ{ƒ‹’è”Btarget ‚Í points ‚É‚Ç‚Ìí—Ş‚Ì§Œä“_‚ª—^‚¦‚ç‚êAƒ}ƒbƒv•]‰¿‚É‚Ç‚Ìí—Ş‚Ìo—Í‚ª¶¬‚³‚ê‚é‚©‚ğ¦‚·B9 ‚Â‚Ì’è‹`Ï‚İ’l‚ğæ‚è‚¤‚é: GL_MAP1_VERTEX_3 / GL_MAP1_VERTEX_4 (x,y,z (,w) ‚Ì’¸“_À•W)AGL_MAP1_INDEX (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX)AGL_MAP1_COLOR_4 (R,G,B,A)AGL_MAP1_NORMAL (–@üƒxƒNƒgƒ‹)AGL_MAP1_TEXTURE_COORD_1..4 (s [,t [,r [,q]]] ƒeƒNƒXƒ`ƒƒÀ•W)B
@@ -3580,8 +3276,6 @@ GL_MAX_EVAL_ORDER ‚Ü‚Å‚Ì‘½€® / —L—‘½€®ƒXƒvƒ‰ƒCƒ“‚ğ’è‹`‚Å‚«A“à•”‚Åƒo[ƒ“ƒXƒ
 %index
 glMap1f
 glMap1f ŠÖ”‚Í 1 ŸŒ³ƒGƒoƒŠƒ…ƒG[ƒ^‚ğ’è‹`‚·‚éB| glMap1f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, u1, u2, stride, order, points
 target : [int] ƒGƒoƒŠƒ…ƒG[ƒ^‚ª¶¬‚·‚é’l‚Ìí—ŞBƒVƒ“ƒ{ƒ‹’è”Btarget ‚Í points ‚É‚Ç‚Ìí—Ş‚Ì§Œä“_‚ª—^‚¦‚ç‚êAƒ}ƒbƒv•]‰¿‚É‚Ç‚Ìí—Ş‚Ìo—Í‚ª¶¬‚³‚ê‚é‚©‚ğ¦‚·B9 ‚Â‚Ì’è‹`Ï‚İ’l‚ğæ‚è‚¤‚é: GL_MAP1_VERTEX_3 / GL_MAP1_VERTEX_4 (x,y,z (,w) ‚Ì’¸“_À•W)AGL_MAP1_INDEX (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX)AGL_MAP1_COLOR_4 (R,G,B,A)AGL_MAP1_NORMAL (–@üƒxƒNƒgƒ‹)AGL_MAP1_TEXTURE_COORD_1..4 (s [,t [,r [,q]]] ƒeƒNƒXƒ`ƒƒÀ•W)B
@@ -3610,8 +3304,6 @@ GL_MAX_EVAL_ORDER ‚Ü‚Å‚Ì‘½€® / —L—‘½€®ƒXƒvƒ‰ƒCƒ“‚ğ’è‹`‚Å‚«A“à•”‚Åƒo[ƒ“ƒXƒ
 %index
 glMap2d
 glMap2d ŠÖ”‚Í 2 ŸŒ³ƒGƒoƒŠƒ…ƒG[ƒ^‚ğ’è‹`‚·‚éB| glMap2d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points
 target : [int] ƒGƒoƒŠƒ…ƒG[ƒ^‚ª¶¬‚·‚é’l‚Ìí—ŞBŸ‚ÌƒVƒ“ƒ{ƒ‹’è”‚ğó‚¯•t‚¯‚é: GL_MAP2_VERTEX_3 / GL_MAP2_VERTEX_4AGL_MAP2_INDEXAGL_MAP2_COLOR_4AGL_MAP2_NORMALAGL_MAP2_TEXTURE_COORD_1..4BˆÓ–¡‚Í glMap1 ‚Ì‘Î‰’è”‚Æ“¯‚¶B
@@ -3644,8 +3336,6 @@ target ‚ğ“n‚µA’l‚ğ•]‰¿‚·‚é‚É‚Í glEvalCoord2 ‚ğg‚¤B
 %index
 glMap2f
 glMap2f ŠÖ”‚Í 2 ŸŒ³ƒGƒoƒŠƒ…ƒG[ƒ^‚ğ’è‹`‚·‚éB| glMap2f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points
 target : [int] ƒGƒoƒŠƒ…ƒG[ƒ^‚ª¶¬‚·‚é’l‚Ìí—ŞBŸ‚ÌƒVƒ“ƒ{ƒ‹’è”‚ğó‚¯•t‚¯‚é: GL_MAP2_VERTEX_3 / GL_MAP2_VERTEX_4AGL_MAP2_INDEXAGL_MAP2_COLOR_4AGL_MAP2_NORMALAGL_MAP2_TEXTURE_COORD_1..4BˆÓ–¡‚Í glMap1 ‚Ì‘Î‰’è”‚Æ“¯‚¶B
@@ -3678,8 +3368,6 @@ target ‚ğ“n‚µA’l‚ğ•]‰¿‚·‚é‚É‚Í glEvalCoord2 ‚ğg‚¤B
 %index
 glMapGrid1d
 1 ŸŒ³ƒƒbƒVƒ…‚ğ’è‹`‚·‚éB| glMapGrid1d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 un, u1, u2
 un : [int] ƒOƒŠƒbƒh”ÍˆÍ [u1, u2] ‚Ì•ªŠ„”B³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3704,8 +3392,6 @@ GL_MAP1_GRID_SEGMENTS)AglMap1AglMap2AglEvalMesh ‚Åæ“¾‚Å‚«‚éB
 %index
 glMapGrid1f
 1 ŸŒ³ƒƒbƒVƒ…‚ğ’è‹`‚·‚éB| glMapGrid1f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 un, u1, u2
 un : [int] ƒOƒŠƒbƒh”ÍˆÍ [u1, u2] ‚Ì•ªŠ„”B³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3730,8 +3416,6 @@ GL_MAP1_GRID_SEGMENTS)AglMap1AglMap2AglEvalMesh ‚Åæ“¾‚Å‚«‚éB
 %index
 glMapGrid2d
 1 ŸŒ³ƒƒbƒVƒ…‚ğ’è‹`‚·‚éB| glMapGrid2d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 un, u1, u2, vn, v1, v2
 un : [int] ƒOƒŠƒbƒh”ÍˆÍ [u1, u2] ‚Ì•ªŠ„”B³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3757,8 +3441,6 @@ GL_MAP2_GRID_SEGMENTS)AglMap1AglMap2AglEvalMesh ‚Åæ“¾‚Å‚«‚éB
 %index
 glMapGrid2f
 1 ŸŒ³ƒƒbƒVƒ…‚ğ’è‹`‚·‚éB| glMapGrid2f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 un, u1, u2, vn, v1, v2
 un : [int] ƒOƒŠƒbƒh”ÍˆÍ [u1, u2] ‚Ì•ªŠ„”B³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3784,8 +3466,6 @@ GL_MAP2_GRID_SEGMENTS)AglMap1AglMap2AglEvalMesh ‚Åæ“¾‚Å‚«‚éB
 %index
 glMaterialf
 glMaterialf ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹—p‚Ìƒ}ƒeƒŠƒAƒ‹ƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 face, pname, param2
 face : [int] XV‚·‚éƒtƒF[ƒXBGL_FRONTAGL_BACKAGL_FRONT_AND_BACK ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3810,8 +3490,6 @@ glLightModel ‚ğQÆBglMaterial* ‚Í 3 ‚Â‚Ìˆø”‚ğæ‚éBface ‚ÍXV‘ÎÛƒtƒF[ƒXAp
 %index
 glMaterialfv
 glMaterialfv ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹—p‚Ìƒ}ƒeƒŠƒAƒ‹ƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 face, pname, params
 face : [int] XV‚·‚éƒtƒF[ƒXBGL_FRONTAGL_BACKAGL_FRONT_AND_BACK ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3836,8 +3514,6 @@ glLightModel ‚ğQÆBglMaterial* ‚Í 3 ‚Â‚Ìˆø”‚ğæ‚éBface ‚ÍXV‘ÎÛƒtƒF[ƒXAp
 %index
 glMateriali
 glMateriali ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹—p‚Ìƒ}ƒeƒŠƒAƒ‹ƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 face, pname, param2
 face : [int] XV‚·‚éƒtƒF[ƒXBGL_FRONTAGL_BACKAGL_FRONT_AND_BACK ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3862,8 +3538,6 @@ glLightModel ‚ğQÆBglMaterial* ‚Í 3 ‚Â‚Ìˆø”‚ğæ‚éBface ‚ÍXV‘ÎÛƒtƒF[ƒXAp
 %index
 glMaterialiv
 glMaterialiv ŠÖ”‚Íƒ‰ƒCƒeƒBƒ“ƒOƒ‚ƒfƒ‹—p‚Ìƒ}ƒeƒŠƒAƒ‹ƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 face, pname, params
 face : [int] XV‚·‚éƒtƒF[ƒXBGL_FRONTAGL_BACKAGL_FRONT_AND_BACK ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3888,8 +3562,6 @@ glLightModel ‚ğQÆBglMaterial* ‚Í 3 ‚Â‚Ìˆø”‚ğæ‚éBface ‚ÍXV‘ÎÛƒtƒF[ƒXAp
 %index
 glMatrixMode
 glMatrixMode ŠÖ”‚Í‚Ç‚Ìs—ñ‚ªŒ»İ‚Ìs—ñ‚©‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] Œã‘±‚Ìs—ñ‰‰Z‚Ì‘ÎÛ‚Æ‚È‚és—ñƒXƒ^ƒbƒNBmode ‚ÍŸ‚Ì 3 ‚Â‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğæ‚éBGL_MODELVIEW: Œã‘±‚Ìs—ñ‰‰Z‚ğƒ‚ƒfƒ‹ƒrƒ…[s—ñƒXƒ^ƒbƒN‚É“K—p‚·‚éBGL_PROJECTION: Œã‘±‚Ìs—ñ‰‰Z‚ğƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñƒXƒ^ƒbƒN‚É“K—p‚·‚éBGL_TEXTURE: Œã‘±‚Ìs—ñ‰‰Z‚ğƒeƒNƒXƒ`ƒƒs—ñƒXƒ^ƒbƒN‚É“K—p‚·‚éB
@@ -3906,8 +3578,6 @@ glMatrixMode ‚ÍŒ»İ‚Ìs—ñƒ‚[ƒh‚ğİ’è‚·‚éBŠÖ˜Aî•ñ‚Í glGet (GL_MATRIX_MODE) ‚Å
 %index
 glMultMatrixd
 glMultMatrixd ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É”CˆÓs—ñ‚ğæZ‚·‚éB| glMultMatrixd ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 m
 m : [var] —ñ—Dæ‡‚Å˜A‘± 16 ŒÂ‚Ì’l‚Æ‚µ‚ÄŠi”[‚³‚ê‚½ 4x4 s—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3930,8 +3600,6 @@ GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
 %index
 glMultMatrixf
 glMultMatrixf ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É”CˆÓs—ñ‚ğæZ‚·‚éB| glMultMatrixf ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 m
 m : [var] —ñ—Dæ‡‚Å˜A‘± 16 ŒÂ‚Ì’l‚Æ‚µ‚ÄŠi”[‚³‚ê‚½ 4x4 s—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3954,8 +3622,6 @@ GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
 %index
 glNewList
 glNewList ‚Æ glEndList ŠÖ”‚Í•\¦ƒŠƒXƒg‚ğì¬‚Ü‚½‚Í’u‚«Š·‚¦‚éB| glNewList ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 list, mode
 list : [int] •\¦ƒŠƒXƒg–¼B
@@ -3980,8 +3646,6 @@ glCallLists ‚ÅÀs‚·‚éBŠÖ˜Aî•ñ‚Í glGet / glGenLists / glIsList ‚Åæ“¾‚Å‚«‚éB
 %index
 glNormal3b
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3b ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 nx, ny, nz
 nx : [int] V‚µ‚¢Œ»İ–@üƒxƒNƒgƒ‹‚Ì x À•W‚ğw’è‚·‚éB
@@ -4004,8 +3668,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3bv
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3bv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] V‚µ‚¢Œ»İ–@ü‚Ì x, y, z À•W‚©‚ç‚È‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4026,8 +3688,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3d
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 nx, ny, nz
 nx : [double] V‚µ‚¢Œ»İ–@üƒxƒNƒgƒ‹‚Ì x À•W‚ğw’è‚·‚éB
@@ -4050,8 +3710,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3dv
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] V‚µ‚¢Œ»İ–@ü‚Ì x, y, z À•W‚©‚ç‚È‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4072,8 +3730,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3f
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 nx, ny, nz
 nx : [float] V‚µ‚¢Œ»İ–@üƒxƒNƒgƒ‹‚Ì x À•W‚ğw’è‚·‚éB
@@ -4096,8 +3752,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3fv
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] V‚µ‚¢Œ»İ–@ü‚Ì x, y, z À•W‚©‚ç‚È‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4118,8 +3772,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3i
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 nx, ny, nz
 nx : [int] V‚µ‚¢Œ»İ–@üƒxƒNƒgƒ‹‚Ì x À•W‚ğw’è‚·‚éB
@@ -4142,8 +3794,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3iv
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] V‚µ‚¢Œ»İ–@ü‚Ì x, y, z À•W‚©‚ç‚È‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4164,8 +3814,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3s
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 nx, ny, nz
 nx : [int] V‚µ‚¢Œ»İ–@üƒxƒNƒgƒ‹‚Ì x À•W‚ğw’è‚·‚éB
@@ -4188,8 +3836,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormal3sv
 Œ»İ‚Ì–@üƒxƒNƒgƒ‹‚ğİ’è‚·‚éB| glNormal3sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] V‚µ‚¢Œ»İ–@ü‚Ì x, y, z À•W‚©‚ç‚È‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4210,8 +3856,6 @@ glEnable / glDisable ‚Ì GL_NORMALIZE ‚Å§Œä‚·‚éBŠÖ˜Aî•ñ‚Í glGet
 %index
 glNormalPointer
 glNormalPointer ŠÖ”‚Í–@ü”z—ñ‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 type, stride, pointer
 type : [int] ”z—ñ“à‚ÌŠeÀ•W‚Ìƒf[ƒ^Œ^BŸ‚ÌƒVƒ“ƒ{ƒ‹’è”‚ğ—p‚¢‚é: GL_BYTEAGL_SHORTAGL_INTAGL_FLOATAGL_DOUBLEB
@@ -4235,8 +3879,6 @@ glNormalPointer ‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ég—p‚·‚é–@ü”z—ñ‚ÌˆÊ’u‚Æƒf[ƒ^‚ğw’è‚·‚éBtype
 %index
 glOrtho
 glOrtho ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É³Ë‰es—ñ‚ğæZ‚·‚éB
-%group
-Win32 opengl32
 %prm
 left, right, bottom, top, zNear, zFar
 left : [double] ¶‘¤‚Ì‚’¼ƒNƒŠƒbƒsƒ“ƒO•½–Ê‚ÌÀ•WB
@@ -4266,8 +3908,6 @@ GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glPassThrough
 glPassThrough ŠÖ”‚ÍƒtƒB[ƒhƒoƒbƒNƒoƒbƒtƒ@‚Éƒ}[ƒJ[‚ğ”z’u‚·‚éB
-%group
-Win32 opengl32
 %prm
 token
 token : [float] ƒtƒB[ƒhƒoƒbƒNƒoƒbƒtƒ@‚É”z’u‚³‚ê‚éƒ}[ƒJ[’lBGL_PASS_THROUGH_TOKEN ‚Æ‚¢‚¤ˆêˆÓ‚Ì¯•Ê’l‚Å¦‚³‚ê‚éB
@@ -4290,8 +3930,6 @@ glFeedbackBuffer ‚ğQÆBglPassThrough
 %index
 glPixelMapfv
 glPixelMapfv ŠÖ”‚ÍƒsƒNƒZƒ‹“]‘—ƒ}ƒbƒv‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 map, mapsize, values
 map : [int] ƒVƒ“ƒ{ƒ‹ƒ}ƒbƒv–¼B10 í—Ş‚Ìƒ}ƒbƒv‚ÍŸ‚Ì‚Æ‚¨‚èBGL_PIXEL_MAP_I_TO_I (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_S_TO_S (ƒXƒeƒ“ƒVƒ‹ƒCƒ“ƒfƒbƒNƒX‚ğƒXƒeƒ“ƒVƒ‹ƒCƒ“ƒfƒbƒNƒX‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_I_TO_R/G/B/A (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğ R/G/B/A ¬•ª‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_R_TO_R / GL_PIXEL_MAP_G_TO_G / GL_PIXEL_MAP_B_TO_B / GL_PIXEL_MAP_A_TO_A (F¬•ª‚ğ‚»‚ê‚¼‚ê“¯–¼¬•ª‚Éƒ}ƒbƒv)B
@@ -4317,8 +3955,6 @@ glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE) ‚Åæ“¾‚Å‚«‚éB
 %index
 glPixelMapuiv
 glPixelMapuiv ŠÖ”‚ÍƒsƒNƒZƒ‹“]‘—ƒ}ƒbƒv‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 map, mapsize, values
 map : [int] ƒVƒ“ƒ{ƒ‹ƒ}ƒbƒv–¼B10 í—Ş‚Ìƒ}ƒbƒv‚ÍŸ‚Ì‚Æ‚¨‚èBGL_PIXEL_MAP_I_TO_I (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_S_TO_S (ƒXƒeƒ“ƒVƒ‹ƒCƒ“ƒfƒbƒNƒX‚ğƒXƒeƒ“ƒVƒ‹ƒCƒ“ƒfƒbƒNƒX‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_I_TO_R/G/B/A (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğ R/G/B/A ¬•ª‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_R_TO_R / GL_PIXEL_MAP_G_TO_G / GL_PIXEL_MAP_B_TO_B / GL_PIXEL_MAP_A_TO_A (F¬•ª‚ğ‚»‚ê‚¼‚ê“¯–¼¬•ª‚Éƒ}ƒbƒv)B
@@ -4344,8 +3980,6 @@ glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE) ‚Åæ“¾‚Å‚«‚éB
 %index
 glPixelMapusv
 glPixelMapusv ŠÖ”‚ÍƒsƒNƒZƒ‹“]‘—ƒ}ƒbƒv‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 map, mapsize, values
 map : [int] ƒVƒ“ƒ{ƒ‹ƒ}ƒbƒv–¼B10 í—Ş‚Ìƒ}ƒbƒv‚ÍŸ‚Ì‚Æ‚¨‚èBGL_PIXEL_MAP_I_TO_I (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_S_TO_S (ƒXƒeƒ“ƒVƒ‹ƒCƒ“ƒfƒbƒNƒX‚ğƒXƒeƒ“ƒVƒ‹ƒCƒ“ƒfƒbƒNƒX‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_I_TO_R/G/B/A (ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğ R/G/B/A ¬•ª‚Éƒ}ƒbƒv)AGL_PIXEL_MAP_R_TO_R / GL_PIXEL_MAP_G_TO_G / GL_PIXEL_MAP_B_TO_B / GL_PIXEL_MAP_A_TO_A (F¬•ª‚ğ‚»‚ê‚¼‚ê“¯–¼¬•ª‚Éƒ}ƒbƒv)B
@@ -4371,8 +4005,6 @@ glGet (GL_PIXEL_MAP_*_SIZE / GL_MAX_PIXEL_MAP_TABLE) ‚Åæ“¾‚Å‚«‚éB
 %index
 glPixelStoref
 ƒsƒNƒZƒ‹Ši”[ƒ‚[ƒh‚ğİ’è‚·‚éB| glPixelStoref ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] İ’è‚·‚éƒpƒ‰ƒ[ƒ^‚ÌƒVƒ“ƒ{ƒ‹–¼BŠi”[ƒpƒ‰ƒ[ƒ^‚Ì‚¤‚¿ 6 ‚Â‚ÍƒsƒNƒZƒ‹ƒf[ƒ^‚ğƒNƒ‰ƒCƒAƒ“ƒgƒƒ‚ƒŠ‚É•Ô‚·•û–@‚É‰e‹¿‚·‚é‚Ì‚Å glReadPixels ‚É‘Î‚µ‚Ä‚Ì‚İˆÓ–¡‚ğ‚ÂB6 ‚Â‚Í glDrawPixels/glPolygonStipple/glBitmap/glTexImage*/glTexSubImage* ‚ÌƒsƒNƒZƒ‹æ‚èo‚µ•û‚É‰e‹¿‚·‚éBGL_PACK_SWAP_BYTES / GL_UNPACK_SWAP_BYTES (ƒoƒCƒg‡”½“]‚Ì^‹UAŠù’è FALSE)AGL_PACK_LSB_FIRST / GL_UNPACK_LSB_FIRST (GL_BITMAP ƒf[ƒ^“à‚Ìƒrƒbƒg‡˜AŠù’è FALSE)AGL_PACK_ROW_LENGTH / GL_UNPACK_ROW_LENGTH (s‚ ‚½‚èƒsƒNƒZƒ‹”A0 ‚È‚ç width ‚ğg‚¤)AGL_PACK_SKIP_PIXELS / GL_UNPACK_SKIP_PIXELS (æ“ªƒXƒLƒbƒvƒsƒNƒZƒ‹”)AGL_PACK_SKIP_ROWS / GL_UNPACK_SKIP_ROWS (æ“ªƒXƒLƒbƒvs”)AGL_PACK_ALIGNMENT / GL_UNPACK_ALIGNMENT (Šesæ“ª‚ÌƒoƒCƒg®—ñA1/2/4/8 ‚Ì‚¢‚¸‚ê‚©AŠù’è 4) ‚ğó‚¯•t‚¯‚éB ‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -4397,8 +4029,6 @@ FALSE (0.0) ‚© TRUE (‚»‚êˆÈŠO) ‚É•ÏŠ·‚³‚êA®”ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä‚ÍÅ‚à‹ß‚¢®”‚
 %index
 glPixelStorei
 ƒsƒNƒZƒ‹Ši”[ƒ‚[ƒh‚ğİ’è‚·‚éB| glPixelStorei ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] İ’è‚·‚éƒpƒ‰ƒ[ƒ^‚ÌƒVƒ“ƒ{ƒ‹–¼BŠi”[ƒpƒ‰ƒ[ƒ^‚Ì‚¤‚¿ 6 ‚Â‚ÍƒsƒNƒZƒ‹ƒf[ƒ^‚ğƒNƒ‰ƒCƒAƒ“ƒgƒƒ‚ƒŠ‚É•Ô‚·•û–@‚É‰e‹¿‚·‚é‚Ì‚Å glReadPixels ‚É‘Î‚µ‚Ä‚Ì‚İˆÓ–¡‚ğ‚ÂB6 ‚Â‚Í glDrawPixels/glPolygonStipple/glBitmap/glTexImage*/glTexSubImage* ‚ÌƒsƒNƒZƒ‹æ‚èo‚µ•û‚É‰e‹¿‚·‚éBGL_PACK_SWAP_BYTES / GL_UNPACK_SWAP_BYTES (ƒoƒCƒg‡”½“]‚Ì^‹UAŠù’è FALSE)AGL_PACK_LSB_FIRST / GL_UNPACK_LSB_FIRST (GL_BITMAP ƒf[ƒ^“à‚Ìƒrƒbƒg‡˜AŠù’è FALSE)AGL_PACK_ROW_LENGTH / GL_UNPACK_ROW_LENGTH (s‚ ‚½‚èƒsƒNƒZƒ‹”A0 ‚È‚ç width ‚ğg‚¤)AGL_PACK_SKIP_PIXELS / GL_UNPACK_SKIP_PIXELS (æ“ªƒXƒLƒbƒvƒsƒNƒZƒ‹”)AGL_PACK_SKIP_ROWS / GL_UNPACK_SKIP_ROWS (æ“ªƒXƒLƒbƒvs”)AGL_PACK_ALIGNMENT / GL_UNPACK_ALIGNMENT (Šesæ“ª‚ÌƒoƒCƒg®—ñA1/2/4/8 ‚Ì‚¢‚¸‚ê‚©AŠù’è 4) ‚ğó‚¯•t‚¯‚éB ‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -4423,8 +4053,6 @@ FALSE (0.0) ‚© TRUE (‚»‚êˆÈŠO) ‚É•ÏŠ·‚³‚êA®”ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä‚ÍÅ‚à‹ß‚¢®”‚
 %index
 glPixelTransferf
 glPixelTransferfAglPixelTransferi ŠÖ”‚ÍƒsƒNƒZƒ‹“]‘—ƒ‚[ƒh‚ğİ’è‚·‚éB| glPixelTransferf ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] İ’è‚·‚éƒsƒNƒZƒ‹“]‘—ƒpƒ‰ƒ[ƒ^‚ÌƒVƒ“ƒ{ƒ‹–¼BˆÈ‰º‚Ìƒpƒ‰ƒ[ƒ^‚ª glPixelTransfer ‚Åİ’è‰Â”\: GL_MAP_COLOR (BooleanAŠù’è FALSE)AGL_MAP_STENCIL (BooleanAŠù’è FALSE)AGL_INDEX_SHIFT (integerAŠù’è 0)AGL_INDEX_OFFSET (integerAŠù’è 0)AGL_RED_SCALE / GL_GREEN_SCALE / GL_BLUE_SCALE / GL_ALPHA_SCALE / GL_DEPTH_SCALE (floatAŠù’è 1)AGL_RED_BIAS / GL_GREEN_BIAS / GL_BLUE_BIAS / GL_ALPHA_BIAS / GL_DEPTH_BIAS (floatAŠù’è 0)B
@@ -4453,8 +4081,6 @@ GL_INDEX_OFFSET ‚Å•ÏŠ·‚³‚êAGL_MAP_STENCIL ‚ª^‚È‚ç GL_PIXEL_MAP_S_TO_S
 %index
 glPixelTransferi
 glPixelTransferfAglPixelTransferi ŠÖ”‚ÍƒsƒNƒZƒ‹“]‘—ƒ‚[ƒh‚ğİ’è‚·‚éB| glPixelTransferi ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 pname, param1
 pname : [int] İ’è‚·‚éƒsƒNƒZƒ‹“]‘—ƒpƒ‰ƒ[ƒ^‚ÌƒVƒ“ƒ{ƒ‹–¼BˆÈ‰º‚Ìƒpƒ‰ƒ[ƒ^‚ª glPixelTransfer ‚Åİ’è‰Â”\: GL_MAP_COLOR (BooleanAŠù’è FALSE)AGL_MAP_STENCIL (BooleanAŠù’è FALSE)AGL_INDEX_SHIFT (integerAŠù’è 0)AGL_INDEX_OFFSET (integerAŠù’è 0)AGL_RED_SCALE / GL_GREEN_SCALE / GL_BLUE_SCALE / GL_ALPHA_SCALE / GL_DEPTH_SCALE (floatAŠù’è 1)AGL_RED_BIAS / GL_GREEN_BIAS / GL_BLUE_BIAS / GL_ALPHA_BIAS / GL_DEPTH_BIAS (floatAŠù’è 0)B
@@ -4483,8 +4109,6 @@ GL_INDEX_OFFSET ‚Å•ÏŠ·‚³‚êAGL_MAP_STENCIL ‚ª^‚È‚ç GL_PIXEL_MAP_S_TO_S
 %index
 glPixelZoom
 glPixelZoom ŠÖ”‚ÍƒsƒNƒZƒ‹ƒY[ƒ€ŒW”‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 xfactor, yfactor
 xfactor : [float] ƒsƒNƒZƒ‹‘‚«‚İ‘€ì‚Ì x •ûŒüƒY[ƒ€ŒW”B
@@ -4506,8 +4130,6 @@ glPixelStore ‚Ìƒpƒ‰ƒ[ƒ^‚Æ‚Í“Æ—§BŠÖ˜Aî•ñ‚Í glGet (GL_ZOOM_X / GL_ZOOM_Y) ‚Åæ
 %index
 glPointSize
 glPointSize ŠÖ”‚Íƒ‰ƒXƒ^ƒ‰ƒCƒY‚³‚ê‚é“_‚Ì’¼Œa‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 size
 size : [float] ƒ‰ƒXƒ^ƒ‰ƒCƒY‚³‚ê‚é“_‚Ì’¼ŒaBŠù’è‚Í 1.0B
@@ -4530,8 +4152,6 @@ GL_POINT_SIZE_GRANULARITY) ‚¨‚æ‚Ñ glIsEnabled (GL_POINT_SMOOTH) ‚Åæ“¾‚Å‚«‚éB
 %index
 glPolygonMode
 glPolygonMode ŠÖ”‚Íƒ|ƒŠƒSƒ“‚Ìƒ‰ƒXƒ^ƒ‰ƒCƒYƒ‚[ƒh‚ğ‘I‘ğ‚·‚éB
-%group
-Win32 opengl32
 %prm
 face, mode
 face : [int] mode ‚ğ“K—p‚·‚éƒ|ƒŠƒSƒ“B‘O–Êƒ|ƒŠƒSƒ“—p‚É GL_FRONTA”w–Êƒ|ƒŠƒSƒ“—p‚É GL_BACKA—¼–Ê—p‚É GL_FRONT_AND_BACK ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4555,8 +4175,6 @@ glPolygonMode(GL_FRONT, GL_LINE)B’¸“_‚Í glEdgeFlag ‚Ü‚½‚Í glEdgeFlagv
 %index
 glPolygonOffset
 glPolygonOffset ŠÖ”‚Í OpenGL ‚ªƒfƒvƒX’l‚ğŒvZ‚·‚éÛ‚ÌƒXƒP[ƒ‹‚Æ’PˆÊ‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 factor, units
 factor : [float] Šeƒ|ƒŠƒSƒ“‚É‘Î‚·‚é‰Â•Ï‚ÌƒfƒvƒXƒIƒtƒZƒbƒg‚ğì¬‚·‚éƒXƒP[ƒ‹ŒW”B‰Šú’l‚Í 0B
@@ -4580,8 +4198,6 @@ glEnable/glDisable ‚Å GL_POLYGON_OFFSET_FILL/LINE/POINT ‚ğ“n‚µ‚ÄŒÂ•Ê‚É—LŒø‰»‚·‚é
 %index
 glPolygonStipple
 glPolygonStipple ŠÖ”‚Íƒ|ƒŠƒSƒ“ƒXƒeƒBƒbƒvƒŠƒ“ƒOƒpƒ^[ƒ“‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 mask
 mask : [var] glDrawPixels ‚ªƒsƒNƒZƒ‹‚ğƒAƒ“ƒpƒbƒN‚·‚é‚Ì‚Æ“¯‚¶•û–@‚Åƒƒ‚ƒŠ‚©‚çƒAƒ“ƒpƒbƒN‚³‚ê‚é 32x32 ƒXƒeƒBƒbƒvƒ‹ƒpƒ^[ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4605,8 +4221,6 @@ height/width=32Aformat=GL_COLOR_INDEXAtype=GL_BITMAP
 %index
 glPopAttrib
 ‘®«ƒXƒ^ƒbƒN‚ğƒ|ƒbƒv‚·‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -4627,8 +4241,6 @@ glPushAttrib ‚Í‘®«ƒXƒ^ƒbƒN‚É•Û‘¶‚·‚éó‘Ô•Ï”ŒQ‚ğ¦‚·ƒ}ƒXƒN‚ğ 1
 %index
 glPopClientAttrib
 glPushClientAttrib ‚Æ glPopClientAttrib ŠÖ”‚ÍƒNƒ‰ƒCƒAƒ“ƒg‘®«ƒXƒ^ƒbƒNã‚ÅƒNƒ‰ƒCƒAƒ“ƒgƒXƒe[ƒg•Ï”ŒQ‚ğ•Û‘¶E•œŒ³‚·‚éB| glPopClientAttrib ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -4651,8 +4263,6 @@ glPopClientAttrib ‚Í•\¦ƒŠƒXƒg‚ÉŠÜ‚ß‚ç‚ê‚È‚¢B’ˆÓ: OpenGL 1.1 ˆÈ~‚Å‚Ì‚İ—˜—p‰Â”
 %index
 glPopMatrix
 glPushMatrix ‚Æ glPopMatrix ŠÖ”‚ÍŒ»İ‚Ìs—ñƒXƒ^ƒbƒN‚ğƒvƒbƒVƒ…Eƒ|ƒbƒv‚·‚éB| glPopMatrix ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -4677,8 +4287,6 @@ GL_TEXTURE_STACK_DEPTH) ‚Åæ“¾‚Å‚«‚éB
 %index
 glPopName
 glPushName ‚Æ glPopName ŠÖ”‚Íƒl[ƒ€ƒXƒ^ƒbƒN‚ğƒvƒbƒVƒ…Eƒ|ƒbƒv‚·‚éB| glPopName ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -4699,8 +4307,6 @@ GL_SELECT ‚Å‚È‚¢ŠÔ‚Íí‚É‹ó‚ÅA‚±‚Ì‚Æ‚« glPushName ‚Æ glPopName
 %index
 glPrioritizeTextures
 glPrioritizeTextures ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒ‚Ìí’“—Dæ“x‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 n, textures, priorities
 n : [int] —Dæ“x‚ğİ’è‚·‚éƒeƒNƒXƒ`ƒƒ‚Ì”B
@@ -4726,8 +4332,6 @@ glBindTexture / glGetTexParameter ‚Åæ“¾‚Å‚«‚éB
 %index
 glPushAttrib
 ‘®«ƒXƒ^ƒbƒN‚ÉƒvƒbƒVƒ…‚·‚éB
-%group
-Win32 opengl32
 %prm
 mask
 mask : [int] •Û‘¶‚·‚é‘®«‚ğ¦‚·ƒ}ƒXƒNBƒVƒ“ƒ{ƒ‹ƒ}ƒXƒN’è”‚ÆŠÖ˜A‚·‚é OpenGL ƒXƒe[ƒg‚ÍŸ‚Ì‚Æ‚¨‚è (‚»‚ê‚¼‚ê•Û‘¶‚³‚ê‚é‘®«‚ğ—ñ‹“): GL_ACCUM_BUFFER_BIT (ƒAƒLƒ…ƒ€ƒŒ[ƒVƒ‡ƒ“ƒoƒbƒtƒ@ƒNƒŠƒA’l)AGL_COLOR_BUFFER_BIT (GL_ALPHA_TEST —LŒøƒtƒ‰ƒOEŠÖ”EQÆ’lAGL_BLEND —LŒøƒtƒ‰ƒOEƒ\[ƒX/ˆ¶æŠÖ”AGL_DITHER —LŒøƒtƒ‰ƒOAGL_DRAW_BUFFER İ’èAGL_LOGIC_OP —LŒøƒtƒ‰ƒOEŠÖ”AƒNƒŠƒA’lA‘‚«‚İƒ}ƒXƒN)AGL_CURRENT_BIT (Œ»İ RGBA FEƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXE–@üEƒeƒNƒXƒ`ƒƒÀ•WEƒ‰ƒXƒ^ˆÊ’uEŠÖ˜AFEƒ‰ƒXƒ^ƒeƒNƒXƒ`ƒƒÀ•WEGL_EDGE_FLAG)AGL_DEPTH_BUFFER_BITAGL_ENABLE_BITAGL_EVAL_BITAGL_FOG_BITAGL_HINT_BITAGL_LIGHTING_BITAGL_LINE_BITAGL_LIST_BITAGL_PIXEL_MODE_BITAGL_POINT_BITAGL_POLYGON_BITAGL_POLYGON_STIPPLE_BITAGL_SCISSOR_BITAGL_STENCIL_BUFFER_BITAGL_TEXTURE_BITAGL_TRANSFORM_BITAGL_VIEWPORT_BITAGL_ALL_ATTRIB_BITSB ‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍÈ—ª‚³‚ê‚Ä‚¢‚éB
@@ -4749,8 +4353,6 @@ GL_ALL_ATTRIB_BITS ‚Å‘S‚Ä‚Ì•Û‘¶‰Â”\ó‘Ô‚ğ•Û‘¶‚Å‚«‚éBglPopAttrib ‚ÍÅŒã‚Ì glPush
 %index
 glPushClientAttrib
 glPushClientAttrib ‚Æ glPopClientAttrib ŠÖ”‚ÍƒNƒ‰ƒCƒAƒ“ƒg‘®«ƒXƒ^ƒbƒNã‚ÅƒNƒ‰ƒCƒAƒ“ƒgƒXƒe[ƒg•Ï”ŒQ‚ğ•Û‘¶E•œŒ³‚·‚éB| glPushClientAttrib ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 mask
 mask : [int] •Û‘¶‚·‚é‘®«‚ğ¦‚·ƒ}ƒXƒNBƒVƒ“ƒ{ƒ‹ƒ}ƒXƒN’è”‚ÆŠÖ˜A‚·‚é OpenGL ƒNƒ‰ƒCƒAƒ“ƒgƒXƒe[ƒg: GL_CLIENT_PIXEL_STORE_BIT (ƒsƒNƒZƒ‹Ši”[ƒ‚[ƒh: GL_PACK_* ‚Æ GL_UNPACK_* ‚Ì‘Sƒpƒ‰ƒ[ƒ^)AGL_CLIENT_VERTEX_ARRAY_BIT (’¸“_”z—ñó‘Ô: GL_VERTEX_ARRAY —LŒøƒtƒ‰ƒO‚Æƒ|ƒCƒ“ƒ^/ƒTƒCƒY/Œ^/ƒXƒgƒ‰ƒCƒhA–@ü”z—ñAƒJƒ‰[”z—ñAƒCƒ“ƒfƒbƒNƒX”z—ñAƒeƒNƒXƒ`ƒƒÀ•W”z—ñAƒGƒbƒWƒtƒ‰ƒO”z—ñ‚Ì“¯“™ó‘Ô)AGL_CLIENT_ALL_ATTRIB_BITS (‘Sƒrƒbƒg)B
@@ -4774,8 +4376,6 @@ glPopClientAttrib ‚Í•\¦ƒŠƒXƒg‚ÉŠÜ‚ß‚ç‚ê‚È‚¢B’ˆÓ: OpenGL 1.1 ˆÈ~‚Å‚Ì‚İ—˜—p‰Â”
 %index
 glPushMatrix
 glPushMatrix ‚Æ glPopMatrix ŠÖ”‚ÍŒ»İ‚Ìs—ñƒXƒ^ƒbƒN‚ğƒvƒbƒVƒ…Eƒ|ƒbƒv‚·‚éB| glPushMatrix ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -4800,8 +4400,6 @@ GL_TEXTURE_STACK_DEPTH) ‚Åæ“¾‚Å‚«‚éB
 %index
 glPushName
 glPushName ‚Æ glPopName ŠÖ”‚Íƒl[ƒ€ƒXƒ^ƒbƒN‚ğƒvƒbƒVƒ…Eƒ|ƒbƒv‚·‚éB| glPushName ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 name
 name : [int] ƒl[ƒ€ƒXƒ^ƒbƒN‚ÉƒvƒbƒVƒ…‚³‚ê‚é–¼‘OB
@@ -4823,8 +4421,6 @@ GL_SELECT ‚Å‚È‚¢ŠÔ‚Íí‚É‹ó‚ÅA‚±‚Ì‚Æ‚« glPushName ‚Æ glPopName
 %index
 glRasterPos2d
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [double] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -4853,8 +4449,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos2dv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y À•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4882,8 +4476,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos2f
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [float] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -4912,8 +4504,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos2fv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y À•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4941,8 +4531,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos2i
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [int] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -4971,8 +4559,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos2iv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y À•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5000,8 +4586,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos2s
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [int] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5030,8 +4614,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos2sv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos2sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y À•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5059,8 +4641,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3d
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [double] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5090,8 +4670,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3dv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z À•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5119,8 +4697,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3f
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [float] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5150,8 +4726,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3fv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z À•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5179,8 +4753,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3i
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [int] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5210,8 +4782,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3iv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z À•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5239,8 +4809,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3s
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [int] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5270,8 +4838,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos3sv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos3sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z À•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5299,8 +4865,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4d
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [double] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5331,8 +4895,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4dv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z, w À•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5360,8 +4922,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4f
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [float] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5392,8 +4952,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4fv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z, w À•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5421,8 +4979,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4i
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [int] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5453,8 +5009,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4iv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z, w À•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5482,8 +5036,6 @@ GL_CURRENT_RASTER_INDEX / GL_CURRENT_RASTER_TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4s
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [int] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x À•W‚ğw’è‚·‚éB
@@ -5522,8 +5074,6 @@ _TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glRasterPos4sv
 ƒsƒNƒZƒ‹‘€ì—p‚Ìƒ‰ƒXƒ^ˆÊ’u‚ğw’è‚·‚éB| glRasterPos4sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] Œ»İ‚Ìƒ‰ƒXƒ^ˆÊ’u‚Ì x, y, z, w À•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5559,8 +5109,6 @@ _TEXTURE_COORDS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glReadBuffer
 glReadBuffer ŠÖ”‚ÍƒsƒNƒZƒ‹—p‚ÌƒJƒ‰[ƒoƒbƒtƒ@ƒ\[ƒX‚ğ‘I‘ğ‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] ƒJƒ‰[ƒoƒbƒtƒ@Bó‚¯•t‚¯‚é’l‚Í GL_FRONT_LEFTAGL_FRONT_RIGHTAGL_BACK_LEFTAGL_BACK_RIGHTAGL_FRONTAGL_BACKAGL_LEFTAGL_RIGHTAGL_AUX i (i ‚Í 0 ‚©‚ç GL_AUX_BUFFERS-1 ‚Ì”ÍˆÍ)B
@@ -5584,8 +5132,6 @@ GL_BACKBŠÖ˜Aî•ñ‚Í glGet (GL_READ_BUFFER) ‚Åæ“¾‚Å‚«‚éB
 %index
 glReadPixels
 glReadPixels ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚©‚çƒsƒNƒZƒ‹ƒuƒƒbƒN‚ğ“Ç‚İ‚ŞB
-%group
-Win32 opengl32
 %prm
 x, y, width, height, format, type, pixels
 x : [int] ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚©‚ç“Ç‚Ü‚ê‚éÅ‰‚ÌƒsƒNƒZƒ‹‚ÌƒEƒBƒ“ƒhƒE x À•WBy À•W‚Æ‡‚í‚¹‚Ä‹éŒ`ƒsƒNƒZƒ‹ƒuƒƒbƒN‚Ì¶‰º‹÷‚ÌˆÊ’u‚ğw’è‚·‚éB
@@ -5605,8 +5151,6 @@ glReadPixels ŠÖ”‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚©‚çƒsƒNƒZƒ‹ƒuƒƒbƒN‚ğ“Ç‚İ‚ŞB
 %index
 glRectd
 glRectd ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 x1, y1, x2, y2
 x1 : [double] ‹éŒ`‚Ì’¸“_‚Ì x À•WB
@@ -5630,8 +5174,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRectdv
 glRectdv ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 v1, v2
 v1 : [var] ‹éŒ`‚Ìˆê•û‚Ì’¸“_‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5653,8 +5195,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRectf
 glRectf ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 x1, y1, x2, y2
 x1 : [float] ‹éŒ`‚Ì’¸“_‚Ì x À•WB
@@ -5678,8 +5218,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRectfv
 glRectfv ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 v1, v2
 v1 : [var] ‹éŒ`‚Ìˆê•û‚Ì’¸“_‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5701,8 +5239,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRecti
 glRecti ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 x1, y1, x2, y2
 x1 : [int] ‹éŒ`‚Ì’¸“_‚Ì x À•WB
@@ -5726,8 +5262,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRectiv
 glRectiv ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 v1, v2
 v1 : [var] ‹éŒ`‚Ìˆê•û‚Ì’¸“_‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5749,8 +5283,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRects
 glRects ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 x1, y1, x2, y2
 x1 : [int] ‹éŒ`‚Ì’¸“_‚Ì x À•WB
@@ -5774,8 +5306,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRectsv
 glRectsv ŠÖ”‚Í‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 opengl32
 %prm
 v1, v2
 v1 : [var] ‹éŒ`‚Ìˆê•û‚Ì’¸“_‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5797,8 +5327,6 @@ glVertex2(x1,y2); glEnd();B‘æ 2 ’¸“_‚ª‘æ 1 ’¸“_‚Ì‰Eã‚É‚ ‚ê‚Î‹éŒ`‚Í”½Œv‰ñ‚è‚Å
 %index
 glRenderMode
 glRenderMode ŠÖ”‚Íƒ‰ƒXƒ^‰»ƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] ƒ‰ƒXƒ^‰»ƒ‚[ƒhBŸ‚Ì 3 ‚Â‚Ì’l‚ğó‚¯•t‚¯‚éBŠù’è’l‚Í GL_RENDERBGL_RENDER (ƒŒƒ“ƒ_[ƒ‚[ƒhBƒvƒŠƒ~ƒeƒBƒu‚ğƒ‰ƒXƒ^‰»‚µƒsƒNƒZƒ‹ƒtƒ‰ƒOƒƒ“ƒg‚ğ¶¬AƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚É‘‚«‚Ş’Êíƒ‚[ƒhŒ“Šù’è)AGL_SELECT (ƒZƒŒƒNƒVƒ‡ƒ“ƒ‚[ƒhBƒsƒNƒZƒ‹ƒtƒ‰ƒOƒƒ“ƒg‚Í¶¬‚³‚ê‚¸A•`‰æ‚³‚ê‚½‚Å‚ ‚ë‚¤ƒvƒŠƒ~ƒeƒBƒu‚Ì–¼‘OƒŒƒR[ƒh‚ªƒZƒŒƒNƒgƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éB–‘O‚É glSelectBuffer ‚Åì¬‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚é)AGL_FEEDBACK (ƒtƒB[ƒhƒoƒbƒNƒ‚[ƒhBƒsƒNƒZƒ‹ƒtƒ‰ƒOƒƒ“ƒg‚Í¶¬‚³‚ê‚¸A•`‰æ‚³‚ê‚½‚Å‚ ‚ë‚¤’¸“_‚ÌÀ•W‚Æ‘®«‚ªƒtƒB[ƒhƒoƒbƒNƒoƒbƒtƒ@‚É•Ô‚³‚ê‚éB–‘O‚É glFeedbackBuffer ‚Åì¬‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚é)B
@@ -5817,8 +5345,6 @@ glRenderMode ‚Í 1 ˆø” mode ‚ğæ‚èAã‹L 3 ‚Â‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğæ‚è“¾‚éBg
 %index
 glRotated
 glRotated ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É‰ñ“]s—ñ‚ğæ‚¶‚éB
-%group
-Win32 opengl32
 %prm
 angle, x, y, z
 angle : [double] ‰ñ“]Šp“x (“x)B
@@ -5844,8 +5370,6 @@ GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
 %index
 glRotatef
 glRotatef ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É‰ñ“]s—ñ‚ğæ‚¶‚éB
-%group
-Win32 opengl32
 %prm
 angle, x, y, z
 angle : [float] ‰ñ“]Šp“x (“x)B
@@ -5871,8 +5395,6 @@ GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX)
 %index
 glScaled
 glScaled / glScalef ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚Éˆê”ÊƒXƒP[ƒŠƒ“ƒOs—ñ‚ğæ‚¶‚éB| glScaled ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [double] x ²‚É‰ˆ‚Á‚½ƒXƒP[ƒ‹ŒW”B
@@ -5898,8 +5420,6 @@ GL_TEXTURE_MATRIX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glScalef
 glScaled / glScalef ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚Éˆê”ÊƒXƒP[ƒŠƒ“ƒOs—ñ‚ğæ‚¶‚éB| glScalef ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [float] x ²‚É‰ˆ‚Á‚½ƒXƒP[ƒ‹ŒW”B
@@ -5925,8 +5445,6 @@ GL_TEXTURE_MATRIX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glScissor
 glScissor ŠÖ”‚ÍƒVƒU[ƒ{ƒbƒNƒX‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 x, y, width, height
 x : [int] ƒVƒU[ƒ{ƒbƒNƒX¶‰º‹÷‚Ì x (c²) À•WB
@@ -5952,8 +5470,6 @@ GL_SCISSOR_TEST
 %index
 glSelectBuffer
 glSelectBuffer ŠÖ”‚ÍƒZƒŒƒNƒVƒ‡ƒ“ƒ‚[ƒh’l—p‚Ìƒoƒbƒtƒ@‚ğŠm—§‚·‚éB
-%group
-Win32 opengl32
 %prm
 size, buffer
 size : [int] buffer ‚ÌƒTƒCƒYB
@@ -5986,8 +5502,6 @@ glRasterPos ŒÄ‚Ño‚µ‚Íƒqƒbƒg‚ğ”­¶‚³‚¹“¾‚éBŠÖ˜Aî•ñ‚Í glGet (GL_NAME_STACK_DEPT
 %index
 glShadeModel
 glShadeModel ŠÖ”‚Íƒtƒ‰ƒbƒg‚Ü‚½‚ÍƒXƒ€[ƒYƒVƒF[ƒfƒBƒ“ƒO‚ğ‘I‘ğ‚·‚éB
-%group
-Win32 opengl32
 %prm
 mode
 mode : [int] ƒVƒF[ƒfƒBƒ“ƒOè–@‚ğ•\‚·ƒVƒ“ƒ{ƒ‹’lBGL_FLAT ‚Æ GL_SMOOTH ‚ğó‚¯•t‚¯‚éBŠù’è’l‚Í GL_SMOOTHB
@@ -6011,8 +5525,6 @@ glShadeModel ‚É GL_FLAT/GL_SMOOTH ‚ğw’è‚·‚éBŠÖ˜Aî•ñ‚Í glGet (GL_SHADE_MODEL)
 %index
 glStencilFunc
 glStencilFunc ŠÖ”‚ÍƒXƒeƒ“ƒVƒ‹ƒeƒXƒg—p‚ÌŠÖ”‚ÆQÆ’l‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 func, ref, mask
 func : [int] ƒeƒXƒgŠÖ”BŸ‚Ì 8 ƒg[ƒNƒ“‚ª—LŒø: GL_NEVER (í‚É¸”s)AGL_LESS / GL_LEQUAL / GL_GREATER / GL_GEQUAL / GL_EQUAL / GL_NOTEQUAL ((ref & mask) ‚Æ (stencil & mask) ‚Ì”äŠr‚ªğŒ‚ğ–‚½‚·‚Æ‚«‡Ši)AGL_ALWAYS (í‚É‡Ši)B
@@ -6040,8 +5552,6 @@ glGet (GL_STENCIL_FUNC / VALUE_MASK / REF / BITS) ‚Æ glIsEnabled
 %index
 glStencilMask
 glStencilMask ŠÖ”‚ÍƒXƒeƒ“ƒVƒ‹ƒvƒŒ[ƒ““à‚ÌŒÂX‚Ìƒrƒbƒg‘‚«‚İ‚ğ§Œä‚·‚éB
-%group
-Win32 opengl32
 %prm
 mask
 mask : [int] ƒXƒeƒ“ƒVƒ‹ƒvƒŒ[ƒ““à‚ÌŒÂX‚Ìƒrƒbƒg‘‚«‚İ‚ğ—LŒø‰»/–³Œø‰»‚·‚éƒrƒbƒgƒ}ƒXƒNB‰Šú’l‚Í‚·‚×‚Ä 1B
@@ -6061,8 +5571,6 @@ GL_STENCIL_BITS) ‚Åæ“¾‚Å‚«‚éB
 %index
 glStencilOp
 glStencilOp ŠÖ”‚ÍƒXƒeƒ“ƒVƒ‹ƒeƒXƒg“®ì‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 fail, zfail, zpass
 fail : [int] ƒXƒeƒ“ƒVƒ‹ƒeƒXƒg¸”s‚Ì“®ìB6 ‚Â‚ÌƒVƒ“ƒ{ƒ‹’è”‚ğó‚¯•t‚¯‚éBGL_KEEP (Œ»İ’l‚ğ•Û‚Â)AGL_ZERO (ƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@’l‚ğ 0 ‚É‚·‚é)AGL_REPLACE (glStencilFunc ‚Åw’è‚µ‚½ ref ‚Éİ’è‚·‚é)AGL_INCR (Œ»İ’l‚ğƒCƒ“ƒNƒŠƒƒ“ƒgB•\Œ»‰Â”\Å‘å’l‚ÉƒNƒ‰ƒ“ƒv)AGL_DECR (ƒfƒNƒŠƒƒ“ƒgB0 ‚ÉƒNƒ‰ƒ“ƒv)AGL_INVERT (ƒrƒbƒg”½“])B
@@ -6093,8 +5601,6 @@ PASS_DEPTH_FAIL / BITS) ‚Æ glIsEnabled (GL_STENCIL_TEST) ‚Åæ“¾‚Å‚«‚éB
 %index
 glTexCoord1d
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s
 s : [double] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6115,8 +5621,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord1dv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ƒeƒNƒXƒ`ƒƒÀ•W”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6137,8 +5641,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord1f
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s
 s : [float] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6159,8 +5661,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord1fv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ƒeƒNƒXƒ`ƒƒÀ•W”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6181,8 +5681,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord1i
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6203,8 +5701,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord1iv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ƒeƒNƒXƒ`ƒƒÀ•W”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6225,8 +5721,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord1s
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6247,8 +5741,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord1sv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord1sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ƒeƒNƒXƒ`ƒƒÀ•W”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6269,8 +5761,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord2d
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord2d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t
 s : [double] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6292,8 +5782,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord2dv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord2dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6314,8 +5802,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord2f
 (no summary)
-%group
-Win32 opengl32
 %prm
 s, t
 s : [float] 
@@ -6327,8 +5813,6 @@ t : [float]
 %index
 glTexCoord2fv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord2fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6349,8 +5833,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord2i
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord2i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6372,8 +5854,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord2iv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord2iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6394,8 +5874,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord2s
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord2s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6417,8 +5895,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord2sv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord2sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6439,8 +5915,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord3d
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord3d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t, r
 s : [double] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6463,8 +5937,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord3dv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord3dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6485,8 +5957,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord3f
 (no summary)
-%group
-Win32 opengl32
 %prm
 s, t, r
 s : [float] 
@@ -6499,8 +5969,6 @@ r : [float]
 %index
 glTexCoord3fv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord3fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6521,8 +5989,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord3i
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord3i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t, r
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6545,8 +6011,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord3iv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord3iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6567,8 +6031,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord3s
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord3s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t, r
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6591,8 +6053,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord3sv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord3sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6613,8 +6073,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4d
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t, r, q
 s : [double] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6638,8 +6096,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4dv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r, q ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6660,8 +6116,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4f
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t, r, q
 s : [float] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6685,8 +6139,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4fv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r, q ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6707,8 +6159,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4i
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t, r, q
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6732,8 +6182,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4iv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r, q ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6754,8 +6202,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4s
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 s, t, r, q
 s : [int] s ƒeƒNƒXƒ`ƒƒÀ•WB
@@ -6779,8 +6225,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoord4sv
 Œ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è‚·‚éB| glTexCoord4sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] s, t, r, q ƒeƒNƒXƒ`ƒƒÀ•W‚ğw’è‚·‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6801,8 +6245,6 @@ glTexCoord ‚Íƒ|ƒŠƒSƒ“’¸“_‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚Ìˆê•”‚Å‚ ‚éŒ»İ‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚
 %index
 glTexCoordPointer
 glTexCoordPointer ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒÀ•W”z—ñ‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 size, type, stride, pointer
 size : [int] ”z—ñ—v‘f‚ ‚½‚è‚ÌÀ•W”Bsize ‚Í 1A2A3A4 ‚Ì‚¢‚¸‚ê‚©B
@@ -6833,8 +6275,6 @@ glPushAttrib / glPopAttrib ‚Å‚Í•Û‘¶/•œŒ³‚³‚ê‚È‚¢BglBegin / glEnd
 %index
 glTexEnvf
 glTexEnvf ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒŠÂ‹«ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, pname, param2
 target : [int] ƒeƒNƒXƒ`ƒƒŠÂ‹«BGL_TEXTURE_ENV ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6860,8 +6300,6 @@ GL_MODULATEAGL_DECALAGL_BLEND ‚Ì 3
 %index
 glTexEnvfv
 glTexEnvfv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒŠÂ‹«ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ƒeƒNƒXƒ`ƒƒŠÂ‹«BGL_TEXTURE_ENV ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6889,8 +6327,6 @@ GL_MODULATEAGL_DECALAGL_BLEND ‚Ì 3
 %index
 glTexEnvi
 glTexEnvi ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒŠÂ‹«ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, pname, param2
 target : [int] ƒeƒNƒXƒ`ƒƒŠÂ‹«BGL_TEXTURE_ENV ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6916,8 +6352,6 @@ GL_MODULATEAGL_DECALAGL_BLEND ‚Ì 3
 %index
 glTexEnviv
 glTexEnviv ŠÖ”‚ÍƒeƒNƒXƒ`ƒƒŠÂ‹«ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ƒeƒNƒXƒ`ƒƒŠÂ‹«BGL_TEXTURE_ENV ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6945,8 +6379,6 @@ GL_MODULATEAGL_DECALAGL_BLEND ‚Ì 3
 %index
 glTexGend
 ƒeƒNƒXƒ`ƒƒÀ•W‚Ì¶¬‚ğ§Œä‚·‚éB| glTexGend ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, param2
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6980,8 +6412,6 @@ GL_EYE_LINEAR ‚Å–³ŒøAs •½–Ê•û’ö®‚Í (1,0,0,0)At ‚Í (0,1,0,0)Ar/q ‚Í
 %index
 glTexGendv
 ƒeƒNƒXƒ`ƒƒÀ•W‚Ì¶¬‚ğ§Œä‚·‚éB| glTexGendv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, params
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7015,8 +6445,6 @@ GL_EYE_LINEAR ‚Å–³ŒøAs •½–Ê•û’ö®‚Í (1,0,0,0)At ‚Í (0,1,0,0)Ar/q ‚Í
 %index
 glTexGenf
 ƒeƒNƒXƒ`ƒƒÀ•W‚Ì¶¬‚ğ§Œä‚·‚éB| glTexGenf ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, param2
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7050,8 +6478,6 @@ GL_EYE_LINEAR ‚Å–³ŒøAs •½–Ê•û’ö®‚Í (1,0,0,0)At ‚Í (0,1,0,0)Ar/q ‚Í
 %index
 glTexGenfv
 ƒeƒNƒXƒ`ƒƒÀ•W‚Ì¶¬‚ğ§Œä‚·‚éB| glTexGenfv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, params
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7085,8 +6511,6 @@ GL_EYE_LINEAR ‚Å–³ŒøAs •½–Ê•û’ö®‚Í (1,0,0,0)At ‚Í (0,1,0,0)Ar/q ‚Í
 %index
 glTexGeni
 ƒeƒNƒXƒ`ƒƒÀ•W‚Ì¶¬‚ğ§Œä‚·‚éB| glTexGeni ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, param2
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7120,8 +6544,6 @@ GL_EYE_LINEAR ‚Å–³ŒøAs •½–Ê•û’ö®‚Í (1,0,0,0)At ‚Í (0,1,0,0)Ar/q ‚Í
 %index
 glTexGeniv
 ƒeƒNƒXƒ`ƒƒÀ•W‚Ì¶¬‚ğ§Œä‚·‚éB| glTexGeniv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 coord, pname, params
 coord : [int] ƒeƒNƒXƒ`ƒƒÀ•WBGL_SAGL_TAGL_RAGL_Q ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7155,8 +6577,6 @@ GL_EYE_LINEAR ‚Å–³ŒøAs •½–Ê•û’ö®‚Í (1,0,0,0)At ‚Í (0,1,0,0)Ar/q ‚Í
 %index
 glTexImage1D
 glTexImage1D ŠÖ”‚Í 1 ŸŒ³ƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, level, internalformat, width, border, format, type, pixels
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_1D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7193,8 +6613,6 @@ glGetTexImageAglIsEnabled (GL_TEXTURE_1D) ‚Åæ“¾‚Å‚«‚éB
 %index
 glTexImage2D
 glTexImage2D ŠÖ”‚Í 2 ŸŒ³ƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ğw’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 target, level, internalformat, width, height, border, format, type, pixels
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7232,8 +6650,6 @@ glDrawPixels ‚Æ“¯‚¶‚­‰e‹¿‚·‚éBheight ‚© width ‚ª 0 ‚ÌƒeƒNƒXƒ`ƒƒ‰æ‘œ‚Íƒkƒ‹ƒeƒNƒX
 %index
 glTexParameterf
 ƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB| glTexParameterf ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, param2
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_1D ‚Ü‚½‚Í GL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7262,8 +6678,6 @@ GL_NEAREST_MIPMAP_LINEARBƒeƒNƒXƒ`ƒƒƒŠƒ“ƒO‚ª—LŒø‚Å MIN_FILTER
 %index
 glTexParameterfv
 ƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB| glTexParameterfv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_1D ‚Ü‚½‚Í GL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7293,8 +6707,6 @@ glGetTexParameter ‚Åæ“¾‚Å‚«‚éB
 %index
 glTexParameteri
 ƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB| glTexParameteri ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, param2
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_1D ‚Ü‚½‚Í GL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7324,8 +6736,6 @@ glGetTexParameter ‚Åæ“¾‚Å‚«‚éB
 %index
 glTexParameteriv
 ƒeƒNƒXƒ`ƒƒƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB| glTexParameteriv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 target, pname, params
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_1D ‚Ü‚½‚Í GL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7355,8 +6765,6 @@ glGetTexParameter ‚Åæ“¾‚Å‚«‚éB
 %index
 glTexSubImage1D
 glTexSubImage1D ŠÖ”‚ÍŠù‘¶‚Ì 1 ŸŒ³ƒeƒNƒXƒ`ƒƒ‰æ‘œ‚Ìˆê•”‚ğw’è‚·‚éBglTexSubImage1D ‚ÅV‚µ‚¢ƒeƒNƒXƒ`ƒƒ‚ğ’è‹`‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
-%group
-Win32 opengl32
 %prm
 target, level, xoffset, width, format, type, pixels
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_1D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7389,8 +6797,6 @@ glDrawPixels ‚Æ“¯‚¶ƒf[ƒ^Œ`®‚Å•\Œ»‚Å‚«‚é‚ªAGL_STENCIL_INDEX ‚Æ GL_DEPTH_COMPON
 %index
 glTexSubImage2D
 glTexSubImage2D ŠÖ”‚ÍŠù‘¶‚ÌƒeƒNƒXƒ`ƒƒ‰æ‘œ‚Ìˆê•”‚ğw’è‚·‚éBglTexSubImage2D ‚ÅV‚µ‚¢ƒeƒNƒXƒ`ƒƒ‚ğ’è‹`‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
-%group
-Win32 opengl32
 %prm
 target, level, xoffset, yoffset, width, height, format, type, pixels
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7424,8 +6830,6 @@ GL_STENCIL_INDEX ‚Æ GL_DEPTH_COMPONENT ˆÈŠO‚Í glDrawPixels
 %index
 glTranslated
 glTranslated ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É•½sˆÚ“®s—ñ‚ğæ‚¶‚éB
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [double] •½sˆÚ“®ƒxƒNƒgƒ‹‚Ì x À•WB
@@ -7450,8 +6854,6 @@ GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glTranslatef
 glTranslatef ŠÖ”‚ÍŒ»İ‚Ìs—ñ‚É•½sˆÚ“®s—ñ‚ğæ‚¶‚éB
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [float] •½sˆÚ“®ƒxƒNƒgƒ‹‚Ì x À•WB
@@ -7476,8 +6878,6 @@ GL_PROJECTION_MATRIX / GL_TEXTURE_MATRIX) ‚Åæ“¾‚Å‚«‚éB
 %index
 glVertex2d
 ’¸“_‚ğw’è‚·‚éB| glVertex2d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [double] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7497,8 +6897,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex2dv
 ’¸“_‚ğw’è‚·‚éB| glVertex2dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7512,8 +6910,6 @@ v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex2f
 ’¸“_‚ğw’è‚·‚éB| glVertex2f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [float] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7533,8 +6929,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex2fv
 ’¸“_‚ğw’è‚·‚éB| glVertex2fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7548,8 +6942,6 @@ v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex2i
 ’¸“_‚ğw’è‚·‚éB| glVertex2i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [int] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7569,8 +6961,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex2iv
 ’¸“_‚ğw’è‚·‚éB| glVertex2iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7584,8 +6974,6 @@ v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex2s
 ’¸“_‚ğw’è‚·‚éB| glVertex2s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y
 x : [int] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7605,8 +6993,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex2sv
 ’¸“_‚ğw’è‚·‚éB| glVertex2sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7620,8 +7006,6 @@ v : [var] ’¸“_‚Ì x, y À•W‚Å‚ ‚é 2 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex3d
 ’¸“_‚ğw’è‚·‚éB| glVertex3d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [double] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7642,8 +7026,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex3dv
 ’¸“_‚ğw’è‚·‚éB| glVertex3dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7657,8 +7039,6 @@ v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex3f
 ’¸“_‚ğw’è‚·‚éB| glVertex3f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [float] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7679,8 +7059,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex3fv
 ’¸“_‚ğw’è‚·‚éB| glVertex3fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7694,8 +7072,6 @@ v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex3i
 ’¸“_‚ğw’è‚·‚éB| glVertex3i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [int] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7716,8 +7092,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex3iv
 ’¸“_‚ğw’è‚·‚éB| glVertex3iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7731,8 +7105,6 @@ v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex3s
 ’¸“_‚ğw’è‚·‚éB| glVertex3s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z
 x : [int] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7753,8 +7125,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex3sv
 ’¸“_‚ğw’è‚·‚éB| glVertex3sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7768,8 +7138,6 @@ v : [var] ’¸“_‚Ì x, y, z À•W‚Å‚ ‚é 3 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex4d
 ’¸“_‚ğw’è‚·‚éB| glVertex4d ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [double] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7791,8 +7159,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex4dv
 ’¸“_‚ğw’è‚·‚éB| glVertex4dv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7806,8 +7172,6 @@ v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex4f
 ’¸“_‚ğw’è‚·‚éB| glVertex4f ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [float] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7829,8 +7193,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex4fv
 ’¸“_‚ğw’è‚·‚éB| glVertex4fv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7844,8 +7206,6 @@ v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex4i
 ’¸“_‚ğw’è‚·‚éB| glVertex4i ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [int] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7867,8 +7227,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex4iv
 ’¸“_‚ğw’è‚·‚éB| glVertex4iv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7882,8 +7240,6 @@ v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertex4s
 ’¸“_‚ğw’è‚·‚éB| glVertex4s ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 x, y, z, w
 x : [int] ’¸“_‚Ì x À•W‚ğw’è‚·‚éB
@@ -7905,8 +7261,6 @@ z w’è‚Í w=1.0 ‚ªŠù’èBglBegin / glEnd ƒyƒAŠO‚Å glVertex ‚ğŒÄ‚Ô‚Æ“®ì‚Í–¢’è‹`
 %index
 glVertex4sv
 ’¸“_‚ğw’è‚·‚éB| glVertex4sv ŠÖ” (Gl.h)
-%group
-Win32 opengl32
 %prm
 v
 v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7920,8 +7274,6 @@ v : [var] ’¸“_‚Ì x, y, z, w À•W‚Å‚ ‚é 4 —v‘f”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 glVertexPointer
 glVertexPointer ŠÖ”‚Í’¸“_ƒf[ƒ^”z—ñ‚ğ’è‹`‚·‚éB
-%group
-Win32 opengl32
 %prm
 size, type, stride, pointer
 size : [int] ’¸“_‚ ‚½‚è‚ÌÀ•W”Bsize ‚Í 2A3A4 ‚Ì‚¢‚¸‚ê‚©B
@@ -7950,8 +7302,6 @@ glPushAttrib / glPopAttrib ‚Å‚Í•Û‘¶/•œŒ³‚³‚ê‚È‚¢BglBegin / glEnd
 %index
 glViewport
 glViewport ŠÖ”‚Íƒrƒ…[ƒ|[ƒg‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 x, y, width, height
 x : [int] ƒrƒ…[ƒ|[ƒg‹éŒ`‚Ì¶‰º‹÷ (ƒsƒNƒZƒ‹’PˆÊ)BŠù’è’l‚Í (0,0)B
@@ -7974,8 +7324,6 @@ GL_MAX_VIEWPORT_DIMS) ‚Åæ“¾‚Å‚«‚éB
 %index
 wglDeleteContext
 wglDeleteContext ŠÖ”‚Íw’è‚³‚ê‚½ OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ğíœ‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0
 param0 : [intptr] 
@@ -7996,8 +7344,6 @@ DeleteDC ‚ÅŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğíœ‚·‚é•K—v‚ª‚ ‚éB
 %index
 wglCopyContext
 wglCopyContext ŠÖ”‚Í‚ ‚é OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚©‚ç•Ê‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚Ö‘I‘ğ‚µ‚½ƒŒƒ“ƒ_ƒŠƒ“ƒOó‘Ô‚ÌƒOƒ‹[ƒv‚ğƒRƒs[‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1, param2
 param0 : [intptr] 
@@ -8022,8 +7368,6 @@ wglCopyContext ‚ğg‚¤‚Æ 2 ‚Â‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOó‘Ô‚ğ“¯Šú‚Å
 %index
 wglCreateContext
 wglCreateContext ŠÖ”‚Í hdc ‚ªQÆ‚·‚éƒfƒoƒCƒX‚Ö‚Ì•`‰æ‚É“K‚µ‚½V‚µ‚¢ OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éBƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ÍƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Æ“¯‚¶ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ‚ÂB
-%group
-Win32 opengl32
 %prm
 param0
 param0 : [intptr] 
@@ -8048,8 +7392,6 @@ SetPixelFormat ŠÖ”‚ğQÆBOpenGL
 %index
 wglCreateLayerContext
 wglCreateLayerContext ŠÖ”‚ÍƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgã‚Ìw’è‚µ‚½ƒŒƒCƒ„[ƒvƒŒ[ƒ“‚Ö•`‰æ‚·‚é‚½‚ß‚ÌV‚µ‚¢ OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8077,8 +7419,6 @@ OpenGL ŒÄ‚Ño‚µ‚ğs‚¤BƒXƒŒƒbƒh‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ğg‚¢I‚í‚Á‚½‚ç wglDel
 %index
 wglDescribeLayerPlane
 wglDescribeLayerPlane ŠÖ”‚Íw’è‚µ‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒŒƒCƒ„[ƒvƒŒ[ƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1, param2, param3, param4
 param0 : [intptr] 
@@ -8101,8 +7441,6 @@ wglDescribeLayerPlane ŠÖ”‚Íw’è‚µ‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒŒƒCƒ„[ƒvƒŒ[ƒ“‚ÉŠÖ‚·
 %index
 wglGetCurrentContext
 wglGetCurrentContext ŠÖ”‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒJƒŒƒ“ƒg OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -8121,8 +7459,6 @@ wglGetCurrentContext ŠÖ”‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒJƒŒƒ“ƒg OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒ
 %index
 wglGetCurrentDC
 wglGetCurrentDC ŠÖ”‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒJƒŒƒ“ƒg OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 opengl32
 %prm
 
 %inst
@@ -8142,8 +7478,6 @@ wglGetCurrentDC ŠÖ”‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒJƒŒƒ“ƒg OpenGL
 %index
 wglGetLayerPaletteEntries
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìw’è‚µ‚½ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒŒƒCƒ„[ƒvƒŒ[ƒ“‚©‚çƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1, param2, param3, param4
 param0 : [intptr] 
@@ -8168,8 +7502,6 @@ param4 : [var]
 %index
 wglGetProcAddress
 wglGetProcAddress ŠÖ”‚ÍƒJƒŒƒ“ƒg OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚Åg—p‚·‚é OpenGL Šg’£ŠÖ”‚ÌƒAƒhƒŒƒX‚ğ•Ô‚·B
-%group
-Win32 opengl32
 %prm
 param0
 param0 : [str] 
@@ -8193,8 +7525,6 @@ wglGetProcAddress
 %index
 wglMakeCurrent
 wglMakeCurrent ŠÖ”‚Íw’è‚³‚ê‚½ OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ğŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒJƒŒƒ“ƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚É‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8223,8 +7553,6 @@ wglMakeCurrent ‚ÍƒXƒŒƒbƒh‚ÌƒJƒŒƒ“ƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ğ”ñƒJƒŒƒ“ƒg‚É‚µ‚Ä‚©‚
 %index
 wglRealizeLayerPalette
 wglRealizeLayerPalette ŠÖ”‚Íw’è‚µ‚½ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒŒƒCƒ„[ƒvƒŒ[ƒ“‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğ•¨—ƒpƒŒƒbƒg‚Öƒ}ƒbƒv‚·‚é‚©ARGBA ƒŒƒCƒ„[ƒvƒŒ[ƒ“‚ÌƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1, param2
 param0 : [intptr] 
@@ -8254,8 +7582,6 @@ RGBA ‚Å‚ ‚Á‚Ä‚àÄ“x wglRealizeLayerPalette
 %index
 wglSetLayerPaletteEntries
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìw’è‚µ‚½ƒJƒ‰[ƒCƒ“ƒfƒbƒNƒXƒŒƒCƒ„[ƒvƒŒ[ƒ“‚ÉƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğİ’è‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1, param2, param3, param4
 param0 : [intptr] 
@@ -8281,8 +7607,6 @@ param4 : [var]
 %index
 wglShareLists
 wglShareLists ŠÖ”‚Í•¡”‚Ì OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚ª’Pˆê‚Ì•\¦ƒŠƒXƒg‹óŠÔ‚ğ‹¤—L‚·‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8305,8 +7629,6 @@ glGetString ‚Åæ“¾‚Å‚«‚éB
 %index
 wglSwapLayerBuffers
 wglSwapLayerBuffers ŠÖ”‚Íw’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ªQÆ‚·‚éƒEƒBƒ“ƒhƒE‚ÌƒI[ƒo[ƒŒƒCAƒAƒ“ƒ_[ƒŒƒCAƒƒCƒ“ƒvƒŒ[ƒ“‚Ìƒtƒƒ“ƒg/ƒoƒbƒNƒoƒbƒtƒ@‚ğ“ü‚ê‘Ö‚¦‚éB
-%group
-Win32 opengl32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8332,8 +7654,6 @@ LAYERPLANEDESCRIPTORAƒƒCƒ“ƒvƒŒ[ƒ“‚Ì PIXELFORMATDESCRIPTOR
 %index
 wglSwapMultipleBuffers
 (no summary)
-%group
-Win32 opengl32
 %prm
 param0, param1
 param0 : [int] 
@@ -8345,8 +7665,6 @@ param1 : [var]
 %index
 wglUseFontBitmapsW
 wglUseFontBitmaps ŠÖ”‚ÍƒJƒŒƒ“ƒg OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚Åg—p‚·‚éƒrƒbƒgƒ}ƒbƒv•\¦ƒŠƒXƒgŒQ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 opengl32
 %prm
 param0, param1, param2, param3
 param0 : [intptr] 
@@ -8377,8 +7695,6 @@ wglUseFontBitmaps ‚ÍƒJƒŒƒ“ƒg OpenGL ƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚É count
 %index
 wglUseFontOutlinesW
 wglUseFontOutlines ŠÖ”‚ÍAƒJƒŒƒ“ƒgƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg‚Åg—p‚·‚éAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÅŒ»İ‘I‘ğ’†‚ÌƒAƒEƒgƒ‰ƒCƒ“ƒtƒHƒ“ƒg‚ÌŠeƒOƒŠƒt‚É‘Î‰‚·‚é•\¦ƒŠƒXƒgŒQ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 opengl32
 %prm
 param0, param1, param2, param3, param4, param5, param6, param7
 param0 : [intptr] 

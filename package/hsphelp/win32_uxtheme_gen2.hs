@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+uxtheme.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì uxtheme.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 BeginBufferedAnimation
 ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‘€ì‚ğŠJn‚·‚éBƒAƒjƒ[ƒVƒ‡ƒ“‚ÍAw’è‚³‚ê‚½ŠúŠÔ‚É‚í‚½‚é 2 ‚Â‚Ìƒoƒbƒtƒ@“à—e‚ÌƒNƒƒXƒtƒF[ƒh‚©‚ç\¬‚³‚ê‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, hdcTarget, prcTarget, dwFormat, pPaintParams, pAnimationParams, phdcFrom, phdcTo
 hwnd : [intptr] Œ^: HWND ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -39,8 +59,6 @@ TRUE ‚ğ•Ô‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‚±‚êˆÈã•`‰æ‚·‚é•K—v‚ª‚È‚¢‚±‚Æ‚ğ¦‚·BƒAƒjƒ[ƒVƒ
 %index
 BeginBufferedPaint
 ƒoƒbƒtƒ@•t‚«•`‰æ‘€ì‚ğŠJn‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hdcTarget, prcTarget, dwFormat, pPaintParams, phdc
 hdcTarget : [intptr] Œ^: HDC ƒoƒbƒtƒ@‚ğ•`‰æ‚·‚éƒ^[ƒQƒbƒg DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -63,8 +81,6 @@ BufferedPaintInit ‚ğŒÄ‚Ño‚µAƒXƒŒƒbƒhI—¹‘O‚É BufferedPaintUnInit
 %index
 BeginPanningFeedback
 ƒpƒ“ƒWƒFƒXƒ`ƒƒ[‚Ì‰e‹¿‚ğó‚¯‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚É‚Â‚¢‚ÄƒtƒB[ƒhƒoƒbƒN‚ğ‘—‚é‚æ‚¤ƒVƒXƒeƒ€‚É’Ê’m‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ƒtƒB[ƒhƒoƒbƒN‚ğó‚¯æ‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -82,8 +98,6 @@ hwnd : [intptr] Œ^: HWND ƒtƒB[ƒhƒoƒbƒN‚ğó‚¯æ‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
 %index
 BufferedPaintClear
 ƒoƒbƒtƒ@“à‚Ìw’è‚³‚ê‚½‹éŒ`‚ğ ARGB = {0,0,0,0} ‚ÉƒNƒŠƒA‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hBufferedPaint, prc
 hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -101,8 +115,6 @@ prc : [var] Œ^: const RECT* ƒNƒŠƒA‚·‚é‹éŒ`‚ğw’è‚·‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 BufferedPaintInit
 Œ»İ‚ÌƒXƒŒƒbƒh‚Ìƒoƒbƒtƒ@•t‚«•`‰æ‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 uxtheme
 %prm
 
 %inst
@@ -125,8 +137,6 @@ WM_CREATE “à‚ÅŒÄ‚Ño‚³‚ê‚éBBufferedPaintUnInit ‚ÍƒEƒBƒ“ƒhƒE”jŠüŒãA‚Ü‚½‚Í WM_NC
 %index
 BufferedPaintRenderAnimation
 ƒoƒbƒtƒ@•t‚«•`‰æƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŸ‚ÌƒtƒŒ[ƒ€‚ğ•`‰æ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, hdcTarget
 hwnd : [intptr] Œ^: HWND ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -149,8 +159,6 @@ hdcTarget : [intptr] Œ^: HDC ƒoƒbƒtƒ@‚ğƒAƒjƒ[ƒVƒ‡ƒ“•\¦‚·‚éƒ^[ƒQƒbƒg DC ‚Ìƒnƒ
 %index
 BufferedPaintSetAlpha
 w’è‚³‚ê‚½‹éŒ`“à‚ÅƒAƒ‹ƒtƒ@‚ğw’è’l‚Éİ’è‚·‚éBƒAƒ‹ƒtƒ@‚ÍAƒoƒbƒtƒ@‚ğ•`‰ææƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÉƒuƒŒƒ“ƒh‚·‚éÛ‚É“K—p‚³‚ê‚é“§–¾“x‚Ì—Ê‚ğ§Œä‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hBufferedPaint, prc, alpha
 hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -173,8 +181,6 @@ alpha : [int] Œ^: BYTE İ’è‚·‚éƒAƒ‹ƒtƒ@’lBƒAƒ‹ƒtƒ@’l‚Í 0 (Š®‘S‚É“§–¾) ‚©‚ç 255 
 %index
 BufferedPaintStopAllAnimations
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì‚·‚×‚Ä‚Ìƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ’â~‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ‚·‚×‚Ä‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğ’â~‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -188,8 +194,6 @@ hwnd : [intptr] Œ^: HWND ‚·‚×‚Ä‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğ’â~‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %index
 BufferedPaintUnInit
 Œ»İ‚ÌƒXƒŒƒbƒh‚Ìƒoƒbƒtƒ@•t‚«•`‰æ‚ğI—¹‚·‚éBBeginBufferedPaint ‚ÌŒÄ‚Ño‚µ‚ª•s—v‚É‚È‚Á‚½ŒãABufferedPaintInit ‚ÌŒÄ‚Ño‚µ‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚ê‚éB
-%group
-Win32 uxtheme
 %prm
 
 %inst
@@ -203,8 +207,6 @@ Win32 uxtheme
 %index
 CloseThemeData
 ƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenThemeData ‚Å HTHEME ‚ğì¬‚·‚éB
@@ -222,8 +224,6 @@ hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenThemeData
 %index
 DrawThemeBackground
 w’èƒRƒ“ƒgƒ[ƒ‹ƒp[ƒg‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½˜gü‚Æ“h‚è‚Â‚Ô‚µ‚ğ•`‰æ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, pClipRect
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenThemeData ‚Å HTHEME ‚ğì¬‚·‚éB
@@ -246,8 +246,6 @@ pClipRect : [var] Œ^: const RECT* ƒNƒŠƒbƒsƒ“ƒO‹éŒ`‚ğŠÜ‚Ş RECT ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL
 %index
 DrawThemeBackgroundEx
 w’è‚³‚ê‚½ƒRƒ“ƒgƒ[ƒ‹ƒp[ƒg‚É‘Î‚µ‚ÄƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª’è‹`‚·‚é”wŒi‰æ‘œ‚ğ•`‰æ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, pOptions
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -269,8 +267,6 @@ pOptions : [var] Œ^: const DTBGOPTS* ƒNƒŠƒbƒsƒ“ƒOî•ñ‚ğŠÜ‚Ş DTBGOPTS \‘¢‘Ì‚Ö‚Ìƒ
 %index
 DrawThemeEdge
 ‹éŒ`‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½ 1 ‚ÂˆÈã‚ÌƒGƒbƒW‚ğ•`‰æ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pDestRect, uEdge, uFlags, pContentRect
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -291,8 +287,6 @@ pContentRect : [var] Œ^: LPRECT uFlags ‚ª BF_ADJUST ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÉA“à‘¤
 %index
 DrawThemeIcon
 ƒCƒ[ƒWƒŠƒXƒg‚©‚ç‰æ‘œ‚ğAƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª’è‹`‚·‚éƒAƒCƒRƒ“Œø‰Ê•t‚«‚Å•`‰æ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, himl, iImageIndex
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -312,8 +306,6 @@ iImageIndex : [int] Œ^: int •`‰æ‚·‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚é int Œ^‚Ì’lB
 %index
 DrawThemeParentBackground
 •”•ª“I‚É“§–¾‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚³‚ê‚½qƒRƒ“ƒgƒ[ƒ‹‚ª•¢‚Á‚Ä‚¢‚éeƒRƒ“ƒgƒ[ƒ‹‚Ì•”•ª‚ğ•`‰æ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, hdc, prc
 hwnd : [intptr] Œ^: HWND qƒRƒ“ƒgƒ[ƒ‹B
@@ -329,8 +321,6 @@ prc : [var] Œ^: const RECT* •`‰æ‚·‚é—ÌˆæB‹éŒ`‚ÍqƒEƒBƒ“ƒhƒE‚ÌÀ•WŒn‚Åw’è‚·‚éB
 %index
 DrawThemeParentBackgroundEx
 •”•ª“I‚É“§–¾‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚³‚ê‚½qƒRƒ“ƒgƒ[ƒ‹‚ªA‚»‚Ì‘O–Ê‚É•\¦‚³‚ê‚ée‚Ì•”•ª‚ğ•`‰æ‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWM_ERASEBKGND ƒƒbƒZ[ƒW‚É‘±‚¢‚Ä WM_PRINTCLIENT ‚ğ‘—M‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, hdc, dwFlags, prc
 hwnd : [intptr] Œ^: HWND qƒRƒ“ƒgƒ[ƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -349,8 +339,6 @@ prc : [var] Œ^: const RECT* ”CˆÓBqÀ•WŒn‚Å•`‰æ‚·‚é—ÌˆæB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NUL
 %index
 DrawThemeText
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½F‚ÆƒtƒHƒ“ƒg‚ğg‚Á‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pszText, cchText, dwTextFlags, dwTextFlags2, pRect
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenThemeData ‚Å HTHEME ‚ğì¬‚·‚éB
@@ -377,8 +365,6 @@ TMT_FONT ‚ÅŒÄ‚ñ‚ÅŠm”F‚Å‚«‚éB
 %index
 DrawThemeTextEx
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½F‚ÆƒtƒHƒ“ƒg‚ğ—p‚¢‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éBDrawThemeText ‚ğŠg’£‚µA’Ç‰Á‚ÌƒeƒLƒXƒg‘®ƒIƒvƒVƒ‡ƒ“‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pszText, cchText, dwTextFlags, pRect, pOptions
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -406,8 +392,6 @@ TMT_FONT ‚ğw’è‚µ‚Ä GetThemeFont ‚Ü‚½‚Í GetThemePropertyOrigin ‚ğŒÄ‚Ño‚·B
 %index
 EnableThemeDialogTexture
 ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE”wŒi‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, dwFlags
 hwnd : [intptr] Œ^: HWND ‘ÎÛƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹B
@@ -426,8 +410,6 @@ EnableThemeDialogTexture
 %index
 EnableTheming
 Windows Vista ‚©‚ç Windows 7: Œ»İ‚Ìƒ†[ƒU[‚É‘Î‚µAŒ»İ‚¨‚æ‚ÑˆÈ~‚ÌƒZƒbƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éBWindows 8 ˆÈ~: ‚±‚ÌŠÖ”‚Í‰½‚à‚µ‚È‚¢BWindows 8 ˆÈ~‚Å‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Íí‚É—LŒø‚Å‚ ‚éB
-%group
-Win32 uxtheme
 %prm
 fEnable
 fEnable : [int] Œ^: BOOL
@@ -443,8 +425,6 @@ Windows Vista ‚©‚ç Windows 7:
 %index
 EndBufferedAnimation
 ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‘€ì‚ÌÅ‰‚ÌƒtƒŒ[ƒ€‚ğ•`‰æ‚µAƒAƒjƒ[ƒVƒ‡ƒ“ƒ^ƒCƒ}[‚ğŠJn‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hbpAnimation, fUpdateTarget
 hbpAnimation : [int] Œ^: HANIMATIONBUFFER BeginBufferedAnimation ‚ª•Ô‚µ‚½ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -459,8 +439,6 @@ fUpdateTarget : [int] Œ^: BOOL TRUE ‚Ìê‡Aƒ^[ƒQƒbƒg DC ‚ğƒAƒjƒ[ƒVƒ‡ƒ“‚ÅXV
 %index
 EndBufferedPaint
 ƒoƒbƒtƒ@•t‚«•`‰æ‘€ì‚ğŠ®—¹‚µAŠÖ˜A‚·‚éƒoƒbƒtƒ@•t‚«•`‰æƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hBufferedPaint, fUpdateTarget
 hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -475,8 +453,6 @@ fUpdateTarget : [int] Œ^: BOOL ƒoƒbƒtƒ@‚ğƒ^[ƒQƒbƒg DC ‚ÉƒRƒs[‚·‚éê‡‚Í TRUEB
 %index
 EndPanningFeedback
 BeginPanningFeedback ‚Æ UpdatePanningFeedback ‚É‚æ‚Á‚Äİ’è‚Ü‚½‚Íis’†‚Å‚ ‚Á‚½Šù‘¶‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğI—¹‚³‚¹‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, fAnimateBack
 hwnd : [intptr] Œ^: HWND ƒtƒB[ƒhƒoƒbƒN‚ğó‚¯æ‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -495,8 +471,6 @@ BeginPanningFeedback ‚Æ UpdatePanningFeedback
 %index
 GetBufferedPaintBits
 ƒoƒbƒtƒ@‚ªƒfƒoƒCƒX“Æ—§ƒrƒbƒgƒ}ƒbƒv (DIB) ‚Å‚ ‚éê‡‚ÉAƒoƒbƒtƒ@ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hBufferedPaint, ppbBuffer, pcxRow
 hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -516,8 +490,6 @@ NULL ‚ÉApcxRow ‚Í 0 ‚Éİ’è‚³‚ê‚éB
 %index
 GetBufferedPaintDC
 •`‰æƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğæ“¾‚·‚éB‚±‚ê‚Í BeginBufferedPaint ‚ªæ“¾‚·‚é‚Ì‚Æ“¯‚¶’l‚Å‚ ‚éB
-%group
-Win32 uxtheme
 %prm
 hBufferedPaint
 hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -532,8 +504,6 @@ NULL ‚ğ•Ô‚·B
 %index
 GetBufferedPaintTargetDC
 ƒ^[ƒQƒbƒgƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hBufferedPaint
 hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -550,8 +520,6 @@ hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚
 %index
 GetBufferedPaintTargetRect
 BeginBufferedPaint ‚Åw’è‚³‚ê‚½ƒ^[ƒQƒbƒg‹éŒ`‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hBufferedPaint, prc
 hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -569,8 +537,6 @@ BeginBufferedPaint ‚Åw’è‚³‚ê‚½ƒ^[ƒQƒbƒg‹éŒ`‚ğæ“¾‚·‚éB
 %index
 GetCurrentThemeName
 Œ»İ‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì–¼‘O‚ğæ“¾‚µA•K—v‚É‰‚¶‚ÄƒJƒ‰[ƒXƒL[ƒ€–¼‚ÆƒTƒCƒY–¼‚àæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 pszThemeFileName, cchMaxNameChars, pszColorBuff, cchMaxColorChars, pszSizeBuff, cchMaxSizeChars
 pszThemeFileName : [wstr] Œ^: LPWSTR ƒe[ƒ}‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğó‚¯æ‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -589,8 +555,6 @@ cchMaxSizeChars : [int] Œ^: int ƒTƒCƒY–¼‚É‹–‚³‚ê‚éÅ‘å•¶š”‚ğŠÜ‚Ş int Œ^‚Ì’lB
 %index
 GetThemeAnimationProperty
 ƒXƒg[ƒŠ[ƒ{[ƒh ID ‚Æƒ^[ƒQƒbƒg ID ‚ÉŠî‚Ã‚¢‚Äƒe[ƒ}ƒAƒjƒ[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iStoryboardId, iTargetId, eProperty, pvProperty, cbSize, pcbSizeOut
 hTheme : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹B
@@ -610,8 +574,6 @@ pcbSizeOut : [var] •Ô‚³‚ê‚éƒvƒƒpƒeƒB‚ÌƒoƒCƒgƒTƒCƒYB
 %index
 GetThemeAnimationTransform
 ƒXƒg[ƒŠ[ƒ{[ƒh IDAƒ^[ƒQƒbƒg IDA‚¨‚æ‚Ñ•ÏŠ·ƒCƒ“ƒfƒbƒNƒX‚ÉŠî‚Ã‚¢‚ÄƒAƒjƒ[ƒVƒ‡ƒ“•ÏŠ·‘€ì‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iStoryboardId, iTargetId, dwTransformIndex, pTransform, cbSize, pcbSizeOut
 hTheme : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹B
@@ -631,8 +593,6 @@ pcbSizeOut : [var] •ÏŠ·‘€ì\‘¢‘Ì‚ÌƒoƒCƒgƒTƒCƒYB
 %index
 GetThemeAppProperties
 Œ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚É“K—p‚³‚ê‚é‚©‚ğ§Œä‚·‚éƒvƒƒpƒeƒBƒtƒ‰ƒO‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 
 %inst
@@ -650,8 +610,6 @@ Win32 uxtheme
 %index
 GetThemeBackgroundContentRect
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½”wŒi‚ÌƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pBoundingRect, pContentRect
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -674,8 +632,6 @@ pContentRect : [var] Œ^: LPRECT ˜_—À•WŒn‚ÅƒRƒ“ƒeƒ“ƒc—Ìˆæ‚Ì”wŒi‹éŒ`‚ğó‚¯æ‚é R
 %index
 GetThemeBackgroundExtent
 ƒRƒ“ƒeƒ“ƒc—Ìˆæ‚©‚çƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½”wŒi‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğŒvZ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pContentRect, pExtentRect
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -698,8 +654,6 @@ pExtentRect : [var] Œ^: LPRECT ˜_—À•WŒn‚Å”wŒi‹éŒ`‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒ
 %index
 GetThemeBackgroundRegion
 w’è‚³‚ê‚½‹éŒ`‚ÅˆÍ‚Ü‚ê‚½A’Êí‚Ü‚½‚Í•”•ª“I‚É“§–¾‚È”wŒi‚ÌƒŠ[ƒWƒ‡ƒ“‚ğŒvZ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, pRegion
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -721,8 +675,6 @@ pRegion : [intptr] Œ^: HRGN* ŒvZ‚³‚ê‚½ƒŠ[ƒWƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 GetThemeBitmap
 “Á’è‚Ìƒe[ƒ}Aƒp[ƒgAó‘ÔA‚¨‚æ‚ÑƒvƒƒpƒeƒB‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, dwFlags, phBitmap
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -745,8 +697,6 @@ DeleteObject ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚éB
 %index
 GetThemeBool
 ƒe[ƒ}ƒf[ƒ^‚Ì SysMetrics ƒZƒNƒVƒ‡ƒ“‚©‚ç BOOL ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pfVal
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -764,8 +714,6 @@ pfVal : [var] Œ^: BOOL* æ“¾‚µ‚½ƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é BOOL ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 GetThemeColor
 ƒJƒ‰[ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pColor
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenThemeData ‚Å HTHEME ‚ğì¬‚·‚éB
@@ -783,8 +731,6 @@ pColor : [var] Œ^: COLORREF* F’l‚ğó‚¯æ‚é COLORREF \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetThemeDocumentationProperty
 w’è‚³‚ê‚½ƒe[ƒ}ƒtƒ@ƒCƒ‹‚ÌƒhƒLƒ…ƒƒ“ƒe[ƒVƒ‡ƒ“ƒZƒNƒVƒ‡ƒ“‚©‚çƒe[ƒ}ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 pszThemeName, pszPropertyName, pszValueBuff, cchMaxValChars
 pszThemeName : [wstr] Œ^: LPCWSTR ƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹‚é‚½‚ß‚ÉŠJ‚­ƒe[ƒ}ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -804,8 +750,6 @@ cchMaxValChars : [int] Œ^: int pszValueBuff ‚ÉŠi”[‚Å‚«‚éÅ‘å•¶š”‚ğw’è‚·‚é int
 %index
 GetThemeEnumValue
 —ñ‹“Œ^ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, piVal
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -823,8 +767,6 @@ piVal : [var] Œ^: int* —ñ‹“Œ^‚Ì’l‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 GetThemeFilename
 ƒtƒ@ƒCƒ‹–¼ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pszThemeFileName, cchMaxBuffChars
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -843,8 +785,6 @@ cchMaxBuffChars : [int] Œ^: int ƒtƒ@ƒCƒ‹–¼‚ÌÅ‘å•¶š”‚ğó‚¯æ‚é int Œ^‚Ì’lB
 %index
 GetThemeFont
 ƒtƒHƒ“ƒgƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, iPropId, pFont
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -868,8 +808,6 @@ E_PROP_ID_UNSUPPORTED ‚ª•Ô‚³‚ê‚é‚±‚Æ‚ª‚ ‚éB
 %index
 GetThemeInt
 int ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, piVal
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -887,8 +825,6 @@ int ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %index
 GetThemeIntList
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚©‚ç int ƒf[ƒ^‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pIntList
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -906,8 +842,6 @@ pIntList : [var] Œ^: INTLIST* int ƒf[ƒ^‚ğó‚¯æ‚é INTLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[
 %index
 GetThemeMargins
 MARGINS ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, iPropId, prc, pMargins
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -927,8 +861,6 @@ MARGINS ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %index
 GetThemeMetric
 ƒƒgƒŠƒbƒNƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, iPropId, piVal
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -947,8 +879,6 @@ piVal : [var] Œ^: int* ƒƒgƒŠƒbƒNƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 GetThemePartSize
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½ƒp[ƒg‚ÌŒ³ƒTƒCƒY‚ğŒvZ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, prc, eSize, psz
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BOpenThemeData ‚Å HTHEME ‚ğì¬‚·‚éB
@@ -968,8 +898,6 @@ psz : [var] Œ^: SIZE* w’èƒp[ƒg‚Ì¡–@‚ğó‚¯æ‚é SIZE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetThemePosition
 ˆÊ’uƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pPoint
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -991,8 +919,6 @@ pPoint : [var] Œ^: POINT* ˆÊ’u‚Ì’l‚ğó‚¯æ‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 GetThemePropertyOrigin
 ƒvƒƒpƒeƒB‚É‘Î‚·‚éƒe[ƒ}ƒvƒƒpƒeƒB’è‹`‚ÌêŠ‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pOrigin
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1010,8 +936,6 @@ pOrigin : [var]
 %index
 GetThemeRect
 RECT ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pRect
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1029,8 +953,6 @@ RECT ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %index
 GetThemeStream
 w’è‚³‚ê‚½ƒe[ƒ}‚É‘Î‰‚·‚éƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ğAw’è‚³‚ê‚½ƒp[ƒgAó‘ÔA‚¨‚æ‚ÑƒvƒƒpƒeƒB‚©‚çæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, ppvStream, pcbStream, hInst
 hTheme : [intptr] Œ^: HTHEME ƒXƒgƒŠ[ƒ€‚ğæ“¾‚·‚éƒe[ƒ}‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1055,8 +977,6 @@ Windows 8: ƒnƒCƒRƒ“ƒgƒ‰ƒXƒgƒ‚[ƒh‚Å‚ÍA‚±‚ÌŠÖ”‚Åæ“¾‚µ‚½ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÍAhTh
 %index
 GetThemeString
 •¶š—ñƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pszBuff, cchMaxBuffChars
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1075,8 +995,6 @@ cchMaxBuffChars : [int] Œ^: int pszBuff ‚ÉŠi”[‚Å‚«‚éÅ‘å•¶š”‚ğw’è‚·‚é int Œ^‚
 %index
 GetThemeSysBool
 ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚Ìƒu[ƒ‹’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iBoolId
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1095,8 +1013,6 @@ iBoolId : [int] Œ^: int æ“¾‚·‚éƒVƒXƒeƒ€ƒu[ƒ‹ƒƒgƒŠƒbƒN‚ğw’è‚·‚é int Œ^‚Ì’lB
 %index
 GetThemeSysColor
 ƒVƒXƒeƒ€F‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iColorId
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1115,8 +1031,6 @@ iColorId : [int] Œ^: int F”Ô†‚ğw’è‚·‚é int Œ^‚Ì’lBGetSysColor ‚Ì nIndex ƒpƒ‰
 %index
 GetThemeSysColorBrush
 ƒVƒXƒeƒ€F‚Ìƒuƒ‰ƒV‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iColorId
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1137,8 +1051,6 @@ SysMetrics ƒZƒNƒVƒ‡ƒ“‚©‚çw’è‚³‚ê‚½F‚Éˆê’v‚·‚éƒuƒ‰ƒV‚ğ•Ô‚·Bƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ
 %index
 GetThemeSysFont
 ƒVƒXƒeƒ€ƒtƒHƒ“ƒg‚Ì LOGFONT ‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iFontId, plf
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1160,8 +1072,6 @@ dpi ’PˆÊ‚ÅƒXƒP[ƒŠƒ“ƒO‚³‚ê‚éB
 %index
 GetThemeSysInt
 ƒVƒXƒeƒ€ int ‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iIntId, piValue
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1177,8 +1087,6 @@ piValue : [var] Œ^: int* ƒVƒXƒeƒ€®”’l‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 GetThemeSysSize
 ƒe[ƒ}ƒf[ƒ^‚©‚çƒVƒXƒeƒ€ƒTƒCƒYƒƒgƒŠƒbƒN‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iSizeId
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1199,8 +1107,6 @@ dpi ‚ÉƒXƒP[ƒŠƒ“ƒO‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍAƒXƒP[ƒŠƒ“ƒO‚³‚ê‚Ä‚¢‚È‚¢ƒsƒNƒZƒ‹’l‚ª
 %index
 GetThemeSysString
 ƒVƒXƒeƒ€•¶š—ñ‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iStringId, pszStringBuff, cchMaxStringChars
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1221,8 +1127,6 @@ cchMaxStringChars : [int] Œ^: int •¶š—ñƒoƒbƒtƒ@‚ÉŠi”[‚Å‚«‚éÅ‘å•¶š”‚ğw’è‚·‚é
 %index
 GetThemeTextExtent
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ÌƒtƒHƒ“ƒg‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚µ‚½‚Æ‚«‚ÌAw’è‚³‚ê‚½ƒeƒLƒXƒg‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğŒvZ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pszText, cchCharCount, dwTextFlags, pBoundingRect, pExtentRect
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1244,8 +1148,6 @@ pExtentRect : [var] Œ^: LPRECT ƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½ƒeƒLƒXƒg‚ğû‚ß‚é‚½‚ß‚É•K—v‚È˜_—
 %index
 GetThemeTextMetrics
 “Á’è‚Ìƒp[ƒg‚É‘Î‚µ‚ÄƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ªw’è‚·‚éƒtƒHƒ“ƒg‚É‚Â‚¢‚Ä‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, ptm
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1263,8 +1165,6 @@ ptm : [var] Œ^: TEXTMETRIC* ƒtƒHƒ“ƒgî•ñ‚ğó‚¯æ‚éB
 %index
 GetThemeTimingFunction
 ƒ^ƒCƒ~ƒ“ƒOŠÖ”¯•Êq‚ÉŠî‚Ã‚¢‚Ä–‘O’è‹`‚³‚ê‚½ƒ^ƒCƒ~ƒ“ƒOŠÖ”‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iTimingFunctionId, pTimingFunction, cbSize, pcbSizeOut
 hTheme : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹B
@@ -1282,8 +1182,6 @@ pcbSizeOut : [var] ƒ^ƒCƒ~ƒ“ƒOŠÖ”\‘¢‘Ì‚ÌƒoƒCƒgƒTƒCƒYB
 %index
 GetThemeTransitionDuration
 w’è‚³‚ê‚½‘JˆÚ‚ÌŠúŠÔ‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateIdFrom, iStateIdTo, iPropId, pdwDuration
 hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ìƒnƒ“ƒhƒ‹B
@@ -1302,8 +1200,6 @@ pdwDuration : [var] Œ^: DWORD* ‘JˆÚŠúŠÔ (ƒ~ƒŠ•b’PˆÊ) ‚ğó‚¯æ‚é•Ï”‚ÌƒAƒhƒŒƒXB
 %index
 GetWindowTheme
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª“K—p‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -1321,8 +1217,6 @@ hwnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %index
 HitTestThemeBackground
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½”wŒi“à‚Ìƒ|ƒCƒ“ƒg‚É‘Î‚µ‚ÄƒqƒbƒgƒeƒXƒgƒR[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, dwOptions, pRect, hrgn, ptTest, pwHitTestCode
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1348,8 +1242,6 @@ ptTest ‚Æ pRect ‚Ì’l‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚âƒXƒNƒŠ[ƒ“‚È‚Ç“¯‚¶À•WŒn‚Åw’è‚·‚é•K—v‚ª‚ 
 %index
 IsAppThemed
 Œ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì UI ‚ªƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å•\¦‚³‚ê‚Ä‚¢‚é‚©‚ğ•Ô‚·B
-%group
-Win32 uxtheme
 %prm
 
 %inst
@@ -1369,8 +1261,6 @@ DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚ÅŒÄ‚ñ‚Å‚Í‚È‚ç‚È‚¢B–ß‚è’l‚ª•s
 %index
 IsCompositionActive
 ƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒEƒ}ƒl[ƒWƒƒ[ (DWM) ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“Œø‰Ê‚ªƒe[ƒ}‚Å—˜—p‰Â”\‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 uxtheme
 %prm
 
 %inst
@@ -1387,8 +1277,6 @@ Win32 uxtheme
 %index
 IsThemeActive
 Œ»İ‚ÌƒAƒvƒŠ‚É‘Î‚µ‚ÄƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª—LŒø‚©‚ğ’²‚×‚éB
-%group
-Win32 uxtheme
 %prm
 
 %inst
@@ -1405,8 +1293,6 @@ DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚ÅŒÄ‚ñ‚Å‚Í‚È‚ç‚È‚¢B–ß‚è’l‚ª•s
 %index
 IsThemeBackgroundPartiallyTransparent
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½”wŒi‚É“§–¾•”•ª‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh•”•ª‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1423,8 +1309,6 @@ iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğ
 %index
 IsThemeDialogTextureEnabled
 w’è‚³‚ê‚½ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE‚ª”wŒiƒeƒNƒXƒ`ƒƒƒŠƒ“ƒO‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•ñ‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE‚ğw’è‚·‚é HWND ’lB
@@ -1439,8 +1323,6 @@ hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE‚ğw’è‚·‚é HWND ’lB
 %index
 IsThemePartDefined
 ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ªw’è‚³‚ê‚½ƒp[ƒg‚¨‚æ‚Ñó‘Ô‚É‘Î‚·‚éƒpƒ‰ƒ[ƒ^[‚ğ’è‹`‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId
 hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
@@ -1457,8 +1339,6 @@ iStateId : [int] Œ^: int Œ»İ‚Íg—p‚³‚ê‚È‚¢B’l‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 OpenThemeData
 ƒEƒBƒ“ƒhƒE‚ÆŠÖ˜AƒNƒ‰ƒX‚É‘Î‚·‚éƒe[ƒ}ƒf[ƒ^‚ğŠJ‚­B
-%group
-Win32 uxtheme
 %prm
 hwnd, pszClassList
 hwnd : [intptr] Œ^: HWND ƒe[ƒ}ƒf[ƒ^‚ğ•K—v‚Æ‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -1479,8 +1359,6 @@ pszClassList ‚Í’Pˆê–¼‚Å‚Í‚È‚­ƒŠƒXƒg‚ÅAƒNƒ‰ƒX‚ÆŒ»İ‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ÌÅ“Kƒ}ƒ
 %index
 OpenThemeDataEx
 w’è‚³‚ê‚½ƒe[ƒ}ƒNƒ‰ƒX‚É‘Î‚·‚éƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒf[ƒ^‚ğŠJ‚­B
-%group
-Win32 uxtheme
 %prm
 hwnd, pszClassList, dwFlags
 hwnd : [intptr] Œ^: HWND ƒe[ƒ}‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1501,8 +1379,6 @@ pszClassIdList ‚Åw’è‚³‚ê‚½•¶š—ñ‚ÍƒZƒ~ƒRƒƒ“‚ğ‹æØ‚è•¶š‚Æ‚µ‚Äƒg[ƒNƒ“‰»‚³‚ê‚é
 %index
 OpenThemeDataForDpi
 “Á’è‚Ì DPI ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğŠJ‚­ OpenThemeData ‚Ì”h¶ŠÖ”B
-%group
-Win32 uxtheme
 %prm
 hwnd, pszClassList, dpi
 hwnd : [intptr] ƒe[ƒ}ƒf[ƒ^‚ª•K—v‚ÈƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -1528,8 +1404,6 @@ OpenThemeData ‚ÅŠJ‚©‚ê‚½‚© OpenThemeDataForDpi ‚ÅŠJ‚©‚ê‚½‚©‚É‚©‚©‚í‚ç‚¸“¯‚¶‚Å‚ ‚
 %index
 SetThemeAppProperties
 ŒÄ‚Ño‚µŒ³‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚ÉÀ‘•‚³‚ê‚é‚©‚ğŒˆ’è‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
-%group
-Win32 uxtheme
 %prm
 dwFlags
 dwFlags : [int] Œ^: DWORD ˜_— OR ‚ÅŒ‹‡‚Å‚«‚éAŸ‚Ìƒrƒbƒgƒtƒ‰ƒO‚Ì 1 ‚ÂˆÈã‚ğw’è‚·‚é DWORDB
@@ -1543,8 +1417,6 @@ dwFlags : [int] Œ^: DWORD ˜_— OR ‚ÅŒ‹‡‚Å‚«‚éAŸ‚Ìƒrƒbƒgƒtƒ‰ƒO‚Ì 1 ‚ÂˆÈã‚ğw’
 %index
 SetWindowTheme
 ƒEƒBƒ“ƒhƒE‚ªƒNƒ‰ƒX‚Å’Êíg—p‚³‚ê‚é‚Ì‚Æ‚ÍˆÙ‚È‚éƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹î•ñ‚ğg‚¤‚æ‚¤‚É‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, pszSubAppName, pszSubIdList
 hwnd : [intptr] Œ^: HWND ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğ•ÏX‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -1567,8 +1439,6 @@ pszSubAppName ‚Æ pszSubIdList ‚Ì—¼•û‚ª NULL ‚Ìê‡Aƒe[ƒ}ƒ}ƒl[ƒWƒƒ‚ÍˆÈ‘O‚ÌŠÖ˜A
 %index
 SetWindowThemeAttribute
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÉƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚É“K—p‚³‚ê‚é‚©‚ğ§Œä‚·‚é‘®«‚ğİ’è‚·‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, eAttribute, pvAttribute, cbAttribute
 hwnd : [intptr] Œ^: HWND •ÏX‚ğ“K—p‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1585,8 +1455,6 @@ cbAttribute : [int] Œ^: DWORD pvAttribute ‚ªw‚·ƒf[ƒ^‚ÌƒoƒCƒgƒTƒCƒY‚ğw’è‚·‚éB
 %index
 UpdatePanningFeedback
 ƒpƒ“ƒWƒFƒXƒ`ƒƒ[‚ÌŒ‹‰Ê‚Æ‚µ‚Ä‚ÌƒEƒBƒ“ƒhƒE‚Ìó‘Ô‚É‚Â‚¢‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚ğXV‚·‚éB‚±‚ÌŠÖ”‚Í BeginPanningFeedback ‚ÌŒÄ‚Ño‚µŒã‚É‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
-%group
-Win32 uxtheme
 %prm
 hwnd, lTotalOverpanOffsetX, lTotalOverpanOffsetY, fInInertia
 hwnd : [intptr] Œ^: HWND ƒtƒB[ƒhƒoƒbƒN‚ğó‚¯æ‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹Bƒƒ\ƒbƒh‚ª¬Œ÷‚·‚é‚½‚ß‚É‚ÍA‚±‚ê‚ª BeginPanningFeedback ‚Åw’è‚³‚ê‚½ HWND ‚Æ“¯‚¶‚Å‚ ‚é•K—v‚ª‚ ‚éB

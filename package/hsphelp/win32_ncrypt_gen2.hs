@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+ncrypt.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の ncrypt.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 NCryptFreeObject
 CNG キーストレージオブジェクトを解放する。
-%group
-Win32 ncrypt
 %prm
 hObject
 hObject : [int] 解放するオブジェクトのハンドル。プロバイダハンドル (NCRYPT_PROV_HANDLE) またはキーハンドル (NCRYPT_KEY_HANDLE) のいずれかを指定できる。

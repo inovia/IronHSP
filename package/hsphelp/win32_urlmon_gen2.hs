@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+urlmon.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の urlmon.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 CoGetClassObjectFromURL
 (no summary)
-%group
-Win32 urlmon
 %prm
 rCLASSID, szCODE, dwFileVersionMS, dwFileVersionLS, szTYPE, pBindCtx, dwClsContext, pvReserved, riid, ppv
 rCLASSID : [var] 
@@ -28,8 +48,6 @@ ppv : [var]
 %index
 CoInternetCombineIUri
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBaseUri, pRelativeUri, dwCombineFlags, ppCombinedUri, dwReserved
 pBaseUri : [var] 
@@ -44,8 +62,6 @@ dwReserved : [int]
 %index
 CoInternetCombineUrl
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwzBaseUrl, pwzRelativeUrl, dwCombineFlags, pszResult, cchResult, pcchResult, dwReserved
 pwzBaseUrl : [wstr] 
@@ -62,8 +78,6 @@ dwReserved : [int]
 %index
 CoInternetCombineUrlEx
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBaseUri, pwzRelativeUrl, dwCombineFlags, ppCombinedUri, dwReserved
 pBaseUri : [var] 
@@ -78,8 +92,6 @@ dwReserved : [int]
 %index
 CoInternetCompareUrl
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwzUrl1, pwzUrl2, dwFlags
 pwzUrl1 : [wstr] 
@@ -92,8 +104,6 @@ dwFlags : [int]
 %index
 CoInternetCreateSecurityManager
 (no summary)
-%group
-Win32 urlmon
 %prm
 pSP, ppSM, dwReserved
 pSP : [var] 
@@ -106,8 +116,6 @@ dwReserved : [int]
 %index
 CoInternetCreateZoneManager
 (no summary)
-%group
-Win32 urlmon
 %prm
 pSP, ppZM, dwReserved
 pSP : [var] 
@@ -120,8 +128,6 @@ dwReserved : [int]
 %index
 CoInternetGetProtocolFlags
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwzUrl, pdwFlags, dwReserved
 pwzUrl : [wstr] 
@@ -134,8 +140,6 @@ dwReserved : [int]
 %index
 CoInternetGetSecurityUrl
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwszUrl, ppwszSecUrl, psuAction, dwReserved
 pwszUrl : [wstr] 
@@ -149,8 +153,6 @@ dwReserved : [int]
 %index
 CoInternetGetSecurityUrlEx
 (no summary)
-%group
-Win32 urlmon
 %prm
 pUri, ppSecUri, psuAction, dwReserved
 pUri : [var] 
@@ -164,8 +166,6 @@ dwReserved : [int]
 %index
 CoInternetGetSession
 (no summary)
-%group
-Win32 urlmon
 %prm
 dwSessionMode, ppIInternetSession, dwReserved
 dwSessionMode : [int] 
@@ -178,8 +178,6 @@ dwReserved : [int]
 %index
 CoInternetIsFeatureEnabled
 (no summary)
-%group
-Win32 urlmon
 %prm
 FeatureEntry, dwFlags
 FeatureEntry : [int] 
@@ -191,8 +189,6 @@ dwFlags : [int]
 %index
 CoInternetIsFeatureEnabledForIUri
 (no summary)
-%group
-Win32 urlmon
 %prm
 FeatureEntry, dwFlags, pIUri, pSecMgr
 FeatureEntry : [int] 
@@ -206,8 +202,6 @@ pSecMgr : [var]
 %index
 CoInternetIsFeatureEnabledForUrl
 (no summary)
-%group
-Win32 urlmon
 %prm
 FeatureEntry, dwFlags, szURL, pSecMgr
 FeatureEntry : [int] 
@@ -221,8 +215,6 @@ pSecMgr : [var]
 %index
 CoInternetIsFeatureZoneElevationEnabled
 (no summary)
-%group
-Win32 urlmon
 %prm
 szFromURL, szToURL, pSecMgr, dwFlags
 szFromURL : [wstr] 
@@ -236,8 +228,6 @@ dwFlags : [int]
 %index
 CoInternetParseIUri
 (no summary)
-%group
-Win32 urlmon
 %prm
 pIUri, ParseAction, dwFlags, pwzResult, cchResult, pcchResult, dwReserved
 pIUri : [var] 
@@ -254,8 +244,6 @@ dwReserved : [int]
 %index
 CoInternetParseUrl
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwzUrl, ParseAction, dwFlags, pszResult, cchResult, pcchResult, dwReserved
 pwzUrl : [wstr] 
@@ -272,8 +260,6 @@ dwReserved : [int]
 %index
 CoInternetQueryInfo
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwzUrl, QueryOptions, dwQueryFlags, pvBuffer, cbBuffer, pcbBuffer, dwReserved
 pwzUrl : [wstr] 
@@ -290,8 +276,6 @@ dwReserved : [int]
 %index
 CoInternetSetFeatureEnabled
 (no summary)
-%group
-Win32 urlmon
 %prm
 FeatureEntry, dwFlags, fEnable
 FeatureEntry : [int] 
@@ -304,8 +288,6 @@ fEnable : [int]
 %index
 CompareSecurityIds
 (no summary)
-%group
-Win32 urlmon
 %prm
 pbSecurityId1, dwLen1, pbSecurityId2, dwLen2, dwReserved
 pbSecurityId1 : [var] 
@@ -320,8 +302,6 @@ dwReserved : [int]
 %index
 CompatFlagsFromClsid
 (no summary)
-%group
-Win32 urlmon
 %prm
 pclsid, pdwCompatFlags, pdwMiscStatusFlags
 pclsid : [var] 
@@ -334,8 +314,6 @@ pdwMiscStatusFlags : [var]
 %index
 CopyBindInfo
 (no summary)
-%group
-Win32 urlmon
 %prm
 pcbiSrc, pbiDest
 pcbiSrc : [var] 
@@ -347,8 +325,6 @@ pbiDest : [var]
 %index
 CopyStgMedium
 (no summary)
-%group
-Win32 urlmon
 %prm
 pcstgmedSrc, pstgmedDest
 pcstgmedSrc : [var] 
@@ -360,8 +336,6 @@ pstgmedDest : [var]
 %index
 CreateAsyncBindCtx
 非同期モニカで使用する非同期バインドコンテキストを作成する。
-%group
-Win32 urlmon
 %prm
 reserved, pBSCb, pEFetc, ppBC
 reserved : [int] このパラメータは予約されており、0 を指定しなければならない。
@@ -387,8 +361,6 @@ ppBC : [var] 新しいバインドコンテキストへのインターフェースポインタを受け取る IB
 %index
 CreateAsyncBindCtxEx
 (no summary)
-%group
-Win32 urlmon
 %prm
 pbc, dwOptions, pBSCb, pEnum, ppBC, reserved
 pbc : [var] 
@@ -404,8 +376,6 @@ reserved : [int]
 %index
 CreateFormatEnumerator
 FORMATETC 構造体の静的配列に対して IEnumFORMATETC を実装するオブジェクトを作成する。
-%group
-Win32 urlmon
 %prm
 cfmtetc, rgfmtetc, ppenumfmtetc
 cfmtetc : [int] rgfmtetc パラメータで指定される静的配列内の FORMATETC 構造体の数。cfmtetc パラメータは 0 にできない。
@@ -427,8 +397,6 @@ CreateFormatEnumerator 関数は、FORMATETC 構造体の静的配列に対して IEnumFORMATETC
 %index
 CreateIUriBuilder
 (no summary)
-%group
-Win32 urlmon
 %prm
 pIUri, dwFlags, dwReserved, ppIUriBuilder
 pIUri : [var] 
@@ -442,8 +410,6 @@ ppIUriBuilder : [var]
 %index
 CreateURLMoniker
 (no summary)
-%group
-Win32 urlmon
 %prm
 pMkCtx, szURL, ppmk
 pMkCtx : [var] 
@@ -456,8 +422,6 @@ ppmk : [var]
 %index
 CreateURLMonikerEx
 (no summary)
-%group
-Win32 urlmon
 %prm
 pMkCtx, szURL, ppmk, dwFlags
 pMkCtx : [var] 
@@ -471,8 +435,6 @@ dwFlags : [int]
 %index
 CreateURLMonikerEx2
 (no summary)
-%group
-Win32 urlmon
 %prm
 pMkCtx, pUri, ppmk, dwFlags
 pMkCtx : [var] 
@@ -486,8 +448,6 @@ dwFlags : [int]
 %index
 CreateUri
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwzURI, dwFlags, dwReserved, ppURI
 pwzURI : [wstr] 
@@ -501,8 +461,6 @@ ppURI : [var]
 %index
 CreateUriFromMultiByteString
 (no summary)
-%group
-Win32 urlmon
 %prm
 pszANSIInputUri, dwEncodingFlags, dwCodePage, dwCreateFlags, dwReserved, ppUri
 pszANSIInputUri : [str] 
@@ -518,8 +476,6 @@ ppUri : [var]
 %index
 CreateUriWithFragment
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwzURI, pwzFragment, dwFlags, dwReserved, ppURI
 pwzURI : [wstr] 
@@ -534,8 +490,6 @@ ppURI : [var]
 %index
 FaultInIEFeature
 (no summary)
-%group
-Win32 urlmon
 %prm
 hWnd, pClassSpec, pQuery, dwFlags
 hWnd : [intptr] 
@@ -549,8 +503,6 @@ dwFlags : [int]
 %index
 FindMediaType
 (no summary)
-%group
-Win32 urlmon
 %prm
 rgszTypes, rgcfTypes
 rgszTypes : [str] 
@@ -562,8 +514,6 @@ rgcfTypes : [var]
 %index
 FindMediaTypeClass
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, szType, pclsID, reserved
 pBC : [var] 
@@ -577,8 +527,6 @@ reserved : [int]
 %index
 FindMimeFromData
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, pwzUrl, pBuffer, cbSize, pwzMimeProposed, dwMimeFlags, ppwzMimeOut, dwReserved
 pBC : [var] 
@@ -596,8 +544,6 @@ dwReserved : [int]
 %index
 GetClassFileOrMime
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, szFilename, pBuffer, cbSize, szMime, dwReserved, pclsid
 pBC : [var] 
@@ -614,8 +560,6 @@ pclsid : [var]
 %index
 GetClassURL
 (no summary)
-%group
-Win32 urlmon
 %prm
 szURL, pClsID
 szURL : [wstr] 
@@ -627,8 +571,6 @@ pClsID : [var]
 %index
 GetComponentIDFromCLSSPEC
 (no summary)
-%group
-Win32 urlmon
 %prm
 pClassspec, ppszComponentID
 pClassspec : [var] 
@@ -640,8 +582,6 @@ ppszComponentID : [var]
 %index
 GetSoftwareUpdateInfo
 (no summary)
-%group
-Win32 urlmon
 %prm
 szDistUnit, psdi
 szDistUnit : [wstr] 
@@ -653,8 +593,6 @@ psdi : [var]
 %index
 HlinkGoBack
 (no summary)
-%group
-Win32 urlmon
 %prm
 pUnk
 pUnk : [var] 
@@ -665,8 +603,6 @@ pUnk : [var]
 %index
 HlinkGoForward
 (no summary)
-%group
-Win32 urlmon
 %prm
 pUnk
 pUnk : [var] 
@@ -677,8 +613,6 @@ pUnk : [var]
 %index
 HlinkNavigateMoniker
 (no summary)
-%group
-Win32 urlmon
 %prm
 pUnk, pmkTarget
 pUnk : [var] 
@@ -690,8 +624,6 @@ pmkTarget : [var]
 %index
 HlinkNavigateString
 (no summary)
-%group
-Win32 urlmon
 %prm
 pUnk, szTarget
 pUnk : [var] 
@@ -703,8 +635,6 @@ szTarget : [wstr]
 %index
 HlinkSimpleNavigateToMoniker
 (no summary)
-%group
-Win32 urlmon
 %prm
 pmkTarget, szLocation, szTargetFrameName, pUnk, pbc, param5, grfHLNF, dwReserved
 pmkTarget : [var] 
@@ -722,8 +652,6 @@ dwReserved : [int]
 %index
 HlinkSimpleNavigateToString
 (no summary)
-%group
-Win32 urlmon
 %prm
 szTarget, szLocation, szTargetFrameName, pUnk, pbc, param5, grfHLNF, dwReserved
 szTarget : [wstr] 
@@ -741,8 +669,6 @@ dwReserved : [int]
 %index
 IEGetUserPrivateNamespaceName
 (no summary)
-%group
-Win32 urlmon
 %prm
 
 %inst
@@ -752,8 +678,6 @@ Win32 urlmon
 %index
 IEInstallScope
 (no summary)
-%group
-Win32 urlmon
 %prm
 pdwScope
 pdwScope : [var] 
@@ -764,8 +688,6 @@ pdwScope : [var]
 %index
 IsAsyncMoniker
 (no summary)
-%group
-Win32 urlmon
 %prm
 pmk
 pmk : [var] 
@@ -776,8 +698,6 @@ pmk : [var]
 %index
 IsLoggingEnabledW
 (no summary)
-%group
-Win32 urlmon
 %prm
 pwszUrl
 pwszUrl : [wstr] 
@@ -788,8 +708,6 @@ pwszUrl : [wstr]
 %index
 IsValidURL
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, szURL, dwReserved
 pBC : [var] 
@@ -802,8 +720,6 @@ dwReserved : [int]
 %index
 MkParseDisplayNameEx
 (no summary)
-%group
-Win32 urlmon
 %prm
 pbc, szDisplayName, pchEaten, ppmk
 pbc : [var] 
@@ -817,8 +733,6 @@ ppmk : [var]
 %index
 ObtainUserAgentString
 (no summary)
-%group
-Win32 urlmon
 %prm
 dwOption, pszUAOut, cbSize
 dwOption : [int] 
@@ -831,8 +745,6 @@ cbSize : [var]
 %index
 RegisterBindStatusCallback
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, pBSCb, ppBSCBPrev, dwReserved
 pBC : [var] 
@@ -846,8 +758,6 @@ dwReserved : [int]
 %index
 RegisterFormatEnumerator
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, pEFetc, reserved
 pBC : [var] 
@@ -860,8 +770,6 @@ reserved : [int]
 %index
 RegisterMediaTypeClass
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, ctypes, rgszTypes, rgclsID, reserved
 pBC : [var] 
@@ -876,8 +784,6 @@ reserved : [int]
 %index
 RegisterMediaTypes
 (no summary)
-%group
-Win32 urlmon
 %prm
 ctypes, rgszTypes, rgcfTypes
 ctypes : [int] 
@@ -890,8 +796,6 @@ rgcfTypes : [var]
 %index
 ReleaseBindInfo
 (no summary)
-%group
-Win32 urlmon
 %prm
 pbindinfo
 pbindinfo : [var] 
@@ -902,8 +806,6 @@ pbindinfo : [var]
 %index
 RevokeBindStatusCallback
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, pBSCb
 pBC : [var] 
@@ -915,8 +817,6 @@ pBSCb : [var]
 %index
 RevokeFormatEnumerator
 (no summary)
-%group
-Win32 urlmon
 %prm
 pBC, pEFetc
 pBC : [var] 
@@ -928,8 +828,6 @@ pEFetc : [var]
 %index
 SetAccessForIEAppContainer
 (no summary)
-%group
-Win32 urlmon
 %prm
 hObject, ieObjectType, dwAccessMask
 hObject : [intptr] 
@@ -942,8 +840,6 @@ dwAccessMask : [int]
 %index
 SetSoftwareUpdateAdvertisementState
 (no summary)
-%group
-Win32 urlmon
 %prm
 szDistUnit, dwAdState, dwAdvertisedVersionMS, dwAdvertisedVersionLS
 szDistUnit : [wstr] 
@@ -957,8 +853,6 @@ dwAdvertisedVersionLS : [int]
 %index
 URLDownloadToCacheFileW
 (no summary)
-%group
-Win32 urlmon
 %prm
 param0, param1, param2, cchFileName, param4, param5
 param0 : [var] 
@@ -974,8 +868,6 @@ param5 : [var]
 %index
 URLDownloadToFileW
 (no summary)
-%group
-Win32 urlmon
 %prm
 param0, param1, param2, param3, param4
 param0 : [var] 
@@ -990,8 +882,6 @@ param4 : [var]
 %index
 URLOpenBlockingStreamW
 (no summary)
-%group
-Win32 urlmon
 %prm
 param0, param1, param2, param3, param4
 param0 : [var] 
@@ -1006,8 +896,6 @@ param4 : [var]
 %index
 URLOpenPullStreamW
 (no summary)
-%group
-Win32 urlmon
 %prm
 param0, param1, param2, param3
 param0 : [var] 
@@ -1021,8 +909,6 @@ param3 : [var]
 %index
 URLOpenStreamW
 (no summary)
-%group
-Win32 urlmon
 %prm
 param0, param1, param2, param3
 param0 : [var] 
@@ -1036,8 +922,6 @@ param3 : [var]
 %index
 UrlMkGetSessionOption
 (no summary)
-%group
-Win32 urlmon
 %prm
 dwOption, pBuffer, dwBufferLength, pdwBufferLengthOut, dwReserved
 dwOption : [int] 
@@ -1052,8 +936,6 @@ dwReserved : [int]
 %index
 UrlMkSetSessionOption
 (no summary)
-%group
-Win32 urlmon
 %prm
 dwOption, pBuffer, dwBufferLength, dwReserved
 dwOption : [int] 
@@ -1067,8 +949,6 @@ dwReserved : [int]
 %index
 WriteHitLogging
 (no summary)
-%group
-Win32 urlmon
 %prm
 lpLogginginfo
 lpLogginginfo : [var] 

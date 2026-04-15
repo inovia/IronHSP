@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+propsys.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の propsys.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 PropVariantChangeType
 PROPVARIANT 構造体に格納された値を、別のバリアント型の等価な値に強制変換する。
-%group
-Win32 propsys
 %prm
 ppropvarDest, propvarSrc, flags, vt
 ppropvarDest : [var] 型: PROPVARIANT* PROPVARIANT 構造体へのポインタ。この関数が成功して戻ると、強制変換された値とその新しい型を受け取る。

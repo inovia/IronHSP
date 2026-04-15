@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+psapi.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì psapi.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 EmptyWorkingSet
 w’è‚³‚ê‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚©‚ç‚Å‚«‚éŒÀ‚è‘½‚­‚Ìƒy[ƒW‚ğíœ‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ A‚¨‚æ‚Ñ PROCESS_SET_QUOTA ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
@@ -38,8 +58,6 @@ K32EmptyWorkingSet ‚Æ‚µ‚Ä’è‹`‚³‚êAK32EmptyWorkingSet ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä P
 %index
 EnumDeviceDrivers
 ƒVƒXƒeƒ€“à‚ÌŠeƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 lpImageBase, cb, lpcbNeeded
 lpImageBase : [var] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒX‚ÌƒŠƒXƒg‚ğó‚¯æ‚é”z—ñB
@@ -70,8 +88,6 @@ EnumDeviceDrivers ‚Æ‚µ‚Ä’è‹`‚³‚êAK32EnumDeviceDrivers ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä 
 %index
 EnumPageFilesW
 ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éŠeƒy[ƒWƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“‚ğŒÄ‚Ño‚·B(Unicode)
-%group
-Win32 psapi
 %prm
 pCallBackRoutine, pContext
 pCallBackRoutine : [int] Šeƒy[ƒWƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄŒÄ‚Ño‚³‚ê‚éƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumPageFilesProc ‚ğQÆB
@@ -106,8 +122,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumProcessModules
 w’èƒvƒƒZƒX“à‚ÌŠeƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess, lphModule, cb, lpcbNeeded
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -132,8 +146,6 @@ CloseHandle ‚ğŒÄ‚ñ‚Å‚Í‚È‚ç‚È‚¢BPSAPI_VERSION ‚É‚æ‚é“®ì‚Í EnumProcesses ‚Æ“¯—l
 %index
 EnumProcessModulesEx
 w’è‚µ‚½ƒtƒBƒ‹ƒ^ğŒ‚Éˆê’v‚·‚éAw’èƒvƒƒZƒX“à‚ÌŠeƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess, lphModule, cb, lpcbNeeded, dwFilterFlag
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -180,8 +192,6 @@ Psapi.lib ‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1
 %index
 EnumProcesses
 ƒVƒXƒeƒ€“à‚ÌŠeƒvƒƒZƒXƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 lpidProcess, cb, lpcbNeeded
 lpidProcess : [var] ƒvƒƒZƒX¯•Êq‚ÌƒŠƒXƒg‚ğó‚¯æ‚é”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -208,8 +218,6 @@ Kernel32 ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éB1 ‚Ìê‡‚Í]—ˆ’Ê‚è Psapi.dll ‚Ì EnumProcesses
 %index
 GetDeviceDriverBaseNameW
 w’è‚³‚ê‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒx[ƒX–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 psapi
 %prm
 ImageBase, lpBaseName, nSize
 ImageBase : [intptr] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒXB‚±‚Ì’l‚Í EnumDeviceDrivers ŠÖ”‚Åæ“¾‚Å‚«‚éB
@@ -240,8 +248,6 @@ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
 %index
 GetDeviceDriverFileNameW
 w’è‚³‚ê‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Å—˜—p‰Â”\‚ÈƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 psapi
 %prm
 ImageBase, lpFilename, nSize
 ImageBase : [intptr] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒXB
@@ -278,8 +284,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetMappedFileNameW
 w’è‚³‚ê‚½ƒAƒhƒŒƒX‚ªAw’èƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ì’†‚É‚ ‚é‚©‚ğŠm”F‚·‚éBŠY“–‚·‚éê‡AŠÖ”‚Í‚»‚Ìƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•Ô‚·B(Unicode)
-%group
-Win32 psapi
 %prm
 hProcess, lpv, lpFilename, nSize
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
@@ -312,8 +316,6 @@ GetMappedFileName ‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetMappedFileName ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä 
 %index
 GetModuleBaseNameW
 w’èƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒX–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 psapi
 %prm
 hProcess, hModule, lpBaseName, nSize
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ŞƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹BPROCESS_QUERY_INFORMATION ‚Æ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ª•K—vB
@@ -337,8 +339,6 @@ GetModuleFileName + strrchr
 %index
 GetModuleFileNameExW
 w’èƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 psapi
 %prm
 hProcess, hModule, lpFilename, nSize
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ŞƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹BPROCESS_QUERY_INFORMATION ‚¨‚æ‚Ñ PROCESS_VM_READ Œ ŒÀ‚ª•K—vBWindows 10/Server 2016 ˆÈ~‚Å‚ÍAhModule ‚ª NULL ‚Ìê‡ PROCESS_QUERY_LIMITED_INFORMATION ‚¾‚¯‚Å\•ªBLOAD_LIBRARY_AS_DATAFILE ‚Åƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒpƒX‚Íæ“¾‚Å‚«‚È‚¢B
@@ -360,8 +360,6 @@ QueryFullProcessImageName ‚ğg‚¤•û‚ª‚æ‚¢BPSAPI_VERSION ŠÖ˜A‚Í‘¼‚Ì psapi ŠÖ”‚Æ“
 %index
 GetModuleInformation
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ MODULEINFO \‘¢‘Ì‚Éæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess, hModule, lpmodinfo, cb
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ŞƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ‚¨‚æ‚Ñ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
@@ -394,8 +392,6 @@ Psapi.lib ‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1
 %index
 GetPerformanceInfo
 PERFORMANCE_INFORMATION \‘¢‘Ì‚ÉŠi”[‚³‚ê‚½ƒpƒtƒH[ƒ}ƒ“ƒX’l‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 pPerformanceInformation, cb
 pPerformanceInformation : [var] ƒpƒtƒH[ƒ}ƒ“ƒXî•ñ‚ğó‚¯æ‚é PERFORMANCE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -424,8 +420,6 @@ Psapi.lib ‚¨‚æ‚Ñ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Wind
 %index
 GetProcessImageFileNameW
 w’èƒvƒƒZƒX‚ÌÀsƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 psapi
 %prm
 hProcess, lpImageFileName, nSize
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹BPROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vBWindows Server 2003/Windows XP: PROCESS_QUERY_INFORMATION ‚ª•K—vB
@@ -450,8 +444,6 @@ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 GetProcessMemoryInfo
 w’èƒvƒƒZƒX‚Ìƒƒ‚ƒŠg—pî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 Process, ppsmemCounters, cb
 Process : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B**PROCESS_QUERY_INFORMATION** ‚Ü‚½‚Í **PROCESS_QUERY_LIMITED_INFORMATION** ƒAƒNƒZƒXŒ ‚ª•K—vB**Windows Server 2003 ‚¨‚æ‚Ñ Windows XP:** **PROCESS_QUERY_INFORMATION** ‚Æ **PROCESS_VM_READ** ‚ª•K—vB
@@ -474,8 +466,6 @@ Psapi.dll Œo—R‚Æ‚È‚éBŒİŠ·‚ª•K—v‚È‚ç **GetProcessMemoryInfo**
 %index
 GetWsChanges
 ‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch ŠÖ”‚ª‘O‰ñŒÄ‚Ño‚³‚ê‚Ä‚©‚çAw’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess, lpWatchInfo, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
@@ -516,8 +506,6 @@ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
 %index
 GetWsChangesEx
 ‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch ŠÖ”‚ª‘O‰ñŒÄ‚Ño‚³‚ê‚Ä‚©‚çAw’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess, lpWatchInfoEx, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
@@ -557,8 +545,6 @@ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
 %index
 InitializeProcessForWsWatch
 w’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÌŠÄ‹‚ğŠJn‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
@@ -587,8 +573,6 @@ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
 %index
 QueryWorkingSet
 w’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÉŒ»İ’Ç‰Á‚³‚ê‚Ä‚¢‚éƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess, pv, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ‚¨‚æ‚Ñ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
@@ -618,8 +602,6 @@ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
 %index
 QueryWorkingSetEx
 w’èƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ì“Á’è‚Ì‰¼‘zƒAƒhƒŒƒX‚É‚ ‚éƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 psapi
 %prm
 hProcess, pv, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB

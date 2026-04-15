@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+kernel32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì kernel32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 CloseHandle
 ŠJ‚¢‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 hObject
 hObject : [intptr] ŠJ‚¢‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ì—LŒø‚Èƒnƒ“ƒhƒ‹B
@@ -28,8 +48,6 @@ CloseHandle ŠÖ”‚ÍŸ‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é:
 %index
 ActivateActCtx
 ActivateActCtx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ğƒAƒNƒeƒBƒu‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hActCtx, lpCookie
 hActCtx : [intptr] ƒAƒNƒeƒBƒu‰»‚·‚éƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş ACTCTX \‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -54,8 +72,6 @@ side-by-side API ‚É‚¨‚¯‚é DLLAƒEƒBƒ“ƒhƒEƒNƒ‰ƒXACOM
 %index
 AddAtomW
 ƒ[ƒJƒ‹ƒAƒgƒ€ƒe[ƒuƒ‹‚É•¶š—ñ‚ğ’Ç‰Á‚µA‚»‚Ì•¶š—ñ‚ğ¯•Ê‚·‚éˆêˆÓ‚Ì’liƒAƒgƒ€j‚ğ•Ô‚·B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString
 lpString : [wstr] Œ^: LPCTSTR ’Ç‰Á‚·‚é null I’[•¶š—ñB•¶š—ñ‚ÌÅ‘åƒTƒCƒY‚Í 255 ƒoƒCƒgB‘å•¶š¬•¶š‚Ì‚İˆÙ‚È‚é•¶š—ñ‚Í“¯ˆê‚Æ‚İ‚È‚³‚ê‚éBÅ‰‚É’Ç‰Á‚³‚ê‚½•¶š—ñ‚Ì‘å•¶š¬•¶š‚Í•Û‚³‚êAGetAtomName ŠÖ”‚Å•Ô‚³‚ê‚éB‘ã‚í‚è‚ÉAMAKEINTATOM ƒ}ƒNƒ‚Å•ÏŠ·‚µ‚½®”ƒAƒgƒ€‚ğg—p‚·‚é‚±‚Æ‚à‚Å‚«‚éBÚ×‚Í”õl‚ğQÆB
@@ -85,8 +101,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AddConsoleAliasW
 w’è‚³‚ê‚½Àsƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒRƒ“ƒ\[ƒ‹ƒGƒCƒŠƒAƒX‚ğ’è‹`‚·‚é AddConsoleAlias ŠÖ”‚ÉŠÖ‚·‚éƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 Source, Target, ExeName
 Source : [wstr] *Target* ‚Åw’è‚³‚ê‚½ƒeƒLƒXƒg‚Éƒ}ƒbƒv‚·‚éƒRƒ“ƒ\[ƒ‹ƒGƒCƒŠƒAƒXB
@@ -111,8 +125,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 AddIntegrityLabelToBoundaryDescriptor
 w’è‚³‚ê‚½‹«ŠE‹Lqq‚ÉV‚µ‚¢•K{‚ÌƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 kernel32
 %prm
 BoundaryDescriptor, IntegrityLabel
 BoundaryDescriptor : [intptr] ‹«ŠE‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateBoundaryDescriptor ŠÖ”‚ª•Ô‚·B
@@ -132,8 +144,6 @@ IntegrityLabel : [int] –¼‘O‹óŠÔ‚É‘Î‚·‚é•K{®‡«ƒŒƒxƒ‹‚ğ•\‚· SID \‘¢‘Ì‚Ö‚Ìƒ|ƒC
 %index
 AddRefActCtx
 AddRefActCtx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 kernel32
 %prm
 hActCtx
 hActCtx : [intptr] QÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ìî•ñ‚ğŠÜ‚Ş ACTCTX \‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -147,8 +157,6 @@ AddRefActCtx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ
 %index
 AddResourceAttributeAce
 ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚Ì––”ö‚É SYSTEM_RESOURCE_ATTRIBUTE_ACE ƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 kernel32
 %prm
 pAcl, dwAceRevision, AceFlags, AccessMask, pSid, pAttributeInfo, pReturnLength
 pAcl : [var] ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚Í ACL ‚É ACE ‚ğ’Ç‰Á‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚Í NULL ‚É‚Å‚«‚È‚¢BACE ‚Í SYSTEM_RESOURCE_ATTRIBUTE_ACE \‘¢‘Ì‚ÌŒ`®‚ğ‚Æ‚éB
@@ -170,8 +178,6 @@ pReturnLength : [var] ÀÛ‚Ég—p‚³‚ê‚½ ACL ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjBpAcl 
 %index
 AddSIDToBoundaryDescriptor
 w’è‚³‚ê‚½‹«ŠE‹Lqq‚ÉƒZƒLƒ…ƒŠƒeƒB¯•Êq (SID) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 kernel32
 %prm
 BoundaryDescriptor, RequiredSid
 BoundaryDescriptor : [intptr] ‹«ŠE‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateBoundaryDescriptor ŠÖ”‚ª•Ô‚·B
@@ -191,8 +197,6 @@ AddSIDToBoundaryDescriptor ŠÖ”‚ÍA‹«ŠE‹Lqq‚É’Ç‰Á‚·‚é SID ‚²‚Æ‚É 1
 %index
 AddScopedPolicyIDAce
 ƒVƒXƒeƒ€ƒAƒNƒZƒX§ŒäƒŠƒXƒg (SACL) ‚Ì––”ö‚É SYSTEM_SCOPED_POLICY_ID_ACE ƒAƒNƒZƒX§ŒäƒGƒ“ƒgƒŠ (ACE) ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 kernel32
 %prm
 pAcl, dwAceRevision, AceFlags, AccessMask, pSid
 pAcl : [var] ƒAƒNƒZƒX§ŒäƒŠƒXƒg (ACL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚Í ACL ‚É ACE ‚ğ’Ç‰Á‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚Í NULL ‚É‚Å‚«‚È‚¢B
@@ -212,8 +216,6 @@ pSid : [int] ƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚é’†‰›ƒAƒNƒZƒXƒ|ƒŠƒV[‚ğ¯•Ê‚·‚é SID (S-1-17-*) ‚
 %index
 AddSecureMemoryCacheCallback
 ƒZƒLƒ…ƒA‚Èƒƒ‚ƒŠ”ÍˆÍ‚ª‰ğ•ú‚³‚ê‚½‚èA•ÛŒì‘®«‚ª•ÏX‚³‚ê‚½‚è‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 pfnCallBack
 pfnCallBack : [int] “o˜^‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì SecureMemoryCacheCallback ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -238,8 +240,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 AdjustCalendarDate
 ”ñ„§Bw’è‚³‚ê‚½”NAŒATA‚Ü‚½‚Í“ú”‚¾‚¯“ú•t‚ğ’²®‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpCalDateTime, calUnit, amount
 lpCalDateTime : [var] ’²®‘ÎÛ‚Ì“ú•t‚ÆƒJƒŒƒ“ƒ_[î•ñ‚ğŠÜ‚Ş [**CALDATETIME**](caldatetime.md) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -266,8 +266,6 @@ ERROR\_INVALID\_PARAMETERBƒpƒ‰ƒ[ƒ^’l‚Ì‚¢‚¸‚ê‚©‚ª–³ŒøB
 %index
 AllocConsole
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉV‚µ‚¢ƒRƒ“ƒ\[ƒ‹‚ğŠ„‚è“–‚Ä‚é AllocConsole ŠÖ”‚ÉŠÖ‚·‚éƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -297,8 +295,6 @@ Win32 kernel32
 %index
 AllocateUserPhysicalPages
 w’è‚³‚ê‚½ƒvƒƒZƒX‚Ì Address Windowing Extensions (AWE) —Ìˆæ“à‚Åƒ}ƒbƒv^ƒAƒ“ƒ}ƒbƒv‚·‚é‚½‚ß‚Ì•¨—ƒƒ‚ƒŠƒy[ƒW‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, NumberOfPages, PageArray
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚ÍAŒã‚Å‚±‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ‚Éƒ}ƒbƒv‚Å‚«‚éƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBƒnƒ“ƒhƒ‹‚Í PROCESS_VM_OPERATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -328,8 +324,6 @@ ERROR_PRIVILEGE_NOT_HELD ‚Å¸”s‚·‚éBÚ×‚Í Privilege Constants
 %index
 AllocateUserPhysicalPagesNuma
 w’è‚³‚ê‚½ƒvƒƒZƒX‚Ì Address Windowing Extensions (AWE) —Ìˆæ“à‚Åƒ}ƒbƒv^ƒAƒ“ƒ}ƒbƒv‚·‚é‚½‚ß‚Ì•¨—ƒƒ‚ƒŠƒy[ƒW‚ğŠ„‚è“–‚ÄA•¨—ƒƒ‚ƒŠ‚ğ”z’u‚·‚é NUMA ƒm[ƒh‚ğw’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, NumberOfPages, PageArray, nndPreferred
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚ÍAŒã‚Å‚±‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ‚Éƒ}ƒbƒv‚Å‚«‚éƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBƒnƒ“ƒhƒ‹‚Í PROCESS_VM_OPERATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -358,8 +352,6 @@ Privilege Constants
 %index
 ApplicationRecoveryFinished
 ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ÌƒŠƒJƒoƒŠ‚ğŠ®—¹‚µ‚½‚±‚Æ‚ğ’Ê’m‚·‚éB
-%group
-Win32 kernel32
 %prm
 bSuccess
 bSuccess : [int] ƒf[ƒ^‚ÌƒŠƒJƒoƒŠ‚É¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğw’è‚·‚éB
@@ -373,8 +365,6 @@ bSuccess : [int] ƒf[ƒ^‚ÌƒŠƒJƒoƒŠ‚É¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚
 %index
 ApplicationRecoveryInProgress
 ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ÌƒŠƒJƒoƒŠ‚ğ‘±s’†‚Å‚ ‚é‚±‚Æ‚ğ’Ê’m‚·‚éB
-%group
-Win32 kernel32
 %prm
 pbCancelled
 pbCancelled : [var] ƒ†[ƒU[‚ªƒŠƒJƒoƒŠˆ—‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚½‚©‚Ç‚¤‚©‚ğ¦‚·Bƒ†[ƒU[‚ªƒLƒƒƒ“ƒZƒ‹ƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚½ê‡ WER ‚É‚æ‚Á‚Äİ’è‚³‚ê‚éB
@@ -395,8 +385,6 @@ pbCancelled : [var] ƒ†[ƒU[‚ªƒŠƒJƒoƒŠˆ—‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚½‚©‚Ç‚¤‚©‚ğ¦‚·Bƒ†[ƒU
 %index
 AreFileApisANSI
 ƒtƒ@ƒCƒ‹ I/O ŠÖ”ŒQ‚ª ANSI ‚Æ OEM ‚Ì‚¢‚¸‚ê‚Ì•¶šƒZƒbƒgƒR[ƒhƒy[ƒW‚ğg—p‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -420,8 +408,6 @@ SetFileApisToOEM ŠÖ”‚Íˆê•”‚Ìƒtƒ@ƒCƒ‹ I/O ŠÖ”‚ª OEM
 %index
 AssignProcessToJobObject
 Šù‘¶‚ÌƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ÉƒvƒƒZƒX‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 kernel32
 %prm
 hJob, hProcess
 hJob : [intptr] ƒvƒƒZƒX‚ğŠÖ˜A•t‚¯‚éƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateJobObject ‚Ü‚½‚Í OpenJobObject ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·Bƒnƒ“ƒhƒ‹‚Í JOB_OBJECT_ASSIGN_PROCESS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Job Object Security and Access Rights ‚ğQÆB
@@ -469,8 +455,6 @@ Compatibility ‚ğQÆBAssignProcessToJob
 %index
 AttachConsole
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ğw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹‚ÉƒAƒ^ƒbƒ`‚·‚é AttachConsole ŠÖ”‚ÉŠÖ‚·‚éƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 dwProcessId
 dwProcessId : [int] g—p‚·‚éƒRƒ“ƒ\[ƒ‹‚ğŠ—L‚·‚éƒvƒƒZƒX‚Ì¯•ÊqB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ªw’è‚Å‚«‚éB | ’l | ˆÓ–¡ | |-|-| | *pid* | w’èƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹‚ğg‚¤B | | **ATTACH\_PARENT\_PROCESS** `(DWORD)-1` | Œ»İ‚ÌƒvƒƒZƒX‚Ìe‚ÌƒRƒ“ƒ\[ƒ‹‚ğg‚¤B |
@@ -506,8 +490,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers) ‚ğQÆB
 %index
 BackupRead
 ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğƒoƒbƒNƒAƒbƒv‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, bAbort, bProcessSecurity, lpContext
 hFile : [intptr] ƒoƒbƒNƒAƒbƒv‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚Í CreateFile ŠÖ”‚ğŒÄ‚ÔBƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ª ACCESS_SYSTEM_SECURITY ƒAƒNƒZƒXŒ •t‚«‚Åì¬‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èASACL ‚Í“Ç‚İ‚Ü‚ê‚È‚¢BÚ×‚Í [File security and access rights](/windows/win32/fileio/file-security-and-access-rights) ‚ğQÆBƒnƒ“ƒhƒ‹‚Í“¯Šúi”ñƒI[ƒo[ƒ‰ƒbƒvj‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚Â‚Ü‚èACreateFile ŒÄ‚Ño‚µ‚É FILE_FLAG_OVERLAPPED ƒtƒ‰ƒO‚ğİ’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚Íó‚¯æ‚Á‚½ƒnƒ“ƒhƒ‹‚ª“¯Šú‚©ŒŸØ‚µ‚È‚¢‚½‚ßA“¯Šúƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢‚ªA”ñ“¯ŠúiƒI[ƒo[ƒ‰ƒbƒvjƒnƒ“ƒhƒ‹‚ÅŒÄ‚Ô‚ÆƒfƒoƒbƒO‚ª”ñí‚É“ï‚µ‚¢”÷–­‚ÈƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBCreateFile ‚ª FILE_FLAG_NO_BUFFERING ƒtƒ‰ƒO•t‚«‚ÅŒÄ‚Î‚ê‚½ê‡ABackupRead ŠÖ”‚ª¸”s‚·‚é‚±‚Æ‚ª‚ ‚éB‚±‚Ìê‡AGetLastError ŠÖ”‚Í ERROR_INVALID_PARAMETER ‚ğ•Ô‚·B
@@ -534,8 +516,6 @@ BackupSeek ŠÖ”‚ğŒÄ‚ñ‚Å•s—Çƒf[ƒ^‚ğƒXƒLƒbƒv‚Å‚«‚éBƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Í 
 %index
 BackupSeek
 BackupRead ‚Ü‚½‚Í BackupWrite ŠÖ”‚ÅÅ‰‚ÉƒAƒNƒZƒX‚³‚ê‚½ƒf[ƒ^ƒXƒgƒŠ[ƒ€“à‚Å‘O•û‚ÉƒV[ƒN‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwLowBytesToSeek, dwHighBytesToSeek, lpdwLowByteSeeked, lpdwHighByteSeeked, lpContext
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ŠÖ”‚Åì¬‚·‚éBƒnƒ“ƒhƒ‹‚Í“¯Šúi”ñƒI[ƒo[ƒ‰ƒbƒvj‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚Â‚Ü‚èACreateFile ŒÄ‚Ño‚µ‚É FILE_FLAG_OVERLAPPED ƒtƒ‰ƒO‚ğİ’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚Íó‚¯æ‚Á‚½ƒnƒ“ƒhƒ‹‚ª“¯Šú‚©ŒŸØ‚µ‚È‚¢‚½‚ßA“¯Šúƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢‚ªA”ñ“¯ŠúiƒI[ƒo[ƒ‰ƒbƒvjƒnƒ“ƒhƒ‹‚ÅŒÄ‚Ô‚ÆƒfƒoƒbƒO‚ª”ñí‚É“ï‚µ‚¢”÷–­‚ÈƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éB
@@ -561,8 +541,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 BackupWrite
 BackupRead ‚ÅƒoƒbƒNƒAƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğƒŠƒXƒgƒA‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, bAbort, bProcessSecurity, lpContext
 hFile : [intptr] ƒŠƒXƒgƒA‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚Í CreateFile ŠÖ”‚ğŒÄ‚ÔBƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ª ACCESS_SYSTEM_SECURITY ƒAƒNƒZƒXŒ •t‚«‚Åì¬‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èASACL ‚ÍƒŠƒXƒgƒA‚³‚ê‚È‚¢B®‡« ACE ‚ª³‚µ‚­ƒŠƒXƒgƒA‚³‚ê‚é‚æ‚¤‚É‚·‚é‚É‚ÍAƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í WRITE_OWNER ƒAƒNƒZƒXŒ •t‚«‚Å‚àì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [File security and access rights](/windows/win32/fileio/file-security-and-access-rights) ‚ğQÆBƒnƒ“ƒhƒ‹‚Í“¯Šúi”ñƒI[ƒo[ƒ‰ƒbƒvj‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚Â‚Ü‚èACreateFile ŒÄ‚Ño‚µ‚É FILE_FLAG_OVERLAPPED ƒtƒ‰ƒO‚ğİ’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚Íó‚¯æ‚Á‚½ƒnƒ“ƒhƒ‹‚ª“¯Šú‚©ŒŸØ‚µ‚È‚¢‚½‚ßA“¯Šúƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚³‚È‚¢‚ªA”ñ“¯ŠúiƒI[ƒo[ƒ‰ƒbƒvjƒnƒ“ƒhƒ‹‚ÅŒÄ‚Ô‚ÆƒfƒoƒbƒO‚ª”ñí‚É“ï‚µ‚¢”÷–­‚ÈƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBCreateFile ‚ª FILE_FLAG_NO_BUFFERING ƒtƒ‰ƒO•t‚«‚ÅŒÄ‚Î‚ê‚½ê‡ABackupWrite ŠÖ”‚Í¸”s‚·‚é‚±‚Æ‚ª‚ ‚éB‚±‚Ìê‡AGetLastError ‚Í ERROR_INVALID_PARAMETER ‚ğ•Ô‚·B
@@ -589,8 +567,6 @@ WriteEncryptedFileRaw ‚ğg‚¤BƒoƒbƒNƒAƒbƒvƒƒfƒBƒA‚©‚ç“Ç‚Ü‚ê‚½ƒf[ƒ^‚ÍAWIN32_ST
 %index
 Beep
 ƒXƒs[ƒJ[‚©‚ç’Pƒ‚Èƒg[ƒ“‚ğ¶¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFreq, dwDuration
 dwFreq : [int] ƒTƒEƒ“ƒh‚Ìü”g”iƒwƒ‹ƒc’PˆÊjB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 37 ‚©‚ç 32,767i0x25 ‚©‚ç 0x7FFFj‚Ì”ÍˆÍ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -616,8 +592,6 @@ Windows XP 64 ƒrƒbƒg”Å‚Å Beep ‚ÌƒTƒ|[ƒg‚ª‘Å‚¿Ø‚ç‚ê‚½BWindows 7 ‚Å‚ÍABeep
 %index
 BeginUpdateResourceW
 ƒoƒCƒiƒŠƒ‚ƒWƒ…[ƒ‹“à‚ÌƒŠƒ\[ƒX‚ğ’Ç‰ÁAíœA‚Ü‚½‚Í’uŠ·‚·‚é‚½‚ß‚É UpdateResource ŠÖ”‚Åg‚¦‚éƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 pFileName, bDeleteExistingResources
 pFileName : [wstr] Œ^: LPCTSTR ƒŠƒ\[ƒX‚ğXV‚·‚éƒoƒCƒiƒŠƒtƒ@ƒCƒ‹BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìƒtƒ@ƒCƒ‹‚É‘Î‚·‚é‘‚«‚İƒAƒNƒZƒX‚ğæ“¾‚Å‚«‚é•K—v‚ª‚ ‚éBpFileName ‚ªQÆ‚·‚éƒtƒ@ƒCƒ‹‚ÍŒ»İÀs’†‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢BpFileName ‚ªŠ®‘SƒpƒX‚ğw’è‚µ‚È‚¢ê‡AƒVƒXƒeƒ€‚ÍŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚Åƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
@@ -645,8 +619,6 @@ UpdateResource
 %index
 BindIoCompletionCallback
 ƒXƒŒƒbƒhƒv[ƒ‹‚ªŠ—L‚·‚é I/O Š®—¹ƒ|[ƒg‚ğw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚éB‚±‚Ìƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚é I/O —v‹‚ªŠ®—¹‚·‚é‚ÆA”ñ I/O ƒ[ƒJ[ƒXƒŒƒbƒh‚ªw’è‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğÀs‚·‚éB
-%group
-Win32 kernel32
 %prm
 FileHandle, Function, Flags
 FileHandle : [intptr] ƒI[ƒo[ƒ‰ƒbƒv I/O Š®—¹—p‚ÉŠJ‚©‚ê‚½ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ŠÖ”‚ğ FILE_FLAG_OVERLAPPED ƒtƒ‰ƒO•t‚«‚ÅŒÄ‚ñ‚Å•Ô‚³‚ê‚éB
@@ -678,8 +650,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 BuildCommDCBA
 ƒfƒoƒCƒX§Œä•¶š—ñ‚Åw’è‚³‚ê‚½’l‚ÅAw’è‚³‚ê‚½ DCB \‘¢‘Ì‚ğ–„‚ß‚éB(ANSI)
-%group
-Win32 kernel32
 %prm
 lpDef, lpDCB
 lpDef : [str] ƒfƒoƒCƒX§Œäî•ñBŠÖ”‚Í‚±‚Ì•¶š—ñ‚ğæ“¾‚µ‚Ä‰ğÍ‚µAlpDCB ‚ªw‚· DCB \‘¢‘Ì‚É“KØ‚È’l‚ğİ’è‚·‚éB
@@ -698,8 +668,6 @@ BuildCommDCB ŠÖ”‚ÍAˆÈ‰º‚Ì—áŠO‚ğœ‚«AlpDef ƒpƒ‰ƒ[ƒ^‚Å“Á‚É‰e‹¿‚ğó‚¯‚é DCB \
 %index
 BuildCommDCBAndTimeoutsW
 ƒfƒoƒCƒX’è‹`•¶š—ñ‚ğ“KØ‚ÈƒfƒoƒCƒX§ŒäƒuƒƒbƒNƒR[ƒh‚É•ÏŠ·‚µAƒfƒoƒCƒX§ŒäƒuƒƒbƒN‚É”z’u‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpDef, lpDCB, lpCommTimeouts
 lpDef : [wstr] ƒfƒoƒCƒX§Œäî•ñBŠÖ”‚Í‚±‚Ì•¶š—ñ‚ğæ“¾‚µ‚Ä‰ğÍ‚µAlpDCB ‚ªw‚· DCB \‘¢‘Ì‚É“KØ‚È’l‚ğİ’è‚·‚éB•¶š—ñ‚Í mode ƒRƒ}ƒ“ƒh‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Æ“¯‚¶Œ`®‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢: COMx[:][baud={11|110|15|150|30|300|60|600|12|1200|24|2400|48|4800|96|9600|19|19200}][parity={n|e|o|m|s}][data={5|6|7|8}][stop={1|1.5|2}][to={on|off}][xon={on|off}][odsr={on|off}][octs={on|off}][dtr={on|off|hs}][rts={on|off|hs|tg}][idsr={on|off}]B"baud" ƒTƒu•¶š—ñ‚É‚ÍƒŠƒXƒg‚³‚ê‚½ƒyƒA‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB2 Œ…‚Ì’l‚ÍA‚»‚ê‚ª•\‚·’l‚Ìæ“ª 2 Œ…‚Å‚ ‚éB—á‚¦‚Î 11 ‚Í 110 ƒ{[A19 ‚Í 19,200 ƒ{[‚ğ•\‚·B"parity" ƒTƒu•¶š—ñ‚ÍAƒpƒŠƒeƒBƒrƒbƒg‚ğ“`‘—ƒGƒ‰[ŒŸo‚É‚Ç‚¤g‚¤‚©‚ğ¦‚·B’l‚Í‚»‚ê‚¼‚ê "none"A"even"A"odd"A"mark"A"space" ‚ğ•\‚·BÚ×‚Í TechNet ‚Ì mode ƒRƒ}ƒ“ƒhƒŠƒtƒ@ƒŒƒ“ƒX‚ğQÆB—á‚¦‚ÎAŸ‚Ì•¶š—ñ‚Íƒ{[ƒŒ[ƒg 1200AƒpƒŠƒeƒB‚È‚µAƒf[ƒ^ƒrƒbƒg 8AƒXƒgƒbƒvƒrƒbƒg 1 ‚ğw’è‚·‚é: baud=1200 parity=N data=8 stop=1
@@ -720,8 +688,6 @@ BuildCommDCBAndTimeouts ŠÖ”‚Í lpDef “à‚Ì "to={on|off}"
 %index
 BuildCommDCBW
 ƒfƒoƒCƒX§Œä•¶š—ñ‚Åw’è‚³‚ê‚½’l‚ÅAw’è‚³‚ê‚½ DCB \‘¢‘Ì‚ğ–„‚ß‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpDef, lpDCB
 lpDef : [wstr] ƒfƒoƒCƒX§Œäî•ñBŠÖ”‚Í‚±‚Ì•¶š—ñ‚ğæ“¾‚µ‚Ä‰ğÍ‚µAlpDCB ‚ªw‚· DCB \‘¢‘Ì‚É“KØ‚È’l‚ğİ’è‚·‚éB
@@ -740,8 +706,6 @@ BuildCommDCB ŠÖ”‚ÍAˆÈ‰º‚Ì—áŠO‚ğœ‚«AlpDef ƒpƒ‰ƒ[ƒ^‚Å“Á‚É‰e‹¿‚ğó‚¯‚é DCB \
 %index
 CallNamedPipeW
 ƒƒbƒZ[ƒWŒ^ƒpƒCƒv‚ÉÚ‘±‚µiƒCƒ“ƒXƒ^ƒ“ƒX‚ª—˜—p‚Å‚«‚È‚¢ê‡‚Í‘Ò‹@‚·‚éjAƒpƒCƒv‚Ö‚Ì‘‚«‚İ‚Æ“Ç‚İ‚İ‚ğs‚¢AƒpƒCƒv‚ğ•Â‚¶‚éB(CallNamedPipeW)
-%group
-Win32 kernel32
 %prm
 lpNamedPipeName, lpInBuffer, nInBufferSize, lpOutBuffer, nOutBufferSize, lpBytesRead, nTimeOut
 lpNamedPipeName : [wstr] ƒpƒCƒv–¼B
@@ -773,8 +737,6 @@ UWP ƒvƒƒZƒXŠÔ‚Å‚µ‚©g‚¦‚È‚¢B‚Ü‚½A–¼‘O•t‚«ƒpƒCƒv‚ÍƒpƒCƒv–¼‚É `\\.\pipe\LOCAL\`
 %index
 CallbackMayRunLong
 ƒR[ƒ‹ƒoƒbƒN‚ª‚·‚®‚É–ß‚ç‚È‚¢‰Â”\«‚ª‚ ‚é‚±‚Æ‚ğ¦‚·B
-%group
-Win32 kernel32
 %prm
 pci
 pci : [intptr] ƒR[ƒ‹ƒoƒbƒNƒCƒ“ƒXƒ^ƒ“ƒX‚ğ’è‹`‚·‚é TP_CALLBACK_INSTANCE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
@@ -798,8 +760,6 @@ FALSE
 %index
 CancelDeviceWakeupRequest
 (no summary)
-%group
-Win32 kernel32
 %prm
 hDevice
 hDevice : [intptr] 
@@ -810,8 +770,6 @@ hDevice : [intptr]
 %index
 CancelIo
 w’èƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄŒÄ‚Ño‚µƒXƒŒƒbƒh‚ª”­s‚µ‚½A•Û—¯’†‚Ì“üo—Í (I/O) ‘€ì‚·‚×‚Ä‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚Í‚±‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚É‘Î‚·‚é•Û—¯’†‚Ì I/O ‘€ì‚ğ‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚·‚éB
@@ -839,8 +797,6 @@ hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚Í‚±‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚É‘Î‚·‚é•Û—¯’†‚
 %index
 CancelIoEx
 w’èƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚É‘Î‚·‚é–¢Š®—¹ I/O ‘€ì‚ÉƒLƒƒƒ“ƒZƒ‹ˆó‚ğ•t‚¯‚éB‚±‚ÌŠÖ”‚ÍAI/O ‘€ì‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚ÉŠÖ‚í‚ç‚¸AŒ»İ‚ÌƒvƒƒZƒX“à‚Ì I/O ‘€ì‚Ì‚İ‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpOverlapped
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -874,8 +830,6 @@ I/O Š®—¹ƒpƒPƒbƒg‚Íƒ|[ƒg‚ÉƒLƒ…[‚³‚ê‚È‚¢B‚Ü‚¾•Û—¯’†‚Ì”ñ“¯Šú‘€ì‚É‚Â‚¢‚Ä‚ÍAƒLƒƒ
 %index
 CancelSynchronousIo
 w’èƒXƒŒƒbƒh‚ª”­s‚µ‚½•Û—¯’†‚Ì“¯Šú I/O ‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‘ÎÛ‚Æ‚µ‚Äƒ}[ƒN‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread
 hThread : [intptr] ƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -901,8 +855,6 @@ ERROR_NOT_FOUND ‚ğ•Ô‚·B
 %index
 CancelTimerQueueTimer
 (no summary)
-%group
-Win32 kernel32
 %prm
 TimerQueue, Timer
 TimerQueue : [intptr] 
@@ -914,8 +866,6 @@ Timer : [intptr]
 %index
 CancelWaitableTimer
 w’è‚³‚ê‚½‘Ò‹@‰Â”\ƒ^ƒCƒ}‚ğ”ñƒAƒNƒeƒBƒuó‘Ô‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hTimer
 hTimer : [intptr] ƒ^ƒCƒ}ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B[CreateWaitableTimer](./nf-synchapi-createwaitabletimerw.md) ‚Ü‚½‚Í [OpenWaitableTimer](./nf-synchapi-openwaitabletimerw.md) ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·Bƒnƒ“ƒhƒ‹‚Í TIMER_MODIFY_STATE ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Synchronization Object Security and Access Rights ‚ğQÆB
@@ -936,8 +886,6 @@ SetWaitableTimer ŠÖ”‚ğŒÄ‚ÔB‚±‚ÌŠÖ”‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒRƒ“ƒpƒCƒ‹‚·‚é‚
 %index
 ChangeTimerQueueTimer
 CreateTimerQueueTimer ŠÖ”‚Åì¬‚³‚ê‚½ƒ^ƒCƒ}ƒLƒ…[ƒ^ƒCƒ}‚ğXV‚·‚éB
-%group
-Win32 kernel32
 %prm
 TimerQueue, Timer, DueTime, Period
 TimerQueue : [intptr] ƒ^ƒCƒ}ƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateTimerQueue ŠÖ”‚ª•Ô‚·B
@@ -963,8 +911,6 @@ ChangeTimerQueueTimer
 %index
 CheckNameLegalDOS8Dot3A
 w’è‚³‚ê‚½–¼‘O‚ª FAT ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚Åƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é‚©‚ğ”»’è‚·‚éB(ANSI)
-%group
-Win32 kernel32
 %prm
 lpName, lpOemName, OemNameSize, pbNameContainsSpaces, pbNameLegal
 lpName : [str] 8.3 Œ`®‚Ìƒtƒ@ƒCƒ‹–¼B
@@ -989,8 +935,6 @@ pbNameLegal : [var] ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAŒ»İ‚Ì OEM ƒR[ƒhƒy[ƒ
 %index
 CheckNameLegalDOS8Dot3W
 w’è‚³‚ê‚½–¼‘O‚ª FAT ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚Åƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é‚©‚ğ”»’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpName, lpOemName, OemNameSize, pbNameContainsSpaces, pbNameLegal
 lpName : [wstr] 8.3 Œ`®‚Ìƒtƒ@ƒCƒ‹–¼B
@@ -1015,8 +959,6 @@ pbNameLegal : [var] ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAŒ»İ‚Ì OEM ƒR[ƒhƒy[ƒ
 %index
 CheckRemoteDebuggerPresent
 w’è‚³‚ê‚½ƒvƒƒZƒX‚ªƒfƒoƒbƒO’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pbDebuggerPresent
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1037,8 +979,6 @@ IsDebuggerPresent ŠÖ”‚ğg‚¤B‚±‚ÌŠÖ”‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒRƒ“ƒpƒCƒ‹‚·‚é
 %index
 CheckTokenCapability
 w’è‚³‚ê‚½ƒg[ƒNƒ“‚ÌƒPƒCƒpƒrƒŠƒeƒB‚ğŒŸ¸‚·‚éB
-%group
-Win32 kernel32
 %prm
 TokenHandle, CapabilitySidToCheck, HasCapability
 TokenHandle : [intptr] ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Íƒg[ƒNƒ“‚Ö‚Ì TOKEN_QUERY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒg[ƒNƒ“‚Í impersonation ƒg[ƒNƒ“‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1054,8 +994,6 @@ HasCapability : [var] ŒŸ¸Œ‹‰Ê‚ğó‚¯æ‚éBƒAƒNƒZƒXƒg[ƒNƒ“‚ª‚»‚ÌƒPƒCƒpƒrƒŠƒeƒB‚ğ
 %index
 CheckTokenMembershipEx
 w’è‚³‚ê‚½ SID ‚ªw’è‚³‚ê‚½ƒg[ƒNƒ“‚Å—LŒø‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 TokenHandle, SidToCheck, Flags, IsMember
 TokenHandle : [intptr] ƒAƒNƒZƒXƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹Bw’è‚³‚ê‚Ä‚¢‚éê‡A‚±‚Ìƒg[ƒNƒ“‚ª SID ‚Ì—L–³‚É‚Â‚¢‚ÄŒŸ¸‚³‚ê‚éBw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AŒ»İ‚ÌÀŒøƒg[ƒNƒ“‚ªg‚í‚ê‚éB‚±‚ê‚Í impersonation ƒg[ƒNƒ“‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1072,8 +1010,6 @@ IsMember : [var] SID ‚ªƒg[ƒNƒ“‚Å—LŒø‚È‚ç TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î FALSEB
 %index
 ClearCommBreak
 w’è‚³‚ê‚½’ÊMƒfƒoƒCƒX‚Ì•¶š‘—M‚ğ•œ‹A‚³‚¹A‘—Mƒ‰ƒCƒ“‚ğ”ñƒuƒŒ[ƒNó‘Ô‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -1092,8 +1028,6 @@ hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 %index
 ClearCommError
 ’ÊMƒGƒ‰[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚µA’ÊMƒfƒoƒCƒX‚ÌŒ»İ‚ÌƒXƒe[ƒ^ƒX‚ğ•ñ‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpErrors, lpStat
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -1115,8 +1049,6 @@ ClearCommError ŠÖ”‚ğŒÄ‚ñ‚Å’ÊMƒGƒ‰[‚ğ³”F‚·‚é‚Ü‚ÅAV‚µ‚¢“Ç‚İ‘‚«‘€ì‚Íó‚¯•t‚
 %index
 ClosePrivateNamespace
 ŠJ‚¢‚Ä‚¢‚é–¼‘O‹óŠÔƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 Handle, Flags
 Handle : [intptr] –¼‘O‹óŠÔ‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreatePrivateNamespace ‚Ü‚½‚Í OpenPrivateNamespace ‚Åì¬‚³‚ê‚éB
@@ -1134,8 +1066,6 @@ Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª PRIVATE_NAMESPACE_FLAG_DESTROY (0x00000001) ‚Ìê
 %index
 ClosePseudoConsole
 w’è‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Ì‹^—ƒRƒ“ƒ\[ƒ‹‚ğ•Â‚¶‚é ClosePseudoConsole ŠÖ”‚ÉŠÖ‚·‚éƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 hPC
 hPC : [intptr] [CreatePseudoConsole](createpseudoconsole.md) ‚ÅŠJ‚¢‚½ƒAƒNƒeƒBƒu‚È‹^—ƒRƒ“ƒ\[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1156,8 +1086,6 @@ hPC : [intptr] [CreatePseudoConsole](createpseudoconsole.md) ‚ÅŠJ‚¢‚½ƒAƒNƒeƒBƒu‚
 %index
 CommConfigDialogW
 ƒhƒ‰ƒCƒo‚©‚ç’ñ‹Ÿ‚³‚ê‚éİ’èƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszName, hWnd, lpCC
 lpszName : [wstr] ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚é‘ÎÛ‚ÌƒfƒoƒCƒX–¼B—á‚¦‚ÎACOM1 ‚©‚ç COM9 ‚ÍƒVƒŠƒAƒ‹ƒ|[ƒgALPT1 ‚©‚ç LPT9 ‚Íƒpƒ‰ƒŒƒ‹ƒ|[ƒg‚Å‚ ‚éB
@@ -1182,8 +1110,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CompareFileTime
 2 ‚Â‚Ìƒtƒ@ƒCƒ‹‚ğ”äŠr‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpFileTime1, lpFileTime2
 lpFileTime1 : [var] 1 ‚Â–Ú‚Ìƒtƒ@ƒCƒ‹‚ğw’è‚·‚é FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1199,8 +1125,6 @@ lpFileTime2 : [var] 2 ‚Â–Ú‚Ìƒtƒ@ƒCƒ‹‚ğw’è‚·‚é FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 CompareStringW
 CompareStringW (Unicode) ŠÖ” (stringapiset.h) ‚ÍA¯•Êq‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚É‚Â‚¢‚Ä 2 ‚Â‚Ì•¶š—ñ‚ğ”äŠr‚·‚éB
-%group
-Win32 kernel32
 %prm
 Locale, dwCmpFlags, lpString1, cchCount1, lpString2, cchCount2
 Locale : [int] ”äŠr‚Ég—p‚·‚éƒƒP[ƒ‹‚ÌƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ğg‚Á‚ÄƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚±‚Æ‚àAˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB
@@ -1233,8 +1157,6 @@ DOT ABOVE (U+0130) ‚Ì¬•¶šŒ`®‚Æ‚È‚éBWindows 8 ˆÈ~: ŠÖ”‚Ì ANSI ”Å‚Í Winnls.h
 %index
 CompareStringEx
 –¼‘O‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚É‚Â‚¢‚ÄA2 ‚Â‚Ì UnicodeiƒƒCƒh•¶šj•¶š—ñ‚ğ”äŠr‚·‚éB’ˆÓ: CompareStringEx ‚ğŒë—p‚·‚é‚ÆƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒZƒLƒ…ƒŠƒeƒB‚ğ‘¹‚È‚¤‰Â”\«‚ª‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwCmpFlags, lpString1, cchCount1, lpString2, cchCount2, lpVersionInformation, lpReserved, lParam
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©B
@@ -1279,8 +1201,6 @@ Windows ‚ÌƒŠƒŠ[ƒXŠÔ‚Å•Ï‚í‚é‚±‚Æ‚ª‚ ‚éB—á‚¦‚ÎV‚µ‚¢ Unicode
 %index
 CompareStringOrdinal
 2 ‚Â‚Ì Unicode •¶š—ñ‚ğ”äŠr‚µ‚ÄƒoƒCƒiƒŠ‚Ì“™‰¿«‚ğŒŸ¸‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpString1, cchCount1, lpString2, cchCount2, bIgnoreCase
 lpString1 : [wstr] ”äŠr‚·‚é 1 ‚Â–Ú‚Ì•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1308,8 +1228,6 @@ Windows 8 ˆÈ~: CompareStringOrdinal ‚Í Stringapiset.h ‚ÅéŒ¾‚³‚ê‚Ä‚¢‚éBWindows
 %index
 ConnectNamedPipe
 –¼‘O•t‚«ƒpƒCƒvƒT[ƒo[ƒvƒƒZƒX‚ªƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒZƒX‚©‚ç‚Ì–¼‘O•t‚«ƒpƒCƒvƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌÚ‘±‚ğ‘Ò‹@‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 hNamedPipe, lpOverlapped
 hNamedPipe : [intptr] –¼‘O•t‚«ƒpƒCƒvƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒT[ƒo[‘¤‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateNamedPipe ŠÖ”‚ª•Ô‚·B
@@ -1356,8 +1274,6 @@ ERROR_PIPE_CONNECTEDA‘O‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚ªƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚½‚ªƒT[ƒo[‚ªØ’f‚µ‚Ä‚¢‚È
 %index
 ContinueDebugEvent
 ƒfƒoƒbƒK‚ªˆÈ‘O‚ÉƒfƒoƒbƒOƒCƒxƒ“ƒg‚ğ•ñ‚µ‚½ƒXƒŒƒbƒh‚ÌÀs‚ğŒp‘±‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 dwProcessId, dwThreadId, dwContinueStatus
 dwProcessId : [int] Œp‘±‚³‚¹‚éƒvƒƒZƒX‚ÌƒvƒƒZƒX¯•ÊqB
@@ -1382,8 +1298,6 @@ EXIT_THREAD_DEBUG_EVENT ƒfƒoƒbƒOƒCƒxƒ“ƒg‚ğ•ñ‚µ‚Ä‚¢‚½ê‡AContinueDebugEvent
 %index
 ConvertCalDateTimeToSystemTime
 ”ñ„§Bw’è‚³‚ê‚½ CALDATETIME \‘¢‘Ì‚ğ SYSTEMTIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpCalDateTime, lpSysTime
 lpCalDateTime : [var] •ÏŠ·‚·‚é [**CALDATETIME**](caldatetime.md) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1409,8 +1323,6 @@ ERROR\_INVALID\_PARAMETERBƒpƒ‰ƒ[ƒ^’l‚Ì‚¢‚¸‚ê‚©‚ª–³ŒøB
 %index
 ConvertDefaultLocale
 Šù’è‚ÌƒƒP[ƒ‹’l‚ğÀÛ‚ÌƒƒP[ƒ‹¯•Êq‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 Locale
 Locale : [int] •ÏŠ·‚·‚éŠù’è‚ÌƒƒP[ƒ‹¯•Êq’lBMAKELCID ƒ}ƒNƒ‚ğg‚Á‚ÄƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚±‚Æ‚àAˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB
@@ -1430,8 +1342,6 @@ ConvertDefaultLocale ‚ÌŒÄ‚Ño‚µ‚Í GetUserDefaultLCID ‚ÌŒÄ‚Ño‚µ‚Æ“™‰¿‚Å‚ ‚éB
 %index
 ConvertFiberToThread
 Œ»İ‚Ìƒtƒ@ƒCƒo‚ğƒXƒŒƒbƒh‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -1450,8 +1360,6 @@ Win32 kernel32
 %index
 ConvertSystemTimeToCalDateTime
 ”ñ„§Bw’è‚³‚ê‚½ SYSTEMTIME \‘¢‘Ì‚ğ CALDATETIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpSysTime, calId, lpCalDateTime
 lpSysTime : [var] •ÏŠ·‚·‚é [**SYSTEMTIME**](/windows/win32/api/minwinbase/ns-minwinbase-systemtime) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1478,8 +1386,6 @@ ERROR\_INVALID\_PARAMETERBƒpƒ‰ƒ[ƒ^’l‚Ì‚¢‚¸‚ê‚©‚ª–³ŒøB
 %index
 ConvertThreadToFiber
 Œ»İ‚ÌƒXƒŒƒbƒh‚ğƒtƒ@ƒCƒo‚É•ÏŠ·‚·‚éB‘¼‚Ìƒtƒ@ƒCƒo‚ğƒXƒPƒWƒ…[ƒ‹‚·‚é‘O‚ÉAƒXƒŒƒbƒh‚ğƒtƒ@ƒCƒo‚É•ÏŠ·‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(ConvertThreadToFiber)
-%group
-Win32 kernel32
 %prm
 lpParameter
 lpParameter : [intptr] ƒtƒ@ƒCƒo‚É“n‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒo‚Í GetFiberData ƒ}ƒNƒ‚ğg‚Á‚Ä‚±‚Ìƒf[ƒ^‚ğæ“¾‚Å‚«‚éB
@@ -1503,8 +1409,6 @@ lpParameter
 %index
 ConvertThreadToFiberEx
 Œ»İ‚ÌƒXƒŒƒbƒh‚ğƒtƒ@ƒCƒo‚É•ÏŠ·‚·‚éB‘¼‚Ìƒtƒ@ƒCƒo‚ğƒXƒPƒWƒ…[ƒ‹‚·‚é‘O‚ÉAƒXƒŒƒbƒh‚ğƒtƒ@ƒCƒo‚É•ÏŠ·‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(ConvertThreadToFiberEx)
-%group
-Win32 kernel32
 %prm
 lpParameter, dwFlags
 lpParameter : [intptr] ƒtƒ@ƒCƒo‚É“n‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒo‚Í GetFiberData ƒ}ƒNƒ‚ğg‚Á‚Ä‚±‚Ìƒf[ƒ^‚ğæ“¾‚Å‚«‚éB
@@ -1529,8 +1433,6 @@ lpParameter
 %index
 CopyFileW
 Šù‘¶‚Ìƒtƒ@ƒCƒ‹‚ğV‚µ‚¢ƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpExistingFileName, lpNewFileName, bFailIfExists
 lpExistingFileName : [wstr] Šù‘¶ƒtƒ@ƒCƒ‹‚Ì–¼‘OBANSI ”Å‚Å‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éBUnicode ”Å‚Å 32,767 •¶š‚Ü‚ÅŠg’£‚·‚é‚É‚Í "\\?\" ‚ğƒpƒX‚É•t‰Á‚·‚éBƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚Í CopyFile ‚Í¸”s‚µAGetLastError ‚Í ERROR_FILE_NOT_FOUND ‚ğ•Ô‚·B
@@ -1555,8 +1457,6 @@ FILE_ATTRIBUTE_READONLY ‚ğ‚Âê‡‚Í ERROR_ACCESS_DENIED
 %index
 CopyFile2
 Šù‘¶ƒtƒ@ƒCƒ‹‚ğV‚µ‚¢ƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚µAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ’Ê‚¶‚Äi’»‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚·‚éB(CopyFile2)
-%group
-Win32 kernel32
 %prm
 pwszExistingFileName, pwszNewFileName, pExtendedParameters
 pwszExistingFileName : [wstr] Šù‘¶ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‚¯‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~A"\\?\" ‚ğ‘O’u‚¹‚¸‚É MAX_PATH •¶š”§ŒÀ‚ğæ‚èœ‚­‚±‚Æ‚ÉƒIƒvƒgƒCƒ“‚Å‚«‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆBlpExistingFileName ‚ª‘¶İ‚µ‚È‚¢ê‡ACopyFile2 ŠÖ”‚Í¸”s‚µ HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND) ‚ğ•Ô‚·B
@@ -1584,8 +1484,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 CopyFileExW
 Šù‘¶ƒtƒ@ƒCƒ‹‚ğV‚µ‚¢ƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚µAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ’Ê‚¶‚Äi’»‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚·‚éB(CopyFileExW)
-%group
-Win32 kernel32
 %prm
 lpExistingFileName, lpNewFileName, lpProgressRoutine, lpData, pbCancel, dwCopyFlags
 lpExistingFileName : [wstr] Šù‘¶ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -1628,8 +1526,6 @@ COPY_FILE_COPY_SYMLINK ‚ªw’è‚³‚ê‚½ê‡AˆÈ‰º‚Ìƒ‹[ƒ‹‚ª“K—p‚³‚ê‚éB
 %index
 CopyFileTransactedW
 Šù‘¶ƒtƒ@ƒCƒ‹‚ğV‚µ‚¢ƒtƒ@ƒCƒ‹‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚ÄƒRƒs[‚µAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ’Ê‚¶‚Äi’»‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpExistingFileName, lpNewFileName, lpProgressRoutine, lpData, pbCancel, dwCopyFlags, hTransaction
 lpExistingFileName : [wstr] Šù‘¶ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚Ä‚¢‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚ÑƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‚¯‚éBÚ×‚Í Naming a File ‚ğQÆBlpExistingFileName ‚ª‘¶İ‚µ‚È‚¢ê‡ACopyFileTransacted ŠÖ”‚Í¸”s‚µAGetLastError ŠÖ”‚Í ERROR_FILE_NOT_FOUND ‚ğ•Ô‚·Bƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅIƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚Éİ’è‚³‚ê‚éB
@@ -1666,8 +1562,6 @@ COPY_FILE_COPY_SYMLINK ‚ªw’è‚³‚ê‚½ê‡AˆÈ‰º‚Ìƒ‹[ƒ‹‚ª“K—p‚³‚ê‚éB
 %index
 CopyLZFile
 (no summary)
-%group
-Win32 kernel32
 %prm
 hfSource, hfDest
 hfSource : [int] 
@@ -1679,8 +1573,6 @@ hfDest : [int]
 %index
 FreeLibrary
 ƒ[ƒh‚³‚ê‚½ƒ_ƒCƒiƒ~ƒbƒNƒŠƒ“ƒNƒ‰ƒCƒuƒ‰ƒŠ(DLL)ƒ‚ƒWƒ…[ƒ‹‚ğ‰ğ•ú‚µA•K—v‚É‰‚¶‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸­‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 hLibModule
 hLibModule : [intptr] ƒ[ƒhÏ‚İƒ‰ƒCƒuƒ‰ƒŠƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BLoadLibraryALoadLibraryExAGetModuleHandleAGetModuleHandleEx ‚Ì‚¢‚¸‚ê‚©‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -1711,8 +1603,6 @@ FreeLibraryAndExitThread ‚Ì Remarks ‚ğQÆB
 %index
 CreateActCtxW
 CreateActCtx ŠÖ”‚ÍƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 pActCtx
 pActCtx : [var] ì¬‚·‚éƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş ACTCTX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1739,8 +1629,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateBoundaryDescriptorW
 CreateBoundaryDescriptorW (Unicode) ŠÖ” (namespaceapi.h) ‚Í‹«ŠE‹Lqq‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 Name, Flags
 Name : [wstr] ‹«ŠE‹Lqq‚Ì–¼‘OB
@@ -1761,8 +1649,6 @@ AddSIDToBoundaryDescriptor
 %index
 CreateConsoleScreenBuffer
 CreateConsoleScreenBuffer ŠÖ”‚Í Windows ƒRƒ“ƒ\[ƒ‹—p‚ÌƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwFlags, lpScreenBufferData
 dwDesiredAccess : [int] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚ÌƒAƒNƒZƒXBƒAƒNƒZƒXŒ ‚Ìˆê——‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -1801,8 +1687,6 @@ CreateConsoleScreenBuffer ŠÖ”‚Í Windows ƒRƒ“ƒ\[ƒ‹—p‚ÌƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚ğì¬‚
 %index
 CreateDirectoryW
 V‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB(CreateDirectoryW)
-%group
-Win32 kernel32
 %prm
 lpPathName, lpSecurityAttributes
 lpPathName : [wstr] ì¬‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒXB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍAƒpƒX‚ÌŠù’è‚Ì•¶š—ñƒTƒCƒY§ŒÀ‚Í 248 •¶š (MAX_PATH - 8.3 ƒtƒ@ƒCƒ‹–¼‚Ì‚½‚ß‚Ì—]—T) ‚Å‚ ‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚ÑƒpƒX‚Ìæ“ª‚É "\\\\?\\" ‚ğ•t‚¯‚éBÚ×‚Í Naming a File ‚ğQÆB
@@ -1829,8 +1713,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 CreateDirectoryExW
 w’è‚³‚ê‚½ƒeƒ“ƒvƒŒ[ƒgƒfƒBƒŒƒNƒgƒŠ‚Ì‘®«‚ğ‚ÂV‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpTemplateDirectory, lpNewDirectory, lpSecurityAttributes
 lpTemplateDirectory : [wstr] V‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éÛ‚Éƒeƒ“ƒvƒŒ[ƒg‚Æ‚µ‚Äg—p‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒXB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚Ä‚¢‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚ÑƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‚¯‚éBÚ×‚Í Naming a File ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~AUnicode ”Å (CreateDirectoryExW) ‚Å‚ÍA"\\?\" ‚ğ‘O’u‚¹‚¸‚É MAX_PATH •¶š”§ŒÀ‚ğæ‚èœ‚­‚±‚Æ‚ÉƒIƒvƒgƒCƒ“‚Å‚«‚éB1 ƒpƒXƒZƒOƒƒ“ƒg‚ ‚½‚è 255 •¶š‚Ì§ŒÀ‚Íˆø‚«‘±‚«“K—p‚³‚ê‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Length Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -1860,8 +1742,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 CreateDirectoryTransactedW
 w’è‚³‚ê‚½ƒeƒ“ƒvƒŒ[ƒgƒfƒBƒŒƒNƒgƒŠ‚Ì‘®«‚ğ‚ÂV‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äì¬‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpTemplateDirectory, lpNewDirectory, lpSecurityAttributes, hTransaction
 lpTemplateDirectory : [wstr] V‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éÛ‚Éƒeƒ“ƒvƒŒ[ƒg‚Æ‚µ‚Äg—p‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚Ä‚¢‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚ÑƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‚¯‚éBÚ×‚Í Naming a File ‚ğQÆBƒfƒBƒŒƒNƒgƒŠ‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅIƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚Éİ’è‚³‚ê‚éB
@@ -1890,8 +1770,6 @@ FILE_FLAG_BACKUP_SEMANTICS ƒtƒ‰ƒO•t‚«‚ÅŒÄ‚Ô‚±‚Æ‚ÅƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚
 %index
 CreateEventW
 –¼‘O•t‚«‚Ü‚½‚Í–³–¼‚ÌƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpEventAttributes, bManualReset, bInitialState, lpName
 lpEventAttributes : [var] SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡Aƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚³‚ê‚È‚¢B
@@ -1917,8 +1795,6 @@ ResetEvent
 %index
 CreateEventExW
 –¼‘O•t‚«‚Ü‚½‚Í–¼‘O‚È‚µ‚ÌƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚«A‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpEventAttributes, lpName, dwFlags, dwDesiredAccess
 lpEventAttributes : [var] SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpEventAttributes ‚ª NULL ‚Ìê‡AƒCƒxƒ“ƒgƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚Å‚«‚È‚¢B\‘¢‘Ì‚Ì lpSecurityDescriptor ƒƒ“ƒo[‚ªV‚µ‚¢ƒCƒxƒ“ƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğw’è‚·‚éBlpEventAttributes ‚ª NULL ‚Ìê‡AƒCƒxƒ“ƒg‚ÍŠù’è‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚·‚éBƒCƒxƒ“ƒg‚ÌŠù’èƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì ACL ‚Íì¬Ò‚Ìƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ü‚½‚Í impersonation ƒg[ƒNƒ“‚©‚çæ“¾‚³‚ê‚éB
@@ -1950,8 +1826,6 @@ SetEvent ŠÖ”‚ğg‚¤BƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ”ñƒVƒOƒiƒ‹‚ÉƒŠƒZƒbƒg‚·‚é‚É‚Í Re
 %index
 CreateFiber
 ƒtƒ@ƒCƒoƒIƒuƒWƒFƒNƒg‚ğŠ„‚è“–‚ÄAƒXƒ^ƒbƒN‚ğŠ„‚è“–‚ÄAw’è‚³‚ê‚½ŠJnƒAƒhƒŒƒXi’Êí‚Íƒtƒ@ƒCƒoŠÖ”j‚©‚çÀs‚ğŠJn‚·‚é‚æ‚¤‚Éİ’è‚·‚éB‚±‚ÌŠÖ”‚Íƒtƒ@ƒCƒo‚ğƒXƒPƒWƒ…[ƒ‹‚µ‚È‚¢B(CreateFiber)
-%group
-Win32 kernel32
 %prm
 dwStackSize, lpStartAddress, lpParameter
 dwStackSize : [int] ƒXƒ^ƒbƒN‚Ì‰ŠúƒRƒ~ƒbƒgƒTƒCƒYiƒoƒCƒg’PˆÊjB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ªƒ[ƒ‚Ìê‡AV‚µ‚¢ƒtƒ@ƒCƒo‚ÍÀsƒtƒ@ƒCƒ‹‚ÌŠù’èƒRƒ~ƒbƒgƒXƒ^ƒbƒNƒTƒCƒY‚ğg—p‚·‚éBÚ×‚Í Thread Stack Size ‚ğQÆB
@@ -1979,8 +1853,6 @@ ConvertThreadToFiber
 %index
 CreateFiberEx
 ƒtƒ@ƒCƒoƒIƒuƒWƒFƒNƒg‚ğŠ„‚è“–‚ÄAƒXƒ^ƒbƒN‚ğŠ„‚è“–‚ÄAw’è‚³‚ê‚½ŠJnƒAƒhƒŒƒXi’Êí‚Íƒtƒ@ƒCƒoŠÖ”j‚©‚çÀs‚ğŠJn‚·‚é‚æ‚¤‚Éİ’è‚·‚éB‚±‚ÌŠÖ”‚Íƒtƒ@ƒCƒo‚ğƒXƒPƒWƒ…[ƒ‹‚µ‚È‚¢B(CreateFiberEx)
-%group
-Win32 kernel32
 %prm
 dwStackCommitSize, dwStackReserveSize, dwFlags, lpStartAddress, lpParameter
 dwStackCommitSize : [int] ƒXƒ^ƒbƒN‚Ì‰ŠúƒRƒ~ƒbƒgƒTƒCƒYiƒoƒCƒg’PˆÊjB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ªƒ[ƒ‚Ìê‡AV‚µ‚¢ƒtƒ@ƒCƒo‚ÍÀsƒtƒ@ƒCƒ‹‚ÌŠù’èƒRƒ~ƒbƒgƒXƒ^ƒbƒNƒTƒCƒY‚ğg—p‚·‚éBÚ×‚Í Thread Stack Size ‚ğQÆB
@@ -2009,8 +1881,6 @@ ConvertThreadToFiber
 %index
 CreateFileW
 ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX‚ğì¬‚Ü‚½‚ÍŠJ‚­B‚æ‚­g‚í‚ê‚é I/O ƒfƒoƒCƒX‚Íƒtƒ@ƒCƒ‹Aƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€AƒfƒBƒŒƒNƒgƒŠA•¨—ƒfƒBƒXƒNAƒ{ƒŠƒ…[ƒ€AƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@Aƒe[ƒvƒhƒ‰ƒCƒuA’ÊMƒŠƒ\[ƒXAƒ[ƒ‹ƒXƒƒbƒgAƒpƒCƒv‚È‚ÇB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile
 lpFileName : [wstr] ì¬‚Ü‚½‚ÍŠJ‚­ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒoƒCƒX‚Ì–¼‘OBƒXƒ‰ƒbƒVƒ…(/)‚ÆƒoƒbƒNƒXƒ‰ƒbƒVƒ…(\\)‚Ì‚Ç‚¿‚ç‚àg—p‰Â”\BANSI ”Å‚Å‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éBUnicode ”Å‚Å 32,767 •¶š‚Ü‚ÅŠg’£‚·‚é‚É‚Í "\\?\" ‚ğƒpƒX‚É•t‰Á‚·‚éBƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€‚ğì¬‚·‚é‚É‚ÍAƒtƒ@ƒCƒ‹–¼:ƒXƒgƒŠ[ƒ€–¼ ‚ğw’è‚·‚éB
@@ -2039,8 +1909,6 @@ CreateFile ‚ÍŒ³Xƒtƒ@ƒCƒ‹‘€ì—p‚ÉŠJ”­‚³‚ê‚½‚ªA‘½‚­‚Ì I/O
 %index
 CreateFile2
 ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX‚ğì¬‚Ü‚½‚ÍŠJ‚­B
-%group
-Win32 kernel32
 %prm
 lpFileName, dwDesiredAccess, dwShareMode, dwCreationDisposition, pCreateExParams
 lpFileName : [wstr] ì¬‚Ü‚½‚ÍŠJ‚­ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒoƒCƒX‚Ì–¼‘OB“Áê‚ÈƒfƒoƒCƒX–¼‚É‚Â‚¢‚Ä‚Í Defining an MS-DOS Device Name ‚ğQÆBƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€‚ğì¬‚·‚é‚É‚ÍAƒtƒ@ƒCƒ‹–¼AƒRƒƒ“AƒXƒgƒŠ[ƒ€–¼‚Ì‡‚Éw’è‚·‚éBÚ×‚Í File Streams ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~A"\\?\" ‚ğ‘O’u‚¹‚¸‚É MAX_PATH §ŒÀ‚ğæ‚èœ‚­‚±‚Æ‚ÉƒIƒvƒgƒCƒ“‚Å‚«‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Length Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -2078,8 +1946,6 @@ lpSecurityAttributes ƒƒ“ƒo[‚ª NULL ‚Ìê‡ACreateFile2
 %index
 CreateFileMappingW
 w’èƒtƒ@ƒCƒ‹‚É‘Î‚µ‚Ä–¼‘O•t‚«‚Ü‚½‚Í–¼‘O‚È‚µ‚Ìƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­B(CreateFileMappingW)
-%group
-Win32 kernel32
 %prm
 hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName
 hFile : [intptr] ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éŒ³‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹‚Í flProtect ƒpƒ‰ƒ[ƒ^‚ªw’è‚·‚é•ÛŒìƒtƒ‰ƒO‚ÆŒİŠ·«‚Ì‚ ‚éƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB•K{‚Å‚Í‚È‚¢‚ªAƒ}ƒbƒv‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Í”r‘¼ƒAƒNƒZƒX‚ÅŠJ‚­‚±‚Æ‚ª„§‚³‚ê‚éBÚ×‚Í File Security and Access Rights ‚ğQÆBhFile ‚ª INVALID_HANDLE_VALUE ‚Ìê‡AŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Í dwMaximumSizeHigh ‚Æ dwMaximumSizeLow ƒpƒ‰ƒ[ƒ^‚Åƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚àw’è‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìê‡ACreateFileMapping ‚Íƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚Ìƒtƒ@ƒCƒ‹‚Å‚Í‚È‚­ƒVƒXƒeƒ€ƒy[ƒWƒ“ƒOƒtƒ@ƒCƒ‹‚ªƒoƒbƒN‚·‚éAw’èƒTƒCƒY‚Ìƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
@@ -2131,8 +1997,6 @@ FILE_MAP_READ ‚Å MapViewOfFile ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éBWindows Server 2012
 %index
 CreateFileMappingNumaW
 w’èƒtƒ@ƒCƒ‹‚É‘Î‚µ‚Ä–¼‘O•t‚«‚Ü‚½‚Í–¼‘O‚È‚µ‚Ìƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚«A•¨—ƒƒ‚ƒŠ‚Ì NUMA ƒm[ƒh‚ğw’è‚·‚éB(CreateFileMappingNumaW)
-%group
-Win32 kernel32
 %prm
 hFile, lpFileMappingAttributes, flProtect, dwMaximumSizeHigh, dwMaximumSizeLow, lpName, nndPreferred
 hFile : [intptr] ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éŒ³‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹‚Í flProtect ƒpƒ‰ƒ[ƒ^‚ªw’è‚·‚é•ÛŒìƒtƒ‰ƒO‚ÆŒİŠ·«‚Ì‚ ‚éƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB•K{‚Å‚Í‚È‚¢‚ªAƒ}ƒbƒv‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Í”r‘¼ƒAƒNƒZƒX‚ÅŠJ‚­‚±‚Æ‚ª„§‚³‚ê‚éBÚ×‚Í File Security and Access Rights ‚ğQÆBhFile ‚ª INVALID_HANDLE_VALUE ‚Ìê‡AŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Í dwMaximumSizeHigh ‚Æ dwMaximumSizeLow ƒpƒ‰ƒ[ƒ^‚Åƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚àw’è‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìê‡ACreateFileMappingNuma ‚Íƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚Ìƒtƒ@ƒCƒ‹‚Å‚Í‚È‚­ƒVƒXƒeƒ€ƒy[ƒWƒ“ƒOƒtƒ@ƒCƒ‹‚ªƒoƒbƒN‚·‚éAw’èƒTƒCƒY‚Ìƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
@@ -2185,8 +2049,6 @@ MapViewOfFileExNuma ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éBWindows Server 2012
 %index
 CreateFileTransactedW
 ƒtƒ@ƒCƒ‹Aƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€A‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äì¬‚Ü‚½‚ÍŠJ‚­B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, hTransaction, pusMiniVersion, lpExtendedParameter
 lpFileName : [wstr] ì¬‚Ü‚½‚ÍŠJ‚­ƒIƒuƒWƒFƒNƒg‚Ì–¼‘OBƒIƒuƒWƒFƒNƒg‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅIƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚Éİ’è‚³‚ê‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚Ä‚¢‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚ÑƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‚¯‚éBÚ×‚Í Naming a File ‚ğQÆB“Áê‚ÈƒfƒoƒCƒX–¼‚É‚Â‚¢‚Ä‚Í Defining an MS-DOS Device Name ‚ğQÆBƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€‚ğì¬‚·‚é‚É‚ÍAƒtƒ@ƒCƒ‹–¼AƒRƒƒ“AƒXƒgƒŠ[ƒ€–¼‚Ì‡‚Éw’è‚·‚éBÚ×‚Í File Streams ‚ğQÆB
@@ -2237,8 +2099,6 @@ Transactional NTFS ‚ğQÆBCreateFileTransacted
 %index
 CreateHardLinkW
 Šù‘¶ƒtƒ@ƒCƒ‹‚ÆV‚µ‚¢ƒtƒ@ƒCƒ‹‚ÌŠÔ‚Éƒn[ƒhƒŠƒ“ƒN‚ğŠm—§‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, lpExistingFileName, lpSecurityAttributes
 lpFileName : [wstr] V‚µ‚¢ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -2271,8 +2131,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 CreateHardLinkTransactedW
 Šù‘¶ƒtƒ@ƒCƒ‹‚ÆV‚µ‚¢ƒtƒ@ƒCƒ‹‚ÌŠÔ‚Éƒn[ƒhƒŠƒ“ƒN‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚ÄŠm—§‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, lpExistingFileName, lpSecurityAttributes, hTransaction
 lpFileName : [wstr] V‚µ‚¢ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÉƒfƒBƒŒƒNƒgƒŠ–¼‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -2305,8 +2163,6 @@ GetFileInformationByHandle ‚ªŒÄ‚Î‚ê‚é‚Æ‚«‚É‚Ì‚İXV‚³‚ê‚éBƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN:
 %index
 CreateIoCompletionPort
 “üo—Í (I/O) Š®—¹ƒ|[ƒg‚ğì¬‚µAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚é‚©A‚Ü‚¾ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚È‚¢ I/O Š®—¹ƒ|[ƒg‚ğì¬‚µAŒã‚ÅŠÖ˜A•t‚¯‚ª‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 FileHandle, ExistingCompletionPort, CompletionKey, NumberOfConcurrentThreads
 FileHandle : [intptr] ŠJ‚©‚ê‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í INVALID_HANDLE_VALUEBƒnƒ“ƒhƒ‹‚ÍƒI[ƒo[ƒ‰ƒbƒv I/O ‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒnƒ“ƒhƒ‹‚ğ’ñ‹Ÿ‚·‚éê‡AƒI[ƒo[ƒ‰ƒbƒv I/O Š®—¹‚Ì‚½‚ß‚ÉŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB—á‚¦‚ÎACreateFile ŠÖ”‚Åƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éÛ‚É FILE_FLAG_OVERLAPPED ƒtƒ‰ƒO‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BINVALID_HANDLE_VALUE ‚ªw’è‚³‚ê‚½ê‡AŠÖ”‚Íƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚¸‚É I/O Š®—¹ƒ|[ƒg‚ğì¬‚·‚éB‚±‚Ìê‡AExistingCompletionPort ƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸ACompletionKey ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
@@ -2333,8 +2189,6 @@ I/O ƒVƒXƒeƒ€‚ÍAI/O Š®—¹’Ê’mƒpƒPƒbƒg‚ğ I/O
 %index
 CreateJobObjectW
 ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­B(CreateJobObjectW)
-%group
-Win32 kernel32
 %prm
 lpJobAttributes, lpName
 lpJobAttributes : [var] ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğw’è‚µAqƒvƒƒZƒX‚ª•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ğŒp³‚Å‚«‚é‚©‚ğŒˆ’è‚·‚é SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpJobAttributes ‚ª NULL ‚Ìê‡AƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ÍŠù’è‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚µAƒnƒ“ƒhƒ‹‚ÍŒp³‚Å‚«‚È‚¢BƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ÌŠù’èƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì ACL ‚Íì¬Ò‚Ìƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ü‚½‚Í impersonation ƒg[ƒNƒ“‚©‚çæ“¾‚³‚ê‚éB
@@ -2365,8 +2219,6 @@ JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
 %index
 CreateJobSet
 (no summary)
-%group
-Win32 kernel32
 %prm
 NumJob, UserJobSet, Flags
 NumJob : [int] 
@@ -2379,8 +2231,6 @@ Flags : [int]
 %index
 CreateMailslotW
 w’è‚³‚ê‚½–¼‘O‚Åƒ[ƒ‹ƒXƒƒbƒg‚ğì¬‚µAƒ[ƒ‹ƒXƒƒbƒgƒT[ƒo[‚ª‘€ì‚Ég—p‚Å‚«‚éƒnƒ“ƒhƒ‹‚ğ•Ô‚·B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpName, nMaxMessageSize, lReadTimeout, lpSecurityAttributes
 lpName : [wstr] ƒ[ƒ‹ƒXƒƒbƒg‚Ì–¼‘OB‚±‚Ì–¼‘O‚ÍŸ‚ÌŒ`®‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢: \\\\.\mailslot\\[path]nameBname ƒtƒB[ƒ‹ƒh‚ÍˆêˆÓ‚Å‚ ‚é•K—v‚ª‚ ‚éBname ‚É‚ÍAƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚Å‹æØ‚ç‚ê‚½‹^—ƒfƒBƒŒƒNƒgƒŠ‚Ì•¡”ŠK‘w‚ğŠÜ‚ß‚Ä‚à‚æ‚¢B—á‚¦‚ÎA\\\\.\mailslot\example_mailslot_name ‚â \\\\.\mailslot\abc\def\ghi ‚Í‚¢‚¸‚ê‚à—LŒø‚È–¼‘O‚Å‚ ‚éB
@@ -2403,8 +2253,6 @@ INVALID_HANDLE_VALUEBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 CreateMemoryResourceNotification
 ƒƒ‚ƒŠƒŠƒ\[ƒX’Ê’mƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 NotificationType
 NotificationType : [int] ƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹‚³‚ê‚éƒƒ‚ƒŠğŒB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í MEMORY_RESOURCE_NOTIFICATION_TYPE —ñ‹“‚©‚çˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğw’è‚Å‚«‚éB
@@ -2430,8 +2278,6 @@ CloseHandle
 %index
 CreateMutexW
 –¼‘O•t‚«‚Ü‚½‚Í–³–¼‚Ìƒ~ƒ…[ƒeƒbƒNƒXƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpMutexAttributes, bInitialOwner, lpName
 lpMutexAttributes : [var] SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡Aƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚³‚ê‚È‚¢B
@@ -2456,8 +2302,6 @@ ReleaseMutex ‚ÅŠ—LŒ ‚ğ‰ğ•ú‚·‚éB“¯ˆêƒ~ƒ…[ƒeƒbƒNƒX‚ğ•¡”‰ñ‘Ò‹@‚µ‚½ê‡Aæ“¾‚µ‚
 %index
 CreateMutexExW
 –¼‘O•t‚«‚Ü‚½‚Í–¼‘O‚È‚µ‚Ìƒ~ƒ…[ƒeƒbƒNƒXƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚«A‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpMutexAttributes, lpName, dwFlags, dwDesiredAccess
 lpMutexAttributes : [var] SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒ~ƒ…[ƒeƒbƒNƒXƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚Å‚«‚È‚¢B
@@ -2494,8 +2338,6 @@ ReleaseMutex ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB2 ‚ÂˆÈã‚ÌƒvƒƒZƒX‚ª CreateMutex
 %index
 CreateNamedPipeW
 CreateNamedPipeW (Unicode) ŠÖ” (winbase.h) ‚Í–¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚µAŒã‘±‚ÌƒpƒCƒv‘€ì‚Ég‚¦‚éƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 lpName, dwOpenMode, dwPipeMode, nMaxInstances, nOutBufferSize, nInBufferSize, nDefaultTimeOut, lpSecurityAttributes
 lpName : [wstr] ˆêˆÓ‚ÌƒpƒCƒv–¼B‚±‚Ì•¶š—ñ‚ÍŸ‚ÌŒ`®‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢: \\\\.\\pipe\pipenameB–¼‘O‚Ì pipename •”•ª‚É‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…ˆÈŠO‚Ì”CˆÓ‚Ì•¶ši”š‚â“Áê•¶š‚ğŠÜ‚Şj‚ğŠÜ‚ß‚ç‚ê‚éBƒpƒCƒv–¼•¶š—ñ‘S‘Ì‚Ì’·‚³‚Í 256 •¶š‚Ü‚Å‚ÅAƒpƒCƒv–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B
@@ -2534,8 +2376,6 @@ CloseHandle
 %index
 CreatePipe
 “½–¼ƒpƒCƒv‚ğì¬‚µAƒpƒCƒv‚Ì“Ç‚İæ‚è’[‚Æ‘‚«‚İ’[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 hReadPipe, hWritePipe, lpPipeAttributes, nSize
 hReadPipe : [intptr] ƒpƒCƒv‚Ì“Ç‚İæ‚èƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2565,8 +2405,6 @@ CloseHandle
 %index
 CreatePrivateNamespaceW
 CreatePrivateNamespaceW (Unicode) ŠÖ” (namespaceapi.h) ‚Íƒvƒ‰ƒCƒx[ƒg–¼‘O‹óŠÔ‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpPrivateNamespaceAttributes, lpBoundaryDescriptor, lpAliasPrefix
 lpPrivateNamespaceAttributes : [var] –¼‘O‹óŠÔƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‘®«‚ğw’è‚·‚é SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2591,8 +2429,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 CreateProcessW
 V‚µ‚¢ƒvƒƒZƒX‚Æ‚»‚Ìƒvƒ‰ƒCƒ}ƒŠƒXƒŒƒbƒh‚ğì¬‚·‚éBV‚µ‚¢ƒvƒƒZƒX‚ÍŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚ÅÀs‚³‚ê‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation
 lpApplicationName : [wstr] Às‚·‚éƒ‚ƒWƒ…[ƒ‹–¼BWindows ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í‘¼í(MS-DOS ‚â OS/2 ‚È‚Ç)‚Ìƒ‚ƒWƒ…[ƒ‹‚ğw’è‚Å‚«‚éBƒtƒ‹ƒpƒX‚Ü‚½‚Í•”•ª–¼‚ğw’è‰Â”\B•”•ª–¼‚Ìê‡‚ÍŒ»İ‚Ìƒhƒ‰ƒCƒu‚ÆƒfƒBƒŒƒNƒgƒŠ‚ªg—p‚³‚ê‚éBNULL ‚Ìê‡Aƒ‚ƒWƒ…[ƒ‹–¼‚Í lpCommandLine ‚ÌÅ‰‚Ì‹ó”’‹æØ‚èƒg[ƒNƒ“‚Æ‚È‚éBƒXƒy[ƒX‚ğŠÜ‚Ş’·ƒtƒ@ƒCƒ‹–¼‚Å‚Íˆø—p•„‚ğg‚¤B
@@ -2626,8 +2462,6 @@ lpProcessInformation : [var] V‚µ‚¢ƒvƒƒZƒX‚Ì¯•Êî•ñ‚ğó‚¯æ‚é PROCESS_INFORMAT
 %index
 CreatePseudoConsole
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉV‚µ‚¢‹^—ƒRƒ“ƒ\[ƒ‹‚ğŠ„‚è“–‚Ä‚é CreatePseudoConsole ŠÖ”‚ÉŠÖ‚·‚éƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 size, hInput, hOutput, dwFlags, phPC
 size : [var] ‹^—ƒRƒ“ƒ\[ƒ‹‚Ì‰Šúì¬‚Ég—p‚³‚ê‚éƒEƒBƒ“ƒhƒE^ƒoƒbƒtƒ@‚Ì•¶š”’PˆÊ‚Ì¡–@BŒã‚Å [ResizePseudoConsole](resizepseudoconsole.md) ‚Å’²®‚Å‚«‚éB
@@ -2661,8 +2495,6 @@ sequences](console-virtual-terminal-sequences.md)
 %index
 CreateRemoteThread
 •Ê‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ‚ÅÀs‚³‚ê‚éƒXƒŒƒbƒh‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, lpThreadId
 hProcess : [intptr] ƒXƒŒƒbƒh‚ğì¬‚·‚éƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_CREATE_THREADAPROCESS_QUERY_INFORMATIONAPROCESS_VM_OPERATIONAPROCESS_VM_WRITEAPROCESS_VM_READ ‚ÌƒAƒNƒZƒXŒ ‚ª•K—v‚ÅA“Á’è‚Ìƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Å‚Í‚±‚ê‚ç‚È‚µ‚Å‚Í¸”s‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -2704,8 +2536,6 @@ CloseHandle
 %index
 CreateSemaphoreW
 –¼‘O•t‚«‚Ü‚½‚Í–¼‘O‚È‚µ‚ÌƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­B(CreateSemaphoreW)
-%group
-Win32 kernel32
 %prm
 lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpName
 lpSemaphoreAttributes : [var] SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚Å‚«‚È‚¢B\‘¢‘Ì‚Ì lpSecurityDescriptor ƒƒ“ƒo[‚ªV‚µ‚¢ƒZƒ}ƒtƒH‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒZƒ}ƒtƒH‚ÍŠù’è‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚·‚éBƒZƒ}ƒtƒH‚ÌŠù’èƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì ACL ‚Íì¬Ò‚Ìƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ü‚½‚Í impersonation ƒg[ƒNƒ“‚©‚çæ“¾‚³‚ê‚éB
@@ -2741,8 +2571,6 @@ Rights
 %index
 CreateSemaphoreExW
 –¼‘O•t‚«‚Ü‚½‚Í–¼‘O‚È‚µ‚ÌƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚«A‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B(CreateSemaphoreExW)
-%group
-Win32 kernel32
 %prm
 lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpName, dwFlags, dwDesiredAccess
 lpSemaphoreAttributes : [var] SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒZƒ}ƒtƒHƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚Å‚«‚È‚¢B
@@ -2775,8 +2603,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 CreateSymbolicLinkW
 ƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpSymlinkFileName, lpTargetFileName, dwFlags
 lpSymlinkFileName : [wstr] ì¬‚·‚éƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒNB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍƒpƒX‚ğŠÜ‚ß‚Ä‚æ‚¢B‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚Ä‚¢‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚ÑƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‚¯‚éBÚ×‚Í Naming a File ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~AUnicode ”Å (CreateSymbolicLinkW) ‚Å‚ÍA"\\?\" ‚ğ‘O’u‚¹‚¸‚É MAX_PATH §ŒÀ‚ğæ‚èœ‚­‚±‚Æ‚ÉƒIƒvƒgƒCƒ“‚Å‚«‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Length Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -2797,8 +2623,6 @@ dwFlags : [int] ƒŠƒ“ƒN‚Ìƒ^[ƒQƒbƒg lpTargetFileName ‚ªƒfƒBƒŒƒNƒgƒŠ‚©‚ğ¦‚·B
 %index
 CreateSymbolicLinkTransactedW
 ƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äì¬‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpSymlinkFileName, lpTargetFileName, dwFlags, hTransaction
 lpSymlinkFileName : [wstr] ì¬‚·‚éƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒNB
@@ -2820,8 +2644,6 @@ hTransaction : [intptr] ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateTrans
 %index
 CreateTapePartition
 ƒe[ƒv‚ğƒtƒH[ƒ}ƒbƒg‚µ’¼‚·B
-%group
-Win32 kernel32
 %prm
 hDevice, dwPartitionMethod, dwCount, dwSize
 hDevice : [intptr] V‚µ‚¢ƒp[ƒeƒBƒVƒ‡ƒ“‚ğì¬‚·‚éƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ŠÖ”‚Åì¬‚·‚éB
@@ -2842,8 +2664,6 @@ dwSize : [int] Šeƒp[ƒeƒBƒVƒ‡ƒ“‚ÌƒTƒCƒYiƒƒKƒoƒCƒg’PˆÊjBdwPartitionMethod ƒpƒ
 %index
 CreateThread
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚ÅÀs‚³‚ê‚éƒXƒŒƒbƒh‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, lpThreadId
 lpThreadAttributes : [var] •Ô‚³‚ê‚éƒnƒ“ƒhƒ‹‚ªqƒvƒƒZƒX‚ÉŒp³‰Â”\‚©‚ğŒˆ’è‚·‚é SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpThreadAttributes ‚ª NULL ‚Ìê‡Aƒnƒ“ƒhƒ‹‚ÍŒp³‚Å‚«‚È‚¢B\‘¢‘Ì‚Ì lpSecurityDescriptor ƒƒ“ƒo[‚ªV‚µ‚¢ƒXƒŒƒbƒh‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğw’è‚·‚éBlpThreadAttributes ‚ª NULL ‚Ìê‡AƒXƒŒƒbƒh‚ÍŠù’è‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚·‚éBƒXƒŒƒbƒh‚ÌŠù’èƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì ACL ‚Íì¬Ò‚Ìƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚©‚çæ“¾‚³‚ê‚éB
@@ -2895,8 +2715,6 @@ CloseHandle
 %index
 CloseThreadpool
 w’è‚³‚ê‚½ƒXƒŒƒbƒhƒv[ƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 ptpp
 ptpp : [intptr] ƒXƒŒƒbƒhƒv[ƒ‹‚ğ’è‹`‚·‚é TP_POOL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpool ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
@@ -2912,8 +2730,6 @@ ptpp : [intptr] ƒXƒŒƒbƒhƒv[ƒ‹‚ğ’è‹`‚·‚é TP_POOL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThrea
 %index
 CreateThreadpool
 ƒR[ƒ‹ƒoƒbƒN‚ğÀs‚·‚é‚½‚ß‚ÌV‚µ‚¢ƒXƒŒƒbƒhƒv[ƒ‹‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 kernel32
 %prm
 reserved
 reserved : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚ÅANULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2938,8 +2754,6 @@ InitializeThreadpoolEnvironment ‚ğŒÄ‚ÔB‚»‚ÌŒãASetThreadpoolCallbackPool
 %index
 CloseThreadpoolCleanupGroup
 w’è‚³‚ê‚½ƒNƒŠ[ƒ“ƒAƒbƒvƒOƒ‹[ƒv‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 ptpcg
 ptpcg : [intptr] ƒNƒŠ[ƒ“ƒAƒbƒvƒOƒ‹[ƒv‚ğ’è‹`‚·‚é TP_CLEANUP_GROUP \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpoolCleanupGroup ‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
@@ -2955,8 +2769,6 @@ CloseThreadpoolCleanupGroupMembers
 %index
 CreateThreadpoolCleanupGroup
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª 1 ‚ÂˆÈã‚ÌƒXƒŒƒbƒhƒv[ƒ‹ƒR[ƒ‹ƒoƒbƒN‚ğ’ÇÕ‚·‚é‚½‚ß‚Ég‚¦‚éƒNƒŠ[ƒ“ƒAƒbƒvƒOƒ‹[ƒv‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -2976,8 +2788,6 @@ Win32 kernel32
 %index
 CloseThreadpoolIo
 w’è‚³‚ê‚½ I/O Š®—¹ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 pio
 pio : [intptr] I/O Š®—¹ƒIƒuƒWƒFƒNƒg‚ğ’è‹`‚·‚é TP_IO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpoolIo ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
@@ -2996,8 +2806,6 @@ CancelThreadpoolIo ‚ğQÆB‚±‚ÌŠÖ”‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒRƒ“ƒpƒCƒ‹‚·‚é‚É‚
 %index
 CreateThreadpoolIo
 V‚µ‚¢ I/O Š®—¹ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 fl, pfnio, pv, pcbe
 fl : [intptr] ‚±‚Ì I/O Š®—¹ƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -3023,8 +2831,6 @@ pcbe : [var] ƒR[ƒ‹ƒoƒbƒN‚ğÀs‚·‚éŠÂ‹«‚ğ’è‹`‚·‚é TP_CALLBACK_ENVIRON \‘¢‘Ì‚Ö‚Ì
 %index
 CloseThreadpoolTimer
 w’è‚³‚ê‚½ƒ^ƒCƒ}ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 pti
 pti : [intptr] ƒ^ƒCƒ}ƒIƒuƒWƒFƒNƒg‚ğ’è‹`‚·‚é TP_TIMER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpoolTimer ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
@@ -3047,8 +2853,6 @@ WaitForThreadpoolTimerCallbacks ŠÖ”‚ğ fCancelPendingCallbacks ‚ğ TRUE
 %index
 CreateThreadpoolTimer
 V‚µ‚¢ƒ^ƒCƒ}ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 pfnti, pv, pcbe
 pfnti : [int] ƒ^ƒCƒ}ƒIƒuƒWƒFƒNƒg‚ª–—¹‚·‚é‚½‚Ñ‚ÉŒÄ‚Î‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í TimerCallback ‚ğQÆB
@@ -3070,8 +2874,6 @@ pcbe : [var] ƒR[ƒ‹ƒoƒbƒN‚ğÀs‚·‚éŠÂ‹«‚ğ’è‹`‚·‚é TP_CALLBACK_ENVIRON \‘¢‘ÌBIn
 %index
 CloseThreadpoolWait
 w’è‚³‚ê‚½‘Ò‹@ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 pwa
 pwa : [intptr] ‘Ò‹@ƒIƒuƒWƒFƒNƒg‚ğ’è‹`‚·‚é TP_WAIT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpoolWait ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
@@ -3093,8 +2895,6 @@ WaitForThreadpoolWaitCallbacks ŠÖ”‚ğ fCancelPendingCallbacks ‚ğ TRUE
 %index
 CreateThreadpoolWait
 V‚µ‚¢‘Ò‹@ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 pfnwa, pv, pcbe
 pfnwa : [int] ‘Ò‹@‚ªŠ®—¹‚Ü‚½‚Íƒ^ƒCƒ€ƒAƒEƒg‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í WaitCallback ‚ğQÆB
@@ -3119,8 +2919,6 @@ pcbe : [var] ƒR[ƒ‹ƒoƒbƒN‚ğÀs‚·‚éŠÂ‹«‚ğ’è‹`‚·‚é TP_CALLBACK_ENVIRON \‘¢‘ÌBIn
 %index
 CloseThreadpoolWork
 w’è‚³‚ê‚½ƒ[ƒNƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 pwk
 pwk : [intptr] ƒ[ƒNƒIƒuƒWƒFƒNƒg‚ğ’è‹`‚·‚é TP_WORK \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpoolWork ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
@@ -3137,8 +2935,6 @@ pwk : [intptr] ƒ[ƒNƒIƒuƒWƒFƒNƒg‚ğ’è‹`‚·‚é TP_WORK \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateTh
 %index
 CreateThreadpoolWork
 V‚µ‚¢ƒ[ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 pfnwk, pv, pcbe
 pfnwk : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”BSubmitThreadpoolWork ‚ğŒÄ‚ñ‚Åƒ[ƒNƒIƒuƒWƒFƒNƒg‚ğƒ|ƒXƒg‚·‚é‚½‚Ñ‚ÉAƒ[ƒJ[ƒXƒŒƒbƒh‚ª‚±‚ÌƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚ÔBÚ×‚Í WorkCallback ‚ğQÆB
@@ -3159,8 +2955,6 @@ pcbe : [var] ƒR[ƒ‹ƒoƒbƒN‚ğÀs‚·‚éŠÂ‹«‚ğ’è‹`‚·‚é TP_CALLBACK_ENVIRON \‘¢‘Ì‚Ö‚Ì
 %index
 CreateTimerQueue
 ƒ^ƒCƒ}—p‚ÌƒLƒ…[‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -3181,8 +2975,6 @@ DeleteTimerQueueTimer ŠÖ”‚ğŒÄ‚ÔBƒ^ƒCƒ}ƒLƒ…[‚ğg‚¢I‚¦‚½‚çADeleteTimerQueueEx
 %index
 CreateTimerQueueTimer
 ƒ^ƒCƒ}ƒLƒ…[ƒ^ƒCƒ}‚ğì¬‚·‚éB‚±‚Ìƒ^ƒCƒ}‚Íw’è‚³‚ê‚½ DueTime ‚Å–—¹‚µA‚»‚ÌŒãw’è‚³‚ê‚½üŠú‚²‚Æ‚É–—¹‚·‚éBƒ^ƒCƒ}‚ª–—¹‚·‚é‚ÆƒR[ƒ‹ƒoƒbƒNŠÖ”‚ªŒÄ‚Î‚ê‚éB
-%group
-Win32 kernel32
 %prm
 phNewTimer, TimerQueue, Callback, Parameter, DueTime, Period, Flags
 phNewTimer : [intptr] –ß‚è‚Éƒ^ƒCƒ}ƒLƒ…[ƒ^ƒCƒ}‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒnƒ“ƒhƒ‹‚ªŠúŒÀØ‚ê‚É‚È‚è•s—v‚É‚È‚Á‚½‚çADeleteTimerQueueTimer ‚ğŒÄ‚ñ‚Å‰ğ•ú‚·‚éB
@@ -3215,8 +3007,6 @@ DeleteTimerQueueEx ŠÖ”‚ğŒÄ‚ÔBŠù’è‚Å‚ÍAƒXƒŒƒbƒhƒv[ƒ‹‚ÌÅ‘åƒXƒŒƒbƒh”‚Í 500
 %index
 CreateToolhelp32Snapshot
 w’è‚µ‚½ƒvƒƒZƒXA‚¨‚æ‚Ñ‚»‚ê‚ç‚ÌƒvƒƒZƒX‚ªg—p‚·‚éƒq[ƒvAƒ‚ƒWƒ…[ƒ‹AƒXƒŒƒbƒh‚ÌƒXƒiƒbƒvƒVƒ‡ƒbƒg‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, th32ProcessID
 dwFlags : [int] 
@@ -3250,8 +3040,6 @@ QueryFullProcessImageName ŠÖ”‚ğg‚¤‚ÆA32bit ƒvƒƒZƒX‚©‚ç‚Å‚à 32bit/64bit
 %index
 CreateUmsCompletionList
 ƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) Š®—¹ƒŠƒXƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 UmsCompletionList
 UmsCompletionList : [var] PUMS_COMPLETION_LIST •Ï”Bo—ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í‹ó‚Ì UMS Š®—¹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
@@ -3277,8 +3065,6 @@ GetUmsCompletionListEvent ‚ğg—p‚·‚éBŠ®—¹ƒŠƒXƒg‚ª•s—v‚É‚È‚Á‚½‚ç DeleteUmsComple
 %index
 CreateUmsThreadContext
 UMS ƒ[ƒJ[ƒXƒŒƒbƒh‚ğ•\‚·ƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpUmsThread
 lpUmsThread : [var] PUMS_CONTEXT •Ï”Bo—ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í UMS ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
@@ -3304,8 +3090,6 @@ DeleteUmsThreadContext ‚ğŒÄ‚ñ‚Å‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 %index
 CreateWaitableTimerW
 ‘Ò‹@‰Â”\ƒ^ƒCƒ}[ƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­B
-%group
-Win32 kernel32
 %prm
 lpTimerAttributes, bManualReset, lpTimerName
 lpTimerAttributes : [var] V‚µ‚¢ƒ^ƒCƒ}[ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğw’è‚µA•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ğqƒvƒƒZƒX‚ªŒp³‚Å‚«‚é‚©‚ğŒˆ’è‚·‚é SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpTimerAttributes ‚ª NULL ‚Ìê‡Aƒ^ƒCƒ}[ƒIƒuƒWƒFƒNƒg‚ÍƒfƒtƒHƒ‹ƒgƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚µƒnƒ“ƒhƒ‹‚ÍŒp³‚Å‚«‚È‚¢Bƒ^ƒCƒ}[‚ÌƒfƒtƒHƒ‹ƒgƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì ACL ‚Íì¬Ò‚Ìƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ü‚½‚Í‹U‘•ƒg[ƒNƒ“‚É—R—ˆ‚·‚éB
@@ -3332,8 +3116,6 @@ Security and Access Rights
 %index
 CreateWaitableTimerExW
 ‘Ò‹@‰Â”\ƒ^ƒCƒ}[ƒIƒuƒWƒFƒNƒg‚ğì¬‚Ü‚½‚ÍŠJ‚«A‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 lpTimerAttributes, lpTimerName, dwFlags, dwDesiredAccess
 lpTimerAttributes : [var] SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒ^ƒCƒ}[ƒnƒ“ƒhƒ‹‚ÍqƒvƒƒZƒX‚ÉŒp³‚Å‚«‚È‚¢BlpTimerAttributes ‚ª NULL ‚Ìê‡Aƒ^ƒCƒ}[ƒIƒuƒWƒFƒNƒg‚ÍƒfƒtƒHƒ‹ƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚µAƒnƒ“ƒhƒ‹‚ÍŒp³‚Å‚«‚È‚¢Bƒ^ƒCƒ}[‚ÌƒfƒtƒHƒ‹ƒgƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì ACL ‚ÍAì¬Ò‚Ìƒvƒ‰ƒCƒ}ƒŠƒg[ƒNƒ“‚Ü‚½‚Í‹U‘•ƒg[ƒNƒ“‚É—R—ˆ‚·‚éB
@@ -3365,8 +3147,6 @@ SetTimer ŠÖ”‚ğg—p‚·‚éB
 %index
 DeactivateActCtx
 DeactivateActCtx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒNƒbƒL[‚É‘Î‰‚·‚éƒAƒNƒeƒBƒu‰»ƒRƒ“ƒeƒLƒXƒg‚ğ”ñƒAƒNƒeƒBƒu‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, ulCookie
 dwFlags : [int] ”ñƒAƒNƒeƒBƒu‰»‚Ì•û–@‚ğ¦‚·ƒtƒ‰ƒOB
@@ -3387,8 +3167,6 @@ DeactivateActCtx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒNƒbƒL[‚É‘Î‰‚·‚éƒAƒNƒeƒBƒu‰»ƒRƒ“ƒeƒLƒXƒg‚ğ”
 %index
 DebugActiveProcess
 ƒfƒoƒbƒK‚ªƒAƒNƒeƒBƒu‚ÈƒvƒƒZƒX‚ÉƒAƒ^ƒbƒ`‚µ‚ÄƒfƒoƒbƒO‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwProcessId
 dwProcessId : [int] ƒfƒoƒbƒO‚·‚éƒvƒƒZƒX‚Ì¯•ÊqBƒfƒoƒbƒK‚É‚ÍADEBUG_ONLY_THIS_PROCESS ƒtƒ‰ƒO‚ÅƒvƒƒZƒX‚ğì¬‚µ‚½‚©‚Ì‚æ‚¤‚ÉƒfƒoƒbƒOƒAƒNƒZƒX‚ª•t—^‚³‚ê‚éBÚ×‚Í–{ƒgƒsƒbƒN‚Ì Remarks ƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -3420,8 +3198,6 @@ TRUE ‚ğ•Ô‚·B‚»‚ÌŒãƒfƒoƒbƒK‚Í WaitForDebugEvent
 %index
 DebugActiveProcessStop
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒfƒoƒbƒO‚ğƒfƒoƒbƒK‚É’â~‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 dwProcessId
 dwProcessId : [int] ƒfƒoƒbƒO‚ğ’â~‚·‚éƒvƒƒZƒX‚Ì¯•ÊqB
@@ -3436,8 +3212,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DebugBreak
 Œ»İ‚ÌƒvƒƒZƒX‚ÅƒuƒŒ[ƒNƒ|ƒCƒ“ƒg—áŠO‚ğ”­¶‚³‚¹‚éB‚±‚ê‚É‚æ‚èAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÍƒfƒoƒbƒK‚É—áŠOˆ—‚ğƒVƒOƒiƒ‹‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -3451,8 +3225,6 @@ Win32 kernel32
 %index
 DebugBreakProcess
 w’è‚µ‚½ƒvƒƒZƒX‚ÅƒuƒŒ[ƒNƒ|ƒCƒ“ƒg—áŠO‚ğ”­¶‚³‚¹‚éB‚±‚ê‚É‚æ‚èAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÍƒfƒoƒbƒK‚É—áŠOˆ—‚ğƒVƒOƒiƒ‹‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 Process
 Process : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3471,8 +3243,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DebugSetProcessKillOnExit
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ªI—¹‚µ‚½‚Æ‚«‚ÉÀs‚³‚ê‚éƒAƒNƒVƒ‡ƒ“‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 KillOnExit
 KillOnExit : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡AƒXƒŒƒbƒh‚ÍI—¹‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒvƒƒZƒX‚ğI—¹‚³‚¹‚éi‚±‚ê‚ªƒfƒtƒHƒ‹ƒgjB‚»‚êˆÈŠO‚Ìê‡AƒXƒŒƒbƒh‚ÍI—¹‚ÉƒfƒoƒbƒO’†‚Ì‚·‚×‚Ä‚ÌƒvƒƒZƒX‚©‚çƒfƒ^ƒbƒ`‚·‚éB
@@ -3492,8 +3262,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DefineDosDeviceW
 MS-DOS ƒfƒoƒCƒX–¼‚ğ’è‹`AÄ’è‹`A‚Ü‚½‚Ííœ‚·‚éB(DefineDosDeviceW)
-%group
-Win32 kernel32
 %prm
 dwFlags, lpDeviceName, lpTargetPath
 dwFlags : [int] DefineDosDevice ŠÖ”‚Ì§Œä‰Â”\‚È‘¤–ÊB‚±‚Ìƒpƒ‰ƒ[ƒ^
@@ -3527,8 +3295,6 @@ Names, Paths, and Namespaces ‚ğQÆBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012
 %index
 DeleteAtom
 ƒ[ƒJƒ‹•¶š—ñƒAƒgƒ€‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·BƒAƒgƒ€‚ÌQÆƒJƒEƒ“ƒg‚ª 0 ‚Ü‚ÅŒ¸‚é‚ÆADeleteAtom ‚Í‚»‚ÌƒAƒgƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½•¶š—ñ‚ğƒ[ƒJƒ‹ƒAƒgƒ€ƒe[ƒuƒ‹‚©‚çíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 nAtom
 nAtom : [int] Œ^: ATOM íœ‚·‚éƒAƒgƒ€B
@@ -3551,8 +3317,6 @@ nAtom : [int] Œ^: ATOM íœ‚·‚éƒAƒgƒ€B
 %index
 DeleteBoundaryDescriptor
 w’è‚³‚ê‚½‹«ŠE‹Lqq‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 BoundaryDescriptor
 BoundaryDescriptor : [intptr] ‹«ŠE‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateBoundaryDescriptor ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -3566,8 +3330,6 @@ BoundaryDescriptor : [intptr] ‹«ŠE‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateBoundaryDescriptor Š
 %index
 DeleteFiber
 Šù‘¶‚Ìƒtƒ@ƒCƒo‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpFiber
 lpFiber : [intptr] íœ‚·‚éƒtƒ@ƒCƒo‚ÌƒAƒhƒŒƒXB
@@ -3585,8 +3347,6 @@ DeleteFiber ‚ğŒÄ‚Ño‚·‚ÆA‚»‚ÌƒXƒŒƒbƒh‚Í ExitThread
 %index
 DeleteFileW
 Šù‘¶‚Ìƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB(DeleteFileW)
-%group
-Win32 kernel32
 %prm
 lpFileName
 lpFileName : [wstr] íœ‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘OBANSI ”Å‚Å‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éBUnicode ”Å‚Å 32,767 •¶š‚Ü‚ÅŠg’£‚·‚é‚É‚Í "\\?\" ‚ğƒpƒX‚É•t‰Á‚·‚éB
@@ -3605,8 +3365,6 @@ lpFileName : [wstr] íœ‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘OBANSI ”Å‚Å‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚
 %index
 DeleteFileTransactedW
 Šù‘¶‚Ìƒtƒ@ƒCƒ‹‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äíœ‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, hTransaction
 lpFileName : [wstr] íœ‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚Ü‚Å‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAŠÖ”‚Ì Unicode ”Å‚ğŒÄ‚Ño‚µ‚ÄƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming a File ‚ğQÆBƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅŒã‚ÌƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚Éİ’è‚³‚ê‚éB
@@ -3628,8 +3386,6 @@ ERROR_FILE_NOT_FOUND ‚Å¸”s‚·‚éBƒtƒ@ƒCƒ‹‚ª“Ç‚İæ‚èê—pƒtƒ@ƒCƒ‹‚Ìê‡AŠÖ”‚Í ER
 %index
 DeleteSynchronizationBarrier
 “¯ŠúƒoƒŠƒA‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpBarrier
 lpBarrier : [var] íœ‚·‚é“¯ŠúƒoƒŠƒA‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3654,8 +3410,6 @@ SYNCHRONIZATION_BARRIER_FLAGS_NO_DELETE
 %index
 DeleteTimerQueue
 ƒ^ƒCƒ}[ƒLƒ…[‚ğíœ‚·‚éBƒLƒ…[“à‚Ì•Û—¯’†‚Ìƒ^ƒCƒ}[‚ÍƒLƒƒƒ“ƒZƒ‹‚³‚êíœ‚³‚ê‚éB(DeleteTimerQueue)
-%group
-Win32 kernel32
 %prm
 TimerQueue
 TimerQueue : [intptr] ƒ^ƒCƒ}[ƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateTimerQueue ŠÖ”‚ª•Ô‚·B
@@ -3675,8 +3429,6 @@ DeleteTimerQueue
 %index
 DeleteTimerQueueEx
 ƒ^ƒCƒ}[ƒLƒ…[‚ğíœ‚·‚éBƒLƒ…[“à‚Ì•Û—¯’†‚Ìƒ^ƒCƒ}[‚ÍƒLƒƒƒ“ƒZƒ‹‚³‚êíœ‚³‚ê‚éB(DeleteTimerQueueEx)
-%group
-Win32 kernel32
 %prm
 TimerQueue, CompletionEvent
 TimerQueue : [intptr] ƒ^ƒCƒ}[ƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateTimerQueue ŠÖ”‚ª•Ô‚·B
@@ -3697,8 +3449,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DeleteTimerQueueTimer
 ƒ^ƒCƒ}[‚ğƒ^ƒCƒ}[ƒLƒ…[‚©‚çíœ‚·‚éBƒIƒvƒVƒ‡ƒ“‚ÅAƒ^ƒCƒ}[‚ğíœ‚·‚é‘O‚ÉŒ»İÀs’†‚Ìƒ^ƒCƒ}[ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌŠ®—¹‚ğ‘Ò‚ÂB
-%group
-Win32 kernel32
 %prm
 TimerQueue, Timer, CompletionEvent
 TimerQueue : [intptr] ƒ^ƒCƒ}[ƒLƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateTimerQueue ŠÖ”‚ª•Ô‚·B
@@ -3730,8 +3480,6 @@ DeleteTimerQueueEx ŠÖ”‚ğŒÄ‚ÔB‚±‚ÌŠÖ”‚ğg‚¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒRƒ“ƒpƒCƒ‹‚·‚é‚É‚
 %index
 DeleteUmsCompletionList
 w’è‚³‚ê‚½ƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) Š®—¹ƒŠƒXƒg‚ğíœ‚·‚éBƒŠƒXƒg‚Í‹ó‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 kernel32
 %prm
 UmsCompletionList
 UmsCompletionList : [intptr] íœ‚·‚é UMS Š®—¹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateUmsCompletionList ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚·‚éB
@@ -3750,8 +3498,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DeleteUmsThreadContext
 w’è‚³‚ê‚½ƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚ğíœ‚·‚éBƒXƒŒƒbƒh‚ÍI—¹‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
-%group
-Win32 kernel32
 %prm
 UmsThread
 UmsThread : [intptr] íœ‚·‚é UMS ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateUmsThreadContext ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚·‚éB
@@ -3774,8 +3520,6 @@ UmsIsThreadTerminated î•ñƒNƒ‰ƒX‚Å QueryUmsThreadInformation ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 %index
 DeleteVolumeMountPointW
 ƒhƒ‰ƒCƒu•¶š‚Ü‚½‚Íƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_‚ğíœ‚·‚éB(DeleteVolumeMountPointW)
-%group
-Win32 kernel32
 %prm
 lpszVolumeMountPoint
 lpszVolumeMountPoint : [wstr] íœ‚·‚éƒhƒ‰ƒCƒu•¶š‚Ü‚½‚Íƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_B––”ö‚ÌƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ª•K—vB‚½‚Æ‚¦‚Î "X:\" ‚â "Y:\MountX\"B
@@ -3796,8 +3540,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 DequeueUmsCompletionListItems
 w’è‚³‚ê‚½ UMS Š®—¹ƒŠƒXƒg‚©‚çƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) ƒ[ƒJ[ƒXƒŒƒbƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 UmsCompletionList, WaitTimeOut, UmsThreadList
 UmsCompletionList : [intptr] ƒ[ƒJ[ƒXƒŒƒbƒh‚ğæ“¾‚·‚éŠ®—¹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3826,8 +3568,6 @@ DequeueUmsCompletionListItems ‚Í¬Œ÷‚ğ•Ô‚·‚ªAUmsThreadList ƒpƒ‰ƒ[ƒ^‚Í NULL
 %index
 DeviceIoControl
 w’è‚µ‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚É’¼Ú§ŒäƒR[ƒh‚ğ‘—M‚µA‘Î‰‚·‚éƒfƒoƒCƒX‚É‘Î‰‚·‚é‘€ì‚ğÀs‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 hDevice, dwIoControlCode, lpInBuffer, nInBufferSize, lpOutBuffer, nOutBufferSize, lpBytesReturned, lpOverlapped
 hDevice : [intptr] ‘€ì‚ğÀs‚·‚éƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒX‚Í’ÊíAƒ{ƒŠƒ…[ƒ€AƒfƒBƒŒƒNƒgƒŠAƒtƒ@ƒCƒ‹A‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€‚Å‚ ‚éBƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚Í CreateFile ŠÖ”‚ğg—p‚·‚éBÚ×‚Í Remarks ‚ğQÆB
@@ -3860,8 +3600,6 @@ CreateFile ƒpƒ‰ƒ[ƒ^‚ÍŸ‚Ì‚æ‚¤‚Ég—p‚·‚éB
 %index
 DisableThreadLibraryCalls
 w’è‚³‚ê‚½ DLL ‚É‘Î‚·‚é DLL_THREAD_ATTACH ‚¨‚æ‚Ñ DLL_THREAD_DETACH ’Ê’m‚ğ–³Œø‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 hLibModule
 hLibModule : [intptr] DLL_THREAD_ATTACH ‚¨‚æ‚Ñ DLL_THREAD_DETACH ’Ê’m‚ğ–³Œø‚É‚·‚é DLL ƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BLoadLibraryALoadLibraryExA‚Ü‚½‚Í GetModuleHandle ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BNULL ‚ğw’è‚µ‚Ä GetModuleHandle ‚ğŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B‚±‚ê‚Í DLL ƒCƒ[ƒW‚Å‚Í‚È‚­Às‰Â”\ƒCƒ[ƒW‚Ìƒx[ƒXƒAƒhƒŒƒX‚ğ•Ô‚·‚½‚ß‚Å‚ ‚éB
@@ -3893,8 +3631,6 @@ thread )** •Ï”A‚Ü‚½‚ÍŠÖ”ƒ[ƒJƒ‹‚È **static** ‚ğg—p‚·‚é‚Æ‚«‚É—LŒø‚É‚È‚éB
 %index
 DisableThreadProfiling
 ƒXƒŒƒbƒhƒvƒƒtƒ@ƒCƒŠƒ“ƒO‚ğ–³Œø‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 PerformanceDataHandle
 PerformanceDataHandle : [intptr] EnableThreadProfiling ŠÖ”‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹B
@@ -3912,8 +3648,6 @@ PerformanceDataHandle : [intptr] EnableThreadProfiling ŠÖ”‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹B
 %index
 DisconnectNamedPipe
 –¼‘O•t‚«ƒpƒCƒvƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒT[ƒo[‘¤‚ğƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒZƒX‚©‚çØ’f‚·‚éB
-%group
-Win32 kernel32
 %prm
 hNamedPipe
 hNamedPipe : [intptr] –¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateNamedPipe ŠÖ”‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3940,8 +3674,6 @@ FlushFileBuffers ŠÖ”‚ğŒÄ‚Ô‚±‚Æ‚Åƒf[ƒ^‚ª¸‚í‚ê‚È‚¢‚±‚Æ‚ğŠm”F‚Å‚«‚éBFlushFileBu
 %index
 DnsHostnameToComputerNameW
 DNS Œ`®‚ÌƒzƒXƒg–¼‚ğ NetBIOS Œ`®‚ÌƒRƒ“ƒsƒ…[ƒ^–¼‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Hostname, ComputerName, nSize
 Hostname : [wstr] DNS –¼BDNS –¼‚ª—LŒø‚Å•ÏŠ·‰Â”\‚È–¼‘O‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚·‚éBÚ×‚Í Computer Names ‚ğQÆB
@@ -3971,8 +3703,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 DnsHostnameToComputerNameExW
 (no summary)
-%group
-Win32 kernel32
 %prm
 Hostname, ComputerName, nSize
 Hostname : [wstr] 
@@ -3985,8 +3715,6 @@ nSize : [var]
 %index
 DosDateTimeToFileTime
 MS-DOS “ú•tE’l‚ğƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 wFatDate, wFatTime, lpFileTime
 wFatDate : [int] MS-DOS “ú•tB“ú•t‚ÍŸ‚ÌŒ`®‚ÌƒpƒbƒN’l‚Å‚ ‚éB
@@ -4003,8 +3731,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DuplicateHandle
 ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ğ•¡»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSourceProcessHandle, hSourceHandle, hTargetProcessHandle, lpTargetHandle, dwDesiredAccess, bInheritHandle, dwOptions
 hSourceProcessHandle : [intptr] •¡»‚·‚éƒnƒ“ƒhƒ‹‚ğ‚ÂƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4041,8 +3767,6 @@ Interoperability ‚ğQÆBDuplicateHandle ‚ÍŸ‚Ìí—Ş‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•
 %index
 EnableThreadProfiling
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÅƒXƒŒƒbƒhƒvƒƒtƒ@ƒCƒŠƒ“ƒO‚ğ—LŒø‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 ThreadHandle, Flags, HardwareCounters, PerformanceDataHandle
 ThreadHandle : [intptr] ƒvƒƒtƒ@ƒCƒŠƒ“ƒO‚ğ—LŒø‚É‚·‚éƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚ÍŒ»İ‚ÌƒXƒŒƒbƒh‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4064,8 +3788,6 @@ Windows Driver Kit (WDK) ‚Ì KeSetHardwareCounterConfiguration ŠÖ”‚ğQÆB
 %index
 EndUpdateResourceW
 UpdateResource ‚ÌŒÄ‚Ño‚µ‘O‚És‚í‚ê‚½•ÏX‚ğƒRƒ~ƒbƒg‚Ü‚½‚Í”jŠü‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hUpdate, fDiscard
 hUpdate : [intptr] Œ^: HANDLE BeginUpdateResource ŠÖ”‚ª•Ô‚µ‚½ƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹BUpdateResource ‚ªg—p‚µAXV‚·‚éƒtƒ@ƒCƒ‹‚ğQÆ‚·‚éB
@@ -4088,8 +3810,6 @@ UpdateResource ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒX‚É‚ ‚éB
 %index
 EnterSynchronizationBarrier
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ğ“¯ŠúƒoƒŠƒA‚Å‘Ò‹@‚³‚¹AÅ‘å”‚ÌƒXƒŒƒbƒh‚ªƒoƒŠƒA‚É“ü‚é‚Ü‚Å‘Ò‚ÂB
-%group
-Win32 kernel32
 %prm
 lpBarrier, dwFlags
 lpBarrier : [var] ‰Šú‰»‚³‚ê‚½“¯ŠúƒoƒŠƒA‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒŠƒA‚ğ‰Šú‰»‚·‚é‚É‚Í InitializeSynchronizationBarrier ŠÖ”‚ğg—p‚·‚éBSYNCHRONIZATION_BARRIER ‚Í•s“§–¾‚È\‘¢‘Ì‚ÅAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç•ÏX‚µ‚Ä‚Í‚È‚ç‚È‚¢B
@@ -4112,8 +3832,6 @@ SYNCHRONIZATION_BARRIER_FLAGS_SPIN_ONLY
 %index
 EnterUmsSchedulingMode
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ğƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) ƒXƒPƒWƒ…[ƒ‰ƒXƒŒƒbƒh‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 SchedulerStartupInfo
 SchedulerStartupInfo : [var] ƒXƒŒƒbƒh‚Ì UMS ‘®«‚ğw’è‚·‚é UMS_SCHEDULER_STARTUP_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠ®—¹ƒŠƒXƒg‚â UmsSchedulerProc ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒgŠÖ”‚ğŠÜ‚ŞB
@@ -4139,8 +3857,6 @@ UmsThreadYield
 %index
 EnumCalendarInfoW
 w’è‚µ‚½ƒƒP[ƒ‹‚ÌƒJƒŒƒ“ƒ_[î•ñ‚ğ—ñ‹“‚·‚éB’: ƒJƒŒƒ“ƒ_[î•ñ‚É‰Á‚¦‚ÄƒJƒŒƒ“ƒ_[¯•Êq‚ğó‚¯æ‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumCalendarInfoEx ŠÖ”‚ğg‚¤‚×‚«‚Å‚ ‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpCalInfoEnumProc, Locale, Calendar, CalType
 lpCalInfoEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumCalendarInfoProc ‚ğQÆB
@@ -4169,8 +3885,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumCalendarInfoExW
 ¯•Êq‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚ÌƒJƒŒƒ“ƒ_[î•ñ‚ğ—ñ‹“‚·‚éB’: Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚æ‚è EnumCalendarInfoExEx ‚ğg‚¤‚×‚«‚Å‚ ‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpCalInfoEnumProcEx, Locale, Calendar, CalType
 lpCalInfoEnumProcEx : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumCalendarInfoProcEx ‚ğQÆB
@@ -4205,8 +3919,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumCalendarInfoExEx
 –¼‘O‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚ÌƒJƒŒƒ“ƒ_[î•ñ‚ğ—ñ‹“‚·‚éB’: Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumCalendarInfo ‚â EnumCalendarInfoEx ‚æ‚è‚à‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB’: ‚±‚ÌŠÖ”‚ÍƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚È‚Ç‚É‚æ‚èƒŠƒŠ[ƒXŠÔ‚Å•Ï‰»‚·‚éƒf[ƒ^‚ğ—ñ‹“‚·‚é‚±‚Æ‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‰i‘±‰»‚Ü‚½‚Í‘—M‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ê‡‚Í Using Persistent Locale Data ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 pCalInfoEnumProcExEx, lpLocaleName, Calendar, lpReserved, CalType, lParam
 pCalInfoEnumProcExEx : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumCalendarInfoProcExEx ‚ğQÆB
@@ -4238,8 +3950,6 @@ Windows.Globalization –¼‘O‹óŠÔ‚©‚ç‚±‚ÌŠÖ”‚ÉŒ¾Œêƒ^ƒO‚ğ“n‚·ê‡A‚Ü‚¸ ResolveLoca
 %index
 EnumDateFormatsW
 w’è‚µ‚½ƒƒP[ƒ‹‚Å—˜—p‰Â”\‚È’·‚¢“ú•tA’Z‚¢“ú•tA”N/Œ‚ÌŒ`®‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpDateFmtEnumProc, Locale, dwFlags
 lpDateFmtEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumDateFormatsProc ‚ğQÆB
@@ -4270,8 +3980,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumDateFormatsExW
 w’è‚µ‚½ƒƒP[ƒ‹‚Å—˜—p‰Â”\‚È’·‚¢“ú•tA’Z‚¢“ú•tA”N/Œ‚ÌŒ`®‚ğ—ñ‹“‚·‚éB’: Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚æ‚è EnumDateFormatsExEx ‚ğg‚¤‚×‚«‚Å‚ ‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpDateFmtEnumProcEx, Locale, dwFlags
 lpDateFmtEnumProcEx : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumDateFormatsProcEx ‚ğQÆB
@@ -4308,8 +4016,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumDateFormatsExEx
 –¼‘O‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚Å—˜—p‰Â”\‚È’·‚¢“ú•tA’Z‚¢“ú•tA”N/Œ‚ÌŒ`®‚ğ—ñ‹“‚·‚éB’: Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumDateFormats ‚â EnumDateFormatsEx ‚æ‚è‚à‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB’: ‚±‚ÌŠÖ”‚ÍƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚È‚Ç‚É‚æ‚èƒŠƒŠ[ƒXŠÔ‚Å•Ï‰»‚·‚éƒf[ƒ^‚ğ—ñ‹“‚·‚é‚±‚Æ‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‰i‘±‰»‚Ü‚½‚Í‘—M‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ê‡‚Í Using Persistent Locale Data ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpDateFmtEnumProcExEx, lpLocaleName, dwFlags, lParam
 lpDateFmtEnumProcExEx : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumDateFormatsProcExEx ‚ğQÆB
@@ -4342,8 +4048,6 @@ ResolveLocaleName ‚ğŒÄ‚ñ‚Åƒ^ƒO‚ğ•ÏŠ·‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 EnumLanguageGroupLocalesW
 w’è‚³‚ê‚½Œ¾ŒêƒOƒ‹[ƒv“à‚ÌƒƒP[ƒ‹‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpLangGroupLocaleEnumProc, LanguageGroup, dwFlags, lParam
 lpLangGroupLocaleEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumLanguageGroupLocalesProc ‚ğQÆB
@@ -4372,8 +4076,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumResourceLanguagesW
 ƒoƒCƒiƒŠƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Aw’è‚³‚ê‚½í—Ş‚Æ–¼‘O‚ÌŒ¾ŒêŒÅ—LƒŠƒ\[ƒX‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hModule, lpType, lpName, lpEnumFunc, lParam
 hModule : [intptr] Œ^: HMODULE ŒŸõ‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BWindows Vista ˆÈ~A‚±‚ê‚ªŒ¾Œê’†—§‚È PE (LN) ƒtƒ@ƒCƒ‹‚Å‚ ‚éê‡A“KØ‚È .mui ƒtƒ@ƒCƒ‹i‘¶İ‚·‚éê‡j‚àŒŸõ‚ÉŠÜ‚Ü‚ê‚éB‚±‚ê‚ª“Á’è‚Ì .mui ƒtƒ@ƒCƒ‹‚Å‚ ‚éê‡AƒŠƒ\[ƒX‚ğŒŸõ‚·‚é‚Ì‚Í‚»‚Ìƒtƒ@ƒCƒ‹‚Ì‚İ‚Æ‚È‚éB
@@ -4414,8 +4116,6 @@ EnumResourceTypes ‚ÆˆÙ‚È‚èA‚±‚ÌŒŸõ‚Í•¡”‚Ì .mui ƒtƒ@ƒCƒ‹‚ğQÆ‚·‚éB—ñ‹“‚Í Enu
 %index
 EnumResourceLanguagesExW
 w’è‚³‚ê‚½ƒoƒCƒiƒŠƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Aw’è‚³‚ê‚½í—Ş‚Æ–¼‘O‚ÌŒ¾ŒêŒÅ—LƒŠƒ\[ƒX‚ğ—ñ‹“‚·‚éBEnumResourceLanguages ‚ğŠg’£‚µA—ñ‹“‚Ì‚æ‚è×‚©‚¢§Œä‚ğ‰Â”\‚É‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hModule, lpType, lpName, lpEnumFunc, lParam, dwFlags, LangId
 hModule : [intptr] Œ^: HMODULE ŒŸõ‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B’Êí‚±‚ê‚ÍŒ¾Œê’†—§‚È PE (LN) ƒtƒ@ƒCƒ‹‚Å‚ ‚èAƒtƒ‰ƒO RESOURCE_ENUM_MUI ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í“KØ‚È .mui ƒtƒ@ƒCƒ‹‚àŒŸõ‚ÉŠÜ‚Ü‚ê‚éB‚ ‚é‚¢‚Í .mui ƒtƒ@ƒCƒ‹‚â•Ê‚Ì LN ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B‚±‚ê‚ª“Á’è‚Ì .mui ƒtƒ@ƒCƒ‹‚Å‚ ‚éê‡AƒŠƒ\[ƒX‚ğŒŸõ‚·‚é‚Ì‚Í‚»‚Ìƒtƒ@ƒCƒ‹‚Ì‚İ‚Æ‚È‚éB
@@ -4464,8 +4164,6 @@ LN ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A‚·‚é .mui ƒtƒ@ƒCƒ‹‚É§ŒÀ‚·‚é‚±‚Æ‚à‚Å‚«‚éB‚³‚ç‚ÉAhModule ƒpƒ‰ƒ
 %index
 EnumResourceNamesW
 ƒoƒCƒiƒŠƒ‚ƒWƒ…[ƒ‹“à‚Ìw’è‚³‚ê‚½í—Ş‚ÌƒŠƒ\[ƒX‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hModule, lpType, lpEnumFunc, lParam
 hModule : [intptr] Œ^: **HMODULE** ŒŸõ‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BWindows Vista ˆÈ~A‚±‚ê‚ª LN ƒtƒ@ƒCƒ‹‚Å‚ ‚éê‡A“KØ‚È .mui ƒtƒ@ƒCƒ‹i‘¶İ‚·‚éê‡j‚àŒŸõ‚ÉŠÜ‚Ü‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª **NULL** ‚Ìê‡AŒ»İ‚ÌƒvƒƒZƒX‚ğì¬‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ“n‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB
@@ -4510,8 +4208,6 @@ Management](/windows/desktop/Intl/user-interface-language-management)
 %index
 EnumResourceNamesExW
 w’è‚³‚ê‚½ƒoƒCƒiƒŠƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Aw’è‚³‚ê‚½í—Ş‚ÌƒŠƒ\[ƒX‚ğ—ñ‹“‚·‚éBŒŸõ‚Í LN ƒtƒ@ƒCƒ‹‚ÆŠÖ˜A‚·‚é .mui ƒtƒ@ƒCƒ‹‚Ì—¼•û‚ğŠÜ‚Ş‚±‚Æ‚à‚Å‚«A‚¢‚­‚Â‚©‚Ì•û–@‚Å§ŒÀ‚·‚é‚±‚Æ‚à‚Å‚«‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hModule, lpType, lpEnumFunc, lParam, dwFlags, LangId
 hModule : [intptr] Œ^: HMODULE ŒŸõ‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B’Êí‚±‚ê‚Í LN ƒtƒ@ƒCƒ‹‚Å‚ ‚èAƒtƒ‰ƒO RESOURCE_ENUM_MUI ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í“KØ‚È .mui ƒtƒ@ƒCƒ‹‚àŒŸõ‚ÉŠÜ‚Ü‚ê‚éB‚ ‚é‚¢‚Í .mui ƒtƒ@ƒCƒ‹‚â•Ê‚Ì LN ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒ»İ‚ÌƒvƒƒZƒX‚ğì¬‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ“n‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB
@@ -4556,8 +4252,6 @@ EnumResourceNames ‚Æ“¯—l‚É“®ì‚·‚éBLangId ‚ª 0 ˆÈŠO‚Ìê‡A‚»‚ÌŒ¾Œê¯•Êq‚É‘Î‰
 %index
 EnumResourceTypesW
 ƒoƒCƒiƒŠƒ‚ƒWƒ…[ƒ‹“à‚ÌƒŠƒ\[ƒXí•Ê‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hModule, lpEnumFunc, lParam
 hModule : [intptr] Œ^: HMODULE ŒŸõ‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LoadLibrary ‚Ü‚½‚Í LoadLibraryEx ‚ğ’Ê‚¶‚Äæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Remarks ‚ğQÆB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒ»İ‚ÌƒvƒƒZƒX‚ğì¬‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ“n‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB
@@ -4587,8 +4281,6 @@ Management ‚ğQÆB1 ‚Â‚Ì“KØ‚È .mui ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚é‚ÆALN ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A‚·‚é
 %index
 EnumResourceTypesExW
 w’è‚³‚ê‚½ƒoƒCƒiƒŠƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒXí•Ê‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hModule, lpEnumFunc, lParam, dwFlags, LangId
 hModule : [intptr] Œ^: HMODULE ŒŸõ‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B’Êí‚±‚ê‚Í LN ƒtƒ@ƒCƒ‹‚Å‚ ‚èAƒtƒ‰ƒO RESOURCE_ENUM_MUI ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í“KØ‚È .mui ƒtƒ@ƒCƒ‹‚àŒŸõ‚ÉŠÜ‚Ü‚ê‚éB‚ ‚é‚¢‚Í .mui ƒtƒ@ƒCƒ‹‚â•Ê‚Ì LN ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒ»İ‚ÌƒvƒƒZƒX‚ğì¬‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ“n‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB
@@ -4620,8 +4312,6 @@ EnumResourceTypes ‚Æ“¯—l‚É“®ì‚·‚éBLangId ‚ª 0 ˆÈŠO‚Ìê‡A‚»‚ÌŒ¾Œê¯•Êq‚É‘Î‰
 %index
 EnumSystemCodePagesW
 OS ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éA‚Ü‚½‚Í OS ‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éƒR[ƒhƒy[ƒW‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpCodePageEnumProc, dwFlags
 lpCodePageEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BEnumSystemCodePages ŠÖ”‚Í‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒJ‚è•Ô‚µŒÄ‚Ô‚±‚Æ‚ÅƒR[ƒhƒy[ƒW‚ğ—ñ‹“‚·‚éBÚ×‚Í EnumCodePagesProc ‚ğQÆB
@@ -4651,8 +4341,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumSystemFirmwareTables
 w’è‚³‚ê‚½í—Ş‚ÌƒVƒXƒeƒ€ƒtƒ@[ƒ€ƒEƒFƒAƒe[ƒuƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
-%group
-Win32 kernel32
 %prm
 FirmwareTableProviderSignature, pFirmwareTableEnumBuffer, BufferSize
 FirmwareTableProviderSignature : [int] 
@@ -4682,8 +4370,6 @@ SMBIOS information from a Universal Windows App ‚ğQÆBƒ†ƒjƒo[ƒTƒ‹ Windows
 %index
 EnumSystemGeoID
 OS ‚Å—˜—p‰Â”\‚È’n—“IˆÊ’u¯•ÊqiGEOID Œ^j‚ğ—ñ‹“‚·‚éB
-%group
-Win32 kernel32
 %prm
 GeoClass, ParentGeoId, lpGeoEnumProc
 GeoClass : [int] ¯•Êq‚ğ—ñ‹“‚·‚é’n—“IˆÊ’uƒNƒ‰ƒXBŒ»“_‚Å‚Í GEOCLASS_NATION ‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB‚±‚Ìí—Ş‚É‚æ‚èAŠÖ”‚Í OS ã‚Ì‚·‚×‚Ä‚Ì‘‚Ì’n—“I¯•Êq‚ğ—ñ‹“‚·‚éB
@@ -4701,8 +4387,6 @@ OS ‚Å—˜—p‰Â”\‚È’n—“IˆÊ’u¯•ÊqiGEOID Œ^j‚ğ—ñ‹“‚·‚éB
 %index
 EnumSystemGeoNames
 OS ‚Å—˜—p‰Â”\‚È’n—“IˆÊ’u‚ğ•\‚· 2 •¶š‚Ì‘Û•W€‰»‹@\ (ISO) 3166-1 ƒR[ƒh‚Ü‚½‚Í”’l‚Ì‘˜A (UN) Series M, Number 49 (M.49) ƒR[ƒh‚ğ—ñ‹“‚·‚éB
-%group
-Win32 kernel32
 %prm
 geoClass, geoEnumProc, data
 geoClass : [int] —˜—p‰Â”\‚È 2 •¶š ISO 3166-1 ‚Ü‚½‚Í”’l UN M.49 ƒR[ƒh‚ğ—ñ‹“‚·‚é’n—“IˆÊ’uƒNƒ‰ƒXB
@@ -4726,8 +4410,6 @@ M, Number 49 (M.49) ƒR[ƒh‚ğ—ñ‹“‚·‚éB
 %index
 EnumSystemLanguageGroupsW
 OS ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éA‚Ü‚½‚Í OS ‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éŒ¾ŒêƒOƒ‹[ƒv‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpLanguageGroupEnumProc, dwFlags, lParam
 lpLanguageGroupEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumLanguageGroupsProc ‚ğQÆB
@@ -4756,8 +4438,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumSystemLocalesW
 OS ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éA‚Ü‚½‚Í OS ‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éƒƒP[ƒ‹‚ğ—ñ‹“‚·‚éB’: ‘ŠŒİ‰^—p«‚ÌŠÏ“_‚©‚çAMicrosoft ‚ÍV‚µ‚¢ƒƒP[ƒ‹‚ÉƒƒP[ƒ‹¯•Êq‚Ì‘ã‚í‚è‚ÉƒƒP[ƒ‹–¼‚ğg—p‚·‚é•ûŒü‚ÉˆÚs‚µ‚Ä‚¢‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumSystemLocales ‚æ‚è‚à EnumSystemLocalesEx ŠÖ”‚ğ—Dæ‚·‚×‚«‚Å‚ ‚éBWindows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumSystemLocalesEx ‚ğg‚¤‚×‚«‚Å‚ ‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpLocaleEnumProc, dwFlags
 lpLocaleEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumLocalesProc ‚ğQÆB
@@ -4788,8 +4468,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumSystemLocalesEx
 OS ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éA‚Ü‚½‚Í OS ‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éƒƒP[ƒ‹‚ğ—ñ‹“‚·‚éB’: Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumSystemLocales ‚æ‚è‚à‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleEnumProcEx, dwFlags, lParam, lpReserved
 lpLocaleEnumProcEx : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BEnumSystemLocalesEx ŠÖ”‚Í‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒJ‚è•Ô‚µŒÄ‚Ô‚±‚Æ‚ÅƒƒP[ƒ‹‚ğ—ñ‹“‚·‚éBÚ×‚Í EnumLocalesProcEx ‚ğQÆB
@@ -4818,8 +4496,6 @@ EnumSystemLocales ‚Ì‚à‚Ì‚Æ‚ÍˆÙ‚È‚éBdwFlags ‚ª LOCALE_ALTERNATE_SORTS
 %index
 EnumTimeFormatsW
 ¯•Êq‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚Å—˜—p‰Â”\‚ÈŒ`®‚ğ—ñ‹“‚·‚éB’: ‘ŠŒİ‰^—p«‚ÌŠÏ“_‚©‚çAMicrosoft ‚ÍV‚µ‚¢ƒƒP[ƒ‹‚ÉƒƒP[ƒ‹¯•Êq‚Ì‘ã‚í‚è‚ÉƒƒP[ƒ‹–¼‚ğg—p‚·‚é•ûŒü‚ÉˆÚs‚µ‚Ä‚¢‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumTimeFormats ‚æ‚è‚à EnumTimeFormatsEx ŠÖ”‚ğ—Dæ‚·‚×‚«‚Å‚ ‚éBWindows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumTimeFormatsEx ‚ğg‚¤‚×‚«‚Å‚ ‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpTimeFmtEnumProc, Locale, dwFlags
 lpTimeFmtEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumTimeFormatsProc ‚ğQÆB
@@ -4856,8 +4532,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 EnumTimeFormatsEx
 –¼‘O‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚Å—˜—p‰Â”\‚ÈŒ`®‚ğ—ñ‹“‚·‚éB’: Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í EnumTimeFormats ‚æ‚è‚à‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB’: ‚±‚ÌŠÖ”‚ÍƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚È‚Ç‚É‚æ‚èƒŠƒŠ[ƒXŠÔ‚Å•Ï‰»‚·‚éƒf[ƒ^‚ğ—ñ‹“‚·‚é‚±‚Æ‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‰i‘±‰»‚Ü‚½‚Í‘—M‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ê‡‚Í Using Persistent Locale Data ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpTimeFmtEnumProcEx, lpLocaleName, dwFlags, lParam
 lpTimeFmtEnumProcEx : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumTimeFormatsProcEx ‚ğQÆB
@@ -4885,8 +4559,6 @@ FALSE ‚ğ•Ô‚·‚Ü‚Å—ñ‹“‚ğ‘±‚¯‚éBWindows 8 ˆÈ~: ƒAƒvƒŠ‚ª Windows.Globalization
 %index
 EnumUILanguagesW
 OS ‚Å—˜—p‰Â”\‚Èƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒF[ƒXŒ¾Œê‚ğ—ñ‹“‚µAƒŠƒXƒg“à‚ÌŠeŒ¾Œê‚É‘Î‚µ‚ÄƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚ÔB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpUILanguageEnumProc, dwFlags, lParam
 lpUILanguageEnumProc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì EnumUILanguagesProc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BEnumUILanguages ‚ÍƒŠƒXƒg“à‚ÌŒ¾Œê‚ğ—ñ‹“‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒJ‚è•Ô‚µŒÄ‚ÔB
@@ -4919,8 +4591,6 @@ LOCALE_CUSTOM_UNSPECIFIED ‚Ì 16 i”’l‚É‘Î‰‚·‚éB‚±‚ê‚Í‘I‘ğ‚³‚ê‚½Œ¾Œê‚ªƒ†[ƒU[
 %index
 EraseTape
 ƒe[ƒv‚Ì‘S•”‚Ü‚½‚Íˆê•”‚ğÁ‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDevice, dwEraseType, bImmediate
 hDevice : [intptr] ƒe[ƒv‚ğÁ‹‚·‚éƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ŠÖ”‚ğg‚Á‚Äì¬‚·‚éB
@@ -4942,8 +4612,6 @@ bImmediate : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡AŠÖ”‚Í‘¦À‚É–ß‚éBFALSE ‚Ìê‡
 %index
 EscapeCommFunction
 w’è‚³‚ê‚½’ÊMƒfƒoƒCƒX‚ÉŠg’£‹@”\‚ğÀs‚·‚é‚æ‚¤w¦‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwFunc
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -4959,8 +4627,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 ExecuteUmsThread
 w’è‚³‚ê‚½ UMS ƒ[ƒJ[ƒXƒŒƒbƒh‚ğÀs‚·‚éB
-%group
-Win32 kernel32
 %prm
 UmsThread
 UmsThread : [intptr] Às‚·‚éƒ[ƒJ[ƒXƒŒƒbƒh‚Ì UMS ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4991,8 +4657,6 @@ UmsThreadIsTerminated ‚Å QueryUmsThreadInformation
 %index
 ExitProcess
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚ğI—¹‚·‚éB
-%group
-Win32 kernel32
 %prm
 uExitCode
 uExitCode : [int] ƒvƒƒZƒX‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚ÌI—¹ƒR[ƒhB
@@ -5008,8 +4672,6 @@ GetExitCodeThread ŠÖ”‚ğg—p‚·‚éBƒvƒƒZƒX‚ğI—¹‚·‚é‚ÆŸ‚Ì‚±‚Æ‚ª”­¶‚·‚éB
 %index
 ExpandEnvironmentStringsW
 ŠÂ‹«•Ï”•¶š—ñ‚ğ“WŠJ‚µAŒ»İ‚Ìƒ†[ƒU[‚É‘Î‚µ‚Ä’è‹`‚³‚ê‚½’l‚É’u‚«Š·‚¦‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpSrc, lpDst, nSize
 lpSrc : [wstr] %variableName% ‚ÌŒ`®‚Å 1 ‚ÂˆÈã‚ÌŠÂ‹«•Ï”•¶š—ñ‚ğŠÜ‚Şƒoƒbƒtƒ@B‚»‚Ì‚æ‚¤‚ÈQÆ‚²‚Æ‚ÉA%variableName% ‚Ì•”•ª‚Í‚»‚ÌŠÂ‹«•Ï”‚ÌŒ»İ‚Ì’l‚Å’u‚«Š·‚¦‚ç‚ê‚éB
@@ -5032,8 +4694,6 @@ lpSrc ‚Æ lpDst ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚Í 32K
 %index
 ExpungeConsoleCommandHistoryW
 (no summary)
-%group
-Win32 kernel32
 %prm
 ExeName
 ExeName : [wstr] 
@@ -5044,8 +4704,6 @@ ExeName : [wstr]
 %index
 FatalAppExitW
 ƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ğ•\¦‚µAƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ª•Â‚¶‚ç‚ê‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğI—¹‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 uAction, lpMessageText
 uAction : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -5066,8 +4724,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FatalExit
 Às§Œä‚ğƒfƒoƒbƒK‚ÉˆÚ‚·BƒfƒoƒbƒK‚Ì‚»‚ÌŒã‚Ì“®ì‚Íg—p‚·‚éƒfƒoƒbƒK‚Ìí—Ş‚ÉˆË‘¶‚·‚éB
-%group
-Win32 kernel32
 %prm
 ExitCode
 ExitCode : [int] I—¹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒGƒ‰[ƒR[ƒhB
@@ -5085,8 +4741,6 @@ ExitCode : [int] I—¹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒGƒ‰[ƒR[ƒhB
 %index
 FileTimeToDosDateTime
 ƒtƒ@ƒCƒ‹‚ğ MS-DOS “ú•tE’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpFileTime, lpFatDate, lpFatTime
 lpFileTime : [var] MS-DOS “ú•tEŒ`®‚É•ÏŠ·‚·‚éƒtƒ@ƒCƒ‹‚ğŠÜ‚Ş FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5107,8 +4761,6 @@ MS-DOS “ú•tŒ`®‚Í 1980/1/1 ‚©‚ç 2107/12/31
 %index
 FileTimeToLocalFileTime
 ƒtƒ@ƒCƒ‹‚ğƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpFileTime, lpLocalFileTime
 lpFileTime : [var] ƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚é UTC ƒx[ƒX‚Ìƒtƒ@ƒCƒ‹‚ğŠÜ‚Ş FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5129,8 +4781,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 FileTimeToSystemTime
 ƒtƒ@ƒCƒ‹‚ğƒVƒXƒeƒ€Œ`®‚É•ÏŠ·‚·‚éBƒVƒXƒeƒ€‚Í‹¦’è¢ŠE (UTC) ‚ÉŠî‚Ã‚­B
-%group
-Win32 kernel32
 %prm
 lpFileTime, lpSystemTime
 lpFileTime : [var] ƒVƒXƒeƒ€ (UTC) “ú•tEŒ`®‚É•ÏŠ·‚·‚éƒtƒ@ƒCƒ‹‚ğŠÜ‚Ş FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚Í 0x8000000000000000 –¢–‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚·‚éB
@@ -5146,8 +4796,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 FillConsoleOutputAttribute
 ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@“à‚Ìw’è‚³‚ê‚½À•W‚©‚çn‚Ü‚éAw’è‚³‚ê‚½”‚Ì•¶šƒZƒ‹‚É‘Î‚µ‚Ä•¶š‘®«‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, wAttribute, nLength, dwWriteCoord, lpNumberOfAttrsWritten
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_WRITE** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -5178,8 +4826,6 @@ lpNumberOfAttrsWritten : [var] ÀÛ‚É‘®«‚ªİ’è‚³‚ê‚½•¶šƒZƒ‹”‚ğó‚¯æ‚é•Ï”‚Ö‚
 %index
 FillConsoleOutputCharacterW
 w’è‚³‚ê‚½À•W‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½‰ñ”‚¾‚¯ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚É•¶š‚ğ‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, cCharacter, nLength, dwWriteCoord, lpNumberOfCharsWritten
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_WRITE** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -5211,8 +4857,6 @@ lpNumberOfCharsWritten : [var] ÀÛ‚ÉƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚É‘‚«‚Ü‚ê‚½•
 %index
 FindActCtxSectionGuid
 FindActCtxSectionGuid ŠÖ”‚ÍAŒ»İ‚ÌƒAƒNƒeƒBƒu‰»ƒRƒ“ƒeƒLƒXƒg“à‚Ì“Á’è‚Ì GUID ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚µAACTCTX_SECTION_KEYED_DATA \‘¢‘Ì‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 dwFlags, lpExtensionGuid, ulSectionId, lpGuidToFind, ReturnedData
 dwFlags : [int] ‚±‚ÌŠÖ”‚Ì“®ì•û–@‚ğŒˆ’è‚·‚éƒtƒ‰ƒOBŒ»İ‚ÍŸ‚Ìƒtƒ‰ƒO‚Ì‚İ’è‹`‚³‚ê‚Ä‚¢‚éB
@@ -5237,8 +4881,6 @@ FindActCtxSectionGuid ŠÖ”‚ÍAŒ»İ‚ÌƒAƒNƒeƒBƒu‰»ƒRƒ“ƒeƒLƒXƒg“à‚Ì“Á’è‚Ì GUID
 %index
 FindActCtxSectionStringW
 FindActCtxSectionString ŠÖ”‚ÍAŒ»İ‚ÌƒAƒNƒeƒBƒu‰»ƒRƒ“ƒeƒLƒXƒg“à‚Ì“Á’è‚Ì•¶š—ñ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚µAACTCTX_SECTION_KEYED_DATA \‘¢‘Ì‚ğ•Ô‚·B(Unicode)
-%group
-Win32 kernel32
 %prm
 dwFlags, lpExtensionGuid, ulSectionId, lpStringToFind, ReturnedData
 dwFlags : [int] ‚±‚ÌŠÖ”‚Ì“®ì•û–@‚ğŒˆ’è‚·‚éƒtƒ‰ƒOBŒ»İ‚ÍŸ‚Ìƒtƒ‰ƒO‚Ì‚İ’è‹`‚³‚ê‚Ä‚¢‚éB
@@ -5270,8 +4912,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FindAtomW
 ƒ[ƒJƒ‹ƒAƒgƒ€ƒe[ƒuƒ‹‚©‚çw’è‚³‚ê‚½•¶š—ñ‚ğŒŸõ‚µA‚»‚Ì•¶š—ñ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒgƒ€‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString
 lpString : [wstr] Œ^: LPCTSTR ŒŸõ‚·‚é•¶š—ñB‚ ‚é‚¢‚Í MAKEINTATOM ƒ}ƒNƒ‚ğg‚Á‚Ä•ÏŠ·‚µ‚½®”ƒAƒgƒ€‚ğg—p‚Å‚«‚éBÚ×‚Í Remarks ‚ğQÆB
@@ -5297,8 +4937,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 FindClose
 FindFirstFileAFindFirstFileExAFindFirstFileNameWAFindFirstFileNameTransactedWAFindFirstFileTransactedAFindFirstStreamTransactedWAFindFirstStreamW ‚ªŠJ‚¢‚½ƒtƒ@ƒCƒ‹ŒŸõƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 hFindFile
 hFindFile : [intptr] ƒtƒ@ƒCƒ‹ŒŸõƒnƒ“ƒhƒ‹B
@@ -5320,8 +4958,6 @@ FindNextFileAFindNextFileNameWAFindNextStreamWAFindClose
 %index
 FindCloseChangeNotification
 •ÏX’Ê’mƒnƒ“ƒhƒ‹‚ÌŠÄ‹‚ğ’â~‚·‚éB
-%group
-Win32 kernel32
 %prm
 hChangeHandle
 hChangeHandle : [intptr] FindFirstChangeNotification ŠÖ”‚Åì¬‚³‚ê‚½•ÏX’Ê’mƒnƒ“ƒhƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5343,8 +4979,6 @@ FindNextChangeNotification ‚â FindCloseChangeNotification
 %index
 FindFirstChangeNotificationW
 •ÏX’Ê’mƒnƒ“ƒhƒ‹‚ğì¬‚µA‰Šú‚Ì•ÏX’Ê’mƒtƒBƒ‹ƒ^ğŒ‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpPathName, bWatchSubtree, dwNotifyFilter
 lpPathName : [wstr] ŠÄ‹‚·‚éƒfƒBƒŒƒNƒgƒŠ‚Ìƒtƒ‹ƒpƒXB
@@ -5371,8 +5005,6 @@ INVALID_HANDLE_VALUE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 FindFirstFileW
 w’è‚µ‚½–¼‘O(ƒƒCƒ‹ƒhƒJ[ƒh‚ğg—p‚µ‚½•”•ª–¼‚ğŠÜ‚Ş)‚Éˆê’v‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒTƒuƒfƒBƒŒƒNƒgƒŠ‚ğƒfƒBƒŒƒNƒgƒŠ“à‚©‚çŒŸõ‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, lpFindFileData
 lpFileName : [wstr] ƒfƒBƒŒƒNƒgƒŠ‚Ü‚½‚ÍƒpƒX‚¨‚æ‚Ñƒtƒ@ƒCƒ‹–¼BƒƒCƒ‹ƒhƒJ[ƒh(* ‚â ?)‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éBNULLA–³Œø‚È•¶š—ñA––”öƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ÅI‚í‚é•¶š—ñ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢BANSI ”Å‚Å‚Í MAX_PATH •¶š‚É§ŒÀBUnicode ”Å‚Å 32,767 •¶š‚Ü‚ÅŠg’£‚·‚é‚É‚Í "\\?\" ‚ğƒpƒX‚É•t‰Á‚·‚éB
@@ -5397,8 +5029,6 @@ FindFirstFile ‚ÍŒŸõƒnƒ“ƒhƒ‹‚ğŠJ‚«Aw’èƒpƒ^[ƒ“‚Éˆê’v‚·‚éÅ‰‚Ìƒtƒ@ƒCƒ‹‚Ìî•ñ‚ğ
 %index
 FindFirstFileExW
 w’è‚³‚ê‚½–¼‘O‚Æ‘®«‚Éˆê’v‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒTƒuƒfƒBƒŒƒNƒgƒŠ‚ğƒfƒBƒŒƒNƒgƒŠ‚©‚çŒŸõ‚·‚éB(FindFirstFileExW)
-%group
-Win32 kernel32
 %prm
 lpFileName, fInfoLevelId, lpFindFileData, fSearchOp, lpSearchFilter, dwAdditionalFlags
 lpFileName : [wstr] ƒfƒBƒŒƒNƒgƒŠ‚Ü‚½‚ÍƒpƒX‚Æƒtƒ@ƒCƒ‹–¼Bƒtƒ@ƒCƒ‹–¼‚É‚ÍƒƒCƒ‹ƒhƒJ[ƒh•¶ši‚½‚Æ‚¦‚ÎƒAƒXƒ^ƒŠƒXƒN (*) ‚â‹^–â•„ (?)j‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULLA–³Œø‚È•¶š—ñi‚½‚Æ‚¦‚Î‹ó•¶š—ñ‚âI’[ NULL •¶š‚ğŒ‡‚¢‚½•¶š—ñjA‚Ü‚½‚Í––”ö‚ÌƒoƒbƒNƒXƒ‰ƒbƒVƒ… (\\) ‚ÅI‚í‚é•¶š—ñ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B•¶š—ñ‚ªƒƒCƒ‹ƒhƒJ[ƒhAƒsƒŠƒIƒhA‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ–¼‚ÅI‚í‚éê‡Aƒ†[ƒU[‚Íƒ‹[ƒg‚ÆƒpƒXã‚Ì‚·‚×‚Ä‚ÌƒTƒuƒfƒBƒŒƒNƒgƒŠ‚ÉƒAƒNƒZƒX‚Å‚«‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚Ü‚Å‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ–ñ 32,000 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAŠÖ”‚Ì Unicode ”Å (FindFirstFileExW) ‚ğŒÄ‚Ño‚µ‚ÄƒpƒX‚Ìæ“ª‚É "\\\\?\\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming a File ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~A‚±‚ÌŠÖ”‚Ì Unicode ”Å (FindFirstFileExW) ‚Å‚ÍA"\\?\" ‚ğ•t‚¯‚¸‚É MAX_PATH •¶š§ŒÀ‚ğæ‚èœ‚­ƒIƒvƒgƒCƒ“‚ª‚Å‚«‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -5429,8 +5059,6 @@ FindFirstFileEx ‚ªŒŸõŒ‹‰Ê‚Ìƒ\[ƒg‚ğs‚í‚È‚¢‚½‚ß‚Å‚ ‚éBÚ×‚Í FindNextFile
 %index
 FindFirstFileNameW
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ö‚Ì‚·‚×‚Ä‚Ìƒn[ƒhƒŠƒ“ƒN‚Ì—ñ‹“‚ğì¬‚·‚éBFindFirstFileNameW ŠÖ”‚ÍˆÈ~‚Ì FindNextFileNameW ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åg—p‚Å‚«‚é—ñ‹“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 lpFileName, dwFlags, StringLength, LinkName
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹–¼Bƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~A"\\?\" ‚ğ•t‚¯‚¸‚É MAX_PATH §ŒÀ‚ğæ‚èœ‚­ƒIƒvƒgƒCƒ“‚ª‚Å‚«‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Length Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -5454,8 +5082,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 FindFirstFileNameTransactedW
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ö‚Ì‚·‚×‚Ä‚Ìƒn[ƒhƒŠƒ“ƒN‚Ì—ñ‹“‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äì¬‚·‚éBŠÖ”‚ÍˆÈ~‚Ì FindNextFileNameW ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åg—p‚Å‚«‚é—ñ‹“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 lpFileName, dwFlags, StringLength, LinkName, hTransaction
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹–¼Bƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅŒã‚ÌƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE (6805) ‚Éİ’è‚³‚ê‚éB
@@ -5480,8 +5106,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 FindFirstFileTransactedW
 w’è‚³‚ê‚½–¼‘O‚Éˆê’v‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒTƒuƒfƒBƒŒƒNƒgƒŠ‚ğƒfƒBƒŒƒNƒgƒŠ‚©‚çŒŸõ‚·‚éˆ—‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚ÄÀs‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, fInfoLevelId, lpFindFileData, fSearchOp, lpSearchFilter, dwAdditionalFlags, hTransaction
 lpFileName : [wstr] ƒfƒBƒŒƒNƒgƒŠ‚Ü‚½‚ÍƒpƒX‚Æƒtƒ@ƒCƒ‹–¼Bƒtƒ@ƒCƒ‹–¼‚É‚ÍƒƒCƒ‹ƒhƒJ[ƒh•¶ši‚½‚Æ‚¦‚ÎƒAƒXƒ^ƒŠƒXƒN (*) ‚â‹^–â•„ (?)j‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULLA–³Œø‚È•¶š—ñi‚½‚Æ‚¦‚Î‹ó•¶š—ñ‚âI’[ NULL •¶š‚ğŒ‡‚¢‚½•¶š—ñjA‚Ü‚½‚Í––”ö‚ÌƒoƒbƒNƒXƒ‰ƒbƒVƒ… (\\) ‚ÅI‚í‚é•¶š—ñ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B•¶š—ñ‚ªƒƒCƒ‹ƒhƒJ[ƒhAƒsƒŠƒIƒh (.)A‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ–¼‚ÅI‚í‚éê‡Aƒ†[ƒU[‚Íƒ‹[ƒg‚ÆƒpƒXã‚Ì‚·‚×‚Ä‚ÌƒTƒuƒfƒBƒŒƒNƒgƒŠ‚ÉƒAƒNƒZƒX‚Å‚«‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚Ü‚Å‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAŠÖ”‚Ì Unicode ”Å‚ğŒÄ‚Ño‚µ‚ÄƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming a File ‚ğQÆBƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅŒã‚ÌƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚Éİ’è‚³‚ê‚éB
@@ -5514,8 +5138,6 @@ FindFirstFileTransacted ‚ªŒŸõŒ‹‰Ê‚Ìƒ\[ƒg‚ğs‚í‚È‚¢‚½‚ß‚Å‚ ‚éBÚ×‚Í FindNextF
 %index
 FindFirstStreamTransactedW
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚âƒfƒBƒŒƒNƒgƒŠ“à‚ÌÅ‰‚ÌƒXƒgƒŠ[ƒ€‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Ä—ñ‹“‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpFileName, InfoLevel, lpFindStreamData, dwFlags, hTransaction
 lpFileName : [wstr] Š®‘SCüƒtƒ@ƒCƒ‹–¼Bƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅŒã‚ÌƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE (6805) ‚Éİ’è‚³‚ê‚éB
@@ -5548,8 +5170,6 @@ ERROR_STATUS_NOT_IMPLEMENTED (6805) ‚ğ•Ô‚·BFindFirstStreamTransactedW
 %index
 FindFirstVolumeW
 ƒRƒ“ƒsƒ…[ƒ^ã‚Ìƒ{ƒŠƒ…[ƒ€‚Ì–¼‘O‚ğæ“¾‚·‚éB(FindFirstVolumeW)
-%group
-Win32 kernel32
 %prm
 lpszVolumeName, cchBufferLength
 lpszVolumeName : [wstr] Œ©‚Â‚©‚Á‚½Å‰‚Ìƒ{ƒŠƒ…[ƒ€‚Ìƒ{ƒŠƒ…[ƒ€ GUID ƒpƒX‚ğw’è‚·‚é NULL I’[•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5576,8 +5196,6 @@ BIOSi‘¶İ‚·‚éê‡j‚Ü‚½‚Í Disk Administrator
 %index
 FindFirstVolumeMountPointW
 w’è‚³‚ê‚½ƒ{ƒŠƒ…[ƒ€ã‚Ìƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_‚Ì–¼‘O‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszRootPathName, lpszVolumeMountPoint, cchBufferLength
 lpszRootPathName : [wstr] ƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_‚ğƒXƒLƒƒƒ“‚·‚éƒ{ƒŠƒ…[ƒ€‚Ìƒ{ƒŠƒ…[ƒ€ GUID ƒpƒXB––”ö‚ÌƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ª•K—vB
@@ -5606,8 +5224,6 @@ FindFirstVolumeMountPoint
 %index
 FindNLSString
 ¯•Êq‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚É‘Î‚µ‚ÄAUnicode •¶š—ñiƒƒCƒh•¶šj‚Ü‚½‚Í‚»‚Ì“™‰¿•¨‚ğ•Ê‚Ì Unicode •¶š—ñ“à‚ÅŒŸõ‚·‚éB’ˆÓ: ”ñí‚ÉˆÙ‚È‚éƒoƒCƒiƒŠ•\Œ»‚ğ‚Â•¶š—ñ‚ª“¯ˆê‚Æ‚µ‚Ä”äŠr‚³‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßA‚±‚ÌŠÖ”‚Í“Á’è‚ÌƒZƒLƒ…ƒŠƒeƒBã‚ÌŒœ”O‚ğˆø‚«‹N‚±‚·‚±‚Æ‚ª‚ ‚éBÚ×‚Í Security Considerations:_International Features “à‚Ì”äŠrŠÖ”‚Ìà–¾‚ğQÆB’: ‘ŠŒİ‰^—p«‚ÌŠÏ“_‚©‚çAMicrosoft ‚ÍV‚µ‚¢ƒƒP[ƒ‹‚ÉƒƒP[ƒ‹¯•Êq‚Ì‘ã‚í‚è‚ÉƒƒP[ƒ‹–¼‚ğg—p‚·‚é•ûŒü‚ÉˆÚs‚µ‚Ä‚¢‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í FindNLSStringEx ŠÖ”‚ğ—Dæ‚·‚×‚«‚Å‚ ‚éBFindNLSString ‚ÍƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚ğƒTƒ|[ƒg‚·‚é‚ªA‚Ù‚Æ‚ñ‚Ç‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìí‚ÌƒTƒ|[ƒg‚É FindNLSStringEx ‚ğg‚¤‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 Locale, dwFindNLSStringFlags, lpStringSource, cchSource, lpStringValue, cchValue, pcchFound
 Locale : [int] ƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ğg‚Á‚Ä¯•Êq‚ğì¬‚·‚é‚©AˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB
@@ -5641,8 +5257,6 @@ FindNLSStringEx ‚Ì Remarks ‚ğQÆB
 %index
 FindNLSStringEx
 –¼‘O‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚É‘Î‚µ‚ÄAUnicode •¶š—ñiƒƒCƒh•¶šj‚Ü‚½‚Í‚»‚Ì“™‰¿•¨‚ğ•Ê‚Ì Unicode •¶š—ñ“à‚ÅŒŸõ‚·‚éB’ˆÓ: ”ñí‚ÉˆÙ‚È‚éƒoƒCƒiƒŠ•\Œ»‚ğ‚Â•¶š—ñ‚ª“¯ˆê‚Æ‚µ‚Ä”äŠr‚³‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßA‚±‚ÌŠÖ”‚Í“Á’è‚ÌƒZƒLƒ…ƒŠƒeƒBã‚ÌŒœ”O‚ğˆø‚«‹N‚±‚·‚±‚Æ‚ª‚ ‚éBÚ×‚Í Security Considerations:_International Features “à‚Ì”äŠrŠÖ”‚Ìà–¾‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwFindNLSStringFlags, lpStringSource, cchSource, lpStringValue, cchValue, pcchFound, lpVersionInformation, lpReserved, sortHandle
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©B
@@ -5685,8 +5299,6 @@ LINGUISTIC_IGNORECASE ‚Æˆê’v‚·‚é‚ªAŸ‚Ì—áŠO‚ª‚ ‚éB
 %index
 FindNextChangeNotification
 ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ªŸ‚É“KØ‚È•ÏX‚ğŒŸo‚µ‚½‚Æ‚«‚É•ÏX’Ê’mƒnƒ“ƒhƒ‹‚ÉƒVƒOƒiƒ‹‚·‚é‚æ‚¤‚É—v‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hChangeHandle
 hChangeHandle : [intptr] FindFirstChangeNotification ŠÖ”‚Åì¬‚³‚ê‚½•ÏX’Ê’mƒnƒ“ƒhƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5713,8 +5325,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 FindNextFileW
 FindFirstFileAFindFirstFileExAFindFirstFileTransacted ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚É‚æ‚éƒtƒ@ƒCƒ‹ŒŸõ‚ğ‘±‚¯‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hFindFile, lpFindFileData
 hFindFile : [intptr] FindFirstFile ‚Ü‚½‚Í FindFirstFileEx ‚Ì‘O‰ñ‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ŒŸõƒnƒ“ƒhƒ‹B
@@ -5739,8 +5349,6 @@ CDFS ‚Å‚ÍƒAƒ‹ƒtƒ@ƒxƒbƒg‡‚Å•Ô‚³‚ê‚é‚±‚Æ‚ª‘½‚­AFAT
 %index
 FindNextFileNameW
 FindFirstFileNameW ŠÖ”‚Ì¬Œ÷‚µ‚½ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚ğg‚Á‚Äƒtƒ@ƒCƒ‹‚Ö‚Ìƒn[ƒhƒŠƒ“ƒN‚Ì—ñ‹“‚ğ‘±s‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFindStream, StringLength, LinkName
 hFindStream : [intptr] FindFirstFileNameW ‚Ì¬Œ÷‚µ‚½ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½—ñ‹“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5763,8 +5371,6 @@ GetLastError ‚ğŒÄ‚ÔBˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡AGetLastError ŠÖ”‚Í ERR
 %index
 FindNextVolumeW
 FindFirstVolume ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚ÄŠJn‚³‚ê‚½ƒ{ƒŠƒ…[ƒ€ŒŸõ‚ğ‘±s‚·‚éB(FindNextVolumeW)
-%group
-Win32 kernel32
 %prm
 hFindVolume, lpszVolumeName, cchBufferLength
 hFindVolume : [intptr] FindFirstVolume ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ª•Ô‚µ‚½ƒ{ƒŠƒ…[ƒ€ŒŸõƒnƒ“ƒhƒ‹B
@@ -5790,8 +5396,6 @@ BIOSi‘¶İ‚·‚éê‡j‚Ü‚½‚Í Disk Administrator
 %index
 FindNextVolumeMountPointW
 FindFirstVolumeMountPoint ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚ÄŠJn‚³‚ê‚½ƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_ŒŸõ‚ğ‘±s‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hFindVolumeMountPoint, lpszVolumeMountPoint, cchBufferLength
 hFindVolumeMountPoint : [intptr] FindFirstVolumeMountPoint ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ª•Ô‚µ‚½ƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_ŒŸõƒnƒ“ƒhƒ‹B
@@ -5820,8 +5424,6 @@ FindFirstVolumeMountPoint
 %index
 FindResourceW
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹“à‚ÅAw’è‚³‚ê‚½í—Ş‚Æ–¼‘O‚ÌƒŠƒ\[ƒX‚ÌˆÊ’u‚ğŒˆ’è‚·‚éB(FindResourceW)
-%group
-Win32 kernel32
 %prm
 hModule, lpName, lpType
 hModule : [intptr] Œ^: HMODULE ƒŠƒ\[ƒX‚ğŠÜ‚Ş PE ƒtƒ@ƒCƒ‹‚Ü‚½‚Í•t‚·‚é MUI ƒtƒ@ƒCƒ‹‚ğ‚Âƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍŒ»İ‚ÌƒvƒƒZƒX‚ğì¬‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ğŒŸõ‚·‚éB
@@ -5852,8 +5454,6 @@ FindResource ‚ğg‚Á‚Ä”CˆÓ‚Ìí—Ş‚ÌƒŠƒ\[ƒX‚ğŒ©‚Â‚¯‚é‚±‚Æ‚ª‚Å‚«‚é‚ªA‚±‚ÌŠÖ”‚ÍƒAƒ
 %index
 FindResourceExW
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹“à‚ÅAw’è‚³‚ê‚½í—ŞA–¼‘OAŒ¾Œê‚ÌƒŠƒ\[ƒX‚ÌˆÊ’u‚ğŒˆ’è‚·‚éB(FindResourceExW)
-%group
-Win32 kernel32
 %prm
 hModule, lpType, lpName, wLanguage
 hModule : [intptr] Œ^: HMODULE ƒŠƒ\[ƒX‚ğŠÜ‚Ş PE ƒtƒ@ƒCƒ‹‚Ü‚½‚Í•t‚·‚é MUI ƒtƒ@ƒCƒ‹‚ğ‚Âƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍŒ»İ‚ÌƒvƒƒZƒX‚ğì¬‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ğŒŸõ‚·‚éB
@@ -5885,8 +5485,6 @@ FindResourceEx ‚ğg‚Á‚Ä”CˆÓ‚Ìí—Ş‚ÌƒŠƒ\[ƒX‚ğŒ©‚Â‚¯‚é‚±‚Æ‚ª‚Å‚«‚é‚ªA‚±‚ÌŠÖ”‚Íƒ
 %index
 FindStringOrdinal
 ”ñŒ¾Œê“I‚È”äŠr‚Ì‚½‚ß‚É Unicode •¶š—ñiƒƒCƒh•¶šj‚ğ•Ê‚Ì Unicode •¶š—ñ“à‚ÅŒŸõ‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFindStringOrdinalFlags, lpStringSource, cchSource, lpStringValue, cchValue, bIgnoreCase
 dwFindStringOrdinalFlags : [int] ŒŸõ‘€ì‚ÌÚ×‚ğw’è‚·‚éƒtƒ‰ƒOB‚±‚ê‚ç‚Ìƒtƒ‰ƒO‚ÍŒİ‚¢‚É”r‘¼“I‚ÅAFIND_FROMSTART ‚ªƒfƒtƒHƒ‹ƒg‚Å‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŒŸõƒtƒ‰ƒO‚Ì 1 ‚Â‚¾‚¯‚ğw’è‚Å‚«‚éB
@@ -5920,8 +5518,6 @@ Sorting ‚ğQÆB¸”s‚É 0 ‚ğ•Ô‚· NLS ŠÖ”‚Æ‚Í‘ÎÆ“I‚ÉA‚±‚ÌŠÖ”‚Í¸”s‚µ‚½ê‡ -
 %index
 FindVolumeClose
 w’è‚³‚ê‚½ƒ{ƒŠƒ…[ƒ€ŒŸõƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 hFindVolume
 hFindVolume : [intptr] •Â‚¶‚éƒ{ƒŠƒ…[ƒ€ŒŸõƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍˆÈ‘O‚É FindFirstVolume ŠÖ”‚É‚æ‚Á‚ÄŠJ‚©‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -5942,8 +5538,6 @@ FindVolumeClose ‚ÌˆÈ~‚ÌŒÄ‚Ño‚µ‚Åg—p‚Å‚«‚È‚­‚È‚éBWindows 8 ‚¨‚æ‚Ñ Windows Ser
 %index
 FindVolumeMountPointClose
 w’è‚³‚ê‚½ƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_ŒŸõƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 hFindVolumeMountPoint
 hFindVolumeMountPoint : [intptr] •Â‚¶‚éƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_ŒŸõƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍˆÈ‘O‚É FindFirstVolumeMountPoint ŠÖ”‚É‚æ‚Á‚ÄŠJ‚©‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -5967,8 +5561,6 @@ FindNextVolumeMountPoint ‚Ü‚½‚Í FindVolumeMountPointClose
 %index
 FlsAlloc
 ƒtƒ@ƒCƒoƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (FLS) ƒCƒ“ƒfƒbƒNƒX‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 kernel32
 %prm
 lpCallback
 lpCallback : [int] PFLS_CALLBACK_FUNCTION Œ^‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBÚ×‚Í FlsCallback ‚ğQÆB
@@ -5992,8 +5584,6 @@ FLS_OUT_OF_INDEXES ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 FlsFree
 ƒtƒ@ƒCƒoƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (FLS) ƒCƒ“ƒfƒbƒNƒX‚ğ‰ğ•ú‚µAÄ—˜—p‰Â”\‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlsIndex
 dwFlsIndex : [int] FlsAlloc ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ FLS ƒCƒ“ƒfƒbƒNƒXB
@@ -6016,8 +5606,6 @@ FLS ƒXƒƒbƒg‚ÉŠi”[‚µ‚Ä‚¢‚éê‡AFlsFree ‚ğŒÄ‚Ô‘O‚Éƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚×‚«‚Å‚ ‚éBFlsF
 %index
 FlsGetValue
 w’è‚³‚ê‚½ FLS ƒCƒ“ƒfƒbƒNƒX‚É‚Â‚¢‚ÄŒÄ‚Ño‚µ‘¤ƒtƒ@ƒCƒo‚Ìƒtƒ@ƒCƒoƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (FLS) ƒXƒƒbƒg‚Ì’l‚ğæ“¾‚·‚éBŠeƒtƒ@ƒCƒo‚ÍŠe FLS ƒCƒ“ƒfƒbƒNƒX‚É‚Â‚¢‚Ä“Æ©‚ÌƒXƒƒbƒg‚ğ‚ÂB
-%group
-Win32 kernel32
 %prm
 dwFlsIndex
 dwFlsIndex : [int] FlsAlloc ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ FLS ƒCƒ“ƒfƒbƒNƒXB
@@ -6041,8 +5629,6 @@ FLS ƒCƒ“ƒfƒbƒNƒX‚Í’ÊíAƒvƒƒZƒX‚â DLL ‚Ì‰Šú‰»’†‚É FlsAlloc ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚
 %index
 FlsSetValue
 w’è‚³‚ê‚½ FLS ƒCƒ“ƒfƒbƒNƒX‚É‚Â‚¢‚ÄŒÄ‚Ño‚µ‘¤ƒtƒ@ƒCƒo‚Ìƒtƒ@ƒCƒoƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (FLS) ƒXƒƒbƒg‚É’l‚ğŠi”[‚·‚éBŠeƒtƒ@ƒCƒo‚ÍŠe FLS ƒCƒ“ƒfƒbƒNƒX‚É‚Â‚¢‚Ä“Æ©‚ÌƒXƒƒbƒg‚ğ‚ÂB
-%group
-Win32 kernel32
 %prm
 dwFlsIndex, lpFlsData
 dwFlsIndex : [int] FlsAlloc ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ FLS ƒCƒ“ƒfƒbƒNƒXB
@@ -6067,8 +5653,6 @@ FLS ƒCƒ“ƒfƒbƒNƒX‚Í’ÊíAƒvƒƒZƒX‚â DLL ‚Ì‰Šú‰»’†‚É FlsAlloc ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚
 %index
 FlushConsoleInputBuffer
 ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB“ü—Íƒoƒbƒtƒ@‚ÉŒ»İ‚ ‚é“ü—ÍƒŒƒR[ƒh‚Í‚·‚×‚Ä”jŠü‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleInput
 hConsoleInput : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_WRITE** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -6089,8 +5673,6 @@ hConsoleInput : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERI
 %index
 FlushFileBuffers
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@‚ğƒtƒ‰ƒbƒVƒ…‚µA‚·‚×‚Ä‚Ìƒoƒbƒtƒ@Ï‚İƒf[ƒ^‚ğƒtƒ@ƒCƒ‹‚É‘‚«‚Ü‚¹‚éB
-%group
-Win32 kernel32
 %prm
 hFile
 hFile : [intptr] ŠJ‚©‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í GENERIC_WRITE ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í File Security and Access Rights ‚ğQÆBhFile ‚ª’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ìê‡AŠÖ”‚Í‘—Mƒoƒbƒtƒ@‚Ì‚İ‚ğƒtƒ‰ƒbƒVƒ…‚·‚éBhFile ‚ª–¼‘O•t‚«ƒpƒCƒv‚ÌƒT[ƒo[‘¤‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ìê‡AŠÖ”‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ªƒpƒCƒv‚©‚ç‚·‚×‚Ä‚Ìƒoƒbƒtƒ@Ï‚İƒf[ƒ^‚ğ“Ç‚İæ‚é‚Ü‚Å–ß‚ç‚È‚¢B
@@ -6125,8 +5707,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 FlushInstructionCache
 w’è‚³‚ê‚½ƒvƒƒZƒX‚Ì–½—ßƒLƒƒƒbƒVƒ…‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpBaseAddress, dwSize
 hProcess : [intptr] –½—ßƒLƒƒƒbƒVƒ…‚ğƒtƒ‰ƒbƒVƒ…‚·‚éƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6147,8 +5727,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 FlushViewOfFile
 ƒtƒ@ƒCƒ‹‚Ìƒ}ƒbƒv‚³‚ê‚½ƒrƒ…[“à‚ÌƒoƒCƒg”ÍˆÍ‚ğƒfƒBƒXƒN‚É‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 lpBaseAddress, dwNumberOfBytesToFlush
 lpBaseAddress : [intptr] ƒ}ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒfƒBƒXƒN•\Œ»‚Éƒtƒ‰ƒbƒVƒ…‚·‚éƒoƒCƒg”ÍˆÍ‚Ìƒx[ƒXƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6176,8 +5754,6 @@ SetFileTime ‚ğg‚Á‚Äƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğİ’è‚·‚×‚«‚Å‚ ‚éBWindows Server 2012
 %index
 FoldStringW
 ‚ ‚é Unicode •¶š—ñ‚ğ•Ê‚Ì Unicode •¶š—ñ‚Éƒ}ƒbƒv‚µAw’è‚³‚ê‚½•ÏŠ·‚ğÀs‚·‚éB(FoldStringW)
-%group
-Win32 kernel32
 %prm
 dwMapFlags, lpSrcStr, cchSrc, lpDestStr, cchDest
 dwMapFlags : [int] 
@@ -6212,8 +5788,6 @@ ANSI ”Å‚Í Winnls.h ‚ÅéŒ¾‚³‚êAUnicode ”Å‚Í Stringapiset.h ‚ÅéŒ¾‚³‚ê‚Ä‚¢‚éBWin
 %index
 FormatMessageW
 ƒƒbƒZ[ƒW•¶š—ñ‚ğ‘®‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, lpSource, dwMessageId, dwLanguageId, lpBuffer, nSize, Arguments
 dwFlags : [int] ‘®‰»ƒIƒvƒVƒ‡ƒ“‚¨‚æ‚Ñ lpSource ‚Ì‰ğß•û–@BdwFlags ‚Ì‰ºˆÊƒoƒCƒg‚Ío—Íƒoƒbƒtƒ@“à‚Ì‰üs‚Ìˆµ‚¢‚ğw’è‚·‚éB‚Ü‚½A‘®‰»‚³‚ê‚½o—Ís‚ÌÅ‘å•‚àw’è‚Å‚«‚éB
@@ -6238,8 +5812,6 @@ GetLastError ‚Åæ“¾‚·‚éB
 %index
 FreeConsole
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ğ©g‚ÌƒRƒ“ƒ\[ƒ‹‚©‚çƒfƒ^ƒbƒ`‚·‚é FreeConsole ŠÖ”‚ÌQÆî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -6265,8 +5837,6 @@ Win32 kernel32
 %index
 FreeEnvironmentStringsW
 ŠÂ‹«•¶š—ñ‚ÌƒuƒƒbƒN‚ğ‰ğ•ú‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 penv
 penv : [int] ŠÂ‹«•¶š—ñƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Í GetEnvironmentStrings ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6286,8 +5856,6 @@ FreeEnvironmentStrings ‚Ì Unicode ”Å‚ğg—p‚·‚é‚±‚ÆB
 %index
 FreeLibraryAndExitThread
 ƒ[ƒh‚³‚ê‚½ DLL ‚ÌQÆƒJƒEƒ“ƒg‚ğ 1 Œ¸‚ç‚µAExitThread ‚ğŒÄ‚ñ‚ÅŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ğI—¹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hLibModule, dwExitCode
 hLibModule : [intptr] ŠÖ”‚ªQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚· DLL ƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BLoadLibrary ‚Ü‚½‚Í GetModuleHandleEx ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BGetModuleHandleEx ŠÖ”iGET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT ƒtƒ‰ƒO•t‚«j‚Ü‚½‚Í GetModuleHandle ŠÖ”‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚Å‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ê‚ç‚Íƒ‚ƒWƒ…[ƒ‹‚ÌQÆƒJƒEƒ“ƒg‚ğ•Û‚µ‚È‚¢‚½‚ß‚Å‚ ‚éB
@@ -6304,8 +5872,6 @@ FreeLibraryAndExitThread ŠÖ”‚É‚æ‚èADLL “à‚ÅÀs’†‚ÌƒXƒŒƒbƒh‚ÍAÀs’†‚Ì DLL
 %index
 FreeMemoryJobObject
 ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒgŠÖ˜A‚ÌŠÖ”‚ªŠ„‚è“–‚Ä‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éBƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éƒWƒ‡ƒuƒIƒuƒWƒFƒNƒgŠÖ˜A‚ÌŠÖ”‚É‚Í QueryIoRateControlInformationJobObject ‚È‚Ç‚ª‚ ‚éB
-%group
-Win32 kernel32
 %prm
 Buffer
 Buffer : [intptr] ‰ğ•ú‚µ‚½‚¢Š„‚è“–‚ÄÏ‚İƒƒ‚ƒŠ‚Ìƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6317,8 +5883,6 @@ QueryIoRateControlInformationJobObject ‚È‚Ç‚ª‚ ‚éB
 %index
 GlobalFree
 w’è‚³‚ê‚½ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BGlobalAlloc ‚Ü‚½‚Í GlobalReAlloc ‚Åæ“¾‚µ‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸ALocalAlloc ‚ÅŠ„‚è“–‚Ä‚½ƒƒ‚ƒŠ‚Ì‰ğ•ú‚É‚Íg‚¦‚È‚¢B
@@ -6338,8 +5902,6 @@ hMem : [int] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BGlobalAlloc ‚Ü‚½‚Í Global
 %index
 FreeResource
 ƒ[ƒh‚³‚ê‚½ƒŠƒ\[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ğ 1 Œ¸‚ç‚·BQÆƒJƒEƒ“ƒg‚ª 0 ‚É‚È‚é‚ÆAƒŠƒ\[ƒX‚ªè—L‚µ‚Ä‚¢‚½ƒƒ‚ƒŠ‚ª‰ğ•ú‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 hResData
 hResData : [int] Œ^: HGLOBAL ƒŠƒ\[ƒX‚Ìƒnƒ“ƒhƒ‹BhglbResource ‚Í LoadResource ‚É‚æ‚Á‚Äì¬‚³‚ê‚½‚à‚Ì‚Æ‚·‚éB
@@ -6358,8 +5920,6 @@ hResData : [int] Œ^: HGLOBAL ƒŠƒ\[ƒX‚Ìƒnƒ“ƒhƒ‹BhglbResource ‚Í LoadResource ‚É
 %index
 FreeUserPhysicalPages
 AllocateUserPhysicalPages ‚Ü‚½‚Í AllocateUserPhysicalPagesNuma ‚ğg‚Á‚ÄˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¨—ƒƒ‚ƒŠƒy[ƒW‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, NumberOfPages, PageArray
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚Í‚±‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
@@ -6382,8 +5942,6 @@ AllocateUserPhysicalPages ‚Ü‚½‚Í AllocateUserPhysicalPagesNuma
 %index
 GenerateConsoleCtrlEvent
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒ\[ƒ‹‚ğ‹¤—L‚·‚éƒvƒƒZƒX‚ÉAw’è‚³‚ê‚½ƒVƒOƒiƒ‹‚ğ‘—M‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwCtrlEvent, dwProcessGroupId
 dwCtrlEvent : [int] ¶¬‚·‚éƒVƒOƒiƒ‹‚Ìí—ŞB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍŸ‚Ì’l‚Ì 1 ‚Â‚ğw’è‚Å‚«‚éB| ’l | ˆÓ–¡ | |-|-| | **CTRL_C_EVENT** 0 | CTRL+C ƒVƒOƒiƒ‹‚ğ¶¬‚·‚éB‚±‚ÌƒVƒOƒiƒ‹‚ğ“Á’è‚ÌƒvƒƒZƒXƒOƒ‹[ƒv‚ÉŒÀ’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B*dwProcessGroupId* ‚ª 0 ˆÈŠO‚Ìê‡A‚±‚ÌŠÖ”‚Í¬Œ÷‚·‚é‚ªAw’è‚³‚ê‚½ƒvƒƒZƒXƒOƒ‹[ƒv“à‚ÌƒvƒƒZƒX‚Í CTRL+C ƒVƒOƒiƒ‹‚ğó‚¯æ‚ç‚È‚¢B| | **CTRL_BREAK_EVENT** 1 | CTRL+BREAK ƒVƒOƒiƒ‹‚ğ¶¬‚·‚éB|
@@ -6411,8 +5969,6 @@ dwProcessGroupId : [int] ƒVƒOƒiƒ‹‚ğó‚¯æ‚éƒvƒƒZƒXƒOƒ‹[ƒv‚Ì¯•ÊqBƒvƒƒZƒXƒOƒ
 %index
 GetACP
 ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÌŒ»İ‚Ì Windows ANSI ƒR[ƒhƒy[ƒW¯•Êq‚ğæ“¾‚·‚éB’ˆÓ: ANSI API ŠÖ”(TextOut ‚Ì ANSI ”Å‚È‚Ç)‚ÍˆÃ–Ù“I‚É GetACP ‚ğg‚Á‚Ä Unicode ‚Æ‚Ì•ÏŠ·‚ğs‚¤B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -6431,8 +5987,6 @@ UTF-8 ‚Ü‚½‚Í UTF-16 ‚ğg—p‚·‚×‚«B
 %index
 GetActiveProcessorCount
 ƒvƒƒZƒbƒTƒOƒ‹[ƒv“à‚Ü‚½‚ÍƒVƒXƒeƒ€“à‚ÌƒAƒNƒeƒBƒu‚ÈƒvƒƒZƒbƒT”‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 GroupNumber
 GroupNumber : [int] ƒvƒƒZƒbƒTƒOƒ‹[ƒv”Ô†B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª ALL_PROCESSOR_GROUPS ‚Ìê‡AŠÖ”‚ÍƒVƒXƒeƒ€“à‚ÌƒAƒNƒeƒBƒu‚ÈƒvƒƒZƒbƒT”‚ğ•Ô‚·B
@@ -6451,8 +6005,6 @@ Windows Headers ‚ğQÆB
 %index
 GetActiveProcessorGroupCount
 ƒVƒXƒeƒ€“à‚ÌƒAƒNƒeƒBƒu‚ÈƒvƒƒZƒbƒTƒOƒ‹[ƒv”‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -6469,8 +6021,6 @@ Windows Headers ‚ğQÆB
 %index
 GetAppContainerAce
 ƒpƒbƒP[ƒW‚Ü‚½‚Í‹@”\ SID ‚ª‘¶İ‚·‚é‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Acl, StartingAceIndex, AppContainerAce, AppContainerAceIndex
 Acl : [var] [ACL](/windows/desktop/api/winnt/ns-winnt-acl) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6489,8 +6039,6 @@ AppContainerAceIndex : [var] ACL ‚Ì ACE ƒŠƒXƒg“à‚ÌˆÊ’uB
 %index
 GetAppContainerNamedObjectPath
 ƒAƒvƒŠƒRƒ“ƒeƒi‚Ì–¼‘O•t‚«ƒIƒuƒWƒFƒNƒgƒpƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Token, AppContainerSid, ObjectPathLength, ObjectPath, ReturnLength
 Token : [intptr] ƒg[ƒNƒ“‚ÉŠÖ‚·‚éƒnƒ“ƒhƒ‹BNULL ‚ª“n‚³‚ê AppContainerSid ƒpƒ‰ƒ[ƒ^‚à“n‚³‚ê‚È‚¢ê‡AŒÄ‚Ño‚µ‘¤‚ÌŒ»İ‚ÌƒvƒƒZƒXƒg[ƒNƒ“‚ªg—p‚³‚ê‚é‚©A‹U‘•’†‚È‚çƒXƒŒƒbƒhƒg[ƒNƒ“‚ªg—p‚³‚ê‚éB
@@ -6517,8 +6065,6 @@ Automation API ‚Ü‚½‚Í Magnification API
 %index
 GetApplicationRecoveryCallback
 w’è‚µ‚½ƒvƒƒZƒX‚É“o˜^‚³‚ê‚Ä‚¢‚éƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB•Ô‚³‚ê‚éƒAƒhƒŒƒX‚Í‚»‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ì‚à‚Ì‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pRecoveryCallback, ppvParameter, pdwPingInterval, pdwFlags
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -6538,8 +6084,6 @@ pdwFlags : [var] «—ˆ‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB
 %index
 GetApplicationRestartSettings
 w’è‚µ‚½ƒvƒƒZƒX‚É“o˜^‚³‚ê‚Ä‚¢‚éÄ‹N“®î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pwzCommandline, pcchSize, pdwFlags
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -6562,8 +6106,6 @@ pdwFlags : [var] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª RegisterApplicationRestart ŠÖ”‚ğŒÄ‚Ño‚µ‚½
 %index
 GetAtomNameW
 w’è‚µ‚½ƒ[ƒJƒ‹ƒAƒgƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½•¶š—ñ‚ÌƒRƒs[‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 nAtom, lpBuffer, nSize
 nAtom : [int] Œ^: ATOM æ“¾‘ÎÛ‚Ì•¶š—ñ‚ğ¯•Ê‚·‚éƒ[ƒJƒ‹ƒAƒgƒ€B
@@ -6592,8 +6134,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetBinaryTypeW
 ƒtƒ@ƒCƒ‹‚ªÀs‰Â”\i.exejƒtƒ@ƒCƒ‹‚©‚Ç‚¤‚©A‚»‚¤‚Å‚ ‚éê‡‚É‚Ç‚ÌƒTƒuƒVƒXƒeƒ€‚ªÀsƒtƒ@ƒCƒ‹‚ğÀs‚·‚é‚©‚ğ”»’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpApplicationName, lpBinaryType
 lpApplicationName : [wstr] Àsƒtƒ@ƒCƒ‹í•Ê‚ğ”»’è‚·‚éƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒXB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚ÌãŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚Ño‚µAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‚¯‚éBÚ×‚Í Naming a File ‚ğQÆB
@@ -6618,8 +6158,6 @@ ERROR_BAD_EXE_FORMAT ‚É‚È‚éB
 %index
 GetCPInfo
 ƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ü‚½‚Í—˜—p‰Â”\‚È”CˆÓ‚Ì—LŒø‚ÈƒR[ƒhƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GetCPInfo)
-%group
-Win32 kernel32
 %prm
 CodePage, lpCPInfo
 CodePage : [int] î•ñ‚ğæ“¾‚·‚éƒR[ƒhƒy[ƒW‚Ì¯•ÊqBÚ×‚Í GetCPInfoEx ‚Ì CodePage ƒpƒ‰ƒ[ƒ^‚ğQÆB
@@ -6639,8 +6177,6 @@ GetCPInfoEx ‚Ì Remarks ‚ğQÆB
 %index
 GetCPInfoExW
 ƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ü‚½‚Í—˜—p‰Â”\‚È”CˆÓ‚Ì—LŒø‚ÈƒR[ƒhƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GetCPInfoExW)
-%group
-Win32 kernel32
 %prm
 CodePage, dwFlags, lpCPInfoEx
 CodePage : [int] î•ñ‚ğæ“¾‚·‚éƒR[ƒhƒy[ƒW‚Ì¯•ÊqBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ü‚½‚Í—˜—p‰Â”\‚È”CˆÓ‚ÌƒR[ƒhƒy[ƒW‚Ì¯•Êq‚©AŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éBANSI ‚È‚ÇŠeíƒR[ƒhƒy[ƒW‚Ì¯•Êqˆê——‚Í Code Page Identifiers ‚ğQÆB
@@ -6671,8 +6207,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetCachedSigningLevel
 ƒLƒƒƒbƒVƒ…‚³‚ê‚½–¼ƒŒƒxƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 File, Flags, SigningLevel, Thumbprint, ThumbprintSize, ThumbprintAlgorithm
 File : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6693,8 +6227,6 @@ ThumbprintAlgorithm : [var] dˆóƒAƒ‹ƒSƒŠƒYƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetCalendarDateFormatEx
 ”ñ„§B
-%group
-Win32 kernel32
 %prm
 lpszLocale, dwFlags, lpCalDateTime, lpFormat, lpDateStr, cchDate
 lpszLocale : [wstr] ƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©B -   [LOCALE\_NAME\_INVARIANT](locale-name-constants.md) -   [LOCALE\_NAME\_SYSTEM\_DEFAULT](locale-name-constants.md) -   [LOCALE\_NAME\_USER\_DEFAULT](locale-name-constants.md)
@@ -6727,8 +6259,6 @@ ERROR\_INVALID\_PARAMETER: ‚¢‚¸‚ê‚©‚Ìƒpƒ‰ƒ[ƒ^’l‚ª–³ŒøB
 %index
 GetCalendarInfoW
 ¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹‚ÌƒJƒŒƒ“ƒ_[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, Calendar, CalType, lpCalData, cchData, lpValue
 Locale : [int] ƒJƒŒƒ“ƒ_[î•ñ‚ğæ“¾‚·‚éƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚±‚Æ‚àAŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB
@@ -6765,8 +6295,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetCalendarInfoEx
 –¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹‚ÌƒJƒŒƒ“ƒ_[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB’ˆÓ: ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AGetCalendarInfo ‚æ‚è‚±‚ÌŠÖ”‚ğ—Dæ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB’ˆÓ: ‚±‚ÌŠÖ”‚ÍƒŠƒŠ[ƒXŠÔ‚Å•Ï‰»‚µ“¾‚éƒf[ƒ^i‚½‚Æ‚¦‚ÎƒJƒXƒ^ƒ€ƒƒP[ƒ‹—R—ˆ‚Ì‚à‚Ìj‚ğæ“¾‚·‚é‚±‚Æ‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‰i‘±‰»‚Ü‚½‚Í‘—M‚·‚é•K—v‚ª‚ ‚éê‡‚ÍAUsing Persistent Locale Data ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, Calendar, lpReserved, CalType, lpCalData, cchData, lpValue
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼A‚Ü‚½‚ÍŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6801,8 +6329,6 @@ ResolveLocaleName ‚ğŒÄ‚Ño‚µ‚Äƒ^ƒO‚ğ•ÏŠ·‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetCalendarSupportedDateRange
 ”ñ„§Bw’è‚µ‚½ƒJƒŒƒ“ƒ_[‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é“ú•t”ÍˆÍ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Calendar, lpCalMinDateTime, lpCalMaxDateTime
 Calendar : [int] ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é“ú•t”ÍˆÍ‚ğæ“¾‚·‚é [Calendar identifier](calendar-identifiers.md)B
@@ -6829,8 +6355,6 @@ lpCalMaxDateTime : [var] ƒTƒ|[ƒg‚³‚ê‚éÅ‘å“ú•t‚ğ’è‹`‚·‚é [**CALDATETIME**](cald
 %index
 GetCommConfig
 ’ÊMƒfƒoƒCƒX‚ÌŒ»İ‚Ì\¬‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hCommDev, lpCC, lpdwSize
 hCommDev : [intptr] ƒI[ƒvƒ“Ï‚İ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -6847,8 +6371,6 @@ GetLastError ŠÖ”‚ğg‚¤B
 %index
 GetCommMask
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚É‘Î‚·‚éƒCƒxƒ“ƒgƒ}ƒXƒN‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpEvtMask
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -6869,8 +6391,6 @@ WaitCommEvent ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åw’è‚Å‚«AWaitCommEvent
 %index
 GetCommModemStatus
 ƒ‚ƒfƒ€§ŒäƒŒƒWƒXƒ^‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpModemStat
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -6892,8 +6412,6 @@ CTSARLSDADSRAƒŠƒ“ƒO•\¦‚ÌM†‚ğŠÄ‹‚µ‚Ä‚¢‚éê‡‚É—L—p‚Å‚ ‚éB‚±‚ê‚ç‚ÌM†‚ªó
 %index
 GetCommProperties
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚Ì’ÊMƒvƒƒpƒeƒB‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpCommProp
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -6912,8 +6430,6 @@ GetCommProperties ŠÖ”‚ÍAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ªƒTƒ|[ƒg‚·‚é\¬İ’è‚ÉŠÖ‚·‚éî•ñ‚ğƒf
 %index
 GetCommState
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚ÌŒ»İ‚Ì§Œäİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpDCB
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -6929,8 +6445,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetCommTimeouts
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚É‚¨‚¯‚é‚·‚×‚Ä‚Ì“Ç‚İ‘‚«‘€ì‚É‘Î‚·‚éƒ^ƒCƒ€ƒAƒEƒgƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpCommTimeouts
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -6949,8 +6463,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetCommandLineW
 Œ»İ‚ÌƒvƒƒZƒX‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -6980,8 +6492,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetCompressedFileSizeW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŠi”[‚·‚é‚½‚ß‚Ég‚í‚ê‚Ä‚¢‚éÀÛ‚ÌƒfƒBƒXƒNg—pƒoƒCƒg”‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, lpFileSizeHigh
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -7011,8 +6521,6 @@ GetFileSize ‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚é’l‚Æ“¯‚¶‚­ÀÛ‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚Å‚ ‚éBƒVƒ“ƒ{ƒŠƒb
 %index
 GetCompressedFileSizeTransactedW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŠi”[‚·‚é‚½‚ß‚Ég‚í‚ê‚Ä‚¢‚éÀÛ‚ÌƒfƒBƒXƒNg—pƒoƒCƒg”‚ğAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, lpFileSizeHigh, hTransaction
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -7043,8 +6551,6 @@ GetFileSize ‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚é’l‚Æ“¯‚¶‚­ÀÛ‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚Å‚ ‚éBƒVƒ“ƒ{ƒŠƒb
 %index
 GetComputerNameW
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì NetBIOS –¼‚ğæ“¾‚·‚éB‚±‚Ì–¼‘O‚ÍƒVƒXƒeƒ€‹N“®‚ÉƒŒƒWƒXƒgƒŠ‚©‚ç“Ç‚İ‚Ü‚ê‚ÄŠm—§‚³‚ê‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpBuffer, nSize
 lpBuffer : [wstr] ƒRƒ“ƒsƒ…[ƒ^–¼‚Ü‚½‚ÍƒNƒ‰ƒXƒ^‰¼‘zƒT[ƒo[–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@ƒTƒCƒY‚Í MAX_COMPUTERNAME_LENGTH + 1 •¶š‚ğŠÜ‚Ş‚Ì‚É\•ª‚È‘å‚«‚³‚Å‚ ‚é•K—v‚ª‚ ‚éB
@@ -7066,8 +6572,6 @@ WTSQuerySessionInformation ŠÖ”‚ğg‚¤B
 %index
 GetComputerNameExW
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ NetBIOS –¼‚Ü‚½‚Í DNS –¼‚ğæ“¾‚·‚éB‚±‚ê‚ç‚Ì–¼‘O‚ÍƒVƒXƒeƒ€‹N“®‚ÉƒŒƒWƒXƒgƒŠ‚©‚ç“Ç‚İ‚Ü‚ê‚ÄŠm—§‚³‚ê‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 NameType, lpBuffer, nSize
 NameType : [int] æ“¾‚·‚é–¼‘O‚Ìí—ŞB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í COMPUTER_NAME_FORMAT —ñ‹“Œ^‚Ì’l‚Å‚ ‚éBŸ‚Ì•\‚É’Ç‰Áî•ñ‚ğ¦‚·B
@@ -7100,8 +6604,6 @@ LsaQueryInformationPolicy ‚ğg‚¤B‚±‚ÌŠÖ”‚ğg‚¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒRƒ“ƒpƒCƒ‹‚·‚é
 %index
 GetConsoleAliasW
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹ƒGƒCƒŠƒAƒX‚ÌƒeƒLƒXƒg‚ÆA‚»‚ÌÀsƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Source, TargetBuffer, TargetBufferLength, ExeName
 Source : [wstr] 
@@ -7127,8 +6629,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleAliasExesW
 ƒRƒ“ƒ\[ƒ‹ƒGƒCƒŠƒAƒX‚ª’è‹`‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌÀsƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ExeNameBuffer, ExeNameBufferLength
 ExeNameBuffer : [wstr] 
@@ -7154,8 +6654,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleAliasExesLengthW
 GetConsoleAliasExes ŠÖ”‚ªg‚¤ƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7176,8 +6674,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleAliasesW
 w’è‚µ‚½Àsƒtƒ@ƒCƒ‹‚É‘Î‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒRƒ“ƒ\[ƒ‹ƒGƒCƒŠƒAƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 AliasBuffer, AliasBufferLength, ExeName
 AliasBuffer : [wstr] 
@@ -7204,8 +6700,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleAliasesLengthW
 GetConsoleAliases ŠÖ”‚ªg‚¤ƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ExeName
 ExeName : [wstr] 
@@ -7226,8 +6720,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleCP
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒ\[ƒ‹‚ªg—p‚·‚é“ü—ÍƒR[ƒhƒy[ƒW‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7253,8 +6745,6 @@ Identifiers](/windows/win32/intl/code-page-identifiers) ‚ğQÆB–ß‚è’l‚ª 0
 %index
 GetConsoleCommandHistoryW
 (no summary)
-%group
-Win32 kernel32
 %prm
 Commands, CommandBufferLength, ExeName
 Commands : [wstr] 
@@ -7267,8 +6757,6 @@ ExeName : [wstr]
 %index
 GetConsoleCommandHistoryLengthW
 (no summary)
-%group
-Win32 kernel32
 %prm
 ExeName
 ExeName : [wstr] 
@@ -7279,8 +6767,6 @@ ExeName : [wstr]
 %index
 GetConsoleCursorInfo
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌƒJ[ƒ\ƒ‹‚ÌƒTƒCƒY‚Æ•\¦ó‘Ô‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpConsoleCursorInfo
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -7301,8 +6787,6 @@ lpConsoleCursorInfo : [var] ƒRƒ“ƒ\[ƒ‹‚ÌƒJ[ƒ\ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é [**CONSOL
 %index
 GetConsoleDisplayMode
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹‚Ì•\¦ƒ‚[ƒh‚ğæ“¾‚·‚é GetConsoleDisplayMode ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpModeFlags
 lpModeFlags : [var] ƒRƒ“ƒ\[ƒ‹‚Ì•\¦ƒ‚[ƒhB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŸ‚Ì’l‚Ì 1 ‚Â‚Ü‚½‚Í•¡”‚ğæ‚è“¾‚éB | ’l | ˆÓ–¡ | |-|-| | **CONSOLE_FULLSCREEN** 1 | ‘S‰æ–ÊƒRƒ“ƒ\[ƒ‹BƒEƒBƒ“ƒhƒE‚ªÅ‘å‰»‚³‚ê‚é‚Æ“¯‚ÉƒRƒ“ƒ\[ƒ‹‚Í‚±‚Ìƒ‚[ƒh‚É‚È‚éB‚±‚Ì“_‚Å‚à‘S‰æ–Êƒ‚[ƒh‚Ö‚Ì‘JˆÚ‚Í¸”s‚·‚é‰Â”\«‚ª‚ ‚éB | | **CONSOLE_FULLSCREEN_HARDWARE** 2 | ƒrƒfƒIƒn[ƒhƒEƒFƒA‚Æ’¼Ú’ÊM‚·‚é‘S‰æ–ÊƒRƒ“ƒ\[ƒ‹BƒRƒ“ƒ\[ƒ‹‚ª **CONSOLE_FULLSCREEN** ƒ‚[ƒh‚É‚È‚Á‚½Œã‚É‚±‚Ìƒ‚[ƒh‚ªİ’è‚³‚êA‘S‰æ–Êƒ‚[ƒh‚Ö‚Ì‘JˆÚ‚ªŠ®—¹‚µ‚½‚±‚Æ‚ğ¦‚·B | > [!NOTE] > 100% ƒtƒ‹‰æ–Ê‚ÌƒrƒfƒIƒn[ƒhƒEƒFƒAƒ‚[ƒh‚Ö‚Ì‘JˆÚ‚ÍAWindows Vista ‚ÅƒOƒ‰ƒtƒBƒbƒNƒXƒXƒ^ƒbƒN‚ª [WDDM](/windows-hardware/drivers/display/introduction-to-the-windows-vista-and-later-display-driver-model) ‚ÉÄƒvƒ‰ƒbƒgƒtƒH[ƒ€‚³‚ê‚½Û‚Éíœ‚³‚ê‚½B‚»‚êˆÈ~‚Ì Windows ‚Å‚ÍAŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚éÅ‘åó‘Ô‚Í **CONSOLE_FULLSCREEN** ‚Å‚ ‚èA‚±‚ê‚Í‘S‰æ–Ê‚ÉŒ©‚¦‚é˜g‚È‚µƒEƒBƒ“ƒhƒE‚ğ•\‚·‚ªAƒn[ƒhƒEƒFƒA‚Ì”r‘¼“I§Œä‰º‚É‚Í‚È‚¢B
@@ -7325,8 +6809,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleFontSize
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Åg‚í‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, nFont
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -7352,8 +6834,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleHistoryInfo
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹‚É‘Î‚·‚é—š—ğİ’è‚ğæ“¾‚·‚é GetConsoleHistoryInfo ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpConsoleHistoryInfo
 lpConsoleHistoryInfo : [var] ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹‚É‘Î‚·‚é—š—ğİ’è‚ğó‚¯æ‚é [**CONSOLE\_HISTORY\_INFO**](console-history-info.md) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7374,8 +6854,6 @@ lpConsoleHistoryInfo : [var] ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹‚É‘Î‚·‚é—š—ğİ’è‚ğó‚
 %index
 GetConsoleMode
 ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚ÌŒ»İ‚Ì“ü—Íƒ‚[ƒhA‚Ü‚½‚ÍƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌŒ»İ‚Ìo—Íƒ‚[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleHandle, lpMode
 hConsoleHandle : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ü‚½‚ÍƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -7397,8 +6875,6 @@ lpMode : [var] w’è‚µ‚½ƒoƒbƒtƒ@‚ÌŒ»İ‚Ìƒ‚[ƒh‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B[!INCLU
 %index
 GetConsoleOriginalTitleW
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹ƒEƒBƒ“ƒhƒE‚ÌŒ³‚Ìƒ^ƒCƒgƒ‹‚ğæ“¾‚·‚é GetConsoleOriginalTitle ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpConsoleTitle, nSize
 lpConsoleTitle : [wstr] Œ³‚Ìƒ^ƒCƒgƒ‹‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7428,8 +6904,6 @@ terminal](console-virtual-terminal-sequences.md)**
 %index
 GetConsoleOutputCP
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒ\[ƒ‹‚ªg—p‚·‚éo—ÍƒR[ƒhƒy[ƒW‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7456,8 +6930,6 @@ Identifiers](/windows/win32/intl/code-page-identifiers) ‚ğQÆB–ß‚è’l‚ª 0
 %index
 GetConsoleProcessList
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚éƒvƒƒZƒX‚ÌƒŠƒXƒg‚ğæ“¾‚·‚é GetConsoleProcessList ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpdwProcessList, dwProcessCount
 lpdwProcessList : [var] ¬Œ÷‚ÉƒvƒƒZƒX¯•Êq‚Ì”z—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í—LŒø‚Èƒoƒbƒtƒ@‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸A`NULL` ‚ğw’è‚Å‚«‚È‚¢Bƒoƒbƒtƒ@‚É‚Í­‚È‚­‚Æ‚à 1 ‚Â‚ÌƒvƒƒZƒX ID ‚ğó‚¯æ‚é‚½‚ß‚ÌƒXƒy[ƒX‚ª•K—v‚Å‚ ‚éB
@@ -7485,8 +6957,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleScreenBufferInfo
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é GetConsoleScreenBufferInfo ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpConsoleScreenBufferInfo
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -7516,8 +6986,6 @@ TTY/PTY/Pseudoconsole
 %index
 GetConsoleScreenBufferInfoEx
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpConsoleScreenBufferInfoEx
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -7547,8 +7015,6 @@ TTY/PTY/Pseudoconsole
 %index
 GetConsoleSelectionInfo
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹‘I‘ğ”ÍˆÍ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é GetConsoleSelectionInfo ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpConsoleSelectionInfo
 lpConsoleSelectionInfo : [var] ‘I‘ğ”ÍˆÍî•ñ‚ğó‚¯æ‚é [**CONSOLE\_SELECTION\_INFO**](console-selection-info-str.md) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7571,8 +7037,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetConsoleTitleW
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹‚Æ‚»‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpConsoleTitle, nSize
 lpConsoleTitle : [wstr] ƒ^ƒCƒgƒ‹‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚ªƒ^ƒCƒgƒ‹‚ğŠi”[‚·‚é‚É‚Í¬‚³‚·‚¬‚éê‡AŠÖ”‚Íƒoƒbƒtƒ@‚Éû‚Ü‚é•ª‚¾‚¯‚Ìƒ^ƒCƒgƒ‹•¶š‚ğŠi”[‚µANULL I’[‚Å’÷‚ß‚­‚­‚éB
@@ -7601,8 +7065,6 @@ terminal](console-virtual-terminal-sequences.md)**
 %index
 GetConsoleWindow
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒ\[ƒ‹‚ªg—p‚·‚éƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7627,8 +7089,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers) ‚ğQÆB
 %index
 GetCurrencyFormatW
 ¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚É”’l•¶š—ñ‚ğ’Ê‰İ•¶š—ñ‚Æ‚µ‚Ä®Œ`‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, dwFlags, lpValue, lpFormat, lpCurrencyStr, cchCurrency
 Locale : [int] ’Ê‰İ•¶š—ñ‚ğ®Œ`‚·‚éƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚±‚Æ‚àAŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB
@@ -7663,8 +7123,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetCurrencyFormatEx
 –¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚É”’l•¶š—ñ‚ğ’Ê‰İ•¶š—ñ‚Æ‚µ‚Ä®Œ`‚·‚éB’ˆÓ: ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª Windows Vista ˆÈ~‚Å‚Ì‚İ“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AGetCurrencyFormat ‚æ‚è‚±‚ÌŠÖ”‚ğ—Dæ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB’ˆÓ: ‚±‚ÌŠÖ”‚ÍƒŠƒŠ[ƒXŠÔ‚Å•Ï‰»‚µ“¾‚éƒf[ƒ^i‚½‚Æ‚¦‚ÎƒJƒXƒ^ƒ€ƒƒP[ƒ‹—R—ˆ‚Ì‚à‚Ìj‚ğ®Œ`‚·‚é‚±‚Æ‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‰i‘±‰»‚Ü‚½‚Í‘—M‚·‚é•K—v‚ª‚ ‚éê‡‚Í Using Persistent Locale Data ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwFlags, lpValue, lpFormat, lpCurrencyStr, cchCurrency
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼A‚Ü‚½‚ÍŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7693,8 +7151,6 @@ ResolveLocaleName ‚ğŒÄ‚Ño‚µ‚Äƒ^ƒO‚ğ•ÏŠ·‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetCurrentActCtx
 GetCurrentActCtx ŠÖ”‚ÍAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌƒAƒNƒeƒBƒu‚ÈƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 lphActCtx
 lphActCtx : [intptr] ƒAƒNƒeƒBƒu‚ÈƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚ŞA•Ô‹p‚³‚ê‚é ACTCTX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7715,8 +7171,6 @@ NULL ƒnƒ“ƒhƒ‹‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB‚±‚ê‚ÍƒGƒ‰[‚Å‚Í‚È‚¢B
 %index
 GetCurrentConsoleFont
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌŒ»İ‚ÌƒRƒ“ƒ\[ƒ‹ƒtƒHƒ“ƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, bMaximumWindow, lpConsoleCurrentFont
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -7741,8 +7195,6 @@ Headers](/windows/win32/winprog/using-the-windows-headers)
 %index
 GetCurrentConsoleFontEx
 Œ»İg‚í‚ê‚Ä‚¢‚éƒRƒ“ƒ\[ƒ‹ƒtƒHƒ“ƒg‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚é GetCurrentConsoleFontEx ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, bMaximumWindow, lpConsoleCurrentFontEx
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -7762,8 +7214,6 @@ lpConsoleCurrentFontEx : [var] —v‹‚³‚ê‚½ƒtƒHƒ“ƒgî•ñ‚ğó‚¯æ‚é [**CONSOLE\_FONT
 %index
 GetCurrentDirectoryW
 Œ»İ‚ÌƒvƒƒZƒX‚ÌŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 nBufferLength, lpBuffer
 nBufferLength : [int] Œ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ•¶š—ñ—pƒoƒbƒtƒ@‚Ì’·‚³(TCHAR ’PˆÊ)BI’[ NULL ‚Ì•ª‚ğŠÜ‚ß‚é•K—v‚ª‚ ‚éB
@@ -7783,8 +7233,6 @@ lpBuffer : [wstr] Œ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bâ‘Îƒp
 %index
 GetCurrentProcess
 Œ»İ‚ÌƒvƒƒZƒX‚Ì‹^—ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7803,8 +7251,6 @@ Win32 kernel32
 %index
 GetCurrentProcessId
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7820,8 +7266,6 @@ Win32 kernel32
 %index
 GetCurrentThread
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚Ì‹^—ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7839,8 +7283,6 @@ Win32 kernel32
 %index
 GetCurrentThreadId
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌƒXƒŒƒbƒh¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7856,8 +7298,6 @@ Win32 kernel32
 %index
 GetCurrentUmsThread
 ŒÄ‚Ño‚µ‘¤ UMS ƒXƒŒƒbƒh‚Ìƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -7874,8 +7314,6 @@ GetCurrentUmsThread ŠÖ”‚Í UMS ƒXƒPƒWƒ…[ƒ‰ƒXƒŒƒbƒh‚Ü‚½‚Í UMS ƒ[ƒJ[ƒXƒŒƒbƒh‚Å
 %index
 GetDateFormatW
 ƒƒP[ƒ‹¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚É“ú•t‚ğ“ú•t•¶š—ñ‚Æ‚µ‚Ä®Œ`‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, dwFlags, lpDate, lpFormat, lpDateStr, cchDate
 Locale : [int] “ú•t•¶š—ñ‚ğ®Œ`‚·‚éƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚±‚Æ‚àAŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB
@@ -7911,8 +7349,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetDateFormatEx
 –¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚É“ú•t‚ğ“ú•t•¶š—ñ‚Æ‚µ‚Ä®Œ`‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwFlags, lpDate, lpFormat, lpDateStr, cchDate, lpCalendar
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼A‚Ü‚½‚ÍŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7960,8 +7396,6 @@ Using Persistent Locale Data ‚ğQÆB
 %index
 GetDefaultCommConfigW
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚ÌŠù’è‚Ì\¬‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszName, lpCC, lpdwSize
 lpszName : [wstr] ƒfƒoƒCƒX‚Ì–¼‘OB‚½‚Æ‚¦‚Î COM1 ` COM9 ‚ÍƒVƒŠƒAƒ‹ƒ|[ƒg‚ÅALPT1 ` LPT9 ‚Íƒpƒ‰ƒŒƒ‹ƒ|[ƒg‚Å‚ ‚éB
@@ -7986,8 +7420,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetDevicePowerState
 w’è‚µ‚½ƒfƒoƒCƒX‚ÌŒ»İ‚Ì“dŒ¹ó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDevice, pfOn
 hDevice : [intptr] ƒtƒ@ƒCƒ‹‚âƒ\ƒPƒbƒg‚È‚ÇƒfƒoƒCƒXã‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚ÍƒfƒoƒCƒX©‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8009,8 +7441,6 @@ GetSystemPowerStatus ŠÖ”‚ğg‚¤B
 %index
 GetDiskFreeSpaceW
 w’è‚µ‚½ƒfƒBƒXƒN‚ÉŠÖ‚·‚éî•ñiƒfƒBƒXƒN‚Ì‹ó‚«—Ìˆæ—Ê‚ğŠÜ‚Şj‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpRootPathName, lpSectorsPerCluster, lpBytesPerSector, lpNumberOfFreeClusters, lpTotalNumberOfClusters
 lpRootPathName : [wstr] î•ñ‚ğ•Ô‚·ƒfƒBƒXƒN‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍŒ»İ‚ÌƒfƒBƒXƒN‚Ìƒ‹[ƒg‚ğg‚¤B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª UNC –¼‚Ìê‡A––”ö‚ÉƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢i—á: "\\\\MyServer\\MyShare\\"jB‚³‚ç‚ÉAƒhƒ‰ƒCƒuw’è‚É‚Í––”ö‚ÉƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ª•K—v‚Å‚ ‚éi—á: "C:\\"jBŒÄ‚Ño‚µ‘¤‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚É‘Î‚·‚é FILE_LIST_DIRECTORY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8040,8 +7470,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetDiskFreeSpaceExW
 ƒfƒBƒXƒNƒ{ƒŠƒ…[ƒ€ã‚Å—˜—p‰Â”\‚È—Ìˆæ‚ÉŠÖ‚·‚éî•ñA‚·‚È‚í‚¿—Ìˆæ‘—ÊA‹ó‚«—Ìˆæ‘—ÊA‚¨‚æ‚ÑŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ†[ƒU[‚ª—˜—p‰Â”\‚È‹ó‚«—Ìˆæ‘—Ê‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpDirectoryName, lpFreeBytesAvailableToCaller, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes
 lpDirectoryName : [wstr] ƒfƒBƒXƒNã‚ÌƒfƒBƒŒƒNƒgƒŠB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍŒ»İ‚ÌƒfƒBƒXƒN‚Ìƒ‹[ƒg‚ğg‚¤B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª UNC –¼‚Ìê‡A––”ö‚ÉƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢i—á: "\\\\MyServer\\MyShare\\"jB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒfƒBƒXƒNã‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚·‚é•K—v‚Í‚È‚¢BŠÖ”‚ÍƒfƒBƒXƒNã‚Ì”CˆÓ‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğó‚¯•t‚¯‚éBŒÄ‚Ño‚µ‘¤‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚É‘Î‚·‚é FILE_LIST_DIRECTORY ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8072,8 +7500,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetDllDirectoryW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª DLL ‚ğŒ©‚Â‚¯‚é‚½‚ß‚Ég‚¤ŒŸõƒpƒX‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L•”•ª‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 nBufferLength, lpBuffer
 nBufferLength : [int] o—Íƒoƒbƒtƒ@‚ÌƒTƒCƒYB•¶š”‚Åw’è‚·‚éB
@@ -8100,8 +7526,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetDriveTypeW
 ƒfƒBƒXƒNƒhƒ‰ƒCƒu‚ªƒŠƒ€[ƒoƒuƒ‹AŒÅ’èACD-ROMARAM ƒfƒBƒXƒNAƒlƒbƒgƒ[ƒN‚Ì‚¢‚¸‚ê‚Å‚ ‚é‚©‚ğ”»’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpRootPathName
 lpRootPathName : [wstr] ƒhƒ‰ƒCƒu‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠB
@@ -8120,8 +7544,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚
 %index
 GetDurationFormat
 ¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚ÉŠÔ’·‚ğ•¶š—ñ‚Æ‚µ‚Ä®Œ`‚·‚éB
-%group
-Win32 kernel32
 %prm
 Locale, dwFlags, lpDuration, ullDuration, lpFormat, lpDurationStr, cchDuration
 Locale : [int] ‚±‚ÌŠÖ”‚ªŠÔ’·‚ğ®Œ`‚·‚éƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚±‚Æ‚àAŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB
@@ -8149,8 +7571,6 @@ GetDurationFormatEx ‚Ì Remarks ‚ğQÆB
 %index
 GetDurationFormatEx
 –¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹‚É‘Î‚µAŠÔ‚ÌŠúŠÔ‚ğƒ^ƒCƒ€•¶š—ñ‚Æ‚µ‚Ä®Œ`‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwFlags, lpDuration, ullDuration, lpFormat, lpDurationStr, cchDuration
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©B
@@ -8183,8 +7603,6 @@ Persistent Locale Data ‚ğQÆ‚·‚é‚±‚ÆBŠúŠÔ‘®•¶š—ñ‚Ì“Á’¥‚ÍŸ‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
 %index
 GetDynamicTimeZoneInformation
 Œ»İ‚Ìƒ^ƒCƒ€ƒ][ƒ“‚Æ“®“I‚È‰ÄŠÔİ’è‚ğæ“¾‚·‚éB‚±‚ê‚ç‚Ìİ’è‚Í‹¦’è¢ŠE (UTC) ‚Æƒ[ƒJƒ‹ŠÔ‚Ì•ÏŠ·‚ğ§Œä‚·‚éB
-%group
-Win32 kernel32
 %prm
 pTimeZoneInformation
 pTimeZoneInformation : [var] DYNAMIC_TIME_ZONE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -8203,8 +7621,6 @@ DaylightName ƒƒ“ƒo‚ÍAŒ»İ‚Ìƒ†[ƒU[Šù’è‚Ì UI Œ¾Œê‚É]‚Á‚Äƒ[ƒJƒ‰ƒCƒY‚³‚ê‚éB
 %index
 GetEnvironmentStrings
 GetEnvironmentStrings ŠÖ” (processenv.h) ‚ÍAŒ»İ‚ÌƒvƒƒZƒX‚ÌŠÂ‹«•Ï”‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -8227,8 +7643,6 @@ GetEnvironmentStringsA ‚Í OEM •¶š‚ğ•Ô‚·B
 %index
 GetEnvironmentVariableW
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌŠÂ‹«ƒuƒƒbƒN‚©‚çw’è‚³‚ê‚½•Ï”‚Ì“à—e‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpName, lpBuffer, nSize
 lpName : [wstr] ŠÂ‹«•Ï”‚Ì–¼‘OB
@@ -8250,8 +7664,6 @@ NULL ‚ğŠÜ‚Ş•K—v‚ÈƒTƒCƒY(•¶š’PˆÊ)‚Å lpBuffer ‚Ì“à—e‚Í•s’èB¸”s‚µ‚½ê‡‚Í
 %index
 GetErrorMode
 Œ»İ‚ÌƒvƒƒZƒX‚ÌƒGƒ‰[ƒ‚[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -8272,8 +7684,6 @@ GetErrorMode ‚É‘Î‰‚·‚éæ“¾ŠÖ”‚Å‚ ‚éB
 %index
 GetExitCodeProcess
 w’è‚³‚ê‚½ƒvƒƒZƒX‚ÌI—¹ó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpExitCode
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BPROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vB
@@ -8293,8 +7703,6 @@ STILL_ACTIVE(STATUS_PENDING ‚Ìƒ}ƒNƒ)BƒvƒƒZƒX‚ªI—¹‚µ‚Ä‚¢‚éê‡AŸ‚Ì‚¢‚¸‚ê‚©‚
 %index
 GetExitCodeThread
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÌI—¹ó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, lpExitCode
 hThread : [intptr] ƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -8315,8 +7723,6 @@ lpExitCode : [var] ƒXƒŒƒbƒh‚ÌI—¹ó‘Ô‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í’ß‚ğQ
 %index
 GetExpandedNameW
 Lempel-Ziv ƒAƒ‹ƒSƒŠƒYƒ€‚Åˆ³k‚³‚ê‚½ƒtƒ@ƒCƒ‹‚É‚Â‚¢‚ÄAŒ³‚Ìƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszSource, lpszBuffer
 lpszSource : [wstr] ˆ³kƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -8339,8 +7745,6 @@ lpszBuffer ‚ªw‚·ƒoƒbƒtƒ@‚Ì“à—e‚ÍAƒtƒ@ƒCƒ‹‚ª /r ƒIƒvƒVƒ‡ƒ“‚Åˆ³k‚³‚ê‚½ê‡‚ÍŒ³‚
 %index
 GetFileAttributesW
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‘®«‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OB
@@ -8362,8 +7766,6 @@ ERROR_BAD_NETPATH ‚Å¸”s‚·‚éB
 %index
 GetFileAttributesExW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì‘®«‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, fInfoLevelId, lpFileInformation
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OB–{ŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚ÉŠg’£‚·‚é‚É‚ÍAUnicode ”Å (GetFileAttributesExW) ‚ğŒÄ‚ÑAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming a File ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~AUnicode ”Å (GetFileAttributesExW) ‚Å‚Í "\\?\" ‚ğ•t‰Á‚¹‚¸‚É MAX_PATH •¶š§ŒÀ‚ğ‰ğœ‚·‚éƒIƒvƒgƒCƒ“‚ª‰Â”\BÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Limitation" ß‚ğQÆB
@@ -8391,8 +7793,6 @@ GetFileAttributesEx
 %index
 GetFileAttributesTransactedW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‘®«‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, fInfoLevelId, lpFileInformation, hTransaction
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OB
@@ -8418,8 +7818,6 @@ hTransaction : [intptr] ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateTrans
 %index
 GetFileBandwidthReservation
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éƒ{ƒŠƒ…[ƒ€‚Ì‘Ñˆæ—\–ñƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpPeriodMilliseconds, lpBytesPerPeriod, pDiscardable, lpTransferSize, lpNumOutstandingRequests
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8442,8 +7840,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA–{ŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚
 %index
 GetFileInformationByHandle
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹î•ñ‚ğæ“¾‚·‚éB(GetFileInformationByHandle)
-%group
-Win32 kernel32
 %prm
 hFile, lpFileInformation
 hFile : [intptr] æ“¾‚·‚éî•ñ‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍƒpƒCƒvƒnƒ“ƒhƒ‹‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -8467,8 +7863,6 @@ VolumeSerialNumber ‚Æ FileIndex ƒƒ“ƒo‚ğ”äŠr‚·‚ê‚ÎA2 ‚Â‚ÌƒpƒX‚ª“¯‚¶‘ÎÛ‚ğw‚µ‚Ä
 %index
 GetFileInformationByHandleEx
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹î•ñ‚ğæ“¾‚·‚éB(GetFileInformationByHandleEx)
-%group
-Win32 kernel32
 %prm
 hFile, FileInformationClass, lpFileInformation, dwBufferSize
 hFile : [intptr] æ“¾‚·‚éî•ñ‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍƒpƒCƒvƒnƒ“ƒhƒ‹‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -8493,8 +7887,6 @@ OS ƒŠƒŠ[ƒX‚²‚Æ‚É•Ï‚í‚è“¾‚éB–{ŠÖ”‚Åg—p‰Â”\‚Èƒtƒ@ƒCƒ‹î•ñƒNƒ‰ƒXŒ^‚Æ‘Î‰ƒf[ƒ^
 %index
 GetFileMUIInfo
 ƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éƒŠƒ\[ƒXŠÖ˜Aî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, pcwszFilePath, pFileMUIInfo, pcbFileMUIInfo
 dwFlags : [int] æ“¾‚·‚éî•ñ‚ğw’è‚·‚éƒtƒ‰ƒOBŸ‚Ìƒtƒ‰ƒO‚Ì”CˆÓ‚Ì‘g‚İ‡‚í‚¹‚ğw’è‚Å‚«‚éBƒtƒ‰ƒO‚ÌŠù’è’l‚Í MUI_QUERY_TYPE | MUI_QUERY_CHECKSUM ‚Å‚ ‚éB
@@ -8517,8 +7909,6 @@ FILEMUIINFO
 %index
 GetFileMUIPath
 w’è‚µ‚½ LN ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A‚·‚é‚·‚×‚Ä‚ÌŒ¾ŒêŒÅ—LƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚ğæ“¾‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŠeƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğæ“¾‚·‚é‚½‚ß–{ŠÖ”‚ğŒJ‚è•Ô‚µŒÄ‚Ô•K—v‚ª‚ ‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, pcwszFilePath, pwszLanguage, pcchLanguage, pwszFileMUIPath, pcchFileMUIPath, pululEnumerator
 dwFlags : [int] Œ¾Œê‚ÌŒ`®‚ÆƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğw’è‚·‚éƒtƒ‰ƒOBˆÈ‰º‚Ìƒtƒ‰ƒO‚Í pwszLanguage ‚ª¦‚·Œ¾Œê‚ÌŒ`®‚ğw’è‚·‚éB‚±‚ê‚ç‚Ìƒtƒ‰ƒO‚ÍŒİ‚¢‚É”r‘¼“I‚Å‚ ‚èAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éB
@@ -8550,8 +7940,6 @@ MUI_LANGUAGE_ID ƒtƒ‰ƒO‚ğw’è‚·‚éê‡Aw’è‚·‚éŒ¾Œê•¶š—ñ‚Íæ“ª‚Ì 0x ‚ğŠÜ‚Ü‚È‚¢ 1
 %index
 GetFileSize
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpFileSizeHigh
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8575,8 +7963,6 @@ INVALID_FILE_SIZE(0xffffffff)‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetLastError
 %index
 GetFileSizeEx
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpFileSize
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í FILE_READ_ATTRIBUTES ƒAƒNƒZƒXŒ ‚Ü‚½‚Í“¯“™‚Ì‚à‚Ì‚Åì¬‚³‚ê‚Ä‚¢‚é‚©AŒÄ‚Ño‚µ‘¤‚ª‚»‚Ìƒtƒ@ƒCƒ‹‚ğŠÜ‚ŞƒfƒBƒŒƒNƒgƒŠ‚É‘Î‚µ\•ª‚ÈƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -8599,8 +7985,6 @@ GetFileSizeEx ‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B‘ã‚í‚è‚É GetFileInformationByHandleEx
 %index
 GetFileTime
 ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ìì¬“úAÅIƒAƒNƒZƒX“úAÅIXV“ú‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpCreationTime, lpLastAccessTime, lpLastWriteTime
 hFile : [intptr] “ú•t‚Æ‚ğæ“¾‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í GENERIC_READ ƒAƒNƒZƒXŒ •t‚«‚Å CreateFile ŠÖ”‚É‚æ‚Á‚Äì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -8628,8 +8012,6 @@ Times ‚ğQÆBƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•ÏX‚µ‚½‚èíœ‚µ‚½’¼Œã‚É•œŒ³‚·‚éê‡AWindows
 %index
 GetFileType
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹í•Ê‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8648,8 +8030,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA–{ŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚
 %index
 GetFinalPathNameByHandleW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÌÅIƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hFile, lpszFilePath, cchFilePath, dwFlags
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8693,8 +8073,6 @@ QueryDosDevice ŠÖ”‚ğg—p‚·‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012
 %index
 GetFirmwareEnvironmentVariableW
 w’è‚µ‚½ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì’l‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpName, lpGuid, pBuffer, nSize
 lpName : [wstr] ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì–¼‘OBƒ|ƒCƒ“ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -8745,8 +8123,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetFirmwareEnvironmentVariableExW
 w’è‚µ‚½ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì’l‚Æ‚»‚Ì‘®«‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpName, lpGuid, pBuffer, nSize, pdwAttribubutes
 lpName : [wstr] ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì–¼‘OBƒ|ƒCƒ“ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -8795,8 +8171,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetFirmwareType
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ìƒtƒ@[ƒ€ƒEƒFƒAí•Ê‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 FirmwareType
 FirmwareType : [var] FIRMWARE_TYPE —ñ‹“‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -8811,8 +8185,6 @@ FirmwareType : [var] FIRMWARE_TYPE —ñ‹“‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetFullPathNameW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, nBufferLength, lpBuffer, lpFilePart
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB–{ƒpƒ‰ƒ[ƒ^‚Í’Z‚¢ƒtƒ@ƒCƒ‹–¼ (8.3 Œ`®) ‚Ü‚½‚Í’·‚¢ƒtƒ@ƒCƒ‹–¼‚Ì‚¢‚¸‚ê‚àg—p‚Å‚«‚éB‹¤—L–¼‚âƒ{ƒŠƒ…[ƒ€–¼‚Å‚à‚æ‚¢B–{ŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚ÉŠg’£‚·‚é‚É‚ÍAUnicode ”Å (GetFullPathNameW) ‚ğŒÄ‚ÔB
@@ -8841,8 +8213,6 @@ test-2 ‚ªƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^‚Å U:
 %index
 GetFullPathNameTransactedW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, nBufferLength, lpBuffer, lpFilePart, hTransaction
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚Ì•¶š—ñ‚Í’Z‚¢ƒtƒ@ƒCƒ‹–¼ (8.3 Œ`®) ‚Ü‚½‚Í’·‚¢ƒtƒ@ƒCƒ‹–¼‚Ì‚¢‚¸‚ê‚àg—p‚Å‚«‚éB‹¤—L–¼‚âƒ{ƒŠƒ…[ƒ€–¼‚Å‚à‚æ‚¢Bƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µA’¼‹ßƒGƒ‰[ƒR[ƒh‚É ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚ªİ’è‚³‚ê‚éB
@@ -8870,8 +8240,6 @@ lpFileName ‚Ì—LŒø‚È“ü—Í‚Å‚ ‚éB—á‚¦‚Î test-2 ‚ªƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^‚Å U:
 %index
 GetGeoInfoW
 w’è‚µ‚½’n—“IˆÊ’u‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Location, GeoType, lpGeoData, cchData, LangId
 Location : [int] î•ñ‚ğæ“¾‚·‚é’n—“IˆÊ’u‚Ì¯•ÊqBÚ×‚Í Table of Geographical Locations ‚ğQÆBEnumSystemGeoID ‚ğŒÄ‚Ô‚±‚Æ‚Å—˜—p‰Â”\‚È’l‚ğæ“¾‚Å‚«‚éB
@@ -8911,8 +8279,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetGeoInfoEx
 2 •¶š‚Ì‘Û•W€‰»‹@\ (ISO) 3166-1 ƒR[ƒh‚Ü‚½‚Í‘˜A (UN) ƒVƒŠ[ƒY M ”Ô† 49 (M.49) ”’lƒR[ƒh‚Åw’è‚µ‚½’n—“IˆÊ’u‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 location, geoType, geoData, geoDataCount
 location : [wstr] î•ñ‚ğæ“¾‚·‚é’n—“IˆÊ’u‚Ì 2 •¶š ISO 3166-1 ƒR[ƒhA‚Ü‚½‚Í UN M.49 ”’lƒR[ƒhB—˜—p‰Â”\‚ÈƒR[ƒh‚ğæ“¾‚·‚é‚É‚Í EnumSystemGeoNames ‚ğŒÄ‚ÔB
@@ -8938,8 +8304,6 @@ GetLastError ‚ğŒÄ‚ÔBŸ‚ÌƒGƒ‰[ƒR[ƒh‚Ì‚¢‚¸‚ê‚©‚ª•Ô‚é‚±‚Æ‚ª‚ ‚éB
 %index
 GetHandleInformation
 ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚Ìˆê•”‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hObject, lpdwFlags
 hObject : [intptr] î•ñ‚ğæ“¾‚·‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8955,8 +8319,6 @@ lpdwFlags : [var] ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ÌƒvƒƒpƒeƒB‚ğw’è‚·‚éƒrƒbƒgƒtƒ‰ƒO‚ÌW‡‚Ü
 %index
 GetLargePageMinimum
 ƒ‰[ƒWƒy[ƒW‚ÌÅ¬ƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -8973,8 +8335,6 @@ Win32 kernel32
 %index
 GetLargestConsoleWindowSize
 Œ»İ‚ÌƒtƒHƒ“ƒg‚ÆƒfƒBƒXƒvƒŒƒC‚ÌƒTƒCƒY‚ÉŠî‚Ã‚¢‚ÄA‰Â”\‚ÈÅ‘åƒRƒ“ƒ\[ƒ‹ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8998,8 +8358,6 @@ hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 GetLocalTime
 Œ»İ‚Ìƒ[ƒJƒ‹“ú‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemTime
 lpSystemTime : [var] Œ»İ‚Ìƒ[ƒJƒ‹“ú‚ğó‚¯æ‚é SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9013,8 +8371,6 @@ lpSystemTime : [var] Œ»İ‚Ìƒ[ƒJƒ‹“ú‚ğó‚¯æ‚é SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 GetLocaleInfoW
 ¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, LCType, lpLCData, cchData
 Locale : [int] î•ñ‚ğæ“¾‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB
@@ -9044,8 +8400,6 @@ Unicode ”Å‚ÌŠÖ”‚Å‚Í 2AANSI ”Å‚Å‚Í 4 ‚Æ‚È‚éBŠÖ”‚ª¬Œ÷‚µ cchData ‚Ì’l‚ª 0
 %index
 GetLocaleInfoEx
 –¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB’: ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª Windows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AGetLocaleInfo ‚æ‚è‚à–{ŠÖ”‚ğ—Dæ‚µ‚ÄŒÄ‚Ô‚×‚«‚Å‚ ‚éB’: –{ŠÖ”‚ÍAƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚È‚Ç‚É‚æ‚èƒŠƒŠ[ƒXŠÔ‚Å•Ï‚í‚è“¾‚éƒf[ƒ^‚ğæ“¾‚·‚é‚±‚Æ‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‰i‘±‰»‚Ü‚½‚Í‘—M‚·‚é•K—v‚ª‚ ‚éê‡‚ÍAUsing Persistent Locale Data ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, LCType, lpLCData, cchData
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©B
@@ -9084,8 +8438,6 @@ sizeof(LOCALESIGNATURE) / sizeof(WCHAR)
 %index
 GetLogicalDriveStringsW
 ƒVƒXƒeƒ€‚Ì—LŒø‚Èƒhƒ‰ƒCƒu‚ğw’è‚·‚é•¶š—ñ‚Åƒoƒbƒtƒ@‚ğ–„‚ß‚éB(GetLogicalDriveStringsW)
-%group
-Win32 kernel32
 %prm
 nBufferLength, lpBuffer
 nBufferLength : [int] lpBuffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌÅ‘åƒTƒCƒYiTCHAR ’PˆÊjB‚±‚ÌƒTƒCƒY‚É‚ÍI’[ null •¶š‚ÍŠÜ‚Ü‚ê‚È‚¢B–{ƒpƒ‰ƒ[ƒ^‚ª 0 ‚Ìê‡AlpBuffer ‚Íg—p‚³‚ê‚È‚¢B
@@ -9111,8 +8463,6 @@ Windows Server 2012 ‚Å‚ÍA–{ŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 GetLogicalDrives
 Œ»İ—˜—p‰Â”\‚ÈƒfƒBƒXƒNƒhƒ‰ƒCƒu‚ğ•\‚·ƒrƒbƒgƒ}ƒXƒN‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -9131,8 +8481,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA–{ŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚
 %index
 GetLogicalProcessorInformation
 ˜_—ƒvƒƒZƒbƒT‚ÆŠÖ˜Aƒn[ƒhƒEƒFƒA‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Buffer, ReturnedLength
 Buffer : [var] SYSTEM_LOGICAL_PROCESSOR_INFORMATION \‘¢‘Ì‚Ì”z—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª¸”s‚µ‚½ê‡A‚±‚Ìƒoƒbƒtƒ@‚Ì“à—e‚Í–¢’è‹`‚Å‚ ‚éB
@@ -9154,8 +8502,6 @@ GetLogicalProcessorInformation
 %index
 GetLongPathNameW
 w’è‚µ‚½ƒpƒX‚ğ’·‚¢Œ`®‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszShortPath, lpszLongPath, cchBuffer
 lpszShortPath : [wstr] •ÏŠ·‚·‚éƒpƒXB–{ŠÖ”‚Ì ANSI ”Å GetLongPathNameA ‚Å‚Í–¼‘O‚Í MAX_PATH (260) •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚ÉŠg’£‚·‚é‚É‚ÍAUnicode ”Å GetLongPathNameW ‚ğŒÄ‚ÑAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~AUnicode ”Å (GetLongPathNameW) ‚Å‚Í "\\?\" ‚ğ•t‰Á‚¹‚¸‚É MAX_PATH §ŒÀ‚ğ‰ğœ‚·‚éƒIƒvƒgƒCƒ“‚ª‰Â”\BÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Length Limitation" ß‚ğQÆB
@@ -9191,8 +8537,6 @@ Naming Files, Paths, and Namespaces ‚Ì Short vs. Long Names
 %index
 GetLongPathNameTransactedW
 w’è‚µ‚½ƒpƒX‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Ä’·‚¢Œ`®‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszShortPath, lpszLongPath, cchBuffer, hTransaction
 lpszShortPath : [wstr] •ÏŠ·‚·‚éƒpƒXB–{ŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH (260) •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚ÉŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚ÑAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚ğQÆBƒpƒX‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µA’¼‹ßƒGƒ‰[ƒR[ƒh‚É ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚ªİ’è‚³‚ê‚éB
@@ -9227,8 +8571,6 @@ Naming Files, Paths, and Namespaces ‚Ì Short vs. Long Names
 %index
 GetMailslotInfo
 w’è‚µ‚½ƒ[ƒ‹ƒXƒƒbƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMailslot, lpMaxMessageSize, lpNextSize, lpMessageCount, lpReadTimeout
 hMailslot : [intptr] ƒ[ƒ‹ƒXƒƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateMailslot ŠÖ”‚Å‚±‚Ìƒnƒ“ƒhƒ‹‚ğì¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -9247,8 +8589,6 @@ lpReadTimeout : [var] “Ç‚İæ‚è‘€ì‚ªƒ[ƒ‹ƒXƒƒbƒg‚Ö‚ÌƒƒbƒZ[ƒW‘‚«‚İ‚ğ‘Ò‹@‚Å
 %index
 GetMaximumProcessorCount
 ƒvƒƒZƒbƒTƒOƒ‹[ƒv‚Ü‚½‚ÍƒVƒXƒeƒ€‚ª‚¿“¾‚é˜_—ƒvƒƒZƒbƒT‚ÌÅ‘å”‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 GroupNumber
 GroupNumber : [int] ƒvƒƒZƒbƒTƒOƒ‹[ƒv”Ô†B–{ƒpƒ‰ƒ[ƒ^‚ª ALL_PROCESSOR_GROUPS ‚Ìê‡AŠÖ”‚ÍƒVƒXƒeƒ€‚ª‚¿“¾‚éƒvƒƒZƒbƒT‚ÌÅ‘å”‚ğ•Ô‚·B
@@ -9267,8 +8607,6 @@ Windows Headers ‚ğQÆB
 %index
 GetMaximumProcessorGroupCount
 ƒVƒXƒeƒ€‚ª‚¿“¾‚éƒvƒƒZƒbƒTƒOƒ‹[ƒv‚ÌÅ‘å”‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -9285,8 +8623,6 @@ Windows Headers ‚ğQÆB
 %index
 GetMemoryErrorHandlingCapabilities
 ƒVƒXƒeƒ€‚Ìƒƒ‚ƒŠƒGƒ‰[ˆ—‹@”\‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Capabilities
 Capabilities : [var] Ÿ‚Ìƒtƒ‰ƒO‚Ì 1 ‚ÂˆÈã‚ğó‚¯æ‚é PULONGB
@@ -9305,8 +8641,6 @@ Capabilities : [var] Ÿ‚Ìƒtƒ‰ƒO‚Ì 1 ‚ÂˆÈã‚ğó‚¯æ‚é PULONGB
 %index
 GetModuleFileNameW
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğæ“¾‚·‚éBƒ‚ƒWƒ…[ƒ‹‚ÍŒ»İ‚ÌƒvƒƒZƒX‚É‚æ‚Á‚Äƒ[ƒh‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(Unicode)
-%group
-Win32 kernel32
 %prm
 hModule, lpFilename, nSize
 hModule : [intptr] ƒpƒX‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ[ƒhÏ‚İƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡‚ÍŒ»İ‚ÌƒvƒƒZƒX‚ÌÀsƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğæ“¾‚·‚éBLOAD_LIBRARY_AS_DATAFILE ‚Åƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Íæ“¾‚Å‚«‚È‚¢B
@@ -9329,8 +8663,6 @@ DLL ‚ª 2 ‚Â‚ÌƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚Ä‚¢‚éê‡Aƒtƒ@ƒCƒ‹–¼‚Ì‘å•¶š¬•¶š‚ªˆÙ‚È‚éê
 %index
 GetModuleHandleW
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBƒ‚ƒWƒ…[ƒ‹‚ÍŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚É‚æ‚Á‚Äƒ[ƒh‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpModuleName
 lpModuleName : [wstr] ƒ[ƒhÏ‚İƒ‚ƒWƒ…[ƒ‹(.dll ‚Ü‚½‚Í .exe)‚Ì–¼‘OBŠg’£qÈ—ª‚ÍŠù’è .dll ‚ª•t‰Á‚³‚ê‚éBƒpƒXw’è‚Ì•K—v‚Í‚È‚¢‚ªAw’è‚·‚éê‡‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…(\\)‚ğg‚¤B‘å•¶š¬•¶š‚ğ‹æ•Ê‚¹‚¸‚ÉAŒ»İƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚Éƒ}ƒbƒv‚³‚ê‚Ä‚¢‚éƒ‚ƒWƒ…[ƒ‹–¼‚Æ”äŠr‚³‚ê‚éB
@@ -9350,8 +8682,6 @@ lpModuleName : [wstr] ƒ[ƒhÏ‚İƒ‚ƒWƒ…[ƒ‹(.dll ‚Ü‚½‚Í .exe)‚Ì–¼‘OBŠg’£qÈ—ª
 %index
 GetModuleHandleExW
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹‚ğæ“¾‚µAGET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT ‚ªw’è‚³‚ê‚È‚¢ŒÀ‚èƒ‚ƒWƒ…[ƒ‹‚ÌQÆƒJƒEƒ“ƒg‚ğ‘‚â‚·Bƒ‚ƒWƒ…[ƒ‹‚ÍŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚É‚æ‚Á‚Äƒ[ƒhÏ‚İ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(Unicode)
-%group
-Win32 kernel32
 %prm
 dwFlags, lpModuleName, phModule
 dwFlags : [int] 
@@ -9391,8 +8721,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetNLSVersion
 ¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹‚É‘Î‚µAw’è‚µ‚½ NLS ‹@”\‚ÌŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB’: ‘ŠŒİ‰^—p«‚Ì‚½‚ßAV‚µ‚¢ƒƒP[ƒ‹‚Å‚ÍƒƒP[ƒ‹¯•Êq‚Ì‘ã‚í‚è‚ÉƒƒP[ƒ‹–¼‚Ìg—p‚É Microsoft ‚ªˆÚs‚µ‚Ä‚¢‚é‚½‚ßAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetNLSVersion ‚æ‚è‚à GetNLSVersionEx ŠÖ”‚ğ—Dæ‚·‚é‚×‚«‚Å‚ ‚éB‚±‚Ì„§‚Í“Á‚ÉƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚É“–‚Ä‚Í‚Ü‚éBGetNLSVersionEx ‚Íƒ\[ƒg“®ì‚ª•Ï‚í‚Á‚½‚©‚ğ”»’è‚·‚é‚Ì‚É\•ª‚Èî•ñ‚ğæ“¾‚·‚éBWindows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetNLSVersionEx ‚ğg—p‚·‚é‚©A­‚È‚­‚Æ‚à’Ç‰Á‚Ìƒ\[ƒgƒo[ƒWƒ‡ƒ“î•ñ‚ğæ“¾‚·‚é‚½‚ß‚É GetNLSVersion ‚ğŒÄ‚ÔÛ‚É NLSVERSIONINFOEX \‘¢‘Ì‚ğ“n‚·‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 Function, Locale, lpVersionInformation
 Function : [int] ƒNƒGƒŠ‚·‚é NLS ‹@”\B‚±‚Ì’l‚Í COMPARE_STRING ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BSYSNLS_FUNCTION —ñ‹“‘Ì‚ğQÆB
@@ -9421,8 +8749,6 @@ Handling Sorting in Your Applications ‚ğQÆB
 %index
 GetNLSVersionEx
 –¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹‚É‘Î‚µAw’è‚µ‚½ NLS ‹@”\‚ÌŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB’: ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª Windows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡AGetNLSVersion ‚æ‚è‚à–{ŠÖ”‚ğ—Dæ‚µ‚ÄŒÄ‚Ô‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 function, lpLocaleName, lpVersionInformation
 function : [int] ƒNƒGƒŠ‚·‚é NLS ‹@”\B‚±‚Ì’l‚Í COMPARE_STRING ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BSYSNLS_FUNCTION —ñ‹“‘Ì‚ğQÆB
@@ -9448,8 +8774,6 @@ Handling Sorting in Your Applications
 %index
 GetNamedPipeClientComputerNameW
 GetNamedPipeClientComputerNameW (Unicode) ŠÖ” (winbase.h) ‚ÍAw’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒRƒ“ƒsƒ…[ƒ^–¼‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Pipe, ClientComputerName, ClientComputerNameLength
 Pipe : [intptr] –¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateNamedPipe ŠÖ”‚Åì¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -9472,8 +8796,6 @@ Windows 10 ƒo[ƒWƒ‡ƒ“ 1709: ƒpƒCƒv‚Í app-container
 %index
 GetNamedPipeClientProcessId
 w’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Pipe, ClientProcessId
 Pipe : [intptr] –¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateNamedPipe ŠÖ”‚Åì¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -9494,8 +8816,6 @@ Windows 10 ƒo[ƒWƒ‡ƒ“ 1709: ƒpƒCƒv‚Í app-container
 %index
 GetNamedPipeClientSessionId
 w’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒZƒbƒVƒ‡ƒ“¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Pipe, ClientSessionId
 Pipe : [intptr] –¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateNamedPipe ŠÖ”‚Åì¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -9516,8 +8836,6 @@ Windows 10 ƒo[ƒWƒ‡ƒ“ 1709: ƒpƒCƒv‚Í app-container
 %index
 GetNamedPipeHandleStateW
 GetNamedPipeHandleStateW (Unicode) ŠÖ” (winbase.h) ‚ÍAw’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hNamedPipe, lpState, lpCurInstances, lpMaxCollectionCount, lpCollectDataTimeout, lpUserName, nMaxUserNameSize
 hNamedPipe : [intptr] î•ñ‚ğæ“¾‚µ‚½‚¢–¼‘O•t‚«ƒpƒCƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B“Ç‚İæ‚èê—p‚Ü‚½‚Í“Ç‚İ‘‚«—¼—pƒpƒCƒv‚Ìê‡Aƒnƒ“ƒhƒ‹‚Í GENERIC_READ ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚èA‘‚«‚İê—pƒpƒCƒv‚Ìê‡‚Í GENERIC_WRITE ‚Æ FILE_READ_ATTRIBUTES ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB–{ƒpƒ‰ƒ[ƒ^‚Í CreatePipe ŠÖ”‚ª•Ô‚µ‚½“½–¼ƒpƒCƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B
@@ -9545,8 +8863,6 @@ GetNamedPipeHandleState ŠÖ”‚ÍA“n‚³‚ê‚½‚·‚×‚Ä‚Ìƒ|ƒCƒ“ƒ^‚ª NULL
 %index
 GetNamedPipeServerProcessId
 w’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚ÌƒT[ƒo[ƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Pipe, ServerProcessId
 Pipe : [intptr] –¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateNamedPipe ŠÖ”‚Åì¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -9567,8 +8883,6 @@ Windows 10 ƒo[ƒWƒ‡ƒ“ 1709: ƒpƒCƒv‚Í app-container
 %index
 GetNamedPipeServerSessionId
 w’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚ÌƒT[ƒo[ƒZƒbƒVƒ‡ƒ“¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Pipe, ServerSessionId
 Pipe : [intptr] –¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateNamedPipe ŠÖ”‚Åì¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -9589,8 +8903,6 @@ Windows 10 ƒo[ƒWƒ‡ƒ“ 1709: ƒpƒCƒv‚Í app-container
 %index
 GetNativeSystemInfo
 WOW64 ‚Å“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µAŒ»İ‚ÌƒVƒXƒeƒ€‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemInfo
 lpSystemInfo : [var] î•ñ‚ğó‚¯æ‚é SYSTEM_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9607,8 +8919,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 GetNextUmsListItem
 ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚ÌƒŠƒXƒg“à‚ÌŸ‚Ìƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 UmsContext
 UmsContext : [intptr] ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚ÌƒŠƒXƒg‚É‚ ‚é UMS ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒŠƒXƒg‚Í DequeueUmsCompletionListItems ŠÖ”‚É‚æ‚Á‚Äæ“¾‚³‚ê‚éB
@@ -9624,8 +8934,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetNumaAvailableMemoryNode
 w’è‚µ‚½ƒm[ƒh‚Å—˜—p‰Â”\‚Èƒƒ‚ƒŠ‚Ì—Ê‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Node, AvailableBytes
 Node : [int] ƒm[ƒh‚Ì”Ô†B
@@ -9649,8 +8957,6 @@ Information ‚ğQÆB
 %index
 GetNumaAvailableMemoryNodeEx
 USHORT ’l‚Æ‚µ‚Äw’è‚µ‚½ƒm[ƒh‚Å—˜—p‰Â”\‚Èƒƒ‚ƒŠ‚Ì—Ê‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Node, AvailableBytes
 Node : [int] ƒm[ƒh‚Ì”Ô†B
@@ -9677,8 +8983,6 @@ GetNumaAvailableMemoryNode ŠÖ”‚Ì—Bˆê‚Ìˆá‚¢‚Í Node
 %index
 GetNumaHighestNodeNumber
 Œ»İÅ‚à‚‚¢”Ô†‚ğ‚Âƒm[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 HighestNodeNumber
 HighestNodeNumber : [var] Å‚à‚‚¢ƒm[ƒh‚Ì”Ô†B
@@ -9698,8 +9002,6 @@ HighestNodeNumber : [var] Å‚à‚‚¢ƒm[ƒh‚Ì”Ô†B
 %index
 GetNumaNodeNumberFromHandle
 w’è‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ª•\‚·ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ NUMA ƒm[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, NodeNumber
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BI/O ƒfƒoƒCƒX‚Ì—á‚É‚Íƒtƒ@ƒCƒ‹Aƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€Aƒ{ƒŠƒ…[ƒ€A•¨—ƒfƒBƒXƒNAƒ\ƒPƒbƒg‚È‚Ç‚ª‚ ‚éBÚ×‚Í CreateFile ŠÖ”‚ğQÆB
@@ -9720,8 +9022,6 @@ NodeNumber : [var] w’è‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ NUMA ƒm[ƒh‚Ì”Ô†‚ğ
 %index
 GetNumaNodeProcessorMask
 w’è‚µ‚½ƒm[ƒh‚ÌƒvƒƒZƒbƒTƒ}ƒXƒN‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Node, ProcessorMask
 Node : [int] ƒm[ƒh‚Ì”Ô†B
@@ -9746,8 +9046,6 @@ Support](/windows/win32/procthread/numa-support) ‚ğQÆB
 %index
 GetNumaNodeProcessorMaskEx
 ƒm[ƒh‚ª‘®‚·‚éƒvƒƒZƒbƒTƒOƒ‹[ƒv‚ÉŠÖ‚í‚ç‚¸Aƒm[ƒh‚ÌƒvƒƒZƒbƒTƒ}ƒXƒN‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Node, ProcessorMask
 Node : [int] ƒm[ƒh”Ô†B
@@ -9774,8 +9072,6 @@ Support](/windows/win32/procthread/numa-support) ‚ğQÆB
 %index
 GetNumaProcessorNode
 w’è‚µ‚½ƒvƒƒZƒbƒT‚Ìƒm[ƒh”Ô†‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Processor, NodeNumber
 Processor : [int] ƒvƒƒZƒbƒT”Ô†B64 ‚ğ’´‚¦‚é˜_—ƒvƒƒZƒbƒT‚ğ‚ÂƒVƒXƒeƒ€‚Å‚ÍAƒvƒƒZƒbƒT”Ô†‚ÍŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ª“®ì‚µ‚Ä‚¢‚éƒvƒƒZƒbƒT‚ğŠÜ‚ŞƒvƒƒZƒbƒTƒOƒ‹[ƒv‚É‘Î‚·‚é‘Š‘Î’l‚Å‚ ‚éB
@@ -9794,8 +9090,6 @@ NodeNumber : [var] ƒm[ƒh”Ô†BƒvƒƒZƒbƒT‚ª‘¶İ‚µ‚È‚¢ê‡A–{ƒpƒ‰ƒ[ƒ^‚Í 0xFF ‚
 %index
 GetNumaProcessorNodeEx
 w’è‚µ‚½˜_—ƒvƒƒZƒbƒT‚Ìƒm[ƒh”Ô†‚ğ USHORT ’l‚Æ‚µ‚Äæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Processor, NodeNumber
 Processor : [var] ˜_—ƒvƒƒZƒbƒT‚Æ‚»‚ê‚ªŠ„‚è“–‚Ä‚ç‚ê‚Ä‚¢‚éƒvƒƒZƒbƒTƒOƒ‹[ƒv‚ğ•\‚· PROCESSOR_NUMBER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9814,8 +9108,6 @@ the Windows Headers ‚ğQÆB
 %index
 GetNumaProximityNode
 w’è‚µ‚½‹ßÚƒhƒƒCƒ“¯•Êq‚É‘Î‰‚·‚é NUMA ƒm[ƒh”Ô†‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ProximityId, NodeNumber
 ProximityId : [int] ƒm[ƒh‚Ì‹ßÚƒhƒƒCƒ“¯•ÊqB
@@ -9840,8 +9132,6 @@ Information Table (SLIT) ‚ÉŠi”[‚³‚ê‚Ä‚¢‚é‚ªAWindows ‚ÌŠÖ”‚©‚ç‚ÍŒöŠJ‚³‚ê‚Ä‚¢‚È‚
 %index
 GetNumaProximityNodeEx
 w’è‚µ‚½‹ßÚ¯•Êq‚É‘Î‰‚·‚é NUMA ƒm[ƒh”Ô†‚ğ USHORT ’l‚Æ‚µ‚Äæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ProximityId, NodeNumber
 ProximityId : [int] ƒm[ƒh‚Ì‹ßÚ¯•ÊqB
@@ -9869,8 +9159,6 @@ Information Table (SLIT) ‚ÉŠi”[‚³‚ê‚Ä‚¢‚é‚ªAWindows ‚ÌŠÖ”‚©‚ç‚ÍŒöŠJ‚³‚ê‚Ä‚¢‚È‚
 %index
 GetNumberFormatW
 ”’l•¶š—ñ‚ğA¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚ÉƒJƒXƒ^ƒ}ƒCƒY‚µ‚½”’l•¶š—ñ‚Æ‚µ‚ÄƒtƒH[ƒ}ƒbƒg‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, dwFlags, lpValue, lpFormat, lpNumberStr, cchNumber
 Locale : [int] ƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ğg—p‚µ‚ÄƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB
@@ -9906,8 +9194,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetNumberFormatEx
 ”’l•¶š—ñ‚ğA–¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚ÉƒJƒXƒ^ƒ}ƒCƒY‚µ‚½”’l•¶š—ñ‚Æ‚µ‚ÄƒtƒH[ƒ}ƒbƒg‚·‚éB’ˆÓ Windows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAGetNumberFormat ‚æ‚è‚à‚±‚ÌŠÖ”‚ğ—Dæ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB’ˆÓ ‚±‚ÌŠÖ”‚ÍAƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚È‚Ç‚Ì——R‚ÅƒŠƒŠ[ƒXŠÔ‚Å•Ï‰»‚·‚éƒf[ƒ^‚ğƒtƒH[ƒ}ƒbƒg‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‰i‘±‰»‚Ü‚½‚Í‘—M‚·‚é•K—v‚ª‚ ‚éê‡‚ÍAUsing Persistent Locale Data ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwFlags, lpValue, lpFormat, lpNumberStr, cchNumber
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©B
@@ -9937,8 +9223,6 @@ ResolveLocaleName ‚ğŒÄ‚Ño‚µ‚Äƒ^ƒO‚ğ•ÏŠ·‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetNumberOfConsoleInputEvents
 ƒRƒ“ƒ\[ƒ‹‚Ì“ü—Íƒoƒbƒtƒ@“à‚Ì–¢“Ç“ü—ÍƒŒƒR[ƒh”‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleInput, lpNumberOfEvents
 hConsoleInput : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -9966,8 +9250,6 @@ lpNumberOfEvents : [var]
 %index
 GetNumberOfConsoleMouseButtons
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹‚ªg—p‚·‚éƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“”‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpNumberOfMouseButtons
 lpNumberOfMouseButtons : [var] ƒ}ƒEƒXƒ{ƒ^ƒ“”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9997,8 +9279,6 @@ lpNumberOfMouseButtons : [var] ƒ}ƒEƒXƒ{ƒ^ƒ“”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetOEMCP
 ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÌŒ»İ‚Ì OEM(original equipment manufacturer)ƒR[ƒhƒy[ƒW¯•Êq‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -10014,8 +9294,6 @@ OEM ‚¨‚æ‚Ñ‘¼‚ÌƒR[ƒhƒy[ƒW‚Ìˆê——‚Í Code Page Identifiers ‚ğQÆB
 %index
 GetOverlappedResult
 w’è‚µ‚½ƒtƒ@ƒCƒ‹A–¼‘O•t‚«ƒpƒCƒvA‚Ü‚½‚Í’ÊMƒfƒoƒCƒX‚É‘Î‚·‚éƒI[ƒo[ƒ‰ƒbƒvˆ—‚ÌŒ‹‰Ê‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpOverlapped, lpNumberOfBytesTransferred, bWait
 hFile : [intptr] ƒtƒ@ƒCƒ‹A–¼‘O•t‚«ƒpƒCƒvA‚Ü‚½‚Í’ÊMƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚ÌŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚ÄƒI[ƒo[ƒ‰ƒbƒvˆ—‚ğŠJn‚µ‚½Û‚Éw’è‚µ‚½‚à‚Ì‚Æ“¯‚¶ƒnƒ“ƒhƒ‹‚Å‚ ‚é: - [ReadFile](../fileapi/nf-fileapi-readfile.md) - [WriteFile](../fileapi/nf-fileapi-writefile.md) - [ConnectNamedPipe](../namedpipeapi/nf-namedpipeapi-connectnamedpipe.md) - [TransactNamedPipe](../namedpipeapi/nf-namedpipeapi-transactnamedpipe.md) - [DeviceIoControl](./nf-ioapiset-deviceiocontrol.md) - [WaitCommEvent](../winbase/nf-winbase-waitcommevent.md) - [ReadDirectoryChangesW](../winbase/nf-winbase-readdirectorychangesw.md) - [LockFileEx](../fileapi/nf-fileapi-lockfileex.md) - [ReadDirectoryChangesW](../winbase/nf-winbase-readdirectorychangesw.md)
@@ -10043,8 +9321,6 @@ hEvent ƒƒ“ƒo‚ª NULL ‚Ìê‡AƒVƒXƒeƒ€‚Í hFile
 %index
 GetPhysicallyInstalledSystemMemory
 ƒRƒ“ƒsƒ…[ƒ^‚É•¨—“I‚É“‹Ú‚³‚ê‚Ä‚¢‚é RAM ‚Ì—Ê‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 TotalMemoryInKilobytes
 TotalMemoryInKilobytes : [var] •¨—“I‚É“‹Ú‚³‚ê‚½ RAM ‚ÌƒLƒƒoƒCƒg’PˆÊ‚Ì—Ê‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -10072,8 +9348,6 @@ ullTotalPhys ƒƒ“ƒo‚ÉAƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ª—˜—p‰Â”\‚È•¨—ƒƒ‚ƒŠ‚Ì—Ê‚ğİ’è‚
 %index
 GetPriorityClass
 w’è‚µ‚½ƒvƒƒZƒX‚Ì—Dæ“xƒNƒ‰ƒX‚ğæ“¾‚·‚éB‚±‚Ì’l‚ÍAƒvƒƒZƒX‚ÌŠeƒXƒŒƒbƒh‚Ì—Dæ“x’l‚Æ‘g‚İ‡‚í‚³‚Á‚ÄAŠeƒXƒŒƒbƒh‚ÌŠî–{—Dæ“xƒŒƒxƒ‹‚ğŒˆ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -10098,8 +9372,6 @@ Scheduling Priorities
 %index
 GetPrivateProfileIntW
 GetPrivateProfileIntW (Unicode) ŠÖ” (winbase.h) ‚ÍA‰Šú‰»ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ““à‚ÌƒL[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½®”‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpAppName, lpKeyName, nDefault, lpFileName
 lpAppName : [wstr] ‰Šú‰»ƒtƒ@ƒCƒ‹“à‚ÌƒZƒNƒVƒ‡ƒ“–¼B
@@ -10122,8 +9394,6 @@ GetPrivateProfileIntW (Unicode) ŠÖ” (winbase.h)
 %index
 GetPrivateProfileSectionW
 GetPrivateProfileSectionW (Unicode) ŠÖ” (winbase.h) ‚ÍA‰Šú‰»ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ“‚Ì‚·‚×‚Ä‚ÌƒL[‚Æ’l‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpAppName, lpReturnedString, nSize, lpFileName
 lpAppName : [wstr] ‰Šú‰»ƒtƒ@ƒCƒ‹“à‚ÌƒZƒNƒVƒ‡ƒ“–¼B
@@ -10157,8 +9427,6 @@ NT\CurrentVersion\IniFileMapping
 %index
 GetPrivateProfileSectionNamesW
 GetPrivateProfileSectionNamesW (Unicode) ŠÖ” (winbase.h) ‚ÍA‰Šú‰»ƒtƒ@ƒCƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒZƒNƒVƒ‡ƒ“–¼‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpszReturnBuffer, nSize, lpFileName
 lpszReturnBuffer : [wstr] w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒZƒNƒVƒ‡ƒ“–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚Í 1 ‚ÂˆÈã‚Ì null I’[•¶š—ñ‚Å–„‚ß‚ç‚êAÅŒã‚Ì•¶š—ñ‚ÌŒã‚É‚Í‚³‚ç‚É null •¶š‚ª‘±‚­B
@@ -10186,8 +9454,6 @@ NT\CurrentVersion\IniFileMapping
 %index
 GetPrivateProfileStringW
 GetPrivateProfileStringW (Unicode) ŠÖ” (winbase.h) ‚ÍA‰Šú‰»ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ“‚©‚ç•¶š—ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName
 lpAppName : [wstr] ƒL[–¼‚ğŠÜ‚ŞƒZƒNƒVƒ‡ƒ“‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AGetPrivateProfileString ŠÖ”‚Íƒtƒ@ƒCƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒZƒNƒVƒ‡ƒ“–¼‚ğw’èƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
@@ -10219,8 +9485,6 @@ lpDefault ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½Šù’è•¶š—ñ‚ğƒRƒs[‚·‚éB‰Šú‰»ƒtƒ@ƒCƒ‹“à‚ÌƒZƒNƒVƒ‡
 %index
 GetPrivateProfileStructW
 GetPrivateProfileStructW (Unicode) ŠÖ” (winbase.h) ‚ÍA‰Šú‰»ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ““à‚ÌƒL[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpszSection, lpszKey, lpStruct, uSizeStruct, szFile
 lpszSection : [wstr] ‰Šú‰»ƒtƒ@ƒCƒ‹“à‚ÌƒZƒNƒVƒ‡ƒ“–¼B
@@ -10243,8 +9507,6 @@ GetPrivateProfileStructW (Unicode) ŠÖ” (winbase.h)
 %index
 GetProcAddress
 w’è‚³‚ê‚½ƒ_ƒCƒiƒ~ƒbƒNƒŠƒ“ƒNƒ‰ƒCƒuƒ‰ƒŠ(DLL)‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚½ŠÖ”‚Ü‚½‚Í•Ï”‚ÌƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hModule, lpProcName
 hModule : [intptr] ŠÖ”‚Ü‚½‚Í•Ï”‚ğŠÜ‚Ş DLL ƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BLoadLibraryALoadLibraryExALoadPackagedLibraryAGetModuleHandle ‚Åæ“¾‚·‚éBLOAD_LIBRARY_AS_DATAFILE ‚Åƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚©‚ç‚Íæ“¾‚Å‚«‚È‚¢B
@@ -10267,8 +9529,6 @@ lpProcName ‚Åw’è‚·‚éŠÖ”–¼‚ÌƒXƒyƒ‹‚Æ‘å•¶š¬•¶š‚ÍADLL ‚Ì .def ƒtƒ@ƒCƒ‹“à EXPO
 %index
 GetProcessAffinityMask
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒvƒƒZƒXƒAƒtƒBƒjƒeƒBƒ}ƒXƒN‚ÆAƒVƒXƒeƒ€‚ÌƒVƒXƒeƒ€ƒAƒtƒBƒjƒeƒBƒ}ƒXƒN‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpProcessAffinityMask, lpSystemAffinityMask
 hProcess : [intptr] ƒAƒtƒBƒjƒeƒBƒ}ƒXƒN‚ğæ“¾‚µ‚½‚¢ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10302,8 +9562,6 @@ lpProcessAffinityMask ‚Æ lpSystemAffinityMask ‚ğİ’è‚·‚éB
 %index
 GetProcessDEPPolicy
 w’è‚µ‚½ 32 ƒrƒbƒgƒvƒƒZƒX‚Ìƒf[ƒ^Às–h~ (DEP) ‚Æ DEP-ATL ƒTƒ“ƒNƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“İ’è‚ğæ“¾‚·‚éBWindows XP with SP3: Œ»İ‚ÌƒvƒƒZƒX‚Ì DEP ‚Æ DEP-ATL ƒTƒ“ƒNƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpFlags, lpPermanent
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹BƒvƒƒZƒX‚Ì DEP ƒ|ƒŠƒV[‚ğæ“¾‚·‚é‚É‚Í PROCESS_QUERY_INFORMATION “ÁŒ ‚ª•K—v‚Å‚ ‚éBWindows XP with SP3: hProcess ƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
@@ -10326,8 +9584,6 @@ ERROR_NOT_SUPPORTED ‚Å¸”s‚·‚éB‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒRƒ“ƒpƒCƒ‹‚·
 %index
 GetProcessGroupAffinity
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒvƒƒZƒbƒTƒOƒ‹[ƒvƒAƒtƒBƒjƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, GroupCount, GroupArray
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -10350,8 +9606,6 @@ Windows 11 ‚¨‚æ‚Ñ Windows Server 2022 ˆÈ~‚Å‚ÍA64
 %index
 GetProcessHandleCount
 w’è‚µ‚½ƒvƒƒZƒX‚É‘®‚·‚éŠJ‚¢‚Ä‚¢‚éƒnƒ“ƒhƒ‹‚Ì”‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pdwHandleCount
 hProcess : [intptr] ƒnƒ“ƒhƒ‹”‚ğ—v‹‚·‚éƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10371,8 +9625,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 GetProcessHeap
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌŠù’èƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -10393,8 +9645,6 @@ Windows XP: ƒvƒƒZƒX‚ÌŠù’èƒq[ƒv‚É‘Î‚µ‚Ä’á’f•Ğ‰»ƒq[ƒv‚ğ—LŒø‚É‚·‚é‚É‚ÍAGetProce
 %index
 GetProcessHeaps
 ƒAƒNƒeƒBƒu‚Èƒq[ƒv‚Ì”‚ğ•Ô‚µAŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Ì‚·‚×‚Ä‚ÌƒAƒNƒeƒBƒu‚Èƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 NumberOfHeaps, ProcessHeaps
 NumberOfHeaps : [int] ProcessHeaps ‚ªw‚·ƒoƒbƒtƒ@‚ÉŠi”[‚Å‚«‚éƒq[ƒvƒnƒ“ƒhƒ‹‚ÌÅ‘å”B
@@ -10423,8 +9673,6 @@ GetProcessHeaps ŠÖ”‚ÍAŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌŠù’èƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ÆAƒvƒƒZƒX“à
 %index
 GetProcessId
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Process
 Process : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10443,8 +9691,6 @@ and Access Rights ‚ğQÆB
 %index
 GetProcessIdOfThread
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒZƒX‚ÌƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Thread
 Thread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003: ƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10463,8 +9709,6 @@ and Access Rights ‚ğQÆB
 %index
 GetProcessInformation
 w’è‚µ‚½ƒvƒƒZƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GetProcessInformation)
-%group
-Win32 kernel32
 %prm
 hProcess, ProcessInformationClass, ProcessInformation, ProcessInformationSize
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í **PROCESS_SET_INFORMATION** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Process Security and Access Rights](/windows/win32/procthread/process-security-and-access-rights) ‚ğQÆB
@@ -10482,8 +9726,6 @@ ProcessInformationSize : [int] *ProcessInformation* ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½\‘¢‘Ì
 %index
 GetProcessIoCounters
 w’è‚µ‚½ƒvƒƒZƒX‚ªs‚Á‚½‚·‚×‚Ä‚Ì I/O ˆ—‚ÌƒAƒJƒEƒ“ƒeƒBƒ“ƒOî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpIoCounters
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10498,8 +9740,6 @@ lpIoCounters : [var] ƒvƒƒZƒX‚Ì I/O ƒAƒJƒEƒ“ƒeƒBƒ“ƒOî•ñ‚ğó‚¯æ‚é IO_COUNTERS 
 %index
 GetProcessPreferredUILanguages
 ƒvƒƒZƒX‚Ì—Dæ UI Œ¾Œê‚ğæ“¾‚·‚éBÚ×‚Í User Interface Language Management ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 dwFlags, pulNumLanguages, pwszLanguagesBuffer, pcchLanguagesBuffer
 dwFlags : [int] ƒvƒƒZƒX‚Ì—Dæ UI Œ¾Œê‚Ég—p‚·‚éŒ¾ŒêŒ`®‚ğ¯•Ê‚·‚éƒtƒ‰ƒOBƒtƒ‰ƒO‚Í‘ŠŒİ”r‘¼“I‚ÅAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éB
@@ -10526,8 +9766,6 @@ MUI_LANGUAGE_NAME ‚Ìg—p‚ª„§‚³‚ê‚éB C# ƒVƒOƒlƒ`ƒƒ
 %index
 GetProcessPriorityBoost
 w’è‚µ‚½ƒvƒƒZƒX‚Ì—Dæ“xƒu[ƒXƒg§Œä‚Ìó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pDisablePriorityBoost
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10544,8 +9782,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetProcessShutdownParameters
 Œ»İ‚ÌŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“ƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpdwLevel, lpdwFlags
 lpdwLevel : [var] ƒVƒƒƒbƒgƒ_ƒEƒ“‚Ì—Dæ“xƒŒƒxƒ‹‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒŒƒxƒ‹‚ª‚‚¢‚Ù‚Çæ‚ÉƒVƒƒƒbƒgƒ_ƒEƒ“‚³‚ê‚éBƒVƒXƒeƒ€ƒŒƒxƒ‹‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“‡˜‚ÍƒVƒXƒeƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg—p‚É—\–ñ‚³‚ê‚Ä‚¢‚éB”Ô†‚ª‘å‚«‚¢‚Ù‚Çæ‚ÉƒVƒƒƒbƒgƒ_ƒEƒ“‚³‚ê‚éBˆÈ‰º‚ªƒŒƒxƒ‹‹K–ñ‚Å‚ ‚éB
@@ -10560,8 +9796,6 @@ lpdwFlags : [var] ƒVƒƒƒbƒgƒ_ƒEƒ“ƒtƒ‰ƒO‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^
 %index
 GetProcessTimes
 w’è‚µ‚½ƒvƒƒZƒX‚Ìƒ^ƒCƒ~ƒ“ƒOî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpCreationTime, lpExitTime, lpKernelTime, lpUserTime
 hProcess : [intptr] ƒ^ƒCƒ~ƒ“ƒOî•ñ‚ğæ“¾‚µ‚½‚¢ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10587,8 +9821,6 @@ lpUserTime : [var] ƒvƒƒZƒX‚ªƒ†[ƒU[ƒ‚[ƒh‚ÅÀs‚³‚ê‚½ŠÔ‚ğó‚¯æ‚é FILETIME 
 %index
 GetProcessVersion
 w’è‚µ‚½ƒvƒƒZƒX‚ªÀs‚ğŠú‘Ò‚·‚éƒVƒXƒeƒ€‚ÌƒƒWƒƒ[ƒo[ƒWƒ‡ƒ“”Ô†‚Æƒ}ƒCƒi[ƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ProcessId
 ProcessId : [int] ‘ÎÛƒvƒƒZƒX‚ÌƒvƒƒZƒX¯•ÊqB0 ‚ğw’è‚·‚é‚ÆŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ğ¦‚·B
@@ -10610,8 +9842,6 @@ GetProcessVersion ŠÖ”‚ÍAProcessId ‚ª 0
 %index
 GetProcessWorkingSetSize
 w’è‚µ‚½ƒvƒƒZƒX‚ÌÅ¬‚¨‚æ‚ÑÅ‘åƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚ğæ“¾‚·‚éB(GetProcessWorkingSetSize)
-%group
-Win32 kernel32
 %prm
 hProcess, lpMinimumWorkingSetSize, lpMaximumWorkingSetSize
 hProcess : [intptr] ƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚ğæ“¾‚·‚éƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10631,8 +9861,6 @@ lpMaximumWorkingSetSize : [var] w’è‚µ‚½ƒvƒƒZƒX‚ÌÅ‘åƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒYiƒo
 %index
 GetProcessWorkingSetSizeEx
 w’è‚µ‚½ƒvƒƒZƒX‚ÌÅ¬‚¨‚æ‚ÑÅ‘åƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚ğæ“¾‚·‚éB(GetProcessWorkingSetSizeEx)
-%group
-Win32 kernel32
 %prm
 hProcess, lpMinimumWorkingSetSize, lpMaximumWorkingSetSize, Flags
 hProcess : [intptr] ƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚ğæ“¾‚·‚éƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆBWindows Server 2003: ƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -10650,8 +9878,6 @@ Flags : [var] Å¬‚¨‚æ‚ÑÅ‘åƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚Ì‹­§‚ğ§Œä‚·‚éƒtƒ‰ƒOB
 %index
 GetProductInfo
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚Ì»•i‚Ìí—Ş‚ğæ“¾‚µA‚»‚Ìí—Ş‚ğw’è‚µ‚½ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚é»•i‚Ìí—Ş‚Éƒ}ƒbƒv‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwOSMajorVersion, dwOSMinorVersion, dwSpMajorVersion, dwSpMinorVersion, pdwReturnedProductType
 dwOSMajorVersion : [int] ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÌƒƒWƒƒ[ƒo[ƒWƒ‡ƒ“”Ô†BÅ¬’l‚Í 6BdwOSMajorVersionAdwOSMinorVersionAdwSpMajorVersionAdwSpMinorVersion ƒpƒ‰ƒ[ƒ^‚Ì‘g‚İ‡‚í‚¹‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÅ‘å‘ÎÛƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€ƒo[ƒWƒ‡ƒ“‚ğ•\‚·B‚½‚Æ‚¦‚ÎAWindows Vista ‚Æ Windows Server 2008 ‚Íƒo[ƒWƒ‡ƒ“ 6.0.0.0 ‚ÅAWindows 7 ‚Æ Windows Server 2008 R2 ‚Íƒo[ƒWƒ‡ƒ“ 6.1.0.0 ‚Å‚ ‚éB‚·‚×‚Ä‚Ì Windows 10 ƒx[ƒX‚ÌƒŠƒŠ[ƒX‚Íƒo[ƒWƒ‡ƒ“ 6.3 ‚Æ‚µ‚Ä•\‹L‚³‚ê‚éB
@@ -10685,8 +9911,6 @@ whether Server Core is running ‚Ì•û–@‚ğg—p‚·‚éBˆÈ‰º‚Ì•\‚ÍA6.1.0.0
 %index
 GetProfileIntW
 Win.ini ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ““à‚ÌƒL[‚©‚ç®”‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpAppName, lpKeyName, nDefault
 lpAppName : [wstr] ƒL[–¼‚ğŠÜ‚ŞƒZƒNƒVƒ‡ƒ“‚Ì–¼‘OB
@@ -10712,8 +9936,6 @@ NT\CurrentVersion\IniFileMapping ˆ—‚ªƒ}ƒbƒv‚³‚ê‚Ä‚¢‚éê‡AGetProfileInt
 %index
 GetProfileSectionW
 Win.ini ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ“‚Ì‚·‚×‚Ä‚ÌƒL[‚Æ’l‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpAppName, lpReturnedString, nSize
 lpAppName : [wstr] Win.ini ƒtƒ@ƒCƒ‹“à‚ÌƒZƒNƒVƒ‡ƒ“–¼B
@@ -10742,8 +9964,6 @@ NT\CurrentVersion\IniFileMappingBˆ—‚ªƒ}ƒbƒv‚³‚ê‚Ä‚¢‚éê‡AGetProfileSection
 %index
 GetProfileStringW
 Win.ini ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ““à‚ÌƒL[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½•¶š—ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize
 lpAppName : [wstr] ƒL[‚ğŠÜ‚ŞƒZƒNƒVƒ‡ƒ“‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Íƒtƒ@ƒCƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒZƒNƒVƒ‡ƒ“–¼‚ğw’èƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
@@ -10772,8 +9992,6 @@ lpKeyName ƒpƒ‰ƒ[ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½•¶š—ñ‚ª’Pˆêˆø—p•„‚Ü‚½‚Í“ñdˆø—p•„‚ÅˆÍ‚Ü‚ê‚Ä
 %index
 GetQueuedCompletionStatus
 w’è‚µ‚½ I/O Š®—¹ƒ|[ƒg‚©‚ç I/O Š®—¹ƒpƒPƒbƒg‚ğƒfƒLƒ…[‚µ‚æ‚¤‚Æ‚·‚éB
-%group
-Win32 kernel32
 %prm
 CompletionPort, lpNumberOfBytesTransferred, lpCompletionKey, lpOverlapped, dwMilliseconds
 CompletionPort : [intptr] Š®—¹ƒ|[ƒg‚Ìƒnƒ“ƒhƒ‹BŠ®—¹ƒ|[ƒg‚ğì¬‚·‚é‚É‚Í CreateIoCompletionPort ŠÖ”‚ğg—p‚·‚éB
@@ -10805,8 +10023,6 @@ FALSEjA‚»‚ê‚ç‚Ì“¯‚¶ƒpƒ‰ƒ[ƒ^‚É‚ÍˆÈ‰º‚Ì‚æ‚¤‚È“Á’è‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚ªŠÜ‚Ü‚ê‚éê
 %index
 GetQueuedCompletionStatusEx
 •¡”‚ÌŠ®—¹ƒ|[ƒgƒGƒ“ƒgƒŠ‚ğ“¯‚Éæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 CompletionPort, lpCompletionPortEntries, ulCount, ulNumEntriesRemoved, dwMilliseconds, fAlertable
 CompletionPort : [intptr] Š®—¹ƒ|[ƒg‚Ìƒnƒ“ƒhƒ‹BŠ®—¹ƒ|[ƒg‚ğì¬‚·‚é‚É‚Í CreateIoCompletionPort ŠÖ”‚ğg—p‚·‚éB
@@ -10844,8 +10060,6 @@ Completion Ports ‚ğQÆBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012
 %index
 GetShortPathNameW
 w’è‚µ‚½ƒpƒX‚Ì’Z‚¢ƒpƒXŒ`®‚ğæ“¾‚·‚éB(GetShortPathNameW)
-%group
-Win32 kernel32
 %prm
 lpszLongPath, lpszShortPath, cchBuffer
 lpszLongPath : [wstr] ƒpƒX•¶š—ñB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚ÉŠg’£‚·‚é‚É‚ÍAŠÖ”‚Ì Unicode ”Å‚ğŒÄ‚Ño‚µ‚ÄƒpƒX‚Ìæ“ª‚É "\\\\?\\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚ğQÆB
@@ -10882,8 +10096,6 @@ Naming Files, Paths, and Namespaces ‚Ì Short vs. Long Names
 %index
 GetStartupInfoW
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ªì¬‚³‚ê‚½‚Æ‚«‚Éw’è‚³‚ê‚½ STARTUPINFO \‘¢‘Ì‚Ì“à—e‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpStartupInfo
 lpStartupInfo : [var] ‹N“®î•ñ‚ğó‚¯æ‚é STARTUPINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -10898,8 +10110,6 @@ STARTUPINFO
 %index
 GetStdHandle
 w’è‚µ‚½•W€ƒfƒoƒCƒXi•W€“ü—ÍA•W€o—ÍA‚Ü‚½‚Í•W€ƒGƒ‰[j‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 nStdHandle
 nStdHandle : [int] •W€ƒfƒoƒCƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚Å‚ ‚éB | ’l | ˆÓ–¡ | |-|-| | **STD_INPUT_HANDLE** `((DWORD)-10)` | •W€“ü—ÍƒfƒoƒCƒXBÅ‰‚ÍAƒRƒ“ƒ\[ƒ‹‚Ì“ü—Íƒoƒbƒtƒ@ `CONIN$` ‚Å‚ ‚éB | | **STD_OUTPUT_HANDLE** `((DWORD)-11)` | •W€o—ÍƒfƒoƒCƒXBÅ‰‚ÍAƒAƒNƒeƒBƒu‚ÈƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@ `CONOUT$` ‚Å‚ ‚éB | | **STD_ERROR_HANDLE** `((DWORD)-12)` | •W€ƒGƒ‰[ƒfƒoƒCƒXBÅ‰‚ÍAƒAƒNƒeƒBƒu‚ÈƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@ `CONOUT$` ‚Å‚ ‚éB | > [!NOTE] > ‚±‚ê‚ç‚Ì’è”‚Ì’l‚Í•„†‚È‚µ‚Ì”š‚¾‚ªAƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å‚Í•„†•t‚«”š‚©‚ç‚ÌƒLƒƒƒXƒg‚Æ‚µ‚Ä’è‹`‚³‚êAC ƒRƒ“ƒpƒCƒ‰‚ª‚»‚ê‚ç‚ğ 32 ƒrƒbƒgÅ‘å’l’¼‰º‚Éƒ[ƒ‹ƒI[ƒo[‚·‚é‚±‚Æ‚ğ—˜—p‚µ‚Ä‚¢‚éB‚±‚ê‚ç‚Ìƒnƒ“ƒhƒ‹‚Æƒwƒbƒ_‚ğ‰ğÍ‚µ‚È‚¢Œ¾Œê‚Å‚â‚èæ‚è‚µA’è”‚ğÄ’è‹`‚·‚éê‡‚ÍA‚±‚Ì§–ñ‚É’ˆÓ‚·‚éB—á‚Æ‚µ‚ÄA`((DWORD)-10)` ‚ÍÀÛ‚É‚Í•„†‚È‚µ‚Ì”š `4294967286` ‚Å‚ ‚éB
@@ -10947,8 +10157,6 @@ nStdHandle : [int] •W€ƒfƒoƒCƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚Å‚ ‚éB | ’l
 %index
 GetStringScripts
 w’è‚µ‚½ Unicode •¶š—ñ‚Åg—p‚³‚ê‚Ä‚¢‚éƒXƒNƒŠƒvƒg‚ÌƒŠƒXƒg‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, lpString, cchString, lpScripts, cchScripts
 dwFlags : [int] ƒXƒNƒŠƒvƒgæ“¾‚ÌƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éƒtƒ‰ƒOB
@@ -10981,8 +10189,6 @@ Unicode ƒRƒ“ƒ\[ƒVƒAƒ€‚ªŒöŠJ‚µ‚Ä‚¢‚éƒXƒNƒŠƒvƒg’l‚ÉŠî‚Ã‚­B‚±‚ÌŠÖ”‚Ì“®ì‚Ì—á‚ğˆÈ
 %index
 GetStringTypeW
 w’è‚µ‚½ Unicode ƒ\[ƒX•¶š—ñ“à‚Ì•¶š‚Ì•¶šíî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwInfoType, lpSrcStr, cchSrc, lpCharType
 dwInfoType : [int] æ“¾‚·‚é•¶šíî•ñ‚ğw’è‚·‚éƒtƒ‰ƒOB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍˆÈ‰º‚Ì’l‚ğw’è‚Å‚«‚éB•¶ší‚Í”õlƒZƒNƒVƒ‡ƒ“‚Åà–¾‚·‚éˆÙ‚È‚éƒŒƒxƒ‹‚É•ªŠ„‚³‚ê‚éB
@@ -11017,8 +10223,6 @@ C1_ALPHA ‘®«‚ğ‚ÂB
 %index
 GetStringTypeExW
 w’è‚µ‚½ƒ\[ƒX•¶š—ñ“à‚Ì•¶š‚Ì•¶šíî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Locale, dwInfoType, lpSrcStr, cchSrc, lpCharType
 Locale : [int] ƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqB‚±‚Ì’l‚Í ANSI ƒR[ƒhƒy[ƒW‚ğˆêˆÓ‚É’è‹`‚·‚éBMAKELCID ƒ}ƒNƒ‚ğg—p‚µ‚ÄƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB
@@ -11059,8 +10263,6 @@ C1_ALPHA ‚Æ‚µ‚Äw’è‚³‚ê‚éB
 %index
 GetSystemDEPPolicy
 ƒVƒXƒeƒ€‚Ìƒf[ƒ^Às–h~ (DEP) ƒ|ƒŠƒV[İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11085,8 +10287,6 @@ DEP ‚ğ–³Œø‰»‚Å‚«‚éBƒVƒXƒeƒ€ DEP ƒ|ƒŠƒV[‚ª OptOut ‚Ìê‡A‚±‚ê‚ç‚ÌƒAƒvƒŠƒP[ƒVƒ
 %index
 GetSystemDefaultLCID
 ƒVƒXƒeƒ€ƒƒP[ƒ‹‚ÌƒƒP[ƒ‹¯•Êq‚ğ•Ô‚·B’ˆÓ Windows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‚±‚ÌŠÖ”‚æ‚è‚à GetSystemDefaultLocaleName ‚ğ—Dæ‚µ‚Äg—p‚·‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11105,8 +10305,6 @@ Persistent Locale Data ‚ğQÆB
 %index
 GetSystemDefaultLangID
 ƒVƒXƒeƒ€ƒƒP[ƒ‹‚ÌŒ¾Œê¯•Êq‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11122,8 +10320,6 @@ and Strings ‚ğQÆB
 %index
 GetSystemDefaultLocaleName
 ƒVƒXƒeƒ€Šù’èƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB’ˆÓ ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetUserDefaultLocaleName ‚ğ‚±‚ÌŠÖ”‚æ‚è—Dæ‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ª„§‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, cchLocaleName
 lpLocaleName : [wstr] ‚±‚ÌŠÖ”‚ªƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11146,8 +10342,6 @@ Persistent Locale Data ‚ğQÆB
 %index
 GetSystemDefaultUILanguage
 ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÌƒVƒXƒeƒ€Šù’è UI Œ¾Œê‚ÌŒ¾Œê¯•Êq‚ğæ“¾‚·‚éB‚±‚ê‚Í Windows Vista ˆÈ~‚Å‚ÍuƒCƒ“ƒXƒg[ƒ‹Œ¾Œêv‚Æ‚àŒÄ‚Î‚ê‚éBÚ×‚Í User Interface Language Management ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11171,8 +10365,6 @@ Win32 kernel32
 %index
 GetSystemDirectoryW
 ƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpBuffer, uSize
 lpBuffer : [wstr] ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ‚ªƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚Å‚È‚¢ŒÀ‚èA‚±‚ÌƒpƒX‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ÅI‚í‚ç‚È‚¢B‚½‚Æ‚¦‚ÎAƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ‚ª C ƒhƒ‰ƒCƒuã‚Ì Windows\System32 ‚Æ‚¢‚¤–¼‘O‚Å‚ ‚éê‡A‚±‚ÌŠÖ”‚Åæ“¾‚³‚ê‚éƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚Í C:\Windows\System32 ‚Æ‚È‚éB
@@ -11193,8 +10385,6 @@ uSize : [int] ƒoƒbƒtƒ@‚ÌÅ‘åƒTƒCƒYiTCHAR ’PˆÊjB
 %index
 GetSystemFileCacheSize
 ƒVƒXƒeƒ€ƒLƒƒƒbƒVƒ…‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÌŒ»İ‚ÌƒTƒCƒY§ŒÀ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpMinimumFileCacheSize, lpMaximumFileCacheSize, lpFlags
 lpMinimumFileCacheSize : [var] ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…‚ÌÅ¬ƒTƒCƒYiƒoƒCƒg’PˆÊj‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BFILE_CACHE_MIN_HARD_ENABLE ƒtƒ‰ƒO‚ğw’è‚µ‚½ SetSystemFileCacheSize ŠÖ”‚Ì–‘OŒÄ‚Ño‚µ‚ª‚ ‚éê‡A‰¼‘zƒƒ‚ƒŠƒ}ƒl[ƒWƒƒ‚Í­‚È‚­‚Æ‚à‚±‚Ì—Ê‚Ìƒƒ‚ƒŠ‚ğƒVƒXƒeƒ€ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…‚Éí’“‚³‚¹‚æ‚¤‚Æ‚·‚éB
@@ -11217,8 +10407,6 @@ SDK ˆÈ~‚Ì Windows ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å’è‹`‚³‚ê‚éBˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì SDK
 %index
 GetSystemFirmwareTable
 ƒtƒ@[ƒ€ƒEƒFƒAƒe[ƒuƒ‹ƒvƒƒoƒCƒ_‚©‚çw’è‚µ‚½ƒtƒ@[ƒ€ƒEƒFƒAƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 FirmwareTableProviderSignature, FirmwareTableID, pFirmwareTableBuffer, BufferSize
 FirmwareTableProviderSignature : [int] 
@@ -11249,8 +10437,6 @@ Management BIOS (SMBIOS) ‚Ü‚½‚Í•¨—ƒƒ‚ƒŠ‚ÌÅ‰ºˆÊ 1MB ‚ÉŠi”[‚³‚ê‚½‚»‚Ì‘¼‚Ì BIOS
 %index
 GetSystemInfo
 Œ»İ‚ÌƒVƒXƒeƒ€‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemInfo
 lpSystemInfo : [var] î•ñ‚ğó‚¯æ‚é SYSTEM_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11261,8 +10447,6 @@ lpSystemInfo : [var] î•ñ‚ğó‚¯æ‚é SYSTEM_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetSystemPowerStatus
 ƒVƒXƒeƒ€‚Ì“dŒ¹ó‘Ô‚ğæ“¾‚·‚éBó‘Ô‚ÍAƒVƒXƒeƒ€‚ª AC “dŒ¹‚Å“®ì‚µ‚Ä‚¢‚é‚© DC “dŒ¹‚Å“®ì‚µ‚Ä‚¢‚é‚©AƒoƒbƒeƒŠ[‚ªŒ»İ[“d’†‚©AƒoƒbƒeƒŠ[õ–½‚ª‚Ç‚ê‚­‚ç‚¢c‚Á‚Ä‚¢‚é‚©AƒoƒbƒeƒŠ[ƒZ[ƒo[‚ªƒIƒ“‚©ƒIƒt‚©‚ğ¦‚·B
-%group
-Win32 kernel32
 %prm
 lpSystemPowerStatus
 lpSystemPowerStatus : [var] ó‘Ôî•ñ‚ğó‚¯æ‚é SYSTEM_POWER_STATUS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11281,8 +10465,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 GetSystemPreferredUILanguages
 ƒVƒXƒeƒ€‚Ì—Dæ UI Œ¾Œê‚ğæ“¾‚·‚éBÚ×‚Í User Interface Language Management ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 dwFlags, pulNumLanguages, pwszLanguagesBuffer, pcchLanguagesBuffer
 dwFlags : [int] Œ¾ŒêŒ`®‚ÆƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ¯•Ê‚·‚éƒtƒ‰ƒOBˆÈ‰º‚Ìƒtƒ‰ƒO‚ÍƒVƒXƒeƒ€‚Ì—Dæ UI Œ¾Œê‚Ég—p‚·‚éŒ`®‚ğw’è‚·‚éBƒtƒ‰ƒO‚Í‘ŠŒİ”r‘¼“I‚ÅAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éB
@@ -11312,8 +10494,6 @@ MUI_LANGUAGE_ID ‚ªw’è‚³‚ê‚Ä‚¢‚éê‡Aæ“¾‚³‚ê‚éŒ¾Œê•¶š—ñ‚Íæ“ª‚Ì 0x ‚ğŠÜ‚Ü‚È‚¢
 %index
 GetSystemRegistryQuota
 ƒŒƒWƒXƒgƒŠ‚ÌŒ»İ‚ÌƒTƒCƒY‚ÆAƒVƒXƒeƒ€‚ÅƒŒƒWƒXƒgƒŠ‚ª’B‚·‚é‚±‚Æ‚ğ‹–‰Â‚³‚ê‚Ä‚¢‚éÅ‘åƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 pdwQuotaAllowed, pdwQuotaUsed
 pdwQuotaAllowed : [var] ‚±‚ÌƒVƒXƒeƒ€‚ÅƒŒƒWƒXƒgƒŠ‚ª’B‚·‚é‚±‚Æ‚ğ‹–‰Â‚³‚ê‚Ä‚¢‚éÅ‘åƒTƒCƒYiƒoƒCƒg’PˆÊj‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11332,8 +10512,6 @@ the Windows Headers ‚ğQÆB
 %index
 GetSystemTime
 Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğ‹¦’è¢ŠE(UTC)Œ`®‚Åæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemTime
 lpSystemTime : [var] Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğó‚¯æ‚é SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚É‚µ‚Ä‚Í‚È‚ç‚¸ANULL ‚ğw’è‚·‚é‚ÆƒAƒNƒZƒXˆá”½‚É‚È‚éB
@@ -11347,8 +10525,6 @@ lpSystemTime : [var] Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğó‚¯æ‚é SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 GetSystemTimeAdjustment
 ƒVƒXƒeƒ€‚ªƒNƒƒbƒN‚ÉüŠú“I’²®‚ğ“K—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µA‚»‚Ì‚æ‚¤‚È’²®‚Ì’l‚ÆŠúŠÔ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpTimeAdjustment, lpTimeIncrement, lpTimeAdjustmentDisabled
 lpTimeAdjustment : [var] ƒVƒXƒeƒ€‚ªÀÛ‚ÉƒJƒEƒ“ƒg‚·‚éŠÔ‚ªŒo‰ß‚·‚é‚²‚Æ‚ÉAŠÖ”‚ªƒNƒƒbƒN‚É‰ÁZ‚·‚é lpTimeIncrement 100 ƒiƒm•b’PˆÊ‚Ì”‚ğİ’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚Í lpTimeAdjustmentDisabled ‚ª FALSE ‚Ìê‡‚Ì‚İˆÓ–¡‚ğ‚ÂB
@@ -11371,8 +10547,6 @@ GetLocalTime
 %index
 GetSystemTimeAsFileTime
 Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğæ“¾‚·‚éBî•ñ‚Í‹¦’è¢ŠE (UTC) Œ`®‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemTimeAsFileTime
 lpSystemTimeAsFileTime : [var] Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğ UTC Œ`®‚Åó‚¯æ‚é FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11383,8 +10557,6 @@ lpSystemTimeAsFileTime : [var] Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğ UTC Œ`®‚Åó‚¯æ‚é FILETIME 
 %index
 GetSystemTimePreciseAsFileTime
 GetSystemTimePreciseAsFileTime ŠÖ”‚ÍA‰Â”\‚ÈŒÀ‚èÅ‚ƒŒƒxƒ‹‚Ì¸“x (<1us) ‚ÅŒ»İ‚ÌƒVƒXƒeƒ€“ú‚ğæ“¾‚·‚éBæ“¾‚³‚ê‚éî•ñ‚Í‹¦’è¢ŠE (UTC) Œ`®‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemTimeAsFileTime
 lpSystemTimeAsFileTime : [var] Œ^: LPFILETIME Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğ UTC Œ`®‚ÅŠÜ‚Ş FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11401,8 +10573,6 @@ QueryPerformanceCounter ‚Ü‚½‚Í KeQueryPerformanceCounter
 %index
 GetSystemTimes
 ƒVƒXƒeƒ€ƒ^ƒCƒ~ƒ“ƒOî•ñ‚ğæ“¾‚·‚éBƒ}ƒ‹ƒ`ƒvƒƒZƒbƒTƒVƒXƒeƒ€‚Å‚ÍA•Ô‚³‚ê‚é’l‚Í‚·‚×‚Ä‚ÌƒvƒƒZƒbƒT‚É‚í‚½‚éw’èŠÔ‚Ì‡Œv‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpIdleTime, lpKernelTime, lpUserTime
 lpIdleTime : [var] ƒVƒXƒeƒ€‚ªƒAƒCƒhƒ‹ó‘Ô‚Å‚ ‚Á‚½ŠÔ—Ê‚ğó‚¯æ‚é FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11422,8 +10592,6 @@ the Windows Headers ‚ğQÆB
 %index
 GetSystemWindowsDirectoryW
 ƒ}ƒ‹ƒ`ƒ†[ƒU[ƒVƒXƒeƒ€ã‚Ì‹¤—L Windows ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpBuffer, uSize
 lpBuffer : [wstr] ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BWindows ƒfƒBƒŒƒNƒgƒŠ‚ªƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚Å‚È‚¢ŒÀ‚èA‚±‚ÌƒpƒX‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ÅI‚í‚ç‚È‚¢B‚½‚Æ‚¦‚ÎAWindows ƒfƒBƒŒƒNƒgƒŠ‚ª C ƒhƒ‰ƒCƒuã‚Ì Windows ‚Æ‚¢‚¤–¼‘O‚Å‚ ‚éê‡A‚±‚ÌŠÖ”‚Åæ“¾‚³‚ê‚é Windows ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚Í C:\Windows ‚Æ‚È‚éBƒVƒXƒeƒ€‚ª C ƒhƒ‰ƒCƒu‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éê‡Aæ“¾‚³‚ê‚éƒpƒX‚Í C:\ ‚Æ‚È‚éB
@@ -11453,8 +10621,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetSystemWow64DirectoryW
 WOW64 ‚ªg—p‚·‚éƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpBuffer, uSize
 lpBuffer : [wstr] ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒpƒX‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ÅI‚í‚ç‚È‚¢B
@@ -11484,8 +10650,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetTapeParameters
 ƒe[ƒv‚Ü‚½‚Íƒe[ƒvƒhƒ‰ƒCƒu‚ğ‹Lq‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDevice, dwOperation, lpdwSize, lpTapeInformation
 hDevice : [intptr] î•ñ‚ğæ“¾‚·‚éƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚éB
@@ -11510,8 +10674,6 @@ dwOperation ‚É GET_TAPE_DRIVE_INFORMATION
 %index
 GetTapePosition
 ˜_—‚Ü‚½‚Íâ‘ÎƒuƒƒbƒN’PˆÊ‚Åƒe[ƒv‚ÌŒ»İ‚ÌƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDevice, dwPositionType, lpdwPartition, lpdwOffsetLow, lpdwOffsetHigh
 hDevice : [intptr] ƒe[ƒvˆÊ’u‚ğæ“¾‚·‚éƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ‚ğg—p‚µ‚Äì¬‚³‚ê‚éB
@@ -11534,8 +10696,6 @@ lpdwOffsetHigh : [var] Œ»İ‚Ìƒe[ƒvˆÊ’u‚ÌãˆÊƒrƒbƒg‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetTapeStatus
 ƒe[ƒvƒfƒoƒCƒX‚ªƒe[ƒvƒRƒ}ƒ“ƒh‚ğˆ—‚·‚é€”õ‚ª‚Å‚«‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDevice
 hDevice : [intptr] ƒfƒoƒCƒX‚Ìó‘Ô‚ğæ“¾‚·‚éƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚éB
@@ -11551,8 +10711,6 @@ NO_ERRORBŠÖ”‚ª¸”s‚µ‚½ê‡AˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 %index
 GetTempFileNameW
 ˆêƒtƒ@ƒCƒ‹—p‚Ì–¼‘O‚ğì¬‚·‚éBˆêˆÓ‚Ìƒtƒ@ƒCƒ‹–¼‚ª¶¬‚³‚ê‚½ê‡A‹ó‚Ìƒtƒ@ƒCƒ‹‚ªì¬‚³‚êA‚»‚Ìƒnƒ“ƒhƒ‹‚ª‰ğ•ú‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡Aƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚ª¶¬‚³‚ê‚éB(GetTempFileNameW)
-%group
-Win32 kernel32
 %prm
 lpPathName, lpPrefixString, uUnique, lpTempFileName
 lpPathName : [wstr] ƒtƒ@ƒCƒ‹–¼‚ÌƒfƒBƒŒƒNƒgƒŠƒpƒXBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í’ÊíAŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚É‚ÍƒsƒŠƒIƒh (.) ‚ğA‚Ü‚½‚Í GetTempPath ŠÖ”‚ÌŒ‹‰Ê‚ğw’è‚·‚éB•¶š—ñ‚Í MAX_PATH?14 •¶š‚æ‚è’·‚­‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡ GetTempFileName ‚Í¸”s‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Í¸”s‚·‚éB
@@ -11578,8 +10736,6 @@ GetTempFileName ŠÖ”‚ÍŸ‚ÌŒ`®‚Ìˆêƒtƒ@ƒCƒ‹–¼‚ğì¬‚·‚é: <path>\<pre><uuuu>.TMP
 %index
 GetTempPathW
 ˆêƒtƒ@ƒCƒ‹—p‚Éw’è‚³‚ê‚½ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 nBufferLength, lpBuffer
 nBufferLength : [int] lpBuffer ‚Å¯•Ê‚³‚ê‚é•¶š—ñƒoƒbƒtƒ@‚ÌƒTƒCƒY(TCHAR ’PˆÊ)B
@@ -11601,8 +10757,6 @@ MAX_PATH+1(261)B
 %index
 GetThreadErrorMode
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌƒGƒ‰[ƒ‚[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11620,8 +10774,6 @@ Win32 kernel32
 %index
 GetThreadGroupAffinity
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÌƒvƒƒZƒbƒTƒOƒ‹[ƒvƒAƒtƒBƒjƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, GroupAffinity
 hThread : [intptr] ƒvƒƒZƒbƒTƒOƒ‹[ƒvƒAƒtƒBƒjƒeƒB‚ğæ“¾‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -11643,8 +10795,6 @@ Windows 11 ‚¨‚æ‚Ñ Windows Server 2022 ˆÈ~‚Å‚ÍA64
 %index
 GetThreadIOPendingFlag
 w’è‚µ‚½ƒXƒŒƒbƒh‚ª I/O —v‹‚ğ•Û—¯’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, lpIOIsPending
 hThread : [intptr] ‘ÎÛƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -11666,8 +10816,6 @@ lpIOIsPending ‚ğİ’è‚µ‚Ä‚©‚ç–ß‚é‚Ü‚Å‚ÌŠÔ‚ÉA•Û—¯’†‚Ì I/O
 %index
 GetThreadId
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÌƒXƒŒƒbƒh¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Thread
 Thread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBƒAƒNƒZƒXŒ ‚ÌÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003: ƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -11686,8 +10834,6 @@ Thread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í
 %index
 GetThreadIdealProcessorEx
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ì—‘zƒvƒƒZƒbƒT‚ÌƒvƒƒZƒbƒT”Ô†‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, lpIdealProcessor
 hThread : [intptr] —‘zƒvƒƒZƒbƒT‚ğæ“¾‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -11707,8 +10853,6 @@ the Windows Headers ‚ğQÆB
 %index
 GetThreadInformation
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GetThreadInformation)
-%group
-Win32 kernel32
 %prm
 hThread, ThreadInformationClass, ThreadInformation, ThreadInformationSize
 hThread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Thread Security and Access Rights](/windows/desktop/ProcThread/thread-security-and-access-rights) ‚ğQÆB
@@ -11727,8 +10871,6 @@ ThreadInformationSize : [int] *ThreadInformation* ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½\‘¢‘Ì‚Ì
 %index
 GetThreadLocale
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌŒ»İ‚ÌƒƒP[ƒ‹‚ÌƒƒP[ƒ‹¯•Êq‚ğ•Ô‚·B’ˆÓ ‚±‚ÌŠÖ”‚ÍA‚½‚Æ‚¦‚ÎƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚È‚Ç‚Ì——R‚ÅƒŠƒŠ[ƒXŠÔ‚Å•Ï‰»‚·‚éƒf[ƒ^‚ğæ“¾‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11752,8 +10894,6 @@ Standards and Formats ƒƒP[ƒ‹A‚Ü‚½‚Í SetThreadLocale
 %index
 GetThreadPreferredUILanguages
 Œ»İ‚ÌƒXƒŒƒbƒh‚ÌƒXƒŒƒbƒh—Dæ UI Œ¾Œê‚ğæ“¾‚·‚éBÚ×‚Í User Interface Language Management ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 dwFlags, pulNumLanguages, pwszLanguagesBuffer, pcchLanguagesBuffer
 dwFlags : [int] Œ¾ŒêŒ`®‚ÆƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ¯•Ê‚·‚éƒtƒ‰ƒOBˆÈ‰º‚Ìƒtƒ‰ƒO‚ÍƒXƒŒƒbƒh‚Ì—Dæ UI Œ¾Œê‚Ég—p‚·‚éŒ¾ŒêŒ`®‚ğw’è‚·‚éBƒtƒ‰ƒO‚Í‘ŠŒİ”r‘¼“I‚ÅAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éB
@@ -11794,8 +10934,6 @@ LOCALE_CUSTOM_UNSPECIFIED ‚Ì 16
 %index
 GetThreadPriority
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ì—Dæ“x’l‚ğæ“¾‚·‚éB‚±‚Ì’l‚ÍAƒXƒŒƒbƒh‚ÌƒvƒƒZƒX‚Ì—Dæ“xƒNƒ‰ƒX‚Æ‘g‚İ‡‚í‚³‚Á‚ÄAƒXƒŒƒbƒh‚ÌŠî–{—Dæ“xƒŒƒxƒ‹‚ğŒˆ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread
 hThread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003: ƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -11822,8 +10960,6 @@ Windows ƒXƒgƒAƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éBWindows Phone 8.1: Windows Phone
 %index
 GetThreadPriorityBoost
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ì—Dæ“xƒu[ƒXƒg§Œä‚Ìó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, pDisablePriorityBoost
 hThread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -11840,8 +10976,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetThreadSelectorEntry
 w’è‚µ‚½ƒZƒŒƒNƒ^‚ÆƒXƒŒƒbƒh‚É‘Î‚·‚éƒfƒBƒXƒNƒŠƒvƒ^ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, dwSelector, lpSelectorEntry
 hThread : [intptr] w’è‚µ‚½ƒZƒŒƒNƒ^‚ğŠÜ‚ŞƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -11864,8 +10998,6 @@ WriteProcessMemory ŠÖ”‚ÍüŒ`‰¼‘zƒAƒhƒŒƒX‚ğg—p‚·‚éB
 %index
 GetThreadTimes
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ìƒ^ƒCƒ~ƒ“ƒOî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, lpCreationTime, lpExitTime, lpKernelTime, lpUserTime
 hThread : [intptr] ƒ^ƒCƒ~ƒ“ƒOî•ñ‚ğæ“¾‚µ‚½‚¢ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: ƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -11892,8 +11024,6 @@ Functions ‚ğQÆBƒXƒŒƒbƒh‚ÌƒJ[ƒlƒ‹ƒ‚[ƒh‚¨‚æ‚Ñƒ†[ƒU[ƒ‚[ƒhŠÔ‚ÍŠÔ—Ê‚Å‚ ‚é
 %index
 GetThreadUILanguage
 Œ»İ‚ÌƒXƒŒƒbƒh‚ÌÅ‰‚Ìƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXŒ¾Œê‚ÌŒ¾Œê¯•Êq‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11919,8 +11049,6 @@ GetThreadPreferredUILanguages
 %index
 GetTickCount
 ƒVƒXƒeƒ€‚ª‹N“®‚µ‚Ä‚©‚ç‚ÌŒo‰ßƒ~ƒŠ•b”‚ğæ“¾‚·‚é(Å‘å 49.7 “ú)B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11939,8 +11067,6 @@ GetTickCount ‚Ì•ª‰ğ”\‚ÍƒVƒXƒeƒ€ƒ^ƒCƒ}[‚Ì•ª‰ğ”\(’Êí 10~16 ƒ~ƒŠ•b)‚É§ŒÀ‚³‚ê‚éB
 %index
 GetTickCount64
 ƒVƒXƒeƒ€‚ª‹N“®‚µ‚Ä‚©‚ç‚ÌŒo‰ßƒ~ƒŠ•b”‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -11960,8 +11086,6 @@ _WIN32_WINNT ‚ğ 0x0600 ˆÈã‚É’è‹`‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetTimeFormatW
 ‚ğA¯•Êq‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚Ì•¶š—ñ‚Æ‚µ‚ÄƒtƒH[ƒ}ƒbƒg‚·‚éBŠÖ”‚Íw’è‚³‚ê‚½‚Ü‚½‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Ì‚¢‚¸‚ê‚©‚ğƒtƒH[ƒ}ƒbƒg‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, dwFlags, lpTime, lpFormat, lpTimeStr, cchTime
 Locale : [int] ƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ğg—p‚µ‚ÄƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB
@@ -11998,8 +11122,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetTimeFormatEx
 ‚ğA–¼‘O‚Åw’è‚µ‚½ƒƒP[ƒ‹—p‚Ì•¶š—ñ‚Æ‚µ‚ÄƒtƒH[ƒ}ƒbƒg‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwFlags, lpTime, lpFormat, lpTimeStr, cchTime
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍˆÈ‰º‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©B
@@ -12040,8 +11162,6 @@ LOCALE_STIMEFORMAT ‚ğw’è‚µ‚Ä GetLocaleInfoEx
 %index
 GetTimeZoneInformation
 Œ»İ‚Ìƒ^ƒCƒ€ƒ][ƒ“İ’è‚ğæ“¾‚·‚éB‚±‚ê‚ç‚Ìİ’è‚Í‹¦’è¢ŠE (UTC) ‚Æƒ[ƒJƒ‹ŠÔ‚Ì•ÏŠ·‚ğ§Œä‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpTimeZoneInformation
 lpTimeZoneInformation : [var] Œ»İ‚Ìİ’è‚ğó‚¯æ‚é TIME_ZONE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -12061,8 +11181,6 @@ DaylightName ƒƒ“ƒo‚ÍAŒ»İ‚Ìƒ†[ƒU[Šù’è UI Œ¾Œê‚É]‚Á‚Äƒ[ƒJƒ‰ƒCƒY‚³‚ê‚éB
 %index
 GetTimeZoneInformationForYear
 w’è‚µ‚½”N‚Æƒ^ƒCƒ€ƒ][ƒ“‚Ìƒ^ƒCƒ€ƒ][ƒ“İ’è‚ğæ“¾‚·‚éB‚±‚ê‚ç‚Ìİ’è‚Í‹¦’è¢ŠE (UTC) ‚Æƒ[ƒJƒ‹ŠÔ‚Ì•ÏŠ·‚ğ§Œä‚·‚éB
-%group
-Win32 kernel32
 %prm
 wYear, pdtzi, ptzi
 wYear : [int] ƒ^ƒCƒ€ƒ][ƒ“İ’è‚ğæ“¾‚·‚é”NBwYear ƒpƒ‰ƒ[ƒ^‚Íƒ[ƒJƒ‹’l‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -12084,8 +11202,6 @@ StandardName ‚Æ DaylightName ƒƒ“ƒo‚ÍAŒ»İ‚Ìƒ†[ƒU[Šù’è UI Œ¾Œê‚É]‚Á‚Äƒ[ƒJƒ
 %index
 GetUILanguageInfo
 ƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ UI Œ¾Œê‚ÉŠÖ‚·‚é‚³‚Ü‚´‚Ü‚Èî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, pwmszLanguage, pwszFallbackLanguages, pcchFallbackLanguages, pAttributes
 dwFlags : [int] w’è‚µ‚½Œ¾Œê‚ÌŒ`®‚ğ’è‹`‚·‚éƒtƒ‰ƒOBƒtƒ‰ƒO‚Í‘ŠŒİ”r‘¼“I‚ÅAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éB
@@ -12123,8 +11239,6 @@ GetUILanguageInfo ‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚·•K—v‚ª‚ ‚éB3
 %index
 GetUmsCompletionListEvent
 w’è‚µ‚½ƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) Š®—¹ƒŠƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒCƒxƒ“ƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 UmsCompletionList, UmsCompletionEvent
 UmsCompletionList : [intptr] UMS Š®—¹ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateUmsCompletionList ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚·‚éB
@@ -12146,8 +11260,6 @@ DequeueUmsCompletionListItems
 %index
 GetUmsSystemThreadInformation
 w’è‚µ‚½ƒXƒŒƒbƒh‚ª UMS ƒXƒPƒWƒ…[ƒ‰ƒXƒŒƒbƒhAUMS ƒ[ƒJ[ƒXƒŒƒbƒhA”ñ UMS ƒXƒŒƒbƒh‚Ì‚Ç‚ê‚Å‚ ‚é‚©‚ğƒNƒGƒŠ‚·‚éB
-%group
-Win32 kernel32
 %prm
 ThreadHandle, SystemThreadInfo
 ThreadHandle : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BƒXƒŒƒbƒhƒnƒ“ƒhƒ‹‚Í THREAD_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -12173,8 +11285,6 @@ GetUmsSystemThreadInformation
 %index
 GetUserDefaultGeoName
 ƒ†[ƒU[‚ÌŠù’è’n—“IˆÊ’u‚Ì 2 •¶š‚Ì‘Û•W€‰»‹@\ (ISO) 3166-1 ƒR[ƒh‚Ü‚½‚Í”’l‚Ì‘˜A (UN) Series M, Number 49 (M.49) ƒR[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 geoName, geoNameCount
 geoName : [wstr] ‚±‚ÌŠÖ”‚ªƒ†[ƒU[‚ÌŠù’è’n—“IˆÊ’u‚Ì null I’[‚³‚ê‚½ 2 •¶š‚Ì ISO 3166-1 ‚Ü‚½‚Í”’l‚Ì UN M.49 ƒR[ƒh‚ğ‘‚«‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -12197,8 +11307,6 @@ geoNameCount ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª 0 ‚Ìê‡AŠÖ”‚ªo—Íƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚é•¶š”B‚»
 %index
 GetUserDefaultLCID
 ƒ†[ƒU[Šù’èƒƒP[ƒ‹‚ÌƒƒP[ƒ‹¯•Êq‚ğ•Ô‚·B’ˆÓ ƒ†[ƒU[Šù’èƒƒP[ƒ‹‚ªƒJƒXƒ^ƒ€ƒƒP[ƒ‹‚Å‚ ‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚»‚Ì’l‚Å³Šm‚Éƒf[ƒ^‚ğƒ^ƒO•t‚¯‚µ‚½‚èŒğŠ·‚µ‚½‚è‚Å‚«‚È‚¢B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -12220,8 +11328,6 @@ Persistent Locale Data ‚ğQÆB
 %index
 GetUserDefaultLangID
 Œ»İ‚Ìƒ†[ƒU[‚Ì’nˆæŒ`®İ’è‚ÌŒ¾Œê¯•Êq‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -12239,8 +11345,6 @@ Constants and Strings ‚ğQÆB
 %index
 GetUserDefaultLocaleName
 ƒ†[ƒU[Šù’èƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB’ˆÓ Windows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAGetUserDefaultLCID ‚æ‚è‚à‚±‚ÌŠÖ”‚ğ—Dæ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, cchLocaleName
 lpLocaleName : [wstr] ‚±‚ÌŠÖ”‚ªƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -12266,8 +11370,6 @@ Persistent Locale Data ‚ğQÆB
 %index
 GetUserDefaultUILanguage
 Œ»İ‚Ìƒ†[ƒU[‚Ìƒ†[ƒU[ UI Œ¾Œê‚ÌŒ¾Œê¯•Êq‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -12289,8 +11391,6 @@ GetUserDefaultUILanguage ŠÖ”‚ÍŒ»İ‚Ìƒ†[ƒU[Œ¾Œê‚ÌŒ¾Œê¯•Êq‚ğæ“¾‚·‚éBMUI
 %index
 GetUserGeoID
 ƒ†[ƒU[‚Ì’n—“IˆÊ’u‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBÚ×‚Í Table of Geographical Locations ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 GeoClass
 GeoClass : [int] •Ô‚·’n—“IˆÊ’uƒNƒ‰ƒXB‰Â”\‚È’l‚Í SYSGEOCLASS —ñ‹“Œ^‚Å’è‹`‚³‚ê‚éB
@@ -12306,8 +11406,6 @@ GEOID_NOT_AVAILABLE ‚ğ•Ô‚·B
 %index
 GetUserPreferredUILanguages
 ƒ†[ƒU[‚Ì—Dæ UI Œ¾Œê‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBÚ×‚Í User Interface Language Management ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 dwFlags, pulNumLanguages, pwszLanguagesBuffer, pcchLanguagesBuffer
 dwFlags : [int] Œ¾ŒêŒ`®‚ÆƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ¯•Ê‚·‚éƒtƒ‰ƒOBˆÈ‰º‚Ìƒtƒ‰ƒO‚Í•\¦Œ¾ŒêƒŠƒXƒg‚Ég—p‚·‚éŒ¾ŒêŒ`®‚ğw’è‚·‚éBƒtƒ‰ƒO‚Í‘ŠŒİ”r‘¼“I‚ÅAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éB | ’l | ˆÓ–¡ | | --- | --- | | **MUI_LANGUAGE_ID** | Œ¾Œê•¶š—ñ‚ğ [Œ¾Œê¯•Êq](/windows/desktop/Intl/language-identifiers) ‚Åæ“¾‚·‚é | | **MUI_LANGUAGE_NAME** | Œ¾Œê•¶š—ñ‚ğ [Œ¾Œê–¼](/windows/desktop/Intl/language-names) Œ`®‚Åæ“¾‚·‚éB |
@@ -12342,8 +11440,6 @@ Language Interface Pack (LIP) Œ¾Œê‚ğ 1
 %index
 GetVersion
 Windows 8.1 ‚ÌƒŠƒŠ[ƒX‚É”º‚¢AGetVersion API ‚Ì“®ì‚ÍƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€ƒo[ƒWƒ‡ƒ“‚Ì•Ô‚è’l‚É‚¨‚¢‚Ä•ÏX‚³‚ê‚½BGetVersion ŠÖ”‚ª•Ô‚·’l‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ}ƒjƒtƒFƒXƒg•û–@‚ÉˆË‘¶‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -12367,8 +11463,6 @@ GetVersionEx ŠÖ”‚ÍAGetVersion ‚ª•Ô‚·ƒpƒbƒN‚³‚ê‚½ DWORD
 %index
 GetVersionExW
 Windows 8.1 ‚ÌƒŠƒŠ[ƒX‚É”º‚¢AGetVersionEx API ‚Ì“®ì‚ÍƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€ƒo[ƒWƒ‡ƒ“‚Ì•Ô‚è’l‚É‚¨‚¢‚Ä•ÏX‚³‚ê‚½BGetVersionEx ŠÖ”‚ª•Ô‚·’l‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ}ƒjƒtƒFƒXƒg•û–@‚ÉˆË‘¶‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpVersionInformation
 lpVersionInformation : [var] ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€î•ñ‚ğó‚¯æ‚é OSVERSIONINFO ‚Ü‚½‚Í OSVERSIONINFOEX \‘¢‘ÌB
@@ -12395,8 +11489,6 @@ Operating System Version ‚ğQÆBGetSystemMetrics
 %index
 GetVolumeInformationW
 w’è‚µ‚½ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Æƒ{ƒŠƒ…[ƒ€‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpRootPathName, lpVolumeNameBuffer, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags, lpFileSystemNameBuffer, nFileSystemNameSize
 lpRootPathName : [wstr] ‹Lq‚·‚éƒ{ƒŠƒ…[ƒ€‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ìƒ‹[ƒg‚ªg—p‚³‚ê‚éB––”ö‚ÌƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ª•K—v‚Å‚ ‚éB‚½‚Æ‚¦‚ÎA\\\\MyServer\\MyShare ‚Í "\\\\MyServer\\MyShare\\" ‚Æ‚µ‚ÄAC ƒhƒ‰ƒCƒu‚Í "C:\\" ‚Æ‚µ‚Äw’è‚·‚éB
@@ -12436,8 +11528,6 @@ DoubleSpace
 %index
 GetVolumeInformationByHandleW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Æƒ{ƒŠƒ…[ƒ€‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpVolumeNameBuffer, nVolumeNameSize, lpVolumeSerialNumber, lpMaximumComponentLength, lpFileSystemFlags, lpFileSystemNameBuffer, nFileSystemNameSize
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -12469,8 +11559,6 @@ Scale-out File Shares (SO) | No | | Cluster Shared Volume File System
 %index
 GetVolumeNameForVolumeMountPointW
 w’è‚µ‚½ƒ{ƒŠƒ…[ƒ€ƒ}ƒEƒ“ƒgƒ|ƒCƒ“ƒgiƒhƒ‰ƒCƒuƒŒƒ^[Aƒ{ƒŠƒ…[ƒ€ GUID ƒpƒXA‚Ü‚½‚Íƒ}ƒEƒ“ƒg‚³‚ê‚½ƒtƒHƒ‹ƒ_j‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ{ƒŠƒ…[ƒ€‚Ìƒ{ƒŠƒ…[ƒ€ GUID ƒpƒX‚ğæ“¾‚·‚éB(GetVolumeNameForVolumeMountPointW)
-%group
-Win32 kernel32
 %prm
 lpszVolumeMountPoint, lpszVolumeName, cchBufferLength
 lpszVolumeMountPoint : [wstr] ƒ}ƒEƒ“ƒg‚³‚ê‚½ƒtƒHƒ‹ƒ_‚ÌƒpƒXi‚½‚Æ‚¦‚Î "Y:\MountX\\"j‚Ü‚½‚Íƒhƒ‰ƒCƒuƒŒƒ^[i‚½‚Æ‚¦‚Î "X:\\"j‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B•¶š—ñ‚Í––”ö‚ÌƒoƒbƒNƒXƒ‰ƒbƒVƒ… ('\\') ‚ÅI‚í‚é•K—v‚ª‚ ‚éB
@@ -12495,8 +11583,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚éB
 %index
 GetVolumePathNameW
 w’è‚µ‚½ƒpƒX‚ªƒ}ƒEƒ“ƒg‚³‚ê‚Ä‚¢‚éƒ{ƒŠƒ…[ƒ€ƒ}ƒEƒ“ƒgƒ|ƒCƒ“ƒg‚ğæ“¾‚·‚éB(GetVolumePathNameW)
-%group
-Win32 kernel32
 %prm
 lpszFileName, lpszVolumePathName, cchBufferLength
 lpszFileName : [wstr] “ü—ÍƒpƒX•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bâ‘Î‚¨‚æ‚Ñ‘Š‘Î‚Ìƒtƒ@ƒCƒ‹EƒfƒBƒŒƒNƒgƒŠ–¼i‚½‚Æ‚¦‚Î ".."j‚Í‚±‚ÌƒpƒX‚Åó‚¯“ü‚ê‚ç‚ê‚éBƒ{ƒŠƒ…[ƒ€Cüq‚È‚µ‚Å‘Š‘ÎƒfƒBƒŒƒNƒgƒŠ‚Ü‚½‚Íƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚½ê‡A**GetVolumePathName** ‚Íƒu[ƒgƒ{ƒŠƒ…[ƒ€‚Ìƒhƒ‰ƒCƒuƒŒƒ^[‚ğ•Ô‚·B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª‹ó•¶š—ñ "" ‚Ìê‡AŠÖ”‚Í¸”s‚·‚é‚ªÅŒã‚ÌƒGƒ‰[‚Í **ERROR_SUCCESS** ‚Éİ’è‚³‚ê‚éB
@@ -12543,8 +11629,6 @@ Volume File System (CsvFS)|Yes Resilient File System (ReFS)|Yes SMB
 %index
 GetVolumePathNamesForVolumeNameW
 w’è‚µ‚½ƒ{ƒŠƒ…[ƒ€‚É‘Î‚·‚éƒhƒ‰ƒCƒuƒŒƒ^[‚Æƒ}ƒEƒ“ƒg‚³‚ê‚½ƒtƒHƒ‹ƒ_ƒpƒX‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB(GetVolumePathNamesForVolumeNameW)
-%group
-Win32 kernel32
 %prm
 lpszVolumeName, lpszVolumePathNames, cchBufferLength, lpcchReturnLength
 lpszVolumeName : [wstr] ƒ{ƒŠƒ…[ƒ€‚Ìƒ{ƒŠƒ…[ƒ€ GUID ƒpƒXBƒ{ƒŠƒ…[ƒ€ GUID ƒpƒX‚Í "\\\\?\\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\\" ‚ÌŒ`®‚Å‚ ‚éB
@@ -12568,8 +11652,6 @@ Windows 8 ‚¨‚æ‚Ñ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚
 %index
 GetWindowsDirectoryW
 Windows ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpBuffer, uSize
 lpBuffer : [wstr] ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BWindows ƒfƒBƒŒƒNƒgƒŠ‚ªƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚Å‚È‚¢ŒÀ‚èA‚±‚ÌƒpƒX‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ÅI‚í‚ç‚È‚¢B‚½‚Æ‚¦‚ÎAWindows ƒfƒBƒŒƒNƒgƒŠ‚ª C ƒhƒ‰ƒCƒuã‚Ì Windows ‚Æ‚¢‚¤–¼‘O‚Å‚ ‚éê‡A‚±‚ÌŠÖ”‚Åæ“¾‚³‚ê‚é Windows ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚Í C:\Windows ‚Æ‚È‚éBƒVƒXƒeƒ€‚ª C ƒhƒ‰ƒCƒu‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éê‡Aæ“¾‚³‚ê‚éƒpƒX‚Í C:\ ‚Æ‚È‚éB
@@ -12602,8 +11684,6 @@ GetSystemWindowsDirectory ŠÖ”‚Æ“¯—l‚ÉƒVƒXƒeƒ€ Windows
 %index
 GetWriteWatch
 ‰¼‘zƒƒ‚ƒŠ—Ìˆæ“à‚Å‘‚«‚Ü‚ê‚½ƒy[ƒW‚ÌƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, lpBaseAddress, dwRegionSize, lpAddresses, lpdwCount, lpdwGranularity
 dwFlags : [int] ŠÖ”‚ª‘‚«‚İ’ÇÕó‘Ô‚ğƒŠƒZƒbƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·B‘‚«‚İ’ÇÕó‘Ô‚ğƒŠƒZƒbƒg‚·‚é‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ WRITE_WATCH_FLAG_RESET ‚Éİ’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª 0 ‚Ìê‡AGetWriteWatch ‚Í‘‚«‚İ’ÇÕó‘Ô‚ğƒŠƒZƒbƒg‚µ‚È‚¢BÚ×‚Í‚±‚ÌƒgƒsƒbƒN‚Ì”õlƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -12632,8 +11712,6 @@ ResetWriteWatch
 %index
 GlobalAddAtomW
 ƒOƒ[ƒoƒ‹ƒAƒgƒ€ƒe[ƒuƒ‹‚É•¶š—ñ‚ğ’Ç‰Á‚µA‚»‚Ì•¶š—ñ‚ğ¯•Ê‚·‚éˆêˆÓ‚Ì’liƒAƒgƒ€j‚ğ•Ô‚·B(GlobalAddAtomW)
-%group
-Win32 kernel32
 %prm
 lpString
 lpString : [wstr] Œ^: LPCTSTR ’Ç‰Á‚·‚é null I’[•¶š—ñB•¶š—ñ‚ÍÅ‘å 255 ƒoƒCƒg‚ÌƒTƒCƒY‚ğ‚Â‚±‚Æ‚ª‚Å‚«‚éB‘å•¶š¬•¶š‚Ì‚İ‚ªˆÙ‚È‚é•¶š—ñ‚Í“¯ˆê‚Æ‚İ‚È‚³‚ê‚éB‚±‚Ì–¼‘O‚ÅÅ‰‚Éƒe[ƒuƒ‹‚É’Ç‰Á‚³‚ê‚½•¶š—ñ‚Ì‘å•¶š¬•¶š‚ª•Û‚³‚êAGlobalGetAtomName ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB‚ ‚é‚¢‚ÍAMAKEINTATOM ƒ}ƒNƒ‚ğg—p‚µ‚Ä•ÏŠ·‚µ‚½®”ƒAƒgƒ€‚ğg—p‚·‚é‚±‚Æ‚à‚Å‚«‚éBÚ×‚Í”õl‚ğQÆB
@@ -12666,8 +11744,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GlobalAddAtomExW
 ƒOƒ[ƒoƒ‹ƒAƒgƒ€ƒe[ƒuƒ‹‚É•¶š—ñ‚ğ’Ç‰Á‚µA‚»‚Ì•¶š—ñ‚ğ¯•Ê‚·‚éˆêˆÓ‚Ì’liƒAƒgƒ€j‚ğ•Ô‚·B(GlobalAddAtomExW)
-%group
-Win32 kernel32
 %prm
 lpString, Flags
 lpString : [wstr] ’Ç‰Á‚·‚é null I’[•¶š—ñB•¶š—ñ‚ÍÅ‘å 255 ƒoƒCƒg‚ÌƒTƒCƒY‚ğ‚Â‚±‚Æ‚ª‚Å‚«‚éB‘å•¶š¬•¶š‚Ì‚İ‚ªˆÙ‚È‚é•¶š—ñ‚Í“¯ˆê‚Æ‚İ‚È‚³‚ê‚éB‚±‚Ì–¼‘O‚ÅÅ‰‚Éƒe[ƒuƒ‹‚É’Ç‰Á‚³‚ê‚½•¶š—ñ‚Ì‘å•¶š¬•¶š‚ª•Û‚³‚êAGlobalGetAtomName ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB‚ ‚é‚¢‚ÍAMAKEINTATOM ƒ}ƒNƒ‚ğg—p‚µ‚Ä•ÏŠ·‚µ‚½®”ƒAƒgƒ€‚ğg—p‚·‚é‚±‚Æ‚à‚Å‚«‚éBÚ×‚Í”õl‚ğQÆB
@@ -12691,8 +11767,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GlobalAlloc
 w’è‚³‚ê‚½ƒoƒCƒg”‚ğƒq[ƒv‚©‚çŠ„‚è“–‚Ä‚éB(GlobalAlloc)
-%group
-Win32 kernel32
 %prm
 uFlags, dwBytes
 uFlags : [int] 
@@ -12716,8 +11790,6 @@ GlobalFree ‚ğg‚¤(LocalFree ‚Å‚ÍˆÀ‘S‚Å‚È‚¢)B
 %index
 GlobalCompact
 (no summary)
-%group
-Win32 kernel32
 %prm
 dwMinFree
 dwMinFree : [int] 
@@ -12728,8 +11800,6 @@ dwMinFree : [int]
 %index
 GlobalDeleteAtom
 ƒOƒ[ƒoƒ‹•¶š—ñƒAƒgƒ€‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·BƒAƒgƒ€‚ÌQÆƒJƒEƒ“ƒg‚ª 0 ‚É‚È‚é‚ÆAGlobalDeleteAtom ‚Í‚»‚ÌƒAƒgƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½•¶š—ñ‚ğƒOƒ[ƒoƒ‹ƒAƒgƒ€ƒe[ƒuƒ‹‚©‚çíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 nAtom
 nAtom : [int] Œ^: ATOM íœ‚·‚éƒAƒgƒ€‚Æ•¶š—ñB
@@ -12755,8 +11825,6 @@ nAtom : [int] Œ^: ATOM íœ‚·‚éƒAƒgƒ€‚Æ•¶š—ñB
 %index
 GlobalFindAtomW
 ƒOƒ[ƒoƒ‹ƒAƒgƒ€ƒe[ƒuƒ‹‚©‚çw’è‚µ‚½•¶š—ñ‚ğŒŸõ‚µA‚»‚Ì•¶š—ñ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒOƒ[ƒoƒ‹ƒAƒgƒ€‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString
 lpString : [wstr] Œ^: LPCTSTR ŒŸõ‚·‚é null I’[•¶š—ñB‚ ‚é‚¢‚ÍAMAKEINTATOM ƒ}ƒNƒ‚ğg—p‚µ‚Ä•ÏŠ·‚µ‚½®”ƒAƒgƒ€‚ğg—p‚·‚é‚±‚Æ‚à‚Å‚«‚éBÚ×‚Í”õl‚ğQÆB
@@ -12782,8 +11850,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GlobalFix
 (no summary)
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] 
@@ -12794,8 +11860,6 @@ hMem : [int]
 %index
 GlobalFlags
 w’è‚µ‚½ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í GlobalAlloc ‚Ü‚½‚Í GlobalReAlloc ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -12818,8 +11882,6 @@ Global and Local Functions ‚ğQÆB
 %index
 GlobalGetAtomNameW
 w’è‚µ‚½ƒOƒ[ƒoƒ‹ƒAƒgƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½•¶š—ñ‚ÌƒRƒs[‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 nAtom, lpBuffer, nSize
 nAtom : [int] Œ^: ATOM æ“¾‚·‚é•¶š—ñ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒOƒ[ƒoƒ‹ƒAƒgƒ€B
@@ -12848,8 +11910,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GlobalHandle
 w’è‚µ‚½ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 pMem
 pMem : [intptr] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒuƒƒbƒN‚ÌÅ‰‚ÌƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚Í GlobalLock ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -12869,8 +11929,6 @@ GlobalAlloc ŠÖ”‚ª GMEM_MOVEABLE
 %index
 GlobalLock
 ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ğƒƒbƒN‚µAƒIƒuƒWƒFƒNƒg‚Ìƒƒ‚ƒŠƒuƒƒbƒN‚ÌÅ‰‚ÌƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BGlobalAlloc ‚Ü‚½‚Í GlobalReAlloc ‚Åæ“¾‚·‚éB
@@ -12891,8 +11949,6 @@ hMem : [int] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BGlobalAlloc ‚Ü‚½‚Í Global
 %index
 GlobalMemoryStatus
 ƒVƒXƒeƒ€‚Ì•¨—‚¨‚æ‚Ñ‰¼‘zƒƒ‚ƒŠ‚Ì—¼•û‚ÌŒ»İ‚Ìg—p‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GlobalMemoryStatus)
-%group
-Win32 kernel32
 %prm
 lpBuffer
 lpBuffer : [var] MEMORYSTATUS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BGlobalMemoryStatus ŠÖ”‚ÍŒ»İ‚Ìƒƒ‚ƒŠ‰Â—p«‚ÉŠÖ‚·‚éî•ñ‚ğ‚±‚Ì\‘¢‘Ì‚ÉŠi”[‚·‚éB
@@ -12913,8 +11969,6 @@ MEMORYSTATUS \‘¢‘Ì‚Ì dwTotalPhys ƒƒ“ƒo‚Éí‚É 2GB ‚ğ•Ô‚·B“¯—l‚ÉA—˜—p‰Â”\‚È‡Œ
 %index
 GlobalMemoryStatusEx
 ƒVƒXƒeƒ€‚Ì•¨—‚¨‚æ‚Ñ‰¼‘zƒƒ‚ƒŠ‚Ì—¼•û‚ÌŒ»İ‚Ìg—p‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GlobalMemoryStatusEx)
-%group
-Win32 kernel32
 %prm
 lpBuffer
 lpBuffer : [var] Œ»İ‚Ìƒƒ‚ƒŠ‰Â—p«‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é MEMORYSTATUSEX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -12934,8 +11988,6 @@ MEMORYSTATUSEX \‘¢‘Ì‚Ì ullAvailPhys ƒƒ“ƒo‚Í‚·‚×‚Ä‚Ì NUMA ƒm[ƒh‚Ìƒƒ‚ƒŠ‚ğŠÜ‚Ş
 %index
 GlobalReAlloc
 w’è‚µ‚½ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚Ü‚½‚Í‘®«‚ğ•ÏX‚·‚éBƒTƒCƒY‚Í‘‰Á‚Ü‚½‚ÍŒ¸­‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hMem, dwBytes, uFlags
 hMem : [int] ÄŠm•Û‚·‚éƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í GlobalAlloc ‚Ü‚½‚Í GlobalReAlloc ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -12959,8 +12011,6 @@ GlobalLock ŠÖ”‚ğg—p‚·‚éBGlobalReAlloc
 %index
 GlobalSize
 w’è‚³‚ê‚½ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÌŒ»İ‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BGlobalAlloc ‚Ü‚½‚Í GlobalReAlloc ‚Åæ“¾‚·‚éB
@@ -12978,8 +12028,6 @@ GlobalFlags ‚ğg‚¤B
 %index
 GlobalUnWire
 (no summary)
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] 
@@ -12990,8 +12038,6 @@ hMem : [int]
 %index
 GlobalUnfix
 (no summary)
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] 
@@ -13002,8 +12048,6 @@ hMem : [int]
 %index
 GlobalUnlock
 GMEM_MOVEABLE ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒƒbƒNƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·B
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BGlobalAlloc ‚Ü‚½‚Í GlobalReAlloc ‚Åæ“¾‚·‚éB
@@ -13024,8 +12068,6 @@ ERROR_NOT_LOCKED ‚ğ•ñ‚·‚éB
 %index
 GlobalWire
 (no summary)
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] 
@@ -13036,8 +12078,6 @@ hMem : [int]
 %index
 Heap32First
 ƒvƒƒZƒX‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½ƒq[ƒv‚ÌÅ‰‚ÌƒuƒƒbƒN‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lphe, th32ProcessID, th32HeapID
 lphe : [var] HEAPENTRY32 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13062,8 +12102,6 @@ th32HeapID : [int] —ñ‹“‘ÎÛ‚Ìƒq[ƒv‚Ì¯•ÊqB
 %index
 Heap32ListFirst
 w’è‚µ‚½ƒvƒƒZƒX‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½Å‰‚Ìƒq[ƒv‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lphl
 hSnapshot : [intptr] CreateToolhelp32Snapshot ŠÖ”‚Ì‘O‰ñ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -13087,8 +12125,6 @@ ERROR_NO_MORE_FILES ƒGƒ‰[’l‚ª•Ô‚³‚ê‚éB
 %index
 Heap32ListNext
 ƒvƒƒZƒX‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½Ÿ‚Ìƒq[ƒv‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lphl
 hSnapshot : [intptr] CreateToolhelp32Snapshot ŠÖ”‚Ì‘O‰ñ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -13108,8 +12144,6 @@ lphl : [var] HEAPLIST32 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 Heap32Next
 ƒvƒƒZƒX‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½ƒq[ƒv‚ÌŸ‚ÌƒuƒƒbƒN‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lphe
 lphe : [var] HEAPENTRY32 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13132,8 +12166,6 @@ Heap32Next ‚ğg—p‚µ‚Ä‚¢‚éŠÔAƒ^[ƒQƒbƒgƒvƒƒZƒX‚Ö‚ÌQÆ‚ğˆÛ‚·‚×‚«‚Å‚ ‚éBHeap3
 %index
 HeapCompact
 w’è‚µ‚½ƒq[ƒv“à‚ÅƒRƒ~ƒbƒgÏ‚İ‚ÌÅ‘å‚Ì‹ó‚«ƒuƒƒbƒN‚ÌƒTƒCƒY‚ğ•Ô‚·BDisable heap coalesce on free ƒOƒ[ƒoƒ‹ƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‚±‚ÌŠÖ”‚Íƒq[ƒv“à‚Ì—×Ú‚·‚é‹ó‚«ƒƒ‚ƒŠƒuƒƒbƒN‚àŒ‹‡‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHeap, dwFlags
 hHeap : [intptr] ƒq[ƒv‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚Ü‚½‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13165,8 +12197,6 @@ HeapCompact
 %index
 HeapCreate
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ªg—p‚Å‚«‚éƒvƒ‰ƒCƒx[ƒgƒq[ƒvƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒvƒƒZƒX‰¼‘zƒAƒhƒŒƒX‹óŠÔ‚É—Ìˆæ‚ğ—\–ñ‚µAw’è‚³‚ê‚½‰Šú•”•ª‚É•¨—ƒXƒgƒŒ[ƒW‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 kernel32
 %prm
 flOptions, dwInitialSize, dwMaximumSize
 flOptions : [int] 
@@ -13190,8 +12220,6 @@ HeapCreate
 %index
 HeapDestroy
 w’è‚³‚ê‚½ƒq[ƒvƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éBƒvƒ‰ƒCƒx[ƒgƒq[ƒvƒIƒuƒWƒFƒNƒg‚Ì‚·‚×‚Ä‚Ìƒy[ƒW‚ğƒfƒRƒ~ƒbƒg‚¨‚æ‚Ñ‰ğ•ú‚µAƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHeap
 hHeap : [intptr] ”jŠü‚·‚éƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹BHeapCreate ‚Åæ“¾‚·‚éBGetProcessHeap ‚ª•Ô‚·ƒvƒƒZƒXƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğg‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -13209,8 +12237,6 @@ hHeap : [intptr] ”jŠü‚·‚éƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹BHeapCreate ‚Åæ“¾‚·‚éBGetProcessHe
 %index
 HeapFree
 HeapAlloc ‚Ü‚½‚Í HeapReAlloc ‚Åƒq[ƒv‚©‚çŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠƒuƒƒbƒN‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHeap, dwFlags, lpMem
 hHeap : [intptr] ‰ğ•ú‚·‚éƒƒ‚ƒŠƒuƒƒbƒN‚ğŠÜ‚Şƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹BHeapCreate ‚Ü‚½‚Í GetProcessHeap ‚Åæ“¾‚·‚éB
@@ -13232,8 +12258,6 @@ HeapFree ‚Å‰ğ•ú‚³‚ê‚½ƒƒ‚ƒŠ‚ÍˆêØQÆ‚µ‚Ä‚Í‚È‚ç‚È‚¢BHeapSize
 %index
 HeapLock
 w’è‚µ‚½ƒq[ƒv‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒgiƒƒbƒNj‚Ìæ“¾‚ğ‚İ‚éB
-%group
-Win32 kernel32
 %prm
 hHeap
 hHeap : [intptr] ƒƒbƒN‘ÎÛ‚Ìƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚à‚µ‚­‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13257,8 +12281,6 @@ HeapUnlock ŠÖ”‚ğŒÄ‚Ô‚Ü‚ÅƒuƒƒbƒN‚³‚ê‘±‚¯‚éBHeapLock ŠÖ”‚ÍAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh
 %index
 HeapQueryInformation
 w’è‚µ‚½ƒq[ƒv‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 HeapHandle, HeapInformationClass, HeapInformation, HeapInformationLength, ReturnLength
 HeapHandle : [intptr] î•ñ‚ğæ“¾‚·‚éƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚à‚µ‚­‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13285,8 +12307,6 @@ Vista ˆÈ~‚Å‚Íƒ‹ƒbƒNƒAƒTƒCƒhƒŠƒXƒg‚Íg‚í‚ê‚¸ALFH
 %index
 HeapSetInformation
 w’è‚µ‚½ƒq[ƒv‚É‘Î‚µ‚Ä‹@”\‚ğ—LŒø‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 HeapHandle, HeapInformationClass, HeapInformation, HeapInformationLength
 HeapHandle : [intptr] î•ñ‚ğİ’è‚·‚éƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚à‚µ‚­‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13309,8 +12329,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 HeapSummary
 HeapSummary ŠÖ” (heapapi.h) ‚ÍAw’è‚µ‚½ƒq[ƒv‚ÌŠT—vî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHeap, dwFlags, lpSummary
 hHeap : [intptr] ƒTƒ}ƒŠ‚ğæ“¾‚·‚éƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚à‚µ‚­‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13326,8 +12344,6 @@ HeapSummary ŠÖ” (heapapi.h) ‚ÍAw’è‚µ‚½ƒq[ƒv‚ÌŠT—vî•ñ‚ğæ“¾‚·‚éB
 %index
 HeapUnlock
 w’è‚µ‚½ƒq[ƒv‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒgiƒƒbƒNj‚ÌŠ—LŒ ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHeap
 hHeap : [intptr] ƒƒbƒN‚ğ‰ğœ‚·‚éƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚à‚µ‚­‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13349,8 +12365,6 @@ HeapLock ŠÖ”‚ÍAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ª HeapWalk
 %index
 HeapValidate
 w’è‚µ‚½ƒq[ƒv‚ğŒŸØ‚·‚éBƒq[ƒv“à‚Ì‚·‚×‚Ä‚Ìƒƒ‚ƒŠƒuƒƒbƒN‚ğƒXƒLƒƒƒ“‚µAƒq[ƒv ƒ}ƒl[ƒWƒƒ‚ªŠÇ—‚·‚éƒq[ƒv§Œä\‘¢‘Ì‚ª®‡‚µ‚½ó‘Ô‚É‚ ‚é‚±‚Æ‚ğŠm”F‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHeap, dwFlags, lpMem
 hHeap : [intptr] ŒŸØ‘ÎÛ‚Ìƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚à‚µ‚­‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13387,8 +12401,6 @@ wFlags ƒƒ“ƒo‚É PROCESS_HEAP_ENTRY_BUSY ‚ª—§‚Á‚Ä‚¢‚é—v‘f‚É‘Î‚µ‚Ä‚Ì‚İ HeapValidat
 %index
 HeapWalk
 w’è‚µ‚½ƒq[ƒv“à‚Ìƒƒ‚ƒŠƒuƒƒbƒN‚ğ—ñ‹“‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHeap, lpEntry
 hHeap : [intptr] ƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HeapCreate ‚à‚µ‚­‚Í GetProcessHeap ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -13419,8 +12431,6 @@ PROCESS_HEAP_ENTRY \‘¢‘Ì‚Ì“à—eˆÈŠO‚É•Û‚³‚ê‚È‚¢‚½‚ßAƒq[ƒv—ñ‹“‚ğI—¹‚·‚é‚½‚ß‚
 %index
 IdnToNameprepUnicode
 ‘Û‰»ƒhƒƒCƒ“–¼ (IDN) ‚Ü‚½‚Í‚»‚Ì‘¼‚Ì‘Û‰»ƒ‰ƒxƒ‹‚ğ Network Working Group RFC 3491 ‚Å‹K’è‚³‚ê‚½ NamePrep Œ`®‚É•ÏŠ·‚·‚éB‚½‚¾‚µAPunycode ‚Ö‚Ì’Ç‰Á•ÏŠ·‚Ís‚í‚È‚¢B
-%group
-Win32 kernel32
 %prm
 dwFlags, lpUnicodeCharStr, cchUnicodeChar, lpNameprepCharStr, cchNameprepChar
 dwFlags : [int] •ÏŠ·ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éƒtƒ‰ƒOBÚ×‚Í IdnToAscii ‚Ì dwFlags ƒpƒ‰ƒ[ƒ^‚ğQÆ‚Ì‚±‚ÆB
@@ -13446,8 +12456,6 @@ IdnToAscii ‚Ì Remarks ‚ğQÆ‚Ì‚±‚ÆB
 %index
 InitAtomTable
 ƒ[ƒJƒ‹ ƒAƒgƒ€ƒe[ƒuƒ‹‚ğ‰Šú‰»‚µAƒnƒbƒVƒ… ƒoƒPƒbƒg”‚ğw’è‚µ‚½ƒTƒCƒY‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 nSize
 nSize : [int] Œ^: DWORD ƒAƒgƒ€ƒe[ƒuƒ‹‚Ég‚¤ƒnƒbƒVƒ… ƒoƒPƒbƒg‚Ì”B0 ‚ğw’è‚·‚é‚ÆŠù’è”‚ÌƒnƒbƒVƒ… ƒoƒPƒbƒg‚ªì¬‚³‚ê‚éBƒpƒtƒH[ƒ}ƒ“ƒX‚ğŒüã‚³‚¹‚é‚É‚Í nSize ‚É‘f”‚ğw’è‚·‚éB
@@ -13470,8 +12478,6 @@ nSize : [int] Œ^: DWORD ƒAƒgƒ€ƒe[ƒuƒ‹‚Ég‚¤ƒnƒbƒVƒ… ƒoƒPƒbƒg‚Ì”B0 ‚ğw’è‚·‚é‚
 %index
 InitializeCriticalSectionAndSpinCount
 ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ ƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚µAƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚ÌƒXƒsƒ“ ƒJƒEƒ“ƒg‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpCriticalSection, dwSpinCount
 lpCriticalSection : [var] ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13511,8 +12517,6 @@ WaitForSingleObject ŠÖ”‚Ìˆ—•‰‰×‚Ì‚‚¢ŒÄ‚Ño‚µ‚ğs‚¤B‚µ‚©‚µƒXƒsƒ“
 %index
 InitializeCriticalSectionEx
 ƒXƒsƒ“ ƒJƒEƒ“ƒg‚ÆƒIƒvƒVƒ‡ƒ“‚Ìƒtƒ‰ƒO‚ğw’è‚µ‚ÄƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ ƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpCriticalSection, dwSpinCount, Flags
 lpCriticalSection : [var] ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13551,8 +12555,6 @@ WaitForSingleObject ‚Ìˆ—•‰‰×‚Ì‚‚¢ŒÄ‚Ño‚µ‚ğs‚¤B‚µ‚©‚µƒXƒsƒ“
 %index
 InitializeSynchronizationBarrier
 V‚µ‚¢“¯ŠúƒoƒŠƒA‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpBarrier, lTotalThreads, lSpinCount
 lpBarrier : [var] ‰Šú‰»‚·‚é SYNCHRONIZATION_BARRIER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í•s“§–¾‚È\‘¢‘Ì‚ÅAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç•ÏX‚µ‚Ä‚Í‚È‚ç‚È‚¢B
@@ -13569,8 +12571,6 @@ GetLastError ‚ğg‚¤B
 %index
 IsBadCodePtr
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ªw’èƒAƒhƒŒƒX‚Ìƒƒ‚ƒŠ‚É‘Î‚µ‚Ä“Ç‚İæ‚èƒAƒNƒZƒXŒ ‚ğ‚Â‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpfn
 lpfn : [var] ƒƒ‚ƒŠ ƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13591,8 +12591,6 @@ lpfn : [var] ƒƒ‚ƒŠ ƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 IsBadHugeReadPtr
 (no summary)
-%group
-Win32 kernel32
 %prm
 lp, ucb
 lp : [intptr] 
@@ -13604,8 +12602,6 @@ ucb : [int]
 %index
 IsBadHugeWritePtr
 (no summary)
-%group
-Win32 kernel32
 %prm
 lp, ucb
 lp : [intptr] 
@@ -13617,8 +12613,6 @@ ucb : [int]
 %index
 IsBadReadPtr
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ªw’è‚µ‚½ƒƒ‚ƒŠ”ÍˆÍ‚É‘Î‚µ‚Ä“Ç‚İæ‚èƒAƒNƒZƒXŒ ‚ğ‚Â‚©‚ğŒŸØ‚·‚éB(IsBadReadPtr)
-%group
-Win32 kernel32
 %prm
 lp, ucb
 lp : [intptr] ƒƒ‚ƒŠ ƒuƒƒbƒN‚Ìæ“ªƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13644,8 +12638,6 @@ ucb : [int] ƒƒ‚ƒŠ ƒuƒƒbƒN‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª 0 ‚Ìê‡A–ß
 %index
 IsBadStringPtrW
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ªw’è‚µ‚½ƒƒ‚ƒŠ”ÍˆÍ‚É‘Î‚µ‚Ä“Ç‚İæ‚èƒAƒNƒZƒXŒ ‚ğ‚Â‚©‚ğŒŸØ‚·‚éB(IsBadStringPtrW)
-%group
-Win32 kernel32
 %prm
 lpsz, ucchMax
 lpsz : [wstr] Unicode ‚Ü‚½‚Í ASCII ‚Ì null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13677,8 +12669,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 IsBadWritePtr
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ªw’è‚µ‚½ƒƒ‚ƒŠ”ÍˆÍ‚É‘Î‚µ‚Ä‘‚«‚İƒAƒNƒZƒXŒ ‚ğ‚Â‚©‚ğŒŸØ‚·‚éB
-%group
-Win32 kernel32
 %prm
 lp, ucb
 lp : [intptr] ƒƒ‚ƒŠ ƒuƒƒbƒN‚Ìæ“ªƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13708,8 +12698,6 @@ OS ƒŒƒxƒ‹‚ÌƒIƒuƒWƒFƒNƒgA‚ ‚é‚¢‚ÍƒCƒ“ƒ^[ƒƒbƒNŠÖ”‚ğg‚¤B
 %index
 IsCalendarLeapYear
 ”ñ„§Bw’è‚µ‚½—ï‚É‚Â‚¢‚ÄAw’è‚µ‚½Œ³†‚Ìw’è”N‚ª‰[”N‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 calId, year, era
 calId : [int] ‰[”N‚Ìƒ`ƒFƒbƒN‚Ég‚¤ [calendar identifier](calendar-identifiers.md)B
@@ -13736,8 +12724,6 @@ ERROR\_INVALID\_PARAMETERB‚¢‚¸‚ê‚©‚Ìƒpƒ‰ƒ[ƒ^’l‚ª–³ŒøB
 %index
 IsDBCSLeadByte
 w’è‚µ‚½•¶š‚ªƒVƒXƒeƒ€Šù’è‚Ì Windows ANSI ƒR[ƒhƒy[ƒW (CP_ACP) ‚ÅƒŠ[ƒh ƒoƒCƒg‚Æ‚È‚é‚©‚ğ”»’è‚·‚éBƒŠ[ƒh ƒoƒCƒg‚Æ‚ÍAƒR[ƒhƒy[ƒW‚Ìƒ_ƒuƒ‹ƒoƒCƒg•¶šƒZƒbƒg (DBCS) ‚É‚¨‚¢‚Ä 2 ƒoƒCƒg•¶š‚Ìæ“ªƒoƒCƒg‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 TestChar
 TestChar : [int] ƒeƒXƒg‚·‚é•¶šB
@@ -13765,8 +12751,6 @@ MultiByteToWideChar
 %index
 IsDBCSLeadByteEx
 w’è‚µ‚½•¶š‚ªƒŠ[ƒh ƒoƒCƒg‚É‚È‚è‚¤‚é‚©‚ğ”»’è‚·‚éBƒŠ[ƒh ƒoƒCƒg‚Æ‚ÍAƒR[ƒhƒy[ƒW‚Ìƒ_ƒuƒ‹ƒoƒCƒg•¶šƒZƒbƒg (DBCS) ‚É‚¨‚¢‚Ä 2 ƒoƒCƒg•¶š‚Ìæ“ªƒoƒCƒg‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 CodePage, TestChar
 CodePage : [int] ƒŠ[ƒh ƒoƒCƒg”ÍˆÍ‚Ìƒ`ƒFƒbƒN‚Ég‚¤ƒR[ƒhƒy[ƒW‚Ì¯•ÊqB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í Unicode and Character Set Constants ‚Å’è‹`‚³‚ê‚½ƒR[ƒhƒy[ƒW¯•ÊqA‚à‚µ‚­‚ÍŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB‚±‚ÌŠÖ”‚ÍƒR[ƒhƒy[ƒW 932A936A949A950A1361 ‚É‘Î‚µ‚Ä‚Ì‚İƒŠ[ƒh ƒoƒCƒg’l‚ğŒŸØ‚·‚éB
@@ -13795,8 +12779,6 @@ MultiByteToWideChar
 %index
 IsDebuggerPresent
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ªƒ†[ƒU[ƒ‚[ƒh ƒfƒoƒbƒK‚É‚æ‚Á‚ÄƒfƒoƒbƒO‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -13816,8 +12798,6 @@ _WIN32_WINNT ƒ}ƒNƒ‚ğ 0x0400 ˆÈ~‚É’è‹`‚·‚éBÚ×‚Í Using the Windows Headers
 %index
 IsNLSDefinedString
 •¶š—ñ“à‚ÌŠe•¶š‚ªAw’è‚µ‚½ NLS ‹@”\‚É‚Â‚¢‚Ä’è‹`‚³‚ê‚½Œ‹‰Ê‚ğ‚Â‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 Function, dwFlags, lpVersionInformation, lpString, cchStr
 Function : [int] –â‚¢‡‚í‚¹‚é NLS ‹@”\B‚±‚Ì’l‚Í COMPARE_STRING ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BSYSNLS_FUNCTION —ñ‹“‘Ì‚ğQÆ‚Ì‚±‚ÆB
@@ -13846,8 +12826,6 @@ NLS ƒo[ƒWƒ‡ƒ“‚ª•Ï‚í‚ç‚È‚¢ŒÀ‚è“¯ˆê‚Å‚ ‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éB
 %index
 IsNativeVhdBoot
 OS ‚ª VHD ƒRƒ“ƒeƒi‚©‚ç‹N“®‚³‚ê‚½‚©‚ğ¦‚·B
-%group
-Win32 kernel32
 %prm
 NativeVhdBoot
 NativeVhdBoot : [var] OS ‚ª VHD ‚©‚ç‹N“®‚³‚ê‚½‚©‚ğ¦‚·ƒu[ƒ‹’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13862,8 +12840,6 @@ OS ‚ªƒlƒCƒeƒBƒu VHD ‚©‚ç‹N“®‚³‚ê‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSEBŠg’£ƒGƒ‰[î•ñ‚
 %index
 IsNormalizedString
 •¶š—ñ‚ª Unicode 4.0 TR#15 ‚É]‚Á‚Ä³‹K‰»‚³‚ê‚Ä‚¢‚é‚©‚ğŒŸØ‚·‚éBÚ×‚Í Using Unicode Normalization to Represent Strings ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 NormForm, lpString, cwLength
 NormForm : [int] g‚¤³‹K‰»Œ`®BNORM_FORM ‚Í•W€‚Ì Unicode ³‹K‰»Œ`®‚ğw’è‚·‚éB
@@ -13887,8 +12863,6 @@ Microsoft Internationalized Domain Name (IDN) Mitigation API
 %index
 IsProcessInJob
 ƒvƒƒZƒX‚ªw’è‚µ‚½ƒWƒ‡ƒu“à‚ÅÀs‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 ProcessHandle, JobHandle, Result
 ProcessHandle : [intptr] ƒeƒXƒg‘ÎÛ‚ÌƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP ‚Å‚Íƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -13911,8 +12885,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 IsProcessorFeaturePresent
 w’è‚µ‚½ƒvƒƒZƒbƒT‹@”\‚ªŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 ProcessorFeature
 ProcessorFeature : [int] 
@@ -13936,8 +12908,6 @@ ProcessorFeature : [int]
 %index
 IsSystemResumeAutomatic
 ƒRƒ“ƒsƒ…[ƒ^‚ÌŒ»İ‚Ìó‘Ô‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -13956,8 +12926,6 @@ PBT_APMRESUMESUSPEND ƒCƒxƒ“ƒg‚ªƒuƒ[ƒhƒLƒƒƒXƒg‚³‚ê‚éB
 %index
 IsThreadAFiber
 Œ»İ‚ÌƒXƒŒƒbƒh‚ªƒtƒ@ƒCƒo‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -13974,8 +12942,6 @@ Windows Headers ‚ğQÆ‚Ì‚±‚ÆB
 %index
 IsValidCodePage
 w’è‚µ‚½ƒR[ƒhƒy[ƒW‚ª—LŒø‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 CodePage
 CodePage : [int] ƒ`ƒFƒbƒN‚·‚éƒR[ƒhƒy[ƒW‚Ì¯•ÊqB
@@ -13993,8 +12959,6 @@ CodePage : [int] ƒ`ƒFƒbƒN‚·‚éƒR[ƒhƒy[ƒW‚Ì¯•ÊqB
 %index
 IsValidLanguageGroup
 Œ¾ŒêƒOƒ‹[ƒv‚ª OS ‚ÉƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ü‚½‚ÍƒTƒ|[ƒgÏ‚İ‚©‚ğ”»’è‚·‚éBÚ×‚Í NLS Terminology ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 LanguageGroup, dwFlags
 LanguageGroup : [int] 
@@ -14014,8 +12978,6 @@ LGRPID_INSTALLED ƒtƒ‰ƒO‚ªw’è‚³‚êŠÖ”‚ª TRUE ‚ğ•Ô‚·ê‡AŒ¾ŒêƒOƒ‹[ƒv¯•Êq‚Í OS
 %index
 IsValidLocale
 w’è‚µ‚½ƒƒP[ƒ‹‚ª OS ‚ÉƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ü‚½‚ÍƒTƒ|[ƒgÏ‚İ‚©‚ğ”»’è‚·‚éBÚ×‚Í Locales and Languages ‚ğQÆ‚Ì‚±‚ÆB
-%group
-Win32 kernel32
 %prm
 Locale, dwFlags
 Locale : [int] ŒŸØ‚·‚éƒƒP[ƒ‹‚ÌƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚éB
@@ -14040,8 +13002,6 @@ Using Persistent Locale Data ‚ğQÆ‚Ì‚±‚ÆB
 %index
 IsValidLocaleName
 w’è‚µ‚½ƒƒP[ƒ‹–¼‚ª OS ‚ÉƒCƒ“ƒXƒg[ƒ‹Ï‚İ‚Ü‚½‚ÍƒTƒ|[ƒgÏ‚İ‚ÌƒƒP[ƒ‹‚É‘Î‚µ‚Ä—LŒø‚©‚ğ”»’è‚·‚éB’: Windows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA•â•ƒƒP[ƒ‹‚Ì—LŒø«”»’è‚Ì‚½‚ß‚É IsValidLocale ‚æ‚èæ‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName
 lpLocaleName : [wstr] ŒŸØ‚·‚éƒƒP[ƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -14063,8 +13023,6 @@ Windows.Globalization –¼‘O‹óŠÔ‚©‚çŒ¾Œêƒ^ƒO‚ğ‚±‚ÌŠÖ”‚É“n‚·ê‡A‚Ü‚¸ ResolveLoca
 %index
 IsValidNLSVersion
 NLS ƒo[ƒWƒ‡ƒ“‚ªw’è‚µ‚½ NLS ŠÖ”‚É‘Î‚µ‚Ä—LŒø‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 function, lpLocaleName, lpVersionInformation
 function : [int] –â‚¢‡‚í‚¹‚é NLS ‹@”\B‚±‚Ì’l‚Í COMPARE_STRING ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BSYSNLS_FUNCTION —ñ‹“‘Ì‚ğQÆ‚Ì‚±‚ÆB
@@ -14087,8 +13045,6 @@ Windows.Globalization –¼‘O‹óŠÔ‚©‚çŒ¾Œêƒ^ƒO‚ğ‚±‚ÌŠÖ”‚É“n‚·ê‡A‚Ü‚¸ ResolveLoca
 %index
 IsWow64Process
 w’è‚µ‚½ƒvƒƒZƒX‚ª WOW64 ‚Ü‚½‚Í Intel64/x64 ƒvƒƒZƒbƒT‚ÅÀs‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, Wow64Process
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP ‚Å‚Íƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -14112,8 +13068,6 @@ IsWow64Process2 ‚ğg‚¤‚×‚«‚Å‚ ‚éBIsWow64Process2
 %index
 K32EmptyWorkingSet
 w’è‚µ‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒO ƒZƒbƒg‚©‚ç‰Â”\‚ÈŒÀ‚è‘½‚­‚Ìƒy[ƒW‚ğæ‚èœ‚­B
-%group
-Win32 kernel32
 %prm
 hProcess
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚Æ PROCESS_SET_QUOTA ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14142,8 +13096,6 @@ Psapi.lib ‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 •t‚«‚ÅƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğg
 %index
 K32EnumDeviceDrivers
 ƒVƒXƒeƒ€“à‚ÌŠeƒfƒoƒCƒX ƒhƒ‰ƒCƒo‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpImageBase, cb, lpcbNeeded
 lpImageBase : [var] ƒfƒoƒCƒX ƒhƒ‰ƒCƒo‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ÌƒŠƒXƒg‚ğó‚¯æ‚é”z—ñB
@@ -14173,8 +13125,6 @@ K32EnumDeviceDrivers ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì Wind
 %index
 K32EnumPageFilesW
 ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½Šeƒy[ƒWƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄƒR[ƒ‹ƒoƒbƒN ƒ‹[ƒ`ƒ“‚ğŒÄ‚ÔB(ANSI)
-%group
-Win32 kernel32
 %prm
 pCallBackRoutine, pContext
 pCallBackRoutine : [int] Šeƒy[ƒWƒtƒ@ƒCƒ‹‚²‚Æ‚ÉŒÄ‚Î‚ê‚éƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumPageFilesProc ‚ğQÆ‚Ì‚±‚ÆB
@@ -14207,8 +13157,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 K32EnumProcessModules
 w’è‚µ‚½ƒvƒƒZƒX“à‚ÌŠeƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lphModule, cb, lpcbNeeded
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -14254,8 +13202,6 @@ K32EnumProcessModules ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì Win
 %index
 K32EnumProcessModulesEx
 w’è‚µ‚½ƒvƒƒZƒX‚ÅAw’è‚µ‚½ƒtƒBƒ‹ƒ^ğŒ‚ğ–‚½‚·Šeƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lphModule, cb, lpcbNeeded, dwFilterFlag
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -14301,8 +13247,6 @@ K32EnumProcessModulesEx ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì W
 %index
 K32EnumProcesses
 ƒVƒXƒeƒ€“à‚ÌŠeƒvƒƒZƒX ƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpidProcess, cb, lpcbNeeded
 lpidProcess : [var] ƒvƒƒZƒX¯•Êq‚ÌƒŠƒXƒg‚ğó‚¯æ‚é”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -14335,8 +13279,6 @@ EnumProcesses ‚Æ‚µ‚ÄŒÄ‚Ô‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‚ğ³‚µ‚­‰ğŒˆ‚·‚é‚½‚ß‚É‚ÍATARGETLIBS
 %index
 K32GetDeviceDriverBaseNameW
 w’è‚µ‚½ƒfƒoƒCƒX ƒhƒ‰ƒCƒo‚Ìƒx[ƒX–¼‚ğæ“¾‚·‚éB(ANSI)
-%group
-Win32 kernel32
 %prm
 ImageBase, lpBaseName, nSize
 ImageBase : [intptr] ƒfƒoƒCƒX ƒhƒ‰ƒCƒo‚Ì“Ç‚İ‚İƒAƒhƒŒƒXB‚±‚Ì’l‚Í EnumDeviceDrivers ŠÖ”‚Åæ“¾‚Å‚«‚éB
@@ -14365,8 +13307,6 @@ Windows 7 ˆÈ~‚Ì—¼•û‚Å“®‚©‚·ƒvƒƒOƒ‰ƒ€‚Íí‚É GetDeviceDriverBaseName
 %index
 K32GetDeviceDriverFileNameW
 w’è‚µ‚½ƒfƒoƒCƒX ƒhƒ‰ƒCƒo‚ÌƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 ImageBase, lpFilename, nSize
 ImageBase : [intptr] ƒfƒoƒCƒX ƒhƒ‰ƒCƒo‚Ì“Ç‚İ‚İƒAƒhƒŒƒXB
@@ -14401,8 +13341,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 K32GetMappedFileNameW
 w’è‚µ‚½ƒAƒhƒŒƒX‚ªAw’è‚µ‚½ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠ ƒ}ƒbƒvƒg ƒtƒ@ƒCƒ‹“à‚É‚ ‚é‚©‚ğƒ`ƒFƒbƒN‚·‚éB‚ ‚éê‡AŠÖ”‚Í‚»‚Ìƒƒ‚ƒŠ ƒ}ƒbƒvƒg ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•Ô‚·B(Unicode)
-%group
-Win32 kernel32
 %prm
 hProcess, lpv, lpFilename, nSize
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14435,8 +13373,6 @@ K32GetMappedFileName ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì Wind
 %index
 K32GetModuleBaseNameW
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒX–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hProcess, hModule, lpBaseName, nSize
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ŞƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Æ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14478,8 +13414,6 @@ K32GetModuleBaseName ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì Wind
 %index
 K32GetModuleFileNameExW
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hProcess, hModule, lpFilename, nSize
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ŞƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Æ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆBWindows 10 ˆÈ~AWindows Server 2016 ˆÈ~: hModule ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚¾‚¯‚Å‘«‚è‚éBGetModuleFileNameEx ŠÖ”‚Í LOAD_LIBRARY_AS_DATAFILE ƒtƒ‰ƒO‚Å“Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒpƒX‚Íæ“¾‚µ‚È‚¢BÚ×‚Í LoadLibraryEx ‚ğQÆ‚Ì‚±‚ÆB
@@ -14517,8 +13451,6 @@ K32GetModuleFileNameEx ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì Wi
 %index
 K32GetModuleInformation
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ MODULEINFO \‘¢‘Ì‚Åæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, hModule, lpmodinfo, cb
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ŞƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Æ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14550,8 +13482,6 @@ K32GetModuleInformation ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì W
 %index
 K32GetPerformanceInfo
 PERFORMANCE_INFORMATION \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚éƒpƒtƒH[ƒ}ƒ“ƒX’l‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 pPerformanceInformation, cb
 pPerformanceInformation : [var] ƒpƒtƒH[ƒ}ƒ“ƒXî•ñ‚ğó‚¯æ‚é PERFORMANCE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -14579,8 +13509,6 @@ K32GetPerformanceInfo ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì Win
 %index
 K32GetProcessImageFileNameW
 (no summary)
-%group
-Win32 kernel32
 %prm
 hProcess, lpImageFileName, nSize
 hProcess : [intptr] 
@@ -14593,8 +13521,6 @@ nSize : [int]
 %index
 K32GetProcessMemoryInfo
 w’è‚µ‚½ƒvƒƒZƒX‚Ìƒƒ‚ƒŠg—p—Ê‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Process, ppsmemCounters, cb
 Process : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **PROCESS_QUERY_INFORMATION** ‚Ü‚½‚Í **PROCESS_QUERY_LIMITED_INFORMATION** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB**Windows Server 2003 ‚¨‚æ‚Ñ Windows XP ‚Å‚Í** ƒnƒ“ƒhƒ‹‚Í **PROCESS_QUERY_INFORMATION** ‚Æ **PROCESS_VM_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -14623,8 +13549,6 @@ Windows 7 ˆÈ~‚Ì—¼•û‚Å“®‚©‚·ƒvƒƒOƒ‰ƒ€‚Íí‚É **GetProcessMemoryInfo**
 %index
 K32GetWsChanges
 ‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch ŠÖ”‚ªÅŒã‚ÉŒÄ‚Î‚ê‚ÄˆÈ~Aw’è‚µ‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒO ƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpWatchInfo, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14667,8 +13591,6 @@ GetWsChanges ‚Æ‚µ‚ÄŒÄ‚Ô‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‚ğ³‚µ‚­‰ğŒˆ‚·‚é‚½‚ß‚É‚ÍATARGETLIBS 
 %index
 K32GetWsChangesEx
 ‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch ŠÖ”‚ªÅŒã‚ÉŒÄ‚Î‚ê‚ÄˆÈ~Aw’è‚µ‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒO ƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpWatchInfoEx, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14708,8 +13630,6 @@ GetWsChangesEx ‚Æ‚µ‚ÄŒÄ‚Ô‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‚ğ³‚µ‚­‰ğŒˆ‚·‚é‚½‚ß‚É‚ÍATARGETLIB
 %index
 K32InitializeProcessForWsWatch
 w’è‚µ‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒO ƒZƒbƒg‚ÌŠÄ‹‚ğŠJn‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14737,8 +13657,6 @@ Psapi.dll ‚ğ“Ç‚İ‚ŞB
 %index
 K32QueryWorkingSet
 w’è‚µ‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒO ƒZƒbƒg‚ÉŒ»İ’Ç‰Á‚³‚ê‚Ä‚¢‚éƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pv, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Æ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14766,8 +13684,6 @@ QueryWorkingSet ‚Æ‚µ‚ÄŒÄ‚Ô‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‚ğ³‚µ‚­‰ğŒˆ‚·‚é‚½‚ß‚É‚ÍATARGETLI
 %index
 K32QueryWorkingSetEx
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ì“Á’è‚Ì‰¼‘zƒAƒhƒŒƒX‚É‚ ‚éƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pv, cb
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í Process Security and Access Rights ‚ğQÆ‚Ì‚±‚ÆB
@@ -14798,8 +13714,6 @@ K32QueryWorkingSetEx ‚ğŒÄ‚Ôƒ‰ƒbƒp[‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚éB‹Œƒo[ƒWƒ‡ƒ“‚Ì Wind
 %index
 LCIDToLocaleName
 ƒƒP[ƒ‹¯•Êq‚ğƒƒP[ƒ‹–¼‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 Locale, lpName, cchName, dwFlags
 Locale : [int] •ÏŠ·‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚éB
@@ -14819,8 +13733,6 @@ dwFlags : [int] Windows 7 ‚æ‚è‘O‚Å‚Í—\–ñ‚³‚ê‚Ä‚¨‚èí‚É 0 ‚Å‚ ‚é‚×‚«BWindows 7 ˆ
 %index
 LCMapStringW
 ¯•Êq‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚É‘Î‚µA“ü—Í•¶š—ñ‚ğw’è‚µ‚½•ÏŠ·‚Å•Ê‚Ì•¶š—ñ‚Öƒ}ƒbƒv‚·‚é‚©A“ü—Í•¶š—ñ‚Ìƒ\[ƒg ƒL[‚ğ¶¬‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, dwMapFlags, lpSrcStr, cchSrc, lpDestStr, cchDest
 Locale : [int] ƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚·‚éB
@@ -14856,8 +13768,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 LCMapStringEx
 –¼‘O‚Åw’è‚³‚ê‚½ƒƒP[ƒ‹‚É‘Î‚µA“ü—Í•¶š—ñ‚ğw’è‚µ‚½•ÏŠ·‚Å•Ê‚Ì•¶š—ñ‚Öƒ}ƒbƒv‚·‚é‚©A“ü—Í•¶š—ñ‚Ìƒ\[ƒg ƒL[‚ğ¶¬‚·‚éB’: Windows Vista ˆÈ~‚Ì‚İ‚Å“®ì‚·‚é‚æ‚¤İŒv‚³‚ê‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍALCMapString ‚æ‚è‚±‚ÌŠÖ”‚ğ—Dæ‚µ‚ÄŒÄ‚Ô‚×‚«‚Å‚ ‚éB
-%group
-Win32 kernel32
 %prm
 lpLocaleName, dwMapFlags, lpSrcStr, cchSrc, lpDestStr, cchDest, lpVersionInformation, lpReserved, sortHandle
 lpLocaleName : [wstr] ƒƒP[ƒ‹–¼A‚Ü‚½‚ÍŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -14898,8 +13808,6 @@ Windows.Globalization –¼‘O‹óŠÔ‚©‚çŒ¾Œêƒ^ƒO‚ğ‚±‚ÌŠÖ”‚É“n‚·ê‡A‚Ü‚¸ ResolveLoca
 %index
 LZClose
 LZOpenFile ŠÖ”‚ÅŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 hFile
 hFile : [int] •Â‚¶‚éƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -14917,8 +13825,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚ÌƒeƒNƒmƒƒW‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 LZCopy
 ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğƒRƒs[æƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hfSource, hfDest
 hfSource : [int] •ÏŠ·Œ³ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -14942,8 +13848,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚ÌƒeƒNƒmƒƒW‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 LZDone
 (no summary)
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -14953,8 +13857,6 @@ Win32 kernel32
 %index
 LZInit
 ƒtƒ@ƒCƒ‹‚ğ“WŠJ‚·‚é‚½‚ß‚É•K—v‚È“à•”ƒf[ƒ^\‘¢‚Ì‚½‚ß‚Ìƒƒ‚ƒŠ‚ğŠm•Û‚µA‚»‚ê‚ç‚ğì¬E‰Šú‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hfSource
 hfSource : [int] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -14979,8 +13881,6 @@ hfSource : [int] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
 %index
 LZOpenFileW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğì¬EƒI[ƒvƒ“EÄƒI[ƒvƒ“Eíœ‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, lpReOpenBuf, wStyle
 lpFileName : [wstr] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -15018,8 +13918,6 @@ szPathName ƒƒ“ƒo‚ğŠm”F‚·‚éBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012
 %index
 LZRead
 ƒtƒ@ƒCƒ‹‚©‚çw’è‚µ‚½ƒoƒCƒg”iÅ‘åj‚ğ“Ç‚İ‚İA‚»‚ê‚ç‚ğƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpBuffer, cbRead
 hFile : [int] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -15045,8 +13943,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚ÌƒeƒNƒmƒƒW‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚éB
 %index
 LZSeek
 ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ğŠJnˆÊ’u‚©‚çw’è‚µ‚½ƒoƒCƒg”‚¾‚¯ˆÚ“®‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lOffset, iOrigin
 hFile : [int] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -15070,8 +13966,6 @@ hFile ˆø”‚Å¯•Ê‚³‚ê‚éƒnƒ“ƒhƒ‹‚ÍALZInit ‚Ü‚½‚Í LZOpenFile ŠÖ”‚ğŒÄ‚Ño‚µ‚Äæ“¾‚
 %index
 LZStart
 (no summary)
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -15081,8 +13975,6 @@ Win32 kernel32
 %index
 LoadLibraryW
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚Éƒ[ƒh‚·‚éB(LoadLibraryW)
-%group
-Win32 kernel32
 %prm
 lpLibFileName
 lpLibFileName : [wstr] ƒ‚ƒWƒ…[ƒ‹–¼Bƒ‰ƒCƒuƒ‰ƒŠ(.dll)‚Ü‚½‚ÍÀs‰Â”\ƒ‚ƒWƒ…[ƒ‹(.exe)Bƒtƒ‹ƒpƒXw’è‚Ìê‡‚Í‚»‚ÌƒpƒX‚Ì‚İŒŸõ‚·‚éB‘Š‘ÎƒpƒX‚Ü‚½‚ÍƒpƒX‚È‚µ‚Ìê‡‚Í•W€ŒŸõí—ª‚ªg‚í‚ê‚éBƒpƒX‚É‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…(\\)‚ğg‚¤BŠg’£qÈ—ª‚Í ".DLL" ‚ª•t‰Á‚³‚êA•t‰Á‚³‚¹‚È‚¢‚É‚Í––”ö‚ÉƒsƒŠƒIƒh‚ğŠÜ‚ß‚éB
@@ -15106,8 +13998,6 @@ SearchPath ‚Å DLL ‚ÌƒpƒX‚ğæ“¾‚µ‚Ä‚©‚ç LoadLibrary ‚·‚é‚Ì‚Í”ğ‚¯‚éB
 %index
 LoadLibraryExW
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚Éƒ[ƒh‚·‚éB(LoadLibraryExW)
-%group
-Win32 kernel32
 %prm
 lpLibFileName, hFile, dwFlags
 lpLibFileName : [wstr] ƒ[ƒh‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚·‚é•¶š—ñBƒ‰ƒCƒuƒ‰ƒŠƒ‚ƒWƒ…[ƒ‹(.dll)‚Ü‚½‚ÍÀs‰Â”\ƒ‚ƒWƒ…[ƒ‹(.exe)BÀs‰Â”\ƒ‚ƒWƒ…[ƒ‹‚Ìê‡AÃ“IƒCƒ“ƒ|[ƒg‚Íƒ[ƒh‚³‚ê‚¸ADONT_RESOLVE_DLL_REFERENCES ‚ªw’è‚³‚ê‚½‚©‚Ì‚æ‚¤‚Éƒ[ƒh‚³‚ê‚éBƒpƒX‚È‚µ‚Ìƒ‚ƒWƒ…[ƒ‹–¼‚ÅŠg’£q‚ª‚È‚­ƒsƒŠƒIƒh‚àŠÜ‚Ü‚È‚¢ê‡AŠù’è‚Ìƒ‰ƒCƒuƒ‰ƒŠŠg’£q ".DLL" ‚ª•t‰Á‚³‚ê‚éBŠ®‘SCüƒpƒX‚ğw’è‚·‚é‚ÆAŠÖ”‚Í‚»‚ÌƒpƒX‚Ì‚İŒŸõ‚·‚éBƒpƒXw’è‚Ìê‡‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ…(\\)‚ğg‚¤B
@@ -15129,8 +14019,6 @@ LoadLibraryEx ‚Í LoadLibrary ‚Æ”ñí‚É‚æ‚­—‚Ä‚¢‚é‚ªALoadLibraryEx
 %index
 LoadModule
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ“Ç‚İ‚ñ‚ÅÀs‚·‚é‚©AŠù‘¶ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpModuleName, lpParameterBlock
 lpModuleName : [str] Às‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒtƒ@ƒCƒ‹–¼BƒpƒX‚ğw’è‚·‚éê‡‚ÍAƒXƒ‰ƒbƒVƒ… (/) ‚Å‚Í‚È‚­•K‚¸ƒoƒbƒNƒXƒ‰ƒbƒVƒ… (\\) ‚ğg—p‚·‚é‚±‚ÆBlpModuleName ˆø”‚ªƒfƒBƒŒƒNƒgƒŠƒpƒX‚ğŠÜ‚Ü‚È‚¢ê‡AƒVƒXƒeƒ€‚ÍŸ‚Ì‡‚ÅÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
@@ -15150,8 +14038,6 @@ LOADPARMS32 \‘¢‘Ì‚ÍŸ‚ÌŒ`®‚ğ‚ÂB
 %index
 LoadPackagedLibrary
 w’è‚µ‚½ƒpƒbƒP[ƒW‰»ƒ‚ƒWƒ…[ƒ‹‚Æ‚»‚ÌˆË‘¶ŠÖŒW‚ğAŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚É“Ç‚İ‚ŞB
-%group
-Win32 kernel32
 %prm
 lpwLibFileName, Reserved
 lpwLibFileName : [wstr] “Ç‚İ‚ŞƒpƒbƒP[ƒW‰»ƒ‚ƒWƒ…[ƒ‹‚Ìƒtƒ@ƒCƒ‹–¼Bƒ‚ƒWƒ…[ƒ‹‚Íƒ‰ƒCƒuƒ‰ƒŠƒ‚ƒWƒ…[ƒ‹ (.dll ƒtƒ@ƒCƒ‹) ‚Å‚àÀs‰Â”\ƒ‚ƒWƒ…[ƒ‹ (.exe ƒtƒ@ƒCƒ‹) ‚Å‚à‚æ‚¢B‚±‚Ìˆø”‚ÅƒpƒX‚ğw’è‚¹‚¸‚Éƒ‚ƒWƒ…[ƒ‹–¼‚Ì‚İ‚ğw’è‚µAŠg’£q‚ğÈ—ª‚µ‚½ê‡AŠÖ”‚Íƒ‚ƒWƒ…[ƒ‹–¼‚ÉŠù’è‚Ìƒ‰ƒCƒuƒ‰ƒŠŠg’£q .dll ‚ğ•t‰Á‚·‚éB.dll ‚Ì•t‰Á‚ğ—}~‚·‚é‚É‚ÍAƒ‚ƒWƒ…[ƒ‹–¼‚Ì––”ö‚ÉƒsƒŠƒIƒh (.) ‚ğŠÜ‚ß‚éB‚±‚Ìˆø”‚ªƒpƒX‚ğw’è‚·‚éê‡AŠÖ”‚Í‚»‚ÌƒpƒX‚Åƒ‚ƒWƒ…[ƒ‹‚ğŒŸõ‚·‚éBƒpƒX‚Íâ‘ÎƒpƒX‚âA".." ‚ğŠÜ‚Ş‘Š‘ÎƒpƒX‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢BƒpƒX‚ğw’è‚·‚éê‡‚ÍAƒXƒ‰ƒbƒVƒ… (/) ‚Å‚Í‚È‚­•K‚¸ƒoƒbƒNƒXƒ‰ƒbƒVƒ… (\\) ‚ğg—p‚·‚é‚±‚ÆBƒpƒX‚ÌÚ×‚É‚Â‚¢‚Ä‚Íuƒtƒ@ƒCƒ‹AƒpƒXA–¼‘O‹óŠÔ‚Ì–½–¼v‚ğQÆBw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ªŠù‚ÉƒvƒƒZƒX“à‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚éê‡AŠÖ”‚Í“Ç‚İ‚İÏ‚İƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚»‚Ìƒ‚ƒWƒ…[ƒ‹‚ÍŒ³XƒvƒƒZƒX‚ÌƒpƒbƒP[ƒWˆË‘¶ƒOƒ‰ƒt‚©‚ç“Ç‚İ‚Ü‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚Ì“Ç‚İ‚İ‚É‚æ‚Á‚ÄƒVƒXƒeƒ€‚ª‘¼‚ÌŠÖ˜Aƒ‚ƒWƒ…[ƒ‹‚ğ“Ç‚İ‚Şê‡AŠÖ”‚Í‚Ü‚¸“Ç‚İ‚İÏ‚İƒ‚ƒWƒ…[ƒ‹‚ğŒŸõ‚µAŸ‚ÉƒvƒƒZƒX‚ÌƒpƒbƒP[ƒWˆË‘¶ƒOƒ‰ƒt‚ğŒŸõ‚·‚éBÚ×‚Íu”õlv‚ğQÆB
@@ -15182,8 +14068,6 @@ LoadPackagedLibrary ŠÖ”‚Í LoadLibraryEx
 %index
 LoadResource
 ƒƒ‚ƒŠ“à‚Ìw’èƒŠƒ\[ƒX‚Ìæ“ªƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hModule, hResInfo
 hModule : [intptr] Œ^: HMODULE ƒŠƒ\[ƒX‚ğŠÜ‚ŞÀs‰Â”\ƒtƒ@ƒCƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹BhModule ‚ª NULL ‚Ìê‡AƒVƒXƒeƒ€‚ÍŒ»İ‚ÌƒvƒƒZƒX‚Ìì¬‚Ég—p‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚©‚çƒŠƒ\[ƒX‚ğ“Ç‚İ‚ŞB
@@ -15213,8 +14097,6 @@ GlobalFree ŠÖ”‚É“n‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒŠƒ\[ƒXƒf[ƒ^‚Ìæ“ªƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“¾‚é‚
 %index
 LocalFree
 w’è‚µ‚½ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAlloc ‚Ü‚½‚Í LocalReAlloc ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éBGlobalAlloc ‚ÅŠm•Û‚µ‚½ƒƒ‚ƒŠ‚Ì‰ğ•ú‚É‚Íg—p‚Å‚«‚È‚¢B
@@ -15241,8 +14123,6 @@ hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAlloc ‚Ü‚
 %index
 LocalAlloc
 ƒq[ƒv‚©‚çw’è‚µ‚½ƒoƒCƒg”‚ğŠm•Û‚·‚éB(LocalAlloc)
-%group
-Win32 kernel32
 %prm
 uFlags, uBytes
 uFlags : [int] 
@@ -15270,8 +14150,6 @@ GlobalFree ‚Å‰ğ•ú‚·‚é‚Ì‚ÍˆÀ‘S‚Å‚Í‚È‚¢B
 %index
 LocalCompact
 (no summary)
-%group
-Win32 kernel32
 %prm
 uMinFree
 uMinFree : [int] 
@@ -15282,8 +14160,6 @@ uMinFree : [int]
 %index
 LocalFileTimeToFileTime
 ƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ğ‹¦’è¢ŠE (UTC) ‚ÉŠî‚Ã‚­ƒtƒ@ƒCƒ‹‚Ö•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpLocalFileTime, lpFileTime
 lpLocalFileTime : [var] UTC ƒx[ƒX‚Ìƒtƒ@ƒCƒ‹‚Ö•ÏŠ·‚·‚éƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ğw’è‚·‚é FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -15303,8 +14179,6 @@ LocalFileTimeToFileTime
 %index
 LocalFlags
 w’è‚µ‚½ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAlloc ‚Ü‚½‚Í LocalReAlloc ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -15326,8 +14200,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 LocalHandle
 w’è‚µ‚½ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 pMem
 pMem : [intptr] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìæ“ªƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚Í LocalLock ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -15347,8 +14219,6 @@ LocalAlloc ŠÖ”‚ª LMEM_MOVEABLE
 %index
 LocalLock
 ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ğƒƒbƒN‚µAƒIƒuƒWƒFƒNƒg‚Ìƒƒ‚ƒŠƒuƒƒbƒN‚Ìæ“ªƒoƒCƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAlloc ‚Ü‚½‚Í LocalReAlloc ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -15373,8 +14243,6 @@ hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAlloc ‚Ü‚
 %index
 LocalReAlloc
 w’è‚µ‚½ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚Ü‚½‚Í‘®«‚ğ•ÏX‚·‚éBƒTƒCƒY‚Í‘‰Á‚àŒ¸­‚à‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hMem, uBytes, uFlags
 hMem : [int] ÄŠm•Û‚·‚éƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAlloc ‚Ü‚½‚Í LocalReAlloc ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -15395,8 +14263,6 @@ LocalReAlloc ‚ª¸”s‚µ‚½ê‡AŒ³‚Ìƒƒ‚ƒŠ‚Í‰ğ•ú‚³‚ê‚¸AŒ³‚Ìƒnƒ“ƒhƒ‹‚Æƒ|ƒCƒ“ƒ^‚ÍˆË‘
 %index
 LocalShrink
 (no summary)
-%group
-Win32 kernel32
 %prm
 hMem, cbNewSize
 hMem : [int] 
@@ -15408,8 +14274,6 @@ cbNewSize : [int]
 %index
 LocalSize
 w’è‚µ‚½ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÌŒ»İ‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊj‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAllocALocalReAllocA‚Ü‚½‚Í LocalHandle ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -15430,8 +14294,6 @@ hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAllocALo
 %index
 LocalUnlock
 LMEM_MOVEABLE ‚ÅŠm•Û‚³‚ê‚½ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒƒbƒNƒJƒEƒ“ƒg‚ğŒ¸Z‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMem
 hMem : [int] ƒ[ƒJƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í LocalAlloc ‚Ü‚½‚Í LocalReAlloc ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -15457,8 +14319,6 @@ NO_ERROR ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Å GetLastError ‚Í NO_ERROR ˆÈŠO
 %index
 LocaleNameToLCID
 ƒƒP[ƒ‹–¼‚ğƒƒP[ƒ‹¯•Êq‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpName, dwFlags
 lpName : [wstr] ƒƒP[ƒ‹–¼‚ğ•\‚· null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^A‚Ü‚½‚ÍŸ‚Ì’è‹`Ï‚İ‚Ì’l‚Ì‚¢‚¸‚ê‚©B
@@ -15485,8 +14345,6 @@ Microsoft
 %index
 LockFile
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚É‚æ‚é”r‘¼ƒAƒNƒZƒX—p‚ÉƒƒbƒN‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwFileOffsetLow, dwFileOffsetHigh, nNumberOfBytesToLockLow, nNumberOfBytesToLockHigh
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í GENERIC_READ ‚Ü‚½‚Í GENERIC_WRITE ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -15519,8 +14377,6 @@ LockFileEx ‚ğQÆBLockFile ‚Íƒtƒ@ƒCƒ‹—Ìˆæ‚ÌƒƒbƒN‚É¸”s‚µ‚½ê‡AƒuƒƒbƒN‚¹‚¸‚É
 %index
 LockFileEx
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚É‚æ‚é”r‘¼ƒAƒNƒZƒX—p‚ÉƒƒbƒN‚·‚éB‚±‚ÌŠÖ”‚Í“¯Šú“I‚É‚à”ñ“¯Šú“I‚É‚à“®ì‚µA”r‘¼ƒƒbƒN‚Ü‚½‚Í‹¤—LƒƒbƒN‚ğ—v‹‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwFlags, dwReserved, nNumberOfBytesToLockLow, nNumberOfBytesToLockHigh, lpOverlapped
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í GENERIC_READ ‚Ü‚½‚Í GENERIC_WRITE ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -15559,8 +14415,6 @@ ERROR_IO_PENDING ‚ğ•Ô‚·BƒƒbƒN‚ª•t—^‚³‚ê‚é‚ÆAƒVƒXƒeƒ€‚Í OVERLAPPED
 %index
 LockResource
 ƒƒ‚ƒŠ“à‚Ìw’èƒŠƒ\[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hResData
 hResData : [int] Œ^: **HGLOBAL** ƒAƒNƒZƒX‚·‚éƒŠƒ\[ƒX‚Ìƒnƒ“ƒhƒ‹B[LoadResource ŠÖ”](nf-libloaderapi-loadresource.md) ‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚È‚¨A‚±‚Ìˆø”‚ª **HGLOBAL** •Ï”‚Æ‚µ‚Ä‹Lq‚³‚ê‚Ä‚¢‚é‚Ì‚Í‰ºˆÊŒİŠ·«‚Ì‚½‚ß‚Å‚ ‚éBˆø”‚Æ‚µ‚Ä‚Í **LoadResource** ŠÖ”‚Ì¬Œ÷‚Ì–ß‚è’lˆÈŠO‚Ì’l‚ğ“n‚µ‚Ä‚Í‚È‚ç‚È‚¢B
@@ -15587,8 +14441,6 @@ hResData : [int] Œ^: **HGLOBAL** ƒAƒNƒZƒX‚·‚éƒŠƒ\[ƒX‚Ìƒnƒ“ƒhƒ‹B[LoadResource Š
 %index
 MapUserPhysicalPages
 ˆÈ‘O‚ÉŠm•Û‚³‚ê‚½•¨—ƒƒ‚ƒŠƒy[ƒW‚ğAAddress Windowing Extensions (AWE) —Ìˆæ“à‚Ìw’èƒAƒhƒŒƒX‚Éƒ}ƒbƒv‚·‚éB(MapUserPhysicalPages)
-%group
-Win32 kernel32
 %prm
 VirtualAddress, NumberOfPages, PageArray
 VirtualAddress : [intptr] Äƒ}ƒbƒv‚·‚éƒƒ‚ƒŠ—Ìˆæ‚Ìæ“ªƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpAddress ‚Ì’l‚ÍAAddress Windowing Extensions (AWE) —Ìˆæ‚ªŠm•Û‚³‚ê‚½‚Æ‚«‚É VirtualAlloc ŠÖ”‚ª•Ô‚·ƒAƒhƒŒƒX”ÍˆÍ“à‚É‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -15616,8 +14468,6 @@ FreeUserPhysicalPages
 %index
 MapUserPhysicalPagesScatter
 ˆÈ‘O‚ÉŠm•Û‚³‚ê‚½•¨—ƒƒ‚ƒŠƒy[ƒW‚ğAAddress Windowing Extensions (AWE) —Ìˆæ“à‚Ìw’èƒAƒhƒŒƒX‚Éƒ}ƒbƒv‚·‚éB(MapUserPhysicalPagesScatter)
-%group
-Win32 kernel32
 %prm
 VirtualAddresses, NumberOfPages, PageArray
 VirtualAddresses : [var] Äƒ}ƒbƒv‚·‚éƒƒ‚ƒŠ—Ìˆæ‚Ìæ“ªƒAƒhƒŒƒX”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BVirtualAddresses “à‚ÌŠeƒGƒ“ƒgƒŠ‚ÍAAddress Windowing Extensions (AWE) —Ìˆæ‚ªŠm•Û‚³‚ê‚½‚Æ‚«‚É VirtualAlloc ŠÖ”‚ª•Ô‚·ƒAƒhƒŒƒX”ÍˆÍ“à‚É‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNumberOfPages ‚Ì’l‚ª”z—ñ‚ÌƒTƒCƒY‚ğ¦‚·BƒGƒ“ƒgƒŠ‚Í•¡”‚Ì Address Windowing Extensions (AWE) —Ìˆæ‚É‘®‚µ‚Ä‚à‚æ‚¢B
@@ -15642,8 +14492,6 @@ PageArray : [var] VirtualAddresses “à‚Ì‘Î‰‚·‚éƒy[ƒW‚ğ‚Ç‚¤ˆµ‚¤‚©‚ğ¦‚·’l‚Ì”z—ñ‚
 %index
 MapViewOfFile
 ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒO‚Ìƒrƒ…[‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚Éƒ}ƒbƒv‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFileMappingObject, dwDesiredAccess, dwFileOffsetHigh, dwFileOffsetLow, dwNumberOfBytesToMap
 hFileMappingObject : [intptr] ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BCreateFileMapping ŠÖ”‚¨‚æ‚Ñ OpenFileMapping ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -15691,8 +14539,6 @@ FILE_MAP_READ ‚Å MapViewOfFile ‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWindows Server 2012
 %index
 MapViewOfFileEx
 ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒO‚Ìƒrƒ…[‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚Éƒ}ƒbƒv‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒ…[—p‚ÌŠî’êƒƒ‚ƒŠƒAƒhƒŒƒX‚ÌŒó•â‚ğ”CˆÓ‚Éw’è‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hFileMappingObject, dwDesiredAccess, dwFileOffsetHigh, dwFileOffsetLow, dwNumberOfBytesToMap, lpBaseAddress
 hFileMappingObject : [intptr] ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BCreateFileMapping ŠÖ”‚¨‚æ‚Ñ OpenFileMapping ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -15736,8 +14582,6 @@ FILE_MAP_READ ‚Å MapViewOfFileEx ‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWindows Server 2012
 %index
 MapViewOfFileExNuma
 ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒO‚Ìƒrƒ…[‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚Éƒ}ƒbƒv‚µA•¨—ƒƒ‚ƒŠ‚Ì NUMA ƒm[ƒh‚ğw’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFileMappingObject, dwDesiredAccess, dwFileOffsetHigh, dwFileOffsetLow, dwNumberOfBytesToMap, lpBaseAddress, nndPreferred
 hFileMappingObject : [intptr] ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BCreateFileMappingNuma ‚¨‚æ‚Ñ OpenFileMapping ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -15782,8 +14626,6 @@ FILE_MAP_READ ‚Å MapViewOfFileExNuma ŠÖ”‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWindows Server 
 %index
 Module32First
 Module32First ŠÖ” (tlhelp32.h) ‚ÍAƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Å‰‚Ìƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lpme
 hSnapshot : [intptr] CreateToolhelp32Snapshot ŠÖ”‚Ì’¼‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -15805,8 +14647,6 @@ ERROR_NO_MORE_FILES ƒGƒ‰[’l‚ğ•Ô‚·B
 %index
 Module32Next
 Module32Next ŠÖ” (tlhelp32.h) ‚ÍAƒvƒƒZƒX‚Ü‚½‚ÍƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Ÿ‚Ìƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lpme
 hSnapshot : [intptr] CreateToolhelp32Snapshot ŠÖ”‚Ì’¼‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -15825,8 +14665,6 @@ Module32Next ŠÖ” (tlhelp32.h) ‚ÍAƒvƒƒZƒX‚Ü‚½‚ÍƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Ÿ‚Ìƒ‚ƒ
 %index
 MoveFileW
 Šù‘¶‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ(q‚ğŠÜ‚Ş)‚ğˆÚ“®‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpExistingFileName, lpNewFileName
 lpExistingFileName : [wstr] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÌŒ»İ‚Ì–¼‘OBANSI ”Å‚Å‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éBUnicode ”Å‚Å 32,767 •¶š‚Ü‚ÅŠg’£‚·‚é‚É‚Í "\\?\" ‚ğƒpƒX‚É•t‰Á‚·‚éB
@@ -15847,8 +14685,6 @@ MoveFile
 %index
 MoveFileExW
 Šù‘¶‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠiq‚ğŠÜ‚Şj‚ğA‚³‚Ü‚´‚Ü‚ÈˆÚ“®ƒIƒvƒVƒ‡ƒ“‚Æ‚Æ‚à‚ÉˆÚ“®‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpExistingFileName, lpNewFileName, dwFlags
 lpExistingFileName : [wstr] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÌŒ»İ‚Ì–¼‘OBdwFlags ‚É MOVEFILE_DELAY_UNTIL_REBOOT ‚ªw’è‚³‚ê‚Ä‚¢‚éê‡A’x‰„‘€ì‚Íƒlƒbƒgƒ[ƒN—˜—p‰Â”\‘O‚ÉÀs‚³‚ê‚é‚½‚ßAƒŠƒ‚[ƒg‹¤—Lã‚Ìƒtƒ@ƒCƒ‹‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚ÌãŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍA‚±‚ÌŠÖ”‚Ì Unicode ”Å‚ğŒÄ‚ÑAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚Ì–½–¼v‚ğQÆB
@@ -15874,8 +14710,6 @@ Manager\PendingFileRenameOperations
 %index
 MoveFileTransactedW
 Šù‘¶‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠiq‚ğŠÜ‚Şj‚ğAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚ÄˆÚ“®‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpExistingFileName, lpNewFileName, lpProgressRoutine, lpData, dwFlags, hTransaction
 lpExistingFileName : [wstr] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌŠù‘¶ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÌŒ»İ‚Ì–¼‘OB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚ÌãŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍA‚±‚ÌŠÖ”‚Ì Unicode ”Å‚ğŒÄ‚ÑAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚Ì–½–¼v‚ğQÆB
@@ -15918,8 +14752,6 @@ Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚ÌƒeƒNƒmƒƒW‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚éB
 %index
 MoveFileWithProgressW
 ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠiq‚ğŠÜ‚Şj‚ğˆÚ“®‚·‚éBi’»’Ê’m‚ğó‚¯æ‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğw’è‚Å‚«‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpExistingFileName, lpNewFileName, lpProgressRoutine, lpData, dwFlags
 lpExistingFileName : [wstr] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌŠù‘¶ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘OBdwFlags ‚É MOVEFILE_DELAY_UNTIL_REBOOT ‚ªw’è‚³‚ê‚Ä‚¢‚éê‡A’x‰„‘€ì‚Íƒlƒbƒgƒ[ƒN—˜—p‰Â”\‘O‚ÉÀs‚³‚ê‚é‚½‚ßAƒŠƒ‚[ƒg‹¤—Lã‚Ìƒtƒ@ƒCƒ‹‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚ÍA–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚ÌãŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍA‚±‚ÌŠÖ”‚Ì Unicode ”Å‚ğŒÄ‚ÑAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚Ì–½–¼v‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~‚Å‚ÍA‚±‚ÌŠÖ”‚Ì Unicode ”Å (MoveFileWithProgressW) ‚É‚Â‚¢‚ÄA"\\?\" ‚ğ•t‰Á‚¹‚¸‚É MAX_PATH §ŒÀ‚ğ‰ğœ‚·‚éƒIƒvƒgƒCƒ“‹@”\‚ª‚ ‚éBÚ×‚Íuƒtƒ@ƒCƒ‹AƒpƒXA–¼‘O‹óŠÔ‚Ì–½–¼v‚ÌuÅ‘åƒpƒX’·§ŒÀv‚Ìß‚ğQÆB
@@ -15953,8 +14785,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚ÌƒeƒNƒmƒƒW‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚éB
 %index
 MulDiv
 32 ƒrƒbƒg’l‚ğ 2 ‚ÂŠ|‚¯‡‚í‚¹A‚»‚Ì 64 ƒrƒbƒgŒ‹‰Ê‚ğ 3 ”Ô–Ú‚Ì 32 ƒrƒbƒg’l‚ÅŠ„‚éB
-%group
-Win32 kernel32
 %prm
 nNumber, nNumerator, nDenominator
 nNumber : [int] ”íæ”B
@@ -15972,8 +14802,6 @@ nDenominator : [int] æZŒ‹‰Ê‚ğœZ‚·‚é”B
 %index
 MultiByteToWideChar
 •¶š—ñ‚ğ UTF-16(ƒƒCƒh•¶š)•¶š—ñ‚Éƒ}ƒbƒv‚·‚éB
-%group
-Win32 kernel32
 %prm
 CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar
 CodePage : [int] •ÏŠ·‚Ég—p‚·‚éƒR[ƒhƒy[ƒWBƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚Ü‚½‚Í—˜—p‰Â”\‚È”CˆÓ‚ÌƒR[ƒhƒy[ƒW’l‚ğİ’è‚Å‚«‚éB
@@ -16002,8 +14830,6 @@ lpWideCharStr ‚Í“¯‚¶ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B“ü—Í’·‚ª–¾¦“I‚ÉI’[ NULL ‚È‚µ‚Å
 %index
 NeedCurrentDirectoryForExePathW
 w’è‚µ‚½Às‰Â”\ƒtƒ@ƒCƒ‹‚ÌŒŸõƒpƒX‚ÉƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŠÜ‚ß‚é‚×‚«‚©‚ğ”»’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 ExeName
 ExeName : [wstr] Às‰Â”\ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -16036,8 +14862,6 @@ CreateProcess ‚ğŒÄ‚Ô‘O‚É“Æ©‚ÌƒpƒX‰ğŒˆ‚ğs‚¤‚½‚ßA‚±‚ÌŠÖ”‚ğŒÄ‚ñ‚ÅƒRƒ}ƒ“ƒhŒŸõƒp
 %index
 NormalizeString
 Unicode 4.0 TR#15 ‚É]‚Á‚ÄƒeƒLƒXƒg•¶š—ñ‚Ì•¶š‚ğ³‹K‰»‚·‚éBÚ×‚ÍuUnicode ³‹K‰»‚ğg‚Á‚½•¶š—ñ•\Œ»v‚ğQÆB
-%group
-Win32 kernel32
 %prm
 NormForm, lpSrcString, cwSrcLength, lpDstString, cwDstLength
 NormForm : [int] g—p‚·‚é³‹K‰»Œ`®BNORM_FORM ‚Í•W€‚Ì Unicode ³‹K‰»Œ`®‚ğw’è‚·‚éB
@@ -16070,8 +14894,6 @@ cwSrcLength ‚ª -1 ‚Ìê‡A•ÏŠ·æƒoƒbƒtƒ@‚É‘‚«‚Ü‚ê‚é•¶š—ñ‚Í null I’[‚³‚êA•Ô
 %index
 NotifyUILanguageChange
 ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢BNotifyUILanguageChange ‚Í•ÏX‚Ü‚½‚Í—˜—p•s‰Â‚Æ‚È‚é‰Â”\«‚ª‚ ‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, pcwstrNewLanguage, pcwstrPreviousLanguage, dwReserved, pdwStatusRtrn
 dwFlags : [int] —\–ñB
@@ -16092,8 +14914,6 @@ NotifyUILanguageChange ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸A«—ˆ•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚
 %index
 OOBEComplete
 OOBE (Windows ‚Ö‚æ‚¤‚±‚») ‚ªŠ®—¹‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 isOOBEComplete
 isOOBEComplete : [var] ¬Œ÷‚É OOBE ‚ÌŠ®—¹ó‘Ô‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -16108,8 +14928,6 @@ OOBE Š®—¹ó‘Ô‚Ìİ’è‚É¬Œ÷‚µ‚½ê‡‚Í TRUEB‚»‚¤‚Å‚È‚¯‚ê‚Î FALSEBFALSE ‚Ìê‡AGe
 %index
 OpenEventW
 Šù‘¶‚Ì–¼‘O•t‚«ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B(Unicode)
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, lpName
 dwDesiredAccess : [int] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXBw’èƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚É—v‹‚³‚ê‚½ƒAƒNƒZƒX‚ğ‹–‰Â‚µ‚È‚¢ê‡AŠÖ”‚Í¸”s‚·‚éBƒAƒNƒZƒXŒ ‚Ìˆê——‚Íu“¯ŠúƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -16138,8 +14956,6 @@ ANSI ”Å‚Ü‚½‚Í Unicode
 %index
 OpenFile
 ƒtƒ@ƒCƒ‹‚ğì¬EƒI[ƒvƒ“EÄƒI[ƒvƒ“Eíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpFileName, lpReOpenBuff, uStyle
 lpFileName : [str] ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•¶š—ñ‚Í 8 ƒrƒbƒg Windows •¶šƒZƒbƒg‚Ì•¶š‚Å\¬‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BOpenFile ŠÖ”‚Í Unicode ƒtƒ@ƒCƒ‹–¼‚â–¼‘O•t‚«ƒpƒCƒv‚ÌƒI[ƒvƒ“‚ğƒTƒ|[ƒg‚µ‚È‚¢B
@@ -16161,8 +14977,6 @@ lpFileName ˆø”‚ªƒtƒ@ƒCƒ‹–¼‚ÆŠg’£q‚Ì‚İ‚ğw’è‚·‚éê‡A‚±‚ÌŠÖ”‚ÍŸ‚ÌƒfƒBƒŒƒNƒgƒ
 %index
 OpenFileById
 w’è‚µ‚½¯•Êq‚Éˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ğŠJ‚­B
-%group
-Win32 kernel32
 %prm
 hVolumeHint, lpFileId, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwFlagsAndAttributes
 hVolumeHint : [intptr] ŠJ‚±‚¤‚Æ‚·‚éƒtƒ@ƒCƒ‹‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒ{ƒŠƒ…[ƒ€‚Ü‚½‚Í‹¤—Lã‚Ì”CˆÓ‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -16190,8 +15004,6 @@ OpenFileById ‚ª•Ô‚·ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é‚É‚Í CloseHandle ŠÖ”‚ğg‚¤BDele
 %index
 OpenFileMappingW
 –¼‘O•t‚«ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B(OpenFileMappingW)
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, lpName
 dwDesiredAccess : [int] ƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXB‚±‚ÌƒAƒNƒZƒX‚Í‘ÎÛ‚Ìƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚Ì”CˆÓ‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÆÆ‡‚³‚ê‚éB’l‚Ìˆê——‚Íuƒtƒ@ƒCƒ‹ƒ}ƒbƒsƒ“ƒO‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -16216,8 +15028,6 @@ SetFileTime ‚ğg‚Á‚Äƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğİ’è‚·‚×‚«‚Å‚ ‚éBOpenFileMapping
 %index
 OpenJobObjectW
 Šù‘¶‚ÌƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B(OpenJobObjectW)
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, lpName
 dwDesiredAccess : [int] ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXB‚±‚Ìˆø”‚É‚ÍƒWƒ‡ƒuƒIƒuƒWƒFƒNƒgƒAƒNƒZƒXŒ ‚Ì 1 ‚ÂˆÈã‚ğw’è‚Å‚«‚éB‚±‚ÌƒAƒNƒZƒXŒ ‚ÍƒIƒuƒWƒFƒNƒg‚Ì”CˆÓ‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÆÆ‡‚³‚ê‚éB
@@ -16239,8 +15049,6 @@ NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 OpenMutexW
 w’è‚³‚ê‚½–¼‘O•t‚«ƒ~ƒ…[ƒeƒbƒNƒXƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B(Unicode)
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, lpName
 dwDesiredAccess : [int] ƒ~ƒ…[ƒeƒbƒNƒXƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXŒ B—v‹‚³‚ê‚½ƒAƒNƒZƒX‚ªƒ~ƒ…[ƒeƒbƒNƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É‘Î‚µ‚Ä‹–‰Â‚³‚ê‚é‚©‚Ç‚¤‚©‚ª”»’è‚³‚ê‚éB
@@ -16262,8 +15070,6 @@ CloseHandle ‚Å•Â‚¶‚éB
 %index
 OpenPrivateNamespaceW
 OpenPrivateNamespaceW (Unicode) ŠÖ” (namespaceapi.h) ‚Íƒvƒ‰ƒCƒx[ƒg–¼‘O‹óŠÔ‚ğŠJ‚­B
-%group
-Win32 kernel32
 %prm
 lpBoundaryDescriptor, lpAliasPrefix
 lpBoundaryDescriptor : [intptr] –¼‘O‹óŠÔ‚Ì•ª—£•û–@‚ğ’è‹`‚·‚é‹LqqBCreateBoundaryDescriptor ŠÖ”‚ª‹«ŠE‹Lqq‚ğì¬‚·‚éB
@@ -16281,8 +15087,6 @@ OpenPrivateNamespaceW (Unicode) ŠÖ” (namespaceapi.h) ‚Íƒvƒ‰ƒCƒx[ƒg–¼‘O‹óŠÔ‚ğŠJ
 %index
 OpenProcess
 Šù‘¶‚Ìƒ[ƒJƒ‹ƒvƒƒZƒXƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, dwProcessId
 dwDesiredAccess : [int] ƒvƒƒZƒXƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXBƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÆÆ‡‚³‚ê‚éB1 ‚ÂˆÈã‚ÌƒvƒƒZƒXƒAƒNƒZƒXŒ ‚ğw’è‚Å‚«‚éBSeDebugPrivilege “ÁŒ ‚ª—LŒø‚Èê‡AƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì“à—e‚ÉŠÖ‚í‚ç‚¸—v‹ƒAƒNƒZƒX‚ª•t—^‚³‚ê‚éB
@@ -16304,8 +15108,6 @@ dwProcessId : [int] ŠJ‚­ƒ[ƒJƒ‹ƒvƒƒZƒX‚Ì¯•ÊqBSystem Idle Process(0x00000000
 %index
 OpenSemaphoreW
 w’è‚³‚ê‚½–¼‘O•t‚«ƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B(Unicode)
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, lpName
 dwDesiredAccess : [int] ƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXŒ B—v‹‚³‚ê‚½ƒAƒNƒZƒX‚ªƒZƒ}ƒtƒH‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚É‘Î‚µ‚Ä‹–‰Â‚³‚ê‚é‚©‚Ç‚¤‚©‚ª”»’è‚³‚ê‚éB
@@ -16326,8 +15128,6 @@ CloseHandle ‚Å•Â‚¶‚éB
 %index
 OpenThread
 Šù‘¶‚ÌƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, dwThreadId
 dwDesiredAccess : [int] ƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXB‚±‚ÌƒAƒNƒZƒXŒ ‚ÍƒXƒŒƒbƒh‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ÆÆ‡‚³‚ê‚éB‚±‚Ìˆø”‚É‚ÍƒXƒŒƒbƒhƒAƒNƒZƒXŒ ‚Ì 1 ‚ÂˆÈã‚ğw’è‚Å‚«‚éBŒÄ‚Ño‚µ‘¤‚ª SeDebugPrivilege “ÁŒ ‚ğ—LŒø‚É‚µ‚Ä‚¢‚éê‡AƒZƒLƒ…ƒŠƒeƒB‹Lqq‚Ì“à—e‚É‚©‚©‚í‚ç‚¸—v‹‚³‚ê‚½ƒAƒNƒZƒX‚ª•t—^‚³‚ê‚éB
@@ -16350,8 +15150,6 @@ dwDesiredAccess ˆø”‚Åw’è‚³‚ê‚½”ÍˆÍ‚Å‚Ì‚İ•t—^‚³‚ê‚éBƒnƒ“ƒhƒ‹‚ğg‚¢I‚¦‚½‚çACl
 %index
 OpenWaitableTimerW
 Šù‘¶‚Ì–¼‘O•t‚«‘Ò‹@‰Â”\ƒ^ƒCƒ}[ƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
-%group
-Win32 kernel32
 %prm
 dwDesiredAccess, bInheritHandle, lpTimerName
 dwDesiredAccess : [int] ƒ^ƒCƒ}[ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXBw’èƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ªŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚É—v‹‚³‚ê‚½ƒAƒNƒZƒX‚ğ‹–‰Â‚µ‚È‚¢ê‡AŠÖ”‚Í¸”s‚·‚éBƒAƒNƒZƒXŒ ‚Ìˆê——‚Íu“¯ŠúƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -16378,8 +15176,6 @@ DuplicateHandle ŠÖ”‚ğg‚Á‚Ä•¡»‚Å‚«‚éBƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é‚É‚Í CloseHandle
 %index
 OutputDebugStringW
 •¶š—ñ‚ğ•\¦‚·‚é‚½‚ß‚ÉƒfƒoƒbƒK‚É‘—M‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpOutputString
 lpOutputString : [wstr] •\¦‚·‚é NULL I’[•¶š—ñB
@@ -16397,8 +15193,6 @@ WaitForDebugEventEx
 %index
 PeekConsoleInputW
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚©‚çƒf[ƒ^‚ğAƒoƒbƒtƒ@‚©‚çæ‚èœ‚©‚¸‚É“Ç‚İ‚ŞB
-%group
-Win32 kernel32
 %prm
 hConsoleInput, lpBuffer, nLength, lpNumberOfEventsRead
 hConsoleInput : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -16422,8 +15216,6 @@ lpNumberOfEventsRead : [var] “Ç‚İ‚Ü‚ê‚½“ü—ÍƒŒƒR[ƒh”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 PeekNamedPipe
 –¼‘O•t‚«‚Ü‚½‚Í“½–¼ƒpƒCƒv‚Ìƒf[ƒ^‚ğAƒpƒCƒv‚©‚çæ‚èœ‚©‚¸‚Éƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hNamedPipe, lpBuffer, nBufferSize, lpBytesRead, lpTotalBytesAvail, lpBytesLeftThisMessage
 hNamedPipe : [intptr] ƒpƒCƒv‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìˆø”‚ÍACreateNamedPipe ‚Ü‚½‚Í CreateFile ŠÖ”‚ª•Ô‚·–¼‘O•t‚«ƒpƒCƒvƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í CreatePipe ŠÖ”‚ª•Ô‚·“½–¼ƒpƒCƒv‚Ì“Ç‚İæ‚è‘¤‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éBƒnƒ“ƒhƒ‹‚ÍƒpƒCƒv‚Ö‚Ì GENERIC_READ ƒAƒNƒZƒX‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -16447,8 +15239,6 @@ PeekNamedPipe ŠÖ”‚Í ReadFile ŠÖ”‚É—‚Ä‚¢‚é‚ªAŸ‚Ì—áŠO‚ª‚ ‚éB
 %index
 PostQueuedCompletionStatus
 I/O Š®—¹ƒpƒPƒbƒg‚ğ I/O Š®—¹ƒ|[ƒg‚Öƒ|ƒXƒg‚·‚éB
-%group
-Win32 kernel32
 %prm
 CompletionPort, dwNumberOfBytesTransferred, dwCompletionKey, lpOverlapped
 CompletionPort : [intptr] I/O Š®—¹ƒpƒPƒbƒg‚ğƒ|ƒXƒg‚·‚é I/O Š®—¹ƒ|[ƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -16474,8 +15264,6 @@ OVERLAPPED \‘¢‘Ì‚ğw‚·•K—v‚Í‚È‚¢BWindows 8 ‚¨‚æ‚Ñ Windows Server 2012
 %index
 PowerClearRequest
 “dŒ¹—v‹ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éw’èí•Ê‚Ì“dŒ¹—v‹‚Ì”‚ğŒ¸‚ç‚·B
-%group
-Win32 kernel32
 %prm
 PowerRequest, RequestType
 PowerRequest : [intptr] “dŒ¹—v‹ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -16490,8 +15278,6 @@ RequestType : [int]
 %index
 PowerCreateRequest
 V‚µ‚¢“dŒ¹—v‹ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 Context
 Context : [var] “dŒ¹—v‹‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş REASON_CONTEXT \‘¢‘Ì‚ğw‚·B
@@ -16509,8 +15295,6 @@ Context : [var] “dŒ¹—v‹‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş REASON_CONTEXT \‘¢‘Ì‚ğw‚·B
 %index
 PowerSetRequest
 “dŒ¹—v‹ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éw’èí•Ê‚Ì“dŒ¹—v‹‚Ì”‚ğ‘‚â‚·B
-%group
-Win32 kernel32
 %prm
 PowerRequest, RequestType
 PowerRequest : [intptr] “dŒ¹—v‹ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -16536,8 +15320,6 @@ PowerClearRequest ‚ğŒÄ‚ñ‚Å—v‹‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·B*
 %index
 PrepareTape
 ƒe[ƒv‚Ö‚ÌƒAƒNƒZƒX‚Ü‚½‚Íæ‚èŠO‚µ‚Ì‚½‚ß‚Ì€”õ‚ğs‚¤B
-%group
-Win32 kernel32
 %prm
 hDevice, dwOperation, bImmediate
 hDevice : [intptr] ƒe[ƒv‚ğ€”õ‚·‚éƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateFile ŠÖ”‚ğg‚Á‚Äì¬‚³‚ê‚éB
@@ -16558,8 +15340,6 @@ bImmediate : [int] ‚±‚Ìˆø”‚ª TRUE ‚Ìê‡AŠÖ”‚Í’¼‚¿‚É–ß‚éBFALSE ‚Ìê‡A‘€ì‚
 %index
 Process32First
 Process32First ŠÖ” (tlhelp32.h) ‚ÍAƒVƒXƒeƒ€ƒXƒiƒbƒvƒVƒ‡ƒbƒg“à‚ÅÅ‰‚ÉŒ©‚Â‚©‚Á‚½ƒvƒƒZƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lppe
 hSnapshot : [intptr] CreateToolhelp32Snapshot ŠÖ”‚Ì’¼‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -16582,8 +15362,6 @@ ERROR_NO_MORE_FILES ƒGƒ‰[’l‚ğ•Ô‚·B
 %index
 Process32Next
 Process32Next ŠÖ” (tlhelp32.h) ‚ÍAƒVƒXƒeƒ€ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚É‹L˜^‚³‚ê‚½Ÿ‚ÌƒvƒƒZƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lppe
 hSnapshot : [intptr] CreateToolhelp32Snapshot ŠÖ”‚Ì’¼‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -16603,8 +15381,6 @@ ERROR_NO_MORE_FILES ƒGƒ‰[’l‚ğ•Ô‚·B
 %index
 ProcessIdToSessionId
 w’è‚µ‚½ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒX‚ÌƒZƒbƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwProcessId, pSessionId
 dwProcessId : [int] ƒvƒƒZƒX¯•Êq‚ğw’è‚·‚éBŒ»İ‚ÌƒvƒƒZƒX‚ÌƒvƒƒZƒX¯•Êq‚ğæ“¾‚·‚é‚É‚Í GetCurrentProcessId ŠÖ”‚ğg‚¤B
@@ -16624,8 +15400,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 PulseEvent
 w’è‚µ‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚µA“KØ‚È”‚Ì‘Ò‹@’†ƒXƒŒƒbƒh‚ğ‰ğ•ú‚µ‚½Œã‚É”ñƒVƒOƒiƒ‹ó‘Ô‚ÖƒŠƒZƒbƒg‚·‚éB
-%group
-Win32 kernel32
 %prm
 hEvent
 hEvent : [intptr] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BCreateEvent ‚Ü‚½‚Í OpenEvent ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -16656,8 +15430,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 PurgeComm
 w’è‚µ‚½’ÊMƒŠƒ\[ƒX‚Ìo—Íƒoƒbƒtƒ@‚Ü‚½‚Í“ü—Íƒoƒbƒtƒ@‚©‚ç‚·‚×‚Ä‚Ì•¶š‚ğ”jŠü‚·‚éB‚Ü‚½AƒŠƒ\[ƒXã‚Ì•Û—¯’†‚Ì“Ç‚İæ‚è‚Ü‚½‚Í‘‚«‚İ‘€ì‚ğI—¹‚·‚é‚±‚Æ‚à‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwFlags
 hFile : [intptr] ’ÊMƒŠƒ\[ƒX‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -16680,8 +15452,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 QueryActCtxW
 QueryActCtxW ŠÖ”‚ÍAƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ğÆ‰ï‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, hActCtx, pvSubInstance, ulInfoClass, pvBuffer, cbBuffer, pcbWrittenOrRequired
 dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍAŸ‚Ìƒtƒ‰ƒOƒrƒbƒg‚Ì‚¢‚¸‚ê‚©‚ğİ’è‚·‚éB
@@ -16712,8 +15482,6 @@ cbBuffer ƒpƒ‰ƒ[ƒ^‚Í pvBuffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éBpvB
 %index
 QueryActCtxSettingsW
 QueryActCtxSettingsW ŠÖ”‚ÍAƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒgA‚È‚ç‚Ñ‚ÉÆ‰ï‘ÎÛ‚Æ‚È‚é‘®«‚Ì–¼‘O‹óŠÔ‚¨‚æ‚Ñ–¼‘O‚ğw’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, hActCtx, settingsNameSpace, settingName, pvBuffer, dwBuffer, pdwWrittenOrRequired
 dwFlags : [int] ‚±‚Ì’l‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -16736,8 +15504,6 @@ QueryActCtxSettingsW
 %index
 QueryDosDeviceW
 MS-DOS ƒfƒoƒCƒX–¼‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(QueryDosDeviceW)
-%group
-Win32 kernel32
 %prm
 lpDeviceName, lpTargetPath, ucchMax
 lpDeviceName : [wstr] Æ‰ï‘ÎÛ‚ğw’è‚·‚é MS-DOS ƒfƒoƒCƒX–¼•¶š—ñBƒfƒoƒCƒX–¼‚Ì––”ö‚ÉƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ğ•t‚¯‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B‚½‚Æ‚¦‚Î "C:\\" ‚Å‚Í‚È‚­ "C:" ‚ğg—p‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B‚»‚Ìê‡AQueryDosDevice ŠÖ”‚ÍŠù‘¶‚Ì‘S MS-DOS ƒfƒoƒCƒX–¼‚Ìˆê——‚ğ lpTargetPath ‚ªw‚·ƒoƒbƒtƒ@‚ÉŠi”[‚·‚éB
@@ -16768,8 +15534,6 @@ MS-DOS ƒfƒoƒCƒX–¼‘O‹óŠÔ‚ÌƒGƒ“ƒgƒŠ‚ğ•Ô‚·BƒOƒ[ƒoƒ‹‚¨‚æ‚Ñƒ[ƒJƒ‹ MS-DOS ƒfƒoƒCƒ
 %index
 QueryFullProcessImageNameW
 w’è‚µ‚½ƒvƒƒZƒX‚ÌÀs‰Â”\ƒCƒ[ƒW‚ÌŠ®‘S‚È–¼‘O‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hProcess, dwFlags, lpExeName, lpdwSize
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚Åì¬‚·‚é•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -16796,8 +15560,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 QueryIdleProcessorCycleTime
 ƒVƒXƒeƒ€“à‚ÌŠeƒvƒƒZƒbƒT‚ÌƒAƒCƒhƒ‹ƒXƒŒƒbƒh‚ÌƒTƒCƒNƒ‹ƒ^ƒCƒ€‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 BufferLength, ProcessorIdleCycleTime
 BufferLength : [var] “ü—Í‚Í ProcessorIdleCycleTime ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éB‚±‚Ìƒoƒbƒtƒ@‚ÍƒOƒ‹[ƒv“à‚ÌƒvƒƒZƒbƒT”‚Ì 8 ”{‚Å‚ ‚é‚±‚Æ‚ªŠú‘Ò‚³‚ê‚éBo—Í‚Íƒoƒbƒtƒ@‚Ö‘‚«‚Ü‚ê‚½—v‘f”‚ğİ’è‚·‚éBƒoƒbƒtƒ@ƒTƒCƒY‚ª•s\•ª‚Èê‡AŠÖ”‚Í¸”s‚µA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í•K—v‚Èƒoƒbƒtƒ@’·‚ğó‚¯æ‚éB
@@ -16816,8 +15578,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 QueryIdleProcessorCycleTimeEx
 w’è‚µ‚½ƒvƒƒZƒbƒTƒOƒ‹[ƒv“à‚ÌŠe˜_—ƒvƒƒZƒbƒTã‚ÌƒAƒCƒhƒ‹ƒXƒŒƒbƒh‚Ì—İÏƒTƒCƒNƒ‹ƒ^ƒCƒ€‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 Group, BufferLength, ProcessorIdleCycleTime
 Group : [int] ƒTƒCƒNƒ‹ƒ^ƒCƒ€‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒvƒƒZƒbƒTƒOƒ‹[ƒv”Ô†B
@@ -16838,8 +15598,6 @@ GetLastError ‚ğg—p‚·‚éB
 %index
 QueryInformationJobObject
 ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚©‚ç§ŒÀ‚¨‚æ‚ÑƒWƒ‡ƒuó‘Ôî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hJob, JobObjectInformationClass, lpJobObjectInformation, cbJobObjectInformationLength, lpReturnLength
 hJob : [intptr] î•ñ‚ğÆ‰ï‚·‚éƒWƒ‡ƒu‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateJobObject ‚Ü‚½‚Í OpenJobObject ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·Bƒnƒ“ƒhƒ‹‚Í JOB_OBJECT_QUERY ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Job Object Security and Access Rights ‚ğQÆB
@@ -16864,8 +15622,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 QueryIoRateControlInformationJobObject
 ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚Ì I/O ƒŒ[ƒg§Œä‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hJob, VolumeName, InfoBlocks, InfoBlockCount
 hJob : [intptr] î•ñ‚ğÆ‰ï‚·‚éƒWƒ‡ƒu‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateJobObject ‚Ü‚½‚Í OpenJobObject ŠÖ”‚©‚çæ“¾‚·‚éBƒnƒ“ƒhƒ‹‚Í JOB_OBJECT_QUERY ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBƒAƒNƒZƒXŒ ‚ÌÚ×‚Í Job Object Security and Access Rights ‚ğQÆB‚±‚Ì’l‚ª NULL ‚ÅAQueryIoRateControlInformationJobObject ‚ğŒÄ‚Ño‚·ƒvƒƒZƒX‚ªƒWƒ‡ƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éê‡AŠÖ”‚Í‚»‚ÌƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒWƒ‡ƒu‚ğg—p‚·‚éBƒWƒ‡ƒu‚ª•Ê‚ÌƒWƒ‡ƒu‚É“ü‚êq‚É‚È‚Á‚Ä‚¢‚éê‡AŠÖ”‚Í‚»‚ÌƒvƒƒZƒX‚Ì’¼‹ß‚ÌƒWƒ‡ƒu‚ğg—p‚·‚éB
@@ -16886,8 +15642,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 QueryMemoryResourceNotification
 w’è‚µ‚½ƒƒ‚ƒŠƒŠƒ\[ƒXƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ResourceNotificationHandle, ResourceState
 ResourceNotificationHandle : [intptr] ƒƒ‚ƒŠƒŠƒ\[ƒX’Ê’mƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateMemoryResourceNotification ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -16908,8 +15662,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 QueryPerformanceCounter
 ‚•ª‰ğ”\(<1us)ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚Å‚ ‚éƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^‚ÌŒ»İ’l‚ğæ“¾‚·‚éBŠÔŠÔŠu‚ÌŒv‘ª‚Ég—p‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 lpPerformanceCount
 lpPerformanceCount : [var] Œ»İ‚ÌƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^’l(ƒJƒEƒ“ƒg’PˆÊ)‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -16926,8 +15678,6 @@ lpPerformanceCount : [var] Œ»İ‚ÌƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^’l(ƒJƒEƒ“ƒg’PˆÊ)‚ğó‚¯æ‚
 %index
 QueryPerformanceFrequency
 ƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^‚Ìü”g”‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpFrequency
 lpFrequency : [var] Œ»İ‚ÌƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^ü”g”(•b‚ ‚½‚è‚ÌƒJƒEƒ“ƒg”)‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚•ª‰ğ”\ƒJƒEƒ“ƒ^‚ğƒTƒ|[ƒg‚µ‚È‚¢ƒn[ƒhƒEƒFƒA‚Å‚Í 0 ‚É‚È‚é(Windows XP ˆÈ~‚Å‚Í”­¶‚µ‚È‚¢)B
@@ -16945,8 +15695,6 @@ lpFrequency : [var] Œ»İ‚ÌƒpƒtƒH[ƒ}ƒ“ƒXƒJƒEƒ“ƒ^ü”g”(•b‚ ‚½‚è‚ÌƒJƒEƒ“ƒg”)‚ğó
 %index
 QueryProcessAffinityUpdateMode
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒAƒtƒBƒjƒeƒBXVƒ‚[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpdwFlags
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -16966,8 +15714,6 @@ the Windows Headers ‚ğQÆB
 %index
 QueryProcessCycleTime
 w’è‚µ‚½ƒvƒƒZƒX‚Ì‘SƒXƒŒƒbƒh‚ÌƒTƒCƒNƒ‹ƒ^ƒCƒ€‚Ì‡Œv‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ProcessHandle, CycleTime
 ProcessHandle : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -16987,8 +15733,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 QueryThreadCycleTime
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÌƒTƒCƒNƒ‹ƒ^ƒCƒ€‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ThreadHandle, CycleTime
 ThreadHandle : [intptr] ƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -17014,8 +15758,6 @@ CPU ‚à‚ ‚éBŠe CPU ‚Ì“®ì‚Í CPU
 %index
 QueryThreadProfiling
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÅƒXƒŒƒbƒhƒvƒƒtƒ@ƒCƒŠƒ“ƒO‚ª—LŒø‚©‚ğ”»’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 ThreadHandle, Enabled
 ThreadHandle : [intptr] ‘ÎÛƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -17030,8 +15772,6 @@ Enabled : [var] w’è‚µ‚½ƒXƒŒƒbƒh‚ÅƒXƒŒƒbƒhƒvƒƒtƒ@ƒCƒŠƒ“ƒO‚ª—LŒø‚Èê‡‚Í TRUEA‚
 %index
 QueryThreadpoolStackInformation
 w’è‚µ‚½ƒXƒŒƒbƒhƒv[ƒ‹“à‚ÌƒXƒŒƒbƒh‚ÌƒXƒ^ƒbƒN—\–ñƒTƒCƒY‚¨‚æ‚ÑƒRƒ~ƒbƒgƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 ptpp, ptpsi
 ptpp : [intptr] ƒXƒŒƒbƒhƒv[ƒ‹‚ğw’è‚·‚é TP_POOL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpool ŠÖ”‚ª‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
@@ -17051,8 +15791,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 QueryUmsThreadInformation
 w’è‚µ‚½ƒ†[ƒUƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO(UMS)ƒ[ƒJ[ƒXƒŒƒbƒh‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 UmsThread, UmsThreadInfoClass, UmsThreadInformation, UmsThreadInformationLength, ReturnLength
 UmsThread : [intptr] UMS ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -17078,8 +15816,6 @@ QueryUmsThreadInformation ŠÖ”‚ÍAw’è‚³‚ê‚½ UMS
 %index
 QueryUnbiasedInterruptTime
 Œ»İ‚ÌƒoƒCƒAƒX‚È‚µŠ„‚è‚İƒJƒEƒ“ƒg‚ğ 100 ƒiƒm•b’PˆÊ‚Åæ“¾‚·‚éBƒoƒCƒAƒX‚È‚µŠ„‚è‚İƒJƒEƒ“ƒg‚É‚ÍAƒVƒXƒeƒ€‚ªƒXƒŠ[ƒv‚Ü‚½‚Í‹x~ó‘Ô‚Å”ï‚â‚µ‚½ŠÔ‚ÍŠÜ‚Ü‚ê‚È‚¢B
-%group
-Win32 kernel32
 %prm
 UnbiasedTime
 UnbiasedTime : [var] TBD
@@ -17112,8 +15848,6 @@ QueryUnbiasedInterruptTime ŠÖ”‚ÍƒfƒoƒbƒO("checked")ƒrƒ‹ƒh‚Ì Windows
 %index
 QueueUserAPC
 ƒ†[ƒUƒ‚[ƒh‚Ì”ñ“¯ŠúƒvƒƒV[ƒWƒƒŒÄ‚Ño‚µ(APC)ƒIƒuƒWƒFƒNƒg‚ğAw’è‚µ‚½ƒXƒŒƒbƒh‚Ì APC ƒLƒ…[‚É’Ç‰Á‚·‚éB(QueueUserAPC)
-%group
-Win32 kernel32
 %prm
 pfnAPC, hThread, dwData
 pfnAPC : [int] w’è‚³‚ê‚½ƒXƒŒƒbƒh‚ªƒAƒ‰[ƒg‰Â”\‚È‘Ò‹@‘€ì‚ğÀs‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‘¤‚Å—pˆÓ‚µ‚½ APC ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í [PAPCFUNC callback function](../winnt/nc-winnt-papcfunc.md) ‚ğQÆB
@@ -17169,8 +15903,6 @@ Headers](/windows/desktop/WinProg/using-the-windows-headers) ‚ğQÆB
 %index
 QueueUserWorkItem
 ƒXƒŒƒbƒhƒv[ƒ‹“à‚Ìƒ[ƒJ[ƒXƒŒƒbƒh‚Éƒ[ƒNƒAƒCƒeƒ€‚ğƒLƒ…[ƒCƒ“ƒO‚·‚éB
-%group
-Win32 kernel32
 %prm
 Function, Context, Flags
 Function : [int] ƒXƒŒƒbƒhƒv[ƒ‹“à‚ÌƒXƒŒƒbƒh‚ÅÀs‚³‚ê‚éALPTHREAD_START_ROUTINE Œ^‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚ÍƒXƒŒƒbƒh‚ÌŠJnƒAƒhƒŒƒX‚ğ•\‚·B‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Í TerminateThread ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì–ß‚è’l‚Íg—p‚³‚ê‚È‚¢BÚ×‚Í ThreadProc ‚ğQÆB
@@ -17194,8 +15926,6 @@ DLL “à‚ÌŠÖ”‚ğƒ[ƒJ[ƒXƒŒƒbƒh‚ÖƒLƒ…[ƒCƒ“ƒO‚·‚éê‡ADLL
 %index
 RaiseException
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚Å—áŠO‚ğ”­¶‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 dwExceptionCode, dwExceptionFlags, nNumberOfArguments, lpArguments
 dwExceptionCode : [int] ”­¶‚³‚¹‚é—áŠO‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`—áŠOƒR[ƒhB—áŠOƒnƒ“ƒhƒ‰‚ÌƒtƒBƒ‹ƒ^®‚¨‚æ‚Ñ—áŠOƒnƒ“ƒhƒ‰ƒuƒƒbƒN‚ÍAGetExceptionCode ŠÖ”‚ğg—p‚µ‚Ä‚±‚Ì’l‚ğæ“¾‚Å‚«‚éB
@@ -17217,8 +15947,6 @@ RaiseException
 %index
 ReOpenFile
 w’è‚µ‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğAˆÙ‚È‚éƒAƒNƒZƒXŒ A‹¤—Lƒ‚[ƒhAƒtƒ‰ƒO‚ÅÄ“xŠJ‚­B
-%group
-Win32 kernel32
 %prm
 hOriginalFile, dwDesiredAccess, dwShareMode, dwFlagsAndAttributes
 hOriginalFile : [intptr] Ä“xŠJ‚­ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BƒIƒuƒWƒFƒNƒg‚Í CreateFile ŠÖ”‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -17242,8 +15970,6 @@ dwFlags
 %index
 ReadConsoleW
 ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚©‚ç•¶š“ü—Í‚ğ“Ç‚İæ‚èAƒoƒbƒtƒ@‚©‚çíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleInput, lpBuffer, nNumberOfCharsToRead, lpNumberOfCharsRead, pInputControl
 hConsoleInput : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -17293,8 +16019,6 @@ Unicode ‚Å‚ ‚é‚±‚Æ‚ğ•K—v‚Æ‚·‚éB**Windows Server 2003 ‚¨‚æ‚Ñ Windows XP/2000:**
 %index
 ReadConsoleInputW
 ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚èAƒoƒbƒtƒ@‚©‚çíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleInput, lpBuffer, nLength, lpNumberOfEventsRead
 hConsoleInput : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -17327,8 +16051,6 @@ functions](/windows/win32/sync/wait-functions)
 %index
 ReadConsoleOutputW
 ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@“à‚Ì‹éŒ`ó‚Ì•¶šƒZƒ‹ƒuƒƒbƒN‚©‚ç•¶š‚ÆF‘®«ƒf[ƒ^‚ğ“Ç‚İæ‚èAˆ¶æƒoƒbƒtƒ@‚Ö‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpBuffer, dwBufferSize, dwBufferCoord, lpReadRegion
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -17367,8 +16089,6 @@ lpReadRegion : [var] [**SMALL\_RECT**](small-rect-str.md) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü
 %index
 ReadConsoleOutputAttribute
 w’è‚µ‚½ˆÊ’u‚©‚çn‚Ü‚éƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ì˜A‘±‚·‚éƒZƒ‹‚©‚çAw’è‚µ‚½”‚Ì•¶š‘®«‚ğƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpAttribute, nLength, dwReadCoord, lpNumberOfAttrsRead
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -17393,8 +16113,6 @@ lpNumberOfAttrsRead : [var] ÀÛ‚É“Ç‚İæ‚ç‚ê‚½‘®«‚Ì”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 ReadConsoleOutputCharacterW
 w’è‚µ‚½ˆÊ’u‚©‚çn‚Ü‚éƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ì˜A‘±‚·‚éƒZƒ‹‚©‚çAw’è‚µ‚½”‚Ì•¶š‚ğƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpCharacter, nLength, dwReadCoord, lpNumberOfCharsRead
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -17420,8 +16138,6 @@ lpNumberOfCharsRead : [var] ÀÛ‚É“Ç‚İæ‚ç‚ê‚½•¶š”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 ReadDirectoryChangesW
 w’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ“à‚Ì•ÏX“à—e‚ğ‹Lq‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDirectory, lpBuffer, nBufferLength, bWatchSubtree, dwNotifyFilter, lpBytesReturned, lpOverlapped, lpCompletionRoutine
 hDirectory : [intptr] ŠÄ‹‘ÎÛƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚Í FILE_LIST_DIRECTORY ƒAƒNƒZƒXŒ A‚Ü‚½‚Í FILE_LIST_DIRECTORY ‚ğŠÜ‚Ş GENERIC_READ ‚È‚Ç‚ÌƒAƒNƒZƒXŒ ‚ÅŠJ‚­•K—v‚ª‚ ‚éB
@@ -17461,8 +16177,6 @@ ReadDirectoryChangesW ‚ğŒÄ‚Ño‚·Û‚É OVERLAPPED
 %index
 ReadDirectoryChangesExW
 w’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ“à‚Ì•ÏX“à—e‚ğ‹Lq‚·‚éî•ñ‚ğæ“¾‚·‚éBî•ñ‚Ìí—Ş‚É‚æ‚Á‚Ä‚ÍŠg’£î•ñ‚ğŠÜ‚ß‚é‚±‚Æ‚à‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hDirectory, lpBuffer, nBufferLength, bWatchSubtree, dwNotifyFilter, lpBytesReturned, lpOverlapped, lpCompletionRoutine, ReadDirectoryNotifyInformationClass
 hDirectory : [intptr] ŠÄ‹‘ÎÛƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚Í FILE_LIST_DIRECTORY ƒAƒNƒZƒXŒ A‚Ü‚½‚Í FILE_LIST_DIRECTORY ‚ğŠÜ‚Ş GENERIC_READ ‚È‚Ç‚ÌƒAƒNƒZƒXŒ ‚ÅŠJ‚­•K—v‚ª‚ ‚éB
@@ -17503,8 +16217,6 @@ ReadDirectoryChangesExW ‚ğŒÄ‚Ño‚·Û‚É OVERLAPPED
 %index
 ReadFile
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éBƒfƒoƒCƒX‚ªƒTƒ|[ƒg‚·‚éê‡A“Ç‚İæ‚è‚Íƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ª¦‚·ˆÊ’u‚Ås‚í‚ê‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped
 hFile : [intptr] ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹(ƒtƒ@ƒCƒ‹Aƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€A•¨—ƒfƒBƒXƒNAƒ{ƒŠƒ…[ƒ€AƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@Aƒe[ƒvƒhƒ‰ƒCƒuAƒ\ƒPƒbƒgA’ÊMƒŠƒ\[ƒXAƒ[ƒ‹ƒXƒƒbƒgAƒpƒCƒv‚È‚Ç)B“Ç‚İæ‚èƒAƒNƒZƒX‚Åì¬‚·‚é•K—v‚ª‚ ‚éB”ñ“¯Šú“Ç‚İæ‚è‚Å‚Í FILE_FLAG_OVERLAPPED ‚ÅŠJ‚¢‚½”CˆÓ‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í socket/accept ‚ª•Ô‚·ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ğw’è‚Å‚«‚éB
@@ -17527,8 +16239,6 @@ ReadFile ŠÖ”‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌğŒ‚ª”­¶‚µ‚½ê‡‚É–ß‚é:
 %index
 ReadFileEx
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚Í“üo—Í(I/O)ƒfƒoƒCƒX‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éBŠ®—¹ó‘Ô‚Í”ñ“¯Šú‚É•ñ‚³‚êA“Ç‚İæ‚è‚ªŠ®—¹‚Ü‚½‚ÍƒLƒƒƒ“ƒZƒ‹‚³‚êAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ªƒAƒ‰[ƒg‰Â”\‚È‘Ò‹@ó‘Ô‚É‚ ‚é‚Æ‚«‚Éw’è‚µ‚½Š®—¹ƒ‹[ƒ`ƒ“‚ğŒÄ‚Ño‚·B
-%group
-Win32 kernel32
 %prm
 hFile, lpBuffer, nNumberOfBytesToRead, lpOverlapped, lpCompletionRoutine
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX(—á: ƒtƒ@ƒCƒ‹Aƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€A•¨—ƒfƒBƒXƒNAƒ{ƒŠƒ…[ƒ€AƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@Aƒe[ƒvƒhƒ‰ƒCƒuAƒ\ƒPƒbƒgA’ÊMƒŠƒ\[ƒXAƒ[ƒ‹ƒXƒƒbƒgAƒpƒCƒv)‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍACreateFile ŠÖ”‚Å FILE_FLAG_OVERLAPPED ƒtƒ‰ƒO•t‚«‚ÅŠJ‚¢‚½”CˆÓ‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í socket ‚à‚µ‚­‚Í accept ŠÖ”‚ª•Ô‚·ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ğw’è‚Å‚«‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚Í‚Ü‚½ GENERIC_READ ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBƒAƒNƒZƒXŒ ‚ÌÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -17565,8 +16275,6 @@ ERROR_INVALID_USER_BUFFER ‚Ü‚½‚Í ERROR_NOT_ENOUGH_MEMORY
 %index
 ReadFileScatter
 ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚èA•¡”‚Ìƒoƒbƒtƒ@‚Ì”z—ñ‚ÉŠi”[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, aSegmentArray, nNumberOfBytesToRead, lpReserved, lpOverlapped
 hFile : [intptr] “Ç‚İæ‚è‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í **GENERIC_READ** Œ ŒÀA‚¨‚æ‚Ñ **FILE_FLAG_OVERLAPPED** ‚Æ **FILE_FLAG_NO_BUFFERING** ƒtƒ‰ƒO‚Åì¬‚·‚é•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -17595,8 +16303,6 @@ structure](../winnt/ns-winnt-file_segment_element.md) ‚ÍŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚é
 %index
 ReadProcessMemory
 w’è‚µ‚½ƒvƒƒZƒX“à‚Ìƒƒ‚ƒŠ—Ìˆæ‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éB“Ç‚İæ‚é‘S—Ìˆæ‚ªƒAƒNƒZƒX‰Â”\‚Å‚È‚¯‚ê‚ÎA‘€ì‚Í¸”s‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead
 hProcess : [intptr] ƒƒ‚ƒŠ‚ª“Ç‚İæ‚ç‚ê‚éƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í‚»‚ÌƒvƒƒZƒX‚É‘Î‚·‚é PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -17621,8 +16327,6 @@ lpNumberOfBytesRead : [var] w’è‚µ‚½ƒoƒbƒtƒ@‚Ö“]‘—‚³‚ê‚½ƒoƒCƒg”‚ğó‚¯æ‚é•Ï”‚Ö
 %index
 ReadThreadProfilingData
 ƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Aw’è‚µ‚½ƒvƒƒtƒ@ƒCƒŠƒ“ƒOƒf[ƒ^‚ğ“Ç‚İæ‚éB
-%group
-Win32 kernel32
 %prm
 PerformanceDataHandle, Flags, PerformanceData
 PerformanceDataHandle : [intptr] EnableThreadProfiling ŠÖ”‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹B
@@ -17638,8 +16342,6 @@ PerformanceData : [var] ƒXƒŒƒbƒhƒvƒƒtƒ@ƒCƒŠƒ“ƒO‚¨‚æ‚Ñƒn[ƒhƒEƒFƒAƒJƒEƒ“ƒ^ƒf[ƒ^
 %index
 RegisterApplicationRecoveryCallback
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒAƒNƒeƒBƒu‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•œ‹Œ—p‚É“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 pRecoveyCallback, pvParameter, dwPingInterval, dwFlags
 pRecoveyCallback : [int] •œ‹ŒƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í ApplicationRecoveryCallback ‚ğQÆB
@@ -17669,8 +16371,6 @@ HandlerRoutine ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğQÆ)Bƒnƒ“ƒhƒ‰‚ªŠ®—¹‚·‚é‚½‚ß‚Ìƒ^ƒCƒ€ƒAƒEƒg‚Í 3
 %index
 RegisterApplicationRestart
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒAƒNƒeƒBƒu‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‚ğÄ‹N“®—p‚É“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 pwzCommandline, dwFlags
 pwzCommandline : [wstr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÄ‹N“®‚³‚ê‚éÛ‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bw’è‰Â”\‚ÈƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÌÅ‘åƒTƒCƒY‚Í RESTART_MAX_CMD_LINE •¶š‚Å‚ ‚éBƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚É‚ÍÀs‰Â”\ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢BŠÖ”‚ª’Ç‰Á‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡AˆÈ‘O‚É“o˜^‚³‚ê‚½ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Ííœ‚³‚ê‚éBˆø”‚É‹ó”’‚ªŠÜ‚Ü‚ê‚éê‡‚Íˆø”‚ğˆø—p•„‚ÅˆÍ‚ŞB
@@ -17697,8 +16397,6 @@ EWX_RESTARTAPPS ƒtƒ‰ƒO‚ğİ’è‚µ‚Ä ExitWindowsEx ŠÖ”‚ğA‚Ü‚½‚Í SHUTDOWN_RESTARTAP
 %index
 RegisterBadMemoryNotification
 1 ‚ÂˆÈã‚Ì•s—Çƒƒ‚ƒŠƒy[ƒW‚ªŒŸo‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚é•s—Çƒƒ‚ƒŠ’Ê’m‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 Callback
 Callback : [int] “o˜^‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì BadMemoryCallbackRoutine ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -17717,8 +16415,6 @@ Callback : [int] “o˜^‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì BadMemoryCallbackRoutine ŠÖ”‚Ö‚
 %index
 RegisterWaitForSingleObject
 ƒXƒŒƒbƒhƒv[ƒ‹“à‚Ì‘Ò‹@ƒXƒŒƒbƒh‚ÉƒIƒuƒWƒFƒNƒg‚ğ‘Ò‹@‚·‚é‚æ‚¤w¦‚·‚éB
-%group
-Win32 kernel32
 %prm
 phNewWaitObject, hObject, Callback, Context, dwMilliseconds, dwFlags
 phNewWaitObject : [intptr] –ß‚è‚É‘Ò‹@ƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘Ò‹@ƒnƒ“ƒhƒ‹‚Í CloseHandle ‚È‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚ğ•K—v‚Æ‚·‚éŠÖ”‚Å‚Íg—p‚Å‚«‚È‚¢“_‚É’ˆÓB
@@ -17751,8 +16447,6 @@ UnregisterWait ‚Ü‚½‚Í UnregisterWaitEx ŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚é(WT_EXECUTEONLYON
 %index
 RegisterWaitUntilOOBECompleted
 OOBE (Windows Welcome) ‚ÌŠ®—¹Œã‚ÉŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒN‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 OOBECompletedCallback, CallbackContext, WaitHandle
 OOBECompletedCallback : [int] OOBE ‚ÌŠ®—¹‚ÉŒÄ‚Ño‚³‚ê‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í OOBE_COMPLETED_CALLBACK ‚ğQÆB
@@ -17773,8 +16467,6 @@ ERROR_INVALID_STATE ‚ğ•Ô‚·ê‡A‚±‚ê‚Í OOBE ‚ª‚·‚Å‚ÉŠ®—¹‚µ‚Ä‚¢‚Ä OOBE Š®—¹‚ğ“o˜^
 %index
 ReleaseActCtx
 ReleaseActCtx ŠÖ”‚ÍAw’è‚µ‚½ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸Z‚·‚éB
-%group
-Win32 kernel32
 %prm
 hActCtx
 hActCtx : [intptr] QÆƒJƒEƒ“ƒg‚ğŒ¸Z‚·‚é‘ÎÛ‚ÌƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş ACTCTX \‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -17794,8 +16486,6 @@ ReleaseActCtx ŠÖ”‚ÍAw’è‚µ‚½ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ÌQÆƒJƒEƒ“ƒg‚ğŒ¸Z
 %index
 ReleaseMutex
 w’è‚³‚ê‚½ƒ~ƒ…[ƒeƒbƒNƒXƒIƒuƒWƒFƒNƒg‚ÌŠ—LŒ ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMutex
 hMutex : [intptr] ƒ~ƒ…[ƒeƒbƒNƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateMutex ‚Ü‚½‚Í OpenMutex ‚Åæ“¾‚·‚éB
@@ -17815,8 +16505,6 @@ bInitialOwner=TRUE ‚Åì¬‚·‚é‚© wait
 %index
 ReleaseSemaphore
 w’è‚µ‚½ƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ÌƒJƒEƒ“ƒg‚ğw’è‚µ‚½—Ê‚¾‚¯‘‰Á‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 hSemaphore, lReleaseCount, lpPreviousCount
 hSemaphore : [intptr] ƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateSemaphore ‚Ü‚½‚Í OpenSemaphore ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚±‚Ìƒnƒ“ƒhƒ‹‚Í SEMAPHORE_MODIFY_STATE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Synchronization Object Security and Access Rights ‚ğQÆB
@@ -17849,8 +16537,6 @@ WaitForSingleObject ‚ªŒÄ‚Ño‚³‚ê‚½‰ñ”‚É“™‚µ‚¢‰ğ•úƒJƒEƒ“ƒg‚Å ReleaseSemaphore ‚ğ
 %index
 RemoveDirectoryW
 Šù‘¶‚Ì‹ó‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğíœ‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpPathName
 lpPathName : [wstr] íœ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒXB‚±‚ÌƒpƒX‚Í‹ó‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚·‚é•K—v‚ª‚ ‚èAŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Í‚»‚ÌƒfƒBƒŒƒNƒgƒŠ‚É‘Î‚·‚éíœƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚Ño‚µAƒpƒX‚Ìæ“ª‚É "\\\\?\\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming a File ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~A‚±‚ÌŠÖ”‚Ì Unicode ”Å(RemoveDirectoryW)‚Å‚ÍA"\\?\" ‚ğ•t‰Á‚¹‚¸‚É MAX_PATH §ŒÀ‚ğ‰ğœ‚·‚éƒIƒvƒgƒCƒ“‚ª‰Â”\‚Å‚ ‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Length Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆB
@@ -17874,8 +16560,6 @@ Hard Links and Junctions ‚ğQÆBWindows 8 ‚¨‚æ‚Ñ Windows Server 2012
 %index
 RemoveDirectoryTransactedW
 Šù‘¶‚Ì‹ó‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äíœ‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpPathName, hTransaction
 lpPathName : [wstr] íœ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒXBƒpƒX‚Í‹ó‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚·‚é•K—v‚ª‚ ‚èAŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Í‚»‚ÌƒfƒBƒŒƒNƒgƒŠ‚É‘Î‚·‚éíœƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚Ño‚µAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming a File ‚ğQÆBƒfƒBƒŒƒNƒgƒŠ‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅIƒGƒ‰[ƒR[ƒh‚Í ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE ‚Éİ’è‚³‚ê‚éB
@@ -17899,8 +16583,6 @@ RemoveDirectory
 %index
 RemoveSecureMemoryCacheCallback
 AddSecureMemoryCacheCallback ŠÖ”‚ÅˆÈ‘O‚É“o˜^‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^‚ğ‰ğœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 pfnCallBack
 pfnCallBack : [int] íœ‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì SecureMemoryCacheCallback ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -17918,8 +16600,6 @@ the Windows Headers ‚ğQÆB
 %index
 ReplaceFileW
 ƒtƒ@ƒCƒ‹‚ğ•Ê‚Ìƒtƒ@ƒCƒ‹‚Å’u‚«Š·‚¦‚éBŒ³ƒtƒ@ƒCƒ‹‚ÌƒoƒbƒNƒAƒbƒvƒRƒs[‚ğì¬‚·‚éƒIƒvƒVƒ‡ƒ“‚ğ‚ÂB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpReplacedFileName, lpReplacementFileName, lpBackupFileName, dwReplaceFlags, lpExclude, lpReserved
 lpReplacedFileName : [wstr] ’u‚«Š·‚¦‘ÎÛ‚Ìƒtƒ@ƒCƒ‹–¼B‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Å‚Í–¼‘O‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚ê‚éB‚±‚Ì§ŒÀ‚ğ 32,767 ƒƒCƒh•¶š‚Ü‚ÅŠg’£‚·‚é‚É‚ÍAUnicode ”Å‚ğŒÄ‚Ño‚µAƒpƒX‚Ìæ“ª‚É "\\?\" ‚ğ•t‰Á‚·‚éBÚ×‚Í Naming a File ‚ğQÆBƒqƒ“ƒg: Windows 10 ƒo[ƒWƒ‡ƒ“ 1607 ˆÈ~A‚±‚ÌŠÖ”‚Ì Unicode ”Å(ReplaceFileW)‚Å‚ÍA"\\?\" ‚ğ•t‰Á‚¹‚¸‚É MAX_PATH §ŒÀ‚ğ‰ğœ‚·‚éƒIƒvƒgƒCƒ“‚ª‰Â”\‚Å‚ ‚éBÚ×‚Í Naming Files, Paths, and Namespaces ‚Ì "Maximum Path Length Limitation" ƒZƒNƒVƒ‡ƒ“‚ğQÆB‚±‚Ìƒtƒ@ƒCƒ‹‚Í GENERIC_READADELETEA‚¨‚æ‚Ñ SYNCHRONIZE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚ê‚éB‹¤—Lƒ‚[ƒh‚Í FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE ‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í’u‚«Š·‚¦‘ÎÛƒtƒ@ƒCƒ‹‚Ö‚Ì‘‚«‚İƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -17949,8 +16629,6 @@ ReplaceFile ‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB‚à‚¤ 1 ‚Â‚Ì—˜“_‚Æ‚µ‚ÄAReplaceFile
 %index
 ReplacePartitionUnit
 (no summary)
-%group
-Win32 kernel32
 %prm
 TargetPartition, SparePartition, Flags
 TargetPartition : [wstr] 
@@ -17963,8 +16641,6 @@ Flags : [int]
 %index
 RequestDeviceWakeup
 (no summary)
-%group
-Win32 kernel32
 %prm
 hDevice
 hDevice : [intptr] 
@@ -17975,8 +16651,6 @@ hDevice : [intptr]
 %index
 RequestWakeupLatency
 ‰½‚às‚í‚¸ STATUS_NOT_SUPPORTED ‚ğ•Ô‚·B‚±‚ÌŠÖ”‚ÍˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì Windows ‚Æ‚ÌŒİŠ·«‚Ì‚½‚ß‚É‚Ì‚İ’ñ‹Ÿ‚³‚ê‚éBWindows Server 2008 ‚¨‚æ‚Ñ Windows Vista: ‰½‚às‚í‚¸í‚É¬Œ÷‚ğ•Ô‚·B
-%group
-Win32 kernel32
 %prm
 latency
 latency : [int] ƒRƒ“ƒsƒ…[ƒ^‚ğ‹N‚±‚·‚Ì‚É‚©‚©‚éŠÔ‚ÌƒŒƒCƒeƒ“ƒV—vŒB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğw’è‚Å‚«‚éB
@@ -17996,8 +16670,6 @@ latency : [int] ƒRƒ“ƒsƒ…[ƒ^‚ğ‹N‚±‚·‚Ì‚É‚©‚©‚éŠÔ‚ÌƒŒƒCƒeƒ“ƒV—vŒB‚±‚Ìƒpƒ‰ƒ[
 %index
 ResetEvent
 w’è‚³‚ê‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ”ñƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hEvent
 hEvent : [intptr] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateEvent ‚Ü‚½‚Í OpenEvent ‚Åæ“¾‚µ‚½‚à‚ÌB
@@ -18016,8 +16688,6 @@ hEvent : [intptr] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateEvent ‚Ü‚½‚Í OpenEvent
 %index
 ResetWriteWatch
 ‰¼‘zƒƒ‚ƒŠ—Ìˆæ‚Ì‘‚«‚İ’ÇÕó‘Ô‚ğƒŠƒZƒbƒg‚·‚éBˆÈ~‚Ì GetWriteWatch ŠÖ”ŒÄ‚Ño‚µ‚Å‚ÍAƒŠƒZƒbƒg‘€ìˆÈ~‚É‘‚«‚Ü‚ê‚½ƒy[ƒW‚Ì‚İ‚ª•ñ‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 lpBaseAddress, dwRegionSize
 lpBaseAddress : [intptr] ‘‚«‚İ’ÇÕó‘Ô‚ğƒŠƒZƒbƒg‚·‚éƒƒ‚ƒŠ—Ìˆæ‚Ìƒx[ƒXƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒAƒhƒŒƒX‚ÍAVirtualAlloc ŠÖ”‚É‚æ‚è MEM_WRITE_WATCH ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ—Ìˆæ“à‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -18042,8 +16712,6 @@ WRITE_WATCH_FLAG_RESET
 %index
 ResizePseudoConsole
 ‹[—ƒRƒ“ƒ\[ƒ‹‚Ì“à•”ƒoƒbƒtƒ@‚ğw’è‚³‚ê‚½ƒTƒCƒY‚ÖƒŠƒTƒCƒY‚·‚é ResizePseudoConsole ŠÖ”‚ÉŠÖ‚·‚éQlî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hPC, size
 hPC : [intptr] [CreatePseudoConsole](createpseudoconsole.md) ‚ÅŠJ‚¢‚½AƒAƒNƒeƒBƒu‚È‹[—ƒRƒ“ƒ\[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -18065,8 +16733,6 @@ Functions](console-functions.md)
 %index
 ResolveLocaleName
 —^‚¦‚ç‚ê‚½–¼‘O‚É‘Î‚·‚éˆê’v‚·‚éƒƒP[ƒ‹–¼‚ğŒŸõ‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpNameToResolve, lpLocaleName, cchLocaleName
 lpNameToResolve : [wstr] ‰ğŒˆ‚·‚é–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚½‚Æ‚¦‚Î‰pŒê(ƒvƒ‰ƒCƒx[ƒgg—p)‚Ì "en-XA" ‚È‚ÇB
@@ -18092,8 +16758,6 @@ Using Persistent Locale Data ‚ğQÆBWindows 8 ˆÈ~: Windows.Globalization
 %index
 ResumeThread
 ƒXƒŒƒbƒh‚ÌƒTƒXƒyƒ“ƒhƒJƒEƒ“ƒg‚ğ 1 Œ¸‚ç‚·BƒTƒXƒyƒ“ƒhƒJƒEƒ“ƒg‚ª 0 ‚ÉŒ¸‚ç‚³‚ê‚é‚ÆAƒXƒŒƒbƒh‚ÌÀs‚ªÄŠJ‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 hThread
 hThread : [intptr] ÄŠJ‚·‚éƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -18121,8 +16785,6 @@ Windows Store ƒAƒvƒŠ‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 RtlCaptureStackBackTrace
 RtlCaptureStackBackTrace ƒ‹[ƒ`ƒ“‚ÍAƒXƒ^ƒbƒN‚ğ‘k‚Á‚ÄŠeƒtƒŒ[ƒ€‚Ìî•ñ‚ğ‹L˜^‚·‚é‚±‚Æ‚ÅƒXƒ^ƒbƒNƒoƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 FramesToSkip, FramesToCapture, BackTrace, BackTraceHash
 FramesToSkip : [int] ƒoƒbƒNƒgƒŒ[ƒX‚Ìæ“ª‚©‚çƒXƒLƒbƒv‚·‚éƒtƒŒ[ƒ€”B
@@ -18140,8 +16802,6 @@ RtlCaptureStackBackTrace
 %index
 RtlCompareMemory
 (no summary)
-%group
-Win32 kernel32
 %prm
 Source1, Source2, Length
 Source1 : [intptr] 
@@ -18154,8 +16814,6 @@ Length : [int]
 %index
 RtlPcToFileHeader
 w’è‚µ‚½ PC ’l‚ğŠÜ‚ŞƒCƒ[ƒW‚Ìƒx[ƒXƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 PcValue, BaseOfImage
 PcValue : [intptr] PC ’lBŠÖ”‚ÍŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚Éƒ}ƒbƒv‚³‚ê‚Ä‚¢‚é‘Sƒ‚ƒWƒ…[ƒ‹‚©‚çA‚±‚Ì’l‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ğŒŸõ‚·‚éB
@@ -18171,8 +16829,6 @@ PC ’l‚ªŒ©‚Â‚©‚Á‚½ê‡AŠÖ”‚Í PC ’l‚ğŠÜ‚ŞƒCƒ[ƒW‚Ìƒx[ƒXƒAƒhƒŒƒX‚ğ•Ô‚·BPC ’l‚ğ
 %index
 RtlRaiseException
 —áŠO‚ğ”­¶‚³‚¹‚éB
-%group
-Win32 kernel32
 %prm
 ExceptionRecord
 ExceptionRecord : [var] ”­¶‚·‚é—áŠO‚Æ‚»‚Ì—áŠO‚Ìƒpƒ‰ƒ[ƒ^‚ğ‹Lq‚·‚é EXCEPTION_RECORD \‘¢‘Ì‚ÌƒAƒhƒŒƒXBƒ\ƒtƒgƒEƒFƒA—áŠO‚Ì”­¶‚ÍAŒ»İ‚ÌƒXƒŒƒbƒh‚Ìƒ}ƒVƒ“ó‘Ô‚ğƒRƒ“ƒeƒLƒXƒgƒŒƒR[ƒh‚Éæ‚è‚ŞB—áŠOƒŒƒR[ƒh‚Ì ExceptionAddress ƒƒ“ƒo‚ÍŒÄ‚Ño‚µ‘¤‚Ì–ß‚èƒAƒhƒŒƒX‚Éİ’è‚³‚ê‚éB
@@ -18186,8 +16842,6 @@ ExceptionRecord : [var] ”­¶‚·‚é—áŠO‚Æ‚»‚Ì—áŠO‚Ìƒpƒ‰ƒ[ƒ^‚ğ‹Lq‚·‚é EXCEPTION_R
 %index
 RtlUnwind
 ƒvƒƒV[ƒWƒƒŒÄ‚Ño‚µƒtƒŒ[ƒ€‚ÌŠª‚«–ß‚µ‚ğŠJn‚·‚éB(RtlUnwind)
-%group
-Win32 kernel32
 %prm
 TargetFrame, TargetIp, ExceptionRecord, ReturnValue
 TargetFrame : [intptr] Šª‚«–ß‚µ‘ÎÛ‚ÌŒÄ‚Ño‚µƒtƒŒ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍI—¹Šª‚«–ß‚µ‚ğÀs‚·‚éB
@@ -18204,8 +16858,6 @@ ReturnValue : [intptr] Às‚ğŒp‘±‚·‚é‘O‚É®”ŠÖ”‚Ì–ß‚èƒŒƒWƒXƒ^‚É”z’u‚³‚ê‚é’lB
 %index
 ScrollConsoleScreenBufferW
 ‰æ–Êƒoƒbƒtƒ@“à‚Ìƒf[ƒ^ƒuƒƒbƒN‚ğˆÚ“®‚·‚é ScrollConsoleScreenBuffer ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpScrollRectangle, lpClipRectangle, dwDestinationOrigin, lpFill
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹ƒXƒNƒŠ[ƒ“ƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í [Console Buffer Security and Access Rights](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18248,8 +16900,6 @@ lpFill : [var] *lpScrollRectangle* ‚Æ *lpClipRectangle* ‚ÌŒğ·—Ìˆæ‚Ì‚¤‚¿AˆÚ“®‚Ì
 %index
 SearchPathW
 w’è‚µ‚½ƒpƒX‚©‚çw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpPath, lpFileName, lpExtension, nBufferLength, lpBuffer, lpFilePart
 lpPath : [wstr] ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éƒpƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍƒŒƒWƒXƒgƒŠˆË‘¶‚ÌƒVƒXƒeƒ€ŒŸõƒpƒX‚ğg‚Á‚Äˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éBÚ×‚Í”õl‚Ì€‚ğQÆB
@@ -18287,8 +16937,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 SetCachedSigningLevel
 ƒLƒƒƒbƒVƒ…‚³‚ê‚½–¼ƒŒƒxƒ‹‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 SourceFiles, SourceFileCount, Flags, TargetFile
 SourceFiles : [intptr] ƒ\[ƒXƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÌW‡‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -18307,8 +16955,6 @@ TargetFile : [intptr] ‘ÎÛƒtƒ@ƒCƒ‹B
 %index
 SetCalendarInfoW
 ƒJƒŒƒ“ƒ_[‚ÉŠÖ‚·‚éƒƒP[ƒ‹î•ñ‚Ì€–Ú‚ğİ’è‚·‚éBÚ×‚Íu“ú•t‚ÆƒJƒŒƒ“ƒ_[v‚ğQÆB(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, Calendar, CalType, lpCalData
 Locale : [int] ƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚Åì¬‚·‚é‚©AŸ‚Ì’è‹`Ï‚İ’l‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB
@@ -18342,8 +16988,6 @@ ANSI ”Å‚Ü‚½‚Í Unicode
 %index
 SetCommBreak
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚Ì•¶š‘—M‚ğ’†’f‚µAClearCommBreak ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‘—Mü‚ğƒuƒŒ[ƒNó‘Ô‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFileW ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -18357,8 +17001,6 @@ hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFileW ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·
 %index
 SetCommConfig
 ’ÊMƒfƒoƒCƒX‚ÌŒ»İ‚Ì\¬‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hCommDev, lpCC, dwSize
 hCommDev : [intptr] ƒI[ƒvƒ“Ï‚İ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFileW ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -18374,8 +17016,6 @@ dwSize : [int] lpCC ‚ªw‚·\‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %index
 SetCommMask
 ’ÊMƒfƒoƒCƒX‚ÅŠÄ‹‚·‚éƒCƒxƒ“ƒg‚ÌW‡‚ğw’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwEvtMask
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFileW ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -18396,8 +17036,6 @@ GetCommMask ŠÖ”‚ğg—p‚·‚éB
 %index
 SetCommState
 ƒfƒoƒCƒX§ŒäƒuƒƒbƒN (DCB \‘¢‘Ì) ‚Ìw’è‚É]‚Á‚Ä’ÊMƒfƒoƒCƒX‚ğ\¬‚·‚éB‚·‚×‚Ä‚Ìƒn[ƒhƒEƒFƒA‚¨‚æ‚Ñ§Œäİ’è‚ğÄ‰Šú‰»‚·‚é‚ªAo—ÍƒLƒ…[‚â“ü—ÍƒLƒ…[‚Í‹ó‚É‚µ‚È‚¢B
-%group
-Win32 kernel32
 %prm
 hFile, lpDCB
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFileW ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -18421,8 +17059,6 @@ XoffChar ƒƒ“ƒo‚Æ“™‚µ‚¢ê‡ASetCommState ŠÖ”‚Í¸”s‚·‚éBSetCommState ‚ğ 8250
 %index
 SetCommTimeouts
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚Å‚Ì‘S“Ç‚İ‘‚«‘€ì‚É‘Î‚·‚éƒ^ƒCƒ€ƒAƒEƒgƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpCommTimeouts
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateFileW ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -18437,8 +17073,6 @@ lpCommTimeouts : [var] V‚µ‚¢ƒ^ƒCƒ€ƒAƒEƒg’l‚ğŠÜ‚Ş COMMTIMEOUTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 SetComputerNameW
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌV‚µ‚¢ NetBIOS –¼‚ğİ’è‚·‚éB–¼‘O‚ÍƒŒƒWƒXƒgƒŠ‚É•Û‘¶‚³‚êAŸ‰ñƒ†[ƒU[‚ªƒRƒ“ƒsƒ…[ƒ^‚ğÄ‹N“®‚µ‚½Û‚É”½‰f‚³‚ê‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpComputerName
 lpComputerName : [wstr] Ÿ‰ñƒRƒ“ƒsƒ…[ƒ^‹N“®‚É—LŒø‚É‚È‚éƒRƒ“ƒsƒ…[ƒ^–¼B–¼‘O‚Í MAX_COMPUTERNAME_LENGTH •¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -18461,8 +17095,6 @@ lpComputerName : [wstr] Ÿ‰ñƒRƒ“ƒsƒ…[ƒ^‹N“®‚É—LŒø‚É‚È‚éƒRƒ“ƒsƒ…[ƒ^–¼B–¼‘O‚Í
 %index
 SetComputerNameExW
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌV‚µ‚¢ NetBIOS ‚Ü‚½‚Í DNS –¼‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 NameType, lpBuffer
 NameType : [int] 
@@ -18490,8 +17122,6 @@ SetComputerNameEx ‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒRƒ“ƒsƒ…[ƒ^–¼ (Š®‘S DNS –¼‚Ìæ“ªƒ‰ƒxƒ
 %index
 SetComputerNameEx2W
 (no summary)
-%group
-Win32 kernel32
 %prm
 NameType, Flags, lpBuffer
 NameType : [int] 
@@ -18504,8 +17134,6 @@ lpBuffer : [wstr]
 %index
 SetConsoleActiveScreenBuffer
 w’è‚µ‚½‰æ–Êƒoƒbƒtƒ@‚ğŒ»İ•\¦‚·‚éƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -18527,8 +17155,6 @@ hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 SetConsoleCP
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒ\[ƒ‹‚ªg—p‚·‚é“ü—ÍƒR[ƒhƒy[ƒW‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 wCodePageID
 wCodePageID : [int] İ’è‚·‚éƒR[ƒhƒy[ƒW‚Ì¯•ÊqBÚ×‚Í”õl‚ğQÆB
@@ -18563,8 +17189,6 @@ Windows
 %index
 SetConsoleCtrlHandler
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‰ŠÖ”ƒŠƒXƒg‚ÉAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì HandlerRoutine ŠÖ”‚ğ’Ç‰Á‚Ü‚½‚Ííœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 HandlerRoutine, Add
 HandlerRoutine : [int] ’Ç‰Á‚Ü‚½‚Ííœ‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì [**HandlerRoutine**](handlerroutine.md) ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í **NULL** ‚Å‚à‚æ‚¢B
@@ -18628,8 +17252,6 @@ CTRL+C/CTRL+BREAK
 %index
 SetConsoleCursorInfo
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌƒJ[ƒ\ƒ‹‚ÌƒTƒCƒY‚Æ‰Â‹«‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpConsoleCursorInfo
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18655,8 +17277,6 @@ lpConsoleCursorInfo : [var] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌƒJ[ƒ\ƒ‹‚ÉŠÖ‚·‚éV‚µ‚¢İ’è‚ğ
 %index
 SetConsoleCursorPosition
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚ğİ’è‚·‚é SetConsoleCursorPosition ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, dwCursorPosition
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18689,8 +17309,6 @@ dwCursorPosition : [var] V‚µ‚¢ƒJ[ƒ\ƒ‹ˆÊ’u‚ğ•¶š’PˆÊ‚Åw’è‚·‚é [**COORD**](coor
 %index
 SetConsoleDisplayMode
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ì•\¦ƒ‚[ƒh‚ğİ’è‚·‚é SetConsoleDisplayMode ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, dwFlags, lpNewScreenBufferDimensions
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -18712,8 +17330,6 @@ lpNewScreenBufferDimensions : [var] ‰æ–Êƒoƒbƒtƒ@‚ÌV‚µ‚¢¡–@ (•¶š’PˆÊ) ‚ğó‚¯æ
 %index
 SetConsoleHistoryInfo
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Ì Windows ƒRƒ“ƒ\[ƒ‹‚Ì—š—ğİ’è‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpConsoleHistoryInfo
 lpConsoleHistoryInfo : [var] ƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹‚Ì—š—ğİ’è‚ğŠÜ‚Ş [**CONSOLE\_HISTORY\_INFO**](console-history-info.md) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -18734,8 +17350,6 @@ lpConsoleHistoryInfo : [var] ƒvƒƒZƒX‚ÌƒRƒ“ƒ\[ƒ‹‚Ì—š—ğİ’è‚ğŠÜ‚Ş [**CONSOLE\_HI
 %index
 SetConsoleMode
 ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ì“ü—Íƒ‚[ƒhA‚Ü‚½‚ÍƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ìo—Íƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleHandle, dwMode
 hConsoleHandle : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ü‚½‚ÍƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18757,8 +17371,6 @@ dwMode : [int] İ’è‚·‚é“ü—Í‚Ü‚½‚Ío—Íƒ‚[ƒhB[!INCLUDE [console-mode-flags](./in
 %index
 SetConsoleNumberOfCommandsW
 (no summary)
-%group
-Win32 kernel32
 %prm
 Number, ExeName
 Number : [int] 
@@ -18770,8 +17382,6 @@ ExeName : [wstr]
 %index
 SetConsoleOutputCP
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒ\[ƒ‹‚ªg—p‚·‚éo—ÍƒR[ƒhƒy[ƒW‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 wCodePageID
 wCodePageID : [int] İ’è‚·‚éƒR[ƒhƒy[ƒW‚Ì¯•ÊqBÚ×‚Í”õl‚ğQÆB
@@ -18810,8 +17420,6 @@ Windows ƒo[ƒWƒ‡ƒ“‚É‚æ‚Á‚ÄƒŒƒWƒXƒgƒŠ‚ÍˆÙ‚È‚é‚½‚ß
 %index
 SetConsoleScreenBufferInfoEx
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌŠg’£î•ñ‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpConsoleScreenBufferInfoEx
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_WRITE** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18840,8 +17448,6 @@ lpConsoleScreenBufferInfoEx : [var] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@î•ñ‚ğŠÜ‚Ş [**CONSOLE\
 %index
 SetConsoleScreenBufferSize
 w’è‚µ‚½ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğ•ÏX‚·‚é SetConsoleScreenBufferSize ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, dwSize
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18862,8 +17468,6 @@ dwSize : [var] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌV‚µ‚¢ƒTƒCƒY‚ğ•¶šs—ñ’PˆÊ‚Åw’è‚·‚é [**C
 %index
 SetConsoleTextAttribute
 WriteFile/WriteConsole ‚Å‘‚«‚Ü‚ê‚éA‚Ü‚½‚Í ReadFile/ReadConsole ‚ÅƒGƒR[‚³‚ê‚é•¶š‚Ì‘®«‚ğƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, wAttributes
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18889,8 +17493,6 @@ WriteFile/WriteConsole ‚Å‘‚«‚Ü‚ê‚éA‚Ü‚½‚Í ReadFile/ReadConsole
 %index
 SetConsoleTitleW
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹‚ğİ’è‚·‚é SetConsoleTitle ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 lpConsoleTitle
 lpConsoleTitle : [wstr] ƒRƒ“ƒ\[ƒ‹ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹ƒo[‚É•\¦‚·‚é•¶š—ñB‘S‘ÌƒTƒCƒY‚Í 64K –¢–‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -18914,8 +17516,6 @@ lpConsoleTitle : [wstr] ƒRƒ“ƒ\[ƒ‹ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹ƒo[‚É•\¦‚·‚é•¶š—ñB‘S‘Ì
 %index
 SetConsoleWindowInfo
 ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚ÌƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, bAbsolute, lpConsoleWindow
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_READ** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18946,8 +17546,6 @@ lpConsoleWindow : [var] ƒEƒBƒ“ƒhƒE‚ÌV‚µ‚¢¶ã‹÷‚Æ‰E‰º‹÷‚ğw’è‚·‚é [**SMALL\_REC
 %index
 SetCurrentConsoleFontEx
 Œ»İ‚ÌƒRƒ“ƒ\[ƒ‹ƒtƒHƒ“ƒg‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğİ’è‚·‚é SetCurrentConsoleFontEx ŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXî•ñ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, bMaximumWindow, lpConsoleCurrentFontEx
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í **GENERIC\_WRITE** ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚Í [ƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](console-buffer-security-and-access-rights.md) ‚ğQÆB
@@ -18971,8 +17569,6 @@ lpConsoleCurrentFontEx : [var] ƒtƒHƒ“ƒgî•ñ‚ğŠÜ‚Ş [**CONSOLE\_FONT\_INFOEX**](co
 %index
 SetCurrentDirectoryW
 Œ»İ‚ÌƒvƒƒZƒX‚ÌŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpPathName
 lpPathName : [wstr] V‚µ‚¢Œ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌƒpƒXB‘Š‘ÎƒpƒX‚Ü‚½‚Íƒtƒ‹ƒpƒX‚ğw’è‰Â”\B‚¢‚¸‚ê‚Ìê‡‚àw’è‚³‚ê‚½ƒfƒBƒŒƒNƒgƒŠ‚Ìƒtƒ‹ƒpƒX‚ªŒvZ‚³‚ê‚ÄŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚Æ‚µ‚Ä•Û‘¶‚³‚ê‚éBANSI ”Å‚Å‚Í MAX_PATH •¶š‚É§ŒÀ‚³‚êA––”ö‚Í NULL ‚Ì‘O‚ÉƒoƒbƒNƒXƒ‰ƒbƒVƒ…('\\')‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -18990,8 +17586,6 @@ lpPathName : [wstr] V‚µ‚¢Œ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌƒpƒXB‘Š‘ÎƒpƒX‚Ü‚½‚Íƒtƒ‹ƒpƒX‚ğw
 %index
 SetDefaultCommConfigW
 ’ÊMƒfƒoƒCƒX‚ÌŠù’è\¬‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszName, lpCC, dwSize
 lpszName : [wstr] ƒfƒoƒCƒX‚Ì–¼‘OB—á‚¦‚Î COM1`COM9 ‚ÍƒVƒŠƒAƒ‹ƒ|[ƒgALPT1`LPT9 ‚Íƒpƒ‰ƒŒƒ‹ƒ|[ƒg‚Å‚ ‚éB
@@ -19014,8 +17608,6 @@ dwSize : [int] lpCC ‚ªw‚·\‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %index
 SetDllDirectoryW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª DLL ‚ğŒŸõ‚·‚éÛ‚Ég—p‚·‚éŒŸõƒpƒX‚ÉƒfƒBƒŒƒNƒgƒŠ‚ğ’Ç‰Á‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpPathName
 lpPathName : [wstr] ŒŸõƒpƒX‚É’Ç‰Á‚·‚éƒfƒBƒŒƒNƒgƒŠB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª‹ó•¶š—ñ ("") ‚Ìê‡AŠù’è‚Ì DLL ŒŸõ‡˜‚©‚çŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚ªœŠO‚³‚ê‚éBNULL ‚Ìê‡AŠÖ”‚ÍŠù’è‚ÌŒŸõ‡˜‚ğ•œŒ³‚·‚éB
@@ -19037,8 +17629,6 @@ SetDllDirectory ŠÖ”‚ÍAˆÈ~‚Ì‚·‚×‚Ä‚Ì LoadLibrary ‚¨‚æ‚Ñ LoadLibraryEx
 %index
 SetDynamicTimeZoneInformation
 Œ»İ‚Ìƒ^ƒCƒ€ƒ][ƒ“‚Æ“®“I‰ÄŠÔİ’è‚ğİ’è‚·‚éB‚±‚ê‚ç‚Ìİ’è‚Í‹¦’è¢ŠE (UTC) ‚©‚çƒ[ƒJƒ‹‚Ö‚Ì•ÏŠ·‚ğ§Œä‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpTimeZoneInformation
 lpTimeZoneInformation : [var] DYNAMIC_TIME_ZONE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -19057,8 +17647,6 @@ AdjustTokenPrivileges ‚Å“ÁŒ ‚ğ—LŒø‰»‚µAŒÄ‚Ño‚µŒã‚É–³Œø‰»‚·‚éBÚ×‚Íu“ÁŒ •t‚«
 %index
 SetEndOfFile
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ì•¨—ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğAƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ÌŒ»İˆÊ’u‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile
 hFile : [intptr] Šg’£‚Ü‚½‚ÍØ‚è‹l‚ß‚éƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í GENERIC_WRITE ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -19078,8 +17666,6 @@ SetEndOfFile
 %index
 SetEnvironmentStringsW
 ŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌŠÂ‹«ƒuƒƒbƒN‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 NewEnvironment
 NewEnvironment : [int] V‚µ‚¢ŠÂ‹«ƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÂ‹«ƒuƒƒbƒN‚Í null I’[•¶š—ñ‚Ì˜A‘±‚ÅAÅŒã‚É’Ç‰Á‚Ì null •¶š‚ÅI‚í‚éB
@@ -19093,8 +17679,6 @@ NewEnvironment : [int] V‚µ‚¢ŠÂ‹«ƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÂ‹«ƒuƒƒbƒN‚Í null I’[•
 %index
 SetEnvironmentVariableW
 Œ»İ‚ÌƒvƒƒZƒX‚Ìw’è‚³‚ê‚½ŠÂ‹«•Ï”‚Ì“à—e‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpName, lpValue
 lpName : [wstr] ŠÂ‹«•Ï”‚Ì–¼‘OB‚±‚Ì•Ï”‚ª‘¶İ‚¹‚¸ lpValue ‚ª NULL ‚Å‚È‚¢ê‡AƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚Í‚»‚ê‚ğì¬‚·‚éB
@@ -19112,8 +17696,6 @@ lpValue : [wstr] ŠÂ‹«•Ï”‚Ì“à—eBƒ†[ƒU[’è‹`ŠÂ‹«•Ï”‚ÌÅ‘åƒTƒCƒY‚Í 32,767 •¶š
 %index
 SetErrorMode
 w’è‚³‚ê‚½í—Ş‚Ìd‘å‚ÈƒGƒ‰[‚ğƒVƒXƒeƒ€‚ªˆ—‚·‚é‚©ƒvƒƒZƒX‚ªˆ—‚·‚é‚©‚ğ§Œä‚·‚éB
-%group
-Win32 kernel32
 %prm
 uMode
 uMode : [int] 
@@ -19137,8 +17719,6 @@ SEM_NOALIGNMENTFAULTEXCEPT
 %index
 SetEvent
 w’è‚³‚ê‚½ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğƒVƒOƒiƒ‹ó‘Ô‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hEvent
 hEvent : [intptr] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateEvent ‚Ü‚½‚Í OpenEvent ‚Åæ“¾‚µ‚½‚à‚ÌB
@@ -19156,8 +17736,6 @@ hEvent : [intptr] ƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateEvent ‚Ü‚½‚Í OpenEvent
 %index
 SetFileApisToANSI
 Œ»İ‚ÌƒvƒƒZƒX‚Ìƒtƒ@ƒCƒ‹ I/O ŠÖ”ŒQ‚É ANSI •¶šW‡ƒR[ƒhƒy[ƒW‚ğg‚í‚¹‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -19187,8 +17765,6 @@ OEM Œ`®‚É•ÏŠ·‚·‚×‚«‚Å‚ ‚éB‚Ü‚½‚±‚Ìê‡AƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ main ŠÖ”‚Ì argv ”z—ñ‚Í
 %index
 SetFileApisToOEM
 ƒvƒƒZƒX‚Ìƒtƒ@ƒCƒ‹ I/O ŠÖ”ŒQ‚É OEM •¶šW‡ƒR[ƒhƒy[ƒW‚ğg‚í‚¹‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -19218,8 +17794,6 @@ OEM Œ`®‚É•ÏŠ·‚·‚×‚«‚Å‚ ‚éB‚±‚Ìê‡AƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ main ŠÖ”‚Ì argv ”z—ñ‚Í ANS
 %index
 SetFileAttributesW
 ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì‘®«‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, dwFileAttributes
 lpFileName : [wstr] ‘®«‚ğİ’è‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -19239,8 +17813,6 @@ Constants ‚ğQÆB
 %index
 SetFileAttributesTransactedW
 ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ì‘®«‚ğƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘€ì‚Æ‚µ‚Äİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpFileName, dwFileAttributes, hTransaction
 lpFileName : [wstr] ‘®«‚ğİ’è‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -19261,8 +17833,6 @@ hTransaction : [intptr] ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateTrans
 %index
 SetFileBandwidthReservation
 w’èƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€‚É‘Î‚·‚é‘Ñˆæ—\–ñ‚ğ—v‹‚·‚éB—\–ñ‚Íw’èƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹ã‚Ì I/O ƒŠƒNƒGƒXƒg‚É‘Î‚·‚éuƒ~ƒŠ•büŠú‚ ‚½‚è‚ÌƒoƒCƒg”v‚Æ‚µ‚Äw’è‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 hFile, nPeriodMilliseconds, nBytesPerPeriod, bDiscardable, lpTransferSize, lpNumOutstandingRequests
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -19292,8 +17862,6 @@ lpPeriodMillisecondsAlpBytesPerPeriodAlpTransferSize ‚©‚ç“¾‚ç‚ê‚éB‚·‚È‚í‚¿: 1
 %index
 SetFileCompletionNotificationModes
 ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚É‘Î‚·‚é’Ê’mƒ‚[ƒh‚ğİ’è‚µAw’èƒtƒ@ƒCƒ‹‚ÌŠ®—¹’Ê’m‚Ì‹““®‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 FileHandle, Flags
 FileHandle : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -19314,8 +17882,6 @@ Flags : [int] İ’è‚·‚éƒ‚[ƒhBˆê“x‚É•¡”‚Ìƒ‚[ƒh‚ğİ’è‚Å‚«‚é‚ªAƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹
 %index
 SetFileInformationByHandle
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹î•ñ‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, FileInformationClass, lpFileInformation, dwBufferSize
 hFile : [intptr] î•ñ‚ğ•ÏX‚·‚éƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í—v‹‚·‚é•ÏX‚É“K‚µ‚½Œ ŒÀ‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í”õl‚¨‚æ‚ÑƒTƒ“ƒvƒ‹ƒR[ƒh‚ğQÆBƒpƒCƒvƒnƒ“ƒhƒ‹‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -19338,8 +17904,6 @@ dwBufferSize : [int] lpFileInformation ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %index
 SetFileIoOverlappedRange
 w’è‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚É‰¼‘zƒAƒhƒŒƒX”ÍˆÍ‚ğŠÖ˜A•t‚¯‚éB
-%group
-Win32 kernel32
 %prm
 FileHandle, OverlappedRangeStart, Length
 FileHandle : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í FILE_READ_ATTRIBUTES ƒAƒNƒZƒXŒ ‚ÅƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -19363,8 +17927,6 @@ I/O —v‹Œ‹‰Ê‚ÅƒI[ƒo[ƒ‰ƒbƒv\‘¢‘Ì‚ğXV‚·‚éÛ‚É“Á’è‚ÌƒƒbƒNæ“¾‚ğ‰ñ”ğ‚Å‚«‚éBSe
 %index
 SetFilePointer
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ğˆÚ“®‚·‚éB(SetFilePointer)
-%group
-Win32 kernel32
 %prm
 hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -19390,8 +17952,6 @@ hFile ‚Å¯•Ê‚³‚ê‚éƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ÍƒI[ƒo[ƒ‰ƒbƒv“Ç‚İ‘‚«‘€ì‚Å‚Íg—p‚³‚ê‚È‚¢B
 %index
 SetFilePointerEx
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ğˆÚ“®‚·‚éB(SetFilePointerEx)
-%group
-Win32 kernel32
 %prm
 hFile, liDistanceToMove, lpNewFilePointer, dwMoveMethod
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í GENERIC_READ ‚Ü‚½‚Í GENERIC_WRITE ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -19429,8 +17989,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 SetFileShortNameW
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ì’Z‚¢–¼‘O‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hFile, lpShortName
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹‚Í GENERIC_ALL ƒAƒNƒZƒXŒ ‚Ü‚½‚Í GENERIC_WRITE|DELETE ƒAƒNƒZƒXŒ ‚Ì‚¢‚¸‚ê‚©‚ÆAFILE_FLAG_BACKUP_SEMANTICS ‘®«•t‚«‚ÅŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -19452,8 +18010,6 @@ Windows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì‹Zp‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éB
 %index
 SetFileTime
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ìì¬AÅIƒAƒNƒZƒXA‚Ü‚½‚ÍÅIXV‚Ì“ú‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpCreationTime, lpLastAccessTime, lpLastWriteTime
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚Í [CreateFile](/windows/win32/api/fileapi/nf-fileapi-createfilea) ŠÖ”‚ğ **FILE_WRITE_ATTRIBUTES** ƒAƒNƒZƒXŒ ‚ÅŒÄ‚Ño‚µ‚Äì¬‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í [ƒtƒ@ƒCƒ‹‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ ](/windows/win32/FileIO/file-security-and-access-rights) ‚ğQÆB
@@ -19479,8 +18035,6 @@ lpLastWriteTime : [var] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÌV‚µ‚¢ÅIXV“ú‚ğŠÜ‚Ş [FI
 %index
 SetFileValidData
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ì—LŒøƒf[ƒ^’·‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚Í‚²‚­ŒÀ‚ç‚ê‚½ó‹µ‚Å—L—p‚Å‚ ‚éBÚ×‚Í”õl‚ğQÆB
-%group
-Win32 kernel32
 %prm
 hFile, ValidDataLength
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BGENERIC_WRITE ƒAƒNƒZƒXŒ ‚ÅŠJ‚©‚êASE_MANAGE_VOLUME_NAME “ÁŒ ‚ª—LŒø‚É‚È‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Íuƒtƒ@ƒCƒ‹‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB’: ƒtƒ@ƒCƒ‹‚Íƒlƒbƒgƒ[ƒNƒtƒ@ƒCƒ‹Aˆ³kAƒXƒp[ƒXAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì‚¢‚¸‚ê‚Å‚ ‚Á‚Ä‚à‚È‚ç‚È‚¢B
@@ -19500,8 +18054,6 @@ SetFileValidData ŠÖ”‚Íƒtƒ@ƒCƒ‹‚Ì˜_—“I‚ÈI’[‚ğİ’è‚·‚éBƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğİ’è‚·‚
 %index
 SetFirmwareEnvironmentVariableW
 w’è‚µ‚½ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì’l‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpName, lpGuid, pValue, nSize
 lpName : [wstr] ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì–¼‘OBƒ|ƒCƒ“ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -19545,8 +18097,6 @@ ExSetFirmwareEnvironmentVariable ƒJ[ƒlƒ‹ƒ‚[ƒhƒ‹[ƒ`ƒ“‚Ìƒ†[ƒU[ƒ‚[ƒh‘Š“–‚Å‚ ‚
 %index
 SetFirmwareEnvironmentVariableExW
 w’è‚µ‚½ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì’l‚ÆA‚»‚Ì•Ï”‚ª‚Ç‚Ì‚æ‚¤‚É•Û‘¶EˆÛ‚³‚ê‚é‚©‚ğ¦‚·‘®«‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpName, lpGuid, pValue, nSize, dwAttributes
 lpName : [wstr] ƒtƒ@[ƒ€ƒEƒFƒAŠÂ‹«•Ï”‚Ì–¼‘OBƒ|ƒCƒ“ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -19590,8 +18140,6 @@ BIOS ƒx[ƒX‚ÌƒVƒXƒeƒ€‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢BSetFirmwareEnvironmentVariableEx ŠÖ”
 %index
 SetHandleCount
 SetHandleCount ŠÖ”‚ÍƒvƒƒZƒX‚ª—˜—p‰Â”\‚Èƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹”‚ğ•ÏX‚·‚éB
-%group
-Win32 kernel32
 %prm
 uNumber
 uNumber : [int] —v‹‚·‚é—˜—p‰Â”\ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹”B
@@ -19605,8 +18153,6 @@ SetHandleCount ŠÖ”‚ÍƒvƒƒZƒX‚ª—˜—p‰Â”\‚Èƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹”‚ğ•ÏX‚·‚éB
 %index
 SetHandleInformation
 ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚Ì“Á’è‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hObject, dwMask, dwFlags
 hObject : [intptr] î•ñ‚ğİ’è‚·‚é‘ÎÛƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -19625,8 +18171,6 @@ dwFlags “à‚ÌŠÖ˜Aƒrƒbƒgƒtƒ‰ƒO‚ğİ’è‚Ü‚½‚Í‰ğœ‚·‚é‚É‚ÍAdwMask “à‚Ì‘Î‰‚·‚é•ÏXƒ}ƒ
 %index
 SetInformationJobObject
 ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚Ì§ŒÀ‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hJob, JobObjectInformationClass, lpJobObjectInformation, cbJobObjectInformationLength
 hJob : [intptr] §ŒÀ‚ğİ’è‚·‚éƒWƒ‡ƒu‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateJobObject ‚Ü‚½‚Í OpenJobObject ŠÖ”‚ª‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·Bƒnƒ“ƒhƒ‹‚É‚Í JOB_OBJECT_SET_ATTRIBUTES ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -19653,8 +18197,6 @@ SetInformationJobObject
 %index
 SetIoRateControlInformationJobObject
 ƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚É I/O §ŒÀ‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hJob, IoRateControlInfo
 hJob : [intptr] I/O §ŒÀ‚ğİ’è‚·‚éƒWƒ‡ƒu‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateJobObject ‚Ü‚½‚Í OpenJobObject ‚©‚çæ“¾‚·‚éBƒnƒ“ƒhƒ‹‚É‚Í JOB_OBJECT_SET_ATTRIBUTES ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBƒAƒNƒZƒXŒ ‚ÌÚ×‚ÍuƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -19672,8 +18214,6 @@ IoRateControlInfo : [var] ƒWƒ‡ƒu‚Éİ’è‚·‚é I/O §ŒÀ‚ğw’è‚·‚é JOBOBJECT_IO_RATE_
 %index
 SetLastError
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚Ì last-error ƒR[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwErrCode
 dwErrCode : [int] ƒXƒŒƒbƒh‚Ì last-error ƒR[ƒhB
@@ -19690,8 +18230,6 @@ last-error ƒR[ƒh‚ÍƒXƒŒƒbƒhƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW‚É•Û‚³‚ê‚éB‚Ù‚Æ‚ñ‚Ç‚ÌŠÖ”‚Í¸”s
 %index
 SetLocalTime
 Œ»İ‚Ìƒ[ƒJƒ‹‚Æ“ú•t‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemTime
 lpSystemTime : [var] V‚µ‚¢ƒ[ƒJƒ‹“ú‚ğŠÜ‚Ş SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -19711,8 +18249,6 @@ lpSystemTime : [var] V‚µ‚¢ƒ[ƒJƒ‹“ú‚ğŠÜ‚Ş SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 SetLocaleInfoW
 Œ»İ‚ÌƒƒP[ƒ‹‚Ìƒ†[ƒU[ƒI[ƒo[ƒ‰ƒCƒh•”•ª‚Ìî•ñ€–Ú‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚ÍƒVƒXƒeƒ€Šù’è‚ğİ’è‚µ‚È‚¢B(Unicode)
-%group
-Win32 kernel32
 %prm
 Locale, LCType, lpLCData
 Locale : [int] ANSI ”Å‚Å‚Í lpLCData î•ñ‚ğ‰ğß‚·‚éÛ‚É—p‚¢‚éƒR[ƒhƒy[ƒW‚ğ‚ÂƒƒP[ƒ‹‚ÌƒƒP[ƒ‹¯•ÊqBUnicode ”Å‚Å‚Í–³‹‚³‚ê‚éBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©AˆÈ‰º‚Ì’è‹`Ï‚İ’l‚ğg—p‚Å‚«‚éB
@@ -19746,8 +18282,6 @@ ANSI ”Å‚Ü‚½‚Í Unicode
 %index
 SetMailslotInfo
 w’è‚µ‚½ƒ[ƒ‹ƒXƒƒbƒg‚ª“Ç‚İæ‚è‘€ì‚Åg—p‚·‚éƒ^ƒCƒ€ƒAƒEƒg’l‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hMailslot, lReadTimeout
 hMailslot : [intptr] ƒ[ƒ‹ƒXƒƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateMailslot ŠÖ”‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -19765,8 +18299,6 @@ lReadTimeout : [int] ƒ[ƒ‹ƒXƒƒbƒg‚ÉƒƒbƒZ[ƒW‚ª‘‚«‚Ü‚ê‚é‚Ü‚Å“Ç‚İæ‚è‘€ì‚ª‘
 %index
 SetMessageWaitingIndicator
 (no summary)
-%group
-Win32 kernel32
 %prm
 hMsgIndicator, ulMsgCount
 hMsgIndicator : [intptr] 
@@ -19778,8 +18310,6 @@ ulMsgCount : [int]
 %index
 SetNamedPipeHandleState
 w’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚Ì“Ç‚İæ‚èƒ‚[ƒh‚ÆƒuƒƒbƒLƒ“ƒOƒ‚[ƒh‚ğİ’è‚·‚éBw’èƒnƒ“ƒhƒ‹‚ª–¼‘O•t‚«ƒpƒCƒv‚ÌƒNƒ‰ƒCƒAƒ“ƒg’[‚ÅA‚©‚ÂƒT[ƒo[ƒvƒƒZƒX‚ªƒŠƒ‚[ƒgƒRƒ“ƒsƒ…[ƒ^ã‚É‚ ‚éê‡A‚±‚ÌŠÖ”‚Åƒ[ƒJƒ‹ƒoƒbƒtƒ@ƒŠƒ“ƒO‚à§Œä‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hNamedPipe, lpMode, lpMaxCollectionCount, lpCollectDataTimeout
 hNamedPipe : [intptr] –¼‘O•t‚«ƒpƒCƒvƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í CreateNamedPipe ‚ª•Ô‚·ƒT[ƒo[’[‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í CreateFileW ‚ª•Ô‚·ƒNƒ‰ƒCƒAƒ“ƒg’[‚Ìƒnƒ“ƒhƒ‹‚ğw’è‚Å‚«‚éB‘‚«‚İê—p‚â“Ç‚İ‘‚«ƒpƒCƒv‚Å‚Í–¼‘O•t‚«ƒpƒCƒv‚É GENERIC_WRITE ƒAƒNƒZƒXŒ A“Ç‚İæ‚èê—pƒpƒCƒv‚Å‚Í GENERIC_READ ‚Æ FILE_WRITE_ATTRIBUTES ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éB
@@ -19801,8 +18331,6 @@ Windows 10 ƒo[ƒWƒ‡ƒ“ 1709: ƒpƒCƒv‚Í“¯ˆêƒAƒvƒŠ‚É‘®‚·‚é UWP ƒvƒƒZƒXŠÔ (ƒAƒvƒŠƒRƒ
 %index
 SetPriorityClass
 w’è‚µ‚½ƒvƒƒZƒX‚Ì—Dæ“xƒNƒ‰ƒX‚ğİ’è‚·‚éB‚±‚Ì’l‚ÆƒvƒƒZƒX“àŠeƒXƒŒƒbƒh‚Ì—Dæ“x’l‚ªŠeƒXƒŒƒbƒh‚ÌŠî–{—Dæ“xƒŒƒxƒ‹‚ğŒˆ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, dwPriorityClass
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -19833,8 +18361,6 @@ SetThreadPriority ‚ÅƒoƒbƒNƒOƒ‰ƒEƒ“ƒhˆ—ƒ‚[ƒh‚É“ü‚Á‚½Œã‚É SetPriorityClass
 %index
 SetProcessAffinityMask
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒXƒŒƒbƒh‚É‘Î‚·‚éƒvƒƒZƒbƒTƒAƒtƒBƒjƒeƒBƒ}ƒXƒN‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, dwProcessAffinityMask
 hProcess : [intptr] ƒAƒtƒBƒjƒeƒBƒ}ƒXƒN‚ğİ’è‚·‚éƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚É‚Í PROCESS_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -19868,8 +18394,6 @@ Windows Server 2022 ˆÈ~A64
 %index
 SetProcessAffinityUpdateMode
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒAƒtƒBƒjƒeƒBXVƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, dwFlags
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í GetCurrentProcess ŠÖ”‚Å•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -19889,8 +18413,6 @@ dwFlags : [int]
 %index
 SetProcessDEPPolicy
 32 ƒrƒbƒgƒvƒƒZƒX‚É‘Î‚·‚éƒf[ƒ^Às–h~ (DEP) ‚¨‚æ‚Ñ DEP-ATL ƒTƒ“ƒN ƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“İ’è‚ğ•ÏX‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags
 dwFlags : [int] 
@@ -19925,8 +18447,6 @@ GetSystemDEPPolicy ‚ğg—p‚·‚éB
 %index
 SetProcessInformation
 w’è‚µ‚½ƒvƒƒZƒX‚É‘Î‚·‚éî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, ProcessInformationClass, ProcessInformation, ProcessInformationSize
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚É‚Í PROCESS_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -19963,8 +18483,6 @@ Servicev‚ğQÆBƒvƒƒZƒX‚ª PROCESS_POWER_THROTTLING_IGNORE_TIMER_RESOLUTION
 %index
 SetProcessPreferredUILanguages
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒZƒX‚Ì—Dæ UI Œ¾Œê‚ğİ’è‚·‚éBÚ×‚Íuƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXŒ¾ŒêŠÇ—v‚ğQÆB
-%group
-Win32 kernel32
 %prm
 dwFlags, pwszLanguagesBuffer, pulNumLanguages
 dwFlags : [int] ƒvƒƒZƒX‚Ì—Dæ UI Œ¾Œê‚Ég—p‚·‚éŒ¾ŒêŒ`®‚ğ¯•Ê‚·‚éƒtƒ‰ƒOBƒtƒ‰ƒO‚Í”r‘¼“I‚ÅAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éBMUI_LANGUAGE_ID ‚Å‚Í‚È‚­ MUI_LANGUAGE_NAME ‚Ìg—p‚ª„§‚³‚ê‚éB
@@ -19990,8 +18508,6 @@ pulNumLanguages : [var] “ü—Íƒoƒbƒtƒ@‚©‚çƒvƒƒZƒXŒ¾ŒêƒŠƒXƒg‚Éİ’è‚³‚ê‚½Œ¾Œê” (Å
 %index
 SetProcessPriorityBoost
 w’è‚µ‚½ƒvƒƒZƒX‚ÌƒXƒŒƒbƒh‚Ì—Dæ“x‚ğƒVƒXƒeƒ€‚ªˆê“I‚Éƒu[ƒXƒg‚·‚é‹@”\‚ğ–³Œø‰»‚Ü‚½‚Í—LŒø‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, bDisablePriorityBoost
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚É‚Í PROCESS_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -20013,8 +18529,6 @@ DisablePriorityBoost ‚ğ FALSE ‚É‚µ‚Ä SetProcessPriorityBoost ‚ğŒÄ‚Ño‚·B
 %index
 SetProcessShutdownParameters
 Œ»İ‚ÌŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚ÍƒVƒXƒeƒ€“à‚Ì‘¼ƒvƒƒZƒX‚É‘Î‚·‚éƒvƒƒZƒX‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“‡˜‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwLevel, dwFlags
 dwLevel : [int] ƒVƒXƒeƒ€“à‚Ì‘¼ƒvƒƒZƒX‚É‘Î‚·‚éƒvƒƒZƒX‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“—Dæ“xBƒVƒXƒeƒ€‚Í dwLevel ‚Ì’l‚ª‚‚¢ƒvƒƒZƒX‚©‚ç’á‚¢ƒvƒƒZƒX‚Ö‚Æ‡‚ÉI—¹‚³‚¹‚éBÅ‚‚¨‚æ‚ÑÅ’á‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“—Dæ“x‚ÍƒVƒXƒeƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg—p‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŸ‚Ì”ÍˆÍ‚Ì’l‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -20035,8 +18549,6 @@ dwLevel ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½‡˜‚Ås‚í‚ê‚éB
 %index
 SetProcessWorkingSetSize
 w’è‚µ‚½ƒvƒƒZƒX‚ÌÅ¬‚¨‚æ‚ÑÅ‘åƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚ğİ’è‚·‚éB(SetProcessWorkingSetSize)
-%group
-Win32 kernel32
 %prm
 hProcess, dwMinimumWorkingSetSize, dwMaximumWorkingSetSize
 hProcess : [intptr] ƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚ğİ’è‚·‚éƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -20072,8 +18584,6 @@ SE_INC_WORKING_SET_NAME
 %index
 SetProcessWorkingSetSizeEx
 w’è‚µ‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÌÅ¬ƒTƒCƒY‚ÆÅ‘åƒTƒCƒY‚ğİ’è‚·‚éB(SetProcessWorkingSetSizeEx)
-%group
-Win32 kernel32
 %prm
 hProcess, dwMinimumWorkingSetSize, dwMaximumWorkingSetSize, Flags
 hProcess : [intptr] ƒ[ƒLƒ“ƒOƒZƒbƒgƒTƒCƒY‚ğİ’è‚·‚éƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_SET_QUOTA ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuƒvƒƒZƒX‚ÌƒZƒLƒ…ƒŠƒeƒB‚ÆƒAƒNƒZƒXŒ v‚ğQÆB
@@ -20112,8 +18622,6 @@ QUOTA_LIMITS_HARDWS_MAX_ENABLE
 %index
 SetSearchPathMode
 SearchPath ŠÖ”‚ªƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éÛ‚Ég—p‚·‚éAƒvƒƒZƒX’PˆÊ‚Ìƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 Flags
 Flags : [int] g—p‚·‚éŒŸõƒ‚[ƒhB
@@ -20146,8 +18654,6 @@ SetSearchPathMode ‚ğŒÄ‚Ño‚µ‚Ä‚àAGetLastError ‚©‚ç ERROR_ACCESS_DENIED
 %index
 SetStdHandle
 w’è‚µ‚½•W€ƒfƒoƒCƒXi•W€“ü—ÍE•W€o—ÍE•W€ƒGƒ‰[j‚Ìƒnƒ“ƒhƒ‹‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 nStdHandle, hHandle
 nStdHandle : [int] ƒnƒ“ƒhƒ‹‚ğİ’è‚·‚é•W€ƒfƒoƒCƒXBŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğw’è‚Å‚«‚éB | ’l | ˆÓ–¡ | |-|-| | **STD_INPUT_HANDLE** `((DWORD)-10)` | •W€“ü—ÍƒfƒoƒCƒXB‰Šúó‘Ô‚Å‚ÍƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@ `CONIN$`B | | **STD_OUTPUT_HANDLE** `((DWORD)-11)` | •W€o—ÍƒfƒoƒCƒXB‰Šúó‘Ô‚Å‚ÍƒAƒNƒeƒBƒu‚ÈƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@ `CONOUT$`B | | **STD_ERROR_HANDLE** `((DWORD)-12)` | •W€ƒGƒ‰[ƒfƒoƒCƒXB‰Šúó‘Ô‚Å‚ÍƒAƒNƒeƒBƒu‚ÈƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@ `CONOUT$`B | > [!NOTE] > ‚±‚ê‚ç‚Ì’è”‚Ì’l‚Í•„†‚È‚µ‚¾‚ªAƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Å‚Í•„†•t‚«”’l‚©‚ç‚ÌƒLƒƒƒXƒg‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¨‚èAC ƒRƒ“ƒpƒCƒ‰‚ª‚»‚ê‚ğ 32 ƒrƒbƒg‚ÌÅ‘å’l’¼‰º‚Éƒ[ƒ‹ƒI[ƒo‚³‚¹‚éd‘g‚İ‚ğ—˜—p‚µ‚Ä‚¢‚éBƒwƒbƒ_‚ğ‰ğÍ‚µ‚È‚¢Œ¾Œê‚©‚ç‚±‚ê‚ç‚Ìƒnƒ“ƒhƒ‹‚ğˆµ‚¤ê‡‚â’è”‚ğÄ’è‹`‚·‚éê‡‚Í‚±‚Ì§–ñ‚É’ˆÓ‚·‚é‚±‚ÆB—á‚¦‚Î `((DWORD)-10)` ‚ÍÀÛ‚É‚Í•„†‚È‚µ‚Ì `4294967286` ‚Å‚ ‚éB
@@ -20171,8 +18677,6 @@ hHandle : [intptr] •W€ƒfƒoƒCƒX—p‚Ìƒnƒ“ƒhƒ‹B
 %index
 SetStdHandleEx
 SetStdHandleEx ŠÖ” (processenv.h) ‚ÍA“ü—ÍEo—ÍEƒGƒ‰[ƒXƒgƒŠ[ƒ€—p‚Ìƒnƒ“ƒhƒ‹‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 nStdHandle, hHandle, phPrevValue
 nStdHandle : [int] ƒnƒ“ƒhƒ‹‚ğİ’è‚·‚éƒXƒgƒŠ[ƒ€‚ğ¦‚· DWORDB
@@ -20188,8 +18692,6 @@ SetStdHandleEx ŠÖ” (processenv.h) ‚ÍA“ü—ÍEo—ÍEƒGƒ‰[ƒXƒgƒŠ[ƒ€—p‚Ìƒnƒ“ƒhƒ‹‚
 %index
 SetSystemFileCacheSize
 ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒLƒƒƒbƒVƒ…‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÌƒTƒCƒY‚ğ§ŒÀ‚·‚éB
-%group
-Win32 kernel32
 %prm
 MinimumFileCacheSize, MaximumFileCacheSize, Flags
 MinimumFileCacheSize : [int] ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…‚ÌÅ¬ƒTƒCƒYiƒoƒCƒg’PˆÊjB‰¼‘zƒƒ‚ƒŠƒ}ƒl[ƒWƒƒ‚ÍAƒVƒXƒeƒ€ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…“à‚É­‚È‚­‚Æ‚à‚±‚Ì—e—Ê‚Ìƒƒ‚ƒŠ‚ğí’“‚³‚¹‚æ‚¤‚Æ‚·‚éBƒLƒƒƒbƒVƒ…‚ğƒtƒ‰ƒbƒVƒ…‚·‚é‚É‚Í (SIZE_T) -1 ‚ğw’è‚·‚éB
@@ -20215,8 +18717,6 @@ _WIN32_WINNT ‚ğ 0x0502 ˆÈã‚É’è‹`‚·‚éBÚ×‚Í Using the Windows Headers
 %index
 SetSystemPowerState
 “dŒ¹‚ğ—‚Æ‚µ‚ÄƒVƒXƒeƒ€‚ğƒTƒXƒyƒ“ƒh‚·‚éBForceFlag ƒpƒ‰ƒ[ƒ^‚É‰‚¶‚ÄA‘¦À‚ÉƒTƒXƒyƒ“ƒh‚·‚é‚©A‚·‚×‚Ä‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÆƒfƒoƒCƒXƒhƒ‰ƒCƒo‚©‚ç‹–‰Â‚ğ“¾‚Ä‚©‚çƒTƒXƒyƒ“ƒh‚·‚éB
-%group
-Win32 kernel32
 %prm
 fSuspend, fForce
 fSuspend : [int] TRUE ‚Ìê‡ƒVƒXƒeƒ€‚ğƒTƒXƒyƒ“ƒh‚·‚éBFALSE ‚Ìê‡ƒVƒXƒeƒ€‚ğ‹x~ó‘Ô‚É‚·‚éB
@@ -20243,8 +18743,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 SetSystemTime
 Œ»İ‚ÌƒVƒXƒeƒ€“ú‚ğİ’è‚·‚éBƒVƒXƒeƒ€‚Í‹¦’è¢ŠE (UTC) ‚Å•\‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 lpSystemTime
 lpSystemTime : [var] V‚µ‚¢ƒVƒXƒeƒ€“ú‚ğŠÜ‚Ş SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -20265,8 +18763,6 @@ Privileges ‚ğQÆB
 %index
 SetSystemTimeAdjustment
 ƒVƒXƒeƒ€‚Ì‚É‘Î‚·‚é’èŠú“I‚È’²®‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éB—LŒø‰»‚·‚é‚ÆA‚±‚ê‚ç‚Ì’²®‚ğg‚Á‚Ä‚ğ•Ê‚Ìî•ñŒ¹‚Æ“¯Šú‚Å‚«‚éB(SetSystemTimeAdjustment)
-%group
-Win32 kernel32
 %prm
 dwTimeAdjustment, bTimeAdjustmentDisabled
 dwTimeAdjustment : [int] ÀÛ‚ÉŒo‰ß‚·‚é lpTimeIncrement ŠúŠÔ‚²‚Æ‚ÉƒVƒXƒeƒ€‚É‰ÁZ‚·‚é 100 ƒiƒm•b’PˆÊ‚Ì’lBlpTimeIncrement ‚Ì’l‚Í GetSystemTimeAdjustment ‚Åæ“¾‚·‚éB”õl‚ğQÆB’ˆÓ Œ»İ Windows Vista ‚Æ Windows 7 ‚Ìƒ}ƒVƒ“‚Å‚Í 16 –¢–‚Ì’²®‚Í¸‚í‚ê‚éB
@@ -20291,8 +18787,6 @@ GetLocalTime
 %index
 SetTapeParameters
 ƒe[ƒv‚ÌƒuƒƒbƒNƒTƒCƒY‚ğw’è‚·‚é‚©Aƒe[ƒvƒfƒoƒCƒX‚ğ\¬‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDevice, dwOperation, lpTapeInformation
 hDevice : [intptr] İ’èî•ñ‚ğİ’è‚·‚é‘ÎÛƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚Åì¬‚·‚éB
@@ -20309,8 +18803,6 @@ lpTapeInformation : [intptr] İ’è‚·‚éî•ñ‚ğŠÜ‚Ş\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BdwOperation ‚
 %index
 SetTapePosition
 w’è‚µ‚½ƒfƒoƒCƒX‚Ìƒe[ƒvˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hDevice, dwPositionMethod, dwPartition, dwOffsetLow, dwOffsetHigh, bImmediate
 hDevice : [intptr] ƒe[ƒvˆÊ’u‚ğİ’è‚·‚éƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚Åì¬‚·‚éB
@@ -20336,8 +18828,6 @@ dwOffsetLow ‚Æ dwOffsetHigh
 %index
 SetThreadAffinityMask
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÌƒvƒƒZƒbƒTƒAƒtƒBƒjƒeƒBƒ}ƒXƒN‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, dwThreadAffinityMask
 hThread : [intptr] ƒAƒtƒBƒjƒeƒBƒ}ƒXƒN‚ğİ’è‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SET_INFORMATION ‚Ü‚½‚Í THREAD_SET_LIMITED_INFORMATION ƒAƒNƒZƒXŒ A‚¨‚æ‚Ñ THREAD_QUERY_INFORMATION ‚Ü‚½‚Í THREAD_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003 ‚Æ Windows XP ‚Å‚Í THREAD_SET_INFORMATION ‚Æ THREAD_QUERY_INFORMATION ‚Ì—¼•û‚ª•K—vB
@@ -20366,8 +18856,6 @@ CPU
 %index
 SetThreadErrorMode
 w’è‚µ‚½í—Ş‚Ìd‘åƒGƒ‰[‚ğƒVƒXƒeƒ€‚ªˆ—‚·‚é‚©AŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ªˆ—‚·‚é‚©‚ğ§Œä‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwNewMode, lpOldMode
 dwNewMode : [int] 
@@ -20388,8 +18876,6 @@ GetErrorMode ‚ğg‚¤BŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌƒGƒ‰[ƒ‚[ƒh‚ğæ“¾‚·‚é‚É‚Í GetThreadErr
 %index
 SetThreadExecutionState
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p’†‚Å‚ ‚é‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“Às’†‚ÉƒVƒXƒeƒ€‚ªƒXƒŠ[ƒv‚µ‚½‚èƒfƒBƒXƒvƒŒƒC‚ğƒIƒt‚É‚·‚é‚Ì‚ğ–h‚®B
-%group
-Win32 kernel32
 %prm
 esFlags
 esFlags : [int] 
@@ -20422,8 +18908,6 @@ ES_CONTINUOUS ‚ğ•¹—p‚µA–³Œø‰»‚·‚é‚É‚Í ES_CONTINUOUS ‚Ì‚İ‚Å SetThreadExecutionSt
 %index
 SetThreadGroupAffinity
 w’è‚µ‚½ƒXƒŒƒbƒh‚ÌƒvƒƒZƒbƒTƒOƒ‹[ƒvƒAƒtƒBƒjƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, GroupAffinity, PreviousGroupAffinity
 hThread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -20447,8 +18931,6 @@ _WIN32_WINNT ‚ğ 0x0601 ˆÈã‚Éİ’è‚·‚éBÚ×‚Í Using the Windows Headers ‚ğQÆB
 %index
 SetThreadIdealProcessor
 ƒXƒŒƒbƒh‚Ì—DæƒvƒƒZƒbƒT‚ğİ’è‚·‚éBƒVƒXƒeƒ€‚Í‰Â”\‚ÈŒÀ‚è—DæƒvƒƒZƒbƒTã‚ÅƒXƒŒƒbƒh‚ğƒXƒPƒWƒ…[ƒ‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, dwIdealProcessor
 hThread : [intptr] —DæƒvƒƒZƒbƒT‚ğİ’è‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -20474,8 +18956,6 @@ _WIN32_WINNT ‚ğ 0x0400 ˆÈã‚É’è‹`‚·‚éBWindows 8.1 ‚Æ Windows Server 2012 R2:
 %index
 SetThreadIdealProcessorEx
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ì—‘zƒvƒƒZƒbƒT‚ğİ’è‚µA•K—v‚É‰‚¶‚Ä’¼‘O‚Ì—‘zƒvƒƒZƒbƒT‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, lpIdealProcessor, lpPreviousIdealProcessor
 hThread : [intptr] —‘zƒvƒƒZƒbƒT‚ğİ’è‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SET_INFORMATION ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -20502,8 +18982,6 @@ _WIN32_WINNT ‚ğ 0x0601 ˆÈã‚Éİ’è‚·‚éBWindows Phone 8.1: –{ŠÖ”‚Í Windows Phone
 %index
 SetThreadInformation
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ìî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, ThreadInformationClass, ThreadInformation, ThreadInformationSize
 hThread : [intptr] ƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -20536,8 +19014,6 @@ THREAD_POWER_THROTTLING_EXECUTION_SPEED
 %index
 SetThreadLocale
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌŒ»İ‚ÌƒƒP[ƒ‹‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 Locale
 Locale : [int] ƒƒP[ƒ‹‚ğw’è‚·‚éƒƒP[ƒ‹¯•ÊqBMAKELCID ƒ}ƒNƒ‚ÅƒƒP[ƒ‹¯•Êq‚ğì¬‚·‚é‚©A’è‹`Ï‚İ‚Ì’l‚ğg—p‚·‚éB
@@ -20564,8 +19040,6 @@ UI Œ¾Œê‘I‘ğ‚Ég‚Á‚Ä‚Í‚È‚ç‚È‚¢B.rc ‚Ì LANGUAGE •¶‚Å’è‹`‚³‚ê‚½ƒŠƒ\[ƒX‚ğ‘I‘ğ‚·‚é‚
 %index
 SetThreadPreferredUILanguages
 Œ»İ‚ÌƒXƒŒƒbƒh‚É‘Î‚µ—Dæ UI Œ¾Œê‚ğİ’è‚·‚éBÚ×‚Í User Interface Language Management ‚ğQÆB
-%group
-Win32 kernel32
 %prm
 dwFlags, pwszLanguagesBuffer, pulNumLanguages
 dwFlags : [int] İ’è‚·‚éŒ¾Œê‚ÌŒ`®‚ÆƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ¦‚·ƒtƒ‰ƒOBŸ‚ÌŒ`®ƒtƒ‰ƒO‚ÍƒXƒŒƒbƒh‚Ì—Dæ UI Œ¾Œê‚Ég‚¤Œ¾ŒêŒ`®‚ğw’è‚·‚éBƒtƒ‰ƒO‚Í”r‘¼“I‚ÅAŠù’è‚Í MUI_LANGUAGE_NAME ‚Å‚ ‚éBMUI_LANGUAGE_ID ‚æ‚è‚à MUI_LANGUAGE_NAME ‚Ìg—p‚ğ„§‚·‚éB
@@ -20591,8 +19065,6 @@ pulNumLanguages : [var] –{ŠÖ”‚ªƒXƒŒƒbƒh‚Ì—Dæ UI Œ¾ŒêƒŠƒXƒg‚Éİ’è‚µ‚½Œ¾Œê”‚Ö‚Ì
 %index
 SetThreadPriority
 w’è‚µ‚½ƒXƒŒƒbƒh‚Ì—Dæ“x’l‚ğİ’è‚·‚éB‚±‚Ì’l‚ÆƒXƒŒƒbƒh‚ÌƒvƒƒZƒX‚Ì—Dæ“xƒNƒ‰ƒX‚ğ‡‚í‚¹‚ÄAƒXƒŒƒbƒh‚ÌŠî’ê—Dæ“x‚ªŒˆ’è‚³‚ê‚éB
-%group
-Win32 kernel32
 %prm
 hThread, nPriority
 hThread : [intptr] —Dæ“x’l‚ğİ’è‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SET_INFORMATION ‚Ü‚½‚Í THREAD_SET_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003 ‚Å‚Í THREAD_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vB
@@ -20639,8 +19111,6 @@ Server 2008 ‚Æ Windows Vista: ƒVƒXƒeƒ€‹N“®’†ASetThreadPriority
 %index
 SetThreadPriorityBoost
 ƒVƒXƒeƒ€‚ªƒXƒŒƒbƒh‚Ì—Dæ“x‚ğˆê“I‚Éˆø‚«ã‚°‚é‹@”\‚ğ–³Œø‰»‚Ü‚½‚Í—LŒø‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, bDisablePriorityBoost
 hThread : [intptr] —Dæ“x‚ğˆø‚«ã‚°‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SET_INFORMATION ‚Ü‚½‚Í THREAD_SET_LIMITED_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆBWindows Server 2003 ‚Æ Windows XP ‚Å‚Í THREAD_SET_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—vB
@@ -20662,8 +19132,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 SetThreadStackGuarantee
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚Ü‚½‚Íƒtƒ@ƒCƒo‚ÉŠÖ˜A‚·‚éƒXƒ^ƒbƒN‚ÌÅ¬ƒTƒCƒY‚ğİ’è‚·‚éB‚±‚ê‚ÍƒXƒ^ƒbƒNƒI[ƒo[ƒtƒ[—áŠO”­¶‚Ég—p‰Â”\‚Æ‚È‚éB
-%group
-Win32 kernel32
 %prm
 StackSizeInBytes
 StackSizeInBytes : [var] ƒXƒ^ƒbƒN‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB–ß‚è‚É‚±‚Ì’l‚Í’¼‘O‚ÌƒXƒ^ƒbƒNƒTƒCƒY‚Éİ’è‚³‚ê‚éB0 ‚ğw’è‚µ‚½ê‡AŠÖ”‚Í¬Œ÷‚µA–{ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ»İ‚ÌƒXƒ^ƒbƒNƒTƒCƒY‚ªİ’è‚³‚ê‚éBw’èƒTƒCƒY‚ªŒ»İ‚ÌƒTƒCƒY‚æ‚è¬‚³‚¢ê‡AŠÖ”‚Í¬Œ÷‚·‚é‚ª‚±‚Ì—v‹‚Í–³‹‚³‚ê‚éB‚µ‚½‚ª‚Á‚Ä–{ŠÖ”‚ÅƒXƒ^ƒbƒNƒTƒCƒY‚ğk¬‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B—\–ñÏ‚İƒXƒ^ƒbƒNƒTƒCƒY‚ğ’´‚¦‚é’l‚Íw’è‚Å‚«‚È‚¢B
@@ -20685,8 +19153,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 SetThreadUILanguage
 Œ»İ‚ÌƒXƒŒƒbƒh‚Ì UI Œ¾Œê‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 LangId
 LangId : [int] ƒXƒŒƒbƒh‚Ì UI Œ¾Œê‚ÌŒ¾Œê¯•ÊqBWindows Vista ˆÈ~‚Å‚Í 0 ‚Ü‚½‚Í”ñƒ[ƒ‚Ì¯•Êq‚ğw’è‚Å‚«‚éBÚ×‚Í”õl‚ğQÆBWindows XP ‚Å‚Í 0 ‚Ì‚İw’è‰Â”\B0 ‚ğw’è‚·‚é‚ÆƒRƒ“ƒ\[ƒ‹•\¦‚ÉÅ‚à“K‚µ‚½Œ¾Œê‚ª‘I‚Î‚ê‚éBÚ×‚Í”õl‚ğQÆB
@@ -20710,8 +19176,6 @@ SetThreadPreferredUILanguages
 %index
 SetThreadpoolStackInformation
 w’è‚µ‚½ƒXƒŒƒbƒhƒv[ƒ‹“à‚ÌV‹KƒXƒŒƒbƒh‚ÌƒXƒ^ƒbƒN—\–ñƒTƒCƒY‚ÆƒRƒ~ƒbƒgƒTƒCƒY‚ğİ’è‚·‚éBŠù‘¶ƒXƒŒƒbƒh‚ÌƒTƒCƒY‚Í•ÏX‚³‚ê‚È‚¢B
-%group
-Win32 kernel32
 %prm
 ptpp, ptpsi
 ptpp : [intptr] ƒXƒŒƒbƒhƒv[ƒ‹‚ğw’è‚·‚é TP_POOL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpool ŠÖ”‚ª•Ô‚·B
@@ -20731,8 +19195,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 SetThreadpoolThreadMinimum
 w’è‚µ‚½ƒXƒŒƒbƒhƒv[ƒ‹‚ªƒR[ƒ‹ƒoƒbƒNˆ—‚Ì‚½‚ß‚É—pˆÓ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ƒXƒŒƒbƒh‚ÌÅ¬”‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 ptpp, cthrdMic
 ptpp : [intptr] ƒXƒŒƒbƒhƒv[ƒ‹‚ğ’è‹`‚·‚é TP_POOL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateThreadpool ŠÖ”‚ª•Ô‚·B
@@ -20752,8 +19214,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 SetTimeZoneInformation
 Œ»İ‚Ìƒ^ƒCƒ€ƒ][ƒ“İ’è‚ğİ’è‚·‚éB‚±‚ê‚ç‚Í‹¦’è¢ŠE (UTC) ‚©‚çƒ[ƒJƒ‹‚Ö‚Ì•ÏŠ·‚ğ§Œä‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpTimeZoneInformation
 lpTimeZoneInformation : [var] V‚µ‚¢İ’è‚ğŠÜ‚Ş TIME_ZONE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -20783,8 +19243,6 @@ Explorer ‚É’Ê’m‚·‚é‚É‚Í WM_SETTINGCHANGE ƒƒbƒZ[ƒW‚ğ‘—‚éBUTC ‚Æƒ[ƒJƒ‹‚Ì•
 %index
 SetTimerQueueTimer
 (no summary)
-%group
-Win32 kernel32
 %prm
 TimerQueue, Callback, Parameter, DueTime, Period, PreferIo
 TimerQueue : [intptr] 
@@ -20800,8 +19258,6 @@ PreferIo : [int]
 %index
 SetUmsThreadInformation
 w’è‚µ‚½ƒ†[ƒU[ƒ‚[ƒhƒXƒPƒWƒ…[ƒŠƒ“ƒO (UMS) ƒ[ƒJ[ƒXƒŒƒbƒh‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L‚ÌƒRƒ“ƒeƒLƒXƒgî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 UmsThread, UmsThreadInfoClass, UmsThreadInformation, UmsThreadInformationLength
 UmsThread : [intptr] UMS ƒXƒŒƒbƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -20828,8 +19284,6 @@ QueryUmsThreadInformation ‚ğg‚¦‚Îw’èƒXƒŒƒbƒh‚Ì TEB
 %index
 SetUserGeoID
 ƒ†[ƒU[‚Ì’n—“IˆÊ’u¯•Êq‚ğİ’è‚·‚éB‚±‚Ì¯•Êq‚Í’n—“IˆÊ’u‚Ì•\‚É‹LÚ‚³‚ê‚½’l‚Ì‚¢‚¸‚ê‚©‚ğg‚¤B
-%group
-Win32 kernel32
 %prm
 GeoId
 GeoId : [int] ƒ†[ƒU[‚Ì’n—“IˆÊ’u‚Ì¯•ÊqB
@@ -20853,8 +19307,6 @@ GeoId : [int] ƒ†[ƒU[‚Ì’n—“IˆÊ’u‚Ì¯•ÊqB
 %index
 SetUserGeoName
 Œ»İ‚Ìƒ†[ƒU[‚Ì’n—“IˆÊ’u‚ğAw’è‚µ‚½ 2 •¶š ISO 3166-1 ƒR[ƒh‚Ü‚½‚Í”’l UN M.49 ƒR[ƒh‚Éİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 geoName
 geoName : [wstr] Œ»İ‚Ìƒ†[ƒU[‚Éİ’è‚·‚é’n—“IˆÊ’u‚Ì 2 •¶š‚Ì ISO 3166-1 ƒR[ƒh‚Ü‚½‚Í”’l‚Ì UN M.49 ƒR[ƒhBOS ã‚Å—˜—p‰Â”\‚ÈƒR[ƒh‚ğæ“¾‚·‚é‚É‚Í EnumSystemGeoNames ‚ğŒÄ‚ÔB
@@ -20878,8 +19330,6 @@ Standard country or area codes for statistical use (M49)
 %index
 SetVolumeLabelW
 ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒ{ƒŠƒ…[ƒ€‚Ìƒ‰ƒxƒ‹‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpRootPathName, lpVolumeName
 lpRootPathName : [wstr] ƒ{ƒŠƒ…[ƒ€‚Ìƒhƒ‰ƒCƒu•¶ši—á: X:\j‚Ü‚½‚Íƒ{ƒŠƒ…[ƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ}ƒEƒ“ƒgƒtƒHƒ‹ƒ_‚ÌƒpƒXi—á: Y:\MountX\j‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ… ('\') ‚ÅI‚í‚ç‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚ğw’è‚·‚é‚ÆŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚Ìƒ‹[ƒg‚ªg‚í‚ê‚éB
@@ -20902,8 +19352,6 @@ Naming a Volume ‚ğQÆBWindows 8 ‚Æ Windows Server 2012
 %index
 SetVolumeMountPointW
 ƒ{ƒŠƒ…[ƒ€‚ğƒhƒ‰ƒCƒu•¶š‚Ü‚½‚Í•Êƒ{ƒŠƒ…[ƒ€ã‚ÌƒfƒBƒŒƒNƒgƒŠ‚ÉŠÖ˜A•t‚¯‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszVolumeMountPoint, lpszVolumeName
 lpszVolumeMountPoint : [wstr] ƒ{ƒŠƒ…[ƒ€‚ÉŠÖ˜A•t‚¯‚éƒ†[ƒU[ƒ‚[ƒh‚ÌƒpƒXBƒhƒ‰ƒCƒu•¶š ("X:\\") ‚Ü‚½‚Í•Êƒ{ƒŠƒ…[ƒ€ã‚ÌƒfƒBƒŒƒNƒgƒŠ ("Y:\MountX\") ‚ğw’è‚Å‚«‚éB•¶š—ñ‚ÍƒoƒbƒNƒXƒ‰ƒbƒVƒ… ('\') ‚ÅI‚í‚ç‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -20927,8 +19375,6 @@ Server 2012 ‚Å‚Í–{ŠÖ”‚ÍŸ‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚éB
 %index
 SetWaitableTimer
 w’è‚µ‚½‘Ò‹@‰Â”\ƒ^ƒCƒ}‚ğƒAƒNƒeƒBƒu‰»‚·‚éB“—ˆ‚É‚È‚é‚Æƒ^ƒCƒ}‚ªƒVƒOƒiƒ‹ó‘Ô‚Æ‚È‚èAƒ^ƒCƒ}‚ğİ’è‚µ‚½ƒXƒŒƒbƒh‚ªÈ—ª‰Â”\‚ÈŠ®—¹ƒ‹[ƒ`ƒ“‚ğŒÄ‚ÔB
-%group
-Win32 kernel32
 %prm
 hTimer, lpDueTime, lPeriod, pfnCompletionRoutine, lpArgToCompletionRoutine, fResume
 hTimer : [intptr] ƒ^ƒCƒ}ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BCreateWaitableTimer ‚Ü‚½‚Í OpenWaitableTimer ‚ª•Ô‚·B
@@ -20967,8 +19413,6 @@ timeEndPeriod ‚ÌŒÄ‚Ño‚µ‚Å API ‚Ì•ª‰ğ”\‚ğ•ÏX‚Å‚«‚éB
 %index
 SetupComm
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚Ì’ÊMƒpƒ‰ƒ[ƒ^‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwInQueue, dwOutQueue
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª•Ô‚·B
@@ -20993,8 +19437,6 @@ I/O ƒoƒbƒtƒ@ƒŠƒ“ƒO•û®‚ğ©—R‚Ég‚¦‚éB
 %index
 SignalObjectAndWait
 ˆê‚Â‚ÌƒIƒuƒWƒFƒNƒg‚ğƒVƒOƒiƒ‹ó‘Ô‚É‚µ‚Ä‚©‚ç•Ê‚ÌƒIƒuƒWƒFƒNƒg‚ğ‘Ò‹@‚·‚é‘€ì‚ğA’Pˆê‚Ì‘€ì‚Æ‚µ‚ÄÀs‚·‚éB
-%group
-Win32 kernel32
 %prm
 hObjectToSignal, hObjectToWaitOn, dwMilliseconds, bAlertable
 hObjectToSignal : [intptr] ƒVƒOƒiƒ‹ó‘Ô‚É‚·‚éƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BƒZƒ}ƒtƒHEƒ~ƒ…[ƒeƒbƒNƒXEƒCƒxƒ“ƒg‚ğw’è‚Å‚«‚éB
@@ -21018,8 +19460,6 @@ SignalObjectAndWait ‚Í SetEvent ‚Æ WaitForSingleObject
 %index
 SizeofResource
 w’è‚µ‚½ƒŠƒ\[ƒX‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊj‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hModule, hResInfo
 hModule : [intptr] Œ^: HMODULE ƒŠƒ\[ƒX‚ğŠÜ‚ŞÀs‰Â”\ƒtƒ@ƒCƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BŠù’è‚ÍŒ»İ‚ÌƒvƒƒZƒX‚ğì¬‚µ‚½ƒ‚ƒWƒ…[ƒ‹B
@@ -21035,8 +19475,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 Sleep
 w’è‚³‚ê‚½ƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚ÅŒ»İ‚ÌƒXƒŒƒbƒh‚ÌÀs‚ğˆê’â~‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwMilliseconds
 dwMilliseconds : [int] Às‚ğˆê’â~‚·‚éŠÔŠÔŠu(ƒ~ƒŠ•b’PˆÊ)B0 ‚Ìê‡AÀs‰Â”\‚È‘¼ƒXƒŒƒbƒh‚Éƒ^ƒCƒ€ƒXƒ‰ƒCƒX‚Ìc‚è‚ğ•úŠü‚·‚éB‘¼‚ÉÀs‰Â”\‚ÈƒXƒŒƒbƒh‚ª‚È‚¢ê‡‚Í‘¦À‚É–ß‚èÀs‚ğ‘±‚¯‚éBINFINITE ‚Íƒ^ƒCƒ€ƒAƒEƒg‚µ‚È‚¢‚±‚Æ‚ğ¦‚·B
@@ -21054,8 +19492,6 @@ dwMilliseconds : [int] Às‚ğˆê’â~‚·‚éŠÔŠÔŠu(ƒ~ƒŠ•b’PˆÊ)B0 ‚Ìê‡AÀs‰Â”
 %index
 SleepEx
 w’è‚µ‚½ğŒ‚ª–‚½‚³‚ê‚é‚Ü‚ÅŒ»İ‚ÌƒXƒŒƒbƒh‚ğ’†’f‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwMilliseconds, bAlertable
 dwMilliseconds : [int] Às‚ğ’†’f‚·‚éŠÔŠÔŠuiƒ~ƒŠ•b’PˆÊjB0 ‚ğw’è‚·‚é‚ÆƒXƒŒƒbƒh‚Íc‚è‚Ìƒ^ƒCƒ€ƒXƒ‰ƒCƒX‚ğ‘¼‚ÌÀs‰Â”\ƒXƒŒƒbƒh‚É÷‚éB‘¼‚ÉÀs‰Â”\ƒXƒŒƒbƒh‚ª‚È‚¯‚ê‚Î‘¦À‚É–ß‚éBWindows XP ‚Å‚Í 0 ‚ğw’è‚·‚é‚Æ“¯“™—Dæ“x‚ÌÀs‰Â”\ƒXƒŒƒbƒh‚É‚Ì‚İ÷‚é“®ì‚¾‚Á‚½BWindows Server 2003 ˆÈ~‚Å“®ì‚ª•ÏX‚³‚ê‚½BINFINITE ‚ğw’è‚·‚é‚Æƒ^ƒCƒ€ƒAƒEƒg‚µ‚È‚¢B
@@ -21085,8 +19521,6 @@ timeGetDevCaps ‚ÅÅ¬ƒ^ƒCƒ}•ª‰ğ”\‚ğæ“¾‚µAtimeBeginPeriod ‚ÅÅ¬‚Éİ’è‚·‚éBtim
 %index
 SuspendThread
 w’è‚µ‚½ƒXƒŒƒbƒh‚ğƒTƒXƒyƒ“ƒh‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread
 hThread : [intptr] ƒTƒXƒyƒ“ƒh‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_SUSPEND_RESUME ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -21114,8 +19548,6 @@ Server 2012 R2: –{ŠÖ”‚Í Windows 8.1AWindows Server 2012 R2 ˆÈ~‚Ì Windows
 %index
 SwitchToFiber
 ƒtƒ@ƒCƒo‚ğƒXƒPƒWƒ…[ƒ‹‚·‚éB–{ŠÖ”‚Íƒtƒ@ƒCƒoã‚ÅŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 kernel32
 %prm
 lpFiber
 lpFiber : [intptr] ƒXƒPƒWƒ…[ƒ‹‚·‚éƒtƒ@ƒCƒo‚ÌƒAƒhƒŒƒXB
@@ -21135,8 +19567,6 @@ ConvertThreadToFiber ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éBƒXƒŒƒbƒh‚ÍŒ»İÀs’†‚Ìƒtƒ@ƒCƒo‚Æ‚È‚éBSwi
 %index
 SwitchToThread
 ŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ªŒ»İ‚ÌƒvƒƒZƒbƒTã‚ÅÀs‰Â”\‚È•ÊƒXƒŒƒbƒh‚ÉÀs‚ğ÷‚éBOS ‚ªŸ‚ÉÀs‚·‚éƒXƒŒƒbƒh‚ğ‘I‘ğ‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -21159,8 +19589,6 @@ _WIN32_WINNT ‚ğ 0x0400 ˆÈã‚É’è‹`‚·‚éB
 %index
 SystemTimeToFileTime
 ƒVƒXƒeƒ€‚ğƒtƒ@ƒCƒ‹Œ`®‚É•ÏŠ·‚·‚éBƒVƒXƒeƒ€‚Í‹¦’è¢ŠE (UTC) ‚ÉŠî‚Ã‚­B
-%group
-Win32 kernel32
 %prm
 lpSystemTime, lpFileTime
 lpSystemTime : [var] UTC ‚©‚çƒtƒ@ƒCƒ‹Œ`®‚É•ÏŠ·‚·‚éƒVƒXƒeƒ€‚ğŠÜ‚Ş SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -21177,8 +19605,6 @@ GetLastError ‚ğŒÄ‚ÔB> [!NOTE] > FALSE ‚ª•Ô‚é‚±‚Æ‚ÍA“n‚³‚ê‚½ SYSTEMTIME
 %index
 SystemTimeToTzSpecificLocalTime
 ‹¦’è¢ŠE (UTC) ‚ğw’èƒ^ƒCƒ€ƒ][ƒ“‚É‘Î‰‚·‚éƒ[ƒJƒ‹‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpTimeZoneInformation, lpUniversalTime, lpLocalTime
 lpTimeZoneInformation : [var] ‘ÎÛƒ^ƒCƒ€ƒ][ƒ“‚ğw’è‚·‚é TIME_ZONE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -21201,8 +19627,6 @@ SystemTimeToTzSpecificLocalTime ‚Íƒ[ƒJƒ‹‚É‘Î‚·‚é‰ÄŠÔ (DST)
 %index
 TerminateJobObject
 ƒWƒ‡ƒu‚ÉŒ»İŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒvƒƒZƒX‚ğI—¹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hJob, uExitCode
 hJob : [intptr] ƒvƒƒZƒX‚ğI—¹‚³‚¹‚éƒWƒ‡ƒu‚Ìƒnƒ“ƒhƒ‹BCreateJobObject ‚Ü‚½‚Í OpenJobObject ‚ª•Ô‚·BJOB_OBJECT_TERMINATE ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Job Object Security and Access Rights ‚ğQÆBƒWƒ‡ƒuƒIƒuƒWƒFƒNƒg“à‚ÌŠeƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹‚É‚Í PROCESS_TERMINATE ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -21224,8 +19648,6 @@ _WIN32_WINNT ‚ğ 0x0500 ˆÈã‚É’è‹`‚·‚éB
 %index
 TerminateProcess
 w’è‚µ‚½ƒvƒƒZƒX‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚ğI—¹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, uExitCode
 hProcess : [intptr] I—¹‚·‚éƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BPROCESS_TERMINATE ƒAƒNƒZƒXŒ ‚ª•K—vB
@@ -21246,8 +19668,6 @@ TerminateProcess ‚Í–ß‚ç‚È‚¢B‘¼‚ÌƒvƒƒZƒX‚ğI—¹‚·‚éê‡‚Í”ñ“¯Šú‚Å‘¦À‚É–ß‚éB
 %index
 TerminateThread
 ƒXƒŒƒbƒh‚ğI—¹‚·‚éB
-%group
-Win32 kernel32
 %prm
 hThread, dwExitCode
 hThread : [intptr] I—¹‚·‚éƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BTHREAD_TERMINATE ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Thread Security and Access Rights ‚ğQÆB
@@ -21271,8 +19691,6 @@ TerminateThread
 %index
 Thread32First
 ƒVƒXƒeƒ€ƒXƒiƒbƒvƒVƒ‡ƒbƒg“à‚ÅŒ©‚Â‚©‚Á‚½Å‰‚ÌƒXƒŒƒbƒh‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lpte
 hSnapshot : [intptr] CreateToolhelp32Snapshot ‚Ì‘O‰ñŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -21295,8 +19713,6 @@ Thread32Next ‚ğg‚¤B
 %index
 Thread32Next
 ƒVƒXƒeƒ€ƒƒ‚ƒŠƒXƒiƒbƒvƒVƒ‡ƒbƒg“à‚ÅŒ©‚Â‚©‚Á‚½Ÿ‚ÌƒXƒŒƒbƒh‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hSnapshot, lpte
 hSnapshot : [intptr] CreateToolhelp32Snapshot ‚Ì‘O‰ñŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒXƒiƒbƒvƒVƒ‡ƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -21316,8 +19732,6 @@ ERROR_NO_MORE_FILES ‚ğ•Ô‚·B
 %index
 TlsAlloc
 ƒXƒŒƒbƒhƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (TLS) ƒCƒ“ƒfƒbƒNƒX‚ğŠ„‚è“–‚Ä‚éBƒvƒƒZƒX‚Ì”CˆÓ‚ÌƒXƒŒƒbƒh‚ªAˆÈŒã‚»‚ÌƒCƒ“ƒfƒbƒNƒX‚ğg‚Á‚ÄƒXƒŒƒbƒhŒÅ—L‚Ì’l‚ğŠi”[Eæ“¾‚Å‚«‚éBŠeƒXƒŒƒbƒh‚Í‚»‚ÌƒCƒ“ƒfƒbƒNƒX—p‚Ì“Æ©ƒXƒƒbƒg‚ğó‚¯æ‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -21346,8 +19760,6 @@ TlsFreeATlsSetValueATlsGetValue ‚Åg—p‚Å‚«‚éBTLS ƒCƒ“ƒfƒbƒNƒX‚Ì’l‚Í•s“§–¾’l‚Æ
 %index
 TlsFree
 ƒXƒŒƒbƒhƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (TLS) ƒCƒ“ƒfƒbƒNƒX‚ğ‰ğ•ú‚µAÄ—˜—p‰Â”\‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwTlsIndex
 dwTlsIndex : [int] TlsAlloc ŠÖ”‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ TLS ƒCƒ“ƒfƒbƒNƒXB
@@ -21371,8 +19783,6 @@ UWP ƒAƒvƒŠ‚ÅŠ®‘S‚ÉƒTƒ|[ƒg‚³‚êA‚à‚Í‚â’uŠ·‚³‚ê‚È‚¢BƒvƒƒZƒX‚ÌƒXƒŒƒbƒh‚ªƒƒ‚ƒŠ‚ğ
 %index
 TlsGetValue
 w’è‚µ‚½ TLS ƒCƒ“ƒfƒbƒNƒX‚É‚Â‚¢‚ÄAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌƒXƒŒƒbƒhƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (TLS) ƒXƒƒbƒg“à‚Ì’l‚ğæ“¾‚·‚éBƒvƒƒZƒX‚ÌŠeƒXƒŒƒbƒh‚Í TLS ƒCƒ“ƒfƒbƒNƒX‚²‚Æ‚É“Æ©‚ÌƒXƒƒbƒg‚ğ‚ÂB
-%group
-Win32 kernel32
 %prm
 dwTlsIndex
 dwTlsIndex : [int] TlsAlloc ŠÖ”‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ TLS ƒCƒ“ƒfƒbƒNƒXB
@@ -21405,8 +19815,6 @@ TLS_MINIMUM_AVAILABLE-1 ‚Ì”ÍˆÍ“à‚Å‚ ‚ê‚Î¬Œ÷‚·‚éBƒCƒ“ƒfƒbƒNƒX‚ª—LŒø‚Å‚ ‚èATlsG
 %index
 TlsSetValue
 w’è‚µ‚½ TLS ƒCƒ“ƒfƒbƒNƒX‚É‚Â‚¢‚ÄAŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ÌƒXƒŒƒbƒhƒ[ƒJƒ‹ƒXƒgƒŒ[ƒW (TLS) ƒXƒƒbƒg‚É’l‚ğŠi”[‚·‚éBƒvƒƒZƒX‚ÌŠeƒXƒŒƒbƒh‚Í TLS ƒCƒ“ƒfƒbƒNƒX‚²‚Æ‚É“Æ©‚ÌƒXƒƒbƒg‚ğ‚ÂB
-%group
-Win32 kernel32
 %prm
 dwTlsIndex, lpTlsValue
 dwTlsIndex : [int] TlsAlloc ŠÖ”‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ TLS ƒCƒ“ƒfƒbƒNƒXB
@@ -21433,8 +19841,6 @@ TLS ƒXƒƒbƒg‚ÖƒAƒNƒZƒX‚·‚é‚½‚ß‚É‚»‚ÌƒCƒ“ƒfƒbƒNƒX‚ğg‚¦‚éBTlsSetValue
 %index
 Toolhelp32ReadProcessMemory
 •Ê‚ÌƒvƒƒZƒX‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“’ñ‹Ÿ‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 th32ProcessID, lpBaseAddress, lpBuffer, cbRead, lpNumberOfBytesRead
 th32ProcessID : [int] ƒƒ‚ƒŠ‚ğƒRƒs[‚·‚éƒvƒƒZƒX‚Ì¯•ÊqB0 ‚ğw’è‚·‚é‚ÆŒ»İ‚ÌƒvƒƒZƒX‚Ìƒƒ‚ƒŠ‚ğƒRƒs[‚·‚éB
@@ -21456,8 +19862,6 @@ lpNumberOfBytesRead : [var] w’èƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”BNULL ‚ğw’è‚·‚é‚
 %index
 TransactNamedPipe
 w’è‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚ÉƒƒbƒZ[ƒW‚ğ‘‚«‚Şˆ—‚Æ“Ç‚İæ‚éˆ—‚ğA’Pˆê‚Ì‘€ì‚Æ‚µ‚Ä‘g‚İ‡‚í‚¹‚éB
-%group
-Win32 kernel32
 %prm
 hNamedPipe, lpInBuffer, nInBufferSize, lpOutBuffer, nOutBufferSize, lpBytesRead, lpOverlapped
 hNamedPipe : [intptr] CreateNamedPipe ‚Ü‚½‚Í CreateFile ‚ª•Ô‚µ‚½–¼‘O•t‚«ƒpƒCƒv‚Ìƒnƒ“ƒhƒ‹B
@@ -21493,8 +19897,6 @@ UWP ƒvƒƒZƒXŠÔ‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB‚Ü‚½–¼‘O•t‚«ƒpƒCƒv‚Í `\\.\pipe\LOCAL\` \•¶‚
 %index
 TransmitCommChar
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚Ìo—Íƒoƒbƒtƒ@“à‚Ì•Û—¯’†ƒf[ƒ^‚Éæ—§‚Á‚Äw’è•¶š‚ğ‘—M‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, cChar
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª•Ô‚·B
@@ -21516,8 +19918,6 @@ TransmitCommChar ‚ÍƒzƒXƒgƒVƒXƒeƒ€‚ÖŠ„‚è‚İ•¶š (CTRL+C ‚È‚Ç)
 %index
 TrySubmitThreadpoolCallback
 ƒXƒŒƒbƒhƒv[ƒ‹ƒ[ƒJ[ƒXƒŒƒbƒh‚ªw’è‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ğ—v‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 pfns, pv, pcbe
 pfns : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í SimpleCallback ‚ğQÆB
@@ -21537,8 +19937,6 @@ pcbe : [var] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğÀs‚·‚éŠÂ‹«‚ğ’è‹`‚·‚é TP_CALLBACK_ENVIRON \‘¢‘Ì
 %index
 TzSpecificLocalTimeToSystemTime
 ƒ[ƒJƒ‹‚ğ‹¦’è¢ŠE (UTC) ‚É•ÏŠ·‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpTimeZoneInformation, lpLocalTime, lpUniversalTime
 lpTimeZoneInformation : [var] lpLocalTime ‚Ìƒ^ƒCƒ€ƒ][ƒ“‚ğw’è‚·‚é TIME_ZONE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡AŒ»İƒAƒNƒeƒBƒu‚Èƒ^ƒCƒ€ƒ][ƒ“‚ğg‚¤B
@@ -21559,8 +19957,6 @@ TzSpecificLocalTimeToSystemTime ‚Í•ÏŠ·‘ÎÛ‚Ìƒ[ƒJƒ‹‚É‘Î‚·‚é‰ÄŠÔ (DST) ‚Ì—
 %index
 UmsThreadYield
 ŒÄ‚Ño‚µ‘¤ UMS ƒ[ƒJ[ƒXƒŒƒbƒh‚ª“®ì‚µ‚Ä‚¢‚é UMS ƒXƒPƒWƒ…[ƒ‰ƒXƒŒƒbƒh‚É§Œä‚ğ÷‚éB
-%group
-Win32 kernel32
 %prm
 SchedulerParam
 SchedulerParam : [intptr] ƒXƒPƒWƒ…[ƒ‰ƒXƒŒƒbƒh‚Ì UmsSchedulerProc ŠÖ”‚É“n‚·ƒpƒ‰ƒ[ƒ^B
@@ -21583,8 +19979,6 @@ ScheduleParam
 %index
 UnlockFile
 ŠJ‚¢‚Ä‚¢‚éƒtƒ@ƒCƒ‹“à‚Ì—Ìˆæ‚ğƒAƒ“ƒƒbƒN‚·‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwFileOffsetLow, dwFileOffsetHigh, nNumberOfBytesToUnlockLow, nNumberOfBytesToUnlockHigh
 hFile : [intptr] LockFile ‚ÅƒƒbƒN‚³‚ê‚½—Ìˆæ‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹BGENERIC_READ ‚Ü‚½‚Í GENERIC_WRITE ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -21612,8 +20006,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 UnlockFileEx
 w’è‚µ‚½ƒtƒ@ƒCƒ‹“à‚Ì—Ìˆæ‚ğƒAƒ“ƒƒbƒN‚·‚éB–{ŠÖ”‚Í“¯ŠúE”ñ“¯Šú‚Ì‚Ç‚¿‚ç‚Å‚à“®ì‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 hFile, dwReserved, nNumberOfBytesToUnlockLow, nNumberOfBytesToUnlockHigh, lpOverlapped
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹BGENERIC_READ ‚Ü‚½‚Í GENERIC_WRITE ƒAƒNƒZƒXŒ ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -21638,8 +20030,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 UnmapViewOfFile
 ƒtƒ@ƒCƒ‹‚Ìƒ}ƒbƒvƒrƒ…[‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚©‚çƒAƒ“ƒ}ƒbƒv‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpBaseAddress
 lpBaseAddress : [int] ƒAƒ“ƒ}ƒbƒv‚·‚éƒ}ƒbƒvƒrƒ…[‚Ìƒx[ƒXƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BMapViewOfFile ‚Ü‚½‚Í MapViewOfFileEx ‚Ì‘O‰ñŒÄ‚Ño‚µ‚ª•Ô‚µ‚½’l‚Æ“¯ˆê‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -21664,8 +20054,6 @@ Server 2012 ‚Å‚Í–{ŠÖ”‚ÍŸ‚Ì‹Zp‚É‚æ‚èƒTƒ|[ƒg‚³‚ê‚éB
 %index
 UnregisterApplicationRecoveryCallback
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒAƒNƒeƒBƒu‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•œ‹ŒƒŠƒXƒg‚©‚çíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -21682,8 +20070,6 @@ Win32 kernel32
 %index
 UnregisterApplicationRestart
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒAƒNƒeƒBƒu‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‚ğÄ‹N“®ƒŠƒXƒg‚©‚çíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -21701,8 +20087,6 @@ Win32 kernel32
 %index
 UnregisterBadMemoryNotification
 w’è‚µ‚½•s—Çƒƒ‚ƒŠ’Ê’mƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 kernel32
 %prm
 RegistrationHandle
 RegistrationHandle : [intptr] RegisterBadMemoryNotification ŠÖ”‚©‚ç•Ô‚³‚ê‚½“o˜^ƒnƒ“ƒhƒ‹B
@@ -21721,8 +20105,6 @@ Using the Windows Headers ‚ğQÆB
 %index
 UnregisterWait
 RegisterWaitForSingleObject ŠÖ”‚Å”­s‚³‚ê‚½“o˜^Ï‚İ‘Ò‹@‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB(UnregisterWait)
-%group
-Win32 kernel32
 %prm
 WaitHandle
 WaitHandle : [intptr] ‘Ò‹@ƒnƒ“ƒhƒ‹BRegisterWaitForSingleObject ŠÖ”‚ª•Ô‚·B
@@ -21744,8 +20126,6 @@ UnregisterWaitEx ‚ğg‚¤B–{ŠÖ”‚ğg‚¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒRƒ“ƒpƒCƒ‹‚·‚é‚É‚Í _WIN32
 %index
 UnregisterWaitEx
 RegisterWaitForSingleObject ŠÖ”‚Å”­s‚³‚ê‚½“o˜^Ï‚İ‘Ò‹@‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 WaitHandle, CompletionEvent
 WaitHandle : [intptr] ‘Ò‹@ƒnƒ“ƒhƒ‹BRegisterWaitForSingleObject ŠÖ”‚ª•Ô‚·B
@@ -21776,8 +20156,6 @@ CompletionEvent ‚ª NULL ‚Ì‚Æ‚«ŠÖ”‚Í ERROR_IO_PENDING
 %index
 UnregisterWaitUntilOOBECompleted
 RegisterWaitUntilOOBECompleted ‚Å“o˜^‚µ‚½ƒR[ƒ‹ƒoƒbƒN‚ğ“o˜^‰ğœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 WaitHandle
 WaitHandle : [intptr] “o˜^‰ğœ‚·‚éƒnƒ“ƒhƒ‹B
@@ -21792,8 +20170,6 @@ RegisterWaitUntilOOBECompleted ‚Å“o˜^‚µ‚½ƒR[ƒ‹ƒoƒbƒN‚ğ“o˜^‰ğœ‚·‚éB
 %index
 UpdateCalendarDayOfWeek
 ”ñ„§Bw’è“ú•t‚É‘Î‰‚·‚é—j“ú‚ğæ“¾‚µAw’è CALDATETIME \‘¢‘Ì‚Ì DayOfWeek ƒƒ“ƒo‚É‚»‚Ì’l‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpCalDateTime
 lpCalDateTime : [var] —j“ú‚ğİ’è‚·‚é“ú•t‚ğŠÜ‚Ş CALDATETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -21814,8 +20190,6 @@ lpCalDateTime : [var] —j“ú‚ğİ’è‚·‚é“ú•t‚ğŠÜ‚Ş CALDATETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 UpdateResourceW
 ƒ|[ƒ^ƒuƒ‹Àsƒtƒ@ƒCƒ‹ (PE) ‚ÌƒŠƒ\[ƒX‚ğ’Ç‰ÁEíœE’uŠ·‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 hUpdate, lpType, lpName, wLanguage, lpData, cb
 hUpdate : [intptr] Œ^: HANDLE BeginUpdateResource ‚ª•Ô‚µ‚½ƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹BXV‘ÎÛƒtƒ@ƒCƒ‹‚ğQÆ‚·‚éB
@@ -21844,8 +20218,6 @@ NULL ‚Å cbData ‚ª”ñƒ[ƒ‚Ìê‡Aw’èƒŠƒ\[ƒX‚Ííœ‚³‚ê‚¸—áŠO‚ªƒXƒ[‚³‚ê‚éBWindo
 %index
 VerLanguageNameW
 w’è‚µ‚½ƒoƒCƒiƒŠ Microsoft Œ¾Œê¯•Êq‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Œ¾Œê‚Ìà–¾•¶š—ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 wLang, szLang, cchLang
 wLang : [int] Œ^: DWORD ƒoƒCƒiƒŠŒ¾Œê¯•ÊqBŠ®‘S‚ÈŒ¾Œê¯•Êqˆê——‚Í Language Identifiers ‚ğQÆB‚½‚Æ‚¦‚ÎŒ¾Œê¯•Êq 0x040A ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½à–¾•¶š—ñ‚Í "Spanish (Traditional Sort)" ‚Å‚ ‚éB¯•Êq‚ª•s–¾‚Èê‡AszLang ‚ÍŠù’è‚Ì•¶š—ñ ("Language Neutral") ‚ğw‚·B
@@ -21871,8 +20243,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 VerifyScripts
 2 ‚Â‚Ì—ñ‹“‚³‚ê‚½ƒXƒNƒŠƒvƒgƒŠƒXƒg‚ğ”äŠr‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags, lpLocaleScripts, cchLocaleScripts, lpTestScripts, cchTestScripts
 dwFlags : [int] ƒXƒNƒŠƒvƒgŒŸØƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éƒtƒ‰ƒOB
@@ -21903,8 +20273,6 @@ cchTestScripts : [int] lpTestScripts ‚ª¦‚·•¶š—ñ‚ÌƒTƒCƒYi•¶š’PˆÊjBNULL I’[
 %index
 VerifyVersionInfoW
 OS ƒo[ƒWƒ‡ƒ“—vŒ‚ÌƒZƒbƒg‚ğAŒ»İÀs’†‚ÌƒVƒXƒeƒ€ƒo[ƒWƒ‡ƒ“‚Ì‘Î‰’l‚Æ”äŠr‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpVersionInformation, dwTypeMask, dwlConditionMask
 lpVersionInformation : [var] ”äŠr‚·‚é OS ƒo[ƒWƒ‡ƒ“—vŒ‚ğŠÜ‚Ş OSVERSIONINFOEX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BdwTypeMask ‚Í–{\‘¢‘Ì‚Ì‚¤‚¿”äŠrî•ñ‚ğŠÜ‚Şƒƒ“ƒo‚ğ¦‚·B
@@ -21940,8 +20308,6 @@ Version ‚ğQÆBMedia Center ”Å‚© Tablet PC ”Å‚©‚ğŒŸØ‚·‚é‚É‚Í GetSystemMetrics 
 %index
 VirtualAlloc
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒy[ƒW—Ìˆæ‚ğ—\–ñAƒRƒ~ƒbƒgA‚Ü‚½‚Íó‘Ô•ÏX‚·‚éB(VirtualAlloc)
-%group
-Win32 kernel32
 %prm
 lpAddress, dwSize, flAllocationType, flProtect
 lpAddress : [intptr] Š„‚è“–‚Ä‚é—Ìˆæ‚ÌŠJnƒAƒhƒŒƒXBƒƒ‚ƒŠ‚ª—\–ñ‚³‚ê‚éê‡Aw’èƒAƒhƒŒƒX‚ÍŠ„‚è“–‚Ä—±“x‚ÌÅ‚à‹ß‚¢”{”‚ÉØ‚è‰º‚°‚ç‚ê‚éBŠù‚É—\–ñÏ‚İ‚ÅƒRƒ~ƒbƒg‚·‚éê‡‚ÍAŸ‚Ìƒy[ƒW‹«ŠE‚ÉØ‚è‰º‚°‚ç‚ê‚éBNULL ‚Ìê‡AƒVƒXƒeƒ€‚ªŠ„‚è“–‚ÄêŠ‚ğŒˆ’è‚·‚éB
@@ -21965,8 +20331,6 @@ VirtualAlloc ‚Åƒƒ‚ƒŠ‚ğŠ„‚è“–‚ÄAVirtualProtect ‚Å PAGE_EXECUTE ƒAƒNƒZƒX‚ğ•t—^‚·
 %index
 VirtualAllocEx
 w’è‚µ‚½ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠ—Ìˆæ‚ğ—\–ñEƒRƒ~ƒbƒgEó‘Ô•ÏX‚·‚éBŠ„‚è“–‚Ä‚½ƒƒ‚ƒŠ‚Í 0 ‚É‰Šú‰»‚³‚ê‚éB(VirtualAllocEx)
-%group
-Win32 kernel32
 %prm
 hProcess, lpAddress, dwSize, flAllocationType, flProtect
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B–{ŠÖ”‚Í‚»‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Éƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBƒnƒ“ƒhƒ‹‚Í PROCESS_VM_OPERATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -21990,8 +20354,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 VirtualAllocExNuma
 w’è‚µ‚½ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠ—Ìˆæ‚ğ—\–ñEƒRƒ~ƒbƒgEó‘Ô•ÏX‚µA•¨—ƒƒ‚ƒŠ—p‚Ì NUMA ƒm[ƒh‚ğw’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpAddress, dwSize, flAllocationType, flProtect, nndPreferred
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B–{ŠÖ”‚Í‚»‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Éƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBƒnƒ“ƒhƒ‹‚Í PROCESS_VM_OPERATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -22015,8 +20377,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 VirtualFree
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒy[ƒW—Ìˆæ‚ğ‰ğ•úAƒfƒRƒ~ƒbƒgA‚Ü‚½‚Í‰ğ•ú‚ÆƒfƒRƒ~ƒbƒg‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpAddress, dwSize, dwFreeType
 lpAddress : [intptr] ‰ğ•ú‚·‚éƒy[ƒW—Ìˆæ‚Ìƒx[ƒXƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BdwFreeType ‚ª MEM_RELEASE ‚Ìê‡AVirtualAlloc ‚Åƒy[ƒW—Ìˆæ‚ğ—\–ñ‚µ‚½‚Æ‚«‚É•Ô‚³‚ê‚½ƒx[ƒXƒAƒhƒŒƒX‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -22038,8 +20398,6 @@ VirtualAlloc ‚Å—\–ñ‚³‚ê‚½‘Sƒy[ƒW”ÍˆÍ‚ğ“¯‚É‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB‰ğ•úŒã‚Ìƒƒ‚ƒŠ‚
 %index
 VirtualFreeEx
 w’è‚µ‚½ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠ—Ìˆæ‚ğ‰ğ•úAƒRƒ~ƒbƒg‰ğœA‚Ü‚½‚Í‰ğ•ú‚ÆƒRƒ~ƒbƒg‰ğœ‚Ì—¼•û‚ğs‚¤B
-%group
-Win32 kernel32
 %prm
 hProcess, lpAddress, dwSize, dwFreeType
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B–{ŠÖ”‚Í‚»‚ÌƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éBƒnƒ“ƒhƒ‹‚Í PROCESS_VM_OPERATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -22076,8 +20434,6 @@ VirtualFreeEx ‚Åíœ‚Å‚«‚éB**Windows 10 version 1507/1511/1607/1703**:
 %index
 VirtualLock
 ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìw’è—Ìˆæ‚ğ•¨—ƒƒ‚ƒŠ‚ÉƒƒbƒN‚µA‚»‚Ì—Ìˆæ‚Ö‚ÌˆÈŒã‚ÌƒAƒNƒZƒX‚ªƒy[ƒWƒtƒH[ƒ‹ƒg‚ğ‹N‚±‚³‚È‚¢‚æ‚¤‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpAddress, dwSize
 lpAddress : [intptr] ƒƒbƒN‚·‚éƒy[ƒW—Ìˆæ‚Ìƒx[ƒXƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -22104,8 +20460,6 @@ VirtualUnlock ‚ğ•¡”‰ñŒÄ‚Ô•K—v‚ÍŒˆ‚µ‚Ä‚È‚¢B
 %index
 VirtualProtect
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚ÌƒRƒ~ƒbƒgÏ‚İƒy[ƒW—Ìˆæ‚Ì•ÛŒì‚ğ•ÏX‚·‚éB(VirtualProtect)
-%group
-Win32 kernel32
 %prm
 lpAddress, dwSize, flNewProtect, lpflOldProtect
 lpAddress : [intptr] •ÛŒì‘®«‚ğ•ÏX‚·‚éƒy[ƒW—Ìˆæ‚ÌŠJnƒy[ƒW‚ÌƒAƒhƒŒƒXBw’è—Ìˆæ“à‚Ì‘Sƒy[ƒW‚ÍAMEM_RESERVE ‚Å VirtualAlloc/VirtualAllocEx ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½“¯‚¶—\–ñ—Ìˆæ“à‚É‘¶İ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -22128,8 +20482,6 @@ FlushInstructionCache ‚ğŒÄ‚ñ‚ÅƒLƒƒƒbƒVƒ…ƒRƒq[ƒŒƒ“ƒV‚ğŠm•Û‚·‚éÓ”C‚ª‚ ‚éB
 %index
 VirtualProtectEx
 w’è‚µ‚½ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚ÌƒRƒ~ƒbƒgÏ‚İƒy[ƒW—Ìˆæ‚Ì•ÛŒì‚ğ•ÏX‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpAddress, dwSize, flNewProtect, lpflOldProtect
 hProcess : [intptr] ƒƒ‚ƒŠ•ÛŒì‚ğ•ÏX‚·‚éƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B**PROCESS_VM_OPERATION** ƒAƒNƒZƒXŒ ‚ª•K—vBÚ×‚Í Process Security and Access Rights ‚ğQÆB
@@ -22158,8 +20510,6 @@ FlushInstructionCache
 %index
 VirtualUnlock
 ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìw’èƒy[ƒW”ÍˆÍ‚ğƒAƒ“ƒƒbƒN‚µA•K—v‚É‰‚¶‚ÄƒVƒXƒeƒ€‚ª‚»‚ê‚ç‚Ìƒy[ƒW‚ğƒy[ƒWƒtƒ@ƒCƒ‹‚ÉƒXƒƒbƒvƒAƒEƒg‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpAddress, dwSize
 lpAddress : [intptr] ƒAƒ“ƒƒbƒN‚·‚éƒy[ƒW—Ìˆæ‚Ìƒx[ƒXƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -22183,8 +20533,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 WTSGetActiveConsoleSessionId
 ƒRƒ“ƒ\[ƒ‹ƒZƒbƒVƒ‡ƒ“‚ÌƒZƒbƒVƒ‡ƒ“¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -22202,8 +20550,6 @@ WTSRegisterSessionNotification ‚ğg‚¤B
 %index
 WaitCommEvent
 w’è‚µ‚½’ÊMƒfƒoƒCƒX‚ÅƒCƒxƒ“ƒg‚ª”­¶‚·‚é‚Ì‚ğ‘Ò‹@‚·‚éB–{ŠÖ”‚ªŠÄ‹‚·‚éƒCƒxƒ“ƒgƒZƒbƒg‚ÍƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒCƒxƒ“ƒgƒ}ƒXƒN‚ÉŠÜ‚Ü‚ê‚éB
-%group
-Win32 kernel32
 %prm
 hFile, lpEvtMask, lpOverlapped
 hFile : [intptr] ’ÊMƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚ª•Ô‚·B
@@ -22232,8 +20578,6 @@ WaitCommEvent ‚ª–ß‚é‘O‚É OVERLAPPED ‚Ì hEvent
 %index
 WaitForDebugEvent
 ƒfƒoƒbƒO‘ÎÛƒvƒƒZƒX‚ÅƒfƒoƒbƒOƒCƒxƒ“ƒg‚ª”­¶‚·‚é‚Ì‚ğ‘Ò‹@‚·‚éB(WaitForDebugEvent)
-%group
-Win32 kernel32
 %prm
 lpDebugEvent, dwMilliseconds
 lpDebugEvent : [var] ƒfƒoƒbƒOƒCƒxƒ“ƒg‚Ìî•ñ‚ğó‚¯æ‚é DEBUG_EVENT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -22263,8 +20607,6 @@ WaitForDebugEvent ‚ğŒÄ‚Ño‚·ƒXƒŒƒbƒh‚É”ñ“¯ŠúƒvƒƒV[ƒWƒƒŒÄ‚Ño‚µ (APC) ‚ğƒLƒ…[ƒ
 %index
 WaitForMultipleObjects
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì 1 ‚Â‚Ü‚½‚Í‚·‚×‚Ä‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚©Aƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚Å‘Ò‹@‚·‚éB
-%group
-Win32 kernel32
 %prm
 nCount, lpHandles, bWaitAll, dwMilliseconds
 nCount : [int] lpHandles ‚ªw‚·”z—ñ“à‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹”BÅ‘å‚Í MAXIMUM_WAIT_OBJECTSB0 ‚É‚Í‚Å‚«‚È‚¢B
@@ -22290,8 +20632,6 @@ dwMilliseconds : [int] ƒ^ƒCƒ€ƒAƒEƒgŠÔŠu(ƒ~ƒŠ•b’PˆÊ)B0 ˆÈŠO‚È‚çw’èƒIƒuƒWƒFƒNƒg‚
 %index
 WaitForMultipleObjectsEx
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ìˆê‚Â‚Ü‚½‚Í‚·‚×‚Ä‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚©AI/O Š®—¹ƒ‹[ƒ`ƒ“‚â”ñ“¯ŠúƒvƒƒV[ƒWƒƒŒÄ‚Ño‚µ (APC) ‚ªƒXƒŒƒbƒh‚ÉƒLƒ…[ƒCƒ“ƒO‚³‚ê‚é‚©Aƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚Å‘Ò‹@‚·‚éB
-%group
-Win32 kernel32
 %prm
 nCount, lpHandles, bWaitAll, dwMilliseconds, bAlertable
 nCount : [int] lpHandles ‚Ì”z—ñ‚Å‘Ò‹@‚·‚éƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹”BÅ‘å‚Í MAXIMUM_WAIT_OBJECTSB0 ‚ğw’è‚Å‚«‚È‚¢B
@@ -22323,8 +20663,6 @@ WaitForMultipleObjectsEx
 %index
 WaitForSingleObject
 w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚©ƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚Å‘Ò‹@‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHandle, dwMilliseconds
 hHandle : [intptr] ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -22346,8 +20684,6 @@ dwMilliseconds : [int] ƒ^ƒCƒ€ƒAƒEƒgŠÔŠu(ƒ~ƒŠ•b’PˆÊ)B0 ˆÈŠO‚È‚çƒIƒuƒWƒFƒNƒg‚ªƒVƒ
 %index
 WaitForSingleObjectEx
 w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚©AI/O Š®—¹ƒ‹[ƒ`ƒ“‚â”ñ“¯ŠúƒvƒƒV[ƒWƒƒŒÄ‚Ño‚µ (APC) ‚ªƒXƒŒƒbƒh‚ÉƒLƒ…[ƒCƒ“ƒO‚³‚ê‚é‚©Aƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚Å‘Ò‹@‚·‚éB
-%group
-Win32 kernel32
 %prm
 hHandle, dwMilliseconds, bAlertable
 hHandle : [intptr] ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹Bw’è‰Â”\‚ÈƒIƒuƒWƒFƒNƒgí•Ê‚Í”õl‚ğQÆB
@@ -22371,8 +20707,6 @@ WaitForSingleObjectEx
 %index
 WaitNamedPipeW
 WaitNamedPipeW (Unicode) ŠÖ” (winbase.h) ‚ÍAƒ^ƒCƒ€ƒAƒEƒgŒo‰ß‚Ü‚½‚Íw’è–¼‘O•t‚«ƒpƒCƒv‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªÚ‘±‰Â”\‚É‚È‚é‚Ü‚Å‘Ò‹@‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpNamedPipeName, nTimeOut
 lpNamedPipeName : [wstr] –¼‘O•t‚«ƒpƒCƒv‚Ì–¼‘OBƒT[ƒoƒvƒƒZƒX‚ªÀs‚³‚ê‚Ä‚¢‚éƒRƒ“ƒsƒ…[ƒ^‚Ì–¼‘O‚ğŠÜ‚Ş•K—v‚ª‚ ‚éBƒpƒCƒv‚ªƒ[ƒJƒ‹‚È‚ç servername ‚ÉƒsƒŠƒIƒh‚ğg‚¦‚éBŒ`®: \\servername\pipe\pipename
@@ -22398,8 +20732,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 WerGetFlags
 w’è‚µ‚½ƒvƒƒZƒX‚ÌáŠQƒŒƒ|[ƒgİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, pdwFlags
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹BPROCESS_VM_READ ‚Ü‚½‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -22414,8 +20746,6 @@ pdwFlags : [var]
 %index
 WerRegisterAdditionalProcess
 ƒƒCƒ“ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒZƒX‚Æ‚Æ‚à‚ÉƒGƒ‰[ƒŒƒ|[ƒg‚ÉŠÜ‚ß‚éƒvƒƒZƒX‚ğ“o˜^‚·‚éB”CˆÓ‚Å‚»‚ÌƒvƒƒZƒX“à‚ÌƒXƒŒƒbƒh‚ğw’è‚µ‚Ä’Ç‰Áƒf[ƒ^‚ğæ“¾‚Å‚«‚éB
-%group
-Win32 kernel32
 %prm
 processId, captureExtraInfoForThreadId
 processId : [int] “o˜^‚·‚éƒvƒƒZƒX‚Ì IDB
@@ -22437,8 +20767,6 @@ captureExtraInfoForThreadId : [int] “o˜^‚·‚éƒvƒƒZƒX“à‚Å’Ç‰Áî•ñ‚ğ—v‹‚·‚éƒXƒŒƒb
 %index
 WerRegisterAppLocalDump
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒZƒX‚Ì‰“š’â~‚É Windows ƒGƒ‰[•ñ (WER) ‚ªûW‚·‚éf’fƒƒ‚ƒŠƒ_ƒ“ƒv‚ÌƒRƒs[‚ğ•Û‘¶‚·‚éAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ[ƒJƒ‹ƒAƒvƒŠƒXƒgƒA‚©‚ç‚Ì‘Š‘ÎƒpƒX‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 localAppDataRelativePath
 localAppDataRelativePath : [wstr] WER ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒZƒX‚Ì‰“š’â~‚ÉûW‚·‚éf’fƒƒ‚ƒŠƒ_ƒ“ƒv‚ğ•Û‘¶‚·‚éAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ[ƒJƒ‹ƒAƒvƒŠƒXƒgƒA‚©‚ç‚Ì‘Š‘ÎƒpƒXB•¶š”‚ÌÅ‘å’·‚Í **WER_MAX_LOCAL_DUMP_SUBPATH_LENGTH** ‚Å 64 (NULL I’[‚ğŠÜ‚Ş)B
@@ -22459,8 +20787,6 @@ localAppDataRelativePath : [wstr] WER ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒZƒX‚Ì‰“š’â~‚Éû
 %index
 WerRegisterCustomMetadata
 WER ‚ªƒGƒ‰[ƒŒƒ|[ƒgì¬‚ÉûW‚·‚éƒAƒvƒŠŒÅ—Lƒƒ^ƒf[ƒ^ (ƒL[ / ’l•¶š—ñ‚ÌŒ`®) ‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 key, value
 key : [wstr] “o˜^‚·‚éƒƒ^ƒf[ƒ^—v‘f‚Ì "key" •¶š—ñB
@@ -22480,8 +20806,6 @@ WER ‚ªƒGƒ‰[ƒŒƒ|[ƒgì¬‚ÉûW‚·‚éƒAƒvƒŠŒÅ—Lƒƒ^ƒf[ƒ^ (ƒL[ / ’l•¶š—ñ‚ÌŒ`®)
 %index
 WerRegisterExcludedMemoryBlock
 ’Êí‚ÍƒGƒ‰[ƒŒƒ|[ƒg‚ÉŠù’è‚ÅŠÜ‚Ü‚ê‚éƒƒ‚ƒŠƒuƒƒbƒN‚ğAƒGƒ‰[ƒŒƒ|[ƒg‚©‚çœŠO‚·‚é‚æ‚¤ƒ}[ƒN‚·‚éB
-%group
-Win32 kernel32
 %prm
 address, size
 address : [intptr] ƒƒ‚ƒŠƒuƒƒbƒN‚ÌŠJnƒAƒhƒŒƒXB
@@ -22501,8 +20825,6 @@ Xbox One ƒQ[ƒ€‚Í‘å—Ê‚ÌƒeƒNƒXƒ`ƒƒƒf[ƒ^‚ğƒƒ‚ƒŠ‚É•Û‚µ‚Ä‚¨‚èAŠù’è‚ÅƒGƒ‰[ƒ_ƒ“ƒ
 %index
 WerRegisterFile
 WER ‚ªƒGƒ‰[ƒŒƒ|[ƒgì¬‚ÉûW‚·‚éƒtƒ@ƒCƒ‹‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 pwzFile, regFileType, dwFlags
 pwzFile : [wstr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒXBÅ‘å’·‚Í MAX_PATHB
@@ -22528,8 +20850,6 @@ WER ‚ªƒGƒ‰[ƒŒƒ|[ƒgì¬‚ÉûW‚·‚éƒtƒ@ƒCƒ‹‚ğ“o˜^‚·‚éB
 %index
 WerRegisterMemoryBlock
 WER ‚ªƒGƒ‰[ƒŒƒ|[ƒgì¬‚ÉûW‚·‚éƒƒ‚ƒŠƒuƒƒbƒN‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 pvAddress, dwSize
 pvAddress : [intptr] ƒƒ‚ƒŠƒuƒƒbƒN‚ÌŠJnƒAƒhƒŒƒXB
@@ -22554,8 +20874,6 @@ WER ”Ä—pƒCƒxƒ“ƒg•ñŠÖ”‚ğ’¼ÚŒÄ‚Ô•K—v‚ª‚ ‚éB”Ä—pƒŒƒ|[ƒg‚Éƒƒ‚ƒŠƒuƒƒbƒN‚ğ’Ç‰Á
 %index
 WerRegisterRuntimeExceptionModule
 ƒNƒ‰ƒbƒVƒ…‚É‘Î‚·‚éƒJƒXƒ^ƒ€ƒGƒ‰[•ñ‚ğ’ñ‹Ÿ‚·‚éAƒJƒXƒ^ƒ€ƒ‰ƒ“ƒ^ƒCƒ€—áŠOƒnƒ“ƒhƒ‰‚ğ“o˜^‚·‚éB
-%group
-Win32 kernel32
 %prm
 pwszOutOfProcessCallbackDll, pContext
 pwszOutOfProcessCallbackDll : [wstr] “o˜^‚·‚é—áŠOƒnƒ“ƒhƒ‰ DLL ‚Ì–¼‘OB
@@ -22576,8 +20894,6 @@ pContext : [intptr] ƒnƒ“ƒhƒ‰‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚é”CˆÓ‚ÌƒRƒ“ƒeƒLƒXƒgî•ñ‚Ö
 %index
 WerSetFlags
 Œ»İ‚ÌƒvƒƒZƒX‚ÌáŠQƒŒƒ|[ƒgİ’è‚ğİ’è‚·‚éB
-%group
-Win32 kernel32
 %prm
 dwFlags
 dwFlags : [int] 
@@ -22591,8 +20907,6 @@ dwFlags : [int]
 %index
 WerUnregisterAdditionalProcess
 ƒGƒ‰[ƒŒƒ|[ƒg‚ÉŠÜ‚ß‚é’Ç‰ÁƒvƒƒZƒX‚ÌƒŠƒXƒg‚©‚çƒvƒƒZƒX‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 processId
 processId : [int] íœ‚·‚éƒvƒƒZƒX‚Ì IDBWerRegisterAdditionalProcess ‚Å–‘O‚É“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -22607,8 +20921,6 @@ processId : [int] íœ‚·‚éƒvƒƒZƒX‚Ì IDBWerRegisterAdditionalProcess ‚Å–‘O‚É“o
 %index
 WerUnregisterAppLocalDump
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒZƒX‚Ì‰“š’â~‚É Windows ƒGƒ‰[•ñ (WER) ‚ªf’fƒƒ‚ƒŠƒ_ƒ“ƒv‚ÌƒRƒs[‚ğ•Û‘¶‚·‚é‚±‚Æ‚ğw’è‚·‚é‚½‚ß‚É WerRegisterAppLocalDump ‚Ås‚Á‚½“o˜^‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 kernel32
 %prm
 
 %inst
@@ -22622,8 +20934,6 @@ WerRegisterAppLocalDump ‚Ås‚Á‚½“o˜^‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
 %index
 WerUnregisterCustomMetadata
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒGƒ‰[•ñ’†‚ÉûW‚³‚ê‚éƒAƒvƒŠŒÅ—Lƒƒ^ƒf[ƒ^€–Ú‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 key
 key : [wstr] íœ‚·‚éƒƒ^ƒf[ƒ^—v‘f‚Ì "key" •¶š—ñBWerRegisterCustomMetadata ‚Å–‘O‚É“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -22638,8 +20948,6 @@ key : [wstr] íœ‚·‚éƒƒ^ƒf[ƒ^—v‘f‚Ì "key" •¶š—ñBWerRegisterCustomMetadata ‚Å
 %index
 WerUnregisterExcludedMemoryBlock
 ˆÈ‘O‚ÉœŠOƒ}[ƒN‚³‚ê‚½ƒƒ‚ƒŠƒuƒƒbƒN‚ğíœ‚·‚é (Ä‚ÑƒGƒ‰[ƒŒƒ|[ƒg‚ÉŠÜ‚Ü‚ê‚é‚æ‚¤‚É‚È‚é)B
-%group
-Win32 kernel32
 %prm
 address
 address : [intptr] ƒƒ‚ƒŠƒuƒƒbƒN‚ÌŠJnƒAƒhƒŒƒXBWerRegisterExcludedMemoryBlock ‚Å“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -22654,8 +20962,6 @@ address : [intptr] ƒƒ‚ƒŠƒuƒƒbƒN‚ÌŠJnƒAƒhƒŒƒXBWerRegisterExcludedMemoryBlock 
 %index
 WerUnregisterFile
 Œ»İ‚ÌƒvƒƒZƒX—p‚É¶¬‚³‚ê‚éƒŒƒ|[ƒg‚É’Ç‰Á‚·‚éƒtƒ@ƒCƒ‹‚ÌƒŠƒXƒg‚©‚çƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 pwzFilePath
 pwzFilePath : [wstr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒXBWerRegisterFile ‚Å“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -22670,8 +20976,6 @@ pwzFilePath : [wstr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒXBWerRegisterFile ‚Å“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚
 %index
 WerUnregisterMemoryBlock
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒGƒ‰[•ñ’†‚ÉûW‚³‚ê‚éƒf[ƒ^‚ÌƒŠƒXƒg‚©‚çƒƒ‚ƒŠƒuƒƒbƒN‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 pvAddress
 pvAddress : [intptr] ƒƒ‚ƒŠƒuƒƒbƒN‚ÌŠJnƒAƒhƒŒƒXBWerRegisterMemoryBlock ‚Å“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -22686,8 +20990,6 @@ pvAddress : [intptr] ƒƒ‚ƒŠƒuƒƒbƒN‚ÌŠJnƒAƒhƒŒƒXBWerRegisterMemoryBlock ‚Å“o˜^
 %index
 WerUnregisterRuntimeExceptionModule
 WER —áŠOƒnƒ“ƒhƒ‰‚Ì“o˜^‚ğíœ‚·‚éB
-%group
-Win32 kernel32
 %prm
 pwszOutOfProcessCallbackDll, pContext
 pwszOutOfProcessCallbackDll : [wstr] “o˜^‰ğœ‚·‚é—áŠOƒnƒ“ƒhƒ‰ DLL ‚Ì–¼‘OB
@@ -22706,8 +21008,6 @@ WER —áŠOƒnƒ“ƒhƒ‰‚Ì“o˜^‚ğíœ‚·‚éB
 %index
 WideCharToMultiByte
 UTF-16(ƒƒCƒh•¶š)•¶š—ñ‚ğV‚µ‚¢•¶š—ñ‚Éƒ}ƒbƒv‚·‚éB
-%group
-Win32 kernel32
 %prm
 CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar
 CodePage : [int] •ÏŠ·‚Ég—p‚·‚éƒR[ƒhƒy[ƒWB
@@ -22739,8 +21039,6 @@ lpMultiByteStr ‚Æ lpWideCharStr ‚Í“¯‚¶ƒ|ƒCƒ“ƒ^‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B“ü—Í’·‚ª–¾¦“I
 %index
 WinExec
 w’è‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğÀs‚·‚éB
-%group
-Win32 kernel32
 %prm
 lpCmdLine, uCmdShow
 lpCmdLine : [str] Às‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ (ƒtƒ@ƒCƒ‹–¼‚ÆÈ—ª‰Â”\‚Èƒpƒ‰ƒ[ƒ^)BlpCmdLine “à‚ÌÀsƒtƒ@ƒCƒ‹–¼‚ÉƒfƒBƒŒƒNƒgƒŠƒpƒX‚ªŠÜ‚Ü‚ê‚È‚¢ê‡AƒVƒXƒeƒ€‚ÍŸ‚Ì‡˜‚ÅÀsƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
@@ -22764,8 +21062,6 @@ GetMessage ‚ğŒÄ‚Ô‚±‚ÆBƒZƒLƒ…ƒŠƒeƒB‚ÉŠÖ‚·‚é”õl: Àsƒtƒ@ƒCƒ‹–¼‚Í lpCmdLine
 %index
 WriteConsoleW
 Œ»İ‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚©‚çƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚É•¶š—ñ‚ğ‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpBuffer, nNumberOfCharsToWrite, lpNumberOfCharsWritten, lpReserved
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ìƒnƒ“ƒhƒ‹BGENERIC_WRITE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -22800,8 +21096,6 @@ SetCursorPosASetConsoleTextAttributeAGetConsoleCursorInfo ‚ğQÆB
 %index
 WriteConsoleInputW
 ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚É’¼Úƒf[ƒ^‚ğ‘‚«‚Ş WriteConsoleInput ŠÖ”‚ÌQÆî•ñB
-%group
-Win32 kernel32
 %prm
 hConsoleInput, lpBuffer, nLength, lpNumberOfEventsWritten
 hConsoleInput : [intptr] ƒRƒ“ƒ\[ƒ‹“ü—Íƒoƒbƒtƒ@‚Ìƒnƒ“ƒhƒ‹BGENERIC_WRITE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Console Buffer Security and Access Rights ‚ğQÆB
@@ -22826,8 +21120,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 WriteConsoleOutputW
 ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@“à‚Ìw’è‹éŒ`ƒuƒƒbƒN‚Ì•¶šƒZƒ‹‚É•¶š‚ÆF‘®«ƒf[ƒ^‚ğ‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpBuffer, dwBufferSize, dwBufferCoord, lpWriteRegion
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ìƒnƒ“ƒhƒ‹BGENERIC_WRITE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Console Buffer Security and Access Rights ‚ğQÆB
@@ -22858,8 +21150,6 @@ dwBufferCoord À•W‚ğ¶ãƒZƒ‹‚Æ‚µ‚Ä lpBuffer “à‚É”z’u‚³‚ê‚éB‚±‚Ì‹éŒ`‚Æ (dwBuffer
 %index
 WriteConsoleOutputAttribute
 w’è‚µ‚½ˆÊ’u‚©‚çn‚Ü‚éƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ì˜A‘±ƒZƒ‹‚ÖAw’è”‚Ì•¶š‘®«‚ğƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpAttribute, nLength, dwWriteCoord, lpNumberOfAttrsWritten
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ìƒnƒ“ƒhƒ‹BGENERIC_WRITE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Console Buffer Security and Access Rights ‚ğQÆB
@@ -22884,8 +21174,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 WriteConsoleOutputCharacterW
 w’è‚µ‚½ˆÊ’u‚©‚çn‚Ü‚éƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ì˜A‘±ƒZƒ‹‚ÖAw’è”‚Ì•¶š‚ğƒRƒs[‚·‚éB
-%group
-Win32 kernel32
 %prm
 hConsoleOutput, lpCharacter, nLength, dwWriteCoord, lpNumberOfCharsWritten
 hConsoleOutput : [intptr] ƒRƒ“ƒ\[ƒ‹‰æ–Êƒoƒbƒtƒ@‚Ìƒnƒ“ƒhƒ‹BGENERIC_WRITE ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éBÚ×‚Í Console Buffer Security and Access Rights ‚ğQÆB
@@ -22909,8 +21197,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 WriteFile
 w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX‚Éƒf[ƒ^‚ğ‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ü‚½‚Í I/O ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹(ƒtƒ@ƒCƒ‹Aƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€A•¨—ƒfƒBƒXƒNAƒ{ƒŠƒ…[ƒ€AƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@Aƒe[ƒvƒhƒ‰ƒCƒuAƒ\ƒPƒbƒgA’ÊMƒŠƒ\[ƒXAƒ[ƒ‹ƒXƒƒbƒgAƒpƒCƒv‚È‚Ç)B‘‚«‚İƒAƒNƒZƒX‚Åì¬‚·‚é•K—v‚ª‚ ‚éB”ñ“¯Šú‘‚«‚İ‚Å‚Í FILE_FLAG_OVERLAPPED ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í socket/accept ‚ª•Ô‚·ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ğw’è‚Å‚«‚éB
@@ -22933,8 +21219,6 @@ WriteFile ŠÖ”‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌğŒ‚ª”­¶‚µ‚½ê‡‚É–ß‚é:
 %index
 WriteFileEx
 w’è‚µ‚½ƒtƒ@ƒCƒ‹‚â I/O ƒfƒoƒCƒX‚Éƒf[ƒ^‚ğ‘‚«‚ŞBŠ®—¹ó‘Ô‚ğ”ñ“¯Šú‚É•ñ‚µA‘‚«‚İ‚ªŠ®—¹‚Ü‚½‚ÍƒLƒƒƒ“ƒZƒ‹‚³‚êŒÄ‚Ño‚µ‘¤ƒXƒŒƒbƒh‚ªŒx‰Â”\‘Ò‹@ó‘Ô‚É“ü‚Á‚½‚Æ‚«‚ÉAw’è‚ÌŠ®—¹ƒ‹[ƒ`ƒ“‚ğŒÄ‚Ño‚·B
-%group
-Win32 kernel32
 %prm
 hFile, lpBuffer, nNumberOfBytesToWrite, lpOverlapped, lpCompletionRoutine
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚â I/O ƒfƒoƒCƒX (ƒtƒ@ƒCƒ‹Aƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€A•¨—ƒfƒBƒXƒNAƒ{ƒŠƒ…[ƒ€AƒRƒ“ƒ\[ƒ‹ƒoƒbƒtƒ@Aƒe[ƒvƒhƒ‰ƒCƒuAƒ\ƒPƒbƒgA’ÊMƒŠƒ\[ƒXAƒ[ƒ‹ƒXƒƒbƒgAƒpƒCƒv‚È‚Ç) ‚Ìƒnƒ“ƒhƒ‹B–{ƒpƒ‰ƒ[ƒ^‚É‚Í CreateFile ŠÖ”‚Å **FILE_FLAG_OVERLAPPED** ƒtƒ‰ƒO‚ğ•t‚¯‚ÄŠJ‚¢‚½”CˆÓ‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í socket / accept ŠÖ”‚ª•Ô‚µ‚½ƒ\ƒPƒbƒgƒnƒ“ƒhƒ‹‚ğw’è‚Å‚«‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚É I/O Š®—¹ƒ|[ƒg‚ğŠÖ˜A•t‚¯‚Ä‚Í‚È‚ç‚È‚¢BÚ×‚Í”õl‚ğQÆB–{ƒnƒ“ƒhƒ‹‚Í **GENERIC_WRITE** ƒAƒNƒZƒXŒ ‚à‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -22985,8 +21269,6 @@ RAW ˆÈŠO‚Ìƒ}ƒEƒ“ƒgƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ğ‚½‚È‚¢ƒ{ƒŠƒ…[ƒ€“àBCreateFile ‚Å
 %index
 WriteFileGather
 ƒoƒbƒtƒ@‚Ì”z—ñ‚©‚çƒf[ƒ^‚ğæ‚èo‚µ‚Äƒtƒ@ƒCƒ‹‚É‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 hFile, aSegmentArray, nNumberOfBytesToWrite, lpReserved, lpOverlapped
 hFile : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B**GENERIC_WRITE** ƒAƒNƒZƒXŒ A**FILE_FLAG_OVERLAPPED**A**FILE_FLAG_NO_BUFFERING** ƒtƒ‰ƒO‚ğ•t‚¯‚Äì¬‚·‚é•K—v‚ª‚ ‚éBÚ×‚Í File Security and Access Rights ‚ğQÆB
@@ -23011,8 +21293,6 @@ GetLastError ‚ğŒÄ‚ÔB‘‚«‚İŠ®—¹‘O‚É–ß‚Á‚½ê‡A–ß‚è’l‚Í 0 ‚Å GetLastError ‚Í
 %index
 WritePrivateProfileSectionW
 ‰Šú‰»ƒtƒ@ƒCƒ‹“à‚Ìw’èƒZƒNƒVƒ‡ƒ“‚ÌƒL[‚Æ’l‚ğ’u‚«Š·‚¦‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpAppName, lpString, lpFileName
 lpAppName : [wstr] ƒf[ƒ^‚ğ‘‚«‚ŞƒZƒNƒVƒ‡ƒ“‚Ì–¼‘OB’Êí‚ÍŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì–¼‘OB
@@ -23045,8 +21325,6 @@ NT\CurrentVersion\IniFileMapping ƒŒƒWƒXƒgƒŠƒL[ˆÈ‰º‚Ìƒ}ƒbƒsƒ“ƒO‚ÅƒŒƒWƒXƒgƒŠ‚Éƒ}ƒ
 %index
 WritePrivateProfileStringW
 ‰Šú‰»ƒtƒ@ƒCƒ‹“à‚Ìw’èƒZƒNƒVƒ‡ƒ“‚É•¶š—ñ‚ğƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpAppName, lpKeyName, lpString, lpFileName
 lpAppName : [wstr] •¶š—ñ‚ğƒRƒs[‚·‚éƒZƒNƒVƒ‡ƒ“‚Ì–¼‘OBƒZƒNƒVƒ‡ƒ“‚ª‘¶İ‚µ‚È‚¯‚ê‚Îì¬‚³‚ê‚éBƒZƒNƒVƒ‡ƒ“–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B
@@ -23069,8 +21347,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 WritePrivateProfileStructW
 ‰Šú‰»ƒtƒ@ƒCƒ‹‚Ìw’èƒZƒNƒVƒ‡ƒ““à‚ÌƒL[‚Éƒf[ƒ^‚ğƒRƒs[‚·‚éBƒf[ƒ^‚ÌƒRƒs[‚Éƒ`ƒFƒbƒNƒTƒ€‚ğŒvZ‚µ‚Äƒf[ƒ^‚Ì––”ö‚É’Ç‰Á‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpszSection, lpszKey, lpStruct, uSizeStruct, szFile
 lpszSection : [wstr] \‘¢‘Ìƒf[ƒ^‚ğƒRƒs[‚·‚éƒZƒNƒVƒ‡ƒ“‚Ì–¼‘OB‘¶İ‚µ‚È‚¯‚ê‚Îì¬‚³‚ê‚éBƒZƒNƒVƒ‡ƒ“–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B
@@ -23095,8 +21371,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 WriteProcessMemory
 w’è‚µ‚½ƒvƒƒZƒX“à‚Ìƒƒ‚ƒŠ—Ìˆæ‚Éƒf[ƒ^‚ğ‘‚«‚ŞB‘‚«‚İæ”ÍˆÍ‘S‘Ì‚ªƒAƒNƒZƒX‰Â”\‚Å‚È‚¯‚ê‚Î‘€ì‚Í¸”s‚·‚éB
-%group
-Win32 kernel32
 %prm
 hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesWritten
 hProcess : [intptr] •ÏX‚·‚éƒvƒƒZƒXƒƒ‚ƒŠ‚Ìƒnƒ“ƒhƒ‹BƒvƒƒZƒX‚Ö‚Ì PROCESS_VM_WRITE ‚Æ PROCESS_VM_OPERATION ƒAƒNƒZƒXŒ ‚ğ‚Â•K—v‚ª‚ ‚éB
@@ -23121,8 +21395,6 @@ WriteProcessMemory
 %index
 WriteProfileSectionW
 Win.ini ƒtƒ@ƒCƒ‹“à‚Ìw’èƒZƒNƒVƒ‡ƒ“‚Ì“à—e‚ğAw’è‚µ‚½ƒL[‚Æ’l‚Å’u‚«Š·‚¦‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpAppName, lpString
 lpAppName : [wstr] ƒZƒNƒVƒ‡ƒ“‚Ì–¼‘OB’Êí‚ÍŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì–¼‘OB
@@ -23151,8 +21423,6 @@ NT\CurrentVersion\IniFileMapping ‚Ìƒ}ƒbƒsƒ“ƒO‚ÅƒŒƒWƒXƒgƒŠ‚Éƒ}ƒbƒv‚·‚éB
 %index
 WriteProfileStringW
 Win.ini ƒtƒ@ƒCƒ‹“à‚Ìw’èƒZƒNƒVƒ‡ƒ“‚É•¶š—ñ‚ğƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpAppName, lpKeyName, lpString
 lpAppName : [wstr] •¶š—ñ‚ğƒRƒs[‚·‚éƒZƒNƒVƒ‡ƒ“B‘¶İ‚µ‚È‚¯‚ê‚Îì¬‚³‚ê‚éBƒZƒNƒVƒ‡ƒ“–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B
@@ -23179,8 +21449,6 @@ NT\CurrentVersion\IniFileMapping ‚Ìƒ}ƒbƒsƒ“ƒO‚ÅƒŒƒWƒXƒgƒŠ‚Éƒ}ƒbƒv‚·‚éB
 %index
 WriteTapemark
 w’è”‚Ìƒtƒ@ƒCƒ‹ƒ}[ƒNAƒZƒbƒgƒ}[ƒNAƒVƒ‡[ƒgƒtƒ@ƒCƒ‹ƒ}[ƒNA‚Ü‚½‚Íƒƒ“ƒOƒtƒ@ƒCƒ‹ƒ}[ƒN‚ğƒe[ƒvƒfƒoƒCƒX‚É‘‚«‚ŞB
-%group
-Win32 kernel32
 %prm
 hDevice, dwTapemarkType, dwTapemarkCount, bImmediate
 hDevice : [intptr] ƒe[ƒvƒ}[ƒN‚ğ‘‚«‚ŞƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹BCreateFile ŠÖ”‚Åì¬‚·‚éB
@@ -23202,8 +21470,6 @@ bImmediate : [int] TRUE ‚Ìê‡AŠÖ”‚Í‘¦À‚É–ß‚éBFALSE ‚Ìê‡A‘€ìŠ®—¹‚Ü‚Å–ß‚ç
 %index
 ZombifyActCtx
 ZombifyActCtx ŠÖ”‚Íw’è‚µ‚½ƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ğ”ñƒAƒNƒeƒBƒu‰»‚·‚é‚ªA‰ğ•ú‚Í‚µ‚È‚¢B
-%group
-Win32 kernel32
 %prm
 hActCtx
 hActCtx : [intptr] ”ñƒAƒNƒeƒBƒu‰»‚·‚éƒAƒNƒeƒBƒx[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -23223,8 +21489,6 @@ the Last-Error Code ‚ğQÆBŠ®‘S‚ÈƒGƒ‰[ƒR[ƒhˆê——‚Í System Error Codes ‚ğQÆB
 %index
 lstrcatW
 ‚ ‚é•¶š—ñ‚ğ•Ê‚Ì•¶š—ñ‚É’Ç‰Á‚·‚éBŒx g—p‚µ‚È‚¢‚±‚ÆB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString1, lpString2
 lpString1 : [wstr] Œ^: LPTSTR 1 ”Ô–Ú‚Ì NULL I’[•¶š—ñB—¼•û‚Ì•¶š—ñ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -23244,8 +21508,6 @@ ANSI/Unicode ”Å‚ğ©“®‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 lstrcmpW
 2 ‚Â‚Ì•¶š—ñ‚ğ”äŠr‚·‚éB”äŠr‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString1, lpString2
 lpString1 : [wstr] Œ^: LPCTSTR ”äŠr‚·‚é 1 ”Ô–Ú‚Ì NULL I’[•¶š—ñB
@@ -23272,8 +21534,6 @@ Features ‚ğQÆB
 %index
 lstrcmpiW
 2 ‚Â‚Ì•¶š—ñ‚ğ”äŠr‚·‚éB”äŠr‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString1, lpString2
 lpString1 : [wstr] Œ^: LPCTSTR ”äŠr‚·‚é 1 ”Ô–Ú‚Ì NULL I’[•¶š—ñB
@@ -23299,8 +21559,6 @@ NORM_IGNORECASEANORM_IGNOREKANATYPEANORM_IGNOREWIDTH
 %index
 lstrcpyW
 •¶š—ñ‚ğƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString1, lpString2
 lpString1 : [wstr] Œ^: LPTSTR lpString2 ‚ªw‚·•¶š—ñ‚Ì“à—e‚ğó‚¯æ‚éƒoƒbƒtƒ@BI’[ NULL ‚ğŠÜ‚Ş•¶š—ñ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚Å‚ ‚é•K—v‚ª‚ ‚éB
@@ -23325,8 +21583,6 @@ StringCchCopy ‚Ìg—p‚ğŒŸ“¢‚·‚éB
 %index
 lstrcpynW
 ƒ\[ƒX•¶š—ñ‚©‚çƒoƒbƒtƒ@‚Éw’è”‚Ì•¶š‚ğƒRƒs[‚·‚éBŒx g—p‚µ‚È‚¢‚±‚ÆB(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString1, lpString2, iMaxLength
 lpString1 : [wstr] Œ^: LPTSTR ƒRƒs[‚³‚ê‚½•¶š‚ğó‚¯æ‚éˆ¶æƒoƒbƒtƒ@BI’[ NULL ‚Ì—Ìˆæ‚àŠÜ‚ß‚Ä iMaxLength ‚Åw’è‚³‚ê‚½ TCHAR ’l‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚ª•K—vB
@@ -23354,8 +21610,6 @@ NULL ‚Ì—Ìˆæ‚ªŠÜ‚Ü‚ê‚éBlstrcpyn ‚Íƒ\[ƒXƒoƒbƒtƒ@‚Æˆ¶æƒoƒbƒtƒ@‚ªd‚È‚éê‡‚Ì“®ì
 %index
 lstrlenW
 w’è‚µ‚½•¶š—ñ‚Ì’·‚³iI’[ NULL •¶š‚ğŠÜ‚Ü‚È‚¢j‚ğ•Ô‚·B(Unicode)
-%group
-Win32 kernel32
 %prm
 lpString
 lpString : [wstr] Œ^: LPCTSTR ’·‚³‚ğ’²‚×‚é NULL I’[•¶š—ñB

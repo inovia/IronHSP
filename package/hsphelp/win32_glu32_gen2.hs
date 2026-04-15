@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+glu32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì glu32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 gluBeginCurve
 gluBeginCurve ‚Æ gluEndCurve ‚Í NURBS ‹Èü’è‹`‚ğ‹æØ‚éB | gluBeginCurve ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 nobj
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -32,8 +52,6 @@ OpenGL evaluator ‚É‚æ‚èü•ª—ñ‚Æ‚µ‚ÄƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚éBƒŒƒ“ƒ_ƒŠƒ“ƒO’†‚Í
 %index
 gluBeginPolygon
 gluBeginPolygon ‚Æ gluEndPolygon ‚Íƒ|ƒŠƒSƒ“‹Lq‚ğ‹æØ‚éB | gluBeginPolygon ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 tess
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -55,8 +73,6 @@ gluBeginPolygon ‚Æ gluEndPolygon ‚Íƒ|ƒŠƒSƒ“‹Lq‚ğ‹æØ‚éB | gluBeginPolygon ŠÖ”
 %index
 gluBeginSurface
 gluBeginSurface ‚Æ gluEndSurface ‚Í NURBS ƒT[ƒtƒFƒX’è‹`‚ğ‹æØ‚éB | gluBeginSurface ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 nobj
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -81,8 +97,6 @@ gluBeginSurface ŠÖ” (Glu.h)
 %index
 gluBeginTrim
 gluBeginTrim ‚Æ gluEndTrim ‚Í NURBS ƒgƒŠƒ~ƒ“ƒOƒ‹[ƒv’è‹`‚ğ‹æØ‚éB | gluBeginTrim ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 nobj
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -108,8 +122,6 @@ gluBeginTrim ‚Æ gluEndTrim ‚Í NURBS ƒgƒŠƒ~ƒ“ƒOƒ‹[ƒv’è‹`‚ğ‹æØ‚éB | gluBeginTri
 %index
 gluBuild1DMipmaps
 gluBuild1DMipmaps ŠÖ”‚Í 1 ŸŒ³ƒ~ƒbƒvƒ}ƒbƒv‚ğ¶¬‚·‚éB
-%group
-Win32 glu32
 %prm
 target, components, width, format, type, data
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_1D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -133,8 +145,6 @@ gluBuild1DMipmaps ŠÖ”‚Í 1 ŸŒ³ƒ~ƒbƒvƒ}ƒbƒv‚ğ¶¬‚·‚éB
 %index
 gluBuild2DMipmaps
 gluBuild2DMipmaps ŠÖ”‚Í 2 ŸŒ³ƒ~ƒbƒvƒ}ƒbƒv‚ğ¶¬‚·‚éB
-%group
-Win32 glu32
 %prm
 target, components, width, height, format, type, data
 target : [int] ‘ÎÛƒeƒNƒXƒ`ƒƒBGL_TEXTURE_2D ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -160,8 +170,6 @@ gluBuild2DMipmaps ŠÖ”‚Í 2 ŸŒ³ƒ~ƒbƒvƒ}ƒbƒv‚ğ¶¬‚·‚éB
 %index
 gluCylinder
 gluCylinder ŠÖ”‚Í‰~’Œ‚ğ•`‰æ‚·‚éB
-%group
-Win32 glu32
 %prm
 qobj, baseRadius, topRadius, height, slices, stacks
 qobj : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -188,8 +196,6 @@ gluCylinder ŠÖ”‚Í‰~’Œ‚ğ•`‰æ‚·‚éB
 %index
 gluDeleteNurbsRenderer
 gluDeleteNurbsRenderer ŠÖ”‚Í NURBS ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj
 nobj : [intptr] ”jŠü‚·‚é NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -207,8 +213,6 @@ gluDeleteNurbsRenderer ŠÖ”‚Í NURBS ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
 %index
 gluDeleteQuadric
 gluDeleteQuadric ŠÖ”‚Í Quadric ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
-%group
-Win32 glu32
 %prm
 state
 state : [intptr] ”jŠü‚·‚é Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -226,8 +230,6 @@ gluDeleteQuadric ŠÖ”‚Í Quadric ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
 %index
 gluDeleteTess
 gluDeleteTess ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
-%group
-Win32 glu32
 %prm
 tess
 tess : [intptr] ”jŠü‚·‚éƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -244,8 +246,6 @@ gluDeleteTess ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
 %index
 gluDisk
 gluDisk ŠÖ”‚Í‰~”Õ‚ğ•`‰æ‚·‚éB
-%group
-Win32 glu32
 %prm
 qobj, innerRadius, outerRadius, slices, loops
 qobj : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -269,8 +269,6 @@ gluDisk ŠÖ”‚Í‰~”Õ‚ğ•`‰æ‚·‚éB
 %index
 gluEndCurve
 gluBeginCurve ‚Æ gluEndCurve ‚Í NURBS ‹Èü’è‹`‚ğ‹æØ‚éB | gluEndCurve ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 nobj
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -291,8 +289,6 @@ OpenGL evaluator ‚É‚æ‚èü•ª—ñ‚Æ‚µ‚ÄƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚éB
 %index
 gluEndPolygon
 gluBeginPolygon ‚Æ gluEndPolygon ‚Íƒ|ƒŠƒSƒ“‹Lq‚ğ‹æØ‚éB | gluEndPolygon ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 tess
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -313,8 +309,6 @@ gluBeginPolygon ‚Æ gluEndPolygon ‚Íƒ|ƒŠƒSƒ“‹Lq‚ğ‹æØ‚éB | gluEndPolygon ŠÖ”
 %index
 gluEndSurface
 gluBeginSurface ‚Æ gluEndSurface ‚Í NURBS ƒT[ƒtƒFƒX’è‹`‚ğ‹æØ‚éB | gluEndSurface ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 nobj
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -337,8 +331,6 @@ gluBeginSurface ‚Æ gluEndSurface ‚Í NURBS ƒT[ƒtƒFƒX’è‹`‚ğ‹æØ‚éB | gluEndSurfa
 %index
 gluEndTrim
 gluBeginTrim ‚Æ gluEndTrim ‚Í NURBS ƒgƒŠƒ~ƒ“ƒOƒ‹[ƒv’è‹`‚ğ‹æØ‚éB | gluEndTrim ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 nobj
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -362,8 +354,6 @@ gluBeginTrim ‚Æ gluEndTrim ‚Í NURBS ƒgƒŠƒ~ƒ“ƒOƒ‹[ƒv’è‹`‚ğ‹æØ‚éB | gluEndTrim 
 %index
 gluErrorString
 gluErrorString ŠÖ”‚Í OpenGL ‚Ü‚½‚Í GLU ‚ÌƒGƒ‰[ƒR[ƒh‚©‚ç ANSI ƒGƒ‰[•¶š—ñ‚ğ¶¬‚·‚éB
-%group
-Win32 glu32
 %prm
 errCode
 errCode : [int] OpenGL ‚Ü‚½‚Í GLU ‚ÌƒGƒ‰[ƒR[ƒhB
@@ -383,8 +373,6 @@ GLU_INVALID_ENUMAGLU_INVALID_VALUEAGLU_OUT_OF_MEMORY ‚Å‚ ‚éBOpenGL
 %index
 gluErrorUnicodeStringEXT
 (no summary)
-%group
-Win32 glu32
 %prm
 errCode
 errCode : [int] 
@@ -395,8 +383,6 @@ errCode : [int]
 %index
 gluGetNurbsProperty
 gluGetNurbsProperty ŠÖ”‚Í NURBS ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj, property, value
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -416,8 +402,6 @@ gluGetNurbsProperty ŠÖ”‚Í NURBS ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 %index
 gluGetString
 gluGetString ŠÖ”‚Í GLU ƒo[ƒWƒ‡ƒ“”Ô†‚Ü‚½‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é GLU Šg’£ŒÄ‚Ño‚µ‚ğ¦‚·•¶š—ñ‚ğæ“¾‚·‚éB
-%group
-Win32 glu32
 %prm
 name
 name : [int] GLU ‚Ìƒo[ƒWƒ‡ƒ“”Ô† (GLU_VERSION) ‚Ü‚½‚Íƒxƒ“ƒ_[ŒÅ—LŠg’£ŒÄ‚Ño‚µ (GLU_EXTENSIONS) ‚Ì‚¢‚¸‚ê‚©B
@@ -432,8 +416,6 @@ gluGetString ŠÖ”‚Í GLU ƒo[ƒWƒ‡ƒ“”Ô†‚Ü‚½‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é GLU Šg’£ŒÄ‚Ño‚µ‚
 %index
 gluGetTessProperty
 gluGetTessProperty ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 glu32
 %prm
 tess, which, value
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -454,8 +436,6 @@ gluGetTessProperty ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 %index
 gluLoadSamplingMatrices
 gluLoadSamplingMatrices ŠÖ”‚Í NURBS ‚ÌƒTƒ“ƒvƒŠƒ“ƒOs—ñ‚ÆƒJƒŠƒ“ƒOs—ñ‚ğƒ[ƒh‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj, modelMatrix, projMatrix, viewport
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -481,8 +461,6 @@ GLU_AUTO_LOAD_MATRIX ‚ªƒIƒt‚Ìê‡‚É‚Ì‚İ•K—v‚Å‚ ‚éBGLU_AUTO_LOAD_MATRIX
 %index
 gluLookAt
 gluLookAt ŠÖ”‚Íƒrƒ…[•ÏŠ·‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz
 eyex : [double] ‹“_‚ÌˆÊ’uB
@@ -509,8 +487,6 @@ gluLookAt ŠÖ”‚Íƒrƒ…[•ÏŠ·‚ğ’è‹`‚·‚éB
 %index
 gluNewNurbsRenderer
 gluNewNurbsRenderer ŠÖ”‚Í NURBS ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 glu32
 %prm
 
 %inst
@@ -525,8 +501,6 @@ gluNewNurbsRenderer ŠÖ”‚Í NURBS ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 gluNewQuadric
 gluNewQuadric ŠÖ”‚Í Quadric ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 glu32
 %prm
 
 %inst
@@ -540,8 +514,6 @@ gluNewQuadric ŠÖ”‚Í Quadric ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 gluNewTess
 gluNewTess ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 glu32
 %prm
 
 %inst
@@ -555,8 +527,6 @@ gluNewTess ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 gluNextContour
 gluNextContour ŠÖ”‚Í•Ê‚Ì—ÖŠs‚ÌŠJn‚ğƒ}[ƒN‚·‚éB
-%group
-Win32 glu32
 %prm
 tess, type
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -578,8 +548,6 @@ gluNextContour ŠÖ”‚Í•Ê‚Ì—ÖŠs‚ÌŠJn‚ğƒ}[ƒN‚·‚éB
 %index
 gluNurbsCallback
 gluNurbsCallback ŠÖ”‚Í NURBS ƒIƒuƒWƒFƒNƒg‚ÌƒR[ƒ‹ƒoƒbƒN‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj, which, fn
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -600,8 +568,6 @@ gluNurbsCallback ŠÖ”‚Í NURBS ƒIƒuƒWƒFƒNƒg‚ÌƒR[ƒ‹ƒoƒbƒN‚ğ’è‹`‚·‚éB
 %index
 gluNurbsCurve
 gluNurbsCurve ŠÖ”‚Í NURBS ‹Èü‚ÌŒ`ó‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj, nknots, knot, stride, ctlarray, order, type
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -629,8 +595,6 @@ GL_MAP1_VERTEX_4 ‚Å‚¿‚å‚¤‚Ç 1 ‰ñŒÄ‚ÔB**gluBeginTrim**/**gluEndTrim**
 %index
 gluNurbsProperty
 gluNurbsProperty ŠÖ”‚Í NURBS ƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj, property, value
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -650,8 +614,6 @@ gluNurbsProperty ŠÖ”‚Í NURBS ƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
 %index
 gluNurbsSurface
 gluNurbsSurface ŠÖ”‚Í NURBS ƒT[ƒtƒFƒX‚ÌŒ`ó‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj, sknot_count, sknot, tknot_count, tknot, s_stride, t_stride, ctlarray, sorder, torder, type
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B*sknot_count* ‚Íƒpƒ‰ƒƒgƒŠƒbƒN *u* •ûŒü‚Ìƒmƒbƒg”B
@@ -685,8 +647,6 @@ gluNurbsSurface ŠÖ”‚Í NURBS ƒT[ƒtƒFƒX‚ÌŒ`ó‚ğ’è‹`‚·‚éB
 %index
 gluOrtho2D
 gluOrtho2D ŠÖ”‚Í 2 ŸŒ³³Ë“Š‰es—ñ‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 left, right, bottom, top
 left : [double] ¶‘¤‚’¼ƒNƒŠƒbƒsƒ“ƒO•½–Ê‚ÌÀ•WB
@@ -707,8 +667,6 @@ gluOrtho2D ŠÖ”‚Í 2 ŸŒ³³Ë“Š‰es—ñ‚ğ’è‹`‚·‚éB
 %index
 gluPartialDisk
 gluPartialDisk ŠÖ”‚Í‰~”Õ‚ÌŒÊ‚ğ•`‰æ‚·‚éB
-%group
-Win32 glu32
 %prm
 qobj, innerRadius, outerRadius, slices, loops, startAngle, sweepAngle
 qobj : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -734,8 +692,6 @@ y- ²A270 “x‚Í x- ²)B”¼Œa‚Í *outerRadius*A“à‘¤‚É *innerRadius*
 %index
 gluPerspective
 gluPerspective ŠÖ”‚Í“§‹“Š‰es—ñ‚ğİ’è‚·‚éB
-%group
-Win32 glu32
 %prm
 fovy, aspect, zNear, zFar
 fovy : [double] y •ûŒü‚Ì‹–ìŠp (“x’PˆÊ)B
@@ -758,8 +714,6 @@ gluPerspective ŠÖ”‚Í“§‹“Š‰es—ñ‚ğİ’è‚·‚éB
 %index
 gluPickMatrix
 gluPickMatrix ŠÖ”‚ÍƒsƒbƒLƒ“ƒO—Ìˆæ‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 x, y, width, height, viewport
 x : [double] ƒsƒbƒLƒ“ƒO—Ìˆæ‚Ì x ƒEƒBƒ“ƒhƒEÀ•WB
@@ -785,8 +739,6 @@ GLU_AUTO_LOAD_MATRIX ‚ğƒIƒt‚É‚µ‚È‚¢‚ÆƒsƒbƒN‚Æ”ñƒsƒbƒN‚Å•ªŠ„‚ªˆÙ‚È‚é‚±‚Æ‚É’ˆ
 %index
 gluProject
 gluProject ŠÖ”‚ÍƒIƒuƒWƒFƒNƒgÀ•W‚ğƒEƒBƒ“ƒhƒEÀ•W‚Éƒ}ƒbƒv‚·‚éB
-%group
-Win32 glu32
 %prm
 objx, objy, objz, modelMatrix, projMatrix, viewport, winx, winy, winz
 objx : [double] x ƒIƒuƒWƒFƒNƒgÀ•WB
@@ -812,8 +764,6 @@ gluProject ŠÖ”‚ÍƒIƒuƒWƒFƒNƒgÀ•W‚ğƒEƒBƒ“ƒhƒEÀ•W‚Éƒ}ƒbƒv‚·‚éB
 %index
 gluPwlCurve
 gluPwlCurve ŠÖ”‚Í‹æ•ªüŒ` NURBS ƒgƒŠƒ~ƒ“ƒO‹Èü‚ğ‹Lq‚·‚éB
-%group
-Win32 glu32
 %prm
 nobj, count, array, stride, type
 nobj : [intptr] NURBS ƒIƒuƒWƒFƒNƒg (**gluNewNurbsRenderer** ‚Åì¬)B
@@ -837,8 +787,6 @@ gluPwlCurve ŠÖ”‚Í‹æ•ªüŒ` NURBS ƒgƒŠƒ~ƒ“ƒO‹Èü‚ğ‹Lq‚·‚éB
 %index
 gluQuadricCallback
 gluQuadricCallback ŠÖ”‚Í Quadric ƒIƒuƒWƒFƒNƒg‚ÌƒR[ƒ‹ƒoƒbƒN‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 qobj, which, fn
 qobj : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -859,8 +807,6 @@ gluQuadricCallback ŠÖ”‚Í Quadric ƒIƒuƒWƒFƒNƒg‚ÌƒR[ƒ‹ƒoƒbƒN‚ğ’è‹`‚·‚éB
 %index
 gluQuadricDrawStyle
 gluQuadricDrawStyle ŠÖ”‚Í Quadric ‚Ì•`‰æƒXƒ^ƒCƒ‹‚ğw’è‚·‚éB
-%group
-Win32 glu32
 %prm
 quadObject, drawStyle
 quadObject : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -879,8 +825,6 @@ gluQuadricDrawStyle ŠÖ”‚Í Quadric ‚Ì•`‰æƒXƒ^ƒCƒ‹‚ğw’è‚·‚éB
 %index
 gluQuadricNormals
 gluQuadricNormals ŠÖ”‚Í Quadric ‚Ég‚¤–@ü‚Ìí—Ş‚ğw’è‚·‚éB
-%group
-Win32 glu32
 %prm
 quadObject, normals
 quadObject : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -899,8 +843,6 @@ gluQuadricNormals ŠÖ”‚Í Quadric ‚Ég‚¤–@ü‚Ìí—Ş‚ğw’è‚·‚éB
 %index
 gluQuadricOrientation
 gluQuadricOrientation ŠÖ”‚Í Quadric ‚Ì“à/ŠOŒü‚«‚ğw’è‚·‚éB
-%group
-Win32 glu32
 %prm
 quadObject, orientation
 quadObject : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -919,8 +861,6 @@ gluQuadricOrientation ŠÖ”‚Í Quadric ‚Ì“à/ŠOŒü‚«‚ğw’è‚·‚éB
 %index
 gluQuadricTexture
 gluQuadricTexture ŠÖ”‚Í Quadric ‚ÉƒeƒNƒXƒ`ƒƒ‚ğ“K—p‚·‚é‚©‚ğw’è‚·‚éB
-%group
-Win32 glu32
 %prm
 quadObject, textureCoords
 quadObject : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -939,8 +879,6 @@ gluQuadricTexture ŠÖ”‚Í Quadric ‚ÉƒeƒNƒXƒ`ƒƒ‚ğ“K—p‚·‚é‚©‚ğw’è‚·‚éB
 %index
 gluScaleImage
 gluScaleImage ŠÖ”‚Í‰æ‘œ‚ğ”CˆÓƒTƒCƒY‚ÉƒXƒP[ƒ‹‚·‚éB
-%group
-Win32 glu32
 %prm
 format, widthin, heightin, typein, datain, widthout, heightout, typeout, dataout
 format : [int] ƒsƒNƒZƒ‹ƒf[ƒ^‚ÌŒ`®B—LŒøƒVƒ“ƒ{ƒ‹: GL_COLOR_INDEX, GL_STENCIL_INDEX, GL_DEPTH_COMPONENT, GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA, GL_RGB, GL_RGBA, GL_BGR_EXT, GL_BGRA_EXT, GL_LUMINANCE, GL_LUMINANCE_ALPHAB
@@ -967,8 +905,6 @@ gluScaleImage ŠÖ”‚Í‰æ‘œ‚ğ”CˆÓƒTƒCƒY‚ÉƒXƒP[ƒ‹‚·‚éB
 %index
 gluSphere
 gluSphere ŠÖ”‚Í‹…‚ğ•`‰æ‚·‚éB
-%group
-Win32 glu32
 %prm
 qobj, radius, slices, stacks
 qobj : [intptr] Quadric ƒIƒuƒWƒFƒNƒg (**gluNewQuadric** ‚Åì¬)B
@@ -991,8 +927,6 @@ x+ ² 0.25Ay- ² 0.5Ax- ² 0.75Ay+ ² 1.0 ‚Ü‚Å•Ï‰»‚·‚éB
 %index
 gluTessBeginContour
 gluTessBeginContour ‚Æ gluTessEndContour ‚Í—ÖŠs‹Lq‚ğ‹æØ‚éB | gluTessBeginContour ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 tess
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -1014,8 +948,6 @@ gluTessBeginContour ŠÖ” (Glu.h)
 %index
 gluTessBeginPolygon
 gluTessBeginPolygon ‚Æ gluTessEndPolygon ‚Íƒ|ƒŠƒSƒ“‹Lq‚ğ‹æØ‚éB | gluTessBeginPolygon ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 tess, polygon_data
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B*polygon_data* ‚ÍƒvƒƒOƒ‰ƒ}’è‹`‚Ìƒ|ƒŠƒSƒ“ƒf[ƒ^\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1038,8 +970,6 @@ gluTessBeginPolygon ŠÖ” (Glu.h)
 %index
 gluTessCallback
 gluTessCallback ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ÌƒR[ƒ‹ƒoƒbƒN‚ğ’è‹`‚·‚éB
-%group
-Win32 glu32
 %prm
 tess, which, fn
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -1066,8 +996,6 @@ GL_LINE_LOOP ‚ğó‚¯æ‚éBGLU_TESS_EDGE_FLAG ‚Í glEdgeFlag
 %index
 gluTessEndContour
 gluTessBeginContour ‚Æ gluTessEndContour ‚Í—ÖŠs‹Lq‚ğ‹æØ‚éB | gluTessEndContour ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 tess
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -1088,8 +1016,6 @@ gluTessEndContour ŠÖ” (Glu.h)
 %index
 gluTessEndPolygon
 gluTessBeginPolygon ‚Æ gluTessEndPolygon ‚Íƒ|ƒŠƒSƒ“‹Lq‚ğ‹æØ‚éB | gluTessEndPolygon ŠÖ” (Glu.h)
-%group
-Win32 glu32
 %prm
 tess
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -1111,8 +1037,6 @@ gluTessEndPolygon ŠÖ” (Glu.h)
 %index
 gluTessNormal
 gluTessNormal ŠÖ”‚Íƒ|ƒŠƒSƒ“‚Ì–@ü‚ğw’è‚·‚éB
-%group
-Win32 glu32
 %prm
 tess, x, y, z
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -1136,8 +1060,6 @@ gluTessNormal ŠÖ”‚Íƒ|ƒŠƒSƒ“‚Ì–@ü‚ğw’è‚·‚éB
 %index
 gluTessProperty
 gluTessProperty ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 glu32
 %prm
 tess, which, value
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -1157,8 +1079,6 @@ gluTessProperty ŠÖ”‚ÍƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
 %index
 gluTessVertex
 gluTessVertex ŠÖ”‚Íƒ|ƒŠƒSƒ“‚Ì’¸“_‚ğw’è‚·‚éB
-%group
-Win32 glu32
 %prm
 tess, coords, data
 tess : [intptr] ƒeƒbƒZƒŒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg (**gluNewTess** ‚Åì¬)B
@@ -1180,8 +1100,6 @@ gluTessVertex ŠÖ”‚Íƒ|ƒŠƒSƒ“‚Ì’¸“_‚ğw’è‚·‚éB
 %index
 gluUnProject
 gluUnProject ŠÖ”‚ÍƒEƒBƒ“ƒhƒEÀ•W‚ğƒIƒuƒWƒFƒNƒgÀ•W‚Éƒ}ƒbƒv‚·‚éB
-%group
-Win32 glu32
 %prm
 winx, winy, winz, modelMatrix, projMatrix, viewport, objx, objy, objz
 winx : [double] ƒ}ƒbƒv‘ÎÛ‚Ì x ƒEƒBƒ“ƒhƒEÀ•WB

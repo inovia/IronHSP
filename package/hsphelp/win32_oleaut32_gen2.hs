@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+oleaut32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì oleaut32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 SysFreeString
 SysAllocStringASysAllocStringByteLenASysReAllocStringASysAllocStringLenASysReAllocStringLen ‚ÅˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¶š—ñ‚ÌŠ„‚è“–‚Ä‚ğ‰ğœ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bstrString
 bstrString : [int] ˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¶š—ñBNULL ‚Ìê‡AŠÖ”‚Í’P‚É–ß‚éB
@@ -21,8 +41,6 @@ SysAllocStringASysAllocStringByteLenASysReAllocStringASysAllocStringLenASysR
 %index
 BSTR_UserFree
 RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(BSTR_UserFree)
-%group
-Win32 oleaut32
 %prm
 param0, param1
 param0 : [var] 
@@ -34,8 +52,6 @@ RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(BSTR_Us
 %index
 BSTR_UserFree64
 RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(BSTR_UserFree64)
-%group
-Win32 oleaut32
 %prm
 param0, param1
 param0 : [var] 
@@ -47,8 +63,6 @@ RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(BSTR_Us
 %index
 BSTR_UserMarshal
 BSTR ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserMarshal)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -64,8 +78,6 @@ BSTR ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserMarshal)
 %index
 BSTR_UserMarshal64
 BSTR ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserMarshal64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -81,8 +93,6 @@ BSTR ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserMarshal64)
 %index
 BSTR_UserSize
 BSTR ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(BSTR_UserSize)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -98,8 +108,6 @@ BSTR ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(BSTR_U
 %index
 BSTR_UserSize64
 BSTR ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(BSTR_UserSize64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -115,8 +123,6 @@ BSTR ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(BSTR_U
 %index
 BSTR_UserUnmarshal
 RPC ƒoƒbƒtƒ@‚©‚ç BSTR ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserUnmarshal)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -133,8 +139,6 @@ RPC ƒoƒbƒtƒ@‚©‚ç BSTR ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserUnmarshal)
 %index
 BSTR_UserUnmarshal64
 RPC ƒoƒbƒtƒ@‚©‚ç BSTR ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserUnmarshal64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -151,8 +155,6 @@ RPC ƒoƒbƒtƒ@‚©‚ç BSTR ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(BSTR_UserUnmarshal6
 %index
 BstrFromVector
 ƒxƒNƒ^‚ÌŠe—v‘f‚ğ BSTR ‚Ì•¶š‚ÉŠ„‚è“–‚ÄA‚»‚Ì BSTR ‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 psa, pbstr
 psa : [var] BSTR ‚É•ÏŠ·‚·‚éƒxƒNƒ^B
@@ -168,8 +170,6 @@ pbstr : [var] ƒxƒNƒ^‚ÌŠe—v‘f‚ª•¶š‚Æ‚µ‚ÄŠ„‚è“–‚Ä‚ç‚ê‚é BSTRB
 %index
 ClearCustData
 ƒJƒXƒ^ƒ€ƒf[ƒ^€–Ú‚ğ•Û‚µ‚Ä‚¢‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pCustData
 pCustData : [var] ‰ğ•ú‚·‚éƒJƒXƒ^ƒ€ƒf[ƒ^€–ÚB
@@ -180,8 +180,6 @@ pCustData : [var] ‰ğ•ú‚·‚éƒJƒXƒ^ƒ€ƒf[ƒ^€–ÚB
 %index
 CreateDispTypeInfo
 IDispatch ‚ÌÀ‘•‚Åg—p‚·‚é‚½‚ß‚ÌŠÈ—ª‰»‚³‚ê‚½Œ^î•ñ‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pidata, lcid, pptinfo
 pidata : [var] ‚±‚ÌŒ^î•ñ‚ª‹Lq‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì‹LqB
@@ -209,8 +207,6 @@ Definition Language (MIDL)
 %index
 CreateErrorInfo
 ”Ä—pƒGƒ‰[ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pperrinfo
 pperrinfo : [var] ƒVƒXƒeƒ€‚ªÀ‘•‚·‚é”Ä—pƒGƒ‰[ƒIƒuƒWƒFƒNƒgB
@@ -230,8 +226,6 @@ ICreateErrorInfo ‚Æ IErrorInfo ‚Ì—¼•û‚ğÀ‘•‚·‚éB
 %index
 CreateStdDispatch
 1 ‰ñ‚ÌŠÖ”ŒÄ‚Ño‚µ‚Å IDispatch ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì•W€À‘•‚ğì¬‚·‚éB‚±‚ê‚É‚æ‚èƒI[ƒgƒ[ƒVƒ‡ƒ“‚ğ’Ê‚¶‚ÄƒIƒuƒWƒFƒNƒg‚ğŒöŠJ‚·‚éˆ—‚ªŠÈ—ª‰»‚³‚ê‚éB
-%group
-Win32 oleaut32
 %prm
 punkOuter, pvThis, ptinfo, ppunkStdDisp
 punkOuter : [var] ƒIƒuƒWƒFƒNƒg‚Ì IUnknown À‘•B
@@ -255,8 +249,6 @@ ppunkStdDisp : [var] IDispatch ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì QueryInterface ŒÄ‚Ño‚µ‚ğÀ‘•‚
 %index
 CreateTypeLib
 ICreateTypeLib ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éV‚µ‚¢ƒIƒuƒWƒFƒNƒgƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 syskind, szFile, ppctlib
 syskind : [int] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğì¬‚·‚é‘ÎÛ‚ÌƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€B
@@ -276,8 +268,6 @@ CreateTypeLib ‚Ío—Íˆø” (ppctlib) ‚ğAICreateTypeLib
 %index
 CreateTypeLib2
 Œ»İ‚Ìƒtƒ@ƒCƒ‹Œ`®‚Åƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 syskind, szFile, ppctlib
 syskind : [int] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğì¬‚·‚é‘ÎÛ‚ÌƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€B
@@ -293,8 +283,6 @@ ppctlib : [var] ICreateTypeLib2 ƒCƒ“ƒ^[ƒtƒFƒCƒXB
 %index
 DispCallFunc
 Invoke ‚Ì‚½‚ß‚Ì’áƒŒƒxƒ‹ƒwƒ‹ƒp‚ÅAƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ Invoke ‚Éƒ}ƒVƒ“”ñˆË‘¶«‚ğ’ñ‹Ÿ‚·‚éB(DispCallFunc)
-%group
-Win32 oleaut32
 %prm
 pvInstance, oVft, cc, vtReturn, cActuals, prgvt, prgpvarg, pvargResult
 pvInstance : [intptr] ‚±‚ÌŒ^‹Lq‚Å‹Lq‚³‚ê‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒXB
@@ -315,8 +303,6 @@ Invoke ‚Ì‚½‚ß‚Ì’áƒŒƒxƒ‹ƒwƒ‹ƒp‚ÅAƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ Invoke ‚Éƒ}ƒVƒ“”ñˆË‘¶«‚ğ’ñ‹
 %index
 DispGetIDsOfNames
 Invoke ‚Ì‚½‚ß‚Ì’áƒŒƒxƒ‹ƒwƒ‹ƒp‚ÅAƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ Invoke ‚Éƒ}ƒVƒ“”ñˆË‘¶«‚ğ’ñ‹Ÿ‚·‚éB(DispGetIDsOfNames)
-%group
-Win32 oleaut32
 %prm
 ptinfo, rgszNames, cNames, rgdispid
 ptinfo : [var] ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŒ^î•ñB‚±‚ÌŒ^î•ñ‚Í 1 ‚Â‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÆŒ¾ŒêƒR[ƒh‚ÉŒÅ—L‚È‚Ì‚ÅA‚±‚ÌŠÖ”‚ÉƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq (IID) ‚â LCID ‚ğ“n‚·•K—v‚Í‚È‚¢B
@@ -334,8 +320,6 @@ Invoke ‚Ì‚½‚ß‚Ì’áƒŒƒxƒ‹ƒwƒ‹ƒp‚ÅAƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ Invoke
 %index
 DispGetParam
 DISPPARAMS \‘¢‘Ì‚©‚çˆø”‚ğæ“¾‚µA–¼‘O•t‚«ˆø”‚ÆˆÊ’uˆø”‚Ì—¼•û‚ğƒ`ƒFƒbƒN‚µ‚ÄA‚»‚Ìˆø”‚ğw’è‚³‚ê‚½Œ^‚É‹­§•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispparams, position, vtTarg, pvarResult, puArgErr
 pdispparams : [var] Invoke ‚É“n‚³‚ê‚½ˆø”B
@@ -360,8 +344,6 @@ DISPPARAMS \‘¢‘Ì‚©‚çˆø”‚ğæ“¾‚µA–¼‘O•t‚«ˆø”‚ÆˆÊ’uˆø”‚Ì—¼•û‚ğƒ`ƒFƒbƒN‚µ‚ÄA‚
 %index
 DispInvoke
 ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŒ^î•ñ‚ª‚ ‚ê‚ÎA‚»‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ“ƒoŠÖ”‚ğ©“®“I‚ÉŒÄ‚Ño‚·B
-%group
-Win32 oleaut32
 %prm
 _this, ptinfo, dispidMember, wFlags, pparams, pvarResult, pexcepinfo, puArgErr
 _this : [intptr] ptinfo ‚É‚æ‚Á‚Ä‹Lq‚³‚ê‚é IDispatch ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•B
@@ -387,8 +369,6 @@ puArgErr : [var] ƒGƒ‰[‚ğ‚ÂÅ‰‚Ìˆø”‚Ì rgvarg “àƒCƒ“ƒfƒbƒNƒXBˆø”‚Í pdisppar
 %index
 DosDateTimeToVariantTime
 MS-DOS •\Œ»‚Ì‚ğAvariant ‚ÉŠi”[‚³‚ê‚é“ú•t‚Æ‚Ì•\Œ»‚Ö•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 wDosDate, wDosTime, pvtime
 wDosDate : [int] •ÏŠ·‚·‚é MS-DOS “ú•tBMS-DOS “ú•t‚Ì—LŒø”ÍˆÍ‚Í 1980 ”N 1 Œ 1 “ú‚©‚ç 2099 ”N 12 Œ 31 “ú‚Ü‚Å‚Å‚ ‚éB
@@ -408,8 +388,6 @@ MS-DOS ‚Íƒtƒ@ƒCƒ‹‚Ì“ú•t‚Æ‚ğƒpƒbƒN‚³‚ê‚½ 16 ƒrƒbƒg’l‚Æ‚µ‚Ä‹L˜^‚·‚éBMS-DOS ‚Ì
 %index
 GetActiveObject
 OLE ‚É“o˜^‚³‚ê‚Ä‚¢‚éÀs’†ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 rclsid, pvReserved, ppunk
 rclsid : [var] OLE “o˜^ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾‚³‚ê‚éAƒAƒNƒeƒBƒuƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID)B
@@ -425,8 +403,6 @@ OLE ‚É“o˜^‚³‚ê‚Ä‚¢‚éÀs’†ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %index
 GetAltMonthNames
 “ñŸ“I‚È (‘ã‘Ö‚Ì) Œ–¼‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lcid, prgp
 lcid : [int] ‘ã‘ÖŒ–¼‚Ìæ“¾‚Ég‚¤ƒƒP[ƒ‹¯•ÊqB
@@ -444,8 +420,6 @@ prgp : [var] ‘ã‘ÖŒ–¼‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñB
 %index
 GetErrorInfo
 Œ»İ‚Ì˜_—ƒXƒŒƒbƒh‚ÅˆÈ‘O‚É SetErrorInfo ‚É‚æ‚Á‚Äİ’è‚³‚ê‚½ƒGƒ‰[î•ñƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dwReserved, pperrinfo
 dwReserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -469,8 +443,6 @@ COM ŒÄ‚Ño‚µ‚ÍAŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌŠù‘¶‚ÌƒGƒ‰[ƒIƒuƒWƒFƒNƒg‚ğƒNƒŠƒA‚·‚éBŒÄ‚Ño
 %index
 GetRecordInfoFromGuids
 ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚¹‚¸‚ÉŒ^î•ñ‚Ì GUID ‚ğ“n‚µ‚ÄAUDT ‚É‘Î‚·‚é IRecordInfo ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 rGuidTypeLib, uVerMajor, uVerMinor, lcid, rGuidTypeInfo, ppRecInfo
 rGuidTypeLib : [var] UDT ‚ğŠÜ‚Şƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚Ì GUIDB
@@ -494,8 +466,6 @@ GetRecordInfoFromGuids ‚É“n‚·‚±‚Æ‚ÅƒfƒVƒŠƒAƒ‰ƒCƒY‚Å‚«‚éB
 %index
 GetRecordInfoFromTypeInfo
 UDT ‚ÌŒ^î•ñ‚ğ“n‚µ‚ÄA‚»‚Ì UDT ‚Ì IRecordInfo ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pTypeInfo, ppRecInfo
 pTypeInfo : [var] ƒŒƒR[ƒh‚ÌŒ^î•ñB
@@ -511,8 +481,6 @@ UDT ‚ÌŒ^î•ñ‚ğ“n‚µ‚ÄA‚»‚Ì UDT ‚Ì IRecordInfo ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
 %index
 LHashValOfNameSys
 –¼‘O‚ÌƒnƒbƒVƒ…’l‚ğŒvZ‚·‚éB(LHashValOfNameSys)
-%group
-Win32 oleaut32
 %prm
 syskind, lcid, szName
 syskind : [int] ‘ÎÛƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚Ì SYSKINDB
@@ -528,8 +496,6 @@ szName : [wstr] ƒnƒbƒVƒ…’l‚ğŒvZ‚·‚é•¶š—ñB
 %index
 LPSAFEARRAY_UserFree
 RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(LPSAFEARRAY_UserFree)
-%group
-Win32 oleaut32
 %prm
 param0, param1
 param0 : [var] 
@@ -541,8 +507,6 @@ RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(LPSAFEA
 %index
 LPSAFEARRAY_UserFree64
 RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(LPSAFEARRAY_UserFree64)
-%group
-Win32 oleaut32
 %prm
 param0, param1
 param0 : [var] 
@@ -554,8 +518,6 @@ RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(LPSAFEA
 %index
 LPSAFEARRAY_UserMarshal
 ƒNƒ‰ƒCƒAƒ“ƒg‚Ü‚½‚ÍƒT[ƒo[‘¤‚ÅAw’è‚³‚ê‚½ SAFEARRAY ƒIƒuƒWƒFƒNƒg‚©‚çƒ†[ƒU[‚Ì RPC ƒoƒbƒtƒ@‚Öƒf[ƒ^‚ğƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(LPSAFEARRAY_UserMarshal)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -573,8 +535,6 @@ param2 : [var]
 %index
 LPSAFEARRAY_UserMarshal64
 ƒNƒ‰ƒCƒAƒ“ƒg‚Ü‚½‚ÍƒT[ƒo[‘¤‚ÅAw’è‚³‚ê‚½ SAFEARRAY ƒIƒuƒWƒFƒNƒg‚©‚çƒ†[ƒU[‚Ì RPC ƒoƒbƒtƒ@‚Öƒf[ƒ^‚ğƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(LPSAFEARRAY_UserMarshal64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -592,8 +552,6 @@ param2 : [var]
 %index
 LPSAFEARRAY_UserSize
 SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(LPSAFEARRAY_UserSize)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -609,8 +567,6 @@ SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(L
 %index
 LPSAFEARRAY_UserSize64
 SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(LPSAFEARRAY_UserSize64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -626,8 +582,6 @@ SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(L
 %index
 LPSAFEARRAY_UserUnmarshal
 RPC ƒoƒbƒtƒ@‚©‚ç SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(LPSAFEARRAY_UserUnmarshal)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -644,8 +598,6 @@ RPC ƒoƒbƒtƒ@‚©‚ç SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(LPSAFEARRAY_Us
 %index
 LPSAFEARRAY_UserUnmarshal64
 RPC ƒoƒbƒtƒ@‚©‚ç SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(LPSAFEARRAY_UserUnmarshal64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -662,8 +614,6 @@ RPC ƒoƒbƒtƒ@‚©‚ç SAFEARRAY ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(LPSAFEARRAY_Us
 %index
 LoadRegTypeLib
 ƒŒƒWƒXƒgƒŠî•ñ‚ğg‚Á‚Äƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚·‚éB
-%group
-Win32 oleaut32
 %prm
 rguid, wVerMajor, wVerMinor, lcid, pptlib
 rguid : [var] ƒ‰ƒCƒuƒ‰ƒŠ‚Ì GUIDB
@@ -687,8 +637,6 @@ LoadRegTypeLib ‚Í—v‹‚³‚ê‚½ƒo[ƒWƒ‡ƒ“”Ô†‚ğƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚ÅŒ©‚Â‚©‚Á‚½‚à‚Ì‚Æ”
 %index
 LoadTypeLib
 ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚µ‚Ä“o˜^‚·‚éB
-%group
-Win32 oleaut32
 %prm
 szFile, pptlib
 szFile : [wstr] ƒƒ\ƒbƒh‚ªƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒ[ƒh‚ğ‚İ‚éƒtƒ@ƒCƒ‹‚Ì–¼‘OB
@@ -710,8 +658,6 @@ LoadTypeLib ŠÖ”‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚½ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ (’Êí MkTypLi
 %index
 LoadTypeLibEx
 ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚µA(ƒIƒvƒVƒ‡ƒ“‚Å) ƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚É“o˜^‚·‚éB
-%group
-Win32 oleaut32
 %prm
 szFile, regkind, pptlib
 szFile : [wstr] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒtƒ@ƒCƒ‹B
@@ -731,8 +677,6 @@ pptlib : [var] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠB
 %index
 OaBuildVersion
 OLE ƒI[ƒgƒ[ƒVƒ‡ƒ“‚Ìƒrƒ‹ƒhƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 
 %inst
@@ -745,8 +689,6 @@ OLE ƒI[ƒgƒ[ƒVƒ‡ƒ“‚Ìƒrƒ‹ƒhƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
 %index
 OaEnablePerUserTLibRegistration
 Windows Vista Service Pack 1 (SP1)AWindows Server 2008A‚¨‚æ‚Ñ‚»‚êˆÈ~‚ÌƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€ƒo[ƒWƒ‡ƒ“‰º‚ÅARegisterTypeLib ŠÖ”‚ªŠù’è‚ÌƒŒƒWƒXƒgƒŠƒ}ƒbƒsƒ“ƒO‚ğƒI[ƒo[ƒ‰ƒCƒh‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 oleaut32
 %prm
 
 %inst
@@ -769,8 +711,6 @@ RegisterTypeLib ‚Í TYPE_E_REGISTRYACCESS (0x8002801c) ’l‚ğ•Ô‚·B
 %index
 OleCreateFontIndirect
 FONTDESC \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒgƒvƒƒpƒeƒB‚Ì‰Šú‹Lq‚ğg—p‚µ‚ÄA•W€ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‰Šú‰»‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lpFontDesc, riid, lplpvObj
 lpFontDesc : [var] ƒtƒHƒ“ƒg‚Ì‰Šúó‘Ô‚ğŠÜ‚ŞAŒÄ‚Ño‚µŒ³‚ªŠ„‚è“–‚Ä‚½ FONTDESC \‘¢‘Ì‚ÌƒAƒhƒŒƒXB‚±‚Ì’l‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -787,8 +727,6 @@ FONTDESC \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒgƒvƒƒpƒeƒB‚Ì‰Šú‹Lq‚ğg—p‚µ‚ÄA•W€ƒtƒHƒ“ƒgƒIƒ
 %index
 OleCreatePictureIndirect
 PICTDESC \‘¢‘Ì‚É]‚Á‚Ä‰Šú‰»‚³‚ê‚½V‚µ‚¢ƒsƒNƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lpPictDesc, riid, fOwn, lplpvObj
 lpPictDesc : [var] ƒsƒNƒ`ƒƒ‚Ì‰Šúó‘Ô‚ğŠÜ‚ŞAŒÄ‚Ño‚µŒ³‚ªŠ„‚è“–‚Ä‚½\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BIPersistStream::Load ‚ğ‰î‚µ‚ÄƒsƒNƒ`ƒƒ‚ğ‰Šú‰»‚·‚é•K—v‚ª‚ ‚éê‡A–¢‰Šú‰»‚ÌƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚Éw’è‚·‚é\‘¢‘Ì‚Í NULL ‚Å‚à\‚í‚È‚¢B
@@ -812,8 +750,6 @@ riid ˆø”‚Åw’è‚µ‚½V‚µ‚¢ƒsƒNƒ`ƒƒƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
 %index
 OleCreatePropertyFrame
 V‚µ‚¢ƒvƒƒpƒeƒBƒtƒŒ[ƒ€A‚·‚È‚í‚¿e‚ª hwndOwner ‚ÅAeƒEƒBƒ“ƒhƒE“à‚Ì“_ (x,y) ‚É”z’u‚³‚êAƒLƒƒƒvƒVƒ‡ƒ“‚ª lpszCaption ‚Å‚ ‚éƒvƒƒpƒeƒBƒV[ƒgƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğŒÄ‚Ño‚·B
-%group
-Win32 oleaut32
 %prm
 hwndOwner, x, y, lpszCaption, cObjects, ppUnk, cPages, pPageClsID, lcid, dwReserved, pvReserved
 hwndOwner : [intptr] Œ‹‰Ê‚ÌƒvƒƒpƒeƒBƒV[ƒgƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -844,8 +780,6 @@ cObjects ‚Ì”z—ñ‚Å‚ ‚éB‚±‚ÌŠÖ”‚Íí‚Éƒ‚[ƒ_ƒ‹ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚µAƒ_ƒCƒAƒ
 %index
 OleCreatePropertyFrameIndirect
 OleCreatePropertyFrame ‚ğŒÄ‚Ño‚·‚Ì‚æ‚¤‚Éˆø”‚ğŒÂ•Ê‚Éw’è‚·‚é‚Ì‚Å‚Í‚È‚­Aˆø”‚ğŠÜ‚Ş\‘¢‘Ì (OCPFIPARAMS) ‚ÉŠî‚Ã‚¢‚ÄƒvƒƒpƒeƒBƒtƒŒ[ƒ€A‚·‚È‚í‚¿ƒvƒƒpƒeƒBƒV[ƒgƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lpParams
 lpParams : [var] ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ìì¬ˆø”‚ğŠÜ‚ŞAŒÄ‚Ño‚µŒ³‚ªŠ„‚è“–‚Ä‚½\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -871,8 +805,6 @@ OleCreatePropertyFrame
 %index
 OleIconToCursor
 ƒAƒCƒRƒ“‚ğƒJ[ƒ\ƒ‹‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 hinstExe, hIcon
 hinstExe : [intptr] ‚±‚Ìˆø”‚Í–³‹‚³‚ê‚éB
@@ -891,8 +823,6 @@ hIcon : [intptr] •ÏŠ·‚·‚éƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 OleLoadPicture
 V‚µ‚¢ƒsƒNƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚µAƒXƒgƒŠ[ƒ€‚Ì“à—e‚©‚ç‰Šú‰»‚·‚éB‚±‚ê‚ÍAOleCreatePictureIndirect ‚ğÅ‰‚Ìˆø”‚Æ‚µ‚Ä NULL ‚ğw’è‚µ‚ÄŒÄ‚Ño‚µ‚½Œã‚É IPersistStream::Load ‚ğŒÄ‚Ño‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB(OleLoadPicture)
-%group
-Win32 oleaut32
 %prm
 lpstream, lSize, fRunmode, riid, lplpvObj
 lpstream : [var] ƒsƒNƒ`ƒƒ‚Ìƒf[ƒ^‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -918,8 +848,6 @@ lplpvObj : [var] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”
 %index
 OleLoadPictureEx
 V‚µ‚¢ƒsƒNƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚µAƒXƒgƒŠ[ƒ€‚Ì“à—e‚©‚ç‰Šú‰»‚·‚éB‚±‚ê‚ÍAOleCreatePictureIndirect ‚ğÅ‰‚Ìˆø”‚Æ‚µ‚Ä NULL ‚ğw’è‚µ‚ÄŒÄ‚Ño‚µ‚½Œã‚É IPersistStream::Load ‚ğŒÄ‚Ño‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB(OleLoadPictureEx)
-%group
-Win32 oleaut32
 %prm
 lpstream, lSize, fRunmode, riid, xSizeDesired, ySizeDesired, dwFlags, lplpvObj
 lpstream : [var] ƒsƒNƒ`ƒƒ‚Ìƒf[ƒ^‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -949,8 +877,6 @@ lplpvObj : [var] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”
 %index
 OleLoadPictureFile
 ƒfƒBƒXƒNã‚ÌƒsƒNƒ`ƒƒƒtƒ@ƒCƒ‹‚©‚ç IPictureDisp ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 varFileName, lplpdispPicture
 varFileName : [var] ƒ[ƒh‚·‚éƒsƒNƒ`ƒƒƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Æ–¼‘OB
@@ -970,8 +896,6 @@ lplpdispPicture : [var] IPictureDisp ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éêŠB
 %index
 OleLoadPictureFileEx
 ƒtƒ@ƒCƒ‹‚©‚çƒsƒNƒ`ƒƒ‚ğƒ[ƒh‚·‚éB
-%group
-Win32 oleaut32
 %prm
 varFileName, xSizeDesired, ySizeDesired, dwFlags, lplpdispPicture
 varFileName : [var] ƒ[ƒh‚·‚éƒsƒNƒ`ƒƒƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Æ–¼‘OB
@@ -994,8 +918,6 @@ lplpdispPicture : [var] ƒsƒNƒ`ƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éêŠB
 %index
 OleLoadPicturePath
 V‚µ‚¢ƒsƒNƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚µAƒXƒgƒŠ[ƒ€‚Ì“à—e‚©‚ç‰Šú‰»‚·‚éB‚±‚ê‚Í OleCreatePictureIndirect(NULL, ...) ‚ğŒÄ‚Ño‚µ‚½Œã‚É IPersistStream::Load ‚ğŒÄ‚Ño‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB
-%group
-Win32 oleaut32
 %prm
 szURLorPath, punkCaller, dwReserved, clrReserved, riid, ppvRet
 szURLorPath : [wstr] ŠJ‚«‚½‚¢ƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚Ü‚½‚Í URLB
@@ -1019,8 +941,6 @@ ppvRet : [var] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚Ì
 %index
 OleSavePictureFile
 ƒsƒNƒ`ƒƒ‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lpdispPicture, bstrFileName
 lpdispPicture : [var] IPictureDisp ƒsƒNƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğw‚·B
@@ -1036,8 +956,6 @@ bstrFileName : [int] ƒsƒNƒ`ƒƒ‚ğ•Û‘¶‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘OB
 %index
 OleTranslateColor
 OLE_COLOR Œ^‚ğ COLORREF ‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 clr, hpal, lpcolorref
 clr : [int] COLORREF ‚É•ÏŠ·‚·‚é OLE ƒJƒ‰[B
@@ -1058,8 +976,6 @@ OLE_COLOR Œ^‚ğ COLORREF ‚É•ÏŠ·‚·‚éB
 %index
 QueryPathOfRegTypeLib
 “o˜^‚³‚ê‚½ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒpƒX‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 guid, wMaj, wMin, lcid, lpbstrPathName
 guid : [var] ƒ‰ƒCƒuƒ‰ƒŠ‚Ì GUIDB
@@ -1081,8 +997,6 @@ lpbstrPathName : [var] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ–¼B
 %index
 RegisterActiveObject
 ƒIƒuƒWƒFƒNƒg‚ğ‚»‚ÌƒNƒ‰ƒX‚ÌƒAƒNƒeƒBƒuƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä“o˜^‚·‚éB
-%group
-Win32 oleaut32
 %prm
 punk, rclsid, dwFlags, pdwRegister
 punk : [var] ƒAƒNƒeƒBƒuƒIƒuƒWƒFƒNƒgB
@@ -1108,8 +1022,6 @@ RegisterActiveObject ŠÖ”‚ÍApunk ‚ªw‚·ƒIƒuƒWƒFƒNƒg‚ğ rclsid
 %index
 RegisterTypeLib
 ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ÉŠÖ‚·‚éî•ñ‚ğƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚É’Ç‰Á‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ptlib, szFullPath, szHelpDir
 ptlib : [var] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠB
@@ -1134,8 +1046,6 @@ RegisterTypeLib ‚ÍƒRƒNƒ‰ƒX‚Ì CLSID ƒL[‚É’l‚ğˆêØ‘‚«‚Ü‚È‚¢)B
 %index
 RegisterTypeLibForUser
 ŒÄ‚Ño‚µŒ³ƒ†[ƒU[‚ªg—p‚·‚é‚½‚ß‚Ìƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚ğ“o˜^‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ptlib, szFullPath, szHelpDir
 ptlib : [var] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠB
@@ -1156,8 +1066,6 @@ RegisterTypeLibForUser ‚Í RegisterTypeLib
 %index
 RevokeActiveObject
 ƒIƒuƒWƒFƒNƒg‚ÌƒAƒNƒeƒBƒu‚Æ‚µ‚Ä‚Ìó‘Ô‚ğI—¹‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dwRegister, pvReserved
 dwRegister : [int] ˆÈ‘O‚É RegisterActiveObject ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -1172,8 +1080,6 @@ pvReserved : [intptr] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBnull ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
 %index
 SafeArrayAccessData
 ”z—ñ‚ÌƒƒbƒNƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µA”z—ñƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, ppvData
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1193,8 +1099,6 @@ SafeArrayAccessData ‚ğŒÄ‚Ño‚µ‚½ŒãA”z—ñ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚é‚É‚Í SafeArrayUnaccess
 %index
 SafeArrayAddRef
 w’è‚³‚ê‚½ safe array ‚ÌƒfƒBƒXƒNƒŠƒvƒ^‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğ 1 ‚Â‘‚â‚·B‚Ü‚½Asafe array ‚ÌƒfƒBƒXƒNƒŠƒvƒ^‚É‚æ‚Á‚Ä”»’è‚³‚ê‚½’Ê‚èA‚»‚Ì safe array ‚Ìƒf[ƒ^‚ª“®“I‚ÉŠ„‚è“–‚Ä‚ç‚ê‚Ä‚¢‚½ê‡‚É‚ÍA‚»‚Ìƒf[ƒ^‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚à 1 ‚Â‘‚â‚·‚±‚Æ‚ª‚ ‚éB
-%group
-Win32 oleaut32
 %prm
 psa, ppDataToRelease
 psa : [var] ƒfƒBƒXƒNƒŠƒvƒ^‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğ‘‚â‚· safe arrayB‚»‚ÌƒJƒEƒ“ƒg‚ª 0 ‚æ‚è‘å‚«‚¢ŠÔAƒfƒBƒXƒNƒŠƒvƒ^‚Ìƒƒ‚ƒŠ‚Í SafeArrayDestroy ‚Ü‚½‚Í SafeArrayDestroyDescriptor ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª–h‚ª‚ê‚éB
@@ -1219,8 +1123,6 @@ safe array ‚Í“`““I‚ÉQÆƒJƒEƒ“ƒg‚ğ‚½‚È‚©‚Á‚½Bsafe array
 %index
 SafeArrayAllocData
 SafeArrayAllocDescriptor ‚Åì¬‚³‚ê‚½ƒfƒBƒXƒNƒŠƒvƒ^‚ÉŠî‚Ã‚¢‚Ä safe array ‚Éƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] SafeArrayAllocDescriptor ‚Åì¬‚³‚ê‚½ safe array ƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1235,8 +1137,6 @@ SafeArrayAllocDescriptor ‚Åì¬‚³‚ê‚½ƒfƒBƒXƒNƒŠƒvƒ^‚ÉŠî‚Ã‚¢‚Ä safe array ‚Éƒƒ‚ƒ
 %index
 SafeArrayAllocDescriptor
 safe array ƒfƒBƒXƒNƒŠƒvƒ^‚Éƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 oleaut32
 %prm
 cDims, ppsaOut
 cDims : [int] ”z—ñ‚ÌŸŒ³”B
@@ -1258,8 +1158,6 @@ safe array ƒfƒBƒXƒNƒŠƒvƒ^‚Éƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éB
 %index
 SafeArrayAllocDescriptorEx
 ”z—ñƒf[ƒ^‚ğŠ„‚è“–‚Ä‚¸‚ÉAVT_RECORD ‚ğŠÜ‚Ş”CˆÓ‚Ì—LŒø‚È variant Œ^‚Ì”z—ñ‚Ì‚½‚ß‚Ì safe array ƒfƒBƒXƒNƒŠƒvƒ^‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 vt, cDims, ppsaOut
 vt : [int] variant Œ^B
@@ -1282,8 +1180,6 @@ SafeArrayAllocDescriptor ‚Í VARTYPE ‚ğæ‚ç‚È‚¢‚½‚ßAƒŒƒR[ƒh‚Ì”z—ñ‚Ì‚½‚ß‚Ì safe 
 %index
 SafeArrayCopy
 Šù‘¶‚Ì safe array ‚ÌƒRƒs[‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, ppsaOut
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½ safe array ƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1303,8 +1199,6 @@ ppsaOut : [var] safe array ƒfƒBƒXƒNƒŠƒvƒ^B
 %index
 SafeArrayCopyData
 ƒRƒs[æ”z—ñ“à‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚½ŒãAƒRƒs[Œ³”z—ñ‚ğw’è‚³‚ê‚½ƒRƒs[æ”z—ñ‚ÉƒRƒs[‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psaSource, psaTarget
 psaSource : [var] ƒRƒs[Œ³‚Ì safe arrayB
@@ -1320,8 +1214,6 @@ psaTarget : [var] ƒRƒs[æ‚Ì safe arrayB
 %index
 SafeArrayCreate
 V‚µ‚¢”z—ñƒfƒBƒXƒNƒŠƒvƒ^‚ğì¬‚µA”z—ñ‚Ìƒf[ƒ^‚ğŠ„‚è“–‚Ä‚Ä‰Šú‰»‚µAV‚µ‚¢”z—ñƒfƒBƒXƒNƒŠƒvƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 vt, cDims, rgsabound
 vt : [int] ”z—ñ‚ÌŠî’êŒ^ (”z—ñ‚ÌŠe—v‘f‚Ì VARTYPE)BVARTYPE ‚Í variant Œ^‚ÌƒTƒuƒZƒbƒg‚É§ŒÀ‚³‚ê‚éBVT_ARRAY ƒtƒ‰ƒO‚à VT_BYREF ƒtƒ‰ƒO‚àİ’è‚Å‚«‚È‚¢BVT_EMPTY ‚Æ VT_NULL ‚Í”z—ñ‚Ì—LŒø‚ÈŠî’êŒ^‚Å‚Í‚È‚¢B‚»‚Ì‘¼‚Ì‚·‚×‚Ä‚ÌŒ^‚Í—LŒø‚Å‚ ‚éB
@@ -1337,8 +1229,6 @@ safe array ƒfƒBƒXƒNƒŠƒvƒ^B”z—ñ‚ğì¬‚Å‚«‚È‚©‚Á‚½ê‡‚Í nullB
 %index
 SafeArrayCreateEx
 w’è‚³‚ê‚½ VARTYPEAŸŒ³”A‹«ŠE‚©‚ç safe array ƒfƒBƒXƒNƒŠƒvƒ^‚ğì¬‚µ‚Ä•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 vt, cDims, rgsabound, pvExtra
 vt : [int] ”z—ñ‚ÌŠî’êŒ^‚Ü‚½‚ÍŠe—v‘f‚Ì VARTYPEBFADF_RECORD ƒtƒ‰ƒO‚Í variant Œ^ VT_RECORD ‚É‘Î‚µ‚Äİ’è‚Å‚«AFADF_HAVEIID ƒtƒ‰ƒO‚Í VT_DISPATCH ‚Ü‚½‚Í VT_UNKNOWN ‚É‘Î‚µ‚Äİ’è‚Å‚«AFADF_HAVEVARTYPE ‚Í‚»‚Ì‘¼‚·‚×‚Ä‚Ì VARTYPE ‚É‘Î‚µ‚Äİ’è‚Å‚«‚éB
@@ -1363,8 +1253,6 @@ IID_IUnknown ‚Ü‚½‚Í IID_IDispatch
 %index
 SafeArrayCreateVector
 1 ŸŒ³”z—ñ‚ğì¬‚·‚éBSafeArrayCreateVector ‚Åì¬‚³‚ê‚½ safe array ‚ÍŒÅ’èƒTƒCƒY‚È‚Ì‚ÅA’è” FADF_FIXEDSIZE ‚Íí‚Éİ’è‚³‚ê‚éB
-%group
-Win32 oleaut32
 %prm
 vt, lLbound, cElements
 vt : [int] ”z—ñ‚ÌŠî’êŒ^ (”z—ñ‚ÌŠe—v‘f‚Ì VARTYPE)BVARTYPE ‚Í variant Œ^‚ÌƒTƒuƒZƒbƒg‚É§ŒÀ‚³‚ê‚éBVT_ARRAY ƒtƒ‰ƒO‚à VT_BYREF ƒtƒ‰ƒO‚àİ’è‚Å‚«‚È‚¢BVT_EMPTY ‚Æ VT_NULL ‚Í”z—ñ‚Ì—LŒø‚ÈŠî’êŒ^‚Å‚Í‚È‚¢B‚»‚Ì‘¼‚Ì‚·‚×‚Ä‚ÌŒ^‚Í—LŒø‚Å‚ ‚éB
@@ -1381,8 +1269,6 @@ safe array ƒfƒBƒXƒNƒŠƒvƒ^B”z—ñ‚ğì¬‚Å‚«‚È‚©‚Á‚½ê‡‚Í nullB
 %index
 SafeArrayCreateVectorEx
 w’è‚³‚ê‚½ VARTYPE ‚Æ‹«ŠE‚Ì 1 ŸŒ³ safe array ‚ğì¬‚µ‚Ä•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 vt, lLbound, cElements, pvExtra
 vt : [int] ”z—ñ‚ÌŠî’êŒ^ (”z—ñ‚ÌŠe—v‘f‚Ì VARTYPE)BFADF_RECORD ƒtƒ‰ƒO‚Í VT_RECORD ‚É‘Î‚µ‚Äİ’è‚Å‚«‚éBFADF_HAVEIID ‚Í VT_DISPATCH ‚Ü‚½‚Í VT_UNKNOWN ‚É‘Î‚µ‚Äİ’è‚Å‚«AFADF_HAVEVARTYPE ‚Í‚»‚Ì‘¼‚·‚×‚Ä‚ÌŒ^‚É‘Î‚µ‚Äİ’è‚Å‚«‚éB
@@ -1399,8 +1285,6 @@ safe array ƒfƒBƒXƒNƒŠƒvƒ^B”z—ñ‚ğì¬‚Å‚«‚È‚©‚Á‚½ê‡‚Í nullB
 %index
 SafeArrayDestroy
 Šù‘¶‚Ì”z—ñƒfƒBƒXƒNƒŠƒvƒ^‚¨‚æ‚Ñ”z—ñ“à‚Ì‚·‚×‚Ä‚Ìƒf[ƒ^‚ğ”jŠü‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1420,8 +1304,6 @@ IRecordInfo::RecordClear ‚ªŒÄ‚Ño‚³‚ê‚é‚ªAƒŒƒR[ƒh©‘Ì‚Í‰ğ•ú‚³‚ê‚È‚¢B
 %index
 SafeArrayDestroyData
 w’è‚³‚ê‚½ safe array “à‚Ì‚·‚×‚Ä‚Ìƒf[ƒ^‚ğ”jŠü‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] safe array ƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1444,8 +1326,6 @@ safe array ‚Å‚ÍŠe—v‘f‚É‘Î‚µ‚Ä SysFreeString
 %index
 SafeArrayDestroyDescriptor
 w’è‚³‚ê‚½ safe array ‚ÌƒfƒBƒXƒNƒŠƒvƒ^‚ğ”jŠü‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] safe array ƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1465,8 +1345,6 @@ psa : [var] safe array ƒfƒBƒXƒNƒŠƒvƒ^B
 %index
 SafeArrayGetDim
 ”z—ñ‚ÌŸŒ³”‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1480,8 +1358,6 @@ psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
 %index
 SafeArrayGetElement
 ”z—ñ‚Ì’Pˆê—v‘f‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, rgIndices, pv
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1503,8 +1379,6 @@ variant ‚Ìê‡AŠÖ”‚Í—v‘f‚ğ³‚µ‚¢•û–@‚ÅƒRƒs[‚·‚éB
 %index
 SafeArrayGetElemsize
 1 —v‘f‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1518,8 +1392,6 @@ safe array “à‚Ì 1 —v‘f‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %index
 SafeArrayGetIID
 w’è‚³‚ê‚½ safe array ‚ÉŠÜ‚Ü‚ê‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì GUID ‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, pguid
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1535,8 +1407,6 @@ pguid : [var] ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì GUIDB
 %index
 SafeArrayGetLBound
 w’è‚³‚ê‚½ safe array ‚Ì”CˆÓ‚ÌŸŒ³‚Ì‰ºŒÀ‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, nDim, plLbound
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1553,8 +1423,6 @@ plLbound : [var] ‰ºŒÀB
 %index
 SafeArrayGetRecordInfo
 w’è‚³‚ê‚½ safe array ‚ÉŠÜ‚Ü‚ê‚é UDT ‚Ì IRecordInfo ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, prinfo
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1570,8 +1438,6 @@ prinfo : [var] IRecordInfo ƒCƒ“ƒ^[ƒtƒFƒCƒXB
 %index
 SafeArrayGetUBound
 w’è‚³‚ê‚½ safe array ‚Ì”CˆÓ‚ÌŸŒ³‚ÌãŒÀ‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, nDim, plUbound
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1588,8 +1454,6 @@ plUbound : [var] ãŒÀB
 %index
 SafeArrayGetVartype
 w’è‚³‚ê‚½ safe array ‚ÉŠi”[‚³‚ê‚Ä‚¢‚é VARTYPE ‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, pvt
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1613,8 +1477,6 @@ VARTYPE ‚ğ•Ô‚·BFADF_RECORD ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í VT_RECORD ‚ğ•Ô‚µAFADF_DISPAT
 %index
 SafeArrayLock
 ”z—ñ‚ÌƒƒbƒNƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µA”z—ñƒfƒBƒXƒNƒŠƒvƒ^‚Ì pvData ‚É”z—ñƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1634,8 +1496,6 @@ psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
 %index
 SafeArrayPtrOfIndex
 ”z—ñ—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, rgIndices, ppvData
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1656,8 +1516,6 @@ SafeArrayPtrOfIndex
 %index
 SafeArrayPutElement
 w’è‚³‚ê‚½ˆÊ’u‚Éƒf[ƒ^—v‘f‚ğŠi”[‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, rgIndices, pv
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1683,8 +1541,6 @@ VT_DISPATCH ‚Ü‚½‚Í VT_UNKNOWN ‚Ìê‡AAddRef
 %index
 SafeArrayRedim
 w’è‚³‚ê‚½ safe array ‚ÌÅ‚à‰E‚Ì (Å‰ºˆÊ‚Ì) ‹«ŠE‚ğ•ÏX‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, psaboundNew
 psa : [var] safe array ƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1705,8 +1561,6 @@ psaboundNew : [var] V‚µ‚¢”z—ñ‹«ŠE‚ğŠÜ‚ŞV‚µ‚¢ safe array bound \‘¢‘ÌB”z—ñ‚ÌÅ
 %index
 SafeArrayReleaseData
 w’è‚³‚ê‚½ safe array ƒf[ƒ^‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğ 1 ‚ÂŒ¸‚ç‚·B‚»‚ÌƒJƒEƒ“ƒg‚ª 0 ‚É’B‚·‚é‚ÆA‚»‚Ìƒf[ƒ^‚Ìƒƒ‚ƒŠ‚Í‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª–h‚ª‚ê‚È‚­‚È‚éB
-%group
-Win32 oleaut32
 %prm
 pData
 pData : [intptr] ƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚· safe array ƒf[ƒ^B
@@ -1722,8 +1576,6 @@ SafeArrayAddRef ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Æˆê’v‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 SafeArrayReleaseDescriptor
 w’è‚³‚ê‚½ safe array ‚ÌƒfƒBƒXƒNƒŠƒvƒ^‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğ 1 ‚ÂŒ¸‚ç‚·B‚»‚ÌƒJƒEƒ“ƒg‚ª 0 ‚É’B‚·‚é‚ÆA‚»‚ÌƒfƒBƒXƒNƒŠƒvƒ^‚Ìƒƒ‚ƒŠ‚Í‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª–h‚ª‚ê‚È‚­‚È‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] ƒfƒBƒXƒNƒŠƒvƒ^‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚· safe arrayB
@@ -1739,8 +1591,6 @@ SafeArrayReleaseDescriptor ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÍASafeArrayAddRef
 %index
 SafeArraySetIID
 w’è‚³‚ê‚½ safe array ‚ÉƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì GUID ‚ğİ’è‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, guid
 psa : [var] safe array ƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1756,8 +1606,6 @@ guid : [var] IIDB
 %index
 SafeArraySetRecordInfo
 w’è‚³‚ê‚½ safe array ‚ÉƒŒƒR[ƒhî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa, prinfo
 psa : [var] ”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1773,8 +1621,6 @@ prinfo : [var] ƒŒƒR[ƒhî•ñB
 %index
 SafeArrayUnaccessData
 ”z—ñ‚ÌƒƒbƒNƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚µASafeArrayAccessData ‚Åæ“¾‚µ‚½ƒ|ƒCƒ“ƒ^‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1789,8 +1635,6 @@ psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
 %index
 SafeArrayUnlock
 ‰ğ•ú‚Ü‚½‚ÍƒTƒCƒY•ÏX‚ª‚Å‚«‚é‚æ‚¤A”z—ñ‚ÌƒƒbƒNƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psa
 psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
@@ -1808,8 +1652,6 @@ psa : [var] SafeArrayCreate ‚Åì¬‚³‚ê‚½”z—ñƒfƒBƒXƒNƒŠƒvƒ^B
 %index
 SetErrorInfo
 Œ»İ‚Ì˜_—ÀsƒXƒŒƒbƒh‚ÉƒGƒ‰[î•ñƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dwReserved, perrinfo
 dwReserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1843,8 +1685,6 @@ COM ‚Ìƒ‚[ƒ_ƒ‹ƒƒbƒZ[ƒWƒ‹[ƒv‚É“ü‚é‚ÆŠù‘¶‚ÌƒGƒ‰[ƒIƒuƒWƒFƒNƒg‚ÍƒNƒŠƒA‚³‚ê‚éBŒÄ
 %index
 SysAddRefString
 w’è‚³‚ê‚½•¶š—ñ‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğ 1 ‚Â‘‚â‚·B
-%group
-Win32 oleaut32
 %prm
 bstrString
 bstrString : [int] ƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğ‘‚â‚·•¶š—ñB‚»‚ÌƒJƒEƒ“ƒg‚ª 0 ‚æ‚è‘å‚«‚¢ŠÔA•¶š—ñ‚Ìƒƒ‚ƒŠ‚Í SysFreeString ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª–h‚ª‚ê‚éB
@@ -1866,8 +1706,6 @@ SysReleaseString ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚³‚ê‚é‚×‚«‚Å‚ ‚éB
 %index
 SysAllocString
 V‚µ‚¢•¶š—ñ‚ğŠ„‚è“–‚ÄA“n‚³‚ê‚½•¶š—ñ‚ğ‚»‚ê‚ÉƒRƒs[‚·‚éB
-%group
-Win32 oleaut32
 %prm
 psz
 psz : [wstr] ƒRƒs[‚·‚é•¶š—ñB
@@ -1885,8 +1723,6 @@ SysAllocString ‚Åì¬‚³‚ê‚½•¶š—ñ‚Í SysFreeString ‚Å‰ğ•ú‚Å‚«‚éB
 %index
 SysAllocStringByteLen
 ANSI •¶š—ñ‚ğ“ü—Í‚Æ‚µ‚Äó‚¯æ‚èAANSI •¶š—ñ‚ğŠÜ‚Ş BSTR ‚ğ•Ô‚·BANSI ‚©‚ç Unicode ‚Ö‚Ì•ÏŠ·‚Ís‚í‚È‚¢B
-%group
-Win32 oleaut32
 %prm
 psz, len
 psz : [str] ƒRƒs[‚·‚é•¶š—ñB•¶š—ñ‚ğ–¢‰Šú‰»‚Ì‚Ü‚Ü‚É‚·‚éê‡‚Í NULLB
@@ -1911,8 +1747,6 @@ psz ‚Í–„‚ß‚İ null •¶š‚ğŠÜ‚Ş‚±‚Æ‚ª‚Å‚«ANull ‚ÅI‚í‚é•K—v‚Í‚È‚¢B•Ô‚³‚ê‚é•¶š—
 %index
 SysAllocStringLen
 V‚µ‚¢•¶š—ñ‚ğŠ„‚è“–‚ÄA“n‚³‚ê‚½•¶š—ñ‚©‚çw’è‚³‚ê‚½•¶š”‚ğƒRƒs[‚µAnull I’[•¶š‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, ui
 strIn : [wstr] “ü—Í•¶š—ñB
@@ -1932,8 +1766,6 @@ ui : [int] ƒRƒs[‚·‚é•¶š”BŒã‚É null •¶š‚ª’u‚©‚êA‡Œv‚Å ui ‚É 1 ‚ğ‰Á‚¦‚½•¶š
 %index
 SysReAllocString
 ˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¶š—ñ‚ğ 2 ‚Â–Ú‚Ì•¶š—ñ‚ÌƒTƒCƒY‚ÉÄŠ„‚è“–‚Ä‚µA2 ‚Â–Ú‚Ì•¶š—ñ‚ğÄŠ„‚è“–‚Ä‚³‚ê‚½ƒƒ‚ƒŠ‚ÉƒRƒs[‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pbstr, psz
 pbstr : [var] ˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¶š—ñB
@@ -1953,8 +1785,6 @@ psz ‚Å“n‚³‚ê‚éƒAƒhƒŒƒX‚Í pbstr
 %index
 SysReAllocStringLen
 ŒÃ‚¢ BSTR ‚©‚çw’è‚³‚ê‚½•¶š”‚ğŠÜ‚ŞV‚µ‚¢ BSTR ‚ğì¬‚µAŒÃ‚¢ BSTR ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pbstr, psz, len
 pbstr : [var] ˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¶š—ñB
@@ -1977,8 +1807,6 @@ BSTR ‚ğ‰ğ•ú‚µApbstr ‚ğV‚µ‚¢ BSTR ‚ğw‚·‚æ‚¤‚ÉƒŠƒZƒbƒg‚·‚éBpsz ‚ª null ‚Ìê‡
 %index
 SysReleaseString
 w’è‚³‚ê‚½•¶š—ñ‚Ìƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğ 1 ‚ÂŒ¸‚ç‚·B‚»‚ÌƒJƒEƒ“ƒg‚ª 0 ‚É’B‚·‚é‚ÆA‚»‚Ì•¶š—ñ‚Ìƒƒ‚ƒŠ‚Í‰ğ•ú‚³‚ê‚é‚±‚Æ‚ª–h‚ª‚ê‚È‚­‚È‚éB
-%group
-Win32 oleaut32
 %prm
 bstrString
 bstrString : [int] ƒsƒ“—¯‚ßQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·•¶š—ñB
@@ -1993,8 +1821,6 @@ SysReleaseString ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÍASysAddRefString ŠÖ”‚ÌˆÈ‘O‚Ì‚·‚×‚Ä‚ÌŒÄ‚Ño‚µ‚
 %index
 SysStringByteLen
 BSTR ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 bstr
 bstr : [int] ˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¶š—ñB
@@ -2012,8 +1838,6 @@ BSTR ‚ª–„‚ß‚İ null •¶š‚ğŠÜ‚Şê‡A•Ô‚³‚ê‚é’l‚Í strlen(bstr) ‚ÆˆÙ‚È‚é‚±‚Æ‚ª‚ ‚
 %index
 SysStringLen
 BSTR ‚Ì’·‚³‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pbstr
 pbstr : [int] ˆÈ‘O‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½•¶š—ñB
@@ -2031,8 +1855,6 @@ bstr ‚Ì•¶š”(I’[ NULL ‚ğŠÜ‚Ü‚È‚¢)Bbstr ‚ª NULL ‚Ìê‡‚Í 0B
 %index
 SystemTimeToVariantTime
 ƒVƒXƒeƒ€‚ğ variant •\Œ»‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lpSystemTime, pvtime
 lpSystemTime : [var] ƒVƒXƒeƒ€B
@@ -2059,8 +1881,6 @@ readiness](https://techcommunity.microsoft.com/t5/azure-developer-community-blog
 %index
 UnRegisterTypeLib
 ƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚©‚çƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠî•ñ‚ğíœ‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª³‚µ‚­ƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚é‚æ‚¤A‚±‚Ì API ‚ğg—p‚·‚éB
-%group
-Win32 oleaut32
 %prm
 libID, wVerMajor, wVerMinor, lcid, syskind
 libID : [var] ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚Ì GUIDB
@@ -2082,8 +1902,6 @@ syskind : [int] ‘ÎÛƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€B
 %index
 UnRegisterTypeLibForUser
 RegisterTypeLibForUser ‚ğg—p‚µ‚Ä“o˜^‚³‚ê‚½ƒ^ƒCƒvƒ‰ƒCƒuƒ‰ƒŠ‚Ìî•ñ‚ğíœ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 libID, wMajorVerNum, wMinorVerNum, lcid, syskind
 libID : [var] ƒ‰ƒCƒuƒ‰ƒŠ‚Ì GUIDB
@@ -2106,8 +1924,6 @@ UnRegisterTypeLibForUser ‚ğg—p‚·‚éB
 %index
 VARIANT_UserFree
 RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(VARIANT_UserFree)
-%group
-Win32 oleaut32
 %prm
 param0, param1
 param0 : [var] 
@@ -2119,8 +1935,6 @@ RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(VARIANT
 %index
 VARIANT_UserFree64
 RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(VARIANT_UserFree64)
-%group
-Win32 oleaut32
 %prm
 param0, param1
 param0 : [var] 
@@ -2132,8 +1946,6 @@ RPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«AƒT[ƒo[‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB(VARIANT
 %index
 VARIANT_UserMarshal
 VARIANT ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserMarshal)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2150,8 +1962,6 @@ VARIANT ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserMarshal)
 %index
 VARIANT_UserMarshal64
 VARIANT ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserMarshal64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2168,8 +1978,6 @@ VARIANT ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Öƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserMarshal64)
 %index
 VARIANT_UserSize
 VARIANT ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(VARIANT_UserSize)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2185,8 +1993,6 @@ VARIANT ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(VAR
 %index
 VARIANT_UserSize64
 VARIANT ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(VARIANT_UserSize64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2202,8 +2008,6 @@ VARIANT ƒIƒuƒWƒFƒNƒg‚ÌƒƒCƒ„ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB(VAR
 %index
 VARIANT_UserUnmarshal
 RPC ƒoƒbƒtƒ@‚©‚ç VARIANT ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserUnmarshal)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2220,8 +2024,6 @@ RPC ƒoƒbƒtƒ@‚©‚ç VARIANT ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserUnma
 %index
 VARIANT_UserUnmarshal64
 RPC ƒoƒbƒtƒ@‚©‚ç VARIANT ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserUnmarshal64)
-%group
-Win32 oleaut32
 %prm
 param0, param1, param2
 param0 : [var] 
@@ -2238,8 +2040,6 @@ RPC ƒoƒbƒtƒ@‚©‚ç VARIANT ƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚·‚éB(VARIANT_UserUnma
 %index
 VarAbs
 variant ‚Ìâ‘Î’l‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarIn, pvarResult
 pvarIn : [var] variantB
@@ -2254,8 +2054,6 @@ variant ‚Ìâ‘Î’l‚ğ•Ô‚·B
 %index
 VarAdd
 2 ‚Â‚Ì variant ‚Ì˜a‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ‚Â–Ú‚Ì variantB
@@ -2275,8 +2073,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarAnd
 ”CˆÓ‚Ì®”Œ^‚Ì 2 ‚Â‚Ì variant ŠÔ‚Åƒrƒbƒg’PˆÊ‚Ì And ‰‰Z‚ğs‚¤B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ‚Â–Ú‚Ì variantB
@@ -2296,8 +2092,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarBoolFromCy
 ’Ê‰İ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pboolOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -2313,8 +2107,6 @@ pboolOut : [var] Œ‹‰Ê‚Ì’lB
 %index
 VarBoolFromDate
 “ú•t’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pboolOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -2330,8 +2122,6 @@ pboolOut : [var] Œ‹‰Ê‚Ì’lB
 %index
 VarBoolFromDec
 decimal ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pboolOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -2347,8 +2137,6 @@ decimal ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pboolOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -2365,8 +2153,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromI1
 char ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pboolOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -2382,8 +2168,6 @@ char ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromI2
 short ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pboolOut
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -2399,8 +2183,6 @@ short ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromI4
 long ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pboolOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -2416,8 +2198,6 @@ long ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromI8
 8 ƒoƒCƒg®”’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pboolOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -2433,8 +2213,6 @@ pboolOut : [var] Œ‹‰Ê‚Ì’lB
 %index
 VarBoolFromR4
 float ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pboolOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -2450,8 +2228,6 @@ float ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromR8
 double ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pboolOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -2467,8 +2243,6 @@ double ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromStr
 OLECHAR •¶š—ñ‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pboolOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -2486,8 +2260,6 @@ OLECHAR •¶š—ñ‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromUI1
 unsigned char ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pboolOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -2503,8 +2275,6 @@ unsigned char ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromUI2
 unsigned short ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pboolOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -2520,8 +2290,6 @@ unsigned short ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromUI4
 unsigned long ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pboolOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -2537,8 +2305,6 @@ unsigned long ’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBoolFromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ Boolean ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pboolOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -2554,8 +2320,6 @@ pboolOut : [var] Œ‹‰Ê‚Ì’lB
 %index
 VarBstrCat
 BSTR Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ˜AŒ‹‚µAŒ‹‰Ê‚Ì BSTR ‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 bstrLeft, bstrRight, pbstrResult
 bstrLeft : [int] 1 ‚Â–Ú‚Ì variantB
@@ -2571,8 +2335,6 @@ BSTR Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ˜AŒ‹‚µAŒ‹‰Ê‚Ì BSTR ‚ğ•Ô‚·B
 %index
 VarBstrCmp
 BSTR Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bstrLeft, bstrRight, lcid, dwFlags
 bstrLeft : [int] 1 ‚Â–Ú‚Ì variantB
@@ -2593,8 +2355,6 @@ BSTR Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
 %index
 VarBstrFromBool
 Boolean ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, lcid, dwFlags, pbstrOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -2612,8 +2372,6 @@ Boolean ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromCy
 ’Ê‰İ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, lcid, dwFlags, pbstrOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -2631,8 +2389,6 @@ pbstrOut : [var] Œ‹‰Ê‚Ì’lB
 %index
 VarBstrFromDate
 “ú•t’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, lcid, dwFlags, pbstrOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -2650,8 +2406,6 @@ pbstrOut : [var] Œ‹‰Ê‚Ì’lB
 %index
 VarBstrFromDec
 decimal ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, lcid, dwFlags, pbstrOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -2669,8 +2423,6 @@ decimal ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, dwFlags, pbstrOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -2688,8 +2440,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromI1
 char ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, lcid, dwFlags, pbstrOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -2707,8 +2457,6 @@ char ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromI2
 short ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 iVal, lcid, dwFlags, pbstrOut
 iVal : [int] •ÏŠ·‚·‚é’lB
@@ -2726,8 +2474,6 @@ short ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromI4
 long ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, lcid, dwFlags, pbstrOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -2745,8 +2491,6 @@ long ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB (VarBstrFromI8)
-%group
-Win32 oleaut32
 %prm
 i64In, lcid, dwFlags, pbstrOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -2764,8 +2508,6 @@ pbstrOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarBstrFromR4
 float ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, lcid, dwFlags, pbstrOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -2783,8 +2525,6 @@ float ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromR8
 double ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, lcid, dwFlags, pbstrOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -2802,8 +2542,6 @@ double ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromUI1
 unsigned char ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bVal, lcid, dwFlags, pbstrOut
 bVal : [int] •ÏŠ·‚·‚é’lB
@@ -2821,8 +2559,6 @@ unsigned char ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromUI2
 unsigned short ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, lcid, dwFlags, pbstrOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -2840,8 +2576,6 @@ unsigned short ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromUI4
 unsigned long ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, lcid, dwFlags, pbstrOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -2859,8 +2593,6 @@ unsigned long ’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB
 %index
 VarBstrFromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ BSTR ’l‚É•ÏŠ·‚·‚éB (VarBstrFromUI8)
-%group
-Win32 oleaut32
 %prm
 ui64In, lcid, dwFlags, pbstrOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -2878,8 +2610,6 @@ pbstrOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarCat
 2 ‚Â‚Ì variant ‚ğ˜AŒ‹‚µAŒ‹‰Ê‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -2899,8 +2629,6 @@ pvarResult : [var] Œ‹‰Ê‚ğŠi”[‚·‚é variantB
 %index
 VarCmp
 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, lcid, dwFlags
 pvarLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -2924,8 +2652,6 @@ dwFlags : [int] ”äŠrŒ‹‰Ê‚ÌƒIƒvƒVƒ‡ƒ“B
 %index
 VarCyAbs
 currency Œ^‚Ì variant ‚Ìâ‘Î’l‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pcyResult
 cyIn : [var] currency Œ^‚Ì variantB
@@ -2940,8 +2666,6 @@ currency Œ^‚Ì variant ‚Ìâ‘Î’l‚ğæ“¾‚·‚éB
 %index
 VarCyAdd
 currency Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ‰ÁZ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyLeft, cyRight, pcyResult
 cyLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -2957,8 +2681,6 @@ currency Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ‰ÁZ‚·‚éB
 %index
 VarCyCmp
 currency Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyLeft, cyRight
 cyLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -2974,8 +2696,6 @@ currency Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
 %index
 VarCyCmpR8
 currency Œ^‚Ì variant ‚Æ double Œ^‚Ì’l‚ğ”äŠr‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyLeft, dblRight
 cyLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -2991,8 +2711,6 @@ currency Œ^‚Ì variant ‚Æ double Œ^‚Ì’l‚ğ”äŠr‚·‚éB
 %index
 VarCyFix
 currency Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarCyFix)
-%group
-Win32 oleaut32
 %prm
 cyIn, pcyResult
 cyIn : [var] currency Œ^‚Ì variantB
@@ -3007,8 +2725,6 @@ currency Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarCyFix)
 %index
 VarCyFromBool
 Boolean ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pcyOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -3024,8 +2740,6 @@ Boolean ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromDate
 date ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pcyOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -3041,8 +2755,6 @@ date ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromDec
 decimal ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pcyOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -3058,8 +2770,6 @@ decimal ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pcyOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -3076,8 +2786,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromI1
 char ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pcyOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -3093,8 +2801,6 @@ char ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromI2
 short ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pcyOut
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -3110,8 +2816,6 @@ short ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromI4
 long ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pcyOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -3127,8 +2831,6 @@ long ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromI8
 8 ƒoƒCƒg®”’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pcyOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -3144,8 +2846,6 @@ pcyOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarCyFromR4
 float ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pcyOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -3161,8 +2861,6 @@ float ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromR8
 double ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pcyOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -3178,8 +2876,6 @@ double ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromStr
 OLECHAR •¶š—ñ‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pcyOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -3197,8 +2893,6 @@ OLECHAR •¶š—ñ‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromUI1
 unsigned char ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pcyOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -3214,8 +2908,6 @@ unsigned char ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromUI2
 unsigned short ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pcyOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -3231,8 +2923,6 @@ unsigned short ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromUI4
 unsigned long ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pcyOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -3248,8 +2938,6 @@ unsigned long ’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
 %index
 VarCyFromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ currency ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pcyOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -3265,8 +2953,6 @@ pcyOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarCyInt
 currency Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarCyInt)
-%group
-Win32 oleaut32
 %prm
 cyIn, pcyResult
 cyIn : [var] currency Œ^‚Ì variantB
@@ -3281,8 +2967,6 @@ currency Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarCyInt)
 %index
 VarCyMul
 currency Œ^‚Ì 2 ‚Â‚Ì variant ‚ğæZ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyLeft, cyRight, pcyResult
 cyLeft : [var] 1 ‚Â‚ß‚Ì variant
@@ -3302,8 +2986,6 @@ DISP_E_OVERFLOW ‚ğˆø‚«‹N‚±‚·‚±‚Æ‚ª‚ ‚éB
 %index
 VarCyMulI4
 currency ’l‚É 32 ƒrƒbƒg®”‚ğæZ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyLeft, lRight, pcyResult
 cyLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -3319,8 +3001,6 @@ currency ’l‚É 32 ƒrƒbƒg®”‚ğæZ‚·‚éB
 %index
 VarCyMulI8
 currency ’l‚É 64 ƒrƒbƒg®”‚ğæZ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyLeft, lRight, pcyResult
 cyLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -3336,8 +3016,6 @@ currency ’l‚É 64 ƒrƒbƒg®”‚ğæZ‚·‚éB
 %index
 VarCyNeg
 currency Œ^‚Ì variant ‚É‘Î‚µ‚Ä˜_—”Û’è‚ğÀs‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pcyResult
 cyIn : [var] •„†”½“]‚·‚é variantB
@@ -3352,8 +3030,6 @@ currency Œ^‚Ì variant ‚É‘Î‚µ‚Ä˜_—”Û’è‚ğÀs‚·‚éB
 %index
 VarCyRound
 currency Œ^‚Ì variant ‚ğw’è‚µ‚½¬”Œ…”‚ÉŠÛ‚ß‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, cDecimals, pcyResult
 cyIn : [var] ŠÛ‚ß‚é variantB
@@ -3369,8 +3045,6 @@ currency Œ^‚Ì variant ‚ğw’è‚µ‚½¬”Œ…”‚ÉŠÛ‚ß‚éB
 %index
 VarCySub
 currency Œ^‚Ì 2 ‚Â‚Ì variant ‚ğŒ¸Z‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyLeft, cyRight, pcyResult
 cyLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -3386,8 +3060,6 @@ currency Œ^‚Ì 2 ‚Â‚Ì variant ‚ğŒ¸Z‚·‚éB
 %index
 VarDateFromBool
 Boolean ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pdateOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -3403,8 +3075,6 @@ Boolean ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromCy
 currency ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pdateOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -3420,8 +3090,6 @@ currency ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromDec
 decimal ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pdateOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -3437,8 +3105,6 @@ decimal ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pdateOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -3455,8 +3121,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromI1
 char ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pdateOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -3472,8 +3136,6 @@ char ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromI2
 short ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pdateOut
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -3489,8 +3151,6 @@ short ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromI4
 long ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pdateOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -3506,8 +3166,6 @@ long ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pdateOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -3523,8 +3181,6 @@ pdateOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarDateFromR4
 float ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pdateOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -3540,8 +3196,6 @@ float ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromR8
 double ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pdateOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -3557,8 +3211,6 @@ double ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromStr
 OLECHAR •¶š—ñ‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pdateOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -3576,8 +3228,6 @@ OLECHAR •¶š—ñ‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromUI1
 unsigned char ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pdateOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -3593,8 +3243,6 @@ unsigned char ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromUI2
 unsigned short ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pdateOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -3610,8 +3258,6 @@ unsigned short ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromUI4
 unsigned long ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pdateOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -3627,8 +3273,6 @@ unsigned long ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDateFromUI8
 8 ƒoƒCƒg•„†‚È‚µ’l‚ğ date ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pdateOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -3644,8 +3288,6 @@ pdateOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarDateFromUdate
 MS-DOS Œ`®‚©‚ç•ÏŠ·‚³‚ê‚½“ú‚ğ variant Œ`®‚É•ÏŠ·‚·‚éB (VarDateFromUdate)
-%group
-Win32 oleaut32
 %prm
 pudateIn, dwFlags, pdateOut
 pudateIn : [var] ƒAƒ“ƒpƒbƒN‚³‚ê‚½“ú•tB
@@ -3667,8 +3309,6 @@ UDATE \‘¢‘Ì‚Í VarDateFromUdateAVarDateFromUdateExAVarUdateFromDate
 %index
 VarDateFromUdateEx
 MS-DOS Œ`®‚©‚ç•ÏŠ·‚³‚ê‚½“ú‚ğ variant Œ`®‚É•ÏŠ·‚·‚éB (VarDateFromUdateEx)
-%group
-Win32 oleaut32
 %prm
 pudateIn, lcid, dwFlags, pdateOut
 pudateIn : [var] ƒAƒ“ƒpƒbƒN‚³‚ê‚½“ú•tB
@@ -3691,8 +3331,6 @@ UDATE \‘¢‘Ì‚Í VarDateFromUdateExAVarDateFromUdateAVarUdateFromDate
 %index
 VarDecAbs
 decimal Œ^‚Ì variant ‚Ìâ‘Î’l‚ğæ“¾‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pdecResult
 pdecIn : [var] 1 ‚Â‚ß‚Ì variantB
@@ -3707,8 +3345,6 @@ decimal Œ^‚Ì variant ‚Ìâ‘Î’l‚ğæ“¾‚·‚éB
 %index
 VarDecAdd
 decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ‰ÁZ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecLeft, pdecRight, pdecResult
 pdecLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -3724,8 +3360,6 @@ decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ‰ÁZ‚·‚éB
 %index
 VarDecCmp
 decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecLeft, pdecRight
 pdecLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -3741,8 +3375,6 @@ decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
 %index
 VarDecCmpR8
 decimal Œ^‚Ì variant ‚Æ double Œ^‚Ì’l‚ğ”äŠr‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecLeft, dblRight
 pdecLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -3758,8 +3390,6 @@ decimal Œ^‚Ì variant ‚Æ double Œ^‚Ì’l‚ğ”äŠr‚·‚éB
 %index
 VarDecDiv
 decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğœZ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecLeft, pdecRight, pdecResult
 pdecLeft : [var] 1 ‚Â‚ß‚Ì decimal variantB
@@ -3775,8 +3405,6 @@ decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğœZ‚·‚éB
 %index
 VarDecFix
 decimal Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarDecFix)
-%group
-Win32 oleaut32
 %prm
 pdecIn, pdecResult
 pdecIn : [var] decimal variantB
@@ -3791,8 +3419,6 @@ decimal Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarDecFix)
 %index
 VarDecFromBool
 Boolean ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pdecOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -3808,8 +3434,6 @@ Boolean ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromCy
 currency ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pdecOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -3825,8 +3449,6 @@ currency ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromDate
 date ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pdecOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -3842,8 +3464,6 @@ date ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pdecOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -3860,8 +3480,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromI1
 char ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pdecOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -3877,8 +3495,6 @@ char ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromI2
 short ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pdecOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -3894,8 +3510,6 @@ short ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromI4
 long ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pdecOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -3911,8 +3525,6 @@ long ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromI8
 8 ƒoƒCƒg®”’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pdecOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -3928,8 +3540,6 @@ pdecOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarDecFromR4
 float ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pdecOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -3945,8 +3555,6 @@ float ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromR8
 double ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pdecOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -3962,8 +3570,6 @@ double ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromStr
 OLECHAR •¶š—ñ‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pdecOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -3981,8 +3587,6 @@ OLECHAR •¶š—ñ‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromUI1
 unsigned char ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pdecOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -3998,8 +3602,6 @@ unsigned char ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromUI2
 unsigned short ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pdecOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -4015,8 +3617,6 @@ unsigned short ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromUI4
 unsigned long ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pdecOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -4032,8 +3632,6 @@ unsigned long ’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
 %index
 VarDecFromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ decimal ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pdecOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -4049,8 +3647,6 @@ pdecOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarDecInt
 decimal Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarDecInt)
-%group
-Win32 oleaut32
 %prm
 pdecIn, pdecResult
 pdecIn : [var] decimal variantB
@@ -4065,8 +3661,6 @@ decimal Œ^‚Ì variant ‚Ì®”•”•ª‚ğæ“¾‚·‚éB (VarDecInt)
 %index
 VarDecMul
 decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğæZ‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecLeft, pdecRight, pdecResult
 pdecLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -4082,8 +3676,6 @@ decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğæZ‚·‚éB
 %index
 VarDecNeg
 decimal Œ^‚Ì variant ‚É‘Î‚µ‚Ä˜_—”Û’è‚ğÀs‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pdecResult
 pdecIn : [var] •„†”½“]‚·‚é variantB
@@ -4098,8 +3690,6 @@ decimal Œ^‚Ì variant ‚É‘Î‚µ‚Ä˜_—”Û’è‚ğÀs‚·‚éB
 %index
 VarDecRound
 decimal Œ^‚Ì variant ‚ğw’è‚µ‚½¬”Œ…”‚ÉŠÛ‚ß‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, cDecimals, pdecResult
 pdecIn : [var] ŠÛ‚ß‚é variantB
@@ -4115,8 +3705,6 @@ decimal Œ^‚Ì variant ‚ğw’è‚µ‚½¬”Œ…”‚ÉŠÛ‚ß‚éB
 %index
 VarDecSub
 decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğŒ¸Z‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecLeft, pdecRight, pdecResult
 pdecLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -4132,8 +3720,6 @@ decimal Œ^‚Ì 2 ‚Â‚Ì variant ‚ğŒ¸Z‚·‚éB
 %index
 VarDiv
 2 ‚Â‚Ì variant ‚ÌœZŒ‹‰Ê‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -4153,8 +3739,6 @@ pvarResult : [var] Œ‹‰Ê‚ğŠi”[‚·‚é variantB
 %index
 VarEqv
 2 ‚Â‚Ì variant ‚É‘Î‚µ‚Äƒrƒbƒg’PˆÊ‚Ì“™‰¿‰‰Z‚ğÀs‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ‚Â‚ß‚Ì variantB
@@ -4174,8 +3758,6 @@ pvarLeft ‚ÌŠeƒrƒbƒg‚ª pvarRight ‚Ì‘Î‰‚·‚éƒrƒbƒg‚Æ“™‚µ‚¢ê‡‚Í TRUE ‚ğ•Ô‚·B‚»‚ê
 %index
 VarFix
 variant ‚Ì®”•”•ª‚ğ•Ô‚·B (VarFix)
-%group
-Win32 oleaut32
 %prm
 pvarIn, pvarResult
 pvarIn : [var] variantB
@@ -4193,8 +3775,6 @@ variant ‚ª•‰‚Ìê‡‚ÍA‚»‚Ì’lˆÈã‚ÅÅ‰‚Ì•‰‚Ì®”‚ª•Ô‚³‚ê‚éB
 %index
 VarFormat
 ‘®•¶š—ñ‚ğ‰ğÍ‚µ‚Ä variant ‚ğ•¶š—ñŒ`®‚É®Œ`‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarIn, pstrFormat, iFirstDay, iFirstWeek, dwFlags, pbstrOut
 pvarIn : [var] variantB
@@ -4218,8 +3798,6 @@ pbstrOut : [var] variant ‚ğ•\‚·‘®İ’èÏ‚İ•¶š—ñB
 %index
 VarFormatCurrency
 currency ’l‚ğŠÜ‚Ş variant ‚ğ•¶š—ñŒ`®‚É®Œ`‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarIn, iNumDig, iIncLead, iUseParens, iGroup, dwFlags, pbstrOut
 pvarIn : [var] variantB
@@ -4244,8 +3822,6 @@ currency ’l‚ğŠÜ‚Ş variant ‚ğ•¶š—ñŒ`®‚É®Œ`‚·‚éB
 %index
 VarFormatDateTime
 –¼‘O•t‚«“ú•t‚¨‚æ‚Ñî•ñ‚ğŠÜ‚Ş variant ‚ğ•¶š—ñ‚É®Œ`‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarIn, iNamedFormat, dwFlags, pbstrOut
 pvarIn : [var] ®Œ`‚·‚é’l‚ğŠÜ‚Ş variantB
@@ -4267,8 +3843,6 @@ pbstrOut : [var] variant ‚ğ•\‚·‘®İ’èÏ‚İ•¶š—ñ‚ğó‚¯æ‚éB
 %index
 VarFormatFromTokens
 ƒg[ƒNƒ“‰»‚³‚ê‚½‘®•¶š—ñ‚ğó‚¯æ‚èA‚»‚ê‚ğ variant ‚É“K—p‚µ‚Ä®Œ`Ï‚İo—Í•¶š—ñ‚ğ¶¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarIn, pstrFormat, pbTokCur, dwFlags, pbstrOut, lcid
 pvarIn : [var] ®Œ`‚·‚é’l‚ğŠÜ‚Ş variantB
@@ -4291,8 +3865,6 @@ lcid : [int] ®Œ`Ï‚İo—Í•¶š—ñ‚Ég—p‚·‚éƒƒP[ƒ‹B
 %index
 VarFormatNumber
 ”’l‚ğŠÜ‚Ş variant ‚ğ•¶š—ñŒ`®‚É®Œ`‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarIn, iNumDig, iIncLead, iUseParens, iGroup, dwFlags, pbstrOut
 pvarIn : [var] ®Œ`‚·‚é’l‚ğŠÜ‚Ş variantB
@@ -4317,8 +3889,6 @@ pbstrOut : [var] variant ‚ğ•\‚·‘®İ’èÏ‚İ•¶š—ñ‚ğw‚·B
 %index
 VarFormatPercent
 •S•ª—¦‚ğŠÜ‚Ş variant ‚ğ•¶š—ñŒ`®‚É®Œ`‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarIn, iNumDig, iIncLead, iUseParens, iGroup, dwFlags, pbstrOut
 pvarIn : [var] ®Œ`‚·‚é’l‚ğŠÜ‚Ş variantB
@@ -4343,8 +3913,6 @@ pbstrOut : [var] variant ‚ğ•\‚·‘®İ’èÏ‚İ•¶š—ñ‚ğó‚¯æ‚éB
 %index
 VarI1FromBool
 Boolean ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pcOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -4360,8 +3928,6 @@ Boolean ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromCy
 currency ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pcOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -4377,8 +3943,6 @@ currency ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromDate
 date ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pcOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -4394,8 +3958,6 @@ date ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromDec
 decimal ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pcOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -4411,8 +3973,6 @@ decimal ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pcOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -4429,8 +3989,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromI2
 short ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pcOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -4446,8 +4004,6 @@ short ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromI4
 long ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pcOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -4463,8 +4019,6 @@ long ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromI8
 8 ƒoƒCƒg®”’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pcOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -4480,8 +4034,6 @@ pcOut : [str] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarI1FromR4
 float ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pcOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -4497,8 +4049,6 @@ float ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromR8
 double ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pcOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -4514,8 +4064,6 @@ double ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromStr
 OLECHAR •¶š—ñ‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pcOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -4533,8 +4081,6 @@ OLECHAR •¶š—ñ‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromUI1
 unsigned char ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pcOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -4550,8 +4096,6 @@ unsigned char ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromUI2
 unsigned short ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pcOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -4567,8 +4111,6 @@ unsigned short ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromUI4
 unsigned long ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pcOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -4584,8 +4126,6 @@ unsigned long ’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI1FromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pcOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -4601,8 +4141,6 @@ pcOut : [str] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarI2FromBool
 Boolean ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, psOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -4618,8 +4156,6 @@ Boolean ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromCy
 currency ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, psOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -4635,8 +4171,6 @@ currency ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromDate
 date ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, psOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -4652,8 +4186,6 @@ date ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromDec
 decimal ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, psOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -4669,8 +4201,6 @@ decimal ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, psOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -4687,8 +4217,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromI1
 char ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, psOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -4704,8 +4232,6 @@ char ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromI4
 long ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, psOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -4721,8 +4247,6 @@ long ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromI8
 8 ƒoƒCƒg®”’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, psOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -4738,8 +4262,6 @@ psOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarI2FromR4
 float ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, psOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -4755,8 +4277,6 @@ float ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromR8
 double ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, psOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -4772,8 +4292,6 @@ double ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromStr
 OLECHAR •¶š—ñ‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, psOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -4791,8 +4309,6 @@ OLECHAR •¶š—ñ‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromUI1
 unsigned char ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, psOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -4808,8 +4324,6 @@ unsigned char ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromUI2
 unsigned short ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, psOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -4825,8 +4339,6 @@ unsigned short ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromUI4
 unsigned long ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, psOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -4842,8 +4354,6 @@ unsigned long ’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI2FromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, psOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -4859,8 +4369,6 @@ psOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarI4FromBool
 Boolean ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, plOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -4876,8 +4384,6 @@ Boolean ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromCy
 currency ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, plOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -4893,8 +4399,6 @@ currency ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromDate
 date ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, plOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -4910,8 +4414,6 @@ date ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromDec
 decimal ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, plOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -4927,8 +4429,6 @@ decimal ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, plOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -4945,8 +4445,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’èƒvƒƒpƒeƒB‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromI1
 char ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, plOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -4962,8 +4460,6 @@ char ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromI2
 short ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, plOut
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -4979,8 +4475,6 @@ short ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromI8
 8 ƒoƒCƒg®”’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, plOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -4996,8 +4490,6 @@ plOut : [var] •ÏŠ·Œ‹‰Ê‚Ì’lB
 %index
 VarI4FromR4
 float ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, plOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -5013,8 +4505,6 @@ float ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromR8
 double ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, plOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -5030,8 +4520,6 @@ double ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromStr
 OLECHAR •¶š—ñ‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, plOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -5049,8 +4537,6 @@ OLECHAR •¶š—ñ‚ğ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarI4FromUI1
 •„†‚È‚µ char ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, plOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -5066,8 +4552,6 @@ plOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI4FromUI2
 •„†‚È‚µ short ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, plOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -5083,8 +4567,6 @@ plOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI4FromUI4
 •„†‚È‚µ long ’l‚ğ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, plOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -5100,8 +4582,6 @@ plOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI4FromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ long ‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, plOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -5117,8 +4597,6 @@ plOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI8FromBool
 Boolean ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pi64Out
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -5134,8 +4612,6 @@ Boolean ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromCy
 ’Ê‰İ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pi64Out
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -5151,8 +4627,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI8FromDate
 “ú•t’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pi64Out
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -5168,8 +4642,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI8FromDec
 decimal ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pi64Out
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -5185,8 +4657,6 @@ decimal ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pi64Out
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -5203,8 +4673,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromI1
 char ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pi64Out
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -5220,8 +4688,6 @@ char ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromI2
 short ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pi64Out
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -5237,8 +4703,6 @@ short ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromR4
 float ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pi64Out
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -5254,8 +4718,6 @@ float ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromR8
 double ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pi64Out
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -5271,8 +4733,6 @@ double ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromStr
 OLECHAR •¶š—ñ‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pi64Out
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -5290,8 +4750,6 @@ OLECHAR •¶š—ñ‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarI8FromUI1
 •„†‚È‚µƒoƒCƒg’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pi64Out
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -5307,8 +4765,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI8FromUI2
 •„†‚È‚µ short ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pi64Out
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -5324,8 +4780,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI8FromUI4
 •„†‚È‚µ long ’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pi64Out
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -5341,8 +4795,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarI8FromUI8
 •„†‚È‚µ 8 ƒoƒCƒg®”’l‚ğ 8 ƒoƒCƒg®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pi64Out
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -5358,8 +4810,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarIdiv
 ”CˆÓ‚ÌŒ^‚Ì 2 ‚Â‚Ì variant ‚ğ®”‚É•ÏŠ·‚µA‚»‚ê‚ç‚ğœZ‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -5379,8 +4829,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarImp
 2 ‚Â‚Ì variant ‚É‘Î‚µ‚Äƒrƒbƒg’PˆÊ‚Ì˜_—•ïŠÜ (implication) ‚ğs‚¤B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -5400,8 +4848,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarInt
 variant ‚Ì®”•”•ª‚ğ•Ô‚·B(VarInt)
-%group
-Win32 oleaut32
 %prm
 pvarIn, pvarResult
 pvarIn : [var] variantB
@@ -5419,8 +4865,6 @@ variant ‚ª•‰‚Ìê‡Avariant ˆÈ‰º‚ÅÅ‘å‚Ì•‰®”‚ª•Ô‚³‚ê‚éB
 %index
 VarMod
 2 ‚Â‚Ì variant ‚ğœZ‚µAè—]‚Ì‚İ‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -5436,8 +4880,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarMonthName
 ƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½Œ–¼‚ğŠÜ‚Ş•¶š—ñ‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 iMonth, fAbbrev, dwFlags, pbstrOut
 iMonth : [int] 1 ‚©‚ç 12 ‚Ü‚Å‚Ì”’l‚Å•\‚³‚ê‚éŒB
@@ -5455,8 +4897,6 @@ pbstrOut : [var] variant ‚ğ•\‚·‘®‰»‚³‚ê‚½•¶š—ñ‚ğó‚¯æ‚éB
 %index
 VarMul
 2 ‚Â‚Ì variant ‚ğæZ‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -5476,8 +4916,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarNeg
 variant ‚É‘Î‚µ‚Ä˜_—”Û’è‚ğs‚¤B
-%group
-Win32 oleaut32
 %prm
 pvarIn, pvarResult
 pvarIn : [var] variantB
@@ -5492,8 +4930,6 @@ variant ‚É‘Î‚µ‚Ä˜_—”Û’è‚ğs‚¤B
 %index
 VarNot
 variant ‚É‘Î‚µ‚Äƒrƒbƒg’PˆÊ‚Ì not ”Û’è‰‰Z‚ğs‚¤B
-%group
-Win32 oleaut32
 %prm
 pvarIn, pvarResult
 pvarIn : [var] variantB
@@ -5512,8 +4948,6 @@ variant ‚É‘Î‚µ‚Äƒrƒbƒg’PˆÊ‚Ì not ”Û’è‰‰Z‚ğs‚¤B
 %index
 VarNumFromParseNum
 ‰ğÍŒ‹‰Ê‚ğ variant ‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pnumprs, rgbDig, dwVtBits, pvar
 pnumprs : [var] ‰ğÍŒ‹‰ÊB‚±‚Ìˆø”‚Ì cDig ƒƒ“ƒo‚Í rgbDig ‚ÉŠÜ‚Ü‚ê‚éŒ…”‚ğw’è‚·‚éB
@@ -5538,8 +4972,6 @@ VarNumFromParseNum ‚É‚æ‚Á‚Ä•„†‚È‚µ long [32 ƒrƒbƒg] ‚Ì‘å‚«‚³‚É§ŒÀ‚³‚ê‚é‚½‚ßA1
 %index
 VarOr
 2 ‚Â‚Ì variant ‚É‘Î‚µ‚Ä˜_—˜a‚ğs‚¤B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -5559,8 +4991,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarParseNumFromStr
 •¶š—ñ‚ğ‰ğÍ‚µA‚»‚ê‚ª•\‚·”’l‚ğŒ^‚ÉˆË‘¶‚µ‚È‚¢Œ`‚Å‹Lq‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pnumprs, rgbDig
 strIn : [wstr] •ÏŠ·‚·‚é“ü—Í•¶š—ñB
@@ -5579,8 +5009,6 @@ rgbDig : [var] ”’l‚ª 8 i”A10 i”A16 i”‚Ì‚¢‚¸‚ê‚Å‚ ‚é‚©‚É‰‚¶‚ÄA0?7A0?9
 %index
 VarPow
 2 ‚Â‚Ì variant ‚Å‚×‚«æŠÖ”‚ğÀs‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -5599,8 +5027,6 @@ pvarLeft ‚ğ pvarRight ‚Å—İæ‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
 %index
 VarR4CmpR8
 float Œ^‚Æ double Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltLeft, dblRight
 fltLeft : [float] 1 ”Ô–Ú‚Ì variantB
@@ -5616,8 +5042,6 @@ float Œ^‚Æ double Œ^‚Ì 2 ‚Â‚Ì variant ‚ğ”äŠr‚·‚éB
 %index
 VarR4FromBool
 Boolean ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pfltOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -5633,8 +5057,6 @@ Boolean ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromCy
 ’Ê‰İ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pfltOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -5650,8 +5072,6 @@ pfltOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR4FromDate
 “ú•t’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pfltOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -5667,8 +5087,6 @@ pfltOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR4FromDec
 decimal ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pfltOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -5684,8 +5102,6 @@ decimal ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pfltOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -5702,8 +5118,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromI1
 char ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pfltOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -5719,8 +5133,6 @@ char ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromI2
 short ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pfltOut
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -5736,8 +5148,6 @@ short ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromI4
 long ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pfltOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -5753,8 +5163,6 @@ long ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromI8
 8 ƒoƒCƒg®”’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pfltOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -5770,8 +5178,6 @@ pfltOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR4FromR8
 double ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pfltOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -5787,8 +5193,6 @@ double ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromStr
 OLECHAR •¶š—ñ‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pfltOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -5806,8 +5210,6 @@ OLECHAR •¶š—ñ‚ğ float ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR4FromUI1
 •„†‚È‚µ char ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pfltOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -5823,8 +5225,6 @@ pfltOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR4FromUI2
 •„†‚È‚µ short ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pfltOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -5840,8 +5240,6 @@ pfltOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR4FromUI4
 •„†‚È‚µ long ’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pfltOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -5857,8 +5255,6 @@ pfltOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR4FromUI8
 •„†‚È‚µ 8 ƒoƒCƒg®”’l‚ğ float ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pfltOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -5874,8 +5270,6 @@ pfltOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8FromBool
 Boolean ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pdblOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -5891,8 +5285,6 @@ Boolean ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromCy
 ’Ê‰İ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pdblOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -5908,8 +5300,6 @@ pdblOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8FromDate
 “ú•t’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pdblOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -5925,8 +5315,6 @@ pdblOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8FromDec
 decimal ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pdblOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -5942,8 +5330,6 @@ decimal ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pdblOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -5960,8 +5346,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromI1
 char ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pdblOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -5977,8 +5361,6 @@ char ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromI2
 short ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pdblOut
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -5994,8 +5376,6 @@ short ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromI4
 long ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pdblOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -6011,8 +5391,6 @@ long ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromI8
 8 ƒoƒCƒg®”’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pdblOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -6028,8 +5406,6 @@ pdblOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8FromR4
 float ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pdblOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -6045,8 +5421,6 @@ float ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromStr
 OLECHAR •¶š—ñ‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pdblOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -6064,8 +5438,6 @@ OLECHAR •¶š—ñ‚ğ double ’l‚É•ÏŠ·‚·‚éB
 %index
 VarR8FromUI1
 •„†‚È‚µ char ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pdblOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -6081,8 +5453,6 @@ pdblOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8FromUI2
 •„†‚È‚µ short ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pdblOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -6098,8 +5468,6 @@ pdblOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8FromUI4
 •„†‚È‚µ long ’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pdblOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -6115,8 +5483,6 @@ pdblOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8FromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ double ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pdblOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -6132,8 +5498,6 @@ pdblOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarR8Pow
 double Œ^‚Ì variant ‚É‘Î‚µ‚Ä‚×‚«æŠÖ”‚ğÀs‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblLeft, dblRight, pdblResult
 dblLeft : [double] 1 ”Ô–Ú‚Ì variantB
@@ -6149,8 +5513,6 @@ double Œ^‚Ì variant ‚É‘Î‚µ‚Ä‚×‚«æŠÖ”‚ğÀs‚·‚éB
 %index
 VarR8Round
 double Œ^‚Ì variant ‚ğw’è‚³‚ê‚½¬”“_ˆÈ‰º‚ÌŒ…”‚ÉŠÛ‚ß‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, cDecimals, pdblResult
 dblIn : [double] variantB
@@ -6166,8 +5528,6 @@ double Œ^‚Ì variant ‚ğw’è‚³‚ê‚½¬”“_ˆÈ‰º‚ÌŒ…”‚ÉŠÛ‚ß‚éB
 %index
 VarRound
 variant ‚ğw’è‚³‚ê‚½¬”“_ˆÈ‰º‚ÌŒ…”‚ÉŠÛ‚ß‚éB
-%group
-Win32 oleaut32
 %prm
 pvarIn, cDecimals, pvarResult
 pvarIn : [var] variantB
@@ -6183,8 +5543,6 @@ variant ‚ğw’è‚³‚ê‚½¬”“_ˆÈ‰º‚ÌŒ…”‚ÉŠÛ‚ß‚éB
 %index
 VarSub
 2 ‚Â‚Ì variant ‚ğŒ¸Z‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -6204,8 +5562,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VarTokenizeFormatString
 ÀÛ‚Ì‘®•¶š—ñ‚ğˆê˜A‚Ìƒg[ƒNƒ“‚É‰ğÍ‚·‚éB‚±‚ê‚ç‚Ìƒg[ƒNƒ“‚ğg—p‚µ‚Ä VarFormatFromTokens ‚Å variant ‚ğ‘®‰»‚Å‚«‚éB
-%group
-Win32 oleaut32
 %prm
 pstrFormat, rgbTok, cbTok, iFirstDay, iFirstWeek, lcid, pcbActual
 pstrFormat : [wstr] ‘®•¶š—ñB—á‚¦‚Î "mm-dd-yy"B
@@ -6233,8 +5589,6 @@ pcbActual : [var] Å‰‚É¶¬‚³‚ê‚½ƒg[ƒNƒ“‚ªİ’è‚³‚ê‚é®”‚ğw‚·B‚±‚Ìƒpƒ‰ƒ[ƒ^
 %index
 VarUI1FromBool
 Boolean ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pbOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -6250,8 +5604,6 @@ Boolean ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromCy
 ’Ê‰İ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pbOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -6267,8 +5619,6 @@ pbOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI1FromDate
 “ú•t’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pbOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -6284,8 +5634,6 @@ pbOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI1FromDec
 decimal ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pbOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -6301,8 +5649,6 @@ decimal ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pbOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -6319,8 +5665,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromI1
 char ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pbOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -6336,8 +5680,6 @@ char ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromI2
 short ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pbOut
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -6353,8 +5695,6 @@ short ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromI4
 long ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pbOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -6370,8 +5710,6 @@ long ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromI8
 8 ƒoƒCƒg®”’l‚ğƒoƒCƒg’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, pbOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -6387,8 +5725,6 @@ pbOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI1FromR4
 float ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pbOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -6404,8 +5740,6 @@ float ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromR8
 double ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pbOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -6421,8 +5755,6 @@ double ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromStr
 OLECHAR •¶š—ñ‚ğ•„†‚È‚µ char •¶š—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pbOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -6440,8 +5772,6 @@ OLECHAR •¶š—ñ‚ğ•„†‚È‚µ char •¶š—ñ‚É•ÏŠ·‚·‚éB
 %index
 VarUI1FromUI2
 •„†‚È‚µ short ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pbOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -6457,8 +5787,6 @@ pbOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI1FromUI4
 •„†‚È‚µ long ’l‚ğ•„†‚È‚µ char ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pbOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -6474,8 +5802,6 @@ pbOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI1FromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğƒoƒCƒg’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pbOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -6491,8 +5817,6 @@ pbOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI2FromBool
 Boolean ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, puiOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -6508,8 +5832,6 @@ Boolean ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromCy
 ’Ê‰İ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, puiOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -6525,8 +5847,6 @@ puiOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI2FromDate
 “ú•t’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, puiOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -6542,8 +5862,6 @@ puiOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI2FromDec
 decimal ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, puiOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -6559,8 +5877,6 @@ decimal ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, puiOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -6577,8 +5893,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromI1
 char ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, puiOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -6594,8 +5908,6 @@ char ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromI2
 short ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, puiOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -6611,8 +5923,6 @@ short ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromI4
 long ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, puiOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -6628,8 +5938,6 @@ long ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromI8
 8 ƒoƒCƒg®”’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, puiOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -6645,8 +5953,6 @@ puiOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI2FromR4
 float ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, puiOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -6662,8 +5968,6 @@ float ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromR8
 double ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, puiOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -6679,8 +5983,6 @@ double ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromStr
 OLECHAR •¶š—ñ‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, puiOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -6698,8 +6000,6 @@ OLECHAR •¶š—ñ‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI2FromUI1
 •„†‚È‚µ char ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, puiOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -6715,8 +6015,6 @@ puiOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI2FromUI4
 •„†‚È‚µ long ’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, puiOut
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -6732,8 +6030,6 @@ puiOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI2FromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ•„†‚È‚µ short ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, puiOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -6749,8 +6045,6 @@ puiOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI4FromBool
 Boolean ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pulOut
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -6766,8 +6060,6 @@ Boolean ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromCy
 ’Ê‰İ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pulOut
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -6783,8 +6075,6 @@ pulOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI4FromDate
 “ú•t’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pulOut
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -6800,8 +6090,6 @@ pulOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI4FromDec
 decimal ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pulOut
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -6817,8 +6105,6 @@ decimal ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pulOut
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -6835,8 +6121,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromI1
 char ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pulOut
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -6852,8 +6136,6 @@ char ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromI2
 short ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pulOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -6869,8 +6151,6 @@ short ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromI4
 long ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 lIn, pulOut
 lIn : [int] •ÏŠ·‚·‚é’lB
@@ -6886,8 +6166,6 @@ long ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromI8
 8 ƒoƒCƒg®”’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 i64In, plOut
 i64In : [int64] •ÏŠ·‚·‚é’lB
@@ -6903,8 +6181,6 @@ plOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI4FromR4
 float ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pulOut
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -6920,8 +6196,6 @@ float ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromR8
 double ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pulOut
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -6937,8 +6211,6 @@ double ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromStr
 OLECHAR •¶š—ñ‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pulOut
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -6956,8 +6228,6 @@ OLECHAR •¶š—ñ‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI4FromUI1
 •„†‚È‚µ char ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pulOut
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -6973,8 +6243,6 @@ pulOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI4FromUI2
 •„†‚È‚µ short ’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pulOut
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -6990,8 +6258,6 @@ pulOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI4FromUI8
 8 ƒoƒCƒg•„†‚È‚µ®”’l‚ğ•„†‚È‚µ long ’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, plOut
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -7007,8 +6273,6 @@ plOut : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI8FromBool
 VARIANT_BOOL ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 boolIn, pi64Out
 boolIn : [int] •ÏŠ·‚·‚é’lB
@@ -7024,8 +6288,6 @@ VARIANT_BOOL ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromCy
 ’Ê‰İ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cyIn, pi64Out
 cyIn : [var] •ÏŠ·‚·‚é’lB
@@ -7041,8 +6303,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI8FromDate
 “ú•t’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, pi64Out
 dateIn : [double] •ÏŠ·‚·‚é’lB
@@ -7058,8 +6318,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI8FromDec
 decimal ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdecIn, pi64Out
 pdecIn : [var] •ÏŠ·‚·‚é’lB
@@ -7075,8 +6333,6 @@ decimal ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromDisp
 IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pdispIn, lcid, pi64Out
 pdispIn : [var] •ÏŠ·‚·‚é’lB
@@ -7093,8 +6349,6 @@ IDispatch ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌŠù’è‚ÌƒvƒƒpƒeƒB‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromI1
 char ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 cIn, pi64Out
 cIn : [int] •ÏŠ·‚·‚é’lB
@@ -7110,8 +6364,6 @@ char ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromI2
 short ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 sIn, pi64Out
 sIn : [int] •ÏŠ·‚·‚é’lB
@@ -7127,8 +6379,6 @@ short ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromI8
 8 ƒoƒCƒg®”’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ui64In, pi64Out
 ui64In : [int64] •ÏŠ·‚·‚é’lB
@@ -7144,8 +6394,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI8FromR4
 float ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 fltIn, pi64Out
 fltIn : [float] •ÏŠ·‚·‚é’lB
@@ -7161,8 +6409,6 @@ float ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromR8
 double ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dblIn, pi64Out
 dblIn : [double] •ÏŠ·‚·‚é’lB
@@ -7178,8 +6424,6 @@ double ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromStr
 OLECHAR •¶š—ñ‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 strIn, lcid, dwFlags, pi64Out
 strIn : [wstr] •ÏŠ·‚·‚é’lB
@@ -7197,8 +6441,6 @@ OLECHAR •¶š—ñ‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
 %index
 VarUI8FromUI1
 ƒoƒCƒg’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 bIn, pi64Out
 bIn : [int] •ÏŠ·‚·‚é’lB
@@ -7214,8 +6456,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI8FromUI2
 •„†‚È‚µ short ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 uiIn, pi64Out
 uiIn : [int] •ÏŠ·‚·‚é’lB
@@ -7231,8 +6471,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUI8FromUI4
 •„†‚È‚µ long ’l‚ğ 8 ƒoƒCƒg•„†‚È‚µ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 ulIn, pi64Out
 ulIn : [int] •ÏŠ·‚·‚é’lB
@@ -7248,8 +6486,6 @@ pi64Out : [var] •ÏŠ·Œã‚Ì’lB
 %index
 VarUdateFromDate
 variant Œ`®‚©‚ç MS-DOS Œ`®‚É•ÏŠ·‚µ‚½‚Æ“ú•t‚ğ•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 dateIn, dwFlags, pudateOut
 dateIn : [double] ƒpƒbƒN‚³‚ê‚½“ú•tB
@@ -7271,8 +6507,6 @@ UDATE \‘¢‘Ì‚Í VarDateFromUdate ‚¨‚æ‚Ñ VarUdateFromDate
 %index
 VarWeekdayName
 ƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½—j“ú–¼‚ğŠÜ‚Ş•¶š—ñ‚ğ•Ô‚·B
-%group
-Win32 oleaut32
 %prm
 iWeekday, fAbbrev, iFirstDay, dwFlags, pbstrOut
 iWeekday : [int] —j“úB
@@ -7291,8 +6525,6 @@ pbstrOut : [var] variant ‚ğ•\‚·‘®‰»‚³‚ê‚½•¶š—ñ‚ğó‚¯æ‚éB
 %index
 VarXor
 2 ‚Â‚Ì variant ‚É‘Î‚µ‚Ä˜_—”r‘¼‚ğs‚¤B
-%group
-Win32 oleaut32
 %prm
 pvarLeft, pvarRight, pvarResult
 pvarLeft : [var] 1 ”Ô–Ú‚Ì variantB
@@ -7312,8 +6544,6 @@ pvarResult : [var] Œ‹‰Ê‚Ì variantB
 %index
 VariantChangeType
 variant ‚ğ‚ ‚éŒ^‚©‚ç•Ê‚ÌŒ^‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvargDest, pvarSrc, wFlags, vt
 pvargDest : [var] •ÏŠ·æ‚Ì variantBpvarSrc ‚Æ“¯‚¶ê‡Avariant ‚Í‚»‚Ìê‚Å•ÏŠ·‚³‚ê‚éB
@@ -7345,8 +6575,6 @@ VARIANTARG ‚ÌŒ^‚ğ rgvarg ”z—ñ“à‚Å‚»‚Ìê‚Å•ÏX‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %index
 VariantChangeTypeEx
 LCID ‚ğg—p‚µ‚Ä variant ‚ğ‚ ‚éŒ^‚©‚ç•Ê‚ÌŒ^‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvargDest, pvarSrc, lcid, wFlags, vt
 pvargDest : [var] •ÏŠ·æ‚Ì variantBpvarSrc ‚Æ“¯‚¶ê‡Avariant ‚Í‚»‚Ìê‚Å•ÏŠ·‚³‚ê‚éB
@@ -7378,8 +6606,6 @@ VARIANTARG ‚ÌŒ^‚ğ rgvarg ”z—ñ“à‚Å‚»‚Ìê‚Å•ÏX‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %index
 VariantClear
 variant ‚ğƒNƒŠƒA‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarg
 pvarg : [var] ƒNƒŠƒA‚·‚é variantB
@@ -7414,8 +6640,6 @@ SysFreeString ‚ªŒÄ‚Ño‚³‚ê‚éB‚½‚¾‚µAVT_type ‚ğóM‚µ‚½‚ªˆ—‚Å‚«‚È‚¢ê‡‚Í Var
 %index
 VariantCopy
 ƒRƒs[æ‚Ì variant ‚ğ‰ğ•ú‚µAƒRƒs[Œ³‚Ì variant ‚ÌƒRƒs[‚ğì¬‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvargDest, pvargSrc
 pvargDest : [var] ƒRƒs[æ‚Ì variantB
@@ -7445,8 +6669,6 @@ IUnknown::AddRef ‚ğŒÄ‚Ño‚·‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µŒ³‚ÌÓ”C‚Æ‚È‚éB’ˆÓ VariantCopy
 %index
 VariantCopyInd
 ƒRƒs[æ‚Ì variant ‚ğ‰ğ•ú‚µAƒRƒs[Œ³‚Ì variant ‚ÌƒRƒs[‚ğì¬‚·‚éBƒRƒs[Œ³‚ª VT_BYREF ‚Æ‚µ‚Äw’è‚³‚ê‚Ä‚¢‚éê‡‚Í•K—v‚ÈŠÔÚQÆ‚ğs‚¤B
-%group
-Win32 oleaut32
 %prm
 pvarDest, pvargSrc
 pvarDest : [var] ƒRƒs[æ‚Ì variantB
@@ -7470,8 +6692,6 @@ VT_BYREF ‚Å‚ ‚éê‡AŠÜ‚Ü‚ê‚é variant ‚à‹tQÆ‚³‚ê‚éB‚±‚ÌŠÖ”‚Í pvarDest ‚ÌŠù‘¶
 %index
 VariantInit
 variant ‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 oleaut32
 %prm
 pvarg
 pvarg : [var] ‰Šú‰»‚·‚é variantB
@@ -7487,8 +6707,6 @@ VariantInit ŠÖ”‚Í vt ƒtƒB[ƒ‹ƒh‚ğ VT_EMPTY ‚Éİ’è‚·‚é‚±‚Æ‚Å VARIANTARG
 %index
 VariantTimeToDosDateTime
 “ú•t‚Æ‚Ì variant •\Œ»‚ğ MS-DOS ‚Ì“ú•t‚Æ‚Ì’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 vtime, pwDosDate, pwDosTime
 vtime : [double] •ÏŠ·‚·‚é variant B
@@ -7516,8 +6734,6 @@ variant ‚Í 8 ƒoƒCƒg‚ÌÀ”’l (double) ‚Æ‚µ‚ÄŠi”[‚³‚êA100 ”N 1 Œ 1 “ú‚©‚ç 99
 %index
 VariantTimeToSystemTime
 ‚Ì variant •\Œ»‚ğƒVƒXƒeƒ€‚Ì’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 oleaut32
 %prm
 vtime, lpSystemTime
 vtime : [double] •ÏŠ·‚·‚é variant B
@@ -7540,8 +6756,6 @@ variant ‚Í 8 ƒoƒCƒg‚ÌÀ”’l (double) ‚Æ‚µ‚ÄŠi”[‚³‚êA100 ”N 1 Œ 1 “ú‚©‚ç 99
 %index
 VectorFromBstr
 ƒxƒNƒ^‚ğ•Ô‚µABSTR ‚ÌŠe•¶š‚ğƒxƒNƒ^‚Ì—v‘f‚ÉŠ„‚è“–‚Ä‚éB
-%group
-Win32 oleaut32
 %prm
 bstr, ppsa
 bstr : [int] ƒxƒNƒ^‚É•ÏŠ·‚·‚é BSTRB

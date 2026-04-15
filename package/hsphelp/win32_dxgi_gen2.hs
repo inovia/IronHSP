@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+dxgi.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì dxgi.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 CreateDXGIFactory
 ‘¼‚Ì DXGI ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é‚½‚ß‚Ég‚¦‚é DXGI 1.0 ƒtƒ@ƒNƒgƒŠ‚ğì¬‚·‚éB
-%group
-Win32 dxgi
 %prm
 riid, ppFactory
 riid : [var] Œ^: REFIID ppFactory ƒpƒ‰ƒ[ƒ^‚ªQÆ‚·‚é IDXGIFactory ƒIƒuƒWƒFƒNƒg‚Ì GUID (ƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq)B
@@ -34,8 +54,6 @@ DLLMain ‚ğQÆB
 %index
 CreateDXGIFactory1
 ‘¼‚Ì DXGI ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é‚½‚ß‚Ég‚¦‚é DXGI 1.1 ƒtƒ@ƒNƒgƒŠ‚ğì¬‚·‚éB
-%group
-Win32 dxgi
 %prm
 riid, ppFactory
 riid : [var] Œ^: REFIID ppFactory ƒpƒ‰ƒ[ƒ^‚ªQÆ‚·‚é IDXGIFactory1 ƒIƒuƒWƒFƒNƒg‚Ì GUID (ƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq)B
@@ -64,8 +82,6 @@ IDXGIFactory1::Release ƒƒ\ƒbƒh‚ÅƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é‚±‚ÆB‚±‚ÌƒGƒ“ƒgƒŠƒ|ƒ
 %index
 CreateDXGIFactory2
 ‘¼‚Ì DXGI ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é‚½‚ß‚Ég‚¦‚é DXGI 1.3 ƒtƒ@ƒNƒgƒŠ‚ğì¬‚·‚éB
-%group
-Win32 dxgi
 %prm
 Flags, riid, ppFactory
 Flags : [int] Œ^: UINT —LŒø‚È’l‚É‚Í DXGI_CREATE_FACTORY_DEBUG (0x01) ƒtƒ‰ƒO‚â 0 ‚ªŠÜ‚Ü‚ê‚éB
@@ -85,8 +101,6 @@ ppFactory : [var] Œ^: void** IDXGIFactory2 ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %index
 DXGIDeclareAdapterRemovalSupport
 ƒvƒƒZƒX‚ª©g‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒfƒoƒCƒX‚Ìæ‚èŠO‚µ‚É‘Ï«‚ğ‚Â‚±‚Æ‚ğ¦‚¹‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 dxgi
 %prm
 
 %inst
@@ -105,8 +119,6 @@ DXGI_ERROR_ALREADY_EXISTS ‚ğ•Ô‚·BƒGƒ‰[ƒR[ƒh‚ÌŠ®‘S‚Èˆê——‚É‚Â‚¢‚Ä‚Í DXGI_ERROR 
 %index
 DXGIGetDebugInterface1
 Windows ƒXƒgƒAƒAƒvƒŠ‚ª Microsoft DirectX Graphics Infrastructure (DXGI) ‚ğƒfƒoƒbƒO‚·‚é‚½‚ß‚Ég‚¤ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğæ“¾‚·‚éB
-%group
-Win32 dxgi
 %prm
 Flags, riid, pDebug
 Flags : [int] g—p‚µ‚È‚¢B

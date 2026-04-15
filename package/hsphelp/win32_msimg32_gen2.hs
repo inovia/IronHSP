@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+msimg32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の msimg32.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 AlphaBlend
 透明または半透明のピクセルを持つビットマップを表示する。
-%group
-Win32 msimg32
 %prm
 hdcDest, xoriginDest, yoriginDest, wDest, hDest, hdcSrc, xoriginSrc, yoriginSrc, wSrc, hSrc, ftn
 hdcDest : [intptr] 先デバイスコンテキストへのハンドル。
@@ -42,8 +62,6 @@ SourceConstantAlpha は元ビットマップ全体へ適用するアルファ値で、ピクセル単位のア
 %index
 GradientFill
 矩形および三角形構造体を塗りつぶす。
-%group
-Win32 msimg32
 %prm
 hdc, pVertex, nVertex, pMesh, nMesh, ulMode
 hdc : [intptr] 先デバイスコンテキストへのハンドル。
@@ -67,8 +85,6 @@ ulMode : [int]
 %index
 TransparentBlt
 指定された元デバイスコンテキストから先デバイスコンテキストへ、透過色を考慮して矩形分のピクセル色データのビットブロック転送を行う。
-%group
-Win32 msimg32
 %prm
 hdcDest, xoriginDest, yoriginDest, wDest, hDest, hdcSrc, xoriginSrc, yoriginSrc, wSrc, hSrc, crTransparent
 hdcDest : [intptr] 先デバイスコンテキストへのハンドル。

@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+winhttp.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì winhttp.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 WinHttpAddRequestHeaders
 HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚É 1 ‚ÂˆÈã‚Ì HTTP ƒŠƒNƒGƒXƒgƒwƒbƒ_‚ğ’Ç‰Á‚·‚éB(WinHttpAddRequestHeaders)
-%group
-Win32 winhttp
 %prm
 hRequest, lpszHeaders, dwHeadersLength, dwModifiers
 hRequest : [intptr] WinHttpOpenRequest ‚ª•Ô‚µ‚½ HINTERNET ƒnƒ“ƒhƒ‹B
@@ -33,8 +53,6 @@ ERROR_INVALID_PARAMETER ‚ğ•Ô‚·BDate: ƒwƒbƒ_‚ğ‘—‚é‚Æ‚«‚Í WinHttpTimeFromSystemTi
 %index
 WinHttpAddRequestHeadersEx
 HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚É 1 ‚Â‚Ü‚½‚Í•¡”‚Ì HTTP ƒŠƒNƒGƒXƒgƒwƒbƒ_[‚ğ’Ç‰Á‚µA–¼‘O‚Æ’l‚Ì•¶š—ñ‚ğŒÂ•Ê‚Ég‚¦‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 winhttp
 %prm
 hRequest, dwModifiers, ullFlags, ullExtra, cHeaders, pHeaders
 hRequest : [intptr] Œ^: IN **[HINTERNET](/windows/win32/winhttp/hinternet-handles-in-winhttp)** [WinHttpOpenRequest](/windows/win32/api/winhttp/nf-winhttp-winhttpopenrequest) ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚é **HINTERNET** ƒnƒ“ƒhƒ‹B
@@ -54,8 +72,6 @@ HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚É 1 ‚Â‚Ü‚½‚Í•¡”‚Ì HTTP ƒŠƒNƒGƒXƒgƒwƒbƒ_[‚ğ’Ç‰Á‚µA–¼‘O
 %index
 WinHttpCheckPlatform
 WinHttpCheckPlatform ŠÖ”‚ÍAŒ»İ‚Ìƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ª‚±‚Ìƒo[ƒWƒ‡ƒ“‚Ì Microsoft Windows HTTP Services (WinHTTP) ‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 winhttp
 %prm
 
 %inst
@@ -81,8 +97,6 @@ Windows Server 2003 ‚ÌƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg‚Å‚ ‚éBWindows Serv
 %index
 WinHttpCloseHandle
 ’Pˆê‚Ì **HINTERNET** ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 winhttp
 %prm
 hInternet
 hInternet : [intptr] •Â‚¶‚é—LŒø‚È **HINTERNET** ƒnƒ“ƒhƒ‹B
@@ -106,8 +120,6 @@ hInternet : [intptr] •Â‚¶‚é—LŒø‚È **HINTERNET** ƒnƒ“ƒhƒ‹B
 %index
 WinHttpConnect
 HTTP ƒŠƒNƒGƒXƒg‚Ì‰Šúƒ^[ƒQƒbƒgƒT[ƒo[‚ğw’è‚µA‚»‚Ì‰Šúƒ^[ƒQƒbƒg‚É‘Î‚·‚é HTTP ƒZƒbƒVƒ‡ƒ“—p‚Ì HINTERNET Ú‘±ƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 winhttp
 %prm
 hSession, pswzServerName, nServerPort, dwReserved
 hSession : [intptr] ˆÈ‘O‚Ì WinHttpOpen ŒÄ‚Ño‚µ‚ª•Ô‚µ‚½—LŒø‚È HINTERNET WinHTTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹B
@@ -133,8 +145,6 @@ WinHttpQueryOption ‚ğ WINHTTP_OPTION_URL ƒtƒ‰ƒO‚ÅŒÄ‚Ño‚µ‚Äæ“¾‚Å‚«‚éB
 %index
 WinHttpCrackUrl
 WinHttpCrackUrl ŠÖ”‚ÍAURL ‚ğƒzƒXƒg–¼‚âƒpƒX‚Æ‚¢‚Á‚½\¬—v‘f‚É•ª‰ğ‚·‚éB
-%group
-Win32 winhttp
 %prm
 pwszUrl, dwUrlLength, dwFlags, lpUrlComponents
 pwszUrl : [wstr] •ª‰ğ‚·‚é³‹K URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BWinHttpCrackUrl ‚Í•ª‰ğ‚ğ‚İ‚é‘O‚É‚±‚Ì URL ‚ª—LŒø‚©‚Â³‚µ‚¢Œ`®‚©‚Ç‚¤‚©‚Ìƒ`ƒFƒbƒN‚ğs‚í‚È‚¢B
@@ -171,8 +181,6 @@ ERROR_WINHTTP_UNRECOGNIZED_SCHEME ‚ğ¦‚·BWinHttpCrackUrl ‚Í•ª‰ğ‚ğ‚İ‚é‘O‚É URL
 %index
 WinHttpCreateProxyResolver
 WinHttpGetProxyForUrlEx ‚Åg‚¤‚½‚ß‚Ìƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB
-%group
-Win32 winhttp
 %prm
 hSession, phResolver
 hSession : [intptr] WinHttpOpen ‚Ö‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½—LŒø‚È HINTERNET WinHTTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹BƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Í WINHTTP_FLAG_ASYNC ‚ğw’è‚µ‚ÄŠJ‚©‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -188,8 +196,6 @@ WinHttpGetProxyForUrlEx ‚Åg‚¤‚½‚ß‚Ìƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB
 %index
 WinHttpCreateUrl
 ƒzƒXƒg–¼‚âƒpƒX‚È‚Ç‚Ì\¬—v‘f‚©‚ç URL ‚ğì¬‚·‚éB
-%group
-Win32 winhttp
 %prm
 lpUrlComponents, dwFlags, pwszUrl, pdwUrlLength
 lpUrlComponents : [var] URL ‚ğì¬‚·‚éŒ³‚Æ‚È‚é\¬—v‘f‚ğŠÜ‚Ş URL_COMPONENTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -214,8 +220,6 @@ Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpDetectAutoProxyConfigUrl
 ƒvƒƒLƒV©“®\¬ (PAC) ƒtƒ@ƒCƒ‹‚Ì URL ‚ğŒŸo‚·‚éB
-%group
-Win32 winhttp
 %prm
 dwAutoDetectFlags, ppwstrAutoConfigUrl
 dwAutoDetectFlags : [int] PAC ƒtƒ@ƒCƒ‹‚ÌˆÊ’u‚ğ“Á’è‚·‚é‚½‚ß‚Ég—p‚·‚éƒvƒƒgƒRƒ‹‚ğw’è‚·‚éƒf[ƒ^Œ^BDHCP ‚Æ DNS ‚Ì—¼•û‚Ì©“®ŒŸoƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‚Ü‚¸ DHCP ‚ªg‚í‚êADHCP ‚Å PAC URL ‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚É DNS ‚ªg‚í‚ê‚éB
@@ -238,8 +242,6 @@ WinHTTP ‚Í Web Proxy Auto-Discovery (WPAD) ƒvƒƒgƒRƒ‹ (‚µ‚Î‚µ‚Î autoproxy
 %index
 WinHttpFreeProxyResult
 WinHttpFreeProxyResult ŠÖ”‚ÍAWinHttpGetProxyResult ‚Ö‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒf[ƒ^‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 winhttp
 %prm
 pProxyResult
 pProxyResult : [var] WinHttpGetProxyResult ‚Ö‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ WINHTTP_PROXY_RESULT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -259,8 +261,6 @@ WinHttpFreeProxyResult ŠÖ”‚ÍAWinHttpGetProxyResult
 %index
 WinHttpFreeProxyResultEx
 (no summary)
-%group
-Win32 winhttp
 %prm
 pProxyResultEx
 pProxyResultEx : [var] 
@@ -271,8 +271,6 @@ pProxyResultEx : [var]
 %index
 WinHttpFreeProxySettings
 (no summary)
-%group
-Win32 winhttp
 %prm
 pWinHttpProxySettings
 pWinHttpProxySettings : [var] 
@@ -283,8 +281,6 @@ pWinHttpProxySettings : [var]
 %index
 WinHttpGetDefaultProxyConfiguration
 Šù’è‚Ì WinHTTP ƒvƒƒLƒV\¬‚ğƒŒƒWƒXƒgƒŠ‚©‚çæ“¾‚·‚éB
-%group
-Win32 winhttp
 %prm
 pProxyInfo
 pProxyInfo : [var] Šù’è‚ÌƒvƒƒLƒV\¬‚ğó‚¯æ‚é WINHTTP_PROXY_INFO Œ^‚Ì•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -316,8 +312,6 @@ Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpGetIEProxyConfigForCurrentUser
 Œ»İ‚Ìƒ†[ƒU[‚Ì Internet Explorer ƒvƒƒLƒV\¬‚ğæ“¾‚·‚éB
-%group
-Win32 winhttp
 %prm
 pProxyConfig
 pProxyConfig : [var] “ü—Í‚É‚Í WINHTTP_CURRENT_USER_IE_PROXY_CONFIG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^Bo—Í‚É‚ÍAŒ»İƒAƒNƒeƒBƒu‚Èƒlƒbƒgƒ[ƒNÚ‘± (LANAƒ_ƒCƒ„ƒ‹ƒAƒbƒvAVPN ‚È‚Ç) ‚É‘Î‚·‚é Internet Explorer ‚ÌƒvƒƒLƒVİ’è‚ğ\‘¢‘Ì‚ª•Û‚·‚éB
@@ -350,8 +344,6 @@ lpszProxyAlpszProxyBypassAlpszAutoConfigUrl •¶š—ñ‚ª NULL
 %index
 WinHttpGetProxyForUrl
 w’è‚µ‚½ URL ‚É‘Î‚·‚éƒvƒƒLƒVƒf[ƒ^‚ğæ“¾‚·‚éB(WinHttpGetProxyForUrl)
-%group
-Win32 winhttp
 %prm
 hSession, lpcwszUrl, pAutoProxyOptions, pProxyInfo
 hSession : [intptr] WinHttpOpen ŠÖ”‚©‚ç•Ô‚³‚ê‚é WinHTTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹B
@@ -384,8 +376,6 @@ autoproxy ƒXƒNƒŠƒvƒg‚ğƒLƒƒƒbƒVƒ…‚·‚éBÚ×‚Í Autoproxy Cache ‚ğQÆB
 %index
 WinHttpGetProxyForUrlEx
 w’è‚µ‚½ URL ‚É‘Î‚·‚éƒvƒƒLƒVƒf[ƒ^‚ğæ“¾‚·‚éB(WinHttpGetProxyForUrlEx)
-%group
-Win32 winhttp
 %prm
 hResolver, pcwszUrl, pAutoProxyOptions, pContext
 hResolver : [intptr] WinHttpCreateProxyResolver ŠÖ”‚©‚ç•Ô‚³‚ê‚é WinHTTP ƒŠƒ]ƒ‹ƒo[ƒnƒ“ƒhƒ‹B
@@ -436,8 +426,6 @@ ERROR_IO_PENDING
 %index
 WinHttpGetProxyForUrlEx2
 (no summary)
-%group
-Win32 winhttp
 %prm
 hResolver, pcwszUrl, pAutoProxyOptions, cbInterfaceSelectionContext, pInterfaceSelectionContext, pContext
 hResolver : [intptr] 
@@ -453,8 +441,6 @@ pContext : [int]
 %index
 WinHttpGetProxyResult
 WinHttpGetProxyResult ŠÖ”‚ÍAWinHttpGetProxyForUrlEx ‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚ğæ“¾‚·‚éB
-%group
-Win32 winhttp
 %prm
 hResolver, pProxyResult
 hResolver : [intptr] æ‚ÉŠ®—¹‚µ‚½ WinHttpGetProxyForUrlEx ‚ÌŒÄ‚Ño‚µ‚Ég—p‚µ‚½ƒŠƒ]ƒ‹ƒo[ƒnƒ“ƒhƒ‹B
@@ -470,8 +456,6 @@ WinHttpGetProxyResult ŠÖ”‚ÍAWinHttpGetProxyForUrlEx ‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚ğæ“¾‚·‚é
 %index
 WinHttpGetProxyResultEx
 (no summary)
-%group
-Win32 winhttp
 %prm
 hResolver, pProxyResultEx
 hResolver : [intptr] 
@@ -483,8 +467,6 @@ pProxyResultEx : [var]
 %index
 WinHttpGetProxySettingsVersion
 (no summary)
-%group
-Win32 winhttp
 %prm
 hSession, pdwProxySettingsVersion
 hSession : [intptr] 
@@ -496,8 +478,6 @@ pdwProxySettingsVersion : [var]
 %index
 WinHttpOpen
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚µ‚Ä WinHTTP ŠÖ”‚Ìg—p‚ğ‰Šú‰»‚µAWinHTTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 winhttp
 %prm
 pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags
 pszAgentW : [wstr] WinHTTP ŠÖ”‚ğŒÄ‚Ño‚·ƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼‚Ü‚½‚Íå‘Ì–¼‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BHTTP ƒvƒƒgƒRƒ‹‚Å user agent ‚Æ‚µ‚Äg—p‚³‚ê‚éB
@@ -523,8 +503,6 @@ WinHTTP ŠÖ”‚Å‚ ‚èA“à•”ƒf[ƒ^\‘¢‚ğ‰Šú‰»‚µˆÈ~‚ÌŒÄ‚Ño‚µ‚É”õ‚¦‚éBg—pI—¹‚Í
 %index
 WinHttpOpenRequest
 HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB
-%group
-Win32 winhttp
 %prm
 hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags
 hConnect : [intptr] WinHttpConnect ‚ª•Ô‚µ‚½ HTTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ì HINTERNET Ú‘±ƒnƒ“ƒhƒ‹B
@@ -553,8 +531,6 @@ HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB
 %index
 WinHttpQueryAuthSchemes
 WinHttpQueryAuthSchemes ŠÖ”‚ÍAƒT[ƒo[‚ªƒTƒ|[ƒg‚·‚é”FØƒXƒL[ƒ€‚ğ•Ô‚·B
-%group
-Win32 winhttp
 %prm
 hRequest, lpdwSupportedSchemes, lpdwFirstScheme, pdwAuthTarget
 hRequest : [intptr] WinHttpOpenRequest ‚©‚ç•Ô‚³‚ê‚é—LŒø‚È HINTERNET ƒnƒ“ƒhƒ‹B
@@ -580,8 +556,6 @@ Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpQueryDataAvailable
 WinHttpReadData ‚Å“Ç‚İæ‚è‰Â”\‚Èƒf[ƒ^—Ê(ƒoƒCƒg’PˆÊ)‚ğ•Ô‚·B
-%group
-Win32 winhttp
 %prm
 hRequest, lpdwNumberOfBytesAvailable
 hRequest : [intptr] WinHttpOpenRequest ‚ª•Ô‚µ‚½—LŒø‚È HINTERNET ƒnƒ“ƒhƒ‹BWinHttpQueryDataAvailable ‚ğŒÄ‚Ô‘O‚É WinHttpReceiveResponse ‚ğŠ®—¹‚³‚¹‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -607,8 +581,6 @@ WinHttpReadData ŒÄ‚Ño‚µ‚Å‘¦À‚É“Ç‚İæ‚ê‚éƒoƒCƒg”‚ğ•Ô‚·B‰“šI—¹‚Ì”»’è‚É‚Í Win
 %index
 WinHttpQueryHeaders
 HTTP ƒŠƒNƒGƒXƒg‚ÉŠÖ˜A‚·‚éƒwƒbƒ_î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 winhttp
 %prm
 hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex
 hRequest : [intptr] WinHttpOpenRequest ‚ª•Ô‚µ‚½ HINTERNET ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹BWinHttpReceiveResponse ‚ğŠ®—¹‚³‚¹‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -633,8 +605,6 @@ DWORD ‚Æ‚µ‚Äæ“¾‚·‚é‚±‚Æ‚à‚Å‚«‚éB•Ô‚¹‚éƒf[ƒ^Œ^‚Æ‘Î‰ƒtƒ‰ƒO‚ÍˆÈ‰º‚Ì’Ê‚èB
 %index
 WinHttpQueryOption
 WinHttpQueryOption ŠÖ”‚ÍAw’è‚µ‚½ƒnƒ“ƒhƒ‹‚É‘Î‚µ‚ÄƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 winhttp
 %prm
 hInternet, dwOption, lpBuffer, lpdwBufferLength
 hInternet : [intptr] î•ñ‚ğ–â‚¢‡‚í‚¹‚é HINTERNET ƒnƒ“ƒhƒ‹B‚±‚ê‚ÍƒIƒvƒVƒ‡ƒ“‚Ì“à—e‚É‰‚¶‚ÄƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Ü‚½‚ÍƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚é“_‚É’ˆÓB‚Ç‚Ìƒnƒ“ƒhƒ‹‚ğg‚¤‚©‚Í Option Flags ‚ÌƒgƒsƒbƒN‚ÅŠm”F‚·‚éB
@@ -660,8 +630,6 @@ WinHttp ‚ÌŠJnƒy[ƒW‚Ì Run-Time Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpReadData
 WinHttpOpenRequest ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éB
-%group
-Win32 winhttp
 %prm
 hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead
 hRequest : [intptr] WinHttpOpenRequest ‚ª•Ô‚µ‚½—LŒø‚È HINTERNET ƒnƒ“ƒhƒ‹BWinHttpReceiveResponse ‚Ü‚½‚Í WinHttpQueryDataAvailable ‚ğŠ®—¹‚³‚¹‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -689,8 +657,6 @@ lpdwNumberOfBytesRead ‚É•K‚¸ NULL
 %index
 WinHttpReadProxySettings
 (no summary)
-%group
-Win32 winhttp
 %prm
 hSession, pcwszConnectionName, fFallBackToDefaultSettings, fSetAutoDiscoverForDefaultSettings, pdwSettingsVersion, pfDefaultSettingsAreReturned, pWinHttpProxySettings
 hSession : [intptr] 
@@ -707,8 +673,6 @@ pWinHttpProxySettings : [var]
 %index
 WinHttpReceiveResponse
 WinHttpSendRequest ‚ÅŠJn‚³‚ê‚½ HTTP ƒŠƒNƒGƒXƒg‚É‘Î‚·‚é‰“šóM‚ğ‘Ò‚ÂB
-%group
-Win32 winhttp
 %prm
 hRequest, lpReserved
 hRequest : [intptr] WinHttpOpenRequest ‚ª•Ô‚µ WinHttpSendRequest ‚Å‘—M‚µ‚½ HINTERNET ƒnƒ“ƒhƒ‹BWinHttpSendRequest ‚ªŠ®—¹‚·‚é‚Ü‚Å‘Ò‚Á‚Ä‚©‚çŒÄ‚Ño‚·B
@@ -730,8 +694,6 @@ WINHTTP_CALLBACK_STATUS_REQUEST_ERROR ƒR[ƒ‹ƒoƒbƒN‚ªŒÄ‚Î‚ê‚éBi’»’Ê’m‚ÍˆÈ‰º‚Ì’Ê
 %index
 WinHttpResetAutoProxy
 ©“®ƒvƒƒLƒV‚ğƒŠƒZƒbƒg‚·‚éB
-%group
-Win32 winhttp
 %prm
 hSession, dwFlags
 hSession : [intptr] WinHttpOpen ŠÖ”‚Ö‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚é—LŒø‚È HINTERNET WinHTTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹B
@@ -755,8 +717,6 @@ WINHTTP_RESET_OUT_OF_PROC ‚ğŠÜ‚ß‚éB
 %index
 WinHttpSendRequest
 w’è‚ÌƒŠƒNƒGƒXƒg‚ğ HTTP ƒT[ƒo[‚É‘—M‚·‚éB(WinHttpSendRequest)
-%group
-Win32 winhttp
 %prm
 hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext
 hRequest : [intptr] WinHttpOpenRequest ‚ª•Ô‚µ‚½ HINTERNET ƒnƒ“ƒhƒ‹B
@@ -787,8 +747,6 @@ WinHttpReceiveResponse
 %index
 WinHttpSetCredentials
 WinHttpSetCredentials ŠÖ”‚ÍA•K—v‚È”FØ‘Šiî•ñ‚ğƒT[ƒo[‚É“n‚·B
-%group
-Win32 winhttp
 %prm
 hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, pAuthParams
 hRequest : [intptr] WinHttpOpenRequest ‚©‚ç•Ô‚³‚ê‚é—LŒø‚È HINTERNET ƒnƒ“ƒhƒ‹B
@@ -821,8 +779,6 @@ WinHttp ‚ÌŠJnƒy[ƒW‚Ì Run-Time Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpSetDefaultProxyConfiguration
 Šù’è‚Ì WinHTTP ƒvƒƒLƒV\¬‚ğƒŒƒWƒXƒgƒŠ‚Éİ’è‚·‚éB
-%group
-Win32 winhttp
 %prm
 pProxyInfo
 pProxyInfo : [var] Šù’è‚ÌƒvƒƒLƒV\¬‚ğw’è‚·‚é WINHTTP_PROXY_INFO Œ^‚Ì•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -852,8 +808,6 @@ Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpSetOption
 ƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
-%group
-Win32 winhttp
 %prm
 hInternet, dwOption, lpBuffer, dwBufferLength
 hInternet : [intptr] ƒf[ƒ^‚ğİ’è‚·‚é HINTERNET ƒnƒ“ƒhƒ‹BƒIƒvƒVƒ‡ƒ“‚É‰‚¶‚ÄƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Å‚àƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B
@@ -878,8 +832,6 @@ ERROR_INVALID_PARAMETER ‚ğ•Ô‚·B
 %index
 WinHttpSetProxySettingsPerUser
 (no summary)
-%group
-Win32 winhttp
 %prm
 fProxySettingsPerUser
 fProxySettingsPerUser : [int] 
@@ -890,8 +842,6 @@ fProxySettingsPerUser : [int]
 %index
 WinHttpSetTimeouts
 HTTP ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÉŠÖ‚í‚éƒ^ƒCƒ€ƒAƒEƒg‚ğİ’è‚·‚éB
-%group
-Win32 winhttp
 %prm
 hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout
 hInternet : [intptr] WinHttpOpen ‚Ü‚½‚Í WinHttpOpenRequest ‚©‚ç•Ô‚³‚ê‚é HINTERNET ƒnƒ“ƒhƒ‹B
@@ -922,8 +872,6 @@ WinHTTP ‚ª”ñ“¯Šúƒ‚[ƒh (WinHttpOpen ‚Å WINHTTP_FLAG_ASYNC ‚ªİ’è‚³‚ê‚Ä‚¢‚éó‘Ô)
 %index
 WinHttpTimeFromSystemTime
 “ú•t‚Æ‚ğ HTTP ƒo[ƒWƒ‡ƒ“ 1.0 d—l‚É]‚Á‚Ä‘®‰»‚·‚éB(WinHttpTimeFromSystemTime)
-%group
-Win32 winhttp
 %prm
 pst, pwszTime
 pst : [var] ‘®‰»‚·‚é“ú•t‚Æ‚ğŠÜ‚Ş SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -946,8 +894,6 @@ Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpTimeToSystemTime
 WinHttpTimeToSystemTime ŠÖ”‚ÍAHTTP “ú•¶š—ñ‚ğó‚¯æ‚è SYSTEMTIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
-%group
-Win32 winhttp
 %prm
 pwszTime, pst
 pwszTime : [wstr] •ÏŠ·‚·‚é null I’[‚Ì“ú•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚Í RFC2616 ‚Ì 3.3 ß‚Å’è‹`‚³‚ê‚½Œ`®‚ğg‚¤•K—v‚ª‚ ‚éB
@@ -970,8 +916,6 @@ Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 %index
 WinHttpWebSocketClose
 WebSocket Ú‘±‚ğ•Â‚¶‚éB
-%group
-Win32 winhttp
 %prm
 hWebSocket, usStatus, pvReason, dwReasonLength
 hWebSocket : [intptr] Œ^: HINTERNET WebSocket ‚Ö‚Ìƒnƒ“ƒhƒ‹B’: WinHttpWebSocketClose ‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚È‚¢Bƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é‚É‚ÍA•s—v‚É‚È‚Á‚½“_‚Å hWebSocket ‚É‘Î‚µ‚Ä WinHttpCloseHandle ‚ğŒÄ‚Ño‚·B
@@ -996,8 +940,6 @@ WinHttpWebSocketClose ‚Í WebSocket
 %index
 WinHttpWebSocketCompleteUpgrade
 WinHttpSendRequest ‚ÅŠJn‚µ‚½ WebSocket ƒnƒ“ƒhƒVƒFƒCƒN‚ğŠ®—¹‚·‚éB
-%group
-Win32 winhttp
 %prm
 hRequest, pContext
 hRequest : [intptr] Œ^: HINTERNET WebSocket ƒnƒ“ƒhƒVƒFƒCƒN‚Ì‘—M‚Ég‚í‚ê‚½ HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹B
@@ -1020,8 +962,6 @@ WebSocket ‘€ì‚ğs‚¤‚½‚ß‚Ì WebSocket ƒnƒ“ƒhƒ‹‚ğæ“¾‚Å‚«‚éBƒŠƒNƒGƒXƒg‚ğ‘—M‚·‚é‘
 %index
 WinHttpWebSocketQueryCloseStatus
 ƒT[ƒo[‚ª‘—M‚µ‚½ƒNƒ[ƒYƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
-%group
-Win32 winhttp
 %prm
 hWebSocket, pusStatus, pvReason, dwReasonLength, pdwReasonLengthConsumed
 hWebSocket : [intptr] Œ^: HINTERNET WebSocket ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1046,8 +986,6 @@ WinHttpWebSocketReceive ‚ª WINHTTP_WEB_SOCKET_CLOSE_BUFFER_TYPE
 %index
 WinHttpWebSocketReceive
 WebSocket Ú‘±‚©‚çƒf[ƒ^‚ğóM‚·‚éB
-%group
-Win32 winhttp
 %prm
 hWebSocket, pvBuffer, dwBufferLength, pdwBytesRead, peBufferType
 hWebSocket : [intptr] Œ^: HINTERNET WebSocket ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1066,8 +1004,6 @@ WebSocket Ú‘±‚©‚çƒf[ƒ^‚ğóM‚·‚éB
 %index
 WinHttpWebSocketSend
 WebSocket Ú‘±‚Åƒf[ƒ^‚ğ‘—M‚·‚éB
-%group
-Win32 winhttp
 %prm
 hWebSocket, eBufferType, pvBuffer, dwBufferLength
 hWebSocket : [intptr] Œ^: HINTERNET WebSocket ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1085,8 +1021,6 @@ WebSocket Ú‘±‚Åƒf[ƒ^‚ğ‘—M‚·‚éB
 %index
 WinHttpWebSocketShutdown
 WebSocket ƒT[ƒo[‚ÉƒNƒ[ƒYƒtƒŒ[ƒ€‚ğ‘—M‚µ‚Ä‘—Mƒ`ƒƒƒlƒ‹‚ğ•Â‚¶‚é‚ªAóMƒ`ƒƒƒlƒ‹‚ÍŠJ‚¢‚½‚Ü‚Ü‚É‚·‚éB
-%group
-Win32 winhttp
 %prm
 hWebSocket, usStatus, pvReason, dwReasonLength
 hWebSocket : [intptr] Œ^: HINTERNET WebSocket ‚Ö‚Ìƒnƒ“ƒhƒ‹B’: WinHttpWebSocketShutdown ‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚È‚¢Bƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é‚É‚ÍA•s—v‚É‚È‚Á‚½“_‚Å hWebSocket ‚É‘Î‚µ‚Ä WinHttpCloseHandle ‚ğŒÄ‚Ño‚·B
@@ -1112,8 +1046,6 @@ WinHttpWebSocketClose ‚ğŒÄ‚Ño‚¹‚éB
 %index
 WinHttpWriteData
 WinHttpWriteData ŠÖ”‚ÍAHTTP ƒT[ƒo[‚ÉƒŠƒNƒGƒXƒgƒf[ƒ^‚ğ‘‚«‚ŞB
-%group
-Win32 winhttp
 %prm
 hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten
 hRequest : [intptr] WinHttpOpenRequest ‚©‚ç•Ô‚³‚ê‚é—LŒø‚È HINTERNET ƒnƒ“ƒhƒ‹B‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚É WinHttpSendRequest ‚ªŠ®—¹‚·‚é‚Ì‚ğ‘Ò‚ÂB
@@ -1146,8 +1078,6 @@ dwNotificationFlags ƒpƒ‰ƒ[ƒ^‚Åİ’è‚³‚ê‚½Ÿ‚Ì’Ê’m‚Ì‚¤‚¿ŠY“–‚·‚é‚à‚Ì‚ªƒT[ƒo[‚Ö
 %index
 WinHttpWriteProxySettings
 (no summary)
-%group
-Win32 winhttp
 %prm
 hSession, fForceUpdate, pWinHttpProxySettings
 hSession : [intptr] 

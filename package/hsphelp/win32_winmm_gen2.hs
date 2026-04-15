@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+winmm.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì winmm.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 timeBeginPeriod
 timeBeginPeriod ŠÖ”‚ÍüŠúƒ^ƒCƒ}[‚ÌÅ¬•ª‰ğ”\‚ğ—v‹‚·‚éB
-%group
-Win32 winmm
 %prm
 uPeriod
 uPeriod : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÌÅ¬ƒ^ƒCƒ}[•ª‰ğ”\(ƒ~ƒŠ•b’PˆÊ)B¬‚³‚¢’l‚Ù‚Ç‚‚¢(‚æ‚è³Šm‚È)•ª‰ğ”\‚ğw’è‚·‚éB
@@ -30,8 +50,6 @@ timeBeginPeriod ŠÖ”‚ÍüŠúƒ^ƒCƒ}[‚ÌÅ¬•ª‰ğ”\‚ğ—v‹‚·‚éB
 %index
 timeEndPeriod
 timeEndPeriod ŠÖ”‚ÍˆÈ‘Oİ’è‚µ‚½Å¬ƒ^ƒCƒ}[•ª‰ğ”\‚ğƒNƒŠƒA‚·‚éB
-%group
-Win32 winmm
 %prm
 uPeriod
 uPeriod : [int] ˆÈ‘O‚Ì timeBeginPeriod ŒÄ‚Ño‚µ‚Åw’è‚µ‚½Å¬ƒ^ƒCƒ}[•ª‰ğ”\B
@@ -49,8 +67,6 @@ timeEndPeriod ŠÖ”‚ÍˆÈ‘Oİ’è‚µ‚½Å¬ƒ^ƒCƒ}[•ª‰ğ”\‚ğƒNƒŠƒA‚·‚éB
 %index
 timeGetDevCaps
 timeGetDevCaps ŠÖ”‚Íƒ^ƒCƒ}ƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì•ª‰ğ”\‚ğ”»’è‚·‚éB
-%group
-Win32 winmm
 %prm
 ptc, cbtc
 ptc : [var] TIMECAPS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Éƒ^ƒCƒ}ƒfƒoƒCƒX‚Ì•ª‰ğ”\‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚éB
@@ -66,8 +82,6 @@ timeGetDevCaps ŠÖ”‚Íƒ^ƒCƒ}ƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì•ª‰ğ”\‚ğ”»’è‚·‚éB
 %index
 timeGetSystemTime
 timeGetSystemTime ŠÖ”‚ÍƒVƒXƒeƒ€‚ğƒ~ƒŠ•b’PˆÊ‚Åæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 pmmt, cbmmt
 pmmt : [var] MMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -85,8 +99,6 @@ timeGetSystemTime ŠÖ”‚ÍƒVƒXƒeƒ€‚ğƒ~ƒŠ•b’PˆÊ‚Åæ“¾‚·‚éB
 %index
 timeGetTime
 timeGetTime ŠÖ”‚ÍƒVƒXƒeƒ€(Windows ‹N“®‚©‚ç‚ÌŒo‰ßŠÔ)‚ğƒ~ƒŠ•b’PˆÊ‚Åæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -107,8 +119,6 @@ QueryPerformanceCounter/QueryPerformanceFrequency ‚ğg‚¤B
 %index
 CloseDriver
 ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hDriver, lParam1, lParam2
 hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -127,8 +137,6 @@ lParam2 : [intptr] 32 ƒrƒbƒg‚Ìƒhƒ‰ƒCƒoŒÅ—Lƒf[ƒ^B
 %index
 DefDriverProc
 ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ªˆ—‚µ‚È‚¢ƒƒbƒZ[ƒW‚É‘Î‚·‚éŠù’è‚Ìˆ—‚ğ’ñ‹Ÿ‚·‚éB–{ŠÖ”‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì DriverProc ŠÖ”“à‚Å‚Ì‚İg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB(DefDriverProc)
-%group
-Win32 winmm
 %prm
 dwDriverIdentifier, hdrvr, uMsg, lParam1, lParam2
 dwDriverIdentifier : [int] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì¯•ÊqB
@@ -147,8 +155,6 @@ lParam2 : [intptr] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶î•ñB
 %index
 DriverCallback
 ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·‚©AƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚©AƒXƒŒƒbƒh‚ÌƒuƒƒbƒN‚ğ‰ğœ‚·‚éB“®ì‚Í’Ê’mƒtƒ‰ƒO‚Ì’l‚ÉˆË‘¶‚·‚éB–{ŠÖ”‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì DriverProc ŠÖ”“à‚Å‚Ì‚İg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB
-%group
-Win32 winmm
 %prm
 dwCallback, dwFlags, hDevice, dwMsg, dwUser, dwParam1, dwParam2
 dwCallback : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌƒAƒhƒŒƒXAƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹A‚Ü‚½‚Íƒ^ƒXƒNƒnƒ“ƒhƒ‹BdwFlags ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒtƒ‰ƒO‚É‰‚¶‚ÄˆÓ–¡‚ª•Ï‚í‚éB
@@ -177,8 +183,6 @@ CALLBACK_FUNCTION ‚¨‚æ‚Ñ CALLBACK_WINDOW
 %index
 DrvGetModuleHandle
 ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB–{ŠÖ”‚ÍˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì Windows ‚Æ‚ÌŒİŠ·«‚Ì‚½‚ß‚É’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éB
-%group
-Win32 winmm
 %prm
 hDriver
 hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -193,8 +197,6 @@ hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ
 %index
 GetDriverModuleHandle
 ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hDriver
 hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -208,8 +210,6 @@ hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ
 %index
 OpenDriver
 ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒI[ƒvƒ“‚µAƒhƒ‰ƒCƒoŠù’è‚Ìİ’è‚Ü‚½‚Íƒhƒ‰ƒCƒoŒÅ—L’l‚Ì‚¢‚¸‚ê‚©‚ğ—p‚¢‚ÄƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 winmm
 %prm
 szDriverName, szSectionName, lParam2
 szDriverName : [wstr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ìƒtƒ@ƒCƒ‹–¼A‚Ü‚½‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŒƒWƒXƒgƒŠ’l‚Ì–¼‘O‚ğw’è‚·‚é null I’[‚ÌƒƒCƒh•¶š—ñ‚ÌƒAƒhƒŒƒXB(‚±‚Ì’l‚Íƒhƒ‰ƒCƒo‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½‚Æ‚«‚É‚ ‚ç‚©‚¶‚ßİ’è‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB)
@@ -225,8 +225,6 @@ lParam2 : [intptr] 32 ƒrƒbƒg‚Ìƒhƒ‰ƒCƒoŒÅ—L’lB‚±‚Ì’l‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì
 %index
 PlaySoundW
 (no summary)
-%group
-Win32 winmm
 %prm
 pszSound, hmod, fdwSound
 pszSound : [wstr] 
@@ -239,8 +237,6 @@ fdwSound : [int]
 %index
 SendDriverMessage
 w’è‚µ‚½ƒƒbƒZ[ƒW‚ğƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚É‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hDriver, message, lParam1, lParam2
 hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -257,8 +253,6 @@ lParam2 : [intptr] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶î•ñB
 %index
 auxGetDevCapsW
 auxGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚Ì‹@”\‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 uDeviceID, pac, cbac
 uDeviceID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ì•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB—LŒø‚ÈƒfƒoƒCƒX¯•Êq (Œãq‚Ì‰ğà‚ğQÆ) ‚ğw’è‚·‚é‚©AŸ‚Ì’è”‚ğg—p‚·‚éB
@@ -285,8 +279,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 auxGetNumDevs
 auxGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é•â•o—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -299,8 +291,6 @@ auxGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é•â•o—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %index
 auxGetVolume
 auxGetVolume ŠÖ”‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—Êİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 uDeviceID, pdwVolume
 uDeviceID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ì•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB
@@ -322,8 +312,6 @@ AUXCAPS \‘¢‘Ì‚Ì dwSupport ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 %index
 auxOutMessage
 auxOutMessage ŠÖ”‚Íw’è‚µ‚½•â•o—ÍƒfƒoƒCƒX‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB–{ŠÖ”‚ÍƒƒbƒZ[ƒW‚Ìˆê•”‚Æ‚µ‚Ä“n‚³‚ê‚½ƒfƒoƒCƒX¯•Êq‚É‘Î‚·‚éƒGƒ‰[ƒ`ƒFƒbƒN‚às‚¤B
-%group
-Win32 winmm
 %prm
 uDeviceID, uMsg, dw1, dw2
 uDeviceID : [int] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB
@@ -357,8 +345,6 @@ waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
 %index
 auxSetVolume
 auxSetVolume ŠÖ”‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚Ì‰¹—Ê‚ğİ’è‚·‚éB
-%group
-Win32 winmm
 %prm
 uDeviceID, dwVolume
 uDeviceID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ì•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX¯•Êq‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚©‚çˆÃ–Ù“I‚ÉŒˆ’è‚³‚ê‚éBƒfƒoƒCƒX¯•Êq‚Ì’l‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBƒVƒXƒeƒ€“à‚Ì•â•ƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í auxGetNumDevs ŠÖ”‚ğg—p‚·‚éB
@@ -385,8 +371,6 @@ AUXCAPS \‘¢‘Ì‚Ì dwSupport ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB‚Ù‚Æ‚ñ‚Ç‚ÌƒfƒoƒCƒX‚Í 16
 %index
 joyConfigChanged
 joyConfigChanged ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒNƒhƒ‰ƒCƒo‚É‘Î‚µİ’è‚ª•ÏX‚³‚ê‚½‚½‚ßƒŒƒWƒXƒgƒŠ‚©‚çÄ“Ç‚İ‚İ‚ª•K—v‚Å‚ ‚é‚±‚Æ‚ğ’Ê’m‚·‚éB
-%group
-Win32 winmm
 %prm
 dwFlags
 dwFlags : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -407,8 +391,6 @@ ID ‚ğw’è‚µ‚Ä RegisterWindowMessage ‚Å’è‹`‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
 %index
 joyGetDevCapsW
 joyGetDevCapsW (Unicode) ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚É–â‚¢‡‚í‚¹‚ÄA‚»‚Ì•ïŠ‡“I‚È‹@”\‚ğ”»’è‚·‚éB
-%group
-Win32 winmm
 %prm
 uJoyID, pjc, cbjc
 uJoyID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í -1 ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB-1 ‚ğw’è‚·‚é‚ÆAƒfƒoƒCƒX‚Ì—L–³‚É‚©‚©‚í‚ç‚¸ JOYCAPS \‘¢‘Ì‚Ì szRegKey ƒƒ“ƒo‚ğæ“¾‚Å‚«‚éB
@@ -435,8 +417,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 joyGetNumDevs
 joyGetNumDevs ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒNƒhƒ‰ƒCƒo‚É‘Î‚µƒTƒ|[ƒg‚·‚éƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì”‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -455,8 +435,6 @@ joyGetNumDevs ŠÖ”‚ÍŒ»İ‚Ìƒhƒ‰ƒCƒo‚ªƒTƒ|[ƒg‚·‚éƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì”‚ğ•Ô‚·Bƒhƒ‰
 %index
 joyGetPos
 joyGetPos ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 winmm
 %prm
 uJoyID, pji
 uJoyID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
@@ -476,8 +454,6 @@ joyGetPos ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
 %index
 joyGetPosEx
 joyGetPosEx ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 winmm
 %prm
 uJoyID, pji
 uJoyID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
@@ -498,8 +474,6 @@ joyGetPos ŠÖ”‚ğg—p‚·‚éB
 %index
 joyGetThreshold
 joyGetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌŒ»İ‚ÌˆÚ“®‚µ‚«‚¢’l‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 winmm
 %prm
 uJoyID, puThreshold
 uJoyID : [int] ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
@@ -520,8 +494,6 @@ joyGetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌŒ»İ‚ÌˆÚ“®‚µ‚«‚¢’l‚ğ–â‚¢‡‚í‚¹‚éB
 %index
 joyReleaseCapture
 joyReleaseCapture ŠÖ”‚Íw’è‚µ‚½ƒLƒƒƒvƒ`ƒƒÏ‚İƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 winmm
 %prm
 uJoyID
 uJoyID : [int] ‰ğ•ú‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
@@ -539,8 +511,6 @@ joyReleaseCapture ŠÖ”‚Íw’è‚µ‚½ƒLƒƒƒvƒ`ƒƒÏ‚İƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ‰ğ•ú‚·‚éB
 %index
 joySetCapture
 joySetCapture ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğƒLƒƒƒvƒ`ƒƒ‚µA‚»‚ÌƒƒbƒZ[ƒW‚ğw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚É‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hwnd, uJoyID, uPeriod, fChanged
 hwnd : [intptr] ƒWƒ‡ƒCƒXƒeƒBƒbƒNƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -562,8 +532,6 @@ joyReleaseCapture ŠÖ”‚ğŒÄ‚Ño‚·‚©AƒEƒBƒ“ƒhƒE‚ğ”jŠü‚µ‚Ä©“®“I‚ÉƒWƒ‡ƒCƒXƒeƒBƒbƒN
 %index
 joySetThreshold
 joySetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÚ“®‚µ‚«‚¢’l‚ğİ’è‚·‚éB
-%group
-Win32 winmm
 %prm
 uJoyID, uThreshold
 uJoyID : [int] ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
@@ -584,8 +552,6 @@ joySetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÚ“®‚µ‚«‚¢’l‚ğİ’è‚·‚éB
 %index
 mciDriverNotify
 (no summary)
-%group
-Win32 winmm
 %prm
 hwndCallback, wDeviceID, uStatus
 hwndCallback : [intptr] 
@@ -598,8 +564,6 @@ uStatus : [int]
 %index
 mciDriverYield
 (no summary)
-%group
-Win32 winmm
 %prm
 wDeviceID
 wDeviceID : [int] 
@@ -610,8 +574,6 @@ wDeviceID : [int]
 %index
 mciFreeCommandResource
 (no summary)
-%group
-Win32 winmm
 %prm
 wTable
 wTable : [int] 
@@ -622,8 +584,6 @@ wTable : [int]
 %index
 mciGetCreatorTask
 (no summary)
-%group
-Win32 winmm
 %prm
 mciId
 mciId : [int] 
@@ -634,8 +594,6 @@ mciId : [int]
 %index
 mciGetDeviceIDA
 (no summary)
-%group
-Win32 winmm
 %prm
 pszDevice
 pszDevice : [str] 
@@ -646,8 +604,6 @@ pszDevice : [str]
 %index
 mciGetDeviceIDFromElementIDA
 (no summary)
-%group
-Win32 winmm
 %prm
 dwElementID, lpstrType
 dwElementID : [int] 
@@ -659,8 +615,6 @@ lpstrType : [str]
 %index
 mciGetDeviceIDFromElementIDW
 (no summary)
-%group
-Win32 winmm
 %prm
 dwElementID, lpstrType
 dwElementID : [int] 
@@ -672,8 +626,6 @@ lpstrType : [wstr]
 %index
 mciGetDeviceIDW
 (no summary)
-%group
-Win32 winmm
 %prm
 pszDevice
 pszDevice : [wstr] 
@@ -684,8 +636,6 @@ pszDevice : [wstr]
 %index
 mciGetDriverData
 (no summary)
-%group
-Win32 winmm
 %prm
 wDeviceID
 wDeviceID : [int] 
@@ -696,8 +646,6 @@ wDeviceID : [int]
 %index
 mciGetErrorStringW
 (no summary)
-%group
-Win32 winmm
 %prm
 mcierr, pszText, cchText
 mcierr : [int] 
@@ -710,8 +658,6 @@ cchText : [int]
 %index
 mciLoadCommandResource
 (no summary)
-%group
-Win32 winmm
 %prm
 hInstance, lpResName, wType
 hInstance : [intptr] 
@@ -724,8 +670,6 @@ wType : [int]
 %index
 mciSendCommandW
 (no summary)
-%group
-Win32 winmm
 %prm
 mciId, uMsg, dwParam1, dwParam2
 mciId : [int] 
@@ -739,8 +683,6 @@ dwParam2 : [int]
 %index
 mciSendStringW
 (no summary)
-%group
-Win32 winmm
 %prm
 lpstrCommand, lpstrReturnString, uReturnLength, hwndCallback
 lpstrCommand : [wstr] 
@@ -754,8 +696,6 @@ hwndCallback : [intptr]
 %index
 mciSetDriverData
 (no summary)
-%group
-Win32 winmm
 %prm
 wDeviceID, dwData
 wDeviceID : [int] 
@@ -767,8 +707,6 @@ dwData : [int]
 %index
 mciSetYieldProc
 (no summary)
-%group
-Win32 winmm
 %prm
 mciId, fpYieldProc, dwYieldData
 mciId : [int] 
@@ -781,8 +719,6 @@ dwYieldData : [int]
 %index
 midiOutClose
 midiOutClose ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hmo
 hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B–{ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒnƒ“ƒhƒ‹‚ÍŒÄ‚Ño‚µŒã‚É—LŒø‚Å‚Í‚È‚­‚È‚éB
@@ -802,8 +738,6 @@ midiOutReset ŠÖ”‚ğg—p‚·‚éB
 %index
 midiConnect
 midiConnect ŠÖ”‚Í MIDI “ü—ÍƒfƒoƒCƒX‚ğ MIDI ƒXƒ‹[‚Ü‚½‚Ío—ÍƒfƒoƒCƒX‚ÖÚ‘±‚·‚éA‚ ‚é‚¢‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚ğ MIDI o—ÍƒfƒoƒCƒX‚ÖÚ‘±‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi, hmo, pReserved
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ü‚½‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B(ƒXƒ‹[ƒfƒoƒCƒX‚Ìê‡A‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiOutOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B)
@@ -830,8 +764,6 @@ MIDI o—Íƒhƒ‰ƒCƒo‚Ì“Áê‚ÈŒ`‘Ô‚Å‚ ‚éBƒVƒXƒeƒ€‚Í 1 ‚Â‚Ì MIDI o—ÍƒfƒoƒCƒX‚Ì‚İ‚ª M
 %index
 midiDisconnect
 midiDisconnect ŠÖ”‚Í MIDI “ü—ÍƒfƒoƒCƒX‚ğ MIDI ƒXƒ‹[‚Ü‚½‚Ío—ÍƒfƒoƒCƒX‚©‚çØ’f‚·‚éA‚ ‚é‚¢‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚ğ MIDI o—ÍƒfƒoƒCƒX‚©‚çØ’f‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi, hmo, pReserved
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ü‚½‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -854,8 +786,6 @@ MIM_DATA ƒƒbƒZ[ƒW‚ÅƒCƒxƒ“ƒgƒf[ƒ^‚ğó‚¯æ‚é‚½‚Ñ‚ÉA“¯‚¶ƒCƒxƒ“ƒgƒf[ƒ^‚ğ‚Âƒƒ
 %index
 midiInClose
 midiInClose ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hmi
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B–{ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒnƒ“ƒhƒ‹‚ÍŒÄ‚Ño‚µŒã‚É—LŒø‚Å‚Í‚È‚­‚È‚éB
@@ -875,8 +805,6 @@ midiInReset ŠÖ”‚ğg—p‚·‚éB
 %index
 midiInAddBuffer
 midiInAddBuffer ŠÖ”‚Íw’è‚³‚ê‚½ƒI[ƒvƒ“Ï‚İ MIDI “ü—ÍƒfƒoƒCƒX‚Ö“ü—Íƒoƒbƒtƒ@‚ğ‘—M‚·‚éB–{ŠÖ”‚ÍƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚Ég—p‚³‚ê‚éB
-%group
-Win32 winmm
 %prm
 hmi, pmh, cbmh
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -898,8 +826,6 @@ midiInPrepareHeader ŠÖ”‚Å€”õ‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %index
 midiInGetDevCapsW
 midiInGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Ì‹@”\‚ğ”»’è‚·‚éB
-%group
-Win32 winmm
 %prm
 uDeviceID, pmic, cbmic
 uDeviceID : [int] MIDI “ü—ÍƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í“KØ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B
@@ -925,8 +851,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 midiInGetErrorTextW
 midiInGetErrorTextW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚µ‚½ƒGƒ‰[ƒR[ƒh‚Å¯•Ê‚³‚ê‚éƒGƒ‰[‚ÌƒeƒLƒXƒgŒ`®‚Ìà–¾‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 mmrError, pszText, cchText
 mmrError : [int] ƒGƒ‰[ƒR[ƒhB
@@ -955,8 +879,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 midiInGetID
 midiInGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi, puDeviceID
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -972,8 +894,6 @@ midiInGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 %index
 midiInGetNumDevs
 midiInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€“à‚Ì MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -987,8 +907,6 @@ midiInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€“à‚Ì MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %index
 midiInMessage
 midiInMessage ŠÖ”‚Í MIDI ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi, uMsg, dw1, dw2
 hmi : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é MIDI ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HMIDIIN ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
@@ -1023,8 +941,6 @@ waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
 %index
 midiInOpen
 midiInOpen ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚·‚éB
-%group
-Win32 winmm
 %prm
 phmi, uDeviceID, dwCallback, dwInstance, fdwOpen
 phmi : [intptr] HMIDIIN ƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌêŠ‚ÉƒI[ƒvƒ“‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚Í‘¼‚Ì MIDI “ü—ÍŠÖ”‚ÌŒÄ‚Ño‚µ‚ÅƒfƒoƒCƒX‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
@@ -1052,8 +968,6 @@ MIM_OPENAMIM_CLOSEAMIM_DATAAMIM_LONGDATAAMIM_ERRORAMIM_LONGERRORAMIM_MORED
 %index
 midiInPrepareHeader
 midiInPrepareHeader ŠÖ”‚Í MIDI “ü—Í—p‚Ìƒoƒbƒtƒ@‚ğ€”õ‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi, pmh, cbmh
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚Í midiInOpen ‚ğŒÄ‚Ño‚·B
@@ -1079,8 +993,6 @@ midiInPrepareHeader ‚ğ 1 ‰ñŒÄ‚Ño‚µAÅŒã‚É midiInUnprepareHeader ‚ğ 1
 %index
 midiInReset
 midiInReset ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1099,8 +1011,6 @@ midiInReset ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚·‚éB
 %index
 midiInStart
 midiInStart ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å MIDI “ü—Í‚ğŠJn‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1123,8 +1033,6 @@ midiInReset ŠÖ”‚ªg—p‚³‚ê‚½‚Æ‚«‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚Ö•Ô‚³‚ê‚éBMIDIHDR \‘¢‘Ì‚Ì dwByt
 %index
 midiInStop
 midiInStop ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å MIDI “ü—Í‚ğ’â~‚·‚éB
-%group
-Win32 winmm
 %prm
 hmi
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1145,8 +1053,6 @@ dwBytesRecorded
 %index
 midiInUnprepareHeader
 midiInUnprepareHeader ŠÖ”‚Í midiInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
-%group
-Win32 winmm
 %prm
 hmi, pmh, cbmh
 hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1169,8 +1075,6 @@ midiInUnprepareHeader ŠÖ”‚Í midiInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤
 %index
 midiOutCacheDrumPatches
 midiOutCacheDrumPatches ŠÖ”‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½ˆê˜A‚ÌƒL[ƒx[ƒX‘ÅŠyŠíƒpƒbƒ`‚ğƒvƒŠƒ[ƒh‚µ‚ÄƒLƒƒƒbƒVƒ…‚·‚é‚æ‚¤—v‹‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, uPatch, pwkya, fuCache
 hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒoƒCƒX‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒU‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
@@ -1199,8 +1103,6 @@ midiOutCacheDrumPatches ŠÖ”‚Í“à•” MIDI
 %index
 midiOutCachePatches
 midiOutCachePatches ŠÖ”‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½ˆê˜A‚Ìƒpƒbƒ`‚ğƒvƒŠƒ[ƒh‚µ‚ÄƒLƒƒƒbƒVƒ…‚·‚é‚æ‚¤—v‹‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, uBank, pwpa, fuCache
 hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒoƒCƒX‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒU‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
@@ -1229,8 +1131,6 @@ midiOutCachePatches ŠÖ”‚Í“à•” MIDI
 %index
 midiOutGetDevCapsW
 midiOutGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì‹@”\‚ğ”»’è‚·‚éB
-%group
-Win32 winmm
 %prm
 uDeviceID, pmoc, cbmoc
 uDeviceID : [int] MIDI o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Åw’è‚·‚éƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBMIDI_MAPPER ’è”‚à—LŒø‚ÈƒfƒoƒCƒX¯•Êq‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í“KØ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B
@@ -1257,8 +1157,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 midiOutGetErrorTextW
 midiOutGetErrorTextW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚µ‚½ƒGƒ‰[ƒR[ƒh‚Å¯•Ê‚³‚ê‚éƒGƒ‰[‚ÌƒeƒLƒXƒgŒ`®‚Ìà–¾‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 mmrError, pszText, cchText
 mmrError : [int] ƒGƒ‰[ƒR[ƒhB
@@ -1287,8 +1185,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 midiOutGetID
 midiOutGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, puDeviceID
 hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1304,8 +1200,6 @@ midiOutGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 %index
 midiOutGetNumDevs
 midiOutGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -1318,8 +1212,6 @@ MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B–ß‚è’l‚ª 0 ‚Ìê‡AƒfƒoƒCƒX‚ª‘¶İ‚µ‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·
 %index
 midiOutGetVolume
 midiOutGetVolume ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—Êİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, pdwVolume
 hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚Ä‚¢‚ê‚Î MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚ğŠÜ‚ß‚é‚±‚Æ‚à‚Å‚«‚éBƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
@@ -1342,8 +1234,6 @@ MIDICAPS_LRVOLUME
 %index
 midiOutLongMsg
 midiOutLongMsg ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÖƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu MIDI ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, pmh, cbmh
 hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
@@ -1364,8 +1254,6 @@ midiOutLongMsg ‚Éƒoƒbƒtƒ@‚ğ“n‚·‘O‚É midiOutPrepareHeader ŠÖ”‚Å€”õ‚µ‚Ä‚¨‚­•K—v‚
 %index
 midiOutMessage
 midiOutMessage ŠÖ”‚Í MIDI ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB–{ŠÖ”‚Í MIDI API ‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ƒhƒ‰ƒCƒoŒÅ—L‚ÌƒƒbƒZ[ƒW‚É‚Ì‚İg—p‚³‚ê‚éB
-%group
-Win32 winmm
 %prm
 hmo, uMsg, dw1, dw2
 hmo : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é MIDI ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HMIDIOUT ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
@@ -1399,8 +1287,6 @@ waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
 %index
 midiOutOpen
 midiOutOpen ŠÖ”‚ÍÄ¶—p‚É MIDI o—ÍƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚·‚éB
-%group
-Win32 winmm
 %prm
 phmo, uDeviceID, dwCallback, dwInstance, fdwOpen
 phmo : [intptr] HMIDIOUT ƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌêŠ‚ÉƒI[ƒvƒ“‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚Í‘¼‚Ì MIDI o—ÍŠÖ”‚ÌŒÄ‚Ño‚µ‚ÅƒfƒoƒCƒX‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
@@ -1427,8 +1313,6 @@ MM_MOM_OPENAMM_MOM_CLOSEAMM_MOM_DONEBƒR[ƒ‹ƒoƒbƒNî•ñ‚Ìó‚¯æ‚èæ‚Æ‚µ‚ÄŠÖ”‚ª
 %index
 midiOutPrepareHeader
 midiOutPrepareHeader ŠÖ”‚Í MIDI ƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒoƒbƒtƒ@‚ğo—Í—p‚É€”õ‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, pmh, cbmh
 hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚Í midiOutOpen ‚ğŒÄ‚Ño‚·BHMIDIOUT Œ^‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
@@ -1455,8 +1339,6 @@ midiOutPrepareHeader ‚ğ 1 ‰ñŒÄ‚Ño‚µAÅŒã‚É midiOutUnprepareHeader ‚ğ 1
 %index
 midiOutReset
 midiOutReset ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚Ì‘S MIDI ƒ`ƒƒƒlƒ‹‚Ì‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo
 hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
@@ -1478,8 +1360,6 @@ MHDR_DONE ƒtƒ‰ƒO‚ªƒZƒbƒg‚³‚ê‚éBEOX (end-of-exclusive)
 %index
 midiOutSetVolume
 midiOutSetVolume ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚Ì‰¹—Ê‚ğİ’è‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, dwVolume
 hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚Ä‚¢‚ê‚Î MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚ğŠÜ‚ß‚é‚±‚Æ‚à‚Å‚«‚éBƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
@@ -1507,8 +1387,6 @@ MIDICAPS_LRVOLUME
 %index
 midiOutShortMsg
 midiOutShortMsg ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÖƒVƒ‡[ƒg MIDI ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hmo, dwMsg
 hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
@@ -1529,8 +1407,6 @@ midiOutShortMsg ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÖƒVƒ‡[ƒg MIDI ƒƒbƒZ[ƒW‚ğ‘—
 %index
 midiOutUnprepareHeader
 midiOutUnprepareHeader ŠÖ”‚Í midiOutPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
-%group
-Win32 winmm
 %prm
 hmo, pmh, cbmh
 hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
@@ -1554,8 +1430,6 @@ MMSYSERR_NOERROR ‚ğ•Ô‚·B
 %index
 midiStreamClose
 midiStreamClose ŠÖ”‚ÍƒI[ƒvƒ“Ï‚İ‚Ì MIDI ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hms
 hms : [intptr] midiStreamOpen ŠÖ”‚Åæ“¾‚µ‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1570,8 +1444,6 @@ midiStreamClose ŠÖ”‚ÍƒI[ƒvƒ“Ï‚İ‚Ì MIDI ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
 %index
 midiStreamOpen
 midiStreamOpen ŠÖ”‚Ío—Í—p‚Ì MIDI ƒXƒgƒŠ[ƒ€‚ğƒI[ƒvƒ“‚·‚éBŠù’è‚Å‚ÍƒfƒoƒCƒX‚Íˆê’â~ƒ‚[ƒh‚ÅƒI[ƒvƒ“‚³‚ê‚éB–{ŠÖ”‚Åæ“¾‚µ‚½ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹‚ÍAˆÈ~‚»‚ÌƒXƒgƒŠ[ƒ€‚ğQÆ‚·‚é‘S‚Ä‚Ìê–Ê‚Åg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 winmm
 %prm
 phms, puDeviceID, cMidi, dwCallback, dwInstance, fdwOpen
 phms : [intptr] ŠÖ”‚ª–ß‚Á‚½‚Æ‚«‚ÉƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1592,8 +1464,6 @@ midiStreamOpen ŠÖ”‚Ío—Í—p‚Ì MIDI
 %index
 midiStreamOut
 midiStreamOut ŠÖ”‚Í MIDI ƒf[ƒ^‚ÌƒXƒgƒŠ[ƒ€ (ƒoƒbƒtƒ@) ‚ğ MIDI o—ÍƒfƒoƒCƒX‚ÅÄ¶‚Ü‚½‚ÍƒLƒ…[ƒCƒ“ƒO‚·‚éB
-%group
-Win32 winmm
 %prm
 hms, pmh, cbmh
 hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
@@ -1617,8 +1487,6 @@ MIDIEVENT \‘¢‘Ì‚Å’è‹`‚³‚ê‚éB
 %index
 midiStreamPause
 midiStreamPause ŠÖ”‚Íw’è‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ÌÄ¶‚ğˆê’â~‚·‚éB
-%group
-Win32 winmm
 %prm
 hms
 hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í MIDIEVENT ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
@@ -1637,8 +1505,6 @@ midiStreamPause ŠÖ”‚Íw’è‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ÌÄ¶‚ğˆê’â~‚·‚éB
 %index
 midiStreamPosition
 midiStreamPosition ŠÖ”‚Í MIDI ƒXƒgƒŠ[ƒ€‚ÌŒ»İˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hms, lpmmt, cbmmt
 hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
@@ -1661,8 +1527,6 @@ wType ƒƒ“ƒo‚ÅŠm”F‚·‚éBŠó–]‚·‚éŒ`®‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡AwType
 %index
 midiStreamProperty
 midiStreamProperty ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIDI ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÌƒvƒƒpƒeƒB‚ğİ’è‚Ü‚½‚Íæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hms, lppropdata, dwProperty
 hms : [intptr] ƒvƒƒpƒeƒB‚ªŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é MIDI ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1683,8 +1547,6 @@ midiStreamProperty ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIDI
 %index
 midiStreamRestart
 midiStreamRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ğÄŠJ‚·‚éB
-%group
-Win32 winmm
 %prm
 hms
 hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
@@ -1702,8 +1564,6 @@ midiStreamRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ğÄŠJ‚·‚éB
 %index
 midiStreamStop
 midiStreamStop ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚Ì‘S MIDI ƒ`ƒƒƒlƒ‹‚Ì‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚éB
-%group
-Win32 winmm
 %prm
 hms
 hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
@@ -1724,8 +1584,6 @@ dwFlags ƒƒ“ƒo‚Ì MHDR_DONE ƒrƒbƒg‚ªƒZƒbƒg‚³‚ê‚éBmidiOutReset
 %index
 mixerClose
 mixerClose ŠÖ”‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hmx
 hmx : [intptr] ƒ~ƒLƒT[ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í mixerOpen ŠÖ”‚É‚æ‚Á‚Ä³í‚É•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BmixerClose ‚ª¬Œ÷‚µ‚½ê‡Ahmx ‚Í—LŒø‚Å‚Í‚È‚­‚È‚éB
@@ -1740,8 +1598,6 @@ mixerClose ŠÖ”‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğ•Â‚¶‚éB
 %index
 mixerGetControlDetailsW
 mixerGetControlDetailsW (Unicode) ŠÖ” (mmeapi.h) ‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’Pˆê‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌÚ×‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hmxobj, pmxcd, fdwDetails
 hmxobj : [intptr] –â‚¢‡‚í‚¹‘ÎÛ‚Ìƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1768,8 +1624,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 mixerGetDevCapsW
 mixerGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì‹@”\‚ğ”»’è‚·‚éB
-%group
-Win32 winmm
 %prm
 uMxId, pmxcaps, cbmxcaps
 uMxId : [int] ƒI[ƒvƒ“Ï‚İƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì¯•Êq‚Ü‚½‚Íƒnƒ“ƒhƒ‹B
@@ -1800,8 +1654,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 mixerGetID
 mixerGetID ŠÖ”‚Íw’è‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hmxobj, puMxId, fdwId
 hmxobj : [intptr] ƒ~ƒLƒT[ƒfƒoƒCƒX¯•Êq‚Éƒ}ƒbƒv‚·‚éƒI[ƒfƒBƒIƒ~ƒLƒT[ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1818,8 +1670,6 @@ mixerGetID ŠÖ”‚Íw’è‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚Ìƒfƒ
 %index
 mixerGetLineControlsW
 mixerGetLineControlsW (Unicode) ŠÖ”‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ 1 ‚ÂˆÈã‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğæ“¾‚·‚éB(mixerGetLineControlsW)
-%group
-Win32 winmm
 %prm
 hmxobj, pmxlc, fdwControls
 hmxobj : [intptr] –â‚¢‡‚í‚¹‘ÎÛ‚Ìƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1845,8 +1695,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 mixerGetLineInfoW
 mixerGetLineInfoW (Unicode) ŠÖ”‚Íƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì“Á’è‚Ìƒ‰ƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(mixerGetLineInfoW)
-%group
-Win32 winmm
 %prm
 hmxobj, pmxl, fdwInfo
 hmxobj : [intptr] “Á’è‚ÌƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ğ§Œä‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1872,8 +1720,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 mixerGetNumDevs
 mixerGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -1886,8 +1732,6 @@ mixerGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %index
 mixerMessage
 mixerMessage ŠÖ”‚ÍƒJƒXƒ^ƒ€ƒ~ƒLƒT[ƒhƒ‰ƒCƒoƒƒbƒZ[ƒW‚ğƒ~ƒLƒT[ƒhƒ‰ƒCƒo‚Ö’¼Ú‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hmx, uMsg, dwParam1, dwParam2
 hmx : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒ~ƒLƒT[‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HMIXER ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
@@ -1924,8 +1768,6 @@ waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
 %index
 mixerOpen
 mixerOpen ŠÖ”‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é‚Ü‚ÅƒfƒoƒCƒX‚ªæ‚èŠO‚³‚ê‚È‚¢‚±‚Æ‚ğ•ÛØ‚·‚éB
-%group
-Win32 winmm
 %prm
 phmx, uMxId, dwCallback, dwInstance, fdwOpen
 phmx : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒnƒ“ƒhƒ‹‚Í‘¼‚ÌƒI[ƒfƒBƒIƒ~ƒLƒT[ŠÖ”‚ğŒÄ‚Ño‚·‚Æ‚«‚ÉƒfƒoƒCƒX‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1957,8 +1799,6 @@ MM_MIXM_LINE_CHANGE ‚¨‚æ‚Ñ MM_MIXM_CONTROL_CHANGE
 %index
 mixerSetControlDetails
 mixerSetControlDetails ŠÖ”‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’Pˆê‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 winmm
 %prm
 hmxobj, pmxcd, fdwDetails
 hmxobj : [intptr] ƒvƒƒpƒeƒB‚ğİ’è‚·‚é‘ÎÛ‚Ìƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1980,8 +1820,6 @@ mixerSetControlDetails ‚ğŒÄ‚Ño‚·‘O‚É MIXERCONTROLDETAILS
 %index
 mmioAdvance
 mmioAdvance ŠÖ”‚Í mmioGetInfo ŠÖ”‚Å’¼Ú I/O ƒoƒbƒtƒ@ƒAƒNƒZƒX—p‚ÉƒZƒbƒgƒAƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì I/O ƒoƒbƒtƒ@‚ği‚ß‚éB
-%group
-Win32 winmm
 %prm
 hmmio, pmmioinfo, fuAdvance
 hmmio : [intptr] mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2013,8 +1851,6 @@ pchNext ‚Æ pchEndRead ƒƒ“ƒo‚ª“™‚µ‚¢‚©‚ğƒ`ƒFƒbƒN‚·‚éB
 %index
 mmioAscend
 mmioAscend ŠÖ”‚Í mmioDescend ŠÖ”‚Å~‰º‚µ‚½A‚Ü‚½‚Í mmioCreateChunk ŠÖ”‚Åì¬‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Ìƒ`ƒƒƒ“ƒN‚©‚çã¸‚·‚éB
-%group
-Win32 winmm
 %prm
 hmmio, pmmcki, fuAscend
 hmmio : [intptr] ƒI[ƒvƒ“Ï‚İ RIFF ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2042,8 +1878,6 @@ null ƒpƒbƒhƒoƒCƒg‚ğ‘‚«‚ŞBƒ`ƒƒƒ“ƒN‚©‚çã¸‚µ‚½ŒãAŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚Íƒ`ƒƒƒ“ƒ
 %index
 mmioClose
 mmioClose ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hmmio, fuClose
 hmmio : [intptr] ƒNƒ[ƒY‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2060,8 +1894,6 @@ mmioClose ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚éB
 %index
 mmioCreateChunk
 mmioCreateChunk ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Éƒ`ƒƒƒ“ƒN‚ğì¬‚·‚éB
-%group
-Win32 winmm
 %prm
 hmmio, pmmcki, fuCreate
 hmmio : [intptr] ƒI[ƒvƒ“Ï‚İ RIFF ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2084,8 +1916,6 @@ mmioCreateChunk ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Éƒ`ƒƒ
 %index
 mmioDescend
 mmioDescend ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Ìƒ`ƒƒƒ“ƒN‚Ö~‰º‚·‚éBw’è‚³‚ê‚½ƒ`ƒƒƒ“ƒN‚ğŒŸõ‚·‚é‚±‚Æ‚à‚Å‚«‚éB
-%group
-Win32 winmm
 %prm
 hmmio, pmmcki, pmmckiParent, fuDescend
 hmmio : [intptr] ƒI[ƒvƒ“Ï‚İ RIFF ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2117,8 +1947,6 @@ mmioDescend ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF
 %index
 mmioFlush
 mmioFlush ŠÖ”‚Íƒtƒ@ƒCƒ‹‚Ì I/O ƒoƒbƒtƒ@‚É‘‚«‚İ‚ªs‚í‚ê‚Ä‚¢‚½ê‡A‚»‚ê‚ğƒfƒBƒXƒN‚Ö‘‚«‚ŞB
-%group
-Win32 winmm
 %prm
 hmmio, fuFlush
 hmmio : [intptr] mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2139,8 +1967,6 @@ mmioWrite ŠÖ”‚ÌŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚Ä‚¢‚½‚Æ‚µ‚Ä‚à mmioFlush ‚Í¸”s‚·‚éB
 %index
 mmioGetInfo
 mmioGetInfo ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB‚±‚Ìî•ñ‚É‚æ‚èAƒtƒ@ƒCƒ‹‚ªƒoƒbƒtƒ@[ƒh I/O —p‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚ê‚ÎƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª I/O ƒoƒbƒtƒ@‚É’¼ÚƒAƒNƒZƒX‚Å‚«‚éB
-%group
-Win32 winmm
 %prm
 hmmio, pmmioinfo, fuInfo
 hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2163,8 +1989,6 @@ MMIOINFO \‘¢‘Ì‚ÌŸ‚Ìƒƒ“ƒo‚ğg—p‚·‚éB
 %index
 mmioOpenW
 mmioOpenW (Unicode) ŠÖ”‚Íƒoƒbƒtƒ@‚È‚µ‚Ü‚½‚Íƒoƒbƒtƒ@[ƒh I/O —p‚Éƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚éAƒtƒ@ƒCƒ‹‚ğì¬‚·‚éAƒtƒ@ƒCƒ‹‚ğíœ‚·‚éA‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚é‚©‚ğŠm”F‚·‚éB(mmioOpenW)
-%group
-Win32 winmm
 %prm
 pszFileName, pmmioinfo, fdwOpen
 pszFileName : [wstr] ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚é‚½‚ß‚Ì I/O ƒvƒƒV[ƒWƒƒ‚ªw’è‚³‚ê‚È‚¢ê‡Aƒtƒ@ƒCƒ‹–¼‚ªƒI[ƒvƒ“•û–@‚ğŸ‚Ì‚æ‚¤‚ÉŒˆ’è‚·‚éB
@@ -2183,8 +2007,6 @@ lpmmioinfo ‚ª MMIOINFO \‘¢‘Ì‚ğw‚·ê‡A\‘¢‘Ì‚Ìƒƒ“ƒo‚ğŸ‚Ì‚æ‚¤‚É‰Šú‰»‚·‚éB–
 %index
 mmioRead
 mmioRead ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚©‚çw’è‚³‚ê‚½ƒoƒCƒg”‚ğ“Ç‚İæ‚éB
-%group
-Win32 winmm
 %prm
 hmmio, pch, cch
 hmmio : [intptr] “Ç‚İæ‚è‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2201,8 +2023,6 @@ mmioRead ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚©‚çw’è‚³‚ê‚½ƒoƒCƒg
 %index
 mmioRenameW
 mmioRenameW (Unicode) ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğƒŠƒl[ƒ€‚µAƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş•¶š—ñ‚ğ•ÏX‚·‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚ŞB(mmioRenameW)
-%group
-Win32 winmm
 %prm
 pszFileName, pszNewFileName, pmmioinfo, fdwRename
 pszFileName : [wstr] ƒŠƒl[ƒ€‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2229,8 +2049,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 mmioSeek
 mmioSeek ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ÌŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ğ•ÏX‚·‚éB
-%group
-Win32 winmm
 %prm
 hmmio, lOffset, iOrigin
 hmmio : [intptr] ƒV[ƒN‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2251,8 +2069,6 @@ mmioSeek ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ÌŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚
 %index
 mmioSendMessage
 mmioSendMessage ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ I/O ƒvƒƒV[ƒWƒƒ‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hmmio, uMsg, lParam1, lParam2
 hmmio : [intptr] mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2274,8 +2090,6 @@ mmioSendMessage ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ I/O ƒvƒƒV[ƒWƒƒ‚Öƒƒbƒ
 %index
 mmioSetBuffer
 mmioSetBuffer ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‘Î‚µAƒoƒbƒtƒ@[ƒh I/O ‚Ì—LŒø‰»/–³Œø‰»A‚Ü‚½‚Íƒoƒbƒtƒ@Eƒoƒbƒtƒ@ƒTƒCƒY‚Ì•ÏX‚ğs‚¤B
-%group
-Win32 winmm
 %prm
 hmmio, pchBuffer, cchBuffer, fuBuffer
 hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2302,8 +2116,6 @@ mmioSetBuffer ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‘Î‚µAƒoƒbƒtƒ@
 %index
 mmioSetInfo
 mmioSetInfo ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‚Â‚¢‚Ä mmioGetInfo ŠÖ”‚Åæ“¾‚µ‚½î•ñ‚ğXV‚·‚éBƒoƒbƒtƒ@[ƒh I/O —p‚ÉƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì’¼Úƒoƒbƒtƒ@ƒAƒNƒZƒX‚ğI—¹‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éB
-%group
-Win32 winmm
 %prm
 hmmio, pmmioinfo, fuInfo
 hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2324,8 +2136,6 @@ mmioSetInfo ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‚Â‚¢‚Ä mmioGetIn
 %index
 mmioStringToFOURCCA
 mmioStringToFOURCC ŠÖ”‚Í null I’[•¶š—ñ‚ğ 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚éB(mmioStringToFOURCCA)
-%group
-Win32 winmm
 %prm
 sz, uFlags
 sz : [str] 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2350,8 +2160,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 mmioStringToFOURCCW
 mmioStringToFOURCCW (Unicode) ŠÖ”‚Í null I’[•¶š—ñ‚ğ 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚éB(mmioStringToFOURCCW)
-%group
-Win32 winmm
 %prm
 sz, uFlags
 sz : [wstr] 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2377,8 +2185,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 mmioWrite
 mmioWrite ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Öw’è‚³‚ê‚½ƒoƒCƒg”‚ğ‘‚«‚ŞB
-%group
-Win32 winmm
 %prm
 hmmio, pch, cch
 hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
@@ -2397,8 +2203,6 @@ mmioWrite ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Öw’è‚³‚ê‚½ƒoƒCƒg”
 %index
 sndPlaySoundW
 (no summary)
-%group
-Win32 winmm
 %prm
 pszSound, fuSound
 pszSound : [wstr] 
@@ -2410,8 +2214,6 @@ fuSound : [int]
 %index
 timeKillEvent
 (no summary)
-%group
-Win32 winmm
 %prm
 uTimerID
 uTimerID : [int] 
@@ -2422,8 +2224,6 @@ uTimerID : [int]
 %index
 timeSetEvent
 (no summary)
-%group
-Win32 winmm
 %prm
 uDelay, uResolution, fptc, dwUser, fuEvent
 uDelay : [int] 
@@ -2438,8 +2238,6 @@ fuEvent : [int]
 %index
 waveInClose
 waveInClose ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hwi
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B¬Œ÷‚ÍŒÄ‚Ño‚µŒãƒnƒ“ƒhƒ‹‚Í–³Œø‚É‚È‚éB
@@ -2459,8 +2257,6 @@ waveInReset ‚ğŒÄ‚Ô‚±‚ÆB
 %index
 waveInAddBuffer
 waveInAddBuffer ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö“ü—Íƒoƒbƒtƒ@‚ğ‘—M‚·‚éBƒoƒbƒtƒ@‚ª–‚½‚³‚ê‚é‚ÆƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö’Ê’m‚³‚ê‚éB
-%group
-Win32 winmm
 %prm
 hwi, pwh, cbwh
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2482,8 +2278,6 @@ waveInAddBuffer
 %index
 waveInGetDevCapsW
 (no summary)
-%group
-Win32 winmm
 %prm
 uDeviceID, pwic, cbwic
 uDeviceID : [int] 
@@ -2496,8 +2290,6 @@ cbwic : [int]
 %index
 waveInGetErrorTextW
 (no summary)
-%group
-Win32 winmm
 %prm
 mmrError, pszText, cchText
 mmrError : [int] 
@@ -2510,8 +2302,6 @@ cchText : [int]
 %index
 waveInGetID
 waveInGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hwi, puDeviceID
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2527,8 +2317,6 @@ waveInGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚é
 %index
 waveInGetNumDevs
 waveInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -2541,8 +2329,6 @@ waveInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B
 %index
 waveInGetPosition
 waveInGetPosition ‚Í Windows Vista ˆÈ~‚Å‚Íg—p‚ªƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½B
-%group
-Win32 winmm
 %prm
 hwi, pmmt, cbmmt
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2565,8 +2351,6 @@ waveInGetPosition ‚Í Windows Vista ˆÈ~‚Å‚Íg—p‚ªƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½B
 %index
 waveInMessage
 waveInMessage ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hwi, uMsg, dw1, dw2
 hwi : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é”gŒ`ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HWAVEIN ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
@@ -2599,8 +2383,6 @@ waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
 %index
 waveInOpen
 waveInOpen ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ğ˜^‰¹—p‚ÉŠJ‚­B
-%group
-Win32 winmm
 %prm
 phwi, uDeviceID, pwfx, dwCallback, dwInstance, fdwOpen
 phwi : [intptr] ŠJ‚¢‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BfdwOpen ‚Å WAVE_FORMAT_QUERY ‚ğw’è‚·‚éê‡‚Í NULL ‰ÂB
@@ -2627,8 +2409,6 @@ waveInOpen ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ğ˜^‰¹—p‚ÉŠJ‚­B
 %index
 waveInPrepareHeader
 waveInPrepareHeader ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—Í—p‚Ìƒoƒbƒtƒ@‚ğ€”õ‚·‚éB
-%group
-Win32 winmm
 %prm
 hwi, pwh, cbwh
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2649,8 +2429,6 @@ waveInPrepareHeader ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—Í—p‚Ìƒoƒbƒtƒ@‚ğ€”õ‚·‚éB
 %index
 waveInReset
 waveInReset ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚µAŒ»İˆÊ’u‚ğ 0 ‚ÉƒŠƒZƒbƒg‚·‚éB•Û—¯’†‚Ì‘Sƒoƒbƒtƒ@‚ÍŠ®—¹‚Æƒ}[ƒN‚³‚êƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚éB
-%group
-Win32 winmm
 %prm
 hwi
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2666,8 +2444,6 @@ waveInReset ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚µAŒ»İˆÊ’u
 %index
 waveInStart
 waveInStart ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğŠJn‚·‚éB
-%group
-Win32 winmm
 %prm
 hwi
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2687,8 +2463,6 @@ waveInStart ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğŠJn‚·‚éB
 %index
 waveInStop
 waveInStop ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—Í‚ğ’â~‚·‚éB
-%group
-Win32 winmm
 %prm
 hwi
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2708,8 +2482,6 @@ waveInStop ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—Í‚ğ’â~‚·‚éB
 %index
 waveInUnprepareHeader
 waveInUnprepareHeader ŠÖ”‚Í waveInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
-%group
-Win32 winmm
 %prm
 hwi, pwh, cbwh
 hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2732,8 +2504,6 @@ waveInUnprepareHeader ŠÖ”‚Í waveInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤
 %index
 waveOutClose
 waveOutClose ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
-%group
-Win32 winmm
 %prm
 hwo
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B¬Œ÷‚ÍŒÄ‚Ño‚µŒãƒnƒ“ƒhƒ‹‚Í–³Œø‚É‚È‚éB
@@ -2752,8 +2522,6 @@ waveOutWrite ‚Å‘—M‚µ‚½”gŒ`ƒoƒbƒtƒ@‚ğÄ¶’†‚Ìê‡A•Â‚¶‚é‘€ì‚Í¸”s‚·‚éBwaveOut
 %index
 waveOutBreakLoop
 waveOutBreakLoop ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒ‹[ƒv‚ğ’†’f‚µAƒhƒ‰ƒCƒoƒŠƒXƒg“à‚ÌŸ‚ÌƒuƒƒbƒN‚ÅÄ¶‚ğ‘±s‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2774,8 +2542,6 @@ waveOutBreakLoop
 %index
 waveOutGetDevCapsW
 (no summary)
-%group
-Win32 winmm
 %prm
 uDeviceID, pwoc, cbwoc
 uDeviceID : [int] 
@@ -2788,8 +2554,6 @@ cbwoc : [int]
 %index
 waveOutGetErrorTextW
 (no summary)
-%group
-Win32 winmm
 %prm
 mmrError, pszText, cchText
 mmrError : [int] 
@@ -2802,8 +2566,6 @@ cchText : [int]
 %index
 waveOutGetID
 waveOutGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, puDeviceID
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2819,8 +2581,6 @@ waveOutGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚
 %index
 waveOutGetNumDevs
 waveOutGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 
 %inst
@@ -2833,8 +2593,6 @@ waveOutGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·
 %index
 waveOutGetPitch
 waveOutGetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ìƒsƒbƒ`İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, pdwPitch
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2856,8 +2614,6 @@ waveOutGetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ìƒsƒbƒ`İ’è‚ğæ
 %index
 waveOutGetPlaybackRate
 waveOutGetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ƒŒ[ƒg‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, pdwRate
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2879,8 +2635,6 @@ waveOutGetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ƒŒ
 %index
 waveOutGetPosition
 waveOutGetPosition ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, pmmt, cbmmt
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2903,8 +2657,6 @@ waveOutGetPosition ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ˆÊ’u‚ğ
 %index
 waveOutGetVolume
 waveOutGetVolume ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—ÊƒŒƒxƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, pdwVolume
 hwo : [intptr] ƒI[ƒvƒ“Ï‚İ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
@@ -2928,8 +2680,6 @@ WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB‰¹—Êİ’è‚Í‘Î”“I‚É‰ğß‚³‚ê‚é
 %index
 waveOutMessage
 waveOutMessage ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, uMsg, dw1, dw2
 hwo : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é”gŒ`ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HWAVEOUT ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
@@ -2962,8 +2712,6 @@ waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
 %index
 waveOutOpen
 waveOutOpen ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ğÄ¶—p‚ÉŠJ‚­B
-%group
-Win32 winmm
 %prm
 phwo, uDeviceID, pwfx, dwCallback, dwInstance, fdwOpen
 phwo : [intptr] ŠJ‚¢‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BfdwOpen ‚Å WAVE_FORMAT_QUERY ‚ğw’è‚·‚éê‡‚Í NULL ‰ÂB
@@ -2994,8 +2742,6 @@ pwfx ‚ªw‚·\‘¢‘Ì‚Í“Á’èƒf[ƒ^Œ`®‚Ì‚½‚ß‚Éƒ^ƒCƒvŒÅ—Lî•ñ‚ÅŠg’£‚Å‚«‚éBPCM ƒf[ƒ^‚
 %index
 waveOutPause
 waveOutPause ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶‚ğˆê’â~‚·‚éBŒ»İˆÊ’u‚Í•Û‘¶‚³‚ê‚éBŒ»İˆÊ’u‚©‚çÄ¶‚ğÄŠJ‚·‚é‚É‚Í waveOutRestart ŠÖ”‚ğg—p‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3015,8 +2761,6 @@ waveOutRestart ŠÖ”‚ğg—p‚·‚éB
 %index
 waveOutPrepareHeader
 waveOutPrepareHeader ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒIƒf[ƒ^ƒuƒƒbƒN‚ğÄ¶—p‚É€”õ‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, pwh, cbwh
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3042,8 +2786,6 @@ dwFlags ƒƒ“ƒo‚É WHDR_PREPARED ƒtƒ‰ƒO‚ªƒZƒbƒg‚³‚ê‚éBŠù‚É€”õÏ‚İ‚Ìƒwƒbƒ_‚ğ€”õ‚
 %index
 waveOutReset
 waveOutReset ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Å‚ÌÄ¶‚ğ’â~‚µAŒ»İˆÊ’u‚ğ 0 ‚ÉƒŠƒZƒbƒg‚·‚éB•Û—¯’†‚Ì‚·‚×‚Ä‚ÌÄ¶ƒoƒbƒtƒ@‚Í WHDR_DONE ‚Åƒ}[ƒN‚³‚êƒAƒvƒŠ‚É•Ô‚³‚ê‚éB
-%group
-Win32 winmm
 %prm
 hwo
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -3062,8 +2804,6 @@ waveOutReset ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Å‚ÌÄ¶‚ğ’â~‚µAŒ»İˆÊ’u‚ğ 
 %index
 waveOutRestart
 waveOutRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶‚ğÄŠJ‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3081,8 +2821,6 @@ waveOutRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶‚ğÄŠJ‚·‚éB
 %index
 waveOutSetPitch
 waveOutSetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒsƒbƒ`‚ğİ’è‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, dwPitch
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3104,8 +2842,6 @@ waveOutSetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒsƒbƒ`‚ğİ’è‚·‚éB
 %index
 waveOutSetPlaybackRate
 waveOutSetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶ƒŒ[ƒg‚ğİ’è‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, dwRate
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3127,8 +2863,6 @@ waveOutSetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶ƒŒ[ƒg‚ğ
 %index
 waveOutSetVolume
 waveOutSetVolume ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì‰¹—ÊƒŒƒxƒ‹‚ğİ’è‚·‚éB
-%group
-Win32 winmm
 %prm
 hwo, dwVolume
 hwo : [intptr] ƒI[ƒvƒ“Ï‚İ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
@@ -3156,8 +2890,6 @@ waveOutSetVolume ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì‰¹—ÊƒŒƒxƒ‹‚ğİ’è‚·‚
 %index
 waveOutUnprepareHeader
 waveOutUnprepareHeader ŠÖ”‚Í waveOutPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B–{ŠÖ”‚ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ªƒf[ƒ^ƒuƒƒbƒN‚Ìg—p‚ğI‚¦‚½Œã‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚é‘O‚É–{ŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
-%group
-Win32 winmm
 %prm
 hwo, pwh, cbwh
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3181,8 +2913,6 @@ waveOutUnprepareHeader ŠÖ”‚Í waveOutPrepareHeader
 %index
 waveOutWrite
 waveOutWrite ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Éƒf[ƒ^ƒuƒƒbƒN‚ğ‘—‚éB
-%group
-Win32 winmm
 %prm
 hwo, pwh, cbwh
 hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹B

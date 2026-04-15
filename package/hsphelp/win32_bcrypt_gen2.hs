@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+bcrypt.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì bcrypt.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 BCryptDestroyKey
 Œ®‚ğ”jŠü‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hKey
 hKey : [int] ”jŠü‚·‚éŒ®‚Ìƒnƒ“ƒhƒ‹B
@@ -30,8 +50,6 @@ Cng.lib(Windows Server 2008/Vista ‚Å‚Í Ksecdd.lib)‚ğg—p‚·‚éB
 %index
 BCryptDestroyHash
 ƒnƒbƒVƒ…‚Ü‚½‚ÍƒƒbƒZ[ƒW”FØƒR[ƒh (MAC) ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hHash
 hHash : [int] ”jŠü‚·‚éƒnƒbƒVƒ…‚Ü‚½‚Í MAC ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BBCryptCreateHash ŠÖ”‚Åæ“¾‚µ‚½ƒnƒ“ƒhƒ‹‚ğw’è‚·‚éB
@@ -56,8 +74,6 @@ Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptAddContextFunction
 Šù‘¶‚Ì CNG ƒRƒ“ƒeƒLƒXƒg‚ªƒTƒ|[ƒg‚·‚éŠÖ”‚Ìˆê——‚ÉAˆÃ†ŠÖ”‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, dwPosition
 dwTable : [int] 
@@ -82,8 +98,6 @@ dwPosition : [int] ‚±‚ÌŠÖ”‚ğƒŠƒXƒg‚É‘}“ü‚·‚éˆÊ’u‚ğw’è‚·‚éBŠÖ”‚ÍŠù‘¶‚Ì‚·‚×‚Ä‚
 %index
 BCryptCloseAlgorithmProvider
 ƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚ğ•Â‚¶‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, dwFlags
 hAlgorithm : [int] •Â‚¶‚éƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚ğ•\‚·ƒnƒ“ƒhƒ‹BBCryptOpenAlgorithmProvider ‚Åæ“¾‚·‚éB
@@ -106,8 +120,6 @@ WDK ‚¨‚æ‚Ñ Developer Tools ‚ğQÆBWindows Server 2008 ‚¨‚æ‚Ñ Windows Vista:
 %index
 BCryptConfigureContext
 Šù‘¶‚Ì CNG ƒRƒ“ƒeƒLƒXƒg‚Ì\¬î•ñ‚ğİ’è‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, pConfig
 dwTable : [int] 
@@ -128,8 +140,6 @@ BCryptConfigureContext ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptConfigureContextFunction
 Šù‘¶‚Ì CNG ƒRƒ“ƒeƒLƒXƒg‚ÌˆÃ†ŠÖ”‚É‘Î‚·‚é\¬î•ñ‚ğİ’è‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pConfig
 dwTable : [int] 
@@ -152,8 +162,6 @@ BCryptConfigureContextFunction ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptCreateContext
 V‚µ‚¢ CNG \¬ƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, pConfig
 dwTable : [int] 
@@ -174,8 +182,6 @@ BCryptCreateContext ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptCreateHash
 ƒnƒbƒVƒ…‚Ü‚½‚ÍƒƒbƒZ[ƒW”FØƒR[ƒh (MAC) ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, phHash, pbHashObject, cbHashObject, pbSecret, cbSecret, dwFlags
 hAlgorithm : [int] BCryptOpenAlgorithmProvider ‚Åì¬‚µ‚½ƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹BƒvƒƒoƒCƒ_ì¬‚Éw’è‚µ‚½ƒAƒ‹ƒSƒŠƒYƒ€‚ÍƒnƒbƒVƒ…ƒCƒ“ƒ^ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚·‚é•K—v‚ª‚ ‚éB
@@ -205,8 +211,6 @@ Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptCreateMultiHash
 BCryptCreateMultiHash ŠÖ”‚ÍA•¡”‚ÌƒnƒbƒVƒ…‘€ì‚ğ•À—ñ‚ÉŒvZ‚Å‚«‚éƒ}ƒ‹ƒ`ƒnƒbƒVƒ…ó‘Ô‚ğì¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, phHash, nHashes, pbHashObject, cbHashObject, pbSecret, cbSecret, dwFlags
 hAlgorithm : [int] *BCRYPT_ALG_HANDLE* `[in, out]` ƒ}ƒ‹ƒ`ƒnƒbƒVƒ…”z—ñ“à‚Ì‚·‚×‚Ä‚ÌƒnƒbƒVƒ…ó‘Ô‚Ég—p‚³‚ê‚éƒAƒ‹ƒSƒŠƒYƒ€ƒnƒ“ƒhƒ‹B‚±‚ÌƒAƒ‹ƒSƒŠƒYƒ€ƒnƒ“ƒhƒ‹‚ÍA[BCryptOpenAlgorithmProvider](nf-bcrypt-bcryptopenalgorithmprovider.md) ŠÖ”‚É **BCYRPT_MULTI_FLAG** ‚ğ“n‚µ‚ÄƒI[ƒvƒ“‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚ ‚é‚¢‚ÍAŒÄ‚Ño‚µŒ³‚ª‹^—ƒnƒ“ƒhƒ‹‚ğg—p‚·‚é‚±‚Æ‚à‚Å‚«‚éB
@@ -238,8 +242,6 @@ HMAC-MD2AHMAC-MD4AGMAC ‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 %index
 BCryptDecrypt
 ƒf[ƒ^ƒuƒƒbƒN‚ğ•œ†‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hKey, pbInput, cbInput, pPaddingInfo, pbIV, cbIV, pbOutput, cbOutput, pcbResult, dwFlags
 hKey : [int] ƒf[ƒ^•œ†‚Ég—p‚·‚éŒ®‚Ìƒnƒ“ƒhƒ‹BBCryptGenerateSymmetricKeyABCryptGenerateKeyPairABCryptImportKey ‚È‚Ç‚Åæ“¾‚·‚éB
@@ -271,8 +273,6 @@ Cng.lib(Windows Server 2008/Vista ‚Å‚Í Ksecdd.lib)‚ğg—p‚·‚éB
 %index
 BCryptDeleteContext
 Šù‘¶‚Ì CNG \¬ƒRƒ“ƒeƒLƒXƒg‚ğíœ‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext
 dwTable : [int] 
@@ -292,8 +292,6 @@ BCryptDeleteContext ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptDestroySecret
 BCryptSecretAgreement ŠÖ”‚É‚æ‚Á‚Äì¬‚³‚ê‚½”é–§‡ˆÓƒnƒ“ƒhƒ‹‚ğ”jŠü‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hSecret
 hSecret : [int] ”jŠü‚·‚é BCRYPT_SECRET_HANDLEB
@@ -318,8 +316,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptDeriveKey
 ”é–§‡ˆÓ’l‚©‚çƒL[‚ğ“±o‚·‚éB (BCryptDeriveKey)
-%group
-Win32 bcrypt
 %prm
 hSharedSecret, pwszKDF, pParameterList, pbDerivedKey, cbDerivedKey, pcbResult, dwFlags
 hSharedSecret : [int] ƒL[‚ğì¬‚·‚é‚½‚ß‚Ì”é–§‡ˆÓƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í BCryptSecretAgreement ŠÖ”‚©‚çæ“¾‚·‚éB
@@ -347,8 +343,6 @@ KDF_SECRET_APPEND ƒpƒ‰ƒ[ƒ^‚ğ•¡”ŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚ê‚ç‚Ìƒpƒ‰ƒ[ƒ^‚ª•¡”w
 %index
 BCryptDeriveKeyCapi
 ƒnƒbƒVƒ…’l‚©‚çƒL[‚ğ“±o‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hHash, hTargetAlg, pbDerivedKey, cbDerivedKey, dwFlags
 hHash : [int] ƒnƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BBCryptCreateHash ŠÖ”‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éBƒnƒ“ƒhƒ‹‚Ìg—p‚ªI‚í‚Á‚½‚çABCryptDestroyHash ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -371,8 +365,6 @@ dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
 %index
 BCryptDeriveKeyPBKDF2
 RFC 2898 ‚Å’è‹`‚³‚ê‚Ä‚¢‚é PBKDF2 ƒL[“±oƒAƒ‹ƒSƒŠƒYƒ€‚ğ—p‚¢‚ÄAƒnƒbƒVƒ…’l‚©‚çƒL[‚ğ“±o‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hPrf, pbPassword, cbPassword, pbSalt, cbSalt, cIterations, pbDerivedKey, cbDerivedKey, dwFlags
 hPrf : [int] ‹^—ƒ‰ƒ“ƒ_ƒ€ŠÖ”‚ğ’ñ‹Ÿ‚·‚éƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚ÍƒƒbƒZ[ƒW”FØƒR[ƒhŒvZ‚ğs‚¤ƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Å‚ ‚é‚×‚«‚Å‚ ‚éBMicrosoft Šù’è‚ÌƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚ğg—p‚·‚éê‡ABCRYPT_ALG_HANDLE_HMAC_FLAG ƒtƒ‰ƒO‚ğw’è‚µ‚ÄƒI[ƒvƒ“‚³‚ê‚½”CˆÓ‚ÌƒnƒbƒVƒ…ƒAƒ‹ƒSƒŠƒYƒ€‚ğg—p‚Å‚«‚éB’: BCRYPT_IS_KEYED_HASH ƒvƒƒpƒeƒB‚ğÀ‘•‚µ‚Ä‚¢‚éƒAƒ‹ƒSƒŠƒYƒ€‚Ì‚İ‚ª‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ég—p‚Å‚«‚éB
@@ -396,8 +388,6 @@ RFC 2898 ‚Å’è‹`‚³‚ê‚Ä‚¢‚é PBKDF2 ƒL[“±oƒAƒ‹ƒSƒŠƒYƒ€‚ğ—p‚¢‚ÄAƒnƒbƒVƒ…’l‚©‚çƒL
 %index
 BCryptDuplicateHash
 Šù‘¶‚ÌƒnƒbƒVƒ…‚Ü‚½‚ÍƒƒbƒZ[ƒW”FØƒR[ƒh (MAC) ƒIƒuƒWƒFƒNƒg‚ğ•¡»‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hHash, phNewHash, pbHashObject, cbHashObject, dwFlags
 hHash : [int] •¡»‚·‚éƒnƒbƒVƒ…‚Ü‚½‚Í MAC ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -428,8 +418,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptDuplicateKey
 ‘ÎÌƒL[‚Ì•¡»‚ğì¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hKey, phNewKey, pbKeyObject, cbKeyObject, dwFlags
 hKey : [int] •¡»‚·‚éƒL[‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í‘ÎÌƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -459,8 +447,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptEncrypt
 ƒf[ƒ^ƒuƒƒbƒN‚ğˆÃ†‰»‚·‚éB(BCryptEncrypt)
-%group
-Win32 bcrypt
 %prm
 hKey, pbInput, cbInput, pPaddingInfo, pbIV, cbIV, pbOutput, cbOutput, pcbResult, dwFlags
 hKey : [int] ƒf[ƒ^ˆÃ†‰»‚Ég—p‚·‚éŒ®‚Ìƒnƒ“ƒhƒ‹BBCryptGenerateSymmetricKeyABCryptGenerateKeyPairABCryptImportKey ‚È‚Ç‚Åæ“¾‚·‚éB
@@ -491,8 +477,6 @@ pbInput ‚Æ pbOutput
 %index
 BCryptEnumAlgorithms
 “o˜^Ï‚İ‚ÌƒAƒ‹ƒSƒŠƒYƒ€¯•Êq‚Ìˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwAlgOperations, pAlgCount, ppAlgList, dwFlags
 dwAlgOperations : [int] 
@@ -515,8 +499,6 @@ PASSIVE_LEVEL IRQL ‚ÅÀs‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 BCryptEnumContextFunctionProviders
 w’è‚³‚ê‚½\¬ƒe[ƒuƒ‹“à‚ÌƒRƒ“ƒeƒLƒXƒg‚É‘Î‚·‚éˆÃ†ŠÖ”‚ÌƒvƒƒoƒCƒ_‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pcbBuffer, ppBuffer
 dwTable : [int] 
@@ -540,8 +522,6 @@ BCryptEnumContextFunctionProviders ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptEnumContextFunctions
 w’è‚³‚ê‚½\¬ƒe[ƒuƒ‹“à‚ÌƒRƒ“ƒeƒLƒXƒg‚É‘Î‚·‚éˆÃ†ŠÖ”‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pcbBuffer, ppBuffer
 dwTable : [int] 
@@ -564,8 +544,6 @@ BCryptEnumContextFunctions ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptEnumContexts
 w’è‚³‚ê‚½\¬ƒe[ƒuƒ‹“à‚ÌƒRƒ“ƒeƒLƒXƒg‚Ì¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pcbBuffer, ppBuffer
 dwTable : [int] 
@@ -586,8 +564,6 @@ BCryptEnumContexts ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptEnumProviders
 w’è‚µ‚½ƒAƒ‹ƒSƒŠƒYƒ€‚ğƒTƒ|[ƒg‚·‚é‚·‚×‚Ä‚Ì CNG ƒvƒƒoƒCƒ_‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 pszAlgId, pImplCount, ppImplList, dwFlags
 pszAlgId : [wstr] ƒvƒƒoƒCƒ_‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚ğ¯•Ê‚·‚éAnull I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–‘O’è‹`‚³‚ê‚½ CNG ƒAƒ‹ƒSƒŠƒYƒ€¯•Êq‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í•Ê‚ÌƒAƒ‹ƒSƒŠƒYƒ€¯•Êq‚ğw’è‚Å‚«‚éB
@@ -610,8 +586,6 @@ PASSIVE_LEVEL IRQL ‚ÅÀs‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 BCryptEnumRegisteredProviders
 “o˜^Ï‚İƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 pcbBuffer, ppBuffer
 pcbBuffer : [var] ULONG ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÅA“ü—Í‚É‚Í ppBuffer ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÌƒoƒCƒg’PˆÊ‚ÌƒTƒCƒY‚ğŠi”[‚·‚éBo—Í‚É‚ÍAƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚Íƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒYiƒoƒCƒg’PˆÊj‚ğó‚¯æ‚éB’: ‚±‚ê‚Íƒoƒbƒtƒ@‘S‘Ì‚ÌƒoƒCƒg’PˆÊ‚Ì‡ŒvƒTƒCƒY‚Å‚ ‚èACRYPT_PROVIDERS \‘¢‘Ì‚¾‚¯‚ÌƒTƒCƒY‚Å‚Í‚È‚¢Bƒoƒbƒtƒ@‚Í CRYPT_PROVIDERS \‘¢‘Ì‚É‰Á‚¦AƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚é‚»‚Ì‘¼‚Ìƒf[ƒ^‚à•Û‚Å‚«‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -632,8 +606,6 @@ BCryptEnumRegisteredProviders ŠÖ”‚ÍŸ‚Ì 2 ‚Â‚Ì•û–@‚Ì‚¢‚¸‚ê‚©‚ÅŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚
 %index
 BCryptExportKey
 Œã‚Åg—p‚·‚é‚½‚ß‚É‰i‘±‰»‚Å‚«‚éƒƒ‚ƒŠ BLOB ‚ÖƒL[‚ğƒGƒNƒXƒ|[ƒg‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hKey, hExportKey, pszBlobType, pbOutput, cbOutput, pcbResult, dwFlags
 hKey : [int] ƒGƒNƒXƒ|[ƒg‚·‚éƒL[‚Ìƒnƒ“ƒhƒ‹B
@@ -665,8 +637,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptFinalizeKeyPair
 ŒöŠJŒ®/”é–§Œ®ƒyƒA‚ğŠ®¬‚³‚¹‚éB
-%group
-Win32 bcrypt
 %prm
 hKey, dwFlags
 hKey : [int] Š®—¹‚³‚¹‚éƒL[‚Ìƒnƒ“ƒhƒ‹BBCryptGenerateKeyPair ŠÖ”‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éB
@@ -692,8 +662,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptFinishHash
 BCryptHashData ‚ÌŒÄ‚Ño‚µ‚Å’~Ï‚³‚ê‚½ƒf[ƒ^‚É‘Î‚·‚éƒnƒbƒVƒ…‚Ü‚½‚Í MAC ’l‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hHash, pbOutput, cbOutput, dwFlags
 hHash : [int] ƒnƒbƒVƒ…/MAC ŒvZ‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BBCryptCreateHash ‚Åæ“¾‚·‚éB–{ŠÖ”ŒÄ‚Ño‚µŒã‚Í BCryptDestroyHash ˆÈŠO‚Å‚ÍÄ—˜—p‚Å‚«‚È‚¢B
@@ -717,8 +685,6 @@ BCryptHashData ‚ÌŒÄ‚Ño‚µ‚Å’~Ï‚³‚ê‚½ƒf[ƒ^‚É‘Î‚·‚éƒnƒbƒVƒ…‚Ü‚½‚Í MAC ’l‚ğæ“¾‚·
 %index
 BCryptFreeBuffer
 CNG ŠÖ”‚Ì‚¢‚¸‚ê‚©‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
-%group
-Win32 bcrypt
 %prm
 pvBuffer
 pvBuffer : [intptr] ‰ğ•ú‚·‚éƒƒ‚ƒŠƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -737,8 +703,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptGenRandom
 —”‚ğ¶¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, pbBuffer, cbBuffer, dwFlags
 hAlgorithm : [int] BCryptOpenAlgorithmProvider ‚Åì¬‚µ‚½ƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹B—”¶¬ƒCƒ“ƒ^ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚·‚éƒAƒ‹ƒSƒŠƒYƒ€‚ğw’è‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -765,8 +729,6 @@ BCRYPT_PROV_DISPATCH
 %index
 BCryptGenerateKeyPair
 ‹ó‚ÌŒöŠJŒ®/”é–§Œ®ƒyƒA‚ğì¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, phKey, dwLength, dwFlags
 hAlgorithm : [int] –¼A”ñ‘ÎÌˆÃ†A‚Ü‚½‚ÍƒL[‡ˆÓ‚ğƒTƒ|[ƒg‚·‚éƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í BCryptOpenAlgorithmProvider ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -795,8 +757,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptGenerateSymmetricKey
 w’è‚³‚ê‚½ƒL[‚©‚ç‘ÎÌƒL[ˆÃ†‰»ƒAƒ‹ƒSƒŠƒYƒ€‚Åg—p‚·‚éƒL[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, phKey, pbKeyObject, cbKeyObject, pbSecret, cbSecret, dwFlags
 hAlgorithm : [int] BCryptOpenAlgorithmProvider ŠÖ”‚Åì¬‚³‚ê‚½ƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹BƒvƒƒoƒCƒ_ì¬‚Éw’è‚³‚ê‚½ƒAƒ‹ƒSƒŠƒYƒ€‚Í‘ÎÌƒL[ˆÃ†‰»‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -828,8 +788,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptGetFipsAlgorithmMode
 Federal Information Processing Standard (FIPS) €‹’‚ª—LŒø‚É‚È‚Á‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 bcrypt
 %prm
 pfEnabled
 pfEnabled : [var] FIPS €‹’‚ª–³Œø‚Å‚ ‚éê‡‚Í 0A—LŒø‚Å‚ ‚éê‡‚Í”ñ 0 ’l‚ğó‚¯æ‚é BOOLEAN •Ï”‚ÌƒAƒhƒŒƒXB
@@ -850,8 +808,6 @@ BCryptGetFipsAlgorithmMode
 %index
 BCryptGetProperty
 CNG ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O•t‚«ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hObject, pszProperty, pbOutput, cbOutput, pcbResult, dwFlags
 hObject : [int] ƒvƒƒpƒeƒB’l‚ğæ“¾‚·‚é‘ÎÛ CNG ƒIƒuƒWƒFƒNƒg‚ğ•\‚·ƒnƒ“ƒhƒ‹B
@@ -884,8 +840,6 @@ DISPATCH_LEVEL IRQL ‚Ì‚¢‚¸‚ê‚©‚ÅÀs‚Å‚«‚éBŒ»İ‚Ì IRQL ƒŒƒxƒ‹‚ª DISPATCH_LEVEL
 %index
 BCryptHash
 ’Pˆê‚ÌƒnƒbƒVƒ…ŒvZ‚ğs‚¤B‚±‚ê‚Í BCryptCreateHashABCryptHashDataABCryptFinishHashABCryptDestroyHash ‚ÌŒÄ‚Ño‚µ‚ğƒ‰ƒbƒv‚·‚é•Ö—˜ŠÖ”‚Å‚ ‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, pbSecret, cbSecret, pbInput, cbInput, pbOutput, cbOutput
 hAlgorithm : [int] BCryptOpenAlgorithmProvider ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹BƒvƒƒoƒCƒ_ì¬‚Éw’è‚³‚ê‚½ƒAƒ‹ƒSƒŠƒYƒ€‚ÍƒnƒbƒVƒ…ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -907,8 +861,6 @@ BCryptCreateHashABCryptHashDataABCryptFinishHashABCryptDestroyHash
 %index
 BCryptHashData
 ƒf[ƒ^ƒoƒbƒtƒ@‚É‘Î‚µ‚Äˆê•ûŒüƒnƒbƒVƒ…‚Ü‚½‚ÍƒƒbƒZ[ƒW”FØƒR[ƒh (MAC) ‚ğŒvZ‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hHash, pbInput, cbInput, dwFlags
 hHash : [int] ˆ—‘ÎÛ‚ÌƒnƒbƒVƒ…‚Ü‚½‚Í MAC ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹BBCryptCreateHash ‚Åæ“¾‚·‚éB
@@ -934,8 +886,6 @@ Ksecdd.lib)‚ğg—p‚·‚éB
 %index
 BCryptImportKey
 ƒL[ BLOB ‚©‚ç‘ÎÌƒL[‚ğƒCƒ“ƒ|[ƒg‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, hImportKey, pszBlobType, phKey, pbKeyObject, cbKeyObject, pbInput, cbInput, dwFlags
 hAlgorithm : [int] ƒL[‚ğƒCƒ“ƒ|[ƒg‚·‚éƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹BBCryptOpenAlgorithmProvider ŠÖ”‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éB
@@ -969,8 +919,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptImportKeyPair
 ƒL[ BLOB ‚©‚çŒöŠJŒ®/”é–§Œ®ƒyƒA‚ğƒCƒ“ƒ|[ƒg‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hAlgorithm, hImportKey, pszBlobType, phKey, pbInput, cbInput, dwFlags
 hAlgorithm : [int] ƒL[‚ğƒCƒ“ƒ|[ƒg‚·‚éƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚Ìƒnƒ“ƒhƒ‹BBCryptOpenAlgorithmProvider ŠÖ”‚ğŒÄ‚Ño‚µ‚Äæ“¾‚·‚éB
@@ -1002,8 +950,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptKeyDerivation
 ”é–§‡ˆÓ‚ğ•K—v‚Æ‚¹‚¸‚ÉƒL[‚ğ“±o‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hKey, pParameterList, pbDerivedKey, cbDerivedKey, pcbResult, dwFlags
 hKey : [int] “ü—ÍƒL[‚Ìƒnƒ“ƒhƒ‹B
@@ -1027,8 +973,6 @@ BCryptKeyDerivation ‚ğŒÄ‚Ño‚·‘O‚ÉABCryptOpenAlgorithmProvider
 %index
 BCryptOpenAlgorithmProvider
 CNG ƒvƒƒoƒCƒ_‚ğƒ[ƒh‚µ‰Šú‰»‚·‚éB
-%group
-Win32 bcrypt
 %prm
 phAlgorithm, pszAlgId, pszImplementation, dwFlags
 phAlgorithm : [var] CNG ƒvƒƒoƒCƒ_ƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é BCRYPT_ALG_HANDLE •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bg—pŒã‚Í BCryptCloseAlgorithmProvider ‚É“n‚µ‚Ä‰ğ•ú‚·‚éB
@@ -1055,8 +999,6 @@ Windows 10 ˆÈ~ACNG
 %index
 BCryptProcessMultiOperations
 BCryptProcessMultiOperations ŠÖ”‚ÍAƒ}ƒ‹ƒ`ƒIƒuƒWƒFƒNƒgó‘Ô‚É‘Î‚µ‚Äˆê˜A‚Ì‘€ì‚ğÀs‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hObject, operationType, pOperations, cbOperations, dwFlags
 hObject : [int] *BCRYPT_HANDLE* `[in, out]` [BCryptCreateMultiHash](nf-bcrypt-bcryptcreatemultihash.md) ŠÖ”‚Åì¬‚³‚ê‚½‚à‚Ì‚È‚ÇAƒ}ƒ‹ƒ`ƒIƒuƒWƒFƒNƒgó‘Ô‚Ìƒnƒ“ƒhƒ‹B
@@ -1084,8 +1026,6 @@ Values](/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca
 %index
 BCryptQueryContextConfiguration
 w’è‚³‚ê‚½ CNG ƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ì\¬‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, pcbBuffer, ppBuffer
 dwTable : [int] 
@@ -1109,8 +1049,6 @@ ppBuffer : [var] ‚±‚ÌŠÖ”‚É‚æ‚Á‚Äæ“¾‚³‚ê‚½ƒRƒ“ƒeƒLƒXƒg\¬î•ñ‚ğó‚¯æ‚éACRYPT
 %index
 BCryptQueryContextFunctionConfiguration
 Šù‘¶‚Ì CNG ƒRƒ“ƒeƒLƒXƒg‚ÌˆÃ†ŠÖ”\¬î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pcbBuffer, ppBuffer
 dwTable : [int] 
@@ -1136,8 +1074,6 @@ ppBuffer : [var] ‚±‚ÌŠÖ”‚É‚æ‚Á‚Äæ“¾‚³‚ê‚½ŠÖ”\¬î•ñ‚ğó‚¯æ‚éACRYPT_CONTEXT
 %index
 BCryptQueryContextFunctionProperty
 Šù‘¶‚Ì CNG ƒRƒ“ƒeƒLƒXƒg“à‚ÌˆÃ†ŠÖ”‚É‘Î‚·‚é–¼‘O•t‚«ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pszProperty, pcbValue, ppbValue
 dwTable : [int] 
@@ -1162,8 +1098,6 @@ BCryptQueryContextFunctionProperty ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptQueryProviderRegistration
 CNG ƒvƒƒoƒCƒ_‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 pszProvider, dwMode, dwInterface, pcbBuffer, ppBuffer
 pszProvider : [wstr] î•ñ‚ğæ“¾‚·‚é‘ÎÛƒvƒƒoƒCƒ_‚Ì–¼‘O‚ğŠÜ‚ŞAnull I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1186,8 +1120,6 @@ BCryptQueryProviderRegistration ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptRegisterConfigChangeNotify
 ƒ†[ƒU[ƒ‚[ƒh‚Ì CNG \¬•ÏXƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ğì¬‚·‚éB
-%group
-Win32 bcrypt
 %prm
 phEvent
 phEvent : [intptr] 
@@ -1209,8 +1141,6 @@ BCryptRegisterConfigChangeNotify(PRKEVENT) ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 BCryptRemoveContextFunction
 Šù‘¶‚Ì CNG ƒRƒ“ƒeƒLƒXƒg‚ªƒTƒ|[ƒg‚·‚éŠÖ”‚Ìˆê——‚©‚çAˆÃ†ŠÖ”‚ğíœ‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction
 dwTable : [int] 
@@ -1232,8 +1162,6 @@ BCryptRemoveContextFunction ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptResolveProviders
 w’è‚³‚ê‚½ğŒ‚ğ‚·‚×‚Ä–‚½‚·ƒvƒƒoƒCƒ_‚ÌW‡‚ğæ“¾‚·‚éB
-%group
-Win32 bcrypt
 %prm
 pszContext, dwInterface, pszFunction, pszProvider, dwMode, dwFlags, pcbBuffer, ppBuffer
 pszContext : [wstr] ƒvƒƒoƒCƒ_‚ğæ“¾‚·‚é‘ÎÛƒRƒ“ƒeƒLƒXƒg‚Ì¯•Êq‚ğŠÜ‚ŞAnull I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Éİ’è‚³‚ê‚½ê‡AŠù’è‚ÌƒRƒ“ƒeƒLƒXƒg‚ªg—p‚³‚ê‚éB
@@ -1260,8 +1188,6 @@ PASSIVE_LEVEL IRQL ‚ÅÀs‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 BCryptSecretAgreement
 ”é–§Œ®‚ÆŒöŠJŒ®‚©‚ç”é–§‡ˆÓ’l‚ğì¬‚·‚éB (BCryptSecretAgreement)
-%group
-Win32 bcrypt
 %prm
 hPrivKey, hPubKey, phAgreedSecret, dwFlags
 hPrivKey : [int] ”é–§‡ˆÓ’l‚ğì¬‚·‚é‚½‚ß‚Ég—p‚·‚é”é–§Œ®‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒL[‚Æ hPubKey ƒL[‚Í“¯‚¶ CNG ˆÃ†ƒAƒ‹ƒSƒŠƒYƒ€ƒvƒƒoƒCƒ_‚©‚çæ“¾‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1290,8 +1216,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptSetContextFunctionProperty
 Šù‘¶‚Ì CNG ƒRƒ“ƒeƒLƒXƒg“à‚ÌˆÃ†ŠÖ”‚É‘Î‚·‚é–¼‘O•t‚«ƒvƒƒpƒeƒB‚Ì’l‚ğİ’è‚·‚éB
-%group
-Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pszProperty, cbValue, pbValue
 dwTable : [int] 
@@ -1316,8 +1240,6 @@ BCryptSetContextFunctionProperty ‚Íƒ†[ƒU[ƒ‚[ƒh‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 BCryptSetProperty
 CNG ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O•t‚«ƒvƒƒpƒeƒB‚Ì’l‚ğİ’è‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hObject, pszProperty, pbInput, cbInput, dwFlags
 hObject : [int] ƒvƒƒpƒeƒB’l‚ğİ’è‚·‚é‘ÎÛ CNG ƒIƒuƒWƒFƒNƒg‚ğ•\‚·ƒnƒ“ƒhƒ‹B
@@ -1348,8 +1270,6 @@ DISPATCH_LEVEL IRQL ‚Ì‚¢‚¸‚ê‚©‚ÅÀs‚Å‚«‚éBŒ»İ‚Ì IRQL ƒŒƒxƒ‹‚ª DISPATCH_LEVEL
 %index
 BCryptSignHash
 ƒnƒbƒVƒ…’l‚Ì–¼‚ğì¬‚·‚éB (BCryptSignHash)
-%group
-Win32 bcrypt
 %prm
 hKey, pPaddingInfo, pbInput, cbInput, pbOutput, cbOutput, pcbResult, dwFlags
 hKey : [int] ƒnƒbƒVƒ…‚Ö‚Ì–¼‚Ég—p‚·‚éƒL[‚Ìƒnƒ“ƒhƒ‹B
@@ -1384,8 +1304,6 @@ Windows Vista: ‚±‚ÌŠÖ”‚ğƒJ[ƒlƒ‹ƒ‚[ƒh‚ÅŒÄ‚Ño‚·‚É‚Í Ksecdd.lib ‚ğg—p‚·‚éB
 %index
 BCryptUnregisterConfigChangeNotify
 BCryptRegisterConfigChangeNotify(HANDLE*) ŠÖ”‚Åì¬‚³‚ê‚½ƒ†[ƒU[ƒ‚[ƒh CNG \¬•ÏXƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ğíœ‚·‚éB
-%group
-Win32 bcrypt
 %prm
 hEvent
 hEvent : [intptr] 
@@ -1407,8 +1325,6 @@ BCryptUnregisterConfigChangeNotify(PRKEVENT) ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 BCryptVerifySignature
 w’è‚³‚ê‚½–¼‚ªw’è‚³‚ê‚½ƒnƒbƒVƒ…‚Æˆê’v‚·‚é‚±‚Æ‚ğŒŸØ‚·‚éB (BCryptVerifySignature)
-%group
-Win32 bcrypt
 %prm
 hKey, pPaddingInfo, pbHash, cbHash, pbSignature, cbSignature, dwFlags
 hKey : [int] –¼‚ğ•œ†‚·‚é‚½‚ß‚Ég—p‚·‚éƒL[‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í BCryptSignHash ŠÖ”‚Åƒf[ƒ^‚É–¼‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒL[A‚Ü‚½‚ÍA‚»‚ÌŒ®ƒyƒA‚ÌŒöŠJŒ®•”•ª‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B

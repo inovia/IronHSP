@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+shlwapi.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の shlwapi.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 StrChrW
 文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別する。(Unicode)
-%group
-Win32 shlwapi
 %prm
 pszStart, wMatch
 pszStart : [wstr] 型: PTSTR 検索対象となる文字列のアドレス。
@@ -32,8 +52,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrChrIA
 文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別しない。(ANSI)
-%group
-Win32 shlwapi
 %prm
 pszStart, wMatch
 pszStart : [str] 型: PTSTR 検索対象となる文字列へのポインタ。
@@ -57,8 +75,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrChrIW
 文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別しない。(Unicode)
-%group
-Win32 shlwapi
 %prm
 pszStart, wMatch
 pszStart : [wstr] 型: PTSTR 検索対象となる文字列へのポインタ。
@@ -82,8 +98,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrCmpNA
 2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別する。StrNCmp マクロはこの関数と名称が異なるだけである。(ANSI)
-%group
-Win32 shlwapi
 %prm
 psz1, psz2, nChar
 psz1 : [str] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
@@ -110,8 +124,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrCmpNIA
 2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別しない。StrNCmpI マクロはこの関数と名称が異なるだけである。(ANSI)
-%group
-Win32 shlwapi
 %prm
 psz1, psz2, nChar
 psz1 : [str] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
@@ -138,8 +150,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrCmpNIW
 2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別しない。StrNCmpI マクロはこの関数と名称が異なるだけである。(Unicode)
-%group
-Win32 shlwapi
 %prm
 psz1, psz2, nChar
 psz1 : [wstr] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
@@ -166,8 +176,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrCmpNW
 2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別する。StrNCmp マクロはこの関数と名称が異なるだけである。(Unicode)
-%group
-Win32 shlwapi
 %prm
 psz1, psz2, nChar
 psz1 : [wstr] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
@@ -194,8 +202,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrRChrW
 文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別する。(Unicode)
-%group
-Win32 shlwapi
 %prm
 pszStart, pszEnd, wMatch
 pszStart : [wstr] 型: PTSTR 検索対象の NULL 終端文字列へのポインタ。
@@ -220,8 +226,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrRChrIA
 文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
-%group
-Win32 shlwapi
 %prm
 pszStart, pszEnd, wMatch
 pszStart : [str] 型: PTSTR 検索対象の NULL 終端文字列へのポインタ。
@@ -246,8 +250,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrRChrIW
 文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
-%group
-Win32 shlwapi
 %prm
 pszStart, pszEnd, wMatch
 pszStart : [wstr] 型: PTSTR 検索対象の NULL 終端文字列へのポインタ。
@@ -272,8 +274,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrRStrIA
 文字列の中から、指定した部分文字列が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
-%group
-Win32 shlwapi
 %prm
 pszSource, pszLast, pszSrch
 pszSource : [str] 型: PTSTR NULL 終端された元文字列へのポインタ。
@@ -297,8 +297,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrRStrIW
 文字列の中から、指定した部分文字列が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
-%group
-Win32 shlwapi
 %prm
 pszSource, pszLast, pszSrch
 pszSource : [wstr] 型: PTSTR NULL 終端された元文字列へのポインタ。
@@ -322,8 +320,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrStrW
 文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別する。(StrStrW)
-%group
-Win32 shlwapi
 %prm
 pszFirst, pszSrch
 pszFirst : [wstr] 型: PTSTR 検索対象となる NULL 終端文字列へのポインタ。
@@ -346,8 +342,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrStrIA
 文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
-%group
-Win32 shlwapi
 %prm
 pszFirst, pszSrch
 pszFirst : [str] 型: PTSTR 検索対象となる NULL 終端文字列へのポインタ。
@@ -370,8 +364,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 StrStrIW
 文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
-%group
-Win32 shlwapi
 %prm
 pszFirst, pszSrch
 pszFirst : [wstr] 型: PTSTR 検索対象となる NULL 終端文字列へのポインタ。

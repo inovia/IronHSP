@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+imm32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì imm32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 ImmDestroyContext
 ImmDestroyContext ŠÖ” (immdev.h) ‚Í“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğ‰ğ•ú‚µŠÖ˜Aƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -26,8 +46,6 @@ ImmAssociateContext ‚ÅƒXƒŒƒbƒh“à‚ÌƒEƒBƒ“ƒhƒE‚Æ‚ÌŠÖ˜A•t‚¯‚ğ‰ğœ‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚é
 %index
 ImmAssociateContext
 ImmAssociateContext ŠÖ” (immdev.h) ‚Íw’è‚Ì“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğw’èƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚éB
-%group
-Win32 imm32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -46,8 +64,6 @@ ImmAssociateContext ŠÖ” (immdev.h) ‚Íw’è‚Ì“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğw’èƒEƒBƒ“ƒhƒE‚ÉŠÖ
 %index
 ImmAssociateContextEx
 ImmAssociateContextEx ŠÖ” (immdev.h) ‚ÍA“ü—ÍƒRƒ“ƒeƒLƒXƒg‚Æw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ü‚½‚Í‚»‚ÌqƒEƒBƒ“ƒhƒE‚Æ‚ÌŠÖ˜A•t‚¯‚ğ•ÏX‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, param2
 param0 : [intptr] 
@@ -71,8 +87,6 @@ hWnd ‚Å¦‚³‚ê‚éƒEƒBƒ“ƒhƒE‚ÌqƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚éB“ü—ÍƒRƒ“ƒeƒLƒXƒg‚Í hWnd
 %index
 ImmConfigureIMEA
 ImmConfigureIMEA (ANSI) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒƒP[ƒ‹¯•Êq‚Ì IME —p\¬ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, param2, param3
 param0 : [intptr] 
@@ -98,8 +112,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmConfigureIMEW
 ImmConfigureIMEW (Unicode) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒƒP[ƒ‹¯•Êq‚Ì IME —p\¬ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, param2, param3
 param0 : [intptr] 
@@ -125,8 +137,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmCreateContext
 ImmCreateContext ŠÖ” (immdev.h) ‚ÍAV‚µ‚¢“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğì¬‚µA‚»‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚Ä‰Šú‰»‚·‚éB
-%group
-Win32 imm32
 %prm
 
 %inst
@@ -139,8 +149,6 @@ ImmCreateContext ŠÖ” (immdev.h) ‚ÍAV‚µ‚¢“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğì¬‚µA‚»‚Ìƒƒ‚ƒŠ‚
 %index
 ImmCreateIMCC
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [int] 
@@ -151,8 +159,6 @@ param0 : [int]
 %index
 ImmCreateSoftKeyboard
 (no summary)
-%group
-Win32 imm32
 %prm
 param0, param1, param2, param3
 param0 : [int] 
@@ -166,8 +172,6 @@ param3 : [int]
 %index
 ImmDestroyIMCC
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -178,8 +182,6 @@ param0 : [intptr]
 %index
 ImmDestroySoftKeyboard
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -190,8 +192,6 @@ param0 : [intptr]
 %index
 ImmDisableIME
 ImmDisableIME ŠÖ” (immdev.h) ‚ÍAƒXƒŒƒbƒh‚Ü‚½‚ÍƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚É‘Î‚µ‚Ä IME ‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 imm32
 %prm
 param0
 param0 : [int] 
@@ -210,8 +210,6 @@ ImmDisableIME ŠÖ” (immdev.h) ‚ÍAƒXƒŒƒbƒh‚Ü‚½‚ÍƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚É‘Î
 %index
 ImmDisableLegacyIME
 ImmDisableLegacyIME ŠÖ” (immdev.h) ‚ÍA‚±‚ÌƒXƒŒƒbƒh‚ª Windows ƒXƒgƒAƒAƒvƒŠ UI ƒXƒŒƒbƒh‚Å‚ ‚é‚±‚Æ‚ğ¦‚·B
-%group
-Win32 imm32
 %prm
 
 %inst
@@ -233,8 +231,6 @@ explorer.exe ‚Ì‚æ‚¤‚È Windows ƒXƒgƒAƒAƒvƒŠƒuƒ[ƒJ[‚ÍAWindows ƒXƒgƒAƒAƒvƒŠ UI
 %index
 ImmDisableTextFrameService
 ImmDisableTextFrameService ŠÖ” (immdev.h) ‚ÍAWindows Vista ˆÈ~‚Å‚Íg—p‚Å‚«‚È‚­‚È‚Á‚Ä‚¢‚éB
-%group
-Win32 imm32
 %prm
 idThread
 idThread : [int] ƒeƒLƒXƒgƒT[ƒrƒX‚ğ–³Œø‰»‚·‚éƒXƒŒƒbƒh‚Ì¯•ÊqBƒXƒŒƒbƒh‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ“¯‚¶ƒvƒƒZƒX“à‚É‚ ‚é•K—v‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAŒ»İ‚ÌƒXƒŒƒbƒh‚ÌƒT[ƒrƒX‚ğ–³Œø‰»‚·‚éê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚É 0 ‚ğİ’è‚·‚éBŒ»İ‚ÌƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒXƒŒƒbƒh‚ÌƒT[ƒrƒX‚ğ–³Œø‰»‚·‚éê‡‚Í ?1 ‚ğİ’è‚·‚éB
@@ -258,8 +254,6 @@ User32.dllAImm32.dllAWin32k.sysA‚¨‚æ‚Ñ TSF ƒ‚ƒWƒ…[ƒ‹ Msctf.dllAMsimtf.dll
 %index
 ImmEnumInputContext
 ImmEnumInputContext ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½ƒXƒŒƒbƒh‚Ì“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 idThread, lpfn, lParam
 idThread : [int] 
@@ -278,8 +272,6 @@ ImmEnumInputContext ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½ƒXƒŒƒbƒh‚Ì“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğæ“¾
 %index
 ImmEnumRegisterWordW
 ImmEnumRegisterWordW (Unicode) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“Ç‚İ•¶š—ñAƒXƒ^ƒCƒ‹A“o˜^•¶š—ñ‚ğ‚Â“o˜^•¶š—ñ‚ğ—ñ‹“‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, lpszReading, param3, lpszRegister, param5
 param0 : [intptr] 
@@ -308,8 +300,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmEscapeW
 ImmEscapeW (Unicode) ŠÖ” (immdev.h) ‚ÍA‘¼‚Ì IME API ŠÖ”‚Å‚Í—˜—p‚Å‚«‚È‚¢“Á’è‚Ì IME ‚Ì‹@”\‚ÉƒAƒNƒZƒX‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, param2, param3
 param0 : [intptr] 
@@ -333,8 +323,6 @@ uEscape ‚É IME_ESC_QUERY_SUPPORT ‚ğw’è‚µ‚½ê‡AlpData ‚Í IME
 %index
 ImmGenerateMessage
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -345,8 +333,6 @@ param0 : [intptr]
 %index
 ImmGetCandidateListW
 ImmGetCandidateListW (Unicode) ŠÖ” (immdev.h) ‚ÍAŒó•âƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, deIndex, lpCandList, dwBufLen
 param0 : [intptr] 
@@ -372,8 +358,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetCandidateListCountW
 ImmGetCandidateListCountW (Unicode) ŠÖ” (immdev.h) ‚ÍAŒó•âƒŠƒXƒg‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpdwListCount
 param0 : [intptr] 
@@ -398,8 +382,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetCandidateWindow
 ImmGetCandidateWindow ŠÖ” (immdev.h) ‚ÍAŒó•âƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, lpCandidate
 param0 : [intptr] 
@@ -415,8 +397,6 @@ ImmGetCandidateWindow ŠÖ” (immdev.h) ‚ÍAŒó•âƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %index
 ImmGetCompositionFontW
 ImmGetCompositionFontW (Unicode) ŠÖ” (immdev.h) ‚ÍA‘g‚İ—§‚ÄƒEƒBƒ“ƒhƒE‚Å•¶š‚ğ•\¦‚·‚é‚½‚ß‚ÉŒ»İg‚í‚ê‚Ä‚¢‚é˜_—ƒtƒHƒ“ƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lplf
 param0 : [intptr] 
@@ -440,8 +420,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetCompositionStringW
 ImmGetCompositionStringW (Unicode) ŠÖ” (immdev.h) ‚Í‘g‚İ—§‚Ä’†•¶š—ñ‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, lpBuf, dwBufLen
 param0 : [intptr] 
@@ -468,8 +446,6 @@ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 ImmGetCompositionWindow
 ImmGetCompositionWindow ŠÖ” (immdev.h) ‚ÍA‘g‚İ—§‚ÄƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpCompForm
 param0 : [intptr] 
@@ -484,8 +460,6 @@ ImmGetCompositionWindow ŠÖ” (immdev.h) ‚ÍA‘g‚İ—§‚ÄƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾
 %index
 ImmGetContext
 ImmGetContext ŠÖ” (immdev.h) ‚Íw’èƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğ•Ô‚·B
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -503,8 +477,6 @@ ImmReleaseContext ‚ğŒÄ‚ÔB
 %index
 ImmGetConversionListW
 ImmGetConversionListW (Unicode) ŠÖ” (immdev.h) ‚ÍAIME ŠÖ˜A‚ÌƒƒbƒZ[ƒW‚ğ”­¶‚³‚¹‚¸‚ÉA•¶š‚Ü‚½‚Í’PŒê‚Ì•ÏŠ·Œ‹‰ÊƒŠƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, lpSrc, lpDst, dwBufLen, uFlag
 param0 : [intptr] 
@@ -533,8 +505,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetConversionStatus
 ImmGetConversionStatus ŠÖ” (immdev.h) ‚ÍAŒ»İ‚Ì•ÏŠ·ó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpfdwConversion, lpfdwSentence
 param0 : [intptr] 
@@ -553,8 +523,6 @@ ImmGetConversionStatus ŠÖ” (immdev.h) ‚ÍAŒ»İ‚Ì•ÏŠ·ó‘Ô‚ğæ“¾‚·‚éB
 %index
 ImmGetDefaultIMEWnd
 ImmGetDefaultIMEWnd ŠÖ” (immdev.h) ‚Í IME ƒNƒ‰ƒX‚ÌŠù’èƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -572,8 +540,6 @@ WM_IME_CONTROL ƒƒbƒZ[ƒW‚ğ‘—‚ê‚éB
 %index
 ImmGetDescriptionW
 ImmGetDescriptionW (Unicode) ŠÖ” (immdev.h) ‚ÍAIME ‚Ìà–¾‚ğw’è‚µ‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpszDescription, uBufLen
 param0 : [intptr] 
@@ -599,8 +565,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetGuideLineW
 ImmGetGuideLineW (Unicode) ŠÖ” (immdev.h) ‚ÍAƒGƒ‰[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìî•ñ‚ğƒ†[ƒU[‚Ö‚Ì’Ê’m‚É—˜—p‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, dwIndex, lpBuf, dwBufLen
 param0 : [intptr] 
@@ -629,8 +593,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetHotKey
 (no summary)
-%group
-Win32 imm32
 %prm
 param0, lpuModifiers, lpuVKey, phKL
 param0 : [int] 
@@ -644,8 +606,6 @@ phKL : [intptr]
 %index
 ImmGetIMCCLockCount
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -656,8 +616,6 @@ param0 : [intptr]
 %index
 ImmGetIMCCSize
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -668,8 +626,6 @@ param0 : [intptr]
 %index
 ImmGetIMCLockCount
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -680,8 +636,6 @@ param0 : [intptr]
 %index
 ImmGetIMEFileNameW
 ImmGetIMEFileNameW (Unicode) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒƒP[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IME ‚Ìƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpszFileName, uBufLen
 param0 : [intptr] 
@@ -711,8 +665,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetImeMenuItemsW
 ImmGetImeMenuItemsW (Unicode) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒRƒ“ƒeƒLƒXƒg‚Ì IME ƒƒjƒ…[‚É“o˜^‚³‚ê‚Ä‚¢‚éƒƒjƒ…[€–Ú‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, param2, lpImeParentMenu, lpImeMenu, dwSize
 param0 : [intptr] 
@@ -741,8 +693,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetOpenStatus
 ImmGetOpenStatus ŠÖ” (immdev.h) ‚ÍAIME ‚ªŠJ‚¢‚Ä‚¢‚é‚©•Â‚¶‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -756,8 +706,6 @@ IME ‚ªŠJ‚¢‚Ä‚¢‚éê‡‚Í 0 ˆÈŠO‚Ì’l‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í 0 ‚ğ•Ô‚·B
 %index
 ImmGetProperty
 ImmGetProperty ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒƒP[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IME ‚ÌƒvƒƒpƒeƒB‚Æ‹@”\‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -774,8 +722,6 @@ dwIndex ƒpƒ‰ƒ[ƒ^‚Ì’l‚É‰‚¶‚ÄAƒvƒƒpƒeƒB‚Ü‚½‚Í‹@”\‚Ì’l‚ğ•Ô‚·BdwIndex ‚ª IGP_P
 %index
 ImmGetRegisterWordStyleW
 ImmGetRegisterWordStyleW (Unicode) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒƒP[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IME ‚ªƒTƒ|[ƒg‚·‚éƒXƒ^ƒCƒ‹‚Ìˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, nItem, lpStyleBuf
 param0 : [intptr] 
@@ -801,8 +747,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmGetStatusWindowPos
 ImmGetStatusWindowPos ŠÖ” (immdev.h) ‚ÍAƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpptPos
 param0 : [intptr] 
@@ -817,8 +761,6 @@ ImmGetStatusWindowPos ŠÖ” (immdev.h) ‚ÍAƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ğæ“¾‚·‚éB
 %index
 ImmGetVirtualKey
 ImmGetVirtualKey ŠÖ” (immdev.h) ‚ÍAIME ‚ª‚·‚Å‚Éˆ—‚µ‚½ƒL[“ü—ÍƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Œ³‚Ì‰¼‘zƒL[’l‚ğæ“¾‚·‚éB
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -841,8 +783,6 @@ ImmGetVirtualKey ŠÖ”‚ğ—p‚¢‚ÄŒ³‚Ì‰¼‘zƒL[’l‚ğæ“¾‚Å‚«‚éB‚±‚ÌŠÖ”‚Í VK_PROCESSKE
 %index
 ImmInstallIMEA
 ImmInstallIMEA (ANSI) ŠÖ” (immdev.h) ‚ÍAIME ‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB
-%group
-Win32 imm32
 %prm
 lpszIMEFileName, lpszLayoutText
 lpszIMEFileName : [str] IME ‚Ìƒtƒ‹ƒpƒX‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -866,8 +806,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmInstallIMEW
 ImmInstallIMEW (Unicode) ŠÖ” (immdev.h) ‚ÍAIME ‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB
-%group
-Win32 imm32
 %prm
 lpszIMEFileName, lpszLayoutText
 lpszIMEFileName : [wstr] IME ‚Ìƒtƒ‹ƒpƒX‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -891,8 +829,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmIsIME
 ImmIsIME ŠÖ” (immdev.h) ‚Íw’è‚Ì“ü—ÍƒƒP[ƒ‹‚ª IME ‚ğ‚Â‚©‚ğ”»’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -906,8 +842,6 @@ ImmIsIME ŠÖ” (immdev.h) ‚Íw’è‚Ì“ü—ÍƒƒP[ƒ‹‚ª IME ‚ğ‚Â‚©‚ğ”»’è‚·‚éB
 %index
 ImmIsUIMessageW
 ImmIsUIMessageW (Unicode) ŠÖ” (immdev.h) ‚ÍAIME ƒEƒBƒ“ƒhƒEŒü‚¯‚ÌƒƒbƒZ[ƒW‚ğƒ`ƒFƒbƒN‚µA‚»‚ê‚ç‚ğƒEƒBƒ“ƒhƒE‚É‘—M‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, param2, param3
 param0 : [intptr] 
@@ -937,8 +871,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmLockIMC
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -949,8 +881,6 @@ param0 : [intptr]
 %index
 ImmLockIMCC
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -961,8 +891,6 @@ param0 : [intptr]
 %index
 ImmNotifyIME
 ImmNotifyIME ŠÖ” (immdev.h) ‚ÍA“ü—ÍƒRƒ“ƒeƒLƒXƒg‚Ìó‘Ô•ÏX‚ğ IME ‚É’Ê’m‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, dwAction, dwIndex, dwValue
 param0 : [intptr] 
@@ -979,8 +907,6 @@ ImmNotifyIME ŠÖ” (immdev.h) ‚ÍA“ü—ÍƒRƒ“ƒeƒLƒXƒg‚Ìó‘Ô•ÏX‚ğ IME ‚É’Ê’m‚·‚éB
 %index
 ImmReSizeIMCC
 (no summary)
-%group
-Win32 imm32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -992,8 +918,6 @@ param1 : [int]
 %index
 ImmRegisterWordW
 ImmRegisterWordW (Unicode) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒƒP[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IME ‚Ì«‘‚É•¶š—ñ‚ğ“o˜^‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpszReading, param2, lpszRegister
 param0 : [intptr] 
@@ -1016,8 +940,6 @@ IME_REGWORD_STYLE_USER_LAST ‚Ì”ÍˆÍ‚Å IME —p‚Ìƒvƒ‰ƒCƒx[ƒgƒXƒ^ƒCƒ‹‚ğ’è‹`‚Å‚«‚éB—
 %index
 ImmReleaseContext
 ImmReleaseContext ŠÖ” (immdev.h) ‚Í“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğ‰ğ•ú‚µŠÖ˜Aƒƒ‚ƒŠ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -1032,8 +954,6 @@ ImmReleaseContext ŠÖ” (immdev.h) ‚Í“ü—ÍƒRƒ“ƒeƒLƒXƒg‚ğ‰ğ•ú‚µŠÖ˜Aƒƒ‚ƒŠ‚ÌƒƒbƒN‚ğ
 %index
 ImmRequestMessageW
 WM_IME_REQUEST ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éB(Unicode)
-%group
-Win32 imm32
 %prm
 param0, param1, param2
 param0 : [intptr] 
@@ -1058,8 +978,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmSetCandidateWindow
 ImmSetCandidateWindow ŠÖ” (immdev.h) ‚ÍŒó•âƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpCandidate
 param0 : [intptr] 
@@ -1077,8 +995,6 @@ ImmSetCandidateWindow ŠÖ” (immdev.h) ‚ÍŒó•âƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğİ’è‚·‚éB
 %index
 ImmSetCompositionFontW
 ImmSetCompositionFontW (Unicode) ŠÖ” (immdev.h) ‚ÍA‘g‚İ—§‚ÄƒEƒBƒ“ƒhƒE‚Å•¶š‚ğ•\¦‚·‚é‚½‚ß‚Ég‚¤˜_—ƒtƒHƒ“ƒg‚ğİ’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lplf
 param0 : [intptr] 
@@ -1104,8 +1020,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ImmSetCompositionStringW
 ImmSetCompositionStringW (Unicode) ŠÖ” (immdev.h) ‚ÍA‘g‚İ—§‚Ä•¶š—ñ‚Æ“Ç‚İ•¶š—ñ‚Ì•¶šA‘®«A•¶ß‚ğİ’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, dwIndex, lpComp, dwCompLen, lpRead, dwReadLen
 param0 : [intptr] 
@@ -1140,8 +1054,6 @@ SCS_*CONVERTSTRING ‚Ì’l‚ÍÄ•ÏŠ·‚Ì‚½‚ß‚Ég‚í‚ê‚éB‚±‚ê‚ç‚Í SCS_CAP_SETRECONVERTST
 %index
 ImmSetCompositionWindow
 ImmSetCompositionWindow ŠÖ” (immdev.h) ‚Í‘g‚İ—§‚Ä’†ƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpCompForm
 param0 : [intptr] 
@@ -1159,8 +1071,6 @@ ImmSetCompositionWindow ŠÖ” (immdev.h) ‚Í‘g‚İ—§‚Ä’†ƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ğİ’è‚·‚éB
 %index
 ImmSetConversionStatus
 ImmSetConversionStatus ŠÖ” (immdev.h) ‚ÍAŒ»İ‚Ì•ÏŠ·ó‘Ô‚ğİ’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, param1, param2
 param0 : [intptr] 
@@ -1182,8 +1092,6 @@ ImmSetConversionStatus ŠÖ” (immdev.h) ‚ÍAŒ»İ‚Ì•ÏŠ·ó‘Ô‚ğİ’è‚·‚éB
 %index
 ImmSetOpenStatus
 ImmSetOpenStatus ŠÖ” (immdev.h) ‚ÍAIME ‚ğŠJ‚­‚©•Â‚¶‚éB
-%group
-Win32 imm32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -1201,8 +1109,6 @@ ImmSetOpenStatus ŠÖ” (immdev.h) ‚ÍAIME ‚ğŠJ‚­‚©•Â‚¶‚éB
 %index
 ImmSetStatusWindowPos
 ImmSetStatusWindowPos ŠÖ” (immdev.h) ‚ÍAƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpptPos
 param0 : [intptr] 
@@ -1220,8 +1126,6 @@ ImmSetStatusWindowPos ŠÖ” (immdev.h) ‚ÍAƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ğİ’è‚·‚éB
 %index
 ImmShowSoftKeyboard
 (no summary)
-%group
-Win32 imm32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -1233,8 +1137,6 @@ param1 : [int]
 %index
 ImmSimulateHotKey
 ImmSimulateHotKey ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½ IME ƒzƒbƒgƒL[‚ğƒVƒ~ƒ…ƒŒ[ƒg‚µAƒ†[ƒU[‚ªw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Å‚»‚ÌƒzƒbƒgƒL[‚ğ‰Ÿ‚µ‚½‚Ì‚Æ“¯‚¶‰“š‚ğ”­¶‚³‚¹‚éB
-%group
-Win32 imm32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -1250,8 +1152,6 @@ ImmSimulateHotKey ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½ IME
 %index
 ImmUnlockIMC
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -1262,8 +1162,6 @@ param0 : [intptr]
 %index
 ImmUnlockIMCC
 (no summary)
-%group
-Win32 imm32
 %prm
 param0
 param0 : [intptr] 
@@ -1274,8 +1172,6 @@ param0 : [intptr]
 %index
 ImmUnregisterWordW
 ImmUnregisterWordW (Unicode) ŠÖ” (immdev.h) ‚ÍAw’è‚µ‚½“ü—ÍƒƒP[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IME ‚Ì«‘‚©‚ç“o˜^•¶š—ñ‚ğíœ‚·‚éB
-%group
-Win32 imm32
 %prm
 param0, lpszReading, param2, lpszUnregister
 param0 : [intptr] 

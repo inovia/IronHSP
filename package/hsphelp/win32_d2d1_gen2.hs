@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+d2d1.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì d2d1.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 D2D1ComputeMaximumScaleFactor
 w’è‚³‚ê‚½•ÏŠ·‚ª”CˆÓ‚ÌƒxƒNƒgƒ‹‚ğL‚Î‚µ‚¤‚éÅ‘åŒW”‚ğŒvZ‚·‚éB
-%group
-Win32 d2d1
 %prm
 matrix
 matrix : [var] “ü—Í‚Ì•ÏŠ·s—ñB
@@ -27,8 +47,6 @@ matrix : [var] “ü—Í‚Ì•ÏŠ·s—ñB
 %index
 D2D1ConvertColorSpace
 w’è‚³‚ê‚½F‚ğ‚ ‚éF‹óŠÔ‚©‚ç•Ê‚ÌF‹óŠÔ‚Ö•ÏŠ·‚·‚éB
-%group
-Win32 d2d1
 %prm
 sourceColorSpace, destinationColorSpace, color
 sourceColorSpace : [int] Œ^: D2D1_COLOR_SPACE •ÏŠ·Œ³‚ÌF‹óŠÔB
@@ -44,8 +62,6 @@ color : [var] Œ^: const D2D1_COLOR_F* •ÏŠ·Œ³‚ÌFB
 %index
 D2D1CreateDevice
 w’è‚³‚ê‚½ DXGI ƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½V‚µ‚¢ Direct2D ƒfƒoƒCƒX‚ğì¬‚·‚éB
-%group
-Win32 d2d1
 %prm
 dxgiDevice, creationProperties, d2dDevice
 dxgiDevice : [var] Direct2D ƒfƒoƒCƒX‚ÆŠÖ˜A•t‚¯‚é DXGI ƒfƒoƒCƒXB
@@ -67,8 +83,6 @@ d2dDevice : [var] ‚±‚ÌŠÖ”‚©‚ç–ß‚é‚Æ‚«ADirect2D ƒfƒoƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚
 %index
 D2D1CreateDeviceContext
 DXGI ƒT[ƒtƒFƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½V‚µ‚¢ Direct2D ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB
-%group
-Win32 d2d1
 %prm
 dxgiSurface, creationProperties, d2dDeviceContext
 dxgiSurface : [var] Direct2D ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÆŠÖ˜A•t‚¯‚é DXGI ƒT[ƒtƒFƒXB
@@ -91,8 +105,6 @@ dxgiSurface ‚ª¦‚· DXGI ƒfƒoƒCƒX‚©‚çƒXƒŒƒbƒfƒBƒ“ƒOƒ‚[ƒh‚ğŒp³‚µAƒfƒoƒbƒOƒgƒŒ[
 %index
 D2D1CreateFactory
 D2D1CreateFactory(D2D1_FACTORY_TYPE,REFIID,D2D1_FACTORY_OPTIONS*,void**) ‚ÍADirect2D ƒŠƒ\[ƒX‚Ìì¬‚Ég—p‚Å‚«‚éƒtƒ@ƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 d2d1
 %prm
 factoryType, riid, pFactoryOptions, ppIFactory
 factoryType : [int] Œ^: D2D1_FACTORY_TYPE ƒtƒ@ƒNƒgƒŠ‚¨‚æ‚Ñ‚»‚ê‚ª¶¬‚·‚éƒŠƒ\[ƒX‚ÌƒXƒŒƒbƒfƒBƒ“ƒOƒ‚ƒfƒ‹B
@@ -118,8 +130,6 @@ ID2D1Factory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Í Direct2D ‚Ìo”­“_‚ğ’ñ‹Ÿ‚·‚éBˆê”Ê‚ÉAƒtƒ@ƒNƒgƒŠƒ
 %index
 D2D1GetGradientMeshInteriorPointsFromCoonsPatch
 Coons ƒpƒbƒ`‚ğ’è‹`‚·‚é“_‚ÉŠî‚Ã‚¢‚ÄAƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒƒbƒVƒ…ƒpƒbƒ`‚Ì“à•”“_‚ğ•Ô‚·B
-%group
-Win32 d2d1
 %prm
 pPoint0, pPoint1, pPoint2, pPoint3, pPoint4, pPoint5, pPoint6, pPoint7, pPoint8, pPoint9, pPoint10, pPoint11, pTensorPoint11, pTensorPoint12, pTensorPoint21, pTensorPoint22
 pPoint0 : [var] Œ^: D2D1_POINT_2F* ˆÊ’u 0 ‚É‚ ‚é§Œä“_‚ÌÀ•W‹óŠÔã‚ÌˆÊ’uB
@@ -148,8 +158,6 @@ Coons ƒpƒbƒ`‚ğ’è‹`‚·‚é“_‚ÉŠî‚Ã‚¢‚ÄAƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒƒbƒVƒ…ƒpƒbƒ`‚Ì“à•”“_‚ğ•Ô‚·B
 %index
 D2D1InvertMatrix
 w’è‚³‚ê‚½s—ñ‚Ì”½“]‚ğ‚İ‚éB
-%group
-Win32 d2d1
 %prm
 matrix
 matrix : [var] Œ^: D2D1_MATRIX_3X2_F* ”½“]‘ÎÛ‚Ìs—ñB
@@ -163,8 +171,6 @@ matrix : [var] Œ^: D2D1_MATRIX_3X2_F* ”½“]‘ÎÛ‚Ìs—ñB
 %index
 D2D1IsMatrixInvertible
 w’è‚³‚ê‚½s—ñ‚ª”½“]‰Â”\‚©‚ğ¦‚·B
-%group
-Win32 d2d1
 %prm
 matrix
 matrix : [var] Œ^: const D2D1_MATRIX_3X2_F* ŒŸ¸‘ÎÛ‚Ìs—ñB
@@ -178,8 +184,6 @@ matrix : [var] Œ^: const D2D1_MATRIX_3X2_F* ŒŸ¸‘ÎÛ‚Ìs—ñB
 %index
 D2D1MakeRotateMatrix
 w’è‚³‚ê‚½“_‚ğ’†S‚ÉAw’è‚³‚ê‚½Šp“x‚Å‰ñ“]‚³‚¹‚é•ÏŠ·‚ğì¬‚·‚éB
-%group
-Win32 d2d1
 %prm
 angle, center, matrix
 angle : [float] Œ^: FLOAT Œv‰ñ‚è‚Ì‰ñ“]Šp“x (“x’PˆÊ)B
@@ -195,8 +199,6 @@ matrix : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚é‚Æ‚«AV‚µ‚¢‰ñ“]•ÏŠ·‚ª
 %index
 D2D1MakeSkewMatrix
 w’è‚³‚ê‚½ x ²Šp“xAy ²Šp“xA’†S“_‚ğ‚Â‚¹‚ñ’f•ÏŠ·‚ğì¬‚·‚éB
-%group
-Win32 d2d1
 %prm
 angleX, angleY, center, matrix
 angleX : [float] Œ^: FLOAT x ²‚Ì‚¹‚ñ’fŠp“xBy ²‚©‚ç”½Œv‰ñ‚è‚É“x’PˆÊ‚Å‘ª’è‚·‚éB
@@ -210,8 +212,6 @@ matrix : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚é‚Æ‚«A‚¹‚ñ’f•ÏŠ·‚ªŠi”[
 %index
 D2D1SinCos
 Šp“x‚ÌƒTƒCƒ“‚¨‚æ‚ÑƒRƒTƒCƒ“‚ğ•Ô‚·B
-%group
-Win32 d2d1
 %prm
 angle, s, c
 angle : [float] Œ^: FLOAT ŒvZ‘ÎÛ‚ÌŠp“xB
@@ -224,8 +224,6 @@ c : [var] Œ^: FLOAT* Šp“x‚ÌƒRƒTƒCƒ“B
 %index
 D2D1Tan
 Šp“x‚Ìƒ^ƒ“ƒWƒFƒ“ƒg‚ğ•Ô‚·B
-%group
-Win32 d2d1
 %prm
 angle
 angle : [float] Œ^: FLOAT ƒ^ƒ“ƒWƒFƒ“ƒg‚ğ‹‚ß‚éŠp“xB
@@ -239,8 +237,6 @@ angle : [float] Œ^: FLOAT ƒ^ƒ“ƒWƒFƒ“ƒg‚ğ‹‚ß‚éŠp“xB
 %index
 D2D1Vec3Length
 3 ŸŒ³ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ•Ô‚·B
-%group
-Win32 d2d1
 %prm
 x, y, z
 x : [float] Œ^: FLOAT ƒxƒNƒgƒ‹‚Ì x ’lB

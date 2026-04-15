@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+gdi32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì gdi32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 DeleteObject
 ˜_—ƒyƒ“Aƒuƒ‰ƒVAƒtƒHƒ“ƒgAƒrƒbƒgƒ}ƒbƒvAƒŠ[ƒWƒ‡ƒ“AƒpƒŒƒbƒg‚ğíœ‚µAŠÖ˜A‚·‚éƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğ‚·‚×‚Ä‰ğ•ú‚·‚éBíœŒãAw’è‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Í–³Œø‚Æ‚È‚éB
-%group
-Win32 gdi32
 %prm
 ho
 ho : [intptr] ˜_—ƒyƒ“Aƒuƒ‰ƒVAƒtƒHƒ“ƒgAƒrƒbƒgƒ}ƒbƒvAƒŠ[ƒWƒ‡ƒ“AƒpƒŒƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -27,8 +47,6 @@ DC
 %index
 AbortDoc
 AbortDoc ŠÖ”‚ÍAŒ»İ‚ÌˆóüƒWƒ‡ƒu‚ğ’â~‚µAÅŒã‚É StartDoc ŠÖ”‚ğŒÄ‚ñ‚¾ˆÈ~‚É•`‰æ‚³‚ê‚½“à—e‚ğ‚·‚×‚ÄÁ‹‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ˆóüƒWƒ‡ƒu‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -49,8 +67,6 @@ AbortDoc ŠÖ”‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éBˆóüƒWƒ‡ƒu‚ğ³í‚ÉI—¹‚·‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚
 %index
 AbortPath
 AbortPath ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Ì‚·‚×‚Ä‚ÌƒpƒX‚ğ•Â‚¶‚Ä”jŠü‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒpƒX‚ğ”jŠü‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -68,8 +84,6 @@ AbortPath ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Ì‚·‚×‚Ä‚ÌƒpƒX‚ğ•Â‚¶‚Ä”jŠü‚·‚éB
 %index
 AddFontMemResourceEx
 AddFontMemResourceEx ŠÖ”‚ÍAƒƒ‚ƒŠƒCƒ[ƒW‚©‚çƒtƒHƒ“ƒgƒŠƒ\[ƒX‚ğƒVƒXƒeƒ€‚É’Ç‰Á‚·‚éB
-%group
-Win32 gdi32
 %prm
 pFileView, cjSize, pvResrved, pNumFonts
 pFileView : [intptr] ƒtƒHƒ“ƒgƒŠƒ\[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -97,8 +111,6 @@ AddFontMemResourceEx ŠÖ”‚ÍAƒƒ‚ƒŠƒCƒ[ƒW‚©‚çƒtƒHƒ“ƒgƒŠƒ\[ƒX‚ğƒVƒXƒeƒ€‚É’Ç‰Á‚
 %index
 AddFontResourceW
 AddFontResource ŠÖ”‚ÍAw’è‚µ‚½ƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒŠƒ\[ƒX‚ğƒVƒXƒeƒ€ƒtƒHƒ“ƒgƒe[ƒuƒ‹‚É’Ç‰Á‚·‚éB’Ç‰Á‚³‚ê‚½ƒtƒHƒ“ƒg‚ÍA‚»‚ÌŒã‚Ç‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‚àƒeƒLƒXƒgo—Í‚Ég—p‚Å‚«‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 param0
 param0 : [wstr] 
@@ -133,8 +145,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AddFontResourceExW
 AddFontResourceEx ŠÖ”‚ÍAw’è‚µ‚½ƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒŠƒ\[ƒX‚ğƒVƒXƒeƒ€‚É’Ç‰Á‚·‚éBAddFontResourceEx ‚Å’Ç‰Á‚µ‚½ƒtƒHƒ“ƒg‚Íƒvƒ‰ƒCƒx[ƒg‚©‚Â—ñ‹“•s‰Â”\‚Æ‚·‚é‚±‚Æ‚à‚Å‚«‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 name, fl, res
 name : [wstr] —LŒø‚ÈƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ŞAnull I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ìƒtƒ@ƒCƒ‹‚ğw’è‚Å‚«‚éB
@@ -168,8 +178,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 AngleArc
 AngleArc ŠÖ”‚ÍAü•ª‚ÆŒÊ‚ğ•`‚­B
-%group
-Win32 gdi32
 %prm
 hdc, x, y, r, StartAngle, SweepAngle
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -195,8 +203,6 @@ AngleArc
 %index
 AnimatePalette
 AnimatePalette ŠÖ”‚ÍAw’è‚µ‚½˜_—ƒpƒŒƒbƒg“à‚ÌƒGƒ“ƒgƒŠ‚ğ’u‚«Š·‚¦‚éB
-%group
-Win32 gdi32
 %prm
 hPal, iStartIndex, cEntries, ppe
 hPal : [intptr] ˜_—ƒpƒŒƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -219,8 +225,6 @@ LOGPALETTE \‘¢‘Ì‚Ì palPalEntry ƒƒ“ƒo‚É PC_RESERVED
 %index
 Arc
 Arc ŠÖ”‚Í‘È‰~ŒÊ‚ğ•`‚­B
-%group
-Win32 gdi32
 %prm
 hdc, x1, y1, x2, y2, x3, y3, x4, y4
 hdc : [intptr] •`‰æ‚ğs‚¤ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -251,8 +255,6 @@ SetArcDirection ‚ğg‚¤BƒfƒtƒHƒ‹ƒg‚Ì•`‰æ•ûŒü‚Í”½Œv‰ñ‚è‚Å‚ ‚éB
 %index
 ArcTo
 ArcTo ŠÖ”‚Í‘È‰~ŒÊ‚ğ•`‚­B
-%group
-Win32 gdi32
 %prm
 hdc, left, top, right, bottom, xr1, yr1, xr2, yr2
 hdc : [intptr] •`‰æ‚ğs‚¤ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -281,8 +283,6 @@ nYRadial1) “_‚Ö‚Ì”¼Œaü‚ÆŒğ‚í‚é“_‚©‚ç”½Œv‰ñ‚è‚É‰„‚Ñ‚éBŒÊ‚ÍAŠOÚ‹éŒ`‚Ì’†S‚©‚
 %index
 BRUSHOBJ_hGetColorTransform
 BRUSHOBJ_hGetColorTransform ŠÖ”‚ÍAw’è‚µ‚½ƒuƒ‰ƒV‚ÌƒJƒ‰[•ÏŠ·‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pbo
 pbo : [var] ƒJƒ‰[•ÏŠ·‚ğ–â‚¢‡‚í‚¹‚é‘ÎÛ‚Ì BRUSHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒJƒ‰[•ÏŠ·‚ÍAˆÈ‘O‚É DrvIcmCreateColorTransform ‚ğŒÄ‚Ño‚µ‚Äì¬‚µ‚½‚à‚Ì‚Å‚ ‚éB
@@ -301,8 +301,6 @@ XLATEOBJ_hGetColorTransform ‚ğŒÄ‚ñ‚Åæ“¾‚·‚éB
 %index
 BRUSHOBJ_pvAllocRbrush
 BRUSHOBJ_pvAllocRbrush ŠÖ”‚ÍAw’è‚µ‚½ƒuƒ‰ƒV‚Ìƒhƒ‰ƒCƒoÀ‘Ì‰»‚Ì‚½‚ß‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 gdi32
 %prm
 pbo, cj
 pbo : [var] À‘Ì‰»‚ğŠ„‚è“–‚Ä‚é‘ÎÛ‚Ì BRUSHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -322,8 +320,6 @@ BRUSHOBJ_pvAllocRbrush ‚ÍAƒuƒ‰ƒVÀ‘Ì‰»‚Ì‚½‚ß‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBGDI
 %index
 BRUSHOBJ_pvGetRbrush
 BRUSHOBJ_pvGetRbrush ŠÖ”‚ÍAw’è‚µ‚½ƒuƒ‰ƒV‚Ìƒhƒ‰ƒCƒoÀ‘Ì‰»‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pbo
 pbo : [var] À‘Ì‰»‚ğ—v‹‚·‚é‘ÎÛ‚Ì BRUSHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -346,8 +342,6 @@ BRUSHOBJ_pvGetRbrush ‚ğÄ“xŒÄ‚Ô•K—v‚ª‚È‚¢B
 %index
 BRUSHOBJ_ulGetBrushColor
 BRUSHOBJ_ulGetBrushColor ŠÖ”‚ÍAw’è‚µ‚½ƒ\ƒŠƒbƒhƒuƒ‰ƒV‚Ì RGB ƒJƒ‰[‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 pbo
 pbo : [var] F‚ğ–â‚¢‡‚í‚¹‚é‘ÎÛ‚Ì BRUSHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -367,8 +361,6 @@ BRUSHOBJ \‘¢‘Ì‚Ì iSolidColor
 %index
 BeginPath
 BeginPath ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÅƒpƒXƒuƒ‰ƒPƒbƒg‚ğƒI[ƒvƒ“‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -388,8 +380,6 @@ EndPath ‚ğŒÄ‚ñ‚ÅƒI[ƒvƒ“’†‚ÌƒpƒXƒuƒ‰ƒPƒbƒg‚ğ•Â‚¶‚é‚±‚Æ‚ª‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“
 %index
 BitBlt
 w’è‚µ‚½Œ³ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚©‚çæƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÖA‹éŒ`•ª‚ÌƒsƒNƒZƒ‹Fƒf[ƒ^‚ÌƒrƒbƒgƒuƒƒbƒN“]‘—‚ğs‚¤B
-%group
-Win32 gdi32
 %prm
 hdc, x, y, cx, cy, hdcSrc, x1, y1, rop
 hdc : [intptr] æƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -419,8 +409,6 @@ BitBlt ‚Íæ DC ‚É‘Î‚µ‚Ä‚Ì‚İƒNƒŠƒbƒsƒ“ƒO‚ğs‚¤BŒ³ DC
 %index
 CLIPOBJ_bEnum
 CLIPOBJ_bEnum ŠÖ”‚ÍAw’è‚µ‚½ƒNƒŠƒbƒv—Ìˆæ‚©‚ç‹éŒ`‚Ìƒoƒbƒ`‚ğ—ñ‹“‚·‚éB—ñ‹“‡˜‚Í–‘O‚Ì CLIPOBJ_cEnumStart ŒÄ‚Ño‚µ‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
-%group
-Win32 gdi32
 %prm
 pco, cj, pul
 pco : [var] —ñ‹“‘ÎÛ‚ÌƒNƒŠƒbƒv—Ìˆæ‚ğ•\‚· CLIPOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -443,8 +431,6 @@ CLIPOBJ_bEnum ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 %index
 CLIPOBJ_cEnumStart
 CLIPOBJ_cEnumStart ŠÖ”‚ÍAw’è‚µ‚½ƒNƒŠƒbƒv—Ìˆæ“à‚Ì‹éŒ`‚ğ—ñ‹“‚·‚é‚½‚ß‚Ìƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 pco, bAll, iType, iDirection, cLimit
 pco : [var] —ñ‹“‘ÎÛ‚ÌƒNƒŠƒbƒv—Ìˆæ‚ğ’è‹`‚·‚é CLIPOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -466,8 +452,6 @@ CLIPOBJ_cEnumStart ŠÖ”‚ÍAw’è‚µ‚½ƒNƒŠƒbƒv—Ìˆæ“à‚Ì‹éŒ`‚ğ—ñ‹“‚·‚é‚½‚ß‚Ìƒpƒ‰ƒ[ƒ
 %index
 CLIPOBJ_ppoGetPath
 CLIPOBJ_ppoGetPath ŠÖ”‚ÍAw’è‚µ‚½ƒNƒŠƒbƒv—Ìˆæ‚Ì—ÖŠs‚ğŠÜ‚Ş PATHOBJ \‘¢‘Ì‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 pco
 pco : [var] w’è‚µ‚½ƒNƒŠƒbƒv—Ìˆæ‚ğ’è‹`‚·‚é CLIPOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -485,8 +469,6 @@ CLIPOBJ_ppoGetPath ŠÖ”‚ÍAw’è‚µ‚½ƒNƒŠƒbƒv—Ìˆæ‚Ì—ÖŠs‚ğŠÜ‚Ş PATHOBJ \‘¢‘Ì‚ğì¬
 %index
 CancelDC
 CancelDC ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚Åis’†‚Ì‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -505,8 +487,6 @@ CancelDC ŠÖ”‚ÍA’·ŠÔ‚É‹y‚Ô•`‰æ‘€ì‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚½‚ß‚Éƒ}ƒ‹ƒ`ƒXƒŒƒbƒhƒAƒvƒŠƒ
 %index
 CheckColorsInGamut
 CheckColorsInGamut ŠÖ”‚ÍAw’è‚µ‚½ RGB O‘g‚ÌW‡‚ªw’èƒfƒoƒCƒX‚Ìo—ÍƒKƒ‚ƒbƒg“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éBRGB O‘g‚Í“ü—Í˜_—F‹óŠÔ‚Æ‚µ‚Ä‰ğß‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpRGBTriple, dlpBuffer, nCount
 hdc : [intptr] o—ÍƒKƒ‚ƒbƒg‚ğŠm”F‚·‚é‘ÎÛ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -534,8 +514,6 @@ information](/windows/win32/wcs/further-information)
 %index
 ChoosePixelFormat
 ChoosePixelFormat ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÅƒTƒ|[ƒg‚³‚ê‚é“KØ‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğA—^‚¦‚ç‚ê‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgd—l‚Éƒ}ƒbƒ`‚³‚¹‚éB
-%group
-Win32 gdi32
 %prm
 hdc, ppfd
 hdc : [intptr] ppfd ‚ªw‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‹Lqq‚ÉÅ‚à‚æ‚­ˆê’v‚·‚é‚à‚Ì‚ğ”»’è‚·‚é‚½‚ß‚ÉAŠÖ”‚ª’²¸‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -557,8 +535,6 @@ ChoosePixelFormat ŠÖ”‚Åˆê’v‚µ‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ª—vŒ‚ğ–‚½‚·‚©‚Í—˜—pÒ‚ªŠm
 %index
 Chord
 Chord ŠÖ”‚ÍŒ·i‘È‰~‚Æü•ªiŠ„ü‚ÆŒÄ‚Î‚ê‚éj‚ÌŒğ·‚ÅˆÍ‚Ü‚ê‚½—Ìˆæj‚ğ•`‚­BŒ·‚ÍŒ»İ‚Ìƒyƒ“‚Å—ÖŠs‚ğ•`‚«AŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc, x1, y1, x2, y2, x3, y3, x4, y4
 hdc : [intptr] Œ·‚ª•`‚©‚ê‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -586,8 +562,6 @@ Chord ŠÖ”‚ÍŒ·i‘È‰~‚Æü•ªiŠ„ü‚ÆŒÄ‚Î‚ê‚éj‚ÌŒğ·‚ÅˆÍ‚Ü‚ê‚½—Ìˆæj‚ğ•`‚­BŒ·‚ÍŒ»
 %index
 DeleteEnhMetaFile
 DeleteEnhMetaFile ŠÖ”‚ÍAŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hmf
 hmf : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -607,8 +581,6 @@ GetEnhMetaFile ‚ğŒÄ‚ñ‚Åƒtƒ@ƒCƒ‹‚ğæ“¾‚Å‚«‚éB
 %index
 CloseEnhMetaFile
 CloseEnhMetaFile ŠÖ”‚ÍAŠg’£ƒƒ^ƒtƒ@ƒCƒ‹ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğ•Â‚¶AŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -626,8 +598,6 @@ CloseEnhMetaFile ŠÖ”‚ÍAŠg’£ƒƒ^ƒtƒ@ƒCƒ‹ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğ•Â‚¶AŠg’£Œ`®ƒƒ
 %index
 CloseFigure
 CloseFigure ŠÖ”‚ÍAƒpƒX“à‚ÌƒI[ƒvƒ“‚È}Œ`‚ğ•Â‚¶‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] }Œ`‚ğ•Â‚¶‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -648,8 +618,6 @@ CloseFigure ŠÖ”‚ÍAŒ»İˆÊ’u‚©‚ç}Œ`‚ÌÅ‰‚Ì“_i’Êí‚ÍÅŒã‚Ì MoveToEx
 %index
 DeleteMetaFile
 DeleteMetaFile ŠÖ”‚ÍAWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ü‚½‚Í Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hmf
 hmf : [intptr] Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -667,8 +635,6 @@ hmf ƒpƒ‰ƒ[ƒ^‚ª¯•Ê‚·‚éƒƒ^ƒtƒ@ƒCƒ‹‚ªiƒfƒBƒXƒN‚Å‚Í‚È‚­jƒƒ‚ƒŠ“à‚É•Û‘¶‚³‚ê‚Ä‚¢
 %index
 CloseMetaFile
 CloseMetaFile ŠÖ”‚ÍAƒƒ^ƒtƒ@ƒCƒ‹ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğ•Â‚¶AWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒƒ^ƒtƒ@ƒCƒ‹ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -686,8 +652,6 @@ Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğV‚µ‚¢Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚é‚É‚Í SetWinMetaFil
 %index
 ColorCorrectPalette
 ColorCorrectPalette ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì WCS 1.0 ƒpƒ‰ƒ[ƒ^‚ğg‚Á‚ÄƒpƒŒƒbƒg‚ÌƒGƒ“ƒgƒŠ‚ğ•â³‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hPal, deFirst, num
 hdc : [intptr] WCS ƒpƒ‰ƒ[ƒ^‚ğg—p‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgB
@@ -705,8 +669,6 @@ ColorCorrectPalette ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì WCS 1.0
 %index
 ColorMatchToTarget
 ColorMatchToTarget ŠÖ”‚ğg‚¤‚ÆAƒ^[ƒQƒbƒgƒfƒoƒCƒX‚É•\¦‚³‚ê‚é‚Æ‚¨‚è‚ÌF‚ğƒvƒŒƒrƒ…[‚Å‚«‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hdcTarget, action
 hdc : [intptr] ƒvƒŒƒrƒ…[—pƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgBˆê”Ê“I‚É‚Í‰æ–ÊB
@@ -737,8 +699,6 @@ CS_DELETE_TRANSFORM ‚Éİ’è‚·‚é‚Ì‚ÍAColorMatchToTarget
 %index
 CombineRgn
 CombineRgn ŠÖ”‚Í 2 ‚Â‚Ì—Ìˆæ‚ğŒ‹‡‚µA‚»‚ÌŒ‹‰Ê‚ğ 3 ”Ô–Ú‚Ì—Ìˆæ‚ÉŠi”[‚·‚éB2 ‚Â‚Ì—Ìˆæ‚Íw’è‚µ‚½ƒ‚[ƒh‚É]‚Á‚ÄŒ‹‡‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hrgnDst, hrgnSrc1, hrgnSrc2, iMode
 hrgnDst : [intptr] ‘¼‚Ì 2 ‚Â‚Ì—Ìˆæ‚ğŒ‹‡‚µ‚Ä’è‹`‚³‚ê‚½¡–@‚ğ‚ÂV‚µ‚¢—Ìˆæ‚Ö‚Ìƒnƒ“ƒhƒ‹iCombineRgn ‚ğŒÄ‚Ño‚·‘O‚É‚±‚Ì—Ìˆæ‚Í‘¶İ‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢jB
@@ -759,8 +719,6 @@ CombineRgn ŠÖ”‚Í 2 ‚Â‚Ì—Ìˆæ‚ğŒ‹‡‚µA‚»‚ÌŒ‹‰Ê‚ğ 3 ”Ô–Ú‚Ì—Ìˆæ‚ÉŠi”[‚·‚éB2 ‚Â‚Ì—
 %index
 CombineTransform
 CombineTransform ŠÖ”‚ÍAƒ[ƒ‹ƒh‹óŠÔ‚©‚çƒy[ƒW‹óŠÔ‚Ö‚Ì 2 ‚Â‚Ì•ÏŠ·‚ğ˜AŒ‹‚·‚éB
-%group
-Win32 gdi32
 %prm
 lpxfOut, lpxf1, lpxf2
 lpxfOut : [var] Œ‹‡‚³‚ê‚½•ÏŠ·‚ğó‚¯æ‚é XFORM \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -780,8 +738,6 @@ CombineTransform ŠÖ”‚ÍAƒ[ƒ‹ƒh‹óŠÔ‚©‚çƒy[ƒW‹óŠÔ‚Ö‚Ì 2 ‚Â‚Ì•ÏŠ·‚ğ˜AŒ‹‚·‚éB
 %index
 CopyEnhMetaFileW
 CopyEnhMetaFile ŠÖ”‚ÍAŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hEnh, lpFileName
 hEnh : [intptr] ƒRƒs[‚·‚éŠg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -808,8 +764,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CopyMetaFileW
 CopyMetaFile ŠÖ”‚ÍAWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -835,8 +789,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateBitmap
 w’è‚µ‚½•A‚‚³AFŒ`®(ƒJƒ‰[ƒvƒŒ[ƒ“”‚¨‚æ‚ÑƒsƒNƒZƒ‹‚ ‚½‚è‚Ìƒrƒbƒg”)‚ğ‚Âƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 nWidth, nHeight, nPlanes, nBitCount, lpBits
 nWidth : [int] ƒrƒbƒgƒ}ƒbƒv‚Ì•(ƒsƒNƒZƒ‹’PˆÊ)B
@@ -861,8 +813,6 @@ CreateBitmap ‚ÍƒfƒoƒCƒXˆË‘¶ƒrƒbƒgƒ}ƒbƒv(DDB)‚ğì¬‚·‚éBì¬Œã‚Í SelectObject ‚Å
 %index
 CreateBitmapIndirect
 CreateBitmapIndirect ŠÖ”‚ÍAw’è‚³‚ê‚½•A‚‚³AFƒtƒH[ƒ}ƒbƒgiƒJƒ‰[ƒvƒŒ[ƒ“‚Æ bppj‚ğ‚Âƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 pbm
 pbm : [var] ƒrƒbƒgƒ}ƒbƒv‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş BITMAP \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª bmWidth ‚Ü‚½‚Í bmHeight ƒƒ“ƒo‚ğ 0 ‚Éİ’è‚µ‚½ê‡ACreateBitmapIndirect ‚Í 1~1 ƒsƒNƒZƒ‹‚Ìƒ‚ƒmƒNƒƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -891,8 +841,6 @@ CreateBitmapIndirect ŠÖ”‚ÍƒfƒoƒCƒXˆË‘¶ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éBƒrƒbƒgƒ}ƒbƒv‚ğì
 %index
 CreateBrushIndirect
 CreateBrushIndirect ŠÖ”‚ÍAw’è‚µ‚½ƒXƒ^ƒCƒ‹AFAƒpƒ^[ƒ“‚ğ‚Â˜_—ƒuƒ‰ƒV‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 plbrush
 plbrush : [var] ƒuƒ‰ƒV‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş LOGBRUSH \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -915,8 +863,6 @@ bppj‚©‚çì¬‚³‚ê‚½ƒuƒ‰ƒV‚ÍAŒ»İ‚ÌƒeƒLƒXƒgF‚Æ”wŒiF‚Å•`‰æ‚³‚ê‚éB0 ‚Ìƒrƒbƒg‚Å•
 %index
 DeleteColorSpace
 DeleteColorSpace ŠÖ”‚ÍAw’è‚µ‚½F‹óŠÔ‚ğíœ‚µ”jŠü‚·‚éB
-%group
-Win32 gdi32
 %prm
 hcs
 hcs : [intptr] íœ‚·‚éF‹óŠÔ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -930,8 +876,6 @@ DeleteColorSpace ŠÖ”‚ÍAw’è‚µ‚½F‹óŠÔ‚ğíœ‚µ”jŠü‚·‚éB
 %index
 CreateColorSpaceW
 CreateColorSpace ŠÖ”‚Í˜_—F‹óŠÔ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 lplcs
 lplcs : [var] LOGCOLORSPACE ƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -957,8 +901,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateCompatibleBitmap
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX‚ÆŒİŠ·‚Ì‚ ‚éƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, cx, cy
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -980,8 +922,6 @@ cy : [int] ƒrƒbƒgƒ}ƒbƒv‚Ì‚‚³(ƒsƒNƒZƒ‹’PˆÊ)B
 %index
 CreateCompatibleDC
 w’è‚µ‚½ƒfƒoƒCƒX‚ÆŒİŠ·‚Ì‚ ‚éƒƒ‚ƒŠƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] Šù‘¶‚Ì DC ‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŒ»İ‚ÌƒXƒNƒŠ[ƒ“‚ÆŒİŠ·‚Ìƒƒ‚ƒŠ DC ‚ğì¬‚·‚éB
@@ -1002,8 +942,6 @@ CreateCompatibleBitmap
 %index
 CreateDCA
 CreateDC ŠÖ”‚ÍAw’è‚µ‚½–¼‘O‚ÌƒfƒoƒCƒX—p‚ÉƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğì¬‚·‚éB(ANSI)
-%group
-Win32 gdi32
 %prm
 pwszDriver, pwszDevice, pszPort, pdm
 pwszDriver : [str] DISPLAY ‚Ü‚½‚Í“Á’è‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX–¼‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bˆóü‚Ìê‡AGDI ‚ÍƒvƒŠƒ“ƒ^ƒfƒoƒCƒX‚Å‚Í lpszDriver ‚ğ–³‹‚·‚é‚½‚ßANULL ‚ğ“n‚·‚±‚Æ‚ğ„§‚·‚éB
@@ -1034,8 +972,6 @@ dmICMMethod ƒƒ“ƒo‚ğ“KØ‚È’l‚Éİ’è‚·‚éB
 %index
 CreateDCW
 CreateDC ŠÖ”‚ÍAw’è‚µ‚½–¼‘O‚ÌƒfƒoƒCƒX—p‚ÉƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 pwszDriver, pwszDevice, pszPort, pdm
 pwszDriver : [wstr] DISPLAY ‚Ü‚½‚Í“Á’è‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX–¼‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bˆóü‚Ìê‡AGDI ‚ÍƒvƒŠƒ“ƒ^ƒfƒoƒCƒX‚Å‚Í lpszDriver ‚ğ–³‹‚·‚é‚½‚ßANULL ‚ğ“n‚·‚±‚Æ‚ğ„§‚·‚éB
@@ -1066,8 +1002,6 @@ dmICMMethod ƒƒ“ƒo‚ğ“KØ‚È’l‚Éİ’è‚·‚éB
 %index
 CreateDIBPatternBrush
 CreateDIBPatternBrush ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX“Æ—§ƒrƒbƒgƒ}ƒbƒv (DIB) ‚Åw’è‚³‚ê‚½ƒpƒ^[ƒ“‚ğ‚Â˜_—ƒuƒ‰ƒV‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 h, iUsage
 h : [int] BITMAPINFO \‘¢‘Ì‚Ì’¼Œã‚Éƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚ğ’è‹`‚·‚éƒoƒCƒg”z—ñ‚ª‘±‚­AƒpƒbƒNƒh DIB ‚ğŠÜ‚ŞƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1091,8 +1025,6 @@ CreateDIBPatternBrush ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX“Æ—§ƒrƒbƒgƒ}ƒbƒv (DIB)
 %index
 CreateDIBPatternBrushPt
 CreateDIBPatternBrushPt ŠÖ”‚ÍAƒfƒoƒCƒX“Æ—§ƒrƒbƒgƒ}ƒbƒv (DIB) ‚Åw’è‚³‚ê‚½ƒpƒ^[ƒ“‚ğ‚Â˜_—ƒuƒ‰ƒV‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 lpPackedDIB, iUsage
 lpPackedDIB : [intptr] BITMAPINFO \‘¢‘Ì‚Ì’¼Œã‚Éƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚ğ’è‹`‚·‚éƒoƒCƒg”z—ñ‚ª‘±‚­ƒpƒbƒNƒh DIB ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1115,8 +1047,6 @@ CreateDIBPatternBrushPt ‚Åƒuƒ‰ƒV‚ğì¬‚µ‚½ŒãASelectObject
 %index
 CreateDIBSection
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª’¼Ú‘‚«‚ß‚é DIB ‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, pbmi, usage, ppvBits, hSection, offset
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BiUsage ‚ª DIB_PAL_COLORS ‚Ìê‡A‚±‚Ì DC ‚Ì˜_—ƒpƒŒƒbƒg‚ğg—p‚µ‚Ä DIB ‚ÌF‚ğ‰Šú‰»‚·‚éB
@@ -1145,8 +1075,6 @@ biXPelsPerMeter/biYPelsPerMeter ‚ğg—p‚¹‚¸A‰ğ‘œ“xî•ñ‚ğ BITMAPINFO ‚É’ñ‹Ÿ‚µ‚È‚¢
 %index
 CreateDIBitmap
 CreateDIBitmap ŠÖ”‚Í DIB ‚©‚çŒİŠ·ƒrƒbƒgƒ}ƒbƒv (DDB) ‚ğì¬‚µA•K—v‚É‰‚¶‚Äƒrƒbƒgƒ}ƒbƒvƒrƒbƒg‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, pbmih, flInit, pjBits, pbmi, iUsage
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1173,8 +1101,6 @@ DeleteObject ‚ğŒÄ‚ñ‚Åíœ‚·‚éBICM:
 %index
 CreateDiscardableBitmap
 CreateDiscardableBitmap ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX‚ÆŒİŠ·«‚Ì‚ ‚é”jŠü‰Â”\‚Èƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, cx, cy
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1193,8 +1119,6 @@ CreateDiscardableBitmap ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX‚ÆŒİŠ·«‚Ì‚ ‚é”jŠü‰Â”\‚Èƒrƒbƒgƒ}
 %index
 CreateEllipticRgn
 CreateEllipticRgn ŠÖ”‚Í‘È‰~ƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 x1, y1, x2, y2
 x1 : [int] ‘È‰~‚ÌŠOÚ‹éŒ`‚Ì¶ã‹÷‚Ì x À•Wi˜_—’PˆÊjB
@@ -1215,8 +1139,6 @@ HRGN ƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç DeleteObject
 %index
 CreateEllipticRgnIndirect
 CreateEllipticRgnIndirect ŠÖ”‚Í‘È‰~ƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 lprect
 lprect : [var] ‘È‰~‚ÌŠOÚ‹éŒ`‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•Wi˜_—’PˆÊj‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1234,8 +1156,6 @@ HRGN ƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç DeleteObject
 %index
 CreateEnhMetaFileW
 CreateEnhMetaFile ŠÖ”‚ÍŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹—p‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÍƒfƒoƒCƒX“Æ—§‚È}‚ğ•Û‘¶‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpFilename, lprc, lpDesc
 hdc : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹—p‚ÌƒŠƒtƒ@ƒŒƒ“ƒXƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚ğw’è‰Â”\BÚ×‚Í”õl‚ğQÆB
@@ -1271,8 +1191,6 @@ GetWinMetaFileBits ‚ğg‚Á‚ÄŠg’£ƒƒ^ƒtƒ@ƒCƒ‹‚ğŒÃ‚¢ Windows
 %index
 CreateFontW
 w’è‚³‚ê‚½“Á«‚ğ‚Â˜_—ƒtƒHƒ“ƒg‚ğì¬‚·‚éB˜_—ƒtƒHƒ“ƒg‚Í”CˆÓ‚ÌƒfƒoƒCƒX‚ÌƒtƒHƒ“ƒg‚Æ‚µ‚Ä‘I‘ğ‚Å‚«‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 cHeight, cWidth, cEscapement, cOrientation, cWeight, bItalic, bUnderline, bStrikeOut, iCharSet, iOutPrecision, iClipPrecision, iQuality, iPitchAndFamily, pszFaceName
 cHeight : [int] ƒtƒHƒ“ƒg‚Ì•¶šƒZƒ‹‚Ü‚½‚Í•¶š‚Ì‚‚³(˜_—’PˆÊ)B•¶š‚‚³(em ‚‚³)‚Í•¶šƒZƒ‹‚‚³‚©‚ç internal-leading ’l‚ğˆø‚¢‚½’lB
@@ -1306,8 +1224,6 @@ CreateFont/CreateFontIndirect/CreateFontIndirectEx
 %index
 CreateFontIndirectW
 w’è‚³‚ê‚½“Á«‚ğ‚Â˜_—ƒtƒHƒ“ƒg‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 lplf
 lplf : [var] ˜_—ƒtƒHƒ“ƒg‚Ì“Á«‚ğ’è‹`‚·‚é LOGFONT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1327,8 +1243,6 @@ EnumFontFamiliesEx ‚Å“KØ‚È‘‘Ì–¼‚ğæ“¾‚µ‚Ä‚©‚ç CreateFont/CreateFontIndirect
 %index
 CreateFontIndirectExW
 CreateFontIndirectEx ŠÖ”‚ÍAw’è‚µ‚½\‘¢‘Ì“à‚Ì“Á«‚ğ‚Â˜_—ƒtƒHƒ“ƒg‚ğw’è‚·‚éB‚±‚ÌƒtƒHƒ“ƒg‚Í‚»‚ÌŒãA”CˆÓ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒtƒHƒ“ƒg‚Æ‚µ‚Ä‘I‘ğ‚Å‚«‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 param0
 param0 : [var] 
@@ -1358,8 +1272,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateHalftonePalette
 CreateHalftonePalette ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) —p‚Ìƒn[ƒtƒg[ƒ“ƒpƒŒƒbƒg‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1379,8 +1291,6 @@ CreateHalftonePalette ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) —p‚Ìƒn[ƒtƒg[ƒ“
 %index
 CreateHatchBrush
 w’è‚³‚ê‚½ƒnƒbƒ`ƒpƒ^[ƒ“‚ÆF‚ğ‚Â˜_—ƒuƒ‰ƒV‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 iHatch, color
 iHatch : [int] 
@@ -1401,8 +1311,6 @@ color : [int] ƒnƒbƒ`‚Ég—p‚·‚éƒuƒ‰ƒV‚Ì‘OŒiFBCOLORREF ’l‚Í RGB ƒ}ƒNƒ‚Åì¬‚·‚é
 %index
 CreateICA
 CreateIC ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX—p‚Ìî•ñƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB(ANSI)
-%group
-Win32 gdi32
 %prm
 pszDriver, pszDevice, pszPort, pdm
 pszDriver : [str] ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ì–¼‘Oi—áFEpsonj‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1428,8 +1336,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateICW
 CreateIC ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX—p‚Ìî•ñƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 pszDriver, pszDevice, pszPort, pdm
 pszDriver : [wstr] ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ì–¼‘Oi—áFEpsonj‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1455,8 +1361,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateMetaFileW
 CreateMetaFile ŠÖ”‚ÍAWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹—p‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 pszFile
 pszFile : [wstr] ì¬‚·‚é Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡AWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Íƒƒ‚ƒŠã‚É’u‚©‚êADeleteMetaFile ‚Åíœ‚³‚ê‚é‚Æ“à—e‚ª¸‚í‚ê‚éB
@@ -1491,8 +1395,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreatePalette
 CreatePalette ŠÖ”‚Í˜_—ƒpƒŒƒbƒg‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 plpal
 plpal : [var] ˜_—ƒpƒŒƒbƒg“à‚ÌF‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş LOGPALETTE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1512,8 +1414,6 @@ CreatePalette ŠÖ”‚Í˜_—ƒpƒŒƒbƒg‚ğì¬‚·‚éB
 %index
 CreatePatternBrush
 w’è‚µ‚½ƒrƒbƒgƒ}ƒbƒvƒpƒ^[ƒ“‚ğ‚Â˜_—ƒuƒ‰ƒV‚ğì¬‚·‚éBƒrƒbƒgƒ}ƒbƒv‚Í CreateDIBSection ‚Åì¬‚µ‚½ DIB ƒZƒNƒVƒ‡ƒ“ƒrƒbƒgƒ}ƒbƒv‚Å‚àƒfƒoƒCƒXˆË‘¶ƒrƒbƒgƒ}ƒbƒv‚Å‚à‚æ‚¢B
-%group
-Win32 gdi32
 %prm
 hbm
 hbm : [intptr] ˜_—ƒuƒ‰ƒV‚Ìì¬‚Ég—p‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1534,8 +1434,6 @@ hbm : [intptr] ˜_—ƒuƒ‰ƒV‚Ìì¬‚Ég—p‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 CreatePen
 w’è‚³‚ê‚½ƒXƒ^ƒCƒ‹A•AF‚ğ‚Â˜_—ƒyƒ“‚ğì¬‚·‚éBƒyƒ“‚Í DC ‚É‘I‘ğ‚µ‚Äü‚â‹Èü‚Ì•`‰æ‚Ég—p‚Å‚«‚éB
-%group
-Win32 gdi32
 %prm
 iStyle, cWidth, color
 iStyle : [int] 
@@ -1559,8 +1457,6 @@ DeleteObject ‚Åíœ‚·‚éB
 %index
 CreatePenIndirect
 CreatePenIndirect ŠÖ”‚ÍA\‘¢‘Ì‚Åw’è‚µ‚½ƒXƒ^ƒCƒ‹A•AF‚ğ‚Â˜_—ƒRƒXƒƒeƒBƒbƒNƒyƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 plpen
 plpen : [var] ƒyƒ“‚ÌƒXƒ^ƒCƒ‹A•AF‚ğw’è‚·‚é LOGPEN \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1579,8 +1475,6 @@ DeleteObject ‚ğŒÄ‚ñ‚Åíœ‚·‚éB
 %index
 CreatePolyPolygonRgn
 CreatePolyPolygonRgn ŠÖ”‚ÍA•¡”‚Ìƒ|ƒŠƒSƒ“‚©‚ç‚È‚éƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éBƒ|ƒŠƒSƒ“‚Íd‚È‚Á‚Ä‚à‚æ‚¢B
-%group
-Win32 gdi32
 %prm
 pptl, pc, cPoly, iMode
 pptl : [var] ƒ|ƒŠƒSƒ“‚Ì’¸“_‚ğ˜_—’PˆÊ‚Å’è‹`‚·‚é POINT \‘¢‘Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒ|ƒŠƒSƒ“‚Í˜A‘±‚µ‚Äw’è‚·‚éBŠeƒ|ƒŠƒSƒ“‚Í•Â‚¶‚Ä‚¢‚é‚ÆŒ©‚È‚³‚êAŠe’¸“_‚Í 1 “x‚Ì‚İw’è‚·‚éB
@@ -1601,8 +1495,6 @@ HRGN ƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç DeleteObject ‚ğŒÄ‚ñ‚Åíœ‚·‚éBƒŠ[ƒWƒ‡ƒ“À•W‚
 %index
 CreatePolygonRgn
 CreatePolygonRgn ŠÖ”‚Íƒ|ƒŠƒSƒ“ƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 pptl, cPoint, iMode
 pptl : [var] ƒ|ƒŠƒSƒ“‚Ì’¸“_‚ğ˜_—’PˆÊ‚Å’è‹`‚·‚é POINT \‘¢‘Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒ|ƒŠƒSƒ“‚Í•Â‚¶‚Ä‚¢‚é‚ÆŒ©‚È‚³‚ê‚éBŠe’¸“_‚Í 1 “x‚Ì‚İw’è‚Å‚«‚éB
@@ -1625,8 +1517,6 @@ CreatePolygonRgn ‚È‚Çj‚Åì¬‚³‚ê‚éƒŠ[ƒWƒ‡ƒ“‚ÍŒ`ó‚Ì“à‘¤‚Ì‚İ‚ğŠÜ‚İAŒ`ó‚Ì—ÖŠs‚
 %index
 CreateRectRgn
 CreateRectRgn ŠÖ”‚Í‹éŒ`ƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 x1, y1, x2, y2
 x1 : [int] ƒŠ[ƒWƒ‡ƒ“‚Ì¶ã‹÷‚Ì x À•Wi˜_—’PˆÊjB
@@ -1650,8 +1540,6 @@ CreatePolygonRgn ‚È‚Çj‚Åì¬‚³‚ê‚éƒŠ[ƒWƒ‡ƒ“‚ÍŒ`ó‚Ì“à‘¤‚Ì‚İ‚ğŠÜ‚İAŒ`ó‚Ì—ÖŠs‚
 %index
 CreateRectRgnIndirect
 CreateRectRgnIndirect ŠÖ”‚Í‹éŒ`ƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 lprect
 lprect : [var] ƒŠ[ƒWƒ‡ƒ“‚ğ’è‹`‚·‚é‹éŒ`‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•Wi˜_—’PˆÊj‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1669,8 +1557,6 @@ HRGN ƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç DeleteObject ‚ğŒÄ‚ñ‚Åíœ‚·‚éBƒŠ[ƒWƒ‡ƒ“À•W‚
 %index
 CreateRoundRectRgn
 CreateRoundRectRgn ŠÖ”‚ÍAŠp‚ªŠÛ‚¢‹éŒ`ƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 x1, y1, x2, y2, w, h
 x1 : [int] ƒŠ[ƒWƒ‡ƒ“‚Ì¶ã‹÷‚Ì x À•WiƒfƒoƒCƒX’PˆÊjB
@@ -1693,8 +1579,6 @@ HRGN ƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç DeleteObject ‚ğŒÄ‚ñ‚Åíœ‚·‚éBƒŠ[ƒWƒ‡ƒ“À•W‚
 %index
 CreateScalableFontResourceW
 CreateScalableFontResource ŠÖ”‚ÍAƒXƒP[ƒ‰ƒuƒ‹ƒtƒHƒ“ƒg—p‚ÌƒtƒHƒ“ƒgƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 fdwHidden, lpszFont, lpszFile, lpszPath
 fdwHidden : [int] 
@@ -1743,8 +1627,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 CreateSolidBrush
 w’è‚³‚ê‚½’PF‚ğ‚Â˜_—ƒuƒ‰ƒV‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 color
 color : [int] ƒuƒ‰ƒV‚ÌFBCOLORREF ’l‚Í RGB ƒ}ƒNƒ‚Åì¬‚·‚éB
@@ -1763,8 +1645,6 @@ HBRUSH ƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç DeleteObject
 %index
 DPtoLP
 DPtoLP ŠÖ”‚ÍƒfƒoƒCƒXÀ•W‚ğ˜_—À•W‚É•ÏŠ·‚·‚éB•ÏŠ·‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒbƒsƒ“ƒOƒ‚[ƒhAƒEƒBƒ“ƒhƒE‚Æƒrƒ…[ƒ|[ƒg‚ÌŒ´“_‚Æ”ÍˆÍ‚Ìİ’èAƒ[ƒ‹ƒh•ÏŠ·‚ÉˆË‘¶‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lppt, c
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1785,8 +1665,6 @@ DPtoLP ŠÖ”‚ÍAƒfƒoƒCƒXÀ•W‚ª 27 ƒrƒbƒg‚ğ’´‚¦‚é‚©A•ÏŠ·Œã‚Ì˜_—À•W‚ª 32
 %index
 DeleteDC
 w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1803,8 +1681,6 @@ GetDC ‚Åæ“¾‚µ‚½ƒnƒ“ƒhƒ‹‚Ì DC ‚ğ DeleteDC ‚Åíœ‚µ‚Ä‚Í‚È‚ç‚È‚¢B‘ã‚í‚è‚É Release
 %index
 DescribePixelFormat
 DescribePixelFormat ŠÖ”‚ÍAhdc ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX‚Ì iPixelFormat ‚Å¯•Ê‚³‚ê‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBŠÖ”‚Í ppfd ‚ªw‚· PIXELFORMATDESCRIPTOR \‘¢‘Ì‚Ìƒƒ“ƒo‚ğ‚»‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgƒf[ƒ^‚Åİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iPixelFormat, nBytes, ppfd
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -1826,8 +1702,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DrawEscape
 DrawEscape ŠÖ”‚ÍAƒOƒ‰ƒtƒBƒbƒNƒXƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX (GDI) ‚Å‚Í’¼Ú—˜—p‚Å‚«‚È‚¢Aw’è‚µ‚½ƒrƒfƒIƒfƒBƒXƒvƒŒƒC‚Ì•`‰æ‹@”\‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iEscape, cjIn, lpIn
 hdc : [intptr] w’è‚µ‚½ƒrƒfƒIƒfƒBƒXƒvƒŒƒC‚Ì DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1850,8 +1724,6 @@ DrawEscape ŠÖ”‚ÍAƒOƒ‰ƒtƒBƒbƒNƒXƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX (GDI)
 %index
 Ellipse
 D2D1_ELLIPSE \‘¢‘Ì‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, left, top, right, bottom
 hdc : [intptr] 
@@ -1869,8 +1741,6 @@ D2D1_ELLIPSE \‘¢‘Ì‚ğì¬‚·‚éB
 %index
 EndDoc
 EndDoc ŠÖ”‚ÍˆóüƒWƒ‡ƒu‚ğI—¹‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ˆóüƒWƒ‡ƒu‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1889,8 +1759,6 @@ EndDoc ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 %index
 EndPage
 EndPage ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒy[ƒW‚Ö‚Ì‘‚«‚İ‚ğI‚¦‚½‚±‚Æ‚ğƒfƒoƒCƒX‚É’Ê’m‚·‚éB‚±‚ÌŠÖ”‚Í’ÊíAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÉV‚µ‚¢ƒy[ƒW‚Öi‚Ş‚æ‚¤w¦‚·‚é‚½‚ß‚Ég—p‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ˆóüƒWƒ‡ƒu‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1915,8 +1783,6 @@ EndPage
 %index
 EndPath
 EndPath ŠÖ”‚ÍAƒpƒXƒuƒ‰ƒPƒbƒg‚ğ•Â‚¶A‚»‚Ìƒuƒ‰ƒPƒbƒg‚Å’è‹`‚³‚ê‚½ƒpƒX‚ğw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] V‚µ‚¢ƒpƒX‚ğ‘I‘ğ‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1930,8 +1796,6 @@ EndPath ŠÖ”‚ÍAƒpƒXƒuƒ‰ƒPƒbƒg‚ğ•Â‚¶A‚»‚Ìƒuƒ‰ƒPƒbƒg‚Å’è‹`‚³‚ê‚½ƒpƒX‚ğw’è‚µ‚½ƒf
 %index
 EngDeleteSemaphore
 EngDeleteSemaphore ŠÖ”‚ÍAƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒŠƒXƒg‚©‚çƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hsem
 hsem : [intptr] íœ‚·‚éƒZƒ}ƒtƒH‚Ö‚Ìƒnƒ“ƒhƒ‹BƒZƒ}ƒtƒH‚Í EngCreateSemaphore ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚ ‚éB
@@ -1945,8 +1809,6 @@ EngDeleteSemaphore ŠÖ”‚ÍAƒVƒXƒeƒ€‚ÌƒŠƒ\[ƒXƒŠƒXƒg‚©‚çƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ğí
 %index
 EngAcquireSemaphore
 EngAcquireSemaphore ŠÖ”‚ÍAŒÄ‚Ño‚µƒXƒŒƒbƒh‚Ì”r‘¼ƒAƒNƒZƒX—p‚ÉƒZƒ}ƒtƒH‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒX‚ğŠl“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hsem
 hsem : [intptr] Šl“¾‚·‚éƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒZƒ}ƒtƒH‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1965,8 +1827,6 @@ EngReleaseSemaphore ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 %index
 EngAlphaBlend
 EngAlphaBlend ŠÖ”‚ÍAƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒfƒBƒ“ƒO•t‚«ƒrƒbƒgƒuƒƒbƒN“]‘—‹@”\‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 gdi32
 %prm
 psoDest, psoSrc, pco, pxlo, prclDest, prclSrc, pBlendObj
 psoDest : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ¯•Ê‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1990,8 +1850,6 @@ EngAlphaBlend ‚Í¬Œ÷‚É TRUE ‚ğ•Ô‚·BƒGƒ‰[‚ª”­¶‚µ‚½ê‡AFALSE ‚ğ•Ô‚µƒGƒ‰[ƒR
 %index
 EngAssociateSurface
 EngAssociateSurface ŠÖ”‚ÍAw’è‚µ‚½ƒT[ƒtƒFƒX‚ğw’èƒfƒoƒCƒX‚É‘®‚·‚é‚à‚Ì‚Æ‚µ‚Äƒ}[ƒN‚·‚éB
-%group
-Win32 gdi32
 %prm
 hsurf, hdev, flHooks
 hsurf : [intptr] hdev ‚ÉŠÖ˜A•t‚¯‚éƒT[ƒtƒFƒX‚Ü‚½‚Íƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í EngCreateBitmap ‚Ü‚½‚Í EngCreateDeviceBitmap ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚ ‚éB
@@ -2024,8 +1882,6 @@ DrvCreateDeviceBitmap/DrvDeleteDeviceBitmap
 %index
 EngBitBlt
 EngBitBlt ŠÖ”‚ÍAƒfƒoƒCƒXŠÇ—ƒT[ƒtƒFƒXŠÔA‚Ü‚½‚ÍƒfƒoƒCƒXŠÇ—ƒT[ƒtƒFƒX‚Æ GDI ŠÇ—‚Ì•W€ƒtƒH[ƒ}ƒbƒgƒrƒbƒgƒ}ƒbƒvŠÔ‚ÅA”Ä—pƒrƒbƒgƒuƒƒbƒN“]‘—‹@”\‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 gdi32
 %prm
 psoTrg, psoSrc, psoMask, pco, pxlo, prclTrg, pptlSrc, pptlMask, pbo, pptlBrush, rop4
 psoTrg : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ¯•Ê‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2055,8 +1911,6 @@ Microsoft Windows SDK ƒhƒLƒ…ƒƒ“ƒg‚ğQÆB
 %index
 EngCheckAbort
 EngCheckAbort ŠÖ”‚ÍAˆóüƒWƒ‡ƒu‚ğI—¹‚·‚×‚«‚©‚Ç‚¤‚©‚ğƒvƒŠƒ“ƒ^ƒOƒ‰ƒtƒBƒbƒNƒX DLL ‚ª”»’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 gdi32
 %prm
 pso
 pso : [var] ˆÈ‘O‚É GDI ‚©‚çó‚¯æ‚Á‚½ SURFOBJ \‘¢‘Ì‚Ö‚ÌAŒÄ‚Ño‚µŒ³’ñ‹Ÿ‚Ìƒ|ƒCƒ“ƒ^B
@@ -2076,8 +1930,6 @@ EngCheckAbort ŠÖ”‚ÍAˆóüƒWƒ‡ƒu‚ğI—¹‚·‚×‚«‚©‚Ç‚¤‚©‚ğƒvƒŠƒ“ƒ^ƒOƒ‰ƒtƒBƒbƒNƒX DLL
 %index
 EngComputeGlyphSet
 EngComputeGlyphSet ŠÖ”‚ÍAƒfƒoƒCƒXã‚ÅƒTƒ|[ƒg‚³‚ê‚éƒOƒŠƒtƒZƒbƒg‚ğŒvZ‚·‚éB
-%group
-Win32 gdi32
 %prm
 nCodePage, nFirstChar, cChars
 nCodePage : [int] ƒTƒ|[ƒg‚³‚ê‚éƒR[ƒhƒy[ƒWB
@@ -2098,8 +1950,6 @@ FD_GLYPHSET \‘¢‘Ì‚Ìg—p‚ªI‚í‚Á‚½‚çAƒhƒ‰ƒCƒo‚Í EngFreeMem ‚ğŒÄ‚ñ‚Åƒƒ‚ƒŠ‚ğ‰ğ•ú
 %index
 EngCopyBits
 EngCopyBits ŠÖ”‚ÍAƒfƒoƒCƒXŠÇ—ƒ‰ƒXƒ^ƒT[ƒtƒFƒX‚Æ GDI •W€ƒtƒH[ƒ}ƒbƒgƒrƒbƒgƒ}ƒbƒv‚Æ‚ÌŠÔ‚Ì•ÏŠ·‚ğs‚¤B
-%group
-Win32 gdi32
 %prm
 psoDest, psoSrc, pco, pxlo, prclDest, pptlSrc
 psoDest : [var] ƒRƒs[‘€ì‚Ìˆ¶æƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2124,8 +1974,6 @@ EngCopyBits ŠÖ”‚ÍAƒfƒoƒCƒXŠÇ—ƒ‰ƒXƒ^ƒT[ƒtƒFƒX‚Æ GDI •W€ƒtƒH[ƒ}ƒbƒgƒrƒbƒgƒ}ƒ
 %index
 EngCreateBitmap
 EngCreateBitmap ŠÖ”‚ÍAGDI ‚Éƒrƒbƒgƒ}ƒbƒv‚ğì¬EŠÇ—‚·‚é‚æ‚¤—v‹‚·‚éB
-%group
-Win32 gdi32
 %prm
 sizl, lWidth, iFormat, fl, pvBits
 sizl : [var] ì¬‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ì•‚Æ‚‚³iƒsƒNƒZƒ‹’PˆÊj‚ğƒƒ“ƒo‚ÉŠÜ‚Ş SIZEL \‘¢‘Ì‚ğw’è‚·‚éBSIZEL \‘¢‘Ì‚Í SIZE \‘¢‘Ì‚Æ“¯ˆê‚Å‚ ‚éBpvBits ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì’l‚ÍƒfƒoƒCƒXã‚ÅŒ©‚¦‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ğ•\‚·‚×‚«‚ÅAƒfƒoƒCƒX‚ªƒIƒtƒXƒNƒŠ[ƒ“ƒƒ‚ƒŠ‚ğ•Û‚Å‚«‚é‚æ‚¤‚É‚·‚éB
@@ -2151,8 +1999,6 @@ EngCreateBitmap ŠÖ”‚ÍAGDI ‚Éƒrƒbƒgƒ}ƒbƒv‚ğì¬EŠÇ—‚·‚é‚æ‚¤—v‹‚·‚éB
 %index
 EngCreateClip
 EngCreateClip ŠÖ”‚ÍAƒhƒ‰ƒCƒo‚ªƒR[ƒ‹ƒoƒbƒN‚Åg—p‚·‚é CLIPOBJ \‘¢‘Ì‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 
 %inst
@@ -2173,8 +2019,6 @@ DC_RECT ‚Éİ’è‚³‚ê‚½ê‡Aƒhƒ‰ƒCƒo‚Í CLIPOBJ ‚Ì rclBounds
 %index
 EngCreateDeviceBitmap
 EngCreateDeviceBitmap ŠÖ”‚ÍAƒfƒoƒCƒXƒrƒbƒgƒ}ƒbƒv—p‚Ìƒnƒ“ƒhƒ‹‚ğì¬‚·‚é‚æ‚¤ GDI ‚É—v‹‚·‚éB
-%group
-Win32 gdi32
 %prm
 dhsurf, sizl, iFormatCompat
 dhsurf : [intptr] ì¬‚·‚éƒfƒoƒCƒXƒrƒbƒgƒ}ƒbƒv‚Ö‚ÌƒfƒoƒCƒXƒnƒ“ƒhƒ‹B
@@ -2194,8 +2038,6 @@ EngDeleteSurface ‚Åíœ‚·‚éB
 %index
 EngCreateDeviceSurface
 EngCreateDeviceSurface ŠÖ”‚ÍAƒhƒ‰ƒCƒo‚ªŠÇ—‚·‚éƒfƒoƒCƒXƒT[ƒtƒFƒX‚ğì¬‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 dhsurf, sizl, iFormatCompat
 dhsurf : [intptr] ƒfƒoƒCƒX‚ªŠÇ—‚·‚éƒT[ƒtƒFƒX‚Ö‚ÌƒfƒoƒCƒXƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍA“üo—Í‚Ì‚½‚ß‚É SURFOBJ \‘¢‘Ì‚ª“n‚³‚ê‚é‚Æ‚«‚Éƒhƒ‰ƒCƒo‚Ö“n‚³‚ê‚éB
@@ -2215,8 +2057,6 @@ EngCreateDeviceSurface ŠÖ”‚ÍAƒhƒ‰ƒCƒo‚ªŠÇ—‚·‚éƒfƒoƒCƒXƒT[ƒtƒFƒX‚ğì¬‚µA‚»‚
 %index
 EngCreatePalette
 EngCreatePalette ŠÖ”‚ÍARGB ƒpƒŒƒbƒg‚ğì¬‚·‚é‚æ‚¤ GDI ‚É—v‹‚ğ‘—‚éB
-%group
-Win32 gdi32
 %prm
 iMode, cColors, pulColors, flRed, flGreen, flBlue
 iMode : [int] 
@@ -2244,8 +2084,6 @@ EngDeletePalette ‚Åíœ‚·‚×‚«‚Å‚ ‚éB
 %index
 EngCreateSemaphore
 EngCreateSemaphore ŠÖ”‚ÍƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 
 %inst
@@ -2262,8 +2100,6 @@ EngCreateSemaphore ŠÖ”‚ÍƒZƒ}ƒtƒHƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %index
 EngDeleteClip
 EngDeleteClip ŠÖ”‚ÍAEngCreateClip ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ CLIPOBJ \‘¢‘Ì‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 pco
 pco : [var] íœ‚·‚é CLIPOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2277,8 +2113,6 @@ EngDeleteClip ŠÖ”‚ÍAEngCreateClip ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ CLIPOBJ \‘¢‘Ì‚ğíœ‚·‚éB
 %index
 EngDeletePalette
 EngDeletePalette ŠÖ”‚ÍAw’è‚µ‚½ƒpƒŒƒbƒg‚ğíœ‚·‚é‚æ‚¤ GDI ‚É—v‹‚ğ‘—‚éB
-%group
-Win32 gdi32
 %prm
 hpal
 hpal : [intptr] íœ‚·‚éƒpƒŒƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í EngCreatePalette ‚É‚æ‚Á‚Ä’ñ‹Ÿ‚³‚ê‚éB
@@ -2292,8 +2126,6 @@ EngDeletePalette ŠÖ”‚ÍAw’è‚µ‚½ƒpƒŒƒbƒg‚ğíœ‚·‚é‚æ‚¤ GDI ‚É—v‹‚ğ‘—‚éB
 %index
 EngDeletePath
 EngDeletePath ŠÖ”‚ÍAˆÈ‘O EngCreatePath ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ƒpƒX‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 ppo
 ppo : [var] íœ‚·‚é PATHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2307,8 +2139,6 @@ EngDeletePath ŠÖ”‚ÍAˆÈ‘O EngCreatePath ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ƒpƒX‚ğíœ‚·‚éB
 %index
 EngDeleteSurface
 EngDeleteSurface ŠÖ”‚ÍAw’è‚µ‚½ƒT[ƒtƒFƒX‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hsurf
 hsurf : [intptr] íœ‚·‚éƒT[ƒtƒFƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í HSURF ‚Ü‚½‚Í HBM ‚Å‚ ‚éB
@@ -2323,8 +2153,6 @@ EngDeleteSurface ‚ÍƒT[ƒtƒFƒX‚Ìíœ‚É¬Œ÷‚µ‚½ê‡ TRUE ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í 
 %index
 EngEraseSurface
 EngEraseSurface ŠÖ”‚Í GDI ‚ğŒÄ‚ñ‚ÅƒT[ƒtƒFƒX‚ğÁ‹‚·‚éBƒT[ƒtƒFƒXã‚Ìw’è‹éŒ`‚ªw’èF‚Å“h‚è‚Â‚Ô‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 pso, prcl, iColor
 pso : [var] Á‹‚·‚éƒT[ƒtƒFƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2340,8 +2168,6 @@ EngEraseSurface ŠÖ”‚Í GDI ‚ğŒÄ‚ñ‚ÅƒT[ƒtƒFƒX‚ğÁ‹‚·‚éBƒT[ƒtƒFƒXã‚Ìw’è‹éŒ`‚
 %index
 EngFillPath
 EngFillPath ŠÖ”‚ÍƒpƒX‚ğ“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 pso, ppo, pco, pbo, pptlBrushOrg, mix, flOptions
 pso : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2366,8 +2192,6 @@ GCAPS_ALTERNATEFILL, GCAPS_WINDINGFILL) ‚Æ‚Ì”äŠr‚É‰‚¶‚Ä‚±‚ÌƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg‚ğŒÄ
 %index
 EngFindResource
 EngFindResource ŠÖ”‚ÍAƒ‚ƒWƒ…[ƒ‹“à‚ÌƒŠƒ\[ƒX‚ÌˆÊ’u‚ğ“Á’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 h, iName, iType, pulSize
 h : [intptr] ƒŠƒ\[ƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í EngLoadModule ‚©‚çæ“¾‚·‚éB
@@ -2387,8 +2211,6 @@ EngFindResource ŠÖ”‚ÍAƒ‚ƒWƒ…[ƒ‹“à‚ÌƒŠƒ\[ƒX‚ÌˆÊ’u‚ğ“Á’è‚·‚éB
 %index
 EngFreeModule
 EngFreeModule ŠÖ”‚Íƒtƒ@ƒCƒ‹‚ğƒVƒXƒeƒ€ƒƒ‚ƒŠ‚©‚çƒAƒ“ƒ}ƒbƒv‚·‚éB
-%group
-Win32 gdi32
 %prm
 h
 h : [intptr] ‰ğ•ú‚·‚éƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í EngLoadModule ‚Ü‚½‚Í EngLoadModuleForWrite ‚©‚çæ“¾‚µ‚½‚à‚Ì‚Å‚ ‚éB
@@ -2402,8 +2224,6 @@ EngFreeModule ŠÖ”‚Íƒtƒ@ƒCƒ‹‚ğƒVƒXƒeƒ€ƒƒ‚ƒŠ‚©‚çƒAƒ“ƒ}ƒbƒv‚·‚éB
 %index
 EngGetCurrentCodePage
 EngGetCurrentCodePage ŠÖ”‚ÍAƒVƒXƒeƒ€‚ÌƒfƒtƒHƒ‹ƒg OEM ‚¨‚æ‚Ñ ANSI ƒR[ƒhƒy[ƒW‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 OemCodePage, AnsiCodePage
 OemCodePage : [var] ƒVƒXƒeƒ€‚ÌƒfƒtƒHƒ‹ƒg OEM ƒR[ƒhƒy[ƒW‚ğó‚¯æ‚é USHORT ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2422,8 +2242,6 @@ EngGetCurrentCodePage ‚ÍAANSI ‚©‚ç Unicode
 %index
 EngGetDriverName
 EngGetDriverName ŠÖ”‚ÍAƒhƒ‰ƒCƒo DLL ‚Ì–¼‘O‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdev
 hdev : [intptr] ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Íƒhƒ‰ƒCƒo‚ª DrvCompletePDEV ‚Ì hdev ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äó‚¯æ‚é GDI ƒnƒ“ƒhƒ‹‚Å‚ ‚éB
@@ -2439,8 +2257,6 @@ EngGetDriverName ‚ÍAƒhƒ‰ƒCƒo DLL ‚Ì–¼‘O‚ªw’è‚³‚ê‚½ null
 %index
 EngGetPrinterDataFileName
 EngGetPrinterDataFileName ŠÖ”‚ÍAƒvƒŠƒ“ƒ^‚Ìƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ì•¶š—ñ–¼‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdev
 hdev : [intptr] ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Íƒhƒ‰ƒCƒo‚ª DrvCompletePDEV ‚Ì hdev ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äó‚¯æ‚é GDI ƒnƒ“ƒhƒ‹‚Å‚ ‚éB
@@ -2457,8 +2273,6 @@ EngGetPrinterDataFileName ‚ÍAƒvƒŠƒ“ƒ^‚Ìƒf[ƒ^ƒtƒ@ƒCƒ‹–¼‚ªw’è‚³‚ê‚½ null
 %index
 EngGradientFill
 EngGradientFill ŠÖ”‚ÍAw’è‚µ‚½ƒvƒŠƒ~ƒeƒBƒu‚ğƒVƒF[ƒfƒBƒ“ƒO‚·‚éB
-%group
-Win32 gdi32
 %prm
 psoDest, pco, pxlo, pVertex, nVertex, pMesh, nMesh, prclExtents, pptlDitherOrg, ulMode
 psoDest : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ¯•Ê‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2486,8 +2300,6 @@ GDI ‚Í’¸“_‚ÌƒAƒ‹ƒtƒ@’l‚ğ–³‹‚µAƒAƒ‹ƒtƒ@‚ğƒTƒ|[ƒg‚·‚éƒT[ƒtƒFƒX‚Å‚ÍƒAƒ‹ƒtƒ@ƒ`ƒƒ
 %index
 EngLineTo
 EngLineTo ŠÖ”‚ÍA’Pˆê‚Åƒ\ƒŠƒbƒh‚È®”‚Ì‚İ‚ÌƒRƒXƒƒeƒBƒbƒNƒ‰ƒCƒ“‚ğ•`‚­B
-%group
-Win32 gdi32
 %prm
 pso, pco, pbo, x1, y1, x2, y2, prclBounds, mix
 pso : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2513,8 +2325,6 @@ EngLineTo ‚ğŒÄ‚Ô‚±‚Æ‚ª‚Å‚«‚éB
 %index
 EngLoadModule
 EngLoadModule ŠÖ”‚ÍAw’è‚µ‚½ƒf[ƒ^ƒ‚ƒWƒ…[ƒ‹‚ğ“Ç‚İæ‚è—p‚ÉƒVƒXƒeƒ€ƒƒ‚ƒŠ‚Ö“Ç‚İ‚ŞB
-%group
-Win32 gdi32
 %prm
 pwsz
 pwsz : [wstr] “Ç‚İ‚Şƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2536,8 +2346,6 @@ EngMapModule ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éBpwsz ‚ª¯•Ê‚·‚éƒtƒ@ƒCƒ‹‚Í %SystemRoot%\System32
 %index
 EngLockSurface
 EngLockSurface ŠÖ”‚ÍAw’è‚µ‚½ƒT[ƒtƒFƒX—p‚Ìƒ†[ƒU[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚É‚æ‚èƒhƒ‰ƒCƒo‚Íì¬‚µ‚½ƒT[ƒtƒFƒX‚ÉƒAƒNƒZƒX‚Å‚«‚éB
-%group
-Win32 gdi32
 %prm
 hsurf
 hsurf : [intptr] ƒƒbƒN‚·‚éƒT[ƒtƒFƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2557,8 +2365,6 @@ EngUnlockSurface ‚ğg‚¤B
 %index
 EngMarkBandingSurface
 EngMarkBandingSurface ŠÖ”‚ÍAw’è‚µ‚½ƒT[ƒtƒFƒX‚ğƒoƒ“ƒfƒBƒ“ƒOƒT[ƒtƒFƒX‚Æ‚µ‚Äƒ}[ƒN‚·‚éB
-%group
-Win32 gdi32
 %prm
 hsurf
 hsurf : [intptr] ƒoƒ“ƒfƒBƒ“ƒOƒT[ƒtƒFƒX‚Æ‚µ‚Äƒ}[ƒN‚·‚éƒT[ƒtƒFƒX‚Ö‚ÌŒÄ‚Ño‚µŒ³’ñ‹Ÿ‚Ìƒnƒ“ƒhƒ‹B
@@ -2580,8 +2386,6 @@ DLL ‚Ì DrvEnableSurface ŠÖ”“à‚©‚çŒÄ‚Ô‚×‚«‚Å‚ ‚éBhsurf ‚É—^‚¦‚éƒnƒ“ƒhƒ‹‚Í EngCr
 %index
 EngMultiByteToUnicodeN
 EngMultiByteToUnicodeN ŠÖ”‚ÍAŒ»İ‚Ì ANSI ƒR[ƒhƒy[ƒW‚ğg‚Á‚Äw’è‚µ‚½ ANSI ƒ\[ƒX•¶š—ñ‚ğ Unicode •¶š—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 gdi32
 %prm
 UnicodeString, MaxBytesInUnicodeString, BytesInUnicodeString, MultiByteString, BytesInMultiByteString
 UnicodeString : [wstr] Œ‹‰Ê‚Ì Unicode •¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2600,8 +2404,6 @@ Unicode •¶š—ñ‚É•ÏŠ·‚·‚éB
 %index
 EngMultiByteToWideChar
 EngMultiByteToWideChar ŠÖ”‚ÍAw’è‚µ‚½ƒR[ƒhƒy[ƒW‚ğg‚Á‚Ä ANSI ƒ\[ƒX•¶š—ñ‚ğƒƒCƒh•¶š—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 gdi32
 %prm
 CodePage, WideCharString, BytesInWideCharString, MultiByteString, BytesInMultiByteString
 CodePage : [int] •ÏŠ·‚Ég—p‚·‚éƒR[ƒhƒy[ƒW‚ğw’è‚·‚éB
@@ -2620,8 +2422,6 @@ EngMultiByteToWideChar ‚Í¬Œ÷‚µ‚½ê‡AƒƒCƒh•¶šŒ`®‚É•ÏŠ·‚µ‚½ƒoƒCƒg”‚ğ•Ô‚·B‚
 %index
 EngPaint
 EngPaint ŠÖ”‚ÍAGDI ‚Éw’è—Ìˆæ‚ğ“h‚è‚Â‚Ô‚³‚¹‚éB
-%group
-Win32 gdi32
 %prm
 pso, pco, pbo, pptlBrushOrg, mix
 pso : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2646,8 +2446,6 @@ Windows SDK ƒhƒLƒ…ƒƒ“ƒg‚ğQÆB
 %index
 EngPlgBlt
 EngPlgBlt ŠÖ”‚ÍAGDI ‚É‰ñ“]ƒrƒbƒgƒuƒƒbƒN“]‘—‚ğÀs‚³‚¹‚éB
-%group
-Win32 gdi32
 %prm
 psoTrg, psoSrc, psoMsk, pco, pxlo, pca, pptlBrushOrg, pptfx, prcl, pptl, iMode
 psoTrg : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2680,8 +2478,6 @@ EngPlgBlt ‚Í“Á’è‚Ìí—Ş‚Ì‰ñ“]‚Ì‚İ‚ğÀs‚·‚éB‚±‚ÌŠÖ”‚ÍAprcl
 %index
 EngQueryEMFInfo
 (no summary)
-%group
-Win32 gdi32
 %prm
 hdev, pEMFInfo
 hdev : [intptr] 
@@ -2693,8 +2489,6 @@ pEMFInfo : [var]
 %index
 EngQueryLocalTime
 EngQueryLocalTime ŠÖ”‚Íƒ[ƒJƒ‹‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 gdi32
 %prm
 param0
 param0 : [var] 
@@ -2711,8 +2505,6 @@ EngQueryLocalTime ‚ÍAŒ»İ‚ÌƒƒP[ƒ‹‚Å‚Ì‚ğ ENG_TIME_FIELDS \‘¢‘Ì‚Å•Ô‚·B
 %index
 EngReleaseSemaphore
 EngReleaseSemaphore ŠÖ”‚ÍAw’è‚µ‚½ƒZƒ}ƒtƒH‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 gdi32
 %prm
 hsem
 hsem : [intptr] ‰ğ•ú‚·‚éƒZƒ}ƒtƒH‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2731,8 +2523,6 @@ EngAcquireSemaphore ‚Åæ“¾‚³‚ê‚½‚à‚Ì‚Å‚ ‚éB
 %index
 EngStretchBlt
 EngStretchBlt ŠÖ”‚ÍAGDI ‚ÉLkƒrƒbƒgƒuƒƒbƒN“]‘—‚ğÀs‚³‚¹‚éB
-%group
-Win32 gdi32
 %prm
 psoDest, psoSrc, psoMask, pco, pxlo, pca, pptlHTOrg, prclDest, prclSrc, pptlMask, iMode
 psoDest : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2760,8 +2550,6 @@ DrvStretchBlt ‚ğƒtƒbƒN‚µ‚Ä‚¢‚é‚ªƒTƒ|[ƒg‚µ‚È‚¢ˆ—‚ğ—v‹‚³‚ê‚½ê‡AEngStretchBl
 %index
 EngStretchBltROP
 EngStretchBltROP ŠÖ”‚ÍAROP ‚ğg‚Á‚ÄLkƒrƒbƒgƒuƒƒbƒN“]‘—‚ğÀs‚·‚éB
-%group
-Win32 gdi32
 %prm
 psoDest, psoSrc, psoMask, pco, pxlo, pca, pptlHTOrg, prclDest, prclSrc, pptlMask, iMode, pbo, rop4
 psoDest : [var] •`‰ææ‚ÌƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2794,8 +2582,6 @@ EngStretchBltROP ‚Í¬Œ÷‚É TRUE ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•ñ‚µ FALSE ‚ğ
 %index
 EngTextOut
 EngTextOut ŠÖ”‚ÍAGDI ‚Éw’èˆÊ’u‚ÅƒOƒŠƒtW‡‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚¹‚éB
-%group
-Win32 gdi32
 %prm
 pso, pstro, pfo, pco, prclExtra, prclOpaque, pboFore, pboOpaque, pptlOrg, mix
 pso : [var] ‘‚«‚İæ‚ÌƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2833,8 +2619,6 @@ Windows SDK ƒhƒLƒ…ƒƒ“ƒg‚ğQÆB
 %index
 EngTransparentBlt
 EngTransparentBlt ŠÖ”‚ÍA“§‰ß•t‚«ƒrƒbƒgƒuƒƒbƒN“]‘—‹@”\‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 gdi32
 %prm
 psoDst, psoSrc, pco, pxlo, prclDst, prclSrc, TransColor, bCalledFromBitBlt
 psoDst : [var] •`‰ææ‚Ìƒ^[ƒQƒbƒgƒT[ƒtƒFƒX‚ğ¯•Ê‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2862,8 +2646,6 @@ EngTransparentBlt ‚Í¬Œ÷‚É TRUE ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 %index
 EngUnicodeToMultiByteN
 EngUnicodeToMultiByteN ŠÖ”‚ÍAŒ»İ‚Ì ANSI ƒR[ƒhƒy[ƒW‚ğg‚Á‚Äw’è‚µ‚½ Unicode •¶š—ñ‚ğ ANSI •¶š—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 gdi32
 %prm
 MultiByteString, MaxBytesInMultiByteString, BytesInMultiByteString, UnicodeString, BytesInUnicodeString
 MultiByteString : [str] Œ‹‰Ê‚Ì ANSI •¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2882,8 +2664,6 @@ EngUnicodeToMultiByteN ŠÖ”‚ÍAŒ»İ‚Ì ANSI ƒR[ƒhƒy[ƒW‚ğg‚Á‚Äw’è‚µ‚½ Unicode 
 %index
 EngUnlockSurface
 EngUnlockSurface ŠÖ”‚ÍAGDI ‚ÉƒT[ƒtƒFƒX‚ğƒAƒ“ƒƒbƒN‚³‚¹‚éB
-%group
-Win32 gdi32
 %prm
 pso
 pso : [var] ƒAƒ“ƒƒbƒN‚·‚éƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é SURFOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2901,8 +2681,6 @@ EngUnlockSurface ŠÖ”‚ÍAGDI ‚ÉƒT[ƒtƒFƒX‚ğƒAƒ“ƒƒbƒN‚³‚¹‚éB
 %index
 EngWideCharToMultiByte
 EngWideCharToMultiByte ŠÖ”‚ÍAw’è‚µ‚½ƒR[ƒhƒy[ƒW‚ğg‚Á‚ÄƒƒCƒh•¶š—ñ‚ğ ANSI ƒ\[ƒX•¶š—ñ‚É•ÏŠ·‚·‚éB
-%group
-Win32 gdi32
 %prm
 CodePage, WideCharString, BytesInWideCharString, MultiByteString, BytesInMultiByteString
 CodePage : [int] •ÏŠ·‚Ég—p‚·‚éƒR[ƒhƒy[ƒW‚ğw’è‚·‚éB
@@ -2920,8 +2698,6 @@ EngWideCharToMultiByte ‚Í¬Œ÷‚µ‚½ê‡Aƒ}ƒ‹ƒ`ƒoƒCƒgŒ`®‚É•ÏŠ·‚µ‚½ƒoƒCƒg”‚ğ•Ô‚·
 %index
 EnumEnhMetaFile
 EnumEnhMetaFile ŠÖ”‚ÍAŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹“à‚ÌƒŒƒR[ƒh‚ğæ“¾‚µAŠeƒŒƒR[ƒh‚ğw’è‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·‚±‚Æ‚Å—ñ‹“‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hmf, proc, param3, lpRect
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
@@ -2947,8 +2723,6 @@ lpRect ƒpƒ‰ƒ[ƒ^‚ªw‚·‹éŒ`‚Ì•Óã‚Ì“_‚à}‚ÉŠÜ‚Ü‚ê‚éBhdc ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê
 %index
 EnumFontFamiliesW
 EnumFontFamilies ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX‚Å—˜—p‰Â”\‚ÈAw’èƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ“à‚ÌƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpLogfont, lpProc, lParam
 hdc : [intptr] ƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2976,8 +2750,6 @@ EnumFontFamilies ŠÖ”‚ÍAlpszFamily
 %index
 EnumFontFamiliesExW
 EnumFontFamiliesEx ŠÖ”‚ÍALOGFONT \‘¢‘Ì‚Åw’è‚³‚ê‚½ƒtƒHƒ“ƒg“Á«‚Éˆê’v‚·‚éAƒVƒXƒeƒ€“à‚Ì‚·‚×‚Ä‚ÌˆêˆÓ‚È–¼‘O‚ÌƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚éBEnumFontFamiliesEx ‚ÍA‘‘Ì–¼A•¶šƒZƒbƒgA‚Ü‚½‚Í‚»‚Ì—¼•û‚ÉŠî‚Ã‚¢‚ÄƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpLogfont, lpProc, lParam, dwFlags
 hdc : [intptr] ƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3009,8 +2781,6 @@ lfFaceName ‚Ì‚³‚Ü‚´‚Ü‚È’l‚Ì‘g‚İ‡‚í‚¹‚ÌŒ‹‰Ê‚ğ¦‚·B
 %index
 EnumFontsW
 EnumFonts ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX‚Å—˜—p‰Â”\‚ÈƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpLogfont, lpProc, lParam
 hdc : [intptr] ƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚é‘ÎÛ‚Ì HDCB
@@ -3040,8 +2810,6 @@ TrueType ƒtƒHƒ“ƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒXƒ^ƒCƒ‹–¼‚ğæ“¾‚·‚é“_‚Å EnumFonts ŠÖ”‚ÆˆÙ‚È‚é
 %index
 EnumICMProfilesW
 EnumICMProfiles ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒVƒXƒeƒ€‚ªƒTƒ|[ƒg‚·‚éŠeío—ÍƒJƒ‰[ƒvƒƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, proc, param2
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -3073,8 +2841,6 @@ for Unicode ‚Ìà–¾‚É]‚Á‚ÄA“Á’è‚Ìƒtƒ@ƒCƒ‹‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ç‰Á‚·‚é•K—v‚ª‚ ‚é
 %index
 EnumMetaFile
 EnumMetaFile ŠÖ”‚ÍAWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹“à‚ÌŠeƒŒƒR[ƒh‚ğæ“¾‚µ‚Äw’è‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·‚±‚Æ‚ÅAƒŒƒR[ƒh‚ğ—ñ‹“‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hmf, proc, param3
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö“n‚³‚ê‚éB
@@ -3098,8 +2864,6 @@ Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚é‚É‚ÍASetWinMetaFileBits
 %index
 EnumObjects
 EnumObjects ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚Å—˜—p‰Â”\‚Èƒyƒ“‚Ü‚½‚Íƒuƒ‰ƒV‚ğ—ñ‹“‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, nType, lpFunc, lParam
 hdc : [intptr] DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -3118,8 +2882,6 @@ EnumObjects ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚Å—˜—p‰Â”\‚Èƒyƒ“‚Ü‚½‚Íƒuƒ‰
 %index
 EqualRgn
 EqualRgn ŠÖ”‚ÍAw’è‚µ‚½ 2 ‚Â‚ÌƒŠ[ƒWƒ‡ƒ“‚ª“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB2 ‚Â‚ÌƒŠ[ƒWƒ‡ƒ“‚ÌƒTƒCƒY‚ÆŒ`ó‚ª“™‚µ‚¢ê‡A‚»‚ê‚ç‚Í“¯ˆê‚Æ‚İ‚È‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hrgn1, hrgn2
 hrgn1 : [intptr] ƒŠ[ƒWƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹B
@@ -3136,8 +2898,6 @@ EqualRgn ŠÖ”‚ÍAw’è‚µ‚½ 2 ‚Â‚ÌƒŠ[ƒWƒ‡ƒ“‚ª“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB2
 %index
 Escape
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª GDI Œo—R‚Å—˜—p‚Å‚«‚È‚¢ƒVƒXƒeƒ€’è‹`‚ÌƒfƒoƒCƒX‹@”\‚ÉƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iEscape, cjIn, pvIn, pvOut
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3164,8 +2924,6 @@ pvOut : [intptr] ‚±‚ÌƒGƒXƒP[ƒv‚©‚ç‚Ìo—Í‚ğó‚¯æ‚é\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒf[ƒ^‚ª•
 %index
 ExcludeClipRect
 ExcludeClipRect ŠÖ”‚ÍAŠù‘¶‚ÌƒNƒŠƒbƒsƒ“ƒOƒŠ[ƒWƒ‡ƒ“‚©‚çw’è‚µ‚½‹éŒ`‚ğœ‚¢‚½V‚µ‚¢ƒNƒŠƒbƒsƒ“ƒOƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, left, top, right, bottom
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3187,8 +2945,6 @@ ExcludeClipRect ŠÖ”‚ÍAŠù‘¶‚ÌƒNƒŠƒbƒsƒ“ƒOƒŠ[ƒWƒ‡ƒ“‚©‚çw’è‚µ‚½‹éŒ`‚ğœ‚¢‚½V‚µ
 %index
 ExtCreatePen
 ExtCreatePen ŠÖ”‚ÍAw’è‚µ‚½ƒXƒ^ƒCƒ‹A•Aƒuƒ‰ƒV‘®«‚ğ‚Â˜_—ƒRƒXƒƒeƒBƒbƒN‚Ü‚½‚ÍƒWƒIƒƒgƒŠƒbƒNƒyƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 iPenStyle, cWidth, plbrush, cStyle, pstyle
 iPenStyle : [int] ƒ^ƒCƒvAƒXƒ^ƒCƒ‹A’[“_AŒ‹‡‘®«‚Ì‘g‚İ‡‚í‚¹BŠeƒJƒeƒSƒŠ‚Ì’l‚Íƒrƒbƒg OR ‰‰Zq ( | ) ‚ÅŒ‹‡‚·‚éB
@@ -3222,8 +2978,6 @@ CreateDIBSection ‚Åì¬‚³‚ê‚éƒrƒbƒgƒ}ƒbƒv‚Å‚ ‚éB‚»‚Ìƒrƒbƒgƒ}ƒbƒv‚ª DIB ƒZƒNƒVƒ‡
 %index
 ExtCreateRegion
 ExtCreateRegion ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ“‚Æ•ÏŠ·ƒf[ƒ^‚©‚çƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 lpx, nCount, lpData
 lpx : [var] ƒŠ[ƒWƒ‡ƒ“‚É‘Î‚µ‚Äs‚¤•ÏŠ·‚ğ’è‹`‚·‚é XFORM \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ª NULL ‚Ìê‡AP“™•ÏŠ·‚ªg—p‚³‚ê‚éB
@@ -3243,8 +2997,6 @@ ExtCreateRegion ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ“‚Æ•ÏŠ·ƒf[ƒ^‚©‚çƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éB
 %index
 ExtEscape
 ExtEscape ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª GDI Œo—R‚Å—˜—p‚Å‚«‚È‚¢ƒfƒoƒCƒX‹@”\‚ÉƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iEscape, cjInput, lpInData, cjOutput, lpOutData
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3286,8 +3038,6 @@ LaserJet ŒİŠ·ƒvƒŠƒ“ƒ^ã‚Å Page Control Language (PCL)
 %index
 ExtFloodFill
 ExtFloodFill ŠÖ”‚ÍA•\¦–Ê‚Ì—Ìˆæ‚ğŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc, x, y, color, type
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3309,8 +3059,6 @@ ExtFloodFill ŠÖ”‚ÍA•\¦–Ê‚Ì—Ìˆæ‚ğŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚·B
 %index
 ExtSelectClipRgn
 ExtSelectClipRgn ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ“‚ğŒ»İ‚ÌƒNƒŠƒbƒsƒ“ƒOƒŠ[ƒWƒ‡ƒ“‚Æw’èƒ‚[ƒh‚ÅŒ‹‡‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hrgn, mode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3333,8 +3081,6 @@ ExtSelectClipRgn ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ“‚ğŒ»İ‚ÌƒNƒŠƒbƒsƒ“ƒOƒŠ[ƒWƒ‡ƒ“‚Æw’èƒ
 %index
 ExtTextOutW
 ExtTextOut ŠÖ”‚ÍAŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒgA”wŒiFAƒeƒLƒXƒgF‚ğg‚Á‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB•K—v‚É‰‚¶‚ÄƒNƒŠƒbƒsƒ“ƒO‚â•s“§–¾•`‰æ‚Ì¡–@‚ğw’è‚Å‚«‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, x, y, options, lprect, lpString, c, lpDx
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3364,8 +3110,6 @@ GetTextAlign ŠÖ”‚Åæ“¾‚Å‚«ASetTextAlign
 %index
 FONTOBJ_cGetAllGlyphHandles
 FONTOBJ_cGetAllGlyphHandles ŠÖ”‚ÍAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ª GDI ƒtƒHƒ“ƒg‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒtƒnƒ“ƒhƒ‹‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 gdi32
 %prm
 pfo, phg
 pfo : [var] ƒ_ƒEƒ“ƒ[ƒh‘ÎÛ‚Ì FONTOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3388,8 +3132,6 @@ FONTOBJ_cGetAllGlyphHandles ŠÖ”‚ÍAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ª GDI
 %index
 FONTOBJ_cGetGlyphs
 FONTOBJ_cGetGlyphs ŠÖ”‚ÍAƒOƒŠƒtƒnƒ“ƒhƒ‹‚ğƒOƒŠƒtƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚É•ÏŠ·‚·‚éAƒtƒHƒ“ƒg—˜—pÒŒü‚¯‚ÌƒT[ƒrƒX‚Å‚ ‚éB‚±‚Ìƒ|ƒCƒ“ƒ^‚ÍŸ‰ñ‚Ì FONTOBJ_cGetGlyphs ŒÄ‚Ño‚µ‚Ü‚Å—LŒø‚Å‚ ‚éB
-%group
-Win32 gdi32
 %prm
 pfo, iMode, cGlyph, phg, ppvGlyph
 pfo : [var] •ÏŠ·‚·‚éƒOƒŠƒtƒnƒ“ƒhƒ‹‚ğŠÜ‚Ş FONTOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3412,8 +3154,6 @@ FONTOBJ_cGetGlyphs ŒÄ‚Ño‚µ‚Ü‚Å—LŒø‚Å‚ ‚éB
 %index
 FONTOBJ_pQueryGlyphAttrs
 FONTOBJ_pQueryGlyphAttrs ŠÖ”‚ÍAƒtƒHƒ“ƒg‚ÌƒOƒŠƒt‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 pfo, iMode
 pfo : [var] ‘®«‚ğ—v‹‚·‚éƒtƒHƒ“ƒg‚ğ¯•Ê‚·‚é FONTOBJ \‘¢‘Ì‚Ö‚ÌAŒÄ‚Ño‚µŒ³‚ªw’è‚·‚éƒ|ƒCƒ“ƒ^B
@@ -3441,8 +3181,6 @@ FONTOBJ_pQueryGlyphAttrs ‚ğŒÄ‚Ño‚·‚ÆAGDI ‚ÍŠY“–‚·‚éƒtƒHƒ“ƒgƒhƒ‰ƒCƒo‚Ì DrvQuery
 %index
 FONTOBJ_pfdg
 FONTOBJ_pfdg ŠÖ”‚ÍAw’èƒtƒHƒ“ƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ FD_GLYPHSET \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pfo
 pfo : [var] ŠÖ˜A‚·‚é FD_GLYPHSET \‘¢‘Ì‚ğ•Ô‚·‘ÎÛ‚Ì FONTOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3460,8 +3198,6 @@ FONTOBJ_pfdg ‚ÍAw’èƒtƒHƒ“ƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ FD_GLYPHSET \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô
 %index
 FONTOBJ_pvTrueTypeFontFile
 FONTOBJ_pvTrueTypeFontFile ŠÖ”‚ÍATrueTypeAOpenTypeA‚Ü‚½‚Í Type1 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ìƒrƒ…[‚Ö‚Ìƒ†[ƒUƒ‚[ƒhƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pfo, pcjFile
 pfo : [var] TrueTypeAPostScript OpenTypeA‚Ü‚½‚Í PostScript Type1 ƒtƒHƒ“ƒg‚ªŠÖ˜A•t‚¯‚ç‚ê‚½ FONTOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3485,8 +3221,6 @@ DrvTextOut ŠÖ”‚ÌƒXƒR[ƒv“à‚Å‚Ì‚İ—LŒø‚Å‚ ‚éB‚Â‚Ü‚èAƒhƒ‰ƒCƒo‚Í DrvTextOut ‚ğ”²‚
 %index
 FONTOBJ_pxoGetXform
 FONTOBJ_pxoGetXform ŠÖ”‚ÍAw’èƒtƒHƒ“ƒg‚Ì notional-to-device •ÏŠ·‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pfo
 pfo : [var] •ÏŠ·‚ğæ“¾‚·‚é‘ÎÛ‚Ì FONTOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3505,8 +3239,6 @@ FONTOBJ_pxoGetXform ŠÖ”‚ÍAw’èƒtƒHƒ“ƒg‚Ì notional-to-device •ÏŠ·‚ğæ“¾‚·‚éB
 %index
 FONTOBJ_vGetInfo
 FONTOBJ_vGetInfo ŠÖ”‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒg‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pfo, cjSize, pfi
 pfo : [var] –â‚¢‡‚í‚¹‚é FONTOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3519,8 +3251,6 @@ FONTOBJ_vGetInfo ŠÖ”‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒg‚Ìî•ñ‚ğæ“¾‚·‚éB
 %index
 FillPath
 FillPath ŠÖ”‚ÍAŒ»İ‚ÌƒpƒX“à‚ÌŠJ‚¢‚Ä‚¢‚é}Œ`‚ğ•Â‚¶AŒ»İ‚Ìƒuƒ‰ƒV‚Æ‘½ŠpŒ`“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÅƒpƒX“à•”‚ğ“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] —LŒø‚ÈƒpƒX‚ğŠÜ‚ŞƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3537,8 +3267,6 @@ FillPath ŠÖ”‚ÍAŒ»İ‚ÌƒpƒX“à‚ÌŠJ‚¢‚Ä‚¢‚é}Œ`‚ğ•Â‚¶AŒ»İ‚Ìƒuƒ‰ƒV‚Æ‘½ŠpŒ`“h‚è‚Â‚
 %index
 FillRgn
 FillRgn ŠÖ”‚ÍAw’è‚µ‚½ƒuƒ‰ƒV‚ğg‚Á‚ÄƒŠ[ƒWƒ‡ƒ“‚ğ“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc, hrgn, hbr
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3554,8 +3282,6 @@ FillRgn ŠÖ”‚ÍAw’è‚µ‚½ƒuƒ‰ƒV‚ğg‚Á‚ÄƒŠ[ƒWƒ‡ƒ“‚ğ“h‚è‚Â‚Ô‚·B
 %index
 FixBrushOrgEx
 (no summary)
-%group
-Win32 gdi32
 %prm
 hdc, x, y, ptl
 hdc : [intptr] 
@@ -3569,8 +3295,6 @@ ptl : [var]
 %index
 FlattenPath
 FlattenPath ŠÖ”‚ÍAŒ»İ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚É‘I‘ğ‚³‚ê‚Ä‚¢‚éƒpƒX“à‚Ì‹Èü‚ğ•ÏŠ·‚µAŠe‹Èü‚ğü•ª‚Ì—ñ‚É•Ï‚¦‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] —LŒø‚ÈƒpƒX‚ğŠÜ‚Ş DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -3584,8 +3308,6 @@ FlattenPath ŠÖ”‚ÍAŒ»İ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚É‘I‘ğ‚³‚ê‚Ä‚¢‚éƒpƒX“à‚Ì‹Èü
 %index
 FloodFill
 FloodFill ŠÖ”‚ÍA•\¦–Ê‚Ì—Ìˆæ‚ğŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚·B—Ìˆæ‚Í color ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½F‚Å‹«ŠE‚ª’è‚ß‚ç‚ê‚Ä‚¢‚é‚ÆŒ©‚È‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, color
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3607,8 +3329,6 @@ FloodFill ŠÖ”‚ÍA•\¦–Ê‚Ì—Ìˆæ‚ğŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚·B—Ìˆæ‚Í color
 %index
 FrameRgn
 FrameRgn ŠÖ”‚ÍAw’è‚µ‚½ƒuƒ‰ƒV‚ğg‚Á‚Äw’èƒŠ[ƒWƒ‡ƒ“‚ÌüˆÍ‚É‹«ŠEü‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hrgn, hbr, w, h
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3626,8 +3346,6 @@ FrameRgn ŠÖ”‚ÍAw’è‚µ‚½ƒuƒ‰ƒV‚ğg‚Á‚Äw’èƒŠ[ƒWƒ‡ƒ“‚ÌüˆÍ‚É‹«ŠEü‚ğ•`‰æ‚·‚éB
 %index
 GdiAlphaBlend
 GdiAlphaBlend ŠÖ”‚ÍA“§–¾‚Ü‚½‚Í”¼“§–¾ƒsƒNƒZƒ‹‚ğ‚Âƒrƒbƒgƒ}ƒbƒv‚ğ•\¦‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdcDest, xoriginDest, yoriginDest, wDest, hDest, hdcSrc, xoriginSrc, yoriginSrc, wSrc, hSrc, ftn
 hdcDest : [intptr] ƒfƒXƒeƒBƒl[ƒVƒ‡ƒ“ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3672,8 +3390,6 @@ SourceConstantAlpha
 %index
 GdiComment
 GdiComment ŠÖ”‚ÍAƒoƒbƒtƒ@‚©‚çw’è‚³‚ê‚½Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ÖƒRƒƒ“ƒg‚ğƒRƒs[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, nSize, lpData
 hdc : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3695,8 +3411,6 @@ GDICOMMENT_IDENTIFIER ‚Ån‚Ü‚éƒRƒƒ“ƒg‚Å‚ ‚éBŸ‚ÌƒpƒuƒŠƒbƒNƒRƒƒ“ƒg‚ª’è‹`‚³‚ê‚Ä
 %index
 GdiDeleteSpoolFileHandle
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle
 SpoolFileHandle : [intptr] 
@@ -3707,8 +3421,6 @@ SpoolFileHandle : [intptr]
 %index
 GdiEndDocEMF
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle
 SpoolFileHandle : [intptr] 
@@ -3719,8 +3431,6 @@ SpoolFileHandle : [intptr]
 %index
 GdiEndPageEMF
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle, dwOptimization
 SpoolFileHandle : [intptr] 
@@ -3732,8 +3442,6 @@ dwOptimization : [int]
 %index
 GdiFlush
 GdiFlush ŠÖ”‚ÍAŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌŒ»İ‚Ìƒoƒbƒ`‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB
-%group
-Win32 gdi32
 %prm
 
 %inst
@@ -3752,8 +3460,6 @@ GdiFlush ŠÖ”‚ÍAŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌŒ»İ‚Ìƒoƒbƒ`‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB
 %index
 GdiGetBatchLimit
 GdiGetBatchLimit ŠÖ”‚ÍAŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌŒ»İ‚Ìƒoƒbƒ`‚É’~Ï‚Å‚«‚éŠÖ”ŒÄ‚Ño‚µ‚ÌÅ‘å”‚ğ•Ô‚·B‚±‚ÌãŒÀ‚ğ’´‚¦‚é‚ÆƒVƒXƒeƒ€‚ÍŒ»İ‚Ìƒoƒbƒ`‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB
-%group
-Win32 gdi32
 %prm
 
 %inst
@@ -3776,8 +3482,6 @@ GdiGetBatchLimit
 %index
 GdiGetDC
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle
 SpoolFileHandle : [intptr] 
@@ -3788,8 +3492,6 @@ SpoolFileHandle : [intptr]
 %index
 GdiGetDevmodeForPage
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle, dwPageNumber, pCurrDM, pLastDM
 SpoolFileHandle : [intptr] 
@@ -3803,8 +3505,6 @@ pLastDM : [var]
 %index
 GdiGetPageCount
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle
 SpoolFileHandle : [intptr] 
@@ -3815,8 +3515,6 @@ SpoolFileHandle : [intptr]
 %index
 GdiGetPageHandle
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle, Page, pdwPageType
 SpoolFileHandle : [intptr] 
@@ -3829,8 +3527,6 @@ pdwPageType : [var]
 %index
 GdiGetSpoolFileHandle
 (no summary)
-%group
-Win32 gdi32
 %prm
 pwszPrinterName, pDevmode, pwszDocName
 pwszPrinterName : [wstr] 
@@ -3843,8 +3539,6 @@ pwszDocName : [wstr]
 %index
 GdiGradientFill
 GdiGradientFill ŠÖ”‚ÍA‹éŒ`‚¨‚æ‚ÑOŠpŒ`\‘¢‚ğ“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc, pVertex, nVertex, pMesh, nCount, ulMode
 hdc : [intptr] ƒfƒXƒeƒBƒl[ƒVƒ‡ƒ“ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3869,8 +3563,6 @@ GdiGradientFill ŠÖ”‚ğŒÄ‚Ño‚·BGDI
 %index
 GdiPlayPageEMF
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle, hemf, prectDocument, prectBorder, prectClip
 SpoolFileHandle : [intptr] 
@@ -3885,8 +3577,6 @@ prectClip : [var]
 %index
 GdiResetDCEMF
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle, pCurrDM
 SpoolFileHandle : [intptr] 
@@ -3898,8 +3588,6 @@ pCurrDM : [var]
 %index
 GdiSetBatchLimit
 GdiSetBatchLimit ŠÖ”‚ÍAŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌŒ»İ‚Ìƒoƒbƒ`‚É’~Ï‚Å‚«‚éŠÖ”ŒÄ‚Ño‚µ‚ÌÅ‘å”‚ğİ’è‚·‚éB‚±‚ÌãŒÀ‚ğ’´‚¦‚é‚ÆƒVƒXƒeƒ€‚ÍŒ»İ‚Ìƒoƒbƒ`‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB
-%group
-Win32 gdi32
 %prm
 dw
 dw : [int] İ’è‚·‚éƒoƒbƒ`ãŒÀ‚ğw’è‚·‚éB0 ‚ğw’è‚·‚é‚ÆƒfƒtƒHƒ‹ƒg‚ÌãŒÀ‚ªİ’è‚³‚ê‚éB1 ‚ğw’è‚·‚é‚Æƒoƒbƒ`ˆ—‚ª–³Œø‚É‚È‚éB
@@ -3923,8 +3611,6 @@ TRUE ‚ğ•Ô‚·BƒVƒXƒeƒ€‚ªŒ»İ‚Ìƒoƒbƒ`‚ğƒtƒ‰ƒbƒVƒ…‚µ‚Ä 2 ‰ñ–Ú‚É‚»‚ÌŠÖ”‚ğÀs‚·‚é‚Æ
 %index
 GdiStartDocEMF
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle, pDocInfo
 SpoolFileHandle : [intptr] 
@@ -3936,8 +3622,6 @@ pDocInfo : [var]
 %index
 GdiStartPageEMF
 (no summary)
-%group
-Win32 gdi32
 %prm
 SpoolFileHandle
 SpoolFileHandle : [intptr] 
@@ -3948,8 +3632,6 @@ SpoolFileHandle : [intptr]
 %index
 GdiTransparentBlt
 GdiTransparentBlt ŠÖ”‚ÍAw’è‚³‚ê‚½ƒ\[ƒXƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒsƒNƒZƒ‹‹éŒ`‚É‘Î‰‚·‚éƒJƒ‰[ƒf[ƒ^‚ÌƒrƒbƒgƒuƒƒbƒN“]‘—‚ğAƒfƒXƒeƒBƒl[ƒVƒ‡ƒ“ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ös‚¤B
-%group
-Win32 gdi32
 %prm
 hdcDest, xoriginDest, yoriginDest, wDest, hDest, hdcSrc, xoriginSrc, yoriginSrc, wSrc, hSrc, crTransparent
 hdcDest : [intptr] ƒfƒXƒeƒBƒl[ƒVƒ‡ƒ“ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -3987,8 +3669,6 @@ GdiTransparentBlt ŠÖ”‚Å‚Í COLORONCOLOR
 %index
 GetArcDirection
 GetArcDirection ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌŒÊ‚Ì•ûŒü‚ğæ“¾‚·‚éBŒÊ‚¨‚æ‚Ñ‹éŒ`ŠÖ”‚ÍŒÊ‚Ì•ûŒü‚ğg—p‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4003,8 +3683,6 @@ GetArcDirection ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌŒÊ‚Ì•ûŒü‚ğæ“¾‚·‚éB
 %index
 GetAspectRatioFilterEx
 GetAspectRatioFilterEx ŠÖ”‚ÍAŒ»İ‚ÌƒAƒXƒyƒNƒg”äƒtƒBƒ‹ƒ^‚Ìİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpsize
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4024,8 +3702,6 @@ SetMapperFlags ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAw’èƒAƒXƒyƒNƒg”ä‚Éˆê’v‚·‚éƒtƒHƒ“ƒg‚Ì‚İ‚ğæ“
 %index
 GetBitmapBits
 GetBitmapBits ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXˆË‘¶ HBITMAP ‚Ìƒrƒbƒgƒ}ƒbƒvƒrƒbƒg‚ğƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hbit, cb, lpvBits
 hbit : [intptr] ƒfƒoƒCƒXˆË‘¶ƒrƒbƒgƒ}ƒbƒv‚Ìƒnƒ“ƒhƒ‹B
@@ -4041,8 +3717,6 @@ GetBitmapBits ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXˆË‘¶ HBITMAP ‚Ìƒrƒbƒgƒ}ƒbƒvƒrƒbƒg‚ğƒoƒbƒtƒ
 %index
 GetBitmapDimensionEx
 GetBitmapDimensionEx ŠÖ”‚ÍAŒİŠ· HBITMAP ‚Ì¡–@‚ğæ“¾‚·‚éBæ“¾‚³‚ê‚é¡–@‚Í SetBitmapDimensionEx ŠÖ”‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 gdi32
 %prm
 hbit, lpsize
 hbit : [intptr] ŒİŠ· HBITMAP (DDB) ‚Ìƒnƒ“ƒhƒ‹B
@@ -4062,8 +3736,6 @@ SetBitmapDimensionEx ŠÖ”‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 GetBkColor
 GetBkColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ì”wŒiF‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ”wŒiF‚ğæ“¾‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4077,8 +3749,6 @@ GetBkColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ì”wŒiF‚ğ•Ô‚·B
 %index
 GetBkMode
 GetBkMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ì”wŒi¬‡ƒ‚[ƒh‚ğ•Ô‚·BƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì”wŒi¬‡ƒ‚[ƒh‚ÍAƒeƒLƒXƒgAƒnƒbƒ`ƒuƒ‰ƒVAÀüˆÈŠO‚Ìƒyƒ“ƒXƒ^ƒCƒ‹‚É‰e‹¿‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ”wŒiƒ‚[ƒh‚ğæ“¾‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4093,8 +3763,6 @@ GetBkMode
 %index
 GetBoundsRect
 GetBoundsRect ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‚Â‚¢‚ÄŒ»İ’~Ï‚³‚ê‚Ä‚¢‚é‹«ŠE‹éŒ`‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lprect, flags
 hdc : [intptr] ‹«ŠE‹éŒ`‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4117,8 +3785,6 @@ DCB_SET ’l‚Í DCB_ACCUMULATE ‚Æ DCB_RESET
 %index
 GetBrushOrgEx
 GetBrushOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ìƒuƒ‰ƒVŒ´“_‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚Í GetBrushOrg ŠÖ”‚ğ’u‚«Š·‚¦‚é‚à‚Ì‚Å‚ ‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4143,8 +3809,6 @@ GetBrushOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ìƒuƒ‰ƒVŒ´“_‚ğæ“¾‚·‚éB
 %index
 GetCharABCWidthsW
 GetCharABCWidths ŠÖ”‚ÍAŒ»İ‚Ì TrueType ƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚é•¶š‚Ì•(˜_—’PˆÊ)‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚Í TrueType ƒtƒHƒ“ƒg‚Å‚Ì‚İ¬Œ÷‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, wFirst, wLast, lpABC
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4178,8 +3842,6 @@ TrueType ƒ‰ƒXƒ^ƒ‰ƒCƒU‚ÍA“Á’è‚Ìƒ|ƒCƒ“ƒgƒTƒCƒY‚ª‘I‘ğ‚³‚ê‚½Œã‚É ABC •¶šŠÔŠu‚ğ’ñ‹Ÿ
 %index
 GetCharABCWidthsFloatW
 GetCharABCWidthsFloat ŠÖ”‚ÍAŒ»İ‚ÌƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚é•¶š‚Ì•(˜_—’PˆÊ)‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpABC
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4210,8 +3872,6 @@ TrueType ƒtƒHƒ“ƒg‚É‘Î‚µ‚Ä‚Ì‚İ•‚ğ•Ô‚· GetCharABCWidths ŠÖ”‚ÆˆÙ‚È‚èAGetCharABCW
 %index
 GetCharABCWidthsI
 GetCharABCWidthsI ŠÖ”‚ÍAŒ»İ‚Ì TrueType ƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚éƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì•(˜_—’PˆÊ)‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚Í TrueType ƒtƒHƒ“ƒg‚Å‚Ì‚İ¬Œ÷‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, giFirst, cgi, pgi, pabc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4241,8 +3901,6 @@ TrueType ƒ‰ƒXƒ^ƒ‰ƒCƒU‚ÍA“Á’è‚Ìƒ|ƒCƒ“ƒgƒTƒCƒY‚ª‘I‘ğ‚³‚ê‚½Œã‚É ABC •¶šŠÔŠu‚ğ’ñ‹Ÿ
 %index
 GetCharWidthW
 GetCharWidth ŠÖ”‚ÍAŒ»İ‚ÌƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚é•¶š‚Ì•(˜_—À•W)‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4269,8 +3927,6 @@ GetCharABCWidths ‚ğg—p‚·‚éB”ÍˆÍ‚Í—¼’[‚ğŠÜ‚İA•Ô‚³‚ê‚é•‚É‚Í iFirstChar ‚¨‚æ‚Ñ 
 %index
 GetCharWidth32A
 GetCharWidth32 ŠÖ”‚ÍAŒ»İ‚ÌƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚é•¶š‚Ì•(˜_—À•W)‚ğæ“¾‚·‚éB(ANSI)
-%group
-Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4292,8 +3948,6 @@ GetCharABCWidths ‚ğg—p‚·‚éB”ÍˆÍ‚Í—¼’[‚ğŠÜ‚İA•Ô‚³‚ê‚é•‚É‚Í iFirstChar ‚¨‚æ‚Ñ 
 %index
 GetCharWidth32W
 GetCharWidth32 ŠÖ”‚ÍAŒ»İ‚ÌƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚é•¶š‚Ì•(˜_—À•W)‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4315,8 +3969,6 @@ GetCharABCWidths ‚ğg—p‚·‚éB”ÍˆÍ‚Í—¼’[‚ğŠÜ‚İA•Ô‚³‚ê‚é•‚É‚Í iFirstChar ‚¨‚æ‚Ñ 
 %index
 GetCharWidthFloatW
 GetCharWidthFloat ŠÖ”‚ÍAŒ»İ‚ÌƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚é•¶š‚Ì¬”•‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4343,8 +3995,6 @@ aAiLastChar ‚É•¶š z ‚ğw’è‚·‚é‚ÆAGetCharWidthFloat
 %index
 GetCharWidthI
 GetCharWidthI ŠÖ”‚ÍAŒ»İ‚ÌƒtƒHƒ“ƒg‚©‚çw’è”ÍˆÍ‚Ì˜A‘±‚·‚éƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì•(˜_—À•W)‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, giFirst, cgi, pgi, piWidths
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4367,8 +4017,6 @@ GetCharWidthI ŠÖ”‚ÍApgi ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AgiFirst ‚Åw’è‚³‚ê‚½æ“ªƒOƒŠ
 %index
 GetCharacterPlacementW
 GetCharacterPlacement ŠÖ”‚ÍA•¶š—ñ‚ÉŠÖ‚·‚éî•ñ(•¶š•AƒLƒƒƒŒƒbƒgˆÊ’uŒˆ‚ßA•¶š—ñ“à‚Ì‡˜AƒOƒŠƒt•`‰æ‚È‚Ç)‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpString, nCount, nMexExtent, lpResults, dwFlags
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4418,8 +4066,6 @@ ExtTextOut ‚Í DBCS •¶š—ñ‚ÌƒoƒCƒg‚²‚Æ‚É lpDx ƒGƒ“ƒgƒŠ‚ğŠú‘Ò‚·‚é‚ªAGetCharacterP
 %index
 GetClipBox
 GetClipBox ŠÖ”‚ÍAƒfƒoƒCƒXã‚ÌŒ»İ‚Ì‰Â‹—Ìˆæ‚ğˆÍ‚ŞÅ¬‚Ì‹«ŠE‹éŒ`‚Ì¡–@‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lprect
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4435,8 +4081,6 @@ GetClipBox ŠÖ”‚ÍAƒfƒoƒCƒXã‚ÌŒ»İ‚Ì‰Â‹—Ìˆæ‚ğˆÍ‚ŞÅ¬‚Ì‹«ŠE‹éŒ`‚Ì¡–@‚ğæ“¾‚·‚
 %index
 GetClipRgn
 GetClipRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒNƒŠƒbƒsƒ“ƒOƒŠ[ƒWƒ‡ƒ“‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hrgn
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4458,8 +4102,6 @@ GetClipRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒNƒŠƒ
 %index
 GetColorAdjustment
 GetColorAdjustment ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌF’²®’l‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpca
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4474,8 +4116,6 @@ GetColorAdjustment ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌF’²®’l‚ğæ“¾‚·‚
 %index
 GetColorSpace
 GetColorSpace ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚©‚ç“ü—ÍƒJƒ‰[ƒXƒy[ƒX‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] “ü—ÍƒJƒ‰[ƒXƒy[ƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -4492,8 +4132,6 @@ GetColorSpace ‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒg‚ª—LŒø‚©‚Ç‚¤‚©‚ÉŠÖ‚í‚ç
 %index
 GetCurrentObject
 GetCurrentObject ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚É‘I‘ğ‚³‚ê‚Ä‚¢‚éw’èí—Ş‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, type
 hdc : [intptr] DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -4513,8 +4151,6 @@ GetCurrentObject ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC)
 %index
 GetCurrentPositionEx
 GetCurrentPositionEx ŠÖ”‚ÍAŒ»İˆÊ’u‚ğ˜_—À•W‚Åæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4529,8 +4165,6 @@ GetCurrentPositionEx ŠÖ”‚ÍAŒ»İˆÊ’u‚ğ˜_—À•W‚Åæ“¾‚·‚éB
 %index
 GetDCBrushColor
 GetDCBrushColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌŒ»İ‚Ìƒuƒ‰ƒVF‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒuƒ‰ƒVF‚ğæ“¾‚·‚é‘ÎÛ‚Ì DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -4547,8 +4181,6 @@ GetDCBrushColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌŒ»İ‚Ìƒuƒ‰ƒVF‚ğæ“¾
 %index
 GetDCOrgEx
 GetDCOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌÅI•ÏŠ·Œ´“_‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lppt
 hdc : [intptr] ÅI•ÏŠ·Œ´“_‚ğæ“¾‚·‚é‘ÎÛ‚Ì DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -4566,8 +4198,6 @@ GetDCOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌÅI•ÏŠ·Œ´“_‚ğæ“¾‚·‚éB
 %index
 GetDCPenColor
 GetDCPenColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌŒ»İ‚Ìƒyƒ“F‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒyƒ“F‚ğæ“¾‚·‚é‘ÎÛ‚Ì DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -4584,8 +4214,6 @@ GetDCPenColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌŒ»İ‚Ìƒyƒ“F‚ğæ“¾‚·‚é
 %index
 GetDIBColorTable
 GetDIBColorTable ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é DIB ƒZƒNƒVƒ‡ƒ“ƒrƒbƒgƒ}ƒbƒv‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚Ìw’è”ÍˆÍ‚ÌƒGƒ“ƒgƒŠ‚©‚ç RGB (ÔA—ÎAÂ) ƒJƒ‰[’l‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iStart, cEntries, prgbq
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹BDIB ƒZƒNƒVƒ‡ƒ“ƒrƒbƒgƒ}ƒbƒv‚ª‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4610,8 +4238,6 @@ GetObject ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 GetDIBits
 w’è‚³‚ê‚½ŒİŠ·ƒrƒbƒgƒ}ƒbƒv‚Ìƒrƒbƒg‚ğæ“¾‚µAw’è‚³‚ê‚½Œ`®‚Ì DIB ‚Æ‚µ‚Äƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hbm, start, cLines, lpvBits, lpbmi, usage
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4637,8 +4263,6 @@ DIB ‚Ì—v‹Œ`®‚ª“à•”Œ`®‚Æˆê’v‚·‚éê‡Aƒrƒbƒgƒ}ƒbƒv‚Ì RGB ’l‚ªƒRƒs[‚³‚ê‚éBˆê’
 %index
 GetDeviceCaps
 GetDeviceCaps ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒX‚ÉŒÅ—L‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, index
 hdc : [intptr] DC ‚Ìƒnƒ“ƒhƒ‹B
@@ -4658,8 +4282,6 @@ nIndex ‚ª SHADEBLENDCAPS ‚Ìê‡:
 %index
 GetDeviceGammaRamp
 GetDeviceGammaRamp ŠÖ”‚ÍAƒn[ƒhƒEƒFƒA‚Åƒ_ƒEƒ“ƒ[ƒh‰Â”\‚ÈƒKƒ“ƒ}ƒ‰ƒ“ƒv‚ğƒTƒ|[ƒg‚·‚éƒhƒ‰ƒCƒo‚ğ‚Âƒ_ƒCƒŒƒNƒgƒJƒ‰[ƒfƒBƒXƒvƒŒƒCƒ{[ƒh‚ÌƒKƒ“ƒ}ƒ‰ƒ“ƒv‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpRamp
 hdc : [intptr] ‘ÎÛ‚Ìƒ_ƒCƒŒƒNƒgƒJƒ‰[ƒfƒBƒXƒvƒŒƒCƒ{[ƒh‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -4680,8 +4302,6 @@ GetDeviceGammaRamp
 %index
 GetEnhMetaFileW
 GetEnhMetaFile ŠÖ”‚ÍAw’èƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚½Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 lpName
 lpName : [wstr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğw’è‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4702,8 +4322,6 @@ GetEnhMetaFile ŠÖ”‚ÍAw’èƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚½Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğ¯•Ê‚·‚éƒnƒ
 %index
 GetEnhMetaFileBits
 GetEnhMetaFileBits ŠÖ”‚ÍAw’è‚µ‚½Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğæ“¾‚µ‚Äƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hEMF, nSize, lpData
 hEMF : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -4728,8 +4346,6 @@ GetWinMetaFileBits ŠÖ”‚ğg—p‚·‚éB
 %index
 GetEnhMetaFileDescriptionW
 GetEnhMetaFileDescription ŠÖ”‚ÍAŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚©‚ç”CˆÓ‚ÌƒeƒLƒXƒg‹Lq‚ğæ“¾‚µAw’èƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hemf, cchBuffer, lpDescription
 hemf : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -4759,8 +4375,6 @@ Graphics Editor\0Bald Eagle\0\0"(\0 ‚Í NULL •¶š‚ğ•\‚·)BƒeƒLƒXƒgˆø”‚É Unicode
 %index
 GetEnhMetaFileHeader
 GetEnhMetaFileHeader ŠÖ”‚ÍAw’è‚µ‚½Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒwƒbƒ_‚ğŠÜ‚ŞƒŒƒR[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hemf, nSize, lpEnhMetaHeader
 hemf : [intptr] ƒwƒbƒ_‚ğæ“¾‚·‚é‘ÎÛ‚ÌŠg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -4782,8 +4396,6 @@ GetEnhMetaFileHeader ŠÖ”‚ÍAw’è‚µ‚½Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒwƒbƒ_‚ğŠÜ‚ŞƒŒƒR[ƒh‚
 %index
 GetEnhMetaFilePaletteEntries
 GetEnhMetaFilePaletteEntries ŠÖ”‚ÍAw’èŠg’£ƒƒ^ƒtƒ@ƒCƒ‹‚©‚ç”CˆÓ‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hemf, nNumEntries, lpPaletteEntries
 hemf : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -4808,8 +4420,6 @@ GetEnhMetaFilePaletteEntries ŠÖ”‚ÍAw’èŠg’£ƒƒ^ƒtƒ@ƒCƒ‹‚©‚ç”CˆÓ‚ÌƒpƒŒƒbƒgƒGƒ“ƒ
 %index
 GetEnhMetaFilePixelFormat
 GetEnhMetaFilePixelFormat ŠÖ”‚ÍAŠg’£ƒƒ^ƒtƒ@ƒCƒ‹‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hemf, cbBuffer, ppfd
 hemf : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹‚ğ¯•Ê‚·‚éB
@@ -4834,8 +4444,6 @@ GetEnhMetaFilePixelFormat ŠÖ”‚ÍAŠg’£ƒƒ^ƒtƒ@ƒCƒ‹‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgî•ñ‚ğæ
 %index
 GetFontData
 GetFontData ŠÖ”‚ÍATrueType ƒtƒHƒ“ƒg‚ÌƒtƒHƒ“ƒgƒƒgƒŠƒbƒNƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, dwTable, dwOffset, pvBuffer, cjBuffer
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4864,8 +4472,6 @@ dwTableAdwOffsetAcbData ‚É 0 ‚ğw’è‚µ‚ÄƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‘S‘Ì‚ğæ“¾‚Å‚«‚éB”ñ Tr
 %index
 GetFontLanguageInfo
 GetFontLanguageInfo ŠÖ”‚ÍAw’èƒfƒBƒXƒvƒŒƒCƒRƒ“ƒeƒLƒXƒg‚ÅŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í’ÊíA‚±‚Ìî•ñ‚Æ GetCharacterPlacement ŠÖ”‚ğg‚Á‚Ä•\¦—p‚Ì•¶š—ñ‚ğ€”õ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4883,8 +4489,6 @@ GetCharacterPlacement ŠÖ”‚ğg‚Á‚Ä•\¦—p‚Ì•¶š—ñ‚ğ€”õ‚·‚éB
 %index
 GetFontUnicodeRanges
 GetFontUnicodeRanges ŠÖ”‚ÍAƒtƒHƒ“ƒg‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é Unicode •¶š‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·Bî•ñ‚Í GLYPHSET \‘¢‘Ì‚Æ‚µ‚Ä•Ô‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpgs
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4901,8 +4505,6 @@ GLYPHSET \‘¢‘Ì‚Æ‚µ‚Ä•Ô‚³‚ê‚éB
 %index
 GetGlyphIndicesW
 GetGlyphIndices ŠÖ”‚ÍA•¶š—ñ‚ğƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì”z—ñ‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚ÍƒtƒHƒ“ƒg“à‚ÉƒOƒŠƒt‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚½‚ß‚É‚àg—p‚Å‚«‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpstr, c, pgi, fl
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4932,8 +4534,6 @@ Uniscribe ŠÖ”‚ğg—p‚·‚éB
 %index
 GetGlyphOutlineW
 GetGlyphOutline ŠÖ”‚ÍAw’èƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚é TrueType ƒtƒHƒ“ƒg“à‚Ì•¶š‚ÌƒAƒEƒgƒ‰ƒCƒ“‚Ü‚½‚Íƒrƒbƒgƒ}ƒbƒv‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, uChar, fuFormat, lpgm, cjBuffer, pvBuffer, lpmat2
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -4984,8 +4584,6 @@ TrueType ‚¨‚æ‚Ñ OpenType ‹Zpd—l‚É‹LÚ‚³‚ê‚Ä‚¢‚éB
 %index
 GetGraphicsMode
 GetGraphicsMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒOƒ‰ƒtƒBƒbƒNƒ‚[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5003,8 +4601,6 @@ GetGraphicsMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒOƒ‰ƒtƒBƒbƒNƒ‚[ƒh‚ğ
 %index
 GetICMProfileW
 GetICMProfile ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ìo—ÍƒJƒ‰[ƒvƒƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, pBufSize, pszFilename
 hdc : [intptr] ƒJƒ‰[ƒvƒƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -5043,8 +4639,6 @@ GetICMProfile
 %index
 GetKerningPairsW
 GetKerningPairs ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚Ì•¶šƒJ[ƒjƒ“ƒOƒyƒA‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, nPairs, lpKernPair
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5068,8 +4662,6 @@ GetKerningPairs
 %index
 GetLayout
 GetLayout ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌƒŒƒCƒAƒEƒg‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5090,8 +4682,6 @@ GetLayout ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌƒŒƒCƒAƒEƒg‚ğ•Ô‚·B
 %index
 GetLogColorSpaceW
 GetLogColorSpace ŠÖ”‚ÍAw’è‚µ‚½ƒnƒ“ƒhƒ‹‚Å¯•Ê‚³‚ê‚éƒJƒ‰[ƒXƒy[ƒX’è‹`‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hColorSpace, lpBuffer, nSize
 hColorSpace : [intptr] ƒJƒ‰[ƒXƒy[ƒX‚Ìƒnƒ“ƒhƒ‹‚ğw’è‚·‚éB
@@ -5117,8 +4707,6 @@ Windows 95/98/Me: GetLogColorSpaceW ‚Í Microsoft Layer for Unicode
 %index
 GetMapMode
 GetMapMode ŠÖ”‚ÍAŒ»İ‚Ìƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5136,8 +4724,6 @@ GetMapMode ŠÖ”‚ÍAŒ»İ‚Ìƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚ğæ“¾‚·‚éB
 %index
 GetMetaFileW
 GetMetaFile ŠÖ”‚ÍAw’èƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚½ƒƒ^ƒtƒ@ƒCƒ‹‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 lpName
 lpName : [wstr] ƒƒ^ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğw’è‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5160,8 +4746,6 @@ GetMetaFile ŠÖ”‚ÍAw’èƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚½ƒƒ^ƒtƒ@ƒCƒ‹‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğì¬
 %index
 GetMetaFileBitsEx
 GetMetaFileBitsEx ŠÖ”‚ÍAWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğæ“¾‚µ‚Äw’èƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hMF, cbBuffer, lpData
 hMF : [intptr] Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -5186,8 +4770,6 @@ Windows ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒrƒbƒg‚ªæ“¾‚³‚ê‚½ŒãASetMetaFileBitsEx
 %index
 GetMetaRgn
 GetMetaRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ìƒƒ^ƒŠ[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hrgn
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5206,8 +4788,6 @@ GetMetaRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ìƒƒ^ƒŠ[ƒWƒ‡ƒ“‚ğæ“¾‚·‚é
 %index
 GetMiterLimit
 GetMiterLimit ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒCƒ^[ƒŠƒ~ƒbƒg‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, plimit
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5225,8 +4805,6 @@ GetMiterLimit ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒCƒ^[ƒŠƒ~ƒbƒg‚ğæ“¾‚·‚éB
 %index
 GetNearestColor
 GetNearestColor ŠÖ”‚ÍAw’è‚µ‚½ƒJƒ‰[’l‚ªg‚í‚ê‚½‚Æ‚«‚É•\¦‚³‚ê‚éAƒVƒXƒeƒ€ƒpƒŒƒbƒg“à‚ÌF‚ğ¯•Ê‚·‚éƒJƒ‰[’l‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, color
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5242,8 +4820,6 @@ CLR_INVALID ‚ğ•Ô‚·B
 %index
 GetNearestPaletteIndex
 GetNearestPaletteIndex ŠÖ”‚ÍAw’è‚µ‚½˜_—ƒpƒŒƒbƒg“à‚ÅAw’èƒJƒ‰[’l‚ÉÅ‚à‹ß‚¢ƒGƒ“ƒgƒŠ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 h, color
 h : [intptr] ˜_—ƒpƒŒƒbƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5263,8 +4839,6 @@ GetNearestPaletteIndex ŠÖ”‚ÍAw’è‚µ‚½˜_—ƒpƒŒƒbƒg“à‚ÅAw’èƒJƒ‰[’l‚ÉÅ‚à‹ß‚¢ƒ
 %index
 GetObjectW
 GetObjectW (Unicode) ŠÖ” (wingdi.h) ‚ÍAw’èƒOƒ‰ƒtƒBƒbƒNƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 h, c, pv
 h : [intptr] 
@@ -5298,8 +4872,6 @@ LOGFONT ‚ğ•\Œ»‚Å‚«‚¸•âŠÔ‚ğs‚Á‚½ê‡A‚»‚Ì•âŠÔ‚Í LOGFONT
 %index
 GetObjectType
 GetObjectType ‚ÍAw’èƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 h
 h : [intptr] ƒOƒ‰ƒtƒBƒbƒNƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5314,8 +4886,6 @@ GetObjectType ‚ÍAw’èƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚ğæ“¾‚·‚éB
 %index
 GetOutlineTextMetricsW
 GetOutlineTextMetrics ŠÖ”‚ÍATrueType ƒtƒHƒ“ƒg‚ÌƒeƒLƒXƒgƒƒgƒŠƒbƒN‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, cjCopy, potm
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5341,8 +4911,6 @@ OUTLINETEXTMETRIC \‘¢‘Ì‚ÍATrueType
 %index
 GetPaletteEntries
 GetPaletteEntries ŠÖ”‚ÍAw’è‚µ‚½˜_—ƒpƒŒƒbƒg‚©‚çw’è”ÍˆÍ‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hpal, iStart, cEntries, pPalEntries
 hpal : [intptr] ˜_—ƒpƒŒƒbƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5366,8 +4934,6 @@ GetPaletteEntries ŠÖ”‚ÍAw’è‚µ‚½˜_—ƒpƒŒƒbƒg‚©‚çw’è”ÍˆÍ‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğæ
 %index
 GetPath
 GetPath ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚éƒpƒX“à‚Ìü‚Ì’[“_‚¨‚æ‚Ñ‹Èü‚Ì§Œä“_‚ğ’è‹`‚·‚éÀ•W‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, aj, cpt
 hdc : [intptr] •Â‚¶‚½ƒpƒX‚ğŠÜ‚ŞƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5392,8 +4958,6 @@ FlattenPath ŠÖ”‚ğŒÄ‚Ño‚·‚Æ‚æ‚¢B
 %index
 GetPixel
 w’è‚³‚ê‚½À•W‚ÌƒsƒNƒZƒ‹‚Ì RGB ƒJƒ‰[’l‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5415,8 +4979,6 @@ CLR_INVALID ‚ª•Ô‚éB
 %index
 GetPixelFormat
 GetPixelFormat ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ŠÖ”‚ª•Ô‚·Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgƒCƒ“ƒfƒbƒNƒX‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -5431,8 +4993,6 @@ GetPixelFormat ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒ
 %index
 GetPolyFillMode
 GetPolyFillMode ŠÖ”‚ÍAŒ»İ‚Ì‘½ŠpŒ`“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5447,8 +5007,6 @@ GetPolyFillMode ŠÖ”‚ÍAŒ»İ‚Ì‘½ŠpŒ`“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ğæ“¾‚·‚éB
 %index
 GetROP2
 GetROP2 ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì‘OŒi¬‡ƒ‚[ƒh‚ğæ“¾‚·‚éB¬‡ƒ‚[ƒh‚ÍAƒyƒ“‚Ü‚½‚Í“à•”F‚Æ‰æ–Êã‚ÌŠù‘¶‚ÌF‚ğ‘g‚İ‡‚í‚¹‚ÄV‚µ‚¢F‚ğì‚é•û–@‚ğw’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5467,8 +5025,6 @@ GetROP2
 %index
 GetRandomRgn
 GetRandomRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒVƒXƒeƒ€ƒNƒŠƒbƒsƒ“ƒOƒŠ[ƒWƒ‡ƒ“‚ğ“Á’è‚ÌƒŠ[ƒWƒ‡ƒ“‚ÖƒRƒs[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hrgn, i
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5492,8 +5048,6 @@ SYSRGN ƒtƒ‰ƒO‚ğg—p‚·‚é‚ÆƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å•`‰æƒGƒ‰[‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éB•Ô‚
 %index
 GetRasterizerCaps
 GetRasterizerCaps ŠÖ”‚ÍAƒVƒXƒeƒ€‚É TrueType ƒtƒHƒ“ƒg‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é‚©‚ğ¦‚·ƒtƒ‰ƒO‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 lpraststat, cjBytes
 lpraststat : [var] ƒ‰ƒXƒ^ƒ‰ƒCƒU‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é RASTERIZER_STATUS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5516,8 +5070,6 @@ TT_AVAILABLE ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚éê‡A­‚È‚­‚Æ‚à 1 ‚Â‚Ì TrueType
 %index
 GetRegionData
 GetRegionData ŠÖ”‚ÍAƒŠ[ƒWƒ‡ƒ“‚ğ‹Lq‚·‚éƒf[ƒ^‚Åw’èƒoƒbƒtƒ@‚ğ–‚½‚·B‚±‚Ìƒf[ƒ^‚É‚ÍƒŠ[ƒWƒ‡ƒ“‚ğ\¬‚·‚é‹éŒ`‚Ì¡–@‚àŠÜ‚Ü‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hrgn, nCount, lpRgnData
 hrgn : [intptr] ƒŠ[ƒWƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹B
@@ -5539,8 +5091,6 @@ GetRegionData ŠÖ”‚Í ExtCreateRegion ŠÖ”‚Æ‘g‚İ‡‚í‚¹‚Äg—p‚³‚ê‚éB
 %index
 GetRgnBox
 GetRgnBox ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ“‚Ì‹«ŠE‹éŒ`‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hrgn, lprc
 hrgn : [intptr] ƒŠ[ƒWƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹B
@@ -5556,8 +5106,6 @@ GetRgnBox ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ“‚Ì‹«ŠE‹éŒ`‚ğæ“¾‚·‚éB
 %index
 GetStockObject
 ƒXƒgƒbƒNƒyƒ“Aƒuƒ‰ƒVAƒtƒHƒ“ƒgAƒpƒŒƒbƒg‚Ì‚¢‚¸‚ê‚©‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 i
 i : [int] 
@@ -5579,8 +5127,6 @@ SetDCBrushColor/SetDCPenColor ‚Æ‘g‚İ‡‚í‚¹‚Äg‚¦‚éB
 %index
 GetStretchBltMode
 GetStretchBltMode ŠÖ”‚ÍAŒ»İ‚ÌƒXƒgƒŒƒbƒ`ƒ‚[ƒh‚ğæ“¾‚·‚éBƒXƒgƒŒƒbƒ`ƒ‚[ƒh‚ÍAStretchBlt ŠÖ”‚ÌŒÄ‚Ño‚µ‚Éƒrƒbƒgƒ}ƒbƒv‚ªLk‚Ü‚½‚Íˆ³k‚³‚ê‚é‚Æ‚«‚ÉA‚Ç‚Ì‚æ‚¤‚ÉƒJƒ‰[ƒf[ƒ^‚ª’Ç‰Á‚Ü‚½‚Ííœ‚³‚ê‚é‚©‚ğ’è‹`‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5596,8 +5142,6 @@ GetStretchBltMode ŠÖ”‚ÍAŒ»İ‚ÌƒXƒgƒŒƒbƒ`ƒ‚[ƒh‚ğæ“¾‚·‚éBƒXƒgƒŒƒbƒ`ƒ‚[ƒh‚ÍA
 %index
 GetSystemPaletteEntries
 GetSystemPaletteEntries ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒVƒXƒeƒ€ƒpƒŒƒbƒg‚©‚çw’è”ÍˆÍ‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iStart, cEntries, pPalEntries
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5619,8 +5163,6 @@ GetSystemPaletteEntries ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC)
 %index
 GetSystemPaletteUse
 GetSystemPaletteUse ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÌƒVƒXƒeƒ€(•¨—)ƒpƒŒƒbƒg‚ÌŒ»İ‚Ìó‘Ô‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5642,8 +5184,6 @@ GetDeviceCaps ŠÖ”‚ğŒÄ‚Ño‚µ RASTERCAPS
 %index
 GetTextAlign
 GetTextAlign ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒeƒLƒXƒg”z’uİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5665,8 +5205,6 @@ ExtTextOut ‚É—^‚¦‚é)‚É‘Î‚µ‚Ä‚Ç‚Ì‚æ‚¤‚É”z’u‚·‚é‚©‚ğŒˆ’è‚·‚éBƒeƒLƒXƒg”z’uƒtƒ‰ƒO‚Í
 %index
 GetTextCharacterExtra
 GetTextCharacterExtra ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ì•¶šŠÔŠu‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5684,8 +5222,6 @@ GetTextCharacterExtra ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ì•¶šŠÔŠu‚ğæ“¾
 %index
 GetTextCharset
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚Ì•¶šƒZƒbƒg¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚ÍA‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚Ì•¶šƒZƒbƒg¯•Êq‚ğæ“¾‚·‚éB
@@ -5700,8 +5236,6 @@ hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚ÍA‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚
 %index
 GetTextCharsetInfo
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚Ì•¶šƒZƒbƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpSig, dwFlags
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚ÍA‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
@@ -5718,8 +5252,6 @@ dwFlags : [int] —\–ñÏ‚İB0 ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 GetTextColor
 GetTextColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgF‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5737,8 +5269,6 @@ GetTextColor ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒeƒLƒXƒgF‚ğæ“¾‚·‚éB
 %index
 GetTextExtentExPointW
 GetTextExtentExPoint ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒy[ƒX‚Éû‚Ü‚éw’è•¶š—ñ“à‚Ì•¶š”‚ğæ“¾‚µA‚»‚ÌŠe•¶š‚ÌƒeƒLƒXƒg’·‚Å”z—ñ‚ğ–‚½‚·B(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpszString, cchString, nMaxExtent, lpnFit, lpnDx, lpSize
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5779,8 +5309,6 @@ GetCharWidth ‚Æ‚ÍˆÙ‚È‚éŒ‹‰Ê‚Æ‚È‚éB
 %index
 GetTextExtentExPointI
 GetTextExtentExPointI ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒy[ƒX‚Éû‚Ü‚éw’è•¶š—ñ“à‚Ì•¶š”‚ğæ“¾‚µA‚»‚ÌŠe•¶š‚ÌƒeƒLƒXƒg’·‚Å”z—ñ‚ğ–‚½‚·B
-%group
-Win32 gdi32
 %prm
 hdc, lpwszString, cwchString, nMaxExtent, lpnFit, lpnDx, lpSize
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5811,8 +5339,6 @@ cy : 116 } ‚ğ•Ô‚·B
 %index
 GetTextExtentPointW
 GetTextExtentPoint ŠÖ”‚ÍAw’è‚µ‚½ƒeƒLƒXƒg•¶š—ñ‚Ì•‚Æ‚‚³‚ğŒvZ‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpString, c, lpsz
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5841,8 +5367,6 @@ SetTextCharacterExtra ŠÖ”‚Åİ’è‚³‚ê‚½•¶šŠÔŠu‚ğl—¶‚·‚éB
 %index
 GetTextExtentPoint32A
 GetTextExtentPoint32 ŠÖ”‚ÍAw’è‚µ‚½ƒeƒLƒXƒg•¶š—ñ‚Ì•‚Æ‚‚³‚ğŒvZ‚·‚éB(ANSI)
-%group
-Win32 gdi32
 %prm
 hdc, lpString, c, psizl
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5871,8 +5395,6 @@ SetTextCharacterExtra ‚Åİ’è‚³‚ê‚½•¶šŠÔŠu‚Æ SetTextJustification
 %index
 GetTextExtentPoint32W
 w’è‚µ‚½•¶š—ñ‚Ì•‚Æ‚‚³‚ğŒvZ‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpString, c, psizl
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5896,8 +5418,6 @@ SetTextCharacterExtra ‚Åİ’è‚³‚ê‚½•¶šŠÔƒXƒy[ƒVƒ“ƒO‚Æ SetTextJustification
 %index
 GetTextExtentPointI
 GetTextExtentPointI ŠÖ”‚ÍAw’è‚µ‚½ƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX”z—ñ‚Ì•‚Æ‚‚³‚ğŒvZ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, pgiIn, cgi, psize
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5926,8 +5446,6 @@ SetTextCharacterExtra ŠÖ”‚Åİ’è‚³‚ê‚½•¶šŠÔŠu‚ğl—¶‚·‚éB
 %index
 GetTextFaceW
 GetTextFace ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚Ì‘‘Ì–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, c, lpName
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5951,8 +5469,6 @@ GetTextFace ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚Ì‘‘Ì–¼‚
 %index
 GetTextMetricsW
 Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚ÌƒƒgƒŠƒbƒN‚ğw’èƒoƒbƒtƒ@‚ÉŠi”[‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lptm
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5972,8 +5488,6 @@ lptm : [var] ƒeƒLƒXƒgƒƒgƒŠƒbƒN‚ğó‚¯æ‚é TEXTMETRIC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 GetViewportExtEx
 GetViewportExtEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ìƒrƒ…[ƒ|[ƒg‚Ì x •ûŒü‚¨‚æ‚Ñ y •ûŒü‚Ì’·‚³‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpsize
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -5988,8 +5502,6 @@ GetViewportExtEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚Ìƒrƒ…[ƒ|[ƒg‚Ì x •û
 %index
 GetViewportOrgEx
 GetViewportOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒrƒ…[ƒ|[ƒgŒ´“_‚Ì x À•W‚¨‚æ‚Ñ y À•W‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lppoint
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -6004,8 +5516,6 @@ GetViewportOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒrƒ…[ƒ|[ƒgŒ´“_‚Ì x À•W
 %index
 GetWinMetaFileBits
 GetWinMetaFileBits ŠÖ”‚ÍAƒƒ^ƒtƒ@ƒCƒ‹‚©‚çŠg’£Œ`®ƒŒƒR[ƒh‚ğ Windows Œ`®ƒŒƒR[ƒh‚Ö•ÏŠ·‚µAw’èƒoƒbƒtƒ@‚ÖŠi”[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hemf, cbData16, pData16, iMapMode, hdcRef
 hemf : [intptr] Šg’£ƒƒ^ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -6033,8 +5543,6 @@ MM_ANISOTROPIC ‚ğw’è‚·‚éBƒƒ^ƒtƒ@ƒCƒ‹‰æ‘œ‚Ì¶ã‹÷‚Íí‚ÉQÆƒfƒoƒCƒX‚ÌŒ´“_‚Éƒ}ƒ
 %index
 GetWindowExtEx
 ‚±‚ÌŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒEƒBƒ“ƒhƒE‚Ì x •ûŒü‚¨‚æ‚Ñ y •ûŒü‚Ì’·‚³‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpsize
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -6049,8 +5557,6 @@ lpsize : [var] ƒy[ƒW‹óŠÔ’PˆÊ(˜_—’PˆÊ)‚Ì x ‚¨‚æ‚Ñ y •ûŒü‚Ì’·‚³‚ğó‚¯æ‚é SIZE 
 %index
 GetWindowOrgEx
 GetWindowOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒEƒBƒ“ƒhƒEŒ´“_‚Ì x À•W‚¨‚æ‚Ñ y À•W‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lppoint
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -6065,8 +5571,6 @@ GetWindowOrgEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒEƒBƒ“ƒhƒEŒ´“_‚Ì x À•W‚¨‚æ
 %index
 GetWorldTransform
 GetWorldTransform ŠÖ”‚ÍAŒ»İ‚Ìƒ[ƒ‹ƒh‹óŠÔ‚©‚çƒy[ƒW‹óŠÔ‚Ö‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpxf
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
@@ -6085,8 +5589,6 @@ GetWorldTransform ‚ğŒÄ‚Ño‚·‘O‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª ModifyWorldTransform
 %index
 HT_Get8BPPFormatPalette
 HT_Get8BPPFormatPalette ŠÖ”‚ÍA•W€‚Ì 8 ƒrƒbƒg/ƒsƒNƒZƒ‹ƒfƒoƒCƒX—p‚Ìƒn[ƒtƒg[ƒ“ƒpƒŒƒbƒg‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 pPaletteEntry, RedGamma, GreenGamma, BlueGamma
 pPaletteEntry : [var] PALETTEENTRY \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^(Microsoft Windows SDK ƒhƒLƒ…ƒƒ“ƒg‚ğQÆ)B‚±‚Ìƒ|ƒCƒ“ƒ^‚ª NULL ‚Å‚È‚¢ê‡AGDI ‚Í 8 ƒrƒbƒg/ƒsƒNƒZƒ‹‚Ìƒn[ƒtƒg[ƒ“ƒpƒŒƒbƒg‘S‘Ì‚ğ”z’u‚Å‚«‚é—LŒø‚Èƒƒ‚ƒŠ—Ìˆæ‚ğw‚µ‚Ä‚¢‚é‚Æ‘z’è‚·‚éB
@@ -6109,8 +5611,6 @@ HT_Get8BPPFormatPalette ‚ÍAƒhƒ‰ƒCƒo‚ªƒVƒXƒeƒ€•W€‚Ì 8
 %index
 HT_Get8BPPMaskPalette
 HT_Get8BPPMaskPalette ŠÖ”‚ÍA8 ƒrƒbƒg/ƒsƒNƒZƒ‹ƒfƒoƒCƒX—p‚Ìƒ}ƒXƒNƒpƒŒƒbƒg‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 pPaletteEntry, Use8BPPMaskPal, CMYMask, RedGamma, GreenGamma, BlueGamma
 pPaletteEntry : [var] –„‚ß‚ç‚ê‚é PALETTEENTRY \‘¢‘Ì(Windows SDK ƒhƒLƒ…ƒƒ“ƒg‚ğQÆ)”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BGDI ‚Í‚±‚ê‚ğA8 ƒrƒbƒg/ƒsƒNƒZƒ‹ƒn[ƒtƒg[ƒ“ƒpƒŒƒbƒg‘S‘Ì‚ğ”z’u‚Å‚«‚é—LŒø‚Èƒƒ‚ƒŠ—Ìˆæ‚ğw‚µ‚Ä‚¢‚é‚Æ‘z’è‚·‚éBWindows XP ˆÈ~‚Å“®ì‚·‚éƒhƒ‰ƒCƒo‚Ìê‡AGDI ‚Í pPaletteEntry[0] ‚ğ’²‚×‚ÄA\¬‚³‚ê‚½ CMY ƒpƒŒƒbƒg‚ğ‚Ç‚Ì‚æ‚¤‚É•Ô‚·‚©‚ğŒˆ’è‚·‚éBpPaletteEntry[0] ‚ª 'RGB0' ‚Éİ’è‚³‚ê‚Ä‚¢‚ê‚ÎAƒpƒŒƒbƒg‚Í CMY_INVERTED ƒ‚[ƒh‚Ì 1 ‚Â‚Æ‚È‚èAƒCƒ“ƒfƒbƒNƒX‚ª”½“]‚³‚ê‚éB‚Â‚Ü‚èAƒpƒŒƒbƒg‚ÌƒCƒ“ƒfƒbƒNƒX 0 ‚Í•AƒCƒ“ƒfƒbƒNƒX 255 ‚Í”’‚Æ‚È‚éBpPaletteEntry[0] ‚ª 'RGB0' ‚Éİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AƒpƒŒƒbƒg‚Í’Êí‚Ì CMY ƒpƒŒƒbƒg‚Æ‚È‚èAƒCƒ“ƒfƒbƒNƒX 0 ‚ª”’AƒCƒ“ƒfƒbƒNƒX 255 ‚ª•‚Æ‚È‚éBV‚µ‚¢—vŒ‚Æ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ìg—p•û–@‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAuUsing GDI 8-Bit-Per-Pixel CMY Mask Modesv‚ğQÆ‚·‚é‚±‚ÆBWindows 2000 ‚Íƒhƒ‰ƒCƒo‚ª pPaletteEntry[0] ‚É”z’u‚µ‚½’l‚ğ–³‹‚·‚éB‚±‚Ì‚½‚ßAWindows 2000 ‚¨‚æ‚Ñ Windows XP ˆÈ~‚Å“®ì‚³‚¹‚éƒhƒ‰ƒCƒo‚Å pPaletteEntry[0] ‚ğ 'RGB0' ‚Éİ’è‚·‚éê‡AWindows XP ˆÈ~‚©‚çó‚¯æ‚éƒrƒbƒgƒ}ƒbƒv‚Í Windows 2000 ‚©‚çó‚¯æ‚é‚à‚Ì‚Æ”ä‚×‚ÄF‚ª”½“]‚µ‚Ä‚¢‚é‰Â”\«‚ª‚ ‚éB‚µ‚½‚ª‚Á‚ÄA‚»‚Ì‚æ‚¤‚Èƒhƒ‰ƒCƒo‚Íƒrƒbƒgƒ}ƒbƒv‚ğƒ_ƒEƒ“ƒ[ƒh‚·‚é‘O‚ÉƒpƒŒƒbƒg‚ğŒŸ¸‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -6138,8 +5638,6 @@ Mask Modesv‚ğQÆ‚·‚é‚±‚ÆB
 %index
 IntersectClipRect
 IntersectClipRect ŠÖ”‚ÍAŒ»İ‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚Æw’è‚µ‚½‹éŒ`‚ÌŒğ·•”•ª‚©‚çV‚µ‚¢ƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, left, top, right, bottom
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6162,8 +5660,6 @@ IntersectClipRect ŠÖ”‚ÍAŒ»İ‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚Æw’è‚µ‚½‹éŒ`‚ÌŒğ·•”•ª‚©‚çV‚µ
 %index
 InvertRgn
 InvertRgn ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ““à‚ÌF‚ğ”½“]‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hrgn
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6182,8 +5678,6 @@ InvertRgn ŠÖ”‚ÍAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ““à‚ÌF‚ğ”½“]‚·‚éB
 %index
 LPtoDP
 LPtoDP ŠÖ”‚ÍA˜_—À•W‚ğƒfƒoƒCƒXÀ•W‚É•ÏŠ·‚·‚éB•ÏŠ·‚ÍƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒbƒsƒ“ƒOƒ‚[ƒhAƒEƒBƒ“ƒhƒE‚Æƒrƒ…[ƒ|[ƒg‚ÌŒ´“_‚Æ”ÍˆÍ‚Ìİ’èA‚¨‚æ‚Ñƒ[ƒ‹ƒh•ÏŠ·‚ÉˆË‘¶‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lppt, c
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6207,8 +5701,6 @@ LPtoDP ŒÄ‚Ño‚µ‚Ì•ÏŠ·Œ‹‰Ê‚ªŒµ–§‚Éˆê’v‚µ‚È‚¢‚±‚Æ‚ª‚ ‚éB“¯ˆê‚Ìƒpƒ‰ƒ[ƒ^‚ğ“n‚·•¡
 %index
 LineDDA
 LineDDA ŠÖ”‚ÍAw’è‚µ‚½n“_‚ÆI“_‚Å’è‹`‚³‚ê‚éü‚É‘Î‚µ‚ÄA‚Ç‚ÌƒsƒNƒZƒ‹‚ğ‹­’²•\¦‚·‚×‚«‚©‚ğŒˆ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 xStart, yStart, xEnd, yEnd, lpProc, data
 xStart : [int] ü‚Ìn“_‚Ì x À•W(˜_—’PˆÊ)‚ğw’è‚·‚éB
@@ -6231,8 +5723,6 @@ LineDDA
 %index
 LineTo
 Œ»İˆÊ’u‚©‚çw’è‚³‚ê‚½“_‚Ì’¼‘O‚Ü‚Å‚Ì’¼ü‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6252,8 +5742,6 @@ y : [int] ü‚ÌI“_‚Ì y À•W(˜_—’PˆÊ)B
 %index
 MaskBlt
 MaskBlt ŠÖ”‚ÍAw’è‚µ‚½ƒ}ƒXƒN‚Æƒ‰ƒXƒ^‰‰Z‚ğg—p‚µ‚ÄAƒ\[ƒX‚ÆƒRƒs[æ‚Ìƒrƒbƒgƒ}ƒbƒv‚ÌƒJƒ‰[ƒf[ƒ^‚ğŒ‹‡‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdcDest, xDest, yDest, width, height, hdcSrc, xSrc, ySrc, hbmMask, xMask, yMask, rop
 hdcDest : [intptr] ƒRƒs[æ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6291,8 +5779,6 @@ BitBlt ‚Æ‘S‚­“¯‚¶“®ì‚ğ‚·‚éBICM: blit
 %index
 ModifyWorldTransform
 ModifyWorldTransform ŠÖ”‚ÍAw’è‚µ‚½ƒ‚[ƒh‚ğg—p‚µ‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒh•ÏŠ·‚ğ•ÏX‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpxf, mode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6315,8 +5801,6 @@ GM_COMPATIBLE ƒ‚[ƒh‚É–ß‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B
 %index
 MoveToEx
 Œ»İˆÊ’u‚ğw’è‚³‚ê‚½“_‚ÉXV‚µAƒIƒvƒVƒ‡ƒ“‚Å‘O‚ÌˆÊ’u‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6336,8 +5820,6 @@ MoveToEx ‚Í‚·‚×‚Ä‚Ì•`‰æŠÖ”‚É‰e‹¿‚·‚éB
 %index
 OffsetClipRgn
 OffsetClipRgn ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ğw’è‚µ‚½ƒIƒtƒZƒbƒg‚¾‚¯ˆÚ“®‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6354,8 +5836,6 @@ OffsetClipRgn ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ğw’è‚µ‚½ƒIƒtƒZƒbƒg
 %index
 OffsetRgn
 OffsetRgn ŠÖ”‚ÍAw’è‚µ‚½ƒIƒtƒZƒbƒg‚¾‚¯ƒŠ[ƒWƒ‡ƒ“‚ğˆÚ“®‚·‚éB
-%group
-Win32 gdi32
 %prm
 hrgn, x, y
 hrgn : [intptr] ˆÚ“®‚·‚éƒŠ[ƒWƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6372,8 +5852,6 @@ OffsetRgn ŠÖ”‚ÍAw’è‚µ‚½ƒIƒtƒZƒbƒg‚¾‚¯ƒŠ[ƒWƒ‡ƒ“‚ğˆÚ“®‚·‚éB
 %index
 OffsetViewportOrgEx
 OffsetViewportOrgEx ŠÖ”‚ÍAw’è‚µ‚½…•½E‚’¼ƒIƒtƒZƒbƒg‚ğ—p‚¢‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒrƒ…[ƒ|[ƒgŒ´“_‚ğ•ÏX‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6393,8 +5871,6 @@ OffsetViewportOrgEx ŠÖ”‚ÍAw’è‚µ‚½…•½E‚’¼ƒIƒtƒZƒbƒg‚ğ—p‚¢‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒL
 %index
 OffsetWindowOrgEx
 OffsetWindowOrgEx ŠÖ”‚ÍAw’è‚µ‚½…•½E‚’¼ƒIƒtƒZƒbƒg‚ğ—p‚¢‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒEƒBƒ“ƒhƒEŒ´“_‚ğ•ÏX‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6411,8 +5887,6 @@ OffsetWindowOrgEx ŠÖ”‚ÍAw’è‚µ‚½…•½E‚’¼ƒIƒtƒZƒbƒg‚ğ—p‚¢‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒLƒX
 %index
 PATHOBJ_bEnum
 PATHOBJ_bEnum ŠÖ”‚ÍAw’è‚µ‚½ƒpƒX‚©‚çŸ‚Ì PATHDATA ƒŒƒR[ƒh‚ğæ“¾‚µAƒpƒX“à‚Ì‹Èü‚ğ—ñ‹“‚·‚éB
-%group
-Win32 gdi32
 %prm
 ppo, ppd
 ppo : [var] ‹Èü‚âü‚ğ—ñ‹“‚·‚é‘ÎÛ‚Ì PATHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6434,8 +5908,6 @@ PATHOBJ_bEnum ‚Í PATHOBJ_vEnumStart ‚ÌŒÄ‚Ño‚µŒã‚É‚Ì‚İŒÄ‚Ño‚¹‚éBPATHDATA
 %index
 PATHOBJ_bEnumClipLines
 PATHOBJ_bEnumClipLines ŠÖ”‚ÍAw’è‚µ‚½ƒpƒX‚©‚çƒNƒŠƒbƒv‚³‚ê‚½ü•ª‚ğ—ñ‹“‚·‚éB
-%group
-Win32 gdi32
 %prm
 ppo, cb, pcl
 ppo : [var] —ñ‹“‚·‚éƒNƒŠƒbƒvÏ‚İ‚Ìü•ª‚ğŠÜ‚Ş PATHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6455,8 +5927,6 @@ PATHOBJ_bEnumClipLines ŠÖ”‚ÍAw’è‚µ‚½ƒpƒX‚©‚çƒNƒŠƒbƒv‚³‚ê‚½ü•ª‚ğ—ñ‹“‚·‚éB
 %index
 PATHOBJ_vEnumStart
 PATHOBJ_vEnumStart ŠÖ”‚ÍAw’è‚³‚ê‚½ PATHOBJ \‘¢‘Ì‚É‘Î‚µ‚ÄAƒhƒ‰ƒCƒo‚ªƒpƒX“à‚Ìü‚â‹Èü‚ğ—ñ‹“‚·‚é‚½‚ß‚É PATHOBJ_bEnum ‚ğŒÄ‚Ño‚·‚±‚Æ‚ğ’Ê’m‚·‚éB
-%group
-Win32 gdi32
 %prm
 ppo
 ppo : [var] ü‚â‹Èü‚ğ—ñ‹“‚·‚é‘ÎÛ‚Ì PATHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6474,8 +5944,6 @@ PATHOBJ_vEnumStart ‚ÍA—ñ‹“‚ğÄŠJ‚·‚é‚½‚ß‚É‚¢‚Â‚Å‚àŒÄ‚Ño‚¹‚éB
 %index
 PATHOBJ_vGetBounds
 PATHOBJ_vGetBounds ŠÖ”‚ÍAw’è‚µ‚½ƒpƒX‚ÌƒoƒEƒ“ƒfƒBƒ“ƒO‹éŒ`‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 ppo, prectfx
 ppo : [var] ƒoƒEƒ“ƒfƒBƒ“ƒO‹éŒ`‚ğŒvZ‚·‚é‘ÎÛ‚ÌƒpƒX‚ğ‹Lq‚·‚é PATHOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -6490,8 +5958,6 @@ PATHOBJ_vGetBounds ŠÖ”‚ÍAw’è‚µ‚½ƒpƒX‚ÌƒoƒEƒ“ƒfƒBƒ“ƒO‹éŒ`‚ğæ“¾‚·‚éB
 %index
 PaintRgn
 PaintRgn ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒuƒ‰ƒV‚ğg—p‚µ‚ÄAw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ“‚ğ“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc, hrgn
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6506,8 +5972,6 @@ PaintRgn ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒuƒ‰ƒV‚ğg—p‚µ‚ÄAw’è‚
 %index
 PatBlt
 PatBlt ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒuƒ‰ƒV‚ğg—p‚µ‚ÄAw’è‚µ‚½‹éŒ`‚ğ“h‚è‚Â‚Ô‚·Bƒuƒ‰ƒV‚ÌF‚Æ•`‰ææ‚ÌF‚ÍAw’è‚µ‚½ƒ‰ƒXƒ^‰‰Z‚Å‘g‚İ‡‚í‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, w, h, rop
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6532,8 +5996,6 @@ PatBlt
 %index
 PathToRegion
 PathToRegion ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚éƒpƒX‚©‚çƒŠ[ƒWƒ‡ƒ“‚ğì¬‚·‚éBŒ‹‰Ê‚ÌƒŠ[ƒWƒ‡ƒ“‚ÍƒfƒoƒCƒXÀ•W‚ğg—p‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] •Â‚¶‚½ƒpƒX‚ğŠÜ‚ŞƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6553,8 +6015,6 @@ HRGN ƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚çADeleteObject ŠÖ”‚ğŒÄ‚Ño‚µ‚Äíœ‚·‚é‚±‚ÆBhd
 %index
 Pie
 Pie ŠÖ”‚ÍA‘È‰~‚Æ 2 –{‚Ì”¼Œaü‚ÌŒğ·•”•ª‚ÅˆÍ‚Ü‚ê‚½îŒ`‚Ì‚­‚³‚Ñ‚ğ•`‰æ‚·‚éBƒpƒC‚ÍŒ»İ‚Ìƒyƒ“‚Å—ÖŠs‚ª•`‚©‚êAŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, left, top, right, bottom, xr1, yr1, xr2, yr2
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6581,8 +6041,6 @@ Pie ŠÖ”‚ÍA‘È‰~‚Æ 2
 %index
 PlayEnhMetaFile
 PlayEnhMetaFile ŠÖ”‚ÍAw’è‚µ‚½Šg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚Ä‚¢‚éŠG‚ğ•\¦‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hmf, lprect
 hdc : [intptr] ŠG‚ğ•\¦‚·‚éo—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6610,8 +6068,6 @@ CancelDC ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‘€ì‚ğI—¹‚Å‚«‚éB‚±‚Ìê‡AŠÖ”‚Í FALSE ‚ğ•Ô‚·B
 %index
 PlayEnhMetaFileRecord
 PlayEnhMetaFileRecord ŠÖ”‚ÍAƒŒƒR[ƒh‚Å¯•Ê‚³‚ê‚é GDI ŠÖ”‚ğÀs‚·‚é‚±‚Æ‚É‚æ‚èAŠg’£ƒƒ^ƒtƒ@ƒCƒ‹ƒŒƒR[ƒh‚ğÄ¶‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, pht, pmr, cht
 hdc : [intptr] EnumEnhMetaFile ŠÖ”‚É“n‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6637,8 +6093,6 @@ PlayEnhMetaFileRecord ‚ğg—p‚µAŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğ 1
 %index
 PlayMetaFile
 PlayMetaFile ŠÖ”‚ÍAw’è‚µ‚½ Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚Ä‚¢‚éŠG‚ğw’èƒfƒoƒCƒX‚É•\¦‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hmf
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6661,8 +6115,6 @@ CancelDC ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‘€ì‚ğI—¹‚Å‚«‚éB‚±‚Ìê‡AŠÖ”‚Í FALSE ‚ğ•Ô‚·B
 %index
 PlayMetaFileRecord
 PlayMetaFileRecord ŠÖ”‚ÍAƒŒƒR[ƒh‚ÉŠÜ‚Ü‚ê‚é GDI ŠÖ”‚ğÀs‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄAWindows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹ƒŒƒR[ƒh‚ğÄ¶‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpHandleTable, lpMR, noObjs
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6688,8 +6140,6 @@ Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚é‚É‚ÍASetWinMetaFileBits
 %index
 PlgBlt
 PlgBlt ŠÖ”‚ÍAƒ\[ƒXƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Ìw’è‹éŒ`‚©‚çƒRƒs[æƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Ìw’è•½sl•ÓŒ`‚ÖAFƒf[ƒ^‚Ìƒrƒbƒg‚ğƒrƒbƒgƒuƒƒbƒN“]‘—‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdcDest, lpPoint, hdcSrc, xSrc, ySrc, width, height, hbmMask, xMask, yMask
 hdcDest : [intptr] ƒRƒs[æ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6726,8 +6176,6 @@ GetDeviceCaps ŠÖ”‚Ì RC_BITBLT
 %index
 PolyBezier
 PolyBezier ŠÖ”‚ÍA1 ‚ÂˆÈã‚ÌƒxƒWƒF‹Èü‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, cpt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6749,8 +6197,6 @@ PolyBezier ŠÖ”‚ÍAlppt ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½’[“_‚Æ§Œä“_‚ğg—p‚µ‚Ä 3 ŸƒxƒWƒF‹È
 %index
 PolyBezierTo
 PolyBezierTo ŠÖ”‚ÍA1 ‚ÂˆÈã‚ÌƒxƒWƒF‹Èü‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, cpt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6772,8 +6218,6 @@ PolyBezierTo ŠÖ”‚ÍA1 ‚ÂˆÈã‚ÌƒxƒWƒF‹Èü‚ğ•`‰æ‚·‚éB
 %index
 PolyDraw
 PolyDraw ŠÖ”‚ÍAˆê˜A‚Ìü•ª‚ÆƒxƒWƒF‹Èü‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, aj, cpt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6797,8 +6241,6 @@ PolyDraw ŠÖ”‚ÍAMoveToExALineToAPolyBezierTo
 %index
 PolyPolygon
 PolyPolygon ŠÖ”‚ÍA•¡”‚Ì•Â‚¶‚½ƒ|ƒŠƒSƒ“‚ğ•`‰æ‚·‚éBŠeƒ|ƒŠƒSƒ“‚ÍŒ»İ‚Ìƒyƒ“‚Å—ÖŠs‚ª•`‚©‚êAŒ»İ‚Ìƒuƒ‰ƒV‚Æƒ|ƒŠƒSƒ““h‚è‚Â‚Ô‚µƒ‚[ƒh‚Å“h‚è‚Â‚Ô‚³‚ê‚éB‚±‚ÌŠÖ”‚Å•`‰æ‚³‚ê‚éƒ|ƒŠƒSƒ“‚Íd‚È‚Á‚Ä‚à‚æ‚¢B
-%group
-Win32 gdi32
 %prm
 hdc, apt, asz, csz
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6821,8 +6263,6 @@ PolyPolygon
 %index
 PolyPolyline
 PolyPolyline ŠÖ”‚ÍA•¡”‚Ì˜A‘±‚µ‚½ü•ª‚ÌŒn—ñ‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, asz, csz
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6842,8 +6282,6 @@ PolyPolyline ŠÖ”‚ÍA•¡”‚Ì˜A‘±‚µ‚½ü•ª‚ÌŒn—ñ‚ğ•`‰æ‚·‚éB
 %index
 PolyTextOutW
 PolyTextOut ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚ÆƒeƒLƒXƒgF‚ğg—p‚µ‚ÄA•¡”‚Ì•¶š—ñ‚ğ•`‰æ‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, ppt, nstrings
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6878,8 +6316,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 Polygon
 2 ‚ÂˆÈã‚Ì’¸“_‚ğ’¼ü‚ÅŒ‹‚ñ‚¾‘½ŠpŒ`‚ğ•`‰æ‚·‚éB‘½ŠpŒ`‚ÍŒ»İ‚Ìƒyƒ“‚Å—ÖŠs‚ª•`‚©‚êAŒ»İ‚Ìƒuƒ‰ƒV‚Æ‘½ŠpŒ`“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Å“h‚è‚Â‚Ô‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, cpt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6899,8 +6335,6 @@ cpt : [int] ”z—ñ“à‚Ì’¸“_”B2 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 Polyline
 w’è‚µ‚½”z—ñ‚Ì“_‚ğÚ‘±‚·‚é‚±‚Æ‚Åˆê˜A‚Ìü•ª‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, cpt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6920,8 +6354,6 @@ cpt : [int] ”z—ñ“à‚Ì“_”B2 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 PolylineTo
 PolylineTo ŠÖ”‚ÍA1 –{ˆÈã‚Ì’¼ü‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, apt, cpt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6943,8 +6375,6 @@ Polyline ŠÖ”‚Æ‚ÍˆÙ‚È‚èAPolylineTo ŠÖ”‚ÍŒ»İˆÊ’u‚ğg—pEXV‚·‚éBŒ»İ‚Ìƒyƒ“‚ğ
 %index
 PtInRegion
 PtInRegion ŠÖ”‚ÍAw’è‚µ‚½“_‚ªw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ““à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hrgn, x, y
 hrgn : [intptr] ’²¸‚·‚éƒŠ[ƒWƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6960,8 +6390,6 @@ PtInRegion ŠÖ”‚ÍAw’è‚µ‚½“_‚ªw’è‚µ‚½ƒŠ[ƒWƒ‡ƒ““à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %index
 PtVisible
 PtVisible ŠÖ”‚ÍAw’è‚µ‚½“_‚ªƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6979,8 +6407,6 @@ PtVisible ŠÖ”‚ÍAw’è‚µ‚½“_‚ªƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ“à‚É‚ ‚é‚©‚Ç
 %index
 RealizePalette
 RealizePalette ŠÖ”‚ÍAŒ»İ‚Ì˜_—ƒpƒŒƒbƒg‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğƒVƒXƒeƒ€ƒpƒŒƒbƒg‚Éƒ}ƒbƒsƒ“ƒO‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ˜_—ƒpƒŒƒbƒg‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7003,8 +6429,6 @@ GDI_ERROR ‚Å‚ ‚éB
 %index
 RectInRegion
 RectInRegion ŠÖ”‚ÍAw’è‚µ‚½‹éŒ`‚Ìˆê•”‚ªƒŠ[ƒWƒ‡ƒ“‚Ì‹«ŠE“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hrgn, lprect
 hrgn : [intptr] ƒŠ[ƒWƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7020,8 +6444,6 @@ RectInRegion ŠÖ”‚ÍAw’è‚µ‚½‹éŒ`‚Ìˆê•”‚ªƒŠ[ƒWƒ‡ƒ“‚Ì‹«ŠE“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚
 %index
 RectVisible
 RectVisible ŠÖ”‚ÍAw’è‚µ‚½‹éŒ`‚Ìˆê•”‚ªƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lprect
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7040,8 +6462,6 @@ RectVisible ŠÖ”‚ÍAw’è‚µ‚½‹éŒ`‚Ìˆê•”‚ªƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ“à
 %index
 Rectangle
 ‹éŒ`‚ğ•`‰æ‚·‚éB‹éŒ`‚ÍŒ»İ‚Ìƒyƒ“‚Å—ÖŠs‚ğ•`‚©‚êAŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, left, top, right, bottom
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7063,8 +6483,6 @@ bottom : [int] ‹éŒ`‚Ì‰E‰º‹÷‚Ì y À•W(˜_—’PˆÊ)B
 %index
 RemoveFontMemResourceEx
 RemoveFontMemResourceEx ŠÖ”‚ÍAƒƒ‚ƒŠƒCƒ[ƒWƒtƒ@ƒCƒ‹‚©‚ç’Ç‰Á‚³‚ê‚½ƒtƒHƒ“ƒg‚ğíœ‚·‚éB
-%group
-Win32 gdi32
 %prm
 h
 h : [intptr] ƒtƒHƒ“ƒgƒŠƒ\[ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í AddFontMemResourceEx ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -7083,8 +6501,6 @@ RemoveFontMemResourceEx ŠÖ”‚ÍAƒƒ‚ƒŠƒCƒ[ƒWƒtƒ@ƒCƒ‹‚©‚ç’Ç‰Á‚³‚ê‚½ƒtƒHƒ“ƒg‚ğí
 %index
 RemoveFontResourceW
 RemoveFontResource ŠÖ”‚ÍAw’è‚µ‚½ƒtƒ@ƒCƒ‹“à‚ÌƒtƒHƒ“ƒg‚ğƒVƒXƒeƒ€ƒtƒHƒ“ƒgƒe[ƒuƒ‹‚©‚çíœ‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 lpFileName
 lpFileName : [wstr] ƒtƒHƒ“ƒgƒŠƒ\[ƒXƒtƒ@ƒCƒ‹–¼‚ğ•\‚· NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7114,8 +6530,6 @@ AddFontResource ‚ğŒÄ‚Ño‚·B‚±‚ÌƒTƒ“ƒvƒ‹ƒR[ƒh‚É¦‚·‚æ‚¤‚ÉARemoveFontResource
 %index
 RemoveFontResourceExW
 RemoveFontResourceEx ŠÖ”‚ÍAw’è‚µ‚½ƒtƒ@ƒCƒ‹“à‚ÌƒtƒHƒ“ƒg‚ğƒVƒXƒeƒ€ƒtƒHƒ“ƒgƒe[ƒuƒ‹‚©‚çíœ‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 name, fl, pdv
 name : [wstr] ƒtƒHƒ“ƒgƒŠƒ\[ƒXƒtƒ@ƒCƒ‹–¼‚ğ•\‚· NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7142,8 +6556,6 @@ AddFontResourceEx ‚ğŒÄ‚Ño‚·B‚±‚ÌƒTƒ“ƒvƒ‹ƒR[ƒh‚É¦‚·‚æ‚¤‚ÉARemoveFontResource
 %index
 ResetDCA
 ResetDC ŠÖ”‚ÍAw’è‚µ‚½î•ñ‚ğg—p‚µ‚ÄAw’è‚µ‚½ƒvƒŠƒ“ƒ^‚Ü‚½‚Íƒvƒƒbƒ^‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ğXV‚·‚éB(ANSI)
-%group
-Win32 gdi32
 %prm
 hdc, lpdm
 hdc : [intptr] XV‚·‚é DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7172,8 +6584,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ResetDCW
 ResetDC ŠÖ”‚ÍAw’è‚µ‚½î•ñ‚ğg—p‚µ‚ÄAw’è‚µ‚½ƒvƒŠƒ“ƒ^‚Ü‚½‚Íƒvƒƒbƒ^‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ğXV‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpdm
 hdc : [intptr] XV‚·‚é DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7202,8 +6612,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 ResizePalette
 ResizePalette ŠÖ”‚ÍAw’è‚µ‚½’l‚ÉŠî‚Ã‚¢‚Ä˜_—ƒpƒŒƒbƒg‚ÌƒTƒCƒY‚ğ‘Œ¸‚·‚éB
-%group
-Win32 gdi32
 %prm
 hpal, n
 hpal : [intptr] •ÏX‚·‚éƒpƒŒƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7225,8 +6633,6 @@ ResizePalette ‚ğŒÄ‚Ño‚µ‚½ê‡A’Ç‰Á‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚Í•(ÔE—ÎEÂ‚Ì’l‚ª‚·‚×‚
 %index
 RestoreDC
 RestoreDC ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ğw’è‚µ‚½ó‘Ô‚É•œŒ³‚·‚éBDC ‚ÍASaveDC ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äì¬‚³‚ê‚½ƒXƒ^ƒbƒN‚©‚çó‘Ôî•ñ‚ğƒ|ƒbƒv‚·‚é‚±‚Æ‚Å•œŒ³‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, nSavedDC
 hdc : [intptr] DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7248,8 +6654,6 @@ RestoreDC ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ğw’è‚µ‚½ó‘Ô‚É•œŒ³‚·‚éBDC ‚ÍASaveD
 %index
 RoundRect
 RoundRect ŠÖ”‚ÍAŠÛ‚¢Šp‚ğ‚Â‹éŒ`‚ğ•`‰æ‚·‚éB‹éŒ`‚ÍŒ»İ‚Ìƒyƒ“‚Å—ÖŠs‚ª•`‚©‚êAŒ»İ‚Ìƒuƒ‰ƒV‚Å“h‚è‚Â‚Ô‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, left, top, right, bottom, width, height
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7272,8 +6676,6 @@ RoundRect ŠÖ”‚ÍAŠÛ‚¢Šp‚ğ‚Â‹éŒ`‚ğ•`‰æ‚·‚éB‹éŒ`‚ÍŒ»İ‚Ìƒyƒ“‚Å—ÖŠs‚ª•`‚©‚êAŒ»
 %index
 STROBJ_bEnum
 STROBJ_bEnum ŠÖ”‚ÍAƒOƒŠƒt‚ÌƒAƒCƒfƒ“ƒeƒBƒeƒB‚ÆˆÊ’u‚ğ—ñ‹“‚·‚éB
-%group
-Win32 gdi32
 %prm
 pstro, pc, ppgpos
 pstro : [var] GLYPHPOS î•ñ‚ğŠÜ‚Ş STROBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7297,8 +6699,6 @@ DDI_ERROR ‚Æ‚È‚èAƒGƒ‰[ƒR[ƒh‚ªƒƒO‚É‹L˜^‚³‚ê‚éB
 %index
 STROBJ_bEnumPositionsOnly
 STROBJ_bEnumPositionsOnly ŠÖ”‚ÍAw’è‚µ‚½ƒeƒLƒXƒg•¶š—ñ‚ÌƒOƒŠƒt‚ÌƒAƒCƒfƒ“ƒeƒBƒeƒB‚ÆˆÊ’u‚ğ—ñ‹“‚·‚é‚ªAƒLƒƒƒbƒVƒ…Ï‚İƒOƒŠƒtƒrƒbƒgƒ}ƒbƒv‚Íì¬‚µ‚È‚¢B
-%group
-Win32 gdi32
 %prm
 pstro, pc, ppgpos
 pstro : [var] ƒeƒLƒXƒg•¶š—ñ‚ğ‹Lq‚·‚é STROBJ \‘¢‘Ì‚Ö‚ÌŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒ|ƒCƒ“ƒ^B‚±‚ê‚Í’ÊíAƒhƒ‰ƒCƒo‚Ì DrvTextOut ŠÖ”‚ªó‚¯æ‚é STROBJ \‘¢‘Ì‚Å‚ ‚éB
@@ -7325,8 +6725,6 @@ GDI
 %index
 STROBJ_bGetAdvanceWidths
 STROBJ_bGetAdvanceWidths ŠÖ”‚ÍAw’è‚µ‚½•¶š—ñ‚ğ\¬‚·‚éƒOƒŠƒt‚Ì„’è•‚ğ¦‚·ƒxƒNƒgƒ‹‚Ì”z—ñ‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pso, iFirst, c, pptqD
 pso : [var] ƒeƒLƒXƒg•¶š—ñ‚ğ‹Lq‚·‚é STROBJ \‘¢‘Ì‚Ö‚ÌŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒ|ƒCƒ“ƒ^B‚±‚ê‚Í’ÊíAƒhƒ‰ƒCƒo‚Ì DrvTextOut ŠÖ”‚ªó‚¯æ‚é STROBJ \‘¢‘Ì‚Å‚ ‚éB
@@ -7350,8 +6748,6 @@ STROBJ_bEnumPositionsOnly ‚ğŒÄ‚Ño‚·ƒvƒŠƒ“ƒ^ƒhƒ‰ƒCƒo‚É–ğ—§‚ÂBŠÖ”‚Í pptqD
 %index
 STROBJ_dwGetCodePage
 STROBJ_dwGetCodePage ŠÖ”‚ÍAw’è‚µ‚½ STROBJ \‘¢‘Ì‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒR[ƒhƒy[ƒW‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 pstro
 pstro : [var] ƒR[ƒhƒy[ƒW‚ğŠÖ˜A•t‚¯‚é STROBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7366,8 +6762,6 @@ STROBJ_dwGetCodePage ‚ÍAWin32 API
 %index
 STROBJ_vEnumStart
 STROBJ_vEnumStart ŠÖ”‚ÍASTROBJ_bEnum ‚Ö‚ÌŒã‘±ŒÄ‚Ño‚µ‚Å GDI ‚©‚ç•Ô‚³‚ê‚éƒf[ƒ^‚ÌŒ`®(í—Ş)‚ğ’è‹`‚·‚éB
-%group
-Win32 gdi32
 %prm
 pstro
 pstro : [var] ƒf[ƒ^Œ`®‚ğ’è‹`‚·‚é STROBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -7385,8 +6779,6 @@ STROBJ_vEnumStart ŠÖ”‚ÍASTROBJ_bEnum ‚Ö‚ÌŒã‘±ŒÄ‚Ño‚µ‚Å GDI
 %index
 SaveDC
 SaveDC ŠÖ”‚ÍA‘I‘ğ‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÆƒOƒ‰ƒtƒBƒbƒNƒ‚[ƒh(ƒrƒbƒgƒ}ƒbƒvAƒuƒ‰ƒVAƒpƒŒƒbƒgAƒtƒHƒ“ƒgAƒyƒ“AƒŠ[ƒWƒ‡ƒ“A•`‰æƒ‚[ƒhAƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚È‚Ç)‚ğ‹Lq‚·‚éƒf[ƒ^‚ğƒRƒ“ƒeƒLƒXƒgƒXƒ^ƒbƒN‚ÉƒRƒs[‚·‚é‚±‚Æ‚ÅAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ÌŒ»İ‚Ìó‘Ô‚ğ•Û‘¶‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ó‘Ô‚ğ•Û‘¶‚·‚é DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7405,8 +6797,6 @@ SaveDC ŠÖ”‚ÍADC ó‘Ô‚Ì”CˆÓ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ”CˆÓ‚Ì‰ñ”•Û‘¶‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 %index
 ScaleViewportExtEx
 ScaleViewportExtEx ŠÖ”‚ÍAw’è‚µ‚½”íæ”‚Æœ”‚ÅŒ`¬‚³‚ê‚é”ä—¦‚ğg—p‚µ‚ÄAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒrƒ…[ƒ|[ƒg‚ğ•ÏX‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, xn, dx, yn, yd, lpsz
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7430,8 +6820,6 @@ ScaleViewportExtEx
 %index
 ScaleWindowExtEx
 ScaleWindowExtEx ŠÖ”‚ÍAw’è‚µ‚½”íæ”‚Æœ”‚ÅŒ`¬‚³‚ê‚é”ä—¦‚ğg—p‚µ‚ÄAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒEƒBƒ“ƒhƒE‚ğ•ÏX‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, xn, xd, yn, yd, lpsz
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7454,8 +6842,6 @@ ScaleWindowExtEx ŠÖ”‚ÍAw’è‚µ‚½”íæ”‚Æœ”‚ÅŒ`¬‚³‚ê‚é”ä—¦‚ğg—p‚µ‚ÄAƒfƒoƒCƒ
 %index
 SelectClipPath
 SelectClipPath ŠÖ”‚ÍAŒ»İ‚ÌƒpƒX‚ğƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚Æ‚µ‚Ä‘I‘ğ‚µAw’è‚µ‚½ƒ‚[ƒh‚ÅŠù‘¶‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ÆV‚µ‚¢—Ìˆæ‚ğŒ‹‡‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, mode
 hdc : [intptr] ƒpƒX‚ğ‚ÂƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7474,8 +6860,6 @@ hdc ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‚ÍA•Â‚¶‚½ƒpƒX‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê
 %index
 SelectClipRgn
 SelectClipRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚Æ‚µ‚ÄƒŠ[ƒWƒ‡ƒ“‚ğ‘I‘ğ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hrgn
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7497,8 +6881,6 @@ SelectClipRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚Æ‚µ‚Ä
 %index
 SelectObject
 w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ÉƒIƒuƒWƒFƒNƒg‚ğ‘I‘ğ‚·‚éBV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Í“¯‚¶Œ^‚ÌˆÈ‘O‚ÌƒIƒuƒWƒFƒNƒg‚ğ’u‚«Š·‚¦‚éB
-%group
-Win32 gdi32
 %prm
 hdc, h
 hdc : [intptr] DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7520,8 +6902,6 @@ h : [intptr] ‘I‘ğ‚·‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹Bw’è‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÍˆÈ‰º‚ÌŠÖ
 %index
 SelectPalette
 SelectPalette ŠÖ”‚ÍAw’è‚µ‚½˜_—ƒpƒŒƒbƒg‚ğƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hPal, bForceBkgd
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7548,8 +6928,6 @@ bForceBackground ƒpƒ‰ƒ[ƒ^‚ğ TRUE ‚É‚µ‚Ä SelectPalette
 %index
 SetAbortProc
 SetAbortProc ŠÖ”‚ÍAƒXƒv[ƒ‹’†‚ÉˆóüƒWƒ‡ƒu‚ğƒLƒƒƒ“ƒZƒ‹‚Å‚«‚é‚æ‚¤‚É‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’†~ŠÖ”‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, proc
 hdc : [intptr] ˆóüƒWƒ‡ƒu‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7568,8 +6946,6 @@ SetAbortProc ŠÖ”‚ÍAƒXƒv[ƒ‹’†‚ÉˆóüƒWƒ‡ƒu‚ğƒLƒƒƒ“ƒZƒ‹‚Å‚«‚é‚æ‚¤‚É‚·‚éƒAƒvƒŠƒP
 %index
 SetArcDirection
 SetArcDirection ŠÖ”‚ÍA‰~ŒÊ‚Æ‹éŒ`ŠÖ”‚Ég—p‚·‚é•`‰æ•ûŒü‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, dir
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7588,8 +6964,6 @@ SetArcDirection ŠÖ”‚ÍA‰~ŒÊ‚Æ‹éŒ`ŠÖ”‚Ég—p‚·‚é•`‰æ•ûŒü‚ğİ’è‚·‚éB
 %index
 SetBitmapBits
 SetBitmapBits ŠÖ”‚ÍAƒrƒbƒgƒ}ƒbƒv‚ÌƒJƒ‰[ƒf[ƒ^‚Ìƒrƒbƒg‚ğw’è‚µ‚½’l‚Éİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hbm, cb, pvBits
 hbm : [intptr] İ’è‚·‚éƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚ÍŒİŠ·ƒrƒbƒgƒ}ƒbƒv(DDB)‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7608,8 +6982,6 @@ lpBits ‚Åw’è‚³‚ê‚é”z—ñ‚Í WORD ®—ñ‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %index
 SetBitmapDimensionEx
 SetBitmapDimensionEx ŠÖ”‚ÍAƒrƒbƒgƒ}ƒbƒv‚É—Dæ¡–@‚ğŠ„‚è“–‚Ä‚éB‚±‚ê‚ç‚Ì¡–@‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p‚Å‚«‚é‚ªAƒVƒXƒeƒ€‚Íg—p‚µ‚È‚¢B
-%group
-Win32 gdi32
 %prm
 hbm, w, h, lpsz
 hbm : [intptr] ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒrƒbƒgƒ}ƒbƒv‚Í DIB ƒZƒNƒVƒ‡ƒ“ƒrƒbƒgƒ}ƒbƒv‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -7633,8 +7005,6 @@ DIB ƒZƒNƒVƒ‡ƒ“‚Ìê‡ASetBitmapDimensionEx ŠÖ”‚Í¸”s‚·‚éB
 %index
 SetBkColor
 Œ»İ‚Ì”wŒiF‚ğw’è‚³‚ê‚½F’lA‚Ü‚½‚ÍƒfƒoƒCƒX‚ªw’è’l‚ğ•\Œ»‚Å‚«‚È‚¢ê‡‚ÍÅ‚à‹ß‚¢•¨—F‚Éİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, color
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7655,8 +7025,6 @@ OPAQUE
 %index
 SetBkMode
 w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì”wŒi¬‡ƒ‚[ƒh‚ğİ’è‚·‚éB”wŒi¬‡ƒ‚[ƒh‚ÍƒeƒLƒXƒgAƒnƒbƒ`ƒuƒ‰ƒVAÀü‚Å‚È‚¢ƒyƒ“ƒXƒ^ƒCƒ‹‚Åg—p‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, mode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7675,8 +7043,6 @@ SetBkMode ‚Í CreatePen ‚Åì¬‚³‚ê‚½ƒyƒ“‚Å•`‰æ‚³‚ê‚éü‚ÌƒXƒ^ƒCƒ‹‚É‰e‹¿‚·‚éBExtCr
 %index
 SetBoundsRect
 SetBoundsRect ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒoƒEƒ“ƒfƒBƒ“ƒO‹éŒ`î•ñ‚Ì’~Ï‚ğ§Œä‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lprect, flags
 hdc : [intptr] ƒoƒEƒ“ƒfƒBƒ“ƒO‹éŒ`‚ğ’~Ï‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7699,8 +7065,6 @@ DCB_SET ’l‚Í DCB_ACCUMULATE ‚Æ DCB_RESET ‚Ìƒrƒbƒg’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éBDCB_RESET
 %index
 SetBrushOrgEx
 SetBrushOrgEx ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŸ‚É‘I‘ğ‚·‚éƒuƒ‰ƒV‚É GDI ‚ªŠ„‚è“–‚Ä‚éƒuƒ‰ƒVŒ´“_‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7726,8 +7090,6 @@ SetBrushOrgEx ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŸ‚É‘I‘ğ‚·
 %index
 SetColorAdjustment
 SetColorAdjustment ŠÖ”‚ÍAw’è‚µ‚½’l‚ğg—p‚µ‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ÌƒJƒ‰[’²®’l‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpca
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7746,8 +7108,6 @@ SetColorAdjustment ŠÖ”‚ÍAw’è‚µ‚½’l‚ğg—p‚µ‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ÌƒJƒ‰[’
 %index
 SetColorSpace
 SetColorSpace ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì“ü—ÍƒJƒ‰[ƒXƒy[ƒX‚ğ’è‹`‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hcs
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğw’è‚·‚éB
@@ -7763,8 +7123,6 @@ SetColorSpace ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì“ü—ÍƒJƒ‰[ƒXƒy[ƒX‚ğ’è‹`‚·‚é
 %index
 SetDCBrushColor
 SetDCBrushColor ŠÖ”‚ÍAŒ»İ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚Ìƒuƒ‰ƒVF‚ğw’è‚µ‚½ƒJƒ‰[’l‚Éİ’è‚·‚éBƒfƒoƒCƒX‚ªw’è‚µ‚½ƒJƒ‰[’l‚ğ•\Œ»‚Å‚«‚È‚¢ê‡AF‚ÍÅ‚à‹ß‚¢•¨—F‚Éİ’è‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, color
 hdc : [intptr] DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7789,8 +7147,6 @@ CLR_INVALID ‚Å‚ ‚éB
 %index
 SetDCPenColor
 SetDCPenColor ŠÖ”‚ÍAŒ»İ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚Ìƒyƒ“F‚ğw’è‚µ‚½ƒJƒ‰[’l‚Éİ’è‚·‚éBƒfƒoƒCƒX‚ªw’è‚µ‚½ƒJƒ‰[’l‚ğ•\Œ»‚Å‚«‚È‚¢ê‡AF‚ÍÅ‚à‹ß‚¢•¨—F‚Éİ’è‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, color
 hdc : [intptr] DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7813,8 +7169,6 @@ GetStockObject ŠÖ”‚ÍASetDCPenColor ‚¨‚æ‚Ñ SetDCBrushColor
 %index
 SetDIBColorTable
 SetDIBColorTable ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é DIB ‚ÌƒJƒ‰[ƒe[ƒuƒ‹“à‚Ì”ÍˆÍ‚ÌƒGƒ“ƒgƒŠ‚ÉARGB(ÔA—ÎAÂ)ƒJƒ‰[’l‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iStart, cEntries, prgbq
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgB‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É DIB ‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -7840,8 +7194,6 @@ bV5BitCount ƒƒ“ƒo‚ªƒrƒbƒg/ƒsƒNƒZƒ‹”‚ğw’è‚·‚éBbV5BitCount ’l‚ª 8
 %index
 SetDIBits
 w’è‚³‚ê‚½ DIB ‚ÌFƒf[ƒ^‚ğg—p‚µ‚ÄŒİŠ·ƒrƒbƒgƒ}ƒbƒv(DDB)‚ÌƒsƒNƒZƒ‹‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, hbm, start, cLines, lpBits, lpbmi, ColorUse
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7869,8 +7221,6 @@ ICM_ON ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÉƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒg‚ªs‚í‚ê‚éB
 %index
 SetDIBitsToDevice
 SetDIBitsToDevice ŠÖ”‚ÍADIBAJPEGA‚Ü‚½‚Í PNG ‰æ‘œ‚ÌƒJƒ‰[ƒf[ƒ^‚ğg—p‚µ‚ÄAƒRƒs[æƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒXã‚Ìw’è‹éŒ`“à‚ÌƒsƒNƒZƒ‹‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, xDest, yDest, w, h, xSrc, ySrc, StartScan, cLines, lpvBits, lpbmi, ColorUse
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7913,8 +7263,6 @@ cScanLines ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÍAlpvBits ”z—ñ‚ÉŠÜ‚Ü‚ê‚éƒrƒbƒgƒ}ƒbƒv‚Ì•”•ª‚ğ¯•Ê‚·‚é
 %index
 SetDeviceGammaRamp
 SetDeviceGammaRamp ŠÖ”‚ÍAƒn[ƒhƒEƒFƒA‚Åƒ_ƒEƒ“ƒ[ƒh‰Â”\‚ÈƒKƒ“ƒ}ƒ‰ƒ“ƒv‚ğƒTƒ|[ƒg‚·‚éƒhƒ‰ƒCƒo‚ğ‚Âƒ_ƒCƒŒƒNƒgƒJƒ‰[•\¦ƒ{[ƒhã‚ÉƒKƒ“ƒ}ƒ‰ƒ“ƒv‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpRamp
 hdc : [intptr] ‘ÎÛ‚Ìƒ_ƒCƒŒƒNƒgƒJƒ‰[•\¦ƒ{[ƒh‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -7936,8 +7284,6 @@ SetDeviceGammaRamp
 %index
 SetEnhMetaFileBits
 SetEnhMetaFileBits ŠÖ”‚ÍAw’è‚µ‚½ƒf[ƒ^‚©‚çƒƒ‚ƒŠƒx[ƒX‚ÌŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 nSize, pb
 nSize : [int] ’ñ‹Ÿ‚³‚ê‚½ƒf[ƒ^‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)‚ğw’è‚·‚éB
@@ -7958,8 +7304,6 @@ SetEnhMetaFileBits ŠÖ”‚ÍAw’è‚µ‚½ƒf[ƒ^‚©‚çƒƒ‚ƒŠƒx[ƒX‚ÌŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚
 %index
 SetGraphicsMode
 SetGraphicsMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iMode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7978,8 +7322,6 @@ SetGraphicsMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚ğİ’è
 %index
 SetICMMode
 SetICMMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)ã‚ÅƒCƒ[ƒWƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒg‚ğ—LŒø‰»A–³Œø‰»A‚Ü‚½‚Í–â‚¢‡‚í‚¹‚éB
-%group
-Win32 gdi32
 %prm
 hdc, mode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ¯•Ê‚·‚éB
@@ -8019,8 +7361,6 @@ SetICMMode ŠÖ”‚ğŒÄ‚Ô•K—v‚ª‚ ‚éBStartPage ŠÖ”‚Í RestoreDC ‚Æ SaveDC
 %index
 SetICMProfileW
 SetICMProfile ŠÖ”‚ÍAw’è‚µ‚½ƒJƒ‰[ƒvƒƒtƒ@ƒCƒ‹‚ğw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚Ìo—Íƒvƒƒtƒ@ƒCƒ‹‚Æ‚µ‚Äİ’è‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpFileName
 hdc : [intptr] ƒJƒ‰[ƒvƒƒtƒ@ƒCƒ‹‚ğİ’è‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -8053,8 +7393,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 SetLayout
 SetLayout ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ÌƒŒƒCƒAƒEƒg‚ğ•ÏX‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, l
 hdc : [intptr] DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8076,8 +7414,6 @@ SetLayout ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ÌƒŒƒCƒAƒEƒg‚ğ•ÏX‚·‚éB
 %index
 SetMapMode
 SetMapMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚ğİ’è‚·‚éBƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚ÍAƒy[ƒW‹óŠÔ’PˆÊ‚ğƒfƒoƒCƒX‹óŠÔ’PˆÊ‚É•ÏŠ·‚·‚é‚½‚ß‚Ì‘ª’è’PˆÊ‚ğ’è‹`‚µAƒfƒoƒCƒX‚Ì x ²‚Æ y ²‚Ì•ûŒü‚à’è‹`‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, iMode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8100,8 +7436,6 @@ MM_TEXT
 %index
 SetMapperFlags
 SetMapperFlags ŠÖ”‚ÍAƒtƒHƒ“ƒgƒ}ƒbƒp[‚ª˜_—ƒtƒHƒ“ƒg‚ğ•¨—ƒtƒHƒ“ƒg‚Éƒ}ƒbƒsƒ“ƒO‚·‚éÛ‚Ég—p‚·‚éƒAƒ‹ƒSƒŠƒYƒ€‚ğ•ÏX‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, flags
 hdc : [intptr] ƒtƒHƒ“ƒgƒ}ƒbƒp[ƒtƒ‰ƒO‚ğŠÜ‚ŞƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8120,8 +7454,6 @@ dwFlag ƒpƒ‰ƒ[ƒ^‚ªİ’è‚³‚êAˆê’v‚·‚éƒtƒHƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡AWindows
 %index
 SetMetaFileBitsEx
 SetMetaFileBitsEx ŠÖ”‚ÍAw’è‚µ‚½ƒf[ƒ^‚©‚çƒƒ‚ƒŠƒx[ƒX‚Ì Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
-%group
-Win32 gdi32
 %prm
 cbBuffer, lpData
 cbBuffer : [int] Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)‚ğw’è‚·‚éB
@@ -8142,8 +7474,6 @@ Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğŠg’£Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚é‚É‚ÍASetWinMetaFileBits
 %index
 SetMetaRgn
 SetMetaRgn ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌŒ»İ‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ğŒ»İ‚Ìƒƒ^ƒŠ[ƒWƒ‡ƒ“‚ÆŒğ·‚³‚¹A‚»‚ÌŒ‹‡‚³‚ê‚½ƒŠ[ƒWƒ‡ƒ“‚ğw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌV‚µ‚¢ƒƒ^ƒŠ[ƒWƒ‡ƒ“‚Æ‚µ‚Ä•Û‘¶‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8163,8 +7493,6 @@ SetMetaRgn
 %index
 SetMiterLimit
 SetMiterLimit ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒCƒ^Œ‹‡‚Ì’·‚³‚Ì§ŒÀ‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, limit, old
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8185,8 +7513,6 @@ SetMiterLimit ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒCƒ^Œ‹‡‚Ì’·‚³‚Ì§ŒÀ‚ğİ’è
 %index
 SetPaletteEntries
 SetPaletteEntries ŠÖ”‚ÍA˜_—ƒpƒŒƒbƒg“à‚Ì”ÍˆÍ‚ÌƒGƒ“ƒgƒŠ‚É RGB(ÔA—ÎAÂ)ƒJƒ‰[’l‚Æƒtƒ‰ƒO‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hpal, iStart, cEntries, pPalEntries
 hpal : [intptr] ˜_—ƒpƒŒƒbƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8208,8 +7534,6 @@ SetPaletteEntries ŠÖ”‚ÍA˜_—ƒpƒŒƒbƒg“à‚Ì”ÍˆÍ‚ÌƒGƒ“ƒgƒŠ‚É RGB(ÔA—ÎAÂ)ƒJƒ‰[
 %index
 SetPixel
 w’è‚³‚ê‚½À•W‚ÌƒsƒNƒZƒ‹‚ğw’è‚³‚ê‚½F‚Éİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, color
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8232,8 +7556,6 @@ GetDeviceCaps ‚ğQÆB
 %index
 SetPixelFormat
 SetPixelFormat ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒsƒNƒZƒ‹Œ`®‚ğ iPixelFormat ƒCƒ“ƒfƒbƒNƒX‚Åw’è‚³‚ê‚½Œ`®‚Éİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, format, ppfd
 hdc : [intptr] ƒsƒNƒZƒ‹Œ`®‚ğİ’è‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éB
@@ -8261,8 +7583,6 @@ CS_PARENTDC ƒXƒ^ƒCƒ‹‚ğŠÜ‚ß‚é‚×‚«‚Å‚Í‚È‚¢B
 %index
 SetPixelV
 SetPixelV ŠÖ”‚ÍAw’è‚µ‚½À•W‚ÌƒsƒNƒZƒ‹‚ğw’è‚µ‚½F‚ÌÅ‚à‹ß‚¢‹ß—’l‚Éİ’è‚·‚éB“_‚ÍƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚¨‚æ‚ÑƒfƒoƒCƒXƒT[ƒtƒFƒX‚Ì‰Â‹•”•ª‚É‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 gdi32
 %prm
 hdc, x, y, color
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8284,8 +7604,6 @@ SetPixelV
 %index
 SetPolyFillMode
 SetPolyFillMode ŠÖ”‚ÍAƒ|ƒŠƒSƒ“‚ğ“h‚è‚Â‚Ô‚·ŠÖ”‚Ì‚½‚ß‚Ìƒ|ƒŠƒSƒ““h‚è‚Â‚Ô‚µƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, mode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8309,8 +7627,6 @@ SetPolyFillMode ŠÖ”‚ÍAƒ|ƒŠƒSƒ“‚ğ“h‚è‚Â‚Ô‚·ŠÖ”‚Ì‚½‚ß‚Ìƒ|ƒŠƒSƒ““h‚è‚Â‚Ô‚µƒ‚[ƒh
 %index
 SetROP2
 Œ»İ‚Ì‘OŒi¬‡ƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, rop2
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8329,8 +7645,6 @@ rop2 : [int]
 %index
 SetRectRgn
 SetRectRgn ŠÖ”‚ÍAƒŠ[ƒWƒ‡ƒ“‚ğw’è‚µ‚½À•W‚ğ‚Â‹éŒ`ƒŠ[ƒWƒ‡ƒ“‚É•ÏŠ·‚·‚éB
-%group
-Win32 gdi32
 %prm
 hrgn, left, top, right, bottom
 hrgn : [intptr] ƒŠ[ƒWƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8351,8 +7665,6 @@ SetRectRgn ŠÖ”‚ÍAƒŠ[ƒWƒ‡ƒ“‚ğw’è‚µ‚½À•W‚ğ‚Â‹éŒ`ƒŠ[ƒWƒ‡ƒ“‚É•ÏŠ·‚·‚éB
 %index
 SetStretchBltMode
 SetStretchBltMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Ìƒrƒbƒgƒ}ƒbƒvƒXƒgƒŒƒbƒ`ƒ‚[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, mode
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8378,8 +7690,6 @@ SetStretchBltMode ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Ìƒrƒbƒgƒ}ƒbƒvƒXƒgƒŒƒbƒ`
 %index
 SetSystemPaletteUse
 SetSystemPaletteUse ŠÖ”‚ÍAƒVƒXƒeƒ€ƒpƒŒƒbƒg‚ª 2 ‚Ü‚½‚Í 20 ‚ÌÃ“IƒJƒ‰[‚ğŠÜ‚Ş‚©‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, use
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÍƒJƒ‰[ƒpƒŒƒbƒg‚ğƒTƒ|[ƒg‚·‚éƒfƒoƒCƒX‚ğQÆ‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8410,8 +7720,6 @@ SYSPAL_NOSTATIC ‚Éİ’è‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚½ŒãAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŸ‚Ìè‡‚ğÀ
 %index
 SetTextAlign
 SetTextAlign ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒeƒLƒXƒg”z’uƒtƒ‰ƒO‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, align
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8431,8 +7739,6 @@ TextOut ‚¨‚æ‚Ñ ExtTextOut
 %index
 SetTextCharacterExtra
 SetTextCharacterExtra ŠÖ”‚ÍA•¶šŠÔƒXƒy[ƒX‚ğİ’è‚·‚éB•¶šŠÔƒXƒy[ƒX‚ÍAƒVƒXƒeƒ€‚ªƒeƒLƒXƒgs‚ğ‘‚«o‚·‚Æ‚«‚ÉAƒuƒŒ[ƒN•¶š‚ğŠÜ‚ŞŠe•¶š‚É’Ç‰Á‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, extra
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8453,8 +7759,6 @@ TextOut ‚ğŒÄ‚Ô‘ã‚í‚è‚ÉAExtTextOut ‚ğŒÄ‚Ño‚µ‚Ä‚»‚Ì lpDx ƒpƒ‰ƒ[ƒ^‚Å•‚ğ’ñ‹Ÿ‚·‚
 %index
 SetTextColor
 w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒeƒLƒXƒgF‚ğw’è‚³‚ê‚½F‚Éİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, color
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8473,8 +7777,6 @@ color : [int] ƒeƒLƒXƒg‚ÌFB
 %index
 SetTextJustification
 SetTextJustification ŠÖ”‚ÍAƒVƒXƒeƒ€‚ªƒeƒLƒXƒg•¶š—ñ“à‚ÌƒuƒŒ[ƒN•¶š‚É’Ç‰Á‚·‚×‚«ƒXƒy[ƒX‚Ì—Ê‚ğw’è‚·‚éB‚±‚ÌƒXƒy[ƒX‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª TextOut ‚Ü‚½‚Í ExtTextOut ŠÖ”‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚É’Ç‰Á‚³‚ê‚éB
-%group
-Win32 gdi32
 %prm
 hdc, extra, count
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8506,8 +7808,6 @@ nBreakExtra ‚ğ 0 ‚Éİ’è‚µ‚Ä SetTextJustification ‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅƒNƒŠƒA‚Å‚«‚éB
 %index
 SetViewportExtEx
 w’è‚µ‚½’l‚ğg—p‚µ‚ÄAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒrƒ…[ƒ|[ƒg‚Ì…•½‚¨‚æ‚Ñ‚’¼”ÍˆÍ‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lpsz
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8532,8 +7832,6 @@ SetViewportExtEx ŠÖ”‚Ö‚ÌŒÄ‚Ño‚µ‚Í–³‹‚³‚ê‚éB
 %index
 SetViewportOrgEx
 SetViewportOrgEx ŠÖ”‚ÍA‚Ç‚ÌƒfƒoƒCƒX“_‚ªƒEƒBƒ“ƒhƒEŒ´“_ (0,0) ‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚é‚©‚ğw’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8557,8 +7855,6 @@ SetViewportOrgEx ŠÖ”‚ÍA‚Ç‚ÌƒfƒoƒCƒX“_‚ªƒEƒBƒ“ƒhƒEŒ´“_ (0,0) ‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚é
 %index
 SetWinMetaFileBits
 SetWinMetaFileBits ŠÖ”‚ÍAƒƒ^ƒtƒ@ƒCƒ‹‚ğŒÃ‚¢ Windows Œ`®‚©‚çV‚µ‚¢Šg’£Œ`®‚É•ÏŠ·‚µAV‚µ‚¢ƒƒ^ƒtƒ@ƒCƒ‹‚ğƒƒ‚ƒŠ‚ÉŠi”[‚·‚éB
-%group
-Win32 gdi32
 %prm
 nSize, lpMeta16Data, hdcRef, lpMFP
 nSize : [int] Windows Œ`®ƒƒ^ƒtƒ@ƒCƒ‹‚ğŠÜ‚Şƒoƒbƒtƒ@‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)B
@@ -8586,8 +7882,6 @@ GDI ŠÖ”‚ª‰æ‘œ‚ğ³‚µ‚­•`‰æ‚µ‚È‚¢‚±‚Æ‚ª‚ ‚éB
 %index
 SetWindowExtEx
 SetWindowExtEx ŠÖ”‚ÍAw’è‚µ‚½’l‚ğg—p‚µ‚ÄƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒEƒBƒ“ƒhƒE‚Ì…•½‚¨‚æ‚Ñ‚’¼”ÍˆÍ‚ğİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lpsz
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8612,8 +7906,6 @@ SetViewportExtEx ŠÖ”‚Ö‚ÌŒÄ‚Ño‚µ‚Í–³‹‚³‚ê‚é:
 %index
 SetWindowOrgEx
 SetWindowOrgEx ŠÖ”‚ÍA‚Ç‚ÌƒEƒBƒ“ƒhƒE“_‚ªƒrƒ…[ƒ|[ƒgŒ´“_ (0,0) ‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚é‚©‚ğw’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lppt
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8637,8 +7929,6 @@ SetWindowOrgEx ŠÖ”‚ÍA‚Ç‚ÌƒEƒBƒ“ƒhƒE“_‚ªƒrƒ…[ƒ|[ƒgŒ´“_ (0,0) ‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê
 %index
 SetWorldTransform
 SetWorldTransform ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒh‹óŠÔ‚Æƒy[ƒW‹óŠÔ‚ÌŠÔ‚Ì 2 ŸŒ³üŒ`•ÏŠ·‚ğİ’è‚·‚éB‚±‚Ì•ÏŠ·‚ÍƒOƒ‰ƒtƒBƒbƒNƒXo—Í‚ğƒXƒP[ƒŠƒ“ƒOA‰ñ“]A™’’fA‚Ü‚½‚Í•½sˆÚ“®‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
-%group
-Win32 gdi32
 %prm
 hdc, lpxf
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8658,8 +7948,6 @@ SetWorldTransform ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒh‹óŠÔ‚Æƒy[ƒW‹óŠÔ
 %index
 StartDocW
 StartDoc ŠÖ”‚ÍˆóüƒWƒ‡ƒu‚ğŠJn‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, lpdi
 hdc : [intptr] ˆóüƒWƒ‡ƒu‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8682,8 +7970,6 @@ StartDoc
 %index
 StartPage
 StartPage ŠÖ”‚ÍAƒvƒŠƒ“ƒ^ƒhƒ‰ƒCƒo‚ªƒf[ƒ^‚ğó‚¯•t‚¯‚ç‚ê‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ˆóüƒWƒ‡ƒu‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8707,8 +7993,6 @@ StartPage ‚Æ EndPage ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚É ResetDC
 %index
 StretchBlt
 Œ³‹éŒ`‚©‚çæ‹éŒ`‚Öƒrƒbƒgƒ}ƒbƒv‚ğƒRƒs[‚µA•K—v‚É‰‚¶‚Äæ‹éŒ`‚Ì¡–@‚É‡‚¤‚æ‚¤‚Éƒrƒbƒgƒ}ƒbƒv‚ğLk‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdcDest, xDest, yDest, wDest, hDest, hdcSrc, xSrc, ySrc, wSrc, hSrc, rop
 hdcDest : [intptr] æƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8740,8 +8024,6 @@ DC ‚ªŠg’£ƒƒ^ƒtƒ@ƒCƒ‹ DC ‚Ìê‡‚ÍƒGƒ‰[Bƒ‰ƒXƒ^‘€ì‚ªƒuƒ‰ƒV‚ğ•K—v‚Æ‚·‚éê‡Aæ 
 %index
 StretchDIBits
 StretchDIBits ŠÖ”‚ÍADIBAJPEGA‚Ü‚½‚Í PNG ‰æ‘œ‚ÌƒsƒNƒZƒ‹‹éŒ`‚ÌƒJƒ‰[ƒf[ƒ^‚ğw’è‚µ‚½ƒRƒs[æ‹éŒ`‚ÉƒRƒs[‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc, xDest, yDest, DestWidth, DestHeight, xSrc, ySrc, SrcWidth, SrcHeight, lpBits, lpbmi, iUsage, rop
 hdc : [intptr] ƒRƒs[æ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8782,8 +8064,6 @@ biHeight ƒƒ“ƒo‚Ì•„†‚ª•‰‚Ìê‡Aƒgƒbƒvƒ_ƒEƒ“‰æ‘œ‚ğì¬‚·‚éBƒR[ƒh—á‚Í Sizing a
 %index
 StrokeAndFillPath
 StrokeAndFillPath ŠÖ”‚ÍAƒpƒX“à‚ÌŠJ‚¢‚½}Œ`‚ğ•Â‚¶AŒ»İ‚Ìƒyƒ“‚ğg—p‚µ‚ÄƒpƒX‚Ì—ÖŠs‚ğƒXƒgƒ[ƒN‚µAŒ»İ‚Ìƒuƒ‰ƒV‚ğg—p‚µ‚Ä“à•”‚ğ“h‚è‚Â‚Ô‚·B
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8802,8 +8082,6 @@ hdc ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‚Í•Â‚¶‚½ƒpƒX‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î
 %index
 StrokePath
 StrokePath ŠÖ”‚ÍAŒ»İ‚Ìƒyƒ“‚ğg—p‚µ‚Äw’è‚µ‚½ƒpƒX‚ğ•`‰æ‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] Š®¬‚µ‚½ƒpƒX‚ğŠÜ‚ŞƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8822,8 +8100,6 @@ StrokePath ‚Å•`‰æ‚³‚ê‚éƒpƒX‚ÍAEndPath ‚ÌŒÄ‚Ño‚µ‚ğ’Ê‚¶‚ÄŠ®¬‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚
 %index
 SwapBuffers
 SwapBuffers ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ªQÆ‚·‚éƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌƒsƒNƒZƒ‹Œ`®‚ÉƒoƒbƒNƒoƒbƒtƒ@‚ªŠÜ‚Ü‚ê‚éê‡Aƒtƒƒ“ƒgƒoƒbƒtƒ@‚ÆƒoƒbƒNƒoƒbƒtƒ@‚ğ“ü‚ê‘Ö‚¦‚éB
-%group
-Win32 gdi32
 %prm
 param0
 param0 : [intptr] 
@@ -8844,8 +8120,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 TextOutW
 Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒgA”wŒiFAƒeƒLƒXƒgF‚ğg‚Á‚Äw’èˆÊ’u‚É•¶š—ñ‚ğ‘‚«‚ŞB(Unicode)
-%group
-Win32 gdi32
 %prm
 hdc, x, y, lpString, c
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8868,8 +8142,6 @@ c : [int] lpString ‚ªw‚·•¶š—ñ‚Ì’·‚³(•¶š’PˆÊ)B
 %index
 TranslateCharsetInfo
 •¶šƒZƒbƒgî•ñ‚ğ•ÏŠ·‚µA•ÏŠ·æ\‘¢‘Ì‚Ì‚·‚×‚Ä‚Ìƒƒ“ƒo‚ğ“KØ‚È’l‚Éİ’è‚·‚éB
-%group
-Win32 gdi32
 %prm
 lpSrc, lpCs, dwFlags
 lpSrc : [var] dwFlags ‚ª TCI_SRCFONTSIG ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í FONTSIGNATURE \‘¢‘Ì‚Ì fsCsb ƒƒ“ƒo‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚»‚¤‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íƒ\[ƒX‚ğ¦‚· DWORD ’l‚Éİ’è‚³‚ê‚éB
@@ -8886,8 +8158,6 @@ dwFlags : [int]
 %index
 UnrealizeObject
 UnrealizeObject ŠÖ”‚ÍAƒuƒ‰ƒV‚ÌŒ´“_‚ğƒŠƒZƒbƒg‚·‚é‚©A˜_—ƒpƒŒƒbƒg‚ğƒŠƒZƒbƒg‚·‚éB
-%group
-Win32 gdi32
 %prm
 h
 h : [intptr] 
@@ -8908,8 +8178,6 @@ SetBrushOrgEx ‚ğg—p‚·‚éB
 %index
 UpdateColors
 UpdateColors ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚ÌŒ»İ‚ÌF‚ğAŒ»İÀŒ»‚³‚ê‚Ä‚¢‚é˜_—ƒpƒŒƒbƒg‚ÉÄƒ}ƒbƒsƒ“ƒO‚·‚é‚±‚Æ‚ÅAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğXV‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8932,8 +8200,6 @@ WM_PALETTECHANGED ƒƒbƒZ[ƒW‚ğóM‚µ‚½’¼Œã‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 UpdateICMRegKeyW
 UpdateICMRegKey ŠÖ”‚ÍAƒVƒXƒeƒ€“à‚ÌƒJƒ‰[ƒvƒƒtƒ@ƒCƒ‹‚ÆƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒ‚ƒWƒ…[ƒ‹‚ğŠÇ—‚·‚éB(Unicode)
-%group
-Win32 gdi32
 %prm
 reserved, lpszCMID, lpszFileName, command
 reserved : [int] —\–ñÏ‚İB0 ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8963,8 +8229,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 WidenPath
 WidenPath ŠÖ”‚ÍAw’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒyƒ“‚ğg—p‚µ‚ÄƒpƒX‚ğƒXƒgƒ[ƒN‚µ‚½ê‡‚É“h‚ç‚ê‚é—Ìˆæ‚Æ‚µ‚ÄAŒ»İ‚ÌƒpƒX‚ğÄ’è‹`‚·‚éB
-%group
-Win32 gdi32
 %prm
 hdc
 hdc : [intptr] •Â‚¶‚½ƒpƒX‚ğŠÜ‚ŞƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8985,8 +8249,6 @@ WidenPath ŠÖ”‚ÍAŒ»İ‚Ìƒyƒ“‚ª ExtCreatePen ŠÖ”‚Åì¬‚³‚ê‚½Šô‰½Šw“Iƒyƒ“‚Å‚ ‚éê
 %index
 XFORMOBJ_bApplyXform
 XFORMOBJ_bApplyXform ŠÖ”‚ÍAw’è‚µ‚½•ÏŠ·‚Ü‚½‚Í‚»‚Ì‹t•ÏŠ·‚ğAw’è‚µ‚½“_‚Ì”z—ñ‚É“K—p‚·‚éB
-%group
-Win32 gdi32
 %prm
 pxo, iMode, cPoints, pvIn, pvOut
 pxo : [var] pvIn ”z—ñ‚É“K—p‚·‚é•ÏŠ·‚ğ’è‹`‚·‚é XFORMOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9005,8 +8267,6 @@ XFORMOBJ_bApplyXform ŠÖ”‚ÍAw’è‚µ‚½•ÏŠ·‚Ü‚½‚Í‚»‚Ì‹t•ÏŠ·‚ğAw’è‚µ‚½“_‚Ì”z—ñ‚É“
 %index
 XLATEOBJ_cGetPalette
 XLATEOBJ_cGetPalette ŠÖ”‚ÍAw’è‚µ‚½ƒpƒŒƒbƒg‚©‚ç RGB ƒJƒ‰[‚Ü‚½‚ÍƒrƒbƒgƒtƒB[ƒ‹ƒhŒ`®‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pxlo, iPal, cPal, pPal
 pxlo : [var] GDI ‚ª—v‹‚³‚ê‚½î•ñ‚ğæ“¾‚·‚é XLATEOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9031,8 +8291,6 @@ XO_DESTBITFIELDS ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚àAXLATEOBJ_cGetPalette ‚Í 0 ‚ğ•Ô‚·B
 %index
 XLATEOBJ_hGetColorTransform
 XLATEOBJ_hGetColorTransform ŠÖ”‚ÍAw’è‚µ‚½•ÏŠ·ƒIƒuƒWƒFƒNƒg‚ÌƒJƒ‰[•ÏŠ·‚ğ•Ô‚·B
-%group
-Win32 gdi32
 %prm
 pxlo
 pxlo : [var] ƒJƒ‰[•ÏŠ·‚ª–â‚¢‡‚í‚³‚ê‚é XLATEOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒJƒ‰[•ÏŠ·‚Í DrvIcmCreateColorTransform ‚Ö‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚ ‚éB
@@ -9051,8 +8309,6 @@ NULL ‚ğ•Ô‚·Bƒuƒ‰ƒV‚ÌƒJƒ‰[•ÏŠ·‚Í BRUSHOBJ_hGetColorTransform ‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ
 %index
 XLATEOBJ_iXlate
 XLATEOBJ_iXlate ŠÖ”‚ÍAƒ\[ƒXƒpƒŒƒbƒg‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğ•ÏŠ·æƒpƒŒƒbƒg“à‚ÌÅ‚à‹ß‚¢ƒCƒ“ƒfƒbƒNƒX‚É•ÏŠ·‚·‚éB
-%group
-Win32 gdi32
 %prm
 pxlo, iColor
 pxlo : [var] ƒ\[ƒXƒpƒŒƒbƒg‚ğ’è‹`‚·‚é XLATEOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9067,8 +8323,6 @@ XLATEOBJ_iXlate ŠÖ”‚ÍAƒ\[ƒXƒpƒŒƒbƒg‚ÌƒJƒ‰[ƒCƒ“ƒfƒbƒNƒX‚ğ•ÏŠ·æƒpƒŒƒbƒg“à‚ÌÅ
 %index
 XLATEOBJ_piVector
 XLATEOBJ_piVector ŠÖ”‚ÍAƒhƒ‰ƒCƒo‚ªƒ\[ƒXƒCƒ“ƒfƒbƒNƒX‚ğ•ÏŠ·æƒCƒ“ƒfƒbƒNƒX‚É•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é•ÏŠ·ƒxƒNƒgƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 gdi32
 %prm
 pxlo
 pxlo : [var] ƒCƒ“ƒfƒbƒNƒX•t‚«ƒ\[ƒXƒIƒuƒWƒFƒNƒg‚ğ’è‹`‚·‚é XLATEOBJ \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B

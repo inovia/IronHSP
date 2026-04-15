@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+dbghelp.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì dbghelp.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 DbgHelpCreateUserDump
 (no summary)
-%group
-Win32 dbghelp
 %prm
 FileName, Callback, UserData
 FileName : [str] 
@@ -21,8 +41,6 @@ UserData : [intptr]
 %index
 EnumDirTree
 EnumDirTree ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠƒcƒŠ[“à‚É‚ ‚éw’èƒtƒ@ƒCƒ‹‚ÌoŒ»‰ÓŠ‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, RootPath, InputPathName, OutputPathBuffer, cb, data
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -49,8 +67,6 @@ SymRegisterCallbackProc64 ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚µ‚Ä‚¨‚¯‚ÎAŒŸõ‚ğƒLƒƒƒ“ƒZƒ‹‚Å‚«
 %index
 EnumerateLoadedModules64
 w’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB(EnumerateLoadedModules64)
-%group
-Win32 dbghelp
 %prm
 hProcess, EnumLoadedModulesCallback, UserContext
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -74,8 +90,6 @@ DbgHelp
 %index
 EnumerateLoadedModulesEx
 EnumerateLoadedModulesEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, EnumLoadedModulesCallback, UserContext
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -97,8 +111,6 @@ DbgHelp
 %index
 EnumerateLoadedModulesW64
 w’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB(EnumerateLoadedModulesW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, EnumLoadedModulesCallback, UserContext
 hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -122,8 +134,6 @@ DbgHelp
 %index
 FindDebugInfoFile
 ƒfƒoƒbƒO (.dbg) ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 FileName, SymbolPath, DebugFilePath
 FileName : [str] æ“¾‚µ‚½‚¢ .dbg ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
@@ -148,8 +158,6 @@ SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBDbgHelp
 %index
 FindDebugInfoFileEx
 FindDebugInfoFileEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒfƒoƒbƒO (.dbg) ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 FileName, SymbolPath, DebugFilePath, Callback, CallerData
 FileName : [str] ŒŸõ‚·‚é .dbg ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
@@ -177,8 +185,6 @@ SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚É .dbg
 %index
 FindExecutableImage
 Às‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 FileName, SymbolPath, ImageFilePath
 FileName : [str] ŒŸõ‚·‚éƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚Í•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
@@ -203,8 +209,6 @@ SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBDbgHelp
 %index
 FindExecutableImageEx
 FindExecutableImageEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½Às‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 FileName, SymbolPath, ImageFilePath, Callback, CallerData
 FileName : [str] ŒŸõ‚·‚éƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚Í•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
@@ -231,8 +235,6 @@ SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBDbgHelp
 %index
 FindFileInPath
 (no summary)
-%group
-Win32 dbghelp
 %prm
 hprocess, SearchPathA, FileName, id, two, three, flags, FilePath
 hprocess : [intptr] 
@@ -250,8 +252,6 @@ FilePath : [str]
 %index
 FindFileInSearchPath
 (no summary)
-%group
-Win32 dbghelp
 %prm
 hprocess, SearchPathA, FileName, one, two, three, FilePath
 hprocess : [intptr] 
@@ -268,8 +268,6 @@ FilePath : [str]
 %index
 GetSymLoadError
 ’¼‹ß‚ÌƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 
 %inst
@@ -282,8 +280,6 @@ Win32 dbghelp
 %index
 GetTimestampForLoadedLibrary
 ƒ[ƒhÏ‚İƒCƒ[ƒW‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 Module
 Module : [intptr] MapViewOfFile ŠÖ”‚É‚æ‚èƒƒ‚ƒŠ‚Éƒ}ƒbƒv‚³‚ê‚½ƒCƒ[ƒW‚Ìƒx[ƒXƒAƒhƒŒƒXB
@@ -304,8 +300,6 @@ Module : [intptr] MapViewOfFile ŠÖ”‚É‚æ‚èƒƒ‚ƒŠ‚Éƒ}ƒbƒv‚³‚ê‚½ƒCƒ[ƒW‚Ìƒx[ƒXƒA
 %index
 ImageDirectoryEntryToData
 ƒCƒ[ƒWŒÅ—L‚Ìƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 Base, MappedAsImage, DirectoryEntry, Size
 Base : [intptr] ƒCƒ[ƒW‚Ìƒx[ƒXƒAƒhƒŒƒXB
@@ -327,8 +321,6 @@ ImageDirectoryEntryToData ŠÖ”‚ÍAƒCƒ[ƒWŒÅ—L‚Ìƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ğæ“¾‚·‚é‚½‚ß
 %index
 ImageDirectoryEntryToDataEx
 ƒCƒ[ƒWƒwƒbƒ_[“à‚ÌƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚ğ“Á’è‚µA‚»‚ÌƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚Ìƒf[ƒ^‚ÌƒAƒhƒŒƒX‚ğ•Ô‚·BŒ©‚Â‚©‚Á‚½ƒf[ƒ^‚É‘Î‰‚·‚éƒZƒNƒVƒ‡ƒ“ƒwƒbƒ_[‚ª‘¶İ‚·‚éê‡‚Í‚»‚ê‚à•Ô‚·B
-%group
-Win32 dbghelp
 %prm
 Base, MappedAsImage, DirectoryEntry, Size, FoundHeader
 Base : [intptr] ƒCƒ[ƒW‚Ü‚½‚Íƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
@@ -349,8 +341,6 @@ FoundHeader : [var] ƒf[ƒ^‚ğó‚¯æ‚é IMAGE_SECTION_HEADER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %index
 ImagehlpApiVersion
 ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é DbgHelp ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 
 %inst
@@ -369,8 +359,6 @@ Win32 dbghelp
 %index
 ImagehlpApiVersionEx
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ğ•ÏX‚·‚éB
-%group
-Win32 dbghelp
 %prm
 AppVersion
 AppVersion : [var] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Æ‚Á‚Ä—LŒø‚Èƒo[ƒWƒ‡ƒ“î•ñ‚ğ•Û‚·‚é API_VERSION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
@@ -393,8 +381,6 @@ Revision ƒƒ“ƒo[‚ğ 4 ˆÈ~‚Éİ’è‚·‚é‚ÆAStackWalk64
 %index
 MakeSureDirectoryPathExists
 w’è‚µ‚½ƒpƒX‚ÉŠÜ‚Ü‚ê‚é‚·‚×‚Ä‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğAƒ‹[ƒg‚©‚ç‡‚Éì¬‚·‚éB
-%group
-Win32 dbghelp
 %prm
 DirPath
 DirPath : [str] —LŒø‚ÈƒpƒX–¼BƒpƒX‚Ì––”ö—v‘f‚ªƒtƒ@ƒCƒ‹–¼‚Å‚Í‚È‚­ƒfƒBƒŒƒNƒgƒŠ‚Å‚ ‚éê‡A•¶š—ñ‚Í‰~‹L† (\\) ‚ÅI‚í‚é•K—v‚ª‚ ‚éB
@@ -415,8 +401,6 @@ Unicode •¶š—ñ‚ğƒTƒ|[ƒg‚µ‚È‚¢BUnicode ƒpƒX‚ğw’è‚·‚é‚É‚Í SHCreateDirectoryEx
 %index
 RangeMapAddPeImageSections
 (no summary)
-%group
-Win32 dbghelp
 %prm
 RmapHandle, ImageName, MappedImage, MappingBytes, ImageBase, UserTag, MappingFlags
 RmapHandle : [intptr] 
@@ -433,8 +417,6 @@ MappingFlags : [int]
 %index
 RangeMapCreate
 (no summary)
-%group
-Win32 dbghelp
 %prm
 
 %inst
@@ -444,8 +426,6 @@ Win32 dbghelp
 %index
 RangeMapFree
 (no summary)
-%group
-Win32 dbghelp
 %prm
 RmapHandle
 RmapHandle : [intptr] 
@@ -456,8 +436,6 @@ RmapHandle : [intptr]
 %index
 RangeMapRead
 (no summary)
-%group
-Win32 dbghelp
 %prm
 RmapHandle, Offset, Buffer, RequestBytes, Flags, DoneBytes
 RmapHandle : [intptr] 
@@ -473,8 +451,6 @@ DoneBytes : [var]
 %index
 RangeMapRemove
 (no summary)
-%group
-Win32 dbghelp
 %prm
 RmapHandle, UserTag
 RmapHandle : [intptr] 
@@ -486,8 +462,6 @@ UserTag : [int64]
 %index
 RangeMapWrite
 (no summary)
-%group
-Win32 dbghelp
 %prm
 RmapHandle, Offset, Buffer, RequestBytes, Flags, DoneBytes
 RmapHandle : [intptr] 
@@ -503,8 +477,6 @@ DoneBytes : [var]
 %index
 RemoveInvalidModuleList
 (no summary)
-%group
-Win32 dbghelp
 %prm
 hProcess
 hProcess : [intptr] 
@@ -515,8 +487,6 @@ hProcess : [intptr]
 %index
 ReportSymbolLoadSummary
 (no summary)
-%group
-Win32 dbghelp
 %prm
 hProcess, pLoadModule, pSymbolData
 hProcess : [intptr] 
@@ -529,8 +499,6 @@ pSymbolData : [var]
 %index
 SearchTreeForFile
 SearchTreeForFile ŠÖ” (dbghelp.h) ‚ÍAƒfƒBƒŒƒNƒgƒŠƒcƒŠ[“à‚©‚çw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 RootPath, InputPathName, OutputPathBuffer
 RootPath : [str] ƒtƒ@ƒCƒ‹ŒŸõ‚ğŠJn‚·‚éƒpƒXB
@@ -560,8 +528,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SetCheckUserInterruptShared
 (no summary)
-%group
-Win32 dbghelp
 %prm
 lpStartAddress
 lpStartAddress : [int] 
@@ -572,8 +538,6 @@ lpStartAddress : [int]
 %index
 SetSymLoadError
 ƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[‚ğİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 error
 error : [int] ƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[B
@@ -587,8 +551,6 @@ error : [int] ƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[B
 %index
 StackWalk64
 ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB(StackWalk64)
-%group
-Win32 dbghelp
 %prm
 MachineType, hProcess, hThread, StackFrame, ContextRecord, ReadMemoryRoutine, FunctionTableAccessRoutine, GetModuleBaseRoutine, TranslateAddress
 MachineType : [int] ƒXƒ^ƒbƒNƒgƒŒ[ƒX‘ÎÛƒRƒ“ƒsƒ…[ƒ^‚ÌƒA[ƒLƒeƒNƒ`ƒƒí•ÊBˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
@@ -618,8 +580,6 @@ AddrPCAAddrFrameAAddrStack ƒƒ“ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‰‰ñŒÄ‚Ño‚µ‚Í¸”
 %index
 StackWalkEx
 ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB(StackWalkEx)
-%group
-Win32 dbghelp
 %prm
 MachineType, hProcess, hThread, StackFrame, ContextRecord, ReadMemoryRoutine, FunctionTableAccessRoutine, GetModuleBaseRoutine, TranslateAddress, Flags
 MachineType : [int] ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ¶¬‚·‚é‘ÎÛƒRƒ“ƒsƒ…[ƒ^[‚ÌƒA[ƒLƒeƒNƒ`ƒƒí•ÊB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğw’è‚Å‚«‚éB
@@ -653,8 +613,6 @@ OS ‚ª•Ï‚í‚Á‚Ä‚à“®ì‚µ‘±‚¯‚éˆÚA«‚Ì‚‚¢ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ª“¾‚ç‚ê‚éBStackFrame ƒp
 %index
 SymAddSourceStream
 SymAddSourceStream ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚Åg—p‚·‚é‚½‚ß‚ÉƒXƒgƒŠ[ƒ€‚ğw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚É’Ç‰Á‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, StreamFile, Buffer, Size
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -684,8 +642,6 @@ ERROR_INVALID_PARAMETER ‚Éİ’è‚³‚ê‚éBSymAddSourceStream ‚Í‘Î‰‚·‚é PDB
 %index
 SymAddSymbol
 SymAddSymbol ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚É‰¼‘zƒVƒ“ƒ{ƒ‹‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Name, Address, Size, Flags
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -710,8 +666,6 @@ DbgHelp
 %index
 SymAddrIncludeInlineTrace
 w’è‚µ‚½ƒAƒhƒŒƒX‚ªƒCƒ“ƒ‰ƒCƒ“ƒtƒŒ[ƒ€“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
-%group
-Win32 dbghelp
 %prm
 hProcess, Address
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -726,8 +680,6 @@ Address : [int64] ƒAƒhƒŒƒXB
 %index
 SymCleanup
 ƒvƒƒZƒXƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess
 hProcess : [intptr] Œ³X SymInitialize ‚É“n‚µ‚½ƒvƒƒZƒXƒnƒ“ƒhƒ‹B
@@ -746,8 +698,6 @@ SymCleanup ‚ğŒÄ‚Ô‚Ì‚ª³‚µ‚¢g‚¢•ûB
 %index
 SymCompareInlineTrace
 2 ‚Â‚ÌƒCƒ“ƒ‰ƒCƒ“ƒgƒŒ[ƒX‚ğ”äŠr‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Address1, InlineContext1, RetAddress1, Address2, RetAddress2
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -767,8 +717,6 @@ RetAddress2 : [int64] ”äŠr‚·‚é 2 ‚Â–Ú‚ÌƒgƒŒ[ƒX‚ÌƒŠƒ^[ƒ“ƒAƒhƒŒƒXB
 %index
 SymDeleteSymbol
 SymDeleteSymbol ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚©‚ç‰¼‘zƒVƒ“ƒ{ƒ‹‚ğíœ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Name, Address, Flags
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -792,8 +740,6 @@ DbgHelp
 %index
 SymEnumLines
 SymEnumLines ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚Ìs‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, Obj, File, EnumLinesCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -819,8 +765,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SymEnumProcesses
 SymInitialize ŠÖ”‚ğŒÄ‚Ño‚µ‚½‚·‚×‚Ä‚ÌƒvƒƒZƒX‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 EnumProcessesCallback, UserContext
 EnumProcessesCallback : [int] ƒvƒƒZƒXî•ñ‚ğó‚¯æ‚é SymEnumProcessesProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
@@ -840,8 +784,6 @@ DbgHelp
 %index
 SymEnumSourceFileTokens
 ƒ‚ƒWƒ…[ƒ‹‚Ìƒ\[ƒXƒT[ƒo[ƒf[ƒ^“à‚ÌŒÂX‚ÌƒGƒ“ƒgƒŠ‚ğA—˜—p‰Â”\‚Å‚ ‚ê‚Î‚·‚×‚Ä—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, Callback
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -863,8 +805,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SymEnumSourceFiles
 SymEnumSourceFiles ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, ModBase, Mask, cbSrcFiles, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -887,8 +827,6 @@ DbgHelp
 %index
 SymEnumSourceLines
 SymEnumSourceLines ŠÖ” (dbghelp.h) ‚ÍAƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚Ìƒ\[ƒXs‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, Obj, File, Line, Flags, EnumLinesCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -914,8 +852,6 @@ DbgHelp
 %index
 SymEnumSym
 (no summary)
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, EnumSymbolsCallback, UserContext
 hProcess : [intptr] 
@@ -929,8 +865,6 @@ UserContext : [intptr]
 %index
 SymEnumSymbols
 SymEnumSymbols ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Mask, EnumSymbolsCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -954,8 +888,6 @@ DbgHelp
 %index
 SymEnumSymbolsEx
 SymEnumSymbolsEx ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Mask, EnumSymbolsCallback, UserContext, Options
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -975,8 +907,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SymEnumSymbolsForAddr
 SymEnumSymbolsForAddr ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Address, EnumSymbolsCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -999,8 +929,6 @@ DbgHelp
 %index
 SymEnumTypes
 SymEnumTypes ŠÖ” (dbghelp.h) ‚ÍAƒ†[ƒU[’è‹`Œ^‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, EnumSymbolsCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1023,8 +951,6 @@ DbgHelp
 %index
 SymEnumTypesByName
 SymEnumTypesByName ŠÖ” (dbghelp.h) ‚ÍAƒ†[ƒU[’è‹`Œ^‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, mask, EnumSymbolsCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1048,8 +974,6 @@ DbgHelp
 %index
 SymEnumerateModules64
 SymLoadModule64 ‚Ü‚½‚Í SymLoadModuleEx ŠÖ”‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB(SymEnumerateModules64)
-%group
-Win32 dbghelp
 %prm
 hProcess, EnumModulesCallback, UserContext
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1076,8 +1000,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymEnumerateModulesW64
 SymLoadModule64 ‚Ü‚½‚Í SymLoadModuleEx ŠÖ”‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB(SymEnumerateModulesW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, EnumModulesCallback, UserContext
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1104,8 +1026,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymEnumerateSymbols64
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB(SymEnumerateSymbols64)
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, EnumSymbolsCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1130,8 +1050,6 @@ SymEnumerateSymbols64 ŠÖ”‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 %index
 SymEnumerateSymbolsW64
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB(SymEnumerateSymbolsW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, EnumSymbolsCallback, UserContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1156,8 +1074,6 @@ SymEnumerateSymbols64 ŠÖ”‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 %index
 SymFindDebugInfoFile
 SymFindDebugInfoFile ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚ç .dbg ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, FileName, DebugFilePath, Callback, CallerData
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1181,8 +1097,6 @@ SymFindDebugInfoFile ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚ç .dbg ƒtƒ@ƒCƒ‹
 %index
 SymFindExecutableImage
 SymFindExecutableImage ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚çÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, FileName, ImageFilePath, Callback, CallerData
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1206,8 +1120,6 @@ SymFindExecutableImage ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚çÀs‰Â”\ƒtƒ@
 %index
 SymFindFileInPath
 SymFindFileInPath ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍÀs‰Â”\ƒCƒ[ƒW‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hprocess, SearchPathA, FileName, id, two, three, flags, FoundFile, callback, context
 hprocess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1235,8 +1147,6 @@ SymFindFileInPath ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍÀs‰Â”\ƒCƒ[ƒW‚ğŒ
 %index
 SymFromAddr
 SymFromAddr ŠÖ” (dbghelp.h) ‚Íw’èƒAƒhƒŒƒX‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Address, Displacement, Symbol
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B–‘O‚É SymInitialize ‚É“n‚µ‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1257,8 +1167,6 @@ DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymFromIndex
 SymFromIndex ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index, Symbol
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1280,8 +1188,6 @@ DbgHelp
 %index
 SymFromInlineContext
 SymFromInlineContext ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒAƒhƒŒƒX‚¨‚æ‚ÑƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Address, InlineContext, Displacement, Symbol
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1301,8 +1207,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 SymFromName
 SymFromName ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½–¼‘O‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Name, Symbol
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1324,8 +1228,6 @@ DbgHelp
 %index
 SymFromToken
 SymFromToken ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ}ƒl[ƒWƒR[ƒhƒg[ƒNƒ“‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, Token, Symbol
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1348,8 +1250,6 @@ DbgHelp
 %index
 SymFunctionTableAccess64
 w’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(SymFunctionTableAccess64)
-%group
-Win32 dbghelp
 %prm
 hProcess, AddrBase
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1374,8 +1274,6 @@ SymFunctionTableAccess ŠÖ”‚Éæ‚Á‚Ä‘ã‚í‚é‚à‚Ì‚Å‚ ‚éBÚ×‚Í Updated Platform Sup
 %index
 SymFunctionTableAccess64AccessRoutines
 ‚ ‚éƒAƒhƒŒƒX‚É‘Î‚·‚éŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠA‚Ü‚½‚ÍƒtƒŒ[ƒ€ƒ|ƒCƒ“ƒ^[È—ª (FPO) ƒŒƒR[ƒh‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, AddrBase, ReadMemoryRoutine, GetModuleBaseRoutine
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1389,8 +1287,6 @@ GetModuleBaseRoutine : [int] ƒ‚ƒWƒ…[ƒ‹ƒx[ƒXæ“¾—pƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 SymGetExtendedOption
 w’è‚µ‚½Šg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“‚ª—LŒø‚©–³Œø‚©‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 option
 option : [int] Šm”F‚·‚éŠg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B—LŒø‚È’l‚ÍŸ‚Ì‚Æ‚¨‚èB
@@ -1404,8 +1300,6 @@ option : [int] Šm”F‚·‚éŠg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B—LŒø‚È’l‚ÍŸ‚Ì‚Æ‚¨‚èB
 %index
 SymGetFileLineOffsets64
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚¨‚æ‚Ñƒtƒ@ƒCƒ‹–¼‚É‘Î‚·‚ésî•ñ‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, ModuleName, FileName, Buffer, BufferLines
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1428,8 +1322,6 @@ DbgHelp
 %index
 SymGetHomeDirectory
 SymGetHomeDirectory ŠÖ” (dbghelp.h) ‚ÍADbghelp ‚ªg—p‚·‚éƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 type, dir, size
 type : [int] 
@@ -1451,8 +1343,6 @@ DbgHelp
 %index
 SymGetLineFromAddr64
 w’èƒAƒhƒŒƒX‚É‘Î‚·‚éƒ\[ƒXs‚ğ“Á’è‚·‚éB(SymGetLineFromAddr64)
-%group
-Win32 dbghelp
 %prm
 hProcess, qwAddr, pdwDisplacement, Line64
 hProcess : [intptr] Œ³X SymInitialize ‚É“n‚µ‚½ƒvƒƒZƒXƒnƒ“ƒhƒ‹B
@@ -1475,8 +1365,6 @@ Line64 : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 SymGetLineFromAddrW64
 w’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromAddrW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, dwAddr, pdwDisplacement, Line
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1502,8 +1390,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetLineFromInlineContext
 SymGetLineFromInlineContext ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚É‘Î‰‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, qwAddr, InlineContext, qwModuleBaseAddress, pdwDisplacement, Line64
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1533,8 +1419,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetLineFromName64
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹Aƒtƒ@ƒCƒ‹–¼As”Ô†‚É‘Î‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromName64)
-%group
-Win32 dbghelp
 %prm
 hProcess, ModuleName, FileName, dwLineNumber, plDisplacement, Line
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1564,8 +1448,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetLineFromNameW64
 w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹Aƒtƒ@ƒCƒ‹–¼As”Ô†‚É‘Î‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromNameW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, ModuleName, FileName, dwLineNumber, plDisplacement, Line
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1595,8 +1477,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetLineNext64
 Ÿ‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLineNext64)
-%group
-Win32 dbghelp
 %prm
 hProcess, Line
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1622,8 +1502,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetLineNextW64
 Ÿ‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLineNextW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, Line
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1649,8 +1527,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetLinePrev64
 ‘O‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLinePrev64)
-%group
-Win32 dbghelp
 %prm
 hProcess, Line
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1676,8 +1552,6 @@ DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetLinePrevW64
 ‘O‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLinePrevW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, Line
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1703,8 +1577,6 @@ DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetModuleBase64
 w’è‚³‚ê‚½ƒAƒhƒŒƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒX‚ğæ“¾‚·‚éB(SymGetModuleBase64)
-%group
-Win32 dbghelp
 %prm
 hProcess, qwAddr
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1729,8 +1601,6 @@ SymGetModuleBase ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
 %index
 SymGetModuleInfo64
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetModuleInfo64)
-%group
-Win32 dbghelp
 %prm
 hProcess, qwAddr, ModuleInfo
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1766,8 +1636,6 @@ DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetModuleInfoW64
 w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetModuleInfoW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, qwAddr, ModuleInfo
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1803,8 +1671,6 @@ DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetOmaps
 “Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì omap ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, OmapTo, cOmapTo, OmapFrom, cOmapFrom
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1828,8 +1694,6 @@ cOmapFrom : [var] OmapFrom ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
 %index
 SymGetOptions
 Œ»İ‚ÌƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 
 %inst
@@ -1848,8 +1712,6 @@ SymSetOptions ŠÖ”‚Åİ’è‚³‚ê‚½ˆÈ‰º‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB
 %index
 SymGetScope
 SymGetScope ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚É‘Î‚·‚éƒXƒR[ƒv‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index, Symbol
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1871,8 +1733,6 @@ SymGetScope ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚É‘Î‚·‚éƒXƒR[ƒv‚ğæ“¾‚·‚
 %index
 SymGetSearchPath
 SymGetSearchPath ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SearchPathA, SearchPathLength
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -1896,8 +1756,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymGetSourceFile
 SymGetSourceFile ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, Params, FileSpec, FilePath, Size
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1923,8 +1781,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymGetSourceFileChecksum
 SymGetSourceFileChecksum ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒ`ƒFƒbƒNƒTƒ€‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, FileSpec, pCheckSumType, pChecksum, checksumSize, pActualBytesWritten
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1946,8 +1802,6 @@ SymGetSourceFileChecksum ŠÖ” (dbghelp.h)
 %index
 SymGetSourceFileFromToken
 SymGetSourceFileFromToken ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒg[ƒNƒ“‚É‘Î‰‚·‚éƒ\[ƒXƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Token, Params, FilePath, Size
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1972,8 +1826,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymGetSourceFileToken
 SymGetSourceFileToken ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒg[ƒNƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Base, FileSpec, Token, Size
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1998,8 +1850,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymGetSourceVarFromToken
 SymGetSourceVarFromToken ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[ƒg[ƒNƒ“‚©‚çw’è‚³‚ê‚½•Ï”–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’l‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Token, Params, VarName, Value, Size
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2025,8 +1875,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymGetSymFromAddr64
 w’è‚³‚ê‚½ƒAƒhƒŒƒX‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éB(SymGetSymFromAddr64)
-%group
-Win32 dbghelp
 %prm
 hProcess, qwAddr, pdwDisplacement, Symbol
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2055,8 +1903,6 @@ SymGetSymFromAddr ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
 %index
 SymGetSymFromName64
 w’è‚³‚ê‚½–¼‘O‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éB(SymGetSymFromName64)
-%group
-Win32 dbghelp
 %prm
 hProcess, Name, Symbol
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2084,8 +1930,6 @@ SymGetSymFromName ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
 %index
 SymGetSymNext64
 Ÿ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetSymNext64)
-%group
-Win32 dbghelp
 %prm
 hProcess, Symbol
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2111,8 +1955,6 @@ DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetSymPrev64
 ‘O‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetSymPrev64)
-%group
-Win32 dbghelp
 %prm
 hProcess, Symbol
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2138,8 +1980,6 @@ DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymGetSymbolFile
 SymGetSymbolFile ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒpƒX‚©‚çƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğ“Á’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SymPath, ImageFile, Type, SymbolFile, cSymbolFile, DbgFile, cDbgFile
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ª 0 ‚Ìê‡ASymPath ‚ğ NULL ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BSymInitialize ‚â SymCleanup ‚ğŒÄ‚Ño‚³‚¸‚ÉƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ‚½‚¢ê‡‚É‚±‚ÌƒIƒvƒVƒ‡ƒ“‚ğg—p‚·‚éB
@@ -2166,8 +2006,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymGetTypeFromName
 SymGetTypeFromName ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½Œ^–¼‚É‘Î‚·‚éŒ^ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Name, Symbol
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2190,8 +2028,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymGetTypeInfo
 w’è‚³‚ê‚½Œ^ƒCƒ“ƒfƒbƒNƒX‚É‘Î‚·‚éŒ^î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, ModBase, TypeId, GetType, pInfo
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2214,8 +2050,6 @@ pInfo : [intptr] ƒf[ƒ^Bƒf[ƒ^‚ÌŒ`®‚Í GetType ƒpƒ‰ƒ[ƒ^‚Ì’l‚É‚æ‚Á‚ÄˆÙ‚È‚éB
 %index
 SymGetTypeInfoEx
 •¡”‚ÌŒ^î•ñ‚ğ‚Ü‚Æ‚ß‚Äæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, ModBase, Params
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2236,8 +2070,6 @@ Params : [var] ƒNƒGƒŠ‚Ì“ü—Í‚¨‚æ‚Ño—Íî•ñ‚ğw’è‚·‚é IMAGEHLP_GET_TYPE_INFO_PARAM
 %index
 SymGetUnwindInfo
 (no summary)
-%group
-Win32 dbghelp
 %prm
 hProcess, Address, Buffer, Size
 hProcess : [intptr] 
@@ -2251,8 +2083,6 @@ Size : [var]
 %index
 SymInitialize
 SymInitialize ŠÖ” (dbghelp.h) ‚ÍƒvƒƒZƒX‚ÌƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, UserSearchPath, fInvadeProcess
 hProcess : [intptr] ŒÄ‚Ño‚µŒ³‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹BˆêˆÓ‚Å 0 ˆÈŠO‚Å‚ ‚ê‚Î‚æ‚­A•K‚¸‚µ‚àƒvƒƒZƒXƒnƒ“ƒhƒ‹‚Å‚ ‚é•K—v‚Í‚È‚¢BƒvƒƒZƒXƒnƒ“ƒhƒ‹‚ğg‚¤ê‡‚Í³‚µ‚¢‚à‚Ì‚ğ“n‚·‚±‚ÆBƒfƒoƒbƒK‚Å‚ ‚ê‚ÎƒfƒoƒbƒO‘ÎÛƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹‚ğg‚¤‚±‚ÆBGetCurrentProcess ‚Å“¾‚½ƒnƒ“ƒhƒ‹‚Íg‚í‚È‚¢‚±‚ÆB•¡”ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª“¯‚É dbghelp ‚ğg‚Á‚Ä‚¢‚é‚Æ‚«‚É—\Šú‚µ‚È‚¢Œ‹‰Ê‚ğµ‚­‰Â”\«‚ª‚ ‚éBNULL ‚Í•s‰ÂB
@@ -2278,8 +2108,6 @@ GetModuleFileNameEx ‚ğŒÄ‚ñ‚ÅƒpƒX‚ğæ“¾‚µ UserSearchPath ‚É’Ç‰Á‚·‚éBSymInitializ
 %index
 SymLoadModule64
 ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ“Ç‚İ‚ŞB(SymLoadModule64)
-%group
-Win32 dbghelp
 %prm
 hProcess, hFile, ImageName, ModuleName, BaseOfDll, SizeOfDll
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2309,8 +2137,6 @@ SymLoadModule ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
 %index
 SymLoadModuleEx
 SymLoadModuleEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ“Ç‚İ‚ŞB
-%group
-Win32 dbghelp
 %prm
 hProcess, hFile, ImageName, ModuleName, BaseOfDll, DllSize, Data, Flags
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2342,8 +2168,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymMatchFileName
 SymMatchFileName ŠÖ” (dbghelp.h) ‚ÍA•¶š—ñ‚ğƒtƒ@ƒCƒ‹–¼‚¨‚æ‚ÑƒpƒX‚Æ”äŠr‚·‚éB
-%group
-Win32 dbghelp
 %prm
 FileName, Match, FileNameStop, MatchStop
 FileName : [str] Match ƒpƒ‰ƒ[ƒ^‚Æ”äŠr‚³‚ê‚éƒtƒ@ƒCƒ‹–¼B
@@ -2368,8 +2192,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymMatchString
 SymMatchString ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½•¶š—ñ‚ğw’è‚³‚ê‚½ƒƒCƒ‹ƒhƒJ[ƒh®‚Æ”äŠr‚·‚éB
-%group
-Win32 dbghelp
 %prm
 string, expression, fCase
 string : [int] 
@@ -2390,8 +2212,6 @@ SymMatchString ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½•¶š—ñ‚ğw’è‚³‚ê‚½ƒƒCƒ‹ƒhƒJ[ƒh®
 %index
 SymNext
 SymNext ŠÖ” (dbghelp.h) ‚ÍAŸ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, si
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2414,8 +2234,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymPrev
 SymPrev ŠÖ” (dbghelp.h) ‚ÍA‘O‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, si
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2438,8 +2256,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymQueryInlineTrace
 ƒCƒ“ƒ‰ƒCƒ“ƒgƒŒ[ƒX‚ğƒNƒGƒŠ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, StartAddress, StartContext, StartRetAddress, CurAddress, CurContext, CurFrameIndex
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2461,8 +2277,6 @@ StartAddress ‚Ü‚½‚Í StartRetAddress ‚Ì‚¢‚¸‚ê‚©‚ÍACurAddress
 %index
 SymRefreshModuleList
 ƒvƒƒZƒX‚Ìƒ‚ƒWƒ…[ƒ‹ˆê——‚ğXV‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2483,8 +2297,6 @@ hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚
 %index
 SymRegisterCallback64
 ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterCallback64)
-%group
-Win32 dbghelp
 %prm
 hProcess, CallbackFunction, UserContext
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2510,8 +2322,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymRegisterCallback
 %index
 SymRegisterCallbackW64
 ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterCallbackW64)
-%group
-Win32 dbghelp
 %prm
 hProcess, CallbackFunction, UserContext
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2537,8 +2347,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymRegisterCallback
 %index
 SymRegisterFunctionEntryCallback64
 Alpha ƒRƒ“ƒsƒ…[ƒ^ã‚ÅƒXƒ^ƒbƒNƒEƒH[ƒNˆ—‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterFunctionEntryCallback64)
-%group
-Win32 dbghelp
 %prm
 hProcess, CallbackFunction, UserContext
 hProcess : [intptr] ‚à‚Æ‚à‚Æ StackWalk64 ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2568,8 +2376,6 @@ Support ‚ğQÆ‚Ì‚±‚ÆBSymRegisterFunctionEntryCallback ‚Í Dbghelp.h
 %index
 SymSearch
 SymSearch ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ğŒ‚Éˆê’v‚·‚é PDB ƒVƒ“ƒ{ƒ‹‚ğŒŸõ‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index, SymTag, Mask, Address, EnumSymbolsCallback, UserContext, Options
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2597,8 +2403,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSetContext
 SymEnumSymbols ŠÖ”‚ªg—p‚·‚éƒRƒ“ƒeƒLƒXƒgî•ñ‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚Í PDB ƒVƒ“ƒ{ƒ‹‚Å‚Ì‚İ‹@”\‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, StackFrame, Context
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2620,8 +2424,6 @@ ERROR_SUCCESS ‚ğ•Ô‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
 %index
 SymSetExtendedOption
 w’è‚³‚ê‚½Šg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“‚ğƒIƒ“‚Ü‚½‚ÍƒIƒt‚É‚·‚éB
-%group
-Win32 dbghelp
 %prm
 option, value
 option : [int] ƒIƒ“‚Ü‚½‚ÍƒIƒt‚É‚·‚éŠg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B—LŒø‚È’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
@@ -2636,8 +2438,6 @@ value : [int] w’è‚³‚ê‚½ƒIƒvƒVƒ‡ƒ“‚Éİ’è‚·‚é’l‚ÅATRUE ‚Ü‚½‚Í FALSEB
 %index
 SymSetHomeDirectory
 SymSetHomeDirectory ŠÖ” (dbghelp.h) ‚ÍADbghelp ‚ªg—p‚·‚éƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, dir
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2661,8 +2461,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSetOptions
 ƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 SymOptions
 SymOptions : [int] ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B0 ‚à—LŒø‚È’l‚ÅA‚·‚×‚Ä‚ÌƒIƒvƒVƒ‡ƒ“‚ªƒIƒt‚Å‚ ‚é‚±‚Æ‚ğ¦‚·BƒIƒvƒVƒ‡ƒ“’l‚Í OR ‰‰Zq‚Å‘g‚İ‡‚í‚¹‚Ä—LŒø‚ÈƒIƒvƒVƒ‡ƒ“’l‚ğ\¬‚·‚éB—LŒø‚È’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
@@ -2682,8 +2480,6 @@ SymOptions : [int] ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B0 ‚à—LŒø‚È’l‚ÅA‚·‚×‚Ä‚ÌƒIƒvƒVƒ‡ƒ“‚ªƒIƒt‚
 %index
 SymSetParentWindow
 ŒÄ‚Ño‚µ‘¤‚ªƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì•\¦‚Ég—p‚·‚éƒEƒBƒ“ƒhƒE‚ğİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hwnd
 hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -2702,8 +2498,6 @@ hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %index
 SymSetScopeFromAddr
 w’è‚³‚ê‚½ƒAƒhƒŒƒX‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Address
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2723,8 +2517,6 @@ Address : [int64] ƒAƒhƒŒƒXB
 %index
 SymSetScopeFromIndex
 w’è‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2745,8 +2537,6 @@ Index : [int] ƒVƒ“ƒ{ƒ‹‚ğˆêˆÓ‚É¯•Ê‚·‚é’lB
 %index
 SymSetScopeFromInlineContext
 w’è‚³‚ê‚½ƒAƒhƒŒƒX‚¨‚æ‚ÑƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, Address, InlineContext
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2763,8 +2553,6 @@ InlineContext : [int] ƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒgB
 %index
 SymSetSearchPath
 SymSetSearchPath ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌŒŸõƒpƒX‚ğİ’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SearchPathA
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -2787,8 +2575,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvDeltaName
 SymSrvDeltaName ŠÖ” (dbghelp.h) ‚ÍA“¯ˆê‚ÌƒVƒ“ƒ{ƒ‹^ƒCƒ[ƒW‚Ì 2 ‚Â‚Ìƒo[ƒWƒ‡ƒ“ŠÔ‚ÌŠÖŒW‚ğ•\‚·ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ¶¬‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SymPath, Type, File1, File2
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2818,8 +2604,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvGetFileIndexInfo
 SymSrvGetFileIndexInfo ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ .pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒfƒbƒNƒXî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 File, Info, Flags
 File : [str] ƒtƒ@ƒCƒ‹–¼B
@@ -2845,8 +2629,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvGetFileIndexString
 SymSrvGetFileIndexString ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ .pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX•¶š—ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SrvPath, File, Index, Size, Flags
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2874,8 +2656,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvGetFileIndexes
 SymSrvGetFileIndexes ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ .pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ğƒXƒgƒA‚É•Û‘¶‚·‚éÛ‚Ég—p‚³‚ê‚éƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 File, Id, Val1, Val2, Flags
 File : [str] ƒtƒ@ƒCƒ‹–¼B
@@ -2900,8 +2680,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvGetSupplement
 SymSrvGetSupplement ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ì•â•—Ìˆæ‚©‚çw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SymPath, Node, File
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2926,8 +2704,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvIsStore
 SymSrvIsStore ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒpƒX‚ªƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚ğw‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, path
 hProcess : [intptr] –‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚µ‚½ê‡AŠÖ”‚ÍƒXƒgƒA‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚Ì‚İ‚ğ”»’è‚·‚éBNULL ‚Å‚È‚¢ê‡AŠÖ”‚ÍƒXƒgƒA‚ª‘¶İ‚µA‚©‚Âw’è‚³‚ê‚½ƒvƒƒZƒXƒnƒ“ƒhƒ‹‚É‘Î‰‚·‚éƒvƒƒZƒXƒGƒ“ƒgƒŠ‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
@@ -2950,8 +2726,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvStoreFile
 SymSrvStoreFile ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SrvPath, File, Flags
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2974,8 +2748,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymSrvStoreSupplement
 SymSrvStoreSupplement ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ìw’è‚³‚ê‚½•â•—Ìˆæ‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB
-%group
-Win32 dbghelp
 %prm
 hProcess, SrvPath, Node, File, Flags
 hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -3004,8 +2776,6 @@ Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 %index
 SymUnDName64
 ‘•ü‚³‚ê‚½ C++ ƒVƒ“ƒ{ƒ‹–¼‚ğŒ³‚É–ß‚·B(SymUnDName64)
-%group
-Win32 dbghelp
 %prm
 sym, UnDecName, UnDecNameLength
 sym : [var] Œ³‚É–ß‚·‘ÎÛ‚ÌƒVƒ“ƒ{ƒ‹‚ğw’è‚·‚é IMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3029,8 +2799,6 @@ Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
 %index
 SymUnloadModule64
 ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚éB(SymUnloadModule64)
-%group
-Win32 dbghelp
 %prm
 hProcess, BaseOfDll
 hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -3053,8 +2821,6 @@ SymUnloadedModule ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
 %index
 UnDecorateSymbolName
 UnDecorateSymbolName ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½‘•ü•t‚« C++ ƒVƒ“ƒ{ƒ‹–¼‚ğŒ³‚É–ß‚·B
-%group
-Win32 dbghelp
 %prm
 name, outputString, maxStringLength, flags
 name : [str] ‘•ü‚³‚ê‚½ C++ ƒVƒ“ƒ{ƒ‹–¼B‚±‚Ì–¼‘O‚Íæ“ª‚Ì•¶š‚Å¯•Ê‚Å‚«Aí‚É‹^–â•„ (?) ‚Ån‚Ü‚éB

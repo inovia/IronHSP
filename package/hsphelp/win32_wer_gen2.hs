@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+wer.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì wer.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 WerAddExcludedApplication
 w’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒGƒ‰[•ñ‚Ì‘ÎÛ‚©‚çœŠO‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŠƒXƒg‚É’Ç‰Á‚·‚éB
-%group
-Win32 wer
 %prm
 pwzExeName, bAllUsers
 pwzExeName : [wstr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÀs‰Â”\ƒtƒ@ƒCƒ‹‚Ì–¼‘O (ƒtƒ@ƒCƒ‹Šg’£q‚ğŠÜ‚Ş) ‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒpƒX‚ÌÅ‘å’·‚Í MAX_PATH •¶š‚Å‚ ‚éB
@@ -31,8 +51,6 @@ WerRemoveExcludedApplication ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 WerFreeString
 ƒŒƒ|[ƒgƒL[•¶š—ñ‚ğŠi”[‚·‚é‚½‚ß‚Ég—p‚³‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éBWerStoreGetFirstReportKey ‚Ü‚½‚Í WerStoreGetNextReportKey ‚ÌŠeŒÄ‚Ño‚µ‚ÌŒãA‘Î‰‚·‚éƒŒƒ|[ƒgƒL[•¶š—ñ‚ğg—p‚µI‚¦‚Ä•s—v‚É‚È‚Á‚½‚çŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
-%group
-Win32 wer
 %prm
 pwszStr
 pwszStr : [wstr] ‰ğ•ú‘ÎÛ‚Ì•¶š—ñ (’l‚ª NULL ‚Éİ’è‚³‚ê‚é)B
@@ -45,8 +63,6 @@ WerStoreGetNextReportKey
 %index
 WerRemoveExcludedApplication
 w’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒGƒ‰[•ñ‚ÌœŠOƒŠƒXƒg‚©‚çíœ‚·‚éB
-%group
-Win32 wer
 %prm
 pwzExeName, bAllUsers
 pwzExeName : [wstr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÀs‰Â”\ƒtƒ@ƒCƒ‹‚Ì–¼‘O (ƒtƒ@ƒCƒ‹Šg’£q‚ğŠÜ‚Ş) ‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒpƒX‚ÌÅ‘å’·‚Í MAX_PATH •¶š‚Å‚ ‚éB‚±‚Ìƒtƒ@ƒCƒ‹‚Í WerAddExcludedApplication ŠÖ”‚É‚æ‚Á‚ÄœŠO‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚¸A‚³‚à‚È‚­‚Î WerRemoveExcludedApplication ‚Í¸”s‚·‚éB
@@ -69,8 +85,6 @@ HKLM ƒŒƒWƒXƒgƒŠƒnƒCƒu‚É‘‚«‚ŞŒ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BbAllUsers ‚ª FALS
 %index
 WerReportCloseHandle
 w’è‚³‚ê‚½ƒŒƒ|[ƒg‚ğƒNƒ[ƒY‚·‚éB
-%group
-Win32 wer
 %prm
 hReportHandle
 hReportHandle : [intptr] ƒŒƒ|[ƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í WerReportCreate ŠÖ”‚©‚ç•Ô‚³‚ê‚éB
@@ -84,8 +98,6 @@ hReportHandle : [intptr] ƒŒƒ|[ƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í WerReportCreate ŠÖ
 %index
 WerReportAddFile
 w’è‚³‚ê‚½ƒŒƒ|[ƒg‚Éƒtƒ@ƒCƒ‹‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 wer
 %prm
 hReportHandle, pwzPath, repFileType, dwFileFlags
 hReportHandle : [intptr] ƒŒƒ|[ƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í WerReportCreate ŠÖ”‚©‚ç•Ô‚³‚ê‚éB
@@ -107,8 +119,6 @@ WerReportAddDump ‚Ìg—p‚ª„§‚³‚ê‚éB©•ª‚Åƒ_ƒ“ƒv‚ğûW‚µ‚ÄƒŒƒ|[ƒg‚É’Ç‰Á‚µ‚½‚¢
 %index
 WerReportCreate
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒxƒ“ƒg‚ğ‹Lq‚·‚é–â‘èƒŒƒ|[ƒg‚ğì¬‚·‚éB
-%group
-Win32 wer
 %prm
 pwzEventType, repType, pReportInformation, phReportHandle
 pwzEventType : [wstr] ƒCƒxƒ“ƒg‚Ì–¼‘O‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -133,8 +143,6 @@ Services ‚ÉƒAƒNƒZƒX‚·‚éB
 %index
 WerReportSetParameter
 w’è‚³‚ê‚½ƒŒƒ|[ƒg‚ÌƒCƒxƒ“ƒg‚ğˆêˆÓ‚É¯•Ê‚·‚éƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éB
-%group
-Win32 wer
 %prm
 hReportHandle, dwparamID, pwzName, pwzValue
 hReportHandle : [intptr] ƒŒƒ|[ƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í WerReportCreate ŠÖ”‚©‚ç•Ô‚³‚ê‚éB
@@ -156,8 +164,6 @@ pwzValue : [wstr] ƒpƒ‰ƒ[ƒ^’lB
 %index
 WerReportSetUIOption
 w’è‚³‚ê‚½ƒŒƒ|[ƒg‚Ìƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒF[ƒXƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
-%group
-Win32 wer
 %prm
 hReportHandle, repUITypeID, pwzValue
 hReportHandle : [intptr] ƒŒƒ|[ƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í WerReportCreate ŠÖ”‚©‚ç•Ô‚³‚ê‚éB
@@ -173,8 +179,6 @@ pwzValue : [wstr] ƒJƒXƒ^ƒ€ƒeƒLƒXƒg‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í 
 %index
 WerReportSubmit
 w’è‚³‚ê‚½ƒŒƒ|[ƒg‚ğ‘—M‚·‚éB
-%group
-Win32 wer
 %prm
 hReportHandle, consent, dwFlags, pSubmitResult
 hReportHandle : [intptr] ƒŒƒ|[ƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í WerReportCreate ŠÖ”‚©‚ç•Ô‚³‚ê‚éB
@@ -198,8 +202,6 @@ WerConsentNotAsked ‚Ìê‡AWER ‚Í“¯ˆÓƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚éB‘—MƒXƒe[ƒ^ƒX‚ğ”»’f‚
 %index
 WerStoreClose
 Ši”[‚³‚ê‚½ƒŒƒ|[ƒg‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğƒNƒ[ƒY‚·‚éB
-%group
-Win32 wer
 %prm
 hReportStore
 hReportStore : [intptr] ƒNƒ[ƒY‚·‚éƒGƒ‰[ƒŒƒ|[ƒgƒXƒgƒA (ˆÈ‘O WerStoreOpen ‚Åæ“¾‚µ‚½‚à‚Ì)B
@@ -210,8 +212,6 @@ hReportStore : [intptr] ƒNƒ[ƒY‚·‚éƒGƒ‰[ƒŒƒ|[ƒgƒXƒgƒA (ˆÈ‘O WerStoreOpen ‚Åæ
 %index
 WerStoreGetFirstReportKey
 ƒŒƒ|[ƒgƒXƒgƒA“à‚ÌÅ‰‚ÌƒŒƒ|[ƒg‚Ö‚ÌQÆ‚ğæ“¾‚·‚éB
-%group
-Win32 wer
 %prm
 hReportStore, ppszReportKey
 hReportStore : [intptr] ƒGƒ‰[ƒŒƒ|[ƒgƒXƒgƒA (ˆÈ‘O WerStoreOpen ‚Åæ“¾‚µ‚½‚à‚Ì)B
@@ -227,8 +227,6 @@ ppszReportKey : [var] ƒŒƒ|[ƒgƒL[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚ÆAæ“¾
 %index
 WerStoreGetNextReportKey
 ƒGƒ‰[ƒŒƒ|[ƒgƒXƒgƒA“à‚ÌŸ‚ÌƒŒƒ|[ƒg‚Ö‚ÌQÆ‚ğæ“¾‚·‚éB
-%group
-Win32 wer
 %prm
 hReportStore, ppszReportKey
 hReportStore : [intptr] ƒGƒ‰[ƒŒƒ|[ƒgƒXƒgƒA (ˆÈ‘O WerStoreOpen ‚Åæ“¾‚µ‚½‚à‚Ì)B
@@ -244,8 +242,6 @@ ppszReportKey : [var] ƒŒƒ|[ƒgƒL[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚ÆAæ“¾
 %index
 WerStoreGetReportCount
 (no summary)
-%group
-Win32 wer
 %prm
 hReportStore, pdwReportCount
 hReportStore : [intptr] 
@@ -257,8 +253,6 @@ pdwReportCount : [var]
 %index
 WerStoreGetSizeOnDisk
 (no summary)
-%group
-Win32 wer
 %prm
 hReportStore, pqwSizeInBytes
 hReportStore : [intptr] 
@@ -270,8 +264,6 @@ pqwSizeInBytes : [var]
 %index
 WerStoreOpen
 Ši”[‚³‚ê‚½ƒGƒ‰[ƒŒƒ|[ƒg‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğƒI[ƒvƒ“‚·‚éB
-%group
-Win32 wer
 %prm
 repStoreType, phReportStore
 repStoreType : [int] ƒI[ƒvƒ“‚·‚éƒŒƒ|[ƒgƒXƒgƒA‚Ìí—ŞBÚ×‚Í Remarks ‚ğQÆ‚Ì‚±‚ÆB
@@ -294,8 +286,6 @@ storeType ’l E_STORE_MACHINE_QUEUE ‚ÍAƒ}ƒVƒ“ã‚Å‚Ü‚¾ Microsoft
 %index
 WerStorePurge
 (no summary)
-%group
-Win32 wer
 %prm
 
 %inst
@@ -305,8 +295,6 @@ Win32 wer
 %index
 WerStoreQueryReportMetadataV1
 (no summary)
-%group
-Win32 wer
 %prm
 hReportStore, pszReportKey, pReportMetadata
 hReportStore : [intptr] 
@@ -319,8 +307,6 @@ pReportMetadata : [var]
 %index
 WerStoreQueryReportMetadataV2
 ƒXƒgƒA“à‚ÌƒŒƒ|[ƒg‚ÉŠÖ‚·‚éƒƒ^ƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 wer
 %prm
 hReportStore, pszReportKey, pReportMetadata
 hReportStore : [intptr] ƒGƒ‰[ƒŒƒ|[ƒgƒXƒgƒA (ˆÈ‘O WerStoreOpen ‚Åæ“¾‚µ‚½‚à‚Ì)B
@@ -337,8 +323,6 @@ pReportMetadata : [var] WER_REPORT_METADATA_V2 \‘¢‘ÌŒ`®‚ÌƒŒƒ|[ƒgƒXƒgƒAƒƒ^ƒf
 %index
 WerStoreQueryReportMetadataV3
 (no summary)
-%group
-Win32 wer
 %prm
 hReportStore, pszReportKey, pReportMetadata
 hReportStore : [intptr] 
@@ -351,8 +335,6 @@ pReportMetadata : [var]
 %index
 WerStoreUploadReport
 (no summary)
-%group
-Win32 wer
 %prm
 hReportStore, pszReportKey, dwFlags, pSubmitResult
 hReportStore : [intptr] 

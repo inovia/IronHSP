@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+wtsapi32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì wtsapi32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 WTSCloseServer
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒZƒbƒVƒ‡ƒ“ƒzƒXƒg (RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒg) ƒT[ƒo[‚Ö‚ÌŠJ‚©‚ê‚½ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 wtsapi32
 %prm
 hServer
 hServer : [intptr] WTSOpenServer ‚Ü‚½‚Í WTSOpenServerEx ‚ğŒÄ‚Ño‚µ‚ÄŠJ‚©‚ê‚½ RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É WTS_CURRENT_SERVER_HANDLE ‚ğ“n‚µ‚Ä‚Í‚È‚ç‚È‚¢B
@@ -24,8 +44,6 @@ WTSOpenServerEx ‚ÅŠJ‚¢‚½‘SƒT[ƒo[ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éBƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚½ŒãA‚»‚Ìƒnƒ“
 %index
 WTSConnectSessionW
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒZƒbƒVƒ‡ƒ“‚ğƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌŠù‘¶ƒZƒbƒVƒ‡ƒ“‚ÉÚ‘±‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 LogonId, TargetLogonId, pPassword, bWait
 LogonId : [int] Ú‘±æ‚ÌƒZƒbƒVƒ‡ƒ“‚ÌƒƒOƒIƒ“ IDB‚»‚ÌƒZƒbƒVƒ‡ƒ“‚Ìƒ†[ƒU‚ÍŠù‘¶ƒZƒbƒVƒ‡ƒ“‚Ö‚ÌÚ‘±Œ ŒÀ‚ğ‚Â•K—v‚ª‚ ‚éB‚±‚ÌƒZƒbƒVƒ‡ƒ“‚Ìo—Í‚Í TargetLogonId ‚Åw’è‚³‚ê‚½ƒZƒbƒVƒ‡ƒ“‚Éƒ‹[ƒeƒBƒ“ƒO‚³‚ê‚éBLOGONID_CURRENT ‚ğw’è‚·‚é‚ÆŒ»İ‚ÌƒZƒbƒVƒ‡ƒ“‚ğg‚¤B
@@ -48,8 +66,6 @@ ANSI/Unicode ‚ğ©“®‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éB
 %index
 WTSCreateListenerW
 V‚µ‚¢ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒŠƒXƒi[‚ğì¬‚·‚é‚©Šù‘¶ƒŠƒXƒi[‚ğ\¬‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, pBuffer, flag
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹Bí‚É WTS_CURRENT_SERVER_HANDLE ‚Éİ’è‚·‚éB
@@ -77,8 +93,6 @@ WTSSetListenerSecurity ‚ğŒÄ‚Ño‚·Bİ’è’l‚ÌŒŸØ‚Ís‚í‚È‚¢‚Ì‚ÅAŒÄ‚Ño‚µ‘O‚É—LŒø‚
 %index
 WTSDisconnectSession
 w’èƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒZƒbƒVƒ‡ƒ“‚©‚çƒƒOƒIƒ“’†‚Ìƒ†[ƒU‚ğAƒZƒbƒVƒ‡ƒ“‚ğ•Â‚¶‚¸‚ÉØ’f‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 hServer, SessionId, bWait
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer/WTSOpenServerEx ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚ÍƒAƒvƒŠÀs’†ƒT[ƒo[‚ğ¦‚· WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -95,8 +109,6 @@ bWait : [int] ‘€ì‚ª“¯Šú‚©”ñ“¯Šú‚©‚ğ¦‚·BTRUE ‚ÅŠ®—¹‚ğ‘Ò‚¿AFALSE ‚Å’¼‚¿‚É–ß‚é
 %index
 WTSEnableChildSessions
 qƒZƒbƒVƒ‡ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 bEnable
 bEnable : [int] qƒZƒbƒVƒ‡ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚é‚©‚ğ¦‚·BTRUE ‚Å—LŒø‰»AFALSE ‚Å–³Œø‰»B
@@ -113,8 +125,6 @@ bEnable : [int] qƒZƒbƒVƒ‡ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚é‚©‚ğ¦‚·BTRUE ‚Å—LŒø‰»AFALSE
 %index
 WTSEnumerateListenersW
 RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚Ì‘SƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒŠƒXƒi[‚ğ—ñ‹“‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListeners, pCount
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹Bí‚É WTS_CURRENT_SERVER_HANDLE ‚Éİ’è‚·‚éB
@@ -140,8 +150,6 @@ RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚Ì‘SƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒŠƒXƒi[‚ğ—ñ‹“‚·‚é
 %index
 WTSEnumerateProcessesW
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚ÌƒAƒNƒeƒBƒuƒvƒƒZƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, Reserved, Version, ppProcessInfo, pCount
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -165,8 +173,6 @@ pCount : [var] ppProcessInfo ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚é WTS_PROCESS_INFO \‘¢‘Ì”‚ğó‚¯
 %index
 WTSEnumerateProcessesExW
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ü‚½‚Í RD ‰¼‘z‰»ƒzƒXƒgƒT[ƒo[ã‚ÌƒAƒNƒeƒBƒuƒvƒƒZƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, pLevel, SessionId, ppProcessInfo, pCount
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -190,8 +196,6 @@ pCount : [var] ppProcessInfo ƒoƒbƒtƒ@‚É•Ô‚³‚ê‚é\‘¢‘Ì”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 WTSEnumerateServersW
 w’èƒhƒƒCƒ““à‚Ì‘S RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚ÌƒŠƒXƒg‚ğ•Ô‚·B(Unicode)
-%group
-Win32 wtsapi32
 %prm
 pDomainName, Reserved, Version, ppServerInfo, pCount
 pDomainName : [wstr] –â‚¢‡‚í‚¹‚éƒhƒƒCƒ“–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚È‚çŒ»İ‚ÌƒhƒƒCƒ“‚ªw’è‚³‚ê‚éB
@@ -215,8 +219,6 @@ NetBT ‚ª–³Œø‚Èê‡‚±‚ÌŠÖ”‚Í“®ì‚µ‚È‚¢B
 %index
 WTSEnumerateSessionsW
 RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚ÌƒZƒbƒVƒ‡ƒ“ˆê——‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, Reserved, Version, ppSessionInfo, pCount
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹B’: WTSOpenServer/WTSOpenServerEx ‚Å“Á’èƒT[ƒo[‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚©AƒAƒvƒŠÀs’†ƒT[ƒo[‚É‚Í WTS_CURRENT_SERVER_HANDLE ‚ğg‚¤B
@@ -238,8 +240,6 @@ RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚ÌƒZƒbƒVƒ‡ƒ“ˆê——‚ğæ“¾‚·‚éB(Unicode)
 %index
 WTSEnumerateSessionsExW
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒg‚Ü‚½‚Í RD ‰¼‘z‰»ƒzƒXƒgƒT[ƒo[ã‚ÌƒZƒbƒVƒ‡ƒ“ˆê——‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, pLevel, Filter, ppSessionInfo, pCount
 hServer : [intptr] ‘ÎÛƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer/WTSOpenServerEx ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ğw’è‚·‚éBƒAƒvƒŠÀs’†ƒT[ƒo[‚ğ‘ÎÛ‚É‚·‚é‚É‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -266,8 +266,6 @@ WTSTypeSessionInfoLevel1 ‚ğw’è‚·‚éBƒZƒbƒVƒ‡ƒ“‚ğ—ñ‹“‚·‚é‚É‚Í Query Information
 %index
 WTSFreeMemory
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXŠÖ”‚ªŠ„‚è“–‚Ä‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 pMemory
 pMemory : [intptr] ‰ğ•ú‚·‚éƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -282,8 +280,6 @@ pMemory : [intptr] ‰ğ•ú‚·‚éƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 WTSFreeMemoryExW
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXŠÖ”‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½ WTS_PROCESS_INFO_EX ‚Ü‚½‚Í WTS_SESSION_INFO_1 \‘¢‘Ì‚ğŠÜ‚Şƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 WTSTypeClass, pMemory, NumberOfEntries
 WTSTypeClass : [int] pMemory ‚ÉŠÜ‚Ü‚ê‚é\‘¢‘Ì‚ÌŒ^‚ğw’è‚·‚é WTS_TYPE_CLASS —ñ‹“Œ^‚Ì’lB
@@ -308,8 +304,6 @@ WTSFreeMemory ‚Å‚à WTSFreeMemoryEx ‚Å‚à‰ğ•ú‚Å‚«‚éB
 %index
 WTSGetChildSessionId
 ‘¶İ‚·‚éê‡‚ÍqƒZƒbƒVƒ‡ƒ“¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 pSessionId
 pSessionId : [var] qƒZƒbƒVƒ‡ƒ“¯•Êq‚ğó‚¯æ‚é ULONG •Ï”‚ÌƒAƒhƒŒƒXBŒ»İ‚ÌƒZƒbƒVƒ‡ƒ“‚ÉqƒZƒbƒVƒ‡ƒ“‚ª‚È‚¯‚ê‚Î (ULONG)-1 ‚Æ‚È‚éB
@@ -326,8 +320,6 @@ pSessionId : [var] qƒZƒbƒVƒ‡ƒ“¯•Êq‚ğó‚¯æ‚é ULONG •Ï”‚ÌƒAƒhƒŒƒXBŒ»İ‚ÌƒZƒb
 %index
 WTSGetListenerSecurityW
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒŠƒXƒi[‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, SecurityInformation, pSecurityDescriptor, nLength, lpnLengthNeeded
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹Bí‚É WTS_CURRENT_SERVER_HANDLE ‚Éİ’è‚·‚éB
@@ -356,8 +348,6 @@ lpnLengthNeeded : [var] Š®‘S‚ÈƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğŠi”[‚·‚é‚Ì‚É•K—v‚ÈƒoƒCƒg”‚ğó
 %index
 WTSIsChildSessionsEnabled
 qƒZƒbƒVƒ‡ƒ“‚ª—LŒø‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 pbEnabled
 pbEnabled : [var] qƒZƒbƒVƒ‡ƒ“‚ª—LŒø‚È‚ç 0 ˆÈŠOA‚»‚¤‚Å‚È‚¯‚ê‚Î 0 ‚ğó‚¯æ‚é BOOL •Ï”‚ÌƒAƒhƒŒƒXB
@@ -374,8 +364,6 @@ pbEnabled : [var] qƒZƒbƒVƒ‡ƒ“‚ª—LŒø‚È‚ç 0 ˆÈŠOA‚»‚¤‚Å‚È‚¯‚ê‚Î 0 ‚ğó‚¯æ‚é BOO
 %index
 WTSLogoffSession
 w’èƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒZƒbƒVƒ‡ƒ“‚ğƒƒOƒIƒt‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 hServer, SessionId, bWait
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer/WTSOpenServerEx ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -392,8 +380,6 @@ bWait : [int] ‘€ì‚ª“¯Šú‚©”ñ“¯Šú‚©‚ğ¦‚·BTRUE ‚È‚çƒƒOƒIƒtŠ®—¹‚É–ß‚èAFALSE ‚
 %index
 WTSOpenServerW
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğŠJ‚­B(Unicode)
-%group
-Win32 wtsapi32
 %prm
 pServerName
 pServerName : [wstr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ì NetBIOS –¼‚ğw’è‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -413,8 +399,6 @@ WTSOpenServer ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Íg—pŒã WTSCloseServer
 %index
 WTSOpenServerExW
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒg‚Ü‚½‚Í RD ‰¼‘z‰»ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğŠJ‚­B(Unicode)
-%group
-Win32 wtsapi32
 %prm
 pServerName
 pServerName : [wstr] ƒT[ƒo[‚Ì NetBIOS –¼‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -436,8 +420,6 @@ WTSCloseServer ‚Åƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
 %index
 WTSQueryListenerConfigW
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒŠƒXƒi[‚Ì\¬î•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, pBuffer
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹Bí‚É WTS_CURRENT_SERVER_HANDLE ‚Éİ’è‚·‚éB
@@ -461,8 +443,6 @@ pBuffer : [var] æ“¾‚µ‚½ƒŠƒXƒi[\¬î•ñ‚ğó‚¯æ‚é WTSLISTENERCONFIG \‘¢‘Ì‚Ö‚Ìƒ
 %index
 WTSQuerySessionInformationW
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚Ìw’èƒZƒbƒVƒ‡ƒ“‚ÌƒZƒbƒVƒ‡ƒ“î•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, SessionId, WTSInfoClass, ppBuffer, pBytesReturned
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -491,8 +471,6 @@ WTS_CURRENT_SESSION ‚Æ WTSClientProtocolType ‚ğw’è‚·‚éBppBuffer ‚ª "0"
 %index
 WTSQueryUserConfigW
 w’èƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚Ü‚½‚Í RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚Ìw’èƒ†[ƒU‚Ì\¬î•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 pServerName, pUserName, WTSConfigClass, ppBuffer, pBytesReturned
 pServerName : [wstr] ƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚Ü‚½‚Í RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ì–¼‘O‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒAƒvƒŠÀs’†ƒT[ƒo[‚ğw’è‚·‚é‚É‚Í WTS_CURRENT_SERVER_NAME ‚ğw’è‚·‚éB
@@ -518,8 +496,6 @@ WTSQueryUserConfig ‚Æ WTSSetUserConfig
 %index
 WTSQueryUserToken
 ƒZƒbƒVƒ‡ƒ“ ID ‚Åw’è‚³‚ê‚½ƒƒOƒIƒ“’†ƒ†[ƒU‚Ìƒvƒ‰ƒCƒ}ƒŠƒAƒNƒZƒXƒg[ƒNƒ“‚ğæ“¾‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 SessionId, phToken
 SessionId : [int] ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒZƒbƒVƒ‡ƒ“¯•ÊqBƒT[ƒrƒX‚ÌƒRƒ“ƒeƒLƒXƒg‚Å“®ì‚·‚éƒvƒƒOƒ‰ƒ€‚ÍƒZƒbƒVƒ‡ƒ“ ID 0 ‚ğ‚ÂB‘¼ƒ†[ƒU‚ÌƒZƒbƒVƒ‡ƒ“î•ñ‚ğ–â‚¢‡‚í‚¹‚é‚É‚Í Query Information Œ ŒÀ‚ª•K—v‚Å‚ ‚éB
@@ -540,8 +516,6 @@ LocalSystem account ‚ğQÆB
 %index
 WTSRegisterSessionNotification
 w’èƒEƒBƒ“ƒhƒE‚ğƒZƒbƒVƒ‡ƒ“•ÏX’Ê’m‚ÌóM—p‚É“o˜^‚·‚éB(WTSRegisterSessionNotification)
-%group
-Win32 wtsapi32
 %prm
 hWnd, dwFlags
 hWnd : [intptr] ƒZƒbƒVƒ‡ƒ“•ÏX’Ê’m‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -566,8 +540,6 @@ WTSUnRegisterSessionNotification
 %index
 WTSRegisterSessionNotificationEx
 w’èƒEƒBƒ“ƒhƒE‚ğƒZƒbƒVƒ‡ƒ“•ÏX’Ê’m‚ÌóM—p‚É“o˜^‚·‚éB(WTSRegisterSessionNotificationEx)
-%group
-Win32 wtsapi32
 %prm
 hServer, hWnd, dwFlags
 hServer : [intptr] WTSOpenServer ‚Ü‚½‚Í WTS_CURRENT_SERVER ‚©‚ç•Ô‚³‚ê‚½ƒT[ƒo[‚Ìƒnƒ“ƒhƒ‹B
@@ -592,8 +564,6 @@ dwFlags : [int] óM‚·‚éƒZƒbƒVƒ‡ƒ“’Ê’m‚ğw’è‚·‚éBhServer ‚ªƒŠƒ‚[ƒgƒT[ƒo[‚È‚ç
 %index
 WTSSendMessageW
 w’èƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒZƒbƒVƒ‡ƒ“‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒfƒXƒNƒgƒbƒv‚ÉƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, SessionId, pTitle, TitleLength, pMessage, MessageLength, Style, Timeout, pResponse, bWait
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -621,8 +591,6 @@ bWait : [int] TRUE ‚È‚çƒ†[ƒU‰“š‚Ü‚½‚Íƒ^ƒCƒ€ƒAƒEƒg‚Ü‚Å–ß‚ç‚È‚¢ (Timeout 0 ‚È‚ç‰
 %index
 WTSSetListenerSecurityW
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒŠƒXƒi[‚ÌƒZƒLƒ…ƒŠƒeƒB‹Lqq‚ğ\¬‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 hServer, pReserved, Reserved, pListenerName, SecurityInformation, pSecurityDescriptor
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹Bí‚É WTS_CURRENT_SERVER_HANDLE ‚Éİ’è‚·‚éB
@@ -646,8 +614,6 @@ pSecurityDescriptor : [int] ƒŠƒXƒi[‚ÉŠÖ˜A•t‚¯‚éƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğŠÜ‚Ş SECURITY_
 %index
 WTSSetRenderHint
 ƒŠƒ‚[ƒgƒZƒbƒVƒ‡ƒ“‚Å‚Ì•\¦‚ÉÅ“K‰»‰Â”\‚ÈƒRƒ“ƒeƒ“ƒc‚ğ•\¦‚·‚éƒAƒvƒŠ‚ªAƒEƒBƒ“ƒhƒE“à‚ÌÀƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 pRenderHintID, hwndOwner, renderHintType, cbHintDataLength, pHintData
 pRenderHintID : [var] ‚±‚ÌŒÄ‚Ño‚µ‚Å‰e‹¿‚·‚éƒŒƒ“ƒ_ƒŠƒ“ƒOƒqƒ“ƒg‚ğ¯•Ê‚·‚é’l‚ÌƒAƒhƒŒƒXBV‚µ‚¢ƒqƒ“ƒg‚ğì¬‚·‚é‚È‚ç 0 ‚ğw’è‚·‚éBŠÖ”‚ÍˆêˆÓ‚Èƒqƒ“ƒg¯•Êq‚ğ•Ô‚µAŒã‘±‚ÌƒNƒŠƒAŒÄ‚Ño‚µ“™‚Åg‚¤B
@@ -665,8 +631,6 @@ pHintData : [var] ƒqƒ“ƒg‚Ì’Ç‰Áƒf[ƒ^BŒ`®‚Í renderHintType ‚ÉˆË‘¶‚·‚éB
 %index
 WTSSetUserConfigW
 w’èƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚Ü‚½‚Í RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚Ìw’èƒ†[ƒU‚Ì\¬î•ñ‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 pServerName, pUserName, WTSConfigClass, pBuffer, DataLength
 pServerName : [wstr] ƒhƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‰‚Ü‚½‚Í RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ì–¼‘O‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BWTS_CURRENT_SERVER_NAME ‚ÅƒAƒvƒŠÀs’†ƒT[ƒo[‚ğw’è‚Å‚«‚éB
@@ -692,8 +656,6 @@ WTSQueryUserConfig ‚Æ WTSSetUserConfig
 %index
 WTSShutdownSystem
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚ğƒVƒƒƒbƒgƒ_ƒEƒ“ (‚Ü‚½‚ÍÄ‹N“®) ‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 hServer, ShutdownFlag
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -713,8 +675,6 @@ ShutdownFlag : [int]
 %index
 WTSStartRemoteControlSessionW
 •Ê‚ÌƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒZƒbƒVƒ‡ƒ“‚ÌƒŠƒ‚[ƒg§Œä‚ğŠJn‚·‚éB‚±‚ÌŠÖ”‚ÍƒŠƒ‚[ƒgƒZƒbƒVƒ‡ƒ“‚©‚çŒÄ‚Ño‚·•K—v‚ª‚ ‚éB(Unicode)
-%group
-Win32 wtsapi32
 %prm
 pTargetServerName, TargetLogonId, HotkeyVk, HotkeyModifiers
 pTargetServerName : [wstr] ƒŠƒ‚[ƒg§Œä‘ÎÛ‚ÌƒZƒbƒVƒ‡ƒ“‚ª‘¶İ‚·‚éƒT[ƒo[–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -736,8 +696,6 @@ HotkeyModifiers : [int] ƒŠƒ‚[ƒg§Œä‚ğ’â~‚·‚é‚½‚ß‚É‰Ÿ‚·ƒL[‚ğ•\‚·‰¼‘zCüqBHo
 %index
 WTSStopRemoteControlSession
 ƒŠƒ‚[ƒg§ŒäƒZƒbƒVƒ‡ƒ“‚ğ’â~‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 LogonId
 LogonId : [int] ƒŠƒ‚[ƒg§Œä‚ğ’â~‚·‚éƒZƒbƒVƒ‡ƒ“‚ÌƒƒOƒIƒ“ IDB
@@ -752,8 +710,6 @@ LogonId : [int] ƒŠƒ‚[ƒg§Œä‚ğ’â~‚·‚éƒZƒbƒVƒ‡ƒ“‚ÌƒƒOƒIƒ“ IDB
 %index
 WTSTerminateProcess
 w’è RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[ã‚Ìw’èƒvƒƒZƒX‚ğI—¹‚³‚¹‚éB
-%group
-Win32 wtsapi32
 %prm
 hServer, ProcessId, ExitCode
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB
@@ -770,8 +726,6 @@ ExitCode : [int] I—¹ƒvƒƒZƒX‚ÌI—¹ƒR[ƒh‚ğw’è‚·‚éB
 %index
 WTSUnRegisterSessionNotification
 w’èƒEƒBƒ“ƒhƒE‚ÌƒZƒbƒVƒ‡ƒ“•ÏX’Ê’móM“o˜^‚ğ‰ğœ‚·‚éB(WTSUnRegisterSessionNotification)
-%group
-Win32 wtsapi32
 %prm
 hWnd
 hWnd : [intptr] ƒZƒbƒVƒ‡ƒ“’Ê’m‚ÌóM“o˜^‚ğ‰ğœ‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -789,8 +743,6 @@ hWnd : [intptr] ƒZƒbƒVƒ‡ƒ“’Ê’m‚ÌóM“o˜^‚ğ‰ğœ‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %index
 WTSUnRegisterSessionNotificationEx
 w’èƒEƒBƒ“ƒhƒE‚ÌƒZƒbƒVƒ‡ƒ“•ÏX’Ê’móM“o˜^‚ğ‰ğœ‚·‚éB(WTSUnRegisterSessionNotificationEx)
-%group
-Win32 wtsapi32
 %prm
 hServer, hWnd
 hServer : [intptr] WTSOpenServer ‚Ü‚½‚Í WTS_CURRENT_SERVER ‚©‚ç•Ô‚³‚ê‚½ƒT[ƒo[‚Ìƒnƒ“ƒhƒ‹B
@@ -809,8 +761,6 @@ hWnd : [intptr] ƒZƒbƒVƒ‡ƒ“’Ê’m‚ÌóM“o˜^‚ğ‰ğœ‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %index
 WTSVirtualChannelClose
 ŠJ‚©‚ê‚Ä‚¢‚é‰¼‘zƒ`ƒƒƒlƒ‹ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 wtsapi32
 %prm
 hChannelHandle
 hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -825,8 +775,6 @@ hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒh
 %index
 WTSVirtualChannelOpen
 w’è‰¼‘zƒ`ƒƒƒlƒ‹‚ÌƒT[ƒo[‘¤ƒnƒ“ƒhƒ‹‚ğŠJ‚­B
-%group
-Win32 wtsapi32
 %prm
 hServer, SessionId, pVirtualName
 hServer : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í WTS_CURRENT_SERVER_HANDLE ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -848,8 +796,6 @@ WTSVirtualChannelQuery ‚ğQÆB“¯‚¶‰¼‘zƒ`ƒƒƒlƒ‹‚ğ•¡”‰ñŠJ‚±‚¤‚Æ‚·‚é‚Æ 10
 %index
 WTSVirtualChannelOpenEx
 WTSVirtualChannelOpen ‚Æ“¯—l‚Ì•û–@‚Å‰¼‘zƒ`ƒƒƒlƒ‹‚ğì¬‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 SessionId, pVirtualName, flags
 SessionId : [int] ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒZƒbƒVƒ‡ƒ“¯•ÊqBŒ»İ‚ÌƒZƒbƒVƒ‡ƒ“‚ğ¦‚·‚É‚Í WTS_CURRENT_SESSION ‚ğw’è‚·‚éB‘¼ƒ†[ƒU‚ÌƒZƒbƒVƒ‡ƒ“‚Å‰¼‘zƒ`ƒƒƒlƒ‹‚ğŠJ‚­‚É‚Í Virtual Channels Œ ŒÀ‚ª•K—v‚Å‚ ‚éB
@@ -865,8 +811,6 @@ WTSVirtualChannelOpen ‚Æ“¯—l‚Ì•û–@‚Å‰¼‘zƒ`ƒƒƒlƒ‹‚ğì¬‚·‚éB
 %index
 WTSVirtualChannelPurgeInput
 w’è‰¼‘zƒ`ƒƒƒlƒ‹‚ÅƒNƒ‰ƒCƒAƒ“ƒg‚©‚çƒT[ƒo[‚Ö‘—M‚³‚ê‚½ƒLƒ…[ƒCƒ“ƒOÏ‚İ“ü—Íƒf[ƒ^‚ğ‘S‚Äíœ‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 hChannelHandle
 hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -881,8 +825,6 @@ hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒh
 %index
 WTSVirtualChannelPurgeOutput
 w’è‰¼‘zƒ`ƒƒƒlƒ‹‚ÅƒT[ƒo[‚©‚çƒNƒ‰ƒCƒAƒ“ƒg‚Ö‘—M‚³‚ê‚½ƒLƒ…[ƒCƒ“ƒOÏ‚İo—Íƒf[ƒ^‚ğ‘S‚Äíœ‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 hChannelHandle
 hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -897,8 +839,6 @@ hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒh
 %index
 WTSVirtualChannelQuery
 w’è‰¼‘zƒ`ƒƒƒlƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B
-%group
-Win32 wtsapi32
 %prm
 hChannelHandle, param1, ppBuffer, pBytesReturned
 hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -925,8 +865,6 @@ WTSFreeMemory ‚Å‰ğ•ú‚µA‰¼‘zƒ`ƒƒƒlƒ‹‚Í WTSVirtualChannelClose
 %index
 WTSVirtualChannelRead
 ‰¼‘zƒ`ƒƒƒlƒ‹‚ÌƒT[ƒo[‘¤‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éB
-%group
-Win32 wtsapi32
 %prm
 hChannelHandle, TimeOut, Buffer, BufferSize, pBytesRead
 hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -949,8 +887,6 @@ pBytesRead : [var] “Ç‚İæ‚Á‚½ƒoƒCƒg”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 WTSVirtualChannelWrite
 ‰¼‘zƒ`ƒƒƒlƒ‹‚ÌƒT[ƒo[‘¤‚Éƒf[ƒ^‚ğ‘‚«‚ŞB
-%group
-Win32 wtsapi32
 %prm
 hChannelHandle, Buffer, Length, pBytesWritten
 hChannelHandle : [intptr] WTSVirtualChannelOpen ‚ÅŠJ‚©‚ê‚½‰¼‘zƒ`ƒƒƒlƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -972,8 +908,6 @@ I/O ‚ğs‚¤ê‡‚ÍAWTSVirtualChannelQuery ‚Æ WTSVirtualFileHandle ‚ğg‚¤B
 %index
 WTSWaitSystemEvent
 ƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒXƒCƒxƒ“ƒg‚ğŒÄ‚Ño‚µŒ³‚É–ß‚é‘O‚É‘Ò‹@‚·‚éB
-%group
-Win32 wtsapi32
 %prm
 hServer, EventMask, pEventFlags
 hServer : [intptr] RD ƒZƒbƒVƒ‡ƒ“ƒzƒXƒgƒT[ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹BWTSOpenServer ‚ÅŠJ‚¢‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í WTS_CURRENT_SERVER_HANDLE ‚ğw’è‚·‚éB

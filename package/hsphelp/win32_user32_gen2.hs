@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+user32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì user32.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 UnloadKeyboardLayout
 “ü—ÍƒƒP[ƒ‹¯•Êq(‹ŒÌƒL[ƒ{[ƒhƒŒƒCƒAƒEƒg)‚ğƒAƒ“ƒ[ƒh‚·‚éB
-%group
-Win32 user32
 %prm
 hkl
 hkl : [intptr] Œ^: HKL ƒAƒ“ƒ[ƒh‚·‚é“ü—ÍƒƒP[ƒ‹¯•ÊqB
@@ -27,8 +47,6 @@ hkl : [intptr] Œ^: HKL ƒAƒ“ƒ[ƒh‚·‚é“ü—ÍƒƒP[ƒ‹¯•ÊqB
 %index
 ActivateKeyboardLayout
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚Ü‚½‚ÍŒ»İ‚ÌƒvƒƒZƒX‚É‘Î‚µ‚Ä“ü—ÍƒƒP[ƒ‹¯•Êq (‹ŒÌ: ƒL[ƒ{[ƒhƒŒƒCƒAƒEƒgƒnƒ“ƒhƒ‹) ‚ğİ’è‚·‚éB“ü—ÍƒƒP[ƒ‹¯•Êq‚ÍƒƒP[ƒ‹‚ÆƒL[ƒ{[ƒh‚Ì•¨—ƒŒƒCƒAƒEƒg‚ğw’è‚·‚éB
-%group
-Win32 user32
 %prm
 hkl, Flags
 hkl : [intptr] Œ^: HKL ƒAƒNƒeƒBƒu‚É‚·‚é“ü—ÍƒƒP[ƒ‹¯•ÊqB
@@ -56,8 +74,6 @@ Editor)A‚»‚Ì‘¼‚Ì“ü—ÍŒ`®‚ğŠÜ‚Şê‡‚ª‚ ‚éB•¡”‚Ì“ü—ÍƒƒP[ƒ‹¯•Êq‚ğ“¯‚Éƒ[ƒ
 %index
 AddClipboardFormatListener
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğƒVƒXƒeƒ€‚ªŠÇ—‚·‚éƒNƒŠƒbƒvƒ{[ƒhŒ`®ƒŠƒXƒi[ƒŠƒXƒg‚É“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ƒNƒŠƒbƒvƒ{[ƒhŒ`®ƒŠƒXƒi[ƒŠƒXƒg‚É“o˜^‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -75,8 +91,6 @@ hwnd : [intptr] Œ^: HWND ƒNƒŠƒbƒvƒ{[ƒhŒ`®ƒŠƒXƒi[ƒŠƒXƒg‚É“o˜^‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚
 %index
 AdjustWindowRect
 –Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg‹éŒ`‚ÌƒTƒCƒY‚ÉŠî‚Ã‚¢‚ÄA•K—v‚ÈƒEƒBƒ“ƒhƒE‹éŒ`‚ÌƒTƒCƒY‚ğŒvZ‚·‚éBŒvZŒ‹‰Ê‚ÌƒEƒBƒ“ƒhƒE‹éŒ`‚ÍA–Ú“I‚ÌƒTƒCƒY‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚ğì¬‚·‚é‚½‚ß‚É CreateWindow ŠÖ”‚É“n‚¹‚éB
-%group
-Win32 user32
 %prm
 lpRect, dwStyle, bMenu
 lpRect : [var] Œ^: LPRECT –Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Ì–ß‚è‚É‚ÍA–Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğŠm•Û‚·‚é‚½‚ß‚ÌƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•W‚ªŠi”[‚³‚ê‚éB
@@ -102,8 +116,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 AdjustWindowRectEx
 –Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg‹éŒ`‚ÌƒTƒCƒY‚ÉŠî‚Ã‚¢‚ÄA•K—v‚ÈƒEƒBƒ“ƒhƒE‹éŒ`‚ÌƒTƒCƒY‚ğŒvZ‚·‚éBŒvZŒ‹‰Ê‚ÌƒEƒBƒ“ƒhƒE‹éŒ`‚ÍA–Ú“I‚ÌƒTƒCƒY‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚ğì¬‚·‚é‚½‚ß‚É CreateWindowEx ŠÖ”‚É“n‚¹‚éB
-%group
-Win32 user32
 %prm
 lpRect, dwStyle, bMenu, dwExStyle
 lpRect : [var] Œ^: LPRECT –Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Ì–ß‚è‚É‚ÍA–Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğŠm•Û‚·‚é‚½‚ß‚ÌƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•W‚ªŠi”[‚³‚ê‚éB
@@ -133,8 +145,6 @@ AdjustWindowsRectExForDPI ‚ğQÆBDPI ‘Î‰‚ÌÚ×‚É‚Â‚¢‚Ä‚Í Windows High DPI
 %index
 AdjustWindowRectExForDpi
 –Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg‹éŒ`‚ÌƒTƒCƒY‚Æw’è‚³‚ê‚½ DPI ‚ÉŠî‚Ã‚¢‚ÄA•K—v‚ÈƒEƒBƒ“ƒhƒE‹éŒ`‚ÌƒTƒCƒY‚ğŒvZ‚·‚éB
-%group
-Win32 user32
 %prm
 lpRect, dwStyle, bMenu, dwExStyle, dpi
 lpRect : [var] –Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Ì–ß‚è‚É‚ÍA–Ú“I‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğŠm•Û‚·‚é‚½‚ß‚ÌƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•W‚ªŠi”[‚³‚ê‚éB
@@ -155,8 +165,6 @@ dpi : [int] ƒXƒP[ƒŠƒ“ƒO‚Ég—p‚·‚é DPI ’lB
 %index
 AllowSetForegroundWindow
 w’è‚µ‚½ƒvƒƒZƒX‚ª SetForegroundWindow ŠÖ”‚ğg—p‚µ‚Ä‘O–ÊƒEƒBƒ“ƒhƒE‚ğİ’è‚Å‚«‚é‚æ‚¤‚É‚·‚éBŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÍŠù‚É‘O–ÊƒEƒBƒ“ƒhƒE‚ğİ’è‚Å‚«‚é•K—v‚ª‚ ‚éBÚ×‚Í–{ƒgƒsƒbƒN‚ÌŒã‚Ì”õl‚ğQÆB
-%group
-Win32 user32
 %prm
 dwProcessId
 dwProcessId : [int] Œ^: DWORD ‘O–ÊƒEƒBƒ“ƒhƒE‚ğİ’è‚Å‚«‚é‚æ‚¤‚É‚·‚éƒvƒƒZƒX‚Ì¯•ÊqB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª ASFW_ANY ‚Ìê‡A‚·‚×‚Ä‚ÌƒvƒƒZƒX‚ª‘O–ÊƒEƒBƒ“ƒhƒE‚ğİ’è‚Å‚«‚é‚æ‚¤‚É‚È‚éB
@@ -186,8 +194,6 @@ AllowSetForegroundWindow ‚ğŒÄ‚Ô (‘O‰ñ‚Æ“¯‚¶ƒvƒƒZƒX‚ğw’è‚·‚éê‡‚ğœ‚­)
 %index
 AnimateWindow
 ƒEƒBƒ“ƒhƒE‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚é‚Æ‚«‚É“ÁêŒø‰Ê‚ğ¶¬‚Å‚«‚é‚æ‚¤‚É‚·‚éBƒAƒjƒ[ƒVƒ‡ƒ“‚Í 4 í—Ş: ƒ[ƒ‹AƒXƒ‰ƒCƒhAÜ‚è‚½‚½‚İ‚Ü‚½‚Í“WŠJAƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒhƒtƒF[ƒhB
-%group
-Win32 user32
 %prm
 hWnd, dwTime, dwFlags
 hWnd : [intptr] Œ^: HWND ƒAƒjƒ[ƒVƒ‡ƒ“‚³‚¹‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ª‚±‚ÌƒEƒBƒ“ƒhƒE‚ğŠ—L‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -217,8 +223,6 @@ WM_PRINT ‚Ü‚½‚Í WM_PRINTCLIENT
 %index
 AnyPopup
 Š—L‚³‚ê‚½‰Â‹‚ÌƒgƒbƒvƒŒƒxƒ‹ƒ|ƒbƒvƒAƒbƒvA‚Ü‚½‚ÍƒI[ƒo[ƒ‰ƒbƒvƒEƒBƒ“ƒhƒE‚ª‰æ–Êã‚É‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·B‚±‚ÌŠÖ”‚ÍŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚¾‚¯‚Å‚È‚­‰æ–Ê‘S‘Ì‚ğŒŸõ‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -236,8 +240,6 @@ Win32 user32
 %index
 DestroyMenu
 w’è‚µ‚½ƒƒjƒ…[‚ğ”jŠü‚µAƒƒjƒ…[‚ªè—L‚µ‚Ä‚¢‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu
 hMenu : [intptr] Œ^: HMENU ”jŠü‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -257,8 +259,6 @@ hMenu : [intptr] Œ^: HMENU ”jŠü‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 AppendMenuW
 w’è‚µ‚½ƒƒjƒ…[ƒo[Aƒhƒƒbƒvƒ_ƒEƒ“ƒƒjƒ…[AƒTƒuƒƒjƒ…[A‚Ü‚½‚ÍƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚Ì––”ö‚ÉV‚µ‚¢€–Ú‚ğ’Ç‰Á‚·‚éB‚±‚ÌŠÖ”‚ğg‚Á‚Äƒƒjƒ…[€–Ú‚Ì“à—eAŠOŠÏA“®ì‚ğw’è‚Å‚«‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hMenu, uFlags, uIDNewItem, lpNewItem
 hMenu : [intptr] Œ^: HMENU •ÏX‚·‚éƒƒjƒ…[ƒo[Aƒhƒƒbƒvƒ_ƒEƒ“ƒƒjƒ…[AƒTƒuƒƒjƒ…[AƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -284,8 +284,6 @@ WM_MENUCHAR ƒƒbƒZ[ƒW‚ğˆ—‚·‚é•K—v‚ª‚ ‚éBÚ×‚ÍƒI[ƒi[ƒhƒ[ƒƒjƒ…[‚Æ WM_ME
 %index
 AreDpiAwarenessContextsEqual
 2 ‚Â‚Ì DPI_AWARENESS_CONTEXT ’l‚ª“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 dpiContextA, dpiContextB
 dpiContextA : [intptr] ”äŠr‚·‚é 1 ”Ô–Ú‚Ì’lB
@@ -305,8 +303,6 @@ DPI_AWARENESS ’l‚Ì—¼•û‚ªŠÜ‚Ü‚ê‚éBAreDpiAwarenessContextsEqual
 %index
 ArrangeIconicWindows
 w’è‚³‚ê‚½eƒEƒBƒ“ƒhƒE‚Ì‚·‚×‚Ä‚ÌÅ¬‰» (ƒAƒCƒRƒ“‰») ‚³‚ê‚½qƒEƒBƒ“ƒhƒE‚ğ®—ñ‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -327,8 +323,6 @@ GetDesktopWindow ŠÖ”‚ğg—p‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í MDI ƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒE‚É
 %index
 AttachThreadInput
 ‚ ‚éƒXƒŒƒbƒh‚Ì“ü—Íˆ—ƒƒJƒjƒYƒ€‚ğ•Ê‚ÌƒXƒŒƒbƒh‚ÉƒAƒ^ƒbƒ`‚·‚éA‚Ü‚½‚Í‚»‚ÌƒAƒ^ƒbƒ`‚ğ‰ğœ‚·‚éB
-%group
-Win32 user32
 %prm
 idAttach, idAttachTo, fAttach
 idAttach : [int] •Ê‚ÌƒXƒŒƒbƒh‚ÉƒAƒ^ƒbƒ`‚·‚éƒXƒŒƒbƒh‚Ì¯•ÊqBƒAƒ^ƒbƒ`‚·‚éƒXƒŒƒbƒh‚ÍƒVƒXƒeƒ€ƒXƒŒƒbƒh‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -357,8 +351,6 @@ AttachThreadInput
 %index
 BeginDeferWindowPos
 •¡”ƒEƒBƒ“ƒhƒEˆÊ’u\‘¢‘Ì‚Ì‚½‚ß‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚ÄA‚»‚Ì\‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 nNumWindows
 nNumWindows : [int] Œ^: int ˆÊ’uî•ñ‚ğŠi”[‚·‚éƒEƒBƒ“ƒhƒE‚Ì‰Šú”B•K—v‚É‰‚¶‚Ä DeferWindowPos ŠÖ”‚ª\‘¢‘Ì‚ÌƒTƒCƒY‚ğ‘‰Á‚³‚¹‚éB
@@ -383,8 +375,6 @@ DeferWindowPos ‚ÍA‚±‚ê‚©‚çˆÚ“®‚³‚ê‚é 1
 %index
 BeginPaint
 BeginPaint ŠÖ”‚ÍAw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğ•`‰æ—p‚É€”õ‚µAPAINTSTRUCT \‘¢‘Ì‚É•`‰æî•ñ‚ğ‘‚«‚ŞB
-%group
-Win32 user32
 %prm
 hWnd, lpPaint
 hWnd : [intptr] Ä•`‰æ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -411,8 +401,6 @@ BeginPaint ‚ğŒÄ‚Ô‚×‚«‚Å‚Í‚È‚¢BBeginPaint ‚ÌŒÄ‚Ño‚µ‚²‚Æ‚É‘Î‰‚·‚é EndPaint
 %index
 BlockInput
 ƒL[ƒ{[ƒh‚¨‚æ‚Ñƒ}ƒEƒX‚Ì“ü—ÍƒCƒxƒ“ƒg‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É“’B‚·‚é‚Ì‚ğƒuƒƒbƒN‚·‚éB
-%group
-Win32 user32
 %prm
 fBlockIt
 fBlockIt : [int] Œ^: BOOL ŠÖ”‚Ì–Ú“IB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡AƒL[ƒ{[ƒh‚¨‚æ‚Ñƒ}ƒEƒX‚Ì“ü—ÍƒCƒxƒ“ƒg‚ªƒuƒƒbƒN‚³‚ê‚éBFALSE ‚Ìê‡‚ÍƒuƒƒbƒN‚ª‰ğœ‚³‚ê‚éB“ü—Í‚ğƒuƒƒbƒN‚µ‚½ƒXƒŒƒbƒh‚Ì‚İ‚ªƒuƒƒbƒN‚ğ‰ğœ‚Å‚«‚é“_‚É’ˆÓB
@@ -434,8 +422,6 @@ GetKeyboardState ‚Å•ñ) ‚â”ñ“¯ŠúƒL[ó‘Ô (GetAsyncKeyState ‚Å•ñ)
 %index
 BringWindowToTop
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğ Z ƒI[ƒ_[‚Ìæ“ª‚É‚Á‚Ä‚­‚éBƒEƒBƒ“ƒhƒE‚ªƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚Å‚ ‚ê‚ÎƒAƒNƒeƒBƒu‰»‚³‚ê‚éBqƒEƒBƒ“ƒhƒE‚Å‚ ‚ê‚ÎA‚»‚ÌqƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒgƒbƒvƒŒƒxƒ‹‚ÌeƒEƒBƒ“ƒhƒE‚ªƒAƒNƒeƒBƒu‰»‚³‚ê‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND Z ƒI[ƒ_[‚Ìæ“ª‚É‚Á‚Ä‚­‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -457,8 +443,6 @@ BringWindowToTop
 %index
 BroadcastSystemMessageW
 w’è‚³‚ê‚½óMÒ‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB(BroadcastSystemMessageW)
-%group
-Win32 user32
 %prm
 flags, lpInfo, Msg, wParam, lParam
 flags : [int] Œ^: DWORD
@@ -484,8 +468,6 @@ BSF_QUERY
 %index
 CloseDesktop
 ƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒI[ƒvƒ“’†‚Ìƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 user32
 %prm
 hDesktop
 hDesktop : [intptr] •Â‚¶‚éƒfƒXƒNƒgƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateDesktopAOpenDesktopA‚Ü‚½‚Í OpenInputDesktop ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹BGetThreadDesktop ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚ğw’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B
@@ -503,8 +485,6 @@ CloseDesktop
 %index
 BroadcastSystemMessageExW
 w’è‚³‚ê‚½óMÒ‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB(BroadcastSystemMessageExW)
-%group
-Win32 user32
 %prm
 flags, lpInfo, Msg, wParam, lParam, pbsmInfo
 flags : [int] Œ^: DWORD
@@ -536,8 +516,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CalculatePopupWindowPosition
 w’è‚³‚ê‚½ƒAƒ“ƒJ[ƒ|ƒCƒ“ƒgAƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒEƒTƒCƒYAƒtƒ‰ƒOA‚¨‚æ‚ÑƒIƒvƒVƒ‡ƒ“‚ÌœŠO‹éŒ`‚ğg‚Á‚ÄA“KØ‚Èƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒEˆÊ’u‚ğŒvZ‚·‚éB
-%group
-Win32 user32
 %prm
 anchorPoint, windowSize, flags, excludeRect, popupWindowPosition
 anchorPoint : [var] Œ^: const POINT* w’è‚·‚éƒAƒ“ƒJ[ƒ|ƒCƒ“ƒgB
@@ -560,8 +538,6 @@ TPM_WORKAREA ‚Í TrackPopupMenu ‚¨‚æ‚Ñ TrackPopupMenuEx ŠÖ”‚ÅƒTƒ|[ƒg‚³‚ê‚éB
 %index
 CallMsgFilterW
 WH_SYSMSGFILTER ‚¨‚æ‚Ñ WH_MSGFILTER ƒtƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒbƒNƒvƒƒV[ƒWƒƒ‚ÉAw’è‚µ‚½ƒƒbƒZ[ƒW‚ÆƒtƒbƒNƒR[ƒh‚ğ“n‚·B(Unicode)
-%group
-Win32 user32
 %prm
 lpMsg, nCode
 lpMsg : [var] Œ^: LPMSG ƒtƒbƒNƒvƒƒV[ƒWƒƒ‚É“n‚·ƒƒbƒZ[ƒW‚ğŠÜ‚Ş MSG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -582,8 +558,6 @@ WH_SYSMSGFILTER ‚¨‚æ‚Ñ WH_MSGFILTER
 %index
 UnhookWindowsHookEx
 SetWindowsHookEx ŠÖ”‚É‚æ‚Á‚ÄƒtƒbƒNƒ`ƒF[ƒ“‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒtƒbƒNƒvƒƒV[ƒWƒƒ‚ğíœ‚·‚éB
-%group
-Win32 user32
 %prm
 hhk
 hhk : [intptr] Œ^: HHOOK íœ‚·‚éƒtƒbƒN‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -601,8 +575,6 @@ UnhookWindowsHookEx ‚ª–ß‚Á‚½Œã‚Å‚àAƒtƒbƒNƒvƒƒV[ƒWƒƒ‚ª•Ê‚ÌƒXƒŒƒbƒh‚É‚æ‚Á‚ÄŒÄ‚Î
 %index
 CallNextHookEx
 Œ»İ‚ÌƒtƒbƒNƒ`ƒF[ƒ““à‚ÌŸ‚ÌƒtƒbƒNƒvƒƒV[ƒWƒƒ‚ÉƒtƒbƒNî•ñ‚ğ“n‚·BƒtƒbƒNƒvƒƒV[ƒWƒƒ‚ÍAƒtƒbƒNî•ñ‚ğˆ—‚·‚é‘O‚©Œã‚Ì‚Ç‚¿‚ç‚©‚Å‚±‚ÌŠÖ”‚ğŒÄ‚×‚éB
-%group
-Win32 user32
 %prm
 hhk, nCode, wParam, lParam
 hhk : [intptr] Œ^: HHOOK ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
@@ -627,8 +599,6 @@ lParam : [intptr] Œ^: LPARAM Œ»İ‚ÌƒtƒbƒNƒvƒƒV[ƒWƒƒ‚É“n‚³‚ê‚½ lParam ‚Ì’lB‚±‚
 %index
 CallWindowProcW
 ƒƒbƒZ[ƒWî•ñ‚ğw’è‚µ‚½ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚É“n‚·B(Unicode)
-%group
-Win32 user32
 %prm
 lpPrevWndFunc, hWnd, Msg, wParam, lParam
 lpPrevWndFunc : [int] Œ^: WNDPROC ’¼‘O‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒBGetWindowLong ŠÖ”‚Ì nIndex ‚ğ GWL_WNDPROC ‚Ü‚½‚Í DWL_DLGPROC ‚Éİ’è‚µ‚Äæ“¾‚µ‚½ê‡A‚±‚ê‚ÍÀÛ‚É‚ÍƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ_ƒCƒAƒƒOƒvƒƒV[ƒWƒƒ‚ÌƒAƒhƒŒƒX‚©ACallWindowProc ‚É‚Ì‚İˆÓ–¡‚Ì‚ ‚é“Áê‚È“à•”’l‚Å‚ ‚éB
@@ -655,8 +625,6 @@ CallWindowProc
 %index
 CancelShutdown
 (no summary)
-%group
-Win32 user32
 %prm
 
 %inst
@@ -666,8 +634,6 @@ Win32 user32
 %index
 CascadeWindows
 w’è‚³‚ê‚½eƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½qƒEƒBƒ“ƒhƒE‚ğƒJƒXƒP[ƒh•\¦‚·‚éB
-%group
-Win32 user32
 %prm
 hwndParent, wHow, lpRect, cKids, lpKids
 hwndParent : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚ª‘z’è‚³‚ê‚éB
@@ -691,8 +657,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 ChangeClipboardChain
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğƒNƒŠƒbƒvƒ{[ƒhƒrƒ…[ƒA‚Ìƒ`ƒF[ƒ“‚©‚çæ‚èœ‚­B
-%group
-Win32 user32
 %prm
 hWndRemove, hWndNewNext
 hWndRemove : [intptr] Œ^: HWND ƒ`ƒF[ƒ“‚©‚çíœ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BSetClipboardViewer ŠÖ”‚É“n‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -716,8 +680,6 @@ Clipboard Viewer Chain ‚ğQÆB
 %index
 ChangeDisplaySettingsW
 ChangeDisplaySettings ŠÖ”‚ÍAŠù’è‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ìİ’è‚ğw’è‚µ‚½ƒOƒ‰ƒtƒBƒbƒNƒ‚[ƒh‚É•ÏX‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpDevMode, dwFlags
 lpDevMode : [var] V‚µ‚¢ƒOƒ‰ƒtƒBƒbƒNƒ‚[ƒh‚ğ‹Lq‚·‚é DEVMODE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpDevMode ‚ª NULL ‚Ìê‡AƒŒƒWƒXƒgƒŠ‚ÉŒ»İ‚ ‚é’l‚ªƒfƒBƒXƒvƒŒƒCİ’è‚Ég‚í‚ê‚éBlpDevMode ‚É NULLAdwFlags ‚É 0 ‚ğ“n‚·‚Ì‚ÍA“®“I‚Èƒ‚[ƒh•ÏXŒã‚ÉŠù’èƒ‚[ƒh‚É–ß‚·Å‚àŠÈ’P‚È•û–@‚Å‚ ‚éBDEVMODE ‚Ì dmSize ƒƒ“ƒo‚É‚Í DEVMODE \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg) ‚ğ‰Šú‰»‚·‚é•K—v‚ª‚ ‚éBdmDriverExtra ƒƒ“ƒo‚É‚ÍADEVMODE \‘¢‘Ì‚É‘±‚­ƒvƒ‰ƒCƒx[ƒgƒhƒ‰ƒCƒoƒf[ƒ^‚ÌƒoƒCƒg”‚ğ‰Šú‰»‚·‚é•K—v‚ª‚ ‚éB‚³‚ç‚ÉADEVMODE \‘¢‘Ì‚ÌˆÈ‰º‚Ìƒƒ“ƒo‚ğ•K—v‚É‰‚¶‚Äg—p‚Å‚«‚éB
@@ -741,8 +703,6 @@ DEVMODE ‚ğg—p‚·‚éBƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ª“®“I‚É•ÏX‚³‚ê‚é‚ÆAŸ‚ÌƒƒbƒZ[ƒWƒpƒ‰ƒ
 %index
 ChangeDisplaySettingsExW
 ChangeDisplaySettingsEx ŠÖ”‚ÍAw’è‚µ‚½ƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ìİ’è‚ğw’è‚µ‚½ƒOƒ‰ƒtƒBƒbƒNƒ‚[ƒh‚É•ÏX‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpszDeviceName, lpDevMode, hwnd, dwflags, lParam
 lpszDeviceName : [wstr] ƒOƒ‰ƒtƒBƒbƒNƒ‚[ƒh‚ğ•ÏX‚·‚éƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BEnumDisplayDevices ‚ª•Ô‚·ƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX–¼‚Ì‚İ—LŒøB‚±‚ê‚ç‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½–¼‘O‚ÌÚ×‚É‚Â‚¢‚Ä‚Í EnumDisplayDevices ‚ğQÆBlpszDeviceName ‚Í NULL ‚Å‚à‚æ‚¢BNULL ‚ÍŠù’è‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ğw’è‚·‚éBŠù’è‚ÌƒfƒoƒCƒX‚Í EnumDisplayDevices ‚ğŒÄ‚ñ‚Å DISPLAY_DEVICE_PRIMARY_DEVICE ƒtƒ‰ƒO‚ğŠm”F‚·‚é‚±‚Æ‚Å”»•Ê‚Å‚«‚éB
@@ -773,8 +733,6 @@ WM_DISPLAYCHANGE ƒƒbƒZ[ƒW‚ªÀs’†‚Ì‚·‚×‚Ä‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘—‚ç‚ê‚éB
 %index
 ChangeMenuW
 (no summary)
-%group
-Win32 user32
 %prm
 hMenu, cmd, lpszNewItem, cmdInsert, flags
 hMenu : [intptr] 
@@ -789,8 +747,6 @@ flags : [int]
 %index
 ChangeWindowMessageFilter
 ƒ†[ƒUƒCƒ“ƒ^[ƒtƒF[ƒX“ÁŒ •ª—£ (UIPI) ‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚©‚çƒƒbƒZ[ƒW‚ğ’Ç‰Á‚Ü‚½‚Ííœ‚·‚éB
-%group
-Win32 user32
 %prm
 message, dwFlag
 message : [int] Œ^: UINT ƒtƒBƒ‹ƒ^‚É’Ç‰Á‚Ü‚½‚Ííœ‚·‚éƒƒbƒZ[ƒWB
@@ -814,8 +770,6 @@ Working in Protected Mode Internet Explorer ‚ğQÆB
 %index
 ChangeWindowMessageFilterEx
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒ†[ƒUƒCƒ“ƒ^[ƒtƒF[ƒX“ÁŒ •ª—£ (UIPI) ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğ•ÏX‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, message, action, pChangeFilterStruct
 hwnd : [intptr] Œ^: HWND UIPI ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğ•ÏX‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -845,8 +799,6 @@ WM_USER
 %index
 CharLowerW
 •¶š—ñ‚Ü‚½‚Í’Pˆê‚Ì•¶š‚ğ¬•¶š‚É•ÏŠ·‚·‚éBƒIƒyƒ‰ƒ“ƒh‚ª•¶š—ñ‚Ìê‡AŠÖ”‚Í•¶š‚ğ‚»‚Ìê‚Å•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpsz
 lpsz : [wstr] Œ^: LPTSTR null I’[•¶š—ñA‚Ü‚½‚Í’Pˆê‚Ì•¶š‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÌãˆÊƒ[ƒh‚ª 0 ‚Ìê‡A‰ºˆÊƒ[ƒh‚É•ÏŠ·‚·‚é’Pˆê‚Ì•¶š‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -871,8 +823,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CharLowerBuffW
 ƒoƒbƒtƒ@“à‚Ì‘å•¶š‚ğ¬•¶š‚É•ÏŠ·‚·‚éB•¶š‚Í‚»‚Ìê‚Å•ÏŠ·‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpsz, cchLength
 lpsz : [wstr] Œ^: LPTSTR ˆ—‚·‚é 1 ‚ÂˆÈã‚Ì•¶š‚ğŠi”[‚µ‚½ƒoƒbƒtƒ@B
@@ -893,8 +843,6 @@ CharLowerBuff ‚ÍAŒ»İ‚ÌŒ¾Œê‚ªƒgƒ‹ƒRŒê‚Ü‚½‚ÍƒAƒ[ƒ‹ƒoƒCƒWƒƒƒ“Œê‚Å‚ ‚Á‚Ä‚àí‚É‘å•¶
 %index
 CharNextW
 •¶š—ñ“à‚ÌŸ‚Ì•¶š‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒoƒCƒg‚Ü‚½‚Íƒ}ƒ‹ƒ`ƒoƒCƒg•¶š‚©‚ç‚È‚é•¶š—ñ‚ğˆµ‚¦‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpsz
 lpsz : [wstr] Œ^: LPCTSTR null I’[•¶š—ñ“à‚Ì•¶šB
@@ -920,8 +868,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CharPrevW
 •¶š—ñ“à‚Ì‘O‚Ì•¶š‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒoƒCƒg‚Ü‚½‚Íƒ}ƒ‹ƒ`ƒoƒCƒg•¶š‚©‚ç‚È‚é•¶š—ñ‚ğˆµ‚¦‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpszStart, lpszCurrent
 lpszStart : [wstr] Œ^: LPCTSTR •¶š—ñ‚Ìæ“ªB
@@ -948,8 +894,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CharToOemW
 •¶š—ñ‚ğ OEM ’è‹`‚Ì•¶šƒZƒbƒg‚É•ÏŠ·‚·‚éBŒx: g—p‚µ‚È‚¢‚±‚ÆB(Unicode)
-%group
-Win32 user32
 %prm
 pSrc, pDst
 pSrc : [wstr] Œ^: LPCTSTR •ÏŠ·‚·‚é null I’[•¶š—ñB
@@ -972,8 +916,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CharToOemBuffW
 •¶š—ñ“à‚Ìw’è”‚Ì•¶š‚ğ OEM ’è‹`‚Ì•¶šƒZƒbƒg‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpszSrc, lpszDst, cchDstLength
 lpszSrc : [wstr] Œ^: LPCTSTR •ÏŠ·‚·‚é null I’[•¶š—ñB
@@ -999,8 +941,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CharUpperW
 •¶š—ñ‚Ü‚½‚Í’Pˆê‚Ì•¶š‚ğ‘å•¶š‚É•ÏŠ·‚·‚éBƒIƒyƒ‰ƒ“ƒh‚ª•¶š—ñ‚Ìê‡AŠÖ”‚Í•¶š‚ğ‚»‚Ìê‚Å•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpsz
 lpsz : [wstr] Œ^: LPTSTR null I’[•¶š—ñA‚Ü‚½‚Í’Pˆê‚Ì•¶šB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÌãˆÊƒ[ƒh‚ª 0 ‚Ìê‡A‰ºˆÊƒ[ƒh‚É•ÏŠ·‚·‚é’Pˆê‚Ì•¶š‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1025,8 +965,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CharUpperBuffW
 ƒoƒbƒtƒ@“à‚Ì¬•¶š‚ğ‘å•¶š‚É•ÏŠ·‚·‚éB•¶š‚Í‚»‚Ìê‚Å•ÏŠ·‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpsz, cchLength
 lpsz : [wstr] Œ^: LPTSTR ˆ—‚·‚é 1 ‚ÂˆÈã‚Ì•¶š‚ğŠi”[‚µ‚½ƒoƒbƒtƒ@B
@@ -1047,8 +985,6 @@ CharUpperBuff ‚ÍAŒ»İ‚ÌŒ¾Œê‚ªƒgƒ‹ƒRŒê‚Ü‚½‚ÍƒAƒ[ƒ‹ƒoƒCƒWƒƒƒ“Œê‚Å‚ ‚Á‚Ä‚àí‚É¬•¶
 %index
 CheckDlgButton
 ƒ{ƒ^ƒ“ƒRƒ“ƒgƒ[ƒ‹‚Ìƒ`ƒFƒbƒNó‘Ô‚ğ•ÏX‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, nIDButton, uCheck
 hDlg : [intptr] Œ^: HWND ƒ{ƒ^ƒ“‚ğŠÜ‚Şƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1069,8 +1005,6 @@ CheckDlgButton ŠÖ”‚ÍAw’è‚³‚ê‚½ƒ_ƒCƒAƒƒO“à‚Ìw’è‚³‚ê‚½ƒ{ƒ^ƒ“ƒRƒ“ƒgƒ[ƒ‹‚É BM
 %index
 CheckMenuItem
 w’è‚³‚ê‚½ƒƒjƒ…[€–Ú‚Ìƒ`ƒFƒbƒNƒ}[ƒN‘®«‚Ìó‘Ô‚ğ‘I‘ğ‚Ü‚½‚ÍƒNƒŠƒA‚Éİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, uIDCheckItem, uCheck
 hMenu : [intptr] Œ^: HMENU ‘ÎÛ‚Ìƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1092,8 +1026,6 @@ uCheck : [int] Œ^: UINT uIDCheckItem ƒpƒ‰ƒ[ƒ^‚Ì‰ğß•û–@‚Æƒƒjƒ…[€–Ú‚Ìƒ`ƒFƒbƒ
 %index
 CheckMenuRadioItem
 w’è‚µ‚½ƒƒjƒ…[€–Ú‚ğƒ`ƒFƒbƒN‚µ‚Äƒ‰ƒWƒI€–Ú‚É‚·‚éB“¯‚ÉAŠÖ˜AƒOƒ‹[ƒv“à‚Ì‘¼‚Ì‚·‚×‚Ä‚Ìƒƒjƒ…[€–Ú‚ğƒNƒŠƒA‚µA‚»‚ê‚ç‚Ì€–Ú‚Ìƒ‰ƒWƒI€–Úƒ^ƒCƒvƒtƒ‰ƒO‚ğƒNƒŠƒA‚·‚éB
-%group
-Win32 user32
 %prm
 hmenu, first, last, check, flags
 hmenu : [intptr] Œ^: HMENU ƒƒjƒ…[€–Ú‚ÌƒOƒ‹[ƒv‚ğŠÜ‚Şƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1119,8 +1051,6 @@ MFS_CHECKED
 %index
 CheckRadioButton
 ƒOƒ‹[ƒv“à‚Ìw’è‚µ‚½ƒ‰ƒWƒIƒ{ƒ^ƒ“‚Éƒ`ƒFƒbƒNƒ}[ƒN‚ğ’Ç‰Á (ƒ`ƒFƒbƒN) ‚µAƒOƒ‹[ƒv“à‚Ì‘¼‚Ì‚·‚×‚Ä‚Ìƒ‰ƒWƒIƒ{ƒ^ƒ“‚©‚çƒ`ƒFƒbƒNƒ}[ƒN‚ğœ‹ (ƒNƒŠƒA) ‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, nIDFirstButton, nIDLastButton, nIDCheckButton
 hDlg : [intptr] Œ^: HWND ƒ‰ƒWƒIƒ{ƒ^ƒ“‚ğŠÜ‚Şƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1144,8 +1074,6 @@ CheckRadioButton ŠÖ”‚ÍAw’è‚³‚ê‚½ƒOƒ‹[ƒv“à‚ÌŠeƒ‰ƒWƒIƒ{ƒ^ƒ“‚É BM_SETCHECK
 %index
 ChildWindowFromPoint
 eƒEƒBƒ“ƒhƒE‚É‘®‚·‚éqƒEƒBƒ“ƒhƒE‚Ì‚¤‚¿Aw’è‚µ‚½“_‚ğŠÜ‚Ş‚à‚Ì‚ğ”»’è‚·‚éBŒŸõ‚Í’¼‰º‚ÌqƒEƒBƒ“ƒhƒE‚ÉŒÀ’è‚³‚êA‘·‚â‚»‚êˆÈ~‚Ìq‘·‚ÍŒŸõ‚³‚ê‚È‚¢B
-%group
-Win32 user32
 %prm
 hWndParent, Point
 hWndParent : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1172,8 +1100,6 @@ API ‚Æ‚àƒXƒ^ƒeƒBƒbƒNƒtƒB[ƒ‹ƒh‚ª HTTRANSPARENT ‚ğ•Ô‚·ê‡‚Å‚à‚»‚ê‚ğ•Ô‚·B
 %index
 ChildWindowFromPointEx
 w’è‚µ‚½eƒEƒBƒ“ƒhƒE‚É‘®‚·‚éqƒEƒBƒ“ƒhƒE‚Ì‚¤‚¿Aw’è‚µ‚½“_‚ğŠÜ‚Ş‚à‚Ì‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pt, flags
 hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1196,8 +1122,6 @@ NULLB
 %index
 ClientToScreen
 w’è‚µ‚½“_‚ÌƒNƒ‰ƒCƒAƒ“ƒg—ÌˆæÀ•W‚ğƒXƒNƒŠ[ƒ“À•W‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpPoint
 hWnd : [intptr] •ÏŠ·‚Ég—p‚·‚éƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1217,8 +1141,6 @@ POINT
 %index
 ClipCursor
 ƒJ[ƒ\ƒ‹‚ğ‰æ–Êã‚Ì‹éŒ`—Ìˆæ‚É•Â‚¶‚ß‚éB
-%group
-Win32 user32
 %prm
 lpRect
 lpRect : [var] Œ^: const RECT* §ŒÀ‹éŒ`‚Ì¶ã‹÷‚Æ‰E‰º‹÷‚ÌƒXƒNƒŠ[ƒ“À•W‚ğŠÜ‚Ş\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡AƒJ[ƒ\ƒ‹‚Í‰æ–Êã‚Ì”CˆÓ‚ÌêŠ‚É©—R‚ÉˆÚ“®‚Å‚«‚éB
@@ -1238,8 +1160,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 CloseClipboard
 ƒNƒŠƒbƒvƒ{[ƒh‚ğ•Â‚¶‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -1258,8 +1178,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 CloseGestureInfoHandle
 ƒWƒFƒXƒ`ƒƒî•ñƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒX‚ğ•Â‚¶‚éB
-%group
-Win32 user32
 %prm
 hGestureInfo
 hGestureInfo : [intptr] ƒWƒFƒXƒ`ƒƒî•ñƒnƒ“ƒhƒ‹B
@@ -1280,8 +1198,6 @@ hGestureInfo : [intptr] ƒWƒFƒXƒ`ƒƒî•ñƒnƒ“ƒhƒ‹B
 %index
 CloseTouchInputHandle
 ƒ^ƒbƒ`“ü—Íƒnƒ“ƒhƒ‹‚ğ•Â‚¶A‚»‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒvƒƒZƒXƒƒ‚ƒŠ‚ğ‰ğ•ú‚µAƒnƒ“ƒhƒ‹‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hTouchInput
 hTouchInput : [intptr] ƒ^ƒbƒ`ƒƒbƒZ[ƒW‚Ì LPARAM ‚Åó‚¯æ‚Á‚½ƒ^ƒbƒ`“ü—Íƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ª–³Œø‚Èê‡AŠÖ”‚Í ERROR_INVALID_HANDLE ‚Å¸”s‚·‚éBCloseTouchInputHandle ‚Ì¬Œ÷‚µ‚½ŒÄ‚Ño‚µ‚Ég‚í‚ê‚½ŒãA‚Ü‚½‚Í DefWindowProcAPostMessageASendMessageA‚à‚µ‚­‚Í‚»‚ê‚ç‚Ì”h¶ŠÖ”‚É“n‚³‚ê‚½Œã‚Íƒnƒ“ƒhƒ‹‚Í–³Œø‚É‚È‚é“_‚É’ˆÓB
@@ -1301,8 +1217,6 @@ CloseTouchInputHandle ‚ğŒÄ‚ñ‚Å‚à GetTouchInputInfo
 %index
 CloseWindow
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğÅ¬‰»‚·‚é (‚½‚¾‚µ”jŠü‚Í‚µ‚È‚¢)B
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND Å¬‰»‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1320,8 +1234,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 CloseWindowStation
 ƒI[ƒvƒ“’†‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 user32
 %prm
 hWinSta
 hWinSta : [intptr] •Â‚¶‚éƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateWindowStation ‚Ü‚½‚Í OpenWindowStation ŠÖ”‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹BGetProcessWindowStation ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚ğw’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1341,8 +1253,6 @@ CloseWindowStation
 %index
 ConsoleControl
 (no summary)
-%group
-Win32 user32
 %prm
 Command, ConsoleInformation, ConsoleInformationLength
 Command : [int] 
@@ -1355,8 +1265,6 @@ ConsoleInformationLength : [int]
 %index
 DestroyAcceleratorTable
 ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ğ”jŠü‚·‚éB
-%group
-Win32 user32
 %prm
 hAccel
 hAccel : [intptr] Œ^: HACCEL ”jŠü‚·‚éƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateAcceleratorTable ‚Ü‚½‚Í LoadAccelerators ŠÖ”‚É‚æ‚Á‚Äì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1372,8 +1280,6 @@ hAccel : [intptr] Œ^: HACCEL ”jŠü‚·‚éƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ
 %index
 CopyAcceleratorTableW
 w’è‚µ‚½ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ğƒRƒs[‚·‚éB‚±‚ÌŠÖ”‚ÍAƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹ƒnƒ“ƒhƒ‹‚É‘Î‰‚·‚éƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹ƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ßA‚Ü‚½‚ÍƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹ƒf[ƒ^‚ÌƒTƒCƒY‚ğ”»’è‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hAccelSrc, lpAccelDst, cAccelEntries
 hAccelSrc : [intptr] Œ^: HACCEL ƒRƒs[‚·‚éƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1397,8 +1303,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 DestroyIcon
 ƒAƒCƒRƒ“‚ğ”jŠü‚µAƒAƒCƒRƒ“‚ªè—L‚µ‚Ä‚¢‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 hIcon
 hIcon : [intptr] Œ^: HICON ”jŠü‚·‚éƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹BƒAƒCƒRƒ“‚Íg—p’†‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1419,8 +1323,6 @@ CreateIconFromResourceEx(LR_SHARED
 %index
 CopyIcon
 w’è‚µ‚½ƒAƒCƒRƒ“‚ğ•Ê‚Ìƒ‚ƒWƒ…[ƒ‹‚©‚çŒ»İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ÉƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 hIcon
 hIcon : [intptr] Œ^: HICON ƒRƒs[‚·‚éƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1440,8 +1342,6 @@ DestroyIcon ŠÖ”‚ğŒÄ‚ñ‚ÅAƒAƒCƒRƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é•K—v
 %index
 CopyImage
 V‚µ‚¢‰æ‘œ (ƒAƒCƒRƒ“AƒJ[ƒ\ƒ‹Aƒrƒbƒgƒ}ƒbƒv) ‚ğì¬‚µAw’è‚³‚ê‚½‰æ‘œ‚Ì‘®«‚ğV‚µ‚¢‰æ‘œ‚ÉƒRƒs[‚·‚éB•K—v‚É‰‚¶‚ÄAV‚µ‚¢‰æ‘œ‚ÌŠó–]ƒTƒCƒY‚É‡‚í‚¹‚Äƒrƒbƒg‚ğLk‚·‚éB
-%group
-Win32 user32
 %prm
 h, type, cx, cy, flags
 h : [intptr] Œ^: HANDLE ƒRƒs[‚·‚é‰æ‘œ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1465,8 +1365,6 @@ NULLBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 CopyRect
 CopyRect ŠÖ”‚ÍA‚ ‚é‹éŒ`‚ÌÀ•W‚ğ•Ê‚Ì‹éŒ`‚ÉƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 lprcDst, lprcSrc
 lprcDst : [var] ƒRƒs[Œ³‹éŒ`‚Ì˜_—À•W‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1485,8 +1383,6 @@ CopyRect ŠÖ”‚ÍA‚ ‚é‹éŒ`‚ÌÀ•W‚ğ•Ê‚Ì‹éŒ`‚ÉƒRƒs[‚·‚éB
 %index
 CountClipboardFormats
 Œ»İƒNƒŠƒbƒvƒ{[ƒh‚É‚ ‚éˆÙ‚È‚éƒf[ƒ^Œ`®‚Ì”‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -1500,8 +1396,6 @@ Win32 user32
 %index
 CreateAcceleratorTableW
 ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 paccel, cAccel
 paccel : [var] Œ^: LPACCEL ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ğ‹Lq‚·‚é ACCEL \‘¢‘Ì‚Ì”z—ñB
@@ -1521,8 +1415,6 @@ NULLBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 CreateCaret
 ƒVƒXƒeƒ€ƒLƒƒƒŒƒbƒg—p‚ÌV‚µ‚¢Œ`ó‚ğì¬‚µAƒLƒƒƒŒƒbƒg‚ÌŠ—LŒ ‚ğw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÉŠ„‚è“–‚Ä‚éBƒLƒƒƒŒƒbƒgŒ`ó‚ÍüAƒuƒƒbƒNA‚Ü‚½‚Íƒrƒbƒgƒ}ƒbƒv‚É‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 hWnd, hBitmap, nWidth, nHeight
 hWnd : [intptr] Œ^: HWND ƒLƒƒƒŒƒbƒg‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1550,8 +1442,6 @@ nWidth ‚Æ nHeight
 %index
 DestroyCursor
 ƒJ[ƒ\ƒ‹‚ğ”jŠü‚µAƒJ[ƒ\ƒ‹‚ªè—L‚µ‚Ä‚¢‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB‹¤—LƒJ[ƒ\ƒ‹‚Ì”jŠü‚É‚±‚ÌŠÖ”‚ğg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B
-%group
-Win32 user32
 %prm
 hCursor
 hCursor : [intptr] Œ^: HCURSOR ”jŠü‚·‚éƒJ[ƒ\ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BƒJ[ƒ\ƒ‹‚Íg—p’†‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1571,8 +1461,6 @@ DestroyCursor
 %index
 CreateCursor
 w’è‚µ‚½ƒTƒCƒYAƒrƒbƒgƒpƒ^[ƒ“AƒzƒbƒgƒXƒ|ƒbƒg‚ğ‚ÂƒJ[ƒ\ƒ‹‚ğì¬‚·‚éB
-%group
-Win32 user32
 %prm
 hInst, xHotSpot, yHotSpot, nWidth, nHeight, pvANDPlane, pvXORPlane
 hInst : [intptr] Œ^: HINSTANCE ƒJ[ƒ\ƒ‹‚ğì¬‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŒ»İ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1601,8 +1489,6 @@ DestroyCursor ŠÖ”‚ğŒÄ‚ñ‚ÅAƒJ[ƒ\ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚È‚¯
 %index
 CreateDesktopW
 V‚µ‚¢ƒfƒXƒNƒgƒbƒv‚ğì¬‚µAŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌŒ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯AŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpszDesktop, lpszDevice, pDevmode, dwFlags, dwDesiredAccess, lpsa
 lpszDesktop : [wstr] ì¬‚·‚éƒfƒXƒNƒgƒbƒv‚Ì–¼‘OBƒfƒXƒNƒgƒbƒv–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚¹‚¸AƒoƒbƒNƒXƒ‰ƒbƒVƒ…•¶š (\\) ‚ğŠÜ‚ß‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -1640,8 +1526,6 @@ MaxRequestThreads=16"
 %index
 CreateDesktopExW
 w’è‚µ‚½ƒq[ƒv‚ğ‚ÂV‚µ‚¢ƒfƒXƒNƒgƒbƒv‚ğì¬‚µAŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌŒ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯AŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpszDesktop, lpszDevice, pDevmode, dwFlags, dwDesiredAccess, lpsa, ulHeapSize, pvoid
 lpszDesktop : [wstr] ì¬‚·‚éƒfƒXƒNƒgƒbƒv‚Ì–¼‘OBƒfƒXƒNƒgƒbƒv–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚¹‚¸AƒoƒbƒNƒXƒ‰ƒbƒVƒ…•¶š (\\) ‚ğŠÜ‚ß‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
@@ -1681,8 +1565,6 @@ SharedSection ƒTƒu•¶š—ñ‚Ì’l‚ÍŸ‚Ì‚Æ‚¨‚è:
 %index
 CreateDialogIndirectParamW
 ƒƒ‚ƒŠ“à‚Ìƒ_ƒCƒAƒƒOƒeƒ“ƒvƒŒ[ƒg‚©‚çƒ‚[ƒhƒŒƒXƒ_ƒCƒAƒƒO‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpTemplate, hWndParent, lpDialogFunc, dwInitParam
 hInstance : [intptr] Œ^: HINSTANCE ƒ_ƒCƒAƒƒOƒeƒ“ƒvƒŒ[ƒg‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AŒ»İ‚ÌÀs‰Â”\ƒtƒ@ƒCƒ‹‚ªg‚í‚ê‚éB
@@ -1723,8 +1605,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CreateDialogParamW
 ƒ_ƒCƒAƒƒOƒeƒ“ƒvƒŒ[ƒgƒŠƒ\[ƒX‚©‚çƒ‚[ƒhƒŒƒXƒ_ƒCƒAƒƒO‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpTemplateName, hWndParent, lpDialogFunc, dwInitParam
 hInstance : [intptr] Œ^: HINSTANCE ƒ_ƒCƒAƒƒOƒeƒ“ƒvƒŒ[ƒg‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AŒ»İ‚ÌÀs‰Â”\ƒtƒ@ƒCƒ‹‚ªg‚í‚ê‚éB
@@ -1758,8 +1638,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CreateIcon
 w’è‚µ‚½ƒTƒCƒYAFAƒrƒbƒgƒpƒ^[ƒ“‚ğ‚ÂƒAƒCƒRƒ“‚ğì¬‚·‚éB
-%group
-Win32 user32
 %prm
 hInstance, nWidth, nHeight, cPlanes, cBitsPixel, lpbANDbits, lpbXORbits
 hInstance : [intptr] Œ^: HINSTANCE ƒAƒCƒRƒ“‚ğì¬‚·‚éƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1785,8 +1663,6 @@ nWidth ‚Æ nHeight ‚ÌÚ×‚É‚Â‚¢‚Ä‚Í Icon Sizes ‚ğQÆBCreateIcon ‚Í AND ‚¨‚æ‚Ñ X
 %index
 CreateIconFromResource
 ƒAƒCƒRƒ“‚ğ‹Lq‚·‚éƒŠƒ\[ƒXƒrƒbƒg‚©‚çƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğì¬‚·‚éB(CreateIconFromResource)
-%group
-Win32 user32
 %prm
 presbits, dwResSize, fIcon, dwVer
 presbits : [var] Œ^: PBYTE ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹ƒŠƒ\[ƒXƒrƒbƒg‚ğŠÜ‚Şƒoƒbƒtƒ@B‚±‚ê‚ç‚Ìƒrƒbƒg‚Í’Êí LookupIconIdFromDirectoryALookupIconIdFromDirectoryExALoadResource ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äƒ[ƒh‚³‚ê‚éB
@@ -1812,8 +1688,6 @@ LookupIconIdFromDirectoryEx
 %index
 CreateIconFromResourceEx
 ƒAƒCƒRƒ“‚ğ‹Lq‚·‚éƒŠƒ\[ƒXƒrƒbƒg‚©‚çƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğì¬‚·‚éB(CreateIconFromResourceEx)
-%group
-Win32 user32
 %prm
 presbits, dwResSize, fIcon, dwVer, cxDesired, cyDesired, Flags
 presbits : [var] Œ^: PBYTE ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹ƒŠƒ\[ƒXƒrƒbƒgB‚±‚ê‚ç‚Ìƒrƒbƒg‚Í’Êí LookupIconIdFromDirectoryEx ‚Æ LoadResource ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äƒ[ƒh‚³‚ê‚éB
@@ -1841,8 +1715,6 @@ LookupIconIdFromDirectoryEx
 %index
 CreateIconIndirect
 ICONINFO \‘¢‘Ì‚©‚çƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğì¬‚·‚éB
-%group
-Win32 user32
 %prm
 piconinfo
 piconinfo : [var] Œ^: PICONINFO ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğì¬‚·‚é‚½‚ß‚ÉŠÖ”‚ªg‚¤ ICONINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1864,8 +1736,6 @@ DestroyIcon ŠÖ”‚Å”jŠü‚·‚éB
 %index
 CreateMDIWindowW
 ƒ}ƒ‹ƒ`ƒhƒLƒ…ƒƒ“ƒgƒCƒ“ƒ^[ƒtƒF[ƒX (MDI) ‚ÌqƒEƒBƒ“ƒhƒE‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hInstance, lParam
 lpClassName : [wstr] Œ^: LPCTSTR MDI qƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒXBƒNƒ‰ƒX–¼‚Í RegisterClassEx ŠÖ”‚Å“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -1895,8 +1765,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 CreateMenu
 ƒƒjƒ…[‚ğì¬‚·‚éBƒƒjƒ…[‚ÍÅ‰‚Í‹ó‚ÅAInsertMenuItemAAppendMenuAInsertMenu ŠÖ”‚ğg‚Á‚Äƒƒjƒ…[€–Ú‚ğ’Ç‰Á‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -1916,8 +1784,6 @@ DestroyMenu ŠÖ”‚ğŒÄ‚ñ‚Åƒƒjƒ…[ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 %index
 CreatePopupMenu
 ƒhƒƒbƒvƒ_ƒEƒ“ƒƒjƒ…[AƒTƒuƒƒjƒ…[A‚Ü‚½‚ÍƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚ğì¬‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -1936,8 +1802,6 @@ DestroyMenu ŠÖ”‚ğŒÄ‚ñ‚Åƒƒjƒ…[ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 %index
 DestroySyntheticPointerDevice
 w’è‚µ‚½ƒ|ƒCƒ“ƒ^“ü—ÍƒfƒoƒCƒX‚ğ”jŠü‚·‚éB
-%group
-Win32 user32
 %prm
 device
 device : [intptr] ƒ|ƒCƒ“ƒ^“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -1948,8 +1812,6 @@ device : [intptr] ƒ|ƒCƒ“ƒ^“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 CreateSyntheticPointerDevice
 ŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^’“üƒfƒoƒCƒX‚ğ\¬‚µAƒAƒvƒŠ‚ª’“ü‚Å‚«‚é“¯ƒ|ƒCƒ“ƒ^‚ÌÅ‘å”‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 user32
 %prm
 pointerType, maxCount, mode
 pointerType : [int] ƒ|ƒCƒ“ƒ^’“üƒfƒoƒCƒX‚Ìí—ŞBPT_TOUCH ‚Ü‚½‚Í PT_PEN ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -1966,8 +1828,6 @@ GetLastError ŠÖ”‚ğŒÄ‚ÔB
 %index
 CreateWindowExW
 Šg’£ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹‚ğ‚ÂƒI[ƒo[ƒ‰ƒbƒvAƒ|ƒbƒvƒAƒbƒvA‚Ü‚½‚ÍqƒEƒBƒ“ƒhƒE‚ğì¬‚·‚éB‚»‚êˆÈŠO‚Í CreateWindow ŠÖ”‚Æ“¯‚¶B(Unicode)
-%group
-Win32 user32
 %prm
 dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam
 dwExStyle : [int] Œ^: DWORD ì¬‚·‚éƒEƒBƒ“ƒhƒE‚ÌŠg’£ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹Bw’è‰Â”\‚È’l‚Í Extended Window Styles ‚ğQÆB
@@ -2004,8 +1864,6 @@ Managing Taskbar Buttons ‚ğQÆBƒEƒBƒ“ƒhƒE‚Ìíœ‚É‚Â‚¢‚Ä‚Í DestroyWindow
 %index
 CreateWindowStationW
 ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚µAŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯AŒ»İ‚ÌƒZƒbƒVƒ‡ƒ“‚ÉŠ„‚è“–‚Ä‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpwinsta, dwFlags, dwDesiredAccess, lpsa
 lpwinsta : [wstr] ì¬‚·‚éƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ì–¼‘OBƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚¹‚¸AƒoƒbƒNƒXƒ‰ƒbƒVƒ…•¶š (\\) ‚ğŠÜ‚Ş‚±‚Æ‚Í‚Å‚«‚È‚¢B–¼‘O‚ğw’è‚Å‚«‚é‚Ì‚Í Administrators ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Ì‚İ‚Å‚ ‚éBlpwinsta ‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡AƒVƒXƒeƒ€‚ÍŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌƒƒOƒIƒ“ƒZƒbƒVƒ‡ƒ“¯•Êq‚ğg‚Á‚ÄƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“–¼‚ğ¶¬‚·‚éB‚±‚Ì–¼‘O‚ğæ“¾‚·‚é‚É‚Í GetUserObjectInformation ŠÖ”‚ğŒÄ‚ÔB
@@ -2031,8 +1889,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 DdeDisconnect
 DdeConnect ‚Ü‚½‚Í DdeConnectList ŠÖ”‚ÅŠJn‚³‚ê‚½‰ï˜b‚ğI—¹‚µAw’è‚³‚ê‚½‰ï˜bƒnƒ“ƒhƒ‹‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hConv
 hConv : [intptr] Œ^: HCONV I—¹‚·‚éƒAƒNƒeƒBƒu‚È‰ï˜b‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2052,8 +1908,6 @@ DdeDisconnect ‚ğŒÄ‚Ô‘O‚ÉŠJn‚³‚ê‚½–¢Š®—¹‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Í‘¦À‚É”jŠü‚³‚ê‚éBXT
 %index
 DdeAbandonTransaction
 w’è‚³‚ê‚½”ñ“¯Šúƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ”jŠü‚µAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hConv, idTransaction
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2075,8 +1929,6 @@ DdeAbandonTransaction
 %index
 DdeFreeDataHandle
 DDE ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚µAƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ğíœ‚·‚éB
-%group
-Win32 user32
 %prm
 hData
 hData : [intptr] Œ^: HDDEDATA ‰ğ•ú‚·‚é DDE ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í DdeCreateDataHandle ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½‚©ADdeClientTransaction ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2095,8 +1947,6 @@ DDE ƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚µAƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ğíœ‚·‚éB
 %index
 DdeAccessData
 w’è‚³‚ê‚½ DDE ƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ğI‚¦‚½‚ç DdeUnaccessData ŠÖ”‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 user32
 %prm
 hData, pcbDataSize
 hData : [intptr] Œ^: HDDEDATA ƒAƒNƒZƒX‚·‚é DDE ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2118,8 +1968,6 @@ hData ƒpƒ‰ƒ[ƒ^‚ª‚Ü‚¾ DDEML ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚È‚¢ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í DdeAcc
 %index
 DdeAddData
 w’è‚³‚ê‚½ DDE ƒIƒuƒWƒFƒNƒg‚Éƒf[ƒ^‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 user32
 %prm
 hData, pSrc, cb, cbOff
 hData : [intptr] Œ^: HDDEDATA ƒf[ƒ^‚ğ’Ç‰Á‚·‚é DDE ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2144,8 +1992,6 @@ DDE
 %index
 DdeClientTransaction
 ƒNƒ‰ƒCƒAƒ“ƒg‚ÆƒT[ƒoŠÔ‚Ìƒf[ƒ^ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğŠJn‚·‚éB‚±‚ÌŠÖ”‚ğŒÄ‚×‚é‚Ì‚Í DDE ƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚İ‚ÅAƒT[ƒo‚Æ‚Ì‰ï˜b‚ğŠm—§‚µ‚½Œã‚É‚Ì‚İg—p‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 pData, cbData, hConv, hszItem, wFmt, wType, dwTimeout, pdwResult
 pData : [var] Œ^: LPBYTE ƒNƒ‰ƒCƒAƒ“ƒg‚ªƒT[ƒo‚É“n‚·ƒf[ƒ^‚Ìæ“ªB‚ ‚é‚¢‚ÍƒT[ƒo‚É“n‚·ƒf[ƒ^ƒnƒ“ƒhƒ‹ (HDDEDATA) ‚ğw’è‚Å‚«A‚»‚Ìê‡ cbData ‚Í -1 ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í wType ‚ª XTYP_EXECUTE ‚Ü‚½‚Í XTYP_POKE ‚Ìê‡‚Ì‚İ•K—vB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚ ‚é‚×‚«BpData ‚ªƒf[ƒ^ƒnƒ“ƒhƒ‹‚Å‚ ‚é XTYP_POKE ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Å‚ÍAƒnƒ“ƒhƒ‹‚Í wFmt ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½‚à‚Ì‚Æ“¯‚¶ƒf[ƒ^Œ`®‚ğg—p‚µ‚Ä DdeCreateDataHandle ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -2183,8 +2029,6 @@ DdeAbandonTransaction ŠÖ”‚ğŒÄ‚ñ‚Å”ñ“¯Šúƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ”jŠü‚·‚é‚±‚Æ‚ğ‘I‘ğ‚Å‚«
 %index
 DdeCmpStringHandles
 2 ‚Â‚Ì•¶š—ñƒnƒ“ƒhƒ‹‚Ì’l‚ğ”äŠr‚·‚éB•¶š—ñƒnƒ“ƒhƒ‹‚Ì’l‚ÍŠÖ˜A‚·‚é•¶š—ñ‚Ì‘å•¶š¬•¶š‚Æ‚Í–³ŠÖŒW‚Å‚ ‚éB
-%group
-Win32 user32
 %prm
 hsz1, hsz2
 hsz1 : [intptr] Œ^: HSZ 1 ”Ô–Ú‚Ì•¶š—ñ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2206,8 +2050,6 @@ DDE ‚Ì‘å•¶š¬•¶š”ñ‹æ•Ê‚Ì«¿‚ğ•Û‚·‚é‚½‚ß‚É DdeCmpStringHandles
 %index
 DdeConnect
 w’è‚³‚ê‚½ƒT[ƒrƒX–¼‚ÆƒgƒsƒbƒN–¼‚Ì‘g‚ğƒTƒ|[ƒg‚·‚éƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚Ì‰ï˜b‚ğŠm—§‚·‚éB•¡”‚Ì‚»‚Ì‚æ‚¤‚ÈƒT[ƒo‚ª‘¶İ‚·‚éê‡AƒVƒXƒeƒ€‚Í 1 ‚Â‚¾‚¯‚ğ‘I‘ğ‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hszService, hszTopic, pCC
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2236,8 +2078,6 @@ DdeInitialize ŠÖ”‚ğŒÄ‚ñ‚¾‚©‚É‰‚¶‚Ä CP_WINANSI (Šù’èƒR[ƒhƒy[ƒW) ‚Ü‚½‚Í CP_WIN
 %index
 DdeDisconnectList
 w’è‚³‚ê‚½‰ï˜bƒŠƒXƒg‚ğ”jŠü‚µA‚»‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì‰ï˜b‚ğI—¹‚·‚éB
-%group
-Win32 user32
 %prm
 hConvList
 hConvList : [intptr] Œ^: HCONVLIST ‰ï˜bƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í DdeConnectList ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2255,8 +2095,6 @@ hConvList : [intptr] Œ^: HCONVLIST ‰ï˜bƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í DdeCon
 %index
 DdeConnectList
 w’è‚³‚ê‚½ƒT[ƒrƒX–¼‚ÆƒgƒsƒbƒN–¼‚Ì‘g‚ğƒTƒ|[ƒg‚·‚é‚·‚×‚Ä‚ÌƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚Ì‰ï˜b‚ğŠm—§‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hszService, hszTopic, hConvList, pCC
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2282,8 +2120,6 @@ CP_WINANSI (Šù’èƒR[ƒhƒy[ƒW) ‚Ü‚½‚Í CP_WINUNICODE ‚ğw’è‚·‚éB
 %index
 DdeCreateDataHandle
 DDE ƒIƒuƒWƒFƒNƒg‚ğì¬‚µAw’è‚³‚ê‚½ƒoƒbƒtƒ@‚Ìƒf[ƒ^‚ÅƒIƒuƒWƒFƒNƒg‚ğ–„‚ß‚éBDDE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‘Šè‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Éƒf[ƒ^‚ğ“n‚·ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“’†‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, pSrc, cb, cbOff, hszItem, wFmt, afCmd
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2309,8 +2145,6 @@ DDE ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½Œã‚ÍAƒnƒ“ƒhƒ‹‚Í¯•Ê‚·‚é DDE ƒIƒuƒWƒFƒNƒg‚Ö‚
 %index
 DdeCreateStringHandleW
 w’è‚³‚ê‚½•¶š—ñ‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğì¬‚·‚éBDDE ƒNƒ‰ƒCƒAƒ“ƒg‚Ü‚½‚ÍƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA•¶š—ñƒnƒ“ƒhƒ‹‚ğƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä‘¼‚Ì DDEML ŠÖ”‚É“n‚¹‚éB(Unicode)
-%group
-Win32 user32
 %prm
 idInst, psz, iCodePage
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2337,8 +2171,6 @@ DdeKeepStringHandle
 %index
 DdeEnableCallback
 “Á’è‚Ì‰ï˜b‚Ü‚½‚ÍŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŒ»İŠm—§‚µ‚Ä‚¢‚é‚·‚×‚Ä‚Ì‰ï˜b‚É‘Î‚·‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hConv, wCmd
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2368,8 +2200,6 @@ TRUEB‚»‚êˆÈŠO‚Ìê‡‚Í FALSEBƒGƒ‰[ƒR[ƒh‚Í DdeGetLastError ŠÖ”‚Åæ“¾‚Å‚«AŸ‚
 %index
 DdeFreeStringHandle
 ŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ““à‚Ì•¶š—ñƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hsz
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2389,8 +2219,6 @@ DDE ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚µ‚½‚à‚Ì‚â DdeQueryConvInfo ŠÖ”‚Ì CONVINFO
 %index
 DdeGetData
 w’è‚³‚ê‚½ DDE ƒIƒuƒWƒFƒNƒg‚©‚çw’è‚³‚ê‚½ƒ[ƒJƒ‹ƒoƒbƒtƒ@‚Éƒf[ƒ^‚ğƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 hData, pDst, cbMax, cbOff
 hData : [intptr] Œ^: HDDEDATA ƒRƒs[‚·‚éƒf[ƒ^‚ğŠÜ‚Ş DDE ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2410,8 +2238,6 @@ cbMax ‚Åw’è‚³‚ê‚½ƒTƒCƒY‚Ì‚¢‚¸‚ê‚©’á‚¢•ûBpDst ‚ª NULL
 %index
 DdeGetLastError
 DDEML ŠÖ”‚Ì¸”s‚É‚æ‚Á‚Äİ’è‚³‚ê‚½ÅV‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚µAƒGƒ‰[ƒR[ƒh‚ğ DMLERR_NO_ERROR ‚ÉƒŠƒZƒbƒg‚·‚éB
-%group
-Win32 user32
 %prm
 idInst
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2426,8 +2252,6 @@ DDEML ŠÖ”‚Ì¸”s‚É‚æ‚Á‚Äİ’è‚³‚ê‚½ÅV‚ÌƒGƒ‰[ƒR[ƒh‚ğæ“¾‚µAƒGƒ‰[ƒR[ƒh‚ğ DML
 %index
 DdeImpersonateClient
 DDE ƒNƒ‰ƒCƒAƒ“ƒg‰ï˜b‚Å DDE ƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹U‘•‚·‚éB
-%group
-Win32 user32
 %prm
 hConv
 hConv : [intptr] Œ^: HCONV ‹U‘•‚·‚é DDE ƒNƒ‰ƒCƒAƒ“ƒg‰ï˜b‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2450,8 +2274,6 @@ LocalSystem
 %index
 DdeInitializeW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ“®“Iƒf[ƒ^ŒğŠ·ŠÇ—ƒ‰ƒCƒuƒ‰ƒŠ (DDEML) ‚É“o˜^‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‘¼‚Ì‚·‚×‚Ä‚Ì DDEML ŠÖ”‚ğŒÄ‚Ô‘O‚É‚±‚ÌŠÖ”‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(Unicode)
-%group
-Win32 user32
 %prm
 pidInst, pfnCallback, afCmd, ulRes
 pidInst : [var] Œ^: LPDWORD ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB‰Šú‰»A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚ğw‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŠÖ”‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¯•Êq‚ğw‚·B‚±‚Ì’l‚ÍA•K—v‚Æ‚·‚é‘¼‚Ì‚·‚×‚Ä‚Ì DDEML ŠÖ”‚É idInst ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª DDEML DLL ‚Ì•¡”ƒCƒ“ƒXƒ^ƒ“ƒX‚ğg—p‚·‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŠeƒCƒ“ƒXƒ^ƒ“ƒX—p‚ÉˆÙ‚È‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ’ñ‹Ÿ‚·‚×‚«‚Å‚ ‚éBpidInst ‚ª 0 ˆÈŠO‚Ì’l‚ğw‚µ‚Ä‚¢‚éê‡ADDEML ‚ÌÄ‰Šú‰»‚ªs‚í‚ê‚éB‚±‚Ìê‡ApidInst ‚Í—LŒø‚ÈƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•Êq‚ğw‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2485,8 +2307,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 DdeKeepStringHandle
 w’è‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ÉŠÖ˜A‚·‚ég—pƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hsz
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2501,8 +2321,6 @@ hsz : [intptr] Œ^: HSZ •Û‘¶‚·‚é•¶š—ñƒnƒ“ƒhƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 DdeNameService
 DDE ƒT[ƒo‚ªƒTƒ|[ƒg‚·‚éƒT[ƒrƒX–¼‚ğ“o˜^‚Ü‚½‚Í“o˜^‰ğœ‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hsz1, hsz2, afCmd
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2526,8 +2344,6 @@ hsz1 ‚Å¯•Ê‚³‚ê‚éƒT[ƒrƒX–¼‚Íƒx[ƒX–¼ (‚Â‚Ü‚èƒCƒ“ƒXƒ^ƒ“ƒXŒÅ—L‚Ìî•ñ‚ğŠÜ‚Ü‚È‚¢–¼‘
 %index
 DdePostAdvise
 w’è‚³‚ê‚½ƒgƒsƒbƒN‚Æ€–Úã‚ÉƒAƒNƒeƒBƒu‚ÈƒAƒhƒoƒCƒXƒ‹[ƒv‚ğ‚ÂŠeƒNƒ‰ƒCƒAƒ“ƒg‚É‚Â‚¢‚ÄAƒVƒXƒeƒ€‚ªŒÄ‚Ño‚µŒ³ (ƒT[ƒo) ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì DDE ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É XTYP_ADVREQ ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‘—M‚·‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 user32
 %prm
 idInst, hszTopic, hszItem
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2552,8 +2368,6 @@ DdePostAdvise ‚ğŒÄ‚Ô‚ÆAƒXƒ^ƒbƒNƒI[ƒo[ƒtƒ[‚É‚È‚é‰Â”\«‚ª‚ ‚éB
 %index
 DdeQueryConvInfo
 DDE ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚¨‚æ‚Ñƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ªs‚í‚ê‚é‰ï˜b‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hConv, idTransaction, pConvInfo
 hConv : [intptr] Œ^: HCONV ‰ï˜b‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2579,8 +2393,6 @@ DdeKeepStringHandle ŠÖ”‚ğŒÄ‚ñ‚Åƒnƒ“ƒhƒ‹‚ÌƒRƒs[‚ğì¬‚·‚×‚«BidTransaction ‚ª Q
 %index
 DdeQueryNextServer
 w’è‚³‚ê‚½‰ï˜bƒŠƒXƒg“à‚ÌŸ‚Ì‰ï˜bƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hConvList, hConvPrev
 hConvList : [intptr] Œ^: HCONVLIST ‰ï˜bƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í DdeConnectList ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2595,8 +2407,6 @@ hConvPrev : [intptr] Œ^: HCONV ‚±‚ÌŠÖ”‚ªˆÈ‘O‚É•Ô‚µ‚½‰ï˜bƒnƒ“ƒhƒ‹B0L ‚Ìê‡AŠÖ
 %index
 DdeQueryStringW
 •¶š—ñƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒeƒLƒXƒg‚ğƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 idInst, hsz, psz, cchMax, iCodePage
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2625,8 +2435,6 @@ Conventions for Function Prototypes ‚ğQÆB
 %index
 DdeReconnect
 ƒNƒ‰ƒCƒAƒ“ƒg DDEML ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAƒNƒ‰ƒCƒAƒ“ƒg‚Æ‚Ì‰ï˜b‚ğI—¹‚µ‚½ƒT[ƒrƒX‚Æ‚Ì‰ï˜b‚ÌÄŠm—§‚ğ‚İ‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éB
-%group
-Win32 user32
 %prm
 hConv
 hConv : [intptr] Œ^: HCONV ÄŠm—§‚·‚é‰ï˜b‚Ö‚Ìƒnƒ“ƒhƒ‹BƒNƒ‰ƒCƒAƒ“ƒg‚Í DdeConnect ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µA‚Ü‚½‚Í XTYP_DISCONNECT ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚©‚ç‰ï˜bƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -2641,8 +2449,6 @@ DdeGetLastError ŠÖ”‚Åæ“¾‚Å‚«AŸ‚Ì‚¢‚¸‚ê‚©‚É‚È‚é:
 %index
 DdeSetQualityOfService
 raw DDE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª¡ŒãŠJn‚·‚é DDE ‰ï˜b‚É‹‚ß‚éƒT[ƒrƒX•i¿ (QOS) ‚ğw’è‚·‚éB
-%group
-Win32 user32
 %prm
 hwndClient, pqosNew, pqosPrev
 hwndClient : [intptr] Œ^: HWND ƒNƒ‰ƒCƒAƒ“ƒg‚ª DDE ‰ï˜b‚ğŠJn‚·‚é‚½‚ß‚É‘—M‚·‚é WM_DDE_INITIATE ƒƒbƒZ[ƒW‚Ì‘—MŒ³‚ğw’è‚·‚é DDE ƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2664,8 +2470,6 @@ hwndClient ‚ÌƒT[ƒrƒX•i¿‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AƒVƒXƒeƒ€‚ÍƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒ
 %index
 DdeSetUserHandle
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğ‰ï˜bƒnƒ“ƒhƒ‹‚Ü‚½‚Íƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“¯•Êq‚ÉŠÖ˜A•t‚¯‚éB‚±‚ê‚Í”ñ“¯Šúƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ìˆ—‚ğŠÈ‘f‰»‚·‚é‚Ì‚É—L—pBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í DdeQueryConvInfo ŠÖ”‚ğg‚Á‚Ä‚±‚Ì’l‚ğæ“¾‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 hConv, id, hUser
 hConv : [intptr] Œ^: HCONV ‰ï˜b‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2684,8 +2488,6 @@ DdeQueryConvInfo ŠÖ”‚ğg‚Á‚Ä‚±‚Ì’l‚ğæ“¾‚Å‚«‚éB
 %index
 DdeUnaccessData
 DDE ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ğ‰ğœ‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ğI‚¦‚½‚ç‚±‚ÌŠÖ”‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 user32
 %prm
 hData
 hData : [intptr] Œ^: HDDEDATA DDE ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2700,8 +2502,6 @@ DDE ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ğ‰ğœ‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZ
 %index
 DdeUninitialize
 ŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì DDEML ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 idInst
 idInst : [int] Œ^: DWORD DdeInitialize ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX¯•ÊqB
@@ -2718,8 +2518,6 @@ DdeUninitialize ‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŒ»İŠJ‚¢‚Ä‚¢‚é‚·‚×‚Ä‚Ì‰ï˜b‚ğI—¹‚·‚éB
 %index
 DefFrameProcW
 ƒ}ƒ‹ƒ`ƒhƒLƒ…ƒƒ“ƒgƒCƒ“ƒ^[ƒtƒFƒCƒX (MDI) ƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ªˆ—‚µ‚È‚¢ƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒW‚É‘Î‚µ‚ÄŠù’è‚Ìˆ—‚ğs‚¤B(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, hWndMDIClient, uMsg, wParam, lParam
 hWnd : [intptr] Œ^: HWND MDI ƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2747,8 +2545,6 @@ DefFrameProc ŠÖ”‚Æ DefMDIChildProc ŠÖ”‚ğg—p‚·‚éB’Êí‚È‚ç DefWindowProc
 %index
 DefMDIChildProcW
 ƒ}ƒ‹ƒ`ƒhƒLƒ…ƒƒ“ƒgƒCƒ“ƒ^[ƒtƒFƒCƒX (MDI) qƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ªˆ—‚µ‚È‚¢ƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒW‚É‘Î‚µ‚ÄŠù’è‚Ìˆ—‚ğs‚¤B(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, uMsg, wParam, lParam
 hWnd : [intptr] Œ^: HWND MDI qƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2775,8 +2571,6 @@ DefMDIChildProc ‚É“n‚·‚×‚«‚Å‚ ‚éB‚³‚ç‚ÉADefMDIChildProc ‚ÍŸ‚ÌƒƒbƒZ[ƒW‚àˆ—
 %index
 DefRawInputProc
 RAWINPUTHEADER \‘¢‘Ì‚ÌƒTƒCƒY‚ª³‚µ‚¢‚±‚Æ‚ğŒŸØ‚·‚éB
-%group
-Win32 user32
 %prm
 paRawInput, nInput, cbSizeHeader
 paRawInput : [var] Œ^: PRAWINPUT* –³‹‚³‚ê‚éB
@@ -2792,8 +2586,6 @@ RAWINPUTHEADER \‘¢‘Ì‚ÌƒTƒCƒY‚ª³‚µ‚¢‚±‚Æ‚ğŒŸØ‚·‚éB
 %index
 DeferWindowPos
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚É‘Î‚·‚é•¡”ƒEƒBƒ“ƒhƒEˆÊ’u\‘¢‘Ì‚ğXV‚·‚éB
-%group
-Win32 user32
 %prm
 hWinPosInfo, hWnd, hWndInsertAfter, x, y, cx, cy, uFlags
 hWinPosInfo : [intptr] Œ^: HDWP 1 ‚ÂˆÈã‚ÌƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚¨‚æ‚ÑˆÊ’uî•ñ‚ğ•Û‚·‚éA•¡”ƒEƒBƒ“ƒhƒEˆÊ’u\‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì\‘¢‘Ì‚Í BeginDeferWindowPos ‚Ü‚½‚Í’¼‹ß‚Ì DeferWindowPos ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -2832,8 +2624,6 @@ HWND_BOTTOM ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AƒVƒXƒeƒ€‚Í hWnd ƒEƒBƒ“ƒhƒE‚ğ Z
 %index
 DeleteMenu
 w’è‚µ‚½ƒƒjƒ…[‚©‚ç€–Ú‚ğíœ‚·‚éBƒƒjƒ…[€–Ú‚ªƒƒjƒ…[‚Ü‚½‚ÍƒTƒuƒƒjƒ…[‚ğŠJ‚­‚à‚Ì‚Å‚ ‚éê‡A‚±‚ÌŠÖ”‚Í‚»‚Ìƒƒjƒ…[‚Ü‚½‚ÍƒTƒuƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹‚ğ”jŠü‚µAg—p‚³‚ê‚Ä‚¢‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, uPosition, uFlags
 hMenu : [intptr] Œ^: HMENU •ÏX‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2855,8 +2645,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DeregisterShellHookWindow
 ƒVƒFƒ‹ƒtƒbƒNƒƒbƒZ[ƒW‚ğóM‚·‚é‚½‚ß‚É“o˜^‚³‚ê‚Ä‚¢‚éw’è‚ÌƒVƒFƒ‹ƒEƒBƒ“ƒhƒE‚ğ“o˜^‰ğœ‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND “o˜^‰ğœ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒE‚Í RegisterShellHookWindow ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä“o˜^‚³‚ê‚Ä‚¢‚éB
@@ -2875,8 +2663,6 @@ GetProcAddress ‚ğg‚Á‚ÄŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %index
 DestroyCaret
 ƒLƒƒƒŒƒbƒg‚ÌŒ»İ‚ÌŒ`ó‚ğ”jŠü‚µAƒEƒBƒ“ƒhƒE‚©‚çƒLƒƒƒŒƒbƒg‚ğ‰ğ•ú‚µA‰æ–Ê‚©‚çƒLƒƒƒŒƒbƒg‚ğœ‹‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -2897,8 +2683,6 @@ a Caretv‚ğQÆB
 %index
 DestroyWindow
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğ”jŠü‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ”jŠü‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2918,8 +2702,6 @@ WS_EX_NOPARENTNOTIFY ƒXƒ^ƒCƒ‹‚ğ‚½‚È‚¢qƒEƒBƒ“ƒhƒE‚Ìê‡Ae‚É WM_PARENTNOTIFY
 %index
 DialogBoxIndirectParamW
 ƒƒ‚ƒŠ“à‚Ìƒ_ƒCƒAƒƒOƒ{ƒbƒNƒXƒeƒ“ƒvƒŒ[ƒg‚©‚çƒ‚[ƒ_ƒ‹ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, hDialogTemplate, hWndParent, lpDialogFunc, dwInitParam
 hInstance : [intptr] Œ^: HINSTANCE ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -2952,8 +2734,6 @@ EndDialog ŠÖ”‚ğŒÄ‚Ño‚·‚ÆADialogBoxIndirectParam
 %index
 DialogBoxParamW
 ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒXƒeƒ“ƒvƒŒ[ƒgƒŠƒ\[ƒX‚©‚çƒ‚[ƒ_ƒ‹ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpTemplateName, hWndParent, lpDialogFunc, dwInitParam
 hInstance : [intptr] Œ^: HINSTANCE ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒXƒeƒ“ƒvƒŒ[ƒg‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒ»İ‚ÌÀs‰Â”\ƒtƒ@ƒCƒ‹‚ªg—p‚³‚ê‚éB
@@ -2982,8 +2762,6 @@ EndDialog ŠÖ”‚ğŒÄ‚Ño‚·‚ÆADialogBoxParam
 %index
 DisableProcessWindowsGhosting
 ŒÄ‚Ño‚µŒ³ GUI ƒvƒƒZƒX‚É‘Î‚µ‚ÄƒEƒBƒ“ƒhƒEƒS[ƒXƒg‹@”\‚ğ–³Œø‰»‚·‚éBƒEƒBƒ“ƒhƒEƒS[ƒXƒg‹@”\‚ÍA‰“š‚µ‚È‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒEƒBƒ“ƒhƒE‚ğÅ¬‰»AˆÚ“®A•Â‚¶‚é‚±‚Æ‚ğƒ†[ƒU‚É‹–‰Â‚·‚é Windows ƒ}ƒl[ƒWƒƒ‚Ì‹@”\‚Å‚ ‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -2998,8 +2776,6 @@ DisableProcessWindowsGhosting ‚ğŒÄ‚Ño‚·‚ÆAƒvƒƒZƒX‚ÌÀs’†‚ÍƒS[ƒXƒg‹@”\‚ª–³Œø
 %index
 DispatchMessageW
 ƒƒbƒZ[ƒW‚ğƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ÉƒfƒBƒXƒpƒbƒ`‚·‚éB’Êí‚Í GetMessage ‚Åæ“¾‚µ‚½ƒƒbƒZ[ƒW‚ÌƒfƒBƒXƒpƒbƒ`‚Ég—p‚·‚éB(DispatchMessageW)
-%group
-Win32 user32
 %prm
 lpMsg
 lpMsg : [var] Œ^: const MSG* ƒƒbƒZ[ƒW‚ğŠi”[‚µ‚½\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3020,8 +2796,6 @@ IsDialogMessage ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB
 %index
 DisplayConfigGetDeviceInfo
 DisplayConfigGetDeviceInfo ŠÖ”‚ÍAƒfƒoƒCƒX‚ÉŠÖ‚·‚éƒfƒBƒXƒvƒŒƒC\¬î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 requestPacket
 requestPacket : [var] DISPLAYCONFIG_DEVICE_INFO_HEADER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚É‚ÍAtype ƒƒ“ƒo[‚ÉŠÜ‚Ü‚ê‚éƒpƒPƒbƒgƒ^ƒCƒv‚ğŠÜ‚ß‚½—v‹‚ÉŠÖ‚·‚éî•ñ‚ªŠÜ‚Ü‚ê‚éBDisplayConfigGetDeviceInfo ‚ªƒwƒbƒ_[\‘¢‘Ì‚ÌŒã‚É•Ô‚·’Ç‰Áƒf[ƒ^‚ÌŒ^‚¨‚æ‚ÑƒTƒCƒY‚ÍƒpƒPƒbƒgƒ^ƒCƒv‚ÉˆË‘¶‚·‚éB
@@ -3043,8 +2817,6 @@ DisplayConfigGetDeviceInfo ‚ğŒÄ‚Ño‚µ‚ÄAÚ‘±‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ÌÅ“K‚È‰
 %index
 DisplayConfigSetDeviceInfo
 DisplayConfigSetDeviceInfo ŠÖ”‚Íƒ^[ƒQƒbƒg‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 setPacket
 setPacket : [var] ƒfƒoƒCƒX‚Éİ’è‚·‚éî•ñ‚ğŠÜ‚Ş DISPLAYCONFIG_DEVICE_INFO_HEADER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BDisplayConfigSetDeviceInfo ‚ª\¬‚Ég—p‚·‚é’Ç‰Áƒf[ƒ^‚ÌŒ^‚¨‚æ‚ÑƒTƒCƒY‚ÍAƒwƒbƒ_[\‘¢‘Ì‚ÌŒã‚É‘±‚­B‚±‚Ì’Ç‰Áƒf[ƒ^‚Í DISPLAYCONFIG_DEVICE_INFO_HEADER ‚Ì type ƒƒ“ƒo[‚Åw’è‚³‚ê‚éƒpƒPƒbƒgƒ^ƒCƒv‚ÉˆË‘¶‚·‚éB
@@ -3067,8 +2839,6 @@ DISPLAYCONFIG_DEVICE_INFO_GET_XXX
 %index
 DlgDirListW
 ƒŠƒXƒgƒ{ƒbƒNƒX‚Ì“à—e‚ğAw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ“à‚ÌƒTƒuƒfƒBƒŒƒNƒgƒŠ‚¨‚æ‚Ñƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Å’u‚«Š·‚¦‚éBƒtƒ@ƒCƒ‹‘®«‚ÌƒZƒbƒg‚ğw’è‚·‚é‚±‚Æ‚Å–¼‘O‚ÌƒŠƒXƒg‚ğƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚Å‚«‚éBƒŠƒXƒg‚É‚Íƒ}ƒbƒv‚³‚ê‚½ƒhƒ‰ƒCƒu‚ğŠÜ‚ß‚é‚±‚Æ‚à‚Å‚«‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDlg, lpPathSpec, nIDListBox, nIDStaticPath, uFileType
 hDlg : [intptr] Œ^: HWND ƒŠƒXƒgƒ{ƒbƒNƒX‚ğŠÜ‚Şƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3094,8 +2864,6 @@ LB_RESETCONTENT ‚¨‚æ‚Ñ LB_DIR ƒƒbƒZ[ƒW‚ğƒŠƒXƒgƒ{ƒbƒNƒX‚É‘—M‚·‚éB
 %index
 DlgDirListComboBoxW
 ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì“à—e‚ğAw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ“à‚ÌƒTƒuƒfƒBƒŒƒNƒgƒŠ‚¨‚æ‚Ñƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Å’u‚«Š·‚¦‚éBƒtƒ@ƒCƒ‹‘®«‚ÌƒZƒbƒg‚ğw’è‚·‚é‚±‚Æ‚Å–¼‘O‚ÌƒŠƒXƒg‚ğƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚Å‚«‚éB–¼‘O‚ÌƒŠƒXƒg‚É‚Íƒ}ƒbƒv‚³‚ê‚½ƒhƒ‰ƒCƒuƒŒƒ^[‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDlg, lpPathSpec, nIDComboBox, nIDStaticPath, uFiletype
 hDlg : [intptr] Œ^: HWND ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ğŠÜ‚Şƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3122,8 +2890,6 @@ DlgDirListComboBox ‚Í CB_RESETCONTENT ‚¨‚æ‚Ñ CB_DIR ƒƒbƒZ[ƒW‚ğƒRƒ“ƒ{ƒ{ƒbƒNƒX‚É
 %index
 DlgDirSelectComboBoxExW
 DlgDirListComboBox ŠÖ”‚ÅŠi”[‚³‚ê‚½ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚©‚çŒ»İ‚Ì‘I‘ğ‚ğæ“¾‚·‚éB‘I‘ğ‚Íƒhƒ‰ƒCƒuƒŒƒ^[Aƒtƒ@ƒCƒ‹A‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ–¼‚Æ‚µ‚Ä‰ğß‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hwndDlg, lpString, cchOut, idComboBox
 hwndDlg : [intptr] Œ^: HWND ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ğŠÜ‚Şƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3150,8 +2916,6 @@ NULL •¶š‚ªŠÜ‚Ü‚ê‚éBDlgDirSelectComboBoxEx ‚Í CB_GETCURSEL ‚¨‚æ‚Ñ CB_GETLBTEXT
 %index
 DlgDirSelectExW
 ’Pˆê‘I‘ğƒŠƒXƒgƒ{ƒbƒNƒX‚©‚çŒ»İ‚Ì‘I‘ğ‚ğæ“¾‚·‚éBƒŠƒXƒgƒ{ƒbƒNƒX‚ª DlgDirList ŠÖ”‚É‚æ‚Á‚ÄŠi”[‚³‚ê‚Ä‚¨‚èA‘I‘ğ‚ªƒhƒ‰ƒCƒuƒŒƒ^[Aƒtƒ@ƒCƒ‹–¼A‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ–¼‚Å‚ ‚é‚±‚Æ‚ğ‘O’ñ‚Æ‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hwndDlg, lpString, chCount, idListBox
 hwndDlg : [intptr] Œ^: HWND ƒŠƒXƒgƒ{ƒbƒNƒX‚ğŠÜ‚Şƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3180,8 +2944,6 @@ DlgDirSelectEx ŠÖ”‚Í‘I‘ğ‚ğ lpString
 %index
 DragDetect
 ƒ}ƒEƒX‚ğƒLƒƒƒvƒ`ƒƒ‚µAƒ†[ƒU‚ª¶ƒ{ƒ^ƒ“‚ğ—£‚·‚©AESC ƒL[‚ğ‰Ÿ‚·‚©Aw’è‚µ‚½“_‚ÌüˆÍ‚Ìƒhƒ‰ƒbƒO‹éŒ`‚ÌŠO‘¤‚Éƒ}ƒEƒX‚ğˆÚ“®‚·‚é‚Ü‚ÅA‚»‚Ì“®‚«‚ğ’ÇÕ‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pt
 hwnd : [intptr] Œ^: HWND ƒ}ƒEƒX“ü—Í‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3201,8 +2963,6 @@ pt : [int] Œ^: POINT ƒ}ƒEƒX‚Ì‰ŠúˆÊ’u (ƒXƒNƒŠ[ƒ“À•W)BŠÖ”‚Í‚±‚Ì“_‚ğg—p‚µ‚Äƒh
 %index
 DragObject
 (no summary)
-%group
-Win32 user32
 %prm
 hwndParent, hwndFrom, fmt, data, hcur
 hwndParent : [intptr] 
@@ -3217,8 +2977,6 @@ hcur : [intptr]
 %index
 DrawAnimatedRects
 ƒEƒBƒ“ƒhƒE‚ÌƒLƒƒƒvƒVƒ‡ƒ“‚ğƒAƒjƒ[ƒVƒ‡ƒ“‚µAƒAƒCƒRƒ“‚ÌŠJ•ú‚Ü‚½‚ÍƒEƒBƒ“ƒhƒE‚ÌÅ¬‰»EÅ‘å‰»‚ğ¦‚·B
-%group
-Win32 user32
 %prm
 hwnd, idAni, lprcFrom, lprcTo
 hwnd : [intptr] ‰æ–Êã‚ÅƒLƒƒƒvƒVƒ‡ƒ“‚ğƒAƒjƒ[ƒVƒ‡ƒ“‚³‚¹‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒAƒjƒ[ƒVƒ‡ƒ“‚Í‚±‚ÌƒEƒBƒ“ƒhƒE‚Ìe‚ÉƒNƒŠƒbƒv‚³‚ê‚éB
@@ -3235,8 +2993,6 @@ lprcTo : [var] •œŒ³‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ÆƒTƒCƒY‚ğw’è‚·‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ
 %index
 DrawCaption
 DrawCaption ŠÖ”‚ÍƒEƒBƒ“ƒhƒEƒLƒƒƒvƒVƒ‡ƒ“‚ğ•`‰æ‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, hdc, lprect, flags
 hwnd : [intptr] ƒEƒBƒ“ƒhƒEƒLƒƒƒvƒVƒ‡ƒ“—p‚ÌƒeƒLƒXƒg‚ÆƒAƒCƒRƒ“‚ğ’ñ‹Ÿ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3253,8 +3009,6 @@ DrawCaption ŠÖ”‚ÍƒEƒBƒ“ƒhƒEƒLƒƒƒvƒVƒ‡ƒ“‚ğ•`‰æ‚·‚éB
 %index
 DrawEdge
 DrawEdge ŠÖ”‚Í‹éŒ`‚Ì 1 ‚Â‚Ü‚½‚Í•¡”‚ÌƒGƒbƒW‚ğ•`‰æ‚·‚éB
-%group
-Win32 user32
 %prm
 hdc, qrc, edge, grfFlags
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3271,8 +3025,6 @@ DrawEdge ŠÖ”‚Í‹éŒ`‚Ì 1 ‚Â‚Ü‚½‚Í•¡”‚ÌƒGƒbƒW‚ğ•`‰æ‚·‚éB
 %index
 DrawFocusRect
 DrawFocusRect ŠÖ”‚ÍA‹éŒ`‚ªƒtƒH[ƒJƒX‚ğ‚Â‚±‚Æ‚ğ¦‚·ƒXƒ^ƒCƒ‹‚Å‹éŒ`‚ğ•`‰æ‚·‚éB
-%group
-Win32 user32
 %prm
 hDC, lprc
 hDC : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3293,8 +3045,6 @@ DrawFocusRect ‚Í MM_TEXT ƒ‚[ƒh‚Å‚Ì‚İ“®ì‚·‚éBDrawFocusRect ‚Í XOR ŠÖ”‚Å‚ ‚é‚½
 %index
 DrawFrameControl
 DrawFrameControl ŠÖ”‚ÍAw’è‚µ‚½í—Ş‚¨‚æ‚ÑƒXƒ^ƒCƒ‹‚ÌƒtƒŒ[ƒ€ƒRƒ“ƒgƒ[ƒ‹‚ğ•`‰æ‚·‚éB
-%group
-Win32 user32
 %prm
 param0, param1, param2, param3
 param0 : [intptr] 
@@ -3317,8 +3067,6 @@ uType ‚ª DFC_MENU ‚Ü‚½‚Í DFC_BUTTON ‚Ì‚¢‚¸‚ê‚©‚ÅAuState ‚ª DFCS_BUTTONPUSH
 %index
 DrawIcon
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğ•`‰æ‚·‚éB
-%group
-Win32 user32
 %prm
 hDC, X, Y, hIcon
 hDC : [intptr] Œ^: HDC ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğ•`‰æ‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3341,8 +3089,6 @@ DrawIcon ‚ÍƒAƒCƒRƒ“‚Ì¶ã‹÷‚ğ X ‚¨‚æ‚Ñ Y
 %index
 DrawIconEx
 w’è‚µ‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğ•`‰æ‚µAw’è‚µ‚½ƒ‰ƒXƒ^‰‰Z‚ğs‚¢Aw’è‚Ç‚¨‚è‚ÉƒAƒCƒRƒ“‚âƒJ[ƒ\ƒ‹‚ğLk‚·‚éB
-%group
-Win32 user32
 %prm
 hdc, xLeft, yTop, hIcon, cxWidth, cyWidth, istepIfAniCur, hbrFlickerFreeDraw, diFlags
 hdc : [intptr] Œ^: HDC ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğ•`‰æ‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3369,8 +3115,6 @@ DrawIconEx ŠÖ”‚ÍƒAƒCƒRƒ“‚Ì¶ã‹÷‚ğ xLeft ‚¨‚æ‚Ñ yTop
 %index
 DrawMenuBar
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ìƒƒjƒ…[ƒo[‚ğÄ•`‰æ‚·‚éBƒVƒXƒeƒ€‚ªƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½Œã‚Éƒƒjƒ…[ƒo[‚ª•ÏX‚³‚ê‚½ê‡A•ÏX‚³‚ê‚½ƒƒjƒ…[ƒo[‚ğ•`‰æ‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒƒjƒ…[ƒo[‚ğÄ•`‰æ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3386,8 +3130,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 DrawStateW
 DrawState ŠÖ”‚ÍA–³Œøó‘Ô‚âŠù’èó‘Ô‚È‚Ç‚Ìó‘Ô‚ğ¦‚·‹ŠoŒø‰Ê‚ğ“K—p‚µ‚Ä‰æ‘œ‚ğ•\¦‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hdc, hbrFore, qfnCallBack, lData, wData, x, y, cx, cy, uFlags
 hdc : [intptr] •`‰ææ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3414,8 +3156,6 @@ ANSI ‚Ü‚½‚Í Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 DrawTextW
 DrawText ŠÖ”‚Íw’è‚µ‚½‹éŒ`‚É‘®İ’è‚³‚ê‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éBw’è‚µ‚½•û–@ (ƒ^ƒu“WŠJA•¶š”z’uA‰üs‚È‚Ç) ‚É]‚Á‚ÄƒeƒLƒXƒg‚ğ‘®İ’è‚·‚éB(DrawTextW)
-%group
-Win32 user32
 %prm
 hdc, lpchText, cchText, lprc, format
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3442,8 +3182,6 @@ DrawText ŠÖ”‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì‘I‘ğ‚³‚ê‚½ƒtƒHƒ“ƒgAƒeƒLƒXƒgFA”wŒiF‚ğ
 %index
 DrawTextExW
 DrawTextEx ŠÖ”‚Íw’è‚µ‚½‹éŒ`‚É‘®İ’è‚³‚ê‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hdc, lpchText, cchText, lprc, format, lpdtp
 hdc : [intptr] •`‰ææ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3469,8 +3207,6 @@ TA_LEFTATA_TOPATA_NOUPDATECP ƒtƒ‰ƒO‚ªŠÜ‚Ü‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 EmptyClipboard
 ƒNƒŠƒbƒvƒ{[ƒh‚ğ‹ó‚É‚µAƒNƒŠƒbƒvƒ{[ƒh“à‚Ìƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB‚»‚ÌŒãAƒNƒŠƒbƒvƒ{[ƒh‚ÌŠ—LŒ ‚ğŒ»İƒNƒŠƒbƒvƒ{[ƒh‚ğŠJ‚¢‚Ä‚¢‚éƒEƒBƒ“ƒhƒE‚ÉŠ„‚è“–‚Ä‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -3491,8 +3227,6 @@ SetClipboardData ‚ª¸”s‚·‚é‚±‚Æ‚É’ˆÓB
 %index
 EnableMenuItem
 w’è‚µ‚½ƒƒjƒ…[€–Ú‚ğ—LŒø‰»A–³Œø‰»A‚Ü‚½‚ÍƒOƒŒ[•\¦‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, uIDEnableItem, uEnable
 hMenu : [intptr] Œ^: HMENU ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3517,8 +3251,6 @@ DrawMenuBar ‚ğŒÄ‚Ño‚·B
 %index
 EnableMouseInPointer
 ƒ}ƒEƒX‚ğƒ|ƒCƒ“ƒ^“ü—ÍƒfƒoƒCƒX‚Æ‚µ‚Ä‹@”\‚³‚¹AWM_POINTER ƒƒbƒZ[ƒW‚ğ‘—M‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 user32
 %prm
 fEnable
 fEnable : [int] WM_POINTER ‚Å‚Ìƒ}ƒEƒX“ü—ÍƒTƒ|[ƒg‚ğ—LŒø‚É‚·‚éê‡‚Í TRUEB
@@ -3539,8 +3271,6 @@ mouse-in-pointer ‚ª—LŒø‚Èó‘Ô‚ÅÀs‚³‚êAmshtml.dll
 %index
 EnableNonClientDpiScaling
 ‚ DPI ƒfƒBƒXƒvƒŒƒC‚É‚¨‚¢‚ÄAw’è‚µ‚½ƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚Ì”ñƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ•”•ª‚Ì©“®ƒfƒBƒXƒvƒŒƒCƒXƒP[ƒŠƒ“ƒO‚ğ—LŒø‰»‚·‚éBƒEƒBƒ“ƒhƒE‚Ì‰Šú‰»’†‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] ”ñƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì©“®ƒXƒP[ƒŠƒ“ƒO‚ğ—LŒø‚É‚·‚éƒEƒBƒ“ƒhƒEB
@@ -3565,8 +3295,6 @@ WM_NCCREATE ‚©‚çŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 EnableScrollBar
 EnableScrollBar ŠÖ”‚ÍAˆê•û‚Ü‚½‚Í—¼•û‚ÌƒXƒNƒ[ƒ‹ƒo[‚Ì–îˆó‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, wSBflags, wArrows
 hWnd : [intptr] Œ^: HWND wSBflags ƒpƒ‰ƒ[ƒ^‚Ì’l‚É‰‚¶‚ÄAƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3584,8 +3312,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 EnableWindow
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒ}ƒEƒX‚¨‚æ‚ÑƒL[ƒ{[ƒh“ü—Í‚ğ—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éB“ü—Í‚ª–³Œø‰»‚³‚ê‚Ä‚¢‚éê‡AƒEƒBƒ“ƒhƒE‚Íƒ}ƒEƒXƒNƒŠƒbƒN‚âƒL[‰Ÿ‰º‚È‚Ç‚Ì“ü—Í‚ğó‚¯æ‚ç‚È‚¢B“ü—Í‚ª—LŒø‰»‚³‚ê‚Ä‚¢‚éê‡AƒEƒBƒ“ƒhƒE‚Í‚·‚×‚Ä‚Ì“ü—Í‚ğó‚¯æ‚éB
-%group
-Win32 user32
 %prm
 hWnd, bEnable
 hWnd : [intptr] Œ^: HWND —LŒø‰»‚Ü‚½‚Í–³Œø‰»‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3608,8 +3334,6 @@ WM_CANCELMODE ƒƒbƒZ[ƒW‚ÌŒã‚É WM_ENABLE ƒƒbƒZ[ƒW‚ğ‘—M‚·‚é (‚±‚ê‚ç‚ÌƒƒbƒZ[ƒ
 %index
 EndDeferWindowPos
 1 ‰ñ‚Ì‰æ–ÊXVƒTƒCƒNƒ‹‚Å 1 ‚ÂˆÈã‚ÌƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚ÆƒTƒCƒY‚ğ“¯‚ÉXV‚·‚éB
-%group
-Win32 user32
 %prm
 hWinPosInfo
 hWinPosInfo : [intptr] Œ^: HDWP 1 ‚ÂˆÈã‚ÌƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚¨‚æ‚ÑˆÊ’uî•ñ‚ğ•Û‚·‚éA•¡”ƒEƒBƒ“ƒhƒEˆÊ’u\‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì“à•”\‘¢‘Ì‚Í BeginDeferWindowPos ŠÖ”‚Ü‚½‚Í’¼‹ß‚Ì DeferWindowPos ŠÖ”ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éB
@@ -3628,8 +3352,6 @@ WM_WINDOWPOSCHANGED ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 %index
 EndDialog
 ƒ‚[ƒ_ƒ‹ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ”jŠü‚µAƒVƒXƒeƒ€‚Éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚É‘Î‚·‚é‚·‚×‚Ä‚Ìˆ—‚ğI—¹‚³‚¹‚éB
-%group
-Win32 user32
 %prm
 hDlg, nResult
 hDlg : [intptr] Œ^: HWND ”jŠü‚·‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3653,8 +3375,6 @@ DialogBoxADialogBoxParamADialogBoxIndirectADialogBoxIndirectParam
 %index
 EndMenu
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌƒAƒNƒeƒBƒuƒƒjƒ…[‚ğI—¹‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -3671,8 +3391,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 EndPaint
 EndPaint ŠÖ”‚ÍAw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ì•`‰æ‚ÌI—¹‚ğ¦‚·B‚±‚ÌŠÖ”‚Í BeginPaint ŠÖ”‚ÌŠeŒÄ‚Ño‚µ‚É‘Î‚µ‚Ä•K—v‚Å‚ ‚é‚ªA•`‰æŠ®—¹Œã‚É‚Ì‚İŒÄ‚Ño‚·B
-%group
-Win32 user32
 %prm
 hWnd, lpPaint
 hWnd : [intptr] Ä•`‰æ‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3692,8 +3410,6 @@ BeginPaint ‚ªæ“¾‚µ‚½•\¦ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğ‰ğ•ú‚·‚éB
 %index
 EnumChildWindows
 w’è‚µ‚½eƒEƒBƒ“ƒhƒE‚É‘®‚·‚éqƒEƒBƒ“ƒhƒE‚ğ—ñ‹“‚µAŠeqƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ‡‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·B
-%group
-Win32 user32
 %prm
 hWndParent, lpEnumFunc, lParam
 hWndParent : [intptr] Œ^: HWND qƒEƒBƒ“ƒhƒE‚ğ—ñ‹“‚·‚éeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡A‚±‚ÌŠÖ”‚Í EnumWindows ‚Æ“™‰¿‚Å‚ ‚éB
@@ -3713,8 +3429,6 @@ lParam : [intptr] Œ^: LPARAM ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l
 %index
 EnumClipboardFormats
 Œ»İƒNƒŠƒbƒvƒ{[ƒh‚Å—˜—p‰Â”\‚Èƒf[ƒ^Œ`®‚ğ—ñ‹“‚·‚éB
-%group
-Win32 user32
 %prm
 format
 format : [int] Œ^: UINT —˜—p‰Â”\‚Å‚ ‚é‚Æ•ª‚©‚Á‚Ä‚¢‚éƒNƒŠƒbƒvƒ{[ƒhŒ`®BƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ì—ñ‹“‚ğŠJn‚·‚é‚É‚ÍAformat ‚ğ 0 ‚Éİ’è‚·‚éBformat ‚ª 0 ‚Ìê‡AŠÖ”‚ÍÅ‰‚É—˜—p‰Â”\‚ÈƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğæ“¾‚·‚éB—ñ‹“’†‚ÌŒã‘±‚ÌŒÄ‚Ño‚µ‚Å‚ÍAformat ‚ğ’¼‘O‚Ì EnumClipboardFormats ŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Éİ’è‚·‚éB
@@ -3735,8 +3449,6 @@ format : [int] Œ^: UINT —˜—p‰Â”\‚Å‚ ‚é‚Æ•ª‚©‚Á‚Ä‚¢‚éƒNƒŠƒbƒvƒ{[ƒhŒ`®BƒNƒŠƒbƒv
 %index
 EnumDesktopWindows
 w’è‚µ‚½ƒfƒXƒNƒgƒbƒv‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ğ—ñ‹“‚·‚éBŠeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ‡‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·B
-%group
-Win32 user32
 %prm
 hDesktop, lpfn, lParam
 hDesktop : [intptr] ƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ğ—ñ‹“‚·‚éƒfƒXƒNƒgƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateDesktopAGetThreadDesktopAOpenDesktopA‚Ü‚½‚Í OpenInputDesktop ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êADESKTOP_READOBJECTS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒ»İ‚ÌƒfƒXƒNƒgƒbƒv‚ªg—p‚³‚ê‚éB
@@ -3758,8 +3470,6 @@ EnumDesktopWindows ŠÖ”‚ÍAÅŒã‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ª—ñ‹“‚³‚ê‚é‚©AƒR[ƒ‹ƒoƒ
 %index
 EnumDesktopsW
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚Ìw’è‚µ‚½ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌƒfƒXƒNƒgƒbƒv‚ğ—ñ‹“‚·‚éBŠeƒfƒXƒNƒgƒbƒv‚Ì–¼‘O‚ğ‡‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·B(Unicode)
-%group
-Win32 user32
 %prm
 hwinsta, lpEnumFunc, lParam
 hwinsta : [intptr] ƒfƒXƒNƒgƒbƒv‚ğ—ñ‹“‚·‚éƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateWindowStationAGetProcessWindowStationA‚Ü‚½‚Í OpenWindowStation ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚êAWINSTA_ENUMDESKTOPS ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŒ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ªg—p‚³‚ê‚éB
@@ -3782,8 +3492,6 @@ FALSE ‚ğ•Ô‚·‚Ü‚ÅAlpEnumFunc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚·B
 %index
 EnumDisplayDevicesW
 EnumDisplayDevices ŠÖ”‚ÍAŒ»İ‚ÌƒZƒbƒVƒ‡ƒ““à‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpDevice, iDevNum, lpDisplayDevice, dwFlags
 lpDevice : [wstr] ƒfƒoƒCƒX–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡AŠÖ”‚Í iDevNum ‚ÉŠî‚Ã‚¢‚Äƒ}ƒVƒ“ã‚ÌƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B
@@ -3808,8 +3516,6 @@ DISPLAY_DEVICE_ATTACHED_TO_DESKTOP ƒtƒ‰ƒO‚ğ‚ÂƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ì‚İ‚ğg—p‚·‚
 %index
 EnumDisplayMonitors
 EnumDisplayMonitors ŠÖ”‚ÍAw’è‚µ‚½ƒNƒŠƒbƒsƒ“ƒO‹éŒ`‚ÆƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ì‰Â‹—Ìˆæ‚ÌŒğ·‚É‚æ‚Á‚ÄŒ`¬‚³‚ê‚é—Ìˆæ‚ÆŒğ·‚·‚éƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^ (ƒ~ƒ‰[ƒŠƒ“ƒOƒhƒ‰ƒCƒo‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½”ñ•\¦‚Ì‹^—ƒ‚ƒjƒ^‚ğŠÜ‚Ş) ‚ğ—ñ‹“‚·‚éBEnumDisplayMonitors ‚Í—ñ‹“‚³‚ê‚éŠeƒ‚ƒjƒ^‚É‘Î‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì MonitorEnumProc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ 1 ‰ñŒÄ‚Ño‚·B
-%group
-Win32 user32
 %prm
 hdc, lprcClip, lpfnEnum, dwData
 hdc : [intptr] ‘ÎÛ‚Æ‚È‚é‰Â‹—Ìˆæ‚ğ’è‹`‚·‚éƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚é hdcMonitor ƒpƒ‰ƒ[ƒ^‚Í NULL ‚Æ‚È‚èA‘ÎÛ‚Ì‰Â‹—Ìˆæ‚ÍƒfƒXƒNƒgƒbƒvã‚Ì‚·‚×‚Ä‚ÌƒfƒBƒXƒvƒŒƒC‚ğŠÜ‚Ş‰¼‘zƒXƒNƒŠ[ƒ“‚Æ‚È‚éB
@@ -3833,8 +3539,6 @@ EnumDisplayMonitors ŠÖ”‚ğŒÄ‚Ño‚·——R‚Í 2 ‚Â‚ ‚éB
 %index
 EnumDisplaySettingsW
 EnumDisplaySettings ŠÖ”‚ÍAƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ì‚¢‚¸‚ê‚©‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ì‚·‚×‚Ä‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚Ìî•ñ‚ğæ“¾‚·‚é‚É‚ÍA‚±‚ÌŠÖ”‚ğ˜A‘±‚µ‚ÄŒÄ‚Ño‚·B(Unicode)
-%group
-Win32 user32
 %prm
 lpszDeviceName, iModeNum, lpDevMode
 lpszDeviceName : [wstr] î•ñ‚ğæ“¾‚·‚éƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚ª‘®‚·‚éƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ğw’è‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Ü‚½‚Í EnumDisplayDevices ‚©‚ç•Ô‚³‚ê‚½ DISPLAY_DEVICE.DeviceName ‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éB
@@ -3855,8 +3559,6 @@ API ‚Í DPI ‰¼‘z‰»‚ÉQ‰Á‚µ‚È‚¢B
 %index
 EnumDisplaySettingsExW
 EnumDisplaySettingsEx ŠÖ”‚ÍAƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ì‚¢‚¸‚ê‚©‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ì‚·‚×‚Ä‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚Ìî•ñ‚ğæ“¾‚·‚é‚É‚ÍA‚±‚ÌŠÖ”‚ğ˜A‘±‚µ‚ÄŒÄ‚Ño‚·B(Unicode)
-%group
-Win32 user32
 %prm
 lpszDeviceName, iModeNum, lpDevMode, dwFlags
 lpszDeviceName : [wstr] î•ñ‚ğæ“¾‚·‚éƒOƒ‰ƒtƒBƒbƒNƒXƒ‚[ƒh‚ª‘®‚·‚éƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ğw’è‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Ü‚½‚Í EnumDisplayDevices ‚©‚ç•Ô‚³‚ê‚½ DISPLAY_DEVICE.DeviceName ‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éBNULL ’l‚ÍŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ªÀs‚³‚ê‚Ä‚¢‚éƒRƒ“ƒsƒ…[ƒ^ã‚ÌŒ»İ‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ğw’è‚·‚éB
@@ -3879,8 +3581,6 @@ API ‚Í DPI ‰¼‘z‰»‚ÉQ‰Á‚µ‚È‚¢B
 %index
 EnumPropsW
 ƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒBƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğw’è‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É 1 ‚Â‚¸‚Â“n‚µ‚Ä—ñ‹“‚·‚éBEnumProps ‚ÍÅŒã‚ÌƒGƒ“ƒgƒŠ‚ª—ñ‹“‚³‚ê‚é‚©ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª FALSE ‚ğ•Ô‚·‚Ü‚ÅŒp‘±‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpEnumFunc
 hWnd : [intptr] Œ^: HWND ƒvƒƒpƒeƒBƒŠƒXƒg‚ğ—ñ‹“‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3900,8 +3600,6 @@ lpEnumFunc : [int] Œ^: PROPENUMPROC ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í PropEnu
 %index
 EnumPropsExW
 ƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒBƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğw’è‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É 1 ‚Â‚¸‚Â“n‚µ‚Ä—ñ‹“‚·‚éBEnumPropsEx ‚ÍÅŒã‚ÌƒGƒ“ƒgƒŠ‚ª—ñ‹“‚³‚ê‚é‚©ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª FALSE ‚ğ•Ô‚·‚Ü‚ÅŒp‘±‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpEnumFunc, lParam
 hWnd : [intptr] Œ^: HWND ƒvƒƒpƒeƒBƒŠƒXƒg‚ğ—ñ‹“‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -3922,8 +3620,6 @@ lParam : [intptr] Œ^: LPARAM ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ìƒf
 %index
 EnumThreadWindows
 ƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì”ñqƒEƒBƒ“ƒhƒE‚ğ—ñ‹“‚µAŠeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ‡‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·B
-%group
-Win32 user32
 %prm
 dwThreadId, lpfn, lParam
 dwThreadId : [int] Œ^: DWORD ƒEƒBƒ“ƒhƒE‚ğ—ñ‹“‚·‚éƒXƒŒƒbƒh‚Ì¯•ÊqB
@@ -3941,8 +3637,6 @@ TRUE ‚Æ‚È‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª—ñ‹“‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì‚¢‚¸‚ê‚©‚Å FALSE ‚ğ•Ô‚µ‚½ê
 %index
 EnumWindowStationsW
 Œ»İ‚ÌƒZƒbƒVƒ‡ƒ““à‚Ì‚·‚×‚Ä‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ğ—ñ‹“‚·‚éBŠeƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ì–¼‘O‚ğ‡‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·B(Unicode)
-%group
-Win32 user32
 %prm
 lpEnumFunc, lParam
 lpEnumFunc : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì EnumWindowStationProc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3965,8 +3659,6 @@ EnumWindowStations ŠÖ”‚ÍAŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ª WINSTA_ENUMERATE
 %index
 EnumWindows
 ‰æ–Êã‚Ì‚·‚×‚Ä‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ğ—ñ‹“‚µAŠeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ‡‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·BEnumWindows ‚ÍÅŒã‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ª—ñ‹“‚³‚ê‚é‚©ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª FALSE ‚ğ•Ô‚·‚Ü‚ÅŒp‘±‚·‚éB
-%group
-Win32 user32
 %prm
 lpEnumFunc, lParam
 lpEnumFunc : [int] Œ^: WNDENUMPROC ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumWindowsProc ‚ğQÆB
@@ -3990,8 +3682,6 @@ EnumWindows ŠÖ”‚ÍAWS_CHILD
 %index
 EqualRect
 EqualRect ŠÖ”‚ÍA¶ã‹÷‚Æ‰E‰º‹÷‚ÌÀ•W‚ğ”äŠr‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄAw’è‚µ‚½ 2 ‚Â‚Ì‹éŒ`‚ª“™‚µ‚¢‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 lprc1, lprc2
 lprc1 : [var] 1 ‚Â–Ú‚Ì‹éŒ`‚Ì˜_—À•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4010,8 +3700,6 @@ EqualRect
 %index
 EvaluateProximityToPolygon
 ƒ^ƒbƒ`ÚG—Ìˆæ‚ÆŒğ·‚·‚é‘¼‚Ì‚·‚×‚Ä‚Ìƒ|ƒŠƒSƒ“‚Æ”äŠr‚µ‚½Aƒ|ƒŠƒSƒ“‚Ì‰Â”\«‚Ì‚ ‚éƒ^ƒbƒ`ƒ^[ƒQƒbƒg‚Æ‚µ‚Ä‚ÌƒXƒRƒA‚¨‚æ‚Ñƒ|ƒŠƒSƒ““à‚Ì’²®‚³‚ê‚½ƒ^ƒbƒ`ƒ|ƒCƒ“ƒg‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 numVertices, controlPolygon, pHitTestingInput, pProximityEval
 numVertices : [int] ƒ|ƒŠƒSƒ“‚Ì’¸“_”B‚±‚Ì’l‚Í 3 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4035,8 +3723,6 @@ Windows ‚Æ‚Ì®‡«‚Ì‚½‚ßAWM_TOUCHHITTESTING
 %index
 EvaluateProximityToRect
 ƒ^ƒbƒ`ÚG—Ìˆæ‚ÆŒğ·‚·‚é‘¼‚Ì‚·‚×‚Ä‚Ì‹éŒ`‚Æ”äŠr‚µ‚½A‹éŒ`‚Ì‰Â”\«‚Ì‚ ‚éƒ^ƒbƒ`ƒ^[ƒQƒbƒg‚Æ‚µ‚Ä‚ÌƒXƒRƒA‚¨‚æ‚Ñ‹éŒ`“à‚Ì’²®‚³‚ê‚½ƒ^ƒbƒ`ƒ|ƒCƒ“ƒg‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 controlBoundingBox, pHitTestingInput, pProximityEval
 controlBoundingBox : [var] UI —v‘f‚Ì‹«ŠEƒ{ƒbƒNƒX‚ğ’è‹`‚·‚é RECT \‘¢‘ÌB
@@ -4059,8 +3745,6 @@ Windows ‚Æ‚Ì®‡«‚Ì‚½‚ßAWM_TOUCHHITTESTING
 %index
 ExcludeUpdateRgn
 ExcludeUpdateRgn ŠÖ”‚ÍAƒEƒBƒ“ƒhƒE‚ÌXV—Ìˆæ‚ğƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚©‚çœŠO‚·‚é‚±‚Æ‚ÅAƒEƒBƒ“ƒhƒE‚Ì–³Œø—Ìˆæ“à‚Å‚Ì•`‰æ‚ğ–h‚®B
-%group
-Win32 user32
 %prm
 hDC, hWnd
 hDC : [intptr] ƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4076,8 +3760,6 @@ ExcludeUpdateRgn ŠÖ”‚ÍAƒEƒBƒ“ƒhƒE‚ÌXV—Ìˆæ‚ğƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚©‚çœŠO‚·‚é‚±‚Æ‚
 %index
 ExitWindowsEx
 ‘Î˜b“Iƒ†[ƒU‚ğƒƒOƒIƒt‚·‚é‚©AƒVƒXƒeƒ€‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚é‚©AƒVƒXƒeƒ€‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚µ‚ÄÄ‹N“®‚·‚éB
-%group
-Win32 user32
 %prm
 uFlags, dwReason
 uFlags : [int] 
@@ -4098,8 +3780,6 @@ ExitWindowsEx
 %index
 FillRect
 w’è‚µ‚½ƒuƒ‰ƒV‚ğg‚Á‚Ä‹éŒ`‚ğ“h‚è‚Â‚Ô‚·B¶’[‚Æã’[‚ÍŠÜ‚İA‰E’[‚Æ‰º’[‚ÍŠÜ‚Ü‚È‚¢B
-%group
-Win32 user32
 %prm
 hDC, lprc, hbr
 hDC : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4122,8 +3802,6 @@ hbr
 %index
 FindWindowW
 ƒNƒ‰ƒX–¼‚¨‚æ‚ÑƒEƒBƒ“ƒhƒE–¼‚ªw’è‚µ‚½•¶š—ñ‚Æˆê’v‚·‚éƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍqƒEƒBƒ“ƒhƒE‚ğŒŸõ‚µ‚È‚¢B‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢ŒŸõ‚ğs‚¤B(Unicode)
-%group
-Win32 user32
 %prm
 lpClassName, lpWindowName
 lpClassName : [wstr] Œ^: LPCTSTR ƒNƒ‰ƒX–¼‚Ü‚½‚Í’¼‘O‚Ì RegisterClass ‚â RegisterClassEx ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ƒNƒ‰ƒXƒAƒgƒ€BƒAƒgƒ€‚Í lpClassName ‚Ì‰ºˆÊƒ[ƒh‚É‚È‚¯‚ê‚Î‚È‚ç‚¸AãˆÊƒ[ƒh‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BlpClassName ‚ª NULL ‚Ìê‡AlpWindowName ƒpƒ‰ƒ[ƒ^‚Æˆê’v‚·‚éƒ^ƒCƒgƒ‹‚ğ‚ÂƒEƒBƒ“ƒhƒE‚ğ’T‚·B
@@ -4145,8 +3823,6 @@ lpWindowName ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡AFindWindow ‚Í GetWindowText
 %index
 FindWindowExW
 ƒNƒ‰ƒX–¼‚¨‚æ‚ÑƒEƒBƒ“ƒhƒE–¼‚ªw’è‚µ‚½•¶š—ñ‚Æˆê’v‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBŠÖ”‚Íw’è‚µ‚½qƒEƒBƒ“ƒhƒE‚ÌŸ‚ÌƒEƒBƒ“ƒhƒE‚©‚çqƒEƒBƒ“ƒhƒE‚ğŒŸõ‚·‚éB‚±‚ÌŠÖ”‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢ŒŸõ‚ğs‚¤B(Unicode)
-%group
-Win32 user32
 %prm
 hWndParent, hWndChildAfter, lpszClass, lpszWindow
 hWndParent : [intptr] Œ^: HWND qƒEƒBƒ“ƒhƒE‚ğŒŸõ‚·‚éeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BhwndParent ‚ª NULL ‚Ìê‡AŠÖ”‚ÍƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚ğeƒEƒBƒ“ƒhƒE‚Æ‚µ‚Äg—p‚·‚éBhwndParent ‚ª HWND_MESSAGE ‚Ìê‡AŠÖ”‚Í‚·‚×‚Ä‚ÌƒƒbƒZ[ƒWê—pƒEƒBƒ“ƒhƒE‚ğŒŸõ‚·‚éB
@@ -4170,8 +3846,6 @@ FindWindowEx ŠÖ”‚Í’¼Ú‚ÌqƒEƒBƒ“ƒhƒE‚Ì‚İ‚ğŒŸõ‚·‚éB‘¼‚Ìq‘·‚ÍŒŸõ‚µ‚È‚¢BlpszW
 %index
 FlashWindow
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğ 1 ‰ñƒtƒ‰ƒbƒVƒ…‚·‚éBƒEƒBƒ“ƒhƒE‚ÌƒAƒNƒeƒBƒuó‘Ô‚Í•ÏX‚µ‚È‚¢B
-%group
-Win32 user32
 %prm
 hWnd, bInvert
 hWnd : [intptr] ƒtƒ‰ƒbƒVƒ…‚³‚¹‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒEƒBƒ“ƒhƒE‚ÍŠJ‚¢‚Ä‚¢‚é‚©Å¬‰»‚³‚ê‚Ä‚¢‚Ä‚à‚æ‚¢B
@@ -4193,8 +3867,6 @@ bInvert : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡AƒEƒBƒ“ƒhƒE‚Í‚ ‚éó‘Ô‚©‚ç•Ê‚Ìó‘Ô‚Ö
 %index
 FlashWindowEx
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğƒtƒ‰ƒbƒVƒ…‚·‚éBƒEƒBƒ“ƒhƒE‚ÌƒAƒNƒeƒBƒuó‘Ô‚Í•ÏX‚µ‚È‚¢B
-%group
-Win32 user32
 %prm
 pfwi
 pfwi : [var] FLASHWINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4214,8 +3886,6 @@ pfwi : [var] FLASHWINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 FrameRect
 w’è‚µ‚½ƒuƒ‰ƒV‚ğg‚Á‚Ä‹éŒ`‚ÌüˆÍ‚É˜gü‚ğ•`‰æ‚·‚éB˜gü‚Ì•‚Æ‚‚³‚Íí‚É 1 ˜_—’PˆÊB
-%group
-Win32 user32
 %prm
 hDC, lprc, hbr
 hDC : [intptr] ˜g‚ğ•`‰æ‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4236,8 +3906,6 @@ hbr ‚Åw’è‚³‚ê‚éƒuƒ‰ƒV‚Í CreateHatchBrushACreatePatternBrushACreateSolidBrush
 %index
 FreeDDElParam
 ƒ|ƒXƒg‚³‚ê‚½“®“Iƒf[ƒ^ŒğŠ· (DDE) ƒƒbƒZ[ƒW‚Ì lParam ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éBƒ|ƒXƒg‚³‚ê‚½ DDE ƒƒbƒZ[ƒW‚ğóM‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAUnpackDDElParam ŠÖ”‚ğg—p‚µ‚Ä lParam ’l‚ğ“WŠJ‚µ‚½Œã‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
-%group
-Win32 user32
 %prm
 msg, lParam
 msg : [int] Œ^: UINT ƒ|ƒXƒg‚³‚ê‚½ DDE ƒƒbƒZ[ƒWB
@@ -4258,8 +3926,6 @@ lParam : [intptr] Œ^: LPARAM ƒ|ƒXƒg‚³‚ê‚½ DDE ƒƒbƒZ[ƒW‚Ì lParam ƒpƒ‰ƒ[ƒ^B
 %index
 GetActiveWindow
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉƒAƒ^ƒbƒ`‚³‚ê‚½ƒAƒNƒeƒBƒuƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4276,8 +3942,6 @@ Win32 user32
 %index
 GetAltTabInfoW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“Ø‚è‘Ö‚¦ (ALT+TAB) ƒEƒBƒ“ƒhƒE‚Å‚ ‚éê‡A‚»‚Ìó‘Ôî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hwnd, iItem, pati, pszItemText, cchItemText
 hwnd : [intptr] Œ^: HWND ó‘Ôî•ñ‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒE‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“Ø‚è‘Ö‚¦ƒEƒBƒ“ƒhƒE‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4301,8 +3965,6 @@ ALT+TAB ‚ğ‰Ÿ‚·B
 %index
 GetAncestor
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ì‘cæ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, gaFlags
 hwnd : [intptr] Œ^: HWND ‘cæ‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ªƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚Å‚ ‚éê‡AŠÖ”‚Í NULL ‚ğ•Ô‚·B
@@ -4317,8 +3979,6 @@ gaFlags : [int] Œ^: UINT
 %index
 GetAsyncKeyState
 ŒÄ‚Ño‚µ‚ÉƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©A‚¨‚æ‚Ñ‘O‰ñ‚Ì GetAsyncKeyState ŒÄ‚Ño‚µˆÈ~‚É‰Ÿ‚³‚ê‚½‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 vKey
 vKey : [int] Œ^: int ‰¼‘zƒL[ƒR[ƒhBÚ×‚Í Virtual Key Codes ‚ğQÆB¶‰E‚ğ‹æ•Ê‚·‚é’è”‚ğg‚¤‚±‚Æ‚à‚Å‚«‚éB
@@ -4341,8 +4001,6 @@ VK_LSHIFTAVK_RSHIFTAVK_LCONTROLAVK_RCONTROLAVK_LMENUAVK_RMENU ‚È‚Ç‚ğg‚¤B
 %index
 GetAutoRotationState
 ƒVƒXƒeƒ€‚Ì‰æ–Ê©“®‰ñ“]‚Ìó‘Ô (©“®‰ñ“]‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©Aƒ†[ƒU‚É‚æ‚Á‚Ä—LŒø‚É‚È‚Á‚Ä‚¢‚é‚©‚È‚Ç) ‚ğŠÜ‚Ş AR_STATE ’l‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pState
 pState : [var] ƒVƒXƒeƒ€‚Ì©“®‰ñ“]‚ÌŒ»İ‚Ìó‘Ô‚ğó‚¯æ‚éƒƒ‚ƒŠã‚ÌˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4357,8 +4015,6 @@ pState : [var] ƒVƒXƒeƒ€‚Ì©“®‰ñ“]‚ÌŒ»İ‚Ìó‘Ô‚ğó‚¯æ‚éƒƒ‚ƒŠã‚ÌˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 GetAwarenessFromDpiAwarenessContext
 DPI_AWARENESS_CONTEXT ‚©‚ç DPI_AWARENESS ’l‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 value
 value : [intptr] ’²¸‚·‚é DPI_AWARENESS_CONTEXTB
@@ -4377,8 +4033,6 @@ DPI_AWARENESS_CONTEXT ‚É‚Í•¡”‚Ìî•ñ‚ªŠÜ‚Ü‚ê‚éB—á‚¦‚ÎAŒ»İ‚¨‚æ‚ÑŒp³‚³‚ê‚½ DPI
 %index
 GetCIMSSM
 “ü—ÍƒƒbƒZ[ƒW‚Ìƒ\[ƒX‚ğæ“¾‚·‚é (GetCurrentInputMessageSourceInSendMessage)B
-%group
-Win32 user32
 %prm
 inputMessageSource
 inputMessageSource : [var] “ü—ÍƒƒbƒZ[ƒWƒ\[ƒX‚ÌƒfƒoƒCƒXƒ^ƒCƒv‚¨‚æ‚Ñ ID ‚ğ•Û‚·‚é INPUT_MESSAGE_SOURCE \‘¢‘ÌB
@@ -4397,8 +4051,6 @@ GetCIMSSM ‚ÍAGetCurrentInputMessageSource ‚ª IMDT_UNAVAILABLE
 %index
 GetCapture
 ƒ}ƒEƒX‚ğƒLƒƒƒvƒ`ƒƒ‚µ‚Ä‚¢‚éƒEƒBƒ“ƒhƒE (‘¶İ‚·‚éê‡) ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBˆê“x‚É 1 ‚Â‚ÌƒEƒBƒ“ƒhƒE‚Ì‚İ‚ªƒ}ƒEƒX‚ğƒLƒƒƒvƒ`ƒƒ‚Å‚«‚éB‚±‚ÌƒEƒBƒ“ƒhƒE‚ÍƒJ[ƒ\ƒ‹‚ª‹«ŠE“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ÉŠÖ‚í‚ç‚¸ƒ}ƒEƒX“ü—Í‚ğóM‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4419,8 +4071,6 @@ GetGUIThreadInfo ŠÖ”‚ğg—p‚·‚éB
 %index
 GetCaretBlinkTime
 ƒLƒƒƒŒƒbƒg‚ÌƒsƒNƒZƒ‹‚ğ”½“]‚·‚é‚Ì‚É•K—v‚ÈŠÔ‚ğæ“¾‚·‚éB‚±‚Ì’l‚Íƒ†[ƒU‚ªİ’è‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4435,8 +4085,6 @@ Win32 user32
 %index
 GetCaretPos
 ƒLƒƒƒŒƒbƒg‚ÌˆÊ’u‚ğw’è‚µ‚½ POINT \‘¢‘Ì‚ÉƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 lpPoint
 lpPoint : [var] Œ^: LPPOINT ƒLƒƒƒŒƒbƒg‚ÌƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚ğó‚¯æ‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4455,8 +4103,6 @@ lpPoint : [var] Œ^: LPPOINT ƒLƒƒƒŒƒbƒg‚ÌƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚ğó‚¯æ‚é POINT \‘¢‘Ì‚
 %index
 GetClassInfoW
 ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpClassName, lpWndClass
 hInstance : [intptr] Œ^: HINSTANCE ƒNƒ‰ƒX‚ğì¬‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒVƒXƒeƒ€‚ª’è‹`‚·‚éƒNƒ‰ƒX (ƒ{ƒ^ƒ“‚âƒŠƒXƒgƒ{ƒbƒNƒX‚È‚Ç) ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚éB
@@ -4477,8 +4123,6 @@ ANSI ‚Ü‚½‚Í Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 GetClassInfoExW
 ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½¬‚³‚ÈƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚àŠÜ‚ŞBGetClassInfo ŠÖ”‚Í¬‚³‚ÈƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚È‚¢B(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpszClass, lpwcx
 hInstance : [intptr] Œ^: HINSTANCE ƒNƒ‰ƒX‚ğì¬‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒVƒXƒeƒ€‚ª’è‹`‚·‚éƒNƒ‰ƒX (ƒ{ƒ^ƒ“‚âƒŠƒXƒgƒ{ƒbƒNƒX‚È‚Ç) ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚éB
@@ -4501,8 +4145,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetClassLongW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ WNDCLASSEX \‘¢‘Ì‚©‚çAw’è‚µ‚½ 32 ƒrƒbƒg (DWORD) ’l‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, nIndex
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹A‚¨‚æ‚ÑŠÔÚ“I‚É‚»‚ÌƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4523,8 +4165,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetClassNameW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ì–¼‘O‚ğæ“¾‚·‚éB(GetClassNameW)
-%group
-Win32 user32
 %prm
 hWnd, lpClassName, nMaxCount
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹A‚¨‚æ‚ÑŠÔÚ“I‚É‚»‚ÌƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4545,8 +4185,6 @@ ANSI ‚Ü‚½‚Í Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 GetClassWord
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì’Ç‰ÁƒNƒ‰ƒXƒƒ‚ƒŠ“à‚Ìw’è‚µ‚½ƒIƒtƒZƒbƒg‚É‚ ‚é 16 ƒrƒbƒg (WORD) ’l‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nIndex
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹A‚¨‚æ‚ÑŠÔÚ“I‚É‚»‚ÌƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4566,8 +4204,6 @@ nIndex : [int] Œ^: int æ“¾‚·‚é’l‚Ì 0 ‚©‚çn‚Ü‚éƒoƒCƒgƒIƒtƒZƒbƒgB—LŒø‚È’l‚Í 0 ‚
 %index
 GetClientRect
 ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÌÀ•W‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpRect
 hWnd : [intptr] Œ^: HWND ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4587,8 +4223,6 @@ RECT \‘¢‘Ì‚Ì‹K–ñ‚É]‚¢A•Ô‚³‚ê‚é‹éŒ`‚Ì‰E‰ºÀ•W‚Í”r‘¼“I(exclusive)‚Å‚ ‚éB‚Â‚Ü‚è
 %index
 GetClipCursor
 ƒJ[ƒ\ƒ‹‚ª§ŒÀ‚³‚ê‚Ä‚¢‚é‹éŒ`—Ìˆæ‚ÌƒXƒNƒŠ[ƒ“À•W‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 lpRect
 lpRect : [var] Œ^: LPRECT §ŒÀ‹éŒ`‚ÌƒXƒNƒŠ[ƒ“À•W‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒJ[ƒ\ƒ‹‚ª‹éŒ`‚É§ŒÀ‚³‚ê‚Ä‚¢‚È‚¢ê‡A\‘¢‘Ì‚Í‰æ–Ê‚Ì¡–@‚ğó‚¯æ‚éB
@@ -4608,8 +4242,6 @@ WINSTA_READATTRIBUTES ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 GetClipboardData
 w’è‚µ‚½Œ`®‚ÅƒNƒŠƒbƒvƒ{[ƒh‚©‚çƒf[ƒ^‚ğæ“¾‚·‚éBƒNƒŠƒbƒvƒ{[ƒh‚Í–‘O‚ÉŠJ‚©‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-%group
-Win32 user32
 %prm
 uFormat
 uFormat : [int] Œ^: UINT ƒNƒŠƒbƒvƒ{[ƒhŒ`®B•W€ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ìà–¾‚É‚Â‚¢‚Ä‚ÍuStandard Clipboard Formatsv‚ğQÆB
@@ -4629,8 +4261,6 @@ EnumClipboardFormats ŠÖ”‚ğg‚Á‚Ä—˜—p‰Â”\‚ÈŒ`®‚ğ—ñ‹“‚Å‚«‚éBGetClipboardData
 %index
 GetClipboardFormatNameW
 ƒNƒŠƒbƒvƒ{[ƒh‚©‚çAw’è‚µ‚½“o˜^Ï‚İŒ`®‚Ì–¼‘O‚ğæ“¾‚·‚éBŠÖ”‚Í–¼‘O‚ğw’è‚µ‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 format, lpszFormatName, cchMaxCount
 format : [int] Œ^: UINT æ“¾‚·‚éŒ`®‚Ìƒ^ƒCƒvB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É–‘O’è‹`Ï‚İ‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğw’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B
@@ -4650,8 +4280,6 @@ cchMaxCount : [int] Œ^: int ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚é•¶š—ñ‚ÌÅ‘å’· (•¶š”)B–¼‘O‚
 %index
 GetClipboardOwner
 ƒNƒŠƒbƒvƒ{[ƒh‚ÌŒ»İ‚ÌŠ—LÒ‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4671,8 +4299,6 @@ Win32 user32
 %index
 GetClipboardSequenceNumber
 Œ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ÌƒNƒŠƒbƒvƒ{[ƒhƒV[ƒPƒ“ƒX”Ô†‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4690,8 +4316,6 @@ WINSTA_ACCESSCLIPBOARD ƒAƒNƒZƒXŒ ‚ğ‚½‚È‚¢ê‡AŠÖ”‚Í 0 ‚ğ•Ô‚·B
 %index
 GetClipboardViewer
 ƒNƒŠƒbƒvƒ{[ƒhƒrƒ…[ƒAƒ`ƒF[ƒ““à‚ÌÅ‰‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4706,8 +4330,6 @@ NULL ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 GetComboBoxInfo
 w’è‚µ‚½ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwndCombo, pcbi
 hwndCombo : [intptr] Œ^: HWND ƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4726,8 +4348,6 @@ CB_GETCOMBOBOXINFO ƒƒbƒZ[ƒW‚Í‚±‚ÌŠÖ”‚Æ“™‰¿‚Å‚ ‚éB
 %index
 GetCurrentInputMessageSource
 “ü—ÍƒƒbƒZ[ƒW‚Ìƒ\[ƒX‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 inputMessageSource
 inputMessageSource : [var] “ü—ÍƒƒbƒZ[ƒWƒ\[ƒX‚ÌƒfƒoƒCƒXƒ^ƒCƒv‚¨‚æ‚Ñ ID ‚ğ•Û‚·‚é INPUT_MESSAGE_SOURCE \‘¢‘ÌB
@@ -4742,8 +4362,6 @@ inputMessageSource : [var] “ü—ÍƒƒbƒZ[ƒWƒ\[ƒX‚ÌƒfƒoƒCƒXƒ^ƒCƒv‚¨‚æ‚Ñ ID ‚ğ•Û‚
 %index
 GetCursor
 Œ»İ‚ÌƒJ[ƒ\ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4756,8 +4374,6 @@ Win32 user32
 %index
 GetCursorInfo
 ƒOƒ[ƒoƒ‹ƒJ[ƒ\ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pci
 pci : [var] Œ^: PCURSORINFO î•ñ‚ğó‚¯æ‚é CURSORINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚É cbSize ƒƒ“ƒo[‚ğ sizeof(CURSORINFO) ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚±‚Æ‚É’ˆÓB
@@ -4772,8 +4388,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetCursorPos
 ƒ}ƒEƒXƒJ[ƒ\ƒ‹‚ÌˆÊ’u‚ğƒXƒNƒŠ[ƒ“À•W‚Åæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 lpPoint
 lpPoint : [var] Œ^: LPPOINT ƒJ[ƒ\ƒ‹‚ÌƒXƒNƒŠ[ƒ“À•W‚ğó‚¯æ‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4795,8 +4409,6 @@ SetThreadDesktop ‚ğŒÄ‚ÑA‚»‚ÌƒfƒXƒNƒgƒbƒv‚ÖØ‚è‘Ö‚¦‚éB
 %index
 GetDC
 GetDC ŠÖ”‚ÍAw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ü‚½‚Í‰æ–Ê‘S‘Ì‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] DC ‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚ª NULL ‚Ìê‡AGetDC ‚Í‰æ–Ê‘S‘Ì‚Ì DC ‚ğæ“¾‚·‚éB
@@ -4816,8 +4428,6 @@ DC ‚ÉŠ„‚è“–‚Ä‚éB‹¤’Ê DC ‚Å•`‰æ‚µ‚½ŒãADC ‚ğ‰ğ•ú‚·‚é‚½‚ß‚É ReleaseDC ŠÖ”‚ğŒÄ‚Ñ
 %index
 GetDCEx
 GetDCEx ŠÖ”‚ÍAw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ü‚½‚Í‰æ–Ê‘S‘Ì‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hrgnClip, flags
 hWnd : [intptr] DC ‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚ª NULL ‚Ìê‡AGetDCEx ‚Í‰æ–Ê‘S‘Ì‚Ì DC ‚ğæ“¾‚·‚éB
@@ -4838,8 +4448,6 @@ GetDCEx ŠÖ”‚ÍAw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ü‚½‚Í‰æ–Ê‘S‘Ì‚ÌƒfƒoƒCƒXƒRƒ“
 %index
 GetDesktopWindow
 ƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚Í‰æ–Ê‘S‘Ì‚ğ•¢‚¤BƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚Í‘¼‚ÌƒEƒBƒ“ƒhƒE‚ª•`‰æ‚³‚ê‚é—Ìˆæ‚Å‚ ‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4853,8 +4461,6 @@ Win32 user32
 %index
 GetDialogBaseUnits
 ƒVƒXƒeƒ€‚Ìƒ_ƒCƒAƒƒOŠî–{’PˆÊ (ƒVƒXƒeƒ€ƒtƒHƒ“ƒg‚Ì•¶š‚Ì•½‹Ï•‚Æ‚‚³) ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -4873,8 +4479,6 @@ GetDialogBaseUnits ‚ª•Ô‚·…•½Šî–{’PˆÊ‚ÍAƒVƒXƒeƒ€ƒtƒHƒ“ƒg‚Ì•¶š‚Ì•½‹Ï• (ƒsƒNƒZƒ
 %index
 GetDialogControlDpiChangeBehavior
 ƒ_ƒCƒAƒƒO“à‚ÌqƒEƒBƒ“ƒhƒE‚Ìƒ‚ƒjƒ^‚²‚Æ‚Ì DPI ƒXƒP[ƒŠƒ“ƒO“®ìƒI[ƒo[ƒ‰ƒCƒh‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] ’²¸‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -4889,8 +4493,6 @@ ERROR_INVALID_HANDLE ‚Éİ’è‚·‚éB
 %index
 GetDialogDpiChangeBehavior
 ’¼‘O‚Ì SetDialogDpiChangeBehavior ŒÄ‚Ño‚µ‚Åİ’è‚³‚ê‚½ƒtƒ‰ƒO‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 hDlg
 hDlg : [intptr] ’²¸‚·‚éƒ_ƒCƒAƒƒO‚Ìƒnƒ“ƒhƒ‹B
@@ -4909,8 +4511,6 @@ ERROR_INVALID_HANDLE ‚Éİ’è‚·‚éB
 %index
 GetDisplayAutoRotationPreferences
 Œ»İ‚ÌƒvƒƒZƒX‚Ì‰æ–Ê©“®‰ñ“]İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pOrientation
 pOrientation : [var] ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌŒ»İ‚ÌŒü‚«İ’è‚ğó‚¯æ‚éƒƒ‚ƒŠã‚ÌˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4924,8 +4524,6 @@ pOrientation : [var] ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ÌŒ»İ‚ÌŒü‚«İ’è‚ğó‚¯æ‚éƒƒ‚ƒŠã‚ÌˆÊ’u‚
 %index
 GetDisplayConfigBufferSizes
 GetDisplayConfigBufferSizes ŠÖ”‚ÍAQueryDisplayConfig ŠÖ”‚ğŒÄ‚Ño‚·‚Ì‚É•K—v‚Èƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 flags, numPathArrayElements, numModeInfoArrayElements
 flags : [int] 
@@ -4947,8 +4545,6 @@ GetDisplayConfigBufferSizes ŠÖ”‚ÍAQueryDisplayConfig
 %index
 GetDlgCtrlID
 w’è‚µ‚½ƒRƒ“ƒgƒ[ƒ‹‚Ì¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4969,8 +4565,6 @@ GetDlgCtrlID
 %index
 GetDlgItem
 w’è‚µ‚½ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX“à‚ÌƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, nIDDlgItem
 hDlg : [intptr] Œ^: HWND ƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚Şƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -4991,8 +4585,6 @@ GetDlgItem ŠÖ”‚Íƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚¾‚¯‚Å‚È‚­A”CˆÓ‚ÌeqƒEƒBƒ“ƒhƒE‚ÌƒyƒA‚Åg—p‚
 %index
 GetDlgItemInt
 ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX“à‚Ìw’è‚µ‚½ƒRƒ“ƒgƒ[ƒ‹‚ÌƒeƒLƒXƒg‚ğ®”’l‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, nIDDlgItem, lpTranslated, bSigned
 hDlg : [intptr] Œ^: HWND ‘ÎÛ‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚Şƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5016,8 +4608,6 @@ GetDlgItemInt ŠÖ”‚ÍAƒRƒ“ƒgƒ[ƒ‹‚É WM_GETTEXT
 %index
 GetDlgItemTextW
 ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX“à‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ^ƒCƒgƒ‹‚Ü‚½‚ÍƒeƒLƒXƒg‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDlg, nIDDlgItem, lpString, cchMax
 hDlg : [intptr] Œ^: HWND ƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚Şƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5040,8 +4630,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetDoubleClickTime
 ƒ}ƒEƒX‚ÌŒ»İ‚Ìƒ_ƒuƒ‹ƒNƒŠƒbƒNŠÔ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5054,8 +4642,6 @@ Win32 user32
 %index
 GetDpiAwarenessContextForProcess
 (no summary)
-%group
-Win32 user32
 %prm
 hProcess
 hProcess : [intptr] 
@@ -5066,8 +4652,6 @@ hProcess : [intptr]
 %index
 GetDpiForSystem
 ƒVƒXƒeƒ€‚Ì DPI ‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5086,8 +4670,6 @@ GetDpiForSystem ‚ğg—p‚·‚×‚«‚Å‚ ‚éB
 %index
 GetDpiForWindow
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ì 1 ƒCƒ“ƒ`‚ ‚½‚è‚Ìƒhƒbƒg” (DPI) ’l‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] î•ñ‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒEB
@@ -5105,8 +4687,6 @@ hwnd : [intptr] î•ñ‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒEB
 %index
 GetDpiFromDpiAwarenessContext
 w’è‚µ‚½ DPI_AWARENESS_CONTEXT ƒnƒ“ƒhƒ‹‚©‚ç DPI ‚ğæ“¾‚·‚éB‚±‚ê‚É‚æ‚èA‚»‚ÌƒXƒŒƒbƒh“à‚Åì¬‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğ’²‚×‚é‚±‚Æ‚È‚­AƒXƒŒƒbƒh‚Ì DPI ‚ğ”»’è‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 value
 value : [intptr] ’²¸‚·‚é DPI_AWARENESS_CONTEXT ƒnƒ“ƒhƒ‹B
@@ -5127,8 +4707,6 @@ DPI_AWARENESS_CONTEXT ƒnƒ“ƒhƒ‹‚ÍADPI ‚Æ‚µ‚Ä 0 ‚ğ•Ô‚·B‚±‚ê‚Íƒ‚ƒjƒ^‚²‚Æ‚É”F¯‚³‚
 %index
 GetFocus
 ƒEƒBƒ“ƒhƒE‚ªŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚éê‡AƒL[ƒ{[ƒhƒtƒH[ƒJƒX‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5148,8 +4726,6 @@ GetForegroundWindow ŠÖ”‚ğg—p‚·‚éB
 %index
 GetForegroundWindow
 ƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE(ƒ†[ƒU‚ªŒ»İ‘€ì‚µ‚Ä‚¢‚éƒEƒBƒ“ƒhƒE)‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBƒVƒXƒeƒ€‚ÍƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚É‘¼ƒXƒŒƒbƒh‚æ‚èáŠ±‚‚¢—Dæ“x‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5164,8 +4740,6 @@ NULL ‚É‚È‚éê‡‚ª‚ ‚éB
 %index
 GetGUIThreadInfo
 ƒAƒNƒeƒBƒuƒEƒBƒ“ƒhƒE‚Ü‚½‚Íw’è‚µ‚½ GUI ƒXƒŒƒbƒh‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 idThread, pgui
 idThread : [int] Œ^: DWORD î•ñ‚ğæ“¾‚·‚éƒXƒŒƒbƒh‚Ì¯•ÊqB‚±‚Ì’l‚ğæ“¾‚·‚é‚É‚Í GetWindowThreadProcessId ŠÖ”‚ğg—p‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒXƒŒƒbƒh‚Ìî•ñ‚ğ•Ô‚·B
@@ -5185,8 +4759,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetGestureConfig
 ƒEƒBƒ“ƒhƒE‚©‚ç‘—M‚³‚ê‚é Windows ƒ^ƒbƒ`ƒWƒFƒXƒ`ƒƒƒƒbƒZ[ƒW‚Ì\¬‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, dwReserved, dwFlags, pcIDs, pGestureConfig, cbSize
 hwnd : [intptr] ƒWƒFƒXƒ`ƒƒ\¬‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5212,8 +4784,6 @@ cbSize ƒpƒ‰ƒ[ƒ^‚É sizeof(GESTURECONFIG)
 %index
 GetGestureExtraArgs
 GESTUREINFO ƒnƒ“ƒhƒ‹‚©‚çƒWƒFƒXƒ`ƒƒ‚ÉŠÖ‚·‚é’Ç‰Áî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hGestureInfo, cbExtraArgs, pExtraArgs
 hGestureInfo : [intptr] WM_GESTURE ƒƒbƒZ[ƒW‚Ì lParam ‚Å“n‚³‚ê‚éƒWƒFƒXƒ`ƒƒî•ñ‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5233,8 +4803,6 @@ GESTUREINFO ƒnƒ“ƒhƒ‹‚©‚çƒWƒFƒXƒ`ƒƒ‚ÉŠÖ‚·‚é’Ç‰Áî•ñ‚ğæ“¾‚·‚éB
 %index
 GetGestureInfo
 ƒWƒFƒXƒ`ƒƒî•ñ‚Ö‚Ìƒnƒ“ƒhƒ‹‚©‚ç GESTUREINFO \‘¢‘Ì‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hGestureInfo, pGestureInfo
 hGestureInfo : [intptr] ƒWƒFƒXƒ`ƒƒî•ñƒnƒ“ƒhƒ‹B
@@ -5256,8 +4824,6 @@ ERROR_INVALID_PARAMETER (10 i” 87) ‚ğ•Ô‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª WM_GESTURE
 %index
 GetGuiResources
 w’è‚µ‚½ƒvƒƒZƒX‚É‚æ‚Á‚Äg—p‚³‚ê‚Ä‚¢‚éƒOƒ‰ƒtƒBƒJƒ‹ƒ†[ƒUƒCƒ“ƒ^[ƒtƒFƒCƒX (GUI) ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹”‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hProcess, uiFlags
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ÍŒ»İ‚ÌƒZƒbƒVƒ‡ƒ““à‚ÌƒvƒƒZƒX‚ğQÆ‚µ‚È‚¯‚ê‚Î‚È‚ç‚¸A**PROCESS_QUERY_LIMITED_INFORMATION** ƒAƒNƒZƒXŒ ‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª“Á•Ê‚È’l **GR_GLOBAL** ‚Ìê‡AƒŠƒ\[ƒXg—p—Ê‚ÍŒ»İ‚ÌƒZƒbƒVƒ‡ƒ““à‚Ì‚·‚×‚Ä‚ÌƒvƒƒZƒX‚É‚í‚½‚Á‚Ä•ñ‚³‚ê‚éB
@@ -5277,8 +4843,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetIconInfo
 w’è‚µ‚½ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hIcon, piconinfo
 hIcon : [intptr] Œ^: HICON
@@ -5299,8 +4863,6 @@ GetIconInfo ‚Í ICONINFO ‚Ì hbmMask ‚¨‚æ‚Ñ hbmColor
 %index
 GetIconInfoExW
 w’è‚µ‚½ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éBGetIconInfoEx ‚ÍV‚µ‚¢ ICONINFOEX \‘¢‘Ì‚ğg—p‚µ‚Ä GetIconInfo ‚ğŠg’£‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hicon, piconinfo
 hicon : [intptr] Œ^: HICON
@@ -5321,8 +4883,6 @@ GetIconInfoEx ‚Í ICONINFOEX ‚Ì hbmMask ‚¨‚æ‚Ñ hbmColor
 %index
 GetInputState
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚Éƒ}ƒEƒXƒ{ƒ^ƒ“‚Ü‚½‚ÍƒL[ƒ{[ƒhƒƒbƒZ[ƒW‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5336,8 +4896,6 @@ Win32 user32
 %index
 GetKBCodePage
 Œ»İ‚ÌƒR[ƒhƒy[ƒW‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5350,8 +4908,6 @@ Win32 user32
 %index
 GetKeyNameTextW
 ƒL[‚Ì–¼‘O‚ğ•\‚·•¶š—ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lParam, lpString, cchSize
 lParam : [int] Œ^: LONG ˆ—‚·‚éƒL[ƒ{[ƒhƒƒbƒZ[ƒW (WM_KEYDOWN ‚È‚Ç) ‚Ì 2 ”Ô–Ú‚Ìƒpƒ‰ƒ[ƒ^BŠÖ”‚Í lParam “à‚ÌŸ‚ÌƒrƒbƒgˆÊ’u‚ğ‰ğß‚·‚éB
@@ -5372,8 +4928,6 @@ cchSize : [int] Œ^: int ƒL[–¼‚ÌÅ‘å’· (I’[ NULL •¶š‚ğŠÜ‚ŞA•¶š”)B
 %index
 GetKeyState
 w’è‚³‚ê‚½‰¼‘zƒL[‚Ìó‘Ô(‰Ÿ‰º/‰ğ•úAƒgƒOƒ‹ó‘Ô)‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 nVirtKey
 nVirtKey : [int] Œ^: int ‰¼‘zƒL[BA-ZAa-zA0-9 ‚Ìê‡‚Í ASCII ’l‚ğƒZƒbƒg‚·‚éB‚»‚êˆÈŠO‚Í‰¼‘zƒL[ƒR[ƒh‚ğw’è‚·‚éB
@@ -5396,8 +4950,6 @@ GetAsyncKeyState ‚Åæ“¾‚·‚é)BƒL[ƒ{[ƒh“ü—ÍƒƒbƒZ[ƒW‚É‰“š‚µ‚Ä GetKeyState
 %index
 GetKeyboardLayout
 ƒAƒNƒeƒBƒu‚È“ü—ÍƒƒP[ƒ‹¯•Êq (ˆÈ‘O‚ÍƒL[ƒ{[ƒhƒŒƒCƒAƒEƒg‚ÆŒÄ‚Î‚ê‚Ä‚¢‚½) ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 idThread
 idThread : [int] Œ^: DWORD Æ‰ï‚·‚éƒXƒŒƒbƒh‚Ì¯•ÊqBŒ»İ‚ÌƒXƒŒƒbƒh‚Ìê‡‚Í 0B
@@ -5417,8 +4969,6 @@ WM_INPUTLANGCHANGE ƒƒbƒZ[ƒW‚ğˆ—‚·‚×‚«‚Å‚ ‚éB
 %index
 GetKeyboardLayoutList
 ƒVƒXƒeƒ€“à‚ÌŒ»İ‚Ì“ü—ÍƒƒP[ƒ‹ƒZƒbƒg‚É‘Î‰‚·‚é“ü—ÍƒƒP[ƒ‹¯•Êq (ˆÈ‘O‚ÍƒL[ƒ{[ƒhƒŒƒCƒAƒEƒgƒnƒ“ƒhƒ‹‚ÆŒÄ‚Î‚ê‚Ä‚¢‚½) ‚ğæ“¾‚·‚éBŠÖ”‚Í¯•Êq‚ğw’è‚µ‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 nBuff, lpList
 nBuff : [int] Œ^: int ƒoƒbƒtƒ@‚ª•Û‚Å‚«‚éƒnƒ“ƒhƒ‹‚ÌÅ‘å”B
@@ -5440,8 +4990,6 @@ lpList : [intptr] Œ^: HKL* “ü—ÍƒƒP[ƒ‹¯•Êq‚Ì”z—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ
 %index
 GetKeyboardLayoutNameW
 ƒVƒXƒeƒ€‚ÌƒAƒNƒeƒBƒu‚È“ü—ÍƒƒP[ƒ‹¯•Êq (ˆÈ‘O‚ÍƒL[ƒ{[ƒhƒŒƒCƒAƒEƒg‚ÆŒÄ‚Î‚ê‚Ä‚¢‚½) ‚Ì–¼‘O‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 pwszKLID
 pwszKLID : [wstr] Œ^: LPTSTR “ü—ÍƒƒP[ƒ‹¯•Êq‚Ì–¼‘O (I’[ NULL •¶š‚ğŠÜ‚Ş) ‚ğó‚¯æ‚éƒoƒbƒtƒ@ (­‚È‚­‚Æ‚à KL_NAMELENGTH •¶š‚Ì’·‚³)B
@@ -5460,8 +5008,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetKeyboardState
 256 ŒÂ‚Ì‰¼‘zƒL[‚Ìó‘Ô‚ğw’è‚µ‚½ƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 lpKeyState
 lpKeyState : [var] Œ^: PBYTE Še‰¼‘zƒL[‚Ìó‘Ôƒf[ƒ^‚ğó‚¯æ‚é 256 ƒoƒCƒg‚Ì”z—ñB
@@ -5480,8 +5026,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetKeyboardType
 Œ»İ‚ÌƒL[ƒ{[ƒh‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 nTypeFlag
 nTypeFlag : [int] Œ^: int
@@ -5502,8 +5046,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetLastActivePopup
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ªŠ—L‚·‚éƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚Ì‚¤‚¿A‚à‚Á‚Æ‚àÅ‹ßƒAƒNƒeƒBƒu‚¾‚Á‚½‚à‚Ì‚ğ“Á’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5519,8 +5061,6 @@ hWnd : [intptr] Œ^: HWND ƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 GetLastInputInfo
 ÅŒã‚Ì“ü—ÍƒCƒxƒ“ƒg‚Ì‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 plii
 plii : [var] Œ^: PLASTINPUTINFO ÅŒã‚Ì“ü—ÍƒCƒxƒ“ƒg‚Ì‚ğó‚¯æ‚é LASTINPUTINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5540,8 +5080,6 @@ SendInput ‚É‚æ‚Á‚Ä”­¶‚·‚éƒCƒxƒ“ƒg‚ªŒ´ˆö‚Æ‚È‚éB
 %index
 GetLayeredWindowAttributes
 ƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚Ì•s“§–¾“x‚Æ“§–¾ƒJƒ‰[ƒL[‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pcrKey, pbAlpha, pdwFlags
 hwnd : [intptr] Œ^: HWND ƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚ÍACreateWindowEx ŠÖ”‚ÅƒEƒBƒ“ƒhƒE‚ğì¬‚·‚éÛ‚É WS_EX_LAYERED ‚ğw’è‚·‚é‚©AƒEƒBƒ“ƒhƒEì¬Œã‚É SetWindowLong ‚ğ—p‚¢‚Ä WS_EX_LAYERED ‚ğİ’è‚·‚é‚±‚Æ‚Åì¬‚³‚ê‚éB
@@ -5564,8 +5102,6 @@ UpdateLayeredWindow ‚ÅƒZƒbƒgƒAƒbƒv‚³‚ê‚Ä‚¢‚é‚ÆAŠÖ”‚Í¸”s‚·‚éBÚ×‚ÍƒŒƒCƒ„[ƒh
 %index
 GetListBoxInfo
 w’è‚³‚ê‚½ƒŠƒXƒgƒ{ƒbƒNƒX‚Ì—ñ‚²‚Æ‚Ì€–Ú”‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND —ñ‚²‚Æ‚Ì€–Ú”‚ğæ“¾‚·‚éƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5579,8 +5115,6 @@ hwnd : [intptr] Œ^: HWND —ñ‚²‚Æ‚Ì€–Ú”‚ğæ“¾‚·‚éƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 GetMenu
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒƒjƒ…[ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5600,8 +5134,6 @@ Active Accessibility API ‚ğg—p‚·‚éB
 %index
 GetMenuBarInfo
 w’è‚µ‚½ƒƒjƒ…[ƒo[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, idObject, idItem, pmbi
 hwnd : [intptr] Œ^: HWND î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE(ƒƒjƒ…[ƒo[)‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5619,8 +5151,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetMenuCheckMarkDimensions
 Šù’è‚Ìƒ`ƒFƒbƒNƒ}[ƒNƒrƒbƒgƒ}ƒbƒv‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5633,8 +5163,6 @@ Win32 user32
 %index
 GetMenuContextHelpId
 w’è‚µ‚½ƒƒjƒ…[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒwƒ‹ƒvƒRƒ“ƒeƒLƒXƒg¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 param0
 param0 : [intptr] 
@@ -5648,8 +5176,6 @@ param0 : [intptr]
 %index
 GetMenuDefaultItem
 w’è‚µ‚½ƒƒjƒ…[‚ÌŠù’è‚Ìƒƒjƒ…[€–Ú‚ğ“Á’è‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, fByPos, gmdiFlags
 hMenu : [intptr] Œ^: HMENU Šù’è‚Ìƒƒjƒ…[€–Ú‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5666,8 +5192,6 @@ gmdiFlags : [int] Œ^: UINT
 %index
 GetMenuInfo
 w’è‚µ‚½ƒƒjƒ…[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -5683,8 +5207,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetMenuItemCount
 w’è‚µ‚½ƒƒjƒ…[“à‚Ì€–Ú”‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu
 hMenu : [intptr] Œ^: HMENU ’²¸‘ÎÛ‚Ìƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5699,8 +5221,6 @@ hMenu : [intptr] Œ^: HMENU ’²¸‘ÎÛ‚Ìƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 GetMenuItemID
 ƒƒjƒ…[“à‚Ìw’èˆÊ’u‚É‚ ‚éƒƒjƒ…[€–Ú‚Ì¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, nPos
 hMenu : [intptr] Œ^: HMENU ¯•Êq‚ğæ“¾‚·‚é€–Ú‚ğŠÜ‚Şƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5716,8 +5236,6 @@ nPos : [int] Œ^: int ¯•Êq‚ğæ“¾‚·‚éƒƒjƒ…[€–Ú‚Ìƒ[ƒŠî€‚Ì‘Š‘ÎˆÊ’uB
 %index
 GetMenuItemInfoW
 ƒƒjƒ…[€–Ú‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hmenu, item, fByPosition, lpmii
 hmenu : [intptr] Œ^: HMENU ƒƒjƒ…[€–Ú‚ğŠÜ‚Şƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5742,8 +5260,6 @@ GetMenuItemInfo ‚ğŒÄ‚ÑAƒoƒbƒtƒ@‚ğ•¶š—ñ‚Å–‚½‚·Bæ“¾‚µ‚½ƒƒjƒ…[€–Ú‚ª‘¼‚ÌŒ^‚Å
 %index
 GetMenuItemRect
 w’è‚µ‚½ƒƒjƒ…[€–Ú‚ÌŠOÚ‹éŒ`‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hMenu, uItem, lprcItem
 hWnd : [intptr] Œ^: HWND ƒƒjƒ…[‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚ª NULL ‚Å hMenu ‚ªƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚ğ•\‚·ê‡AŠÖ”‚Íƒƒjƒ…[ƒEƒBƒ“ƒhƒE‚ğŒŸõ‚·‚éB
@@ -5765,8 +5281,6 @@ GetLastError ŠÖ”‚ğg—p‚·‚éB
 %index
 GetMenuState
 w’è‚µ‚½ƒƒjƒ…[€–Ú‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒƒjƒ…[ƒtƒ‰ƒO‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, uId, uFlags
 hMenu : [intptr] Œ^: HMENU ƒtƒ‰ƒO‚ğæ“¾‚·‚éƒƒjƒ…[€–Ú‚ğŠÜ‚Şƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5790,8 +5304,6 @@ MF_ENABLEDAMF_STRINGAMF_UNCHECKEDAMF_UNHILITE
 %index
 GetMenuStringW
 w’è‚µ‚½ƒƒjƒ…[€–Ú‚ÌƒeƒLƒXƒg•¶š—ñ‚ğw’èƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hMenu, uIDItem, lpString, cchMax, flags
 hMenu : [intptr] Œ^: HMENU ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5817,8 +5329,6 @@ TCHAR ƒoƒbƒtƒ@‚Å‚ ‚èAnMaxCount
 %index
 GetMessageW
 ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚©‚çƒƒbƒZ[ƒW‚ğæ“¾‚·‚éBæ“¾‰Â”\‚È“ŠeƒƒbƒZ[ƒW‚ª“¾‚ç‚ê‚é‚Ü‚ÅA’…M‘—MƒƒbƒZ[ƒW‚ğ”z‘—‚·‚éB(GetMessageW)
-%group
-Win32 user32
 %prm
 lpMsg, hWnd, wMsgFilterMin, wMsgFilterMax
 lpMsg : [var] Œ^: LPMSG ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚©‚çƒƒbƒZ[ƒWî•ñ‚ğó‚¯æ‚é MSG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -5850,8 +5360,6 @@ hWnd ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE(‚¨‚æ‚Ñ IsChild
 %index
 GetMessageExtraInfo
 Œ»İ‚ÌƒXƒŒƒbƒh‚Ì’Ç‰ÁƒƒbƒZ[ƒWî•ñ‚ğæ“¾‚·‚éB’Ç‰ÁƒƒbƒZ[ƒWî•ñ‚ÍAŒ»İ‚ÌƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Íƒhƒ‰ƒCƒo’è‹`‚Ì’l‚Å‚ ‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5868,8 +5376,6 @@ Win32 user32
 %index
 GetMessagePos
 GetMessage ŠÖ”‚ÅÅŒã‚Éæ“¾‚µ‚½ƒƒbƒZ[ƒW‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5889,8 +5395,6 @@ GetMessage ŠÖ”‚ÅÅŒã‚Éæ“¾‚µ‚½ƒƒbƒZ[ƒW‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚ğæ“¾‚·‚éB
 %index
 GetMessageTime
 GetMessage ŠÖ”‚ÅÅŒã‚Éæ“¾‚µ‚½ƒƒbƒZ[ƒW‚ÌƒƒbƒZ[ƒW‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -5908,8 +5412,6 @@ GetMessageTime ‚Ì–ß‚è’l‚ÍAƒ^ƒCƒ}ƒJƒEƒ“ƒ^‚ª long
 %index
 GetMonitorInfoW
 GetMonitorInfo ŠÖ”‚ÍƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hMonitor, lpmi
 hMonitor : [intptr] ‘ÎÛ‚ÌƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5932,8 +5434,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetMouseMovePointsEx
 ƒ}ƒEƒX‚Ü‚½‚Íƒyƒ“‚Ì’¼‹ßÅ‘å 64 ŒÂ‚ÌÀ•W—š—ğ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 cbSize, lppt, lpptBuf, nBufPoints, resolution
 cbSize : [int] Œ^: UINT MOUSEMOVEPOINT \‘¢‘Ì‚ÌƒoƒCƒg’PˆÊ‚ÌƒTƒCƒYB
@@ -5960,8 +5460,6 @@ GetMouseMovePointsEx
 %index
 GetNextDlgGroupItem
 ƒ_ƒCƒAƒƒO“à‚Åw’èƒRƒ“ƒgƒ[ƒ‹‚Ì‘O(‚Ü‚½‚ÍŒã)‚É‚ ‚éAƒRƒ“ƒgƒ[ƒ‹ƒOƒ‹[ƒv‚Ìæ“ªƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, hCtl, bPrevious
 hDlg : [intptr] Œ^: HWND ŒŸõ‘ÎÛ‚Ìƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -5992,8 +5490,6 @@ hCtl ‚ğ•Ô‚·BƒOƒ‹[ƒv“à‚ÌŸ‚ÌƒRƒ“ƒgƒ[ƒ‹ŒŸõ‚Å WS_EX_CONTROLPARENT
 %index
 GetNextDlgTabItem
 w’è‚³‚ê‚½ƒRƒ“ƒgƒ[ƒ‹‚Ì‘O(‚Ü‚½‚ÍŒã)‚É‚ ‚é WS_TABSTOP ƒXƒ^ƒCƒ‹‚ğ‚ÂÅ‰‚ÌƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, hCtl, bPrevious
 hDlg : [intptr] Œ^: HWND ŒŸõ‘ÎÛ‚Ìƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6017,8 +5513,6 @@ WS_TABSTOP ƒXƒ^ƒCƒ‹‚ğ‚ÂÅ‰‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğ•Ô‚·BŠY“–‚·‚éƒRƒ“ƒgƒ[ƒ‹‚ª–³‚¯‚ê‚
 %index
 GetOpenClipboardWindow
 Œ»İƒNƒŠƒbƒvƒ{[ƒh‚ğŠJ‚¢‚Ä‚¢‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -6038,8 +5532,6 @@ NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 GetParent
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ìe‚Ü‚½‚ÍƒI[ƒi[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6061,8 +5553,6 @@ GetAncestor ‚ğg‚¤B
 %index
 GetPhysicalCursorPos
 ƒJ[ƒ\ƒ‹‚ÌˆÊ’u‚ğ•¨—À•W‚Åæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 lpPoint
 lpPoint : [var] Œ^: LPPOINT ƒJ[ƒ\ƒ‹‚Ì•¨—À•WˆÊ’uB
@@ -6080,8 +5570,6 @@ lpPoint : [var] Œ^: LPPOINT ƒJ[ƒ\ƒ‹‚Ì•¨—À•WˆÊ’uB
 %index
 GetPointerCursorId
 w’è‚µ‚½ƒ|ƒCƒ“ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJ[ƒ\ƒ‹¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, cursorId
 pointerId : [int] ƒJ[ƒ\ƒ‹¯•Êq‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^‚Ì¯•ÊqB
@@ -6102,8 +5590,6 @@ GetPointerCursorId ‚ğg‚Á‚Äƒ|ƒCƒ“ƒ^‚É‘Î‰‚·‚éƒJ[ƒ\ƒ‹¯•Êq‚ğæ“¾‚Å‚«‚éB
 %index
 GetPointerDevice
 ƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 device, pointerDevice
 device : [intptr] ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6119,8 +5605,6 @@ pointerDevice : [var] ƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚ÉŠÖ‚·‚éî•ñ‚ğŠi”[‚·‚é POINTER_DEVICE_INFO
 %index
 GetPointerDeviceCursors
 ƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJ[ƒ\ƒ‹‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚Ä‚¢‚éƒJ[ƒ\ƒ‹ ID ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 device, cursorCount, deviceCursors
 device : [intptr] ƒfƒoƒCƒXƒnƒ“ƒhƒ‹B
@@ -6136,8 +5620,6 @@ deviceCursors : [var] ƒJ[ƒ\ƒ‹î•ñ‚ğŠi”[‚·‚é POINTER_DEVICE_CURSOR_INFO \‘¢‘Ì‚Ì
 %index
 GetPointerDeviceProperties
 POINTER_DEVICE_INFO \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ƒfƒoƒCƒXƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 device, propertyCount, pointerProperties
 device : [intptr] ƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹‚éƒ|ƒCƒ“ƒ^ƒfƒoƒCƒXBGetPointerDevices ŠÖ”‚ğŒÄ‚Ô‚ÆA‚±‚Ìƒnƒ“ƒhƒ‹‚ª POINTER_DEVICE_INFO \‘¢‘Ì‚Å•Ô‚³‚ê‚éB
@@ -6153,8 +5635,6 @@ POINTER_DEVICE_INFO \‘¢‘Ì‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ƒfƒoƒCƒXƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 %index
 GetPointerDeviceRects
 ƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚Ì x, y ”ÍˆÍ(himetric ’PˆÊ)‚ÆA‚»‚ÌƒfƒoƒCƒX‚ªƒ}ƒbƒsƒ“ƒO‚³‚ê‚Ä‚¢‚éƒfƒBƒXƒvƒŒƒC‚ÌŒ»İ‰ğ‘œ“x‚Å‚Ì x, y ”ÍˆÍ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 device, pointerDeviceRect, displayRect
 device : [intptr] ƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6171,8 +5651,6 @@ displayRect : [var] ƒfƒBƒXƒvƒŒƒC‰ğ‘œ“x‚ğæ“¾‚·‚é‚½‚ß‚Ì\‘¢‘ÌB
 %index
 GetPointerDevices
 ƒVƒXƒeƒ€‚ÉÚ‘±‚³‚ê‚Ä‚¢‚éƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 deviceCount, pointerDevices
 deviceCount : [var] pointerDevices ‚ª NULL ‚Ìê‡AdeviceCount ‚É‚ÍÚ‘±‚³‚ê‚Ä‚¢‚éƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚Ì‘”‚ª•Ô‚³‚ê‚éB‚»‚¤‚Å‚È‚¢ê‡AdeviceCount ‚Í pointerDevices ‚ªw‚· POINTER_DEVICE_INFO \‘¢‘Ì‚ÌŒÂ”‚ğw’è‚·‚éB
@@ -6192,8 +5670,6 @@ Windows 8 ‚Å‚ÍŸ‚ğƒTƒ|[ƒg‚·‚éB
 %index
 GetPointerFrameInfo
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^‚ÌƒtƒŒ[ƒ€î•ñ‘S‘Ì‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, pointerCount, pointerInfo
 pointerId : [int] ƒtƒŒ[ƒ€î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6230,8 +5706,6 @@ ERROR_ACCESS_DENIED
 %index
 GetPointerFrameInfoHistory
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^‚ÌƒtƒŒ[ƒ€î•ñ‘S‘Ì(“‡‚³‚ê‚½“ü—ÍƒtƒŒ[ƒ€‚ğŠÜ‚Ş)‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, entriesCount, pointerCount, pointerInfo
 pointerId : [int] ƒtƒŒ[ƒ€î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6270,8 +5744,6 @@ ERROR_ACCESS_DENIED
 %index
 GetPointerFramePenInfo
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^(PT_PEN Œ^)‚Ìƒyƒ“ƒx[ƒX‚ÌƒtƒŒ[ƒ€î•ñ‘S‘Ì‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, pointerCount, penInfo
 pointerId : [int] ƒtƒŒ[ƒ€î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6309,8 +5781,6 @@ ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³‚ê‚éB
 %index
 GetPointerFramePenInfoHistory
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^(PT_PEN Œ^)‚Ìƒyƒ“ƒx[ƒX‚ÌƒtƒŒ[ƒ€î•ñ‘S‘Ì(“‡‚³‚ê‚½“ü—ÍƒtƒŒ[ƒ€‚ğŠÜ‚Ş)‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, entriesCount, pointerCount, penInfo
 pointerId : [int] ƒtƒŒ[ƒ€î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6352,8 +5822,6 @@ ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³‚ê‚éB
 %index
 GetPointerFrameTouchInfo
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^(PT_TOUCH Œ^)‚Ìƒ^ƒbƒ`ƒx[ƒX‚ÌƒtƒŒ[ƒ€î•ñ‘S‘Ì‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, pointerCount, touchInfo
 pointerId : [int] ƒtƒŒ[ƒ€î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6391,8 +5859,6 @@ ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³‚ê‚éB
 %index
 GetPointerFrameTouchInfoHistory
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^(PT_TOUCH Œ^)‚Ìƒ^ƒbƒ`ƒx[ƒX‚ÌƒtƒŒ[ƒ€î•ñ‘S‘Ì(“‡‚³‚ê‚½“ü—ÍƒtƒŒ[ƒ€‚ğŠÜ‚Ş)‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, entriesCount, pointerCount, touchInfo
 pointerId : [int] ƒtƒŒ[ƒ€î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6436,8 +5902,6 @@ ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³‚ê‚éB
 %index
 GetPointerInfo
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, pointerInfo
 pointerId : [int] ƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6464,8 +5928,6 @@ ERROR_ACCESS_DENIED
 %index
 GetPointerInfoHistory
 w’èƒ|ƒCƒ“ƒ^‚É‚Â‚¢‚ÄAŒ»İ‚ÌƒƒbƒZ[ƒW‚É“‡‚³‚ê‚½ŒÂX‚Ì“ü—Íî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, entriesCount, pointerInfo
 pointerId : [int] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6496,8 +5958,6 @@ ERROR_ACCESS_DENIED ‚Éİ’è‚³‚ê‚éB
 %index
 GetPointerInputTransform
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ|ƒCƒ“ƒ^î•ñÀ•W‚É‘Î‚·‚é 1 ‚ÂˆÈã‚Ì•ÏŠ·‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, historyCount, inputTransform
 pointerId : [int] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6536,8 +5996,6 @@ GetPointerInfoHistory ‚ª•Ô‚·”z—ñ‚ÌÅ‰‚Ì POINTER_INFO \‘¢‘Ì)‚Ì historyCount
 %index
 GetPointerPenInfo
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^(PT_PEN Œ^)‚Ìƒyƒ“ƒx[ƒX‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, penInfo
 pointerId : [int] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6566,8 +6024,6 @@ PT_PEN Œ^‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅIƒGƒ‰[‚ª ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³‚ê
 %index
 GetPointerPenInfoHistory
 w’èƒ|ƒCƒ“ƒ^(PT_PEN Œ^)‚É‚Â‚¢‚ÄAŒ»İ‚ÌƒƒbƒZ[ƒW‚É“‡‚³‚ê‚½ŒÂX‚Ì“ü—Í‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒyƒ“ƒx[ƒX‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, entriesCount, penInfo
 pointerId : [int] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6597,8 +6053,6 @@ ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³‚ê‚éB
 %index
 GetPointerTouchInfo
 Œ»İ‚ÌƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’èƒ|ƒCƒ“ƒ^(PT_TOUCH Œ^)‚Ìƒ^ƒbƒ`ƒx[ƒX‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, touchInfo
 pointerId : [int] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6627,8 +6081,6 @@ PT_TOUCH Œ^‚Å‚È‚¢ê‡AŠÖ”‚Í¸”s‚µÅIƒGƒ‰[‚ª ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³
 %index
 GetPointerTouchInfoHistory
 w’èƒ|ƒCƒ“ƒ^(PT_TOUCH Œ^)‚É‚Â‚¢‚ÄAŒ»İ‚ÌƒƒbƒZ[ƒW‚É“‡‚³‚ê‚½ŒÂX‚Ì“ü—Í‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ^ƒbƒ`ƒx[ƒX‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, entriesCount, touchInfo
 pointerId : [int] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6660,8 +6112,6 @@ ERROR_DATATYPE_MISMATCH ‚Éİ’è‚³‚ê‚éB
 %index
 GetPointerType
 w’è‚µ‚½ƒ|ƒCƒ“ƒ^‚Ìƒ|ƒCƒ“ƒ^í•Ê‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, pointerType
 pointerId : [int] ƒ|ƒCƒ“ƒ^í•Ê‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6681,8 +6131,6 @@ pointerType : [var] ƒ|ƒCƒ“ƒ^“ü—Íí•Ê‚ğó‚¯æ‚é POINTER_INPUT_TYPE ‚ÌƒAƒhƒŒƒXB
 %index
 GetPriorityClipboardFormat
 w’èƒŠƒXƒg‚Ì’†‚ÅÅ‰‚É—˜—p‰Â”\‚ÈƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 paFormatPriorityList, cFormats
 paFormatPriorityList : [var] Œ^: UINT* —Dæ‡ˆÊ‡‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®B•W€ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ìà–¾‚Í Standard Clipboard Formats ‚ğQÆB
@@ -6699,8 +6147,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetProcessDefaultLayout
 e‚âƒI[ƒi[‚ğ‚½‚È‚¢ƒEƒBƒ“ƒhƒE‚ªì¬‚³‚ê‚éÛ‚Ég‚í‚ê‚éŠù’èƒŒƒCƒAƒEƒg‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pdwDefaultLayout
 pdwDefaultLayout : [var] Œ^: DWORD* Œ»İ‚ÌƒvƒƒZƒXŠù’èƒŒƒCƒAƒEƒgB’l‚Ìˆê——‚Í SetProcessDefaultLayout ‚ğQÆB
@@ -6720,8 +6166,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetProcessWindowStation
 ŒÄ‚Ño‚µƒvƒƒZƒX‚ÌŒ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -6743,8 +6187,6 @@ USER ‚Ü‚½‚Í GDI ‚ÌŠÖ”‚ğŒÄ‚Ô•K—v‚Í‚È‚¢B
 %index
 GetPropW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒBƒŠƒXƒg‚©‚çƒf[ƒ^ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBæ“¾‚·‚éƒnƒ“ƒhƒ‹‚Í•¶š—ñ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éB•¶š—ñ‚Æƒnƒ“ƒhƒ‹‚Í–‘O‚É SetProp ŠÖ”‚ÅƒvƒƒpƒeƒBƒŠƒXƒg‚É’Ç‰Á‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpString
 hWnd : [intptr] Œ^: HWND ŒŸõ‘ÎÛ‚ÌƒvƒƒpƒeƒBƒŠƒXƒg‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -6769,8 +6211,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetQueueStatus
 ŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉŠÜ‚Ü‚ê‚éƒƒbƒZ[ƒW‚Ìí—Ş‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 flags
 flags : [int] Œ^: UINT
@@ -6795,8 +6235,6 @@ PeekMessage ‚ğˆÙ‚È‚é”ÍˆÍ‚ÅŒJ‚è•Ô‚µŒÄ‚ñ‚ÅƒƒbƒZ[ƒW‚ğæ“¾‚·‚éê‡‚É–ğ—§‚ÂB
 %index
 GetRawInputBuffer
 ¶“ü—Íƒf[ƒ^‚ğƒoƒbƒtƒ@ƒŠƒ“ƒO‚µ‚Ä“Ç‚İæ‚éB
-%group
-Win32 user32
 %prm
 pData, pcbSize, cbSizeHeader
 pData : [var] Œ^: **PRAWINPUT** ¶“ü—Íƒf[ƒ^‚ğŠÜ‚Ş [RAWINPUT](ns-winuser-rawinput.md) \‘¢‘ÌŒQ‚Ìƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚Íƒ|ƒCƒ“ƒ^‹«ŠE(32 ƒrƒbƒgƒA[ƒLƒeƒNƒ`ƒƒ‚Å‚Í **DWORD**A64 ƒrƒbƒgƒA[ƒLƒeƒNƒ`ƒƒ‚Å‚Í **QWORD**)‚ÉƒAƒ‰ƒCƒ“‚·‚é‚±‚ÆB**NULL** ‚Ìê‡AÅ‰‚Ì¶“ü—ÍƒƒbƒZ[ƒW‚Ìƒf[ƒ^ƒTƒCƒY(•K—vÅ¬ƒoƒbƒtƒ@AƒoƒCƒg’PˆÊ)‚ª \**pcbSize* ‚É•Ô‚³‚ê‚éB
@@ -6834,8 +6272,6 @@ WOW64 Œü‚¯‚É **RAWINPUT** ‚ğƒAƒ‰ƒCƒ“‚·‚é—á‚ğ¦‚·B
 %index
 GetRawInputData
 w’èƒfƒoƒCƒX‚©‚ç‚Ì¶“ü—Í‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hRawInput, uiCommand, pData, pcbSize, cbSizeHeader
 hRawInput : [intptr] Œ^: HRAWINPUT RAWINPUT \‘¢‘Ì‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í WM_INPUT ‚Ì lParam ‚©‚çæ“¾‚·‚éB
@@ -6858,8 +6294,6 @@ RAWINPUT \‘¢‘Ì‚Ì”z—ñ‚ğæ“¾‚·‚éB
 %index
 GetRawInputDeviceInfoW
 ¶“ü—ÍƒfƒoƒCƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDevice, uiCommand, pData, pcbSize
 hDevice : [intptr] Œ^: HANDLE ¶“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BRAWINPUTHEADER ‚Ì hDevice ƒƒ“ƒo‚Ü‚½‚Í GetRawInputDeviceList ‚©‚çæ“¾‚·‚éB
@@ -6886,8 +6320,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetRawInputDeviceList
 ƒVƒXƒeƒ€‚ÉÚ‘±‚³‚ê‚Ä‚¢‚é¶“ü—ÍƒfƒoƒCƒX‚ğ—ñ‹“‚·‚éB
-%group
-Win32 user32
 %prm
 pRawInputDeviceList, puiNumDevices, cbSize
 pRawInputDeviceList : [var] Œ^: PRAWINPUTDEVICELIST ƒVƒXƒeƒ€‚ÉÚ‘±‚³‚ê‚Ä‚¢‚éƒfƒoƒCƒX‚Ì RAWINPUTDEVICELIST \‘¢‘Ì”z—ñBNULL ‚Ìê‡AƒfƒoƒCƒX”‚ª *puiNumDevices ‚É•Ô‚³‚ê‚éB
@@ -6909,8 +6341,6 @@ GetRawInputDeviceInfo ‚ğŒÄ‚Ño‚·B
 %index
 GetRawPointerDeviceData
 ƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX‚©‚ç¶“ü—Íƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId, historyCount, propertiesCount, pProperties, pValues
 pointerId : [int] î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚Ìƒ|ƒCƒ“ƒ^¯•ÊqB
@@ -6928,8 +6358,6 @@ pValues : [var] pProperties ‚É‘Î‰‚·‚é’lB
 %index
 GetRegisteredRawInputDevices
 Œ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É“o˜^‚³‚ê‚Ä‚¢‚é¶“ü—ÍƒfƒoƒCƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pRawInputDevices, puiNumDevices, cbSize
 pRawInputDevices : [var] Œ^: PRAWINPUTDEVICE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—p‚Ì RAWINPUTDEVICE \‘¢‘Ì”z—ñB
@@ -6951,8 +6379,6 @@ ERROR_INSUFFICIENT_BUFFER ‚Éİ’è‚µ -1 ‚ğ•Ô‚µApuiNumDevices
 %index
 GetScrollBarInfo
 GetScrollBarInfo ŠÖ”‚Íw’è‚µ‚½ƒXƒNƒ[ƒ‹ƒo[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, idObject, psbi
 hwnd : [intptr] Œ^: HWND î•ñ‚ğæ“¾‚·‚éƒXƒNƒ[ƒ‹ƒo[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BidObject ‚ª OBJID_CLIENT ‚Ìê‡Ahwnd ‚ÍƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡Ahwnd ‚Í WS_VSCROLL ‚Ü‚½‚Í WS_HSCROLL ƒXƒ^ƒCƒ‹‚Åì¬‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éB
@@ -6976,8 +6402,6 @@ idObject ‚ª OBJID_CLIENT ‚ÅAhwnd
 %index
 GetScrollInfo
 GetScrollInfo ŠÖ”‚ÍƒXƒNƒ[ƒ‹ƒo[‚Ìƒpƒ‰ƒ[ƒ^(Å¬EÅ‘åƒXƒNƒ[ƒ‹ˆÊ’uAƒy[ƒWƒTƒCƒYAƒXƒNƒ[ƒ‹ƒ{ƒbƒNƒX(ƒTƒ€)ˆÊ’u‚ğŠÜ‚Ş)‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, nBar, lpsi
 hwnd : [intptr] Œ^: HWND fnBar ƒpƒ‰ƒ[ƒ^‚Ì’l‚É‚æ‚èAƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í•W€ƒXƒNƒ[ƒ‹ƒo[‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7008,8 +6432,6 @@ nTrackPos
 %index
 GetScrollPos
 GetScrollPos ŠÖ”‚Íw’èƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹ƒ{ƒbƒNƒX(ƒTƒ€)‚ÌŒ»İˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nBar
 hWnd : [intptr] Œ^: HWND nBar ƒpƒ‰ƒ[ƒ^‚Ì’l‚É‚æ‚èAƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í•W€ƒXƒNƒ[ƒ‹ƒo[‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7039,8 +6461,6 @@ GetScrollInfo ŠÖ”‚ğg‚¤BnBar ‚ª SB_CTL ‚ÅAhWnd
 %index
 GetScrollRange
 GetScrollRange ŠÖ”‚Íw’èƒXƒNƒ[ƒ‹ƒo[‚ÌŒ»İ‚ÌÅ¬EÅ‘åƒXƒNƒ[ƒ‹ƒ{ƒbƒNƒX(ƒTƒ€)ˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nBar, lpMinPos, lpMaxPos
 hWnd : [intptr] Œ^: HWND nBar ƒpƒ‰ƒ[ƒ^‚Ì’l‚É‚æ‚èAƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹A‚Ü‚½‚Í•W€ƒXƒNƒ[ƒ‹ƒo[‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7071,8 +6491,6 @@ GetScrollInfo, GetScrollPos, GetScrollRange ‚Í 32
 %index
 GetShellWindow
 ƒVƒFƒ‹‚ÌƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -7085,8 +6503,6 @@ Win32 user32
 %index
 GetSubMenu
 w’èƒƒjƒ…[€–Ú‚ªƒAƒNƒeƒBƒu‚É‚·‚éƒhƒƒbƒvƒ_ƒEƒ“ƒƒjƒ…[‚Ü‚½‚ÍƒTƒuƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, nPos
 hMenu : [intptr] Œ^: HMENU ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7103,8 +6519,6 @@ NULL ‚Å‚ ‚éB
 %index
 GetSysColor
 w’è‚³‚ê‚½•\¦—v‘f‚ÌŒ»İ‚ÌF‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 nIndex
 nIndex : [int] Œ^: int
@@ -7128,8 +6542,6 @@ Windows 11 ‚ğQÆB
 %index
 GetSysColorBrush
 GetSysColorBrush ŠÖ”‚Íw’è‚³‚ê‚½FƒCƒ“ƒfƒbƒNƒX‚É‘Î‰‚·‚é˜_—ƒuƒ‰ƒV‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 nIndex
 nIndex : [int] FƒCƒ“ƒfƒbƒNƒXB‚±‚Ì’l‚ÍƒEƒBƒ“ƒhƒE—v‘f‚Ì“h‚è‚Ég‚í‚ê‚éF‚É‘Î‰‚·‚éBƒVƒXƒeƒ€FƒCƒ“ƒfƒbƒNƒX‚Ì’l‚Í GetSysColor ‚ğQÆB
@@ -7154,8 +6566,6 @@ nIndex ‚ªŒ»İ‚Ìƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡A–ß‚è’l‚Í˜_—ƒuƒ‰ƒV‚ğ¯•
 %index
 GetSystemDpiForProcess
 w’èƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒVƒXƒeƒ€ DPI ‚ğæ“¾‚·‚éB•¡”‚Ì system-aware ƒvƒƒZƒXŠÔ‚ÅƒVƒXƒeƒ€ DPI ‚ÌˆÙ‚È‚é DPI ŠÖ˜Aî•ñ‚ğ‹¤—L‚·‚éÛ‚ÌŒİŠ·«‚Ì–â‘è‚ğ”ğ‚¯‚é‚Ì‚É–ğ—§‚ÂB
-%group
-Win32 user32
 %prm
 hProcess
 hProcess : [intptr] ’²¸‚·‚éƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡A‚±‚Ì API ‚Í GetDpiForSystem ‚Æ“¯ˆê‚ÉU‚é•‘‚¤B
@@ -7175,8 +6585,6 @@ hProcess : [intptr] ’²¸‚·‚éƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡A‚±‚Ì API ‚Í GetDpiF
 %index
 GetSystemMenu
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒEƒBƒ“ƒhƒEƒƒjƒ…[(ƒVƒXƒeƒ€ƒƒjƒ…[AƒRƒ“ƒgƒ[ƒ‹ƒƒjƒ…[‚Æ‚àŒÄ‚Î‚ê‚é)‚ÉƒAƒNƒZƒX‚µ‚ÄAƒRƒs[‚â•ÏX‚ğs‚¦‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, bRevert
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒEƒƒjƒ…[‚ÌƒRƒs[‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7201,8 +6609,6 @@ WM_INITMENU ƒƒbƒZ[ƒW‚É‰“š‚·‚é‚±‚Æ‚Å“Æ©‚Ìƒ`ƒFƒbƒN‚âƒOƒŒ[ƒAƒEƒg‚ğs‚¦‚éB
 %index
 GetSystemMetrics
 w’è‚³‚ê‚½ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚Ü‚½‚ÍƒVƒXƒeƒ€\¬İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 nIndex
 nIndex : [int] Œ^: int
@@ -7222,8 +6628,6 @@ nIndex : [int] Œ^: int
 %index
 GetSystemMetricsForDpi
 w’è‚µ‚½ DPI ‚ğl—¶‚µ‚½ã‚ÅAw’è‚³‚ê‚½ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚Ü‚½‚ÍƒVƒXƒeƒ€\¬İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 nIndex, dpi
 nIndex : [int] æ“¾‚·‚éƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚Ü‚½‚Í\¬İ’èB—˜—p‰Â”\‚È’l‚Í GetSystemMetrics ‚ğQÆB
@@ -7242,8 +6646,6 @@ dpi : [int] ƒƒgƒŠƒbƒN‚ÌƒXƒP[ƒŠƒ“ƒO‚Ég‚¤ DPIB
 %index
 GetTabbedTextExtentW
 GetTabbedTextExtent ŠÖ”‚Í•¶š—ñ‚Ì•‚Æ‚‚³‚ğŒvZ‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hdc, lpString, chCount, nTabPositions, lpnTabStopPositions
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7275,8 +6677,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetThreadDesktop
 w’èƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒfƒXƒNƒgƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 dwThreadId
 dwThreadId : [int] ƒXƒŒƒbƒh¯•ÊqBGetCurrentThreadId ‚Æ CreateProcess ŠÖ”‚ÍƒXƒŒƒbƒh¯•Êq‚ğ•Ô‚·B
@@ -7300,8 +6700,6 @@ USER ‚Ü‚½‚Í GDI ‚ÌŠÖ”‚ğŒÄ‚Ô•K—v‚Í‚È‚¢B
 %index
 GetThreadDpiAwarenessContext
 Œ»İ‚ÌƒXƒŒƒbƒh‚Ì DPI_AWARENESS_CONTEXT ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -7319,8 +6717,6 @@ DPI_AWARENESS_CONTEXT ‚Æ“™‚µ‚¢B
 %index
 GetThreadDpiHostingBehavior
 Œ»İ‚ÌƒXƒŒƒbƒh‚©‚ç DPI_HOSTING_BEHAVIOR ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -7337,8 +6733,6 @@ Win32 user32
 %index
 GetTitleBarInfo
 w’è‚µ‚½ƒ^ƒCƒgƒ‹ƒo[‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pti
 hwnd : [intptr] Œ^: HWND î•ñ‚ğæ“¾‚·‚éƒ^ƒCƒgƒ‹ƒo[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7354,8 +6748,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetTopWindow
 w’è‚µ‚½eƒEƒBƒ“ƒhƒE‚É‘®‚·‚éqƒEƒBƒ“ƒhƒE‚Ì Z ƒI[ƒ_[‚ğ’²‚×AZ ƒI[ƒ_[ÅãˆÊ‚ÌqƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND qƒEƒBƒ“ƒhƒE‚ğ’²‚×‚é‘ÎÛ‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AŠÖ”‚Í Z ƒI[ƒ_[ÅãˆÊ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
@@ -7371,8 +6763,6 @@ hWnd : [intptr] Œ^: HWND qƒEƒBƒ“ƒhƒE‚ğ’²‚×‚é‘ÎÛ‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNUL
 %index
 GetTouchInputInfo
 “Á’è‚Ìƒ^ƒbƒ`“ü—Íƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ^ƒbƒ`“ü—Í‚ÌÚ×î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hTouchInput, cInputs, pInputs, cbSize
 hTouchInput : [intptr] ƒ^ƒbƒ`ƒƒbƒZ[ƒW‚Ì LPARAM ‚Åó‚¯æ‚Á‚½ƒ^ƒbƒ`“ü—Íƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚ª–³Œø‚Èê‡AŠÖ”‚Í ERROR_INVALID_HANDLE ‚Å¸”s‚·‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚Í CloseTouchInputHandle ‚Ì¬Œ÷ŒÄ‚Ño‚µŒãA‚ ‚é‚¢‚Í DefWindowProc, PostMessage, SendMessage “™‚É“n‚µ‚½Œã‚Í–³Œø‚Æ‚È‚éB
@@ -7395,8 +6785,6 @@ CloseTouchInputHandle ‚ğŒÄ‚ñ‚Å‚à GetTouchInputInfo
 %index
 GetUnpredictedMessagePos
 ƒ^ƒbƒ`—\‘ªˆ—‚ğ’Ê‚·‘O‚Ìƒ|ƒCƒ“ƒ^ƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -7412,8 +6800,6 @@ Win32 user32
 %index
 GetUpdateRect
 GetUpdateRect ŠÖ”‚ÍAw’èƒEƒBƒ“ƒhƒE‚ÌXV—Ìˆæ‚ğŠ®‘S‚ÉŠÜ‚Ş‚à‚Á‚Æ‚à¬‚³‚È‹éŒ`‚ÌÀ•W‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpRect, bErase
 hWnd : [intptr] XV—Ìˆæ‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7434,8 +6820,6 @@ BeginPaint ‚Í©“®“I‚ÉXV—Ìˆæ‚ğŒŸØ‚·‚é‚½‚ßABeginPaint ŒÄ‚Ño‚µ’¼Œã‚É GetUpdate
 %index
 GetUpdateRgn
 GetUpdateRgn ŠÖ”‚ÍAƒEƒBƒ“ƒhƒE‚ÌXV—Ìˆæ‚ğw’èƒŠ[ƒWƒ‡ƒ“‚ÉƒRƒs[‚µ‚Äæ“¾‚·‚éBXV—Ìˆæ‚ÌÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚·‚é(‚Â‚Ü‚èƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚Å‚ ‚é)B
-%group
-Win32 user32
 %prm
 hWnd, hRgn, bErase
 hWnd : [intptr] XV—Ìˆæ‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7457,8 +6841,6 @@ BeginPaint ŠÖ”‚Í©“®“I‚ÉXV—Ìˆæ‚ğŒŸØ‚·‚é‚½‚ßABeginPaint ŒÄ‚Ño‚µ’¼Œã‚É GetUp
 %index
 GetUpdatedClipboardFormats
 Œ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 lpuiFormats, cFormats, pcFormatsOut
 lpuiFormats : [var] Œ^: PUINT ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ì”z—ñB•W€ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ìà–¾‚Í Standard Clipboard Formats ‚ğQÆB
@@ -7474,8 +6856,6 @@ pcFormatsOut : [var] Œ^: PUINT lpuiFormats ‚ªw‚·”z—ñ“à‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ÌÀ
 %index
 GetUserObjectInformationW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ü‚½‚ÍƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hObj, nIndex, pvInfo, nLength, lpnLengthNeeded
 hObj : [intptr] ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ü‚½‚ÍƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í CreateWindowStation, OpenWindowStation, CreateDesktop, OpenDesktop ŠÖ”‚ª•Ô‚·‚à‚Ì‚Å‚ ‚éB
@@ -7502,8 +6882,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetUserObjectSecurity
 w’è‚µ‚½ƒ†[ƒU[ƒIƒuƒWƒFƒNƒg‚ÌƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hObj, pSIRequested, pSID, nLength, lpnLengthNeeded
 hObj : [intptr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğ•Ô‚·‘ÎÛ‚Ìƒ†[ƒU[ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7528,8 +6906,6 @@ SE_SECURITY_NAME “ÁŒ ‚ğ—LŒø‚É‚µAACCESS_SYSTEM_SECURITY ‚ÅŠJ‚«A‚»‚ÌŒã“ÁŒ ‚ğ–³Œø
 %index
 GetWindow
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Ä“Á’è‚ÌŠÖŒW(Z ƒI[ƒ_[‚Ü‚½‚ÍƒI[ƒi[)‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, uCmd
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹Bæ“¾‚³‚ê‚éƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ÍAuCmd ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌƒEƒBƒ“ƒhƒE‚©‚ç‚Ì‘Š‘Î‚Æ‚È‚éB
@@ -7549,8 +6925,6 @@ EnumChildWindows ŠÖ”‚Íƒ‹[ƒv‚Å GetWindow ‚ğŒÄ‚Ño‚·‚æ‚è‚àM—Š«‚ª‚‚¢BGetWindo
 %index
 GetWindowContextHelpId
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒwƒ‹ƒvƒRƒ“ƒeƒLƒXƒg¯•Êq(‚à‚µ‚ ‚ê‚Î)‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 param0
 param0 : [intptr] 
@@ -7564,8 +6938,6 @@ param0 : [intptr]
 %index
 GetWindowDC
 GetWindowDC ŠÖ”‚ÍAƒ^ƒCƒgƒ‹ƒo[Aƒƒjƒ…[AƒXƒNƒ[ƒ‹ƒo[‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‘S‘Ì‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(DC)‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AGetWindowDC ‚Í‰æ–Ê‘S‘Ì‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒvƒ‰ƒCƒ}ƒŠƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ªæ“¾‚³‚ê‚éB‘¼‚ÌƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğ“¾‚é‚É‚Í EnumDisplayMonitors ‚Æ CreateDC ŠÖ”‚ğg‚¤B
@@ -7587,8 +6959,6 @@ ReleaseDC
 %index
 GetWindowDisplayAffinity
 ”CˆÓ‚ÌƒvƒƒZƒX‚©‚çAw’èƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌƒfƒBƒXƒvƒŒƒCƒAƒtƒBƒjƒeƒBİ’è‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, pdwAffinity
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7615,8 +6985,6 @@ DwmIsCompositionEnabled
 %index
 GetWindowDpiAwarenessContext
 ƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ DPI_AWARENESS_CONTEXT ‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] –â‚¢‡‚í‚¹‚éƒEƒBƒ“ƒhƒEB
@@ -7634,8 +7002,6 @@ hwnd : [intptr] –â‚¢‡‚í‚¹‚éƒEƒBƒ“ƒhƒEB
 %index
 GetWindowDpiHostingBehavior
 w’èƒEƒBƒ“ƒhƒE‚Ì DPI_HOSTING_BEHAVIOR ‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] ’²¸‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -7654,8 +7020,6 @@ hwnd : [intptr] ’²¸‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %index
 GetWindowFeedbackSetting
 ƒEƒBƒ“ƒhƒE‚ÌƒtƒB[ƒhƒoƒbƒN\¬‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, feedback, dwFlags, pSize, config
 hwnd : [intptr] ƒtƒB[ƒhƒoƒbƒN\¬‚ğƒ`ƒFƒbƒN‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒEB
@@ -7674,8 +7038,6 @@ config : [intptr] \¬ƒf[ƒ^Bconfig ‚Í BOOL Œ^‚Ì’l‚ğw‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 GetWindowInfo
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GetWindowInfo)
-%group
-Win32 user32
 %prm
 hwnd, pwi
 hwnd : [intptr] Œ^: HWND î•ñ‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7691,8 +7053,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetWindowLongW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(GetWindowLongW)
-%group
-Win32 user32
 %prm
 hWnd, nIndex
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÔÚ“I‚É‚»‚ÌƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚àw‚·B
@@ -7713,8 +7073,6 @@ GetLastError ‚ğŒÄ‚ÔBˆÈ‘O‚É SetWindowLong ‚ªŒÄ‚Î‚ê‚Ä‚¢‚È‚¢ê‡AGetWindowLong
 %index
 GetWindowModuleFileNameW
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒtƒ‹ƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hwnd, pszFileName, cchFileNameMax
 hwnd : [intptr] Œ^: HWND ƒ‚ƒWƒ…[ƒ‹ƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7738,8 +7096,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetWindowPlacement
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ì•\¦ó‘Ô‚ÆA•œŒ³EÅ¬‰»EÅ‘å‰»‚ÌˆÊ’u‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpwndpl
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7762,8 +7118,6 @@ SW_SHOWMINIMIZEDA‚»‚êˆÈŠO‚Í SW_SHOWNORMAL ‚É‚È‚éBWINDOWPLACEMENT ‚Ì length
 %index
 GetWindowRect
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÌŠOÚ‹éŒ`‚Ì¡–@‚ğæ“¾‚·‚éB¡–@‚Í‰æ–Ê¶ã‹÷‚ğŒ´“_‚Æ‚·‚éƒXƒNƒŠ[ƒ“À•W‚Å•Ô‚³‚ê‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpRect
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7788,8 +7142,6 @@ Bounds ‚Í DPI •â³‚³‚ê‚È‚¢“_‚É’ˆÓBŠg’£ƒtƒŒ[ƒ€‹«ŠE‚Ìæ“¾‚ÍƒEƒBƒ“ƒhƒE‚ª­‚È‚­‚Æ
 %index
 GetWindowRgn
 GetWindowRgn ŠÖ”‚ÍƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒŠ[ƒWƒ‡ƒ“‚ÌƒRƒs[‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hRgn
 hWnd : [intptr] ƒEƒBƒ“ƒhƒEƒŠ[ƒWƒ‡ƒ“‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7809,8 +7161,6 @@ SetWindowRgn ŠÖ”‚ğŒÄ‚ÔB
 %index
 GetWindowRgnBox
 GetWindowRgnBox ŠÖ”‚ÍAƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒŠ[ƒWƒ‡ƒ“‚ğÅ¬‚ÉˆÍ‚ŞŠOÚ‹éŒ`‚Ì¡–@‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lprc
 hWnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7831,8 +7181,6 @@ SetWindowRgn ŠÖ”‚ğŒÄ‚ÔB
 %index
 GetWindowTextW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹ƒo[ƒeƒLƒXƒg(ƒ^ƒCƒgƒ‹ƒo[‚ª‚ ‚éê‡)‚ğƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éBw’èƒEƒBƒ“ƒhƒE‚ªƒRƒ“ƒgƒ[ƒ‹‚Ìê‡A‚»‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌƒeƒLƒXƒg‚ªƒRƒs[‚³‚ê‚éB‚½‚¾‚µ GetWindowText ‚Í•ÊƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌƒeƒLƒXƒg‚Íæ“¾‚Å‚«‚È‚¢B(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpString, nMaxCount
 hWnd : [intptr] Œ^: HWND ƒeƒLƒXƒg‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7859,8 +7207,6 @@ WM_GETTEXT ƒƒbƒZ[ƒW‚ğ’¼Ú‘—‚éB
 %index
 GetWindowTextLengthW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹ƒo[ƒeƒLƒXƒg‚Ì’·‚³(•¶š”)‚ğæ“¾‚·‚é(ƒ^ƒCƒgƒ‹ƒo[‚ª‚ ‚éê‡)B(Unicode)
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7895,8 +7241,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 GetWindowThreadProcessId
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚Ì¯•Êq‚ğæ“¾‚·‚éB”CˆÓ‚ÅƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒvƒƒZƒX‚Ì¯•Êq‚àæ“¾‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpdwProcessId
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7913,8 +7257,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GetWindowWord
 ’Ç‰Á‚ÌƒEƒBƒ“ƒhƒEƒƒ‚ƒŠ“à‚Ìw’èƒIƒtƒZƒbƒg‚É‚ ‚é 16 ƒrƒbƒg(**DWORD**)’l‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nIndex
 hWnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÔÚ“I‚É‚»‚ÌƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚àw‚·B
@@ -7934,8 +7276,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 GrayStringW
 GrayString ŠÖ”‚Íw’èˆÊ’u‚ÉƒOƒŒ[‚ÌƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDC, hBrush, lpOutputFunc, lpData, nCount, X, Y, nWidth, nHeight
 hDC : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -7971,8 +7311,6 @@ Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
 %index
 HideCaret
 ƒLƒƒƒŒƒbƒg‚ğ‰æ–Ê‚©‚çÁ‚·BƒLƒƒƒŒƒbƒg‚ğ‰B‚µ‚Ä‚à‚»‚ÌŒ`ó‚â‘}“üˆÊ’u‚Í¸‚í‚ê‚È‚¢B
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒLƒƒƒŒƒbƒg‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AHideCaret ‚ÍŒ»İ‚Ìƒ^ƒXƒN‚©‚çƒLƒƒƒŒƒbƒg‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚ğŒŸõ‚·‚éB
@@ -7992,8 +7330,6 @@ ShowCaret ‚ğ 5 ‰ñŒÄ‚Ô•K—v‚ª‚ ‚éB—á‚Í Hiding a Caret ‚ğQÆB
 %index
 HiliteMenuItem
 ƒƒjƒ…[ƒo[“à‚Ì€–Ú‚ÉƒnƒCƒ‰ƒCƒg‚ğ•t‰Á‚Ü‚½‚Ííœ‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hMenu, uIDHiliteItem, uHilite
 hWnd : [intptr] Œ^: HWND ƒƒjƒ…[‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8014,8 +7350,6 @@ MF_HILITE ‚¨‚æ‚Ñ MF_UNHILITE ƒtƒ‰ƒO‚Í HiliteMenuItem ŠÖ”‚Å‚Ì‚İg—p‚Å‚«AModifyM
 %index
 IMPGetIMEA
 (no summary)
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8027,8 +7361,6 @@ param1 : [var]
 %index
 IMPGetIMEW
 (no summary)
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8040,8 +7372,6 @@ param1 : [var]
 %index
 IMPQueryIMEA
 (no summary)
-%group
-Win32 user32
 %prm
 param0
 param0 : [var] 
@@ -8052,8 +7382,6 @@ param0 : [var]
 %index
 IMPQueryIMEW
 (no summary)
-%group
-Win32 user32
 %prm
 param0
 param0 : [var] 
@@ -8064,8 +7392,6 @@ param0 : [var]
 %index
 IMPSetIMEA
 (no summary)
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8077,8 +7403,6 @@ param1 : [var]
 %index
 IMPSetIMEW
 (no summary)
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -8090,8 +7414,6 @@ param1 : [var]
 %index
 ImpersonateDdeClientWindow
 DDE ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª DDE ƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚É‚È‚è‚·‚Ü‚¹‚é‚æ‚¤‚É‚·‚éB‚±‚ê‚É‚æ‚èA”F‰Â‚³‚ê‚Ä‚¢‚È‚¢ DDE ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çˆÀ‘S‚ÈƒT[ƒo[ƒf[ƒ^‚ğ•ÛŒì‚·‚éB
-%group
-Win32 user32
 %prm
 hWndClient, hWndServer
 hWndClient : [intptr] Œ^: HWND ‚È‚è‚·‚Ü‚·‘ÎÛ‚Ì DDE ƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒE‚Í hWndServer ‚Å¦‚³‚ê‚éƒT[ƒo[ƒEƒBƒ“ƒhƒE‚Æ DDE ‰ï˜b‚ğŠm—§‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8117,8 +7439,6 @@ LocalSystem
 %index
 InSendMessage
 Œ»İ‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ªA(“¯‚¶ƒvƒƒZƒX“à‚Ü‚½‚Í•ÊƒvƒƒZƒX‚Ì)•ÊƒXƒŒƒbƒh‚©‚ç‚Ì SendMessage ŒÄ‚Ño‚µ‚Å‘—‚ç‚ê‚½ƒƒbƒZ[ƒW‚ğˆ—’†‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -8133,8 +7453,6 @@ Win32 user32
 %index
 InSendMessageEx
 Œ»İ‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ªA(“¯‚¶ƒvƒƒZƒX“à‚Ü‚½‚Í•ÊƒvƒƒZƒX‚Ì)•ÊƒXƒŒƒbƒh‚©‚ç‘—‚ç‚ê‚½ƒƒbƒZ[ƒW‚ğˆ—’†‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 lpReserved
 lpReserved : [intptr] Œ^: LPVOID —\–ñBNULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8154,8 +7472,6 @@ lpReserved : [intptr] Œ^: LPVOID —\–ñBNULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 InflateRect
 InflateRect ŠÖ”‚Íw’è‹éŒ`‚Ì•‚Æ‚‚³‚ğ‘Œ¸‚³‚¹‚éB
-%group
-Win32 user32
 %prm
 lprc, dx, dy
 lprc : [var] ƒTƒCƒY‚ğ‘Œ¸‚³‚¹‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -8175,8 +7491,6 @@ InflateRect ŠÖ”‚Íw’è‹éŒ`‚Ì•‚Æ‚‚³‚ğ‘Œ¸‚³‚¹‚éB
 %index
 InheritWindowMonitor
 (no summary)
-%group
-Win32 user32
 %prm
 hwnd, hwndInherit
 hwnd : [intptr] 
@@ -8188,8 +7502,6 @@ hwndInherit : [intptr]
 %index
 InitializeTouchInjection
 ŒÄ‚Ño‚µƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ^ƒbƒ`’“üƒRƒ“ƒeƒLƒXƒg‚ğ\¬‚µA“¯’“ü‰Â”\‚ÈÚG‚ÌÅ‘å”‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 user32
 %prm
 maxCount, dwMode
 maxCount : [int] Å‘å“¯ÚG”BmaxCount ‚Í 0 ‚æ‚è‘å‚«‚­Awinuser.h ‚Å’è‹`‚³‚ê‚é MAX_TOUCH_COUNT (256) ˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8212,8 +7524,6 @@ TOUCH_FEEDBACK_DEFAULT
 %index
 InjectSyntheticPointerInput
 ƒ|ƒCƒ“ƒ^“ü—Í(ƒyƒ“‚Ü‚½‚Íƒ^ƒbƒ`)‚ğƒVƒ~ƒ…ƒŒ[ƒg‚·‚éB
-%group
-Win32 user32
 %prm
 device, pointerInfo, count
 device : [intptr] CreateSyntheticPointerDevice ‚Åì¬‚µ‚½ƒ|ƒCƒ“ƒ^’“üƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8230,8 +7540,6 @@ count : [int] ÚG‚Ì”B
 %index
 InjectTouchInput
 ƒ^ƒbƒ`“ü—Í‚ğƒVƒ~ƒ…ƒŒ[ƒg‚·‚éB
-%group
-Win32 user32
 %prm
 count, contacts
 count : [int] contacts ”z—ñ‚ÌƒTƒCƒYBcount ‚ÌÅ‘å’l‚Í InitializeTouchInjection ŠÖ”‚Ì maxCount ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚éB
@@ -8252,8 +7560,6 @@ contacts : [var] ƒfƒXƒNƒgƒbƒvã‚Ì‚·‚×‚Ä‚ÌÚG‚ğ•\‚· POINTER_TOUCH_INFO \‘¢‘Ì‚Ì”
 %index
 InsertMenuW
 V‚µ‚¢ƒƒjƒ…[€–Ú‚ğƒƒjƒ…[‚É‘}“ü‚µA‘¼‚Ì€–Ú‚ğƒƒjƒ…[“à‚Å‰º‚É‚¸‚ç‚·B(Unicode)
-%group
-Win32 user32
 %prm
 hMenu, uPosition, uFlags, uIDNewItem, lpNewItem
 hMenu : [intptr] Œ^: HMENU •ÏX‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8277,8 +7583,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 InsertMenuItemW
 ƒƒjƒ…[“à‚Ìw’èˆÊ’u‚ÉV‚µ‚¢ƒƒjƒ…[€–Ú‚ğ‘}“ü‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hmenu, item, fByPosition, lpmi
 hmenu : [intptr] Œ^: HMENU V‚µ‚¢ƒƒjƒ…[€–Ú‚ğ‘}“ü‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8302,8 +7606,6 @@ WM_MENUCHAR ƒƒbƒZ[ƒW‚ğˆ—‚·‚é•K—v‚ª‚ ‚éBÚ×‚Í Owner-Drawn Menus ‚Æ WM_MENUC
 %index
 InternalGetWindowText
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹ƒo[ƒeƒLƒXƒg(ƒ^ƒCƒgƒ‹ƒo[‚ª‚ ‚éê‡)‚ğƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, pString, cchMaxCount
 hWnd : [intptr] Œ^: HWND ƒeƒLƒXƒg‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8326,8 +7628,6 @@ GetProcAddress ‚ğg‚Á‚ÄŠÖ”‚ğŒÄ‚Ño‚¹‚éB
 %index
 IntersectRect
 IntersectRect ŠÖ”‚Í 2 ‚Â‚Ìƒ\[ƒX‹éŒ`‚ÌÏ(‹¤’Ê•”•ª)‚ğŒvZ‚µAÏ‚Ì‹éŒ`‚ÌÀ•W‚ğˆ¶æ‹éŒ`‚ÉŠi”[‚·‚éB
-%group
-Win32 user32
 %prm
 lprcDst, lprcSrc1, lprcSrc2
 lprcDst : [var] lprcSrc1 ‚Æ lprcSrc2 ‚ªw‚·‹éŒ`‚ÌÏ(‹¤’Ê•”•ª)‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
@@ -8347,8 +7647,6 @@ IntersectRect ŠÖ”‚Í 2 ‚Â‚Ìƒ\[ƒX‹éŒ`‚ÌÏ(‹¤’Ê•”•ª)‚ğŒvZ‚µAÏ‚Ì‹éŒ`‚ÌÀ•W‚ğˆ¶
 %index
 InvalidateRect
 InvalidateRect ŠÖ”‚ÍAw’èƒEƒBƒ“ƒhƒE‚ÌXV—Ìˆæ‚É‹éŒ`‚ğ’Ç‰Á‚·‚éBXV—Ìˆæ‚ÍAÄ•`‰æ‚ª•K—v‚ÈƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ìˆê•”‚ğ•\‚·B
-%group
-Win32 user32
 %prm
 hWnd, lpRect, bErase
 hWnd : [intptr] XV—Ìˆæ‚ª•Ï‰»‚µ‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒVƒXƒeƒ€‚Í“–ŠYƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚¾‚¯‚Å‚È‚­‚·‚×‚Ä‚ÌƒEƒBƒ“ƒhƒE‚ğ–³Œø‰»‚µ‚ÄÄ•`‰æ‚µAŠÖ”‚Ì–ß‚é‘O‚É WM_ERASEBKGND ‚Æ WM_NCPAINT ƒƒbƒZ[ƒW‚ğ‘—‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚é‚±‚Æ‚Í„§‚³‚ê‚È‚¢B
@@ -8370,8 +7668,6 @@ WM_PAINT ƒƒbƒZ[ƒW‚ğ‘—‚éBbErase ‚ªXV—Ìˆæ‚Ì‚¢‚¸‚ê‚©‚Ì•”•ª‚Å TRUE
 %index
 InvalidateRgn
 InvalidateRgn ŠÖ”‚Íw’è‚³‚ê‚½—Ìˆæ“à‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğAƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌXV—Ìˆæ‚É’Ç‰Á‚·‚é‚±‚Æ‚Å–³Œø‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hRgn, bErase
 hWnd : [intptr] XV—Ìˆæ‚ğC³‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8393,8 +7689,6 @@ WM_PAINT ƒƒbƒZ[ƒW‚ğ‘—‚éBw’èƒŠ[ƒWƒ‡ƒ“‚ÍƒŠ[ƒWƒ‡ƒ“ŠÖ”‚Ì‚¢‚¸‚ê‚©‚ğ—p‚¢‚Äì¬‚
 %index
 InvertRect
 ‹éŒ`“à‚ÌŠeƒsƒNƒZƒ‹‚ÌF’l‚É‘Î‚µ‚Ä˜_— NOT ‰‰Z‚ğs‚Á‚ÄAƒEƒBƒ“ƒhƒE“à‚Ì‹éŒ`‚ğ”½“]‚·‚éB
-%group
-Win32 user32
 %prm
 hDC, lprc
 hDC : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8414,8 +7708,6 @@ lprc : [var] ”½“]‚·‚é‹éŒ`‚Ì˜_—À•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 IsCharAlphaW
 •¶š‚ªƒAƒ‹ƒtƒ@ƒxƒbƒg‚©‚ğ”»’è‚·‚éBƒZƒbƒgƒAƒbƒv‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹ƒpƒlƒ‹‚Åƒ†[ƒU‚ª‘I‘ğ‚µ‚½Œ¾Œê‚ÌƒZƒ}ƒ“ƒeƒBƒNƒX‚ÉŠî‚Ã‚¢‚Ä”»’è‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 ch
 ch : [int] Œ^: TCHAR ŒŸ¸‚·‚é•¶šB
@@ -8435,8 +7727,6 @@ ANSI/Unicode ”Å‚ğ©“®‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 IsCharAlphaNumericW
 •¶š‚ªƒAƒ‹ƒtƒ@ƒxƒbƒg‚Ü‚½‚Í”š‚Å‚ ‚é‚©‚ğ”»’è‚·‚éBƒZƒbƒgƒAƒbƒv‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹ƒpƒlƒ‹‚Åƒ†[ƒU‚ª‘I‘ğ‚µ‚½Œ¾Œê‚ÌƒZƒ}ƒ“ƒeƒBƒNƒX‚ÉŠî‚Ã‚¢‚Ä”»’è‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 ch
 ch : [int] Œ^: TCHAR ŒŸ¸‚·‚é•¶šB
@@ -8456,8 +7746,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 IsCharLowerW
 (no summary)
-%group
-Win32 user32
 %prm
 ch
 ch : [int] Œ^: TCHAR ŒŸ¸‚·‚é•¶šB
@@ -8474,8 +7762,6 @@ IsCharLower ‚Ì Unicode ”ÅB•¶š‚ª¬•¶š‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %index
 IsCharUpperW
 •¶š‚ª‘å•¶š‚©‚ğ”»’è‚·‚éBƒZƒbƒgƒAƒbƒv‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹ƒpƒlƒ‹‚Åƒ†[ƒU‚ª‘I‘ğ‚µ‚½Œ¾Œê‚ÌƒZƒ}ƒ“ƒeƒBƒNƒX‚ÉŠî‚Ã‚¢‚Ä”»’è‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 ch
 ch : [int] Œ^: TCHAR ŒŸ¸‚·‚é•¶šB
@@ -8495,8 +7781,6 @@ ANSI/Unicode ”Å‚ğ©“®‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 IsChild
 ƒEƒBƒ“ƒhƒE‚ªw’è‚³‚ê‚½eƒEƒBƒ“ƒhƒE‚ÌqƒEƒBƒ“ƒhƒE‚Ü‚½‚Íq‘·ƒEƒBƒ“ƒhƒE‚Å‚ ‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWndParent, hWnd
 hWndParent : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8512,8 +7796,6 @@ hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 IsClipboardFormatAvailable
 ƒNƒŠƒbƒvƒ{[ƒh‚ªw’èŒ`®‚Ìƒf[ƒ^‚ğŠÜ‚Ş‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 format
 format : [int] Œ^: UINT •W€‚Ü‚½‚Í“o˜^Ï‚İ‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®B•W€ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ìà–¾‚É‚Â‚¢‚Ä‚Íu•W€ƒNƒŠƒbƒvƒ{[ƒhŒ`®v‚ğQÆB
@@ -8532,8 +7814,6 @@ format : [int] Œ^: UINT •W€‚Ü‚½‚Í“o˜^Ï‚İ‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®B•W€ƒNƒŠƒbƒvƒ{[
 %index
 IsDialogMessageW
 ƒƒbƒZ[ƒW‚ªw’èƒ_ƒCƒAƒƒOˆ¶‚Ä‚©‚ğ”»’è‚µA‚»‚¤‚Å‚ ‚éê‡‚ÍƒƒbƒZ[ƒW‚ğˆ—‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDlg, lpMsg
 hDlg : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8554,8 +7834,6 @@ IsDialogMessage
 %index
 IsDlgButtonChecked
 IsDlgButtonChecked ŠÖ”‚Íƒ{ƒ^ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ªƒ`ƒFƒbƒN‚³‚ê‚Ä‚¢‚é‚©A‚Ü‚½‚Í 3 ó‘Ôƒ{ƒ^ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ªƒ`ƒFƒbƒN/”ñƒ`ƒFƒbƒN/•s’è‚Ì‚¢‚¸‚ê‚Å‚ ‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, nIDButton
 hDlg : [intptr] Œ^: HWND ƒ{ƒ^ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚Şƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8577,8 +7855,6 @@ IsDlgButtonChecked ŠÖ”‚Íw’èƒ{ƒ^ƒ“ƒRƒ“ƒgƒ[ƒ‹‚É BM_GETCHECK ƒƒbƒZ[ƒW‚ğ‘—‚éB
 %index
 IsGUIThread
 ŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªŠù‚É GUI ƒXƒŒƒbƒh‚©‚ğ”»’è‚·‚éB”CˆÓ‚ÅƒXƒŒƒbƒh‚ğ GUI ƒXƒŒƒbƒh‚É•ÏŠ·‚·‚é‚±‚Æ‚à‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 bConvert
 bConvert : [int] Œ^: BOOL TRUE ‚ÅƒXƒŒƒbƒh‚ª GUI ƒXƒŒƒbƒh‚Å‚È‚¢ê‡AGUI ƒXƒŒƒbƒh‚É•ÏŠ·‚·‚éB
@@ -8593,8 +7869,6 @@ bConvert : [int] Œ^: BOOL TRUE ‚ÅƒXƒŒƒbƒh‚ª GUI ƒXƒŒƒbƒh‚Å‚È‚¢ê‡AGUI ƒXƒŒƒbƒh
 %index
 IsHungAppWindow
 w’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‰“š‚µ‚Ä‚¢‚È‚¢‚ÆƒVƒXƒeƒ€‚ª”»’f‚µ‚Ä‚¢‚é‚©‚ğ’²‚×‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8613,8 +7887,6 @@ Server 2003 ‚Ü‚Å SDK ƒwƒbƒ_‚Æƒ‰ƒCƒuƒ‰ƒŠ‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚©‚Á‚½B
 %index
 IsIconic
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ªÅ¬‰»(ƒAƒCƒRƒ“‰»)‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8628,8 +7900,6 @@ hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 IsImmersiveProcess
 ƒvƒƒZƒX‚ª Windows ƒXƒgƒAƒAƒvƒŠ‚É‘®‚·‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hProcess
 hProcess : [intptr] ‘ÎÛƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
@@ -8644,8 +7914,6 @@ hProcess : [intptr] ‘ÎÛƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
 %index
 IsMenu
 ƒnƒ“ƒhƒ‹‚ªƒƒjƒ…[ƒnƒ“ƒhƒ‹‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu
 hMenu : [intptr] Œ^: HMENU ŒŸ¸‚·‚éƒnƒ“ƒhƒ‹B
@@ -8659,8 +7927,6 @@ hMenu : [intptr] Œ^: HMENU ŒŸ¸‚·‚éƒnƒ“ƒhƒ‹B
 %index
 IsMouseInPointerEnabled
 ƒ}ƒEƒX‚ğƒ|ƒCƒ“ƒ^“ü—ÍƒfƒoƒCƒX‚Æ‚µ‚Ä“®ì‚³‚¹ WM_POINTER ƒƒbƒZ[ƒW‚ğ‘—‚é‚½‚ß‚É EnableMouseInPointer ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚ğ¦‚·B
-%group
-Win32 user32
 %prm
 
 %inst
@@ -8677,8 +7943,6 @@ EnableMouseInPointer ‚ÍƒvƒƒZƒX‚Ì‘¶‘±ŠúŠÔ’†‚É 1 ‰ñ‚µ‚©ŒÄ‚Ño‚¹‚È‚¢B
 %index
 IsProcessDPIAware
 IsProcessDPIAware ‚Í•ÏX‚Ü‚½‚Í—˜—p•s‰Â‚É‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É GetProcessDPIAwareness ‚ğg—p‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -8692,8 +7956,6 @@ IsProcessDPIAware ‚Í•ÏX‚Ü‚½‚Í—˜—p•s‰Â‚É‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É GetProcessDPI
 %index
 IsRectEmpty
 IsRectEmpty ŠÖ”‚Íw’è‚³‚ê‚½‹éŒ`‚ª‹ó‚Å‚ ‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 lprc
 lprc : [var] ‹éŒ`‚Ì˜_—À•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -8711,8 +7973,6 @@ IsRectEmpty ŠÖ”‚Íw’è‚³‚ê‚½‹éŒ`‚ª‹ó‚Å‚ ‚é‚©‚ğ”»’è‚·‚éB
 %index
 IsTouchWindow
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ªƒ^ƒbƒ`‘Î‰‚©‚ğ’²‚×A”CˆÓ‚Åƒ^ƒbƒ`‹@”\‚ÌCüƒtƒ‰ƒO‚àæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pulFlags
 hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªw’èƒEƒBƒ“ƒhƒE‚Æ“¯‚¶ƒfƒXƒNƒgƒbƒv‚É‚È‚¢ê‡AŠÖ”‚Í ERROR_ACCESS_DENIED ‚Å¸”s‚·‚éB
@@ -8731,8 +7991,6 @@ pulFlags : [var] w’èƒEƒBƒ“ƒhƒE‚Ìƒ^ƒbƒ`‹@”\‚ÌCüƒtƒ‰ƒO‚ğó‚¯æ‚é ULONG •Ï”‚ÌƒA
 %index
 IsValidDpiAwarenessContext
 w’è‚³‚ê‚½ DPI_AWARENESS_CONTEXT ‚ª—LŒø‚ÅŒ»İ‚ÌƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 value
 value : [intptr] ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚½‚¢ƒRƒ“ƒeƒLƒXƒgB
@@ -8751,8 +8009,6 @@ IsValidDpiAwarenessContext ‚Íw’è‚³‚ê‚½ DPI_AWARENESS_CONTEXT
 %index
 IsWinEventHookInstalled
 w’è‚³‚ê‚½ƒCƒxƒ“ƒg‚ğ’Ê’m‚³‚ê‚é WinEvent ƒtƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 event
 event : [int] 
@@ -8770,8 +8026,6 @@ event : [int]
 %index
 IsWindow
 w’è‚µ‚½ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ªŠù‘¶‚ÌƒEƒBƒ“ƒhƒE‚ğ¯•Ê‚·‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒeƒXƒg‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8789,8 +8043,6 @@ hWnd : [intptr] Œ^: HWND ƒeƒXƒg‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 IsWindowArranged
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ª arranged(ƒXƒiƒbƒv‚³‚ê‚Ä‚¢‚é)‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8810,8 +8062,6 @@ hwnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 IsWindowEnabled
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ªƒ}ƒEƒX‚¨‚æ‚ÑƒL[ƒ{[ƒh“ü—Í‚É‘Î‚µ‚Ä—LŒø‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8828,8 +8078,6 @@ hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 IsWindowUnicode
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ªƒlƒCƒeƒBƒu Unicode ƒEƒBƒ“ƒhƒE‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8849,8 +8097,6 @@ ANSI ƒEƒBƒ“ƒhƒE‚Å‚ ‚é‚±‚Æ‚ğ¦‚·B
 %index
 IsWindowVisible
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ì‰Â‹ó‘Ô‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒeƒXƒg‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8869,8 +8115,6 @@ hWnd : [intptr] Œ^: HWND ƒeƒXƒg‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 IsWow64Message
 Œ»İ‚ÌƒXƒŒƒbƒh‚ÌƒLƒ…[‚©‚çÅŒã‚É“Ç‚İæ‚ç‚ê‚½ƒƒbƒZ[ƒW‚ª WOW64 ƒvƒƒZƒX‚©‚ç”­M‚³‚ê‚½‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -8888,8 +8132,6 @@ Win32 user32
 %index
 IsZoomed
 ƒEƒBƒ“ƒhƒE‚ªÅ‘å‰»‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8903,8 +8145,6 @@ hWnd : [intptr] Œ^: HWND ŒŸ¸‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 KillTimer
 w’è‚³‚ê‚½ƒ^ƒCƒ}‚ğ”jŠü‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, uIDEvent
 hWnd : [intptr] Œ^: HWND w’èƒ^ƒCƒ}‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BSetTimer ‚É“n‚µ‚½ hWnd ‚Æ“¯‚¶‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -8923,8 +8163,6 @@ KillTimer ŠÖ”‚ÍƒƒbƒZ[ƒWƒLƒ…[‚ÉŠù‚Éƒ|ƒXƒg‚³‚ê‚Ä‚¢‚é WM_TIMER ƒƒbƒZ[ƒW‚ğíœ
 %index
 LoadAcceleratorsW
 w’è‚³‚ê‚½ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ğ“Ç‚İ‚ŞB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpTableName
 hInstance : [intptr] Œ^: HINSTANCE “Ç‚İ‚ŞƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ğÀsƒtƒ@ƒCƒ‹‚ÉŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8944,8 +8182,6 @@ NULLBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 LoadBitmapW
 LoadBitmap ŠÖ”‚Íw’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒvƒŠƒ\[ƒX‚ğƒ‚ƒWƒ…[ƒ‹‚ÌÀsƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ŞB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpBitmapName
 hInstance : [intptr] “Ç‚İ‚Şƒrƒbƒgƒ}ƒbƒv‚ğÀsƒtƒ@ƒCƒ‹‚ÉŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8964,8 +8200,6 @@ lpBitmapName ‚ªw‚·ƒrƒbƒgƒ}ƒbƒv‚ª‘¶İ‚µ‚È‚¢‚©A“Ç‚İ‚Ş‚½‚ß‚Ìƒƒ‚ƒŠ‚ª•s‘«‚µ‚Ä‚¢‚
 %index
 LoadCursorW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹(.EXE)‚©‚çw’è‚µ‚½ƒJ[ƒ\ƒ‹ƒŠƒ\[ƒX‚ğƒ[ƒh‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpCursorName
 hInstance : [intptr] Œ^: HINSTANCE ƒ[ƒh‚·‚éƒJ[ƒ\ƒ‹‚ğŠÜ‚ŞÀsƒtƒ@ƒCƒ‹‚ğ‚Âƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -8989,8 +8223,6 @@ API ‚Í DPI ‰¼‘z‰»‚ÉQ‰Á‚µ‚È‚¢Bo—Í‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚Ì DPI ‚Ì‰e‹¿‚ğó‚¯‚È‚¢B
 %index
 LoadCursorFromFileW
 ƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚éƒf[ƒ^‚ÉŠî‚Ã‚¢‚ÄƒJ[ƒ\ƒ‹‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpFileName
 lpFileName : [wstr] Œ^: LPCTSTR ƒJ[ƒ\ƒ‹‚Ìì¬‚Ég—p‚·‚éƒtƒ@ƒCƒ‹ƒf[ƒ^‚Ìƒ\[ƒXBƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^‚Í .CUR ‚Ü‚½‚Í .ANI Œ`®‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -9009,8 +8241,6 @@ DPI ‰¼‘z‰»: ‚±‚Ì API ‚Í DPI ‰¼‘z‰»‚ÉQ‰Á‚µ‚È‚¢Bo—Í‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚Ì DPI ‚Ì‰
 %index
 LoadIconW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚©‚çw’è‚ÌƒAƒCƒRƒ“ƒŠƒ\[ƒX‚ğ“Ç‚İ‚ŞB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpIconName
 hInstance : [intptr] Œ^: HINSTANCE “Ç‚İ‚ŞƒAƒCƒRƒ“‚ğÀsƒtƒ@ƒCƒ‹‚ÉŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B•W€ƒAƒCƒRƒ“‚ğ“Ç‚İ‚Şê‡‚Í NULLB
@@ -9032,8 +8262,6 @@ LoadImage ‚ğg—p‚·‚éB
 %index
 LoadImageW
 ƒAƒCƒRƒ“AƒJ[ƒ\ƒ‹AƒAƒjƒ[ƒVƒ‡ƒ“ƒJ[ƒ\ƒ‹A‚Ü‚½‚Íƒrƒbƒgƒ}ƒbƒv‚ğ“Ç‚İ‚ŞB(Unicode)
-%group
-Win32 user32
 %prm
 hInst, name, type, cx, cy, fuLoad
 hInst : [intptr] Œ^: HINSTANCE “Ç‚İ‚ŞƒCƒ[ƒW‚ğŠÜ‚Ş DLL ‚Ü‚½‚ÍÀsƒtƒ@ƒCƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BOEM ƒCƒ[ƒW‚ğ“Ç‚İ‚Ş‚É‚Í NULL ‚ğİ’è‚·‚éBƒXƒ^ƒ“ƒhƒAƒƒ“ƒŠƒ\[ƒX(ƒAƒCƒRƒ“AƒJ[ƒ\ƒ‹Aƒrƒbƒgƒ}ƒbƒvƒtƒ@ƒCƒ‹)‚ğ“Ç‚İ‚Ş‚É‚à NULL ‚ğİ’è‚·‚éB
@@ -9058,8 +8286,6 @@ IS_INTRESOURCE(lpszName) ‚ª TRUE ‚È‚ç‚Î lpszName ‚Í®”¯•Êq‚ğw‚·B‚»‚¤‚Å‚È‚¯‚
 %index
 LoadKeyboardLayoutW
 V‚µ‚¢“ü—ÍƒƒP[ƒ‹¯•Êq(ˆÈ‘O‚ÍƒL[ƒ{[ƒhƒŒƒCƒAƒEƒg‚ÆŒÄ‚Î‚ê‚Ä‚¢‚½)‚ğƒVƒXƒeƒ€‚É“Ç‚İ‚ŞB(Unicode)
-%group
-Win32 user32
 %prm
 pwszKLID, Flags
 pwszKLID : [wstr] Œ^: LPCTSTR “Ç‚İ‚Ş“ü—ÍƒƒP[ƒ‹¯•Êq‚Ì–¼‘OB‚±‚Ì–¼‘O‚ÍŒ¾Œê¯•Êq‚Ì 16 i’l(‰ºˆÊƒ[ƒh)‚ÆƒfƒoƒCƒX¯•Êq(ãˆÊƒ[ƒh)‚Å\¬‚³‚ê‚é•¶š—ñB—á‚¦‚Î•Ä‘‰pŒê‚Í 0x0409 ‚È‚Ì‚Åå—v•Ä‘‰pŒêƒŒƒCƒAƒEƒg–¼‚Íu00000409v‚Æ‚È‚éB
@@ -9078,8 +8304,6 @@ Flags : [int] Œ^: UINT
 %index
 LoadMenuW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚©‚çw’è‚Ìƒƒjƒ…[ƒŠƒ\[ƒX‚ğ“Ç‚İ‚ŞB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, lpMenuName
 hInstance : [intptr] Œ^: HINSTANCE “Ç‚İ‚Şƒƒjƒ…[ƒŠƒ\[ƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9098,8 +8322,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 LoadMenuIndirectW
 ƒƒ‚ƒŠã‚Ìw’èƒƒjƒ…[ƒeƒ“ƒvƒŒ[ƒg‚ğ“Ç‚İ‚ŞB(Unicode)
-%group
-Win32 user32
 %prm
 lpMenuTemplate
 lpMenuTemplate : [intptr] Œ^: const MENUTEMPLATE* ƒƒjƒ…[ƒeƒ“ƒvƒŒ[ƒg‚Ü‚½‚ÍŠg’£ƒƒjƒ…[ƒeƒ“ƒvƒŒ[ƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9118,8 +8340,6 @@ ANSI ”Å‚Æ Unicode ”Å‚¢‚¸‚ê‚ÌŠÖ”‚Å‚àAMENUITEMTEMPLATE \‘¢‘Ì“à‚Ì•¶š—ñ‚Í Unicod
 %index
 LoadStringW
 w’èƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚©‚ç•¶š—ñƒŠƒ\[ƒX‚ğ“Ç‚İ‚İAƒoƒbƒtƒ@‚ÉƒRƒs[‚µAI’[ null •¶š‚ğ•t‰Á‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hInstance, uID, lpBuffer, cchBufferMax
 hInstance : [intptr] Œ^: HINSTANCE •¶š—ñƒŠƒ\[ƒX‚ğÀsƒtƒ@ƒCƒ‹‚ÉŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒAƒvƒŠƒP[ƒVƒ‡ƒ“©g‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ“¾‚é‚É‚Í GetModuleHandle ‚ğ NULL ‚ÅŒÄ‚ÔB
@@ -9144,8 +8364,6 @@ null I’[‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚È‚¢B
 %index
 LockSetForegroundWindow
 ‘OŒiƒvƒƒZƒX‚Í LockSetForegroundWindow ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä SetForegroundWindow ŠÖ”‚ÌŒÄ‚Ño‚µ‚ğ–³Œø‰»‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 uLockCode
 uLockCode : [int] Œ^: UINT
@@ -9166,8 +8384,6 @@ SetForegroundWindow ‚Ö‚ÌŒÄ‚Ño‚µ‚ğ—LŒø‰»‚·‚éB
 %index
 LockWindowUpdate
 LockWindowUpdate ŠÖ”‚Íw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì•`‰æ‚ğ–³Œø‰»‚Ü‚½‚Í—LŒø‰»‚·‚éBˆê“x‚ÉƒƒbƒN‚Å‚«‚éƒEƒBƒ“ƒhƒE‚Í 1 ‚Â‚¾‚¯B
-%group
-Win32 user32
 %prm
 hWndLock
 hWndLock : [intptr] •`‰æ‚ğ–³Œø‰»‚·‚éƒEƒBƒ“ƒhƒEBNULL ‚Ìê‡AƒƒbƒN‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì•`‰æ‚ª—LŒø‰»‚³‚ê‚éB
@@ -9188,8 +8404,6 @@ LockWindowUpdate
 %index
 LockWorkStation
 ƒ[ƒNƒXƒe[ƒVƒ‡ƒ“‚Ì•\¦‚ğƒƒbƒN‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -9207,8 +8421,6 @@ LockWorkStation
 %index
 LogicalToPhysicalPoint
 ƒEƒBƒ“ƒhƒE“à‚Ì“_‚Ì˜_—À•W‚ğ•¨—À•W‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpPoint
 hWnd : [intptr] Œ^: HWND •ÏŠ·‚Ég—p‚·‚é•ÏŠ·s—ñ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ÍŠ®‘S‚ÉƒTƒ|[ƒg‚³‚ê‚éBqƒEƒBƒ“ƒhƒE‚Ìê‡Ae‚Æq‚Ìd‚È‚è—Ìˆæ‚Ì‚İ‚ª•ÏŠ·‚³‚ê‚éB
@@ -9225,8 +8437,6 @@ Windows Vista ‚Å•¨—À•W‚ÌŠT”O‚ª“±“ü‚³‚ê‚½BDWM ‚Í DPI ”ñ‘Î‰ƒEƒBƒ“ƒhƒE‚ğ‚ DPI
 %index
 LogicalToPhysicalPointForPerMonitorDPI
 ŒÄ‚Ño‚µŒ³‚Ì DPI ”F¯‚ÉŠÖ‚í‚ç‚¸AƒEƒBƒ“ƒhƒE“à‚Ì“_‚ğ˜_—À•W‚©‚ç•¨—À•W‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpPoint
 hWnd : [intptr] •ÏŠ·‚Ég—p‚·‚é•ÏŠ·s—ñ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9246,8 +8456,6 @@ lpPoint : [var] •ÏŠ·‚·‚é˜_—À•W‚ğw’è‚·‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷‚É‚Í
 %index
 LookupIconIdFromDirectory
 Œ»İ‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ÉÅ“K‚ÈƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğƒAƒCƒRƒ“/ƒJ[ƒ\ƒ‹ƒf[ƒ^‚©‚çŒŸõ‚·‚éB(LookupIconIdFromDirectory)
-%group
-Win32 user32
 %prm
 presbits, fIcon
 presbits : [var] Œ^: PBYTE ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ÌƒfƒBƒŒƒNƒgƒŠƒf[ƒ^B‚±‚ÌŠÖ”‚ÍƒŠƒ\[ƒXƒf[ƒ^‚ğŒŸØ‚µ‚È‚¢‚½‚ßApresbits ‚ª—LŒø‚ÈƒŠƒ\[ƒXƒf[ƒ^‚ğw‚µ‚Ä‚¢‚È‚¢‚Æ GP ƒtƒH[ƒ‹ƒg‚ª”­¶‚·‚é‚©–¢’è‹`’l‚ğ•Ô‚·B
@@ -9270,8 +8478,6 @@ RT_GROUP_ICON (ƒJ[ƒ\ƒ‹‚Í RT_GROUP_CURSOR)
 %index
 LookupIconIdFromDirectoryEx
 Œ»İ‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚ÉÅ“K‚ÈƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ğƒAƒCƒRƒ“/ƒJ[ƒ\ƒ‹ƒf[ƒ^‚©‚çŒŸõ‚·‚éB(LookupIconIdFromDirectoryEx)
-%group
-Win32 user32
 %prm
 presbits, fIcon, cxDesired, cyDesired, Flags
 presbits : [var] Œ^: PBYTE ƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ÌƒfƒBƒŒƒNƒgƒŠƒf[ƒ^B
@@ -9297,8 +8503,6 @@ RT_GROUP_ICON
 %index
 MapDialogRect
 w’è‚³‚ê‚½ƒ_ƒCƒAƒƒO’PˆÊ‚ğ‰æ–Ê’PˆÊ(ƒsƒNƒZƒ‹)‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, lpRect
 hDlg : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌŠÖ”‚Íƒ_ƒCƒAƒƒOì¬ŠÖ”‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚Ì‚İó‚¯•t‚¯‚éB‘¼‚ÌƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹‚Í–³ŒøB
@@ -9319,8 +8523,6 @@ MapDialogRect ŠÖ”‚Í RECT
 %index
 MapVirtualKeyW
 ‰¼‘zƒL[ƒR[ƒh‚ğƒXƒLƒƒƒ“ƒR[ƒh‚Ü‚½‚Í•¶š’l‚É•ÏŠ·‚·‚éA‚Ü‚½‚ÍƒXƒLƒƒƒ“ƒR[ƒh‚ğ‰¼‘zƒL[ƒR[ƒh‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 uCode, uMapType
 uCode : [int] Œ^: UINT ƒL[‚Ì‰¼‘zƒL[ƒR[ƒh‚Ü‚½‚ÍƒXƒLƒƒƒ“ƒR[ƒhB‰ğß‚Í uMapType ‚Ì’l‚ÉˆË‘¶‚·‚éB
@@ -9339,8 +8541,6 @@ uMapType : [int] Œ^: UINT Às‚·‚é•ÏŠ·B’l‚Í uCode ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÉˆË‘¶‚·‚éB
 %index
 MapVirtualKeyExW
 ‰¼‘zƒL[ƒR[ƒh‚ğƒXƒLƒƒƒ“ƒR[ƒh‚Ü‚½‚Í•¶š’l‚É•ÏŠ·‚·‚éA‚Ü‚½‚ÍƒXƒLƒƒƒ“ƒR[ƒh‚ğ‰¼‘zƒL[ƒR[ƒh‚É•ÏŠ·‚·‚éB“ü—ÍŒ¾Œê‚Æ“ü—ÍƒƒP[ƒ‹¯•Êq‚ğ—p‚¢‚ÄƒR[ƒh‚ğ•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 uCode, uMapType, dwhkl
 uCode : [int] Œ^: UINT ƒL[‚Ì‰¼‘zƒL[ƒR[ƒh‚Ü‚½‚ÍƒXƒLƒƒƒ“ƒR[ƒhB‚±‚Ì’l‚Ì‰ğß‚Í uMapType ‚Ì’l‚ÉˆË‘¶‚·‚éBWindows Vista ˆÈ~‚Å‚Í uCode ‚ÌãˆÊƒoƒCƒg‚É 0xe0 ‚Ü‚½‚Í 0xe1 ‚ğŠÜ‚ß‚ÄŠg’£ƒXƒLƒƒƒ“ƒR[ƒh‚ğw’è‚Å‚«‚éB
@@ -9363,8 +8563,6 @@ dwhkl : [intptr] Œ^: HKL w’èƒR[ƒh‚Ì•ÏŠ·‚Ég—p‚·‚é“ü—ÍƒƒP[ƒ‹¯•ÊqBLoadKeybo
 %index
 MapWindowPoints
 MapWindowPoints ŠÖ”‚Í“_‚ÌƒZƒbƒg‚ğ‚ ‚éƒEƒBƒ“ƒhƒE‚ÌÀ•W‹óŠÔ‚©‚ç•Ê‚ÌƒEƒBƒ“ƒhƒE‚ÌÀ•W‹óŠÔ‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hWndFrom, hWndTo, lpPoints, cPoints
 hWndFrom : [intptr] “_‚ğ•ÏŠ·‚·‚éŒ³‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ü‚½‚Í HWND_DESKTOP ‚Ìê‡A“_‚ÍƒXƒNƒŠ[ƒ“À•W‚Æ‚İ‚È‚³‚ê‚éB
@@ -9388,8 +8586,6 @@ hWndFrom ‚Ü‚½‚Í hWndTo(‚ ‚é‚¢‚Í—¼•û)‚ªƒ~ƒ‰[‰»ƒEƒBƒ“ƒhƒE(WS_EX_LAYOUTRTL Šg’£ƒXƒ
 %index
 MenuItemFromPoint
 w’èˆÊ’u‚É‚ ‚éƒƒjƒ…[€–Ú‚ª‚Ç‚ê‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hMenu, ptScreen
 hWnd : [intptr] Œ^: HWND ƒƒjƒ…[‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Å hMenu ‚ªƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚ğ•\‚·ê‡AŠÖ”‚Íƒƒjƒ…[ƒEƒBƒ“ƒhƒE‚ğ©“®‚ÅŒ©‚Â‚¯‚éB
@@ -9405,8 +8601,6 @@ ptScreen : [int] Œ^: POINT ƒeƒXƒg‚·‚éˆÊ’u‚ğw’è‚·‚é\‘¢‘ÌBhMenu ‚ªƒƒjƒ…[ƒo[‚
 %index
 MessageBeep
 ”gŒ`‰¹‚ğÄ¶‚·‚éBŠe‰¹í‚Ì”gŒ`‰¹‚ÍƒŒƒWƒXƒgƒŠ‚ÌƒGƒ“ƒgƒŠ‚Å¯•Ê‚³‚ê‚éB
-%group
-Win32 user32
 %prm
 uType
 uType : [int] Ä¶‚·‚é‰¹B‰¹‚Íƒ†[ƒU‚ªƒTƒEƒ“ƒhƒRƒ“ƒgƒ[ƒ‹ƒpƒlƒ‹‚Åİ’è‚µAƒŒƒWƒXƒgƒŠ‚É•Û‘¶‚³‚ê‚éB
@@ -9424,8 +8618,6 @@ MessageBeep
 %index
 MessageBoxW
 ƒVƒXƒeƒ€ƒAƒCƒRƒ“Aƒ{ƒ^ƒ“ŒQAƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L‚Ì’Z‚¢ƒƒbƒZ[ƒW(ó‘Ô‚âƒGƒ‰[î•ñ‚È‚Ç)‚ğŠÜ‚Şƒ‚[ƒ_ƒ‹ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB–ß‚è’l‚Íƒ†[ƒU[‚ªƒNƒŠƒbƒN‚µ‚½ƒ{ƒ^ƒ“‚ğ¦‚·®”’lB(MessageBoxW)
-%group
-Win32 user32
 %prm
 hWnd, lpText, lpCaption, uType
 hWnd : [intptr] Œ^: HWND ì¬‚·‚éƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ÌƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ÉƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Í‚È‚¢B
@@ -9451,8 +8643,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B¬Œ÷‚µ‚½ê‡‚Ì–ß‚è’l‚ÍŸ‚Ìƒƒjƒ…[€–Ú’l‚Ì‚¢‚¸‚ê‚©‚Æ‚È‚
 %index
 MessageBoxExW
 ƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ğì¬A•\¦A‘€ì‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpText, lpCaption, uType, wLanguageId
 hWnd : [intptr] Œ^: HWND ì¬‚·‚éƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ÌŠ—LƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AŠ—LƒEƒBƒ“ƒhƒE‚ğ‚½‚È‚¢B
@@ -9476,8 +8666,6 @@ IDCANCEL ‚ğ•Ô‚·BŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0B
 %index
 MessageBoxIndirectW
 ƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ğì¬A•\¦A‘€ì‚·‚éBƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚É‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒƒbƒZ[ƒWƒeƒLƒXƒg‚Æƒ^ƒCƒgƒ‹A”CˆÓ‚ÌƒAƒCƒRƒ“A‚¨‚æ‚Ñ–‘O’è‹`‚ÌƒvƒbƒVƒ…ƒ{ƒ^ƒ“‚Ì‘g‚İ‡‚í‚¹‚ªŠÜ‚Ü‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpmbp
 lpmbp : [var] Œ^: const LPMSGBOXPARAMS ƒƒbƒZ[ƒWƒ{ƒbƒNƒX•\¦‚Ég—p‚·‚éî•ñ‚ğŠÜ‚Ş MSGBOXPARAMS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9497,8 +8685,6 @@ lpszCaption ƒƒ“ƒo‚ªw‚·•¶š—ñ‚ÍƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚©‚çæ‚ç‚È‚¢‚±‚ÆB
 %index
 ModifyMenuW
 Šù‘¶‚Ìƒƒjƒ…[€–Ú‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hMnu, uPosition, uFlags, uIDNewItem, lpNewItem
 hMnu : [intptr] Œ^: HMENU •ÏX‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9522,8 +8708,6 @@ DrawMenuBar ŠÖ”‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB
 %index
 MonitorFromPoint
 MonitorFromPoint ŠÖ”‚Íw’è‚³‚ê‚½“_‚ğŠÜ‚ŞƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 pt, dwFlags
 pt : [int] ‰¼‘zƒXƒNƒŠ[ƒ“À•W‚Å‘ÎÛ‚Ì“_‚ğw’è‚·‚é POINT \‘¢‘ÌB
@@ -9539,8 +8723,6 @@ MonitorFromPoint ŠÖ”‚Íw’è‚³‚ê‚½“_‚ğŠÜ‚ŞƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚
 %index
 MonitorFromRect
 MonitorFromRect ŠÖ”‚Íw’è‹éŒ`‚ÆÅ‚àŒğ·–ÊÏ‚Ì‘å‚«‚¢ƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 lprc, dwFlags
 lprc : [var] ‰¼‘zƒXƒNƒŠ[ƒ“À•W‚Å‘ÎÛ‚Ì‹éŒ`‚ğw’è‚·‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9556,8 +8738,6 @@ MonitorFromRect ŠÖ”‚Íw’è‹éŒ`‚ÆÅ‚àŒğ·–ÊÏ‚Ì‘å‚«‚¢ƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚Ö‚Ìƒnƒ“ƒh
 %index
 MonitorFromWindow
 MonitorFromWindow ŠÖ”‚Íw’èƒEƒBƒ“ƒhƒE‚Ì‹«ŠE‹éŒ`‚ÆÅ‚àŒğ·–ÊÏ‚Ì‘å‚«‚¢ƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, dwFlags
 hwnd : [intptr] ‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9576,8 +8756,6 @@ MonitorFromWindow ŠÖ”‚Íw’èƒEƒBƒ“ƒhƒE‚Ì‹«ŠE‹éŒ`‚ÆÅ‚àŒğ·–ÊÏ‚Ì‘å‚«‚¢ƒfƒBƒXƒvƒŒ
 %index
 MoveWindow
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ÌˆÊ’u‚Æ¡–@‚ğ•ÏX‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, X, Y, nWidth, nHeight, bRepaint
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9604,8 +8782,6 @@ WM_WINDOWPOSCHANGINGAWM_WINDOWPOSCHANGEDAWM_MOVEAWM_SIZEAWM_NCCALCSIZE
 %index
 MsgWaitForMultipleObjects
 w’èƒIƒuƒWƒFƒNƒg‚Ì‚¤‚¿‚Ì 1 ‚Â‚Ü‚½‚Í‚·‚×‚Ä‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚©Aƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚Å‘Ò‹@‚·‚éBƒIƒuƒWƒFƒNƒg‚É‚Í“ü—ÍƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 nCount, pHandles, fWaitAll, dwMilliseconds, dwWakeMask
 nCount : [int] pHandles ‚ªw‚·”z—ñ“à‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹”BÅ‘å‚Í MAXIMUM_WAIT_OBJECTS - 1B0 ‚Ìê‡A“ü—ÍƒCƒxƒ“ƒg‚Ì‚İ‚ğ‘Ò‹@‚·‚éB
@@ -9630,8 +8806,6 @@ bWaitAll ‚ğ TRUE ‚É‚µ‚È‚¢‚±‚ÆB
 %index
 MsgWaitForMultipleObjectsEx
 w’èƒIƒuƒWƒFƒNƒg‚Ì‚¤‚¿‚Ì 1 ‚Â‚Ü‚½‚Í‚·‚×‚Ä‚ªƒVƒOƒiƒ‹ó‘Ô‚É‚È‚é‚©AI/O Š®—¹ƒ‹[ƒ`ƒ“‚Ü‚½‚Í APC ‚ªƒXƒŒƒbƒh‚ÉƒLƒ…[‚³‚ê‚é‚©Aƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚Å‘Ò‹@‚·‚éB
-%group
-Win32 user32
 %prm
 nCount, pHandles, dwMilliseconds, dwWakeMask, dwFlags
 nCount : [int] pHandles ‚ªw‚·”z—ñ“à‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹”B
@@ -9655,8 +8829,6 @@ MsgWaitForMultipleObjectsEx ŠÖ”‚Í dwWakeMask ‚Æ dwFlags
 %index
 NotifyWinEvent
 –‘O’è‹`‚ÌƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éBƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒCƒxƒ“ƒg‚ÌƒtƒbƒNŠÖ”‚ğ“o˜^‚µ‚Ä‚¢‚éê‡AƒVƒXƒeƒ€‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒtƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B
-%group
-Win32 user32
 %prm
 event, hwnd, idObject, idChild
 event : [int] 
@@ -9675,8 +8847,6 @@ idChild : [int] Œ^: LONG ƒCƒxƒ“ƒg‚ªƒIƒuƒWƒFƒNƒg©g‚Å”­¶‚µ‚½‚©q—v‘f‚Å”­¶‚µ‚½‚
 %index
 OemKeyScan
 OEM ASCII ƒR[ƒh 0 ‚©‚ç 0x0FF ‚ğ OEM ƒXƒLƒƒƒ“ƒR[ƒh‚¨‚æ‚ÑƒVƒtƒgó‘Ô‚Éƒ}ƒbƒv‚·‚éBƒL[ƒ{[ƒh“ü—Í‚ğ–Í‹[‚µ‚Ä•ÊƒvƒƒOƒ‰ƒ€‚É OEM ƒeƒLƒXƒg‚ğ‘—‚é‚½‚ß‚Ìî•ñ‚ğ’ñ‹Ÿ‚·‚éB
-%group
-Win32 user32
 %prm
 wOemChar
 wOemChar : [int] Œ^: WORD OEM •¶š‚Ì ASCII ’lB
@@ -9696,8 +8866,6 @@ ALT+ƒL[ƒpƒbƒh‚Ìd‘g‚İ‚Å“ü—Í‚ğ–Í‹[‚·‚é•K—v‚ª‚ ‚éB
 %index
 OemToCharW
 OEM ’è‹`•¶šƒZƒbƒg‚©‚ç ANSI ‚Ü‚½‚ÍƒƒCƒh•¶š—ñ‚Ö•¶š—ñ‚ğ•ÏŠ·‚·‚éBŒx: g—p‚µ‚È‚¢‚±‚ÆB(Unicode)
-%group
-Win32 user32
 %prm
 pSrc, pDst
 pSrc : [str] Œ^: LPCSTR OEM ’è‹`•¶šƒZƒbƒg‚©‚ç‚Ì null I’[•¶š—ñB
@@ -9717,8 +8885,6 @@ ANSI/Unicode ”Å‚ğ©“®‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 %index
 OemToCharBuffW
 OEM ’è‹`•¶šƒZƒbƒg‚©‚ç ANSI ‚Ü‚½‚ÍƒƒCƒh•¶š—ñ‚Öw’è•¶š”‚Ì•¶š—ñ‚ğ•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpszSrc, lpszDst, cchDstLength
 lpszSrc : [str] Œ^: LPCSTR OEM ’è‹`•¶šƒZƒbƒg‚©‚ç‚Ì 1 •¶šˆÈãB
@@ -9739,8 +8905,6 @@ OemToChar ŠÖ”‚ÆˆÙ‚È‚èAOemToCharBuff ŠÖ”‚Í lpszSrc ‚ªw‚·ƒoƒbƒtƒ@“à‚Å null
 %index
 OffsetRect
 OffsetRect ŠÖ”‚Íw’è‚³‚ê‚½‹éŒ`‚ğw’è‚³‚ê‚½ƒIƒtƒZƒbƒg‚¾‚¯ˆÚ“®‚·‚éB
-%group
-Win32 user32
 %prm
 lprc, dx, dy
 lprc : [var] ˆÚ“®‚·‚é‹éŒ`‚Ì˜_—À•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9759,8 +8923,6 @@ OffsetRect ŠÖ”‚Íw’è‚³‚ê‚½‹éŒ`‚ğw’è‚³‚ê‚½ƒIƒtƒZƒbƒg‚¾‚¯ˆÚ“®‚·‚éB
 %index
 OpenClipboard
 ƒNƒŠƒbƒvƒ{[ƒh‚ğŒŸ¸—p‚ÉŠJ‚«A‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒNƒŠƒbƒvƒ{[ƒh“à—e‚ğ•ÏX‚·‚é‚Ì‚ğ–h‚®B
-%group
-Win32 user32
 %prm
 hWndNewOwner
 hWndNewOwner : [intptr] Œ^: HWND ŠJ‚¢‚½ƒNƒŠƒbƒvƒ{[ƒh‚ÉŠÖ˜A•t‚¯‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AŒ»İ‚Ìƒ^ƒXƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚éB
@@ -9779,8 +8941,6 @@ CloseClipboard ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB
 %index
 OpenDesktopW
 w’è‚³‚ê‚½ƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B(Unicode)
-%group
-Win32 user32
 %prm
 lpszDesktop, dwFlags, fInherit, dwDesiredAccess
 lpszDesktop : [wstr] ŠJ‚­ƒfƒXƒNƒgƒbƒv‚Ì–¼‘OBƒfƒXƒNƒgƒbƒv–¼‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢BŒ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚É‘®‚·‚é•K—v‚ª‚ ‚éB
@@ -9802,8 +8962,6 @@ NULLBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚ÔB
 %index
 OpenIcon
 Å¬‰»(ƒAƒCƒRƒ“‰»)‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğˆÈ‘O‚ÌƒTƒCƒY‚ÆˆÊ’u‚É•œŒ³‚µAƒEƒBƒ“ƒhƒE‚ğƒAƒNƒeƒBƒu‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND •œŒ³‚µ‚ÄƒAƒNƒeƒBƒu‰»‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9821,8 +8979,6 @@ OpenIcon ‚Íw’èƒEƒBƒ“ƒhƒE‚É WM_QUERYOPEN ƒƒbƒZ[ƒW‚ğ‘—‚éB
 %index
 OpenInputDesktop
 ƒ†[ƒU“ü—Í‚ğó‚¯æ‚éƒfƒXƒNƒgƒbƒv‚ğŠJ‚­B
-%group
-Win32 user32
 %prm
 dwFlags, fInherit, dwDesiredAccess
 dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Ü‚½‚ÍŸ‚Ì’l‚ğw’è‚Å‚«‚éB
@@ -9842,8 +8998,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 OpenWindowStationW
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ğŠJ‚­B(Unicode)
-%group
-Win32 user32
 %prm
 lpszWinSta, fInherit, dwDesiredAccess
 lpszWinSta : [wstr] ŠJ‚­ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ì–¼‘OB‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢BŒ»İ‚ÌƒZƒbƒVƒ‡ƒ“‚É‘®‚·‚é•K—v‚ª‚ ‚éB
@@ -9863,8 +9017,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 PackDDElParam
 ƒvƒƒZƒXŠÔ‚Å DDE ƒf[ƒ^‚ğ‹¤—L‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é“à•”\‘¢‘Ì‚É“®“Iƒf[ƒ^ŒğŠ· (DDE) ‚Ì lParam ’l‚ğƒpƒbƒN‚·‚éB
-%group
-Win32 user32
 %prm
 msg, uiLo, uiHi
 msg : [int] Œ^: UINT ƒ|ƒXƒg‚·‚é DDE ƒƒbƒZ[ƒWB
@@ -9884,8 +9036,6 @@ uiHi : [int] Œ^: UINT_PTR ƒ|ƒXƒg‚·‚é DDE ƒƒbƒZ[ƒW‚Ì lParam ƒpƒ‰ƒ[ƒ^‚Ì 16 ƒrƒ
 %index
 PackTouchHitTestingProximityEvaluation
 WM_TOUCHHITTESTING ƒR[ƒ‹ƒoƒbƒNŒü‚¯‚ÉA‹ßÚ“x•]‰¿ƒXƒRƒA‚Æ’²®Ï‚İƒ^ƒbƒ`ƒ|ƒCƒ“ƒgÀ•W‚ğƒpƒbƒN’l‚Æ‚µ‚Ä•Ô‚·B
-%group
-Win32 user32
 %prm
 pHitTestingInput, pProximityEval
 pHitTestingInput : [var] ƒ^ƒbƒ`ÚG—Ìˆæ‚Ìƒf[ƒ^‚ğ•Û‚·‚é TOUCH_HIT_TESTING_INPUT \‘¢‘ÌB
@@ -9904,8 +9054,6 @@ adjustedPoint ’l‚ğ LRESULT ‚Æ‚µ‚ÄƒpƒbƒN‚µ‚Ä•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í Ge
 %index
 PaintDesktop
 PaintDesktop ŠÖ”‚Íw’èƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ğƒfƒXƒNƒgƒbƒvƒpƒ^[ƒ“‚Ü‚½‚Í•Ç†‚Å“h‚è‚Â‚Ô‚·B
-%group
-Win32 user32
 %prm
 hdc
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9919,8 +9067,6 @@ PaintDesktop ŠÖ”‚Íw’èƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚ÌƒNƒŠƒbƒsƒ“ƒO—Ìˆæ‚ğƒfƒXƒNƒgƒbƒvƒpƒ
 %index
 PeekMessageW
 óM‚µ‚½”ñƒLƒ…[ƒƒbƒZ[ƒW‚ğƒfƒBƒXƒpƒbƒ`‚µAƒ|ƒXƒg‚³‚ê‚½ƒƒbƒZ[ƒW‚ğƒXƒŒƒbƒhƒƒbƒZ[ƒWƒLƒ…[‚©‚çæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpMsg, hWnd, wMsgFilterMin, wMsgFilterMax, wRemoveMsg
 lpMsg : [var] Œ^: LPMSG ƒƒbƒZ[ƒWî•ñ‚ğó‚¯æ‚é MSG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -9942,8 +9088,6 @@ PeekMessage ‚Í hWnd ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ü‚½‚Í‚»‚Ìq‚ÉŠÖ˜A•t‚¯‚ç‚êA
 %index
 PhysicalToLogicalPoint
 ƒEƒBƒ“ƒhƒE“à‚Ì“_‚Ì•¨—À•W‚ğ˜_—À•W‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpPoint
 hWnd : [intptr] Œ^: HWND •ÏŠ·‚Ég—p‚·‚é•ÏŠ·s—ñ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9958,8 +9102,6 @@ Windows Vista ‚Å•¨—À•W‚ÌŠT”O‚ª“±“ü‚³‚ê‚½BWindows 8.1 ˆÈ~A‚±‚Ì API ‚Í“_‚ğ•ÏŠ
 %index
 PhysicalToLogicalPointForPerMonitorDPI
 ŒÄ‚Ño‚µŒ³‚Ì DPI ”F¯‚ÉŠÖ‚í‚ç‚¸AƒEƒBƒ“ƒhƒE“à‚Ì“_‚ğ•¨—À•W‚©‚ç˜_—À•W‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpPoint
 hWnd : [intptr] •ÏŠ·‚Ég—p‚·‚é•ÏŠ·s—ñ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -9977,8 +9119,6 @@ lpPoint : [var] •ÏŠ·‚·‚é•¨—/ƒXƒNƒŠ[ƒ“À•W‚ğw’è‚·‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PostMessageW
 w’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉƒƒbƒZ[ƒW‚ğ“Še(ƒ|ƒXƒg)‚µAƒXƒŒƒbƒh‚ªƒƒbƒZ[ƒW‚ğˆ—‚·‚é‚Ì‚ğ‘Ò‚½‚¸‚É–ß‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, Msg, wParam, lParam
 hWnd : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BŸ‚Ì’l‚Í“Á•Ê‚ÈˆÓ–¡‚ğ‚ÂB
@@ -10014,8 +9154,6 @@ ERROR_NOT_ENOUGH_QUOTA ‚ğ•Ô‚·B‹–—e‰Â”\‚ÈÅ¬’l‚Í 4000B
 %index
 PostQuitMessage
 ƒXƒŒƒbƒh‚ªI—¹—v‹‚ğo‚µ‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É¦‚·B’Êí WM_DESTROY ƒƒbƒZ[ƒW‚Ö‚Ì‰“š‚Åg—p‚·‚éB
-%group
-Win32 user32
 %prm
 nExitCode
 nExitCode : [int] Œ^: int ƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹ƒR[ƒhBWM_QUIT ƒƒbƒZ[ƒW‚Ì wParam ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äg—p‚³‚ê‚éB
@@ -10030,8 +9168,6 @@ PostQuitMessage ŠÖ”‚ÍƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚É WM_QUIT
 %index
 PostThreadMessageW
 w’è‚³‚ê‚½ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉƒƒbƒZ[ƒW‚ğƒ|ƒXƒg‚·‚éBƒXƒŒƒbƒh‚ªƒƒbƒZ[ƒW‚ğˆ—‚·‚é‚Ì‚ğ‘Ò‚½‚¸‚É–ß‚éB(Unicode)
-%group
-Win32 user32
 %prm
 idThread, Msg, wParam, lParam
 idThread : [int] Œ^: DWORD ƒƒbƒZ[ƒW‚ğƒ|ƒXƒg‚·‚éƒXƒŒƒbƒh‚Ì¯•ÊqBw’èƒXƒŒƒbƒh‚ªƒƒbƒZ[ƒWƒLƒ…[‚ğ‚½‚È‚¢ê‡AŠÖ”‚Í¸”s‚·‚éB
@@ -10054,8 +9190,6 @@ PostThreadMessage ‚Í¸”s‚·‚éB
 %index
 PrintWindow
 PrintWindow ŠÖ”‚Í‹Šo“I‚ÈƒEƒBƒ“ƒhƒE‚ğw’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg(’Êí‚ÍƒvƒŠƒ“ƒ^ DC)‚ÉƒRƒs[‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, hdcBlt, nFlags
 hwnd : [intptr] ƒRƒs[‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10076,8 +9210,6 @@ WM_PRINT ƒƒbƒZ[ƒW(‚Ü‚½‚Í PW_PRINTCLIENT ƒtƒ‰ƒOw’è‚Í WM_PRINTCLIENT ƒƒbƒZ[
 %index
 PrivateExtractIconsW
 w’èƒtƒ@ƒCƒ‹‚©‚ç’Šo‚µ‚½ƒAƒCƒRƒ“‚Ìƒnƒ“ƒhƒ‹”z—ñ‚ğì¬‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 szFileName, nIconIndex, cxIcon, cyIcon, phicon, piconid, nIcons, flags
 szFileName : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğ’Šo‚·‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Æ–¼‘OB
@@ -10104,8 +9236,6 @@ flags : [int] Œ^: UINT ‚±‚ÌŠÖ”‚ğ§Œä‚·‚éƒtƒ‰ƒOBLoadImage ŠÖ”‚Åg—p‚³‚ê‚é LR_*
 %index
 PtInRect
 PtInRect ŠÖ”‚Íw’è‚³‚ê‚½“_‚ªw’è‚³‚ê‚½‹éŒ`“à‚É‚ ‚é‚©‚ğ”»’è‚·‚éB
-%group
-Win32 user32
 %prm
 lprc, pt
 lprc : [var] w’è‚³‚ê‚½‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -10124,8 +9254,6 @@ PtInRect ‚ğŒÄ‚Ô‘O‚É‹éŒ`‚Í³‹K‰»‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚é(lprc.right > lprc.left ‚©‚Â 
 %index
 QueryDisplayConfig
 QueryDisplayConfig ŠÖ”‚ÍŒ»İ‚Ìİ’è‚É‚¨‚¯‚é‚·‚×‚Ä‚ÌƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒX‚Ü‚½‚Íƒrƒ…[‚Ì‚·‚×‚Ä‚Ì‰Â”\‚ÈƒfƒBƒXƒvƒŒƒCƒpƒX‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 flags, numPathArrayElements, pathArray, numModeInfoArrayElements, modeInfoArray, currentTopologyId
 flags : [int] 
@@ -10153,8 +9281,6 @@ QueryDisplayConfig
 %index
 RealChildWindowFromPoint
 w’è“_‚É‚ ‚éqƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éBŒŸõ‚Í’¼Ú‚ÌqƒEƒBƒ“ƒhƒE‚ÉŒÀ’è‚³‚ê‚éB
-%group
-Win32 user32
 %prm
 hwndParent, ptParentClientCoords
 hwndParent : [intptr] Œ^: HWND q‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10174,8 +9300,6 @@ HTTRANSPARENT —Ìˆæ‚ğ“¯—l‚Éˆµ‚¤B
 %index
 RealGetWindowClassW
 ƒEƒBƒ“ƒhƒEŒ^‚ğw’è‚·‚é•¶š—ñ‚ğæ“¾‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hwnd, ptszClassName, cchClassNameMax
 hwnd : [intptr] Œ^: HWND Œ^‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10192,8 +9316,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 RedrawWindow
 RedrawWindow ŠÖ”‚ÍƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚Ìw’è‹éŒ`‚Ü‚½‚Í—Ìˆæ‚ğXV‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lprcUpdate, hrgnUpdate, flags
 hWnd : [intptr] Ä•`‰æ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚ªXV‚³‚ê‚éB
@@ -10214,8 +9336,6 @@ RedrawWindow ‚ğ—p‚¢‚ÄƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚Ìˆê•”‚ğ–³Œø‰»‚·‚éê‡AƒfƒXƒNƒgƒbƒvƒ
 %index
 RegisterClassW
 CreateWindow ‚Ü‚½‚Í CreateWindowEx ‚ÌŒÄ‚Ño‚µ‚ÅŒã‘±g—p‚·‚éƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ“o˜^‚·‚éB(RegisterClassW)
-%group
-Win32 user32
 %prm
 lpWndClass
 lpWndClass : [var] Œ^: const WNDCLASS* WNDCLASS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B“n‚·‘O‚ÉƒNƒ‰ƒX‘®«‚Å\‘¢‘Ì‚ğ–„‚ß‚é•K—v‚ª‚ ‚éB
@@ -10235,8 +9355,6 @@ RegisterClassA ‚Å“o˜^‚³‚ê‚½ê‡Aì¬‚³‚ê‚½ƒNƒ‰ƒX‚ÌƒEƒBƒ“ƒhƒE‚ÍƒƒbƒZ[ƒWƒeƒLƒXƒ
 %index
 RegisterClassExW
 CreateWindow ‚Ü‚½‚Í CreateWindowEx ‚ÌŒÄ‚Ño‚µ‚ÅŒã‘±g—p‚·‚éƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ“o˜^‚·‚éB(RegisterClassExW)
-%group
-Win32 user32
 %prm
 param0
 param0 : [var] 
@@ -10258,8 +9376,6 @@ RegisterClassExA
 %index
 RegisterClipboardFormatW
 V‚µ‚¢ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğ“o˜^‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpszFormat
 lpszFormat : [wstr] Œ^: LPCTSTR V‚µ‚¢Œ`®‚Ì–¼‘OB
@@ -10278,8 +9394,6 @@ lpszFormat : [wstr] Œ^: LPCTSTR V‚µ‚¢Œ`®‚Ì–¼‘OB
 %index
 UnregisterDeviceNotification
 w’è‚³‚ê‚½ƒfƒoƒCƒX’Ê’mƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
-%group
-Win32 user32
 %prm
 Handle
 Handle : [int] RegisterDeviceNotification ŠÖ”‚ª•Ô‚µ‚½ƒfƒoƒCƒX’Ê’mƒnƒ“ƒhƒ‹B
@@ -10293,8 +9407,6 @@ Handle : [int] RegisterDeviceNotification ŠÖ”‚ª•Ô‚µ‚½ƒfƒoƒCƒX’Ê’mƒnƒ“ƒhƒ‹B
 %index
 RegisterDeviceNotificationW
 ƒEƒBƒ“ƒhƒE‚ª’Ê’m‚ğó‚¯æ‚éƒfƒoƒCƒX‚Ü‚½‚ÍƒfƒoƒCƒX‚Ìí—Ş‚ğ“o˜^‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hRecipient, NotificationFilter, Flags
 hRecipient : [intptr] NotificationFilter ‚Åw’è‚³‚ê‚½ƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒCƒxƒ“ƒg‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒT[ƒrƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10316,8 +9428,6 @@ Flags : [int]
 %index
 RegisterHotKey
 ƒVƒXƒeƒ€‘S‘Ì‚ÌƒzƒbƒgƒL[‚ğ’è‹`‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, id, fsModifiers, vk
 hWnd : [intptr] Œ^: HWND ƒzƒbƒgƒL[‚É‚æ‚Á‚Ä¶¬‚³‚ê‚½ WM_HOTKEY ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚Éƒ|ƒXƒg‚³‚êAƒƒbƒZ[ƒWƒ‹[ƒv‚Åˆ—‚·‚é•K—v‚ª‚ ‚éB
@@ -10339,8 +9449,6 @@ WM_HOTKEY ƒƒbƒZ[ƒW‚ğƒ|ƒXƒg‚·‚éBF12 ƒL[‚Íí‚ÉƒfƒoƒbƒK—p‚É—\–ñ‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA
 %index
 RegisterPointerDeviceNotifications
 WM_POINTERDEVICECHANGEAWM_POINTERDEVICEINRANGEAWM_POINTERDEVICEOUTOFRANGE ƒ|ƒCƒ“ƒ^ƒfƒoƒCƒX’Ê’m‚ğˆ—‚·‚éƒEƒBƒ“ƒhƒE‚ğ“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 window, notifyRange
 window : [intptr] WM_POINTERDEVICECHANGEAWM_POINTERDEVICEINRANGEAWM_POINTERDEVICEOUTOFRANGE ’Ê’m‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒEB
@@ -10357,8 +9465,6 @@ WM_POINTERDEVICECHANGEAWM_POINTERDEVICEINRANGEAWM_POINTERDEVICEOUTOFRANGE
 %index
 RegisterPointerInputTarget
 ŒÄ‚Ño‚µŒ³‚ªw’èí•Ê‚Ì‚·‚×‚Ä‚Ìƒ|ƒCƒ“ƒ^“ü—Í‚ğƒŠƒ_ƒCƒŒƒNƒg‚³‚ê‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ğ“o˜^‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pointerType
 hwnd : [intptr] ƒOƒ[ƒoƒ‹ƒŠƒ_ƒCƒŒƒNƒgƒ^[ƒQƒbƒg‚Æ‚µ‚Ä“o˜^‚·‚éƒEƒBƒ“ƒhƒEB
@@ -10378,8 +9484,6 @@ UI
 %index
 RegisterPointerInputTargetEx
 RegisterPointerInputTargetEx ‚Í•ÏX‚Ü‚½‚Í—˜—p•s‰Â‚É‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É RegisterPointerInputTarget ‚ğg—p‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pointerType, fObserve
 hwnd : [intptr] ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
@@ -10396,8 +9500,6 @@ RegisterPointerInputTarget ‚ğg—p‚·‚éB
 %index
 UnregisterPowerSettingNotification
 “dŒ¹İ’è’Ê’m‚Ì“o˜^‚ğ‰ğœ‚·‚éB
-%group
-Win32 user32
 %prm
 Handle
 Handle : [intptr] RegisterPowerSettingNotification ŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
@@ -10411,8 +9513,6 @@ Handle : [intptr] RegisterPowerSettingNotification ŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
 %index
 RegisterPowerSettingNotification
 “Á’è‚Ì“dŒ¹İ’èƒCƒxƒ“ƒg‚É‘Î‚·‚é“dŒ¹İ’è’Ê’m‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 hRecipient, PowerSettingGuid, Flags
 hRecipient : [intptr] “dŒ¹İ’è’Ê’m‚ğ‘—‚éæ‚ğ¦‚·ƒnƒ“ƒhƒ‹B‘Î˜bŒ^ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚Í Flags ‚Í 0AhRecipient ‚ÍƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹BƒT[ƒrƒX‚Å‚Í Flags ‚Í 1AhRecipient ‚Í SERVICE_STATUS_HANDLEB
@@ -10429,8 +9529,6 @@ Flags : [int] iˆÈ‰ºÈ—ªj
 %index
 RegisterRawInputDevices
 ¶‚Ì“ü—Íƒf[ƒ^‚ğ‹Ÿ‹‹‚·‚éƒfƒoƒCƒX‚ğ“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 pRawInputDevices, uiNumDevices, cbSize
 pRawInputDevices : [var] Œ^: PCRAWINPUTDEVICE ¶‚Ì“ü—Í‚ğ‹Ÿ‹‹‚·‚éƒfƒoƒCƒX‚ğ•\‚· RAWINPUTDEVICE \‘¢‘Ì‚Ì”z—ñB
@@ -10450,8 +9548,6 @@ WM_INPUT ƒƒbƒZ[ƒW‚ğó‚¯æ‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚Ü‚¸ RegisterRawInputDevice
 %index
 RegisterShellHookWindow
 ƒVƒFƒ‹ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É—L—p‚ÈƒCƒxƒ“ƒg‚Ü‚½‚Í’Ê’m‚É‘Î‚µ‚Ä“Á’è‚ÌƒƒbƒZ[ƒW‚ğó‚¯æ‚é‚æ‚¤w’è‚³‚ê‚½ƒVƒFƒ‹ƒEƒBƒ“ƒhƒE‚ğ“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ƒVƒFƒ‹ƒtƒbƒNƒƒbƒZ[ƒW‚ğó‚¯æ‚é‚æ‚¤“o˜^‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10470,8 +9566,6 @@ hwnd : [intptr] Œ^: HWND ƒVƒFƒ‹ƒtƒbƒNƒƒbƒZ[ƒW‚ğó‚¯æ‚é‚æ‚¤“o˜^‚·‚éƒEƒBƒ“ƒhƒE‚
 %index
 RegisterSuspendResumeNotification
 ƒVƒXƒeƒ€‚ªƒTƒXƒyƒ“ƒh‚Ü‚½‚ÍÄŠJ‚³‚ê‚½‚Æ‚«‚É’Ê’m‚ğó‚¯æ‚é‚æ‚¤“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 hRecipient, Flags
 hRecipient : [intptr] “dŒ¹’Ê’m‚Ìw“Çƒpƒ‰ƒ[ƒ^‚Ü‚½‚Íw“ÇƒvƒƒZƒX‚ğ•\‚·ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğŠÜ‚ŞBFlags ‚ª DEVICE_NOTIFY_CALLBACK ‚È‚ç DEVICE_NOTIFY_SUBSCRIBE_PARAMETERS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Æ‚µ‚Ä‰ğß‚³‚ê‚éBDEVICE_NOTIFY_WINDOW_HANDLE ‚È‚çƒCƒxƒ“ƒg‚ğ“Í‚¯‚éæ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10487,8 +9581,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 RegisterTouchHitTestingWindow
 WM_TOUCHHITTESTING ’Ê’m‚ğˆ—‚·‚éƒEƒBƒ“ƒhƒE‚ğ“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, value
 hwnd : [intptr] WM_TOUCHHITTESTING ’Ê’m‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒEB
@@ -10503,8 +9595,6 @@ WM_TOUCHHITTESTING ’Ê’m‚ğˆ—‚·‚éƒEƒBƒ“ƒhƒE‚ğ“o˜^‚·‚éB
 %index
 RegisterTouchWindow
 ƒEƒBƒ“ƒhƒE‚ğƒ^ƒbƒ`‘Î‰‚Æ‚µ‚Ä“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, ulFlags
 hwnd : [intptr] “o˜^‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªw’èƒEƒBƒ“ƒhƒE‚ğŠ—L‚µ‚Ä‚¢‚È‚¢ê‡AŠÖ”‚Í ERROR_ACCESS_DENIED ‚Å¸”s‚·‚éB
@@ -10524,8 +9614,6 @@ ulFlags : [int]
 %index
 RegisterWindowMessageW
 ƒVƒXƒeƒ€‘S‘Ì‚ÅˆêˆÓ‚Å‚ ‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éV‚µ‚¢ƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒW‚ğ’è‹`‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpString
 lpString : [wstr] Œ^: LPCTSTR “o˜^‚·‚éƒƒbƒZ[ƒWB
@@ -10545,8 +9633,6 @@ RegisterWindowMessage ŠÖ”‚Í’ÊíA‹¦’²‚·‚é 2
 %index
 ReleaseCapture
 Œ»İ‚ÌƒXƒŒƒbƒh“à‚ÌƒEƒBƒ“ƒhƒE‚©‚çƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ‚ğ‰ğ•ú‚µA’Êí‚Ìƒ}ƒEƒX“ü—Íˆ—‚ğ•œŒ³‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -10563,8 +9649,6 @@ SetCapture ŠÖ”‚ÌŒÄ‚Ño‚µŒã‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‚±‚ÌŠÖ”‚ğŒÄ‚ÔB
 %index
 ReleaseDC
 ReleaseDC ŠÖ”‚ÍƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğ‰ğ•ú‚µA‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p‚Å‚«‚é‚æ‚¤‚É‚·‚éB‹¤’Ê DC ‚ÆƒEƒBƒ“ƒhƒE DC ‚Ì‚İ‰ğ•ú‚·‚éBƒNƒ‰ƒX‚Ü‚½‚Íƒvƒ‰ƒCƒx[ƒg DC ‚É‚Í‰e‹¿‚µ‚È‚¢B
-%group
-Win32 user32
 %prm
 hWnd, hDC
 hWnd : [intptr] DC ‚ğ‰ğ•ú‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10585,8 +9669,6 @@ DC ‚Ì‚İ‰ğ•ú‚·‚éBƒNƒ‰ƒX‚Ü‚½‚Íƒvƒ‰ƒCƒx[ƒg DC ‚É‚Í‰e‹¿‚µ‚È‚¢B
 %index
 RemoveClipboardFormatListener
 w’èƒEƒBƒ“ƒhƒE‚ğƒVƒXƒeƒ€ŠÇ—‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®ƒŠƒXƒi[ƒŠƒXƒg‚©‚çíœ‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] Œ^: HWND ƒNƒŠƒbƒvƒ{[ƒhŒ`®ƒŠƒXƒi[ƒŠƒXƒg‚©‚çíœ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10603,8 +9685,6 @@ hwnd : [intptr] Œ^: HWND ƒNƒŠƒbƒvƒ{[ƒhŒ`®ƒŠƒXƒi[ƒŠƒXƒg‚©‚çíœ‚·‚éƒEƒBƒ“ƒhƒE‚
 %index
 RemoveMenu
 w’è‚³‚ê‚½ƒƒjƒ…[‚©‚çƒƒjƒ…[€–Ú‚ğíœ‚·‚é‚©AƒTƒuƒƒjƒ…[‚ğØ‚è—£‚·B
-%group
-Win32 user32
 %prm
 hMenu, uPosition, uFlags
 hMenu : [intptr] Œ^: HMENU •ÏX‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10624,8 +9704,6 @@ uFlags : [int] Œ^: UINT
 %index
 RemovePropW
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒBƒŠƒXƒg‚©‚çƒGƒ“ƒgƒŠ‚ğíœ‚·‚éBw’è‚³‚ê‚½•¶š—ñ‚ªíœ‚·‚éƒGƒ“ƒgƒŠ‚ğ¯•Ê‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpString
 hWnd : [intptr] Œ^: HWND ƒvƒƒpƒeƒBƒŠƒXƒg‚ğ•ÏX‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10644,8 +9722,6 @@ lpString : [wstr] Œ^: LPCTSTR null I’[•¶š—ñA‚Ü‚½‚Í•¶š—ñ‚ğ¯•Ê‚·‚éƒAƒgƒ€BƒAƒ
 %index
 ReplyMessage
 SendMessage ŠÖ”‚É‚æ‚è•Ê‚ÌƒXƒŒƒbƒh‚©‚ç‘—M‚³‚ê‚½ƒƒbƒZ[ƒW‚É•ÔM‚·‚éB
-%group
-Win32 user32
 %prm
 lResult
 lResult : [intptr] Œ^: LRESULT ƒƒbƒZ[ƒWˆ—‚ÌŒ‹‰ÊB‰Â”\‚È’l‚Í‘—M‚³‚ê‚½ƒƒbƒZ[ƒW‚ÉˆË‘¶‚·‚éB
@@ -10664,8 +9740,6 @@ SendMessage ŠÖ”‚É‚æ‚è•Ê‚ÌƒXƒŒƒbƒh‚©‚ç‘—M‚³‚ê‚½ƒƒbƒZ[ƒW‚É•ÔM‚·‚éB
 %index
 ReuseDDElParam
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªV‚µ‚¢ƒpƒbƒN lParam ‚ğŠ„‚è“–‚Ä‚é‘ã‚í‚è‚ÉAƒpƒbƒNÏ‚İ“®“Iƒf[ƒ^ŒğŠ· (DDE) lParam ƒpƒ‰ƒ[ƒ^‚ğÄ—˜—p‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 user32
 %prm
 lParam, msgIn, msgOut, uiLo, uiHi
 lParam : [intptr] Œ^: LPARAM Ä—˜—p‚³‚ê‚éAƒ|ƒXƒgÏ‚İ DDE ƒƒbƒZ[ƒW‚Ì lParam ƒpƒ‰ƒ[ƒ^B
@@ -10688,8 +9762,6 @@ uiHi : [int] Œ^: UINT_PTR Ä—˜—p‚·‚é lParam ‚ÌãˆÊƒ[ƒh‚ÉƒpƒbƒN‚·‚é’lB
 %index
 ScreenToClient
 w’è‚³‚ê‚½‰æ–Êã‚Ì“_‚ÌƒXƒNƒŠ[ƒ“À•W‚ğƒNƒ‰ƒCƒAƒ“ƒg—ÌˆæÀ•W‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpPoint
 hWnd : [intptr] •ÏŠ·‚Ég—p‚·‚éƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10709,8 +9781,6 @@ ScreenToClient ‚ğg‚í‚¸ MapWindowPoints ‚ğg‚¤‚±‚ÆB
 %index
 ScrollDC
 ScrollDC ŠÖ”‚Íƒrƒbƒg‚Ì‹éŒ`‚ğ…•½‚¨‚æ‚Ñ‚’¼‚ÉƒXƒNƒ[ƒ‹‚·‚éB
-%group
-Win32 user32
 %prm
 hDC, dx, dy, lprcScroll, lprcClip, hrgnUpdate, lprcUpdate
 hDC : [intptr] Œ^: HDC ƒXƒNƒ[ƒ‹‘ÎÛ‚Ìƒrƒbƒg‚ğŠÜ‚ŞƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10736,8 +9806,6 @@ ScrollWindowEx ‚ğg—p‚·‚éB
 %index
 ScrollWindow
 ScrollWindow ŠÖ”‚Íw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì“à—e‚ğƒXƒNƒ[ƒ‹‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, XAmount, YAmount, lpRect, lpClipRect
 hWnd : [intptr] Œ^: HWND ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğƒXƒNƒ[ƒ‹‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10760,8 +9828,6 @@ ScrollWindow ŠÖ”‚Íw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì“à—e‚ğƒXƒNƒ[ƒ‹‚·‚é
 %index
 ScrollWindowEx
 ScrollWindowEx ŠÖ”‚Íw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì“à—e‚ğƒXƒNƒ[ƒ‹‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, dx, dy, prcScroll, prcClip, hrgnUpdate, prcUpdate, flags
 hWnd : [intptr] Œ^: HWND ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğƒXƒNƒ[ƒ‹‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10788,8 +9854,6 @@ SW_INVALIDATE ‚Æ SW_ERASE ƒtƒ‰ƒO‚Ì‚Ç‚¿‚ç‚àw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AScrollWindowEx
 %index
 SendDlgItemMessageW
 ƒ_ƒCƒAƒƒO“à‚Ìw’èƒRƒ“ƒgƒ[ƒ‹‚ÉƒƒbƒZ[ƒW‚ğ‘—‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDlg, nIDDlgItem, Msg, wParam, lParam
 hDlg : [intptr] Œ^: HWND ƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚Şƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10811,8 +9875,6 @@ SendDlgItemMessage ŠÖ”‚ÍƒƒbƒZ[ƒW‚ªˆ—‚³‚ê‚é‚Ü‚Å–ß‚ç‚È‚¢BSendDlgItemMessage
 %index
 SendIMEMessageExW
 w’è‚³‚ê‚½ƒTƒuŠÖ”‚ğ’Ê‚¶‚Ä“ü—Í•û®ƒGƒfƒBƒ^ (IME) ‚É‘Î‚·‚éƒAƒNƒVƒ‡ƒ“‚Ü‚½‚Íˆ—‚ğw’è‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -10833,8 +9895,6 @@ wParam ‚Éİ’è‚·‚éB
 %index
 SendInput
 ƒL[“ü—ÍAƒ}ƒEƒXˆÚ“®Aƒ{ƒ^ƒ“ƒNƒŠƒbƒN‚ğ‡¬‚·‚éB
-%group
-Win32 user32
 %prm
 cInputs, pInputs, cbSize
 cInputs : [int] Œ^: UINT pInputs ”z—ñ“à‚Ì\‘¢‘Ì‚Ì”B
@@ -10856,8 +9916,6 @@ cbSize : [int] Œ^: int INPUT \‘¢‘Ì‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)BINPUT \‘¢‘Ì‚ÌƒTƒCƒY‚Æˆ
 %index
 SendMessageW
 w’è‚µ‚½ƒƒbƒZ[ƒW‚ğƒEƒBƒ“ƒhƒE(ŒQ)‚É‘—M‚·‚éBSendMessage ‚Íw’èƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğŒÄ‚Ño‚µAƒƒbƒZ[ƒWˆ—‚ªŠ®—¹‚·‚é‚Ü‚Å–ß‚ç‚È‚¢B(SendMessageW)
-%group
-Win32 user32
 %prm
 hWnd, Msg, wParam, lParam
 hWnd : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BHWND_BROADCAST ((HWND)0xffff) ‚ğw’è‚·‚é‚ÆAƒƒbƒZ[ƒW‚ÍƒVƒXƒeƒ€“à‚Ì‚·‚×‚Ä‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE(–³Œø‚Ü‚½‚Í”ñ•\¦‚Ì”ñŠ—LƒEƒBƒ“ƒhƒEAƒI[ƒo[ƒ‰ƒbƒvƒEƒBƒ“ƒhƒEAƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ğŠÜ‚Ş)‚É‘—M‚³‚ê‚é‚ªAqƒEƒBƒ“ƒhƒE‚É‚Í‘—M‚³‚ê‚È‚¢BƒƒbƒZ[ƒW‘—M‚Í UIPI ‚Ì‘ÎÛBƒvƒƒZƒX‚ÌƒXƒŒƒbƒh‚Í“¯“™ˆÈ‰º‚Ì®‡«ƒŒƒxƒ‹‚ÌƒvƒƒZƒX‚ÌƒXƒŒƒbƒhƒƒbƒZ[ƒWƒLƒ…[‚É‚Ì‚İƒƒbƒZ[ƒW‚ğ‘—M‚Å‚«‚éB
@@ -10885,8 +9943,6 @@ Messages ‚ğQÆBƒAƒNƒZƒVƒrƒŠƒeƒBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í SendMessage ‚ÅƒVƒFƒ‹‚É WM_AP
 %index
 SendMessageCallbackW
 w’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğ 1 ‚Â‚Ü‚½‚Í•¡”‚ÌƒEƒBƒ“ƒhƒE‚É‘—‚éB(SendMessageCallbackW)
-%group
-Win32 user32
 %prm
 hWnd, Msg, wParam, lParam, lpResultCallBack, dwData
 hWnd : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BHWND_BROADCAST ‚Ìê‡AƒVƒXƒeƒ€“à‚Ì‚·‚×‚Ä‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚É‘—M‚³‚ê‚éB‚½‚¾‚µqƒEƒBƒ“ƒhƒE‚É‚Í‘—M‚³‚ê‚È‚¢B
@@ -10911,8 +9967,6 @@ dwData : [int] Œ^: ULONG_PTR lpCallBack ‚ªw‚·ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É‘—‚ç‚ê‚éƒAƒvƒŠƒP
 %index
 SendMessageTimeoutW
 w’èƒƒbƒZ[ƒW‚ğ 1 ‚ÂˆÈã‚ÌƒEƒBƒ“ƒhƒE‚É‘—‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, Msg, wParam, lParam, fuFlags, uTimeout, lpdwResult
 hWnd : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BHWND_BROADCAST ‚Ìê‡A–³Œø‚Ü‚½‚Í”ñ‰Â‹‚Ì–¢Š—LƒEƒBƒ“ƒhƒE‚ğŠÜ‚Ş‚·‚×‚Ä‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚É‘—M‚³‚ê‚éBŠeƒEƒBƒ“ƒhƒE‚ªƒ^ƒCƒ€ƒAƒEƒg‚·‚é‚Ü‚ÅŠÖ”‚Í–ß‚ç‚È‚¢B
@@ -10937,8 +9991,6 @@ ERROR_TIMEOUT ‚ğ•Ô‚·‚È‚çƒ^ƒCƒ€ƒAƒEƒg‚µ‚½‚±‚Æ‚ğ¦‚·B
 %index
 SendNotifyMessageW
 w’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğ 1 ‚Â‚Ü‚½‚Í•¡”‚ÌƒEƒBƒ“ƒhƒE‚É‘—‚éB(SendNotifyMessageW)
-%group
-Win32 user32
 %prm
 hWnd, Msg, wParam, lParam
 hWnd : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BHWND_BROADCAST ‚Ìê‡A‚·‚×‚Ä‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚É‘—M‚³‚ê‚éBqƒEƒBƒ“ƒhƒE‚É‚Í‘—M‚³‚ê‚È‚¢B
@@ -10961,8 +10013,6 @@ WM_USER ‚æ‚è‰º‚Ì”ÍˆÍ‚ÌƒƒbƒZ[ƒW‚ğ”ñ“¯ŠúƒƒbƒZ[ƒWŠÖ”
 %index
 SetActiveWindow
 ƒEƒBƒ“ƒhƒE‚ğƒAƒNƒeƒBƒu‰»‚·‚éBƒEƒBƒ“ƒhƒE‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒAƒNƒeƒBƒu‰»‚·‚éƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -10982,8 +10032,6 @@ SetActiveWindow ŠÖ”‚ÍƒEƒBƒ“ƒhƒE‚ğƒAƒNƒeƒBƒu‰»‚·‚é‚ªAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª”wŒi‚É‚ 
 %index
 SetCapture
 Œ»ƒXƒŒƒbƒh‚É‘®‚·‚éw’èƒEƒBƒ“ƒhƒE‚Éƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND Œ»ƒXƒŒƒbƒh“à‚Åƒ}ƒEƒX‚ğƒLƒƒƒvƒ`ƒƒ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11001,8 +10049,6 @@ hWnd : [intptr] Œ^: HWND Œ»ƒXƒŒƒbƒh“à‚Åƒ}ƒEƒX‚ğƒLƒƒƒvƒ`ƒƒ‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒ
 %index
 SetCaretBlinkTime
 ƒLƒƒƒŒƒbƒg‚Ì“_–ÅŠÔ‚ğw’è‚³‚ê‚½ƒ~ƒŠ•b”‚Éİ’è‚·‚éB“_–ÅŠÔ‚ÍƒLƒƒƒŒƒbƒg‚ÌƒsƒNƒZƒ‹‚ğ”½“]‚·‚é‚Ì‚É•K—v‚ÈŒo‰ßŠÔ(ƒ~ƒŠ•b’PˆÊ)B
-%group
-Win32 user32
 %prm
 uMSeconds
 uMSeconds : [int] Œ^: UINT V‚µ‚¢“_–ÅŠÔ(ƒ~ƒŠ•b’PˆÊ)B
@@ -11022,8 +10068,6 @@ uMSeconds : [int] Œ^: UINT V‚µ‚¢“_–ÅŠÔ(ƒ~ƒŠ•b’PˆÊ)B
 %index
 SetCaretPos
 ƒLƒƒƒŒƒbƒg‚ğw’èÀ•W‚ÉˆÚ“®‚·‚éBƒLƒƒƒŒƒbƒg‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚ª CS_OWNDC ƒNƒ‰ƒXƒXƒ^ƒCƒ‹‚Åì¬‚³‚ê‚Ä‚¢‚éê‡Aw’èÀ•W‚Í‚»‚ÌƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚É]‚¤B
-%group
-Win32 user32
 %prm
 X, Y
 X : [int] Œ^: int ƒLƒƒƒŒƒbƒg‚ÌV‚µ‚¢ x À•WB
@@ -11044,8 +10088,6 @@ SetCaretPos ‚ÍƒLƒƒƒŒƒbƒg‚ª‰B‚³‚ê‚Ä‚¢‚é‚©‚ÉŠÖ‚í‚ç‚¸ˆÚ“®‚·‚éBƒVƒXƒeƒ€‚ÍŠeƒLƒ…[‚É
 %index
 SetClassLongW
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ì’Ç‰ÁƒNƒ‰ƒXƒƒ‚ƒŠ‚Ü‚½‚Í WNDCLASSEX \‘¢‘Ì‚Ìw’èƒIƒtƒZƒbƒg‚É‚ ‚é 32 ƒrƒbƒg’l‚ğ’u‚«Š·‚¦‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, nIndex, dwNewLong
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒEA‚¨‚æ‚ÑŠÔÚ“I‚ÉƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11068,8 +10110,6 @@ GCL_WNDPROC ƒCƒ“ƒfƒbƒNƒX‚ÅƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğ’u‚«Š·‚¦‚éê‡AƒEƒBƒ“ƒhƒEƒvƒ
 %index
 SetClassWord
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì’Ç‰ÁƒNƒ‰ƒXƒƒ‚ƒŠ‚Ìw’èƒIƒtƒZƒbƒg‚É‚ ‚é 16 ƒrƒbƒg (WORD) ’l‚ğ’u‚«Š·‚¦‚éB
-%group
-Win32 user32
 %prm
 hWnd, nIndex, wNewWord
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒEA‚¨‚æ‚ÑŠÔÚ“I‚ÉƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11090,8 +10130,6 @@ RegisterClass ‚Åg—p‚·‚é WNDCLASS \‘¢‘Ì‚Ì cbClsExtra ƒƒ“ƒo‚É 0
 %index
 SetClipboardData
 w’è‚³‚ê‚½ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ÅƒNƒŠƒbƒvƒ{[ƒh‚Éƒf[ƒ^‚ğ’u‚­B
-%group
-Win32 user32
 %prm
 uFormat, hMem
 uFormat : [int] Œ^: UINT ƒNƒŠƒbƒvƒ{[ƒhŒ`®B“o˜^Ï‚İŒ`®‚Ü‚½‚Í•W€ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ì‚¢‚¸‚ê‚©B
@@ -11113,8 +10151,6 @@ WM_RENDERALLFORMATS ‚É‰“š‚µ‚Ä SetClipboardData
 %index
 SetClipboardViewer
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğƒNƒŠƒbƒvƒ{[ƒhƒrƒ…[ƒA‚Ìƒ`ƒF[ƒ“‚É’Ç‰Á‚·‚éBƒNƒŠƒbƒvƒ{[ƒhƒrƒ…[ƒAƒEƒBƒ“ƒhƒE‚ÍƒNƒŠƒbƒvƒ{[ƒh“à—e‚ª•ÏX‚³‚ê‚é‚½‚Ñ‚É WM_DRAWCLIPBOARD ƒƒbƒZ[ƒW‚ğó‚¯æ‚éB‚±‚ÌŠÖ”‚Í‰ß‹‚Ì Windows ‚Æ‚ÌŒã•ûŒİŠ·«‚Ì‚½‚ß‚Ég—p‚³‚ê‚éB
-%group
-Win32 user32
 %prm
 hWndNewViewer
 hWndNewViewer : [intptr] Œ^: HWND ƒNƒŠƒbƒvƒ{[ƒhƒ`ƒF[ƒ“‚É’Ç‰Á‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11137,8 +10173,6 @@ SendMessage
 %index
 SetCoalescableTimer
 w’è‚³‚ê‚½ƒ^ƒCƒ€ƒAƒEƒg’l‚ÆŒ‹‡‹–—e’x‰„‚ğ‚Âƒ^ƒCƒ}‚ğì¬‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nIDEvent, uElapse, lpTimerFunc, uToleranceDelay
 hWnd : [intptr] Œ^: HWND ƒ^ƒCƒ}‚ÉŠÖ˜A•t‚¯‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒE‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªŠ—L‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -11165,8 +10199,6 @@ UOI_TIMERPROC_EXCEPTION_SUPPRESSION ƒtƒ‰ƒO‚ğ FALSE ‚Éİ’è‚·‚é‚±‚Æ‚ª„§‚³‚ê‚éB
 %index
 SetCursor
 ƒJ[ƒ\ƒ‹‚ÌŒ`ó‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hCursor
 hCursor : [intptr] Œ^: HCURSOR ƒJ[ƒ\ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateCursorACreateIconIndirect ‚Åì¬‚³‚ê‚é‚©ALoadCursorALoadImage ‚Åƒ[ƒh‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ìê‡AƒJ[ƒ\ƒ‹‚Í‰æ–Ê‚©‚çíœ‚³‚ê‚éB
@@ -11186,8 +10218,6 @@ NULL ‚É‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚é(‚»‚¤‚Å‚È‚¢‚Æƒ}ƒEƒXˆÚ“®‚ÉƒNƒ‰ƒXƒJ[ƒ\ƒ‹‚ª•œŒ³‚³‚ê‚é)
 %index
 SetCursorPos
 ƒJ[ƒ\ƒ‹‚ğw’è‚µ‚½ƒXƒNƒŠ[ƒ“À•W‚ÉˆÚ“®‚·‚éB
-%group
-Win32 user32
 %prm
 X, Y
 X : [int] Œ^: int ƒJ[ƒ\ƒ‹‚ÌV‚µ‚¢ x À•W(ƒXƒNƒŠ[ƒ“À•W)B
@@ -11210,8 +10240,6 @@ SetThreadDesktop ‚ğŒÄ‚ÑA‚»‚ÌƒfƒXƒNƒgƒbƒv‚ÖØ‚è‘Ö‚¦‚éB
 %index
 SetDebugErrorLevel
 (no summary)
-%group
-Win32 user32
 %prm
 dwLevel
 dwLevel : [int] 
@@ -11222,8 +10250,6 @@ dwLevel : [int]
 %index
 SetDialogControlDpiChangeBehavior
 ƒ_ƒCƒAƒƒO“à‚ÌqƒEƒBƒ“ƒhƒE‚ÌŠù’è‚Ìƒ‚ƒjƒ^‚²‚Æ‚Ì DPI ƒXƒP[ƒŠƒ“ƒO“®ì‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, mask, values
 hWnd : [intptr] “®ì‚ğ•ÏX‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11244,8 +10270,6 @@ DPI ƒXƒP[ƒŠƒ“ƒO‚ª—LŒø‚Èƒ_ƒCƒAƒƒO‚Ì’¼Ú‚Ìq‚É‚È‚Á‚½‚Æ‚«‚É‚Ì‚İ—LŒø‰»‚³‚ê‚éB
 %index
 SetDialogDpiChangeBehavior
 ƒ‚ƒjƒ^‚²‚Æ v2 ƒRƒ“ƒeƒLƒXƒg‚Ìƒ_ƒCƒAƒƒO‚Í©“®“I‚É DPI ƒXƒP[ƒŠƒ“ƒO‚³‚ê‚éB‚±‚Ìƒƒ\ƒbƒh‚Å DPI •ÏX“®ì‚ğƒJƒXƒ^ƒ}ƒCƒY‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 hDlg, mask, values
 hDlg : [intptr] “®ì‚ğ•ÏX‚·‚éƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11266,8 +10290,6 @@ API ‚Íƒ‚ƒjƒ^‚²‚Æ v2 ƒRƒ“ƒeƒLƒXƒgŠO‚ÅŒÄ‚Î‚ê‚Ä‚àƒGƒ‰[‚É‚Í‚È‚ç‚È‚¢‚ªAƒRƒ“ƒeƒLƒXƒg
 %index
 SetDisplayAutoRotationPreferences
 Œ»İ‚ÌƒvƒƒZƒX‚Ì‰æ–Ê©“®‰ñ“]İ’è‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 orientation
 orientation : [int] ŒÄ‚Ño‚µƒvƒƒZƒX‚Éİ’è‚·‚é‰æ–ÊŒü‚«İ’è‚ğ‚Âƒƒ‚ƒŠˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11281,8 +10303,6 @@ orientation : [int] ŒÄ‚Ño‚µƒvƒƒZƒX‚Éİ’è‚·‚é‰æ–ÊŒü‚«İ’è‚ğ‚Âƒƒ‚ƒŠˆÊ’u‚Ö‚Ìƒ|
 %index
 SetDisplayConfig
 SetDisplayConfig ŠÖ”‚ÍŒ»İ‚ÌƒZƒbƒVƒ‡ƒ“‚Åw’è‚³‚ê‚½ƒpƒX‚ğ”r‘¼“I‚É—LŒø‰»‚·‚é‚±‚Æ‚É‚æ‚èAƒfƒBƒXƒvƒŒƒCƒgƒ|ƒƒWAƒ\[ƒXAƒ^[ƒQƒbƒgƒ‚[ƒh‚ğ•ÏX‚·‚éB
-%group
-Win32 user32
 %prm
 numPathArrayElements, pathArray, numModeInfoArrayElements, modeInfoArray, flags
 numPathArrayElements : [int] pathArray ‚Ì—v‘f”B
@@ -11306,8 +10326,6 @@ SetDisplayConfig
 %index
 SetDlgItemInt
 ƒ_ƒCƒAƒƒO“à‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌƒeƒLƒXƒg‚ğw’è®”’l‚Ì•¶š—ñ•\Œ»‚Éİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hDlg, nIDDlgItem, uValue, bSigned
 hDlg : [intptr] Œ^: HWND ƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚Şƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11328,8 +10346,6 @@ bSigned : [int] Œ^: BOOL uValue ‚ª•„†•t‚«‚©•„†‚È‚µ‚©‚ğ¦‚·BTRUE ‚È‚ç•„†•t‚«‚
 %index
 SetDlgItemTextW
 ƒ_ƒCƒAƒƒO“à‚ÌƒRƒ“ƒgƒ[ƒ‹‚Ìƒ^ƒCƒgƒ‹‚Ü‚½‚ÍƒeƒLƒXƒg‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hDlg, nIDDlgItem, lpString
 hDlg : [intptr] Œ^: HWND ƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚Şƒ_ƒCƒAƒƒO‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11349,8 +10365,6 @@ SetDlgItemText ŠÖ”‚Íw’èƒRƒ“ƒgƒ[ƒ‹‚É WM_SETTEXT ƒƒbƒZ[ƒW‚ğ‘—‚éB
 %index
 SetDoubleClickTime
 ƒ}ƒEƒX‚Ìƒ_ƒuƒ‹ƒNƒŠƒbƒNŠÔ‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 param0
 param0 : [int] 
@@ -11368,8 +10382,6 @@ SetDoubleClickTime ŠÖ”‚ÍƒVƒXƒeƒ€“à‚Ì‚·‚×‚Ä‚ÌƒEƒBƒ“ƒhƒE‚Ìƒ_ƒuƒ‹ƒNƒŠƒbƒNŠÔ‚ğ•Ï
 %index
 SetFocus
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÉƒL[ƒ{[ƒhƒtƒH[ƒJƒX‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒL[ƒ{[ƒh“ü—Í‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒL[“ü—Í‚Í–³‹‚³‚ê‚éB
@@ -11390,8 +10402,6 @@ WM_SYSCHARAWM_SYSKEYDOWNAWM_SYSKEYUP ƒƒbƒZ[ƒW‚ª¶¬‚³‚ê‚éB
 %index
 SetForegroundWindow
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚ğƒtƒHƒAƒOƒ‰ƒEƒ“ƒh‚É‚µAƒEƒBƒ“ƒhƒE‚ğƒAƒNƒeƒBƒu‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒAƒNƒeƒBƒu‰»‚µ‚ÄƒtƒHƒAƒOƒ‰ƒEƒ“ƒh‚É‚Á‚Ä‚­‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11413,8 +10423,6 @@ Store ƒAƒvƒŠ‚Å‚Í‚È‚¢)ALockSetForegroundWindow
 %index
 SetGestureConfig
 Windows ƒ^ƒbƒ`ƒWƒFƒXƒ`ƒƒ‚É‘Î‚µ‚ÄƒEƒBƒ“ƒhƒE‚©‚ç‘—M‚³‚ê‚éƒƒbƒZ[ƒW‚ğ\¬‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, dwReserved, cIDs, pGestureConfig, cbSize
 hwnd : [intptr] ƒWƒFƒXƒ`ƒƒİ’è‚ğİ’è‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11438,8 +10446,6 @@ WM_GESTURENOTIFY ƒƒbƒZ[ƒW‚É‰“š‚µ‚ÄŒÄ‚ÔB
 %index
 SetKeyboardState
 ƒL[ƒ{[ƒhƒL[ó‘Ô‚Ì”z—ñ‚ğŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÌƒL[ƒ{[ƒh“ü—Íó‘Ôƒe[ƒuƒ‹‚ÉƒRƒs[‚·‚éBGetKeyboardState ‚Æ GetKeyState ‚ªƒAƒNƒZƒX‚·‚é‚Ì‚Æ“¯‚¶ƒe[ƒuƒ‹B‚±‚Ìƒe[ƒuƒ‹‚Ö‚Ì•ÏX‚Í‘¼‚ÌƒXƒŒƒbƒh‚ÌƒL[ƒ{[ƒh“ü—Í‚É‰e‹¿‚µ‚È‚¢B
-%group
-Win32 user32
 %prm
 lpKeyState
 lpKeyState : [var] Œ^: LPBYTE ƒL[ƒ{[ƒhƒL[ó‘Ô‚ğŠÜ‚Ş 256 ƒoƒCƒg”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11460,8 +10466,6 @@ LOCKACAPS LOCKASCROLL LOCK(“ú–{Œê KANA)‚ÌƒCƒ“ƒWƒP[ƒ^ƒ‰ƒ“ƒv‚ğİ’è‚·‚é‚É‚Íg—p‚
 %index
 SetLastErrorEx
 ÅŒã‚ÌƒGƒ‰[ƒR[ƒh‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 dwErrCode, dwType
 dwErrCode : [int] ƒXƒŒƒbƒh‚ÌÅŒã‚ÌƒGƒ‰[ƒR[ƒhB
@@ -11478,8 +10482,6 @@ GetLastError ‚Å’l‚ğæ“¾‚Å‚«‚éB
 %index
 SetLayeredWindowAttributes
 ƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚Ì•s“§–¾“x‚Æ“§–¾FƒL[‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, crKey, bAlpha, dwFlags
 hwnd : [intptr] Œ^: HWND ƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateWindowEx ‚Å WS_EX_LAYERED ‚ğw’è‚·‚é‚©AƒEƒBƒ“ƒhƒEì¬Œã‚É SetWindowLong ‚Å WS_EX_LAYERED ‚ğİ’è‚·‚é‚±‚Æ‚Åì¬‚³‚ê‚éB
@@ -11501,8 +10503,6 @@ dwFlags : [int] Œ^: DWORD
 %index
 SetMenu
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÉV‚µ‚¢ƒƒjƒ…[‚ğŠ„‚è“–‚Ä‚éB
-%group
-Win32 user32
 %prm
 hWnd, hMenu
 hWnd : [intptr] Œ^: HWND ƒƒjƒ…[‚ğŠ„‚è“–‚Ä‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11522,8 +10522,6 @@ hMenu : [intptr] Œ^: HMENU V‚µ‚¢ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒEƒBƒ“ƒhƒE‚Ì
 %index
 SetMenuContextHelpId
 ƒƒjƒ…[‚Éƒwƒ‹ƒvƒRƒ“ƒeƒLƒXƒg¯•Êq‚ğŠÖ˜A•t‚¯‚éB
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -11541,8 +10539,6 @@ param1 : [int]
 %index
 SetMenuDefaultItem
 w’è‚³‚ê‚½ƒƒjƒ…[‚ÌŠù’èƒƒjƒ…[€–Ú‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, uItem, fByPos
 hMenu : [intptr] Œ^: HMENU Šù’è€–Ú‚ğİ’è‚·‚éƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11559,8 +10555,6 @@ fByPos : [int] Œ^: UINT uItem ‚ÌˆÓ–¡BFALSE ‚È‚çƒƒjƒ…[€–Ú¯•ÊqA‚»‚êˆÈŠO‚È‚ç
 %index
 SetMenuInfo
 w’è‚³‚ê‚½ƒƒjƒ…[‚Ìî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -11576,8 +10570,6 @@ param1 : [var]
 %index
 SetMenuItemBitmaps
 w’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚ğƒƒjƒ…[€–Ú‚ÉŠÖ˜A•t‚¯‚éB€–Ú‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚é‚©‚É‰‚¶‚ÄAƒVƒXƒeƒ€‚Í“KØ‚Èƒrƒbƒgƒ}ƒbƒv‚ğƒƒjƒ…[€–Ú‚Ì—×‚É•\¦‚·‚éB
-%group
-Win32 user32
 %prm
 hMenu, uPosition, uFlags, hBitmapUnchecked, hBitmapChecked
 hMenu : [intptr] Œ^: HMENU V‚µ‚¢ƒ`ƒFƒbƒNƒ}[ƒNƒrƒbƒgƒ}ƒbƒv‚ğó‚¯æ‚é€–Ú‚ğŠÜ‚Şƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11602,8 +10594,6 @@ hBitmapUnchecked ‚Ü‚½‚Í hBitmapChecked ‚Ì‚¢‚¸‚ê‚©‚ª NULL
 %index
 SetMenuItemInfoW
 ƒƒjƒ…[€–Ú‚ÉŠÖ‚·‚éî•ñ‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hmenu, item, fByPositon, lpmii
 hmenu : [intptr] Œ^: HMENU ƒƒjƒ…[€–Ú‚ğŠÜ‚Şƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11624,8 +10614,6 @@ lpmii : [var] Œ^: LPMENUITEMINFO ƒƒjƒ…[€–Úî•ñ‚Æ•ÏX‚·‚é‘®«‚ğw’è‚·‚é MENUIT
 %index
 SetMessageExtraInfo
 Œ»İ‚ÌƒXƒŒƒbƒh‚Ì’Ç‰ÁƒƒbƒZ[ƒWî•ñ‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 lParam
 lParam : [intptr] Œ^: LPARAM Œ»İ‚ÌƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚é’lB
@@ -11639,8 +10627,6 @@ lParam : [intptr] Œ^: LPARAM Œ»İ‚ÌƒXƒŒƒbƒh‚ÉŠÖ˜A•t‚¯‚é’lB
 %index
 SetMessageQueue
 (no summary)
-%group
-Win32 user32
 %prm
 cMessagesMax
 cMessagesMax : [int] 
@@ -11651,8 +10637,6 @@ cMessagesMax : [int]
 %index
 SetParent
 w’è‚µ‚½qƒEƒBƒ“ƒhƒE‚ÌeƒEƒBƒ“ƒhƒE‚ğ•ÏX‚·‚éB
-%group
-Win32 user32
 %prm
 hWndChild, hWndNewParent
 hWndChild : [intptr] Œ^: HWND qƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11679,8 +10663,6 @@ WM_CHANGEUISTATE ‚Æ WM_UPDATEUISTATE ‚ğQÆBhWndNewParent ‚Æ hWndChild
 %index
 SetPhysicalCursorPos
 •¨—À•W‚ÅƒJ[ƒ\ƒ‹‚ÌˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 X, Y
 X : [int] Œ^: int ƒJ[ƒ\ƒ‹‚ÌV‚µ‚¢ x À•W(•¨—À•W)B
@@ -11699,8 +10681,6 @@ GetLastError ‚ğŒÄ‚ÔB
 %index
 SetProcessDPIAware
 SetProcessDPIAware ‚Í•ÏX‚Ü‚½‚Í—˜—p•s‰Â‚É‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SetProcessDPIAwareness ‚ğg—p‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -11717,8 +10697,6 @@ SetProcessDPIAware ‚Í•ÏX‚Ü‚½‚Í—˜—p•s‰Â‚É‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SetProcessDP
 %index
 SetProcessDefaultLayout
 Œ»İÀs’†‚ÌƒvƒƒZƒX‚É‘Î‚µ‚Ä‚Ì‚İAe‚Ü‚½‚ÍŠ—LÒ‚È‚µ‚ÅƒEƒBƒ“ƒhƒE‚ªì¬‚³‚ê‚é‚Æ‚«‚ÌŠù’èƒŒƒCƒAƒEƒg‚ğ•ÏX‚·‚éB
-%group
-Win32 user32
 %prm
 dwDefaultLayout
 dwDefaultLayout : [int] Œ^: DWORD Šù’è‚ÌƒvƒƒZƒXƒŒƒCƒAƒEƒgB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Ü‚½‚ÍˆÈ‰º‚Ì’l‚ğw’è‚Å‚«‚éB
@@ -11737,8 +10715,6 @@ dwDefaultLayout : [int] Œ^: DWORD Šù’è‚ÌƒvƒƒZƒXƒŒƒCƒAƒEƒgB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚
 %index
 SetProcessDpiAwarenessContext
 Œ»İ‚ÌƒvƒƒZƒX‚ğw’è‚³‚ê‚½ DPI ”F¯ƒRƒ“ƒeƒLƒXƒg‚Éİ’è‚·‚éBDPI ”F¯ƒRƒ“ƒeƒLƒXƒg‚Í DPI_AWARENESS_CONTEXT ’l‚©‚ç‚Ì‚à‚ÌB
-%group
-Win32 user32
 %prm
 value
 value : [intptr] İ’è‚·‚é DPI_AWARENESS_CONTEXT ƒnƒ“ƒhƒ‹B
@@ -11759,8 +10735,6 @@ SetProcessDpiAwarenessContext ‚Å‚Í‚È‚­ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒ}ƒjƒtƒFƒXƒg‚ÅéŒ¾‚·‚é‚±‚Æ
 %index
 SetProcessRestrictionExemption
 ƒfƒXƒNƒgƒbƒvƒvƒƒZƒX‚ª Windows ƒXƒgƒAƒAƒvƒŠŠÂ‹«‚Æ‘Î˜b‚·‚é‚±‚Æ‚ğ–h‚®§ŒÀ‚©‚çŒÄ‚Ño‚µƒvƒƒZƒX‚ğ–Æœ‚·‚éBŠJ”­‚¨‚æ‚ÑƒfƒoƒbƒOƒc[ƒ‹‚Åg—p‚³‚ê‚éB
-%group
-Win32 user32
 %prm
 fEnableExemption
 fEnableExemption : [int] TRUE ‚Ìê‡AŒÄ‚Ño‚µƒvƒƒZƒX‚Ì–Æœ–³Œø‰»—v‹‚ğ¦‚·B
@@ -11778,8 +10752,6 @@ fEnableExemption : [int] TRUE ‚Ìê‡AŒÄ‚Ño‚µƒvƒƒZƒX‚Ì–Æœ–³Œø‰»—v‹‚ğ¦‚·B
 %index
 SetProcessWindowStation
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ğŒÄ‚Ño‚µƒvƒƒZƒX‚ÉŠ„‚è“–‚Ä‚éB
-%group
-Win32 user32
 %prm
 hWinSta
 hWinSta : [intptr] ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateWindowStationAOpenWindowStationAGetProcessWindowStation ŠÖ”‚ª•Ô‚·ƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ÍŒ»İ‚ÌƒZƒbƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -11793,8 +10765,6 @@ hWinSta : [intptr] ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateWindowStationAOpen
 %index
 SetPropW
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒBƒŠƒXƒg‚ÉV‚µ‚¢ƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚·‚é‚©AŠù‘¶‚ÌƒGƒ“ƒgƒŠ‚ğ•ÏX‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpString, hData
 hWnd : [intptr] Œ^: HWND ƒvƒƒpƒeƒBƒŠƒXƒg‚ÉV‚µ‚¢ƒGƒ“ƒgƒŠ‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11816,8 +10786,6 @@ hData : [intptr] Œ^: HANDLE ƒvƒƒpƒeƒBƒŠƒXƒg‚ÉƒRƒs[‚·‚éƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BƒAƒv
 %index
 SetRect
 SetRect ŠÖ”‚Íw’è‚³‚ê‚½‹éŒ`‚ÌÀ•W‚ğİ’è‚·‚éBleftAtopArightAbottom ˆø”‚ğ RECT \‘¢‘Ì‚Ì“KØ‚Èƒƒ“ƒo‚É‘ã“ü‚·‚é‚Ì‚Æ“¯“™B
-%group
-Win32 user32
 %prm
 lprc, xLeft, yTop, xRight, yBottom
 lprc : [var] İ’è‚·‚é‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11839,8 +10807,6 @@ SetRect ŠÖ”‚Íw’è‚³‚ê‚½‹éŒ`‚ÌÀ•W‚ğİ’è‚·‚éBleftAtopArightAbottom ˆø”‚ğ RE
 %index
 SetRectEmpty
 SetRectEmpty ŠÖ”‚Í‚·‚×‚Ä‚ÌÀ•W‚ª 0 ‚Éİ’è‚³‚ê‚½‹ó‚Ì‹éŒ`‚ğì¬‚·‚éB
-%group
-Win32 user32
 %prm
 lprc
 lprc : [var] ‹éŒ`‚ÌÀ•W‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -11857,8 +10823,6 @@ SetRectEmpty ŠÖ”‚Í‚·‚×‚Ä‚ÌÀ•W‚ª 0 ‚Éİ’è‚³‚ê‚½‹ó‚Ì‹éŒ`‚ğì¬‚·‚éB
 %index
 SetScrollInfo
 SetScrollInfo ŠÖ”‚ÍƒXƒNƒ[ƒ‹ƒo[‚Ìƒpƒ‰ƒ[ƒ^(Å¬/Å‘åƒXƒNƒ[ƒ‹ˆÊ’uAƒy[ƒWƒTƒCƒYAƒXƒNƒ[ƒ‹ƒ{ƒbƒNƒXˆÊ’u)‚ğİ’è‚·‚éB—v‹‚³‚ê‚½ê‡‚ÍƒXƒNƒ[ƒ‹ƒo[‚ğÄ•`‰æ‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, nBar, lpsi, redraw
 hwnd : [intptr] Œ^: HWND ƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ü‚½‚Í•W€ƒXƒNƒ[ƒ‹ƒo[‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BfnBar ‚Ì’l‚ÉˆË‘¶‚·‚éB
@@ -11879,8 +10843,6 @@ SetScrollInfo ŠÖ”‚Í SCROLLINFO \‘¢‘Ì‚Ì nPage ‚Æ nPos ƒƒ“ƒo‚Ì’l‚Ì”ÍˆÍƒ`ƒFƒbƒN‚
 %index
 SetScrollPos
 SetScrollPos ŠÖ”‚Íw’è‚³‚ê‚½ƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹ƒ{ƒbƒNƒX‚ÌˆÊ’u‚ğİ’è‚µA—v‹‚³‚ê‚½ê‡‚ÍVˆÊ’u‚ğ”½‰f‚·‚é‚½‚ß‚ÉƒXƒNƒ[ƒ‹ƒo[‚ğÄ•`‰æ‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nBar, nPos, bRedraw
 hWnd : [intptr] Œ^: HWND ƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ü‚½‚Í•W€ƒXƒNƒ[ƒ‹ƒo[‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11904,8 +10866,6 @@ SetScrollPos
 %index
 SetScrollRange
 SetScrollRange ŠÖ”‚Íw’è‚³‚ê‚½ƒXƒNƒ[ƒ‹ƒo[‚ÌÅ¬‚¨‚æ‚ÑÅ‘åƒXƒNƒ[ƒ‹ƒ{ƒbƒNƒXˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nBar, nMinPos, nMaxPos, bRedraw
 hWnd : [intptr] Œ^: HWND ƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ü‚½‚Í•W€ƒXƒNƒ[ƒ‹ƒo[‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -11929,8 +10889,6 @@ ShowScrollBar ŠÖ”‚ğg—p‚·‚×‚«‚Å‚ ‚éB
 %index
 SetSysColors
 w’è‚³‚ê‚½•\¦—v‘f‚ÌF‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 cElements, lpaElements, lpaRgbValues
 cElements : [int] Œ^: int lpaElements ”z—ñ“à‚Ì•\¦—v‘f‚Ì”B
@@ -11951,8 +10909,6 @@ SetSysColors ŠÖ”‚Í‚·‚×‚Ä‚ÌƒEƒBƒ“ƒhƒE‚É WM_SYSCOLORCHANGE
 %index
 SetSystemCursor
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒVƒXƒeƒ€ƒJ[ƒ\ƒ‹‚ğƒJƒXƒ^ƒ}ƒCƒY‚Å‚«‚é‚æ‚¤‚É‚·‚éBid ‚Åw’è‚³‚ê‚éƒVƒXƒeƒ€ƒJ[ƒ\ƒ‹‚Ì“à—e‚ğ hcur ‚ÌƒJ[ƒ\ƒ‹‚Ì“à—e‚Å’u‚«Š·‚¦A‚»‚ÌŒã hcur ‚ğ”jŠü‚·‚éB
-%group
-Win32 user32
 %prm
 hcur, id
 hcur : [intptr] Œ^: HCURSOR ƒJ[ƒ\ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚Í id ‚Åw’è‚³‚ê‚éƒVƒXƒeƒ€ƒJ[ƒ\ƒ‹‚Ì“à—e‚ğ hcur ‚ÌƒJ[ƒ\ƒ‹‚Ì“à—e‚Å’u‚«Š·‚¦‚éBƒVƒXƒeƒ€‚Í DestroyCursor ‚Å hcur ‚ğ”jŠü‚·‚é‚½‚ßALoadCursor ‚Å“Ç‚İ‚ñ‚¾ƒJ[ƒ\ƒ‹‚Íg‚¦‚È‚¢B
@@ -11972,8 +10928,6 @@ OCR_ ’è”‚ğg—p‚·‚é‚É‚ÍAWindows.h ‚ğŠÜ‚ß‚é‘O‚É OEMRESOURCE ’è”‚ğ’è‹`‚·‚é•K—v‚ª
 %index
 SetThreadDesktop
 w’è‚³‚ê‚½ƒfƒXƒNƒgƒbƒv‚ğŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚éBˆÈ~‚Ì‚·‚×‚Ä‚Ì‘€ì‚Í‚»‚ÌƒfƒXƒNƒgƒbƒv‚É•t—^‚³‚ê‚½ƒAƒNƒZƒXŒ ‚ğg—p‚·‚éB
-%group
-Win32 user32
 %prm
 hDesktop
 hDesktop : [intptr] ŒÄ‚Ño‚µƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚éƒfƒXƒNƒgƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒXƒNƒgƒbƒv‚ÍƒvƒƒZƒX‚ÌŒ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -11991,8 +10945,6 @@ SetThreadDesktop ŠÖ”‚ÍAŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªŒ»İ‚ÌƒfƒXƒNƒgƒbƒv‚ÉƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ
 %index
 SetThreadDpiAwarenessContext
 Œ»İ‚ÌƒXƒŒƒbƒh‚Ì DPI ”F¯‚ğw’è‚³‚ê‚½’l‚Éİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 dpiContext
 dpiContext : [intptr] Œ»İ‚ÌƒXƒŒƒbƒh‚ÌV‚µ‚¢ DPI_AWARENESS_CONTEXTB‚±‚ÌƒRƒ“ƒeƒLƒXƒg‚É‚Í DPI_AWARENESS ’l‚ªŠÜ‚Ü‚ê‚éB
@@ -12009,8 +10961,6 @@ dpiContext : [intptr] Œ»İ‚ÌƒXƒŒƒbƒh‚ÌV‚µ‚¢ DPI_AWARENESS_CONTEXTB‚±‚ÌƒRƒ“ƒeƒL
 %index
 SetThreadDpiHostingBehavior
 ƒXƒŒƒbƒh‚Ì DPI_HOSTING_BEHAVIOR ‚ğİ’è‚·‚éB‚±‚Ì“®ì‚É‚æ‚èAƒXƒŒƒbƒh“à‚Åì¬‚³‚ê‚éƒEƒBƒ“ƒhƒE‚ªˆÙ‚È‚é DPI_AWARENESS_CONTEXT ‚ğ‚ÂqƒEƒBƒ“ƒhƒE‚ğƒzƒXƒg‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 value
 value : [int] Œ»İ‚ÌƒXƒŒƒbƒh‚ÌV‚µ‚¢ DPI_HOSTING_BEHAVIOR ’lB
@@ -12031,8 +10981,6 @@ DPI_AWARENESS_CONTEXT
 %index
 SetTimer
 w’è‚³‚ê‚½ƒ^ƒCƒ€ƒAƒEƒg’l‚ğ‚Âƒ^ƒCƒ}‚ğì¬‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nIDEvent, uElapse, lpTimerFunc
 hWnd : [intptr] Œ^: HWND ƒ^ƒCƒ}‚ÉŠÖ˜A•t‚¯‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒE‚ÍŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªŠ—L‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -12056,8 +11004,6 @@ FALSE ‚Éİ’è‚·‚é‚±‚Æ‚ª„§‚³‚ê‚éB
 %index
 SetUserObjectInformationW
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚Ü‚½‚ÍƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hObj, nIndex, pvInfo, nLength
 hObj : [intptr] ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“AƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒgA‚Ü‚½‚ÍŒ»İ‚ÌƒvƒƒZƒX‹^—ƒnƒ“ƒhƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12078,8 +11024,6 @@ nLength : [int] pvInfo ‚ªw‚·ƒoƒbƒtƒ@“à‚Ìî•ñ‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)B
 %index
 SetUserObjectSecurity
 ƒ†[ƒUƒIƒuƒWƒFƒNƒg(—á‚¦‚ÎƒEƒBƒ“ƒhƒE‚â DDE ‰ï˜b)‚ÌƒZƒLƒ…ƒŠƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hObj, pSIRequested, pSID
 hObj : [intptr] ƒZƒLƒ…ƒŠƒeƒBî•ñ‚ğİ’è‚·‚éƒ†[ƒUƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12099,8 +11043,6 @@ SetUserObjectSecurity
 %index
 UnhookWinEvent
 SetWinEventHook ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ƒCƒxƒ“ƒgƒtƒbƒNŠÖ”‚ğíœ‚·‚éB
-%group
-Win32 user32
 %prm
 hWinEventHook
 hWinEventHook : [intptr] Œ^: HWINEVENTHOOK SetWinEventHook ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒCƒxƒ“ƒgƒtƒbƒN‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12119,8 +11061,6 @@ SetWinEventHook ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åì¬‚³‚ê‚½ƒCƒxƒ“ƒgƒtƒbƒNŠÖ”‚ğíœ‚·‚éB
 %index
 SetWinEventHook
 ƒCƒxƒ“ƒg”ÍˆÍ‚É‘Î‚·‚éƒCƒxƒ“ƒgƒtƒbƒNŠÖ”‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 eventMin, eventMax, hmodWinEventProc, pfnWinEventProc, idProcess, idThread, dwFlags
 eventMin : [int] Œ^: UINT ƒtƒbƒNŠÖ”‚Åˆ—‚³‚ê‚éƒCƒxƒ“ƒg”ÍˆÍ‚ÌÅ¬ƒCƒxƒ“ƒg’l‚Ì’è”BEVENT_MIN ‚ğw’è‚µ‚Ä‰Â”\‚ÈÅ¬’l‚ğ¦‚·‚±‚Æ‚ª‚Å‚«‚éB
@@ -12145,8 +11085,6 @@ dwFlags : [int] Œ^: UINT
 %index
 SetWindowContextHelpId
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Éƒwƒ‹ƒvƒRƒ“ƒeƒLƒXƒg¯•Êq‚ğŠÖ˜A•t‚¯‚éB
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -12165,8 +11103,6 @@ param1 : [int]
 %index
 SetWindowDisplayAffinity
 ƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ hWnd ã‚ÌƒJ[ƒlƒ‹ƒ‚[ƒh‚É•\¦ƒAƒtƒBƒjƒeƒBİ’è‚ğŠi”[‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, dwAffinity
 hWnd : [intptr] Œ^: HWND ƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒEƒBƒ“ƒhƒE‚ÍŒ»İ‚ÌƒvƒƒZƒX‚É‘®‚·‚é•K—v‚ª‚ ‚éB
@@ -12187,8 +11123,6 @@ API ‚ğ’Ê‚¶‚Ä‰æ–ÊƒEƒBƒ“ƒhƒEƒRƒ“ƒeƒ“ƒc‚ªƒLƒƒƒvƒ`ƒƒ‚Ü‚½‚ÍƒRƒs[‚³‚ê‚È‚¢‚æ‚¤‚É•ÛŒì‚Å
 %index
 SetWindowFeedbackSetting
 ƒEƒBƒ“ƒhƒE‚ÌƒtƒB[ƒhƒoƒbƒN\¬‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, feedback, dwFlags, size, configuration
 hwnd : [intptr] ƒtƒB[ƒhƒoƒbƒN‚ğ\¬‚·‚éƒEƒBƒ“ƒhƒEB
@@ -12206,8 +11140,6 @@ configuration : [intptr] \¬ƒf[ƒ^BƒtƒB[ƒhƒoƒbƒNİ’è‚ğƒŠƒZƒbƒg‚·‚éê‡‚Í BOOL
 %index
 SetWindowLongW
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì‘®«‚ğ•ÏX‚·‚éB‚Ü‚½’Ç‰ÁƒEƒBƒ“ƒhƒEƒƒ‚ƒŠ‚Ìw’èƒIƒtƒZƒbƒg‚É‚ ‚é 32 ƒrƒbƒg’l‚ğİ’è‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, nIndex, dwNewLong
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒEA‚¨‚æ‚ÑŠÔÚ“I‚ÉƒEƒBƒ“ƒhƒE‚ª‘®‚·‚éƒNƒ‰ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12230,8 +11162,6 @@ SetWindowPos ‚ğŒÄ‚Ô•K—v‚ª‚ ‚éBGWL_WNDPROC
 %index
 SetWindowPlacement
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì•\¦ó‘Ô‚ÆA•œŒ³EÅ¬‰»EÅ‘å‰»‚ÌˆÊ’u‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpwndpl
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12252,8 +11182,6 @@ WINDOWPLACEMENT
 %index
 SetWindowPos
 qAƒ|ƒbƒvƒAƒbƒvA‚Ü‚½‚ÍƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒYAˆÊ’uAZ ƒI[ƒ_[‚ğ•ÏX‚·‚éB‚±‚ê‚ç‚ÌƒEƒBƒ“ƒhƒE‚Í‰æ–Êã‚Ì•\¦‡‚É•À‚ñ‚Å‚¨‚èAÅ‘O–Ê‚ÌƒEƒBƒ“ƒhƒE‚ªÅãˆÊƒ‰ƒ“ƒN‚ğ‚¿ Z ƒI[ƒ_[‚Ìæ“ª‚Æ‚È‚éB
-%group
-Win32 user32
 %prm
 hWnd, hWndInsertAfter, X, Y, cx, cy, uFlags
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12288,8 +11216,6 @@ SWP_NOZORDER ƒtƒ‰ƒO‚ğİ’è‚µ‚È‚¢‚©AZ
 %index
 SetWindowRgn
 SetWindowRgn ŠÖ”‚ÍƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒE—Ìˆæ‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hRgn, bRedraw
 hWnd : [intptr] ƒEƒBƒ“ƒhƒE—Ìˆæ‚ğİ’è‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12310,8 +11236,6 @@ SetWindowRgn ŠÖ”‚ÍƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒE—Ìˆæ‚ğİ’è‚·‚éB
 %index
 SetWindowTextW
 w’èƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹ƒo[‚ÌƒeƒLƒXƒg(‚ ‚éê‡)‚ğ•ÏX‚·‚éBw’èƒEƒBƒ“ƒhƒE‚ªƒRƒ“ƒgƒ[ƒ‹‚Ìê‡AƒRƒ“ƒgƒ[ƒ‹‚ÌƒeƒLƒXƒg‚ª•ÏX‚³‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, lpString
 hWnd : [intptr] Œ^: HWND ƒeƒLƒXƒg‚ğ•ÏX‚·‚éƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12333,8 +11257,6 @@ lpString : [wstr] Œ^: LPCWSTR V‚µ‚¢ƒ^ƒCƒgƒ‹‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹ƒeƒLƒXƒgB
 %index
 SetWindowWord
 (no summary)
-%group
-Win32 user32
 %prm
 hWnd, nIndex, wNewWord
 hWnd : [intptr] 
@@ -12347,8 +11269,6 @@ wNewWord : [int]
 %index
 SetWindowsHookW
 (no summary)
-%group
-Win32 user32
 %prm
 nFilterType, pfnFilterProc
 nFilterType : [int] 
@@ -12360,8 +11280,6 @@ pfnFilterProc : [int]
 %index
 SetWindowsHookExW
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒtƒbƒNƒvƒƒV[ƒWƒƒ‚ğƒtƒbƒNƒ`ƒF[ƒ“‚ÉƒCƒ“ƒXƒg[ƒ‹‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 idHook, lpfn, hmod, dwThreadId
 idHook : [int] Œ^: int
@@ -12384,8 +11302,6 @@ UnhookWindowsHookEx ‚ğŒÄ‚Ño‚µ‚ÄƒVƒXƒeƒ€ƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 %index
 ShowCaret
 ƒLƒƒƒŒƒbƒg‚ğŒ»İˆÊ’u‚É•\¦‚·‚éBƒLƒƒƒŒƒbƒg‚ª‰Â‹‚É‚È‚é‚Æ©“®“I‚É“_–Å‚ªn‚Ü‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] Œ^: HWND ƒLƒƒƒŒƒbƒg‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AShowCaret ‚ÍŒ»İ‚Ìƒ^ƒXƒN‚ÅƒLƒƒƒŒƒbƒg‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚ğŒŸõ‚·‚éB
@@ -12404,8 +11320,6 @@ ShowCaret ‚Íw’èƒEƒBƒ“ƒhƒE‚ªƒLƒƒƒŒƒbƒg‚ğŠ—L‚µAƒLƒƒƒŒƒbƒg‚ªŒ`ó‚ğ‚¿A˜A‘±‚µ‚Ä
 %index
 ShowCursor
 ƒJ[ƒ\ƒ‹‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB(ShowCursor)
-%group
-Win32 user32
 %prm
 bShow
 bShow : [int] Œ^: BOOL TRUE ‚È‚ç•\¦ƒJƒEƒ“ƒ^‚ğ 1 ‘‚â‚·BFALSE ‚È‚ç 1 Œ¸‚ç‚·B
@@ -12423,8 +11337,6 @@ Windows 8: ƒJ[ƒ\ƒ‹‚Ì‰Â‹«‚ğ”»’è‚·‚é‚É‚Í GetCursorInfo
 %index
 ShowOwnedPopups
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ªŠ—L‚·‚é‚·‚×‚Ä‚Ìƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, fShow
 hWnd : [intptr] Œ^: HWND •\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12443,8 +11355,6 @@ ShowOwnedPopups ‚ÍˆÈ‘O‚Ì ShowOwnedPopups ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä‰B‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì‚İ•
 %index
 ShowScrollBar
 ShowScrollBar ŠÖ”‚Íw’è‚³‚ê‚½ƒXƒNƒ[ƒ‹ƒo[‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, wBar, bShow
 hWnd : [intptr] Œ^: HWND ƒXƒNƒ[ƒ‹ƒo[ƒRƒ“ƒgƒ[ƒ‹‚Ü‚½‚Í•W€ƒXƒNƒ[ƒ‹ƒo[‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12464,8 +11374,6 @@ ShowScrollBar ŠÖ”‚Íw’è‚³‚ê‚½ƒXƒNƒ[ƒ‹ƒo[‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB
 %index
 ShowWindow
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì•\¦ó‘Ô‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nCmdShow
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12487,8 +11395,6 @@ nCmdShow ‚Í–³‹‚³‚ê‚éBˆÈ~‚ÌŒÄ‚Ño‚µ‚Å SW_SHOWDEFAULT ‚ğg‚¤‚Æ‹N“®î•ñ‚ğ—˜—p‚Å‚
 %index
 ShowWindowAsync
 ‘€ì‚ÌŠ®—¹‚ğ‘Ò‚½‚¸‚ÉƒEƒBƒ“ƒhƒE‚Ì•\¦ó‘Ô‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, nCmdShow
 hWnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12507,8 +11413,6 @@ show-window ƒCƒxƒ“ƒgˆ—‘Ò‚¿‚Å©g‚à‰“š•s”\‚É‚È‚é‚Ì‚ğ”ğ‚¯‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p
 %index
 ShutdownBlockReasonCreate
 ƒVƒXƒeƒ€‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚Å‚«‚È‚¢‚±‚Æ‚ğ¦‚µAƒVƒXƒeƒ€ƒVƒƒƒbƒgƒ_ƒEƒ“‚ªŠJn‚³‚ê‚½ê‡‚Éƒ†[ƒU‚É•\¦‚·‚é——R•¶š—ñ‚ğİ’è‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, pwszReason
 hWnd : [intptr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12527,8 +11431,6 @@ pwszReason : [wstr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒVƒXƒeƒ€ƒVƒƒƒbƒgƒ_ƒEƒ“‚ğƒuƒƒbƒN‚µ‚È‚¯‚ê‚Î
 %index
 ShutdownBlockReasonDestroy
 ƒVƒXƒeƒ€‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚Å‚«‚é‚±‚Æ‚ğ¦‚µA——R•¶š—ñ‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12545,8 +11447,6 @@ hWnd : [intptr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 ShutdownBlockReasonQuery
 ShutdownBlockReasonCreate ŠÖ”‚Åİ’è‚³‚ê‚½——R•¶š—ñ‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, pwszBuff, pcchBuff
 hWnd : [intptr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12565,8 +11465,6 @@ ShutdownBlockReasonCreate ŠÖ”‚Åİ’è‚³‚ê‚½——R•¶š—ñ‚ğæ“¾‚·‚éB
 %index
 SkipPointerFrameMessages
 w’èƒ|ƒCƒ“ƒ^‚É‚Â‚¢‚ÄÅ‹ßæ“¾‚µ‚½ƒƒbƒZ[ƒW‚ğ¶¬‚µ‚½ƒ|ƒCƒ“ƒ^“ü—ÍƒtƒŒ[ƒ€‚ğ”»’è‚µA“¯‚¶ƒ|ƒCƒ“ƒ^“ü—ÍƒtƒŒ[ƒ€‚©‚ç¶¬‚³‚ê‚½•Û—¯’†‚Ìƒ|ƒCƒ“ƒ^“ü—ÍƒƒbƒZ[ƒW‚ğ”jŠü‚·‚éB
-%group
-Win32 user32
 %prm
 pointerId
 pointerId : [int] ƒ|ƒCƒ“ƒ^‚Ì¯•ÊqB‚±‚Ìƒ|ƒCƒ“ƒ^‚ÌÅVæ“¾“ü—Í‚ğŠÜ‚ŞƒtƒŒ[ƒ€‚É‚Â‚¢‚ÄA•Û—¯’†‚ÌƒƒbƒZ[ƒW‚ğƒXƒLƒbƒv‚·‚éB
@@ -12585,8 +11483,6 @@ GetPointerFrameInfo ŠÖ”‚Æ‘g‚İ‡‚í‚¹‚ÄƒtƒŒ[ƒ€‘S‘Ì‚ğ’Pˆê‚Ì“ü—Í‚Æ‚µ‚ÄÁ”ï‚Å‚«‚éB
 %index
 SoundSentry
 ‰¹º‚ªÄ¶‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚Ì‹ŠoM†‚ğƒgƒŠƒK‚·‚éB
-%group
-Win32 user32
 %prm
 
 %inst
@@ -12603,8 +11499,6 @@ SystemParametersInfo ‚ğ SPI_SETSOUNDSENTRY ‚ÅŒÄ‚Ño‚µ‚Ä’Ê’m“®ì‚ğİ’è‚·‚éB
 %index
 SubtractRect
 SubtractRect ŠÖ”‚ÍA‚ ‚é‹éŒ`‚©‚ç•Ê‚Ì‹éŒ`‚ğŒ¸Z‚µ‚ÄŒ`¬‚³‚ê‚é‹éŒ`‚ÌÀ•W‚ğŒˆ’è‚·‚éB
-%group
-Win32 user32
 %prm
 lprcDst, lprcSrc1, lprcSrc2
 lprcDst : [var] lprcSrc1 ‚©‚ç lprcSrc2 ‚ğŒ¸Z‚µ‚ÄŒˆ’è‚³‚ê‚½‹éŒ`‚ÌÀ•W‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -12624,8 +11518,6 @@ SubtractRect ŠÖ”‚ÍA‚ ‚é‹éŒ`‚©‚ç•Ê‚Ì‹éŒ`‚ğŒ¸Z‚µ‚ÄŒ`¬‚³‚ê‚é‹éŒ`‚ÌÀ•W‚ğŒˆ’è‚·‚
 %index
 SwapMouseButton
 ¶‰E‚Ìƒ}ƒEƒXƒ{ƒ^ƒ“‚ÌˆÓ–¡‚ğ”½“]‚Ü‚½‚ÍŒ³‚É–ß‚·B
-%group
-Win32 user32
 %prm
 fSwap
 fSwap : [int] Œ^: BOOL TRUE ‚È‚ç¶ƒ{ƒ^ƒ“‚ª‰Eƒ{ƒ^ƒ“ƒƒbƒZ[ƒW‚ğA‰Eƒ{ƒ^ƒ“‚ª¶ƒ{ƒ^ƒ“ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éBFALSE ‚È‚çŒ³‚ÌˆÓ–¡‚É–ß‚·B
@@ -12642,8 +11534,6 @@ fSwap : [int] Œ^: BOOL TRUE ‚È‚ç¶ƒ{ƒ^ƒ“‚ª‰Eƒ{ƒ^ƒ“ƒƒbƒZ[ƒW‚ğA‰Eƒ{ƒ^ƒ“‚ª¶ƒ{ƒ^
 %index
 SwitchDesktop
 w’è‚³‚ê‚½ƒfƒXƒNƒgƒbƒv‚ğ‰Â‹‰»‚µ‚ÄƒAƒNƒeƒBƒu‰»‚·‚éB‚±‚ê‚É‚æ‚èƒfƒXƒNƒgƒbƒv‚Íƒ†[ƒU‚©‚ç‚Ì“ü—Í‚ğó‚¯æ‚ê‚é‚æ‚¤‚É‚È‚éB
-%group
-Win32 user32
 %prm
 hDesktop
 hDesktop : [intptr] ƒfƒXƒNƒgƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateDesktop ‚Æ OpenDesktop ŠÖ”‚ª•Ô‚·B‚±‚ÌƒfƒXƒNƒgƒbƒv‚ÍƒvƒƒZƒX‚ÌŒ»İ‚ÌƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -12662,8 +11552,6 @@ SwitchDesktop ŠÖ”‚Í”ñ‰Â‹ƒEƒBƒ“ƒhƒEƒXƒe[ƒVƒ‡ƒ“‚É‘®‚·‚éƒfƒXƒNƒgƒbƒv‚Å‚Í¸”s‚·‚é
 %index
 SwitchToThisWindow
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÉƒtƒH[ƒJƒX‚ğØ‚è‘Ö‚¦A‘OŒi‚É‚Á‚Ä‚­‚éB
-%group
-Win32 user32
 %prm
 hwnd, fUnknown
 hwnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12679,8 +11567,6 @@ fUnknown : [int] Œ^: BOOL Alt/Ctrl+Tab ƒL[ƒV[ƒPƒ“ƒX‚É‚æ‚èƒEƒBƒ“ƒhƒE‚ğØ‚è‘Ö‚¦‚
 %index
 SystemParametersInfoW
 ƒVƒXƒeƒ€‘S‘Ì‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚ğæ“¾‚Ü‚½‚Íİ’è‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 uiAction, uiParam, pvParam, fWinIni
 uiAction : [int] Œ^: UINT æ“¾‚Ü‚½‚Íİ’è‚·‚éƒVƒXƒeƒ€‘S‘Ì‚Ìƒpƒ‰ƒ[ƒ^B
@@ -12703,8 +11589,6 @@ SystemParametersInfoForDPI ‚ğQÆB
 %index
 SystemParametersInfoForDpi
 ’ñ‹Ÿ‚³‚ê‚½ DPI ’l‚ğl—¶‚µ‚ÄƒVƒXƒeƒ€‘S‘Ì‚Ìƒpƒ‰ƒ[ƒ^‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 uiAction, uiParam, pvParam, fWinIni, dpi
 uiAction : [int] æ“¾‚·‚éƒVƒXƒeƒ€‘S‘Ì‚Ìƒpƒ‰ƒ[ƒ^B‚±‚ÌŠÖ”‚Í SPI_GETICONTITLELOGFONTASPI_GETICONMETRICSASPI_GETNONCLIENTMETRICS ‚Å‚Ì‚İg—p‚³‚ê‚éB
@@ -12727,8 +11611,6 @@ dpi : [int] ƒƒgƒŠƒbƒN‚ÌƒXƒP[ƒŠƒ“ƒO‚Ég—p‚·‚é DPIB
 %index
 TabbedTextOutW
 TabbedTextOut ŠÖ”‚Íw’èˆÊ’u‚É•¶š—ñ‚ğ‘‚«Aƒ^ƒuƒXƒgƒbƒvˆÊ’u”z—ñ‚Ì’l‚É]‚Á‚Äƒ^ƒu‚ğ“WŠJ‚·‚éBƒeƒLƒXƒg‚ÍŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒgA”wŒiFAƒeƒLƒXƒgF‚Å‘‚©‚ê‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hdc, x, y, lpString, chCount, nTabPositions, lpnTabStopPositions, nTabOrigin
 hdc : [intptr] ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12755,8 +11637,6 @@ TabbedTextOut ŠÖ”‚ÍŒ»İˆÊ’u‚ğg—p‚Ü‚½‚ÍXV‚µ‚È‚¢B
 %index
 TileWindows
 w’è‚³‚ê‚½eƒEƒBƒ“ƒhƒE‚Ìw’èqƒEƒBƒ“ƒhƒE‚ğƒ^ƒCƒ‹ó‚É•À‚×‚éB
-%group
-Win32 user32
 %prm
 hwndParent, wHow, lpRect, cKids, lpKids
 hwndParent : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒE‚Æ‰¼’è‚·‚éB
@@ -12778,8 +11658,6 @@ TileWindows ‚ğŒÄ‚Ô‚ÆA‚·‚×‚Ä‚ÌÅ‘å‰»ƒEƒBƒ“ƒhƒE‚ªˆÈ‘O‚ÌƒTƒCƒY‚É•œŒ³‚³‚ê‚éB
 %index
 ToAscii
 w’è‚³‚ê‚½‰¼‘zƒL[ƒR[ƒh‚ÆƒL[ƒ{[ƒhó‘Ô‚ğ‘Î‰‚·‚é•¶š‚É•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 uVirtKey, uScanCode, lpKeyState, lpChar, uFlags
 uVirtKey : [int] Œ^: UINT •ÏŠ·‚·‚é‰¼‘zƒL[ƒR[ƒhB
@@ -12803,8 +11681,6 @@ ToAscii
 %index
 ToAsciiEx
 w’è‚³‚ê‚½‰¼‘zƒL[ƒR[ƒh‚ÆƒL[ƒ{[ƒhó‘Ô‚ğ‘Î‰‚·‚é•¶š‚É•ÏŠ·‚·‚éB“ü—ÍƒƒP[ƒ‹¯•Êq‚Å¯•Ê‚³‚ê‚é“ü—ÍŒ¾Œê‚Æ•¨—ƒL[ƒ{[ƒhƒŒƒCƒAƒEƒg‚ğg—p‚µ‚ÄƒR[ƒh‚ğ•ÏŠ·‚·‚éB
-%group
-Win32 user32
 %prm
 uVirtKey, uScanCode, lpKeyState, lpChar, uFlags, dwhkl
 uVirtKey : [int] Œ^: UINT •ÏŠ·‚·‚é‰¼‘zƒL[ƒR[ƒhB
@@ -12829,8 +11705,6 @@ dwhkl : [intptr] Œ^: HKL ƒR[ƒh‚Ì•ÏŠ·‚Ég—p‚·‚é“ü—ÍƒƒP[ƒ‹¯•ÊqB
 %index
 ToUnicode
 w’è‚³‚ê‚½‰¼‘zƒL[ƒR[ƒh‚ÆƒL[ƒ{[ƒhó‘Ô‚ğ‘Î‰‚·‚é Unicode •¶š‚É•ÏŠ·‚·‚éB(ToUnicode)
-%group
-Win32 user32
 %prm
 wVirtKey, wScanCode, lpKeyState, pwszBuff, cchBuff, wFlags
 wVirtKey : [int] Œ^: UINT •ÏŠ·‚·‚é‰¼‘zƒL[ƒR[ƒhB
@@ -12854,8 +11728,6 @@ pwszBuff ‚ÉƒTƒƒQ[ƒgƒyƒA‚Æ‚µ‚Ä•¡”‚Ì•¶š‚ğ•Ô‚·‰Â”\«‚ª‚ ‚éB
 %index
 ToUnicodeEx
 w’è‚³‚ê‚½‰¼‘zƒL[ƒR[ƒh‚ÆƒL[ƒ{[ƒhó‘Ô‚ğ‘Î‰‚·‚é Unicode •¶š‚É•ÏŠ·‚·‚éB(ToUnicodeEx)
-%group
-Win32 user32
 %prm
 wVirtKey, wScanCode, lpKeyState, pwszBuff, cchBuff, wFlags, dwhkl
 wVirtKey : [int] Œ^: UINT •ÏŠ·‚·‚é‰¼‘zƒL[ƒR[ƒhB
@@ -12880,8 +11752,6 @@ dwhkl : [intptr] Œ^: HKL w’èƒR[ƒh‚Ì•ÏŠ·‚Ég—p‚·‚é“ü—ÍƒƒP[ƒ‹¯•ÊqB
 %index
 TrackMouseEvent
 ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ªƒEƒBƒ“ƒhƒE‚ğ—£‚ê‚½‚èAw’èŠÔƒEƒBƒ“ƒhƒEã‚Éƒzƒo[‚µ‚½‚è‚µ‚½‚Æ‚«‚ÉƒƒbƒZ[ƒW‚ğƒ|ƒXƒg‚·‚éB
-%group
-Win32 user32
 %prm
 lpEventTrack
 lpEventTrack : [var] Œ^: LPTRACKMOUSEEVENT ’ÇÕî•ñ‚ğŠÜ‚Ş TRACKMOUSEEVENT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -12901,8 +11771,6 @@ SPI_GETMOUSEHOVERWIDTHASPI_GETMOUSEHOVERHEIGHTASPI_GETMOUSEHOVERTIME
 %index
 TrackPopupMenu
 w’è‚³‚ê‚½ˆÊ’u‚ÉƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚ğ•\¦‚µA€–Ú‚Ì‘I‘ğ‚ğ’ÇÕ‚·‚éBƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚Í‰æ–Êã‚Ì”CˆÓ‚ÌêŠ‚É•\¦‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 hMenu, uFlags, x, y, nReserved, hWnd, prcRect
 hMenu : [intptr] Œ^: HMENU •\¦‚·‚éƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹BCreatePopupMenu ‚ÅV‚µ‚¢ƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚ğì¬‚·‚é‚©AGetSubMenu ‚ÅŠù‘¶‚Ìƒƒjƒ…[€–Ú‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒTƒuƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
@@ -12930,8 +11798,6 @@ GetSystemMetrics ‚ğ SM_MENUDROPALIGNMENT
 %index
 TrackPopupMenuEx
 w’è‚³‚ê‚½ˆÊ’u‚ÉƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚ğ•\¦‚µA€–Ú‚Ì‘I‘ğ‚ğ’ÇÕ‚·‚éBƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚Í‰æ–Êã‚Ì”CˆÓ‚ÌêŠ‚É•\¦‚Å‚«‚éB
-%group
-Win32 user32
 %prm
 hMenu, uFlags, x, y, hwnd, lptpm
 hMenu : [intptr] Œ^: HMENU •\¦‚·‚éƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12957,8 +11823,6 @@ lptpm : [var] Œ^: LPTPMPARAMS ƒƒjƒ…[‚ªd‚È‚ç‚È‚¢‰æ–Ê—Ìˆæ‚ğw’è‚·‚é TPMPARAMS 
 %index
 TranslateAcceleratorW
 ƒƒjƒ…[ƒRƒ}ƒ“ƒh‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒL[‚ğˆ—‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 hWnd, hAccTable, lpMsg
 hWnd : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğ•ÏŠ·‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12980,8 +11844,6 @@ WM_COMMAND ƒƒbƒZ[ƒW‚É•ÏŠ·‚³‚ê‚éBTranslateAccelerator ‚ª 0
 %index
 TranslateMDISysAccel
 w’è‚³‚ê‚½ MDI ƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MDI qƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒƒjƒ…[ƒRƒ}ƒ“ƒh‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒL[‚ğˆ—‚·‚éB
-%group
-Win32 user32
 %prm
 hWndClient, lpMsg
 hWndClient : [intptr] Œ^: HWND MDI ƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -12997,8 +11859,6 @@ lpMsg : [var] Œ^: LPMSG GetMessage ‚Ü‚½‚Í PeekMessage ‚Åæ“¾‚³‚ê‚½ƒƒbƒZ[ƒW‚Ö‚Ì
 %index
 TranslateMessage
 ‰¼‘zƒL[ƒƒbƒZ[ƒW‚ğ•¶šƒƒbƒZ[ƒW‚É–|–ó‚·‚éB•¶šƒƒbƒZ[ƒW‚ÍŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚É“Še‚³‚êAŸ‚É GetMessage ‚Ü‚½‚Í PeekMessage ‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“Ç‚İæ‚ç‚ê‚éB
-%group
-Win32 user32
 %prm
 lpMsg
 lpMsg : [var] Œ^: const MSG* GetMessage ‚Ü‚½‚Í PeekMessage ‚ÅƒXƒŒƒbƒhƒƒbƒZ[ƒWƒLƒ…[‚©‚çæ“¾‚µ‚½ƒƒbƒZ[ƒWî•ñ‚ğŠÜ‚Ş MSG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13022,8 +11882,6 @@ TranslateMessage ‚ğŒÄ‚Ô‚×‚«‚Å‚È‚¢B
 %index
 UnhookWindowsHook
 (no summary)
-%group
-Win32 user32
 %prm
 nCode, pfnFilterProc
 nCode : [int] 
@@ -13035,8 +11893,6 @@ pfnFilterProc : [int]
 %index
 UnionRect
 UnionRect ŠÖ”‚Í 2 ‚Â‚Ì‹éŒ`‚Ì˜aW‡‚ğì¬‚·‚éB˜aW‡‚Í—¼•û‚Ìƒ\[ƒX‹éŒ`‚ğŠÜ‚ŞÅ¬‚Ì‹éŒ`‚Å‚ ‚éB
-%group
-Win32 user32
 %prm
 lprcDst, lprcSrc1, lprcSrc2
 lprcDst : [var] lprcSrc1 ‚Æ lprcSrc2 ‚ªw‚·‹éŒ`‚ğŠÜ‚Ş‹éŒ`‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -13055,8 +11911,6 @@ UnionRect ŠÖ”‚Í 2 ‚Â‚Ì‹éŒ`‚Ì˜aW‡‚ğì¬‚·‚éB˜aW‡‚Í—¼•û‚Ìƒ\[ƒX‹éŒ`‚ğŠÜ‚ŞÅ
 %index
 UnpackDDElParam
 ƒ|ƒXƒg‚³‚ê‚½ DDE ƒƒbƒZ[ƒW‚©‚çóM‚µ‚½“®“Iƒf[ƒ^ŒğŠ· (DDE) lParam ’l‚ğƒAƒ“ƒpƒbƒN‚·‚éB
-%group
-Win32 user32
 %prm
 msg, lParam, puiLo, puiHi
 msg : [int] Œ^: UINT ƒ|ƒXƒg‚³‚ê‚½ DDE ƒƒbƒZ[ƒWB
@@ -13076,8 +11930,6 @@ PackDDElParam ‚Í 16 ƒrƒbƒg DDE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç 32 ƒrƒbƒg DDE ƒAƒvƒŠƒP[ƒVƒ‡
 %index
 UnregisterClassW
 ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì“o˜^‚ğ‰ğœ‚µAƒNƒ‰ƒX‚É•K—v‚Èƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 lpClassName, hInstance
 lpClassName : [wstr] Œ^: LPCTSTR null I’[•¶š—ñ‚Ü‚½‚ÍƒNƒ‰ƒXƒAƒgƒ€B
@@ -13097,8 +11949,6 @@ hInstance : [intptr] Œ^: HINSTANCE ƒNƒ‰ƒX‚ğì¬‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ
 %index
 UnregisterHotKey
 ŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªˆÈ‘O‚É“o˜^‚µ‚½ƒzƒbƒgƒL[‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, id
 hWnd : [intptr] Œ^: HWND ‰ğ•ú‚·‚éƒzƒbƒgƒL[‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒzƒbƒgƒL[‚ªƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚È‚¢ê‡‚Í NULLB
@@ -13114,8 +11964,6 @@ id : [int] Œ^: int ‰ğ•ú‚·‚éƒzƒbƒgƒL[‚Ì¯•ÊqB
 %index
 UnregisterPointerInputTarget
 ŒÄ‚Ño‚µŒ³‚ªw’èí•Ê‚Ì‚·‚×‚Ä‚Ìƒ|ƒCƒ“ƒ^“ü—Í‚ğƒŠƒ_ƒCƒŒƒNƒg‚³‚ê‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ì“o˜^‚ğ‰ğœ‚Å‚«‚é‚æ‚¤‚É‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pointerType
 hwnd : [intptr] ƒfƒXƒNƒgƒbƒvã‚ÅƒOƒ[ƒoƒ‹ƒŠƒ_ƒCƒŒƒNƒgƒ^[ƒQƒbƒg‚Æ‚µ‚Ä‚Ì“o˜^‚ğ‰ğœ‚·‚éƒEƒBƒ“ƒhƒEB
@@ -13134,8 +11982,6 @@ RegisterPointerInputTarget
 %index
 UnregisterPointerInputTargetEx
 UnregisterPointerInputTargetEx ‚Í•ÏX‚Ü‚½‚Í—˜—p•s‰Â‚É‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É UnregisterPointerInputTarget ‚ğg—p‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd, pointerType
 hwnd : [intptr] ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
@@ -13151,8 +11997,6 @@ UnregisterPointerInputTarget ‚ğg—p‚·‚éB
 %index
 UnregisterSuspendResumeNotification
 ƒVƒXƒeƒ€‚ªƒTƒXƒyƒ“ƒh‚Ü‚½‚ÍÄŠJ‚³‚ê‚½‚Æ‚«‚Ì’Ê’móM‚Ì“o˜^‚ğ‰ğœ‚·‚éB
-%group
-Win32 user32
 %prm
 Handle
 Handle : [intptr] RegisterSuspendResumeNotification ‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½“o˜^‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -13166,8 +12010,6 @@ Handle : [intptr] RegisterSuspendResumeNotification ‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½“o˜^‚Ö‚Ì
 %index
 UnregisterTouchWindow
 ƒEƒBƒ“ƒhƒE‚ğƒ^ƒbƒ`‘Î‰‚Å‚È‚¢‚Æ‚µ‚Ä“o˜^‚·‚éB
-%group
-Win32 user32
 %prm
 hwnd
 hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µƒXƒŒƒbƒh‚ªw’èƒEƒBƒ“ƒhƒE‚ğŠ—L‚µ‚Ä‚¢‚È‚¢ê‡AERROR_ACCESS_DENIED ‚Å¸”s‚·‚éB
@@ -13185,8 +12027,6 @@ UnregisterTouchWindow ŠÖ”‚Íw’èƒEƒBƒ“ƒhƒE‚ªˆÈ‘O‚Éƒ^ƒbƒ`‘Î‰‚Æ‚µ‚Ä“o˜^‚³‚ê‚Ä‚¢‚È
 %index
 UpdateLayeredWindow
 ƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚ÌˆÊ’uAƒTƒCƒYAŒ`óAƒRƒ“ƒeƒ“ƒcA”¼“§–¾«‚ğXV‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hdcDst, pptDst, psize, hdcSrc, pptSrc, crKey, pblend, dwFlags
 hWnd : [intptr] Œ^: HWND ƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BCreateWindowEx ‚Å WS_EX_LAYERED ‚ğw’è‚µ‚Äì¬‚·‚éB
@@ -13213,8 +12053,6 @@ dwFlags : [int] Œ^: DWORD
 %index
 UpdateLayeredWindowIndirect
 (no summary)
-%group
-Win32 user32
 %prm
 hWnd, pULWInfo
 hWnd : [intptr] 
@@ -13226,8 +12064,6 @@ pULWInfo : [var]
 %index
 UpdateWindow
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌXV—Ìˆæ‚ª‹ó‚Å‚È‚¢ê‡AƒEƒBƒ“ƒhƒE‚É WM_PAINT ƒƒbƒZ[ƒW‚ğ‘—M‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğXV‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd
 hWnd : [intptr] XV‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -13241,8 +12077,6 @@ hWnd : [intptr] XV‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %index
 UserHandleGrantAccess
 ƒ†[ƒUƒCƒ“ƒ^[ƒtƒFƒCƒX§ŒÀ‚ğ‚ÂƒWƒ‡ƒu‚É‘Î‚µ‚Äƒ†[ƒUƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ö‚ÌƒAƒNƒZƒX‚ğ‹–‰Â‚Ü‚½‚Í‹‘”Û‚·‚éB
-%group
-Win32 user32
 %prm
 hUserHandle, hJob, bGrant
 hUserHandle : [intptr] ƒ†[ƒUƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -13262,8 +12096,6 @@ UserHandleGrantAccess ŠÖ”‚Í hJob
 %index
 ValidateRect
 ValidateRect ŠÖ”‚Íw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌXV—Ìˆæ‚©‚ç‹éŒ`‚ğíœ‚·‚é‚±‚Æ‚ÅA‹éŒ`“à‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ—LŒø‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, lpRect
 hWnd : [intptr] XV—Ìˆæ‚ğ•ÏX‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒVƒXƒeƒ€‚Í‚·‚×‚Ä‚ÌƒEƒBƒ“ƒhƒE‚ğ–³Œø‰»EÄ•`‰æ‚µAŠÖ”‚ª–ß‚é‘O‚ÉƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚É WM_ERASEBKGND ‚Æ WM_NCPAINT ƒƒbƒZ[ƒW‚ğ‘—‚éB
@@ -13283,8 +12115,6 @@ BeginPaint ŠÖ”‚Í©“®“I‚ÉƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‘S‘Ì‚ğ—LŒø‰»‚·‚éBŸ‚Ì WM_PAINT
 %index
 ValidateRgn
 ValidateRgn ŠÖ”‚Íw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌXV—Ìˆæ‚©‚ç—Ìˆæ‚ğíœ‚·‚é‚±‚Æ‚ÅA—Ìˆæ“à‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ—LŒø‰»‚·‚éB
-%group
-Win32 user32
 %prm
 hWnd, hRgn
 hWnd : [intptr] XV—Ìˆæ‚ğ•ÏX‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -13302,8 +12132,6 @@ ValidateRgn ŠÖ”‚Íw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌXV—Ìˆæ‚©‚ç—Ìˆæ‚ğíœ‚·‚é‚±‚Æ‚ÅA
 %index
 VkKeyScanW
 •¶š‚ğŒ»İ‚ÌƒL[ƒ{[ƒh‚Ì‘Î‰‚·‚é‰¼‘zƒL[ƒR[ƒh‚ÆƒVƒtƒgó‘Ô‚É•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 ch
 ch : [int] Œ^: TCHAR ‰¼‘zƒL[ƒR[ƒh‚É•ÏŠ·‚·‚é•¶šB
@@ -13322,8 +12150,6 @@ ch : [int] Œ^: TCHAR ‰¼‘zƒL[ƒR[ƒh‚É•ÏŠ·‚·‚é•¶šB
 %index
 VkKeyScanExW
 •¶š‚ğ‘Î‰‚·‚é‰¼‘zƒL[ƒR[ƒh‚ÆƒVƒtƒgó‘Ô‚É•ÏŠ·‚·‚éB“ü—ÍƒƒP[ƒ‹¯•Êq‚Å¯•Ê‚³‚ê‚é“ü—ÍŒ¾Œê‚Æ•¨—ƒL[ƒ{[ƒhƒŒƒCƒAƒEƒg‚ğg—p‚µ‚Ä•ÏŠ·‚·‚éB(Unicode)
-%group
-Win32 user32
 %prm
 ch, dwhkl
 ch : [int] Œ^: TCHAR ‰¼‘zƒL[ƒR[ƒh‚É•ÏŠ·‚·‚é•¶šB
@@ -13344,8 +12170,6 @@ dwhkl : [intptr] Œ^: HKL •¶š‚Ì•ÏŠ·‚Ég—p‚·‚é“ü—ÍƒƒP[ƒ‹¯•ÊqB
 %index
 WINNLSEnableIME
 “ü—Í•û®ƒGƒfƒBƒ^ (IME) ‚ğˆê“I‚É—LŒø‰»‚Ü‚½‚Í–³Œø‰»‚µA“¯‚É IME ‚ªŠ—L‚·‚é‚·‚×‚Ä‚ÌƒEƒBƒ“ƒhƒE‚Ì•\¦‚ğƒIƒ“/ƒIƒt‚·‚éB
-%group
-Win32 user32
 %prm
 param0, param1
 param0 : [intptr] 
@@ -13364,8 +12188,6 @@ IME ‚ª–³Œø‰»‚³‚ê‚é‚Æ IME_WINDOWUPDATE(FALSE) ‚ª”­s‚³‚êAIME
 %index
 WINNLSGetEnableStatus
 (no summary)
-%group
-Win32 user32
 %prm
 param0
 param0 : [intptr] 
@@ -13376,8 +12198,6 @@ param0 : [intptr]
 %index
 WINNLSGetIMEHotkey
 (no summary)
-%group
-Win32 user32
 %prm
 param0
 param0 : [intptr] 
@@ -13388,8 +12208,6 @@ param0 : [intptr]
 %index
 WaitForInputIdle
 w’è‚³‚ê‚½ƒvƒƒZƒX‚ª‰Šú“ü—Íˆ—‚ğŠ®—¹‚µ“ü—Í‚ğ‘Ò‚Á‚Ä‚¢‚é‚©Aƒ^ƒCƒ€ƒAƒEƒgŠÔŠu‚ªŒo‰ß‚·‚é‚Ü‚Å‘Ò‹@‚·‚éB
-%group
-Win32 user32
 %prm
 hProcess, dwMilliseconds
 hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒRƒ“ƒ\[ƒ‹ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âƒƒbƒZ[ƒWƒLƒ…[‚ğ‚½‚È‚¢ƒvƒƒZƒX‚Ìê‡AWaitForInputIdle ‚Í‘¦À‚É–ß‚éB
@@ -13409,8 +12227,6 @@ WaitForInputIdle
 %index
 WaitMessage
 ƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚É‘¼‚ÌƒƒbƒZ[ƒW‚ª‚È‚¢‚Æ‚«‚É§Œä‚ğ‘¼‚ÌƒXƒŒƒbƒh‚É÷‚éBWaitMessage ŠÖ”‚ÍƒXƒŒƒbƒh‚ğˆê’â~‚µAV‚µ‚¢ƒƒbƒZ[ƒW‚ªƒXƒŒƒbƒh‚ÌƒƒbƒZ[ƒWƒLƒ…[‚É’u‚©‚ê‚é‚Ü‚Å–ß‚ç‚È‚¢B
-%group
-Win32 user32
 %prm
 
 %inst
@@ -13430,8 +12246,6 @@ PeekMessageAGetMessageAGetQueueStatusAWaitMessage
 %index
 WinHelpW
 Windows Help (Winhelp.exe) ‚ğ‹N“®‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª—v‹‚·‚éƒwƒ‹ƒv‚Ì«¿‚ğ¦‚·’Ç‰Áƒf[ƒ^‚ğ“n‚·B(Unicode)
-%group
-Win32 user32
 %prm
 hWndMain, lpszHelp, uCommand, dwData
 hWndMain : [intptr] Œ^: HWND ƒwƒ‹ƒv‚ğ—v‹‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BWinHelp ‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚Å‚Ç‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒwƒ‹ƒv‚ğ—v‹‚µ‚½‚©‚ğ’ÇÕ‚·‚éB
@@ -13453,8 +12267,6 @@ Windows Help (Winhelp.exe)
 %index
 WindowFromDC
 WindowFromDC ŠÖ”‚Íw’è‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
-%group
-Win32 user32
 %prm
 hDC
 hDC : [intptr] ŠÖ˜A‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -13468,8 +12280,6 @@ WindowFromDC ŠÖ”‚Íw’è‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÉŠÖ˜A•t‚¯‚ç‚
 %index
 WindowFromPhysicalPoint
 w’è‚³‚ê‚½•¨—“_‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 Point
 Point : [int] Œ^: POINT “_‚Ì•¨—À•WB
@@ -13487,8 +12297,6 @@ WindowFromPhysicalPoint
 %index
 WindowFromPoint
 w’è‚³‚ê‚½“_‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 user32
 %prm
 Point
 Point : [int] Œ^: POINT ŒŸ¸‚·‚é“_B

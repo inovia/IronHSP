@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+gdiplus.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の gdiplus.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 GdipAddPathArc
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height, startAngle, sweepAngle
 path : [intptr] 
@@ -25,8 +45,6 @@ sweepAngle : [float]
 %index
 GdipAddPathArcI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height, startAngle, sweepAngle
 path : [intptr] 
@@ -43,8 +61,6 @@ sweepAngle : [float]
 %index
 GdipAddPathBezier
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x1, y1, x2, y2, x3, y3, x4, y4
 path : [intptr] 
@@ -63,8 +79,6 @@ y4 : [float]
 %index
 GdipAddPathBezierI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x1, y1, x2, y2, x3, y3, x4, y4
 path : [intptr] 
@@ -83,8 +97,6 @@ y4 : [int]
 %index
 GdipAddPathBeziers
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -97,8 +109,6 @@ count : [int]
 %index
 GdipAddPathBeziersI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -111,8 +121,6 @@ count : [int]
 %index
 GdipAddPathClosedCurve
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -125,8 +133,6 @@ count : [int]
 %index
 GdipAddPathClosedCurve2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count, tension
 path : [intptr] 
@@ -140,8 +146,6 @@ tension : [float]
 %index
 GdipAddPathClosedCurve2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count, tension
 path : [intptr] 
@@ -155,8 +159,6 @@ tension : [float]
 %index
 GdipAddPathClosedCurveI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -169,8 +171,6 @@ count : [int]
 %index
 GdipAddPathCurve
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -183,8 +183,6 @@ count : [int]
 %index
 GdipAddPathCurve2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count, tension
 path : [intptr] 
@@ -198,8 +196,6 @@ tension : [float]
 %index
 GdipAddPathCurve2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count, tension
 path : [intptr] 
@@ -213,8 +209,6 @@ tension : [float]
 %index
 GdipAddPathCurve3
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count, offset, numberOfSegments, tension
 path : [intptr] 
@@ -230,8 +224,6 @@ tension : [float]
 %index
 GdipAddPathCurve3I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count, offset, numberOfSegments, tension
 path : [intptr] 
@@ -247,8 +239,6 @@ tension : [float]
 %index
 GdipAddPathCurveI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -261,8 +251,6 @@ count : [int]
 %index
 GdipAddPathEllipse
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height
 path : [intptr] 
@@ -277,8 +265,6 @@ height : [float]
 %index
 GdipAddPathEllipseI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height
 path : [intptr] 
@@ -293,8 +279,6 @@ height : [int]
 %index
 GdipAddPathLine
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x1, y1, x2, y2
 path : [intptr] 
@@ -309,8 +293,6 @@ y2 : [float]
 %index
 GdipAddPathLine2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -323,8 +305,6 @@ count : [int]
 %index
 GdipAddPathLine2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -337,8 +317,6 @@ count : [int]
 %index
 GdipAddPathLineI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x1, y1, x2, y2
 path : [intptr] 
@@ -353,8 +331,6 @@ y2 : [int]
 %index
 GdipAddPathPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, addingPath, connect
 path : [intptr] 
@@ -367,8 +343,6 @@ connect : [int]
 %index
 GdipAddPathPie
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height, startAngle, sweepAngle
 path : [intptr] 
@@ -385,8 +359,6 @@ sweepAngle : [float]
 %index
 GdipAddPathPieI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height, startAngle, sweepAngle
 path : [intptr] 
@@ -403,8 +375,6 @@ sweepAngle : [float]
 %index
 GdipAddPathPolygon
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -417,8 +387,6 @@ count : [int]
 %index
 GdipAddPathPolygonI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, points, count
 path : [intptr] 
@@ -431,8 +399,6 @@ count : [int]
 %index
 GdipAddPathRectangle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height
 path : [intptr] 
@@ -447,8 +413,6 @@ height : [float]
 %index
 GdipAddPathRectangleI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, width, height
 path : [intptr] 
@@ -463,8 +427,6 @@ height : [int]
 %index
 GdipAddPathRectangles
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, rects, count
 path : [intptr] 
@@ -477,8 +439,6 @@ count : [int]
 %index
 GdipAddPathRectanglesI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, rects, count
 path : [intptr] 
@@ -491,8 +451,6 @@ count : [int]
 %index
 GdipAddPathString
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, string, length, family, style, emSize, layoutRect, format
 path : [intptr] 
@@ -510,8 +468,6 @@ format : [intptr]
 %index
 GdipAddPathStringI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, string, length, family, style, emSize, layoutRect, format
 path : [intptr] 
@@ -529,8 +485,6 @@ format : [intptr]
 %index
 GdipAlloc
 (no summary)
-%group
-Win32 gdiplus
 %prm
 size
 size : [int] 
@@ -541,8 +495,6 @@ size : [int]
 %index
 GdipBeginContainer
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, dstrect, srcrect, unit, state
 graphics : [intptr] 
@@ -557,8 +509,6 @@ state : [var]
 %index
 GdipBeginContainer2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, state
 graphics : [intptr] 
@@ -570,8 +520,6 @@ state : [var]
 %index
 GdipBeginContainerI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, dstrect, srcrect, unit, state
 graphics : [intptr] 
@@ -586,8 +534,6 @@ state : [var]
 %index
 GdipBitmapApplyEffect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, effect, roi, useAuxData, auxData, auxDataSize
 bitmap : [intptr] 
@@ -603,8 +549,6 @@ auxDataSize : [var]
 %index
 GdipBitmapConvertFormat
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pInputBitmap, format, dithertype, palettetype, palette, alphaThresholdPercent
 pInputBitmap : [intptr] 
@@ -620,8 +564,6 @@ alphaThresholdPercent : [float]
 %index
 GdipBitmapCreateApplyEffect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 inputBitmaps, numInputs, effect, roi, outputRect, outputBitmap, useAuxData, auxData, auxDataSize
 inputBitmaps : [var] 
@@ -640,8 +582,6 @@ auxDataSize : [var]
 %index
 GdipBitmapGetHistogram
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, format, NumberOfEntries, channel0, channel1, channel2, channel3
 bitmap : [intptr] 
@@ -658,8 +598,6 @@ channel3 : [var]
 %index
 GdipBitmapGetHistogramSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, NumberOfEntries
 format : [int] 
@@ -671,8 +609,6 @@ NumberOfEntries : [var]
 %index
 GdipBitmapGetPixel
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, x, y, color
 bitmap : [intptr] 
@@ -686,8 +622,6 @@ color : [var]
 %index
 GdipBitmapLockBits
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, rect, flags, format, lockedBitmapData
 bitmap : [intptr] 
@@ -702,8 +636,6 @@ lockedBitmapData : [var]
 %index
 GdipBitmapSetPixel
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, x, y, color
 bitmap : [intptr] 
@@ -717,8 +649,6 @@ color : [int]
 %index
 GdipBitmapSetResolution
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, xdpi, ydpi
 bitmap : [intptr] 
@@ -731,8 +661,6 @@ ydpi : [float]
 %index
 GdipBitmapUnlockBits
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, lockedBitmapData
 bitmap : [intptr] 
@@ -744,8 +672,6 @@ lockedBitmapData : [var]
 %index
 GdipClearPathMarkers
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -756,8 +682,6 @@ path : [intptr]
 %index
 GdipCloneBitmapArea
 (no summary)
-%group
-Win32 gdiplus
 %prm
 x, y, width, height, format, srcBitmap, dstBitmap
 x : [float] 
@@ -774,8 +698,6 @@ dstBitmap : [var]
 %index
 GdipCloneBitmapAreaI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 x, y, width, height, format, srcBitmap, dstBitmap
 x : [int] 
@@ -792,8 +714,6 @@ dstBitmap : [var]
 %index
 GdipCloneBrush
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, cloneBrush
 brush : [intptr] 
@@ -805,8 +725,6 @@ cloneBrush : [var]
 %index
 GdipCloneCustomLineCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, clonedCap
 customCap : [intptr] 
@@ -818,8 +736,6 @@ clonedCap : [var]
 %index
 GdipCloneFont
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, cloneFont
 font : [intptr] 
@@ -831,8 +747,6 @@ cloneFont : [var]
 %index
 GdipCloneFontFamily
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontFamily, clonedFontFamily
 fontFamily : [intptr] 
@@ -844,8 +758,6 @@ clonedFontFamily : [var]
 %index
 GdipCloneImage
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, cloneImage
 image : [intptr] 
@@ -857,8 +769,6 @@ cloneImage : [var]
 %index
 GdipCloneImageAttributes
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, cloneImageattr
 imageattr : [intptr] 
@@ -870,8 +780,6 @@ cloneImageattr : [var]
 %index
 GdipCloneMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, cloneMatrix
 matrix : [intptr] 
@@ -883,8 +791,6 @@ cloneMatrix : [var]
 %index
 GdipClonePath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, clonePath
 path : [intptr] 
@@ -896,8 +802,6 @@ clonePath : [var]
 %index
 GdipClonePen
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, clonepen
 pen : [intptr] 
@@ -909,8 +813,6 @@ clonepen : [var]
 %index
 GdipCloneRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, cloneRegion
 region : [intptr] 
@@ -922,8 +824,6 @@ cloneRegion : [var]
 %index
 GdipCloneStringFormat
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, newFormat
 format : [intptr] 
@@ -935,8 +835,6 @@ newFormat : [var]
 %index
 GdipClosePathFigure
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -947,8 +845,6 @@ path : [intptr]
 %index
 GdipClosePathFigures
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -959,8 +855,6 @@ path : [intptr]
 %index
 GdipCombineRegionPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, path, combineMode
 region : [intptr] 
@@ -973,8 +867,6 @@ combineMode : [int]
 %index
 GdipCombineRegionRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, rect, combineMode
 region : [intptr] 
@@ -987,8 +879,6 @@ combineMode : [int]
 %index
 GdipCombineRegionRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, rect, combineMode
 region : [intptr] 
@@ -1001,8 +891,6 @@ combineMode : [int]
 %index
 GdipCombineRegionRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, region2, combineMode
 region : [intptr] 
@@ -1015,8 +903,6 @@ combineMode : [int]
 %index
 GdipComment
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, sizeData, data
 graphics : [intptr] 
@@ -1029,8 +915,6 @@ data : [var]
 %index
 GdipConvertToEmfPlus
 (no summary)
-%group
-Win32 gdiplus
 %prm
 refGraphics, metafile, conversionFailureFlag, emfType, description, out_metafile
 refGraphics : [intptr] 
@@ -1046,8 +930,6 @@ out_metafile : [var]
 %index
 GdipConvertToEmfPlusToFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 refGraphics, metafile, conversionFailureFlag, filename, emfType, description, out_metafile
 refGraphics : [intptr] 
@@ -1064,8 +946,6 @@ out_metafile : [var]
 %index
 GdipConvertToEmfPlusToStream
 (no summary)
-%group
-Win32 gdiplus
 %prm
 refGraphics, metafile, conversionFailureFlag, stream, emfType, description, out_metafile
 refGraphics : [intptr] 
@@ -1082,8 +962,6 @@ out_metafile : [var]
 %index
 GdipCreateAdjustableArrowCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 height, width, isFilled, cap
 height : [float] 
@@ -1097,8 +975,6 @@ cap : [var]
 %index
 GdipCreateBitmapFromDirectDrawSurface
 (no summary)
-%group
-Win32 gdiplus
 %prm
 surface, bitmap
 surface : [var] 
@@ -1110,8 +986,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 filename, bitmap
 filename : [wstr] 
@@ -1123,8 +997,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromFileICM
 (no summary)
-%group
-Win32 gdiplus
 %prm
 filename, bitmap
 filename : [wstr] 
@@ -1136,8 +1008,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromGdiDib
 (no summary)
-%group
-Win32 gdiplus
 %prm
 gdiBitmapInfo, gdiBitmapData, bitmap
 gdiBitmapInfo : [var] 
@@ -1150,8 +1020,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromGraphics
 (no summary)
-%group
-Win32 gdiplus
 %prm
 width, height, target, bitmap
 width : [int] 
@@ -1165,8 +1033,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromHBITMAP
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hbm, hpal, bitmap
 hbm : [intptr] 
@@ -1179,8 +1045,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromHICON
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hicon, bitmap
 hicon : [intptr] 
@@ -1192,8 +1056,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromResource
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hInstance, lpBitmapName, bitmap
 hInstance : [intptr] 
@@ -1206,8 +1068,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromScan0
 (no summary)
-%group
-Win32 gdiplus
 %prm
 width, height, stride, format, scan0, bitmap
 width : [int] 
@@ -1223,8 +1083,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromStream
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, bitmap
 stream : [var] 
@@ -1236,8 +1094,6 @@ bitmap : [var]
 %index
 GdipCreateBitmapFromStreamICM
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, bitmap
 stream : [var] 
@@ -1249,8 +1105,6 @@ bitmap : [var]
 %index
 GdipCreateCachedBitmap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, graphics, cachedBitmap
 bitmap : [intptr] 
@@ -1263,8 +1117,6 @@ cachedBitmap : [var]
 %index
 GdipCreateCustomLineCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fillPath, strokePath, baseCap, baseInset, customCap
 fillPath : [intptr] 
@@ -1279,8 +1131,6 @@ customCap : [var]
 %index
 GdipCreateEffect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 guid, effect
 guid : [int] 
@@ -1292,8 +1142,6 @@ effect : [var]
 %index
 GdipCreateFont
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontFamily, emSize, style, unit, font
 fontFamily : [intptr] 
@@ -1308,8 +1156,6 @@ font : [var]
 %index
 GdipCreateFontFamilyFromName
 (no summary)
-%group
-Win32 gdiplus
 %prm
 name, fontCollection, fontFamily
 name : [wstr] 
@@ -1322,8 +1168,6 @@ fontFamily : [var]
 %index
 GdipCreateFontFromDC
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hdc, font
 hdc : [intptr] 
@@ -1335,8 +1179,6 @@ font : [var]
 %index
 GdipCreateFontFromLogfontW
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hdc, logfont, font
 hdc : [intptr] 
@@ -1349,8 +1191,6 @@ font : [var]
 %index
 GdipCreateFromHDC
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hdc, graphics
 hdc : [intptr] 
@@ -1362,8 +1202,6 @@ graphics : [var]
 %index
 GdipCreateFromHDC2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hdc, hDevice, graphics
 hdc : [intptr] 
@@ -1376,8 +1214,6 @@ graphics : [var]
 %index
 GdipCreateFromHWND
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hwnd, graphics
 hwnd : [intptr] 
@@ -1389,8 +1225,6 @@ graphics : [var]
 %index
 GdipCreateFromHWNDICM
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hwnd, graphics
 hwnd : [intptr] 
@@ -1402,8 +1236,6 @@ graphics : [var]
 %index
 GdipCreateHBITMAPFromBitmap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, hbmReturn, background
 bitmap : [intptr] 
@@ -1416,8 +1248,6 @@ background : [int]
 %index
 GdipCreateHICONFromBitmap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 bitmap, hbmReturn
 bitmap : [intptr] 
@@ -1429,8 +1259,6 @@ hbmReturn : [intptr]
 %index
 GdipCreateHalftonePalette
 (no summary)
-%group
-Win32 gdiplus
 %prm
 
 %inst
@@ -1440,8 +1268,6 @@ Win32 gdiplus
 %index
 GdipCreateHatchBrush
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hatchstyle, forecol, backcol, brush
 hatchstyle : [int] 
@@ -1455,8 +1281,6 @@ brush : [var]
 %index
 GdipCreateImageAttributes
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr
 imageattr : [var] 
@@ -1467,8 +1291,6 @@ imageattr : [var]
 %index
 GdipCreateLineBrush
 (no summary)
-%group
-Win32 gdiplus
 %prm
 point1, point2, color1, color2, wrapMode, lineGradient
 point1 : [var] 
@@ -1484,8 +1306,6 @@ lineGradient : [var]
 %index
 GdipCreateLineBrushFromRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, color1, color2, mode, wrapMode, lineGradient
 rect : [var] 
@@ -1501,8 +1321,6 @@ lineGradient : [var]
 %index
 GdipCreateLineBrushFromRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, color1, color2, mode, wrapMode, lineGradient
 rect : [var] 
@@ -1518,8 +1336,6 @@ lineGradient : [var]
 %index
 GdipCreateLineBrushFromRectWithAngle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, color1, color2, angle, isAngleScalable, wrapMode, lineGradient
 rect : [var] 
@@ -1536,8 +1352,6 @@ lineGradient : [var]
 %index
 GdipCreateLineBrushFromRectWithAngleI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, color1, color2, angle, isAngleScalable, wrapMode, lineGradient
 rect : [var] 
@@ -1554,8 +1368,6 @@ lineGradient : [var]
 %index
 GdipCreateLineBrushI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 point1, point2, color1, color2, wrapMode, lineGradient
 point1 : [var] 
@@ -1571,8 +1383,6 @@ lineGradient : [var]
 %index
 GdipCreateMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix
 matrix : [var] 
@@ -1583,8 +1393,6 @@ matrix : [var]
 %index
 GdipCreateMatrix2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 m11, m12, m21, m22, dx, dy, matrix
 m11 : [float] 
@@ -1601,8 +1409,6 @@ matrix : [var]
 %index
 GdipCreateMatrix3
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, dstplg, matrix
 rect : [var] 
@@ -1615,8 +1421,6 @@ matrix : [var]
 %index
 GdipCreateMatrix3I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, dstplg, matrix
 rect : [var] 
@@ -1629,8 +1433,6 @@ matrix : [var]
 %index
 GdipCreateMetafileFromEmf
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hEmf, deleteEmf, metafile
 hEmf : [intptr] 
@@ -1643,8 +1445,6 @@ metafile : [var]
 %index
 GdipCreateMetafileFromFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 file, metafile
 file : [wstr] 
@@ -1656,8 +1456,6 @@ metafile : [var]
 %index
 GdipCreateMetafileFromStream
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, metafile
 stream : [var] 
@@ -1669,8 +1467,6 @@ metafile : [var]
 %index
 GdipCreateMetafileFromWmf
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hWmf, deleteWmf, wmfPlaceableFileHeader, metafile
 hWmf : [intptr] 
@@ -1684,8 +1480,6 @@ metafile : [var]
 %index
 GdipCreateMetafileFromWmfFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 file, wmfPlaceableFileHeader, metafile
 file : [wstr] 
@@ -1698,8 +1492,6 @@ metafile : [var]
 %index
 GdipCreatePath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brushMode, path
 brushMode : [int] 
@@ -1711,8 +1503,6 @@ path : [var]
 %index
 GdipCreatePath2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 param0, param1, param2, param3, path
 param0 : [var] 
@@ -1727,8 +1517,6 @@ path : [var]
 %index
 GdipCreatePath2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 param0, param1, param2, param3, path
 param0 : [var] 
@@ -1743,8 +1531,6 @@ path : [var]
 %index
 GdipCreatePathGradient
 (no summary)
-%group
-Win32 gdiplus
 %prm
 points, count, wrapMode, polyGradient
 points : [var] 
@@ -1758,8 +1544,6 @@ polyGradient : [var]
 %index
 GdipCreatePathGradientFromPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, polyGradient
 path : [intptr] 
@@ -1771,8 +1555,6 @@ polyGradient : [var]
 %index
 GdipCreatePathGradientI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 points, count, wrapMode, polyGradient
 points : [var] 
@@ -1786,8 +1568,6 @@ polyGradient : [var]
 %index
 GdipCreatePathIter
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, path
 iterator : [var] 
@@ -1799,8 +1579,6 @@ path : [intptr]
 %index
 GdipCreatePen1
 (no summary)
-%group
-Win32 gdiplus
 %prm
 color, width, unit, pen
 color : [int] 
@@ -1814,8 +1592,6 @@ pen : [var]
 %index
 GdipCreatePen2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, width, unit, pen
 brush : [intptr] 
@@ -1829,8 +1605,6 @@ pen : [var]
 %index
 GdipCreateRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region
 region : [var] 
@@ -1841,8 +1615,6 @@ region : [var]
 %index
 GdipCreateRegionHrgn
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hRgn, region
 hRgn : [intptr] 
@@ -1854,8 +1626,6 @@ region : [var]
 %index
 GdipCreateRegionPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, region
 path : [intptr] 
@@ -1867,8 +1637,6 @@ region : [var]
 %index
 GdipCreateRegionRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, region
 rect : [var] 
@@ -1880,8 +1648,6 @@ region : [var]
 %index
 GdipCreateRegionRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 rect, region
 rect : [var] 
@@ -1893,8 +1659,6 @@ region : [var]
 %index
 GdipCreateRegionRgnData
 (no summary)
-%group
-Win32 gdiplus
 %prm
 regionData, size, region
 regionData : [var] 
@@ -1907,8 +1671,6 @@ region : [var]
 %index
 GdipCreateSolidFill
 (no summary)
-%group
-Win32 gdiplus
 %prm
 color, brush
 color : [int] 
@@ -1920,8 +1682,6 @@ brush : [var]
 %index
 GdipCreateStreamOnFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 filename, access, stream
 filename : [wstr] 
@@ -1934,8 +1694,6 @@ stream : [var]
 %index
 GdipCreateStringFormat
 (no summary)
-%group
-Win32 gdiplus
 %prm
 formatAttributes, language, format
 formatAttributes : [int] 
@@ -1948,8 +1706,6 @@ format : [var]
 %index
 GdipCreateTexture
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, wrapmode, texture
 image : [intptr] 
@@ -1962,8 +1718,6 @@ texture : [var]
 %index
 GdipCreateTexture2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, wrapmode, x, y, width, height, texture
 image : [intptr] 
@@ -1980,8 +1734,6 @@ texture : [var]
 %index
 GdipCreateTexture2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, wrapmode, x, y, width, height, texture
 image : [intptr] 
@@ -1998,8 +1750,6 @@ texture : [var]
 %index
 GdipCreateTextureIA
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, imageAttributes, x, y, width, height, texture
 image : [intptr] 
@@ -2016,8 +1766,6 @@ texture : [var]
 %index
 GdipCreateTextureIAI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, imageAttributes, x, y, width, height, texture
 image : [intptr] 
@@ -2034,8 +1782,6 @@ texture : [var]
 %index
 GdipDeleteBrush
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush
 brush : [intptr] 
@@ -2046,8 +1792,6 @@ brush : [intptr]
 %index
 GdipDeleteCachedBitmap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cachedBitmap
 cachedBitmap : [intptr] 
@@ -2058,8 +1802,6 @@ cachedBitmap : [intptr]
 %index
 GdipDeleteCustomLineCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap
 customCap : [intptr] 
@@ -2070,8 +1812,6 @@ customCap : [intptr]
 %index
 GdipDeleteEffect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 effect
 effect : [intptr] 
@@ -2082,8 +1822,6 @@ effect : [intptr]
 %index
 GdipDeleteFont
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font
 font : [intptr] 
@@ -2094,8 +1832,6 @@ font : [intptr]
 %index
 GdipDeleteFontFamily
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontFamily
 fontFamily : [intptr] 
@@ -2106,8 +1842,6 @@ fontFamily : [intptr]
 %index
 GdipDeleteGraphics
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics
 graphics : [intptr] 
@@ -2118,8 +1852,6 @@ graphics : [intptr]
 %index
 GdipDeleteMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix
 matrix : [intptr] 
@@ -2130,8 +1862,6 @@ matrix : [intptr]
 %index
 GdipDeletePath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -2142,8 +1872,6 @@ path : [intptr]
 %index
 GdipDeletePathIter
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator
 iterator : [intptr] 
@@ -2154,8 +1882,6 @@ iterator : [intptr]
 %index
 GdipDeletePen
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen
 pen : [intptr] 
@@ -2166,8 +1892,6 @@ pen : [intptr]
 %index
 GdipDeletePrivateFontCollection
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontCollection
 fontCollection : [var] 
@@ -2178,8 +1902,6 @@ fontCollection : [var]
 %index
 GdipDeleteRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region
 region : [intptr] 
@@ -2190,8 +1912,6 @@ region : [intptr]
 %index
 GdipDeleteStringFormat
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format
 format : [intptr] 
@@ -2202,8 +1922,6 @@ format : [intptr]
 %index
 GdipDisposeImage
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image
 image : [intptr] 
@@ -2214,8 +1932,6 @@ image : [intptr]
 %index
 GdipDisposeImageAttributes
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr
 imageattr : [intptr] 
@@ -2226,8 +1942,6 @@ imageattr : [intptr]
 %index
 GdipDrawArc
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height, startAngle, sweepAngle
 graphics : [intptr] 
@@ -2245,8 +1959,6 @@ sweepAngle : [float]
 %index
 GdipDrawArcI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height, startAngle, sweepAngle
 graphics : [intptr] 
@@ -2264,8 +1976,6 @@ sweepAngle : [float]
 %index
 GdipDrawBezier
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x1, y1, x2, y2, x3, y3, x4, y4
 graphics : [intptr] 
@@ -2285,8 +1995,6 @@ y4 : [float]
 %index
 GdipDrawBezierI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x1, y1, x2, y2, x3, y3, x4, y4
 graphics : [intptr] 
@@ -2306,8 +2014,6 @@ y4 : [int]
 %index
 GdipDrawBeziers
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2321,8 +2027,6 @@ count : [int]
 %index
 GdipDrawBeziersI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2336,8 +2040,6 @@ count : [int]
 %index
 GdipDrawCachedBitmap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, cachedBitmap, x, y
 graphics : [intptr] 
@@ -2351,8 +2053,6 @@ y : [int]
 %index
 GdipDrawClosedCurve
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2366,8 +2066,6 @@ count : [int]
 %index
 GdipDrawClosedCurve2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count, tension
 graphics : [intptr] 
@@ -2382,8 +2080,6 @@ tension : [float]
 %index
 GdipDrawClosedCurve2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count, tension
 graphics : [intptr] 
@@ -2398,8 +2094,6 @@ tension : [float]
 %index
 GdipDrawClosedCurveI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2413,8 +2107,6 @@ count : [int]
 %index
 GdipDrawCurve
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2428,8 +2120,6 @@ count : [int]
 %index
 GdipDrawCurve2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count, tension
 graphics : [intptr] 
@@ -2444,8 +2134,6 @@ tension : [float]
 %index
 GdipDrawCurve2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count, tension
 graphics : [intptr] 
@@ -2460,8 +2148,6 @@ tension : [float]
 %index
 GdipDrawCurve3
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count, offset, numberOfSegments, tension
 graphics : [intptr] 
@@ -2478,8 +2164,6 @@ tension : [float]
 %index
 GdipDrawCurve3I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count, offset, numberOfSegments, tension
 graphics : [intptr] 
@@ -2496,8 +2180,6 @@ tension : [float]
 %index
 GdipDrawCurveI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2511,8 +2193,6 @@ count : [int]
 %index
 GdipDrawDriverString
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, text, length, font, brush, positions, flags, matrix
 graphics : [intptr] 
@@ -2530,8 +2210,6 @@ matrix : [intptr]
 %index
 GdipDrawEllipse
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height
 graphics : [intptr] 
@@ -2547,8 +2225,6 @@ height : [float]
 %index
 GdipDrawEllipseI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height
 graphics : [intptr] 
@@ -2564,8 +2240,6 @@ height : [int]
 %index
 GdipDrawImage
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, x, y
 graphics : [intptr] 
@@ -2579,8 +2253,6 @@ y : [float]
 %index
 GdipDrawImageFX
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, source, xForm, effect, imageAttributes, srcUnit
 graphics : [intptr] 
@@ -2597,8 +2269,6 @@ srcUnit : [int]
 %index
 GdipDrawImageI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, x, y
 graphics : [intptr] 
@@ -2612,8 +2282,6 @@ y : [int]
 %index
 GdipDrawImagePointRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, x, y, srcx, srcy, srcwidth, srcheight, srcUnit
 graphics : [intptr] 
@@ -2632,8 +2300,6 @@ srcUnit : [int]
 %index
 GdipDrawImagePointRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, x, y, srcx, srcy, srcwidth, srcheight, srcUnit
 graphics : [intptr] 
@@ -2652,8 +2318,6 @@ srcUnit : [int]
 %index
 GdipDrawImagePoints
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, dstpoints, count
 graphics : [intptr] 
@@ -2667,8 +2331,6 @@ count : [int]
 %index
 GdipDrawImagePointsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, dstpoints, count
 graphics : [intptr] 
@@ -2682,8 +2344,6 @@ count : [int]
 %index
 GdipDrawImagePointsRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, points, count, srcx, srcy, srcwidth, srcheight, srcUnit, imageAttributes, callback, callbackData
 graphics : [intptr] 
@@ -2705,8 +2365,6 @@ callbackData : [intptr]
 %index
 GdipDrawImagePointsRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, points, count, srcx, srcy, srcwidth, srcheight, srcUnit, imageAttributes, callback, callbackData
 graphics : [intptr] 
@@ -2728,8 +2386,6 @@ callbackData : [intptr]
 %index
 GdipDrawImageRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, x, y, width, height
 graphics : [intptr] 
@@ -2745,8 +2401,6 @@ height : [float]
 %index
 GdipDrawImageRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, x, y, width, height
 graphics : [intptr] 
@@ -2762,8 +2416,6 @@ height : [int]
 %index
 GdipDrawImageRectRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, dstx, dsty, dstwidth, dstheight, srcx, srcy, srcwidth, srcheight, srcUnit, imageAttributes, callback, callbackData
 graphics : [intptr] 
@@ -2787,8 +2439,6 @@ callbackData : [intptr]
 %index
 GdipDrawImageRectRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, image, dstx, dsty, dstwidth, dstheight, srcx, srcy, srcwidth, srcheight, srcUnit, imageAttributes, callback, callbackData
 graphics : [intptr] 
@@ -2812,8 +2462,6 @@ callbackData : [intptr]
 %index
 GdipDrawLine
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x1, y1, x2, y2
 graphics : [intptr] 
@@ -2829,8 +2477,6 @@ y2 : [float]
 %index
 GdipDrawLineI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x1, y1, x2, y2
 graphics : [intptr] 
@@ -2846,8 +2492,6 @@ y2 : [int]
 %index
 GdipDrawLines
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2861,8 +2505,6 @@ count : [int]
 %index
 GdipDrawLinesI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2876,8 +2518,6 @@ count : [int]
 %index
 GdipDrawPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, path
 graphics : [intptr] 
@@ -2890,8 +2530,6 @@ path : [intptr]
 %index
 GdipDrawPie
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height, startAngle, sweepAngle
 graphics : [intptr] 
@@ -2909,8 +2547,6 @@ sweepAngle : [float]
 %index
 GdipDrawPieI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height, startAngle, sweepAngle
 graphics : [intptr] 
@@ -2928,8 +2564,6 @@ sweepAngle : [float]
 %index
 GdipDrawPolygon
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2943,8 +2577,6 @@ count : [int]
 %index
 GdipDrawPolygonI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, points, count
 graphics : [intptr] 
@@ -2958,8 +2590,6 @@ count : [int]
 %index
 GdipDrawRectangle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height
 graphics : [intptr] 
@@ -2975,8 +2605,6 @@ height : [float]
 %index
 GdipDrawRectangleI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, x, y, width, height
 graphics : [intptr] 
@@ -2992,8 +2620,6 @@ height : [int]
 %index
 GdipDrawRectangles
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, rects, count
 graphics : [intptr] 
@@ -3007,8 +2633,6 @@ count : [int]
 %index
 GdipDrawRectanglesI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pen, rects, count
 graphics : [intptr] 
@@ -3022,8 +2646,6 @@ count : [int]
 %index
 GdipDrawString
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, string, length, font, layoutRect, stringFormat, brush
 graphics : [intptr] 
@@ -3040,8 +2662,6 @@ brush : [intptr]
 %index
 GdipEmfToWmfBits
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hemf, cbData16, pData16, iMapMode, eFlags
 hemf : [intptr] 
@@ -3056,8 +2676,6 @@ eFlags : [int]
 %index
 GdipEndContainer
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, state
 graphics : [intptr] 
@@ -3069,8 +2687,6 @@ state : [int]
 %index
 GdipEnumerateMetafileDestPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoint, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3086,8 +2702,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileDestPointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoint, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3103,8 +2717,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileDestPoints
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoints, count, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3121,8 +2733,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileDestPointsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoints, count, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3139,8 +2749,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileDestRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destRect, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3156,8 +2764,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileDestRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destRect, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3173,8 +2779,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileSrcRectDestPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoint, srcRect, srcUnit, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3192,8 +2796,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileSrcRectDestPointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoint, srcRect, srcUnit, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3211,8 +2813,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileSrcRectDestPoints
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoints, count, srcRect, srcUnit, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3231,8 +2831,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileSrcRectDestPointsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destPoints, count, srcRect, srcUnit, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3251,8 +2849,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileSrcRectDestRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destRect, srcRect, srcUnit, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3270,8 +2866,6 @@ imageAttributes : [intptr]
 %index
 GdipEnumerateMetafileSrcRectDestRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, metafile, destRect, srcRect, srcUnit, callback, callbackData, imageAttributes
 graphics : [intptr] 
@@ -3289,8 +2883,6 @@ imageAttributes : [intptr]
 %index
 GdipFillClosedCurve
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count
 graphics : [intptr] 
@@ -3304,8 +2896,6 @@ count : [int]
 %index
 GdipFillClosedCurve2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count, tension, fillMode
 graphics : [intptr] 
@@ -3321,8 +2911,6 @@ fillMode : [int]
 %index
 GdipFillClosedCurve2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count, tension, fillMode
 graphics : [intptr] 
@@ -3338,8 +2926,6 @@ fillMode : [int]
 %index
 GdipFillClosedCurveI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count
 graphics : [intptr] 
@@ -3353,8 +2939,6 @@ count : [int]
 %index
 GdipFillEllipse
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, x, y, width, height
 graphics : [intptr] 
@@ -3370,8 +2954,6 @@ height : [float]
 %index
 GdipFillEllipseI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, x, y, width, height
 graphics : [intptr] 
@@ -3387,8 +2969,6 @@ height : [int]
 %index
 GdipFillPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, path
 graphics : [intptr] 
@@ -3401,8 +2981,6 @@ path : [intptr]
 %index
 GdipFillPie
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, x, y, width, height, startAngle, sweepAngle
 graphics : [intptr] 
@@ -3420,8 +2998,6 @@ sweepAngle : [float]
 %index
 GdipFillPieI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, x, y, width, height, startAngle, sweepAngle
 graphics : [intptr] 
@@ -3439,8 +3015,6 @@ sweepAngle : [float]
 %index
 GdipFillPolygon
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count, fillMode
 graphics : [intptr] 
@@ -3455,8 +3029,6 @@ fillMode : [int]
 %index
 GdipFillPolygon2
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count
 graphics : [intptr] 
@@ -3470,8 +3042,6 @@ count : [int]
 %index
 GdipFillPolygon2I
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count
 graphics : [intptr] 
@@ -3485,8 +3055,6 @@ count : [int]
 %index
 GdipFillPolygonI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, points, count, fillMode
 graphics : [intptr] 
@@ -3501,8 +3069,6 @@ fillMode : [int]
 %index
 GdipFillRectangle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, x, y, width, height
 graphics : [intptr] 
@@ -3518,8 +3084,6 @@ height : [float]
 %index
 GdipFillRectangleI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, x, y, width, height
 graphics : [intptr] 
@@ -3535,8 +3099,6 @@ height : [int]
 %index
 GdipFillRectangles
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, rects, count
 graphics : [intptr] 
@@ -3550,8 +3112,6 @@ count : [int]
 %index
 GdipFillRectanglesI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, rects, count
 graphics : [intptr] 
@@ -3565,8 +3125,6 @@ count : [int]
 %index
 GdipFillRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, brush, region
 graphics : [intptr] 
@@ -3579,8 +3137,6 @@ region : [intptr]
 %index
 GdipFindFirstImageItem
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, item
 image : [intptr] 
@@ -3592,8 +3148,6 @@ item : [var]
 %index
 GdipFindNextImageItem
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, item
 image : [intptr] 
@@ -3605,8 +3159,6 @@ item : [var]
 %index
 GdipFlattenPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, matrix, flatness
 path : [intptr] 
@@ -3619,8 +3171,6 @@ flatness : [float]
 %index
 GdipFlush
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, intention
 graphics : [intptr] 
@@ -3632,8 +3182,6 @@ intention : [int]
 %index
 GdipFree
 (no summary)
-%group
-Win32 gdiplus
 %prm
 ptr
 ptr : [intptr] 
@@ -3644,8 +3192,6 @@ ptr : [intptr]
 %index
 GdipGetAdjustableArrowCapFillState
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, fillState
 cap : [intptr] 
@@ -3657,8 +3203,6 @@ fillState : [var]
 %index
 GdipGetAdjustableArrowCapHeight
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, height
 cap : [intptr] 
@@ -3670,8 +3214,6 @@ height : [var]
 %index
 GdipGetAdjustableArrowCapMiddleInset
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, middleInset
 cap : [intptr] 
@@ -3683,8 +3225,6 @@ middleInset : [var]
 %index
 GdipGetAdjustableArrowCapWidth
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, width
 cap : [intptr] 
@@ -3696,8 +3236,6 @@ width : [var]
 %index
 GdipGetAllPropertyItems
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, totalBufferSize, numProperties, allItems
 image : [intptr] 
@@ -3711,8 +3249,6 @@ allItems : [var]
 %index
 GdipGetBrushType
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, type
 brush : [intptr] 
@@ -3724,8 +3260,6 @@ type : [var]
 %index
 GdipGetCellAscent
 (no summary)
-%group
-Win32 gdiplus
 %prm
 family, style, CellAscent
 family : [intptr] 
@@ -3738,8 +3272,6 @@ CellAscent : [var]
 %index
 GdipGetCellDescent
 (no summary)
-%group
-Win32 gdiplus
 %prm
 family, style, CellDescent
 family : [intptr] 
@@ -3752,8 +3284,6 @@ CellDescent : [var]
 %index
 GdipGetClip
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, region
 graphics : [intptr] 
@@ -3765,8 +3295,6 @@ region : [intptr]
 %index
 GdipGetClipBounds
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, rect
 graphics : [intptr] 
@@ -3778,8 +3306,6 @@ rect : [var]
 %index
 GdipGetClipBoundsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, rect
 graphics : [intptr] 
@@ -3791,8 +3317,6 @@ rect : [var]
 %index
 GdipGetCompositingMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, compositingMode
 graphics : [intptr] 
@@ -3804,8 +3328,6 @@ compositingMode : [var]
 %index
 GdipGetCompositingQuality
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, compositingQuality
 graphics : [intptr] 
@@ -3817,8 +3339,6 @@ compositingQuality : [var]
 %index
 GdipGetCustomLineCapBaseCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, baseCap
 customCap : [intptr] 
@@ -3830,8 +3350,6 @@ baseCap : [var]
 %index
 GdipGetCustomLineCapBaseInset
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, inset
 customCap : [intptr] 
@@ -3843,8 +3361,6 @@ inset : [var]
 %index
 GdipGetCustomLineCapStrokeCaps
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, startCap, endCap
 customCap : [intptr] 
@@ -3857,8 +3373,6 @@ endCap : [var]
 %index
 GdipGetCustomLineCapStrokeJoin
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, lineJoin
 customCap : [intptr] 
@@ -3870,8 +3384,6 @@ lineJoin : [var]
 %index
 GdipGetCustomLineCapType
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, capType
 customCap : [intptr] 
@@ -3883,8 +3395,6 @@ capType : [var]
 %index
 GdipGetCustomLineCapWidthScale
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, widthScale
 customCap : [intptr] 
@@ -3896,8 +3406,6 @@ widthScale : [var]
 %index
 GdipGetDC
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, hdc
 graphics : [intptr] 
@@ -3909,8 +3417,6 @@ hdc : [intptr]
 %index
 GdipGetDpiX
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, dpi
 graphics : [intptr] 
@@ -3922,8 +3428,6 @@ dpi : [var]
 %index
 GdipGetDpiY
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, dpi
 graphics : [intptr] 
@@ -3935,8 +3439,6 @@ dpi : [var]
 %index
 GdipGetEffectParameterSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 effect, size
 effect : [intptr] 
@@ -3948,8 +3450,6 @@ size : [var]
 %index
 GdipGetEffectParameters
 (no summary)
-%group
-Win32 gdiplus
 %prm
 effect, size, params
 effect : [intptr] 
@@ -3962,8 +3462,6 @@ params : [int]
 %index
 GdipGetEmHeight
 (no summary)
-%group
-Win32 gdiplus
 %prm
 family, style, EmHeight
 family : [intptr] 
@@ -3976,8 +3474,6 @@ EmHeight : [var]
 %index
 GdipGetEncoderParameterList
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, clsidEncoder, size, buffer
 image : [intptr] 
@@ -3991,8 +3487,6 @@ buffer : [var]
 %index
 GdipGetEncoderParameterListSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, clsidEncoder, size
 image : [intptr] 
@@ -4005,8 +3499,6 @@ size : [var]
 %index
 GdipGetFamily
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, family
 font : [intptr] 
@@ -4018,8 +3510,6 @@ family : [var]
 %index
 GdipGetFamilyName
 (no summary)
-%group
-Win32 gdiplus
 %prm
 family, name, language
 family : [intptr] 
@@ -4032,8 +3522,6 @@ language : [int]
 %index
 GdipGetFontCollectionFamilyCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontCollection, numFound
 fontCollection : [intptr] 
@@ -4045,8 +3533,6 @@ numFound : [var]
 %index
 GdipGetFontCollectionFamilyList
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontCollection, numSought, gpfamilies, numFound
 fontCollection : [intptr] 
@@ -4060,8 +3546,6 @@ numFound : [var]
 %index
 GdipGetFontHeight
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, graphics, height
 font : [intptr] 
@@ -4074,8 +3558,6 @@ height : [var]
 %index
 GdipGetFontHeightGivenDPI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, dpi, height
 font : [intptr] 
@@ -4088,8 +3570,6 @@ height : [var]
 %index
 GdipGetFontSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, size
 font : [intptr] 
@@ -4101,8 +3581,6 @@ size : [var]
 %index
 GdipGetFontStyle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, style
 font : [intptr] 
@@ -4114,8 +3592,6 @@ style : [var]
 %index
 GdipGetFontUnit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, unit
 font : [intptr] 
@@ -4127,8 +3603,6 @@ unit : [var]
 %index
 GdipGetGenericFontFamilyMonospace
 (no summary)
-%group
-Win32 gdiplus
 %prm
 nativeFamily
 nativeFamily : [var] 
@@ -4139,8 +3613,6 @@ nativeFamily : [var]
 %index
 GdipGetGenericFontFamilySansSerif
 (no summary)
-%group
-Win32 gdiplus
 %prm
 nativeFamily
 nativeFamily : [var] 
@@ -4151,8 +3623,6 @@ nativeFamily : [var]
 %index
 GdipGetGenericFontFamilySerif
 (no summary)
-%group
-Win32 gdiplus
 %prm
 nativeFamily
 nativeFamily : [var] 
@@ -4163,8 +3633,6 @@ nativeFamily : [var]
 %index
 GdipGetHatchBackgroundColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, backcol
 brush : [intptr] 
@@ -4176,8 +3644,6 @@ backcol : [var]
 %index
 GdipGetHatchForegroundColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, forecol
 brush : [intptr] 
@@ -4189,8 +3655,6 @@ forecol : [var]
 %index
 GdipGetHatchStyle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, hatchstyle
 brush : [intptr] 
@@ -4202,8 +3666,6 @@ hatchstyle : [var]
 %index
 GdipGetHemfFromMetafile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 metafile, hEmf
 metafile : [intptr] 
@@ -4215,8 +3677,6 @@ hEmf : [intptr]
 %index
 GdipGetImageAttributesAdjustedPalette
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageAttr, colorPalette, colorAdjustType
 imageAttr : [intptr] 
@@ -4229,8 +3689,6 @@ colorAdjustType : [int]
 %index
 GdipGetImageBounds
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, srcRect, srcUnit
 image : [intptr] 
@@ -4243,8 +3701,6 @@ srcUnit : [var]
 %index
 GdipGetImageDecoders
 (no summary)
-%group
-Win32 gdiplus
 %prm
 numDecoders, size, decoders
 numDecoders : [int] 
@@ -4257,8 +3713,6 @@ decoders : [var]
 %index
 GdipGetImageDecodersSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 numDecoders, size
 numDecoders : [var] 
@@ -4270,8 +3724,6 @@ size : [var]
 %index
 GdipGetImageDimension
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, width, height
 image : [intptr] 
@@ -4284,8 +3736,6 @@ height : [var]
 %index
 GdipGetImageEncoders
 (no summary)
-%group
-Win32 gdiplus
 %prm
 numEncoders, size, encoders
 numEncoders : [int] 
@@ -4298,8 +3748,6 @@ encoders : [var]
 %index
 GdipGetImageEncodersSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 numEncoders, size
 numEncoders : [var] 
@@ -4311,8 +3759,6 @@ size : [var]
 %index
 GdipGetImageFlags
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, flags
 image : [intptr] 
@@ -4324,8 +3770,6 @@ flags : [var]
 %index
 GdipGetImageGraphicsContext
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, graphics
 image : [intptr] 
@@ -4337,8 +3781,6 @@ graphics : [var]
 %index
 GdipGetImageHeight
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, height
 image : [intptr] 
@@ -4350,8 +3792,6 @@ height : [var]
 %index
 GdipGetImageHorizontalResolution
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, resolution
 image : [intptr] 
@@ -4363,8 +3803,6 @@ resolution : [var]
 %index
 GdipGetImageItemData
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, item
 image : [intptr] 
@@ -4376,8 +3814,6 @@ item : [var]
 %index
 GdipGetImagePalette
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, palette, size
 image : [intptr] 
@@ -4390,8 +3826,6 @@ size : [int]
 %index
 GdipGetImagePaletteSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, size
 image : [intptr] 
@@ -4403,8 +3837,6 @@ size : [var]
 %index
 GdipGetImagePixelFormat
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, format
 image : [intptr] 
@@ -4416,8 +3848,6 @@ format : [var]
 %index
 GdipGetImageRawFormat
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, format
 image : [intptr] 
@@ -4429,8 +3859,6 @@ format : [var]
 %index
 GdipGetImageThumbnail
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, thumbWidth, thumbHeight, thumbImage, callback, callbackData
 image : [intptr] 
@@ -4446,8 +3874,6 @@ callbackData : [intptr]
 %index
 GdipGetImageType
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, type
 image : [intptr] 
@@ -4459,8 +3885,6 @@ type : [var]
 %index
 GdipGetImageVerticalResolution
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, resolution
 image : [intptr] 
@@ -4472,8 +3896,6 @@ resolution : [var]
 %index
 GdipGetImageWidth
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, width
 image : [intptr] 
@@ -4485,8 +3907,6 @@ width : [var]
 %index
 GdipGetInterpolationMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, interpolationMode
 graphics : [intptr] 
@@ -4498,8 +3918,6 @@ interpolationMode : [var]
 %index
 GdipGetLineBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -4513,8 +3931,6 @@ count : [int]
 %index
 GdipGetLineBlendCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, count
 brush : [intptr] 
@@ -4526,8 +3942,6 @@ count : [var]
 %index
 GdipGetLineColors
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, colors
 brush : [intptr] 
@@ -4539,8 +3953,6 @@ colors : [var]
 %index
 GdipGetLineGammaCorrection
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, useGammaCorrection
 brush : [intptr] 
@@ -4552,8 +3964,6 @@ useGammaCorrection : [var]
 %index
 GdipGetLinePresetBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -4567,8 +3977,6 @@ count : [int]
 %index
 GdipGetLinePresetBlendCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, count
 brush : [intptr] 
@@ -4580,8 +3988,6 @@ count : [var]
 %index
 GdipGetLineRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, rect
 brush : [intptr] 
@@ -4593,8 +3999,6 @@ rect : [var]
 %index
 GdipGetLineRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, rect
 brush : [intptr] 
@@ -4606,8 +4010,6 @@ rect : [var]
 %index
 GdipGetLineSpacing
 (no summary)
-%group
-Win32 gdiplus
 %prm
 family, style, LineSpacing
 family : [intptr] 
@@ -4620,8 +4022,6 @@ LineSpacing : [var]
 %index
 GdipGetLineTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix
 brush : [intptr] 
@@ -4633,8 +4033,6 @@ matrix : [intptr]
 %index
 GdipGetLineWrapMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, wrapmode
 brush : [intptr] 
@@ -4646,8 +4044,6 @@ wrapmode : [var]
 %index
 GdipGetLogFontW
 (no summary)
-%group
-Win32 gdiplus
 %prm
 font, graphics, logfontW
 font : [intptr] 
@@ -4660,8 +4056,6 @@ logfontW : [var]
 %index
 GdipGetMatrixElements
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, matrixOut
 matrix : [intptr] 
@@ -4673,8 +4067,6 @@ matrixOut : [var]
 %index
 GdipGetMetafileDownLevelRasterizationLimit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 metafile, metafileRasterizationLimitDpi
 metafile : [intptr] 
@@ -4686,8 +4078,6 @@ metafileRasterizationLimitDpi : [var]
 %index
 GdipGetMetafileHeaderFromEmf
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hEmf, header
 hEmf : [intptr] 
@@ -4699,8 +4089,6 @@ header : [var]
 %index
 GdipGetMetafileHeaderFromFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 filename, header
 filename : [wstr] 
@@ -4712,8 +4100,6 @@ header : [var]
 %index
 GdipGetMetafileHeaderFromMetafile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 metafile, header
 metafile : [intptr] 
@@ -4725,8 +4111,6 @@ header : [var]
 %index
 GdipGetMetafileHeaderFromStream
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, header
 stream : [var] 
@@ -4738,8 +4122,6 @@ header : [var]
 %index
 GdipGetMetafileHeaderFromWmf
 (no summary)
-%group
-Win32 gdiplus
 %prm
 hWmf, wmfPlaceableFileHeader, header
 hWmf : [intptr] 
@@ -4752,8 +4134,6 @@ header : [var]
 %index
 GdipGetNearestColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, argb
 graphics : [intptr] 
@@ -4765,8 +4145,6 @@ argb : [var]
 %index
 GdipGetPageScale
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, scale
 graphics : [intptr] 
@@ -4778,8 +4156,6 @@ scale : [var]
 %index
 GdipGetPageUnit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, unit
 graphics : [intptr] 
@@ -4791,8 +4167,6 @@ unit : [var]
 %index
 GdipGetPathData
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, pathData
 path : [intptr] 
@@ -4804,8 +4178,6 @@ pathData : [intptr]
 %index
 GdipGetPathFillMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, fillmode
 path : [intptr] 
@@ -4817,8 +4189,6 @@ fillmode : [var]
 %index
 GdipGetPathGradientBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -4832,8 +4202,6 @@ count : [int]
 %index
 GdipGetPathGradientBlendCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, count
 brush : [intptr] 
@@ -4845,8 +4213,6 @@ count : [var]
 %index
 GdipGetPathGradientCenterColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, colors
 brush : [intptr] 
@@ -4858,8 +4224,6 @@ colors : [var]
 %index
 GdipGetPathGradientCenterPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, points
 brush : [intptr] 
@@ -4871,8 +4235,6 @@ points : [var]
 %index
 GdipGetPathGradientCenterPointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, points
 brush : [intptr] 
@@ -4884,8 +4246,6 @@ points : [var]
 %index
 GdipGetPathGradientFocusScales
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, xScale, yScale
 brush : [intptr] 
@@ -4898,8 +4258,6 @@ yScale : [var]
 %index
 GdipGetPathGradientGammaCorrection
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, useGammaCorrection
 brush : [intptr] 
@@ -4911,8 +4269,6 @@ useGammaCorrection : [var]
 %index
 GdipGetPathGradientPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, path
 brush : [intptr] 
@@ -4924,8 +4280,6 @@ path : [intptr]
 %index
 GdipGetPathGradientPointCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, count
 brush : [intptr] 
@@ -4937,8 +4291,6 @@ count : [var]
 %index
 GdipGetPathGradientPresetBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -4952,8 +4304,6 @@ count : [int]
 %index
 GdipGetPathGradientPresetBlendCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, count
 brush : [intptr] 
@@ -4965,8 +4315,6 @@ count : [var]
 %index
 GdipGetPathGradientRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, rect
 brush : [intptr] 
@@ -4978,8 +4326,6 @@ rect : [var]
 %index
 GdipGetPathGradientRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, rect
 brush : [intptr] 
@@ -4991,8 +4337,6 @@ rect : [var]
 %index
 GdipGetPathGradientSurroundColorCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, count
 brush : [intptr] 
@@ -5004,8 +4348,6 @@ count : [var]
 %index
 GdipGetPathGradientSurroundColorsWithCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, color, count
 brush : [intptr] 
@@ -5018,8 +4360,6 @@ count : [var]
 %index
 GdipGetPathGradientTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix
 brush : [intptr] 
@@ -5031,8 +4371,6 @@ matrix : [intptr]
 %index
 GdipGetPathGradientWrapMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, wrapmode
 brush : [intptr] 
@@ -5044,8 +4382,6 @@ wrapmode : [var]
 %index
 GdipGetPathLastPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, lastPoint
 path : [intptr] 
@@ -5057,8 +4393,6 @@ lastPoint : [var]
 %index
 GdipGetPathPoints
 (no summary)
-%group
-Win32 gdiplus
 %prm
 param0, points, count
 param0 : [intptr] 
@@ -5071,8 +4405,6 @@ count : [int]
 %index
 GdipGetPathPointsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 param0, points, count
 param0 : [intptr] 
@@ -5085,8 +4417,6 @@ count : [int]
 %index
 GdipGetPathTypes
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, types, count
 path : [intptr] 
@@ -5099,8 +4429,6 @@ count : [int]
 %index
 GdipGetPathWorldBounds
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, bounds, matrix, pen
 path : [intptr] 
@@ -5114,8 +4442,6 @@ pen : [intptr]
 %index
 GdipGetPathWorldBoundsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, bounds, matrix, pen
 path : [intptr] 
@@ -5129,8 +4455,6 @@ pen : [intptr]
 %index
 GdipGetPenBrushFill
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, brush
 pen : [intptr] 
@@ -5142,8 +4466,6 @@ brush : [var]
 %index
 GdipGetPenColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, argb
 pen : [intptr] 
@@ -5155,8 +4477,6 @@ argb : [var]
 %index
 GdipGetPenCompoundArray
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dash, count
 pen : [intptr] 
@@ -5169,8 +4489,6 @@ count : [int]
 %index
 GdipGetPenCompoundCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, count
 pen : [intptr] 
@@ -5182,8 +4500,6 @@ count : [var]
 %index
 GdipGetPenCustomEndCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, customCap
 pen : [intptr] 
@@ -5195,8 +4511,6 @@ customCap : [var]
 %index
 GdipGetPenCustomStartCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, customCap
 pen : [intptr] 
@@ -5208,8 +4522,6 @@ customCap : [var]
 %index
 GdipGetPenDashArray
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dash, count
 pen : [intptr] 
@@ -5222,8 +4534,6 @@ count : [int]
 %index
 GdipGetPenDashCap197819
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dashCap
 pen : [intptr] 
@@ -5235,8 +4545,6 @@ dashCap : [var]
 %index
 GdipGetPenDashCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, count
 pen : [intptr] 
@@ -5248,8 +4556,6 @@ count : [var]
 %index
 GdipGetPenDashOffset
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, offset
 pen : [intptr] 
@@ -5261,8 +4567,6 @@ offset : [var]
 %index
 GdipGetPenDashStyle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dashstyle
 pen : [intptr] 
@@ -5274,8 +4578,6 @@ dashstyle : [var]
 %index
 GdipGetPenEndCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, endCap
 pen : [intptr] 
@@ -5287,8 +4589,6 @@ endCap : [var]
 %index
 GdipGetPenFillType
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, type
 pen : [intptr] 
@@ -5300,8 +4600,6 @@ type : [var]
 %index
 GdipGetPenLineJoin
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, lineJoin
 pen : [intptr] 
@@ -5313,8 +4611,6 @@ lineJoin : [var]
 %index
 GdipGetPenMiterLimit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, miterLimit
 pen : [intptr] 
@@ -5326,8 +4622,6 @@ miterLimit : [var]
 %index
 GdipGetPenMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, penMode
 pen : [intptr] 
@@ -5339,8 +4633,6 @@ penMode : [var]
 %index
 GdipGetPenStartCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, startCap
 pen : [intptr] 
@@ -5352,8 +4644,6 @@ startCap : [var]
 %index
 GdipGetPenTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, matrix
 pen : [intptr] 
@@ -5365,8 +4655,6 @@ matrix : [intptr]
 %index
 GdipGetPenUnit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, unit
 pen : [intptr] 
@@ -5378,8 +4666,6 @@ unit : [var]
 %index
 GdipGetPenWidth
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, width
 pen : [intptr] 
@@ -5391,8 +4677,6 @@ width : [var]
 %index
 GdipGetPixelOffsetMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pixelOffsetMode
 graphics : [intptr] 
@@ -5404,8 +4688,6 @@ pixelOffsetMode : [var]
 %index
 GdipGetPointCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, count
 path : [intptr] 
@@ -5417,8 +4699,6 @@ count : [var]
 %index
 GdipGetPropertyCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, numOfProperty
 image : [intptr] 
@@ -5430,8 +4710,6 @@ numOfProperty : [var]
 %index
 GdipGetPropertyIdList
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, numOfProperty, list
 image : [intptr] 
@@ -5444,8 +4722,6 @@ list : [var]
 %index
 GdipGetPropertyItem
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, propId, propSize, buffer
 image : [intptr] 
@@ -5459,8 +4735,6 @@ buffer : [var]
 %index
 GdipGetPropertyItemSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, propId, size
 image : [intptr] 
@@ -5473,8 +4747,6 @@ size : [var]
 %index
 GdipGetPropertySize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, totalBufferSize, numProperties
 image : [intptr] 
@@ -5487,8 +4759,6 @@ numProperties : [var]
 %index
 GdipGetRegionBounds
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, graphics, rect
 region : [intptr] 
@@ -5501,8 +4771,6 @@ rect : [var]
 %index
 GdipGetRegionBoundsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, graphics, rect
 region : [intptr] 
@@ -5515,8 +4783,6 @@ rect : [var]
 %index
 GdipGetRegionData
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, buffer, bufferSize, sizeFilled
 region : [intptr] 
@@ -5530,8 +4796,6 @@ sizeFilled : [var]
 %index
 GdipGetRegionDataSize
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, bufferSize
 region : [intptr] 
@@ -5543,8 +4807,6 @@ bufferSize : [var]
 %index
 GdipGetRegionHRgn
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, graphics, hRgn
 region : [intptr] 
@@ -5557,8 +4819,6 @@ hRgn : [intptr]
 %index
 GdipGetRegionScans
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, rects, count, matrix
 region : [intptr] 
@@ -5572,8 +4832,6 @@ matrix : [intptr]
 %index
 GdipGetRegionScansCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, count, matrix
 region : [intptr] 
@@ -5586,8 +4844,6 @@ matrix : [intptr]
 %index
 GdipGetRegionScansI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, rects, count, matrix
 region : [intptr] 
@@ -5601,8 +4857,6 @@ matrix : [intptr]
 %index
 GdipGetRenderingOrigin
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y
 graphics : [intptr] 
@@ -5615,8 +4869,6 @@ y : [var]
 %index
 GdipGetSmoothingMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, smoothingMode
 graphics : [intptr] 
@@ -5628,8 +4880,6 @@ smoothingMode : [var]
 %index
 GdipGetSolidFillColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, color
 brush : [intptr] 
@@ -5641,8 +4891,6 @@ color : [var]
 %index
 GdipGetStringFormatAlign
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, align
 format : [intptr] 
@@ -5654,8 +4902,6 @@ align : [var]
 %index
 GdipGetStringFormatDigitSubstitution
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, language, substitute
 format : [intptr] 
@@ -5668,8 +4914,6 @@ substitute : [var]
 %index
 GdipGetStringFormatFlags
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, flags
 format : [intptr] 
@@ -5681,8 +4925,6 @@ flags : [var]
 %index
 GdipGetStringFormatHotkeyPrefix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, hotkeyPrefix
 format : [intptr] 
@@ -5694,8 +4936,6 @@ hotkeyPrefix : [var]
 %index
 GdipGetStringFormatLineAlign
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, align
 format : [intptr] 
@@ -5707,8 +4947,6 @@ align : [var]
 %index
 GdipGetStringFormatMeasurableCharacterRangeCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, count
 format : [intptr] 
@@ -5720,8 +4958,6 @@ count : [var]
 %index
 GdipGetStringFormatTabStopCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, count
 format : [intptr] 
@@ -5733,8 +4969,6 @@ count : [var]
 %index
 GdipGetStringFormatTabStops
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, count, firstTabOffset, tabStops
 format : [intptr] 
@@ -5748,8 +4982,6 @@ tabStops : [var]
 %index
 GdipGetStringFormatTrimming
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, trimming
 format : [intptr] 
@@ -5761,8 +4993,6 @@ trimming : [var]
 %index
 GdipGetTextContrast
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, contrast
 graphics : [intptr] 
@@ -5774,8 +5004,6 @@ contrast : [var]
 %index
 GdipGetTextRenderingHint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, mode
 graphics : [intptr] 
@@ -5787,8 +5015,6 @@ mode : [var]
 %index
 GdipGetTextureImage
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, image
 brush : [intptr] 
@@ -5800,8 +5026,6 @@ image : [var]
 %index
 GdipGetTextureTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix
 brush : [intptr] 
@@ -5813,8 +5037,6 @@ matrix : [intptr]
 %index
 GdipGetTextureWrapMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, wrapmode
 brush : [intptr] 
@@ -5826,8 +5048,6 @@ wrapmode : [var]
 %index
 GdipGetVisibleClipBounds
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, rect
 graphics : [intptr] 
@@ -5839,8 +5059,6 @@ rect : [var]
 %index
 GdipGetVisibleClipBoundsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, rect
 graphics : [intptr] 
@@ -5852,8 +5070,6 @@ rect : [var]
 %index
 GdipGetWorldTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, matrix
 graphics : [intptr] 
@@ -5865,8 +5081,6 @@ matrix : [intptr]
 %index
 GdipGraphicsClear
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, color
 graphics : [intptr] 
@@ -5878,8 +5092,6 @@ color : [int]
 %index
 GdipGraphicsSetAbort
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pGraphics, pIAbort
 pGraphics : [intptr] 
@@ -5891,8 +5103,6 @@ pIAbort : [var]
 %index
 GdipImageForceValidation
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image
 image : [intptr] 
@@ -5903,8 +5113,6 @@ image : [intptr]
 %index
 GdipImageGetFrameCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, dimensionID, count
 image : [intptr] 
@@ -5917,8 +5125,6 @@ count : [var]
 %index
 GdipImageGetFrameDimensionsCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, count
 image : [intptr] 
@@ -5930,8 +5136,6 @@ count : [var]
 %index
 GdipImageGetFrameDimensionsList
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, dimensionIDs, count
 image : [intptr] 
@@ -5944,8 +5148,6 @@ count : [int]
 %index
 GdipImageRotateFlip
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, rfType
 image : [intptr] 
@@ -5957,8 +5159,6 @@ rfType : [int]
 %index
 GdipImageSelectActiveFrame
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, dimensionID, frameIndex
 image : [intptr] 
@@ -5971,8 +5171,6 @@ frameIndex : [int]
 %index
 GdipImageSetAbort
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pImage, pIAbort
 pImage : [intptr] 
@@ -5984,8 +5182,6 @@ pIAbort : [var]
 %index
 GdipInitializePalette
 (no summary)
-%group
-Win32 gdiplus
 %prm
 palette, palettetype, optimalColors, useTransparentColor, bitmap
 palette : [var] 
@@ -6000,8 +5196,6 @@ bitmap : [intptr]
 %index
 GdipInvertMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix
 matrix : [intptr] 
@@ -6012,8 +5206,6 @@ matrix : [intptr]
 %index
 GdipIsClipEmpty
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, result
 graphics : [intptr] 
@@ -6025,8 +5217,6 @@ result : [var]
 %index
 GdipIsEmptyRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, graphics, result
 region : [intptr] 
@@ -6039,8 +5229,6 @@ result : [var]
 %index
 GdipIsEqualRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, region2, graphics, result
 region : [intptr] 
@@ -6054,8 +5242,6 @@ result : [var]
 %index
 GdipIsInfiniteRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, graphics, result
 region : [intptr] 
@@ -6068,8 +5254,6 @@ result : [var]
 %index
 GdipIsMatrixEqual
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, matrix2, result
 matrix : [intptr] 
@@ -6082,8 +5266,6 @@ result : [var]
 %index
 GdipIsMatrixIdentity
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, result
 matrix : [intptr] 
@@ -6095,8 +5277,6 @@ result : [var]
 %index
 GdipIsMatrixInvertible
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, result
 matrix : [intptr] 
@@ -6108,8 +5288,6 @@ result : [var]
 %index
 GdipIsOutlineVisiblePathPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, pen, graphics, result
 path : [intptr] 
@@ -6125,8 +5303,6 @@ result : [var]
 %index
 GdipIsOutlineVisiblePathPointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, pen, graphics, result
 path : [intptr] 
@@ -6142,8 +5318,6 @@ result : [var]
 %index
 GdipIsStyleAvailable
 (no summary)
-%group
-Win32 gdiplus
 %prm
 family, style, IsStyleAvailable
 family : [intptr] 
@@ -6156,8 +5330,6 @@ IsStyleAvailable : [var]
 %index
 GdipIsVisibleClipEmpty
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, result
 graphics : [intptr] 
@@ -6169,8 +5341,6 @@ result : [var]
 %index
 GdipIsVisiblePathPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, graphics, result
 path : [intptr] 
@@ -6185,8 +5355,6 @@ result : [var]
 %index
 GdipIsVisiblePathPointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, x, y, graphics, result
 path : [intptr] 
@@ -6201,8 +5369,6 @@ result : [var]
 %index
 GdipIsVisiblePoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y, result
 graphics : [intptr] 
@@ -6216,8 +5382,6 @@ result : [var]
 %index
 GdipIsVisiblePointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y, result
 graphics : [intptr] 
@@ -6231,8 +5395,6 @@ result : [var]
 %index
 GdipIsVisibleRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y, width, height, result
 graphics : [intptr] 
@@ -6248,8 +5410,6 @@ result : [var]
 %index
 GdipIsVisibleRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y, width, height, result
 graphics : [intptr] 
@@ -6265,8 +5425,6 @@ result : [var]
 %index
 GdipIsVisibleRegionPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, x, y, graphics, result
 region : [intptr] 
@@ -6281,8 +5439,6 @@ result : [var]
 %index
 GdipIsVisibleRegionPointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, x, y, graphics, result
 region : [intptr] 
@@ -6297,8 +5453,6 @@ result : [var]
 %index
 GdipIsVisibleRegionRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, x, y, width, height, graphics, result
 region : [intptr] 
@@ -6315,8 +5469,6 @@ result : [var]
 %index
 GdipIsVisibleRegionRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, x, y, width, height, graphics, result
 region : [intptr] 
@@ -6333,8 +5485,6 @@ result : [var]
 %index
 GdipLoadImageFromFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 filename, image
 filename : [wstr] 
@@ -6346,8 +5496,6 @@ image : [var]
 %index
 GdipLoadImageFromFileICM
 (no summary)
-%group
-Win32 gdiplus
 %prm
 filename, image
 filename : [wstr] 
@@ -6359,8 +5507,6 @@ image : [var]
 %index
 GdipLoadImageFromStream
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, image
 stream : [var] 
@@ -6372,8 +5518,6 @@ image : [var]
 %index
 GdipLoadImageFromStreamICM
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, image
 stream : [var] 
@@ -6385,8 +5529,6 @@ image : [var]
 %index
 GdipMeasureCharacterRanges
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, string, length, font, layoutRect, stringFormat, regionCount, regions
 graphics : [intptr] 
@@ -6404,8 +5546,6 @@ regions : [var]
 %index
 GdipMeasureDriverString
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, text, length, font, positions, flags, matrix, boundingBox
 graphics : [intptr] 
@@ -6423,8 +5563,6 @@ boundingBox : [var]
 %index
 GdipMeasureString
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, string, length, font, layoutRect, stringFormat, boundingBox, codepointsFitted, linesFilled
 graphics : [intptr] 
@@ -6443,8 +5581,6 @@ linesFilled : [var]
 %index
 GdipMultiplyLineTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix, order
 brush : [intptr] 
@@ -6457,8 +5593,6 @@ order : [int]
 %index
 GdipMultiplyMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, matrix2, order
 matrix : [intptr] 
@@ -6471,8 +5605,6 @@ order : [int]
 %index
 GdipMultiplyPathGradientTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix, order
 brush : [intptr] 
@@ -6485,8 +5617,6 @@ order : [int]
 %index
 GdipMultiplyPenTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, matrix, order
 pen : [intptr] 
@@ -6499,8 +5629,6 @@ order : [int]
 %index
 GdipMultiplyTextureTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix, order
 brush : [intptr] 
@@ -6513,8 +5641,6 @@ order : [int]
 %index
 GdipMultiplyWorldTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, matrix, order
 graphics : [intptr] 
@@ -6527,8 +5653,6 @@ order : [int]
 %index
 GdipNewInstalledFontCollection
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontCollection
 fontCollection : [var] 
@@ -6539,8 +5663,6 @@ fontCollection : [var]
 %index
 GdipNewPrivateFontCollection
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontCollection
 fontCollection : [var] 
@@ -6551,8 +5673,6 @@ fontCollection : [var]
 %index
 GdipPathIterCopyData
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, resultCount, points, types, startIndex, endIndex
 iterator : [intptr] 
@@ -6568,8 +5688,6 @@ endIndex : [int]
 %index
 GdipPathIterEnumerate
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, resultCount, points, types, count
 iterator : [intptr] 
@@ -6584,8 +5702,6 @@ count : [int]
 %index
 GdipPathIterGetCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, count
 iterator : [intptr] 
@@ -6597,8 +5713,6 @@ count : [var]
 %index
 GdipPathIterGetSubpathCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, count
 iterator : [intptr] 
@@ -6610,8 +5724,6 @@ count : [var]
 %index
 GdipPathIterHasCurve
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, hasCurve
 iterator : [intptr] 
@@ -6623,8 +5735,6 @@ hasCurve : [var]
 %index
 GdipPathIterIsValid
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, valid
 iterator : [intptr] 
@@ -6636,8 +5746,6 @@ valid : [var]
 %index
 GdipPathIterNextMarker
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, resultCount, startIndex, endIndex
 iterator : [intptr] 
@@ -6651,8 +5759,6 @@ endIndex : [var]
 %index
 GdipPathIterNextMarkerPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, resultCount, path
 iterator : [intptr] 
@@ -6665,8 +5771,6 @@ path : [intptr]
 %index
 GdipPathIterNextPathType
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, resultCount, pathType, startIndex, endIndex
 iterator : [intptr] 
@@ -6681,8 +5785,6 @@ endIndex : [var]
 %index
 GdipPathIterNextSubpath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, resultCount, startIndex, endIndex, isClosed
 iterator : [intptr] 
@@ -6697,8 +5799,6 @@ isClosed : [var]
 %index
 GdipPathIterNextSubpathPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator, resultCount, path, isClosed
 iterator : [intptr] 
@@ -6712,8 +5812,6 @@ isClosed : [var]
 %index
 GdipPathIterRewind
 (no summary)
-%group
-Win32 gdiplus
 %prm
 iterator
 iterator : [intptr] 
@@ -6724,8 +5822,6 @@ iterator : [intptr]
 %index
 GdipPlayMetafileRecord
 (no summary)
-%group
-Win32 gdiplus
 %prm
 metafile, recordType, flags, dataSize, data
 metafile : [intptr] 
@@ -6740,8 +5836,6 @@ data : [var]
 %index
 GdipPrivateAddFontFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontCollection, filename
 fontCollection : [intptr] 
@@ -6753,8 +5847,6 @@ filename : [wstr]
 %index
 GdipPrivateAddMemoryFont
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fontCollection, memory, length
 fontCollection : [intptr] 
@@ -6767,8 +5859,6 @@ length : [int]
 %index
 GdipRecordMetafile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 referenceHdc, type, frameRect, frameUnit, description, metafile
 referenceHdc : [intptr] 
@@ -6784,8 +5874,6 @@ metafile : [var]
 %index
 GdipRecordMetafileFileName
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fileName, referenceHdc, type, frameRect, frameUnit, description, metafile
 fileName : [wstr] 
@@ -6802,8 +5890,6 @@ metafile : [var]
 %index
 GdipRecordMetafileFileNameI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 fileName, referenceHdc, type, frameRect, frameUnit, description, metafile
 fileName : [wstr] 
@@ -6820,8 +5906,6 @@ metafile : [var]
 %index
 GdipRecordMetafileI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 referenceHdc, type, frameRect, frameUnit, description, metafile
 referenceHdc : [intptr] 
@@ -6837,8 +5921,6 @@ metafile : [var]
 %index
 GdipRecordMetafileStream
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, referenceHdc, type, frameRect, frameUnit, description, metafile
 stream : [var] 
@@ -6855,8 +5937,6 @@ metafile : [var]
 %index
 GdipRecordMetafileStreamI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 stream, referenceHdc, type, frameRect, frameUnit, description, metafile
 stream : [var] 
@@ -6873,8 +5953,6 @@ metafile : [var]
 %index
 GdipReleaseDC
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, hdc
 graphics : [intptr] 
@@ -6886,8 +5964,6 @@ hdc : [intptr]
 %index
 GdipRemovePropertyItem
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, propId
 image : [intptr] 
@@ -6899,8 +5975,6 @@ propId : [int]
 %index
 GdipResetClip
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics
 graphics : [intptr] 
@@ -6911,8 +5985,6 @@ graphics : [intptr]
 %index
 GdipResetImageAttributes
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type
 imageattr : [intptr] 
@@ -6924,8 +5996,6 @@ type : [int]
 %index
 GdipResetLineTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush
 brush : [intptr] 
@@ -6936,8 +6006,6 @@ brush : [intptr]
 %index
 GdipResetPageTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics
 graphics : [intptr] 
@@ -6948,8 +6016,6 @@ graphics : [intptr]
 %index
 GdipResetPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -6960,8 +6026,6 @@ path : [intptr]
 %index
 GdipResetPathGradientTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush
 brush : [intptr] 
@@ -6972,8 +6036,6 @@ brush : [intptr]
 %index
 GdipResetPenTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen
 pen : [intptr] 
@@ -6984,8 +6046,6 @@ pen : [intptr]
 %index
 GdipResetTextureTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush
 brush : [intptr] 
@@ -6996,8 +6056,6 @@ brush : [intptr]
 %index
 GdipResetWorldTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics
 graphics : [intptr] 
@@ -7008,8 +6066,6 @@ graphics : [intptr]
 %index
 GdipRestoreGraphics
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, state
 graphics : [intptr] 
@@ -7021,8 +6077,6 @@ state : [int]
 %index
 GdipReversePath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -7033,8 +6087,6 @@ path : [intptr]
 %index
 GdipRotateLineTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, angle, order
 brush : [intptr] 
@@ -7047,8 +6099,6 @@ order : [int]
 %index
 GdipRotateMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, angle, order
 matrix : [intptr] 
@@ -7061,8 +6111,6 @@ order : [int]
 %index
 GdipRotatePathGradientTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, angle, order
 brush : [intptr] 
@@ -7075,8 +6123,6 @@ order : [int]
 %index
 GdipRotatePenTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, angle, order
 pen : [intptr] 
@@ -7089,8 +6135,6 @@ order : [int]
 %index
 GdipRotateTextureTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, angle, order
 brush : [intptr] 
@@ -7103,8 +6147,6 @@ order : [int]
 %index
 GdipRotateWorldTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, angle, order
 graphics : [intptr] 
@@ -7117,8 +6159,6 @@ order : [int]
 %index
 GdipSaveAdd
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, encoderParams
 image : [intptr] 
@@ -7130,8 +6170,6 @@ encoderParams : [var]
 %index
 GdipSaveAddImage
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, newImage, encoderParams
 image : [intptr] 
@@ -7144,8 +6182,6 @@ encoderParams : [var]
 %index
 GdipSaveGraphics
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, state
 graphics : [intptr] 
@@ -7157,8 +6193,6 @@ state : [var]
 %index
 GdipSaveImageToFile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, filename, clsidEncoder, encoderParams
 image : [intptr] 
@@ -7172,8 +6206,6 @@ encoderParams : [var]
 %index
 GdipSaveImageToStream
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, stream, clsidEncoder, encoderParams
 image : [intptr] 
@@ -7187,8 +6219,6 @@ encoderParams : [var]
 %index
 GdipScaleLineTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, sx, sy, order
 brush : [intptr] 
@@ -7202,8 +6232,6 @@ order : [int]
 %index
 GdipScaleMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, scaleX, scaleY, order
 matrix : [intptr] 
@@ -7217,8 +6245,6 @@ order : [int]
 %index
 GdipScalePathGradientTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, sx, sy, order
 brush : [intptr] 
@@ -7232,8 +6258,6 @@ order : [int]
 %index
 GdipScalePenTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, sx, sy, order
 pen : [intptr] 
@@ -7247,8 +6271,6 @@ order : [int]
 %index
 GdipScaleTextureTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, sx, sy, order
 brush : [intptr] 
@@ -7262,8 +6284,6 @@ order : [int]
 %index
 GdipScaleWorldTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, sx, sy, order
 graphics : [intptr] 
@@ -7277,8 +6297,6 @@ order : [int]
 %index
 GdipSetAdjustableArrowCapFillState
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, fillState
 cap : [intptr] 
@@ -7290,8 +6308,6 @@ fillState : [int]
 %index
 GdipSetAdjustableArrowCapHeight
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, height
 cap : [intptr] 
@@ -7303,8 +6319,6 @@ height : [float]
 %index
 GdipSetAdjustableArrowCapMiddleInset
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, middleInset
 cap : [intptr] 
@@ -7316,8 +6330,6 @@ middleInset : [float]
 %index
 GdipSetAdjustableArrowCapWidth
 (no summary)
-%group
-Win32 gdiplus
 %prm
 cap, width
 cap : [intptr] 
@@ -7329,8 +6341,6 @@ width : [float]
 %index
 GdipSetClipGraphics
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, srcgraphics, combineMode
 graphics : [intptr] 
@@ -7343,8 +6353,6 @@ combineMode : [int]
 %index
 GdipSetClipHrgn
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, hRgn, combineMode
 graphics : [intptr] 
@@ -7357,8 +6365,6 @@ combineMode : [int]
 %index
 GdipSetClipPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, path, combineMode
 graphics : [intptr] 
@@ -7371,8 +6377,6 @@ combineMode : [int]
 %index
 GdipSetClipRect
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y, width, height, combineMode
 graphics : [intptr] 
@@ -7388,8 +6392,6 @@ combineMode : [int]
 %index
 GdipSetClipRectI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y, width, height, combineMode
 graphics : [intptr] 
@@ -7405,8 +6407,6 @@ combineMode : [int]
 %index
 GdipSetClipRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, region, combineMode
 graphics : [intptr] 
@@ -7419,8 +6419,6 @@ combineMode : [int]
 %index
 GdipSetCompositingMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, compositingMode
 graphics : [intptr] 
@@ -7432,8 +6430,6 @@ compositingMode : [int]
 %index
 GdipSetCompositingQuality
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, compositingQuality
 graphics : [intptr] 
@@ -7445,8 +6441,6 @@ compositingQuality : [int]
 %index
 GdipSetCustomLineCapBaseCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, baseCap
 customCap : [intptr] 
@@ -7458,8 +6452,6 @@ baseCap : [int]
 %index
 GdipSetCustomLineCapBaseInset
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, inset
 customCap : [intptr] 
@@ -7471,8 +6463,6 @@ inset : [float]
 %index
 GdipSetCustomLineCapStrokeCaps
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, startCap, endCap
 customCap : [intptr] 
@@ -7485,8 +6475,6 @@ endCap : [int]
 %index
 GdipSetCustomLineCapStrokeJoin
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, lineJoin
 customCap : [intptr] 
@@ -7498,8 +6486,6 @@ lineJoin : [int]
 %index
 GdipSetCustomLineCapWidthScale
 (no summary)
-%group
-Win32 gdiplus
 %prm
 customCap, widthScale
 customCap : [intptr] 
@@ -7511,8 +6497,6 @@ widthScale : [float]
 %index
 GdipSetEffectParameters
 (no summary)
-%group
-Win32 gdiplus
 %prm
 effect, params, size
 effect : [intptr] 
@@ -7525,8 +6509,6 @@ size : [int]
 %index
 GdipSetEmpty
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region
 region : [intptr] 
@@ -7537,8 +6519,6 @@ region : [intptr]
 %index
 GdipSetImageAttributesCachedBackground
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, enableFlag
 imageattr : [intptr] 
@@ -7550,8 +6530,6 @@ enableFlag : [int]
 %index
 GdipSetImageAttributesColorKeys
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag, colorLow, colorHigh
 imageattr : [intptr] 
@@ -7566,8 +6544,6 @@ colorHigh : [int]
 %index
 GdipSetImageAttributesColorMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag, colorMatrix, grayMatrix, flags
 imageattr : [intptr] 
@@ -7583,8 +6559,6 @@ flags : [int]
 %index
 GdipSetImageAttributesGamma
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag, gamma
 imageattr : [intptr] 
@@ -7598,8 +6572,6 @@ gamma : [float]
 %index
 GdipSetImageAttributesNoOp
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag
 imageattr : [intptr] 
@@ -7612,8 +6584,6 @@ enableFlag : [int]
 %index
 GdipSetImageAttributesOutputChannel
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag, channelFlags
 imageattr : [intptr] 
@@ -7627,8 +6597,6 @@ channelFlags : [int]
 %index
 GdipSetImageAttributesOutputChannelColorProfile
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag, colorProfileFilename
 imageattr : [intptr] 
@@ -7642,8 +6610,6 @@ colorProfileFilename : [wstr]
 %index
 GdipSetImageAttributesRemapTable
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag, mapSize, map
 imageattr : [intptr] 
@@ -7658,8 +6624,6 @@ map : [var]
 %index
 GdipSetImageAttributesThreshold
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type, enableFlag, threshold
 imageattr : [intptr] 
@@ -7673,8 +6637,6 @@ threshold : [float]
 %index
 GdipSetImageAttributesToIdentity
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageattr, type
 imageattr : [intptr] 
@@ -7686,8 +6648,6 @@ type : [int]
 %index
 GdipSetImageAttributesWrapMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 imageAttr, wrap, argb, clamp
 imageAttr : [intptr] 
@@ -7701,8 +6661,6 @@ clamp : [int]
 %index
 GdipSetImagePalette
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, palette
 image : [intptr] 
@@ -7714,8 +6672,6 @@ palette : [var]
 %index
 GdipSetInfinite
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region
 region : [intptr] 
@@ -7726,8 +6682,6 @@ region : [intptr]
 %index
 GdipSetInterpolationMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, interpolationMode
 graphics : [intptr] 
@@ -7739,8 +6693,6 @@ interpolationMode : [int]
 %index
 GdipSetLineBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -7754,8 +6706,6 @@ count : [int]
 %index
 GdipSetLineColors
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, color1, color2
 brush : [intptr] 
@@ -7768,8 +6718,6 @@ color2 : [int]
 %index
 GdipSetLineGammaCorrection
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, useGammaCorrection
 brush : [intptr] 
@@ -7781,8 +6729,6 @@ useGammaCorrection : [int]
 %index
 GdipSetLineLinearBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, focus, scale
 brush : [intptr] 
@@ -7795,8 +6741,6 @@ scale : [float]
 %index
 GdipSetLinePresetBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -7810,8 +6754,6 @@ count : [int]
 %index
 GdipSetLineSigmaBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, focus, scale
 brush : [intptr] 
@@ -7824,8 +6766,6 @@ scale : [float]
 %index
 GdipSetLineTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix
 brush : [intptr] 
@@ -7837,8 +6777,6 @@ matrix : [intptr]
 %index
 GdipSetLineWrapMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, wrapmode
 brush : [intptr] 
@@ -7850,8 +6788,6 @@ wrapmode : [int]
 %index
 GdipSetMatrixElements
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, m11, m12, m21, m22, dx, dy
 matrix : [intptr] 
@@ -7868,8 +6804,6 @@ dy : [float]
 %index
 GdipSetMetafileDownLevelRasterizationLimit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 metafile, metafileRasterizationLimitDpi
 metafile : [intptr] 
@@ -7881,8 +6815,6 @@ metafileRasterizationLimitDpi : [int]
 %index
 GdipSetPageScale
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, scale
 graphics : [intptr] 
@@ -7894,8 +6826,6 @@ scale : [float]
 %index
 GdipSetPageUnit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, unit
 graphics : [intptr] 
@@ -7907,8 +6837,6 @@ unit : [int]
 %index
 GdipSetPathFillMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, fillmode
 path : [intptr] 
@@ -7920,8 +6848,6 @@ fillmode : [int]
 %index
 GdipSetPathGradientBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -7935,8 +6861,6 @@ count : [int]
 %index
 GdipSetPathGradientCenterColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, colors
 brush : [intptr] 
@@ -7948,8 +6872,6 @@ colors : [int]
 %index
 GdipSetPathGradientCenterPoint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, points
 brush : [intptr] 
@@ -7961,8 +6883,6 @@ points : [var]
 %index
 GdipSetPathGradientCenterPointI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, points
 brush : [intptr] 
@@ -7974,8 +6894,6 @@ points : [var]
 %index
 GdipSetPathGradientFocusScales
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, xScale, yScale
 brush : [intptr] 
@@ -7988,8 +6906,6 @@ yScale : [float]
 %index
 GdipSetPathGradientGammaCorrection
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, useGammaCorrection
 brush : [intptr] 
@@ -8001,8 +6917,6 @@ useGammaCorrection : [int]
 %index
 GdipSetPathGradientLinearBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, focus, scale
 brush : [intptr] 
@@ -8015,8 +6929,6 @@ scale : [float]
 %index
 GdipSetPathGradientPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, path
 brush : [intptr] 
@@ -8028,8 +6940,6 @@ path : [intptr]
 %index
 GdipSetPathGradientPresetBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, blend, positions, count
 brush : [intptr] 
@@ -8043,8 +6953,6 @@ count : [int]
 %index
 GdipSetPathGradientSigmaBlend
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, focus, scale
 brush : [intptr] 
@@ -8057,8 +6965,6 @@ scale : [float]
 %index
 GdipSetPathGradientSurroundColorsWithCount
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, color, count
 brush : [intptr] 
@@ -8071,8 +6977,6 @@ count : [var]
 %index
 GdipSetPathGradientTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix
 brush : [intptr] 
@@ -8084,8 +6988,6 @@ matrix : [intptr]
 %index
 GdipSetPathGradientWrapMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, wrapmode
 brush : [intptr] 
@@ -8097,8 +6999,6 @@ wrapmode : [int]
 %index
 GdipSetPathMarker
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -8109,8 +7009,6 @@ path : [intptr]
 %index
 GdipSetPenBrushFill
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, brush
 pen : [intptr] 
@@ -8122,8 +7020,6 @@ brush : [intptr]
 %index
 GdipSetPenColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, argb
 pen : [intptr] 
@@ -8135,8 +7031,6 @@ argb : [int]
 %index
 GdipSetPenCompoundArray
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dash, count
 pen : [intptr] 
@@ -8149,8 +7043,6 @@ count : [int]
 %index
 GdipSetPenCustomEndCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, customCap
 pen : [intptr] 
@@ -8162,8 +7054,6 @@ customCap : [intptr]
 %index
 GdipSetPenCustomStartCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, customCap
 pen : [intptr] 
@@ -8175,8 +7065,6 @@ customCap : [intptr]
 %index
 GdipSetPenDashArray
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dash, count
 pen : [intptr] 
@@ -8189,8 +7077,6 @@ count : [int]
 %index
 GdipSetPenDashCap197819
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dashCap
 pen : [intptr] 
@@ -8202,8 +7088,6 @@ dashCap : [int]
 %index
 GdipSetPenDashOffset
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, offset
 pen : [intptr] 
@@ -8215,8 +7099,6 @@ offset : [float]
 %index
 GdipSetPenDashStyle
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dashstyle
 pen : [intptr] 
@@ -8228,8 +7110,6 @@ dashstyle : [int]
 %index
 GdipSetPenEndCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, endCap
 pen : [intptr] 
@@ -8241,8 +7121,6 @@ endCap : [int]
 %index
 GdipSetPenLineCap197819
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, startCap, endCap, dashCap
 pen : [intptr] 
@@ -8256,8 +7134,6 @@ dashCap : [int]
 %index
 GdipSetPenLineJoin
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, lineJoin
 pen : [intptr] 
@@ -8269,8 +7145,6 @@ lineJoin : [int]
 %index
 GdipSetPenMiterLimit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, miterLimit
 pen : [intptr] 
@@ -8282,8 +7156,6 @@ miterLimit : [float]
 %index
 GdipSetPenMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, penMode
 pen : [intptr] 
@@ -8295,8 +7167,6 @@ penMode : [int]
 %index
 GdipSetPenStartCap
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, startCap
 pen : [intptr] 
@@ -8308,8 +7178,6 @@ startCap : [int]
 %index
 GdipSetPenTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, matrix
 pen : [intptr] 
@@ -8321,8 +7189,6 @@ matrix : [intptr]
 %index
 GdipSetPenUnit
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, unit
 pen : [intptr] 
@@ -8334,8 +7200,6 @@ unit : [int]
 %index
 GdipSetPenWidth
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, width
 pen : [intptr] 
@@ -8347,8 +7211,6 @@ width : [float]
 %index
 GdipSetPixelOffsetMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, pixelOffsetMode
 graphics : [intptr] 
@@ -8360,8 +7222,6 @@ pixelOffsetMode : [int]
 %index
 GdipSetPropertyItem
 (no summary)
-%group
-Win32 gdiplus
 %prm
 image, item
 image : [intptr] 
@@ -8373,8 +7233,6 @@ item : [var]
 %index
 GdipSetRenderingOrigin
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, x, y
 graphics : [intptr] 
@@ -8387,8 +7245,6 @@ y : [int]
 %index
 GdipSetSmoothingMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, smoothingMode
 graphics : [intptr] 
@@ -8400,8 +7256,6 @@ smoothingMode : [int]
 %index
 GdipSetSolidFillColor
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, color
 brush : [intptr] 
@@ -8413,8 +7267,6 @@ color : [int]
 %index
 GdipSetStringFormatAlign
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, align
 format : [intptr] 
@@ -8426,8 +7278,6 @@ align : [int]
 %index
 GdipSetStringFormatDigitSubstitution
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, language, substitute
 format : [intptr] 
@@ -8440,8 +7290,6 @@ substitute : [int]
 %index
 GdipSetStringFormatFlags
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, flags
 format : [intptr] 
@@ -8453,8 +7301,6 @@ flags : [int]
 %index
 GdipSetStringFormatHotkeyPrefix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, hotkeyPrefix
 format : [intptr] 
@@ -8466,8 +7312,6 @@ hotkeyPrefix : [int]
 %index
 GdipSetStringFormatLineAlign
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, align
 format : [intptr] 
@@ -8479,8 +7323,6 @@ align : [int]
 %index
 GdipSetStringFormatMeasurableCharacterRanges
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, rangeCount, ranges
 format : [intptr] 
@@ -8493,8 +7335,6 @@ ranges : [var]
 %index
 GdipSetStringFormatTabStops
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, firstTabOffset, count, tabStops
 format : [intptr] 
@@ -8508,8 +7348,6 @@ tabStops : [var]
 %index
 GdipSetStringFormatTrimming
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format, trimming
 format : [intptr] 
@@ -8521,8 +7359,6 @@ trimming : [int]
 %index
 GdipSetTextContrast
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, contrast
 graphics : [intptr] 
@@ -8534,8 +7370,6 @@ contrast : [int]
 %index
 GdipSetTextRenderingHint
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, mode
 graphics : [intptr] 
@@ -8547,8 +7381,6 @@ mode : [int]
 %index
 GdipSetTextureTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, matrix
 brush : [intptr] 
@@ -8560,8 +7392,6 @@ matrix : [intptr]
 %index
 GdipSetTextureWrapMode
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, wrapmode
 brush : [intptr] 
@@ -8573,8 +7403,6 @@ wrapmode : [int]
 %index
 GdipSetWorldTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, matrix
 graphics : [intptr] 
@@ -8586,8 +7414,6 @@ matrix : [intptr]
 %index
 GdipShearMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, shearX, shearY, order
 matrix : [intptr] 
@@ -8601,8 +7427,6 @@ order : [int]
 %index
 GdipStartPathFigure
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path
 path : [intptr] 
@@ -8613,8 +7437,6 @@ path : [intptr]
 %index
 GdipStringFormatGetGenericDefault
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format
 format : [var] 
@@ -8625,8 +7447,6 @@ format : [var]
 %index
 GdipStringFormatGetGenericTypographic
 (no summary)
-%group
-Win32 gdiplus
 %prm
 format
 format : [var] 
@@ -8637,8 +7457,6 @@ format : [var]
 %index
 GdipTestControl
 (no summary)
-%group
-Win32 gdiplus
 %prm
 control, param1
 control : [int] 
@@ -8650,8 +7468,6 @@ param1 : [intptr]
 %index
 GdipTransformMatrixPoints
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, pts, count
 matrix : [intptr] 
@@ -8664,8 +7480,6 @@ count : [int]
 %index
 GdipTransformMatrixPointsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, pts, count
 matrix : [intptr] 
@@ -8678,8 +7492,6 @@ count : [int]
 %index
 GdipTransformPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, matrix
 path : [intptr] 
@@ -8691,8 +7503,6 @@ matrix : [intptr]
 %index
 GdipTransformPoints
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, destSpace, srcSpace, points, count
 graphics : [intptr] 
@@ -8707,8 +7517,6 @@ count : [int]
 %index
 GdipTransformPointsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, destSpace, srcSpace, points, count
 graphics : [intptr] 
@@ -8723,8 +7531,6 @@ count : [int]
 %index
 GdipTransformRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, matrix
 region : [intptr] 
@@ -8736,8 +7542,6 @@ matrix : [intptr]
 %index
 GdipTranslateClip
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, dx, dy
 graphics : [intptr] 
@@ -8750,8 +7554,6 @@ dy : [float]
 %index
 GdipTranslateClipI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, dx, dy
 graphics : [intptr] 
@@ -8764,8 +7566,6 @@ dy : [int]
 %index
 GdipTranslateLineTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, dx, dy, order
 brush : [intptr] 
@@ -8779,8 +7579,6 @@ order : [int]
 %index
 GdipTranslateMatrix
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, offsetX, offsetY, order
 matrix : [intptr] 
@@ -8794,8 +7592,6 @@ order : [int]
 %index
 GdipTranslatePathGradientTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, dx, dy, order
 brush : [intptr] 
@@ -8809,8 +7605,6 @@ order : [int]
 %index
 GdipTranslatePenTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 pen, dx, dy, order
 pen : [intptr] 
@@ -8824,8 +7618,6 @@ order : [int]
 %index
 GdipTranslateRegion
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, dx, dy
 region : [intptr] 
@@ -8838,8 +7630,6 @@ dy : [float]
 %index
 GdipTranslateRegionI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 region, dx, dy
 region : [intptr] 
@@ -8852,8 +7642,6 @@ dy : [int]
 %index
 GdipTranslateTextureTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 brush, dx, dy, order
 brush : [intptr] 
@@ -8867,8 +7655,6 @@ order : [int]
 %index
 GdipTranslateWorldTransform
 (no summary)
-%group
-Win32 gdiplus
 %prm
 graphics, dx, dy, order
 graphics : [intptr] 
@@ -8882,8 +7668,6 @@ order : [int]
 %index
 GdipVectorTransformMatrixPoints
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, pts, count
 matrix : [intptr] 
@@ -8896,8 +7680,6 @@ count : [int]
 %index
 GdipVectorTransformMatrixPointsI
 (no summary)
-%group
-Win32 gdiplus
 %prm
 matrix, pts, count
 matrix : [intptr] 
@@ -8910,8 +7692,6 @@ count : [int]
 %index
 GdipWarpPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, matrix, points, count, srcx, srcy, srcwidth, srcheight, warpMode, flatness
 path : [intptr] 
@@ -8931,8 +7711,6 @@ flatness : [float]
 %index
 GdipWidenPath
 (no summary)
-%group
-Win32 gdiplus
 %prm
 nativePath, pen, matrix, flatness
 nativePath : [intptr] 
@@ -8946,8 +7724,6 @@ flatness : [float]
 %index
 GdipWindingModeOutline
 (no summary)
-%group
-Win32 gdiplus
 %prm
 path, matrix, flatness
 path : [intptr] 
@@ -8960,8 +7736,6 @@ flatness : [float]
 %index
 GdiplusNotificationHook
 (no summary)
-%group
-Win32 gdiplus
 %prm
 token
 token : [var] 
@@ -8972,8 +7746,6 @@ token : [var]
 %index
 GdiplusNotificationUnhook
 (no summary)
-%group
-Win32 gdiplus
 %prm
 token
 token : [int] 
@@ -8984,8 +7756,6 @@ token : [int]
 %index
 GdiplusShutdown
 (no summary)
-%group
-Win32 gdiplus
 %prm
 token
 token : [int] 
@@ -8996,8 +7766,6 @@ token : [int]
 %index
 GdiplusStartup
 (no summary)
-%group
-Win32 gdiplus
 %prm
 token, input, output
 token : [var] 

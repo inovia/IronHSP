@@ -4,11 +4,31 @@
 ;   翻訳を追加するときは docs_ja.json を編集して再生成。
 ; ============================================================
 
+%type
+拡張命令
+%ver
+1.0
+%dll
+comdlg32.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API の comdlg32.dll 関数群。CsWin32 + win32metadata から自動生成。
+hsp3net 専用 (intptr / NSTRUCT / wstr を使用)。
+
+%group
+Win32API
+
 %index
 CommDlgExtendedError
 CommDlgExtendedError 関数 (commdlg.h) はコモンダイアログボックスのエラーコードを返す。
-%group
-Win32 comdlg32
 %prm
 
 %inst
@@ -27,8 +47,6 @@ Cderr.h で定義されている。任意のコモンダイアログボックス関数で返される可能性のあ
 %index
 GetFileTitleW
 指定されたファイルの名前を取得する。(Unicode)
-%group
-Win32 comdlg32
 %prm
 param0, Buf, cchSize
 param0 : [wstr] 

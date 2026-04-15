@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+powrprof.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì powrprof.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 CallNtPowerInformation
 “dŒ¹î•ñ‚ğİ’è‚Ü‚½‚Íæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 InformationLevel, InputBuffer, InputBufferLength, OutputBuffer, OutputBufferLength
 InformationLevel : [int] —v‹‚·‚éî•ñƒŒƒxƒ‹B‚±‚Ì’l‚Íİ’è‚Ü‚½‚Íæ“¾‚·‚é“dŒ¹î•ñ‚ğ¦‚·B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í POWER_INFORMATION_LEVEL —ñ‹“Œ^‚Ì’l‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -34,8 +54,6 @@ CallNtPowerInformation
 %index
 CanUserWritePwrScheme
 Œ»İ‚Ìƒ†[ƒU[‚ª“dŒ¹ƒXƒL[ƒ€‚ğ‘‚«‚Ş\•ª‚ÈŒ ŒÀ‚ğ‚Â‚©”»’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -54,8 +72,6 @@ Win32 powrprof
 %index
 DeletePwrScheme
 w’è‚³‚ê‚½“dŒ¹ƒXƒL[ƒ€‚ğíœ‚·‚éB
-%group
-Win32 powrprof
 %prm
 uiID
 uiID : [int] íœ‚·‚é“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -75,8 +91,6 @@ ERROR_ACCESS_DENIED ‚Éİ’è‚³‚ê‚éBPowrProf.h ‚Ìg—p•û–@‚ÌÚ×‚Í Power Schemes ‚ğ
 %index
 DevicePowerClose
 ƒfƒoƒCƒXƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚Ìƒm[ƒh‚ğ‰ğ•ú‚µAƒfƒoƒCƒXƒŠƒXƒg‚ğ”jŠü‚·‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -89,8 +103,6 @@ Win32 powrprof
 %index
 DevicePowerEnumDevices
 w’è‚³‚ê‚½ğŒ‚ğ–‚½‚·ƒVƒXƒeƒ€ã‚ÌƒfƒoƒCƒX‚ğ—ñ‹“‚·‚éB
-%group
-Win32 powrprof
 %prm
 QueryIndex, QueryInterpretationFlags, QueryFlags, pReturnBuffer, pBufferSize
 QueryIndex : [int] —v‹‚·‚éƒfƒoƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒXB‰‰ñ‚ÌŒÄ‚Ño‚µ‚Å‚Í‚±‚Ì’l‚Í 0 ‚Æ‚·‚éB
@@ -114,8 +126,6 @@ DEVICEPOWER_AND_OPERATION ‚ğ‘g‚İ‡‚í‚¹‚é‚ÆA—v‹‚³‚ê‚½‚·‚×‚Ä‚ÌğŒ‚ğ–‚½‚·ƒfƒoƒC
 %index
 DevicePowerOpen
 ‚·‚×‚Ä‚ÌƒfƒoƒCƒX‚ğ–â‚¢‡‚í‚¹‚ÄƒfƒoƒCƒXƒŠƒXƒg‚ğ‰Šú‰»‚·‚éB
-%group
-Win32 powrprof
 %prm
 DebugMask
 DebugMask : [int] —\–ñÏ‚İB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -129,8 +139,6 @@ DebugMask : [int] —\–ñÏ‚İB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 DevicePowerSetDeviceState
 w’è‚³‚ê‚½ƒfƒoƒCƒXã‚Ìw’èƒf[ƒ^‚ğ•ÏX‚·‚éB
-%group
-Win32 powrprof
 %prm
 DeviceDescription, SetFlags, SetData
 DeviceDescription : [wstr] •ÏX‚·‚éƒfƒoƒCƒX‚Ì–¼‘O‚Ü‚½‚Íƒn[ƒhƒEƒFƒA¯•Êq•¶š—ñB
@@ -147,8 +155,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 EnumPwrSchemes
 ‚·‚×‚Ä‚Ì“dŒ¹ƒXƒL[ƒ€‚ğ—ñ‹“‚·‚éB
-%group
-Win32 powrprof
 %prm
 lpfn, lParam
 lpfn : [int] —ñ‹“‚³‚ê‚éŠe“dŒ¹ƒXƒL[ƒ€‚É‘Î‚µ‚ÄŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í‰ğà‚ğQÆB
@@ -168,8 +174,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 GetActivePwrScheme
 ƒAƒNƒeƒBƒu‚È“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 puiID
 puiID : [var] ƒAƒNƒeƒBƒu‚È“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -189,8 +193,6 @@ Schemes ‚ğQÆB
 %index
 GetCurrentPowerPolicies
 Œ»İ‚ÌƒVƒXƒeƒ€“dŒ¹ƒ|ƒŠƒV[İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 pGlobalPowerPolicy, pPowerPolicy
 pGlobalPowerPolicy : [var] Œ»İ‚ÌƒOƒ[ƒoƒ‹“dŒ¹ƒ|ƒŠƒV[İ’è‚ğó‚¯æ‚é GLOBAL_POWER_POLICY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -210,8 +212,6 @@ GetLastError ‚ğŒÄ‚Ño‚·B
 %index
 GetPwrCapabilities
 ƒVƒXƒeƒ€‚Ì“dŒ¹‹@”\‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 lpspc
 lpspc : [var] î•ñ‚ğó‚¯æ‚é SYSTEM_POWER_CAPABILITIES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -232,8 +232,6 @@ CallNtPowerInformation ŠÖ”‚É SystemPowerCapabilities
 %index
 GetPwrDiskSpindownRange
 ƒfƒBƒXƒNƒXƒsƒ“ƒ_ƒEƒ“‚Ì”ÍˆÍ‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 puiMax, puiMin
 puiMax : [var] ƒfƒBƒXƒNƒXƒsƒ“ƒ_ƒEƒ“‚ÌÅ‘åŠÔ (•b’PˆÊ)B
@@ -254,8 +252,6 @@ Windows Vista ˆÈ~‚Å‚ÍAƒVƒXƒeƒ€‚Ìƒn[ƒhƒfƒBƒXƒNƒhƒ‰ƒCƒu‚Ì“dŒ¹ŠÇ—İ’è‚Í GUID_DI
 %index
 IsAdminOverrideActive
 (no summary)
-%group
-Win32 powrprof
 %prm
 papp
 papp : [var] 
@@ -266,8 +262,6 @@ papp : [var]
 %index
 IsPwrHibernateAllowed
 ƒRƒ“ƒsƒ…[ƒ^‚ª‹x~ó‘Ô‚ğƒTƒ|[ƒg‚·‚é‚©”»’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -285,8 +279,6 @@ Win32 powrprof
 %index
 IsPwrShutdownAllowed
 ƒRƒ“ƒsƒ…[ƒ^‚ªƒ\ƒtƒgƒIƒt“dŒ¹ó‘Ô‚ğƒTƒ|[ƒg‚·‚é‚©”»’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -305,8 +297,6 @@ Win32 powrprof
 %index
 IsPwrSuspendAllowed
 ƒRƒ“ƒsƒ…[ƒ^‚ªƒXƒŠ[ƒvó‘Ô‚ğƒTƒ|[ƒg‚·‚é‚©”»’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -324,8 +314,6 @@ Schemes ‚ğQÆB
 %index
 PowerCanRestoreIndividualDefaultPowerScheme
 Œ»İ‚Ìƒ†[ƒU[‚ªw’è‚³‚ê‚½“dŒ¹ƒXƒL[ƒ€‚Ìƒf[ƒ^‚ÉƒAƒNƒZƒX‚Å‚«A•K—v‚È‚ç•œŒ³‰Â”\‚©‚ğ”»’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 SchemeGuid
 SchemeGuid : [var] “dŒ¹ƒXƒL[ƒ€‚Ì¯•ÊqB
@@ -339,8 +327,6 @@ SchemeGuid : [var] “dŒ¹ƒXƒL[ƒ€‚Ì¯•ÊqB
 %index
 PowerCreatePossibleSetting
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌŒó•â’l‚ğì¬‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootSystemPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, PossibleSettingIndex
 RootSystemPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -357,8 +343,6 @@ PossibleSettingIndex : [int] ì¬‚·‚éŒó•âİ’è‚Ì 0 n‚Ü‚è‚ÌƒCƒ“ƒfƒbƒNƒXB
 %index
 PowerCreateSetting
 w’è‚³‚ê‚½“dŒ¹İ’è‚Ìİ’è’l‚ğì¬‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootSystemPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid
 RootSystemPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -374,8 +358,6 @@ PowerSettingGuid : [var] ì¬‘ÎÛ‚Ì“dŒ¹İ’è‚Ì¯•ÊqB
 %index
 PowerDeleteScheme
 w’è‚³‚ê‚½“dŒ¹ƒXƒL[ƒ€‚ğƒf[ƒ^ƒx[ƒX‚©‚çíœ‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -390,8 +372,6 @@ SchemeGuid : [var] “dŒ¹ƒXƒL[ƒ€‚Ì¯•ÊqB
 %index
 PowerDeterminePlatformRole
 Windows 7AWindows Server 2008 R2AWindows Vista ‚Ü‚½‚Í Windows Server 2008 ‚ÌƒRƒ“ƒsƒ…[ƒ^–ğŠ„‚ğ”»’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -413,8 +393,6 @@ PlatformRoleDesktop ‚ğ•Ô‚·B
 %index
 PowerDeterminePlatformRoleEx
 w’è‚³‚ê‚½ƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ÌƒRƒ“ƒsƒ…[ƒ^–ğŠ„‚ğ”»’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 Version
 Version : [int] 
@@ -437,8 +415,6 @@ PlatformRoleMobile ‚ª•Ô‚éB
 %index
 PowerDuplicateScheme
 Šù‘¶‚Ì“dŒ¹ƒXƒL[ƒ€‚ğ•¡»‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SourceSchemeGuid, DestinationSchemeGuid
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -455,8 +431,6 @@ DestinationSchemeGuid : [var] GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXBƒ|ƒCƒ“ƒ^‚ª NULL ‚ğŠÜ‚
 %index
 PowerEnumerate
 “dŒ¹ƒXƒL[ƒ€“à‚Ìw’è—v‘f‚ğ—ñ‹“‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, AccessFlags, Index, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -478,8 +452,6 @@ BufferSize : [var] “ü—Í‚É Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^
 %index
 PowerGetActiveScheme
 ƒAƒNƒeƒBƒu‚È“dŒ¹ƒXƒL[ƒ€‚ğæ“¾‚µA‚»‚ÌƒXƒL[ƒ€‚ğ¯•Ê‚·‚é GUID ‚ğ•Ô‚·B
-%group
-Win32 powrprof
 %prm
 UserRootPowerKey, ActivePolicyGuid
 UserRootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -494,8 +466,6 @@ ActivePolicyGuid : [var] GUID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B‚±‚Ìƒƒ‚ƒŠ‚Í
 %index
 PowerImportPowerScheme
 ƒtƒ@ƒCƒ‹‚©‚ç“dŒ¹ƒXƒL[ƒ€‚ğƒCƒ“ƒ|[ƒg‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, ImportFileNamePath, DestinationSchemeGuid
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -511,8 +481,6 @@ DestinationSchemeGuid : [var] GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒ|ƒCƒ“ƒ^‚ª NULL ‚ğŠ
 %index
 PowerIsSettingRangeDefined
 w’è‚³‚ê‚½“dŒ¹İ’è‚ª’l‚Ì”ÍˆÍ‚ğ•\‚·‚©‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 powrprof
 %prm
 SubKeyGuid, SettingGuid
 SubKeyGuid : [var] ŒŸõ‚·‚éƒTƒuƒL[‚Ì¯•ÊqB
@@ -527,8 +495,6 @@ SubKeyGuid ‚Åw’è‚µ‚½ƒŒƒWƒXƒgƒŠƒL[‚ª’Pˆê‚Ì“dŒ¹İ’è‚ğ•\‚·ê‡‚Í TRUEB”ÍˆÍ‚ğ•\‚·
 %index
 PowerOpenSystemPowerKey
 (no summary)
-%group
-Win32 powrprof
 %prm
 phSystemPowerKey, Access, OpenExisting
 phSystemPowerKey : [intptr] 
@@ -541,8 +507,6 @@ OpenExisting : [int]
 %index
 PowerOpenUserPowerKey
 (no summary)
-%group
-Win32 powrprof
 %prm
 phUserPowerKey, Access, OpenExisting
 phUserPowerKey : [intptr] 
@@ -555,8 +519,6 @@ OpenExisting : [int]
 %index
 PowerReadACDefaultIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌŠù’è AC ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemePersonalityGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, AcDefaultIndex
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -574,8 +536,6 @@ AcDefaultIndex : [var] Šù’è‚Ì AC ƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PowerReadACValue
 w’è‚³‚ê‚½“dŒ¹İ’è‚Ì AC “dŒ¹’l‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Type, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -596,8 +556,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadACValueIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚Ì AC ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, AcValueIndex
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -615,8 +573,6 @@ AcValueIndex : [var] AC ’l‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PowerReadDCDefaultIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌŠù’è DC ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemePersonalityGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, DcDefaultIndex
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -634,8 +590,6 @@ DcDefaultIndex : [var] Šù’è‚Ì DC ƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PowerReadDCValue
 w’è‚³‚ê‚½“dŒ¹İ’è‚Ì DC “dŒ¹’l‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Type, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -656,8 +610,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadDCValueIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚Ì DC ’lƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, DcValueIndex
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -675,8 +627,6 @@ DcValueIndex : [var] DC ’l‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PowerReadDescription
 w’è‚³‚ê‚½“dŒ¹İ’èAƒTƒuƒOƒ‹[ƒvA‚Ü‚½‚ÍƒXƒL[ƒ€‚Ìà–¾‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -696,8 +646,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadFriendlyName
 w’è‚³‚ê‚½“dŒ¹İ’èAƒTƒuƒOƒ‹[ƒvA‚Ü‚½‚ÍƒXƒL[ƒ€‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -717,8 +665,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadIconResourceSpecifier
 w’è‚³‚ê‚½“dŒ¹İ’èAƒTƒuƒOƒ‹[ƒvA‚Ü‚½‚ÍƒXƒL[ƒ€‚ÌƒAƒCƒRƒ“ ƒŠƒ\[ƒX‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -738,8 +684,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadPossibleDescription
 “dŒ¹İ’è’l‚ÌŒó•â‘I‘ğˆ‚Ì 1 ‚Â‚É‚Â‚¢‚Äà–¾‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, PossibleSettingIndex, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -759,8 +703,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadPossibleFriendlyName
 “dŒ¹İ’è’l‚ÌŒó•â‘I‘ğˆ‚Ì 1 ‚Â‚É‚Â‚¢‚ÄƒtƒŒƒ“ƒhƒŠ–¼‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, PossibleSettingIndex, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -780,8 +722,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadPossibleValue
 “dŒ¹İ’è‚ÌŒó•â’l‚Ì’l‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Type, PossibleSettingIndex, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -802,8 +742,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerReadSettingAttributes
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌŒ»İ‚Ì‘®«‚ğ•Ô‚·B
-%group
-Win32 powrprof
 %prm
 SubGroupGuid, PowerSettingGuid
 SubGroupGuid : [var] 
@@ -819,8 +757,6 @@ PowerSettingGuid : [var] g—p‚·‚é“dŒ¹İ’è‚Ì¯•ÊqB
 %index
 PowerReadValueIncrement
 “dŒ¹İ’è‚ÌÅ¬’l‚ÆÅ‘å’l‚ÌŠÔ‚Ì—LŒø’l‚Ì‘•ª‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, ValueIncrement
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -837,8 +773,6 @@ ValueIncrement : [var] w’è‚³‚ê‚½“dŒ¹İ’è‚Ì‘•ª‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PowerReadValueMax
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌÅ‘å’l‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, ValueMaximum
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -855,8 +789,6 @@ ValueMaximum : [var] w’è‚³‚ê‚½“dŒ¹İ’è‚ÌÅ‘å’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PowerReadValueMin
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌÅ¬’l‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, ValueMinimum
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -873,8 +805,6 @@ ValueMinimum : [var] w’è‚³‚ê‚½“dŒ¹İ’è‚ÌÅ¬’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 PowerReadValueUnitsSpecifier
 ’l‚Ì”ÍˆÍ‚ğƒTƒ|[ƒg‚·‚é“dŒ¹İ’è‚Ì’PˆÊ‚ğ‹Lq‚·‚é‚½‚ß‚Ég—p‚·‚é•¶š—ñ‚ğ“Ç‚İæ‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -893,8 +823,6 @@ BufferSize : [var] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠÜ‚Ş•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BBuffer ‚
 %index
 PowerRegisterForEffectivePowerModeNotifications
 —LŒø“dŒ¹ƒ‚[ƒh•ÏX‚Ì’Ê’m‚ğó‚¯æ‚éƒR[ƒ‹ƒoƒbƒN‚ğ“o˜^‚·‚éB
-%group
-Win32 powrprof
 %prm
 Version, Callback, Context, RegistrationHandle
 Version : [int] ŒÄ‚Ño‚µŒ³‚ª—‰ğ‚Å‚«‚éÅ‘å‚Ì—LŒø“dŒ¹ƒ‚[ƒh ƒo[ƒWƒ‡ƒ“‚ğw’è‚·‚éB—LŒø“dŒ¹ƒ‚[ƒh‚ª‚»‚ê‚æ‚èV‚µ‚¢ê‡AŒİŠ·«‚Ì‚ ‚éƒo[ƒWƒ‡ƒ“‚Ék‘Ş‚µ‚ÄƒR[ƒ‹ƒoƒbƒN‚É“n‚³‚ê‚éBw’è‰Â”\‚È’l: - EFFECTIVE_POWER_MODE_V1 ‚Í Windows 10 ƒo[ƒWƒ‡ƒ“ 1809 ˆÈ~‚Å—˜—p‰Â”\‚ÅAƒpƒtƒH[ƒ}ƒ“ƒX“dŒ¹ƒXƒ‰ƒCƒ_[‚ÆƒoƒbƒeƒŠ ƒZ[ƒo[ó‘Ô‚ğ’ÇÕ‚·‚éB- EFFECTIVE_POWER_MODE_V2 ‚Í Windows 10 ƒo[ƒWƒ‡ƒ“ 1903 ˆÈ~‚Å—˜—p‰Â”\‚ÅAƒpƒtƒH[ƒ}ƒ“ƒX“dŒ¹ƒXƒ‰ƒCƒ_[AƒoƒbƒeƒŠ ƒZ[ƒo[AƒQ[ƒ€ ƒ‚[ƒhAWindows Mixed Reality “dŒ¹ó‘Ô‚ğ’ÇÕ‚·‚éB
@@ -915,8 +843,6 @@ RegistrationHandle : [var] “o˜^‚Ìƒnƒ“ƒhƒ‹B’Ê’m‚Ì“o˜^‰ğœ‚É‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğg—p‚
 %index
 PowerRegisterSuspendResumeNotification
 ƒVƒXƒeƒ€‚ªƒTƒXƒyƒ“ƒh‚Ü‚½‚ÍƒŒƒWƒ…[ƒ€‚µ‚½‚Æ‚«‚É’Ê’m‚ğó‚¯æ‚é‚æ‚¤“o˜^‚·‚éB
-%group
-Win32 powrprof
 %prm
 Flags, Recipient, RegistrationHandle
 Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í DEVICE_NOTIFY_CALLBACK ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -932,8 +858,6 @@ RegistrationHandle : [var] “o˜^‚Ìƒnƒ“ƒhƒ‹B’Ê’m‚Ì“o˜^‰ğœ‚É‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğg—p‚
 %index
 PowerRemovePowerSetting
 w’è‚³‚ê‚½“dŒ¹İ’è‚ğíœ‚·‚éB
-%group
-Win32 powrprof
 %prm
 PowerSettingSubKeyGuid, PowerSettingGuid
 PowerSettingSubKeyGuid : [var] 
@@ -948,8 +872,6 @@ PowerSettingGuid : [var] íœ‚·‚é“dŒ¹İ’è‚Ì¯•ÊqB
 %index
 PowerReplaceDefaultPowerSchemes
 Šù’è‚Ì“dŒ¹ƒXƒL[ƒ€‚ğŒ»İ‚Ìƒ†[ƒU[‚Ì“dŒ¹ƒXƒL[ƒ€‚Å’u‚«Š·‚¦‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -965,8 +887,6 @@ Win32 powrprof
 %index
 PowerReportThermalEvent
 OS ‚É”MƒCƒxƒ“ƒg‚ğ’Ê’m‚·‚éB
-%group
-Win32 powrprof
 %prm
 Event
 Event : [var] ”MƒCƒxƒ“ƒg\‘¢‘Ì THERMAL_EVENTB
@@ -984,8 +904,6 @@ OS ‚É”MƒCƒxƒ“ƒg‚ğ’Ê’m‚·‚éB
 %index
 PowerRestoreDefaultPowerSchemes
 ƒVƒXƒeƒ€‚Ì“dŒ¹ƒXƒL[ƒ€‚ğŠù’è‚Ì“dŒ¹ƒXƒL[ƒ€‚Å’u‚«Š·‚¦‚éBŒ»İ‚Ì“dŒ¹ƒXƒL[ƒ€‚¨‚æ‚Ñİ’è‚Í‚·‚×‚Äíœ‚³‚êŠù’è’l‚É’u‚«Š·‚¦‚ç‚ê‚éB
-%group
-Win32 powrprof
 %prm
 
 %inst
@@ -1001,8 +919,6 @@ Win32 powrprof
 %index
 PowerRestoreIndividualDefaultPowerScheme
 Œ»İ‚Ìƒ†[ƒU[—p‚Ì“Á’è‚Ì“dŒ¹ƒXƒL[ƒ€‚ğŠù’èƒ†[ƒU[ (HKEY_USERS\.Default ‚ÉŠi”[) ‚Ì‚à‚Ì‚É’u‚«Š·‚¦‚éB
-%group
-Win32 powrprof
 %prm
 SchemeGuid
 SchemeGuid : [var] “dŒ¹ƒXƒL[ƒ€‚Ì¯•ÊqB
@@ -1016,8 +932,6 @@ SchemeGuid : [var] “dŒ¹ƒXƒL[ƒ€‚Ì¯•ÊqB
 %index
 PowerSetActiveScheme
 Œ»İ‚Ìƒ†[ƒU[‚ÌƒAƒNƒeƒBƒu“dŒ¹ƒXƒL[ƒ€‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 UserRootPowerKey, SchemeGuid
 UserRootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1032,8 +946,6 @@ SchemeGuid : [var] “dŒ¹ƒXƒL[ƒ€‚Ì¯•ÊqB
 %index
 PowerSettingAccessCheck
 w’è‚³‚ê‚½“dŒ¹İ’è‚É‘Î‚·‚éƒOƒ‹[ƒv ƒ|ƒŠƒV[ ƒI[ƒo[ƒ‰ƒCƒh‚ğ–â‚¢‡‚í‚¹‚éB
-%group
-Win32 powrprof
 %prm
 AccessFlags, PowerGuid
 AccessFlags : [int] ƒOƒ‹[ƒv ƒ|ƒŠƒV[ ƒI[ƒo[ƒ‰ƒCƒh‚ğŠm”F‚·‚éƒAƒNƒZƒXí•ÊB
@@ -1049,8 +961,6 @@ PowerGuid : [var] “dŒ¹İ’è‚Ì¯•ÊqB
 %index
 PowerSettingAccessCheckEx
 w’è‚³‚ê‚½“dŒ¹İ’è‚É‘Î‚·‚éƒOƒ‹[ƒv ƒ|ƒŠƒV[ ƒI[ƒo[ƒ‰ƒCƒh‚ğ–â‚¢‡‚í‚¹A—v‹‚·‚éƒAƒNƒZƒX‚ğw’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 AccessFlags, PowerGuid, AccessType
 AccessFlags : [int] ƒOƒ‹[ƒv ƒ|ƒŠƒV[ ƒI[ƒo[ƒ‰ƒCƒh‚ğŠm”F‚·‚éƒAƒNƒZƒXí•ÊB
@@ -1067,8 +977,6 @@ AccessType : [int] İ’è‚É‘Î‚·‚éƒZƒLƒ…ƒŠƒeƒB ƒAƒNƒZƒX‚Ìí•ÊBÚ×‚Í Registry Key 
 %index
 PowerSettingRegisterNotification
 “dŒ¹İ’è‚ª•ÏX‚³‚ê‚½‚Æ‚«‚É’Ê’m‚ğó‚¯æ‚é‚æ‚¤“o˜^‚·‚éB
-%group
-Win32 powrprof
 %prm
 SettingGuid, Flags, Recipient, RegistrationHandle
 SettingGuid : [var] “dŒ¹İ’è‚ğ•\‚· GUIDB
@@ -1089,8 +997,6 @@ RegistrationHandle : [var] “o˜^‚Ìƒnƒ“ƒhƒ‹B’Ê’m‚Ì“o˜^‰ğœ‚É‚Í‚±‚Ìƒnƒ“ƒhƒ‹‚ğg—p‚
 %index
 PowerSettingUnregisterNotification
 “dŒ¹İ’è•ÏX’Ê’m‚Ì“o˜^‚ğ‰ğœ‚·‚éB
-%group
-Win32 powrprof
 %prm
 RegistrationHandle
 RegistrationHandle : [intptr] PowerSettingRegisterNotification ŠÖ”‚ğŒÄ‚Ño‚µ‚Äæ“¾‚µ‚½“o˜^ƒnƒ“ƒhƒ‹B
@@ -1104,8 +1010,6 @@ RegistrationHandle : [intptr] PowerSettingRegisterNotification ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä
 %index
 PowerUnregisterFromEffectivePowerModeNotifications
 —LŒø“dŒ¹ƒ‚[ƒh•ÏX’Ê’m‚Ì“o˜^‚ğ‰ğœ‚·‚éB‚±‚ÌŠÖ”‚ÍƒNƒŠ[ƒ“ƒAƒbƒv ƒR[ƒh‚©‚çŒÄ‚Ño‚·‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¨‚èA“o˜^‰ğœ‚·‚é‘O‚É‚·‚×‚Ä‚ÌƒR[ƒ‹ƒoƒbƒN‚ÌŠ®—¹‚ğ‘Ò‚ÂB
-%group
-Win32 powrprof
 %prm
 RegistrationHandle
 RegistrationHandle : [intptr] ’Pˆê‚Ì“dŒ¹ƒ‚[ƒh“o˜^‚É‘Î‰‚·‚éƒnƒ“ƒhƒ‹BPowerRegisterForEffectivePowerModeNotifications ŒÄ‚Ño‚µŒã‚ÉŒÄ‚Ño‚µŒ³‚ª•Û‘¶‚µ‚Ä‚¨‚«A‚±‚±‚É“n‚·B
@@ -1124,8 +1028,6 @@ RegistrationHandle : [intptr] ’Pˆê‚Ì“dŒ¹ƒ‚[ƒh“o˜^‚É‘Î‰‚·‚éƒnƒ“ƒhƒ‹BPowerRegis
 %index
 PowerUnregisterSuspendResumeNotification
 ƒVƒXƒeƒ€‚ÌƒTƒXƒyƒ“ƒh/ƒŒƒWƒ…[ƒ€’Ê’m“o˜^‚ğ‰ğœ‚·‚éB
-%group
-Win32 powrprof
 %prm
 RegistrationHandle
 RegistrationHandle : [intptr] PowerRegisterSuspendResumeNotification ŠÖ”‚ğŒÄ‚Ño‚µ‚Äæ“¾‚µ‚½“o˜^ƒnƒ“ƒhƒ‹B
@@ -1139,8 +1041,6 @@ RegistrationHandle : [intptr] PowerRegisterSuspendResumeNotification ŠÖ”‚ğŒÄ‚Ñ
 %index
 PowerWriteACDefaultIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌŠù’è AC ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootSystemPowerKey, SchemePersonalityGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, DefaultAcIndex
 RootSystemPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1161,8 +1061,6 @@ DefaultAcIndex : [int] Šù’è‚Ì AC ƒCƒ“ƒfƒbƒNƒXB
 %index
 PowerWriteACValueIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚Ì AC ’lƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, AcValueIndex
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1183,8 +1081,6 @@ AcValueIndex : [int] AC ’l‚ÌƒCƒ“ƒfƒbƒNƒXB
 %index
 PowerWriteDCDefaultIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌŠù’è DC ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootSystemPowerKey, SchemePersonalityGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, DefaultDcIndex
 RootSystemPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1205,8 +1101,6 @@ DefaultDcIndex : [int] Šù’è‚Ì DC ƒCƒ“ƒfƒbƒNƒXB
 %index
 PowerWriteDCValueIndex
 w’è‚³‚ê‚½“dŒ¹İ’è‚Ì DC ƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, DcValueIndex
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1227,8 +1121,6 @@ DcValueIndex : [int] DC ’l‚ÌƒCƒ“ƒfƒbƒNƒXB
 %index
 PowerWriteDescription
 w’è‚³‚ê‚½“dŒ¹İ’èAƒTƒuƒOƒ‹[ƒvA‚Ü‚½‚ÍƒXƒL[ƒ€‚Ìà–¾‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1255,8 +1147,6 @@ SubGroupOfPowerSettingsGuid ‚ª NULL ‚Å‚È‚­ PowerSettingGuid ‚ª NULL
 %index
 PowerWriteFriendlyName
 w’è‚³‚ê‚½“dŒ¹İ’èAƒTƒuƒOƒ‹[ƒvA‚Ü‚½‚ÍƒXƒL[ƒ€‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1278,8 +1168,6 @@ BufferSize : [int] I’[ NULL ‚ğŠÜ‚ŞABuffer ‚Åw’è‚µ‚½ƒtƒŒƒ“ƒhƒŠ–¼‚ÌƒTƒCƒYB
 %index
 PowerWriteIconResourceSpecifier
 w’è‚³‚ê‚½“dŒ¹İ’èAƒTƒuƒOƒ‹[ƒvA‚Ü‚½‚ÍƒXƒL[ƒ€‚ÌƒAƒCƒRƒ“ ƒŠƒ\[ƒX‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SchemeGuid, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1306,8 +1194,6 @@ SubGroupOfPowerSettingsGuid ‚ª NULL ‚Å‚È‚­ PowerSettingGuid ‚ª NULL
 %index
 PowerWritePossibleDescription
 “dŒ¹İ’è’l‚ÌŒó•â‘I‘ğˆ‚Ì 1 ‚Â‚É‚Â‚¢‚Äà–¾‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, PossibleSettingIndex, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1329,8 +1215,6 @@ BufferSize : [int] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %index
 PowerWritePossibleFriendlyName
 “dŒ¹İ’è‚ÌŒó•âİ’è‚Ì 1 ‚Â‚É‚Â‚¢‚ÄƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, PossibleSettingIndex, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1352,8 +1236,6 @@ BufferSize : [int] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %index
 PowerWritePossibleValue
 “dŒ¹İ’è‚ÌŒó•â’l‚Ì’l‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Type, PossibleSettingIndex, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1376,8 +1258,6 @@ BufferSize : [int] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %index
 PowerWriteSettingAttributes
 “dŒ¹ƒL[‚Ì“dŒ¹‘®«‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 SubGroupGuid, PowerSettingGuid, Attributes
 SubGroupGuid : [var] 
@@ -1396,8 +1276,6 @@ Attributes : [int] w’è‚³‚ê‚½“dŒ¹İ’è‚ÉŠÖ˜A•t‚¯‚é‘®«B
 %index
 PowerWriteValueIncrement
 “dŒ¹İ’è‚ÌÅ¬’l‚ÆÅ‘å’l‚ÌŠÔ‚Ì—LŒø’l‚Ì‘•ª‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, ValueIncrement
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1417,8 +1295,6 @@ ValueIncrement : [int] İ’è‚·‚é‘•ªB
 %index
 PowerWriteValueMax
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌÅ‘å’l‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, ValueMaximum
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1438,8 +1314,6 @@ ValueMaximum : [int] İ’è‚·‚éÅ‘å’lB
 %index
 PowerWriteValueMin
 w’è‚³‚ê‚½“dŒ¹İ’è‚ÌÅ¬’l‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, ValueMinimum
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1459,8 +1333,6 @@ ValueMinimum : [int] İ’è‚·‚éÅ¬’lB
 %index
 PowerWriteValueUnitsSpecifier
 ’l‚Ì”ÍˆÍ‚ğƒTƒ|[ƒg‚·‚é“dŒ¹İ’è‚Ì’PˆÊ‚ğ‹Lq‚·‚é‚½‚ß‚Ég—p‚·‚é•¶š—ñ‚ğ‘‚«‚ŞB
-%group
-Win32 powrprof
 %prm
 RootPowerKey, SubGroupOfPowerSettingsGuid, PowerSettingGuid, Buffer, BufferSize
 RootPowerKey : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -1481,8 +1353,6 @@ BufferSize : [int] Buffer ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %index
 ReadGlobalPwrPolicy
 Œ»İ‚ÌƒOƒ[ƒoƒ‹“dŒ¹ƒ|ƒŠƒV[İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 pGlobalPowerPolicy
 pGlobalPowerPolicy : [var] î•ñ‚ğó‚¯æ‚é GLOBAL_POWER_POLICY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1503,8 +1373,6 @@ Vista ˆÈ~‚Å‚ÍAw’èƒXƒL[ƒ€‚Ì“dŒ¹İ’è‚ğ—ñ‹“‚·‚é‚É‚Í PowerEnumerate
 %index
 ReadProcessorPwrScheme
 w’è‚³‚ê‚½“dŒ¹ƒXƒL[ƒ€‚ÌƒvƒƒZƒbƒT“dŒ¹ƒ|ƒŠƒV[İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 uiID, pMachineProcessorPowerPolicy
 uiID : [int] “Ç‚İæ‚é“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -1527,8 +1395,6 @@ MACHINE_PROCESSOR_POWER_POLICY \‘¢‘Ì‚ÍAAC
 %index
 ReadPwrScheme
 w’è‚³‚ê‚½“dŒ¹ƒXƒL[ƒ€‚ÉŒÅ—L‚Ì“dŒ¹ƒ|ƒŠƒV[İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 powrprof
 %prm
 uiID, pPowerPolicy
 uiID : [int] “Ç‚İæ‚é“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -1551,8 +1417,6 @@ Schemes ‚ğQÆB
 %index
 SetActivePwrScheme
 ƒAƒNƒeƒBƒu‚È“dŒ¹ƒXƒL[ƒ€‚ğİ’è‚·‚éB
-%group
-Win32 powrprof
 %prm
 uiID, pGlobalPowerPolicy, pPowerPolicy
 uiID : [int] ƒAƒNƒeƒBƒu‚É‚·‚é“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -1577,8 +1441,6 @@ NULL ‚Ìê‡A“dŒ¹ƒXƒL[ƒ€‚ÌŒ»İ‚Ì“dŒ¹ƒ|ƒŠƒV[İ’è‚ğg—p‚·‚éB‚»‚¤‚Å‚È‚¯‚ê‚Îw’è‚
 %index
 SetSuspendState
 “dŒ¹‚ğ—‚Æ‚µ‚ÄƒVƒXƒeƒ€‚ğƒTƒXƒyƒ“ƒh‚·‚éBHibernate ƒpƒ‰ƒ[ƒ^‚É‰‚¶‚ÄAƒVƒXƒeƒ€‚ÍƒTƒXƒyƒ“ƒh (ƒXƒŠ[ƒv) ‚Ü‚½‚Í‹x~ (S4) ó‘Ô‚É“ü‚éB
-%group
-Win32 powrprof
 %prm
 bHibernate, bForce, bWakeupEventsDisabled
 bHibernate : [int] TRUE ‚Ìê‡AƒVƒXƒeƒ€‚Í‹x~ó‘Ô‚É‚È‚éBFALSE ‚Ìê‡AƒVƒXƒeƒ€‚ÍƒTƒXƒyƒ“ƒh‚³‚ê‚éB
@@ -1603,8 +1465,6 @@ Power Schemes ‚ğQÆBƒVƒXƒeƒ€‚ğƒEƒFƒCƒN‚Å‚«‚éƒCƒxƒ“ƒg‚É‚Â‚¢‚Ä‚Í System Wake-up 
 %index
 ValidatePowerPolicies
 (no summary)
-%group
-Win32 powrprof
 %prm
 pGlobalPowerPolicy, pPowerPolicy
 pGlobalPowerPolicy : [var] 
@@ -1616,8 +1476,6 @@ pPowerPolicy : [var]
 %index
 WriteGlobalPwrPolicy
 ƒOƒ[ƒoƒ‹“dŒ¹ƒ|ƒŠƒV[İ’è‚ğ‘‚«‚ŞB
-%group
-Win32 powrprof
 %prm
 pGlobalPowerPolicy
 pGlobalPowerPolicy : [var] ‘‚«‚Ş“dŒ¹ƒ|ƒŠƒV[İ’è‚ğŠÜ‚Ş GLOBAL_POWER_POLICY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1638,8 +1496,6 @@ Vista ˆÈ~‚Å‚ÍAw’èƒXƒL[ƒ€‚Ì“dŒ¹İ’è‚ğ—ñ‹“‚·‚é‚É‚Í PowerEnumerate
 %index
 WriteProcessorPwrScheme
 w’è‚³‚ê‚½“dŒ¹ƒXƒL[ƒ€‚ÌƒvƒƒZƒbƒT“dŒ¹ƒ|ƒŠƒV[İ’è‚ğ‘‚«‚ŞB
-%group
-Win32 powrprof
 %prm
 uiID, pMachineProcessorPowerPolicy
 uiID : [int] ‘‚«‚Ş“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -1661,8 +1517,6 @@ PowerEnumerate ŠÖ”‚ğg—p‚·‚éBPowrProf.h ‚Ìg—p•û–@‚ÌÚ×‚Í Power Schemes ‚ğQ
 %index
 WritePwrScheme
 w’è‚³‚ê‚½“dŒ¹ƒXƒL[ƒ€‚ÉŒÅ—L‚Ìƒ|ƒŠƒV[İ’è‚ğ‘‚«‚ŞB
-%group
-Win32 powrprof
 %prm
 puiID, lpszSchemeName, lpszDescription, lpScheme
 puiID : [var] ‘‚«‚Ş“dŒ¹ƒXƒL[ƒ€‚ÌƒCƒ“ƒfƒbƒNƒXB“¯‚¶ƒCƒ“ƒfƒbƒNƒX‚Ì“dŒ¹ƒXƒL[ƒ€‚ªŠù‚É‘¶İ‚·‚éê‡‚Í’u‚«Š·‚¦‚ç‚ê‚éB‘¶İ‚µ‚È‚¢ê‡‚ÍV‹Kì¬‚³‚ê‚éB

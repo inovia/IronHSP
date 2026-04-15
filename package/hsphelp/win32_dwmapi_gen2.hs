@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+dwmapi.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì dwmapi.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 DwmAttachMilContent
 ‚±‚ÌŠÖ”‚ÍÀ‘•‚³‚ê‚Ä‚¢‚È‚¢B(DwmAttachMilContent)
-%group
-Win32 dwmapi
 %prm
 hwnd
 hwnd : [intptr] 
@@ -22,8 +42,6 @@ hwnd : [intptr]
 %index
 DwmDefWindowProc
 ”ñƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚Å‚Ì Desktop Window Manager (DWM) ƒqƒbƒgƒeƒXƒg—p‚ÌŠù’èƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒB
-%group
-Win32 dwmapi
 %prm
 hWnd, msg, wParam, lParam, plResult
 hWnd : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚Á‚½ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚Ìƒnƒ“ƒhƒ‹B
@@ -47,8 +65,6 @@ DwmDefWindowProc ‚ªƒƒbƒZ[ƒW‚ğˆ—‚µ‚½ê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚
 %index
 DwmDetachMilContent
 ‚±‚ÌŠÖ”‚ÍÀ‘•‚³‚ê‚Ä‚¢‚È‚¢B(DwmDetachMilContent)
-%group
-Win32 dwmapi
 %prm
 hwnd
 hwnd : [intptr] 
@@ -62,8 +78,6 @@ hwnd : [intptr]
 %index
 DwmEnableBlurBehindWindow
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Åƒuƒ‰[Œø‰Ê‚ğ—LŒø‚É‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hWnd, pBlurBehind
 hWnd : [intptr] ƒuƒ‰[Œø‰Ê‚ğ“K—p‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -86,8 +100,6 @@ Windows 8 ˆÈ~‚Å‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO•û®‚Ì•ÏX‚É‚æ‚èA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àƒuƒ‰[Œø‰Ê
 %index
 DwmEnableComposition
 Desktop Window Manager (DWM) ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éB
-%group
-Win32 dwmapi
 %prm
 uCompositionAction
 uCompositionAction : [int] DWM ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚ğ—LŒø‚É‚·‚é‚É‚Í DWM_EC_ENABLECOMPOSITIONA–³Œø‚É‚·‚é‚É‚Í DWM_EC_DISABLECOMPOSITION ‚ğw’è‚·‚éB
@@ -106,8 +118,6 @@ DwmEnableComposition ‚ÅÄ“x—LŒø‰»‚·‚é‚©I—¹‚·‚é‚ÆADWM ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚Í©“®“I‚É
 %index
 DwmEnableMMCSS
 ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ª¶‘¶‚µ‚Ä‚¢‚éŠÔADesktop Window Manager (DWM) ‚É Multimedia Class Schedule Service (MMCSS) ƒXƒPƒWƒ…[ƒŠƒ“ƒO‚Ö‚ÌQ‰Á‚Ü‚½‚Í«‘Ş‚ğ’Ê’m‚·‚éB
-%group
-Win32 dwmapi
 %prm
 fEnableMMCSS
 fEnableMMCSS : [int] DWM ‚É MMCSS ƒXƒPƒWƒ…[ƒŠƒ“ƒO‚Ö‚ÌQ‰Á‚ğw¦‚·‚éê‡‚Í TRUEAQ‰Á‚ğ«‘Ş‚Ü‚½‚ÍI—¹‚·‚éê‡‚Í FALSE ‚ğw’è‚·‚éB
@@ -126,8 +136,6 @@ DwmEnableMMCSS ‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢ŒÀ‚èADWM ‚Í MMCSS ‚É‚æ‚Á‚ÄƒXƒPƒWƒ…[ƒŠƒ“ƒO‚³‚ê
 %index
 DwmExtendFrameIntoClientArea
 ƒEƒBƒ“ƒhƒEƒtƒŒ[ƒ€‚ğƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÉŠg’£‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hWnd, pMarInset
 hWnd : [intptr] ƒtƒŒ[ƒ€‚ğƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÖŠg’£‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -146,8 +154,6 @@ DWM ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚ªØ‚è‘Ö‚í‚é‚½‚Ñ‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ô•K—v‚ª‚ ‚é(WM_DWMCOMPOSITIONCH
 %index
 DwmFlush
 Œ»İ•Û—¯’†‚Ì‚·‚×‚Ä‚Ì Microsoft DirectX ƒT[ƒtƒFƒXXV‚ªŠ®—¹‚·‚éŸ‚Ì present ‚Ü‚ÅŒÄ‚Ño‚µŒ³‚ğƒuƒƒbƒN‚·‚é flush ŒÄ‚Ño‚µ‚ğ”­s‚·‚éB‚±‚ê‚É‚æ‚èA”ñí‚É•¡G‚ÈƒV[ƒ“‚â—Dæ“x‚Ì‹É‚ß‚Ä’á‚¢ŒÄ‚Ño‚µƒvƒƒZƒX‚ğ•â³‚·‚éB
-%group
-Win32 dwmapi
 %prm
 
 %inst
@@ -165,8 +171,6 @@ DwmFlush ‚ÍAŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒLƒ…[‚É“ü‚ê‚½ DirectX
 %index
 DwmGetColorizationColor
 Desktop Window Manager (DWM) ‚ÌƒKƒ‰ƒXƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚Ég—p‚³‚ê‚Ä‚¢‚éŒ»İ‚ÌF‚ğæ“¾‚·‚éB
-%group
-Win32 dwmapi
 %prm
 pcrColorization, pfOpaqueBlend
 pcrColorization : [var] ŠÖ”‚ª³í‚É–ß‚Á‚½‚Æ‚«AƒKƒ‰ƒXƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚Ég—p‚³‚ê‚Ä‚¢‚éŒ»İ‚ÌF‚ğó‚¯æ‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^BF‚ÌƒtƒH[ƒ}ƒbƒg‚Í 0xAARRGGBB Œ`®‚Å‚ ‚éB
@@ -185,8 +189,6 @@ Win32 API ‚Í 0x00BBGGRR Œ`®‚ğg—p‚·‚éBˆÓ}‚µ‚½F‚ªg—p‚³‚ê‚é‚æ‚¤’ˆÓ‚·‚é‚±‚ÆB
 %index
 DwmGetCompositionTimingInfo
 w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“ƒ^ƒCƒ~ƒ“ƒOî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hwnd, pTimingInfo
 hwnd : [intptr] ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“ƒ^ƒCƒ~ƒ“ƒOî•ñ‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -201,8 +203,6 @@ pTimingInfo : [var] ŠÖ”‚ª³í‚É–ß‚Á‚½‚Æ‚«AƒEƒBƒ“ƒhƒE‚ÌŒ»İ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“ƒ^ƒC
 %index
 DwmGetGraphicsStreamClient
 ‚±‚ÌŠÖ”‚ÍÀ‘•‚³‚ê‚Ä‚¢‚È‚¢B(DwmGetGraphicsStreamClient)
-%group
-Win32 dwmapi
 %prm
 uIndex, pClientUuid
 uIndex : [int] 
@@ -217,8 +217,6 @@ pClientUuid : [var]
 %index
 DwmGetGraphicsStreamTransformHint
 ‚±‚ÌŠÖ”‚ÍÀ‘•‚³‚ê‚Ä‚¢‚È‚¢B(DwmGetGraphicsStreamTransformHint)
-%group
-Win32 dwmapi
 %prm
 uIndex, pTransform
 uIndex : [int] 
@@ -233,8 +231,6 @@ pTransform : [var]
 %index
 DwmGetTransportAttributes
 ƒgƒ‰ƒ“ƒXƒ|[ƒg‚Ì‘®«‚ğæ“¾‚·‚éB
-%group
-Win32 dwmapi
 %prm
 pfIsRemoting, pfIsConnected, pDwGeneration
 pfIsRemoting : [var] ƒgƒ‰ƒ“ƒXƒ|[ƒg‚ªƒŠƒ‚[ƒeƒBƒ“ƒO‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚· BOOL ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSEB
@@ -250,8 +246,6 @@ pDwGeneration : [var] ƒgƒ‰ƒ“ƒXƒ|[ƒg‚Ì¢‘ã’l‚ğó‚¯æ‚é DWORD ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %index
 DwmGetUnmetTabRequirements
 ‚±‚ÌŠÖ”‚Í Windows ‚ÅÀ‘•‚³‚ê‚é‚±‚Æ‚Ì‚È‚©‚Á‚½ÀŒ±“I‹@”\‚Ìˆê•”‚Å‚ ‚Á‚½BŒø‰Ê‚Í‚È‚­Ag—p‚·‚×‚«‚Å‚Í‚È‚¢B
-%group
-Win32 dwmapi
 %prm
 appWindow, value
 appWindow : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚È‚¢B
@@ -263,8 +257,6 @@ value : [var]
 %index
 DwmGetWindowAttribute
 ƒEƒBƒ“ƒhƒE‚É“K—p‚³‚ê‚Ä‚¢‚é DWM ‘®«‚ÌŒ»İ’l‚ğæ“¾‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hwnd, dwAttribute, pvAttribute, cbAttribute
 hwnd : [intptr] ‘®«’l‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -281,8 +273,6 @@ cbAttribute : [int] pvAttribute ‚Åó‚¯æ‚é‘®«’l‚ÌƒTƒCƒY(ƒoƒCƒg’PˆÊ)Bæ“¾‚³‚ê‚é
 %index
 DwmInvalidateIconicBitmaps
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒEƒBƒ“ƒhƒE‚©‚çˆÈ‘O‚É’ñ‹Ÿ‚µ‚½ƒAƒCƒRƒ“Œ`®‚Ìƒrƒbƒgƒ}ƒbƒviƒTƒ€ƒlƒCƒ‹‚¨‚æ‚Ñƒs[ƒN•\¦‚Ì—¼•ûj‚ğ‚·‚×‚ÄƒŠƒtƒŒƒbƒVƒ…‚·‚×‚«‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚ÉŒÄ‚Ño‚·B
-%group
-Win32 dwmapi
 %prm
 hwnd
 hwnd : [intptr] ‚±‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äƒrƒbƒgƒ}ƒbƒv‚ª–³Œø‰»‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ^ƒu‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒE‚ÍŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚É‘®‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -302,8 +292,6 @@ hwnd : [intptr] ‚±‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äƒrƒbƒgƒ}ƒbƒv‚ª–³Œø‰»‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ^
 %index
 DwmIsCompositionEnabled
 Desktop Window Manager (DWM) ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éBWindows 7 ˆÈ‘O‚Ìƒ}ƒVƒ“ã‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAWM_DWMCOMPOSITIONCHANGED ’Ê’m‚ğˆ—‚·‚é‚±‚Æ‚ÅƒRƒ“ƒ|ƒWƒVƒ‡ƒ“ó‘Ô‚Ì•Ï‰»‚ğŠÄ‹‚Å‚«‚éB
-%group
-Win32 dwmapi
 %prm
 pfEnabled
 pfEnabled : [var] ŠÖ”‚ª³í‚É–ß‚Á‚½‚Æ‚«ADWM ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚ª—LŒø‚Å‚ ‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -319,8 +307,6 @@ Desktop Window Manager (DWM) ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éBW
 %index
 DwmModifyPreviousDxFrameDuration
 ‘O‚ÌƒtƒŒ[ƒ€‚ğ•\¦‚·‚éƒ‚ƒjƒ^[‚ÌƒŠƒtƒŒƒbƒVƒ…‰ñ”‚ğ•ÏX‚·‚éBDwmModifyPreviousDxFrameDuration ‚ÍƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½BWindows 8.1 ˆÈ~ADwmModifyPreviousDxFrameDuration ‚ÌŒÄ‚Ño‚µ‚Íí‚É E_NOTIMPL ‚ğ•Ô‚·B
-%group
-Win32 dwmapi
 %prm
 hwnd, cRefreshes, fRelative
 hwnd : [intptr] ‘O‚ÌƒtƒŒ[ƒ€‚ÉV‚µ‚¢‘±ŠÔ‚ğ“K—p‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -338,8 +324,6 @@ E_NOTIMPL ‚ğ•Ô‚·B
 %index
 DwmQueryThumbnailSourceSize
 Desktop Window Manager (DWM) ƒTƒ€ƒlƒCƒ‹‚Ìƒ\[ƒXƒTƒCƒY‚ğæ“¾‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hThumbnail, pSize
 hThumbnail : [int] ƒ\[ƒXƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒTƒ€ƒlƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B
@@ -354,8 +338,6 @@ Desktop Window Manager (DWM) ƒTƒ€ƒlƒCƒ‹‚Ìƒ\[ƒXƒTƒCƒY‚ğæ“¾‚·‚éB
 %index
 DwmRegisterThumbnail
 ‘—MæƒEƒBƒ“ƒhƒE‚Æƒ\[ƒXƒEƒBƒ“ƒhƒE‚ÌŠÔ‚É Desktop Window Manager (DWM) ƒTƒ€ƒlƒCƒ‹ŠÖŒW‚ğì¬‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hwndDestination, hwndSource, phThumbnailId
 hwndDestination : [intptr] DWM ƒTƒ€ƒlƒCƒ‹‚ğg—p‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‘—MæƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ÉƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒEˆÈŠO‚Ì‚à‚Ì‚ğİ’è‚·‚é‚ÆA–ß‚è’l‚Í E_INVALIDARG ‚Æ‚È‚éB
@@ -378,8 +360,6 @@ DwmUnregisterThumbnail ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚ÍŠÖŒW‚ğ“o˜^‚µ‚½ƒvƒƒZƒX“à‚Ås‚¤•K—v‚
 %index
 DwmRenderGesture
 ƒ^ƒbƒ`ÚG‚ªƒWƒFƒXƒ`ƒƒ[‚Æ‚µ‚Ä”F¯‚³‚ê‚½‚±‚ÆA‚¨‚æ‚Ñ DWM ‚ª‚»‚ÌƒWƒFƒXƒ`ƒƒ[‚É‘Î‚·‚éƒtƒB[ƒhƒoƒbƒN‚ğ•`‰æ‚·‚×‚«‚Å‚ ‚é‚±‚Æ‚ğ Desktop Window Manager (DWM) ‚É’Ê’m‚·‚éB
-%group
-Win32 dwmapi
 %prm
 gt, cContacts, pdwPointerID, pPoints
 gt : [int] 
@@ -394,8 +374,6 @@ Desktop Window Manager (DWM) ‚É’Ê’m‚·‚éB
 %index
 DwmSetDxFrameDuration
 ’ñ¦‚³‚ê‚½ƒtƒŒ[ƒ€‚ğ•\¦‚·‚éƒ‚ƒjƒ^[‚ÌƒŠƒtƒŒƒbƒVƒ…‰ñ”‚ğİ’è‚·‚éBDwmSetDxFrameDuration ‚ÍƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½BWindows 8.1 ˆÈ~ADwmSetDxFrameDuration ‚ÌŒÄ‚Ño‚µ‚Íí‚É E_NOTIMPL ‚ğ•Ô‚·B
-%group
-Win32 dwmapi
 %prm
 hwnd, cRefreshes
 hwnd : [intptr] ’ñ¦‚³‚ê‚½ƒtƒŒ[ƒ€‚ğ•\¦‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -418,8 +396,6 @@ DWM ‚É’x‚ê‚Ä’ñ¦‚³‚ê‚½‚èADWM
 %index
 DwmSetIconicLivePreviewBitmap
 ƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ^ƒu‚Ìƒ‰ƒCƒuƒvƒŒƒrƒ…[iPeek ƒvƒŒƒrƒ…[‚Æ‚àŒÄ‚Î‚ê‚éj‚ğ•\¦‚·‚é‚½‚ß‚ÌÃ“I‚ÈƒAƒCƒRƒ“Œ`®ƒrƒbƒgƒ}ƒbƒv‚ğİ’è‚·‚éBƒ^ƒXƒNƒo[‚Í‚±‚Ìƒrƒbƒgƒ}ƒbƒv‚ğg—p‚µ‚ÄƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ^ƒu‚Ìƒtƒ‹ƒTƒCƒYƒvƒŒƒrƒ…[‚ğ•\¦‚Å‚«‚éB
-%group
-Win32 dwmapi
 %prm
 hwnd, hbmp, pptClient, dwSITFlags
 hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒE‚ÍŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚É‘®‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -449,8 +425,6 @@ DwmSetIconicLivePreviewBitmap
 %index
 DwmSetIconicThumbnail
 ƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ^ƒu‚ÉƒTƒ€ƒlƒCƒ‹•\Œ»‚Æ‚µ‚Äg—p‚·‚éÃ“I‚ÈƒAƒCƒRƒ“Œ`®ƒrƒbƒgƒ}ƒbƒv‚ğİ’è‚·‚éBƒ^ƒXƒNƒo[‚Í‚±‚Ìƒrƒbƒgƒ}ƒbƒv‚ğ“–ŠYƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ^ƒu‚ÌƒTƒ€ƒlƒCƒ‹Ø‚è‘Ö‚¦‘ÎÛ‚Æ‚µ‚Äg—p‚Å‚«‚éB
-%group
-Win32 dwmapi
 %prm
 hwnd, hbmp, dwSITFlags
 hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒ^ƒu‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒEƒBƒ“ƒhƒE‚ÍŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚É‘®‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
@@ -479,8 +453,6 @@ WM_DWMSENDICONICTHUMBNAIL
 %index
 DwmSetPresentParameters
 ƒtƒŒ[ƒ€ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“—p‚ÌƒvƒŒƒ[ƒ“ƒgƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éBDwmSetPresentParameters ‚ÍƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½BWindows 8.1 ˆÈ~ADwmSetPresentParameters ‚ÌŒÄ‚Ño‚µ‚Íí‚É E_NOTIMPL ‚ğ•Ô‚·B
-%group
-Win32 dwmapi
 %prm
 hwnd, pPresentParams
 hwnd : [intptr] ƒvƒŒƒ[ƒ“ƒgƒpƒ‰ƒ[ƒ^‚ğ“K—p‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -497,8 +469,6 @@ E_NOTIMPL ‚ğ•Ô‚·B
 %index
 DwmSetWindowAttribute
 ƒEƒBƒ“ƒhƒE‚Ì DWM ”ñƒNƒ‰ƒCƒAƒ“ƒg—ÌˆæƒŒƒ“ƒ_ƒŠƒ“ƒO‘®«‚Ì’l‚ğİ’è‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hwnd, dwAttribute, pvAttribute, cbAttribute
 hwnd : [intptr] ‘®«’l‚ğİ’è‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
@@ -521,8 +491,6 @@ DWMWA_NCRENDERING_POLICY ‘®«‚É‘Î‚µ‚Äİ’è‚·‚éB
 %index
 DwmShowContact
 “Á’è‚Ìƒ^ƒbƒ`‚Ü‚½‚Íƒyƒ“‚ÌÚG‚É‰‚¶‚Ä•`‰æ‚·‚é‹ŠoƒtƒB[ƒhƒoƒbƒN‚Ìí—Ş‚ğw’è‚·‚é‚½‚ß‚ÉAƒAƒvƒŠ‚âƒtƒŒ[ƒ€ƒ[ƒN‚©‚çŒÄ‚Ño‚³‚ê‚éB
-%group
-Win32 dwmapi
 %prm
 dwPointerID, eShowContact
 dwPointerID : [int] ÚG‚Ìƒ|ƒCƒ“ƒ^ IDBƒ^ƒbƒ`‚Ü‚½‚Íƒyƒ“‚ÌÚG‚Í‚»‚ê‚¼‚êŒŸo‚ÉˆêˆÓ‚Ì ID ‚ª•t—^‚³‚ê‚éB
@@ -541,8 +509,6 @@ S_OK ‚ğ•Ô‚·B
 %index
 DwmTetherContact
 ƒ†[ƒU[‚Ö‚Ìƒ^ƒbƒ`‚¨‚æ‚Ñƒhƒ‰ƒbƒO‘€ì‚ÌƒOƒ‰ƒtƒBƒJƒ‹ƒtƒB[ƒhƒoƒbƒN‚ğ—LŒø‚É‚·‚éB
-%group
-Win32 dwmapi
 %prm
 dwPointerID, fEnable, ptTether
 dwPointerID : [int] ƒ|ƒCƒ“ƒ^ IDB
@@ -555,8 +521,6 @@ ptTether : [int] ƒeƒU[B
 %index
 DwmTransitionOwnedWindow
 ƒc[ƒ‹ƒEƒBƒ“ƒhƒE‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğ Desktop Window Manager (DWM) ‚Æ‹¦’²‚³‚¹‚éB
-%group
-Win32 dwmapi
 %prm
 hwnd, target
 hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
@@ -568,8 +532,6 @@ target : [int]
 %index
 DwmUnregisterThumbnail
 DwmRegisterThumbnail ŠÖ”‚É‚æ‚Á‚Äì¬‚³‚ê‚½ Desktop Window Manager (DWM) ƒTƒ€ƒlƒCƒ‹ŠÖŒW‚ğíœ‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hThumbnailId
 hThumbnailId : [int] íœ‚·‚éƒTƒ€ƒlƒCƒ‹ŠÖŒW‚Ìƒnƒ“ƒhƒ‹BNULL ‚â‘¶İ‚µ‚È‚¢ƒnƒ“ƒhƒ‹‚ğw’è‚·‚é‚Æ–ß‚è’l‚Í E_INVALIDARG ‚Æ‚È‚éB
@@ -587,8 +549,6 @@ DWM ƒTƒ€ƒlƒCƒ‹ŠÖŒW‚Ì“o˜^‰ğœ‚ÍAŠÖŒW‚ğ“o˜^‚µ‚½ƒvƒƒZƒX“à‚Ås‚¤•K—v‚ª‚ ‚éB
 %index
 DwmUpdateThumbnailProperties
 Desktop Window Manager (DWM) ƒTƒ€ƒlƒCƒ‹‚ÌƒvƒƒpƒeƒB‚ğXV‚·‚éB
-%group
-Win32 dwmapi
 %prm
 hThumbnailId, ptnProperties
 hThumbnailId : [int] XV‚·‚é DWM ƒTƒ€ƒlƒCƒ‹‚Ìƒnƒ“ƒhƒ‹BNULL ‚â–³Œø‚ÈƒTƒ€ƒlƒCƒ‹A‘¼‚ÌƒvƒƒZƒX‚ªŠ—L‚·‚éƒTƒ€ƒlƒCƒ‹‚ğw’è‚·‚é‚Æ–ß‚è’l‚Í E_INVALIDARG ‚Æ‚È‚éB

@@ -4,11 +4,31 @@
 ;   –|–ó‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í docs_ja.json ‚ğ•ÒW‚µ‚ÄÄ¶¬B
 ; ============================================================
 
+%type
+Šg’£–½—ß
+%ver
+1.0
+%dll
+iphlpapi.dll
+%date
+2026/04/16
+%author
+IronHSP / CsWin32 bridge
+%url
+https://github.com/inovia/IronHSP
+%port
+Win
+
+%note
+Win32 API ‚Ì iphlpapi.dll ŠÖ”ŒQBCsWin32 + win32metadata ‚©‚ç©“®¶¬B
+hsp3net ê—p (intptr / NSTRUCT / wstr ‚ğg—p)B
+
+%group
+Win32API
+
 %index
 AddIPAddress
 AddIPAddress ŠÖ”‚ÍAw’è‚µ‚½ IPv4 ƒAƒhƒŒƒX‚ğw’è‚ÌƒAƒ_ƒvƒ^‚É’Ç‰Á‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Address, IpMask, IfIndex, NTEContext, NTEInstance
 Address : [int] ƒAƒ_ƒvƒ^‚É’Ç‰Á‚·‚é IPv4 ƒAƒhƒŒƒXBIPAddr \‘¢‘Ì‚ÌŒ`®‚Åw’è‚·‚éB
@@ -44,8 +64,6 @@ Vista ˆÈ~‚Å‚Í CreateUnicastIpAddressEntry ŠÖ”‚ğg‚Á‚Äƒ†ƒjƒLƒƒƒXƒg IPv4/IPv6
 %index
 CancelIPChangeNotify
 NotifyAddrChange ‚Ü‚½‚Í NotifyRouteChange ‚ÌŒÄ‚Ño‚µ‚ÅˆÈ‘O‚É“o˜^‚µ‚½ IPv4 ƒAƒhƒŒƒX‚¨‚æ‚ÑŒo˜H•ÏX’Ê’m‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 notifyOverlapped
 notifyOverlapped : [var] ’¼‘O‚Ì NotifyAddrChange ‚Ü‚½‚Í NotifyRouteChange ŒÄ‚Ño‚µ‚Åg—p‚µ‚½ OVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -64,8 +82,6 @@ NotifyRouteChange ‚Ås‚¤B‚±‚ê‚ç‚ÌŒÄ‚Ño‚µ‚Åg‚Á‚½ OVERLAPPED \‘¢‘Ì‚ğ notifyOve
 %index
 UnregisterInterfaceTimestampConfigChange
 RegisterInterfaceTimestampConfigChange ‚ÌŒÄ‚Ño‚µ‚Å“o˜^‚µ‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^‰ğœ‚É‚æ‚èAƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‹@”\•ÏX‚ÉŠÖ‚·‚é’Ê’m‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 NotificationHandle
 NotificationHandle : [intptr] Œ^: _In_ HIFTIMESTAMPCHANGE RegisterInterfaceTimestampConfigChange ‚ª•Ô‚µ‚½ƒnƒ“ƒhƒ‹BƒLƒƒƒ“ƒZƒ‹‚·‚é“o˜^‚ğ¯•Ê‚·‚éB
@@ -80,8 +96,6 @@ RegisterInterfaceTimestampConfigChange
 %index
 CancelIfTimestampConfigChange
 ‚±‚ÌŠÖ”‚ÍƒVƒXƒeƒ€‚Å—\–ñ‚³‚ê‚Ä‚¢‚éBƒ†[ƒU[ƒR[ƒh‚©‚çŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B(CancelIfTimestampConfigChange)
-%group
-Win32 iphlpapi
 %prm
 NotificationHandle
 NotificationHandle : [intptr] —\–ñÏ‚İB
@@ -95,8 +109,6 @@ NotificationHandle : [intptr] —\–ñÏ‚İB
 %index
 CancelMibChangeNotify2
 IP ƒCƒ“ƒ^[ƒtƒFƒCƒX•ÏXAIP ƒAƒhƒŒƒX•ÏXAIP Œo˜H•ÏXATeredo ƒ|[ƒg•ÏXA‚¨‚æ‚ÑˆÀ’èƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒe[ƒuƒ‹‚Ì€”õŠ®—¹’Ê’m‚Ì“o˜^‚ğ‰ğœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 NotificationHandle
 NotificationHandle : [intptr] ’Ê’m“o˜^‚Ü‚½‚Íæ“¾ŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ÅA‚Ç‚Ì’Ê’m‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é‚©‚ğ¦‚·B
@@ -123,8 +135,6 @@ NotifyTeredoPortChange ‚ÅˆÈ‘O‚É“o˜^‚µ‚½ IP ƒCƒ“ƒ^[ƒtƒFƒCƒXEIP ƒAƒhƒŒƒXEIP Œo˜
 %index
 CaptureInterfaceHardwareCrossTimestamp
 ƒlƒbƒgƒ[ƒNƒAƒ_ƒvƒ^‚ÌƒNƒƒXƒ^ƒCƒ€ƒXƒ^ƒ“ƒvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, CrossTimestamp
 InterfaceLuid : [var] Œ^: _In_ CONST NET_LUID* ƒNƒƒXƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğæ“¾‚·‚éƒlƒbƒgƒ[ƒNƒAƒ_ƒvƒ^‚Ì LUIDB
@@ -139,8 +149,6 @@ CrossTimestamp : [var] Œ^: _Inout_ PINTERFACE_HARDWARE_CROSSTIMESTAMP ƒlƒbƒgƒ[
 %index
 ConvertCompartmentGuidToId
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 CompartmentGuid, CompartmentId
 CompartmentGuid : [var] 
@@ -152,8 +160,6 @@ CompartmentId : [var]
 %index
 ConvertCompartmentIdToGuid
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 CompartmentId, CompartmentGuid
 CompartmentId : [int] 
@@ -165,8 +171,6 @@ CompartmentGuid : [var]
 %index
 ConvertInterfaceAliasToLuid
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒGƒCƒŠƒAƒX–¼‚ğA‚»‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceAlias, InterfaceLuid
 InterfaceAlias : [wstr] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒGƒCƒŠƒAƒX–¼‚ğŠi”[‚µ‚½ NULL I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -187,8 +191,6 @@ ConvertInterfaceAliasToLuid ŠÖ”‚Í Windows Vista ˆÈ~‚Å—˜—p‚Å‚«‚éBƒvƒƒgƒRƒ‹”ñˆ
 %index
 ConvertInterfaceGuidToLuid
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq (GUID) ‚ğA‚»‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceGuid, InterfaceLuid
 InterfaceGuid : [var] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì GUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -209,8 +211,6 @@ ConvertInterfaceGuidToLuid ŠÖ”‚Í Windows Vista ˆÈ~‚Å—˜—p‚Å‚«‚éBƒvƒƒgƒRƒ‹”ñˆË
 %index
 ConvertInterfaceIndexToLuid
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ƒCƒ“ƒfƒbƒNƒX‚ğA‚»‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceIndex, InterfaceLuid
 InterfaceIndex : [int] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ƒCƒ“ƒfƒbƒNƒX’lB
@@ -231,8 +231,6 @@ ConvertInterfaceIndexToLuid ŠÖ”‚Í Windows Vista ˆÈ~‚Å—˜—p‚Å‚«‚éBƒvƒƒgƒRƒ‹”ñˆ
 %index
 ConvertInterfaceLuidToAlias
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚ğƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒGƒCƒŠƒAƒX–¼‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceAlias, Length
 InterfaceLuid : [var] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì NET_LUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -256,8 +254,6 @@ Iphlpapi.h ‚É©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚éB‚±‚ê‚ç‚Ìƒwƒbƒ_‚ğ’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢
 %index
 ConvertInterfaceLuidToGuid
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚ğƒOƒ[ƒoƒ‹ˆêˆÓ¯•Êq (GUID) ‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceGuid
 InterfaceLuid : [var] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì NET_LUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -278,8 +274,6 @@ ConvertInterfaceLuidToGuid ŠÖ”‚Í Windows Vista ˆÈ~‚Å—˜—p‚Å‚«‚éBƒvƒƒgƒRƒ‹”ñˆË
 %index
 ConvertInterfaceLuidToIndex
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚ğƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ƒCƒ“ƒfƒbƒNƒX‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceIndex
 InterfaceLuid : [var] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì NET_LUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -300,8 +294,6 @@ ConvertInterfaceLuidToIndex ŠÖ”‚Í Windows Vista ˆÈ~‚Å—˜—p‚Å‚«‚éBƒvƒƒgƒRƒ‹”ñˆ
 %index
 ConvertInterfaceLuidToNameW
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚ğ Unicode ƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceName, Length
 InterfaceLuid : [var] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì NET_LUID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -326,8 +318,6 @@ Netioapi.h ‚Í Iphlpapi.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚êA’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %index
 ConvertInterfaceNameToLuidW
 Unicode ‚Ìƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğA‚»‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID) ‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceName, InterfaceLuid
 InterfaceName : [wstr] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğŠi”[‚µ‚½ NULL I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -351,8 +341,6 @@ Iphlpapi.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚êA’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %index
 ConvertIpv4MaskToLength
 IPv4 ƒTƒuƒlƒbƒgƒ}ƒXƒN‚ğ IPv4 ƒvƒŒƒtƒBƒbƒNƒX’·‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Mask, MaskLength
 Mask : [int] IPv4 ƒTƒuƒlƒbƒgƒ}ƒXƒNB
@@ -371,8 +359,6 @@ ConvertIpv4MaskToLength ŠÖ”‚Í Windows Vista ˆÈ~‚Å—˜—p‚Å‚«‚éB
 %index
 ConvertLengthToIpv4Mask
 IPv4 ƒvƒŒƒtƒBƒbƒNƒX’·‚ğ IPv4 ƒTƒuƒlƒbƒgƒ}ƒXƒN‚É•ÏŠ·‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 MaskLength, Mask
 MaskLength : [int] IPv4 ƒvƒŒƒtƒBƒbƒNƒX’· (ƒrƒbƒg’PˆÊ)B
@@ -392,8 +378,6 @@ ConvertLengthToIpv4Mask ŠÖ”‚Í Windows Vista ˆÈ~‚Å—˜—p‚Å‚«‚éB
 %index
 CreateAnycastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉV‚µ‚¢ƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_ANYCASTIPADDRESS_ROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -424,8 +408,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 CreateIpForwardEntry
 CreateIpForwardEntry ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IPv4 ƒ‹[ƒeƒBƒ“ƒOƒe[ƒuƒ‹‚ÉŒo˜H‚ğì¬‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pRoute
 pRoute : [var] V‚µ‚¢Œo˜H‚Ìî•ñ‚ğw’è‚·‚é MIB_IPFORWARDROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µŒ³‚Í‚·‚×‚Ä‚Ìƒƒ“ƒo‚É’l‚ğİ’è‚·‚é•K—v‚ª‚ ‚éBdwForwardProto ƒƒ“ƒo‚É‚Í MIB_IPPROTO_NETMGMT ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -465,8 +447,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 CreateIpForwardEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉV‚µ‚¢ IP Œo˜HƒGƒ“ƒgƒŠ‚ğì¬‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] IP Œo˜HƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_IPFORWARD_ROW2 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -499,8 +479,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 CreateIpNetEntry
 CreateIpNetEntry ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì ARP ƒe[ƒuƒ‹‚É ARP ƒGƒ“ƒgƒŠ‚ğì¬‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pArpEntry
 pArpEntry : [var] V‚µ‚¢ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğw’è‚·‚é MIB_IPNETROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µŒ³‚Í‚·‚×‚Ä‚Ìƒƒ“ƒo‚É’l‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -528,8 +506,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 CreateIpNetEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉV‚µ‚¢‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğì¬‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_IPNET_ROW2 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -557,8 +533,6 @@ requestedExecutionLevel ‚ğ requireAdministrator
 %index
 CreatePersistentTcpPortReservation
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Å˜A‘±‚·‚é TCP ƒ|[ƒgƒuƒƒbƒN‚É‘Î‚·‚é‰i‘±“I‚È TCP ƒ|[ƒg—\–ñ‚ğì¬‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
 StartPort : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Å‚ÌŠJn TCP ƒ|[ƒg”Ô†B
@@ -594,8 +568,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 CreatePersistentUdpPortReservation
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Å˜A‘±‚·‚é UDP ƒ|[ƒgƒuƒƒbƒN‚É‘Î‚·‚é‰i‘±“I‚È UDP ƒ|[ƒg—\–ñ‚ğì¬‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
 StartPort : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Å‚ÌŠJn UDP ƒ|[ƒg”Ô†B
@@ -625,8 +597,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 CreateProxyArpEntry
 CreateProxyArpEntry ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Éw’è IPv4 ƒAƒhƒŒƒX—p‚ÌƒvƒƒLƒV ARP (PARP) ƒGƒ“ƒgƒŠ‚ğì¬‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 dwAddress, dwMask, dwIfIndex
 dwAddress : [int] ‚±‚ÌƒRƒ“ƒsƒ…[ƒ^‚ªƒvƒƒLƒV‚Æ‚µ‚Ä“®ì‚·‚é‘ÎÛ‚Ì IPv4 ƒAƒhƒŒƒXB
@@ -656,8 +626,6 @@ NetworkConfigurationOperators ƒOƒ‹[ƒv‚Ìƒƒ“ƒo[‚Å‚ ‚é•K—v‚ª‚ ‚éB
 %index
 CreateSortedAddressPairs
 —^‚¦‚ç‚ê‚½ IP ˆ¶æŒó•âƒŠƒXƒg‚É‘Î‚µAƒzƒXƒg‚Ìƒ[ƒJƒ‹ IP ƒAƒhƒŒƒX‚ÆƒyƒA‚ğì‚èA’ÊM‚ÉÅ“K‚È‡˜‚Åƒ\[ƒg‚µ‚Ä•Ô‚·B
-%group
-Win32 iphlpapi
 %prm
 SourceAddressList, SourceAddressCount, DestinationAddressList, DestinationAddressCount, AddressSortOptions, SortedAddressPairList, SortedAddressPairCount
 SourceAddressList : [var] NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B«—ˆg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB
@@ -687,8 +655,6 @@ SOCKADDR_IN6 ‚Ì”z—ñ‚ÅAIPv4 ‚Í IPv4-mapped IPv6
 %index
 CreateUnicastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉV‚µ‚¢ƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_UNICASTIPADDRESS_ROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -728,8 +694,6 @@ requestedExecutionLevel ‚ğ requireAdministrator
 %index
 DeleteAnycastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌŠù‘¶ƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚©‚çíœ‚·‚éŠù‘¶‚ÌƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ (MIB_ANYCASTIPADDRESS_ROW) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -757,8 +721,6 @@ requestedExecutionLevel ‚ğ requireAdministrator
 %index
 DeleteIPAddress
 DeleteIPAddress ŠÖ”‚ÍAAddIPAddress ‚Å’Ç‰Á‚µ‚½ IP ƒAƒhƒŒƒX‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 NTEContext
 NTEContext : [int] IP ƒAƒhƒŒƒX‚Ì NTE ƒRƒ“ƒeƒLƒXƒgB’¼‘O‚Ì AddIPAddress ŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½’lB
@@ -785,8 +747,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 DeleteIpForwardEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IPv4 ƒ‹[ƒeƒBƒ“ƒOƒe[ƒuƒ‹‚©‚çŠù‘¶Œo˜H‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pRoute
 pRoute : [var] íœ‘ÎÛ‚ÌŒo˜H‚ğ¯•Ê‚·‚é MIB_IPFORWARDROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BdwForwardIfIndexAdwForwardDestAdwForwardMaskAdwForwardNextHopAdwForwardProto ‚Ìƒƒ“ƒo‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -816,8 +776,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 DeleteIpForwardEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚©‚ç IP Œo˜HƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] IP Œo˜HƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_IPFORWARD_ROW2 ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷A‚±‚ÌƒGƒ“ƒgƒŠ‚Ííœ‚³‚ê‚éB
@@ -845,8 +803,6 @@ requestedExecutionLevel ‚ğ requireAdministrator
 %index
 DeleteIpNetEntry
 DeleteIpNetEntry ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì ARP ƒe[ƒuƒ‹‚©‚ç ARP ƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pArpEntry
 pArpEntry : [var] íœ‘ÎÛ‚ÌƒGƒ“ƒgƒŠ‚ğw’è‚·‚é MIB_IPNETROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B­‚È‚­‚Æ‚à dwIndex ‚Æ dwAddr ‚É’l‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -873,8 +829,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 DeleteIpNetEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚©‚ç‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_IPNET_ROW2 ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷A‚±‚ÌƒGƒ“ƒgƒŠ‚Ííœ‚³‚ê‚éB
@@ -901,8 +855,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 DeletePersistentTcpPortReservation
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì˜A‘±‚·‚é TCP ƒ|[ƒgƒuƒƒbƒN‚Ì‰i‘±—\–ñ‚ğíœ‚·‚éB(DeletePersistentTcpPortReservation)
-%group
-Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts
 StartPort : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Å‚ÌŠJn TCP ƒ|[ƒg”Ô†B
@@ -929,8 +881,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 DeletePersistentUdpPortReservation
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì˜A‘±‚·‚é UDP ƒ|[ƒgƒuƒƒbƒN‚Ì‰i‘±—\–ñ‚ğíœ‚·‚éB(DeletePersistentUdpPortReservation)
-%group
-Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts
 StartPort : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒgƒI[ƒ_[‚Å‚ÌŠJn UDP ƒ|[ƒg”Ô†B
@@ -957,8 +907,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 DeleteProxyArpEntry
 DeleteProxyArpEntry ŠÖ”‚ÍAdwAddress ‚Æ dwIfIndex ‚Åw’è‚³‚ê‚éƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì PARP ƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 dwAddress, dwMask, dwIfIndex
 dwAddress : [int] ‚±‚ÌƒRƒ“ƒsƒ…[ƒ^‚ªƒvƒƒLƒV‚Æ‚µ‚Ä“®ì‚µ‚Ä‚¢‚é‘ÎÛ‚Ì IPv4 ƒAƒhƒŒƒXB
@@ -987,8 +935,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 DeleteUnicastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌŠù‘¶ƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚©‚çíœ‚·‚éŠù‘¶‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ (MIB_UNICASTIPADDRESS_ROW) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1016,8 +962,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 DisableMediaSense
 DisableMediaSense ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì TCP/IP ƒXƒ^ƒbƒN‚ÌƒƒfƒBƒAŒŸo‹@”\‚ğ–³Œø‰»‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pHandle, pOverLapped
 pHandle : [intptr] ƒnƒ“ƒhƒ‹‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BpOverlapped ‚ª”ñ NULL ‚Ìê‡AIP ƒhƒ‰ƒCƒo‚ÌŒÄ‚Ño‚µ‚ÆƒƒfƒBƒAŒŸo–³Œø‰»‚É•K—v‚Èƒnƒ“ƒhƒ‹‚ğ“à•”“I‚ÉŠi”[‚·‚é‚Ì‚Ég‚í‚ê‚éB‚±‚Ì•Ï”‚Ì’l‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç—˜—p‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒnƒ“ƒhƒ‹‚Í“à•”—p‚Å‚ ‚èA•Â‚¶‚Ä‚Í‚È‚ç‚È‚¢B
@@ -1051,8 +995,6 @@ RestoreMediaSense ‚Í‰½‚à‚¹‚¸í‚É NO_ERROR ‚ğ•Ô‚·B
 %index
 EnableRouter
 EnableRouter ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Å IPv4 “]‘—‚ğ—LŒø‰»‚·‚éB“¯‚É IPv4 “]‘——LŒø‰»—v‹”‚ğ’ÇÕ‚·‚éQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pHandle, pOverlapped
 pHandle : [intptr] ƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒ»İ‚Í–¢g—pB
@@ -1075,8 +1017,6 @@ UnenableRouter ‚ğŒÄ‚Î‚¸‚ÉI—¹‚µ‚½ê‡AƒVƒXƒeƒ€‚Í UnenableRouter ‚ªŒÄ‚Î‚ê‚½‚©‚Ì‚
 %index
 FlushIpNetTable
 FlushIpNetTable ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì ARP ƒe[ƒuƒ‹‚©‚çw’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÉŠÖ‚·‚é ARP ƒGƒ“ƒgƒŠ‚ğ‚·‚×‚Äíœ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 dwIfIndex
 dwIfIndex : [int] ‚·‚×‚Ä‚Ì ARP ƒGƒ“ƒgƒŠ‚ğíœ‚·‚é‘ÎÛƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒXB
@@ -1103,8 +1043,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 FlushIpNetTable2
 FlushIpNetTable2 ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IP ‹ß—×ƒe[ƒuƒ‹‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, InterfaceIndex
 Family : [int] ƒtƒ‰ƒbƒVƒ…‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Í“¯‚¶’l (—á: AF_INET ‚Æ PF_INET) ‚È‚Ì‚Å‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à‚æ‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì\¬‚ª•ÏX‚³‚êA‚±‚Ì’l‚Í Ws2def.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -1132,8 +1070,6 @@ requestedExecutionLevel ‚ğ requireAdministrator
 %index
 FlushIpPathTable
 FlushIpPathTable ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IP ƒpƒXƒe[ƒuƒ‹‚ğƒtƒ‰ƒbƒVƒ…‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family
 Family : [int] ƒtƒ‰ƒbƒVƒ…‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Í“¯‚¶’l (—á: AF_INET ‚Æ PF_INET) ‚È‚Ì‚Å‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à‚æ‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì\¬‚ª•ÏX‚³‚êA‚±‚Ì’l‚Í Ws2def.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -1160,8 +1096,6 @@ requireAdministrator ‚Éİ’è‚µ‚Ä‚¢‚È‚¢ŒÀ‚è‚±‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBƒ}ƒjƒtƒFƒXƒg‚ª‚
 %index
 FreeDnsSettings
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 Settings
 Settings : [var] 
@@ -1172,8 +1106,6 @@ Settings : [var]
 %index
 FreeInterfaceDnsSettings
 GetInterfaceDnsSettings ‚ª•Ô‚µ‚½İ’èƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Settings
 Settings : [var] 
@@ -1184,8 +1116,6 @@ GetInterfaceDnsSettings ‚ª•Ô‚µ‚½İ’èƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
 %index
 FreeMibTable
 ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX / ƒAƒhƒŒƒX / Œo˜Hƒe[ƒuƒ‹‚ğ•Ô‚·ŠÖ” (—á: GetIfTable2AGetAnycastIpAddressTable) ‚ªŠm•Û‚µ‚½ƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Memory
 Memory : [intptr] ‰ğ•ú‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1205,8 +1135,6 @@ FreeMibTable ŠÖ”‚Í Windows Vista ˆÈ~‚Å’è‹`‚³‚ê‚éBŠeíŠÖ”‚ªƒCƒ“ƒ^[ƒtƒFƒCƒX /
 %index
 GetAdapterIndex
 GetAdapterIndex ŠÖ”‚ÍAw’è‚µ‚½ƒAƒ_ƒvƒ^–¼‚©‚çƒAƒ_ƒvƒ^‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 AdapterName, IfIndex
 AdapterName : [wstr] ƒAƒ_ƒvƒ^–¼‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1230,8 +1158,6 @@ GetAdapterIndex ‚ªˆø‚«‘±‚«ƒAƒ_ƒvƒ^ƒCƒ“ƒfƒbƒNƒX‚ğ•ñ‚·‚éBƒVƒXƒeƒ€‚É 1
 %index
 GetAdapterOrderMap
 GetAdapterOrderMap ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì—Dæ“x‚ğ¦‚·ƒAƒ_ƒvƒ^‡˜ƒ}ƒbƒv‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 
 %inst
@@ -1251,8 +1177,6 @@ DNS –¼‘O‰ğŒˆ‚È‚Ç‚É‰e‹¿‚·‚éB–{ŠÖ”‚ğ’¼ÚŒÄ‚Ño‚·‚Ì‚Å‚Í‚È‚­AGetAdaptersInfo ‚Å•Ô
 %index
 GetAdaptersAddresses
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒAƒ_ƒvƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Flags, Reserved, AdapterAddresses, SizePointer
 Family : [int] 
@@ -1292,8 +1216,6 @@ Winsock2.h ‚ğƒCƒ“ƒNƒ‹[ƒh‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetAdaptersInfo
 GetAdaptersInfo ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒAƒ_ƒvƒ^î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 AdapterInfo, SizePointer
 AdapterInfo : [var] IP_ADAPTER_INFO \‘¢‘Ì‚Ì˜AŒ‹ƒŠƒXƒg‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1318,8 +1240,6 @@ GetUniDirectionalAdapterInfo ‚ğŒÄ‚ñ‚ÅœŠO‚·‚ê‚Î‚æ‚¢B
 %index
 GetAnycastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌŠù‘¶ƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_ANYCASTIPADDRESS_ROW ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AŠù‘¶ƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒX‚ÌƒvƒƒpƒeƒB‚ÅXV‚³‚ê‚éB
@@ -1341,8 +1261,6 @@ MIB_ANYCASTIPADDRESS_ROW ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éBAddress ƒƒ“ƒo‚Í—LŒø‚ÈƒGƒj[ƒLƒƒƒXƒ
 %index
 GetAnycastIpAddressTable
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒGƒj[ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table
 Family : [int] æ“¾‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Í“¯‚¶’l (—á: AF_INET ‚Æ PF_INET) ‚È‚Ì‚Å‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à‚æ‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì\¬‚ª•ÏX‚³‚êA‚±‚Ì’l‚Í Ws2def.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -1365,8 +1283,6 @@ MIB_ANYCASTIPADDRESS_ROW ”z—ñ‚ªŠi”[‚³‚ê‚éB•s—v‚É‚È‚Á‚½‚ç FreeMibTable ‚Å‰ğ•ú‚·‚
 %index
 GetBestInterface
 GetBestInterface ŠÖ”‚ÍAw’è‚µ‚½ IPv4 ƒAƒhƒŒƒX‚É‘Î‚·‚éÅ“KŒo˜H‚ğ‚ÂƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 dwDestAddr, pdwBestIfIndex
 dwDestAddr : [int] Å“KŒo˜H‚ğ‚ÂƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚é‘ÎÛ‚Ìˆ¶æ IPv4 ƒAƒhƒŒƒX (IPAddr Œ`®)B
@@ -1388,8 +1304,6 @@ IP Helper “à•”‚Å NET_IFINDEX Œ^ƒ|ƒCƒ“ƒ^‚Æ‚µ‚Äˆµ‚í‚ê‚éB
 %index
 GetBestInterfaceEx
 GetBestInterfaceEx ŠÖ”‚ÍAw’è‚µ‚½ IPv4 / IPv6 ƒAƒhƒŒƒX‚É‘Î‚·‚éÅ“KŒo˜H‚ğ‚ÂƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pDestAddr, pdwBestIfIndex
 pDestAddr : [var] Å“KŒo˜H‚ğ‚ÂƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚é‘ÎÛ‚Ìˆ¶æ IPv6 / IPv4 ƒAƒhƒŒƒX (sockaddr \‘¢‘ÌŒ`®)B
@@ -1412,8 +1326,6 @@ NET_IFINDEX Œ^ƒ|ƒCƒ“ƒ^‚Æ‚µ‚Äˆµ‚í‚ê‚éB
 %index
 GetBestRoute
 GetBestRoute ŠÖ”‚ÍAw’è‚µ‚½ˆ¶æ IP ƒAƒhƒŒƒX‚Ö‚ÌÅ“KŒo˜H‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 dwDestAddr, dwSourceAddr, pBestRoute
 dwDestAddr : [int] Å“KŒo˜H‚ğæ“¾‚·‚é‘ÎÛ‚Ìˆ¶æ IP ƒAƒhƒŒƒXB
@@ -1430,8 +1342,6 @@ GetBestRoute ŠÖ”‚ÍAw’è‚µ‚½ˆ¶æ IP ƒAƒhƒŒƒX‚Ö‚ÌÅ“KŒo˜H‚ğæ“¾‚·‚éB
 %index
 GetBestRoute2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÅAw’è‚µ‚½ˆ¶æ IP ƒAƒhƒŒƒX‚Ö‚ÌÅ“KŒo˜H‚Ì IP Œo˜HƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, InterfaceIndex, SourceAddress, DestinationAddress, AddressSortOptions, BestRoute, BestSourceAddress
 InterfaceLuid : [var] IP Œo˜HƒGƒ“ƒgƒŠ‚ÉŠÖ˜A•t‚¯‚éƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ˆêˆÓ¯•Êq (LUID)B
@@ -1459,8 +1369,6 @@ MIB_IPFORWARD_ROW2 ‚ª•Ô‚³‚ê‚éB
 %index
 GetCurrentThreadCompartmentId
 «—ˆg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B(GetCurrentThreadCompartmentId)
-%group
-Win32 iphlpapi
 %prm
 
 %inst
@@ -1470,8 +1378,6 @@ Win32 iphlpapi
 %index
 GetCurrentThreadCompartmentScope
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 CompartmentScope, CompartmentId
 CompartmentScope : [var] 
@@ -1483,8 +1389,6 @@ CompartmentId : [var]
 %index
 GetDefaultCompartmentId
 GetDefaultCompartmentId ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌŠù’èƒlƒbƒgƒ[ƒNƒ‹[ƒeƒBƒ“ƒOƒRƒ“ƒp[ƒgƒƒ“ƒg¯•Êq‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 
 %inst
@@ -1499,8 +1403,6 @@ GetDefaultCompartmentId
 %index
 GetDnsSettings
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 Settings
 Settings : [var] 
@@ -1511,8 +1413,6 @@ Settings : [var]
 %index
 GetExtendedTcpTable
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç—˜—p‰Â”\‚È TCP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚Ìˆê——‚ğŠÜ‚Şƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pTcpTable, pdwSize, bOrder, ulAf, TableClass, Reserved
 pTcpTable : [intptr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å—˜—p‰Â”\‚ÈƒtƒBƒ‹ƒ^Ï‚İ TCP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚ğŠi”[‚·‚éƒe[ƒuƒ‹\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‹ï‘Ì“I‚Èƒe[ƒuƒ‹Œ^‚ÌŒˆ’è‚Í”õl‚ğQÆB
@@ -1537,8 +1437,6 @@ Reserved : [int] —\–ñÏ‚İB0 ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetExtendedUdpTable
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç—˜—p‰Â”\‚È UDP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚Ìˆê——‚ğŠÜ‚Şƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pUdpTable, pdwSize, bOrder, ulAf, TableClass, Reserved
 pUdpTable : [intptr] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å—˜—p‰Â”\‚ÈƒtƒBƒ‹ƒ^Ï‚İ UDP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚ğŠi”[‚·‚éƒe[ƒuƒ‹\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‹ï‘Ì“I‚Èƒe[ƒuƒ‹Œ^‚ÌŒˆ’è‚Í”õl‚ğQÆB
@@ -1563,8 +1461,6 @@ Reserved : [int] —\–ñÏ‚İB0 ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetFriendlyIfIndex
 ƒCƒ“ƒ^[ƒtƒFƒCƒXƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚èA‰ºˆÊ 24 ƒrƒbƒg‚Ì‚İ‚ğg‚¤Œã•ûŒİŠ·ƒCƒ“ƒ^[ƒtƒFƒCƒXƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·B
-%group
-Win32 iphlpapi
 %prm
 IfIndex
 IfIndex : [int] Œã•ûŒİŠ·—p ("ƒtƒŒƒ“ƒhƒŠ") ƒCƒ“ƒ^[ƒtƒFƒCƒXƒCƒ“ƒfƒbƒNƒX‚ğ“±o‚·‚éŒ³‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒCƒ“ƒfƒbƒNƒXB
@@ -1578,8 +1474,6 @@ IfIndex : [int] Œã•ûŒİŠ·—p ("ƒtƒŒƒ“ƒhƒŠ") ƒCƒ“ƒ^[ƒtƒFƒCƒXƒCƒ“ƒfƒbƒNƒX‚ğ“±o‚·‚é
 %index
 GetIcmpStatistics
 GetIcmpStatistics ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IPv4 —p ICMP (Internet Control Message Protocol) “Œvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì ICMP “Œvî•ñ‚ğó‚¯æ‚é MIB_ICMP \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1599,8 +1493,6 @@ GetIpStatisticsEx ‚Å IPv4 / IPv6 —¼•û‚Ì ICMP “Œv‚ğæ“¾‚Å‚«‚éB
 %index
 GetIcmpStatisticsEx
 GetIcmpStatisticsEx ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì ICMP “Œvî•ñ‚ğæ“¾‚·‚éBIPv6 ICMP “Œv‚Ìæ“¾‚É‚à‘Î‰‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics, Family
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì ICMP “Œvî•ñ‚ğŠi”[‚·‚é MIB_ICMP_EX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1621,8 +1513,6 @@ IPv4 ‚Ì‚İB
 %index
 GetIfEntry
 GetIfEntry ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìw’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pIfRow
 pIfRow : [var] ¬Œ÷‚Éƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXî•ñ‚ğó‚¯æ‚é MIB_IFROW ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É‚Í dwIndex ƒƒ“ƒo‚ÉA–‘O‚Ì GetIfTable / GetIfTable2 / GetIfTable2Ex ŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚éB
@@ -1642,8 +1532,6 @@ GetIfTable ŒnŠÖ”‚Åæ“¾‚µ‚½—LŒø‚Èƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒXƒCƒ“ƒfƒbƒNƒX‚Å‰Šú‰
 %index
 GetIfEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìw’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ¬Œ÷‚Éƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXî•ñ‚ğó‚¯æ‚é MIB_IF_ROW2 ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É InterfaceLuid ‚Ü‚½‚Í InterfaceIndex ‚ğæ“¾‘ÎÛ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Éİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
@@ -1664,8 +1552,6 @@ Iphlpapi.h ‚É©“®ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %index
 GetIfEntry2Ex
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìw’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‚Â‚¢‚ÄAw’è‚µ‚½ƒŒƒxƒ‹‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Level, Row
 Level : [int] æ“¾‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒXî•ñ‚ÌƒŒƒxƒ‹BMIB_IF_ENTRY_LEVEL —ñ‹“‚Ì’l (Netioapi.h ‚Å’è‹`) ‚Ì‚¢‚¸‚ê‚©B
@@ -1687,8 +1573,6 @@ Iphlpapi.h ‚É©“®ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %index
 GetIfStackTable
 ƒCƒ“ƒ^[ƒtƒFƒCƒXƒXƒ^ƒbƒNã‚Ìƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŠÖŒW‚ğ¦‚·ƒCƒ“ƒ^[ƒtƒFƒCƒXƒXƒ^ƒbƒNsƒGƒ“ƒgƒŠƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Table
 Table : [var] ƒCƒ“ƒ^[ƒtƒFƒCƒXƒXƒ^ƒbƒNsƒGƒ“ƒgƒŠ‚Ìƒe[ƒuƒ‹‚ğó‚¯æ‚é MIB_IFSTACK_TABLE ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1710,8 +1594,6 @@ FreeMibTable ‚Å‰ğ•ú‚·‚é‚±‚ÆBNumEntries ‚Æ”z—ñ—v‘fŠÔ‚É‚ÍƒAƒ‰ƒCƒƒ“ƒg—p‚ÌƒpƒfƒBƒ“
 %index
 GetIfTable
 GetIfTable ŠÖ”‚ÍAMIB-II ƒCƒ“ƒ^[ƒtƒFƒCƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pIfTable, pdwSize, bOrder
 pIfTable : [var] ƒCƒ“ƒ^[ƒtƒFƒCƒXƒe[ƒuƒ‹‚ğ MIB_IFTABLE ‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1734,8 +1616,6 @@ PPTP / PPPoE ‚È‚Ç‚Ì WAN ƒ~ƒjƒ|[ƒg) ‚à—ñ‹“‚Å‚«‚éŠg’£”Å‚Å‚ ‚éBMIB_IFTABLE ‚É‚Í d
 %index
 GetIfTable2
 MIB-II ƒCƒ“ƒ^[ƒtƒFƒCƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB(GetIfTable2)
-%group
-Win32 iphlpapi
 %prm
 Table
 Table : [var] ƒCƒ“ƒ^[ƒtƒFƒCƒXƒe[ƒuƒ‹‚ğó‚¯æ‚é MIB_IF_TABLE2 ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1756,8 +1636,6 @@ FreeMibTable ‚Å‰ğ•ú‚·‚é‚±‚ÆBƒAƒ‰ƒCƒƒ“ƒg—p‚ÌƒpƒfƒBƒ“ƒO‚ªŠÜ‚Ü‚ê‚é‰Â”\«‚ª‚ ‚éB
 %index
 GetIfTable2Ex
 MIB-II ƒCƒ“ƒ^[ƒtƒFƒCƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB(GetIfTable2Ex)
-%group
-Win32 iphlpapi
 %prm
 Level, Table
 Level : [int] æ“¾‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒXî•ñ‚ÌƒŒƒxƒ‹BMIB_IF_TABLE_LEVEL —ñ‹“‚Ì’l (Netioapi.h ‚Å’è‹`) ‚Ì‚¢‚¸‚ê‚©B
@@ -1784,8 +1662,6 @@ MIB_IF_ROW2 ‚Ì“Œv‚¨‚æ‚Ñó‘Ôƒƒ“ƒo‚Ì•Ô‚µ•û‚É‰e‹¿‚·‚éB—á‚¦‚Î NIC ‚ª MediaConnect
 %index
 GetInterfaceCurrentTimestampCapabilities
 ‚±‚ÌŠÖ”‚ÍƒVƒXƒeƒ€‚Å—\–ñ‚³‚ê‚Ä‚¢‚éBƒ†[ƒU[ƒR[ƒh‚©‚çŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B(GetInterfaceCurrentTimestampCapabilities)
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, TimestampCapabilites
 InterfaceLuid : [var] —\–ñÏ‚İB
@@ -1801,8 +1677,6 @@ TimestampCapabilites : [var] —\–ñÏ‚İB
 %index
 GetInterfaceDnsSettings
 Interface ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì DNS İ’è‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Interface, Settings
 Interface : [int] Œ^: _In_ GUID İ’è‚ğQÆ‚·‚é COM ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì GUIDB
@@ -1817,8 +1691,6 @@ Interface ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì DNS İ’è‚ğæ“¾‚·‚éB
 %index
 GetInterfaceHardwareTimestampCapabilities
 ‚±‚ÌŠÖ”‚ÍƒVƒXƒeƒ€‚Å—\–ñ‚³‚ê‚Ä‚¢‚éBƒ†[ƒU[ƒR[ƒh‚©‚çŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B(GetInterfaceHardwareTimestampCapabilities)
-%group
-Win32 iphlpapi
 %prm
 InterfaceLuid, TimestampCapabilites
 InterfaceLuid : [var] —\–ñÏ‚İB
@@ -1834,8 +1706,6 @@ TimestampCapabilites : [var] —\–ñÏ‚İB
 %index
 GetInterfaceInfo
 GetInterfaceInfo ŠÖ”‚ÍAƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Å IPv4 ‚ª—LŒø‚Èƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒXƒAƒ_ƒvƒ^ˆê——‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pIfTable, dwOutBufLen
 pIfTable : [var] ƒAƒ_ƒvƒ^ˆê——‚ğó‚¯æ‚é IP_INTERFACE_INFO \‘¢‘Ì‚ğw’è‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µŒ³‚ªƒoƒbƒtƒ@‚ğŠm•Û‚·‚é•K—v‚ª‚ ‚éB
@@ -1862,8 +1732,6 @@ IP_ADAPTER_INDEX_MAP ‚Ì Name ƒƒ“ƒo‚ªƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX GUID ‚Ì Unicod
 %index
 GetInvertedIfStackTable
 ƒCƒ“ƒ^[ƒtƒFƒCƒXƒXƒ^ƒbƒNã‚Ìƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŠÖŒW‚ğ¦‚·”½“]ƒCƒ“ƒ^[ƒtƒFƒCƒXƒXƒ^ƒbƒNsƒGƒ“ƒgƒŠƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Table
 Table : [var] ”½“]ƒCƒ“ƒ^[ƒtƒFƒCƒXƒXƒ^ƒbƒNsƒGƒ“ƒgƒŠ‚Ìƒe[ƒuƒ‹‚ğó‚¯æ‚é MIB_INVERTEDIFSTACK_TABLE ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1886,8 +1754,6 @@ HigherLayerInterfaceIndex ‚Í LowerLayerInterfaceIndex
 %index
 GetIpAddrTable
 GetIpAddrTable ŠÖ”‚ÍAƒCƒ“ƒ^[ƒtƒFƒCƒX‚©‚ç IPv4 ƒAƒhƒŒƒX‚Ö‚Ìƒ}ƒbƒsƒ“ƒOƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pIpAddrTable, pdwSize, bOrder
 pIpAddrTable : [var] ƒCƒ“ƒ^[ƒtƒFƒCƒX‚©‚ç IPv4 ƒAƒhƒŒƒX‚Ö‚Ìƒ}ƒbƒsƒ“ƒOƒe[ƒuƒ‹‚ğ MIB_IPADDRTABLE ‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1914,8 +1780,6 @@ Ipmib.h ‚Å’è‹`‚³‚ê‚é (Iprtrmib.h ‚©‚ç©“®ƒCƒ“ƒNƒ‹[ƒhA’¼Úg—p‹Ö~)B
 %index
 GetIpErrorString
 GetIpErrorString ŠÖ”‚ÍAIP Helper ‚ÌƒGƒ‰[•¶š—ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 ErrorCode, Buffer, Size
 ErrorCode : [int] æ“¾‚·‚éƒGƒ‰[ƒR[ƒhBw’è‰Â”\‚È’l‚Í Ipexport.h ‚Å’è‹`‚³‚ê‚éB
@@ -1939,8 +1803,6 @@ PWSTR ‚É•ÏX‚³‚ê‚½B
 %index
 GetIpForwardEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP Œo˜HƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] IP Œo˜HƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_IPFORWARD_ROW2 ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AIP Œo˜HƒGƒ“ƒgƒŠ‚ÌƒvƒƒpƒeƒB‚ÅXV‚³‚ê‚éB
@@ -1964,8 +1826,6 @@ GetIpForwardEntry2 ŠÖ”‚Í Windows Vista ˆÈ~‚Å’è‹`‚³‚ê‚éBMIB_IPFORWARD_ROW2
 %index
 GetIpForwardTable
 GetIpForwardTable ŠÖ”‚ÍAIPv4 ƒ‹[ƒeƒBƒ“ƒOƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pIpForwardTable, pdwSize, bOrder
 pIpForwardTable : [var] IPv4 ƒ‹[ƒeƒBƒ“ƒOƒe[ƒuƒ‹‚ğ MIB_IPFORWARDTABLE ‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -1996,8 +1856,6 @@ IPv4 ƒ‹[ƒeƒBƒ“ƒO‚Åg—p‚³‚ê‚È‚¢B
 %index
 GetIpForwardTable2
 GetIpForwardTable2 ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IP Œo˜HƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table
 Family : [int] æ“¾‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Í“¯‚¶’l (—á: AF_INET ‚Æ PF_INET) ‚È‚Ì‚Å‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à‚æ‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì\¬‚ª•ÏX‚³‚êA‚±‚Ì’l‚Í Ws2def.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -2019,8 +1877,6 @@ AF_UNSPEC ‚Ì‚¢‚¸‚ê‚©BƒAƒNƒZƒX‚ÍƒAƒ‰ƒCƒƒ“ƒg—p‚ÌƒpƒfƒBƒ“ƒO‚ğ‘z’è‚·‚é‚±‚ÆB
 %index
 GetIpInterfaceEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìw’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì IP î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ¬Œ÷‚Éƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXî•ñ‚ğó‚¯æ‚é MIB_IPINTERFACE_ROW ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É InterfaceLuid ‚Ü‚½‚Í InterfaceIndex ‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB
@@ -2047,8 +1903,6 @@ GetBestRoute2 / GetBestRoute
 %index
 GetIpInterfaceTable
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP ƒCƒ“ƒ^[ƒtƒFƒCƒXƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table
 Family : [int] æ“¾‚·‚é IP ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ‚Æ PF_ ‚Í“¯‚¶’lBWindows Vista ˆÈ~‚Å‚Í‚±‚Ì’l‚Í Ws2def.h ‚Å’è‹`‚³‚ê‚é (Winsock2.h ‚©‚ç©“®ƒCƒ“ƒNƒ‹[ƒh)BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -2070,8 +1924,6 @@ AF_INET ‚Ü‚½‚Í AF_INET6 ‚Å‰Šú‰»‚·‚é•K—v‚ª‚ ‚éBƒAƒNƒZƒX‚ÍƒAƒ‰ƒCƒƒ“ƒg—p‚Ìƒpƒf
 %index
 GetIpNetEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_IPNET_ROW2 ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷A‹ß—× IP ƒAƒhƒŒƒX‚ÌƒvƒƒpƒeƒB‚ÅXV‚³‚ê‚éB
@@ -2092,8 +1944,6 @@ GetIpNetEntry2 ŠÖ”‚Í Windows Vista ˆÈ~‚Å’è‹`‚³‚ê‚éBMIB_IPNET_ROW2
 %index
 GetIpNetTable
 GetIpNetTable ŠÖ”‚ÍAIPv4 ‚©‚ç•¨—ƒAƒhƒŒƒX‚Ö‚Ìƒ}ƒbƒsƒ“ƒOƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 IpNetTable, SizePointer, Order
 IpNetTable : [var] IPv4 ‚©‚ç•¨—ƒAƒhƒŒƒX‚Ö‚Ìƒ}ƒbƒsƒ“ƒOƒe[ƒuƒ‹‚ğ MIB_IPNETTABLE ‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2117,8 +1967,6 @@ GetIpNetTable ŠÖ”‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚Ì IPv4 —p ARP ƒGƒ“ƒgƒŠ‚ğ IPv4
 %index
 GetIpNetTable2
 GetIpNetTable2 ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IP ‹ß—×ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table
 Family : [int] æ“¾‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Í“¯‚¶’l (—á: AF_INET ‚Æ PF_INET) ‚È‚Ì‚Å‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à‚æ‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì\¬‚ª•ÏX‚³‚êA‚±‚Ì’l‚Í Ws2def.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -2141,8 +1989,6 @@ FreeMibTable ‚Å‰ğ•ú‚·‚é‚±‚ÆBFamily ‚Í AF_INET / AF_INET6 / AF_UNSPEC
 %index
 GetIpNetworkConnectionBandwidthEstimates
 w’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒlƒbƒgƒ[ƒNÚ‘±‚É‚Â‚¢‚Ä‘Ñˆæ•‚Ì—š—ğ„’è’l‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceIndex, AddressFamily, BandwidthEstimates
 InterfaceIndex : [int] ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒ[ƒJƒ‹ƒCƒ“ƒfƒbƒNƒX’lB–³Œø‰»EÄ—LŒø‰»‚È‚Ç‚É•Ï‚í‚é‚±‚Æ‚ª‚ ‚é‚½‚ß‰i‘±’l‚Æ‚µ‚Äˆµ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
@@ -2168,8 +2014,6 @@ GetIpNetworkConnectionBandwidthEstimates ŠÖ”‚Í Windows 8
 %index
 GetIpPathEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP ƒpƒXƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] IP ƒpƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_IPPATH_ROW ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AIP ƒpƒXƒGƒ“ƒgƒŠ‚ÌƒvƒƒpƒeƒB‚ÅXV‚³‚ê‚éB
@@ -2191,8 +2035,6 @@ InterfaceIndex ‚Ì‚¢‚¸‚ê‚©‚à‰Šú‰»‚·‚é (InterfaceLuid
 %index
 GetIpPathTable
 GetIpPathTable ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IP ƒpƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table
 Family : [int] æ“¾‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Í“¯‚¶’l (—á: AF_INET ‚Æ PF_INET) ‚È‚Ì‚Å‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à‚æ‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì\¬‚ª•ÏX‚³‚êA‚±‚Ì’l‚Í Ws2def.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -2214,8 +2056,6 @@ FreeMibTable ‚Å‰ğ•ú‚·‚é‚±‚ÆBFamily ‚Í AF_INET / AF_INET6 / AF_UNSPEC
 %index
 GetIpStatistics
 GetIpStatistics ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì IP “Œvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IP “Œvî•ñ‚ğó‚¯æ‚é MIB_IPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2234,8 +2074,6 @@ GetIpStatisticsEx ‚Å IPv4 / IPv6 —¼•û‚Ì IP “Œv‚ğæ“¾‚Å‚«‚éB
 %index
 GetIpStatisticsEx
 GetIpStatisticsEx ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì IP (Internet Protocol) “Œvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics, Family
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IP “Œvî•ñ‚ğó‚¯æ‚é MIB_IPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2255,8 +2093,6 @@ IPv4 ‚Ì‚İB
 %index
 GetJobCompartmentId
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 JobHandle
 JobHandle : [intptr] 
@@ -2267,8 +2103,6 @@ JobHandle : [intptr]
 %index
 GetMulticastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌŠù‘¶ƒ}ƒ‹ƒ`ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒ}ƒ‹ƒ`ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ğ•\‚· MIB_MULTICASTIPADDRESS_ROW ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AŠù‘¶‚Ìƒ}ƒ‹ƒ`ƒLƒƒƒXƒg IP ƒAƒhƒŒƒX‚ÌƒvƒƒpƒeƒB‚ÅXV‚³‚ê‚éB
@@ -2290,8 +2124,6 @@ IPv6 ƒAƒhƒŒƒX‚Æƒtƒ@ƒ~ƒŠ‚Å‰Šú‰»‚µAInterfaceLuid ‚Ü‚½‚Í InterfaceIndex ‚Ì‚¢‚¸‚ê‚
 %index
 GetMulticastIpAddressTable
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ìƒ}ƒ‹ƒ`ƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table
 Family : [int] æ“¾‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBw’è‰Â”\‚È’l‚Í Winsock2.h ƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É—ñ‹“‚³‚ê‚Ä‚¢‚éBAF_ ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ’è”‚Æ PF_ ƒvƒƒgƒRƒ‹ƒtƒ@ƒ~ƒŠ’è”‚Í“¯‚¶’l (—á: AF_INET ‚Æ PF_INET) ‚È‚Ì‚Å‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à‚æ‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_ƒtƒ@ƒCƒ‹‚Ì\¬‚ª•ÏX‚³‚êA‚±‚Ì’l‚Í Ws2def.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚½‚ß’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -2314,8 +2146,6 @@ FreeMibTable ‚Å‰ğ•ú‚·‚é‚±‚ÆBFamily ‚Í AF_INET / AF_INET6 / AF_UNSPEC
 %index
 GetNetworkConnectivityHint
 ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âƒT[ƒrƒX‚ª‘ÌŒ±‚·‚é‰Â”\«‚Ì‚‚¢ƒlƒbƒgƒ[ƒNÚ‘±‚ÌWŒvƒŒƒxƒ‹‚ÆƒRƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 ConnectivityHint
 ConnectivityHint : [var] NL_NETWORK_CONNECTIVITY_HINT Œ^‚Ì’l‚Ö‚Ìƒ|ƒCƒ“ƒ^BWŒv‚³‚ê‚½Ú‘±ƒŒƒxƒ‹‚ÆƒRƒXƒgƒqƒ“ƒg‚ªİ’è‚³‚ê‚éB
@@ -2330,8 +2160,6 @@ STATUS_SUCCESSA¸”s‚Í NTSTATUS ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 %index
 GetNetworkConnectivityHintForInterface
 w’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒlƒbƒgƒ[ƒNÚ‘±ƒŒƒxƒ‹‚ÆƒRƒXƒg‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 InterfaceIndex, ConnectivityHint
 InterfaceIndex : [int] Ú‘±î•ñ‚ğæ“¾‚·‚é‘ÎÛƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ¦‚· NET_IFINDEX Œ^‚Ì’lB
@@ -2347,8 +2175,6 @@ STATUS_SUCCESSA¸”s‚Í NTSTATUS ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 %index
 GetNetworkInformation
 «—ˆg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B(GetNetworkInformation)
-%group
-Win32 iphlpapi
 %prm
 NetworkGuid, CompartmentId, SiteId, NetworkName, Length
 NetworkGuid : [var] —\–ñÏ‚İB
@@ -2363,8 +2189,6 @@ Length : [int] —\–ñÏ‚İB
 %index
 GetNetworkParams
 GetNetworkParams ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ìƒlƒbƒgƒ[ƒNƒpƒ‰ƒ[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pFixedInfo, pOutBufLen
 pFixedInfo : [var] ¬Œ÷Aƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ìƒlƒbƒgƒ[ƒNƒpƒ‰ƒ[ƒ^‚ğó‚¯æ‚é FIXED_INFO \‘¢‘Ì‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µŒ³‚Í–‘O‚Éƒoƒbƒtƒ@‚ğŠm•Û‚·‚é•K—v‚ª‚ ‚éB
@@ -2390,8 +2214,6 @@ FIXED_INFO Œ^‚Æ‚µ‚Ä’è‹`‚³‚ê‚éBGetNetworkParams ‚Æ FIXED_INFO \‘¢‘Ì‚Í Windows 9
 %index
 GetNumberOfInterfaces
 GetNumberOfInterfaces ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX”‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pdwNumIf
 pdwNumIf : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX”‚ğó‚¯æ‚é DWORD •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2412,8 +2234,6 @@ GetNumberOfInterfaces
 %index
 GetOwnerModuleFromPidAndInfo
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 ulPid, pInfo, Class, pBuffer, pdwSize
 ulPid : [int] 
@@ -2428,8 +2248,6 @@ pdwSize : [var]
 %index
 GetOwnerModuleFromTcp6Entry
 MIB ƒe[ƒuƒ‹s“à‚Ì“Á’è‚Ì IPv6 TCP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚É‘Î‚µ‚ÄƒRƒ“ƒeƒLƒXƒgƒoƒCƒ“ƒh‚ğ”­s‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pTcpEntry, Class, pBuffer, pdwSize
 pTcpEntry : [var] Š—Lƒ‚ƒWƒ…[ƒ‹‚Ìæ“¾‚É—p‚¢‚é IPv6 TCP ƒGƒ“ƒhƒ|ƒCƒ“ƒgƒGƒ“ƒgƒŠ‚ğŠÜ‚Ş MIB_TCP6ROW_OWNER_MODULE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2463,8 +2281,6 @@ administrator ‚ÅÀs‚³‚ê‚½Šg’£ƒVƒFƒ‹‚©‚ç‹N“®‚·‚é•K—v‚ª‚ ‚éB
 %index
 GetOwnerModuleFromTcpEntry
 MIB ƒe[ƒuƒ‹s“à‚Ì“Á’è‚Ì IPv4 TCP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚É‘Î‚µ‚ÄƒRƒ“ƒeƒLƒXƒgƒoƒCƒ“ƒh‚ğ”­s‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pTcpEntry, Class, pBuffer, pdwSize
 pTcpEntry : [var] Š—Lƒ‚ƒWƒ…[ƒ‹‚Ìæ“¾‚É—p‚¢‚é IPv4 TCP ƒGƒ“ƒhƒ|ƒCƒ“ƒgƒGƒ“ƒgƒŠ‚ğŠÜ‚Ş MIB_TCPROW_OWNER_MODULE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2493,8 +2309,6 @@ requireAdministrator ‚Éİ’è‚³‚ê‚½ƒ}ƒjƒtƒFƒXƒg‚Ü‚½‚Í RunAs administrator Às‚ª•K
 %index
 GetOwnerModuleFromUdp6Entry
 MIB ƒe[ƒuƒ‹s“à‚Ì“Á’è‚Ì IPv6 UDP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚É‘Î‚µ‚ÄƒRƒ“ƒeƒLƒXƒgƒoƒCƒ“ƒh‚ğ”­s‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pUdpEntry, Class, pBuffer, pdwSize
 pUdpEntry : [var] Š—Lƒ‚ƒWƒ…[ƒ‹‚Ìæ“¾‚É—p‚¢‚é IPv6 UDP ƒGƒ“ƒhƒ|ƒCƒ“ƒgƒGƒ“ƒgƒŠ‚ğŠÜ‚Ş MIB_UDP6ROW_OWNER_MODULE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2522,8 +2336,6 @@ requireAdministrator ‚Ü‚½‚Í RunAs administrator
 %index
 GetOwnerModuleFromUdpEntry
 MIB ƒe[ƒuƒ‹s“à‚Ì“Á’è‚Ì IPv4 UDP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚É‘Î‚µ‚ÄƒRƒ“ƒeƒLƒXƒgƒoƒCƒ“ƒh‚ğ”­s‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éƒf[ƒ^‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pUdpEntry, Class, pBuffer, pdwSize
 pUdpEntry : [var] Š—Lƒ‚ƒWƒ…[ƒ‹‚Ìæ“¾‚É—p‚¢‚é IPv4 UDP ƒGƒ“ƒhƒ|ƒCƒ“ƒgƒGƒ“ƒgƒŠ‚ğŠÜ‚Ş MIB_UDPROW_OWNER_MODULE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2551,8 +2363,6 @@ requireAdministrator ‚Ü‚½‚Í RunAs administrator
 %index
 GetPerAdapterInfo
 GetPerAdapterInfo ŠÖ”‚ÍAw’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‘Î‰‚·‚éƒAƒ_ƒvƒ^‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 IfIndex, pPerAdapterInfo, pOutBufLen
 IfIndex : [int] ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒXBGetPerAdapterInfo ŠÖ”‚Í‚±‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‘Î‰‚·‚éƒAƒ_ƒvƒ^‚Ìî•ñ‚ğæ“¾‚·‚éB
@@ -2572,8 +2382,6 @@ GetPerAdapterInfo ŠÖ”‚ÍAw’èƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‘Î‰‚·‚éƒAƒ_ƒvƒ^‚Ìî•ñ‚ğæ“¾‚·‚é
 %index
 GetPerTcp6ConnectionEStats
 IPv6 TCP Ú‘±‚ÌŠg’£“Œvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Ros, RosVersion, RosSize, Rod, RodVersion, RodSize
 Row : [var] IPv6 TCP Ú‘±‚Ì MIB_TCP6ROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2617,8 +2425,6 @@ GetPerTcp6ConnectionEStats ‚ÍŠg’£“Œv‚Å‚Í‚È‚­–³ˆÓ–¡‚Èƒ‰ƒ“ƒ_ƒ€ƒf[ƒ^‚ğ•Ô‚·‚±‚Æ‚ª‚
 %index
 GetPerTcpConnectionEStats
 IPv4 TCP Ú‘±‚ÌŠg’£“Œvî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Ros, RosVersion, RosSize, Rod, RodVersion, RodSize
 Row : [var] IPv4 TCP Ú‘±‚Ì MIB_TCPROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2659,8 +2465,6 @@ Rod ‚Ìƒf[ƒ^‚ğ–³‹‚·‚é‚×‚«‚ÅAFALSE ‚Ìê‡ Ros / Rod ‚Ì“à—e‚Í–¢’è‹`‚Å‚ ‚éB
 %index
 GetRTTAndHopCount
 GetRTTAndHopCount ŠÖ”‚ÍAw’è‚µ‚½ˆ¶æ‚Ü‚Å‚Ì RTT (ƒ‰ƒEƒ“ƒhƒgƒŠƒbƒvŠÔ) ‚Æƒzƒbƒv”‚ğ”»’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 DestIpAddress, HopCount, MaxHops, RTT
 DestIpAddress : [int] RTT ‚Æƒzƒbƒv”‚ğ”»’è‚·‚éˆ¶æ‚Ì IP ƒAƒhƒŒƒXBIPAddr \‘¢‘Ì‚ÌŒ`®‚Åw’è‚·‚éB
@@ -2682,8 +2486,6 @@ IPAddr ƒf[ƒ^Œ^‚É‚Â‚¢‚Ä‚Í Windows ƒf[ƒ^Œ^‚ğQÆBIP ƒAƒhƒŒƒX‚ğƒhƒbƒg‹æØ‚è 10 
 %index
 GetSessionCompartmentId
 «—ˆ‚Ìg—p‚Ì‚½‚ß—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢‚±‚ÆB(GetSessionCompartmentId)
-%group
-Win32 iphlpapi
 %prm
 SessionId
 SessionId : [int] —\–ñÏ‚İB
@@ -2694,8 +2496,6 @@ SessionId : [int] —\–ñÏ‚İB
 %index
 GetTcp6Table
 IPv6 ‚Ì TCP Ú‘±ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB(GetTcp6Table)
-%group
-Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
 TcpTable : [var] IPv6 ‚Ì TCP Ú‘±ƒe[ƒuƒ‹‚ğ MIB_TCP6TABLE \‘¢‘Ì‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2715,8 +2515,6 @@ GetTcp6Table ŠÖ”‚Í Windows Vista ˆÈ~‚Å’è‹`‚³‚ê‚éB
 %index
 GetTcp6Table2
 IPv6 ‚Ì TCP Ú‘±ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB(GetTcp6Table2)
-%group
-Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
 TcpTable : [var] IPv6 ‚Ì TCP Ú‘±ƒe[ƒuƒ‹‚ğ MIB_TCP6TABLE2 \‘¢‘Ì‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2737,8 +2535,6 @@ TCP ƒIƒtƒ[ƒhó‘Ô‚ÉŠÖ‚·‚éî•ñ‚àæ“¾‚·‚éB
 %index
 GetTcpStatistics
 GetTcpStatistics ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì TCP “Œv‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì TCP “Œv‚ğó‚¯æ‚é MIB_TCPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2757,8 +2553,6 @@ GetTcpStatistics ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì IPv4 Œü‚¯ TCP “Œv‚ğ•Ô‚·BWindows 
 %index
 GetTcpStatisticsEx
 GetTcpStatisticsEx ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì TCP (Transmission Control Protocol) “Œv‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics, Family
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì TCP “Œv‚ğó‚¯æ‚é MIB_TCPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2775,8 +2569,6 @@ GetTcpStatisticsEx ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì TCP (Transmission Control Protoc
 %index
 GetTcpStatisticsEx2
 GetTcpStatisticsEx2 ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì TCP (Transmission Control Protocol) “Œv‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics, Family
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì TCP “Œv‚ğó‚¯æ‚é MIB_TCPSTATS2 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2793,8 +2585,6 @@ Protocol) “Œv‚ğæ“¾‚·‚éB
 %index
 GetTcpTable
 IPv4 ‚Ì TCP Ú‘±ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB(GetTcpTable)
-%group
-Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
 TcpTable : [var] TCP Ú‘±ƒe[ƒuƒ‹‚ğ MIB_TCPTABLE \‘¢‘Ì‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2815,8 +2605,6 @@ Windows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚ÍAGetTcpTable ŠÖ”‚Ì–ß‚è’l‚Ìƒf[ƒ^Œ^‚Í 
 %index
 GetTcpTable2
 IPv4 ‚Ì TCP Ú‘±ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB(GetTcpTable2)
-%group
-Win32 iphlpapi
 %prm
 TcpTable, SizePointer, Order
 TcpTable : [var] TCP Ú‘±ƒe[ƒuƒ‹‚ğ MIB_TCPTABLE2 \‘¢‘Ì‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2837,8 +2625,6 @@ TCP ƒIƒtƒ[ƒhó‘Ô‚ÉŠÖ‚·‚éî•ñ‚àæ“¾‚·‚éB
 %index
 GetTeredoPort
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Å Teredo ƒNƒ‰ƒCƒAƒ“ƒg‚ªg—p‚µ‚Ä‚¢‚é“®“I UDP ƒ|[ƒg”Ô†‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Port
 Port : [var] UDP ƒ|[ƒg”Ô†‚Ö‚Ìƒ|ƒCƒ“ƒ^B³íI—¹A‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í Teredo ƒNƒ‰ƒCƒAƒ“ƒg‚ªg—p‚·‚éƒ|[ƒg”Ô†‚ªŠi”[‚³‚ê‚éB
@@ -2862,8 +2648,6 @@ UDP ƒ|[ƒg 3544 ‚àg—p‚·‚éBGetTeredoPort ‚Íå‚Éƒtƒ@ƒCƒAƒEƒH[ƒ‹ƒAƒvƒŠƒP[ƒVƒ‡ƒ“
 %index
 GetUdp6Table
 IPv6 ‚Ì UDP (User Datagram Protocol) ƒŠƒXƒi[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Udp6Table, SizePointer, Order
 Udp6Table : [var] IPv6 UDP ƒŠƒXƒi[ƒe[ƒuƒ‹‚ğ MIB_UDP6TABLE \‘¢‘Ì‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2883,8 +2667,6 @@ GetUdp6Table ŠÖ”‚Í Windows Vista ˆÈ~‚Å’è‹`‚³‚ê‚éB
 %index
 GetUdpStatistics
 GetUdpStatistics ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì UDP (User Datagram Protocol) “Œv‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Stats
 Stats : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì UDP “Œv‚ğó‚¯æ‚é MIB_UDPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2904,8 +2686,6 @@ GetUdpStatisticsEx ‚ğg—p‚·‚é‚±‚ÆB
 %index
 GetUdpStatisticsEx
 GetUdpStatisticsEx ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì UDP “Œv‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics, Family
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì UDP “Œv‚ğó‚¯æ‚é MIB_UDPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2921,8 +2701,6 @@ GetUdpStatisticsEx ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì UDP “Œv‚ğæ“¾‚·‚éB
 %index
 GetUdpStatisticsEx2
 GetUdpStatisticsEx2 ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì UDP “Œv‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics, Family
 Statistics : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì UDP “Œv‚ğó‚¯æ‚é MIB_UDPSTATS2 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2938,8 +2716,6 @@ GetUdpStatisticsEx2 ŠÖ”‚ÍAŒ»İ‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ì UDP “Œv‚ğæ“¾‚·‚éB
 %index
 GetUdpTable
 IPv4 ‚Ì UDP (User Datagram Protocol) ƒŠƒXƒi[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 UdpTable, SizePointer, Order
 UdpTable : [var] IPv4 UDP ƒŠƒXƒi[ƒe[ƒuƒ‹‚ğ MIB_UDPTABLE \‘¢‘Ì‚Æ‚µ‚Äó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2960,8 +2736,6 @@ Windows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚ÍAGetUdpTable ŠÖ”‚Ì–ß‚è’l‚Ìƒf[ƒ^Œ^‚Í 
 %index
 GetUniDirectionalAdapterInfo
 GetUniDirectionalAdapterInfo ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é’P•ûŒüƒAƒ_ƒvƒ^‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB’P•ûŒüƒAƒ_ƒvƒ^‚Æ‚ÍAƒf[ƒ^ƒOƒ‰ƒ€‚ğóM‚Å‚«‚é‚ª‘—M‚Í‚Å‚«‚È‚¢ƒAƒ_ƒvƒ^‚Å‚ ‚éB
-%group
-Win32 iphlpapi
 %prm
 pIPIfInfo, dwOutBufLen
 pIPIfInfo : [var] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é’P•ûŒüƒAƒ_ƒvƒ^‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é IP_UNIDIRECTIONAL_ADAPTER_ADDRESS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -2978,8 +2752,6 @@ GetUniDirectionalAdapterInfo
 %index
 GetUnicastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌŠù‘¶‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì MIB_UNICASTIPADDRESS_ROW \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B³íI—¹A‚±‚Ì\‘¢‘Ì‚ÍŠù‘¶‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒX‚ÌƒvƒƒpƒeƒB‚ÅXV‚³‚ê‚éB
@@ -3009,8 +2781,6 @@ InterfaceIndex ‚Ì‚¢‚¸‚ê‚©‚ğ‰Šú‰»‚·‚é•K—v‚ª‚ ‚éBƒtƒB[ƒ‹ƒh‚Í—ñ‹“‡‚Ég—p‚³‚ê‚é
 %index
 GetUnicastIpAddressTable
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table
 Family : [int] æ“¾‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì’l‚Í Winsock2.h ƒwƒbƒ_‚Å’è‹`‚³‚ê‚éBAF_ ‚Æ PF_ ‚Ì’è”‚Í“™‰¿ (—á: AF_INET ‚Æ PF_INET) ‚Å‚ ‚èA‚Ç‚¿‚ç‚ğg‚Á‚Ä‚à\‚í‚È‚¢BWindows Vista ˆÈ~Œü‚¯‚Ì Windows SDK ‚Å‚Íƒwƒbƒ_\¬‚ª•ÏX‚³‚êA‚±‚ê‚ç‚Ì’l‚Í Ws2def.h ‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®“I‚ÉƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚Ì‚ÅA’¼ÚƒCƒ“ƒNƒ‹[ƒh‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -3035,8 +2805,6 @@ FreeMibTable ‚Åƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éBFamily ‚Í AF_INETAAF_INET6AAF_UNSPEC
 %index
 Icmp6CreateFile
 Icmp6CreateFile ŠÖ”‚ÍAIPv6 ICMP ƒGƒR[—v‹‚ğ”­s‚Å‚«‚éƒnƒ“ƒhƒ‹‚ğƒI[ƒvƒ“‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 
 %inst
@@ -3058,8 +2826,6 @@ Icmpapi.h ‚æ‚è‘O‚É’u‚©‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 Icmp6ParseReplies
 Icmp6ParseReplies ŠÖ”‚ÍA—^‚¦‚ç‚ê‚½‰“šƒoƒbƒtƒ@‚ğ‰ğÍ‚µAIPv6 ICMPv6 ƒGƒR[‰“š‚ğ•Ô‚·B
-%group
-Win32 iphlpapi
 %prm
 ReplyBuffer, ReplySize
 ReplyBuffer : [intptr] Icmp6SendEcho2 ŠÖ”‚É“n‚µ‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í‰“š‚ğ•Û‚·‚é ICMPV6_ECHO_REPLY \‘¢‘Ì‚ğw‚·B
@@ -3085,8 +2851,6 @@ IcmpSendEcho / IcmpSendEcho2 ‚Ì‰“šƒoƒbƒtƒ@‚É‚Íg—p‚Å‚«‚È‚¢BIPv4 ‚Ìê‡‚Í IcmpC
 %index
 Icmp6SendEcho2
 Icmp6SendEcho2 ŠÖ”‚Í IPv6 ICMPv6 ƒGƒR[—v‹‚ğ‘—M‚µAEvent ‚Ü‚½‚Í ApcRoutine ‚ª NULL ˆÈŠO‚È‚ç‘¦À‚ÉA‚»‚¤‚Å‚È‚¯‚ê‚Îw’è‚µ‚½ƒ^ƒCƒ€ƒAƒEƒgŒã‚É•Ô‚éBReplyBuffer ‚É‚Í IPv6 ICMPv6 ƒGƒR[‰“š‚ªŠi”[‚³‚ê‚éB
-%group
-Win32 iphlpapi
 %prm
 IcmpHandle, Event, ApcRoutine, ApcContext, SourceAddress, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
 IcmpHandle : [intptr] Icmp6CreateFile ‚ª•Ô‚µ‚½ƒI[ƒvƒ“ƒnƒ“ƒhƒ‹B
@@ -3129,8 +2893,6 @@ Icmpapi.h ‚ğƒCƒ“ƒNƒ‹[ƒh‚·‚é‘O‚É PIO_APC_ROUTINE_DEFINED ‚ğ’è‹`‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚
 %index
 IcmpCloseHandle
 IcmpCloseHandle ŠÖ”‚ÍAIcmpCreateFile ‚Ü‚½‚Í Icmp6CreateFile ‚ÅƒI[ƒvƒ“‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 IcmpHandle
 IcmpHandle : [intptr] ƒNƒ[ƒY‚·‚éƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í IcmpCreateFile ‚Ü‚½‚Í Icmp6CreateFile ‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -3154,8 +2916,6 @@ Icmp.dll ‚ğŠm”F‚·‚é‚×‚«‚Å‚ ‚éBIphlpapi.h ‚Ì include w—ß‚Í Icmpapi.h ‚æ‚è‘O‚É’u
 %index
 IcmpCreateFile
 IcmpCreateFile ŠÖ”‚ÍAIPv4 ICMP ƒGƒR[—v‹‚ğ”­s‚Å‚«‚éƒnƒ“ƒhƒ‹‚ğƒI[ƒvƒ“‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 
 %inst
@@ -3178,8 +2938,6 @@ Icmpapi.h ‚æ‚è‘O‚É’u‚­‚±‚ÆB
 %index
 IcmpParseReplies
 —^‚¦‚ç‚ê‚½‰“šƒoƒbƒtƒ@‚ğ‰ğÍ‚µAŒ©‚Â‚©‚Á‚½ ICMP ƒGƒR[—v‹‰“š‚Ì”‚ğ•Ô‚·B
-%group
-Win32 iphlpapi
 %prm
 ReplyBuffer, ReplySize
 ReplyBuffer : [intptr] IcmpSendEcho2 ‚É“n‚µ‚½ƒoƒbƒtƒ@B‚±‚Ìƒoƒbƒtƒ@‚Í ICMP_ECHO_REPLY \‘¢‘Ì (PICMP_ECHO_REPLY Œ^) ‚Ì”z—ñ‚ğ•Û‚·‚é‚æ‚¤‘‚«Š·‚¦‚ç‚ê‚éB64 ƒrƒbƒgƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Å‚Í ICMP_ECHO_REPLY32 (PICMP_ECHO_REPLY32 Œ^) ‚Ì”z—ñ‚Æ‚µ‚Ä‘‚«Š·‚¦‚ç‚ê‚éB
@@ -3204,8 +2962,6 @@ IcmpParseReplies ‚ª‚ ‚é‚©‚ğŠm”F‚µA‚È‚¯‚ê‚Î Icmp.dll ‚ğŠm”F‚·‚éBIphlpapi.h ‚Ì i
 %index
 IcmpSendEcho
 IcmpSendEcho ŠÖ”‚Í IPv4 ICMP ƒGƒR[—v‹‚ğ‘—M‚µAƒGƒR[‰“š‚ğ•Ô‚·Bƒ^ƒCƒ€ƒAƒEƒg‚©‰“šƒoƒbƒtƒ@‚ª–„‚Ü‚Á‚½“_‚ÅŠÖ”‚Í–ß‚éB
-%group
-Win32 iphlpapi
 %prm
 IcmpHandle, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
 IcmpHandle : [intptr] IcmpCreateFile ŠÖ”‚ª•Ô‚µ‚½ƒI[ƒvƒ“ƒnƒ“ƒhƒ‹B
@@ -3242,8 +2998,6 @@ Icmpapi.h ‚æ‚è‘O‚É’u‚­‚±‚ÆB
 %index
 IcmpSendEcho2
 IcmpSendEcho2 ŠÖ”‚Í IPv4 ICMP ƒGƒR[—v‹‚ğ‘—M‚µAEvent ‚Ü‚½‚Í ApcRoutine ‚ª NULL ˆÈŠO‚È‚ç‘¦À‚ÉA‚»‚¤‚Å‚È‚¯‚ê‚Îw’è‚µ‚½ƒ^ƒCƒ€ƒAƒEƒgŒã‚É•Ô‚éBReplyBuffer ‚É‚Í ICMP ƒGƒR[‰“š‚ªŠi”[‚³‚ê‚éB
-%group
-Win32 iphlpapi
 %prm
 IcmpHandle, Event, ApcRoutine, ApcContext, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
 IcmpHandle : [intptr] IcmpCreateFile ŠÖ”‚ª•Ô‚µ‚½ƒI[ƒvƒ“ƒnƒ“ƒhƒ‹B
@@ -3290,8 +3044,6 @@ PIO_APC_ROUTINE ‚É‚·‚é‚½‚ß Icmpapi.h ‚ğƒCƒ“ƒNƒ‹[ƒh‚·‚é‘O‚É PIO_APC_ROUTINE_DEFI
 %index
 IcmpSendEcho2Ex
 IPv4 ICMP ƒGƒR[—v‹‚ğ‘—M‚µAEvent ‚Ü‚½‚Í ApcRoutine ‚ª NULL ˆÈŠO‚È‚ç‘¦À‚ÉA‚»‚¤‚Å‚È‚¯‚ê‚Îw’è‚µ‚½ƒ^ƒCƒ€ƒAƒEƒgŒã‚É•Ô‚éBReplyBuffer ‚É‚Í ICMP ‰“š‚ªŠi”[‚³‚ê‚éB
-%group
-Win32 iphlpapi
 %prm
 IcmpHandle, Event, ApcRoutine, ApcContext, SourceAddress, DestinationAddress, RequestData, RequestSize, RequestOptions, ReplyBuffer, ReplySize, Timeout
 IcmpHandle : [intptr] IcmpCreateFile ŠÖ”‚ª•Ô‚µ‚½ƒI[ƒvƒ“ƒnƒ“ƒhƒ‹B
@@ -3335,8 +3087,6 @@ Icmpapi.h ‚ÌƒCƒ“ƒNƒ‹[ƒh‘O‚É PIO_APC_ROUTINE_DEFINED ‚ğ’è‹`‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %index
 InitializeIpForwardEntry
 MIB_IPFORWARD_ROW2 \‘¢‘Ì‚ğAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP Œo˜HƒGƒ“ƒgƒŠ‚ÌŠù’è’l‚Å‰Šú‰»‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] “ü—ÍAIP Œo˜HƒGƒ“ƒgƒŠ‚Ì MIB_IPFORWARD_ROW2 \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–ß‚èA‚±‚Ìƒ|ƒCƒ“ƒ^‚ªw‚·\‘¢‘Ì‚Í IP Œo˜HƒGƒ“ƒgƒŠ‚ÌŠù’è’l‚Å‰Šú‰»‚³‚ê‚éB
@@ -3360,8 +3110,6 @@ IP Œo˜HƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚Å‚«‚éB
 %index
 InitializeIpInterfaceEntry
 MIB_IPINTERFACE_ROW ƒGƒ“ƒgƒŠ‚Ìƒƒ“ƒo‚ğŠù’è’l‚Å‰Šú‰»‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ‰Šú‰»‚·‚é MIB_IPINTERFACE_ROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B³íI—¹A‚±‚ÌƒtƒB[ƒ‹ƒh‚Íƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŠù’èî•ñ‚Å‰Šú‰»‚³‚ê‚éB
@@ -3381,8 +3129,6 @@ Family ƒƒ“ƒo‚Í AF_UNSPEC ‚ÉAInterfaceLuid ‚Í–¢w’è’l‚ÉA‚»‚Ì‘¼‚Í 0
 %index
 InitializeUnicastIpAddressEntry
 MIB_UNICASTIPADDRESS_ROW \‘¢‘Ì‚ğAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ÌŠù’è’l‚Å‰Šú‰»‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] “ü—ÍAƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì MIB_UNICASTIPADDRESS_ROW \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–ß‚èA‚±‚Ìƒ|ƒCƒ“ƒ^‚ªw‚·\‘¢‘Ì‚Íƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒX‚ÌŠù’è’l‚Å‰Šú‰»‚³‚ê‚éB
@@ -3408,8 +3154,6 @@ IpPrefixOriginUnchanged ‚ÉASuffixOrigin ‚Í IpSuffixOriginUnchanged
 %index
 IpReleaseAddress
 IpReleaseAddress ŠÖ”‚ÍADHCP ‚ÅˆÈ‘O‚Éæ“¾‚µ‚½ IPv4 ƒAƒhƒŒƒX‚ğ‰ğ•ú‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 AdapterInfo
 AdapterInfo : [var] ‰ğ•ú‚·‚é IPv4 ƒAƒhƒŒƒX‚ÉŠÖ˜A‚·‚éƒAƒ_ƒvƒ^‚ğw’è‚·‚é IP_ADAPTER_INDEX_MAP \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3437,8 +3181,6 @@ ipconfig /release6 ipconfig /renew6
 %index
 IpRenewAddress
 IpRenewAddress ŠÖ”‚ÍADHCP ‚ÅˆÈ‘O‚Éæ“¾‚µ‚½ IPv4 ƒAƒhƒŒƒX‚ÌƒŠ[ƒX‚ğXV‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 AdapterInfo
 AdapterInfo : [var] XV‚·‚é IP ƒAƒhƒŒƒX‚ÉŠÖ˜A‚·‚éƒAƒ_ƒvƒ^‚ğw’è‚·‚é IP_ADAPTER_INDEX_MAP \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3465,8 +3207,6 @@ ipconfig /release6 ipconfig /renew6
 %index
 LookupPersistentTcpPortReservation
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì˜A‘±‚·‚é TCP ƒ|[ƒgƒuƒƒbƒN‚É‘Î‚·‚é‰i‘±“I‚È TCP ƒ|[ƒg—\–ñ‚Ìƒg[ƒNƒ“‚ğŒŸõ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
 StartPort : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒg‡‚Å‚ÌŠJn TCP ƒ|[ƒg”Ô†B
@@ -3494,8 +3234,6 @@ SIO_ASSOCIATE_PORT_RESERVATION IOCTL ‚Æ—\–ñƒg[ƒNƒ“‚ğ“n‚·‚±‚Æ‚ÅATCP
 %index
 LookupPersistentUdpPortReservation
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì˜A‘±‚·‚é UDP ƒ|[ƒgƒuƒƒbƒN‚É‘Î‚·‚é‰i‘±“I‚È UDP ƒ|[ƒg—\–ñ‚Ìƒg[ƒNƒ“‚ğŒŸõ‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 StartPort, NumberOfPorts, Token
 StartPort : [int] ƒlƒbƒgƒ[ƒNƒoƒCƒg‡‚Å‚ÌŠJn UDP ƒ|[ƒg”Ô†B
@@ -3522,8 +3260,6 @@ SIO_ASSOCIATE_PORT_RESERVATION IOCTL ‚Æ—\–ñƒg[ƒNƒ“‚ğ“n‚·‚±‚Æ‚ÅAUDP
 %index
 NhpAllocateAndGetInterfaceInfoFromStack
 NhpAllocateAndGetInterfaceInfoFromStack ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌƒAƒ_ƒvƒ^î•ñ‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 ppTable, pdwCount, bOrder, hHeap, dwFlags
 ppTable : [var] ƒ[ƒJƒ‹ƒVƒXƒeƒ€ã‚ÌŠeƒAƒ_ƒvƒ^‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş IP_INTERFACE_NAME_INFO \‘¢‘Ì‚Ì”z—ñBƒVƒXƒeƒ€ã‚ÌƒAƒ_ƒvƒ^‚²‚Æ‚É—v‘f‚ª 1 ‚ÂŠÜ‚Ü‚ê‚éB
@@ -3547,8 +3283,6 @@ Windows 2000 SP1 ˆÈ~‚Å’è‹`‚³‚ê‚éBƒ^[ƒQƒbƒgƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ª Windows 2000 SP1
 %index
 NotifyAddrChange
 NotifyAddrChange ŠÖ”‚ÍAIPv4 ƒAƒhƒŒƒX‚ÆƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì‘Î‰ƒe[ƒuƒ‹‚É•ÏX‚ª”­¶‚µ‚½‚Æ‚«AŒÄ‚Ño‚µŒ³‚É’Ê’m‚ğ‘—‚ç‚¹‚éB
-%group
-Win32 iphlpapi
 %prm
 Handle, overlapped
 Handle : [intptr] Œã‘±‚Ì GetOverlappedResult ŒÄ‚Ño‚µ‚Åg—p‚·‚éƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é HANDLE •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒx: ‚±‚Ìƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚µ‚Ä‚Í‚È‚ç‚¸A‚Ü‚½Š®—¹ƒ|[ƒg‚ÉŠÖ˜A•t‚¯‚Ä‚à‚È‚ç‚È‚¢B
@@ -3571,8 +3305,6 @@ NotifyAddrChange ŠÖ”‚ÍAIPv4
 %index
 NotifyIfTimestampConfigChange
 ‚±‚ÌŠÖ”‚ÍƒVƒXƒeƒ€—p‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ†[ƒU‚ÌƒR[ƒh‚©‚çŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B(NotifyIfTimestampConfigChange)
-%group
-Win32 iphlpapi
 %prm
 CallerContext, Callback, NotificationHandle
 CallerContext : [intptr] —\–ñÏ‚İB
@@ -3589,8 +3321,6 @@ NotificationHandle : [intptr] —\–ñÏ‚İB
 %index
 NotifyIpInterfaceChange
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì‚·‚×‚Ä‚Ì IP ƒCƒ“ƒ^[ƒtƒFƒCƒXAIPv4 ƒCƒ“ƒ^[ƒtƒFƒCƒXAIPv6 ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì•ÏX’Ê’m‚ğ“o˜^‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Callback, CallerContext, InitialNotification, NotificationHandle
 Family : [int] •ÏX’Ê’m‚ğ“o˜^‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì’l‚Í Winsock2.h ‚Å’è‹`‚³‚ê‚éBAF_ ‚Æ PF_ ‚Ì’è”‚Í“™‰¿ (—á: AF_INET ‚Æ PF_INET) ‚Å‚ ‚éBWindows Vista ˆÈ~Œü‚¯ SDK ‚Å‚Í Ws2def.h ‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚Ì‚Å’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -3615,8 +3345,6 @@ AF_INETAAF_INET6AAF_UNSPEC ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BCallback
 %index
 NotifyNetworkConnectivityHintChange
 ‘‡ƒlƒbƒgƒ[ƒNÚ‘±ƒŒƒxƒ‹‚¨‚æ‚ÑƒRƒXƒgƒqƒ“ƒg‚ª•ÏX‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Callback, CallerContext, InitialNotification, NotificationHandle
 Callback : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğw‚· PNETWORK_CONNECTIVITY_HINT_CHANGE_CALLBACK Œ^‚ÌŠÖ”ƒ|ƒCƒ“ƒ^Bƒlƒbƒgƒ[ƒNÚ‘±ƒŒƒxƒ‹‚Ü‚½‚ÍƒRƒXƒg•ÏX‚ÉŒÄ‚Ño‚³‚ê‚éB
@@ -3637,8 +3365,6 @@ NotificationHandle ‚ğ“n‚µ‚Ä CancelMibChangeNotify2 ŠÖ”‚ğŒÄ‚Ño‚·B
 %index
 NotifyRouteChange
 NotifyRouteChange ŠÖ”‚ÍAIPv4 ƒ‹[ƒeƒBƒ“ƒOƒe[ƒuƒ‹‚É•ÏX‚ª”­¶‚µ‚½‚Æ‚«AŒÄ‚Ño‚µŒ³‚É’Ê’m‚ğ‘—‚ç‚¹‚éB
-%group
-Win32 iphlpapi
 %prm
 Handle, overlapped
 Handle : [intptr] ”ñ“¯Šú’Ê’m‚Åg—p‚·‚éƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é HANDLE •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3660,8 +3386,6 @@ NotifyRouteChange ŠÖ”‚ÍAIPv4 ƒ‹[ƒeƒBƒ“ƒOƒe[ƒuƒ‹‚É•ÏX‚ª”­¶‚µ‚½‚Æ‚«AŒÄ‚Ño‚
 %index
 NotifyRouteChange2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP Œo˜HƒGƒ“ƒgƒŠ‚Ì•ÏX’Ê’m‚ğ“o˜^‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 AddressFamily, Callback, CallerContext, InitialNotification, NotificationHandle
 AddressFamily : [int] •ÏX’Ê’m‚ğ“o˜^‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì’l‚Í Winsock2.h ‚Å’è‹`‚³‚ê‚éBAF_ ‚Æ PF_ ‚Ì’è”‚Í“™‰¿ (—á: AF_INET ‚Æ PF_INET) ‚Å‚ ‚éBWindows Vista ˆÈ~Œü‚¯ SDK ‚Å‚Í Ws2def.h ‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚Ì‚Å’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -3686,8 +3410,6 @@ AF_INETAAF_INET6AAF_UNSPEC ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BCallback
 %index
 NotifyStableUnicastIpAddressTable
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌˆÀ’è‚µ‚½ƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Table, CallerCallback, CallerContext, NotificationHandle
 Family : [int] æ“¾‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì’l‚Í Winsock2.h ‚Å’è‹`‚³‚ê‚éBAF_ ‚Æ PF_ ‚Ì’è”‚Í“™‰¿ (—á: AF_INET ‚Æ PF_INET) ‚Å‚ ‚éBWindows Vista ˆÈ~Œü‚¯ SDK ‚Å‚Í Ws2def.h ‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚Ì‚Å’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -3724,8 +3446,6 @@ ERROR_IO_PENDING ‚ğ•Ô‚µAŒã‚Å CallerCallback ‚ğ‰î‚µ‚Äƒe[ƒuƒ‹‚ª•Ô‚³‚ê‚éBTeredo
 %index
 NotifyTeredoPortChange
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Å Teredo ƒNƒ‰ƒCƒAƒ“ƒg‚ª Teredo ƒT[ƒrƒXƒ|[ƒg‚É—p‚¢‚é UDP ƒ|[ƒg”Ô†‚Ì•ÏX’Ê’m‚ğ“o˜^‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Callback, CallerContext, InitialNotification, NotificationHandle
 Callback : [int] Teredo ƒNƒ‰ƒCƒAƒ“ƒg‚Ìƒ|[ƒg•ÏX‚ÉŒÄ‚Ño‚·ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BTeredo ƒ|[ƒg•ÏX’Ê’móM‚É‹N“®‚³‚ê‚éB
@@ -3751,8 +3471,6 @@ Teredo ƒNƒ‰ƒCƒAƒ“ƒg‚ªg—p‚·‚é‰Šú UDP ƒ|[ƒg”Ô†‚ğæ“¾‚Å‚«‚éBTeredo
 %index
 NotifyUnicastIpAddressChange
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì‚·‚×‚Ä‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒCƒ“ƒ^[ƒtƒFƒCƒXAƒ†ƒjƒLƒƒƒXƒg IPv4 ƒAƒhƒŒƒXAƒ†ƒjƒLƒƒƒXƒg IPv6 ƒAƒhƒŒƒX‚Ì•ÏX’Ê’m‚ğ“o˜^‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Family, Callback, CallerContext, InitialNotification, NotificationHandle
 Family : [int] •ÏX’Ê’m‚ğ“o˜^‚·‚éƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠBƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚Ì’l‚Í Winsock2.h ‚Å’è‹`‚³‚ê‚éBAF_ ‚Æ PF_ ‚Ì’è”‚Í“™‰¿ (—á: AF_INET ‚Æ PF_INET) ‚Å‚ ‚éBWindows Vista ˆÈ~Œü‚¯ SDK ‚Å‚Í Ws2def.h ‚Å’è‹`‚³‚ê‚éBWs2def.h ‚Í Winsock2.h ‚©‚ç©“®ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚é‚Ì‚Å’¼Úg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BŒ»İƒTƒ|[ƒg‚³‚ê‚é’l‚Í AF_INETAAF_INET6AAF_UNSPEC ‚Å‚ ‚éB
@@ -3778,8 +3496,6 @@ AF_INETAAF_INET6AAF_UNSPEC ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BCallback
 %index
 ParseNetworkString
 “ü—Íƒlƒbƒgƒ[ƒN•¶š—ñ‚ğ‰ğÍ‚µAw’è‚µ‚½ IP ƒlƒbƒgƒ[ƒN•¶š—ñŒ^‚Ì³“–‚È•\Œ»‚Å‚ ‚é‚©‚ğŠm”F‚·‚éBˆê’v‚·‚ê‚Î”CˆÓ‚Å‰ğÍŒ‹‰Ê‚ğ•Ô‚¹‚éB
-%group
-Win32 iphlpapi
 %prm
 NetworkString, Types, AddressInfo, PortNumber, PrefixLength
 NetworkString : [wstr] ‰ğÍ‚·‚é NULL I’[‚Ìƒlƒbƒgƒ[ƒN•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -3808,8 +3524,6 @@ Ws2def.h (Winsock2.h ‚©‚ç©“®ƒCƒ“ƒNƒ‹[ƒh) ‚Å’è‹`‚³‚ê‚éBSOCKADDR_IN6 ‚Í Ws2ipde
 %index
 PfAddFiltersToInterface
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 ih, cInFilters, pfiltIn, cOutFilters, pfiltOut, pfHandle
 ih : [intptr] 
@@ -3825,8 +3539,6 @@ pfHandle : [var]
 %index
 PfAddGlobalFilterToInterface
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface, gfFilter
 pInterface : [intptr] 
@@ -3838,8 +3550,6 @@ gfFilter : [int]
 %index
 PfBindInterfaceToIPAddress
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface, pfatType, IPAddress
 pInterface : [intptr] 
@@ -3852,8 +3562,6 @@ IPAddress : [var]
 %index
 PfBindInterfaceToIndex
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface, dwIndex, pfatLinkType, LinkIPAddress
 pInterface : [intptr] 
@@ -3867,8 +3575,6 @@ LinkIPAddress : [var]
 %index
 PfCreateInterface
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 dwName, inAction, outAction, bUseLog, bMustBeUnique, ppInterface
 dwName : [int] 
@@ -3884,8 +3590,6 @@ ppInterface : [var]
 %index
 PfDeleteInterface
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface
 pInterface : [intptr] 
@@ -3896,8 +3600,6 @@ pInterface : [intptr]
 %index
 PfDeleteLog
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 
 %inst
@@ -3907,8 +3609,6 @@ Win32 iphlpapi
 %index
 PfGetInterfaceStatistics
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface, ppfStats, pdwBufferSize, fResetCounters
 pInterface : [intptr] 
@@ -3922,8 +3622,6 @@ fResetCounters : [int]
 %index
 PfMakeLog
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 hEvent
 hEvent : [intptr] 
@@ -3934,8 +3632,6 @@ hEvent : [intptr]
 %index
 PfRebindFilters
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface, pLateBindInfo
 pInterface : [intptr] 
@@ -3947,8 +3643,6 @@ pLateBindInfo : [var]
 %index
 PfRemoveFilterHandles
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface, cFilters, pvHandles
 pInterface : [intptr] 
@@ -3961,8 +3655,6 @@ pvHandles : [var]
 %index
 PfRemoveFiltersFromInterface
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 ih, cInFilters, pfiltIn, cOutFilters, pfiltOut
 ih : [intptr] 
@@ -3977,8 +3669,6 @@ pfiltOut : [var]
 %index
 PfRemoveGlobalFilterFromInterface
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface, gfFilter
 pInterface : [intptr] 
@@ -3990,8 +3680,6 @@ gfFilter : [int]
 %index
 PfSetLogBuffer
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pbBuffer, dwSize, dwThreshold, dwEntries, pdwLoggedEntries, pdwLostEntries, pdwSizeUsed
 pbBuffer : [var] 
@@ -4008,8 +3696,6 @@ pdwSizeUsed : [var]
 %index
 PfTestPacket
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInInterface, pOutInterface, cBytes, pbPacket, ppAction
 pInInterface : [intptr] 
@@ -4024,8 +3710,6 @@ ppAction : [var]
 %index
 PfUnBindInterface
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 pInterface
 pInterface : [intptr] 
@@ -4036,8 +3720,6 @@ pInterface : [intptr]
 %index
 ResolveIpNetEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì•¨—ƒAƒhƒŒƒX‚ğ‰ğŒˆ‚·‚éB(ResolveIpNetEntry2)
-%group
-Win32 iphlpapi
 %prm
 Row, SourceAddress
 Row : [var] ‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì MIB_IPNET_ROW2 \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B³íI—¹A‚±‚Ì\‘¢‘Ì‚Í‹ß—× IP ƒAƒhƒŒƒX‚ÌƒvƒƒpƒeƒB‚ÅXV‚³‚ê‚éB
@@ -4067,8 +3749,6 @@ InterfaceIndex)BAddress
 %index
 ResolveNeighbor
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì•¨—ƒAƒhƒŒƒX‚ğ‰ğŒˆ‚·‚éB(ResolveNeighbor)
-%group
-Win32 iphlpapi
 %prm
 NetworkAddress, PhysicalAddress, PhysicalAddressLength
 NetworkAddress : [var] ‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ÆƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ğŠÜ‚Ş SOCKADDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4085,8 +3765,6 @@ ResolveNeighbor ŠÖ”‚Íí‚É¸”s‚µAˆÈ‰º‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 %index
 RestoreMediaSense
 RestoreMediaSense ŠÖ”‚ÍAˆÈ‘O‚É DisableMediaSense ‚ğŒÄ‚Ño‚µ‚½ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì TCP/IP ƒXƒ^ƒbƒN‚ÌƒƒfƒBƒAƒZƒ“ƒX‹@”\‚ğ•œŒ³‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pOverlapped, lpdwEnableCount
 pOverlapped : [var] OVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BhEvent ƒƒ“ƒoˆÈŠO‚Í‚·‚×‚Ä 0 ‚Éİ’è‚µAhEvent ‚É‚Í—LŒø‚ÈƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğİ’è‚·‚éBCreateEvent ‚ÅƒCƒxƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
@@ -4123,8 +3801,6 @@ NO_ERROR ‚ğ•Ô‚·B
 %index
 SendARP
 SendARP ŠÖ”‚ÍAw’è‚µ‚½ˆ¶æ IPv4 ƒAƒhƒŒƒX‚É‘Î‰‚·‚é•¨—ƒAƒhƒŒƒX‚ğæ“¾‚·‚é‚½‚ß‚ÉAARP (Address Resolution Protocol) —v‹‚ğ‘—M‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 DestIP, SrcIP, pMacAddr, PhyAddrLen
 DestIP : [int] ˆ¶æ IPv4 ƒAƒhƒŒƒXBIPAddr \‘¢‘Ì‚ÌŒ`®‚Åw’è‚·‚éBARP —v‹‚Í‚±‚Ì IPv4 ƒAƒhƒŒƒX‚É‘Î‰‚·‚é•¨—ƒAƒhƒŒƒX‚Ìæ“¾‚ğ‚İ‚éB
@@ -4165,8 +3841,6 @@ GetIpNetTable2ACreateIpNetEntry2ADeleteIpNetEntry2AFlushIpNetTable2ASetIpNet
 %index
 SetCurrentThreadCompartmentId
 «—ˆ‚Ìg—p‚Ì‚½‚ß—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢‚±‚ÆB(SetCurrentThreadCompartmentId)
-%group
-Win32 iphlpapi
 %prm
 CompartmentId
 CompartmentId : [int] —\–ñÏ‚İB
@@ -4177,8 +3851,6 @@ CompartmentId : [int] —\–ñÏ‚İB
 %index
 SetCurrentThreadCompartmentScope
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 CompartmentScope
 CompartmentScope : [int] 
@@ -4189,8 +3861,6 @@ CompartmentScope : [int]
 %index
 SetDnsSettings
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 Settings
 Settings : [var] 
@@ -4201,8 +3871,6 @@ Settings : [var]
 %index
 SetIfEntry
 SetIfEntry ŠÖ”‚ÍAƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŠÇ—ó‘Ô‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pIfRow
 pIfRow : [var] Ÿ‚Ì\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^
@@ -4229,8 +3897,6 @@ NetworkConfigurationOperators ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Æ‚µ‚ÄƒƒOƒIƒ“‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %index
 SetInterfaceDnsSettings
 Settings ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX–ˆ‚Ì DNS İ’è‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Interface, Settings
 Interface : [int] Œ^: _In_ GUID İ’è‚ªQÆ‚·‚é COM ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì GUIDB
@@ -4245,8 +3911,6 @@ Settings ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX–ˆ‚Ì DNS İ’è‚ğİ’è‚·‚éB
 %index
 SetIpForwardEntry
 SetIpForwardEntry ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IPv4 ƒ‹[ƒeƒBƒ“ƒOƒe[ƒuƒ‹“à‚ÌŠù‘¶Œo˜H‚ğ•ÏX‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pRoute
 pRoute : [var] Šù‘¶Œo˜H‚ÌV‚µ‚¢î•ñ‚ğw’è‚·‚é MIB_IPFORWARDROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µŒ³‚Í‚±‚Ì\‘¢‘Ì‚Ì dwForwardProto ‚É MIB_IPPROTO_NETMGMT ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚¸A‚³‚ç‚É dwForwardIfIndexAdwForwardDestAdwForwardMaskAdwForwardNextHopAdwForwardPolicy ‚É‚à’l‚ğw’è‚·‚é•K—v‚ª‚ ‚éB
@@ -4288,8 +3952,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 SetIpForwardEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP Œo˜HƒGƒ“ƒgƒŠ‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Route
 Route : [var] IP Œo˜HƒGƒ“ƒgƒŠ‚Ì MIB_IPFORWARD_ROW2 \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^BDestinationPrefix ‚Í—LŒø‚È IP ˆ¶æƒvƒŒƒtƒBƒbƒNƒX‚ÉANextHop ‚Í—LŒø‚È IP ƒAƒhƒŒƒXƒtƒ@ƒ~ƒŠ‚ÆƒAƒhƒŒƒX‚Éİ’è‚µAInterfaceLuid ‚Ü‚½‚Í InterfaceIndex ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB
@@ -4318,8 +3980,6 @@ requestedExecutionLevel=requireAdministrator ‚Ü‚½‚Í RunAs administrator
 %index
 SetIpInterfaceEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì MIB_IPINTERFACE_ROW \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—ÍAFamily ‚Í AF_INET6 ‚Ü‚½‚Í AF_INET ‚Éİ’è‚µAInterfaceLuid ‚Ü‚½‚Í InterfaceIndex ‚ğw’è‚·‚é•K—v‚ª‚ ‚éB³íI—¹AInterfaceIndex ‚ğw’è‚µ‚Ä‚¢‚½ê‡‚É‚Í InterfaceLuid ‚ª–„‚ß‚ç‚ê‚éB
@@ -4357,8 +4017,6 @@ administrator Às‚ª•K—vB
 %index
 SetIpNetEntry
 SetIpNetEntry ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì ARP ƒe[ƒuƒ‹“à‚ÌŠù‘¶ ARP ƒGƒ“ƒgƒŠ‚ğ•ÏX‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pArpEntry
 pArpEntry : [var] MIB_IPNETROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Ìî•ñ‚Í•ÏX‘ÎÛ‚ÌƒGƒ“ƒgƒŠ‚ÆV‚µ‚¢î•ñ‚ğw’è‚·‚éBŒÄ‚Ño‚µŒ³‚Í\‘¢‘Ì‚Ì‚·‚×‚Ä‚Ìƒƒ“ƒo‚É’l‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4383,8 +4041,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 SetIpNetEntry2
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌŠù‘¶‚Ì‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì•¨—ƒAƒhƒŒƒX‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] ‹ß—× IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì MIB_IPNET_ROW2 \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4410,8 +4066,6 @@ administrator Às‚ª•K—vB
 %index
 SetIpStatistics
 SetIpStatistics ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP ƒtƒHƒ[ƒfƒBƒ“ƒO‚Ì—LŒø/–³Œø‚ğØ‚è‘Ö‚¦AŠù’è‚Ì TTL ’l‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pIpStats
 pIpStats : [var] MIB_IPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µŒ³‚Í\‘¢‘Ì‚Ì dwForwarding ‚Æ dwDefaultTTL ‚ÉV‚µ‚¢’l‚ğİ’è‚·‚éBˆê•û‚ğŒ»İ’l‚Ì‚Ü‚Ü•Û‚µ‚½‚¢ê‡‚Í MIB_USE_CURRENT_TTL ‚Ü‚½‚Í MIB_USE_CURRENT_FORWARDING ‚ğg—p‚·‚éB
@@ -4436,8 +4090,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 SetIpStatisticsEx
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚Ì IP ƒtƒHƒ[ƒfƒBƒ“ƒO‚Ì—LŒø/–³Œø‚ğØ‚è‘Ö‚¦AŠù’è‚Ì TTL ’l‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Statistics, Family
 Statistics : [var] MIB_IPSTATS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µŒ³‚Í dwForwarding ‚Æ dwDefaultTTL ‚ÉV‚µ‚¢’l‚ğİ’è‚·‚éBˆê•û‚ğŒ»İ’l‚Ì‚Ü‚Ü•Û‚µ‚½‚¢ê‡‚Í MIB_USE_CURRENT_TTL ‚Ü‚½‚Í MIB_USE_CURRENT_FORWARDING ‚ğg—p‚·‚éB
@@ -4459,8 +4111,6 @@ administrator Às‚ª•K—vB
 %index
 SetIpTTL
 SetIpTTL ŠÖ”‚ÍAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌŠù’è‚Ì TTL (time-to-live) ’l‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 nTTL
 nTTL : [int] ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚ÌV‚µ‚¢ TTL ’lB
@@ -4484,8 +4134,6 @@ Administrators ƒOƒ‹[ƒv‚Ü‚½‚Í NetworkConfigurationOperators
 %index
 SetJobCompartmentId
 (no summary)
-%group
-Win32 iphlpapi
 %prm
 JobHandle, CompartmentId
 JobHandle : [intptr] 
@@ -4497,8 +4145,6 @@ CompartmentId : [int]
 %index
 SetNetworkInformation
 «—ˆ‚Ìg—p‚Ì‚½‚ß—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢‚±‚ÆB(SetNetworkInformation)
-%group
-Win32 iphlpapi
 %prm
 NetworkGuid, CompartmentId, NetworkName
 NetworkGuid : [var] —\–ñÏ‚İB
@@ -4511,8 +4157,6 @@ NetworkName : [wstr] —\–ñÏ‚İB
 %index
 SetPerTcp6ConnectionEStats
 IPv6 TCP Ú‘±‚Ì“Ç‚İæ‚è/‘‚«‚İî•ñ‚Ì’l‚ğİ’è‚·‚éBIPv6 TCP Ú‘±‚ÌŠg’£“Œv‚Ì—LŒø/–³ŒøØ‚è‘Ö‚¦‚Ég—p‚³‚ê‚éB
-%group
-Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Offset
 Row : [var] IPv6 TCP Ú‘±‚Ì MIB_TCP6ROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4541,8 +4185,6 @@ TCP Ú‘±‚ÌŠg’£“Œv‚Ì—LŒø/–³Œø‚ğØ‚è‘Ö‚¦‚é‚½‚ß‚Ég—p‚³‚ê‚éBTCP Ú‘±‚ÌŠg’£“Œv‚ÍŠ
 %index
 SetPerTcpConnectionEStats
 IPv4 TCP Ú‘±‚Ì“Ç‚İæ‚è/‘‚«‚İî•ñ‚Ì’l‚ğİ’è‚·‚éBIPv4 TCP Ú‘±‚ÌŠg’£“Œv‚Ì—LŒø/–³ŒøØ‚è‘Ö‚¦‚Ég—p‚³‚ê‚éB
-%group
-Win32 iphlpapi
 %prm
 Row, EstatsType, Rw, RwVersion, RwSize, Offset
 Row : [var] IPv4 TCP Ú‘±‚Ì MIB_TCPROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4570,8 +4212,6 @@ TCP Ú‘±‚ÌŠg’£“Œv‚Ì—LŒø/–³Œø‚ğØ‚è‘Ö‚¦‚é‚½‚ß‚Ég—p‚³‚ê‚éBTCP Ú‘±‚ÌŠg’£“Œv‚ÍŠ
 %index
 SetSessionCompartmentId
 «—ˆ‚Ìg—p‚Ì‚½‚ß—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢‚±‚ÆB(SetSessionCompartmentId)
-%group
-Win32 iphlpapi
 %prm
 SessionId, CompartmentId
 SessionId : [int] —\–ñÏ‚İB
@@ -4583,8 +4223,6 @@ CompartmentId : [int] —\–ñÏ‚İB
 %index
 SetTcpEntry
 SetTcpEntry ŠÖ”‚ÍATCP Ú‘±‚Ìó‘Ô‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pTcpRow
 pTcpRow : [var] MIB_TCPROW \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Í•ÏX‘ÎÛ‚Ì TCP Ú‘±‚ğ“Á’è‚·‚éî•ñ‚ÆAV‚µ‚¢ó‘Ô‚ğw’è‚·‚éBŒÄ‚Ño‚µŒ³‚Í‚·‚×‚Ä‚Ìƒƒ“ƒo‚É’l‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
@@ -4606,8 +4244,6 @@ requestedExecutionLevel=requireAdministrator ‚Ü‚½‚Í RunAs administrator
 %index
 SetUnicastIpAddressEntry
 ƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^ã‚ÌŠù‘¶‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 Row
 Row : [var] Šù‘¶‚Ìƒ†ƒjƒLƒƒƒXƒg IP ƒAƒhƒŒƒXƒGƒ“ƒgƒŠ‚Ì MIB_UNICASTIPADDRESS_ROW \‘¢‘ÌƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
@@ -4639,8 +4275,6 @@ requestedExecutionLevel=requireAdministrator ‚Ü‚½‚Í RunAs administrator
 %index
 UnenableRouter
 UnenableRouter ŠÖ”‚ÍAIPv4 ƒtƒHƒ[ƒfƒBƒ“ƒO—LŒø‰»—v‹”‚ğ’ÇÕ‚·‚éQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·BQÆƒJƒEƒ“ƒg‚ª 0 ‚É’B‚·‚é‚ÆAƒ[ƒJƒ‹ƒRƒ“ƒsƒ…[ƒ^‚Ì IPv4 ƒtƒHƒ[ƒfƒBƒ“ƒO‚ğƒIƒt‚É‚·‚éB
-%group
-Win32 iphlpapi
 %prm
 pOverlapped, lpdwEnableCount
 pOverlapped : [var] OVERLAPPED \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BEnableRouter ŒÄ‚Ño‚µ‚Åg—p‚µ‚½‚à‚Ì‚Æ“¯ˆê‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
