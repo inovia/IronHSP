@@ -1,49 +1,27 @@
 //============================================================
-//   hspwgcapture.dll — Windows.Graphics.Capture plugin for IronHSP
+//   hspwgcapture.dll — Windows.Graphics.Capture plugin for IronHSP (新形式)
 //
-//   Windows 10 1903+ に搭載された Windows.Graphics.Capture API
-//   (c++/WinRT) を利用したスクリーン / ウィンドウ キャプチャ。
+//   Windows 10 1903+ の Windows.Graphics.Capture API (C++/WinRT) を
+//   利用したスクリーン / ウィンドウ キャプチャ。
 //
-//   HSP API (OLDDLL $202):
-//     wgc_init                                  ; apartment init + D3D11 device
+//   v2 (2026-04-15): OLDDLL $202 → typed #func 形式に全面移行。
+//
+//   HSP API (typed #func):
+//     wgc_init                                          ; apartment init + D3D11 device
 //     wgc_shutdown
-//     wgc_list_windows    var_str               ; "title\tHWND\n" 形式で列挙
-//     wgc_start_window    hwnd      -> stat=h   ; ウィンドウキャプチャ開始
-//     wgc_start_monitor   monidx    -> stat=h   ; モニタキャプチャ開始
-//     wgc_stop            h
-//     wgc_grab_frame      h, buf, w, h          ; 最新フレームを BGRA で buf へ
-//     wgc_save_png        h, "out.png"          ; 最新フレームを PNG 保存
+//     wgc_list_windows  var_buf, buf_size               ; "title\tHWND\n" 形式
+//     wgc_start_window  hwnd,    var_h                  ; var_h に handle (-1=失敗)
+//     wgc_start_monitor monidx,  var_h
+//     wgc_stop          h
+//     wgc_grab_frame    h, var_buf, buf_size, var_w, var_h  ; BGRA raw
+//     wgc_save_png      h, "out.png"
 //
-//   実装メモ:
-//     - C++/WinRT + Windows.Graphics.Capture.h (windowsapp.lib)
-//     - 1 プロセスにつき最大 4 セッション (スロット) を保持
-//     - GraphicsCaptureItem::CreateFromWindowId / CreateFromMonitorId は
-//       activation factory の IGraphicsCaptureItemInterop 経由で HWND/HMONITOR
-//       から直接生成する (これが唯一の通常手段)
-//     - D3D11Device は BGRA_SUPPORT で 1 個だけ作成、FramePool は各セッションで
-//       CreateFreeThreaded を使う (UI スレッドでなくても Closed イベント等が動くため)
-//     - grab_frame では TryGetNextFrame -> Surface.as<IDirect3DDxgiInterfaceAccess>
-//       -> ID3D11Texture2D を staging テクスチャにコピー -> Map して memcpy
-//     - save_png は WIC (CoCreateInstance) で PNG エンコード
-//     - __has_include でヘッダが無い環境ではスタブ (全関数 -1) 化
+//   __has_include でヘッダが無い環境ではスタブ (全関数 -1) 化。
 //============================================================
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
-
-// HSP SDK
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#pragma warning(pop)
 
 #include <string>
 #include <vector>
@@ -54,52 +32,7 @@
 #define HSPWGC_EXPORT extern "C" __declspec(dllexport)
 
 // ============================================================
-// HSPEXINFO helpers
-// ============================================================
-namespace {
-HSPEXINFO* g_hei = nullptr;
-inline void  set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int   getint() { return g_hei->HspFunc_prm_geti(); }
-inline char* getstr() { return g_hei->HspFunc_prm_gets(); }
-
-static void write_str_to_var(const std::string& s)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), (void*)s.c_str());
-}
-
-static void write_int_to_var(int v)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-// str 変数を n バイトで resize し、そこに memcpy
-static void write_buf_to_var(const void* data, size_t n)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    g_hei->HspFunc_dim(pv, HSPVAR_FLAG_STR, (int)n + 1, 0, 0, 0, 0);
-    if (n > 0) memcpy(pv->pt, data, n);
-    ((char*)pv->pt)[n] = 0;
-}
-} // namespace
-
-// ============================================================
-// __has_include fallback (if Windows.Graphics.Capture は未対応)
+// __has_include fallback
 // ============================================================
 #if defined(__has_include)
 #  if __has_include(<winrt/Windows.Graphics.Capture.h>) && \
@@ -111,6 +44,16 @@ static void write_buf_to_var(const void* data, size_t n)
 #else
 #  define HSPWGC_HAVE_WGC 1
 #endif
+
+// 共通: 文字列を HSP 側のバッファに安全コピー
+static void copy_to_buf(const std::string& src, char* out, int out_size)
+{
+    if (!out || out_size <= 0) return;
+    int n = (int)src.size();
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src.data(), (size_t)n);
+    out[n] = 0;
+}
 
 #if HSPWGC_HAVE_WGC
 
@@ -126,10 +69,9 @@ static void write_buf_to_var(const void* data, size_t n)
 #include <winrt/Windows.Graphics.DirectX.h>
 #include <winrt/Windows.Graphics.DirectX.Direct3D11.h>
 
-// interop / Direct3D11 bridge
 #include <windows.graphics.capture.interop.h>
 #include <windows.graphics.directx.direct3d11.interop.h>
-#include <Windows.Graphics.Capture.h>    // ABI
+#include <Windows.Graphics.Capture.h>
 #include <DispatcherQueue.h>
 
 #pragma comment(lib, "windowsapp.lib")
@@ -137,11 +79,7 @@ static void write_buf_to_var(const void* data, size_t n)
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "windowscodecs.lib")
 
-// IDirect3DDxgiInterfaceAccess (Windows.Graphics.DirectX.Direct3D11.interop.h)
 #include <inspectable.h>
-extern "C" {
-// 既に direct3d11.interop.h で宣言されているはず。念のため forward decl。
-}
 
 namespace wgc_impl {
 
@@ -170,7 +108,6 @@ static winrt::com_ptr<ID3D11Device>          g_device;
 static winrt::com_ptr<ID3D11DeviceContext>   g_context;
 static IDirect3DDevice                       g_winrtDevice{ nullptr };
 
-// --- device init --------------------------------------------------------
 static bool EnsureDevice()
 {
     if (g_device) return true;
@@ -186,7 +123,6 @@ static bool EnsureDevice()
         levels, ARRAYSIZE(levels), D3D11_SDK_VERSION,
         g_device.put(), &got, g_context.put());
     if (FAILED(hr)) {
-        // WARP fallback
         hr = D3D11CreateDevice(
             nullptr, D3D_DRIVER_TYPE_WARP, nullptr, flags,
             levels, ARRAYSIZE(levels), D3D11_SDK_VERSION,
@@ -206,7 +142,6 @@ static bool EnsureDevice()
     return true;
 }
 
-// --- GraphicsCaptureItem from HWND/HMONITOR via interop -----------------
 static GraphicsCaptureItem ItemFromHwnd(HWND hwnd)
 {
     auto factory = winrt::get_activation_factory<
@@ -231,7 +166,6 @@ static GraphicsCaptureItem ItemFromMonitor(HMONITOR hmon)
     return item;
 }
 
-// モニタ index -> HMONITOR
 struct MonEnumCtx { int target; int cur; HMONITOR out; };
 static BOOL CALLBACK MonProc(HMONITOR hmon, HDC, LPRECT, LPARAM lp)
 {
@@ -247,8 +181,6 @@ static HMONITOR MonitorByIndex(int idx)
     return ctx.out;
 }
 
-// 最新フレームを取得し、BGRA リニア pixels と w/h を返す
-// 返り値: true で out_pixels を埋めた
 static bool GrabLatestBGRA(Session& s,
                            std::vector<uint8_t>& out,
                            int& out_w, int& out_h)
@@ -256,7 +188,6 @@ static bool GrabLatestBGRA(Session& s,
     if (!s.active || !s.pool) return false;
 
     Direct3D11CaptureFrame frame{ nullptr };
-    // 最新を取り出す。複数溜まっていれば捨てる。
     for (int tries = 0; tries < 8; ++tries) {
         auto f = s.pool.TryGetNextFrame();
         if (!f) break;
@@ -276,7 +207,6 @@ static bool GrabLatestBGRA(Session& s,
     out_w = (int)desc.Width;
     out_h = (int)desc.Height;
 
-    // staging テクスチャを作って CPU read する
     D3D11_TEXTURE2D_DESC sdesc = desc;
     sdesc.Usage          = D3D11_USAGE_STAGING;
     sdesc.BindFlags      = 0;
@@ -348,7 +278,6 @@ static int FindFreeSlot()
     return -1;
 }
 
-// --- start helpers ------------------------------------------------------
 static int StartSession(GraphicsCaptureItem item)
 {
     if (!item) return -1;
@@ -364,7 +293,7 @@ static int StartSession(GraphicsCaptureItem item)
         auto session = pool.CreateCaptureSession(item);
         session.StartCapture();
 
-        g_sessions[idx].active = true;
+        g_sessions[idx].active  = true;
         g_sessions[idx].item    = item;
         g_sessions[idx].pool    = pool;
         g_sessions[idx].session = session;
@@ -381,12 +310,8 @@ static void StopSession(int idx)
     std::lock_guard<std::mutex> lk(g_mutex);
     auto& s = g_sessions[idx];
     if (!s.active) return;
-    try {
-        if (s.session) s.session.Close();
-    } catch (...) {}
-    try {
-        if (s.pool) s.pool.Close();
-    } catch (...) {}
+    try { if (s.session) s.session.Close(); } catch (...) {}
+    try { if (s.pool)    s.pool.Close();    } catch (...) {}
     s.session = nullptr;
     s.pool    = nullptr;
     s.item    = nullptr;
@@ -395,7 +320,6 @@ static void StopSession(int idx)
 
 } // namespace wgc_impl
 
-// --- window enumeration (not WGC, just EnumWindows) --------------------
 namespace {
 struct EnumCtx { std::string* out; };
 static BOOL CALLBACK WndProc_List(HWND hwnd, LPARAM lp)
@@ -405,7 +329,6 @@ static BOOL CALLBACK WndProc_List(HWND hwnd, LPARAM lp)
     wchar_t title[512];
     int n = GetWindowTextW(hwnd, title, 512);
     if (n <= 0) return TRUE;
-    // UTF-16 -> cp932
     int need = WideCharToMultiByte(CP_ACP, 0, title, n, nullptr, 0, nullptr, nullptr);
     if (need <= 0) return TRUE;
     std::vector<char> buf(need);
@@ -419,13 +342,11 @@ static BOOL CALLBACK WndProc_List(HWND hwnd, LPARAM lp)
 } // namespace
 
 // ============================================================
-// HSP exports
+// HSP exports (typed #func)
 // ============================================================
 
-HSPWGC_EXPORT BOOL WINAPI wgc_init(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWGC_EXPORT int __stdcall wgc_init()
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
     try {
         if (!winrt::Windows::Graphics::Capture::GraphicsCaptureSession::IsSupported()) return -2;
         if (!wgc_impl::EnsureDevice()) return -3;
@@ -434,10 +355,8 @@ HSPWGC_EXPORT BOOL WINAPI wgc_init(HSPEXINFO* hei, int p1, int p2, int p3)
     } catch (...) { return -1; }
 }
 
-HSPWGC_EXPORT BOOL WINAPI wgc_shutdown(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWGC_EXPORT int __stdcall wgc_shutdown()
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
     for (int i = 0; i < wgc_impl::MAX_SESSIONS; ++i)
         wgc_impl::StopSession(i);
     wgc_impl::g_device  = nullptr;
@@ -447,84 +366,53 @@ HSPWGC_EXPORT BOOL WINAPI wgc_shutdown(HSPEXINFO* hei, int p1, int p2, int p3)
     return 0;
 }
 
-HSPWGC_EXPORT BOOL WINAPI wgc_list_windows(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWGC_EXPORT int __stdcall wgc_list_windows(char* out_buf, int out_size)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
+    if (out_buf && out_size > 0) out_buf[0] = 0;
     std::string out;
     EnumCtx ctx{ &out };
     EnumWindows(WndProc_List, (LPARAM)&ctx);
-    write_str_to_var(out);
+    copy_to_buf(out, out_buf, out_size);
     return 0;
 }
 
-HSPWGC_EXPORT BOOL WINAPI wgc_start_window(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWGC_EXPORT int __stdcall wgc_start_window(int hwnd_i, int* out_h)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
+    if (out_h) *out_h = -1;
     if (!wgc_impl::g_ready) return -1;
-    int hwnd_i = getint();
     HWND hwnd = (HWND)(intptr_t)hwnd_i;
     if (!IsWindow(hwnd)) return -2;
     auto item = wgc_impl::ItemFromHwnd(hwnd);
-    return wgc_impl::StartSession(item);
+    int h = wgc_impl::StartSession(item);
+    if (out_h) *out_h = h;
+    return 0;
 }
 
-HSPWGC_EXPORT BOOL WINAPI wgc_start_monitor(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWGC_EXPORT int __stdcall wgc_start_monitor(int idx, int* out_h)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
+    if (out_h) *out_h = -1;
     if (!wgc_impl::g_ready) return -1;
-    int idx = getint();
     HMONITOR hmon = wgc_impl::MonitorByIndex(idx);
     if (!hmon) return -2;
     auto item = wgc_impl::ItemFromMonitor(hmon);
-    return wgc_impl::StartSession(item);
+    int h = wgc_impl::StartSession(item);
+    if (out_h) *out_h = h;
+    return 0;
 }
 
-HSPWGC_EXPORT BOOL WINAPI wgc_stop(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWGC_EXPORT int __stdcall wgc_stop(int h)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
     wgc_impl::StopSession(h);
     return 0;
 }
 
-HSPWGC_EXPORT BOOL WINAPI wgc_grab_frame(HSPEXINFO* hei, int p1, int p2, int p3)
+// wgc_grab_frame(h, var_buf, buf_size, var_w, var_h)
+HSPWGC_EXPORT int __stdcall wgc_grab_frame(
+    int h, void* out_buf, int buf_size, int* out_w, int* out_h)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
+    if (out_w) *out_w = 0;
+    if (out_h) *out_h = 0;
     if (!wgc_impl::g_ready) return -1;
-    int h = getint();
-    if (h < 0 || h >= wgc_impl::MAX_SESSIONS) return -2;
-    auto& s = wgc_impl::g_sessions[h];
-    if (!s.active) return -3;
-
-    std::vector<uint8_t> pixels;
-    int w = 0, hh = 0;
-    if (!wgc_impl::GrabLatestBGRA(s, pixels, w, hh)) {
-        // 書き込まずに失敗
-        // それでも var_buf / var_w / var_h パラメータを消費しないと
-        // 次命令で引数が狂うので、空で書き込み
-        write_buf_to_var(nullptr, 0);
-        write_int_to_var(0);
-        write_int_to_var(0);
-        return -4;
-    }
-    write_buf_to_var(pixels.data(), pixels.size());
-    write_int_to_var(w);
-    write_int_to_var(hh);
-    return 0;
-}
-
-HSPWGC_EXPORT BOOL WINAPI wgc_save_png(HSPEXINFO* hei, int p1, int p2, int p3)
-{
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    if (!wgc_impl::g_ready) return -1;
-    int h = getint();
-    char* path_a = getstr();
     if (h < 0 || h >= wgc_impl::MAX_SESSIONS) return -2;
     auto& s = wgc_impl::g_sessions[h];
     if (!s.active) return -3;
@@ -533,7 +421,28 @@ HSPWGC_EXPORT BOOL WINAPI wgc_save_png(HSPEXINFO* hei, int p1, int p2, int p3)
     int w = 0, hh = 0;
     if (!wgc_impl::GrabLatestBGRA(s, pixels, w, hh)) return -4;
 
-    // cp932 -> UTF-16
+    if (out_buf && buf_size > 0) {
+        size_t n = pixels.size();
+        if ((int)n > buf_size) n = (size_t)buf_size;
+        if (n > 0) memcpy(out_buf, pixels.data(), n);
+    }
+    if (out_w) *out_w = w;
+    if (out_h) *out_h = hh;
+    return 0;
+}
+
+HSPWGC_EXPORT int __stdcall wgc_save_png(int h, const char* path_a)
+{
+    if (!wgc_impl::g_ready) return -1;
+    if (h < 0 || h >= wgc_impl::MAX_SESSIONS) return -2;
+    auto& s = wgc_impl::g_sessions[h];
+    if (!s.active) return -3;
+    if (!path_a) return -6;
+
+    std::vector<uint8_t> pixels;
+    int w = 0, hh = 0;
+    if (!wgc_impl::GrabLatestBGRA(s, pixels, w, hh)) return -4;
+
     int wlen = MultiByteToWideChar(CP_ACP, 0, path_a, -1, nullptr, 0);
     std::vector<wchar_t> wbuf(wlen > 0 ? wlen : 1);
     if (wlen > 0)
@@ -552,7 +461,6 @@ BOOL WINAPI DllMain(HMODULE, DWORD reason, LPVOID)
         try {
             winrt::init_apartment(winrt::apartment_type::multi_threaded);
         } catch (...) {}
-        // COM for WIC も必要 (MTA 内なので既に OK)
         break;
     case DLL_PROCESS_DETACH:
         for (int i = 0; i < wgc_impl::MAX_SESSIONS; ++i)
@@ -567,22 +475,21 @@ BOOL WINAPI DllMain(HMODULE, DWORD reason, LPVOID)
 
 #else // !HSPWGC_HAVE_WGC  — stub build
 
-HSPWGC_EXPORT BOOL WINAPI wgc_init(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); return -1; }
-HSPWGC_EXPORT BOOL WINAPI wgc_shutdown(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); return -1; }
-HSPWGC_EXPORT BOOL WINAPI wgc_list_windows(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); write_str_to_var(""); return -1; }
-HSPWGC_EXPORT BOOL WINAPI wgc_start_window(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); (void)getint(); return -1; }
-HSPWGC_EXPORT BOOL WINAPI wgc_start_monitor(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); (void)getint(); return -1; }
-HSPWGC_EXPORT BOOL WINAPI wgc_stop(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); (void)getint(); return -1; }
-HSPWGC_EXPORT BOOL WINAPI wgc_grab_frame(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); return -1; }
-HSPWGC_EXPORT BOOL WINAPI wgc_save_png(HSPEXINFO* hei, int, int, int)
-{ set_hei(hei); return -1; }
+HSPWGC_EXPORT int __stdcall wgc_init() { return -1; }
+HSPWGC_EXPORT int __stdcall wgc_shutdown() { return -1; }
+HSPWGC_EXPORT int __stdcall wgc_list_windows(char* out_buf, int out_size)
+{
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    return -1;
+}
+HSPWGC_EXPORT int __stdcall wgc_start_window(int, int* out_h)
+{ if (out_h) *out_h = -1; return -1; }
+HSPWGC_EXPORT int __stdcall wgc_start_monitor(int, int* out_h)
+{ if (out_h) *out_h = -1; return -1; }
+HSPWGC_EXPORT int __stdcall wgc_stop(int) { return -1; }
+HSPWGC_EXPORT int __stdcall wgc_grab_frame(int, void*, int, int* out_w, int* out_h)
+{ if (out_w) *out_w = 0; if (out_h) *out_h = 0; return -1; }
+HSPWGC_EXPORT int __stdcall wgc_save_png(int, const char*) { return -1; }
 
 BOOL WINAPI DllMain(HMODULE, DWORD, LPVOID) { return TRUE; }
 

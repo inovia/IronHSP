@@ -46,31 +46,27 @@
 #include <cmath>
 #include <cstdint>
 
-// HSP SDK
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)  // hsp3 headers are SJIS encoded
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
-
+// 新形式 (typed #func) 移行済。HSPEXINFO / HspFunc_prm_* 非依存。
 #define HSPJSON_EXPORT extern "C" __declspec(dllexport)
 
-namespace {
-
-HSPEXINFO* g_hei = nullptr;
-inline void set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint()  { return g_hei->HspFunc_prm_geti(); }
-inline char*  getstr()  { return g_hei->HspFunc_prm_gets(); }
-inline double getdbl()  { return g_hei->HspFunc_prm_getd(); }
-
-} // namespace
+// 文字列を HSP 側バッファへ null 終端付きで安全コピー
+static void copy_to_buf(const std::string& src, char* out, int out_size)
+{
+    if (!out || out_size <= 0) return;
+    int n = (int)src.size();
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src.data(), (size_t)n);
+    out[n] = 0;
+}
+static void copy_to_buf(const char* src, char* out, int out_size)
+{
+    if (!out || out_size <= 0) return;
+    if (!src) src = "";
+    int n = (int)strlen(src);
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src, (size_t)n);
+    out[n] = 0;
+}
 
 // ============================================================
 // JSON value tree
@@ -463,58 +459,26 @@ void clear_handles() {
 } // namespace
 
 // ============================================================
-// HSP plugin commands
+// HSP exports (typed #func 形式)
+//
+//   旧: json_xxx(HSPEXINFO*, int, int, int) + HspFunc_prm_*
+//   新: hspjson_xxx(typed C 引数) / int __stdcall
+//
+//   .as 側で HSP コマンド名 (json_xxx) と DLL 実体名 (hspjson_xxx) を分離。
 // ============================================================
 
-// Helper: write string into HSP str variable (var arg).
-// 引数を 1 つ getva() してから .Set する。
-static void write_str_to_var(const std::string& s)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), (void*)s.c_str());
-}
-
-static void write_int_to_var(int v)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-static void write_double_to_var(double v)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_DOUBLE) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
 // json_parse "text", var_handle
-HSPJSON_EXPORT BOOL WINAPI json_parse(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPJSON_EXPORT int __stdcall hspjson_parse(const char* text, int* out_hid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (out_hid) *out_hid = -1;
+    if (!text) return -1;
     try {
-        const char* text = getstr();
-        if (!text) return -1;
         std::string err;
         JParser parser(text);
         auto root = parser.parse_value(err);
         if (!root) return -2;
         int id = register_handle(std::move(root));
-        write_int_to_var(id);
+        if (out_hid) *out_hid = id;
         return 0;
     } catch (...) {
         return -1;
@@ -522,143 +486,124 @@ HSPJSON_EXPORT BOOL WINAPI json_parse(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 // json_free hid
-HSPJSON_EXPORT BOOL WINAPI json_free(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPJSON_EXPORT int __stdcall hspjson_free(int hid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    free_handle(id);
+    free_handle(hid);
     return 0;
 }
 
 // json_clear
-HSPJSON_EXPORT BOOL WINAPI json_clear(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPJSON_EXPORT int __stdcall hspjson_clear()
 {
-    (void)hei; (void)p1; (void)p2; (void)p3;
     clear_handles();
     return 0;
 }
 
-// json_get_str hid, "path", var_str
-HSPJSON_EXPORT BOOL WINAPI json_get_str(HSPEXINFO* hei, int p1, int p2, int p3)
+// json_get_str hid, "path", var_buf, buf_size
+HSPJSON_EXPORT int __stdcall hspjson_get_str(int hid, const char* path,
+                                             char* out_buf, int out_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* path = getstr();
-    JNode* root = get_handle(id);
-    if (!root) { write_str_to_var(""); return -1; }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    JNode* root = get_handle(hid);
+    if (!root) return -1;
     JNode* node = resolve_path(root, path);
-    if (!node) { write_str_to_var(""); return -2; }
-    if (node->type == JT_STR) write_str_to_var(node->str);
-    else if (node->type == JT_NUM) {
+    if (!node) return -2;
+    if (node->type == JT_STR) {
+        copy_to_buf(node->str, out_buf, out_size);
+    } else if (node->type == JT_NUM) {
         char buf[64];
         if (node->num == (double)(long long)node->num) {
             snprintf(buf, sizeof(buf), "%lld", (long long)node->num);
         } else {
             snprintf(buf, sizeof(buf), "%g", node->num);
         }
-        write_str_to_var(buf);
-    } else if (node->type == JT_BOOL) write_str_to_var(node->b ? "true" : "false");
-    else if (node->type == JT_NULL) write_str_to_var("null");
-    else write_str_to_var("");
+        copy_to_buf(buf, out_buf, out_size);
+    } else if (node->type == JT_BOOL) {
+        copy_to_buf(node->b ? "true" : "false", out_buf, out_size);
+    } else if (node->type == JT_NULL) {
+        copy_to_buf("null", out_buf, out_size);
+    }
     return 0;
 }
 
 // json_get_int hid, "path", var_int
-HSPJSON_EXPORT BOOL WINAPI json_get_int(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPJSON_EXPORT int __stdcall hspjson_get_int(int hid, const char* path, int* out)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* path = getstr();
-    JNode* root = get_handle(id);
-    if (!root) { write_int_to_var(0); return -1; }
+    if (out) *out = 0;
+    JNode* root = get_handle(hid);
+    if (!root) return -1;
     JNode* node = resolve_path(root, path);
-    if (!node) { write_int_to_var(0); return -2; }
+    if (!node) return -2;
     int v = 0;
     if (node->type == JT_NUM) v = (int)node->num;
     else if (node->type == JT_BOOL) v = node->b ? 1 : 0;
     else if (node->type == JT_STR) v = std::atoi(node->str.c_str());
-    write_int_to_var(v);
+    if (out) *out = v;
     return 0;
 }
 
 // json_get_dbl hid, "path", var_double
-HSPJSON_EXPORT BOOL WINAPI json_get_dbl(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPJSON_EXPORT int __stdcall hspjson_get_dbl(int hid, const char* path, double* out)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* path = getstr();
-    JNode* root = get_handle(id);
-    if (!root) { write_double_to_var(0.0); return -1; }
+    if (out) *out = 0.0;
+    JNode* root = get_handle(hid);
+    if (!root) return -1;
     JNode* node = resolve_path(root, path);
-    if (!node) { write_double_to_var(0.0); return -2; }
+    if (!node) return -2;
     double v = 0.0;
     if (node->type == JT_NUM) v = node->num;
     else if (node->type == JT_BOOL) v = node->b ? 1.0 : 0.0;
     else if (node->type == JT_STR) v = std::atof(node->str.c_str());
-    write_double_to_var(v);
+    if (out) *out = v;
     return 0;
 }
 
 // json_count hid, "path", var_int
-HSPJSON_EXPORT BOOL WINAPI json_count(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPJSON_EXPORT int __stdcall hspjson_count(int hid, const char* path, int* out)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* path = getstr();
-    JNode* root = get_handle(id);
-    if (!root) { write_int_to_var(0); return -1; }
+    if (out) *out = 0;
+    JNode* root = get_handle(hid);
+    if (!root) return -1;
     JNode* node = resolve_path(root, path);
-    if (!node) { write_int_to_var(0); return -2; }
+    if (!node) return -2;
     int n = 0;
     if (node->type == JT_ARR || node->type == JT_OBJ) n = (int)node->children.size();
-    write_int_to_var(n);
+    if (out) *out = n;
     return 0;
 }
 
 // json_type hid, "path", var_int
-HSPJSON_EXPORT BOOL WINAPI json_type(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPJSON_EXPORT int __stdcall hspjson_type(int hid, const char* path, int* out)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* path = getstr();
-    JNode* root = get_handle(id);
-    if (!root) { write_int_to_var(-1); return -1; }
+    if (out) *out = -1;
+    JNode* root = get_handle(hid);
+    if (!root) return -1;
     JNode* node = resolve_path(root, path);
-    if (!node) { write_int_to_var(-1); return -2; }
-    write_int_to_var((int)node->type);
+    if (!node) return -2;
+    if (out) *out = (int)node->type;
     return 0;
 }
 
-// json_stringify hid, var_str
-HSPJSON_EXPORT BOOL WINAPI json_stringify(HSPEXINFO* hei, int p1, int p2, int p3)
+// json_stringify hid, var_buf, buf_size
+HSPJSON_EXPORT int __stdcall hspjson_stringify(int hid, char* out_buf, int out_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    JNode* root = get_handle(id);
-    if (!root) { write_str_to_var(""); return -1; }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    JNode* root = get_handle(hid);
+    if (!root) return -1;
     std::string out;
     stringify_node(root, out, false, 0);
-    write_str_to_var(out);
+    copy_to_buf(out, out_buf, out_size);
     return 0;
 }
 
-// json_stringify_pretty hid, var_str
-HSPJSON_EXPORT BOOL WINAPI json_stringify_pretty(HSPEXINFO* hei, int p1, int p2, int p3)
+// json_stringify_pretty hid, var_buf, buf_size
+HSPJSON_EXPORT int __stdcall hspjson_stringify_pretty(int hid, char* out_buf, int out_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    JNode* root = get_handle(id);
-    if (!root) { write_str_to_var(""); return -1; }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    JNode* root = get_handle(hid);
+    if (!root) return -1;
     std::string out;
     stringify_node(root, out, true, 0);
-    write_str_to_var(out);
+    copy_to_buf(out, out_buf, out_size);
     return 0;
 }

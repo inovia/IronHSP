@@ -36,18 +36,7 @@
 #include <cstdlib>
 #include <cstdint>
 
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
+// 新形式 (typed #func) 移行済。HSPEXINFO / HspFunc_prm_* 非依存。
 
 // ---------- DuckDB ----------
 //
@@ -71,53 +60,16 @@
 
 #define HSPDUCKDB_EXPORT extern "C" __declspec(dllexport)
 
-// ============================================================
-// HSP helpers
-// ============================================================
-namespace {
-
-HSPEXINFO* g_hei = nullptr;
-inline void   set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint() { return g_hei->HspFunc_prm_geti(); }
-inline char*  getstr() { return g_hei->HspFunc_prm_gets(); }
-inline double getdbl() { return g_hei->HspFunc_prm_getd(); }
-
-inline PVal* getva_pval(APTR* out_aptr) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (out_aptr) *out_aptr = a;
-    return pv;
+// 文字列を HSP 側バッファへ null 終端付きで安全コピー
+static void copy_to_buf(const char* src, char* out, int out_size)
+{
+    if (!out || out_size <= 0) return;
+    if (!src) src = "";
+    int n = (int)strlen(src);
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src, (size_t)n);
+    out[n] = 0;
 }
-
-static void write_int_to_var(int v) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-static void write_double_to_var(double v) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_DOUBLE) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-static void write_str_to_var(const char* s) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    const char* src = s ? s : "";
-    proc->Set(pv, proc->GetPtr(pv), (void*)src);
-}
-
-} // namespace
 
 // ============================================================
 // DB handle table
@@ -180,193 +132,178 @@ static void free_res(int h) {
 }
 
 // ============================================================
-// HSP exports
+// HSP exports (新形式 typed #func)
+//   DLL 実体名は hspduckdb_xxx にプレフィックス。DuckDB C API の
+//   同名シンボル (duckdb_query 等) との衝突を回避する。
 // ============================================================
 
 // duckdb_open_db "file", var_handle
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_open_db(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    const char* path = getstr();
-    if (!path) { write_int_to_var(-1); return 0; }
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_open_db(const char* path, int* out_h)
+{
+    if (out_h) *out_h = -1;
+    if (!path) return 0;
 #if HSPDUCKDB_HAVE
     int h = alloc_db_slot();
-    if (h < 0) { write_int_to_var(-2); return 0; }
+    if (h < 0) { if (out_h) *out_h = -2; return 0; }
     DbState& d = g_dbs[h];
     const char* dbfile = (strcmp(path, ":memory:") == 0) ? nullptr : path;
     if (duckdb_open(dbfile, &d.db) != DuckDBSuccess) {
-        write_int_to_var(-3); return 0;
+        if (out_h) *out_h = -3; return 0;
     }
     if (duckdb_connect(d.db, &d.con) != DuckDBSuccess) {
         duckdb_close(&d.db);
-        write_int_to_var(-4); return 0;
+        if (out_h) *out_h = -4; return 0;
     }
     d.used = true;
-    write_int_to_var(h);
+    if (out_h) *out_h = h;
 #else
-    write_int_to_var(-100);
+    if (out_h) *out_h = -100;
 #endif
     return 0;
 }
 
 // duckdb_close_db handle
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_close_db(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_close_db(int h)
+{
     free_db(h);
     return 0;
 }
 
 // duckdb_exec handle, "sql", var_rc
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_exec(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* sql = getstr();
-    DbState* d = get_db(h);
-    if (!d || !sql) { write_int_to_var(-1); return 0; }
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_exec(int h, const char* sql, int* out_rc)
+{
+    if (out_rc) *out_rc = -1;
 #if HSPDUCKDB_HAVE
+    DbState* d = get_db(h);
+    if (!d || !sql) return 0;
     duckdb_result tmp;
     duckdb_state st = duckdb_query(d->con, sql, &tmp);
     if (st == DuckDBSuccess) {
         duckdb_destroy_result(&tmp);
-        write_int_to_var(0);
+        if (out_rc) *out_rc = 0;
     } else {
         duckdb_destroy_result(&tmp);
-        write_int_to_var(-2);
+        if (out_rc) *out_rc = -2;
     }
 #else
-    write_int_to_var(-100);
+    (void)h; (void)sql;
+    if (out_rc) *out_rc = -100;
 #endif
     return 0;
 }
 
 // duckdb_query handle, "sql", var_result_handle
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_query(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* sql = getstr();
-    DbState* d = get_db(h);
-    if (!d || !sql) { write_int_to_var(-1); return 0; }
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_query(int h, const char* sql, int* out_rh)
+{
+    if (out_rh) *out_rh = -1;
 #if HSPDUCKDB_HAVE
+    DbState* d = get_db(h);
+    if (!d || !sql) return 0;
     int rh = alloc_res_slot();
-    if (rh < 0) { write_int_to_var(-2); return 0; }
+    if (rh < 0) { if (out_rh) *out_rh = -2; return 0; }
     ResultState& r = g_results[rh];
-    duckdb_state st = ::duckdb_query(d->con, sql, &r.res);
+    duckdb_state st = duckdb_query(d->con, sql, &r.res);
     if (st != DuckDBSuccess) {
         duckdb_destroy_result(&r.res);
-        write_int_to_var(-3);
+        if (out_rh) *out_rh = -3;
         return 0;
     }
     r.n_rows = duckdb_row_count(&r.res);
     r.n_cols = duckdb_column_count(&r.res);
     r.used = true;
-    write_int_to_var(rh);
+    if (out_rh) *out_rh = rh;
 #else
-    write_int_to_var(-100);
+    (void)h; (void)sql;
+    if (out_rh) *out_rh = -100;
 #endif
     return 0;
 }
 
 // duckdb_result_rows rh, var_rows
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_result_rows(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int rh = getint();
-    ResultState* r = get_res(rh);
-    if (!r) { write_int_to_var(-1); return 0; }
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_result_rows(int rh, int* out)
+{
+    if (out) *out = -1;
 #if HSPDUCKDB_HAVE
-    write_int_to_var((int)r->n_rows);
+    ResultState* r = get_res(rh);
+    if (!r) return 0;
+    if (out) *out = (int)r->n_rows;
 #else
-    write_int_to_var(-100);
+    (void)rh;
+    if (out) *out = -100;
 #endif
     return 0;
 }
 
 // duckdb_result_cols rh, var_cols
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_result_cols(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int rh = getint();
-    ResultState* r = get_res(rh);
-    if (!r) { write_int_to_var(-1); return 0; }
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_result_cols(int rh, int* out)
+{
+    if (out) *out = -1;
 #if HSPDUCKDB_HAVE
-    write_int_to_var((int)r->n_cols);
+    ResultState* r = get_res(rh);
+    if (!r) return 0;
+    if (out) *out = (int)r->n_cols;
 #else
-    write_int_to_var(-100);
+    (void)rh;
+    if (out) *out = -100;
 #endif
     return 0;
 }
 
-// duckdb_result_col_name rh, col, var_str
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_result_col_name(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int rh = getint();
-    int col = getint();
+// duckdb_result_col_name rh, col, var_buf, buf_size
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_result_col_name(
+    int rh, int col, char* out_buf, int out_size)
+{
+    if (out_buf && out_size > 0) out_buf[0] = 0;
 #if HSPDUCKDB_HAVE
     ResultState* r = get_res(rh);
-    if (!r || col < 0 || (idx_t)col >= r->n_cols) { write_str_to_var(""); return 0; }
+    if (!r || col < 0 || (idx_t)col >= r->n_cols) return 0;
     const char* name = duckdb_column_name(&r->res, (idx_t)col);
-    write_str_to_var(name ? name : "");
+    copy_to_buf(name, out_buf, out_size);
 #else
     (void)rh; (void)col;
-    write_str_to_var("");
 #endif
     return 0;
 }
 
-// duckdb_result_cell_str rh, row, col, var_str
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_result_cell_str(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int rh  = getint();
-    int row = getint();
-    int col = getint();
+// duckdb_result_cell_str rh, row, col, var_buf, buf_size
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_result_cell_str(
+    int rh, int row, int col, char* out_buf, int out_size)
+{
+    if (out_buf && out_size > 0) out_buf[0] = 0;
 #if HSPDUCKDB_HAVE
     ResultState* r = get_res(rh);
-    if (!r || row < 0 || col < 0 || (idx_t)row >= r->n_rows || (idx_t)col >= r->n_cols) {
-        write_str_to_var(""); return 0;
-    }
+    if (!r || row < 0 || col < 0 ||
+        (idx_t)row >= r->n_rows || (idx_t)col >= r->n_cols) return 0;
     char* s = duckdb_value_varchar(&r->res, (idx_t)col, (idx_t)row);
-    if (!s) { write_str_to_var(""); return 0; }
-    write_str_to_var(s);
+    if (!s) return 0;
+    copy_to_buf(s, out_buf, out_size);
     duckdb_free(s);
 #else
     (void)rh; (void)row; (void)col;
-    write_str_to_var("");
 #endif
     return 0;
 }
 
 // duckdb_result_cell_dbl rh, row, col, var_dbl
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_result_cell_dbl(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int rh  = getint();
-    int row = getint();
-    int col = getint();
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_result_cell_dbl(
+    int rh, int row, int col, double* out)
+{
+    if (out) *out = 0.0;
 #if HSPDUCKDB_HAVE
     ResultState* r = get_res(rh);
-    if (!r || row < 0 || col < 0 || (idx_t)row >= r->n_rows || (idx_t)col >= r->n_cols) {
-        write_double_to_var(0.0); return 0;
-    }
+    if (!r || row < 0 || col < 0 ||
+        (idx_t)row >= r->n_rows || (idx_t)col >= r->n_cols) return 0;
     double v = duckdb_value_double(&r->res, (idx_t)col, (idx_t)row);
-    write_double_to_var(v);
+    if (out) *out = v;
 #else
     (void)rh; (void)row; (void)col;
-    write_double_to_var(0.0);
 #endif
     return 0;
 }
 
 // duckdb_result_free rh
-HSPDUCKDB_EXPORT BOOL WINAPI duckdb_result_free(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int rh = getint();
+HSPDUCKDB_EXPORT int __stdcall hspduckdb_result_free(int rh)
+{
     free_res(rh);
     return 0;
 }

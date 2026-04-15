@@ -68,7 +68,7 @@
 ;------------------------------------------------------------
 #defcfunc json_str int hid, str path, local _out
     sdim _out, 1024
-    json_get_str hid, path, _out
+    json_get_str hid, path, _out, 1024
     return _out
 
 ;------------------------------------------------------------
@@ -108,7 +108,7 @@
 ;------------------------------------------------------------
 #defcfunc json_text int hid, local _out
     sdim _out, 65536
-    json_stringify hid, _out
+    json_stringify hid, _out, 65536
     return _out
 
 ;------------------------------------------------------------
@@ -116,7 +116,7 @@
 ;------------------------------------------------------------
 #defcfunc json_pretty int hid, local _out
     sdim _out, 65536
-    json_stringify_pretty hid, _out
+    json_stringify_pretty hid, _out, 65536
     return _out
 
 #global

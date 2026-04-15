@@ -45,54 +45,8 @@
 
 #pragma comment(lib, "winmm.lib")
 
-// HSP SDK
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
-
+// 新形式 (typed #func) 移行済。HSPEXINFO / HspFunc_prm_* 非依存。
 #define HSPMIDI_EXPORT extern "C" __declspec(dllexport)
-
-// ============================================================
-// HSPEXINFO helpers (hspjson.cpp と同じ定石)
-// ============================================================
-namespace {
-
-HSPEXINFO* g_hei = nullptr;
-inline void   set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint() { return g_hei->HspFunc_prm_geti(); }
-// (getstr はこのプラグインでは未使用だが、将来の拡張用に残す)
-// inline char*  getstr() { return g_hei->HspFunc_prm_gets(); }
-
-static void write_str_to_var(const std::string& s)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), (void*)s.c_str());
-}
-
-static void write_int_to_var(int v)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
 
 // UTF-16 → cp932 (ACP) 変換。デバイス名表示用。
 static std::string wide_to_cp932(const wchar_t* w)
@@ -105,7 +59,15 @@ static std::string wide_to_cp932(const wchar_t* w)
     return s;
 }
 
-} // namespace
+// 文字列を HSP 側バッファへ null 終端付きで安全コピー
+static void copy_to_buf(const std::string& src, char* out, int out_size)
+{
+    if (!out || out_size <= 0) return;
+    int n = (int)src.size();
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src.data(), (size_t)n);
+    out[n] = 0;
+}
 
 // ============================================================
 // MIDI out state (単一ハンドル)
@@ -181,49 +143,45 @@ static void CALLBACK MidiInProc(HMIDIIN, UINT wMsg, DWORD_PTR,
 }
 
 // ============================================================
-// MIDI OUT 命令
+// HSP exports (新形式 typed #func)
+//   DLL 実体名は hspmidi_xxx にプレフィックス。HSP コマンド名は従来互換
+//   (.as 側で分離)。
 // ============================================================
 
-// midi_out_count  → stat
-HSPMIDI_EXPORT BOOL WINAPI midi_out_count(HSPEXINFO* hei, int p1, int p2, int p3)
+// 内部: short message 送信
+static int send_short(BYTE status, BYTE d1, BYTE d2)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    return (BOOL)midiOutGetNumDevs();
+    if (!g_hmo) return -1;
+    DWORD msg = (DWORD)status | ((DWORD)d1 << 8) | ((DWORD)d2 << 16);
+    MMRESULT r = midiOutShortMsg(g_hmo, msg);
+    return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
 }
 
-// midi_out_name var_str, devid
-HSPMIDI_EXPORT BOOL WINAPI midi_out_name(HSPEXINFO* hei, int p1, int p2, int p3)
-{
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    // 第1引数: var_str  (先に取得)
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    int devid = getint();
+// ---------- MIDI OUT ----------
 
+// midi_out_count var_int
+HSPMIDI_EXPORT int __stdcall hspmidi_out_count(int* out)
+{
+    if (out) *out = (int)midiOutGetNumDevs();
+    return 0;
+}
+
+// midi_out_name var_buf, buf_size, devid
+HSPMIDI_EXPORT int __stdcall hspmidi_out_name(char* out_buf, int out_size, int devid)
+{
+    if (out_buf && out_size > 0) out_buf[0] = 0;
     MIDIOUTCAPSW caps;
     ZeroMemory(&caps, sizeof(caps));
     MMRESULT r = midiOutGetDevCapsW((UINT_PTR)devid, &caps, sizeof(caps));
-    std::string name;
     if (r == MMSYSERR_NOERROR) {
-        name = wide_to_cp932(caps.szPname);
-    }
-
-    if (pv && pv->flag == HSPVAR_FLAG_STR) {
-        pv->offset = a;
-        HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-        proc->Set(pv, proc->GetPtr(pv), (void*)name.c_str());
+        copy_to_buf(wide_to_cp932(caps.szPname), out_buf, out_size);
     }
     return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
 }
 
 // midi_out_open devid
-HSPMIDI_EXPORT BOOL WINAPI midi_out_open(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_out_open(int devid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int devid = getint();
     if (g_hmo) {
         midiOutClose(g_hmo);
         g_hmo = nullptr;
@@ -236,134 +194,80 @@ HSPMIDI_EXPORT BOOL WINAPI midi_out_open(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 // midi_out_close
-HSPMIDI_EXPORT BOOL WINAPI midi_out_close(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_out_close()
 {
-    (void)hei; (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     if (!g_hmo) return 0;
-    MMRESULT r = midiOutReset(g_hmo);
-    (void)r;
+    midiOutReset(g_hmo);
     MMRESULT r2 = midiOutClose(g_hmo);
     g_hmo = nullptr;
     return (r2 == MMSYSERR_NOERROR) ? 0 : -(int)r2;
 }
 
-// 内部: short message 送信
-static int send_short(BYTE status, BYTE d1, BYTE d2)
-{
-    if (!g_hmo) return -1;
-    DWORD msg = (DWORD)status | ((DWORD)d1 << 8) | ((DWORD)d2 << 16);
-    MMRESULT r = midiOutShortMsg(g_hmo, msg);
-    return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
-}
-
 // midi_out_short status, data1, data2
-HSPMIDI_EXPORT BOOL WINAPI midi_out_short(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_out_short(int st, int d1, int d2)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int st = getint();
-    int d1 = getint();
-    int d2 = getint();
-    return (BOOL)send_short((BYTE)(st & 0xFF), (BYTE)(d1 & 0x7F), (BYTE)(d2 & 0x7F));
+    return send_short((BYTE)(st & 0xFF), (BYTE)(d1 & 0x7F), (BYTE)(d2 & 0x7F));
 }
 
 // midi_out_note_on ch, note, vel
-HSPMIDI_EXPORT BOOL WINAPI midi_out_note_on(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_out_note_on(int ch, int note, int vel)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int ch   = getint();
-    int note = getint();
-    int vel  = getint();
-    return (BOOL)send_short((BYTE)(0x90 | (ch & 0x0F)),
-                            (BYTE)(note & 0x7F), (BYTE)(vel & 0x7F));
+    return send_short((BYTE)(0x90 | (ch & 0x0F)),
+                      (BYTE)(note & 0x7F), (BYTE)(vel & 0x7F));
 }
 
 // midi_out_note_off ch, note, vel
-HSPMIDI_EXPORT BOOL WINAPI midi_out_note_off(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_out_note_off(int ch, int note, int vel)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int ch   = getint();
-    int note = getint();
-    int vel  = getint();
-    return (BOOL)send_short((BYTE)(0x80 | (ch & 0x0F)),
-                            (BYTE)(note & 0x7F), (BYTE)(vel & 0x7F));
+    return send_short((BYTE)(0x80 | (ch & 0x0F)),
+                      (BYTE)(note & 0x7F), (BYTE)(vel & 0x7F));
 }
 
 // midi_out_program_change ch, program
-HSPMIDI_EXPORT BOOL WINAPI midi_out_program_change(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_out_program_change(int ch, int prog)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int ch   = getint();
-    int prog = getint();
-    return (BOOL)send_short((BYTE)(0xC0 | (ch & 0x0F)),
-                            (BYTE)(prog & 0x7F), 0);
+    return send_short((BYTE)(0xC0 | (ch & 0x0F)), (BYTE)(prog & 0x7F), 0);
 }
 
 // midi_out_reset
-HSPMIDI_EXPORT BOOL WINAPI midi_out_reset(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_out_reset()
 {
-    (void)hei; (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     if (!g_hmo) return -1;
     MMRESULT r = midiOutReset(g_hmo);
     return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
 }
 
-// ============================================================
-// MIDI IN 命令 (ポーリング式)
-// ============================================================
+// ---------- MIDI IN ----------
 
-// midi_in_count → stat
-HSPMIDI_EXPORT BOOL WINAPI midi_in_count(HSPEXINFO* hei, int p1, int p2, int p3)
+// midi_in_count var_int
+HSPMIDI_EXPORT int __stdcall hspmidi_in_count(int* out)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    return (BOOL)midiInGetNumDevs();
+    if (out) *out = (int)midiInGetNumDevs();
+    return 0;
 }
 
-// midi_in_name var_str, devid
-HSPMIDI_EXPORT BOOL WINAPI midi_in_name(HSPEXINFO* hei, int p1, int p2, int p3)
+// midi_in_name var_buf, buf_size, devid
+HSPMIDI_EXPORT int __stdcall hspmidi_in_name(char* out_buf, int out_size, int devid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    int devid = getint();
-
+    if (out_buf && out_size > 0) out_buf[0] = 0;
     MIDIINCAPSW caps;
     ZeroMemory(&caps, sizeof(caps));
     MMRESULT r = midiInGetDevCapsW((UINT_PTR)devid, &caps, sizeof(caps));
-    std::string name;
     if (r == MMSYSERR_NOERROR) {
-        name = wide_to_cp932(caps.szPname);
-    }
-
-    if (pv && pv->flag == HSPVAR_FLAG_STR) {
-        pv->offset = a;
-        HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-        proc->Set(pv, proc->GetPtr(pv), (void*)name.c_str());
+        copy_to_buf(wide_to_cp932(caps.szPname), out_buf, out_size);
     }
     return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
 }
 
 // midi_in_open devid
-HSPMIDI_EXPORT BOOL WINAPI midi_in_open(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_in_open(int devid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     ensure_cs();
-    int devid = getint();
-
     if (g_hmi) {
         midiInStop(g_hmi);
         midiInClose(g_hmi);
         g_hmi = nullptr;
     }
-    // リングバッファクリア
     EnterCriticalSection(&g_in_cs);
     g_in_head = g_in_tail = 0;
     LeaveCriticalSection(&g_in_cs);
@@ -379,30 +283,24 @@ HSPMIDI_EXPORT BOOL WINAPI midi_in_open(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 // midi_in_start
-HSPMIDI_EXPORT BOOL WINAPI midi_in_start(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_in_start()
 {
-    (void)hei; (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     if (!g_hmi) return -1;
     MMRESULT r = midiInStart(g_hmi);
     return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
 }
 
 // midi_in_stop
-HSPMIDI_EXPORT BOOL WINAPI midi_in_stop(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_in_stop()
 {
-    (void)hei; (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     if (!g_hmi) return -1;
     MMRESULT r = midiInStop(g_hmi);
     return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
 }
 
 // midi_in_close
-HSPMIDI_EXPORT BOOL WINAPI midi_in_close(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPMIDI_EXPORT int __stdcall hspmidi_in_close()
 {
-    (void)hei; (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     if (!g_hmi) return 0;
     midiInStop(g_hmi);
     MMRESULT r = midiInClose(g_hmi);
@@ -410,27 +308,19 @@ HSPMIDI_EXPORT BOOL WINAPI midi_in_close(HSPEXINFO* hei, int p1, int p2, int p3)
     return (r == MMSYSERR_NOERROR) ? 0 : -(int)r;
 }
 
-// midi_in_poll var_status, var_d1, var_d2
-//   リングバッファから 1 件取り出して stat=1 (取得成功) / 0 (空)
-HSPMIDI_EXPORT BOOL WINAPI midi_in_poll(HSPEXINFO* hei, int p1, int p2, int p3)
+// midi_in_poll var_got, var_status, var_d1, var_d2
+//   got = 1 取得成功 / 0 空
+HSPMIDI_EXPORT int __stdcall hspmidi_in_poll(int* out_got, int* out_status,
+                                             int* out_d1, int* out_d2)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     ensure_cs();
-
     MidiInMsg m;
     bool got = pop_msg(m);
-    if (!got) {
-        // 3 つとも 0 を書く
-        write_int_to_var(0);
-        write_int_to_var(0);
-        write_int_to_var(0);
-        return 0;
-    }
-    write_int_to_var((int)m.status);
-    write_int_to_var((int)m.d1);
-    write_int_to_var((int)m.d2);
-    return 1;
+    if (out_got)    *out_got    = got ? 1 : 0;
+    if (out_status) *out_status = got ? (int)m.status : 0;
+    if (out_d1)     *out_d1     = got ? (int)m.d1 : 0;
+    if (out_d2)     *out_d2     = got ? (int)m.d2 : 0;
+    return 0;
 }
 
 // ============================================================

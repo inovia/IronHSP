@@ -1,12 +1,12 @@
 LIBRARY hspwasm
 EXPORTS
-    wasm_load
-    wasm_load_mem
-    wasm_close
-    wasm_clear
-    wasm_memory_size
-    wasm_memory_read
-    wasm_memory_write
-    wasm_call_i
-    wasm_call_i64
-    wasm_call_d
+    hspwasm_load
+    hspwasm_load_mem
+    hspwasm_close
+    hspwasm_clear
+    hspwasm_memory_size
+    hspwasm_memory_read
+    hspwasm_memory_write
+    hspwasm_call_i
+    hspwasm_call_i64
+    hspwasm_call_d

@@ -20,8 +20,8 @@
     mes ""
 
     ; デバイス列挙
-    midi_out_count
-    ndev = stat
+    ndev = 0
+    midi_out_count ndev
     mes strf("MIDI out devices: %d", ndev)
     if ndev == 0 {
         color 180, 0, 0
@@ -29,8 +29,9 @@
         stop
     }
 
+    sdim nm, 256
     repeat ndev
-        midi_out_name nm, cnt
+        midi_out_name nm, 256, cnt
         mes strf("  %d: %s", cnt, nm)
     loop
     mes ""

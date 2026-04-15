@@ -1,21 +1,24 @@
 ;============================================================
-;  hspjson.as — JSON プラグイン宣言
+;  hspjson.as — JSON プラグイン宣言 (新形式 typed #func)
+;
+;  HSP コマンド名は従来互換 (json_parse 等)。
+;  DLL 実体は hspjson_xxx にリネームして第 3 引数で指定。
 ;============================================================
 
 #ifndef __hspjson_as__
 #define __hspjson_as__
 
 #uselib "hspjson.dll"
-#func global json_parse            json_parse            $202
-#func global json_free             json_free             $202
-#func global json_clear            json_clear            $202
-#func global json_get_str          json_get_str          $202
-#func global json_get_int          json_get_int          $202
-#func global json_get_dbl          json_get_dbl          $202
-#func global json_count            json_count            $202
-#func global json_type             json_type             $202
-#func global json_stringify        json_stringify        $202
-#func global json_stringify_pretty json_stringify_pretty $202
+#func global json_parse            "hspjson_parse"            str, var
+#func global json_free             "hspjson_free"             int
+#func global json_clear            "hspjson_clear"
+#func global json_get_str          "hspjson_get_str"          int, str, var, int
+#func global json_get_int          "hspjson_get_int"          int, str, var
+#func global json_get_dbl          "hspjson_get_dbl"          int, str, var
+#func global json_count            "hspjson_count"            int, str, var
+#func global json_type             "hspjson_type"             int, str, var
+#func global json_stringify        "hspjson_stringify"        int, var, int
+#func global json_stringify_pretty "hspjson_stringify_pretty" int, var, int
 
 ; 値型定数 (json_type の戻り)
 #define global JT_NULL  0

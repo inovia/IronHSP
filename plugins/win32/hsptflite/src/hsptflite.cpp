@@ -1,18 +1,14 @@
 //============================================================
-//   hsptflite.dll — Tensorflow Lite C API host plugin for IronHSP
+//   hsptflite.dll v2 — Tensorflow Lite C API host plugin for IronHSP
 //
 //   Google Tensorflow Lite の C API (tensorflow/lite/c/c_api.h) を
 //   embed して、HSP から .tflite モデルを load / 推論できる薄い
 //   ラッパ。MediaPipe を HSP から利用するための基盤として設計。
 //
-//   v1 スコープ:
-//     - Interpreter 16 並列ハンドル
-//     - Model load (ファイルパス)
-//     - Input / Output 数、shape、dtype の取得
-//     - 入出力テンソルへのバイナリ直接 set/get
-//     - 同期 Invoke
+//   v2 (2026-04-15): OLDDLL $202 → typed #func 形式に全面移行。
+//   HSPEXINFO callback は一切使わず、各 export 関数は普通の C 関数。
 //
-//   HSP API (全て OLDDLL $202 signature):
+//   HSP API (全て typed #func):
 //     tflite_init
 //     tflite_shutdown
 //     tflite_load            "path", var_hid
@@ -20,14 +16,19 @@
 //     tflite_num_threads     hid, n
 //     tflite_input_count     hid, var_n
 //     tflite_output_count    hid, var_n
-//     tflite_input_shape     hid, idx, var_shape_arr, var_rank
-//     tflite_output_shape    hid, idx, var_shape_arr, var_rank
+//     tflite_input_shape     hid, idx, var_shape, var_rank
+//     tflite_output_shape    hid, idx, var_shape, var_rank
 //     tflite_input_type      hid, idx, var_type
 //     tflite_output_type     hid, idx, var_type
-//     tflite_input_resize    hid, idx, var_shape_arr, rank
+//     tflite_input_resize    hid, idx, var_shape, rank
 //     tflite_set_input       hid, idx, var_buf, byte_len
 //     tflite_get_output      hid, idx, var_buf, byte_len
 //     tflite_invoke          hid
+//
+//     mp_palm_detect         hid, var_rgb, w, h, thresh, var_boxes, var_count
+//     mp_hand_landmark       hid, var_rgb, w, h, x1, y1, x2, y2, var_xy, var_conf
+//     mp_bgr_to_rgb          var_bgr, w, h, var_rgb
+//     mp_letterbox_resize    var_src, sw, sh, src_ch, var_dst, dw, dh, var_params
 //
 //   NOTE:
 //     - __has_include("tensorflow/lite/c/c_api.h") が false の環境
@@ -47,20 +48,6 @@
 
 #include <algorithm>
 #include <cmath>
-
-// ---------- HSP SDK ----------
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
 
 // ---------- TFLite C API ----------
 //
@@ -84,53 +71,6 @@
 #endif
 
 #define HSPTFLITE_EXPORT extern "C" __declspec(dllexport)
-
-// ============================================================
-// HSP helpers (hsponnx.cpp と同等)
-// ============================================================
-namespace {
-
-HSPEXINFO* g_hei = nullptr;
-inline void   set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint() { return g_hei->HspFunc_prm_geti(); }
-inline char*  getstr() { return g_hei->HspFunc_prm_gets(); }
-
-inline PVal* getva_pval(APTR* out_aptr) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (out_aptr) *out_aptr = a;
-    return pv;
-}
-
-static void write_int_to_var(int v) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-static void write_int_to_pval(PVal* pv, int v) {
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = 0;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-static void* get_var_rawptr(PVal* pv) {
-    if (!pv) return nullptr;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    pv->offset = 0;
-    return proc->GetPtr(pv);
-}
-
-static int* get_int_array(PVal* pv) {
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return nullptr;
-    return (int*)get_var_rawptr(pv);
-}
-
-} // namespace
 
 // ============================================================
 // Interpreter handle table
@@ -177,48 +117,39 @@ static TfLiteSlot* get_slot(int h) {
 }
 
 // ============================================================
-// HSP exports
+// HSP exports (typed #func 新形式)
 // ============================================================
 
-// tflite_init
-HSPTFLITE_EXPORT BOOL WINAPI tflite_init(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+HSPTFLITE_EXPORT int __stdcall tflite_init() {
     return 0;
 }
 
-// tflite_shutdown
-HSPTFLITE_EXPORT BOOL WINAPI tflite_shutdown(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+HSPTFLITE_EXPORT int __stdcall tflite_shutdown() {
     for (int i = 0; i < (int)g_slots.size(); ++i) free_slot(i);
     return 0;
 }
 
 // tflite_load "path", var_hid
-HSPTFLITE_EXPORT BOOL WINAPI tflite_load(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    const char* path = getstr();
-    if (!path) { write_int_to_var(-1); return 0; }
+HSPTFLITE_EXPORT int __stdcall tflite_load(const char* path, int* out_h) {
+    if (out_h) *out_h = -1;
+    if (!path) return 0;
 
 #if !HSPTFLITE_HAVE_TFL
-    (void)path;
-    write_int_to_var(-100); // not linked
+    if (out_h) *out_h = -100;
     return 0;
 #else
     int h = alloc_slot();
-    if (h < 0) { write_int_to_var(-1); return 0; }
+    if (h < 0) return 0;
     TfLiteSlot& s = g_slots[h];
     s.path = path;
 
     s.model = TfLiteModelCreateFromFile(path);
-    if (!s.model) { write_int_to_var(-2); return 0; }
+    if (!s.model) { if (out_h) *out_h = -2; return 0; }
 
     s.options = TfLiteInterpreterOptionsCreate();
     if (!s.options) {
         TfLiteModelDelete(s.model); s.model = nullptr;
-        write_int_to_var(-3); return 0;
+        if (out_h) *out_h = -3; return 0;
     }
     TfLiteInterpreterOptionsSetNumThreads(s.options, s.num_threads);
 
@@ -226,41 +157,31 @@ HSPTFLITE_EXPORT BOOL WINAPI tflite_load(HSPEXINFO* hei, int p1, int p2, int p3)
     if (!s.interp) {
         TfLiteInterpreterOptionsDelete(s.options); s.options = nullptr;
         TfLiteModelDelete(s.model); s.model = nullptr;
-        write_int_to_var(-4); return 0;
+        if (out_h) *out_h = -4; return 0;
     }
     if (TfLiteInterpreterAllocateTensors(s.interp) != kTfLiteOk) {
         TfLiteInterpreterDelete(s.interp);  s.interp = nullptr;
         TfLiteInterpreterOptionsDelete(s.options); s.options = nullptr;
         TfLiteModelDelete(s.model); s.model = nullptr;
-        write_int_to_var(-5); return 0;
+        if (out_h) *out_h = -5; return 0;
     }
 
     s.used = true;
-    write_int_to_var(h);
+    if (out_h) *out_h = h;
     return 0;
 #endif
 }
 
-// tflite_close hid
-HSPTFLITE_EXPORT BOOL WINAPI tflite_close(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_close(int h) {
     free_slot(h);
     return 0;
 }
 
-// tflite_num_threads hid, n
-HSPTFLITE_EXPORT BOOL WINAPI tflite_num_threads(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int n = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_num_threads(int h, int n) {
     TfLiteSlot* s = get_slot(h);
     if (!s) return 0;
     s->num_threads = n < 1 ? 1 : n;
 #if HSPTFLITE_HAVE_TFL
-    // options を作り直して interpreter を再構築
     if (s->interp)  { TfLiteInterpreterDelete(s->interp);   s->interp = nullptr; }
     if (s->options) { TfLiteInterpreterOptionsDelete(s->options); s->options = nullptr; }
     s->options = TfLiteInterpreterOptionsCreate();
@@ -273,95 +194,73 @@ HSPTFLITE_EXPORT BOOL WINAPI tflite_num_threads(HSPEXINFO* hei, int p1, int p2, 
 }
 
 // ---- input/output count ----
-HSPTFLITE_EXPORT BOOL WINAPI tflite_input_count(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    TfLiteSlot* s = get_slot(h);
+HSPTFLITE_EXPORT int __stdcall tflite_input_count(int h, int* out_n) {
     int n = -1;
+    TfLiteSlot* s = get_slot(h);
 #if HSPTFLITE_HAVE_TFL
     if (s && s->interp) n = TfLiteInterpreterGetInputTensorCount(s->interp);
 #else
     (void)s;
 #endif
-    write_int_to_var(n);
+    if (out_n) *out_n = n;
     return 0;
 }
 
-HSPTFLITE_EXPORT BOOL WINAPI tflite_output_count(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    TfLiteSlot* s = get_slot(h);
+HSPTFLITE_EXPORT int __stdcall tflite_output_count(int h, int* out_n) {
     int n = -1;
+    TfLiteSlot* s = get_slot(h);
 #if HSPTFLITE_HAVE_TFL
     if (s && s->interp) n = TfLiteInterpreterGetOutputTensorCount(s->interp);
 #else
     (void)s;
 #endif
-    write_int_to_var(n);
+    if (out_n) *out_n = n;
     return 0;
 }
 
 // ---- shape ----
-HSPTFLITE_EXPORT BOOL WINAPI tflite_input_shape(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
-    APTR a1, a2;
-    PVal* pv_sh = getva_pval(&a1);
-    PVal* pv_rk = getva_pval(&a2);
+HSPTFLITE_EXPORT int __stdcall tflite_input_shape(int h, int idx, int* out_shape, int* out_rank) {
     TfLiteSlot* s = get_slot(h);
-    int* shape = get_int_array(pv_sh);
 #if HSPTFLITE_HAVE_TFL
-    if (s && s->interp && shape) {
+    if (s && s->interp && out_shape) {
         TfLiteTensor* t = TfLiteInterpreterGetInputTensor(s->interp, idx);
         int rank = 0;
         if (t) {
             rank = TfLiteTensorNumDims(t);
             if (rank < 0) rank = 0;
             if (rank > 8) rank = 8;
-            for (int i = 0; i < rank; ++i) shape[i] = TfLiteTensorDim(t, i);
+            for (int i = 0; i < rank; ++i) out_shape[i] = TfLiteTensorDim(t, i);
         }
-        write_int_to_pval(pv_rk, rank);
-    } else {
-        write_int_to_pval(pv_rk, 0);
+        if (out_rank) *out_rank = rank;
+    } else if (out_rank) {
+        *out_rank = 0;
     }
 #else
-    (void)s; (void)idx; (void)shape;
-    write_int_to_pval(pv_rk, 0);
+    (void)s; (void)idx; (void)out_shape;
+    if (out_rank) *out_rank = 0;
 #endif
     return 0;
 }
 
-HSPTFLITE_EXPORT BOOL WINAPI tflite_output_shape(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
-    APTR a1, a2;
-    PVal* pv_sh = getva_pval(&a1);
-    PVal* pv_rk = getva_pval(&a2);
+HSPTFLITE_EXPORT int __stdcall tflite_output_shape(int h, int idx, int* out_shape, int* out_rank) {
     TfLiteSlot* s = get_slot(h);
-    int* shape = get_int_array(pv_sh);
 #if HSPTFLITE_HAVE_TFL
-    if (s && s->interp && shape) {
+    if (s && s->interp && out_shape) {
         const TfLiteTensor* t = TfLiteInterpreterGetOutputTensor(s->interp, idx);
         int rank = 0;
         if (t) {
             rank = TfLiteTensorNumDims(t);
             if (rank < 0) rank = 0;
             if (rank > 8) rank = 8;
-            for (int i = 0; i < rank; ++i) shape[i] = TfLiteTensorDim(t, i);
+            for (int i = 0; i < rank; ++i) out_shape[i] = TfLiteTensorDim(t, i);
         }
-        write_int_to_pval(pv_rk, rank);
-    } else {
-        write_int_to_pval(pv_rk, 0);
+        if (out_rank) *out_rank = rank;
+    } else if (out_rank) {
+        *out_rank = 0;
     }
 #else
-    (void)s; (void)idx; (void)shape;
-    write_int_to_pval(pv_rk, 0);
+    (void)s; (void)idx; (void)out_shape;
+    if (out_rank) *out_rank = 0;
 #endif
     return 0;
 }
@@ -387,11 +286,7 @@ static int map_tflite_type(int t) {
 #endif
 }
 
-HSPTFLITE_EXPORT BOOL WINAPI tflite_input_type(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_input_type(int h, int idx, int* out_ty) {
     TfLiteSlot* s = get_slot(h);
     int ty = -1;
 #if HSPTFLITE_HAVE_TFL
@@ -402,15 +297,11 @@ HSPTFLITE_EXPORT BOOL WINAPI tflite_input_type(HSPEXINFO* hei, int p1, int p2, i
 #else
     (void)s; (void)idx;
 #endif
-    write_int_to_var(ty);
+    if (out_ty) *out_ty = ty;
     return 0;
 }
 
-HSPTFLITE_EXPORT BOOL WINAPI tflite_output_type(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_output_type(int h, int idx, int* out_ty) {
     TfLiteSlot* s = get_slot(h);
     int ty = -1;
 #if HSPTFLITE_HAVE_TFL
@@ -421,22 +312,13 @@ HSPTFLITE_EXPORT BOOL WINAPI tflite_output_type(HSPEXINFO* hei, int p1, int p2, 
 #else
     (void)s; (void)idx;
 #endif
-    write_int_to_var(ty);
+    if (out_ty) *out_ty = ty;
     return 0;
 }
 
 // ---- input resize ----
-// tflite_input_resize hid, idx, var_shape_arr, rank
-HSPTFLITE_EXPORT BOOL WINAPI tflite_input_resize(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
-    APTR a;
-    PVal* pv_sh = getva_pval(&a);
-    int rank = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_input_resize(int h, int idx, int* shape, int rank) {
     TfLiteSlot* s = get_slot(h);
-    int* shape = get_int_array(pv_sh);
     if (!s || !shape || rank <= 0 || rank > 8) return 0;
 #if HSPTFLITE_HAVE_TFL
     if (s->interp) {
@@ -450,19 +332,9 @@ HSPTFLITE_EXPORT BOOL WINAPI tflite_input_resize(HSPEXINFO* hei, int p1, int p2,
 }
 
 // ---- set input ----
-// tflite_set_input hid, idx, var_buf, byte_len
-HSPTFLITE_EXPORT BOOL WINAPI tflite_set_input(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
-    APTR a;
-    PVal* pv_buf = getva_pval(&a);
-    int byte_len = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_set_input(int h, int idx, void* src, int byte_len) {
     TfLiteSlot* s = get_slot(h);
-    if (!s || !pv_buf || byte_len <= 0) return 0;
-    void* src = get_var_rawptr(pv_buf);
-    if (!src) return 0;
+    if (!s || !src || byte_len <= 0) return 0;
 #if HSPTFLITE_HAVE_TFL
     if (s->interp) {
         TfLiteTensor* t = TfLiteInterpreterGetInputTensor(s->interp, idx);
@@ -479,19 +351,9 @@ HSPTFLITE_EXPORT BOOL WINAPI tflite_set_input(HSPEXINFO* hei, int p1, int p2, in
 }
 
 // ---- get output ----
-// tflite_get_output hid, idx, var_buf, byte_len
-HSPTFLITE_EXPORT BOOL WINAPI tflite_get_output(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
-    APTR a;
-    PVal* pv_buf = getva_pval(&a);
-    int byte_len = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_get_output(int h, int idx, void* dst, int byte_len) {
     TfLiteSlot* s = get_slot(h);
-    if (!s || !pv_buf || byte_len <= 0) return 0;
-    void* dst = get_var_rawptr(pv_buf);
-    if (!dst) return 0;
+    if (!s || !dst || byte_len <= 0) return 0;
 #if HSPTFLITE_HAVE_TFL
     if (s->interp) {
         const TfLiteTensor* t = TfLiteInterpreterGetOutputTensor(s->interp, idx);
@@ -508,10 +370,7 @@ HSPTFLITE_EXPORT BOOL WINAPI tflite_get_output(HSPEXINFO* hei, int p1, int p2, i
 }
 
 // ---- invoke ----
-HSPTFLITE_EXPORT BOOL WINAPI tflite_invoke(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPTFLITE_EXPORT int __stdcall tflite_invoke(int h) {
     TfLiteSlot* s = get_slot(h);
     if (!s) return 0;
 #if HSPTFLITE_HAVE_TFL
@@ -680,29 +539,14 @@ static inline float iou_xyxy(int ax1, int ay1, int ax2, int ay2,
 // mp_palm_detect hid, var_rgb, w, h, score_thresh_i,
 //                var_out_boxes, var_out_count
 // ------------------------------------------------------------
-HSPTFLITE_EXPORT BOOL WINAPI mp_palm_detect(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    APTR a_rgb;
-    PVal* pv_rgb = getva_pval(&a_rgb);
-    int w = getint();
-    int ih = getint();
-    int thresh_i = getint();
-    APTR a_box;
-    PVal* pv_box = getva_pval(&a_box);
-    APTR a_cnt;
-    PVal* pv_cnt = getva_pval(&a_cnt);
-
-    (void)a_rgb; (void)a_box; (void)a_cnt;
-
-    int* out_boxes = get_int_array(pv_box);
-    if (pv_cnt) write_int_to_pval(pv_cnt, 0);
-
+HSPTFLITE_EXPORT int __stdcall mp_palm_detect(
+    int h, void* rgb_v, int w, int ih, int thresh_i,
+    int* out_boxes, int* out_count)
+{
+    if (out_count) *out_count = 0;
     TfLiteSlot* s = get_slot(h);
-    if (!s || !pv_rgb || !out_boxes) return 0;
-    uint8_t* rgb = (uint8_t*)get_var_rawptr(pv_rgb);
-    if (!rgb) return 0;
+    if (!s || !rgb_v || !out_boxes) return 0;
+    uint8_t* rgb = (uint8_t*)rgb_v;
 
 #if !HSPTFLITE_HAVE_TFL
     (void)w; (void)ih; (void)thresh_i;
@@ -820,7 +664,7 @@ HSPTFLITE_EXPORT BOOL WINAPI mp_palm_detect(HSPEXINFO* hei, int p1, int p2, int 
         out_boxes[i * 5 + 3] = keep[i].y2;
         out_boxes[i * 5 + 4] = (int)(keep[i].sc * 1000.0f);
     }
-    if (pv_cnt) write_int_to_pval(pv_cnt, (int)keep.size());
+    if (out_count) *out_count = (int)keep.size();
     return 0;
 #endif
 }
@@ -829,31 +673,15 @@ HSPTFLITE_EXPORT BOOL WINAPI mp_palm_detect(HSPEXINFO* hei, int p1, int p2, int 
 // mp_hand_landmark hid, var_rgb, w, h, x1, y1, x2, y2,
 //                  var_out_xy(int*42), var_out_conf
 // ------------------------------------------------------------
-HSPTFLITE_EXPORT BOOL WINAPI mp_hand_landmark(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    APTR a_rgb;
-    PVal* pv_rgb = getva_pval(&a_rgb);
-    int w = getint();
-    int ih = getint();
-    int x1 = getint();
-    int y1 = getint();
-    int x2 = getint();
-    int y2 = getint();
-    APTR a_out;
-    PVal* pv_out = getva_pval(&a_out);
-    APTR a_conf;
-    PVal* pv_conf = getva_pval(&a_conf);
-    (void)a_rgb; (void)a_out; (void)a_conf;
-
-    int* out_xy = get_int_array(pv_out);
-    if (pv_conf) write_int_to_pval(pv_conf, 0);
-
+HSPTFLITE_EXPORT int __stdcall mp_hand_landmark(
+    int h, void* rgb_v, int w, int ih,
+    int x1, int y1, int x2, int y2,
+    int* out_xy, int* out_conf)
+{
+    if (out_conf) *out_conf = 0;
     TfLiteSlot* s = get_slot(h);
-    if (!s || !pv_rgb || !out_xy) return 0;
-    uint8_t* rgb = (uint8_t*)get_var_rawptr(pv_rgb);
-    if (!rgb) return 0;
+    if (!s || !rgb_v || !out_xy) return 0;
+    uint8_t* rgb = (uint8_t*)rgb_v;
 
 #if !HSPTFLITE_HAVE_TFL
     (void)w; (void)ih; (void)x1; (void)y1; (void)x2; (void)y2;
@@ -940,7 +768,7 @@ HSPTFLITE_EXPORT BOOL WINAPI mp_hand_landmark(HSPEXINFO* hei, int p1, int p2, in
         out_xy[i * 2 + 0] = sx;
         out_xy[i * 2 + 1] = sy;
     }
-    if (pv_conf) write_int_to_pval(pv_conf, (int)(pres * 1000.0f));
+    if (out_conf) *out_conf = (int)(pres * 1000.0f);
     return 0;
 #endif
 }
@@ -948,19 +776,10 @@ HSPTFLITE_EXPORT BOOL WINAPI mp_hand_landmark(HSPEXINFO* hei, int p1, int p2, in
 // ------------------------------------------------------------
 // mp_bgr_to_rgb var_bgr, w, h, var_rgb
 // ------------------------------------------------------------
-HSPTFLITE_EXPORT BOOL WINAPI mp_bgr_to_rgb(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    APTR a1, a2;
-    PVal* pv_bgr = getva_pval(&a1);
-    int w = getint();
-    int h = getint();
-    PVal* pv_rgb = getva_pval(&a2);
-    (void)a1; (void)a2;
-    if (!pv_bgr || !pv_rgb || w <= 0 || h <= 0) return 0;
-    const uint8_t* src = (const uint8_t*)get_var_rawptr(pv_bgr);
-    uint8_t*       dst = (uint8_t*)get_var_rawptr(pv_rgb);
-    if (!src || !dst) return 0;
+HSPTFLITE_EXPORT int __stdcall mp_bgr_to_rgb(void* src_v, int w, int h, void* dst_v) {
+    if (!src_v || !dst_v || w <= 0 || h <= 0) return 0;
+    const uint8_t* src = (const uint8_t*)src_v;
+    uint8_t*       dst = (uint8_t*)dst_v;
     int n = w * h;
     for (int i = 0; i < n; ++i) {
         dst[i * 3 + 0] = src[i * 3 + 2];
@@ -976,24 +795,13 @@ HSPTFLITE_EXPORT BOOL WINAPI mp_bgr_to_rgb(HSPEXINFO* hei, int p1, int p2, int p
 //   dst は 8bit RGB (w*h*3) としてそのまま書き戻す版。
 //   (C++ 側で float 入力を作る用途とは別に、HSP から下処理したい場合用)
 // ------------------------------------------------------------
-HSPTFLITE_EXPORT BOOL WINAPI mp_letterbox_resize(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    APTR a1, a2, a3;
-    PVal* pv_src = getva_pval(&a1);
-    int sw = getint();
-    int sh = getint();
-    int sc = getint();
-    PVal* pv_dst = getva_pval(&a2);
-    int dw = getint();
-    int dh = getint();
-    PVal* pv_prm = getva_pval(&a3);
-    (void)a1; (void)a2; (void)a3;
-    if (!pv_src || !pv_dst || sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) return 0;
-    const uint8_t* src = (const uint8_t*)get_var_rawptr(pv_src);
-    uint8_t*       dst = (uint8_t*)get_var_rawptr(pv_dst);
-    int* prm = pv_prm ? get_int_array(pv_prm) : nullptr;
-    if (!src || !dst) return 0;
+HSPTFLITE_EXPORT int __stdcall mp_letterbox_resize(
+    void* src_v, int sw, int sh, int sc,
+    void* dst_v, int dw, int dh, int* prm)
+{
+    if (!src_v || !dst_v || sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) return 0;
+    const uint8_t* src = (const uint8_t*)src_v;
+    uint8_t*       dst = (uint8_t*)dst_v;
     if (sc != 1 && sc != 3) sc = 3;
 
     float rw = (float)dw / (float)sw;

@@ -1,30 +1,25 @@
 //============================================================
-//   hspwebview2.dll — Microsoft Edge WebView2 plugin for IronHSP
+//   hspwebview2.dll v2 — Microsoft Edge WebView2 plugin for IronHSP
 //
 //   HSP window (HWND) に WebView2 を貼り付けて HTML/JS を表示し、
 //   HSP <-> JS の双方向メッセージングまで行う。
 //
-//   前提:
-//     - Microsoft Edge WebView2 Runtime (evergreen) が PC に
-//       インストール済みであること (Win10/11 なら通常入っている)。
-//     - 配布時: WebView2Loader.dll を DLL と同じディレクトリに
-//       配置する (redist/README.md 参照)。
-//     - ビルド時: Microsoft.Web.WebView2 SDK (WebView2.h 等) を
-//       third_party/webview2/include/ に配置 (third_party/README.md)。
+//   v2 (2026-04-15): OLDDLL $202 → typed #func 形式に全面移行。
+//   HSPEXINFO callback は一切使わず、各 export 関数は普通の C 関数。
 //
-//   HSP API (全て #func global、OLDDLL $202):
+//   HSP API (全て typed #func):
 //     wv2_init        "user_data_dir"
-//     wv2_attach      hwnd, x, y, w, h           ; -> stat = view_id (>=0) / 負値 err
+//     wv2_attach      hwnd, x, y, w, h              ; -> stat = view_id
 //     wv2_detach      id
-//     wv2_close       id                          ; detach と同義
+//     wv2_close       id                             ; detach と同義
 //     wv2_navigate    id, "https://..."
 //     wv2_navigate_to_string id, "<html>..."
 //     wv2_resize      id, x, y, w, h
 //     wv2_visible     id, 0/1
-//     wv2_execute_script id, "js_code", var_str   ; 同期で結果 JSON を var_str に
-//     wv2_post_message   id, "text"               ; HSP -> JS
-//     wv2_poll_message   id, var_str              ; -> stat 1=取得 0=空
-//     wv2_add_script     id, "js"                 ; init script 注入
+//     wv2_execute_script id, "js", var_buf, buf_size
+//     wv2_post_message   id, "text"
+//     wv2_poll_message   id, var_buf, buf_size       ; -> stat 1/0
+//     wv2_add_script     id, "js"
 //
 //   実装メモ:
 //     - WebView2 の非同期 API は Completed Handler COM オブジェクトを要求する。
@@ -54,20 +49,6 @@
 #include <cstring>
 #include <cstdio>
 
-// ---- HSP SDK ----
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
-
 // ---- WebView2 SDK include (optional) ----
 #if defined(__has_include)
 #  if __has_include(<WebView2.h>)
@@ -88,27 +69,9 @@
 #define HSPWV2_EXPORT extern "C" __declspec(dllexport)
 
 // ============================================================
-// HSP plugin helpers (hspjson と同じパターン)
+// 共通 helpers
 // ============================================================
-
 namespace {
-
-HSPEXINFO* g_hei = nullptr;
-inline void set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint() { return g_hei->HspFunc_prm_geti(); }
-inline char*  getstr() { return g_hei->HspFunc_prm_gets(); }
-inline double getdbl() { return g_hei->HspFunc_prm_getd(); }
-
-static void write_str_to_var(const std::string& s)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), (void*)s.c_str());
-}
 
 static std::wstring utf8_to_wide(const char* s)
 {
@@ -130,6 +93,14 @@ static std::string wide_to_utf8(const wchar_t* w)
     return s;
 }
 
+static void copy_to_buf(const std::string& src, char* out, int out_size) {
+    if (!out || out_size <= 0) return;
+    int n = (int)src.size();
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src.data(), (size_t)n);
+    out[n] = 0;
+}
+
 // HSP のメッセージポンプを止めずに done フラグを待つ
 static bool pump_until(std::atomic<bool>& done, DWORD timeout_ms = 30000)
 {
@@ -141,7 +112,6 @@ static bool pump_until(std::atomic<bool>& done, DWORD timeout_ms = 30000)
             TranslateMessage(&msg);
             DispatchMessageW(&msg);
         } else {
-            // ワーカー側の APC / COM STA callback を進めるために軽く待つ
             MsgWaitForMultipleObjectsEx(0, nullptr, 10, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
         }
     }
@@ -177,13 +147,6 @@ static bool g_com_inited = false;
 static bool g_env_inited = false;
 
 // ---------- Generic completion handler template ----------
-//
-// WebView2 の各種 *CompletedHandler は
-//   HRESULT Invoke(HRESULT errorCode, T* result)
-// という一貫した形をしている。
-// T が nullptr のものもある (navigation completed 等) が本プラグインの
-// completion handler 用途では常に "(HRESULT, T*)" で OK。
-
 template <class TInterface, class TArg>
 class GenericCompletedHandler : public TInterface {
     LONG ref_ = 1;
@@ -212,8 +175,6 @@ public:
     }
 };
 
-// ExecuteScriptCompletedHandler は Invoke(HRESULT, LPCWSTR) シグネチャで
-// TArg* スタイルに収まらないので個別実装。
 class ExecuteScriptHandler
     : public ICoreWebView2ExecuteScriptCompletedHandler {
     LONG ref_ = 1;
@@ -242,8 +203,6 @@ public:
     }
 };
 
-// AddScriptToExecuteOnDocumentCreatedCompletedHandler:
-//   Invoke(HRESULT, LPCWSTR id)
 class AddScriptHandler
     : public ICoreWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler {
     LONG ref_ = 1;
@@ -272,7 +231,6 @@ public:
     }
 };
 
-// WebMessageReceived event handler (イベントハンドラなので completion 系とは別)
 class WebMessageHandler : public ICoreWebView2WebMessageReceivedEventHandler {
     LONG ref_ = 1;
     int slot_;
@@ -300,7 +258,6 @@ public:
     {
         if (!args || slot_ < 0 || slot_ >= MAX_VIEWS) return S_OK;
         LPWSTR wmsg = nullptr;
-        // try string first, fallback to WebMessageAsJson
         HRESULT hr = args->TryGetWebMessageAsString(&wmsg);
         if (FAILED(hr) || !wmsg) {
             if (wmsg) { CoTaskMemFree(wmsg); wmsg = nullptr; }
@@ -317,13 +274,10 @@ public:
     }
 };
 
-// ---------- CreateCoreWebView2EnvironmentCompletedHandler ----------
-// Invoke(HRESULT, ICoreWebView2Environment*)
 using EnvHandler = GenericCompletedHandler<
     ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler,
     ICoreWebView2Environment>;
 
-// ---------- CreateCoreWebView2ControllerCompletedHandler ----------
 using CtrlHandler = GenericCompletedHandler<
     ICoreWebView2CreateCoreWebView2ControllerCompletedHandler,
     ICoreWebView2Controller>;
@@ -378,19 +332,14 @@ static void ensure_com_init()
 } // namespace
 
 // ============================================================
-// HSP exports
+// HSP exports (typed #func 新形式)
 // ============================================================
 
 // wv2_init "user_data_dir"
-HSPWV2_EXPORT BOOL WINAPI wv2_init(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_init(const char* udir_u8)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-
-    const char* udir_u8 = getstr();
     std::wstring udir = utf8_to_wide(udir_u8);
     if (udir.empty()) {
-        // 既定: %LOCALAPPDATA%\IronHSP\WebView2
         wchar_t buf[MAX_PATH] = {};
         if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_LOCAL_APPDATA, nullptr, 0, buf))) {
             udir = std::wstring(buf) + L"\\IronHSP\\WebView2";
@@ -401,7 +350,7 @@ HSPWV2_EXPORT BOOL WINAPI wv2_init(HSPEXINFO* hei, int p1, int p2, int p3)
 
     ensure_com_init();
 
-    if (g_env_inited && g_env) return 0; // 再 init は idempotent
+    if (g_env_inited && g_env) return 0;
 
     std::atomic<bool> done{false};
     HRESULT invoke_hr = S_OK;
@@ -426,7 +375,6 @@ HSPWV2_EXPORT BOOL WINAPI wv2_init(HSPEXINFO* hei, int p1, int p2, int p3)
     handler->Release();
 
     if (FAILED(hr)) return -1;
-
     if (!pump_until(done)) return -2;
     if (FAILED(invoke_hr) || !env_out) return -3;
 
@@ -436,17 +384,8 @@ HSPWV2_EXPORT BOOL WINAPI wv2_init(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 // wv2_attach hwnd, x, y, w, h  -> stat = id
-HSPWV2_EXPORT BOOL WINAPI wv2_attach(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_attach(int hwnd_i, int x, int y, int w, int h)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-
-    int hwnd_i = getint();
-    int x = getint();
-    int y = getint();
-    int w = getint();
-    int h = getint();
-
     if (!g_env_inited || !g_env) return -1;
     HWND parent = (HWND)(LONG_PTR)hwnd_i;
     if (!IsWindow(parent)) return -2;
@@ -484,7 +423,6 @@ HSPWV2_EXPORT BOOL WINAPI wv2_attach(HSPEXINFO* hei, int p1, int p2, int p3)
     hr = ctrl_out->get_CoreWebView2(&st.view);
     if (FAILED(hr) || !st.view) { free_slot(slot); return -7; }
 
-    // bounds
     RECT rc = { x, y, x + w, y + h };
     if (w <= 0 || h <= 0) {
         GetClientRect(parent, &rc);
@@ -492,7 +430,6 @@ HSPWV2_EXPORT BOOL WINAPI wv2_attach(HSPEXINFO* hei, int p1, int p2, int p3)
     st.controller->put_Bounds(rc);
     st.controller->put_IsVisible(TRUE);
 
-    // WebMessageReceived ハンドラ登録
     auto* msgh = new WebMessageHandler(slot);
     hr = st.view->add_WebMessageReceived(msgh, &st.msg_token);
     msgh->Release();
@@ -501,84 +438,54 @@ HSPWV2_EXPORT BOOL WINAPI wv2_attach(HSPEXINFO* hei, int p1, int p2, int p3)
     return slot;
 }
 
-// wv2_detach id / wv2_close id
-HSPWV2_EXPORT BOOL WINAPI wv2_detach(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_detach(int id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
     if (!valid_slot(id)) return -1;
     free_slot(id);
     return 0;
 }
 
-HSPWV2_EXPORT BOOL WINAPI wv2_close(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_close(int id)
 {
-    return wv2_detach(hei, p1, p2, p3);
+    return wv2_detach(id);
 }
 
-// wv2_navigate id, "url"
-HSPWV2_EXPORT BOOL WINAPI wv2_navigate(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_navigate(int id, const char* url)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* url = getstr();
     if (!valid_slot(id) || !g_views[id].view) return -1;
     std::wstring wurl = utf8_to_wide(url);
     HRESULT hr = g_views[id].view->Navigate(wurl.c_str());
     return SUCCEEDED(hr) ? 0 : -2;
 }
 
-// wv2_navigate_to_string id, "<html>"
-HSPWV2_EXPORT BOOL WINAPI wv2_navigate_to_string(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_navigate_to_string(int id, const char* html)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* html = getstr();
     if (!valid_slot(id) || !g_views[id].view) return -1;
     std::wstring whtml = utf8_to_wide(html);
     HRESULT hr = g_views[id].view->NavigateToString(whtml.c_str());
     return SUCCEEDED(hr) ? 0 : -2;
 }
 
-// wv2_resize id, x, y, w, h
-HSPWV2_EXPORT BOOL WINAPI wv2_resize(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_resize(int id, int x, int y, int w, int h)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    int x = getint();
-    int y = getint();
-    int w = getint();
-    int h = getint();
     if (!valid_slot(id) || !g_views[id].controller) return -1;
     RECT rc = { x, y, x + w, y + h };
     g_views[id].controller->put_Bounds(rc);
     return 0;
 }
 
-// wv2_visible id, 0/1
-HSPWV2_EXPORT BOOL WINAPI wv2_visible(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_visible(int id, int v)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    int v = getint();
     if (!valid_slot(id) || !g_views[id].controller) return -1;
     g_views[id].controller->put_IsVisible(v ? TRUE : FALSE);
     return 0;
 }
 
-// wv2_execute_script id, "js", var_result
-HSPWV2_EXPORT BOOL WINAPI wv2_execute_script(HSPEXINFO* hei, int p1, int p2, int p3)
+// wv2_execute_script id, "js", var_buf, buf_size
+HSPWV2_EXPORT int __stdcall wv2_execute_script(int id, const char* js, char* out_buf, int out_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* js = getstr();
-    if (!valid_slot(id) || !g_views[id].view) { write_str_to_var(""); return -1; }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    if (!valid_slot(id) || !g_views[id].view) return -1;
 
     std::wstring wjs = utf8_to_wide(js);
     std::atomic<bool> done{false};
@@ -595,35 +502,27 @@ HSPWV2_EXPORT BOOL WINAPI wv2_execute_script(HSPEXINFO* hei, int p1, int p2, int
 
     HRESULT hr = g_views[id].view->ExecuteScript(wjs.c_str(), handler);
     handler->Release();
-    if (FAILED(hr)) { write_str_to_var(""); return -2; }
+    if (FAILED(hr)) return -2;
+    if (!pump_until(done)) return -3;
+    if (FAILED(invoke_hr)) return -4;
 
-    if (!pump_until(done)) { write_str_to_var(""); return -3; }
-    if (FAILED(invoke_hr)) { write_str_to_var(""); return -4; }
-
-    write_str_to_var(result);
+    copy_to_buf(result, out_buf, out_size);
     return 0;
 }
 
-// wv2_post_message id, "text"  (HSP -> JS)
-HSPWV2_EXPORT BOOL WINAPI wv2_post_message(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_post_message(int id, const char* text)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* text = getstr();
     if (!valid_slot(id) || !g_views[id].view) return -1;
     std::wstring w = utf8_to_wide(text);
     HRESULT hr = g_views[id].view->PostWebMessageAsString(w.c_str());
     return SUCCEEDED(hr) ? 0 : -2;
 }
 
-// wv2_poll_message id, var_text  -> stat 1/0
-HSPWV2_EXPORT BOOL WINAPI wv2_poll_message(HSPEXINFO* hei, int p1, int p2, int p3)
+// wv2_poll_message id, var_buf, buf_size  -> 1 = 取得 / 0 = 空
+HSPWV2_EXPORT int __stdcall wv2_poll_message(int id, char* out_buf, int out_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    if (!valid_slot(id)) { write_str_to_var(""); return 0; }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    if (!valid_slot(id)) return 0;
 
     // メインスレッドで呼ばれるので、直前に COM callback が飛ぶよう軽くポンプ
     MSG msg;
@@ -635,24 +534,17 @@ HSPWV2_EXPORT BOOL WINAPI wv2_poll_message(HSPEXINFO* hei, int p1, int p2, int p
     WebView2State& st = g_views[id];
     std::unique_lock<std::mutex> lk(st.msg_mutex);
     if (st.msg_queue.empty()) {
-        lk.unlock();
-        write_str_to_var("");
         return 0;
     }
     std::string s = std::move(st.msg_queue.front());
     st.msg_queue.pop_front();
     lk.unlock();
-    write_str_to_var(s);
+    copy_to_buf(s, out_buf, out_size);
     return 1;
 }
 
-// wv2_add_script id, "js"  (AddScriptToExecuteOnDocumentCreated)
-HSPWV2_EXPORT BOOL WINAPI wv2_add_script(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWV2_EXPORT int __stdcall wv2_add_script(int id, const char* js)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
-    const char* js = getstr();
     if (!valid_slot(id) || !g_views[id].view) return -1;
 
     std::wstring wjs = utf8_to_wide(js);
@@ -676,21 +568,18 @@ HSPWV2_EXPORT BOOL WINAPI wv2_add_script(HSPEXINFO* hei, int p1, int p2, int p3)
 #else // HSPWV2_STUB
 
 // WebView2 SDK 不在時の stub。ビルドだけ通せるよう、全関数はエラー返し。
-#define HSPWV2_STUB_FUNC(name) \
-    HSPWV2_EXPORT BOOL WINAPI name(HSPEXINFO* hei, int, int, int) { (void)hei; return -1; }
-
-HSPWV2_STUB_FUNC(wv2_init)
-HSPWV2_STUB_FUNC(wv2_attach)
-HSPWV2_STUB_FUNC(wv2_detach)
-HSPWV2_STUB_FUNC(wv2_close)
-HSPWV2_STUB_FUNC(wv2_navigate)
-HSPWV2_STUB_FUNC(wv2_navigate_to_string)
-HSPWV2_STUB_FUNC(wv2_resize)
-HSPWV2_STUB_FUNC(wv2_visible)
-HSPWV2_STUB_FUNC(wv2_execute_script)
-HSPWV2_STUB_FUNC(wv2_post_message)
-HSPWV2_STUB_FUNC(wv2_poll_message)
-HSPWV2_STUB_FUNC(wv2_add_script)
+HSPWV2_EXPORT int __stdcall wv2_init(const char*) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_attach(int, int, int, int, int) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_detach(int) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_close(int) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_navigate(int, const char*) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_navigate_to_string(int, const char*) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_resize(int, int, int, int, int) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_visible(int, int) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_execute_script(int, const char*, char*, int) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_post_message(int, const char*) { return -1; }
+HSPWV2_EXPORT int __stdcall wv2_poll_message(int, char*, int) { return 0; }
+HSPWV2_EXPORT int __stdcall wv2_add_script(int, const char*) { return -1; }
 
 #endif // HSPWV2_STUB
 

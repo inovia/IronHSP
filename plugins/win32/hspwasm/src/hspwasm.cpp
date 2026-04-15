@@ -39,19 +39,7 @@
 #include <cstdlib>
 #include <cstdint>
 
-// ---------- HSP SDK ----------
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
+// 新形式 (typed #func) 移行済。HSPEXINFO / HspFunc_prm_* 非依存。
 
 // ---------- Wasm3 ----------
 //
@@ -79,59 +67,6 @@
 #endif
 
 #define HSPWASM_EXPORT extern "C" __declspec(dllexport)
-
-// ============================================================
-// HSP helpers (hspjson.cpp と同等)
-// ============================================================
-namespace {
-
-HSPEXINFO* g_hei = nullptr;
-inline void   set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint() { return g_hei->HspFunc_prm_geti(); }
-inline char*  getstr() { return g_hei->HspFunc_prm_gets(); }
-inline double getdbl() { return g_hei->HspFunc_prm_getd(); }
-
-// getva で PVal* を取得 (変数引数). APTR は offset。
-inline PVal* getva_pval(APTR* out_aptr) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (out_aptr) *out_aptr = a;
-    return pv;
-}
-
-static void write_int_to_var(int v) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-static void write_double_to_var(double v) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_DOUBLE) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-// 変数の生バッファ先頭とサイズを取る
-static void* get_var_rawptr(PVal* pv) {
-    if (!pv) return nullptr;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    pv->offset = 0;
-    return proc->GetPtr(pv);
-}
-
-// int 配列の先頭アドレスを取る (array 引数受け取り用)
-static int* get_int_array(PVal* pv) {
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return nullptr;
-    return (int*)get_var_rawptr(pv);
-}
-
-} // namespace
 
 // ============================================================
 // Module handle table
@@ -210,132 +145,107 @@ static int load_from_bytes(std::vector<uint8_t>&& bytes) {
 }
 
 // ============================================================
-// HSP exports
+// HSP exports (新形式 typed #func)
+//   DLL 実体名は hspwasm_xxx にプレフィックス。.as 側で HSP コマンド名と分離。
 // ============================================================
 
 // wasm_load "path", var_hid
-HSPWASM_EXPORT BOOL WINAPI wasm_load(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    const char* path = getstr();
-    if (!path) { write_int_to_var(-1); return 0; }
+HSPWASM_EXPORT int __stdcall hspwasm_load(const char* path, int* out_h)
+{
+    if (out_h) *out_h = -1;
+    if (!path) return -1;
 
     FILE* fp = fopen(path, "rb");
-    if (!fp) { write_int_to_var(-10); return 0; }
+    if (!fp) { if (out_h) *out_h = -10; return 0; }
     fseek(fp, 0, SEEK_END);
     long sz = ftell(fp);
     fseek(fp, 0, SEEK_SET);
-    if (sz <= 0) { fclose(fp); write_int_to_var(-11); return 0; }
+    if (sz <= 0) { fclose(fp); if (out_h) *out_h = -11; return 0; }
     std::vector<uint8_t> buf((size_t)sz);
     size_t got = fread(buf.data(), 1, (size_t)sz, fp);
     fclose(fp);
-    if (got != (size_t)sz) { write_int_to_var(-12); return 0; }
+    if (got != (size_t)sz) { if (out_h) *out_h = -12; return 0; }
 
     int h = load_from_bytes(std::move(buf));
-    write_int_to_var(h);
+    if (out_h) *out_h = h;
     return 0;
 }
 
 // wasm_load_mem var_buf, len, var_hid
-HSPWASM_EXPORT BOOL WINAPI wasm_load_mem(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    APTR a;
-    PVal* pv = getva_pval(&a);
-    int len = getint();
-    if (!pv || len <= 0) { write_int_to_var(-1); return 0; }
-    void* src = get_var_rawptr(pv);
-    if (!src) { write_int_to_var(-2); return 0; }
-
+HSPWASM_EXPORT int __stdcall hspwasm_load_mem(void* src, int len, int* out_h)
+{
+    if (out_h) *out_h = -1;
+    if (!src || len <= 0) return 0;
     std::vector<uint8_t> bytes((size_t)len);
     memcpy(bytes.data(), src, (size_t)len);
     int h = load_from_bytes(std::move(bytes));
-    write_int_to_var(h);
+    if (out_h) *out_h = h;
     return 0;
 }
 
 // wasm_close hid
-HSPWASM_EXPORT BOOL WINAPI wasm_close(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPWASM_EXPORT int __stdcall hspwasm_close(int h)
+{
     free_slot(h);
     return 0;
 }
 
 // wasm_clear
-HSPWASM_EXPORT BOOL WINAPI wasm_clear(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)hei; (void)p1; (void)p2; (void)p3;
+HSPWASM_EXPORT int __stdcall hspwasm_clear()
+{
     for (int i = 0; i < (int)g_modules.size(); ++i) free_slot(i);
     return 0;
 }
 
 // wasm_memory_size hid, var_int
-HSPWASM_EXPORT BOOL WINAPI wasm_memory_size(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPWASM_EXPORT int __stdcall hspwasm_memory_size(int h, int* out)
+{
+    if (out) *out = -1;
     ModuleState* m = get_slot(h);
-    if (!m) { write_int_to_var(-1); return 0; }
+    if (!m) return 0;
 #if HSPWASM_HAVE_WASM3
     uint32_t sz = m3_GetMemorySize(m->runtime);
-    write_int_to_var((int)sz);
+    if (out) *out = (int)sz;
 #else
-    write_int_to_var(-100);
+    if (out) *out = -100;
 #endif
     return 0;
 }
 
 // wasm_memory_read hid, offset, var_dst, len, var_int_result
-HSPWASM_EXPORT BOOL WINAPI wasm_memory_read(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int off = getint();
-    APTR a;
-    PVal* pv_dst = getva_pval(&a);
-    int len = getint();
+HSPWASM_EXPORT int __stdcall hspwasm_memory_read(int h, int off, void* dst, int len, int* out_rc)
+{
+    if (out_rc) *out_rc = -1;
     ModuleState* m = get_slot(h);
-    if (!m || !pv_dst || len <= 0) { write_int_to_var(-1); return 0; }
-
+    if (!m || !dst || len <= 0) return 0;
 #if HSPWASM_HAVE_WASM3
     uint32_t mem_sz = 0;
     uint8_t* mem = (uint8_t*)m3_GetMemory(m->runtime, &mem_sz, 0);
-    if (!mem) { write_int_to_var(-2); return 0; }
-    if ((uint32_t)off + (uint32_t)len > mem_sz) { write_int_to_var(-3); return 0; }
-    void* dst = get_var_rawptr(pv_dst);
-    if (!dst) { write_int_to_var(-4); return 0; }
+    if (!mem) { if (out_rc) *out_rc = -2; return 0; }
+    if ((uint32_t)off + (uint32_t)len > mem_sz) { if (out_rc) *out_rc = -3; return 0; }
     memcpy(dst, mem + off, (size_t)len);
-    write_int_to_var(0);
+    if (out_rc) *out_rc = 0;
 #else
-    write_int_to_var(-100);
+    if (out_rc) *out_rc = -100;
 #endif
     return 0;
 }
 
 // wasm_memory_write hid, offset, var_src, len, var_int_result
-HSPWASM_EXPORT BOOL WINAPI wasm_memory_write(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int off = getint();
-    APTR a;
-    PVal* pv_src = getva_pval(&a);
-    int len = getint();
+HSPWASM_EXPORT int __stdcall hspwasm_memory_write(int h, int off, void* src, int len, int* out_rc)
+{
+    if (out_rc) *out_rc = -1;
     ModuleState* m = get_slot(h);
-    if (!m || !pv_src || len <= 0) { write_int_to_var(-1); return 0; }
-
+    if (!m || !src || len <= 0) return 0;
 #if HSPWASM_HAVE_WASM3
     uint32_t mem_sz = 0;
     uint8_t* mem = (uint8_t*)m3_GetMemory(m->runtime, &mem_sz, 0);
-    if (!mem) { write_int_to_var(-2); return 0; }
-    if ((uint32_t)off + (uint32_t)len > mem_sz) { write_int_to_var(-3); return 0; }
-    void* src = get_var_rawptr(pv_src);
-    if (!src) { write_int_to_var(-4); return 0; }
+    if (!mem) { if (out_rc) *out_rc = -2; return 0; }
+    if ((uint32_t)off + (uint32_t)len > mem_sz) { if (out_rc) *out_rc = -3; return 0; }
     memcpy(mem + off, src, (size_t)len);
-    write_int_to_var(0);
+    if (out_rc) *out_rc = 0;
 #else
-    write_int_to_var(-100);
+    if (out_rc) *out_rc = -100;
 #endif
     return 0;
 }
@@ -382,81 +292,61 @@ static bool call_fn_i32args(IM3Runtime runtime, const char* name,
 }
 #endif
 
-// wasm_call_i hid, "name", array_args, argc, var_ret
-HSPWASM_EXPORT BOOL WINAPI wasm_call_i(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* name = getstr();
-    APTR a;
-    PVal* pv_args = getva_pval(&a);
-    int argc = getint();
+// wasm_call_i hid, "name", array_args, argc, var_int_ret
+HSPWASM_EXPORT int __stdcall hspwasm_call_i(int h, const char* name,
+                                            int* args, int argc, int* out_ret)
+{
+    if (out_ret) *out_ret = -1;
     ModuleState* m = get_slot(h);
-    if (!m || !name) { write_int_to_var(-1); return 0; }
-
+    if (!m || !name) return 0;
 #if HSPWASM_HAVE_WASM3
-    int* args = get_int_array(pv_args);
     int32_t ret = 0;
     if (!call_fn_i32args(m->runtime, name, args, argc, &ret, sizeof(ret))) {
-        write_int_to_var(-2); return 0;
+        if (out_ret) *out_ret = -2;
+        return 0;
     }
-    write_int_to_var((int)ret);
+    if (out_ret) *out_ret = (int)ret;
 #else
-    write_int_to_var(-100);
+    (void)args; (void)argc;
+    if (out_ret) *out_ret = -100;
 #endif
     return 0;
 }
 
 // wasm_call_i64 hid, "name", array_args, argc, var_double (i64 を double bit-cast)
-// HSP は int64 型を持たないので、double 変数にビットパターン格納して返す。
-// HSP 側で double → int64 reinterpret するか、下位 32bit だけ使うのが現実的。
-HSPWASM_EXPORT BOOL WINAPI wasm_call_i64(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* name = getstr();
-    APTR a;
-    PVal* pv_args = getva_pval(&a);
-    int argc = getint();
+HSPWASM_EXPORT int __stdcall hspwasm_call_i64(int h, const char* name,
+                                              int* args, int argc, double* out_ret)
+{
+    if (out_ret) *out_ret = 0.0;
     ModuleState* m = get_slot(h);
-    if (!m || !name) { write_double_to_var(0.0); return 0; }
-
+    if (!m || !name) return 0;
 #if HSPWASM_HAVE_WASM3
-    int* args = get_int_array(pv_args);
     int64_t ret64 = 0;
     if (!call_fn_i32args(m->runtime, name, args, argc, &ret64, sizeof(ret64))) {
-        write_double_to_var(0.0); return 0;
+        return 0;
     }
-    double d;
-    memcpy(&d, &ret64, sizeof(d));
-    write_double_to_var(d);
+    if (out_ret) memcpy(out_ret, &ret64, sizeof(double));
 #else
-    write_double_to_var(0.0);
+    (void)args; (void)argc;
 #endif
     return 0;
 }
 
 // wasm_call_d hid, "name", array_args, argc, var_double (f64 戻り)
-HSPWASM_EXPORT BOOL WINAPI wasm_call_d(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* name = getstr();
-    APTR a;
-    PVal* pv_args = getva_pval(&a);
-    int argc = getint();
+HSPWASM_EXPORT int __stdcall hspwasm_call_d(int h, const char* name,
+                                            int* args, int argc, double* out_ret)
+{
+    if (out_ret) *out_ret = 0.0;
     ModuleState* m = get_slot(h);
-    if (!m || !name) { write_double_to_var(0.0); return 0; }
-
+    if (!m || !name) return 0;
 #if HSPWASM_HAVE_WASM3
-    int* args = get_int_array(pv_args);
     double ret = 0.0;
     if (!call_fn_i32args(m->runtime, name, args, argc, &ret, sizeof(ret))) {
-        write_double_to_var(0.0); return 0;
+        return 0;
     }
-    write_double_to_var(ret);
+    if (out_ret) *out_ret = ret;
 #else
-    write_double_to_var(0.0);
+    (void)args; (void)argc;
 #endif
     return 0;
 }

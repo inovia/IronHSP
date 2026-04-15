@@ -1,48 +1,30 @@
 //============================================================
-//   hspwinrtocr.dll — WinRT OCR plugin for IronHSP
+//   hspwinrtocr.dll — WinRT OCR plugin for IronHSP (新形式)
 //
 //   Windows.Media.Ocr.OcrEngine (Win10+) を C++/WinRT で叩き、
-//   画像ファイルや HSP ウィンドウ画像から文字認識を行う HSP プラグイン。
+//   画像ファイルから文字認識を行う HSP プラグイン。
 //
-//   HSP API (all OLDDLL $202):
-//     ocr_init            [, "lang"]         ; OcrEngine 作成 (stat=0 成功)
-//     ocr_free                                ; 解放
-//     ocr_langs           var_str             ; 利用可能言語一覧 (LF 区切り)
-//     ocr_run_file        var_str, "path"     ; 画像ファイルを OCR
-//     ocr_run_hwnd        var_str             ; HSP カレント window を OCR
+//   v2 (2026-04-15): OLDDLL $202 → typed #func 形式に全面移行。
+//   HSPEXINFO callback を一切使わず、全 export は普通の C 関数。
 //
-//   実装メモ:
-//     - init_apartment は multi_threaded (MTA) で DllMain PROCESS_ATTACH 時に一度。
-//     - async は .get() で同期待ち (HSP は同期呼び出し前提)。
-//     - WinRT は UTF-16。結果は cp932 (CP_ACP) へ WideCharToMultiByte。
-//     - Lang パラメータも cp932 → UTF-16 で受ける (BCP-47 なので ASCII 想定)。
-//     - OLDDLL $202 規約 (hspjson.cpp のパターンに準拠)。
-//     - ocr_run_hwnd は BMSCR から 24bit BGR DIB を取り、Bgra8 SoftwareBitmap に
-//       詰めて CreateWithBitmap の代わりに RecognizeAsync に渡す。
+//   HSP API (typed #func):
+//     ocr_init       "lang"                        ; "" ならユーザ言語
+//     ocr_free
+//     ocr_langs      var_buf, buf_size             ; LF 区切り
+//     ocr_run_file   var_buf, buf_size, "path"
+//     ocr_run_hwnd   var_buf, buf_size             ; 現状 stub (BMSCR は #func 形式から直接触れない)
+//
+//   __has_include フォールバックなし (C++/WinRT は VS 2022 標準で入る)。
 //============================================================
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
 
-// HSP SDK
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)  // hsp3 headers are SJIS encoded
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
-
 // C++/WinRT
 #include <winrt/base.h>
 #include <windows.foundation.h>
-#include <MemoryBuffer.h>  // ::Windows::Foundation::IMemoryBufferByteAccess
+#include <MemoryBuffer.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Globalization.h>
@@ -61,37 +43,7 @@
 #define HSPWINRTOCR_EXPORT extern "C" __declspec(dllexport)
 
 // ============================================================
-// HSPEXINFO helpers (hspjson.cpp と同じパターン)
-// ============================================================
-namespace {
-
-HSPEXINFO* g_hei = nullptr;
-inline void   set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint()  { return g_hei->HspFunc_prm_geti(); }
-inline char*  getstr()  { return g_hei->HspFunc_prm_gets(); }
-inline int    getint_opt(int defv)
-{
-    // 省略可能なら HspFunc_prm_getdi を使う
-    return g_hei->HspFunc_prm_getdi(defv);
-}
-inline char*  getstr_opt(const char* defv)
-{
-    return g_hei->HspFunc_prm_getds(defv);
-}
-
-static void write_str_to_var(const std::string& s)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv) return;
-    if (pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), (void*)s.c_str());
-}
-
-// ============================================================
-// UTF-16 <-> cp932 (HSP default) conversion
+// helpers
 // ============================================================
 static std::wstring AnsiToWide(const char* s)
 {
@@ -112,18 +64,25 @@ static std::string WideToAnsi(const wchar_t* w, size_t wlen)
     WideCharToMultiByte(CP_ACP, 0, w, (int)wlen, buf.data(), n, nullptr, nullptr);
     return std::string(buf.data(), n);
 }
+
 static std::string HStringToAnsi(winrt::hstring const& h)
 {
     return WideToAnsi(h.c_str(), h.size());
 }
 
-} // namespace
+static void copy_to_buf(const std::string& src, char* out, int out_size)
+{
+    if (!out || out_size <= 0) return;
+    int n = (int)src.size();
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src.data(), (size_t)n);
+    out[n] = 0;
+}
 
 // ============================================================
-// WinRT OcrEngine state (single global instance)
+// WinRT OcrEngine state
 // ============================================================
 namespace {
-
 using namespace winrt;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Foundation::Collections;
@@ -135,86 +94,37 @@ using namespace winrt::Windows::Media::Ocr;
 
 static bool       g_engine_ready = false;
 static OcrEngine  g_engine{ nullptr };
+static bool       g_apartment_inited = false;
 
-// ============================================================
-// HSP カレント window の BMSCR から Bgra8 SoftwareBitmap を作成
-// ============================================================
-static SoftwareBitmap BmscrToSoftwareBitmap()
+static void EnsureApartment()
 {
-    // カレント window id を取得 (actscr)
-    int wid = *(g_hei->actscr);
-    BMSCR* bm = (BMSCR*)g_hei->HspFunc_getbmscr(wid);
-    if (!bm || !bm->pBit || bm->sx <= 0 || bm->sy <= 0) {
-        return SoftwareBitmap{ nullptr };
-    }
-
-    const int w = bm->sx;
-    const int h = bm->sy;
-
-    // BMSCR の DIB は 24bit BGR、bottom-up、各行 4byte align
-    const int src_stride = ((w * 3 + 3) / 4) * 4;
-    BYTE* src_base = (BYTE*)bm->pBit;
-
-    // Bgra8 SoftwareBitmap を作って pixels を直接書く
-    SoftwareBitmap sb{ BitmapPixelFormat::Bgra8, w, h, BitmapAlphaMode::Premultiplied };
-    {
-        auto buffer = sb.LockBuffer(BitmapBufferAccessMode::Write);
-        auto ref    = buffer.CreateReference();
-        auto byteaccess = ref.as<::Windows::Foundation::IMemoryBufferByteAccess>();
-        BYTE*   dst_base = nullptr;
-        UINT32  dst_cap  = 0;
-        winrt::check_hresult(byteaccess->GetBuffer(&dst_base, &dst_cap));
-
-        auto desc = buffer.GetPlaneDescription(0);
-        const int dst_stride = desc.Stride;
-
-        for (int y = 0; y < h; ++y) {
-            // bottom-up なので src 行は (h - 1 - y)
-            const BYTE* sp = src_base + (size_t)(h - 1 - y) * src_stride;
-            BYTE* dp = dst_base + (size_t)desc.StartIndex + (size_t)y * dst_stride;
-            for (int x = 0; x < w; ++x) {
-                BYTE b = sp[0];
-                BYTE g = sp[1];
-                BYTE r = sp[2];
-                dp[0] = b;
-                dp[1] = g;
-                dp[2] = r;
-                dp[3] = 0xFF;
-                sp += 3;
-                dp += 4;
-            }
-        }
-    }
-    return sb;
+    if (g_apartment_inited) return;
+    try {
+        winrt::init_apartment(winrt::apartment_type::multi_threaded);
+    } catch (...) {}
+    g_apartment_inited = true;
 }
 
-// 結果から join テキスト (OcrResult::Text 全文) を返す
 static std::string OcrResultToAnsi(OcrResult const& result)
 {
     if (!result) return "";
-    auto text = result.Text();
-    return HStringToAnsi(text);
+    return HStringToAnsi(result.Text());
 }
-
 } // namespace
 
 // ============================================================
-// HSP plugin exports (OLDDLL $202)
+// HSP plugin exports (typed #func)
 // ============================================================
 
-// ocr_init [, "lang"]
-HSPWINRTOCR_EXPORT BOOL WINAPI ocr_init(HSPEXINFO* hei, int p1, int p2, int p3)
+// ocr_init "lang"   (lang="" なら user profile)
+HSPWINRTOCR_EXPORT int __stdcall ocr_init(const char* lang)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    EnsureApartment();
     try {
-        char* lang = getstr_opt("");
         if (lang && *lang) {
             std::wstring wl = AnsiToWide(lang);
             Language language{ hstring{ wl } };
-            if (!OcrEngine::IsLanguageSupported(language)) {
-                return -2;
-            }
+            if (!OcrEngine::IsLanguageSupported(language)) return -2;
             g_engine = OcrEngine::TryCreateFromLanguage(language);
         } else {
             g_engine = OcrEngine::TryCreateFromUserProfileLanguages();
@@ -225,9 +135,6 @@ HSPWINRTOCR_EXPORT BOOL WINAPI ocr_init(HSPEXINFO* hei, int p1, int p2, int p3)
         }
         g_engine_ready = true;
         return 0;
-    } catch (winrt::hresult_error const&) {
-        g_engine_ready = false;
-        return -1;
     } catch (...) {
         g_engine_ready = false;
         return -1;
@@ -235,20 +142,18 @@ HSPWINRTOCR_EXPORT BOOL WINAPI ocr_init(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 // ocr_free
-HSPWINRTOCR_EXPORT BOOL WINAPI ocr_free(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPWINRTOCR_EXPORT int __stdcall ocr_free()
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     g_engine = nullptr;
     g_engine_ready = false;
     return 0;
 }
 
-// ocr_langs var_str
-HSPWINRTOCR_EXPORT BOOL WINAPI ocr_langs(HSPEXINFO* hei, int p1, int p2, int p3)
+// ocr_langs(var_buf, buf_size)
+HSPWINRTOCR_EXPORT int __stdcall ocr_langs(char* out_buf, int out_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    EnsureApartment();
     try {
         auto langs = OcrEngine::AvailableRecognizerLanguages();
         std::string out;
@@ -256,32 +161,24 @@ HSPWINRTOCR_EXPORT BOOL WINAPI ocr_langs(HSPEXINFO* hei, int p1, int p2, int p3)
             if (!out.empty()) out += '\n';
             out += HStringToAnsi(lang.LanguageTag());
         }
-        write_str_to_var(out);
+        copy_to_buf(out, out_buf, out_size);
         return 0;
     } catch (...) {
-        write_str_to_var("");
         return -1;
     }
 }
 
-// ocr_run_file var_str, "path"
-HSPWINRTOCR_EXPORT BOOL WINAPI ocr_run_file(HSPEXINFO* hei, int p1, int p2, int p3)
+// ocr_run_file(var_buf, buf_size, "path")
+HSPWINRTOCR_EXPORT int __stdcall ocr_run_file(char* out_buf, int out_size, const char* path_a)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    if (!g_engine_ready || !g_engine) {
-        write_str_to_var("");
-        return -1;
-    }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    if (!g_engine_ready || !g_engine) return -1;
+    if (!path_a || !*path_a) return -2;
     try {
-        const char* path_a = getstr();
-        if (!path_a || !*path_a) { write_str_to_var(""); return -2; }
-
         std::wstring wpath = AnsiToWide(path_a);
-        // 絶対パスに正規化しておく (GetFileFromPathAsync は絶対パス必須)
         wchar_t full[MAX_PATH * 2];
-        DWORD   fn = GetFullPathNameW(wpath.c_str(), (DWORD)(sizeof(full) / sizeof(full[0])), full, nullptr);
-        if (fn == 0) { write_str_to_var(""); return -3; }
+        DWORD fn = GetFullPathNameW(wpath.c_str(), (DWORD)(sizeof(full) / sizeof(full[0])), full, nullptr);
+        if (fn == 0) return -3;
 
         StorageFile file = StorageFile::GetFileFromPathAsync(hstring{ full }).get();
         IRandomAccessStream stream = file.OpenAsync(FileAccessMode::Read).get();
@@ -290,58 +187,34 @@ HSPWINRTOCR_EXPORT BOOL WINAPI ocr_run_file(HSPEXINFO* hei, int p1, int p2, int 
 
         OcrResult result = g_engine.RecognizeAsync(bitmap).get();
         std::string out = OcrResultToAnsi(result);
-        write_str_to_var(out);
+        copy_to_buf(out, out_buf, out_size);
         return 0;
-    } catch (winrt::hresult_error const&) {
-        write_str_to_var("");
-        return -1;
     } catch (...) {
-        write_str_to_var("");
         return -1;
     }
 }
 
-// ocr_run_hwnd var_str
-HSPWINRTOCR_EXPORT BOOL WINAPI ocr_run_hwnd(HSPEXINFO* hei, int p1, int p2, int p3)
+// ocr_run_hwnd(var_buf, buf_size)  — 新形式では BMSCR へ直接触れないため stub
+HSPWINRTOCR_EXPORT int __stdcall ocr_run_hwnd(char* out_buf, int out_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    if (!g_engine_ready || !g_engine) {
-        write_str_to_var("");
-        return -1;
-    }
-    try {
-        SoftwareBitmap sb = BmscrToSoftwareBitmap();
-        if (!sb) { write_str_to_var(""); return -2; }
-
-        OcrResult result = g_engine.RecognizeAsync(sb).get();
-        std::string out = OcrResultToAnsi(result);
-        write_str_to_var(out);
-        return 0;
-    } catch (winrt::hresult_error const&) {
-        write_str_to_var("");
-        return -1;
-    } catch (...) {
-        write_str_to_var("");
-        return -1;
-    }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    // NOTE: BMSCR から画像を取るには HSPEXINFO が必要。新形式に移行したので
+    // この関数は future work。将来 bmp_capture 経由で path 指定にする想定。
+    copy_to_buf("[ocr_run_hwnd: not implemented in v2 typed form]", out_buf, out_size);
+    return -1;
 }
 
 // ============================================================
-// DllMain — apartment init
+// DllMain
 // ============================================================
 BOOL WINAPI DllMain(HMODULE, DWORD reason, LPVOID)
 {
     switch (reason) {
     case DLL_PROCESS_ATTACH:
         try {
-            // MTA。HSP 本体の UI スレッドは STA だが、この DLL は
-            // 独立した MTA として初期化し、WinRT async 待機で deadlock
-            // しないようにする。
             winrt::init_apartment(winrt::apartment_type::multi_threaded);
-        } catch (...) {
-            // 既に初期化済の場合は無視
-        }
+            g_apartment_inited = true;
+        } catch (...) {}
         break;
     case DLL_PROCESS_DETACH:
         g_engine = nullptr;

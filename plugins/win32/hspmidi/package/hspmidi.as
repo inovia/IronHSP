@@ -1,5 +1,5 @@
 ;============================================================
-;  hspmidi.as — winmm ベース MIDI in/out プラグイン宣言
+;  hspmidi.as — winmm ベース MIDI in/out プラグイン宣言 (新形式 typed #func)
 ;============================================================
 
 #ifndef __hspmidi_as__
@@ -8,24 +8,25 @@
 #uselib "hspmidi.dll"
 
 ; --- MIDI out ---
-#func global midi_out_count          midi_out_count          $202
-#func global midi_out_name           midi_out_name           $202
-#func global midi_out_open           midi_out_open           $202
-#func global midi_out_close          midi_out_close          $202
-#func global midi_out_short          midi_out_short          $202
-#func global midi_out_note_on        midi_out_note_on        $202
-#func global midi_out_note_off       midi_out_note_off       $202
-#func global midi_out_program_change midi_out_program_change $202
-#func global midi_out_reset          midi_out_reset          $202
+#func global midi_out_count          "hspmidi_out_count"          var
+; midi_out_name var_buf, buf_size, devid
+#func global midi_out_name           "hspmidi_out_name"           var, int, int
+#func global midi_out_open           "hspmidi_out_open"           int
+#func global midi_out_close          "hspmidi_out_close"
+#func global midi_out_short          "hspmidi_out_short"          int, int, int
+#func global midi_out_note_on        "hspmidi_out_note_on"        int, int, int
+#func global midi_out_note_off       "hspmidi_out_note_off"       int, int, int
+#func global midi_out_program_change "hspmidi_out_program_change" int, int
+#func global midi_out_reset          "hspmidi_out_reset"
 
 ; --- MIDI in (ポーリング式) ---
-#func global midi_in_count           midi_in_count           $202
-#func global midi_in_name            midi_in_name            $202
-#func global midi_in_open            midi_in_open            $202
-#func global midi_in_start           midi_in_start           $202
-#func global midi_in_stop            midi_in_stop            $202
-#func global midi_in_close           midi_in_close           $202
-#func global midi_in_poll            midi_in_poll            $202
+#func global midi_in_count           "hspmidi_in_count"           var
+#func global midi_in_name            "hspmidi_in_name"            var, int, int
+#func global midi_in_open            "hspmidi_in_open"            int
+#func global midi_in_start           "hspmidi_in_start"
+#func global midi_in_stop            "hspmidi_in_stop"
+#func global midi_in_close           "hspmidi_in_close"
+#func global midi_in_poll            "hspmidi_in_poll"            var, var, var, var
 
 ; --- MIDI ステータスバイト定数 ---
 #define global MIDI_NOTE_OFF        $80

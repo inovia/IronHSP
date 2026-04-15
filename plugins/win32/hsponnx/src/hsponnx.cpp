@@ -1,9 +1,12 @@
 //============================================================
-//   hsponnx.dll — ONNX Runtime host plugin for IronHSP
+//   hsponnx.dll v2 — ONNX Runtime host plugin for IronHSP
 //
 //   Microsoft ONNX Runtime (onnxruntime_c_api.h) を embed して、
 //   HSP から .onnx モデルを load / run できる薄いラッパ。
 //   DirectML execution provider によるGPU推論にも対応する。
+//
+//   v2 (2026-04-15): OLDDLL $202 → typed #func 形式に全面移行。
+//   HSPEXINFO callback は一切使わず、各 export 関数は普通の C 関数。
 //
 //   v1 スコープ:
 //     - Session 16 並列ハンドル
@@ -12,17 +15,17 @@
 //     - 1 input / 1 output, float32 tensor の単純な run
 //     - DML / CPU backend 切り替え
 //
-//   HSP API (全て OLDDLL $202 signature):
+//   HSP API (全て typed #func):
 //     onnx_init
 //     onnx_shutdown
-//     onnx_load_model      "path"  → stat = session_h
-//     onnx_close           session_h
+//     onnx_load_model     "path", var_h
+//     onnx_close           h
 //     onnx_input_count     h, var_int
-//     onnx_input_name      h, idx, var_str
-//     onnx_input_shape     h, idx, var_shape_arr, var_rank
+//     onnx_input_name      h, idx, var_buf, buf_size
+//     onnx_input_shape     h, idx, var_shape, var_rank
 //     onnx_output_count    h, var_int
-//     onnx_output_name     h, idx, var_str
-//     onnx_output_shape    h, idx, var_shape_arr, var_rank
+//     onnx_output_name     h, idx, var_buf, buf_size
+//     onnx_output_shape    h, idx, var_shape, var_rank
 //     onnx_set_backend_dml h
 //     onnx_set_backend_cpu h
 //     onnx_run             h, var_in_buf, var_in_shape, in_rank,
@@ -43,20 +46,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdint>
-
-// ---------- HSP SDK ----------
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#include "../../../../hsp3/hspwnd.h"
-#pragma warning(pop)
 
 // ---------- ONNX Runtime ----------
 //
@@ -90,57 +79,17 @@
 #define HSPONNX_EXPORT extern "C" __declspec(dllexport)
 
 // ============================================================
-// HSP helpers (hspwasm.cpp と同等)
+// 共通 helpers
 // ============================================================
 namespace {
 
-HSPEXINFO* g_hei = nullptr;
-inline void   set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int    getint() { return g_hei->HspFunc_prm_geti(); }
-inline char*  getstr() { return g_hei->HspFunc_prm_gets(); }
-
-inline PVal* getva_pval(APTR* out_aptr) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (out_aptr) *out_aptr = a;
-    return pv;
-}
-
-static void write_int_to_var(int v) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
-}
-
-static void write_str_to_var(const char* s) {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), (void*)(s ? s : ""));
-}
-
-static void* get_var_rawptr(PVal* pv) {
-    if (!pv) return nullptr;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    pv->offset = 0;
-    return proc->GetPtr(pv);
-}
-
-static float* get_float_array(PVal* pv) {
-    if (!pv) return nullptr;
-    // HSP does not have float type; user supplies via dim (int) reinterpreted
-    // as float, or via a pre-populated buffer. We simply hand back raw bytes.
-    return (float*)get_var_rawptr(pv);
-}
-
-static int* get_int_array(PVal* pv) {
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return nullptr;
-    return (int*)get_var_rawptr(pv);
+static void copy_to_buf(const char* src, char* out, int out_size) {
+    if (!out || out_size <= 0) return;
+    if (!src) src = "";
+    int n = (int)strlen(src);
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src, (size_t)n);
+    out[n] = 0;
 }
 
 } // namespace
@@ -193,13 +142,11 @@ static SessionState* get_slot(int h) {
 }
 
 // ============================================================
-// HSP exports
+// HSP exports (typed #func 新形式)
 // ============================================================
 
 // onnx_init
-HSPONNX_EXPORT BOOL WINAPI onnx_init(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+HSPONNX_EXPORT int __stdcall onnx_init() {
 #if HSPONNX_HAVE_ORT
     if (!g_ort) {
         g_ort = OrtGetApiBase()->GetApi(ORT_API_VERSION);
@@ -212,9 +159,7 @@ HSPONNX_EXPORT BOOL WINAPI onnx_init(HSPEXINFO* hei, int p1, int p2, int p3) {
 }
 
 // onnx_shutdown
-HSPONNX_EXPORT BOOL WINAPI onnx_shutdown(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+HSPONNX_EXPORT int __stdcall onnx_shutdown() {
     for (int i = 0; i < (int)g_sessions.size(); ++i) free_slot(i);
 #if HSPONNX_HAVE_ORT
     if (g_ort && g_env) {
@@ -227,15 +172,13 @@ HSPONNX_EXPORT BOOL WINAPI onnx_shutdown(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 // onnx_load_model "path", var_h
-HSPONNX_EXPORT BOOL WINAPI onnx_load_model(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    const char* path = getstr();
-    if (!path) { write_int_to_var(-1); return 0; }
+HSPONNX_EXPORT int __stdcall onnx_load_model(const char* path, int* out_h) {
+    if (!out_h) return -1;
+    *out_h = -1;
+    if (!path) return 0;
 
 #if !HSPONNX_HAVE_ORT
-    (void)path;
-    write_int_to_var(-100); // not linked
+    *out_h = -100; // not linked
     return 0;
 #else
     if (!g_ort || !g_env) {
@@ -244,49 +187,42 @@ HSPONNX_EXPORT BOOL WINAPI onnx_load_model(HSPEXINFO* hei, int p1, int p2, int p
             g_ort->CreateEnv(ORT_LOGGING_LEVEL_WARNING, "hsponnx", &g_env);
     }
     int h = alloc_slot();
-    if (h < 0) { write_int_to_var(-1); return 0; }
+    if (h < 0) { *out_h = -1; return 0; }
     SessionState& s = g_sessions[h];
 
-    // Path は MultiByte → Wide
     int wlen = MultiByteToWideChar(CP_ACP, 0, path, -1, nullptr, 0);
     s.model_path.assign((size_t)wlen, L'\0');
     MultiByteToWideChar(CP_ACP, 0, path, -1, s.model_path.data(), wlen);
 
     OrtStatus* st = g_ort->CreateSessionOptions(&s.options);
-    if (st) { g_ort->ReleaseStatus(st); write_int_to_var(-2); return 0; }
+    if (st) { g_ort->ReleaseStatus(st); *out_h = -2; return 0; }
 
     st = g_ort->CreateSession(g_env, s.model_path.c_str(), s.options, &s.session);
     if (st) {
         g_ort->ReleaseStatus(st);
         g_ort->ReleaseSessionOptions(s.options);
         s.options = nullptr;
-        write_int_to_var(-3);
+        *out_h = -3;
         return 0;
     }
 
     s.used = true;
     s.backend = 0;
-    write_int_to_var(h);
+    *out_h = h;
     return 0;
 #endif
 }
 
 // onnx_close h
-HSPONNX_EXPORT BOOL WINAPI onnx_close(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPONNX_EXPORT int __stdcall onnx_close(int h) {
     free_slot(h);
     return 0;
 }
 
 // ---- input/output count ----
-HSPONNX_EXPORT BOOL WINAPI onnx_input_count(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    SessionState* s = get_slot(h);
+HSPONNX_EXPORT int __stdcall onnx_input_count(int h, int* out_n) {
     int n = -1;
+    SessionState* s = get_slot(h);
 #if HSPONNX_HAVE_ORT
     if (s && g_ort) {
         size_t cnt = 0;
@@ -296,16 +232,13 @@ HSPONNX_EXPORT BOOL WINAPI onnx_input_count(HSPEXINFO* hei, int p1, int p2, int 
 #else
     (void)s;
 #endif
-    write_int_to_var(n);
+    if (out_n) *out_n = n;
     return 0;
 }
 
-HSPONNX_EXPORT BOOL WINAPI onnx_output_count(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    SessionState* s = get_slot(h);
+HSPONNX_EXPORT int __stdcall onnx_output_count(int h, int* out_n) {
     int n = -1;
+    SessionState* s = get_slot(h);
 #if HSPONNX_HAVE_ORT
     if (s && g_ort) {
         size_t cnt = 0;
@@ -315,16 +248,13 @@ HSPONNX_EXPORT BOOL WINAPI onnx_output_count(HSPEXINFO* hei, int p1, int p2, int
 #else
     (void)s;
 #endif
-    write_int_to_var(n);
+    if (out_n) *out_n = n;
     return 0;
 }
 
 // ---- input/output name ----
-HSPONNX_EXPORT BOOL WINAPI onnx_input_name(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
+HSPONNX_EXPORT int __stdcall onnx_input_name(int h, int idx, char* out_buf, int out_size) {
+    if (out_buf && out_size > 0) out_buf[0] = 0;
     SessionState* s = get_slot(h);
 #if HSPONNX_HAVE_ORT
     if (s && g_ort) {
@@ -333,7 +263,7 @@ HSPONNX_EXPORT BOOL WINAPI onnx_input_name(HSPEXINFO* hei, int p1, int p2, int p
         char* name = nullptr;
         OrtStatus* st = g_ort->SessionGetInputName(s->session, (size_t)idx, alloc, &name);
         if (!st && name) {
-            write_str_to_var(name);
+            copy_to_buf(name, out_buf, out_size);
             g_ort->AllocatorFree(alloc, name);
             return 0;
         }
@@ -342,15 +272,11 @@ HSPONNX_EXPORT BOOL WINAPI onnx_input_name(HSPEXINFO* hei, int p1, int p2, int p
 #else
     (void)s; (void)idx;
 #endif
-    write_str_to_var("");
     return 0;
 }
 
-HSPONNX_EXPORT BOOL WINAPI onnx_output_name(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
+HSPONNX_EXPORT int __stdcall onnx_output_name(int h, int idx, char* out_buf, int out_size) {
+    if (out_buf && out_size > 0) out_buf[0] = 0;
     SessionState* s = get_slot(h);
 #if HSPONNX_HAVE_ORT
     if (s && g_ort) {
@@ -359,7 +285,7 @@ HSPONNX_EXPORT BOOL WINAPI onnx_output_name(HSPEXINFO* hei, int p1, int p2, int 
         char* name = nullptr;
         OrtStatus* st = g_ort->SessionGetOutputName(s->session, (size_t)idx, alloc, &name);
         if (!st && name) {
-            write_str_to_var(name);
+            copy_to_buf(name, out_buf, out_size);
             g_ort->AllocatorFree(alloc, name);
             return 0;
         }
@@ -368,7 +294,6 @@ HSPONNX_EXPORT BOOL WINAPI onnx_output_name(HSPEXINFO* hei, int p1, int p2, int 
 #else
     (void)s; (void)idx;
 #endif
-    write_str_to_var("");
     return 0;
 }
 
@@ -399,69 +324,45 @@ static int fetch_shape_io(SessionState* s, int io /*0=in,1=out*/, int idx,
 }
 #endif
 
-HSPONNX_EXPORT BOOL WINAPI onnx_input_shape(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
-    APTR a1, a2;
-    PVal* pv_sh = getva_pval(&a1);
-    PVal* pv_rk = getva_pval(&a2);
+HSPONNX_EXPORT int __stdcall onnx_input_shape(int h, int idx, int* out_shape, int* out_rank) {
     SessionState* s = get_slot(h);
-    int* shape = get_int_array(pv_sh);
 #if HSPONNX_HAVE_ORT
-    if (s && shape) {
+    if (s && out_shape) {
         int rank = 0;
-        fetch_shape_io(s, 0, idx, shape, 8, &rank);
-        if (pv_rk && pv_rk->flag == HSPVAR_FLAG_INT) {
-            pv_rk->offset = 0;
-            HspVarProc* proc = g_hei->HspFunc_getproc(pv_rk->flag);
-            proc->Set(pv_rk, proc->GetPtr(pv_rk), &rank);
-        }
+        fetch_shape_io(s, 0, idx, out_shape, 8, &rank);
+        if (out_rank) *out_rank = rank;
+    } else if (out_rank) {
+        *out_rank = 0;
     }
 #else
-    (void)s; (void)idx; (void)shape; (void)pv_rk;
+    (void)s; (void)idx; (void)out_shape;
+    if (out_rank) *out_rank = 0;
 #endif
     return 0;
 }
 
-HSPONNX_EXPORT BOOL WINAPI onnx_output_shape(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    int idx = getint();
-    APTR a1, a2;
-    PVal* pv_sh = getva_pval(&a1);
-    PVal* pv_rk = getva_pval(&a2);
+HSPONNX_EXPORT int __stdcall onnx_output_shape(int h, int idx, int* out_shape, int* out_rank) {
     SessionState* s = get_slot(h);
-    int* shape = get_int_array(pv_sh);
 #if HSPONNX_HAVE_ORT
-    if (s && shape) {
+    if (s && out_shape) {
         int rank = 0;
-        fetch_shape_io(s, 1, idx, shape, 8, &rank);
-        if (pv_rk && pv_rk->flag == HSPVAR_FLAG_INT) {
-            pv_rk->offset = 0;
-            HspVarProc* proc = g_hei->HspFunc_getproc(pv_rk->flag);
-            proc->Set(pv_rk, proc->GetPtr(pv_rk), &rank);
-        }
+        fetch_shape_io(s, 1, idx, out_shape, 8, &rank);
+        if (out_rank) *out_rank = rank;
+    } else if (out_rank) {
+        *out_rank = 0;
     }
 #else
-    (void)s; (void)idx; (void)shape; (void)pv_rk;
+    (void)s; (void)idx; (void)out_shape;
+    if (out_rank) *out_rank = 0;
 #endif
     return 0;
 }
 
 // ---- backend switching ----
-HSPONNX_EXPORT BOOL WINAPI onnx_set_backend_dml(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPONNX_EXPORT int __stdcall onnx_set_backend_dml(int h) {
     SessionState* s = get_slot(h);
     if (!s) return 0;
 #if HSPONNX_HAVE_ORT && HSPONNX_HAVE_DML
-    // NOTE: onnxruntime requires DML を session 作成前に append する必要がある。
-    // 既に session 作成済みの場合は再ロードが必要なので、ここでは options を
-    // 再作成して session を作り直す。
     if (g_ort && s->session) {
         g_ort->ReleaseSession(s->session);
         s->session = nullptr;
@@ -472,7 +373,6 @@ HSPONNX_EXPORT BOOL WINAPI onnx_set_backend_dml(HSPEXINFO* hei, int p1, int p2, 
     }
     OrtStatus* st = g_ort->CreateSessionOptions(&s->options);
     if (st) { g_ort->ReleaseStatus(st); return 0; }
-    // DML backend は CPU mem arena / mem pattern を無効化しないと動かない
     g_ort->DisableMemPattern(s->options);
     g_ort->SetSessionExecutionMode(s->options, ORT_SEQUENTIAL);
     OrtSessionOptionsAppendExecutionProvider_DML(s->options, 0);
@@ -482,10 +382,7 @@ HSPONNX_EXPORT BOOL WINAPI onnx_set_backend_dml(HSPEXINFO* hei, int p1, int p2, 
     return 0;
 }
 
-HSPONNX_EXPORT BOOL WINAPI onnx_set_backend_cpu(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
+HSPONNX_EXPORT int __stdcall onnx_set_backend_cpu(int h) {
     SessionState* s = get_slot(h);
     if (!s) return 0;
 #if HSPONNX_HAVE_ORT
@@ -507,28 +404,21 @@ HSPONNX_EXPORT BOOL WINAPI onnx_set_backend_cpu(HSPEXINFO* hei, int p1, int p2, 
 // ---- run (1 input / 1 output, float32) ----
 // onnx_run h, var_in_buf, var_in_shape, in_rank,
 //             var_out_buf, var_out_shape, var_out_rank
-HSPONNX_EXPORT BOOL WINAPI onnx_run(HSPEXINFO* hei, int p1, int p2, int p3) {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int h = getint();
-    APTR a;
-    PVal* pv_in  = getva_pval(&a);
-    PVal* pv_ish = getva_pval(&a);
-    int   in_rank = getint();
-    PVal* pv_out = getva_pval(&a);
-    PVal* pv_osh = getva_pval(&a);
-    PVal* pv_ork = getva_pval(&a);
-
+HSPONNX_EXPORT int __stdcall onnx_run(
+    int h,
+    void* in_data_v, int* in_shape_i, int in_rank,
+    void* out_data_v, int* out_shape_i, int* out_rank_out)
+{
     SessionState* s = get_slot(h);
     if (!s) return 0;
 #if !HSPONNX_HAVE_ORT
-    (void)pv_in; (void)pv_ish; (void)in_rank; (void)pv_out; (void)pv_osh; (void)pv_ork;
+    (void)in_data_v; (void)in_shape_i; (void)in_rank;
+    (void)out_data_v; (void)out_shape_i; (void)out_rank_out;
     return 0;
 #else
     if (!g_ort) return 0;
 
-    float* in_data    = get_float_array(pv_in);
-    int*   in_shape_i = get_int_array(pv_ish);
+    float* in_data = (float*)in_data_v;
     if (!in_data || !in_shape_i || in_rank <= 0 || in_rank > 8) return 0;
 
     int64_t in_shape[8];
@@ -549,7 +439,6 @@ HSPONNX_EXPORT BOOL WINAPI onnx_run(HSPEXINFO* hei, int p1, int p2, int p3) {
         ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT, &in_tensor);
     if (st) { g_ort->ReleaseStatus(st); g_ort->ReleaseMemoryInfo(meminfo); return 0; }
 
-    // in/out 名前取得
     OrtAllocator* alloc = nullptr;
     g_ort->GetAllocatorWithDefaultOptions(&alloc);
     char* in_name  = nullptr;
@@ -570,7 +459,6 @@ HSPONNX_EXPORT BOOL WINAPI onnx_run(HSPEXINFO* hei, int p1, int p2, int p3) {
     if (out_name) g_ort->AllocatorFree(alloc, out_name);
     if (st) { g_ort->ReleaseStatus(st); return 0; }
 
-    // 出力 tensor の shape / data を HSP 変数に書き出す
     OrtTensorTypeAndShapeInfo* oti = nullptr;
     g_ort->GetTensorTypeAndShape(out_tensor, &oti);
     size_t orank = 0;
@@ -584,18 +472,12 @@ HSPONNX_EXPORT BOOL WINAPI onnx_run(HSPEXINFO* hei, int p1, int p2, int p3) {
     float* out_raw = nullptr;
     g_ort->GetTensorMutableData(out_tensor, (void**)&out_raw);
 
-    float* out_buf = get_float_array(pv_out);
-    int*   out_shape_i = get_int_array(pv_osh);
+    float* out_buf = (float*)out_data_v;
     if (out_buf && out_raw) memcpy(out_buf, out_raw, elem * sizeof(float));
     if (out_shape_i) {
         for (size_t i = 0; i < orank && i < 8; ++i) out_shape_i[i] = (int)odims[i];
     }
-    if (pv_ork && pv_ork->flag == HSPVAR_FLAG_INT) {
-        int rk = (int)orank;
-        pv_ork->offset = 0;
-        HspVarProc* proc = g_hei->HspFunc_getproc(pv_ork->flag);
-        proc->Set(pv_ork, proc->GetPtr(pv_ork), &rk);
-    }
+    if (out_rank_out) *out_rank_out = (int)orank;
 
     g_ort->ReleaseValue(out_tensor);
     return 0;

@@ -67,12 +67,12 @@
 
 #defcfunc db_col_name int rh, int col, local _s
     sdim _s, 256
-    duckdb_result_col_name rh, col, _s
+    duckdb_result_col_name rh, col, _s, 256
     return _s
 
 #defcfunc db_fetch_str int rh, int row, int col, local _s
     sdim _s, 4096
-    duckdb_result_cell_str rh, row, col, _s
+    duckdb_result_cell_str rh, row, col, _s, 4096
     return _s
 
 #defcfunc db_fetch_dbl int rh, int row, int col, local _v

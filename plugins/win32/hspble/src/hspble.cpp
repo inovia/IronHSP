@@ -1,48 +1,33 @@
 //============================================================
-//   hspble.dll — Bluetooth LE GATT client for IronHSP
+//   hspble.dll — Bluetooth LE GATT client for IronHSP (新形式)
 //
 //   Windows.Devices.Bluetooth (WinRT) を C++/WinRT で叩いて
 //   BLE デバイスのスキャン / GATT read / write / notify を提供。
 //
-//   HSP API (OLDDLL $202):
+//   v2 (2026-04-15): OLDDLL $202 → typed #func 形式に全面移行。
+//
+//   HSP API (typed #func):
 //     ble_init
 //     ble_shutdown
 //     ble_scan_start
 //     ble_scan_stop
-//     ble_scan_poll    var_addr, var_name, var_rssi   -> stat 1/0
-//     ble_connect      "addr"                         -> stat = device_h
-//     ble_disconnect   dev_h
-//     ble_services     dev_h, var_list
-//     ble_characteristics dev_h, "svc", var_list
-//     ble_read         dev_h, "svc", "chr", var_buf, var_len
-//     ble_write        dev_h, "svc", "chr", var_buf, len
-//     ble_notify_enable dev_h, "svc", "chr"
-//     ble_notify_poll  dev_h, "chr", var_buf, var_len -> stat 1/0
+//     ble_scan_poll        var_addr_buf, addr_size, var_name_buf, name_size, var_rssi
+//                           -> stat 1/0
+//     ble_connect          "addr", var_h                 -> var_h に device handle
+//     ble_disconnect       dev_h
+//     ble_services         dev_h, var_buf, buf_size
+//     ble_characteristics  dev_h, "svc", var_buf, buf_size
+//     ble_read             dev_h, "svc", "chr", var_buf, buf_size, var_len
+//     ble_write            dev_h, "svc", "chr", var_buf, len
+//     ble_notify_enable    dev_h, "svc", "chr"
+//     ble_notify_poll      dev_h, "chr", var_buf, buf_size, var_len  -> stat 1/0
 //
-//   実装メモ:
-//     - init_apartment は multi_threaded。async は .get() で同期待ち
-//     - スキャン結果は BluetoothLEAdvertisementWatcher::Received で
-//       受け取り、内部キュー (mutex 保護) に貯めて poll で取り出す
-//     - 複数デバイス対応 (16 スロット)
-//     - notify 受信データも char_uuid ごとにキューに貯めて poll
-//     - __has_include でヘッダ無し環境では全関数スタブ
+//   __has_include でヘッダ無し環境では全関数スタブ。
 //============================================================
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
-
-#ifndef HSPWIN
-#define HSPWIN
-#endif
-#if defined(_WIN64) && !defined(HSP64)
-#define HSP64
-#endif
-#pragma warning(push)
-#pragma warning(disable: 4819)
-#include "../../../../hsp3/hsp3debug.h"
-#include "../../../../hsp3/hsp3struct.h"
-#pragma warning(pop)
 
 #include <string>
 #include <vector>
@@ -55,58 +40,21 @@
 
 #define HSPBLE_EXPORT extern "C" __declspec(dllexport)
 
-// ============================================================
-// HSPEXINFO helpers
-// ============================================================
-namespace {
-HSPEXINFO* g_hei = nullptr;
-inline void  set_hei(HSPEXINFO* hei) { g_hei = hei; }
-inline int   getint() { return g_hei->HspFunc_prm_geti(); }
-inline char* getstr() { return g_hei->HspFunc_prm_gets(); }
-
-static void write_str_to_var(const std::string& s)
+static void copy_str_to_buf(const std::string& src, char* out, int out_size)
 {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), (void*)s.c_str());
+    if (!out || out_size <= 0) return;
+    int n = (int)src.size();
+    if (n >= out_size) n = out_size - 1;
+    if (n > 0) memcpy(out, src.data(), (size_t)n);
+    out[n] = 0;
 }
-static void write_int_to_var(int v)
+static int copy_bytes_to_buf(const uint8_t* src, size_t n, void* out, int out_size)
 {
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_INT) return;
-    pv->offset = a;
-    HspVarProc* proc = g_hei->HspFunc_getproc(pv->flag);
-    proc->Set(pv, proc->GetPtr(pv), &v);
+    if (!out || out_size <= 0) return 0;
+    if ((int)n > out_size) n = (size_t)out_size;
+    if (n > 0 && src) memcpy(out, src, n);
+    return (int)n;
 }
-static void write_buf_to_var(const void* data, size_t n)
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_STR) return;
-    pv->offset = a;
-    g_hei->HspFunc_dim(pv, HSPVAR_FLAG_STR, (int)n + 1, 0, 0, 0, 0);
-    if (n > 0) memcpy(pv->pt, data, n);
-    ((char*)pv->pt)[n] = 0;
-}
-static std::vector<uint8_t> read_var_buf()
-{
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    if (!pv || pv->flag != HSPVAR_FLAG_STR) return {};
-    pv->offset = a;
-    const char* p = (const char*)pv->pt;
-    if (!p) return {};
-    // HSP str var は nul 終端保証 but バイナリなので len も別途受け取る想定
-    // ここでは strlen で取得してしまうと 0x00 で切れる。呼び出し側で
-    // 常に len 引数を別途渡してもらうことで対処 (read_var_buf は未使用)
-    size_t n = strlen(p);
-    return std::vector<uint8_t>(p, p + n);
-}
-} // namespace
 
 // ============================================================
 // __has_include fallback
@@ -154,7 +102,7 @@ struct ScanEntry {
 };
 
 struct NotifyQueueEntry {
-    std::string chr_uuid;   // lowercase GUID
+    std::string chr_uuid;
     std::vector<uint8_t> data;
 };
 
@@ -162,13 +110,9 @@ struct Device {
     bool                             active = false;
     uint64_t                         addr = 0;
     BluetoothLEDevice                dev{ nullptr };
-    // (service_uuid -> GattDeviceService)
     std::unordered_map<std::string, GattDeviceService> services;
-    // (chr_uuid -> GattCharacteristic)
     std::unordered_map<std::string, GattCharacteristic> chrs;
-    // ValueChanged トークン (解除用)
     std::unordered_map<std::string, winrt::event_token> tokens;
-    // notification キュー
     std::mutex                       notify_mtx;
     std::deque<NotifyQueueEntry>     notify_queue;
 };
@@ -182,7 +126,6 @@ static std::mutex                      g_scan_mtx;
 static std::deque<ScanEntry>           g_scan_queue;
 static winrt::event_token              g_scan_token{};
 
-// ------------------------- helpers -------------------------
 static std::string WideToAnsi(const wchar_t* w, size_t wlen)
 {
     if (!w || wlen == 0) return "";
@@ -193,9 +136,7 @@ static std::string WideToAnsi(const wchar_t* w, size_t wlen)
     return std::string(buf.data(), n);
 }
 static std::string HStringToAnsi(hstring const& h)
-{
-    return WideToAnsi(h.c_str(), h.size());
-}
+{ return WideToAnsi(h.c_str(), h.size()); }
 
 static std::string GuidToString(winrt::guid const& g)
 {
@@ -208,23 +149,6 @@ static std::string GuidToString(winrt::guid const& g)
     return buf;
 }
 
-static bool ParseGuid(const char* s, winrt::guid& out)
-{
-    if (!s) return false;
-    unsigned d1; unsigned d2, d3;
-    unsigned b[8];
-    int n = sscanf_s(s, "%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-        &d1, &d2, &d3,
-        &b[0], &b[1], &b[2], &b[3], &b[4], &b[5], &b[6], &b[7]);
-    if (n != 11) return false;
-    out.Data1 = d1;
-    out.Data2 = (uint16_t)d2;
-    out.Data3 = (uint16_t)d3;
-    for (int i = 0; i < 8; ++i) out.Data4[i] = (uint8_t)b[i];
-    return true;
-}
-
-// "AA:BB:CC:DD:EE:FF" -> uint64
 static uint64_t ParseMac(const char* s)
 {
     if (!s) return 0;
@@ -249,7 +173,6 @@ static std::string FormatMac(uint64_t a)
     return buf;
 }
 
-// IBuffer -> vector<uint8>
 static std::vector<uint8_t> BufferToBytes(IBuffer const& buf)
 {
     if (!buf) return {};
@@ -275,7 +198,6 @@ static int FindFreeDev()
     return -1;
 }
 
-// ------------------------- scan ---------------------------
 static void StartScan()
 {
     if (g_watcher) return;
@@ -313,13 +235,11 @@ static void StopScan()
     g_scan_queue.clear();
 }
 
-// ------------------------ connect -------------------------
 static int Connect(uint64_t addr)
 {
     std::lock_guard<std::mutex> lk(g_mutex);
     int idx = FindFreeDev();
     if (idx < 0) return -1;
-
     try {
         auto dev = BluetoothLEDevice::FromBluetoothAddressAsync(addr).get();
         if (!dev) return -2;
@@ -337,7 +257,6 @@ static void Disconnect(int idx)
     auto& d = g_devices[idx];
     if (!d.active) return;
 
-    // 全 ValueChanged を解除
     for (auto& kv : d.tokens) {
         auto it = d.chrs.find(kv.first);
         if (it != d.chrs.end()) {
@@ -346,7 +265,6 @@ static void Disconnect(int idx)
     }
     d.tokens.clear();
     d.chrs.clear();
-    // 取得済みサービスは Close 不要 (WinRT ref-counted)
     d.services.clear();
     d.dev = nullptr;
     d.active = false;
@@ -357,19 +275,15 @@ static void Disconnect(int idx)
     }
 }
 
-// service_uuid を lowercase 正規化して取得 / キャッシュ
 static GattDeviceService GetService(Device& d, const std::string& svc_l)
 {
     auto it = d.services.find(svc_l);
     if (it != d.services.end()) return it->second;
 
-    auto res = d.dev.GetGattServicesAsync(
-        BluetoothCacheMode::Cached).get();
-    if (res.Status() != GattCommunicationStatus::Success)
-        return nullptr;
+    auto res = d.dev.GetGattServicesAsync(BluetoothCacheMode::Cached).get();
+    if (res.Status() != GattCommunicationStatus::Success) return nullptr;
 
-    auto svcs = res.Services();
-    for (auto const& s : svcs) {
+    for (auto const& s : res.Services()) {
         auto uid = GuidToString(s.Uuid());
         if (uid == svc_l) {
             d.services.insert_or_assign(uid, s);
@@ -382,8 +296,6 @@ static GattDeviceService GetService(Device& d, const std::string& svc_l)
 static GattCharacteristic GetCharacteristic(
     Device& d, const std::string& svc_l, const std::string& chr_l)
 {
-    // char cache key は chr_uuid 単独 (同じ chr uuid が複数サービスに
-    // またがるケースはまれなので妥協)
     auto it = d.chrs.find(chr_l);
     if (it != d.chrs.end()) return it->second;
 
@@ -392,8 +304,7 @@ static GattCharacteristic GetCharacteristic(
 
     auto res = svc.GetCharacteristicsAsync(BluetoothCacheMode::Cached).get();
     if (res.Status() != GattCommunicationStatus::Success) return nullptr;
-    auto chrs = res.Characteristics();
-    for (auto const& c : chrs) {
+    for (auto const& c : res.Characteristics()) {
         auto uid = GuidToString(c.Uuid());
         if (uid == chr_l) {
             d.chrs.insert_or_assign(uid, c);
@@ -405,49 +316,47 @@ static GattCharacteristic GetCharacteristic(
 
 } // namespace ble_impl
 
-// ============================================================
-// HSP exports
-// ============================================================
 using namespace ble_impl;
 
-HSPBLE_EXPORT BOOL WINAPI ble_init(HSPEXINFO* hei, int p1, int p2, int p3)
+// ============================================================
+// HSP exports (typed #func)
+// ============================================================
+
+HSPBLE_EXPORT int __stdcall ble_init()
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
     ble_impl::g_ready = true;
     return 0;
 }
 
-HSPBLE_EXPORT BOOL WINAPI ble_shutdown(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPBLE_EXPORT int __stdcall ble_shutdown()
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
     StopScan();
     for (int i = 0; i < MAX_DEV; ++i) Disconnect(i);
     ble_impl::g_ready = false;
     return 0;
 }
 
-HSPBLE_EXPORT BOOL WINAPI ble_scan_start(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPBLE_EXPORT int __stdcall ble_scan_start()
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
     try { StartScan(); return 0; } catch (...) { return -1; }
 }
 
-HSPBLE_EXPORT BOOL WINAPI ble_scan_stop(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPBLE_EXPORT int __stdcall ble_scan_stop()
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
     StopScan();
     return 0;
 }
 
-// ble_scan_poll var_addr, var_name, var_rssi -> stat 1/0
-HSPBLE_EXPORT BOOL WINAPI ble_scan_poll(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_scan_poll(var_addr_buf, addr_size, var_name_buf, name_size, var_rssi) -> stat 1/0
+HSPBLE_EXPORT int __stdcall ble_scan_poll(
+    char* addr_buf, int addr_size,
+    char* name_buf, int name_size,
+    int* out_rssi)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
+    if (addr_buf && addr_size > 0) addr_buf[0] = 0;
+    if (name_buf && name_size > 0) name_buf[0] = 0;
+    if (out_rssi) *out_rssi = 0;
+
     ScanEntry e;
     bool has = false;
     {
@@ -458,84 +367,67 @@ HSPBLE_EXPORT BOOL WINAPI ble_scan_poll(HSPEXINFO* hei, int p1, int p2, int p3)
             has = true;
         }
     }
-    if (!has) {
-        write_str_to_var("");
-        write_str_to_var("");
-        write_int_to_var(0);
-        return 0;
-    }
-    write_str_to_var(FormatMac(e.addr));
-    write_str_to_var(e.name);
-    write_int_to_var(e.rssi);
+    if (!has) return 0;
+
+    copy_str_to_buf(FormatMac(e.addr), addr_buf, addr_size);
+    copy_str_to_buf(e.name, name_buf, name_size);
+    if (out_rssi) *out_rssi = e.rssi;
     return 1;
 }
 
-HSPBLE_EXPORT BOOL WINAPI ble_connect(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_connect("addr", var_h)
+HSPBLE_EXPORT int __stdcall ble_connect(const char* addr_s, int* out_h)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    const char* addr_s = getstr();
+    if (out_h) *out_h = -1;
     uint64_t addr = ParseMac(addr_s);
     if (addr == 0) return -1;
-    return Connect(addr);
+    int h = Connect(addr);
+    if (out_h) *out_h = h;
+    return 0;
 }
 
-HSPBLE_EXPORT BOOL WINAPI ble_disconnect(HSPEXINFO* hei, int p1, int p2, int p3)
+HSPBLE_EXPORT int __stdcall ble_disconnect(int h)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
     Disconnect(h);
     return 0;
 }
 
-HSPBLE_EXPORT BOOL WINAPI ble_services(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_services(h, var_buf, buf_size)
+HSPBLE_EXPORT int __stdcall ble_services(int h, char* out_buf, int out_size)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
-    if (h < 0 || h >= MAX_DEV) { write_str_to_var(""); return -1; }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    if (h < 0 || h >= MAX_DEV) return -1;
     auto& d = g_devices[h];
-    if (!d.active) { write_str_to_var(""); return -2; }
+    if (!d.active) return -2;
     try {
-        auto res = d.dev.GetGattServicesAsync(
-            BluetoothCacheMode::Uncached).get();
-        if (res.Status() != GattCommunicationStatus::Success) {
-            write_str_to_var("");
-            return -3;
-        }
+        auto res = d.dev.GetGattServicesAsync(BluetoothCacheMode::Uncached).get();
+        if (res.Status() != GattCommunicationStatus::Success) return -3;
         std::string out;
-        auto svcs = res.Services();
-        for (auto const& s : svcs) {
+        for (auto const& s : res.Services()) {
             auto uid = GuidToString(s.Uuid());
             if (!out.empty()) out += '\n';
             out += uid;
-            // cache
             d.services.insert_or_assign(uid, s);
         }
-        write_str_to_var(out);
+        copy_str_to_buf(out, out_buf, out_size);
         return 0;
-    } catch (...) { write_str_to_var(""); return -4; }
+    } catch (...) { return -4; }
 }
 
-HSPBLE_EXPORT BOOL WINAPI ble_characteristics(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_characteristics(h, "svc", var_buf, buf_size)
+HSPBLE_EXPORT int __stdcall ble_characteristics(
+    int h, const char* svc_s, char* out_buf, int out_size)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* svc_s = getstr();
-    if (h < 0 || h >= MAX_DEV) { write_str_to_var(""); return -1; }
+    if (out_buf && out_size > 0) out_buf[0] = 0;
+    if (h < 0 || h >= MAX_DEV) return -1;
     auto& d = g_devices[h];
-    if (!d.active) { write_str_to_var(""); return -2; }
+    if (!d.active) return -2;
     try {
         std::string svc_l = svc_s ? svc_s : "";
         auto svc = GetService(d, svc_l);
-        if (!svc) { write_str_to_var(""); return -3; }
-        auto res = svc.GetCharacteristicsAsync(
-            BluetoothCacheMode::Uncached).get();
-        if (res.Status() != GattCommunicationStatus::Success) {
-            write_str_to_var(""); return -4;
-        }
+        if (!svc) return -3;
+        auto res = svc.GetCharacteristicsAsync(BluetoothCacheMode::Uncached).get();
+        if (res.Status() != GattCommunicationStatus::Success) return -4;
         std::string out;
         for (auto const& c : res.Characteristics()) {
             auto uid = GuidToString(c.Uuid());
@@ -543,80 +435,54 @@ HSPBLE_EXPORT BOOL WINAPI ble_characteristics(HSPEXINFO* hei, int p1, int p2, in
             out += uid;
             d.chrs.insert_or_assign(uid, c);
         }
-        write_str_to_var(out);
+        copy_str_to_buf(out, out_buf, out_size);
         return 0;
-    } catch (...) { write_str_to_var(""); return -5; }
+    } catch (...) { return -5; }
 }
 
-// ble_read dev_h, "svc", "chr", var_buf, var_len
-HSPBLE_EXPORT BOOL WINAPI ble_read(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_read(h, "svc", "chr", var_buf, buf_size, var_len)
+HSPBLE_EXPORT int __stdcall ble_read(
+    int h, const char* svc_s, const char* chr_s,
+    void* out_buf, int out_size, int* out_len)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* svc_s = getstr();
-    const char* chr_s = getstr();
-    if (h < 0 || h >= MAX_DEV) { write_buf_to_var(nullptr, 0); write_int_to_var(0); return -1; }
+    if (out_len) *out_len = 0;
+    if (h < 0 || h >= MAX_DEV) return -1;
     auto& d = g_devices[h];
-    if (!d.active) { write_buf_to_var(nullptr, 0); write_int_to_var(0); return -2; }
+    if (!d.active) return -2;
     try {
         auto c = GetCharacteristic(d, svc_s ? svc_s : "", chr_s ? chr_s : "");
-        if (!c) { write_buf_to_var(nullptr, 0); write_int_to_var(0); return -3; }
+        if (!c) return -3;
         auto res = c.ReadValueAsync(BluetoothCacheMode::Uncached).get();
-        if (res.Status() != GattCommunicationStatus::Success) {
-            write_buf_to_var(nullptr, 0);
-            write_int_to_var(0);
-            return -4;
-        }
+        if (res.Status() != GattCommunicationStatus::Success) return -4;
         auto bytes = BufferToBytes(res.Value());
-        write_buf_to_var(bytes.data(), bytes.size());
-        write_int_to_var((int)bytes.size());
+        int n = copy_bytes_to_buf(bytes.data(), bytes.size(), out_buf, out_size);
+        if (out_len) *out_len = n;
         return 0;
-    } catch (...) {
-        write_buf_to_var(nullptr, 0);
-        write_int_to_var(0);
-        return -5;
-    }
+    } catch (...) { return -5; }
 }
 
-// ble_write dev_h, "svc", "chr", var_buf, len
-HSPBLE_EXPORT BOOL WINAPI ble_write(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_write(h, "svc", "chr", var_buf, len)
+HSPBLE_EXPORT int __stdcall ble_write(
+    int h, const char* svc_s, const char* chr_s,
+    const void* in_buf, int len)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* svc_s = getstr();
-    const char* chr_s = getstr();
-    // var_buf : 読み取って len バイトだけ使う
-    PVal* pv = nullptr;
-    APTR a = g_hei->HspFunc_prm_getva(&pv);
-    int len = getint();
-    if (!pv || pv->flag != HSPVAR_FLAG_STR) return -1;
-    pv->offset = a;
-    const uint8_t* data = (const uint8_t*)pv->pt;
-    if (!data || len <= 0) return -2;
-
+    if (!in_buf || len <= 0) return -2;
     if (h < 0 || h >= MAX_DEV) return -3;
     auto& d = g_devices[h];
     if (!d.active) return -4;
     try {
         auto c = GetCharacteristic(d, svc_s ? svc_s : "", chr_s ? chr_s : "");
         if (!c) return -5;
-        auto ib = BytesToBuffer(data, (size_t)len);
-        auto st = c.WriteValueAsync(ib,
-            GattWriteOption::WriteWithResponse).get();
+        auto ib = BytesToBuffer((const uint8_t*)in_buf, (size_t)len);
+        auto st = c.WriteValueAsync(ib, GattWriteOption::WriteWithResponse).get();
         return (st == GattCommunicationStatus::Success) ? 0 : -6;
     } catch (...) { return -7; }
 }
 
-// ble_notify_enable dev_h, "svc", "chr"
-HSPBLE_EXPORT BOOL WINAPI ble_notify_enable(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_notify_enable(h, "svc", "chr")
+HSPBLE_EXPORT int __stdcall ble_notify_enable(
+    int h, const char* svc_s, const char* chr_s)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* svc_s = getstr();
-    const char* chr_s = getstr();
     if (h < 0 || h >= MAX_DEV) return -1;
     auto& d = g_devices[h];
     if (!d.active) return -2;
@@ -624,12 +490,10 @@ HSPBLE_EXPORT BOOL WINAPI ble_notify_enable(HSPEXINFO* hei, int p1, int p2, int 
         std::string chr_l = chr_s ? chr_s : "";
         auto c = GetCharacteristic(d, svc_s ? svc_s : "", chr_l);
         if (!c) return -3;
-
         auto status = c.WriteClientCharacteristicConfigurationDescriptorAsync(
             GattClientCharacteristicConfigurationDescriptorValue::Notify).get();
         if (status != GattCommunicationStatus::Success) return -4;
 
-        // ValueChanged 登録。既に登録済ならスキップ。
         Device* pd = &d;
         std::string key = chr_l;
         if (d.tokens.count(key)) return 0;
@@ -650,20 +514,15 @@ HSPBLE_EXPORT BOOL WINAPI ble_notify_enable(HSPEXINFO* hei, int p1, int p2, int 
     } catch (...) { return -5; }
 }
 
-// ble_notify_poll dev_h, "chr", var_buf, var_len -> stat 1/0
-HSPBLE_EXPORT BOOL WINAPI ble_notify_poll(HSPEXINFO* hei, int p1, int p2, int p3)
+// ble_notify_poll(h, "chr", var_buf, buf_size, var_len) -> 1/0
+HSPBLE_EXPORT int __stdcall ble_notify_poll(
+    int h, const char* chr_s,
+    void* out_buf, int out_size, int* out_len)
 {
-    (void)p1;(void)p2;(void)p3;
-    set_hei(hei);
-    int h = getint();
-    const char* chr_s = getstr();
-    if (h < 0 || h >= MAX_DEV) {
-        write_buf_to_var(nullptr, 0); write_int_to_var(0); return 0;
-    }
+    if (out_len) *out_len = 0;
+    if (h < 0 || h >= MAX_DEV) return 0;
     auto& d = g_devices[h];
-    if (!d.active) {
-        write_buf_to_var(nullptr, 0); write_int_to_var(0); return 0;
-    }
+    if (!d.active) return 0;
 
     std::string want = chr_s ? chr_s : "";
     NotifyQueueEntry e;
@@ -679,13 +538,9 @@ HSPBLE_EXPORT BOOL WINAPI ble_notify_poll(HSPEXINFO* hei, int p1, int p2, int p3
             }
         }
     }
-    if (!got) {
-        write_buf_to_var(nullptr, 0);
-        write_int_to_var(0);
-        return 0;
-    }
-    write_buf_to_var(e.data.data(), e.data.size());
-    write_int_to_var((int)e.data.size());
+    if (!got) return 0;
+    int n = copy_bytes_to_buf(e.data.data(), e.data.size(), out_buf, out_size);
+    if (out_len) *out_len = n;
     return 1;
 }
 
@@ -712,19 +567,20 @@ BOOL WINAPI DllMain(HMODULE, DWORD reason, LPVOID)
 
 #else // !HSPBLE_HAVE_BLE — stub build
 
-HSPBLE_EXPORT BOOL WINAPI ble_init(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_shutdown(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_scan_start(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_scan_stop(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_scan_poll(HSPEXINFO* hei, int, int, int){ set_hei(hei); return 0; }
-HSPBLE_EXPORT BOOL WINAPI ble_connect(HSPEXINFO* hei, int, int, int){ set_hei(hei); (void)getstr(); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_disconnect(HSPEXINFO* hei, int, int, int){ set_hei(hei); (void)getint(); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_services(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_characteristics(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_read(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_write(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_notify_enable(HSPEXINFO* hei, int, int, int){ set_hei(hei); return -1; }
-HSPBLE_EXPORT BOOL WINAPI ble_notify_poll(HSPEXINFO* hei, int, int, int){ set_hei(hei); return 0; }
+HSPBLE_EXPORT int __stdcall ble_init() { return -1; }
+HSPBLE_EXPORT int __stdcall ble_shutdown() { return -1; }
+HSPBLE_EXPORT int __stdcall ble_scan_start() { return -1; }
+HSPBLE_EXPORT int __stdcall ble_scan_stop() { return -1; }
+HSPBLE_EXPORT int __stdcall ble_scan_poll(char*, int, char*, int, int*) { return 0; }
+HSPBLE_EXPORT int __stdcall ble_connect(const char*, int* out_h)
+{ if (out_h) *out_h = -1; return -1; }
+HSPBLE_EXPORT int __stdcall ble_disconnect(int) { return -1; }
+HSPBLE_EXPORT int __stdcall ble_services(int, char*, int) { return -1; }
+HSPBLE_EXPORT int __stdcall ble_characteristics(int, const char*, char*, int) { return -1; }
+HSPBLE_EXPORT int __stdcall ble_read(int, const char*, const char*, void*, int, int*) { return -1; }
+HSPBLE_EXPORT int __stdcall ble_write(int, const char*, const char*, const void*, int) { return -1; }
+HSPBLE_EXPORT int __stdcall ble_notify_enable(int, const char*, const char*) { return -1; }
+HSPBLE_EXPORT int __stdcall ble_notify_poll(int, const char*, void*, int, int*) { return 0; }
 
 BOOL WINAPI DllMain(HMODULE, DWORD, LPVOID) { return TRUE; }
 
