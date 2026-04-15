@@ -1,0 +1,56 @@
+;============================================================
+; sample_winrtocr.hsp
+;   hspwinrtocr.dll (Windows.Media.Ocr) のデモ。
+;   画像ファイルを OCR してテキストを抽出する。
+;============================================================
+
+#include "hspwinrtocr.as"
+
+    title "WinRT OCR sample"
+    screen 0, 800, 600
+    font "MS Gothic", 14
+    objmode 2
+
+    ; 利用可能な OCR 言語をまず表示
+    ocr_langs langs
+    mes "[Available OCR languages]"
+    mes langs
+    mes ""
+
+    ; OCR エンジン初期化 (ユーザー言語で auto 選択)
+    ocr_init
+    if stat {
+        mes "ocr_init failed (stat=" + stat + ")"
+        mes "言語パックが未インストールの可能性があります。"
+        stop
+    }
+    mes "OCR engine ready."
+    mes ""
+
+    ; 画像ファイルパスを指定 (ここは環境に合わせて変更)
+    path = dir_cur + "\\ocr_test.png"
+    mes "target : " + path
+    mes ""
+
+    exist path
+    if strsize < 0 {
+        mes "ファイルが見つかりません。"
+        mes "ocr_test.png を同じディレクトリに置くか、path 変数を書き換えてください。"
+        ocr_free
+        stop
+    }
+
+    ; ファイル OCR 実行
+    ocr_run_file result, path
+    if stat {
+        mes "ocr_run_file failed (stat=" + stat + ")"
+    } else {
+        mes "[OCR result]"
+        mes result
+    }
+
+    mes ""
+    mes "--- done. [ESC] to quit ---"
+
+    ocr_free
+    stop
