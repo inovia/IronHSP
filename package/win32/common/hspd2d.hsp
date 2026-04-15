@@ -49,6 +49,16 @@
 #define IID_IWICBitmapFrameEncode "{00000105-a8f2-4877-ba0a-fd2b6645fb94}"
 #define IID_IWICStream            "{135ff860-22b7-4ddf-b0f6-218f4f299a43}"
 
+; --- L1-3 SVG 対応で追加したインターフェース IID ---
+#define IID_ID2D1Factory1         "{bb12d362-daee-4b9a-aa1d-14ba401cfa1f}"
+#define IID_IDXGIDevice           "{54ec77fa-1377-44e6-8c32-88fd5f44c84c}"
+#define IID_ID2D1Device           "{47dd575d-ac05-4cdd-8049-9b02cd16f44c}"
+#define IID_ID2D1DeviceContext    "{e8f7fe7a-191c-466d-ad95-975678bda998}"
+#define IID_ID2D1DeviceContext5   "{7836d248-68cc-4df6-b9e8-de991bf62eb7}"
+#define IID_ID2D1Bitmap1          "{a898a84c-3873-4588-b08b-ebbf978df041}"
+#define IID_ID2D1SvgDocument      "{86b88e4d-afa4-4d7b-88e4-68a51c4a0aec}"
+#define IID_ID3D11Device          "{db6f6ddb-ac77-4e88-8253-819df9bbf140}"
+
 ; WIC pixel formats / container formats (16 byte GUID, IIDFromString でパース)
 #define GUID_WICPixelFormat32bppPBGRA  "{6fddc324-4e03-4bfe-b185-3d77768dc910}"
 #define GUID_WICPixelFormat32bppBGRA   "{6fddc324-4e03-4bfe-b185-3d77768dc90f}"
@@ -79,6 +89,31 @@
 
 #uselib "kernel32.dll"
 #func  d2d_RtlMoveMemory "RtlMoveMemory" var, var, int
+#cfunc d2d_GlobalAlloc   "GlobalAlloc" int, int
+#func  d2d_GlobalFree    "GlobalFree" int
+
+; L1-3 SVG 追加: SVG テキスト → HGLOBAL → IStream 経路で必要な関数群と、
+;   raw ポインタ (D2D Map() が返す 64bit BYTE*) を扱うための memcpy variant。
+;   ※ HGLOBAL / void* は本来 64bit だが、既存コードは iron_clip.hsp を
+;     含めすべて int 返却で動いている (通常プロセスのヒープは low 4GB に
+;     収まるため実害がない)。SVG もこの既存パターンに合わせる。
+#cfunc d2d_GlobalLock    "GlobalLock"    int
+#func  d2d_GlobalUnlock  "GlobalUnlock"  int
+; RtlMoveMemory(dst, src, cb) の引数型 variant
+;   dst が raw ptr (WIC bitmap lock buffer 等) のケース
+#func  d2d_MoveMemPV     "RtlMoveMemory" int64, var, int
+;   src が raw ptr (D2D Map() の mapped bits) のケース
+#func  d2d_MoveMemVP     "RtlMoveMemory" var, int64, int
+;   両方 raw (row-by-row のオフセット計算に使う)
+#func  d2d_MoveMemPP     "RtlMoveMemory" int64, int64, int
+
+; L1-3 SVG: D3D11 / DXGI flat エントリポイント
+#uselib "d3d11.dll"
+#cfunc d2d_D3D11CreateDevice "D3D11CreateDevice" int, int, int, int, int, int, int, var, var, int
+
+; CreateStreamOnHGlobal は ole32.dll (SVG 文字列を IStream に載せるため)
+#uselib "ole32.dll"
+#cfunc d2d_CreateStreamOnHGlobal "CreateStreamOnHGlobal" int, int, var
 
 ;-----------------------------------------------------------
 ; COM インターフェース宣言
@@ -163,8 +198,20 @@
 #comfunc d2d_WIC_Release 2
 
 ; --- IWICBitmap (extends IWICBitmapSource) ---
+;   IWICBitmapSource 側: 3=GetSize 4=GetPixelFormat 5=GetResolution 6=CopyPalette 7=CopyPixels
+;   IWICBitmap 本体:     8=Lock(const WICRect*, DWORD flags, IWICBitmapLock**)
+;                        9=SetPalette  10=SetResolution
 #usecom IWICBitmap IID_IWICBitmap "{}"
+#comfunc d2d_WICBmp_Lock 8 var, int, var
 #comfunc d2d_WICBmp_Release 2
+
+; --- IWICBitmapLock
+;   3=GetSize 4=GetStride 5=GetDataPointer 6=GetPixelFormat
+#define IID_IWICBitmapLock "{00000123-a8f2-4877-ba0a-fd2b6645fb94}"
+#usecom IWICBitmapLock IID_IWICBitmapLock "{}"
+#comfunc d2d_WICLock_GetStride       4 var
+#comfunc d2d_WICLock_GetDataPointer  5 var, var
+#comfunc d2d_WICLock_Release         2
 
 ; --- IWICBitmapEncoder ---
 #usecom IWICBitmapEncoder IID_IWICBitmapEncoder "{}"
@@ -211,6 +258,95 @@
 #usecom IWICStream IID_IWICStream "{}"
 #comfunc d2d_WICStr_InitializeFromFilename 15 wstr, int
 #comfunc d2d_WICStr_Release 2
+
+;-----------------------------------------------------------
+; L1-3 SVG: D3D11 / DXGI / D2D1Factory1 / ID2D1Device /
+;           ID2D1DeviceContext / ID2D1DeviceContext5 /
+;           ID2D1Bitmap1 / ID2D1SvgDocument 宣言
+;-----------------------------------------------------------
+
+; --- ID3D11Device (vtable index 0 で QueryInterface を呼んで IDXGIDevice を取る)
+;     QueryInterface(REFIID, void**)
+#usecom ID3D11Device IID_ID3D11Device "{}"
+#comfunc d2d_D3DDev_QueryInterface 0 var, var
+#comfunc d2d_D3DDev_Release 2
+
+; --- IDXGIDevice (Release のみ必要)
+#usecom IDXGIDevice IID_IDXGIDevice "{}"
+#comfunc d2d_DXGIDev_Release 2
+
+; --- ID2D1Factory1 (ID2D1Factory 派生)
+;     17 CreateDevice(IDXGIDevice*, ID2D1Device** out)
+#usecom ID2D1Factory1 IID_ID2D1Factory1 "{}"
+#comfunc d2d_D2DFac1_CreateDevice 17 comobj, var
+#comfunc d2d_D2DFac1_Release 2
+
+; --- ID2D1Device
+;     4 CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS, ID2D1DeviceContext** out)
+#usecom ID2D1Device IID_ID2D1Device "{}"
+#comfunc d2d_D2DDev_CreateDeviceContext 4 int, var
+#comfunc d2d_D2DDev_Release 2
+
+; --- ID2D1DeviceContext (ID2D1RenderTarget 派生)
+;     RT の vtable 4..54 は ID2D1RenderTarget 用の既存 comfunc (d2d_RT_xxx)
+;     をそのまま流用する (comobj のインターフェース名だけ切り替え)。
+;
+;     DeviceContext 自身の拡張メソッドは index 55 以降:
+;       55 CreateBitmap(D2D1_SIZE_U, void* srcData, UINT32 pitch,
+;                       D2D1_BITMAP_PROPERTIES1*, ID2D1Bitmap1** out)
+;       72 SetTarget(ID2D1Image*)
+;     なお CreateBitmap の第1引数 D2D1_SIZE_U は { UINT32 w, UINT32 h } で
+;     8 byte、x64 ABI で int64 レジスタ 1 個に lo=w / hi=h として載る。
+#usecom ID2D1DeviceContext IID_ID2D1DeviceContext "{}"
+; ID2D1RenderTarget 互換 (index は既存の RT と同じ)
+#comfunc d2d_DC_CreateBitmapFromWicBitmap 5 comobj, intptr, var
+#comfunc d2d_DC_CreateSolidColorBrush 8 var, var, var
+#comfunc d2d_DC_DrawLine 15 int64, int64, comobj, float, intptr
+#comfunc d2d_DC_DrawRectangle 16 var, comobj, float, intptr
+#comfunc d2d_DC_FillRectangle 17 var, comobj
+#comfunc d2d_DC_DrawEllipse 20 var, comobj, float, intptr
+#comfunc d2d_DC_FillEllipse 21 var, comobj
+#comfunc d2d_DC_DrawBitmap 26 comobj, var, float, int, intptr
+#comfunc d2d_DC_DrawText 27 wstr, int, comobj, var, comobj, int, int
+#comfunc d2d_DC_SetTransform 30 var
+#comfunc d2d_DC_Clear 47 var
+#comfunc d2d_DC_BeginDraw 48
+#comfunc d2d_DC_EndDraw 49 var, var
+; DeviceContext 拡張
+#comfunc d2d_DC_CreateBitmap 55 int64, int, int, var, var
+#comfunc d2d_DC_SetTarget 72 comobj
+#comfunc d2d_DC_QueryInterface 0 var, var
+#comfunc d2d_DC_Release 2
+
+; --- ID2D1DeviceContext5 (DeviceContext4 派生)
+;     112 CreateSvgDocument(IStream*, D2D1_SIZE_F, ID2D1SvgDocument** out)
+;     113 DrawSvgDocument(ID2D1SvgDocument*)
+;     D2D1_SIZE_F = { FLOAT w, FLOAT h } = 8 byte → int64 1 個で渡す
+#usecom ID2D1DeviceContext5 IID_ID2D1DeviceContext5 "{}"
+#comfunc d2d_DC5_CreateSvgDocument 112 comobj, int64, var
+#comfunc d2d_DC5_DrawSvgDocument 113 comobj
+#comfunc d2d_DC5_Release 2
+
+; --- ID2D1Bitmap1 (ID2D1Bitmap 派生)
+;     8  CopyFromBitmap(D2D1_POINT_2U* destPoint, ID2D1Bitmap* src, D2D1_RECT_U* srcRect)
+;     14 Map(D2D1_MAP_OPTIONS, D2D1_MAPPED_RECT* out)
+;     15 Unmap()
+#usecom ID2D1Bitmap1 IID_ID2D1Bitmap1 "{}"
+#comfunc d2d_Bmp1_CopyFromBitmap 8 intptr, comobj, intptr
+#comfunc d2d_Bmp1_Map 14 int, var
+#comfunc d2d_Bmp1_Unmap 15
+#comfunc d2d_Bmp1_Release 2
+
+; --- ID2D1SvgDocument (本プラグインでは作成と Release のみ)
+#usecom ID2D1SvgDocument IID_ID2D1SvgDocument "{}"
+#comfunc d2d_Svg_Release 2
+
+; --- IStream (ole32 の CreateStreamOnHGlobal 経由で得た汎用 IStream)
+;     ISequentialStream::Write = index 4
+#define IID_IStream "{0000000c-0000-0000-c000-000000000046}"
+#usecom IStream IID_IStream "{}"
+#comfunc d2d_Stream_Write 4 var, int, var
+#comfunc d2d_Stream_Release 2
 
 ;-----------------------------------------------------------
 ; D2D / WIC 構造体 (NSTRUCT で表現)
@@ -268,6 +404,46 @@
     #field float y
 #endstruct
 
+; D2D1_SIZE_U = { UINT32 w, UINT32 h } = 8 byte (int64 値渡し)
+#defstruct D2D_SIZE_U
+    #field int w
+    #field int h
+#endstruct
+
+; D2D1_SIZE_F = { FLOAT w, FLOAT h } = 8 byte (int64 値渡し)
+#defstruct D2D_SIZE_F
+    #field float w
+    #field float h
+#endstruct
+
+; D2D1_BITMAP_PROPERTIES1 = 32 byte on x64
+;   { D2D1_PIXEL_FORMAT(8), FLOAT dpiX, FLOAT dpiY,
+;     D2D1_BITMAP_OPTIONS(4), [4 pad], ID2D1ColorContext*(8) }
+#defstruct D2D_BMP_PROPS1
+    #field int   dxgiFormat    ; DXGI_FORMAT
+    #field int   alphaMode     ; D2D1_ALPHA_MODE
+    #field float dpiX
+    #field float dpiY
+    #field int   options       ; D2D1_BITMAP_OPTIONS
+    #field int   _pad
+    #field int64 colorContext  ; ID2D1ColorContext* (NULL)
+#endstruct
+
+; D2D1_MAPPED_RECT = { UINT32 pitch, [4 pad], BYTE* bits } = 16 byte on x64
+#defstruct D2D_MAPPED_RECT
+    #field int   pitch
+    #field int   _pad
+    #field int64 bits
+#endstruct
+
+; WICRect = { INT X, INT Y, INT Width, INT Height } = 16 byte
+#defstruct D2D_WICRECT
+    #field int x
+    #field int y
+    #field int w
+    #field int h
+#endstruct
+
 ;-----------------------------------------------------------
 ; モジュール内部状態
 ;   HSP の #module ブロック直下の生の文 (dim/代入) は構文として通るが
@@ -278,19 +454,30 @@
     if d2d_state_ready : return
     dim   d2d_initialized, 1
     dim64 d2d_dwfac_ptr, 1
-    dim64 d2d_d2dfac_ptr, 1
-    dim64 d2d_wicbmp_ptrs, D2D_IMGS_MAX
+    dim64 d2d_d2dfac_ptr, 1     ; ID2D1Factory1* (L1-3 以降)
+    ; L1-3: D3D11 / D2D1 Device / DeviceContext を保持
+    dim64 d2d_d3ddev_ptr,  1    ; ID3D11Device*
+    dim64 d2d_dxgidev_ptr, 1    ; IDXGIDevice*
+    dim64 d2d_d2ddev_ptr,  1    ; ID2D1Device*
+    dim64 d2d_dc_ptr,      1    ; ID2D1DeviceContext*
+    dim64 d2d_dc5_ptr,     1    ; ID2D1DeviceContext5* (SVG 用)
+    dim   d2d_dc5_ok,      1    ; DC5 QI 成功フラグ (Win10 Creators 未満で 0)
+    dim64 d2d_wicbmp_ptrs, D2D_IMGS_MAX  ; d2d_image_load 系で使う WIC bitmap
+    ; d2d_rt_ptrs は L1-2 までは ID2D1RenderTarget* を保持していたが、
+    ; L1-3 以降は「画像 ID に紐づく ID2D1Bitmap1*(target)」を保持する。
+    ; 描画は共有の ID2D1DeviceContext (d2d_dc_ptr) に SetTarget して行う。
     dim64 d2d_rt_ptrs,     D2D_IMGS_MAX
     dim   d2d_img_w,       D2D_IMGS_MAX
     dim   d2d_img_h,       D2D_IMGS_MAX
     dim   d2d_img_drawing, D2D_IMGS_MAX     ; BeginDraw 中フラグ
     dim   d2d_cur_id, 1
     d2d_cur_id = -1
-    ddim d2d_cur_color, 4                   ; カレント描画色 (0..1, RGBA)
-    d2d_cur_color(0) = 1.0
-    d2d_cur_color(1) = 1.0
-    d2d_cur_color(2) = 1.0
-    d2d_cur_color(3) = 1.0
+    ; カレント描画色 (0..1, RGBA)
+    ; ddim はマクロで #module 内では展開されないため、4 個の scalar に分解
+    d2d_cur_r = 1.0
+    d2d_cur_g = 1.0
+    d2d_cur_b = 1.0
+    d2d_cur_a = 1.0
     dim   d2d_format_ready, 1               ; d2d_cur_format が valid なら 1
     ; --- GIF アニメーション用 state (L1-2) ---
     dim64 d2d_gif_dec_ptrs,    D2D_GIFS_MAX   ; IWICBitmapDecoder* per handle
@@ -319,12 +506,29 @@
 #define ctype _attach_wicstr(%1, %2) newcom %1, IWICStream, -2, %2
 #define ctype _attach_d2dbmp(%1, %2) newcom %1, ID2D1Bitmap, -2, %2
 #define ctype _attach_wicdec(%1, %2) newcom %1, IWICBitmapDecoder, -2, %2
+; L1-3 SVG 対応で追加したインターフェース attach マクロ
+#define ctype _attach_d2dfac1(%1, %2) newcom %1, ID2D1Factory1, -2, %2
+#define ctype _attach_dxgidev(%1, %2) newcom %1, IDXGIDevice, -2, %2
+#define ctype _attach_d2ddev(%1, %2) newcom %1, ID2D1Device, -2, %2
+#define ctype _attach_dc(%1, %2) newcom %1, ID2D1DeviceContext, -2, %2
+#define ctype _attach_dc5(%1, %2) newcom %1, ID2D1DeviceContext5, -2, %2
+#define ctype _attach_d2dbmp1(%1, %2) newcom %1, ID2D1Bitmap1, -2, %2
+#define ctype _attach_svg(%1, %2) newcom %1, ID2D1SvgDocument, -2, %2
+#define ctype _attach_stream(%1, %2) newcom %1, IStream, -2, %2
+#define ctype _attach_d3ddev(%1, %2) newcom %1, ID3D11Device, -2, %2
+#define ctype _attach_wiclock(%1, %2) newcom %1, IWICBitmapLock, -2, %2
 
 
 ;-----------------------------------------------------------
 ; d2d_init
+;   L1-3 以降: D3D11 → DXGI → D2D1Factory1 → D2D1Device →
+;              ID2D1DeviceContext → ID2D1DeviceContext5 (SVG 用, 任意)
 ;-----------------------------------------------------------
-#deffunc d2d_init local _iid, local _out, local _hr
+#deffunc d2d_init local _iid, local _out, local _hr, \
+    local _d3d_out, local _imm_out, local _fl_out, \
+    local _d3ddev, local _dxgi_out, local _dxgi_iid, \
+    local _fac1, local _d2ddev_out, local _d2ddev, local _dc_out, \
+    local _dc, local _dc5_out, local _dc5_iid
     _d2d_alloc_state
     if d2d_initialized {
         return
@@ -342,15 +546,97 @@
     if _hr ! 0 : mes "d2d_init: DWriteCreateFactory FAIL hr=" + _hr : end 1
     d2d_RtlMoveMemory d2d_dwfac_ptr, _out, 8
 
-    ; D2D factory
-    if d2d_IIDFromString(IID_ID2D1Factory, _iid) ! 0 : mes "d2d_init: IID parse" : end 1
+    ; D2D1 factory (ID2D1Factory1 を要求)
+    if d2d_IIDFromString(IID_ID2D1Factory1, _iid) ! 0 : mes "d2d_init: IID parse" : end 1
     _hr = d2d_D2D1CreateFactory(0, _iid, 0, _out)   ; SINGLE_THREADED
-    if _hr ! 0 : mes "d2d_init: D2D1CreateFactory FAIL hr=" + _hr : end 1
+    if _hr ! 0 : mes "d2d_init: D2D1CreateFactory(Factory1) FAIL hr=" + _hr : end 1
     d2d_RtlMoveMemory d2d_d2dfac_ptr, _out, 8
 
     ; WIC factory (CoCreate 可能)
     newcom d2d_wicfac, IWICImagingFactory
     if stat ! 0 : mes "d2d_init: newcom WIC FAIL stat=" + stat : end 1
+
+    ;----------------------------------------------------------
+    ; D3D11 device 作成
+    ;   DriverType = HARDWARE(1) 失敗時に WARP(5) にフォールバック
+    ;   Flags      = D3D11_CREATE_DEVICE_BGRA_SUPPORT = 0x20
+    ;   FeatureLevels = NULL (default: 11_0, 10_1, 10_0, ...)
+    ;   SDKVersion = D3D11_SDK_VERSION = 7
+    ;----------------------------------------------------------
+    sdim _d3d_out, 16
+    sdim _imm_out, 16
+    sdim _fl_out,  8
+    _hr = d2d_D3D11CreateDevice(0, 1, 0, 0x20, 0, 0, 7, _d3d_out, _fl_out, 0)
+    if _hr ! 0 {
+        ; HARDWARE で失敗したら WARP で retry
+        _hr = d2d_D3D11CreateDevice(0, 5, 0, 0x20, 0, 0, 7, _d3d_out, _fl_out, 0)
+        if _hr ! 0 : mes "d2d_init: D3D11CreateDevice FAIL hr=" + _hr : end 1
+    }
+    d2d_RtlMoveMemory d2d_d3ddev_ptr, _d3d_out, 8
+
+    ;----------------------------------------------------------
+    ; ID3D11Device → QI → IDXGIDevice
+    ;----------------------------------------------------------
+    sdim _dxgi_iid, 16
+    if d2d_IIDFromString(IID_IDXGIDevice, _dxgi_iid) ! 0 : mes "d2d_init: IID parse DXGI" : end 1
+    sdim _dxgi_out, 16
+    _attach_d3ddev(_d3ddev, d2d_d3ddev_ptr)
+    d2d_D3DDev_QueryInterface _d3ddev, _dxgi_iid, _dxgi_out
+    if stat ! 0 {
+        delcom _d3ddev
+        mes "d2d_init: QI IDXGIDevice stat=" + stat
+        end 1
+    }
+    delcom _d3ddev
+    d2d_RtlMoveMemory d2d_dxgidev_ptr, _dxgi_out, 8
+
+    ;----------------------------------------------------------
+    ; ID2D1Factory1::CreateDevice(dxgi) → ID2D1Device
+    ;----------------------------------------------------------
+    sdim _d2ddev_out, 16
+    _attach_d2dfac1(_fac1, d2d_d2dfac_ptr)
+    _attach_dxgidev(_out, d2d_dxgidev_ptr)   ; _out を再利用
+    d2d_D2DFac1_CreateDevice _fac1, _out, _d2ddev_out
+    if stat ! 0 {
+        delcom _out
+        delcom _fac1
+        mes "d2d_init: ID2D1Factory1::CreateDevice stat=" + stat
+        end 1
+    }
+    delcom _out
+    delcom _fac1
+    d2d_RtlMoveMemory d2d_d2ddev_ptr, _d2ddev_out, 8
+
+    ;----------------------------------------------------------
+    ; ID2D1Device::CreateDeviceContext(options=0) → ID2D1DeviceContext
+    ;----------------------------------------------------------
+    sdim _dc_out, 16
+    _attach_d2ddev(_d2ddev, d2d_d2ddev_ptr)
+    d2d_D2DDev_CreateDeviceContext _d2ddev, 0, _dc_out
+    if stat ! 0 {
+        delcom _d2ddev
+        mes "d2d_init: ID2D1Device::CreateDeviceContext stat=" + stat
+        end 1
+    }
+    delcom _d2ddev
+    d2d_RtlMoveMemory d2d_dc_ptr, _dc_out, 8
+
+    ;----------------------------------------------------------
+    ; ID2D1DeviceContext → QI → ID2D1DeviceContext5 (SVG 用、任意)
+    ;   Win10 Creators Update 未満では失敗する。そのときは SVG API だけ
+    ;   無効になり、他の機能は従来どおり動く。
+    ;----------------------------------------------------------
+    sdim _dc5_iid, 16
+    if d2d_IIDFromString(IID_ID2D1DeviceContext5, _dc5_iid) = 0 {
+        sdim _dc5_out, 16
+        _attach_dc(_dc, d2d_dc_ptr)
+        d2d_DC_QueryInterface _dc, _dc5_iid, _dc5_out
+        if stat = 0 {
+            d2d_RtlMoveMemory d2d_dc5_ptr, _dc5_out, 8
+            d2d_dc5_ok = 1
+        }
+        delcom _dc
+    }
 
     d2d_initialized = 1
     return
@@ -358,7 +644,9 @@
 ;-----------------------------------------------------------
 ; d2d_shutdown
 ;-----------------------------------------------------------
-#deffunc d2d_shutdown local _dwfac_final, local _d2dfac_final, local _gi
+#deffunc d2d_shutdown local _dwfac_final, local _d2dfac_final, local _gi, \
+    local _dc_final, local _dc5_final, local _d2ddev_final, \
+    local _dxgi_final, local _d3d_final
     if d2d_initialized = 0 : return
 
     ; GIF ハンドルを sweep (repeat + #deffunc の組合せは Error 7 対策のため
@@ -379,13 +667,43 @@
         delcom d2d_cur_format
         d2d_format_ready = 0
     }
+    ; L1-3: DC5 → DC → D2D1Device → DXGIDevice → D3D11Device の順に release
+    if d2d_dc5_ok {
+        if d2d_dc5_ptr ! 0 {
+            newcom _dc5_final, ID2D1DeviceContext5, -1, d2d_dc5_ptr
+            delcom _dc5_final
+            d2d_dc5_ptr = 0
+        }
+        d2d_dc5_ok = 0
+    }
+    if d2d_dc_ptr ! 0 {
+        newcom _dc_final, ID2D1DeviceContext, -1, d2d_dc_ptr
+        delcom _dc_final
+        d2d_dc_ptr = 0
+    }
+    if d2d_d2ddev_ptr ! 0 {
+        newcom _d2ddev_final, ID2D1Device, -1, d2d_d2ddev_ptr
+        delcom _d2ddev_final
+        d2d_d2ddev_ptr = 0
+    }
+    if d2d_dxgidev_ptr ! 0 {
+        newcom _dxgi_final, IDXGIDevice, -1, d2d_dxgidev_ptr
+        delcom _dxgi_final
+        d2d_dxgidev_ptr = 0
+    }
+    if d2d_d3ddev_ptr ! 0 {
+        newcom _d3d_final, ID3D11Device, -1, d2d_d3ddev_ptr
+        delcom _d3d_final
+        d2d_d3ddev_ptr = 0
+    }
+
     if d2d_dwfac_ptr ! 0 {
         newcom _dwfac_final, IDWriteFactory, -1, d2d_dwfac_ptr
         delcom _dwfac_final
         d2d_dwfac_ptr = 0
     }
     if d2d_d2dfac_ptr ! 0 {
-        newcom _d2dfac_final, ID2D1Factory, -1, d2d_d2dfac_ptr
+        newcom _d2dfac_final, ID2D1Factory1, -1, d2d_d2dfac_ptr
         delcom _d2dfac_final
         d2d_d2dfac_ptr = 0
     }
@@ -396,10 +714,62 @@
     return
 
 ;-----------------------------------------------------------
-; d2d_image_create id, linew, height
+; 内部: (w,h) を D2D1_SIZE_U bit pattern (int64) に pack
+;-----------------------------------------------------------
+#deffunc _d2d_size_u int w, int h, var out_i64, local _s
+    stdim _s, D2D_SIZE_U
+    _s->w = w
+    _s->h = h
+    d2d_RtlMoveMemory out_i64, _s, 8
+    return
+
+;-----------------------------------------------------------
+; 内部: (w,h) を D2D1_SIZE_F (float) bit pattern (int64) に pack
+;-----------------------------------------------------------
+#deffunc _d2d_size_f double w, double h, var out_i64, local _s
+    stdim _s, D2D_SIZE_F
+    _s->w = w
+    _s->h = h
+    d2d_RtlMoveMemory out_i64, _s, 8
+    return
+
+;-----------------------------------------------------------
+; 内部: DeviceContext::CreateBitmap で「描画 target」用の
+;       ID2D1Bitmap1* を作る (options = TARGET | CANNOT_DRAW)
+;       ※ CANNOT_DRAW (=2) を付けておけば DeviceContext の
+;         SetTarget で選択可能。TARGET (=1) と OR で 3。
+;-----------------------------------------------------------
+#deffunc _d2d_create_target_bitmap int w, int h, var out_ptr, \
+    local _size, local _props, local _dc, local _out, local _stat
+    dim64 _size, 1
+    _d2d_size_u w, h, _size
+    stdim _props, D2D_BMP_PROPS1
+    _props->dxgiFormat  = 87   ; DXGI_FORMAT_B8G8R8A8_UNORM
+    _props->alphaMode   = 1    ; PREMULTIPLIED
+    _props->dpiX        = 96.0
+    _props->dpiY        = 96.0
+    _props->options     = 3    ; TARGET | CANNOT_DRAW
+    _props->colorContext = 0
+    sdim _out, 16
+    _attach_dc(_dc, d2d_dc_ptr)
+    d2d_DC_CreateBitmap _dc, _size, 0, 0, _props, _out
+    _stat = stat
+    delcom _dc
+    if _stat ! 0 {
+        mes "_d2d_create_target_bitmap: stat=" + _stat
+        out_ptr = int64(0)
+        return _stat
+    }
+    d2d_RtlMoveMemory out_ptr, _out, 8
+    return 0
+
+;-----------------------------------------------------------
+; d2d_image_create id, width, height
+;   L1-3: software WicBitmap RT → D3D-backed DeviceContext に刷新。
+;   d2d_rt_ptrs(id) に「描画ターゲット ID2D1Bitmap1*」を格納する。
 ;-----------------------------------------------------------
 #deffunc d2d_image_create int id, int w, int h, \
-    local _pixfmt_buf, local _out, local _props, local _d2dfac, local _wicbmp, local _rt_out, local _stat
+    local _bmp_ptr, local _stat
     if d2d_initialized = 0 : d2d_init
     if id < 0 : return
     if id >= D2D_IMGS_MAX : return
@@ -407,43 +777,10 @@
     ; 既存 ID は解放
     if d2d_rt_ptrs(id) ! 0 : d2d_image_delete id
 
-    sdim _pixfmt_buf, 16
-    if d2d_IIDFromString(GUID_WICPixelFormat32bppPBGRA, _pixfmt_buf) ! 0 {
-        return
-    }
-
-    ; WIC ビットマップ作成: factory.CreateBitmap(w, h, &fmt, OnLoad=2, &out)
-    sdim _out, 16
-    d2d_WIC_CreateBitmap d2d_wicfac, w, h, _pixfmt_buf, 2, _out
-    if stat ! 0 {
-        mes "d2d_image_create: WIC CreateBitmap stat=" + stat
-        return
-    }
-    d2d_RtlMoveMemory d2d_wicbmp_ptrs(id), _out, 8
-
-    ; D2D1_RENDER_TARGET_PROPERTIES を作成
-    stdim _props, D2D_RT_PROPS
-    _props->rtType     = 0    ; DEFAULT
-    _props->dxgiFormat = 87   ; DXGI_FORMAT_B8G8R8A8_UNORM
-    _props->alphaMode  = 1    ; PREMULTIPLIED
-    _props->dpiX       = 96.0
-    _props->dpiY       = 96.0
-    _props->usage      = 0
-    _props->minLevel   = 0    ; DEFAULT
-
-    ; D2D ファクトリ経由で WIC ビットマップ用 RenderTarget を作る
-    _attach_d2dfac(_d2dfac, d2d_d2dfac_ptr)
-    _attach_wicbmp(_wicbmp, d2d_wicbmp_ptrs(id))
-    sdim _rt_out, 16
-    d2d_D2DFac_CreateWicBitmapRenderTarget _d2dfac, _wicbmp, _props, _rt_out
-    _stat = stat
-    delcom _d2dfac
-    delcom _wicbmp
-    if _stat ! 0 {
-        mes "d2d_image_create: CreateWicBitmapRenderTarget stat=" + _stat
-        return
-    }
-    d2d_RtlMoveMemory d2d_rt_ptrs(id), _rt_out, 8
+    dim64 _bmp_ptr, 1
+    _d2d_create_target_bitmap w, h, _bmp_ptr
+    if stat ! 0 : return
+    d2d_rt_ptrs(id) = _bmp_ptr
 
     d2d_img_w(id)       = w
     d2d_img_h(id)       = h
@@ -653,10 +990,10 @@
 ;-----------------------------------------------------------
 #deffunc _d2d_make_brush var out_brush_ptr, local _col, local _bp, local _rt, local _out
     stdim _col, D2D_COLOR_F
-    _col->r = d2d_cur_color(0)
-    _col->g = d2d_cur_color(1)
-    _col->b = d2d_cur_color(2)
-    _col->a = d2d_cur_color(3)
+    _col->r = d2d_cur_r
+    _col->g = d2d_cur_g
+    _col->b = d2d_cur_b
+    _col->a = d2d_cur_a
     stdim _bp, D2D_BRUSH_PROPS
     _bp->opacity = 1.0
     _bp->m11 = 1.0
@@ -688,10 +1025,10 @@
 ; d2d_color r, g, b [, a]
 ;-----------------------------------------------------------
 #deffunc d2d_color int r, int g, int b, int a
-    d2d_cur_color(0) = double(r) / 255.0
-    d2d_cur_color(1) = double(g) / 255.0
-    d2d_cur_color(2) = double(b) / 255.0
-    d2d_cur_color(3) = double(a) / 255.0
+    d2d_cur_r = double(r) / 255.0
+    d2d_cur_g = double(g) / 255.0
+    d2d_cur_b = double(b) / 255.0
+    d2d_cur_a = double(a) / 255.0
     return
 
 ;-----------------------------------------------------------
@@ -751,10 +1088,10 @@
 
     ; カレント色のソリッドブラシを作る
     stdim _col, D2D_COLOR_F
-    _col->r = d2d_cur_color(0)
-    _col->g = d2d_cur_color(1)
-    _col->b = d2d_cur_color(2)
-    _col->a = d2d_cur_color(3)
+    _col->r = d2d_cur_r
+    _col->g = d2d_cur_g
+    _col->b = d2d_cur_b
+    _col->a = d2d_cur_a
 
     stdim _bp, D2D_BRUSH_PROPS
     _bp->opacity = 1.0
@@ -1443,26 +1780,405 @@
     return -1
 
 ;===========================================================
-; L1-3: SVG レンダリング (スタブ)
-;   ID2D1DeviceContext5::CreateSvgDocument を使うには
-;   Direct2D device context (D3D-backed) が必要で、
-;   既存の hspd2d は ID2D1WicBitmapRenderTarget を使っている
-;   ので QueryInterface で ID2D1DeviceContext5 を取れない
-;   (WIC bitmap RT は software rasterizer ベース)。
+; L1-3 (Phase L 仕上げ): SVG レンダリング
 ;
-;   SVG を実装するには init ロジックを
-;   ID3D11Device + IDXGIDevice + ID2D1Device + ID2D1DeviceContext
-;   → ID2D1Bitmap1 (target) の経路に刷新する必要があり、
-;   Phase L 以降の大改修となるため現状スタブ。
+;   d2d_init が既に D3D11 + D2D1Device + ID2D1DeviceContext +
+;   ID2D1DeviceContext5 を作成済みなので、本ブロックでは:
+;     1) SVG テキスト → HGLOBAL → IStream
+;     2) DC5::CreateSvgDocument で ID2D1SvgDocument を取得
+;     3) D3D-backed な target ID2D1Bitmap1 を 1 枚作成
+;     4) DC に SetTarget → BeginDraw → Clear → DrawSvgDocument → EndDraw
+;     5) staging ID2D1Bitmap1 (CPU_READ|CANNOT_DRAW) を作って
+;        CopyFromBitmap → Map でピクセルを CPU に吸い出す
+;     6) IWICImagingFactory::CreateBitmap で空の WIC PBGRA bitmap を作り
+;        Lock → GetDataPointer → RtlMoveMemory で row-by-row にコピー
+;     7) 空き image_id を確保し、既存 d2d_image_load と同じパターンで
+;        software ID2D1WicBitmapRenderTarget を紐付け。
+;        以後この画像は通常の描画 / d2d_image_save の対象になる。
+;
+;   戻り値 (stat): 新規 image_id (0 以上で成功)、失敗時 -1。
 ;===========================================================
 
-#deffunc d2d_svg_load str path, int w, int h
-    ; 未実装: -1 を返す
-    return -1
+;-----------------------------------------------------------
+; 内部: CPU 読み戻し用の staging ID2D1Bitmap1 を作る
+;   options = CPU_READ (4) | CANNOT_DRAW (8) = 12
+;-----------------------------------------------------------
+#deffunc _d2d_create_staging_bitmap int w, int h, var out_ptr, \
+    local _size, local _props, local _dc, local _out, local _stat
+    dim64 _size, 1
+    _d2d_size_u w, h, _size
+    stdim _props, D2D_BMP_PROPS1
+    _props->dxgiFormat  = 87   ; DXGI_FORMAT_B8G8R8A8_UNORM
+    _props->alphaMode   = 1    ; PREMULTIPLIED
+    _props->dpiX        = 96.0
+    _props->dpiY        = 96.0
+    _props->options     = 12   ; CPU_READ | CANNOT_DRAW
+    _props->colorContext = 0
+    sdim _out, 16
+    _attach_dc(_dc, d2d_dc_ptr)
+    d2d_DC_CreateBitmap _dc, _size, 0, 0, _props, _out
+    _stat = stat
+    delcom _dc
+    if _stat ! 0 {
+        out_ptr = int64(0)
+        return _stat
+    }
+    d2d_RtlMoveMemory out_ptr, _out, 8
+    return 0
 
-#deffunc d2d_svg_load_str str svg_text, int w, int h
-    ; 未実装: -1 を返す
-    return -1
+;-----------------------------------------------------------
+; 内部: 空き image slot 番号を返す (使用中は d2d_rt_ptrs(i) ! 0 で判定)
+;-----------------------------------------------------------
+#deffunc _d2d_find_free_slot var out_id, local _i
+    _i = 0
+    goto *_d2d_slot_check
+*_d2d_slot_loop
+    _i = _i + 1
+*_d2d_slot_check
+    if _i >= D2D_IMGS_MAX {
+        out_id = -1
+        return
+    }
+    if d2d_rt_ptrs(_i) ! 0 : goto *_d2d_slot_loop
+    if d2d_wicbmp_ptrs(_i) ! 0 : goto *_d2d_slot_loop
+    out_id = _i
+    return
+
+;-----------------------------------------------------------
+; d2d_svg_load_str "<svg>...</svg>", w, h
+;   SVG 文字列を w x h ピクセルでラスタライズし、新しい
+;   d2d_image に格納する。戻り値 (stat) は新規 image_id。
+;-----------------------------------------------------------
+#deffunc d2d_svg_load_str str svg_text, int w, int h, \
+    local _len, local _hglob, local _lockptr, local _strm_out, \
+    local _strm_ptr, local _strm, \
+    local _size_f, local _dc5, local _doc_out, local _doc_ptr, local _doc, \
+    local _target_ptr, local _target_bmp, local _target_img, \
+    local _staging_ptr, local _staging, \
+    local _dc, local _clear, local _t1, local _t2, \
+    local _mapped, local _src_ptr, local _src_pitch, \
+    local _wic_out, local _wic_ptr, local _wicbmp, \
+    local _wicrect, local _lock_out, local _lock_ptr, local _lock, \
+    local _dst_ptr_buf, local _dst_buf_size_buf, local _dst_ptr, local _dst_stride_buf, local _dst_stride, \
+    local _y, local _copy_bytes, local _src_row, local _dst_row, \
+    local _pixfmt, local _id, local _d2dfac, local _wicbmp2, local _rt_out, \
+    local _rt_props, local _stat, local _iid_bmp, local _iid_img, local _hr
+
+    if d2d_initialized = 0 : d2d_init
+    if d2d_dc5_ok = 0 {
+        mes "d2d_svg_load_str: ID2D1DeviceContext5 not available (Win10 Creators Update 以降が必要)"
+        return -1
+    }
+    if w <= 0 : return -1
+    if h <= 0 : return -1
+    _len = strlen(svg_text)
+    if _len <= 0 : return -1
+
+    ;----------------------------------------------------------
+    ; 1) HGLOBAL 確保 → ロック → SVG バイト列コピー → アンロック
+    ;    GMEM_MOVEABLE (2) | GMEM_ZEROINIT (0x40) = 0x42
+    ;----------------------------------------------------------
+    _hglob = d2d_GlobalAlloc(0x42, _len + 1)
+    if _hglob = 0 {
+        mes "d2d_svg_load_str: GlobalAlloc FAIL"
+        return -1
+    }
+    _lockptr = d2d_GlobalLock(_hglob)
+    if _lockptr = 0 {
+        d2d_GlobalFree _hglob
+        mes "d2d_svg_load_str: GlobalLock FAIL"
+        return -1
+    }
+    ; svg_text (var) → raw ptr へ len バイト分コピー (NUL は ZEROINIT で既にゼロ)
+    d2d_MoveMemPV _lockptr, svg_text, _len
+    d2d_GlobalUnlock _hglob
+
+    ;----------------------------------------------------------
+    ; 2) CreateStreamOnHGlobal(hglob, fDeleteOnRelease=TRUE, &stream)
+    ;    TRUE (1) 指定時は IStream の Release 時に HGLOBAL を自動解放
+    ;----------------------------------------------------------
+    sdim _strm_out, 16
+    _hr = d2d_CreateStreamOnHGlobal(_hglob, 1, _strm_out)
+    if _hr ! 0 {
+        d2d_GlobalFree _hglob
+        mes "d2d_svg_load_str: CreateStreamOnHGlobal hr=" + _hr
+        return -1
+    }
+    dim64 _strm_ptr, 1
+    d2d_RtlMoveMemory _strm_ptr, _strm_out, 8
+    ; IStream は呼び出し側で所有する。delcom で Release されれば HGLOBAL も自動解放。
+    newcom _strm, IStream, -1, _strm_ptr
+
+    ;----------------------------------------------------------
+    ; 3) ID2D1DeviceContext5::CreateSvgDocument(stream, D2D1_SIZE_F, &doc)
+    ;----------------------------------------------------------
+    dim64 _size_f, 1
+    _d2d_size_f double(w), double(h), _size_f
+    sdim _doc_out, 16
+    _attach_dc5(_dc5, d2d_dc5_ptr)
+    d2d_DC5_CreateSvgDocument _dc5, _strm, _size_f, _doc_out
+    _stat = stat
+    delcom _dc5
+    delcom _strm    ; ここで IStream 解放 → HGLOBAL も一緒に消える
+    if _stat ! 0 {
+        mes "d2d_svg_load_str: DC5::CreateSvgDocument stat=" + _stat
+        return -1
+    }
+    dim64 _doc_ptr, 1
+    d2d_RtlMoveMemory _doc_ptr, _doc_out, 8
+
+    ;----------------------------------------------------------
+    ; 4) 描画 target となる D3D-backed ID2D1Bitmap1 を作成
+    ;----------------------------------------------------------
+    dim64 _target_ptr, 1
+    _d2d_create_target_bitmap w, h, _target_ptr
+    if stat ! 0 {
+        newcom _doc, ID2D1SvgDocument, -1, _doc_ptr
+        delcom _doc
+        mes "d2d_svg_load_str: create target bitmap fail"
+        return -1
+    }
+
+    ;----------------------------------------------------------
+    ; 5) DC に SetTarget → BeginDraw → Clear(white,0 alpha) →
+    ;    DrawSvgDocument → EndDraw
+    ;----------------------------------------------------------
+    _attach_dc(_dc, d2d_dc_ptr)
+    _attach_d2dbmp1(_target_bmp, _target_ptr)
+    d2d_DC_SetTarget _dc, _target_bmp
+    d2d_DC_BeginDraw _dc
+
+    stdim _clear, D2D_COLOR_F
+    _clear->r = 0.0
+    _clear->g = 0.0
+    _clear->b = 0.0
+    _clear->a = 0.0          ; 完全透過で初期化
+    d2d_DC_Clear _dc, _clear
+
+    ; ID2D1SvgDocument を所有モードで attach (delcom で Release)
+    newcom _doc, ID2D1SvgDocument, -1, _doc_ptr
+    _attach_dc5(_dc5, d2d_dc5_ptr)
+    d2d_DC5_DrawSvgDocument _dc5, _doc
+    _stat = stat
+    delcom _dc5
+
+    sdim _t1, 8 : sdim _t2, 8
+    d2d_DC_EndDraw _dc, _t1, _t2
+
+    delcom _doc                  ; ID2D1SvgDocument* Release (-1 所有なので実際に release)
+    if _stat ! 0 {
+        delcom _target_bmp
+        delcom _dc
+        newcom _target_img, ID2D1Bitmap1, -1, _target_ptr
+        delcom _target_img
+        mes "d2d_svg_load_str: DC5::DrawSvgDocument stat=" + _stat
+        return -1
+    }
+
+    ;----------------------------------------------------------
+    ; 6) staging ID2D1Bitmap1 (CPU_READ) を作って CopyFromBitmap
+    ;----------------------------------------------------------
+    dim64 _staging_ptr, 1
+    _d2d_create_staging_bitmap w, h, _staging_ptr
+    if stat ! 0 {
+        delcom _target_bmp
+        delcom _dc
+        newcom _target_img, ID2D1Bitmap1, -1, _target_ptr
+        delcom _target_img
+        mes "d2d_svg_load_str: create staging fail"
+        return -1
+    }
+    _attach_d2dbmp1(_staging, _staging_ptr)
+    ; CopyFromBitmap(NULL destPoint, target, NULL srcRect) → 全領域コピー
+    d2d_Bmp1_CopyFromBitmap _staging, 0, _target_bmp, 0
+    _stat = stat
+
+    ; target はもう不要 (staging に内容が退避済み)
+    delcom _target_bmp
+    delcom _dc
+    newcom _target_img, ID2D1Bitmap1, -1, _target_ptr
+    delcom _target_img
+
+    if _stat ! 0 {
+        delcom _staging
+        newcom _target_img, ID2D1Bitmap1, -1, _staging_ptr    ; 名前再利用で staging も解放
+        delcom _target_img
+        mes "d2d_svg_load_str: CopyFromBitmap stat=" + _stat
+        return -1
+    }
+
+    ;----------------------------------------------------------
+    ; 7) staging->Map(MAP_READ=1, &mapped_rect)
+    ;----------------------------------------------------------
+    stdim _mapped, D2D_MAPPED_RECT
+    d2d_Bmp1_Map _staging, 1, _mapped
+    _stat = stat
+    if _stat ! 0 {
+        delcom _staging
+        newcom _target_img, ID2D1Bitmap1, -1, _staging_ptr
+        delcom _target_img
+        mes "d2d_svg_load_str: Bmp1_Map stat=" + _stat
+        return -1
+    }
+    _src_pitch = _mapped->pitch
+    dim64 _src_ptr, 1
+    _src_ptr = _mapped->bits       ; 64bit BYTE* を int64 local に格納
+
+    ;----------------------------------------------------------
+    ; 8) 宛先: WIC bitmap (PBGRA) を新規作成 → Lock で書込バッファ取得
+    ;----------------------------------------------------------
+    sdim _pixfmt, 16
+    if d2d_IIDFromString(GUID_WICPixelFormat32bppPBGRA, _pixfmt) ! 0 {
+        d2d_Bmp1_Unmap _staging
+        delcom _staging
+        newcom _target_img, ID2D1Bitmap1, -1, _staging_ptr
+        delcom _target_img
+        return -1
+    }
+    sdim _wic_out, 16
+    ; CreateBitmap(w, h, pixelFormat, cacheOption=OnLoad=2, &out)
+    d2d_WIC_CreateBitmap d2d_wicfac, w, h, _pixfmt, 2, _wic_out
+    _stat = stat
+    if _stat ! 0 {
+        d2d_Bmp1_Unmap _staging
+        delcom _staging
+        newcom _target_img, ID2D1Bitmap1, -1, _staging_ptr
+        delcom _target_img
+        mes "d2d_svg_load_str: WIC CreateBitmap stat=" + _stat
+        return -1
+    }
+    dim64 _wic_ptr, 1
+    d2d_RtlMoveMemory _wic_ptr, _wic_out, 8
+    _attach_wicbmp(_wicbmp, _wic_ptr)
+
+    ; 全領域を Write lock
+    stdim _wicrect, D2D_WICRECT
+    _wicrect->x = 0
+    _wicrect->y = 0
+    _wicrect->w = w
+    _wicrect->h = h
+    sdim _lock_out, 16
+    d2d_WICBmp_Lock _wicbmp, _wicrect, 0x2, _lock_out   ; WICBitmapLockWrite = 2
+    _stat = stat
+    if _stat ! 0 {
+        d2d_Bmp1_Unmap _staging
+        delcom _staging : delcom _wicbmp
+        newcom _target_img, ID2D1Bitmap1, -1, _staging_ptr
+        delcom _target_img
+        newcom _target_img, IWICBitmap, -1, _wic_ptr
+        delcom _target_img
+        mes "d2d_svg_load_str: IWICBitmap::Lock stat=" + _stat
+        return -1
+    }
+    dim64 _lock_ptr, 1
+    d2d_RtlMoveMemory _lock_ptr, _lock_out, 8
+    _attach_wiclock(_lock, _lock_ptr)
+
+    ; stride
+    sdim _dst_stride_buf, 8
+    d2d_WICLock_GetStride _lock, _dst_stride_buf
+    _dst_stride = lpeek(_dst_stride_buf, 0)
+
+    ; GetDataPointer(&cbBufferSize, &ppbData)
+    sdim _dst_buf_size_buf, 8
+    sdim _dst_ptr_buf,      16
+    d2d_WICLock_GetDataPointer _lock, _dst_buf_size_buf, _dst_ptr_buf
+    ; 8 byte ポインタを int64 local として受け取る
+    dim64 _dst_ptr, 1
+    d2d_RtlMoveMemory _dst_ptr, _dst_ptr_buf, 8
+
+    ;----------------------------------------------------------
+    ; 9) row-by-row memcpy (stride が pitch と違う可能性に備える)
+    ;    コピー幅 = min(src_pitch, dst_stride)
+    ;----------------------------------------------------------
+    _copy_bytes = _src_pitch
+    if _dst_stride < _copy_bytes : _copy_bytes = _dst_stride
+    dim64 _src_row, 1
+    dim64 _dst_row, 1
+    _y = 0
+    goto *_d2d_svg_row_check
+*_d2d_svg_row_loop
+    _src_row = _src_ptr + _y * _src_pitch
+    _dst_row = _dst_ptr + _y * _dst_stride
+    d2d_MoveMemPP _dst_row, _src_row, _copy_bytes
+    _y = _y + 1
+*_d2d_svg_row_check
+    if _y < h : goto *_d2d_svg_row_loop
+
+    ; WIC lock 解除 & D2D staging unmap
+    delcom _lock
+    d2d_Bmp1_Unmap _staging
+    delcom _staging
+    newcom _target_img, ID2D1Bitmap1, -1, _staging_ptr
+    delcom _target_img
+
+    ;----------------------------------------------------------
+    ; 10) 空き image slot に WIC bitmap を格納し、
+    ;     software ID2D1WicBitmapRenderTarget を作って登録
+    ;----------------------------------------------------------
+    _d2d_find_free_slot _id
+    if _id < 0 {
+        delcom _wicbmp
+        newcom _target_img, IWICBitmap, -1, _wic_ptr
+        delcom _target_img
+        mes "d2d_svg_load_str: no free image slot"
+        return -1
+    }
+    ; d2d_wicbmp_ptrs(_id) に直接ポインタを格納
+    d2d_wicbmp_ptrs(_id) = _wic_ptr
+    ; もう _wicbmp 一時 COM は用なし
+    delcom _wicbmp
+
+    ; --- software RT を作成 (d2d_image_load と同じ流れ) ---
+    stdim _rt_props, D2D_RT_PROPS
+    _rt_props->rtType     = 0
+    _rt_props->dxgiFormat = 87
+    _rt_props->alphaMode  = 1
+    _rt_props->dpiX       = 96.0
+    _rt_props->dpiY       = 96.0
+    _rt_props->usage      = 0
+    _rt_props->minLevel   = 0
+
+    _attach_d2dfac(_d2dfac, d2d_d2dfac_ptr)
+    _attach_wicbmp(_wicbmp2, d2d_wicbmp_ptrs(_id))
+    sdim _rt_out, 16
+    d2d_D2DFac_CreateWicBitmapRenderTarget _d2dfac, _wicbmp2, _rt_props, _rt_out
+    _stat = stat
+    delcom _d2dfac
+    delcom _wicbmp2
+    if _stat ! 0 {
+        ; 失敗したら WIC bitmap を解放してスロットを空ける
+        newcom _target_img, IWICBitmap, -1, d2d_wicbmp_ptrs(_id)
+        delcom _target_img
+        d2d_wicbmp_ptrs(_id) = int64(0)
+        mes "d2d_svg_load_str: CreateWicBitmapRenderTarget stat=" + _stat
+        return -1
+    }
+    d2d_RtlMoveMemory d2d_rt_ptrs(_id), _rt_out, 8
+
+    d2d_img_w(_id)       = w
+    d2d_img_h(_id)       = h
+    d2d_img_drawing(_id) = 0
+    d2d_cur_id           = _id
+    return _id
+
+;-----------------------------------------------------------
+; d2d_svg_load "file.svg", w, h
+;   ファイルから SVG テキストを読んで d2d_svg_load_str に委譲する
+;-----------------------------------------------------------
+#deffunc d2d_svg_load str path, int w, int h, \
+    local _svg, local _fsize
+    if d2d_initialized = 0 : d2d_init
+    exist path
+    _fsize = strsize
+    if _fsize <= 0 {
+        mes "d2d_svg_load: file not found: " + path
+        return -1
+    }
+    sdim _svg, _fsize + 1
+    bload path, _svg, _fsize
+    d2d_svg_load_str _svg, w, h
+    return stat
 
 #global
 
