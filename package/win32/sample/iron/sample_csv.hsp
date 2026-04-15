@@ -5,6 +5,7 @@
 ;   画面に表示する。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_csv.hsp"
 
     title "iron_csv demo"

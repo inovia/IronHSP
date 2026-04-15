@@ -13,6 +13,7 @@
 ;    3. 同じディレクトリに sample.pdf を置くか、dialog で指定
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_pdf.hsp"
 
     title "hsppdf sample"

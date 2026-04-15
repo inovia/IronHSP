@@ -5,6 +5,7 @@
 ;   hsp7z.dll + 7za_*.exe が runtime にある前提。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_xlsx.hsp"
 
     title "iron_xlsx sample"

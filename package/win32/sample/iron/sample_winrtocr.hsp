@@ -4,6 +4,7 @@
 ;   画像ファイルを OCR してテキストを抽出する。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "hspwinrtocr.as"
 
     title "WinRT OCR sample"

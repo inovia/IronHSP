@@ -4,6 +4,7 @@
 ;   DuckDB の in-memory DB を open して CRUD と CSV 直読みを試す。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_duckdb.hsp"
 
     title "hspduckdb sample"

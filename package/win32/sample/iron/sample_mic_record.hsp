@@ -12,6 +12,7 @@
 ;       → Groq の API キーが必要 (sample_speech.hsp と同じ)
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_camera_mf.hsp"
 #include "iron_speech.hsp"
 

@@ -16,6 +16,7 @@
 ;    - ESC  : 終了
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "hspcv4.as"
 #include "iron_camera.hsp"
 

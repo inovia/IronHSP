@@ -4,6 +4,7 @@
 ;  QueryPerformanceCounter による μ秒精度のベンチマーク。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_perf.hsp"
 
 	mes "==== iron_perf サンプル ===="

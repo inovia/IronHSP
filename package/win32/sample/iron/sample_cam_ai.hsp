@@ -17,6 +17,7 @@
 ;  実装 (OpenAI chat vision API の標準)。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_camera_mf.hsp"
 #include "iron_ai.hsp"
 #include "iron_hash.hsp"    ; Base64 encode 用

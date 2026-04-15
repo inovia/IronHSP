@@ -2,6 +2,7 @@
 ;  iron_clip.hsp サンプル: クリップボード文字列
 ;============================================================
 
+#include "hsp3cl_net_64.as"
 #include "iron_clip.hsp"
 
 	mes "==== iron_clip サンプル ===="

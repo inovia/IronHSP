@@ -5,6 +5,7 @@
 ;  iron_video.hsp の Position/Duration API (PROPVARIANT) を活用。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_video.hsp"
 
 	title "iron_video Player — シークバー付き"

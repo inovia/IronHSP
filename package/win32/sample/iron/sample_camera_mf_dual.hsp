@@ -12,6 +12,7 @@
 ;  注意: 2 台目のカメラがない場合は 1 台のみで起動してエラー表示
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_camera_mf.hsp"
 
 	title "iron_camera_mf — 2 cameras simultaneous preview"

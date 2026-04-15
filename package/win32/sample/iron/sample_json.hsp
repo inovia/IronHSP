@@ -10,6 +10,7 @@
 ;    hspjson.as は package/win32/common/ にコピー。
 ;============================================================
 
+#include "hsp3cl_net_64.as"
 #include "iron_json.hsp"
 
 	; ----- パース対象の JSON -----

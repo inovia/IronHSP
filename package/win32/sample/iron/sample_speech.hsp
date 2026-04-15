@@ -15,6 +15,7 @@
 ;    iron_speech_set_key "sk-..."
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_speech.hsp"
 
 	title "iron_speech sample"

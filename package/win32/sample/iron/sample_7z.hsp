@@ -4,6 +4,7 @@
 ;  7z / zip / tar.gz / xz / wim / iso など多数フォーマットに対応。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_7z.hsp"
 
 	title "iron_7z sample"

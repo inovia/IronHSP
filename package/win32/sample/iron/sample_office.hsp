@@ -5,6 +5,7 @@
 ;   内部では cscript.exe + 一時 VBScript ファイルを使った bridge 方式。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_office.hsp"
 
     title "iron_office sample"

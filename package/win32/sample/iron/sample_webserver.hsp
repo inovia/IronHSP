@@ -4,6 +4,7 @@
 ;  起動後 http://localhost:8080/ にアクセスするとレスポンスが返る
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_webserver.hsp"
 
 	title "iron_webserver sample (localhost:8080)"

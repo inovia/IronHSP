@@ -14,6 +14,7 @@
 ;  HSP 側は落ちない。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_ruffle.hsp"
 
     title "iron_ruffle demo"

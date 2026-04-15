@@ -7,6 +7,7 @@
 ;  hsp3net (hsp3_64.exe) で実行
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_dialog.hsp"
 
 	mes "iron_dialog サンプル — モダンファイルダイアログ"

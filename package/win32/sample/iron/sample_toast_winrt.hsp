@@ -10,6 +10,7 @@
 ;  AppUserModelID を登録するので、以後 OS が通知を受け入れる。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_toast_winrt.hsp"
 
 	title "iron_toast_winrt sample"

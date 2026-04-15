@@ -8,6 +8,7 @@
 ;  ダーク/ライト切り替えボタン付き。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_ribbon.hsp"
 
     title "iron_ribbon demo"

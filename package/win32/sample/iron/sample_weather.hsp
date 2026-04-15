@@ -11,6 +11,7 @@
 ;  iron_http + iron_json でわずか十数行に。
 ;============================================================
 
+#include "hsp3cl_net_64.as"
 #include "iron_http.hsp"
 #include "iron_json.hsp"
 

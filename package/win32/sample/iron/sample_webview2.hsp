@@ -15,6 +15,7 @@
 ;    iron_webview2.hsp 経由で #include "hspwebview2.as" している)。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_webview2.hsp"
 
     title "iron_webview2 basic demo"

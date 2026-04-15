@@ -10,6 +10,7 @@
 ;    3. hsp3cl sample_llama.hsp で実行
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "hspllama.as"
 
     title "hspllama sample"

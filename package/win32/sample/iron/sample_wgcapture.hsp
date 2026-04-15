@@ -4,6 +4,7 @@
 ;   プライマリモニタ全体をキャプチャして PNG 保存するだけの最小例。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_wgcapture.hsp"
 
     title "WGCapture sample"

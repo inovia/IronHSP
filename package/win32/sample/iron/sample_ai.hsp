@@ -13,6 +13,7 @@
 ;              endpoint="https://models.inference.ai.azure.com" key=GITHUB_TOKEN
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_ai.hsp"
 
 	title "iron_ai サンプル — ローカル LLM チャット"

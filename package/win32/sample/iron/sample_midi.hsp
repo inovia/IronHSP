@@ -9,6 +9,7 @@
 ;     hspmidi.dll がランタイムパスに存在すること。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_midi.hsp"
 
     title "iron_midi — sample"

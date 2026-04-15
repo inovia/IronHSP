@@ -16,6 +16,7 @@
 ;    [ESC] 終了
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_camera_mf.hsp"
 
 	title "iron_camera_mf — Pure MF Webcam Preview"

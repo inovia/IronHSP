@@ -7,6 +7,7 @@
 ;    - 「コード出力」ボタンで HSP コードが下部 mesbox に表示される
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_designer.hsp"
 
     title "iron_designer PoC"

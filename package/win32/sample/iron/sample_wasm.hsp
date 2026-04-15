@@ -21,6 +21,7 @@
 ;    cargo build --target wasm32-unknown-unknown --release
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_wasm.hsp"
 
     title "hspwasm sample"

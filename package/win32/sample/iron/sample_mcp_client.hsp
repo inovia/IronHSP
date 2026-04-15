@@ -13,6 +13,7 @@
 ;    iron_mcp_open_http "http://localhost:3000/mcp"
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_mcp_client.hsp"
 
 	title "iron_mcp_client sample"

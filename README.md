@@ -135,6 +135,51 @@ dumpbin /exports → tools/cswin32_bridge/dump_exports.py → NativeMethods.txt
 | **[`hspwebsrv.dll`](plugins/win32/hspwebsrv/)** | winsock ベースの minimal HTTP server (URL reservation/admin 不要) | Win32 + x64 |
 | **[`hsp7z.dll`](plugins/win32/hsp7z/)** | 7-Zip 公式 CLI (7za.exe) のサブプロセスラッパ。7z/zip/tar.gz/xz/bz2/rar(読)/wim/iso 等 40+ フォーマット。LGPL な 7za.exe を同梱して DLL 差し替えでセキュリティ追従可 | Win32 + x64 |
 | **[`hspdb.dll`](plugins/win32/hspdb/)** | SQLite 3.46.1 amalgamation 組み込み (2348 関数内包) | x64 |
+| **[`hspmidi.dll`](plugins/win32/hspmidi/)** | winmm MIDI in/out (16 関数)。GM 音色再生からポーリング受信まで | x64 |
+| **[`hspwasm.dll`](plugins/win32/hspwasm/)** | Wasm3 embed (~150 KB インタプリタ)。Rust/Go/Zig/C/AS で書いた `.wasm` を HSP 拡張として実行可能 | x64 |
+| **[`hsppdf.dll`](plugins/win32/hsppdf/)** | PDFium ベースの PDF 読み取り。テキスト抽出 + ビットマップ化 | x64 (PDFium 配置必須) |
+| **[`hspduckdb.dll`](plugins/win32/hspduckdb/)** | DuckDB C API (組み込み分析 DB)。`SELECT * FROM 'data.csv'` 等が直接動く | x64 (DuckDB 配置必須) |
+| **[`hspwebview2.dll`](plugins/win32/hspwebview2/)** | Edge WebView2 を HSP window に attach。HSP↔JS 双方向 postMessage | x64 (WebView2 SDK 配置必須) |
+| **[`hsponnx.dll`](plugins/win32/hsponnx/)** | ONNX Runtime + DirectML backend。GPU 推論可能 | x64 (ONNX Runtime 配置必須) |
+| **[`hspllama.dll`](plugins/win32/hspllama/)** | llama.cpp embed。GGUF モデルでオフライン LLM 推論 (実機検証済) | x64 (llama.cpp prebuilt 同梱) |
+| **[`hsptflite.dll`](plugins/win32/hsptflite/)** | TensorFlow Lite C API + MediaPipe ヘルパ。hand_detector / hand_landmarker 用の前後処理 (palm anchor decode / NMS / letterbox) を C++ 側に内蔵 | x64 (ValYouW tflite-dist 同梱) |
+| **[`hspwinrtocr.dll`](plugins/win32/hspwinrtocr/)** | Windows.Media.Ocr (WinRT) ローカル OCR | x64 |
+| **[`hspwgcapture.dll`](plugins/win32/hspwgcapture/)** | Windows.Graphics.Capture でスクリーン / ウィンドウキャプチャ | x64 |
+| **[`hspble.dll`](plugins/win32/hspble/)** | Windows.Devices.Bluetooth (cppwinrt) BLE GATT クライアント | x64 |
+
+### プラグイン関数宣言形式について
+
+上記の新規プラグインはすべて **typed `#func` 形式** (引数型を明示宣言) で書かれています:
+
+```hsp
+#func global llama_init     "hspllama_init"
+#func global llama_load     "hspllama_load"     str, int, int, var
+#func global llama_complete "hspllama_complete" int, str, int, var, int
+```
+
+旧来の OLDDLL `$202` 形式 (`#func global cmd cmd $202` + `BOOL WINAPI fn(HSPEXINFO*, int, int, int)` + `HspFunc_prm_*` 経由パラメータ取得) は使っていません。HSP コマンド名と DLL 実体名を分離できるためシンボル衝突を避けやすく、引数型がドキュメントとして残るのが利点です。
+
+### hsp3net 64bit ランタイムの使用
+
+新規プラグインの大半は **hsp3net 64bit 専用** です。サンプルスクリプトの冒頭に以下を追加してください:
+
+```hsp
+#include "hsp3_net_64.as"          ; GUI 用
+#include "hsp3cl_net_64.as"        ; CLI / テスト用
+```
+
+`package/win32/` 配下に以下が配置されています:
+
+| バイナリ | 用途 |
+|---|---|
+| `hsp3_net.exe` / `hsp3_net_64.exe` | hsp3net GUI ランチャ (32bit / 64bit) |
+| `hsp3cl_net.exe` / `hsp3cl_net_64.exe` | hsp3net CLI ランチャ (32bit / 64bit) |
+| `hspcmp_net.exe` / `hspcmp_net_64.exe` | hsp3net 対応 hspcmp 3.8beta1 |
+| `runtime/hsp3_net.hrt` / `hsp3_net_64.hrt` | GUI ランタイム本体 |
+| `runtime/hsp3cl_net.hrt` / `hsp3cl_net_64.hrt` | CLI ランタイム本体 |
+| `common/hsp3_net.as` / `hsp3_net_64.as` / `hsp3cl_net.as` / `hsp3cl_net_64.as` | `#runtime` 切替用 |
+
+バニラ HSP の `hsp3.exe` / `hspcmp.exe` / `hsp3cl.exe` は温存されており、既存スクリプトとの互換性は維持されています。
 
 ### 標準プラグインの 64bit 対応
 

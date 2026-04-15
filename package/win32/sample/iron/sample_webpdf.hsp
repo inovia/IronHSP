@@ -8,6 +8,7 @@
 ;    Windows 10/11 標準の Microsoft Edge が入っていれば OK。
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_webpdf.hsp"
 
     title "iron_webpdf demo"

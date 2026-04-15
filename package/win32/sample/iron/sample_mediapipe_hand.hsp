@@ -12,6 +12,7 @@
 ;     mediapipe_models/hand.jpg                (任意の手の写真)
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_mediapipe.hsp"
 
     title "MediaPipe Hand Detection (IronHSP)"

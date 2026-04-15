@@ -11,6 +11,7 @@
 ;  依存: hspwebview2.dll (plugins/win32/hspwebview2/Release/)
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_webview2.hsp"
 
     title "iron_webview2 bridge demo (HSP <-> JS)"

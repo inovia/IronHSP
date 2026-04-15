@@ -2,6 +2,7 @@
 ;  iron_sysinfo.hsp サンプル: システム情報取得
 ;============================================================
 
+#include "hsp3cl_net_64.as"
 #include "iron_sysinfo.hsp"
 
 	mes "==== iron_sysinfo サンプル ===="

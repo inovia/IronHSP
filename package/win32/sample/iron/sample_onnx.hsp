@@ -15,6 +15,7 @@
 ;    - 出力テンソルの先頭 8 要素と shape を表示
 ;============================================================
 
+#include "hsp3_net_64.as"
 #include "iron_onnx.hsp"
 
     title "hsponnx sample"

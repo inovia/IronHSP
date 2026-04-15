@@ -1995,9 +1995,61 @@ package/hsphelp/
     複数 DB (max 32) + 複数 query (max 64) 並列。<br>
     db_last_rowid / db_changes / db_errmsg / SQLITE_OMIT_LOAD_EXTENSION</td>
     <td>14</td><td>x64</td></tr>
+<tr><td><code>hspmidi.dll</code></td>
+    <td>winmm MIDI in/out。midi_out_open + program_change + note_on/off で GM 音色再生、midi_in_poll でリングバッファから受信メッセージを取り出し</td>
+    <td>16</td><td>x64</td></tr>
+<tr><td><code>hspwasm.dll</code></td>
+    <td>Wasm3 (~150 KB pure C インタプリタ) embed。Rust/Go/Zig/C/AS で書いた <code>.wasm</code> モジュールを HSP 拡張として load + 関数呼び出し + linear memory R/W。同一 wasm がブラウザと HSP 両方で動作することを実証 (sample/iron/wasm_shared)</td>
+    <td>10</td><td>x64</td></tr>
+<tr><td><code>hsppdf.dll</code></td>
+    <td>PDFium ベースの PDF 読み取り。テキスト抽出 + ビットマップ化 + メタデータ取得。第三者 prebuilt の配置が必要</td>
+    <td>11</td><td>x64</td></tr>
+<tr><td><code>hspduckdb.dll</code></td>
+    <td>DuckDB C API ラッパ。組み込み分析 DB で <code>SELECT * FROM 'data.csv'</code> や <code>'data.parquet'</code> が直接動く。amalgamation 配置が必要</td>
+    <td>10</td><td>x64</td></tr>
+<tr><td><code>hspwebview2.dll</code></td>
+    <td>Edge WebView2 を HSP の HWND に attach。Navigate / ExecuteScript / 双方向 postMessage で HSP↔JS bridge。COM completion handler は GenericCompletedHandler テンプレで 1 本化</td>
+    <td>12</td><td>x64</td></tr>
+<tr><td><code>hsponnx.dll</code></td>
+    <td>ONNX Runtime C API ラッパ。DirectML backend で GPU 推論可能。1 input / 1 output / float32 限定の v1 シンプル版</td>
+    <td>13</td><td>x64</td></tr>
+<tr><td><code>hspllama.dll</code></td>
+    <td>llama.cpp embed。GGUF モデルから tokenize → decode → sample → detokenize の同期推論ループを内蔵。ggml backend は <code>ggml_backend_load_all()</code> で自動。SmolLM-135M で実機検証済 (実 LLM 出力)</td>
+    <td>11</td><td>x64</td></tr>
+<tr><td><code>hsptflite.dll</code></td>
+    <td>TensorFlow Lite C API ラッパ + MediaPipe 専用ヘルパ。tflite_load/invoke/set_input/get_output に加え mp_palm_detect / mp_hand_landmark / mp_letterbox_resize を C++ 側に内蔵。MediaPipe palm_detector の 2016 anchor 生成 + sigmoid + NMS が C++ で完結する</td>
+    <td>19</td><td>x64</td></tr>
+<tr><td><code>hspwinrtocr.dll</code></td>
+    <td>Windows.Media.Ocr (WinRT) を C++/WinRT で叩くローカル OCR。OS 同梱、追加 DL 不要</td>
+    <td>5</td><td>x64</td></tr>
+<tr><td><code>hspwgcapture.dll</code></td>
+    <td>Windows.Graphics.Capture (Windows 10 1903+) でスクリーン / ウィンドウキャプチャ。D3D11 + WIC PNG 経由で BGRA を取得</td>
+    <td>8</td><td>x64</td></tr>
+<tr><td><code>hspble.dll</code></td>
+    <td>Windows.Devices.Bluetooth (cppwinrt) BLE GATT クライアント。scan / connect / services / read / write / notify (CCCD 自動)</td>
+    <td>13</td><td>x64</td></tr>
 </table>
 
-<p>合計 <strong>11 個の新規 C++ プラグイン DLL / 119 export 関数</strong> (hspzip → hsp7z 置き換えで -10 +2 関数)。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
+<p>合計 <strong>21 個の新規 C++ プラグイン DLL / 247 export 関数</strong>。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
+
+<h3>16.5 プラグイン関数宣言形式について</h3>
+
+<p>本リポジトリの新規プラグインはすべて <strong>typed <code>#func</code> 形式</strong> (引数型を明示宣言する標準形式) で書かれています:</p>
+
+<pre>#func global llama_init     "hspllama_init"
+#func global llama_load     "hspllama_load"     str, int, int, var
+#func global llama_complete "hspllama_complete" int, str, int, var, int</pre>
+
+<p>旧来の OLDDLL <code>$202</code> 形式 (<code>BOOL WINAPI fn(HSPEXINFO*, int, int, int)</code> + <code>HspFunc_prm_*</code> 経由のパラメータ取得) は使っていません。利点:</p>
+
+<ul>
+<li>第 3 引数で DLL 実体名を <code>"name"</code> として明示できるため、HSP コマンド名と DLL シンボル名の分離 (シンボル衝突回避) が可能</li>
+<li>引数型がドキュメントとして残り、補完にも反映される</li>
+<li>OLDDLL の sign-inversion ルール (戻り値正値 → Error 38) や <code>_name@N</code> マングリングの落とし穴を回避</li>
+<li>C 関数は <code>int __stdcall fn(int x, const char* s, int* out)</code> 形式の普通の C 関数として書ける</li>
+</ul>
+
+<p>例外: <code>hspcv4.dll</code> (278 関数) のみ依然として <code>$202</code> 形式。サイズが大きく回帰リスクを慎重に管理する必要があるため、別バッチで移行予定。</p>
 
 <h3>16.5 音声認識バックエンド比較</h3>
 
