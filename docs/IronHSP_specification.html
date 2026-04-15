@@ -100,6 +100,19 @@
 </ul>
 </div>
 
+<div class="card">
+<h3>NHSP (Net HSP) &mdash; HSP 風文法の .NET コンパイラ</h3>
+<p>IronHSP リポジトリには、HSP 風の文法で <strong>純粋な .NET Framework 4.8 アセンブリ (DLL / EXE)</strong> を生成する独自言語・独自コンパイラ <strong>NHSP</strong> を同梱しています。IronHSP (HSP ランタイム上で .NET を呼ぶ) とは逆方向の、<em>HSP 風文法で .NET ネイティブな成果物を作る</em>アプローチです。</p>
+<ul>
+  <li><strong>HSP 風文法 + .NET セマンティクス</strong> &mdash; セミコロン不要 / 1行1文 / <code>#func</code> / <code>#class</code> / <code>#assembly</code> などのディレクティブ形式。内部は C# 相当の型システム (クラス / ジェネリクス / <code>List&lt;T&gt;</code> / <code>String</code> / <code>Math</code> 等、全 .NET API が使用可)</li>
+  <li><strong>自前コンパイラ (<code>nhspc</code>)</strong> &mdash; <code>NhspCompiler.Core</code> (Lexing / Parsing / Emit / Diagnostics) + <code>NhspCompiler.Tests</code>。<code>-platform</code> で x86 / x64 / AnyCPU / AnyCpu32BitPreferred、<code>-debug</code> で PDB 生成、サブシステム (Console / Windows) 切替対応</li>
+  <li><strong>出力</strong> &mdash; .NET Framework 4.8 の DLL / EXE。生成物は C# / VB.NET / IronHSP / 他の .NET 言語からそのまま参照可能。アイコン (<code>#icon</code>, PNG/JPG/BMP/GIF 可) / バージョン情報 (<code>#version</code>) 等の EXE メタ情報埋め込みにも対応</li>
+  <li><strong>デバッグ</strong> &mdash; PDB (Portable PDB へは <code>Pdb2PortablePdb</code> で変換) を生成し、Visual Studio / dnSpy でブレークポイント・ステップ実行可能</li>
+  <li><strong>IDE 統合</strong> &mdash; <code>NhspLanguageServer</code> (LSP サーバ) + <code>NhspVsLanguageClient</code> (Visual Studio 2022 拡張) + <code>vscode-nhsp</code> (VS Code 拡張) + <code>NhspEditor</code> (スタンドアロンエディタ) + <code>sakura</code> (サクラエディタ連携)</li>
+  <li><strong>ドキュメント</strong> &mdash; <code>nhspc/docs/nhsp_beginners.html</code> (初学者向け) / <code>nhsp_reference.html</code> (言語仕様・C# 対応表)</li>
+</ul>
+</div>
+
 <!-- ======================================== -->
 <h2 id="build">2. ビルド構成</h2>
 
