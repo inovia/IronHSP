@@ -1,0 +1,100 @@
+;============================================================
+;  sample_pdf.hsp — hsppdf.dll (PDFium) デモ
+;
+;  - PDF ファイルをロード
+;  - ページ数と /Title /Author を表示
+;  - 1 ページ目をカレント window に描画
+;  - 1 ページ目のテキストを抽出して表示
+;
+;  事前準備:
+;    1. bblanchon/pdfium-binaries prebuilt を plugins/win32/hsppdf/third_party/pdfium/
+;       に配置 (README.md 参照)
+;    2. hsppdf.dll と pdfium.dll をランタイムディレクトリに配置
+;    3. 同じディレクトリに sample.pdf を置くか、dialog で指定
+;============================================================
+
+#include "iron_pdf.hsp"
+
+    title "hsppdf sample"
+    screen 0, 900, 720
+    font "MS Gothic", 14
+
+    ; --- PDFium 初期化 ---
+    pdf_begin
+
+    ; --- ファイル選択 ---
+    path = "sample.pdf"
+    exist path
+    if strsize < 0 {
+        dialog "pdf", 16, "PDF ファイルを選択"
+        if stat == 0 { dialog "キャンセルされました" : goto *done }
+        path = refstr
+    }
+
+    ; --- ロード ---
+    pdf_open path
+    h = stat
+    if h < 0 {
+        dialog "PDF を開けません (code=" + h + ")"
+        goto *done
+    }
+
+    ; --- メタデータ ---
+    pdf_title  h : t_title  = refstr
+    pdf_author h : t_author = refstr
+    n = pdf_pages(h)
+
+    ; --- 1 ページ目のサイズを points で取得 ---
+    dim_w = 0.0 : dim_h = 0.0
+    pdf_size h, 0, dim_w, dim_h
+
+    ; --- テキスト抽出 (1 ページ目) ---
+    pdf_text h, 0 : page_text = refstr
+
+    ; --- 描画 ---
+    redraw 0
+    color 255, 255, 255 : boxf
+    color 0, 0, 0
+
+    ; 1 ページ目を 1.2 倍で window に描画
+    pdf_draw h, 0, 1.2
+
+    ; 上に情報オーバーレイ
+    color 255, 255, 240 : boxf 0, 0, 900, 110
+    color 0, 0, 0
+    pos 8, 4
+    mes "file   : " + path
+    mes strf("pages  : %d   size(pt) : %.1f x %.1f", n, dim_w, dim_h)
+    mes "title  : " + t_title
+    mes "author : " + t_author
+    mes "-- page 1 text (先頭 400 文字) --"
+    mes strmid(page_text, 0, 400)
+    redraw 1
+
+*done
+    ; ユーザが閉じるまで待つ
+    stop
+
+; ============================================================
+; 応用 (コメントのみ): iron_ai と組み合わせた PDF 要約
+; ============================================================
+;   #include "iron_ai.hsp"
+;   #include "iron_pdf.hsp"
+;
+;   pdf_begin
+;   pdf_open "report.pdf" : h = stat
+;   n = pdf_pages(h)
+;
+;   sdim body, 2*1024*1024   ; 2 MB バッファ
+;   body = ""
+;   repeat n
+;       pdf_text h, cnt
+;       body += refstr + "\n\n"
+;   loop
+;   pdf_shut h
+;   pdf_end
+;
+;   ai_open "gpt-4o-mini"
+;   prompt = "次の PDF を日本語で 300 字以内で要約してください:\n\n" + body
+;   ai_chat prompt
+;   mes refstr

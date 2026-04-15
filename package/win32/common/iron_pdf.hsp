@@ -1,0 +1,102 @@
+;============================================================
+;   iron_pdf.hsp — hsppdf.dll (PDFium) 薄いラッパ
+;
+;   hsppdf.dll の生 API を HSP から使いやすくする糖衣モジュール。
+;
+;   API 概要:
+;     pdf_begin                                 → PDFium 初期化
+;     pdf_end                                   → PDFium 終了 + 全ハンドル解放
+;     pdf_open    "path" [,"password"]          → stat = doc_handle (>=0 成功)
+;     pdf_shut    h                             → ハンドル解放 (pdf_close の別名)
+;     pdf_pages   h                             → stat = ページ数
+;     pdf_size    h, page, var_w_dbl, var_h_dbl → ページサイズ (points)
+;     pdf_render  h, page, scale, var_buf, var_w, var_h
+;                  → var_buf (sdim) に BGRA 32bit raw を書き込む
+;     pdf_draw    h, page, scale                → カレント window に直接描画
+;     pdf_text    h, page                       → refstr にページテキスト (CP_ACP)
+;     pdf_title   h                             → refstr に /Title (CP_ACP)
+;     pdf_author  h                             → refstr に /Author (CP_ACP)
+;
+;   例:
+;     #include "iron_pdf.hsp"
+;     pdf_begin
+;     pdf_open "sample.pdf" : h = stat
+;     n = pdf_pages(h)
+;     mes strf("pages = %d", n)
+;     pdf_draw h, 0, 1.5
+;     pdf_shut h
+;     pdf_end
+;============================================================
+
+#ifndef __iron_pdf_hsp__
+#define __iron_pdf_hsp__
+
+#include "hsppdf.as"
+
+#module iron_pdf
+
+; ---- library lifecycle ----
+#deffunc pdf_begin
+    pdf_init
+    return
+
+#deffunc pdf_end
+    pdf_shutdown
+    return
+
+; ---- open / close ----
+#deffunc pdf_open str path, \
+    local _pw, local _h
+    _pw = ""
+    pdf_load path, _pw, _h
+    return _h
+
+#deffunc pdf_open_pw str path, str password, \
+    local _h
+    pdf_load path, password, _h
+    return _h
+
+#deffunc pdf_shut int h
+    pdf_close h
+    return
+
+; ---- queries ----
+#deffunc pdf_pages int h, local _n
+    pdf_page_count h, _n
+    return _n
+
+#deffunc pdf_size int h, int pg, var w, var hgt
+    pdf_page_size h, pg, w, hgt
+    return
+
+; ---- rendering ----
+#deffunc pdf_render int h, int pg, double scale, var buf, var w, var hgt
+    pdf_render_bitmap h, pg, scale, buf, w, hgt
+    return
+
+#deffunc pdf_draw int h, int pg, double scale
+    pdf_render_to_hspwnd h, pg, scale
+    return
+
+; ---- text / metadata (refstr) ----
+#deffunc pdf_text int h, int pg, \
+    local _s
+    sdim _s, 65536
+    pdf_get_text h, pg, _s
+    return 0, _s
+
+#deffunc pdf_title int h, \
+    local _s
+    sdim _s, 1024
+    pdf_doc_title h, _s
+    return 0, _s
+
+#deffunc pdf_author int h, \
+    local _s
+    sdim _s, 1024
+    pdf_doc_author h, _s
+    return 0, _s
+
+#global
+
+#endif

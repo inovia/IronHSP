@@ -1,0 +1,13 @@
+LIBRARY hsppdf
+EXPORTS
+    pdf_init
+    pdf_shutdown
+    pdf_load
+    pdf_close
+    pdf_page_count
+    pdf_page_size
+    pdf_render_bitmap
+    pdf_render_to_hspwnd
+    pdf_get_text
+    pdf_doc_title
+    pdf_doc_author
