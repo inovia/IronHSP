@@ -26,6 +26,9 @@
   .badge-green { background: #16a34a; }
   .badge-orange { background: #ea580c; }
   .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .warning-banner { background: #fef2f2; border: 2px solid #dc2626; border-left: 8px solid #dc2626; color: #7f1d1d; padding: 1rem 1.25rem; margin: 1.25rem 0 1.75rem; border-radius: 6px; font-weight: 600; }
+  .warning-banner strong { color: #b91c1c; font-size: 1.05em; }
+  .warning-banner p { margin: 0.3rem 0; }
   .toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
   .toc ul { list-style: none; padding-left: 0; }
   .toc li { padding: 0.2rem 0; }
@@ -41,6 +44,11 @@
 <h1>IronHSP 仕様書</h1>
 <p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-16 (Phase L 全走破 + 新規プラグイン 11 個 + OLDDLL <code>$202</code> 完全撤廃 / hsp3net runtime 配置 / hspcv4 277 関数を typed <code>#func</code> 化)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
+
+<div class="warning-banner">
+<p><strong>⚠ 開発中の仕様書です</strong></p>
+<p>IronHSP は現在活発に開発中のため、本仕様書に記載されている言語仕様・ディレクティブ・関数 API・プラグインインターフェースは<strong>予告なく変更・削除される場合があります</strong>。コミット単位で挙動が変わることもあります。安定版リリースまでは、本ドキュメントは実装のスナップショットとして参照してください。</p>
+</div>
 
 <div class="toc">
 <strong>目次</strong>
