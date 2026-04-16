@@ -580,7 +580,7 @@ stop
 </table>
 
 <h3>4.10 netlinq (LINQ 操作)</h3>
-<p>コレクションに対して LINQ 操��を C# ラムダ式文字列で実行します。
+<p>コレクションに対して LINQ 操作を C# ラムダ式文字列で実行します。
 内部的に C# コードを動的コンパイルして実行します。</p>
 
 <pre><code>; List&lt;String&gt; を作成
@@ -592,7 +592,7 @@ mcall pNames, "Add", "Charlie"
 ; Where: 条件フィルタ
 netlinq pFiltered, pNames, "Where", "x => x.Length > 3"
 
-; Select: ��影
+; Select: 射影
 netlinq pUpper, pNames, "Select", "x => x.ToUpper()"
 
 ; OrderBy: ソート

@@ -132,7 +132,7 @@
 <tr><td>iron_darkmode</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ウィンドウのダークモード有効化 (DwmSetWindowAttribute)</td></tr>
 <tr><td>iron_datetime</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>日付/時刻取得 (ISO 8601 / Unix timestamp / 曜日)</td></tr>
 <tr><td>iron_db</td><td>データ</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>SQLite 3.46 組み込みデータベース</td></tr>
-<tr><td>iron_designer</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WebView2 GUI デザイナ�� (ドラッグ配置 → HSP コード自動生成)</td></tr>
+<tr><td>iron_designer</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WebView2 GUI デザイナー (ドラッグ配置 → HSP コード自動生成)</td></tr>
 <tr><td>iron_dialog</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>モダンファイルダイアログ / フォルダ選択 (IFileOpenDialog COM)</td></tr>
 <tr><td>iron_diff</td><td>テキスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>テキスト差分 (行単位 diff)</td></tr>
 <tr><td>iron_docking</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>簡易ドッキングパネル (SplitContainer、左/右/下パネル配置)</td></tr>
@@ -213,7 +213,7 @@
 <tr><td>iron_ribbon</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WebView2 リボン UI (タブ/ボタン/アイコン + Light/Dark テーマ + postMessage 通知)</td></tr>
 <tr><td>iron_ribbon2</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WinForms ToolStrip 簡易リボン (TabControl + ToolStrip タブ付きツールバー)</td></tr>
 <tr><td>iron_ribbon_native</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Windows Ribbon Framework (UIRibbon COM / XML マークアップ / hspribbon.dll)</td></tr>
-<tr><td>iron_ribbon_pro</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WinForms リッチリボン (FlowLayoutPanel グループ / 大小ボタン / ドロップダ��ン)</td></tr>
+<tr><td>iron_ribbon_pro</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WinForms リッチリボン (FlowLayoutPanel グループ / 大小ボタン / ドロップダウン)</td></tr>
 <tr><td>iron_ruffle</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Flash SWF 再生 (Ruffle + WebView2)</td></tr>
 <tr><td>iron_scraper</td><td>ネットワーク</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Web スクレイピング (リンク / テキスト抽出)</td></tr>
 <tr><td>iron_sentiment</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>感情分析 (キーワードベース)</td></tr>
@@ -305,7 +305,7 @@
 <p><code>hspd2d.hsp</code> は DirectWrite + Direct2D + WIC を HSP の COM 機能 (<code>#usecom</code> / <code>#comfunc</code> / <code>newcom</code>) だけで wrap した Pure HSP モジュールです。
 C++ DLL を一切介さずに、ハードウェアアクセラレーション対応の高品質テキスト描画と PNG 出力を実現します。
 色付き絵文字 (Segoe UI Emoji 等) の描画にも対応しており、hsp3net 環境で DirectWrite の ClearType / サブピクセルレンダリングを
-活用した美しいフォント表示が���能です。オフスクリーン画像を複数管理でき、それぞれに独立して描画操作を行えます。</p>
+活用した美しいフォント表示が可能です。オフスクリーン画像を複数管理でき、それぞれに独立して描画操作を行えます。</p>
 <table>
 <tr><th>命令/関数</th><th>説明</th></tr>
 <tr><td><code>d2d_init</code></td><td>COM 初期化 + DWrite / D2D / WIC factory 作成</td></tr>
@@ -367,7 +367,7 @@ HSP からフルアクセス可能です。HSP 風の短縮名マクロも提供
 <p class="muted">ソース: <code>package/win32/common/hspcv4.as</code> / DLL: <code>hspcv4.dll</code> / ヘルプ: <code>package/hsphelp/hspcv4.hs</code></p>
 <p>OpenCV 4.12 をネイティブ C++ DLL として HSP から利用するための統合プラグインです。
 画像は int ハンドル ID で管理し、<code>cv4load</code> / <code>cv4save</code> / <code>cv4del</code> で生成・保存・解放します。
-HSP のカレントウィンドウへの描画は <code>cv4getimg</code> で直接コピー、逆に HSP の画面を OpenCV に取り込むには <code>cv4putimg</code> ���使用。
+HSP のカレントウィンドウへの描画は <code>cv4getimg</code> で直接コピー、逆に HSP の画面を OpenCV に取り込むには <code>cv4putimg</code> を使用。
 全 277 関数は初心者向けアンダースコアなし API (cv4load, cv4save 等) と、
 上級者向けアンダースコア付き API (cv4_erode, cv4_dnn_forward 等) に分けられています。</p>
 <p>対応分野:</p>
@@ -391,7 +391,7 @@ HSP のカレントウィンドウへの描画は <code>cv4getimg</code> で直�
 <tr><th>命令/関数</th><th>説明</th></tr>
 <tr><td><code>cv4load id, "image.jpg"</code></td><td>画像読み込み (id にハンドル)</td></tr>
 <tr><td><code>cv4save id, "out.png"</code></td><td>画像保存 (拡張子で形式自動判別)</td></tr>
-<tr><td><code>cv4getimg id, bmscr</code></td><td>OpenCV 画像を HSP ウィン���ウに転送</td></tr>
+<tr><td><code>cv4getimg id, bmscr</code></td><td>OpenCV 画像を HSP ウィンドウに転送</td></tr>
 <tr><td><code>cv4putimg id, bmscr</code></td><td>HSP ウィンドウ内容を OpenCV 画像に取り込み</td></tr>
 <tr><td><code>cv4cvt src, dst, code</code></td><td>色変換 (BGR→GRAY 等)</td></tr>
 <tr><td><code>cv4resize src, dst, w, h</code></td><td>リサイズ</td></tr>
@@ -1424,7 +1424,7 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 </div>
 
 <div class="card">
-<h4>iron_quaternion --- クォータニ���ン (3D 回転)</h4>
+<h4>iron_quaternion --- クォータニオン (3D 回転)</h4>
 <p class="muted">ソース: <code>package/win32/common/iron_quaternion.hsp</code> / ヘルプ: <code>package/hsphelp/iron_quaternion.hs</code></p>
 <p>クォータニオン q = (w, x, y, z) を double 配列 [4] で表現し、単位クォータニオン生成、軸角度からの変換、乗算、正規化、3D 点の回転を提供。ジンバルロックのない 3D 回転に使用。Pure HSP 実装。</p>
 <table>
@@ -1482,7 +1482,7 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 <div class="card">
 <h4>iron_random_dist --- 確率分布乱数生成</h4>
 <p class="muted">ソース: <code>package/win32/common/iron_random_dist.hsp</code> / ヘルプ: <code>package/hsphelp/iron_random_dist.hs</code></p>
-<p>Box-Muller 変換による正規分布乱数、指数分���、ポアソン分布、一様実数分布を生成する。Pure HSP 実装。</p>
+<p>Box-Muller 変換による正規分布乱数、指数分布、ポアソン分布、一様実数分布を生成する。Pure HSP 実装。</p>
 <table>
 <tr><th>命令/関数</th><th>説明</th></tr>
 <tr><td><code>rand_normal(mean, stddev)</code></td><td>正規分布乱数</td></tr>
@@ -1521,7 +1521,7 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 <div class="card">
 <h4>iron_filter --- デジタル信号フィルタ</h4>
 <p class="muted">ソース: <code>package/win32/common/iron_filter.hsp</code> / ヘルプ: <code>package/hsphelp/iron_filter.hs</code></p>
-<p>移動平均フィルタ、指数平滑ローパスフィルタ、ハイパスフィルタ (原信号 - ローパス) を提供。センサーデー��のノイズ除去や信号処理に使用。Pure HSP 実装。</p>
+<p>移動平均フィルタ、指数平滑ローパスフィルタ、ハイパスフィルタ (原信号 - ローパス) を提供。センサーデータのノイズ除去や信号処理に使用。Pure HSP 実装。</p>
 <table>
 <tr><th>命令/関数</th><th>説明</th></tr>
 <tr><td><code>filter_moving_avg data, n, window, out</code></td><td>移動平均フィルタ</td></tr>
