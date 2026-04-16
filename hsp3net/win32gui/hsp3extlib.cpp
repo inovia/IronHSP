@@ -628,8 +628,21 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 				case HSPVAR_FLAG_STR:
 					*(void **)va_out = (void *)prepare_localstr( mpval_va->pt, 0 );
 					break;
+				case HSPVAR_FLAG_WSTR:
+					// wstr → wchar_t* ポインタをそのまま渡す (wprintf 系用)
+					*(void **)va_out = (void *)prepare_localstr( mpval_va->pt, 1 );
+					break;
 				default:
+					// int64 変数を intptr として扱う (ポインタ・ハンドル等)
+#ifdef HSP64
+					if ( mpval_va->flag == HSPVAR_FLAG_INT64 ) {
+						*(int64_t *)va_out = *(int64_t *)(mpval_va->pt);
+					} else {
+						*(INT_PTR *)va_out = (INT_PTR)(*(int *)(mpval_va->pt));
+					}
+#else
 					*(INT_PTR *)va_out = (INT_PTR)(*(int *)(mpval_va->pt));
+#endif
 					break;
 				}
 				actual_count++;
