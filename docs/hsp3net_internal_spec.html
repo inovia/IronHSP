@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronHSP (hsp3net) 内部仕様書</title>
+<style>
+  :root { --accent: #2563eb; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; --warn: #dc2626; --green: #16a34a; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', 'Yu Gothic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+  .container { max-width: 1020px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+  h2 { font-size: 1.45rem; color: var(--accent); margin: 2.5rem 0 0.75rem; border-left: 4px solid var(--accent); padding-left: 0.75rem; }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 1.02rem; margin: 1rem 0 0.4rem; color: #334155; }
+  p, li { margin-bottom: 0.4rem; }
+  ul, ol { padding-left: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid var(--border); padding: 0.45rem 0.7rem; text-align: left; vertical-align: top; }
+  th { background: #eef2ff; font-weight: 600; white-space: nowrap; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { background: #f1f5f9; padding: 0.1rem 0.35rem; border-radius: 3px; font-family: 'Consolas', 'Source Code Pro', monospace; font-size: 0.88em; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 0.75rem 0; font-size: 0.85rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; margin: 0.75rem 0; }
+  .badge { display: inline-block; background: var(--accent); color: #fff; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; }
+  .badge-green { background: var(--green); }
+  .badge-red { background: var(--warn); }
+  .badge-orange { background: #ea580c; }
+  .badge-gray { background: #64748b; }
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.6rem 1rem; margin: 0.75rem 0; border-radius: 0 6px 6px 0; font-size: 0.92rem; }
+  .warn { background: #fef2f2; border-left: 4px solid var(--warn); padding: 0.6rem 1rem; margin: 0.75rem 0; border-radius: 0 6px 6px 0; font-size: 0.92rem; }
+  .info { background: #eff6ff; border-left: 4px solid var(--accent); padding: 0.6rem 1rem; margin: 0.75rem 0; border-radius: 0 6px 6px 0; font-size: 0.92rem; }
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; margin: 1.5rem 0; }
+  .toc ul { list-style: none; padding-left: 0; }
+  .toc li { padding: 0.15rem 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc ul ul { padding-left: 1.2rem; }
+  .muted { color: var(--muted); font-size: 0.88rem; }
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .tag { display: inline-block; border: 1px solid var(--border); padding: 0rem 0.4rem; border-radius: 3px; font-size: 0.8rem; margin-right: 0.3rem; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.82rem; }
+  dt { font-weight: 600; margin-top: 0.5rem; }
+  dd { margin-left: 1.5rem; margin-bottom: 0.3rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>IronHSP (hsp3net) 内部仕様書</h1>
+<p class="muted">HSP3 .NET Framework 統合ランタイム &mdash; コンパイラ・ランタイム拡張仕様 &mdash; 最終更新: 2026-04-18</p>
+<p class="muted">対象: IronHSP (OpenHSP 3.8beta1 ベース) / .NET Framework 4.8 / ツールセット v143 (VS2022)</p>
+
+<div class="warn">
+<strong>本文書について</strong>: バニラ OpenHSP の SDK 仕様 (<code>hspdll.txt</code>, <code>hsp3code.txt</code>) に記載されていない <strong>IronHSP 固有の拡張仕様</strong> を網羅します。バニラ HSP の仕様は上記文書を参照してください。
+</div>
+
+<div class="toc">
+<strong>目次</strong>
+<ul>
+<li><a href="#overview">1. アーキテクチャ概要</a></li>
+<li><a href="#compiler">2. コンパイラ (hspcmp) 拡張</a>
+  <ul>
+  <li><a href="#comp-struct">2.1 構造体定義 (#defstruct / #defunion / #field)</a></li>
+  <li><a href="#comp-arrow">2.2 アロー演算子 (-&gt;) によるメンバアクセス</a></li>
+  <li><a href="#comp-cbcom">2.3 COM コールバック (#defcbcom / #cbmethod)</a></li>
+  <li><a href="#comp-cfuncst">2.4 DLL 関数戻り値拡張 (#cfuncst / #cfuncd / #cfuncf)</a></li>
+  <li><a href="#comp-keywords">2.5 新規キーワード一覧</a></li>
+  <li><a href="#comp-intptr">2.6 intptr 型</a></li>
+  <li><a href="#comp-allman">2.7 Allman ブレーススタイル</a></li>
+  </ul>
+</li>
+<li><a href="#runtime">3. ランタイム拡張</a>
+  <ul>
+  <li><a href="#rt-types">3.1 新規変数型</a></li>
+  <li><a href="#rt-nstruct">3.2 NSTRUCT (ネイティブ構造体)</a></li>
+  <li><a href="#rt-map">3.3 MAP (連想配列)</a></li>
+  <li><a href="#rt-wstr">3.4 WSTR (UTF-16 ワイド文字列)</a></li>
+  <li><a href="#rt-int64">3.5 INT64 (64ビット整数)</a></li>
+  <li><a href="#rt-commands">3.6 新規命令・関数</a></li>
+  </ul>
+</li>
+<li><a href="#dotnet">4. .NET Framework 連携</a>
+  <ul>
+  <li><a href="#net-arch">4.1 アーキテクチャ</a></li>
+  <li><a href="#net-netobj">4.2 NETOBJ 変数型</a></li>
+  <li><a href="#net-commands">4.3 .NET 操作命令</a></li>
+  <li><a href="#net-csharp">4.4 C# ソースコンパイル</a></li>
+  <li><a href="#net-winforms">4.5 WinForms 統合</a></li>
+  <li><a href="#net-callback">4.6 コールバック・デリゲート</a></li>
+  </ul>
+</li>
+<li><a href="#comcb">5. COM コールバック実装</a></li>
+<li><a href="#64bit">6. 64ビット対応</a></li>
+<li><a href="#env">7. 環境変数・コマンドライン</a></li>
+<li><a href="#gotchas">8. 注意事項・落とし穴</a></li>
+<li><a href="#files">9. ソースファイル一覧</a></li>
+</ul>
+</div>
+
+<!-- ============================== -->
+<h2 id="overview">1. アーキテクチャ概要</h2>
+
+<p>IronHSP (hsp3net) は OpenHSP 3.8beta1 をベースに、以下のレイヤーを追加した .NET Framework 統合ランタイムです。</p>
+
+<pre><code>┌─────────────────────────────────────────────────┐
+│  HSP スクリプト (.hsp)                           │
+├─────────────────────────────────────────────────┤
+│  hspcmp (拡張コンパイラ)                         │
+│   - #defstruct / #defunion / #field             │
+│   - #defcbcom / #cbmethod                       │
+│   - #cfuncst / #cfuncd / #cfuncf                │
+│   - intptr 型 / Allman ブレース                  │
+├─────────────────────────────────────────────────┤
+│  .ax (拡張中間コード)                            │
+├─────────────────────────────────────────────────┤
+│  hsp3net ランタイム                              │
+│  ┌───────────────────────────────────────────┐  │
+│  │ コア (hsp3code / hsp3int)                 │  │
+│  │  - NSTRUCT / MAP / WSTR / INT64 型        │  │
+│  │  - dimmap / delmap / structdim 命令        │  │
+│  │  - _struct_poke / _struct_peek             │  │
+│  ├───────────────────────────────────────────┤  │
+│  │ Win32 GUI / DLL 拡張 (hsp3ext_win)        │  │
+│  │  - callfuncst / callfuncd / callfuncf     │  │
+│  │  - COM コールバック (動的 thunk 生成)      │  │
+│  │  - コールバック thunk (x86/x64)            │  │
+│  ├───────────────────────────────────────────┤  │
+│  │ .NET 連携レイヤー (C++/CLI)               │  │
+│  │  - Hsp3Net (リフレクション)               │  │
+│  │  - GlobalAccess (GCHandle 管理)           │  │
+│  │  - HspForms (WinForms 統合)               │  │
+│  │  - NETOBJ 変数型                          │  │
+│  │  - HspCallbackProxy (デリゲートブリッジ)   │  │
+│  └───────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────┘</code></pre>
+
+<h3>バニラ HSP3 との主な違い</h3>
+<table>
+<tr><th>項目</th><th>バニラ HSP3</th><th>IronHSP (hsp3net)</th></tr>
+<tr><td>変数型数</td><td>最大 11 (FLAG 0〜10)</td><td>最大 13 (FLAG 0〜12) <span class="badge">+2</span></td></tr>
+<tr><td>構造体</td><td>TYPE_STRUCT (module 擬似)</td><td>NSTRUCT (バイナリレイアウト保持) + #defstruct</td></tr>
+<tr><td>連想配列</td><td>なし</td><td>MAP 型 (dimmap / map("key"))</td></tr>
+<tr><td>DLL 戻り値</td><td>int のみ (#cfunc)</td><td>int / double / float / struct (#cfunc / #cfuncd / #cfuncf / #cfuncst)</td></tr>
+<tr><td>COM コールバック</td><td>なし</td><td>#defcbcom で任意 COM インターフェース実装</td></tr>
+<tr><td>.NET 連携</td><td>なし</td><td>C++/CLI 経由でリフレクション・WinForms</td></tr>
+<tr><td>ポインタ型</td><td>int (32bit固定)</td><td>intptr (プラットフォーム幅)</td></tr>
+<tr><td>文字列エンコード</td><td>Shift-JIS (CP_ACP)</td><td>UTF-8 基盤 + WSTR (UTF-16)</td></tr>
+</table>
+
+<!-- ============================== -->
+<h2 id="compiler">2. コンパイラ (hspcmp) 拡張</h2>
+
+<h3 id="comp-struct">2.1 構造体定義 (#defstruct / #defunion / #field)</h3>
+
+<p>Win32 API や DLL とのデータ交換で必要な <strong>C 構造体互換のバイナリレイアウト</strong> を HSP スクリプトから定義できます。</p>
+
+<h4>構文</h4>
+<pre><code>#defstruct [global] 構造体名 [, pack=N]
+    #field 型名 メンバ名 [配列サイズ]
+    ...
+    #defunion                    ; ネストされた共用体開始
+        #field ...
+    #endunion
+#endstruct
+
+#defunion 共用体名              ; トップレベル共用体
+    #field ...
+#endunion</code></pre>
+
+<h4>対応するフィールド型</h4>
+<table>
+<tr><th>型名</th><th>サイズ</th><th>C 相当</th><th>備考</th></tr>
+<tr><td><code>byte</code></td><td>1</td><td>unsigned char</td><td></td></tr>
+<tr><td><code>short</code></td><td>2</td><td>short / WORD</td><td></td></tr>
+<tr><td><code>int</code></td><td>4</td><td>int / DWORD / LONG</td><td></td></tr>
+<tr><td><code>int64</code></td><td>8</td><td>__int64 / LONGLONG</td><td></td></tr>
+<tr><td><code>float</code></td><td>4</td><td>float</td><td></td></tr>
+<tr><td><code>double</code></td><td>8</td><td>double</td><td></td></tr>
+<tr><td><code>intptr</code></td><td>4 or 8</td><td>INT_PTR / size_t</td><td>32bit=4, 64bit=8</td></tr>
+<tr><td><code>bool</code></td><td>4</td><td>BOOL (Win32)</td><td>4バイト整数</td></tr>
+<tr><td><code>bool1</code></td><td>1</td><td>bool (C++)</td><td>1バイト</td></tr>
+<tr><td><code>bool2</code></td><td>2</td><td>VARIANT_BOOL</td><td>COM 用</td></tr>
+<tr><td><code>char N</code></td><td>N</td><td>char[N]</td><td>固定長 ANSI 文字列</td></tr>
+<tr><td><code>wchar N</code></td><td>N*2</td><td>wchar_t[N]</td><td>固定長 UTF-16 文字列</td></tr>
+<tr><td><code>構造体名</code></td><td>可変</td><td>struct 入れ子</td><td>ネスト構造体</td></tr>
+</table>
+
+<h4>アライメント (pack)</h4>
+<p>デフォルトは <code>pack=8</code> で MSVC の C 構造体 ABI に準拠します。各メンバのオフセットは <code>min(フィールド自然アライメント, pack値)</code> の倍数に揃えられます。構造体全体のサイズは最大メンバアライメントの倍数に切り上げられます。</p>
+
+<div class="warn">
+<strong>注意</strong>: GCC のアライメント規則ではなく <strong>MSVC (Windows) の ABI</strong> に従います。Linux 向けの構造体定義をそのまま移植するとレイアウトが異なる場合があります。
+</div>
+
+<h4>使用例</h4>
+<pre><code>#defstruct POINT
+    #field int x
+    #field int y
+#endstruct
+
+#defstruct RECT
+    #field int left
+    #field int top
+    #field int right
+    #field int bottom
+#endstruct
+
+; global で宣言すると #module 内からも参照可能
+#defstruct global GUID, pack=1
+    #field int   Data1
+    #field short Data2
+    #field short Data3
+    #field byte  Data4 8
+#endstruct
+
+; 使い方
+stdim pt, POINT        ; NSTRUCT 変数を確保
+pt->x = 100
+pt->y = 200
+mes "x=" + pt->x</code></pre>
+
+<h4>global キーワード</h4>
+<p><code>#defstruct global 名前</code> で宣言すると、構造体名がグローバルスコープに登録され、任意の <code>#module</code> 内から参照できます。省略するとファイルスコープです。</p>
+
+<!-- arrow operator -->
+<h3 id="comp-arrow">2.2 アロー演算子 (-&gt;) によるメンバアクセス</h3>
+
+<p><code>#defstruct</code> で定義した構造体の NSTRUCT 変数に対して、C 言語風の <code>-&gt;</code> 演算子でメンバを読み書きできます。</p>
+
+<pre><code>stdim rc, RECT
+rc->left = 10
+rc->top = 20
+rc->right = 640
+rc->bottom = 480
+mes "width = " + (rc->right - rc->left)</code></pre>
+
+<h4>内部展開</h4>
+<p>プリプロセッサフェーズで以下のように展開されます:</p>
+<table>
+<tr><th>HSP コード</th><th>展開結果</th></tr>
+<tr><td><code>v-&gt;member</code> (読み取り)</td><td><code>_struct_peek(v, offset, type, size)</code></td></tr>
+<tr><td><code>v-&gt;member = val</code> (書き込み)</td><td><code>_struct_poke v, offset, type, struct_size, member_size, val</code></td></tr>
+</table>
+
+<p>ネストされた構造体チェーン <code>a-&gt;b-&gt;c</code> や配列インデックス <code>arr(i)-&gt;member</code> もサポートされています。</p>
+
+<div class="note">
+<strong>仕組み</strong>: <code>-&gt;</code> はコンパイル時のテキスト展開であり、ランタイムコストはバイトオフセットによる直接メモリアクセスのみです。C のポインタ演算と同等の速度で動作します。
+</div>
+
+<!-- defcbcom -->
+<h3 id="comp-cbcom">2.3 COM コールバック (#defcbcom / #cbmethod)</h3>
+
+<p>任意の COM インターフェースを HSP スクリプトから実装できます。IDropTarget, IBindStatusCallback 等の COM コールバックをスクリプト側で処理するために使用します。</p>
+
+<h4>構文</h4>
+<pre><code>#defcbcom クラス名 インターフェース名
+    #cbmethod vtableインデックス 戻り値型 [引数型, ...] *ラベル
+    ...
+#endcbcom</code></pre>
+
+<h4>パラメータ</h4>
+<table>
+<tr><th>要素</th><th>説明</th></tr>
+<tr><td>クラス名</td><td>HSP 側で使用するクラス識別名</td></tr>
+<tr><td>インターフェース名</td><td><code>#usecom</code> で事前登録した COM インターフェース名</td></tr>
+<tr><td>vtableインデックス</td><td>IUnknown の 3 メソッド (0,1,2) の次から。3 以上 64 未満</td></tr>
+<tr><td>戻り値型</td><td><code>int</code>, <code>int64</code>, <code>intptr</code>, <code>double</code>, <code>float</code>, <code>str</code>, <code>wstr</code>, <code>comobj</code></td></tr>
+<tr><td>引数型</td><td>上記に加え <code>sval&lt;N&gt;</code> (構造体値渡し)</td></tr>
+</table>
+
+<div class="info">
+IUnknown の QueryInterface / AddRef / Release (vtable 0,1,2) はランタイムが自動実装します。ユーザーが定義する必要はありません。
+</div>
+
+<h4>使用例 (IDropTarget)</h4>
+<pre><code>#usecom IDropTarget "{00000122-0000-0000-C000-000000000046}"
+
+#defcbcom MyDropTarget IDropTarget
+    ; vtable 3: DragEnter(pDataObj, grfKeyState, pt_lo, pt_hi, pdwEffect)
+    #cbmethod 3 int comobj, int, int, int, intptr, *on_drag_enter
+    ; vtable 4: DragOver
+    #cbmethod 4 int int, int, int, intptr, *on_drag_over
+    ; vtable 5: DragLeave
+    #cbmethod 5 int *on_drag_leave
+    ; vtable 6: Drop
+    #cbmethod 6 int comobj, int, int, int, intptr, *on_drop
+#endcbcom
+
+; インスタンス化
+newcomcb myobj, "MyDropTarget"
+; myobj は COM オブジェクトとして Win32 API に渡せる
+
+*on_drag_enter
+    ; comprm(N) で引数取得
+    key_state = comprm(1)
+    comret 0  ; S_OK
+    return
+
+*on_drop
+    comret 0  ; S_OK
+    return</code></pre>
+
+<h4>コールバック内で使える命令・関数</h4>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>comprm(N)</code></td><td>N 番目の引数を取得 (0 始まり)</td></tr>
+<tr><td><code>comret 値</code></td><td>戻り値を設定</td></tr>
+<tr><td><code>comcbidx()</code></td><td>現在呼び出されている vtable インデックス</td></tr>
+<tr><td><code>comcbtag()</code></td><td>newcomcb 時に設定した整数タグ</td></tr>
+<tr><td><code>comcbtags()</code></td><td>newcomcb 時に設定した文字列タグ</td></tr>
+<tr><td><code>comcbis(var)</code></td><td>現在の this ポインタが var と同じか判定</td></tr>
+<tr><td><code>comcbthis()</code></td><td>現在の this ポインタを intptr で取得</td></tr>
+</table>
+
+<!-- cfuncst -->
+<h3 id="comp-cfuncst">2.4 DLL 関数戻り値拡張 (#cfuncst / #cfuncd / #cfuncf)</h3>
+
+<p>バニラ HSP の <code>#cfunc</code> は int 戻り値しかサポートしていません。IronHSP では構造体・double・float 戻り値に対応しています。</p>
+
+<table>
+<tr><th>ディレクティブ</th><th>戻り値型</th><th>内部オペコード</th><th>備考</th></tr>
+<tr><td><code>#cfunc</code></td><td>int</td><td>callfunc (0x100)</td><td>バニラ HSP と同じ</td></tr>
+<tr><td><code>#cfuncd</code></td><td>double</td><td>callfuncd (0x107)</td><td><span class="badge">IronHSP</span></td></tr>
+<tr><td><code>#cfuncf</code></td><td>float</td><td>callfuncf (0x108)</td><td><span class="badge">IronHSP</span> float→double 昇格</td></tr>
+<tr><td><code>#cfuncst</code></td><td>struct (値渡し)</td><td>callfuncst (0x10A)</td><td><span class="badge">IronHSP</span> 隠し第1引数にポインタ</td></tr>
+</table>
+
+<h4>#cfuncst の構文</h4>
+<pre><code>; 新形式 (構造体名指定)
+#cfuncst [global] 構造体名 関数名 "エントリポイント" [パラメータ型...]
+
+; レガシー形式 (サイズ直指定)
+#cfuncst [global] 関数名 "エントリポイント" サイズ [, パラメータ型...]</code></pre>
+
+<h4>動作原理</h4>
+<p>C/C++ で構造体を値で返す関数は、実際には呼び出し元が確保したバッファへのポインタを隠し第1引数 (x64: RCX, x86: スタック先頭) として渡します。<code>#cfuncst</code> はこの <strong>隠し引数挿入</strong> を自動的に行います。</p>
+
+<pre><code>; C 側: POINT GetCursorPos2(void)
+; 実際の ABI: void GetCursorPos2(POINT *__retval)
+
+#defstruct POINT
+    #field int x
+    #field int y
+#endstruct
+
+#uselib "mylib.dll"
+#cfuncst POINT GetCursorPos2 "GetCursorPos2"
+
+; 呼び出し (戻り値は NSTRUCT 変数に自動格納)
+pt = GetCursorPos2()
+mes pt->x + ", " + pt->y</code></pre>
+
+<div class="note">
+<code>#cfuncst</code> の戻り値は <strong>NSTRUCT 型</strong> です。ランタイムが <code>hsp_nstruct_pending_size</code> にサイズヒントを設定し、代入先の変数が暗黙的に NSTRUCT として確保されます。
+</div>
+
+<!-- new keywords -->
+<h3 id="comp-keywords">2.5 新規キーワード一覧</h3>
+
+<h4>プログラム制御命令 (TYPE_PROGCMD = 15)</h4>
+<table>
+<tr><th>オペコード</th><th>キーワード</th><th>説明</th></tr>
+<tr><td>0x21</td><td><code>dim64</code></td><td>64ビット整数 (INT64) 配列確保</td></tr>
+<tr><td>0x22</td><td><code>stdim</code></td><td>NSTRUCT 変数確保</td></tr>
+<tr><td>0x23</td><td><code>_struct_poke</code></td><td>構造体メンバ書き込み (内部用)</td></tr>
+<tr><td>0x24</td><td><code>wsdim</code></td><td>UTF-16 ワイド文字列 (WSTR) 配列確保</td></tr>
+<tr><td>0x25</td><td><code>dimmap</code></td><td>連想配列 (MAP) 確保</td></tr>
+</table>
+
+<h4>拡張命令 (TYPE_EXTCMD = 8)</h4>
+<table>
+<tr><th>オペコード</th><th>キーワード</th><th>説明</th></tr>
+<tr><td>0x032</td><td><code>setenv</code></td><td>環境変数を設定</td></tr>
+<tr><td>0x033</td><td><code>delenv</code></td><td>環境変数を削除</td></tr>
+<tr><td>0x034</td><td><code>delmap</code></td><td>MAP エントリを削除</td></tr>
+<tr><td>0x035</td><td><code>mapclear</code></td><td>MAP を全消去</td></tr>
+</table>
+
+<h4>拡張関数 (TYPE_INTFUNC = 13)</h4>
+<table>
+<tr><th>オペコード</th><th>キーワード</th><th>説明</th></tr>
+<tr><td>0x17</td><td><code>_struct_peek</code></td><td>構造体メンバ読み取り (内部用)</td></tr>
+<tr><td>0x200</td><td><code>getenv</code></td><td>環境変数を取得 (UTF-8)</td></tr>
+<tr><td>0x201</td><td><code>hasenv</code></td><td>環境変数の存在確認</td></tr>
+<tr><td>0x202</td><td><code>getcmdargc</code></td><td>コマンドライン引数の数</td></tr>
+<tr><td>0x203</td><td><code>getcmdarg</code></td><td>N 番目のコマンドライン引数</td></tr>
+<tr><td>0x204</td><td><code>getcmdargs</code></td><td>名前付きコマンドライン引数</td></tr>
+<tr><td>0x207</td><td><code>hasmap</code></td><td>MAP キーの存在確認</td></tr>
+<tr><td>0x208</td><td><code>mapcount</code></td><td>MAP エントリ数</td></tr>
+<tr><td>0x209</td><td><code>mapkey</code></td><td>MAP キーをインデックスで取得</td></tr>
+</table>
+
+<h4>DLL コントロール (TYPE_DLLCTRL = 17)</h4>
+<table>
+<tr><th>オペコード</th><th>キーワード</th><th>説明</th></tr>
+<tr><td>0x40</td><td><code>_cb_class_begin</code></td><td>COM コールバッククラス開始 (内部)</td></tr>
+<tr><td>0x41</td><td><code>_cb_class_method</code></td><td>COM コールバックメソッド定義 (内部)</td></tr>
+<tr><td>0x42</td><td><code>_cb_class_end</code></td><td>COM コールバッククラス終了 (内部)</td></tr>
+<tr><td>0x43</td><td><code>newcomcb</code></td><td>COM コールバックインスタンス作成</td></tr>
+<tr><td>0x44</td><td><code>comret</code></td><td>コールバック戻り値設定</td></tr>
+<tr><td>0x150</td><td><code>comprm</code></td><td>コールバック引数取得</td></tr>
+<tr><td>0x151</td><td><code>comcbidx</code></td><td>現在の vtable インデックス</td></tr>
+<tr><td>0x152</td><td><code>comcbtag</code></td><td>整数タグ取得</td></tr>
+<tr><td>0x153</td><td><code>comcbtags</code></td><td>文字列タグ取得</td></tr>
+<tr><td>0x154</td><td><code>comcbis</code></td><td>this ポインタ比較</td></tr>
+<tr><td>0x155</td><td><code>comcbthis</code></td><td>this ポインタ (intptr)</td></tr>
+</table>
+
+<!-- intptr -->
+<h3 id="comp-intptr">2.6 intptr 型</h3>
+
+<p><code>intptr</code> はプラットフォームのポインタ幅に合わせて 32bit 環境では 4 バイト、64bit 環境では 8 バイトとなる整数型です。</p>
+
+<table>
+<tr><th>定義</th><th>値</th><th>ファイル</th></tr>
+<tr><td><code>MPTYPE_INTPTR</code></td><td>-24</td><td>hsp3struct.h:248</td></tr>
+<tr><td><code>HSPLPTR</code></td><td>long (64bit) / int (32bit)</td><td>hsp3struct.h:33-37</td></tr>
+<tr><td>構造体メンバ型</td><td><code>SMT_PTR</code></td><td>token.h StructMemberType enum</td></tr>
+</table>
+
+<p><code>#func</code>, <code>#cfunc</code>, <code>#comfunc</code> 等のパラメータ型として <code>intptr</code> を指定できます。DLL の <code>void*</code>, <code>HANDLE</code>, <code>HWND</code>, <code>LPARAM</code> 等のポインタ引数に使用してください。</p>
+
+<pre><code>#uselib "user32.dll"
+#cfunc FindWindowW "FindWindowW" wstr, wstr
+#func SetWindowTextW "SetWindowTextW" intptr, wstr
+
+hwnd = FindWindowW("Notepad", 0)
+SetWindowTextW hwnd, "Hello"</code></pre>
+
+<!-- allman -->
+<h3 id="comp-allman">2.7 Allman ブレーススタイル</h3>
+
+<p>バニラ HSP では <code>if</code> の後にブレースを同一行に書く必要がありましたが、IronHSP では <strong>次の行にブレースを置く Allman スタイル</strong> もサポートしています。</p>
+
+<pre><code>; K&amp;R スタイル (従来通り動作)
+if a > 0 {
+    mes "positive"
+}
+
+; Allman スタイル (IronHSP で追加)
+if a > 0
+{
+    mes "positive"
+}</code></pre>
+
+<p class="muted">実装: codegen.cpp の if 解析で、行末 <code>{</code> がなかった場合に次行の先頭を先読みして <code>{</code> を検出します。</p>
+
+<!-- ============================== -->
+<h2 id="runtime">3. ランタイム拡張</h2>
+
+<h3 id="rt-types">3.1 新規変数型</h3>
+
+<table>
+<tr><th>FLAG</th><th>名前</th><th>定義</th><th>概要</th></tr>
+<tr><td>8</td><td>INT64</td><td>hspvar_int64</td><td>64ビット整数</td></tr>
+<tr><td>9</td><td>NETOBJ</td><td>hspvar_netobj</td><td>.NET オブジェクト参照 (GCHandle)</td></tr>
+<tr><td>10</td><td>WSTR</td><td>hspvar_wstr</td><td>UTF-16 ワイド文字列</td></tr>
+<tr><td>11</td><td>NSTRUCT</td><td>hspvar_nstruct</td><td>ネイティブ構造体 (バイナリレイアウト)</td></tr>
+<tr><td>12</td><td>MAP</td><td>hspvar_map</td><td>連想配列 (文字列→文字列)</td></tr>
+</table>
+
+<p class="muted">バニラ HSP の変数型: 0=なし, 1=label, 2=str, 3=double, 4=int, 5=struct, 6=comobj (最大 FLAG=10)</p>
+
+<!-- NSTRUCT -->
+<h3 id="rt-nstruct">3.2 NSTRUCT (ネイティブ構造体)</h3>
+
+<h4>目的</h4>
+<p>Win32 API や C DLL とのデータ交換で必要な <strong>バイナリレイアウトを正確に保持</strong> する変数型です。バニラ HSP の TYPE_STRUCT (モジュール変数) とは異なり、名前付きフィールドではなくバイトオフセットで直接メモリにアクセスします。</p>
+
+<h4>メモリレイアウト</h4>
+<pre><code>PVal
+  ├─ flag = HSPVAR_FLAG_NSTRUCT (11)
+  ├─ len[0] = 要素サイズ (バイト数)   例: POINT なら 8
+  ├─ len[1] = 配列サイズ             例: 10 個なら 10
+  ├─ pt → calloc(要素サイズ * 配列サイズ) で確保した生バッファ
+  └─ mode = HSPVAR_MODE_MALLOC</code></pre>
+
+<h4>確保方法</h4>
+<pre><code>; #defstruct で定義した構造体名を使用
+stdim var, POINT          ; POINT サイズの NSTRUCT を 1 個確保
+stdim arr, RECT, 10       ; RECT サイズの配列を 10 個確保
+
+; cfuncst の戻り値は自動的に NSTRUCT になる
+pt = GetSomePoint()       ; 暗黙確保 (hsp_nstruct_pending_size で通知)</code></pre>
+
+<h4>サポート操作</h4>
+<ul>
+<li><code>Set/Get</code>: memcpy ベースのバイナリコピー</li>
+<li><code>_struct_poke</code> / <code>_struct_peek</code>: メンバ単位の読み書き (<code>-&gt;</code> 演算子から呼び出し)</li>
+<li>サポートフラグ: <code>FIXEDARRAY</code>, <code>FLEXSIZE</code></li>
+</ul>
+
+<h4>_struct_poke のメンバ型コード</h4>
+<table>
+<tr><th>コード</th><th>型</th><th>サイズ</th></tr>
+<tr><td>0</td><td>SMT_BYTE</td><td>1</td></tr>
+<tr><td>1</td><td>SMT_SHORT</td><td>2</td></tr>
+<tr><td>2</td><td>SMT_INT</td><td>4</td></tr>
+<tr><td>3</td><td>SMT_INT64</td><td>8</td></tr>
+<tr><td>4</td><td>SMT_FLOAT</td><td>4</td></tr>
+<tr><td>5</td><td>SMT_DOUBLE</td><td>8</td></tr>
+<tr><td>6</td><td>SMT_PTR</td><td>4 or 8 (intptr)</td></tr>
+<tr><td>7</td><td>SMT_BOOL</td><td>4</td></tr>
+<tr><td>8</td><td>SMT_BOOL1</td><td>1</td></tr>
+<tr><td>9</td><td>SMT_BOOL2</td><td>2</td></tr>
+<tr><td>10</td><td>SMT_CHAR_ARRAY</td><td>可変</td></tr>
+<tr><td>11</td><td>SMT_WCHAR_ARRAY</td><td>可変 (MultiByteToWideChar で変換)</td></tr>
+</table>
+
+<!-- MAP -->
+<h3 id="rt-map">3.3 MAP (連想配列)</h3>
+
+<h4>内部実装</h4>
+<pre><code>// hspvar_map.cpp
+struct MapData {
+    std::unordered_map&lt;std::string, std::string&gt; entries;
+    std::string current_key;    // ArrayObject の書き込みターゲットキー
+    std::string read_buf;       // ArrayObjectRead の戻りバッファ
+};</code></pre>
+
+<h4>特徴</h4>
+<ul>
+<li>キー・値ともに <strong>文字列型</strong> (<code>std::string</code>)</li>
+<li><code>map("key") = value</code> で代入、<code>map("key")</code> で読み取り</li>
+<li>HspVarProc の <code>ArrayObject</code> / <code>ArrayObjectRead</code> フックで配列添字アクセスを横取り</li>
+<li>サポートフラグ: <code>STORAGE</code>, <code>ARRAYOBJ</code>, <code>NOCONVERT</code>, <code>VARUSE</code></li>
+</ul>
+
+<h4>API</h4>
+<pre><code>; 確保
+dimmap m
+
+; 書き込み
+m("name") = "Alice"
+m("age") = "30"
+
+; 読み取り
+mes m("name")              ; "Alice"
+
+; 存在確認
+if hasmap(m, "name") { mes "found" }
+
+; エントリ数
+mes "count = " + mapcount(m)
+
+; キー一覧
+repeat mapcount(m)
+    mes mapkey(m, cnt)
+loop
+
+; 削除
+delmap m, "name"
+
+; 全消去
+mapclear m</code></pre>
+
+<div class="warn">
+<strong>注意</strong>: MAP の値は全て文字列で格納されます。数値を格納しても文字列に変換されます。数値として取り出す場合は <code>int(m("key"))</code> 等の明示的な変換が必要です。
+</div>
+
+<!-- WSTR -->
+<h3 id="rt-wstr">3.4 WSTR (UTF-16 ワイド文字列)</h3>
+
+<p>Win32 W 版 API に直接渡せる UTF-16 (Little Endian) 文字列型です。</p>
+
+<pre><code>wsdim ws, 260        ; 260 wchar_t 分のバッファ確保</code></pre>
+
+<p><code>#func</code> / <code>#cfunc</code> のパラメータ型として <code>wstr</code> を指定すると、HSP 文字列 (UTF-8) から自動的に UTF-16 に変換されて渡されます。<code>var</code> で受け取った場合は変換されず、UTF-16 バイト列がそのまま格納されます。</p>
+
+<div class="note">
+<strong>W 版 API の入出力パターン</strong>:
+<ul>
+<li><strong>入力</strong>: <code>wstr</code> パラメータで UTF-8→UTF-16 自動変換</li>
+<li><strong>出力</strong>: <code>var</code> パラメータで UTF-16 バッファを受け取り、<code>WideCharToMultiByte</code> で手動変換</li>
+</ul>
+</div>
+
+<!-- INT64 -->
+<h3 id="rt-int64">3.5 INT64 (64ビット整数)</h3>
+
+<pre><code>dim64 v, 10          ; INT64 配列を 10 要素確保</code></pre>
+
+<p>8バイト (64ビット) 整数配列です。Win32 API の <code>LARGE_INTEGER</code>, <code>FILETIME</code> 等のデータ格納に使用します。</p>
+
+<!-- new commands -->
+<h3 id="rt-commands">3.6 新規命令・関数</h3>
+
+<p>Section 2.5 の一覧も参照してください。ここでは使い方を解説します。</p>
+
+<h4>環境変数操作</h4>
+<pre><code>; 環境変数を設定
+setenv "MY_KEY", "MY_VALUE"
+
+; 環境変数を取得 (UTF-8)
+val = getenv("PATH")
+val2 = getenv("MISSING", "default")   ; デフォルト値指定
+
+; 存在確認
+if hasenv("MY_KEY") { mes "exists" }
+
+; 削除
+delenv "MY_KEY"</code></pre>
+
+<h4>コマンドライン引数</h4>
+<pre><code>; 引数の数
+n = getcmdargc()
+
+; N番目の引数 (0始まり, 0=実行ファイル名)
+repeat n
+    mes getcmdarg(cnt)
+loop
+
+; 名前付き引数: program.exe --port 8080 --name test
+port = getcmdargs("--port", "3000")     ; デフォルト "3000"
+name = getcmdargs("--name", "unknown")</code></pre>
+
+<p class="muted">内部では <code>CommandLineToArgvW()</code> + UTF-8 変換を使用。最初の呼び出し時に 1 回だけパースしてキャッシュします。</p>
+
+<!-- ============================== -->
+<h2 id="dotnet">4. .NET Framework 連携</h2>
+
+<h3 id="net-arch">4.1 アーキテクチャ</h3>
+
+<p>.NET 連携は <strong>C++/CLI</strong> で実装されています。HSP ランタイム (ネイティブ C++) と .NET マネージドコード (C#/VB.NET) の間を C++/CLI がブリッジします。</p>
+
+<pre><code>HSP スクリプト
+    │ mcall / newnet / callnet
+    ▼
+hsp3ext_win.cpp (ネイティブ C++)
+    │ Hsp3Net::InvokeMethod() 等
+    ▼
+Hsp3Net.h / Hsp3Net.cpp (C++/CLI マネージドラッパー)
+    │ System::Reflection
+    ▼
+.NET Framework (System.*, System.Windows.Forms, etc.)</code></pre>
+
+<h4>主要クラス</h4>
+<table>
+<tr><th>クラス</th><th>ファイル</th><th>役割</th></tr>
+<tr><td><code>Hsp3Net</code></td><td>Hsp3Net.h/cpp</td><td>リフレクション経由でメソッド呼び出し・プロパティアクセス・配列操作</td></tr>
+<tr><td><code>GlobalAccess</code></td><td>Hsp3Net.h:382-561</td><td>GCHandle 管理。マネージドオブジェクトへのネイティブポインタの発行・追跡・解放</td></tr>
+<tr><td><code>HspCallbackProxy</code></td><td>Hsp3Net.h:572-660</td><td>HSP ラベルを .NET デリゲートにブリッジ</td></tr>
+<tr><td><code>HspForms</code></td><td>HspForms.h/cpp</td><td>WinForms コントロール管理</td></tr>
+<tr><td><code>HspFormsInterop</code></td><td>HspFormsInterop.h/cpp</td><td>C リンケージでネイティブ→マネージド呼び出し</td></tr>
+</table>
+
+<!-- NETOBJ -->
+<h3 id="net-netobj">4.2 NETOBJ 変数型</h3>
+
+<p>NETOBJ (FLAG=9) は .NET オブジェクトへのネイティブポインタ (<code>GCHandle</code>) を格納する変数型です。</p>
+
+<h4>ライフサイクル</h4>
+<ol>
+<li><code>newnet var, "System.Collections.ArrayList"</code> で .NET インスタンス作成</li>
+<li><code>GlobalAccess::CreateNativePtr()</code> が <code>GCHandle.Alloc()</code> でマネージドオブジェクトをピン留め</li>
+<li>ネイティブポインタ (void*) を PVal に格納</li>
+<li><code>delnet var</code> で <code>GlobalAccess::Free()</code> → <code>GCHandle.Free()</code></li>
+</ol>
+
+<h4>スコープ管理</h4>
+<p><code>GlobalAccess</code> は 2 つのセットでポインタを追跡します:</p>
+<ul>
+<li><code>_NativePtrAllSet</code>: 全てのアクティブな GCHandle</li>
+<li><code>_NativePtrCurrentScopeSet</code>: 現在のスコープで作成された GCHandle (スタック式)</li>
+</ul>
+<p><code>PushNativePtrCurrentStack()</code> / <code>PopNativePtrCurrentStack()</code> で関数呼び出しスコープに連動した自動解放を行います。</p>
+
+<h4>型変換</h4>
+<table>
+<tr><th>方向</th><th>変換内容</th></tr>
+<tr><td>STR → NETOBJ</td><td><code>Hsp3Net::CreateString()</code></td></tr>
+<tr><td>INT → NETOBJ</td><td><code>Hsp3Net::CreateInt32()</code></td></tr>
+<tr><td>DOUBLE → NETOBJ</td><td><code>Hsp3Net::CreateDouble()</code></td></tr>
+<tr><td>NETOBJ → STR</td><td><code>obj.ToString()</code></td></tr>
+<tr><td>NETOBJ → INT</td><td><code>Convert.ToInt32()</code></td></tr>
+<tr><td>NETOBJ → DOUBLE</td><td><code>Convert.ToDouble()</code></td></tr>
+</table>
+
+<!-- .NET commands -->
+<h3 id="net-commands">4.3 .NET 操作命令</h3>
+
+<table>
+<tr><th>オペコード</th><th>命令</th><th>構文</th><th>説明</th></tr>
+<tr><td>0x0d</td><td><code>loadnet</code></td><td><code>loadnet "名前", opt [, refs...]</code></td><td>アセンブリ読み込み (下記参照)</td></tr>
+<tr><td>0x0e</td><td><code>newnet</code></td><td><code>newnet var, "クラス名" [, args...]</code></td><td>.NET インスタンス作成</td></tr>
+<tr><td>0x0f</td><td><code>delnet</code></td><td><code>delnet var</code></td><td>.NET オブジェクト解放</td></tr>
+<tr><td>0x10</td><td><code>netres</code></td><td><code>netres(var)</code></td><td>メソッド呼び出し結果取得</td></tr>
+</table>
+
+<h4>loadnet のオプション</h4>
+<table>
+<tr><th>opt</th><th>意味</th><th>例</th></tr>
+<tr><td>0</td><td>GAC 短縮名</td><td><code>loadnet "System.Windows.Forms", 0</code></td></tr>
+<tr><td>1</td><td>GAC 完全名</td><td><code>loadnet "System.Windows.Forms, Version=4.0.0.0, ...", 1</code></td></tr>
+<tr><td>2</td><td>ファイルパス</td><td><code>loadnet "MyLib.dll", 2</code></td></tr>
+<tr><td>3</td><td>C# ソースコード</td><td><code>loadnet cs_source, 3 [, "ref1.dll", ...]</code></td></tr>
+<tr><td>4</td><td>VB.NET ソースコード</td><td><code>loadnet vb_source, 4 [, "ref1.dll", ...]</code></td></tr>
+</table>
+
+<!-- C# compile -->
+<h3 id="net-csharp">4.4 C# ソースコンパイル</h3>
+
+<p><code>loadnet</code> の opt=3 で C# ソースコードを動的コンパイルして即座にロードできます。</p>
+
+<pre><code>cs = {"
+using System;
+public class MyMath {
+    public static int Add(int a, int b) { return a + b; }
+    public static string Greet(string name) {
+        return "Hello, " + name + "!";
+    }
+}
+"}
+loadnet cs, 3
+
+; 静的メソッド呼び出し
+newnet dummy, "MyMath"
+mcall dummy, "Add", result, 10, 20
+mes result    ; 30
+
+mcall dummy, "Greet", greeting, "HSP"
+mes greeting  ; "Hello, HSP!"</code></pre>
+
+<div class="note">
+<strong>参照アセンブリの追加</strong>: 第3引数以降にDLLパスを指定できます。
+<pre><code>loadnet cs, 3, "System.Xml.dll", "System.Xml.Linq.dll"</code></pre>
+</div>
+
+<!-- WinForms -->
+<h3 id="net-winforms">4.5 WinForms 統合</h3>
+
+<p>hsp3net の GUI ランタイムは内部で <code>System.Windows.Forms.Form</code> をホストし、HSP のウィンドウと WinForms コントロールをハイブリッドで管理します。</p>
+
+<h4>HspFormsInterop が提供するネイティブ関数</h4>
+<table>
+<tr><th>関数</th><th>説明</th></tr>
+<tr><td><code>HspInterop_CreateButton</code></td><td>Button コントロール作成</td></tr>
+<tr><td><code>HspInterop_CreateCheckBox</code></td><td>CheckBox 作成</td></tr>
+<tr><td><code>HspInterop_CreateTextBox</code></td><td>TextBox 作成</td></tr>
+<tr><td><code>HspInterop_CreateComboBox</code></td><td>ComboBox 作成</td></tr>
+<tr><td><code>HspInterop_CreateListBox</code></td><td>ListBox 作成</td></tr>
+<tr><td><code>HspInterop_IsManagedControl</code></td><td>マネージドコントロールか判定</td></tr>
+<tr><td><code>HspInterop_DestroyControl</code></td><td>コントロール破棄</td></tr>
+<tr><td><code>HspInterop_SetControlText</code></td><td>テキスト設定</td></tr>
+</table>
+
+<p class="muted">上位レベルでは <code>iron_forms.hsp</code> が mcall 経由で DataGridView, PropertyGrid, TabControl, Anchor/Dock 等の高機能コントロールを提供します。</p>
+
+<!-- callback -->
+<h3 id="net-callback">4.6 コールバック・デリゲート</h3>
+
+<p><code>HspCallbackProxy</code> クラスが HSP ラベルを .NET デリゲートにブリッジします。</p>
+
+<h4>対応デリゲートパターン</h4>
+<table>
+<tr><th>パターン</th><th>メソッド</th><th>用途</th></tr>
+<tr><td><code>EventHandler</code></td><td><code>HandleEvent(sender, e)</code></td><td>ボタンクリック等のイベント</td></tr>
+<tr><td><code>Action</code></td><td><code>HandleAction()</code></td><td>引数なしコールバック</td></tr>
+<tr><td><code>Func&lt;T, bool&gt;</code></td><td><code>HandlePredicate(item)</code></td><td>LINQ Where 等</td></tr>
+<tr><td><code>Func&lt;T, TResult&gt;</code></td><td><code>HandleSelector(item)</code></td><td>LINQ Select 等</td></tr>
+</table>
+
+<p>内部では HSP の <code>code_callback()</code> を呼び出し、HSP スクリプト上の <code>*label</code> にジャンプ → <code>stat</code> を戻り値として回収します。</p>
+
+<!-- ============================== -->
+<h2 id="comcb">5. COM コールバック実装</h2>
+
+<h3>動的 Thunk 生成</h3>
+
+<p>COM インターフェースの vtable メソッドが呼ばれた際に HSP ラベルにジャンプするために、<strong>動的にマシンコードを生成</strong> (JIT thunk) しています。</p>
+
+<h4>x64 版 Thunk</h4>
+<pre><code>; 512 バイトのコードバッファ
+; RCX, RDX, R8, R9 → args[0..3] に保存
+; スタック引数 → args[4+] に保存
+; R10/R11 をスクラッチレジスタとして使用
+; hsp_cbcom_bridge() を呼び出し</code></pre>
+
+<h4>x86 版 Thunk</h4>
+<pre><code>; 256 バイトのコードバッファ
+; スタック引数をコピー
+; __cdecl 呼び出し規約
+; hsp_cbcom_bridge() を呼び出し</code></pre>
+
+<p><code>VirtualAlloc</code> で <code>PAGE_EXECUTE_READWRITE</code> メモリを確保し、マシンコードを書き込みます。vtable にこの thunk のアドレスを設定することで、COM メソッド呼び出しが HSP ラベルにディスパッチされます。</p>
+
+<h4>IUnknown 自動実装</h4>
+<ul>
+<li><strong>QueryInterface</strong>: クラスの IID と比較。一致すれば <code>*ppv = this</code>、不一致は <code>E_NOINTERFACE</code></li>
+<li><strong>AddRef</strong>: <code>InterlockedIncrement(&amp;refcount)</code></li>
+<li><strong>Release</strong>: <code>InterlockedDecrement(&amp;refcount)</code>。0 でクリーンアップ</li>
+</ul>
+
+<!-- ============================== -->
+<h2 id="64bit">6. 64ビット対応</h2>
+
+<h3>コンパイル時定義</h3>
+<table>
+<tr><th>マクロ</th><th>定義時</th><th>用途</th></tr>
+<tr><td><code>HSP64</code></td><td>64ビットビルド</td><td>ランタイム全体で条件分岐</td></tr>
+<tr><td><code>PTR64BIT</code></td><td>64ビットポインタ</td><td>構造体サイズ計算</td></tr>
+<tr><td><code>PTR32BIT</code></td><td>32ビットポインタ</td><td>構造体サイズ計算</td></tr>
+</table>
+
+<h3>.ax ファイルフォーマットの差異</h3>
+<p>.ax (オブジェクトファイル) は 32bit アラインメントで保存されるため、64bit ランタイムではポインタフィールドの変換が必要です:</p>
+
+<table>
+<tr><th>構造体</th><th>ファイル上 (HED_*)</th><th>メモリ上 (32bit)</th><th>メモリ上 (64bit)</th></tr>
+<tr><td><code>STRUCTDAT</code></td><td><code>int p_libptr</code></td><td><code>void *proc</code> (4byte)</td><td><code>void *proc</code> (8byte)</td></tr>
+<tr><td><code>HPIDAT</code></td><td><code>int p_libptr</code></td><td><code>void *libptr</code> (4byte)</td><td><code>void *libptr</code> (8byte)</td></tr>
+<tr><td><code>LIBDAT</code></td><td><code>int p_hlib</code></td><td><code>void *hlib</code> (4byte)</td><td><code>void *hlib</code> (8byte)</td></tr>
+</table>
+
+<h3>DLL 関数呼び出しの差異</h3>
+<table>
+<tr><th>項目</th><th>x86</th><th>x64</th></tr>
+<tr><td>引数バッファ型</td><td><code>int *prm</code></td><td><code>INT_PTR *prm</code></td></tr>
+<tr><td>double 戻り値</td><td><code>call_extfunc_double_x86</code> (FPU ST(0))</td><td><code>call_extfunc_double</code> (XMM0)</td></tr>
+<tr><td>float 戻り値</td><td><code>call_extfunc_float_x86</code> (FPU ST(0))</td><td><code>call_extfunc_float</code> (XMM0)</td></tr>
+<tr><td>COM ポインタ</td><td><code>code_getdi()</code> (32bit cast)</td><td><code>code_getdi64()</code> (64bit 保持)</td></tr>
+<tr><td>Thunk サイズ</td><td>256 バイト</td><td>512 バイト (SEH 互換)</td></tr>
+</table>
+
+<!-- ============================== -->
+<h2 id="env">7. 環境変数・コマンドライン</h2>
+
+<p>バニラ HSP にはない環境変数・コマンドライン引数操作を追加しています。全て <strong>UTF-8</strong> で処理されます。</p>
+
+<h4>環境変数</h4>
+<pre><code>setenv "KEY", "VALUE"             ; 設定 (内部: MultiByteToWideChar + SetEnvironmentVariableW)
+val = getenv("KEY")               ; 取得 (内部: GetEnvironmentVariableW + WideCharToMultiByte)
+val = getenv("KEY", "default")    ; デフォルト値付き
+if hasenv("KEY") { ... }          ; 存在確認
+delenv "KEY"                      ; 削除</code></pre>
+
+<h4>コマンドライン引数</h4>
+<pre><code>n = getcmdargc()                  ; 引数数 (内部: CommandLineToArgvW)
+arg0 = getcmdarg(0)               ; 実行ファイルパス
+arg1 = getcmdarg(1)               ; 第1引数
+
+; 名前付き引数: --key value 形式
+port = getcmdargs("--port", "8080")</code></pre>
+
+<!-- ============================== -->
+<h2 id="gotchas">8. 注意事項・落とし穴</h2>
+
+<div class="card">
+<h4>1. #define はケースインセンシティブ</h4>
+<p>HSP の <code>#define</code> は大文字・小文字を区別しません。<code>#define LOG_DEBUG 0</code> を宣言すると、<code>log_debug</code> という関数名もマクロ展開されて壊れます。定数名と関数名の衝突に注意してください。</p>
+<pre><code>; NG: LOG_DEBUG が log_debug にもマッチする
+#define LOG_DEBUG 0
+log_debug "msg"    ; → 0 "msg" に展開されてエラー
+
+; OK: プレフィックスで回避
+#define LOGLV_DEBUG 0</code></pre>
+</div>
+
+<div class="card">
+<h4>2. #cfunc は関数形式でしか呼べない</h4>
+<p><code>#cfunc</code> / <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> で宣言した関数は <strong>必ず関数形式</strong> <code>r = func(args)</code> で呼び出してください。命令形式 <code>func args</code> はコンパイルエラーにならないことがありますが、正しく動作しません。</p>
+<pre><code>; NG
+FindWindowW "Notepad", 0
+
+; OK
+hwnd = FindWindowW("Notepad", 0)</code></pre>
+</div>
+
+<div class="card">
+<h4>3. #module トップレベルコードは実行されない</h4>
+<p><code>#module</code> 〜 <code>#global</code> 内のトップレベルに書いた <code>dim</code> / <code>sdim</code> 等の初期化コードは <strong>実行されません</strong>。初期化は <code>#deffunc</code> 内で行うか、<code>varname@modname</code> 構文でモジュール変数に直接代入してください。</p>
+</div>
+
+<div class="card">
+<h4>4. str パラメータに peek/strmid を直接使えない</h4>
+<p><code>#defcfunc</code> の <code>str</code> パラメータは一時バッファを指しているため、<code>peek</code> や <code>strmid</code> を直接適用するとクラッシュすることがあります。ローカル変数にコピーしてから操作してください。</p>
+<pre><code>#defcfunc my_func str s
+    local ss
+    ss = s          ; ローカルにコピー
+    c = peek(ss, 0) ; OK
+    return c</code></pre>
+</div>
+
+<div class="card">
+<h4>5. W 版 API 出力バッファの扱い</h4>
+<p>W 版 API (<code>GetTempPathW</code> 等) の出力は UTF-16 です。<code>var</code> で受け取った後、<code>WideCharToMultiByte(65001, ...)</code> で UTF-8 に変換する必要があります。</p>
+<p>また、<strong>W 版 API の出力を別の W 版 API の入力に渡す</strong> 場合、<code>wstr</code> ではなく <code>var</code> で渡してください。<code>wstr</code> は UTF-8→UTF-16 変換を行うため、既に UTF-16 のバッファを二重変換してしまいます。</p>
+</div>
+
+<div class="card">
+<h4>6. return str は stat を変えない</h4>
+<p>HSP の <code>return</code> で文字列を返す場合、<code>stat</code> は変更されず <code>refstr</code> に格納されます。確実に stat を返したい場合は <code>var</code> 出力パラメータを使用してください。</p>
+<pre><code>; NG: stat は直前の API 戻り値のまま
+#deffunc my_read str key
+    return "value"   ; refstr に入る, stat は不定
+
+; OK: var で明示出力
+#deffunc my_read str key, var out_result
+    out_result = "value"
+    return 0         ; stat = 0</code></pre>
+</div>
+
+<div class="card">
+<h4>7. MAP はキー・値ともに文字列</h4>
+<p>MAP の内部は <code>std::unordered_map&lt;string, string&gt;</code> です。数値を格納すると文字列に変換されます。取り出し時に <code>int()</code> や <code>double()</code> で明示変換が必要です。</p>
+</div>
+
+<div class="card">
+<h4>8. NSTRUCT の暗黙確保</h4>
+<p><code>cfuncst</code> 関数の戻り値を変数に代入すると、その変数は自動的に NSTRUCT 型になります。<code>hsp_nstruct_pending_size</code> グローバル変数を通じてサイズが通知され、代入時にクリアされます。一度確保された NSTRUCT 変数はそのまま再利用できます。</p>
+</div>
+
+<div class="card">
+<h4>9. newcomcb のスコープ</h4>
+<p><code>newcomcb</code> で作成した COM オブジェクトの寿命は AddRef/Release のリファレンスカウントで管理されます。HSP 変数がスコープを抜けても、COM 側で参照が残っていれば解放されません。リークに注意してください。</p>
+</div>
+
+<div class="card">
+<h4>10. 64bit ビルドでの #comfunc 引数</h4>
+<p>64bit ビルドでは COM メソッドのポインタ引数に <code>intptr</code> を使用してください。<code>int</code> では上位 32bit が切り捨てられます。</p>
+</div>
+
+<!-- ============================== -->
+<h2 id="files">9. ソースファイル一覧</h2>
+
+<h3>コンパイラ (hspcmp/)</h3>
+<table>
+<tr><th>ファイル</th><th>主要な責務</th></tr>
+<tr><td><code>hspcmd.cpp</code></td><td>キーワード定義テーブル (全 TYPE のオペコード↔キーワード対応)</td></tr>
+<tr><td><code>token.cpp</code></td><td>プリプロセッサ (PP_* 関数群): #defstruct パース、-&gt; 展開、構造体検出、sval&lt;N&gt; 変換</td></tr>
+<tr><td><code>token.h</code></td><td>StructDef / StructMember / CbComClass 構造体、StructMemberType enum、変数→構造体ID マップ</td></tr>
+<tr><td><code>codegen.cpp</code></td><td>コード生成 (GenerateCodePP_*): #defstruct/#defcbcom/#cbmethod のバイトコード出力、アライメント計算</td></tr>
+<tr><td><code>errormsg.h</code></td><td>エラーコード定義 (CGERROR_PP_* 系追加)</td></tr>
+</table>
+
+<h3>ランタイム (hsp3net/)</h3>
+<table>
+<tr><th>ファイル</th><th>主要な責務</th></tr>
+<tr><td><code>hspvar_core.h</code></td><td>変数型 FLAG 定義 (MAX=13)、PVal 構造体</td></tr>
+<tr><td><code>hspvar_core.cpp</code></td><td>変数型登録 (NSTRUCT, MAP 追加)</td></tr>
+<tr><td><code>hspvar_map.cpp/h</code></td><td>MAP 型実装 (MapData, ArrayObject/Read)</td></tr>
+<tr><td><code>hspvar_nstruct.cpp</code></td><td>NSTRUCT 型実装 (calloc, memcpy, pending_size)</td></tr>
+<tr><td><code>hsp3struct.h</code></td><td>MPTYPE_INTPTR 定義、STRUCTDAT/HPIDAT/LIBDAT の 32/64bit 分岐</td></tr>
+<tr><td><code>hsp3code.cpp</code></td><td>中間コード実行: dimmap/structdim/_struct_poke 命令処理</td></tr>
+<tr><td><code>hsp3int.cpp</code></td><td>拡張命令実行: setenv/delenv/delmap/mapclear + getenv/hasenv/getcmdarg* 関数</td></tr>
+</table>
+
+<h3>.NET 連携 (hsp3net/win32gui/)</h3>
+<table>
+<tr><th>ファイル</th><th>主要な責務</th></tr>
+<tr><td><code>Hsp3Net.h</code></td><td>Hsp3Net/GlobalAccess/HspCallbackProxy クラス定義 (C++/CLI)</td></tr>
+<tr><td><code>Hsp3Net.cpp</code></td><td>リフレクション実装: メソッド呼び出し、C#/VB コンパイル、型変換</td></tr>
+<tr><td><code>hspvar_netobj.cpp/h</code></td><td>NETOBJ 変数型 (GCHandle ⇔ void*)</td></tr>
+<tr><td><code>hsp3ext_win.cpp</code></td><td>DLL 拡張: callfunc*/newcomcb/comret + COM コールバック thunk 生成</td></tr>
+<tr><td><code>HspForms.cpp/h</code></td><td>WinForms コントロール管理</td></tr>
+<tr><td><code>HspFormsInterop.cpp/h</code></td><td>ネイティブ→マネージド C リンケージブリッジ</td></tr>
+</table>
+
+<footer>
+  <p>IronHSP 内部仕様書 &mdash; Based on OpenHSP 3.8beta1 (SVN trunk) &copy; onion software/onitama</p>
+  <p>本文書は IronHSP の開発者向けです。ソースコードの静的解析に基づいて記述されています。</p>
+</footer>
+
+</div>
+</body>
+</html>
