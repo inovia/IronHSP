@@ -1,0 +1,77 @@
+;============================================================
+;   iron_ribbon_native.hsp - Windows Ribbon Framework (native COM)
+;
+;   hspribbon.dll (UIRibbon COM) を使用した本物のリボン UI。
+;   Windows 7 以降。
+;
+;   前提: リボンマークアップ XML を uicc.exe (Windows SDK) で
+;   コンパイルし、.bml リソースとして EXE に埋め込む必要がある。
+;
+;   API:
+;     ribbon_native_init             Ribbon Framework 初期化
+;     ribbon_native_load "MARKUP"    コンパイル済みマークアップをロード
+;     ribbon_native_height()         リボンの高さ (ピクセル)
+;     ribbon_native_destroy          終了処理
+;
+;   Note: コマンドコールバックは現在 DLL 内部で処理。
+;   HSP ラベルへのコールバック連携は setcallback を使用。
+;
+;   リボンマークアップ XML の例:
+;     <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+;       <Application.Commands>
+;         <Command Name="cmdNew" Id="1" LabelTitle="New" />
+;         <Command Name="cmdOpen" Id="2" LabelTitle="Open" />
+;       </Application.Commands>
+;       <Application.Views>
+;         <Ribbon>
+;           <Ribbon.Tabs>
+;             <Tab CommandName="tabHome">
+;               <Group CommandName="grpFile">
+;                 <Button CommandName="cmdNew" />
+;                 <Button CommandName="cmdOpen" />
+;               </Group>
+;             </Tab>
+;           </Ribbon.Tabs>
+;         </Ribbon>
+;       </Application.Views>
+;     </Application>
+;
+;   コンパイル: uicc.exe ribbon.xml ribbon.bml ribbon.h
+;============================================================
+#ifndef __iron_ribbon_native_hsp__
+#define __iron_ribbon_native_hsp__
+
+#ifdef hsp3cl_64
+#uselib "hspribbon_64.dll"
+#else
+#ifdef hsp64
+#uselib "hspribbon_64.dll"
+#else
+#uselib "hspribbon.dll"
+#endif
+#endif
+
+#func global _ribbon_init "ribbon_init" int
+#func global _ribbon_load "ribbon_load_markup" wstr
+#func global _ribbon_destroy "ribbon_destroy"
+#cfunc global _ribbon_height "ribbon_get_height"
+
+#module iron_ribbon_native
+
+#deffunc ribbon_native_init
+	_ribbon_init hwnd
+	return stat
+
+#deffunc ribbon_native_load str markup_resource
+	_ribbon_load markup_resource
+	return stat
+
+#defcfunc ribbon_native_height
+	return _ribbon_height()
+
+#deffunc ribbon_native_destroy
+	_ribbon_destroy
+	return
+
+#global
+#endif

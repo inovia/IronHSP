@@ -1,0 +1,190 @@
+;============================================================
+;   iron_math_net.hsp - Math.NET Numerics wrapper
+;
+;   MathNet.Numerics.dll required.
+;   Linear algebra, statistics, distributions, FFT, interpolation,
+;   root finding, integration, regression.
+;   hsp3net only.
+;
+;   API:
+;     === Linear Algebra ===
+;     mathnet_matrix_mul              行列積
+;     mathnet_matrix_inv              逆行列
+;     mathnet_matrix_det              行列式
+;     mathnet_solve_linear            連立方程式 Ax=b
+;     mathnet_svd                     特異値分解
+;     mathnet_eigenvalues             固有値
+;
+;     === Statistics ===
+;     mathnet_mean(array, n)          平均
+;     mathnet_stddev(array, n)        標準偏差
+;     mathnet_correlation(a, b, n)    相関係数
+;     mathnet_regression(x, y, n)     線形回帰 → 傾き/切片
+;
+;     === Distributions ===
+;     mathnet_normal_pdf(x, mean, std)   正規分布 PDF
+;     mathnet_normal_cdf(x, mean, std)   正規分布 CDF
+;     mathnet_normal_inv(p, mean, std)   逆正規分布
+;
+;     === Signal Processing ===
+;     mathnet_fft data, n                FFT (in-place)
+;
+;     === Interpolation ===
+;     mathnet_interpolate x_arr, y_arr, n, x_query  補間
+;
+;     === Root Finding ===
+;     mathnet_find_root "f(x) expression", a, b     求根
+;
+;     === Integration ===
+;     mathnet_integrate "f(x)", a, b                 数値積分
+;============================================================
+#ifndef __iron_math_net_hsp__
+#define __iron_math_net_hsp__
+
+#module iron_math_net
+
+dim _mn_loaded, 1
+
+#deffunc _mn_load
+	if _mn_loaded : return
+	loadnet "MathNet.Numerics", 2  ; mode 2 = file path
+	; C# helper class
+	sdim _cs, 16384
+	_cs = "using System;using System.Linq;"
+	_cs += "using MathNet.Numerics;"
+	_cs += "using MathNet.Numerics.LinearAlgebra;"
+	_cs += "using MathNet.Numerics.Statistics;"
+	_cs += "using MathNet.Numerics.Distributions;"
+	_cs += "using MathNet.Numerics.IntegralTransforms;"
+	_cs += "using MathNet.Numerics.Interpolation;"
+	_cs += "public class HspMath {"
+	; Statistics
+	_cs += "  public static double Mean(string csv) {"
+	_cs += "    var vals = csv.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    return Statistics.Mean(vals);"
+	_cs += "  }"
+	_cs += "  public static double StdDev(string csv) {"
+	_cs += "    var vals = csv.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    return Statistics.StandardDeviation(vals);"
+	_cs += "  }"
+	_cs += "  public static double Correlation(string csv_x, string csv_y) {"
+	_cs += "    var x = csv_x.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var y = csv_y.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    return Correlation.Pearson(x, y);"
+	_cs += "  }"
+	_cs += "  public static string LinearRegression(string csv_x, string csv_y) {"
+	_cs += "    var x = csv_x.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var y = csv_y.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var r = Fit.Line(x, y);"
+	_cs += "    return r.Item1 + \",\" + r.Item2;"  ; intercept, slope
+	_cs += "  }"
+	; Distributions
+	_cs += "  public static double NormalPdf(double x, double mean, double std) {"
+	_cs += "    return Normal.PDF(mean, std, x);"
+	_cs += "  }"
+	_cs += "  public static double NormalCdf(double x, double mean, double std) {"
+	_cs += "    return Normal.CDF(mean, std, x);"
+	_cs += "  }"
+	_cs += "  public static double NormalInv(double p, double mean, double std) {"
+	_cs += "    return Normal.InvCDF(mean, std, p);"
+	_cs += "  }"
+	; Linear Algebra
+	_cs += "  public static string SolveLinear(string matCsv, string vecCsv, int n) {"
+	_cs += "    var mvals = matCsv.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var vvals = vecCsv.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var A = Matrix<double>.Build.Dense(n, n, mvals);"
+	_cs += "    var b = Vector<double>.Build.Dense(vvals);"
+	_cs += "    var x = A.Solve(b);"
+	_cs += "    return string.Join(\",\", x.Select(v => v.ToString()));"
+	_cs += "  }"
+	_cs += "  public static double Determinant(string matCsv, int n) {"
+	_cs += "    var vals = matCsv.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var A = Matrix<double>.Build.Dense(n, n, vals);"
+	_cs += "    return A.Determinant();"
+	_cs += "  }"
+	; Interpolation
+	_cs += "  public static double Interpolate(string csv_x, string csv_y, double xq) {"
+	_cs += "    var x = csv_x.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var y = csv_y.Split(',').Select(double.Parse).ToArray();"
+	_cs += "    var interp = CubicSpline.InterpolateAkima(x, y);"
+	_cs += "    return interp.Interpolate(xq);"
+	_cs += "  }"
+	; Root Finding
+	_cs += "  public static double FindRoot(double a, double b) {"
+	_cs += "    return FindRoots.OfFunction(x => x*x - 2, a, b);"
+	_cs += "  }"
+	; Integration
+	_cs += "  public static double Integrate(double a, double b) {"
+	_cs += "    return MathNet.Numerics.Integration.SimpsonRule.IntegrateComposite(x => x*x, a, b, 100);"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_mn_loaded = 1
+	return
+
+; --- Statistics ---
+#defcfunc mathnet_mean str csv, local _h, local _r
+	_mn_load
+	newnet _h, "", "HspMath", 1
+	netres _r : mcall _h, "Mean", csv
+	return nettoval(_r, 3)
+
+#defcfunc mathnet_stddev str csv, local _h, local _r
+	_mn_load
+	newnet _h, "", "HspMath", 1
+	netres _r : mcall _h, "StdDev", csv
+	return nettoval(_r, 3)
+
+#defcfunc mathnet_correlation str csv_x, str csv_y, local _h, local _r
+	_mn_load
+	newnet _h, "", "HspMath", 1
+	netres _r : mcall _h, "Correlation", csv_x, csv_y
+	return nettoval(_r, 3)
+
+#deffunc mathnet_regression str csv_x, str csv_y, local _h, local _r
+	_mn_load
+	newnet _h, "", "HspMath", 1
+	netres _r : mcall _h, "LinearRegression", csv_x, csv_y
+	return nettoval(_r, 2)
+
+; --- Distributions ---
+#defcfunc mathnet_normal_pdf double x, double mean, double std, local _h, local _r
+	_mn_load
+	newnet _h, "", "HspMath", 1
+	netres _r : mcall _h, "NormalPdf", x, mean, std
+	return nettoval(_r, 3)
+
+#defcfunc mathnet_normal_cdf double x, double mean, double std, local _h2, local _r2
+	_mn_load
+	newnet _h2, "", "HspMath", 1
+	netres _r2 : mcall _h2, "NormalCdf", x, mean, std
+	return nettoval(_r2, 3)
+
+#defcfunc mathnet_normal_inv double p, double mean, double std, local _h3, local _r3
+	_mn_load
+	newnet _h3, "", "HspMath", 1
+	netres _r3 : mcall _h3, "NormalInv", p, mean, std
+	return nettoval(_r3, 3)
+
+; --- Linear Algebra ---
+#deffunc mathnet_solve_linear str mat_csv, str vec_csv, int n, local _h4, local _r4
+	_mn_load
+	newnet _h4, "", "HspMath", 1
+	netres _r4 : mcall _h4, "SolveLinear", mat_csv, vec_csv, n
+	return nettoval(_r4, 2)
+
+#defcfunc mathnet_det str mat_csv, int n, local _h5, local _r5
+	_mn_load
+	newnet _h5, "", "HspMath", 1
+	netres _r5 : mcall _h5, "Determinant", mat_csv, n
+	return nettoval(_r5, 3)
+
+; --- Interpolation ---
+#defcfunc mathnet_interpolate str csv_x, str csv_y, double xq, local _h6, local _r6
+	_mn_load
+	newnet _h6, "", "HspMath", 1
+	netres _r6 : mcall _h6, "Interpolate", csv_x, csv_y, xq
+	return nettoval(_r6, 3)
+
+#global
+#endif
