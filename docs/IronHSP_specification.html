@@ -55,38 +55,31 @@
 <ul>
   <li><a href="#overview">1. 概要</a></li>
   <li><a href="#build">2. ビルド構成</a></li>
-  <li><a href="#int64">3. int64 型サポート</a></li>
+  <li><a href="#vartypes">3. 変数型システム</a>
+    <ul style="padding-left:1.2rem;">
+    <li><a href="#int64">3.1 int64 型</a></li>
+    <li><a href="#wstr">3.2 UTF-16 ワイド文字列型 (wstr)</a></li>
+    <li><a href="#intptr">3.3 intptr (プラットフォーム依存整数型)</a></li>
+    <li><a href="#maptype">3.4 連想配列 (MAP 型)</a></li>
+    </ul>
+  </li>
   <li><a href="#dotnet">4. .NET 連携機能</a></li>
   <li><a href="#winforms">5. WinForms 統合</a></li>
-  <li><a href="#vartypes">6. 変数型一覧</a></li>
-  <li><a href="#allman">7. Allman ブレーススタイル (改行 { )</a></li>
-  <li><a href="#notes">8. 注意事項・既知の制限</a></li>
-  <li><a href="#struct">9. 構造体・共用体</a></li>
-  <li><a href="#wstr">10. UTF-16 ワイド文字列型 (wstr)</a></li>
-  <li><a href="#dllfunc">11. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</a></li>
-  <li><a href="#intptr">12. プラットフォーム依存整数型 (intptr)</a></li>
-  <li><a href="#cbcom">13. COM コールバックインターフェース (#defcbcom)</a></li>
-  <li><a href="#hspd2d">14. hspd2d (DirectWrite + Direct2D + WIC モジュール)</a></li>
-  <li><a href="#dxlib">15. DxLib 統合 (hspdxlib)</a></li>
-  <li><a href="#win32api">16. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
-  <li><a href="#ironsimple">17. IronHSP Simple モジュール集 (iron_*) + 新規プラグイン DLL</a></li>
-  <li><a href="#maptype">18. 連想配列 (MAP 型)</a></li>
-  <li><a href="#ironstat">19. 統計関数 (iron_stat)</a></li>
-  <li><a href="#ironregex">20. 正規表現 (hspregex / hsppcre2)</a></li>
-  <li><a href="#ironcrypto">21. 暗号化 (iron_crypto / hspcrypto)</a></li>
-  <li><a href="#ironos">22. OS操作モジュール (レジストリ / ファイル監視 / EXIF)</a></li>
-  <li><a href="#ironnet">23. ネットワーク (FTP / SMTP / HTTP / SSH)</a></li>
-  <li><a href="#irontext">24. テキスト処理 (HTMLパース / MeCab)</a></li>
-  <li><a href="#ironchart">25. グラフ/チャート (Chart.js / hspd2d)</a></li>
-  <li><a href="#ironmisc">26. その他 (OAuth / 帳票出力 / フォルダ選択)</a></li>
-  <li><a href="#ironutil">27. ユーティリティモジュール</a></li>
-  <li><a href="#ironcapture">28. 画面キャプチャ / 音声ループバック</a></li>
-  <li><a href="#ironnet2">29. .NET 版モジュール</a></li>
-  <li><a href="#changelog">30. 変更履歴</a></li>
+  <li><a href="#compiler">6. コンパイラ拡張 (hspcmp)</a>
+    <ul style="padding-left:1.2rem;">
+    <li><a href="#allman">6.1 Allman ブレーススタイル</a></li>
+    <li><a href="#struct">6.2 構造体・共用体</a></li>
+    <li><a href="#dllfunc">6.3 DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</a></li>
+    <li><a href="#cbcom">6.4 COM コールバック (#defcbcom)</a></li>
+    </ul>
+  </li>
+  <li><a href="#win32api">7. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
+  <li><a href="#modules-ref">8. プラグイン &amp; モジュール リファレンス</a></li>
+  <li><a href="#notes">9. 注意事項・既知の制限</a></li>
+  <li><a href="#changelog">10. 変更履歴</a></li>
 </ul>
 </div>
 
-<!-- ======================================== -->
 <h2 id="overview">1. 概要</h2>
 
 <p>IronHSP は、HSP3 (Hot Soup Processor 3) をベースに <strong>.NET Framework 連携</strong> + <strong>64bit 整数/ポインタ対応</strong> + <strong>構造体・共用体</strong> + <strong>UTF-16 ワイド文字列</strong> + <strong>COM コールバック</strong> + <strong>Win32/DirectX/.NET 相互運用</strong> を加えた大幅拡張版です。hsp3net ランタイム系 (<code>hsp3_net_64.exe</code> / <code>hsp3cl_net_64.exe</code> / <code>hspcmp_net_64.exe</code>) にすべての新機能が集約され、バニラ HSP とは <code>#include "hsp3_net_64.as"</code> で明示的に切替える構成です (64bit 版が主、32bit 版はサブセット)。</p>
@@ -183,7 +176,31 @@
 </div>
 
 <!-- ======================================== -->
-<h2 id="int64">3. int64 型サポート</h2>
+<h2 id="vartypes">3. 変数型システム</h2>
+
+<p>IronHSP はバニラ HSP3 の変数型 (int / double / str / label / struct / comobj) に加え、<strong>5 つの新規変数型</strong>を追加しています。本章では全変数型と各拡張型の詳細を解説します。</p>
+
+
+<table>
+<tr><th>Flag</th><th>値</th><th>型名</th><th>サイズ</th><th>説明</th></tr>
+<tr><td><code>HSPVAR_FLAG_NONE</code></td><td>0</td><td>-</td><td>-</td><td>未定義</td></tr>
+<tr><td><code>HSPVAR_FLAG_LABEL</code></td><td>1</td><td>label</td><td>ポインタ</td><td>ラベル（ジャンプ先）</td></tr>
+<tr><td><code>HSPVAR_FLAG_STR</code></td><td>2</td><td>str</td><td>可変長</td><td>文字列</td></tr>
+<tr><td><code>HSPVAR_FLAG_DOUBLE</code></td><td>3</td><td>double</td><td>8 byte</td><td>倍精度浮動小数点</td></tr>
+<tr><td><code>HSPVAR_FLAG_INT</code></td><td>4</td><td>int</td><td>4 byte</td><td>32bit 符号付き整数</td></tr>
+<tr><td><code>HSPVAR_FLAG_STRUCT</code></td><td>5</td><td>struct</td><td>可変</td><td>モジュール変数構造体</td></tr>
+<tr><td><code>HSPVAR_FLAG_COMSTRUCT</code></td><td>6</td><td>comobj</td><td>ポインタ</td><td>COM オブジェクト</td></tr>
+<tr><td>（予約）</td><td>7</td><td>-</td><td>-</td><td>VARIANT 用に予約</td></tr>
+<tr><td><code>HSPVAR_FLAG_INT64</code></td><td>8</td><td>int64</td><td>8 byte</td><td><span class="badge">新規</span> 64bit 符号付き整数</td></tr>
+<tr><td><code>HSPVAR_FLAG_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
+<tr><td><code>HSPVAR_FLAG_WSTR</code></td><td>10</td><td>wstr</td><td>可変長</td><td><span class="badge">新規</span> UTF-16 LE ワイド文字列</td></tr>
+<tr><td><code>HSPVAR_FLAG_NSTRUCT</code></td><td>11</td><td>nstruct</td><td>可変</td><td><span class="badge">新規</span> ネイティブ構造体 (<code>#defstruct</code> 用、<code>stdim</code> で確保)</td></tr>
+<tr><td><code>HSPVAR_FLAG_MAP</code></td><td>12</td><td>map</td><td>可変</td><td><span class="badge">新規</span> 連想配列 (<code>dimmap</code> で確保、文字列キーで要素アクセス)</td></tr>
+</table>
+
+<!-- ======================================== -->
+
+<h3 id="int64">3.1 int64 型サポート</h3>
 
 <h3>3.1 新しい変数型</h3>
 <p><code>HSPVAR_FLAG_INT64 = 8</code> として組み込み型に追加されています。HSP スクリプトでは代入によって自動的に型が決まります。</p>
@@ -301,6 +318,145 @@ x86 では <code>stdcall</code>、x64 では <code>fastcall</code> 規約のマ�
 別スレッドから呼ばれるコールバック（一部のマルチメディア API 等）には対応していません。
 </div>
 
+<!-- ======================================== -->
+
+<h3 id="wstr">3.2 UTF-16 ワイド文字列型 (wstr)</h3>
+
+<p>新しい変数型 <code>wstr</code> (HSPVAR_FLAG_WSTR = 10) で UTF-16 LE 文字列を直接扱えます。
+Windows API の wchar_t 引数に変換なしで渡す用途を想定しています。</p>
+
+<div class="card">
+<h3>使用例</h3>
+<pre><code>wsdim ws, 256               ; wstr 変数を宣言
+ws = L"Unicode文字列"        ; L"..." リテラルで UTF-16 直接代入
+ws = "SJIS文字列"            ; str → wstr 自動変換
+
+n = strlen(ws)               ; wcslen() で文字数を返す
+ws2 = strmid(ws, 0, 4)      ; wstr → wstr 部分文字列
+p = instr(ws, 0, L"検索")   ; wcsstr() で検索
+s = "" + ws                  ; wstr → str 自動変換</code></pre>
+</div>
+
+<h3>対応済み関数・命令</h3>
+<table>
+<tr><th>種別</th><th>名前</th><th>wstr 動作</th></tr>
+<tr><td>関数</td><td><code>strlen</code></td><td>wcslen() で文字数を返す</td></tr>
+<tr><td>関数</td><td><code>instr</code></td><td>wcsstr() で検索</td></tr>
+<tr><td>関数</td><td><code>strmid</code></td><td>wchar_t 部分文字列 (戻り値も wstr)</td></tr>
+<tr><td>関数</td><td><code>strtrim</code></td><td>wchar_t トリム (戻り値も wstr)</td></tr>
+<tr><td>関数</td><td><code>getpath</code></td><td>パス操作 (戻り値も wstr)</td></tr>
+<tr><td>命令</td><td><code>strrep</code></td><td>wchar_t 文字列置換</td></tr>
+<tr><td>命令</td><td><code>split</code></td><td>wchar_t 分割 (出力変数も wstr)</td></tr>
+<tr><td>命令</td><td><code>getstr</code></td><td>wchar_t 区切り読み取り</td></tr>
+<tr><td>note</td><td><code>notesel/noteget/noteadd/notedel</code></td><td>wchar_t 行操作</td></tr>
+<tr><td>note</td><td><code>noteinfo/notefind</code></td><td>wchar_t 行カウント/検索</td></tr>
+<tr><td>note</td><td><code>noteload/notesave</code></td><td>UTF-16 LE バイナリ読み書き</td></tr>
+</table>
+
+<h3>自動変換</h3>
+<p>str と wstr の間は <code>MultiByteToWideChar</code> / <code>WideCharToMultiByte</code> で自動変換されます。
+int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対応済みです。</p>
+
+<p>詳細は <a href="wstr_design.html">wstr 設計書</a> を参照してください。</p>
+
+<!-- ======================================== -->
+
+<h3 id="intptr">3.3 intptr (プラットフォーム依存整数型)</h3>
+
+<p><code>intptr</code> はプラットフォーム依存サイズの整数型で、x86 ビルドでは 32bit、x64 ビルドでは 64bit のスロットを使用します。
+<code>HANDLE</code> や <code>LPxxx</code> 系のポインタ引数を含む DLL 関数を 1 つの HSP source で **両プラットフォーム共通** に書けます。
+hsp3net 専用 (vanilla hsp3 では未サポート)。</p>
+
+<h3>11.1 用途</h3>
+<p>従来は x86 / x64 で <code>int</code> / <code>int64</code> を使い分ける必要があり、
+ポインタ系の引数が出てくるたびに <code>#ifdef __hsp64__</code> 等での切り替えが必要でした。
+<code>intptr</code> を使えば 1 行で両対応できます。</p>
+
+<h3>11.2 使用可能な #directive</h3>
+<table>
+<tr><th>directive</th><th>用途</th></tr>
+<tr><td><code>#func</code></td><td>void 戻り値の DLL 関数</td></tr>
+<tr><td><code>#cfunc</code></td><td>int 戻り値の DLL 関数</td></tr>
+<tr><td><code>#cfuncd</code> / <code>#cfuncf</code></td><td>double / float 戻り値</td></tr>
+<tr><td><code>#cfuncst</code></td><td>構造体戻り値</td></tr>
+<tr><td><code>#comfunc</code></td><td>COM メソッド呼出</td></tr>
+<tr><td><code>#cbmethod</code></td><td>COM コールバックメソッド (後述)</td></tr>
+</table>
+
+<h3>11.3 使用例</h3>
+<pre><code>#uselib "user32.dll"
+#cfunc GetWindowLongPtr "GetWindowLongPtrW" intptr, int
+#func  SetWindowLongPtr "SetWindowLongPtrW" intptr, int, intptr
+
+#uselib "kernel32.dll"
+#cfunc LoadLibraryW "LoadLibraryW" wstr
+#func  FreeLibrary  "FreeLibrary"  intptr
+#cfunc GetProcAddress "GetProcAddress" intptr, str
+
+    hmod = LoadLibraryW("user32.dll")    ; intptr 戻り値 → 自動的に platform-sized
+    fnPtr = GetProcAddress(hmod, "MessageBoxW")
+    FreeLibrary hmod                      ; intptr 引数 → 自動的に正しいサイズで渡る</code></pre>
+
+<div class="note">
+<strong>内部実装:</strong> 新しい <code>MPTYPE_INTPTR</code> 定数を hspcmp と hsp3net で共有。
+hspcmp は型 ID を .ax に書き込むだけで、<strong>x64 / x86 共通の .ax を吐ける</strong>。
+runtime 側は <code>#ifdef HSP64</code> で <code>code_geti64()</code> または <code>code_getdi()</code> を使い分けて読む。
+スロットサイズも platform に従う (x64=8 byte / x86=4 byte)。
+</div>
+
+<!-- ======================================== -->
+
+<h3 id="maptype">3.4 連想配列 (MAP 型)</h3>
+
+<p>
+IronHSP では <strong>文字列キーで値にアクセスできる連想配列 (MAP)</strong> を変数型として組み込みサポートしています。
+内部は <code>std::unordered_map&lt;std::string, std::string&gt;</code> で実装されており、キー・値ともに文字列として保持されます。
+代入時に int / double / int64 は自動的に文字列へ変換されます。
+</p>
+
+<h3>変数の作成</h3>
+<pre><code>dimmap mymap     ; 連想配列を作成</code></pre>
+
+<h3>値の読み書き</h3>
+<pre><code>; 書き込み — map("key") = value
+mymap("name") = "HSP"
+mymap("year") = "2026"
+mymap("score") = 100        ; int → "100" に自動変換
+
+; 読み取り — map("key") で文字列が返る
+mes mymap("name")            ; → "HSP"
+
+; 変数キー
+key = "name"
+mes mymap(key)               ; → "HSP"</code></pre>
+
+<h3>ヘルパー関数・命令</h3>
+<table>
+<tr><th>種別</th><th>構文</th><th>説明</th></tr>
+<tr><td>関数</td><td><code>mapcount(<var>var</var>)</code></td><td>エントリ数を返す (int)</td></tr>
+<tr><td>関数</td><td><code>hasmap(<var>var</var>, "<var>key</var>")</code></td><td>キーが存在すれば 1、なければ 0 (int)</td></tr>
+<tr><td>関数</td><td><code>mapkey(<var>var</var>, <var>index</var>)</code></td><td>index 番目のキーを文字列で返す (列挙用)</td></tr>
+<tr><td>命令</td><td><code>delmap <var>var</var>, "<var>key</var>"</code></td><td>指定キーのエントリを削除</td></tr>
+<tr><td>命令</td><td><code>mapclear <var>var</var></code></td><td>全エントリを削除</td></tr>
+</table>
+
+<h3>全キーの列挙</h3>
+<pre><code>n = mapcount(mymap)
+repeat n
+    k = mapkey(mymap, cnt)
+    mes k + " = " + mymap(k)
+loop</code></pre>
+
+<h3>注意事項</h3>
+<ul>
+  <li>値は内部で <strong>文字列として保持</strong> されます。数値として使う場合は <code>int()</code> / <code>double()</code> で変換してください</li>
+  <li>未登録のキーを読み取ると <strong>空文字列 <code>""</code></strong> が返ります (エラーにはなりません)</li>
+  <li><code>mapkey()</code> の列挙順序は <strong>挿入順とは限りません</strong> (unordered_map のため)</li>
+  <li>MAP 変数は通常の配列 (<code>dim</code>) との併用はできません。<code>dimmap</code> で作成した変数は MAP 専用です</li>
+  <li><code>vartype()</code> は <code>12</code> (<code>HSPVAR_FLAG_MAP</code>) を返します</li>
+</ul>
+
+<!-- ======================================== -->
 <!-- ======================================== -->
 <h2 id="dotnet">4. .NET 連携機能</h2>
 
@@ -665,27 +821,11 @@ mes nettoval(rSR, 4)     ; => 44100</code></pre>
 </div>
 
 <!-- ======================================== -->
-<h2 id="vartypes">6. 変数型一覧</h2>
+<h2 id="compiler">6. コンパイラ拡張 (hspcmp)</h2>
 
-<table>
-<tr><th>Flag</th><th>値</th><th>型名</th><th>サイズ</th><th>説明</th></tr>
-<tr><td><code>HSPVAR_FLAG_NONE</code></td><td>0</td><td>-</td><td>-</td><td>未定義</td></tr>
-<tr><td><code>HSPVAR_FLAG_LABEL</code></td><td>1</td><td>label</td><td>ポインタ</td><td>ラベル（ジャンプ先）</td></tr>
-<tr><td><code>HSPVAR_FLAG_STR</code></td><td>2</td><td>str</td><td>可変長</td><td>文字列</td></tr>
-<tr><td><code>HSPVAR_FLAG_DOUBLE</code></td><td>3</td><td>double</td><td>8 byte</td><td>倍精度浮動小数点</td></tr>
-<tr><td><code>HSPVAR_FLAG_INT</code></td><td>4</td><td>int</td><td>4 byte</td><td>32bit 符号付き整数</td></tr>
-<tr><td><code>HSPVAR_FLAG_STRUCT</code></td><td>5</td><td>struct</td><td>可変</td><td>モジュール変数構造体</td></tr>
-<tr><td><code>HSPVAR_FLAG_COMSTRUCT</code></td><td>6</td><td>comobj</td><td>ポインタ</td><td>COM オブジェクト</td></tr>
-<tr><td>（予約）</td><td>7</td><td>-</td><td>-</td><td>VARIANT 用に予約</td></tr>
-<tr><td><code>HSPVAR_FLAG_INT64</code></td><td>8</td><td>int64</td><td>8 byte</td><td><span class="badge">新規</span> 64bit 符号付き整数</td></tr>
-<tr><td><code>HSPVAR_FLAG_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
-<tr><td><code>HSPVAR_FLAG_WSTR</code></td><td>10</td><td>wstr</td><td>可変長</td><td><span class="badge">新規</span> UTF-16 LE ワイド文字列</td></tr>
-<tr><td><code>HSPVAR_FLAG_NSTRUCT</code></td><td>11</td><td>nstruct</td><td>可変</td><td><span class="badge">新規</span> ネイティブ構造体 (<code>#defstruct</code> 用、<code>stdim</code> で確保)</td></tr>
-<tr><td><code>HSPVAR_FLAG_MAP</code></td><td>12</td><td>map</td><td>可変</td><td><span class="badge">新規</span> 連想配列 (<code>dimmap</code> で確保、文字列キーで要素アクセス)</td></tr>
-</table>
+<p>IronHSP のコンパイラ (hspcmp) に追加された言語拡張機能です。構造体定義、DLL 関数の戻り値拡張、COM コールバック、Allman ブレーススタイルなどが含まれます。</p>
 
-<!-- ======================================== -->
-<h2 id="allman">7. Allman ブレーススタイル (改行 <code>{</code> ) <span class="badge">IronHSP</span></h2>
+<h3 id="allman">6.1 Allman ブレーススタイル</h3>
 
 <p>従来の HSP では <code>if</code> / <code>else</code> のブロック開始 <code>{</code> は <strong>同じ行に書く必要がありました</strong>:</p>
 
@@ -727,155 +867,8 @@ else
 <p>サンプル: <a href="../package/win32/sample/basic/allman_brace.hsp"><code>package/win32/sample/basic/allman_brace.hsp</code></a></p>
 
 <!-- ======================================== -->
-<h2 id="notes">8. 注意事項・既知の制限</h2>
 
-<div class="card">
-<h3>HSPCTX 構造体レイアウトの変更</h3>
-<p><code>stat</code>, <code>iparam</code>, <code>wparam</code>, <code>lparam</code> が <code>int</code> (4byte) から <code>int64_t</code> (8byte) に変更されたため、HSPCTX 構造体のメンバーオフセットが変わっています。</p>
-<ul>
-  <li><code>mref val, 0x44</code> で HSPCTX を直接参照しているプラグインやスクリプトは、オフセットの再計算が必要</li>
-  <li><code>mref val, 0x40</code> (stat) は int64 型として正しく参照されるよう修正済み</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>int の演算と int64 の演算</h3>
-<ul>
-  <li><code>2147483647 + 1</code> は <strong>int 同士の演算</strong>なのでオーバーフローして <code>-2147483648</code> になる</li>
-  <li><code>2147483647L + 1</code> は <strong>int64 と int の演算</strong>なので正しく <code>2147483648</code> になる</li>
-  <li>片方が int64 であれば、もう片方も int64 に昇格して演算される</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>バイトコードの互換性</h3>
-<ul>
-  <li>int64 リテラルはデータセグメント (DS) に格納され、<code>TYPE_INUM64 = 19</code> として参照される</li>
-  <li>従来の int リテラルとの互換性は保たれている（既存の .ax ファイルはそのまま動作する）</li>
-  <li>int64 リテラルを含む .ax は従来のランタイムでは実行できない</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>wstr (UTF-16) の制限</h3>
-<ul>
-  <li><code>L"..."</code> リテラルを含む .ax は従来のランタイムでは実行できない</li>
-  <li><code>strf</code> は現状 wstr 非対応（wstr 引数は自動的に str に変換される）</li>
-  <li>ソースファイルのエンコーディング（SJIS/UTF-8）と <code>L"..."</code> の変換は <code>CP_ACP</code> で行われる。32bit版はSJIS、64bit版はUTF-8前提</li>
-  <li><code>notesave</code> で wstr バッファを保存すると UTF-16 LE バイナリとして出力される（BOM なし）</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>64bit ビルドの注意</h3>
-<ul>
-  <li>64bit版はUTF-8前提（<code>HSPUTF8</code> + <code>CharacterSet=Unicode</code>）</li>
-  <li>プラグインの .as ヘッダファイルは <code>#ifdef __hsp64__</code> で DLL名を分岐（例: <code>hspext.dll</code> → <code>hspext64.dll</code>）</li>
-  <li>Windows システム DLL（kernel32, user32 等）は 32/64bit で名前が同じため分岐不要</li>
-  <li>コンパイラ（hspcmp）は 64bit でも MultiByte で動作（HSPUTF8 不要）</li>
-  <li>hgimgx は DirectX 8 依存のため 32bit のみ</li>
-  <li>システム変数 <code>hwnd</code>, <code>hinstance</code>, <code>hdc</code> は 64bit 環境で int64 型を返す（HWND/HINSTANCE/HDC はポインタサイズ）</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>#deffunc / #defcfunc の使用</h3>
-<ul>
-  <li><code>#deffunc</code> / <code>#defcfunc</code> は <code>#module</code> ～ <code>#global</code> で囲む必要がある</li>
-  <li>モジュール内からグローバル変数にアクセスするには <code>変数名@</code> の記法を使用する</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>nettoval の使い方</h3>
-<ul>
-  <li><code>nettoval</code> は<strong>関数</strong>形式で使用する: <code>s = nettoval(net_var, type)</code></li>
-  <li>第2引数の型指定: <code>2</code> = str, <code>4</code> = int, <code>3</code> = double</li>
-  <li>命令形式 (<code>nettoval s, net_var</code>) では使用できない</li>
-  <li>フィールドアクセス式 <code>nettoval(obj("$field"), 2)</code> に対応</li>
-  <li>Enum 型は int / double / str のいずれにも変換可能（<code>Convert.ToInt32</code> 等で変換）</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>newnet のアセンブリ名</h3>
-<ul>
-  <li><code>System.Object</code> は <code>mscorlib</code> アセンブリに属するため、<code>newnet p, "System", "System.Object", 0</code> では見つからない場合がある</li>
-  <li>アセンブリ名に空文字列 <code>""</code> を指定するとクラス名で自動検索される（推奨）</li>
-  <li><code>loadnet</code> で明示的にアセンブリをロードすれば、そのアセンブリ名で検索可能</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>netobj の型変換</h3>
-<ul>
-  <li>netobj 型の変数は <code>mes pObj</code> で直接表示可能（内部で <code>ToString()</code> が呼ばれる）</li>
-  <li>文字列への変換: <code>s = "" + pObj</code> — <code>ToString()</code> の結果が使われる</li>
-  <li>整数への変換: <code>Convert.ToInt32()</code> で変換可能な場合のみ（それ以外は 0）</li>
-  <li>実数への変換: <code>Convert.ToDouble()</code> で変換可能な場合のみ（それ以外は 0.0）</li>
-  <li><code>tonet</code> 命令で HSP の値（int/double/str/int64）を netobj にラップ可能</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>DLL 関数の double/float 戻り値</h3>
-<p>従来の <code>#cfunc</code> では DLL 関数の戻り値を整数としてのみ扱えましたが、
-<code>#cfuncd</code>（double）/ <code>#cfuncf</code>（float）を使うことで浮動小数点の戻り値を正しく取得できます。</p>
-
-<table>
-<tr><th>プリプロセッサ命令</th><th>戻り値の型</th><th>用途</th></tr>
-<tr><td><code>#cfunc</code></td><td>int / int64</td><td>整数を返す DLL 関数（従来互換）</td></tr>
-<tr><td><code>#cfuncd</code></td><td>double</td><td>double を返す DLL 関数</td></tr>
-<tr><td><code>#cfuncf</code></td><td>float → double</td><td>float を返す DLL 関数（HSP 上は double として受け取る）</td></tr>
-</table>
-
-<pre><code>; double を返す DLL 関数の呼び出し例
-#uselib "msvcrt.dll"
-#cfuncd _sin "sin" double
-#cfuncd _cos "cos" double
-#cfuncd _sqrt "sqrt" double
-
-mes _sin(3.14159265)    ; => 0.000000 (≈sin(π))
-mes _cos(0.0)           ; => 1.000000
-mes _sqrt(2.0)          ; => 1.414214</code></pre>
-
-<p>ポインタ直接呼び出し用の関数も追加されています:</p>
-<table>
-<tr><th>関数</th><th>戻り値の型</th><th>備考</th></tr>
-<tr><td><code>callfunc(prmbuf, addr, nargs)</code></td><td>int</td><td></td></tr>
-<tr><td><code>callfuncd(prmbuf, addr, nargs)</code></td><td>double</td><td></td></tr>
-<tr><td><code>callfuncf(prmbuf, addr, nargs)</code></td><td>float → double</td><td></td></tr>
-<tr><td><code>callfuncst(prmbuf, addr, nargs, size)</code></td><td>NSTRUCT (構造体)</td><td><span class="badge">IronHSP</span> 構造体戻り値の DLL 関数を直接呼び出す</td></tr>
-</table>
-
-<p><code>callfuncst</code> は <code>#cfuncst</code> 同様に MSVC ABI の隠し第 1 引数 (戻り値バッファのポインタ) を使う関数を呼び出します。
-ただし宣言ベースの <code>#cfuncst</code> と異なり、低レベル API として呼び出し側が <code>prmbuf[0]</code> に
-あらかじめ戻り値バッファのアドレスを設定する必要があります。</p>
-
-<pre><code>; #cfuncst global VECTOR GetCameraTarget "dx_GetCameraTarget" 相当を
-; varptr + callfuncst で組み立てる例
-
-stdim retbuf, VECTOR              ; 戻り値バッファ
-dim   prm, 1
-prm(0) = varptr(retbuf)           ; prmbuf[0] = 隠しポインタ
-addr   = varptr(GetCameraTarget)  ; 関数アドレス (#func 経由で取得)
-
-stdim v, VECTOR
-v = callfuncst(prm, addr, 1, varsize(VECTOR))
-mes "v = " + v->x + ", " + v->y + ", " + v->z</code></pre>
-
-<p>戻り値は <code>HSPVAR_FLAG_NSTRUCT</code> として返るため、<code>#cfuncst</code> と同じ要領で
-<code>v = callfuncst(...)</code> という代入経路でメンバ参照可能な構造体変数に取り込めます。
-動的に取得した関数アドレス (<code>varptr</code>, <code>GetProcAddress</code> 等) からの呼び出しに使えます。</p>
-
-<div class="note">
-<strong>注意:</strong> 従来の <code>#cfunc</code> で double/float を返す DLL 関数を呼び出すと、
-戻り値は整数レジスタ（RAX/EAX）の値となり正しくありません。必ず <code>#cfuncd</code> / <code>#cfuncf</code> を使用してください。
-</div>
-</div>
-
-<!-- ======================================== -->
-<h2 id="struct">9. 構造体・共用体</h2>
+<h3 id="struct">6.2 構造体・共用体</h3>
 
 <p><code>#defstruct</code> / <code>#defunion</code> プリプロセッサディレクティブで C 言語互換の構造体・共用体を定義できます。
 Windows API や DxLib のような C 構造体を直接扱う場合に便利です。
@@ -1214,47 +1207,8 @@ DxLib の auto-generated <code>hspdxlib.as</code> はこの罠を避けるため
 </div>
 
 <!-- ======================================== -->
-<h2 id="wstr">10. UTF-16 ワイド文字列型 (wstr)</h2>
 
-<p>新しい変数型 <code>wstr</code> (HSPVAR_FLAG_WSTR = 10) で UTF-16 LE 文字列を直接扱えます。
-Windows API の wchar_t 引数に変換なしで渡す用途を想定しています。</p>
-
-<div class="card">
-<h3>使用例</h3>
-<pre><code>wsdim ws, 256               ; wstr 変数を宣言
-ws = L"Unicode文字列"        ; L"..." リテラルで UTF-16 直接代入
-ws = "SJIS文字列"            ; str → wstr 自動変換
-
-n = strlen(ws)               ; wcslen() で文字数を返す
-ws2 = strmid(ws, 0, 4)      ; wstr → wstr 部分文字列
-p = instr(ws, 0, L"検索")   ; wcsstr() で検索
-s = "" + ws                  ; wstr → str 自動変換</code></pre>
-</div>
-
-<h3>対応済み関数・命令</h3>
-<table>
-<tr><th>種別</th><th>名前</th><th>wstr 動作</th></tr>
-<tr><td>関数</td><td><code>strlen</code></td><td>wcslen() で文字数を返す</td></tr>
-<tr><td>関数</td><td><code>instr</code></td><td>wcsstr() で検索</td></tr>
-<tr><td>関数</td><td><code>strmid</code></td><td>wchar_t 部分文字列 (戻り値も wstr)</td></tr>
-<tr><td>関数</td><td><code>strtrim</code></td><td>wchar_t トリム (戻り値も wstr)</td></tr>
-<tr><td>関数</td><td><code>getpath</code></td><td>パス操作 (戻り値も wstr)</td></tr>
-<tr><td>命令</td><td><code>strrep</code></td><td>wchar_t 文字列置換</td></tr>
-<tr><td>命令</td><td><code>split</code></td><td>wchar_t 分割 (出力変数も wstr)</td></tr>
-<tr><td>命令</td><td><code>getstr</code></td><td>wchar_t 区切り読み取り</td></tr>
-<tr><td>note</td><td><code>notesel/noteget/noteadd/notedel</code></td><td>wchar_t 行操作</td></tr>
-<tr><td>note</td><td><code>noteinfo/notefind</code></td><td>wchar_t 行カウント/検索</td></tr>
-<tr><td>note</td><td><code>noteload/notesave</code></td><td>UTF-16 LE バイナリ読み書き</td></tr>
-</table>
-
-<h3>自動変換</h3>
-<p>str と wstr の間は <code>MultiByteToWideChar</code> / <code>WideCharToMultiByte</code> で自動変換されます。
-int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対応済みです。</p>
-
-<p>詳細は <a href="wstr_design.html">wstr 設計書</a> を参照してください。</p>
-
-<!-- ======================================== -->
-<h2 id="dllfunc">11. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</h2>
+<h3 id="dllfunc">6.3 DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</h3>
 
 <p>標準 HSP の <code>#func</code> / <code>#cfunc</code> に加え、IronHSP では戻り値の型に応じた拡張ディレクティブを提供します。</p>
 
@@ -1546,51 +1500,8 @@ mes s   ; → "count=100"</code></pre>
 </ul>
 
 <!-- ======================================== -->
-<h2 id="intptr">12. プラットフォーム依存整数型 (intptr) <span class="badge">IronHSP</span></h2>
 
-<p><code>intptr</code> はプラットフォーム依存サイズの整数型で、x86 ビルドでは 32bit、x64 ビルドでは 64bit のスロットを使用します。
-<code>HANDLE</code> や <code>LPxxx</code> 系のポインタ引数を含む DLL 関数を 1 つの HSP source で **両プラットフォーム共通** に書けます。
-hsp3net 専用 (vanilla hsp3 では未サポート)。</p>
-
-<h3>11.1 用途</h3>
-<p>従来は x86 / x64 で <code>int</code> / <code>int64</code> を使い分ける必要があり、
-ポインタ系の引数が出てくるたびに <code>#ifdef __hsp64__</code> 等での切り替えが必要でした。
-<code>intptr</code> を使えば 1 行で両対応できます。</p>
-
-<h3>11.2 使用可能な #directive</h3>
-<table>
-<tr><th>directive</th><th>用途</th></tr>
-<tr><td><code>#func</code></td><td>void 戻り値の DLL 関数</td></tr>
-<tr><td><code>#cfunc</code></td><td>int 戻り値の DLL 関数</td></tr>
-<tr><td><code>#cfuncd</code> / <code>#cfuncf</code></td><td>double / float 戻り値</td></tr>
-<tr><td><code>#cfuncst</code></td><td>構造体戻り値</td></tr>
-<tr><td><code>#comfunc</code></td><td>COM メソッド呼出</td></tr>
-<tr><td><code>#cbmethod</code></td><td>COM コールバックメソッド (後述)</td></tr>
-</table>
-
-<h3>11.3 使用例</h3>
-<pre><code>#uselib "user32.dll"
-#cfunc GetWindowLongPtr "GetWindowLongPtrW" intptr, int
-#func  SetWindowLongPtr "SetWindowLongPtrW" intptr, int, intptr
-
-#uselib "kernel32.dll"
-#cfunc LoadLibraryW "LoadLibraryW" wstr
-#func  FreeLibrary  "FreeLibrary"  intptr
-#cfunc GetProcAddress "GetProcAddress" intptr, str
-
-    hmod = LoadLibraryW("user32.dll")    ; intptr 戻り値 → 自動的に platform-sized
-    fnPtr = GetProcAddress(hmod, "MessageBoxW")
-    FreeLibrary hmod                      ; intptr 引数 → 自動的に正しいサイズで渡る</code></pre>
-
-<div class="note">
-<strong>内部実装:</strong> 新しい <code>MPTYPE_INTPTR</code> 定数を hspcmp と hsp3net で共有。
-hspcmp は型 ID を .ax に書き込むだけで、<strong>x64 / x86 共通の .ax を吐ける</strong>。
-runtime 側は <code>#ifdef HSP64</code> で <code>code_geti64()</code> または <code>code_getdi()</code> を使い分けて読む。
-スロットサイズも platform に従う (x64=8 byte / x86=4 byte)。
-</div>
-
-<!-- ======================================== -->
-<h2 id="cbcom">13. COM コールバックインターフェース (#defcbcom) <span class="badge">IronHSP</span></h2>
+<h3 id="cbcom">6.4 COM コールバック (#defcbcom)</h3>
 
 <p><code>IDropTarget</code> や <code>IBindStatusCallback</code> のように
 <strong>HSP 側で実装して外部 COM API に渡す</strong> COM コールバックインターフェースを宣言・実装するための言語拡張。
@@ -1690,23 +1601,7 @@ COM 呼び出し時に rcx/rdx/r8/r9 + stack 引数を <code>HspCbComMethodThunk
 <!-- ======================================== -->
 
 <!-- モジュール & プラグインは別ドキュメントに移動 -->
-<h2 id="modules-ref">14. プラグイン & モジュール リファレンス</h2>
-
-<p>IronHSP が提供する <strong>150 個の iron_* モジュール</strong>、<strong>22 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib 統合</strong> の詳細は別ドキュメントに記載しています:</p>
-
-<div class="card">
-<p><strong><a href="iron_modules_intro.html">iron_modules_intro.html &mdash; モジュール & プラグイン リファレンス</a></strong></p>
-<ul>
-<li>全 150 モジュールのカテゴリ別一覧表 (実装方式・バニラ互換性付き)</li>
-<li>22 個の C++ プラグイン DLL の詳細仕様</li>
-<li>hspd2d (Direct2D/DirectWrite) / DxLib 統合</li>
-<li>AI/ML / マルチメディア / 数学 / ネットワーク / OS 操作 / 暗号化 / 正規表現 等</li>
-<li>コード例 10 本</li>
-</ul>
-</div>
-
-
-<h2 id="win32api">15. Win32 API 大幅拡充 (CsWin32 bridge)</h2>
+<h2 id="win32api">7. Win32 API 大幅拡充 (CsWin32 bridge)</h2>
 
 <p>OpenHSP 標準同梱の <code>package/win32/common/user32.as</code> / <code>kernel32.as</code> / <code>gdi32.as</code>
 等は古く (<code>sptr</code> ベース、構造体未対応、x64 で破綻ぎりぎり、ANSI/Unicode 判別曖昧)、
@@ -1854,59 +1749,171 @@ package/hsphelp/
 </ul>
 
 <!-- ======================================== -->
-<h2 id="maptype">16. 連想配列 (MAP 型) <span class="badge">IronHSP</span></h2>
+<h2 id="modules-ref">8. プラグイン & モジュール リファレンス</h2>
 
-<p>
-IronHSP では <strong>文字列キーで値にアクセスできる連想配列 (MAP)</strong> を変数型として組み込みサポートしています。
-内部は <code>std::unordered_map&lt;std::string, std::string&gt;</code> で実装されており、キー・値ともに文字列として保持されます。
-代入時に int / double / int64 は自動的に文字列へ変換されます。
-</p>
+<p>IronHSP が提供する <strong>150 個の iron_* モジュール</strong>、<strong>22 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib 統合</strong> の詳細は別ドキュメントに記載しています:</p>
 
-<h3>変数の作成</h3>
-<pre><code>dimmap mymap     ; 連想配列を作成</code></pre>
+<div class="card">
+<p><strong><a href="iron_modules_intro.html">iron_modules_intro.html &mdash; モジュール & プラグイン リファレンス</a></strong></p>
+<ul>
+<li>全 150 モジュールのカテゴリ別一覧表 (実装方式・バニラ互換性付き)</li>
+<li>22 個の C++ プラグイン DLL の詳細仕様</li>
+<li>hspd2d (Direct2D/DirectWrite) / DxLib 統合</li>
+<li>AI/ML / マルチメディア / 数学 / ネットワーク / OS 操作 / 暗号化 / 正規表現 等</li>
+<li>コード例 10 本</li>
+</ul>
+</div>
 
-<h3>値の読み書き</h3>
-<pre><code>; 書き込み — map("key") = value
-mymap("name") = "HSP"
-mymap("year") = "2026"
-mymap("score") = 100        ; int → "100" に自動変換
 
-; 読み取り — map("key") で文字列が返る
-mes mymap("name")            ; → "HSP"
+<h2 id="notes">9. 注意事項・既知の制限</h2>
 
-; 変数キー
-key = "name"
-mes mymap(key)               ; → "HSP"</code></pre>
+<div class="card">
+<h3>HSPCTX 構造体レイアウトの変更</h3>
+<p><code>stat</code>, <code>iparam</code>, <code>wparam</code>, <code>lparam</code> が <code>int</code> (4byte) から <code>int64_t</code> (8byte) に変更されたため、HSPCTX 構造体のメンバーオフセットが変わっています。</p>
+<ul>
+  <li><code>mref val, 0x44</code> で HSPCTX を直接参照しているプラグインやスクリプトは、オフセットの再計算が必要</li>
+  <li><code>mref val, 0x40</code> (stat) は int64 型として正しく参照されるよう修正済み</li>
+</ul>
+</div>
 
-<h3>ヘルパー関数・命令</h3>
+<div class="card">
+<h3>int の演算と int64 の演算</h3>
+<ul>
+  <li><code>2147483647 + 1</code> は <strong>int 同士の演算</strong>なのでオーバーフローして <code>-2147483648</code> になる</li>
+  <li><code>2147483647L + 1</code> は <strong>int64 と int の演算</strong>なので正しく <code>2147483648</code> になる</li>
+  <li>片方が int64 であれば、もう片方も int64 に昇格して演算される</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>バイトコードの互換性</h3>
+<ul>
+  <li>int64 リテラルはデータセグメント (DS) に格納され、<code>TYPE_INUM64 = 19</code> として参照される</li>
+  <li>従来の int リテラルとの互換性は保たれている（既存の .ax ファイルはそのまま動作する）</li>
+  <li>int64 リテラルを含む .ax は従来のランタイムでは実行できない</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>wstr (UTF-16) の制限</h3>
+<ul>
+  <li><code>L"..."</code> リテラルを含む .ax は従来のランタイムでは実行できない</li>
+  <li><code>strf</code> は現状 wstr 非対応（wstr 引数は自動的に str に変換される）</li>
+  <li>ソースファイルのエンコーディング（SJIS/UTF-8）と <code>L"..."</code> の変換は <code>CP_ACP</code> で行われる。32bit版はSJIS、64bit版はUTF-8前提</li>
+  <li><code>notesave</code> で wstr バッファを保存すると UTF-16 LE バイナリとして出力される（BOM なし）</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>64bit ビルドの注意</h3>
+<ul>
+  <li>64bit版はUTF-8前提（<code>HSPUTF8</code> + <code>CharacterSet=Unicode</code>）</li>
+  <li>プラグインの .as ヘッダファイルは <code>#ifdef __hsp64__</code> で DLL名を分岐（例: <code>hspext.dll</code> → <code>hspext64.dll</code>）</li>
+  <li>Windows システム DLL（kernel32, user32 等）は 32/64bit で名前が同じため分岐不要</li>
+  <li>コンパイラ（hspcmp）は 64bit でも MultiByte で動作（HSPUTF8 不要）</li>
+  <li>hgimgx は DirectX 8 依存のため 32bit のみ</li>
+  <li>システム変数 <code>hwnd</code>, <code>hinstance</code>, <code>hdc</code> は 64bit 環境で int64 型を返す（HWND/HINSTANCE/HDC はポインタサイズ）</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>#deffunc / #defcfunc の使用</h3>
+<ul>
+  <li><code>#deffunc</code> / <code>#defcfunc</code> は <code>#module</code> ～ <code>#global</code> で囲む必要がある</li>
+  <li>モジュール内からグローバル変数にアクセスするには <code>変数名@</code> の記法を使用する</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>nettoval の使い方</h3>
+<ul>
+  <li><code>nettoval</code> は<strong>関数</strong>形式で使用する: <code>s = nettoval(net_var, type)</code></li>
+  <li>第2引数の型指定: <code>2</code> = str, <code>4</code> = int, <code>3</code> = double</li>
+  <li>命令形式 (<code>nettoval s, net_var</code>) では使用できない</li>
+  <li>フィールドアクセス式 <code>nettoval(obj("$field"), 2)</code> に対応</li>
+  <li>Enum 型は int / double / str のいずれにも変換可能（<code>Convert.ToInt32</code> 等で変換）</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>newnet のアセンブリ名</h3>
+<ul>
+  <li><code>System.Object</code> は <code>mscorlib</code> アセンブリに属するため、<code>newnet p, "System", "System.Object", 0</code> では見つからない場合がある</li>
+  <li>アセンブリ名に空文字列 <code>""</code> を指定するとクラス名で自動検索される（推奨）</li>
+  <li><code>loadnet</code> で明示的にアセンブリをロードすれば、そのアセンブリ名で検索可能</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>netobj の型変換</h3>
+<ul>
+  <li>netobj 型の変数は <code>mes pObj</code> で直接表示可能（内部で <code>ToString()</code> が呼ばれる）</li>
+  <li>文字列への変換: <code>s = "" + pObj</code> — <code>ToString()</code> の結果が使われる</li>
+  <li>整数への変換: <code>Convert.ToInt32()</code> で変換可能な場合のみ（それ以外は 0）</li>
+  <li>実数への変換: <code>Convert.ToDouble()</code> で変換可能な場合のみ（それ以外は 0.0）</li>
+  <li><code>tonet</code> 命令で HSP の値（int/double/str/int64）を netobj にラップ可能</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>DLL 関数の double/float 戻り値</h3>
+<p>従来の <code>#cfunc</code> では DLL 関数の戻り値を整数としてのみ扱えましたが、
+<code>#cfuncd</code>（double）/ <code>#cfuncf</code>（float）を使うことで浮動小数点の戻り値を正しく取得できます。</p>
+
 <table>
-<tr><th>種別</th><th>構文</th><th>説明</th></tr>
-<tr><td>関数</td><td><code>mapcount(<var>var</var>)</code></td><td>エントリ数を返す (int)</td></tr>
-<tr><td>関数</td><td><code>hasmap(<var>var</var>, "<var>key</var>")</code></td><td>キーが存在すれば 1、なければ 0 (int)</td></tr>
-<tr><td>関数</td><td><code>mapkey(<var>var</var>, <var>index</var>)</code></td><td>index 番目のキーを文字列で返す (列挙用)</td></tr>
-<tr><td>命令</td><td><code>delmap <var>var</var>, "<var>key</var>"</code></td><td>指定キーのエントリを削除</td></tr>
-<tr><td>命令</td><td><code>mapclear <var>var</var></code></td><td>全エントリを削除</td></tr>
+<tr><th>プリプロセッサ命令</th><th>戻り値の型</th><th>用途</th></tr>
+<tr><td><code>#cfunc</code></td><td>int / int64</td><td>整数を返す DLL 関数（従来互換）</td></tr>
+<tr><td><code>#cfuncd</code></td><td>double</td><td>double を返す DLL 関数</td></tr>
+<tr><td><code>#cfuncf</code></td><td>float → double</td><td>float を返す DLL 関数（HSP 上は double として受け取る）</td></tr>
 </table>
 
-<h3>全キーの列挙</h3>
-<pre><code>n = mapcount(mymap)
-repeat n
-    k = mapkey(mymap, cnt)
-    mes k + " = " + mymap(k)
-loop</code></pre>
+<pre><code>; double を返す DLL 関数の呼び出し例
+#uselib "msvcrt.dll"
+#cfuncd _sin "sin" double
+#cfuncd _cos "cos" double
+#cfuncd _sqrt "sqrt" double
 
-<h3>注意事項</h3>
-<ul>
-  <li>値は内部で <strong>文字列として保持</strong> されます。数値として使う場合は <code>int()</code> / <code>double()</code> で変換してください</li>
-  <li>未登録のキーを読み取ると <strong>空文字列 <code>""</code></strong> が返ります (エラーにはなりません)</li>
-  <li><code>mapkey()</code> の列挙順序は <strong>挿入順とは限りません</strong> (unordered_map のため)</li>
-  <li>MAP 変数は通常の配列 (<code>dim</code>) との併用はできません。<code>dimmap</code> で作成した変数は MAP 専用です</li>
-  <li><code>vartype()</code> は <code>12</code> (<code>HSPVAR_FLAG_MAP</code>) を返します</li>
-</ul>
+mes _sin(3.14159265)    ; => 0.000000 (≈sin(π))
+mes _cos(0.0)           ; => 1.000000
+mes _sqrt(2.0)          ; => 1.414214</code></pre>
+
+<p>ポインタ直接呼び出し用の関数も追加されています:</p>
+<table>
+<tr><th>関数</th><th>戻り値の型</th><th>備考</th></tr>
+<tr><td><code>callfunc(prmbuf, addr, nargs)</code></td><td>int</td><td></td></tr>
+<tr><td><code>callfuncd(prmbuf, addr, nargs)</code></td><td>double</td><td></td></tr>
+<tr><td><code>callfuncf(prmbuf, addr, nargs)</code></td><td>float → double</td><td></td></tr>
+<tr><td><code>callfuncst(prmbuf, addr, nargs, size)</code></td><td>NSTRUCT (構造体)</td><td><span class="badge">IronHSP</span> 構造体戻り値の DLL 関数を直接呼び出す</td></tr>
+</table>
+
+<p><code>callfuncst</code> は <code>#cfuncst</code> 同様に MSVC ABI の隠し第 1 引数 (戻り値バッファのポインタ) を使う関数を呼び出します。
+ただし宣言ベースの <code>#cfuncst</code> と異なり、低レベル API として呼び出し側が <code>prmbuf[0]</code> に
+あらかじめ戻り値バッファのアドレスを設定する必要があります。</p>
+
+<pre><code>; #cfuncst global VECTOR GetCameraTarget "dx_GetCameraTarget" 相当を
+; varptr + callfuncst で組み立てる例
+
+stdim retbuf, VECTOR              ; 戻り値バッファ
+dim   prm, 1
+prm(0) = varptr(retbuf)           ; prmbuf[0] = 隠しポインタ
+addr   = varptr(GetCameraTarget)  ; 関数アドレス (#func 経由で取得)
+
+stdim v, VECTOR
+v = callfuncst(prm, addr, 1, varsize(VECTOR))
+mes "v = " + v->x + ", " + v->y + ", " + v->z</code></pre>
+
+<p>戻り値は <code>HSPVAR_FLAG_NSTRUCT</code> として返るため、<code>#cfuncst</code> と同じ要領で
+<code>v = callfuncst(...)</code> という代入経路でメンバ参照可能な構造体変数に取り込めます。
+動的に取得した関数アドレス (<code>varptr</code>, <code>GetProcAddress</code> 等) からの呼び出しに使えます。</p>
+
+<div class="note">
+<strong>注意:</strong> 従来の <code>#cfunc</code> で double/float を返す DLL 関数を呼び出すと、
+戻り値は整数レジスタ（RAX/EAX）の値となり正しくありません。必ず <code>#cfuncd</code> / <code>#cfuncf</code> を使用してください。
+</div>
+</div>
 
 <!-- ======================================== -->
-<!-- ======================================== -->
-<h2 id="changelog">17. 変更履歴</h2>
+<h2 id="changelog">10. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
