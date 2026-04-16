@@ -42,7 +42,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-16 (Phase L 全走破 + 新規プラグイン 11 個 + OLDDLL <code>$202</code> 完全撤廃 / hsp3net runtime 配置 / hspcv4 277 関数を typed <code>#func</code> 化)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-16 (Allman ブレーススタイル対応 / hspd2d 絵文字修正 / Phase L 全走破 + 新規プラグイン 22 個 + OLDDLL <code>$202</code> 完全撤廃 / hsp3net runtime 配置 / hspcv4 277 関数を typed <code>#func</code> 化)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="warning-banner">
@@ -55,21 +55,22 @@
 <ul>
   <li><a href="#overview">1. 概要</a></li>
   <li><a href="#build">2. ビルド構成</a></li>
-  <li><a href="#int64">3. int64 型サポート / ネイティブコールバック</a></li>
+  <li><a href="#int64">3. int64 型サポート</a></li>
   <li><a href="#dotnet">4. .NET 連携機能</a></li>
   <li><a href="#winforms">5. WinForms 統合</a></li>
   <li><a href="#vartypes">6. 変数型一覧</a></li>
-  <li><a href="#notes">7. 注意事項・既知の制限</a></li>
-  <li><a href="#struct">8. 構造体・共用体</a></li>
-  <li><a href="#wstr">9. UTF-16 ワイド文字列型 (wstr)</a></li>
-  <li><a href="#dllfunc">10. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</a></li>
-  <li><a href="#intptr">11. プラットフォーム依存整数型 (intptr)</a></li>
-  <li><a href="#cbcom">12. COM コールバックインターフェース (#defcbcom)</a></li>
-  <li><a href="#hspd2d">13. hspd2d (DirectWrite + Direct2D + WIC モジュール)</a></li>
-  <li><a href="#dxlib">14. DxLib 統合 (hspdxlib)</a></li>
-  <li><a href="#win32api">15. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
-  <li><a href="#ironsimple">16. IronHSP Simple モジュール集 (iron_*)</a></li>
-  <li><a href="#changelog">17. 変更履歴</a></li>
+  <li><a href="#allman">7. Allman ブレーススタイル (改行 { )</a></li>
+  <li><a href="#notes">8. 注意事項・既知の制限</a></li>
+  <li><a href="#struct">9. 構造体・共用体</a></li>
+  <li><a href="#wstr">10. UTF-16 ワイド文字列型 (wstr)</a></li>
+  <li><a href="#dllfunc">11. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</a></li>
+  <li><a href="#intptr">12. プラットフォーム依存整数型 (intptr)</a></li>
+  <li><a href="#cbcom">13. COM コールバックインターフェース (#defcbcom)</a></li>
+  <li><a href="#hspd2d">14. hspd2d (DirectWrite + Direct2D + WIC モジュール)</a></li>
+  <li><a href="#dxlib">15. DxLib 統合 (hspdxlib)</a></li>
+  <li><a href="#win32api">16. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
+  <li><a href="#ironsimple">17. IronHSP Simple モジュール集 (iron_*) + 新規プラグイン DLL</a></li>
+  <li><a href="#changelog">18. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -670,7 +671,49 @@ mes nettoval(rSR, 4)     ; => 44100</code></pre>
 </table>
 
 <!-- ======================================== -->
-<h2 id="notes">7. 注意事項・既知の制限</h2>
+<h2 id="allman">7. Allman ブレーススタイル (改行 <code>{</code> ) <span class="badge">IronHSP</span></h2>
+
+<p>従来の HSP では <code>if</code> / <code>else</code> のブロック開始 <code>{</code> は <strong>同じ行に書く必要がありました</strong>:</p>
+
+<pre><code>; 従来の書き方 (K&amp;R スタイル) — vanilla HSP / IronHSP 両方で動作
+if n &gt; 0 {
+    mes "positive"
+} else {
+    mes "not positive"
+}</code></pre>
+
+<p>IronHSP の hspcmp では、C / C# 等で一般的な <strong>Allman ブレーススタイル</strong> (改行 <code>{</code>) もサポートします:</p>
+
+<pre><code>; Allman スタイル — IronHSP 専用
+if n &gt; 0
+{
+    mes "positive"
+}
+else
+{
+    mes "not positive"
+}</code></pre>
+
+<div class="card">
+<h3>対応パターン</h3>
+<table>
+<tr><th>パターン</th><th>例</th></tr>
+<tr><td><code>if</code> 条件 + 次行 <code>{</code></td><td><code>if n &gt; 0</code> &hellip; 改行 &hellip; <code>{</code></td></tr>
+<tr><td><code>else</code> + 次行 <code>{</code></td><td><code>else</code> &hellip; 改行 &hellip; <code>{</code></td></tr>
+<tr><td><code>else : if</code> 条件 + 次行 <code>{</code></td><td><code>else : if n &gt; 10</code> &hellip; 改行 &hellip; <code>{</code></td></tr>
+<tr><td>ネスト (内側も Allman)</td><td>外側・内側ともに改行 <code>{</code> で OK</td></tr>
+<tr><td>混合 (同一行 + 改行)</td><td><code>if n &lt; 0 {</code> &hellip; <code>}</code> + <code>else</code> 改行 <code>{</code> も OK</td></tr>
+</table>
+</div>
+
+<div class="note">
+<strong>注意:</strong> <code>if</code> と <code>{</code> の間に空行やコメント行が入ると、従来通り単行 if として閉じられます。<code>{</code> は <code>if</code> / <code>else</code> の <strong>直後の行</strong> に書いてください。
+</div>
+
+<p>サンプル: <a href="../package/win32/sample/basic/allman_brace.hsp"><code>package/win32/sample/basic/allman_brace.hsp</code></a></p>
+
+<!-- ======================================== -->
+<h2 id="notes">8. 注意事項・既知の制限</h2>
 
 <div class="card">
 <h3>HSPCTX 構造体レイアウトの変更</h3>
@@ -818,7 +861,7 @@ mes "v = " + v->x + ", " + v->y + ", " + v->z</code></pre>
 </div>
 
 <!-- ======================================== -->
-<h2 id="struct">8. 構造体・共用体</h2>
+<h2 id="struct">9. 構造体・共用体</h2>
 
 <p><code>#defstruct</code> / <code>#defunion</code> プリプロセッサディレクティブで C 言語互換の構造体・共用体を定義できます。
 Windows API や DxLib のような C 構造体を直接扱う場合に便利です。
@@ -1157,7 +1200,7 @@ DxLib の auto-generated <code>hspdxlib.as</code> はこの罠を避けるため
 </div>
 
 <!-- ======================================== -->
-<h2 id="wstr">9. UTF-16 ワイド文字列型 (wstr)</h2>
+<h2 id="wstr">10. UTF-16 ワイド文字列型 (wstr)</h2>
 
 <p>新しい変数型 <code>wstr</code> (HSPVAR_FLAG_WSTR = 10) で UTF-16 LE 文字列を直接扱えます。
 Windows API の wchar_t 引数に変換なしで渡す用途を想定しています。</p>
@@ -1197,7 +1240,7 @@ int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対
 <p>詳細は <a href="wstr_design.html">wstr 設計書</a> を参照してください。</p>
 
 <!-- ======================================== -->
-<h2 id="dllfunc">10. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</h2>
+<h2 id="dllfunc">11. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</h2>
 
 <p>標準 HSP の <code>#func</code> / <code>#cfunc</code> に加え、IronHSP では戻り値の型に応じた拡張ディレクティブを提供します。</p>
 
@@ -1434,7 +1477,7 @@ p = VGet(1.0, 2.0, 3.0)
 </table>
 
 <!-- ======================================== -->
-<h2 id="intptr">11. プラットフォーム依存整数型 (intptr) <span class="badge">IronHSP</span></h2>
+<h2 id="intptr">12. プラットフォーム依存整数型 (intptr) <span class="badge">IronHSP</span></h2>
 
 <p><code>intptr</code> はプラットフォーム依存サイズの整数型で、x86 ビルドでは 32bit、x64 ビルドでは 64bit のスロットを使用します。
 <code>HANDLE</code> や <code>LPxxx</code> 系のポインタ引数を含む DLL 関数を 1 つの HSP source で **両プラットフォーム共通** に書けます。
@@ -1478,7 +1521,7 @@ runtime 側は <code>#ifdef HSP64</code> で <code>code_geti64()</code> また�
 </div>
 
 <!-- ======================================== -->
-<h2 id="cbcom">12. COM コールバックインターフェース (#defcbcom) <span class="badge">IronHSP</span></h2>
+<h2 id="cbcom">13. COM コールバックインターフェース (#defcbcom) <span class="badge">IronHSP</span></h2>
 
 <p><code>IDropTarget</code> や <code>IBindStatusCallback</code> のように
 <strong>HSP 側で実装して外部 COM API に渡す</strong> COM コールバックインターフェースを宣言・実装するための言語拡張。
@@ -1576,7 +1619,7 @@ COM 呼び出し時に rcx/rdx/r8/r9 + stack 引数を <code>HspCbComMethodThunk
 </div>
 
 <!-- ======================================== -->
-<h2 id="hspd2d">13. hspd2d (DirectWrite + Direct2D + WIC モジュール) <span class="badge">IronHSP</span></h2>
+<h2 id="hspd2d">14. hspd2d (DirectWrite + Direct2D + WIC モジュール) <span class="badge">IronHSP</span></h2>
 
 <p><a href="../package/win32/common/hspd2d.hsp"><code>package/win32/common/hspd2d.hsp</code></a> は、
 DirectWrite + Direct2D + WIC を <strong>HSP の COM 機能 (#usecom / #comfunc / newcom -1/-2) だけで wrap</strong> した pure HSP モジュール。
@@ -1609,7 +1652,7 @@ C++ DLL を介さずに高品質テキスト描画と PNG 出力を実現する�
 </div>
 
 <!-- ======================================== -->
-<h2 id="dxlib">14. DxLib 統合 (hspdxlib)</h2>
+<h2 id="dxlib">15. DxLib 統合 (hspdxlib)</h2>
 
 <p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
 <strong>DxLibW</strong>（Unicode 版）を使用し、32bit / 64bit の両方に対応します。</p>
@@ -1734,7 +1777,7 @@ lpoke vec, VECTOR_x, 0x3F800000  ; 1.0f のビットパターン</code></pre>
 </ul>
 
 <!-- ======================================== -->
-<h2 id="win32api">15. Win32 API 大幅拡充 (CsWin32 bridge)</h2>
+<h2 id="win32api">16. Win32 API 大幅拡充 (CsWin32 bridge)</h2>
 
 <p>OpenHSP 標準同梱の <code>package/win32/common/user32.as</code> / <code>kernel32.as</code> / <code>gdi32.as</code>
 等は古く (<code>sptr</code> ベース、構造体未対応、x64 で破綻ぎりぎり、ANSI/Unicode 判別曖昧)、
@@ -1882,7 +1925,7 @@ package/hsphelp/
 </ul>
 
 <!-- ======================================== -->
-<h2 id="ironsimple">16. IronHSP Simple モジュール集 (iron_*) + 新規プラグイン DLL</h2>
+<h2 id="ironsimple">17. IronHSP Simple モジュール集 (iron_*) + 新規プラグイン DLL</h2>
 
 <p>Section 15 で整備した <strong>51 DLL / 6020 関数</strong> の Win32 API は強力だが、初心者が直接 <code>NativeMethods.txt</code> 経由 .as を直叩きするのはハードルが高い。よく使うパターンを <strong>1〜2 行で書ける薄い HSP モジュール</strong>として wrap した「IronHSP Simple」シリーズ + 専用 C++ ヘルパー DLL を <code>package/win32/common/iron_*.hsp</code> + <code>plugins/win32/hsp*/</code> として提供する。</p>
 
@@ -2195,10 +2238,11 @@ package/hsphelp/
 </ul>
 
 <!-- ======================================== -->
-<h2 id="changelog">17. 変更履歴</h2>
+<h2 id="changelog">18. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/16 20:00</td><td><code>55eacc14</code></td><td><span class="badge">新機能</span> <strong>hspcmp: Allman ブレーススタイル (改行 <code>{</code>) をサポート</strong>: <code>if</code> / <code>else</code> / <code>else:if</code> の後に <code>{</code> を次行に置く記法を許容。<code>GenerateCodeBlock()</code> の TK_EOL 処理で次行先頭が <code>{</code> かを先読みし、単行 if の即時クローズをスキップして SCOPE モードへ移行。既存の同一行 <code>{</code> パターンには一切影響なし。15 パターンのコンパイル+実行テスト済み</td></tr>
 <tr><td>4/16 07:22</td><td><code>c3a26226</code></td><td><span class="badge">バグ修正</span> <strong>hspd2d <code>d2d_drawtext</code> の絵文字末尾文字化け修正</strong>: <code>strlen(text)</code> は UTF-8 バイト数を返すため、サロゲートペア絵文字を含む文字列で <code>ID2D1RenderTarget::DrawText</code> の stringLength が過大になり、未初期化メモリが末尾に描画されていた。<code>MultiByteToWideChar(CP_UTF8, -1)</code> で UTF-16 コードユニット数を算出して渡すよう修正</td></tr>
 <tr><td>4/16 07:21</td><td><code>53b63972</code></td><td><span class="badge">バグ修正</span> <strong>hspd2d vtable index 4 件修正 + WicBitmapRT 経路復帰</strong>: Phase L1-3 SVG で推定した <code>ID2D1DeviceContext</code> vtable index (55/72/112/113) を d2d1_1.h / d2d1_3.h のパースで得た正しい値 (57/74/115/116) に修正。<code>d2d_image_create</code> を ID2D1Bitmap1 経由から <code>CreateWicBitmapRenderTarget</code> 経由に戻して既存描画命令との互換性を回復</td></tr>
 <tr><td>4/16 00:06</td><td><code>deb148bd</code></td><td><span class="badge">リファクタ</span> <strong>Phase F6 (最終)</strong>: hspcv4 残り 78 関数 + contrib proxy + helper cleanup を typed <code>#func</code> 化。<code>grep "$202"</code> = 0 件で OLDDLL 完全撤廃。contrib DLL (hspcv4_contrib.dll) の <code>_impl</code> 関数も typed 化、関数ポインタは per-callsite typedef 化。<code>g_hei</code> / <code>set_hei</code> / <code>getint</code> / <code>getstr</code> helper を全削除。累計 277 関数</td></tr>

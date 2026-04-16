@@ -1,0 +1,64 @@
+;
+;	allman_brace.hsp — Allman ブレーススタイルのサンプル
+;
+;	IronHSP の hspcmp では if/else のブロック開始 { を次行に置く
+;	「Allman スタイル」がサポートされています。
+;	従来の同一行 { (K&R スタイル) も引き続き使えます。
+;
+
+	; ----- 基本: if + 改行 { -----
+	n = 5
+
+	if n > 0
+	{
+		mes "n は正の数です (n=" + n + ")"
+	}
+
+	; ----- if / else 両方を改行 { で書く -----
+	score = 72
+
+	if score >= 80
+	{
+		mes "評価: 優"
+	}
+	else : if score >= 60
+	{
+		mes "評価: 良 (score=" + score + ")"
+	}
+	else
+	{
+		mes "評価: 不可"
+	}
+
+	; ----- ネスト (入れ子) -----
+	x = 10
+	y = 20
+
+	if x > 0
+	{
+		if y > 0
+		{
+			mes "x, y ともに正 (" + x + ", " + y + ")"
+		}
+		else
+		{
+			mes "x は正、y は 0 以下"
+		}
+	}
+
+	; ----- 従来の書き方 (K&R) との混合 -----
+	mode = 2
+
+	if mode = 1 {
+		mes "モード 1 (K&R スタイル)"
+	}
+	else
+	{
+		mes "モード " + mode + " (else は Allman スタイル)"
+	}
+
+	; ----- 単行 if も健在 -----
+	if n > 0 : mes "単行 if も問題なし"
+
+	mes ""
+	mes "全パターン正常動作!"

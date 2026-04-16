@@ -21,6 +21,7 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **`setcallback` / `callbackarg`** — flat C 関数コールバックを HSP ラベルから生成 (動的 thunk)。WNDPROC や SetWindowsHookEx 等に渡せる。hsp3net 専用。
 - **COM コールバックインターフェース (`#defcbcom`)** — `IDropTarget` / `IBindStatusCallback` 等の COM インターフェースを HSP 側で実装し、外部 COM API に渡せる。`#cbmethod` で各メソッドを HSP ラベルにマッピング、`newcomcb` でインスタンス化、`comprm()` / `comcbidx()` / `comcbtag()` / `comret` で実行コンテキストにアクセス。IUnknown (QI/AddRef/Release) は runtime が自動実装。x86/x64 両対応の動的 vtable トランポリン生成。hsp3net 専用。詳細は [`package/win32/sample/cbcom/`](package/win32/sample/cbcom/)。
 - **WinForms 統合** — `screen` を Form として扱い、HSP の GUI オブジェクトを .NET 化。
+- **Allman ブレーススタイル** — `if` / `else` のブロック開始 `{` を次行に書く記法 (Allman / BSD スタイル) に対応。従来の同一行 `{` も従来通り動作。サンプル: [`package/win32/sample/basic/allman_brace.hsp`](package/win32/sample/basic/allman_brace.hsp)。
 
 ### 新規プラグイン
 
