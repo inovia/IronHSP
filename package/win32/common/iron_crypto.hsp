@@ -1,0 +1,114 @@
+;============================================================
+;   iron_crypto.hsp — 暗号化・復号 高レベル API
+;
+;   2 層構成:
+;     (A) BCrypt (CNG) — AES-CBC / HMAC / PBKDF2 (OS 組み込み, DLL 不要)
+;     (B) hspcrypto.dll — Blowfish / RC4 / ChaCha20 / XOR
+;
+;   ハッシュ関数は iron_hash.hsp を使ってください。
+;
+;   API:
+;     === AES-256-CBC (BCrypt) ===
+;     aes256_encrypt key32, iv16, data, data_len  → refstr (暗号文), stat (長さ)
+;     aes256_decrypt key32, iv16, data, data_len  → refstr (平文), stat (長さ)
+;
+;     === HMAC (BCrypt) ===
+;     hmac_sha256 key, key_len, data, data_len    → refstr (hex)
+;
+;     === PBKDF2 (BCrypt) ===
+;     pbkdf2_sha256 password, salt, salt_len, iterations, out_len → refstr (hex)
+;
+;     === Blowfish (hspcrypto.dll) ===
+;     bf_encrypt key, data, data_len  → refstr (暗号文), stat (長さ)
+;     bf_decrypt key, data, data_len  → refstr (平文), stat (長さ)
+;
+;     === RC4 (hspcrypto.dll) ===
+;     rc4_encrypt key, data, data_len → refstr (暗号文), stat (長さ)
+;
+;     === ChaCha20 (hspcrypto.dll) ===
+;     chacha20_encrypt key32, nonce12, data, data_len → refstr, stat
+;
+;   例:
+;     #include "iron_crypto.hsp"
+;
+;     ; AES-256-CBC
+;     key = "0123456789abcdef0123456789abcdef"  ; 32 bytes
+;     iv  = "abcdef0123456789"                   ; 16 bytes
+;     plain = "Hello, World!"
+;     aes256_encrypt key, iv, plain, strlen(plain)
+;     enc_len = stat
+;     ; ...
+;============================================================
+
+#ifndef __iron_crypto_hsp__
+#define __iron_crypto_hsp__
+
+#include "hspcrypto.as"
+
+#module iron_crypto
+
+;------------------------------------------------------------
+; AES-256-CBC (hspcrypto.dll 経由)
+;------------------------------------------------------------
+#deffunc aes256_encrypt var key32, var iv16, var data, int data_len, var out
+	sdim out, data_len + 16
+	aes256cbc_encrypt key32, iv16, data, data_len, out, data_len + 16
+	return stat
+
+#deffunc aes256_decrypt var key32, var iv16, var data, int data_len, var out
+	sdim out, data_len
+	aes256cbc_decrypt key32, iv16, data, data_len, out, data_len
+	return stat
+
+;------------------------------------------------------------
+; HMAC-SHA256 (hspcrypto.dll 経由)
+;------------------------------------------------------------
+#deffunc hmac_sha256 var key, int key_len, var data, int data_len, \
+	local hex
+	sdim hex, 128
+	hmac_sha256_ex key, key_len, data, data_len, hex, 128
+	return hex
+
+;------------------------------------------------------------
+; PBKDF2-SHA256 (hspcrypto.dll 経由)
+;------------------------------------------------------------
+#deffunc pbkdf2_sha256 str password, var salt, int salt_len, int iterations, int out_len, \
+	local hex, local pwd
+	pwd = password
+	plen = strlen@hsp(pwd)
+	sdim hex, out_len * 2 + 16
+	pbkdf2_sha256_ex pwd, plen, salt, salt_len, iterations, hex, out_len
+	return hex
+
+;------------------------------------------------------------
+; Blowfish ラッパー (出力は var out に書かれる, stat に出力長)
+;------------------------------------------------------------
+#deffunc bf_encrypt str key, var data, int data_len, var out
+	sdim out, data_len + 8
+	blowfish_encrypt key, strlen@hsp(key), data, data_len, out, data_len + 8
+	return stat
+
+#deffunc bf_decrypt str key, var data, int data_len, var out
+	sdim out, data_len
+	blowfish_decrypt key, strlen@hsp(key), data, data_len, out, data_len
+	return stat
+
+;------------------------------------------------------------
+; RC4 ラッパー (出力は var out に書かれる, stat に出力長)
+;------------------------------------------------------------
+#deffunc rc4_encrypt str key, var data, int data_len, var out
+	sdim out, data_len
+	rc4_crypt key, strlen@hsp(key), data, data_len, out, data_len
+	return stat
+
+;------------------------------------------------------------
+; ChaCha20 ラッパー (出力は var out に書かれる, stat に出力長)
+;------------------------------------------------------------
+#deffunc chacha20_encrypt var key32, var nonce12, var data, int data_len, var out
+	sdim out, data_len
+	chacha20_crypt key32, nonce12, 0, data, data_len, out, data_len
+	return stat
+
+#global
+
+#endif
