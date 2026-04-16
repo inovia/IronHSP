@@ -28,6 +28,9 @@
 #include "../supio.h"
 #include "hspvar_netobj.h"
 #include "Hsp3Net.h"
+#ifdef HSP_TEST_MODE
+#include "../hsp3_test_hooks.h"
+#endif
 typedef BOOL (CALLBACK *HSP3DBGFUNC)(HSP3DEBUG *,int,int,int);
 
 /*----------------------------------------------------------*/
@@ -64,6 +67,10 @@ static int	timerid = 0;
 
 void hsp3win_dialog( char *mes )
 {
+#ifdef HSP_TEST_MODE
+	hsptest_emit_alert( mes );
+	return;
+#endif
 	HSPAPICHAR *hactmp1 = 0;
 	MessageBox( NULL, chartoapichar(mes,&hactmp1), TEXT("Error"),MB_ICONEXCLAMATION | MB_OK );
 	freehac(&hactmp1);
@@ -474,6 +481,10 @@ void hsp3win_error(void)
 	else {
 		sprintf(errmsg, "#Error %d in line %d (%s)\n-->%s\n", (int)err, ln, fname, msg);
 	}
+#ifdef HSP_TEST_MODE
+	hsptest_emit_error((int)err, ln, fname, msg);
+	return;
+#endif
 	hsp3win_debugopen();
 	hsp3win_dialog(errmsg);
 }

@@ -24,6 +24,10 @@ using namespace std;
 #include "hsp3int.h"
 #include "hsp3utfcnv.h"
 
+#ifdef HSP_TEST_MODE
+#include "hsp3_test_hooks.h"
+#endif
+
 /*------------------------------------------------------------*/
 /*
 		system data
@@ -3419,6 +3423,12 @@ rerun:
 			if ( dbgmode ) code_dbgtrace();					// トレースモード時の処理
 #endif
 
+#ifdef HSP_TEST_MODE
+			// カバレッジ計測: HSPTEST_COV_FILE 環境変数が設定されている時のみ有効。
+			// disable 状態ではフラグ 1 回チェック + 早期 return のみ。
+			hsptest_coverage_tick( code_getdebug_line(), code_getdebug_name() );
+#endif
+
 			if ( GetTypeInfoPtr( type )->cmdfunc( val ) ) {	// タイプごとの関数振り分け
 				if ( hspctx->runmode == RUNMODE_RETURN ) {
 					cmdfunc_return();
@@ -3494,6 +3504,12 @@ rerun:
 
 #ifdef HSPDEBUG
 			if ( dbgmode ) code_dbgtrace();					// トレースモード時の処理
+#endif
+
+#ifdef HSP_TEST_MODE
+			// カバレッジ計測: HSPTEST_COV_FILE 環境変数が設定されている時のみ有効。
+			// disable 状態ではフラグ 1 回チェック + 早期 return のみ。
+			hsptest_coverage_tick( code_getdebug_line(), code_getdebug_name() );
 #endif
 
 			if ( GetTypeInfoPtr( type )->cmdfunc( val ) ) {	// タイプごとの関数振り分け

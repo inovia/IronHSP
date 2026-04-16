@@ -21,6 +21,9 @@
 #include "../dpmread.h"
 #include "../strbuf.h"
 #include "../hsp3utfcnv.h"
+#ifdef HSP_TEST_MODE
+#include "../hsp3_test_hooks.h"
+#endif
 
 //
 //		basic C I/O support
@@ -702,6 +705,10 @@ int SecurityCheck( char *name )
 //
 void Alert( const char *mes )
 {
+#ifdef HSP_TEST_MODE
+	hsptest_emit_alert( mes );
+	return;
+#endif
 	MessageBox( NULL, mes, "error",MB_ICONINFORMATION | MB_OK );
 }
 
@@ -709,6 +716,10 @@ void AlertV( const char *mes, int val )
 {
 	char ss[1024];
 	sprintf( ss, "%s%d",mes,val );
+#ifdef HSP_TEST_MODE
+	hsptest_emit_alert( ss );
+	return;
+#endif
 	MessageBox( NULL, ss, "error",MB_ICONINFORMATION | MB_OK );
 }
 
@@ -719,6 +730,10 @@ void Alertf( const char *format, ... )
 	va_start(args, format);
 	vsprintf(textbf, format, args);
 	va_end(args);
+#ifdef HSP_TEST_MODE
+	hsptest_emit_alert( textbf );
+	return;
+#endif
 	MessageBox( NULL, textbf, "error",MB_ICONINFORMATION | MB_OK );
 }
 

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A1B2C3D4-5678-9ABC-DEF0-CL32TEST00001}</ProjectGuid>
+    <RootNamespace>hsp3cl_net_test</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>16.0.28916.169</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)_test\</OutDir>
+    <IntDir>$(Configuration)_test_cl32\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>hsp3cl_net_test</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)_test\</OutDir>
+    <IntDir>$(Configuration)_test_cl32\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>hsp3cl_net_test</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;HSPWIN;HSPCL_WIN;HSPDEBUG;HSP_TEST_MODE;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/source-charset:utf-8 /execution-charset:shift_jis %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalOptions>/CLRTHREADATTRIBUTE:STA %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;HSPWIN;HSPCL_WIN;HSPDEBUG;HSP_TEST_MODE;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalOptions>/source-charset:utf-8 /execution-charset:shift_jis %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalOptions>/CLRTHREADATTRIBUTE:STA %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Dpmread.cpp" />
+    <ClCompile Include="..\hsp3.cpp" />
+    <ClCompile Include="..\hsp3code.cpp" />
+    <ClCompile Include="..\hsp3debug.cpp" />
+    <ClCompile Include="..\hsp3int.cpp" />
+    <ClCompile Include="..\hspvar_core.cpp" />
+    <ClCompile Include="..\hspvar_double.cpp" />
+    <ClCompile Include="..\hspvar_int.cpp" />
+    <ClCompile Include="..\hspvar_int64.cpp" />
+    <ClCompile Include="..\hspvar_wstr.cpp" />
+    <ClCompile Include="..\hspvar_label.cpp" />
+    <ClCompile Include="..\hspvar_str.cpp" />
+    <ClCompile Include="..\hspvar_struct.cpp" />
+    <ClCompile Include="..\hspvar_nstruct.cpp" />
+    <ClCompile Include="..\hspvar_map.cpp" />
+    <ClCompile Include="..\stack.cpp" />
+    <ClCompile Include="..\strbuf.cpp" />
+    <ClCompile Include="..\strnote.cpp" />
+    <ClCompile Include="..\hsp3utfcnv.cpp" />
+    <ClCompile Include="..\filepack.cpp" />
+    <ClCompile Include="..\hsp3crypt.cpp" />
+    <ClCompile Include="..\hsp3_test_hooks.cpp" />
+    <ClCompile Include="..\win32gui\comobj.cpp" />
+    <ClCompile Include="..\win32gui\comobj_event.cpp" />
+    <ClCompile Include="..\win32gui\filedlg.cpp" />
+    <ClCompile Include="..\win32gui\hsp3extlib.cpp" />
+    <ClCompile Include="..\win32gui\hsp3ext_win.cpp" />
+    <ClCompile Include="..\win32gui\hspvar_comobj.cpp" />
+    <ClCompile Include="..\win32gui\hspvar_variant.cpp" />
+    <ClCompile Include="..\win32gui\supio_win.cpp" />
+    <ClCompile Include="hsp3cl.cpp" />
+    <ClCompile Include="hsp3gr_win.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\win32gui\Hsp3Net.cpp" />
+    <ClCompile Include="..\win32gui\HspForms.cpp" />
+    <ClCompile Include="..\win32gui\hspvar_netobj.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\hsp3_test_hooks.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

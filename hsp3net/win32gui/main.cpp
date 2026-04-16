@@ -14,6 +14,9 @@
 #include "../hsp3config.h"
 #include "../supio.h"
 #include "hsp3win.h"
+#ifdef HSP_TEST_MODE
+#include "../hsp3_test_hooks.h"
+#endif
 
 #ifdef HSPUTF8
 #include <shellapi.h>
@@ -30,6 +33,9 @@ int APIENTRY WinMain ( HINSTANCE hInstance,
 					   int iCmdShow )
 {
 	int res;
+#ifdef HSP_TEST_MODE
+	hsptest_init( "hsp3_net_test", lpCmdParam ? lpCmdParam : "" );
+#endif
 #ifdef HSPDEBUG
 #ifdef HSPUTF8
 	char* sptr = lpCmdParam;
@@ -52,6 +58,11 @@ int APIENTRY WinMain ( HINSTANCE hInstance,
 	if ( res == 0 ) {
 		res = hsp3win_exec();
 	}
+#ifdef HSP_TEST_MODE
+	if ( hsptest_get_exit_code() == 0 && res != 0 ) hsptest_set_exit_code( res );
+	hsptest_emit_end( hsptest_get_exit_code() );
+	return hsptest_get_exit_code();
+#endif
 	return res;
 }
 

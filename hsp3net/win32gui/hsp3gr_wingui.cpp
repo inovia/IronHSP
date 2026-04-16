@@ -26,6 +26,9 @@
 #include "../hsp3gr.h"
 #include "../hsp3code.h"
 #include "../hsp3debug.h"
+#ifdef HSP_TEST_MODE
+#include "../hsp3_test_hooks.h"
+#endif
 
 /*------------------------------------------------------------*/
 /*
@@ -440,10 +443,14 @@ static void cmdfunc_dialog( void )
 		}
 	}
 	else {
+#ifdef HSP_TEST_MODE
+		ctx->stat = hsptest_emit_dialog( p1, ps, stmp );
+		return;
+#endif
 		i=0;
 		if (p1&1) i|=MB_ICONEXCLAMATION; else i|=MB_ICONINFORMATION;
 		if (p1&2) i|=MB_YESNO; else i|=MB_OK;
-		ctx->stat = MessageBox( bmscr->hwnd, 
+		ctx->stat = MessageBox( bmscr->hwnd,
 			chartoapichar(stmp,&hactmp1), chartoapichar(ps,&hactmp2), i );
 		freehac(&hactmp1);
 		freehac(&hactmp2);

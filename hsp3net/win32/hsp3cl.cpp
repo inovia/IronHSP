@@ -35,6 +35,9 @@
 #include "../win32gui/hspvar_comobj.h"
 #include "../win32gui/hspvar_variant.h"
 #include "../win32gui/hspvar_netobj.h"
+#ifdef HSP_TEST_MODE
+#include "../hsp3_test_hooks.h"
+#endif
 
 typedef BOOL (CALLBACK *HSP3DBGFUNC)(HSP3DEBUG *,int,int,int);
 
@@ -61,6 +64,10 @@ static HSP3DEBUG *dbginfo;
 
 void hsp3win_dialog( char *mes )
 {
+#ifdef HSP_TEST_MODE
+	hsptest_emit_alert( mes );
+	return;
+#endif
 	printf( "%s\n", mes );
 }
 
@@ -160,6 +167,10 @@ void hsp3cl_msgfunc( HSPCTX *hspctx )
 
 		switch( hspctx->runmode ) {
 		case RUNMODE_STOP:
+#ifdef HSP_TEST_MODE
+			// テストモードでは stop 命令で即終了。AX をテストとして実行するため。
+			throw HSPERR_NONE;
+#endif
 #ifdef HSPDEBUG
 #ifdef HSPCL_WIN
 			if ( h_dbgwin != NULL ) {
@@ -390,6 +401,11 @@ void hsp3cl_error( void )
 	} else {
 		sprintf( errmsg, "#Error %d in line %d (%s)\n-->%s\n",(int)err, ln, fname, msg );
 	}
+
+#ifdef HSP_TEST_MODE
+	hsptest_emit_error( (int)err, ln, fname, msg );
+	return;
+#endif
 
 #ifdef HSPCL_WIN
 #ifdef HSPDEBUG

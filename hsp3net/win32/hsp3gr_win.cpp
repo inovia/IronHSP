@@ -25,6 +25,9 @@
 
 #include "hsp3gr_win.h"
 #include "../win32gui/hsp3ext_win.h"
+#ifdef HSP_TEST_MODE
+#include "../hsp3_test_hooks.h"
+#endif
 
 /*------------------------------------------------------------*/
 /*
@@ -126,6 +129,10 @@ static void cmdfunc_dialog( void )
 			}
 	}
 	else {
+#ifdef HSP_TEST_MODE
+		ctx->stat = hsptest_emit_dialog( p1, ps, stmp );
+		return;
+#endif
 		i=0;
 		if (p1&1) i|=MB_ICONEXCLAMATION; else i|=MB_ICONINFORMATION;
 		if (p1&2) i|=MB_YESNO; else i|=MB_OK;

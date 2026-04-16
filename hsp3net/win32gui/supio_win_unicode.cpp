@@ -22,6 +22,10 @@
 #include "supio_win_unicode.h"
 #include "../dpmread.h"
 #include "../strbuf.h"
+#ifdef HSP_TEST_MODE
+#include "../hsp3_test_hooks.h"
+#include "../hsp3utfcnv.h"
+#endif
 
 //
 //		basic C I/O support
@@ -855,23 +859,42 @@ int SecurityCheck( char *name )
 //
 void Alert( const char *mes8 )
 {
+#ifdef HSP_TEST_MODE
+	hsptest_emit_alert( mes8 );
+	return;
+#else
 	HSPAPICHAR *mesw = 0;
 
 	MessageBox( NULL, chartoapichar(mes8,&mesw), TEXT("error"),MB_ICONINFORMATION | MB_OK );
 	free(mesw);
+#endif
 }
 void AlertW( const HSPAPICHAR *mes )
 {
+#ifdef HSP_TEST_MODE
+	HSPCHAR *u8 = 0;
+	apichartohspchar( mes, &u8 );
+	hsptest_emit_alert( u8 ? u8 : "" );
+	freehc( &u8 );
+	return;
+#endif
 	MessageBox( NULL, mes, TEXT("error"),MB_ICONINFORMATION | MB_OK );
 }
 
 void AlertV( const char *mes8, int val )
 {
+#ifdef HSP_TEST_MODE
+	char buf[1024];
+	snprintf( buf, sizeof(buf), "%s%d", mes8, val );
+	hsptest_emit_alert( buf );
+	return;
+#else
 	wchar_t ss[1024];
 	HSPAPICHAR *mesw = 0;
 
 	wsprintf( ss, TEXT("%s%d"),chartoapichar(mes8,&mesw),val );
 	MessageBoxW( NULL, ss, TEXT("error"),MB_ICONINFORMATION | MB_OK );
+#endif
 }
 
 void Alertf( const HSPAPICHAR *format, ... )
@@ -881,6 +904,15 @@ void Alertf( const HSPAPICHAR *format, ... )
 	va_start(args, format);
 	_vstprintf(textbf, format, args);
 	va_end(args);
+#ifdef HSP_TEST_MODE
+	{
+		HSPCHAR *u8 = 0;
+		apichartohspchar( textbf, &u8 );
+		hsptest_emit_alert( u8 ? u8 : "" );
+		freehc( &u8 );
+		return;
+	}
+#endif
 	MessageBox( NULL, textbf, TEXT("error"),MB_ICONINFORMATION | MB_OK );
 }
 

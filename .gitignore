@@ -10,6 +10,10 @@ hsprt/
 hsprt-unicode/
 Debug-unicode/
 Release-unicode/
+Release_test/
+Debug_test/
+Release_test_*/
+Debug_test_*/
 
 # Visual Studio 隠しフォルダ
 .vs/
