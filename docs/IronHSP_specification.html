@@ -42,7 +42,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-18 (章構成再編 11 章 / 変数型・コンパイラ・ランタイムを正しく分離 / ネイティブコールバック + 環境変数説明拡充 / 全 151 iron_* + 31 C++ DLL + 51 Win32 DLL 6020 関数)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-18 (176 iron_* モ��ュール + 33 C++ DLL / .NET・AI・ネットワーク 25 モジュール追加 / WASAPI・仮想���メラ・TaskDialog 追加)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="warning-banner">
@@ -123,10 +123,10 @@
     <li><em>ネットワーク:</em> <code>hspwebsrv</code> (HTTP/WS サーバ) / <code>hspmcp</code> (MCP) / <code>hspsmtp</code> (SMTP) / <code>hspssh</code> (libssh2) / <code>hsphtml</code> (HTML パース)</li>
     <li><em>暗号化/正規表現:</em> <code>hspcrypto</code> (AES/ChaCha20) / <code>hspregex</code> (std::regex) / <code>hsppcre2</code> (PCRE2)</li>
     <li><em>UI:</em> <code>hspwebview2</code> (Edge WebView2) / <code>hspribbon</code> (Ribbon Framework) / <code>hspble</code> (BLE) / <code>hspwinrtocr</code> (WinRT OCR)</li>
-    <li><em>その他:</em> <code>hsp7z</code> (7-Zip) / <code>hspwasm</code> (Wasm3) / <code>hsppdf</code> (PDFium) / <code>hspcv4</code> (OpenCV, 上述)</li>
+    <li><em>その他:</em> <code>hsp7z</code> (7-Zip) / <code>hspwasm</code> (Wasm3) / <code>hsppdf</code> (PDFium) / <code>hspwasapi</code> (WASAPI キャプチャ/再生) / <code>hspvcam</code> (仮想Webカメラ) / <code>hspcv4</code> (OpenCV, 上述)</li>
     </ul>
     全て typed <code>#func</code> 形式。32bit + 64bit 両対応 (一部 x64 専用)</li>
-  <li><strong>iron_* モジュール集 (151 個)</strong> &mdash; AI/ML、マルチメディア、ネットワーク、データ処理、数学、暗号化、正規表現、UI、ゲーム、テスト等の全カテゴリをカバーする HSP スクリプト層の高レベルラッパー群。詳細は <a href="iron_modules_intro.html">モジュールリファレンス</a> 参照</li>
+  <li><strong>iron_* モジュール集 (176 個)</strong> &mdash; AI/ML、マルチメディア、ネットワーク、データ処理、数学、暗号化、正規表現、UI、ゲーム、テスト等の全カテゴリをカバーする HSP スクリプト層の高レベルラッパー群。詳細は <a href="iron_modules_intro.html">モジュールリファレンス</a> 参照</li>
   <li><strong>hsp3net ランタイム配置</strong> &mdash; <code>package/win32/</code> に <code>hsp3_net(_64).exe</code> / <code>hsp3cl_net(_64).exe</code> / <code>hspcmp_net(_64).exe</code> を配置。バニラと共存</li>
 </ul>
 </div>
@@ -1924,13 +1924,13 @@ package/hsphelp/
 <!-- ======================================== -->
 <h2 id="modules-ref">9. プラグイン & モジュール リファレンス</h2>
 
-<p>IronHSP が提供する <strong>151 個の iron_* モジュール</strong>、<strong>31 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib / OpenCV 統合</strong> の詳細は別ドキュメントに記載しています:</p>
+<p>IronHSP が提供する <strong>176 個の iron_* モジュ��ル</strong>、<strong>33 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib / OpenCV 統合</strong> の詳細は別ドキュメントに記載しています:</p>
 
 <div class="card">
 <p><strong><a href="iron_modules_intro.html">iron_modules_intro.html &mdash; モジュール & プラグイン リファレンス</a></strong></p>
 <ul>
-<li>全 151 モジュールのカテゴリ別一覧表 (実装方式・バニラ互換性付き)</li>
-<li>31 個の C++ プラグイン DLL の詳細仕様</li>
+<li>全 176 モジュールのカテゴリ別一覧表 (実装方式・バニラ互換性付き)</li>
+<li>33 個の C++ プラグイン DLL の詳細仕様</li>
 <li>hspd2d (Direct2D/DirectWrite) / DxLib 統合</li>
 <li>AI/ML / マルチメディア / 数学 / ネットワーク / OS 操作 / 暗号化 / 正規表現 等</li>
 <li>コード例 10 本</li>
