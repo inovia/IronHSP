@@ -61,8 +61,6 @@
     <li><a href="#wstr">3.2 UTF-16 ワイド文字列型 (wstr)</a></li>
     <li><a href="#intptr">3.3 intptr (プラットフォーム依存整数型)</a></li>
     <li><a href="#maptype">3.4 連想配列 (MAP 型)</a></li>
-    <li><a href="#callback">3.5 ネイティブコールバック (setcallback)</a></li>
-    <li><a href="#env">3.7 環境変数・コマンドライン引数</a></li>
     </ul>
   </li>
   <li><a href="#dotnet">4. .NET 連携機能</a></li>
@@ -75,10 +73,16 @@
     <li><a href="#cbcom">6.4 COM コールバック (#defcbcom)</a></li>
     </ul>
   </li>
-  <li><a href="#win32api">7. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
-  <li><a href="#modules-ref">8. プラグイン &amp; モジュール リファレンス</a></li>
-  <li><a href="#notes">9. 注意事項・既知の制限</a></li>
-  <li><a href="#changelog">10. 変更履歴</a></li>
+  <li><a href="#runtime">7. ランタイム拡張</a>
+    <ul style="padding-left:1.2rem;">
+    <li><a href="#callback">7.1 ネイティブコールバック (setcallback)</a></li>
+    <li><a href="#env">7.2 環境変数・コマンドライン引数</a></li>
+    </ul>
+  </li>
+  <li><a href="#win32api">8. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
+  <li><a href="#modules-ref">9. プラグイン &amp; モジュール リファレンス</a></li>
+  <li><a href="#notes">10. 注意事項・既知の制限</a></li>
+  <li><a href="#changelog">11. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -284,131 +288,6 @@ qpoke buf, 0, "0xFFFFFFFFFFFFFFFF"
 r = myadd64(int64("1000000000000"), int64("2000000000000"))
 mes r  ; => 3000000000000</code></pre>
 
-<h3 id="callback">3.5 ネイティブコールバック (setcallback / callbackarg)</h3>
-
-<p>Win32 API には <code>EnumWindows</code>, <code>EnumFontFamiliesEx</code>, <code>SetTimer</code>, <code>qsort</code> など、<strong>C 関数ポインタをコールバックとして受け取る</strong> API が多数存在します。バニラ HSP ではこれらを直接呼ぶ手段がありませんでしたが、IronHSP の <code>setcallback</code> 命令を使うと <strong>HSP のラベルを C 関数ポインタに変換</strong> でき、任意のコールバック API を利用できます。</p>
-
-<p><strong>.NET は不要</strong>で、hsp3net の全ランタイム (GUI / CL / 32bit / 64bit) で動作します。</p>
-
-<h4>API リファレンス</h4>
-
-<table>
-<tr><th>命令/関数</th><th>書式</th><th>説明</th></tr>
-<tr><td><code>setcallback</code></td><td><code>setcallback var, *label, argcount</code></td><td>
-  <code>*label</code> を呼び出す C 関数ポインタを動的に生成し、<code>var</code> に格納する。<br>
-  <code>argcount</code>: コールバックが受け取る引数の数 (0〜16、デフォルト 2)。<br>
-  32bit ビルドでは <code>var</code> は <code>int</code> 型、64bit ビルドでは <code>int64</code> 型になる。<br>
-  <code>#func</code> のパラメータ型には <code>int</code> (32bit) または <code>intptr</code> (64bit 対応) を使用する。
-</td></tr>
-<tr><td><code>callbackarg(n)</code></td><td><code>callbackarg(n)</code></td><td>
-  コールバック実行中 (ラベル処理内) で、C 側から渡された第 <code>n</code> 引数を返す (0-origin)。<br>
-  32bit: <code>int</code> (4 byte)、64bit: <code>int64</code> (8 byte) で取得。<br>
-  ポインタ引数を <code>dupptr</code> で変数に紐付ける場合はサイズに注意。
-</td></tr>
-</table>
-
-<h4>戻り値の仕組み</h4>
-<p>コールバックラベル内で <code>return N</code> を実行すると、<code>stat</code> に N が設定されます。thunk はラベル実行後に <code>hsp_thunk_getstat()</code> を呼んで <code>stat</code> の値を C の戻り値として返します。たとえば <code>EnumWindows</code> では <code>return 1</code> で列挙続行、<code>return 0</code> で停止です。</p>
-
-<h4>例 1: EnumWindows でウィンドウ列挙</h4>
-<pre><code>; EnumWindows: BOOL CALLBACK EnumWindowsProc(HWND, LPARAM)
-#uselib "user32.dll"
-#func EnumWindows "EnumWindows" int, int
-
-setcallback pFunc, *on_enum, 2   ; 引数2個のコールバック
-enum_count = 0
-EnumWindows pFunc, 0
-mes "ウィンドウ数: " + enum_count
-stop
-
-*on_enum
-    hwnd_val = callbackarg(0)    ; 第1引数 (HWND)
-    lparam_val = callbackarg(1)  ; 第2引数 (LPARAM)
-    enum_count++
-    return 1                     ; 1 → 列挙続行、0 → 停止</code></pre>
-
-<h4>例 2: EnumFontFamiliesEx でフォント列挙</h4>
-<pre><code>; EnumFontFamiliesExW: int CALLBACK EnumFontFamExProc(LOGFONTW*, TEXTMETRICW*, DWORD, LPARAM)
-#uselib "gdi32.dll"
-#func EnumFontFamiliesExW "EnumFontFamiliesExW" int, var, int, int, int
-
-; LOGFONTW 構造体は 92 バイト、lfFaceName は offset 28 (wchar_t[32])
-setcallback pFunc, *on_font, 4
-
-sdim lf, 92
-EnumFontFamiliesExW hdc, lf, pFunc, 0, 0
-stop
-
-*on_font
-    ; 第1引数 = LOGFONTW* ポインタ
-    ptr_lf = callbackarg(0)
-    dupptr buf_lf, ptr_lf, 92
-    ; lfFaceName (offset 28, wchar_t[32] = 64 bytes)
-    sdim wname, 64
-    memcpy wname, buf_lf, 64, 0, 28
-    ; UTF-16 → UTF-8 変換
-    sdim uname, 128
-    WideCharToMultiByte 65001, 0, wname, -1, uname, 128, 0, 0
-    mes uname
-    return 1</code></pre>
-
-<h4>例 3: タイマーコールバック</h4>
-<pre><code>; SetTimer: VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
-#uselib "user32.dll"
-#func SetTimer "SetTimer" int, int, int, int
-#func KillTimer "KillTimer" int, int
-
-setcallback pTimer, *on_timer, 4
-SetTimer hwnd, 1, 1000, pTimer   ; 1秒間隔
-
-*on_timer
-    mes "Timer fired!"
-    return</code></pre>
-
-<h4>内部実装: 動的 thunk 生成</h4>
-
-<p><code>setcallback</code> は <code>VirtualAlloc(NULL, size, MEM_COMMIT|MEM_RESERVE, PAGE_EXECUTE_READWRITE)</code> で実行可能メモリを確保し、プラットフォーム固有のマシン語を動的に書き込みます。</p>
-
-<table>
-<tr><th>項目</th><th>x86 (32bit)</th><th>x64 (64bit)</th></tr>
-<tr><td>呼び出し規約</td><td><code>__stdcall</code> (Win32 標準)</td><td><code>fastcall</code> (Win64 標準)</td></tr>
-<tr><td>引数受け渡し</td><td>スタックから <code>mov eax, [ebp+8+i*4]</code> で各引数を <code>thunk->args[i]</code> に退避</td><td>RCX/RDX/R8/R9 → <code>args[0..3]</code>、5番目以降はスタック <code>[rsp+0x28+i*8]</code> → <code>args[4+]</code></td></tr>
-<tr><td>ブリッジ呼び出し</td><td><code>push thunk; call hsp_thunk_bridge</code></td><td><code>mov rcx, thunk; mov rax, hsp_thunk_bridge; call rax</code></td></tr>
-<tr><td>戻り値取得</td><td><code>call hsp_thunk_getstat</code> → EAX</td><td><code>call hsp_thunk_getstat</code> → RAX</td></tr>
-<tr><td>後始末</td><td><code>ret N*4</code> (stdcall: callee cleanup)</td><td><code>ret</code> (fastcall: caller cleanup)</td></tr>
-<tr><td>thunk サイズ</td><td>約 50〜100 バイト (引数数に依存)</td><td>約 100〜300 バイト</td></tr>
-<tr><td>最大引数数</td><td colspan="2">16 (<code>HSP_CALLBACK_ARG_MAX</code>)</td></tr>
-<tr><td>thunk 管理</td><td colspan="2">動的配列 (初期 16、倍々で拡張、上限なし)</td></tr>
-</table>
-
-<p>処理フローは以下の通りです:</p>
-<pre><code>C API がコールバック呼び出し
-  ↓
-thunk マシン語が引数を args[] に退避
-  ↓
-hsp_thunk_bridge(thunk) を呼び出し
-  ↓
-  hsp_callback_current = thunk  (現在のコンテキストを設定)
-  code_callback(thunk->label)   (HSP ラベルにジャンプ)
-  ↓
-  HSP ラベル内で:
-    callbackarg(n) → thunk->args[n] を返す
-    return N       → hspctx->stat = N
-  ↓
-hsp_thunk_getstat() → stat の値を EAX/RAX に返す
-  ↓
-C API に戻り値が返る</code></pre>
-
-<div class="note">
-<strong>引数の型:</strong> <code>callbackarg(n)</code> は常にプラットフォームのポインタ幅の整数 (x86: 4byte int, x64: 8byte int64) を返します。構造体ポインタ等の場合は <code>dupptr</code> で変数に紐付けてからフィールドを読み取ってください。<br>
-<strong>戻り値の型:</strong> 常に整数 (<code>stat</code>) です。浮動小数点の戻り値が必要なコールバックには対応していません。<br>
-<strong>スレッド安全性:</strong> コールバックは HSP のメインスレッドで同期的に実行されます。
-別スレッドから呼ばれるコールバック (一部のマルチメディア API の notify callback 等) には対応していません。該当するケースでは PostMessage 等でメインスレッドにマーシャリングしてください。<br>
-<strong>メモリ:</strong> thunk メモリは <code>VirtualAlloc</code> で確保され、プロセス終了時に自動解放されます。明示的な解放 API はありません。
-</div>
-
-<!-- ======================================== -->
-
 <h3 id="wstr">3.2 UTF-16 ワイド文字列型 (wstr)</h3>
 
 <p>新しい変数型 <code>wstr</code> (HSPVAR_FLAG_WSTR = 10) で UTF-16 LE 文字列を直接扱えます。
@@ -545,74 +424,6 @@ loop</code></pre>
   <li><code>vartype()</code> は <code>12</code> (<code>HSPVAR_FLAG_MAP</code>) を返します</li>
 </ul>
 
-<h3 id="env">3.7 環境変数・コマンドライン引数</h3>
-
-<p>バニラ HSP には環境変数操作やコマンドライン引数の構造化パースが存在しません。IronHSP では以下の命令・関数を組み込みで提供しています。全て <strong>UTF-8</strong> で処理され、日本語を含むパスや値も正しく扱えます。</p>
-
-<h4>環境変数操作</h4>
-
-<table>
-<tr><th>命令/関数</th><th>書式</th><th>説明</th></tr>
-<tr><td><code>setenv</code></td><td><code>setenv "KEY", "VALUE"</code></td><td>環境変数を設定。内部で <code>MultiByteToWideChar(CP_UTF8)</code> → <code>SetEnvironmentVariableW</code> を呼ぶ。</td></tr>
-<tr><td><code>delenv</code></td><td><code>delenv "KEY"</code></td><td>環境変数を削除 (<code>SetEnvironmentVariableW(key, NULL)</code>)。</td></tr>
-<tr><td><code>getenv()</code></td><td><code>v = getenv("KEY" [, "default"])</code></td><td>環境変数の値を取得。未定義の場合はデフォルト値 (省略時 "") を返す。内部で <code>GetEnvironmentVariableW</code> → <code>WideCharToMultiByte(CP_UTF8)</code>。</td></tr>
-<tr><td><code>hasenv()</code></td><td><code>hasenv("KEY")</code></td><td>環境変数が定義されていれば 1、なければ 0。</td></tr>
-</table>
-
-<pre><code>; PATH 環境変数を取得
-path_val = getenv("PATH")
-mes path_val
-
-; 自作の環境変数を設定
-setenv "MY_APP_MODE", "production"
-mes getenv("MY_APP_MODE")           ; → "production"
-
-; 未定義の場合のデフォルト値
-port = getenv("PORT", "3000")       ; PORT 未定義なら "3000"
-
-; 存在確認
-if hasenv("USERPROFILE") {
-    mes "home = " + getenv("USERPROFILE")
-}
-
-; 削除
-delenv "MY_APP_MODE"</code></pre>
-
-<h4>コマンドライン引数</h4>
-
-<p>内部で <code>CommandLineToArgvW(GetCommandLineW())</code> を初回呼び出し時に 1 回だけ実行し、結果を UTF-8 変換してキャッシュします。以降の呼び出しではキャッシュから即座に返します。</p>
-
-<table>
-<tr><th>命令/関数</th><th>書式</th><th>説明</th></tr>
-<tr><td><code>getcmdargc()</code></td><td><code>n = getcmdargc()</code></td><td>引数の総数を返す。0 番は実行ファイルパス。</td></tr>
-<tr><td><code>getcmdarg()</code></td><td><code>s = getcmdarg(n)</code></td><td>n 番目の引数を返す (0-origin)。範囲外は空文字。</td></tr>
-<tr><td><code>getcmdargs()</code></td><td><code>v = getcmdargs("--name", "default")</code></td><td>名前付き引数の値を取得。<code>--name value</code> / <code>--name=value</code> 両形式対応。見つからなければデフォルト値を返す。</td></tr>
-<tr><td><code>getcmdargi()</code></td><td><code>n = getcmdargi("--port", 8080)</code></td><td><code>getcmdargs</code> の整数版。値を <code>int</code> に変換して返す。</td></tr>
-<tr><td><code>hascmdarg()</code></td><td><code>hascmdarg("--verbose")</code></td><td>指定の引数が存在すれば 1。フラグ引数の検出に使用。</td></tr>
-</table>
-
-<pre><code>; 全引数を表示
-n = getcmdargc()
-mes "引数 " + n + " 個:"
-repeat n
-    mes "  [" + cnt + "] " + getcmdarg(cnt)
-loop
-
-; 名前付き引数 (Python の argparse 風)
-; 実行例: program.exe --port 8080 --name "テスト" --verbose
-port = getcmdargi("--port", 3000)       ; → 8080
-name = getcmdargs("--name", "default")  ; → "テスト"
-verbose = hascmdarg("--verbose")        ; → 1
-
-mes "port=" + port + " name=" + name + " verbose=" + verbose</code></pre>
-
-<div class="note">
-<strong>実装場所:</strong> <code>hsp3net/hsp3int.cpp</code> の TYPE_EXTCMD 0x032〜0x035 (setenv/delenv) と TYPE_INTFUNC 0x200〜0x204 (getenv/hasenv/getcmdargc/getcmdarg/getcmdargs)。<br>
-<strong>エンコード:</strong> 内部は全て UTF-16 API を使用し、HSP 側との受け渡しで UTF-8 ↔ UTF-16 変換を行います。Shift-JIS ではなく UTF-8 です。<br>
-<strong>バニラ互換性:</strong> これらの命令・関数は hsp3net 専用です。バニラ HSP3 では使えません。
-</div>
-
-<!-- ======================================== -->
 <h2 id="dotnet">4. .NET 連携機能</h2>
 
 <h3>4.1 .NET 命令一覧</h3>
@@ -1756,7 +1567,204 @@ COM 呼び出し時に rcx/rdx/r8/r9 + stack 引数を <code>HspCbComMethodThunk
 <!-- ======================================== -->
 
 <!-- モジュール & プラグインは別ドキュメントに移動 -->
-<h2 id="win32api">7. Win32 API 大幅拡充 (CsWin32 bridge)</h2>
+<h2 id="runtime">7. ランタイム拡張</h2>
+
+<p>IronHSP のランタイムに追加されたコア機能です。ネイティブコールバックによる関数ポインタ生成と、環境変数・コマンドライン引数の組み込みサポートを提供します。</p>
+
+<h3 id="callback">7.1 ネイティブコールバック (setcallback / callbackarg)</h3>
+
+<p>Win32 API には <code>EnumWindows</code>, <code>EnumFontFamiliesEx</code>, <code>SetTimer</code>, <code>qsort</code> など、<strong>C 関数ポインタをコールバックとして受け取る</strong> API が多数存在します。バニラ HSP ではこれらを直接呼ぶ手段がありませんでしたが、IronHSP の <code>setcallback</code> 命令を使うと <strong>HSP のラベルを C 関数ポインタに変換</strong> でき、任意のコールバック API を利用できます。</p>
+
+<p><strong>.NET は不要</strong>で、hsp3net の全ランタイム (GUI / CL / 32bit / 64bit) で動作します。</p>
+
+<h4>API リファレンス</h4>
+
+<table>
+<tr><th>命令/関数</th><th>書式</th><th>説明</th></tr>
+<tr><td><code>setcallback</code></td><td><code>setcallback var, *label, argcount</code></td><td>
+  <code>*label</code> を呼び出す C 関数ポインタを動的に生成し、<code>var</code> に格納する。<br>
+  <code>argcount</code>: コールバックが受け取る引数の数 (0〜16、デフォルト 2)。<br>
+  32bit ビルドでは <code>var</code> は <code>int</code> 型、64bit ビルドでは <code>int64</code> 型になる。<br>
+  <code>#func</code> のパラメータ型には <code>int</code> (32bit) または <code>intptr</code> (64bit 対応) を使用する。
+</td></tr>
+<tr><td><code>callbackarg(n)</code></td><td><code>callbackarg(n)</code></td><td>
+  コールバック実行中 (ラベル処理内) で、C 側から渡された第 <code>n</code> 引数を返す (0-origin)。<br>
+  32bit: <code>int</code> (4 byte)、64bit: <code>int64</code> (8 byte) で取得。<br>
+  ポインタ引数を <code>dupptr</code> で変数に紐付ける場合はサイズに注意。
+</td></tr>
+</table>
+
+<h4>戻り値の仕組み</h4>
+<p>コールバックラベル内で <code>return N</code> を実行すると、<code>stat</code> に N が設定されます。thunk はラベル実行後に <code>hsp_thunk_getstat()</code> を呼んで <code>stat</code> の値を C の戻り値として返します。たとえば <code>EnumWindows</code> では <code>return 1</code> で列挙続行、<code>return 0</code> で停止です。</p>
+
+<h4>例 1: EnumWindows でウィンドウ列挙</h4>
+<pre><code>; EnumWindows: BOOL CALLBACK EnumWindowsProc(HWND, LPARAM)
+#uselib "user32.dll"
+#func EnumWindows "EnumWindows" int, int
+
+setcallback pFunc, *on_enum, 2   ; 引数2個のコールバック
+enum_count = 0
+EnumWindows pFunc, 0
+mes "ウィンドウ数: " + enum_count
+stop
+
+*on_enum
+    hwnd_val = callbackarg(0)    ; 第1引数 (HWND)
+    lparam_val = callbackarg(1)  ; 第2引数 (LPARAM)
+    enum_count++
+    return 1                     ; 1 → 列挙続行、0 → 停止</code></pre>
+
+<h4>例 2: EnumFontFamiliesEx でフォント列挙</h4>
+<pre><code>; EnumFontFamiliesExW: int CALLBACK EnumFontFamExProc(LOGFONTW*, TEXTMETRICW*, DWORD, LPARAM)
+#uselib "gdi32.dll"
+#func EnumFontFamiliesExW "EnumFontFamiliesExW" int, var, int, int, int
+
+; LOGFONTW 構造体は 92 バイト、lfFaceName は offset 28 (wchar_t[32])
+setcallback pFunc, *on_font, 4
+
+sdim lf, 92
+EnumFontFamiliesExW hdc, lf, pFunc, 0, 0
+stop
+
+*on_font
+    ; 第1引数 = LOGFONTW* ポインタ
+    ptr_lf = callbackarg(0)
+    dupptr buf_lf, ptr_lf, 92
+    ; lfFaceName (offset 28, wchar_t[32] = 64 bytes)
+    sdim wname, 64
+    memcpy wname, buf_lf, 64, 0, 28
+    ; UTF-16 → UTF-8 変換
+    sdim uname, 128
+    WideCharToMultiByte 65001, 0, wname, -1, uname, 128, 0, 0
+    mes uname
+    return 1</code></pre>
+
+<h4>例 3: タイマーコールバック</h4>
+<pre><code>; SetTimer: VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+#uselib "user32.dll"
+#func SetTimer "SetTimer" int, int, int, int
+#func KillTimer "KillTimer" int, int
+
+setcallback pTimer, *on_timer, 4
+SetTimer hwnd, 1, 1000, pTimer   ; 1秒間隔
+
+*on_timer
+    mes "Timer fired!"
+    return</code></pre>
+
+<h4>内部実装: 動的 thunk 生成</h4>
+
+<p><code>setcallback</code> は <code>VirtualAlloc(NULL, size, MEM_COMMIT|MEM_RESERVE, PAGE_EXECUTE_READWRITE)</code> で実行可能メモリを確保し、プラットフォーム固有のマシン語を動的に書き込みます。</p>
+
+<table>
+<tr><th>項目</th><th>x86 (32bit)</th><th>x64 (64bit)</th></tr>
+<tr><td>呼び出し規約</td><td><code>__stdcall</code> (Win32 標準)</td><td><code>fastcall</code> (Win64 標準)</td></tr>
+<tr><td>引数受け渡し</td><td>スタックから <code>mov eax, [ebp+8+i*4]</code> で各引数を <code>thunk->args[i]</code> に退避</td><td>RCX/RDX/R8/R9 → <code>args[0..3]</code>、5番目以降はスタック <code>[rsp+0x28+i*8]</code> → <code>args[4+]</code></td></tr>
+<tr><td>ブリッジ呼び出し</td><td><code>push thunk; call hsp_thunk_bridge</code></td><td><code>mov rcx, thunk; mov rax, hsp_thunk_bridge; call rax</code></td></tr>
+<tr><td>戻り値取得</td><td><code>call hsp_thunk_getstat</code> → EAX</td><td><code>call hsp_thunk_getstat</code> → RAX</td></tr>
+<tr><td>後始末</td><td><code>ret N*4</code> (stdcall: callee cleanup)</td><td><code>ret</code> (fastcall: caller cleanup)</td></tr>
+<tr><td>thunk サイズ</td><td>約 50〜100 バイト (引数数に依存)</td><td>約 100〜300 バイト</td></tr>
+<tr><td>最大引数数</td><td colspan="2">16 (<code>HSP_CALLBACK_ARG_MAX</code>)</td></tr>
+<tr><td>thunk 管理</td><td colspan="2">動的配列 (初期 16、倍々で拡張、上限なし)</td></tr>
+</table>
+
+<p>処理フローは以下の通りです:</p>
+<pre><code>C API がコールバック呼び出し
+  ↓
+thunk マシン語が引数を args[] に退避
+  ↓
+hsp_thunk_bridge(thunk) を呼び出し
+  ↓
+  hsp_callback_current = thunk  (現在のコンテキストを設定)
+  code_callback(thunk->label)   (HSP ラベルにジャンプ)
+  ↓
+  HSP ラベル内で:
+    callbackarg(n) → thunk->args[n] を返す
+    return N       → hspctx->stat = N
+  ↓
+hsp_thunk_getstat() → stat の値を EAX/RAX に返す
+  ↓
+C API に戻り値が返る</code></pre>
+
+<div class="note">
+<strong>引数の型:</strong> <code>callbackarg(n)</code> は常にプラットフォームのポインタ幅の整数 (x86: 4byte int, x64: 8byte int64) を返します。構造体ポインタ等の場合は <code>dupptr</code> で変数に紐付けてからフィールドを読み取ってください。<br>
+<strong>戻り値の型:</strong> 常に整数 (<code>stat</code>) です。浮動小数点の戻り値が必要なコールバックには対応していません。<br>
+<strong>スレッド安全性:</strong> コールバックは HSP のメインスレッドで同期的に実行されます。
+別スレッドから呼ばれるコールバック (一部のマルチメディア API の notify callback 等) には対応していません。該当するケースでは PostMessage 等でメインスレッドにマーシャリングしてください。<br>
+<strong>メモリ:</strong> thunk メモリは <code>VirtualAlloc</code> で確保され、プロセス終了時に自動解放されます。明示的な解放 API はありません。
+</div>
+
+<!-- ======================================== -->
+
+<h3 id="env">7.2 環境変数・コマンドライン引数</h3>
+
+<p>バニラ HSP には環境変数操作やコマンドライン引数の構造化パースが存在しません。IronHSP では以下の命令・関数を組み込みで提供しています。全て <strong>UTF-8</strong> で処理され、日本語を含むパスや値も正しく扱えます。</p>
+
+<h4>環境変数操作</h4>
+
+<table>
+<tr><th>命令/関数</th><th>書式</th><th>説明</th></tr>
+<tr><td><code>setenv</code></td><td><code>setenv "KEY", "VALUE"</code></td><td>環境変数を設定。内部で <code>MultiByteToWideChar(CP_UTF8)</code> → <code>SetEnvironmentVariableW</code> を呼ぶ。</td></tr>
+<tr><td><code>delenv</code></td><td><code>delenv "KEY"</code></td><td>環境変数を削除 (<code>SetEnvironmentVariableW(key, NULL)</code>)。</td></tr>
+<tr><td><code>getenv()</code></td><td><code>v = getenv("KEY" [, "default"])</code></td><td>環境変数の値を取得。未定義の場合はデフォルト値 (省略時 "") を返す。内部で <code>GetEnvironmentVariableW</code> → <code>WideCharToMultiByte(CP_UTF8)</code>。</td></tr>
+<tr><td><code>hasenv()</code></td><td><code>hasenv("KEY")</code></td><td>環境変数が定義されていれば 1、なければ 0。</td></tr>
+</table>
+
+<pre><code>; PATH 環境変数を取得
+path_val = getenv("PATH")
+mes path_val
+
+; 自作の環境変数を設定
+setenv "MY_APP_MODE", "production"
+mes getenv("MY_APP_MODE")           ; → "production"
+
+; 未定義の場合のデフォルト値
+port = getenv("PORT", "3000")       ; PORT 未定義なら "3000"
+
+; 存在確認
+if hasenv("USERPROFILE") {
+    mes "home = " + getenv("USERPROFILE")
+}
+
+; 削除
+delenv "MY_APP_MODE"</code></pre>
+
+<h4>コマンドライン引数</h4>
+
+<p>内部で <code>CommandLineToArgvW(GetCommandLineW())</code> を初回呼び出し時に 1 回だけ実行し、結果を UTF-8 変換してキャッシュします。以降の呼び出しではキャッシュから即座に返します。</p>
+
+<table>
+<tr><th>命令/関数</th><th>書式</th><th>説明</th></tr>
+<tr><td><code>getcmdargc()</code></td><td><code>n = getcmdargc()</code></td><td>引数の総数を返す。0 番は実行ファイルパス。</td></tr>
+<tr><td><code>getcmdarg()</code></td><td><code>s = getcmdarg(n)</code></td><td>n 番目の引数を返す (0-origin)。範囲外は空文字。</td></tr>
+<tr><td><code>getcmdargs()</code></td><td><code>v = getcmdargs("--name", "default")</code></td><td>名前付き引数の値を取得。<code>--name value</code> / <code>--name=value</code> 両形式対応。見つからなければデフォルト値を返す。</td></tr>
+<tr><td><code>getcmdargi()</code></td><td><code>n = getcmdargi("--port", 8080)</code></td><td><code>getcmdargs</code> の整数版。値を <code>int</code> に変換して返す。</td></tr>
+<tr><td><code>hascmdarg()</code></td><td><code>hascmdarg("--verbose")</code></td><td>指定の引数が存在すれば 1。フラグ引数の検出に使用。</td></tr>
+</table>
+
+<pre><code>; 全引数を表示
+n = getcmdargc()
+mes "引数 " + n + " 個:"
+repeat n
+    mes "  [" + cnt + "] " + getcmdarg(cnt)
+loop
+
+; 名前付き引数 (Python の argparse 風)
+; 実行例: program.exe --port 8080 --name "テスト" --verbose
+port = getcmdargi("--port", 3000)       ; → 8080
+name = getcmdargs("--name", "default")  ; → "テスト"
+verbose = hascmdarg("--verbose")        ; → 1
+
+mes "port=" + port + " name=" + name + " verbose=" + verbose</code></pre>
+
+<div class="note">
+<strong>実装場所:</strong> <code>hsp3net/hsp3int.cpp</code> の TYPE_EXTCMD 0x032〜0x035 (setenv/delenv) と TYPE_INTFUNC 0x200〜0x204 (getenv/hasenv/getcmdargc/getcmdarg/getcmdargs)。<br>
+<strong>エンコード:</strong> 内部は全て UTF-16 API を使用し、HSP 側との受け渡しで UTF-8 ↔ UTF-16 変換を行います。Shift-JIS ではなく UTF-8 です。<br>
+<strong>バニラ互換性:</strong> これらの命令・関数は hsp3net 専用です。バニラ HSP3 では使えません。
+</div>
+
+<!-- ======================================== -->
+<h2 id="win32api">8. Win32 API 大幅拡充 (CsWin32 bridge)</h2>
 
 <p>OpenHSP 標準同梱の <code>package/win32/common/user32.as</code> / <code>kernel32.as</code> / <code>gdi32.as</code>
 等は古く (<code>sptr</code> ベース、構造体未対応、x64 で破綻ぎりぎり、ANSI/Unicode 判別曖昧)、
@@ -1904,7 +1912,7 @@ package/hsphelp/
 </ul>
 
 <!-- ======================================== -->
-<h2 id="modules-ref">8. プラグイン & モジュール リファレンス</h2>
+<h2 id="modules-ref">9. プラグイン & モジュール リファレンス</h2>
 
 <p>IronHSP が提供する <strong>150 個の iron_* モジュール</strong>、<strong>22 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib 統合</strong> の詳細は別ドキュメントに記載しています:</p>
 
@@ -1920,7 +1928,7 @@ package/hsphelp/
 </div>
 
 
-<h2 id="notes">9. 注意事項・既知の制限</h2>
+<h2 id="notes">10. 注意事項・既知の制限</h2>
 
 <div class="card">
 <h3>HSPCTX 構造体レイアウトの変更</h3>
@@ -2068,7 +2076,7 @@ mes "v = " + v->x + ", " + v->y + ", " + v->z</code></pre>
 </div>
 
 <!-- ======================================== -->
-<h2 id="changelog">10. 変更履歴</h2>
+<h2 id="changelog">11. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
