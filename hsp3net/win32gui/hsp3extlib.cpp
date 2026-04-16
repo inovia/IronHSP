@@ -737,8 +737,27 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 		*(void **)out = HspVarCorePtrAPTR( pval, aptr );
 		break;
 	case MPTYPE_LOCALSTRING:
+		*(void **)out = localbuf = prepare_localstr( code_gets(), 0 );
+		break;
 	case MPTYPE_LOCALWSTR:
-		*(void **)out = localbuf = prepare_localstr( code_gets(), prm->mptype == MPTYPE_LOCALWSTR );
+		{
+		// wstr パラメータ: str 変数 (UTF-8→UTF-16 変換) と wstr 変数 (そのまま) の両方を受け付ける
+		int chk = code_get();
+		if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+		PVal *mp = *pmpval;
+		if ( mp->flag == HSPVAR_FLAG_STR ) {
+			*(void **)out = localbuf = prepare_localstr( mp->pt, 1 );
+		} else if ( mp->flag == HSPVAR_FLAG_WSTR ) {
+			// wstr は既に UTF-16 なのでコピーだけ (変換不要)
+			int wlen = (int)wcslen((wchar_t *)mp->pt);
+			int bytes = (wlen + 1) * sizeof(wchar_t);
+			localbuf = sbAlloc(bytes);
+			memcpy(localbuf, mp->pt, bytes);
+			*(void **)out = localbuf;
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
+		}
+		}
 		break;
 	case MPTYPE_DNUM:
 		*(double *)out = code_getdd(0.0);
