@@ -919,20 +919,20 @@
 #comfunc IDWriteTextLayout_SetLocaleName 41 wstr, int
 #comfunc IDWriteTextLayout_GetMaxWidth 42
 #comfunc IDWriteTextLayout_GetMaxHeight 43
-#comfunc IDWriteTextLayout_GetFontCollection 44 int, comobj, var
-#comfunc IDWriteTextLayout_GetFontFamilyNameLength 45 int, int, var
-#comfunc IDWriteTextLayout_GetFontFamilyName 46 int, wstr, int, var
-#comfunc IDWriteTextLayout_GetFontWeight 47 int, var, var
-#comfunc IDWriteTextLayout_GetFontStyle 48 int, var, var
-#comfunc IDWriteTextLayout_GetFontStretch 49 int, var, var
-#comfunc IDWriteTextLayout_GetFontSize 50 int, float, var
+#comfunc IDWriteTextLayout_GetFontCollection_at 44 int, comobj, var
+#comfunc IDWriteTextLayout_GetFontFamilyNameLength_at 45 int, int, var
+#comfunc IDWriteTextLayout_GetFontFamilyName_at 46 int, wstr, int, var
+#comfunc IDWriteTextLayout_GetFontWeight_at 47 int, var, var
+#comfunc IDWriteTextLayout_GetFontStyle_at 48 int, var, var
+#comfunc IDWriteTextLayout_GetFontStretch_at 49 int, var, var
+#comfunc IDWriteTextLayout_GetFontSize_at 50 int, float, var
 #comfunc IDWriteTextLayout_GetUnderline 51 int, var, var
 #comfunc IDWriteTextLayout_GetStrikethrough 52 int, var, var
 #comfunc IDWriteTextLayout_GetDrawingEffect 53 int, int, var
 #comfunc IDWriteTextLayout_GetInlineObject 54 int, comobj, var
 #comfunc IDWriteTextLayout_GetTypography 55 int, comobj, var
-#comfunc IDWriteTextLayout_GetLocaleNameLength 56 int, int, var
-#comfunc IDWriteTextLayout_GetLocaleName 57 int, wstr, int, var
+#comfunc IDWriteTextLayout_GetLocaleNameLength_at 56 int, int, var
+#comfunc IDWriteTextLayout_GetLocaleName_at 57 int, wstr, int, var
 #comfunc IDWriteTextLayout_Draw 58 intptr, comobj, float, float
 #comfunc IDWriteTextLayout_GetLineMetrics 59 var, int, int
 #comfunc IDWriteTextLayout_GetMetrics 60 var

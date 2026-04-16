@@ -14,7 +14,9 @@
 #func netexec netexec 1
 #func netmode netmode 1
 #func netsize netsize 1
-#func neterror neterror $202
+; neterror は hsp3net ランタイムの組み込み EXTCMD と衝突するため廃止。
+; 組み込み版を代わりに使用してください (同名・同挙動)。
+; #func neterror neterror $202
 #func neturl neturl 6
 #func netdlname netdlname 6
 #func netproxy netproxy 6
@@ -92,7 +94,8 @@
 #enum INET_MODE_FTPRESULT
 #enum INET_MODE_ERROR
 
-#func getenv getenv2 $202
+; getenv は hsp3net 組み込みと衝突するため廃止。組み込み版を使用してください。
+; #func getenv getenv2 $202
 #func getenvprm getenvprm $202
 #func getctime getctime $202
 

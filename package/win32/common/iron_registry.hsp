@@ -36,13 +36,15 @@
 
 #module iron_registry
 
+; HKEY は x64 で 8 バイトポインタなので intptr 必須。
+; int で宣言すると 4 バイトに truncate されて access violation になる。
 #uselib "advapi32.dll"
-#cfunc _RegOpenKeyExW  "RegOpenKeyExW" int, wstr, int, int, var
-#cfunc _RegCloseKey    "RegCloseKey" int
-#cfunc _RegQueryValueExW "RegQueryValueExW" int, wstr, int, var, var, var
-#cfunc _RegSetValueExW "RegSetValueExW" int, wstr, int, int, var, int
-#cfunc _RegDeleteValueW "RegDeleteValueW" int, wstr
-#cfunc _RegDeleteKeyW "RegDeleteKeyW" int, wstr
+#cfunc _RegOpenKeyExW  "RegOpenKeyExW" intptr, wstr, int, int, var
+#cfunc _RegCloseKey    "RegCloseKey" intptr
+#cfunc _RegQueryValueExW "RegQueryValueExW" intptr, wstr, int, var, var, var
+#cfunc _RegSetValueExW "RegSetValueExW" intptr, wstr, int, int, var, int
+#cfunc _RegDeleteValueW "RegDeleteValueW" intptr, wstr
+#cfunc _RegDeleteKeyW "RegDeleteKeyW" intptr, wstr
 #uselib "kernel32.dll"
 #cfunc _WC2MB_r "WideCharToMultiByte" int, int, var, int, var, int, int, int
 

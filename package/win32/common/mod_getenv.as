@@ -1,26 +1,21 @@
-
-;	getenvƒ‚ƒWƒ…[ƒ‹
-;	getenv–½—ß‚ğg—p‚·‚é‚É‚ÍˆÈ‰º‚Ìs‚ğÅ‰‚É“ü‚ê‚Ä‚­‚¾‚³‚¢
+;============================================================
+;   mod_getenv.as  â€” DEPRECATED: å†…è”µ getenv / setenv / hasenv /
+;                    delenv å‘½ä»¤ã«ç½®ãæ›ãˆã‚‰ã‚Œã¾ã—ãŸ
 ;
-;	#include "mod_getenv.as"
+;   IronHSP ã§ã¯ getenv ãŒçµ„ã¿è¾¼ã¿å‘½ä»¤ã¨ã—ã¦æä¾›ã•ã‚Œã‚‹ãŸã‚ã€ã“ã®
+;   ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ç‰ˆ getenv ã¯ä¸è¦ã«ãªã‚Šã¾ã—ãŸã€‚å¾Œæ–¹äº’æ›ã®ãŸã‚ç©ºå®Ÿè£…ã«
+;   ã—ã¦ã„ã¾ã™ (#include ã—ã¦ã‚‚ä½•ã‚‚ã—ãªã„)ã€‚
 ;
-#module
-#uselib "Kernel32.dll"
-#func GetEnvironmentVariable "GetEnvironmentVariableA" str,var,int
+;   æ—§:  #include "mod_getenv.as"
+;        getenv buf, "PATH"
+;
+;   æ–° (æ¨™æº–):
+;        getenv buf, "PATH"
+;
+;   (#include ä¸è¦ã€ä½¿ã„æ–¹ã¯åŒä¸€)
+;============================================================
 
-	;	getenv–½—ß
-	;	getenv •Ï”, "ŠÂ‹«•Ï”–¼"
-	;
-	;	ŠÂ‹«•Ï”‚Ì’l‚ğ•Ï”‚Éæ“¾‚µ‚Ü‚·B
-	;
-#deffunc getenv var _p1,str _p2
-
-	GetEnvironmentVariable _p2, _p1,0
-	size=stat+1
-	memexpand _p1,size ; ƒoƒbƒtƒ@Šm•Û
-	_p1=""
-	GetEnvironmentVariable _p2,_p1,size
-	return
-#global
-
-
+#ifndef __mod_getenv_as__
+#define __mod_getenv_as__
+; çµ„ã¿è¾¼ã¿ getenv ã¨è¡çªã™ã‚‹ã®ã§ #deffunc getenv ã¯å‰Šé™¤ã€‚
+#endif

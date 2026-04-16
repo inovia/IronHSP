@@ -1,6 +1,6 @@
 # IronHSP サンプル/.as 自動テスト監査レポート
 
-生成日時: 2026-04-18T19:23:15
+生成日時: 2026-04-18T19:28:51
 
 ## Phase A — .as ファイル (compile-only)
 
@@ -10,26 +10,22 @@
 
 | 件数 | 代表メッセージ |
 |---:|---|
-| 8 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
+| 5 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
 
 | 状態 | 件数 | 説明 |
 |---|---:|---|
-| `CERR` | 9 | コンパイルエラー|
-| `CMP` | 153 | -|
+| `CERR` | 5 | コンパイルエラー|
+| `CMP` | 157 | -|
 
-### CERR 詳細 (9 件)
+### CERR 詳細 (5 件)
 
 <details><summary>クリックして展開</summary>
 
 | ファイル | 原因 |
 |---|---|
-| `com_misc_gen2.as` | #Error:��`�ς݂̎��ʎq�͎g�p�ł��܂��� [idwritetextlayout_getfontcollection] in line 922 [com_misc_gen2.as] |
 | `comctl32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `gdi32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `gpposteffect.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `hgimg3.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `hspinet.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `mod_getenv.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `mod_gputil.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `user32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 
@@ -43,30 +39,30 @@
 
 | 件数 | 代表メッセージ |
 |---:|---|
-| 286 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
-| 81 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
-| 49 | `error code=38 line=N file=... "外部DLLの呼び出しに失敗しました"` |
+| 289 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
+| 63 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
+| 59 | `error code=38 line=N file=... "外部DLLの呼び出しに失敗しました"` |
 | 12 | `error code=-1073741819 "non-zero exit without events"` |
 | 9 | `error code=2 line=N file=... "文法が間違っています"` |
-| 6 | `error code=12 line=N file=... "ファイルが見つからないか無効な名前です"` |
+| 7 | `error code=12 line=N file=... "ファイルが見つからないか無効な名前です"` |
 | 6 | `error code=5 line=N file=... "パラメータの省略はできません"` |
 | 5 | `error code=23 line=N file=... "変数名が指定されていません"` |
+| 4 | `error code=41 line=N file=... "関数を命令として記述しています。"` |
 | 3 | `error code=32 line=N file=... "関数のパラメーター記述が不正です"` |
 | 3 | `error code=1 line=N file=... "システムエラーが発生しました"` |
 | 3 | `#Error:invalid func param in line=N [...]` |
 | 2 | `error code=31 line=N file=... "異なる型を持つ配列変数に代入しました"` |
 | 1 | `error code=30 line=N file=... "無効な名前がパラメーターに指定されています"` |
 | 1 | `error code=3 line=N file=... "パラメータの値が異常です"` |
-| 1 | `error code=41 line=N file=... "関数を命令として記述しています。"` |
 
 | 状態 | 件数 | 説明 |
 |---|---:|---|
-| `CERR` | 93 | コンパイルエラー|
-| `ERR` | 387 | -|
+| `CERR` | 75 | コンパイルエラー|
+| `ERR` | 404 | -|
 | `PASS` | 81 | 正常終了 (exit=0)|
-| `TIMO` | 11 | タイムアウト (GUI/waitループ等)|
+| `TIMO` | 12 | タイムアウト (GUI/waitループ等)|
 
-### CERR 詳細 (93 件)
+### CERR 詳細 (75 件)
 
 <details><summary>クリックして展開</summary>
 
@@ -126,24 +122,7 @@
 | `package\win32\sample\hgimg3\test9.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hgimg3\wave.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hspcl\cgi\cookie_get.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspcl\cgi\hensu.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspcl\cl_getenv.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hspext\ftime.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\base64test.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\get_binary.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\https_download.hsp` | #Error:��`�ς݂̎��ʎq�͎g�p�ł��܂��� [neterror] in line 17 [hspinet.as] |
-| `package\win32\sample\hspinet\nkfcnv.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\sendmail.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test1.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test10.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test2.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test3.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test4.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test5.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test6.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test7.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test8.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspinet\test9.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hspprint\test2.hsp` | test2.hsp(28) : error 4 : �p�����[�^�[���̋L�q�������ł� (28�s��) |
 | `package\win32\sample\hsptvapp\hsptv_dishtest.hsp` | hsptv_dishtest.hsp(31) : error 7 : ���x�����͂��łɎg���Ă��܂� (31�s��) |
 | `package\win32\sample\iron\sample_ble.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
@@ -158,8 +137,7 @@
 | `package\win32\sample\iron\sample_webview2_bridge.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\iron\sample_wgcapture.hsp` | #Error:��`�ς݂̎��ʎq�͎g�p�ł��܂��� [global] in line 32 [iron_wgcapture.hsp] |
 | `package\win32\sample\iron\sample_xlsx.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\misc\cnvsrc.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\misc\nkfcnv.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
+| `package\win32\sample\misc\nkfcnv.hsp` | #Error:��`�ς݂̎��ʎq�͎g�p�ł��܂��� [getnkfversion] in line 74 [hspinet.as] |
 | `package\win32\sample\new34\split.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\new34\strtrim.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\win32_gen2\clipboard_history.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
@@ -168,7 +146,7 @@
 
 </details>
 
-### ERR 詳細 (387 件)
+### ERR 詳細 (404 件)
 
 <details><summary>クリックして展開</summary>
 
@@ -394,6 +372,8 @@
 | `package\win32\sample\hsp3utf\utftest4.hsp` | error code=21 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hsp3utf\utftest4.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\hspcl\cgi\cnt.hsp` | error code=12 line=9 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcl\cgi\cnt.hsp "ファイルが見つからないか無効な名前です" |
 | `package\win32\sample\hspcl\cgi\getenv.hsp` | error code=41 line=51 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcl\cgi\getenv.hsp "関数を命令として記述しています。" |
+| `package\win32\sample\hspcl\cgi\hensu.hsp` | error code=41 line=21 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcl\cgi\hensu.hsp "関数を命令として記述しています。" |
+| `package\win32\sample\hspcl\cl_getenv.hsp` | error code=41 line=6 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcl\cl_getenv.hsp "関数を命令として記述しています。" |
 | `package\win32\sample\hspcv\cvmatch.hsp` | error code=38 line=3 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcv\cvmatch.hsp "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\hspcv\loadsave.hsp` | error code=21 line=5 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcv\loadsave.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\hspcv\makeavi.hsp` | error code=38 line=3 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcv\makeavi.hsp "外部DLLの呼び出しに失敗しました" |
@@ -424,6 +404,20 @@
 | `package\win32\sample\hspext\regtest.hsp` | error code=38 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspext\regtest.hsp "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\hspext\regtest2.hsp` | error code=38 line=9 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspext\regtest2.hsp "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\hspext\terminal.hsp` | error code=21 line=15 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspext\terminal.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\hspinet\base64test.hsp` | error code=38 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\base64test.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\get_binary.hsp` | error code=38 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\get_binary.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\https_download.hsp` | error code=38 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\https_download.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\nkfcnv.hsp` | error code=12 line=9 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\nkfcnv.hsp "ファイルが見つからないか無効な名前です" |
+| `package\win32\sample\hspinet\sendmail.hsp` | error code=21 line=84 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\sendmail.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\hspinet\test1.hsp` | error code=38 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test1.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\test10.hsp` | error code=38 line=5 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test10.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\test2.hsp` | error code=38 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test2.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\test3.hsp` | error code=38 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test3.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\test5.hsp` | error code=21 line=6 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test5.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\hspinet\test6.hsp` | error code=38 line=9 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test6.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\test7.hsp` | error code=38 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test7.hsp "外部DLLの呼び出しに失敗しました" |
+| `package\win32\sample\hspinet\test8.hsp` | error code=41 line=4 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test8.hsp "関数を命令として記述しています。" |
+| `package\win32\sample\hspinet\test9.hsp` | error code=38 line=3 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspinet\test9.hsp "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\hspprint\test1.hsp` | error code=38 line=3 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspprint\test1.hsp "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\hspsock\client2.hsp` | error code=21 line=4 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspsock\client2.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\hspsock\daytime.hsp` | error code=21 line=10 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspsock\daytime.hsp "サポートされない機能を選択しました" |
@@ -458,22 +452,6 @@
 | `package\win32\sample\iron\sample_midi.hsp` | error code=21 line=15 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_midi.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_onnx.hsp` | error code=21 line=21 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_onnx.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_pdf.hsp` | error code=21 line=19 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_pdf.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_perf.hsp` | error code=2 line=59 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_perf.hsp "文法が間違っています" |
-| `package\win32\sample\iron\sample_player.hsp` | error code=21 line=20 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_player.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_speech.hsp` | error code=21 line=21 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_speech.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_sysinfo.hsp` | error code=2 line=52 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_sysinfo.hsp "文法が間違っています" |
-| `package\win32\sample\iron\sample_toast_winrt.hsp` | error code=21 line=16 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_toast_winrt.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_video_player.hsp` | error code=21 line=19 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_video_player.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_video_player2.hsp` | error code=21 line=11 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_video_player2.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_wasm.hsp` | error code=21 line=27 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_wasm.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_webpdf.hsp` | error code=21 line=14 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_webpdf.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_webserver.hsp` | error code=21 line=10 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_webserver.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_websocket.hsp` | error code=21 line=18 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_websocket.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_winrtocr.hsp` | error code=21 line=10 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_winrtocr.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\wasm_shared\sample_wasm_shared.hsp` | error code=38 line=27 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\wasm_shared\sample_wasm_shared.hsp "外部DLLの呼び出しに失敗しました" |
-| `package\win32\sample\misc\ahtman_kw.hsp` | error code=38 line=45 file=mod_aht.as "外部DLLの呼び出しに失敗しました" |
-| `package\win32\sample\misc\dragdrop.hsp` | error code=32 line=19 file=J:\HNWorks\IronHSP_2026\package\win32\sample\misc\dragdrop.hsp "関数のパラメーター記述が不正です" |
-| `package\win32\sample\misc\hspcmp.hsp` | error code=38 line=14 file=J:\HNWorks\IronHSP_2026\package\win32\sample\misc\hspcmp.hsp "外部DLLの呼び出しに失敗しました" |
-| ... | (87 件省略) |
+| ... | (104 件省略) |
 
 </details>

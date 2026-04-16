@@ -696,7 +696,8 @@
 #cfunc global GetPaletteEntries "GetPaletteEntries" intptr, int, int, var
 
 ; int GetPath(winmdroot.Graphics.Gdi.HDC hdc, [Optional] global::System.Drawing.Point* apt, [Optional] byte* aj, int cpt)
-#cfunc global GetPath "GetPath" intptr, var, var, int
+; HSP 組み込み getpath と衝突するため GDI_GetPath にリネーム
+#cfunc global GDI_GetPath "GetPath" intptr, var, var, int
 
 ; winmdroot.Foundation.COLORREF GetPixel(winmdroot.Graphics.Gdi.HDC hdc, int x, int y)
 #cfunc global GetPixel "GetPixel" intptr, int, int
