@@ -149,6 +149,7 @@ struct RunResult
 {
     DWORD       exit_code    = 0;
     bool        spawn_failed = false;
+    bool        timed_out    = false;
     std::string stderr_text;
     std::string stdout_text;
 };
@@ -176,7 +177,8 @@ static std::wstring build_env_block(const std::wstring& extra_env)
 }
 
 static RunResult run_capture(const std::wstring& cmd, const std::wstring& cwd = L"",
-                             const std::wstring& extra_env = L"")
+                             const std::wstring& extra_env = L"",
+                             DWORD timeout_ms = INFINITE)
 {
     RunResult r;
 
@@ -222,6 +224,7 @@ static RunResult run_capture(const std::wstring& cmd, const std::wstring& cwd = 
     std::string* dsts[2] = { &r.stderr_text, &r.stdout_text };
     char buf[4096];
     bool closed[2] = { false, false };
+    DWORD t_start = GetTickCount();
     while (!closed[0] || !closed[1]) {
         for (int i = 0; i < 2; i++) {
             if (closed[i]) continue;
@@ -238,6 +241,25 @@ static RunResult run_capture(const std::wstring& cmd, const std::wstring& cwd = 
                 } else {
                     closed[i] = true;
                 }
+            }
+        }
+        // タイムアウト判定 (timeout_ms が INFINITE でない場合のみ)
+        if (timeout_ms != INFINITE) {
+            DWORD elapsed = GetTickCount() - t_start;
+            if (elapsed >= timeout_ms) {
+                r.timed_out = true;
+                TerminateProcess(pi.hProcess, 0xFFFFFFFE);  // kill
+                WaitForSingleObject(pi.hProcess, 2000);
+                // 残っている出力をベストエフォートで吸い上げる
+                for (int i = 0; i < 2; i++) {
+                    if (closed[i]) continue;
+                    DWORD got = 0;
+                    while (ReadFile(handles[i], buf, sizeof(buf), &got, NULL) && got > 0) {
+                        dsts[i]->append(buf, got);
+                    }
+                    closed[i] = true;
+                }
+                break;
             }
         }
         if (WaitForSingleObject(pi.hProcess, 10) == WAIT_OBJECT_0) {
@@ -330,6 +352,8 @@ struct FileResult
     std::vector<std::string> fail_details; // 表示用サマリ (後方互換)
     DWORD       duration_ms = 0;
     DWORD       exit_code   = 0;
+    bool        timed_out   = false;
+    bool        compiled_ok_only = false;   // --compile-only 時に true
     // カバレッジ: この .hsp を実行して得られた (file, line) のセット
     std::vector<std::pair<std::string,int>> cov_hits;
 };
@@ -560,7 +584,7 @@ static bool compile_hsp(const std::wstring& compiler, const std::wstring& hsp_pa
 }
 
 static void run_one(const std::wstring& runtime_exe, const std::wstring& ax_path,
-                    const std::wstring& cov_file, FileResult& fr)
+                    const std::wstring& cov_file, DWORD timeout_ms, FileResult& fr)
 {
     std::wstring cmd = quote_arg(runtime_exe);
     cmd += L" "; cmd += quote_arg(ax_path);
@@ -573,10 +597,11 @@ static void run_one(const std::wstring& runtime_exe, const std::wstring& ax_path
     }
 
     DWORD t0 = GetTickCount();
-    RunResult r = run_capture(cmd, L"", env);
+    RunResult r = run_capture(cmd, L"", env, timeout_ms);
     DWORD t1 = GetTickCount();
     fr.duration_ms = t1 - t0;
     fr.exit_code   = r.exit_code;
+    fr.timed_out   = r.timed_out;
 
     if (r.spawn_failed) {
         fr.had_error = true;
@@ -598,8 +623,11 @@ static void print_file_line(const FileResult& fr)
 {
     const char* tag   = "PASS";
     const char* color = col_grn();
-    if (fr.had_error)         { tag = "ERR "; color = col_red(); }
-    else if (fr.expect_fail)  { tag = "FAIL"; color = col_red(); }
+    if (!fr.compile_ok)            { tag = "CERR"; color = col_red(); }
+    else if (fr.compiled_ok_only)  { tag = "CMP "; color = col_cyn(); }
+    else if (fr.timed_out)         { tag = "TIMO"; color = col_yel(); }
+    else if (fr.had_error)         { tag = "ERR "; color = col_red(); }
+    else if (fr.expect_fail)       { tag = "FAIL"; color = col_red(); }
 
     // path relative rendering: just the file name part
     std::wstring disp = fr.path;
@@ -649,6 +677,8 @@ static void usage()
         "  --junit=<file>      also write JUnit XML (CI integration)\n"
         "  --jobs=<N>          run N files in parallel (default: 1)\n"
         "  --coverage=<file>   collect source-line coverage; write merged TSV to <file>\n"
+        "  --timeout=<sec>     kill each test after <sec> seconds (default: none)\n"
+        "  --compile-only      only compile each input; skip execution\n"
         "  --no-compile        inputs are .ax files (skip compile)\n"
         "  --quiet             summary only, suppress per-event detail\n"
         "  --verbose           echo every stderr JSON line\n"
@@ -670,7 +700,9 @@ int wmain(int argc, wchar_t** argv)
     std::wstring junit_out;
     std::wstring cov_out;
     bool no_compile = false;
+    bool compile_only = false;
     int  jobs = 1;
+    DWORD timeout_ms = INFINITE;
     std::vector<std::wstring> patterns;
 
     for (int i = 1; i < argc; i++) {
@@ -692,6 +724,8 @@ int wmain(int argc, wchar_t** argv)
         else if (starts(L"--junit="))    junit_out    = a.substr(8);
         else if (starts(L"--jobs="))     { jobs = _wtoi(a.substr(7).c_str()); if (jobs < 1) jobs = 1; }
         else if (starts(L"--coverage=")) cov_out      = a.substr(11);
+        else if (starts(L"--timeout="))  { int s = _wtoi(a.substr(10).c_str()); if (s > 0) timeout_ms = (DWORD)(s * 1000); }
+        else if (a == L"--compile-only") compile_only = true;
         else if (starts(L"--")) {
             fwprintf(stderr, L"unknown option: %s\n", a.c_str());
             return 2;
@@ -735,6 +769,12 @@ int wmain(int argc, wchar_t** argv)
             }
         }
 
+        // --compile-only: 実行せずコンパイル成功のみ確認
+        if (compile_only) {
+            fr.compiled_ok_only = true;
+            return;
+        }
+
         // per-file coverage tsv (存在すれば run_one 実行後に読み取る)
         std::wstring cov_file;
         if (!cov_out.empty()) {
@@ -745,7 +785,7 @@ int wmain(int argc, wchar_t** argv)
             DeleteFileW(cov_file.c_str());
         }
 
-        run_one(runtime_exe, ax, cov_file, fr);
+        run_one(runtime_exe, ax, cov_file, timeout_ms, fr);
 
         if (!cov_file.empty()) {
             FILE* cp = _wfopen(cov_file.c_str(), L"r");
