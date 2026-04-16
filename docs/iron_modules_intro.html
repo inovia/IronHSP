@@ -2,61 +2,1008 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>IronHSP Simple モジュール集 入門 — iron_* で HSP3 をモダンに</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronHSP プラグイン &amp; モジュール リファレンス</title>
 <style>
-body{font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;max-width:880px;margin:20px auto;padding:0 20px;line-height:1.7;color:#222}
-h1{border-bottom:3px solid #0066cc;padding-bottom:8px;color:#003366}
-h2{border-left:6px solid #0066cc;padding-left:12px;margin-top:36px;color:#003366}
-h3{color:#005599;margin-top:24px}
-code{background:#f0f0f0;padding:2px 6px;border-radius:3px;font-family:Consolas,monospace;font-size:0.93em}
-pre{background:#1e1e1e;color:#dcdcdc;padding:14px 18px;border-radius:6px;overflow-x:auto;font-family:Consolas,monospace;font-size:0.88em;line-height:1.5}
-pre code{background:none;color:inherit;padding:0}
-table{border-collapse:collapse;width:100%;margin:12px 0}
-th,td{border:1px solid #ccc;padding:8px 10px;vertical-align:top}
-th{background:#e8f0ff;color:#003366}
-.box{background:#fff8dc;border-left:4px solid #ffa500;padding:10px 16px;margin:16px 0;border-radius:3px}
-.muted{color:#888;font-size:0.9em}
-.badge{display:inline-block;background:#0066cc;color:#fff;padding:2px 8px;border-radius:3px;font-size:0.82em;margin:0 4px}
+  :root { --accent: #2563eb; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.5rem; color: var(--accent); margin: 2.5rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 0.75rem; }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+  p, li { margin-bottom: 0.4rem; }
+  ul, ol { padding-left: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.90rem; }
+  th, td { border: 1px solid var(--border); padding: 0.45rem 0.65rem; text-align: left; vertical-align: top; }
+  th { background: #eef2ff; font-weight: 600; white-space: nowrap; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 3px; font-family: 'Consolas', 'Source Code Pro', monospace; font-size: 0.88em; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 0.86rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; color: #fff; white-space: nowrap; }
+  .badge-pure   { background: #16a34a; }
+  .badge-dll    { background: #2563eb; }
+  .badge-net    { background: #7c3aed; }
+  .badge-exe    { background: #ea580c; }
+  .badge-green  { background: #16a34a; }
+  .badge-orange { background: #ea580c; }
+  .compat-ok    { color: #16a34a; font-weight: 700; }
+  .compat-no    { color: #dc2626; font-weight: 700; }
+  .compat-dll   { color: #d97706; font-weight: 700; }
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .toc ul { list-style: none; padding-left: 0; columns: 2; }
+  .toc li { padding: 0.2rem 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85rem; }
+  /* master table: compact */
+  .master-table td:nth-child(1) { white-space: nowrap; font-family: Consolas, monospace; font-size: 0.85em; }
+  .master-table td:nth-child(2),
+  .master-table td:nth-child(3),
+  .master-table td:nth-child(4) { white-space: nowrap; text-align: center; }
+  @media (max-width: 800px) { .toc ul { columns: 1; } }
 </style>
 </head>
 <body>
+<div class="container">
 
-<h1>IronHSP Simple モジュール集 入門</h1>
-<p class="muted">最終更新: 2026-04-14 / 対象: HSP3 (hsp3net) + IronHSP 2026 拡張</p>
+<h1>IronHSP プラグイン &amp; モジュール リファレンス</h1>
+<p class="muted">最終更新: 2026-04-18 / 対象: HSP3 (hsp3net) + IronHSP 2026 拡張</p>
+<p class="muted">全 150 iron_* モジュール + 22 C++ プラグイン DLL + hspd2d + DxLib 統合</p>
 
 <p>
-HSP は手軽にグラフィックスとゲームを作れる言語ですが、「モダンな機能」(HTTP 通信、JSON、AI API、音声認識、DB、ZIP、マイク録音、Webcam、MCP など) を
-やろうとすると Win32 API を直叩きしたり COM を扱ったりで急にハードルが上がります。
-<br><br>
-<strong>IronHSP Simple モジュール集</strong> (<code>iron_*.hsp</code>) はそんなモダン機能を
-<strong>HSP らしい 1〜2 行のシンプルな書き方</strong>で使えるようにまとめたラッパ群です。
+<strong>IronHSP Simple モジュール集</strong> (<code>iron_*.hsp</code>) は、HTTP 通信、JSON、AI API、音声認識、DB、アーカイブ、Webcam、MCP、暗号化、正規表現、グラフ描画など、
+モダンな機能を <strong>HSP らしい 1～2 行のシンプルな書き方</strong>で使えるようにまとめたラッパ群です。
 全部 <code>#include</code> するだけで使えます。
 </p>
 
-<h2>モジュール一覧 (17 モジュール)</h2>
+<div class="toc">
+<strong>目次</strong>
+<ul>
+  <li><a href="#master">総合一覧表 (150 モジュール)</a></li>
+  <li><a href="#dlls">C++ プラグイン DLL 一覧</a></li>
+  <li><a href="#cat1">1. システム / ユーティリティ</a></li>
+  <li><a href="#cat2">2. AI / 機械学習</a></li>
+  <li><a href="#cat3">3. マルチメディア</a></li>
+  <li><a href="#cat4">4. ネットワーク / Web</a></li>
+  <li><a href="#cat5">5. データ / ファイル</a></li>
+  <li><a href="#cat6">6. 数学 / 科学計算</a></li>
+  <li><a href="#cat7">7. 暗号化 / セキュリティ</a></li>
+  <li><a href="#cat8">8. 正規表現 / テキスト</a></li>
+  <li><a href="#cat9">9. UI / GUI</a></li>
+  <li><a href="#cat10">10. ゲーム</a></li>
+  <li><a href="#cat11">11. グラフィックス</a></li>
+  <li><a href="#cat12">12. 描画エンジン連携</a></li>
+  <li><a href="#cat13">13. テスト / 開発ツール</a></li>
+  <li><a href="#cat14">14. .NET 専用</a></li>
+  <li><a href="#examples">コード例</a></li>
+  <li><a href="#install">インストール</a></li>
+  <li><a href="#next">次のステップ</a></li>
+</ul>
+</div>
 
-<table>
-<tr><th>モジュール</th><th>機能</th><th>依存 DLL</th></tr>
-<tr><td><code>iron_http</code></td><td>HTTP GET/POST, multipart upload, SSE streaming</td><td>winhttp (OS 標準)</td></tr>
-<tr><td><code>iron_json</code></td><td>JSON parse/build</td><td>hspjson.dll</td></tr>
-<tr><td><code>iron_ai</code></td><td>OpenAI 互換 Chat API (Groq, Anthropic, Ollama 等)</td><td>iron_http + iron_json</td></tr>
-<tr><td><code>iron_speech</code></td><td>音声認識 (5 backend: cloud/whisper/vosk/sapi/winrt)</td><td>hspwhisper/hspvosk/hspsapi/hspwinrtspeech</td></tr>
-<tr><td><code>iron_video</code></td><td>動画/音声再生 (MF MFPlay, シーク対応)</td><td>mfplay.dll (OS 標準)</td></tr>
-<tr><td><code>iron_camera_mf</code></td><td>Webcam プレビュー + 録画 + マイク録音</td><td>hspmfcam.dll</td></tr>
-<tr><td><code>iron_camera</code></td><td>Webcam (OpenCV backend, hspcv4 と併用)</td><td>hspcv4.dll</td></tr>
-<tr><td><code>iron_toast</code></td><td>タスクトレイバルーン通知</td><td>shell32 (OS 標準)</td></tr>
-<tr><td><code>iron_mcp_client</code></td><td>Model Context Protocol クライアント</td><td>hspmcp.dll</td></tr>
-<tr><td><code>iron_mcp_server</code></td><td>HSP3CL を MCP stdio server 化</td><td>hspmcp.dll</td></tr>
-<tr><td><code>iron_webserver</code></td><td>localhost HTTP サーバ</td><td>hspwebsrv.dll</td></tr>
-<tr><td><code>iron_7z</code></td><td>7z / zip / tar.gz / xz / rar(読) 等 40+ アーカイブ形式</td><td>hsp7z.dll + 同梱 7za.exe</td></tr>
-<tr><td><code>iron_db</code></td><td>SQLite 3.46 データベース</td><td>hspdb.dll</td></tr>
-<tr><td><code>iron_hash</code></td><td>SHA-1/256/512, MD5, Base64</td><td>bcrypt + crypt32 (OS 標準)</td></tr>
-<tr><td><code>iron_shell</code></td><td>ShellExecute, ゴミ箱送り, .lnk 作成</td><td>shell32 + ole32 (OS 標準)</td></tr>
-<tr><td><code>iron_serial</code></td><td>シリアルポート (RS-232 / USB CDC)</td><td>kernel32 (OS 標準)</td></tr>
-<tr><td><code>iron_ini</code></td><td>INI 設定ファイル</td><td>kernel32 (OS 標準)</td></tr>
+<!-- ========================================== -->
+<h2 id="master">総合一覧表 (150 モジュール)</h2>
+
+<p>全 iron_* モジュールの一覧です。<strong>実装方式</strong>と<strong>バニラ HSP3 互換性</strong>を確認できます。</p>
+
+<div class="note">
+<strong>凡例:</strong>
+<span class="badge badge-pure">Pure HSP</span> 外部 DLL 不要、HSP スクリプトのみ /
+<span class="badge badge-dll">C++ DLL</span> 専用 C++ プラグイン DLL が必要 /
+<span class="badge badge-net">.NET (hsp3net)</span> .NET Framework 機能を使用 /
+<span class="badge badge-exe">外部exe</span> 外部実行ファイルが必要<br>
+<strong>互換:</strong>
+<span class="compat-ok">○</span> バニラ HSP3 でも動作 /
+<span class="compat-dll">△</span> DLL が必要だがランタイム問わず /
+<span class="compat-no">×</span> hsp3net 専用
+</div>
+
+<table class="master-table">
+<tr><th>モジュール名</th><th>カテゴリ</th><th>実装方式</th><th>互換</th><th>一行説明</th></tr>
+<tr><td>iron_7z</td><td>データ</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>7z / zip / tar.gz / xz / rar 等 40+ アーカイブ形式の圧縮・展開・一覧</td></tr>
+<tr><td>iron_ai</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>OpenAI 互換 Chat API クライアント (OpenAI / Anthropic / Ollama / Groq 等)</td></tr>
+<tr><td>iron_array2</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>配列ユーティリティ (sum / min / max / reverse / unique / sort)</td></tr>
+<tr><td>iron_async</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>.NET Task.Run 非同期実行 + CSharpCodeProvider による C# 動的評価 (cs_eval / async_run)</td></tr>
+<tr><td>iron_audioloop</td><td>マルチメディア</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>WASAPI 音声ループバック録音 (PC 再生音を WAV 保存)</td></tr>
+<tr><td>iron_barcode</td><td>グラフィックス</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>1D バーコード BMP 生成</td></tr>
+<tr><td>iron_ble</td><td>ネットワーク</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>BLE GATT セントラル (WinRT -- スキャン / 接続 / サービス列挙 / 読み書き / Notify 購読)</td></tr>
+<tr><td>iron_bloom</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ブルームフィルタ (確率的メンバーシップ判定)</td></tr>
+<tr><td>iron_cache</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>TTL 付きインメモリキャッシュ</td></tr>
+<tr><td>iron_camera</td><td>マルチメディア</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>Webcam 取り込み (OpenCV / hspcv4 backend)</td></tr>
+<tr><td>iron_camera_mf</td><td>マルチメディア</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>Webcam + 録画 + マイク録音 (Pure Media Foundation)</td></tr>
+<tr><td>iron_capture</td><td>マルチメディア</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>DXGI Desktop Duplication による画面キャプチャ</td></tr>
+<tr><td>iron_chart</td><td>グラフィックス</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Chart.js + ブラウザによるグラフ描画 (棒/折れ線/円/レーダー等)</td></tr>
+<tr><td>iron_chart_d2d</td><td>グラフィックス</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-no">×</td><td>hspd2d (Direct2D) 直接描画のグラフ (WebView2 不要)</td></tr>
+<tr><td>iron_clip</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>クリップボード文字列の読み書き</td></tr>
+<tr><td>iron_clipboard2</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>クリップボード拡張 (.NET) -- テキスト / 画像 (PNG/JPEG/BMP 保存) / HTML / ファイルドロップリスト対応</td></tr>
+<tr><td>iron_collection</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>スタック / キュー データ構造</td></tr>
+<tr><td>iron_color</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>色変換 (RGB / HSV / HEX)</td></tr>
+<tr><td>iron_combinatorics</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>組み合わせ論 (factorial / combination / gcd / is_prime)</td></tr>
+<tr><td>iron_complex</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>複素数演算</td></tr>
+<tr><td>iron_crypto</td><td>暗号化</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>Blowfish / RC4 / ChaCha20 / AES-256-CBC / HMAC / PBKDF2</td></tr>
+<tr><td>iron_crypto_net</td><td>暗号化</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>.NET System.Security.Cryptography (SHA256 / 暗号化安全乱数)</td></tr>
+<tr><td>iron_csv</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>RFC 4180 準拠 CSV パーサ / ビルダ (ダブルクォート / 改行対応 / TSV 切替可)</td></tr>
+<tr><td>iron_curvefit</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>カーブフィッティング (最小二乗法)</td></tr>
+<tr><td>iron_darkmode</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ウィンドウのダークモード有効化 (DwmSetWindowAttribute)</td></tr>
+<tr><td>iron_datetime</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>日付/時刻取得 (ISO 8601 / Unix timestamp / 曜日)</td></tr>
+<tr><td>iron_db</td><td>データ</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>SQLite 3.46 組み込みデータベース</td></tr>
+<tr><td>iron_designer</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WebView2 GUI デザイナ�� (ドラッグ配置 → HSP コード自動生成)</td></tr>
+<tr><td>iron_dialog</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>モダンファイルダイアログ / フォルダ選択 (IFileOpenDialog COM)</td></tr>
+<tr><td>iron_diff</td><td>テキスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>テキスト差分 (行単位 diff)</td></tr>
+<tr><td>iron_docking</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>簡易ドッキングパネル (SplitContainer、左/右/下パネル配置)</td></tr>
+<tr><td>iron_docking_pro</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>VS 風ドッキング (WeifenLuo) -- フローティング/自動非表示/タブドキュメント対応</td></tr>
+<tr><td>iron_docx</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>Word .docx ファイル生成</td></tr>
+<tr><td>iron_dotenv</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>.env ファイルローダー (環境変数風設定)</td></tr>
+<tr><td>iron_dpi</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Per-Monitor DPI V2 対応 (dpi_set_awareness / dpi_scale)</td></tr>
+<tr><td>iron_dragdrop</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ドラッグ&amp;ドロップ受け取り</td></tr>
+<tr><td>iron_duckdb</td><td>データ</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>DuckDB 組み込み分析 DB (CSV/Parquet SQL 直接クエリ / インメモリ / 集計・結合・ウィンドウ関数)</td></tr>
+<tr><td>iron_embedding</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>テキスト埋め込み + ベクトル検索 (コサイン類似度)</td></tr>
+<tr><td>iron_event</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>イベントエミッター (Pub/Sub パターン)</td></tr>
+<tr><td>iron_exif</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>EXIF メタデータ読み取り (GDI+ PropertyItem)</td></tr>
+<tr><td>iron_faker</td><td>テスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>フェイクデータ生成 (名前 / メール / 電話番号)</td></tr>
+<tr><td>iron_ffmpeg</td><td>マルチメディア</td><td><span class="badge badge-exe">外部exe</span></td><td class="compat-ok">○</td><td>FFmpeg ラッパー (変換 / 抽出 / トリム)</td></tr>
+<tr><td>iron_fft</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>高速フーリエ変換 (Cooley-Tukey)</td></tr>
+<tr><td>iron_filter</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>信号フィルタ (移動平均 / ローパス / ハイパス)</td></tr>
+<tr><td>iron_folder</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>特殊フォルダパス取得 (Desktop / AppData / Documents 等)</td></tr>
+<tr><td>iron_forms</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WinForms コントロール (Anchor/Dock/DataGridView/MenuStrip/StatusStrip/ProgressBar/DateTimePicker)</td></tr>
+<tr><td>iron_fs</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ファイルシステム操作 (コピー / 移動 / 削除 / サイズ取得)</td></tr>
+<tr><td>iron_ftp</td><td>ネットワーク</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>FTP クライアント (WinINet API、パッシブモード)</td></tr>
+<tr><td>iron_ftp_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>FTP クライアント .NET 版 (FTPS/SSL 対応)</td></tr>
+<tr><td>iron_fwatch</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ファイル / ディレクトリ変更監視 (FindFirstChangeNotification、フィルタ: 名前/サイズ/書込み/属性)</td></tr>
+<tr><td>iron_fwatch_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>ファイル監視 .NET 版 (FileSystemWatcher イベント駆動)</td></tr>
+<tr><td>iron_ga</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>遺伝的アルゴリズム</td></tr>
+<tr><td>iron_game</td><td>ゲーム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ゲームユーティリティ (AABB/円 衝突判定 4 種 / 2D ベクトル / イージング 10 種 / タイルマップ / FPS カウンタ)</td></tr>
+<tr><td>iron_gdiplus</td><td>グラフィックス</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>GDI+ 画像処理 (.NET) -- スクリーンショット / リサイズ / 回転 / グレースケール / 透かし / PNG・JPEG 保存</td></tr>
+<tr><td>iron_geometry</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>2D/3D 幾何学 (面積 / 体積 / 距離)</td></tr>
+<tr><td>iron_glob</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>再帰ファイル検索 (glob パターン)</td></tr>
+<tr><td>iron_graph</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>グラフ探索 (BFS / ダイクストラ最短経路)</td></tr>
+<tr><td>iron_hash</td><td>暗号化</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>SHA-1/256/384/512 / MD5 / Base64 (BCrypt + Crypt32)</td></tr>
+<tr><td>iron_hotkey</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>グローバルホットキー登録 (RegisterHotKey)</td></tr>
+<tr><td>iron_html</td><td>テキスト</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>HTML パース (タグ検索 / 属性取得 / テキスト抽出)</td></tr>
+<tr><td>iron_html_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>HTML タグ除去 / リンク抽出 (.NET 版)</td></tr>
+<tr><td>iron_http</td><td>ネットワーク</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>WinHTTP クライアント (GET/POST + カスタムヘッダ + SSE ストリーミング + HTTPS 自動 TLS + タイムアウト制御)</td></tr>
+<tr><td>iron_humanize</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>人間にやさしい書式変換 (バイト数 / 数値カンマ区切り)</td></tr>
+<tr><td>iron_ime</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>IME 制御 (on / off / モード切替)</td></tr>
+<tr><td>iron_ini</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>INI 設定ファイルの読み書き (GetPrivateProfile*)</td></tr>
+<tr><td>iron_json</td><td>データ</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>JSON パース / ビルド (JSONPath / 整形 / minify)</td></tr>
+<tr><td>iron_jwt</td><td>暗号化</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>JWT トークンの Base64URL デコード (ヘッダー / ペイロード)</td></tr>
+<tr><td>iron_kmeans</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>K-means クラスタリング</td></tr>
+<tr><td>iron_log</td><td>テスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ログ出力 (INFO / WARN / ERROR レベル + ファイル出力)</td></tr>
+<tr><td>iron_magnify</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>画面拡大 (Magnification API)</td></tr>
+<tr><td>iron_markdown</td><td>テキスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Markdown から HTML への変換</td></tr>
+<tr><td>iron_math_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>MathNet.Numerics 連携 (統計/線形回帰/正規分布/連立方程式/行列式/スプライン補間/求根)</td></tr>
+<tr><td>iron_matrix</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>行列演算 (積 / 転置 / 行列式 / 内積 / 外積)</td></tr>
+<tr><td>iron_mcp_client</td><td>AI/ML</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>Model Context Protocol クライアント (stdio + HTTP)</td></tr>
+<tr><td>iron_mcp_server</td><td>AI/ML</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>HSP3CL を MCP stdio server 化 (Claude Desktop 連携)</td></tr>
+<tr><td>iron_mecab</td><td>テキスト</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>MeCab 形態素解析</td></tr>
+<tr><td>iron_mediapipe</td><td>AI/ML</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>MediaPipe 手検出 / 姿勢推定 (TFLite backend)</td></tr>
+<tr><td>iron_midi</td><td>マルチメディア</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>MIDI 入出力 (GM 音色再生 / リアルタイム受信)</td></tr>
+<tr><td>iron_montecarlo</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>モンテカルロ法 (円周率推定 / 数値積分)</td></tr>
+<tr><td>iron_msgpack</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>MessagePack シリアライズ</td></tr>
+<tr><td>iron_netinfo</td><td>ネットワーク</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ネットワーク状態取得 (接続確認 / IP アドレス)</td></tr>
+<tr><td>iron_nn</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ニューラルネットワーク (1 隠れ層 / XOR 学習)</td></tr>
+<tr><td>iron_oauth</td><td>ネットワーク</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>OAuth 2.0 Authorization Code Flow (PKCE / localhost リダイレクト受信 / トークン交換)</td></tr>
+<tr><td>iron_ode</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>常微分方程式ソルバー (Runge-Kutta 4次)</td></tr>
+<tr><td>iron_office</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>Office COM 自動化 (VBScript ブリッジ) -- Excel セル読み書き / Excel・Word・PPT → PDF 変換</td></tr>
+<tr><td>iron_onnx</td><td>AI/ML</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>ONNX Runtime 推論 (DirectML GPU 対応)</td></tr>
+<tr><td>iron_optimize</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>最適化 (黄金分割法)</td></tr>
+<tr><td>iron_path</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>パス操作 (結合 / 拡張子 / ファイル名 / 存在確認)</td></tr>
+<tr><td>iron_pcre2</td><td>正規表現</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>PCRE2 正規表現 (Perl 互換 / Unicode / 先読み後読み)</td></tr>
+<tr><td>iron_pdf</td><td>データ</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>PDF テキスト抽出 + 任意倍率レンダリング + メタデータ取得 (PDFium、パスワード対応)</td></tr>
+<tr><td>iron_perf</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>マイクロ秒精度パフォーマンスタイマー (QPC)</td></tr>
+<tr><td>iron_pptx</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>PowerPoint .pptx 生成</td></tr>
+<tr><td>iron_print</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>印刷ダイアログ + GDI 印刷</td></tr>
+<tr><td>iron_process</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>プロセス起動 + stdout キャプチャ + 終了コード取得</td></tr>
+<tr><td>iron_progress_cl</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>CLI プログレスバー表示</td></tr>
+<tr><td>iron_qr</td><td>グラフィックス</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>QR コード生成 (qrcode-generator JS CDN → 一時 HTML → ブラウザ表示)</td></tr>
+<tr><td>iron_quaternion</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>クォータニオン (3D 回転)</td></tr>
+<tr><td>iron_random_dist</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>確率分布乱数 (正規 / 指数 / ポアソン)</td></tr>
+<tr><td>iron_regex</td><td>正規表現</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>正規表現 (C++ std::regex / ECMAScript)</td></tr>
+<tr><td>iron_regex_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>正規表現 .NET 版 (名前付きグループ / Split)</td></tr>
+<tr><td>iron_registry</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>レジストリ読み書き (advapi32 API)</td></tr>
+<tr><td>iron_registry_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>レジストリ操作 .NET 版 (Microsoft.Win32.Registry)</td></tr>
+<tr><td>iron_report</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>帳票出力 (HTML テンプレート + ブラウザ表示)</td></tr>
+<tr><td>iron_retry</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>リトライ実行 (指数バックオフ付き)</td></tr>
+<tr><td>iron_ribbon</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WebView2 リボン UI (タブ/ボタン/アイコン + Light/Dark テーマ + postMessage 通知)</td></tr>
+<tr><td>iron_ribbon2</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WinForms ToolStrip 簡易リボン (TabControl + ToolStrip タブ付きツールバー)</td></tr>
+<tr><td>iron_ribbon_native</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Windows Ribbon Framework (UIRibbon COM / XML マークアップ / hspribbon.dll)</td></tr>
+<tr><td>iron_ribbon_pro</td><td>UI/GUI</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>WinForms リッチリボン (FlowLayoutPanel グループ / 大小ボタン / ドロップダ��ン)</td></tr>
+<tr><td>iron_ruffle</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Flash SWF 再生 (Ruffle + WebView2)</td></tr>
+<tr><td>iron_scraper</td><td>ネットワーク</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Web スクレイピング (リンク / テキスト抽出)</td></tr>
+<tr><td>iron_sentiment</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>感情分析 (キーワードベース)</td></tr>
+<tr><td>iron_serial</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>シリアルポート RS-232 / USB CDC</td></tr>
+<tr><td>iron_service</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Windows サービス制御 (start / stop / status)</td></tr>
+<tr><td>iron_shell</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ShellExecute / ゴミ箱送り / .lnk ショートカット作成</td></tr>
+<tr><td>iron_smtp</td><td>ネットワーク</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>SMTP メール送信 (AUTH LOGIN / Winsock2)</td></tr>
+<tr><td>iron_smtp_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>メール送信 .NET 版 (TLS/SSL 自動対応)</td></tr>
+<tr><td>iron_spectrum</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>スペクトラム解析 (簡易 DFT)</td></tr>
+<tr><td>iron_speech</td><td>AI/ML</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>音声認識統一 API (5 バックエンド: Cloud / whisper / Vosk / SAPI / WinRT)</td></tr>
+<tr><td>iron_splash</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>スプラッシュスクリーン (画像表示 + 自動消去)</td></tr>
+<tr><td>iron_ssh</td><td>ネットワーク</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>SSH / SFTP クライアント (libssh2 + WinCNG)</td></tr>
+<tr><td>iron_stat</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>統計関数 (平均 / 中央値 / 分散 / 標準偏差 / パーセンタイル)</td></tr>
+<tr><td>iron_statemachine</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>有限状態マシン</td></tr>
+<tr><td>iron_stopwatch</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>高精度ストップウォッチ (QPC マイクロ秒)</td></tr>
+<tr><td>iron_str2</td><td>テキスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>文字列ユーティリティ (trim / upper / lower / contains / replace)</td></tr>
+<tr><td>iron_strbuf</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>文字列ビルダー (高速な文字列結合)</td></tr>
+<tr><td>iron_summarize</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>抽出型テキスト要約</td></tr>
+<tr><td>iron_synth</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>オーディオ合成 WAV 生成 (サイン波 / 矩形波 / ノイズ)</td></tr>
+<tr><td>iron_sysinfo</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>OS / CPU / ユーザ情報取得</td></tr>
+<tr><td>iron_table2</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>CLI テーブル整形出力</td></tr>
+<tr><td>iron_task</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>タスクスケジューラ (schtasks ラッパー)</td></tr>
+<tr><td>iron_test</td><td>テスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ユニットテストフレームワーク (assert_eq / test_begin / test_end)</td></tr>
+<tr><td>iron_tflite</td><td>AI/ML</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>TensorFlow Lite 推論 + MediaPipe 手検出ヘルパ</td></tr>
+<tr><td>iron_toast</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>タスクトレイバルーン通知 (Shell_NotifyIcon)</td></tr>
+<tr><td>iron_toast_winrt</td><td>UI/GUI</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>WinRT トースト通知 (アクションセンター対応)</td></tr>
+<tr><td>iron_touch</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>タッチ入力シミュレーション (InjectTouchInput)</td></tr>
+<tr><td>iron_tray</td><td>UI/GUI</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>通知領域 (タスクトレイ) アイコン</td></tr>
+<tr><td>iron_uri</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>URI パーサ (scheme / host / port / path / query / fragment)</td></tr>
+<tr><td>iron_url</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>URL 操作ユーティリティ</td></tr>
+<tr><td>iron_urlencode</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>URL エンコード / デコード</td></tr>
+<tr><td>iron_uuid</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>UUID v4 生成</td></tr>
+<tr><td>iron_validate</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>入力バリデーション (メール / URL / 数値 / 日付等)</td></tr>
+<tr><td>iron_video</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-no">×</td><td>動画/音声再生 (MFPlay / シーク / 速度変更 / 音量)</td></tr>
+<tr><td>iron_wasm</td><td>システム</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>WebAssembly ランタイム (Wasm3 embed / .wasm 関数呼び出し)</td></tr>
+<tr><td>iron_webpdf</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Web ページ PDF 出力 (WebView2 経由)</td></tr>
+<tr><td>iron_webserver</td><td>ネットワーク</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>localhost HTTP/HTTPS/WebSocket サーバ (HTTP.sys)</td></tr>
+<tr><td>iron_webview2</td><td>UI/GUI</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>Edge WebView2 (Navigate / JS 実行 / HSP&lt;-&gt;JS bridge)</td></tr>
+<tr><td>iron_wgcapture</td><td>マルチメディア</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>Windows.Graphics.Capture スクリーン/ウィンドウキャプチャ</td></tr>
+<tr><td>iron_xlsx</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Excel .xlsx 読み書き (OpenXML 直接解析 / hsp7z で ZIP 展開 / Excel 不要)</td></tr>
+<tr><td>iron_xml</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>XML 読み書き (MSXML DOM、COM 経由、ファイル / 文字列パース対応)</td></tr>
+<tr><td>iron_yaml</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>簡易 YAML パーサー</td></tr>
 </table>
 
-<h2>インストール</h2>
+<p class="muted">Pure HSP: 93 / C++ DLL: 33 / .NET (hsp3net): 19 / 外部 exe: 1 -- バニラ互換 ○: 91 / △ (DLL): 33 / × (hsp3net): 26</p>
+
+<!-- ========================================== -->
+<h2 id="dlls">C++ プラグイン DLL 一覧</h2>
+
+<p>iron_* モジュール群の足回りとして新規開発した独立 C++ プラグイン DLL (合計 <strong>22 個 / 529 export 関数</strong>):</p>
+
+<table>
+<tr><th>DLL</th><th>役割</th><th>関数数</th><th>対応</th></tr>
+<tr><td><code>hspjson.dll</code></td><td>自前 JSON parser/writer (依存ゼロ、~300 KB)</td><td>10</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspmfcam.dll</code></td><td>Pure Media Foundation Webcam キャプチャ + 録画 + マイク録音 (最大 256 デバイス並列)</td><td>68</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspmcp.dll</code></td><td>Model Context Protocol プロセスパイプヘルパ (最大 64 並列)</td><td>7</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspwhisper.dll</code></td><td>whisper.cpp オフライン音声認識 (99 言語)</td><td>4</td><td>x64</td></tr>
+<tr><td><code>hspvosk.dll</code></td><td>Vosk (Kaldi) オフライン音声認識 (24+ 言語)</td><td>4</td><td>x64</td></tr>
+<tr><td><code>hspsapi.dll</code></td><td>Windows SAPI 5 音声認識 (OS 標準)</td><td>3</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspwinrtspeech.dll</code></td><td>WinRT Speech マイクライブ認識</td><td>3</td><td>x64</td></tr>
+<tr><td><code>hspwebsrv.dll</code></td><td>HTTP/HTTPS/WebSocket サーバ (HTTP.sys kernel-mode)</td><td>9</td><td>Win32 + x64</td></tr>
+<tr><td><code>hsp7z.dll</code></td><td>7-Zip CLI ラッパ (40+ フォーマット)</td><td>2</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspdb.dll</code></td><td>SQLite 3.46.1 amalgamation (最大 32 DB / 64 query)</td><td>14</td><td>x64</td></tr>
+<tr><td><code>hspmidi.dll</code></td><td>winmm MIDI in/out (GM 音色 + リアルタイム受信)</td><td>16</td><td>x64</td></tr>
+<tr><td><code>hspwasm.dll</code></td><td>Wasm3 WebAssembly ランタイム embed</td><td>10</td><td>x64</td></tr>
+<tr><td><code>hsppdf.dll</code></td><td>PDFium PDF テキスト抽出 + ビットマップ化</td><td>11</td><td>x64</td></tr>
+<tr><td><code>hspduckdb.dll</code></td><td>DuckDB 分析 DB (CSV/Parquet 直接クエリ)</td><td>10</td><td>x64</td></tr>
+<tr><td><code>hspwebview2.dll</code></td><td>Edge WebView2 統合 (Navigate / JS / postMessage bridge)</td><td>12</td><td>x64</td></tr>
+<tr><td><code>hsponnx.dll</code></td><td>ONNX Runtime (DirectML GPU 推論)</td><td>13</td><td>x64</td></tr>
+<tr><td><code>hspllama.dll</code></td><td>llama.cpp ローカル LLM 推論 (GGUF)</td><td>11</td><td>x64</td></tr>
+<tr><td><code>hsptflite.dll</code></td><td>TensorFlow Lite + MediaPipe 手検出</td><td>19</td><td>x64</td></tr>
+<tr><td><code>hspwinrtocr.dll</code></td><td>Windows.Media.Ocr ローカル OCR</td><td>5</td><td>x64</td></tr>
+<tr><td><code>hspwgcapture.dll</code></td><td>Windows.Graphics.Capture スクリーンキャプチャ</td><td>8</td><td>x64</td></tr>
+<tr><td><code>hspble.dll</code></td><td>BLE GATT クライアント (scan / connect / r/w / notify)</td><td>13</td><td>x64</td></tr>
+<tr><td><code>hspcv4.dll</code></td><td>OpenCV 4.12 統合 (画像 / フィルタ / DNN / 追跡 / ArUco 等)</td><td>277</td><td>x64</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat1">1. システム / ユーティリティ</h2>
+
+<p>OS 操作、ファイルシステム、設定管理、プロセス制御など基本的なシステム機能を提供するモジュール群です。
+多くは Win32 API を <code>#cfunc</code> で直接呼ぶ Pure HSP 実装で、外部 DLL 不要です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_ini</code></td><td>INI 設定ファイル</td>
+    <td><code>ini_setpath "config.ini"</code><br><code>ini_geti "Window","Width",640</code></td>
+    <td>kernel32</td></tr>
+<tr><td><code>iron_fs</code></td><td>ファイルシステム操作</td>
+    <td><code>fs_copy / fs_move / fs_delete / fs_size</code></td>
+    <td>kernel32</td></tr>
+<tr><td><code>iron_path</code></td><td>パス操作</td>
+    <td><code>path_combine(dir, file)</code> / <code>path_ext(path)</code><br><code>path_exists(path)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_folder</code></td><td>特殊フォルダ</td>
+    <td><code>folder_desktop()</code> / <code>folder_appdata()</code></td>
+    <td>shell32</td></tr>
+<tr><td><code>iron_shell</code></td><td>ShellExecute / ゴミ箱 / .lnk</td>
+    <td><code>shell_open "path"</code> / <code>shell_recycle "file"</code><br><code>shell_mklink target, "link.lnk"</code></td>
+    <td>shell32 + ole32</td></tr>
+<tr><td><code>iron_process</code></td><td>プロセス起動</td>
+    <td><code>process_exec "cmd /c dir"</code> → refstr に stdout</td>
+    <td>kernel32</td></tr>
+<tr><td><code>iron_sysinfo</code></td><td>OS / CPU / ユーザ情報</td>
+    <td><code>sys_username</code> / <code>sys_cpucount</code></td>
+    <td>advapi32 + kernel32</td></tr>
+<tr><td><code>iron_perf</code></td><td>マイクロ秒タイマー</td>
+    <td><code>perf_start</code> ... <code>perf_lap</code></td>
+    <td>kernel32 (QPC)</td></tr>
+<tr><td><code>iron_clip</code></td><td>クリップボード</td>
+    <td><code>clip_set_text</code> / <code>clip_get_text</code></td>
+    <td>user32 + kernel32</td></tr>
+<tr><td><code>iron_clipboard2</code></td><td>クリップボード拡張 (.NET)<br>テキスト / 画像 / HTML / ファイルリスト対応</td>
+    <td><code>clip_set_text "..."</code> / <code>clip_get_text()</code><br><code>clip_has_image()</code> / <code>clip_save_image "out.png"</code><br><code>clip_get_files()</code> (ファイルドロップリスト取得)</td>
+    <td>.NET (hsp3net)</td></tr>
+<tr><td><code>iron_serial</code></td><td>シリアルポート</td>
+    <td><code>serial_open "COM3", 115200</code> / <code>serial_read</code></td>
+    <td>kernel32</td></tr>
+<tr><td><code>iron_registry</code></td><td>レジストリ読み書き</td>
+    <td><code>reg_read hkey, "subkey", "name"</code></td>
+    <td>advapi32</td></tr>
+<tr><td><code>iron_fwatch</code></td><td>ファイル / ディレクトリ変更監視<br>FindFirstChangeNotification ベース</td>
+    <td><code>fwatch_start "path", FWATCH_ALL</code> → stat にハンドル<br><code>fwatch_check handle</code> → stat=1 で変更検出<br><code>fwatch_stop handle</code><br>フィルタ: FWATCH_FILENAME / SIZE / LASTWRITE 等</td>
+    <td>kernel32</td></tr>
+<tr><td><code>iron_glob</code></td><td>再帰ファイル検索</td>
+    <td><code>glob_find "dir", "*.txt", 1</code></td>
+    <td>iron_fs</td></tr>
+<tr><td><code>iron_service</code></td><td>Windows サービス制御</td>
+    <td><code>start / stop / status</code></td>
+    <td>advapi32</td></tr>
+<tr><td><code>iron_task</code></td><td>タスクスケジューラ</td>
+    <td>schtasks ラッパー</td>
+    <td>schtasks.exe</td></tr>
+<tr><td><code>iron_wasm</code></td><td>WebAssembly ランタイム</td>
+    <td><code>.wasm</code> ロード + 関数呼び出し + メモリ R/W</td>
+    <td>hspwasm.dll</td></tr>
+<tr><td><code>iron_async</code></td><td>.NET 非同期タスク / C# 動的実行</td>
+    <td><code>cs_eval "return (1+2).ToString();"</code><br><code>async_run "..."</code> / <code>async_is_busy()</code> / <code>async_result()</code></td>
+    <td>.NET (hsp3net)</td></tr>
+<tr><td><code>iron_datetime</code></td><td>日付/時刻</td>
+    <td><code>datetime_now()</code> / <code>datetime_unix()</code></td>
+    <td>kernel32</td></tr>
+<tr><td><code>iron_stopwatch</code></td><td>高精度ストップウォッチ</td>
+    <td><code>sw_start</code> / <code>sw_elapsed_ms()</code></td>
+    <td>kernel32 (QPC)</td></tr>
+<tr><td><code>iron_dotenv</code></td><td>.env ファイルローダー</td>
+    <td><code>dotenv_load ".env"</code></td>
+    <td>iron_fs</td></tr>
+<tr><td><code>iron_uuid</code></td><td>UUID v4 生成</td>
+    <td><code>uuid_generate()</code></td>
+    <td>Pure HSP</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat2">2. AI / 機械学習</h2>
+
+<p>クラウド AI API 連携からオンデバイス推論まで、幅広い AI/ML 機能を提供します。
+Pure HSP 実装のものはバニラ HSP3 でも動作します。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_ai</code></td><td>OpenAI 互換 Chat API<br>(OpenAI / Anthropic / Ollama / Groq 等)</td>
+    <td><code>iron_ai_set_endpoint "..."</code><br><code>iron_ai_chat msg, reply</code><br><code>iron_ai_chat_stream_start "..."</code></td>
+    <td>iron_http + iron_json</td></tr>
+<tr><td><code>iron_speech</code></td><td>音声認識統一 API (5 バックエンド)</td>
+    <td><code>iron_speech_set_backend SPEECH_BACKEND_WHISPER</code><br><code>iron_speech_transcribe "voice.wav", text</code></td>
+    <td>4 種 DLL + iron_ai</td></tr>
+<tr><td><code>iron_mcp_client</code></td><td>MCP クライアント</td>
+    <td><code>iron_mcp_open_stdio "npx ..."</code><br><code>iron_mcp_call "func", args, result</code></td>
+    <td>hspmcp.dll</td></tr>
+<tr><td><code>iron_mcp_server</code></td><td>MCP stdio サーバ</td>
+    <td><code>iron_mcp_server_tool "name", "desc", *h</code><br><code>iron_mcp_server_run</code></td>
+    <td>hspmcp.dll</td></tr>
+<tr><td><code>iron_embedding</code></td><td>テキスト埋め込み + ベクトル検索</td>
+    <td><code>embedding_build_vocab corpus</code><br><code>vec_cosine(a, b, n)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_sentiment</code></td><td>感情分析</td>
+    <td><code>sentiment_score(text)</code> / <code>sentiment_label(text)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_summarize</code></td><td>抽出型テキスト要約</td>
+    <td><code>summarize(text, max_sentences)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_kmeans</code></td><td>K-means クラスタリング</td>
+    <td><code>kmeans_cluster x, y, n, k, labels</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_nn</code></td><td>ニューラルネットワーク (1 隠れ層)</td>
+    <td><code>nn_train_xor weights, epochs</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_ga</code></td><td>遺伝的アルゴリズム</td>
+    <td><code>ga_init 20, 100</code> / <code>ga_evolve</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_onnx</code></td><td>ONNX Runtime 推論</td>
+    <td>DirectML GPU 対応</td>
+    <td>hsponnx.dll</td></tr>
+<tr><td><code>iron_tflite</code></td><td>TensorFlow Lite + MediaPipe</td>
+    <td>手検出 / 姿勢推定</td>
+    <td>hsptflite.dll</td></tr>
+<tr><td><code>iron_mediapipe</code></td><td>MediaPipe 手検出</td>
+    <td>palm_detect / hand_landmark</td>
+    <td>hsptflite.dll</td></tr>
+</table>
+
+<h3>音声認識バックエンド比較</h3>
+
+<table>
+<tr><th>バックエンド</th><th>定数</th><th>入力</th><th>品質</th><th>言語</th><th>必要なもの</th></tr>
+<tr><td>Cloud Whisper API</td><td><code>SPEECH_BACKEND_CLOUD</code></td><td>ファイル</td><td>★★★★★</td><td>99 言語</td><td>API キー</td></tr>
+<tr><td>whisper.cpp</td><td><code>SPEECH_BACKEND_WHISPER</code></td><td>ファイル</td><td>★★★★★</td><td>99 言語</td><td>GGML model (75 MB～)</td></tr>
+<tr><td>Vosk (Kaldi)</td><td><code>SPEECH_BACKEND_VOSK</code></td><td>ファイル</td><td>★★★</td><td>24+ 言語</td><td>Vosk model (47 MB～)</td></tr>
+<tr><td>Windows SAPI 5</td><td><code>SPEECH_BACKEND_SAPI</code></td><td>ファイル</td><td>★★</td><td>OS 依存</td><td>Windows 言語パック</td></tr>
+<tr><td>WinRT Speech</td><td><code>SPEECH_BACKEND_WINRT</code></td><td>マイク</td><td>★★★</td><td>OS 依存</td><td>同上</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat3">3. マルチメディア</h2>
+
+<p>動画再生、Webcam、録音、FFmpeg 連携、音声合成など、メディア処理に関するモジュール群です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_video</code></td><td>動画/音声再生 (MFPlay)</td>
+    <td><code>iron_video_open "movie.mp4", hwnd</code><br><code>iron_video_seek_ms 5000</code></td>
+    <td>mfplay.dll (OS 標準)</td></tr>
+<tr><td><code>iron_camera</code></td><td>Webcam (OpenCV backend)</td>
+    <td><code>iron_camera_open 0</code> / <code>iron_camera_read</code></td>
+    <td>hspcv4.dll</td></tr>
+<tr><td><code>iron_camera_mf</code></td><td>Webcam + 録画 + マイク (MF)</td>
+    <td><code>iron_cam_open(0, 0, 0, 800, 600)</code><br><code>iron_cam_record_av h, "out.mp4", ...</code><br><code>iron_mic_open(0, 16000, 1, 16)</code></td>
+    <td>hspmfcam.dll</td></tr>
+<tr><td><code>iron_capture</code></td><td>DXGI 画面キャプチャ</td>
+    <td><code>capture_init</code> / <code>capture_save "ss.bmp"</code></td>
+    <td>hspcapture.dll</td></tr>
+<tr><td><code>iron_wgcapture</code></td><td>Windows.Graphics.Capture</td>
+    <td>スクリーン/ウィンドウキャプチャ</td>
+    <td>hspwgcapture.dll</td></tr>
+<tr><td><code>iron_audioloop</code></td><td>WASAPI 音声ループバック</td>
+    <td><code>audioloop_start "record.wav"</code></td>
+    <td>hspaudioloop.dll</td></tr>
+<tr><td><code>iron_ffmpeg</code></td><td>FFmpeg ラッパー</td>
+    <td><code>ffmpeg_convert "in.avi", "out.mp4"</code><br><code>ffmpeg_extract_audio "v.mp4", "a.wav"</code></td>
+    <td>ffmpeg.exe</td></tr>
+<tr><td><code>iron_synth</code></td><td>WAV オーディオ合成</td>
+    <td><code>synth_sine "out.wav", 440.0, 1.0, 44100</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_spectrum</code></td><td>スペクトラム解析 (DFT)</td>
+    <td><code>spectrum_compute samples, n, bins, num_bins</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_midi</code></td><td>MIDI 入出力</td>
+    <td>note_on / note_off / program_change / in_poll</td>
+    <td>hspmidi.dll</td></tr>
+<tr><td><code>iron_exif</code></td><td>EXIF メタデータ読み取り</td>
+    <td><code>exif_open "img.jpg"</code> / <code>exif_get_str</code></td>
+    <td>GDI+ (OS 標準)</td></tr>
+<tr><td><code>iron_ruffle</code></td><td>Flash SWF 再生</td>
+    <td>Ruffle + WebView2</td>
+    <td>WebView2</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat4">4. ネットワーク / Web</h2>
+
+<p>HTTP / FTP / SMTP / SSH / OAuth / BLE など、通信プロトコル全般をカバーします。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_http</code></td><td>WinHTTP HTTP クライアント。HTTPS 自動 TLS。<br>GET/POST + カスタムヘッダ + SSE ストリーミング。<br>リダイレクト自動追尾。外部 DLL 不要。</td>
+    <td><code>http_get url, body</code> → stat に HTTP ステータス<br><code>http_post url, body, out, "application/json"</code><br><code>http_set_header "Authorization: Bearer ..."</code><br><code>http_set_timeout 60</code> (秒)<br><code>http_stream_open url, body, ctype</code> (SSE 用)<br><code>http_stream_read buf, max</code> / <code>http_stream_close</code></td>
+    <td>winhttp.dll (OS 標準)</td></tr>
+<tr><td><code>iron_webserver</code></td><td>HTTP/HTTPS/WebSocket サーバ</td>
+    <td><code>web_open 8080</code> / <code>web_accept</code> / <code>web_respond</code></td>
+    <td>hspwebsrv.dll</td></tr>
+<tr><td><code>iron_ftp</code></td><td>FTP クライアント</td>
+    <td><code>ftp_connect "host", "user", "pass"</code><br><code>ftp_upload / ftp_download / ftp_list</code></td>
+    <td>WinINet (OS 標準)</td></tr>
+<tr><td><code>iron_smtp</code></td><td>SMTP メール送信</td>
+    <td><code>mail_send "smtp.example.com", 587, ...</code></td>
+    <td>hspsmtp.dll</td></tr>
+<tr><td><code>iron_ssh</code></td><td>SSH / SFTP</td>
+    <td><code>ssh_connect "host", port, "user", "pass"</code><br><code>ssh_exec "command"</code> / <code>sftp_upload</code></td>
+    <td>hspssh.dll (libssh2)</td></tr>
+<tr><td><code>iron_oauth</code></td><td>OAuth 2.0 Authorization Code Flow (PKCE 対応)。<br>localhost TCP リスナーでリダイレクトコードを自動受信。<br>Google / GitHub 等の認証フローに対応。</td>
+    <td><code>oauth_start_listener 8080</code><br><code>oauth_wait_code 30</code> → stat=0 で refstr にコード<br><code>oauth_stop_listener</code><br><code>oauth_token "token_url", "client_id", code, "redirect_uri"</code></td>
+    <td>ws2_32 (Winsock)</td></tr>
+<tr><td><code>iron_scraper</code></td><td>Web スクレイピング</td>
+    <td><code>scrape_links "url"</code> / <code>scrape_text "url"</code></td>
+    <td>iron_http + iron_html</td></tr>
+<tr><td><code>iron_ble</code></td><td>BLE GATT セントラル (WinRT Bluetooth LE)。<br>デバイススキャン、サービス/キャラクタリスティクス列挙、<br>値の読み書き、Notify 購読。UUID 128bit 形式。</td>
+    <td><code>iron_ble_init</code> / <code>iron_ble_scan_start</code><br><code>iron_ble_scan_poll addr, name, rssi</code><br><code>iron_ble_connect "AA:BB:..."</code> → dev_h<br><code>iron_ble_read dev_h, "svc_uuid", "chr_uuid", buf, len</code><br><code>iron_ble_notify_enable dev_h, "svc", "chr"</code></td>
+    <td>hspble.dll</td></tr>
+<tr><td><code>iron_netinfo</code></td><td>ネットワーク状態</td>
+    <td><code>netinfo_connected</code> / <code>netinfo_ip</code></td>
+    <td>WinINet</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat5">5. データ / ファイル</h2>
+
+<p>JSON / CSV / YAML / XML / DB / PDF / アーカイブなど、データの読み書きとストレージに関するモジュール群です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_json</code></td><td>JSON parse/build</td>
+    <td><code>hid = json_load(text)</code><br><code>json_str(hid, "name")</code> / <code>json_int</code> / <code>json_dbl</code></td>
+    <td>hspjson.dll</td></tr>
+<tr><td><code>iron_csv</code></td><td>RFC 4180 準拠 CSV パーサ / ビルダ。<br>ダブルクォート / 改行 / カンマ含むフィールド対応。<br>区切り文字変更で TSV にも対応。</td>
+    <td><code>csv_load data, rows, cols, "file.csv"</code><br><code>csv_cell(data, row, col, cols)</code><br><code>csv_row_begin</code> / <code>csv_row_add "val"</code> / <code>csv_row_end buf</code><br><code>csv_write "out.csv", buf</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_yaml</code></td><td>簡易 YAML パーサー</td>
+    <td><code>yaml_load text</code> / <code>yaml_get("key")</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_xml</code></td><td>XML 読み書き (MSXML DOM)。<br>COM 経由で Msxml2.DOMDocument.6.0 を操作。<br>ファイル読込み / 文字列パース対応。hsp3net 専用。</td>
+    <td><code>xml_load "file.xml"</code><br><code>xml_loadstr "&lt;root&gt;...&lt;/root&gt;"</code></td>
+    <td>MSXML (OS 標準)</td></tr>
+<tr><td><code>iron_db</code></td><td>SQLite 3.46</td>
+    <td><code>h = db_open("test.db")</code><br><code>db_exec h, "CREATE TABLE ..."</code></td>
+    <td>hspdb.dll</td></tr>
+<tr><td><code>iron_duckdb</code></td><td>DuckDB 組み込み分析 DB。CSV / Parquet を SQL で<br>直接クエリ。インメモリ / ファイル DB 対応。<br>集計・結合・ウィンドウ関数など分析 SQL 完全対応。</td>
+    <td><code>db_open ":memory:"</code> / <code>db_open "file.db"</code><br><code>db_exec h, "CREATE TABLE ..."</code><br><code>db_query h, "SELECT * FROM 'data.csv'", rh</code><br><code>db_rows(rh)</code> / <code>db_fetch_str(rh, row, col)</code><br><code>db_free rh</code> / <code>db_close h</code></td>
+    <td>hspduckdb.dll</td></tr>
+<tr><td><code>iron_7z</code></td><td>40+ アーカイブ形式</td>
+    <td><code>iron_7z_add "out.7z", "dir\\"</code><br><code>iron_7z_extract "a.tar.gz", "out\\"</code></td>
+    <td>hsp7z.dll + 7za.exe</td></tr>
+<tr><td><code>iron_xlsx</code></td><td>Excel .xlsx 読み書き (OpenXML 直接解析)。<br>ZIP + XML を hsp7z で展開してセル値を取得。<br>新規作成 + セル書き込み + 保存も可能。Excel 不要。</td>
+    <td><code>xlsx_open "file.xlsx"</code> → stat=handle<br><code>xlsx_cell_str h, sheet, row, col, val</code><br><code>xlsx_used_range h, sheet, rows, cols</code><br><code>xlsx_new h</code> / <code>xlsx_set_cell h, 0, 1, 1, "Hello"</code><br><code>xlsx_save h, "out.xlsx"</code></td>
+    <td>hsp7z.dll (iron_7z)</td></tr>
+<tr><td><code>iron_pdf</code></td><td>PDF テキスト抽出 + ビットマップ描画 (PDFium)。<br>ページ数 / サイズ取得、任意倍率レンダリング、<br>メタデータ (タイトル / 著者) 取得。パスワード付き対応。</td>
+    <td><code>pdf_begin</code> / <code>pdf_open "file.pdf"</code> → h<br><code>pdf_pages(h)</code> / <code>pdf_text h, page</code> → refstr<br><code>pdf_draw h, page, scale</code> (画面描画)<br><code>pdf_render h, page, 2.0, buf, w, h</code> (BGRA 取得)<br><code>pdf_shut h</code> / <code>pdf_end</code></td>
+    <td>hsppdf.dll</td></tr>
+<tr><td><code>iron_collection</code></td><td>スタック / キュー</td>
+    <td><code>stack_push 10</code> / <code>stack_pop()</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_bloom</code></td><td>ブルームフィルタ</td>
+    <td><code>bloom_init 1024</code> / <code>bloom_contains("item")</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_cache</code></td><td>TTL 付きキャッシュ</td>
+    <td><code>cache_set "key", "val", 60</code></td>
+    <td>Pure HSP</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat6">6. 数学 / 科学計算</h2>
+
+<p>FFT、複素数、幾何学、統計、最適化など、科学計算に必要な数学関数群です。全て Pure HSP 実装です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th></tr>
+<tr><td><code>iron_stat</code></td><td>統計関数</td>
+    <td><code>stat_mean(arr, n)</code> / <code>stat_median</code> / <code>stat_stddev</code><br><code>stat_describe arr, n</code></td></tr>
+<tr><td><code>iron_fft</code></td><td>高速フーリエ変換</td>
+    <td><code>fft_compute re, im, n</code></td></tr>
+<tr><td><code>iron_complex</code></td><td>複素数演算</td>
+    <td><code>complex_mul a, b, c</code> / <code>complex_abs(a)</code></td></tr>
+<tr><td><code>iron_geometry</code></td><td>2D/3D 幾何学</td>
+    <td><code>tri_area(x1,y1,x2,y2,x3,y3)</code> / <code>sphere_volume(r)</code></td></tr>
+<tr><td><code>iron_quaternion</code></td><td>クォータニオン</td>
+    <td><code>quat_from_axis_angle q, 0,0,1, 1.5708</code><br><code>quat_rotate q, px, py, pz</code></td></tr>
+<tr><td><code>iron_matrix</code></td><td>行列演算</td>
+    <td><code>mat_mul</code> / <code>mat_transpose</code> / <code>vec_dot</code> / <code>vec_cross</code></td></tr>
+<tr><td><code>iron_graph</code></td><td>グラフ探索</td>
+    <td><code>graph_bfs</code> / <code>graph_dijkstra</code></td></tr>
+<tr><td><code>iron_ode</code></td><td>常微分方程式 (RK4)</td>
+    <td><code>ode_solve_decay t_out, y_out, steps, ...</code></td></tr>
+<tr><td><code>iron_optimize</code></td><td>最適化 (黄金分割法)</td>
+    <td><code>optimize_golden(a, b, max_iter)</code></td></tr>
+<tr><td><code>iron_curvefit</code></td><td>カーブフィッティング</td>
+    <td><code>curvefit_linear x, y, n, slope, intercept</code></td></tr>
+<tr><td><code>iron_random_dist</code></td><td>確率分布乱数</td>
+    <td><code>rand_normal(0.0, 1.0)</code> / <code>rand_poisson(3.0)</code></td></tr>
+<tr><td><code>iron_combinatorics</code></td><td>組み合わせ論</td>
+    <td><code>factorial(5)</code> / <code>combination(10,3)</code> / <code>is_prime(17)</code></td></tr>
+<tr><td><code>iron_montecarlo</code></td><td>モンテカルロ法</td>
+    <td><code>mc_estimate_pi(10000)</code></td></tr>
+<tr><td><code>iron_filter</code></td><td>信号フィルタ</td>
+    <td><code>filter_moving_avg data, n, window, out</code></td></tr>
+</table>
+
+<pre><code>#include "iron_stat.hsp"
+dim scores, 5
+scores = 80, 90, 70, 100, 60
+mes "平均 = " + stat_mean(scores, 5)      ; → 80.0
+mes "中央値 = " + stat_median(scores, 5)    ; → 80.0
+mes "標準偏差 = " + stat_stddev(scores, 5)  ; → 14.14...</code></pre>
+
+<!-- ========================================== -->
+<h2 id="cat7">7. 暗号化 / セキュリティ</h2>
+
+<p>ハッシュ関数、共通鍵暗号、鍵導出、JWT デコードなどのセキュリティ機能です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_hash</code></td><td>SHA-1/256/384/512 / MD5 / Base64</td>
+    <td><code>hash_sha256 "hello"</code> / <code>base64_encode "hi"</code></td>
+    <td>bcrypt + crypt32</td></tr>
+<tr><td><code>iron_crypto</code></td><td>Blowfish / RC4 / ChaCha20 / AES-256-CBC / HMAC / PBKDF2</td>
+    <td><code>aes256_encrypt key, iv, data, len, out</code><br><code>chacha20_encrypt key, nonce, data, len, out</code><br><code>hmac_sha256 key, klen, data, dlen</code></td>
+    <td>hspcrypto.dll</td></tr>
+<tr><td><code>iron_jwt</code></td><td>JWT トークン</td>
+    <td><code>jwt_decode(token)</code> / <code>jwt_header(token)</code></td>
+    <td>Pure HSP</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat8">8. 正規表現 / テキスト</h2>
+
+<p>2 種類の正規表現エンジンと、文字列操作、Markdown、形態素解析などのテキスト処理モジュールです。</p>
+
+<h3>正規表現エンジン比較</h3>
+
+<table>
+<tr><th></th><th>iron_regex (std::regex)</th><th>iron_pcre2 (PCRE2)</th></tr>
+<tr><td>エンジン</td><td>C++11 std::regex (ECMAScript)</td><td>PCRE2 10.44 (Perl 互換)</td></tr>
+<tr><td>Unicode</td><td>基本対応</td><td><code>\p{Hiragana}</code> 等フル対応</td></tr>
+<tr><td>先読み/後読み</td><td>先読みのみ</td><td>先読み + 後読み</td></tr>
+<tr><td>DLL サイズ</td><td>約 200 KB</td><td>約 600 KB</td></tr>
+</table>
+
+<h3>共通 API</h3>
+
+<table>
+<tr><th>iron_regex</th><th>iron_pcre2</th><th>説明</th></tr>
+<tr><td><code>regex_match p, t</code></td><td><code>pcre2_match p, t</code></td><td>全体マッチ → stat (1/0)</td></tr>
+<tr><td><code>regex_search p, t</code></td><td><code>pcre2_search p, t</code></td><td>最初のマッチ → refstr</td></tr>
+<tr><td><code>regex_replace p, t, r</code></td><td><code>pcre2_replace p, t, r</code></td><td>全置換 → refstr</td></tr>
+<tr><td><code>regex_count(p, t)</code></td><td><code>pcre2_count(p, t)</code></td><td>マッチ数</td></tr>
+<tr><td><code>regex_find p, t</code></td><td><code>pcre2_find p, t</code></td><td>全マッチ列挙 → stat (件数)</td></tr>
+<tr><td><code>regex_get(i)</code></td><td><code>pcre2_get(i)</code></td><td>i 番目のマッチ取得</td></tr>
+</table>
+
+<pre><code>#include "iron_regex.hsp"   ; or "iron_pcre2.hsp"
+
+regex_search "[0-9]+", "abc123def456"
+mes "found: " + refstr              ; → "123"
+
+regex_replace "[aeiou]", "hello world", "*"
+mes refstr                           ; → "h*ll* w*rld"
+
+regex_find "[a-z]+@[a-z.]+", "foo@bar.com baz@qux.org"
+repeat stat
+    mes regex_get(cnt)               ; → "foo@bar.com", "baz@qux.org"
+loop</code></pre>
+
+<h3>テキスト処理モジュール</h3>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th></tr>
+<tr><td><code>iron_str2</code></td><td>文字列ユーティリティ</td>
+    <td><code>str_trim(s)</code> / <code>str_upper(s)</code> / <code>str_replace(s, old, new)</code></td></tr>
+<tr><td><code>iron_strbuf</code></td><td>文字列ビルダー</td>
+    <td><code>sb_init 0</code> / <code>sb_append "text"</code> / <code>sb_length()</code></td></tr>
+<tr><td><code>iron_html</code></td><td>HTML パース</td>
+    <td><code>html_parse text</code> / <code>html_find "a"</code> / <code>html_tag_attr(0, "href")</code></td></tr>
+<tr><td><code>iron_markdown</code></td><td>Markdown → HTML</td>
+    <td><code>md_to_html "# Title"</code></td></tr>
+<tr><td><code>iron_diff</code></td><td>テキスト差分</td>
+    <td><code>diff_text old, new</code></td></tr>
+<tr><td><code>iron_mecab</code></td><td>MeCab 形態素解析</td>
+    <td><code>mecab_init</code> / <code>mecab_parse "text"</code></td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat9">9. UI / GUI</h2>
+
+<p>ダイアログ、トースト通知、ダークモード、リボン UI、ドッキングパネルなど、UI 拡張モジュール群です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>依存</th></tr>
+<tr><td><code>iron_dialog</code></td><td>モダンファイルダイアログ / フォルダ選択 (3 種)</td><td>ole32 + COM</td></tr>
+<tr><td><code>iron_toast</code></td><td>タスクトレイバルーン通知</td><td>shell32</td></tr>
+<tr><td><code>iron_toast_winrt</code></td><td>WinRT アクションセンター通知</td><td>DLL</td></tr>
+<tr><td><code>iron_tray</code></td><td>通知領域アイコン</td><td>shell32</td></tr>
+<tr><td><code>iron_darkmode</code></td><td>ダークモード有効化</td><td>dwmapi</td></tr>
+<tr><td><code>iron_splash</code></td><td>スプラッシュスクリーン</td><td>Pure HSP</td></tr>
+<tr><td><code>iron_hotkey</code></td><td>グローバルホットキー</td><td>user32</td></tr>
+<tr><td><code>iron_dpi</code></td><td>Per-Monitor DPI V2</td><td>user32</td></tr>
+<tr><td><code>iron_ime</code></td><td>IME 制御</td><td>imm32</td></tr>
+<tr><td><code>iron_dragdrop</code></td><td>ドラッグ&amp;ドロップ</td><td>ole32</td></tr>
+<tr><td><code>iron_touch</code></td><td>タッチ入力シミュレーション</td><td>user32</td></tr>
+<tr><td><code>iron_magnify</code></td><td>画面拡大</td><td>magnification.dll</td></tr>
+<tr><td><code>iron_print</code></td><td>印刷ダイアログ + GDI 印刷</td><td>GDI</td></tr>
+<tr><td><code>iron_webview2</code></td><td>Edge WebView2 埋め込み</td><td>hspwebview2.dll</td></tr>
+<tr><td><code>iron_forms</code></td><td>WinForms コントロール生成 / レイアウト管理。<br>Anchor / Dock / Visible / Enabled 設定、DataGridView、<br>MenuStrip、StatusStrip、ProgressBar、DateTimePicker 等。</td><td>.NET</td></tr>
+<tr><td><code>iron_designer</code></td><td>WebView2 内 GUI デザイナー。HTML キャンバス上に<br>Button / Label / Input / ComboBox をドラッグ配置し、<br>HSP コード (button/pos/input/mesbox) を自動生成。</td><td>.NET + WebView2</td></tr>
+<tr><td><code>iron_ribbon</code></td><td>WebView2 ベースリボン UI。タブ / ボタン / アイコンを<br>JS で描画し postMessage で HSP に通知。Light/Dark テーマ。</td><td>hspwebview2.dll</td></tr>
+<tr><td><code>iron_ribbon2</code></td><td>WinForms ToolStrip ベースの簡易リボン UI。<br>TabControl + ToolStrip で Office 風タブ付きツールバーを実現。</td><td>.NET</td></tr>
+<tr><td><code>iron_ribbon_pro</code></td><td>WinForms リッチリボン UI。TabControl + FlowLayoutPanel で<br>グループ / 大小ボタン / ドロップダウンを実現。Office 準拠レイアウト。</td><td>.NET</td></tr>
+<tr><td><code>iron_ribbon_native</code></td><td>Windows Ribbon Framework (UIRibbon COM)。<br>uicc.exe でコンパイルした XML マークアップを読み込み。<br>OS ネイティブのリボン UI。Windows 7 以降。</td><td>hspribbon.dll</td></tr>
+<tr><td><code>iron_docking</code></td><td>簡易ドッキングパネル UI (SplitContainer ベース)。<br>左 / 右 / 下にパネルを配置。VS 風のタイトルバー付き。</td><td>.NET</td></tr>
+<tr><td><code>iron_docking_pro</code></td><td>VS 風ドッキング (WeifenLuo DockPanel Suite)。<br>フローティング / ドッキング / 自動非表示 / タブドキュメント完全対応。<br>VS2015 Blue テーマ。DockAreas 6 方向指定。</td><td>.NET + WeifenLuo DLL</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat10">10. ゲーム</h2>
+
+<p>ゲーム開発向けのユーティリティモジュールです。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>依存</th></tr>
+<tr><td><code>iron_game</code></td><td>ゲーム開発ユーティリティ。AABB / 円 / 点の衝突判定 4 種、<br>2D ベクトル演算 (正規化 / 回転 / 角度 / 距離)、<br>イージング関数 10 種 (quad / cubic / elastic / bounce)、<br>FPS カウンター、タイルマップ (init / set / get / draw)、乱数ヘルパー。</td><td>Pure HSP</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat11">11. グラフィックス</h2>
+
+<p>チャート描画、GDI+、バーコード、QR コードなどのグラフィックス機能です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_chart</code></td><td>Chart.js グラフ描画</td>
+    <td><code>chart_init</code> / <code>chart_type CHART_BAR</code><br><code>chart_data "売上", 120, 200, 150</code> / <code>chart_show</code></td>
+    <td>ブラウザ</td></tr>
+<tr><td><code>iron_chart_d2d</code></td><td>Direct2D グラフ描画</td>
+    <td><code>chartd2d_bar labels, data, 5, "月別売上"</code></td>
+    <td>hspd2d</td></tr>
+<tr><td><code>iron_gdiplus</code></td><td>GDI+ 画像処理 (.NET System.Drawing)。<br>スクリーンショット、リサイズ (高品質 Bicubic)、<br>回転 (90/180/270)、グレースケール変換、透かし挿入。<br>PNG / JPEG / BMP / GIF 出力。hsp3net 専用。</td>
+    <td><code>gdi_screenshot "ss.png"</code><br><code>gdi_resize "in.jpg", "out.jpg", 320, 240</code><br><code>gdi_rotate "in.png", "out.png", 90</code><br><code>gdi_grayscale "in.png", "gray.png"</code><br><code>gdi_watermark "in.png", "out.png", "Sample"</code></td>
+    <td>.NET (hsp3net)</td></tr>
+<tr><td><code>iron_barcode</code></td><td>1D バーコード生成</td>
+    <td><code>barcode_generate "text", "out.bmp"</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_qr</code></td><td>QR コード生成。qrcode-generator JS ライブラリ (CDN) を<br>使い、一時 HTML を書き出してブラウザで表示。<br>テキスト / URL を QR 化。</td>
+    <td><code>qr_generate "https://example.com", "qr.html"</code></td>
+    <td>ブラウザ + CDN</td></tr>
+<tr><td><code>iron_color</code></td><td>色変換</td>
+    <td><code>color_rgb2hex(255,0,0)</code> / <code>color_hex2rgb</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_webpdf</code></td><td>Web ページ PDF 出力</td>
+    <td>WebView2 経由</td>
+    <td>WebView2</td></tr>
+</table>
+
+<pre><code>#include "iron_chart.hsp"
+chart_init
+chart_type CHART_BAR
+chart_title "月別売上"
+chart_labels "1月","2月","3月","4月","5月"
+chart_data "売上", 120, 200, 150, 300, 250
+chart_show</code></pre>
+
+<!-- ========================================== -->
+<h2 id="cat12">12. 描画エンジン連携</h2>
+
+<h3>hspd2d (DirectWrite + Direct2D + WIC)</h3>
+
+<p><code>hspd2d.hsp</code> は DirectWrite + Direct2D + WIC を HSP の COM 機能 (#usecom / #comfunc / newcom) だけで wrap した Pure HSP モジュールです。
+C++ DLL を介さずに高品質テキスト描画と PNG 出力を実現します。</p>
+
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>d2d_init</code></td><td>COM 初期化 + DWrite / D2D / WIC factory 作成</td></tr>
+<tr><td><code>d2d_image_create id, w, h</code></td><td>オフスクリーン画像 (32bpp PBGRA) を作成</td></tr>
+<tr><td><code>d2d_image_select id</code></td><td>カレント描画対象を切り替え</td></tr>
+<tr><td><code>d2d_clear r, g, b, a</code></td><td>単色で塗りつぶし</td></tr>
+<tr><td><code>d2d_color r, g, b, a</code></td><td>以後の描画色を設定</td></tr>
+<tr><td><code>d2d_font "family", size, weight, italic</code></td><td>テキストフォーマット作成</td></tr>
+<tr><td><code>d2d_drawtext "text", x, y, w, h</code></td><td>文字列描画 (色付き絵文字対応)</td></tr>
+<tr><td><code>d2d_image_save id, "out.png"</code></td><td>PNG として保存</td></tr>
+<tr><td><code>d2d_shutdown</code></td><td>リソース解放</td></tr>
+</table>
+
+<h3>DxLib 統合 (hspdxlib)</h3>
+
+<p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
+DxLibW (Unicode 版) を使用し、32bit / 64bit の両方に対応します。<strong>2,548 関数 + 151 構造体戻り関数 + 901 定数</strong>を宣言済み。</p>
+
+<table>
+<tr><th>ファイル</th><th>内容</th></tr>
+<tr><td><code>hspdxlib.as</code></td><td>メインヘッダ -- 2,548 #cfunc/#func + 151 #cfuncst</td></tr>
+<tr><td><code>hspdxlib_const.as</code></td><td>901 個の定数定義</td></tr>
+<tr><td><code>hspdxlib_struct.as</code></td><td>55 構造体のバッファオフセット定義</td></tr>
+<tr><td><code>hspdxlib_macro.as</code></td><td>HSP 風短縮名マクロ (dxinit / dxdraw / dxflip 等)</td></tr>
+</table>
+
+<pre><code>#include "hspdxlib.as"
+
+    ChangeWindowMode TRUE
+    SetGraphMode 640, 480, 32
+    SetMainWindowText "My Game"
+    if DxLib_Init() == -1 : end
+    SetDrawScreen DX_SCREEN_BACK
+    white = GetColor(255, 255, 255)
+
+*main
+    ClearDrawScreen_1
+    DrawString 10, 10, "Hello, DxLib!", white
+    ScreenFlip
+    if ProcessMessage() != 0 : goto *quit
+    if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+    goto *main
+
+*quit
+    DxLib_End
+    end</code></pre>
+
+<!-- ========================================== -->
+<h2 id="cat13">13. テスト / 開発ツール</h2>
+
+<p>ユニットテスト、フェイクデータ生成、ログ出力など、開発を支援するモジュール群です。</p>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th></tr>
+<tr><td><code>iron_test</code></td><td>ユニットテストフレームワーク</td>
+    <td><code>test_begin "suite"</code> / <code>assert_eq a, b, "msg"</code> / <code>test_end</code></td></tr>
+<tr><td><code>iron_faker</code></td><td>フェイクデータ生成</td>
+    <td><code>fake_name()</code> / <code>fake_email()</code> / <code>fake_phone()</code></td></tr>
+<tr><td><code>iron_log</code></td><td>ログ出力</td>
+    <td><code>log_init "app.log", LOG_INFO</code><br><code>log_info "started"</code> / <code>log_error "failed"</code></td></tr>
+<tr><td><code>iron_table2</code></td><td>CLI テーブル整形出力</td>
+    <td><code>table_print headers, rows</code></td></tr>
+<tr><td><code>iron_progress_cl</code></td><td>CLI プログレスバー</td>
+    <td><code>progress_show current, total, width</code></td></tr>
+<tr><td><code>iron_report</code></td><td>帳票出力 (HTML テンプレート)</td>
+    <td><code>{{key}}</code> でデータ差し込み + ブラウザ表示</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="cat14">14. .NET 専用</h2>
+
+<p>ネイティブ版の代替として .NET Framework を利用した実装です。hsp3net 専用ですが、TLS/SSL 対応やイベント駆動など、ネイティブ版にない機能を提供します。</p>
+
+<table>
+<tr><th>モジュール</th><th>.NET クラス</th><th>ネイティブ版との違い</th></tr>
+<tr><td><code>iron_regex_net</code></td><td><code>System.Text.RegularExpressions</code></td><td>名前付きグループ、Split 対応</td></tr>
+<tr><td><code>iron_crypto_net</code></td><td><code>System.Security.Cryptography</code></td><td>SHA256、暗号化安全乱数</td></tr>
+<tr><td><code>iron_registry_net</code></td><td><code>Microsoft.Win32.Registry</code></td><td>より簡潔な API</td></tr>
+<tr><td><code>iron_fwatch_net</code></td><td><code>System.IO.FileSystemWatcher</code></td><td>イベント駆動</td></tr>
+<tr><td><code>iron_smtp_net</code></td><td><code>System.Net.Mail.SmtpClient</code></td><td>TLS/SSL 自動対応</td></tr>
+<tr><td><code>iron_html_net</code></td><td>C# 動的コンパイル (Regex)</td><td>タグ除去 / リンク抽出</td></tr>
+<tr><td><code>iron_ftp_net</code></td><td><code>System.Net.FtpWebRequest</code></td><td>FTPS (SSL) 対応</td></tr>
+<tr><td><code>iron_math_net</code></td><td>MathNet.Numerics 連携。統計 (Mean/StdDev/Correlation)、<br>線形回帰 (Fit.Line)、正規分布 (PDF/CDF/InvCDF)、<br>連立一次方程式 (行列 Solve)、行列式、<br>Akima スプライン補間、求根。MathNet.Numerics.dll 必要。</td><td>高精度数値演算 + 線形代数 + 分布 + 補間</td></tr>
+<tr><td><code>iron_docx</code></td><td>OpenXML</td><td>Word .docx 生成</td></tr>
+<tr><td><code>iron_pptx</code></td><td>OpenXML</td><td>PowerPoint .pptx 生成</td></tr>
+<tr><td><code>iron_msgpack</code></td><td>MessagePack ライブラリ</td><td>バイナリシリアライズ</td></tr>
+<tr><td><code>iron_office</code></td><td>Office COM 自動化 (VBScript ブリッジ方式)。<br>一時 .vbs を cscript.exe で実行。Excel セル読み書き、<br>Excel/Word/PowerPoint → PDF 変換。Office インストール必須。</td><td>Excel / Word / PPT 操作 + PDF 変換</td></tr>
+</table>
+
+<p>その他の .NET 専用モジュール: <code>iron_forms</code> / <code>iron_designer</code> / <code>iron_docking</code> / <code>iron_docking_pro</code> / <code>iron_ribbon</code> / <code>iron_ribbon2</code> / <code>iron_ribbon_pro</code></p>
+
+<!-- ========================================== -->
+<h2 id="examples">コード例</h2>
+
+<h3>例 1: 天気予報を取得して JSON パース</h3>
+
+<pre><code>#include "iron_http.hsp"
+#include "iron_json.hsp"
+
+    url = "https://api.open-meteo.com/v1/forecast?latitude=35.68&amp;longitude=139.69&amp;current=temperature_2m"
+    http_get url, body
+    if stat = 200 {
+        hid = json_load(body)
+        mes "東京の現在気温: " + json_dbl(hid, "current.temperature_2m") + " ℃"
+        json_release hid
+    }
+    stop</code></pre>
+
+<h3>例 2: タスクトレイ通知</h3>
+
+<pre><code>#include "iron_toast.hsp"
+    toast "IronHSP", "処理が完了しました"
+    toast_warning "注意", "ディスク容量が少なくなっています"
+    toast_error "エラー", "ファイルが見つかりません"</code></pre>
+
+<h3>例 3: Webcam プレビュー + スナップショット</h3>
+
+<pre><code>#include "iron_camera_mf.hsp"
+    screen 0, 800, 600
+    h = iron_cam_open(0, 0, 0, 800, 600)
+    iron_cam_set_aspect h, 1    ; letterbox
+    ; ボタン押下でスナップショット:
+    iron_cam_save h, "shot.png"
+    stop</code></pre>
+
+<h3>例 4: Webcam 録画 (映像 + 音声 → MP4)</h3>
+
+<pre><code>#include "iron_camera_mf.hsp"
+    h = iron_cam_open(0, 0, 0, 800, 600)
+    ; カメラ 0、音声デバイス 0、H.264 4Mbps + AAC 128kbps
+    iron_cam_record_av h, "output.mp4", 0, "H264", 4000000, "AAC", 16000
+    wait 1000    ; 10 秒録画
+    iron_cam_record_stop h
+    iron_cam_close h
+    dialog "output.mp4 を書き出しました"</code></pre>
+
+<h3>例 5: マイク録音 → Whisper 文字起こし → AI 応答</h3>
+
+<pre><code>#include "iron_camera_mf.hsp"
+#include "iron_speech.hsp"
+#include "iron_ai.hsp"
+
+    ; マイクで 5 秒録音
+    hmic = iron_mic_open(0, 16000, 1, 16)
+    iron_mic_save_wav hmic, "voice.wav"
+    wait 500
+    iron_mic_save_wav_stop hmic
+    iron_mic_close hmic
+
+    ; whisper.cpp オフライン認識
+    iron_speech_set_backend SPEECH_BACKEND_WHISPER
+    iron_speech_set_model "ggml-base.bin"
+    iron_speech_set_language "ja"
+    iron_speech_open
+    iron_speech_transcribe "voice.wav", user_text
+    iron_speech_close
+    mes "聞こえた: " + user_text
+
+    ; Groq で応答
+    iron_ai_set_endpoint "https://api.groq.com/openai/v1"
+    iron_ai_set_key "gsk_..."
+    iron_ai_set_model "llama3.2"
+    iron_ai_chat user_text, reply
+    mes "AI: " + reply</code></pre>
+
+<h3>例 6: 動画再生 (シーク対応)</h3>
+
+<pre><code>#include "iron_video.hsp"
+    screen 0, 800, 600
+    iron_video_open "movie.mp4", hwnd
+    wait 200         ; 2 秒経過したら
+    pos_ms = iron_video_position_ms()
+    dur_ms = iron_video_duration_ms()
+    mes "位置: " + pos_ms + " / " + dur_ms
+    iron_video_seek_ms (dur_ms / 2)     ; 真ん中にジャンプ
+    stop</code></pre>
+
+<h3>例 7: SQLite データベース</h3>
+
+<pre><code>#include "iron_db.hsp"
+    h = db_open("test.db")
+    db_exec h, "CREATE TABLE IF NOT EXISTS users (name TEXT, age INTEGER)"
+    db_exec h, "INSERT INTO users VALUES ('Alice', 30)"
+    qh = db_query(h, "SELECT name, age FROM users")
+    repeat
+        db_step qh : if stat = 0 : break
+        db_col_text qh, 0, name
+        age = db_col_int(qh, 1)
+        mes name + ": " + age
+    loop
+    db_query_close qh
+    db_close h</code></pre>
+
+<h3>例 8: アーカイブ作成 (7z / zip / tar.gz)</h3>
+
+<pre><code>#include "iron_7z.hsp"
+    ; 出力拡張子で形式が自動判別される
+    iron_7z_add "backup.7z", "mydir\\"
+    iron_7z_add "release.zip", "bin\\"
+    iron_7z_add "data.tar.gz", "logs\\"
+
+    ; 一覧取得
+    iron_7z_list "backup.7z", names, sizes
+    repeat stat
+        mes names(cnt) + " (" + sizes(cnt) + " bytes)"
+    loop
+
+    ; 展開
+    iron_7z_extract "backup.7z", "restore\\"</code></pre>
+
+<h3>例 9: ローカル HTTP サーバ</h3>
+
+<pre><code>#include "iron_webserver.hsp"
+    web_open 8080
+    repeat
+        web_accept method, path, body, 100
+        if stat = 1 {
+            web_respond 200, "text/html; charset=utf-8", "&lt;h1&gt;Hello " + path + "&lt;/h1&gt;"
+        }
+        stick k : if k &amp; 128 : break
+    loop
+    web_close</code></pre>
+
+<h3>例 10: AI ストリーミング問い合わせ</h3>
+
+<pre><code>#include "iron_ai.hsp"
+    iron_ai_set_endpoint "https://api.groq.com/openai/v1"
+    iron_ai_set_key "gsk_..."
+    iron_ai_set_model "llama3.2"
+
+    iron_ai_chat_stream_start "HSP3 について教えて"
+    sdim full, 16384 : full = ""
+    *loop
+        iron_ai_chat_stream_poll delta, done
+        if strlen(delta) &gt; 0 {
+            full = full + delta
+            redraw 0 : color 255,255,255 : boxf 0,0,640,480 : color 0,0,0 : pos 10,10 : mes full : redraw 1
+        }
+        if done : break
+        await 16
+        goto *loop
+    iron_ai_chat_stream_end</code></pre>
+
+<!-- ========================================== -->
+<h2 id="install">インストール</h2>
 
 <p>IronHSP 2026 を clone すれば、全部 <code>package/win32/common/iron_*.hsp</code> として配布されています。HSP スクリプト側は:</p>
 
@@ -67,167 +1014,22 @@ HSP は手軽にグラフィックスとゲームを作れる言語ですが、�
 
 <p>依存 DLL (<code>hspjson.dll</code>, <code>hspmfcam.dll</code> 等) は <code>plugins/win32/hsp*/Release/</code> にビルド出力があるので、それらを <strong>HSP 実行ファイルと同じディレクトリにコピー</strong>してください。</p>
 
-<h2>使い方 (5 分で分かる)</h2>
+<h3>設計方針</h3>
 
-<h3>1. 天気予報を取得して JSON パース</h3>
+<ul>
+  <li><strong>戻り値は HSP 慣習通り</strong>: 文字列は refstr もしくは出力 var 引数、整数は stat、実数は refdval</li>
+  <li><strong>初期化レス</strong>: 各 API は内部で「初回呼び出し時にのみ初期化」する自動セットアップ</li>
+  <li><strong>1 行で書けることが目玉</strong>: 例えば <code>http_get url, body</code> 1 行で HTTP 取得が完結する</li>
+  <li><strong>SJIS ベース</strong>: 日本語の取り扱いに HSP 標準の SJIS を使用</li>
+</ul>
 
-<pre><code>#include "iron_http.hsp"
-#include "iron_json.hsp"
-
-	url = "https://api.open-meteo.com/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m"
-	http_get url, body
-	if stat = 200 {
-		hid = json_load(body)
-		mes "東京の現在気温: " + json_dbl(hid, "current.temperature_2m") + " ℃"
-		json_release hid
-	}
-	stop</code></pre>
-
-<h3>2. タスクトレイ通知</h3>
-
-<pre><code>#include "iron_toast.hsp"
-	toast "IronHSP", "処理が完了しました"
-	toast_warning "注意", "ディスク容量が少なくなっています"
-	toast_error "エラー", "ファイルが見つかりません"</code></pre>
-
-<h3>3. Webcam プレビュー + スナップショット</h3>
-
-<pre><code>#include "iron_camera_mf.hsp"
-	screen 0, 800, 600
-	h = iron_cam_open(0, 0, 0, 800, 600)
-	iron_cam_set_aspect h, 1    ; letterbox
-	; ボタン押下でスナップショット:
-	iron_cam_save h, "shot.png"
-	stop</code></pre>
-
-<h3>4. Webcam 録画 (映像 + 音声 → MP4)</h3>
-
-<pre><code>#include "iron_camera_mf.hsp"
-	h = iron_cam_open(0, 0, 0, 800, 600)
-	; カメラ 0、音声デバイス 0、H.264 4Mbps + AAC 128kbps
-	iron_cam_record_av h, "output.mp4", 0, "H264", 4000000, "AAC", 16000
-	wait 1000    ; 10 秒録画
-	iron_cam_record_stop h
-	iron_cam_close h
-	dialog "output.mp4 を書き出しました"</code></pre>
-
-<h3>5. マイク録音 → Whisper 文字起こし → AI 応答</h3>
-
-<pre><code>#include "iron_camera_mf.hsp"
-#include "iron_speech.hsp"
-#include "iron_ai.hsp"
-
-	; マイクで 5 秒録音
-	hmic = iron_mic_open(0, 16000, 1, 16)
-	iron_mic_save_wav hmic, "voice.wav"
-	wait 500
-	iron_mic_save_wav_stop hmic
-	iron_mic_close hmic
-
-	; whisper.cpp オフライン認識
-	iron_speech_set_backend SPEECH_BACKEND_WHISPER
-	iron_speech_set_model "ggml-base.bin"
-	iron_speech_set_language "ja"
-	iron_speech_open
-	iron_speech_transcribe "voice.wav", user_text
-	iron_speech_close
-	mes "聞こえた: " + user_text
-
-	; Groq で応答
-	iron_ai_set_endpoint "https://api.groq.com/openai/v1"
-	iron_ai_set_key "gsk_..."
-	iron_ai_set_model "llama3.2"
-	iron_ai_chat user_text, reply
-	mes "AI: " + reply</code></pre>
-
-<h3>6. 動画再生 (シーク対応)</h3>
-
-<pre><code>#include "iron_video.hsp"
-	screen 0, 800, 600
-	iron_video_open "movie.mp4", hwnd
-	wait 200         ; 2 秒経過したら
-	pos_ms = iron_video_position_ms()
-	dur_ms = iron_video_duration_ms()
-	mes "位置: " + pos_ms + " / " + dur_ms
-	iron_video_seek_ms (dur_ms / 2)     ; 真ん中にジャンプ
-	stop</code></pre>
-
-<h3>7. SQLite データベース</h3>
-
-<pre><code>#include "iron_db.hsp"
-	h = db_open("test.db")
-	db_exec h, "CREATE TABLE IF NOT EXISTS users (name TEXT, age INTEGER)"
-	db_exec h, "INSERT INTO users VALUES ('Alice', 30)"
-	qh = db_query(h, "SELECT name, age FROM users")
-	repeat
-		db_step qh : if stat = 0 : break
-		db_col_text qh, 0, name
-		age = db_col_int(qh, 1)
-		mes name + ": " + age
-	loop
-	db_query_close qh
-	db_close h</code></pre>
-
-<h3>8. アーカイブ作成 (7z / zip / tar.gz / xz 等 40+ 形式)</h3>
-
-<pre><code>#include "iron_7z.hsp"
-	; 7z 作成 (出力拡張子で形式が自動判別される)
-	iron_7z_add "backup.7z", "mydir\\"
-	iron_7z_add "release.zip", "bin\\"
-	iron_7z_add "data.tar.gz", "logs\\"
-
-	; 一覧取得
-	iron_7z_list "backup.7z", names, sizes
-	repeat stat
-		mes names(cnt) + " (" + sizes(cnt) + " bytes)"
-	loop
-
-	; 展開
-	iron_7z_extract "backup.7z", "restore\\"</code></pre>
-
-<h3>9. ローカル HTTP サーバ</h3>
-
-<pre><code>#include "iron_webserver.hsp"
-	web_open 8080
-	repeat
-		web_accept method, path, body, 100
-		if stat = 1 {
-			web_respond 200, "text/html; charset=utf-8", "&lt;h1&gt;Hello " + path + "&lt;/h1&gt;"
-		}
-		stick k : if k & 128 : break
-	loop
-	web_close</code></pre>
-
-<h3>10. AI にストリーミング問い合わせ</h3>
-
-<pre><code>#include "iron_ai.hsp"
-	iron_ai_set_endpoint "https://api.groq.com/openai/v1"
-	iron_ai_set_key "gsk_..."
-	iron_ai_set_model "llama3.2"
-
-	iron_ai_chat_stream_start "HSP3 について教えて"
-	sdim full, 16384 : full = ""
-	*loop
-		iron_ai_chat_stream_poll delta, done
-		if strlen(delta) > 0 {
-			full = full + delta
-			redraw 0 : color 255,255,255 : boxf 0,0,640,480 : color 0,0,0 : pos 10,10 : mes full : redraw 1
-		}
-		if done : break
-		await 16
-		goto *loop
-	iron_ai_chat_stream_end</code></pre>
-
-<div class="box">
-<strong>💡 Pro Tip:</strong> これらのモジュールは組み合わせて使うとより強力です。例えば「Webcam 画像を撮影 → AI に画像説明させる → 結果を DB に保存」のようなパイプラインが数十行で書けます。
-</div>
-
-<h2>次のステップ</h2>
+<!-- ========================================== -->
+<h2 id="next">次のステップ</h2>
 
 <ul>
   <li><strong>ヘルプファイル</strong>: 各モジュールに対応する <code>package/hsphelp/iron_*.hs</code> があり、HSP IDE で命令名にカーソルを合わせて F1 で日本語リファレンスが開きます</li>
   <li><strong>サンプル</strong>: <code>package/win32/sample/iron/</code> にそれぞれのモジュールの動作サンプルがあります</li>
-  <li><strong>詳細仕様</strong>: <code>docs/IronHSP_specification.html</code> のセクション 16 で全機能を解説</li>
+  <li><strong>詳細仕様</strong>: <code>docs/IronHSP_specification.html</code> のセクション 17 で全機能を解説</li>
   <li><strong>API キー取得</strong>:
     <ul>
       <li>Groq (無料枠あり): <a href="https://console.groq.com/">console.groq.com</a></li>
@@ -240,10 +1042,12 @@ HSP は手軽にグラフィックスとゲームを作れる言語ですが、�
 
 <h2>ライセンス</h2>
 
-<p>IronHSP 2026 は OpenHSP 3.8beta1 (BSD) をベースとした派生物で、追加分も BSD 扱いです。各 iron_* モジュールも BSD ライセンスで配布されます。サードパーティ DLL (miniz, SQLite, whisper.cpp, Vosk 等) はそれぞれの配布元ライセンスに従います。</p>
+<p>IronHSP 2026 は OpenHSP 3.8beta1 (BSD) をベースとした派生物で、追加分も BSD 扱いです。各 iron_* モジュールも BSD ライセンスで配布されます。サードパーティ DLL (miniz, SQLite, whisper.cpp, Vosk, PCRE2, libssh2, DuckDB 等) はそれぞれの配布元ライセンスに従います。</p>
 
-<hr>
-<p class="muted">© 2026 IronHSP Team / Based on OpenHSP 3.8beta1</p>
+<footer>
+<p>&copy; 2026 IronHSP Team / Based on OpenHSP 3.8beta1</p>
+</footer>
 
+</div>
 </body>
 </html>
