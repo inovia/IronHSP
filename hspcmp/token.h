@@ -594,6 +594,7 @@ public:
 		int total_size;				// 総サイズ(bytes)
 		int pack;					// アライメント (デフォルト 8)
 		bool is_union;				// union フラグ
+		bool is_global;				// global 宣言フラグ
 		std::vector<StructMember> members;
 	};
 

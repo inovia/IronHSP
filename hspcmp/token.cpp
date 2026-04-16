@@ -3919,10 +3919,17 @@ ppresult_t CToken::Preprocess( char *str )
 			sdef.pack = 8;
 			sdef.total_size = 0;
 
-			// 構造体名を取得
+			// global キーワード (#defstruct global NAME)
+			int struct_glmode = 0;
 			if (GetToken() != TK_OBJ) { SetError("struct name required"); return PPRESULT_ERROR; }
 			strcase((char*)s3);
+			if (tstrcmp((char*)s3, "global")) {
+				struct_glmode = 1;
+				if (GetToken() != TK_OBJ) { SetError("struct name required after global"); return PPRESULT_ERROR; }
+				strcase((char*)s3);
+			}
 			sdef.name = (char*)s3;
+			sdef.is_global = struct_glmode;
 
 			// pack=N オプション: #defstruct NAME, pack=N
 			{
@@ -4008,8 +4015,9 @@ ppresult_t CToken::Preprocess( char *str )
 					// structdim p, POINT → structdim p, 8 に展開される
 					char name_buf[256];
 					strcpy_s(name_buf, sizeof(name_buf), sdef.name.c_str());
-					AddModuleName(name_buf);
-					lb->Regist(name_buf, LAB_TYPE_PPVAL, sdef.total_size);
+					if (sdef.is_global) FixModuleName(name_buf); else AddModuleName(name_buf);
+					int sid = lb->Regist(name_buf, LAB_TYPE_PPVAL, sdef.total_size);
+					if (sdef.is_global) lb->SetEternal(sid);
 				}
 			}
 			return PPRESULT_SUCCESS;

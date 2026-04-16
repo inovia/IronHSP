@@ -355,14 +355,14 @@
 ; D2D / WIC 構造体 (NSTRUCT で表現)
 ;-----------------------------------------------------------
 
-#defstruct D2D_COLOR_F
+#defstruct global D2D_COLOR_F
     #field float r
     #field float g
     #field float b
     #field float a
 #endstruct
 
-#defstruct D2D_RECT_F
+#defstruct global D2D_RECT_F
     #field float left
     #field float top
     #field float right
@@ -370,7 +370,7 @@
 #endstruct
 
 ; D2D1_RENDER_TARGET_PROPERTIES = 28 byte
-#defstruct D2D_RT_PROPS
+#defstruct global D2D_RT_PROPS
     #field int   rtType        ; D2D1_RENDER_TARGET_TYPE
     #field int   dxgiFormat    ; DXGI_FORMAT (B8G8R8A8_UNORM = 87)
     #field int   alphaMode     ; D2D1_ALPHA_MODE  (PREMULTIPLIED = 1)
@@ -381,7 +381,7 @@
 #endstruct
 
 ; D2D1_BRUSH_PROPERTIES = 28 byte (FLOAT opacity + D2D1_MATRIX_3X2_F transform)
-#defstruct D2D_BRUSH_PROPS
+#defstruct global D2D_BRUSH_PROPS
     #field float opacity
     #field float m11
     #field float m12
@@ -392,7 +392,7 @@
 #endstruct
 
 ; D2D1_ELLIPSE = D2D1_POINT_2F point + FLOAT radiusX + FLOAT radiusY = 16 byte
-#defstruct D2D_ELLIPSE
+#defstruct global D2D_ELLIPSE
     #field float cx
     #field float cy
     #field float rx
@@ -402,19 +402,19 @@
 ; D2D1_POINT_2F = { float x, float y } = 8 byte
 ;   x64 ABI では 8 byte の aggregate は整数 register にバイト列でそのまま乗せて
 ;   渡される。HSP からは int64 として packed bit pattern を渡す必要がある。
-#defstruct D2D_POINT_2F
+#defstruct global D2D_POINT_2F
     #field float x
     #field float y
 #endstruct
 
 ; D2D1_SIZE_U = { UINT32 w, UINT32 h } = 8 byte (int64 値渡し)
-#defstruct D2D_SIZE_U
+#defstruct global D2D_SIZE_U
     #field int w
     #field int h
 #endstruct
 
 ; D2D1_SIZE_F = { FLOAT w, FLOAT h } = 8 byte (int64 値渡し)
-#defstruct D2D_SIZE_F
+#defstruct global D2D_SIZE_F
     #field float w
     #field float h
 #endstruct
@@ -422,7 +422,7 @@
 ; D2D1_BITMAP_PROPERTIES1 = 32 byte on x64
 ;   { D2D1_PIXEL_FORMAT(8), FLOAT dpiX, FLOAT dpiY,
 ;     D2D1_BITMAP_OPTIONS(4), [4 pad], ID2D1ColorContext*(8) }
-#defstruct D2D_BMP_PROPS1
+#defstruct global D2D_BMP_PROPS1
     #field int   dxgiFormat    ; DXGI_FORMAT
     #field int   alphaMode     ; D2D1_ALPHA_MODE
     #field float dpiX
@@ -433,14 +433,14 @@
 #endstruct
 
 ; D2D1_MAPPED_RECT = { UINT32 pitch, [4 pad], BYTE* bits } = 16 byte on x64
-#defstruct D2D_MAPPED_RECT
+#defstruct global D2D_MAPPED_RECT
     #field int   pitch
     #field int   _pad
     #field int64 bits
 #endstruct
 
 ; WICRect = { INT X, INT Y, INT Width, INT Height } = 16 byte
-#defstruct D2D_WICRECT
+#defstruct global D2D_WICRECT
     #field int x
     #field int y
     #field int w

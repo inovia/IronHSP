@@ -12,19 +12,19 @@
 #include "hspdxlib_struct.as"
 
 ; === Struct definitions (#defstruct) ===
-#defstruct VECTOR
+#defstruct global VECTOR
 #field float x
 #field float y
 #field float z
 #endstruct
 
-#defstruct VECTOR_D
+#defstruct global VECTOR_D
 #field double x
 #field double y
 #field double z
 #endstruct
 
-#defstruct MATRIX
+#defstruct global MATRIX
 #field float m00
 #field float m01
 #field float m02
@@ -43,42 +43,42 @@
 #field float m33
 #endstruct
 
-#defstruct COLOR_F
+#defstruct global COLOR_F
 #field float r
 #field float g
 #field float b
 #field float a
 #endstruct
 
-#defstruct FLOAT4
+#defstruct global FLOAT4
 #field float x
 #field float y
 #field float z
 #field float w
 #endstruct
 
-#defstruct DOUBLE4
+#defstruct global DOUBLE4
 #field double x
 #field double y
 #field double z
 #field double w
 #endstruct
 
-#defstruct INT4
+#defstruct global INT4
 #field int x
 #field int y
 #field int z
 #field int w
 #endstruct
 
-#defstruct IPDATA
+#defstruct global IPDATA
 #field byte d1
 #field byte d2
 #field byte d3
 #field byte d4
 #endstruct
 
-#defstruct IPDATA_IPv6
+#defstruct global IPDATA_IPv6
 #field byte Byte00
 #field byte Byte01
 #field byte Byte02
@@ -97,11 +97,11 @@
 #field byte Byte15
 #endstruct
 
-#defstruct MATERIALPARAM
+#defstruct global MATERIALPARAM
 #field float Power
 #endstruct
 
-#defstruct MATRIX_D
+#defstruct global MATRIX_D
 #field double m00
 #field double m01
 #field double m02
@@ -120,11 +120,11 @@
 #field double m33
 #endstruct
 
-#defstruct MV1_COLL_RESULT_POLY_DIM
+#defstruct global MV1_COLL_RESULT_POLY_DIM
 #field int HitNum
 #endstruct
 
-#defstruct RECT
+#defstruct global RECT
 #field int left
 #field int top
 #field int right

@@ -331,7 +331,7 @@ def generate_as_header(methods):
     # --- #defstruct blocks for known structs ---
     lines.append('; === Struct definitions (#defstruct) ===')
     for cs_name, (ds_name, ds_size, ds_fields) in KNOWN_DEFSTRUCTS.items():
-        lines.append(f'#defstruct {ds_name}')
+        lines.append(f'#defstruct global {ds_name}')
         for ftype, fname in ds_fields:
             lines.append(f'#field {ftype} {fname}')
         lines.append('#endstruct')
@@ -1608,7 +1608,7 @@ def repair_patch_as_file(as_path, hs_params, structs):
         if sname not in structs:
             continue
         size, fields = structs[sname]
-        block = [f'#defstruct {sname}']
+        block = [f'#defstruct global {sname}']
         for hsp_type, fname, _ in fields:
             block.append(f'#field {hsp_type} {fname}')
         block.append('#endstruct')

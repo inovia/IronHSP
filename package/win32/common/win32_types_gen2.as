@@ -11,7 +11,7 @@
 #define global __win32_types_gen2_as__
 
 ;--- structs ---
-#defstruct D3DDDI_ALLOCATIONINFO
+#defstruct global D3DDDI_ALLOCATIONINFO
     #field int hAllocation
     #field var pSystemMem
     #field var pPrivateDriverData
@@ -23,18 +23,18 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _Flags_e__Union
+#defstruct global _Flags_e__Union
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct _Anonymous_e__Struct
+#defstruct global _Anonymous_e__Struct
     #field int Version
     #field int Linkage
 #endstruct
 
-#defstruct D3DDDI_ALLOCATIONINFO2
+#defstruct global D3DDDI_ALLOCATIONINFO2
     #field int hAllocation
     #field int Anonymous1
     #field var pPrivateDriverData
@@ -52,20 +52,20 @@
     #field int Unused
 #endstruct
 
-#defstruct _Anonymous1_e__Union
+#defstruct global _Anonymous1_e__Union
     #field int64 HistoricalContext
     #field var Anonymous
     #field int Version
     #field int Linkage
 #endstruct
 
-#defstruct _Anonymous2_e__Union
+#defstruct global _Anonymous2_e__Union
     #field int CountLost
     #field intptr KernelHandle
     #field int64 TimeStamp
 #endstruct
 
-#defstruct D3DDDI_ALLOCATIONLIST
+#defstruct global D3DDDI_ALLOCATIONLIST
     #field int hAllocation
     #field int Anonymous
     #field var Anonymous
@@ -73,7 +73,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _Anonymous_e__Union
+#defstruct global _Anonymous_e__Union
     #field int LockObject
     #field int ThreadObject
     #field int ObjectName
@@ -85,39 +85,39 @@
     #field int ContextSwitches
 #endstruct
 
-#defstruct D3DDDI_CREATECONTEXTFLAGS
+#defstruct global D3DDDI_CREATECONTEXTFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DDDI_DXGI_RGB
+#defstruct global D3DDDI_DXGI_RGB
     #field float Red
     #field float Green
     #field float Blue
 #endstruct
 
-#defstruct D3DDDI_ESCAPEFLAGS
+#defstruct global D3DDDI_ESCAPEFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DDDI_GAMMA_RAMP_DXGI_1
+#defstruct global D3DDDI_GAMMA_RAMP_DXGI_1
     #field var Scale
     #field var Offset
     #field int GammaCurve
 #endstruct
 
-#defstruct D3DDDI_GAMMA_RAMP_RGB256x3x16
+#defstruct global D3DDDI_GAMMA_RAMP_RGB256x3x16
     #field int Red
     #field int Green
     #field int Blue
 #endstruct
 
-#defstruct D3DDDI_HDR_METADATA_HDR10
+#defstruct global D3DDDI_HDR_METADATA_HDR10
     #field int RedPrimary
     #field int GreenPrimary
     #field int BluePrimary
@@ -128,17 +128,17 @@
     #field int MaxFrameAverageLightLevel
 #endstruct
 
-#defstruct D3DDDI_HDR_METADATA_HDR10PLUS
+#defstruct global D3DDDI_HDR_METADATA_HDR10PLUS
     #field int Data
 #endstruct
 
-#defstruct D3DDDI_OPENALLOCATIONINFO
+#defstruct global D3DDDI_OPENALLOCATIONINFO
     #field int hAllocation
     #field var pPrivateDriverData
     #field int PrivateDriverDataSize
 #endstruct
 
-#defstruct D3DDDI_OPENALLOCATIONINFO2
+#defstruct global D3DDDI_OPENALLOCATIONINFO2
     #field int hAllocation
     #field var pPrivateDriverData
     #field int PrivateDriverDataSize
@@ -146,7 +146,7 @@
     #field int Reserved
 #endstruct
 
-#defstruct D3DDDI_PATCHLOCATIONLIST
+#defstruct global D3DDDI_PATCHLOCATIONLIST
     #field int AllocationIndex
     #field var Anonymous
     #field int DriverId
@@ -158,12 +158,12 @@
     #field int _bitfield
 #endstruct
 
-#defstruct D3DDDI_RATIONAL
+#defstruct global D3DDDI_RATIONAL
     #field int Numerator
     #field int Denominator
 #endstruct
 
-#defstruct D3DDDI_SYNCHRONIZATIONOBJECTINFO
+#defstruct global D3DDDI_SYNCHRONIZATIONOBJECTINFO
     #field int Type
     #field var Anonymous
     #field int SynchronizationMutex
@@ -174,57 +174,57 @@
     #field int Reserved
 #endstruct
 
-#defstruct _Semaphore_e__Struct
+#defstruct global _Semaphore_e__Struct
     #field int MaxCount
     #field int InitialCount
 #endstruct
 
-#defstruct _Reserved_e__Struct
+#defstruct global _Reserved_e__Struct
     #field int Reserved
 #endstruct
 
-#defstruct D3DDDI_TRIMRESIDENCYSET_FLAGS
+#defstruct global D3DDDI_TRIMRESIDENCYSET_FLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DDDICB_LOCKFLAGS
+#defstruct global D3DDDICB_LOCKFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DDDICB_SIGNALFLAGS
+#defstruct global D3DDDICB_SIGNALFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMDT_DISPLAYMODE_FLAGS
+#defstruct global D3DKMDT_DISPLAYMODE_FLAGS
     #field int _bitfield1
     #field int _bitfield2
 #endstruct
 
-#defstruct D3DKMT_BLTMODEL_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_BLTMODEL_PRESENTHISTORYTOKEN
     #field int64 hLogicalSurface
     #field int64 hPhysicalSurface
     #field int64 EventId
     #field int DirtyRegions
 #endstruct
 
-#defstruct D3DKMT_CLOSEADAPTER
+#defstruct global D3DKMT_CLOSEADAPTER
     #field int hAdapter
 #endstruct
 
-#defstruct D3DKMT_COMPOSITION_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_COMPOSITION_PRESENTHISTORYTOKEN
     #field int64 hPrivateData
 #endstruct
 
-#defstruct D3DKMT_CREATEALLOCATION
+#defstruct global D3DKMT_CREATEALLOCATION
     #field int hDevice
     #field int hResource
     #field int hGlobalShare
@@ -241,11 +241,11 @@
     #field var pAllocationInfo2
 #endstruct
 
-#defstruct D3DKMT_CREATEALLOCATIONFLAGS
+#defstruct global D3DKMT_CREATEALLOCATIONFLAGS
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_CREATECONTEXT
+#defstruct global D3DKMT_CREATECONTEXT
     #field int hDevice
     #field int NodeOrdinal
     #field int EngineAffinity
@@ -263,7 +263,7 @@
     #field int64 CommandBuffer
 #endstruct
 
-#defstruct D3DKMT_CREATEDEVICE
+#defstruct global D3DKMT_CREATEDEVICE
     #field var Anonymous
     #field int Flags
     #field int hDevice
@@ -277,50 +277,50 @@
     #field var pAdapter
 #endstruct
 
-#defstruct D3DKMT_CREATEDEVICEFLAGS
+#defstruct global D3DKMT_CREATEDEVICEFLAGS
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_CREATESTANDARDALLOCATION
+#defstruct global D3DKMT_CREATESTANDARDALLOCATION
     #field int Type
     #field var Anonymous
     #field int Flags
     #field int ExistingHeapData
 #endstruct
 
-#defstruct D3DKMT_CREATESTANDARDALLOCATIONFLAGS
+#defstruct global D3DKMT_CREATESTANDARDALLOCATIONFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_CREATESYNCHRONIZATIONOBJECT
+#defstruct global D3DKMT_CREATESYNCHRONIZATIONOBJECT
     #field int hDevice
     #field var Info
     #field int hSyncObject
 #endstruct
 
-#defstruct D3DKMT_DESTROYALLOCATION
+#defstruct global D3DKMT_DESTROYALLOCATION
     #field int hDevice
     #field int hResource
     #field var phAllocationList
     #field int AllocationCount
 #endstruct
 
-#defstruct D3DKMT_DESTROYCONTEXT
+#defstruct global D3DKMT_DESTROYCONTEXT
     #field int hContext
 #endstruct
 
-#defstruct D3DKMT_DESTROYDEVICE
+#defstruct global D3DKMT_DESTROYDEVICE
     #field int hDevice
 #endstruct
 
-#defstruct D3DKMT_DESTROYSYNCHRONIZATIONOBJECT
+#defstruct global D3DKMT_DESTROYSYNCHRONIZATIONOBJECT
     #field int hSyncObject
 #endstruct
 
-#defstruct D3DKMT_DEVICEPAGEFAULT_STATE
+#defstruct global D3DKMT_DEVICEPAGEFAULT_STATE
     #field int64 FaultedPrimitiveAPISequenceNumber
     #field int FaultedPipelineStage
     #field int FaultedBindTableEntry
@@ -329,33 +329,33 @@
     #field int64 FaultedVirtualAddress
 #endstruct
 
-#defstruct D3DKMT_DEVICEPRESENT_QUEUE_STATE
+#defstruct global D3DKMT_DEVICEPRESENT_QUEUE_STATE
     #field int VidPnSourceId
 #endstruct
 
-#defstruct D3DKMT_DEVICEPRESENT_STATE
+#defstruct global D3DKMT_DEVICEPRESENT_STATE
     #field int VidPnSourceId
     #field int PresentStats
 #endstruct
 
-#defstruct D3DKMT_DEVICEPRESENT_STATE_DWM
+#defstruct global D3DKMT_DEVICEPRESENT_STATE_DWM
     #field int VidPnSourceId
     #field int PresentStatsDWM
 #endstruct
 
-#defstruct D3DKMT_DEVICERESET_STATE
+#defstruct global D3DKMT_DEVICERESET_STATE
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_DIRTYREGIONS
+#defstruct global D3DKMT_DIRTYREGIONS
     #field int NumRects
     #field int Rects
 #endstruct
 
-#defstruct D3DKMT_DISPLAYMODE
+#defstruct global D3DKMT_DISPLAYMODE
     #field int Width
     #field int Height
     #field int Format
@@ -367,7 +367,7 @@
     #field var Flags
 #endstruct
 
-#defstruct D3DKMT_ESCAPE
+#defstruct global D3DKMT_ESCAPE
     #field int hAdapter
     #field int hDevice
     #field int Type
@@ -377,11 +377,11 @@
     #field int hContext
 #endstruct
 
-#defstruct D3DKMT_FENCE_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_FENCE_PRESENTHISTORYTOKEN
     #field int64 Key
 #endstruct
 
-#defstruct D3DKMT_FLIPMANAGER_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_FLIPMANAGER_PRESENTHISTORYTOKEN
     #field int64 hPrivateData
     #field int64 PresentAtQpc
     #field var Flags
@@ -390,7 +390,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_FLIPMODEL_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_FLIPMODEL_PRESENTHISTORYTOKEN
     #field int64 FenceValue
     #field int64 hLogicalSurface
     #field int dxgContext
@@ -424,31 +424,31 @@
     #field var HDRMetaDataHDR10Plus
 #endstruct
 
-#defstruct D3DKMT_FLIPMODEL_PRESENTHISTORYTOKENFLAGS
+#defstruct global D3DKMT_FLIPMODEL_PRESENTHISTORYTOKENFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_GDIMODEL_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_GDIMODEL_PRESENTHISTORYTOKEN
     #field int64 hLogicalSurface
     #field int64 hPhysicalSurface
     #field var DirtyRegions
 #endstruct
 
-#defstruct D3DKMT_GDIMODEL_SYSMEM_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_GDIMODEL_SYSMEM_PRESENTHISTORYTOKEN
     #field int64 hlsurf
     #field int dwDirtyFlags
     #field int64 uiCookie
 #endstruct
 
-#defstruct D3DKMT_GETCONTEXTSCHEDULINGPRIORITY
+#defstruct global D3DKMT_GETCONTEXTSCHEDULINGPRIORITY
     #field int hContext
     #field int Priority
 #endstruct
 
-#defstruct D3DKMT_GETDEVICESTATE
+#defstruct global D3DKMT_GETDEVICESTATE
     #field int hDevice
     #field int StateType
     #field var Anonymous
@@ -460,14 +460,14 @@
     #field var PresentQueueState
 #endstruct
 
-#defstruct D3DKMT_GETDISPLAYMODELIST
+#defstruct global D3DKMT_GETDISPLAYMODELIST
     #field int hAdapter
     #field int VidPnSourceId
     #field var pModeList
     #field int ModeCount
 #endstruct
 
-#defstruct D3DKMT_GETMULTISAMPLEMETHODLIST
+#defstruct global D3DKMT_GETMULTISAMPLEMETHODLIST
     #field int hAdapter
     #field int VidPnSourceId
     #field int Width
@@ -477,20 +477,20 @@
     #field int MethodCount
 #endstruct
 
-#defstruct D3DKMT_GETRUNTIMEDATA
+#defstruct global D3DKMT_GETRUNTIMEDATA
     #field int hAdapter
     #field int hGlobalShare
     #field var pRuntimeData
     #field int RuntimeDataSize
 #endstruct
 
-#defstruct D3DKMT_GETSHAREDPRIMARYHANDLE
+#defstruct global D3DKMT_GETSHAREDPRIMARYHANDLE
     #field int hAdapter
     #field int VidPnSourceId
     #field int hSharedPrimary
 #endstruct
 
-#defstruct D3DKMT_LOCK
+#defstruct global D3DKMT_LOCK
     #field int hDevice
     #field int hAllocation
     #field int PrivateDriverData
@@ -501,24 +501,24 @@
     #field int64 GpuVirtualAddress
 #endstruct
 
-#defstruct D3DKMT_MULTISAMPLEMETHOD
+#defstruct global D3DKMT_MULTISAMPLEMETHOD
     #field int NumSamples
     #field int NumQualityLevels
     #field int Reserved
 #endstruct
 
-#defstruct D3DKMT_OPENADAPTERFROMGDIDISPLAYNAME
+#defstruct global D3DKMT_OPENADAPTERFROMGDIDISPLAYNAME
     #field int DeviceName
     #field int hAdapter
     #field int VidPnSourceId
 #endstruct
 
-#defstruct D3DKMT_OPENADAPTERFROMHDC
+#defstruct global D3DKMT_OPENADAPTERFROMHDC
     #field int hAdapter
     #field int VidPnSourceId
 #endstruct
 
-#defstruct D3DKMT_OPENRESOURCE
+#defstruct global D3DKMT_OPENRESOURCE
     #field int hDevice
     #field int hGlobalShare
     #field int NumAllocations
@@ -534,7 +534,7 @@
     #field var pOpenAllocationInfo2
 #endstruct
 
-#defstruct D3DKMT_PRESENT
+#defstruct global D3DKMT_PRESENT
     #field var Anonymous1
     #field int VidPnSourceId
     #field int hSource
@@ -560,13 +560,13 @@
     #field int hIndirectContext
 #endstruct
 
-#defstruct D3DKMT_PRESENT_RGNS
+#defstruct global D3DKMT_PRESENT_RGNS
     #field int DirtyRectCount
     #field int MoveRectCount
     #field var pMoveRects
 #endstruct
 
-#defstruct D3DKMT_PRESENT_STATS
+#defstruct global D3DKMT_PRESENT_STATS
     #field int PresentCount
     #field int PresentRefreshCount
     #field int SyncRefreshCount
@@ -574,7 +574,7 @@
     #field int64 SyncGPUTime
 #endstruct
 
-#defstruct D3DKMT_PRESENT_STATS_DWM
+#defstruct global D3DKMT_PRESENT_STATS_DWM
     #field int PresentCount
     #field int PresentRefreshCount
     #field int64 PresentQPCTime
@@ -583,14 +583,14 @@
     #field int CustomPresentDuration
 #endstruct
 
-#defstruct D3DKMT_PRESENTFLAGS
+#defstruct global D3DKMT_PRESENTFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_PRESENTHISTORYTOKEN
     #field int Model
     #field int TokenSize
     #field int64 CompositionBindingId
@@ -606,7 +606,7 @@
     #field int SurfaceComplete
 #endstruct
 
-#defstruct _Token_e__Union
+#defstruct global _Token_e__Union
     #field var Flip
     #field var Blt
     #field int64 VistaBlt
@@ -618,14 +618,14 @@
     #field int SurfaceComplete
 #endstruct
 
-#defstruct D3DKMT_QUERYADAPTERINFO
+#defstruct global D3DKMT_QUERYADAPTERINFO
     #field int hAdapter
     #field int Type
     #field var pPrivateDriverData
     #field int PrivateDriverDataSize
 #endstruct
 
-#defstruct D3DKMT_QUERYALLOCATIONRESIDENCY
+#defstruct global D3DKMT_QUERYALLOCATIONRESIDENCY
     #field int hDevice
     #field int hResource
     #field var phAllocationList
@@ -633,7 +633,7 @@
     #field var pResidencyStatus
 #endstruct
 
-#defstruct D3DKMT_QUERYRESOURCEINFO
+#defstruct global D3DKMT_QUERYRESOURCEINFO
     #field int hDevice
     #field int hGlobalShare
     #field var pPrivateRuntimeData
@@ -643,13 +643,13 @@
     #field int NumAllocations
 #endstruct
 
-#defstruct D3DKMT_REGISTERTRIMNOTIFICATION
+#defstruct global D3DKMT_REGISTERTRIMNOTIFICATION
     #field int hDevice
     #field var Context
     #field var Handle
 #endstruct
 
-#defstruct D3DKMT_RENDER
+#defstruct global D3DKMT_RENDER
     #field var Anonymous
     #field int CommandOffset
     #field int CommandLength
@@ -673,22 +673,22 @@
     #field int hContext
 #endstruct
 
-#defstruct D3DKMT_RENDERFLAGS
+#defstruct global D3DKMT_RENDERFLAGS
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_SCATTERBLT
+#defstruct global D3DKMT_SCATTERBLT
     #field int64 hLogicalSurfaceDestination
     #field int64 hDestinationCompSurfDWM
     #field int64 DestinationCompositionBindingId
 #endstruct
 
-#defstruct D3DKMT_SCATTERBLTS
+#defstruct global D3DKMT_SCATTERBLTS
     #field int NumBlts
     #field int Blts
 #endstruct
 
-#defstruct D3DKMT_SETALLOCATIONPRIORITY
+#defstruct global D3DKMT_SETALLOCATIONPRIORITY
     #field int hDevice
     #field int hResource
     #field var phAllocationList
@@ -696,12 +696,12 @@
     #field var pPriorities
 #endstruct
 
-#defstruct D3DKMT_SETCONTEXTSCHEDULINGPRIORITY
+#defstruct global D3DKMT_SETCONTEXTSCHEDULINGPRIORITY
     #field int hContext
     #field int Priority
 #endstruct
 
-#defstruct D3DKMT_SETDISPLAYMODE
+#defstruct global D3DKMT_SETDISPLAYMODE
     #field int hDevice
     #field int hPrimaryAllocation
     #field int ScanLineOrdering
@@ -710,18 +710,18 @@
     #field int Flags
 #endstruct
 
-#defstruct D3DKMT_SETDISPLAYMODE_FLAGS
+#defstruct global D3DKMT_SETDISPLAYMODE_FLAGS
     #field int _bitfield1
     #field int _bitfield2
 #endstruct
 
-#defstruct D3DKMT_SETDISPLAYPRIVATEDRIVERFORMAT
+#defstruct global D3DKMT_SETDISPLAYPRIVATEDRIVERFORMAT
     #field int hDevice
     #field int VidPnSourceId
     #field int PrivateDriverFormatAttribute
 #endstruct
 
-#defstruct D3DKMT_SETGAMMARAMP
+#defstruct global D3DKMT_SETGAMMARAMP
     #field int hDevice
     #field int VidPnSourceId
     #field int Type
@@ -731,69 +731,69 @@
     #field var pGammaRampDXGI1
 #endstruct
 
-#defstruct D3DKMT_SETVIDPNSOURCEOWNER
+#defstruct global D3DKMT_SETVIDPNSOURCEOWNER
     #field int hDevice
     #field var pType
     #field var pVidPnSourceId
     #field int VidPnSourceCount
 #endstruct
 
-#defstruct D3DKMT_SETVIDPNSOURCEOWNER1
+#defstruct global D3DKMT_SETVIDPNSOURCEOWNER1
     #field var Version0
     #field int Flags
 #endstruct
 
-#defstruct D3DKMT_SIGNALSYNCHRONIZATIONOBJECT
+#defstruct global D3DKMT_SIGNALSYNCHRONIZATIONOBJECT
     #field int hContext
     #field int ObjectCount
     #field int ObjectHandleArray
     #field var Flags
 #endstruct
 
-#defstruct D3DKMT_STANDARDALLOCATION_EXISTINGHEAP
+#defstruct global D3DKMT_STANDARDALLOCATION_EXISTINGHEAP
     #field int Size
 #endstruct
 
-#defstruct D3DKMT_SURFACECOMPLETE_PRESENTHISTORYTOKEN
+#defstruct global D3DKMT_SURFACECOMPLETE_PRESENTHISTORYTOKEN
     #field int64 hLogicalSurface
 #endstruct
 
-#defstruct D3DKMT_TRIMNOTIFICATION
+#defstruct global D3DKMT_TRIMNOTIFICATION
     #field var Context
     #field var Flags
     #field int64 NumBytesToTrim
 #endstruct
 
-#defstruct D3DKMT_UNLOCK
+#defstruct global D3DKMT_UNLOCK
     #field int hDevice
     #field int NumAllocations
     #field var phAllocations
 #endstruct
 
-#defstruct D3DKMT_UNREGISTERTRIMNOTIFICATION
+#defstruct global D3DKMT_UNREGISTERTRIMNOTIFICATION
     #field var Handle
 #endstruct
 
-#defstruct D3DKMT_VIDPNSOURCEOWNER_FLAGS
+#defstruct global D3DKMT_VIDPNSOURCEOWNER_FLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct D3DKMT_WAITFORSYNCHRONIZATIONOBJECT
+#defstruct global D3DKMT_WAITFORSYNCHRONIZATIONOBJECT
     #field int hContext
     #field int ObjectCount
     #field int ObjectHandleArray
 #endstruct
 
-#defstruct D3DKMT_WAITFORVERTICALBLANKEVENT
+#defstruct global D3DKMT_WAITFORVERTICALBLANKEVENT
     #field int hAdapter
     #field int hDevice
     #field int VidPnSourceId
 #endstruct
 
-#defstruct DXGK_FAULT_ERROR_CODE
+#defstruct global DXGK_FAULT_ERROR_CODE
     #field var Anonymous
     #field int Anonymous1
     #field int Anonymous2
@@ -801,35 +801,35 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _Anonymous1_e__Struct
+#defstruct global _Anonymous1_e__Struct
     #field int lMinimum
     #field int lMaximum
 #endstruct
 
-#defstruct _Anonymous2_e__Struct
+#defstruct global _Anonymous2_e__Struct
     #field int dwMinimum
     #field int dwMaximum
 #endstruct
 
-#defstruct ABC
+#defstruct global ABC
     #field int abcA
     #field int abcB
     #field int abcC
 #endstruct
 
-#defstruct ABCFLOAT
+#defstruct global ABCFLOAT
     #field float abcfA
     #field float abcfB
     #field float abcfC
 #endstruct
 
-#defstruct ACCEL
+#defstruct global ACCEL
     #field int fVirt
     #field int key
     #field int cmd
 #endstruct
 
-#defstruct ACL
+#defstruct global ACL
     #field int AclRevision
     #field int Sbz1
     #field int AclSize
@@ -837,7 +837,7 @@
     #field int Sbz2
 #endstruct
 
-#defstruct ACTCTX_SECTION_KEYED_DATA
+#defstruct global ACTCTX_SECTION_KEYED_DATA
     #field int cbSize
     #field int ulDataFormatVersion
     #field var lpData
@@ -852,7 +852,7 @@
     #field int AssemblyMetadata
 #endstruct
 
-#defstruct ACTCTX_SECTION_KEYED_DATA_ASSEMBLY_METADATA
+#defstruct global ACTCTX_SECTION_KEYED_DATA_ASSEMBLY_METADATA
     #field var lpInformation
     #field var lpSectionBase
     #field int ulSectionLength
@@ -860,7 +860,7 @@
     #field int ulSectionGlobalDataLength
 #endstruct
 
-#defstruct ACTCTXW
+#defstruct global ACTCTXW
     #field int cbSize
     #field int dwFlags
     #field wstr lpSource
@@ -872,13 +872,13 @@
     #field intptr hModule
 #endstruct
 
-#defstruct ADDRESS64
+#defstruct global ADDRESS64
     #field int64 Offset
     #field int Segment
     #field int Mode
 #endstruct
 
-#defstruct ADDRINFOEXA
+#defstruct global ADDRINFOEXA
     #field int ai_flags
     #field int ai_family
     #field int ai_socktype
@@ -891,7 +891,7 @@
     #field var ai_next
 #endstruct
 
-#defstruct ADDRINFOEXW
+#defstruct global ADDRINFOEXW
     #field int ai_flags
     #field int ai_family
     #field int ai_socktype
@@ -904,7 +904,7 @@
     #field var ai_next
 #endstruct
 
-#defstruct ADDRINFOW
+#defstruct global ADDRINFOW
     #field int ai_flags
     #field int ai_family
     #field int ai_socktype
@@ -915,7 +915,7 @@
     #field var ai_next
 #endstruct
 
-#defstruct ADMINISTRATOR_POWER_POLICY
+#defstruct global ADMINISTRATOR_POWER_POLICY
     #field int MinSleep
     #field int MaxSleep
     #field int MinVideoTimeout
@@ -924,12 +924,12 @@
     #field int MaxSpindownTimeout
 #endstruct
 
-#defstruct AFPROTOCOLS
+#defstruct global AFPROTOCOLS
     #field int iAddressFamily
     #field int iProtocol
 #endstruct
 
-#defstruct ALTTABINFO
+#defstruct global ALTTABINFO
     #field int cbSize
     #field int cItems
     #field int cColumns
@@ -940,7 +940,7 @@
     #field int cyItem
 #endstruct
 
-#defstruct AM_MEDIA_TYPE
+#defstruct global AM_MEDIA_TYPE
     #field int bFixedSizeSamples
     #field int bTemporalCompression
     #field int lSampleSize
@@ -949,62 +949,62 @@
     #field var pbFormat
 #endstruct
 
-#defstruct API_VERSION
+#defstruct global API_VERSION
     #field int MajorVersion
     #field int MinorVersion
     #field int Revision
     #field int Reserved
 #endstruct
 
-#defstruct APP_CACHE_DOWNLOAD_ENTRY
+#defstruct global APP_CACHE_DOWNLOAD_ENTRY
     #field wstr pwszUrl
     #field int dwEntryType
 #endstruct
 
-#defstruct APP_CACHE_DOWNLOAD_LIST
+#defstruct global APP_CACHE_DOWNLOAD_LIST
     #field int dwEntryCount
     #field var pEntries
 #endstruct
 
-#defstruct APP_CACHE_GROUP_INFO
+#defstruct global APP_CACHE_GROUP_INFO
     #field wstr pwszManifestUrl
     #field int64 ullSize
 #endstruct
 
-#defstruct APP_CACHE_GROUP_LIST
+#defstruct global APP_CACHE_GROUP_LIST
     #field int dwAppCacheGroupCount
     #field var pAppCacheGroups
 #endstruct
 
-#defstruct APPCATEGORYINFO
+#defstruct global APPCATEGORYINFO
     #field int Locale
     #field wstr pszDescription
 #endstruct
 
-#defstruct APPCATEGORYINFOLIST
+#defstruct global APPCATEGORYINFOLIST
     #field int cCategory
     #field var pCategoryInfo
 #endstruct
 
-#defstruct ARRAYDESC
+#defstruct global ARRAYDESC
     #field int tdescElem
     #field int cDims
 #endstruct
 
-#defstruct ASF_INDEX_IDENTIFIER
+#defstruct global ASF_INDEX_IDENTIFIER
     #field int wStreamNumber
 #endstruct
 
-#defstruct ASF_MUX_STATISTICS
+#defstruct global ASF_MUX_STATISTICS
     #field int cFramesWritten
     #field int cFramesDropped
 #endstruct
 
-#defstruct AUDIT_POLICY_INFORMATION
+#defstruct global AUDIT_POLICY_INFORMATION
     #field int AuditingInformation
 #endstruct
 
-#defstruct AUTO_SCROLL_DATA
+#defstruct global AUTO_SCROLL_DATA
     #field int iNextSample
     #field int dwLastScroll
     #field int bFull
@@ -1012,7 +1012,7 @@
     #field int dwTimes
 #endstruct
 
-#defstruct AUXCAPSW
+#defstruct global AUXCAPSW
     #field int wMid
     #field int wPid
     #field int vDriverVersion
@@ -1022,41 +1022,41 @@
     #field int dwSupport
 #endstruct
 
-#defstruct BATTERY_REPORTING_SCALE
+#defstruct global BATTERY_REPORTING_SCALE
     #field int Granularity
     #field int Capacity
 #endstruct
 
-#defstruct BCRYPT_ALGORITHM_IDENTIFIER
+#defstruct global BCRYPT_ALGORITHM_IDENTIFIER
     #field wstr pszName
     #field int dwClass
     #field int dwFlags
 #endstruct
 
-#defstruct BCRYPT_PROVIDER_NAME
+#defstruct global BCRYPT_PROVIDER_NAME
     #field wstr pszProviderName
 #endstruct
 
-#defstruct BCryptBuffer
+#defstruct global BCryptBuffer
     #field int cbBuffer
     #field int BufferType
     #field var pvBuffer
 #endstruct
 
-#defstruct BCryptBufferDesc
+#defstruct global BCryptBufferDesc
     #field int ulVersion
     #field int cBuffers
     #field var pBuffers
 #endstruct
 
-#defstruct BIND_OPTS
+#defstruct global BIND_OPTS
     #field int cbStruct
     #field int grfFlags
     #field int grfMode
     #field int dwTickCountDeadline
 #endstruct
 
-#defstruct BINDINFO
+#defstruct global BINDINFO
     #field int cbSize
     #field wstr szExtraInfo
     #field int stgmedData
@@ -1072,13 +1072,13 @@
     #field int dwReserved
 #endstruct
 
-#defstruct BINDPTR
+#defstruct global BINDPTR
     #field var lpfuncdesc
     #field var lpvardesc
     #field var lptcomp
 #endstruct
 
-#defstruct BITMAP
+#defstruct global BITMAP
     #field int bmType
     #field int bmWidth
     #field int bmHeight
@@ -1088,7 +1088,7 @@
     #field var bmBits
 #endstruct
 
-#defstruct BitmapData
+#defstruct global BitmapData
     #field int Width
     #field int Height
     #field int Stride
@@ -1097,11 +1097,11 @@
     #field int Reserved
 #endstruct
 
-#defstruct BITMAPINFO
+#defstruct global BITMAPINFO
     #field int bmiHeader
 #endstruct
 
-#defstruct BITMAPINFOHEADER
+#defstruct global BITMAPINFOHEADER
     #field int biSize
     #field int biWidth
     #field int biHeight
@@ -1115,37 +1115,37 @@
     #field int biClrImportant
 #endstruct
 
-#defstruct BLENDFUNCTION
+#defstruct global BLENDFUNCTION
     #field int BlendOp
     #field int BlendFlags
     #field int SourceConstantAlpha
     #field int AlphaFormat
 #endstruct
 
-#defstruct BLENDOBJ
+#defstruct global BLENDOBJ
     #field var BlendFunction
 #endstruct
 
-#defstruct BLOB
+#defstruct global BLOB
     #field int cbSize
     #field var pBlobData
 #endstruct
 
-#defstruct BP_ANIMATIONPARAMS
+#defstruct global BP_ANIMATIONPARAMS
     #field int cbSize
     #field int dwFlags
     #field int style
     #field int dwDuration
 #endstruct
 
-#defstruct BP_PAINTPARAMS
+#defstruct global BP_PAINTPARAMS
     #field int cbSize
     #field int dwFlags
     #field var prcExclude
     #field var pBlendFunction
 #endstruct
 
-#defstruct BROWSEINFOW
+#defstruct global BROWSEINFOW
     #field intptr hwndOwner
     #field var pidlRoot
     #field wstr pszDisplayName
@@ -1155,25 +1155,25 @@
     #field int iImage
 #endstruct
 
-#defstruct BRUSHOBJ
+#defstruct global BRUSHOBJ
     #field int iSolidColor
     #field var pvRbrush
     #field int flColorType
 #endstruct
 
-#defstruct BSMINFO
+#defstruct global BSMINFO
     #field int cbSize
     #field intptr hdesk
     #field intptr hwnd
     #field int luid
 #endstruct
 
-#defstruct BSTRBLOB
+#defstruct global BSTRBLOB
     #field int cbSize
     #field var pData
 #endstruct
 
-#defstruct BY_HANDLE_FILE_INFORMATION
+#defstruct global BY_HANDLE_FILE_INFORMATION
     #field int dwFileAttributes
     #field int dwVolumeSerialNumber
     #field int nFileSizeHigh
@@ -1183,34 +1183,34 @@
     #field int nFileIndexLow
 #endstruct
 
-#defstruct CABINETSTATE
+#defstruct global CABINETSTATE
     #field int cLength
     #field int nVersion
     #field int _bitfield
     #field int fMenuEnumFilter
 #endstruct
 
-#defstruct CABOOL
+#defstruct global CABOOL
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CABSTR
+#defstruct global CABSTR
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CABSTRBLOB
+#defstruct global CABSTRBLOB
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAC
+#defstruct global CAC
     #field int cElems
     #field str pElems
 #endstruct
 
-#defstruct CACHE_DESCRIPTOR
+#defstruct global CACHE_DESCRIPTOR
     #field int Level
     #field int Associativity
     #field int LineSize
@@ -1218,55 +1218,55 @@
     #field int Type
 #endstruct
 
-#defstruct CACLIPDATA
+#defstruct global CACLIPDATA
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CACLSID
+#defstruct global CACLSID
     #field int cElems
 #endstruct
 
-#defstruct CACY
-    #field int cElems
-    #field var pElems
-#endstruct
-
-#defstruct CADATE
+#defstruct global CACY
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CADBL
+#defstruct global CADATE
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAFILETIME
-    #field int cElems
-#endstruct
-
-#defstruct CAFLT
+#defstruct global CADBL
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAH
+#defstruct global CAFILETIME
+    #field int cElems
+#endstruct
+
+#defstruct global CAFLT
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAI
+#defstruct global CAH
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAL
+#defstruct global CAI
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CALDATETIME
+#defstruct global CAL
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct global CALDATETIME
     #field int CalId
     #field int Era
     #field int Year
@@ -1279,23 +1279,23 @@
     #field int Tick
 #endstruct
 
-#defstruct CALPSTR
+#defstruct global CALPSTR
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CALPWSTR
+#defstruct global CALPWSTR
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CANDIDATEFORM
+#defstruct global CANDIDATEFORM
     #field int dwIndex
     #field int dwStyle
     #field int rcArea
 #endstruct
 
-#defstruct CANDIDATELIST
+#defstruct global CANDIDATELIST
     #field int dwSize
     #field int dwStyle
     #field int dwCount
@@ -1304,37 +1304,37 @@
     #field int dwPageSize
 #endstruct
 
-#defstruct CAPROPVARIANT
+#defstruct global CAPROPVARIANT
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CASCODE
+#defstruct global CASCODE
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAUB
+#defstruct global CAUB
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAUH
+#defstruct global CAUH
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAUI
+#defstruct global CAUI
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CAUL
+#defstruct global CAUL
     #field int cElems
     #field var pElems
 #endstruct
 
-#defstruct CENTRAL_ACCESS_POLICY
+#defstruct global CENTRAL_ACCESS_POLICY
     #field int CAPID
     #field int Name
     #field int Description
@@ -1344,7 +1344,7 @@
     #field var CAPEs
 #endstruct
 
-#defstruct CENTRAL_ACCESS_POLICY_ENTRY
+#defstruct global CENTRAL_ACCESS_POLICY_ENTRY
     #field int Name
     #field int Description
     #field int ChangeId
@@ -1357,7 +1357,7 @@
     #field int Flags
 #endstruct
 
-#defstruct CERT_CHAIN_CONTEXT
+#defstruct global CERT_CHAIN_CONTEXT
     #field int cbSize
     #field int TrustStatus
     #field int cChain
@@ -1369,7 +1369,7 @@
     #field int dwCreateFlags
 #endstruct
 
-#defstruct CERT_CHAIN_ELEMENT
+#defstruct global CERT_CHAIN_ELEMENT
     #field int cbSize
     #field var pCertContext
     #field int TrustStatus
@@ -1379,7 +1379,7 @@
     #field wstr pwszExtendedErrorInfo
 #endstruct
 
-#defstruct CERT_CHAIN_ENGINE_CONFIG
+#defstruct global CERT_CHAIN_ENGINE_CONFIG
     #field int cbSize
     #field int hRestrictedRoot
     #field int hRestrictedTrust
@@ -1395,18 +1395,18 @@
     #field int dwExclusiveFlags
 #endstruct
 
-#defstruct CERT_CHAIN_PARA
+#defstruct global CERT_CHAIN_PARA
     #field int cbSize
     #field int RequestedUsage
 #endstruct
 
-#defstruct CERT_CHAIN_POLICY_PARA
+#defstruct global CERT_CHAIN_POLICY_PARA
     #field int cbSize
     #field int dwFlags
     #field var pvExtraPolicyPara
 #endstruct
 
-#defstruct CERT_CHAIN_POLICY_STATUS
+#defstruct global CERT_CHAIN_POLICY_STATUS
     #field int cbSize
     #field int dwError
     #field int lChainIndex
@@ -1414,7 +1414,7 @@
     #field var pvExtraPolicyStatus
 #endstruct
 
-#defstruct CERT_CONTEXT
+#defstruct global CERT_CONTEXT
     #field int dwCertEncodingType
     #field var pbCertEncoded
     #field int cbCertEncoded
@@ -1422,24 +1422,24 @@
     #field int hCertStore
 #endstruct
 
-#defstruct CERT_CREATE_CONTEXT_PARA
+#defstruct global CERT_CREATE_CONTEXT_PARA
     #field int cbSize
     #field var pvFree
     #field var pvSort
 #endstruct
 
-#defstruct CERT_EXTENSION
+#defstruct global CERT_EXTENSION
     #field str pszObjId
     #field int fCritical
     #field int Value
 #endstruct
 
-#defstruct CERT_EXTENSIONS
+#defstruct global CERT_EXTENSIONS
     #field int cExtension
     #field var rgExtension
 #endstruct
 
-#defstruct CERT_INFO
+#defstruct global CERT_INFO
     #field int dwVersion
     #field int SerialNumber
     #field int SignatureAlgorithm
@@ -1452,12 +1452,12 @@
     #field var rgExtension
 #endstruct
 
-#defstruct CERT_NAME_INFO
+#defstruct global CERT_NAME_INFO
     #field int cRDN
     #field var rgRDN
 #endstruct
 
-#defstruct CERT_PHYSICAL_STORE_INFO
+#defstruct global CERT_PHYSICAL_STORE_INFO
     #field int cbSize
     #field str pszOpenStoreProvider
     #field int dwOpenEncodingType
@@ -1467,22 +1467,22 @@
     #field int dwPriority
 #endstruct
 
-#defstruct CERT_PUBLIC_KEY_INFO
+#defstruct global CERT_PUBLIC_KEY_INFO
     #field int Algorithm
     #field int PublicKey
 #endstruct
 
-#defstruct CERT_RDN
+#defstruct global CERT_RDN
     #field int cRDNAttr
     #field var rgRDNAttr
 #endstruct
 
-#defstruct CERT_RDN_ATTR
+#defstruct global CERT_RDN_ATTR
     #field str pszObjId
     #field int Value
 #endstruct
 
-#defstruct CERT_REVOCATION_CRL_INFO
+#defstruct global CERT_REVOCATION_CRL_INFO
     #field int cbSize
     #field var pBaseCrlContext
     #field var pDeltaCrlContext
@@ -1490,7 +1490,7 @@
     #field int fDeltaCrlEntry
 #endstruct
 
-#defstruct CERT_REVOCATION_INFO
+#defstruct global CERT_REVOCATION_INFO
     #field int cbSize
     #field int dwRevocationResult
     #field str pszRevocationOid
@@ -1500,7 +1500,7 @@
     #field var pCrlInfo
 #endstruct
 
-#defstruct CERT_REVOCATION_PARA
+#defstruct global CERT_REVOCATION_PARA
     #field int cbSize
     #field var pIssuerCert
     #field int cCertStore
@@ -1508,7 +1508,7 @@
     #field int hCrlStore
 #endstruct
 
-#defstruct CERT_REVOCATION_STATUS
+#defstruct global CERT_REVOCATION_STATUS
     #field int cbSize
     #field int dwIndex
     #field int dwError
@@ -1517,26 +1517,26 @@
     #field int dwFreshnessTime
 #endstruct
 
-#defstruct CERT_SELECT_CHAIN_PARA
+#defstruct global CERT_SELECT_CHAIN_PARA
     #field intptr hChainEngine
     #field int hAdditionalStore
     #field var pChainPara
     #field int dwFlags
 #endstruct
 
-#defstruct CERT_SELECT_CRITERIA
+#defstruct global CERT_SELECT_CRITERIA
     #field int dwType
     #field int cPara
     #field var ppPara
 #endstruct
 
-#defstruct CERT_SERVER_OCSP_RESPONSE_CONTEXT
+#defstruct global CERT_SERVER_OCSP_RESPONSE_CONTEXT
     #field int cbSize
     #field var pbEncodedOcspResponse
     #field int cbEncodedOcspResponse
 #endstruct
 
-#defstruct CERT_SERVER_OCSP_RESPONSE_OPEN_PARA
+#defstruct global CERT_SERVER_OCSP_RESPONSE_OPEN_PARA
     #field int cbSize
     #field int dwFlags
     #field var pcbUsedSize
@@ -1544,7 +1544,7 @@
     #field var pvUpdateCallbackArg
 #endstruct
 
-#defstruct CERT_SIMPLE_CHAIN
+#defstruct global CERT_SIMPLE_CHAIN
     #field int cbSize
     #field int TrustStatus
     #field int cElement
@@ -1554,7 +1554,7 @@
     #field int dwRevocationFreshnessTime
 #endstruct
 
-#defstruct CERT_STRONG_SIGN_PARA
+#defstruct global CERT_STRONG_SIGN_PARA
     #field int cbSize
     #field int dwInfoChoice
     #field var Anonymous
@@ -1563,83 +1563,83 @@
     #field str pszOID
 #endstruct
 
-#defstruct CERT_STRONG_SIGN_SERIALIZED_INFO
+#defstruct global CERT_STRONG_SIGN_SERIALIZED_INFO
     #field int dwFlags
     #field wstr pwszCNGSignHashAlgids
     #field wstr pwszCNGPubKeyMinBitLengths
 #endstruct
 
-#defstruct CERT_SYSTEM_STORE_INFO
+#defstruct global CERT_SYSTEM_STORE_INFO
     #field int cbSize
 #endstruct
 
-#defstruct CERT_TRUST_LIST_INFO
+#defstruct global CERT_TRUST_LIST_INFO
     #field int cbSize
     #field var pCtlEntry
     #field var pCtlContext
 #endstruct
 
-#defstruct CERT_TRUST_STATUS
+#defstruct global CERT_TRUST_STATUS
     #field int dwErrorStatus
     #field int dwInfoStatus
 #endstruct
 
-#defstruct CERT_USAGE_MATCH
+#defstruct global CERT_USAGE_MATCH
     #field int dwType
     #field int Usage
 #endstruct
 
-#defstruct CHANGEFILTERSTRUCT
+#defstruct global CHANGEFILTERSTRUCT
     #field int cbSize
     #field int ExtStatus
 #endstruct
 
-#defstruct CHAR_INFO
+#defstruct global CHAR_INFO
     #field int Char
     #field int Attributes
     #field int UnicodeChar
     #field int AsciiChar
 #endstruct
 
-#defstruct _Char_e__Union
+#defstruct global _Char_e__Union
     #field int UnicodeChar
     #field int AsciiChar
 #endstruct
 
-#defstruct CharacterRange
+#defstruct global CharacterRange
     #field int First
     #field int Length
 #endstruct
 
-#defstruct CHARSETINFO
+#defstruct global CHARSETINFO
     #field int ciCharset
     #field int ciACP
     #field int fs
 #endstruct
 
-#defstruct CIEXYZ
+#defstruct global CIEXYZ
     #field int ciexyzX
     #field int ciexyzY
     #field int ciexyzZ
 #endstruct
 
-#defstruct CIEXYZTRIPLE
+#defstruct global CIEXYZTRIPLE
     #field var ciexyzRed
     #field var ciexyzGreen
     #field var ciexyzBlue
 #endstruct
 
-#defstruct CLAIM_SECURITY_ATTRIBUTE_FQBN_VALUE
+#defstruct global CLAIM_SECURITY_ATTRIBUTE_FQBN_VALUE
     #field int64 Version
     #field wstr Name
 #endstruct
 
-#defstruct CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE
+#defstruct global CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE
     #field var pValue
     #field int ValueLength
 #endstruct
 
-#defstruct CLAIM_SECURITY_ATTRIBUTE_V1
+#defstruct global CLAIM_SECURITY_ATTRIBUTE_V1
     #field wstr Name
     #field int ValueType
     #field int Reserved
@@ -1653,7 +1653,7 @@
     #field var pOctetString
 #endstruct
 
-#defstruct _Values_e__Union
+#defstruct global _Values_e__Union
     #field var pInt64
     #field var pUint64
     #field var ppString
@@ -1661,7 +1661,7 @@
     #field var pOctetString
 #endstruct
 
-#defstruct CLAIM_SECURITY_ATTRIBUTES_INFORMATION
+#defstruct global CLAIM_SECURITY_ATTRIBUTES_INFORMATION
     #field int Version
     #field int Reserved
     #field int AttributeCount
@@ -1669,24 +1669,24 @@
     #field var pAttributeV1
 #endstruct
 
-#defstruct _Attribute_e__Union
+#defstruct global _Attribute_e__Union
     #field var pAttributeV1
 #endstruct
 
-#defstruct CLIPDATA
+#defstruct global CLIPDATA
     #field int cbSize
     #field int ulClipFmt
     #field var pClipData
 #endstruct
 
-#defstruct CLIPLINE
+#defstruct global CLIPLINE
     #field int ptfxA
     #field int ptfxB
     #field int lStyleState
     #field int c
 #endstruct
 
-#defstruct CLIPOBJ
+#defstruct global CLIPOBJ
     #field int iUniq
     #field int rclBounds
     #field int iDComplexity
@@ -1695,7 +1695,7 @@
     #field int fjOptions
 #endstruct
 
-#defstruct CMINVOKECOMMANDINFO
+#defstruct global CMINVOKECOMMANDINFO
     #field int cbSize
     #field int fMask
     #field intptr hwnd
@@ -1707,7 +1707,7 @@
     #field intptr hIcon
 #endstruct
 
-#defstruct CMSG_SIGNED_ENCODE_INFO
+#defstruct global CMSG_SIGNED_ENCODE_INFO
     #field int cbSize
     #field int cSigners
     #field var rgSigners
@@ -1717,7 +1717,7 @@
     #field var rgCrlEncoded
 #endstruct
 
-#defstruct CMSG_SIGNER_ENCODE_INFO
+#defstruct global CMSG_SIGNER_ENCODE_INFO
     #field int cbSize
     #field var pCertInfo
     #field var Anonymous
@@ -1732,16 +1732,16 @@
     #field int hNCryptKey
 #endstruct
 
-#defstruct CMSG_STREAM_INFO
+#defstruct global CMSG_STREAM_INFO
     #field int cbContent
     #field var pvArg
 #endstruct
 
-#defstruct Color
+#defstruct global Color
     #field int Argb
 #endstruct
 
-#defstruct COLORADJUSTMENT
+#defstruct global COLORADJUSTMENT
     #field int caSize
     #field int caFlags
     #field int caIlluminantIndex
@@ -1756,21 +1756,21 @@
     #field int caRedGreenTint
 #endstruct
 
-#defstruct COLORMAP
+#defstruct global COLORMAP
     #field int from
     #field int to
 #endstruct
 
-#defstruct ColorMatrix
+#defstruct global ColorMatrix
     #field int m
 #endstruct
 
-#defstruct ColorPalette
+#defstruct global ColorPalette
     #field int Flags
     #field int Count
 #endstruct
 
-#defstruct COMBOBOXINFO
+#defstruct global COMBOBOXINFO
     #field int cbSize
     #field int rcItem
     #field int rcButton
@@ -1780,7 +1780,7 @@
     #field intptr hwndList
 #endstruct
 
-#defstruct COMMCONFIG
+#defstruct global COMMCONFIG
     #field int dwSize
     #field int wVersion
     #field int wReserved
@@ -1790,7 +1790,7 @@
     #field int dwProviderSize
 #endstruct
 
-#defstruct COMMPROP
+#defstruct global COMMPROP
     #field int wPacketLength
     #field int wPacketVersion
     #field int dwServiceMask
@@ -1810,7 +1810,7 @@
     #field int dwProvSpec2
 #endstruct
 
-#defstruct COMMTIMEOUTS
+#defstruct global COMMTIMEOUTS
     #field int ReadIntervalTimeout
     #field int ReadTotalTimeoutMultiplier
     #field int ReadTotalTimeoutConstant
@@ -1818,28 +1818,28 @@
     #field int WriteTotalTimeoutConstant
 #endstruct
 
-#defstruct COMPOSITIONFORM
+#defstruct global COMPOSITIONFORM
     #field int dwStyle
     #field int rcArea
 #endstruct
 
-#defstruct COMSTAT
+#defstruct global COMSTAT
     #field int _bitfield
     #field int cbInQue
     #field int cbOutQue
 #endstruct
 
-#defstruct CONSOLE_CURSOR_INFO
+#defstruct global CONSOLE_CURSOR_INFO
     #field int dwSize
     #field int bVisible
 #endstruct
 
-#defstruct CONSOLE_FONT_INFO
+#defstruct global CONSOLE_FONT_INFO
     #field int nFont
     #field int dwFontSize
 #endstruct
 
-#defstruct CONSOLE_FONT_INFOEX
+#defstruct global CONSOLE_FONT_INFOEX
     #field int cbSize
     #field int nFont
     #field int dwFontSize
@@ -1848,21 +1848,21 @@
     #field int FaceName
 #endstruct
 
-#defstruct CONSOLE_HISTORY_INFO
+#defstruct global CONSOLE_HISTORY_INFO
     #field int cbSize
     #field int HistoryBufferSize
     #field int NumberOfHistoryBuffers
     #field int dwFlags
 #endstruct
 
-#defstruct CONSOLE_READCONSOLE_CONTROL
+#defstruct global CONSOLE_READCONSOLE_CONTROL
     #field int nLength
     #field int nInitialChars
     #field int dwCtrlWakeupMask
     #field int dwControlKeyState
 #endstruct
 
-#defstruct CONSOLE_SCREEN_BUFFER_INFO
+#defstruct global CONSOLE_SCREEN_BUFFER_INFO
     #field int dwSize
     #field int dwCursorPosition
     #field int wAttributes
@@ -1870,7 +1870,7 @@
     #field int dwMaximumWindowSize
 #endstruct
 
-#defstruct CONSOLE_SCREEN_BUFFER_INFOEX
+#defstruct global CONSOLE_SCREEN_BUFFER_INFOEX
     #field int cbSize
     #field int dwSize
     #field int dwCursorPosition
@@ -1882,13 +1882,13 @@
     #field int ColorTable
 #endstruct
 
-#defstruct CONSOLE_SELECTION_INFO
+#defstruct global CONSOLE_SELECTION_INFO
     #field int dwFlags
     #field int dwSelectionAnchor
     #field int srSelection
 #endstruct
 
-#defstruct CONVCONTEXT
+#defstruct global CONVCONTEXT
     #field int cb
     #field int wFlags
     #field int wCountryID
@@ -1898,7 +1898,7 @@
     #field int qos
 #endstruct
 
-#defstruct CONVINFO
+#defstruct global CONVINFO
     #field int cb
     #field int hUser
     #field intptr hConvPartner
@@ -1917,19 +1917,19 @@
     #field intptr hwndPartner
 #endstruct
 
-#defstruct COORD
+#defstruct global COORD
     #field int X
     #field int Y
 #endstruct
 
-#defstruct COPYFILE2_EXTENDED_PARAMETERS
+#defstruct global COPYFILE2_EXTENDED_PARAMETERS
     #field int dwSize
     #field int dwCopyFlags
     #field var pfCancel
     #field var pvCallbackContext
 #endstruct
 
-#defstruct COPYFILE2_MESSAGE
+#defstruct global COPYFILE2_MESSAGE
     #field int Type
     #field int dwPadding
     #field int Info
@@ -1983,7 +1983,7 @@
     #field int64 uliTotalBytesTransferred
 #endstruct
 
-#defstruct _Info_e__Union
+#defstruct global _Info_e__Union
     #field int ChunkStarted
     #field int ChunkFinished
     #field int StreamStarted
@@ -2034,7 +2034,7 @@
     #field int64 uliTotalBytesTransferred
 #endstruct
 
-#defstruct _ChunkStarted_e__Struct
+#defstruct global _ChunkStarted_e__Struct
     #field int dwStreamNumber
     #field int dwReserved
     #field intptr hSourceFile
@@ -2045,7 +2045,7 @@
     #field int64 uliTotalFileSize
 #endstruct
 
-#defstruct _ChunkFinished_e__Struct
+#defstruct global _ChunkFinished_e__Struct
     #field int dwStreamNumber
     #field int dwFlags
     #field intptr hSourceFile
@@ -2058,7 +2058,7 @@
     #field int64 uliTotalBytesTransferred
 #endstruct
 
-#defstruct _StreamStarted_e__Struct
+#defstruct global _StreamStarted_e__Struct
     #field int dwStreamNumber
     #field int dwReserved
     #field intptr hSourceFile
@@ -2067,7 +2067,7 @@
     #field int64 uliTotalFileSize
 #endstruct
 
-#defstruct _StreamFinished_e__Struct
+#defstruct global _StreamFinished_e__Struct
     #field int dwStreamNumber
     #field int dwReserved
     #field intptr hSourceFile
@@ -2078,11 +2078,11 @@
     #field int64 uliTotalBytesTransferred
 #endstruct
 
-#defstruct _PollContinue_e__Struct
+#defstruct global _PollContinue_e__Struct
     #field int dwReserved
 #endstruct
 
-#defstruct _Error_e__Struct
+#defstruct global _Error_e__Struct
     #field int CopyPhase
     #field int dwStreamNumber
     #field intptr hrFailure
@@ -2094,13 +2094,13 @@
     #field int64 uliTotalBytesTransferred
 #endstruct
 
-#defstruct CPINFO
+#defstruct global CPINFO
     #field int MaxCharSize
     #field int DefaultChar
     #field int LeadByte
 #endstruct
 
-#defstruct CPINFOEXW
+#defstruct global CPINFOEXW
     #field int MaxCharSize
     #field int DefaultChar
     #field int LeadByte
@@ -2109,7 +2109,7 @@
     #field int CodePageName
 #endstruct
 
-#defstruct CREATE_PROCESS_DEBUG_INFO
+#defstruct global CREATE_PROCESS_DEBUG_INFO
     #field intptr hFile
     #field intptr hProcess
     #field intptr hThread
@@ -2121,12 +2121,12 @@
     #field int fUnicode
 #endstruct
 
-#defstruct CREATE_THREAD_DEBUG_INFO
+#defstruct global CREATE_THREAD_DEBUG_INFO
     #field intptr hThread
     #field var lpThreadLocalBase
 #endstruct
 
-#defstruct CREATEFILE2_EXTENDED_PARAMETERS
+#defstruct global CREATEFILE2_EXTENDED_PARAMETERS
     #field int dwSize
     #field int dwFileAttributes
     #field int dwFileFlags
@@ -2135,14 +2135,14 @@
     #field intptr hTemplateFile
 #endstruct
 
-#defstruct CREDENTIAL_ATTRIBUTEW
+#defstruct global CREDENTIAL_ATTRIBUTEW
     #field wstr Keyword
     #field int Flags
     #field int ValueSize
     #field var Value
 #endstruct
 
-#defstruct CREDENTIAL_TARGET_INFORMATIONW
+#defstruct global CREDENTIAL_TARGET_INFORMATIONW
     #field wstr TargetName
     #field wstr NetbiosServerName
     #field wstr DnsServerName
@@ -2155,7 +2155,7 @@
     #field var CredTypes
 #endstruct
 
-#defstruct CREDENTIALW
+#defstruct global CREDENTIALW
     #field int Flags
     #field int Type
     #field wstr TargetName
@@ -2169,7 +2169,7 @@
     #field wstr UserName
 #endstruct
 
-#defstruct CRITICAL_SECTION
+#defstruct global CRITICAL_SECTION
     #field var DebugInfo
     #field int LockCount
     #field int RecursionCount
@@ -2178,7 +2178,7 @@
     #field int SpinCount
 #endstruct
 
-#defstruct CRITICAL_SECTION_DEBUG
+#defstruct global CRITICAL_SECTION_DEBUG
     #field int Type
     #field int CreatorBackTraceIndex
     #field var CriticalSection
@@ -2190,7 +2190,7 @@
     #field int Identifier
 #endstruct
 
-#defstruct CRL_CONTEXT
+#defstruct global CRL_CONTEXT
     #field int dwCertEncodingType
     #field var pbCrlEncoded
     #field int cbCrlEncoded
@@ -2198,13 +2198,13 @@
     #field int hCertStore
 #endstruct
 
-#defstruct CRL_ENTRY
+#defstruct global CRL_ENTRY
     #field int SerialNumber
     #field int cExtension
     #field var rgExtension
 #endstruct
 
-#defstruct CRL_INFO
+#defstruct global CRL_INFO
     #field int dwVersion
     #field int SignatureAlgorithm
     #field int Issuer
@@ -2214,74 +2214,74 @@
     #field var rgExtension
 #endstruct
 
-#defstruct CRYPT_ALGORITHM_IDENTIFIER
+#defstruct global CRYPT_ALGORITHM_IDENTIFIER
     #field str pszObjId
     #field int Parameters
 #endstruct
 
-#defstruct CRYPT_ATTRIBUTE
+#defstruct global CRYPT_ATTRIBUTE
     #field str pszObjId
     #field int cValue
     #field var rgValue
 #endstruct
 
-#defstruct CRYPT_ATTRIBUTE_TYPE_VALUE
+#defstruct global CRYPT_ATTRIBUTE_TYPE_VALUE
     #field str pszObjId
     #field int Value
 #endstruct
 
-#defstruct CRYPT_ATTRIBUTES
+#defstruct global CRYPT_ATTRIBUTES
     #field int cAttr
     #field var rgAttr
 #endstruct
 
-#defstruct CRYPT_BIT_BLOB
+#defstruct global CRYPT_BIT_BLOB
     #field int cbData
     #field var pbData
     #field int cUnusedBits
 #endstruct
 
-#defstruct CRYPT_CONTEXT_CONFIG
+#defstruct global CRYPT_CONTEXT_CONFIG
     #field int dwFlags
     #field int dwReserved
 #endstruct
 
-#defstruct CRYPT_CONTEXT_FUNCTION_CONFIG
+#defstruct global CRYPT_CONTEXT_FUNCTION_CONFIG
     #field int dwFlags
     #field int dwReserved
 #endstruct
 
-#defstruct CRYPT_CONTEXT_FUNCTION_PROVIDERS
+#defstruct global CRYPT_CONTEXT_FUNCTION_PROVIDERS
     #field int cProviders
     #field var rgpszProviders
 #endstruct
 
-#defstruct CRYPT_CONTEXT_FUNCTIONS
+#defstruct global CRYPT_CONTEXT_FUNCTIONS
     #field int cFunctions
     #field var rgpszFunctions
 #endstruct
 
-#defstruct CRYPT_CONTEXTS
+#defstruct global CRYPT_CONTEXTS
     #field int cContexts
     #field var rgpszContexts
 #endstruct
 
-#defstruct CRYPT_DECODE_PARA
+#defstruct global CRYPT_DECODE_PARA
     #field int cbSize
 #endstruct
 
-#defstruct CRYPT_DECRYPT_MESSAGE_PARA
+#defstruct global CRYPT_DECRYPT_MESSAGE_PARA
     #field int cbSize
     #field int dwMsgAndCertEncodingType
     #field int cCertStore
     #field var rghCertStore
 #endstruct
 
-#defstruct CRYPT_ENCODE_PARA
+#defstruct global CRYPT_ENCODE_PARA
     #field int cbSize
 #endstruct
 
-#defstruct CRYPT_ENCRYPT_MESSAGE_PARA
+#defstruct global CRYPT_ENCRYPT_MESSAGE_PARA
     #field int cbSize
     #field int dwMsgEncodingType
     #field int hCryptProv
@@ -2291,7 +2291,7 @@
     #field int dwInnerContentType
 #endstruct
 
-#defstruct CRYPT_HASH_MESSAGE_PARA
+#defstruct global CRYPT_HASH_MESSAGE_PARA
     #field int cbSize
     #field int dwMsgEncodingType
     #field int hCryptProv
@@ -2299,30 +2299,30 @@
     #field var pvHashAuxInfo
 #endstruct
 
-#defstruct CRYPT_IMAGE_REF
+#defstruct global CRYPT_IMAGE_REF
     #field wstr pszImage
     #field int dwFlags
 #endstruct
 
-#defstruct CRYPT_IMAGE_REG
+#defstruct global CRYPT_IMAGE_REG
     #field wstr pszImage
     #field int cInterfaces
     #field var rgpInterfaces
 #endstruct
 
-#defstruct CRYPT_INTEGER_BLOB
+#defstruct global CRYPT_INTEGER_BLOB
     #field int cbData
     #field var pbData
 #endstruct
 
-#defstruct CRYPT_INTERFACE_REG
+#defstruct global CRYPT_INTERFACE_REG
     #field int dwInterface
     #field int dwFlags
     #field int cFunctions
     #field var rgpszFunctions
 #endstruct
 
-#defstruct CRYPT_KEY_PROV_INFO
+#defstruct global CRYPT_KEY_PROV_INFO
     #field wstr pwszContainerName
     #field wstr pwszProvName
     #field int dwProvType
@@ -2332,14 +2332,14 @@
     #field int dwKeySpec
 #endstruct
 
-#defstruct CRYPT_KEY_PROV_PARAM
+#defstruct global CRYPT_KEY_PROV_PARAM
     #field int dwParam
     #field var pbData
     #field int cbData
     #field int dwFlags
 #endstruct
 
-#defstruct CRYPT_KEY_SIGN_MESSAGE_PARA
+#defstruct global CRYPT_KEY_SIGN_MESSAGE_PARA
     #field int cbSize
     #field int dwMsgAndCertEncodingType
     #field var Anonymous
@@ -2351,18 +2351,18 @@
     #field int hNCryptKey
 #endstruct
 
-#defstruct CRYPT_KEY_VERIFY_MESSAGE_PARA
+#defstruct global CRYPT_KEY_VERIFY_MESSAGE_PARA
     #field int cbSize
     #field int dwMsgEncodingType
     #field int hCryptProv
 #endstruct
 
-#defstruct CRYPT_OID_FUNC_ENTRY
+#defstruct global CRYPT_OID_FUNC_ENTRY
     #field str pszOID
     #field var pvFuncAddr
 #endstruct
 
-#defstruct CRYPT_OID_INFO
+#defstruct global CRYPT_OID_INFO
     #field int cbSize
     #field str pszOID
     #field wstr pwszName
@@ -2374,26 +2374,26 @@
     #field int dwLength
 #endstruct
 
-#defstruct CRYPT_PKCS8_IMPORT_PARAMS
+#defstruct global CRYPT_PKCS8_IMPORT_PARAMS
     #field var PrivateKey
     #field var pVoidResolveFunc
     #field var pVoidDecryptFunc
 #endstruct
 
-#defstruct CRYPT_PRIVATE_KEY_INFO
+#defstruct global CRYPT_PRIVATE_KEY_INFO
     #field int Version
     #field var Algorithm
     #field var PrivateKey
     #field var pAttributes
 #endstruct
 
-#defstruct CRYPT_PROPERTY_REF
+#defstruct global CRYPT_PROPERTY_REF
     #field wstr pszProperty
     #field int cbValue
     #field var pbValue
 #endstruct
 
-#defstruct CRYPT_PROVIDER_REF
+#defstruct global CRYPT_PROVIDER_REF
     #field int dwInterface
     #field wstr pszFunction
     #field wstr pszProvider
@@ -2403,24 +2403,24 @@
     #field var pKM
 #endstruct
 
-#defstruct CRYPT_PROVIDER_REFS
+#defstruct global CRYPT_PROVIDER_REFS
     #field int cProviders
     #field var rgpProviders
 #endstruct
 
-#defstruct CRYPT_PROVIDER_REG
+#defstruct global CRYPT_PROVIDER_REG
     #field int cAliases
     #field var rgpszAliases
     #field var pUM
     #field var pKM
 #endstruct
 
-#defstruct CRYPT_PROVIDERS
+#defstruct global CRYPT_PROVIDERS
     #field int cProviders
     #field var rgpszProviders
 #endstruct
 
-#defstruct CRYPT_SIGN_MESSAGE_PARA
+#defstruct global CRYPT_SIGN_MESSAGE_PARA
     #field int cbSize
     #field int dwMsgEncodingType
     #field var pSigningCert
@@ -2438,19 +2438,19 @@
     #field int dwInnerContentType
 #endstruct
 
-#defstruct CRYPT_TIMESTAMP_ACCURACY
+#defstruct global CRYPT_TIMESTAMP_ACCURACY
     #field int dwSeconds
     #field int dwMillis
     #field int dwMicros
 #endstruct
 
-#defstruct CRYPT_TIMESTAMP_CONTEXT
+#defstruct global CRYPT_TIMESTAMP_CONTEXT
     #field int cbEncoded
     #field var pbEncoded
     #field var pTimeStamp
 #endstruct
 
-#defstruct CRYPT_TIMESTAMP_INFO
+#defstruct global CRYPT_TIMESTAMP_INFO
     #field int dwVersion
     #field str pszTSAPolicyId
     #field var HashAlgorithm
@@ -2464,7 +2464,7 @@
     #field var rgExtension
 #endstruct
 
-#defstruct CRYPT_TIMESTAMP_PARA
+#defstruct global CRYPT_TIMESTAMP_PARA
     #field str pszTSAPolicyId
     #field int fRequestCerts
     #field var Nonce
@@ -2472,14 +2472,14 @@
     #field var rgExtension
 #endstruct
 
-#defstruct CRYPT_VERIFY_MESSAGE_PARA
+#defstruct global CRYPT_VERIFY_MESSAGE_PARA
     #field int cbSize
     #field int dwMsgAndCertEncodingType
     #field int hCryptProv
     #field var pvGetArg
 #endstruct
 
-#defstruct CRYPTCATMEMBER
+#defstruct global CRYPTCATMEMBER
     #field int cbStruct
     #field wstr pwszReferenceTag
     #field wstr pwszFileName
@@ -2492,7 +2492,7 @@
     #field var sEncodedMemberInfo
 #endstruct
 
-#defstruct CRYPTCATSTORE
+#defstruct global CRYPTCATSTORE
     #field int cbStruct
     #field int dwPublicVersion
     #field wstr pwszP7File
@@ -2505,28 +2505,28 @@
     #field intptr hSorted
 #endstruct
 
-#defstruct CRYPTPROTECT_PROMPTSTRUCT
+#defstruct global CRYPTPROTECT_PROMPTSTRUCT
     #field int cbSize
     #field int dwPromptFlags
     #field intptr hwndApp
     #field wstr szPrompt
 #endstruct
 
-#defstruct CSADDR_INFO
+#defstruct global CSADDR_INFO
     #field int LocalAddr
     #field int RemoteAddr
     #field int iSocketType
     #field int iProtocol
 #endstruct
 
-#defstruct CSPLATFORM
+#defstruct global CSPLATFORM
     #field int dwPlatformId
     #field int dwVersionHi
     #field int dwVersionLo
     #field int dwProcessorArch
 #endstruct
 
-#defstruct CTL_CONTEXT
+#defstruct global CTL_CONTEXT
     #field int dwMsgAndCertEncodingType
     #field var pbCtlEncoded
     #field int cbCtlEncoded
@@ -2537,13 +2537,13 @@
     #field int cbCtlContent
 #endstruct
 
-#defstruct CTL_ENTRY
+#defstruct global CTL_ENTRY
     #field var SubjectIdentifier
     #field int cAttribute
     #field var rgAttribute
 #endstruct
 
-#defstruct CTL_INFO
+#defstruct global CTL_INFO
     #field int dwVersion
     #field int SubjectUsage
     #field var ListIdentifier
@@ -2555,12 +2555,12 @@
     #field var rgExtension
 #endstruct
 
-#defstruct CTL_USAGE
+#defstruct global CTL_USAGE
     #field int cUsageIdentifier
     #field var rgpszUsageIdentifier
 #endstruct
 
-#defstruct CTL_VERIFY_USAGE_PARA
+#defstruct global CTL_VERIFY_USAGE_PARA
     #field int cbSize
     #field var ListIdentifier
     #field int cCtlStore
@@ -2569,7 +2569,7 @@
     #field var rghSignerStore
 #endstruct
 
-#defstruct CTL_VERIFY_USAGE_STATUS
+#defstruct global CTL_VERIFY_USAGE_STATUS
     #field int cbSize
     #field int dwError
     #field int dwFlags
@@ -2579,7 +2579,7 @@
     #field int dwSignerIndex
 #endstruct
 
-#defstruct CURRENCYFMTW
+#defstruct global CURRENCYFMTW
     #field int NumDigits
     #field int LeadingZero
     #field int Grouping
@@ -2590,33 +2590,33 @@
     #field wstr lpCurrencySymbol
 #endstruct
 
-#defstruct CURSORINFO
+#defstruct global CURSORINFO
     #field int cbSize
     #field int flags
     #field intptr hCursor
 #endstruct
 
-#defstruct CUSTDATA
+#defstruct global CUSTDATA
     #field int cCustData
     #field var prgCustData
 #endstruct
 
-#defstruct CUSTDATAITEM
+#defstruct global CUSTDATAITEM
     #field int varValue
 #endstruct
 
-#defstruct CY
+#defstruct global CY
     #field var Anonymous
     #field int64 int64
     #field int Lo
     #field int Hi
 #endstruct
 
-#defstruct CYPHER_BLOCK
+#defstruct global CYPHER_BLOCK
     #field int data
 #endstruct
 
-#defstruct D2D1_ARC_SEGMENT
+#defstruct global D2D1_ARC_SEGMENT
     #field int point
     #field int size
     #field float rotationAngle
@@ -2624,31 +2624,31 @@
     #field int arcSize
 #endstruct
 
-#defstruct D2D1_BEZIER_SEGMENT
+#defstruct global D2D1_BEZIER_SEGMENT
     #field int point1
     #field int point2
     #field int point3
 #endstruct
 
-#defstruct D2D1_BITMAP_BRUSH_PROPERTIES
+#defstruct global D2D1_BITMAP_BRUSH_PROPERTIES
     #field int extendModeX
     #field int extendModeY
     #field int interpolationMode
 #endstruct
 
-#defstruct D2D1_BITMAP_BRUSH_PROPERTIES1
+#defstruct global D2D1_BITMAP_BRUSH_PROPERTIES1
     #field int extendModeX
     #field int extendModeY
     #field int interpolationMode
 #endstruct
 
-#defstruct D2D1_BITMAP_PROPERTIES
+#defstruct global D2D1_BITMAP_PROPERTIES
     #field int pixelFormat
     #field float dpiX
     #field float dpiY
 #endstruct
 
-#defstruct D2D1_BITMAP_PROPERTIES1
+#defstruct global D2D1_BITMAP_PROPERTIES1
     #field int pixelFormat
     #field float dpiX
     #field float dpiY
@@ -2656,25 +2656,25 @@
     #field var colorContext
 #endstruct
 
-#defstruct D2D1_BRUSH_PROPERTIES
+#defstruct global D2D1_BRUSH_PROPERTIES
     #field float opacity
     #field int transform
 #endstruct
 
-#defstruct D2D1_COLOR_F
+#defstruct global D2D1_COLOR_F
     #field float r
     #field float g
     #field float b
     #field float a
 #endstruct
 
-#defstruct D2D1_CREATION_PROPERTIES
+#defstruct global D2D1_CREATION_PROPERTIES
     #field int threadingMode
     #field int debugLevel
     #field int options
 #endstruct
 
-#defstruct D2D1_DRAWING_STATE_DESCRIPTION
+#defstruct global D2D1_DRAWING_STATE_DESCRIPTION
     #field int antialiasMode
     #field int textAntialiasMode
     #field int64 tag1
@@ -2682,41 +2682,41 @@
     #field int transform
 #endstruct
 
-#defstruct D2D1_EFFECT_INPUT_DESCRIPTION
+#defstruct global D2D1_EFFECT_INPUT_DESCRIPTION
     #field var effect
     #field int inputIndex
     #field int inputRectangle
 #endstruct
 
-#defstruct D2D1_ELLIPSE
+#defstruct global D2D1_ELLIPSE
     #field int point
     #field float radiusX
     #field float radiusY
 #endstruct
 
-#defstruct D2D1_FACTORY_OPTIONS
+#defstruct global D2D1_FACTORY_OPTIONS
     #field int debugLevel
 #endstruct
 
-#defstruct D2D1_GRADIENT_STOP
+#defstruct global D2D1_GRADIENT_STOP
     #field float position
     #field var color
 #endstruct
 
-#defstruct D2D1_HWND_RENDER_TARGET_PROPERTIES
+#defstruct global D2D1_HWND_RENDER_TARGET_PROPERTIES
     #field intptr hwnd
     #field int pixelSize
     #field int presentOptions
 #endstruct
 
-#defstruct D2D1_IMAGE_BRUSH_PROPERTIES
+#defstruct global D2D1_IMAGE_BRUSH_PROPERTIES
     #field int sourceRectangle
     #field int extendModeX
     #field int extendModeY
     #field int interpolationMode
 #endstruct
 
-#defstruct D2D1_LAYER_PARAMETERS
+#defstruct global D2D1_LAYER_PARAMETERS
     #field int contentBounds
     #field var geometricMask
     #field int maskAntialiasMode
@@ -2726,7 +2726,7 @@
     #field int layerOptions
 #endstruct
 
-#defstruct D2D1_LAYER_PARAMETERS1
+#defstruct global D2D1_LAYER_PARAMETERS1
     #field int contentBounds
     #field var geometricMask
     #field int maskAntialiasMode
@@ -2736,40 +2736,40 @@
     #field int layerOptions
 #endstruct
 
-#defstruct D2D1_LINEAR_GRADIENT_BRUSH_PROPERTIES
+#defstruct global D2D1_LINEAR_GRADIENT_BRUSH_PROPERTIES
     #field int startPoint
     #field int endPoint
 #endstruct
 
-#defstruct D2D1_MAPPED_RECT
+#defstruct global D2D1_MAPPED_RECT
     #field int pitch
     #field var bits
 #endstruct
 
-#defstruct D2D1_PIXEL_FORMAT
+#defstruct global D2D1_PIXEL_FORMAT
     #field int format
     #field int alphaMode
 #endstruct
 
-#defstruct D2D1_PRINT_CONTROL_PROPERTIES
+#defstruct global D2D1_PRINT_CONTROL_PROPERTIES
     #field int fontSubset
     #field float rasterDPI
     #field int colorSpace
 #endstruct
 
-#defstruct D2D1_QUADRATIC_BEZIER_SEGMENT
+#defstruct global D2D1_QUADRATIC_BEZIER_SEGMENT
     #field int point1
     #field int point2
 #endstruct
 
-#defstruct D2D1_RADIAL_GRADIENT_BRUSH_PROPERTIES
+#defstruct global D2D1_RADIAL_GRADIENT_BRUSH_PROPERTIES
     #field int center
     #field int gradientOriginOffset
     #field float radiusX
     #field float radiusY
 #endstruct
 
-#defstruct D2D1_RENDER_TARGET_PROPERTIES
+#defstruct global D2D1_RENDER_TARGET_PROPERTIES
     #field int type
     #field var pixelFormat
     #field float dpiX
@@ -2778,18 +2778,18 @@
     #field int minLevel
 #endstruct
 
-#defstruct D2D1_RENDERING_CONTROLS
+#defstruct global D2D1_RENDERING_CONTROLS
     #field int bufferPrecision
     #field int tileSize
 #endstruct
 
-#defstruct D2D1_ROUNDED_RECT
+#defstruct global D2D1_ROUNDED_RECT
     #field int rect
     #field float radiusX
     #field float radiusY
 #endstruct
 
-#defstruct D2D1_STROKE_STYLE_PROPERTIES
+#defstruct global D2D1_STROKE_STYLE_PROPERTIES
     #field int startCap
     #field int endCap
     #field int dashCap
@@ -2799,13 +2799,13 @@
     #field float dashOffset
 #endstruct
 
-#defstruct D2D1_TRIANGLE
+#defstruct global D2D1_TRIANGLE
     #field int point1
     #field int point2
     #field int point3
 #endstruct
 
-#defstruct D2D_MATRIX_3X2_F
+#defstruct global D2D_MATRIX_3X2_F
     #field var Anonymous
     #field var Anonymous1
     #field var Anonymous2
@@ -2824,7 +2824,7 @@
     #field float _32
 #endstruct
 
-#defstruct D2D_MATRIX_4X4_F
+#defstruct global D2D_MATRIX_4X4_F
     #field var Anonymous
     #field var Anonymous
     #field int m
@@ -2846,47 +2846,47 @@
     #field float _44
 #endstruct
 
-#defstruct D2D_POINT_2F
+#defstruct global D2D_POINT_2F
     #field float x
     #field float y
 #endstruct
 
-#defstruct D2D_POINT_2U
+#defstruct global D2D_POINT_2U
     #field int x
     #field int y
 #endstruct
 
-#defstruct D2D_RECT_F
+#defstruct global D2D_RECT_F
     #field float left
     #field float top
     #field float right
     #field float bottom
 #endstruct
 
-#defstruct D2D_RECT_U
+#defstruct global D2D_RECT_U
     #field int left
     #field int top
     #field int right
     #field int bottom
 #endstruct
 
-#defstruct D2D_SIZE_F
+#defstruct global D2D_SIZE_F
     #field float width
     #field float height
 #endstruct
 
-#defstruct D2D_SIZE_U
+#defstruct global D2D_SIZE_U
     #field int width
     #field int height
 #endstruct
 
-#defstruct D3D11_BLEND_DESC
+#defstruct global D3D11_BLEND_DESC
     #field int AlphaToCoverageEnable
     #field int IndependentBlendEnable
     #field int RenderTarget
 #endstruct
 
-#defstruct D3D11_BOX
+#defstruct global D3D11_BOX
     #field int left
     #field int top
     #field int front
@@ -2895,13 +2895,13 @@
     #field int back
 #endstruct
 
-#defstruct D3D11_BUFFER_DESC
+#defstruct global D3D11_BUFFER_DESC
     #field int ByteWidth
     #field int Usage
     #field int StructureByteStride
 #endstruct
 
-#defstruct D3D11_BUFFER_RTV
+#defstruct global D3D11_BUFFER_RTV
     #field var Anonymous1
     #field var Anonymous2
     #field int FirstElement
@@ -2910,7 +2910,7 @@
     #field int ElementWidth
 #endstruct
 
-#defstruct D3D11_BUFFER_SRV
+#defstruct global D3D11_BUFFER_SRV
     #field var Anonymous1
     #field var Anonymous2
     #field int FirstElement
@@ -2919,19 +2919,19 @@
     #field int ElementWidth
 #endstruct
 
-#defstruct D3D11_BUFFER_UAV
+#defstruct global D3D11_BUFFER_UAV
     #field int FirstElement
     #field int NumElements
     #field int Flags
 #endstruct
 
-#defstruct D3D11_BUFFEREX_SRV
+#defstruct global D3D11_BUFFEREX_SRV
     #field int FirstElement
     #field int NumElements
     #field int Flags
 #endstruct
 
-#defstruct D3D11_CLASS_INSTANCE_DESC
+#defstruct global D3D11_CLASS_INSTANCE_DESC
     #field int InstanceId
     #field int InstanceIndex
     #field int TypeId
@@ -2942,18 +2942,18 @@
     #field int Created
 #endstruct
 
-#defstruct D3D11_COUNTER_DESC
+#defstruct global D3D11_COUNTER_DESC
     #field int Counter
     #field int MiscFlags
 #endstruct
 
-#defstruct D3D11_COUNTER_INFO
+#defstruct global D3D11_COUNTER_INFO
     #field int LastDeviceDependentCounter
     #field int NumSimultaneousCounters
     #field int NumDetectableParallelUnits
 #endstruct
 
-#defstruct D3D11_DEPTH_STENCIL_DESC
+#defstruct global D3D11_DEPTH_STENCIL_DESC
     #field int DepthEnable
     #field int DepthWriteMask
     #field int DepthFunc
@@ -2964,7 +2964,7 @@
     #field int BackFace
 #endstruct
 
-#defstruct D3D11_DEPTH_STENCIL_VIEW_DESC
+#defstruct global D3D11_DEPTH_STENCIL_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field int Flags
@@ -2977,14 +2977,14 @@
     #field int Texture2DMSArray
 #endstruct
 
-#defstruct D3D11_DEPTH_STENCILOP_DESC
+#defstruct global D3D11_DEPTH_STENCILOP_DESC
     #field int StencilFailOp
     #field int StencilDepthFailOp
     #field int StencilPassOp
     #field int StencilFunc
 #endstruct
 
-#defstruct D3D11_INPUT_ELEMENT_DESC
+#defstruct global D3D11_INPUT_ELEMENT_DESC
     #field str SemanticName
     #field int SemanticIndex
     #field int Format
@@ -2994,18 +2994,18 @@
     #field int InstanceDataStepRate
 #endstruct
 
-#defstruct D3D11_MAPPED_SUBRESOURCE
+#defstruct global D3D11_MAPPED_SUBRESOURCE
     #field var pData
     #field int RowPitch
     #field int DepthPitch
 #endstruct
 
-#defstruct D3D11_QUERY_DESC
+#defstruct global D3D11_QUERY_DESC
     #field int Query
     #field int MiscFlags
 #endstruct
 
-#defstruct D3D11_RASTERIZER_DESC
+#defstruct global D3D11_RASTERIZER_DESC
     #field int FillMode
     #field int CullMode
     #field int FrontCounterClockwise
@@ -3018,7 +3018,7 @@
     #field int AntialiasedLineEnable
 #endstruct
 
-#defstruct D3D11_RENDER_TARGET_BLEND_DESC
+#defstruct global D3D11_RENDER_TARGET_BLEND_DESC
     #field int BlendEnable
     #field int SrcBlend
     #field int DestBlend
@@ -3029,7 +3029,7 @@
     #field int RenderTargetWriteMask
 #endstruct
 
-#defstruct D3D11_RENDER_TARGET_VIEW_DESC
+#defstruct global D3D11_RENDER_TARGET_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field var Anonymous
@@ -3043,7 +3043,7 @@
     #field int Texture3D
 #endstruct
 
-#defstruct D3D11_SAMPLER_DESC
+#defstruct global D3D11_SAMPLER_DESC
     #field int Filter
     #field int AddressU
     #field int AddressV
@@ -3056,7 +3056,7 @@
     #field float MaxLOD
 #endstruct
 
-#defstruct D3D11_SHADER_RESOURCE_VIEW_DESC
+#defstruct global D3D11_SHADER_RESOURCE_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field var Anonymous
@@ -3073,7 +3073,7 @@
     #field var BufferEx
 #endstruct
 
-#defstruct D3D11_SO_DECLARATION_ENTRY
+#defstruct global D3D11_SO_DECLARATION_ENTRY
     #field int Stream
     #field str SemanticName
     #field int SemanticIndex
@@ -3082,153 +3082,153 @@
     #field int OutputSlot
 #endstruct
 
-#defstruct D3D11_SUBRESOURCE_DATA
+#defstruct global D3D11_SUBRESOURCE_DATA
     #field var pSysMem
     #field int SysMemPitch
     #field int SysMemSlicePitch
 #endstruct
 
-#defstruct D3D11_TEX1D_ARRAY_DSV
+#defstruct global D3D11_TEX1D_ARRAY_DSV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX1D_ARRAY_RTV
+#defstruct global D3D11_TEX1D_ARRAY_RTV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX1D_ARRAY_SRV
+#defstruct global D3D11_TEX1D_ARRAY_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX1D_ARRAY_UAV
+#defstruct global D3D11_TEX1D_ARRAY_UAV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX1D_DSV
+#defstruct global D3D11_TEX1D_DSV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D11_TEX1D_RTV
+#defstruct global D3D11_TEX1D_RTV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D11_TEX1D_SRV
+#defstruct global D3D11_TEX1D_SRV
     #field int MostDetailedMip
     #field int MipLevels
 #endstruct
 
-#defstruct D3D11_TEX1D_UAV
+#defstruct global D3D11_TEX1D_UAV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D11_TEX2D_ARRAY_DSV
-    #field int MipSlice
-    #field int FirstArraySlice
-    #field int ArraySize
-#endstruct
-
-#defstruct D3D11_TEX2D_ARRAY_RTV
+#defstruct global D3D11_TEX2D_ARRAY_DSV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX2D_ARRAY_SRV
+#defstruct global D3D11_TEX2D_ARRAY_RTV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct global D3D11_TEX2D_ARRAY_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX2D_ARRAY_UAV
+#defstruct global D3D11_TEX2D_ARRAY_UAV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX2D_DSV
+#defstruct global D3D11_TEX2D_DSV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D11_TEX2D_RTV
+#defstruct global D3D11_TEX2D_RTV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D11_TEX2D_SRV
+#defstruct global D3D11_TEX2D_SRV
     #field int MostDetailedMip
     #field int MipLevels
 #endstruct
 
-#defstruct D3D11_TEX2D_UAV
+#defstruct global D3D11_TEX2D_UAV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D11_TEX2DMS_ARRAY_DSV
+#defstruct global D3D11_TEX2DMS_ARRAY_DSV
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX2DMS_ARRAY_RTV
+#defstruct global D3D11_TEX2DMS_ARRAY_RTV
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX2DMS_ARRAY_SRV
+#defstruct global D3D11_TEX2DMS_ARRAY_SRV
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D11_TEX2DMS_DSV
+#defstruct global D3D11_TEX2DMS_DSV
     #field int UnusedField_NothingToDefine
 #endstruct
 
-#defstruct D3D11_TEX2DMS_RTV
+#defstruct global D3D11_TEX2DMS_RTV
     #field int UnusedField_NothingToDefine
 #endstruct
 
-#defstruct D3D11_TEX2DMS_SRV
+#defstruct global D3D11_TEX2DMS_SRV
     #field int UnusedField_NothingToDefine
 #endstruct
 
-#defstruct D3D11_TEX3D_RTV
+#defstruct global D3D11_TEX3D_RTV
     #field int MipSlice
     #field int FirstWSlice
     #field int WSize
 #endstruct
 
-#defstruct D3D11_TEX3D_SRV
+#defstruct global D3D11_TEX3D_SRV
     #field int MostDetailedMip
     #field int MipLevels
 #endstruct
 
-#defstruct D3D11_TEX3D_UAV
+#defstruct global D3D11_TEX3D_UAV
     #field int MipSlice
     #field int FirstWSlice
     #field int WSize
 #endstruct
 
-#defstruct D3D11_TEXCUBE_ARRAY_SRV
+#defstruct global D3D11_TEXCUBE_ARRAY_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field int First2DArrayFace
     #field int NumCubes
 #endstruct
 
-#defstruct D3D11_TEXCUBE_SRV
+#defstruct global D3D11_TEXCUBE_SRV
     #field int MostDetailedMip
     #field int MipLevels
 #endstruct
 
-#defstruct D3D11_TEXTURE1D_DESC
+#defstruct global D3D11_TEXTURE1D_DESC
     #field int Width
     #field int MipLevels
     #field int ArraySize
@@ -3236,7 +3236,7 @@
     #field int Usage
 #endstruct
 
-#defstruct D3D11_TEXTURE2D_DESC
+#defstruct global D3D11_TEXTURE2D_DESC
     #field int Width
     #field int Height
     #field int MipLevels
@@ -3246,7 +3246,7 @@
     #field int Usage
 #endstruct
 
-#defstruct D3D11_TEXTURE3D_DESC
+#defstruct global D3D11_TEXTURE3D_DESC
     #field int Width
     #field int Height
     #field int Depth
@@ -3255,7 +3255,7 @@
     #field int Usage
 #endstruct
 
-#defstruct D3D11_UNORDERED_ACCESS_VIEW_DESC
+#defstruct global D3D11_UNORDERED_ACCESS_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field var Anonymous
@@ -3267,7 +3267,7 @@
     #field var Texture3D
 #endstruct
 
-#defstruct D3D11_VIEWPORT
+#defstruct global D3D11_VIEWPORT
     #field float TopLeftX
     #field float TopLeftY
     #field float Width
@@ -3276,13 +3276,13 @@
     #field float MaxDepth
 #endstruct
 
-#defstruct D3D12_BLEND_DESC
+#defstruct global D3D12_BLEND_DESC
     #field int AlphaToCoverageEnable
     #field int IndependentBlendEnable
     #field int RenderTarget
 #endstruct
 
-#defstruct D3D12_BOX
+#defstruct global D3D12_BOX
     #field int left
     #field int top
     #field int front
@@ -3291,19 +3291,19 @@
     #field int back
 #endstruct
 
-#defstruct D3D12_BUFFER_RTV
+#defstruct global D3D12_BUFFER_RTV
     #field int64 FirstElement
     #field int NumElements
 #endstruct
 
-#defstruct D3D12_BUFFER_SRV
+#defstruct global D3D12_BUFFER_SRV
     #field int64 FirstElement
     #field int NumElements
     #field int StructureByteStride
     #field int Flags
 #endstruct
 
-#defstruct D3D12_BUFFER_UAV
+#defstruct global D3D12_BUFFER_UAV
     #field int64 FirstElement
     #field int NumElements
     #field int StructureByteStride
@@ -3311,33 +3311,33 @@
     #field int Flags
 #endstruct
 
-#defstruct D3D12_CACHED_PIPELINE_STATE
+#defstruct global D3D12_CACHED_PIPELINE_STATE
     #field var pCachedBlob
     #field int CachedBlobSizeInBytes
 #endstruct
 
-#defstruct D3D12_CLEAR_VALUE
+#defstruct global D3D12_CLEAR_VALUE
     #field int Format
     #field var Anonymous
     #field int Color
     #field int DepthStencil
 #endstruct
 
-#defstruct D3D12_COMMAND_QUEUE_DESC
+#defstruct global D3D12_COMMAND_QUEUE_DESC
     #field int Type
     #field int Priority
     #field int Flags
     #field int NodeMask
 #endstruct
 
-#defstruct D3D12_COMMAND_SIGNATURE_DESC
+#defstruct global D3D12_COMMAND_SIGNATURE_DESC
     #field int ByteStride
     #field int NumArgumentDescs
     #field var pArgumentDescs
     #field int NodeMask
 #endstruct
 
-#defstruct D3D12_COMPUTE_PIPELINE_STATE_DESC
+#defstruct global D3D12_COMPUTE_PIPELINE_STATE_DESC
     #field var pRootSignature
     #field int CS
     #field int NodeMask
@@ -3345,16 +3345,16 @@
     #field int Flags
 #endstruct
 
-#defstruct D3D12_CONSTANT_BUFFER_VIEW_DESC
+#defstruct global D3D12_CONSTANT_BUFFER_VIEW_DESC
     #field int64 BufferLocation
     #field int SizeInBytes
 #endstruct
 
-#defstruct D3D12_CPU_DESCRIPTOR_HANDLE
+#defstruct global D3D12_CPU_DESCRIPTOR_HANDLE
     #field int ptr
 #endstruct
 
-#defstruct D3D12_DEPTH_STENCIL_DESC
+#defstruct global D3D12_DEPTH_STENCIL_DESC
     #field int DepthEnable
     #field int DepthWriteMask
     #field int DepthFunc
@@ -3365,12 +3365,12 @@
     #field int BackFace
 #endstruct
 
-#defstruct D3D12_DEPTH_STENCIL_VALUE
+#defstruct global D3D12_DEPTH_STENCIL_VALUE
     #field float Depth
     #field int Stencil
 #endstruct
 
-#defstruct D3D12_DEPTH_STENCIL_VIEW_DESC
+#defstruct global D3D12_DEPTH_STENCIL_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field int Flags
@@ -3383,21 +3383,21 @@
     #field int Texture2DMSArray
 #endstruct
 
-#defstruct D3D12_DEPTH_STENCILOP_DESC
+#defstruct global D3D12_DEPTH_STENCILOP_DESC
     #field int StencilFailOp
     #field int StencilDepthFailOp
     #field int StencilPassOp
     #field int StencilFunc
 #endstruct
 
-#defstruct D3D12_DESCRIPTOR_HEAP_DESC
+#defstruct global D3D12_DESCRIPTOR_HEAP_DESC
     #field int Type
     #field int NumDescriptors
     #field int Flags
     #field int NodeMask
 #endstruct
 
-#defstruct D3D12_GRAPHICS_PIPELINE_STATE_DESC
+#defstruct global D3D12_GRAPHICS_PIPELINE_STATE_DESC
     #field var pRootSignature
     #field int VS
     #field int PS
@@ -3421,14 +3421,14 @@
     #field int Flags
 #endstruct
 
-#defstruct D3D12_HEAP_DESC
+#defstruct global D3D12_HEAP_DESC
     #field int64 SizeInBytes
     #field int Properties
     #field int64 Alignment
     #field int Flags
 #endstruct
 
-#defstruct D3D12_HEAP_PROPERTIES
+#defstruct global D3D12_HEAP_PROPERTIES
     #field int Type
     #field int CPUPageProperty
     #field int MemoryPoolPreference
@@ -3436,7 +3436,7 @@
     #field int VisibleNodeMask
 #endstruct
 
-#defstruct D3D12_INDIRECT_ARGUMENT_DESC
+#defstruct global D3D12_INDIRECT_ARGUMENT_DESC
     #field int Type
     #field var Anonymous
     #field int VertexBuffer
@@ -3456,34 +3456,34 @@
     #field int DestOffsetIn32BitValues
 #endstruct
 
-#defstruct _VertexBuffer_e__Struct
+#defstruct global _VertexBuffer_e__Struct
     #field int Slot
 #endstruct
 
-#defstruct _Constant_e__Struct
+#defstruct global _Constant_e__Struct
     #field int RootParameterIndex
     #field int DestOffsetIn32BitValues
     #field int Num32BitValuesToSet
 #endstruct
 
-#defstruct _ConstantBufferView_e__Struct
+#defstruct global _ConstantBufferView_e__Struct
     #field int RootParameterIndex
 #endstruct
 
-#defstruct _ShaderResourceView_e__Struct
+#defstruct global _ShaderResourceView_e__Struct
     #field int RootParameterIndex
 #endstruct
 
-#defstruct _UnorderedAccessView_e__Struct
+#defstruct global _UnorderedAccessView_e__Struct
     #field int RootParameterIndex
 #endstruct
 
-#defstruct _IncrementingConstant_e__Struct
+#defstruct global _IncrementingConstant_e__Struct
     #field int RootParameterIndex
     #field int DestOffsetIn32BitValues
 #endstruct
 
-#defstruct D3D12_INPUT_ELEMENT_DESC
+#defstruct global D3D12_INPUT_ELEMENT_DESC
     #field str SemanticName
     #field int SemanticIndex
     #field int Format
@@ -3493,35 +3493,35 @@
     #field int InstanceDataStepRate
 #endstruct
 
-#defstruct D3D12_INPUT_LAYOUT_DESC
+#defstruct global D3D12_INPUT_LAYOUT_DESC
     #field var pInputElementDescs
     #field int NumElements
 #endstruct
 
-#defstruct D3D12_PACKED_MIP_INFO
+#defstruct global D3D12_PACKED_MIP_INFO
     #field int NumStandardMips
     #field int NumPackedMips
     #field int NumTilesForPackedMips
     #field int StartTileIndexInOverallResource
 #endstruct
 
-#defstruct D3D12_PLACED_SUBRESOURCE_FOOTPRINT
+#defstruct global D3D12_PLACED_SUBRESOURCE_FOOTPRINT
     #field int64 Offset
     #field int Footprint
 #endstruct
 
-#defstruct D3D12_QUERY_HEAP_DESC
+#defstruct global D3D12_QUERY_HEAP_DESC
     #field int Type
     #field int Count
     #field int NodeMask
 #endstruct
 
-#defstruct D3D12_RANGE
+#defstruct global D3D12_RANGE
     #field int Begin
     #field int End
 #endstruct
 
-#defstruct D3D12_RASTERIZER_DESC
+#defstruct global D3D12_RASTERIZER_DESC
     #field int FillMode
     #field int CullMode
     #field int FrontCounterClockwise
@@ -3535,11 +3535,11 @@
     #field int ConservativeRaster
 #endstruct
 
-#defstruct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_SRV
+#defstruct global D3D12_RAYTRACING_ACCELERATION_STRUCTURE_SRV
     #field int64 Location
 #endstruct
 
-#defstruct D3D12_RENDER_TARGET_BLEND_DESC
+#defstruct global D3D12_RENDER_TARGET_BLEND_DESC
     #field int BlendEnable
     #field int LogicOpEnable
     #field int SrcBlend
@@ -3552,7 +3552,7 @@
     #field int RenderTargetWriteMask
 #endstruct
 
-#defstruct D3D12_RENDER_TARGET_VIEW_DESC
+#defstruct global D3D12_RENDER_TARGET_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field var Anonymous
@@ -3566,12 +3566,12 @@
     #field int Texture3D
 #endstruct
 
-#defstruct D3D12_RESOURCE_ALLOCATION_INFO
+#defstruct global D3D12_RESOURCE_ALLOCATION_INFO
     #field int64 SizeInBytes
     #field int64 Alignment
 #endstruct
 
-#defstruct D3D12_RESOURCE_DESC
+#defstruct global D3D12_RESOURCE_DESC
     #field int Dimension
     #field int64 Alignment
     #field int64 Width
@@ -3584,7 +3584,7 @@
     #field int Flags
 #endstruct
 
-#defstruct D3D12_SAMPLER_DESC
+#defstruct global D3D12_SAMPLER_DESC
     #field int Filter
     #field int AddressU
     #field int AddressV
@@ -3597,12 +3597,12 @@
     #field float MaxLOD
 #endstruct
 
-#defstruct D3D12_SHADER_BYTECODE
+#defstruct global D3D12_SHADER_BYTECODE
     #field var pShaderBytecode
     #field int BytecodeLength
 #endstruct
 
-#defstruct D3D12_SHADER_RESOURCE_VIEW_DESC
+#defstruct global D3D12_SHADER_RESOURCE_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field int Shader4ComponentMapping
@@ -3620,7 +3620,7 @@
     #field var RaytracingAccelerationStructure
 #endstruct
 
-#defstruct D3D12_SO_DECLARATION_ENTRY
+#defstruct global D3D12_SO_DECLARATION_ENTRY
     #field int Stream
     #field str SemanticName
     #field int SemanticIndex
@@ -3629,7 +3629,7 @@
     #field int OutputSlot
 #endstruct
 
-#defstruct D3D12_STREAM_OUTPUT_DESC
+#defstruct global D3D12_STREAM_OUTPUT_DESC
     #field var pSODeclaration
     #field int NumEntries
     #field var pBufferStrides
@@ -3637,7 +3637,7 @@
     #field int RasterizedStream
 #endstruct
 
-#defstruct D3D12_SUBRESOURCE_FOOTPRINT
+#defstruct global D3D12_SUBRESOURCE_FOOTPRINT
     #field int Format
     #field int Width
     #field int Height
@@ -3645,26 +3645,26 @@
     #field int RowPitch
 #endstruct
 
-#defstruct D3D12_SUBRESOURCE_TILING
+#defstruct global D3D12_SUBRESOURCE_TILING
     #field int WidthInTiles
     #field int HeightInTiles
     #field int DepthInTiles
     #field int StartTileIndexInOverallResource
 #endstruct
 
-#defstruct D3D12_TEX1D_ARRAY_DSV
+#defstruct global D3D12_TEX1D_ARRAY_DSV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX1D_ARRAY_RTV
+#defstruct global D3D12_TEX1D_ARRAY_RTV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX1D_ARRAY_SRV
+#defstruct global D3D12_TEX1D_ARRAY_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field int FirstArraySlice
@@ -3672,44 +3672,44 @@
     #field float ResourceMinLODClamp
 #endstruct
 
-#defstruct D3D12_TEX1D_ARRAY_UAV
+#defstruct global D3D12_TEX1D_ARRAY_UAV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX1D_DSV
+#defstruct global D3D12_TEX1D_DSV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D12_TEX1D_RTV
+#defstruct global D3D12_TEX1D_RTV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D12_TEX1D_SRV
+#defstruct global D3D12_TEX1D_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field float ResourceMinLODClamp
 #endstruct
 
-#defstruct D3D12_TEX1D_UAV
+#defstruct global D3D12_TEX1D_UAV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D12_TEX2D_ARRAY_DSV
+#defstruct global D3D12_TEX2D_ARRAY_DSV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX2D_ARRAY_RTV
+#defstruct global D3D12_TEX2D_ARRAY_RTV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
     #field int PlaneSlice
 #endstruct
 
-#defstruct D3D12_TEX2D_ARRAY_SRV
+#defstruct global D3D12_TEX2D_ARRAY_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field int FirstArraySlice
@@ -3718,89 +3718,89 @@
     #field float ResourceMinLODClamp
 #endstruct
 
-#defstruct D3D12_TEX2D_ARRAY_UAV
+#defstruct global D3D12_TEX2D_ARRAY_UAV
     #field int MipSlice
     #field int FirstArraySlice
     #field int ArraySize
     #field int PlaneSlice
 #endstruct
 
-#defstruct D3D12_TEX2D_DSV
+#defstruct global D3D12_TEX2D_DSV
     #field int MipSlice
 #endstruct
 
-#defstruct D3D12_TEX2D_RTV
+#defstruct global D3D12_TEX2D_RTV
     #field int MipSlice
     #field int PlaneSlice
 #endstruct
 
-#defstruct D3D12_TEX2D_SRV
+#defstruct global D3D12_TEX2D_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field int PlaneSlice
     #field float ResourceMinLODClamp
 #endstruct
 
-#defstruct D3D12_TEX2D_UAV
+#defstruct global D3D12_TEX2D_UAV
     #field int MipSlice
     #field int PlaneSlice
 #endstruct
 
-#defstruct D3D12_TEX2DMS_ARRAY_DSV
+#defstruct global D3D12_TEX2DMS_ARRAY_DSV
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX2DMS_ARRAY_RTV
+#defstruct global D3D12_TEX2DMS_ARRAY_RTV
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX2DMS_ARRAY_SRV
+#defstruct global D3D12_TEX2DMS_ARRAY_SRV
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX2DMS_ARRAY_UAV
+#defstruct global D3D12_TEX2DMS_ARRAY_UAV
     #field int FirstArraySlice
     #field int ArraySize
 #endstruct
 
-#defstruct D3D12_TEX2DMS_DSV
+#defstruct global D3D12_TEX2DMS_DSV
     #field int UnusedField_NothingToDefine
 #endstruct
 
-#defstruct D3D12_TEX2DMS_RTV
+#defstruct global D3D12_TEX2DMS_RTV
     #field int UnusedField_NothingToDefine
 #endstruct
 
-#defstruct D3D12_TEX2DMS_SRV
+#defstruct global D3D12_TEX2DMS_SRV
     #field int UnusedField_NothingToDefine
 #endstruct
 
-#defstruct D3D12_TEX2DMS_UAV
+#defstruct global D3D12_TEX2DMS_UAV
     #field int UnusedField_NothingToDefine
 #endstruct
 
-#defstruct D3D12_TEX3D_RTV
+#defstruct global D3D12_TEX3D_RTV
     #field int MipSlice
     #field int FirstWSlice
     #field int WSize
 #endstruct
 
-#defstruct D3D12_TEX3D_SRV
+#defstruct global D3D12_TEX3D_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field float ResourceMinLODClamp
 #endstruct
 
-#defstruct D3D12_TEX3D_UAV
+#defstruct global D3D12_TEX3D_UAV
     #field int MipSlice
     #field int FirstWSlice
     #field int WSize
 #endstruct
 
-#defstruct D3D12_TEXCUBE_ARRAY_SRV
+#defstruct global D3D12_TEXCUBE_ARRAY_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field int First2DArrayFace
@@ -3808,19 +3808,19 @@
     #field float ResourceMinLODClamp
 #endstruct
 
-#defstruct D3D12_TEXCUBE_SRV
+#defstruct global D3D12_TEXCUBE_SRV
     #field int MostDetailedMip
     #field int MipLevels
     #field float ResourceMinLODClamp
 #endstruct
 
-#defstruct D3D12_TILE_SHAPE
+#defstruct global D3D12_TILE_SHAPE
     #field int WidthInTexels
     #field int HeightInTexels
     #field int DepthInTexels
 #endstruct
 
-#defstruct D3D12_UNORDERED_ACCESS_VIEW_DESC
+#defstruct global D3D12_UNORDERED_ACCESS_VIEW_DESC
     #field int Format
     #field int ViewDimension
     #field var Anonymous
@@ -3834,7 +3834,7 @@
     #field var Texture3D
 #endstruct
 
-#defstruct DATETIME
+#defstruct global DATETIME
     #field int year
     #field int month
     #field int day
@@ -3843,12 +3843,12 @@
     #field int sec
 #endstruct
 
-#defstruct DBGHELP_DATA_REPORT_STRUCT
+#defstruct global DBGHELP_DATA_REPORT_STRUCT
     #field wstr pBinPathNonExist
     #field wstr pSymbolPathNonExist
 #endstruct
 
-#defstruct DCB
+#defstruct global DCB
     #field int DCBlength
     #field int BaudRate
     #field int _bitfield
@@ -3866,7 +3866,7 @@
     #field int wReserved1
 #endstruct
 
-#defstruct DDBLTBATCH
+#defstruct global DDBLTBATCH
     #field var lprDest
     #field var lpDDSSrc
     #field var lprSrc
@@ -3874,7 +3874,7 @@
     #field var lpDDBltFx
 #endstruct
 
-#defstruct DDBLTFX
+#defstruct global DDBLTFX
     #field int dwSize
     #field int dwDDFX
     #field int dwROP
@@ -3912,22 +3912,22 @@
     #field var lpDDSPattern
 #endstruct
 
-#defstruct _Anonymous3_e__Union
+#defstruct global _Anonymous3_e__Union
     #field intptr hbmHeader
     #field wstr pszbmHeader
 #endstruct
 
-#defstruct _Anonymous4_e__Union
+#defstruct global _Anonymous4_e__Union
     #field intptr hbmWatermark
     #field wstr pszbmWatermark
 #endstruct
 
-#defstruct _Anonymous5_e__Union
+#defstruct global _Anonymous5_e__Union
     #field intptr hbmHeader
     #field wstr pszbmHeader
 #endstruct
 
-#defstruct DDCAPS_DX7
+#defstruct global DDCAPS_DX7
     #field int dwSize
     #field int dwCaps
     #field int dwCaps2
@@ -3987,12 +3987,12 @@
     #field int ddsCaps
 #endstruct
 
-#defstruct DDCOLORKEY
+#defstruct global DDCOLORKEY
     #field int dwColorSpaceLowValue
     #field int dwColorSpaceHighValue
 #endstruct
 
-#defstruct DDOVERLAYFX
+#defstruct global DDOVERLAYFX
     #field int dwSize
     #field int dwAlphaEdgeBlendBitDepth
     #field int dwAlphaEdgeBlend
@@ -4011,7 +4011,7 @@
     #field var lpDDSAlphaSrc
 #endstruct
 
-#defstruct DDPIXELFORMAT
+#defstruct global DDPIXELFORMAT
     #field int dwSize
     #field int dwFlags
     #field int dwFourCC
@@ -4051,16 +4051,16 @@
     #field int dwYUVZBitMask
 #endstruct
 
-#defstruct _MultiSampleCaps_e__Struct
+#defstruct global _MultiSampleCaps_e__Struct
     #field int wFlipMSTypes
     #field int wBltMSTypes
 #endstruct
 
-#defstruct DDSCAPS
+#defstruct global DDSCAPS
     #field int dwCaps
 #endstruct
 
-#defstruct DDSCAPS2
+#defstruct global DDSCAPS2
     #field int dwCaps
     #field int dwCaps2
     #field int dwCaps3
@@ -4069,7 +4069,7 @@
     #field int dwVolumeDepth
 #endstruct
 
-#defstruct DDSURFACEDESC
+#defstruct global DDSURFACEDESC
     #field int dwSize
     #field int dwFlags
     #field int dwHeight
@@ -4093,7 +4093,7 @@
     #field int dwRefreshRate
 #endstruct
 
-#defstruct DDSURFACEDESC2
+#defstruct global DDSURFACEDESC2
     #field int dwSize
     #field int dwFlags
     #field int dwHeight
@@ -4124,7 +4124,7 @@
     #field int dwFVF
 #endstruct
 
-#defstruct DEBUG_EVENT
+#defstruct global DEBUG_EVENT
     #field int dwDebugEventCode
     #field int dwProcessId
     #field int dwThreadId
@@ -4140,13 +4140,13 @@
     #field int RipInfo
 #endstruct
 
-#defstruct _u_e__Union
+#defstruct global _u_e__Union
     #field int Flags
     #field int s
     #field int _bitfield
 #endstruct
 
-#defstruct DECIMAL
+#defstruct global DECIMAL
     #field int wReserved
     #field var Anonymous1
     #field int Hi32
@@ -4161,7 +4161,7 @@
     #field int Mid32
 #endstruct
 
-#defstruct DEFCONTEXTMENU
+#defstruct global DEFCONTEXTMENU
     #field intptr hwnd
     #field var pcmcb
     #field var pidlFolder
@@ -4173,13 +4173,13 @@
     #field var aKeys
 #endstruct
 
-#defstruct DESIGNVECTOR
+#defstruct global DESIGNVECTOR
     #field int dvReserved
     #field int dvNumAxes
     #field int dvValues
 #endstruct
 
-#defstruct DEVMODEA
+#defstruct global DEVMODEA
     #field int dmDeviceName
     #field int dmSpecVersion
     #field int dmDriverVersion
@@ -4224,7 +4224,7 @@
     #field int dmNup
 #endstruct
 
-#defstruct DEVMODEW
+#defstruct global DEVMODEW
     #field int dmDeviceName
     #field int dmSpecVersion
     #field int dmDriverVersion
@@ -4269,7 +4269,7 @@
     #field int dmNup
 #endstruct
 
-#defstruct DISPLAY_DEVICEW
+#defstruct global DISPLAY_DEVICEW
     #field int cb
     #field int DeviceName
     #field int DeviceString
@@ -4278,25 +4278,25 @@
     #field int DeviceKey
 #endstruct
 
-#defstruct DISPLAYCONFIG_2DREGION
+#defstruct global DISPLAYCONFIG_2DREGION
     #field int cx
     #field int cy
 #endstruct
 
-#defstruct DISPLAYCONFIG_DESKTOP_IMAGE_INFO
+#defstruct global DISPLAYCONFIG_DESKTOP_IMAGE_INFO
     #field int PathSourceSize
     #field int DesktopImageRegion
     #field int DesktopImageClip
 #endstruct
 
-#defstruct DISPLAYCONFIG_DEVICE_INFO_HEADER
+#defstruct global DISPLAYCONFIG_DEVICE_INFO_HEADER
     #field int type
     #field int size
     #field int adapterId
     #field int id
 #endstruct
 
-#defstruct DISPLAYCONFIG_MODE_INFO
+#defstruct global DISPLAYCONFIG_MODE_INFO
     #field int infoType
     #field int id
     #field int adapterId
@@ -4306,13 +4306,13 @@
     #field var desktopImageInfo
 #endstruct
 
-#defstruct DISPLAYCONFIG_PATH_INFO
+#defstruct global DISPLAYCONFIG_PATH_INFO
     #field int sourceInfo
     #field int targetInfo
     #field int flags
 #endstruct
 
-#defstruct DISPLAYCONFIG_PATH_SOURCE_INFO
+#defstruct global DISPLAYCONFIG_PATH_SOURCE_INFO
     #field int adapterId
     #field int id
     #field var Anonymous
@@ -4322,7 +4322,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct DISPLAYCONFIG_PATH_TARGET_INFO
+#defstruct global DISPLAYCONFIG_PATH_TARGET_INFO
     #field int adapterId
     #field int id
     #field var Anonymous
@@ -4338,23 +4338,23 @@
     #field int _bitfield
 #endstruct
 
-#defstruct DISPLAYCONFIG_RATIONAL
+#defstruct global DISPLAYCONFIG_RATIONAL
     #field int Numerator
     #field int Denominator
 #endstruct
 
-#defstruct DISPLAYCONFIG_SOURCE_MODE
+#defstruct global DISPLAYCONFIG_SOURCE_MODE
     #field int width
     #field int height
     #field int pixelFormat
     #field int position
 #endstruct
 
-#defstruct DISPLAYCONFIG_TARGET_MODE
+#defstruct global DISPLAYCONFIG_TARGET_MODE
     #field int targetVideoSignalInfo
 #endstruct
 
-#defstruct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
+#defstruct global DISPLAYCONFIG_VIDEO_SIGNAL_INFO
     #field int64 pixelRate
     #field var hSyncFreq
     #field var vSyncFreq
@@ -4367,18 +4367,18 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _AdditionalSignalInfo_e__Struct
+#defstruct global _AdditionalSignalInfo_e__Struct
     #field int _bitfield
 #endstruct
 
-#defstruct DISPPARAMS
+#defstruct global DISPPARAMS
     #field var rgvarg
     #field var rgdispidNamedArgs
     #field int cArgs
     #field int cNamedArgs
 #endstruct
 
-#defstruct DLGTEMPLATE
+#defstruct global DLGTEMPLATE
     #field int style
     #field int dwExtendedStyle
     #field int cdit
@@ -4388,7 +4388,7 @@
     #field int cy
 #endstruct
 
-#defstruct DNS_INTERFACE_SETTINGS
+#defstruct global DNS_INTERFACE_SETTINGS
     #field int Version
     #field int64 Flags
     #field wstr Domain
@@ -4401,7 +4401,7 @@
     #field wstr ProfileNameServer
 #endstruct
 
-#defstruct DNS_SETTINGS
+#defstruct global DNS_SETTINGS
     #field int Version
     #field int64 Flags
     #field wstr Hostname
@@ -4409,7 +4409,7 @@
     #field wstr SearchList
 #endstruct
 
-#defstruct DOCINFOW
+#defstruct global DOCINFOW
     #field int cbSize
     #field wstr lpszDocName
     #field wstr lpszOutput
@@ -4417,7 +4417,7 @@
     #field int fwType
 #endstruct
 
-#defstruct DOT11_ACCESSNETWORKOPTIONS
+#defstruct global DOT11_ACCESSNETWORKOPTIONS
     #field int AccessNetworkType
     #field int Internet
     #field int ASRA
@@ -4425,38 +4425,38 @@
     #field int UESA
 #endstruct
 
-#defstruct DOT11_BSSID_LIST
+#defstruct global DOT11_BSSID_LIST
     #field int Header
     #field int uNumOfEntries
     #field int uTotalNumOfEntries
 #endstruct
 
-#defstruct DOT11_NETWORK
+#defstruct global DOT11_NETWORK
     #field int dot11Ssid
     #field int dot11BssType
 #endstruct
 
-#defstruct DOT11_NETWORK_LIST
+#defstruct global DOT11_NETWORK_LIST
     #field int dwNumberOfItems
     #field int dwIndex
 #endstruct
 
-#defstruct DOT11_SSID
+#defstruct global DOT11_SSID
     #field int uSSIDLength
     #field int ucSSID
 #endstruct
 
-#defstruct DOT11_VENUEINFO
+#defstruct global DOT11_VENUEINFO
     #field int VenueGroup
     #field int VenueType
 #endstruct
 
-#defstruct DPASTREAMINFO
+#defstruct global DPASTREAMINFO
     #field int iPos
     #field var pvItem
 #endstruct
 
-#defstruct DRAWTEXTPARAMS
+#defstruct global DRAWTEXTPARAMS
     #field int cbSize
     #field int iTabLength
     #field int iLeftMargin
@@ -4464,13 +4464,13 @@
     #field int uiLengthDrawn
 #endstruct
 
-#defstruct DTBGOPTS
+#defstruct global DTBGOPTS
     #field int dwSize
     #field int dwFlags
     #field int rcClip
 #endstruct
 
-#defstruct DTTOPTS
+#defstruct global DTTOPTS
     #field int dwSize
     #field int dwFlags
     #field int crText
@@ -4486,7 +4486,7 @@
     #field intptr lParam
 #endstruct
 
-#defstruct DVTARGETDEVICE
+#defstruct global DVTARGETDEVICE
     #field int tdSize
     #field int tdDriverNameOffset
     #field int tdDeviceNameOffset
@@ -4494,14 +4494,14 @@
     #field int tdExtDevmodeOffset
 #endstruct
 
-#defstruct DWM_BLURBEHIND
+#defstruct global DWM_BLURBEHIND
     #field int dwFlags
     #field int fEnable
     #field intptr hRgnBlur
     #field int fTransitionOnMaximized
 #endstruct
 
-#defstruct DWM_PRESENT_PARAMETERS
+#defstruct global DWM_PRESENT_PARAMETERS
     #field int cbSize
     #field int fQueue
     #field int64 cRefreshStart
@@ -4512,7 +4512,7 @@
     #field int eSampling
 #endstruct
 
-#defstruct DWM_THUMBNAIL_PROPERTIES
+#defstruct global DWM_THUMBNAIL_PROPERTIES
     #field int dwFlags
     #field int rcDestination
     #field int rcSource
@@ -4521,7 +4521,7 @@
     #field int fSourceClientAreaOnly
 #endstruct
 
-#defstruct DWM_TIMING_INFO
+#defstruct global DWM_TIMING_INFO
     #field int cbSize
     #field int rateRefresh
     #field int64 qpcRefreshPeriod
@@ -4564,18 +4564,18 @@
     #field int64 cBuffersEmpty
 #endstruct
 
-#defstruct DWRITE_CLUSTER_METRICS
+#defstruct global DWRITE_CLUSTER_METRICS
     #field float width
     #field int length
     #field int _bitfield
 #endstruct
 
-#defstruct DWRITE_FONT_FEATURE
+#defstruct global DWRITE_FONT_FEATURE
     #field int nameTag
     #field int parameter
 #endstruct
 
-#defstruct DWRITE_FONT_METRICS
+#defstruct global DWRITE_FONT_METRICS
     #field int designUnitsPerEm
     #field int ascent
     #field int descent
@@ -4588,7 +4588,7 @@
     #field int strikethroughThickness
 #endstruct
 
-#defstruct DWRITE_GLYPH_METRICS
+#defstruct global DWRITE_GLYPH_METRICS
     #field int leftSideBearing
     #field int advanceWidth
     #field int rightSideBearing
@@ -4598,12 +4598,12 @@
     #field int verticalOriginY
 #endstruct
 
-#defstruct DWRITE_GLYPH_OFFSET
+#defstruct global DWRITE_GLYPH_OFFSET
     #field float advanceOffset
     #field float ascenderOffset
 #endstruct
 
-#defstruct DWRITE_GLYPH_RUN
+#defstruct global DWRITE_GLYPH_RUN
     #field var fontFace
     #field float fontEmSize
     #field int glyphCount
@@ -4614,14 +4614,14 @@
     #field int bidiLevel
 #endstruct
 
-#defstruct DWRITE_GLYPH_RUN_DESCRIPTION
+#defstruct global DWRITE_GLYPH_RUN_DESCRIPTION
     #field wstr localeName
     #field int stringLength
     #field var clusterMap
     #field int textPosition
 #endstruct
 
-#defstruct DWRITE_HIT_TEST_METRICS
+#defstruct global DWRITE_HIT_TEST_METRICS
     #field int textPosition
     #field int length
     #field float left
@@ -4633,14 +4633,14 @@
     #field int isTrimmed
 #endstruct
 
-#defstruct DWRITE_INLINE_OBJECT_METRICS
+#defstruct global DWRITE_INLINE_OBJECT_METRICS
     #field float width
     #field float height
     #field float baseline
     #field int supportsSideways
 #endstruct
 
-#defstruct DWRITE_LINE_METRICS
+#defstruct global DWRITE_LINE_METRICS
     #field int length
     #field int trailingWhitespaceLength
     #field int newlineLength
@@ -4649,7 +4649,7 @@
     #field int isTrimmed
 #endstruct
 
-#defstruct DWRITE_MATRIX
+#defstruct global DWRITE_MATRIX
     #field float m11
     #field float m12
     #field float m21
@@ -4658,14 +4658,14 @@
     #field float dy
 #endstruct
 
-#defstruct DWRITE_OVERHANG_METRICS
+#defstruct global DWRITE_OVERHANG_METRICS
     #field float left
     #field float top
     #field float right
     #field float bottom
 #endstruct
 
-#defstruct DWRITE_STRIKETHROUGH
+#defstruct global DWRITE_STRIKETHROUGH
     #field float width
     #field float thickness
     #field float offset
@@ -4675,7 +4675,7 @@
     #field int measuringMode
 #endstruct
 
-#defstruct DWRITE_TEXT_METRICS
+#defstruct global DWRITE_TEXT_METRICS
     #field float left
     #field float top
     #field float width
@@ -4687,18 +4687,18 @@
     #field int lineCount
 #endstruct
 
-#defstruct DWRITE_TEXT_RANGE
+#defstruct global DWRITE_TEXT_RANGE
     #field int startPosition
     #field int length
 #endstruct
 
-#defstruct DWRITE_TRIMMING
+#defstruct global DWRITE_TRIMMING
     #field int granularity
     #field int delimiter
     #field int delimiterCount
 #endstruct
 
-#defstruct DWRITE_UNDERLINE
+#defstruct global DWRITE_UNDERLINE
     #field float width
     #field float thickness
     #field float offset
@@ -4709,7 +4709,7 @@
     #field int measuringMode
 #endstruct
 
-#defstruct DXGI_ADAPTER_DESC
+#defstruct global DXGI_ADAPTER_DESC
     #field int Description
     #field int VendorId
     #field int DeviceId
@@ -4721,7 +4721,7 @@
     #field int AdapterLuid
 #endstruct
 
-#defstruct DXGI_FRAME_STATISTICS
+#defstruct global DXGI_FRAME_STATISTICS
     #field int PresentCount
     #field int PresentRefreshCount
     #field int SyncRefreshCount
@@ -4729,13 +4729,13 @@
     #field int64 SyncGPUTime
 #endstruct
 
-#defstruct DXGI_GAMMA_CONTROL
+#defstruct global DXGI_GAMMA_CONTROL
     #field int Scale
     #field int Offset
     #field int GammaCurve
 #endstruct
 
-#defstruct DXGI_GAMMA_CONTROL_CAPABILITIES
+#defstruct global DXGI_GAMMA_CONTROL_CAPABILITIES
     #field int ScaleAndOffsetSupported
     #field float MaxConvertedValue
     #field float MinConvertedValue
@@ -4743,12 +4743,12 @@
     #field int ControlPointPositions
 #endstruct
 
-#defstruct DXGI_MAPPED_RECT
+#defstruct global DXGI_MAPPED_RECT
     #field int Pitch
     #field var pBits
 #endstruct
 
-#defstruct DXGI_MODE_DESC
+#defstruct global DXGI_MODE_DESC
     #field int Width
     #field int Height
     #field int RefreshRate
@@ -4757,7 +4757,7 @@
     #field int Scaling
 #endstruct
 
-#defstruct DXGI_OUTPUT_DESC
+#defstruct global DXGI_OUTPUT_DESC
     #field int DeviceName
     #field int DesktopCoordinates
     #field int AttachedToDesktop
@@ -4765,34 +4765,34 @@
     #field intptr Monitor
 #endstruct
 
-#defstruct DXGI_RATIONAL
+#defstruct global DXGI_RATIONAL
     #field int Numerator
     #field int Denominator
 #endstruct
 
-#defstruct DXGI_RGB
+#defstruct global DXGI_RGB
     #field float Red
     #field float Green
     #field float Blue
 #endstruct
 
-#defstruct DXGI_SAMPLE_DESC
+#defstruct global DXGI_SAMPLE_DESC
     #field int Count
     #field int Quality
 #endstruct
 
-#defstruct DXGI_SHARED_RESOURCE
+#defstruct global DXGI_SHARED_RESOURCE
     #field intptr Handle
 #endstruct
 
-#defstruct DXGI_SURFACE_DESC
+#defstruct global DXGI_SURFACE_DESC
     #field int Width
     #field int Height
     #field int Format
     #field var SampleDesc
 #endstruct
 
-#defstruct DXGI_SWAP_CHAIN_DESC
+#defstruct global DXGI_SWAP_CHAIN_DESC
     #field var BufferDesc
     #field var SampleDesc
     #field int BufferUsage
@@ -4802,7 +4802,7 @@
     #field int SwapEffect
 #endstruct
 
-#defstruct DYNAMIC_TIME_ZONE_INFORMATION
+#defstruct global DYNAMIC_TIME_ZONE_INFORMATION
     #field int Bias
     #field int StandardName
     #field int StandardDate
@@ -4814,43 +4814,43 @@
     #field int DynamicDaylightTimeDisabled
 #endstruct
 
-#defstruct EAP_METHOD_TYPE
+#defstruct global EAP_METHOD_TYPE
     #field int eapType
     #field int dwAuthorId
 #endstruct
 
-#defstruct EAP_TYPE
+#defstruct global EAP_TYPE
     #field int type
     #field int dwVendorId
     #field int dwVendorType
 #endstruct
 
-#defstruct EFS_CERTIFICATE_BLOB
+#defstruct global EFS_CERTIFICATE_BLOB
     #field int dwCertEncodingType
     #field int cbData
     #field var pbData
 #endstruct
 
-#defstruct EFS_HASH_BLOB
+#defstruct global EFS_HASH_BLOB
     #field int cbData
     #field var pbData
 #endstruct
 
-#defstruct ELEMDESC
+#defstruct global ELEMDESC
     #field int tdesc
     #field var Anonymous
     #field int idldesc
     #field int paramdesc
 #endstruct
 
-#defstruct EMFINFO
+#defstruct global EMFINFO
     #field int nSize
     #field intptr hdc
     #field var pvEMF
     #field var pvCurrentRecord
 #endstruct
 
-#defstruct ENABLE_TRACE_PARAMETERS
+#defstruct global ENABLE_TRACE_PARAMETERS
     #field int Version
     #field int EnableProperty
     #field int ControlFlags
@@ -4858,44 +4858,44 @@
     #field int FilterDescCount
 #endstruct
 
-#defstruct EncoderParameter
+#defstruct global EncoderParameter
     #field int NumberOfValues
     #field int Type
     #field var Value
 #endstruct
 
-#defstruct EncoderParameters
+#defstruct global EncoderParameters
     #field int Count
 #endstruct
 
-#defstruct ENCRYPTED_LM_OWF_PASSWORD
+#defstruct global ENCRYPTED_LM_OWF_PASSWORD
     #field int data
 #endstruct
 
-#defstruct ENCRYPTION_CERTIFICATE
+#defstruct global ENCRYPTION_CERTIFICATE
     #field int cbTotalLength
     #field var pUserSid
     #field var pCertBlob
 #endstruct
 
-#defstruct ENCRYPTION_CERTIFICATE_HASH
+#defstruct global ENCRYPTION_CERTIFICATE_HASH
     #field int cbTotalLength
     #field var pUserSid
     #field var pHash
     #field wstr lpDisplayInformation
 #endstruct
 
-#defstruct ENCRYPTION_CERTIFICATE_HASH_LIST
+#defstruct global ENCRYPTION_CERTIFICATE_HASH_LIST
     #field int nCert_Hash
     #field var pUsers
 #endstruct
 
-#defstruct ENCRYPTION_CERTIFICATE_LIST
+#defstruct global ENCRYPTION_CERTIFICATE_LIST
     #field int nUsers
     #field var pUsers
 #endstruct
 
-#defstruct ENG_TIME_FIELDS
+#defstruct global ENG_TIME_FIELDS
     #field int usYear
     #field int usMonth
     #field int usDay
@@ -4906,7 +4906,7 @@
     #field int usWeekday
 #endstruct
 
-#defstruct ENHMETAHEADER
+#defstruct global ENHMETAHEADER
     #field int iType
     #field int nSize
     #field int rclBounds
@@ -4928,7 +4928,7 @@
     #field int szlMicrometers
 #endstruct
 
-#defstruct ENHMETAHEADER3
+#defstruct global ENHMETAHEADER3
     #field int iType
     #field int nSize
     #field int rclBounds
@@ -4946,12 +4946,12 @@
     #field int szlMillimeters
 #endstruct
 
-#defstruct ENHMETARECORD
+#defstruct global ENHMETARECORD
     #field int iType
     #field int nSize
 #endstruct
 
-#defstruct ENUM_PAGE_FILE_INFORMATION
+#defstruct global ENUM_PAGE_FILE_INFORMATION
     #field int cb
     #field int Reserved
     #field int TotalSize
@@ -4959,25 +4959,25 @@
     #field int PeakUsage
 #endstruct
 
-#defstruct ENUM_SERVICE_STATUSW
+#defstruct global ENUM_SERVICE_STATUSW
     #field wstr lpServiceName
     #field wstr lpDisplayName
     #field int ServiceStatus
 #endstruct
 
-#defstruct ENUMLOGFONTEXDVW
+#defstruct global ENUMLOGFONTEXDVW
     #field int elfEnumLogfontEx
     #field var elfDesignVector
 #endstruct
 
-#defstruct ENUMLOGFONTEXW
+#defstruct global ENUMLOGFONTEXW
     #field int elfLogFont
     #field int elfFullName
     #field int elfStyle
     #field int elfScript
 #endstruct
 
-#defstruct ETW_BUFFER_CONTEXT
+#defstruct global ETW_BUFFER_CONTEXT
     #field var Anonymous
     #field int LoggerId
     #field var Anonymous
@@ -4986,7 +4986,7 @@
     #field int Alignment
 #endstruct
 
-#defstruct EVENT_DESCRIPTOR
+#defstruct global EVENT_DESCRIPTOR
     #field int Id
     #field int Version
     #field int Channel
@@ -4996,13 +4996,13 @@
     #field int64 Keyword
 #endstruct
 
-#defstruct EVENT_FILTER_DESCRIPTOR
+#defstruct global EVENT_FILTER_DESCRIPTOR
     #field int64 Ptr
     #field int Size
     #field int Type
 #endstruct
 
-#defstruct EVENT_HEADER
+#defstruct global EVENT_HEADER
     #field int Size
     #field int HeaderType
     #field int Flags
@@ -5018,7 +5018,7 @@
     #field int UserTime
 #endstruct
 
-#defstruct EVENT_HEADER_EXTENDED_DATA_ITEM
+#defstruct global EVENT_HEADER_EXTENDED_DATA_ITEM
     #field int Reserved1
     #field int ExtType
     #field var Anonymous
@@ -5027,7 +5027,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct EVENT_RECORD
+#defstruct global EVENT_RECORD
     #field var EventHeader
     #field var BufferContext
     #field int ExtendedDataCount
@@ -5037,7 +5037,7 @@
     #field var UserContext
 #endstruct
 
-#defstruct EVENT_TRACE
+#defstruct global EVENT_TRACE
     #field int Header
     #field int InstanceId
     #field int ParentInstanceId
@@ -5048,7 +5048,7 @@
     #field var BufferContext
 #endstruct
 
-#defstruct EVENT_TRACE_HEADER
+#defstruct global EVENT_TRACE_HEADER
     #field int Size
     #field var Anonymous1
     #field var Anonymous2
@@ -5076,13 +5076,13 @@
     #field int Flags
 #endstruct
 
-#defstruct _Class_e__Struct
+#defstruct global _Class_e__Struct
     #field int Type
     #field int Level
     #field int Version
 #endstruct
 
-#defstruct EVENT_TRACE_LOGFILEW
+#defstruct global EVENT_TRACE_LOGFILEW
     #field wstr LogFileName
     #field wstr LoggerName
     #field int64 CurrentTime
@@ -5100,7 +5100,7 @@
     #field int ProcessTraceMode
 #endstruct
 
-#defstruct EVENT_TRACE_PROPERTIES
+#defstruct global EVENT_TRACE_PROPERTIES
     #field int Wnode
     #field int BufferSize
     #field int MinimumBuffers
@@ -5123,7 +5123,7 @@
     #field int FlushThreshold
 #endstruct
 
-#defstruct EXCEPINFO
+#defstruct global EXCEPINFO
     #field int wCode
     #field int wReserved
     #field int bstrSource
@@ -5134,12 +5134,12 @@
     #field int scode
 #endstruct
 
-#defstruct EXCEPTION_DEBUG_INFO
+#defstruct global EXCEPTION_DEBUG_INFO
     #field int ExceptionRecord
     #field int dwFirstChance
 #endstruct
 
-#defstruct EXCEPTION_RECORD
+#defstruct global EXCEPTION_RECORD
     #field intptr ExceptionCode
     #field int ExceptionFlags
     #field var ExceptionRecord
@@ -5148,43 +5148,43 @@
     #field int ExceptionInformation
 #endstruct
 
-#defstruct EXIT_PROCESS_DEBUG_INFO
+#defstruct global EXIT_PROCESS_DEBUG_INFO
     #field int dwExitCode
 #endstruct
 
-#defstruct EXIT_THREAD_DEBUG_INFO
+#defstruct global EXIT_THREAD_DEBUG_INFO
     #field int dwExitCode
 #endstruct
 
-#defstruct EXPLICIT_ACCESS_W
+#defstruct global EXPLICIT_ACCESS_W
     #field int grfAccessPermissions
     #field int grfAccessMode
     #field int grfInheritance
     #field int Trustee
 #endstruct
 
-#defstruct FARPROC
+#defstruct global FARPROC
     #field int Value
 #endstruct
 
-#defstruct FD_GLYPHATTR
+#defstruct global FD_GLYPHATTR
     #field int cjThis
     #field int cGlyphs
     #field int iMode
 #endstruct
 
-#defstruct FD_GLYPHSET
+#defstruct global FD_GLYPHSET
     #field int cjThis
     #field int flAccel
     #field int cGlyphsSupported
     #field int cRuns
 #endstruct
 
-#defstruct FILE_ID_128
+#defstruct global FILE_ID_128
     #field int Identifier
 #endstruct
 
-#defstruct FILE_ID_DESCRIPTOR
+#defstruct global FILE_ID_DESCRIPTOR
     #field int dwSize
     #field int Type
     #field var Anonymous
@@ -5192,12 +5192,12 @@
     #field var ExtendedFileId
 #endstruct
 
-#defstruct FILE_SEGMENT_ELEMENT
+#defstruct global FILE_SEGMENT_ELEMENT
     #field var Buffer
     #field int64 Alignment
 #endstruct
 
-#defstruct FILEMUIINFO
+#defstruct global FILEMUIINFO
     #field int dwSize
     #field int dwVersion
     #field int dwFileType
@@ -5213,12 +5213,12 @@
     #field int abBuffer
 #endstruct
 
-#defstruct FIXED
+#defstruct global FIXED
     #field int fract
     #field int value
 #endstruct
 
-#defstruct FIXED_INFO_W2KSP1
+#defstruct global FIXED_INFO_W2KSP1
     #field int HostName
     #field int DomainName
     #field var CurrentDnsServer
@@ -5230,7 +5230,7 @@
     #field int EnableDns
 #endstruct
 
-#defstruct FLASHWINFO
+#defstruct global FLASHWINFO
     #field int cbSize
     #field intptr hwnd
     #field int dwFlags
@@ -5238,7 +5238,7 @@
     #field int dwTimeout
 #endstruct
 
-#defstruct FLOWSPEC
+#defstruct global FLOWSPEC
     #field int TokenRate
     #field int TokenBucketSize
     #field int PeakBandwidth
@@ -5249,15 +5249,15 @@
     #field int MinimumPolicedSize
 #endstruct
 
-#defstruct FN_OBJECT_MGR_FUNCTS
+#defstruct global FN_OBJECT_MGR_FUNCTS
     #field int Placeholder
 #endstruct
 
-#defstruct FOCUS_EVENT_RECORD
+#defstruct global FOCUS_EVENT_RECORD
     #field int bSetFocus
 #endstruct
 
-#defstruct FONTDESC
+#defstruct global FONTDESC
     #field int cbSizeofstruct
     #field wstr lpstrName
     #field var cySize
@@ -5268,7 +5268,7 @@
     #field int fStrikethrough
 #endstruct
 
-#defstruct FONTINFO
+#defstruct global FONTINFO
     #field int cjThis
     #field int flCaps
     #field int cGlyphsSupported
@@ -5278,7 +5278,7 @@
     #field int cjMaxGlyph32
 #endstruct
 
-#defstruct FONTOBJ
+#defstruct global FONTOBJ
     #field int iUniq
     #field int iFace
     #field int cxMax
@@ -5291,12 +5291,12 @@
     #field var pvProducer
 #endstruct
 
-#defstruct FONTSIGNATURE
+#defstruct global FONTSIGNATURE
     #field int fsUsb
     #field int fsCsb
 #endstruct
 
-#defstruct FORMATETC
+#defstruct global FORMATETC
     #field int cfFormat
     #field var ptd
     #field int dwAspect
@@ -5304,7 +5304,7 @@
     #field int tymed
 #endstruct
 
-#defstruct FUNCDESC
+#defstruct global FUNCDESC
     #field int memid
     #field var lprgscode
     #field var lprgelemdescParam
@@ -5319,7 +5319,7 @@
     #field int wFuncFlags
 #endstruct
 
-#defstruct GCP_RESULTSW
+#defstruct global GCP_RESULTSW
     #field int lStructSize
     #field wstr lpOutString
     #field var lpOrder
@@ -5331,32 +5331,32 @@
     #field int nMaxFit
 #endstruct
 
-#defstruct GdiplusStartupInput
+#defstruct global GdiplusStartupInput
     #field int GdiplusVersion
     #field int DebugEventCallback
     #field int SuppressBackgroundThread
     #field int SuppressExternalCodecs
 #endstruct
 
-#defstruct GdiplusStartupOutput
+#defstruct global GdiplusStartupOutput
     #field int NotificationHook
     #field int NotificationUnhook
 #endstruct
 
-#defstruct GENERIC_MAPPING
+#defstruct global GENERIC_MAPPING
     #field int GenericRead
     #field int GenericWrite
     #field int GenericExecute
     #field int GenericAll
 #endstruct
 
-#defstruct GESTURECONFIG
+#defstruct global GESTURECONFIG
     #field int dwID
     #field int dwWant
     #field int dwBlock
 #endstruct
 
-#defstruct GESTUREINFO
+#defstruct global GESTUREINFO
     #field int cbSize
     #field int dwFlags
     #field int dwID
@@ -5368,19 +5368,19 @@
     #field int cbExtraArgs
 #endstruct
 
-#defstruct GLOBAL_MACHINE_POWER_POLICY
+#defstruct global GLOBAL_MACHINE_POWER_POLICY
     #field int Revision
     #field int LidOpenWakeAc
     #field int LidOpenWakeDc
     #field int BroadcastCapacityResolution
 #endstruct
 
-#defstruct GLOBAL_POWER_POLICY
+#defstruct global GLOBAL_POWER_POLICY
     #field int user
     #field var mach
 #endstruct
 
-#defstruct GLOBAL_USER_POWER_POLICY
+#defstruct global GLOBAL_USER_POWER_POLICY
     #field int Revision
     #field int PowerButtonAc
     #field int PowerButtonDc
@@ -5392,24 +5392,24 @@
     #field int GlobalFlags
 #endstruct
 
-#defstruct GLYPHBITS
+#defstruct global GLYPHBITS
     #field int ptlOrigin
     #field int sizlBitmap
 #endstruct
 
-#defstruct GLYPHDEF
+#defstruct global GLYPHDEF
     #field var pgb
     #field var ppo
 #endstruct
 
-#defstruct GLYPHMETRICS
+#defstruct global GLYPHMETRICS
     #field int gmBlackBoxX
     #field int gmBlackBoxY
     #field int gmCellIncX
     #field int gmCellIncY
 #endstruct
 
-#defstruct GLYPHMETRICSFLOAT
+#defstruct global GLYPHMETRICSFLOAT
     #field float gmfBlackBoxX
     #field float gmfBlackBoxY
     #field int gmfptGlyphOrigin
@@ -5417,35 +5417,35 @@
     #field float gmfCellIncY
 #endstruct
 
-#defstruct GLYPHPOS
+#defstruct global GLYPHPOS
     #field int hg
     #field var pgdf
     #field int ptl
 #endstruct
 
-#defstruct GLYPHSET
+#defstruct global GLYPHSET
     #field int cbThis
     #field int flAccel
     #field int cGlyphsSupported
     #field int cRanges
 #endstruct
 
-#defstruct GOPHER_ABSTRACT_ATTRIBUTE_TYPE
+#defstruct global GOPHER_ABSTRACT_ATTRIBUTE_TYPE
     #field var ShortAbstract
     #field var AbstractFile
 #endstruct
 
-#defstruct GOPHER_ADMIN_ATTRIBUTE_TYPE
+#defstruct global GOPHER_ADMIN_ATTRIBUTE_TYPE
     #field var Comment
     #field var EmailAddress
 #endstruct
 
-#defstruct GOPHER_ASK_ATTRIBUTE_TYPE
+#defstruct global GOPHER_ASK_ATTRIBUTE_TYPE
     #field var QuestionType
     #field var QuestionText
 #endstruct
 
-#defstruct GOPHER_ATTRIBUTE_TYPE
+#defstruct global GOPHER_ATTRIBUTE_TYPE
     #field int CategoryId
     #field int AttributeId
     #field int AttributeType
@@ -5468,7 +5468,7 @@
     #field int Unknown
 #endstruct
 
-#defstruct _AttributeType_e__Union
+#defstruct global _AttributeType_e__Union
     #field var Admin
     #field int ModDate
     #field int Ttl
@@ -5488,7 +5488,7 @@
     #field int Unknown
 #endstruct
 
-#defstruct GOPHER_FIND_DATAW
+#defstruct global GOPHER_FIND_DATAW
     #field int DisplayString
     #field int GopherType
     #field int SizeLow
@@ -5496,7 +5496,7 @@
     #field int Locator
 #endstruct
 
-#defstruct GOPHER_GEOGRAPHICAL_LOCATION_ATTRIBUTE_TYPE
+#defstruct global GOPHER_GEOGRAPHICAL_LOCATION_ATTRIBUTE_TYPE
     #field int DegreesNorth
     #field int MinutesNorth
     #field int SecondsNorth
@@ -5505,64 +5505,64 @@
     #field int SecondsEast
 #endstruct
 
-#defstruct GOPHER_LOCATION_ATTRIBUTE_TYPE
+#defstruct global GOPHER_LOCATION_ATTRIBUTE_TYPE
     #field var Location
 #endstruct
 
-#defstruct GOPHER_ORGANIZATION_ATTRIBUTE_TYPE
+#defstruct global GOPHER_ORGANIZATION_ATTRIBUTE_TYPE
     #field var Organization
 #endstruct
 
-#defstruct GOPHER_PROVIDER_ATTRIBUTE_TYPE
+#defstruct global GOPHER_PROVIDER_ATTRIBUTE_TYPE
     #field var Provider
 #endstruct
 
-#defstruct GOPHER_SCORE_ATTRIBUTE_TYPE
+#defstruct global GOPHER_SCORE_ATTRIBUTE_TYPE
     #field int Score
 #endstruct
 
-#defstruct GOPHER_SCORE_RANGE_ATTRIBUTE_TYPE
+#defstruct global GOPHER_SCORE_RANGE_ATTRIBUTE_TYPE
     #field int LowerBound
     #field int UpperBound
 #endstruct
 
-#defstruct GOPHER_SITE_ATTRIBUTE_TYPE
+#defstruct global GOPHER_SITE_ATTRIBUTE_TYPE
     #field var Site
 #endstruct
 
-#defstruct GOPHER_TIMEZONE_ATTRIBUTE_TYPE
+#defstruct global GOPHER_TIMEZONE_ATTRIBUTE_TYPE
     #field int Zone
 #endstruct
 
-#defstruct GOPHER_TTL_ATTRIBUTE_TYPE
+#defstruct global GOPHER_TTL_ATTRIBUTE_TYPE
     #field int Ttl
 #endstruct
 
-#defstruct GOPHER_UNKNOWN_ATTRIBUTE_TYPE
+#defstruct global GOPHER_UNKNOWN_ATTRIBUTE_TYPE
     #field var Text
 #endstruct
 
-#defstruct GOPHER_VERONICA_ATTRIBUTE_TYPE
+#defstruct global GOPHER_VERONICA_ATTRIBUTE_TYPE
     #field int TreeWalk
 #endstruct
 
-#defstruct GOPHER_VERSION_ATTRIBUTE_TYPE
+#defstruct global GOPHER_VERSION_ATTRIBUTE_TYPE
     #field var Version
 #endstruct
 
-#defstruct GOPHER_VIEW_ATTRIBUTE_TYPE
+#defstruct global GOPHER_VIEW_ATTRIBUTE_TYPE
     #field var ContentType
     #field var Language
     #field int Size
 #endstruct
 
-#defstruct GROUP_AFFINITY
+#defstruct global GROUP_AFFINITY
     #field int Mask
     #field int Group
     #field int Reserved
 #endstruct
 
-#defstruct GROUP_POLICY_OBJECTW
+#defstruct global GROUP_POLICY_OBJECTW
     #field int dwOptions
     #field int dwVersion
     #field wstr lpDSPath
@@ -5578,7 +5578,7 @@
     #field wstr lpLink
 #endstruct
 
-#defstruct GUITHREADINFO
+#defstruct global GUITHREADINFO
     #field int cbSize
     #field int flags
     #field intptr hwndActive
@@ -5590,19 +5590,19 @@
     #field int rcCaret
 #endstruct
 
-#defstruct HARDWARE_COUNTER_DATA
+#defstruct global HARDWARE_COUNTER_DATA
     #field int Type
     #field int Reserved
     #field int64 Value
 #endstruct
 
-#defstruct HARDWAREINPUT
+#defstruct global HARDWAREINPUT
     #field int uMsg
     #field int wParamL
     #field int wParamH
 #endstruct
 
-#defstruct HEAP_SUMMARY
+#defstruct global HEAP_SUMMARY
     #field int cb
     #field int cbAllocated
     #field int cbCommitted
@@ -5610,7 +5610,7 @@
     #field int cbMaxReserve
 #endstruct
 
-#defstruct HEAPENTRY32
+#defstruct global HEAPENTRY32
     #field int dwSize
     #field intptr hHandle
     #field int dwAddress
@@ -5622,14 +5622,14 @@
     #field int th32HeapID
 #endstruct
 
-#defstruct HEAPLIST32
+#defstruct global HEAPLIST32
     #field int dwSize
     #field int th32ProcessID
     #field int th32HeapID
     #field int dwFlags
 #endstruct
 
-#defstruct HELPINFO
+#defstruct global HELPINFO
     #field int cbSize
     #field int iContextType
     #field int iCtrlId
@@ -5637,7 +5637,7 @@
     #field int dwContextId
 #endstruct
 
-#defstruct HIT_LOGGING_INFO
+#defstruct global HIT_LOGGING_INFO
     #field int dwStructSize
     #field str lpszLoggedUrlName
     #field int StartTime
@@ -5645,24 +5645,24 @@
     #field str lpszExtendedInfo
 #endstruct
 
-#defstruct HLOG
+#defstruct global HLOG
     #field int time
     #field int last_flags
     #field int offset
     #field int rec_offset
 #endstruct
 
-#defstruct HTTP_BYTE_RANGE
+#defstruct global HTTP_BYTE_RANGE
     #field int64 StartingOffset
     #field int64 Length
 #endstruct
 
-#defstruct HTTP_CACHE_POLICY
+#defstruct global HTTP_CACHE_POLICY
     #field int Policy
     #field int SecondsToLive
 #endstruct
 
-#defstruct HTTP_COOKED_URL
+#defstruct global HTTP_COOKED_URL
     #field int FullUrlLength
     #field int HostLength
     #field int AbsPathLength
@@ -5673,7 +5673,7 @@
     #field wstr pQueryString
 #endstruct
 
-#defstruct HTTP_DATA_CHUNK
+#defstruct global HTTP_DATA_CHUNK
     #field int DataChunkType
     #field var Anonymous
     #field int FromMemory
@@ -5693,52 +5693,52 @@
     #field var pTrailers
 #endstruct
 
-#defstruct _FromMemory_e__Struct
+#defstruct global _FromMemory_e__Struct
     #field var pBuffer
     #field int BufferLength
 #endstruct
 
-#defstruct _FromFileHandle_e__Struct
+#defstruct global _FromFileHandle_e__Struct
     #field var ByteRange
     #field intptr FileHandle
 #endstruct
 
-#defstruct _FromFragmentCache_e__Struct
+#defstruct global _FromFragmentCache_e__Struct
     #field int FragmentNameLength
     #field wstr pFragmentName
 #endstruct
 
-#defstruct _FromFragmentCacheEx_e__Struct
+#defstruct global _FromFragmentCacheEx_e__Struct
     #field var ByteRange
     #field wstr pFragmentName
 #endstruct
 
-#defstruct _Trailers_e__Struct
+#defstruct global _Trailers_e__Struct
     #field int TrailerCount
     #field var pTrailers
 #endstruct
 
-#defstruct HTTP_DELEGATE_REQUEST_PROPERTY_INFO
+#defstruct global HTTP_DELEGATE_REQUEST_PROPERTY_INFO
     #field int PropertyId
     #field int PropertyInfoLength
     #field var PropertyInfo
 #endstruct
 
-#defstruct HTTP_KNOWN_HEADER
+#defstruct global HTTP_KNOWN_HEADER
     #field int RawValueLength
     #field str pRawValue
 #endstruct
 
-#defstruct HTTP_LOG_DATA
+#defstruct global HTTP_LOG_DATA
     #field int Type
 #endstruct
 
-#defstruct HTTP_PUSH_NOTIFICATION_STATUS
+#defstruct global HTTP_PUSH_NOTIFICATION_STATUS
     #field int ChannelStatusValid
     #field int ChannelStatus
 #endstruct
 
-#defstruct HTTP_REQUEST_HEADERS
+#defstruct global HTTP_REQUEST_HEADERS
     #field int UnknownHeaderCount
     #field var pUnknownHeaders
     #field int TrailerCount
@@ -5746,13 +5746,13 @@
     #field int KnownHeaders
 #endstruct
 
-#defstruct HTTP_REQUEST_INFO
+#defstruct global HTTP_REQUEST_INFO
     #field int InfoType
     #field int InfoLength
     #field var pInfo
 #endstruct
 
-#defstruct HTTP_REQUEST_V1
+#defstruct global HTTP_REQUEST_V1
     #field int Flags
     #field int64 ConnectionId
     #field int64 RequestId
@@ -5773,13 +5773,13 @@
     #field var pSslInfo
 #endstruct
 
-#defstruct HTTP_REQUEST_V2
+#defstruct global HTTP_REQUEST_V2
     #field var Base
     #field int RequestInfoCount
     #field var pRequestInfo
 #endstruct
 
-#defstruct HTTP_RESPONSE_HEADERS
+#defstruct global HTTP_RESPONSE_HEADERS
     #field int UnknownHeaderCount
     #field var pUnknownHeaders
     #field int TrailerCount
@@ -5787,13 +5787,13 @@
     #field int KnownHeaders
 #endstruct
 
-#defstruct HTTP_RESPONSE_INFO
+#defstruct global HTTP_RESPONSE_INFO
     #field int Type
     #field int Length
     #field var pInfo
 #endstruct
 
-#defstruct HTTP_RESPONSE_V1
+#defstruct global HTTP_RESPONSE_V1
     #field int Flags
     #field int Version
     #field int StatusCode
@@ -5804,13 +5804,13 @@
     #field var pEntityChunks
 #endstruct
 
-#defstruct HTTP_RESPONSE_V2
+#defstruct global HTTP_RESPONSE_V2
     #field var Base
     #field int ResponseInfoCount
     #field var pResponseInfo
 #endstruct
 
-#defstruct HTTP_SSL_CLIENT_CERT_INFO
+#defstruct global HTTP_SSL_CLIENT_CERT_INFO
     #field int CertFlags
     #field int CertEncodedSize
     #field var pCertEncoded
@@ -5818,7 +5818,7 @@
     #field int CertDeniedByMapper
 #endstruct
 
-#defstruct HTTP_SSL_INFO
+#defstruct global HTTP_SSL_INFO
     #field int ServerCertKeySize
     #field int ConnectionKeySize
     #field int ServerCertIssuerSize
@@ -5829,35 +5829,35 @@
     #field int SslClientCertNegotiated
 #endstruct
 
-#defstruct HTTP_TRANSPORT_ADDRESS
+#defstruct global HTTP_TRANSPORT_ADDRESS
     #field var pRemoteAddress
     #field var pLocalAddress
 #endstruct
 
-#defstruct HTTP_UNKNOWN_HEADER
+#defstruct global HTTP_UNKNOWN_HEADER
     #field int NameLength
     #field int RawValueLength
     #field str pName
     #field str pRawValue
 #endstruct
 
-#defstruct HTTP_VERSION
+#defstruct global HTTP_VERSION
     #field int MajorVersion
     #field int MinorVersion
 #endstruct
 
-#defstruct HTTPAPI_VERSION
+#defstruct global HTTPAPI_VERSION
     #field int HttpApiMajorVersion
     #field int HttpApiMinorVersion
 #endstruct
 
-#defstruct HW_PROFILE_INFOW
+#defstruct global HW_PROFILE_INFOW
     #field int dwDockInfo
     #field int szHwProfileGuid
     #field int szHwProfileName
 #endstruct
 
-#defstruct ICONINFO
+#defstruct global ICONINFO
     #field int fIcon
     #field int xHotspot
     #field int yHotspot
@@ -5865,7 +5865,7 @@
     #field intptr hbmColor
 #endstruct
 
-#defstruct ICONINFOEXW
+#defstruct global ICONINFOEXW
     #field int cbSize
     #field int fIcon
     #field int xHotspot
@@ -5877,12 +5877,12 @@
     #field int szResName
 #endstruct
 
-#defstruct IDLDESC
+#defstruct global IDLDESC
     #field int dwReserved
     #field int wIDLFlags
 #endstruct
 
-#defstruct IMAGE_SECTION_HEADER
+#defstruct global IMAGE_SECTION_HEADER
     #field int Name
     #field int Misc
     #field int VirtualAddress
@@ -5897,12 +5897,12 @@
     #field int VirtualSize
 #endstruct
 
-#defstruct _Misc_e__Union
+#defstruct global _Misc_e__Union
     #field int PhysicalAddress
     #field int VirtualSize
 #endstruct
 
-#defstruct ImageCodecInfo
+#defstruct global ImageCodecInfo
     #field wstr CodecName
     #field wstr DllName
     #field wstr FormatDescription
@@ -5916,7 +5916,7 @@
     #field var SigMask
 #endstruct
 
-#defstruct IMAGEHLP_GET_TYPE_INFO_PARAMS
+#defstruct global IMAGEHLP_GET_TYPE_INFO_PARAMS
     #field int SizeOfStruct
     #field int Flags
     #field int NumIds
@@ -5937,7 +5937,7 @@
     #field var ReqsValid
 #endstruct
 
-#defstruct IMAGEHLP_LINE64
+#defstruct global IMAGEHLP_LINE64
     #field int SizeOfStruct
     #field var Key
     #field int LineNumber
@@ -5945,7 +5945,7 @@
     #field int64 Address
 #endstruct
 
-#defstruct IMAGEHLP_LINEW64
+#defstruct global IMAGEHLP_LINEW64
     #field int SizeOfStruct
     #field var Key
     #field int LineNumber
@@ -5953,7 +5953,7 @@
     #field int64 Address
 #endstruct
 
-#defstruct IMAGEHLP_MODULE64
+#defstruct global IMAGEHLP_MODULE64
     #field int SizeOfStruct
     #field int64 BaseOfImage
     #field int ImageSize
@@ -5980,7 +5980,7 @@
     #field int Reserved
 #endstruct
 
-#defstruct IMAGEHLP_MODULEW64
+#defstruct global IMAGEHLP_MODULEW64
     #field int SizeOfStruct
     #field int64 BaseOfImage
     #field int ImageSize
@@ -6007,7 +6007,7 @@
     #field int Reserved
 #endstruct
 
-#defstruct IMAGEHLP_STACK_FRAME
+#defstruct global IMAGEHLP_STACK_FRAME
     #field int64 InstructionOffset
     #field int64 ReturnOffset
     #field int64 FrameOffset
@@ -6020,7 +6020,7 @@
     #field int Reserved2
 #endstruct
 
-#defstruct IMAGEHLP_SYMBOL64
+#defstruct global IMAGEHLP_SYMBOL64
     #field int SizeOfStruct
     #field int64 Address
     #field int Size
@@ -6028,7 +6028,7 @@
     #field int MaxNameLength
 #endstruct
 
-#defstruct IMAGEINFO
+#defstruct global IMAGEINFO
     #field intptr hbmImage
     #field intptr hbmMask
     #field int Unused1
@@ -6036,7 +6036,7 @@
     #field int rcImage
 #endstruct
 
-#defstruct ImageItemData
+#defstruct global ImageItemData
     #field int Size
     #field int Position
     #field var Desc
@@ -6046,7 +6046,7 @@
     #field int Cookie
 #endstruct
 
-#defstruct IMAGELISTDRAWPARAMS
+#defstruct global IMAGELISTDRAWPARAMS
     #field int cbSize
     #field intptr himl
     #field int i
@@ -6066,7 +6066,7 @@
     #field int crEffect
 #endstruct
 
-#defstruct IMEMENUITEMINFOW
+#defstruct global IMEMENUITEMINFOW
     #field int cbSize
     #field int fType
     #field int fState
@@ -6078,7 +6078,7 @@
     #field intptr hbmpItem
 #endstruct
 
-#defstruct IMEPROA
+#defstruct global IMEPROA
     #field intptr hWnd
     #field var InstDate
     #field int wVersion
@@ -6087,7 +6087,7 @@
     #field int szOptions
 #endstruct
 
-#defstruct IMEPROW
+#defstruct global IMEPROW
     #field intptr hWnd
     #field var InstDate
     #field int wVersion
@@ -6096,13 +6096,13 @@
     #field int szOptions
 #endstruct
 
-#defstruct IN6_ADDR
+#defstruct global IN6_ADDR
     #field var u
     #field int Byte
     #field int Word
 #endstruct
 
-#defstruct IN_ADDR
+#defstruct global IN_ADDR
     #field int S_un
     #field int S_un_b
     #field int S_un_w
@@ -6115,7 +6115,7 @@
     #field int s_w2
 #endstruct
 
-#defstruct _S_un_e__Union
+#defstruct global _S_un_e__Union
     #field int S_un_b
     #field int S_un_w
     #field int S_addr
@@ -6127,29 +6127,29 @@
     #field int s_w2
 #endstruct
 
-#defstruct _S_un_b_e__Struct
+#defstruct global _S_un_b_e__Struct
     #field int s_b1
     #field int s_b2
     #field int s_b3
     #field int s_b4
 #endstruct
 
-#defstruct _S_un_w_e__Struct
+#defstruct global _S_un_w_e__Struct
     #field int s_w1
     #field int s_w2
 #endstruct
 
-#defstruct INHERITED_FROMW
+#defstruct global INHERITED_FROMW
     #field int GenerationGap
     #field wstr AncestorName
 #endstruct
 
-#defstruct INITCOMMONCONTROLSEX
+#defstruct global INITCOMMONCONTROLSEX
     #field int dwSize
     #field int dwICC
 #endstruct
 
-#defstruct INPUT
+#defstruct global INPUT
     #field int type
     #field var Anonymous
     #field int mi
@@ -6157,12 +6157,12 @@
     #field var hi
 #endstruct
 
-#defstruct INPUT_MESSAGE_SOURCE
+#defstruct global INPUT_MESSAGE_SOURCE
     #field int deviceType
     #field int originId
 #endstruct
 
-#defstruct INPUT_RECORD
+#defstruct global INPUT_RECORD
     #field int EventType
     #field int Event
     #field int KeyEvent
@@ -6172,7 +6172,7 @@
     #field var FocusEvent
 #endstruct
 
-#defstruct _Event_e__Union
+#defstruct global _Event_e__Union
     #field int KeyEvent
     #field int MouseEvent
     #field int WindowBufferSizeEvent
@@ -6180,7 +6180,7 @@
     #field var FocusEvent
 #endstruct
 
-#defstruct INPUT_TRANSFORM
+#defstruct global INPUT_TRANSFORM
     #field var Anonymous
     #field var Anonymous
     #field int m
@@ -6202,7 +6202,7 @@
     #field float _44
 #endstruct
 
-#defstruct INPUTCONTEXT
+#defstruct global INPUTCONTEXT
     #field intptr hWnd
     #field int fOpen
     #field int fdwConversion
@@ -6222,17 +6222,17 @@
     #field int W
 #endstruct
 
-#defstruct _lfFont_e__Union
+#defstruct global _lfFont_e__Union
     #field int A
     #field int W
 #endstruct
 
-#defstruct INSTALLDATA
+#defstruct global INSTALLDATA
     #field int Type
     #field int Spec
 #endstruct
 
-#defstruct INSTALLSPEC
+#defstruct global INSTALLSPEC
     #field int AppName
     #field wstr FileExt
     #field wstr ProgId
@@ -6241,21 +6241,21 @@
     #field int ClsCtx
 #endstruct
 
-#defstruct _AppName_e__Struct
+#defstruct global _AppName_e__Struct
     #field wstr Name
 #endstruct
 
-#defstruct _COMClass_e__Struct
+#defstruct global _COMClass_e__Struct
     #field int ClsCtx
 #endstruct
 
-#defstruct INTERFACE_HARDWARE_CROSSTIMESTAMP
+#defstruct global INTERFACE_HARDWARE_CROSSTIMESTAMP
     #field int64 SystemTimestamp1
     #field int64 HardwareClockTimestamp
     #field int64 SystemTimestamp2
 #endstruct
 
-#defstruct INTERFACE_HARDWARE_TIMESTAMP_CAPABILITIES
+#defstruct global INTERFACE_HARDWARE_TIMESTAMP_CAPABILITIES
     #field int PtpV2OverUdpIPv4EventMessageReceive
     #field int PtpV2OverUdpIPv4AllMessageReceive
     #field int PtpV2OverUdpIPv4EventMessageTransmit
@@ -6269,30 +6269,30 @@
     #field int TaggedTransmit
 #endstruct
 
-#defstruct INTERFACE_SOFTWARE_TIMESTAMP_CAPABILITIES
+#defstruct global INTERFACE_SOFTWARE_TIMESTAMP_CAPABILITIES
     #field int AllReceive
     #field int AllTransmit
     #field int TaggedTransmit
 #endstruct
 
-#defstruct INTERFACE_TIMESTAMP_CAPABILITIES
+#defstruct global INTERFACE_TIMESTAMP_CAPABILITIES
     #field int64 HardwareClockFrequencyHz
     #field int SupportsCrossTimestamp
     #field var HardwareCapabilities
     #field var SoftwareCapabilities
 #endstruct
 
-#defstruct INTERFACEDATA
+#defstruct global INTERFACEDATA
     #field var pmethdata
     #field int cMembers
 #endstruct
 
-#defstruct INTERFACEINFO
+#defstruct global INTERFACEINFO
     #field var pUnk
     #field int wMethod
 #endstruct
 
-#defstruct INTERNET_BUFFERSW
+#defstruct global INTERNET_BUFFERSW
     #field int dwStructSize
     #field var Next
     #field wstr lpcszHeader
@@ -6305,7 +6305,7 @@
     #field int dwOffsetHigh
 #endstruct
 
-#defstruct INTERNET_CACHE_CONFIG_INFOW
+#defstruct global INTERNET_CACHE_CONFIG_INFOW
     #field int dwStructSize
     #field int dwContainer
     #field int dwQuota
@@ -6321,12 +6321,12 @@
     #field int dwCacheSize
 #endstruct
 
-#defstruct INTERNET_CACHE_CONFIG_PATH_ENTRYW
+#defstruct global INTERNET_CACHE_CONFIG_PATH_ENTRYW
     #field int CachePath
     #field int dwCacheSize
 #endstruct
 
-#defstruct INTERNET_CACHE_CONTAINER_INFOW
+#defstruct global INTERNET_CACHE_CONTAINER_INFOW
     #field int dwCacheVersion
     #field wstr lpszName
     #field wstr lpszCachePrefix
@@ -6334,7 +6334,7 @@
     #field wstr lpszVolumeTitle
 #endstruct
 
-#defstruct INTERNET_CACHE_ENTRY_INFOW
+#defstruct global INTERNET_CACHE_ENTRY_INFOW
     #field int dwStructSize
     #field wstr lpszSourceUrlName
     #field wstr lpszLocalFileName
@@ -6351,7 +6351,7 @@
     #field int dwExemptDelta
 #endstruct
 
-#defstruct INTERNET_CACHE_GROUP_INFOW
+#defstruct global INTERNET_CACHE_GROUP_INFOW
     #field int dwGroupSize
     #field int dwGroupFlags
     #field int dwGroupType
@@ -6361,7 +6361,7 @@
     #field int szGroupName
 #endstruct
 
-#defstruct INTERNET_COOKIE2
+#defstruct global INTERNET_COOKIE2
     #field wstr pwszName
     #field wstr pwszValue
     #field wstr pwszDomain
@@ -6370,7 +6370,7 @@
     #field int fExpiresSet
 #endstruct
 
-#defstruct INTERNET_SECURITY_INFO
+#defstruct global INTERNET_SECURITY_INFO
     #field int dwSize
     #field var pCertificate
     #field var pcCertChain
@@ -6380,12 +6380,12 @@
     #field int channelBindingToken
 #endstruct
 
-#defstruct INTLIST
+#defstruct global INTLIST
     #field int iValueCount
     #field int iValues
 #endstruct
 
-#defstruct IO_COUNTERS
+#defstruct global IO_COUNTERS
     #field int64 ReadOperationCount
     #field int64 WriteOperationCount
     #field int64 OtherOperationCount
@@ -6394,14 +6394,14 @@
     #field int64 OtherTransferCount
 #endstruct
 
-#defstruct IO_STATUS_BLOCK
+#defstruct global IO_STATUS_BLOCK
     #field var Anonymous
     #field int Information
     #field intptr Status
     #field var Pointer
 #endstruct
 
-#defstruct IP_ADAPTER_ADDRESSES_LH
+#defstruct global IP_ADAPTER_ADDRESSES_LH
     #field var Anonymous1
     #field var Next
     #field str AdapterName
@@ -6446,7 +6446,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct IP_ADAPTER_ANYCAST_ADDRESS_XP
+#defstruct global IP_ADAPTER_ANYCAST_ADDRESS_XP
     #field var Anonymous
     #field var Next
     #field int Address
@@ -6456,7 +6456,7 @@
     #field int Flags
 #endstruct
 
-#defstruct IP_ADAPTER_DNS_SERVER_ADDRESS_XP
+#defstruct global IP_ADAPTER_DNS_SERVER_ADDRESS_XP
     #field var Anonymous
     #field var Next
     #field int Address
@@ -6466,12 +6466,12 @@
     #field int Reserved
 #endstruct
 
-#defstruct IP_ADAPTER_DNS_SUFFIX
+#defstruct global IP_ADAPTER_DNS_SUFFIX
     #field var Next
     #field int String
 #endstruct
 
-#defstruct IP_ADAPTER_GATEWAY_ADDRESS_LH
+#defstruct global IP_ADAPTER_GATEWAY_ADDRESS_LH
     #field var Anonymous
     #field var Next
     #field int Address
@@ -6481,12 +6481,12 @@
     #field int Reserved
 #endstruct
 
-#defstruct IP_ADAPTER_INDEX_MAP
+#defstruct global IP_ADAPTER_INDEX_MAP
     #field int Index
     #field int Name
 #endstruct
 
-#defstruct IP_ADAPTER_INFO
+#defstruct global IP_ADAPTER_INFO
     #field var Next
     #field int ComboIndex
     #field int AdapterName
@@ -6507,7 +6507,7 @@
     #field int64 LeaseExpires
 #endstruct
 
-#defstruct IP_ADAPTER_MULTICAST_ADDRESS_XP
+#defstruct global IP_ADAPTER_MULTICAST_ADDRESS_XP
     #field var Anonymous
     #field var Next
     #field int Address
@@ -6517,11 +6517,11 @@
     #field int Flags
 #endstruct
 
-#defstruct IP_ADAPTER_ORDER_MAP
+#defstruct global IP_ADAPTER_ORDER_MAP
     #field int NumAdapters
 #endstruct
 
-#defstruct IP_ADAPTER_PREFIX_XP
+#defstruct global IP_ADAPTER_PREFIX_XP
     #field var Anonymous
     #field var Next
     #field int Address
@@ -6532,7 +6532,7 @@
     #field int Flags
 #endstruct
 
-#defstruct IP_ADAPTER_UNICAST_ADDRESS_LH
+#defstruct global IP_ADAPTER_UNICAST_ADDRESS_LH
     #field var Anonymous
     #field var Next
     #field int Address
@@ -6549,7 +6549,7 @@
     #field int Flags
 #endstruct
 
-#defstruct IP_ADAPTER_WINS_SERVER_ADDRESS_LH
+#defstruct global IP_ADAPTER_WINS_SERVER_ADDRESS_LH
     #field var Anonymous
     #field var Next
     #field int Address
@@ -6559,34 +6559,34 @@
     #field int Reserved
 #endstruct
 
-#defstruct IP_ADDR_STRING
+#defstruct global IP_ADDR_STRING
     #field var Next
     #field int IpAddress
     #field int IpMask
     #field int Context
 #endstruct
 
-#defstruct IP_ADDRESS_PREFIX
+#defstruct global IP_ADDRESS_PREFIX
     #field int Prefix
     #field int PrefixLength
 #endstruct
 
-#defstruct IP_ADDRESS_STRING
+#defstruct global IP_ADDRESS_STRING
     #field int String
 #endstruct
 
-#defstruct IP_INTERFACE_INFO
+#defstruct global IP_INTERFACE_INFO
     #field int NumAdapters
 #endstruct
 
-#defstruct IP_INTERFACE_NAME_INFO_W2KSP1
+#defstruct global IP_INTERFACE_NAME_INFO_W2KSP1
     #field int Index
     #field int MediaType
     #field int ConnectionType
     #field int AccessType
 #endstruct
 
-#defstruct IP_OPTION_INFORMATION
+#defstruct global IP_OPTION_INFORMATION
     #field int Ttl
     #field int Tos
     #field int Flags
@@ -6594,28 +6594,28 @@
     #field var OptionsData
 #endstruct
 
-#defstruct IP_PER_ADAPTER_INFO_W2KSP1
+#defstruct global IP_PER_ADAPTER_INFO_W2KSP1
     #field int AutoconfigEnabled
     #field int AutoconfigActive
     #field var CurrentDnsServer
     #field var DnsServerList
 #endstruct
 
-#defstruct IP_UNIDIRECTIONAL_ADAPTER_ADDRESS
+#defstruct global IP_UNIDIRECTIONAL_ADAPTER_ADDRESS
     #field int NumAdapters
 #endstruct
 
-#defstruct ITEMIDLIST
+#defstruct global ITEMIDLIST
     #field int mkid
 #endstruct
 
-#defstruct JOB_SET_ARRAY
+#defstruct global JOB_SET_ARRAY
     #field intptr JobHandle
     #field int MemberLevel
     #field int Flags
 #endstruct
 
-#defstruct JOBOBJECT_IO_RATE_CONTROL_INFORMATION
+#defstruct global JOBOBJECT_IO_RATE_CONTROL_INFORMATION
     #field int64 MaxIops
     #field int64 MaxBandwidth
     #field int64 ReservationIops
@@ -6623,7 +6623,7 @@
     #field int BaseIoSize
 #endstruct
 
-#defstruct JOYCAPSW
+#defstruct global JOYCAPSW
     #field int wMid
     #field int wPid
     #field int szPname
@@ -6650,14 +6650,14 @@
     #field int szOEMVxD
 #endstruct
 
-#defstruct JOYINFO
+#defstruct global JOYINFO
     #field int wXpos
     #field int wYpos
     #field int wZpos
     #field int wButtons
 #endstruct
 
-#defstruct JOYINFOEX
+#defstruct global JOYINFOEX
     #field int dwSize
     #field int dwFlags
     #field int dwXpos
@@ -6673,7 +6673,7 @@
     #field int dwReserved2
 #endstruct
 
-#defstruct KDHELP64
+#defstruct global KDHELP64
     #field int64 Thread
     #field int ThCallbackStack
     #field int ThCallbackBStore
@@ -6693,13 +6693,13 @@
     #field int Reserved0
 #endstruct
 
-#defstruct KERNINGPAIR
+#defstruct global KERNINGPAIR
     #field int wFirst
     #field int wSecond
     #field int iKernAmount
 #endstruct
 
-#defstruct KEY_EVENT_RECORD
+#defstruct global KEY_EVENT_RECORD
     #field int bKeyDown
     #field int wRepeatCount
     #field int wVirtualKeyCode
@@ -6710,12 +6710,12 @@
     #field int AsciiChar
 #endstruct
 
-#defstruct _uChar_e__Union
+#defstruct global _uChar_e__Union
     #field int UnicodeChar
     #field int AsciiChar
 #endstruct
 
-#defstruct KEYBDINPUT
+#defstruct global KEYBDINPUT
     #field int wVk
     #field int wScan
     #field int dwFlags
@@ -6723,19 +6723,19 @@
     #field int dwExtraInfo
 #endstruct
 
-#defstruct L2_NOTIFICATION_DATA
+#defstruct global L2_NOTIFICATION_DATA
     #field int NotificationSource
     #field int NotificationCode
     #field int dwDataSize
     #field var pData
 #endstruct
 
-#defstruct LASTINPUTINFO
+#defstruct global LASTINPUTINFO
     #field int cbSize
     #field int dwTime
 #endstruct
 
-#defstruct LAYERPLANEDESCRIPTOR
+#defstruct global LAYERPLANEDESCRIPTOR
     #field int nSize
     #field int nVersion
     #field int dwFlags
@@ -6762,7 +6762,7 @@
     #field int crTransparent
 #endstruct
 
-#defstruct LDT_ENTRY
+#defstruct global LDT_ENTRY
     #field int LimitLow
     #field int BaseLow
     #field int HighWord
@@ -6775,7 +6775,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _HighWord_e__Union
+#defstruct global _HighWord_e__Union
     #field int Bytes
     #field int Bits
     #field int BaseMid
@@ -6785,27 +6785,27 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _Bytes_e__Struct
+#defstruct global _Bytes_e__Struct
     #field int BaseMid
     #field int Flags1
     #field int Flags2
     #field int BaseHi
 #endstruct
 
-#defstruct _Bits_e__Struct
+#defstruct global _Bits_e__Struct
     #field int _bitfield
 #endstruct
 
-#defstruct LIST_ENTRY
+#defstruct global LIST_ENTRY
     #field var Flink
     #field var Blink
 #endstruct
 
-#defstruct LM_OWF_PASSWORD
+#defstruct global LM_OWF_PASSWORD
     #field int data
 #endstruct
 
-#defstruct LOAD_DLL_DEBUG_INFO
+#defstruct global LOAD_DLL_DEBUG_INFO
     #field intptr hFile
     #field var lpBaseOfDll
     #field int dwDebugInfoFileOffset
@@ -6814,20 +6814,20 @@
     #field int fUnicode
 #endstruct
 
-#defstruct LOCALMANAGEDAPPLICATION
+#defstruct global LOCALMANAGEDAPPLICATION
     #field wstr pszDeploymentName
     #field wstr pszPolicyName
     #field wstr pszProductId
     #field int dwState
 #endstruct
 
-#defstruct LOGBRUSH
+#defstruct global LOGBRUSH
     #field int lbStyle
     #field int lbColor
     #field int lbHatch
 #endstruct
 
-#defstruct LOGCOLORSPACEW
+#defstruct global LOGCOLORSPACEW
     #field int lcsSignature
     #field int lcsVersion
     #field int lcsSize
@@ -6840,7 +6840,7 @@
     #field int lcsFilename
 #endstruct
 
-#defstruct LOGFONTA
+#defstruct global LOGFONTA
     #field int lfHeight
     #field int lfWidth
     #field int lfEscapement
@@ -6857,7 +6857,7 @@
     #field int lfFaceName
 #endstruct
 
-#defstruct LOGFONTW
+#defstruct global LOGFONTW
     #field int lfHeight
     #field int lfWidth
     #field int lfEscapement
@@ -6874,56 +6874,56 @@
     #field int lfFaceName
 #endstruct
 
-#defstruct LOGPALETTE
+#defstruct global LOGPALETTE
     #field int palVersion
     #field int palNumEntries
 #endstruct
 
-#defstruct LOGPEN
+#defstruct global LOGPEN
     #field int lopnColor
 #endstruct
 
-#defstruct LSA_AUTH_INFORMATION
+#defstruct global LSA_AUTH_INFORMATION
     #field int64 LastUpdateTime
     #field int AuthType
     #field int AuthInfoLength
     #field var AuthInfo
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_BINARY_DATA
+#defstruct global LSA_FOREST_TRUST_BINARY_DATA
     #field int Length
     #field var Buffer
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_COLLISION_INFORMATION
+#defstruct global LSA_FOREST_TRUST_COLLISION_INFORMATION
     #field int RecordCount
     #field var Entries
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_COLLISION_RECORD
+#defstruct global LSA_FOREST_TRUST_COLLISION_RECORD
     #field int Index
     #field int Type
     #field int Flags
     #field int Name
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_DOMAIN_INFO
+#defstruct global LSA_FOREST_TRUST_DOMAIN_INFO
     #field int Sid
     #field int DnsName
     #field int NetbiosName
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_INFORMATION
+#defstruct global LSA_FOREST_TRUST_INFORMATION
     #field int RecordCount
     #field var Entries
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_INFORMATION2
+#defstruct global LSA_FOREST_TRUST_INFORMATION2
     #field int RecordCount
     #field var Entries
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_RECORD
+#defstruct global LSA_FOREST_TRUST_RECORD
     #field int Flags
     #field int ForestTrustType
     #field int64 Time
@@ -6933,14 +6933,14 @@
     #field var Data
 #endstruct
 
-#defstruct _ForestTrustData_e__Union
+#defstruct global _ForestTrustData_e__Union
     #field int TopLevelName
     #field var DomainInfo
     #field var BinaryData
     #field int ScannerInfo
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_RECORD2
+#defstruct global LSA_FOREST_TRUST_RECORD2
     #field int Flags
     #field int ForestTrustType
     #field int64 Time
@@ -6951,13 +6951,13 @@
     #field int ScannerInfo
 #endstruct
 
-#defstruct LSA_FOREST_TRUST_SCANNER_INFO
+#defstruct global LSA_FOREST_TRUST_SCANNER_INFO
     #field int DomainSid
     #field int DnsName
     #field int NetbiosName
 #endstruct
 
-#defstruct LSA_OBJECT_ATTRIBUTES
+#defstruct global LSA_OBJECT_ATTRIBUTES
     #field int Length
     #field intptr RootDirectory
     #field var ObjectName
@@ -6966,52 +6966,52 @@
     #field var SecurityQualityOfService
 #endstruct
 
-#defstruct LSA_REFERENCED_DOMAIN_LIST
+#defstruct global LSA_REFERENCED_DOMAIN_LIST
     #field int Entries
     #field var Domains
 #endstruct
 
-#defstruct LSA_TRANSLATED_NAME
+#defstruct global LSA_TRANSLATED_NAME
     #field int Use
     #field int Name
     #field int DomainIndex
 #endstruct
 
-#defstruct LSA_TRANSLATED_SID
+#defstruct global LSA_TRANSLATED_SID
     #field int Use
     #field int RelativeId
     #field int DomainIndex
 #endstruct
 
-#defstruct LSA_TRANSLATED_SID2
+#defstruct global LSA_TRANSLATED_SID2
     #field int Use
     #field int Sid
     #field int DomainIndex
     #field int Flags
 #endstruct
 
-#defstruct LSA_TRUST_INFORMATION
+#defstruct global LSA_TRUST_INFORMATION
     #field int Name
     #field int Sid
 #endstruct
 
-#defstruct LSA_UNICODE_STRING
+#defstruct global LSA_UNICODE_STRING
     #field int Length
     #field int MaximumLength
     #field wstr Buffer
 #endstruct
 
-#defstruct LUID
+#defstruct global LUID
     #field int LowPart
     #field int HighPart
 #endstruct
 
-#defstruct LUID_AND_ATTRIBUTES
+#defstruct global LUID_AND_ATTRIBUTES
     #field var Luid
     #field int Attributes
 #endstruct
 
-#defstruct MACHINE_POWER_POLICY
+#defstruct global MACHINE_POWER_POLICY
     #field int Revision
     #field int MinSleepAc
     #field int MinSleepDc
@@ -7028,13 +7028,13 @@
     #field int OverThrottledDc
 #endstruct
 
-#defstruct MACHINE_PROCESSOR_POWER_POLICY
+#defstruct global MACHINE_PROCESSOR_POWER_POLICY
     #field int Revision
     #field int ProcessorPolicyAc
     #field int ProcessorPolicyDc
 #endstruct
 
-#defstruct MANAGEDAPPLICATION
+#defstruct global MANAGEDAPPLICATION
     #field wstr pszPackageName
     #field wstr pszPublisher
     #field int dwVersionHi
@@ -7051,21 +7051,21 @@
     #field int bInstalled
 #endstruct
 
-#defstruct MARGINS
+#defstruct global MARGINS
     #field int cxLeftWidth
     #field int cxRightWidth
     #field int cyTopHeight
     #field int cyBottomHeight
 #endstruct
 
-#defstruct MAT2
+#defstruct global MAT2
     #field var eM11
     #field var eM12
     #field var eM21
     #field var eM22
 #endstruct
 
-#defstruct MEMORYSTATUS
+#defstruct global MEMORYSTATUS
     #field int dwLength
     #field int dwMemoryLoad
     #field int dwTotalPhys
@@ -7076,7 +7076,7 @@
     #field int dwAvailVirtual
 #endstruct
 
-#defstruct MEMORYSTATUSEX
+#defstruct global MEMORYSTATUSEX
     #field int dwLength
     #field int dwMemoryLoad
     #field int64 ullTotalPhys
@@ -7088,11 +7088,11 @@
     #field int64 ullAvailExtendedVirtual
 #endstruct
 
-#defstruct MENU_EVENT_RECORD
+#defstruct global MENU_EVENT_RECORD
     #field int dwCommandId
 #endstruct
 
-#defstruct MENUBARINFO
+#defstruct global MENUBARINFO
     #field int cbSize
     #field int rcBar
     #field intptr hMenu
@@ -7100,7 +7100,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct MENUINFO
+#defstruct global MENUINFO
     #field int cbSize
     #field int fMask
     #field int dwStyle
@@ -7110,7 +7110,7 @@
     #field int dwMenuData
 #endstruct
 
-#defstruct MENUITEMINFOW
+#defstruct global MENUITEMINFOW
     #field int cbSize
     #field int fMask
     #field int fType
@@ -7125,7 +7125,7 @@
     #field intptr hbmpItem
 #endstruct
 
-#defstruct MetafileHeader
+#defstruct global MetafileHeader
     #field int Type
     #field int Size
     #field int Version
@@ -7144,14 +7144,14 @@
     #field var EmfHeader
 #endstruct
 
-#defstruct METAFILEPICT
+#defstruct global METAFILEPICT
     #field int mm
     #field int xExt
     #field int yExt
     #field intptr hMF
 #endstruct
 
-#defstruct METAHEADER
+#defstruct global METAHEADER
     #field int mtType
     #field int mtHeaderSize
     #field int mtVersion
@@ -7161,12 +7161,12 @@
     #field int mtNoParameters
 #endstruct
 
-#defstruct METARECORD
+#defstruct global METARECORD
     #field int rdSize
     #field int rdFunction
 #endstruct
 
-#defstruct METHODDATA
+#defstruct global METHODDATA
     #field wstr szName
     #field var ppdata
     #field int dispid
@@ -7177,7 +7177,7 @@
     #field int vtReturn
 #endstruct
 
-#defstruct MF_SINK_WRITER_STATISTICS
+#defstruct global MF_SINK_WRITER_STATISTICS
     #field int cb
     #field int64 llLastTimestampReceived
     #field int64 llLastTimestampEncoded
@@ -7196,21 +7196,21 @@
     #field int dwAverageSampleRateProcessed
 #endstruct
 
-#defstruct MFARGB
+#defstruct global MFARGB
     #field int rgbBlue
     #field int rgbGreen
     #field int rgbRed
     #field int rgbAlpha
 #endstruct
 
-#defstruct MFAYUVSample
+#defstruct global MFAYUVSample
     #field int bCrValue
     #field int bCbValue
     #field int bYValue
     #field int bSampleAlpha8
 #endstruct
 
-#defstruct MFCLOCK_PROPERTIES
+#defstruct global MFCLOCK_PROPERTIES
     #field int64 qwCorrelationRate
     #field int dwClockFlags
     #field int64 qwClockFrequency
@@ -7218,41 +7218,41 @@
     #field int dwClockJitter
 #endstruct
 
-#defstruct MFOffset
+#defstruct global MFOffset
     #field int fract
     #field int value
 #endstruct
 
-#defstruct MFPaletteEntry
+#defstruct global MFPaletteEntry
     #field var ARGB
     #field var AYCbCr
 #endstruct
 
-#defstruct MFRatio
+#defstruct global MFRatio
     #field int Numerator
     #field int Denominator
 #endstruct
 
-#defstruct MFVideoArea
+#defstruct global MFVideoArea
     #field var OffsetX
     #field var OffsetY
     #field int Area
 #endstruct
 
-#defstruct MFVideoCompressedInfo
+#defstruct global MFVideoCompressedInfo
     #field int64 AvgBitrate
     #field int64 AvgBitErrorRate
     #field int MaxKeyFrameSpacing
 #endstruct
 
-#defstruct MFVIDEOFORMAT
+#defstruct global MFVIDEOFORMAT
     #field int dwSize
     #field int videoInfo
     #field var compressedInfo
     #field int surfaceInfo
 #endstruct
 
-#defstruct MFVideoInfo
+#defstruct global MFVideoInfo
     #field int dwWidth
     #field int dwHeight
     #field var PixelAspectRatio
@@ -7270,32 +7270,32 @@
     #field int64 VideoFlags
 #endstruct
 
-#defstruct MFVideoSurfaceInfo
+#defstruct global MFVideoSurfaceInfo
     #field int Format
     #field int PaletteEntries
 #endstruct
 
-#defstruct MIB_ANYCASTIPADDRESS_ROW
+#defstruct global MIB_ANYCASTIPADDRESS_ROW
     #field int Address
     #field int InterfaceLuid
     #field int InterfaceIndex
     #field int ScopeId
 #endstruct
 
-#defstruct MIB_ANYCASTIPADDRESS_TABLE
+#defstruct global MIB_ANYCASTIPADDRESS_TABLE
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_ICMP
+#defstruct global MIB_ICMP
     #field int stats
 #endstruct
 
-#defstruct MIB_ICMP_EX_XPSP1
+#defstruct global MIB_ICMP_EX_XPSP1
     #field int icmpInStats
     #field int icmpOutStats
 #endstruct
 
-#defstruct MIB_IF_ROW2
+#defstruct global MIB_IF_ROW2
     #field int InterfaceLuid
     #field int InterfaceIndex
     #field int Alias
@@ -7338,15 +7338,15 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _InterfaceAndOperStatusFlags_e__Struct
+#defstruct global _InterfaceAndOperStatusFlags_e__Struct
     #field int _bitfield
 #endstruct
 
-#defstruct MIB_IF_TABLE2
+#defstruct global MIB_IF_TABLE2
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_IFROW
+#defstruct global MIB_IFROW
     #field int wszName
     #field int dwIndex
     #field int dwType
@@ -7373,34 +7373,34 @@
     #field int bDescr
 #endstruct
 
-#defstruct MIB_IFSTACK_ROW
+#defstruct global MIB_IFSTACK_ROW
     #field int HigherLayerInterfaceIndex
     #field int LowerLayerInterfaceIndex
 #endstruct
 
-#defstruct MIB_IFSTACK_TABLE
+#defstruct global MIB_IFSTACK_TABLE
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_IFTABLE
+#defstruct global MIB_IFTABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_INVERTEDIFSTACK_ROW
+#defstruct global MIB_INVERTEDIFSTACK_ROW
     #field int LowerLayerInterfaceIndex
     #field int HigherLayerInterfaceIndex
 #endstruct
 
-#defstruct MIB_INVERTEDIFSTACK_TABLE
+#defstruct global MIB_INVERTEDIFSTACK_TABLE
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_IP_NETWORK_CONNECTION_BANDWIDTH_ESTIMATES
+#defstruct global MIB_IP_NETWORK_CONNECTION_BANDWIDTH_ESTIMATES
     #field int InboundBandwidthInformation
     #field int OutboundBandwidthInformation
 #endstruct
 
-#defstruct MIB_IPADDRROW_XP
+#defstruct global MIB_IPADDRROW_XP
     #field int dwAddr
     #field int dwIndex
     #field int dwMask
@@ -7410,11 +7410,11 @@
     #field int wType
 #endstruct
 
-#defstruct MIB_IPADDRTABLE
+#defstruct global MIB_IPADDRTABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_IPFORWARD_ROW2
+#defstruct global MIB_IPFORWARD_ROW2
     #field int InterfaceLuid
     #field int InterfaceIndex
     #field var DestinationPrefix
@@ -7432,11 +7432,11 @@
     #field int Origin
 #endstruct
 
-#defstruct MIB_IPFORWARD_TABLE2
+#defstruct global MIB_IPFORWARD_TABLE2
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_IPFORWARDROW
+#defstruct global MIB_IPFORWARDROW
     #field int dwForwardDest
     #field int dwForwardMask
     #field int dwForwardPolicy
@@ -7457,11 +7457,11 @@
     #field int ForwardProto
 #endstruct
 
-#defstruct MIB_IPFORWARDTABLE
+#defstruct global MIB_IPFORWARDTABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_IPINTERFACE_ROW
+#defstruct global MIB_IPINTERFACE_ROW
     #field int Family
     #field int InterfaceLuid
     #field int InterfaceIndex
@@ -7499,11 +7499,11 @@
     #field int DisableDefaultRoutes
 #endstruct
 
-#defstruct MIB_IPINTERFACE_TABLE
+#defstruct global MIB_IPINTERFACE_TABLE
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_IPNET_ROW2
+#defstruct global MIB_IPNET_ROW2
     #field int Address
     #field int InterfaceIndex
     #field int InterfaceLuid
@@ -7519,16 +7519,16 @@
     #field int LastUnreachable
 #endstruct
 
-#defstruct _ReachabilityTime_e__Union
+#defstruct global _ReachabilityTime_e__Union
     #field int LastReachable
     #field int LastUnreachable
 #endstruct
 
-#defstruct MIB_IPNET_TABLE2
+#defstruct global MIB_IPNET_TABLE2
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_IPNETROW_LH
+#defstruct global MIB_IPNETROW_LH
     #field int dwIndex
     #field int dwPhysAddrLen
     #field int bPhysAddr
@@ -7538,11 +7538,11 @@
     #field int Type
 #endstruct
 
-#defstruct MIB_IPNETTABLE
+#defstruct global MIB_IPNETTABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_IPPATH_ROW
+#defstruct global MIB_IPPATH_ROW
     #field int Source
     #field int Destination
     #field int InterfaceLuid
@@ -7559,11 +7559,11 @@
     #field int LastUnreachable
 #endstruct
 
-#defstruct MIB_IPPATH_TABLE
+#defstruct global MIB_IPPATH_TABLE
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_IPSTATS_LH
+#defstruct global MIB_IPSTATS_LH
     #field var Anonymous
     #field int dwDefaultTTL
     #field int dwInReceives
@@ -7591,18 +7591,18 @@
     #field int Forwarding
 #endstruct
 
-#defstruct MIB_MULTICASTIPADDRESS_ROW
+#defstruct global MIB_MULTICASTIPADDRESS_ROW
     #field int Address
     #field int InterfaceIndex
     #field int InterfaceLuid
     #field int ScopeId
 #endstruct
 
-#defstruct MIB_MULTICASTIPADDRESS_TABLE
+#defstruct global MIB_MULTICASTIPADDRESS_TABLE
     #field int NumEntries
 #endstruct
 
-#defstruct MIB_TCP6ROW
+#defstruct global MIB_TCP6ROW
     #field int State
     #field var LocalAddr
     #field int dwLocalScopeId
@@ -7612,7 +7612,7 @@
     #field int dwRemotePort
 #endstruct
 
-#defstruct MIB_TCP6ROW2
+#defstruct global MIB_TCP6ROW2
     #field var LocalAddr
     #field int dwLocalScopeId
     #field int dwLocalPort
@@ -7624,7 +7624,7 @@
     #field int dwOffloadState
 #endstruct
 
-#defstruct MIB_TCP6ROW_OWNER_MODULE
+#defstruct global MIB_TCP6ROW_OWNER_MODULE
     #field int ucLocalAddr
     #field int dwLocalScopeId
     #field int dwLocalPort
@@ -7636,15 +7636,15 @@
     #field int OwningModuleInfo
 #endstruct
 
-#defstruct MIB_TCP6TABLE
+#defstruct global MIB_TCP6TABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_TCP6TABLE2
+#defstruct global MIB_TCP6TABLE2
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_TCPROW2
+#defstruct global MIB_TCPROW2
     #field int dwState
     #field int dwLocalAddr
     #field int dwLocalPort
@@ -7654,7 +7654,7 @@
     #field int dwOffloadState
 #endstruct
 
-#defstruct MIB_TCPROW_LH
+#defstruct global MIB_TCPROW_LH
     #field var Anonymous
     #field int dwLocalAddr
     #field int dwLocalPort
@@ -7663,7 +7663,7 @@
     #field int State
 #endstruct
 
-#defstruct MIB_TCPROW_OWNER_MODULE
+#defstruct global MIB_TCPROW_OWNER_MODULE
     #field int dwLocalAddr
     #field int dwLocalPort
     #field int dwRemoteAddr
@@ -7673,7 +7673,7 @@
     #field int OwningModuleInfo
 #endstruct
 
-#defstruct MIB_TCPSTATS2
+#defstruct global MIB_TCPSTATS2
     #field int RtoAlgorithm
     #field int dwRtoMin
     #field int dwRtoMax
@@ -7691,7 +7691,7 @@
     #field int dwNumConns
 #endstruct
 
-#defstruct MIB_TCPSTATS_LH
+#defstruct global MIB_TCPSTATS_LH
     #field var Anonymous
     #field int dwRtoMin
     #field int dwRtoMax
@@ -7711,21 +7711,21 @@
     #field int RtoAlgorithm
 #endstruct
 
-#defstruct MIB_TCPTABLE
+#defstruct global MIB_TCPTABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_TCPTABLE2
+#defstruct global MIB_TCPTABLE2
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_UDP6ROW
+#defstruct global MIB_UDP6ROW
     #field var dwLocalAddr
     #field int dwLocalScopeId
     #field int dwLocalPort
 #endstruct
 
-#defstruct MIB_UDP6ROW_OWNER_MODULE
+#defstruct global MIB_UDP6ROW_OWNER_MODULE
     #field int ucLocalAddr
     #field int dwLocalScopeId
     #field int dwLocalPort
@@ -7738,16 +7738,16 @@
     #field int _bitfield
 #endstruct
 
-#defstruct MIB_UDP6TABLE
+#defstruct global MIB_UDP6TABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_UDPROW
+#defstruct global MIB_UDPROW
     #field int dwLocalAddr
     #field int dwLocalPort
 #endstruct
 
-#defstruct MIB_UDPROW_OWNER_MODULE
+#defstruct global MIB_UDPROW_OWNER_MODULE
     #field int dwLocalAddr
     #field int dwLocalPort
     #field int dwOwningPid
@@ -7759,7 +7759,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct MIB_UDPSTATS
+#defstruct global MIB_UDPSTATS
     #field int dwInDatagrams
     #field int dwNoPorts
     #field int dwInErrors
@@ -7767,7 +7767,7 @@
     #field int dwNumAddrs
 #endstruct
 
-#defstruct MIB_UDPSTATS2
+#defstruct global MIB_UDPSTATS2
     #field int64 dw64InDatagrams
     #field int dwNoPorts
     #field int dwInErrors
@@ -7775,11 +7775,11 @@
     #field int dwNumAddrs
 #endstruct
 
-#defstruct MIB_UDPTABLE
+#defstruct global MIB_UDPTABLE
     #field int dwNumEntries
 #endstruct
 
-#defstruct MIB_UNICASTIPADDRESS_ROW
+#defstruct global MIB_UNICASTIPADDRESS_ROW
     #field int Address
     #field int InterfaceLuid
     #field int InterfaceIndex
@@ -7794,16 +7794,16 @@
     #field int64 CreationTimeStamp
 #endstruct
 
-#defstruct MIB_UNICASTIPADDRESS_TABLE
+#defstruct global MIB_UNICASTIPADDRESS_TABLE
     #field int NumEntries
 #endstruct
 
-#defstruct MIBICMPINFO
+#defstruct global MIBICMPINFO
     #field int icmpInStats
     #field int icmpOutStats
 #endstruct
 
-#defstruct MIBICMPSTATS
+#defstruct global MIBICMPSTATS
     #field int dwMsgs
     #field int dwErrors
     #field int dwDestUnreachs
@@ -7819,13 +7819,13 @@
     #field int dwAddrMaskReps
 #endstruct
 
-#defstruct MIBICMPSTATS_EX_XPSP1
+#defstruct global MIBICMPSTATS_EX_XPSP1
     #field int dwMsgs
     #field int dwErrors
     #field int rgdwTypeCount
 #endstruct
 
-#defstruct MIDIHDR
+#defstruct global MIDIHDR
     #field str lpData
     #field int dwBufferLength
     #field int dwBytesRecorded
@@ -7837,7 +7837,7 @@
     #field int dwReserved
 #endstruct
 
-#defstruct MIDIINCAPSW
+#defstruct global MIDIINCAPSW
     #field int wMid
     #field int wPid
     #field int vDriverVersion
@@ -7845,7 +7845,7 @@
     #field int dwSupport
 #endstruct
 
-#defstruct MIDIOUTCAPSW
+#defstruct global MIDIOUTCAPSW
     #field int wMid
     #field int wPid
     #field int vDriverVersion
@@ -7857,7 +7857,7 @@
     #field int dwSupport
 #endstruct
 
-#defstruct MilMatrix3x2D
+#defstruct global MilMatrix3x2D
     #field double S_11
     #field double S_12
     #field double S_21
@@ -7866,7 +7866,7 @@
     #field double DY
 #endstruct
 
-#defstruct MIXERCAPSW
+#defstruct global MIXERCAPSW
     #field int wMid
     #field int wPid
     #field int vDriverVersion
@@ -7875,7 +7875,7 @@
     #field int cDestinations
 #endstruct
 
-#defstruct MIXERCONTROLDETAILS
+#defstruct global MIXERCONTROLDETAILS
     #field int cbStruct
     #field int dwControlID
     #field int cChannels
@@ -7886,7 +7886,7 @@
     #field int cMultipleItems
 #endstruct
 
-#defstruct MIXERCONTROLW
+#defstruct global MIXERCONTROLW
     #field int cbStruct
     #field int dwControlID
     #field int dwControlType
@@ -7908,7 +7908,7 @@
     #field int dwReserved
 #endstruct
 
-#defstruct _Bounds_e__Union
+#defstruct global _Bounds_e__Union
     #field var Anonymous1
     #field var Anonymous2
     #field int dwReserved
@@ -7918,13 +7918,13 @@
     #field int dwMaximum
 #endstruct
 
-#defstruct _Metrics_e__Union
+#defstruct global _Metrics_e__Union
     #field int cSteps
     #field int cbCustomData
     #field int dwReserved
 #endstruct
 
-#defstruct MIXERLINECONTROLSW
+#defstruct global MIXERLINECONTROLSW
     #field int cbStruct
     #field int dwLineID
     #field var Anonymous
@@ -7935,7 +7935,7 @@
     #field int dwControlType
 #endstruct
 
-#defstruct MIXERLINEW
+#defstruct global MIXERLINEW
     #field int cbStruct
     #field int dwDestination
     #field int dwSource
@@ -7957,7 +7957,7 @@
     #field int szPname
 #endstruct
 
-#defstruct _Target_e__Struct
+#defstruct global _Target_e__Struct
     #field int dwType
     #field int dwDeviceID
     #field int wMid
@@ -7966,7 +7966,7 @@
     #field int szPname
 #endstruct
 
-#defstruct MMCKINFO
+#defstruct global MMCKINFO
     #field int ckid
     #field int cksize
     #field int fccType
@@ -7974,7 +7974,7 @@
     #field int dwFlags
 #endstruct
 
-#defstruct MMIOINFO
+#defstruct global MMIOINFO
     #field int dwFlags
     #field int fccIOProc
     #field int wErrorRet
@@ -7992,7 +7992,7 @@
     #field intptr hmmio
 #endstruct
 
-#defstruct MMTIME
+#defstruct global MMTIME
     #field int wType
     #field var u
     #field int ms
@@ -8011,7 +8011,7 @@
     #field int songptrpos
 #endstruct
 
-#defstruct _smpte_e__Struct
+#defstruct global _smpte_e__Struct
     #field int hour
     #field int min
     #field int sec
@@ -8021,11 +8021,11 @@
     #field int pad
 #endstruct
 
-#defstruct _midi_e__Struct
+#defstruct global _midi_e__Struct
     #field int songptrpos
 #endstruct
 
-#defstruct MODLOAD_DATA
+#defstruct global MODLOAD_DATA
     #field int ssize
     #field int ssig
     #field var data
@@ -8033,7 +8033,7 @@
     #field int flags
 #endstruct
 
-#defstruct MODULEENTRY32
+#defstruct global MODULEENTRY32
     #field int dwSize
     #field int th32ModuleID
     #field int th32ProcessID
@@ -8046,27 +8046,27 @@
     #field int szExePath
 #endstruct
 
-#defstruct MODULEINFO
+#defstruct global MODULEINFO
     #field var lpBaseOfDll
     #field int SizeOfImage
     #field var EntryPoint
 #endstruct
 
-#defstruct MONITORINFO
+#defstruct global MONITORINFO
     #field int cbSize
     #field int rcMonitor
     #field int rcWork
     #field int dwFlags
 #endstruct
 
-#defstruct MOUSE_EVENT_RECORD
+#defstruct global MOUSE_EVENT_RECORD
     #field var dwMousePosition
     #field int dwButtonState
     #field int dwControlKeyState
     #field int dwEventFlags
 #endstruct
 
-#defstruct MOUSEINPUT
+#defstruct global MOUSEINPUT
     #field int dx
     #field int dy
     #field int mouseData
@@ -8075,20 +8075,20 @@
     #field int dwExtraInfo
 #endstruct
 
-#defstruct MOUSEMOVEPOINT
+#defstruct global MOUSEMOVEPOINT
     #field int x
     #field int y
     #field int time
     #field int dwExtraInfo
 #endstruct
 
-#defstruct MPEG1VIDEOINFO
+#defstruct global MPEG1VIDEOINFO
     #field int hdr
     #field int dwStartTimeCode
     #field int cbSequenceHeader
 #endstruct
 
-#defstruct MPEG2VIDEOINFO
+#defstruct global MPEG2VIDEOINFO
     #field int hdr
     #field int dwStartTimeCode
     #field int cbSequenceHeader
@@ -8097,7 +8097,7 @@
     #field int dwFlags
 #endstruct
 
-#defstruct MS_ADDINFO_BLOB
+#defstruct global MS_ADDINFO_BLOB
     #field int cbStruct
     #field int cbMemObject
     #field var pbMemObject
@@ -8105,18 +8105,18 @@
     #field var pbMemSignedMsg
 #endstruct
 
-#defstruct MS_ADDINFO_CATALOGMEMBER
+#defstruct global MS_ADDINFO_CATALOGMEMBER
     #field int cbStruct
     #field var pStore
     #field var pMember
 #endstruct
 
-#defstruct MS_ADDINFO_FLAT
+#defstruct global MS_ADDINFO_FLAT
     #field int cbStruct
     #field var pIndirectData
 #endstruct
 
-#defstruct MSG
+#defstruct global MSG
     #field intptr hwnd
     #field int message
     #field intptr wParam
@@ -8124,7 +8124,7 @@
     #field int time
 #endstruct
 
-#defstruct MSGBOXPARAMSW
+#defstruct global MSGBOXPARAMSW
     #field int cbSize
     #field intptr hwndOwner
     #field intptr hInstance
@@ -8136,13 +8136,13 @@
     #field int dwLanguageId
 #endstruct
 
-#defstruct NDIS_OBJECT_HEADER
+#defstruct global NDIS_OBJECT_HEADER
     #field int Type
     #field int Revision
     #field int Size
 #endstruct
 
-#defstruct NET_ADDRESS_INFO
+#defstruct global NET_ADDRESS_INFO
     #field int Format
     #field var Anonymous
     #field int NamedAddress
@@ -8153,32 +8153,32 @@
     #field int Port
 #endstruct
 
-#defstruct _NamedAddress_e__Struct
+#defstruct global _NamedAddress_e__Struct
     #field int Address
     #field int Port
 #endstruct
 
-#defstruct NET_LUID_LH
+#defstruct global NET_LUID_LH
     #field int64 Value
     #field int Info
     #field int64 _bitfield
 #endstruct
 
-#defstruct _Info_e__Struct
+#defstruct global _Info_e__Struct
     #field int64 _bitfield
 #endstruct
 
-#defstruct NL_BANDWIDTH_INFORMATION
+#defstruct global NL_BANDWIDTH_INFORMATION
     #field int64 Bandwidth
     #field int64 Instability
     #field int BandwidthPeaked
 #endstruct
 
-#defstruct NL_INTERFACE_OFFLOAD_ROD
+#defstruct global NL_INTERFACE_OFFLOAD_ROD
     #field int _bitfield
 #endstruct
 
-#defstruct NL_NETWORK_CONNECTIVITY_HINT
+#defstruct global NL_NETWORK_CONNECTIVITY_HINT
     #field int ConnectivityLevel
     #field int ConnectivityCost
     #field int ApproachingDataLimit
@@ -8186,27 +8186,27 @@
     #field int Roaming
 #endstruct
 
-#defstruct NLSVERSIONINFO
+#defstruct global NLSVERSIONINFO
     #field int dwNLSVersionInfoSize
     #field int dwNLSVersion
     #field int dwDefinedVersion
     #field int dwEffectiveId
 #endstruct
 
-#defstruct NLSVERSIONINFOEX
+#defstruct global NLSVERSIONINFOEX
     #field int dwNLSVersionInfoSize
     #field int dwNLSVersion
     #field int dwDefinedVersion
     #field int dwEffectiveId
 #endstruct
 
-#defstruct NSPV2_ROUTINE
+#defstruct global NSPV2_ROUTINE
     #field int cbSize
     #field int dwMajorVersion
     #field int dwMinorVersion
 #endstruct
 
-#defstruct NUMBERFMTW
+#defstruct global NUMBERFMTW
     #field int NumDigits
     #field int LeadingZero
     #field int Grouping
@@ -8215,7 +8215,7 @@
     #field int NegativeOrder
 #endstruct
 
-#defstruct NUMPARSE
+#defstruct global NUMPARSE
     #field int cDig
     #field int dwInFlags
     #field int dwOutFlags
@@ -8224,12 +8224,12 @@
     #field int nPwr10
 #endstruct
 
-#defstruct OBJECT_TYPE_LIST
+#defstruct global OBJECT_TYPE_LIST
     #field int Level
     #field int Sbz
 #endstruct
 
-#defstruct OBJECTS_AND_NAME_W
+#defstruct global OBJECTS_AND_NAME_W
     #field int ObjectsPresent
     #field int ObjectType
     #field wstr ObjectTypeName
@@ -8237,12 +8237,12 @@
     #field wstr ptstrName
 #endstruct
 
-#defstruct OBJECTS_AND_SID
+#defstruct global OBJECTS_AND_SID
     #field int ObjectsPresent
     #field var pSid
 #endstruct
 
-#defstruct OCPFIPARAMS
+#defstruct global OCPFIPARAMS
     #field int cbStructSize
     #field intptr hWndOwner
     #field int x
@@ -8255,7 +8255,7 @@
     #field int dispidInitialProperty
 #endstruct
 
-#defstruct OFSTRUCT
+#defstruct global OFSTRUCT
     #field int cBytes
     #field int fFixedDisk
     #field int nErrCode
@@ -8264,7 +8264,7 @@
     #field int szPathName
 #endstruct
 
-#defstruct OLEINPLACEFRAMEINFO
+#defstruct global OLEINPLACEFRAMEINFO
     #field int cb
     #field int fMDIApp
     #field intptr hwndFrame
@@ -8272,49 +8272,49 @@
     #field int cAccelEntries
 #endstruct
 
-#defstruct OLEMENUGROUPWIDTHS
+#defstruct global OLEMENUGROUPWIDTHS
     #field int width
 #endstruct
 
-#defstruct OLESTREAM
+#defstruct global OLESTREAM
     #field var lpstbl
 #endstruct
 
-#defstruct OLESTREAMVTBL
+#defstruct global OLESTREAMVTBL
     #field int Get
     #field int Put
 #endstruct
 
-#defstruct OLEVERB
+#defstruct global OLEVERB
     #field int lVerb
     #field wstr lpszVerbName
     #field int fuFlags
 #endstruct
 
-#defstruct OMAP
+#defstruct global OMAP
     #field int rva
     #field int rvaTo
 #endstruct
 
-#defstruct OPENASINFO
+#defstruct global OPENASINFO
     #field wstr pcszFile
     #field wstr pcszClass
     #field int oaifInFlags
 #endstruct
 
-#defstruct OPERATION_END_PARAMETERS
+#defstruct global OPERATION_END_PARAMETERS
     #field int Version
     #field int OperationId
     #field int Flags
 #endstruct
 
-#defstruct OPERATION_START_PARAMETERS
+#defstruct global OPERATION_START_PARAMETERS
     #field int Version
     #field int OperationId
     #field int Flags
 #endstruct
 
-#defstruct OSVERSIONINFOEXW
+#defstruct global OSVERSIONINFOEXW
     #field int dwOSVersionInfoSize
     #field int dwMajorVersion
     #field int dwMinorVersion
@@ -8328,7 +8328,7 @@
     #field int wReserved
 #endstruct
 
-#defstruct OSVERSIONINFOW
+#defstruct global OSVERSIONINFOW
     #field int dwOSVersionInfoSize
     #field int dwMajorVersion
     #field int dwMinorVersion
@@ -8337,7 +8337,7 @@
     #field int szCSDVersion
 #endstruct
 
-#defstruct OUTLINETEXTMETRICW
+#defstruct global OUTLINETEXTMETRICW
     #field int otmSize
     #field int otmTextMetrics
     #field int otmFiller
@@ -8368,19 +8368,19 @@
     #field str otmpFullName
 #endstruct
 
-#defstruct OUTPUT_DEBUG_STRING_INFO
+#defstruct global OUTPUT_DEBUG_STRING_INFO
     #field str lpDebugStringData
     #field int fUnicode
     #field int nDebugStringLength
 #endstruct
 
-#defstruct OVERLAPPED_ENTRY
+#defstruct global OVERLAPPED_ENTRY
     #field int lpCompletionKey
     #field int Internal
     #field int dwNumberOfBytesTransferred
 #endstruct
 
-#defstruct PAINTSTRUCT
+#defstruct global PAINTSTRUCT
     #field intptr hdc
     #field int fErase
     #field int rcPaint
@@ -8389,14 +8389,14 @@
     #field int rgbReserved
 #endstruct
 
-#defstruct PALETTEENTRY
+#defstruct global PALETTEENTRY
     #field int peRed
     #field int peGreen
     #field int peBlue
     #field int peFlags
 #endstruct
 
-#defstruct PANOSE
+#defstruct global PANOSE
     #field int bFamilyType
     #field int bSerifStyle
     #field int bWeight
@@ -8409,33 +8409,33 @@
     #field int bXHeight
 #endstruct
 
-#defstruct PARAMDATA
+#defstruct global PARAMDATA
     #field wstr szName
     #field int vt
 #endstruct
 
-#defstruct PARAMDESC
+#defstruct global PARAMDESC
     #field var pparamdescex
     #field int wParamFlags
 #endstruct
 
-#defstruct PARAMDESCEX
+#defstruct global PARAMDESCEX
     #field int cBytes
     #field int varDefaultValue
 #endstruct
 
-#defstruct PATHDATA
+#defstruct global PATHDATA
     #field int flags
     #field int count
     #field var pptfx
 #endstruct
 
-#defstruct PATHOBJ
+#defstruct global PATHOBJ
     #field int fl
     #field int cCurves
 #endstruct
 
-#defstruct PERF_COUNTER_IDENTIFIER
+#defstruct global PERF_COUNTER_IDENTIFIER
     #field int Status
     #field int Size
     #field int CounterId
@@ -8444,7 +8444,7 @@
     #field int Reserved
 #endstruct
 
-#defstruct PERF_DATA_HEADER
+#defstruct global PERF_DATA_HEADER
     #field int dwTotalSize
     #field int dwNumCounters
     #field int64 PerfTimeStamp
@@ -8453,12 +8453,12 @@
     #field int SystemTime
 #endstruct
 
-#defstruct PERF_INSTANCE_HEADER
+#defstruct global PERF_INSTANCE_HEADER
     #field int Size
     #field int InstanceId
 #endstruct
 
-#defstruct PERFORMANCE_DATA
+#defstruct global PERFORMANCE_DATA
     #field int Size
     #field int Version
     #field int HwCountersCount
@@ -8470,7 +8470,7 @@
     #field int HwCounters
 #endstruct
 
-#defstruct PERFORMANCE_INFORMATION
+#defstruct global PERFORMANCE_INFORMATION
     #field int cb
     #field int CommitTotal
     #field int CommitLimit
@@ -8487,7 +8487,7 @@
     #field int ThreadCount
 #endstruct
 
-#defstruct PF_FILTER_DESCRIPTOR
+#defstruct global PF_FILTER_DESCRIPTOR
     #field int dwFilterFlags
     #field int dwRule
     #field int pfatType
@@ -8503,12 +8503,12 @@
     #field int wDstPortHighRange
 #endstruct
 
-#defstruct PF_FILTER_STATS
+#defstruct global PF_FILTER_STATS
     #field int dwNumPacketsFiltered
     #field var info
 #endstruct
 
-#defstruct PF_INTERFACE_STATS
+#defstruct global PF_INTERFACE_STATS
     #field var pvDriverContext
     #field int dwFlags
     #field int dwInDrops
@@ -8526,13 +8526,13 @@
     #field int dwLostLogEntries
 #endstruct
 
-#defstruct PF_LATEBIND_INFO
+#defstruct global PF_LATEBIND_INFO
     #field var SrcAddr
     #field var DstAddr
     #field var Mask
 #endstruct
 
-#defstruct PICTDESC
+#defstruct global PICTDESC
     #field int cbSizeofstruct
     #field var Anonymous
     #field int bmp
@@ -8548,26 +8548,26 @@
     #field intptr hemf
 #endstruct
 
-#defstruct _bmp_e__Struct
+#defstruct global _bmp_e__Struct
     #field intptr hbitmap
     #field intptr hpal
 #endstruct
 
-#defstruct _wmf_e__Struct
+#defstruct global _wmf_e__Struct
     #field intptr hmeta
     #field int xExt
     #field int yExt
 #endstruct
 
-#defstruct _icon_e__Struct
+#defstruct global _icon_e__Struct
     #field intptr hicon
 #endstruct
 
-#defstruct _emf_e__Struct
+#defstruct global _emf_e__Struct
     #field intptr hemf
 #endstruct
 
-#defstruct PIXELFORMATDESCRIPTOR
+#defstruct global PIXELFORMATDESCRIPTOR
     #field int nSize
     #field int nVersion
     #field int dwFlags
@@ -8595,17 +8595,17 @@
     #field int dwDamageMask
 #endstruct
 
-#defstruct Point
+#defstruct global Point
     #field int X
     #field int Y
 #endstruct
 
-#defstruct POINTER_DEVICE_CURSOR_INFO
+#defstruct global POINTER_DEVICE_CURSOR_INFO
     #field int cursorId
     #field int cursor
 #endstruct
 
-#defstruct POINTER_DEVICE_INFO
+#defstruct global POINTER_DEVICE_INFO
     #field int displayOrientation
     #field intptr device
     #field int pointerDeviceType
@@ -8615,7 +8615,7 @@
     #field int productString
 #endstruct
 
-#defstruct POINTER_DEVICE_PROPERTY
+#defstruct global POINTER_DEVICE_PROPERTY
     #field int logicalMin
     #field int logicalMax
     #field int physicalMin
@@ -8626,7 +8626,7 @@
     #field int usageId
 #endstruct
 
-#defstruct POINTER_INFO
+#defstruct global POINTER_INFO
     #field int pointerType
     #field int pointerId
     #field int frameId
@@ -8641,7 +8641,7 @@
     #field int ButtonChangeType
 #endstruct
 
-#defstruct POINTER_PEN_INFO
+#defstruct global POINTER_PEN_INFO
     #field var pointerInfo
     #field int penFlags
     #field int penMask
@@ -8651,7 +8651,7 @@
     #field int tiltY
 #endstruct
 
-#defstruct POINTER_TOUCH_INFO
+#defstruct global POINTER_TOUCH_INFO
     #field var pointerInfo
     #field int touchFlags
     #field int touchMask
@@ -8661,49 +8661,49 @@
     #field int pressure
 #endstruct
 
-#defstruct POINTER_TYPE_INFO
+#defstruct global POINTER_TYPE_INFO
     #field int type
     #field var Anonymous
     #field var touchInfo
     #field var penInfo
 #endstruct
 
-#defstruct PointF
+#defstruct global PointF
     #field float X
     #field float Y
 #endstruct
 
-#defstruct POINTFIX
+#defstruct global POINTFIX
     #field int x
     #field int y
 #endstruct
 
-#defstruct POINTFLOAT
+#defstruct global POINTFLOAT
     #field float x
     #field float y
 #endstruct
 
-#defstruct POINTL
+#defstruct global POINTL
     #field int x
     #field int y
 #endstruct
 
-#defstruct POINTQF
+#defstruct global POINTQF
     #field int64 x
     #field int64 y
 #endstruct
 
-#defstruct POINTS
+#defstruct global POINTS
     #field int x
     #field int y
 #endstruct
 
-#defstruct POLICY_AUDIT_SID_ARRAY
+#defstruct global POLICY_AUDIT_SID_ARRAY
     #field int UsersCount
     #field var UserSidArray
 #endstruct
 
-#defstruct POLICYSETTINGSTATUSINFO
+#defstruct global POLICYSETTINGSTATUSINFO
     #field wstr szKey
     #field wstr szEventSource
     #field wstr szEventLogName
@@ -8713,7 +8713,7 @@
     #field int timeLogged
 #endstruct
 
-#defstruct POLYTEXTW
+#defstruct global POLYTEXTW
     #field int x
     #field int y
     #field int n
@@ -8723,27 +8723,27 @@
     #field var pdx
 #endstruct
 
-#defstruct POWER_ACTION_POLICY
+#defstruct global POWER_ACTION_POLICY
     #field int Action
     #field int Flags
     #field int EventCode
 #endstruct
 
-#defstruct POWER_POLICY
+#defstruct global POWER_POLICY
     #field int user
     #field var mach
 #endstruct
 
-#defstruct PRIVILEGE_SET
+#defstruct global PRIVILEGE_SET
     #field int PrivilegeCount
     #field int Control
 #endstruct
 
-#defstruct PROC
+#defstruct global PROC
     #field int Value
 #endstruct
 
-#defstruct PROCESS_HEAP_ENTRY
+#defstruct global PROCESS_HEAP_ENTRY
     #field var lpData
     #field int cbData
     #field int cbOverhead
@@ -8760,26 +8760,26 @@
     #field var lpLastBlock
 #endstruct
 
-#defstruct _Block_e__Struct
+#defstruct global _Block_e__Struct
     #field intptr hMem
     #field int dwReserved
 #endstruct
 
-#defstruct _Region_e__Struct
+#defstruct global _Region_e__Struct
     #field int dwCommittedSize
     #field int dwUnCommittedSize
     #field var lpFirstBlock
     #field var lpLastBlock
 #endstruct
 
-#defstruct PROCESS_INFORMATION
+#defstruct global PROCESS_INFORMATION
     #field intptr hProcess
     #field intptr hThread
     #field int dwProcessId
     #field int dwThreadId
 #endstruct
 
-#defstruct PROCESS_MEMORY_COUNTERS
+#defstruct global PROCESS_MEMORY_COUNTERS
     #field int cb
     #field int PageFaultCount
     #field int PeakWorkingSetSize
@@ -8792,7 +8792,7 @@
     #field int PeakPagefileUsage
 #endstruct
 
-#defstruct PROCESSENTRY32
+#defstruct global PROCESSENTRY32
     #field int dwSize
     #field int cntUsage
     #field int th32ProcessID
@@ -8805,13 +8805,13 @@
     #field int szExeFile
 #endstruct
 
-#defstruct PROCESSOR_NUMBER
+#defstruct global PROCESSOR_NUMBER
     #field int Group
     #field int Number
     #field int Reserved
 #endstruct
 
-#defstruct PROCESSOR_POWER_POLICY
+#defstruct global PROCESSOR_POWER_POLICY
     #field int Revision
     #field int DynamicThrottle
     #field int Spare
@@ -8820,7 +8820,7 @@
     #field int Policy
 #endstruct
 
-#defstruct PROCESSOR_POWER_POLICY_INFO
+#defstruct global PROCESSOR_POWER_POLICY_INFO
     #field int TimeCheck
     #field int DemoteLimit
     #field int PromoteLimit
@@ -8830,7 +8830,7 @@
     #field int _bitfield
 #endstruct
 
-#defstruct PROFILEINFOW
+#defstruct global PROFILEINFOW
     #field int dwSize
     #field int dwFlags
     #field wstr lpUserName
@@ -8841,7 +8841,7 @@
     #field intptr hProfile
 #endstruct
 
-#defstruct PROPBAG2
+#defstruct global PROPBAG2
     #field int dwType
     #field int vt
     #field int cfType
@@ -8849,18 +8849,18 @@
     #field wstr pstrName
 #endstruct
 
-#defstruct PropertyItem
+#defstruct global PropertyItem
     #field int id
     #field int length
     #field int type
     #field var value
 #endstruct
 
-#defstruct PROPERTYKEY
+#defstruct global PROPERTYKEY
     #field int pid
 #endstruct
 
-#defstruct PROPSHEETHEADERW_V2
+#defstruct global PROPSHEETHEADERW_V2
     #field int dwSize
     #field int dwFlags
     #field intptr hwndParent
@@ -8885,7 +8885,7 @@
     #field wstr pszbmHeader
 #endstruct
 
-#defstruct PROPSHEETPAGEW
+#defstruct global PROPSHEETPAGEW
     #field int dwSize
     #field int dwFlags
     #field intptr hInstance
@@ -8906,14 +8906,14 @@
     #field wstr pszbmHeader
 #endstruct
 
-#defstruct PROPSPEC
+#defstruct global PROPSPEC
     #field int ulKind
     #field var Anonymous
     #field int propid
     #field wstr lpwstr
 #endstruct
 
-#defstruct PROPVARIANT
+#defstruct global PROPVARIANT
     #field var Anonymous
     #field var Anonymous
     #field var decVal
@@ -8995,45 +8995,45 @@
     #field var pvarVal
 #endstruct
 
-#defstruct PROTOCOLDATA
+#defstruct global PROTOCOLDATA
     #field int grfFlags
     #field int dwState
     #field var pData
     #field int cbData
 #endstruct
 
-#defstruct PSAPI_WS_WATCH_INFORMATION
+#defstruct global PSAPI_WS_WATCH_INFORMATION
     #field var FaultingPc
     #field var FaultingVa
 #endstruct
 
-#defstruct PSAPI_WS_WATCH_INFORMATION_EX
+#defstruct global PSAPI_WS_WATCH_INFORMATION_EX
     #field var BasicInfo
     #field int FaultingThreadId
     #field int Flags
 #endstruct
 
-#defstruct PUBLICKEYSTRUC
+#defstruct global PUBLICKEYSTRUC
     #field int bType
     #field int bVersion
     #field int reserved
     #field int aiKeyAlg
 #endstruct
 
-#defstruct PWMFRect16
+#defstruct global PWMFRect16
     #field int Left
     #field int Top
     #field int Right
     #field int Bottom
 #endstruct
 
-#defstruct QOS
+#defstruct global QOS
     #field var SendingFlowspec
     #field var ReceivingFlowspec
     #field int ProviderSpecific
 #endstruct
 
-#defstruct QUERY_SERVICE_CONFIGW
+#defstruct global QUERY_SERVICE_CONFIGW
     #field int dwServiceType
     #field int dwStartType
     #field int dwErrorControl
@@ -9045,13 +9045,13 @@
     #field wstr lpDisplayName
 #endstruct
 
-#defstruct QUERY_SERVICE_LOCK_STATUSW
+#defstruct global QUERY_SERVICE_LOCK_STATUSW
     #field int fIsLocked
     #field wstr lpLockOwner
     #field int dwLockDuration
 #endstruct
 
-#defstruct QUERYCONTEXT
+#defstruct global QUERYCONTEXT
     #field int dwContext
     #field var Platform
     #field int Locale
@@ -9059,7 +9059,7 @@
     #field int dwVersionLo
 #endstruct
 
-#defstruct QUOTA_LIMITS
+#defstruct global QUOTA_LIMITS
     #field int PagedPoolLimit
     #field int NonPagedPoolLimit
     #field int MinimumWorkingSetSize
@@ -9068,18 +9068,18 @@
     #field int64 TimeLimit
 #endstruct
 
-#defstruct RASTERIZER_STATUS
+#defstruct global RASTERIZER_STATUS
     #field int nSize
     #field int wFlags
     #field int nLanguageID
 #endstruct
 
-#defstruct RAWHID
+#defstruct global RAWHID
     #field int dwSizeHid
     #field int dwCount
 #endstruct
 
-#defstruct RAWINPUT
+#defstruct global RAWINPUT
     #field int header
     #field int data
     #field int mouse
@@ -9087,32 +9087,32 @@
     #field var hid
 #endstruct
 
-#defstruct _data_e__Union
+#defstruct global _data_e__Union
     #field int mouse
     #field int keyboard
     #field var hid
 #endstruct
 
-#defstruct RAWINPUTDEVICE
+#defstruct global RAWINPUTDEVICE
     #field int usUsagePage
     #field int usUsage
     #field int dwFlags
     #field intptr hwndTarget
 #endstruct
 
-#defstruct RAWINPUTDEVICELIST
+#defstruct global RAWINPUTDEVICELIST
     #field intptr hDevice
     #field int dwType
 #endstruct
 
-#defstruct RAWINPUTHEADER
+#defstruct global RAWINPUTHEADER
     #field int dwType
     #field int dwSize
     #field intptr hDevice
     #field intptr wParam
 #endstruct
 
-#defstruct RAWKEYBOARD
+#defstruct global RAWKEYBOARD
     #field int MakeCode
     #field int Flags
     #field int Reserved
@@ -9121,7 +9121,7 @@
     #field int ExtraInformation
 #endstruct
 
-#defstruct RAWMOUSE
+#defstruct global RAWMOUSE
     #field int usFlags
     #field var Anonymous
     #field int ulRawButtons
@@ -9134,7 +9134,7 @@
     #field int usButtonData
 #endstruct
 
-#defstruct REASON_CONTEXT
+#defstruct global REASON_CONTEXT
     #field int Version
     #field int Flags
     #field int Reason
@@ -9146,7 +9146,7 @@
     #field var ReasonStrings
 #endstruct
 
-#defstruct _Reason_e__Union
+#defstruct global _Reason_e__Union
     #field int Detailed
     #field wstr SimpleReasonString
     #field intptr LocalizedReasonModule
@@ -9155,59 +9155,59 @@
     #field var ReasonStrings
 #endstruct
 
-#defstruct _Detailed_e__Struct
+#defstruct global _Detailed_e__Struct
     #field intptr LocalizedReasonModule
     #field int LocalizedReasonId
     #field int ReasonStringCount
     #field var ReasonStrings
 #endstruct
 
-#defstruct RECT
+#defstruct global RECT
     #field int left
     #field int top
     #field int right
     #field int bottom
 #endstruct
 
-#defstruct RectF
+#defstruct global RectF
     #field float X
     #field float Y
     #field float Width
     #field float Height
 #endstruct
 
-#defstruct RECTFX
+#defstruct global RECTFX
     #field int xLeft
     #field int yTop
     #field int xRight
     #field int yBottom
 #endstruct
 
-#defstruct RECTL
+#defstruct global RECTL
     #field int left
     #field int top
     #field int right
     #field int bottom
 #endstruct
 
-#defstruct RGBQUAD
+#defstruct global RGBQUAD
     #field int rgbBlue
     #field int rgbGreen
     #field int rgbRed
     #field int rgbReserved
 #endstruct
 
-#defstruct RGBTRIPLE
+#defstruct global RGBTRIPLE
     #field int rgbtBlue
     #field int rgbtGreen
     #field int rgbtRed
 #endstruct
 
-#defstruct RGNDATA
+#defstruct global RGNDATA
     #field int rdh
 #endstruct
 
-#defstruct RGNDATAHEADER
+#defstruct global RGNDATAHEADER
     #field int dwSize
     #field int iType
     #field int nCount
@@ -9215,17 +9215,17 @@
     #field var rcBound
 #endstruct
 
-#defstruct RIP_INFO
+#defstruct global RIP_INFO
     #field int dwError
     #field int dwType
 #endstruct
 
-#defstruct RUN
+#defstruct global RUN
     #field int iStart
     #field int iStop
 #endstruct
 
-#defstruct SAFEARRAY
+#defstruct global SAFEARRAY
     #field int cDims
     #field int fFeatures
     #field int cbElements
@@ -9233,12 +9233,12 @@
     #field var pvData
 #endstruct
 
-#defstruct SAFEARRAYBOUND
+#defstruct global SAFEARRAYBOUND
     #field int cElements
     #field int lLbound
 #endstruct
 
-#defstruct SAFER_CODE_PROPERTIES_V2
+#defstruct global SAFER_CODE_PROPERTIES_V2
     #field int cbSize
     #field int dwCheckFlags
     #field wstr ImagePath
@@ -9258,18 +9258,18 @@
     #field int PackageIsFramework
 #endstruct
 
-#defstruct SAMPR_ENCRYPTED_USER_PASSWORD
+#defstruct global SAMPR_ENCRYPTED_USER_PASSWORD
     #field int Buffer
 #endstruct
 
-#defstruct SCOPE_ID
+#defstruct global SCOPE_ID
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
 #endstruct
 
-#defstruct SCROLLBARINFO
+#defstruct global SCROLLBARINFO
     #field int cbSize
     #field var rcScrollBar
     #field int dxyLineButton
@@ -9279,7 +9279,7 @@
     #field int rgstate
 #endstruct
 
-#defstruct SCROLLINFO
+#defstruct global SCROLLINFO
     #field int cbSize
     #field int fMask
     #field int nMin
@@ -9289,7 +9289,7 @@
     #field int nTrackPos
 #endstruct
 
-#defstruct SEC_CHANNEL_BINDINGS
+#defstruct global SEC_CHANNEL_BINDINGS
     #field int dwInitiatorAddrType
     #field int cbInitiatorLength
     #field int dwInitiatorOffset
@@ -9300,12 +9300,12 @@
     #field int dwApplicationDataOffset
 #endstruct
 
-#defstruct SecPkgContext_Bindings
+#defstruct global SecPkgContext_Bindings
     #field int BindingsLength
     #field var Bindings
 #endstruct
 
-#defstruct SecPkgContext_CipherInfo
+#defstruct global SecPkgContext_CipherInfo
     #field int dwVersion
     #field int dwProtocol
     #field int dwCipherSuite
@@ -9323,7 +9323,7 @@
     #field int dwKeyType
 #endstruct
 
-#defstruct SecPkgContext_ConnectionInfo
+#defstruct global SecPkgContext_ConnectionInfo
     #field int dwProtocol
     #field int aiCipher
     #field int dwCipherStrength
@@ -9333,24 +9333,24 @@
     #field int dwExchStrength
 #endstruct
 
-#defstruct SECURITY_ATTRIBUTES
+#defstruct global SECURITY_ATTRIBUTES
     #field int nLength
     #field var lpSecurityDescriptor
     #field int bInheritHandle
 #endstruct
 
-#defstruct SECURITY_QUALITY_OF_SERVICE
+#defstruct global SECURITY_QUALITY_OF_SERVICE
     #field int Length
     #field int ImpersonationLevel
     #field int ContextTrackingMode
     #field int EffectiveOnly
 #endstruct
 
-#defstruct SERIALIZEDPROPERTYVALUE
+#defstruct global SERIALIZEDPROPERTYVALUE
     #field int dwType
 #endstruct
 
-#defstruct SERVICE_NOTIFY_2W
+#defstruct global SERVICE_NOTIFY_2W
     #field int dwVersion
     #field var pContext
     #field int dwNotificationStatus
@@ -9359,7 +9359,7 @@
     #field wstr pszServiceNames
 #endstruct
 
-#defstruct SERVICE_STATUS
+#defstruct global SERVICE_STATUS
     #field int dwServiceType
     #field int dwCurrentState
     #field int dwControlsAccepted
@@ -9369,7 +9369,7 @@
     #field int dwWaitHint
 #endstruct
 
-#defstruct SERVICE_STATUS_PROCESS
+#defstruct global SERVICE_STATUS_PROCESS
     #field int dwServiceType
     #field int dwCurrentState
     #field int dwControlsAccepted
@@ -9381,20 +9381,20 @@
     #field int dwServiceFlags
 #endstruct
 
-#defstruct SERVICE_TABLE_ENTRYW
+#defstruct global SERVICE_TABLE_ENTRYW
     #field wstr lpServiceName
 #endstruct
 
-#defstruct SHChangeNotifyEntry
+#defstruct global SHChangeNotifyEntry
     #field var pidl
     #field int fRecursive
 #endstruct
 
-#defstruct SHELLFLAGSTATE
+#defstruct global SHELLFLAGSTATE
     #field int _bitfield
 #endstruct
 
-#defstruct SHELLSTATEA
+#defstruct global SHELLSTATEA
     #field int _bitfield1
     #field int dwWin95Unused
     #field int uWin95Unused
@@ -9405,7 +9405,7 @@
     #field int _bitfield2
 #endstruct
 
-#defstruct SHFOLDERCUSTOMSETTINGS
+#defstruct global SHFOLDERCUSTOMSETTINGS
     #field int dwSize
     #field int dwMask
     #field wstr pszWebViewTemplate
@@ -9421,26 +9421,26 @@
     #field int cchLogo
 #endstruct
 
-#defstruct SHITEMID
+#defstruct global SHITEMID
     #field int cb
 #endstruct
 
-#defstruct SID
+#defstruct global SID
     #field int Revision
     #field int SubAuthorityCount
     #field int IdentifierAuthority
 #endstruct
 
-#defstruct SID_AND_ATTRIBUTES
+#defstruct global SID_AND_ATTRIBUTES
     #field int Sid
     #field int Attributes
 #endstruct
 
-#defstruct SID_IDENTIFIER_AUTHORITY
+#defstruct global SID_IDENTIFIER_AUTHORITY
     #field int Value
 #endstruct
 
-#defstruct SIP_ADD_NEWPROVIDER
+#defstruct global SIP_ADD_NEWPROVIDER
     #field int cbStruct
     #field wstr pwszDLLFileName
     #field wstr pwszMagicNumber
@@ -9454,7 +9454,7 @@
     #field wstr pwszGetCapFuncName
 #endstruct
 
-#defstruct SIP_CAP_SET_V3
+#defstruct global SIP_CAP_SET_V3
     #field int cbSize
     #field int dwVersion
     #field int isMultiSign
@@ -9463,18 +9463,18 @@
     #field int dwReserved
 #endstruct
 
-#defstruct SIP_DISPATCH_INFO
+#defstruct global SIP_DISPATCH_INFO
     #field int cbSize
     #field intptr hSIP
 #endstruct
 
-#defstruct SIP_INDIRECT_DATA
+#defstruct global SIP_INDIRECT_DATA
     #field var Data
     #field var DigestAlgorithm
     #field var Digest
 #endstruct
 
-#defstruct SIP_SUBJECTINFO
+#defstruct global SIP_SUBJECTINFO
     #field int cbSize
     #field intptr hFile
     #field wstr pwsFileName
@@ -9497,31 +9497,31 @@
     #field var psBlob
 #endstruct
 
-#defstruct SIZE
+#defstruct global SIZE
     #field int cx
     #field int cy
 #endstruct
 
-#defstruct SMALL_RECT
+#defstruct global SMALL_RECT
     #field int Left
     #field int Top
     #field int Right
     #field int Bottom
 #endstruct
 
-#defstruct SOCKADDR
+#defstruct global SOCKADDR
     #field int sa_family
     #field int sa_data
 #endstruct
 
-#defstruct SOCKADDR_IN
+#defstruct global SOCKADDR_IN
     #field int sin_family
     #field int sin_port
     #field var sin_addr
     #field int sin_zero
 #endstruct
 
-#defstruct SOCKADDR_IN6
+#defstruct global SOCKADDR_IN6
     #field int sin6_family
     #field int sin6_port
     #field int sin6_flowinfo
@@ -9531,27 +9531,27 @@
     #field var sin6_scope_struct
 #endstruct
 
-#defstruct SOCKADDR_IN6_PAIR
+#defstruct global SOCKADDR_IN6_PAIR
     #field var SourceAddress
     #field var DestinationAddress
 #endstruct
 
-#defstruct SOCKADDR_INET
+#defstruct global SOCKADDR_INET
     #field var Ipv4
     #field var Ipv6
     #field int si_family
 #endstruct
 
-#defstruct SOCKET_ADDRESS
+#defstruct global SOCKET_ADDRESS
     #field var lpSockaddr
     #field int iSockaddrLength
 #endstruct
 
-#defstruct SOCKET_ADDRESS_LIST
+#defstruct global SOCKET_ADDRESS_LIST
     #field int iAddressCount
 #endstruct
 
-#defstruct SOFTDISTINFO
+#defstruct global SOFTDISTINFO
     #field int cbSize
     #field int dwFlags
     #field int dwAdState
@@ -9567,12 +9567,12 @@
     #field int dwReserved
 #endstruct
 
-#defstruct SOURCEFILE
+#defstruct global SOURCEFILE
     #field int64 ModBase
     #field str FileName
 #endstruct
 
-#defstruct SRCCODEINFO
+#defstruct global SRCCODEINFO
     #field int SizeOfStruct
     #field var Key
     #field int64 ModBase
@@ -9582,7 +9582,7 @@
     #field int64 Address
 #endstruct
 
-#defstruct STACKFRAME64
+#defstruct global STACKFRAME64
     #field var AddrPC
     #field var AddrReturn
     #field var AddrFrame
@@ -9596,7 +9596,7 @@
     #field var KdHelp
 #endstruct
 
-#defstruct STACKFRAME_EX
+#defstruct global STACKFRAME_EX
     #field var AddrPC
     #field var AddrReturn
     #field var AddrFrame
@@ -9612,7 +9612,7 @@
     #field int InlineFrameContext
 #endstruct
 
-#defstruct STARTUPINFOW
+#defstruct global STARTUPINFOW
     #field int cb
     #field wstr lpReserved
     #field wstr lpDesktop
@@ -9633,25 +9633,25 @@
     #field intptr hStdError
 #endstruct
 
-#defstruct STATDATA
+#defstruct global STATDATA
     #field var formatetc
     #field int advf
     #field var pAdvSink
     #field int dwConnection
 #endstruct
 
-#defstruct STATPROPSETSTG
+#defstruct global STATPROPSETSTG
     #field int grfFlags
     #field int dwOSVersion
 #endstruct
 
-#defstruct STATPROPSTG
+#defstruct global STATPROPSTG
     #field wstr lpwstrName
     #field int propid
     #field int vt
 #endstruct
 
-#defstruct STATSTG
+#defstruct global STATSTG
     #field wstr pwcsName
     #field int type
     #field int64 cbSize
@@ -9660,7 +9660,7 @@
     #field int reserved
 #endstruct
 
-#defstruct STGMEDIUM
+#defstruct global STGMEDIUM
     #field var u
     #field var pUnkForRelease
     #field intptr hBitmap
@@ -9672,14 +9672,14 @@
     #field var pstg
 #endstruct
 
-#defstruct STGOPTIONS
+#defstruct global STGOPTIONS
     #field int usVersion
     #field int reserved
     #field int ulSectorSize
     #field wstr pwcsTemplateFile
 #endstruct
 
-#defstruct STROBJ
+#defstruct global STROBJ
     #field int cGlyphs
     #field int flAccel
     #field int ulCharInc
@@ -9688,7 +9688,7 @@
     #field wstr pwszOrg
 #endstruct
 
-#defstruct STRRET
+#defstruct global STRRET
     #field int uType
     #field var Anonymous
     #field wstr pOleStr
@@ -9696,12 +9696,12 @@
     #field int cStr
 #endstruct
 
-#defstruct STYLEBUFW
+#defstruct global STYLEBUFW
     #field int dwStyle
     #field int szDescription
 #endstruct
 
-#defstruct SURFOBJ
+#defstruct global SURFOBJ
     #field intptr dhsurf
     #field intptr hsurf
     #field intptr dhpdev
@@ -9717,7 +9717,7 @@
     #field int fjBitmap
 #endstruct
 
-#defstruct SYMBOL_INFO
+#defstruct global SYMBOL_INFO
     #field int SizeOfStruct
     #field int TypeIndex
     #field int Reserved
@@ -9734,7 +9734,7 @@
     #field int MaxNameLen
 #endstruct
 
-#defstruct SYMSRV_INDEX_INFO
+#defstruct global SYMSRV_INDEX_INFO
     #field int sizeofstruct
     #field int file
     #field int stripped
@@ -9746,7 +9746,7 @@
     #field int age
 #endstruct
 
-#defstruct SYNCHRONIZATION_BARRIER
+#defstruct global SYNCHRONIZATION_BARRIER
     #field int Reserved1
     #field int Reserved2
     #field int Reserved3
@@ -9754,7 +9754,7 @@
     #field int Reserved5
 #endstruct
 
-#defstruct SYSTEM_INFO
+#defstruct global SYSTEM_INFO
     #field var Anonymous
     #field int dwPageSize
     #field var lpMinimumApplicationAddress
@@ -9771,7 +9771,7 @@
     #field int wReserved
 #endstruct
 
-#defstruct SYSTEM_LOGICAL_PROCESSOR_INFORMATION
+#defstruct global SYSTEM_LOGICAL_PROCESSOR_INFORMATION
     #field int ProcessorMask
     #field int Relationship
     #field var Anonymous
@@ -9783,15 +9783,15 @@
     #field int NodeNumber
 #endstruct
 
-#defstruct _ProcessorCore_e__Struct
+#defstruct global _ProcessorCore_e__Struct
     #field int Flags
 #endstruct
 
-#defstruct _NumaNode_e__Struct
+#defstruct global _NumaNode_e__Struct
     #field int NodeNumber
 #endstruct
 
-#defstruct SYSTEM_POWER_CAPABILITIES
+#defstruct global SYSTEM_POWER_CAPABILITIES
     #field int PowerButtonPresent
     #field int SleepButtonPresent
     #field int LidPresent
@@ -9827,7 +9827,7 @@
     #field int DefaultLowLatencyWake
 #endstruct
 
-#defstruct SYSTEM_POWER_LEVEL
+#defstruct global SYSTEM_POWER_LEVEL
     #field int Enable
     #field int Spare
     #field int BatteryLevel
@@ -9835,7 +9835,7 @@
     #field int MinSystemState
 #endstruct
 
-#defstruct SYSTEM_POWER_STATUS
+#defstruct global SYSTEM_POWER_STATUS
     #field int ACLineStatus
     #field int BatteryFlag
     #field int BatteryLifePercent
@@ -9844,7 +9844,7 @@
     #field int BatteryFullLifeTime
 #endstruct
 
-#defstruct SYSTEMTIME
+#defstruct global SYSTEMTIME
     #field int wYear
     #field int wMonth
     #field int wDayOfWeek
@@ -9855,11 +9855,11 @@
     #field int wMilliseconds
 #endstruct
 
-#defstruct TA_TIMINGFUNCTION
+#defstruct global TA_TIMINGFUNCTION
     #field int eTimingFunctionType
 #endstruct
 
-#defstruct TA_TRANSFORM
+#defstruct global TA_TRANSFORM
     #field int eTransformType
     #field int dwTimingFunctionId
     #field int dwStartTime
@@ -9867,7 +9867,7 @@
     #field int eFlags
 #endstruct
 
-#defstruct TEXTMETRICW
+#defstruct global TEXTMETRICW
     #field int tmHeight
     #field int tmAscent
     #field int tmDescent
@@ -9890,7 +9890,7 @@
     #field int tmCharSet
 #endstruct
 
-#defstruct THERMAL_EVENT
+#defstruct global THERMAL_EVENT
     #field int Version
     #field int Size
     #field int Type
@@ -9899,7 +9899,7 @@
     #field wstr Initiator
 #endstruct
 
-#defstruct THREADENTRY32
+#defstruct global THREADENTRY32
     #field int dwSize
     #field int cntUsage
     #field int th32ThreadID
@@ -9909,7 +9909,7 @@
     #field int dwFlags
 #endstruct
 
-#defstruct TIME_ZONE_INFORMATION
+#defstruct global TIME_ZONE_INFORMATION
     #field int Bias
     #field int StandardName
     #field var StandardDate
@@ -9919,23 +9919,23 @@
     #field int DaylightBias
 #endstruct
 
-#defstruct TIMECAPS
+#defstruct global TIMECAPS
     #field int wPeriodMin
     #field int wPeriodMax
 #endstruct
 
-#defstruct TIMEVAL
+#defstruct global TIMEVAL
     #field int tv_sec
     #field int tv_usec
 #endstruct
 
-#defstruct TITLEBARINFO
+#defstruct global TITLEBARINFO
     #field int cbSize
     #field var rcTitleBar
     #field int rgstate
 #endstruct
 
-#defstruct TLIBATTR
+#defstruct global TLIBATTR
     #field int lcid
     #field int syskind
     #field int wMajorVerNum
@@ -9943,26 +9943,26 @@
     #field int wLibFlags
 #endstruct
 
-#defstruct TOKEN_GROUPS
+#defstruct global TOKEN_GROUPS
     #field int GroupCount
 #endstruct
 
-#defstruct TOKEN_PRIVILEGES
+#defstruct global TOKEN_PRIVILEGES
     #field int PrivilegeCount
 #endstruct
 
-#defstruct TOUCH_HIT_TESTING_INPUT
+#defstruct global TOUCH_HIT_TESTING_INPUT
     #field int pointerId
     #field var boundingBox
     #field var nonOccludedBoundingBox
     #field int orientation
 #endstruct
 
-#defstruct TOUCH_HIT_TESTING_PROXIMITY_EVALUATION
+#defstruct global TOUCH_HIT_TESTING_PROXIMITY_EVALUATION
     #field int score
 #endstruct
 
-#defstruct TOUCHINPUT
+#defstruct global TOUCHINPUT
     #field int x
     #field int y
     #field intptr hSource
@@ -9975,7 +9975,7 @@
     #field int cyContact
 #endstruct
 
-#defstruct TP_CALLBACK_ENVIRON_V3
+#defstruct global TP_CALLBACK_ENVIRON_V3
     #field int Version
     #field intptr Pool
     #field intptr CleanupGroup
@@ -9989,21 +9989,21 @@
     #field int _bitfield
 #endstruct
 
-#defstruct _s_e__Struct
+#defstruct global _s_e__Struct
     #field int _bitfield
 #endstruct
 
-#defstruct TP_POOL_STACK_INFORMATION
+#defstruct global TP_POOL_STACK_INFORMATION
     #field int StackReserve
     #field int StackCommit
 #endstruct
 
-#defstruct TPMPARAMS
+#defstruct global TPMPARAMS
     #field int cbSize
     #field var rcExclude
 #endstruct
 
-#defstruct TRACE_GUID_PROPERTIES
+#defstruct global TRACE_GUID_PROPERTIES
     #field int GuidType
     #field int LoggerId
     #field int EnableLevel
@@ -10011,7 +10011,7 @@
     #field int IsEnable
 #endstruct
 
-#defstruct TRACE_LOGFILE_HEADER
+#defstruct global TRACE_LOGFILE_HEADER
     #field int BufferSize
     #field var Anonymous1
     #field int ProviderVersion
@@ -10043,21 +10043,21 @@
     #field int CpuSpeedInMHz
 #endstruct
 
-#defstruct _VersionDetail_e__Struct
+#defstruct global _VersionDetail_e__Struct
     #field int MajorVersion
     #field int MinorVersion
     #field int SubVersion
     #field int SubMinorVersion
 #endstruct
 
-#defstruct TRACKMOUSEEVENT
+#defstruct global TRACKMOUSEEVENT
     #field int cbSize
     #field int dwFlags
     #field intptr hwndTrack
     #field int dwHoverTime
 #endstruct
 
-#defstruct TRIVERTEX
+#defstruct global TRIVERTEX
     #field int x
     #field int y
     #field int Red
@@ -10066,7 +10066,7 @@
     #field int Alpha
 #endstruct
 
-#defstruct TRUSTED_DOMAIN_AUTH_INFORMATION
+#defstruct global TRUSTED_DOMAIN_AUTH_INFORMATION
     #field int IncomingAuthInfos
     #field var IncomingAuthenticationInformation
     #field var IncomingPreviousAuthenticationInformation
@@ -10075,7 +10075,7 @@
     #field var OutgoingPreviousAuthenticationInformation
 #endstruct
 
-#defstruct TRUSTED_DOMAIN_INFORMATION_EX
+#defstruct global TRUSTED_DOMAIN_INFORMATION_EX
     #field var Name
     #field var FlatName
     #field int Sid
@@ -10084,7 +10084,7 @@
     #field int TrustAttributes
 #endstruct
 
-#defstruct TRUSTEE_W
+#defstruct global TRUSTEE_W
     #field var pMultipleTrustee
     #field int MultipleTrusteeOperation
     #field int TrusteeForm
@@ -10092,7 +10092,7 @@
     #field wstr ptstrName
 #endstruct
 
-#defstruct TYPEATTR
+#defstruct global TYPEATTR
     #field int lcid
     #field int dwReserved
     #field int memidConstructor
@@ -10112,7 +10112,7 @@
     #field var idldescType
 #endstruct
 
-#defstruct TYPEDESC
+#defstruct global TYPEDESC
     #field var Anonymous
     #field int vt
     #field var lptdesc
@@ -10120,7 +10120,7 @@
     #field int hreftype
 #endstruct
 
-#defstruct uCLSSPEC
+#defstruct global uCLSSPEC
     #field int tyspec
     #field int tagged_union
     #field wstr pFileExt
@@ -10132,7 +10132,7 @@
     #field wstr pPackageName
 #endstruct
 
-#defstruct _tagged_union_e__Struct
+#defstruct global _tagged_union_e__Struct
     #field wstr pFileExt
     #field wstr pMimeType
     #field wstr pProgId
@@ -10142,22 +10142,22 @@
     #field wstr pPackageName
 #endstruct
 
-#defstruct _ByName_e__Struct
+#defstruct global _ByName_e__Struct
     #field wstr pPackageName
 #endstruct
 
-#defstruct UDATE
+#defstruct global UDATE
     #field var st
     #field int wDayOfYear
 #endstruct
 
-#defstruct UMS_SCHEDULER_STARTUP_INFO
+#defstruct global UMS_SCHEDULER_STARTUP_INFO
     #field int UmsVersion
     #field var CompletionList
     #field var SchedulerParam
 #endstruct
 
-#defstruct UMS_SYSTEM_THREAD_INFORMATION
+#defstruct global UMS_SYSTEM_THREAD_INFORMATION
     #field int UmsVersion
     #field var Anonymous
     #field var Anonymous
@@ -10165,16 +10165,16 @@
     #field int _bitfield
 #endstruct
 
-#defstruct UNLOAD_DLL_DEBUG_INFO
+#defstruct global UNLOAD_DLL_DEBUG_INFO
     #field var lpBaseOfDll
 #endstruct
 
-#defstruct UNSIGNED_RATIO
+#defstruct global UNSIGNED_RATIO
     #field int uiNumerator
     #field int uiDenominator
 #endstruct
 
-#defstruct UPDATELAYEREDWINDOWINFO
+#defstruct global UPDATELAYEREDWINDOWINFO
     #field int cbSize
     #field intptr hdcDst
     #field var psize
@@ -10185,7 +10185,7 @@
     #field var prcDirty
 #endstruct
 
-#defstruct URL_COMPONENTS
+#defstruct global URL_COMPONENTS
     #field int dwStructSize
     #field wstr lpszScheme
     #field int dwSchemeLength
@@ -10203,7 +10203,7 @@
     #field int dwExtraInfoLength
 #endstruct
 
-#defstruct URL_COMPONENTSW
+#defstruct global URL_COMPONENTSW
     #field int dwStructSize
     #field wstr lpszScheme
     #field int dwSchemeLength
@@ -10221,7 +10221,7 @@
     #field int dwExtraInfoLength
 #endstruct
 
-#defstruct URLCACHE_ENTRY_INFO
+#defstruct global URLCACHE_ENTRY_INFO
     #field wstr pwszSourceUrlName
     #field wstr pwszLocalFileName
     #field int dwCacheEntryType
@@ -10235,7 +10235,7 @@
     #field int cbExtraDataSize
 #endstruct
 
-#defstruct USER_POWER_POLICY
+#defstruct global USER_POWER_POLICY
     #field int Revision
     #field var IdleAc
     #field var IdleDc
@@ -10260,14 +10260,14 @@
     #field int ForcedThrottleDc
 #endstruct
 
-#defstruct VALENTW
+#defstruct global VALENTW
     #field wstr ve_valuename
     #field int ve_valuelen
     #field int ve_valueptr
     #field int ve_type
 #endstruct
 
-#defstruct VARDESC
+#defstruct global VARDESC
     #field int memid
     #field wstr lpstrSchema
     #field var Anonymous
@@ -10278,7 +10278,7 @@
     #field var lpvarValue
 #endstruct
 
-#defstruct VARIANT
+#defstruct global VARIANT
     #field var Anonymous
     #field var Anonymous
     #field var decVal
@@ -10337,11 +10337,11 @@
     #field var pRecInfo
 #endstruct
 
-#defstruct VERSIONEDSTREAM
+#defstruct global VERSIONEDSTREAM
     #field var pStream
 #endstruct
 
-#defstruct VIDEOINFOHEADER
+#defstruct global VIDEOINFOHEADER
     #field var rcSource
     #field var rcTarget
     #field int dwBitRate
@@ -10350,7 +10350,7 @@
     #field var bmiHeader
 #endstruct
 
-#defstruct VIDEOINFOHEADER2
+#defstruct global VIDEOINFOHEADER2
     #field var rcSource
     #field var rcTarget
     #field int dwBitRate
@@ -10367,7 +10367,7 @@
     #field int dwReserved1
 #endstruct
 
-#defstruct WAITCHAIN_NODE_INFO
+#defstruct global WAITCHAIN_NODE_INFO
     #field int ObjectType
     #field int ObjectStatus
     #field var Anonymous
@@ -10382,20 +10382,20 @@
     #field int ContextSwitches
 #endstruct
 
-#defstruct _LockObject_e__Struct
+#defstruct global _LockObject_e__Struct
     #field int ObjectName
     #field int64 Timeout
     #field int Alertable
 #endstruct
 
-#defstruct _ThreadObject_e__Struct
+#defstruct global _ThreadObject_e__Struct
     #field int ProcessId
     #field int ThreadId
     #field int WaitTime
     #field int ContextSwitches
 #endstruct
 
-#defstruct WAVEFORMATEX
+#defstruct global WAVEFORMATEX
     #field int wFormatTag
     #field int nChannels
     #field int nSamplesPerSec
@@ -10405,7 +10405,7 @@
     #field int cbSize
 #endstruct
 
-#defstruct WAVEHDR
+#defstruct global WAVEHDR
     #field str lpData
     #field int dwBufferLength
     #field int dwBytesRecorded
@@ -10416,7 +10416,7 @@
     #field int reserved
 #endstruct
 
-#defstruct WAVEINCAPSW
+#defstruct global WAVEINCAPSW
     #field int wMid
     #field int wPid
     #field int vDriverVersion
@@ -10426,7 +10426,7 @@
     #field int wReserved1
 #endstruct
 
-#defstruct WAVEOUTCAPSW
+#defstruct global WAVEOUTCAPSW
     #field int wMid
     #field int wPid
     #field int vDriverVersion
@@ -10437,18 +10437,18 @@
     #field int dwSupport
 #endstruct
 
-#defstruct WCRANGE
+#defstruct global WCRANGE
     #field int wcLow
     #field int cGlyphs
 #endstruct
 
-#defstruct WCRUN
+#defstruct global WCRUN
     #field int wcLow
     #field int cGlyphs
     #field var phg
 #endstruct
 
-#defstruct WER_REPORT_INFORMATION
+#defstruct global WER_REPORT_INFORMATION
     #field int dwSize
     #field intptr hProcess
     #field int wzConsentKey
@@ -10459,12 +10459,12 @@
     #field intptr hwndParent
 #endstruct
 
-#defstruct WER_REPORT_METADATA_V1
+#defstruct global WER_REPORT_METADATA_V1
     #field int Signature
     #field int64 SizeInBytes
 #endstruct
 
-#defstruct WER_REPORT_METADATA_V2
+#defstruct global WER_REPORT_METADATA_V2
     #field int Signature
     #field int64 SizeInBytes
     #field int CabId
@@ -10474,7 +10474,7 @@
     #field wstr FileNames
 #endstruct
 
-#defstruct WER_REPORT_METADATA_V3
+#defstruct global WER_REPORT_METADATA_V3
     #field int Signature
     #field int64 SizeInBytes
     #field int CabId
@@ -10490,22 +10490,22 @@
     #field int64 LegacyBucketId
 #endstruct
 
-#defstruct WER_REPORT_PARAMETER
+#defstruct global WER_REPORT_PARAMETER
     #field int Name
     #field int Value
 #endstruct
 
-#defstruct WER_REPORT_SIGNATURE
+#defstruct global WER_REPORT_SIGNATURE
     #field int EventName
     #field int Parameters
 #endstruct
 
-#defstruct WGLSWAP
+#defstruct global WGLSWAP
     #field intptr hdc
     #field int uiFlags
 #endstruct
 
-#defstruct WICBitmapPattern
+#defstruct global WICBitmapPattern
     #field int64 Position
     #field int Length
     #field var Pattern
@@ -10513,14 +10513,14 @@
     #field int EndOfStream
 #endstruct
 
-#defstruct WICRect
+#defstruct global WICRect
     #field int X
     #field int Y
     #field int Width
     #field int Height
 #endstruct
 
-#defstruct WIN32_FIND_DATAW
+#defstruct global WIN32_FIND_DATAW
     #field int dwFileAttributes
     #field int nFileSizeHigh
     #field int nFileSizeLow
@@ -10530,11 +10530,11 @@
     #field int cAlternateFileName
 #endstruct
 
-#defstruct WINDOW_BUFFER_SIZE_RECORD
+#defstruct global WINDOW_BUFFER_SIZE_RECORD
     #field var dwSize
 #endstruct
 
-#defstruct WINDOWINFO
+#defstruct global WINDOWINFO
     #field int cbSize
     #field var rcWindow
     #field var rcClient
@@ -10547,13 +10547,13 @@
     #field int wCreatorVersion
 #endstruct
 
-#defstruct WINDOWPLACEMENT
+#defstruct global WINDOWPLACEMENT
     #field int length
     #field int flags
     #field var rcNormalPosition
 #endstruct
 
-#defstruct WINHTTP_AUTOPROXY_OPTIONS
+#defstruct global WINHTTP_AUTOPROXY_OPTIONS
     #field int dwFlags
     #field int dwAutoDetectFlags
     #field wstr lpszAutoConfigUrl
@@ -10562,14 +10562,14 @@
     #field int fAutoLogonIfChallenged
 #endstruct
 
-#defstruct WINHTTP_CURRENT_USER_IE_PROXY_CONFIG
+#defstruct global WINHTTP_CURRENT_USER_IE_PROXY_CONFIG
     #field int fAutoDetect
     #field wstr lpszAutoConfigUrl
     #field wstr lpszProxy
     #field wstr lpszProxyBypass
 #endstruct
 
-#defstruct WINHTTP_EXTENDED_HEADER
+#defstruct global WINHTTP_EXTENDED_HEADER
     #field var Anonymous1
     #field var Anonymous2
     #field wstr pwszName
@@ -10578,22 +10578,22 @@
     #field str pszValue
 #endstruct
 
-#defstruct WINHTTP_PROXY_INFO
+#defstruct global WINHTTP_PROXY_INFO
     #field int dwAccessType
     #field wstr lpszProxy
     #field wstr lpszProxyBypass
 #endstruct
 
-#defstruct WINHTTP_PROXY_NETWORKING_KEY
+#defstruct global WINHTTP_PROXY_NETWORKING_KEY
     #field int pbBuffer
 #endstruct
 
-#defstruct WINHTTP_PROXY_RESULT
+#defstruct global WINHTTP_PROXY_RESULT
     #field int cEntries
     #field var pEntries
 #endstruct
 
-#defstruct WINHTTP_PROXY_RESULT_ENTRY
+#defstruct global WINHTTP_PROXY_RESULT_ENTRY
     #field int fProxy
     #field int fBypass
     #field int ProxyScheme
@@ -10601,14 +10601,14 @@
     #field int ProxyPort
 #endstruct
 
-#defstruct WINHTTP_PROXY_RESULT_EX
+#defstruct global WINHTTP_PROXY_RESULT_EX
     #field int cEntries
     #field var pEntries
     #field intptr hProxyDetectionHandle
     #field int dwProxyInterfaceAffinity
 #endstruct
 
-#defstruct WINHTTP_PROXY_SETTINGS
+#defstruct global WINHTTP_PROXY_SETTINGS
     #field int dwStructSize
     #field int dwFlags
     #field int dwCurrentSettingsVersion
@@ -10626,7 +10626,7 @@
     #field var pNetworkKeys
 #endstruct
 
-#defstruct WININET_PROXY_INFO
+#defstruct global WININET_PROXY_INFO
     #field int fProxy
     #field int fBypass
     #field int ProxyScheme
@@ -10634,12 +10634,12 @@
     #field int ProxyPort
 #endstruct
 
-#defstruct WININET_PROXY_INFO_LIST
+#defstruct global WININET_PROXY_INFO_LIST
     #field int dwProxyInfoCount
     #field var pProxyInfo
 #endstruct
 
-#defstruct WLAN_AVAILABLE_NETWORK
+#defstruct global WLAN_AVAILABLE_NETWORK
     #field int strProfileName
     #field var dot11Ssid
     #field int dot11BssType
@@ -10657,17 +10657,17 @@
     #field int dwReserved
 #endstruct
 
-#defstruct WLAN_AVAILABLE_NETWORK_LIST
+#defstruct global WLAN_AVAILABLE_NETWORK_LIST
     #field int dwNumberOfItems
     #field int dwIndex
 #endstruct
 
-#defstruct WLAN_AVAILABLE_NETWORK_LIST_V2
+#defstruct global WLAN_AVAILABLE_NETWORK_LIST_V2
     #field int dwNumberOfItems
     #field int dwIndex
 #endstruct
 
-#defstruct WLAN_AVAILABLE_NETWORK_V2
+#defstruct global WLAN_AVAILABLE_NETWORK_V2
     #field int strProfileName
     #field var dot11Ssid
     #field int dot11BssType
@@ -10688,7 +10688,7 @@
     #field int dwReserved
 #endstruct
 
-#defstruct WLAN_BSS_ENTRY
+#defstruct global WLAN_BSS_ENTRY
     #field var dot11Ssid
     #field int uPhyId
     #field int dot11Bssid
@@ -10707,12 +10707,12 @@
     #field int ulIeSize
 #endstruct
 
-#defstruct WLAN_BSS_LIST
+#defstruct global WLAN_BSS_LIST
     #field int dwTotalSize
     #field int dwNumberOfItems
 #endstruct
 
-#defstruct WLAN_CONNECTION_PARAMETERS
+#defstruct global WLAN_CONNECTION_PARAMETERS
     #field int wlanConnectionMode
     #field wstr strProfile
     #field var pDot11Ssid
@@ -10721,17 +10721,17 @@
     #field int dwFlags
 #endstruct
 
-#defstruct WLAN_DEVICE_SERVICE_GUID_LIST
+#defstruct global WLAN_DEVICE_SERVICE_GUID_LIST
     #field int dwNumberOfItems
     #field int dwIndex
 #endstruct
 
-#defstruct WLAN_HOSTED_NETWORK_PEER_STATE
+#defstruct global WLAN_HOSTED_NETWORK_PEER_STATE
     #field int PeerMacAddress
     #field int PeerAuthState
 #endstruct
 
-#defstruct WLAN_HOSTED_NETWORK_STATUS
+#defstruct global WLAN_HOSTED_NETWORK_STATUS
     #field int HostedNetworkState
     #field int wlanHostedNetworkBSSID
     #field int dot11PhyType
@@ -10739,7 +10739,7 @@
     #field int dwNumberOfPeers
 #endstruct
 
-#defstruct WLAN_INTERFACE_CAPABILITY
+#defstruct global WLAN_INTERFACE_CAPABILITY
     #field int interfaceType
     #field int bDot11DSupported
     #field int dwMaxDesiredSsidListSize
@@ -10748,43 +10748,43 @@
     #field int dot11PhyTypes
 #endstruct
 
-#defstruct WLAN_INTERFACE_INFO
+#defstruct global WLAN_INTERFACE_INFO
     #field int strInterfaceDescription
     #field int isState
 #endstruct
 
-#defstruct WLAN_INTERFACE_INFO_LIST
+#defstruct global WLAN_INTERFACE_INFO_LIST
     #field int dwNumberOfItems
     #field int dwIndex
 #endstruct
 
-#defstruct WLAN_PROFILE_INFO
+#defstruct global WLAN_PROFILE_INFO
     #field int strProfileName
     #field int dwFlags
 #endstruct
 
-#defstruct WLAN_PROFILE_INFO_LIST
+#defstruct global WLAN_PROFILE_INFO_LIST
     #field int dwNumberOfItems
     #field int dwIndex
 #endstruct
 
-#defstruct WLAN_RATE_SET
+#defstruct global WLAN_RATE_SET
     #field int uRateSetLength
     #field int usRateSet
 #endstruct
 
-#defstruct WLAN_RAW_DATA
+#defstruct global WLAN_RAW_DATA
     #field int dwDataSize
 #endstruct
 
-#defstruct WLAN_RAW_DATA_LIST
+#defstruct global WLAN_RAW_DATA_LIST
     #field int dwTotalSize
     #field int dwNumberOfItems
     #field int dwDataOffset
     #field int dwDataSize
 #endstruct
 
-#defstruct WM_MEDIA_TYPE
+#defstruct global WM_MEDIA_TYPE
     #field int bFixedSizeSamples
     #field int bTemporalCompression
     #field int lSampleSize
@@ -10793,7 +10793,7 @@
     #field var pbFormat
 #endstruct
 
-#defstruct WmfPlaceableFileHeader
+#defstruct global WmfPlaceableFileHeader
     #field int Key
     #field int Hmf
     #field var BoundingBox
@@ -10802,7 +10802,7 @@
     #field int Checksum
 #endstruct
 
-#defstruct WNDCLASSEXW
+#defstruct global WNDCLASSEXW
     #field int cbSize
     #field int style
     #field int cbClsExtra
@@ -10816,7 +10816,7 @@
     #field intptr hIconSm
 #endstruct
 
-#defstruct WNDCLASSW
+#defstruct global WNDCLASSW
     #field int style
     #field int cbClsExtra
     #field int cbWndExtra
@@ -10828,7 +10828,7 @@
     #field wstr lpszClassName
 #endstruct
 
-#defstruct WNODE_HEADER
+#defstruct global WNODE_HEADER
     #field int BufferSize
     #field int ProviderId
     #field var Anonymous1
@@ -10844,12 +10844,12 @@
     #field int64 TimeStamp
 #endstruct
 
-#defstruct WSABUF
+#defstruct global WSABUF
     #field int len
     #field str buf
 #endstruct
 
-#defstruct WSACOMPLETION
+#defstruct global WSACOMPLETION
     #field int Type
     #field int Parameters
     #field int WindowMessage
@@ -10863,7 +10863,7 @@
     #field int Key
 #endstruct
 
-#defstruct _Parameters_e__Union
+#defstruct global _Parameters_e__Union
     #field int WindowMessage
     #field int Event
     #field int Apc
@@ -10875,18 +10875,18 @@
     #field int Key
 #endstruct
 
-#defstruct _WindowMessage_e__Struct
+#defstruct global _WindowMessage_e__Struct
     #field intptr hWnd
     #field int uMsg
     #field intptr context
 #endstruct
 
-#defstruct _Port_e__Struct
+#defstruct global _Port_e__Struct
     #field intptr hPort
     #field int Key
 #endstruct
 
-#defstruct WSAMSG
+#defstruct global WSAMSG
     #field var name
     #field int namelen
     #field var lpBuffers
@@ -10895,7 +10895,7 @@
     #field int dwFlags
 #endstruct
 
-#defstruct WSANAMESPACE_INFOEXW
+#defstruct global WSANAMESPACE_INFOEXW
     #field int dwNameSpace
     #field int fActive
     #field int dwVersion
@@ -10903,19 +10903,19 @@
     #field var ProviderSpecific
 #endstruct
 
-#defstruct WSANAMESPACE_INFOW
+#defstruct global WSANAMESPACE_INFOW
     #field int dwNameSpace
     #field int fActive
     #field int dwVersion
     #field wstr lpszIdentifier
 #endstruct
 
-#defstruct WSANETWORKEVENTS
+#defstruct global WSANETWORKEVENTS
     #field int lNetworkEvents
     #field int iErrorCode
 #endstruct
 
-#defstruct WSANSCLASSINFOW
+#defstruct global WSANSCLASSINFOW
     #field wstr lpszName
     #field int dwNameSpace
     #field int dwValueType
@@ -10923,13 +10923,13 @@
     #field var lpValue
 #endstruct
 
-#defstruct WSAPOLLFD
+#defstruct global WSAPOLLFD
     #field int fd
     #field int events
     #field int revents
 #endstruct
 
-#defstruct WSAPROTOCOL_INFOW
+#defstruct global WSAPROTOCOL_INFOW
     #field int dwServiceFlags1
     #field int dwServiceFlags2
     #field int dwServiceFlags3
@@ -10951,12 +10951,12 @@
     #field int szProtocol
 #endstruct
 
-#defstruct WSAPROTOCOLCHAIN
+#defstruct global WSAPROTOCOLCHAIN
     #field int ChainLen
     #field int ChainEntries
 #endstruct
 
-#defstruct WSAQUERYSET2W
+#defstruct global WSAQUERYSET2W
     #field int dwSize
     #field wstr lpszServiceInstanceName
     #field var lpVersion
@@ -10972,7 +10972,7 @@
     #field var lpBlob
 #endstruct
 
-#defstruct WSAQUERYSETW
+#defstruct global WSAQUERYSETW
     #field int dwSize
     #field wstr lpszServiceInstanceName
     #field var lpVersion
@@ -10988,29 +10988,29 @@
     #field var lpBlob
 #endstruct
 
-#defstruct WSASERVICECLASSINFOW
+#defstruct global WSASERVICECLASSINFOW
     #field wstr lpszServiceClassName
     #field int dwCount
     #field var lpClassInfos
 #endstruct
 
-#defstruct WSAVERSION
+#defstruct global WSAVERSION
     #field int dwVersion
     #field int ecHow
 #endstruct
 
-#defstruct WTS_PROCESS_INFOW
+#defstruct global WTS_PROCESS_INFOW
     #field int SessionId
     #field int ProcessId
     #field wstr pProcessName
     #field int pUserSid
 #endstruct
 
-#defstruct WTS_SERVER_INFOW
+#defstruct global WTS_SERVER_INFOW
     #field wstr pServerName
 #endstruct
 
-#defstruct WTS_SESSION_INFO_1W
+#defstruct global WTS_SESSION_INFO_1W
     #field int ExecEnvId
     #field int State
     #field int SessionId
@@ -11021,13 +11021,13 @@
     #field wstr pFarmName
 #endstruct
 
-#defstruct WTS_SESSION_INFOW
+#defstruct global WTS_SESSION_INFOW
     #field int SessionId
     #field wstr pWinStationName
     #field int State
 #endstruct
 
-#defstruct WTSLISTENERCONFIGW
+#defstruct global WTSLISTENERCONFIGW
     #field int version
     #field int fEnableListener
     #field int MaxConnectionCount
@@ -11061,7 +11061,7 @@
     #field int InitialProgram
 #endstruct
 
-#defstruct XAUDIO2_BUFFER
+#defstruct global XAUDIO2_BUFFER
     #field int Flags
     #field int AudioBytes
     #field var pAudioData
@@ -11073,12 +11073,12 @@
     #field var pContext
 #endstruct
 
-#defstruct XAUDIO2_BUFFER_WMA
+#defstruct global XAUDIO2_BUFFER_WMA
     #field var pDecodedPacketCumulativeBytes
     #field int PacketCount
 #endstruct
 
-#defstruct XAUDIO2_DEBUG_CONFIGURATION
+#defstruct global XAUDIO2_DEBUG_CONFIGURATION
     #field int TraceMask
     #field int BreakMask
     #field int LogThreadID
@@ -11087,24 +11087,24 @@
     #field int LogTiming
 #endstruct
 
-#defstruct XAUDIO2_EFFECT_CHAIN
+#defstruct global XAUDIO2_EFFECT_CHAIN
     #field int EffectCount
     #field var pEffectDescriptors
 #endstruct
 
-#defstruct XAUDIO2_EFFECT_DESCRIPTOR
+#defstruct global XAUDIO2_EFFECT_DESCRIPTOR
     #field var pEffect
     #field int InitialState
     #field int OutputChannels
 #endstruct
 
-#defstruct XAUDIO2_FILTER_PARAMETERS
+#defstruct global XAUDIO2_FILTER_PARAMETERS
     #field int Type
     #field float Frequency
     #field float OneOverQ
 #endstruct
 
-#defstruct XAUDIO2_PERFORMANCE_DATA
+#defstruct global XAUDIO2_PERFORMANCE_DATA
     #field int64 AudioCyclesSinceLastQuery
     #field int64 TotalCyclesSinceLastQuery
     #field int MinimumCyclesPerQuantum
@@ -11121,30 +11121,30 @@
     #field int ActiveXmaStreams
 #endstruct
 
-#defstruct XAUDIO2_SEND_DESCRIPTOR
+#defstruct global XAUDIO2_SEND_DESCRIPTOR
     #field int Flags
     #field var pOutputVoice
 #endstruct
 
-#defstruct XAUDIO2_VOICE_DETAILS
+#defstruct global XAUDIO2_VOICE_DETAILS
     #field int CreationFlags
     #field int ActiveFlags
     #field int InputChannels
     #field int InputSampleRate
 #endstruct
 
-#defstruct XAUDIO2_VOICE_SENDS
+#defstruct global XAUDIO2_VOICE_SENDS
     #field int SendCount
     #field var pSends
 #endstruct
 
-#defstruct XAUDIO2_VOICE_STATE
+#defstruct global XAUDIO2_VOICE_STATE
     #field var pCurrentBufferContext
     #field int BuffersQueued
     #field int64 SamplesPlayed
 #endstruct
 
-#defstruct XFORM
+#defstruct global XFORM
     #field float eM11
     #field float eM12
     #field float eM21
@@ -11153,11 +11153,11 @@
     #field float eDy
 #endstruct
 
-#defstruct XFORMOBJ
+#defstruct global XFORMOBJ
     #field int ulReserved
 #endstruct
 
-#defstruct XLATEOBJ
+#defstruct global XLATEOBJ
     #field int iUniq
     #field int flXlate
     #field int iSrcType
@@ -11166,7 +11166,7 @@
     #field var pulXlate
 #endstruct
 
-#defstruct ZONEATTRIBUTES
+#defstruct global ZONEATTRIBUTES
     #field int cbSize
     #field int szDisplayName
     #field int szDescription
@@ -11177,12 +11177,12 @@
     #field int dwFlags
 #endstruct
 
-#defstruct GdipColorMap
+#defstruct global GdipColorMap
     #field var oldColor
     #field var newColor
 #endstruct
 
-#defstruct GdipRect
+#defstruct global GdipRect
     #field int X
     #field int Y
     #field int Width

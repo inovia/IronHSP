@@ -114,7 +114,7 @@
 
 ; ---- struct types (Phase 2e 以降で使用) ----
 ; cv_rect: 検出結果などの矩形領域を表す構造体 (16 bytes)
-#defstruct cv_rect
+#defstruct global cv_rect
 #field int x
 #field int y
 #field int w

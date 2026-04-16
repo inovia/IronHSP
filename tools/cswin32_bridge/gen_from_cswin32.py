@@ -695,7 +695,7 @@ def emit_types(structs: List[Struct],
     if structs:
         ap(";--- structs ---")
         for st in structs:
-            ap(f"#defstruct {st.name}")
+            ap(f"#defstruct global {st.name}")
             for (hsp_ty, fname, _doc) in st.fields:
                 ap(f"    #field {hsp_ty} {fname}")
             ap("#endstruct")

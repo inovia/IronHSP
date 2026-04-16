@@ -316,7 +316,7 @@ def collect_structs(tu, name_set: set[str]) -> list[dict]:
 
 def emit_struct(s: dict) -> str:
     """NSTRUCT (#defstruct) として emit. C struct のフィールドを HSP 型に変換."""
-    lines = [f"#defstruct {s['name']}"]
+    lines = [f"#defstruct global {s['name']}"]
     for f in s["fields"]:
         t = map_type(f["type"])
         if t == "":

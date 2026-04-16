@@ -10,7 +10,7 @@
 #define __user32_gen_as__
 
 ;--- structs ---
-#defstruct tagMSG
+#defstruct global tagMSG
     #field intptr hwnd
     #field int message
     #field intptr wParam
