@@ -88,7 +88,7 @@
   <li><strong>intptr 型</strong> &mdash; プラットフォーム依存サイズ整数 (x86=32bit / x64=64bit)。<code>#func</code> / <code>#cfunc</code> / <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> / <code>#comfunc</code> / <code>#cbmethod</code> すべての DLL インターフェースで使用可</li>
   <li><strong>wstr (UTF-16) 型</strong> &mdash; 変数型 + <code>L"..."</code> リテラル、文字列関数・命令・<code>note*</code> 系すべて wstr 対応</li>
   <li><strong>構造体・共用体</strong> &mdash; <code>#defstruct</code> / <code>#field</code> / <code>#defunion</code> / <code>#endunion</code>、専用変数型 <code>NSTRUCT</code>、<code>stdim</code> 命令、<code>varsize(S)</code>、C ABI 互換のパディング計算、<code>#cfuncst</code> (値返しDLL関数) + <code>callfuncst</code> で構造体値渡し/値返しをサポート</li>
-  <li><strong>DLL 関数拡張</strong> &mdash; <code>#cfuncd</code> / <code>#cfuncf</code> で double / float 戻り値、<code>#cfuncst</code> で構造体値返し、<code>#comfunc</code> の x64 vtable dispatch 修正、<code>newcom -1</code> の 64bit ポインタ引取り修正</li>
+  <li><strong>DLL 関数拡張</strong> &mdash; <code>#cfuncd</code> / <code>#cfuncf</code> で double / float 戻り値、<code>#cfuncst</code> で構造体値返し、<code>#comfunc</code> の x64 vtable dispatch 修正、<code>newcom -1</code> の 64bit ポインタ引取り修正。<strong>可変長引数 (<code>...</code>)</strong> で C の printf 系 variadic DLL 関数を直接呼び出し可能</li>
   <li><strong>COM コールバック (<code>#defcbcom</code>)</strong> &mdash; vtable allocator + IUnknown 自動実装 + 動的 thunk + bridge dispatcher により、HSP 側で実装した COM インターフェースを C++ 側 API (例: <code>IBindStatusCallback</code>) にそのまま渡せる</li>
   <li><strong>ネイティブコールバック</strong> &mdash; <code>setcallback</code> / <code>callbackarg</code> で x86 stdcall / x64 fastcall thunk を動的生成し、HSP ラベルを C 関数ポインタとして渡せる</li>
   <li><strong>環境変数・コマンドライン引数</strong> &mdash; <code>getenv</code> / <code>setenv</code> / <code>delenv</code> / <code>hasenv</code> で環境変数を操作、<code>getcmdargc</code> / <code>getcmdarg</code> / <code>getcmdargs</code> / <code>getcmdargi</code> / <code>hascmdarg</code> で Python の <code>sys.argv</code> / <code>argparse</code> 相当のコマンドライン引数パースを内蔵。<code>--name=value</code> / <code>--name value</code> 両形式対応</li>
@@ -1477,6 +1477,55 @@ p = VGet(1.0, 2.0, 3.0)
 <tr><td><code>#cfuncst</code> <span class="badge">IronHSP</span></td><td>NSTRUCT (構造体)</td><td>隠しポインタ経由で構造体バッファに書き込み → NSTRUCT として代入先に memcpy</td></tr>
 </table>
 
+<h3>10.6 可変長引数 (<code>...</code>) <span class="badge">IronHSP</span></h3>
+
+<p>C の <code>printf</code> 系のような <strong>可変長引数 (variadic) DLL 関数</strong>を HSP から直接呼べます。
+パラメータリスト末尾に <code>...</code> を記述すると、呼び出しごとに異なる数・型の引数を渡せます。</p>
+
+<pre><code>#uselib "msvcrt.dll"
+#cfunc crt_sprintf "sprintf" var, str, ...
+
+sdim s, 256
+n = crt_sprintf(s, "%d + %.2f", 42, 3.14)
+mes s   ; → "42 + 3.14"
+
+; 引数の数・型は呼び出しごとに変えられる
+n = crt_sprintf(s, "%s=%d", "count", 100)
+mes s   ; → "count=100"</code></pre>
+
+<div class="card">
+<h3>対応ディレクティブ</h3>
+<p><code>#func</code> / <code>#cfunc</code> / <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> のすべてで <code>...</code> が使用可能です。</p>
+</div>
+
+<h4>構文</h4>
+<pre><code>; 命令版 (stat に戻り値)
+#func global myfunc "entry_name" 固定パラメータ, ...
+
+; 関数版 (戻り値 = int)
+#cfunc global myfunc "entry_name" 固定パラメータ, ...
+
+; double 戻り値
+#cfuncd global myfunc "entry_name" 固定パラメータ, ...</code></pre>
+
+<h4>型推論ルール</h4>
+<p>可変長部分の各引数は、HSP の式評価結果から自動的に型が決まります:</p>
+<table>
+<tr><th>HSP の式</th><th>推論される型</th><th>DLL に渡す形</th></tr>
+<tr><td><code>123</code>、int 変数</td><td>int</td><td>4/8 byte (x86/x64)</td></tr>
+<tr><td><code>123L</code>、int64 変数</td><td>int64</td><td>8 byte</td></tr>
+<tr><td><code>3.14</code>、double 変数</td><td>double</td><td>8 byte (ビットパターンを整数レジスタ経由で渡す)</td></tr>
+<tr><td><code>"abc"</code>、str 変数</td><td>str</td><td>char* ポインタ</td></tr>
+</table>
+
+<h4>制限事項</h4>
+<ul>
+  <li>可変長引数は最大 <strong>64 個</strong>まで (固定パラメータ含む)</li>
+  <li><code>...</code> はパラメータリストの<strong>末尾にのみ</strong>記述可能 (C 言語と同じ制約)</li>
+  <li>x64 の variadic ABI (float/double を整数レジスタにもコピー) は自動で処理される</li>
+  <li><code>#func</code> (命令版) と <code>#cfunc</code> (関数版) の両方で使用可能</li>
+</ul>
+
 <!-- ======================================== -->
 <h2 id="intptr">12. プラットフォーム依存整数型 (intptr) <span class="badge">IronHSP</span></h2>
 
@@ -2243,6 +2292,7 @@ package/hsphelp/
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/16 20:13</td><td><code>3649f02b</code></td><td><span class="badge">新機能</span> <strong>#func / #cfunc 等の可変長引数 (<code>...</code>) サポート</strong>: パラメータリスト末尾に <code>...</code> を記述すると、C の printf 系 variadic DLL 関数を HSP から直接呼べる。引数の型は式評価結果から自動推論 (int/int64/double/str)。<code>#func</code> / <code>#cfunc</code> / <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> の全 DLL 呼び出しディレクティブで使用可能。x64 variadic ABI 対応済み</td></tr>
 <tr><td>4/16 20:11</td><td></td><td><span class="badge">新機能</span> <strong>環境変数・コマンドライン引数の内蔵関数/命令</strong> (10 個): <code>getenv</code> / <code>hasenv</code> / <code>setenv</code> / <code>delenv</code> で環境変数操作、<code>getcmdargc</code> / <code>getcmdarg</code> / <code>getcmdargs</code> / <code>getcmdargi</code> / <code>hascmdarg</code> で Python の <code>sys.argv</code> + <code>argparse</code> 相当のコマンドライン引数パースを内蔵。<code>--name=value</code> / <code>--name value</code> 両形式に対応。実装は <code>GetEnvironmentVariableW</code> / <code>SetEnvironmentVariableW</code> + <code>CommandLineToArgvW</code> (起動時1回パース)</td></tr>
 <tr><td>4/16 20:00</td><td><code>55eacc14</code></td><td><span class="badge">新機能</span> <strong>hspcmp: Allman ブレーススタイル (改行 <code>{</code>) をサポート</strong>: <code>if</code> / <code>else</code> / <code>else:if</code> の後に <code>{</code> を次行に置く記法を許容。<code>GenerateCodeBlock()</code> の TK_EOL 処理で次行先頭が <code>{</code> かを先読みし、単行 if の即時クローズをスキップして SCOPE モードへ移行。既存の同一行 <code>{</code> パターンには一切影響なし。15 パターンのコンパイル+実行テスト済み</td></tr>
 <tr><td>4/16 07:22</td><td><code>c3a26226</code></td><td><span class="badge">バグ修正</span> <strong>hspd2d <code>d2d_drawtext</code> の絵文字末尾文字化け修正</strong>: <code>strlen(text)</code> は UTF-8 バイト数を返すため、サロゲートペア絵文字を含む文字列で <code>ID2D1RenderTarget::DrawText</code> の stringLength が過大になり、未初期化メモリが末尾に描画されていた。<code>MultiByteToWideChar(CP_UTF8, -1)</code> で UTF-16 コードユニット数を算出して渡すよう修正</td></tr>

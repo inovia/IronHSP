@@ -18,6 +18,7 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **構造体型 `HSPVAR_FLAG_NSTRUCT`** — `#defstruct` / `stdim` で確保。`#field` / `#defunion` / `pack` / `Size` / `LayoutKind` 全対応。`#cfuncst` で構造体戻り値 DLL 関数を呼べる、`callfuncst` で動的呼び出し可。`varsize(STRUCT)` で型サイズ取得。`MPTYPE_STRUCTVAL` で構造体値渡しも対応。
 - **.NET 連携 (hsp3net)** — Phase 7〜12 で `loadnet` / `newnet` / `netres` / `mcall` 等を通じて任意の .NET 4.8 アセンブリを呼び出せます。例外処理 (`neterror` / `netexerr`)、`CnvCustom`、`tonet`、Enum 変換、`objprm` 対応済み。
 - **DLL の double / float 戻り値** — `#cfuncd` / `#cfuncf` / `callfuncd` / `callfuncf`。
+- **可変長引数 (`...`)** — `#func` / `#cfunc` 等のパラメータリスト末尾に `...` を書くと、C の `printf` 系 variadic DLL 関数を直接呼べる。引数の型は式の評価結果から自動推論 (int/double/str)。`#cfunc crt_sprintf "sprintf" var, str, ...` → `n = crt_sprintf(s, "%d + %.2f", 42, 3.14)`。
 - **`setcallback` / `callbackarg`** — flat C 関数コールバックを HSP ラベルから生成 (動的 thunk)。WNDPROC や SetWindowsHookEx 等に渡せる。hsp3net 専用。
 - **COM コールバックインターフェース (`#defcbcom`)** — `IDropTarget` / `IBindStatusCallback` 等の COM インターフェースを HSP 側で実装し、外部 COM API に渡せる。`#cbmethod` で各メソッドを HSP ラベルにマッピング、`newcomcb` でインスタンス化、`comprm()` / `comcbidx()` / `comcbtag()` / `comret` で実行コンテキストにアクセス。IUnknown (QI/AddRef/Release) は runtime が自動実装。x86/x64 両対応の動的 vtable トランポリン生成。hsp3net 専用。詳細は [`package/win32/sample/cbcom/`](package/win32/sample/cbcom/)。
 - **WinForms 統合** — `screen` を Form として扱い、HSP の GUI オブジェクトを .NET 化。

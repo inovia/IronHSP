@@ -1,0 +1,37 @@
+;
+;	sample_variadic.hsp — 可変長引数 (...) サンプル
+;
+;	#func / #cfunc のパラメータリスト末尾に ... を書くことで、
+;	C の printf 系のような可変長引数 DLL 関数を呼べます。
+;
+
+	; --- sprintf を #cfunc で宣言 (戻り値 = 書き込んだ文字数) ---
+	#uselib "msvcrt.dll"
+	#cfunc crt_sprintf "sprintf" var, str, ...
+
+	sdim s, 1024
+
+	; 整数
+	crt_sprintf s, "1 + 2 = %d", 3
+	mes s
+
+	; 整数 + 浮動小数点
+	crt_sprintf s, "pi = %.5f, e = %.5f", 3.14159, 2.71828
+	mes s
+
+	; 文字列 + 整数
+	crt_sprintf s, "Hello, %s! You are %d years old.", "HSP", 25
+	mes s
+
+	; 多数の引数
+	crt_sprintf s, "%d, %d, %d, %d, %d", 10, 20, 30, 40, 50
+	mes s
+
+	; --- #func (命令版) でも使える ---
+	#func crt_sprintf_cmd "sprintf" var, str, ...
+
+	crt_sprintf_cmd s, "Command style: %s = %d", "answer", 42
+	mes s
+
+	mes ""
+	mes "可変長引数サンプル完了"
