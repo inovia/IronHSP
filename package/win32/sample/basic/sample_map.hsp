@@ -1,0 +1,67 @@
+;
+;	sample_map.hsp — 連想配列 (MAP) サンプル
+;
+;	dimmap 命令で連想配列を作成し、map("key") でアクセスします。
+;
+
+	; --- 連想配列を作成 ---
+	dimmap config
+
+	; --- 値の設定 ---
+	config("title") = "My Application"
+	config("width") = "800"
+	config("height") = "600"
+	config("fullscreen") = "0"
+
+	; --- 値の読み取り ---
+	mes "title = " + config("title")
+	mes "size = " + config("width") + " x " + config("height")
+
+	; --- エントリ数 ---
+	mes "エントリ数: " + mapcount(config)
+
+	; --- キーの存在確認 ---
+	if hasmap(config, "title") {
+		mes "title キーは存在します"
+	}
+	if hasmap(config, "debug") == 0 {
+		mes "debug キーは存在しません"
+	}
+
+	; --- 全キーの列挙 ---
+	mes ""
+	mes "--- 全エントリ ---"
+	n = mapcount(config)
+	repeat n
+		k = mapkey(config, cnt)
+		mes k + " = " + config(k)
+	loop
+
+	; --- エントリの削除 ---
+	delmap config, "fullscreen"
+	mes ""
+	mes "fullscreen を削除: 残り " + mapcount(config) + " エントリ"
+
+	; --- 値の上書き ---
+	config("width") = "1920"
+	mes "width を上書き: " + config("width")
+
+	; --- 全クリア ---
+	mapclear config
+	mes "mapclear 後: " + mapcount(config) + " エントリ"
+
+	; --- 変数名による動的キーアクセス ---
+	dimmap scores
+	repeat 5
+		key = "player" + cnt
+		scores(key) = "" + (cnt * 100 + 50)
+	loop
+	mes ""
+	mes "--- 動的キー ---"
+	repeat mapcount(scores)
+		k = mapkey(scores, cnt)
+		mes k + " = " + scores(k)
+	loop
+
+	mes ""
+	mes "連想配列サンプル完了"

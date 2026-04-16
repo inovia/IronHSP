@@ -2602,6 +2602,16 @@ static int cmdfunc_prog( int cmd )
 		break;
 		}
 
+	case 0x25:								// dimmap
+		{
+		// dimmap var
+		// 連想配列(MAP)変数の確保
+		PVal *pval;
+		pval = code_getpval();
+		HspVarCoreDimWC( pval, HSPVAR_FLAG_MAP, 0, 0, 0, 0 );
+		break;
+		}
+
 	case 0x22:								// structdim
 		{
 		// structdim var, struct_size [, count]

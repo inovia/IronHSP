@@ -59,6 +59,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$022 15 stdim",				// (IronHSP) 構造体変数確保 (NSTRUCT 型)
 	"$024 15 wsdim",				// (IronHSP) UTF-16ワイド文字列変数確保
 	"$023 15 _struct_poke",			// (IronHSP) 内部: 構造体メンバ書き込み
+	"$025 15 dimmap",				// (IronHSP) 連想配列変数確保
 
 //	"$015 15 logmode",				// (ver2.55)
 //	"$016 15 logmes",				// (ver2.55)
@@ -116,6 +117,8 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$031 8 qpoke",					// (IronHSP)
 	"$032 8 setenv",				// (IronHSP)
 	"$033 8 delenv",				// (IronHSP)
+	"$034 8 delmap",				// (IronHSP) 連想配列エントリ削除
+	"$035 8 mapclear",				// (IronHSP) 連想配列全クリア
 
 	//	enhanced command (ver2.2)
 
@@ -352,6 +355,9 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$204 13 getcmdargs",				// (IronHSP)
 	"$205 13 getcmdargi",				// (IronHSP)
 	"$206 13 hascmdarg",				// (IronHSP)
+	"$207 13 hasmap",				// (IronHSP) 連想配列キー存在チェック
+	"$208 13 mapcount",				// (IronHSP) 連想配列エントリ数
+	"$209 13 mapkey",				// (IronHSP) 連想配列キー取得(インデックス指定)
 
 	//	3.0 external sysvar,function
 

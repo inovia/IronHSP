@@ -24,6 +24,7 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **WinForms 統合** — `screen` を Form として扱い、HSP の GUI オブジェクトを .NET 化。
 - **Allman ブレーススタイル** — `if` / `else` のブロック開始 `{` を次行に書く記法 (Allman / BSD スタイル) に対応。従来の同一行 `{` も従来通り動作。サンプル: [`package/win32/sample/basic/allman_brace.hsp`](package/win32/sample/basic/allman_brace.hsp)。
 - **環境変数・コマンドライン引数** — `getenv` / `setenv` / `delenv` / `hasenv` で環境変数を操作、`getcmdargc` / `getcmdarg` / `getcmdargs("--name", default)` / `getcmdargi("--name", default)` / `hascmdarg("--flag")` で Python の `sys.argv` + `argparse` 相当のコマンドライン引数パースを内蔵。`--name=value` / `--name value` 両形式対応。
+- **連想配列 (MAP 型)** — `dimmap map` で連想配列を作成し、`map("key") = value` で文字列キーによる読み書きが可能。内部は `std::unordered_map<std::string, std::string>`。`mapcount` / `hasmap` / `mapkey` 関数と `delmap` / `mapclear` 命令を追加。サンプル: [`package/win32/sample/basic/sample_map.hsp`](package/win32/sample/basic/sample_map.hsp)。
 
 ### 新規プラグイン
 

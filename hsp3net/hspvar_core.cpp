@@ -26,6 +26,7 @@ extern void HspVarStruct_Init( HspVarProc *p );
 extern void HspVarInt64_Init( HspVarProc *p );
 extern void HspVarWstr_Init( HspVarProc *p );
 extern void HspVarNstruct_Init( HspVarProc *p );
+extern void HspVarMap_Init( HspVarProc *p );
 
 /*------------------------------------------------------------*/
 /*
@@ -91,6 +92,7 @@ void HspVarCoreResetVartype( int expand )
 	HspVarCoreRegisterType( HSPVAR_FLAG_INT64, (HSPVAR_COREFUNC)HspVarInt64_Init );		// int64型
 	HspVarCoreRegisterType( HSPVAR_FLAG_WSTR, (HSPVAR_COREFUNC)HspVarWstr_Init );		// wstr型(UTF-16)
 	HspVarCoreRegisterType( HSPVAR_FLAG_NSTRUCT, (HSPVAR_COREFUNC)HspVarNstruct_Init );	// ネイティブ構造体型
+	HspVarCoreRegisterType( HSPVAR_FLAG_MAP, (HSPVAR_COREFUNC)HspVarMap_Init );			// 連想配列(MAP)型
 }
 
 

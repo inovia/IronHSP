@@ -70,7 +70,8 @@
   <li><a href="#dxlib">15. DxLib 統合 (hspdxlib)</a></li>
   <li><a href="#win32api">16. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
   <li><a href="#ironsimple">17. IronHSP Simple モジュール集 (iron_*) + 新規プラグイン DLL</a></li>
-  <li><a href="#changelog">18. 変更履歴</a></li>
+  <li><a href="#maptype">18. 連想配列 (MAP 型)</a></li>
+  <li><a href="#changelog">19. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -669,6 +670,7 @@ mes nettoval(rSR, 4)     ; => 44100</code></pre>
 <tr><td><code>HSPVAR_FLAG_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
 <tr><td><code>HSPVAR_FLAG_WSTR</code></td><td>10</td><td>wstr</td><td>可変長</td><td><span class="badge">新規</span> UTF-16 LE ワイド文字列</td></tr>
 <tr><td><code>HSPVAR_FLAG_NSTRUCT</code></td><td>11</td><td>nstruct</td><td>可変</td><td><span class="badge">新規</span> ネイティブ構造体 (<code>#defstruct</code> 用、<code>stdim</code> で確保)</td></tr>
+<tr><td><code>HSPVAR_FLAG_MAP</code></td><td>12</td><td>map</td><td>可変</td><td><span class="badge">新規</span> 連想配列 (<code>dimmap</code> で確保、文字列キーで要素アクセス)</td></tr>
 </table>
 
 <!-- ======================================== -->
@@ -2294,10 +2296,62 @@ package/hsphelp/
 </ul>
 
 <!-- ======================================== -->
-<h2 id="changelog">18. 変更履歴</h2>
+<h2 id="maptype">18. 連想配列 (MAP 型) <span class="badge">IronHSP</span></h2>
+
+<p>
+IronHSP では <strong>文字列キーで値にアクセスできる連想配列 (MAP)</strong> を変数型として組み込みサポートしています。
+内部は <code>std::unordered_map&lt;std::string, std::string&gt;</code> で実装されており、キー・値ともに文字列として保持されます。
+代入時に int / double / int64 は自動的に文字列へ変換されます。
+</p>
+
+<h3>変数の作成</h3>
+<pre><code>dimmap mymap     ; 連想配列を作成</code></pre>
+
+<h3>値の読み書き</h3>
+<pre><code>; 書き込み — map("key") = value
+mymap("name") = "HSP"
+mymap("year") = "2026"
+mymap("score") = 100        ; int → "100" に自動変換
+
+; 読み取り — map("key") で文字列が返る
+mes mymap("name")            ; → "HSP"
+
+; 変数キー
+key = "name"
+mes mymap(key)               ; → "HSP"</code></pre>
+
+<h3>ヘルパー関数・命令</h3>
+<table>
+<tr><th>種別</th><th>構文</th><th>説明</th></tr>
+<tr><td>関数</td><td><code>mapcount(<var>var</var>)</code></td><td>エントリ数を返す (int)</td></tr>
+<tr><td>関数</td><td><code>hasmap(<var>var</var>, "<var>key</var>")</code></td><td>キーが存在すれば 1、なければ 0 (int)</td></tr>
+<tr><td>関数</td><td><code>mapkey(<var>var</var>, <var>index</var>)</code></td><td>index 番目のキーを文字列で返す (列挙用)</td></tr>
+<tr><td>命令</td><td><code>delmap <var>var</var>, "<var>key</var>"</code></td><td>指定キーのエントリを削除</td></tr>
+<tr><td>命令</td><td><code>mapclear <var>var</var></code></td><td>全エントリを削除</td></tr>
+</table>
+
+<h3>全キーの列挙</h3>
+<pre><code>n = mapcount(mymap)
+repeat n
+    k = mapkey(mymap, cnt)
+    mes k + " = " + mymap(k)
+loop</code></pre>
+
+<h3>注意事項</h3>
+<ul>
+  <li>値は内部で <strong>文字列として保持</strong> されます。数値として使う場合は <code>int()</code> / <code>double()</code> で変換してください</li>
+  <li>未登録のキーを読み取ると <strong>空文字列 <code>""</code></strong> が返ります (エラーにはなりません)</li>
+  <li><code>mapkey()</code> の列挙順序は <strong>挿入順とは限りません</strong> (unordered_map のため)</li>
+  <li>MAP 変数は通常の配列 (<code>dim</code>) との併用はできません。<code>dimmap</code> で作成した変数は MAP 専用です</li>
+  <li><code>vartype()</code> は <code>12</code> (<code>HSPVAR_FLAG_MAP</code>) を返します</li>
+</ul>
+
+<!-- ======================================== -->
+<h2 id="changelog">19. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/16 20:20</td><td></td><td><span class="badge">新機能</span> <strong>連想配列 (MAP 型) サポート</strong>: <code>dimmap</code> で連想配列変数を作成し、<code>map("key") = value</code> で文字列キーによる読み書きが可能。内部は <code>std::unordered_map&lt;std::string, std::string&gt;</code>。<code>mapcount</code> / <code>hasmap</code> / <code>mapkey</code> 関数と <code>delmap</code> / <code>mapclear</code> 命令を追加。代入時に int/double/int64 は自動文字列変換。HSPVAR_FLAG_MAP (=12) として変数型システムに統合</td></tr>
 <tr><td>4/16 20:13</td><td><code>3649f02b</code></td><td><span class="badge">新機能</span> <strong>#func / #cfunc 等の可変長引数 (<code>...</code>) サポート</strong>: パラメータリスト末尾に <code>...</code> を記述すると、C の printf 系 variadic DLL 関数を HSP から直接呼べる。引数の型は式評価結果から自動推論 (int/int64/double/str)。<code>#func</code> / <code>#cfunc</code> / <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> の全 DLL 呼び出しディレクティブで使用可能。x64 variadic ABI 対応済み</td></tr>
 <tr><td>4/16 20:11</td><td></td><td><span class="badge">新機能</span> <strong>環境変数・コマンドライン引数の内蔵関数/命令</strong> (10 個): <code>getenv</code> / <code>hasenv</code> / <code>setenv</code> / <code>delenv</code> で環境変数操作、<code>getcmdargc</code> / <code>getcmdarg</code> / <code>getcmdargs</code> / <code>getcmdargi</code> / <code>hascmdarg</code> で Python の <code>sys.argv</code> + <code>argparse</code> 相当のコマンドライン引数パースを内蔵。<code>--name=value</code> / <code>--name value</code> 両形式に対応。実装は <code>GetEnvironmentVariableW</code> / <code>SetEnvironmentVariableW</code> + <code>CommandLineToArgvW</code> (起動時1回パース)</td></tr>
 <tr><td>4/16 20:00</td><td><code>55eacc14</code></td><td><span class="badge">新機能</span> <strong>hspcmp: Allman ブレーススタイル (改行 <code>{</code>) をサポート</strong>: <code>if</code> / <code>else</code> / <code>else:if</code> の後に <code>{</code> を次行に置く記法を許容。<code>GenerateCodeBlock()</code> の TK_EOL 処理で次行先頭が <code>{</code> かを先読みし、単行 if の即時クローズをスキップして SCOPE モードへ移行。既存の同一行 <code>{</code> パターンには一切影響なし。15 パターンのコンパイル+実行テスト済み</td></tr>

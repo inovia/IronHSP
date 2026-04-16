@@ -33,6 +33,7 @@
 
 #include "hsp3int.h"
 #include "hsp3code.h"
+#include "hspvar_map.h"
 
 static const double DBLINF = std::numeric_limits<double>::infinity();
 
@@ -1716,6 +1717,27 @@ static int cmdfunc_intcmd( int cmd )
 		break;
 		}
 
+	//	IronHSP: 連想配列(MAP)命令
+	case 0x034:								// delmap var, "key"
+		{
+		PVal *pv;
+		APTR ap;
+		ap = code_getva( &pv );
+		if ( pv->flag != HSPVAR_FLAG_MAP ) throw HSPERR_TYPE_MISMATCH;
+		char *key = code_gets();
+		HspVarMap_Delete( pv, key );
+		break;
+		}
+	case 0x035:								// mapclear var
+		{
+		PVal *pv;
+		APTR ap;
+		ap = code_getva( &pv );
+		if ( pv->flag != HSPVAR_FLAG_MAP ) throw HSPERR_TYPE_MISMATCH;
+		HspVarMap_Clear( pv );
+		break;
+		}
+
 	default:
 		throw HSPERR_UNSUPPORTED_FUNCTION;
 	}
@@ -2627,6 +2649,42 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		}
 		*type_res = HSPVAR_FLAG_INT;
 		ptr = &reffunc_intfunc_ivalue;
+		break;
+		}
+
+	//	IronHSP: 連想配列(MAP)関数
+	case 0x207:								// hasmap(var, "key")
+		{
+		PVal *pv;
+		APTR ap;
+		ap = code_getva( &pv );
+		if ( pv->flag != HSPVAR_FLAG_MAP ) throw HSPERR_TYPE_MISMATCH;
+		char *key = code_gets();
+		reffunc_intfunc_ivalue = HspVarMap_Has( pv, key );
+		*type_res = HSPVAR_FLAG_INT;
+		ptr = &reffunc_intfunc_ivalue;
+		break;
+		}
+	case 0x208:								// mapcount(var)
+		{
+		PVal *pv;
+		APTR ap;
+		ap = code_getva( &pv );
+		if ( pv->flag != HSPVAR_FLAG_MAP ) throw HSPERR_TYPE_MISMATCH;
+		reffunc_intfunc_ivalue = HspVarMap_Count( pv );
+		*type_res = HSPVAR_FLAG_INT;
+		ptr = &reffunc_intfunc_ivalue;
+		break;
+		}
+	case 0x209:								// mapkey(var, index)
+		{
+		PVal *pv;
+		APTR ap;
+		ap = code_getva( &pv );
+		if ( pv->flag != HSPVAR_FLAG_MAP ) throw HSPERR_TYPE_MISMATCH;
+		p1 = code_geti();
+		ptr = (void *)HspVarMap_Key( pv, p1 );
+		*type_res = HSPVAR_FLAG_STR;
 		break;
 		}
 
