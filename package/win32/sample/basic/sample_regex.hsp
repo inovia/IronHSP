@@ -1,0 +1,23 @@
+;
+;	sample_regex.hsp — 正規表現サンプル (std::regex 版)
+;
+	#include "iron_regex.hsp"
+
+	; パターンマッチ
+	regex_match "^[0-9]+$", "12345"
+	mes "12345 は数字のみ: " + stat
+
+	; 検索
+	regex_search "[A-Z][a-z]+", "Hello World"
+	mes "最初の単語: " + refstr
+
+	; 置換
+	regex_replace "[0-9]+", "TEL: 03-1234-5678", "****"
+	mes "電話番号マスク: " + refstr
+
+	; 全マッチ列挙
+	regex_find "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", "From: alice@example.com To: bob@test.org"
+	mes "メール数: " + stat
+	repeat stat
+		mes "  " + regex_get(cnt)
+	loop

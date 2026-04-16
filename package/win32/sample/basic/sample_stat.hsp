@@ -1,0 +1,28 @@
+;
+;	sample_stat.hsp — 統計関数サンプル
+;
+	#include "iron_stat.hsp"
+
+	; テストデータ
+	dim scores, 10
+	scores = 80, 90, 70, 100, 60, 85, 95, 75, 65, 88
+
+	mes "=== 基本統計量 ==="
+	mes "合計     = " + stat_sum(scores, 10)
+	mes "平均     = " + stat_mean(scores, 10)
+	mes "中央値   = " + stat_median(scores, 10)
+	mes "標準偏差 = " + stat_stddev(scores, 10)
+	mes "最小値   = " + stat_min(scores, 10)
+	mes "最大値   = " + stat_max(scores, 10)
+	mes "範囲     = " + stat_range(scores, 10)
+
+	; パーセンタイル
+	stat_percentile scores, 10, 25.0
+	mes "25%tile  = " + refdval
+	stat_percentile scores, 10, 75.0
+	mes "75%tile  = " + refdval
+
+	; describe (pandas 風)
+	mes ""
+	mes "=== stat_describe ==="
+	stat_describe scores, 10

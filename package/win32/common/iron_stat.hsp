@@ -1,0 +1,177 @@
+;============================================================
+;   iron_stat.hsp — 統計関数モジュール
+;
+;   int / double 配列に対する基本統計量を計算する。
+;   外部 DLL 不要の純 HSP 実装。
+;
+;   API (関数):
+;     stat_sum(arr, n)        合計 (double)
+;     stat_mean(arr, n)       平均 (double)
+;     stat_min(arr, n)        最小値 (double)
+;     stat_max(arr, n)        最大値 (double)
+;     stat_median(arr, n)     中央値 (double) ※内部でソートコピー
+;     stat_variance(arr, n)   分散 (double, 母分散)
+;     stat_stddev(arr, n)     標準偏差 (double, 母標準偏差)
+;     stat_range(arr, n)      範囲 (max - min) (double)
+;
+;   API (命令):
+;     stat_describe arr, n    概要統計を mes で出力
+;     stat_percentile arr, n, p  → refdval に p パーセンタイル値
+;
+;   n: 要素数。0 を渡すと length(arr) を使用。
+;   arr は int 配列 / double 配列どちらでも可。
+;
+;   例:
+;     #include "iron_stat.hsp"
+;     dim scores, 5
+;     scores = 80, 90, 70, 100, 60
+;     mes "平均 = " + stat_mean(scores, 5)
+;     mes "中央値 = " + stat_median(scores, 5)
+;     mes "標準偏差 = " + stat_stddev(scores, 5)
+;============================================================
+
+#ifndef __iron_stat_hsp__
+#define __iron_stat_hsp__
+
+#module iron_stat
+
+; --- 合計 ---
+#defcfunc stat_sum array arr, int n_, local n, local s
+	n = n_ : if n <= 0 : n = length(arr)
+	s = 0.0
+	repeat n
+		s += 0.0 + arr(cnt)
+	loop
+	return s
+
+; --- 平均 ---
+#defcfunc stat_mean array arr, int n_, local n
+	n = n_ : if n <= 0 : n = length(arr)
+	if n == 0 : return 0.0
+	return stat_sum(arr, n) / double(n)
+
+; --- 最小値 ---
+#defcfunc stat_min array arr, int n_, local n, local v, local mn
+	n = n_ : if n <= 0 : n = length(arr)
+	if n == 0 : return 0.0
+	mn = 0.0 + arr(0)
+	repeat n - 1, 1
+		v = 0.0 + arr(cnt)
+		if v < mn : mn = v
+	loop
+	return mn
+
+; --- 最大値 ---
+#defcfunc stat_max array arr, int n_, local n, local v, local mx
+	n = n_ : if n <= 0 : n = length(arr)
+	if n == 0 : return 0.0
+	mx = 0.0 + arr(0)
+	repeat n - 1, 1
+		v = 0.0 + arr(cnt)
+		if v > mx : mx = v
+	loop
+	return mx
+
+; --- 範囲 ---
+#defcfunc stat_range array arr, int n_, local n
+	n = n_ : if n <= 0 : n = length(arr)
+	return stat_max(arr, n) - stat_min(arr, n)
+
+; --- 分散 (母分散) ---
+#defcfunc stat_variance array arr, int n_, local n, local avg, local s, local d
+	n = n_ : if n <= 0 : n = length(arr)
+	if n == 0 : return 0.0
+	avg = stat_mean(arr, n)
+	s = 0.0
+	repeat n
+		d = (0.0 + arr(cnt)) - avg
+		s += d * d
+	loop
+	return s / double(n)
+
+; --- 標準偏差 (母標準偏差) ---
+#defcfunc stat_stddev array arr, int n_, local n
+	n = n_ : if n <= 0 : n = length(arr)
+	return sqrt(stat_variance(arr, n))
+
+; --- 中央値 ---
+#defcfunc stat_median array arr, int n_, \
+	local n, local tmp, local i, local j, local t
+	n = n_ : if n <= 0 : n = length(arr)
+	if n == 0 : return 0.0
+
+	; double 配列にコピー
+	dimtype tmp, 3, n
+	repeat n
+		tmp(cnt) = 0.0 + arr(cnt)
+	loop
+
+	; 単純選択ソート
+	repeat n - 1
+		i = cnt
+		repeat n - i - 1, i + 1
+			j = cnt
+			if tmp(j) < tmp(i) {
+				t = tmp(i) : tmp(i) = tmp(j) : tmp(j) = t
+			}
+		loop
+	loop
+
+	; 中央値
+	if (n \ 2) == 1 {
+		return tmp(n / 2)
+	}
+	return (tmp(n / 2 - 1) + tmp(n / 2)) / 2.0
+
+; --- パーセンタイル ---
+#deffunc stat_percentile array arr, int n_, double p_, \
+	local n, local tmp, local i, local j, local t, local k, local f, local result
+	n = n_ : if n <= 0 : n = length(arr)
+	if n == 0 : return 0.0
+
+	; double 配列にコピー
+	dimtype tmp, 3, n
+	repeat n
+		tmp(cnt) = 0.0 + arr(cnt)
+	loop
+
+	; ソート
+	repeat n - 1
+		i = cnt
+		repeat n - i - 1, i + 1
+			j = cnt
+			if tmp(j) < tmp(i) {
+				t = tmp(i) : tmp(i) = tmp(j) : tmp(j) = t
+			}
+		loop
+	loop
+
+	; 線形補間法
+	f = p_ / 100.0 * double(n - 1)
+	k = int(f)
+	if k >= n - 1 {
+		result = tmp(n - 1)
+	} else {
+		result = tmp(k) + (f - double(k)) * (tmp(k + 1) - tmp(k))
+	}
+	return result
+
+; --- 概要統計出力 ---
+#deffunc stat_describe array arr, int n_, local n
+	n = n_ : if n <= 0 : n = length(arr)
+	mes "count  = " + n
+	mes "sum    = " + stat_sum(arr, n)
+	mes "mean   = " + stat_mean(arr, n)
+	mes "stddev = " + stat_stddev(arr, n)
+	mes "min    = " + stat_min(arr, n)
+	stat_percentile arr, n, 25.0
+	mes "25%    = " + refdval
+	mes "median = " + stat_median(arr, n)
+	stat_percentile arr, n, 75.0
+	mes "75%    = " + refdval
+	mes "max    = " + stat_max(arr, n)
+	return
+
+#global
+
+#endif

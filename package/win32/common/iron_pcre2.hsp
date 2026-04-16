@@ -1,0 +1,69 @@
+;============================================================
+;   iron_pcre2.hsp — PCRE2 正規表現 高レベル API
+;
+;   hsppcre2.dll (PCRE2 10.44) をラップして
+;   使いやすい命令/関数を提供する。
+;   Perl/Python/Ruby 互換の高機能正規表現エンジン。
+;   UTF-8 対応。
+;
+;   API:
+;     pcre2_match pattern, text        全体マッチ判定 → stat (1/0)
+;     pcre2_search pattern, text       最初のマッチ検索 → refstr, stat (1/0)
+;     pcre2_replace pattern, text, rep 全置換 → refstr, stat (置換数)
+;     pcre2_count(pattern, text)       マッチ数を返す (関数)
+;     pcre2_find pattern, text         全マッチ列挙 → stat (件数)
+;     pcre2_get(index)                 pcre2_find 後に i 番目取得 (関数)
+;
+;   例:
+;     #include "iron_pcre2.hsp"
+;
+;     pcre2_search "\\d+", "abc123def456"
+;     mes "found: " + refstr           ; → "123"
+;
+;     ; 先読み・後読み (PCRE2 拡張)
+;     pcre2_search "(?<=@)\\w+", "user@example.com"
+;     mes refstr                        ; → "example"
+;============================================================
+
+#ifndef __iron_pcre2_hsp__
+#define __iron_pcre2_hsp__
+
+#include "hsppcre2.as"
+
+#module iron_pcre2
+
+#define PCRE2_BUF_SIZE 65536
+
+#deffunc pcre2_match str pattern, str text
+	pcre2_match_ex pattern, text
+	return stat
+
+#deffunc pcre2_search str pattern, str text, local buf
+	sdim buf, PCRE2_BUF_SIZE
+	pcre2_search_ex pattern, text, buf, PCRE2_BUF_SIZE
+	if stat == 1 {
+		return buf
+	}
+	return ""
+
+#deffunc pcre2_replace str pattern, str text, str rep, local buf
+	sdim buf, PCRE2_BUF_SIZE
+	pcre2_replace_ex pattern, text, rep, buf, PCRE2_BUF_SIZE
+	return buf
+
+#defcfunc pcre2_count str pattern, str text
+	pcre2_find_all pattern, text
+	return stat
+
+#deffunc pcre2_find str pattern, str text
+	pcre2_find_all pattern, text
+	return stat
+
+#defcfunc pcre2_get int index, local buf
+	sdim buf, PCRE2_BUF_SIZE
+	pcre2_find_get index, buf, PCRE2_BUF_SIZE
+	return buf
+
+#global
+
+#endif

@@ -25,6 +25,8 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **Allman ブレーススタイル** — `if` / `else` のブロック開始 `{` を次行に書く記法 (Allman / BSD スタイル) に対応。従来の同一行 `{` も従来通り動作。サンプル: [`package/win32/sample/basic/allman_brace.hsp`](package/win32/sample/basic/allman_brace.hsp)。
 - **環境変数・コマンドライン引数** — `getenv` / `setenv` / `delenv` / `hasenv` で環境変数を操作、`getcmdargc` / `getcmdarg` / `getcmdargs("--name", default)` / `getcmdargi("--name", default)` / `hascmdarg("--flag")` で Python の `sys.argv` + `argparse` 相当のコマンドライン引数パースを内蔵。`--name=value` / `--name value` 両形式対応。
 - **連想配列 (MAP 型)** — `dimmap map` で連想配列を作成し、`map("key") = value` で文字列キーによる読み書きが可能。内部は `std::unordered_map<std::string, std::string>`。`mapcount` / `hasmap` / `mapkey` 関数と `delmap` / `mapclear` 命令を追加。サンプル: [`package/win32/sample/basic/sample_map.hsp`](package/win32/sample/basic/sample_map.hsp)。
+- **統計関数 (`iron_stat.hsp`)** — 外部 DLL 不要の純 HSP 実装。`stat_mean` / `stat_median` / `stat_stddev` / `stat_variance` / `stat_min` / `stat_max` / `stat_sum` / `stat_range` / `stat_percentile` / `stat_describe` の 10 関数。int/double 配列対応。
+- **正規表現 2 エンジン** — `hspregex.dll` (C++11 std::regex, ECMAScript 互換) と `hsppcre2.dll` (PCRE2 10.44, Perl 互換, Unicode フル対応)。高レベルラッパー `iron_regex.hsp` / `iron_pcre2.hsp` で `regex_match` / `regex_search` / `regex_replace` / `regex_find` + `regex_get` が使える。32/64bit 両対応。
 
 ### 新規プラグイン
 

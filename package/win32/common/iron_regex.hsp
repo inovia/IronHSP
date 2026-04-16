@@ -1,0 +1,75 @@
+;============================================================
+;   iron_regex.hsp — 正規表現 高レベル API
+;
+;   hspregex.dll (C++11 std::regex) をラップして
+;   使いやすい命令/関数を提供する。
+;
+;   API:
+;     regex_match pattern, text      全体マッチ判定 → stat (1/0)
+;     regex_search pattern, text     最初のマッチ検索 → refstr, stat (1/0)
+;     regex_replace pattern, text, rep  全置換 → refstr, stat (置換数)
+;     regex_count(pattern, text)     マッチ数を返す (関数)
+;     regex_find pattern, text       全マッチ列挙 → stat (件数)
+;     regex_get(index)               regex_find 後に i 番目のマッチ取得 (関数)
+;
+;   例:
+;     #include "iron_regex.hsp"
+;
+;     regex_search "[0-9]+", "abc123def456"
+;     mes "found: " + refstr        ; → "123"
+;
+;     regex_replace "[aeiou]", "hello world", "*"
+;     mes refstr                     ; → "h*ll* w*rld"
+;
+;     n = regex_count("[0-9]+", "a1b2c3")
+;     mes "count = " + n             ; → 3
+;============================================================
+
+#ifndef __iron_regex_hsp__
+#define __iron_regex_hsp__
+
+#include "hspregex.as"
+
+#module iron_regex
+
+#define REGEX_BUF_SIZE 65536
+
+; --- 全体マッチ判定 ---
+#deffunc regex_match str pattern, str text
+	regex_match_ex pattern, text
+	return stat
+
+; --- 最初のマッチ検索 ---
+#deffunc regex_search str pattern, str text, local buf
+	sdim buf, REGEX_BUF_SIZE
+	regex_search_ex pattern, text, buf, REGEX_BUF_SIZE
+	if stat == 1 {
+		return buf
+	}
+	return ""
+
+; --- 全置換 ---
+#deffunc regex_replace str pattern, str text, str rep, local buf
+	sdim buf, REGEX_BUF_SIZE
+	regex_replace_ex pattern, text, rep, buf, REGEX_BUF_SIZE
+	return buf
+
+; --- マッチ数 ---
+#defcfunc regex_count str pattern, str text
+	regex_find_all pattern, text
+	return stat
+
+; --- 全マッチ列挙 ---
+#deffunc regex_find str pattern, str text
+	regex_find_all pattern, text
+	return stat
+
+; --- i 番目のマッチ取得 ---
+#defcfunc regex_get int index, local buf
+	sdim buf, REGEX_BUF_SIZE
+	regex_find_get index, buf, REGEX_BUF_SIZE
+	return buf
+
+#global
+
+#endif
