@@ -1,0 +1,283 @@
+;============================================================
+;   iron_rag.hsp — RAG (Retrieval-Augmented Generation) パイプライン
+;
+;   Embedding によるベクトル検索 + LLM 問い合わせを組み合わせた
+;   高レベル RAG モジュール。文書をチャンク分割→ベクトル化→
+;   類似検索→コンテキスト付き LLM 問い合わせの一連を自動化。
+;
+;   依存: iron_ai.hsp + iron_ai_embeddings.hsp + iron_json.hsp
+;
+;   API:
+;     rag_init max_docs
+;       RAG ストアを初期化。max_docs はチャンクの最大数。
+;
+;     rag_add_text "text", "metadata"
+;       テキストを追加 (自動チャンク分割)。
+;       metadata は検索結果の出典表示に使用。
+;
+;     rag_add_file "path"
+;       テキストファイルを読み込んで追加。
+;
+;     rag_build
+;       インデックス構築 (全チャンクの Embedding を計算)。
+;       stat: 200=成功
+;
+;     rag_query "question", var_answer, top_k
+;       質問に対し、関連チャンクを top_k 個検索して LLM に投げる。
+;       stat: 200=成功
+;
+;     rag_set_chunk_size chars
+;       チャンクサイズ (文字数) を設定。デフォルト 500。
+;
+;     rag_set_system_prompt "prompt"
+;       LLM に送るシステムプロンプトをカスタマイズ。
+;
+;     rag_count()
+;       登録済みチャンク数を返す。
+;
+;   使用例:
+;     #include "iron_rag.hsp"
+;
+;         iron_ai_set_endpoint "https://api.openai.com/v1"
+;         iron_ai_set_key      "sk-..."
+;         iron_ai_set_model    "gpt-4o-mini"
+;         iron_ai_emb_set_model "text-embedding-3-small"
+;
+;         rag_init 1000
+;         rag_add_file "manual.txt"
+;         rag_add_text "HSP3 は Windows 用スクリプト言語です。", "概要"
+;         rag_build
+;         if stat = 200 {
+;             rag_query "HSP3 とは何ですか？", answer, 3
+;             mes answer
+;         }
+;============================================================
+
+#ifndef __iron_rag_hsp__
+#define __iron_rag_hsp__
+
+#include "iron_ai.hsp"
+#include "iron_ai_embeddings.hsp"
+
+#module iron_rag
+
+;------------------------------------------------------------
+; rag_init max_docs
+;   ストアを初期化。max_docs はチャンクの最大収容数。
+;------------------------------------------------------------
+#deffunc rag_init int max_docs, local _max
+    _max = max_docs
+    if _max <= 0 : _max = 256
+
+    _rag_max = _max
+    _rag_count = 0
+    _rag_dim = 0
+    _rag_built = 0
+    _rag_chunk_size = 500
+
+    ; チャンクテキスト配列
+    sdim _rag_chunks, 4096, _max
+    ; メタデータ配列
+    sdim _rag_meta, 256, _max
+    ; ベクトル配列 (build 後に確保)
+    ddim _rag_vectors, 1
+
+    ; デフォルトシステムプロンプト
+    _rag_sys_prompt = "以下のコンテキスト情報を使って、ユーザの質問に正確に回答してください。コンテキストに含まれない情報については「情報が見つかりません」と答えてください。"
+    return
+
+;------------------------------------------------------------
+; rag_set_chunk_size chars
+;------------------------------------------------------------
+#deffunc rag_set_chunk_size int chars
+    if chars > 0 : _rag_chunk_size = chars
+    return
+
+;------------------------------------------------------------
+; rag_set_system_prompt "prompt"
+;------------------------------------------------------------
+#deffunc rag_set_system_prompt str prompt
+    _rag_sys_prompt = prompt
+    return
+
+;------------------------------------------------------------
+; rag_count() → 登録チャンク数
+;------------------------------------------------------------
+#defcfunc rag_count
+    return _rag_count
+
+;------------------------------------------------------------
+; 内部: テキストをチャンク分割して格納
+;------------------------------------------------------------
+#deffunc _rag_add_chunks str text, str meta, local _len, local _pos, local _chunk_len, local _chunk
+    _len = strlen(text)
+    _pos = 0
+    repeat
+        if _pos >= _len : break
+        if _rag_count >= _rag_max : break
+
+        _chunk_len = _rag_chunk_size
+        if _pos + _chunk_len > _len : _chunk_len = _len - _pos
+
+        ; チャンク切り出し
+        _chunk = strmid(text, _pos, _chunk_len)
+
+        ; 格納
+        _rag_chunks(_rag_count) = _chunk
+        _rag_meta(_rag_count) = meta
+        _rag_count += 1
+
+        ; 次のチャンク位置 (オーバーラップ: chunk_size の 1/5)
+        _pos += _rag_chunk_size - (_rag_chunk_size / 5)
+    loop
+    return
+
+;------------------------------------------------------------
+; rag_add_text "text", "metadata"
+;------------------------------------------------------------
+#deffunc rag_add_text str text, str meta
+    _rag_built = 0
+    _rag_add_chunks text, meta
+    return
+
+;------------------------------------------------------------
+; rag_add_file "path"
+;   テキストファイルを読み込んで追加。
+;------------------------------------------------------------
+#deffunc rag_add_file str path, local _buf, local _sz, local _fname
+    exist path
+    if strsize < 0 : return -1
+    _sz = strsize
+    sdim _buf, _sz + 16
+    bload path, _buf, _sz
+
+    _fname = getpath(path, 8)
+    _rag_built = 0
+    _rag_add_chunks _buf, _fname
+    return 0
+
+;------------------------------------------------------------
+; rag_build
+;   全チャンクの Embedding を計算してインデックスを構築。
+;   stat: 200=成功
+;------------------------------------------------------------
+#deffunc rag_build local _i, local _vec, local _dim, local _j
+    if _rag_count = 0 : return -1
+
+    ; 最初のチャンクで次元数を確認
+    iron_ai_embed _rag_chunks(0), _vec, _dim
+    if stat ! 200 : return stat
+    _rag_dim = _dim
+
+    ; ベクトル配列を確保
+    ddim _rag_vectors, _rag_count * _rag_dim
+
+    ; 最初のベクトルをコピー
+    repeat _rag_dim
+        _rag_vectors(cnt) = _vec(cnt)
+    loop
+
+    ; 残りのチャンクをベクトル化
+    _i = 1
+    repeat _rag_count - 1
+        iron_ai_embed _rag_chunks(_i), _vec, _dim
+        if stat ! 200 : return stat
+        repeat _rag_dim
+            _rag_vectors(_i * _rag_dim + cnt) = _vec(cnt)
+        loop
+        _i += 1
+    loop
+
+    _rag_built = 1
+    return 200
+
+;------------------------------------------------------------
+; rag_query "question", var_answer, top_k
+;   質問に類似するチャンクを検索して LLM に投げる。
+;   stat: 200=成功
+;------------------------------------------------------------
+#deffunc rag_query str question, var answer, int top_k, local _qvec, local _qdim, local _k, local _i, local _j, local _sim, local _chunk_vec, local _context, local _best_idx, local _best_sim, local _used, local _prev_sys
+    sdim answer, 4096
+    answer = ""
+
+    if _rag_built = 0 : return -1
+
+    _k = top_k
+    if _k <= 0 : _k = 3
+    if _k > _rag_count : _k = _rag_count
+
+    ; 質問をベクトル化
+    iron_ai_embed question, _qvec, _qdim
+    if stat ! 200 : return stat
+    if _qdim ! _rag_dim : return -2
+
+    ; top_k 検索 (単純な線形探索)
+    dim _used, _rag_count
+    dim _best_idx, _k
+    ddim _best_sim, _k
+
+    ; チャンクベクトル用一時配列
+    ddim _chunk_vec, _rag_dim
+
+    repeat _k
+        _best_idx(cnt) = -1
+        _best_sim(cnt) = -2.0
+    loop
+
+    repeat _k
+        _j = cnt
+        _best_sim(_j) = -2.0
+        _best_idx(_j) = -1
+
+        repeat _rag_count
+            _i = cnt
+            if _used(_i) = 1 : continue
+
+            ; チャンク _i のベクトルを一時配列にコピー
+            repeat _rag_dim
+                _chunk_vec(cnt) = _rag_vectors(_i * _rag_dim + cnt)
+            loop
+            _sim = iron_ai_emb_cosine(_qvec, _chunk_vec, _rag_dim)
+
+            if _sim > _best_sim(_j) {
+                _best_sim(_j) = _sim
+                _best_idx(_j) = _i
+            }
+        loop
+
+        if _best_idx(_j) >= 0 : _used(_best_idx(_j)) = 1
+    loop
+
+    ; コンテキスト構築
+    sdim _context, 65536
+    _context = ""
+    repeat _k
+        if _best_idx(cnt) < 0 : continue
+        _i = _best_idx(cnt)
+        _context += "---\n[出典: " + _rag_meta(_i) + "]\n"
+        _context += _rag_chunks(_i) + "\n"
+    loop
+
+    ; LLM に問い合わせ (system prompt を一時差し替え)
+    _prev_sys = _ai_system@iron_ai
+    iron_ai_set_system _rag_sys_prompt + "\n\n" + _context
+    iron_ai_history_clear
+    iron_ai_chat question, answer
+    _j = stat
+
+    ; system prompt を復元
+    iron_ai_set_system _prev_sys
+    return _j
+
+#global
+
+    ; 初期化
+    _rag_max@iron_rag = 0
+    _rag_count@iron_rag = 0
+    _rag_dim@iron_rag = 0
+    _rag_built@iron_rag = 0
+    _rag_chunk_size@iron_rag = 500
+    sdim _rag_sys_prompt@iron_rag, 4096
+    _rag_sys_prompt@iron_rag = ""
+
+#endif

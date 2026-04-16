@@ -1,0 +1,2 @@
+	#include "iron_ai_vision.hsp"
+	mes "ai_vision sample (requires API key)"

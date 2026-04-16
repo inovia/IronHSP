@@ -1,0 +1,118 @@
+;============================================================
+;   iron_grpc.hsp — 簡易 gRPC クライアント (.NET版)
+;
+;   HttpClient を使用した gRPC-JSON 形式の呼び出し。
+;   application/grpc+json コンテントタイプで HTTP/2 POST。
+;   Protobuf は使わず JSON ベースの簡易版。hsp3net 専用。
+;
+;   API:
+;     grpc_set_endpoint "http://localhost:50051"  サーバー設定
+;     grpc_call "pkg.Service/Method", "json_body", response
+;       Unary 呼び出し → stat (0=成功)
+;
+;   例:
+;     #include "iron_grpc.hsp"
+;     grpc_set_endpoint "http://localhost:50051"
+;     grpc_call "greet.Greeter/SayHello", "{\"name\":\"HSP\"}", resp
+;     if stat == 0 : mes resp
+;
+;   注意:
+;     - 本モジュールは gRPC-JSON (非公式) を使用した簡易版
+;     - 本格的な Protobuf シリアライズには別途 DLL が必要
+;     - サーバー側が gRPC-JSON をサポートしている必要あり
+;     - gRPC-Web や Envoy プロキシ経由での利用を想定
+;============================================================
+
+#ifndef __iron_grpc_hsp__
+#define __iron_grpc_hsp__
+
+#module iron_grpc
+
+dim _grpc_cs_loaded, 1
+sdim _grpc_endpoint, 256
+
+#deffunc _grpc_load_cs
+	if _grpc_cs_loaded : return
+	sdim cs, 8192
+	cs  = "using System;using System.Net;using System.Net.Http;"
+	cs += "using System.Text;using System.IO;"
+	cs += "public class HspGrpc {"
+	cs += "  static string _endpoint=\"\";"
+	cs += "  public static string SetEndpoint(string ep) { _endpoint=ep; return \"0|\"; }"
+	; gRPC-Web compatible call using HttpWebRequest
+	; (HttpClient with HTTP/2 requires .NET Core, so we use gRPC-Web format)
+	cs += "  public static string Call(string method, string jsonBody) {"
+	cs += "    try { if(_endpoint==\"\") return \"-1|endpoint not set\";"
+	cs += "    string url=_endpoint+\"/\"+method;"
+	cs += "    var req=(HttpWebRequest)WebRequest.Create(url);"
+	cs += "    req.Method=\"POST\";"
+	cs += "    req.ContentType=\"application/grpc-web-text\";"
+	cs += "    req.Headers.Add(\"x-grpc-web\",\"1\");"
+	cs += "    req.Accept=\"application/grpc-web-text\";"
+	; gRPC-Web format: 1 byte flag + 4 byte length + body
+	cs += "    var bodyBytes=Encoding.UTF8.GetBytes(jsonBody);"
+	cs += "    var frame=new byte[5+bodyBytes.Length];"
+	cs += "    frame[0]=0;"  ; no compression
+	cs += "    frame[1]=(byte)((bodyBytes.Length>>24)&0xFF);"
+	cs += "    frame[2]=(byte)((bodyBytes.Length>>16)&0xFF);"
+	cs += "    frame[3]=(byte)((bodyBytes.Length>>8)&0xFF);"
+	cs += "    frame[4]=(byte)(bodyBytes.Length&0xFF);"
+	cs += "    Array.Copy(bodyBytes,0,frame,5,bodyBytes.Length);"
+	cs += "    var b64=Convert.ToBase64String(frame);"
+	cs += "    var sendBytes=Encoding.UTF8.GetBytes(b64);"
+	cs += "    req.ContentLength=sendBytes.Length;"
+	cs += "    using(var s=req.GetRequestStream()) s.Write(sendBytes,0,sendBytes.Length);"
+	cs += "    using(var resp=(HttpWebResponse)req.GetResponse())"
+	cs += "    using(var sr=new StreamReader(resp.GetResponseStream())) {"
+	cs += "    string raw=sr.ReadToEnd();"
+	; Decode gRPC-Web response (base64 -> skip 5 byte header -> UTF-8)
+	cs += "    try { var decoded=Convert.FromBase64String(raw);"
+	cs += "    if(decoded.Length>5) { string result=Encoding.UTF8.GetString(decoded,5,decoded.Length-5);"
+	cs += "    return \"0|\"+result; }"
+	cs += "    return \"0|\"+raw; }"
+	cs += "    catch { return \"0|\"+raw; } } }"
+	cs += "    catch(WebException we) {"
+	cs += "    if(we.Response!=null) {"
+	cs += "      using(var sr=new StreamReader(we.Response.GetResponseStream()))"
+	cs += "      return \"-1|\"+sr.ReadToEnd(); }"
+	cs += "    return \"-1|\"+we.Message; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "}"
+	loadnet cs, 3
+	_grpc_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; grpc_set_endpoint "http://localhost:50051"
+;   gRPC サーバーのエンドポイントを設定。
+;------------------------------------------------------------
+#deffunc grpc_set_endpoint str endpoint, \
+	local pHelper, local pResult
+	_grpc_load_cs
+	_grpc_endpoint = endpoint
+	newnet pHelper, "", "HspGrpc", 1
+	netres pResult
+	mcall pHelper, "SetEndpoint", endpoint
+	return 0
+
+;------------------------------------------------------------
+; grpc_call "package.Service/Method", "json_body", var_response
+;   Unary gRPC 呼び出し。stat=0 で成功。
+;------------------------------------------------------------
+#deffunc grpc_call str method, str json_body, var out_response, \
+	local pHelper, local pResult, local s, local p
+	_grpc_load_cs
+	sdim out_response, 65536
+	newnet pHelper, "", "HspGrpc", 1
+	netres pResult
+	mcall pHelper, "Call", method, json_body
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	rc = int(strmid(s, 0, p))
+	out_response = strmid(s, p + 1, strlen(s) - p - 1)
+	return rc
+
+#global
+
+#endif

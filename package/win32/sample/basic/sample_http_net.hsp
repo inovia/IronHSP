@@ -1,0 +1,5 @@
+	; #include "hsp3_net_64.as"
+	#include "iron_http_net.hsp"
+	httpn_get "https://httpbin.org/get", body
+	mes "status=" + stat
+	mes body

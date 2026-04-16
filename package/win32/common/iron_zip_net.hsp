@@ -1,0 +1,182 @@
+;============================================================
+;   iron_zip_net.hsp — ZIP 圧縮・展開 (.NET版)
+;
+;   System.IO.Compression.ZipFile / ZipArchive を使用。
+;   ディレクトリ圧縮、展開、エントリ一覧、単体抽出に対応。
+;   hsp3net 専用。
+;
+;   API:
+;     zipn_create "dir", "out.zip"                  ディレクトリを圧縮
+;     zipn_extract "in.zip", "outdir"               全展開
+;     zipn_list "in.zip", var_names, var_sizes       エントリ一覧 (stat=件数)
+;     zipn_add "archive.zip", "file"                ファイル追加
+;     zipn_extract_one "in.zip", "entry", "outdir"  単体抽出
+;============================================================
+#ifndef __iron_zip_net_hsp__
+#define __iron_zip_net_hsp__
+
+#module iron_zip_net
+
+dim _zipn_cs_loaded, 1
+
+#deffunc _zipn_load_cs
+	if _zipn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.IO.Compression;
+using System.Text;
+
+public class HspZipNet {
+    public static string Create(string dir, string zipPath) {
+        try {
+            if (File.Exists(zipPath)) File.Delete(zipPath);
+            ZipFile.CreateFromDirectory(dir, zipPath, CompressionLevel.Optimal, false);
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string Extract(string zipPath, string outDir) {
+        try {
+            if (!Directory.Exists(outDir)) Directory.CreateDirectory(outDir);
+            ZipFile.ExtractToDirectory(zipPath, outDir);
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string List(string zipPath) {
+        try {
+            var sb = new StringBuilder();
+            using (var archive = ZipFile.OpenRead(zipPath)) {
+                int count = 0;
+                foreach (var entry in archive.Entries) {
+                    if (count > 0) sb.Append("\n");
+                    sb.Append(entry.FullName + "\t" + entry.Length);
+                    count++;
+                }
+                return count + "\n" + sb.ToString();
+            }
+        } catch (Exception e) { return "-1\nERROR:" + e.Message; }
+    }
+
+    public static string Add(string zipPath, string filePath) {
+        try {
+            using (var archive = ZipFile.Open(zipPath, ZipArchiveMode.Update)) {
+                string entryName = Path.GetFileName(filePath);
+                archive.CreateEntryFromFile(filePath, entryName, CompressionLevel.Optimal);
+            }
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string ExtractOne(string zipPath, string entryName, string outDir) {
+        try {
+            if (!Directory.Exists(outDir)) Directory.CreateDirectory(outDir);
+            using (var archive = ZipFile.OpenRead(zipPath)) {
+                foreach (var entry in archive.Entries) {
+                    if (entry.FullName == entryName) {
+                        string destPath = Path.Combine(outDir, entry.Name);
+                        entry.ExtractToFile(destPath, true);
+                        return "ok";
+                    }
+                }
+            }
+            return "ERROR:entry not found";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+}
+"}
+	loadnet _cs, 3, "System.IO.Compression.dll\nSystem.IO.Compression.FileSystem.dll"
+	_zipn_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; zipn_create "dir", "out.zip" — ディレクトリを圧縮
+;------------------------------------------------------------
+#deffunc zipn_create str dir, str zippath, \
+	local _h, local _r
+	_zipn_load_cs
+	newnet _h, "HspZipNet"
+	mcall _h, "Create", _r, dir, zippath
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; zipn_extract "in.zip", "outdir" — 全展開
+;------------------------------------------------------------
+#deffunc zipn_extract str zippath, str outdir, \
+	local _h, local _r
+	_zipn_load_cs
+	newnet _h, "HspZipNet"
+	mcall _h, "Extract", _r, zippath, outdir
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; zipn_list "in.zip", var_names, var_sizes — 一覧 (stat=件数)
+;------------------------------------------------------------
+#deffunc zipn_list str zippath, var v_names, var v_sizes, \
+	local _h, local _r, local _s, local _nl, local _i, local _line, local _tab, local _cnt
+	_zipn_load_cs
+	newnet _h, "HspZipNet"
+	mcall _h, "List", _r, zippath
+	_s = "" + _r
+	; 1行目が件数
+	_nl = instr(_s, 0, "\n")
+	if _nl < 0 : return 0
+	_cnt = int(strmid(_s, 0, _nl))
+	if _cnt < 0 : return 0
+	; 残りを名前とサイズに分離
+	sdim _names_buf, 4096
+	sdim _sizes_buf, 4096
+	_s = strmid(_s, _nl + 1, strlen(_s) - _nl - 1)
+	_names_buf = ""
+	_sizes_buf = ""
+	repeat _cnt
+		_nl = instr(_s, 0, "\n")
+		if _nl < 0 : _nl = strlen(_s)
+		_line = strmid(_s, 0, _nl)
+		_tab = instr(_line, 0, "\t")
+		if _tab >= 0 {
+			if cnt > 0 {
+				_names_buf += "\n"
+				_sizes_buf += "\n"
+			}
+			_names_buf += strmid(_line, 0, _tab)
+			_sizes_buf += strmid(_line, _tab + 1, strlen(_line) - _tab - 1)
+		}
+		if _nl < strlen(_s) {
+			_s = strmid(_s, _nl + 1, strlen(_s) - _nl - 1)
+		} else {
+			_s = ""
+		}
+	loop
+	v_names = _names_buf
+	v_sizes = _sizes_buf
+	return _cnt
+
+;------------------------------------------------------------
+; zipn_add "archive.zip", "file" — ファイル追加
+;------------------------------------------------------------
+#deffunc zipn_add str zippath, str filepath, \
+	local _h, local _r
+	_zipn_load_cs
+	newnet _h, "HspZipNet"
+	mcall _h, "Add", _r, zippath, filepath
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; zipn_extract_one "in.zip", "entry", "outdir" — 単体抽出
+;------------------------------------------------------------
+#deffunc zipn_extract_one str zippath, str entryname, str outdir, \
+	local _h, local _r
+	_zipn_load_cs
+	newnet _h, "HspZipNet"
+	mcall _h, "ExtractOne", _r, zippath, entryname, outdir
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+#global
+#endif

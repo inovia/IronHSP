@@ -1,0 +1,94 @@
+;============================================================
+;   iron_ping.hsp — ICMP Ping (.NET版)
+;
+;   System.Net.NetworkInformation.Ping を使用。
+;   hsp3net 専用。
+;
+;   API:
+;     ping_send "host", timeout_ms, time_ms     Ping → stat (0=成功)
+;     ping_send_count "host", count, timeout_ms, results
+;       複数回 Ping → results に改行区切り応答時間(ms)
+;
+;   例:
+;     #include "iron_ping.hsp"
+;     ping_send "8.8.8.8", 3000, t
+;     if stat == 0 : mes "応答時間: " + t + " ms"
+;
+;     ping_send_count "8.8.8.8", 4, 3000, results
+;     mes results
+;============================================================
+
+#ifndef __iron_ping_hsp__
+#define __iron_ping_hsp__
+
+#module iron_ping
+
+dim _ping_cs_loaded, 1
+
+#deffunc _ping_load_cs
+	if _ping_cs_loaded : return
+	sdim cs, 4096
+	cs  = "using System;using System.Net.NetworkInformation;using System.Text;"
+	cs += "public class HspPing {"
+	cs += "  public static string Send(string host, int timeout) {"
+	cs += "    try { var p=new Ping();"
+	cs += "    var r=p.Send(host, timeout);"
+	cs += "    if(r.Status==IPStatus.Success) return \"0|\"+r.RoundtripTime;"
+	cs += "    return \"-1|\"+r.Status.ToString(); }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "  public static string SendCount(string host, int count, int timeout) {"
+	cs += "    try { var p=new Ping(); var sb=new StringBuilder();"
+	cs += "    for(int i=0;i<count;i++) {"
+	cs += "      var r=p.Send(host, timeout);"
+	cs += "      if(i>0) sb.Append(\"\\n\");"
+	cs += "      if(r.Status==IPStatus.Success) sb.Append(r.RoundtripTime);"
+	cs += "      else sb.Append(\"-1\"); }"
+	cs += "    return \"0|\"+sb.ToString(); }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "}"
+	loadnet cs, 3
+	_ping_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; ping_send "host", timeout_ms, var_time_ms
+;   ICMP Ping 送信。stat=0 で成功、time_ms に応答時間。
+;------------------------------------------------------------
+#deffunc ping_send str host, int timeout_ms, var out_time, \
+	local pHelper, local pResult, local s, local p
+	_ping_load_cs
+	out_time = 0
+	newnet pHelper, "", "HspPing", 1
+	netres pResult
+	mcall pHelper, "Send", host, timeout_ms
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	rc = int(strmid(s, 0, p))
+	if rc == 0 {
+		out_time = int(strmid(s, p + 1, strlen(s) - p - 1))
+	}
+	return rc
+
+;------------------------------------------------------------
+; ping_send_count "host", count, timeout_ms, var_results
+;   複数回 Ping。results に改行区切りの応答時間 (ms)。
+;   失敗した回は "-1"。
+;------------------------------------------------------------
+#deffunc ping_send_count str host, int count, int timeout_ms, var out_results, \
+	local pHelper, local pResult, local s, local p
+	_ping_load_cs
+	sdim out_results, 4096
+	newnet pHelper, "", "HspPing", 1
+	netres pResult
+	mcall pHelper, "SendCount", host, count, timeout_ms
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	rc = int(strmid(s, 0, p))
+	out_results = strmid(s, p + 1, strlen(s) - p - 1)
+	return rc
+
+#global
+
+#endif

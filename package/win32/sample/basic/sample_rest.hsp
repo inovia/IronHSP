@@ -1,0 +1,5 @@
+	#include "iron_rest.hsp"
+	rest_set_base "https://jsonplaceholder.typicode.com"
+	rest_get "/posts/1", body
+	mes "status=" + stat
+	mes body

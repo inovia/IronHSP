@@ -415,6 +415,72 @@
     json_release _hid
     return 0
 
+;============================================================
+; sampling/create — サーバ側の LLM にサンプリングを依頼
+;   MCP 仕様の sampling/createMessage を送信し、
+;   サーバ側が LLM を呼んで生成したテキストを取得する。
+;============================================================
+#deffunc iron_mcp_sampling str prompt, var out_text, \
+        local _req, local _resp, local _id, local _hid, local _p_esc
+    _id = _mcp_next_id : _mcp_next_id++
+    _mcp_json_escape prompt, _p_esc
+    sdim _req, strlen(_p_esc) + 1024
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"sampling/createMessage\","
+    _req += "\"params\":{\"messages\":[{\"role\":\"user\",\"content\":{\"type\":\"text\",\"text\":\"" + _p_esc + "\"}}],"
+    _req += "\"maxTokens\":4096}}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 : out_text = "" : return stat
+
+    _hid = json_load(_resp)
+    if _hid < 0 {
+        out_text = _resp
+        return -1
+    }
+    out_text = json_str(_hid, "result.content.text")
+    if strlen(out_text) = 0 : out_text = json_str(_hid, "result.model")
+    json_release _hid
+    return 0
+
+;============================================================
+; logging — サーバにログメッセージを送信
+;   MCP の notifications/message で任意のログを送信する。
+;   level: "debug" / "info" / "warning" / "error" / "critical"
+;============================================================
+#deffunc iron_mcp_log str level, str message, \
+        local _req, local _lv_esc, local _msg_esc
+    _mcp_json_escape level, _lv_esc
+    _mcp_json_escape message, _msg_esc
+    sdim _req, strlen(_msg_esc) + 512
+    ; notification (no id, no response expected)
+    _req = "{\"jsonrpc\":\"2.0\",\"method\":\"notifications/message\","
+    _req += "\"params\":{\"level\":\"" + _lv_esc + "\",\"logger\":\"IronHSP\","
+    _req += "\"data\":\"" + _msg_esc + "\"}}"
+    if _mcp_transport = 1 {
+        if _mcp_handle >= 0 {
+            _mcp_proc_send _mcp_handle, _req, strlen(_req)
+        }
+    }
+    if _mcp_transport = 2 {
+        sdim _resp, 4096
+        http_post _mcp_http_url, _req, _resp, "application/json"
+    }
+    return 0
+
+;============================================================
+; iron_mcp_set_log_level — サーバのログレベルを設定
+;   MCP の logging/setLevel で最小ログレベルを指定する。
+;============================================================
+#deffunc iron_mcp_set_log_level str level, \
+        local _req, local _resp, local _id, local _lv_esc
+    _id = _mcp_next_id : _mcp_next_id++
+    _mcp_json_escape level, _lv_esc
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"logging/setLevel\","
+    _req += "\"params\":{\"level\":\"" + _lv_esc + "\"}}"
+    sdim _resp, 4096
+    _mcp_xchg _req, _resp
+    return 0
+
 ;------------------------------------------------------------
 ; iron_mcp_close
 ;------------------------------------------------------------

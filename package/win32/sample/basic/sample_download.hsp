@@ -1,0 +1,3 @@
+	#include "iron_download.hsp"
+	dl_start "https://httpbin.org/image/png", "test_dl.png"
+	mes "download status=" + stat

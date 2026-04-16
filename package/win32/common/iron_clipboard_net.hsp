@@ -1,0 +1,227 @@
+;============================================================
+;   iron_clipboard_net.hsp — クリップボード操作 (.NET版)
+;
+;   System.Windows.Forms.Clipboard を使用。
+;   テキスト、画像、ファイルドロップリストの読み書きに対応。
+;   hsp3net 専用。
+;
+;   API:
+;     clipn_set_text "text"           テキスト設定
+;     clipn_get_text var_text         テキスト取得
+;     clipn_has_text()                テキスト有無チェック (1/0)
+;     clipn_set_image "filepath"      画像ファイルからクリップボードに設定
+;     clipn_save_image "filepath"     クリップボード画像をファイルに保存
+;     clipn_has_image()               画像有無チェック (1/0)
+;     clipn_get_files var_list        ファイルドロップリスト取得 (stat=件数)
+;     clipn_clear                     クリップボードをクリア
+;============================================================
+#ifndef __iron_clipboard_net_hsp__
+#define __iron_clipboard_net_hsp__
+
+#module iron_clipboard_net
+
+dim _clipn_cs_loaded, 1
+
+#deffunc _clipn_load_cs
+	if _clipn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
+using System.Collections.Specialized;
+using System.Threading;
+
+public class HspClipNet {
+
+    // STA スレッドでクリップボード操作を実行するヘルパー
+    static T RunSta<T>(Func<T> func) {
+        T result = default(T);
+        Exception ex = null;
+        var thread = new Thread(() => {
+            try { result = func(); }
+            catch (Exception e) { ex = e; }
+        });
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+        thread.Join();
+        if (ex != null) throw ex;
+        return result;
+    }
+
+    public static string SetText(string text) {
+        try {
+            RunSta(() => { Clipboard.SetText(text); return 0; });
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string GetText() {
+        try {
+            return RunSta(() => {
+                if (Clipboard.ContainsText()) return Clipboard.GetText();
+                return "";
+            });
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static int HasText() {
+        try { return RunSta(() => Clipboard.ContainsText() ? 1 : 0); }
+        catch { return 0; }
+    }
+
+    public static string SetImage(string filepath) {
+        try {
+            RunSta(() => {
+                using (var bmp = new Bitmap(filepath)) {
+                    Clipboard.SetImage(bmp);
+                }
+                return 0;
+            });
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string SaveImage(string filepath) {
+        try {
+            return RunSta(() => {
+                if (!Clipboard.ContainsImage()) return "ERROR:no image";
+                var img = Clipboard.GetImage();
+                string ext = Path.GetExtension(filepath).ToLower();
+                ImageFormat fmt = ImageFormat.Png;
+                if (ext == ".jpg" || ext == ".jpeg") fmt = ImageFormat.Jpeg;
+                else if (ext == ".bmp") fmt = ImageFormat.Bmp;
+                else if (ext == ".gif") fmt = ImageFormat.Gif;
+                img.Save(filepath, fmt);
+                img.Dispose();
+                return "ok";
+            });
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static int HasImage() {
+        try { return RunSta(() => Clipboard.ContainsImage() ? 1 : 0); }
+        catch { return 0; }
+    }
+
+    public static string GetFiles() {
+        try {
+            return RunSta(() => {
+                if (!Clipboard.ContainsFileDropList()) return "0\t";
+                var files = Clipboard.GetFileDropList();
+                string[] arr = new string[files.Count];
+                files.CopyTo(arr, 0);
+                return files.Count + "\t" + string.Join("\n", arr);
+            });
+        } catch (Exception e) { return "0\tERROR:" + e.Message; }
+    }
+
+    public static string Clear() {
+        try {
+            RunSta(() => { Clipboard.Clear(); return 0; });
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+}
+"}
+	loadnet _cs, 3, "System.Windows.Forms.dll\nSystem.Drawing.dll"
+	_clipn_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; clipn_set_text "text" — テキスト設定
+;------------------------------------------------------------
+#deffunc clipn_set_text str text, \
+	local _h, local _r
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "SetText", _r, text
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; clipn_get_text var_text — テキスト取得
+;------------------------------------------------------------
+#deffunc clipn_get_text var v_text, \
+	local _h, local _r
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "GetText", _r
+	v_text = "" + _r
+	if instr(v_text, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; clipn_has_text() — テキスト有無チェック
+;------------------------------------------------------------
+#defcfunc clipn_has_text \
+	local _h, local _r
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "HasText", _r
+	return _r
+
+;------------------------------------------------------------
+; clipn_set_image "filepath" — 画像をクリップボードに設定
+;------------------------------------------------------------
+#deffunc clipn_set_image str filepath, \
+	local _h, local _r
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "SetImage", _r, filepath
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; clipn_save_image "filepath" — クリップボード画像をファイルに保存
+;------------------------------------------------------------
+#deffunc clipn_save_image str filepath, \
+	local _h, local _r
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "SaveImage", _r, filepath
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; clipn_has_image() — 画像有無チェック
+;------------------------------------------------------------
+#defcfunc clipn_has_image \
+	local _h, local _r
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "HasImage", _r
+	return _r
+
+;------------------------------------------------------------
+; clipn_get_files var_list — ファイルドロップリスト取得 (stat=件数)
+;------------------------------------------------------------
+#deffunc clipn_get_files var v_list, \
+	local _h, local _r, local _s, local _tab
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "GetFiles", _r
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 {
+		v_list = _s
+		return 0
+	}
+	v_list = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; clipn_clear — クリップボードをクリア
+;------------------------------------------------------------
+#deffunc clipn_clear \
+	local _h, local _r
+	_clipn_load_cs
+	newnet _h, "HspClipNet"
+	mcall _h, "Clear", _r
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+#global
+#endif

@@ -1,0 +1,3 @@
+	#include "iron_ping.hsp"
+	ping_send "google.com", 3000, t
+	if stat = 0 : mes "ping OK: " + t + " ms"

@@ -1,0 +1,6 @@
+	; #include "hsp3_net_64.as"
+	#include "iron_image_net.hsp"
+	imgn_screenshot h
+	imgn_save h, "screenshot.png"
+	imgn_close h
+	mes "saved screenshot.png"

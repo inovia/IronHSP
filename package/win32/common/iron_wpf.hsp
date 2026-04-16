@@ -1,0 +1,236 @@
+;============================================================
+;   iron_wpf.hsp — WPF 基本サポート (.NET版)
+;
+;   PresentationFramework / WindowsBase を使用して
+;   XAML ベースの WPF ウィンドウを HSP から操作する。
+;   hsp3net 専用。
+;
+;   API:
+;     wpf_init                          WPF アセンブリ読込
+;     wpf_load_xaml "xaml", var_handle   XAML 文字列からウィンドウ生成
+;     wpf_show handle                   ウィンドウ表示
+;     wpf_find handle, "name", var_elem 要素を x:Name で検索
+;     wpf_set_text element, "text"      テキストプロパティ設定
+;     wpf_get_text element              テキスト取得 (refstr)
+;     wpf_close handle                  ウィンドウを閉じる
+;
+;   注意: WPF は STA スレッドが必要。hsp3net GUI で使用すること。
+;============================================================
+#ifndef __iron_wpf_hsp__
+#define __iron_wpf_hsp__
+
+#module iron_wpf
+
+dim _wpf_cs_loaded, 1
+
+#deffunc _wpf_load_cs
+	if _wpf_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.Xml;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Collections.Generic;
+using System.Threading;
+
+public class HspWpfNet {
+    static Dictionary<int, Window> windows = new Dictionary<int, Window>();
+    static Dictionary<int, object> elements = new Dictionary<int, object>();
+    static int nextWinId = 1;
+    static int nextElemId = 10000;
+    static bool appCreated = false;
+
+    public static string Init() {
+        try {
+            if (!appCreated) {
+                if (Application.Current == null) {
+                    new Application();
+                    Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                }
+                appCreated = true;
+            }
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string LoadXaml(string xaml) {
+        try {
+            Init();
+            object root;
+            using (var sr = new StringReader(xaml))
+            using (var xr = XmlReader.Create(sr)) {
+                root = XamlReader.Load(xr);
+            }
+            if (root is Window win) {
+                int id = nextWinId++;
+                windows[id] = win;
+                return id.ToString();
+            }
+            // Content をウィンドウに包む
+            var wrapper = new Window();
+            wrapper.Content = root;
+            wrapper.SizeToContent = SizeToContent.WidthAndHeight;
+            int wid = nextWinId++;
+            windows[wid] = wrapper;
+            return wid.ToString();
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string Show(int handle) {
+        try {
+            if (!windows.ContainsKey(handle)) return "ERROR:invalid handle";
+            windows[handle].Show();
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string Find(int handle, string name) {
+        try {
+            if (!windows.ContainsKey(handle)) return "-1\tinvalid handle";
+            var win = windows[handle];
+            var elem = win.FindName(name);
+            if (elem == null) return "-1\tnot found";
+            int eid = nextElemId++;
+            elements[eid] = elem;
+            return eid.ToString();
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string SetText(int elemId, string text) {
+        try {
+            if (!elements.ContainsKey(elemId)) return "ERROR:invalid element";
+            var elem = elements[elemId];
+            if (elem is TextBox tb) { tb.Text = text; return "ok"; }
+            if (elem is TextBlock tbl) { tbl.Text = text; return "ok"; }
+            if (elem is Label lbl) { lbl.Content = text; return "ok"; }
+            if (elem is Button btn) { btn.Content = text; return "ok"; }
+            // 汎用フォールバック
+            var prop = elem.GetType().GetProperty("Text");
+            if (prop != null) { prop.SetValue(elem, text); return "ok"; }
+            var cprop = elem.GetType().GetProperty("Content");
+            if (cprop != null) { cprop.SetValue(elem, text); return "ok"; }
+            return "ERROR:no text property";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string GetText(int elemId) {
+        try {
+            if (!elements.ContainsKey(elemId)) return "";
+            var elem = elements[elemId];
+            if (elem is TextBox tb) return tb.Text;
+            if (elem is TextBlock tbl) return tbl.Text;
+            if (elem is Label lbl) return lbl.Content?.ToString() ?? "";
+            if (elem is Button btn) return btn.Content?.ToString() ?? "";
+            var prop = elem.GetType().GetProperty("Text");
+            if (prop != null) return prop.GetValue(elem)?.ToString() ?? "";
+            var cprop = elem.GetType().GetProperty("Content");
+            if (cprop != null) return cprop.GetValue(elem)?.ToString() ?? "";
+            return "";
+        } catch { return ""; }
+    }
+
+    public static string Close(int handle) {
+        try {
+            if (windows.ContainsKey(handle)) {
+                windows[handle].Close();
+                windows.Remove(handle);
+            }
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+}
+"}
+	loadnet _cs, 3, "PresentationFramework.dll\nPresentationCore.dll\nWindowsBase.dll\nSystem.Xaml.dll"
+	_wpf_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; wpf_init — WPF アセンブリ読込
+;------------------------------------------------------------
+#deffunc wpf_init \
+	local _h, local _r
+	_wpf_load_cs
+	newnet _h, "HspWpfNet"
+	mcall _h, "Init", _r
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; wpf_load_xaml "xaml", var_handle — XAML からウィンドウ生成
+;------------------------------------------------------------
+#deffunc wpf_load_xaml str xaml, var v_handle, \
+	local _h, local _r, local _s
+	_wpf_load_cs
+	newnet _h, "HspWpfNet"
+	mcall _h, "LoadXaml", _r, xaml
+	_s = "" + _r
+	if instr(_s, 0, "\t") >= 0 {
+		v_handle = -1
+		return 1
+	}
+	v_handle = int(_s)
+	return 0
+
+;------------------------------------------------------------
+; wpf_show handle — ウィンドウ表示
+;------------------------------------------------------------
+#deffunc wpf_show int handle, \
+	local _h, local _r
+	_wpf_load_cs
+	newnet _h, "HspWpfNet"
+	mcall _h, "Show", _r, handle
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; wpf_find handle, "name", var_element — 要素検索
+;------------------------------------------------------------
+#deffunc wpf_find int handle, str name, var v_elem, \
+	local _h, local _r, local _s
+	_wpf_load_cs
+	newnet _h, "HspWpfNet"
+	mcall _h, "Find", _r, handle, name
+	_s = "" + _r
+	if instr(_s, 0, "\t") >= 0 {
+		v_elem = -1
+		return 1
+	}
+	v_elem = int(_s)
+	return 0
+
+;------------------------------------------------------------
+; wpf_set_text element, "text" — テキスト設定
+;------------------------------------------------------------
+#deffunc wpf_set_text int elem, str text, \
+	local _h, local _r
+	_wpf_load_cs
+	newnet _h, "HspWpfNet"
+	mcall _h, "SetText", _r, elem, text
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; wpf_get_text element — テキスト取得 (refstr に返る)
+;------------------------------------------------------------
+#deffunc wpf_get_text int elem, \
+	local _h, local _r
+	_wpf_load_cs
+	newnet _h, "HspWpfNet"
+	mcall _h, "GetText", _r, elem
+	return "" + _r
+
+;------------------------------------------------------------
+; wpf_close handle — ウィンドウを閉じる
+;------------------------------------------------------------
+#deffunc wpf_close int handle, \
+	local _h, local _r
+	_wpf_load_cs
+	newnet _h, "HspWpfNet"
+	mcall _h, "Close", _r, handle
+	return 0
+
+#global
+#endif

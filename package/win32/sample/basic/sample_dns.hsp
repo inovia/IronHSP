@@ -1,0 +1,3 @@
+	#include "iron_dns.hsp"
+	dns_lookup "google.com", ip
+	mes "google.com = " + ip

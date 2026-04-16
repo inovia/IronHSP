@@ -1,0 +1,307 @@
+;============================================================
+;   iron_ai_tools.hsp — Function calling / Tool use 拡張
+;
+;   OpenAI / Claude 互換の Function calling (tool use) を
+;   iron_ai.hsp の上に構築する薄いレイヤ。
+;
+;   依存: iron_ai.hsp + iron_json.hsp (iron_ai 経由で auto include)
+;
+;   API:
+;     iron_ai_tool_add "name", "description", "params_json"
+;       ツール定義を登録。params_json は OpenAI の parameters スキーマ
+;       (JSON Schema オブジェクト文字列)。
+;
+;     iron_ai_tool_clear
+;       登録済みツールをすべてクリア
+;
+;     iron_ai_chat_tools msg, var_reply, var_tool_calls
+;       ツール付きで chat。AI がツール呼び出しを返した場合は
+;       stat=1, tool_calls に JSON 配列。通常応答は stat=0。
+;
+;     iron_ai_tool_result "tool_call_id", "result"
+;       ツール実行結果を会話に追加
+;
+;     iron_ai_chat_tools_continue var_reply, var_tool_calls
+;       ツール結果追加後に AI に続行させる
+;
+;   使用例:
+;     iron_ai_tool_add "get_weather", "指定都市の天気を取得", "{\"type\":\"object\",\"properties\":{\"city\":{\"type\":\"string\"}}}"
+;     iron_ai_chat_tools "東京の天気は？", reply, tool_calls
+;     if stat = 1 {
+;       ; tool_calls をパースして実行
+;       iron_ai_tool_result tc_id, "晴れ 25℃"
+;       iron_ai_chat_tools_continue reply, tool_calls
+;       mes reply
+;     } else {
+;       mes reply
+;     }
+;============================================================
+
+#ifndef __iron_ai_tools_hsp__
+#define __iron_ai_tools_hsp__
+
+#include "iron_ai.hsp"
+
+#module iron_ai_tools
+
+;------------------------------------------------------------
+; 内部: JSON 文字列エスケープ (iron_ai と同じロジック)
+;------------------------------------------------------------
+#deffunc _ait_json_escape str src, var dst, local _i, local _c, local _len, local _src
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = '\\' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '\\'
+        } else : if _c = '"' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '"'
+        } else : if _c = 0x0a {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'n'
+        } else : if _c = 0x0d {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'r'
+        } else : if _c = 0x09 {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 't'
+        } else : if _c < 0x20 {
+            ; skip
+        } else {
+            poke dst, strlen(dst), _c
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; iron_ai_tool_add "name", "description", "params_json"
+;   ツール定義を内部配列に追加。最大 32 個。
+;------------------------------------------------------------
+#deffunc iron_ai_tool_add str name, str desc, str params_json, local _entry, local _esc_desc
+    if _ait_count >= 32 : return -1
+
+    _ait_json_escape desc, _esc_desc
+    sdim _entry, strlen(params_json) + strlen(_esc_desc) + 512
+    _entry  = "{\"type\":\"function\",\"function\":{"
+    _entry += "\"name\":\"" + name + "\","
+    _entry += "\"description\":\"" + _esc_desc + "\","
+    _entry += "\"parameters\":" + params_json
+    _entry += "}}"
+
+    if _ait_count = 0 {
+        _ait_tools_json = _entry
+    } else {
+        _ait_tools_json = _ait_tools_json + "," + _entry
+    }
+    _ait_count += 1
+    return 0
+
+;------------------------------------------------------------
+; iron_ai_tool_clear
+;------------------------------------------------------------
+#deffunc iron_ai_tool_clear
+    _ait_tools_json = ""
+    _ait_count = 0
+    return
+
+;------------------------------------------------------------
+; iron_ai_chat_tools msg, var_reply, var_tool_calls
+;   stat: 0=通常テキスト応答, 1=ツール呼び出しあり, 負=エラー
+;------------------------------------------------------------
+#deffunc iron_ai_chat_tools str msg, var reply, var tool_calls, local _esc_msg, local _sys_esc, local _body, local _msgs, local _full_url, local _resp, local _hid, local _hdr_buf, local _finish
+    sdim reply, 4096
+    sdim tool_calls, 4096
+    reply = ""
+    tool_calls = ""
+
+    ; user message エスケープ
+    _ait_json_escape msg, _esc_msg
+
+    ; messages 配列構築 (iron_ai の履歴と system を参照)
+    sdim _msgs, strlen(_ai_history_json@iron_ai) + strlen(_esc_msg) + strlen(_ai_system@iron_ai) * 2 + 1024
+    _msgs = ""
+    if strlen(_ai_system@iron_ai) > 0 {
+        _ait_json_escape _ai_system@iron_ai, _sys_esc
+        _msgs = "{\"role\":\"system\",\"content\":\"" + _sys_esc + "\"}"
+    }
+    if strlen(_ai_history_json@iron_ai) > 0 {
+        if strlen(_msgs) > 0 : _msgs = _msgs + ","
+        _msgs = _msgs + _ai_history_json@iron_ai
+    }
+    if strlen(_msgs) > 0 : _msgs = _msgs + ","
+    _msgs = _msgs + "{\"role\":\"user\",\"content\":\"" + _esc_msg + "\"}"
+
+    ; 内部会話保存 (continue 用)
+    _ait_last_msgs = _msgs
+
+    ; リクエストボディ
+    sdim _body, strlen(_msgs) + strlen(_ait_tools_json) + 2048
+    _body  = "{\"model\":\"" + _ai_model@iron_ai + "\","
+    _body += "\"messages\":[" + _msgs + "],"
+    _body += "\"tools\":[" + _ait_tools_json + "]"
+    if _ai_max_tokens@iron_ai > 0 {
+        _body += ",\"max_tokens\":" + _ai_max_tokens@iron_ai
+    }
+    _body += "}"
+
+    ; Authorization ヘッダ
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key@iron_ai) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key@iron_ai + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint@iron_ai + "/chat/completions"
+
+    sdim _resp, 1
+    http_post _full_url, _body, _resp, "application/json"
+    if stat ! 200 : return stat * -1
+
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+
+    ; finish_reason を確認
+    _finish = json_str(_hid, "choices[0].finish_reason")
+
+    if _finish = "tool_calls" {
+        ; ツール呼び出し — message 全体を保存
+        tool_calls = json_str(_hid, "choices[0].message.tool_calls")
+        ; tool_calls が空なら message 全体から再取得
+        if strlen(tool_calls) = 0 {
+            ; raw JSON からパス指定で取得
+            sdim tool_calls, 65536
+            tool_calls = json_str(_hid, "choices[0].message")
+        }
+        ; assistant message を raw JSON で保存 (continue 用)
+        sdim _ait_last_assistant, 65536
+        _ait_last_assistant = _resp
+        json_release _hid
+
+        ; 履歴に user を追加
+        iron_ai_history_add "user", msg
+        return 1
+    }
+
+    ; 通常テキスト応答
+    reply = json_str(_hid, "choices[0].message.content")
+    json_release _hid
+
+    iron_ai_history_add "user", msg
+    iron_ai_history_add "assistant", reply
+    return 0
+
+;------------------------------------------------------------
+; iron_ai_tool_result "tool_call_id", "result"
+;   ツール実行結果を内部バッファに追加。
+;   continue で使う。
+;------------------------------------------------------------
+#deffunc iron_ai_tool_result str tool_call_id, str result, local _esc
+    _ait_json_escape result, _esc
+    sdim _ait_tool_result_entry, strlen(_esc) + 512
+    _ait_tool_result_entry  = "{\"role\":\"tool\","
+    _ait_tool_result_entry += "\"tool_call_id\":\"" + tool_call_id + "\","
+    _ait_tool_result_entry += "\"content\":\"" + _esc + "\"}"
+
+    if strlen(_ait_tool_results) > 0 {
+        _ait_tool_results = _ait_tool_results + "," + _ait_tool_result_entry
+    } else {
+        _ait_tool_results = _ait_tool_result_entry
+    }
+    return
+
+;------------------------------------------------------------
+; iron_ai_chat_tools_continue var_reply, var_tool_calls
+;   ツール結果を含めて AI に再度問い合わせ。
+;   stat: 0=テキスト応答, 1=さらにツール呼び出し, 負=エラー
+;------------------------------------------------------------
+#deffunc iron_ai_chat_tools_continue var reply, var tool_calls, local _body, local _msgs, local _full_url, local _resp, local _hid, local _hdr_buf, local _finish, local _ass_hid, local _ass_msg
+    sdim reply, 4096
+    sdim tool_calls, 4096
+    reply = ""
+    tool_calls = ""
+
+    ; 元の assistant message を再パースして tool_calls 付き message を取得
+    _ass_hid = json_load(_ait_last_assistant)
+    if _ass_hid >= 0 {
+        sdim _ass_msg, 65536
+        _ass_msg = json_str(_ass_hid, "choices[0].message")
+        json_release _ass_hid
+    }
+
+    ; messages: 元の会話 + assistant(tool_calls) + tool results
+    sdim _msgs, strlen(_ait_last_msgs) + strlen(_ass_msg) + strlen(_ait_tool_results) + 2048
+    _msgs = _ait_last_msgs + "," + _ass_msg + "," + _ait_tool_results
+
+    ; body
+    sdim _body, strlen(_msgs) + strlen(_ait_tools_json) + 2048
+    _body  = "{\"model\":\"" + _ai_model@iron_ai + "\","
+    _body += "\"messages\":[" + _msgs + "],"
+    _body += "\"tools\":[" + _ait_tools_json + "]"
+    if _ai_max_tokens@iron_ai > 0 {
+        _body += ",\"max_tokens\":" + _ai_max_tokens@iron_ai
+    }
+    _body += "}"
+
+    ; Authorization
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key@iron_ai) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key@iron_ai + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint@iron_ai + "/chat/completions"
+
+    sdim _resp, 1
+    http_post _full_url, _body, _resp, "application/json"
+    if stat ! 200 : return stat * -1
+
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+
+    _finish = json_str(_hid, "choices[0].finish_reason")
+
+    if _finish = "tool_calls" {
+        tool_calls = json_str(_hid, "choices[0].message.tool_calls")
+        if strlen(tool_calls) = 0 {
+            tool_calls = json_str(_hid, "choices[0].message")
+        }
+        _ait_last_assistant = _resp
+        json_release _hid
+        ; tool_results クリア (次の continue 用)
+        _ait_tool_results = ""
+        return 1
+    }
+
+    reply = json_str(_hid, "choices[0].message.content")
+    json_release _hid
+
+    iron_ai_history_add "assistant", reply
+
+    ; クリア
+    _ait_tool_results = ""
+    return 0
+
+#global
+
+    ; 初期化
+    sdim _ait_tools_json@iron_ai_tools, 65536
+    _ait_tools_json@iron_ai_tools = ""
+    _ait_count@iron_ai_tools = 0
+    sdim _ait_last_msgs@iron_ai_tools, 65536
+    _ait_last_msgs@iron_ai_tools = ""
+    sdim _ait_last_assistant@iron_ai_tools, 65536
+    _ait_last_assistant@iron_ai_tools = ""
+    sdim _ait_tool_results@iron_ai_tools, 65536
+    _ait_tool_results@iron_ai_tools = ""
+    sdim _ait_tool_result_entry@iron_ai_tools, 4096
+
+#endif

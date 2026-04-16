@@ -1,0 +1,2 @@
+	#include "iron_ai_tools.hsp"
+	mes "ai_tools sample (requires API key)"

@@ -1,0 +1,175 @@
+;============================================================
+;   iron_udp.hsp — UDP 送受信 (.NET版)
+;
+;   System.Net.Sockets.UdpClient を使用。
+;   hsp3net 専用。
+;
+;   API:
+;     udp_open port, handle               ポートにバインド (0=自動) → stat (0=成功)
+;     udp_send handle, "host", port, "data"  文字列送信
+;     udp_send_bytes handle, "host", port, buf, len  バイナリ送信
+;     udp_recv handle, data, from_ip, from_port, timeout_ms
+;       受信 → stat (受信バイト数, 0=タイムアウト)
+;     udp_close handle                    閉じる
+;
+;   例:
+;     #include "iron_udp.hsp"
+;     udp_open 0, h
+;     if stat == 0 {
+;         udp_send h, "127.0.0.1", 9999, "Hello UDP"
+;         udp_close h
+;     }
+;============================================================
+
+#ifndef __iron_udp_hsp__
+#define __iron_udp_hsp__
+
+#module iron_udp
+
+dim _udp_cs_loaded, 1
+
+#deffunc _udp_load_cs
+	if _udp_cs_loaded : return
+	sdim cs, 8192
+	cs  = "using System;using System.Net;using System.Net.Sockets;"
+	cs += "using System.Text;using System.Collections.Generic;"
+	cs += "public class HspUdp {"
+	cs += "  static Dictionary<int,UdpClient> _socks = new Dictionary<int,UdpClient>();"
+	cs += "  static int _next = 1;"
+	; Open
+	cs += "  public static string Open(int port) {"
+	cs += "    try { var u = new UdpClient(port);"
+	cs += "    int id = _next++; _socks[id] = u;"
+	cs += "    return \"0|\"+id; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; Send
+	cs += "  public static string Send(int id, string host, int port, string data) {"
+	cs += "    try { if(!_socks.ContainsKey(id)) return \"-1|not open\";"
+	cs += "    var u=_socks[id]; var buf=Encoding.UTF8.GetBytes(data);"
+	cs += "    u.Send(buf, buf.Length, host, port);"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; SendBytes
+	cs += "  public static string SendBytes(int id, string host, int port, byte[] data) {"
+	cs += "    try { if(!_socks.ContainsKey(id)) return \"-1|not open\";"
+	cs += "    var u=_socks[id]; u.Send(data, data.Length, host, port);"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; Recv
+	cs += "  public static string Recv(int id, int timeout) {"
+	cs += "    try { if(!_socks.ContainsKey(id)) return \"-1|||\";"
+	cs += "    var u=_socks[id]; u.Client.ReceiveTimeout=timeout;"
+	cs += "    var ep=new IPEndPoint(IPAddress.Any,0);"
+	cs += "    byte[] buf;"
+	cs += "    try { buf=u.Receive(ref ep); }"
+	cs += "    catch(SocketException) { return \"0|||\"; }"
+	cs += "    string data=Encoding.UTF8.GetString(buf);"
+	cs += "    return buf.Length+\"|\"+ep.Address.ToString()+\"|\"+ep.Port+\"|\"+data; }"
+	cs += "    catch(Exception e) { return \"-1|||\"; } }"
+	; Close
+	cs += "  public static string Close(int id) {"
+	cs += "    try { if(_socks.ContainsKey(id)) { _socks[id].Close(); _socks.Remove(id); }"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "}"
+	loadnet cs, 3
+	_udp_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; udp_open port, var_handle
+;   UDP ソケットを開く。port=0 で自動割り当て。stat=0 で成功。
+;------------------------------------------------------------
+#deffunc udp_open int port, var out_handle, \
+	local pHelper, local pResult, local s, local p
+	_udp_load_cs
+	newnet pHelper, "", "HspUdp", 1
+	netres pResult
+	mcall pHelper, "Open", port
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : out_handle = 0 : return -1
+	rc = int(strmid(s, 0, p))
+	if rc == 0 {
+		out_handle = int(strmid(s, p + 1, strlen(s) - p - 1))
+	} else {
+		out_handle = 0
+	}
+	return rc
+
+;------------------------------------------------------------
+; udp_send handle, "host", port, "data"
+;   文字列送信。
+;------------------------------------------------------------
+#deffunc udp_send int handle, str host, int port, str data, \
+	local pHelper, local pResult, local s, local p
+	_udp_load_cs
+	newnet pHelper, "", "HspUdp", 1
+	netres pResult
+	mcall pHelper, "Send", handle, host, port, data
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	return int(strmid(s, 0, p))
+
+;------------------------------------------------------------
+; udp_send_bytes handle, "host", port, var_buf, len
+;   バイナリ送信。
+;------------------------------------------------------------
+#deffunc udp_send_bytes int handle, str host, int port, var buf, int data_len, \
+	local pHelper, local pResult, local s, local p, local pBytes
+	_udp_load_cs
+	newnet pHelper, "", "HspUdp", 1
+	netval pBytes, buf, data_len
+	netres pResult
+	mcall pHelper, "SendBytes", handle, host, port, pBytes
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	return int(strmid(s, 0, p))
+
+;------------------------------------------------------------
+; udp_recv handle, var_data, var_from_ip, var_from_port, timeout_ms
+;   受信。stat に受信バイト数 (0=タイムアウト)。
+;------------------------------------------------------------
+#deffunc udp_recv int handle, var out_data, var out_from_ip, var out_from_port, int timeout_ms, \
+	local pHelper, local pResult, local s, local p1, local p2, local p3, local _rest, local _rest2
+	_udp_load_cs
+	sdim out_data, 65536
+	sdim out_from_ip, 64
+	out_from_port = 0
+	newnet pHelper, "", "HspUdp", 1
+	netres pResult
+	mcall pHelper, "Recv", handle, timeout_ms
+	s = nettoval(pResult, 2)
+	; format: "bytes|ip|port|data"
+	p1 = instr(s, 0, "|")
+	if p1 < 0 : return 0
+	rc = int(strmid(s, 0, p1))
+	if rc <= 0 : return 0
+	_rest = strmid(s, p1 + 1, strlen(s) - p1 - 1)
+	p2 = instr(_rest, 0, "|")
+	if p2 < 0 : return 0
+	out_from_ip = strmid(_rest, 0, p2)
+	_rest2 = strmid(_rest, p2 + 1, strlen(_rest) - p2 - 1)
+	p3 = instr(_rest2, 0, "|")
+	if p3 < 0 : return 0
+	out_from_port = int(strmid(_rest2, 0, p3))
+	out_data = strmid(_rest2, p3 + 1, strlen(_rest2) - p3 - 1)
+	return rc
+
+;------------------------------------------------------------
+; udp_close handle
+;   UDP ソケットを閉じる。
+;------------------------------------------------------------
+#deffunc udp_close int handle, \
+	local pHelper, local pResult
+	_udp_load_cs
+	newnet pHelper, "", "HspUdp", 1
+	netres pResult
+	mcall pHelper, "Close", handle
+	return 0
+
+#global
+
+#endif

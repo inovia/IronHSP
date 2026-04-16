@@ -1,0 +1,253 @@
+;============================================================
+;   iron_ai_vision.hsp — マルチモーダル (画像入力) 拡張
+;
+;   GPT-4o / Claude / Llama 3.2 Vision 等のビジョン対応モデルに
+;   画像を送って応答を得る薄いラッパ。
+;
+;   依存: iron_ai.hsp + iron_hash.hsp
+;
+;   API:
+;     iron_ai_vision_file "image.png", "この画像を説明して", reply
+;       ローカル画像ファイルを Base64 エンコードして送信。
+;       stat: 200=成功
+;
+;     iron_ai_vision_base64 base64_str, "prompt", reply
+;       既に Base64 化済みの画像データで問い合わせ。
+;
+;     iron_ai_vision_url "https://...", "prompt", reply
+;       画像 URL を指定して問い合わせ。
+;
+;   使用例:
+;     #include "iron_ai_vision.hsp"
+;
+;         iron_ai_set_endpoint "https://api.openai.com/v1"
+;         iron_ai_set_key      "sk-..."
+;         iron_ai_set_model    "gpt-4o"
+;         iron_ai_vision_file  "photo.jpg", "何が写っていますか？", reply
+;         if stat = 200 : mes reply
+;============================================================
+
+#ifndef __iron_ai_vision_hsp__
+#define __iron_ai_vision_hsp__
+
+#include "iron_ai.hsp"
+#include "iron_hash.hsp"
+
+#module iron_ai_vision
+
+;------------------------------------------------------------
+; 内部: JSON 文字列エスケープ
+;------------------------------------------------------------
+#deffunc _aiv_json_escape str src, var dst, local _i, local _c, local _len, local _src
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = '\\' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '\\'
+        } else : if _c = '"' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '"'
+        } else : if _c = 0x0a {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'n'
+        } else : if _c = 0x0d {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'r'
+        } else : if _c = 0x09 {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 't'
+        } else : if _c < 0x20 {
+            ; skip
+        } else {
+            poke dst, strlen(dst), _c
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; 内部: 拡張子から MIME タイプを推定
+;------------------------------------------------------------
+#defcfunc _aiv_mime str path, local _ext
+    _ext = getpath(path, 18)
+    if _ext = ".png"  : return "image/png"
+    if _ext = ".jpg"  : return "image/jpeg"
+    if _ext = ".jpeg" : return "image/jpeg"
+    if _ext = ".gif"  : return "image/gif"
+    if _ext = ".webp" : return "image/webp"
+    if _ext = ".bmp"  : return "image/bmp"
+    return "image/png"
+
+;------------------------------------------------------------
+; 内部: Base64 画像 + テキストプロンプトで vision API 呼び出し
+;   base64_data: Base64 エンコード済み画像データ
+;   mime: MIME タイプ ("image/png" 等)
+;   prompt: テキストプロンプト
+;   reply: 応答格納先
+;------------------------------------------------------------
+#deffunc _aiv_chat_base64 str base64_data, str mime, str prompt, var reply, local _esc_prompt, local _sys_esc, local _body, local _msgs, local _full_url, local _resp, local _hid, local _hdr_buf, local _content_arr
+    sdim reply, 4096
+    reply = ""
+
+    _aiv_json_escape prompt, _esc_prompt
+
+    ; content 配列: [image_url, text]
+    sdim _content_arr, strlen(base64_data) + strlen(_esc_prompt) + 1024
+    _content_arr  = "[{\"type\":\"image_url\",\"image_url\":{\"url\":\"data:" + mime + ";base64," + base64_data + "\"}},"
+    _content_arr += "{\"type\":\"text\",\"text\":\"" + _esc_prompt + "\"}]"
+
+    ; messages 配列
+    sdim _msgs, strlen(_content_arr) + strlen(_ai_system@iron_ai) * 2 + strlen(_ai_history_json@iron_ai) + 2048
+    _msgs = ""
+    if strlen(_ai_system@iron_ai) > 0 {
+        _aiv_json_escape _ai_system@iron_ai, _sys_esc
+        _msgs = "{\"role\":\"system\",\"content\":\"" + _sys_esc + "\"},"
+    }
+    if strlen(_ai_history_json@iron_ai) > 0 {
+        _msgs = _msgs + _ai_history_json@iron_ai + ","
+    }
+    _msgs = _msgs + "{\"role\":\"user\",\"content\":" + _content_arr + "}"
+
+    ; body
+    sdim _body, strlen(_msgs) + 1024
+    _body  = "{\"model\":\"" + _ai_model@iron_ai + "\","
+    _body += "\"messages\":[" + _msgs + "]"
+    if _ai_max_tokens@iron_ai > 0 {
+        _body += ",\"max_tokens\":" + _ai_max_tokens@iron_ai
+    }
+    _body += "}"
+
+    ; Authorization
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key@iron_ai) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key@iron_ai + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint@iron_ai + "/chat/completions"
+
+    sdim _resp, 1
+    http_post _full_url, _body, _resp, "application/json"
+    if stat ! 200 : return stat
+
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+
+    reply = json_str(_hid, "choices[0].message.content")
+    json_release _hid
+
+    ; 履歴に追加
+    iron_ai_history_add "user", prompt
+    iron_ai_history_add "assistant", reply
+    return 200
+
+;------------------------------------------------------------
+; iron_ai_vision_file "image.png", "prompt", reply
+;   ファイルを読み込み Base64 エンコードして送信。
+;   stat: 200=成功
+;------------------------------------------------------------
+#deffunc iron_ai_vision_file str image_path, str prompt, var reply, local _file_buf, local _file_len, local _b64, local _mime
+    sdim reply, 4096
+    reply = ""
+
+    ; ファイル存在確認
+    exist image_path
+    if strsize < 0 : return -1
+    _file_len = strsize
+
+    ; ファイル読み込み
+    sdim _file_buf, _file_len + 16
+    bload image_path, _file_buf, _file_len
+
+    ; Base64 エンコード (iron_hash の base64_encode_buf)
+    base64_encode_buf _file_buf, _file_len
+    _b64 = refstr
+
+    ; MIME 推定
+    _mime = _aiv_mime(image_path)
+
+    ; API 呼び出し
+    _aiv_chat_base64 _b64, _mime, prompt, reply
+    return stat
+
+;------------------------------------------------------------
+; iron_ai_vision_base64 base64_str, "prompt", reply
+;   既に Base64 化済みの画像で問い合わせ。
+;   MIME は image/png として送信。
+;------------------------------------------------------------
+#deffunc iron_ai_vision_base64 str base64_str, str prompt, var reply
+    sdim reply, 4096
+    _aiv_chat_base64 base64_str, "image/png", prompt, reply
+    return stat
+
+;------------------------------------------------------------
+; iron_ai_vision_url "https://...", "prompt", reply
+;   画像 URL を直接指定して問い合わせ。
+;------------------------------------------------------------
+#deffunc iron_ai_vision_url str image_url, str prompt, var reply, local _esc_prompt, local _sys_esc, local _body, local _msgs, local _full_url, local _resp, local _hid, local _hdr_buf, local _content_arr, local _esc_url
+    sdim reply, 4096
+    reply = ""
+
+    _aiv_json_escape prompt, _esc_prompt
+    _aiv_json_escape image_url, _esc_url
+
+    ; content 配列
+    sdim _content_arr, strlen(_esc_url) + strlen(_esc_prompt) + 512
+    _content_arr  = "[{\"type\":\"image_url\",\"image_url\":{\"url\":\"" + _esc_url + "\"}},"
+    _content_arr += "{\"type\":\"text\",\"text\":\"" + _esc_prompt + "\"}]"
+
+    ; messages
+    sdim _msgs, strlen(_content_arr) + strlen(_ai_system@iron_ai) * 2 + strlen(_ai_history_json@iron_ai) + 2048
+    _msgs = ""
+    if strlen(_ai_system@iron_ai) > 0 {
+        _aiv_json_escape _ai_system@iron_ai, _sys_esc
+        _msgs = "{\"role\":\"system\",\"content\":\"" + _sys_esc + "\"},"
+    }
+    if strlen(_ai_history_json@iron_ai) > 0 {
+        _msgs = _msgs + _ai_history_json@iron_ai + ","
+    }
+    _msgs = _msgs + "{\"role\":\"user\",\"content\":" + _content_arr + "}"
+
+    ; body
+    sdim _body, strlen(_msgs) + 1024
+    _body  = "{\"model\":\"" + _ai_model@iron_ai + "\","
+    _body += "\"messages\":[" + _msgs + "]"
+    if _ai_max_tokens@iron_ai > 0 {
+        _body += ",\"max_tokens\":" + _ai_max_tokens@iron_ai
+    }
+    _body += "}"
+
+    ; Authorization
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key@iron_ai) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key@iron_ai + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint@iron_ai + "/chat/completions"
+
+    sdim _resp, 1
+    http_post _full_url, _body, _resp, "application/json"
+    if stat ! 200 : return stat
+
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+
+    reply = json_str(_hid, "choices[0].message.content")
+    json_release _hid
+
+    iron_ai_history_add "user", prompt
+    iron_ai_history_add "assistant", reply
+    return 200
+
+#global
+
+#endif

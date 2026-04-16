@@ -1,0 +1,237 @@
+;============================================================
+;   iron_ai_embeddings.hsp — Embeddings API ラッパ
+;
+;   OpenAI 互換の /embeddings エンドポイントでテキストを
+;   ベクトル化する。コサイン類似度計算も提供。
+;
+;   依存: iron_ai.hsp + iron_json.hsp (iron_ai 経由で auto include)
+;
+;   API:
+;     iron_ai_emb_set_model "text-embedding-3-small"
+;       Embedding モデルを設定
+;
+;     iron_ai_embed "text", var_vector, var_dim
+;       テキストをベクトル化。var_vector は double 配列、
+;       var_dim に次元数が返る。
+;       stat: 200=成功
+;
+;     iron_ai_embed_batch texts, n, var_vectors, var_dim
+;       複数テキストを一括ベクトル化。texts は str 配列、n は個数。
+;       var_vectors は double 配列 [n * dim]、var_dim に次元数。
+;       stat: 200=成功
+;
+;     iron_ai_emb_cosine(a, b, dim)
+;       2 つのベクトル (double 配列) のコサイン類似度を返す。
+;       戻り値: double (-1.0 ~ 1.0)
+;
+;   使用例:
+;     #include "iron_ai_embeddings.hsp"
+;
+;         iron_ai_set_endpoint "https://api.openai.com/v1"
+;         iron_ai_set_key      "sk-..."
+;         iron_ai_emb_set_model "text-embedding-3-small"
+;
+;         iron_ai_embed "猫はかわいい", vec1, dim
+;         iron_ai_embed "犬もかわいい", vec2, dim2
+;         sim = iron_ai_emb_cosine(vec1, vec2, dim)
+;         mes "類似度: " + sim
+;============================================================
+
+#ifndef __iron_ai_embeddings_hsp__
+#define __iron_ai_embeddings_hsp__
+
+#include "iron_ai.hsp"
+
+#module iron_ai_embeddings
+
+;------------------------------------------------------------
+; 内部: JSON 文字列エスケープ
+;------------------------------------------------------------
+#deffunc _emb_json_escape str src, var dst, local _c, local _len, local _src
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = '\\' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '\\'
+        } else : if _c = '"' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '"'
+        } else : if _c = 0x0a {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'n'
+        } else : if _c = 0x0d {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'r'
+        } else : if _c = 0x09 {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 't'
+        } else : if _c < 0x20 {
+            ; skip
+        } else {
+            poke dst, strlen(dst), _c
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; iron_ai_emb_set_model "text-embedding-3-small"
+;------------------------------------------------------------
+#deffunc iron_ai_emb_set_model str m
+    _emb_model = m
+    return
+
+;------------------------------------------------------------
+; iron_ai_embed "text", var_vector, var_dim
+;   テキスト 1 件をベクトル化。
+;   stat: 200=成功
+;------------------------------------------------------------
+#deffunc iron_ai_embed str text, var out_vector, var out_dim, local _esc, local _body, local _full_url, local _resp, local _hid, local _hdr_buf, local _model, local _n, local _i
+    out_dim = 0
+
+    _model = _emb_model
+    if strlen(_model) = 0 : _model = "text-embedding-3-small"
+
+    _emb_json_escape text, _esc
+
+    ; JSON body
+    sdim _body, strlen(_esc) + 512
+    _body  = "{\"model\":\"" + _model + "\","
+    _body += "\"input\":\"" + _esc + "\"}"
+
+    ; Authorization
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key@iron_ai) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key@iron_ai + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint@iron_ai + "/embeddings"
+
+    sdim _resp, 1
+    http_post _full_url, _body, _resp, "application/json"
+    if stat ! 200 : return stat
+
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+
+    ; data[0].embedding 配列の長さ
+    _n = json_len(_hid, "data[0].embedding")
+    if _n <= 0 {
+        json_release _hid
+        return -2
+    }
+
+    out_dim = _n
+    ddim out_vector, _n
+    repeat _n
+        out_vector(cnt) = json_dbl(_hid, "data[0].embedding[" + cnt + "]")
+    loop
+
+    json_release _hid
+    return 200
+
+;------------------------------------------------------------
+; iron_ai_embed_batch texts, n, var_vectors, var_dim
+;   複数テキストを一括ベクトル化。
+;   texts: str 配列 (notesel 等で設定済み)
+;   n: テキスト数
+;   var_vectors: double 配列 [n * dim] (行優先)
+;   var_dim: 次元数
+;   stat: 200=成功
+;------------------------------------------------------------
+#deffunc iron_ai_embed_batch var texts, int n, var out_vectors, var out_dim, local _esc, local _body, local _input_arr, local _full_url, local _resp, local _hid, local _hdr_buf, local _model, local _dim, local _i, local _j
+    out_dim = 0
+
+    if n <= 0 : return -1
+
+    _model = _emb_model
+    if strlen(_model) = 0 : _model = "text-embedding-3-small"
+
+    ; input 配列を構築
+    sdim _input_arr, 65536
+    _input_arr = ""
+    repeat n
+        _emb_json_escape texts(cnt), _esc
+        if cnt > 0 : _input_arr = _input_arr + ","
+        _input_arr = _input_arr + "\"" + _esc + "\""
+    loop
+
+    ; JSON body
+    sdim _body, strlen(_input_arr) + 512
+    _body  = "{\"model\":\"" + _model + "\","
+    _body += "\"input\":[" + _input_arr + "]}"
+
+    ; Authorization
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key@iron_ai) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key@iron_ai + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint@iron_ai + "/embeddings"
+
+    sdim _resp, 1
+    http_post _full_url, _body, _resp, "application/json"
+    if stat ! 200 : return stat
+
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+
+    ; 次元数 (最初の結果から取得)
+    _dim = json_len(_hid, "data[0].embedding")
+    if _dim <= 0 {
+        json_release _hid
+        return -2
+    }
+    out_dim = _dim
+
+    ; 出力配列確保
+    ddim out_vectors, n * _dim
+
+    ; 各ベクトルを格納
+    repeat n
+        _i = cnt
+        repeat _dim
+            _j = cnt
+            out_vectors(_i * _dim + _j) = json_dbl(_hid, "data[" + _i + "].embedding[" + _j + "]")
+        loop
+    loop
+
+    json_release _hid
+    return 200
+
+;------------------------------------------------------------
+; iron_ai_emb_cosine(a, b, dim) → double
+;   コサイン類似度: dot(a,b) / (|a| * |b|)
+;------------------------------------------------------------
+#defcfunc iron_ai_emb_cosine var a, var b, int dim, local _dot, local _na, local _nb, local _i, local _denom
+    _dot = 0.0
+    _na  = 0.0
+    _nb  = 0.0
+    repeat dim
+        _dot += a(cnt) * b(cnt)
+        _na  += a(cnt) * a(cnt)
+        _nb  += b(cnt) * b(cnt)
+    loop
+    _na = sqrt(_na)
+    _nb = sqrt(_nb)
+    _denom = _na * _nb
+    if _denom = 0.0 : return 0.0
+    return _dot / _denom
+
+#global
+
+    ; 初期化
+    sdim _emb_model@iron_ai_embeddings, 256
+    _emb_model@iron_ai_embeddings = "text-embedding-3-small"
+
+#endif

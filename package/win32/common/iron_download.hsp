@@ -1,0 +1,108 @@
+;============================================================
+;   iron_download.hsp — ファイルダウンロード (Pure HSP)
+;
+;   iron_http.hsp を使用した簡易ファイルダウンローダ。
+;   レジューム (Range ヘッダ) 対応。.NET 不要。
+;
+;   API:
+;     dl_start "url", "filepath"           ダウンロード開始 → stat (HTTP status)
+;     dl_start_resume "url", "filepath"    レジューム付きダウンロード → stat
+;
+;   例:
+;     #include "iron_http.hsp"
+;     #include "iron_download.hsp"
+;
+;     dl_start "https://example.com/file.zip", "C:\\temp\\file.zip"
+;     if stat == 200 {
+;         mes "ダウンロード完了"
+;     } else {
+;         mes "エラー: HTTP " + stat
+;     }
+;
+;   注意:
+;     - iron_http.hsp のインクルードが必要
+;     - 大きいファイルは iron_http の body バッファに一旦乗るため
+;       メモリに制約がある場合は注意
+;============================================================
+
+#ifndef __iron_download_hsp__
+#define __iron_download_hsp__
+
+#include "iron_http.hsp"
+
+#module iron_download
+
+;------------------------------------------------------------
+; dl_start "url", "filepath"
+;   URL からファイルをダウンロードしてローカルに保存。
+;   stat に HTTP ステータスコードを返す (200=成功)。
+;------------------------------------------------------------
+#deffunc dl_start str url, str filepath, \
+	local body, local http_status, local flen
+	sdim body, 16
+	http_get url, body
+	http_status = stat
+	if http_status == 200 {
+		flen = strlen(body)
+		if flen > 0 {
+			bsave filepath, body, flen
+		}
+	}
+	return http_status
+
+;------------------------------------------------------------
+; dl_start_resume "url", "filepath"
+;   中断したダウンロードをレジューム。
+;   既存ファイルのサイズを取得し、Range ヘッダを設定して
+;   残りをダウンロード。stat に HTTP ステータスコードを返す
+;   (206=部分取得成功、200=最初から再取得)。
+;------------------------------------------------------------
+#deffunc dl_start_resume str url, str filepath, \
+	local body, local http_status, local existing_size, local flen, local fp
+	sdim body, 16
+
+	; 既存ファイルサイズを取得
+	existing_size = 0
+	exist filepath
+	if strsize >= 0 {
+		existing_size = strsize
+	}
+
+	if existing_size > 0 {
+		; Range ヘッダを設定してレジューム
+		http_set_header "Range: bytes=" + existing_size + "-\r\n"
+		http_get url, body
+		http_status = stat
+		http_set_header ""
+
+		if http_status == 206 {
+			; 部分ダウンロード成功 → 既存ファイルに追記
+			flen = strlen(body)
+			if flen > 0 {
+				; 追記モードで書き込み
+				bsave filepath, body, flen, existing_size
+			}
+		} else : if http_status == 200 {
+			; サーバーが Range 非対応 → 最初から保存
+			flen = strlen(body)
+			if flen > 0 {
+				bsave filepath, body, flen
+			}
+		}
+	} else {
+		; 新規ダウンロード
+		http_get url, body
+		http_status = stat
+		if http_status == 200 {
+			flen = strlen(body)
+			if flen > 0 {
+				bsave filepath, body, flen
+			}
+		}
+	}
+
+	return http_status
+
+#global
+
+#endif

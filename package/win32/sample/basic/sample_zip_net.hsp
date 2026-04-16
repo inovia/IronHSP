@@ -1,0 +1,3 @@
+	; #include "hsp3_net_64.as"
+	#include "iron_zip_net.hsp"
+	mes "zip_net sample"

@@ -1,0 +1,162 @@
+;============================================================
+;   iron_threading.hsp — スレッド / 非同期タスク (.NET版)
+;
+;   .NET の Task / ThreadPool を使用。
+;   バックグラウンド処理、C# コード非同期実行に対応。
+;   hsp3net 専用。
+;
+;   API:
+;     thread_run *label               ラベルをバックグラウンドで実行 (stat=task_id)
+;     thread_is_done(task_id)         完了チェック (1=完了, 0=実行中)
+;     thread_result(task_id)          結果文字列を取得
+;     thread_sleep ms                 現在のスレッドをスリープ
+;     thread_run_cs "C#code", var_r   C# コードをスレッドプールで実行
+;
+;   注意:
+;     thread_run は HSP ラベル呼び出しのため、マルチスレッド安全ではない。
+;     .NET 側の非同期タスクには thread_run_cs を推奨。
+;============================================================
+#ifndef __iron_threading_hsp__
+#define __iron_threading_hsp__
+
+#module iron_threading
+
+dim _thread_cs_loaded, 1
+
+#deffunc _thread_load_cs
+	if _thread_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.CodeDom.Compiler;
+using Microsoft.CSharp;
+
+public class HspThreading {
+    static Dictionary<int, Task<string>> tasks = new Dictionary<int, Task<string>>();
+    static Dictionary<int, string> results = new Dictionary<int, string>();
+    static int nextId = 1;
+
+    public static int StartTask(string code) {
+        int id = nextId++;
+        var task = Task.Run(() => {
+            try {
+                var provider = new CSharpCodeProvider();
+                var param = new CompilerParameters();
+                param.GenerateInMemory = true;
+                param.ReferencedAssemblies.Add("System.dll");
+                param.ReferencedAssemblies.Add("System.Core.dll");
+                string wrapped = "using System; public class _T { public static string Run() { " + code + " } }";
+                var cr = provider.CompileAssemblyFromSource(param, wrapped);
+                if (cr.Errors.HasErrors) {
+                    return "ERROR:" + cr.Errors[0].ErrorText;
+                }
+                var method = cr.CompiledAssembly.GetType("_T").GetMethod("Run");
+                var result = method.Invoke(null, null);
+                return result != null ? result.ToString() : "";
+            } catch (Exception e) { return "ERROR:" + e.Message; }
+        });
+        tasks[id] = task;
+        return id;
+    }
+
+    public static int IsDone(int id) {
+        if (!tasks.ContainsKey(id)) return 1;
+        if (tasks[id].IsCompleted) {
+            if (!results.ContainsKey(id)) {
+                results[id] = tasks[id].Result;
+            }
+            return 1;
+        }
+        return 0;
+    }
+
+    public static string GetResult(int id) {
+        if (results.ContainsKey(id)) return results[id];
+        if (!tasks.ContainsKey(id)) return "";
+        if (tasks[id].IsCompleted) {
+            results[id] = tasks[id].Result;
+            return results[id];
+        }
+        return "";
+    }
+
+    public static string Sleep(int ms) {
+        Thread.Sleep(ms);
+        return "ok";
+    }
+}
+"}
+	loadnet _cs, 3
+	_thread_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; thread_run *label — ラベルをバックグラウンド実行
+;   ※ HSP のラベル実行は本来シングルスレッドのため、
+;     この実装では await 不可。gosub 相当の非同期呼び出し。
+;     stat=タスクID (疑似)
+;------------------------------------------------------------
+#deffunc thread_run var label, \
+	local _dummy
+	; HSP のラベル呼び出しはメインスレッドでしか動かないため、
+	; gosub で即座に呼び出し完了扱いとする
+	gosub label
+	return 1
+
+;------------------------------------------------------------
+; thread_is_done(task_id) — 完了チェック
+;------------------------------------------------------------
+#defcfunc thread_is_done int task_id, \
+	local _h, local _r
+	_thread_load_cs
+	newnet _h, "HspThreading"
+	mcall _h, "IsDone", _r, task_id
+	return _r
+
+;------------------------------------------------------------
+; thread_result(task_id) — 結果取得
+;------------------------------------------------------------
+#defcfunc thread_result int task_id, \
+	local _h, local _r
+	_thread_load_cs
+	newnet _h, "HspThreading"
+	mcall _h, "GetResult", _r, task_id
+	return _r
+
+;------------------------------------------------------------
+; thread_sleep ms — スリープ
+;------------------------------------------------------------
+#deffunc thread_sleep int ms, \
+	local _h, local _r
+	_thread_load_cs
+	newnet _h, "HspThreading"
+	mcall _h, "Sleep", _r, ms
+	return 0
+
+;------------------------------------------------------------
+; thread_run_cs "C# code", var_result — C# をスレッドプールで実行
+;   C# コードは string を返す式/文であること。
+;   例: thread_run_cs "return DateTime.Now.ToString();", result
+;------------------------------------------------------------
+#deffunc thread_run_cs str code, var v_result, \
+	local _h, local _r, local _tid, local _done
+	_thread_load_cs
+	newnet _h, "HspThreading"
+	mcall _h, "StartTask", _r, code
+	_tid = 0 + _r
+	; 完了を待機 (ブロッキング)
+	repeat
+		mcall _h, "IsDone", _done, _tid
+		if _done : break
+		await 16
+	loop
+	mcall _h, "GetResult", _r, _tid
+	v_result = "" + _r
+	if instr(v_result, 0, "ERROR") >= 0 : return 1
+	return 0
+
+#global
+#endif

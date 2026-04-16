@@ -1,0 +1,2 @@
+	#include "iron_ai_tts.hsp"
+	mes "ai_tts sample (requires API key)"

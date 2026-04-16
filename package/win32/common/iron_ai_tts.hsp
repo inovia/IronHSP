@@ -1,0 +1,179 @@
+;============================================================
+;   iron_ai_tts.hsp — テキスト読み上げ (Text-to-Speech) API
+;
+;   OpenAI 互換の /audio/speech エンドポイントを使って
+;   テキストから音声ファイルを生成する。
+;
+;   依存: iron_ai.hsp + iron_http.hsp (iron_ai 経由で auto include)
+;
+;   API:
+;     iron_ai_tts_set_voice "alloy"
+;       音声を設定 (alloy / echo / fable / onyx / nova / shimmer)
+;
+;     iron_ai_tts_set_model "tts-1"
+;       モデルを設定 (tts-1 / tts-1-hd)
+;
+;     iron_ai_tts_set_format "mp3"
+;       出力フォーマット (mp3 / opus / aac / flac / wav / pcm)
+;
+;     iron_ai_tts "text", "output.mp3"
+;       テキストを音声に変換しファイルに保存。
+;       stat: 200=成功, その他=エラー
+;
+;   使用例:
+;     #include "iron_ai_tts.hsp"
+;
+;         iron_ai_set_endpoint "https://api.openai.com/v1"
+;         iron_ai_set_key      "sk-..."
+;         iron_ai_tts_set_voice "nova"
+;         iron_ai_tts "こんにちは、世界！", "hello.mp3"
+;         if stat = 200 : mes "音声ファイル生成完了"
+;============================================================
+
+#ifndef __iron_ai_tts_hsp__
+#define __iron_ai_tts_hsp__
+
+#include "iron_ai.hsp"
+
+#module iron_ai_tts
+
+;------------------------------------------------------------
+; 内部: JSON 文字列エスケープ
+;------------------------------------------------------------
+#deffunc _tts_json_escape str src, var dst, local _c, local _len, local _src
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = '\\' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '\\'
+        } else : if _c = '"' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '"'
+        } else : if _c = 0x0a {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'n'
+        } else : if _c = 0x0d {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'r'
+        } else : if _c = 0x09 {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 't'
+        } else : if _c < 0x20 {
+            ; skip
+        } else {
+            poke dst, strlen(dst), _c
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; iron_ai_tts_set_voice "alloy"
+;------------------------------------------------------------
+#deffunc iron_ai_tts_set_voice str v
+    _tts_voice = v
+    return
+
+;------------------------------------------------------------
+; iron_ai_tts_set_model "tts-1"
+;------------------------------------------------------------
+#deffunc iron_ai_tts_set_model str m
+    _tts_model = m
+    return
+
+;------------------------------------------------------------
+; iron_ai_tts_set_format "mp3"
+;------------------------------------------------------------
+#deffunc iron_ai_tts_set_format str f
+    _tts_format = f
+    return
+
+;------------------------------------------------------------
+; iron_ai_tts "text", "output.mp3"
+;   テキストを音声に変換してファイルに保存。
+;   内部: /audio/speech に JSON POST → バイナリ応答をファイル書き出し
+;
+;   stat: 200=成功
+;
+;   注意: レスポンスはバイナリ音声データなので、_http_do_buf 相当の
+;   低レベル処理が必要。ここでは iron_http の http_post で受け取った
+;   body をバイナリとして bsave する。WinHTTP 経由なのでバイナリ安全。
+;------------------------------------------------------------
+#deffunc iron_ai_tts str text, str output_path, local _esc_text, local _body, local _full_url, local _hdr_buf, local _host, local _path, local _port, local _https, local _resp_buf, local _model, local _voice, local _fmt
+    _model = _tts_model
+    if strlen(_model) = 0 : _model = "tts-1"
+
+    _voice = _tts_voice
+    if strlen(_voice) = 0 : _voice = "alloy"
+
+    _fmt = _tts_format
+    if strlen(_fmt) = 0 : _fmt = "mp3"
+
+    ; テキストエスケープ
+    _tts_json_escape text, _esc_text
+
+    ; JSON body
+    sdim _body, strlen(_esc_text) + 512
+    _body  = "{\"model\":\"" + _model + "\","
+    _body += "\"input\":\"" + _esc_text + "\","
+    _body += "\"voice\":\"" + _voice + "\","
+    _body += "\"response_format\":\"" + _fmt + "\"}"
+
+    ; Authorization
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key@iron_ai) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key@iron_ai + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint@iron_ai + "/audio/speech"
+
+    ; POST — レスポンスはバイナリ音声データ
+    ; http_post は内部で body を sdim (文字列) として返すが、
+    ; バイナリデータも memcpy で格納されるのでバイナリ安全。
+    ; ただし strlen では正確なサイズが取れないため、
+    ; ここでは streaming で受け取ってファイルに直接書き出す。
+    http_stream_open _full_url, _body, "application/json"
+    if stat = 0 : return 0
+
+    ; ファイルに書き出し
+    sdim _resp_buf, 65536
+    _tts_total_written = 0
+
+    ; まずファイルを空で作成
+    sdim _resp_buf, 16
+    bsave output_path, _resp_buf, 0
+
+    repeat
+        sdim _resp_buf, 32768
+        http_stream_read _resp_buf, 32767
+        if stat <= 0 : break
+        _tts_read_len = stat
+        ; 追記書き込み (bsave の offset 指定)
+        bsave output_path, _resp_buf, _tts_read_len, _tts_total_written
+        _tts_total_written += _tts_read_len
+    loop
+
+    http_stream_close
+
+    if _tts_total_written > 0 : return 200
+    return -1
+
+#global
+
+    ; 初期化
+    sdim _tts_voice@iron_ai_tts, 64
+    _tts_voice@iron_ai_tts = "alloy"
+    sdim _tts_model@iron_ai_tts, 64
+    _tts_model@iron_ai_tts = "tts-1"
+    sdim _tts_format@iron_ai_tts, 16
+    _tts_format@iron_ai_tts = "mp3"
+    _tts_total_written@iron_ai_tts = 0
+    _tts_read_len@iron_ai_tts = 0
+
+#endif

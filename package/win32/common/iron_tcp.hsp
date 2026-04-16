@@ -1,0 +1,232 @@
+;============================================================
+;   iron_tcp.hsp — TCP クライアント / サーバー (.NET版)
+;
+;   System.Net.Sockets.TcpClient / TcpListener を使用。
+;   hsp3net 専用。
+;
+;   API:
+;     tcp_connect "host", port, handle    クライアント接続 → stat (0=成功)
+;     tcp_listen port, handle             サーバー開始 → stat (0=成功)
+;     tcp_accept handle, client           接続受付 → stat (1=新規クライアント, 0=なし)
+;     tcp_send handle, "data"             文字列送信
+;     tcp_send_bytes handle, buf, len     バイナリ送信
+;     tcp_recv handle, data, timeout_ms   受信 → stat (受信バイト数)
+;     tcp_close handle                    切断
+;
+;   例:
+;     #include "iron_tcp.hsp"
+;     ; クライアント
+;     tcp_connect "example.com", 80, h
+;     if stat == 0 {
+;         tcp_send h, "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n"
+;         tcp_recv h, data, 5000
+;         mes data
+;         tcp_close h
+;     }
+;============================================================
+
+#ifndef __iron_tcp_hsp__
+#define __iron_tcp_hsp__
+
+#module iron_tcp
+
+dim _tcp_cs_loaded, 1
+
+#deffunc _tcp_load_cs
+	if _tcp_cs_loaded : return
+	sdim cs, 12288
+	cs  = "using System;using System.IO;using System.Net;using System.Net.Sockets;"
+	cs += "using System.Text;using System.Collections.Generic;"
+	cs += "public class HspTcp {"
+	cs += "  static Dictionary<int,TcpClient> _clients = new Dictionary<int,TcpClient>();"
+	cs += "  static Dictionary<int,TcpListener> _listeners = new Dictionary<int,TcpListener>();"
+	cs += "  static int _next = 1;"
+	; Connect
+	cs += "  public static string Connect(string host, int port) {"
+	cs += "    try { var c=new TcpClient(); c.Connect(host,port);"
+	cs += "    int id=_next++; _clients[id]=c;"
+	cs += "    return \"0|\"+id; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; Listen
+	cs += "  public static string Listen(int port) {"
+	cs += "    try { var l=new TcpListener(IPAddress.Any,port); l.Start();"
+	cs += "    int id=_next++; _listeners[id]=l;"
+	cs += "    return \"0|\"+id; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; Accept
+	cs += "  public static string Accept(int id) {"
+	cs += "    try { if(!_listeners.ContainsKey(id)) return \"0|0\";"
+	cs += "    var l=_listeners[id];"
+	cs += "    if(!l.Pending()) return \"0|0\";"
+	cs += "    var c=l.AcceptTcpClient();"
+	cs += "    int cid=_next++; _clients[cid]=c;"
+	cs += "    return \"1|\"+cid; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; Send
+	cs += "  public static string Send(int id, string data) {"
+	cs += "    try { if(!_clients.ContainsKey(id)) return \"-1|not connected\";"
+	cs += "    var c=_clients[id]; var ns=c.GetStream();"
+	cs += "    var buf=Encoding.UTF8.GetBytes(data);"
+	cs += "    ns.Write(buf,0,buf.Length);"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; SendBytes
+	cs += "  public static string SendBytes(int id, byte[] data) {"
+	cs += "    try { if(!_clients.ContainsKey(id)) return \"-1|not connected\";"
+	cs += "    var c=_clients[id]; var ns=c.GetStream();"
+	cs += "    ns.Write(data,0,data.Length);"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; Recv
+	cs += "  public static string Recv(int id, int timeout) {"
+	cs += "    try { if(!_clients.ContainsKey(id)) return \"-1|not connected\";"
+	cs += "    var c=_clients[id]; var ns=c.GetStream();"
+	cs += "    ns.ReadTimeout=timeout;"
+	cs += "    var buf=new byte[65536]; int n;"
+	cs += "    try { n=ns.Read(buf,0,buf.Length); }"
+	cs += "    catch(IOException) { return \"0|\"; }"
+	cs += "    if(n==0) return \"0|\";"
+	cs += "    return n+\"|\"+Encoding.UTF8.GetString(buf,0,n); }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	; Close
+	cs += "  public static string Close(int id) {"
+	cs += "    try { if(_clients.ContainsKey(id)) { _clients[id].Close(); _clients.Remove(id); }"
+	cs += "    if(_listeners.ContainsKey(id)) { _listeners[id].Stop(); _listeners.Remove(id); }"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "}"
+	loadnet cs, 3
+	_tcp_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; tcp_connect "host", port, var_handle
+;   TCP 接続。stat=0 で成功、handle に接続 ID。
+;------------------------------------------------------------
+#deffunc tcp_connect str host, int port, var out_handle, \
+	local pHelper, local pResult, local s, local p
+	_tcp_load_cs
+	newnet pHelper, "", "HspTcp", 1
+	netres pResult
+	mcall pHelper, "Connect", host, port
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : out_handle = 0 : return -1
+	rc = int(strmid(s, 0, p))
+	if rc == 0 {
+		out_handle = int(strmid(s, p + 1, strlen(s) - p - 1))
+	} else {
+		out_handle = 0
+	}
+	return rc
+
+;------------------------------------------------------------
+; tcp_listen port, var_handle
+;   TCP リスナー開始。stat=0 で成功。
+;------------------------------------------------------------
+#deffunc tcp_listen int port, var out_handle, \
+	local pHelper, local pResult, local s, local p
+	_tcp_load_cs
+	newnet pHelper, "", "HspTcp", 1
+	netres pResult
+	mcall pHelper, "Listen", port
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : out_handle = 0 : return -1
+	rc = int(strmid(s, 0, p))
+	if rc == 0 {
+		out_handle = int(strmid(s, p + 1, strlen(s) - p - 1))
+	} else {
+		out_handle = 0
+	}
+	return rc
+
+;------------------------------------------------------------
+; tcp_accept handle, var_client
+;   接続受付。stat=1 で新規クライアントあり。
+;------------------------------------------------------------
+#deffunc tcp_accept int handle, var out_client, \
+	local pHelper, local pResult, local s, local p
+	_tcp_load_cs
+	newnet pHelper, "", "HspTcp", 1
+	netres pResult
+	mcall pHelper, "Accept", handle
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : out_client = 0 : return 0
+	rc = int(strmid(s, 0, p))
+	if rc == 1 {
+		out_client = int(strmid(s, p + 1, strlen(s) - p - 1))
+	} else {
+		out_client = 0
+	}
+	return rc
+
+;------------------------------------------------------------
+; tcp_send handle, "data"
+;   文字列送信。
+;------------------------------------------------------------
+#deffunc tcp_send int handle, str data, \
+	local pHelper, local pResult, local s, local p
+	_tcp_load_cs
+	newnet pHelper, "", "HspTcp", 1
+	netres pResult
+	mcall pHelper, "Send", handle, data
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	return int(strmid(s, 0, p))
+
+;------------------------------------------------------------
+; tcp_send_bytes handle, var_buf, len
+;   バイナリ送信。
+;------------------------------------------------------------
+#deffunc tcp_send_bytes int handle, var buf, int data_len, \
+	local pHelper, local pResult, local s, local p, local pBytes
+	_tcp_load_cs
+	newnet pHelper, "", "HspTcp", 1
+	netval pBytes, buf, data_len
+	netres pResult
+	mcall pHelper, "SendBytes", handle, pBytes
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	return int(strmid(s, 0, p))
+
+;------------------------------------------------------------
+; tcp_recv handle, var_data, timeout_ms
+;   受信。stat に受信バイト数 (0=タイムアウト)。
+;------------------------------------------------------------
+#deffunc tcp_recv int handle, var out_data, int timeout_ms, \
+	local pHelper, local pResult, local s, local p
+	_tcp_load_cs
+	sdim out_data, 65536
+	newnet pHelper, "", "HspTcp", 1
+	netres pResult
+	mcall pHelper, "Recv", handle, timeout_ms
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	rc = int(strmid(s, 0, p))
+	if rc > 0 {
+		out_data = strmid(s, p + 1, strlen(s) - p - 1)
+	} else {
+		out_data = ""
+	}
+	return rc
+
+;------------------------------------------------------------
+; tcp_close handle
+;   TCP 接続またはリスナーを閉じる。
+;------------------------------------------------------------
+#deffunc tcp_close int handle, \
+	local pHelper, local pResult
+	_tcp_load_cs
+	newnet pHelper, "", "HspTcp", 1
+	netres pResult
+	mcall pHelper, "Close", handle
+	return 0
+
+#global
+
+#endif

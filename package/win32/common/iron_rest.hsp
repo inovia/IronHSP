@@ -1,0 +1,190 @@
+;============================================================
+;   iron_rest.hsp — REST API ビルダー (Pure HSP)
+;
+;   iron_http.hsp を使用した高レベル REST クライアント。
+;   ベース URL / 認証 / ヘッダの事前設定で API 呼び出しを簡潔にする。
+;   .NET 不要。
+;
+;   API:
+;     rest_set_base "https://api.example.com/v1"       ベース URL 設定
+;     rest_set_auth "Bearer", "token"                  認証設定 (Bearer/Basic/ApiKey)
+;     rest_set_header "name", "value"                  追加ヘッダ設定
+;     rest_get "path", body                            GET → stat (HTTP status)
+;     rest_post "path", "json", resp                   POST → stat
+;     rest_put "path", "json", resp                    PUT → stat
+;     rest_delete "path", resp                         DELETE → stat
+;     rest_patch "path", "json", resp                  PATCH → stat
+;
+;   例:
+;     #include "iron_http.hsp"
+;     #include "iron_rest.hsp"
+;
+;     rest_set_base "https://jsonplaceholder.typicode.com"
+;     rest_get "/posts/1", body
+;     if stat == 200 : mes body
+;
+;     rest_set_base "https://api.openai.com/v1"
+;     rest_set_auth "Bearer", "sk-..."
+;     rest_post "/chat/completions", "{\"model\":\"gpt-4\",\"messages\":[{\"role\":\"user\",\"content\":\"Hi\"}]}", resp
+;     if stat == 200 : mes resp
+;============================================================
+
+#ifndef __iron_rest_hsp__
+#define __iron_rest_hsp__
+
+#include "iron_http.hsp"
+
+#module iron_rest
+
+;------------------------------------------------------------
+; 内部状態の初期化
+;------------------------------------------------------------
+#deffunc _rest_init
+	if _rest_initialized ! 0 : return
+	_rest_initialized = 1
+	sdim _rest_base_url, 1024
+	sdim _rest_auth_header, 1024
+	sdim _rest_extra_headers, 4096
+	_rest_base_url = ""
+	_rest_auth_header = ""
+	_rest_extra_headers = ""
+	return
+
+;------------------------------------------------------------
+; rest_set_base "https://api.example.com/v1"
+;   ベース URL を設定。末尾の / は不要。
+;------------------------------------------------------------
+#deffunc rest_set_base str base_url
+	_rest_init
+	_rest_base_url = base_url
+	; 末尾 / を除去
+	if strlen(_rest_base_url) > 0 {
+		if strmid(_rest_base_url, strlen(_rest_base_url) - 1, 1) == "/" {
+			_rest_base_url = strmid(_rest_base_url, 0, strlen(_rest_base_url) - 1)
+		}
+	}
+	return
+
+;------------------------------------------------------------
+; rest_set_auth "type", "credential"
+;   認証ヘッダを設定。
+;   type = "Bearer" → Authorization: Bearer <credential>
+;   type = "Basic"  → Authorization: Basic <credential>
+;   type = "ApiKey" → X-API-Key: <credential>
+;   空文字でクリア。
+;------------------------------------------------------------
+#deffunc rest_set_auth str auth_type, str credential
+	_rest_init
+	if strlen(auth_type) == 0 {
+		_rest_auth_header = ""
+		return
+	}
+	if auth_type == "ApiKey" {
+		_rest_auth_header = "X-API-Key: " + credential + "\r\n"
+	} else {
+		_rest_auth_header = "Authorization: " + auth_type + " " + credential + "\r\n"
+	}
+	return
+
+;------------------------------------------------------------
+; rest_set_header "name", "value"
+;   追加ヘッダを設定。同じ name は上書きされず追加される。
+;   name を空文字にすると全クリア。
+;------------------------------------------------------------
+#deffunc rest_set_header str name, str value
+	_rest_init
+	if strlen(name) == 0 {
+		_rest_extra_headers = ""
+		return
+	}
+	_rest_extra_headers += name + ": " + value + "\r\n"
+	return
+
+;------------------------------------------------------------
+; 内部: ヘッダを iron_http に適用してリクエスト実行
+;------------------------------------------------------------
+#deffunc _rest_apply_headers
+	_rest_init
+	sdim _rest_combined, 8192
+	_rest_combined = ""
+	if strlen(_rest_auth_header) > 0 {
+		_rest_combined += _rest_auth_header
+	}
+	if strlen(_rest_extra_headers) > 0 {
+		_rest_combined += _rest_extra_headers
+	}
+	http_set_header _rest_combined
+	return
+
+#deffunc _rest_do str method, str path, str body, var out_body, \
+	local full_url, local http_status
+	_rest_init
+	_rest_apply_headers
+	full_url = _rest_base_url + path
+	sdim out_body, 16
+
+	if method == "GET" {
+		http_get full_url, out_body
+		http_status = stat
+	} else {
+		; POST, PUT, DELETE, PATCH は _http_do 相当を http_post 経由で
+		; iron_http の _http_do を活用
+		if method == "POST" {
+			http_post full_url, body, out_body, "application/json"
+			http_status = stat
+		} else {
+			; PUT, DELETE, PATCH は iron_http の内部関数 _http_do を使用
+			; iron_http は GET/POST のみ公開なので、ヘッダにメソッドオーバーライドを追加
+			; または iron_http の _http_do を直接呼ぶ
+			_http_do full_url, method, body, "application/json", "IronHSP/1.0", out_body
+			http_status = stat
+		}
+	}
+
+	; ヘッダをクリア (iron_http のグローバル状態をリセット)
+	; 次回 _rest_apply_headers で再設定されるのでリセット不要だが、安全のため
+	return http_status
+
+;------------------------------------------------------------
+; rest_get "path", var_body
+;   GET リクエスト。stat に HTTP ステータスコード。
+;------------------------------------------------------------
+#deffunc rest_get str path, var out_body
+	_rest_do "GET", path, "", out_body
+	return stat
+
+;------------------------------------------------------------
+; rest_post "path", "json_body", var_resp
+;   POST リクエスト。stat に HTTP ステータスコード。
+;------------------------------------------------------------
+#deffunc rest_post str path, str json_body, var out_resp
+	_rest_do "POST", path, json_body, out_resp
+	return stat
+
+;------------------------------------------------------------
+; rest_put "path", "json_body", var_resp
+;   PUT リクエスト。stat に HTTP ステータスコード。
+;------------------------------------------------------------
+#deffunc rest_put str path, str json_body, var out_resp
+	_rest_do "PUT", path, json_body, out_resp
+	return stat
+
+;------------------------------------------------------------
+; rest_delete "path", var_resp
+;   DELETE リクエスト。stat に HTTP ステータスコード。
+;------------------------------------------------------------
+#deffunc rest_delete str path, var out_resp
+	_rest_do "DELETE", path, "", out_resp
+	return stat
+
+;------------------------------------------------------------
+; rest_patch "path", "json_body", var_resp
+;   PATCH リクエスト。stat に HTTP ステータスコード。
+;------------------------------------------------------------
+#deffunc rest_patch str path, str json_body, var out_resp
+	_rest_do "PATCH", path, json_body, out_resp
+	return stat
+
+#global
+
+#endif

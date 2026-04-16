@@ -1,0 +1,2 @@
+	#include "iron_rag.hsp"
+	mes "rag sample (requires API key)"

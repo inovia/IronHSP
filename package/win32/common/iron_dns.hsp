@@ -1,0 +1,114 @@
+;============================================================
+;   iron_dns.hsp — DNS ルックアップ (.NET版)
+;
+;   System.Net.Dns を使用。正引き / 全 IP 取得 / 逆引きに対応。
+;   hsp3net 専用。
+;
+;   API:
+;     dns_lookup "hostname", ip          正引き → stat (0=成功)
+;     dns_lookup_all "hostname", ips     全 IP 取得 → stat (IP数)
+;     dns_reverse "ip", hostname         逆引き → stat (0=成功)
+;
+;   例:
+;     #include "iron_dns.hsp"
+;     dns_lookup "www.google.com", ip
+;     if stat == 0 : mes "IP: " + ip
+;
+;     dns_lookup_all "www.google.com", ips
+;     mes "" + stat + " 件の IP:"
+;     mes ips
+;
+;     dns_reverse "8.8.8.8", host
+;     if stat == 0 : mes "Hostname: " + host
+;============================================================
+
+#ifndef __iron_dns_hsp__
+#define __iron_dns_hsp__
+
+#module iron_dns
+
+dim _dns_cs_loaded, 1
+
+#deffunc _dns_load_cs
+	if _dns_cs_loaded : return
+	sdim cs, 4096
+	cs  = "using System;using System.Net;using System.Text;"
+	cs += "public class HspDns {"
+	cs += "  public static string Lookup(string host) {"
+	cs += "    try { var ips=Dns.GetHostAddresses(host);"
+	cs += "    if(ips.Length==0) return \"-1|no result\";"
+	cs += "    return \"0|\"+ips[0].ToString(); }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "  public static string LookupAll(string host) {"
+	cs += "    try { var ips=Dns.GetHostAddresses(host);"
+	cs += "    var sb=new StringBuilder();"
+	cs += "    foreach(var ip in ips) { if(sb.Length>0) sb.Append(\"\\n\"); sb.Append(ip.ToString()); }"
+	cs += "    return ips.Length+\"|\"+sb.ToString(); }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "  public static string Reverse(string ip) {"
+	cs += "    try { var entry=Dns.GetHostEntry(IPAddress.Parse(ip));"
+	cs += "    return \"0|\"+entry.HostName; }"
+	cs += "    catch(Exception e) { return \"-1|\"+e.Message; } }"
+	cs += "}"
+	loadnet cs, 3
+	_dns_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; dns_lookup "hostname", var_ip
+;   ホスト名から IP アドレスを取得。stat=0 で成功。
+;------------------------------------------------------------
+#deffunc dns_lookup str hostname, var out_ip, \
+	local pHelper, local pResult, local s, local p
+	_dns_load_cs
+	sdim out_ip, 256
+	newnet pHelper, "", "HspDns", 1
+	netres pResult
+	mcall pHelper, "Lookup", hostname
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	rc = int(strmid(s, 0, p))
+	out_ip = strmid(s, p + 1, strlen(s) - p - 1)
+	return rc
+
+;------------------------------------------------------------
+; dns_lookup_all "hostname", var_ips
+;   全 IP アドレスを改行区切りで取得。stat=IP 数。
+;------------------------------------------------------------
+#deffunc dns_lookup_all str hostname, var out_ips, \
+	local pHelper, local pResult, local s, local p
+	_dns_load_cs
+	sdim out_ips, 4096
+	newnet pHelper, "", "HspDns", 1
+	netres pResult
+	mcall pHelper, "LookupAll", hostname
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	rc = int(strmid(s, 0, p))
+	out_ips = strmid(s, p + 1, strlen(s) - p - 1)
+	if rc < 0 : return 0
+	return rc
+
+;------------------------------------------------------------
+; dns_reverse "ip", var_hostname
+;   IP アドレスからホスト名を逆引き。stat=0 で成功。
+;------------------------------------------------------------
+#deffunc dns_reverse str ip_addr, var out_hostname, \
+	local pHelper, local pResult, local s, local p
+	_dns_load_cs
+	sdim out_hostname, 256
+	newnet pHelper, "", "HspDns", 1
+	netres pResult
+	mcall pHelper, "Reverse", ip_addr
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	rc = int(strmid(s, 0, p))
+	out_hostname = strmid(s, p + 1, strlen(s) - p - 1)
+	return rc
+
+#global
+
+#endif

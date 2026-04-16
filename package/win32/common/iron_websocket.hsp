@@ -1,0 +1,187 @@
+;============================================================
+;   iron_websocket.hsp — WebSocket クライアント (.NET版)
+;
+;   System.Net.WebSockets.ClientWebSocket を使用。
+;   wss:// / ws:// 接続、テキスト / バイナリ送受信に対応。
+;   hsp3net 専用。
+;
+;   API:
+;     ws_connect "wss://...", handle      接続 → stat (0=成功)
+;     ws_send handle, "message"           テキスト送信
+;     ws_send_binary handle, buf, len     バイナリ送信
+;     ws_recv handle, msg, timeout_ms     受信 → stat (0=受信, 1=タイムアウト)
+;     ws_close handle                     切断
+;     ws_is_connected(handle)             接続確認 (1/0)
+;
+;   例:
+;     #include "iron_websocket.hsp"
+;     ws_connect "wss://echo.websocket.org", h
+;     if stat == 0 {
+;         ws_send h, "Hello"
+;         ws_recv h, msg, 5000
+;         if stat == 0 : mes msg
+;         ws_close h
+;     }
+;============================================================
+
+#ifndef __iron_websocket_hsp__
+#define __iron_websocket_hsp__
+
+#module iron_websocket
+
+dim _ws_cs_loaded, 1
+
+#deffunc _ws_load_cs
+	if _ws_cs_loaded : return
+	sdim cs, 8192
+	cs  = "using System;using System.Net.WebSockets;using System.Text;"
+	cs += "using System.Threading;using System.Threading.Tasks;"
+	cs += "using System.Collections.Generic;"
+	cs += "public class HspWebSocket {"
+	cs += "  static Dictionary<int,ClientWebSocket> _socks = new Dictionary<int,ClientWebSocket>();"
+	cs += "  static int _next = 1;"
+	cs += "  public static string Connect(string uri) {"
+	cs += "    try { var ws = new ClientWebSocket();"
+	cs += "    ws.ConnectAsync(new Uri(uri), CancellationToken.None).GetAwaiter().GetResult();"
+	cs += "    int id = _next++; _socks[id] = ws;"
+	cs += "    return \"0|\" + id; }"
+	cs += "    catch(Exception e) { return \"-1|\" + e.Message; } }"
+	cs += "  public static string Send(int id, string msg) {"
+	cs += "    try { if(!_socks.ContainsKey(id)) return \"-1|not connected\";"
+	cs += "    var ws = _socks[id];"
+	cs += "    var buf = Encoding.UTF8.GetBytes(msg);"
+	cs += "    ws.SendAsync(new ArraySegment<byte>(buf), WebSocketMessageType.Text, true, CancellationToken.None).GetAwaiter().GetResult();"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\" + e.Message; } }"
+	cs += "  public static string SendBinary(int id, byte[] data) {"
+	cs += "    try { if(!_socks.ContainsKey(id)) return \"-1|not connected\";"
+	cs += "    var ws = _socks[id];"
+	cs += "    ws.SendAsync(new ArraySegment<byte>(data), WebSocketMessageType.Binary, true, CancellationToken.None).GetAwaiter().GetResult();"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\" + e.Message; } }"
+	cs += "  public static string Recv(int id, int timeout_ms) {"
+	cs += "    try { if(!_socks.ContainsKey(id)) return \"-1|not connected\";"
+	cs += "    var ws = _socks[id];"
+	cs += "    var buf = new byte[65536];"
+	cs += "    var cts = new CancellationTokenSource(timeout_ms);"
+	cs += "    WebSocketReceiveResult r;"
+	cs += "    try { r = ws.ReceiveAsync(new ArraySegment<byte>(buf), cts.Token).GetAwaiter().GetResult(); }"
+	cs += "    catch(OperationCanceledException) { return \"1|timeout\"; }"
+	cs += "    if(r.MessageType == WebSocketMessageType.Close) return \"2|closed\";"
+	cs += "    return \"0|\" + Encoding.UTF8.GetString(buf, 0, r.Count); }"
+	cs += "    catch(Exception e) { return \"-1|\" + e.Message; } }"
+	cs += "  public static string Close(int id) {"
+	cs += "    try { if(!_socks.ContainsKey(id)) return \"0|\";"
+	cs += "    var ws = _socks[id];"
+	cs += "    if(ws.State == WebSocketState.Open)"
+	cs += "      ws.CloseAsync(WebSocketCloseStatus.NormalClosure, \"\", CancellationToken.None).GetAwaiter().GetResult();"
+	cs += "    ws.Dispose(); _socks.Remove(id);"
+	cs += "    return \"0|\"; }"
+	cs += "    catch(Exception e) { return \"-1|\" + e.Message; } }"
+	cs += "  public static string IsConnected(int id) {"
+	cs += "    if(!_socks.ContainsKey(id)) return \"0\";"
+	cs += "    return _socks[id].State == WebSocketState.Open ? \"1\" : \"0\"; }"
+	cs += "}"
+	loadnet cs, 3
+	_ws_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; ws_connect "uri", var_handle
+;   WebSocket 接続。stat=0 で成功、handle に接続 ID。
+;------------------------------------------------------------
+#deffunc ws_connect str uri, var out_handle, \
+	local pHelper, local pResult, local s, local p
+	_ws_load_cs
+	newnet pHelper, "", "HspWebSocket", 1
+	netres pResult
+	mcall pHelper, "Connect", uri
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : out_handle = 0 : return -1
+	rc = int(strmid(s, 0, p))
+	if rc == 0 {
+		out_handle = int(strmid(s, p + 1, strlen(s) - p - 1))
+	} else {
+		out_handle = 0
+	}
+	return rc
+
+;------------------------------------------------------------
+; ws_send handle, "message"
+;   テキストメッセージ送信。
+;------------------------------------------------------------
+#deffunc ws_send int handle, str msg, \
+	local pHelper, local pResult, local s, local p
+	_ws_load_cs
+	newnet pHelper, "", "HspWebSocket", 1
+	netres pResult
+	mcall pHelper, "Send", handle, msg
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	return int(strmid(s, 0, p))
+
+;------------------------------------------------------------
+; ws_send_binary handle, var_data, len
+;   バイナリデータ送信。
+;------------------------------------------------------------
+#deffunc ws_send_binary int handle, var data, int data_len, \
+	local pHelper, local pResult, local s, local p, local pBytes
+	_ws_load_cs
+	; バイナリデータを .NET byte[] に変換
+	newnet pHelper, "", "HspWebSocket", 1
+	netval pBytes, data, data_len
+	netres pResult
+	mcall pHelper, "SendBinary", handle, pBytes
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : return -1
+	return int(strmid(s, 0, p))
+
+;------------------------------------------------------------
+; ws_recv handle, var_msg, timeout_ms
+;   メッセージ受信。stat=0 で受信成功、stat=1 でタイムアウト。
+;------------------------------------------------------------
+#deffunc ws_recv int handle, var out_msg, int timeout_ms, \
+	local pHelper, local pResult, local s, local p
+	_ws_load_cs
+	sdim out_msg, 65536
+	newnet pHelper, "", "HspWebSocket", 1
+	netres pResult
+	mcall pHelper, "Recv", handle, timeout_ms
+	s = nettoval(pResult, 2)
+	p = instr(s, 0, "|")
+	if p < 0 : out_msg = "" : return -1
+	rc = int(strmid(s, 0, p))
+	out_msg = strmid(s, p + 1, strlen(s) - p - 1)
+	return rc
+
+;------------------------------------------------------------
+; ws_close handle
+;   WebSocket 切断。
+;------------------------------------------------------------
+#deffunc ws_close int handle, \
+	local pHelper, local pResult
+	_ws_load_cs
+	newnet pHelper, "", "HspWebSocket", 1
+	netres pResult
+	mcall pHelper, "Close", handle
+	return 0
+
+;------------------------------------------------------------
+; ws_is_connected(handle)
+;   接続確認。1=接続中, 0=未接続。
+;------------------------------------------------------------
+#defcfunc ws_is_connected int handle, \
+	local pHelper, local pResult, local s
+	_ws_load_cs
+	newnet pHelper, "", "HspWebSocket", 1
+	netres pResult
+	mcall pHelper, "IsConnected", handle
+	s = nettoval(pResult, 2)
+	return int(s)
+
+#global
+
+#endif

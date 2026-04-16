@@ -1,0 +1,203 @@
+;============================================================
+;   iron_http_net.hsp — HTTP クライアント (.NET版)
+;
+;   System.Net.Http.HttpClient を使用。
+;   HTTPS, HTTP/2, 自動リダイレクト, gzip 圧縮に対応。
+;   hsp3net 専用。
+;
+;   API:
+;     httpn_get "url", var_body              GET リクエスト (stat=ステータスコード)
+;     httpn_post "url", "body", var_resp, "content-type"  POST リクエスト
+;     httpn_set_header "name", "value"       カスタムヘッダ設定
+;     httpn_set_timeout ms                   タイムアウト設定 (ミリ秒)
+;     httpn_download "url", "filepath"       ファイルダウンロード
+;     httpn_set_cookie "name=value"          クッキー設定
+;============================================================
+#ifndef __iron_http_net_hsp__
+#define __iron_http_net_hsp__
+
+#module iron_http_net
+
+dim _httpn_cs_loaded, 1
+
+#deffunc _httpn_load_cs
+	if _httpn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public class HspHttpNet {
+    static HttpClientHandler handler;
+    static HttpClient client;
+    static CookieContainer cookies = new CookieContainer();
+    static Dictionary<string, string> customHeaders = new Dictionary<string, string>();
+
+    static void EnsureClient() {
+        if (client == null) {
+            handler = new HttpClientHandler();
+            handler.CookieContainer = cookies;
+            handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            handler.AllowAutoRedirect = true;
+            client = new HttpClient(handler);
+            client.DefaultRequestHeaders.Add("User-Agent", "IronHSP/1.0");
+        }
+    }
+
+    static void ApplyHeaders() {
+        foreach (var kv in customHeaders) {
+            if (client.DefaultRequestHeaders.Contains(kv.Key))
+                client.DefaultRequestHeaders.Remove(kv.Key);
+            client.DefaultRequestHeaders.TryAddWithoutValidation(kv.Key, kv.Value);
+        }
+    }
+
+    public static string SetHeader(string name, string val) {
+        EnsureClient();
+        customHeaders[name] = val;
+        return "ok";
+    }
+
+    public static string SetTimeout(int ms) {
+        EnsureClient();
+        client.Timeout = TimeSpan.FromMilliseconds(ms);
+        return "ok";
+    }
+
+    public static string SetCookie(string nameValue, string domain) {
+        try {
+            EnsureClient();
+            if (string.IsNullOrEmpty(domain)) domain = "/";
+            cookies.SetCookies(new Uri("http://localhost"), nameValue);
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string Get(string url) {
+        try {
+            EnsureClient();
+            ApplyHeaders();
+            var resp = client.GetAsync(url).Result;
+            int code = (int)resp.StatusCode;
+            string body = resp.Content.ReadAsStringAsync().Result;
+            return code + "\t" + body;
+        } catch (Exception e) { return "-1\tERROR:" + e.Message; }
+    }
+
+    public static string Post(string url, string body, string contentType) {
+        try {
+            EnsureClient();
+            ApplyHeaders();
+            var content = new StringContent(body, Encoding.UTF8,
+                string.IsNullOrEmpty(contentType) ? "application/json" : contentType);
+            var resp = client.PostAsync(url, content).Result;
+            int code = (int)resp.StatusCode;
+            string respBody = resp.Content.ReadAsStringAsync().Result;
+            return code + "\t" + respBody;
+        } catch (Exception e) { return "-1\tERROR:" + e.Message; }
+    }
+
+    public static string Download(string url, string filepath) {
+        try {
+            EnsureClient();
+            ApplyHeaders();
+            var resp = client.GetAsync(url).Result;
+            int code = (int)resp.StatusCode;
+            if (resp.IsSuccessStatusCode) {
+                var bytes = resp.Content.ReadAsByteArrayAsync().Result;
+                File.WriteAllBytes(filepath, bytes);
+            }
+            return code.ToString();
+        } catch (Exception e) { return "-1\tERROR:" + e.Message; }
+    }
+}
+"}
+	loadnet _cs, 3, "System.Net.Http.dll"
+	_httpn_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; httpn_get "url", var_body — GET リクエスト
+;   stat にステータスコードが返る
+;------------------------------------------------------------
+#deffunc httpn_get str url, var v_body, \
+	local _h, local _r, local _s, local _tab
+	_httpn_load_cs
+	newnet _h, "HspHttpNet"
+	mcall _h, "Get", _r, url
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 {
+		v_body = _s
+		return -1
+	}
+	v_body = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; httpn_post "url", "body", var_resp, "content-type"
+;------------------------------------------------------------
+#deffunc httpn_post str url, str body, var v_resp, str ctype, \
+	local _h, local _r, local _s, local _tab
+	_httpn_load_cs
+	newnet _h, "HspHttpNet"
+	mcall _h, "Post", _r, url, body, ctype
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 {
+		v_resp = _s
+		return -1
+	}
+	v_resp = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; httpn_set_header "name", "value"
+;------------------------------------------------------------
+#deffunc httpn_set_header str name, str val, \
+	local _h, local _r
+	_httpn_load_cs
+	newnet _h, "HspHttpNet"
+	mcall _h, "SetHeader", _r, name, val
+	return 0
+
+;------------------------------------------------------------
+; httpn_set_timeout ms
+;------------------------------------------------------------
+#deffunc httpn_set_timeout int ms, \
+	local _h, local _r
+	_httpn_load_cs
+	newnet _h, "HspHttpNet"
+	mcall _h, "SetTimeout", _r, ms
+	return 0
+
+;------------------------------------------------------------
+; httpn_download "url", "filepath"
+;------------------------------------------------------------
+#deffunc httpn_download str url, str filepath, \
+	local _h, local _r, local _s
+	_httpn_load_cs
+	newnet _h, "HspHttpNet"
+	mcall _h, "Download", _r, url, filepath
+	_s = "" + _r
+	if instr(_s, 0, "ERROR") >= 0 : return -1
+	return int(_s)
+
+;------------------------------------------------------------
+; httpn_set_cookie "name=value"
+;------------------------------------------------------------
+#deffunc httpn_set_cookie str namevalue, \
+	local _h, local _r
+	_httpn_load_cs
+	newnet _h, "HspHttpNet"
+	mcall _h, "SetCookie", _r, namevalue, ""
+	return 0
+
+#global
+#endif

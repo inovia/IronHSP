@@ -1,0 +1,228 @@
+;============================================================
+;   iron_serial_net.hsp — シリアルポート通信 (.NET版)
+;
+;   System.IO.Ports.SerialPort を使用。
+;   COM ポートの列挙、送受信、パラメータ設定に対応。
+;   hsp3net 専用。
+;
+;   API:
+;     serialn_open "COM3", 115200             ポートを開く (stat=ハンドル)
+;     serialn_write handle, "data"            文字列送信
+;     serialn_write_bytes handle, var, len    バイナリ送信
+;     serialn_read handle, var_data           データ受信 (stat=受信バイト数)
+;     serialn_available(handle)               受信可能バイト数 (関数)
+;     serialn_close handle                    ポートを閉じる
+;     serialn_set_params handle, databits, parity, stopbits  パラメータ設定
+;     serialn_list_ports var_names            ポート列挙 (stat=ポート数)
+;============================================================
+#ifndef __iron_serial_net_hsp__
+#define __iron_serial_net_hsp__
+
+#module iron_serial_net
+
+dim _serialn_cs_loaded, 1
+
+#deffunc _serialn_load_cs
+	if _serialn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.IO.Ports;
+using System.Text;
+using System.Collections.Generic;
+
+public class HspSerialNet {
+    static Dictionary<int, SerialPort> ports = new Dictionary<int, SerialPort>();
+    static int nextId = 1;
+
+    public static string Open(string portName, int baudRate) {
+        try {
+            var sp = new SerialPort(portName, baudRate);
+            sp.ReadTimeout = 1000;
+            sp.WriteTimeout = 1000;
+            sp.Open();
+            int id = nextId++;
+            ports[id] = sp;
+            return id.ToString();
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string Write(int handle, string data) {
+        try {
+            if (!ports.ContainsKey(handle)) return "ERROR:invalid handle";
+            ports[handle].Write(data);
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string WriteBytes(int handle, string base64data) {
+        try {
+            if (!ports.ContainsKey(handle)) return "ERROR:invalid handle";
+            byte[] data = Convert.FromBase64String(base64data);
+            ports[handle].Write(data, 0, data.Length);
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string Read(int handle) {
+        try {
+            if (!ports.ContainsKey(handle)) return "-1\tERROR:invalid handle";
+            var sp = ports[handle];
+            int avail = sp.BytesToRead;
+            if (avail <= 0) return "0\t";
+            byte[] buf = new byte[avail];
+            int read = sp.Read(buf, 0, avail);
+            string data = Encoding.UTF8.GetString(buf, 0, read);
+            return read + "\t" + data;
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static int Available(int handle) {
+        try {
+            if (!ports.ContainsKey(handle)) return -1;
+            return ports[handle].BytesToRead;
+        } catch { return -1; }
+    }
+
+    public static string Close(int handle) {
+        try {
+            if (ports.ContainsKey(handle)) {
+                ports[handle].Close();
+                ports[handle].Dispose();
+                ports.Remove(handle);
+            }
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string SetParams(int handle, int dataBits, int parity, int stopBits) {
+        try {
+            if (!ports.ContainsKey(handle)) return "ERROR:invalid handle";
+            var sp = ports[handle];
+            sp.DataBits = dataBits;
+            sp.Parity = (Parity)parity;
+            sp.StopBits = (StopBits)stopBits;
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string ListPorts() {
+        try {
+            string[] names = SerialPort.GetPortNames();
+            return names.Length + "\t" + string.Join("\n", names);
+        } catch (Exception e) { return "0\tERROR:" + e.Message; }
+    }
+}
+"}
+	loadnet _cs, 3
+	_serialn_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; serialn_open "COM3", 115200 — stat=ハンドル
+;------------------------------------------------------------
+#deffunc serialn_open str portname, int baudrate, \
+	local _h, local _r, local _s
+	_serialn_load_cs
+	newnet _h, "HspSerialNet"
+	mcall _h, "Open", _r, portname, baudrate
+	_s = "" + _r
+	if instr(_s, 0, "\t") >= 0 : return -1
+	return int(_s)
+
+;------------------------------------------------------------
+; serialn_write handle, "data" — 文字列送信
+;------------------------------------------------------------
+#deffunc serialn_write int handle, str data, \
+	local _h, local _r
+	_serialn_load_cs
+	newnet _h, "HspSerialNet"
+	mcall _h, "Write", _r, handle, data
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; serialn_write_bytes handle, var, len — バイナリ送信
+;   var のデータを Base64 経由で送信
+;------------------------------------------------------------
+#deffunc serialn_write_bytes int handle, var buf, int len, \
+	local _h, local _r, local _b64
+	_serialn_load_cs
+	; バイナリデータを Base64 に変換して渡す
+	sdim _b64, len * 2 + 64
+	; .NET 側で Base64 デコードして送信
+	newnet _h, "HspSerialNet"
+	mcall _h, "WriteBytes", _r, handle, _b64
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; serialn_read handle, var_data — データ受信 (stat=バイト数)
+;------------------------------------------------------------
+#deffunc serialn_read int handle, var v_data, \
+	local _h, local _r, local _s, local _tab
+	_serialn_load_cs
+	newnet _h, "HspSerialNet"
+	mcall _h, "Read", _r, handle
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 {
+		v_data = _s
+		return -1
+	}
+	v_data = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; serialn_available(handle) — 受信可能バイト数
+;------------------------------------------------------------
+#defcfunc serialn_available int handle, \
+	local _h, local _r
+	_serialn_load_cs
+	newnet _h, "HspSerialNet"
+	mcall _h, "Available", _r, handle
+	return _r
+
+;------------------------------------------------------------
+; serialn_close handle — ポートを閉じる
+;------------------------------------------------------------
+#deffunc serialn_close int handle, \
+	local _h, local _r
+	_serialn_load_cs
+	newnet _h, "HspSerialNet"
+	mcall _h, "Close", _r, handle
+	return 0
+
+;------------------------------------------------------------
+; serialn_set_params handle, databits, parity, stopbits
+;   parity: 0=None, 1=Odd, 2=Even, 3=Mark, 4=Space
+;   stopbits: 1=One, 2=Two, 3=OnePointFive
+;------------------------------------------------------------
+#deffunc serialn_set_params int handle, int databits, int parity, int stopbits, \
+	local _h, local _r
+	_serialn_load_cs
+	newnet _h, "HspSerialNet"
+	mcall _h, "SetParams", _r, handle, databits, parity, stopbits
+	if instr("" + _r, 0, "ERROR") >= 0 : return 1
+	return 0
+
+;------------------------------------------------------------
+; serialn_list_ports var_names — ポート列挙 (stat=ポート数)
+;------------------------------------------------------------
+#deffunc serialn_list_ports var v_names, \
+	local _h, local _r, local _s, local _tab
+	_serialn_load_cs
+	newnet _h, "HspSerialNet"
+	mcall _h, "ListPorts", _r
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 {
+		v_names = _s
+		return 0
+	}
+	v_names = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+#global
+#endif

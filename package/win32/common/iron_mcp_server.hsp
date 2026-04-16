@@ -97,6 +97,30 @@
     return 0
 
 ;------------------------------------------------------------
+; リソース登録 (resources/list で公開される)
+;------------------------------------------------------------
+#deffunc iron_mcp_server_resource str uri, str name, str desc, str mime, str content
+    if _mcps_res_count >= 64 : return -1
+    _mcps_res_uri(_mcps_res_count)     = uri
+    _mcps_res_name(_mcps_res_count)    = name
+    _mcps_res_desc(_mcps_res_count)    = desc
+    _mcps_res_mime(_mcps_res_count)    = mime
+    _mcps_res_content(_mcps_res_count) = content
+    _mcps_res_count++
+    return 0
+
+;------------------------------------------------------------
+; プロンプト登録 (prompts/list で公開される)
+;------------------------------------------------------------
+#deffunc iron_mcp_server_prompt str name, str desc, str template_text
+    if _mcps_prompt_count >= 64 : return -1
+    _mcps_prompt_name(_mcps_prompt_count)     = name
+    _mcps_prompt_desc(_mcps_prompt_count)     = desc
+    _mcps_prompt_template(_mcps_prompt_count) = template_text
+    _mcps_prompt_count++
+    return 0
+
+;------------------------------------------------------------
 ; handler 内で arguments の値を取り出す
 ;------------------------------------------------------------
 #deffunc iron_mcp_arg_str str key, var out_val
@@ -249,14 +273,102 @@
         } else : if _method = "tools/call" {
             _mcps_handle_tools_call _id, _line
         } else : if _method = "resources/list" {
-            _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"result\":{\"resources\":[]}}"
+            _mcps_handle_resources_list _id
+        } else : if _method = "resources/read" {
+            _mcps_handle_resources_read _id, _line
         } else : if _method = "prompts/list" {
-            _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"result\":{\"prompts\":[]}}"
+            _mcps_handle_prompts_list _id
+        } else : if _method = "prompts/get" {
+            _mcps_handle_prompts_get _id, _line
         } else {
             ; 未対応 method
             _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"error\":{\"code\":-32601,\"message\":\"method not found\"}}"
         }
     loop
+    return
+
+;------------------------------------------------------------
+; resources/list ハンドラ
+;------------------------------------------------------------
+#deffunc _mcps_handle_resources_list int id, \
+        local _resp, local _i, local _u, local _n, local _d, local _m
+    sdim _resp, 65536
+    _resp = "{\"jsonrpc\":\"2.0\",\"id\":" + id + ",\"result\":{\"resources\":["
+    repeat _mcps_res_count
+        _i = cnt
+        _mcps_json_escape _mcps_res_uri(_i), _u
+        _mcps_json_escape _mcps_res_name(_i), _n
+        _mcps_json_escape _mcps_res_desc(_i), _d
+        _mcps_json_escape _mcps_res_mime(_i), _m
+        if _i > 0 : _resp += ","
+        _resp += "{\"uri\":\"" + _u + "\",\"name\":\"" + _n + "\",\"description\":\"" + _d + "\",\"mimeType\":\"" + _m + "\"}"
+    loop
+    _resp += "]}}"
+    _mcps_send _resp
+    return
+
+;------------------------------------------------------------
+; resources/read ハンドラ
+;------------------------------------------------------------
+#deffunc _mcps_handle_resources_read int id, str req_json, \
+        local _hid, local _uri, local _i, local _found, local _u, local _c, local _m
+    _hid = json_load(req_json)
+    _uri = json_str(_hid, "params.uri")
+    json_release _hid
+    _found = -1
+    repeat _mcps_res_count
+        if _mcps_res_uri(cnt) = _uri : _found = cnt : break
+    loop
+    if _found < 0 {
+        _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + id + ",\"error\":{\"code\":-32602,\"message\":\"resource not found\"}}"
+        return
+    }
+    _mcps_json_escape _mcps_res_uri(_found), _u
+    _mcps_json_escape _mcps_res_content(_found), _c
+    _mcps_json_escape _mcps_res_mime(_found), _m
+    sdim _resp, strlen(_c) + 1024
+    _resp = "{\"jsonrpc\":\"2.0\",\"id\":" + id + ",\"result\":{\"contents\":[{\"uri\":\"" + _u + "\",\"mimeType\":\"" + _m + "\",\"text\":\"" + _c + "\"}]}}"
+    _mcps_send _resp
+    return
+
+;------------------------------------------------------------
+; prompts/list ハンドラ
+;------------------------------------------------------------
+#deffunc _mcps_handle_prompts_list int id, \
+        local _resp, local _i, local _n, local _d
+    sdim _resp, 65536
+    _resp = "{\"jsonrpc\":\"2.0\",\"id\":" + id + ",\"result\":{\"prompts\":["
+    repeat _mcps_prompt_count
+        _i = cnt
+        _mcps_json_escape _mcps_prompt_name(_i), _n
+        _mcps_json_escape _mcps_prompt_desc(_i), _d
+        if _i > 0 : _resp += ","
+        _resp += "{\"name\":\"" + _n + "\",\"description\":\"" + _d + "\"}"
+    loop
+    _resp += "]}}"
+    _mcps_send _resp
+    return
+
+;------------------------------------------------------------
+; prompts/get ハンドラ
+;------------------------------------------------------------
+#deffunc _mcps_handle_prompts_get int id, str req_json, \
+        local _hid, local _name, local _found, local _n, local _t
+    _hid = json_load(req_json)
+    _name = json_str(_hid, "params.name")
+    json_release _hid
+    _found = -1
+    repeat _mcps_prompt_count
+        if _mcps_prompt_name(cnt) = _name : _found = cnt : break
+    loop
+    if _found < 0 {
+        _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + id + ",\"error\":{\"code\":-32602,\"message\":\"prompt not found\"}}"
+        return
+    }
+    _mcps_json_escape _mcps_prompt_template(_found), _t
+    sdim _resp, strlen(_t) + 1024
+    _resp = "{\"jsonrpc\":\"2.0\",\"id\":" + id + ",\"result\":{\"messages\":[{\"role\":\"user\",\"content\":{\"type\":\"text\",\"text\":\"" + _t + "\"}}]}}"
+    _mcps_send _resp
     return
 
 #global
@@ -269,5 +381,19 @@
 	sdim   _mcps_args_json@iron_mcp_server, 16384
 	sdim   _mcps_result_text@iron_mcp_server, 65536
 	_mcps_args_hid@iron_mcp_server = -1
+
+	; resources
+	sdim   _mcps_res_uri@iron_mcp_server,     256, 64
+	sdim   _mcps_res_name@iron_mcp_server,    256, 64
+	sdim   _mcps_res_desc@iron_mcp_server,    512, 64
+	sdim   _mcps_res_mime@iron_mcp_server,    64,  64
+	sdim   _mcps_res_content@iron_mcp_server, 4096, 64
+	_mcps_res_count@iron_mcp_server = 0
+
+	; prompts
+	sdim   _mcps_prompt_name@iron_mcp_server,     256, 64
+	sdim   _mcps_prompt_desc@iron_mcp_server,     512, 64
+	sdim   _mcps_prompt_template@iron_mcp_server, 4096, 64
+	_mcps_prompt_count@iron_mcp_server = 0
 
 #endif
