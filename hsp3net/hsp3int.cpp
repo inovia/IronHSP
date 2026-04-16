@@ -22,6 +22,7 @@
 
 #ifdef HSPWIN
 #include <windows.h>
+#include <shellapi.h>		// CommandLineToArgvW
 #include <direct.h>
 #endif
 
@@ -1694,6 +1695,27 @@ static int cmdfunc_intcmd( int cmd )
 		break;
 		}
 
+	//	IronHSP: 環境変数命令
+	case 0x032:								// setenv key, value
+		{
+		char *key = code_gets();
+		wchar_t wkey[1024];
+		MultiByteToWideChar(CP_UTF8, 0, key, -1, wkey, 1024);
+		char *val = code_gets();
+		wchar_t wval[32768];
+		MultiByteToWideChar(CP_UTF8, 0, val, -1, wval, 32768);
+		SetEnvironmentVariableW(wkey, wval);
+		break;
+		}
+	case 0x033:								// delenv key
+		{
+		char *key = code_gets();
+		wchar_t wkey[1024];
+		MultiByteToWideChar(CP_UTF8, 0, key, -1, wkey, 1024);
+		SetEnvironmentVariableW(wkey, NULL);
+		break;
+		}
+
 	default:
 		throw HSPERR_UNSUPPORTED_FUNCTION;
 	}
@@ -1704,6 +1726,25 @@ static int reffunc_intfunc_ivalue;
 static int64_t reffunc_intfunc_i64value;
 static double reffunc_intfunc_dvalue;
 static HSPREAL reffunc_intfunc_value;
+
+// IronHSP: コマンドライン引数キャッシュ
+static int s_cmdarg_argc = 0;
+static LPWSTR *s_cmdarg_argv = NULL;
+static char s_cmdarg_buf[4096];		// UTF-8 変換バッファ
+
+static void cmdarg_ensure_parsed() {
+	if (s_cmdarg_argv != NULL) return;
+	s_cmdarg_argv = CommandLineToArgvW(GetCommandLineW(), &s_cmdarg_argc);
+}
+static const char *cmdarg_get_utf8(int idx) {
+	cmdarg_ensure_parsed();
+	if (idx < 0 || idx >= s_cmdarg_argc) return "";
+	WideCharToMultiByte(CP_UTF8, 0, s_cmdarg_argv[idx], -1,
+		s_cmdarg_buf, sizeof(s_cmdarg_buf), NULL, NULL);
+	return s_cmdarg_buf;
+}
+// 環境変数用 UTF-8 バッファ
+static char s_env_buf[32768];		// GetEnvironmentVariable の最大サイズ
 
 static void *reffunc_intfunc( int *type_res, int arg )
 {
@@ -2453,6 +2494,141 @@ static void *reffunc_intfunc( int *type_res, int arg )
 			reffunc_intfunc_value = getEase( dval, dval2 );
 		}
 		break;
+
+	//	IronHSP: 環境変数・コマンドライン引数関数
+	case 0x200:								// getenv(key [,default])
+		{
+		char *key = code_gets();
+		// key を先に wchar 変換 (code_getds が同じバッファを使う可能性があるため)
+		wchar_t wkey[1024];
+		MultiByteToWideChar(CP_UTF8, 0, key, -1, wkey, 1024);
+		char *defval = code_getds("");
+		wchar_t wval[32768];
+		DWORD ret = GetEnvironmentVariableW(wkey, wval, 32768);
+		if (ret == 0) {
+			strncpy(s_env_buf, defval, sizeof(s_env_buf) - 1);
+			s_env_buf[sizeof(s_env_buf) - 1] = 0;
+		} else {
+			WideCharToMultiByte(CP_UTF8, 0, wval, -1, s_env_buf, sizeof(s_env_buf), NULL, NULL);
+		}
+		ptr = s_env_buf;
+		*type_res = HSPVAR_FLAG_STR;
+		break;
+		}
+	case 0x201:								// hasenv(key)
+		{
+		char *key = code_gets();
+		wchar_t wkey[1024];
+		MultiByteToWideChar(CP_UTF8, 0, key, -1, wkey, 1024);
+		wchar_t wval[2];
+		DWORD ret = GetEnvironmentVariableW(wkey, wval, 2);
+		reffunc_intfunc_ivalue = (ret > 0 || GetLastError() == ERROR_SUCCESS) ? 1 : 0;
+		// 値が空文字列の場合 ret=0 だが ERROR_SUCCESS → 存在する
+		if (ret == 0 && GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
+			reffunc_intfunc_ivalue = 0;
+		} else {
+			reffunc_intfunc_ivalue = 1;
+		}
+		*type_res = HSPVAR_FLAG_INT;
+		ptr = &reffunc_intfunc_ivalue;
+		break;
+		}
+	case 0x202:								// getcmdargc()
+		cmdarg_ensure_parsed();
+		reffunc_intfunc_ivalue = s_cmdarg_argc;
+		*type_res = HSPVAR_FLAG_INT;
+		ptr = &reffunc_intfunc_ivalue;
+		break;
+	case 0x203:								// getcmdarg(n)
+		{
+		p1 = code_geti();
+		ptr = (void *)cmdarg_get_utf8(p1);
+		*type_res = HSPVAR_FLAG_STR;
+		break;
+		}
+	case 0x204:								// getcmdargs(name, default)
+		{
+		char *name = code_gets();
+		static char s_cmdargs_name[256];
+		strncpy(s_cmdargs_name, name, sizeof(s_cmdargs_name) - 1);
+		s_cmdargs_name[sizeof(s_cmdargs_name) - 1] = 0;
+		char *defval = code_gets();
+		cmdarg_ensure_parsed();
+		name = s_cmdargs_name;
+		int namelen = (int)strlen(name);
+		const char *result = defval;
+		for (int i = 1; i < s_cmdarg_argc; i++) {
+			const char *a = cmdarg_get_utf8(i);
+			// --name=value 形式
+			if (strncmp(a, name, namelen) == 0 && a[namelen] == '=') {
+				result = a + namelen + 1;
+				// result はスタティックバッファ上なので別バッファにコピー
+				static char s_cmdargs_result[4096];
+				strncpy(s_cmdargs_result, result, sizeof(s_cmdargs_result) - 1);
+				s_cmdargs_result[sizeof(s_cmdargs_result) - 1] = 0;
+				result = s_cmdargs_result;
+				break;
+			}
+			// --name value 形式 (次の引数が値)
+			if (strcmp(a, name) == 0 && i + 1 < s_cmdarg_argc) {
+				result = cmdarg_get_utf8(i + 1);
+				static char s_cmdargs_result2[4096];
+				strncpy(s_cmdargs_result2, result, sizeof(s_cmdargs_result2) - 1);
+				s_cmdargs_result2[sizeof(s_cmdargs_result2) - 1] = 0;
+				result = s_cmdargs_result2;
+				break;
+			}
+		}
+		strncpy(s_env_buf, result, sizeof(s_env_buf) - 1);
+		s_env_buf[sizeof(s_env_buf) - 1] = 0;
+		ptr = s_env_buf;
+		*type_res = HSPVAR_FLAG_STR;
+		break;
+		}
+	case 0x205:								// getcmdargi(name, default)
+		{
+		char *name = code_gets();
+		static char s_cmdargi_name[256];
+		strncpy(s_cmdargi_name, name, sizeof(s_cmdargi_name) - 1);
+		s_cmdargi_name[sizeof(s_cmdargi_name) - 1] = 0;
+		int defval = code_geti();
+		cmdarg_ensure_parsed();
+		name = s_cmdargi_name;
+		int namelen = (int)strlen(name);
+		reffunc_intfunc_ivalue = defval;
+		for (int i = 1; i < s_cmdarg_argc; i++) {
+			const char *a = cmdarg_get_utf8(i);
+			if (strncmp(a, name, namelen) == 0 && a[namelen] == '=') {
+				reffunc_intfunc_ivalue = atoi(a + namelen + 1);
+				break;
+			}
+			if (strcmp(a, name) == 0 && i + 1 < s_cmdarg_argc) {
+				reffunc_intfunc_ivalue = atoi(cmdarg_get_utf8(i + 1));
+				break;
+			}
+		}
+		*type_res = HSPVAR_FLAG_INT;
+		ptr = &reffunc_intfunc_ivalue;
+		break;
+		}
+	case 0x206:								// hascmdarg(name)
+		{
+		char *name = code_gets();
+		cmdarg_ensure_parsed();
+		reffunc_intfunc_ivalue = 0;
+		for (int i = 1; i < s_cmdarg_argc; i++) {
+			const char *a = cmdarg_get_utf8(i);
+			if (strcmp(a, name) == 0) { reffunc_intfunc_ivalue = 1; break; }
+			// --name=value でも "has" 判定
+			int namelen = (int)strlen(name);
+			if (strncmp(a, name, namelen) == 0 && a[namelen] == '=') {
+				reffunc_intfunc_ivalue = 1; break;
+			}
+		}
+		*type_res = HSPVAR_FLAG_INT;
+		ptr = &reffunc_intfunc_ivalue;
+		break;
+		}
 
 	default:
 		throw HSPERR_UNSUPPORTED_FUNCTION;
