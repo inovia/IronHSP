@@ -1,0 +1,51 @@
+;============================================================
+;   iron_smtp.hsp — SMTP メール送信モジュール
+;
+;   hspsmtp.dll (Winsock2) を使用して SMTP メールを送信する。
+;   AUTH LOGIN 認証対応。
+;
+;   API:
+;     mail_send "host", port, "from", "to", "subject", "body" [, "user", "pass"]
+;       → stat (0=成功, 負=エラーコード)
+;     mail_error()  最後のエラーメッセージ (関数)
+;
+;   to は ";" 区切りで複数指定可能。
+;
+;   例:
+;     #include "iron_smtp.hsp"
+;     mail_send "smtp.example.com", 587, "from@example.com", "to@example.com", "Test", "Hello!"
+;     if stat != 0 {
+;         mes "Error: " + mail_error()
+;     }
+;============================================================
+
+#ifndef __iron_smtp_hsp__
+#define __iron_smtp_hsp__
+
+#ifdef hsp3cl_64
+#uselib "hspsmtp_64.dll"
+#else
+#ifdef hsp64
+#uselib "hspsmtp_64.dll"
+#else
+#uselib "hspsmtp.dll"
+#endif
+#endif
+
+#func global _smtp_send_mail "smtp_send_mail" str, int, str, str, str, str, str, str
+#func global _smtp_get_error "smtp_get_error" var, int
+
+#module iron_smtp
+
+#deffunc mail_send str host, int port, str from_addr, str to_addr, str subject, str body, str user, str pass
+	_smtp_send_mail host, port, from_addr, to_addr, subject, body, user, pass
+	return stat
+
+#defcfunc mail_error local buf
+	sdim buf, 1024
+	_smtp_get_error buf, 1024
+	return buf
+
+#global
+
+#endif

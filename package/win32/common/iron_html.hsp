@@ -1,0 +1,78 @@
+;============================================================
+;   iron_html.hsp — HTML パースモジュール
+;
+;   hsphtml.dll を使用して HTML を解析する。
+;
+;   API:
+;     html_parse html_str             HTML解析 → stat (タグ数)
+;     html_text()                     テキスト取得 (タグ除去)
+;     html_find "tag"                 タグ検索 → stat (件数)
+;     html_tag_text(i)                i 番目のタグ内テキスト
+;     html_tag_attr(i, "attr")        i 番目のタグの属性値
+;     html_tag_html(i)                i 番目のタグの outer HTML
+;
+;   例:
+;     #include "iron_html.hsp"
+;     html = "<html><head><title>Test</title></head><body><a href=\"http://example.com\">Link</a><p>Hello</p></body></html>"
+;     html_parse html
+;     html_find "a"
+;     mes "リンク数: " + stat
+;     mes "URL: " + html_tag_attr(0, "href")
+;     mes "テキスト: " + html_tag_text(0)
+;============================================================
+
+#ifndef __iron_html_hsp__
+#define __iron_html_hsp__
+
+#ifdef hsp3cl_64
+#uselib "hsphtml_64.dll"
+#else
+#ifdef hsp64
+#uselib "hsphtml_64.dll"
+#else
+#uselib "hsphtml.dll"
+#endif
+#endif
+
+#func global _html_parse "html_parse" str
+#func global _html_get_text "html_get_text" var, int
+#func global _html_find_tag "html_find_tag" str
+#func global _html_tag_text "html_tag_text" int, var, int
+#func global _html_tag_attr "html_tag_attr" int, str, var, int
+#func global _html_tag_html "html_tag_html" int, var, int
+
+#module iron_html
+
+#define BUF_SIZE 65536
+
+#deffunc html_parse str html_str
+	_html_parse html_str
+	return stat
+
+#defcfunc html_text local buf
+	sdim buf, BUF_SIZE
+	_html_get_text buf, BUF_SIZE
+	return buf
+
+#deffunc html_find str tag_name
+	_html_find_tag tag_name
+	return stat
+
+#defcfunc html_tag_text int idx, local buf
+	sdim buf, BUF_SIZE
+	_html_tag_text idx, buf, BUF_SIZE
+	return buf
+
+#defcfunc html_tag_attr int idx, str attr_name, local buf
+	sdim buf, BUF_SIZE
+	_html_tag_attr idx, attr_name, buf, BUF_SIZE
+	return buf
+
+#defcfunc html_tag_html int idx, local buf
+	sdim buf, BUF_SIZE
+	_html_tag_html idx, buf, BUF_SIZE
+	return buf
+
+#global
+
+#endif

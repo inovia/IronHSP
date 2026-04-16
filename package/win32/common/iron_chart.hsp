@@ -1,0 +1,169 @@
+;============================================================
+;   iron_chart.hsp — Chart.js ベースグラフ描画 (WebView2)
+;
+;   hspwebview2 を経由して Chart.js でグラフを表示する。
+;   Chart.js は CDN から読み込む。
+;
+;   API:
+;     chart_init                         初期化
+;     chart_type type                    グラフ種別設定
+;     chart_title "title"                タイトル設定
+;     chart_labels "l1","l2","l3",...     ラベル設定
+;     chart_data "name", v1, v2, v3,...  データセット追加
+;     chart_color r,g,b                  次のデータセットの色
+;     chart_show                         WebView2 でグラフ表示
+;     chart_html()                       生成した HTML を返す (関数)
+;
+;   グラフ種別定数:
+;     CHART_BAR     = 0   棒グラフ
+;     CHART_LINE    = 1   折れ線グラフ
+;     CHART_PIE     = 2   円グラフ
+;     CHART_DOUGHNUT= 3   ドーナツグラフ
+;     CHART_RADAR   = 4   レーダーチャート
+;     CHART_SCATTER = 5   散布図
+;
+;   例:
+;     #include "iron_chart.hsp"
+;     chart_init
+;     chart_type CHART_BAR
+;     chart_title "月別売上"
+;     chart_labels "1月","2月","3月","4月","5月"
+;     chart_data "売上", 120, 200, 150, 300, 250
+;     chart_data "経費",  80, 100,  90, 120, 110
+;     chart_show
+;============================================================
+
+#ifndef __iron_chart_hsp__
+#define __iron_chart_hsp__
+
+#const global CHART_BAR      0
+#const global CHART_LINE     1
+#const global CHART_PIE      2
+#const global CHART_DOUGHNUT 3
+#const global CHART_RADAR    4
+#const global CHART_SCATTER  5
+
+#module iron_chart
+
+; Chart.js の種別名
+#deffunc _chart_type_name int t, local r
+	if t == CHART_BAR     : r = "bar"
+	if t == CHART_LINE    : r = "line"
+	if t == CHART_PIE     : r = "pie"
+	if t == CHART_DOUGHNUT: r = "doughnut"
+	if t == CHART_RADAR   : r = "radar"
+	if t == CHART_SCATTER : r = "scatter"
+	if r == "" : r = "bar"
+	return r
+
+sdim _c_title, 256
+sdim _c_labels, 4096
+sdim _c_datasets, 65536
+_c_type = 0
+_c_ds_count = 0
+_c_r = 54 : _c_g = 162 : _c_b = 235
+
+; 色パレット
+dim _palette_r, 10
+dim _palette_g, 10
+dim _palette_b, 10
+_palette_r = 54, 255, 255, 75, 153, 255, 201, 255, 128, 0
+_palette_g = 162, 99, 205, 192, 102, 159, 203, 127, 0, 128
+_palette_b = 235, 132, 86, 192, 255, 64, 159, 80, 255, 128
+
+#deffunc chart_init
+	_c_title = ""
+	_c_labels = ""
+	_c_datasets = ""
+	_c_type = 0
+	_c_ds_count = 0
+	return
+
+#deffunc chart_type int t
+	_c_type = t
+	return
+
+#deffunc chart_title str t
+	_c_title = t
+	return
+
+; chart_labels — 可変長引数は使えないので文字列結合で
+#deffunc chart_labels str l1, str l2, str l3, str l4, str l5, str l6, str l7, str l8, str l9, str l10, str l11, str l12
+	_c_labels = ""
+	if l1 != "" : _c_labels += "\"" + l1 + "\""
+	if l2 != "" : _c_labels += ",\"" + l2 + "\""
+	if l3 != "" : _c_labels += ",\"" + l3 + "\""
+	if l4 != "" : _c_labels += ",\"" + l4 + "\""
+	if l5 != "" : _c_labels += ",\"" + l5 + "\""
+	if l6 != "" : _c_labels += ",\"" + l6 + "\""
+	if l7 != "" : _c_labels += ",\"" + l7 + "\""
+	if l8 != "" : _c_labels += ",\"" + l8 + "\""
+	if l9 != "" : _c_labels += ",\"" + l9 + "\""
+	if l10 != "" : _c_labels += ",\"" + l10 + "\""
+	if l11 != "" : _c_labels += ",\"" + l11 + "\""
+	if l12 != "" : _c_labels += ",\"" + l12 + "\""
+	return
+
+#deffunc chart_color int r, int g, int b
+	_c_r = r : _c_g = g : _c_b = b
+	return
+
+#deffunc chart_data str name, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12
+	; 色をパレットから自動選択
+	ci = _c_ds_count \ 10
+	cr = _palette_r(ci) : cg = _palette_g(ci) : cb = _palette_b(ci)
+
+	if _c_ds_count > 0 : _c_datasets += ","
+	_c_datasets += "{"
+	_c_datasets += "label:\"" + name + "\","
+	_c_datasets += "data:["
+	; 値を追加 (0 でない最後の値まで)
+	sdim _vals, 256
+	_vals = "" + v1
+	if v2 != 0 || v3 != 0 : _vals += "," + v2
+	if v3 != 0 || v4 != 0 : _vals += "," + v3
+	if v4 != 0 || v5 != 0 : _vals += "," + v4
+	if v5 != 0 || v6 != 0 : _vals += "," + v5
+	if v6 != 0 || v7 != 0 : _vals += "," + v6
+	if v7 != 0 || v8 != 0 : _vals += "," + v7
+	if v8 != 0 || v9 != 0 : _vals += "," + v8
+	if v9 != 0 || v10 != 0 : _vals += "," + v9
+	if v10 != 0 || v11 != 0 : _vals += "," + v10
+	if v11 != 0 || v12 != 0 : _vals += "," + v11
+	if v12 != 0 : _vals += "," + v12
+	_c_datasets += _vals + "],"
+	_c_datasets += "backgroundColor:\"rgba(" + cr + "," + cg + "," + cb + ",0.6)\","
+	_c_datasets += "borderColor:\"rgba(" + cr + "," + cg + "," + cb + ",1)\","
+	_c_datasets += "borderWidth:2"
+	_c_datasets += "}"
+	_c_ds_count++
+	return
+
+#defcfunc chart_html local html, local ctype
+	_chart_type_name _c_type
+	ctype = refstr
+	html  = "<!DOCTYPE html><html><head><meta charset='utf-8'>"
+	html += "<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>"
+	html += "<style>body{margin:0;display:flex;justify-content:center;align-items:center;height:100vh;background:#f5f5f5}"
+	html += "canvas{max-width:90vw;max-height:85vh}</style></head><body>"
+	html += "<canvas id='c'></canvas><script>"
+	html += "new Chart(document.getElementById('c'),{"
+	html += "type:'" + ctype + "',"
+	html += "data:{labels:[" + _c_labels + "],datasets:[" + _c_datasets + "]},"
+	html += "options:{responsive:true,plugins:{title:{display:true,text:'" + _c_title + "',font:{size:20}}}}"
+	html += "});</script></body></html>"
+	return html
+
+; chart_show — HTML ファイルに書き出してブラウザで開く
+; (WebView2 が利用可能なら wv2_navigate_html を使う方がよい)
+#deffunc chart_show local html, local tmpfile
+	html = chart_html()
+	tmpfile = dir_cur + "\\__iron_chart_tmp.html"
+	notesel html
+	notesave tmpfile
+	exec tmpfile, 16
+	return
+
+#global
+
+#endif

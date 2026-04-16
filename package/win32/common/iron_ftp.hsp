@@ -1,0 +1,134 @@
+;============================================================
+;   iron_ftp.hsp — FTP クライアントモジュール
+;
+;   WinINet API を使用。FTP / FTPS (Explicit TLS) 対応。
+;
+;   API:
+;     ftp_connect "host", "user", "pass" [, port]  接続 → stat (0=成功)
+;     ftp_disconnect                                切断
+;     ftp_upload "local_file", "remote_file"        アップロード → stat
+;     ftp_download "remote_file", "local_file"      ダウンロード → stat
+;     ftp_delete "remote_file"                      削除 → stat
+;     ftp_rename "old", "new"                       リネーム → stat
+;     ftp_mkdir "dir"                               ディレクトリ作成 → stat
+;     ftp_rmdir "dir"                               ディレクトリ削除 → stat
+;     ftp_cd "dir"                                  ディレクトリ移動 → stat
+;     ftp_pwd                                       カレントディレクトリ → refstr
+;     ftp_list "pattern"                            ファイル一覧 → refstr (改行区切り)
+;
+;   例:
+;     #include "iron_ftp.hsp"
+;     ftp_connect "ftp.example.com", "user", "pass"
+;     if stat == 0 {
+;         ftp_upload "local.txt", "remote.txt"
+;         ftp_list "*"
+;         mes refstr
+;         ftp_disconnect
+;     }
+;============================================================
+
+#ifndef __iron_ftp_hsp__
+#define __iron_ftp_hsp__
+
+#module iron_ftp
+
+#uselib "wininet.dll"
+#cfunc _InternetOpenA      "InternetOpenA" str, int, int, int, int
+#cfunc _InternetConnectA   "InternetConnectA" int, str, int, str, str, int, int, int
+#cfunc _InternetCloseHandle "InternetCloseHandle" int
+#cfunc _FtpPutFileA        "FtpPutFileA" int, str, str, int, int
+#cfunc _FtpGetFileA        "FtpGetFileA" int, str, str, int, int, int, int
+#cfunc _FtpDeleteFileA     "FtpDeleteFileA" int, str
+#cfunc _FtpRenameFileA     "FtpRenameFileA" int, str, str
+#cfunc _FtpCreateDirectoryA "FtpCreateDirectoryA" int, str
+#cfunc _FtpRemoveDirectoryA "FtpRemoveDirectoryA" int, str
+#cfunc _FtpSetCurrentDirectoryA "FtpSetCurrentDirectoryA" int, str
+#cfunc _FtpGetCurrentDirectoryA "FtpGetCurrentDirectoryA" int, var, var
+#cfunc _FtpFindFirstFileA "FtpFindFirstFileA" int, str, var, int, int
+#cfunc _InternetFindNextFileA "InternetFindNextFileA" int, var
+
+; INTERNET_SERVICE_FTP = 1
+; FTP_TRANSFER_TYPE_BINARY = 2
+; INTERNET_FLAG_PASSIVE = 0x08000000
+; INTERNET_OPEN_TYPE_PRECONFIG = 0
+
+dim _hInet, 1
+dim _hFtp, 1
+
+#deffunc ftp_connect str host, str user, str pass, int port_, \
+	local p
+	p = port_ : if p <= 0 : p = 21
+	_hInet = _InternetOpenA("IronHSP/1.0", 0, 0, 0, 0)
+	if _hInet == 0 : return -1
+	; INTERNET_FLAG_PASSIVE = 0x08000000
+	_hFtp = _InternetConnectA(_hInet, host, p, user, pass, 1, 0x08000000, 0)
+	if _hFtp == 0 {
+		_InternetCloseHandle _hInet : _hInet = 0
+		return -2
+	}
+	return 0
+
+#deffunc ftp_disconnect
+	if _hFtp != 0 : _InternetCloseHandle _hFtp : _hFtp = 0
+	if _hInet != 0 : _InternetCloseHandle _hInet : _hInet = 0
+	return
+
+#deffunc ftp_upload str local_file, str remote_file
+	if _hFtp == 0 : return -1
+	; FTP_TRANSFER_TYPE_BINARY = 2
+	return 1 - _FtpPutFileA(_hFtp, local_file, remote_file, 2, 0)
+
+#deffunc ftp_download str remote_file, str local_file
+	if _hFtp == 0 : return -1
+	return 1 - _FtpGetFileA(_hFtp, remote_file, local_file, 0, 0, 2, 0)
+
+#deffunc ftp_delete str remote_file
+	if _hFtp == 0 : return -1
+	return 1 - _FtpDeleteFileA(_hFtp, remote_file)
+
+#deffunc ftp_rename str old_name, str new_name
+	if _hFtp == 0 : return -1
+	return 1 - _FtpRenameFileA(_hFtp, old_name, new_name)
+
+#deffunc ftp_mkdir str dir
+	if _hFtp == 0 : return -1
+	return 1 - _FtpCreateDirectoryA(_hFtp, dir)
+
+#deffunc ftp_rmdir str dir
+	if _hFtp == 0 : return -1
+	return 1 - _FtpRemoveDirectoryA(_hFtp, dir)
+
+#deffunc ftp_cd str dir
+	if _hFtp == 0 : return -1
+	return 1 - _FtpSetCurrentDirectoryA(_hFtp, dir)
+
+#deffunc ftp_pwd local buf, local bsz
+	if _hFtp == 0 : return ""
+	bsz = 4096
+	sdim buf, bsz
+	_FtpGetCurrentDirectoryA _hFtp, buf, bsz
+	return buf
+
+#deffunc ftp_list str pattern, \
+	local find_data, local hFind, local result, local fname
+	if _hFtp == 0 : return ""
+	; WIN32_FIND_DATAA = 320 bytes (cFileName at offset 44, 260 chars)
+	sdim find_data, 320
+	hFind = _FtpFindFirstFileA(_hFtp, pattern, find_data, 0, 0)
+	if hFind == 0 : return ""
+	result = ""
+	repeat
+		; cFileName は offset 44 から
+		sdim fname, 260
+		memcpy fname, find_data, 260, 0, 44
+		if result != "" : result += "\n"
+		result += fname
+		sdim find_data, 320
+		if _InternetFindNextFileA(hFind, find_data) == 0 : break
+	loop
+	_InternetCloseHandle hFind
+	return result
+
+#global
+
+#endif

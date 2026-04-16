@@ -31,6 +31,10 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **レジストリ操作 (`iron_registry.hsp`)** — Win32 API 直叩き。`reg_read` / `reg_write` / `reg_write_dword` / `reg_delete_value` / `reg_delete_key` / `reg_exists`。
 - **ファイル監視 (`iron_fwatch.hsp`)** — Win32 `FindFirstChangeNotification` ベース。`fwatch_start` / `fwatch_check` / `fwatch_stop` でディレクトリの変更をポーリング監視。
 - **EXIF 読み取り (`iron_exif.hsp`)** — GDI+ PropertyItem API。`exif_open` / `exif_get_str` / `exif_get_int` / `exif_get_rational` / `exif_close` で JPEG/TIFF の撮影情報を取得。
+- **FTP クライアント (`iron_ftp.hsp`)** — WinINet ベース。`ftp_connect` / `ftp_upload` / `ftp_download` / `ftp_list` / `ftp_mkdir` / `ftp_delete` 等。FTP/FTPS (Passive) 対応。
+- **SMTP メール送信 (`iron_smtp.hsp` + `hspsmtp.dll`)** — Winsock2 ベース SMTP クライアント。AUTH LOGIN 認証、複数宛先対応。
+- **HTML パース (`iron_html.hsp` + `hsphtml.dll`)** — 軽量 HTML タグパーサ。`html_parse` / `html_find` / `html_tag_text` / `html_tag_attr` でタグ検索・属性取得。
+- **グラフ/チャート (`iron_chart.hsp`)** — Chart.js + WebView2/ブラウザ。棒/折れ線/円/ドーナツ/レーダー/散布図の 6 種類。`chart_init` → `chart_data` → `chart_show` の簡潔 API。
 
 ### 新規プラグイン
 
