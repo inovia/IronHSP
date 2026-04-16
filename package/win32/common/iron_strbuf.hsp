@@ -1,0 +1,43 @@
+;============================================================
+;   iron_strbuf.hsp — 高速文字列ビルダー
+;   HSP の文字列結合は毎回再確保されるため遅い。
+;   事前確保バッファで高速化する。
+;============================================================
+#ifndef __iron_strbuf_hsp__
+#define __iron_strbuf_hsp__
+#module iron_strbuf
+
+#deffunc sb_init int capacity
+	if capacity > 0 { _sb_cap = capacity } else { _sb_cap = 65536 }
+	sdim _sb_buf, _sb_cap
+	_sb_pos = 0
+	return
+
+#deffunc sb_append str s, local slen
+	slen = strlen@hsp(s)
+	if _sb_pos + slen >= _sb_cap {
+		_sb_cap = (_sb_pos + slen) * 2
+		memexpand _sb_buf, _sb_cap
+	}
+	poke _sb_buf, _sb_pos, s
+	_sb_pos += slen
+	return
+
+#deffunc sb_appendln str s
+	sb_append s
+	sb_append "\n"
+	return
+
+#defcfunc sb_tostr
+	return _sb_buf
+
+#defcfunc sb_length
+	return _sb_pos
+
+#deffunc sb_clear
+	_sb_pos = 0
+	poke _sb_buf, 0, 0
+	return
+
+#global
+#endif

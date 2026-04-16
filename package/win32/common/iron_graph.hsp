@@ -1,0 +1,68 @@
+;============================================================
+;   iron_graph.hsp — グラフ探索 (BFS/DFS/ダイクストラ)
+;   隣接行列ベースの純HSP実装。
+;============================================================
+#ifndef __iron_graph_hsp__
+#define __iron_graph_hsp__
+#module iron_graph
+
+; BFS (幅優先探索)
+; adj: 隣接行列 (n*n, adj(i*n+j)=1 で辺あり)
+; start: 開始ノード, n: ノード数
+; dist: 結果の距離配列 (出力)
+#deffunc graph_bfs array adj, int start, int n, array dist, \
+	local visited, local queue, local head, local tail, local u, local v
+	dim dist, n
+	dim visited, n
+	dim queue, n
+	repeat n : dist(cnt) = -1 : loop
+	dist(start) = 0
+	visited(start) = 1
+	queue(0) = start
+	head = 0 : tail = 1
+	repeat
+		if head >= tail : break
+		u = queue(head) : head++
+		repeat n
+			v = cnt
+			if visited(v) == 0 & adj(u * n + v) != 0 {
+				visited(v) = 1
+				dist(v) = dist(u) + 1
+				queue(tail) = v : tail++
+			}
+		loop
+	loop
+	return
+
+; ダイクストラ (重み付き最短経路)
+; weight: 重み行列 (n*n, 0=辺なし)
+#deffunc graph_dijkstra array weight, int start, int n, array dist, \
+	local visited, local u, local v, local min_d, local min_u
+	dimtype dist, 3, n
+	dim visited, n
+	repeat n : dist(cnt) = 1e18 : loop
+	dist(start) = 0.0
+	repeat n
+		; 未訪問の最小距離ノードを探す
+		min_d = 1e18 : min_u = -1
+		repeat n
+			if visited(cnt) == 0 & dist(cnt) < min_d {
+				min_d = dist(cnt) : min_u = cnt
+			}
+		loop
+		if min_u < 0 : break
+		visited(min_u) = 1
+		u = min_u
+		repeat n
+			v = cnt
+			if weight(u * n + v) > 0.0 & visited(v) == 0 {
+				if dist(u) + weight(u * n + v) < dist(v) {
+					dist(v) = dist(u) + weight(u * n + v)
+				}
+			}
+		loop
+	loop
+	return
+
+#global
+#endif

@@ -1,0 +1,46 @@
+;============================================================
+;   iron_jwt.hsp — JWT トークン デコード/検証
+;   iron_hash.hsp (base64_decode) と iron_json.hsp が必要。
+;============================================================
+#ifndef __iron_jwt_hsp__
+#define __iron_jwt_hsp__
+#include "iron_hash.hsp"
+
+#module iron_jwt
+
+; JWT の payload をデコードして返す (署名検証なし)
+#defcfunc jwt_decode str token, local parts, local payload, local padded
+	; header.payload.signature を . で分割
+	parts = token
+	p1 = instr(parts, 0, ".")
+	if p1 < 0 : return ""
+	p2 = instr(parts, p1+1, ".")
+	if p2 < 0 : return ""
+	payload = strmid(parts, p1+1, p2)
+	; Base64URL → Base64
+	strrep payload, "-", "+"
+	strrep payload, "_", "/"
+	; パディング
+	repeat 4 - (strlen@hsp(payload) \ 4)
+		if (strlen@hsp(payload) \ 4) == 0 : break
+		payload += "="
+	loop
+	base64_decode payload
+	return refstr
+
+; JWT の header をデコード
+#defcfunc jwt_header str token, local hdr
+	p1 = instr(token, 0, ".")
+	if p1 < 0 : return ""
+	hdr = strmid(token, 0, p1)
+	strrep hdr, "-", "+"
+	strrep hdr, "_", "/"
+	repeat 4 - (strlen@hsp(hdr) \ 4)
+		if (strlen@hsp(hdr) \ 4) == 0 : break
+		hdr += "="
+	loop
+	base64_decode hdr
+	return refstr
+
+#global
+#endif

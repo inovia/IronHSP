@@ -1,0 +1,48 @@
+;============================================================
+;   iron_folder.hsp — 特殊フォルダ取得
+;============================================================
+#ifndef __iron_folder_hsp__
+#define __iron_folder_hsp__
+#module iron_folder
+
+#uselib "shell32.dll"
+#cfunc _SHGetFolderPathA "SHGetFolderPathA" int, int, int, int, var
+
+; CSIDL 定数
+#const CSIDL_DESKTOP         0x0000
+#const CSIDL_PROGRAMS        0x0002
+#const CSIDL_PERSONAL        0x0005
+#const CSIDL_FAVORITES       0x0006
+#const CSIDL_STARTUP         0x0007
+#const CSIDL_RECENT          0x0008
+#const CSIDL_APPDATA         0x001A
+#const CSIDL_LOCAL_APPDATA   0x001C
+#const CSIDL_PROGRAM_FILES   0x0026
+#const CSIDL_PROFILE         0x0028
+#const CSIDL_SYSTEM          0x0025
+#const CSIDL_WINDOWS         0x0024
+
+#defcfunc folder_get int csidl, local buf
+	sdim buf, 260
+	_r = _SHGetFolderPathA(0, csidl, 0, 0, buf)
+	return buf
+
+#defcfunc folder_desktop
+	return folder_get(CSIDL_DESKTOP)
+#defcfunc folder_documents
+	return folder_get(CSIDL_PERSONAL)
+#defcfunc folder_appdata
+	return folder_get(CSIDL_APPDATA)
+#defcfunc folder_local_appdata
+	return folder_get(CSIDL_LOCAL_APPDATA)
+#defcfunc folder_profile
+	return folder_get(CSIDL_PROFILE)
+#defcfunc folder_programfiles
+	return folder_get(CSIDL_PROGRAM_FILES)
+#defcfunc folder_system
+	return folder_get(CSIDL_SYSTEM)
+#defcfunc folder_windows
+	return folder_get(CSIDL_WINDOWS)
+
+#global
+#endif

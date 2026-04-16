@@ -1,0 +1,67 @@
+;============================================================
+;   iron_matrix.hsp — 行列演算 (純HSP実装)
+;   4x4 までの小行列に対応。3D変換等に使用。
+;============================================================
+#ifndef __iron_matrix_hsp__
+#define __iron_matrix_hsp__
+#module iron_matrix
+
+; 行列積 C = A * B (n x n, double 配列, 最大 4x4)
+#deffunc mat_mul array A, array B, array C, int n, local i, local j, local k, local s
+	dimtype C, 3, n * n
+	repeat n
+		i = cnt
+		repeat n
+			j = cnt
+			s = 0.0
+			repeat n
+				k = cnt
+				s += A(i * n + k) * B(k * n + j)
+			loop
+			C(i * n + j) = s
+		loop
+	loop
+	return
+
+; 単位行列
+#deffunc mat_identity array M, int n
+	dimtype M, 3, n * n
+	repeat n * n : M(cnt) = 0.0 : loop
+	repeat n : M(cnt * n + cnt) = 1.0 : loop
+	return
+
+; 転置
+#deffunc mat_transpose array A, array B, int n
+	dimtype B, 3, n * n
+	repeat n
+		i = cnt
+		repeat n
+			j = cnt
+			B(j * n + i) = A(i * n + j)
+		loop
+	loop
+	return
+
+; 行列式 (2x2, 3x3)
+#defcfunc mat_det2 array A
+	return A(0)*A(3) - A(1)*A(2)
+
+#defcfunc mat_det3 array A
+	return A(0)*(A(4)*A(8)-A(5)*A(7)) - A(1)*(A(3)*A(8)-A(5)*A(6)) + A(2)*(A(3)*A(7)-A(4)*A(6))
+
+; ベクトル内積
+#defcfunc vec_dot array A, array B, int n, local s
+	s = 0.0
+	repeat n : s += A(cnt) * B(cnt) : loop
+	return s
+
+; ベクトル外積 (3D)
+#deffunc vec_cross array A, array B, array C
+	dimtype C, 3, 3
+	C(0) = A(1)*B(2) - A(2)*B(1)
+	C(1) = A(2)*B(0) - A(0)*B(2)
+	C(2) = A(0)*B(1) - A(1)*B(0)
+	return
+
+#global
+#endif

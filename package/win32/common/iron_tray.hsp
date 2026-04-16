@@ -1,0 +1,42 @@
+;============================================================
+;   iron_tray.hsp — 通知領域 (タスクトレイ) アイコン
+;============================================================
+#ifndef __iron_tray_hsp__
+#define __iron_tray_hsp__
+#module iron_tray
+
+#uselib "shell32.dll"
+#cfunc _Shell_NotifyIconA "Shell_NotifyIconA" int, var
+#uselib "user32.dll"
+#cfunc _LoadIconA "LoadIconA" int, int
+
+dim _tray_inited, 1
+
+; NIM_ADD=0, NIM_MODIFY=1, NIM_DELETE=2
+; NIF_ICON=2, NIF_TIP=4, NIF_MESSAGE=1
+
+#deffunc tray_add str tooltip, local nid
+	; NOTIFYICONDATAA = cbSize(4) + hWnd(4) + uID(4) + uFlags(4) + uCallbackMessage(4) + hIcon(4) + szTip(128)
+	sdim nid, 512
+	lpoke nid, 0, 152        ; cbSize (minimal)
+	; hWnd = 0
+	lpoke nid, 8, 1          ; uID
+	lpoke nid, 12, 2 | 4     ; uFlags = NIF_ICON | NIF_TIP
+	; default icon
+	lpoke nid, 20, _LoadIconA(0, 32512)  ; IDI_APPLICATION
+	poke nid, 24, tooltip    ; szTip (offset 24, 128 bytes)
+	_Shell_NotifyIconA 0, nid  ; NIM_ADD
+	_tray_inited = 1
+	return stat
+
+#deffunc tray_remove local nid
+	if _tray_inited == 0 : return
+	sdim nid, 512
+	lpoke nid, 0, 152
+	lpoke nid, 8, 1
+	_Shell_NotifyIconA 2, nid  ; NIM_DELETE
+	_tray_inited = 0
+	return
+
+#global
+#endif

@@ -44,12 +44,12 @@ dim _mag_inited, 1
 	f = factor
 	if f < 100 : f = 100
 	; MagSetFullscreenTransform(magLevel, xOffset, yOffset)
-	_MagSetFullscreenTransform f, 0, 0
+	_r = _MagSetFullscreenTransform(f, 0, 0)
 	return stat
 
 #deffunc mag_fullscreen_off
 	if _mag_inited == 0 : return
-	_MagSetFullscreenTransform 100, 0, 0
+	_r = _MagSetFullscreenTransform(100, 0, 0)
 	return
 
 ; 色効果: 反転/グレースケール用マトリクス
@@ -66,7 +66,7 @@ dim _mag_inited, 1
 
 #deffunc mag_bye
 	if _mag_inited == 0 : return
-	_MagUninitialize
+	_r = _MagUninitialize()
 	_mag_inited = 0
 	return
 

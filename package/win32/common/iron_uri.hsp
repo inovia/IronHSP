@@ -1,0 +1,71 @@
+;============================================================
+;   iron_uri.hsp — URI/URL パーサ (C# Uri クラス相当)
+;============================================================
+#ifndef __iron_uri_hsp__
+#define __iron_uri_hsp__
+#module iron_uri
+
+#deffunc uri_parse str url, local u, local _pos, local p2, local tmp
+	sdim _u_scheme, 16
+	sdim _u_host, 256
+	sdim _u_path, 4096
+	sdim _u_query, 4096
+	sdim _u_fragment, 256
+	_u_port = 0
+	u = url
+	; fragment
+	p2 = instr@hsp(u, 0, "#")
+	if p2 >= 0 {
+		_u_fragment = strmid@hsp(u, p2+1, 999)
+		u = strmid@hsp(u, 0, p2)
+	}
+	; query
+	p2 = instr@hsp(u, 0, "?")
+	if p2 >= 0 {
+		_u_query = strmid@hsp(u, p2+1, 999)
+		u = strmid@hsp(u, 0, p2)
+	}
+	; scheme
+	p2 = instr@hsp(u, 0, "://")
+	if p2 >= 0 {
+		_u_scheme = strmid@hsp(u, 0, p2)
+		_pos = p2 + 3
+	} else {
+		_pos = 0
+	}
+	; host[:port]/path
+	p2 = instr@hsp(u, _pos, "/")
+	if p2 >= 0 {
+		_u_host = strmid@hsp(u, _pos, p2)
+		_u_path = strmid@hsp(u, _pos + p2, 999)
+	} else {
+		_u_host = strmid@hsp(u, _pos, 999)
+	}
+	; port
+	p2 = instr@hsp(_u_host, 0, ":")
+	if p2 >= 0 {
+		_u_port = int(strmid@hsp(_u_host, p2+1, 10))
+		_u_host = strmid@hsp(_u_host, 0, p2)
+	} else {
+		if _u_scheme == "https" : _u_port = 443
+		if _u_scheme == "http"  : _u_port = 80
+		if _u_scheme == "ftp"   : _u_port = 21
+		if _u_scheme == "ssh"   : _u_port = 22
+	}
+	return
+
+#defcfunc uri_scheme
+	return _u_scheme
+#defcfunc uri_host
+	return _u_host
+#defcfunc uri_port
+	return _u_port
+#defcfunc uri_path
+	return _u_path
+#defcfunc uri_query
+	return _u_query
+#defcfunc uri_fragment
+	return _u_fragment
+
+#global
+#endif

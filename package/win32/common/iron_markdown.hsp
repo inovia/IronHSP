@@ -1,0 +1,38 @@
+;============================================================
+;   iron_markdown.hsp — 簡易 Markdown → HTML 変換
+;   外部 DLL 不要。基本的な Markdown 構文をサポート。
+;============================================================
+#ifndef __iron_markdown_hsp__
+#define __iron_markdown_hsp__
+#module iron_markdown
+
+#deffunc md_to_html str md, local lines, local html, local line, local i
+	notesel md
+	html = ""
+	repeat notemax
+		noteget line, cnt
+		; 見出し
+		if strmid(line,0,3) == "###" { html += "<h3>" + strmid(line,4,999) + "</h3>\n" : continue }
+		if strmid(line,0,2) == "##"  { html += "<h2>" + strmid(line,3,999) + "</h2>\n" : continue }
+		if strmid(line,0,1) == "#"   { html += "<h1>" + strmid(line,2,999) + "</h1>\n" : continue }
+		; 箇条書き
+		if strmid(line,0,2) == "- " { html += "<li>" + strmid(line,2,999) + "</li>\n" : continue }
+		if strmid(line,0,2) == "* " { html += "<li>" + strmid(line,2,999) + "</li>\n" : continue }
+		; 水平線
+		if line == "---" | line == "***" { html += "<hr>\n" : continue }
+		; 空行 → 段落区切り
+		if line == "" { html += "<br>\n" : continue }
+		; 太字/斜体 (簡易)
+		strrep line, "**", "<b>", 1
+		strrep line, "**", "</b>", 1
+		strrep line, "*", "<i>", 1
+		strrep line, "*", "</i>", 1
+		; コード
+		strrep line, "`", "<code>", 1
+		strrep line, "`", "</code>", 1
+		html += "<p>" + line + "</p>\n"
+	loop
+	return html
+
+#global
+#endif

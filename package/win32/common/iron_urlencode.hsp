@@ -1,0 +1,43 @@
+;============================================================
+;   iron_urlencode.hsp — URL エンコード/デコード
+;============================================================
+#ifndef __iron_urlencode_hsp__
+#define __iron_urlencode_hsp__
+#module iron_urlencode
+
+#defcfunc urlencode str s, local result, local c, local i, local _s
+	_s = s
+	result = ""
+	repeat strlen(_s)
+		c = peek(_s, cnt)
+		if (c >= 'A' & c <= 'Z') | (c >= 'a' & c <= 'z') | (c >= '0' & c <= '9') | c == '-' | c == '_' | c == '.' | c == '~' {
+			result += strmid(_s, cnt, 1)
+		} else {
+			result += "%" + strf("%02X", c)
+		}
+	loop
+	return result
+
+#defcfunc urldecode str s, local result, local c, local i, local hex, local _s
+	_s = s
+	result = ""
+	i = 0
+	repeat strlen(_s)
+		if i >= strlen(_s) : break
+		c = peek(_s, i)
+		if c == '%' & i + 2 < strlen@hsp(s) {
+			hex = strmid(_s, i+1, 2)
+			result += strf("%c", int("$" + hex))
+			i += 3
+		} else : if c == '+' {
+			result += " "
+			i += 1
+		} else {
+			result += strmid(_s, i, 1)
+			i += 1
+		}
+	loop
+	return result
+
+#global
+#endif

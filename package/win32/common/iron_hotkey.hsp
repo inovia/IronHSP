@@ -1,0 +1,27 @@
+;============================================================
+;   iron_hotkey.hsp — グローバルホットキー登録
+;============================================================
+#ifndef __iron_hotkey_hsp__
+#define __iron_hotkey_hsp__
+
+#const global MOD_ALT     0x0001
+#const global MOD_CONTROL 0x0002
+#const global MOD_SHIFT   0x0004
+#const global MOD_WIN     0x0008
+
+#module iron_hotkey
+
+#uselib "user32.dll"
+#cfunc _RegisterHotKey   "RegisterHotKey" int, int, int, int
+#cfunc _UnregisterHotKey "UnregisterHotKey" int, int
+
+; ホットキー登録 (id は 1~ の一意な番号)
+#deffunc hotkey_register int id, int modifiers, int vk
+	return _RegisterHotKey(0, id, modifiers, vk)
+
+#deffunc hotkey_unregister int id
+	_UnregisterHotKey 0, id
+	return
+
+#global
+#endif

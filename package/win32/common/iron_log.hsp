@@ -1,0 +1,48 @@
+;============================================================
+;   iron_log.hsp — ログ出力モジュール
+;   ファイル出力 + レベル制御 + タイムスタンプ。
+;============================================================
+#ifndef __iron_log_hsp__
+#define __iron_log_hsp__
+#include "iron_datetime.hsp"
+
+#const global LOG_DEBUG 0
+#const global LOG_INFO  1
+#const global LOG_WARN  2
+#const global LOG_ERROR 3
+
+#module iron_log
+
+#deffunc log_init str filepath, int level
+	sdim _log_file, 260
+	_log_file = filepath
+	_log_level = level
+	_log_console = 1
+	return
+
+#deffunc log_set_level int level
+	_log_level = level
+	return
+
+#deffunc log_write int level, str msg, local ts, local lv, local line
+	if level < _log_level : return
+	ts = datetime_now()
+	if level == LOG_DEBUG : lv = "DEBUG"
+	if level == LOG_INFO  : lv = "INFO "
+	if level == LOG_WARN  : lv = "WARN "
+	if level == LOG_ERROR : lv = "ERROR"
+	line = "[" + ts + "] " + lv + " " + msg
+	if _log_console : mes line
+	if _log_file != "" {
+		notesel line
+		notesave _log_file, 1  ; append mode
+	}
+	return
+
+#deffunc log_debug str msg : log_write LOG_DEBUG, msg : return
+#deffunc log_info  str msg : log_write LOG_INFO,  msg : return
+#deffunc log_warn  str msg : log_write LOG_WARN,  msg : return
+#deffunc log_error str msg : log_write LOG_ERROR, msg : return
+
+#global
+#endif

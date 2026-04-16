@@ -1,0 +1,67 @@
+;============================================================
+;   iron_datetime.hsp — 日付/時刻操作
+;   Win32 SYSTEMTIME / FILETIME ベース。外部 DLL 不要。
+;============================================================
+#ifndef __iron_datetime_hsp__
+#define __iron_datetime_hsp__
+
+#module iron_datetime
+
+#uselib "kernel32.dll"
+#func  _GetLocalTime "GetLocalTime" var
+#func  _GetSystemTime "GetSystemTime" var
+#cfunc _SystemTimeToFileTime "SystemTimeToFileTime" var, var
+#cfunc _FileTimeToSystemTime "FileTimeToSystemTime" var, var
+#cfunc _GetTickCount64 "GetTickCount64"
+
+; 現在の日時を "YYYY-MM-DD HH:MM:SS" で返す
+#defcfunc datetime_now local st, local y, local m, local d, local h, local mi, local s
+	sdim st, 16
+	_GetLocalTime st
+	y = wpeek@hsp(st,0) : m = wpeek@hsp(st,2) : d = wpeek@hsp(st,6)
+	h = wpeek@hsp(st,8) : mi = wpeek@hsp(st,10) : s = wpeek@hsp(st,12)
+	return strf("%04d-%02d-%02d %02d:%02d:%02d", y, m, d, h, mi, s)
+
+; 現在の日付 "YYYY-MM-DD"
+#defcfunc date_today local st
+	sdim st, 16
+	_GetLocalTime st
+	return strf("%04d-%02d-%02d", wpeek@hsp(st,0), wpeek@hsp(st,2), wpeek@hsp(st,6))
+
+; 現在の時刻 "HH:MM:SS"
+#defcfunc time_now local st
+	sdim st, 16
+	_GetLocalTime st
+	return strf("%02d:%02d:%02d", wpeek@hsp(st,8), wpeek@hsp(st,10), wpeek@hsp(st,12))
+
+; Unix タイムスタンプ (秒) を返す
+#defcfunc datetime_unix local st, local ft, local epoch_ft, local diff
+	sdim st, 16 : sdim ft, 8
+	_GetSystemTime st
+	_r = _SystemTimeToFileTime(st, ft)
+	; 1970-01-01 00:00:00 UTC in FILETIME = 116444736000000000
+	; FILETIME は 100ns 単位
+	return int((lpeek(ft,0) + lpeek(ft,4) * 4294967296.0 - 116444736000000000.0) / 10000000.0)
+
+; 年/月/日/時/分/秒 を個別に返す
+#defcfunc datetime_year local st
+	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,0)
+#defcfunc datetime_month local st
+	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,2)
+#defcfunc datetime_day local st
+	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,6)
+#defcfunc datetime_hour local st
+	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,8)
+#defcfunc datetime_minute local st
+	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,10)
+#defcfunc datetime_second local st
+	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,12)
+#defcfunc datetime_weekday local st
+	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,4)
+
+; 起動からの経過ミリ秒
+#defcfunc uptime_ms
+	return _GetTickCount64()
+
+#global
+#endif

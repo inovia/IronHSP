@@ -1,0 +1,53 @@
+;============================================================
+;   iron_service.hsp — Windows サービス制御
+;============================================================
+#ifndef __iron_service_hsp__
+#define __iron_service_hsp__
+#module iron_service
+
+#uselib "advapi32.dll"
+#cfunc _OpenSCManagerA "OpenSCManagerA" int, int, int
+#cfunc _OpenServiceA   "OpenServiceA" int, str, int
+#cfunc _StartServiceA  "StartServiceA" int, int, int
+#cfunc _ControlService "ControlService" int, int, var
+#cfunc _CloseServiceHandle "CloseServiceHandle" int
+#cfunc _QueryServiceStatus "QueryServiceStatus" int, var
+
+; SC_MANAGER_CONNECT=1, SERVICE_START=0x10, SERVICE_STOP=0x20, SERVICE_QUERY_STATUS=4
+; SERVICE_CONTROL_STOP=1
+
+#deffunc service_start str name, local hSCM, local hSvc
+	hSCM = _OpenSCManagerA(0, 0, 1)
+	if hSCM == 0 : return -1
+	hSvc = _OpenServiceA(hSCM, name, 0x10)
+	if hSvc == 0 { _CloseServiceHandle hSCM : return -2 }
+	r = _StartServiceA(hSvc, 0, 0)
+	_CloseServiceHandle hSvc : _CloseServiceHandle hSCM
+	if r == 0 : return -3
+	return 0
+
+#deffunc service_stop str name, local hSCM, local hSvc, local ss
+	hSCM = _OpenSCManagerA(0, 0, 1)
+	if hSCM == 0 : return -1
+	hSvc = _OpenServiceA(hSCM, name, 0x20)
+	if hSvc == 0 { _CloseServiceHandle hSCM : return -2 }
+	sdim ss, 28
+	r = _ControlService(hSvc, 1, ss)
+	_CloseServiceHandle hSvc : _CloseServiceHandle hSCM
+	if r == 0 : return -3
+	return 0
+
+#defcfunc service_status str name, local hSCM, local hSvc, local ss
+	hSCM = _OpenSCManagerA(0, 0, 1)
+	if hSCM == 0 : return -1
+	hSvc = _OpenServiceA(hSCM, name, 4)
+	if hSvc == 0 { _CloseServiceHandle hSCM : return -1 }
+	sdim ss, 28
+	_QueryServiceStatus hSvc, ss
+	st = lpeek(ss, 4)  ; dwCurrentState
+	_CloseServiceHandle hSvc : _CloseServiceHandle hSCM
+	; 1=STOPPED, 2=START_PENDING, 3=STOP_PENDING, 4=RUNNING
+	return st
+
+#global
+#endif

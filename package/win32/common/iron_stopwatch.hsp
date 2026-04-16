@@ -1,0 +1,36 @@
+;============================================================
+;   iron_stopwatch.hsp — 高精度ストップウォッチ
+;   QueryPerformanceCounter ベース。外部 DLL 不要。
+;============================================================
+#ifndef __iron_stopwatch_hsp__
+#define __iron_stopwatch_hsp__
+#module iron_stopwatch
+
+#uselib "kernel32.dll"
+#cfunc _QPC "QueryPerformanceCounter" var
+#cfunc _QPF "QueryPerformanceFrequency" var
+
+#deffunc sw_start
+	if _sw_inited == 0 {
+		dim _sw_start, 2
+		dim _sw_freq, 2
+		_r = _QPF(_sw_freq)
+		_sw_inited = 1
+	}
+	_r = _QPC(_sw_start)
+	return
+
+; 経過ミリ秒を返す (double)
+#defcfunc sw_elapsed_ms local now, local diff
+	dim now, 2
+	_r = _QPC(now)
+	; 64bit 演算 (HSP の int は 32bit なので double で計算)
+	diff = (double(now(0)) + double(now(1)) * 4294967296.0) - (double(_sw_start(0)) + double(_sw_start(1)) * 4294967296.0)
+	return diff / (double(_sw_freq(0)) + double(_sw_freq(1)) * 4294967296.0) * 1000.0
+
+; 経過マイクロ秒
+#defcfunc sw_elapsed_us
+	return sw_elapsed_ms() * 1000.0
+
+#global
+#endif

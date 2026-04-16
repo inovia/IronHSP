@@ -1,0 +1,60 @@
+;============================================================
+;   iron_path.hsp — パス操作ユーティリティ
+;============================================================
+#ifndef __iron_path_hsp__
+#define __iron_path_hsp__
+#module iron_path
+
+#uselib "shlwapi.dll"
+#cfunc _PathCombineA      "PathCombineA" var, str, str
+#cfunc _PathFindExtensionA "PathFindExtensionA" str
+#cfunc _PathFindFileNameA  "PathFindFileNameA" str
+#cfunc _PathRemoveFileSpecA "PathRemoveFileSpecA" var
+#cfunc _PathIsRelativeA    "PathIsRelativeA" str
+#cfunc _PathFileExistsA    "PathFileExistsA" str
+
+#uselib "kernel32.dll"
+#cfunc _GetTempPathA  "GetTempPathA" int, var
+#cfunc _lstrcpyA2 "lstrcpyA" var, int
+
+; パス結合
+#defcfunc path_combine str dir, str file, local buf
+	sdim buf, 520
+	_r = _PathCombineA(buf, dir, file)
+	return buf
+
+; 拡張子取得 (.txt 等)
+#defcfunc path_ext str path
+	return getpath@hsp(path, 2)
+
+; ファイル名取得
+#defcfunc path_filename str path
+	return getpath@hsp(path, 8)
+
+; ディレクトリ取得
+#defcfunc path_dir str path
+	return getpath@hsp(path, 32)
+
+; 拡張子なしファイル名
+#defcfunc path_stem str path, local f, local p
+	f = getpath@hsp(path, 8)
+	p = instr@hsp(f, 0, ".")
+	if p < 0 : return f
+	return strmid@hsp(f, 0, p)
+
+; パスが存在するか
+#defcfunc path_exists str path
+	return _PathFileExistsA(path)
+
+; 相対パスか
+#defcfunc path_is_relative str path
+	return _PathIsRelativeA(path)
+
+; 一時フォルダ
+#defcfunc path_temp local buf
+	sdim buf, 520
+	_r = _GetTempPathA(520, buf)
+	return buf
+
+#global
+#endif

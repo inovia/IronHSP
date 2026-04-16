@@ -1,0 +1,31 @@
+;============================================================
+;   iron_task.hsp — タスクスケジューラ操作
+;   COM (ITaskService) 経由。hsp3net 専用。
+;============================================================
+#ifndef __iron_task_hsp__
+#define __iron_task_hsp__
+#module iron_task
+
+; schtasks.exe コマンドラインラッパー (簡易版)
+#deffunc task_create str name, str command, str schedule, local cmd
+	cmd = "schtasks /Create /TN \"" + name + "\" /TR \"" + command + "\" /SC " + schedule + " /F"
+	exec cmd, 2
+	return stat
+
+#deffunc task_delete str name, local cmd
+	cmd = "schtasks /Delete /TN \"" + name + "\" /F"
+	exec cmd, 2
+	return stat
+
+#deffunc task_run str name, local cmd
+	cmd = "schtasks /Run /TN \"" + name + "\""
+	exec cmd, 2
+	return stat
+
+#deffunc task_query str name, local cmd
+	cmd = "schtasks /Query /TN \"" + name + "\""
+	exec cmd, 2
+	return stat
+
+#global
+#endif

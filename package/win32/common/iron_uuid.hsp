@@ -1,0 +1,18 @@
+;============================================================
+;   iron_uuid.hsp — UUID (GUID) 生成
+;============================================================
+#ifndef __iron_uuid_hsp__
+#define __iron_uuid_hsp__
+#module iron_uuid
+
+#uselib "rpcrt4.dll"
+#cfunc _UuidCreate "UuidCreate" var
+
+#defcfunc uuid_generate local buf
+	sdim buf, 16
+	_r = _UuidCreate(buf)
+	; Format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+	return strf("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x", peek@hsp(buf,3),peek@hsp(buf,2),peek@hsp(buf,1),peek@hsp(buf,0), peek@hsp(buf,5),peek@hsp(buf,4), peek@hsp(buf,7),peek@hsp(buf,6), peek@hsp(buf,8),peek@hsp(buf,9), peek@hsp(buf,10),peek@hsp(buf,11),peek@hsp(buf,12),peek@hsp(buf,13),peek@hsp(buf,14),peek@hsp(buf,15))
+
+#global
+#endif

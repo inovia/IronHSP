@@ -1,0 +1,57 @@
+;============================================================
+;   iron_process.hsp — プロセス起動/制御
+;   CreateProcess + パイプで stdout 取得。
+;============================================================
+#ifndef __iron_process_hsp__
+#define __iron_process_hsp__
+#module iron_process
+
+#uselib "kernel32.dll"
+#cfunc _CreatePipe "CreatePipe" var, var, var, int
+#cfunc _CreateProcessA "CreateProcessA" int, var, int, int, int, int, int, int, var, var
+#cfunc _ReadFile "ReadFile" int, var, int, var, int
+#cfunc _CloseHandle2 "CloseHandle" int
+#cfunc _WaitForSingleObject2 "WaitForSingleObject" int, int
+#cfunc _GetExitCodeProcess "GetExitCodeProcess" int, var
+
+; コマンド実行 → refstr に stdout, stat に終了コード
+#deffunc process_exec str cmdline, \
+	local hReadPipe, local hWritePipe, local sa, local si, local pi, \
+	local buf, local bytesRead, local output, local cmd, local exitcode
+	; SECURITY_ATTRIBUTES (bInheritHandle = TRUE)
+	sdim sa, 16
+	lpoke sa, 0, 12  ; nLength
+	lpoke sa, 8, 1   ; bInheritHandle = TRUE
+	hReadPipe = 0 : hWritePipe = 0
+	_CreatePipe hReadPipe, hWritePipe, sa, 0
+	; STARTUPINFOA (68 bytes on x86)
+	sdim si, 72
+	lpoke si, 0, 68           ; cb
+	lpoke si, 44, 0x100       ; dwFlags = STARTF_USESTDHANDLES
+	lpoke si, 56, hWritePipe  ; hStdOutput
+	lpoke si, 60, hWritePipe  ; hStdError
+	; PROCESS_INFORMATION (16 bytes)
+	sdim pi, 20
+	cmd = cmdline
+	; CREATE_NO_WINDOW = 0x08000000
+	if _CreateProcessA(0, cmd, 0, 0, 1, 0x08000000, 0, 0, si, pi) == 0 {
+		_CloseHandle2 hReadPipe : _CloseHandle2 hWritePipe
+		return -1
+	}
+	_CloseHandle2 hWritePipe
+	output = ""
+	repeat
+		sdim buf, 4097
+		bytesRead = 0
+		if _ReadFile(hReadPipe, buf, 4096, bytesRead, 0) == 0 : break
+		if bytesRead <= 0 : break
+		output += buf
+	loop
+	_WaitForSingleObject2 lpeek(pi,0), -1
+	exitcode = 0
+	_GetExitCodeProcess lpeek(pi,0), exitcode
+	_CloseHandle2 lpeek(pi,0) : _CloseHandle2 lpeek(pi,4) : _CloseHandle2 hReadPipe
+	return output, exitcode
+
+#global
+#endif

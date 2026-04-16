@@ -1,0 +1,30 @@
+;============================================================
+;   iron_splash.hsp — スプラッシュスクリーン
+;   WS_EX_TOPMOST + WS_POPUP で画像を表示。
+;============================================================
+#ifndef __iron_splash_hsp__
+#define __iron_splash_hsp__
+#module iron_splash
+
+#deffunc splash_show str imagefile, int duration_ms, local w, local h
+	; 一時的なウィンドウで画像表示
+	buffer 99, 640, 480
+	picload imagefile
+	w = ginfo_winx : h = ginfo_winy
+	bgscr 98, w, h, 2  ; WS_POPUP
+	pos 0, 0
+	gcopy 99, 0, 0, w, h
+	redraw 1
+	if duration_ms > 0 {
+		wait duration_ms / 10
+		gsel 98, -1  ; hide
+	}
+	gsel 0
+	return
+
+#deffunc splash_close
+	gsel 98, -1
+	return
+
+#global
+#endif

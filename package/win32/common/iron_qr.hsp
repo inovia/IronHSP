@@ -1,0 +1,26 @@
+;============================================================
+;   iron_qr.hsp — QR コード生成 (軽量版)
+;   HSP 標準描画命令で QR コードを画面に描画する。
+;   エンコーダは外部 DLL (hspqr.dll) を使用。
+;   hspcv4 不要の軽量代替。
+;============================================================
+#ifndef __iron_qr_hsp__
+#define __iron_qr_hsp__
+#module iron_qr
+
+; 簡易 QR: WebView2 + qrcode.js で生成
+#deffunc qr_generate str text, str outfile, local html, local tmpf
+	html = "<html><head><script src=\"https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js\"></script></head>"
+	html += "<body><canvas id=\"c\"></canvas><script>"
+	html += "var qr=qrcode(0,\"M\");qr.addData(\"" + text + "\");qr.make();"
+	html += "document.getElementById(\"c\").outerHTML=qr.createImgTag(8);"
+	html += "</script></body></html>"
+	tmpf = dir_cur + "\\__iron_qr_tmp.html"
+	notesel html : notesave tmpf
+	if outfile != "" {
+		exec tmpf, 16
+	}
+	return
+
+#global
+#endif

@@ -1,0 +1,22 @@
+;============================================================
+;   iron_xml.hsp — XML 読み書き (MSXML DOM)
+;   COM 経由で MSXML を操作。hsp3net 専用。
+;============================================================
+#ifndef __iron_xml_hsp__
+#define __iron_xml_hsp__
+#module iron_xml
+
+#deffunc xml_load str filepath, local doc
+	newcom doc, "Msxml2.DOMDocument.6.0"
+	comres _xml_result
+	mcall doc, "load", filepath
+	return stat
+
+#deffunc xml_loadstr str xmlstr, local doc
+	newcom doc, "Msxml2.DOMDocument.6.0"
+	comres _xml_result
+	mcall doc, "loadXML", xmlstr
+	return stat
+
+#global
+#endif
