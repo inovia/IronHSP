@@ -52,7 +52,7 @@
 <div class="container">
 
 <h1>IronHSP プラグイン &amp; モジュール リファレンス</h1>
-<p class="muted">最終更新: 2026-04-18 / 対象: HSP3 (hsp3net) + IronHSP 2026 拡張</p>
+<p class="muted">最終更新: 2026-04-18 / 対象: HSP3 (hsp3net) + IronHSP 拡張</p>
 <p class="muted">全 151 iron_* モジュール + 22 C++ プラグイン DLL + hspd2d + DxLib 統合</p>
 
 <p>
@@ -324,19 +324,53 @@ C++ DLL を一切介さずに、ハードウェアアクセラレーション対
 
 <div class="card">
 <h4>hspdxlib --- DxLib (DX ライブラリ) 完全統合ヘッダ</h4>
-<p class="muted">ソース: <code>package/win32/common/hspdxlib.as</code> / <code>hspdxlib_const.as</code> / <code>hspdxlib_struct.as</code> / <code>hspdxlib_macro.as</code> / ヘルプ: <code>package/hsphelp/hspdxlib.hs</code></p>
-<p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
-DxLibW (Unicode 版) を使用し、32bit / 64bit の両方に対応します。
-<strong>2,548 関数 + 151 構造体戻り関数 + 901 定数</strong>を宣言済みで、
-DxLib の全機能 (2D/3D 描画、サウンド、入力、ネットワーク、モデル、シェーダー、ムービー再生等) に
-HSP からフルアクセス可能です。HSP 風の短縮名マクロも提供されます。</p>
+<p class="muted">ソース: <code>package/win32/common/hspdxlib.as</code> / <code>hspdxlib_const.as</code> / <code>hspdxlib_struct.as</code> / <code>hspdxlib_macro.as</code> / ヘルプ: <code>package/hsphelp/hspdxlib.hs</code> (65,596行)</p>
+<p><a href="https://dxlib.xsrv.jp/">DxLib (DX ライブラリ)</a> は、DirectX を簡単に扱うための国産 C++ ライブラリで、2D/3D ゲーム開発に広く使われています。
+<code>hspdxlib.as</code> は DxLibW (Unicode 版 DLL) のエクスポート関数を HSP の <code>#cfunc</code> / <code>#func</code> / <code>#cfuncst</code> で宣言した自動生成ヘッダです。
+<code>#include "hspdxlib.as"</code> の 1 行で DxLib のほぼ全機能にアクセスでき、C++ で書くのと同等のゲーム開発が HSP だけで可能になります。</p>
+
+<p><strong>DxDLLW.cs (DxLib 3.24f)</strong> から Python スクリプトで自動生成しており、DxLib のバージョンアップにも追従できます。32bit / 64bit は <code>__hsp64__</code> で自動判定し、DLL 名を <code>DxLibW.dll</code> / <code>DxLibW_x64.dll</code> に切り替えます。</p>
+
+<h4>ファイル構成</h4>
 <table>
-<tr><th>ファイル</th><th>内容</th></tr>
-<tr><td><code>hspdxlib.as</code></td><td>メインヘッダ -- 2,548 #cfunc/#func + 151 #cfuncst</td></tr>
-<tr><td><code>hspdxlib_const.as</code></td><td>901 個の定数定義</td></tr>
-<tr><td><code>hspdxlib_struct.as</code></td><td>55 構造体のバッファオフセット定義</td></tr>
-<tr><td><code>hspdxlib_macro.as</code></td><td>HSP 風短縮名マクロ (dxinit / dxdraw / dxflip 等)</td></tr>
+<tr><th>ファイル</th><th>内容</th><th>規模</th></tr>
+<tr><td><code>hspdxlib.as</code></td><td>メインヘッダ: 全関数の <code>#cfunc</code> / <code>#func</code> / <code>#cfuncst</code> 宣言 + 14 構造体定義 (<code>#defstruct</code>)</td><td>1,425 #cfunc + 1,313 #func + 159 #cfuncst = <strong>2,897 関数</strong></td></tr>
+<tr><td><code>hspdxlib_const.as</code></td><td>定数定義 (<code>#define</code>): DX_SCREEN_BACK, KEY_INPUT_*, DX_BLENDMODE_* 等</td><td><strong>901 定数</strong></td></tr>
+<tr><td><code>hspdxlib_struct.as</code></td><td>構造体のバッファオフセット定義: VERTEX2D, VERTEX3D, MATERIALPARAM 等</td><td><strong>55 構造体</strong></td></tr>
+<tr><td><code>hspdxlib_macro.as</code></td><td>HSP 風の短縮名マクロ: <code>dxinit</code> / <code>dxdraw</code> / <code>dxflip</code> 等</td><td>利便性マクロ</td></tr>
 </table>
+
+<h4>機能カテゴリ別の関数数</h4>
+<table>
+<tr><th>カテゴリ</th><th>関数数</th><th>代表的な関数</th></tr>
+<tr><td>2D 描画</td><td>~460</td><td><code>DrawGraph</code> / <code>DrawRotaGraph</code> / <code>DrawModiGraph</code> / <code>DrawBox</code> / <code>DrawCircle</code> / <code>DrawLine</code> / <code>DrawPixel</code></td></tr>
+<tr><td>文字列描画</td><td>~170</td><td><code>DrawString</code> / <code>DrawFormatString</code> / <code>DrawNString</code> / <code>DrawRotaString</code> / <code>DrawModiString</code></td></tr>
+<tr><td>3D モデル (MV1)</td><td>~372</td><td><code>MV1LoadModel</code> / <code>MV1DrawModel</code> / <code>MV1SetPosition</code> / <code>MV1SetRotationXYZ</code> / <code>MV1SetupCollInfo</code> / <code>MV1CollCheck_Sphere</code></td></tr>
+<tr><td>サウンド</td><td>~200</td><td><code>LoadSoundMem</code> / <code>PlaySoundMem</code> / <code>StopSoundMem</code> / <code>ChangeVolumeSoundMem</code> / <code>SetFrequencySoundMem</code></td></tr>
+<tr><td>画面 / ウィンドウ</td><td>~142</td><td><code>SetGraphMode</code> / <code>ChangeWindowMode</code> / <code>SetDrawScreen</code> / <code>ScreenFlip</code> / <code>ClearDrawScreen</code> / <code>SetBackgroundColor</code></td></tr>
+<tr><td>入力 (キーボード/マウス/ジョイパッド/タッチ)</td><td>~140</td><td><code>CheckHitKey</code> / <code>GetMousePoint</code> / <code>GetJoypadInputState</code> / <code>GetTouchInputNum</code></td></tr>
+<tr><td>画像読み込み / 管理</td><td>~114</td><td><code>LoadGraph</code> / <code>LoadDivGraph</code> / <code>CreateGraphFromMem</code> / <code>DerivationGraph</code> / <code>GetGraphSize</code></td></tr>
+<tr><td>フォント</td><td>~91</td><td><code>CreateFontToHandle</code> / <code>SetDefaultFontState</code> / <code>GetDrawStringWidth</code> / <code>ChangeFontType</code></td></tr>
+<tr><td>シェーダー</td><td>~52</td><td><code>LoadPixelShader</code> / <code>LoadVertexShader</code> / <code>SetUsePixelShader</code> / <code>SetShaderConstantF</code></td></tr>
+<tr><td>Live2D Cubism</td><td>~51</td><td><code>Live2D_LoadModel</code> / <code>Live2D_DrawModel</code> / <code>Live2D_SetParameterValue</code></td></tr>
+<tr><td>ネットワーク</td><td>~37</td><td><code>ConnectNetWork</code> / <code>MakeUDPSocket</code> / <code>NetWorkSendUDP</code> / <code>NetWorkRecvUDP</code> / <code>ProcessHttpRequestAsync</code></td></tr>
+<tr><td>ファイル I/O</td><td>~36</td><td><code>FileRead_open</code> / <code>FileRead_gets</code> / <code>FileRead_close</code> / <code>SetUseDXArchiveFlag</code></td></tr>
+<tr><td>動画再生</td><td>~28</td><td><code>PlayMovieToGraph</code> / <code>PauseMovieToGraph</code> / <code>SeekMovieToGraph</code> / <code>GetMovieStateToGraph</code></td></tr>
+<tr><td>構造体値返し (<code>#cfuncst</code>)</td><td>159</td><td><code>GetCameraPosition</code> / <code>GetCameraTarget</code> / <code>VGet</code> / <code>VAdd</code> / <code>VScale</code> / <code>VCross</code> / <code>MGetIdent</code> / <code>MGetScale</code> 等 (VECTOR / MATRIX 構造体を値で返す)</td></tr>
+</table>
+
+<div class="note">
+<strong>構造体値返し (#cfuncst)</strong>: DxLib には <code>VECTOR</code> や <code>MATRIX</code> を値で返す関数が 159 個あります。これらは IronHSP の <code>#cfuncst</code> ディレクティブで宣言されており、戻り値は自動的に <code>NSTRUCT</code> 変数に格納されます。<code>-></code> 演算子でメンバにアクセスできます:
+<pre><code>pos = GetCameraPosition()
+mes "x=" + pos->x + " y=" + pos->y + " z=" + pos->z</code></pre>
+</div>
+
+<h4>必要なファイル</h4>
+<ul>
+<li><code>DxLibW.dll</code> (32bit) または <code>DxLibW_x64.dll</code> (64bit) を HSP 実行ファイルと同じディレクトリに配置</li>
+<li>DxLib 本体は <a href="https://dxlib.xsrv.jp/dxdload.html">公式サイト</a> からダウンロード</li>
+<li>DirectX ランタイムが必要 (Windows 10/11 は標準搭載)</li>
+</ul>
 </div>
 
 <pre><code>#include "hspdxlib.as"
@@ -2147,7 +2181,7 @@ chart_show</code></pre>
 <!-- ========================================== -->
 <h2 id="install">インストール</h2>
 
-<p>IronHSP 2026 を clone すれば、全部 <code>package/win32/common/iron_*.hsp</code> として配布されています。HSP スクリプト側は:</p>
+<p>IronHSP を clone すれば、全部 <code>package/win32/common/iron_*.hsp</code> として配布されています。HSP スクリプト側は:</p>
 
 <pre><code>#include "iron_http.hsp"
 #include "iron_json.hsp"
@@ -2184,7 +2218,7 @@ chart_show</code></pre>
 
 <h2>ライセンス</h2>
 
-<p>IronHSP 2026 は OpenHSP 3.8beta1 (BSD) をベースとした派生物で、追加分も BSD 扱いです。各 iron_* モジュールも BSD ライセンスで配布されます。サードパーティ DLL (miniz, SQLite, whisper.cpp, Vosk, PCRE2, libssh2, DuckDB 等) はそれぞれの配布元ライセンスに従います。</p>
+<p>IronHSP は OpenHSP 3.8beta1 (BSD) をベースとした派生物で、追加分も BSD 扱いです。各 iron_* モジュールも BSD ライセンスで配布されます。サードパーティ DLL (miniz, SQLite, whisper.cpp, Vosk, PCRE2, libssh2, DuckDB 等) はそれぞれの配布元ライセンスに従います。</p>
 
 <footer>
 <p>&copy; 2026 IronHSP Team / Based on OpenHSP 3.8beta1</p>
