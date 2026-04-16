@@ -1,0 +1,5 @@
+	#include "iron_stopwatch.hsp"
+	sw_start
+	repeat 10000 : loop
+	mes "elapsed: " + sw_elapsed_ms() + " ms"
+	mes "elapsed: " + sw_elapsed_us() + " us"

@@ -1,0 +1,9 @@
+	#include "iron_hotkey.hsp"
+	mes "Press Ctrl+F1 to trigger hotkey"
+	mes "Press ESC to exit"
+	hotkey_register 1, MOD_CONTROL, 0x70  ; Ctrl+F1 (VK_F1=0x70)
+	onkey gosub *on_key
+	stop
+*on_key
+	if iparam == 27 { hotkey_unregister 1 : end }
+	return

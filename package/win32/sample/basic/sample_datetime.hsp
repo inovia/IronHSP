@@ -1,0 +1,7 @@
+	#include "iron_datetime.hsp"
+	mes "now: " + datetime_now()
+	mes "date: " + date_today()
+	mes "time: " + time_now()
+	mes "year: " + datetime_year()
+	mes "weekday: " + datetime_weekday()
+	mes "unix: " + datetime_unix()

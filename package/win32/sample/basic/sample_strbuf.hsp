@@ -1,0 +1,7 @@
+	#include "iron_strbuf.hsp"
+	sb_init 0
+	repeat 100
+		sb_append "item" + cnt + " "
+	loop
+	mes "length: " + sb_length()
+	mes strmid(sb_tostr(), 0, 80) + "..."

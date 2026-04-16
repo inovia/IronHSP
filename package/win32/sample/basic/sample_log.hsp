@@ -1,0 +1,6 @@
+	#include "iron_log.hsp"
+	log_init "", LOG_DEBUG
+	log_debug "debug message"
+	log_info "info message"
+	log_warn "warning"
+	log_error "error!"

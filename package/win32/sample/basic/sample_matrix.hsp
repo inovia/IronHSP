@@ -1,0 +1,10 @@
+	#include "iron_matrix.hsp"
+	; 2x2 matrix multiply
+	dimtype A, 3, 4
+	A(0)=1.0 : A(1)=2.0 : A(2)=3.0 : A(3)=4.0
+	dimtype B, 3, 4
+	B(0)=5.0 : B(1)=6.0 : B(2)=7.0 : B(3)=8.0
+	dimtype C, 3, 4
+	mat_mul A, B, C, 2
+	mes "[1,2;3,4]*[5,6;7,8] = [" + C(0) + "," + C(1) + ";" + C(2) + "," + C(3) + "]"
+	mes "det = " + mat_det2(A)

@@ -1,0 +1,3 @@
+	#include "iron_urlencode.hsp"
+	mes "encode: " + urlencode("hello world & foo=bar")
+	mes "decode: " + urldecode("hello%20world%20%26%20foo%3Dbar")

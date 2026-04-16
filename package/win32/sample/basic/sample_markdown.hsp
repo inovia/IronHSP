@@ -1,0 +1,4 @@
+	#include "iron_markdown.hsp"
+	md = "# Hello\n\n- item1\n- item2\n\n**bold** and *italic*"
+	md_to_html md
+	mes refstr

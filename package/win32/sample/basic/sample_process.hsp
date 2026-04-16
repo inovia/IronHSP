@@ -1,0 +1,4 @@
+	#include "iron_process.hsp"
+	process_exec "cmd /c echo Hello from subprocess"
+	mes "stdout: " + refstr
+	mes "exit code: " + stat

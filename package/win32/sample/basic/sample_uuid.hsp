@@ -1,0 +1,4 @@
+	#include "iron_uuid.hsp"
+	repeat 5
+		mes uuid_generate()
+	loop

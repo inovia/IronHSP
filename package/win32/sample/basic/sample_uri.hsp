@@ -1,0 +1,8 @@
+	#include "iron_uri.hsp"
+	uri_parse "https://example.com:8080/api/v1?key=val&n=1#section"
+	mes "scheme: " + uri_scheme()
+	mes "host: " + uri_host()
+	mes "port: " + uri_port()
+	mes "path: " + uri_path()
+	mes "query: " + uri_query()
+	mes "fragment: " + uri_fragment()

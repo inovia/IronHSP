@@ -1,0 +1,7 @@
+	#include "iron_path.hsp"
+	mes "combine: " + path_combine("C:\\Users", "test.txt")
+	mes "ext: " + path_ext("photo.jpg")
+	mes "filename: " + path_filename("C:\\dir\\file.txt")
+	mes "stem: " + path_stem("C:\\dir\\file.txt")
+	mes "temp: " + path_temp()
+	mes "exists(.): " + path_exists(".")

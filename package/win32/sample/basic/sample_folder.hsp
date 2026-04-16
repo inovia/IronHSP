@@ -1,0 +1,6 @@
+	#include "iron_folder.hsp"
+	mes "Desktop: " + folder_desktop()
+	mes "Documents: " + folder_documents()
+	mes "AppData: " + folder_appdata()
+	mes "Profile: " + folder_profile()
+	mes "ProgramFiles: " + folder_programfiles()
