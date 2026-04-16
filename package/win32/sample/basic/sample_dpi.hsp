@@ -1,0 +1,5 @@
+	#include "iron_dpi.hsp"
+	dpi_set_awareness 2
+	mes "System DPI: " + dpi_get_system()
+	mes "Current DPI: " + dpi_get()
+	mes "100px scaled: " + dpi_scale(100)

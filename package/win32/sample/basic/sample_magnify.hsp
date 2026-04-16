@@ -1,0 +1,10 @@
+	#include "iron_magnify.hsp"
+	mag_init
+	if stat == 0 {
+		mes "Magnifying 1.5x for 3 seconds..."
+		mag_fullscreen_on 150
+		wait 300
+		mag_fullscreen_off
+		mag_bye
+		mes "Done"
+	}

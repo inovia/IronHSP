@@ -1,0 +1,49 @@
+;============================================================
+;   iron_capture.hsp — DXGI 画面キャプチャモジュール
+;
+;   hspcapture.dll を使用してデスクトップ画面をキャプチャする。
+;   DXGI Desktop Duplication API (Windows 8+)。
+;
+;   API:
+;     capture_init              初期化 → stat (0=成功)
+;     capture_size              画面サイズ取得 → stat に幅, refdval に高さ
+;     capture_save "file.bmp"   スクリーンショットを BMP 保存 → stat
+;     capture_bye               終了処理
+;
+;   例:
+;     #include "iron_capture.hsp"
+;     capture_init
+;     if stat == 0 {
+;         capture_save "screenshot.bmp"
+;         mes "saved!"
+;         capture_bye
+;     }
+;============================================================
+#ifndef __iron_capture_hsp__
+#define __iron_capture_hsp__
+
+#ifdef hsp3cl_64
+#uselib "hspcapture_64.dll"
+#else
+#ifdef hsp64
+#uselib "hspcapture_64.dll"
+#else
+#uselib "hspcapture.dll"
+#endif
+#endif
+
+#func global capture_init    "capture_init"
+#func global _cap_get_size   "capture_get_size" var, var
+#func global _cap_frame      "capture_frame" var, int
+#func global capture_save    "capture_save_bmp" str
+#func global capture_bye     "capture_bye"
+
+#module iron_capture
+
+#deffunc capture_size local w, local h
+	w = 0 : h = 0
+	_cap_get_size w, h
+	return w
+
+#global
+#endif

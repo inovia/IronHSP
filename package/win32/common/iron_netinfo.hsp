@@ -1,0 +1,84 @@
+;============================================================
+;   iron_netinfo.hsp — ネットワーク状態 / 接続コスト取得
+;
+;   Win32 API でネットワーク接続状態と接続コストを取得する。
+;   NLM (NetworkListManager) COM は複雑なので、
+;   ここでは InternetGetConnectedState + GetAdaptersInfo で簡易取得。
+;
+;   API:
+;     netinfo_connected()       インターネット接続: 1=あり, 0=なし
+;     netinfo_type()            接続種別: 0=なし, 1=LAN, 2=モデム, 4=プロキシ
+;     netinfo_adapters          アダプタ情報 → refstr (改行区切り)
+;     netinfo_ip()              プライマリIPアドレス
+;     netinfo_hostname()        ホスト名
+;
+;   例:
+;     #include "iron_netinfo.hsp"
+;     if netinfo_connected() {
+;         mes "IP: " + netinfo_ip()
+;     }
+;============================================================
+#ifndef __iron_netinfo_hsp__
+#define __iron_netinfo_hsp__
+
+#module iron_netinfo
+
+#uselib "wininet.dll"
+#cfunc _InternetGetConnectedState "InternetGetConnectedState" var, int
+
+#uselib "ws2_32.dll"
+#cfunc _WSAStartup2 "WSAStartup" int, var
+#cfunc _gethostname "gethostname" var, int
+#cfunc _gethostbyname "gethostbyname" str
+#cfunc _inet_ntoa "inet_ntoa" int
+
+#uselib "kernel32.dll"
+#cfunc _lstrcpyA "lstrcpyA" var, int
+
+dim _ws_init, 1
+
+#deffunc _netinfo_wsa_init
+	if _ws_init : return
+	sdim wsad, 512
+	_WSAStartup2 0x0202, wsad
+	_ws_init = 1
+	return
+
+#defcfunc netinfo_connected local flags
+	flags = 0
+	if _InternetGetConnectedState(flags, 0) != 0 : return 1
+	return 0
+
+#defcfunc netinfo_type local flags
+	flags = 0
+	_InternetGetConnectedState flags, 0
+	; INTERNET_CONNECTION_MODEM=1, LAN=2, PROXY=4
+	return flags
+
+#defcfunc netinfo_hostname local buf
+	_netinfo_wsa_init
+	sdim buf, 256
+	_gethostname buf, 256
+	return buf
+
+#defcfunc netinfo_ip local hname, local phe, local addr, local ipstr
+	_netinfo_wsa_init
+	sdim hname, 256
+	_gethostname hname, 256
+	phe = _gethostbyname(hname)
+	if phe == 0 : return "0.0.0.0"
+	; hostent.h_addr_list at offset 12(x86) or 24(x64)
+	; 簡易: dupptr で読み出し
+	addr = lpeek(phe, 12)   ; h_addr_list pointer
+	if addr == 0 : return "0.0.0.0"
+	addr = lpeek(addr, 0)   ; first address pointer
+	if addr == 0 : return "0.0.0.0"
+	addr = lpeek(addr, 0)   ; in_addr value
+	ptr = _inet_ntoa(addr)
+	if ptr == 0 : return "0.0.0.0"
+	sdim ipstr, 32
+	_lstrcpyA ipstr, ptr
+	return ipstr
+
+#global
+#endif

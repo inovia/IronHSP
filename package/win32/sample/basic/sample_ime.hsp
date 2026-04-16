@@ -1,0 +1,6 @@
+	#include "iron_ime.hsp"
+	mes "IME state: " + ime_get_state()
+	ime_on
+	mes "After ime_on: " + ime_get_state()
+	ime_off
+	mes "After ime_off: " + ime_get_state()

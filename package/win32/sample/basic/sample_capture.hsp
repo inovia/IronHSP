@@ -1,0 +1,9 @@
+	#include "iron_capture.hsp"
+	capture_init
+	if stat == 0 {
+		capture_save "screenshot.bmp"
+		mes "Screenshot saved! stat=" + stat
+		capture_bye
+	} else {
+		mes "capture_init failed: " + stat
+	}

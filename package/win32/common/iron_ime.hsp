@@ -1,0 +1,83 @@
+;============================================================
+;   iron_ime.hsp — IME 制御モジュール
+;
+;   imm32.dll を使用して日本語入力の制御を行う。
+;
+;   API:
+;     ime_on                   IME をオンにする
+;     ime_off                  IME をオフにする
+;     ime_get_state()          IME の ON/OFF 状態を返す (1=ON, 0=OFF)
+;     ime_set_mode mode        変換モードを設定
+;       0=直接入力, 1=ひらがな, 2=全角カタカナ, 3=半角カタカナ
+;     ime_get_mode()           現在の変換モードを返す
+;
+;   例:
+;     #include "iron_ime.hsp"
+;     ime_on
+;     mes "IME: " + ime_get_state()
+;============================================================
+#ifndef __iron_ime_hsp__
+#define __iron_ime_hsp__
+
+#module iron_ime
+
+#uselib "imm32.dll"
+#cfunc _ImmGetContext     "ImmGetContext" int
+#cfunc _ImmReleaseContext "ImmReleaseContext" int, int
+#cfunc _ImmGetOpenStatus  "ImmGetOpenStatus" int
+#cfunc _ImmSetOpenStatus  "ImmSetOpenStatus" int, int
+#cfunc _ImmGetConversionStatus "ImmGetConversionStatus" int, var, var
+#cfunc _ImmSetConversionStatus "ImmSetConversionStatus" int, int, int
+
+#uselib "user32.dll"
+#cfunc _GetFocus "GetFocus"
+
+#deffunc ime_on local hWnd, local hImc
+	hWnd = _GetFocus()
+	hImc = _ImmGetContext(hWnd)
+	if hImc == 0 : return -1
+	_ImmSetOpenStatus hImc, 1
+	_ImmReleaseContext hWnd, hImc
+	return 0
+
+#deffunc ime_off local hWnd, local hImc
+	hWnd = _GetFocus()
+	hImc = _ImmGetContext(hWnd)
+	if hImc == 0 : return -1
+	_ImmSetOpenStatus hImc, 0
+	_ImmReleaseContext hWnd, hImc
+	return 0
+
+#defcfunc ime_get_state local hWnd, local hImc, local st
+	hWnd = _GetFocus()
+	hImc = _ImmGetContext(hWnd)
+	if hImc == 0 : return -1
+	st = _ImmGetOpenStatus(hImc)
+	_ImmReleaseContext hWnd, hImc
+	return st
+
+#deffunc ime_set_mode int mode, local hWnd, local hImc, local conv, local sent
+	hWnd = _GetFocus()
+	hImc = _ImmGetContext(hWnd)
+	if hImc == 0 : return -1
+	; IME_CMODE_NATIVE=1, KATAKANA=2, FULLSHAPE=8
+	if mode == 0 : conv = 0                       ; 直接入力
+	if mode == 1 : conv = 0x01 | 0x08             ; ひらがな (NATIVE + FULLSHAPE)
+	if mode == 2 : conv = 0x01 | 0x02 | 0x08      ; 全角カタカナ
+	if mode == 3 : conv = 0x01 | 0x02              ; 半角カタカナ
+	sent = 0
+	_ImmSetConversionStatus hImc, conv, sent
+	_ImmReleaseContext hWnd, hImc
+	return 0
+
+#defcfunc ime_get_mode local hWnd, local hImc, local conv, local sent
+	hWnd = _GetFocus()
+	hImc = _ImmGetContext(hWnd)
+	if hImc == 0 : return -1
+	conv = 0 : sent = 0
+	_ImmGetConversionStatus hImc, conv, sent
+	_ImmReleaseContext hWnd, hImc
+	return conv
+
+#global
+#endif

@@ -1,0 +1,42 @@
+;============================================================
+;   iron_audioloop.hsp — WASAPI 音声ループバックキャプチャ
+;
+;   hspaudioloop.dll を使用してシステム再生音を WAV 録音。
+;   ステレオミックス不要、WASAPI ループバックモード使用。
+;
+;   API:
+;     audioloop_start "output.wav"   録音開始 → stat (0=成功)
+;     audioloop_poll                 データ取得 (定期呼び出し) → stat (書き込みバイト数)
+;     audioloop_stop                 録音停止 + WAV 完成
+;
+;   例:
+;     #include "iron_audioloop.hsp"
+;     audioloop_start "record.wav"
+;     if stat == 0 {
+;         mes "Recording... (5 sec)"
+;         repeat 100
+;             audioloop_poll
+;             await 50
+;         loop
+;         audioloop_stop
+;         mes "Done!"
+;     }
+;============================================================
+#ifndef __iron_audioloop_hsp__
+#define __iron_audioloop_hsp__
+
+#ifdef hsp3cl_64
+#uselib "hspaudioloop_64.dll"
+#else
+#ifdef hsp64
+#uselib "hspaudioloop_64.dll"
+#else
+#uselib "hspaudioloop.dll"
+#endif
+#endif
+
+#func global audioloop_start  "audioloop_start" str
+#func global audioloop_poll   "audioloop_poll"
+#func global audioloop_stop   "audioloop_stop"
+
+#endif

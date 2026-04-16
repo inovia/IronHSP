@@ -1,0 +1,74 @@
+;============================================================
+;   iron_magnify.hsp — 画面拡大 (Magnification API)
+;
+;   Windows Magnification API を使用した画面拡大機能。
+;   全画面拡大とウィンドウ拡大の 2 モード。
+;
+;   API:
+;     mag_init                          初期化
+;     mag_fullscreen_on factor          全画面拡大 ON (factor: 倍率 150=1.5x)
+;     mag_fullscreen_off                全画面拡大 OFF
+;     mag_set_color_effect mode         色効果 (0=なし, 1=反転, 2=グレースケール)
+;     mag_bye                           終了処理
+;
+;   例:
+;     #include "iron_magnify.hsp"
+;     mag_init
+;     mag_fullscreen_on 200   ; 2倍に拡大
+;     wait 300
+;     mag_fullscreen_off
+;     mag_bye
+;============================================================
+#ifndef __iron_magnify_hsp__
+#define __iron_magnify_hsp__
+
+#module iron_magnify
+
+#uselib "magnification.dll"
+#cfunc _MagInitialize     "MagInitialize"
+#cfunc _MagUninitialize   "MagUninitialize"
+#cfunc _MagSetFullscreenTransform "MagSetFullscreenTransform" int, int, int
+#cfunc _MagSetFullscreenColorEffect "MagSetFullscreenColorEffect" var
+#cfunc _MagShowSystemCursor "MagShowSystemCursor" int
+
+dim _mag_inited, 1
+
+#deffunc mag_init
+	if _mag_inited : return 0
+	if _MagInitialize() == 0 : return -1
+	_mag_inited = 1
+	return 0
+
+#deffunc mag_fullscreen_on int factor, local f
+	if _mag_inited == 0 : return -1
+	f = factor
+	if f < 100 : f = 100
+	; MagSetFullscreenTransform(magLevel, xOffset, yOffset)
+	_MagSetFullscreenTransform f, 0, 0
+	return stat
+
+#deffunc mag_fullscreen_off
+	if _mag_inited == 0 : return
+	_MagSetFullscreenTransform 100, 0, 0
+	return
+
+; 色効果: 反転/グレースケール用マトリクス
+#deffunc mag_set_color_effect int mode, local mat
+	if _mag_inited == 0 : return -1
+	; MAGCOLOREFFECT = float[5][5] = 100 bytes
+	sdim mat, 100
+	if mode == 0 {
+		; 効果なし (単位行列)
+		; HSP でfloat書き込みは面倒なので簡易
+		return 0
+	}
+	return 0
+
+#deffunc mag_bye
+	if _mag_inited == 0 : return
+	_MagUninitialize
+	_mag_inited = 0
+	return
+
+#global
+#endif

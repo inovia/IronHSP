@@ -1,0 +1,63 @@
+;============================================================
+;   iron_dpi.hsp — DPI 対応ヘルパー
+;
+;   Per-Monitor DPI Awareness V2 の設定と DPI 情報取得。
+;
+;   API:
+;     dpi_set_awareness mode    DPI 認識モードを設定
+;       mode: 0=UNAWARE, 1=SYSTEM_AWARE, 2=PER_MONITOR_AWARE_V2
+;     dpi_get()                 現在のウィンドウの DPI を返す
+;     dpi_get_system()          システム DPI を返す
+;     dpi_scale(value)          value を現在 DPI でスケール (96dpi 基準)
+;
+;   例:
+;     #include "iron_dpi.hsp"
+;     dpi_set_awareness 2       ; Per-Monitor V2
+;     mes "DPI = " + dpi_get()
+;     mes "scaled 100px = " + dpi_scale(100)
+;============================================================
+#ifndef __iron_dpi_hsp__
+#define __iron_dpi_hsp__
+
+#module iron_dpi
+
+#uselib "user32.dll"
+#cfunc _SetProcessDpiAwarenessContext "SetProcessDpiAwarenessContext" int
+#cfunc _GetDpiForWindow "GetDpiForWindow" int
+#cfunc _GetDpiForSystem "GetDpiForSystem"
+#cfunc _GetSystemMetricsForDpi "GetSystemMetricsForDpi" int, int
+
+#uselib "shcore.dll"
+#cfunc _SetProcessDpiAwareness "SetProcessDpiAwareness" int
+
+; DPI_AWARENESS_CONTEXT values
+; -1 = UNAWARE, -2 = SYSTEM_AWARE, -3 = PER_MONITOR_AWARE, -4 = PER_MONITOR_AWARE_V2
+#deffunc dpi_set_awareness int mode
+	if mode == 0 {
+		_SetProcessDpiAwarenessContext -1
+	}
+	if mode == 1 {
+		_SetProcessDpiAwarenessContext -2
+	}
+	if mode == 2 {
+		_SetProcessDpiAwarenessContext -4
+	}
+	return stat
+
+#defcfunc dpi_get
+	; hwnd = 0 → GetDpiForSystem fallback
+	d = _GetDpiForSystem()
+	if d <= 0 : d = 96
+	return d
+
+#defcfunc dpi_get_system
+	d = _GetDpiForSystem()
+	if d <= 0 : d = 96
+	return d
+
+#defcfunc dpi_scale int value
+	d = dpi_get()
+	return value * d / 96
+
+#global
+#endif

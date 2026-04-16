@@ -1,0 +1,91 @@
+;============================================================
+;   iron_touch.hsp — タッチ入力シミュレーション
+;
+;   InjectTouchInput API で仮想タッチイベントを発行する。
+;   UI テストや自動操作に使用。Windows 8 以降。
+;
+;   API:
+;     touch_init max_contacts    タッチ入力初期化 (最大同時タッチ数)
+;     touch_tap x, y             タップ (タッチ→リリース)
+;     touch_down id, x, y        指を置く
+;     touch_move id, x, y        指を動かす
+;     touch_up id, x, y          指を離す
+;
+;   座標はスクリーンピクセル (物理座標)。
+;============================================================
+#ifndef __iron_touch_hsp__
+#define __iron_touch_hsp__
+
+#module iron_touch
+
+#uselib "user32.dll"
+#cfunc _InitializeTouchInjection "InitializeTouchInjection" int, int
+#cfunc _InjectTouchInput "InjectTouchInput" int, var
+
+; POINTER_TOUCH_INFO = 144 bytes (x86)
+; POINTER_INFO (88 bytes) + TOUCH_FLAGS(4) + TOUCH_MASK(4) + rcContact(16) + ...
+; 簡易版: 最小限のフィールドのみ設定
+
+dim _touch_inited, 1
+
+#deffunc touch_init int max_contacts
+	if _touch_inited : return 0
+	; TOUCH_FEEDBACK_DEFAULT = 1
+	if _InitializeTouchInjection(max_contacts, 1) == 0 : return -1
+	_touch_inited = 1
+	return 0
+
+; 内部: POINTER_TOUCH_INFO 構造体を構築
+#deffunc _build_touch_info var buf, int id, int x, int y, int flags
+	sdim buf, 160
+	; pointerType = PT_TOUCH = 2 (offset 0, DWORD)
+	lpoke buf, 0, 2
+	; pointerId (offset 4, UINT32)
+	lpoke buf, 4, id
+	; pointerFlags (offset 16, UINT32)
+	lpoke buf, 16, flags
+	; ptPixelLocation.x (offset 24, LONG)
+	lpoke buf, 24, x
+	; ptPixelLocation.y (offset 28, LONG)
+	lpoke buf, 28, y
+	; touchFlags = 0 (offset 88)
+	; touchMask = TOUCH_MASK_CONTACTAREA | TOUCH_MASK_ORIENTATION | TOUCH_MASK_PRESSURE = 7
+	lpoke buf, 92, 7
+	; rcContact (offset 96): left, top, right, bottom
+	lpoke buf, 96, x - 2
+	lpoke buf, 100, y - 2
+	lpoke buf, 104, x + 2
+	lpoke buf, 108, y + 2
+	; orientation (offset 112)
+	lpoke buf, 112, 0
+	; pressure (offset 116)
+	lpoke buf, 116, 512
+	return
+
+#deffunc touch_down int id, int x, int y, local buf
+	; POINTER_FLAG_DOWN | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT = 0x30006
+	_build_touch_info buf, id, x, y, 0x30006
+	_InjectTouchInput 1, buf
+	return stat
+
+#deffunc touch_move int id, int x, int y, local buf
+	; POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT = 0x30005
+	_build_touch_info buf, id, x, y, 0x30005
+	_InjectTouchInput 1, buf
+	return stat
+
+#deffunc touch_up int id, int x, int y, local buf
+	; POINTER_FLAG_UP = 0x40004
+	_build_touch_info buf, id, x, y, 0x40004
+	_InjectTouchInput 1, buf
+	return stat
+
+#deffunc touch_tap int x, int y
+	touch_init 1
+	touch_down 0, x, y
+	await 50
+	touch_up 0, x, y
+	return
+
+#global
+#endif

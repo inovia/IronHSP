@@ -1,0 +1,13 @@
+	#include "iron_audioloop.hsp"
+	audioloop_start "loopback.wav"
+	if stat == 0 {
+		mes "Recording system audio for 3 seconds..."
+		repeat 60
+			audioloop_poll
+			await 50
+		loop
+		audioloop_stop
+		mes "Saved to loopback.wav"
+	} else {
+		mes "Failed: " + stat
+	}
