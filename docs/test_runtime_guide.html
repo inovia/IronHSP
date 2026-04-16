@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>IronHSP - テストランタイム & 自動テストガイド</title>
+<style>
+body { font-family: 'Segoe UI', 'Meiryo', sans-serif; max-width: 960px; margin: 0 auto; padding: 20px; line-height: 1.7; color: #222; }
+h1 { border-bottom: 3px solid #0078d4; padding-bottom: 8px; }
+h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-top: 2em; }
+h3 { color: #0078d4; margin-top: 1.6em; }
+h4 { margin-top: 1.2em; color: #444; }
+pre { background: #f5f5f5; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 13px; line-height: 1.45; }
+code { background: #eee; padding: 2px 5px; border-radius: 3px; font-size: 13px; }
+pre code { background: transparent; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; }
+.note { background: #fff3cd; border: 1px solid #ffc107; padding: 10px 14px; border-radius: 4px; margin: 1em 0; }
+.important { background: #f8d7da; border: 1px solid #dc3545; padding: 10px 14px; border-radius: 4px; margin: 1em 0; }
+.tip { background: #d4edda; border: 1px solid #28a745; padding: 10px 14px; border-radius: 4px; margin: 1em 0; }
+.toc { background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 20px; border-radius: 4px; margin: 1.5em 0; }
+.toc ul { margin: 0.3em 0; }
+kbd { background: #eee; border: 1px solid #ccc; border-bottom-width: 2px; border-radius: 3px; padding: 1px 6px; font-family: monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>IronHSP テストランタイム &amp; 自動テストガイド</h1>
+
+<p>IronHSP は HSP3 スクリプトの自動テストを書くための専用ランタイムとユーティリティを提供します。
+エラー時にモーダルダイアログが出てプロセスが固まる、画面表示をテストで取り出せないといった
+従来の HSP の課題を、以下のコンポーネントを組み合わせて解決します。</p>
+
+<div class="toc">
+<strong>目次</strong>
+<ul>
+  <li><a href="#overview">1. 全体像</a></li>
+  <li><a href="#runtime">2. テストランタイム (hsp3*_net_test.exe)</a></li>
+  <li><a href="#hsptestrt">3. hsptestrt.dll — テスト支援プラグイン</a></li>
+  <li><a href="#dsl">4. iron_test_ex.hsp DSL</a></li>
+  <li><a href="#runner">5. iron_test_runner.exe — 集約ランナー</a></li>
+  <li><a href="#parallel">6. 並列実行 &amp; カバレッジ (Phase 4c / 4e)</a></li>
+  <li><a href="#json">7. stderr JSON イベント仕様</a></li>
+  <li><a href="#ci">8. CI 連携例</a></li>
+  <li><a href="#faq">9. 制約 &amp; FAQ</a></li>
+</ul>
+</div>
+
+<h2 id="overview">1. 全体像</h2>
+
+<p>自動テストは次の 4 コンポーネントを組み合わせて行います:</p>
+
+<table>
+<tr><th>コンポーネント</th><th>役割</th><th>配置</th></tr>
+<tr>
+  <td><code>hsp3_net_test.exe</code><br><code>hsp3cl_net_test.exe</code><br>(+ <code>_64</code> 版)</td>
+  <td>テスト用 HSP3 ランタイム。エラー発生時にダイアログを出さず、<br>
+      stderr に JSON 1 行イベントとして状況を流して非ゼロ exit する。</td>
+  <td><code>hsp3net/Release_test/</code> ほか</td>
+</tr>
+<tr>
+  <td><code>hsptestrt.dll</code><br><code>hsptestrt_64.dll</code></td>
+  <td>テストスクリプトから呼び出す assert / expect / screenshot などのプリミティブ。<br>
+      結果を stderr へ NDJSON 形式で書き込む。</td>
+  <td><code>package/win32/</code></td>
+</tr>
+<tr>
+  <td><code>iron_test_ex.hsp</code></td>
+  <td>hsptestrt.dll を書きやすくラップした DSL マクロ集。</td>
+  <td><code>package/win32/common/</code></td>
+</tr>
+<tr>
+  <td><code>iron_test_runner.exe</code></td>
+  <td>複数の .hsp をまとめて実行し、結果を集計して色付きサマリ &amp; JSON を出力する集約ランナー。</td>
+  <td><code>package/win32/</code></td>
+</tr>
+</table>
+
+<h3>ワークフロー</h3>
+<pre>
+┌─────────────┐           ┌─────────────────────┐
+│ test_*.hsp    │           │ iron_test_runner.exe  │
+│ (テストスクリプト)  │──────────→│                       │
+└─────────────┘           │ (hspcmp64 → .ax →     │
+                            │  hsp3cl_net_test_64)   │
+                            │  × N 本                │
+                            │                       │
+                            │ stderr NDJSON 集計      │
+                            └──────────┬────────────┘
+                                       │
+                          ┌────────────┴───────────┐
+                          │                          │
+                          ▼                          ▼
+                ターミナル色付きサマリ          --json=file で機械可読出力
+</pre>
+
+<h2 id="runtime">2. テストランタイム (hsp3*_net_test.exe)</h2>
+
+<p>hsp3net 系の 4 つのランタイム (GUI / CL × Win32 / x64) を <code>HSP_TEST_MODE</code>
+プリプロセッサ付きでビルドした版です。<strong>ソースコードは本体と完全に共有</strong>しており、
+<code>#ifdef HSP_TEST_MODE</code> ガードだけで以下の振る舞いが変わります:</p>
+
+<ul>
+  <li>HSP ランタイムエラー発生時にモーダルダイアログを出さず、stderr に JSON で構造化出力する</li>
+  <li><code>dialog</code> 命令を抑止し、OK 応答を自動で返す (テストがブロックされない)</li>
+  <li><code>Alert()</code> / <code>Alertf()</code> などの内部アラートも stderr へ</li>
+  <li>CL 版で <code>stop</code> 命令による <kbd>Press any key</kbd> 待ちをスキップ</li>
+  <li>プロセス終了時に end イベントを出力し、exit code にエラー件数を反映</li>
+</ul>
+
+<h3>出力される 4 つの実行ファイル</h3>
+<table>
+<tr><th>ファイル</th><th>対応ランタイム</th><th>ビットサイズ</th></tr>
+<tr><td><code>hsp3_net_test.exe</code></td><td>GUI (hsp3.exe 系)</td><td>Win32</td></tr>
+<tr><td><code>hsp3_net_test_64.exe</code></td><td>GUI (hsp3_64.exe 系)</td><td>x64</td></tr>
+<tr><td><code>hsp3cl_net_test.exe</code></td><td>CL (hsp3cl.exe 系)</td><td>Win32</td></tr>
+<tr><td><code>hsp3cl_net_test_64.exe</code></td><td>CL (hsp3cl_64.exe 系)</td><td>x64</td></tr>
+</table>
+
+<div class="note">
+<strong>x64 推奨:</strong> IronHSP 本体も x64 が推奨構成であり、
+テスト側も <code>hsp3cl_net_test_64.exe</code> を基本とします。
+</div>
+
+<h3>単体での使い方</h3>
+
+<pre>rem 通常のコンパイル (デバッグ情報付きが必須)
+hspcmp64 -i -u -d -o test.ax test.hsp
+
+rem テストランタイムで実行
+hsp3cl_net_test_64 test.ax 2&gt; events.log
+echo exit=%errorlevel%</pre>
+
+<p>エラーが起きた場合、<code>events.log</code> に以下のようなイベントが残ります:</p>
+
+<pre>{"time":"2026-04-18T17:31:50","type":"start","exe":"...hsp3cl_net_test_64.exe","cmdline":"test.ax"}
+{"time":"2026-04-18T17:31:50","type":"error","code":19,"line":5,"file":"test.hsp","message":"0で除算しました"}
+{"time":"2026-04-18T17:31:50","type":"end","exit":1}</pre>
+
+<div class="important">
+<strong>重要:</strong> <code>line</code> フィールドは <code>hspcmp64 -d</code> (デバッグ情報付き) でコンパイルしたときのみ出力されます。
+<code>-d</code> を付けないとエラーの行番号が拾えません。テスト用途では必ず付けてください。
+</div>
+
+<h2 id="hsptestrt">3. hsptestrt.dll — テスト支援プラグイン</h2>
+
+<p>テストスクリプトから呼び出す primitive のセットです。
+各関数は stderr に直接 <code>WriteFile(STD_ERROR_HANDLE, ...)</code> で JSON を書き込むので、
+テストランタイム以外 (通常の hsp3.exe など) でも動作します。
+ただし stderr が繋がっていない場合は黙って no-op になります。</p>
+
+<h3>読み込み</h3>
+<pre>#include "hsp3cl_net_64.as"    ; 64bit 用プリプロセッサ識別子 _HSP64 を定義
+#include "hsptestrt.as"        ; hsptestrt.dll を #uselib</pre>
+
+<h3>テストケース制御</h3>
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>testrt_begin "name"</code></td><td>テストケース開始。別ケース動作中なら暗黙に <code>testrt_end</code> する。</td></tr>
+<tr><td><code>testrt_end</code></td><td>現在のケースを終了し、pass/fail 件数を test_end イベントに出力。</td></tr>
+<tr><td><code>testrt_summary()</code> (<code>#cfunc</code>)</td><td>全体集計を test_summary イベントに出し、失敗件数を int で返す。<br>
+  <code>end testrt_summary()</code> とすれば失敗件数=プロセス終了コード。</td></tr>
+<tr><td><code>testrt_pass_count()</code></td><td>累計 pass 件数を返す (int)。</td></tr>
+<tr><td><code>testrt_fail_count()</code></td><td>累計 fail 件数を返す (int)。</td></tr>
+</table>
+
+<h3>アサーション / 期待値</h3>
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>testrt_assert cond, "msg"</code></td><td>cond が 0 なら fail。</td></tr>
+<tr><td><code>testrt_expect_true cond, "msg"</code></td><td>cond が真なら pass。</td></tr>
+<tr><td><code>testrt_expect_false cond, "msg"</code></td><td>cond が偽なら pass。</td></tr>
+<tr><td><code>testrt_expect_eq_i actual, expected, "msg"</code></td><td>int 等価。detail に <code>actual=X expected=Y</code> が出る。</td></tr>
+<tr><td><code>testrt_expect_ne_i actual, expected, "msg"</code></td><td>int 不等。</td></tr>
+<tr><td><code>testrt_expect_eq_d actual, expected, eps, "msg"</code></td><td>double 等価 (誤差 eps 以内)。</td></tr>
+<tr><td><code>testrt_expect_eq_s actual, expected, "msg"</code></td><td>文字列 strcmp 等価。</td></tr>
+<tr><td><code>testrt_expect_ne_s actual, expected, "msg"</code></td><td>文字列 strcmp 不等。</td></tr>
+</table>
+
+<h3>型拡張アサーション (Phase 4b)</h3>
+<p><code>#func var</code> で変数アドレスを渡すので、int64 変数や配列を直接比較できます。</p>
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>testrt_expect_eq_i64 var a, var b, "msg"</code></td><td>int64 変数の等価 (10進表記で detail)</td></tr>
+<tr><td><code>testrt_expect_ne_i64 var a, var b, "msg"</code></td><td>int64 変数の不等</td></tr>
+<tr><td><code>testrt_expect_near_i actual, expected, tol, "msg"</code></td><td>|actual-expected| &le; tol で pass (int)</td></tr>
+<tr><td><code>testrt_expect_eq_intptr var a, var b, "msg"</code></td><td>ハンドル比較。detail は 16進</td></tr>
+<tr><td><code>testrt_expect_array_eq_i var a, var b, length, "msg"</code></td><td>int 配列の全要素比較。最初に不一致した index を detail に</td></tr>
+<tr><td><code>testrt_expect_array_eq_d var a, var b, length, eps, "msg"</code></td><td>double 配列 (要素毎 eps 内)</td></tr>
+</table>
+
+<h3>画像比較 (Phase 4d)</h3>
+<p>stb_image.h で PNG を読み、ピクセル単位で baseline と current を比較します。
+<code>testrt_image_cmp</code> / <code>testrt_image_diff</code> は値を返す <code>#cfunc</code>、
+<code>testrt_expect_image_eq</code> は pass/fail を記録する <code>#func</code> です。</p>
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>testrt_image_cmp(baseline, current, tol)</code></td><td>最大ピクセル差 (0..255) を返す。負値はエラー (<code>-1</code>=baseline 読み失敗 / <code>-2</code>=current 読み失敗 / <code>-3</code>=サイズ不一致)</td></tr>
+<tr><td><code>testrt_image_diff(baseline, current, diff_out, tol)</code></td><td>上と同じ + tolerance 超過ピクセルを赤、それ以外をグレースケール化した diff PNG を書き出す</td></tr>
+<tr><td><code>testrt_expect_image_eq baseline, current, tol, "msg"</code></td><td>超過ピクセル 0 で pass。detail に <code>diff_pixels / max_diff / mean_diff / tol / size</code></td></tr>
+</table>
+<div class="note">
+<strong>tol の意味:</strong> 各ピクセルの RGB チャネル差分の最大値が <code>tol</code> 以下なら一致とみなす。
+<code>tol=0</code> で厳密一致、<code>tol=5</code> 程度で圧縮やアンチエイリアスのゆらぎを吸収できる。
+</div>
+
+<h3>ログ / トレース</h3>
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>testrt_trace "tag"</code></td><td>任意のタグ名で trace イベントを出す (ロジック通過確認用)。</td></tr>
+<tr><td><code>testrt_emit "type", "message"</code></td><td>任意のイベント種別で 1 行 JSON を出す。</td></tr>
+</table>
+
+<h3>GUI 自動操作 (hsp3_net_test GUI 向け)</h3>
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>testrt_screenshot("path.png", hwnd)</code></td><td>指定ウィンドウのクライアント領域を PNG で保存。<br>
+    <code>hwnd=0</code> で GetForegroundWindow。戻り値 0 で成功、負値でエラー。</td></tr>
+<tr><td><code>testrt_click(x, y, button)</code></td><td>スクリーン座標にマウスクリックを送信。<br>
+    button: <code>TESTRT_BUTTON_LEFT</code> (0) / <code>_RIGHT</code> (1) / <code>_MIDDLE</code> (2)</td></tr>
+<tr><td><code>testrt_key(vk_code)</code></td><td>仮想キーコードを SendInput で送信。</td></tr>
+</table>
+
+<h2 id="dsl">4. iron_test_ex.hsp DSL</h2>
+
+<p>hsptestrt の API を毎回フルに書くと冗長なので、薄いマクロ層を用意しています。
+<strong>マクロのみ</strong>で関数呼び出しを挟まないため、失敗時の行番号が呼び出し元の
+ソース位置を指します。</p>
+
+<h3>例</h3>
+<pre>#include "hsp3cl_net_64.as"
+#include "iron_test_ex.hsp"
+
+test_case "basic arithmetic"
+    expect_eq 1+2, 3
+    expect_eq 4*5, 20
+    assert_true 1 &lt; 2
+test_end
+
+test_case "strings"
+    s = "hello"
+    expect_eq strlen(s), 5
+    expect_streq s, "hello"
+    expect_strne s, "world"
+test_end
+
+test_case "float tolerance"
+    expect_feq 0.1 + 0.2, 0.3, 1.0e-9
+test_end
+
+trace "reached final section"
+
+end test_finish         ; 失敗件数=プロセス終了コード</pre>
+
+<h3>マクロ一覧</h3>
+<table>
+<tr><th>DSL</th><th>展開先</th></tr>
+<tr><td><code>test_case "name"</code></td><td><code>testrt_begin "name"</code></td></tr>
+<tr><td><code>test_end</code></td><td><code>testrt_end</code></td></tr>
+<tr><td><code>test_finish</code></td><td><code>testrt_summary()</code></td></tr>
+<tr><td><code>expect_eq a, b</code></td><td><code>testrt_expect_eq_i a, b, "expect_eq"</code></td></tr>
+<tr><td><code>expect_ne a, b</code></td><td><code>testrt_expect_ne_i a, b, "expect_ne"</code></td></tr>
+<tr><td><code>expect_feq a, b, eps</code></td><td><code>testrt_expect_eq_d a, b, eps, "expect_feq"</code></td></tr>
+<tr><td><code>expect_streq a, b</code></td><td><code>testrt_expect_eq_s a, b, "expect_streq"</code></td></tr>
+<tr><td><code>expect_strne a, b</code></td><td><code>testrt_expect_ne_s a, b, "expect_strne"</code></td></tr>
+<tr><td><code>assert_true c</code> / <code>assert_false c</code></td><td><code>testrt_expect_true/false</code></td></tr>
+<tr><td><code>assert_with c, "msg"</code></td><td><code>testrt_assert c, "msg"</code></td></tr>
+<tr><td><code>expect_eq_m a, b, "msg"</code></td><td>メッセージ明示版 (int)</td></tr>
+<tr><td><code>expect_streq_m a, b, "msg"</code></td><td>メッセージ明示版 (str)</td></tr>
+<tr><td><code>trace "tag"</code></td><td><code>testrt_trace "tag"</code></td></tr>
+<tr><td><code>emit "type", "message"</code></td><td><code>testrt_emit "type", "message"</code></td></tr>
+<tr><td><code>screenshot("path")</code> / <code>screenshot_hwnd("path", h)</code></td><td><code>testrt_screenshot(...)</code></td></tr>
+<tr><td><code>expect_eq_i64 a, b</code> / <code>expect_ne_i64 a, b</code></td><td>int64 変数比較 (Phase 4b)</td></tr>
+<tr><td><code>expect_near a, b, tol</code></td><td>int 許容差比較 (Phase 4b)</td></tr>
+<tr><td><code>expect_eq_ptr a, b</code></td><td>intptr/ハンドル比較 (Phase 4b)</td></tr>
+<tr><td><code>expect_array_eq a, b, len</code></td><td>int 配列比較 (Phase 4b)</td></tr>
+<tr><td><code>expect_array_feq a, b, len, eps</code></td><td>double 配列比較 (Phase 4b)</td></tr>
+<tr><td><code>expect_image_eq baseline, current, tol</code></td><td>PNG 画像比較 (Phase 4d)</td></tr>
+<tr><td><code>test_image_cmp(...)</code> / <code>test_image_diff(...)</code></td><td>画像比較 rvalue / diff PNG 書き出し (Phase 4d)</td></tr>
+</table>
+
+<h2 id="runner">5. iron_test_runner.exe — 集約ランナー</h2>
+
+<p>複数の <code>.hsp</code> をまとめて「コンパイル → テスト実行 → 結果集計」するネイティブ実行ファイルです。
+HSP に依存せず Windows の CreateProcess + パイプで子プロセスの stderr を拾うため、
+子側がクラッシュしても runner は止まりません。</p>
+
+<h3>基本形</h3>
+<pre>iron_test_runner.exe [options] &lt;file-or-glob&gt; [...]</pre>
+
+<h3>主要オプション</h3>
+<table>
+<tr><th>オプション</th><th>デフォルト</th><th>意味</th></tr>
+<tr><td><code>--runtime=&lt;exe&gt;</code></td><td><code>hsp3cl_net_test_64.exe</code></td><td>テスト実行に使う HSP ランタイム</td></tr>
+<tr><td><code>--compiler=&lt;exe&gt;</code></td><td><code>hspcmp64.exe</code></td><td>HSP コンパイラ。常に <code>-i -u -d</code> を付けて呼ぶ</td></tr>
+<tr><td><code>--syspath=&lt;dir&gt;</code></td><td>—</td><td>hspcmp に渡す <code>--syspath</code></td></tr>
+<tr><td><code>--compath=&lt;dir&gt;</code></td><td>—</td><td>hspcmp に渡す <code>--compath</code> (.as / .hsp の置き場)</td></tr>
+<tr><td><code>--json=&lt;file&gt;</code></td><td>—</td><td>マシン可読な JSON 集計ファイルを書き出す</td></tr>
+<tr><td><code>--junit=&lt;file&gt;</code></td><td>—</td><td>JUnit XML を書き出す (GitHub Actions / Jenkins など CI 連携用)</td></tr>
+<tr><td><code>--jobs=&lt;N&gt;</code></td><td>1</td><td>N ファイルを並列実行 (CreateProcess を N 本並行に走らせる)。Phase 4c</td></tr>
+<tr><td><code>--coverage=&lt;file&gt;</code></td><td>—</td><td>ソース行カバレッジをマージして TSV で書き出す (Phase 4e)</td></tr>
+<tr><td><code>--no-compile</code></td><td>OFF</td><td>入力を .ax とみなしてコンパイルをスキップ</td></tr>
+<tr><td><code>--quiet</code></td><td>OFF</td><td>個別の fail 詳細を抑制し、サマリだけ表示</td></tr>
+<tr><td><code>--verbose</code></td><td>OFF</td><td>子プロセスの stderr NDJSON を全行エコー</td></tr>
+<tr><td><code>--no-color</code></td><td>OFF</td><td>ANSI カラーコードを使わない</td></tr>
+</table>
+
+<h3>使用例</h3>
+<pre>rem カレントの test_*.hsp を全部走らせる
+iron_test_runner.exe --compath=. test_*.hsp
+
+rem ランタイム / コンパイラを明示、JSON 出力
+iron_test_runner.exe --compiler=.\hspcmp64.exe ^
+                     --runtime=.\hsp3cl_net_test_64.exe ^
+                     --compath=. ^
+                     --json=results.json ^
+                     tests\*.hsp</pre>
+
+<h3>出力例</h3>
+<pre>[PASS] suite_pass.hsp                   cases:2 pass:5 fail:0  (94ms)
+[FAIL] suite_fail.hsp                   cases:2 pass:1 fail:2  (109ms)
+       - [one passes one fails] expect_eq  (actual=2 expected=99)
+       - [all fail] expect_streq  (actual="hi" expected="bye")
+[ERR ] suite_error.hsp                  cases:1 pass:0 fail:0  (109ms)
+       error code=19 line=6 file=iron_test_ex.hsp "0で除算しました"
+
+----------------------------------------
+files: 1 ok, 1 fail, 1 error  (total 3)
+tests: 5 cases, 6 pass, 2 fail  (312ms)</pre>
+
+<h3>終了コード</h3>
+<p><code>exit = failed_expects + error_files</code> です。0 のときだけ all-green。<br>
+CI では <code>if errorlevel 1 exit 1</code> でそのまま合否判定できます。</p>
+
+<h3>--json 出力形式</h3>
+<pre>{
+  "files": 3,
+  "ok": 1,
+  "fail": 1,
+  "error": 1,
+  "total_cases": 5,
+  "pass": 6,
+  "fail_expects": 2,
+  "duration_ms": 296,
+  "results": [
+    {"path":"suite_pass.hsp","cases":2,"pass":5,"fail":0,"error":false,"ms":93},
+    {"path":"suite_fail.hsp","cases":2,"pass":1,"fail":2,"error":false,"ms":109},
+    {"path":"suite_error.hsp","cases":1,"pass":0,"fail":0,"error":true,"ms":94}
+  ]
+}</pre>
+
+<h3>--junit 出力形式 (CI 連携用)</h3>
+<p>GitHub Actions / Jenkins / Azure Pipelines など多くの CI が標準対応している
+JUnit XML 形式で結果を吐き出します。<code>&lt;testsuites&gt; / &lt;testsuite&gt; (ファイル単位) /
+&lt;testcase&gt; (test_case 単位)</code> の 3 階層構造で、
+失敗は <code>&lt;failure&gt;</code>、HSP ランタイムエラーは <code>&lt;error&gt;</code> として記録されます。</p>
+
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;testsuites name="iron_test_runner" tests="5" failures="2" errors="1" time="0.298"&gt;
+  &lt;testsuite name="suite_pass" tests="2" failures="0" errors="0" time="0.125" file="suite_pass.hsp"&gt;
+    &lt;testcase classname="suite_pass" name="arithmetic"&gt;&lt;/testcase&gt;
+    &lt;testcase classname="suite_pass" name="strings"&gt;&lt;/testcase&gt;
+  &lt;/testsuite&gt;
+  &lt;testsuite name="suite_fail" tests="2" failures="2" errors="0" time="0.079" file="suite_fail.hsp"&gt;
+    &lt;testcase classname="suite_fail" name="one passes one fails"&gt;
+      &lt;failure type="expect_eq" message="expect_eq"&gt;actual=2 expected=99&lt;/failure&gt;
+    &lt;/testcase&gt;
+    &lt;testcase classname="suite_fail" name="all fail"&gt;
+      &lt;failure type="expect_streq" message="expect_streq"&gt;actual="hi" expected="bye"&lt;/failure&gt;
+    &lt;/testcase&gt;
+  &lt;/testsuite&gt;
+  &lt;testsuite name="suite_error" tests="1" failures="0" errors="1" time="0.094" file="suite_error.hsp"&gt;
+    &lt;testcase classname="suite_error" name="about to crash"&gt;&lt;/testcase&gt;
+    &lt;testcase classname="suite_error" name="(runtime)"&gt;
+      &lt;error type="runtime_error" message="0で除算しました"&gt;code=19 line=6 file=...&lt;/error&gt;
+    &lt;/testcase&gt;
+  &lt;/testsuite&gt;
+&lt;/testsuites&gt;</pre>
+
+<table>
+<tr><th>属性</th><th>意味</th></tr>
+<tr><td><code>testsuites.tests / failures / errors</code></td><td>全ファイルを集計した全体カウント</td></tr>
+<tr><td><code>testsuites.time</code></td><td>全ファイルの合計実行時間 (秒)</td></tr>
+<tr><td><code>testsuite.file</code></td><td>元の .hsp ファイルパス</td></tr>
+<tr><td><code>testcase.classname</code></td><td>suite 名 (= ファイル名から拡張子を除いたもの)</td></tr>
+<tr><td><code>testcase.name</code></td><td><code>test_case "..."</code> で指定した名前</td></tr>
+<tr><td><code>failure.type / message</code></td><td><code>expect_eq</code> などアサーション種別</td></tr>
+<tr><td><code>failure</code> 要素本文</td><td><code>actual=... expected=...</code> の詳細</td></tr>
+<tr><td><code>error.type / message</code></td><td>HSP ランタイムエラー内容</td></tr>
+<tr><td><code>error</code> 要素本文</td><td>エラーコード / 行番号 / ファイル名</td></tr>
+</table>
+
+<h2 id="parallel">6. 並列実行 &amp; カバレッジ (Phase 4c / 4e)</h2>
+
+<h3>--jobs=N で並列実行</h3>
+<p>スイート間に依存がないので、複数の .hsp を同時にコンパイル+実行できます。
+runner は atomic counter によるワークスティーリング方式で N スレッドに配分します。</p>
+<pre>iron_test_runner.exe --jobs=8 --compath=. test_*.hsp</pre>
+<p>結果の出力順は入力順と同じになる (各スレッドが自分の結果 slot を書き込む形)。</p>
+
+<h3>--coverage でソース行カバレッジ</h3>
+<p>テストランタイム側にバイトコード dispatch ループの per-step フックがあり、
+環境変数 <code>HSPTEST_COV_FILE</code> が設定されているときだけ (file, line) タプルを
+in-memory set に追加します。runner は各ファイルを走らせるたびに
+<code>HSPTEST_COV_FILE=&lt;tmp&gt;.cov.tsv</code> を渡し、終了後に全ファイルをマージします。</p>
+
+<pre>iron_test_runner.exe --coverage=coverage.tsv --compath=. test_*.hsp</pre>
+
+<p>出力 TSV の形式:</p>
+<pre>file                    line    hits
+suite_pass.hsp          5       1
+suite_pass.hsp          6       1
+suite_pass.hsp          13      3
+iron_test_ex.hsp        48      5
+...</pre>
+
+<p>画面にもサマリが 1 行:</p>
+<pre>coverage: 4 files, 44 unique lines, 45 hit events  -&gt; coverage.tsv</pre>
+
+<div class="note">
+<strong>注:</strong> 行情報は <code>-d</code> (デバッグ情報付き) コンパイルが前提。<br>
+runner は自動で <code>-d</code> を付けます。<br>
+カバレッジフックの無効化状態 (通常ビルド or 環境変数未設定) では
+<code>g_cov_state</code> 1 回チェック + 早期 return だけなので性能影響はほぼゼロです。
+</div>
+
+<h3>カバレッジ TSV の後処理例 (Python)</h3>
+<pre>import csv
+hits = {}  # (file, line) -> count
+with open('coverage.tsv') as fp:
+    for row in csv.DictReader(fp, delimiter='\t'):
+        hits[(row['file'], int(row['line']))] = int(row['hits'])
+
+# ファイルごとに hit 行数を集計
+by_file = {}
+for (f, _), c in hits.items():
+    by_file.setdefault(f, 0)
+    by_file[f] += 1
+for f, n in sorted(by_file.items()):
+    print(f'{f}: {n} lines')</pre>
+
+<h2 id="json">7. stderr JSON イベント仕様</h2>
+
+<p>テストランタイムおよび hsptestrt.dll は、すべてのイベントを <strong>1 行 1 JSON</strong>
+(NDJSON / JSON Lines) 形式で stderr に書き込みます。
+改行は LF 1 つで、各行は必ず <code>{...}</code> の形です。</p>
+
+<h3>共通フィールド</h3>
+<table>
+<tr><th>フィールド</th><th>型</th><th>説明</th></tr>
+<tr><td><code>time</code></td><td>string</td><td>ISO8601 形式のローカル時刻 (秒精度)</td></tr>
+<tr><td><code>type</code></td><td>string</td><td>イベント種別 (下表)</td></tr>
+</table>
+
+<h3>イベント種別</h3>
+<table>
+<tr><th>type</th><th>ソース</th><th>主要フィールド</th><th>意味</th></tr>
+<tr><td><code>start</code></td><td>ランタイム</td><td>exe, cmdline</td><td>プロセス起動直後に 1 回だけ出力</td></tr>
+<tr><td><code>end</code></td><td>ランタイム</td><td>exit</td><td>プロセス終了直前に 1 回だけ出力</td></tr>
+<tr><td><code>error</code></td><td>ランタイム</td><td>code, line, file, message</td><td>HSP ランタイムエラー (0 除算、型不一致など)。非ゼロ exit の原因</td></tr>
+<tr><td><code>alert</code></td><td>ランタイム</td><td>message</td><td>内部の Alert()/Alertf() 呼び出し。通常は致命的ではない</td></tr>
+<tr><td><code>dialog</code></td><td>ランタイム</td><td>flag, caption, text</td><td><code>dialog</code> 命令が抑止された (stat には IDOK=1 or IDYES=6 を返す)</td></tr>
+<tr><td><code>test_begin</code></td><td>hsptestrt</td><td>case</td><td>testrt_begin / test_case で 1 回</td></tr>
+<tr><td><code>test_end</code></td><td>hsptestrt</td><td>case, pass, fail</td><td>testrt_end / test_end で 1 回</td></tr>
+<tr><td><code>expect_fail</code></td><td>hsptestrt</td><td>case, message, detail</td><td>expect_* 系で失敗したときだけ</td></tr>
+<tr><td><code>test_summary</code></td><td>hsptestrt</td><td>total, pass, fail</td><td>testrt_summary() / test_finish で 1 回</td></tr>
+<tr><td><code>screenshot</code></td><td>hsptestrt</td><td>path, width, height, ok</td><td>testrt_screenshot 完了時</td></tr>
+<tr><td><code>image_cmp</code></td><td>hsptestrt</td><td>baseline, current, w_a, h_a, w_b, h_b, tolerance, max_diff, diff_pixels, mean_diff, pass</td><td>testrt_image_cmp / _diff / _expect_image_eq (Phase 4d)</td></tr>
+<tr><td><code>trace</code></td><td>hsptestrt</td><td>tag, line</td><td>testrt_trace / trace マクロ</td></tr>
+<tr><td><code>coverage</code></td><td>ランタイム</td><td>file, hits</td><td>HSPTEST_COV_FILE ありでランタイム終了時 (Phase 4e)</td></tr>
+<tr><td><code>event</code> (任意)</td><td>hsptestrt</td><td>message</td><td>testrt_emit で指定した任意 type</td></tr>
+</table>
+
+<h3>生ログ例</h3>
+<pre>{"time":"2026-04-18T17:50:33","type":"start","exe":"...hsp3cl_net_test_64.exe","cmdline":"_test_dsl.ax"}
+{"time":"2026-04-18T17:50:33","type":"test_begin","case":"basic arithmetic"}
+{"time":"2026-04-18T17:50:33","type":"test_end","case":"basic arithmetic","pass":3,"fail":0}
+{"time":"2026-04-18T17:50:33","type":"test_begin","case":"a case that fails on purpose"}
+{"time":"2026-04-18T17:50:33","type":"expect_fail","case":"a case that fails on purpose","message":"expect_eq","detail":"actual=1 expected=2"}
+{"time":"2026-04-18T17:50:33","type":"expect_fail","case":"a case that fails on purpose","message":"expect_streq","detail":"actual=\"abc\" expected=\"xyz\""}
+{"time":"2026-04-18T17:50:33","type":"test_end","case":"a case that fails on purpose","pass":0,"fail":2}
+{"time":"2026-04-18T17:50:33","type":"test_summary","total":9,"pass":7,"fail":2}
+{"time":"2026-04-18T17:50:33","type":"end","exit":2}</pre>
+
+<h2 id="ci">8. CI 連携例</h2>
+
+<h3>GitHub Actions</h3>
+<pre>- name: Run IronHSP tests
+  shell: cmd
+  run: |
+    cd test
+    ..\package\win32\iron_test_runner.exe ^
+      --compiler=..\package\win32\hspcmp64.exe ^
+      --runtime=..\hsp3net\Release_test\hsp3cl_net_test_64.exe ^
+      --compath=..\package\win32\common ^
+      --junit=test-results.xml ^
+      --json=test-results.json ^
+      test_*.hsp
+
+- name: Publish JUnit report
+  if: always()
+  uses: mikepenz/action-junit-report@v4
+  with:
+    report_paths: test/test-results.xml
+
+- name: Upload test artifacts
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: test-results
+    path: |
+      test/test-results.xml
+      test/test-results.json</pre>
+
+<div class="tip">
+<strong>ヒント:</strong> <code>mikepenz/action-junit-report</code> や
+<code>dorny/test-reporter</code> などの JUnit Reporter アクションを使うと、
+PR 画面にテスト結果が直接表示されます。
+</div>
+
+<h3>ローカル ワンライナー</h3>
+<pre>rem バッチファイル run_tests.bat
+@echo off
+iron_test_runner.exe --compath=. test_*.hsp
+if errorlevel 1 (
+    echo TESTS FAILED
+    exit /b %errorlevel%
+)
+echo OK</pre>
+
+<h2 id="faq">9. 制約 &amp; FAQ</h2>
+
+<h3>Q. なぜ hsp3net 限定なの？ vanilla hsp3 は対応しない？</h3>
+<p>テストランタイム (hsp3*_net_test) は現状 hsp3net ツリーだけをビルド対象にしています。
+IronHSP の推奨構成が hsp3net (とくに x64) であり、.NET 連携・NSTRUCT・cfuncst などを含む全機能を
+使える唯一のランタイムだからです。vanilla hsp3 側に同じ <code>#ifdef HSP_TEST_MODE</code>
+ガードを足すことで同じ仕組みに拡張可能ですが、現時点ではやっていません。</p>
+
+<h3>Q. コード重複が気になる。本体ランタイムと何が違うの？</h3>
+<p>ソースコードは <strong>完全に同じファイルを共有</strong>しています。vcxproj だけを別途用意し、
+プリプロセッサに <code>HSP_TEST_MODE</code> を追加した 4 本を作っています。
+<code>#ifdef HSP_TEST_MODE</code> の分岐で、既存のダイアログ出力経路だけ stderr JSON 出力に置換されます。
+テスト専用の「フォーク」は存在しないので、本体の修正が自動的にテストランタイムにも追従します。</p>
+
+<h3>Q. エラー位置に <code>line</code> フィールドが出ないことがある</h3>
+<p>HSP の行番号情報は <code>.ax</code> にデバッグ情報が入っている時のみ取得できます。
+<code>hspcmp64 -d</code> (または <code>-d</code> 相当) で必ずコンパイルしてください。
+<code>iron_test_runner.exe</code> は自動的に <code>-d</code> を付けて呼ぶので通常は気にする必要はありません。</p>
+
+<h3>Q. GUI ランタイムで stderr が見えない</h3>
+<p>GUI アプリはコンソールを持たないため、そのままだと stderr が捨てられます。
+テストランタイムは以下の優先順で出力先を解決します:</p>
+<ol>
+  <li>呼び出し側が <code>2&gt;file</code> でリダイレクトしていれば、そのハンドルをそのまま使う</li>
+  <li>親コンソールがあれば <code>AttachConsole(ATTACH_PARENT_PROCESS)</code> + CONOUT$ で出す</li>
+  <li>環境変数 <code>HSPTEST_STDERR_FILE</code> が設定されていればそのパスに追記</li>
+</ol>
+<p><code>iron_test_runner.exe</code> から呼ぶ場合はパイプで拾うので常に (1) のルートが有効です。</p>
+
+<h3>Q. screenshot が真っ黒になる</h3>
+<p><code>testrt_screenshot</code> は <code>GetDC(hwnd) + BitBlt</code> で取得します。
+Direct3D や DirectComposition でレンダリングしているウィンドウは BitBlt で取れないため真っ黒になる場合があります。
+その場合は OS の <code>PrintWindow(PW_RENDERFULLCONTENT)</code> を使う版を追加する必要があります (未実装)。</p>
+
+<h3>Q. 失敗件数が大きすぎて exit code 255 を超える</h3>
+<p>Windows の exit code は 32bit なのでオーバーフローはしませんが、
+シェルによっては下位 8bit しか見ないケースがあります (bash など)。
+255 件以上の失敗がある場合は <code>--json</code> 出力の <code>fail_expects</code> を参照してください。</p>
+
+<h3>Q. stop / end / await がどう扱われるか</h3>
+<p>CL テストランタイムでは <code>stop</code> 命令は <kbd>Press any key</kbd> 表示せず即終了します。
+<code>end 数値</code> のときは数値が exit code になります (テストが <code>end test_finish</code>
+パターンを使う理由)。<code>await</code> はそのまま動作するので、タイミング依存のテストも書けます。</p>
+
+<hr>
+<p style="color:#888; font-size: 12px;">
+最終更新: 2026-04-18 &mdash; IronHSP Test Runtime Phase 1 + Phase 2 + Phase 3<br>
+関連ドキュメント:
+<a href="IronHSP_specification.html">IronHSP_specification.html</a> /
+<a href="iron_modules_intro.html">iron_modules_intro.html</a>
+</p>
+
+</body>
+</html>
