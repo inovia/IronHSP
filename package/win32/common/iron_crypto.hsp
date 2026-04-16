@@ -75,7 +75,7 @@
 #deffunc pbkdf2_sha256 str password, var salt, int salt_len, int iterations, int out_len, \
 	local hex, local pwd
 	pwd = password
-	plen = strlen@hsp(pwd)
+	plen = strlen(pwd)
 	sdim hex, out_len * 2 + 16
 	pbkdf2_sha256_ex pwd, plen, salt, salt_len, iterations, hex, out_len
 	return hex
@@ -85,12 +85,12 @@
 ;------------------------------------------------------------
 #deffunc bf_encrypt str key, var data, int data_len, var out
 	sdim out, data_len + 8
-	blowfish_encrypt key, strlen@hsp(key), data, data_len, out, data_len + 8
+	blowfish_encrypt key, strlen(key), data, data_len, out, data_len + 8
 	return stat
 
 #deffunc bf_decrypt str key, var data, int data_len, var out
 	sdim out, data_len
-	blowfish_decrypt key, strlen@hsp(key), data, data_len, out, data_len
+	blowfish_decrypt key, strlen(key), data, data_len, out, data_len
 	return stat
 
 ;------------------------------------------------------------
@@ -98,7 +98,7 @@
 ;------------------------------------------------------------
 #deffunc rc4_encrypt str key, var data, int data_len, var out
 	sdim out, data_len
-	rc4_crypt key, strlen@hsp(key), data, data_len, out, data_len
+	rc4_crypt key, strlen(key), data, data_len, out, data_len
 	return stat
 
 ;------------------------------------------------------------

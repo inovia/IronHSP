@@ -18,21 +18,21 @@
 #defcfunc datetime_now local st, local y, local m, local d, local h, local mi, local s
 	sdim st, 16
 	_GetLocalTime st
-	y = wpeek@hsp(st,0) : m = wpeek@hsp(st,2) : d = wpeek@hsp(st,6)
-	h = wpeek@hsp(st,8) : mi = wpeek@hsp(st,10) : s = wpeek@hsp(st,12)
+	y = wpeek(st,0) : m = wpeek(st,2) : d = wpeek(st,6)
+	h = wpeek(st,8) : mi = wpeek(st,10) : s = wpeek(st,12)
 	return strf("%04d-%02d-%02d %02d:%02d:%02d", y, m, d, h, mi, s)
 
 ; 現在の日付 "YYYY-MM-DD"
 #defcfunc date_today local st
 	sdim st, 16
 	_GetLocalTime st
-	return strf("%04d-%02d-%02d", wpeek@hsp(st,0), wpeek@hsp(st,2), wpeek@hsp(st,6))
+	return strf("%04d-%02d-%02d", wpeek(st,0), wpeek(st,2), wpeek(st,6))
 
 ; 現在の時刻 "HH:MM:SS"
 #defcfunc time_now local st
 	sdim st, 16
 	_GetLocalTime st
-	return strf("%02d:%02d:%02d", wpeek@hsp(st,8), wpeek@hsp(st,10), wpeek@hsp(st,12))
+	return strf("%02d:%02d:%02d", wpeek(st,8), wpeek(st,10), wpeek(st,12))
 
 ; Unix タイムスタンプ (秒) を返す
 #defcfunc datetime_unix local st, local ft, local epoch_ft, local diff
@@ -45,19 +45,19 @@
 
 ; 年/月/日/時/分/秒 を個別に返す
 #defcfunc datetime_year local st
-	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,0)
+	sdim st, 16 : _GetLocalTime st : return wpeek(st,0)
 #defcfunc datetime_month local st
-	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,2)
+	sdim st, 16 : _GetLocalTime st : return wpeek(st,2)
 #defcfunc datetime_day local st
-	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,6)
+	sdim st, 16 : _GetLocalTime st : return wpeek(st,6)
 #defcfunc datetime_hour local st
-	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,8)
+	sdim st, 16 : _GetLocalTime st : return wpeek(st,8)
 #defcfunc datetime_minute local st
-	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,10)
+	sdim st, 16 : _GetLocalTime st : return wpeek(st,10)
 #defcfunc datetime_second local st
-	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,12)
+	sdim st, 16 : _GetLocalTime st : return wpeek(st,12)
 #defcfunc datetime_weekday local st
-	sdim st, 16 : _GetLocalTime st : return wpeek@hsp(st,4)
+	sdim st, 16 : _GetLocalTime st : return wpeek(st,4)
 
 ; 起動からの経過ミリ秒
 #defcfunc uptime_ms

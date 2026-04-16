@@ -14,38 +14,38 @@
 	_u_port = 0
 	u = url
 	; fragment
-	p2 = instr@hsp(u, 0, "#")
+	p2 = instr(u, 0, "#")
 	if p2 >= 0 {
-		_u_fragment = strmid@hsp(u, p2+1, 999)
-		u = strmid@hsp(u, 0, p2)
+		_u_fragment = strmid(u, p2+1, 999)
+		u = strmid(u, 0, p2)
 	}
 	; query
-	p2 = instr@hsp(u, 0, "?")
+	p2 = instr(u, 0, "?")
 	if p2 >= 0 {
-		_u_query = strmid@hsp(u, p2+1, 999)
-		u = strmid@hsp(u, 0, p2)
+		_u_query = strmid(u, p2+1, 999)
+		u = strmid(u, 0, p2)
 	}
 	; scheme
-	p2 = instr@hsp(u, 0, "://")
+	p2 = instr(u, 0, "://")
 	if p2 >= 0 {
-		_u_scheme = strmid@hsp(u, 0, p2)
+		_u_scheme = strmid(u, 0, p2)
 		_pos = p2 + 3
 	} else {
 		_pos = 0
 	}
 	; host[:port]/path
-	p2 = instr@hsp(u, _pos, "/")
+	p2 = instr(u, _pos, "/")
 	if p2 >= 0 {
-		_u_host = strmid@hsp(u, _pos, p2)
-		_u_path = strmid@hsp(u, _pos + p2, 999)
+		_u_host = strmid(u, _pos, p2)
+		_u_path = strmid(u, _pos + p2, 999)
 	} else {
-		_u_host = strmid@hsp(u, _pos, 999)
+		_u_host = strmid(u, _pos, 999)
 	}
 	; port
-	p2 = instr@hsp(_u_host, 0, ":")
+	p2 = instr(_u_host, 0, ":")
 	if p2 >= 0 {
-		_u_port = int(strmid@hsp(_u_host, p2+1, 10))
-		_u_host = strmid@hsp(_u_host, 0, p2)
+		_u_port = int(strmid(_u_host, p2+1, 10))
+		_u_host = strmid(_u_host, 0, p2)
 	} else {
 		if _u_scheme == "https" : _u_port = 443
 		if _u_scheme == "http"  : _u_port = 80

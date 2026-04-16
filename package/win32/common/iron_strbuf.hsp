@@ -14,7 +14,7 @@
 	return
 
 #deffunc sb_append str s, local slen
-	slen = strlen@hsp(s)
+	slen = strlen(s)
 	if _sb_pos + slen >= _sb_cap {
 		_sb_cap = (_sb_pos + slen) * 2
 		memexpand _sb_buf, _sb_cap

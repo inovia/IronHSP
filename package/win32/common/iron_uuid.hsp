@@ -12,7 +12,7 @@
 	sdim buf, 16
 	_r = _UuidCreate(buf)
 	; Format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-	return strf("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x", peek@hsp(buf,3),peek@hsp(buf,2),peek@hsp(buf,1),peek@hsp(buf,0), peek@hsp(buf,5),peek@hsp(buf,4), peek@hsp(buf,7),peek@hsp(buf,6), peek@hsp(buf,8),peek@hsp(buf,9), peek@hsp(buf,10),peek@hsp(buf,11),peek@hsp(buf,12),peek@hsp(buf,13),peek@hsp(buf,14),peek@hsp(buf,15))
+	return strf("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x", peek(buf,3),peek(buf,2),peek(buf,1),peek(buf,0), peek(buf,5),peek(buf,4), peek(buf,7),peek(buf,6), peek(buf,8),peek(buf,9), peek(buf,10),peek(buf,11),peek(buf,12),peek(buf,13),peek(buf,14),peek(buf,15))
 
 #global
 #endif

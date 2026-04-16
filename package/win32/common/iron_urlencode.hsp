@@ -25,7 +25,7 @@
 	repeat strlen(_s)
 		if i >= strlen(_s) : break
 		c = peek(_s, i)
-		if c == '%' & i + 2 < strlen@hsp(s) {
+		if c == '%' & i + 2 < strlen(_s) {
 			hex = strmid(_s, i+1, 2)
 			result += strf("%c", int("$" + hex))
 			i += 3

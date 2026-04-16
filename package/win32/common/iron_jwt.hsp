@@ -21,8 +21,8 @@
 	strrep payload, "-", "+"
 	strrep payload, "_", "/"
 	; パディング
-	repeat 4 - (strlen@hsp(payload) \ 4)
-		if (strlen@hsp(payload) \ 4) == 0 : break
+	repeat 4 - (strlen(payload) \ 4)
+		if (strlen(payload) \ 4) == 0 : break
 		payload += "="
 	loop
 	base64_decode payload
@@ -35,8 +35,8 @@
 	hdr = strmid(token, 0, p1)
 	strrep hdr, "-", "+"
 	strrep hdr, "_", "/"
-	repeat 4 - (strlen@hsp(hdr) \ 4)
-		if (strlen@hsp(hdr) \ 4) == 0 : break
+	repeat 4 - (strlen(hdr) \ 4)
+		if (strlen(hdr) \ 4) == 0 : break
 		hdr += "="
 	loop
 	base64_decode hdr

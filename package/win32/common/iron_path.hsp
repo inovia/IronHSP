@@ -25,22 +25,22 @@
 
 ; 拡張子取得 (.txt 等)
 #defcfunc path_ext str path
-	return getpath@hsp(path, 2)
+	return getpath(path, 2)
 
 ; ファイル名取得
 #defcfunc path_filename str path
-	return getpath@hsp(path, 8)
+	return getpath(path, 8)
 
 ; ディレクトリ取得
 #defcfunc path_dir str path
-	return getpath@hsp(path, 32)
+	return getpath(path, 32)
 
 ; 拡張子なしファイル名
 #defcfunc path_stem str path, local f, local p
-	f = getpath@hsp(path, 8)
-	p = instr@hsp(f, 0, ".")
+	f = getpath(path, 8)
+	p = instr(f, 0, ".")
 	if p < 0 : return f
-	return strmid@hsp(f, 0, p)
+	return strmid(f, 0, p)
 
 ; パスが存在するか
 #defcfunc path_exists str path

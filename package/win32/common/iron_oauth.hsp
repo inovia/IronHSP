@@ -118,7 +118,7 @@ dim _wsa_inited, 1
 
 	; Send response
 	response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<html><body><h2>Authorization successful!</h2><p>You can close this window.</p></body></html>"
-	_send client, response, strlen@hsp(response), 0
+	_send client, response, strlen(response), 0
 	_closesocket client
 	return code
 

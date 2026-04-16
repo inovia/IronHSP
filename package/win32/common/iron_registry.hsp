@@ -75,7 +75,7 @@
 	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_WRITE, hk)
 	if ret != 0 : return ret
 	vbuf = value
-	vlen = strlen@hsp(vbuf) + 1
+	vlen = strlen(vbuf) + 1
 	ret = _RegSetValueExA(hk, name, 0, _REG_SZ, vbuf, vlen)
 	_RegCloseKey hk
 	return ret
