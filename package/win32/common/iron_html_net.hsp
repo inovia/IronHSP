@@ -1,0 +1,60 @@
+;============================================================
+;   iron_html_net.hsp - HTMLパース (.NET版)
+;
+;   C# の動的コンパイルで簡易 HTML パーサーを実装。
+;   XPath/CSS セレクタ風のクエリには HtmlAgilityPack が必要だが、
+;   ここでは .NET 標準の System.Xml.Linq で XHTML をパースする簡易版。
+;
+;   API:
+;     nethtml_strip_tags "html"    タグ除去 → refstr
+;     nethtml_extract_links "html" リンク抽出 → refstr (改行区切り)
+;
+;   注意: 厳密な HTML パースには iron_html.hsp (hsphtml.dll) を推奨。
+;============================================================
+#ifndef __iron_html_net_hsp__
+#define __iron_html_net_hsp__
+
+#module iron_html_net
+
+; C# ソースを動的コンパイルして使用
+dim _html_cs_loaded, 1
+sdim _html_cs_src, 4096
+
+#deffunc _nethtml_load_cs
+	if _html_cs_loaded : return
+	_html_cs_src = "using System;using System.Text.RegularExpressions;"
+	_html_cs_src += "public class HspHtmlHelper {"
+	_html_cs_src += "  public static string StripTags(string html) {"
+	_html_cs_src += "    return Regex.Replace(html, \"<[^>]+>\", \"\").Trim();"
+	_html_cs_src += "  }"
+	_html_cs_src += "  public static string ExtractLinks(string html) {"
+	_html_cs_src += "    var result = \"\";"
+	_html_cs_src += "    foreach(Match m in Regex.Matches(html, \"href=\\\"([^\\\"]+)\\\"\")) {"
+	_html_cs_src += "      if(result.Length>0) result+=\"\\n\";"
+	_html_cs_src += "      result += m.Groups[1].Value;"
+	_html_cs_src += "    }"
+	_html_cs_src += "    return result;"
+	_html_cs_src += "  }"
+	_html_cs_src += "}"
+	loadnet _html_cs_src, 3  ; mode 3 = C# source
+	_html_cs_loaded = 1
+	return
+
+#deffunc nethtml_strip_tags str html, \
+	local pHelper, local pResult
+	_nethtml_load_cs
+	newnet pHelper, "", "HspHtmlHelper", 1
+	netres pResult
+	mcall pHelper, "StripTags", html
+	return nettoval(pResult, 2)
+
+#deffunc nethtml_extract_links str html, \
+	local pHelper, local pResult
+	_nethtml_load_cs
+	newnet pHelper, "", "HspHtmlHelper", 1
+	netres pResult
+	mcall pHelper, "ExtractLinks", html
+	return nettoval(pResult, 2)
+
+#global
+#endif

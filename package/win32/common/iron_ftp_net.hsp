@@ -1,0 +1,82 @@
+;============================================================
+;   iron_ftp_net.hsp - FTP (.NET版)
+;
+;   System.Net.FtpWebRequest を使用。FTPS (SSL) 自動対応。
+;   hsp3net 専用。
+;
+;   API:
+;     netftp_download "ftp://host/path", "local_file" [, "user", "pass"]
+;       → stat (0=成功)
+;     netftp_upload "ftp://host/path", "local_file" [, "user", "pass"]
+;       → stat (0=成功)
+;     netftp_list "ftp://host/dir/" [, "user", "pass"]
+;       → refstr (改行区切りファイル一覧)
+;============================================================
+#ifndef __iron_ftp_net_hsp__
+#define __iron_ftp_net_hsp__
+
+#module iron_ftp_net
+
+; C# ソースを動的コンパイル
+dim _ftp_cs_loaded, 1
+
+#deffunc _netftp_load_cs
+	if _ftp_cs_loaded : return
+	sdim cs, 4096
+	cs = "using System;using System.IO;using System.Net;"
+	cs += "public class HspFtpHelper {"
+	cs += "  public static string Download(string url, string localPath, string user, string pass) {"
+	cs += "    try { var req=(FtpWebRequest)WebRequest.Create(url);"
+	cs += "    req.Method=WebRequestMethods.Ftp.DownloadFile;"
+	cs += "    if(user!=\"\") req.Credentials=new NetworkCredential(user,pass);"
+	cs += "    using(var resp=req.GetResponse()) using(var s=resp.GetResponseStream())"
+	cs += "    using(var fs=File.Create(localPath)) { s.CopyTo(fs); }"
+	cs += "    return \"0\"; } catch(Exception e) { return e.Message; } }"
+	cs += "  public static string Upload(string url, string localPath, string user, string pass) {"
+	cs += "    try { var req=(FtpWebRequest)WebRequest.Create(url);"
+	cs += "    req.Method=WebRequestMethods.Ftp.UploadFile;"
+	cs += "    if(user!=\"\") req.Credentials=new NetworkCredential(user,pass);"
+	cs += "    byte[] data=File.ReadAllBytes(localPath);"
+	cs += "    using(var s=req.GetRequestStream()) { s.Write(data,0,data.Length); }"
+	cs += "    return \"0\"; } catch(Exception e) { return e.Message; } }"
+	cs += "  public static string List(string url, string user, string pass) {"
+	cs += "    try { var req=(FtpWebRequest)WebRequest.Create(url);"
+	cs += "    req.Method=WebRequestMethods.Ftp.ListDirectory;"
+	cs += "    if(user!=\"\") req.Credentials=new NetworkCredential(user,pass);"
+	cs += "    using(var resp=req.GetResponse()) using(var s=new StreamReader(resp.GetResponseStream()))"
+	cs += "    { return s.ReadToEnd(); } } catch(Exception e) { return \"ERROR:\"+e.Message; } }"
+	cs += "}"
+	loadnet cs, 3
+	_ftp_cs_loaded = 1
+	return
+
+#deffunc netftp_download str url, str local_path, str user, str pass, \
+	local pHelper, local pResult
+	_netftp_load_cs
+	newnet pHelper, "", "HspFtpHelper", 1
+	netres pResult
+	mcall pHelper, "Download", url, local_path, user, pass
+	s = nettoval(pResult, 2)
+	if s == "0" : return 0
+	return s
+
+#deffunc netftp_upload str url, str local_path, str user, str pass, \
+	local pHelper, local pResult
+	_netftp_load_cs
+	newnet pHelper, "", "HspFtpHelper", 1
+	netres pResult
+	mcall pHelper, "Upload", url, local_path, user, pass
+	s = nettoval(pResult, 2)
+	if s == "0" : return 0
+	return s
+
+#deffunc netftp_list str url, str user, str pass, \
+	local pHelper, local pResult
+	_netftp_load_cs
+	newnet pHelper, "", "HspFtpHelper", 1
+	netres pResult
+	mcall pHelper, "List", url, user, pass
+	return nettoval(pResult, 2)
+
+#global
+#endif

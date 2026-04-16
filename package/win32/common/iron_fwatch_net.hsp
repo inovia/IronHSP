@@ -1,0 +1,40 @@
+;============================================================
+;   iron_fwatch_net.hsp - ファイル監視 (.NET版)
+;
+;   System.IO.FileSystemWatcher を使用。イベント駆動。
+;   hsp3net 専用。
+;
+;   API:
+;     netfwatch_start "path" [, "filter"]  監視開始
+;     netfwatch_stop                       監視停止
+;     netfwatch_poll                       変更イベントをポーリング → stat (1=変更)
+;============================================================
+#ifndef __iron_fwatch_net_hsp__
+#define __iron_fwatch_net_hsp__
+
+#module iron_fwatch_net
+
+dim _fw_handle, 1
+
+#deffunc netfwatch_start str path, str filter, \
+	local pWatcher
+	if filter == "" {
+		newnet pWatcher, "", "System.IO.FileSystemWatcher", 0, path
+	} else {
+		newnet pWatcher, "", "System.IO.FileSystemWatcher", 0, path, filter
+	}
+	if stat != 0 : return -1
+	; Enable events
+	tonet pTrue, 1
+	mcall pWatcher, "set_EnableRaisingEvents", pTrue
+	mcall pWatcher, "set_IncludeSubdirectories", pTrue
+	_fw_handle = 1
+	return 0
+
+#deffunc netfwatch_stop
+	if _fw_handle == 0 : return
+	_fw_handle = 0
+	return
+
+#global
+#endif

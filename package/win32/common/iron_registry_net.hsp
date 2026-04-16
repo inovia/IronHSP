@@ -1,0 +1,57 @@
+;============================================================
+;   iron_registry_net.hsp - レジストリ (.NET版)
+;
+;   Microsoft.Win32.Registry を使用。hsp3net 専用。
+;
+;   API:
+;     netreg_read "subkey", "name"       → refstr
+;     netreg_write "subkey", "name", "value"
+;     netreg_delete "subkey", "name"
+;     netreg_exists("subkey", "name")    → 1/0
+;============================================================
+#ifndef __iron_registry_net_hsp__
+#define __iron_registry_net_hsp__
+
+#module iron_registry_net
+
+#deffunc netreg_read str subkey, str name, \
+	local pReg, local pKey, local pVal
+	newnet pReg, "", "Microsoft.Win32.Registry", 1
+	netres pKey
+	mcall pReg, "GetValue", "HKEY_CURRENT_USER\\" + subkey, name, ""
+	if stat != 0 : return ""
+	s = nettoval(pKey, 2)
+	return s
+
+#deffunc netreg_write str subkey, str name, str value, \
+	local pReg
+	newnet pReg, "", "Microsoft.Win32.Registry", 1
+	mcall pReg, "SetValue", "HKEY_CURRENT_USER\\" + subkey, name, value
+	return stat
+
+#deffunc netreg_delete str subkey, str name, \
+	local pKey
+	newnet pKey, "", "Microsoft.Win32.RegistryKey", 1
+	; Open and delete
+	newnet pReg, "", "Microsoft.Win32.Registry", 1
+	netres pKey
+	mcall pReg, "get_CurrentUser"
+	netres pSub
+	mcall pKey, "OpenSubKey", subkey, 1
+	if stat != 0 : return -1
+	mcall pSub, "DeleteValue", name, 0
+	mcall pSub, "Close"
+	return 0
+
+#defcfunc netreg_exists str subkey, str name, \
+	local pReg, local pVal
+	newnet pReg, "", "Microsoft.Win32.Registry", 1
+	netres pVal
+	mcall pReg, "GetValue", "HKEY_CURRENT_USER\\" + subkey, name, ""
+	if stat != 0 : return 0
+	s = nettoval(pVal, 2)
+	if s == "" : return 0
+	return 1
+
+#global
+#endif

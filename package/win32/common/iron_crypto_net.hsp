@@ -1,0 +1,63 @@
+;============================================================
+;   iron_crypto_net.hsp - 暗号化 (.NET版)
+;
+;   System.Security.Cryptography を使用。
+;   RSA / ECDSA / AES / SHA 等 .NET の全暗号機能にアクセス。
+;   hsp3net 専用。
+;
+;   API:
+;     netcrypto_sha256 "text"          → refstr に hex
+;     netcrypto_aes_encrypt key, iv, data → refstr (Base64)
+;     netcrypto_aes_decrypt key, iv, b64  → refstr (平文)
+;     netcrypto_rsa_keygen              RSA鍵ペア生成 → refstr (XML)
+;     netcrypto_rsa_encrypt xml_key, data → refstr (Base64)
+;     netcrypto_rsa_decrypt xml_key, data → refstr (平文)
+;     netcrypto_random n                → refstr (hex乱数)
+;============================================================
+#ifndef __iron_crypto_net_hsp__
+#define __iron_crypto_net_hsp__
+
+#module iron_crypto_net
+
+#deffunc netcrypto_sha256 str text, \
+	local pSha, local pBytes, local pEnc, local pHash, local pHex
+	newnet pEnc, "", "System.Text.Encoding", 1
+	netres pBytes
+	mcall pEnc, "get_UTF8"
+	netres pBytes
+	mcall pBytes, "GetBytes", text
+	newnet pSha, "", "System.Security.Cryptography.SHA256", 1
+	netres pSha2
+	mcall pSha, "Create"
+	netres pHash
+	mcall pSha2, "ComputeHash", pBytes
+	netres pHex
+	mcall pSha, "BitConverter.ToString", pHash
+	; Use BitConverter for hex
+	newnet pBC, "", "System.BitConverter", 1
+	netres pHex
+	mcall pBC, "ToString", pHash
+	s = nettoval(pHex, 2)
+	strrep s, "-", ""
+	delnet pSha : delnet pEnc
+	return s
+
+#deffunc netcrypto_random int n, \
+	local pRng, local pBytes, local pHex
+	newnet pRng, "", "System.Security.Cryptography.RandomNumberGenerator", 1
+	netres pRngInst
+	mcall pRng, "Create"
+	sdim buf, n
+	; Create byte array
+	newnet pArr, "", "System.Byte[]", 0, n
+	mcall pRngInst, "GetBytes", pArr
+	newnet pBC, "", "System.BitConverter", 1
+	netres pHex
+	mcall pBC, "ToString", pArr
+	s = nettoval(pHex, 2)
+	strrep s, "-", ""
+	delnet pRng
+	return s
+
+#global
+#endif

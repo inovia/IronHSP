@@ -1,0 +1,43 @@
+;============================================================
+;   iron_smtp_net.hsp - SMTP (.NET版)
+;
+;   System.Net.Mail.SmtpClient を使用。TLS/SSL 自動対応。
+;   hsp3net 専用。
+;
+;   API:
+;     netmail_send "host", port, "from", "to", "subject", "body" [, "user", "pass"]
+;       → stat (0=成功)
+;
+;   例:
+;     #include "iron_smtp_net.hsp"
+;     netmail_send "smtp.gmail.com", 587, "from@gmail.com", "to@example.com", "Test", "Hello!", "user", "apppassword"
+;============================================================
+#ifndef __iron_smtp_net_hsp__
+#define __iron_smtp_net_hsp__
+
+#module iron_smtp_net
+
+#deffunc netmail_send str host, int port, str from_addr, str to_addr, \
+	str subject, str body, str user, str pass, \
+	local pClient, local pMsg, local pCred
+	; SmtpClient
+	newnet pClient, "", "System.Net.Mail.SmtpClient", 0, host, port
+	if stat != 0 : return -1
+	; EnableSsl = true (for port 587/465)
+	tonet pTrue, 1
+	mcall pClient, "set_EnableSsl", pTrue
+	; Credentials
+	if user != "" {
+		newnet pCred, "", "System.Net.NetworkCredential", 0, user, pass
+		mcall pClient, "set_Credentials", pCred
+	}
+	; MailMessage
+	newnet pMsg, "", "System.Net.Mail.MailMessage", 0, from_addr, to_addr, subject, body
+	; Send
+	mcall pClient, "Send", pMsg
+	result = stat
+	delnet pMsg : delnet pClient
+	return result
+
+#global
+#endif
