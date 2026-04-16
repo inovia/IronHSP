@@ -907,7 +907,7 @@ mes "size=" + varsize(POINT)   ; → 8</code></pre>
 <tr><td><code>short</code></td><td>2 bytes</td><td>16bit 整数 (SHORT / WORD)</td></tr>
 <tr><td><code>int</code></td><td>4 bytes</td><td>32bit 整数 (INT / DWORD / LONG)</td></tr>
 <tr><td><code>int64</code></td><td>8 bytes</td><td>64bit 整数 (LONGLONG)</td></tr>
-<tr><td><code>ptr</code></td><td>4/8 bytes</td><td>ポインタサイズ (32bit=4, 64bit=8。HANDLE, HWND 等に使用)</td></tr>
+<tr><td><code>intptr</code></td><td>4/8 bytes</td><td>プラットフォーム依存サイズ整数 (32bit=4, 64bit=8)。HANDLE, HWND, ポインタ等に使用。<code>#func</code> / <code>#cfunc</code> の <code>intptr</code> 型と同名・同義</td></tr>
 </table>
 
 <h4>浮動小数点型</h4>

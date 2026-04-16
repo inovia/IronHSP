@@ -5158,7 +5158,7 @@ void CToken::PP_StructMember( char *line )
 	else if (!strcmp(type_name, "int64"))  member.stype = SMT_INT64;
 	else if (!strcmp(type_name, "float"))  member.stype = SMT_FLOAT;
 	else if (!strcmp(type_name, "double")) member.stype = SMT_DOUBLE;
-	else if (!strcmp(type_name, "ptr"))    member.stype = SMT_PTR;
+	else if (!strcmp(type_name, "intptr")) member.stype = SMT_PTR;
 	else if (!strcmp(type_name, "bool"))   member.stype = SMT_BOOL;
 	else if (!strcmp(type_name, "bool1"))  member.stype = SMT_BOOL1;
 	else if (!strcmp(type_name, "bool2"))  member.stype = SMT_BOOL2;

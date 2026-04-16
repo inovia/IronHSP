@@ -560,8 +560,8 @@ CS_TO_HSP_FIELD_TYPE = {
     'float':  'float',
     'double': 'double',
     'bool':   'bool',
-    'IntPtr': 'ptr',
-    'UIntPtr':'ptr',
+    'IntPtr': 'intptr',
+    'UIntPtr':'intptr',
 }
 
 
@@ -1462,7 +1462,7 @@ _REPAIR_C_TO_HSP_FIELD = {
     'float': 'float',
     'double': 'double',
     'int64': 'int64', 'long long': 'int64', '__int64': 'int64', 'LONGLONG': 'int64',
-    'IntPtr': 'ptr',
+    'IntPtr': 'intptr',
 }
 
 
