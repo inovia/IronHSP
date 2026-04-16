@@ -1,0 +1,253 @@
+;============================================================
+;   iron_chart_d2d.hsp — hspd2d ベースグラフ描画 (ネイティブ)
+;
+;   hspd2d (Direct2D) で棒グラフ・折れ線グラフを直接描画する。
+;   WebView2 不要。
+;
+;   API:
+;     chartd2d_bar  labels, data, n, "title"   棒グラフ描画
+;     chartd2d_line labels, data, n, "title"   折れ線グラフ描画
+;     chartd2d_bar2 labels, data1, data2, n, "name1", "name2", "title"
+;                                               2 系列棒グラフ
+;
+;   描画先: カレントウィンドウに描画 (事前に d2d_init 必要)
+;
+;   例:
+;     #include "hspd2d.hsp"
+;     #include "iron_chart_d2d.hsp"
+;     screen 0, 640, 480
+;     d2d_init
+;     d2d_font "Meiryo", 14
+;     dim vals, 5
+;     vals = 120, 200, 150, 300, 250
+;     sdim labs, 64, 5
+;     labs(0) = "1月" : labs(1) = "2月" : labs(2) = "3月"
+;     labs(3) = "4月" : labs(4) = "5月"
+;     chartd2d_bar labs, vals, 5, "月別売上"
+;============================================================
+
+#ifndef __iron_chart_d2d_hsp__
+#define __iron_chart_d2d_hsp__
+
+#module iron_chart_d2d
+
+; 色パレット (10色)
+dim _clr, 30
+_clr(0)  = 54, 162, 235
+_clr(3)  = 255, 99, 132
+_clr(6)  = 75, 192, 192
+_clr(9)  = 255, 205, 86
+_clr(12) = 153, 102, 255
+_clr(15) = 255, 159, 64
+_clr(18) = 201, 203, 159
+_clr(21) = 128, 128, 200
+_clr(24) = 100, 200, 100
+_clr(27) = 200, 100, 150
+
+;------------------------------------------------------------
+; chartd2d_bar — 棒グラフ
+;   labels: str 配列, data: int 配列, n: 要素数, title: タイトル
+;------------------------------------------------------------
+#deffunc chartd2d_bar array labels, array data, int n, str title, \
+	local mx, local i, local bw, local bx, local by, local bh, \
+	local ox, local oy, local cw, local ch, local scale, local v
+
+	; 描画領域
+	ox = 60 : oy = 40 : cw = ginfo_winx - ox - 30 : ch = ginfo_winy - oy - 60
+
+	; 最大値
+	mx = 1
+	repeat n
+		if data(cnt) > mx : mx = data(cnt)
+	loop
+
+	; 背景
+	d2d_beginpaint
+	d2d_color 255, 255, 255
+	d2d_fillrect 0, 0, ginfo_winx, ginfo_winy
+
+	; タイトル
+	d2d_color 30, 30, 30
+	d2d_drawtext title, 0, 5, ginfo_winx, 30
+
+	; 軸線
+	d2d_color 180, 180, 180
+	d2d_drawline ox, oy, ox, oy + ch, 1.0
+	d2d_drawline ox, oy + ch, ox + cw, oy + ch, 1.0
+
+	; Y軸目盛り (5本)
+	repeat 5
+		i = cnt + 1
+		by = oy + ch - ch * i / 5
+		d2d_color 220, 220, 220
+		d2d_drawline ox, by, ox + cw, by, 0.5
+		d2d_color 100, 100, 100
+		v = mx * i / 5
+		d2d_drawtext "" + v, 0, by - 8, ox - 5, 16
+	loop
+
+	; 棒
+	bw = cw / n
+	repeat n
+		i = cnt
+		scale = double(data(i)) / double(mx)
+		bh = int(double(ch) * scale)
+		bx = ox + bw * i + bw / 6
+		by = oy + ch - bh
+		ci = (i \ 10) * 3
+		d2d_color _clr(ci), _clr(ci + 1), _clr(ci + 2)
+		d2d_fillrect bx, by, bw * 2 / 3, bh
+		; ラベル
+		d2d_color 60, 60, 60
+		d2d_drawtext labels(i), ox + bw * i, oy + ch + 5, bw, 20
+		; 値
+		d2d_drawtext "" + data(i), bx, by - 18, bw * 2 / 3, 16
+	loop
+
+	d2d_endpaint
+	return
+
+;------------------------------------------------------------
+; chartd2d_line — 折れ線グラフ
+;------------------------------------------------------------
+#deffunc chartd2d_line array labels, array data, int n, str title, \
+	local mx, local i, local ox, local oy, local cw, local ch, \
+	local x0, local y0, local x1, local y1, local v, local step
+
+	ox = 60 : oy = 40 : cw = ginfo_winx - ox - 30 : ch = ginfo_winy - oy - 60
+
+	mx = 1
+	repeat n
+		if data(cnt) > mx : mx = data(cnt)
+	loop
+
+	d2d_beginpaint
+	d2d_color 255, 255, 255
+	d2d_fillrect 0, 0, ginfo_winx, ginfo_winy
+
+	d2d_color 30, 30, 30
+	d2d_drawtext title, 0, 5, ginfo_winx, 30
+
+	d2d_color 180, 180, 180
+	d2d_drawline ox, oy, ox, oy + ch, 1.0
+	d2d_drawline ox, oy + ch, ox + cw, oy + ch, 1.0
+
+	; Y目盛り
+	repeat 5
+		i = cnt + 1
+		y0 = oy + ch - ch * i / 5
+		d2d_color 220, 220, 220
+		d2d_drawline ox, y0, ox + cw, y0, 0.5
+		d2d_color 100, 100, 100
+		v = mx * i / 5
+		d2d_drawtext "" + v, 0, y0 - 8, ox - 5, 16
+	loop
+
+	; 折れ線
+	if n > 1 {
+		step = cw / (n - 1)
+	} else {
+		step = cw
+	}
+
+	d2d_color 54, 162, 235
+	repeat n - 1
+		i = cnt
+		x0 = ox + step * i
+		y0 = oy + ch - int(double(ch) * double(data(i)) / double(mx))
+		x1 = ox + step * (i + 1)
+		y1 = oy + ch - int(double(ch) * double(data(i + 1)) / double(mx))
+		d2d_drawline x0, y0, x1, y1, 2.5
+	loop
+
+	; ポイント + ラベル
+	repeat n
+		i = cnt
+		x0 = ox + step * i
+		y0 = oy + ch - int(double(ch) * double(data(i)) / double(mx))
+		d2d_color 54, 162, 235
+		d2d_fillellipse x0, y0, 5, 5
+		d2d_color 60, 60, 60
+		d2d_drawtext "" + data(i), x0 - 15, y0 - 20, 30, 16
+		d2d_drawtext labels(i), ox + step * i - step / 2, oy + ch + 5, step, 20
+	loop
+
+	d2d_endpaint
+	return
+
+;------------------------------------------------------------
+; chartd2d_bar2 — 2 系列棒グラフ
+;------------------------------------------------------------
+#deffunc chartd2d_bar2 array labels, array d1, array d2, int n, str n1, str n2, str title, \
+	local mx, local i, local bw, local bx, local by, local bh, \
+	local ox, local oy, local cw, local ch, local scale, local v, local hw
+
+	ox = 60 : oy = 40 : cw = ginfo_winx - ox - 30 : ch = ginfo_winy - oy - 80
+
+	mx = 1
+	repeat n
+		if d1(cnt) > mx : mx = d1(cnt)
+		if d2(cnt) > mx : mx = d2(cnt)
+	loop
+
+	d2d_beginpaint
+	d2d_color 255, 255, 255
+	d2d_fillrect 0, 0, ginfo_winx, ginfo_winy
+
+	d2d_color 30, 30, 30
+	d2d_drawtext title, 0, 5, ginfo_winx, 30
+
+	d2d_color 180, 180, 180
+	d2d_drawline ox, oy, ox, oy + ch, 1.0
+	d2d_drawline ox, oy + ch, ox + cw, oy + ch, 1.0
+
+	repeat 5
+		i = cnt + 1
+		by = oy + ch - ch * i / 5
+		d2d_color 220, 220, 220
+		d2d_drawline ox, by, ox + cw, by, 0.5
+		d2d_color 100, 100, 100
+		v = mx * i / 5
+		d2d_drawtext "" + v, 0, by - 8, ox - 5, 16
+	loop
+
+	bw = cw / n
+	hw = bw / 3
+	repeat n
+		i = cnt
+		; series 1
+		scale = double(d1(i)) / double(mx)
+		bh = int(double(ch) * scale)
+		bx = ox + bw * i + bw / 8
+		by = oy + ch - bh
+		d2d_color 54, 162, 235
+		d2d_fillrect bx, by, hw, bh
+		; series 2
+		scale = double(d2(i)) / double(mx)
+		bh = int(double(ch) * scale)
+		bx = ox + bw * i + bw / 8 + hw + 2
+		by = oy + ch - bh
+		d2d_color 255, 99, 132
+		d2d_fillrect bx, by, hw, bh
+		; label
+		d2d_color 60, 60, 60
+		d2d_drawtext labels(i), ox + bw * i, oy + ch + 5, bw, 20
+	loop
+
+	; 凡例
+	lx = ox + 10 : ly = oy + ch + 30
+	d2d_color 54, 162, 235
+	d2d_fillrect lx, ly, 12, 12
+	d2d_color 30, 30, 30
+	d2d_drawtext n1, lx + 16, ly - 2, 80, 16
+	d2d_color 255, 99, 132
+	d2d_fillrect lx + 100, ly, 12, 12
+	d2d_color 30, 30, 30
+	d2d_drawtext n2, lx + 116, ly - 2, 80, 16
+
+	d2d_endpaint
+	return
+
+#global
+
+#endif

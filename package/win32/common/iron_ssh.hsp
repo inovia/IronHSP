@@ -1,0 +1,80 @@
+;============================================================
+;   iron_ssh.hsp — SSH2/SFTP クライアントモジュール
+;
+;   hspssh.dll (libssh2 + WinCNG) を使用。
+;
+;   API:
+;     ssh_connect "host", port, "user", "pass"  接続 → stat (0=成功)
+;     ssh_exec "command"                        コマンド実行 → refstr (stdout)
+;     sftp_init                                 SFTP 初期化 → stat
+;     sftp_upload "local", "remote"             アップロード → stat
+;     sftp_download "remote", "local"           ダウンロード → stat
+;     ssh_disconnect                            切断
+;     ssh_error()                               エラーメッセージ (関数)
+;
+;   例:
+;     #include "iron_ssh.hsp"
+;     ssh_connect "192.168.1.100", 22, "user", "password"
+;     if stat == 0 {
+;         ssh_exec "ls -la"
+;         mes refstr
+;         ssh_disconnect
+;     }
+;============================================================
+
+#ifndef __iron_ssh_hsp__
+#define __iron_ssh_hsp__
+
+#ifdef hsp3cl_64
+#uselib "hspssh_64.dll"
+#else
+#ifdef hsp64
+#uselib "hspssh_64.dll"
+#else
+#uselib "hspssh.dll"
+#endif
+#endif
+
+#func global _ssh_connect    "ssh_connect" str, int, str, str
+#func global _ssh_exec       "ssh_exec" str, var, int
+#func global _sftp_init      "sftp_init"
+#func global _sftp_upload    "sftp_upload" str, str
+#func global _sftp_download  "sftp_download" str, str
+#func global _ssh_disconnect "ssh_disconnect"
+#func global _ssh_get_error  "ssh_get_error" var, int
+
+#module iron_ssh
+
+#deffunc ssh_connect str host, int port, str user, str pass
+	_ssh_connect host, port, user, pass
+	return stat
+
+#deffunc ssh_exec str command, local buf
+	sdim buf, 65536
+	_ssh_exec command, buf, 65536
+	return buf
+
+#deffunc sftp_init
+	_sftp_init
+	return stat
+
+#deffunc sftp_upload str local_path, str remote_path
+	_sftp_upload local_path, remote_path
+	return stat
+
+#deffunc sftp_download str remote_path, str local_path
+	_sftp_download remote_path, local_path
+	return stat
+
+#deffunc ssh_disconnect
+	_ssh_disconnect
+	return
+
+#defcfunc ssh_error local buf
+	sdim buf, 1024
+	_ssh_get_error buf, 1024
+	return buf
+
+#global
+
+#endif

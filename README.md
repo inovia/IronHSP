@@ -35,6 +35,11 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **SMTP メール送信 (`iron_smtp.hsp` + `hspsmtp.dll`)** — Winsock2 ベース SMTP クライアント。AUTH LOGIN 認証、複数宛先対応。
 - **HTML パース (`iron_html.hsp` + `hsphtml.dll`)** — 軽量 HTML タグパーサ。`html_parse` / `html_find` / `html_tag_text` / `html_tag_attr` でタグ検索・属性取得。
 - **グラフ/チャート (`iron_chart.hsp`)** — Chart.js + WebView2/ブラウザ。棒/折れ線/円/ドーナツ/レーダー/散布図の 6 種類。`chart_init` → `chart_data` → `chart_show` の簡潔 API。
+- **グラフ/チャート ネイティブ (`iron_chart_d2d.hsp`)** — hspd2d (Direct2D) 直接描画。WebView2 不要。棒グラフ (`chartd2d_bar`) / 折れ線 (`chartd2d_line`) / 2系列棒 (`chartd2d_bar2`)。
+- **SSH/SFTP (`iron_ssh.hsp` + `hspssh.dll`)** — libssh2 + WinCNG。`ssh_connect` / `ssh_exec` / `sftp_upload` / `sftp_download`。32/64bit 両対応。
+- **OAuth 2.0 (`iron_oauth.hsp`)** — ブラウザ認証 + localhost TCP コールバックで Authorization Code を取得。`oauth_start_listener` / `oauth_wait_code`。
+- **形態素解析 (`iron_mecab.hsp`)** — MeCab C API ラッパー。`mecab_init` / `mecab_parse`。libmecab.dll と辞書が別途必要。
+- **帳票出力 (`iron_report.hsp`)** — HTML テンプレート + `{{key}}` 差し込み。テーブル行の動的生成対応。`report_preview` でブラウザ印刷。
 
 ### 新規プラグイン
 

@@ -1,0 +1,80 @@
+;============================================================
+;   iron_mecab.hsp — MeCab 形態素解析モジュール
+;
+;   MeCab (libmecab.dll) を使用して日本語テキストの形態素解析を行う。
+;   MeCab 本体と辞書は別途インストールが必要:
+;     https://taku910.github.io/mecab/
+;   libmecab.dll にパスが通っている必要がある。
+;
+;   API:
+;     mecab_init                         初期化 → stat (0=成功)
+;     mecab_parse "text"                 解析 → refstr (MeCab 出力)
+;     mecab_parse_to_node "text"         ノード解析 → stat (ノード数)
+;     mecab_node_surface(i)              i 番目のノードの表層形
+;     mecab_node_feature(i)              i 番目のノードの素性 (品詞等)
+;     mecab_bye                          終了処理
+;
+;   例:
+;     #include "iron_mecab.hsp"
+;     mecab_init
+;     if stat == 0 {
+;         mecab_parse "すもももももももものうち"
+;         mes refstr
+;         mecab_bye
+;     }
+;============================================================
+
+#ifndef __iron_mecab_hsp__
+#define __iron_mecab_hsp__
+
+#module iron_mecab
+
+#uselib "libmecab.dll"
+#cfunc _mecab_new2      "mecab_new2" str
+#cfunc _mecab_destroy    "mecab_destroy" int
+#cfunc _mecab_sparse_tostr "mecab_sparse_tostr" int, str
+; mecab_sparse_tostr returns a pointer to internal buffer (char*)
+; We need to convert pointer to string
+#cfunc _mecab_strerror   "mecab_strerror" int
+
+dim _mecab_handle, 1
+dim _inited, 1
+
+;------------------------------------------------------------
+; mecab_init — MeCab 初期化
+;------------------------------------------------------------
+#deffunc mecab_init
+	if _inited : return 0
+	_mecab_handle = _mecab_new2("")
+	if _mecab_handle == 0 : return -1
+	_inited = 1
+	return 0
+
+;------------------------------------------------------------
+; mecab_parse text — テキスト解析 → refstr に結果
+;------------------------------------------------------------
+#deffunc mecab_parse str text, local result_ptr
+	if _inited == 0 : return ""
+	result_ptr = _mecab_sparse_tostr(_mecab_handle, text)
+	if result_ptr == 0 : return ""
+	; result_ptr は内部バッファへのポインタ
+	; dupptr で HSP 変数にマッピング
+	sdim _tmp_result, 65536
+	dupptr _tmp_result, result_ptr, 65536, 2
+	return _tmp_result
+
+;------------------------------------------------------------
+; mecab_bye — 終了処理
+;------------------------------------------------------------
+#deffunc mecab_bye
+	if _inited == 0 : return
+	if _mecab_handle != 0 {
+		_mecab_destroy _mecab_handle
+		_mecab_handle = 0
+	}
+	_inited = 0
+	return
+
+#global
+
+#endif

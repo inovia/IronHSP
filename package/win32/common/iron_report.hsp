@@ -1,0 +1,133 @@
+;============================================================
+;   iron_report.hsp — HTML テンプレート帳票出力モジュール
+;
+;   HTML テンプレートにデータを差し込んで帳票を生成し、
+;   ブラウザで印刷プレビュー表示する。
+;
+;   API:
+;     report_init                          初期化
+;     report_template html_str             テンプレート設定
+;     report_set "key", "value"            差し込みデータ設定
+;     report_table_begin "key"             テーブル行の開始
+;     report_table_row "col1", "col2",...  テーブル行追加
+;     report_table_end                     テーブル行の終了
+;     report_generate                      HTML 生成 → refstr
+;     report_preview                       ブラウザで表示
+;     report_save "file.html"              ファイル保存
+;
+;   テンプレート内の {{key}} が report_set の値に置換される。
+;   {{TABLE:key}} は report_table_row の内容に展開される。
+;
+;   例:
+;     #include "iron_report.hsp"
+;     report_init
+;     report_template {"
+;       <html><body>
+;       <h1>請求書</h1>
+;       <p>顧客名: {{customer}}</p>
+;       <p>日付: {{date}}</p>
+;       <table border='1'>
+;       <tr><th>品名</th><th>数量</th><th>金額</th></tr>
+;       {{TABLE:items}}
+;       </table>
+;       <p>合計: {{total}}円</p>
+;       </body></html>
+;     "}
+;     report_set "customer", "山田太郎"
+;     report_set "date", "2026/04/16"
+;     report_table_begin "items"
+;     report_table_row "りんご", "3", "450"
+;     report_table_row "みかん", "5", "500"
+;     report_table_end
+;     report_set "total", "950"
+;     report_preview
+;============================================================
+
+#ifndef __iron_report_hsp__
+#define __iron_report_hsp__
+
+#module iron_report
+
+sdim _tmpl, 65536
+sdim _vars_key, 256, 100
+sdim _vars_val, 4096, 100
+_vars_count = 0
+
+sdim _tbl_key, 256
+sdim _tbl_rows, 65536
+_tbl_active = 0
+
+#deffunc report_init
+	_tmpl = ""
+	_vars_count = 0
+	_tbl_active = 0
+	sdim _tbl_rows, 65536
+	return
+
+#deffunc report_template str html
+	_tmpl = html
+	return
+
+#deffunc report_set str key, str value
+	; 既存キーの上書きチェック
+	repeat _vars_count
+		if _vars_key(cnt) == key {
+			_vars_val(cnt) = value
+			return
+		}
+	loop
+	_vars_key(_vars_count) = key
+	_vars_val(_vars_count) = value
+	_vars_count++
+	return
+
+#deffunc report_table_begin str key
+	_tbl_key = key
+	_tbl_rows = ""
+	_tbl_active = 1
+	return
+
+#deffunc report_table_row str c1, str c2, str c3, str c4, str c5, str c6, str c7, str c8
+	_tbl_rows += "<tr>"
+	if c1 != "" : _tbl_rows += "<td>" + c1 + "</td>"
+	if c2 != "" : _tbl_rows += "<td>" + c2 + "</td>"
+	if c3 != "" : _tbl_rows += "<td>" + c3 + "</td>"
+	if c4 != "" : _tbl_rows += "<td>" + c4 + "</td>"
+	if c5 != "" : _tbl_rows += "<td>" + c5 + "</td>"
+	if c6 != "" : _tbl_rows += "<td>" + c6 + "</td>"
+	if c7 != "" : _tbl_rows += "<td>" + c7 + "</td>"
+	if c8 != "" : _tbl_rows += "<td>" + c8 + "</td>"
+	_tbl_rows += "</tr>\n"
+	return
+
+#deffunc report_table_end
+	report_set "TABLE:" + _tbl_key, _tbl_rows
+	_tbl_active = 0
+	return
+
+#defcfunc report_generate local html, local i
+	html = _tmpl
+	; {{key}} → value の置換
+	repeat _vars_count
+		i = cnt
+		strrep html, "{{" + _vars_key(i) + "}}", _vars_val(i)
+	loop
+	return html
+
+#deffunc report_preview local html, local tmpfile
+	html = report_generate()
+	tmpfile = dir_cur + "\\__iron_report_tmp.html"
+	notesel html
+	notesave tmpfile
+	exec tmpfile, 16
+	return
+
+#deffunc report_save str filepath, local html
+	html = report_generate()
+	notesel html
+	notesave filepath
+	return
+
+#global
+
+#endif
