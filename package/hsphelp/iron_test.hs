@@ -1,82 +1,121 @@
-%dll
-; iron_test Unit test framework
+;
+; iron_test.hsp  HSP3 ヘルプ (日本語)
+; ユニットテストフレームワーク
+;
+
+%type
+拡張命令
 %ver
 3.8
 %date
 2026/04/17
 %author
 IronHSP
+%dll
+iron_test.hsp
+
+%url
+https://github.com/inovia/IronHSP
+%port
+Win32 / Win64
+
 %note
 Pure HSP
-%type
-User command
+
 %group
-Testing
+テスト
 
 %index
 test_begin
-Start test suite
+テストスイートを開始
+%group
+テスト
 %prm
 "name"
+
 %inst
+テストスイートの名前を指定して開始します。
 
 %href
 assert_eq
 
 %index
 assert_eq
-Assert equal
+等値アサーション
+%group
+テスト
 %prm
 actual, expected, "msg"
+
 %inst
+actual と expected が等しいことを確認します。
 
 %href
 assert_ne
 
 %index
 assert_ne
-Assert not equal
+非等値アサーション
+%group
+テスト
 %prm
 actual, notexpected, "msg"
+
 %inst
+actual と notexpected が異なることを確認します。
 
 %href
 assert_true
 
 %index
 assert_true
-Assert true
+真アサーション
+%group
+テスト
 %prm
 cond, "msg"
+
 %inst
+cond が真 (非0) であることを確認します。
 
 %href
 assert_false
 
 %index
 assert_false
-Assert false
+偽アサーション
+%group
+テスト
 %prm
 cond, "msg"
+
 %inst
+cond が偽 (0) であることを確認します。
 
 %href
 test_end
 
 %index
 test_end
-End test suite
+テストスイートを終了
+%group
+テスト
 %prm
 
+
 %inst
-Shows pass/fail count
+テスト結果のサマリー (合格/不合格数) を表示します。
+
 %href
 test_passed
 
 %index
 test_passed
-All passed?
+全テスト合格?
+%group
+テスト
 %prm
 ()
+
 %inst
-1=all passed
+全テストが合格した場合 1 を返します。

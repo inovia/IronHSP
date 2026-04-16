@@ -1,5 +1,5 @@
 ;
-; iron_diff.hsp - Simple text diff (line-by-line)
+; iron_diff.hsp — 簡易テキスト差分 (行単位)
 ;
 #ifndef __iron_diff_hsp__
 #define __iron_diff_hsp__

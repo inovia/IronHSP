@@ -1,5 +1,5 @@
 ;
-; iron_dotenv.hsp - Load .env file into environment variables
+; iron_dotenv.hsp — .env ファイルを環境変数に読み込む
 ;
 #ifndef __iron_dotenv_hsp__
 #define __iron_dotenv_hsp__

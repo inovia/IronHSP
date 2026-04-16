@@ -1,5 +1,5 @@
 ;
-; iron_str2.hsp - String utilities
+; iron_str2.hsp — 文字列ユーティリティ
 ;
 #ifndef __iron_str2_hsp__
 #define __iron_str2_hsp__

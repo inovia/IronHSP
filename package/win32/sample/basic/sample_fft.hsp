@@ -1,0 +1,7 @@
+	#include "iron_fft.hsp"
+	dimtype re, 3, 8
+	dimtype im, 3, 8
+	re=1.0:re(1)=1.0:re(2)=1.0:re(3)=1.0
+	fft_compute re, im, 8
+	mes "DC=" + re(0)
+	repeat 8 : mes "bin "+cnt+": "+re(cnt) : loop

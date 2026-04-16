@@ -1,5 +1,5 @@
 ;
-; iron_complex.hsp - Complex number arithmetic
+; iron_complex.hsp — 複素数演算
 ;
 #ifndef __iron_complex_hsp__
 #define __iron_complex_hsp__

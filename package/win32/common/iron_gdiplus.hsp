@@ -1,16 +1,9 @@
 ;============================================================
-;   iron_gdiplus.hsp - GDI+ advanced graphics (.NET)
+;   iron_gdiplus.hsp — GDI+ 高機能グラフィックス (.NET)
 ;
-;   hsp3net only. Gradient, path, transform, image processing.
+;   hsp3net 専用。グラデーション、パス、変換、画像処理。
 ;
 ;   API:
-;     gdi_screenshot "file.png"      Save screen capture as PNG/JPEG
-;     gdi_resize "in.png", "out.png", w, h   Resize image
-;     gdi_thumbnail "in.png", "out.png", w, h  Create thumbnail
-;     gdi_rotate "in.png", "out.png", deg    Rotate image
-;     gdi_grayscale "in.png", "out.png"      Convert to grayscale
-;     gdi_watermark "in.png", "out.png", "text"  Add text watermark
-;============================================================
 #ifndef __iron_gdiplus_hsp__
 #define __iron_gdiplus_hsp__
 

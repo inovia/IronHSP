@@ -1,6 +1,6 @@
 ;
-; iron_sentiment.hsp - Simple sentiment analysis
-; Keyword-based (no ML model needed)
+; iron_sentiment.hsp — 簡易感情分析
+; キーワードベース (ML モデル不要)
 ;
 #ifndef __iron_sentiment_hsp__
 #define __iron_sentiment_hsp__

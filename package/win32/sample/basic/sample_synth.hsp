@@ -1,0 +1,5 @@
+	#include "iron_synth.hsp"
+	synth_sine "sine440.wav", 440.0, 1.0, 44100
+	mes "Generated sine440.wav (440Hz, 1sec)"
+	synth_noise "noise.wav", 0.5, 44100
+	mes "Generated noise.wav (0.5sec)"

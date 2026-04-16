@@ -1,5 +1,5 @@
 ;
-; iron_statemachine.hsp - Finite state machine
+; iron_statemachine.hsp — 有限状態マシン
 ;
 #ifndef __iron_statemachine_hsp__
 #define __iron_statemachine_hsp__

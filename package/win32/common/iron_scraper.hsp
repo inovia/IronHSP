@@ -1,5 +1,5 @@
 ;
-; iron_scraper.hsp - Web scraping (HTTP + HTML parse)
+; iron_scraper.hsp — Web スクレイピング (HTTP + HTML パース)
 ;
 #ifndef __iron_scraper_hsp__
 #define __iron_scraper_hsp__

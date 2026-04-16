@@ -1,6 +1,6 @@
 ;
-; iron_pptx.hsp - PowerPoint .pptx generation
-; Uses .NET System.IO.Packaging (hsp3net only)
+; iron_pptx.hsp — PowerPoint .pptx 生成
+; .NET System.IO.Packaging 使用 (hsp3net 専用)
 ;
 #ifndef __iron_pptx_hsp__
 #define __iron_pptx_hsp__

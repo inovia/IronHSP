@@ -1,6 +1,6 @@
 ;
-; iron_ga.hsp - Genetic algorithm
-; Pure HSP. Maximize a fitness function.
+; iron_ga.hsp — 遺伝的アルゴリズム
+; Pure HSP。適応度関数を最大化。
 ;
 #ifndef __iron_ga_hsp__
 #define __iron_ga_hsp__

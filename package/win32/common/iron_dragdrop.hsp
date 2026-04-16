@@ -1,27 +1,9 @@
 ;============================================================
-;   iron_dragdrop.hsp - Drag & Drop file support
+;   iron_dragdrop.hsp — ドラッグ&ドロップ ファイル受け取り
 ;
-;   hsp3net (GUI) only. Form.AllowDrop + DragDrop event.
+;   hsp3net (GUI) 専用。Form.AllowDrop + DragDrop イベント。
 ;
 ;   API:
-;     dragdrop_enable              Enable file drop on current window
-;     dragdrop_files()             Get dropped file list (newline separated)
-;     dragdrop_count()             Number of dropped files
-;     dragdrop_file(index)         Get i-th dropped file path
-;
-;   Example:
-;     #include "iron_dragdrop.hsp"
-;     dragdrop_enable
-;     mes "Drop files here!"
-;     *main
-;     await 100
-;     if dragdrop_count() > 0 {
-;         repeat dragdrop_count()
-;             mes dragdrop_file(cnt)
-;         loop
-;     }
-;     goto *main
-;============================================================
 #ifndef __iron_dragdrop_hsp__
 #define __iron_dragdrop_hsp__
 

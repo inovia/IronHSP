@@ -1,6 +1,6 @@
 ;============================================================
-;  hspcrypto.as — Extended cryptography plugin
-;  Blowfish / RC4 / ChaCha20 / XOR
+;  hspcrypto.as — 暗号化拡張プラグイン
+;  Blowfish / RC4 / ChaCha20 / XOR / AES / HMAC / PBKDF2
 ;============================================================
 #ifndef __hspcrypto_as__
 #define __hspcrypto_as__

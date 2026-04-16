@@ -1,7 +1,7 @@
 ;
-; hspdxlib.as - DxLibW header for HSP
-; Auto-generated from DxDLLW.cs (DxLib 3.24f)
-; Unicode (Wide) version - 32bit/64bit auto-detect
+; hspdxlib.as â€” DxLibW ãƒ˜ãƒƒãƒ€ãƒ¼ (HSP ç”¨)
+; DxDLLW.cs (DxLib 3.24f) ã‹ã‚‰è‡ªå‹•ç”Ÿæˆ
+; Unicode (Wide) ç‰ˆ â€” 32bit/64bit è‡ªå‹•åˆ¤å®š
 ;
 
 #ifdef __hsp30__
@@ -140,7 +140,7 @@
 #uselib "DxLibW.dll"
 #endif
 
-	; === ƒVƒXƒeƒ€ ===
+	; === ï¿½Vï¿½Xï¿½eï¿½ï¿½ ===
 	#func global DxLib_Init "dx_DxLib_Init"
 	#func global DxLib_End "dx_DxLib_End"
 	#cfunc global DxLib_GlobalStructInitialize "dx_DxLib_GlobalStructInitialize"
@@ -165,7 +165,7 @@
 	#func global SetUseCharSet "dx_SetUseCharSet" int
 	#func global SetDoubleStartValidFlag "dx_SetDoubleStartValidFlag" int
 
-	; === ƒEƒBƒ“ƒhƒE ===
+	; === ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½E ===
 	#func global SetWindowMenu "dx_SetWindowMenu" int, int
 	#cfunc global MakeScreen "dx_MakeScreen" int, int
 	#cfunc global MakeScreen_1 "dx_MakeScreen" int, int, int
@@ -288,7 +288,7 @@
 	#func global UpdateLayerdWindowForPremultipliedAlphaSoftImageRect "dx_UpdateLayerdWindowForPremultipliedAlphaSoftImageRect" int, int, int, int, int
 	#cfunc global GetDesktopScreenSoftImage "dx_GetDesktopScreenSoftImage" int, int, int, int, int, int, int
 
-	; === ƒOƒ‰ƒtƒBƒbƒN•`‰æ ===
+	; === ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½`ï¿½ï¿½ ===
 	#func global ClearDrawScreen "dx_ClearDrawScreen" var
 	#func global ClearDrawScreen_1 "dx_ClearDrawScreen"
 	#func global ClearDrawScreenZBuffer "dx_ClearDrawScreenZBuffer" var
@@ -615,7 +615,7 @@
 	#func global SetDrawScreen_ID3D11RenderTargetView "dx_SetDrawScreen_ID3D11RenderTargetView" int
 	#func global SetDrawScreen_ID3D11RenderTargetView_1 "dx_SetDrawScreen_ID3D11RenderTargetView" int, int
 
-	; === ‰æ‘œŠÇ— ===
+	; === ï¿½æ‘œï¿½Ç—ï¿½ ===
 	#func global SetRestoreGraphCallback "dx_SetRestoreGraphCallback" int
 	#cfunc global MakeGraph "dx_MakeGraph" int, int
 	#cfunc global MakeGraph_1 "dx_MakeGraph" int, int, int
@@ -702,7 +702,7 @@
 	#cfunc global GetGraphID3D11RenderTargetView "dx_GetGraphID3D11RenderTargetView" int
 	#cfunc global GetGraphID3D11DepthStencilView "dx_GetGraphID3D11DepthStencilView" int
 
-	; === •¶š•`‰æ ===
+	; === ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ ===
 	#func global DrawIMEInputString "dx_DrawIMEInputString" int, int, int
 	#func global DrawIMEInputString_1 "dx_DrawIMEInputString" int, int, int, int
 	#func global DrawIMEInputExtendString "dx_DrawIMEInputExtendString" int, int, double, double, int
@@ -890,7 +890,7 @@
 	#func global DrawModiStringToHandleToZBuffer "dx_DrawModiStringToHandleToZBuffer" int, int, int, int, int, int, int, int, int, int, int, wstr
 	#func global DrawModiNStringToHandleToZBuffer "dx_DrawModiNStringToHandleToZBuffer" int, int, int, int, int, int, int, int, int, int, int, wstr, int
 
-	; === ƒtƒHƒ“ƒg ===
+	; === ï¿½tï¿½Hï¿½ï¿½ï¿½g ===
 	#func global SetLogFontSize "dx_SetLogFontSize" int
 	#func global SetLogFontHandle "dx_SetLogFontHandle" int
 	#func global SetKeyInputStringFont "dx_SetKeyInputStringFont" int
@@ -981,7 +981,7 @@
 	#cfunc global CreateFontDataFile_2 "dx_CreateFontDataFile" wstr, wstr, int, int, int, int, int
 	#cfunc global CreateFontDataFile_3 "dx_CreateFontDataFile" wstr, wstr, int, int, int, int, int, wstr
 
-	; === “ü—Í ===
+	; === ï¿½ï¿½ï¿½ï¿½ ===
 	#func global SetKeyInputStringColor "dx_SetKeyInputStringColor" int, int, int, int, int, int, int
 	#func global SetKeyInputStringColor_1 "dx_SetKeyInputStringColor" int, int, int, int, int, int, int, int
 	#func global SetKeyInputStringColor_2 "dx_SetKeyInputStringColor" int, int, int, int, int, int, int, int, int
@@ -1127,7 +1127,7 @@
 	#cfunc global ConvertKeyCodeToVirtualKey "dx_ConvertKeyCodeToVirtualKey" int
 	#cfunc global ConvertVirtualKeyToKeyCode "dx_ConvertVirtualKeyToKeyCode" int
 
-	; === ƒTƒEƒ“ƒh ===
+	; === ï¿½Tï¿½Eï¿½ï¿½ï¿½h ===
 	#func global InitSoundMem "dx_InitSoundMem"
 	#func global AddSoundData "dx_AddSoundData"
 	#func global AddSoundData_1 "dx_AddSoundData" int
@@ -1332,7 +1332,7 @@
 	#cfunc global LoadMusicMemByResource "dx_LoadMusicMemByResource" wstr, wstr
 	#func global PlayMusicByResource "dx_PlayMusicByResource" wstr, wstr, int
 
-	; === 3Dƒ‚ƒfƒ‹ ===
+	; === 3Dï¿½ï¿½ï¿½fï¿½ï¿½ ===
 	#cfunc global MV1LoadModel "dx_MV1LoadModel" wstr
 	#cfunc global MV1DuplicateModel "dx_MV1DuplicateModel" int
 	#cfunc global MV1CreateCloneModel "dx_MV1CreateCloneModel" int
@@ -1687,7 +1687,7 @@
 	#cfunc global MV1RefreshReferenceMesh_1 "dx_MV1RefreshReferenceMesh" int, int, int, int
 	#cfunc global MV1RefreshReferenceMesh_2 "dx_MV1RefreshReferenceMesh" int, int, int, int, int
 
-	; === 3DƒJƒƒ‰ ===
+	; === 3Dï¿½Jï¿½ï¿½ï¿½ï¿½ ===
 	#func global SetCameraNearFar "dx_SetCameraNearFar" float, float
 	#func global SetCameraNearFarD "dx_SetCameraNearFarD" double, double
 	#func global SetCameraPositionAndTarget_UpVecY "dx_SetCameraPositionAndTarget_UpVecY" VECTOR, VECTOR
@@ -1735,7 +1735,7 @@
 	#cfuncst global MATRIX GetCameraAPIViewportMatrix "dx_GetCameraAPIViewportMatrix"
 	#cfuncst global GetCameraAPIViewportMatrixD "dx_GetCameraAPIViewportMatrixD" 128
 
-	; === 3Dƒ‰ƒCƒg ===
+	; === 3Dï¿½ï¿½ï¿½Cï¿½g ===
 	#func global ChangeLightTypeDir "dx_ChangeLightTypeDir" VECTOR
 	#func global ChangeLightTypeSpot "dx_ChangeLightTypeSpot" VECTOR, VECTOR, float, float, float, float, float, float
 	#func global ChangeLightTypePoint "dx_ChangeLightTypePoint" VECTOR, float, float, float, float
@@ -1782,7 +1782,7 @@
 	#cfunc global GetLightRangeAttenHandle "dx_GetLightRangeAttenHandle" int, var, var, var, var
 	#cfunc global GetLightAngleHandle "dx_GetLightAngleHandle" int, var, var
 
-	; === 3D”Šw ===
+	; === 3Dï¿½ï¿½ï¿½w ===
 	#cfunc global CreateIdentityMatrix "dx_CreateIdentityMatrix" var
 	#cfunc global CreateIdentityMatrixD "dx_CreateIdentityMatrixD" var
 	#cfunc global CreateLookAtMatrix "dx_CreateLookAtMatrix" var, var, var, var
@@ -1809,7 +1809,7 @@
 	#cfuncst global FLOAT4 QTRot "dx_QTRot" var, float
 	#cfuncst global DOUBLE4 QTRotD "dx_QTRotD" var, double
 
-	; === ’ÊM ===
+	; === ï¿½ÊM ===
 	#cfunc global ConnectNetWork "dx_ConnectNetWork" var
 	#cfunc global ConnectNetWork_1 "dx_ConnectNetWork" var, int
 	#cfunc global ConnectNetWork_IPv6 "dx_ConnectNetWork_IPv6" var
@@ -1847,7 +1847,7 @@
 	#cfunc global NetWorkSendUDP_IPv6 "dx_NetWorkSendUDP_IPv6" int, IPDATA_IPv6, int, int, int
 	#cfunc global CheckNetWorkRecvUDP "dx_CheckNetWorkRecvUDP" int
 
-	; === ƒtƒ@ƒCƒ‹ ===
+	; === ï¿½tï¿½@ï¿½Cï¿½ï¿½ ===
 	#cfunc global LogFileAdd "dx_LogFileAdd" wstr
 	#cfunc global LogFileTabAdd "dx_LogFileTabAdd"
 	#cfunc global LogFileTabSub "dx_LogFileTabSub"
@@ -1896,7 +1896,7 @@
 	#cfunc global GetDragFilePath_1 "dx_GetDragFilePath" int, int
 	#cfunc global GetDragFileNum "dx_GetDragFileNum"
 
-	; === ‚»‚Ì‘¼ ===
+	; === ï¿½ï¿½ï¿½Ì‘ï¿½ ===
 	#func global SetMenuItemSelectCallBackFunction "dx_SetMenuItemSelectCallBackFunction" int
 	#func global SetRestoreShredPoint "dx_SetRestoreShredPoint" int
 	#cfunc global GetLastErrorCode "dx_GetLastErrorCode"

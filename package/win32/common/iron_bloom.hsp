@@ -1,6 +1,6 @@
 ;
-; iron_bloom.hsp - Bloom filter (probabilistic set)
-; Pure HSP implementation.
+; iron_bloom.hsp — ブルームフィルタ (確率的集合)
+; Pure HSP 実装。
 ;
 #ifndef __iron_bloom_hsp__
 #define __iron_bloom_hsp__

@@ -1,5 +1,5 @@
 ;
-; iron_table2.hsp - CLI table formatting (tabulate-like)
+; iron_table2.hsp — CLI テーブル整形出力 (tabulate 風)
 ;
 #ifndef __iron_table2_hsp__
 #define __iron_table2_hsp__

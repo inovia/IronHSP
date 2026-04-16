@@ -1,5 +1,5 @@
 ;
-; iron_collection.hsp - Stack / Queue / Set / Counter
+; iron_collection.hsp — スタック / キュー / セット / カウンター
 ;
 #ifndef __iron_collection_hsp__
 #define __iron_collection_hsp__

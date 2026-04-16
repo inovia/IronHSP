@@ -1,25 +1,9 @@
 ;============================================================
-;   iron_docking_pro.hsp - VS-style Docking (WeifenLuo DockPanel Suite)
+;   iron_docking_pro.hsp — VS 風ドッキング (WeifenLuo DockPanel Suite)
 ;
-;   WeifenLuo.WinFormsUI.Docking.dll required.
-;   Full docking: float/dock/auto-hide/tabbed document.
-;   hsp3net (GUI) only.
-;
-;   API:
-;     dockpro_init                    Init DockPanel on current form
-;     dockpro_add "title", state      Add DockContent panel
-;       state: 0=DockLeft, 1=DockRight, 2=DockBottom, 3=Document, 4=Float
-;     dockpro_show_at panel_id, state Move panel to new dock state
-;
-;   Example:
-;     #include "iron_docking_pro.hsp"
-;     screen 0, 800, 600
-;     dockpro_init
-;     dockpro_add "Solution Explorer", 0   ; DockLeft
-;     dockpro_add "Properties", 1           ; DockRight
-;     dockpro_add "Output", 2               ; DockBottom
-;     dockpro_add "Editor", 3               ; Document
-;============================================================
+;   WeifenLuo.WinFormsUI.Docking.dll が必要。
+;   フローティング/ドッキング/自動非表示/タブドキュメント完全対応。
+;   hsp3net (GUI) 専用。
 #ifndef __iron_docking_pro_hsp__
 #define __iron_docking_pro_hsp__
 

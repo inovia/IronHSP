@@ -1,5 +1,5 @@
 ;
-; iron_glob.hsp - Recursive file search
+; iron_glob.hsp — 再帰ファイル検索
 ;
 #ifndef __iron_glob_hsp__
 #define __iron_glob_hsp__

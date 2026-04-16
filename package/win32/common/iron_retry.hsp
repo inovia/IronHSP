@@ -1,5 +1,5 @@
 ;
-; iron_retry.hsp - Retry with exponential backoff
+; iron_retry.hsp — 指数バックオフ付きリトライ
 ;
 #ifndef __iron_retry_hsp__
 #define __iron_retry_hsp__

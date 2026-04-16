@@ -1,6 +1,6 @@
 ;
-; iron_nn.hsp - Simple neural network (1 hidden layer)
-; Pure HSP. For learning purposes.
+; iron_nn.hsp — シンプルニューラルネットワーク (1 隠れ層)
+; Pure HSP。学習用途向け。
 ;
 #ifndef __iron_nn_hsp__
 #define __iron_nn_hsp__

@@ -1,5 +1,5 @@
 ;
-; HSP3 .NET (hsp3net) 64bit Console define and macros
+; HSP3 .NET (hsp3net) 64bit コンソール 定義・マクロ
 ;   - コンソールモード (mes / stop が stdout に出力)
 ;   - hsp3net 64bit ─ IronHSP の推奨ランタイム (テスト/CI 用)
 ;   - hsp3net 専用機能 (intptr / NSTRUCT / cfuncst / .NET 連携) 全て有効

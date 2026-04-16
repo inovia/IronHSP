@@ -1,5 +1,5 @@
 ;
-; iron_curvefit.hsp - Curve fitting (polynomial / least squares)
+; iron_curvefit.hsp — カーブフィッティング (多項式 / 最小二乗法)
 ;
 #ifndef __iron_curvefit_hsp__
 #define __iron_curvefit_hsp__

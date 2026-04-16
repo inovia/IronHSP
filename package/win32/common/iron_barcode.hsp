@@ -1,6 +1,6 @@
 ;
-; iron_barcode.hsp - 1D barcode generation (Code128 BMP)
-; Pure HSP. Generates BMP image.
+; iron_barcode.hsp — 1D バーコード生成 (Code128 BMP)
+; Pure HSP。BMP 画像を生成します。
 ;
 #ifndef __iron_barcode_hsp__
 #define __iron_barcode_hsp__

@@ -1,0 +1,4 @@
+	#include "iron_sentiment.hsp"
+	mes sentiment_label("This is great and amazing")
+	mes sentiment_label("This is terrible")
+	mes sentiment_label("This is normal")

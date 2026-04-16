@@ -1,6 +1,6 @@
 ;
-; iron_progress_cl.hsp - CLI progress bar (tqdm-like)
-; CL runtime only (mes-based).
+; iron_progress_cl.hsp — CLI プログレスバー (tqdm 風)
+; CL ランタイム専用 (mes ベース)。
 ;
 #ifndef __iron_progress_cl_hsp__
 #define __iron_progress_cl_hsp__

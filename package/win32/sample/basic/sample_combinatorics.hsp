@@ -1,0 +1,5 @@
+	#include "iron_combinatorics.hsp"
+	mes "5! = " + factorial(5)
+	mes "10C3 = " + combination(10, 3)
+	mes "gcd(12,8) = " + gcd(12, 8)
+	mes "is_prime(17) = " + is_prime(17)

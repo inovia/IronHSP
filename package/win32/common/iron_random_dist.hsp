@@ -1,5 +1,5 @@
 ;
-; iron_random_dist.hsp - Random number distributions
+; iron_random_dist.hsp — 確率分布乱数生成
 ;
 #ifndef __iron_random_dist_hsp__
 #define __iron_random_dist_hsp__

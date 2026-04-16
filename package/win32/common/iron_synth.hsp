@@ -1,6 +1,6 @@
 ;
-; iron_synth.hsp - Audio synthesis (generate WAV)
-; Pure HSP. Sine/square/triangle/sawtooth/noise.
+; iron_synth.hsp — オーディオ合成 (WAV 生成)
+; Pure HSP。正弦波/矩形波/三角波/のこぎり波/ノイズ。
 ;
 #ifndef __iron_synth_hsp__
 #define __iron_synth_hsp__

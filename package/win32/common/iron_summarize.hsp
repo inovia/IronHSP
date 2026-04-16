@@ -1,6 +1,6 @@
 ;
-; iron_summarize.hsp - Extractive text summarization
-; Selects most important sentences by word frequency
+; iron_summarize.hsp — 抽出型テキスト要約
+; 単語頻度で重要な文を選択
 ;
 #ifndef __iron_summarize_hsp__
 #define __iron_summarize_hsp__

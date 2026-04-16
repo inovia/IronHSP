@@ -1,0 +1,5 @@
+	#include "iron_random_dist.hsp"
+	mes "Normal(0,1):"
+	repeat 5 : mes "  " + rand_normal(0.0, 1.0) : loop
+	mes "Exponential(1.0):"
+	repeat 5 : mes "  " + rand_exponential(1.0) : loop

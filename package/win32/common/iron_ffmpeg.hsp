@@ -1,6 +1,6 @@
 ;
-; iron_ffmpeg.hsp - FFmpeg wrapper (process call)
-; Requires ffmpeg.exe in PATH or specified path.
+; iron_ffmpeg.hsp — FFmpeg ラッパー (プロセス呼び出し)
+; PATH または指定パスに ffmpeg.exe が必要。
 ;
 #ifndef __iron_ffmpeg_hsp__
 #define __iron_ffmpeg_hsp__

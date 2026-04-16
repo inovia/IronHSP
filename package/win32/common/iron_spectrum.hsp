@@ -1,6 +1,6 @@
 ;
-; iron_spectrum.hsp - Audio spectrum analysis (simple DFT)
-; Pure HSP. For visualization.
+; iron_spectrum.hsp — 音声スペクトラム解析 (簡易 DFT)
+; Pure HSP。可視化用途向け。
 ;
 #ifndef __iron_spectrum_hsp__
 #define __iron_spectrum_hsp__

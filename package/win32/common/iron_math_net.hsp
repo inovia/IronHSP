@@ -1,43 +1,9 @@
 ;============================================================
-;   iron_math_net.hsp - Math.NET Numerics wrapper
+;   iron_math_net.hsp — Math.NET Numerics ラッパー
 ;
-;   MathNet.Numerics.dll required.
-;   Linear algebra, statistics, distributions, FFT, interpolation,
-;   root finding, integration, regression.
-;   hsp3net only.
-;
-;   API:
-;     === Linear Algebra ===
-;     mathnet_matrix_mul              行列積
-;     mathnet_matrix_inv              逆行列
-;     mathnet_matrix_det              行列式
-;     mathnet_solve_linear            連立方程式 Ax=b
-;     mathnet_svd                     特異値分解
-;     mathnet_eigenvalues             固有値
-;
-;     === Statistics ===
-;     mathnet_mean(array, n)          平均
-;     mathnet_stddev(array, n)        標準偏差
-;     mathnet_correlation(a, b, n)    相関係数
-;     mathnet_regression(x, y, n)     線形回帰 → 傾き/切片
-;
-;     === Distributions ===
-;     mathnet_normal_pdf(x, mean, std)   正規分布 PDF
-;     mathnet_normal_cdf(x, mean, std)   正規分布 CDF
-;     mathnet_normal_inv(p, mean, std)   逆正規分布
-;
-;     === Signal Processing ===
-;     mathnet_fft data, n                FFT (in-place)
-;
-;     === Interpolation ===
-;     mathnet_interpolate x_arr, y_arr, n, x_query  補間
-;
-;     === Root Finding ===
-;     mathnet_find_root "f(x) expression", a, b     求根
-;
-;     === Integration ===
-;     mathnet_integrate "f(x)", a, b                 数値積分
-;============================================================
+;   MathNet.Numerics.dll が必要。
+;   線形代数、統計、分布、FFT、補間、
+;   求根、積分、回帰。
 #ifndef __iron_math_net_hsp__
 #define __iron_math_net_hsp__
 

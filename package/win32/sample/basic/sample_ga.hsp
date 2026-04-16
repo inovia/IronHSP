@@ -1,0 +1,10 @@
+	#include "iron_ga.hsp"
+	ga_init 20, 100
+	; Simple: maximize value (fitness = value)
+	dim fit, 20
+	repeat 50
+		repeat 20 : fit(cnt) = ga_get(cnt) : loop
+		ga_evaluate fit
+		ga_evolve
+	loop
+	mes "Best after 50 gen: " + ga_best()

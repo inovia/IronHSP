@@ -1,5 +1,5 @@
 ;
-; iron_cache.hsp - In-memory cache with TTL
+; iron_cache.hsp — TTL 付きインメモリキャッシュ
 ;
 #ifndef __iron_cache_hsp__
 #define __iron_cache_hsp__

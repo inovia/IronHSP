@@ -1,6 +1,6 @@
 ;
-; iron_fft.hsp - Fast Fourier Transform (Cooley-Tukey)
-; Pure HSP. Power-of-2 sizes.
+; iron_fft.hsp — 高速フーリエ変換 (Cooley-Tukey)
+; Pure HSP。2 のべき乗サイズのみ対応。
 ;
 #ifndef __iron_fft_hsp__
 #define __iron_fft_hsp__

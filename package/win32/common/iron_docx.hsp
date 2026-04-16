@@ -1,6 +1,6 @@
 ;
-; iron_docx.hsp - Word .docx generation
-; Uses .NET System.IO.Packaging (hsp3net only)
+; iron_docx.hsp — Word .docx 生成
+; .NET System.IO.Packaging 使用 (hsp3net 専用)
 ;
 #ifndef __iron_docx_hsp__
 #define __iron_docx_hsp__

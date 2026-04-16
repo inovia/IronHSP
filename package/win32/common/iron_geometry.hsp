@@ -1,5 +1,5 @@
 ;
-; iron_geometry.hsp - 2D/3D geometry calculations
+; iron_geometry.hsp — 2D/3D 幾何学計算
 ;
 #ifndef __iron_geometry_hsp__
 #define __iron_geometry_hsp__

@@ -1,6 +1,6 @@
 ;
-; iron_ode.hsp - ODE solver (Runge-Kutta 4th order)
-; Solves dy/dt = f(t, y) with RK4.
+; iron_ode.hsp — 常微分方程式ソルバー (4次ルンゲ・クッタ法)
+; dy/dt = f(t, y) を RK4 で解く。
 ;
 #ifndef __iron_ode_hsp__
 #define __iron_ode_hsp__

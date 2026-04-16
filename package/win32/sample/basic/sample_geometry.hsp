@@ -1,0 +1,4 @@
+	#include "iron_geometry.hsp"
+	mes "triangle area = " + tri_area(0.0, 0.0, 4.0, 0.0, 0.0, 3.0)
+	mes "circle area = " + circle_area(5.0)
+	mes "sphere volume = " + sphere_volume(3.0)

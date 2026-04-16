@@ -1,5 +1,5 @@
 ;
-; iron_faker.hsp - Fake data generator
+; iron_faker.hsp — フェイクデータ生成
 ;
 #ifndef __iron_faker_hsp__
 #define __iron_faker_hsp__

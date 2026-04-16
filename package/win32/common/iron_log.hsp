@@ -1,5 +1,5 @@
 ;
-; iron_log.hsp - Log output module
+; iron_log.hsp — ログ出力モジュール
 ;
 #ifndef __iron_log_hsp__
 #define __iron_log_hsp__

@@ -1,23 +1,9 @@
 ;============================================================
-;   iron_docking.hsp - Docking window manager
+;   iron_docking.hsp — ドッキングウィンドウマネージャ
 ;
 ;   Visual Studio 風のドッキングウィンドウ。
 ;   .NET WinForms + Panel ベースの簡易実装。
 ;   (本格版は WeifenLuo.WinFormsUI.Docking が必要)
-;
-;   API:
-;     dock_init                    ドッキングマネージャー初期化
-;     dock_add_panel "title", side パネルを追加 (DOCK_LEFT/RIGHT/BOTTOM/FILL)
-;     dock_add_ctrl panel_id, ctrl パネルにコントロールを追加
-;
-;   Example:
-;     #include "iron_docking.hsp"
-;     dock_init
-;     dock_add_panel "Explorer", DOCK_LEFT
-;     dock_add_panel "Properties", DOCK_RIGHT
-;     dock_add_panel "Output", DOCK_BOTTOM
-;     dock_add_panel "Editor", DOCK_FILL
-;============================================================
 #ifndef __iron_docking_hsp__
 #define __iron_docking_hsp__
 

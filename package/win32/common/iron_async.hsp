@@ -1,14 +1,9 @@
 ;============================================================
-;   iron_async.hsp - Async / Parallel processing
-;   .NET BackgroundWorker / Task / Parallel.
-;   hsp3net (GUI) only.
+;   iron_async.hsp — 非同期・並列処理
+;   .NET BackgroundWorker / Task / Parallel。
+;   hsp3net (GUI) 専用。
 ;
 ;   API:
-;     async_run "C# code"            Run C# code on background thread → stat on completion
-;     async_is_busy()                Check if running → 1/0
-;     async_result()                 Get result string
-;     parallel_for array, n, "C# lambda"  Parallel transform
-;============================================================
 #ifndef __iron_async_hsp__
 #define __iron_async_hsp__
 

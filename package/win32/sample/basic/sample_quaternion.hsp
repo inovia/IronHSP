@@ -1,0 +1,7 @@
+	#include "iron_quaternion.hsp"
+	dimtype q, 3, 4
+	quat_from_axis_angle q, 0.0, 0.0, 1.0, 1.5708
+	mes "q = " + q(0) + ", " + q(1) + ", " + q(2) + ", " + q(3)
+	px = 1.0 : py = 0.0 : pz = 0.0
+	quat_rotate q, px, py, pz
+	mes "rotated (1,0,0) = " + px + ", " + py + ", " + pz

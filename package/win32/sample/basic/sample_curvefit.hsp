@@ -1,0 +1,8 @@
+	#include "iron_curvefit.hsp"
+	dimtype x, 3, 5
+	dimtype y, 3, 5
+	x=1.0:x(1)=2.0:x(2)=3.0:x(3)=4.0:x(4)=5.0
+	y=2.1:y(1)=3.9:y(2)=6.0:y(3)=8.1:y(4)=9.8
+	curvefit_linear x, y, 5, slope, intercept
+	mes "y = " + slope + " * x + " + intercept
+	mes "R2 = " + curvefit_r2(x, y, 5, slope, intercept)

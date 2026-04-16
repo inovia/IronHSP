@@ -1,16 +1,9 @@
 ;============================================================
-;   iron_ribbon2.hsp - Ribbon UI (WinForms native)
+;   iron_ribbon2.hsp — リボン UI (WinForms ネイティブ)
 ;
 ;   ToolStrip ベースの簡易リボン UI。
 ;   Office 風のタブ付きツールバー。
 ;
-;   API:
-;     ribbon_init                     リボン初期化
-;     ribbon_add_tab "name"           タブ追加 → stat (tab_id)
-;     ribbon_add_button tab_id, "text", *label  ボタン追加
-;     ribbon_add_separator tab_id     セパレータ追加
-;     ribbon_select_tab tab_id        タブ選択
-;============================================================
 #ifndef __iron_ribbon2_hsp__
 #define __iron_ribbon2_hsp__
 

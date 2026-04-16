@@ -1,0 +1,4 @@
+	#include "iron_montecarlo.hsp"
+	mes "Pi estimate (1000): " + mc_estimate_pi(1000)
+	mes "Pi estimate (10000): " + mc_estimate_pi(10000)
+	mes "Pi estimate (100000): " + mc_estimate_pi(100000)

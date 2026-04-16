@@ -1,6 +1,6 @@
 ;
-; hspdxlib_const.as - DxLib constants for HSP
-; Auto-generated from DxDLLW.cs (DxLib 3.24f)
+; hspdxlib_const.as — DxLib 定数定義 (HSP 用)
+; DxDLLW.cs (DxLib 3.24f) から自動生成
 ;
 
 #ifndef __HSPDXLIB_CONST__

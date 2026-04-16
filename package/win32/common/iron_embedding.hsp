@@ -1,6 +1,6 @@
 ;
-; iron_embedding.hsp - Text embedding + vector search
-; Uses iron_ai (OpenAI API) or local model
+; iron_embedding.hsp — テキスト埋め込み + ベクトル検索
+; iron_ai (OpenAI API) またはローカルモデルを使用
 ;
 #ifndef __iron_embedding_hsp__
 #define __iron_embedding_hsp__

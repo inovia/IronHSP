@@ -1,5 +1,5 @@
 ;
-; iron_filter.hsp - Digital signal filters (IIR / moving average)
+; iron_filter.hsp — デジタル信号フィルタ (IIR / 移動平均)
 ;
 #ifndef __iron_filter_hsp__
 #define __iron_filter_hsp__

@@ -1,41 +1,8 @@
 ;============================================================
-;   iron_fs.hsp - File / Folder operations
+;   iron_fs.hsp — ファイル / フォルダ操作
 ;
-;   Win32 API + HSP. External DLL not needed.
-;   HSP standard: exist/delete/mkdir/chdir/dirlist/bload/bsave
-;   This module adds: copy/move/rename/rmdir/filesize/attr/
-;   glob/walk/readlines/writelines/tempfile/touch
-;
-;   API:
-;     === File ===
-;     fs_copy "src", "dst"           Copy file → stat (0=ok)
-;     fs_move "src", "dst"           Move/rename → stat
-;     fs_rename "old", "new"         Rename → stat
-;     fs_size("path")                File size in bytes
-;     fs_attr("path")                File attributes (bitmask)
-;     fs_is_readonly("path")         Read-only check → 1/0
-;     fs_set_readonly "path", sw     Set read-only
-;     fs_is_hidden("path")           Hidden check → 1/0
-;     fs_touch "path"                Create empty / update timestamp
-;     fs_readtext("path")            Read entire text file → string
-;     fs_writetext "path", "text"    Write text file (overwrite)
-;     fs_appendtext "path", "text"   Append text to file
-;     fs_tempfile()                  Generate temp file path
-;     fs_ext("path")                 Get extension
-;     fs_basename("path")            Get filename without dir
-;     fs_dirname("path")             Get directory part
-;
-;     === Folder ===
-;     fs_mkdir_p "path"              Create dirs recursively (mkdir -p)
-;     fs_rmdir_r "path"              Remove directory recursively
-;     fs_copydir "src", "dst"        Copy directory tree
-;     fs_listfiles "dir", "*.txt"    List files → refstr (newline sep)
-;     fs_listdirs "dir"              List subdirs → refstr
-;     fs_walk "dir"                  Walk all files recursively → refstr
-;     fs_dirsize("dir")              Total size of directory
-;     fs_is_dir("path")              Is directory → 1/0
-;     fs_is_file("path")             Is file → 1/0
-;============================================================
+;   Win32 API + HSP。外部 DLL 不要。
+;   HSP 標準: exist/delete/mkdir/chdir/dirlist/bload/bsave
 #ifndef __iron_fs_hsp__
 #define __iron_fs_hsp__
 

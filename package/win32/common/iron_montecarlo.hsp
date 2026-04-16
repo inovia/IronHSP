@@ -1,5 +1,5 @@
 ;
-; iron_montecarlo.hsp - Monte Carlo simulation
+; iron_montecarlo.hsp — モンテカルロシミュレーション
 ;
 #ifndef __iron_montecarlo_hsp__
 #define __iron_montecarlo_hsp__

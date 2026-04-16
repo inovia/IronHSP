@@ -1,0 +1,7 @@
+	#include "iron_complex.hsp"
+	dimtype a, 3, 2 : a(0)=3.0:a(1)=4.0
+	dimtype b, 3, 2 : b(0)=1.0:b(1)=2.0
+	dimtype c, 3, 2
+	complex_mul a, b, c
+	mes "(3+4i)*(1+2i) = " + c(0) + "+" + c(1) + "i"
+	mes "|3+4i| = " + complex_abs(a)

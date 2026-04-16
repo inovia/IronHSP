@@ -1,7 +1,7 @@
 ;============================================================
-;   iron_regex_net.hsp - Regex (.NET version)
+;   iron_regex_net.hsp — 正規表現 (.NET版)
 ;   System.Text.RegularExpressions.Regex
-;   hsp3net only.
+;   hsp3net 専用。
 ;============================================================
 #ifndef __iron_regex_net_hsp__
 #define __iron_regex_net_hsp__

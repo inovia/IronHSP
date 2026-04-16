@@ -1,5 +1,5 @@
 ;
-; iron_combinatorics.hsp - Permutations / combinations
+; iron_combinatorics.hsp — 順列・組み合わせ
 ;
 #ifndef __iron_combinatorics_hsp__
 #define __iron_combinatorics_hsp__

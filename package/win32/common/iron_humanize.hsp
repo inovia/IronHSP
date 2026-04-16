@@ -1,5 +1,5 @@
 ;
-; iron_humanize.hsp - Human-readable formatting
+; iron_humanize.hsp — 人間にやさしい書式変換
 ;
 #ifndef __iron_humanize_hsp__
 #define __iron_humanize_hsp__

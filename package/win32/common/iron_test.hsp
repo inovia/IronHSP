@@ -1,5 +1,5 @@
 ;
-; iron_test.hsp - Unit test framework
+; iron_test.hsp — ユニットテストフレームワーク
 ; assert_eq / assert_ne / assert_true / test_begin / test_end
 ;
 #ifndef __iron_test_hsp__

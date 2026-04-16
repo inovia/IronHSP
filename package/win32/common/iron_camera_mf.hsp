@@ -1,56 +1,9 @@
 ;============================================================
-;   iron_camera_mf.hsp — Webcam Preview (pure Media Foundation)
+;   iron_camera_mf.hsp — Webcam プレビュー (pure Media Foundation)
 ;
 ;   hspmfcam.dll を経由して Media Foundation の SourceReader から
 ;   Webcam フレームを取得する HSP ラッパ。OpenCV 不要。
 ;
-;   特徴:
-;     - 内部で worker thread + child window を作成 (MFPlay と同じ方式)
-;     - HSP main thread が title bar drag 等で止まっても prefetch 継続
-;     - アスペクト比固定モード対応
-;     - リサイズ対応 (set_pos)
-;     - 最大 256 台のカメラを同時に open 可 (ハンドル管理)
-;     - PNG/JPEG/BMP/GIF/TIFF スナップショット保存
-;     - カメラ/オーディオデバイスの列挙 + friendly name 取得
-;
-;   API (列挙系 - インスタンス無しで呼べる):
-;     n = iron_cam_count()
-;     iron_cam_name idx, name_var          ; カメラ friendly name (ANSI)
-;     n = iron_cam_audio_count()
-;     iron_cam_audio_name idx, name_var    ; オーディオ friendly name
-;
-;   API (ハンドル管理):
-;     h = iron_cam_open(dev_idx, x, y, w, h)
-;         dev_idx 番目のカメラを HSP window 内 (x,y,w,h) に
-;         child window として開く。worker thread + プレビュー自動開始。
-;         戻り値 h: ハンドル (>=0 成功) / -1 失敗
-;
-;     iron_cam_size h, var_w, var_h         ; カメラのネイティブ解像度
-;     iron_cam_set_pos h, x, y, w, h        ; child window 位置/サイズ変更
-;     iron_cam_set_aspect h, mode           ; 0=stretch / 1=letterbox
-;     s = iron_cam_state(h)                 ; 0=FREE 1=OPENING 2=READY 3=ERROR
-;     iron_cam_save h, "snap.png"           ; PNG/JPG/BMP/GIF/TIFF
-;     iron_cam_read h, buf                  ; BGRA byte配列にコピー
-;     iron_cam_close h
-;
-;   例 (シンプル):
-;     #include "iron_camera_mf.hsp"
-;         screen 0, 800, 600
-;         h = iron_cam_open(0, 0, 0, 800, 600)
-;         iron_cam_set_aspect h, 1
-;         stop
-;
-;   例 (2 台同時):
-;     #include "iron_camera_mf.hsp"
-;         screen 0, 1300, 500
-;         h1 = iron_cam_open(0,   0, 0, 2560, 480)
-;         h2 = iron_cam_open(1, 660, 0, 2560, 480)
-;         stop
-;
-;   依存:
-;     hspmfcam.dll / hspmfcam_256.dll を実行ファイルと同じディレクトリに配置
-;============================================================
-
 #ifndef __iron_camera_mf_hsp__
 #define __iron_camera_mf_hsp__
 

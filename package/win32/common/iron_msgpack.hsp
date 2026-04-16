@@ -1,7 +1,7 @@
 ;
-; iron_msgpack.hsp - MessagePack serialize/deserialize
-; Uses .NET MessagePack library or C# dynamic compile
-; hsp3net only.
+; iron_msgpack.hsp — MessagePack シリアライズ/デシリアライズ
+; .NET MessagePack ライブラリまたは C# 動的コンパイル使用
+; hsp3net 専用。
 ;
 #ifndef __iron_msgpack_hsp__
 #define __iron_msgpack_hsp__

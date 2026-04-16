@@ -1,30 +1,9 @@
 ;============================================================
-;   iron_ribbon_pro.hsp - Rich Ribbon UI
+;   iron_ribbon_pro.hsp — リッチ リボン UI
 ;
-;   WinForms TabControl + FlowLayoutPanel + ToolStrip.
-;   Office-like ribbon with groups, large/small buttons, dropdowns.
-;   hsp3net (GUI) only.
-;
-;   API:
-;     ribpro_init                         Init ribbon
-;     ribpro_add_tab "name"               Add tab → stat (tab_id)
-;     ribpro_begin_group tab_id, "name"   Begin button group
-;     ribpro_add_large "text", *label     Large button (icon above text)
-;     ribpro_add_small "text", *label     Small button
-;     ribpro_add_dropdown "text", "item1|item2|..."  Dropdown
-;     ribpro_end_group                    End group
-;
-;   Example:
-;     #include "iron_ribbon_pro.hsp"
-;     screen 0, 800, 600
-;     ribpro_init
-;     ribpro_add_tab "Home"
-;     ribpro_begin_group stat, "Clipboard"
-;     ribpro_add_large "Paste"
-;     ribpro_add_small "Cut"
-;     ribpro_add_small "Copy"
-;     ribpro_end_group
-;============================================================
+;   WinForms TabControl + FlowLayoutPanel + ToolStrip。
+;   Office 風リボン (グループ、大/小ボタン、ドロップダウン)。
+;   hsp3net (GUI) 専用。
 #ifndef __iron_ribbon_pro_hsp__
 #define __iron_ribbon_pro_hsp__
 

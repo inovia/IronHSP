@@ -1,14 +1,9 @@
 ;============================================================
-;   iron_print.hsp - Print support (.NET PrintDocument)
+;   iron_print.hsp — 印刷サポート (.NET PrintDocument)
 ;
-;   hsp3net (GUI) only.
+;   hsp3net (GUI) 専用。
 ;
 ;   API:
-;     print_text "text"              Print plain text
-;     print_preview "text"           Print preview dialog
-;     print_setup                    Page setup dialog
-;     print_dialog                   Printer selection dialog
-;============================================================
 #ifndef __iron_print_hsp__
 #define __iron_print_hsp__
 

@@ -1,8 +1,8 @@
 ;
-;   hspcv4.dll header  (OpenCV 4.x plugin for IronHSP)
+;   hspcv4.dll ヘッダー (OpenCV 4.x プラグイン for IronHSP)
 ;
-;   Phase 1 : beginner API (no underscore)
-;   Usage:
+;   Phase 1 : 初心者向け API (アンダースコアなし)
+;   使い方:
 ;     #include "hspcv4.as"
 ;
 #ifndef __hspcv4__

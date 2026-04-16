@@ -1,19 +1,9 @@
 ;============================================================
-;   iron_clipboard2.hsp - Advanced clipboard (.NET)
+;   iron_clipboard2.hsp — 高機能クリップボード (.NET版)
 ;
-;   hsp3net only. Text/Image/HTML/FileDropList support.
+;   hsp3net 専用。テキスト/画像/HTML/ファイルドロップリスト対応。
 ;
 ;   API:
-;     clip_set_text "text"           Set text
-;     clip_get_text()                Get text
-;     clip_has_text()                Has text → 1/0
-;     clip_set_html "html"           Set HTML
-;     clip_get_html()                Get HTML
-;     clip_has_image()               Has image → 1/0
-;     clip_save_image "file.png"     Save clipboard image to file
-;     clip_get_files()               Get dropped files (newline sep)
-;     clip_clear                     Clear clipboard
-;============================================================
 #ifndef __iron_clipboard2_hsp__
 #define __iron_clipboard2_hsp__
 

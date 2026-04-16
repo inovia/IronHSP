@@ -1,8 +1,8 @@
 ;
-; hspdxlib_struct.as - DxLib struct definitions for HSP
-; Auto-generated from DxDLLW.cs (DxLib 3.24f)
+; hspdxlib_struct.as — DxLib 構造体定義 (HSP 用)
+; DxDLLW.cs (DxLib 3.24f) から自動生成
 ;
-; Structs are defined as buffer offset constants.
+; 構造体はバッファオフセット定数として定義。
 ; Usage:
 ;   dim buf, VECTOR_SIZE / 4
 ;   ; or with IronHSP sdim:

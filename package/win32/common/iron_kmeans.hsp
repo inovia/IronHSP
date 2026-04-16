@@ -1,6 +1,6 @@
 ;
-; iron_kmeans.hsp - K-means clustering
-; Pure HSP. 2D points.
+; iron_kmeans.hsp — K-means クラスタリング
+; Pure HSP。2D ポイント対応。
 ;
 #ifndef __iron_kmeans_hsp__
 #define __iron_kmeans_hsp__

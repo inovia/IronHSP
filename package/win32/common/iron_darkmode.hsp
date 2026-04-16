@@ -1,14 +1,9 @@
 ;============================================================
-;   iron_darkmode.hsp - Dark mode support
+;   iron_darkmode.hsp — ダークモード対応
 ;
-;   Windows 10/11 dark mode detection + WinForms dark theme.
+;   Windows 10/11 ダークモード検出 + WinForms ダークテーマ適用。
 ;
 ;   API:
-;     darkmode_is_enabled()       System dark mode → 1=dark, 0=light
-;     darkmode_apply              Apply dark theme to current window
-;     darkmode_apply_titlebar     Dark title bar (Win10 1809+)
-;     darkmode_colors             Get theme colors → stat (bg), refdval (fg)
-;============================================================
 #ifndef __iron_darkmode_hsp__
 #define __iron_darkmode_hsp__
 

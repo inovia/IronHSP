@@ -1,5 +1,5 @@
 ;
-; iron_yaml.hsp - Simple YAML parser (key: value, no nesting)
+; iron_yaml.hsp — 簡易 YAML パーサー (key: value、ネスト非対応)
 ;
 #ifndef __iron_yaml_hsp__
 #define __iron_yaml_hsp__

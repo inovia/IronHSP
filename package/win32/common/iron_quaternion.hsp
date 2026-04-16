@@ -1,6 +1,6 @@
 ;
-; iron_quaternion.hsp - Quaternion for 3D rotation
-; q = (w, x, y, z) stored in double array[4]
+; iron_quaternion.hsp — 3D 回転用クォータニオン
+; q = (w, x, y, z) double 配列 [4] で格納
 ;
 #ifndef __iron_quaternion_hsp__
 #define __iron_quaternion_hsp__

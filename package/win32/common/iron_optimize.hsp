@@ -1,5 +1,5 @@
 ;
-; iron_optimize.hsp - Optimization (gradient descent / golden section)
+; iron_optimize.hsp — 最適化 (勾配降下法 / 黄金分割法)
 ;
 #ifndef __iron_optimize_hsp__
 #define __iron_optimize_hsp__

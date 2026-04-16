@@ -1,42 +1,9 @@
 ;============================================================
-;   iron_ribbon_native.hsp - Windows Ribbon Framework (full)
+;   iron_ribbon_native.hsp — Windows Ribbon Framework (完全版)
 ;
-;   hspribbon.dll (UIRibbon COM). Windows 7+.
-;   uicc.exe (Windows SDK) required to compile ribbon markup.
+;   hspribbon.dll (UIRibbon COM)。Windows 7 以降。
+;   uicc.exe (Windows SDK) でリボンマークアップをコンパイル。
 ;
-;   Supports all UIRibbon features:
-;   - Basic buttons, toggles, checkboxes
-;   - Font control, color picker
-;   - Dropdown, split button, gallery
-;   - Spinner, combobox
-;   - Context tabs, application modes (32 modes)
-;   - Scaling policies
-;   - Quick Access Toolbar
-;   - MiniToolbar, context popup
-;   - Recent items (MRU) with pinning
-;   - Ribbon minimize/restore
-;   - Background color
-;   - Load from external DLL
-;
-;   Workflow:
-;   1. Create ribbon.xml (markup)
-;   2. Compile: uicc.exe ribbon.xml ribbon.bml ribbon.h /res:ribbon.rc
-;   3. Link ribbon.rc into your EXE (or separate DLL)
-;   4. Call ribbon_native_init / ribbon_native_load
-;
-;   API:
-;     ribbon_native_init              Init framework (on current window)
-;     ribbon_native_load "RESOURCE"   Load .bml from EXE resource
-;     ribbon_native_load_dll "dll", "RES"  Load from external DLL
-;     ribbon_native_poll              Poll command → stat=1 if fired
-;     ribbon_native_cmd_id()          Last command ID
-;     ribbon_native_cmd_verb()        Last verb (0=execute, 1=preview, 2=cancelpreview)
-;     ribbon_native_height()          Ribbon height in pixels
-;     ribbon_native_minimize sw       Minimize (1) / restore (0)
-;     ribbon_native_set_modes mask    Set application modes (bitmask)
-;     ribbon_native_set_bgcolor r,g,b Background color
-;     ribbon_native_destroy           Cleanup
-;============================================================
 #ifndef __iron_ribbon_native_hsp__
 #define __iron_ribbon_native_hsp__
 

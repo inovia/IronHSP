@@ -1,18 +1,8 @@
 ;============================================================
-;   iron_validate.hsp - Input validation module
-;   Pure HSP. No DLL needed.
+;   iron_validate.hsp — 入力バリデーションモジュール
+;   Pure HSP。外部 DLL 不要。
 ;
 ;   API:
-;     validate_required(s)          Empty check → 1=valid
-;     validate_minlen(s, n)         Min length → 1=valid
-;     validate_maxlen(s, n)         Max length → 1=valid
-;     validate_email(s)             Email format → 1=valid
-;     validate_numeric(s)           Numeric string → 1=valid
-;     validate_range(v, min, max)   Int range → 1=valid
-;     validate_url(s)               URL format → 1=valid
-;     validate_phone(s)             Phone number → 1=valid
-;     validate_date(s)              YYYY-MM-DD → 1=valid
-;============================================================
 #ifndef __iron_validate_hsp__
 #define __iron_validate_hsp__
 

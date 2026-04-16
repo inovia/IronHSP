@@ -1,32 +1,51 @@
-%dll
-; iron_event Event emitter
+;
+; iron_event.hsp  HSP3 ヘルプ (日本語)
+; イベントエミッター
+;
+
+%type
+拡張命令
 %ver
 3.8
 %date
 2026/04/17
 %author
 IronHSP
+%dll
+iron_event.hsp
+
+%url
+https://github.com/inovia/IronHSP
+%port
+Win32 / Win64
+
 %note
 Pure HSP
-%type
-User command
+
 %group
-Pattern
+パターン
 
 %index
 event_on
-Subscribe
+イベントを購読
+%group
+パターン
 %prm
 "name", *label
+
 %inst
+指定イベント名に対してラベルを登録します。
 
 %href
 event_emit
 
 %index
 event_emit
-Emit event
+イベントを発火
+%group
+パターン
 %prm
 "name"
+
 %inst
-Calls all subscribers
+登録された全てのリスナーを呼び出します。

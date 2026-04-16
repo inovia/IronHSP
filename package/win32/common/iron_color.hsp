@@ -1,5 +1,5 @@
 ;
-; iron_color.hsp - Color conversion (RGB/HSV/HEX/Name)
+; iron_color.hsp — 色変換 (RGB/HSV/HEX/色名)
 ;
 #ifndef __iron_color_hsp__
 #define __iron_color_hsp__

@@ -1,5 +1,5 @@
 ;
-; iron_array2.hsp - Array utilities (filter/map/sort/unique/reverse/zip/join)
+; iron_array2.hsp — 配列ユーティリティ (filter/map/sort/unique/reverse/zip/join)
 ;
 #ifndef __iron_array2_hsp__
 #define __iron_array2_hsp__

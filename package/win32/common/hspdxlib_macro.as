@@ -1,6 +1,6 @@
 ;
-; hspdxlib_macro.as - HSP-friendly convenience macros for DxLib
-; Auto-generated from DxDLLW.cs (DxLib 3.24f)
+; hspdxlib_macro.as â€” DxLib ç”¨ HSP ä¾¿åˆ©ãƒã‚¯ãƒ­
+; DxDLLW.cs (DxLib 3.24f) ã‹ã‚‰è‡ªå‹•ç”Ÿæˆ
 ;
 ; Usage: #include "hspdxlib.as"
 ;        #include "hspdxlib_macro.as"
@@ -10,37 +10,37 @@
 #define global __HSPDXLIB_MACRO__
 
 ; --- HSP-friendly short aliases ---
-#define global dxinit DxLib_Init	; DXƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰»
-#define global dxend DxLib_End	; DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌI—¹ˆ—
-#define global dxmsg ProcessMessage	; ƒƒbƒZ[ƒWˆ—
-#define global dxflip ScreenFlip	; ‰æ–ÊƒtƒŠƒbƒv
-#define global dxcls ClearDrawScreen	; •`‰æ‰æ–ÊƒNƒŠƒA
-#define global dxscreen SetDrawScreen	; •`‰ææİ’è
-#define global dxwait WaitTimer	; ƒEƒFƒCƒg
-#define global dxdraw DrawGraph	; ‰æ‘œ•`‰æ
-#define global dxdrawex DrawExtendGraph	; ‰æ‘œŠg‘åk¬•`‰æ
-#define global dxdrawrota DrawRotaGraph	; ‰æ‘œ‰ñ“]•`‰æ
-#define global dxload LoadGraph	; ‰æ‘œ“Ç
-#define global dxdel DeleteGraph	; ‰æ‘œ‰ğ•ú
-#define global dxcolor GetColor	; FƒR[ƒhæ“¾
-#define global dxtitle SetMainWindowText	; ƒ^ƒCƒgƒ‹İ’è
-#define global dxwindow ChangeWindowMode	; ƒEƒBƒ“ƒhƒEƒ‚[ƒh•ÏX
-#define global dxmode SetGraphMode	; ‰æ–Êƒ‚[ƒhİ’è
-#define global dxkey CheckHitKey	; ƒL[“ü—Íƒ`ƒFƒbƒN
-#define global dxmouse GetMousePoint	; ƒ}ƒEƒXÀ•Wæ“¾
-#define global dxclick GetMouseInput	; ƒ}ƒEƒXƒ{ƒ^ƒ“æ“¾
-#define global dxloadsnd LoadSoundMem	; ‰¹º“Ç
-#define global dxplaysnd PlaySoundMem	; ‰¹ºÄ¶
-#define global dxstopsnd StopSoundMem	; ‰¹º’â~
-#define global dxfreesnd DeleteSoundMem	; ‰¹º‰ğ•ú
-#define global dxfontsize SetFontSize	; ƒtƒHƒ“ƒgƒTƒCƒYİ’è
-#define global dxbox DrawBox	; ‹éŒ`•`‰æ
-#define global dxline DrawLine	; ü•`‰æ
-#define global dxcircle DrawCircle	; ‰~•`‰æ
-#define global dxpset DrawPixel	; “_•`‰æ
-#define global dxbgcolor SetBackgroundColor	; ”wŒiFİ’è
-#define global dxblend SetDrawBlendMode	; ƒuƒŒƒ“ƒhƒ‚[ƒhİ’è
-#define global dxpad GetJoypadInputState	; ƒpƒbƒh“ü—Íæ“¾
+#define global dxinit DxLib_Init	; DXï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+#define global dxend DxLib_End	; DXï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define global dxmsg ProcessMessage	; ï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
+#define global dxflip ScreenFlip	; ï¿½ï¿½Êƒtï¿½ï¿½ï¿½bï¿½v
+#define global dxcls ClearDrawScreen	; ï¿½`ï¿½ï¿½ï¿½ÊƒNï¿½ï¿½ï¿½A
+#define global dxscreen SetDrawScreen	; ï¿½`ï¿½ï¿½ï¿½İ’ï¿½
+#define global dxwait WaitTimer	; ï¿½Eï¿½Fï¿½Cï¿½g
+#define global dxdraw DrawGraph	; ï¿½æ‘œï¿½`ï¿½ï¿½
+#define global dxdrawex DrawExtendGraph	; ï¿½æ‘œï¿½gï¿½ï¿½kï¿½ï¿½ï¿½`ï¿½ï¿½
+#define global dxdrawrota DrawRotaGraph	; ï¿½æ‘œï¿½ï¿½]ï¿½`ï¿½ï¿½
+#define global dxload LoadGraph	; ï¿½æ‘œï¿½Çï¿½
+#define global dxdel DeleteGraph	; ï¿½æ‘œï¿½ï¿½ï¿½
+#define global dxcolor GetColor	; ï¿½Fï¿½Rï¿½[ï¿½hï¿½æ“¾
+#define global dxtitle SetMainWindowText	; ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½İ’ï¿½
+#define global dxwindow ChangeWindowMode	; ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½[ï¿½hï¿½ÏX
+#define global dxmode SetGraphMode	; ï¿½ï¿½Êƒï¿½ï¿½[ï¿½hï¿½İ’ï¿½
+#define global dxkey CheckHitKey	; ï¿½Lï¿½[ï¿½ï¿½ï¿½Íƒ`ï¿½Fï¿½bï¿½N
+#define global dxmouse GetMousePoint	; ï¿½}ï¿½Eï¿½Xï¿½ï¿½ï¿½Wï¿½æ“¾
+#define global dxclick GetMouseInput	; ï¿½}ï¿½Eï¿½Xï¿½{ï¿½^ï¿½ï¿½ï¿½æ“¾
+#define global dxloadsnd LoadSoundMem	; ï¿½ï¿½ï¿½ï¿½ï¿½Çï¿½
+#define global dxplaysnd PlaySoundMem	; ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½
+#define global dxstopsnd StopSoundMem	; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~
+#define global dxfreesnd DeleteSoundMem	; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define global dxfontsize SetFontSize	; ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Tï¿½Cï¿½Yï¿½İ’ï¿½
+#define global dxbox DrawBox	; ï¿½ï¿½`ï¿½`ï¿½ï¿½
+#define global dxline DrawLine	; ï¿½ï¿½ï¿½`ï¿½ï¿½
+#define global dxcircle DrawCircle	; ï¿½~ï¿½`ï¿½ï¿½
+#define global dxpset DrawPixel	; ï¿½_ï¿½`ï¿½ï¿½
+#define global dxbgcolor SetBackgroundColor	; ï¿½wï¿½iï¿½Fï¿½İ’ï¿½
+#define global dxblend SetDrawBlendMode	; ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½[ï¿½hï¿½İ’ï¿½
+#define global dxpad GetJoypadInputState	; ï¿½pï¿½bï¿½hï¿½ï¿½ï¿½Íæ“¾
 
 ; --- Vector helper macros ---
 ; VGet: Create a VECTOR in a buffer

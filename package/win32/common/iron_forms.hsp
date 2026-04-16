@@ -1,33 +1,8 @@
 ;============================================================
-;   iron_forms.hsp - WinForms Layout & Advanced Controls
+;   iron_forms.hsp — WinForms レイアウト & 高機能コントロール
 ;
-;   hsp3net (GUI) only. .NET WinForms controls via mcall.
+;   hsp3net (GUI) 専用。.NET WinForms コントロールを mcall で操作。
 ;
-;   Layout:
-;     ctrl_anchor objid, flags     Anchor (ANCHOR_TOP|BOTTOM|LEFT|RIGHT)
-;     ctrl_dock objid, style       Dock (DOCK_NONE/TOP/BOTTOM/LEFT/RIGHT/FILL)
-;     ctrl_visible objid, sw       Show/Hide
-;     ctrl_enabled objid, sw       Enable/Disable
-;     ctrl_font objid, "name", size  Font change
-;
-;   Containers:
-;     forms_tabctrl tab, "Tab1","Tab2",...  TabControl
-;     forms_split spl, vertical            SplitContainer
-;     forms_table tbl, rows, cols          TableLayoutPanel
-;
-;   Controls:
-;     forms_datagrid dgv, cols, "Col1","Col2",...  DataGridView
-;     forms_menu menu, "File","Edit","Help"   MenuStrip
-;     forms_statusbar sb, "Ready"             StatusStrip
-;     forms_toolbar tb                        ToolStrip
-;     forms_datepicker dp, x, y, w, h         DateTimePicker
-;     forms_numupdown nud, x, y, w, h, min, max  NumericUpDown
-;     forms_progress pb, x, y, w, h          ProgressBar
-;     forms_richtext rt, x, y, w, h          RichTextBox
-;
-;   Print:
-;     forms_print_preview                    PrintPreview
-;============================================================
 #ifndef __iron_forms_hsp__
 #define __iron_forms_hsp__
 

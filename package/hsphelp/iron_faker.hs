@@ -1,61 +1,93 @@
-%dll
-; iron_faker Fake data generator
+;
+; iron_faker.hsp  HSP3 ヘルプ (日本語)
+; フェイクデータ生成
+;
+
+%type
+拡張命令
 %ver
 3.8
 %date
 2026/04/17
 %author
 IronHSP
+%dll
+iron_faker.hsp
+
+%url
+https://github.com/inovia/IronHSP
+%port
+Win32 / Win64
+
 %note
 Pure HSP
-%type
-User command
+
 %group
-Testing
+テスト
 
 %index
 fake_name
-Random name
+ランダムな名前
+%group
+テスト
 %prm
 ()
+
 %inst
-"Taro Tanaka"
+例: "田中太郎"
+
 %href
 fake_email
 
 %index
 fake_email
-Random email
+ランダムなメールアドレス
+%group
+テスト
 %prm
 ()
+
 %inst
-"taro.tanaka@example.com"
+例: "taro.tanaka@example.com"
+
 %href
 fake_phone
 
 %index
 fake_phone
-Random phone
+ランダムな電話番号
+%group
+テスト
 %prm
 ()
+
 %inst
-"090-1234-5678"
+例: "090-1234-5678"
+
 %href
 fake_address
 
 %index
 fake_address
-Random address
+ランダムな住所
+%group
+テスト
 %prm
 ()
+
 %inst
-"Tokyo 3-15-7"
+例: "東京都 3-15-7"
+
 %href
 fake_int
 
 %index
 fake_int
-Random int
+ランダムな整数
+%group
+テスト
 %prm
 (min, max)
+
 %inst
+min～max の範囲の整数を返します。

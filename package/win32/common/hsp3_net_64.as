@@ -1,5 +1,5 @@
 ;
-; HSP3 .NET (hsp3net) 64bit GUI define and macros
+; HSP3 .NET (hsp3net) 64bit GUI 定義・マクロ
 ;   - WinForms ベースの拡張 GUI (x64)
 ;   - intptr / NSTRUCT / cfuncst / cfuncd / cfuncf / .NET 連携など
 ;     hsp3net 専用機能を全て有効化

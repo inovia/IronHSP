@@ -1,5 +1,5 @@
 ;
-; iron_event.hsp - Event emitter (Pub/Sub)
+; iron_event.hsp — イベントエミッター (Pub/Sub)
 ;
 #ifndef __iron_event_hsp__
 #define __iron_event_hsp__
