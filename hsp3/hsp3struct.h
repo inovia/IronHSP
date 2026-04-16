@@ -284,6 +284,7 @@ typedef struct STRUCTPRM {
 #define STRUCTDAT_OT_RETINT   0x00		// int/int64 戻り値（デフォルト）
 #define STRUCTDAT_OT_RETDOUBLE 0x10		// double 戻り値
 #define STRUCTDAT_OT_RETFLOAT  0x20		// float 戻り値
+#define STRUCTDAT_OT_VARIADIC 0x100		// 可変長引数 (... 付き)
 
 // function,module specific data
 

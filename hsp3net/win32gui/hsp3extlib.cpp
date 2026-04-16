@@ -572,9 +572,11 @@ int64_t code_expand_and_call( const STRUCTDAT *st )
 	int64_t result;
 
 #ifdef HSP64
-	char *prmbuf = sbAlloc(st->prmmax * sizeof(INT_PTR));
+	int bufcount = (st->otindex & STRUCTDAT_OT_VARIADIC) ? 64 : st->prmmax;
+	char *prmbuf = sbAlloc(bufcount * sizeof(INT_PTR));
 #else
-	char *prmbuf = sbAlloc(st->size);
+	int bufsize = (st->otindex & STRUCTDAT_OT_VARIADIC) ? 64 * sizeof(INT_PTR) : st->size;
+	char *prmbuf = sbAlloc(bufsize);
 #endif
 
 	try {
@@ -595,6 +597,45 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 	int64_t result;
 	HSPAPICHAR *hactmp1 = 0;
 	if ( index == st->prmmax ) {
+		// 可変長引数の処理 (STRUCTDAT_OT_VARIADIC フラグが立っている場合)
+		int actual_count = index;
+		if ( st->otindex & STRUCTDAT_OT_VARIADIC ) {
+			while ( !(code_getexflg() & EXFLG_1) ) {
+				if ( actual_count >= 64 ) break;
+				int chk = code_get();
+				if ( chk <= PARAM_END ) break;
+				if ( chk == PARAM_DEFAULT ) continue;
+				PVal *mpval_va = *pmpval;
+				void *va_out;
+#ifdef HSP64
+				va_out = &((INT_PTR *)prmbuf)[actual_count];
+#else
+				va_out = prmbuf + actual_count * sizeof(INT_PTR);
+#endif
+				switch ( mpval_va->flag ) {
+				case HSPVAR_FLAG_INT:
+					*(INT_PTR *)va_out = (INT_PTR)(*(int *)(mpval_va->pt));
+					break;
+				case HSPVAR_FLAG_INT64:
+					*(int64_t *)va_out = *(int64_t *)(mpval_va->pt);
+					break;
+				case HSPVAR_FLAG_DOUBLE:
+					{
+					double d = *(double *)(mpval_va->pt);
+					memcpy(va_out, &d, sizeof(double));
+					}
+					break;
+				case HSPVAR_FLAG_STR:
+					*(void **)va_out = (void *)prepare_localstr( mpval_va->pt, 0 );
+					break;
+				default:
+					*(INT_PTR *)va_out = (INT_PTR)(*(int *)(mpval_va->pt));
+					break;
+				}
+				actual_count++;
+			}
+		}
+
 		// 関数（またはメソッド）の呼び出し
 		//if ( !code_getexflg() ) throw HSPERR_TOO_MANY_PARAMETERS;
 		switch ( st->subid ) {
@@ -607,29 +648,27 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 			int rettype = st->otindex & STRUCTDAT_OT_RETMASK;
 #ifdef HSP64
 			if (rettype == STRUCTDAT_OT_RETDOUBLE) {
-				int64_t bits = call_extfunc_double(st->proc, (INT_PTR *)prmbuf, st->prmmax);
-				// double のビットパターンを int64_t として返す
+				int64_t bits = call_extfunc_double(st->proc, (INT_PTR *)prmbuf, actual_count);
 				result = bits;
 			} else if (rettype == STRUCTDAT_OT_RETFLOAT) {
-				int64_t bits = call_extfunc_float(st->proc, (INT_PTR *)prmbuf, st->prmmax);
-				// float→double に変換してビットパターンを返す
+				int64_t bits = call_extfunc_float(st->proc, (INT_PTR *)prmbuf, actual_count);
 				float f;
 				memcpy(&f, &bits, sizeof(float));
 				double d = (double)f;
 				memcpy(&result, &d, sizeof(double));
 			} else {
-				result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->prmmax);
+				result = call_extfunc(st->proc, (INT_PTR *)prmbuf, actual_count);
 			}
 #else
 			if (rettype == STRUCTDAT_OT_RETDOUBLE) {
-				double d = call_extfunc_double_x86(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
+				double d = call_extfunc_double_x86(st->proc, (INT_PTR *)prmbuf, actual_count);
 				memcpy(&result, &d, sizeof(double));
 			} else if (rettype == STRUCTDAT_OT_RETFLOAT) {
-				float f = call_extfunc_float_x86(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
+				float f = call_extfunc_float_x86(st->proc, (INT_PTR *)prmbuf, actual_count);
 				double d = (double)f;
 				memcpy(&result, &d, sizeof(double));
 			} else {
-				result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
+				result = call_extfunc(st->proc, (INT_PTR *)prmbuf, actual_count);
 			}
 #endif
 		}

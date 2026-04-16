@@ -114,6 +114,8 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$02f 8 sortnote",				// (3.5)
 	"$030 8 sortget",				// (3.5)
 	"$031 8 qpoke",					// (IronHSP)
+	"$032 8 setenv",				// (IronHSP)
+	"$033 8 delenv",				// (IronHSP)
 
 	//	enhanced command (ver2.2)
 
@@ -342,6 +344,15 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$18a 13 powf",						// (3.3)
 	"$18b 13 geteasef",					// (3.4)
 
+	//	IronHSP: environment variable & command-line argument functions
+	"$200 13 getenv",					// (IronHSP)
+	"$201 13 hasenv",					// (IronHSP)
+	"$202 13 getcmdargc",				// (IronHSP)
+	"$203 13 getcmdarg",				// (IronHSP)
+	"$204 13 getcmdargs",				// (IronHSP)
+	"$205 13 getcmdargi",				// (IronHSP)
+	"$206 13 hascmdarg",				// (IronHSP)
+
 	//	3.0 external sysvar,function
 
 	"$000 10 mousex",
@@ -355,19 +366,6 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$101 10 objinfo",
 	"$102 10 dirinfo",
 	"$103 10 sysinfo",
-
-	//	IronHSP: environment variable & command-line argument functions
-	"$200 13 getenv",					// (IronHSP)
-	"$201 13 hasenv",					// (IronHSP)
-	"$202 13 getcmdargc",				// (IronHSP)
-	"$203 13 getcmdarg",				// (IronHSP)
-	"$204 13 getcmdargs",				// (IronHSP)
-	"$205 13 getcmdargi",				// (IronHSP)
-	"$206 13 hascmdarg",				// (IronHSP)
-
-	//	IronHSP: environment variable commands
-	"$032 8 setenv",					// (IronHSP)
-	"$033 8 delenv",					// (IronHSP)
 
 	"$ffffffff 5 thismod",
 

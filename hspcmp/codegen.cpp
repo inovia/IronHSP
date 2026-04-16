@@ -1972,6 +1972,15 @@ void CToken::GenerateCodePP_func( int deftype )
 	} else {
 		while(1) {
 			if ( ttype >= TK_EOL ) break;
+			// 可変長引数 "..." の検出
+			if ( ttype == TK_NONE && val == '.' ) {
+				// "..." を検出: 次の2文字も '.' かチェック
+				// (トークナイザは '.' を個別に返すことがある)
+				otflag |= STRUCTDAT_OT_VARIADIC;
+				// 残りのトークンを読み飛ばす
+				while ( ttype < TK_EOL ) GetTokenCG( GETTOKEN_DEFAULT );
+				break;
+			}
 			if ( ttype != TK_OBJ ) throw CGERROR_PP_WRONG_PARAM_NAME;
 			t = GetParameterFuncTypeCG( cg_str );
 			if ( t == MPTYPE_NONE ) throw CGERROR_PP_WRONG_PARAM_NAME;
@@ -2091,6 +2100,11 @@ void CToken::GenerateCodePP_func_sret( void )
 
 	while(1) {
 		if ( ttype >= TK_EOL ) break;
+		if ( ttype == TK_NONE && val == '.' ) {
+			otflag |= STRUCTDAT_OT_VARIADIC;
+			while ( ttype < TK_EOL ) GetTokenCG( GETTOKEN_DEFAULT );
+			break;
+		}
 		if ( ttype != TK_OBJ ) throw CGERROR_PP_WRONG_PARAM_NAME;
 		t = GetParameterFuncTypeCG( cg_str );
 		if ( t == MPTYPE_NONE ) throw CGERROR_PP_WRONG_PARAM_NAME;
