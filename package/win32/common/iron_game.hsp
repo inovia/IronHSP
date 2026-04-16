@@ -1,0 +1,224 @@
+;============================================================
+;   iron_game.hsp - Game utility module
+;
+;   HitTest, collision detection, sprite management,
+;   tilemap, easing, random utilities, FPS counter.
+;   Pure HSP. No DLL needed.
+;
+;   API:
+;     === HitTest / Collision ===
+;     hit_rect(x1,y1,w1,h1, x2,y2,w2,h2)  AABB collision → 1/0
+;     hit_circle(cx1,cy1,r1, cx2,cy2,r2)   Circle collision → 1/0
+;     hit_point_rect(px,py, rx,ry,rw,rh)    Point in rect → 1/0
+;     hit_point_circle(px,py, cx,cy,r)      Point in circle → 1/0
+;     hit_line_rect(...)                     Line vs rect
+;
+;     === Vector 2D ===
+;     vec2_len(x, y)                        Length
+;     vec2_dist(x1,y1, x2,y2)              Distance
+;     vec2_normalize vx, vy                 Normalize (in-place)
+;     vec2_angle(x, y)                      Angle in degrees
+;     vec2_rotate vx, vy, deg               Rotate vector
+;
+;     === Easing ===
+;     ease_linear(t)                        Linear (0..1 → 0..1)
+;     ease_in_quad(t)                       Quadratic ease-in
+;     ease_out_quad(t)                      Quadratic ease-out
+;     ease_inout_quad(t)                    Quadratic ease-in-out
+;     ease_in_cubic(t) etc.
+;
+;     === Random ===
+;     rnd_range(min, max)                   Random int in [min, max]
+;     rnd_float()                           Random float 0.0..1.0
+;     rnd_choose array, n                   Random pick from array
+;
+;     === FPS ===
+;     fps_start                             Start FPS counter
+;     fps_update                            Call each frame
+;     fps_get()                             Current FPS
+;
+;     === Tilemap ===
+;     tilemap_init w, h, tw, th             Init tilemap
+;     tilemap_set x, y, tile                Set tile
+;     tilemap_get(x, y)                     Get tile
+;     tilemap_draw ox, oy                   Draw tilemap
+;============================================================
+#ifndef __iron_game_hsp__
+#define __iron_game_hsp__
+
+#module iron_game
+
+;------------------------------------------------------------
+; HitTest - AABB (Axis-Aligned Bounding Box)
+;------------------------------------------------------------
+#defcfunc hit_rect int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2
+	if x1 + w1 <= x2 : return 0
+	if x2 + w2 <= x1 : return 0
+	if y1 + h1 <= y2 : return 0
+	if y2 + h2 <= y1 : return 0
+	return 1
+
+;------------------------------------------------------------
+; HitTest - Circle vs Circle
+;------------------------------------------------------------
+#defcfunc hit_circle int cx1, int cy1, int r1, int cx2, int cy2, int r2, local dx, local dy
+	dx = cx2 - cx1 : dy = cy2 - cy1
+	return (dx * dx + dy * dy) <= ((r1 + r2) * (r1 + r2))
+
+;------------------------------------------------------------
+; HitTest - Point in Rect
+;------------------------------------------------------------
+#defcfunc hit_point_rect int px, int py, int rx, int ry, int rw, int rh
+	if px < rx : return 0
+	if py < ry : return 0
+	if px >= rx + rw : return 0
+	if py >= ry + rh : return 0
+	return 1
+
+;------------------------------------------------------------
+; HitTest - Point in Circle
+;------------------------------------------------------------
+#defcfunc hit_point_circle int px, int py, int cx, int cy, int r, local dx, local dy
+	dx = px - cx : dy = py - cy
+	return (dx * dx + dy * dy) <= (r * r)
+
+;------------------------------------------------------------
+; Vector 2D
+;------------------------------------------------------------
+#defcfunc vec2_len double vx, double vy
+	return sqrt(vx * vx + vy * vy)
+
+#defcfunc vec2_dist double x1, double y1, double x2, double y2
+	return sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
+
+#deffunc vec2_normalize var vx, var vy, local _len
+	_len = sqrt(vx * vx + vy * vy)
+	if _len > 0.0001 {
+		vx = vx / _len : vy = vy / _len
+	}
+	return
+
+#defcfunc vec2_angle double vx, double vy
+	return atan(vy, vx) * 180.0 / 3.14159265358979
+
+#deffunc vec2_rotate var vx, var vy, double deg, local rad, local cs, local sn, local nx, local ny
+	rad = deg * 3.14159265358979 / 180.0
+	cs = cos(rad) : sn = sin(rad)
+	nx = vx * cs - vy * sn
+	ny = vx * sn + vy * cs
+	vx = nx : vy = ny
+	return
+
+;------------------------------------------------------------
+; Easing functions (t: 0.0 to 1.0)
+;------------------------------------------------------------
+#defcfunc ease_linear double t
+	return t
+
+#defcfunc ease_in_quad double t
+	return t * t
+
+#defcfunc ease_out_quad double t
+	return t * (2.0 - t)
+
+#defcfunc ease_inout_quad double t
+	if t < 0.5 : return 2.0 * t * t
+	return -1.0 + (4.0 - 2.0 * t) * t
+
+#defcfunc ease_in_cubic double t
+	return t * t * t
+
+#defcfunc ease_out_cubic double t, local t1
+	t1 = t - 1.0
+	return t1 * t1 * t1 + 1.0
+
+#defcfunc ease_inout_cubic double t, local t1
+	if t < 0.5 : return 4.0 * t * t * t
+	t1 = 2.0 * t - 2.0
+	return (t1 * t1 * t1 + 2.0) / 2.0
+
+#defcfunc ease_in_elastic double t
+	if t == 0.0 : return 0.0
+	if t == 1.0 : return 1.0
+	return -powf(2.0, 10.0 * t - 10.0) * sin((t * 10.0 - 10.75) * 2.0943951)
+
+#defcfunc ease_out_bounce double t, local t1
+	if t < 0.363636 : return 7.5625 * t * t
+	if t < 0.727272 { t1 = t - 0.545454 : return 7.5625 * t1 * t1 + 0.75 }
+	if t < 0.909090 { t1 = t - 0.818181 : return 7.5625 * t1 * t1 + 0.9375 }
+	t1 = t - 0.954545 : return 7.5625 * t1 * t1 + 0.984375
+
+;------------------------------------------------------------
+; Random utilities
+;------------------------------------------------------------
+#defcfunc rnd_range int vmin, int vmax
+	return vmin + rnd(vmax - vmin + 1)
+
+#defcfunc rnd_float
+	return double(rnd(10000)) / 10000.0
+
+;------------------------------------------------------------
+; FPS counter
+;------------------------------------------------------------
+dim _fps_count, 1
+dim _fps_last, 1
+dim _fps_value, 1
+
+#deffunc fps_start
+	_fps_count = 0
+	_fps_value = 0
+	return
+
+#deffunc fps_update local _now
+	_fps_count++
+	_now = gettime(6) * 1000 + gettime(7)
+	if _now - _fps_last >= 1000 {
+		_fps_value = _fps_count
+		_fps_count = 0
+		_fps_last = _now
+	}
+	return
+
+#defcfunc fps_get
+	return _fps_value
+
+;------------------------------------------------------------
+; Tilemap
+;------------------------------------------------------------
+dim _tm_data, 1
+dim _tm_w, 1
+dim _tm_h, 1
+dim _tm_tw, 1
+dim _tm_th, 1
+
+#deffunc tilemap_init int w, int h, int tw, int th
+	_tm_w = w : _tm_h = h : _tm_tw = tw : _tm_th = th
+	dim _tm_data, w * h
+	return
+
+#deffunc tilemap_set int tx, int ty, int tile
+	if tx < 0 | tx >= _tm_w | ty < 0 | ty >= _tm_h : return
+	_tm_data(ty * _tm_w + tx) = tile
+	return
+
+#defcfunc tilemap_get int tx, int ty
+	if tx < 0 | tx >= _tm_w | ty < 0 | ty >= _tm_h : return -1
+	return _tm_data(ty * _tm_w + tx)
+
+#deffunc tilemap_draw int ox, int oy, local tx, local ty, local t
+	repeat _tm_h
+		ty = cnt
+		repeat _tm_w
+			tx = cnt
+			t = _tm_data(ty * _tm_w + tx)
+			if t > 0 {
+				; Draw tile (simple colored box)
+				hsvcolor t * 30, 200, 200
+				boxf ox + tx * _tm_tw, oy + ty * _tm_th, ox + (tx+1) * _tm_tw - 1, oy + (ty+1) * _tm_th - 1
+			}
+		loop
+	loop
+	return
+
+#global
+#endif

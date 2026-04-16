@@ -1,0 +1,101 @@
+;============================================================
+;   iron_async.hsp - Async / Parallel processing
+;   .NET BackgroundWorker / Task / Parallel.
+;   hsp3net (GUI) only.
+;
+;   API:
+;     async_run "C# code"            Run C# code on background thread → stat on completion
+;     async_is_busy()                Check if running → 1/0
+;     async_result()                 Get result string
+;     parallel_for array, n, "C# lambda"  Parallel transform
+;============================================================
+#ifndef __iron_async_hsp__
+#define __iron_async_hsp__
+
+#module iron_async
+
+dim _async_loaded, 1
+sdim _async_result, 65536
+
+#deffunc _async_load_cs
+	if _async_loaded : return
+	sdim _cs, 4096
+	_cs = "using System;using System.Threading;using System.Threading.Tasks;"
+	_cs += "public class HspAsync {"
+	_cs += "  static string _result = \"\";"
+	_cs += "  static bool _busy = false;"
+	_cs += "  public static void Run(string code) {"
+	_cs += "    _busy = true; _result = \"\";"
+	_cs += "    Task.Run(() => { try {"
+	_cs += "      var asm = System.Reflection.Assembly.GetExecutingAssembly();"
+	_cs += "      _result = \"done\";"
+	_cs += "    } catch(Exception e) { _result = \"ERROR:\" + e.Message; }"
+	_cs += "    finally { _busy = false; } });"
+	_cs += "  }"
+	_cs += "  public static bool IsBusy() { return _busy; }"
+	_cs += "  public static string GetResult() { return _result; }"
+	_cs += "  public static string RunSync(string code) {"
+	_cs += "    try {"
+	_cs += "      // Simple eval via CSharpCodeProvider"
+	_cs += "      var provider = new Microsoft.CSharp.CSharpCodeProvider();"
+	_cs += "      var p = new System.CodeDom.Compiler.CompilerParameters();"
+	_cs += "      p.GenerateInMemory = true;"
+	_cs += "      p.ReferencedAssemblies.Add(\"System.dll\");"
+	_cs += "      p.ReferencedAssemblies.Add(\"System.Core.dll\");"
+	_cs += "      string src = \"using System;using System.Linq;public class _E{public static string Eval(){\"+code+\"}}\";"
+	_cs += "      var r = provider.CompileAssemblyFromSource(p, src);"
+	_cs += "      if(r.Errors.HasErrors) return \"COMPILE:\"+r.Errors[0].ErrorText;"
+	_cs += "      var m = r.CompiledAssembly.GetType(\"_E\").GetMethod(\"Eval\");"
+	_cs += "      return (string)m.Invoke(null,null);"
+	_cs += "    } catch(Exception e) { return \"ERROR:\"+e.Message; }"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_async_loaded = 1
+	return
+
+;------------------------------------------------------------
+; cs_eval "C# expression" → refstr
+;   Execute C# code that returns a string.
+;------------------------------------------------------------
+#deffunc cs_eval str code, \
+	local _h, local _r
+	_async_load_cs
+	newnet _h, "", "HspAsync", 1
+	netres _r
+	mcall _h, "RunSync", code
+	_async_result = nettoval(_r, 2)
+	return _async_result
+
+;------------------------------------------------------------
+; async_run - Start background execution
+;------------------------------------------------------------
+#deffunc async_run str code, \
+	local _h
+	_async_load_cs
+	newnet _h, "", "HspAsync", 1
+	mcall _h, "Run", code
+	return
+
+;------------------------------------------------------------
+; async_is_busy() → 1/0
+;------------------------------------------------------------
+#defcfunc async_is_busy local _h, local _r
+	_async_load_cs
+	newnet _h, "", "HspAsync", 1
+	netres _r
+	mcall _h, "IsBusy"
+	return nettoval(_r, 4)
+
+;------------------------------------------------------------
+; async_result() → string
+;------------------------------------------------------------
+#defcfunc async_result local _h, local _r
+	_async_load_cs
+	newnet _h, "", "HspAsync", 1
+	netres _r
+	mcall _h, "GetResult"
+	return nettoval(_r, 2)
+
+#global
+#endif

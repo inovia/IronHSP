@@ -1,0 +1,362 @@
+;============================================================
+;   iron_forms.hsp - WinForms Layout & Advanced Controls
+;
+;   hsp3net (GUI) only. .NET WinForms controls via mcall.
+;
+;   Layout:
+;     ctrl_anchor objid, flags     Anchor (ANCHOR_TOP|BOTTOM|LEFT|RIGHT)
+;     ctrl_dock objid, style       Dock (DOCK_NONE/TOP/BOTTOM/LEFT/RIGHT/FILL)
+;     ctrl_visible objid, sw       Show/Hide
+;     ctrl_enabled objid, sw       Enable/Disable
+;     ctrl_font objid, "name", size  Font change
+;
+;   Containers:
+;     forms_tabctrl tab, "Tab1","Tab2",...  TabControl
+;     forms_split spl, vertical            SplitContainer
+;     forms_table tbl, rows, cols          TableLayoutPanel
+;
+;   Controls:
+;     forms_datagrid dgv, cols, "Col1","Col2",...  DataGridView
+;     forms_menu menu, "File","Edit","Help"   MenuStrip
+;     forms_statusbar sb, "Ready"             StatusStrip
+;     forms_toolbar tb                        ToolStrip
+;     forms_datepicker dp, x, y, w, h         DateTimePicker
+;     forms_numupdown nud, x, y, w, h, min, max  NumericUpDown
+;     forms_progress pb, x, y, w, h          ProgressBar
+;     forms_richtext rt, x, y, w, h          RichTextBox
+;
+;   Print:
+;     forms_print_preview                    PrintPreview
+;============================================================
+#ifndef __iron_forms_hsp__
+#define __iron_forms_hsp__
+
+; Anchor flags
+#define global ANCHOR_TOP    1
+#define global ANCHOR_BOTTOM 2
+#define global ANCHOR_LEFT   4
+#define global ANCHOR_RIGHT  8
+#define global ANCHOR_ALL    15
+
+; Dock styles
+#define global DOCK_NONE   0
+#define global DOCK_TOP    1
+#define global DOCK_BOTTOM 2
+#define global DOCK_LEFT   3
+#define global DOCK_RIGHT  4
+#define global DOCK_FILL   5
+
+#module iron_forms
+
+;------------------------------------------------------------
+; Internal: get Form and Controls collection
+;------------------------------------------------------------
+#deffunc _forms_get_ctrl var outctrl, int objid, \
+	local _frm, local _ctrls
+	getforms _frm, 0
+	netres _ctrls
+	mcall _frm, "get_Controls"
+	netres outctrl
+	mcall _ctrls, "get_Item", objid
+	return
+
+;------------------------------------------------------------
+; ctrl_anchor objid, flags
+;   Set Anchor property on HSP control by object ID
+;   flags: OR of ANCHOR_TOP(1)/BOTTOM(2)/LEFT(4)/RIGHT(8)
+;------------------------------------------------------------
+#deffunc ctrl_anchor int objid, int flags, \
+	local _ctrl, local _frm, local _ctrls, local _anc
+	getforms _frm, 0
+	netres _ctrls
+	mcall _frm, "get_Controls"
+	netres _ctrl
+	mcall _ctrls, "get_Item", objid
+	; AnchorStyles: Top=1, Bottom=2, Left=4, Right=8
+	tonet _anc, flags
+	mcall _ctrl, "set_Anchor", _anc
+	return
+
+;------------------------------------------------------------
+; ctrl_dock objid, style
+;------------------------------------------------------------
+#deffunc ctrl_dock int objid, int style, \
+	local _ctrl, local _frm, local _ctrls, local _dk
+	getforms _frm, 0
+	netres _ctrls
+	mcall _frm, "get_Controls"
+	netres _ctrl
+	mcall _ctrls, "get_Item", objid
+	tonet _dk, style
+	mcall _ctrl, "set_Dock", _dk
+	return
+
+;------------------------------------------------------------
+; ctrl_visible / ctrl_enabled
+;------------------------------------------------------------
+#deffunc ctrl_visible int objid, int sw, \
+	local _ctrl, local _frm, local _ctrls
+	getforms _frm, 0
+	netres _ctrls
+	mcall _frm, "get_Controls"
+	netres _ctrl
+	mcall _ctrls, "get_Item", objid
+	tonet _sw, sw
+	mcall _ctrl, "set_Visible", _sw
+	return
+
+#deffunc ctrl_enabled int objid, int sw, \
+	local _ctrl, local _frm, local _ctrls
+	getforms _frm, 0
+	netres _ctrls
+	mcall _frm, "get_Controls"
+	netres _ctrl
+	mcall _ctrls, "get_Item", objid
+	tonet _sw, sw
+	mcall _ctrl, "set_Enabled", _sw
+	return
+
+;------------------------------------------------------------
+; forms_datagrid - DataGridView
+;------------------------------------------------------------
+#deffunc forms_datagrid var dgv, str col1, str col2, str col3, str col4, str col5, \
+	local _frm
+	getforms _frm, 0
+	newnet dgv, "", "System.Windows.Forms.DataGridView", 0
+	mcall dgv, "set_Dock", 5  ; DockStyle.Fill
+	tonet _true, 1
+	mcall dgv, "set_AllowUserToAddRows", _true
+	; Add columns
+	if col1 != "" {
+		netres _cols
+		mcall dgv, "get_Columns"
+		mcall _cols, "Add", col1, col1
+	}
+	if col2 != "" : mcall _cols, "Add", col2, col2
+	if col3 != "" : mcall _cols, "Add", col3, col3
+	if col4 != "" : mcall _cols, "Add", col4, col4
+	if col5 != "" : mcall _cols, "Add", col5, col5
+	; Add to form
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", dgv
+	return
+
+;------------------------------------------------------------
+; forms_datagrid_addrow - Add row to DataGridView
+;------------------------------------------------------------
+#deffunc forms_datagrid_addrow var dgv, str v1, str v2, str v3, str v4, str v5, \
+	local _rows, local _row
+	netres _rows
+	mcall dgv, "get_Rows"
+	; Create object array for row values
+	sdim _cs, 2048
+	_cs = "public class _DgvHelper { public static object[] MakeRow("
+	_cs += "string a, string b, string c, string d, string e) {"
+	_cs += "return new object[]{a,b,c,d,e}; } }"
+	loadnet _cs, 3
+	newnet _h, "", "_DgvHelper", 1
+	netres _arr
+	mcall _h, "MakeRow", v1, v2, v3, v4, v5
+	mcall _rows, "Add", _arr
+	return
+
+;------------------------------------------------------------
+; forms_menu - MenuStrip
+;------------------------------------------------------------
+#deffunc forms_menu var menu, str m1, str m2, str m3, str m4, str m5, \
+	local _frm, local _items
+	getforms _frm, 0
+	newnet menu, "", "System.Windows.Forms.MenuStrip", 0
+	netres _items
+	mcall menu, "get_Items"
+	if m1 != "" : mcall _items, "Add", m1
+	if m2 != "" : mcall _items, "Add", m2
+	if m3 != "" : mcall _items, "Add", m3
+	if m4 != "" : mcall _items, "Add", m4
+	if m5 != "" : mcall _items, "Add", m5
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", menu
+	return
+
+;------------------------------------------------------------
+; forms_statusbar - StatusStrip
+;------------------------------------------------------------
+#deffunc forms_statusbar var sb, str text, \
+	local _frm, local _lbl
+	getforms _frm, 0
+	newnet sb, "", "System.Windows.Forms.StatusStrip", 0
+	newnet _lbl, "", "System.Windows.Forms.ToolStripStatusLabel", 0, text
+	netres _items
+	mcall sb, "get_Items"
+	mcall _items, "Add", _lbl
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", sb
+	return
+
+;------------------------------------------------------------
+; forms_progress - ProgressBar
+;------------------------------------------------------------
+#deffunc forms_progress var pb, int x, int y, int w, int h, \
+	local _frm
+	getforms _frm, 0
+	newnet pb, "", "System.Windows.Forms.ProgressBar", 0
+	tonet _x, x : tonet _y, y
+	newnet _pt, "", "System.Drawing.Point", 0, _x, _y
+	mcall pb, "set_Location", _pt
+	newnet _sz, "", "System.Drawing.Size", 0, w, h
+	mcall pb, "set_Size", _sz
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", pb
+	return
+
+#deffunc forms_progress_set var pb, int value
+	tonet _v, value
+	mcall pb, "set_Value", _v
+	return
+
+;------------------------------------------------------------
+; forms_datepicker - DateTimePicker
+;------------------------------------------------------------
+#deffunc forms_datepicker var dp, int x, int y, int w, int h, \
+	local _frm
+	getforms _frm, 0
+	newnet dp, "", "System.Windows.Forms.DateTimePicker", 0
+	tonet _x, x : tonet _y, y
+	newnet _pt, "", "System.Drawing.Point", 0, _x, _y
+	mcall dp, "set_Location", _pt
+	newnet _sz, "", "System.Drawing.Size", 0, w, h
+	mcall dp, "set_Size", _sz
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", dp
+	return
+
+;------------------------------------------------------------
+; forms_numupdown - NumericUpDown
+;------------------------------------------------------------
+#deffunc forms_numupdown var nud, int x, int y, int w, int h, int vmin, int vmax, \
+	local _frm
+	getforms _frm, 0
+	newnet nud, "", "System.Windows.Forms.NumericUpDown", 0
+	tonet _x, x : tonet _y, y
+	newnet _pt, "", "System.Drawing.Point", 0, _x, _y
+	mcall nud, "set_Location", _pt
+	newnet _sz, "", "System.Drawing.Size", 0, w, h
+	mcall nud, "set_Size", _sz
+	tonet _mn, vmin : tonet _mx, vmax
+	mcall nud, "set_Minimum", _mn
+	mcall nud, "set_Maximum", _mx
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", nud
+	return
+
+;------------------------------------------------------------
+; forms_tabctrl - TabControl
+;------------------------------------------------------------
+#deffunc forms_tabctrl var tab, str t1, str t2, str t3, str t4, str t5, \
+	local _frm, local _pages, local _pg
+	getforms _frm, 0
+	newnet tab, "", "System.Windows.Forms.TabControl", 0
+	mcall tab, "set_Dock", 5  ; Fill
+	netres _pages
+	mcall tab, "get_TabPages"
+	if t1 != "" { newnet _pg, "", "System.Windows.Forms.TabPage", 0, t1 : mcall _pages, "Add", _pg }
+	if t2 != "" { newnet _pg, "", "System.Windows.Forms.TabPage", 0, t2 : mcall _pages, "Add", _pg }
+	if t3 != "" { newnet _pg, "", "System.Windows.Forms.TabPage", 0, t3 : mcall _pages, "Add", _pg }
+	if t4 != "" { newnet _pg, "", "System.Windows.Forms.TabPage", 0, t4 : mcall _pages, "Add", _pg }
+	if t5 != "" { newnet _pg, "", "System.Windows.Forms.TabPage", 0, t5 : mcall _pages, "Add", _pg }
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", tab
+	return
+
+;------------------------------------------------------------
+; forms_split - SplitContainer
+;------------------------------------------------------------
+#deffunc forms_split var spl, int vertical, \
+	local _frm
+	getforms _frm, 0
+	newnet spl, "", "System.Windows.Forms.SplitContainer", 0
+	mcall spl, "set_Dock", 5  ; Fill
+	if vertical {
+		tonet _o, 1  ; Orientation.Vertical
+		mcall spl, "set_Orientation", _o
+	}
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", spl
+	return
+
+;------------------------------------------------------------
+; forms_richtext - RichTextBox
+;------------------------------------------------------------
+#deffunc forms_richtext var rt, int x, int y, int w, int h, \
+	local _frm
+	getforms _frm, 0
+	newnet rt, "", "System.Windows.Forms.RichTextBox", 0
+	tonet _x, x : tonet _y, y
+	newnet _pt, "", "System.Drawing.Point", 0, _x, _y
+	mcall rt, "set_Location", _pt
+	newnet _sz, "", "System.Drawing.Size", 0, w, h
+	mcall rt, "set_Size", _sz
+	netres _fc
+	mcall _frm, "get_Controls"
+	mcall _fc, "Add", rt
+	return
+
+;------------------------------------------------------------
+; forms_propertygrid - PropertyGrid
+;------------------------------------------------------------
+#deffunc forms_propertygrid var pg, int x, int y, int w, int h, \
+	local _frm10
+	getforms _frm10, 0
+	newnet pg, "", "System.Windows.Forms.PropertyGrid", 0
+	tonet _x10, x : tonet _y10, y
+	newnet _pt10, "", "System.Drawing.Point", 0, _x10, _y10
+	mcall pg, "set_Location", _pt10
+	newnet _sz10, "", "System.Drawing.Size", 0, w, h
+	mcall pg, "set_Size", _sz10
+	netres _fc10
+	mcall _frm10, "get_Controls"
+	mcall _fc10, "Add", pg
+	return
+
+#deffunc forms_propertygrid_set var pg, var obj
+	mcall pg, "set_SelectedObject", obj
+	return
+
+;------------------------------------------------------------
+; forms_table - TableLayoutPanel
+;------------------------------------------------------------
+#deffunc forms_table var tbl, int rows, int cols, \
+	local _frm11
+	getforms _frm11, 0
+	newnet tbl, "", "System.Windows.Forms.TableLayoutPanel", 0
+	tonet _dk11, 5
+	mcall tbl, "set_Dock", _dk11
+	tonet _r11, rows : tonet _c11, cols
+	mcall tbl, "set_RowCount", _r11
+	mcall tbl, "set_ColumnCount", _c11
+	netres _fc11
+	mcall _frm11, "get_Controls"
+	mcall _fc11, "Add", tbl
+	return
+
+;------------------------------------------------------------
+; forms_print_preview - PrintPreviewDialog
+;------------------------------------------------------------
+#deffunc forms_print_preview \
+	local _doc12, local _dlg12
+	newnet _doc12, "", "System.Drawing.Printing.PrintDocument", 0
+	newnet _dlg12, "", "System.Windows.Forms.PrintPreviewDialog", 0
+	mcall _dlg12, "set_Document", _doc12
+	mcall _dlg12, "ShowDialog"
+	return
+
+#global
+#endif

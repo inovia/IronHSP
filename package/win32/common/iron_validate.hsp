@@ -1,0 +1,83 @@
+;============================================================
+;   iron_validate.hsp - Input validation module
+;   Pure HSP. No DLL needed.
+;
+;   API:
+;     validate_required(s)          Empty check → 1=valid
+;     validate_minlen(s, n)         Min length → 1=valid
+;     validate_maxlen(s, n)         Max length → 1=valid
+;     validate_email(s)             Email format → 1=valid
+;     validate_numeric(s)           Numeric string → 1=valid
+;     validate_range(v, min, max)   Int range → 1=valid
+;     validate_url(s)               URL format → 1=valid
+;     validate_phone(s)             Phone number → 1=valid
+;     validate_date(s)              YYYY-MM-DD → 1=valid
+;============================================================
+#ifndef __iron_validate_hsp__
+#define __iron_validate_hsp__
+
+#module iron_validate
+
+#defcfunc validate_required str s
+	if s == "" : return 0
+	return 1
+
+#defcfunc validate_minlen str s, int n
+	if strlen(s) < n : return 0
+	return 1
+
+#defcfunc validate_maxlen str s, int n
+	if strlen(s) > n : return 0
+	return 1
+
+#defcfunc validate_numeric str s, local i, local c
+	if s == "" : return 0
+	repeat strlen(s)
+		c = peek(s, cnt)
+		if c < '0' | c > '9' {
+			if cnt == 0 & (c == '-' | c == '+') : continue
+			if c == '.' : continue
+			return 0
+		}
+	loop
+	return 1
+
+#defcfunc validate_email str s, local at_pos, local dot_pos
+	at_pos = instr(s, 0, "@")
+	if at_pos <= 0 : return 0
+	dot_pos = instr(s, at_pos, ".")
+	if dot_pos <= 0 : return 0
+	if strlen(s) - (at_pos + dot_pos) < 2 : return 0
+	return 1
+
+#defcfunc validate_range int v, int vmin, int vmax
+	if v < vmin : return 0
+	if v > vmax : return 0
+	return 1
+
+#defcfunc validate_url str s
+	if instr(s, 0, "http://") == 0 : return 1
+	if instr(s, 0, "https://") == 0 : return 1
+	if instr(s, 0, "ftp://") == 0 : return 1
+	return 0
+
+#defcfunc validate_phone str s, local i, local c, local digits
+	digits = 0
+	repeat strlen(s)
+		c = peek(s, cnt)
+		if c >= '0' & c <= '9' { digits++ : continue }
+		if c == '-' | c == '+' | c == ' ' | c == '(' | c == ')' : continue
+		return 0
+	loop
+	if digits < 7 : return 0
+	return 1
+
+#defcfunc validate_date str s
+	; YYYY-MM-DD format check
+	if strlen(s) != 10 : return 0
+	if peek(s, 4) != '-' : return 0
+	if peek(s, 7) != '-' : return 0
+	return 1
+
+#global
+#endif
