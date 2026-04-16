@@ -1,0 +1,3 @@
+	#include "iron_darkmode.hsp"
+	mes "Dark mode: " + darkmode_is_enabled()
+	mes "BG color: " + darkmode_bg()

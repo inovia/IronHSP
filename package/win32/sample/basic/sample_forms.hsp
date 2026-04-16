@@ -1,0 +1,10 @@
+	#include "hsp3_net_64.as"
+	#include "iron_forms.hsp"
+	screen 0, 640, 480
+	button "OK", *ok
+	ctrl_anchor stat, ANCHOR_BOTTOM | ANCHOR_RIGHT
+	mes "Resize the window - button follows!"
+	stop
+*ok
+	mes "clicked"
+	return

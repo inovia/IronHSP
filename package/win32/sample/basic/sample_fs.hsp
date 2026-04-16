@@ -1,0 +1,11 @@
+	#include "iron_fs.hsp"
+	tmp = fs_tempfile()
+	mes "temp: " + tmp
+	fs_writetext tmp, "hello"
+	mes "read: " + fs_readtext(tmp)
+	mes "size: " + fs_size(tmp)
+	mes "is_file: " + fs_is_file(tmp)
+	mes "is_dir(.): " + fs_is_dir(".")
+	mes "locked: " + fs_is_locked(tmp)
+	delete tmp
+	mes "done"

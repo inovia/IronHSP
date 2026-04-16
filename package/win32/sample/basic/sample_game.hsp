@@ -1,0 +1,11 @@
+	#include "iron_game.hsp"
+	mes "=== HitTest ==="
+	mes "rect: " + hit_rect(0,0,100,100, 50,50,100,100)
+	mes "circle: " + hit_circle(0,0,50, 80,0,50)
+	mes "point_rect: " + hit_point_rect(25,25, 0,0,50,50)
+	mes "=== Easing ==="
+	mes "in_quad(0.5) = " + ease_in_quad(0.5)
+	mes "out_bounce(0.8) = " + ease_out_bounce(0.8)
+	mes "=== Random ==="
+	mes "rnd_range(10,20) = " + rnd_range(10,20)
+	mes "rnd_float = " + rnd_float()

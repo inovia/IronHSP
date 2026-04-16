@@ -48,7 +48,12 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **タッチ入力 (`iron_touch.hsp`)** — InjectTouchInput。`touch_tap x, y` でタッチシミュレーション。
 - **ネットワーク情報 (`iron_netinfo.hsp`)** — `netinfo_connected` / `netinfo_ip` / `netinfo_hostname`。
 - **.NET 版モジュール** — `iron_regex_net` / `iron_crypto_net` / `iron_registry_net` / `iron_fwatch_net` / `iron_smtp_net` / `iron_html_net` / `iron_ftp_net` の 7 モジュール。ネイティブ版の .NET 代替。
-- **ユーティリティ (21個)** — `iron_datetime` (日付/時刻) / `iron_stopwatch` (高精度計測) / `iron_uuid` (UUID v4) / `iron_path` (パス操作) / `iron_uri` (URL パーサ) / `iron_folder` (特殊フォルダ) / `iron_strbuf` (文字列ビルダー) / `iron_urlencode` (URL エンコード) / `iron_jwt` (JWT デコード) / `iron_markdown` (MD→HTML) / `iron_log` (ファイルログ) / `iron_process` (プロセス起動+stdout) / `iron_matrix` (行列演算) / `iron_graph` (BFS/ダイクストラ) / `iron_tray` (タスクトレイ) / `iron_hotkey` (グロー��ルホットキー) / `iron_splash` (スプラッシュ) / `iron_qr` (QRコード) / `iron_xml` (MSXML) / `iron_service` (サービス制御) / `iron_task` (タスクスケジューラ)
+- **ユーティリティ (21個)** — iron_datetime / iron_stopwatch / iron_uuid / iron_path / iron_uri / iron_folder / iron_strbuf / iron_urlencode / iron_jwt / iron_markdown / iron_log / iron_process / iron_matrix / iron_graph / iron_tray / iron_hotkey / iron_splash / iron_qr / iron_xml / iron_service / iron_task
+- **WinForms UI (iron_forms)** — Anchor/Dock/DataGridView/TabControl/SplitContainer/MenuStrip/PropertyGrid/TableLayout。リサイズ追従の ctrl_anchor が目玉。
+- **ゲーム (iron_game)** — HitTest/Vec2D/Easing 10種/FPS/Tilemap
+- **バリデーション (iron_validate)** / **C#スクリプト (iron_async)** / **ダークモード (iron_darkmode)**
+- **ファイル操作 (iron_fs)** — copy/move/readtext/writetext/is_locked/mkdir_p/rmdir_r/listfiles
+- **D&D (iron_dragdrop)** / **クリップボード (iron_clipboard2)** / **印刷 (iron_print)** / **GDI+ (iron_gdiplus)** / **ドッキング (iron_docking)** / **リボン (iron_ribbon2)**
 
 ### 新規プラグイン
 

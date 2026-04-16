@@ -1,0 +1,7 @@
+	#include "iron_validate.hsp"
+	mes "required: " + validate_required("hello")
+	mes "required empty: " + validate_required("")
+	mes "email: " + validate_email("test@example.com")
+	mes "email bad: " + validate_email("invalid")
+	mes "numeric: " + validate_numeric("123.45")
+	mes "range: " + validate_range(50, 0, 100)
