@@ -1513,10 +1513,15 @@ mes s   ; → "count=100"</code></pre>
 <table>
 <tr><th>HSP の式</th><th>推論される型</th><th>DLL に渡す形</th></tr>
 <tr><td><code>123</code>、int 変数</td><td>int</td><td>4/8 byte (x86/x64)</td></tr>
-<tr><td><code>123L</code>、int64 変数</td><td>int64</td><td>8 byte</td></tr>
+<tr><td><code>123L</code>、int64 変数</td><td>int64 (intptr)</td><td>8 byte — ポインタやハンドルの受け渡しにも使用可</td></tr>
 <tr><td><code>3.14</code>、double 変数</td><td>double</td><td>8 byte (ビットパターンを整数レジスタ経由で渡す)</td></tr>
-<tr><td><code>"abc"</code>、str 変数</td><td>str</td><td>char* ポインタ</td></tr>
+<tr><td><code>"abc"</code>、str 変数</td><td>str</td><td>char* ポインタ (UTF-8 → ローカルバッファにコピー)</td></tr>
+<tr><td><code>L"abc"</code>、wstr 変数</td><td>wstr</td><td>wchar_t* ポインタ (UTF-16 → ローカルバッファにコピー)</td></tr>
 </table>
+
+<div class="note">
+<strong>float について:</strong> C の variadic 関数では、<code>float</code> 引数は ABI 規約により自動的に <code>double</code> に昇格されます (<a href="https://en.cppreference.com/w/c/language/conversion#Default_argument_promotions">default argument promotion</a>)。そのため HSP 側で特別な対応は不要で、<code>double</code> として渡せば正しく動作します。DLL 側のフォーマット文字列では <code>%f</code> を使用してください。
+</div>
 
 <h4>制限事項</h4>
 <ul>
