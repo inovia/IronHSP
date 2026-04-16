@@ -1438,7 +1438,9 @@ HSPMFCAM_EXPORT int __stdcall mfcam_audio_save_wav_start(int handle, const char*
     if (!a.active || !path) return 0;
     if (a.wav_active) return 0;
 
-    HANDLE h = CreateFileW(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    wchar_t wpath[1024];
+    MultiByteToWideChar(CP_UTF8, 0, path, -1, wpath, 1024);
+    HANDLE h = CreateFileW(wpath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (h == INVALID_HANDLE_VALUE) return 0;
 
     EnterCriticalSection(&a.lock);
