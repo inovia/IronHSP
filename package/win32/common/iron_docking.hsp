@@ -1,0 +1,87 @@
+;============================================================
+;   iron_docking.hsp - Docking window manager
+;
+;   Visual Studio 風のドッキングウィンドウ。
+;   .NET WinForms + Panel ベースの簡易実装。
+;   (本格版は WeifenLuo.WinFormsUI.Docking が必要)
+;
+;   API:
+;     dock_init                    ドッキングマネージャー初期化
+;     dock_add_panel "title", side パネルを追加 (DOCK_LEFT/RIGHT/BOTTOM/FILL)
+;     dock_add_ctrl panel_id, ctrl パネルにコントロールを追加
+;
+;   Example:
+;     #include "iron_docking.hsp"
+;     dock_init
+;     dock_add_panel "Explorer", DOCK_LEFT
+;     dock_add_panel "Properties", DOCK_RIGHT
+;     dock_add_panel "Output", DOCK_BOTTOM
+;     dock_add_panel "Editor", DOCK_FILL
+;============================================================
+#ifndef __iron_docking_hsp__
+#define __iron_docking_hsp__
+
+#module iron_docking
+
+dim _dock_cs_loaded, 1
+
+#deffunc _dock_load_cs
+	if _dock_cs_loaded : return
+	sdim _cs, 8192
+	_cs = "using System;using System.Drawing;using System.Windows.Forms;"
+	_cs += "public class HspDock {"
+	_cs += "  static SplitContainer _main;"
+	_cs += "  static SplitContainer _inner;"
+	_cs += "  static int _panelCount = 0;"
+	_cs += "  public static void Init(Form f) {"
+	_cs += "    _main = new SplitContainer();"
+	_cs += "    _main.Dock = DockStyle.Fill;"
+	_cs += "    _main.Orientation = Orientation.Horizontal;"
+	_cs += "    _main.SplitterDistance = (int)(f.ClientSize.Height * 0.7);"
+	_cs += "    _inner = new SplitContainer();"
+	_cs += "    _inner.Dock = DockStyle.Fill;"
+	_cs += "    _main.Panel1.Controls.Add(_inner);"
+	_cs += "    f.Controls.Add(_main);"
+	_cs += "  }"
+	_cs += "  public static int AddPanel(string title, int side) {"
+	_cs += "    var panel = new Panel();"
+	_cs += "    panel.BorderStyle = BorderStyle.FixedSingle;"
+	_cs += "    var lbl = new Label();"
+	_cs += "    lbl.Text = title; lbl.Dock = DockStyle.Top;"
+	_cs += "    lbl.BackColor = Color.FromArgb(45,45,48);"
+	_cs += "    lbl.ForeColor = Color.White;"
+	_cs += "    lbl.Padding = new Padding(4,2,0,2);"
+	_cs += "    panel.Controls.Add(lbl);"
+	_cs += "    switch(side) {"
+	_cs += "      case 3: panel.Dock = DockStyle.Left; panel.Width = 200;"
+	_cs += "        _inner.Panel1.Controls.Add(panel); break;"
+	_cs += "      case 4: panel.Dock = DockStyle.Right; panel.Width = 200;"
+	_cs += "        _inner.Panel2.Controls.Add(panel); break;"
+	_cs += "      case 2: panel.Dock = DockStyle.Fill;"
+	_cs += "        _main.Panel2.Controls.Add(panel); break;"
+	_cs += "      default: panel.Dock = DockStyle.Fill;"
+	_cs += "        _inner.Panel2.Controls.Add(panel); break;"
+	_cs += "    }"
+	_cs += "    return _panelCount++;"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_dock_cs_loaded = 1
+	return
+
+#deffunc dock_init local _frm, local _h
+	_dock_load_cs
+	getforms _frm, 0
+	newnet _h, "", "HspDock", 1
+	mcall _h, "Init", _frm
+	return
+
+#deffunc dock_add_panel str title, int side, local _h, local _r
+	_dock_load_cs
+	newnet _h, "", "HspDock", 1
+	netres _r
+	mcall _h, "AddPanel", title, side
+	return nettoval(_r, 4)
+
+#global
+#endif

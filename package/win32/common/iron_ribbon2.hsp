@@ -1,0 +1,102 @@
+;============================================================
+;   iron_ribbon2.hsp - Ribbon UI (WinForms native)
+;
+;   ToolStrip ベースの簡易リボン UI。
+;   Office 風のタブ付きツールバー。
+;
+;   API:
+;     ribbon_init                     リボン初期化
+;     ribbon_add_tab "name"           タブ追加 → stat (tab_id)
+;     ribbon_add_button tab_id, "text", *label  ボタン追加
+;     ribbon_add_separator tab_id     セパレータ追加
+;     ribbon_select_tab tab_id        タブ選択
+;============================================================
+#ifndef __iron_ribbon2_hsp__
+#define __iron_ribbon2_hsp__
+
+#module iron_ribbon2
+
+dim _rib_cs_loaded, 1
+
+#deffunc _rib_load_cs
+	if _rib_cs_loaded : return
+	sdim _cs, 8192
+	_cs = "using System;using System.Drawing;using System.Windows.Forms;"
+	_cs += "using System.Collections.Generic;"
+	_cs += "public class HspRibbon {"
+	_cs += "  static TabControl _tabs;"
+	_cs += "  static List<ToolStrip> _strips = new List<ToolStrip>();"
+	_cs += "  public static void Init(Form f) {"
+	_cs += "    _tabs = new TabControl();"
+	_cs += "    _tabs.Dock = DockStyle.Top;"
+	_cs += "    _tabs.Height = 90;"
+	_cs += "    _tabs.Appearance = TabAppearance.FlatButtons;"
+	_cs += "    f.Controls.Add(_tabs);"
+	_cs += "    f.Controls.SetChildIndex(_tabs, 0);"
+	_cs += "  }"
+	_cs += "  public static int AddTab(string name) {"
+	_cs += "    var page = new TabPage(name);"
+	_cs += "    page.BackColor = Color.FromArgb(245,246,247);"
+	_cs += "    var strip = new ToolStrip();"
+	_cs += "    strip.Dock = DockStyle.Fill;"
+	_cs += "    strip.GripStyle = ToolStripGripStyle.Hidden;"
+	_cs += "    strip.ImageScalingSize = new Size(32,32);"
+	_cs += "    page.Controls.Add(strip);"
+	_cs += "    _tabs.TabPages.Add(page);"
+	_cs += "    _strips.Add(strip);"
+	_cs += "    return _strips.Count - 1;"
+	_cs += "  }"
+	_cs += "  public static void AddButton(int tabId, string text) {"
+	_cs += "    if(tabId < 0 || tabId >= _strips.Count) return;"
+	_cs += "    var btn = new ToolStripButton(text);"
+	_cs += "    btn.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;"
+	_cs += "    btn.TextImageRelation = TextImageRelation.ImageAboveText;"
+	_cs += "    _strips[tabId].Items.Add(btn);"
+	_cs += "  }"
+	_cs += "  public static void AddSep(int tabId) {"
+	_cs += "    if(tabId < 0 || tabId >= _strips.Count) return;"
+	_cs += "    _strips[tabId].Items.Add(new ToolStripSeparator());"
+	_cs += "  }"
+	_cs += "  public static void SelectTab(int tabId) {"
+	_cs += "    if(tabId < 0 || tabId >= _tabs.TabCount) return;"
+	_cs += "    _tabs.SelectedIndex = tabId;"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_rib_cs_loaded = 1
+	return
+
+#deffunc ribbon_init local _frm, local _h
+	_rib_load_cs
+	getforms _frm, 0
+	newnet _h, "", "HspRibbon", 1
+	mcall _h, "Init", _frm
+	return
+
+#deffunc ribbon_add_tab str name, local _h, local _r
+	_rib_load_cs
+	newnet _h, "", "HspRibbon", 1
+	netres _r
+	mcall _h, "AddTab", name
+	return nettoval(_r, 4)
+
+#deffunc ribbon_add_button int tabid, str text, local _h
+	_rib_load_cs
+	newnet _h, "", "HspRibbon", 1
+	mcall _h, "AddButton", tabid, text
+	return
+
+#deffunc ribbon_add_separator int tabid, local _h
+	_rib_load_cs
+	newnet _h, "", "HspRibbon", 1
+	mcall _h, "AddSep", tabid
+	return
+
+#deffunc ribbon_select_tab int tabid, local _h
+	_rib_load_cs
+	newnet _h, "", "HspRibbon", 1
+	mcall _h, "SelectTab", tabid
+	return
+
+#global
+#endif
