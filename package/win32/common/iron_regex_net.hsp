@@ -1,20 +1,7 @@
 ;============================================================
-;   iron_regex_net.hsp - 正規表現 (.NET版)
-;
-;   System.Text.RegularExpressions.Regex を使用。
-;   hsp3net 専用。名前付きグループ等 .NET regex の全機能が使える。
-;
-;   API:
-;     netregex_match pattern, text       全体マッチ → stat (1/0)
-;     netregex_search pattern, text      最初のマッチ → refstr
-;     netregex_replace pattern, text, rep 全置換 → refstr
-;     netregex_count(pattern, text)      マッチ数
-;     netregex_split pattern, text       分割 → refstr (改行区切り)
-;
-;   例:
-;     #include "iron_regex_net.hsp"
-;     netregex_search "\d+", "abc123def"
-;     mes refstr  ; "123"
+;   iron_regex_net.hsp - Regex (.NET version)
+;   System.Text.RegularExpressions.Regex
+;   hsp3net only.
 ;============================================================
 #ifndef __iron_regex_net_hsp__
 #define __iron_regex_net_hsp__
@@ -22,67 +9,66 @@
 #module iron_regex_net
 
 #deffunc netregex_match str pattern, str text, \
-	local pRegex, local pMatch
-	newnet pRegex, "", "System.Text.RegularExpressions.Regex", 0, pattern
-	netres pMatch
-	mcall pRegex, "IsMatch", text
-	return nettoval(pMatch, 4)
+	local _re1, local _m1
+	newnet _re1, "", "System.Text.RegularExpressions.Regex", 0, pattern
+	netres _m1
+	mcall _re1, "IsMatch", text
+	return nettoval(_m1, 4)
 
 #deffunc netregex_search str pattern, str text, \
-	local pRegex, local pMatch, local pVal
-	newnet pRegex, "", "System.Text.RegularExpressions.Regex", 0, pattern
-	netres pMatch
-	mcall pRegex, "Match", text
-	netres pVal
-	mcall pMatch, "get_Success"
-	if nettoval(pVal, 4) == 0 {
-		delnet pMatch : delnet pRegex
+	local _re2, local _m2, local _v2, local _s2
+	newnet _re2, "", "System.Text.RegularExpressions.Regex", 0, pattern
+	netres _m2
+	mcall _re2, "Match", text
+	netres _v2
+	mcall _m2, "get_Success"
+	if nettoval(_v2, 4) == 0 {
+		delnet _m2 : delnet _re2
 		return ""
 	}
-	netres pVal
-	mcall pMatch, "get_Value"
-	s = nettoval(pVal, 2)
-	delnet pMatch : delnet pRegex
-	return s
+	netres _v2
+	mcall _m2, "get_Value"
+	_s2 = nettoval(_v2, 2)
+	delnet _m2 : delnet _re2
+	return _s2
 
 #deffunc netregex_replace str pattern, str text, str rep, \
-	local pResult
-	; Static method call
-	newnet pRegex, "", "System.Text.RegularExpressions.Regex", 1
-	netres pResult
-	mcall pRegex, "Replace", text, pattern, rep
-	s = nettoval(pResult, 2)
-	delnet pRegex
-	return s
+	local _re3, local _r3, local _s3
+	newnet _re3, "", "System.Text.RegularExpressions.Regex", 1
+	netres _r3
+	mcall _re3, "Replace", text, pattern, rep
+	_s3 = nettoval(_r3, 2)
+	delnet _re3
+	return _s3
 
 #defcfunc netregex_count str pattern, str text, \
-	local pRegex, local pMatches, local pCount
-	newnet pRegex, "", "System.Text.RegularExpressions.Regex", 0, pattern
-	netres pMatches
-	mcall pRegex, "Matches", text
-	netres pCount
-	mcall pMatches, "get_Count"
-	n = nettoval(pCount, 4)
-	delnet pMatches : delnet pRegex
-	return n
+	local _re4, local _mc4, local _cnt4, local _n4
+	newnet _re4, "", "System.Text.RegularExpressions.Regex", 0, pattern
+	netres _mc4
+	mcall _re4, "Matches", text
+	netres _cnt4
+	mcall _mc4, "get_Count"
+	_n4 = nettoval(_cnt4, 4)
+	delnet _mc4 : delnet _re4
+	return _n4
 
 #deffunc netregex_split str pattern, str text, \
-	local pRegex, local pArr, local pLen, local pItem, local result
-	newnet pRegex, "", "System.Text.RegularExpressions.Regex", 0, pattern
-	netres pArr
-	mcall pRegex, "Split", text
-	netres pLen
-	mcall pArr, "get_Length"
-	n = nettoval(pLen, 4)
-	result = ""
-	repeat n
-		netres pItem
-		mcall pArr, "GetValue", cnt
-		if result != "" : result += "\n"
-		result += nettoval(pItem, 2)
+	local _re5, local _ar5, local _ln5, local _it5, local _res5, local _n5
+	newnet _re5, "", "System.Text.RegularExpressions.Regex", 0, pattern
+	netres _ar5
+	mcall _re5, "Split", text
+	netres _ln5
+	mcall _ar5, "get_Length"
+	_n5 = nettoval(_ln5, 4)
+	_res5 = ""
+	repeat _n5
+		netres _it5
+		mcall _ar5, "GetValue", cnt
+		if _res5 != "" : _res5 += "\n"
+		_res5 += nettoval(_it5, 2)
 	loop
-	delnet pArr : delnet pRegex
-	return result
+	delnet _ar5 : delnet _re5
+	return _res5
 
 #global
 #endif

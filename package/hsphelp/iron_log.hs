@@ -3,11 +3,11 @@
 %ver
 3.8
 %date
-2026/04/16
+2026/04/17
 %author
 IronHSP
 %note
-iron_datetime.hspが必要。
+iron_datetime.hsp が必要。外部DLL不要。
 %type
 ユーザー定義命令
 %group
@@ -15,58 +15,55 @@ iron_datetime.hspが必要。
 
 %index
 log_init
-ログ初期化
+ログ出力を初期化
 %prm
 "filepath", level
+filepath : ログファイルパス ("" でコンソールのみ)
+level : LOGLV_DEBUG(0) / LOGLV_INFO(1) / LOGLV_WARN(2) / LOGLV_ERROR(3)
 %inst
-LOG_DEBUG/INFO/WARN/ERROR
+ログ出力を初期化します。level 以上のメッセージのみ出力。
+%sample
+	log_init "", LOGLV_INFO
+	log_info "application started"
 %href
 log_debug
 
 %index
 log_debug
-DEBUGログ
+DEBUGレベルログ
 %prm
 "msg"
-%inst
-
 %href
 log_info
 
 %index
 log_info
-INFOログ
+INFOレベルログ
 %prm
 "msg"
-%inst
-
 %href
 log_warn
 
 %index
 log_warn
-WARNログ
+WARNレベルログ
 %prm
 "msg"
-%inst
-
 %href
 log_error
 
 %index
 log_error
-ERRORログ
+ERRORレベルログ
 %prm
 "msg"
-%inst
-
 %href
-log_set_level
+log_init
 
 %index
 log_set_level
-ログレベル変更
+ログレベルを変更
 %prm
 level
-%inst
-
+%href
+log_init
