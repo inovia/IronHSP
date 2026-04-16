@@ -1,26 +1,26 @@
 ;============================================================
-;   iron_office.hsp — Microsoft Office COM 自動化 (VBScript bridge)
+;   iron_office.hsp — Microsoft Office COM 自動化 (.NET COM Interop)
 ;
-;   妥協設計: pure HSP から IDispatch late binding を直接駆動するのは
-;   労力が大きすぎるので、本モジュールは **VBScript ブリッジ方式** を採用。
+;   .NET Framework の COM Interop (Type.GetTypeFromProgID +
+;   Activator.CreateInstance) を使って Excel / Word / PowerPoint の
+;   COM オートメーション (IDispatch late binding) を駆動する。
 ;
-;   実行時に一時 .vbs を書き出して `cscript.exe //nologo ...` をサブプロセス
-;   起動し、結果を一時ファイル経由で取得する。インストールされた Office
-;   (Excel / Word / PowerPoint) が必要。
+;   VBScript ブリッジ方式は Windows 11 24H2 で VBScript が既定無効化
+;   されたため廃止し、hsp3net の mcall 経由に移行した。
 ;
-;   API (最小セット):
-;     office_excel_run     "vbs_code"[, var_out]        ; 任意 VBScript を実行
+;   hsp3net (GUI / CL) 専用。Office がインストールされていない環境
+;   では全関数が stat != 0 を返す。
+;
+;   API:
 ;     office_excel_get_cell "file.xlsx", sheet, row, col, var_str
 ;     office_excel_set_cell "file.xlsx", sheet, row, col, "value"
-;     office_excel_to_pdf  "file.xlsx", "out.pdf"
-;     office_word_to_pdf   "file.docx", "out.pdf"
-;     office_ppt_to_pdf    "file.pptx", "out.pdf"
+;     office_excel_to_pdf   "file.xlsx", "out.pdf"
+;     office_word_to_pdf    "file.docx", "out.pdf"
+;     office_ppt_to_pdf     "file.pptx", "out.pdf"
 ;
-;   備考:
-;     - sheet は 1-origin (VBA の Sheets(n) に合わせる)
-;     - Excel/Word/PowerPoint.Application を newcom で掴むより安定
-;     - Office 非導入環境では全関数が stat=非 0 を返す
-;     - 大量セル操作や大規模データは iron_xlsx.hsp (OpenXML 直読み) を推奨
+;   依存: hsp3net ランタイム (mcall / newnet / delnet)
+;   大量セル操作は iron_xlsx.hsp (OpenXML 直読み) または
+;   iron_excel.hsp (.NET COM 直接) を推奨。
 ;============================================================
 
 #ifndef __iron_office_hsp__
@@ -29,188 +29,152 @@
 #module iron_office
 
 ;------------------------------------------------------------
-; 内部: 一時ファイルパス生成
+; 内部: フルパスに変換 (COM は相対パスを受け付けない)
 ;------------------------------------------------------------
-#defcfunc _off_tmp_path str suffix, local _base
-    _base = dir_tv
-    if _base = "" : _base = "."
-    return _base + "\\iron_office_" + rnd(1000000) + suffix
+#defcfunc _off_fullpath str _rp, local _fp
+    _fp = _rp
+    ; 先頭が \ or X: ならフルパスとみなす
+    if peek(_fp, 0) = '\\' : return _fp
+    if strlen(_fp) >= 2 {
+        if peek(_fp, 1) = ':' : return _fp
+    }
+    _fp = dir_cur + "\\" + _rp
+    return _fp
 
 ;------------------------------------------------------------
-; 内部: 文字列をファイルに書き出す (bsave)
+; 内部: C# ソースを動的コンパイル (初回のみ)
 ;------------------------------------------------------------
-#deffunc _off_write_text str path, str body, local _len, local _buf
-    _len = strlen(body)
-    sdim _buf, _len + 16
-    _buf = body
-    bsave path, _buf, _len
+#deffunc _off_ensure_loaded local _cs
+    if _off_loaded@iron_office : return
+    _cs = {"
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+public static class OfficeHelper {
+    // Excel
+    public static string ExcelGetCell(string file, int sheet, int row, int col) {
+        var t = Type.GetTypeFromProgID("Excel.Application");
+        if (t == null) return "";
+        dynamic app = Activator.CreateInstance(t);
+        try {
+            app.Visible = false;
+            app.DisplayAlerts = false;
+            dynamic wb = app.Workbooks.Open(file);
+            dynamic v = wb.Sheets[sheet].Cells[row, col].Value;
+            string r = v != null ? v.ToString() : "";
+            wb.Close(false);
+            return r;
+        } finally { app.Quit(); Marshal.ReleaseComObject(app); }
+    }
+    public static void ExcelSetCell(string file, int sheet, int row, int col, string val) {
+        var t = Type.GetTypeFromProgID("Excel.Application");
+        if (t == null) return;
+        dynamic app = Activator.CreateInstance(t);
+        try {
+            app.Visible = false;
+            app.DisplayAlerts = false;
+            dynamic wb = app.Workbooks.Open(file);
+            wb.Sheets[sheet].Cells[row, col].Value = val;
+            wb.Save();
+            wb.Close(false);
+        } finally { app.Quit(); Marshal.ReleaseComObject(app); }
+    }
+    public static void ExcelToPdf(string src, string dst) {
+        var t = Type.GetTypeFromProgID("Excel.Application");
+        if (t == null) return;
+        dynamic app = Activator.CreateInstance(t);
+        try {
+            app.Visible = false;
+            app.DisplayAlerts = false;
+            dynamic wb = app.Workbooks.Open(src);
+            wb.ExportAsFixedFormat(0, dst);  // xlTypePDF = 0
+            wb.Close(false);
+        } finally { app.Quit(); Marshal.ReleaseComObject(app); }
+    }
+    // Word
+    public static void WordToPdf(string src, string dst) {
+        var t = Type.GetTypeFromProgID("Word.Application");
+        if (t == null) return;
+        dynamic app = Activator.CreateInstance(t);
+        try {
+            app.Visible = false;
+            dynamic doc = app.Documents.Open(src);
+            doc.ExportAsFixedFormat(dst, 17);  // wdExportFormatPDF = 17
+            doc.Close(0);
+        } finally { app.Quit(); Marshal.ReleaseComObject(app); }
+    }
+    // PowerPoint
+    public static void PptToPdf(string src, string dst) {
+        var t = Type.GetTypeFromProgID("PowerPoint.Application");
+        if (t == null) return;
+        dynamic app = Activator.CreateInstance(t);
+        try {
+            dynamic pres = app.Presentations.Open(src, -1, -1, 0);
+            pres.SaveAs(dst, 32);  // ppSaveAsPDF = 32
+            pres.Close();
+        } finally { app.Quit(); Marshal.ReleaseComObject(app); }
+    }
+}
+"}
+    loadnet _cs, 3, "Microsoft.CSharp.dll"
+    _off_loaded@iron_office = 1
     return
 
-;------------------------------------------------------------
-; 内部: ファイル全体を読む
-;------------------------------------------------------------
-#deffunc _off_read_text str path, var out, local _sz
-    out = ""
-    exist path
-    _sz = strsize
-    if _sz <= 0 : return
-    sdim out, _sz + 16
-    bload path, out, _sz
-    return
-
-;------------------------------------------------------------
-; 内部: cscript でスクリプト実行 (ブロック)
-;   戻り値: exit_code (stat)
-;------------------------------------------------------------
-#deffunc _off_run_cscript str path, \
-        local _cmd, local _si, local _pi, local _hproc, local _code
-    _cmd = "cscript.exe //nologo //B \"" + path + "\""
-    dim _si, 17
-    _si(0) = 68           ; sizeof(STARTUPINFO) Win32
-#ifdef __hsp64__
-    _si(0) = 104
-#endif
-    dim _pi, 4
-    ; CreateProcessA 呼び出しは hsp3net がなくても hspext でも可だが、
-    ; 最もポータブルなのは exec / shell_execute を使う方法。ここでは
-    ; winapi を避けて単純に exec + hspext の execcmd を使う代替として、
-    ; iron_process.hsp があればそちら経由、なければ exec を使う。
-    ;
-    ; ここでは HSP 標準の exec で同期待ちする (wait 挙動は環境依存なので
-    ; 安全に ShellExecuteEx を直接呼ぶ)。シンプル化のため exec にする:
-    exec _cmd, 17     ; 17 = SW_SHOWNORMAL + wait flag 相当
-    ; 注: HSP の exec は async なので 1 秒待ってからファイルを読む方式は
-    ; 不安定。実運用では `run_wait` 的な wrapper が必要。ここでは
-    ; 簡易スタブとして exec 呼び出しだけ行う。
-    return 0
-
 ;============================================================
-; public: 低レベル VBS 実行
+; public: Excel セル読み取り
 ;============================================================
-
-;------------------------------------------------------------
-; office_excel_run "vbs_code", var_out
-;   任意の VBS を cscript で実行。var_out には stdout (一時ファイル経由)
-;   を返す。
-;------------------------------------------------------------
-#deffunc office_excel_run str vbs, var out, \
-        local _path, local _out_file, local _body
-    _path     = _off_tmp_path(".vbs")
-    _out_file = _off_tmp_path(".txt")
-    ; スクリプトを一時ファイルに書き出す前に、出力先を環境変数で渡す
-    _body = "Dim IRON_OFFICE_OUT : IRON_OFFICE_OUT = \"" + _out_file + "\"\n"
-    _body += vbs
-    _off_write_text _path, _body
-    _off_run_cscript _path
-    _off_read_text _out_file, out
-    delete _path
-    delete _out_file
-    return 0
-
-;============================================================
-; public: Excel セル操作
-;============================================================
-
-;------------------------------------------------------------
-; office_excel_get_cell "file.xlsx", sheet, row, col, var_str
-;------------------------------------------------------------
 #deffunc office_excel_get_cell str file, int sheet, int row, int col, var out_str, \
-        local _vbs, local _out_file, local _path
-    _path     = _off_tmp_path(".vbs")
-    _out_file = _off_tmp_path(".txt")
-    _vbs  = "Dim app, wb, v, fso, f\n"
-    _vbs += "Set app = CreateObject(\"Excel.Application\")\n"
-    _vbs += "app.Visible = False\n"
-    _vbs += "app.DisplayAlerts = False\n"
-    _vbs += "Set wb = app.Workbooks.Open(\"" + file + "\")\n"
-    _vbs += "v = wb.Sheets(" + sheet + ").Cells(" + row + ", " + col + ").Value\n"
-    _vbs += "Set fso = CreateObject(\"Scripting.FileSystemObject\")\n"
-    _vbs += "Set f = fso.CreateTextFile(\"" + _out_file + "\", True)\n"
-    _vbs += "f.Write CStr(v)\n"
-    _vbs += "f.Close\n"
-    _vbs += "wb.Close False\n"
-    _vbs += "app.Quit\n"
-    _off_write_text _path, _vbs
-    _off_run_cscript _path
-    _off_read_text _out_file, out_str
-    delete _path
-    delete _out_file
-    return 0
+        local _fp, local _dummy
+    _off_ensure_loaded
+    _fp = _off_fullpath(file)
+    newnet _dummy, "OfficeHelper"
+    mcall _dummy, "ExcelGetCell", out_str, _fp, sheet, row, col
+    return stat
 
-;------------------------------------------------------------
-; office_excel_set_cell "file.xlsx", sheet, row, col, "value"
-;------------------------------------------------------------
+;============================================================
+; public: Excel セル書き込み
+;============================================================
 #deffunc office_excel_set_cell str file, int sheet, int row, int col, str val, \
-        local _vbs, local _path
-    _path = _off_tmp_path(".vbs")
-    _vbs  = "Dim app, wb\n"
-    _vbs += "Set app = CreateObject(\"Excel.Application\")\n"
-    _vbs += "app.Visible = False\n"
-    _vbs += "app.DisplayAlerts = False\n"
-    _vbs += "Set wb = app.Workbooks.Open(\"" + file + "\")\n"
-    _vbs += "wb.Sheets(" + sheet + ").Cells(" + row + ", " + col + ").Value = \"" + val + "\"\n"
-    _vbs += "wb.Save\n"
-    _vbs += "wb.Close False\n"
-    _vbs += "app.Quit\n"
-    _off_write_text _path, _vbs
-    _off_run_cscript _path
-    delete _path
-    return 0
+        local _fp, local _dummy
+    _off_ensure_loaded
+    _fp = _off_fullpath(file)
+    newnet _dummy, "OfficeHelper"
+    mcall _dummy, "ExcelSetCell", _fp, sheet, row, col, val
+    return stat
 
 ;============================================================
-; public: PDF エクスポート
+; public: Excel → PDF
 ;============================================================
+#deffunc office_excel_to_pdf str src, str dst, \
+        local _s, local _d, local _dummy
+    _off_ensure_loaded
+    _s = _off_fullpath(src) : _d = _off_fullpath(dst)
+    newnet _dummy, "OfficeHelper"
+    mcall _dummy, "ExcelToPdf", _s, _d
+    return stat
 
-;------------------------------------------------------------
-; office_excel_to_pdf "file.xlsx", "out.pdf"
-;------------------------------------------------------------
-#deffunc office_excel_to_pdf str src, str dst, local _vbs, local _path
-    _path = _off_tmp_path(".vbs")
-    _vbs  = "Dim app, wb\n"
-    _vbs += "Set app = CreateObject(\"Excel.Application\")\n"
-    _vbs += "app.Visible = False\n"
-    _vbs += "app.DisplayAlerts = False\n"
-    _vbs += "Set wb = app.Workbooks.Open(\"" + src + "\")\n"
-    _vbs += "wb.ExportAsFixedFormat 0, \"" + dst + "\"\n"
-    _vbs += "wb.Close False\n"
-    _vbs += "app.Quit\n"
-    _off_write_text _path, _vbs
-    _off_run_cscript _path
-    delete _path
-    return 0
+;============================================================
+; public: Word → PDF
+;============================================================
+#deffunc office_word_to_pdf str src, str dst, \
+        local _s, local _d, local _dummy
+    _off_ensure_loaded
+    _s = _off_fullpath(src) : _d = _off_fullpath(dst)
+    newnet _dummy, "OfficeHelper"
+    mcall _dummy, "WordToPdf", _s, _d
+    return stat
 
-;------------------------------------------------------------
-; office_word_to_pdf "file.docx", "out.pdf"
-;------------------------------------------------------------
-#deffunc office_word_to_pdf str src, str dst, local _vbs, local _path
-    _path = _off_tmp_path(".vbs")
-    _vbs  = "Dim app, doc\n"
-    _vbs += "Set app = CreateObject(\"Word.Application\")\n"
-    _vbs += "app.Visible = False\n"
-    _vbs += "Set doc = app.Documents.Open(\"" + src + "\")\n"
-    _vbs += "doc.ExportAsFixedFormat \"" + dst + "\", 17\n"   ; wdExportFormatPDF = 17
-    _vbs += "doc.Close 0\n"
-    _vbs += "app.Quit\n"
-    _off_write_text _path, _vbs
-    _off_run_cscript _path
-    delete _path
-    return 0
-
-;------------------------------------------------------------
-; office_ppt_to_pdf "file.pptx", "out.pdf"
-;------------------------------------------------------------
-#deffunc office_ppt_to_pdf str src, str dst, local _vbs, local _path
-    _path = _off_tmp_path(".vbs")
-    _vbs  = "Dim app, pres\n"
-    _vbs += "Set app = CreateObject(\"PowerPoint.Application\")\n"
-    _vbs += "Set pres = app.Presentations.Open(\"" + src + "\", , , False)\n"
-    _vbs += "pres.SaveAs \"" + dst + "\", 32\n"   ; ppSaveAsPDF = 32
-    _vbs += "pres.Close\n"
-    _vbs += "app.Quit\n"
-    _off_write_text _path, _vbs
-    _off_run_cscript _path
-    delete _path
-    return 0
+;============================================================
+; public: PowerPoint → PDF
+;============================================================
+#deffunc office_ppt_to_pdf str src, str dst, \
+        local _s, local _d, local _dummy
+    _off_ensure_loaded
+    _s = _off_fullpath(src) : _d = _off_fullpath(dst)
+    newnet _dummy, "OfficeHelper"
+    mcall _dummy, "PptToPdf", _s, _d
+    return stat
 
 #global
 

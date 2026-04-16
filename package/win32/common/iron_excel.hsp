@@ -1,0 +1,299 @@
+;============================================================
+;   iron_excel.hsp — Excel .xlsx 読み書き (.NET OpenXML)
+;
+;   .NET Framework の System.IO.Packaging + System.Xml を使って
+;   .xlsx ファイルを直接読み書きする。Office インストール不要。
+;   hsp3net (GUI / CL) 専用。
+;
+;   iron_xlsx.hsp (hsp7z + XML) より高速で、セル座標指定の
+;   読み書き API を提供する。
+;
+;   API:
+;     excel_create  "file.xlsx"               ; 新規作成 (空のブック)
+;     excel_open    "file.xlsx"               ; 既存ファイルを開く
+;     excel_set_cell sheet, row, col, "value" ; セル書き込み (1-origin)
+;     r = excel_get_cell(sheet, row, col)     ; セル読み取り
+;     excel_save                              ; 保存
+;     excel_close                             ; 閉じる
+;     n = excel_sheet_count()                 ; シート数取得
+;     s = excel_sheet_name(index)             ; シート名取得 (1-origin)
+;     excel_add_sheet "name"                  ; シート追加
+;
+;   依存: hsp3net ランタイム (loadnet / newnet / mcall)
+;============================================================
+
+#ifndef __iron_excel_hsp__
+#define __iron_excel_hsp__
+
+#module iron_excel
+
+dim _excel_cs_loaded, 1
+
+#deffunc _excel_load_cs
+    if _excel_cs_loaded : return
+    sdim _cs, 16384
+    _cs = {"
+using System;
+using System.IO;
+using System.IO.Packaging;
+using System.Xml;
+using System.Collections.Generic;
+
+public class HspExcel {
+    static Package pkg;
+    static XmlDocument sharedStrings;
+    static List<string> sst = new List<string>();
+    static Dictionary<string, XmlDocument> sheetDocs = new Dictionary<string, XmlDocument>();
+    static List<string> sheetNames = new List<string>();
+    static string currentPath;
+    static bool isNew;
+    const string nsS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+    const string nsR = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+    const string nsP = "http://schemas.openxmlformats.org/package/2006/relationships";
+
+    static string ColName(int c) {
+        string r = ""; while (c > 0) { c--; r = (char)('A' + c % 26) + r; c /= 26; } return r;
+    }
+
+    public static string Create(string path) {
+        try {
+            currentPath = path; isNew = true;
+            pkg = Package.Open(path, FileMode.Create);
+            sheetDocs.Clear(); sheetNames.Clear(); sst.Clear();
+            AddSheetInternal("Sheet1");
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string Open(string path) {
+        try {
+            currentPath = path; isNew = false;
+            pkg = Package.Open(path, FileMode.Open, FileAccess.ReadWrite);
+            sheetDocs.Clear(); sheetNames.Clear(); sst.Clear();
+            // shared strings
+            var sstUri = new Uri("/xl/sharedStrings.xml", UriKind.Relative);
+            if (pkg.PartExists(sstUri)) {
+                var sstPart = pkg.GetPart(sstUri);
+                var sstDoc = new XmlDocument();
+                using (var s = sstPart.GetStream()) sstDoc.Load(s);
+                var nsMgr = new XmlNamespaceManager(sstDoc.NameTable);
+                nsMgr.AddNamespace("s", nsS);
+                foreach (XmlNode si in sstDoc.SelectNodes("//s:si", nsMgr)) {
+                    var t = si.SelectSingleNode("s:t", nsMgr);
+                    sst.Add(t != null ? t.InnerText : "");
+                }
+            }
+            // enumerate sheets via workbook.xml
+            var wbUri = new Uri("/xl/workbook.xml", UriKind.Relative);
+            if (pkg.PartExists(wbUri)) {
+                var wbDoc = new XmlDocument();
+                using (var s = pkg.GetPart(wbUri).GetStream()) wbDoc.Load(s);
+                var nsMgr = new XmlNamespaceManager(wbDoc.NameTable);
+                nsMgr.AddNamespace("s", nsS);
+                foreach (XmlNode sheet in wbDoc.SelectNodes("//s:sheet", nsMgr)) {
+                    sheetNames.Add(sheet.Attributes["name"].Value);
+                }
+            }
+            // load sheet xmls
+            for (int i = 0; i < sheetNames.Count; i++) {
+                var shUri = new Uri("/xl/worksheets/sheet" + (i + 1) + ".xml", UriKind.Relative);
+                if (pkg.PartExists(shUri)) {
+                    var doc = new XmlDocument();
+                    using (var s = pkg.GetPart(shUri).GetStream()) doc.Load(s);
+                    sheetDocs[sheetNames[i]] = doc;
+                }
+            }
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    static void AddSheetInternal(string name) {
+        sheetNames.Add(name);
+        var doc = new XmlDocument();
+        doc.LoadXml("<worksheet xmlns='" + nsS + "'><sheetData/></worksheet>");
+        sheetDocs[name] = doc;
+    }
+
+    public static string AddSheet(string name) {
+        try { AddSheetInternal(name); return "ok"; }
+        catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static int SheetCount() { return sheetNames.Count; }
+    public static string SheetName(int idx) {
+        if (idx < 1 || idx > sheetNames.Count) return "";
+        return sheetNames[idx - 1];
+    }
+
+    public static string SetCell(int sheet, int row, int col, string val) {
+        try {
+            if (sheet < 1 || sheet > sheetNames.Count) return "ERROR:invalid sheet";
+            var doc = sheetDocs[sheetNames[sheet - 1]];
+            var nsMgr = new XmlNamespaceManager(doc.NameTable);
+            nsMgr.AddNamespace("s", nsS);
+            var sd = doc.SelectSingleNode("//s:sheetData", nsMgr);
+            string cellRef = ColName(col) + row;
+            string rowRef = row.ToString();
+            // find or create row
+            var rowNode = sd.SelectSingleNode("s:row[@r='" + rowRef + "']", nsMgr);
+            if (rowNode == null) {
+                rowNode = doc.CreateElement("row", nsS);
+                ((XmlElement)rowNode).SetAttribute("r", rowRef);
+                sd.AppendChild(rowNode);
+            }
+            // find or create cell
+            var cellNode = rowNode.SelectSingleNode("s:c[@r='" + cellRef + "']", nsMgr);
+            if (cellNode == null) {
+                cellNode = doc.CreateElement("c", nsS);
+                ((XmlElement)cellNode).SetAttribute("r", cellRef);
+                rowNode.AppendChild(cellNode);
+            }
+            // set value (inline string)
+            ((XmlElement)cellNode).SetAttribute("t", "inlineStr");
+            cellNode.InnerXml = "";
+            var isNode = doc.CreateElement("is", nsS);
+            var tNode = doc.CreateElement("t", nsS);
+            tNode.InnerText = val;
+            isNode.AppendChild(tNode);
+            cellNode.AppendChild(isNode);
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string GetCell(int sheet, int row, int col) {
+        try {
+            if (sheet < 1 || sheet > sheetNames.Count) return "";
+            var doc = sheetDocs[sheetNames[sheet - 1]];
+            var nsMgr = new XmlNamespaceManager(doc.NameTable);
+            nsMgr.AddNamespace("s", nsS);
+            string cellRef = ColName(col) + row;
+            string rowRef = row.ToString();
+            var rowNode = doc.SelectSingleNode("//s:sheetData/s:row[@r='" + rowRef + "']", nsMgr);
+            if (rowNode == null) return "";
+            var cellNode = rowNode.SelectSingleNode("s:c[@r='" + cellRef + "']", nsMgr);
+            if (cellNode == null) return "";
+            var tAttr = ((XmlElement)cellNode).GetAttribute("t");
+            if (tAttr == "s") {
+                // shared string
+                var vNode = cellNode.SelectSingleNode("s:v", nsMgr);
+                if (vNode == null) return "";
+                int idx = int.Parse(vNode.InnerText);
+                return idx < sst.Count ? sst[idx] : "";
+            } else if (tAttr == "inlineStr") {
+                var tNode = cellNode.SelectSingleNode("s:is/s:t", nsMgr);
+                return tNode != null ? tNode.InnerText : "";
+            } else {
+                var vNode = cellNode.SelectSingleNode("s:v", nsMgr);
+                return vNode != null ? vNode.InnerText : "";
+            }
+        } catch { return ""; }
+    }
+
+    public static string Save() {
+        try {
+            // write workbook.xml
+            var wbUri = new Uri("/xl/workbook.xml", UriKind.Relative);
+            PackagePart wbPart;
+            if (pkg.PartExists(wbUri)) { pkg.DeletePart(wbUri); }
+            wbPart = pkg.CreatePart(wbUri,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml");
+            var wbDoc = new XmlDocument();
+            string wbXml = "<workbook xmlns='" + nsS + "' xmlns:r='" + nsR + "'><sheets>";
+            for (int i = 0; i < sheetNames.Count; i++)
+                wbXml += "<sheet name='" + sheetNames[i] + "' sheetId='" + (i+1) + "' r:id='rId" + (i+1) + "'/>";
+            wbXml += "</sheets></workbook>";
+            wbDoc.LoadXml(wbXml);
+            using (var s = wbPart.GetStream(FileMode.Create)) wbDoc.Save(s);
+            // write each sheet
+            for (int i = 0; i < sheetNames.Count; i++) {
+                var shUri = new Uri("/xl/worksheets/sheet" + (i+1) + ".xml", UriKind.Relative);
+                if (pkg.PartExists(shUri)) pkg.DeletePart(shUri);
+                var shPart = pkg.CreatePart(shUri,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml");
+                using (var s = shPart.GetStream(FileMode.Create)) sheetDocs[sheetNames[i]].Save(s);
+                wbPart.CreateRelationship(shUri, TargetMode.Internal,
+                    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet",
+                    "rId" + (i+1));
+            }
+            // root relationship
+            pkg.DeleteRelationship("rId1");
+            pkg.CreateRelationship(wbUri, TargetMode.Internal,
+                "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "rId1");
+            // content types
+            pkg.Flush();
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+
+    public static string Close() {
+        try {
+            if (pkg != null) { pkg.Close(); pkg = null; }
+            sheetDocs.Clear(); sheetNames.Clear(); sst.Clear();
+            return "ok";
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+}
+"}
+    loadnet _cs, 3, "WindowsBase.dll"
+    _excel_cs_loaded = 1
+    return
+
+;============================================================
+; public API
+;============================================================
+
+#deffunc excel_create str path, local _h, local _r
+    _excel_load_cs
+    newnet _h, "HspExcel"
+    mcall _h, "Create", _r, path
+    if instr(_r, 0, "ERROR") >= 0 : return 1
+    return 0
+
+#deffunc excel_open str path, local _h, local _r
+    _excel_load_cs
+    newnet _h, "HspExcel"
+    mcall _h, "Open", _r, path
+    if instr(_r, 0, "ERROR") >= 0 : return 1
+    return 0
+
+#deffunc excel_set_cell int sheet, int row, int col, str val, local _h, local _r
+    newnet _h, "HspExcel"
+    mcall _h, "SetCell", _r, sheet, row, col, val
+    if instr(_r, 0, "ERROR") >= 0 : return 1
+    return 0
+
+#defcfunc excel_get_cell int sheet, int row, int col, local _h, local _r
+    newnet _h, "HspExcel"
+    mcall _h, "GetCell", _r, sheet, row, col
+    return _r
+
+#deffunc excel_save local _h, local _r
+    newnet _h, "HspExcel"
+    mcall _h, "Save", _r
+    if instr(_r, 0, "ERROR") >= 0 : return 1
+    return 0
+
+#deffunc excel_close local _h, local _r
+    newnet _h, "HspExcel"
+    mcall _h, "Close", _r
+    return 0
+
+#defcfunc excel_sheet_count local _h, local _r
+    newnet _h, "HspExcel"
+    mcall _h, "SheetCount", _r
+    return _r
+
+#defcfunc excel_sheet_name int idx, local _h, local _r
+    newnet _h, "HspExcel"
+    mcall _h, "SheetName", _r, idx
+    return _r
+
+#deffunc excel_add_sheet str name, local _h, local _r
+    newnet _h, "HspExcel"
+    mcall _h, "AddSheet", _r, name
+    if instr(_r, 0, "ERROR") >= 0 : return 1
+    return 0
+
+#global
+
+#endif
