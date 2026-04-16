@@ -97,7 +97,14 @@ def run_one(hsp_path, *, compile_only=False, timeout_sec=3, extra_compath=None):
 def audit_as_files(max_workers=4):
     """Phase A: .as ファイルごとにスタブ .hsp を作って compile-only で検査"""
     as_dir = ROOT / "package/win32/common"
-    as_files = sorted(as_dir.glob("*.as"))
+    # ランタイム固有 .as は単体コンパイル不可 (hgimg3/hgimg4 runtime が
+    # プリロード済の前提で #cmd が書かれている)。audit 対象から除外。
+    EXCLUDE = {
+        "hgimg3.as",        # hgimg3 runtime 専用 (command table)
+        "mod_gputil.as",    # hgimg3/hgimg4 用ユーティリティ
+        "gpposteffect.as",  # hgimg4 runtime 専用
+    }
+    as_files = sorted(p for p in as_dir.glob("*.as") if p.name not in EXCLUDE)
     print(f"[Phase A] {len(as_files)} .as files under {as_dir.relative_to(ROOT)}")
 
     # tempdir で各 stub を作成

@@ -1,32 +1,29 @@
 # IronHSP サンプル/.as 自動テスト監査レポート
 
-生成日時: 2026-04-18T19:56:57
+生成日時: 2026-04-18T19:59:09
 
 ## Phase A — .as ファイル (compile-only)
 
-総数: **162** 件
+総数: **159** 件
 
 ### 上位エラー原因 (グループ集計)
 
 | 件数 | 代表メッセージ |
 |---:|---|
-| 5 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
+| 2 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
 
 | 状態 | 件数 | 説明 |
 |---|---:|---|
-| `CERR` | 5 | コンパイルエラー|
+| `CERR` | 2 | コンパイルエラー|
 | `CMP` | 157 | -|
 
-### CERR 詳細 (5 件)
+### CERR 詳細 (2 件)
 
 <details><summary>クリックして展開</summary>
 
 | ファイル | 原因 |
 |---|---|
 | `comctl32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `gpposteffect.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `hgimg3.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `mod_gputil.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `user32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 
 </details>
@@ -59,8 +56,8 @@
 |---|---:|---|
 | `CERR` | 75 | コンパイルエラー|
 | `ERR` | 404 | -|
-| `PASS` | 80 | 正常終了 (exit=0)|
-| `TIMO` | 13 | タイムアウト (GUI/waitループ等)|
+| `PASS` | 81 | 正常終了 (exit=0)|
+| `TIMO` | 12 | タイムアウト (GUI/waitループ等)|
 
 ### CERR 詳細 (75 件)
 
