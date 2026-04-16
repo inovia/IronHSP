@@ -3,7 +3,7 @@
 ;============================================================
 
 #ifndef __hspwasm_as__
-#define global __hspwasm_as__
+#define __hspwasm_as__
 
 #uselib "hspwasm.dll"
 #func global wasm_load         "hspwasm_load"          str, var

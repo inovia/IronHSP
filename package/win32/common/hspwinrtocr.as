@@ -4,7 +4,7 @@
 ;============================================================
 
 #ifndef __hspwinrtocr_as__
-#define global __hspwinrtocr_as__
+#define __hspwinrtocr_as__
 
 #uselib "hspwinrtocr.dll"
 #func global ocr_init     "ocr_init"     str

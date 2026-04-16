@@ -3,7 +3,7 @@
 ;============================================================
 
 #ifndef __hsppdf_as__
-#define global __hsppdf_as__
+#define __hsppdf_as__
 
 #uselib "hsppdf.dll"
 #func global pdf_init             "pdf_init"

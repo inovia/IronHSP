@@ -3,7 +3,7 @@
 ;============================================================
 
 #ifndef __hspble_as__
-#define global __hspble_as__
+#define __hspble_as__
 
 #uselib "hspble.dll"
 #func global ble_init             "ble_init"

@@ -21,7 +21,7 @@
 ;============================================================
 
 #ifndef __hspllama_as__
-#define global __hspllama_as__
+#define __hspllama_as__
 
 #uselib "hspllama.dll"
 #func global llama_init         "hspllama_init"

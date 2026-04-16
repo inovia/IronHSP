@@ -6,7 +6,7 @@
 ;============================================================
 
 #ifndef __hspduckdb_as__
-#define global __hspduckdb_as__
+#define __hspduckdb_as__
 
 #uselib "hspduckdb.dll"
 #func global duckdb_open_db          "hspduckdb_open_db"          str, var

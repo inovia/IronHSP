@@ -364,7 +364,7 @@ def emit_as(ifaces: List[ComInterface], category: str) -> str:
     ap(";============================================================")
     ap("")
     ap(f"#ifndef __com_{category}_gen2_as__")
-    ap(f"#define global __com_{category}_gen2_as__")
+    ap(f"#define __com_{category}_gen2_as__")
     ap("")
     for iface in ifaces:
         ap(f";--- {iface.name}")

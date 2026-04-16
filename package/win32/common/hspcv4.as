@@ -6,7 +6,7 @@
 ;     #include "hspcv4.as"
 ;
 #ifndef __hspcv4__
-#define global __hspcv4__
+#define __hspcv4__
 
 ; --- aruco predefined dictionaries (cv4_aruco_detect / generate 第引数) ---
 #define global CV4_ARUCO_DICT_4X4_50      0

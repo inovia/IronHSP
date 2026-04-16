@@ -3,7 +3,7 @@
 ;============================================================
 
 #ifndef __hsponnx_as__
-#define global __hsponnx_as__
+#define __hsponnx_as__
 
 #uselib "hsponnx.dll"
 #func global onnx_init             "onnx_init"

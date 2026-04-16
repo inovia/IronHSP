@@ -3,7 +3,7 @@
 ;============================================================
 
 #ifndef __hsptflite_as__
-#define global __hsptflite_as__
+#define __hsptflite_as__
 
 #uselib "hsptflite.dll"
 #func global tflite_init          "tflite_init"
