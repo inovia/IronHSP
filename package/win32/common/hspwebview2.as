@@ -13,7 +13,7 @@
 ;============================================================
 
 #ifndef __hspwebview2_as__
-#define __hspwebview2_as__
+#define global __hspwebview2_as__
 
 #uselib "hspwebview2.dll"
 #func global wv2_init              "wv2_init"              str

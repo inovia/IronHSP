@@ -9,7 +9,7 @@
 #define global __com_misc_gen2_as__
 
 ;--- IAdviseSink
-#define IID_IAdviseSink "{0000010F-0000-0000-C000-000000000046}"
+#define global IID_IAdviseSink "{0000010F-0000-0000-C000-000000000046}"
 #usecom IAdviseSink IID_IAdviseSink "{}"
 #comfunc IAdviseSink_OnDataChange 3 var, int
 #comfunc IAdviseSink_OnViewChange 4 int, int
@@ -18,7 +18,7 @@
 #comfunc IAdviseSink_OnClose 7
 
 ;--- IBindCtx
-#define IID_IBindCtx "{0000000E-0000-0000-C000-000000000046}"
+#define global IID_IBindCtx "{0000000E-0000-0000-C000-000000000046}"
 #usecom IBindCtx IID_IBindCtx "{}"
 #comfunc IBindCtx_RegisterObjectBound 3 int
 #comfunc IBindCtx_RevokeObjectBound 4 int
@@ -32,7 +32,7 @@
 #comfunc IBindCtx_RevokeObjectParam 12 wstr
 
 ;--- IBinding
-#define IID_IBinding "{79EAC9C0-BAF9-11CE-8C82-00AA004BA90B}"
+#define global IID_IBinding "{79EAC9C0-BAF9-11CE-8C82-00AA004BA90B}"
 #usecom IBinding IID_IBinding "{}"
 #comfunc IBinding_Abort 3
 #comfunc IBinding_Suspend 4
@@ -42,7 +42,7 @@
 #comfunc IBinding_GetBindResult 8 var, int, var, int
 
 ;--- IBindStatusCallback
-#define IID_IBindStatusCallback "{79EAC9C1-BAF9-11CE-8C82-00AA004BA90B}"
+#define global IID_IBindStatusCallback "{79EAC9C1-BAF9-11CE-8C82-00AA004BA90B}"
 #usecom IBindStatusCallback IID_IBindStatusCallback "{}"
 #comfunc IBindStatusCallback_OnStartBinding 3 int, comobj
 #comfunc IBindStatusCallback_GetPriority 4 int
@@ -54,7 +54,7 @@
 #comfunc IBindStatusCallback_OnObjectAvailable 10 var, int
 
 ;--- ID2D1Bitmap
-#define IID_ID2D1Bitmap "{A2296057-EA42-4099-983B-539FB6505426}"
+#define global IID_ID2D1Bitmap "{A2296057-EA42-4099-983B-539FB6505426}"
 #usecom ID2D1Bitmap IID_ID2D1Bitmap "{}"
 #comfunc ID2D1Bitmap_GetFactory 3 comobj
 #comfunc ID2D1Bitmap_GetSize 4
@@ -66,7 +66,7 @@
 #comfunc ID2D1Bitmap_CopyFromMemory 10 var, intptr, int
 
 ;--- ID2D1BitmapBrush
-#define IID_ID2D1BitmapBrush "{2CD906AA-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1BitmapBrush "{2CD906AA-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1BitmapBrush IID_ID2D1BitmapBrush "{}"
 #comfunc ID2D1BitmapBrush_GetFactory 3 comobj
 #comfunc ID2D1BitmapBrush_SetOpacity 4 float
@@ -83,7 +83,7 @@
 #comfunc ID2D1BitmapBrush_GetBitmap 15 comobj
 
 ;--- ID2D1BitmapRenderTarget
-#define IID_ID2D1BitmapRenderTarget "{2CD90695-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1BitmapRenderTarget "{2CD90695-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1BitmapRenderTarget IID_ID2D1BitmapRenderTarget "{}"
 #comfunc ID2D1BitmapRenderTarget_GetFactory 3 comobj
 #comfunc ID2D1BitmapRenderTarget_CreateBitmap 4 int, intptr, int, var, comobj
@@ -142,7 +142,7 @@
 #comfunc ID2D1BitmapRenderTarget_GetBitmap 57 comobj
 
 ;--- ID2D1Brush
-#define IID_ID2D1Brush "{2CD906A8-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1Brush "{2CD906A8-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1Brush IID_ID2D1Brush "{}"
 #comfunc ID2D1Brush_GetFactory 3 comobj
 #comfunc ID2D1Brush_SetOpacity 4 float
@@ -151,7 +151,7 @@
 #comfunc ID2D1Brush_GetTransform 7 var
 
 ;--- ID2D1DCRenderTarget
-#define IID_ID2D1DCRenderTarget "{1C51BC64-DE61-46FD-9899-63A5D8F03950}"
+#define global IID_ID2D1DCRenderTarget "{1C51BC64-DE61-46FD-9899-63A5D8F03950}"
 #usecom ID2D1DCRenderTarget IID_ID2D1DCRenderTarget "{}"
 #comfunc ID2D1DCRenderTarget_GetFactory 3 comobj
 #comfunc ID2D1DCRenderTarget_CreateBitmap 4 int, intptr, int, var, comobj
@@ -210,7 +210,7 @@
 #comfunc ID2D1DCRenderTarget_BindDC 57 intptr, var
 
 ;--- ID2D1DrawingStateBlock
-#define IID_ID2D1DrawingStateBlock "{28506E39-EBF6-46A1-BB47-FD85565AB957}"
+#define global IID_ID2D1DrawingStateBlock "{28506E39-EBF6-46A1-BB47-FD85565AB957}"
 #usecom ID2D1DrawingStateBlock IID_ID2D1DrawingStateBlock "{}"
 #comfunc ID2D1DrawingStateBlock_GetFactory 3 comobj
 #comfunc ID2D1DrawingStateBlock_GetDescription 4 var
@@ -219,7 +219,7 @@
 #comfunc ID2D1DrawingStateBlock_GetTextRenderingParams 7 comobj
 
 ;--- ID2D1EllipseGeometry
-#define IID_ID2D1EllipseGeometry "{2CD906A4-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1EllipseGeometry "{2CD906A4-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1EllipseGeometry IID_ID2D1EllipseGeometry "{}"
 #comfunc ID2D1EllipseGeometry_GetFactory 3 comobj
 #comfunc ID2D1EllipseGeometry_GetBounds 4 var, var
@@ -238,7 +238,7 @@
 #comfunc ID2D1EllipseGeometry_GetEllipse 17 var
 
 ;--- ID2D1Factory
-#define IID_ID2D1Factory "{06152247-6F50-465A-9245-118BFD3B6007}"
+#define global IID_ID2D1Factory "{06152247-6F50-465A-9245-118BFD3B6007}"
 #usecom ID2D1Factory IID_ID2D1Factory "{}"
 #comfunc ID2D1Factory_ReloadSystemMetrics 3
 #comfunc ID2D1Factory_GetDesktopDpi 4 float, float
@@ -256,7 +256,7 @@
 #comfunc ID2D1Factory_CreateDCRenderTarget 16 var, comobj
 
 ;--- ID2D1Geometry
-#define IID_ID2D1Geometry "{2CD906A1-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1Geometry "{2CD906A1-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1Geometry IID_ID2D1Geometry "{}"
 #comfunc ID2D1Geometry_GetFactory 3 comobj
 #comfunc ID2D1Geometry_GetBounds 4 var, var
@@ -274,7 +274,7 @@
 #comfunc ID2D1Geometry_Widen 16 float, comobj, var, float, comobj
 
 ;--- ID2D1GeometryGroup
-#define IID_ID2D1GeometryGroup "{2CD906A6-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1GeometryGroup "{2CD906A6-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1GeometryGroup IID_ID2D1GeometryGroup "{}"
 #comfunc ID2D1GeometryGroup_GetFactory 3 comobj
 #comfunc ID2D1GeometryGroup_GetBounds 4 var, var
@@ -295,7 +295,7 @@
 #comfunc ID2D1GeometryGroup_GetSourceGeometries 19 comobj, int
 
 ;--- ID2D1GeometrySink
-#define IID_ID2D1GeometrySink "{2CD9069F-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1GeometrySink "{2CD9069F-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1GeometrySink IID_ID2D1GeometrySink "{}"
 #comfunc ID2D1GeometrySink_SetFillMode 3 int
 #comfunc ID2D1GeometrySink_SetSegmentFlags 4 int
@@ -311,7 +311,7 @@
 #comfunc ID2D1GeometrySink_AddArc 14 var
 
 ;--- ID2D1GradientStopCollection
-#define IID_ID2D1GradientStopCollection "{2CD906A7-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1GradientStopCollection "{2CD906A7-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1GradientStopCollection IID_ID2D1GradientStopCollection "{}"
 #comfunc ID2D1GradientStopCollection_GetFactory 3 comobj
 #comfunc ID2D1GradientStopCollection_GetGradientStopCount 4
@@ -320,7 +320,7 @@
 #comfunc ID2D1GradientStopCollection_GetExtendMode 7
 
 ;--- ID2D1HwndRenderTarget
-#define IID_ID2D1HwndRenderTarget "{2CD90698-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1HwndRenderTarget "{2CD90698-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1HwndRenderTarget IID_ID2D1HwndRenderTarget "{}"
 #comfunc ID2D1HwndRenderTarget_GetFactory 3 comobj
 #comfunc ID2D1HwndRenderTarget_CreateBitmap 4 int, intptr, int, var, comobj
@@ -381,18 +381,18 @@
 #comfunc ID2D1HwndRenderTarget_GetHwnd 59
 
 ;--- ID2D1Image
-#define IID_ID2D1Image "{65019F75-8DA2-497C-B32C-DFA34E48EDE6}"
+#define global IID_ID2D1Image "{65019F75-8DA2-497C-B32C-DFA34E48EDE6}"
 #usecom ID2D1Image IID_ID2D1Image "{}"
 #comfunc ID2D1Image_GetFactory 3 comobj
 
 ;--- ID2D1Layer
-#define IID_ID2D1Layer "{2CD9069B-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1Layer "{2CD9069B-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1Layer IID_ID2D1Layer "{}"
 #comfunc ID2D1Layer_GetFactory 3 comobj
 #comfunc ID2D1Layer_GetSize 4
 
 ;--- ID2D1LinearGradientBrush
-#define IID_ID2D1LinearGradientBrush "{2CD906AB-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1LinearGradientBrush "{2CD906AB-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1LinearGradientBrush IID_ID2D1LinearGradientBrush "{}"
 #comfunc ID2D1LinearGradientBrush_GetFactory 3 comobj
 #comfunc ID2D1LinearGradientBrush_SetOpacity 4 float
@@ -406,13 +406,13 @@
 #comfunc ID2D1LinearGradientBrush_GetGradientStopCollection 12 comobj
 
 ;--- ID2D1Mesh
-#define IID_ID2D1Mesh "{2CD906C2-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1Mesh "{2CD906C2-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1Mesh IID_ID2D1Mesh "{}"
 #comfunc ID2D1Mesh_GetFactory 3 comobj
 #comfunc ID2D1Mesh_Open 4 comobj
 
 ;--- ID2D1PathGeometry
-#define IID_ID2D1PathGeometry "{2CD906A5-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1PathGeometry "{2CD906A5-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1PathGeometry IID_ID2D1PathGeometry "{}"
 #comfunc ID2D1PathGeometry_GetFactory 3 comobj
 #comfunc ID2D1PathGeometry_GetBounds 4 var, var
@@ -434,7 +434,7 @@
 #comfunc ID2D1PathGeometry_GetFigureCount 20 int
 
 ;--- ID2D1RadialGradientBrush
-#define IID_ID2D1RadialGradientBrush "{2CD906AC-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1RadialGradientBrush "{2CD906AC-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1RadialGradientBrush IID_ID2D1RadialGradientBrush "{}"
 #comfunc ID2D1RadialGradientBrush_GetFactory 3 comobj
 #comfunc ID2D1RadialGradientBrush_SetOpacity 4 float
@@ -452,7 +452,7 @@
 #comfunc ID2D1RadialGradientBrush_GetGradientStopCollection 16 comobj
 
 ;--- ID2D1RectangleGeometry
-#define IID_ID2D1RectangleGeometry "{2CD906A2-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1RectangleGeometry "{2CD906A2-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1RectangleGeometry IID_ID2D1RectangleGeometry "{}"
 #comfunc ID2D1RectangleGeometry_GetFactory 3 comobj
 #comfunc ID2D1RectangleGeometry_GetBounds 4 var, var
@@ -471,7 +471,7 @@
 #comfunc ID2D1RectangleGeometry_GetRect 17 var
 
 ;--- ID2D1RenderTarget
-#define IID_ID2D1RenderTarget "{2CD90694-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1RenderTarget "{2CD90694-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1RenderTarget IID_ID2D1RenderTarget "{}"
 #comfunc ID2D1RenderTarget_GetFactory 3 comobj
 #comfunc ID2D1RenderTarget_CreateBitmap 4 int, intptr, int, var, comobj
@@ -529,12 +529,12 @@
 #comfunc ID2D1RenderTarget_IsSupported 56 var
 
 ;--- ID2D1Resource
-#define IID_ID2D1Resource "{2CD90691-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1Resource "{2CD90691-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1Resource IID_ID2D1Resource "{}"
 #comfunc ID2D1Resource_GetFactory 3 comobj
 
 ;--- ID2D1RoundedRectangleGeometry
-#define IID_ID2D1RoundedRectangleGeometry "{2CD906A3-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1RoundedRectangleGeometry "{2CD906A3-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1RoundedRectangleGeometry IID_ID2D1RoundedRectangleGeometry "{}"
 #comfunc ID2D1RoundedRectangleGeometry_GetFactory 3 comobj
 #comfunc ID2D1RoundedRectangleGeometry_GetBounds 4 var, var
@@ -553,7 +553,7 @@
 #comfunc ID2D1RoundedRectangleGeometry_GetRoundedRect 17 var
 
 ;--- ID2D1SimplifiedGeometrySink
-#define IID_ID2D1SimplifiedGeometrySink "{2CD9069E-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1SimplifiedGeometrySink "{2CD9069E-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1SimplifiedGeometrySink IID_ID2D1SimplifiedGeometrySink "{}"
 #comfunc ID2D1SimplifiedGeometrySink_SetFillMode 3 int
 #comfunc ID2D1SimplifiedGeometrySink_SetSegmentFlags 4 int
@@ -564,7 +564,7 @@
 #comfunc ID2D1SimplifiedGeometrySink_Close 9
 
 ;--- ID2D1SolidColorBrush
-#define IID_ID2D1SolidColorBrush "{2CD906A9-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1SolidColorBrush "{2CD906A9-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1SolidColorBrush IID_ID2D1SolidColorBrush "{}"
 #comfunc ID2D1SolidColorBrush_GetFactory 3 comobj
 #comfunc ID2D1SolidColorBrush_SetOpacity 4 float
@@ -575,7 +575,7 @@
 #comfunc ID2D1SolidColorBrush_GetColor 9
 
 ;--- ID2D1StrokeStyle
-#define IID_ID2D1StrokeStyle "{2CD9069D-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1StrokeStyle "{2CD9069D-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1StrokeStyle IID_ID2D1StrokeStyle "{}"
 #comfunc ID2D1StrokeStyle_GetFactory 3 comobj
 #comfunc ID2D1StrokeStyle_GetStartCap 4
@@ -589,13 +589,13 @@
 #comfunc ID2D1StrokeStyle_GetDashes 12 float, int
 
 ;--- ID2D1TessellationSink
-#define IID_ID2D1TessellationSink "{2CD906C1-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1TessellationSink "{2CD906C1-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1TessellationSink IID_ID2D1TessellationSink "{}"
 #comfunc ID2D1TessellationSink_AddTriangles 3 var, int
 #comfunc ID2D1TessellationSink_Close 4
 
 ;--- ID2D1TransformedGeometry
-#define IID_ID2D1TransformedGeometry "{2CD906BB-12E2-11DC-9FED-001143A055F9}"
+#define global IID_ID2D1TransformedGeometry "{2CD906BB-12E2-11DC-9FED-001143A055F9}"
 #usecom ID2D1TransformedGeometry IID_ID2D1TransformedGeometry "{}"
 #comfunc ID2D1TransformedGeometry_GetFactory 3 comobj
 #comfunc ID2D1TransformedGeometry_GetBounds 4 var, var
@@ -615,7 +615,7 @@
 #comfunc ID2D1TransformedGeometry_GetTransform 18 var
 
 ;--- IDataObject
-#define IID_IDataObject "{0000010E-0000-0000-C000-000000000046}"
+#define global IID_IDataObject "{0000010E-0000-0000-C000-000000000046}"
 #usecom IDataObject IID_IDataObject "{}"
 #comfunc IDataObject_GetData 3 var, int
 #comfunc IDataObject_GetDataHere 4 var, int
@@ -628,13 +628,13 @@
 #comfunc IDataObject_EnumDAdvise 11 comobj
 
 ;--- IDropSource
-#define IID_IDropSource "{00000121-0000-0000-C000-000000000046}"
+#define global IID_IDropSource "{00000121-0000-0000-C000-000000000046}"
 #usecom IDropSource IID_IDropSource "{}"
 #comfunc IDropSource_QueryContinueDrag 3 int, int
 #comfunc IDropSource_GiveFeedback 4 int
 
 ;--- IDropTarget
-#define IID_IDropTarget "{00000122-0000-0000-C000-000000000046}"
+#define global IID_IDropTarget "{00000122-0000-0000-C000-000000000046}"
 #usecom IDropTarget IID_IDropTarget "{}"
 #comfunc IDropTarget_DragEnter 3 comobj, int, int, var
 #comfunc IDropTarget_DragOver 4 int, int, var
@@ -642,7 +642,7 @@
 #comfunc IDropTarget_Drop 6 comobj, int, int, var
 
 ;--- IDWriteBitmapRenderTarget
-#define IID_IDWriteBitmapRenderTarget "{5E5A32A3-8DFF-4773-9FF6-0696EAB77267}"
+#define global IID_IDWriteBitmapRenderTarget "{5E5A32A3-8DFF-4773-9FF6-0696EAB77267}"
 #usecom IDWriteBitmapRenderTarget IID_IDWriteBitmapRenderTarget "{}"
 #comfunc IDWriteBitmapRenderTarget_DrawGlyphRun 3 float, float, int, int, comobj, int, var
 #comfunc IDWriteBitmapRenderTarget_GetMemoryDC 4
@@ -654,7 +654,7 @@
 #comfunc IDWriteBitmapRenderTarget_Resize 10 int, int
 
 ;--- IDWriteFactory
-#define IID_IDWriteFactory "{B859EE5A-D838-4B5B-A2E8-1ADC7D93DB48}"
+#define global IID_IDWriteFactory "{B859EE5A-D838-4B5B-A2E8-1ADC7D93DB48}"
 #usecom IDWriteFactory IID_IDWriteFactory "{}"
 #comfunc IDWriteFactory_GetSystemFontCollection 3 comobj, int
 #comfunc IDWriteFactory_CreateCustomFontCollection 4 comobj, intptr, int, comobj
@@ -679,7 +679,7 @@
 #comfunc IDWriteFactory_CreateGlyphRunAnalysis 23 int, float, var, int, int, float, float, comobj
 
 ;--- IDWriteFont
-#define IID_IDWriteFont "{ACD16696-8C14-4F5D-877E-FE3FC1D32737}"
+#define global IID_IDWriteFont "{ACD16696-8C14-4F5D-877E-FE3FC1D32737}"
 #usecom IDWriteFont IID_IDWriteFont "{}"
 #comfunc IDWriteFont_GetFontFamily 3 comobj
 #comfunc IDWriteFont_GetWeight 4
@@ -694,7 +694,7 @@
 #comfunc IDWriteFont_CreateFontFace 13 comobj
 
 ;--- IDWriteFontCollection
-#define IID_IDWriteFontCollection "{A84CEE02-3EEA-4EEE-A827-87C1A02A0FCC}"
+#define global IID_IDWriteFontCollection "{A84CEE02-3EEA-4EEE-A827-87C1A02A0FCC}"
 #usecom IDWriteFontCollection IID_IDWriteFontCollection "{}"
 #comfunc IDWriteFontCollection_GetFontFamilyCount 3
 #comfunc IDWriteFontCollection_GetFontFamily 4 int, comobj
@@ -702,12 +702,12 @@
 #comfunc IDWriteFontCollection_GetFontFromFontFace 6 comobj, comobj
 
 ;--- IDWriteFontCollectionLoader
-#define IID_IDWriteFontCollectionLoader "{CCA920E4-52F0-492B-BFA8-29C72EE0A468}"
+#define global IID_IDWriteFontCollectionLoader "{CCA920E4-52F0-492B-BFA8-29C72EE0A468}"
 #usecom IDWriteFontCollectionLoader IID_IDWriteFontCollectionLoader "{}"
 #comfunc IDWriteFontCollectionLoader_CreateEnumeratorFromKey 3 comobj, intptr, int, comobj
 
 ;--- IDWriteFontFace
-#define IID_IDWriteFontFace "{5F49804D-7024-4D43-BFA9-D25984F53849}"
+#define global IID_IDWriteFontFace "{5F49804D-7024-4D43-BFA9-D25984F53849}"
 #usecom IDWriteFontFace IID_IDWriteFontFace "{}"
 #comfunc IDWriteFontFace_GetType 3
 #comfunc IDWriteFontFace_GetFiles 4 int, comobj
@@ -726,7 +726,7 @@
 #comfunc IDWriteFontFace_GetGdiCompatibleGlyphMetrics 17 float, float, var, int, int, int, var, int
 
 ;--- IDWriteFontFamily
-#define IID_IDWriteFontFamily "{DA20D8EF-812A-4C43-9802-62EC4ABD7ADD}"
+#define global IID_IDWriteFontFamily "{DA20D8EF-812A-4C43-9802-62EC4ABD7ADD}"
 #usecom IDWriteFontFamily IID_IDWriteFontFamily "{}"
 #comfunc IDWriteFontFamily_GetFontCollection 3 comobj
 #comfunc IDWriteFontFamily_GetFontCount 4
@@ -736,25 +736,25 @@
 #comfunc IDWriteFontFamily_GetMatchingFonts 8 int, int, int, comobj
 
 ;--- IDWriteFontFile
-#define IID_IDWriteFontFile "{739D886A-CEF5-47DC-8769-1A8B41BEBBB0}"
+#define global IID_IDWriteFontFile "{739D886A-CEF5-47DC-8769-1A8B41BEBBB0}"
 #usecom IDWriteFontFile IID_IDWriteFontFile "{}"
 #comfunc IDWriteFontFile_GetReferenceKey 3 var, int
 #comfunc IDWriteFontFile_GetLoader 4 comobj
 #comfunc IDWriteFontFile_Analyze 5 var, var, var, int
 
 ;--- IDWriteFontFileEnumerator
-#define IID_IDWriteFontFileEnumerator "{72755049-5FF7-435D-8348-4BE97CFA6C7C}"
+#define global IID_IDWriteFontFileEnumerator "{72755049-5FF7-435D-8348-4BE97CFA6C7C}"
 #usecom IDWriteFontFileEnumerator IID_IDWriteFontFileEnumerator "{}"
 #comfunc IDWriteFontFileEnumerator_MoveNext 3 var
 #comfunc IDWriteFontFileEnumerator_GetCurrentFontFile 4 comobj
 
 ;--- IDWriteFontFileLoader
-#define IID_IDWriteFontFileLoader "{727CAD4E-D6AF-4C9E-8A08-D695B11CAA49}"
+#define global IID_IDWriteFontFileLoader "{727CAD4E-D6AF-4C9E-8A08-D695B11CAA49}"
 #usecom IDWriteFontFileLoader IID_IDWriteFontFileLoader "{}"
 #comfunc IDWriteFontFileLoader_CreateStreamFromKey 3 intptr, int, comobj
 
 ;--- IDWriteFontFileStream
-#define IID_IDWriteFontFileStream "{6D4865FE-0AB8-4D91-8F62-5DD6BE34A3E0}"
+#define global IID_IDWriteFontFileStream "{6D4865FE-0AB8-4D91-8F62-5DD6BE34A3E0}"
 #usecom IDWriteFontFileStream IID_IDWriteFontFileStream "{}"
 #comfunc IDWriteFontFileStream_ReadFileFragment 3 var, int64, int64, var
 #comfunc IDWriteFontFileStream_ReleaseFileFragment 4 intptr
@@ -762,14 +762,14 @@
 #comfunc IDWriteFontFileStream_GetLastWriteTime 6 int64
 
 ;--- IDWriteFontList
-#define IID_IDWriteFontList "{1A0D8438-1D97-4EC1-AEF9-A2FB86ED6ACB}"
+#define global IID_IDWriteFontList "{1A0D8438-1D97-4EC1-AEF9-A2FB86ED6ACB}"
 #usecom IDWriteFontList IID_IDWriteFontList "{}"
 #comfunc IDWriteFontList_GetFontCollection 3 comobj
 #comfunc IDWriteFontList_GetFontCount 4
 #comfunc IDWriteFontList_GetFont 5 int, comobj
 
 ;--- IDWriteGdiInterop
-#define IID_IDWriteGdiInterop "{1EDD9491-9853-4299-898F-6432983B6F3A}"
+#define global IID_IDWriteGdiInterop "{1EDD9491-9853-4299-898F-6432983B6F3A}"
 #usecom IDWriteGdiInterop IID_IDWriteGdiInterop "{}"
 #comfunc IDWriteGdiInterop_CreateFontFromLOGFONT 3 var, comobj
 #comfunc IDWriteGdiInterop_ConvertFontToLOGFONT 4 comobj, var, var
@@ -778,14 +778,14 @@
 #comfunc IDWriteGdiInterop_CreateBitmapRenderTarget 7 intptr, int, int, comobj
 
 ;--- IDWriteGlyphRunAnalysis
-#define IID_IDWriteGlyphRunAnalysis "{7D97DBF7-E085-42D4-81E3-6A883BDED118}"
+#define global IID_IDWriteGlyphRunAnalysis "{7D97DBF7-E085-42D4-81E3-6A883BDED118}"
 #usecom IDWriteGlyphRunAnalysis IID_IDWriteGlyphRunAnalysis "{}"
 #comfunc IDWriteGlyphRunAnalysis_GetAlphaTextureBounds 3 int, var
 #comfunc IDWriteGlyphRunAnalysis_CreateAlphaTexture 4 int, var, int, int
 #comfunc IDWriteGlyphRunAnalysis_GetAlphaBlendParams 5 comobj, float, float, float
 
 ;--- IDWriteInlineObject
-#define IID_IDWriteInlineObject "{8339FDE3-106F-47AB-8373-1C6295EB10B3}"
+#define global IID_IDWriteInlineObject "{8339FDE3-106F-47AB-8373-1C6295EB10B3}"
 #usecom IDWriteInlineObject IID_IDWriteInlineObject "{}"
 #comfunc IDWriteInlineObject_Draw 3 intptr, comobj, float, float, int, int, int
 #comfunc IDWriteInlineObject_GetMetrics 4 var
@@ -793,7 +793,7 @@
 #comfunc IDWriteInlineObject_GetBreakConditions 6 var, var
 
 ;--- IDWriteLocalizedStrings
-#define IID_IDWriteLocalizedStrings "{08256209-099A-4B34-B86D-C22B110E7771}"
+#define global IID_IDWriteLocalizedStrings "{08256209-099A-4B34-B86D-C22B110E7771}"
 #usecom IDWriteLocalizedStrings IID_IDWriteLocalizedStrings "{}"
 #comfunc IDWriteLocalizedStrings_GetCount 3
 #comfunc IDWriteLocalizedStrings_FindLocaleName 4 wstr, int, var
@@ -803,14 +803,14 @@
 #comfunc IDWriteLocalizedStrings_GetString 8 int, wstr, int
 
 ;--- IDWritePixelSnapping
-#define IID_IDWritePixelSnapping "{EAF3A2DA-ECF4-4D24-B644-B34F6842024B}"
+#define global IID_IDWritePixelSnapping "{EAF3A2DA-ECF4-4D24-B644-B34F6842024B}"
 #usecom IDWritePixelSnapping IID_IDWritePixelSnapping "{}"
 #comfunc IDWritePixelSnapping_IsPixelSnappingDisabled 3 intptr, var
 #comfunc IDWritePixelSnapping_GetCurrentTransform 4 intptr, var
 #comfunc IDWritePixelSnapping_GetPixelsPerDip 5 intptr, float
 
 ;--- IDWriteRenderingParams
-#define IID_IDWriteRenderingParams "{2F0DA53A-2ADD-47CD-82EE-D9EC34688E75}"
+#define global IID_IDWriteRenderingParams "{2F0DA53A-2ADD-47CD-82EE-D9EC34688E75}"
 #usecom IDWriteRenderingParams IID_IDWriteRenderingParams "{}"
 #comfunc IDWriteRenderingParams_GetGamma 3
 #comfunc IDWriteRenderingParams_GetEnhancedContrast 4
@@ -819,7 +819,7 @@
 #comfunc IDWriteRenderingParams_GetRenderingMode 7
 
 ;--- IDWriteTextAnalysisSink
-#define IID_IDWriteTextAnalysisSink "{5810CD44-0CA0-4701-B3FA-BEC5182AE4F6}"
+#define global IID_IDWriteTextAnalysisSink "{5810CD44-0CA0-4701-B3FA-BEC5182AE4F6}"
 #usecom IDWriteTextAnalysisSink IID_IDWriteTextAnalysisSink "{}"
 #comfunc IDWriteTextAnalysisSink_SetScriptAnalysis 3 int, int, var
 #comfunc IDWriteTextAnalysisSink_SetLineBreakpoints 4 int, int, var
@@ -827,7 +827,7 @@
 #comfunc IDWriteTextAnalysisSink_SetNumberSubstitution 6 int, int, comobj
 
 ;--- IDWriteTextAnalysisSource
-#define IID_IDWriteTextAnalysisSource "{688E1A58-5094-47C8-ADC8-FBCEA60AE92B}"
+#define global IID_IDWriteTextAnalysisSource "{688E1A58-5094-47C8-ADC8-FBCEA60AE92B}"
 #usecom IDWriteTextAnalysisSource IID_IDWriteTextAnalysisSource "{}"
 #comfunc IDWriteTextAnalysisSource_GetTextAtPosition 3 int, var, int
 #comfunc IDWriteTextAnalysisSource_GetTextBeforePosition 4 int, var, int
@@ -836,7 +836,7 @@
 #comfunc IDWriteTextAnalysisSource_GetNumberSubstitution 7 int, int, comobj
 
 ;--- IDWriteTextAnalyzer
-#define IID_IDWriteTextAnalyzer "{B7E6163E-7F46-43B4-84B3-E4E6249C365D}"
+#define global IID_IDWriteTextAnalyzer "{B7E6163E-7F46-43B4-84B3-E4E6249C365D}"
 #usecom IDWriteTextAnalyzer IID_IDWriteTextAnalyzer "{}"
 #comfunc IDWriteTextAnalyzer_AnalyzeScript 3 comobj, int, int, comobj
 #comfunc IDWriteTextAnalyzer_AnalyzeBidi 4 comobj, int, int, comobj
@@ -847,7 +847,7 @@
 #comfunc IDWriteTextAnalyzer_GetGdiCompatibleGlyphPlacements 9 wstr, int, var, int, int, var, int, comobj, float, float, var, int, int, int, var, wstr, var, var, int, float, var
 
 ;--- IDWriteTextFormat
-#define IID_IDWriteTextFormat "{9C906818-31D7-4FD3-A151-7C5E225DB55A}"
+#define global IID_IDWriteTextFormat "{9C906818-31D7-4FD3-A151-7C5E225DB55A}"
 #usecom IDWriteTextFormat IID_IDWriteTextFormat "{}"
 #comfunc IDWriteTextFormat_SetTextAlignment 3 int
 #comfunc IDWriteTextFormat_SetParagraphAlignment 4 int
@@ -876,7 +876,7 @@
 #comfunc IDWriteTextFormat_GetLocaleName 27 wstr, int
 
 ;--- IDWriteTextLayout
-#define IID_IDWriteTextLayout "{53737037-6D14-410B-9BFE-0B182BB70961}"
+#define global IID_IDWriteTextLayout "{53737037-6D14-410B-9BFE-0B182BB70961}"
 #usecom IDWriteTextLayout IID_IDWriteTextLayout "{}"
 #comfunc IDWriteTextLayout_SetTextAlignment 3 int
 #comfunc IDWriteTextLayout_SetParagraphAlignment 4 int
@@ -944,7 +944,7 @@
 #comfunc IDWriteTextLayout_HitTestTextRange 66 int, int, float, float, var, int, int
 
 ;--- IDWriteTextRenderer
-#define IID_IDWriteTextRenderer "{EF8A8135-5CC6-45FE-8825-C5A0724EB819}"
+#define global IID_IDWriteTextRenderer "{EF8A8135-5CC6-45FE-8825-C5A0724EB819}"
 #usecom IDWriteTextRenderer IID_IDWriteTextRenderer "{}"
 #comfunc IDWriteTextRenderer_IsPixelSnappingDisabled 3 intptr, var
 #comfunc IDWriteTextRenderer_GetCurrentTransform 4 intptr, var
@@ -955,14 +955,14 @@
 #comfunc IDWriteTextRenderer_DrawInlineObject 9 intptr, float, float, comobj, int, int, int
 
 ;--- IDWriteTypography
-#define IID_IDWriteTypography "{55F1112B-1DC2-4B3C-9541-F46894ED85B6}"
+#define global IID_IDWriteTypography "{55F1112B-1DC2-4B3C-9541-F46894ED85B6}"
 #usecom IDWriteTypography IID_IDWriteTypography "{}"
 #comfunc IDWriteTypography_AddFontFeature 3 int
 #comfunc IDWriteTypography_GetFontFeatureCount 4
 #comfunc IDWriteTypography_GetFontFeature 5 int, var
 
 ;--- IDXGIAdapter
-#define IID_IDXGIAdapter "{2411E7E1-12AC-4CCF-BD14-9798E8534DC0}"
+#define global IID_IDXGIAdapter "{2411E7E1-12AC-4CCF-BD14-9798E8534DC0}"
 #usecom IDXGIAdapter IID_IDXGIAdapter "{}"
 #comfunc IDXGIAdapter_SetPrivateData 3 var, int, intptr
 #comfunc IDXGIAdapter_SetPrivateDataInterface 4 var, int
@@ -973,7 +973,7 @@
 #comfunc IDXGIAdapter_CheckInterfaceSupport 9 var, int64
 
 ;--- IDXGIDevice
-#define IID_IDXGIDevice "{54EC77FA-1377-44E6-8C32-88FD5F44C84C}"
+#define global IID_IDXGIDevice "{54EC77FA-1377-44E6-8C32-88FD5F44C84C}"
 #usecom IDXGIDevice IID_IDXGIDevice "{}"
 #comfunc IDXGIDevice_SetPrivateData 3 var, int, intptr
 #comfunc IDXGIDevice_SetPrivateDataInterface 4 var, int
@@ -986,7 +986,7 @@
 #comfunc IDXGIDevice_GetGPUThreadPriority 11 int
 
 ;--- IDXGIDeviceSubObject
-#define IID_IDXGIDeviceSubObject "{3D3E0379-F9DE-4D58-BB6C-18D62992F1A6}"
+#define global IID_IDXGIDeviceSubObject "{3D3E0379-F9DE-4D58-BB6C-18D62992F1A6}"
 #usecom IDXGIDeviceSubObject IID_IDXGIDeviceSubObject "{}"
 #comfunc IDXGIDeviceSubObject_SetPrivateData 3 var, int, intptr
 #comfunc IDXGIDeviceSubObject_SetPrivateDataInterface 4 var, int
@@ -995,7 +995,7 @@
 #comfunc IDXGIDeviceSubObject_GetDevice 7 var, int
 
 ;--- IDXGIFactory
-#define IID_IDXGIFactory "{7B7166EC-21C7-44AE-B21A-C9AE321AE369}"
+#define global IID_IDXGIFactory "{7B7166EC-21C7-44AE-B21A-C9AE321AE369}"
 #usecom IDXGIFactory IID_IDXGIFactory "{}"
 #comfunc IDXGIFactory_SetPrivateData 3 var, int, intptr
 #comfunc IDXGIFactory_SetPrivateDataInterface 4 var, int
@@ -1008,7 +1008,7 @@
 #comfunc IDXGIFactory_CreateSoftwareAdapter 11 intptr, comobj
 
 ;--- IDXGIObject
-#define IID_IDXGIObject "{AEC22FB8-76F3-4639-9BE0-28EB43A67A2E}"
+#define global IID_IDXGIObject "{AEC22FB8-76F3-4639-9BE0-28EB43A67A2E}"
 #usecom IDXGIObject IID_IDXGIObject "{}"
 #comfunc IDXGIObject_SetPrivateData 3 var, int, intptr
 #comfunc IDXGIObject_SetPrivateDataInterface 4 var, int
@@ -1016,7 +1016,7 @@
 #comfunc IDXGIObject_GetParent 6 var, int
 
 ;--- IDXGIOutput
-#define IID_IDXGIOutput "{AE02EEDB-C735-4690-8D52-5A8DC20213AA}"
+#define global IID_IDXGIOutput "{AE02EEDB-C735-4690-8D52-5A8DC20213AA}"
 #usecom IDXGIOutput IID_IDXGIOutput "{}"
 #comfunc IDXGIOutput_SetPrivateData 3 var, int, intptr
 #comfunc IDXGIOutput_SetPrivateDataInterface 4 var, int
@@ -1036,7 +1036,7 @@
 #comfunc IDXGIOutput_GetFrameStatistics 18 var
 
 ;--- IDXGISurface
-#define IID_IDXGISurface "{CAFCB56C-6AC3-4889-BF47-9E23BBD260EC}"
+#define global IID_IDXGISurface "{CAFCB56C-6AC3-4889-BF47-9E23BBD260EC}"
 #usecom IDXGISurface IID_IDXGISurface "{}"
 #comfunc IDXGISurface_SetPrivateData 3 var, int, intptr
 #comfunc IDXGISurface_SetPrivateDataInterface 4 var, int
@@ -1048,7 +1048,7 @@
 #comfunc IDXGISurface_Unmap 10
 
 ;--- IDXGISwapChain
-#define IID_IDXGISwapChain "{310D36A0-D2E7-4C0A-AA04-6A9D23B8886A}"
+#define global IID_IDXGISwapChain "{310D36A0-D2E7-4C0A-AA04-6A9D23B8886A}"
 #usecom IDXGISwapChain IID_IDXGISwapChain "{}"
 #comfunc IDXGISwapChain_SetPrivateData 3 var, int, intptr
 #comfunc IDXGISwapChain_SetPrivateDataInterface 4 var, int
@@ -1067,7 +1067,7 @@
 #comfunc IDXGISwapChain_GetLastPresentCount 17 int
 
 ;--- IEnumFORMATETC
-#define IID_IEnumFORMATETC "{00000103-0000-0000-C000-000000000046}"
+#define global IID_IEnumFORMATETC "{00000103-0000-0000-C000-000000000046}"
 #usecom IEnumFORMATETC IID_IEnumFORMATETC "{}"
 #comfunc IEnumFORMATETC_Next 3 int, var, var
 #comfunc IEnumFORMATETC_Skip 4 int
@@ -1075,7 +1075,7 @@
 #comfunc IEnumFORMATETC_Clone 6 comobj
 
 ;--- IEnumMoniker
-#define IID_IEnumMoniker "{00000102-0000-0000-C000-000000000046}"
+#define global IID_IEnumMoniker "{00000102-0000-0000-C000-000000000046}"
 #usecom IEnumMoniker IID_IEnumMoniker "{}"
 #comfunc IEnumMoniker_Next 3 int, comobj, var
 #comfunc IEnumMoniker_Skip 4 int
@@ -1083,7 +1083,7 @@
 #comfunc IEnumMoniker_Clone 6 comobj
 
 ;--- IEnumShellItems
-#define IID_IEnumShellItems "{70629033-E363-4A28-A567-0DB78006E6D7}"
+#define global IID_IEnumShellItems "{70629033-E363-4A28-A567-0DB78006E6D7}"
 #usecom IEnumShellItems IID_IEnumShellItems "{}"
 #comfunc IEnumShellItems_Next 3 int, comobj, var
 #comfunc IEnumShellItems_Skip 4 int
@@ -1091,7 +1091,7 @@
 #comfunc IEnumShellItems_Clone 6 comobj
 
 ;--- IEnumSTATDATA
-#define IID_IEnumSTATDATA "{00000105-0000-0000-C000-000000000046}"
+#define global IID_IEnumSTATDATA "{00000105-0000-0000-C000-000000000046}"
 #usecom IEnumSTATDATA IID_IEnumSTATDATA "{}"
 #comfunc IEnumSTATDATA_Next 3 int, int, var
 #comfunc IEnumSTATDATA_Skip 4 int
@@ -1099,7 +1099,7 @@
 #comfunc IEnumSTATDATA_Clone 6 comobj
 
 ;--- IEnumString
-#define IID_IEnumString "{00000101-0000-0000-C000-000000000046}"
+#define global IID_IEnumString "{00000101-0000-0000-C000-000000000046}"
 #usecom IEnumString IID_IEnumString "{}"
 #comfunc IEnumString_Next 3 int, var, var
 #comfunc IEnumString_Skip 4 int
@@ -1107,7 +1107,7 @@
 #comfunc IEnumString_Clone 6 comobj
 
 ;--- IEnumUnknown
-#define IID_IEnumUnknown "{00000100-0000-0000-C000-000000000046}"
+#define global IID_IEnumUnknown "{00000100-0000-0000-C000-000000000046}"
 #usecom IEnumUnknown IID_IEnumUnknown "{}"
 #comfunc IEnumUnknown_Next 3 int, int, var
 #comfunc IEnumUnknown_Skip 4 int
@@ -1115,12 +1115,12 @@
 #comfunc IEnumUnknown_Clone 6 comobj
 
 ;--- IErrorLog
-#define IID_IErrorLog "{3127CA40-446E-11CE-8135-00AA004BB851}"
+#define global IID_IErrorLog "{3127CA40-446E-11CE-8135-00AA004BB851}"
 #usecom IErrorLog IID_IErrorLog "{}"
 #comfunc IErrorLog_AddError 3 wstr, int
 
 ;--- IFileDialog
-#define IID_IFileDialog "{42F85136-DB7E-439C-85F1-E4075D135FC8}"
+#define global IID_IFileDialog "{42F85136-DB7E-439C-85F1-E4075D135FC8}"
 #usecom IFileDialog IID_IFileDialog "{}"
 #comfunc IFileDialog_Show 3 intptr
 #comfunc IFileDialog_SetFileTypes 4 int, var
@@ -1148,7 +1148,7 @@
 #comfunc IFileDialog_SetFilter 26 comobj
 
 ;--- IFileDialogEvents
-#define IID_IFileDialogEvents "{973510DB-7D7F-452B-8975-74A85828D354}"
+#define global IID_IFileDialogEvents "{973510DB-7D7F-452B-8975-74A85828D354}"
 #usecom IFileDialogEvents IID_IFileDialogEvents "{}"
 #comfunc IFileDialogEvents_OnFileOk 3 comobj
 #comfunc IFileDialogEvents_OnFolderChanging 4 comobj, comobj
@@ -1159,7 +1159,7 @@
 #comfunc IFileDialogEvents_OnOverwrite 9 comobj, comobj, var
 
 ;--- IFileOpenDialog
-#define IID_IFileOpenDialog "{D57C7288-D4AD-4768-BE02-9D969532D960}"
+#define global IID_IFileOpenDialog "{D57C7288-D4AD-4768-BE02-9D969532D960}"
 #usecom IFileOpenDialog IID_IFileOpenDialog "{}"
 #comfunc IFileOpenDialog_Show 3 intptr
 #comfunc IFileOpenDialog_SetFileTypes 4 int, var
@@ -1189,7 +1189,7 @@
 #comfunc IFileOpenDialog_GetSelectedItems 28 comobj
 
 ;--- IFileOperationProgressSink
-#define IID_IFileOperationProgressSink "{04B0F1A7-9490-44BC-96E1-4296A31252E2}"
+#define global IID_IFileOperationProgressSink "{04B0F1A7-9490-44BC-96E1-4296A31252E2}"
 #usecom IFileOperationProgressSink IID_IFileOperationProgressSink "{}"
 #comfunc IFileOperationProgressSink_StartOperations 3
 #comfunc IFileOperationProgressSink_FinishOperations 4 intptr
@@ -1209,7 +1209,7 @@
 #comfunc IFileOperationProgressSink_ResumeTimer 18
 
 ;--- IFileSaveDialog
-#define IID_IFileSaveDialog "{84BCCD23-5FDE-4CDB-AEA4-AF64B83D78AB}"
+#define global IID_IFileSaveDialog "{84BCCD23-5FDE-4CDB-AEA4-AF64B83D78AB}"
 #usecom IFileSaveDialog IID_IFileSaveDialog "{}"
 #comfunc IFileSaveDialog_Show 3 intptr
 #comfunc IFileSaveDialog_SetFileTypes 4 int, var
@@ -1242,12 +1242,12 @@
 #comfunc IFileSaveDialog_ApplyProperties 31 comobj, comobj, intptr, comobj
 
 ;--- IModalWindow
-#define IID_IModalWindow "{B4DB1657-70D7-485E-8E3E-6FCB5A5C1802}"
+#define global IID_IModalWindow "{B4DB1657-70D7-485E-8E3E-6FCB5A5C1802}"
 #usecom IModalWindow IID_IModalWindow "{}"
 #comfunc IModalWindow_Show 3 intptr
 
 ;--- IMoniker
-#define IID_IMoniker "{0000000F-0000-0000-C000-000000000046}"
+#define global IID_IMoniker "{0000000F-0000-0000-C000-000000000046}"
 #usecom IMoniker IID_IMoniker "{}"
 #comfunc IMoniker_GetClassID 3 var
 #comfunc IMoniker_IsDirty 4
@@ -1271,12 +1271,12 @@
 #comfunc IMoniker_IsSystemMoniker 22 int
 
 ;--- IPersist
-#define IID_IPersist "{0000010C-0000-0000-C000-000000000046}"
+#define global IID_IPersist "{0000010C-0000-0000-C000-000000000046}"
 #usecom IPersist IID_IPersist "{}"
 #comfunc IPersist_GetClassID 3 var
 
 ;--- IPersistFile
-#define IID_IPersistFile "{0000010B-0000-0000-C000-000000000046}"
+#define global IID_IPersistFile "{0000010B-0000-0000-C000-000000000046}"
 #usecom IPersistFile IID_IPersistFile "{}"
 #comfunc IPersistFile_GetClassID 3 var
 #comfunc IPersistFile_IsDirty 4
@@ -1286,7 +1286,7 @@
 #comfunc IPersistFile_GetCurFile 8 var
 
 ;--- IPersistStream
-#define IID_IPersistStream "{00000109-0000-0000-C000-000000000046}"
+#define global IID_IPersistStream "{00000109-0000-0000-C000-000000000046}"
 #usecom IPersistStream IID_IPersistStream "{}"
 #comfunc IPersistStream_GetClassID 3 var
 #comfunc IPersistStream_IsDirty 4
@@ -1295,7 +1295,7 @@
 #comfunc IPersistStream_GetSizeMax 7 int64
 
 ;--- IPropertyBag2
-#define IID_IPropertyBag2 "{22F55882-280B-11D0-A8A9-00A0C90C2004}"
+#define global IID_IPropertyBag2 "{22F55882-280B-11D0-A8A9-00A0C90C2004}"
 #usecom IPropertyBag2 IID_IPropertyBag2 "{}"
 #comfunc IPropertyBag2_Read 3 int, var, comobj, int, var
 #comfunc IPropertyBag2_Write 4 int, var, int
@@ -1304,13 +1304,13 @@
 #comfunc IPropertyBag2_LoadObject 7 wstr, int, int, comobj
 
 ;--- IPropertyDescriptionList
-#define IID_IPropertyDescriptionList "{1F9FC1D0-C39B-4B26-817F-011967D3440E}"
+#define global IID_IPropertyDescriptionList "{1F9FC1D0-C39B-4B26-817F-011967D3440E}"
 #usecom IPropertyDescriptionList IID_IPropertyDescriptionList "{}"
 #comfunc IPropertyDescriptionList_GetCount 3 int
 #comfunc IPropertyDescriptionList_GetAt 4 int, var, int
 
 ;--- IPropertyStore
-#define IID_IPropertyStore "{886D8EEB-8CF2-4446-8D02-CDBA1DBDCF99}"
+#define global IID_IPropertyStore "{886D8EEB-8CF2-4446-8D02-CDBA1DBDCF99}"
 #usecom IPropertyStore IID_IPropertyStore "{}"
 #comfunc IPropertyStore_GetCount 3 int
 #comfunc IPropertyStore_GetAt 4 int, var
@@ -1319,7 +1319,7 @@
 #comfunc IPropertyStore_Commit 7
 
 ;--- IRunningObjectTable
-#define IID_IRunningObjectTable "{00000010-0000-0000-C000-000000000046}"
+#define global IID_IRunningObjectTable "{00000010-0000-0000-C000-000000000046}"
 #usecom IRunningObjectTable IID_IRunningObjectTable "{}"
 #comfunc IRunningObjectTable_Register 3 int, int, comobj, int
 #comfunc IRunningObjectTable_Revoke 4 int
@@ -1330,13 +1330,13 @@
 #comfunc IRunningObjectTable_EnumRunning 9 comobj
 
 ;--- ISequentialStream
-#define IID_ISequentialStream "{0C733A30-2A1C-11CE-ADE5-00AA0044773D}"
+#define global IID_ISequentialStream "{0C733A30-2A1C-11CE-ADE5-00AA0044773D}"
 #usecom ISequentialStream IID_ISequentialStream "{}"
 #comfunc ISequentialStream_Read 3 intptr, int, var
 #comfunc ISequentialStream_Write 4 intptr, int, var
 
 ;--- IShellItem
-#define IID_IShellItem "{43826D1E-E718-42EE-BC55-A1E261C37BFE}"
+#define global IID_IShellItem "{43826D1E-E718-42EE-BC55-A1E261C37BFE}"
 #usecom IShellItem IID_IShellItem "{}"
 #comfunc IShellItem_BindToHandler 3 comobj, var, var, int
 #comfunc IShellItem_GetParent 4 comobj
@@ -1345,7 +1345,7 @@
 #comfunc IShellItem_Compare 7 comobj, int, int
 
 ;--- IShellItemArray
-#define IID_IShellItemArray "{B63EA76D-1F85-456F-A19C-48159EFA858B}"
+#define global IID_IShellItemArray "{B63EA76D-1F85-456F-A19C-48159EFA858B}"
 #usecom IShellItemArray IID_IShellItemArray "{}"
 #comfunc IShellItemArray_BindToHandler 3 comobj, var, var, int
 #comfunc IShellItemArray_GetPropertyStore 4 int, var, int
@@ -1356,13 +1356,13 @@
 #comfunc IShellItemArray_EnumItems 9 comobj
 
 ;--- IShellItemFilter
-#define IID_IShellItemFilter "{2659B475-EEB8-48B7-8F07-B378810F48CF}"
+#define global IID_IShellItemFilter "{2659B475-EEB8-48B7-8F07-B378810F48CF}"
 #usecom IShellItemFilter IID_IShellItemFilter "{}"
 #comfunc IShellItemFilter_IncludeItem 3 comobj
 #comfunc IShellItemFilter_GetEnumFlagsForItem 4 comobj, int
 
 ;--- IShellLinkW
-#define IID_IShellLinkW "{000214F9-0000-0000-C000-000000000046}"
+#define global IID_IShellLinkW "{000214F9-0000-0000-C000-000000000046}"
 #usecom IShellLinkW IID_IShellLinkW "{}"
 #comfunc IShellLinkW_GetPath 3 wstr, int, var, int
 #comfunc IShellLinkW_GetIDList 4 comobj
@@ -1384,7 +1384,7 @@
 #comfunc IShellLinkW_SetPath 20 wstr
 
 ;--- IStream
-#define IID_IStream "{0000000C-0000-0000-C000-000000000046}"
+#define global IID_IStream "{0000000C-0000-0000-C000-000000000046}"
 #usecom IStream IID_IStream "{}"
 #comfunc IStream_Read 3 intptr, int, var
 #comfunc IStream_Write 4 intptr, int, var
@@ -1399,7 +1399,7 @@
 #comfunc IStream_Clone 13 comobj
 
 ;--- IWICBitmap
-#define IID_IWICBitmap "{00000121-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICBitmap "{00000121-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICBitmap IID_IWICBitmap "{}"
 #comfunc IWICBitmap_GetSize 3 int, int
 #comfunc IWICBitmap_GetPixelFormat 4 var
@@ -1411,7 +1411,7 @@
 #comfunc IWICBitmap_SetResolution 10 double, double
 
 ;--- IWICBitmapClipper
-#define IID_IWICBitmapClipper "{E4FBCF03-223D-4E81-9333-D635556DD1B5}"
+#define global IID_IWICBitmapClipper "{E4FBCF03-223D-4E81-9333-D635556DD1B5}"
 #usecom IWICBitmapClipper IID_IWICBitmapClipper "{}"
 #comfunc IWICBitmapClipper_GetSize 3 int, int
 #comfunc IWICBitmapClipper_GetPixelFormat 4 var
@@ -1421,7 +1421,7 @@
 #comfunc IWICBitmapClipper_Initialize 8 comobj, var
 
 ;--- IWICBitmapCodecInfo
-#define IID_IWICBitmapCodecInfo "{E87A44C4-B76E-4C47-8B09-298EB12A2714}"
+#define global IID_IWICBitmapCodecInfo "{E87A44C4-B76E-4C47-8B09-298EB12A2714}"
 #usecom IWICBitmapCodecInfo IID_IWICBitmapCodecInfo "{}"
 #comfunc IWICBitmapCodecInfo_GetComponentType 3 var
 #comfunc IWICBitmapCodecInfo_GetCLSID 4 var
@@ -1445,7 +1445,7 @@
 #comfunc IWICBitmapCodecInfo_MatchesMimeType 22 wstr, var
 
 ;--- IWICBitmapDecoder
-#define IID_IWICBitmapDecoder "{9EDDE9E7-8DEE-47EA-99DF-E6FAF2ED44BF}"
+#define global IID_IWICBitmapDecoder "{9EDDE9E7-8DEE-47EA-99DF-E6FAF2ED44BF}"
 #usecom IWICBitmapDecoder IID_IWICBitmapDecoder "{}"
 #comfunc IWICBitmapDecoder_QueryCapability 3 comobj, int
 #comfunc IWICBitmapDecoder_Initialize 4 comobj, int
@@ -1460,7 +1460,7 @@
 #comfunc IWICBitmapDecoder_GetFrame 13 int, comobj
 
 ;--- IWICBitmapDecoderInfo
-#define IID_IWICBitmapDecoderInfo "{D8CD007F-D08F-4191-9BFC-236EA7F0E4B5}"
+#define global IID_IWICBitmapDecoderInfo "{D8CD007F-D08F-4191-9BFC-236EA7F0E4B5}"
 #usecom IWICBitmapDecoderInfo IID_IWICBitmapDecoderInfo "{}"
 #comfunc IWICBitmapDecoderInfo_GetComponentType 3 var
 #comfunc IWICBitmapDecoderInfo_GetCLSID 4 var
@@ -1487,7 +1487,7 @@
 #comfunc IWICBitmapDecoderInfo_CreateInstance 25 comobj
 
 ;--- IWICBitmapEncoder
-#define IID_IWICBitmapEncoder "{00000103-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICBitmapEncoder "{00000103-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICBitmapEncoder IID_IWICBitmapEncoder "{}"
 #comfunc IWICBitmapEncoder_Initialize 3 comobj, int
 #comfunc IWICBitmapEncoder_GetContainerFormat 4 var
@@ -1501,7 +1501,7 @@
 #comfunc IWICBitmapEncoder_GetMetadataQueryWriter 12 comobj
 
 ;--- IWICBitmapEncoderInfo
-#define IID_IWICBitmapEncoderInfo "{94C9B4EE-A09F-4F92-8A1E-4A9BCE7E76FB}"
+#define global IID_IWICBitmapEncoderInfo "{94C9B4EE-A09F-4F92-8A1E-4A9BCE7E76FB}"
 #usecom IWICBitmapEncoderInfo IID_IWICBitmapEncoderInfo "{}"
 #comfunc IWICBitmapEncoderInfo_GetComponentType 3 var
 #comfunc IWICBitmapEncoderInfo_GetCLSID 4 var
@@ -1526,7 +1526,7 @@
 #comfunc IWICBitmapEncoderInfo_CreateInstance 23 comobj
 
 ;--- IWICBitmapFlipRotator
-#define IID_IWICBitmapFlipRotator "{5009834F-2D6A-41CE-9E1B-17C5AFF7A782}"
+#define global IID_IWICBitmapFlipRotator "{5009834F-2D6A-41CE-9E1B-17C5AFF7A782}"
 #usecom IWICBitmapFlipRotator IID_IWICBitmapFlipRotator "{}"
 #comfunc IWICBitmapFlipRotator_GetSize 3 int, int
 #comfunc IWICBitmapFlipRotator_GetPixelFormat 4 var
@@ -1536,7 +1536,7 @@
 #comfunc IWICBitmapFlipRotator_Initialize 8 comobj, int
 
 ;--- IWICBitmapFrameDecode
-#define IID_IWICBitmapFrameDecode "{3B16811B-6A43-4EC9-A813-3D930C13B940}"
+#define global IID_IWICBitmapFrameDecode "{3B16811B-6A43-4EC9-A813-3D930C13B940}"
 #usecom IWICBitmapFrameDecode IID_IWICBitmapFrameDecode "{}"
 #comfunc IWICBitmapFrameDecode_GetSize 3 int, int
 #comfunc IWICBitmapFrameDecode_GetPixelFormat 4 var
@@ -1548,7 +1548,7 @@
 #comfunc IWICBitmapFrameDecode_GetThumbnail 10 comobj
 
 ;--- IWICBitmapFrameEncode
-#define IID_IWICBitmapFrameEncode "{00000105-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICBitmapFrameEncode "{00000105-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICBitmapFrameEncode IID_IWICBitmapFrameEncode "{}"
 #comfunc IWICBitmapFrameEncode_Initialize 3 comobj
 #comfunc IWICBitmapFrameEncode_SetSize 4 int, int
@@ -1563,7 +1563,7 @@
 #comfunc IWICBitmapFrameEncode_GetMetadataQueryWriter 13 comobj
 
 ;--- IWICBitmapLock
-#define IID_IWICBitmapLock "{00000123-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICBitmapLock "{00000123-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICBitmapLock IID_IWICBitmapLock "{}"
 #comfunc IWICBitmapLock_GetSize 3 int, int
 #comfunc IWICBitmapLock_GetStride 4 int
@@ -1571,7 +1571,7 @@
 #comfunc IWICBitmapLock_GetPixelFormat 6 var
 
 ;--- IWICBitmapScaler
-#define IID_IWICBitmapScaler "{00000302-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICBitmapScaler "{00000302-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICBitmapScaler IID_IWICBitmapScaler "{}"
 #comfunc IWICBitmapScaler_GetSize 3 int, int
 #comfunc IWICBitmapScaler_GetPixelFormat 4 var
@@ -1581,7 +1581,7 @@
 #comfunc IWICBitmapScaler_Initialize 8 comobj, int, int, int
 
 ;--- IWICBitmapSource
-#define IID_IWICBitmapSource "{00000120-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICBitmapSource "{00000120-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICBitmapSource IID_IWICBitmapSource "{}"
 #comfunc IWICBitmapSource_GetSize 3 int, int
 #comfunc IWICBitmapSource_GetPixelFormat 4 var
@@ -1590,7 +1590,7 @@
 #comfunc IWICBitmapSource_CopyPixels 7 var, int, int, int
 
 ;--- IWICColorContext
-#define IID_IWICColorContext "{3C613A02-34B2-44EA-9A7C-45AEA9C6FD6D}"
+#define global IID_IWICColorContext "{3C613A02-34B2-44EA-9A7C-45AEA9C6FD6D}"
 #usecom IWICColorContext IID_IWICColorContext "{}"
 #comfunc IWICColorContext_InitializeFromFilename 3 wstr
 #comfunc IWICColorContext_InitializeFromMemory 4 int, int
@@ -1600,7 +1600,7 @@
 #comfunc IWICColorContext_GetExifColorSpace 8 int
 
 ;--- IWICColorTransform
-#define IID_IWICColorTransform "{B66F034F-D0E2-40AB-B436-6DE39E321A94}"
+#define global IID_IWICColorTransform "{B66F034F-D0E2-40AB-B436-6DE39E321A94}"
 #usecom IWICColorTransform IID_IWICColorTransform "{}"
 #comfunc IWICColorTransform_GetSize 3 int, int
 #comfunc IWICColorTransform_GetPixelFormat 4 var
@@ -1610,7 +1610,7 @@
 #comfunc IWICColorTransform_Initialize 8 comobj, comobj, comobj, var
 
 ;--- IWICComponentInfo
-#define IID_IWICComponentInfo "{23BC3F0A-698B-4357-886B-F24D50671334}"
+#define global IID_IWICComponentInfo "{23BC3F0A-698B-4357-886B-F24D50671334}"
 #usecom IWICComponentInfo IID_IWICComponentInfo "{}"
 #comfunc IWICComponentInfo_GetComponentType 3 var
 #comfunc IWICComponentInfo_GetCLSID 4 var
@@ -1622,13 +1622,13 @@
 #comfunc IWICComponentInfo_GetFriendlyName 10 int, wstr, int
 
 ;--- IWICFastMetadataEncoder
-#define IID_IWICFastMetadataEncoder "{B84E2C09-78C9-4AC4-8BD3-524AE1663A2F}"
+#define global IID_IWICFastMetadataEncoder "{B84E2C09-78C9-4AC4-8BD3-524AE1663A2F}"
 #usecom IWICFastMetadataEncoder IID_IWICFastMetadataEncoder "{}"
 #comfunc IWICFastMetadataEncoder_Commit 3
 #comfunc IWICFastMetadataEncoder_GetMetadataQueryWriter 4 comobj
 
 ;--- IWICFormatConverter
-#define IID_IWICFormatConverter "{00000301-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICFormatConverter "{00000301-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICFormatConverter IID_IWICFormatConverter "{}"
 #comfunc IWICFormatConverter_GetSize 3 int, int
 #comfunc IWICFormatConverter_GetPixelFormat 4 var
@@ -1639,7 +1639,7 @@
 #comfunc IWICFormatConverter_CanConvert 9 var, var, var
 
 ;--- IWICImagingFactory
-#define IID_IWICImagingFactory "{EC5EC8A9-C395-4314-9C77-54D7A935FF70}"
+#define global IID_IWICImagingFactory "{EC5EC8A9-C395-4314-9C77-54D7A935FF70}"
 #usecom IWICImagingFactory IID_IWICImagingFactory "{}"
 #comfunc IWICImagingFactory_CreateDecoderFromFilename 3 wstr, var, int, int
 #comfunc IWICImagingFactory_CreateDecoderFromStream 4 comobj, var, int
@@ -1668,7 +1668,7 @@
 #comfunc IWICImagingFactory_CreateQueryWriterFromReader 27 comobj, var, comobj
 
 ;--- IWICMetadataQueryReader
-#define IID_IWICMetadataQueryReader "{30989668-E1C9-4597-B395-458EEDB808DF}"
+#define global IID_IWICMetadataQueryReader "{30989668-E1C9-4597-B395-458EEDB808DF}"
 #usecom IWICMetadataQueryReader IID_IWICMetadataQueryReader "{}"
 #comfunc IWICMetadataQueryReader_GetContainerFormat 3 var
 #comfunc IWICMetadataQueryReader_GetLocation 4 int, wstr, int
@@ -1676,7 +1676,7 @@
 #comfunc IWICMetadataQueryReader_GetEnumerator 6 comobj
 
 ;--- IWICMetadataQueryWriter
-#define IID_IWICMetadataQueryWriter "{A721791A-0DEF-4D06-BD91-2118BF1DB10B}"
+#define global IID_IWICMetadataQueryWriter "{A721791A-0DEF-4D06-BD91-2118BF1DB10B}"
 #usecom IWICMetadataQueryWriter IID_IWICMetadataQueryWriter "{}"
 #comfunc IWICMetadataQueryWriter_GetContainerFormat 3 var
 #comfunc IWICMetadataQueryWriter_GetLocation 4 int, wstr, int
@@ -1686,7 +1686,7 @@
 #comfunc IWICMetadataQueryWriter_RemoveMetadataByName 8 wstr
 
 ;--- IWICPalette
-#define IID_IWICPalette "{00000040-A8F2-4877-BA0A-FD2B6645FB94}"
+#define global IID_IWICPalette "{00000040-A8F2-4877-BA0A-FD2B6645FB94}"
 #usecom IWICPalette IID_IWICPalette "{}"
 #comfunc IWICPalette_InitializePredefined 3 int, int
 #comfunc IWICPalette_InitializeCustom 4 int, int
@@ -1700,7 +1700,7 @@
 #comfunc IWICPalette_HasAlpha 12 var
 
 ;--- IWICStream
-#define IID_IWICStream "{135FF860-22B7-4DDF-B0F6-218F4F299A43}"
+#define global IID_IWICStream "{135FF860-22B7-4DDF-B0F6-218F4F299A43}"
 #usecom IWICStream IID_IWICStream "{}"
 #comfunc IWICStream_Read 3 intptr, int, var
 #comfunc IWICStream_Write 4 intptr, int, var

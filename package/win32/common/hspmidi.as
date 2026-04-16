@@ -3,7 +3,7 @@
 ;============================================================
 
 #ifndef __hspmidi_as__
-#define __hspmidi_as__
+#define global __hspmidi_as__
 
 #uselib "hspmidi.dll"
 

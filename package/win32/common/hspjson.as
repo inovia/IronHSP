@@ -6,7 +6,7 @@
 ;============================================================
 
 #ifndef __hspjson_as__
-#define __hspjson_as__
+#define global __hspjson_as__
 
 #uselib "hspjson.dll"
 #func global json_parse            "hspjson_parse"            str, var

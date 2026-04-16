@@ -364,14 +364,14 @@ def emit_as(ifaces: List[ComInterface], category: str) -> str:
     ap(";============================================================")
     ap("")
     ap(f"#ifndef __com_{category}_gen2_as__")
-    ap(f"#define __com_{category}_gen2_as__")
+    ap(f"#define global __com_{category}_gen2_as__")
     ap("")
     for iface in ifaces:
         ap(f";--- {iface.name}")
         if iface.summary:
             for ln in iface.summary.splitlines()[:3]:
                 ap(f"; {ln}")
-        ap(f'#define IID_{iface.name} "{{{iface.iid}}}"')
+        ap(f'#define global IID_{iface.name} "{{{iface.iid}}}"')
         ap(f'#usecom {iface.name} IID_{iface.name} "{{}}"')
         for m in iface.methods:
             args = m.hsp_args()

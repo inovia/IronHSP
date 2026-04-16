@@ -4,7 +4,7 @@
 ;============================================================
 
 #ifndef __hspwgcapture_as__
-#define __hspwgcapture_as__
+#define global __hspwgcapture_as__
 
 #uselib "hspwgcapture.dll"
 #func global wgc_init          "wgc_init"
