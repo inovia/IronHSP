@@ -40,6 +40,14 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **OAuth 2.0 (`iron_oauth.hsp`)** — ブラウザ認証 + localhost TCP コールバックで Authorization Code を取得。`oauth_start_listener` / `oauth_wait_code`。
 - **形態素解析 (`iron_mecab.hsp`)** — MeCab C API ラッパー。`mecab_init` / `mecab_parse`。libmecab.dll と辞書が別途必要。
 - **帳票出力 (`iron_report.hsp`)** — HTML テンプレート + `{{key}}` 差し込み。テーブル行の動的生成対応。`report_preview` でブラウザ印刷。
+- **画面キャプチャ (`iron_capture.hsp` + `hspcapture.dll`)** — DXGI Desktop Duplication。`capture_init` → `capture_save "file.bmp"` でスクリーンショット。32/64bit。
+- **音声ループバック (`iron_audioloop.hsp` + `hspaudioloop.dll`)** — WASAPI ループバック。PC 再生音を WAV 録音。ステレオミックス不要。32/64bit。
+- **画面拡大 (`iron_magnify.hsp`)** — Magnification API。`mag_fullscreen_on 200` で 2 倍拡大。
+- **DPI 対応 (`iron_dpi.hsp`)** — Per-Monitor DPI V2。`dpi_set_awareness` / `dpi_get` / `dpi_scale`。
+- **IME 制御 (`iron_ime.hsp`)** — imm32.dll。`ime_on` / `ime_off` / `ime_set_mode` (ひらがな/カタカナ切替)。
+- **タッチ入力 (`iron_touch.hsp`)** — InjectTouchInput。`touch_tap x, y` でタッチシミュレーション。
+- **ネットワーク情報 (`iron_netinfo.hsp`)** — `netinfo_connected` / `netinfo_ip` / `netinfo_hostname`。
+- **.NET 版モジュール** — `iron_regex_net` / `iron_crypto_net` / `iron_registry_net` / `iron_fwatch_net` / `iron_smtp_net` / `iron_html_net` / `iron_ftp_net` の 7 モジュール。ネイティブ版の .NET 代替。
 
 ### 新規プラグイン
 
