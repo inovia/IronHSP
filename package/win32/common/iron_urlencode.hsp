@@ -1,43 +1,33 @@
 ;============================================================
-;   iron_urlencode.hsp — URL エンコード/デコード
+;   iron_urlencode.hsp — DEPRECATED: iron_url.hsp への後方互換 shim
+;
+;   このモジュールは iron_url.hsp の初期版で、url_encode / url_decode
+;   の rvalue (関数形式) 版を提供していました。現在は iron_url.hsp
+;   本体に url_encode_s() / url_decode_s() として統合されています。
+;
+;   新規コードでは iron_url.hsp を直接 #include してください:
+;       #include "iron_url.hsp"
+;       mes url_encode_s("hello world")        ; → "hello%20world"
+;       mes url_decode_s("hello%20world")      ; → "hello world"
+;
+;   既存スクリプト (urlencode / urldecode の 2 関数のみ使用) は
+;   この shim 経由で変更なしに動作します。
 ;============================================================
+
 #ifndef __iron_urlencode_hsp__
 #define __iron_urlencode_hsp__
-#module iron_urlencode
 
-#defcfunc urlencode str s, local result, local c, local i, local _s
-	_s = s
-	result = ""
-	repeat strlen(_s)
-		c = peek(_s, cnt)
-		if (c >= 'A' & c <= 'Z') | (c >= 'a' & c <= 'z') | (c >= '0' & c <= '9') | c == '-' | c == '_' | c == '.' | c == '~' {
-			result += strmid(_s, cnt, 1)
-		} else {
-			result += "%" + strf("%02X", c)
-		}
-	loop
-	return result
+#include "iron_url.hsp"
 
-#defcfunc urldecode str s, local result, local c, local i, local hex, local _s
-	_s = s
-	result = ""
-	i = 0
-	repeat strlen(_s)
-		if i >= strlen(_s) : break
-		c = peek(_s, i)
-		if c == '%' & i + 2 < strlen(_s) {
-			hex = strmid(_s, i+1, 2)
-			result += strf("%c", int("$" + hex))
-			i += 3
-		} else : if c == '+' {
-			result += " "
-			i += 1
-		} else {
-			result += strmid(_s, i, 1)
-			i += 1
-		}
-	loop
-	return result
+#module iron_urlencode_shim
+
+;--- 旧 API: urlencode / urldecode ---
+;   iron_url.hsp の url_encode_s / url_decode_s に委譲
+#defcfunc urlencode str s
+    return url_encode_s(s)
+
+#defcfunc urldecode str s
+    return url_decode_s(s)
 
 #global
 #endif

@@ -23,7 +23,7 @@
 #ifndef __iron_url_hsp__
 #define __iron_url_hsp__
 
-#module
+#module iron_url
 
 ;------------------------------------------------------------
 ; url_encode "src", dst
@@ -258,6 +258,30 @@
         _count++
     loop
     return _count
+
+;------------------------------------------------------------
+; rvalue (関数形式) ラッパ — C# WebUtility.UrlEncode(s) と同じ書き味
+;   s = url_encode_s("hello world")   → "hello%20world"
+;------------------------------------------------------------
+#defcfunc url_encode_s str s,   local _out
+    url_encode s, _out
+    return _out
+
+#defcfunc url_encode_form_s str s,   local _out
+    url_encode_form s, _out
+    return _out
+
+#defcfunc url_decode_s str s,   local _out
+    url_decode s, _out
+    return _out
+
+#defcfunc html_encode_s str s,   local _out
+    html_encode s, _out
+    return _out
+
+#defcfunc html_decode_s str s,   local _out
+    html_decode s, _out
+    return _out
 
 #global
 

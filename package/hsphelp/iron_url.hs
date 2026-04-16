@@ -161,3 +161,78 @@ url_decode してから配列に格納します。stat にエントリ件数が返ります。
   repeat stat
       mes ks(cnt) + " = " + vs(cnt)
   loop
+
+
+%index
+url_encode_s
+URL エンコードの rvalue (関数形式) 版
+%group
+iron_url ― URL
+%prm
+(text)
+text : エンコード対象の文字列
+%inst
+url_encode を rvalue 形式で呼ぶヘルパ。C# の WebUtility.UrlEncode(s) と同じ書き味で、
+  s = url_encode_s("hello world")   → "hello%20world"
+のように使えます。
+%href
+url_encode
+url_decode_s
+
+
+%index
+url_decode_s
+URL デコードの rvalue (関数形式) 版
+%group
+iron_url ― URL
+%prm
+(text)
+text : デコード対象の文字列
+%inst
+url_decode を rvalue 形式で呼ぶヘルパ。
+  s = url_decode_s("%E6%97%A5%E6%9C%AC")   → "日本"
+%href
+url_decode
+url_encode_s
+
+
+%index
+url_encode_form_s
+form-encode の rvalue 版
+%group
+iron_url ― URL
+%prm
+(text)
+%inst
+url_encode_form を rvalue 形式で呼ぶヘルパ。スペースは '+' に置換されます。
+%href
+url_encode_form
+
+
+%index
+html_encode_s
+HTML エスケープの rvalue 版
+%group
+iron_url ― HTML
+%prm
+(text)
+%inst
+html_encode を rvalue 形式で呼ぶヘルパ。
+  s = html_encode_s("<b>bold</b>")   → "&lt;b&gt;bold&lt;/b&gt;"
+%href
+html_encode
+html_decode_s
+
+
+%index
+html_decode_s
+HTML アンエスケープの rvalue 版
+%group
+iron_url ― HTML
+%prm
+(text)
+%inst
+html_decode を rvalue 形式で呼ぶヘルパ。
+%href
+html_decode
+html_encode_s
