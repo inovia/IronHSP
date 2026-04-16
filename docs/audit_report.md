@@ -1,6 +1,6 @@
 # IronHSP サンプル/.as 自動テスト監査レポート
 
-生成日時: 2026-04-18T20:10:07
+生成日時: 2026-04-18T20:17:29
 
 ## Phase A — .as ファイル (compile-only)
 
@@ -12,7 +12,7 @@
 
 ## Phase B — サンプル .hsp (compile + short-timeout run)
 
-総数: **572** 件
+総数: **562** 件
 
 ### 上位エラー原因 (グループ集計)
 
@@ -21,7 +21,6 @@
 | 290 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
 | 62 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
 | 59 | `error code=38 line=N file=... "外部DLLの呼び出しに失敗しました"` |
-| 10 | `error code=-1073741819 "non-zero exit without events"` |
 | 9 | `error code=2 line=N file=... "文法が間違っています"` |
 | 7 | `error code=12 line=N file=... "ファイルが見つからないか無効な名前です"` |
 | 6 | `error code=5 line=N file=... "パラメータの省略はできません"` |
@@ -33,11 +32,12 @@
 | 2 | `error code=31 line=N file=... "異なる型を持つ配列変数に代入しました"` |
 | 1 | `error code=30 line=N file=... "無効な名前がパラメーターに指定されています"` |
 | 1 | `error code=3 line=N file=... "パラメータの値が異常です"` |
+| 1 | `error code=1 "non-zero exit without events"` |
 
 | 状態 | 件数 | 説明 |
 |---|---:|---|
 | `CERR` | 74 | コンパイルエラー|
-| `ERR` | 404 | -|
+| `ERR` | 394 | -|
 | `PASS` | 82 | 正常終了 (exit=0)|
 | `TIMO` | 12 | タイムアウト (GUI/waitループ等)|
 
@@ -124,7 +124,7 @@
 
 </details>
 
-### ERR 詳細 (404 件)
+### ERR 詳細 (394 件)
 
 <details><summary>クリックして展開</summary>
 
@@ -135,17 +135,8 @@
 | `package\win32\sample\arduino\arduino_test3.hsp` | error code=38 line=52 file=arduino.as "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\arduino\arduino_test4.hsp` | error code=38 line=52 file=arduino.as "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\arduino\arduino_test5.hsp` | error code=38 line=52 file=arduino.as "外部DLLの呼び出しに失敗しました" |
-| `package\win32\sample\Artlet2D\sample_01_basic.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\Artlet2D\sample_02_Rect_Ellip.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\Artlet2D\sample_03_Color_Brush.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\Artlet2D\sample_04_Penstyle.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\Artlet2D\sample_05_DrawText.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\Artlet2D\sample_06_TransMode.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\Artlet2D\sample_07_Curve.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\Artlet2D\sample_08_Copy.hsp` | error code=-1073741819 "non-zero exit without events" |
 | `package\win32\sample\Artlet2D\sample_09_imagetest.hsp` | error code=21 line=18 file=J:\HNWorks\IronHSP_2026\package\win32\sample\Artlet2D\sample_09_imagetest.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\Artlet2D\xsample_alphapaint.hsp` | error code=21 line=40 file=J:\HNWorks\IronHSP_2026\package\win32\sample\Artlet2D\xsample_alphapaint.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\Artlet2D\xsample_alphastg.hsp` | error code=-1073741819 "non-zero exit without events" |
 | `package\win32\sample\basic\arraynote.hsp` | error code=21 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\arraynote.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\basic\atan_grect.hsp` | error code=21 line=1 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\atan_grect.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\basic\calcsheet.hsp` | error code=21 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\calcsheet.hsp "サポートされない機能を選択しました" |
@@ -430,6 +421,15 @@
 | `package\win32\sample\iron\sample_onnx.hsp` | error code=21 line=21 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_onnx.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_pdf.hsp` | error code=21 line=19 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_pdf.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_perf.hsp` | error code=2 line=59 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_perf.hsp "文法が間違っています" |
-| ... | (104 件省略) |
+| `package\win32\sample\iron\sample_player.hsp` | error code=21 line=20 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_player.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_speech.hsp` | error code=21 line=21 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_speech.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_sysinfo.hsp` | error code=2 line=52 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_sysinfo.hsp "文法が間違っています" |
+| `package\win32\sample\iron\sample_toast_winrt.hsp` | error code=21 line=16 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_toast_winrt.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_video_player.hsp` | error code=21 line=19 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_video_player.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_video_player2.hsp` | error code=21 line=11 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_video_player2.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_wasm.hsp` | error code=21 line=27 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_wasm.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_webpdf.hsp` | error code=21 line=14 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_webpdf.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_webserver.hsp` | error code=21 line=10 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_webserver.hsp "サポートされない機能を選択しました" |
+| ... | (94 件省略) |
 
 </details>
