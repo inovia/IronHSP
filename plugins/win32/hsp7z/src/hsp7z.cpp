@@ -129,10 +129,12 @@ HSP7Z_EXPORT int __stdcall sevenz_run(const char* args, char* out_buf, int out_s
 
 BOOL WINAPI DllMain(HMODULE hModule, DWORD reason, LPVOID) {
     if (reason == DLL_PROCESS_ATTACH) {
-        char buf[MAX_PATH];
-        DWORD n = GetModuleFileNameW(hModule, buf, MAX_PATH);
+        wchar_t wbuf[MAX_PATH];
+        DWORD n = GetModuleFileNameW(hModule, wbuf, MAX_PATH);
         if (n > 0 && n < MAX_PATH) {
-            std::string full(buf, n);
+            int len = WideCharToMultiByte(CP_UTF8, 0, wbuf, (int)n, nullptr, 0, nullptr, nullptr);
+            std::string full(len, '\0');
+            WideCharToMultiByte(CP_UTF8, 0, wbuf, (int)n, &full[0], len, nullptr, nullptr);
             size_t slash = full.find_last_of("\\/");
             g_dll_dir = (slash == std::string::npos) ? "" : full.substr(0, slash);
         }

@@ -1941,6 +1941,18 @@ package/hsphelp/
 <h2 id="notes">10. 注意事項・既知の制限</h2>
 
 <div class="card">
+<h3>VC++ ランタイム要件 (一部プラグイン)</h3>
+<p>ほとんどのプラグインは <code>/MT</code> (静的リンク) でビルドされており、VC++ ランタイムの別途インストールは不要です。ただし、以下のプラグインはプリビルト外部ライブラリの都合で <code>/MD</code> (動的リンク) でビルドされており、<strong>Microsoft Visual C++ 再頒布可能パッケージ</strong>が必要です:</p>
+<table>
+<tr><th>プラグイン</th><th>外部ライブラリ</th><th>理由</th></tr>
+<tr><td><code>hspcv4.dll</code> / <code>hspcv4_contrib.dll</code></td><td>OpenCV 4.12 (opencv_world4120.dll)</td><td>OpenCV プリビルトが /MD</td></tr>
+<tr><td><code>hspwhisper.dll</code></td><td>whisper.cpp / ggml</td><td>プリビルト lib が /MD</td></tr>
+<tr><td><code>hspssh.dll</code></td><td>libssh2</td><td>プリビルト lib が /MD</td></tr>
+</table>
+<p>VC++ ランタイムは <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe">Microsoft 公式サイト</a> からダウンロードできます。Windows 10/11 には通常プリインストールされています。</p>
+</div>
+
+<div class="card">
 <h3>HSPCTX 構造体レイアウトの変更</h3>
 <p><code>stat</code>, <code>iparam</code>, <code>wparam</code>, <code>lparam</code> が <code>int</code> (4byte) から <code>int64_t</code> (8byte) に変更されたため、HSPCTX 構造体のメンバーオフセットが変わっています。</p>
 <ul>
