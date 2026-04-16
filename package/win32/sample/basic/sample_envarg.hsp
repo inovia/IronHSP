@@ -1,0 +1,74 @@
+;
+;	sample_envarg.hsp — 環境変数・コマンドライン引数サンプル
+;
+;	実行例:
+;	  hsp3cl_net_64.exe sample_envarg.ax --name=太郎 --count 5 --verbose
+;
+
+#runtime "hsp3cl"
+#cmpopt utf8 1
+
+	mes "===== 環境変数 ====="
+
+	; 環境変数の取得
+	s = getenv("USERNAME")
+	mes "ユーザー名: " + s
+
+	; デフォルト値付き
+	s = getenv("MY_APP_LANG", "ja")
+	mes "言語設定: " + s + " (未設定ならデフォルト ja)"
+
+	; 存在チェック
+	if hasenv("PATH") {
+		mes "PATH は設定されています"
+	}
+
+	; 設定 → 取得 → 削除
+	setenv "IRONHSP_DEMO", "Hello from HSP!"
+	mes "設定した値: " + getenv("IRONHSP_DEMO")
+	delenv "IRONHSP_DEMO"
+	mes "削除後: hasenv=" + hasenv("IRONHSP_DEMO")
+
+	mes ""
+	mes "===== コマンドライン引数 ====="
+
+	; 引数の数と一覧
+	n = getcmdargc()
+	mes "引数の数: " + n
+	repeat n
+		mes "  argv(" + cnt + ") = " + getcmdarg(cnt)
+	loop
+
+	mes ""
+
+	; 名前付き引数 (--name=value / --name value)
+	name = getcmdargs("--name", "名無し")
+	mes "名前: " + name
+
+	; 整数引数
+	count = getcmdargi("--count", 1)
+	mes "カウント: " + count
+
+	; フラグ引数
+	if hascmdarg("--verbose") {
+		mes "詳細モード: ON"
+	} else {
+		mes "詳細モード: OFF"
+	}
+
+	mes ""
+	mes "===== 実用例: 設定の優先順位 ====="
+	mes "(コマンドライン > 環境変数 > デフォルト)"
+
+	; 環境変数をセット (本来は外部から設定される想定)
+	setenv "APP_PORT", "9090"
+
+	; コマンドライン → 環境変数 → デフォルト の優先順位で取得
+	port = getcmdargi("--port", 0)
+	if port = 0 {
+		s = getenv("APP_PORT", "8080")
+		port = int(s)
+	}
+	mes "使用ポート: " + port
+
+	delenv "APP_PORT"
