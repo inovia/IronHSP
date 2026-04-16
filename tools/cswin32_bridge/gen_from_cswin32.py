@@ -740,10 +740,17 @@ def emit_types(structs: List[Struct],
     return "\n".join(L)
 
 
-def emit_as(dll_short: str, funcs: List[Func]) -> str:
+def emit_as(dll_short: str, funcs: List[Func], struct_names: set = None) -> str:
     """Per-DLL .as containing only function declarations. Shared structs and
     enum constants live in win32_types_gen2.as which we #include at the top.
+
+    struct_names: win32_types_gen2.as に登録済の struct 名 (lowercase) セット。
+                  関数名と衝突する (例: InitCommonControlsEx は struct 兼関数)
+                  場合は _fn サフィックス付きに rename する。HSP の名前空間は
+                  struct / func が共通なのでケースインセンシティブに衝突する。
     """
+    if struct_names is None:
+        struct_names = set()
     L: List[str] = []
     ap = L.append
     ap("; ============================================================")
@@ -766,16 +773,21 @@ def emit_as(dll_short: str, funcs: List[Func]) -> str:
         for fn in funcs:
             ap(f"; {fn.raw_cs_sig}")
             args_txt = ", ".join(t for (t, _n, _d) in fn.args)
+            # HSP 側の alias 名。struct と同名になる場合だけ _fn サフィックスを付与。
+            # export name ("InitCommonControlsEx") は実 DLL エントリ名なので変更しない。
+            hsp_name = fn.entry
+            if hsp_name.lower() in struct_names:
+                hsp_name = hsp_name + "_fn"
             if fn.ret_hsp and fn.ret_hsp != "":
                 if args_txt:
-                    ap(f'#cfunc global {fn.entry} "{fn.entry}" {args_txt}')
+                    ap(f'#cfunc global {hsp_name} "{fn.entry}" {args_txt}')
                 else:
-                    ap(f'#cfunc global {fn.entry} "{fn.entry}"')
+                    ap(f'#cfunc global {hsp_name} "{fn.entry}"')
             else:
                 if args_txt:
-                    ap(f'#func global {fn.entry} "{fn.entry}" {args_txt}')
+                    ap(f'#func global {hsp_name} "{fn.entry}" {args_txt}')
                 else:
-                    ap(f'#func global {fn.entry} "{fn.entry}"')
+                    ap(f'#func global {hsp_name} "{fn.entry}"')
             ap("")
     ap("#endif")
     ap("")
@@ -979,8 +991,15 @@ def main() -> int:
         key = fn.dll.split(".")[0].lower()
         by_dll.setdefault(key, []).append(fn)
 
+    # struct 名集合 (HSP 名前空間が共通なので関数名が衝突する場合の rename 判定に使う)
+    struct_name_set = {st.name.lower() for st in STRUCT_TYPES}
+    # _ 始まりの struct は W_ に正規化済なのでそれも set に入れておく
+    for st in STRUCT_TYPES:
+        if st.name.startswith("_"):
+            struct_name_set.add(("W" + st.name).lower())
+
     for dll, fs in sorted(by_dll.items()):
-        as_text = emit_as(dll, fs)
+        as_text = emit_as(dll, fs, struct_name_set)
         hs_text = emit_hs(dll, fs)
         as_path = OUT_AS_DIR / f"{dll}_gen2.as"
         hs_path = OUT_HS_DIR / f"win32_{dll}_gen2.hs"

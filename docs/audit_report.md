@@ -1,32 +1,14 @@
 # IronHSP サンプル/.as 自動テスト監査レポート
 
-生成日時: 2026-04-18T19:59:09
+生成日時: 2026-04-18T20:10:07
 
 ## Phase A — .as ファイル (compile-only)
 
 総数: **159** 件
 
-### 上位エラー原因 (グループ集計)
-
-| 件数 | 代表メッセージ |
-|---:|---|
-| 2 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
-
 | 状態 | 件数 | 説明 |
 |---|---:|---|
-| `CERR` | 2 | コンパイルエラー|
-| `CMP` | 157 | -|
-
-### CERR 詳細 (2 件)
-
-<details><summary>クリックして展開</summary>
-
-| ファイル | 原因 |
-|---|---|
-| `comctl32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `user32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-
-</details>
+| `CMP` | 159 | -|
 
 ## Phase B — サンプル .hsp (compile + short-timeout run)
 
@@ -36,10 +18,10 @@
 
 | 件数 | 代表メッセージ |
 |---:|---|
-| 289 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
-| 63 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
+| 290 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
+| 62 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
 | 59 | `error code=38 line=N file=... "外部DLLの呼び出しに失敗しました"` |
-| 11 | `error code=-1073741819 "non-zero exit without events"` |
+| 10 | `error code=-1073741819 "non-zero exit without events"` |
 | 9 | `error code=2 line=N file=... "文法が間違っています"` |
 | 7 | `error code=12 line=N file=... "ファイルが見つからないか無効な名前です"` |
 | 6 | `error code=5 line=N file=... "パラメータの省略はできません"` |
@@ -54,12 +36,12 @@
 
 | 状態 | 件数 | 説明 |
 |---|---:|---|
-| `CERR` | 75 | コンパイルエラー|
+| `CERR` | 74 | コンパイルエラー|
 | `ERR` | 404 | -|
-| `PASS` | 81 | 正常終了 (exit=0)|
+| `PASS` | 82 | 正常終了 (exit=0)|
 | `TIMO` | 12 | タイムアウト (GUI/waitループ等)|
 
-### CERR 詳細 (75 件)
+### CERR 詳細 (74 件)
 
 <details><summary>クリックして展開</summary>
 
@@ -137,7 +119,6 @@
 | `package\win32\sample\misc\nkfcnv.hsp` | #Error:��`�ς݂̎��ʎq�͎g�p�ł��܂��� [getnkfversion] in line 74 [hspinet.as] |
 | `package\win32\sample\new34\split.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\new34\strtrim.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\win32_gen2\clipboard_history.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\win32_gen2\file_watch.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\win32_gen2\reg_edit.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 
@@ -226,7 +207,6 @@
 | `package\win32\sample\basic\sample_ping.hsp` | error code=5 line=49 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_ping.hsp "パラメータの省略はできません" |
 | `package\win32\sample\basic\sample_process.hsp` | error code=2 line=26 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_process.hsp "文法が間違っています" |
 | `package\win32\sample\basic\sample_regex.hsp` | error code=38 line=39 file=iron_regex.hsp "外部DLLの呼び出しに失敗しました" |
-| `package\win32\sample\basic\sample_registry.hsp` | error code=-1073741819 "non-zero exit without events" |
 | `package\win32\sample\basic\sample_report.hsp` | error code=5 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\sample_report.hsp "パラメータの省略はできません" |
 | `package\win32\sample\basic\sample_simd.hsp` | error code=38 line=29 file=iron_simd.hsp "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\basic\sample_strbuf.hsp` | error code=23 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\sample_strbuf.hsp "変数名が指定されていません" |
@@ -449,6 +429,7 @@
 | `package\win32\sample\iron\sample_midi.hsp` | error code=21 line=15 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_midi.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_onnx.hsp` | error code=21 line=21 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_onnx.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_pdf.hsp` | error code=21 line=19 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_pdf.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_perf.hsp` | error code=2 line=59 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_perf.hsp "文法が間違っています" |
 | ... | (104 件省略) |
 
 </details>

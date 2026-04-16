@@ -261,7 +261,7 @@
 #func global InitCommonControls "InitCommonControls"
 
 ; winmdroot.Foundation.BOOL InitCommonControlsEx(winmdroot.UI.Controls.INITCOMMONCONTROLSEX* picce)
-#cfunc global InitCommonControlsEx "InitCommonControlsEx" var
+#cfunc global InitCommonControlsEx_fn "InitCommonControlsEx" var
 
 ; void InitMUILanguage(ushort uiLang)
 #func global InitMUILanguage "InitMUILanguage" int

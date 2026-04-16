@@ -1740,7 +1740,7 @@
 #cfunc global ToUnicodeEx "ToUnicodeEx" int, int, var, wstr, int, int, intptr
 
 ; winmdroot.Foundation.BOOL TrackMouseEvent(winmdroot.UI.Input.KeyboardAndMouse.TRACKMOUSEEVENT* lpEventTrack)
-#cfunc global TrackMouseEvent "TrackMouseEvent" var
+#cfunc global TrackMouseEvent_fn "TrackMouseEvent" var
 
 ; winmdroot.Foundation.BOOL TrackPopupMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, winmdroot.UI.WindowsAndMessaging.TRACK_POPUP_MENU_FLAGS uFlags, int x, int y, int nReserved, winmdroot.Foundation.HWND hWnd, [Optional] winmdroot.Foundation.RECT* prcRect)
 #cfunc global TrackPopupMenu "TrackPopupMenu" intptr, int, int, int, int, intptr, var

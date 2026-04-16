@@ -62,7 +62,9 @@
 ;------------------------------------------------------------
 #deffunc reg_read int hkey, str subkey, str name, var out_result, \
 	local hk, local rtype, local buf, local bsz, local ret
-	hk = 0
+	; HKEY は x64 で 8 バイトなので int64 で確保 (RegOpenKeyExW が 8 バイト書く)
+	dimtype hk, 8
+	hk = int64(0)
 	out_result = ""
 	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_READ, hk)
 	if ret != 0 : return ret
@@ -83,7 +85,8 @@
 ;------------------------------------------------------------
 #deffunc reg_write int hkey, str subkey, str name, str value, \
 	local hk, local ret, local vbuf, local vlen
-	hk = 0
+	dimtype hk, 8
+	hk = int64(0)
 	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_WRITE, hk)
 	if ret != 0 : return ret
 	vbuf = value
@@ -97,7 +100,8 @@
 ;------------------------------------------------------------
 #deffunc reg_write_dword int hkey, str subkey, str name, int value, \
 	local hk, local ret, local dw
-	hk = 0
+	dimtype hk, 8
+	hk = int64(0)
 	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_WRITE, hk)
 	if ret != 0 : return ret
 	dw = value
@@ -110,7 +114,8 @@
 ;------------------------------------------------------------
 #deffunc reg_delete_value int hkey, str subkey, str name, \
 	local hk, local ret
-	hk = 0
+	dimtype hk, 8
+	hk = int64(0)
 	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_WRITE, hk)
 	if ret != 0 : return ret
 	ret = _RegDeleteValueW(hk, name)
@@ -128,12 +133,16 @@
 ;------------------------------------------------------------
 #defcfunc reg_exists int hkey, str subkey, str name, \
 	local hk, local ret, local bsz, local _rtype2, local _dummy2
-	hk = 0
+	dimtype hk, 8
+	hk = int64(0)
 	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_READ, hk)
 	if ret != 0 : return 0
-	bsz = 32768
+	; 実データは読まず存在確認のみ: _dummy2 に十分な実サイズを確保し、
+	; bsz もその実サイズに合わせる (旧コードは 4B バッファに 32KB 書かせており
+	; スタック破壊で customstack_delete 時に AV していた)
+	bsz = 16
 	_rtype2 = 0
-	sdim _dummy2, 4
+	sdim _dummy2, 16
 	ret = _RegQueryValueExW(hk, name, 0, _rtype2, _dummy2, bsz)
 	_r = _RegCloseKey(hk)
 	; ret == 0 (成功) or ret == 234 (ERROR_MORE_DATA = バッファ不足だが値は存在)
