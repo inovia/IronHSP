@@ -159,19 +159,6 @@ def audit_hsp_samples(max_workers=4, timeout_sec=3):
     EXCLUDE_RELATIVE = {
         # HSPCTX 内部オフセット直読 (hsp3net で構造変更、設計上互換不可)
         "misc/libptr.hsp",
-        # hsp3net 64bit GUI runtime の CLR hybrid で GdipCreateBitmapFromScan0
-        # 呼び出し時に CallFunc64 内部で AV。CL runtime では動作するため
-        # a2d.hsp 側の問題ではなく hsp3_net_64 runtime 本体の bug。
-        # 32bit runtime では動作する (オリジナル設計)。
-        "Artlet2D/sample_01_basic.hsp",
-        "Artlet2D/sample_02_Rect_Ellip.hsp",
-        "Artlet2D/sample_03_Color_Brush.hsp",
-        "Artlet2D/sample_04_Penstyle.hsp",
-        "Artlet2D/sample_05_DrawText.hsp",
-        "Artlet2D/sample_06_TransMode.hsp",
-        "Artlet2D/sample_07_Curve.hsp",
-        "Artlet2D/sample_08_Copy.hsp",
-        "Artlet2D/xsample_alphastg.hsp",
     }
     all_files = []
     for p in sorted(sample_root.rglob("*.hsp")):

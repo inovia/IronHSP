@@ -165,6 +165,11 @@
 		dimtype imgFontArr,     8, IMGS_MAX
 		dimtype gdiplusToken, 8, 1
 		gdiplusToken = 0
+		dimtype tmpGraphics, 8, 1
+		dimtype tmpImage,    8, 1
+		dimtype pImageAttr,  8, 1
+		dimtype tmpFormat,   8, 1
+		dimtype tmpMatrix,   8, 1
 #else
 		dim imgImageArr, IMGS_MAX
 		dim imgGraphicsArr, IMGS_MAX
@@ -273,12 +278,20 @@
 		imgHeight = ph
 
 		; オフスクリーンバッファ Image / Graphics 作成
-		GdipCreateBitmapFromScan0 imgWidth, imgHeight, 0, PixelFormat32bppARGB, 0, varptr(imgImage)
-		GdipGetImageGraphicsContext imgImage, varptr(imgGraphics)
+		_tmp64 = int64(0)
+		GdipCreateBitmapFromScan0 imgWidth, imgHeight, 0, PixelFormat32bppARGB, 0, varptr(_tmp64)
+		imgImage = _tmp64
+		_tmp64 = int64(0)
+		GdipGetImageGraphicsContext imgImage, varptr(_tmp64)
+		imgGraphics = _tmp64
 
 		; デフォルト Brush / Pen 作成
-		GdipCreateSolidFill 0xff000000, varptr(imgBrush)
-		GdipCreatePen2 imgBrush, 1, UnitPixel, varptr(imgPen) ; (default PenWidth = 1px)
+		_tmp64 = int64(0)
+		GdipCreateSolidFill 0xff000000, varptr(_tmp64)
+		imgBrush = _tmp64
+		_tmp64 = int64(0)
+		GdipCreatePen2 imgBrush, 1, UnitPixel, varptr(_tmp64)
+		imgPen = _tmp64 ; (default PenWidth = 1px)
 
 		; Graphics 高画質モードに設定
 		GdipSetSmoothingMode imgGraphics, 2	; SmoothingModeHighQuality = QualityModeHigh
@@ -628,7 +641,9 @@
 
 		GdipDeletePen imgPen		; 旧ペンを削除
 		;imgPen = 0
-		GdipCreatePen2 imgBrush, 1, UnitPixel, varptr(imgPen)	; ペンを作成
+		_tmp64 = int64(0)
+		GdipCreatePen2 imgBrush, 1, UnitPixel, varptr(_tmp64)	; ペンを作成
+		imgPen = _tmp64
 
 		GdipSetPenDashStyle imgPen, a	; 旧ペンのスタイルを復元
 		GdipSetPenWidth imgPen, b	; 旧ペンの Width を復元
@@ -642,7 +657,9 @@
 	if imgValid {
 		GdipDeleteBrush imgBrush	; 旧ブラシを削除
 		;imgBrush = 0
-		GdipCreateSolidFill RGBA(gf_r, gf_g, gf_b, p1), varptr(imgBrush)	; ブラシを作成
+		_tmp64 = int64(0)
+		GdipCreateSolidFill RGBA(gf_r, gf_g, gf_b, p1), varptr(_tmp64)	; ブラシを作成
+		imgBrush = _tmp64
 		alRenewPen
 	}
 	return
@@ -659,7 +676,9 @@
 		;imgBrush = 0
 		point1 = px1, py1
 		point2 = px2, py2
-		GdipCreateLineBrushI varptr(point1), varptr(point2), pc1, pc2, p1, varptr(imgBrush)
+		_tmp64 = int64(0)
+		GdipCreateLineBrushI varptr(point1), varptr(point2), pc1, pc2, p1, varptr(_tmp64)
+		imgBrush = _tmp64
 		alRenewPen
 	}
 	return
@@ -671,7 +690,9 @@
 	if imgValid & imgValidArr(p1) {
 		GdipDeleteBrush imgBrush	; 旧ブラシを削除
 		;imgBrush = 0
-		GdipCreateTexture imgImageArr(p1), p2, varptr(imgBrush)
+		_tmp64 = int64(0)
+		GdipCreateTexture imgImageArr(p1), p2, varptr(_tmp64)
+		imgBrush = _tmp64
 		alRenewPen
 		return 0
 	}
@@ -684,7 +705,9 @@
 	if imgValid {
 		GdipDeleteBrush imgBrush	; 旧ブラシを削除
 		;imgBrush = 0
-		GdipCreateSolidFill 0, varptr(imgBrush)	; ブラシを作成
+		_tmp64 = int64(0)
+		GdipCreateSolidFill 0, varptr(_tmp64)	; ブラシを作成
+		imgBrush = _tmp64
 		alRenewPen
 		GdipSetCompositingMode imgGraphics, 1 ; (SourceOver = 0, SourceCopy = 1)
 	}
@@ -698,7 +721,9 @@
 			GdipDeleteFont imgFont	; 旧フォントを削除
 			;imgFont = 0
 		}
-		GdipCreateFontFromDC hdc, varptr(imgFont)	; HSP オフスクリーン dc からフォントをコンストラクト
+		_tmp64 = int64(0)
+		GdipCreateFontFromDC hdc, varptr(_tmp64)	; HSP オフスクリーン dc からフォントをコンストラクト
+		imgFont = _tmp64
 	}
 	return
 
@@ -855,8 +880,11 @@
 ;-----------------------------------------------------------
 #deffunc alTransModeOffsetRotateZoom_ int dx, int dy, double pa, double sx, double sy
 	if imgValid {
-		GdipCreateMatrix varptr(tmpMatrix)
-		GdipTranslateMatrix tmpMatrix, dx, dy, 0 ; order = MatrixOrderPrepend = 0
+		; x64 fix: use local int64 for DLL output, then copy to module var
+		_tmpM = int64(0)
+		GdipCreateMatrix varptr(_tmpM)
+		tmpMatrix = _tmpM
+		GdipTranslateMatrix tmpMatrix, dx, dy, 0
 		GdipRotateMatrix tmpMatrix, pa, 0
 		GdipScaleMatrix tmpMatrix, sx, sy, 0
 
@@ -871,8 +899,10 @@
 ;-----------------------------------------------------------
 #deffunc alTransModeRotateAt double pa, int px, int py
 	if imgValid {
-		GdipCreateMatrix varptr(tmpMatrix)
-		GdipTranslateMatrix tmpMatrix, px, py, 0 ; order = MatrixOrderPrepend = 0
+		_tmpM = int64(0)
+		GdipCreateMatrix varptr(_tmpM)
+		tmpMatrix = _tmpM
+		GdipTranslateMatrix tmpMatrix, px, py, 0
 		GdipRotateMatrix tmpMatrix, pa, 0
 		GdipTranslateMatrix tmpMatrix, -px, -py, 0
 
