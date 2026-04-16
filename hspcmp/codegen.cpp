@@ -4056,16 +4056,21 @@ static int get_member_alignment(CToken::StructMemberType stype, int pack)
 
 void CToken::GenerateCodePP_defstruct(bool is_union)
 {
-	//		#defstruct NAME [, pack=N]
-	//		#defunion NAME
+	//		#defstruct [global] NAME [, pack=N]
+	//		#defunion  [global] NAME
 	//
 	StructDef sdef;
 	sdef.is_union = is_union;
 	sdef.pack = 8;  // デフォルト pack=8 (Win32/Win64 準拠)
 	sdef.total_size = 0;
 
-	// 構造体名を取得
+	// 構造体名を取得 (#deffunc と同様に global キーワードをスキップして受け入れる)
 	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype == TK_OBJ && !strcmp(cg_str, "global")) {
+		// global スコープ指定。HSP の struct は現状モジュールスコープ概念が
+		// ないため、この指定は単に受け流して次の NAME に進む。
+		GetTokenCG(GETTOKEN_DEFAULT);
+	}
 	if (ttype != TK_OBJ) throw CGERROR_PP_NAMEREQUIRED;
 	sdef.name = cg_str;
 

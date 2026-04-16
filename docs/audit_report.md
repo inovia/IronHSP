@@ -1,6 +1,6 @@
 # IronHSP サンプル/.as 自動テスト監査レポート
 
-生成日時: 2026-04-18T19:04:38
+生成日時: 2026-04-18T19:23:15
 
 ## Phase A — .as ファイル (compile-only)
 
@@ -10,84 +10,28 @@
 
 | 件数 | 代表メッセージ |
 |---:|---|
-| 56 | `#Error:struct name required in line=N [...]` |
-| 7 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
+| 8 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
 
 | 状態 | 件数 | 説明 |
 |---|---:|---|
-| `CERR` | 64 | コンパイルエラー|
-| `CMP` | 98 | -|
+| `CERR` | 9 | コンパイルエラー|
+| `CMP` | 153 | -|
 
-### CERR 詳細 (64 件)
+### CERR 詳細 (9 件)
 
 <details><summary>クリックして展開</summary>
 
 | ファイル | 原因 |
 |---|---|
-| `advapi32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `api-ms-win-core-winrt-string-l1-1-0_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `api-ms-win-dx-d3dkmt-l1-1-0_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `avrt_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `bcrypt_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
 | `com_misc_gen2.as` | #Error:��`�ς݂̎��ʎq�͎g�p�ł��܂��� [idwritetextlayout_getfontcollection] in line 922 [com_misc_gen2.as] |
-| `comctl32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `comdlg32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `crypt32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `d2d1_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `d3d11_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `dbghelp_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `dinput8_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `dwmapi_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `dwrite_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `dxgi_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `evr_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `gdi32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `gdiplus_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `glu32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
+| `comctl32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
+| `gdi32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `gpposteffect.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `hgimg3.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `hspcv4.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `hspdxlib.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `hspinet.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `httpapi_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `imm32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `iphlpapi_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `kernel32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `mf_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `mfplat_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `mfreadwrite_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
+| `mod_getenv.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `mod_gputil.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `msimg32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `ncrypt_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `netapi32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `normaliz_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `ole32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `oleaut32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `opengl32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `powrprof_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `propsys_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `psapi_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `secur32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `shell32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `shlwapi_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `urlmon_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `user32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `userenv_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `uxtheme_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `version_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `wer_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `win32_types_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `windowscodecs_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `winhttp_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `wininet_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `winmm_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `wintrust_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `wlanapi_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `wmvcore_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `ws2_32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `wtsapi32_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `xaudio2_8_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
-| `xmllite_gen2.as` | #Error:struct name required in line 26 [win32_types_gen2.as] |
+| `user32_gen2.as` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 
 </details>
 
@@ -99,11 +43,11 @@
 
 | 件数 | 代表メッセージ |
 |---:|---|
-| 285 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
-| 87 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
+| 286 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
+| 81 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
 | 49 | `error code=38 line=N file=... "外部DLLの呼び出しに失敗しました"` |
 | 12 | `error code=-1073741819 "non-zero exit without events"` |
-| 8 | `error code=2 line=N file=... "文法が間違っています"` |
+| 9 | `error code=2 line=N file=... "文法が間違っています"` |
 | 6 | `error code=12 line=N file=... "ファイルが見つからないか無効な名前です"` |
 | 6 | `error code=5 line=N file=... "パラメータの省略はできません"` |
 | 5 | `error code=23 line=N file=... "変数名が指定されていません"` |
@@ -113,33 +57,29 @@
 | 2 | `error code=31 line=N file=... "異なる型を持つ配列変数に代入しました"` |
 | 1 | `error code=30 line=N file=... "無効な名前がパラメーターに指定されています"` |
 | 1 | `error code=3 line=N file=... "パラメータの値が異常です"` |
-| 1 | `error code=1 "non-zero exit without events"` |
+| 1 | `error code=41 line=N file=... "関数を命令として記述しています。"` |
 
 | 状態 | 件数 | 説明 |
 |---|---:|---|
-| `CERR` | 99 | コンパイルエラー|
-| `ERR` | 384 | -|
-| `PASS` | 79 | 正常終了 (exit=0)|
-| `TIMO` | 10 | タイムアウト (GUI/waitループ等)|
+| `CERR` | 93 | コンパイルエラー|
+| `ERR` | 387 | -|
+| `PASS` | 81 | 正常終了 (exit=0)|
+| `TIMO` | 11 | タイムアウト (GUI/waitループ等)|
 
-### CERR 詳細 (99 件)
+### CERR 詳細 (93 件)
 
 <details><summary>クリックして展開</summary>
 
 | ファイル | 原因 |
 |---|---|
-| `package\win32\sample\basic\allman_brace.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_ai_tts.hsp` | #Error:��`�ς݂̎��ʎq�͎g�p�ł��܂��� [iron_ai_tts] in line 104 [iron_ai_tts.hsp] |
 | `package\win32\sample\basic\sample_bigdec.hsp` | sample_bigdec.hsp(74) : error 26 : �p�����[�^�[�������͎g�p����Ă��܂� (74�s��) |
 | `package\win32\sample\basic\sample_bigint.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\basic\sample_envarg.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_exif.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_game.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_ime.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\basic\sample_map.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_oauth.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_tcp.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\basic\sample_variadic.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_vcam.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\basic\sample_websocket.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\comobj\comtest5.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
@@ -186,7 +126,8 @@
 | `package\win32\sample\hgimg3\test9.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hgimg3\wave.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hspcl\cgi\cookie_get.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\hspcl\cgi\getenv.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
+| `package\win32\sample\hspcl\cgi\hensu.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
+| `package\win32\sample\hspcl\cl_getenv.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hspext\ftime.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hspinet\base64test.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\hspinet\get_binary.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
@@ -206,7 +147,6 @@
 | `package\win32\sample\hspprint\test2.hsp` | test2.hsp(28) : error 4 : �p�����[�^�[���̋L�q�������ł� (28�s��) |
 | `package\win32\sample\hsptvapp\hsptv_dishtest.hsp` | hsptv_dishtest.hsp(31) : error 7 : ���x�����͂��łɎg���Ă��܂� (31�s��) |
 | `package\win32\sample\iron\sample_ble.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\iron\sample_camera_preview.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\iron\sample_designer.hsp` | #Error:invalid func param in line 39 [iron_webview2.hsp] |
 | `package\win32\sample\iron\sample_duckdb.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\iron\sample_mcp_client.hsp` | iron_mcp_client.hsp(474) : error 26 : �p�����[�^�[�������͎g�p����Ă��܂� (474�s��) |
@@ -224,13 +164,11 @@
 | `package\win32\sample\new34\strtrim.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\win32_gen2\clipboard_history.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\win32_gen2\file_watch.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\win32_gen2\named_pipe.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
-| `package\win32\sample\win32_gen2\power_info.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 | `package\win32\sample\win32_gen2\reg_edit.hsp` | error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c) |
 
 </details>
 
-### ERR 詳細 (384 件)
+### ERR 詳細 (387 件)
 
 <details><summary>クリックして展開</summary>
 
@@ -319,6 +257,7 @@
 | `package\win32\sample\basic\sample_strbuf.hsp` | error code=23 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\sample_strbuf.hsp "変数名が指定されていません" |
 | `package\win32\sample\basic\sample_taskdialog.hsp` | error code=31 line=183 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_taskdialog.hsp "異なる型を持つ配列変数に代入しました" |
 | `package\win32\sample\basic\sample_validate.hsp` | error code=23 line=36 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_validate.hsp "変数名が指定されていません" |
+| `package\win32\sample\basic\sample_variadic.hsp` | error code=2 line=15 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\sample_variadic.hsp "文法が間違っています" |
 | `package\win32\sample\basic\sample_wasapi.hsp` | error code=21 line=10 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\sample_wasapi.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\basic\sample_yaml.hsp` | error code=23 line=17 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_yaml.hsp "変数名が指定されていません" |
 | `package\win32\sample\basic\star.hsp` | error code=21 line=2 file=J:\HNWorks\IronHSP_2026\package\win32\sample\basic\star.hsp "サポートされない機能を選択しました" |
@@ -454,6 +393,7 @@
 | `package\win32\sample\hsp3utf\utftest3.hsp` | error code=21 line=3 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hsp3utf\utftest3.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\hsp3utf\utftest4.hsp` | error code=21 line=7 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hsp3utf\utftest4.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\hspcl\cgi\cnt.hsp` | error code=12 line=9 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcl\cgi\cnt.hsp "ファイルが見つからないか無効な名前です" |
+| `package\win32\sample\hspcl\cgi\getenv.hsp` | error code=41 line=51 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcl\cgi\getenv.hsp "関数を命令として記述しています。" |
 | `package\win32\sample\hspcv\cvmatch.hsp` | error code=38 line=3 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcv\cvmatch.hsp "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\hspcv\loadsave.hsp` | error code=21 line=5 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcv\loadsave.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\hspcv\makeavi.hsp` | error code=38 line=3 file=J:\HNWorks\IronHSP_2026\package\win32\sample\hspcv\makeavi.hsp "外部DLLの呼び出しに失敗しました" |
@@ -505,6 +445,7 @@
 | `package\win32\sample\iron\sample_cam_ai.hsp` | error code=21 line=25 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_cam_ai.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_camera_mf.hsp` | error code=21 line=22 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_camera_mf.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_camera_mf_dual.hsp` | error code=21 line=18 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_camera_mf_dual.hsp "サポートされない機能を選択しました" |
+| `package\win32\sample\iron\sample_camera_preview.hsp` | error code=21 line=23 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_camera_preview.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_clip.hsp` | error code=2 line=12 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_clip.hsp "文法が間違っています" |
 | `package\win32\sample\iron\sample_csv.hsp` | error code=21 line=11 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_csv.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_hash.hsp` | error code=-1073741819 "non-zero exit without events" |
@@ -533,9 +474,6 @@
 | `package\win32\sample\misc\ahtman_kw.hsp` | error code=38 line=45 file=mod_aht.as "外部DLLの呼び出しに失敗しました" |
 | `package\win32\sample\misc\dragdrop.hsp` | error code=32 line=19 file=J:\HNWorks\IronHSP_2026\package\win32\sample\misc\dragdrop.hsp "関数のパラメーター記述が不正です" |
 | `package\win32\sample\misc\hspcmp.hsp` | error code=38 line=14 file=J:\HNWorks\IronHSP_2026\package\win32\sample\misc\hspcmp.hsp "外部DLLの呼び出しに失敗しました" |
-| `package\win32\sample\misc\libptr.hsp` | error code=-1073741819 "non-zero exit without events" |
-| `package\win32\sample\misc\macro.hsp` | error code=21 line=26 file=J:\HNWorks\IronHSP_2026\package\win32\sample\misc\macro.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\misc\mkexe.hsp` | error code=21 line=8 file=J:\HNWorks\IronHSP_2026\package\win32\sample\misc\mkexe.hsp "サポートされない機能を選択しました" |
-| ... | (84 件省略) |
+| ... | (87 件省略) |
 
 </details>

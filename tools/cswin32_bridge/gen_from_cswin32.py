@@ -692,12 +692,30 @@ def emit_types(structs: List[Struct],
     ap("#ifndef __win32_types_gen2_as__")
     ap("#define global __win32_types_gen2_as__")
     ap("")
+    # HSP #define はケースインセンシティブなので、フィールド名が HSP の
+    # 予約マクロ (next/break/for/if/mes/...) と被ると "macro syntax error"。
+    # 衝突するものは末尾に _ を付けてリネーム。
+    HSP_RESERVED = {
+        "next", "break", "continue", "for", "while", "do", "until", "wend",
+        "if", "else", "goto", "gosub", "return", "stop", "end", "mes", "print",
+        "sdim", "dim", "ddim", "ldim", "and", "or", "xor", "not", "repeat", "loop",
+    }
+
+    def _sanitize_field(name: str) -> str:
+        return name + "_" if name.lower() in HSP_RESERVED else name
+
     if structs:
         ap(";--- structs ---")
         for st in structs:
-            ap(f"#defstruct global {st.name}")
+            # HSP hspcmp は先頭アンダースコアの struct 名を受理しない
+            # (#Error:struct name required)。CsWin32 が生成する匿名ネスト構造体
+            # (_Flags_e__Union 等) を W_ プレフィックス付きに正規化する。
+            sname = st.name
+            if sname.startswith("_"):
+                sname = "W" + sname
+            ap(f"#defstruct global {sname}")
             for (hsp_ty, fname, _doc) in st.fields:
-                ap(f"    #field {hsp_ty} {fname}")
+                ap(f"    #field {hsp_ty} {_sanitize_field(fname)}")
             ap("#endstruct")
             ap("")
     if enums:
