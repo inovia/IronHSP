@@ -317,8 +317,8 @@ x86 では <code>stdcall</code>、x64 では <code>fastcall</code> 規約のマ�
 文字コード変換命令（<code>cnvstow</code>, <code>cnvwtos</code>, <code>cnvstoa</code>, <code>cnvatos</code>）は HSP3 標準機能として引き続き利用可能です。
 </div>
 
-<h3>4.2 変数型 TYPE_NETOBJ</h3>
-<p><code>TYPE_NETOBJ = 9</code> として登録されるユーザー定義型です。.NET オブジェクトへの参照を HSP 変数として保持します。</p>
+<h3>4.2 変数型 HSPVAR_FLAG_NETOBJ</h3>
+<p><code>HSPVAR_FLAG_NETOBJ = 9</code> として登録されるユーザー定義型です。.NET オブジェクトへの参照を HSP 変数として保持します。</p>
 <p>内部的には <code>GCHandle</code> によってネイティブポインタとして保持し、GC による回収を防ぎます。<code>delnet</code> または <code>popnet</code> のスコープ管理によって解放されます。</p>
 
 <h3>4.3 Hsp3Net クラス（内部 API）</h3>
@@ -665,7 +665,7 @@ mes nettoval(rSR, 4)     ; => 44100</code></pre>
 <tr><td><code>HSPVAR_FLAG_COMSTRUCT</code></td><td>6</td><td>comobj</td><td>ポインタ</td><td>COM オブジェクト</td></tr>
 <tr><td>（予約）</td><td>7</td><td>-</td><td>-</td><td>VARIANT 用に予約</td></tr>
 <tr><td><code>HSPVAR_FLAG_INT64</code></td><td>8</td><td>int64</td><td>8 byte</td><td><span class="badge">新規</span> 64bit 符号付き整数</td></tr>
-<tr><td><code>TYPE_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
+<tr><td><code>HSPVAR_FLAG_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
 <tr><td><code>HSPVAR_FLAG_WSTR</code></td><td>10</td><td>wstr</td><td>可変長</td><td><span class="badge">新規</span> UTF-16 LE ワイド文字列</td></tr>
 <tr><td><code>HSPVAR_FLAG_NSTRUCT</code></td><td>11</td><td>nstruct</td><td>可変</td><td><span class="badge">新規</span> ネイティブ構造体 (<code>#defstruct</code> 用、<code>stdim</code> で確保)</td></tr>
 </table>
