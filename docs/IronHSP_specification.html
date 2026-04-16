@@ -42,7 +42,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-16 (Allman ブレーススタイル対応 / hspd2d 絵文字修正 / Phase L 全走破 + 新規プラグイン 22 個 + OLDDLL <code>$202</code> 完全撤廃 / hsp3net runtime 配置 / hspcv4 277 関数を typed <code>#func</code> 化)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-18 (AI/ML/数学 20 モジュール + 汎用ユーティリティ 23 モジュール追加 / 全 150 iron_* モジュール + 150 .hs + 68 サンプル / .hs/.hsp/.as 日本語統一)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="warning-banner">
@@ -2079,9 +2079,162 @@ package/hsphelp/
     <td>hspmcp.dll + iron_json</td></tr>
 </table>
 
-<p>合計 <strong>16 個の iron_* モジュール / 128 命令</strong>。各モジュールに対応するサンプルが <code>package/win32/sample/iron/sample_*.hsp</code> にあり、すべて hspcmp 通過確認済。日本語ヘルプは <code>package/hsphelp/iron_*.hs</code> で HSP IDE F1 表示可能。</p>
+<h3>16.4 AI / 機械学習系 iron_* モジュール</h3>
 
-<h3>16.4 新規 C++ プラグイン DLL</h3>
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_embedding.hsp</code></td><td>テキスト埋め込み + ベクトル検索</td>
+    <td><code>embedding_build_vocab corpus</code><br><code>sim = vec_cosine(a, b, n)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_sentiment.hsp</code></td><td>感情分析 (キーワードベース)</td>
+    <td><code>sentiment_score(text)</code><br><code>sentiment_label(text)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_summarize.hsp</code></td><td>抽出型テキスト要約</td>
+    <td><code>summarize(text, max_sentences)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_kmeans.hsp</code></td><td>K-means クラスタリング</td>
+    <td><code>kmeans_cluster x, y, n, k, labels</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_nn.hsp</code></td><td>ニューラルネットワーク (1 隠れ層)</td>
+    <td><code>nn_sigmoid(x)</code> / <code>nn_predict(x1,x2,w1,w2,bias)</code><br><code>nn_train_xor weights, epochs</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_ga.hsp</code></td><td>遺伝的アルゴリズム</td>
+    <td><code>ga_init 20, 100</code><br><code>ga_evaluate fit</code> / <code>ga_evolve</code><br><code>ga_best()</code></td>
+    <td>Pure HSP</td></tr>
+</table>
+
+<h3>16.5 マルチメディア処理系 iron_* モジュール (追加)</h3>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_ffmpeg.hsp</code></td><td>FFmpeg ラッパー</td>
+    <td><code>ffmpeg_set_path "path"</code><br><code>ffmpeg_convert "in.avi", "out.mp4"</code><br><code>ffmpeg_extract_audio "video.mp4", "audio.wav"</code><br><code>ffmpeg_trim "in.mp4", "out.mp4", "00:01:00", "00:00:30"</code></td>
+    <td>ffmpeg.exe</td></tr>
+<tr><td><code>iron_synth.hsp</code></td><td>オーディオ合成 (WAV 生成)</td>
+    <td><code>synth_sine "out.wav", 440.0, 1.0, 44100</code><br><code>synth_square</code> / <code>synth_noise</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_spectrum.hsp</code></td><td>スペクトラム解析 (簡易 DFT)</td>
+    <td><code>spectrum_compute samples, n, bins, num_bins</code></td>
+    <td>Pure HSP</td></tr>
+</table>
+
+<h3>16.6 数学系 iron_* モジュール</h3>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_fft.hsp</code></td><td>高速フーリエ変換 (Cooley-Tukey)</td>
+    <td><code>fft_compute re, im, n</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_complex.hsp</code></td><td>複素数演算</td>
+    <td><code>complex_mul a, b, c</code> / <code>complex_abs(a)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_ode.hsp</code></td><td>常微分方程式ソルバー (RK4)</td>
+    <td><code>ode_solve_decay t_out, y_out, steps, t0, y0, dt</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_optimize.hsp</code></td><td>最適化 (黄金分割法)</td>
+    <td><code>optimize_golden(a, b, max_iter)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_curvefit.hsp</code></td><td>カーブフィッティング (最小二乗法)</td>
+    <td><code>curvefit_linear x, y, n, slope, intercept</code><br><code>curvefit_r2(x, y, n, slope, intercept)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_random_dist.hsp</code></td><td>確率分布乱数</td>
+    <td><code>rand_normal(0.0, 1.0)</code><br><code>rand_exponential(1.0)</code> / <code>rand_poisson(3.0)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_combinatorics.hsp</code></td><td>組み合わせ論</td>
+    <td><code>factorial(5)</code> / <code>combination(10,3)</code><br><code>gcd(12,8)</code> / <code>is_prime(17)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_geometry.hsp</code></td><td>2D/3D 幾何学</td>
+    <td><code>tri_area(x1,y1,x2,y2,x3,y3)</code><br><code>circle_area(r)</code> / <code>sphere_volume(r)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_quaternion.hsp</code></td><td>クォータニオン (3D 回転)</td>
+    <td><code>quat_from_axis_angle q, 0,0,1, 1.5708</code><br><code>quat_rotate q, px, py, pz</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_filter.hsp</code></td><td>信号フィルタ (移動平均/ローパス/ハイパス)</td>
+    <td><code>filter_moving_avg data, n, window, out</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_montecarlo.hsp</code></td><td>モンテカルロ法</td>
+    <td><code>mc_estimate_pi(10000)</code><br><code>mc_integrate_x2(0.0, 1.0, 10000)</code></td>
+    <td>Pure HSP</td></tr>
+</table>
+
+<h3>16.7 汎用ユーティリティ系 iron_* モジュール</h3>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_test.hsp</code></td><td>ユニットテストフレームワーク</td>
+    <td><code>test_begin "suite"</code><br><code>assert_eq a, b, "msg"</code><br><code>test_end</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_array2.hsp</code></td><td>配列ユーティリティ</td>
+    <td><code>array_sum(a, n)</code> / <code>array_min</code> / <code>array_max</code><br><code>array_reverse a, n</code> / <code>array_unique(a, n)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_str2.hsp</code></td><td>文字列ユーティリティ</td>
+    <td><code>str_trim(s)</code> / <code>str_upper(s)</code> / <code>str_lower(s)</code><br><code>str_contains(s, sub)</code> / <code>str_replace(s, old, new)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_color.hsp</code></td><td>色変換 (RGB/HSV/HEX)</td>
+    <td><code>color_rgb2hex(255,0,0)</code><br><code>color_hex2rgb "#00FF00", r, g, b</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_humanize.hsp</code></td><td>人間にやさしい書式変換</td>
+    <td><code>humanize_bytes(2621440)</code><br><code>humanize_number(1234567)</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_collection.hsp</code></td><td>スタック / キュー</td>
+    <td><code>stack_push 10</code> / <code>stack_pop()</code><br><code>queue_push 20</code> / <code>queue_pop()</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_faker.hsp</code></td><td>フェイクデータ生成</td>
+    <td><code>fake_name()</code> / <code>fake_email()</code> / <code>fake_phone()</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_yaml.hsp</code></td><td>簡易 YAML パーサー</td>
+    <td><code>yaml_load text</code> / <code>yaml_get("key")</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_dotenv.hsp</code></td><td>.env ファイルローダー</td>
+    <td><code>dotenv_load ".env"</code></td>
+    <td>iron_fs</td></tr>
+<tr><td><code>iron_diff.hsp</code></td><td>テキスト差分 (行単位)</td>
+    <td><code>diff_text old, new</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_glob.hsp</code></td><td>再帰ファイル検索</td>
+    <td><code>glob_find "dir", "*.txt", 1</code></td>
+    <td>iron_fs</td></tr>
+<tr><td><code>iron_cache.hsp</code></td><td>TTL 付きインメモリキャッシュ</td>
+    <td><code>cache_set "key", "val", 60</code><br><code>cache_get("key")</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_event.hsp</code></td><td>イベントエミッター (Pub/Sub)</td>
+    <td><code>event_on "click", *handler</code><br><code>event_emit "click"</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_retry.hsp</code></td><td>リトライ (バックオフ付き)</td>
+    <td><code>retry_exec 3, 1000, *label</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_statemachine.hsp</code></td><td>有限状態マシン</td>
+    <td><code>sm_add_state "idle"</code><br><code>sm_add_transition 0, "start", 1</code><br><code>sm_fire "start"</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_bloom.hsp</code></td><td>ブルームフィルタ</td>
+    <td><code>bloom_init 1024</code> / <code>bloom_add "item"</code><br><code>bloom_contains("item")</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_barcode.hsp</code></td><td>1D バーコード BMP 生成</td>
+    <td><code>barcode_generate "text", "out.bmp"</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_scraper.hsp</code></td><td>Web スクレイピング</td>
+    <td><code>scrape_links "url"</code> / <code>scrape_text "url"</code></td>
+    <td>iron_http + iron_html</td></tr>
+<tr><td><code>iron_table2.hsp</code></td><td>CLI テーブル整形出力</td>
+    <td><code>table_print "headers", "rows"</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_progress_cl.hsp</code></td><td>CLI プログレスバー</td>
+    <td><code>progress_show current, total, width</code></td>
+    <td>Pure HSP</td></tr>
+<tr><td><code>iron_docx.hsp</code></td><td>Word .docx 生成</td>
+    <td><code>docx_create "path", "body"</code></td>
+    <td>hsp3net (.NET)</td></tr>
+<tr><td><code>iron_pptx.hsp</code></td><td>PowerPoint .pptx 生成</td>
+    <td><code>pptx_create "path"</code><br><code>pptx_add_slide "title", "body"</code><br><code>pptx_save</code></td>
+    <td>hsp3net (.NET)</td></tr>
+<tr><td><code>iron_msgpack.hsp</code></td><td>MessagePack シリアライズ</td>
+    <td><code>msgpack_pack_str "text", var</code></td>
+    <td>hsp3net (.NET)</td></tr>
+</table>
+
+<p>合計 <strong>150 個の iron_* モジュール</strong>。各モジュールに対応するサンプルが <code>package/win32/sample/basic/sample_*.hsp</code> にあり、すべて hspcmp 通過確認済。日本語ヘルプは <code>package/hsphelp/iron_*.hs</code> で HSP IDE F1 表示可能。</p>
+
+<h3>16.8 新規 C++ プラグイン DLL</h3>
 
 <p>iron_* モジュール群の足回りとして本拡張で新規開発した独立 C++ プラグイン DLL:</p>
 
@@ -2727,6 +2880,8 @@ audioloop_stop</code></pre>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/18 20:50</td><td></td><td><span class="badge">ドキュメント</span> <strong>.hs / .hsp / .as 全ファイルのコメントを日本語に統一</strong>: .hs ヘルプ 43 個 + .hsp ソース 62 個 + .as ヘッダー 10 個を日本語化。サンプル 26 個追加 (AI/数学/最終バッチ)</td></tr>
+<tr><td>4/18 20:45</td><td></td><td><span class="badge">新機能</span> <strong>AI/ML + マルチメディア + 数学 20 モジュール</strong>: iron_embedding (テキスト埋め込み) / iron_sentiment (感情分析) / iron_summarize (テキスト要約) / iron_kmeans (クラスタリング) / iron_nn (ニューラルネット) / iron_ga (遺伝的アルゴリズム) / iron_ffmpeg (FFmpeg ラッパー) / iron_synth (オーディオ合成) / iron_spectrum (スペクトラム解析) / iron_fft (高速フーリエ変換) / iron_complex (複素数) / iron_ode (常微分方程式) / iron_optimize (最適化) / iron_curvefit (カーブフィット) / iron_random_dist (確率分布) / iron_combinatorics (組み合わせ) / iron_geometry (幾何学) / iron_quaternion (クォータニオン) / iron_filter (信号フィルタ) / iron_montecarlo (モンテカルロ法)。全て Pure HSP 実装、18/18 テスト ALL PASSED</td></tr>
 <tr><td>4/17 20:10</td><td></td><td><span class="badge">新機能</span> <strong>C#/Python 標準機能移植 23 モジュール</strong>: iron_test (テストFW) / iron_array2 (配列操作) / iron_str2 (文字列拡張) / iron_color (色変換) / iron_humanize / iron_glob (再帰検索) / iron_diff (テキスト差分) / iron_collection (Stack/Queue) / iron_faker (偽データ) / iron_yaml / iron_dotenv (.env) / iron_table2 (CLI表) / iron_progress_cl / iron_docx (Word) / iron_pptx (PowerPoint) / iron_barcode (1D) / iron_scraper (スクレイピング) / iron_cache (TTL付きキャッシュ) / iron_event (Pub/Sub) / iron_retry (バックオフ) / iron_statemachine / iron_msgpack / iron_bloom (確率的集合)</td></tr>
 <tr><td>4/17 20:07</td><td></td><td><span class="badge">改善</span> <strong>全 iron_* モジュールの Win32 API を W 版 (Unicode) に変更</strong>: iron_fs / iron_path / iron_folder / iron_registry / iron_ftp / iron_service / iron_tray の全 API 宣言を A→W に移行。入力は <code>wstr</code> (HSP 自動 UTF-8→UTF-16 変換)、出力バッファは <code>WideCharToMultiByte</code> で UTF-16→UTF-8 変換。絵文字・環境依存文字を含むファイルパスに対応</td></tr>
 <tr><td>4/17 20:02</td><td></td><td><span class="badge">新機能</span> <strong>Windows Ribbon Framework 完全対応</strong>: hspribbon.dll で UIRibbon COM をフルサポート。STRINGTABLE バンドルマージ + BITMAP 画像自動埋め込み + イベントモード (PostMessage) + ribbon_load_bml (uicc.exe のみ必要、rc.exe/link.exe 不要)。<a href="ribbon_guide.html">専用ドキュメント</a> + <a href="../package/win32/sample/ribbon/">サンプル一式</a></td></tr>
