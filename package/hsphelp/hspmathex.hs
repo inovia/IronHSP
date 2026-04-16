@@ -1,10 +1,10 @@
 ;
-; hspmathex.hs  HSP3 ãƒ˜ãƒ«ãƒ— (æ—¥æœ¬èª)
-; æ‹¡å¼µæ•°å€¤æ¼”ç®—ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ (ä»»æ„ç²¾åº¦æ•´æ•° / ä»»æ„ç²¾åº¦10é€²å°æ•° / SIMD)
+; hspmathex.hs  HSP3 ƒwƒ‹ƒv (“ú–{Œê)
+; Šg’£”’l‰‰Zƒvƒ‰ƒOƒCƒ“ (”CˆÓ¸“x®” / ”CˆÓ¸“x10i¬” / SIMD)
 ;
 
 %type
-æ‹¡å¼µå‘½ä»¤
+Šg’£–½—ß
 %ver
 3.8
 %date
@@ -20,29 +20,56 @@ https://github.com/inovia/IronHSP
 Win32 / Win64
 
 %note
-hspmathex.dll ã¯ä»¥ä¸‹ã® 2 ã¤ã®æ©Ÿèƒ½ã‚’ 1 ã¤ã® DLL ã§æä¾›ã—ã¾ã™ã€‚
+hspmathex.dll ‚ÍŸ‚Ì 3 í—Ş‚Ì API ‚ğ 1 ‚Â‚Ì DLL ‚Å’ñ‹Ÿ‚µ‚Ü‚·B
 
-(1) HSPVAR æ‹¡å¼µå‹ â€” é€šå¸¸ã®å¤‰æ•°ã¨åŒã˜æ„Ÿè¦šã§ä½¿ãˆã‚‹ä»»æ„ç²¾åº¦æ•°å€¤å‹
+------------------------------------------------------------
+(1) HSPVAR Šg’£Œ^ - ’Êí‚Ì•Ï”‚Æ“¯‚¶Š´Šo‚Åˆµ‚¦‚é”CˆÓ¸“x”’lŒ^
+------------------------------------------------------------
 
   #include "hspmathex.as"
 
-  è¿½åŠ ã•ã‚Œã‚‹å¤‰æ•°å‹:
-    bigint  â€¦ ä»»æ„ç²¾åº¦æ•´æ•°         (Java ã® BigInteger ç›¸å½“)
-    bigdec  â€¦ ä»»æ„ç²¾åº¦10é€²å›ºå®šå°æ•° (Java ã® BigDecimal ç›¸å½“)
+  ’Ç‰Á‚³‚ê‚é•Ï”Œ^:
+    bigint  ... ”CˆÓ¸“x®”         (Java ‚Ì BigInteger ‘Š“–)
+    bigdec  ... ”CˆÓ¸“x10iŒÅ’è¬” (Java ‚Ì BigDecimal ‘Š“–)
 
-  ã“ã‚Œã‚‰ã®å‹ã®å¤‰æ•°ã¯ + - * / ç­‰ã®æ¼”ç®—å­ã§è‡ªç„¶ã«æ›¸ã‘ã¾ã™ã€‚
-  æ–‡å­—åˆ—åŒ–ã¯ str()ã€å‹åã¯ vartype() ã§å–å¾—ã§ãã¾ã™ã€‚
+  ‚±‚ê‚ç‚ÌŒ^‚Ì•Ï”‚Í + - * / \ & | ^ == != < > <= >= “™‚Ì‰‰Zq‚Å
+  ©‘R‚É‘‚¯‚Ü‚·B•¶š—ñ‰»‚Í str()AŒ^–¼‚Í vartype() ‚Åæ“¾‚Å‚«‚Ü‚·B
+  •Ï”‚Ìõ–½ŠÇ— (ƒƒ‚ƒŠ‰ğ•ú) ‚Í HSPVAR ‹@\‚ª©“®‚Ås‚¤‚½‚ßA
+  ƒnƒ“ƒhƒ‹‚ğ–¾¦“I‚É‰ğ•ú‚·‚é•K—v‚Í‚ ‚è‚Ü‚¹‚ñB
 
-(2) ãƒãƒ³ãƒ‰ãƒ«ãƒ™ãƒ¼ã‚¹ API â€” å¾“æ¥ã®ã‚¹ã‚¿ã‚¤ãƒ«
+------------------------------------------------------------
+(2) ƒnƒ“ƒhƒ‹ƒx[ƒX API - ‚‘¬E’áƒI[ƒo[ƒwƒbƒh‚ÌƒXƒ^ƒCƒ‹
+------------------------------------------------------------
 
-  bi_*       : BigInt æ“ä½œ (bi_create_str / bi_add / bi_mul / ...)
-  bigdec_*   : BigDecimal æ“ä½œ (bigdec_create / bigdec_div / bigdec_sqrt / ...)
-  simd_*     : SIMD (AVX2) ãƒ™ã‚¯ãƒˆãƒ«æ¼”ç®—
+  bi_*       : BigInt  ‘€ì (bi_create_str / bi_add / bi_mul / ...)
+  bigdec_*   : BigDec  ‘€ì (bigdec_create / bigdec_div / bigdec_sqrt / ...)
 
-ä¾å­˜: hspmathex.dll (x64 ã§ã¯ hspmathex_64.dll) ã‚’å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã¨åŒã˜
-ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®ã—ã¦ãã ã•ã„ã€‚
+  ®”‚â•¶š—ñ‚©‚çƒnƒ“ƒhƒ‹ (int) ‚ğ¶¬‚µAŠe‰‰ZŠÖ”‚Íƒnƒ“ƒhƒ‹‚ğ
+  ó‚¯æ‚Á‚ÄŒ‹‰Êƒnƒ“ƒhƒ‹‚ğ•Ô‚µ‚Ü‚·B•s—v‚É‚È‚Á‚½ƒnƒ“ƒhƒ‹‚Í•K‚¸
+  bi_free / bigdec_free ‚Å‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B–Y‚ê‚é‚ÆƒŠ[ƒN‚µ‚Ü‚·B
+  ƒnƒ“ƒhƒ‹ 0 ‚Íí‚É–³Œø’l‚Å‚· (¸”s‚É•Ô‚³‚ê‚Ü‚·)B
 
-ã‚µãƒ³ãƒ—ãƒ«:
+------------------------------------------------------------
+(3) SIMD API - SSE/AVX/AVX2 ƒxƒNƒgƒ‹‰‰Z
+------------------------------------------------------------
+
+  simd_has_*      : Às CPU ‚Ì SIMD ‘Î‰”»’è (CPUID + XGETBV)
+  simd_cpu_name   : CPU ƒuƒ‰ƒ“ƒh–¼æ“¾
+  simd_*_d        : double ”z—ñ‰‰Z   (AVX —DæASSE2 ƒtƒH[ƒ‹ƒoƒbƒN)
+  simd_*_i        : int32  ”z—ñ‰‰Z   (AVX2 —DæASSE2 ƒtƒH[ƒ‹ƒoƒbƒN)
+  simd_*_f        : float  ”z—ñ‰‰Z   (AVX —DæASSE  ƒtƒH[ƒ‹ƒoƒbƒN)
+  simd_matmul_*   : s—ñÏ             (row-major, f/d —¼‘Î‰)
+  simd_pixel_*    : ‰æ‘œˆ— (alpha ƒuƒŒƒ“ƒh / ƒOƒŒ[ƒXƒP[ƒ‹)
+
+  SIMD ŠÖ”ŒQ‚Í C ABI ‚Ì __cdecl ‚Æ‚µ‚ÄƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚½‚ßA
+  ’Êí‚Í iron_simd.hsp ‚Ìƒ‰ƒbƒp‚ğ‰î‚µ‚ÄŒÄ‚Ño‚·‚Ì‚ªŠÈ’P‚Å‚·B
+  #uselib ‚Å’¼ÚŒÄ‚Ô‚±‚Æ‚à‚Å‚«‚Ü‚·B
+
+------------------------------------------------------------
+ˆË‘¶: hspmathex.dll (x64 ‚Å‚Í hspmathex_64.dll) ‚ğÀsƒtƒ@ƒCƒ‹‚Æ
+      “¯‚¶ƒfƒBƒŒƒNƒgƒŠ‚É”z’u‚µ‚Ä‚­‚¾‚³‚¢B
+
+ƒTƒ“ƒvƒ‹:
   #include "hspmathex.as"
   a = bigint("12345678901234567890")
   b = bigint("99999999999999999999")
@@ -51,27 +78,37 @@ hspmathex.dll ã¯ä»¥ä¸‹ã® 2 ã¤ã®æ©Ÿèƒ½ã‚’ 1 ã¤ã® DLL ã§æä¾›ã—ã¾ã™ã€‚
   mes vartype(a)
   stop
 
+;============================================================
+; (1) HSPVAR Šg’£Œ^
+;============================================================
+
 %index
 bigint
-ä»»æ„ç²¾åº¦æ•´æ•°å€¤ã‚’ç”Ÿæˆ
+”CˆÓ¸“x®”’l‚ğ¶¬ (HSPVAR Œ^)
 %group
 hspmathex
 %prm
 "decimal_str"
-"decimal_str" : 10é€²æ–‡å­—åˆ—è¡¨ç¾ ("-" å…ˆé ­å¯)
+"decimal_str" : 10i•¶š—ñ•\Œ» ("-" æ“ª‰Â)
 %inst
-bigint("...") ã¯ä»»æ„ç²¾åº¦æ•´æ•° (bigint å‹) ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-ç”Ÿæˆã•ã‚ŒãŸå€¤ã¯é€šå¸¸ã®å¤‰æ•°ã«ä»£å…¥ã§ãã€+ - * / \ & | ^ == != ç­‰ã®æ¼”ç®—å­ãŒ
-ä½¿ãˆã¾ã™ã€‚
+bigint("...") ‚Í”CˆÓ¸“x®” (bigint Œ^) ‚Ì’l‚ğ¶¬‚µ‚Ü‚·B
+¶¬‚³‚ê‚½’l‚Í’Êí‚Ì•Ï”‚É‘ã“ü‚Å‚«A+ - * / \ & | ^ == != < > “™‚Ì
+‰‰Zq‚ª HSP ‚Ì‘g‚İ‚İŒ^‚Æ“¯‚¶‘®‚Åg‚¦‚Ü‚·B
+•¶š—ñ‰»‚Í str()AŒ^–¼‚Ìæ“¾‚Í vartype() ‚Ås‚¢‚Ü‚·B
+
+Œ…”‚É—˜_ã‚ÌãŒÀ‚Í‚ ‚è‚Ü‚¹‚ñ (ƒƒ‚ƒŠ‚ª‹–‚·ŒÀ‚è)B
+•Ï”‚Ìƒƒ‚ƒŠ‰ğ•ú‚Í HSPVAR ‹@\‚É‚æ‚è©“®‚Ås‚í‚ê‚Ü‚·B
 
   a = bigint("100")
   b = bigint("200")
-  c = a + b           ; => 300 (bigint å‹)
+  c = a + b           ; => 300 (bigint Œ^)
   mes str(c)
   mes vartype(a)      ; => "bigint"
 
 %href
 bigdec
+bi_create_str
+bi_add
 %sample
 #include "hspmathex.as"
 a = bigint("12345678901234567890")
@@ -85,26 +122,32 @@ stop
 
 %index
 bigdec
-ä»»æ„ç²¾åº¦10é€²å›ºå®šå°æ•°å€¤ã‚’ç”Ÿæˆ
+”CˆÓ¸“x10iŒÅ’è¬”’l‚ğ¶¬ (HSPVAR Œ^)
 %group
 hspmathex
 %prm
 "decimal_str"
-"decimal_str" : 10é€²æ–‡å­—åˆ—è¡¨ç¾ (ç¬¦å·ãƒ»å°æ•°ç‚¹ãƒ»æŒ‡æ•°è¡¨è¨˜ "e"/"E" ãŒä½¿ãˆã‚‹)
+"decimal_str" : 10i•¶š—ñ•\Œ» (•„†E¬”“_Ew”•\‹L "e"/"E" ‚ªg‚¦‚é)
 %inst
-bigdec("...") ã¯ä»»æ„ç²¾åº¦10é€²å›ºå®šå°æ•° (bigdec å‹) ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
-10é€²ã®å°æ•°ç‚¹ä»¥ä¸‹ã‚’æ­£ç¢ºã«ä¿æŒã™ã‚‹ã®ã§ã€é‡‘é¡è¨ˆç®—ãªã©ã«ä½¿ãˆã¾ã™ã€‚
+bigdec("...") ‚Í”CˆÓ¸“x10iŒÅ’è¬” (bigdec Œ^) ‚Ì’l‚ğ¶¬‚µ‚Ü‚·B
+10i‚Ì¬”“_ˆÈ‰º‚ğ³Šm‚É•Û‚·‚é‚Ì‚ÅA‹àŠzŒvZ‚Ì‚æ‚¤‚ÉŒë·‚ª
+‹–‚³‚ê‚È‚¢‰‰Z‚É“K‚µ‚Ä‚¢‚Ü‚· (IEEE754 double ‚Å‚Í 0.1+0.2 != 0.3
+‚Æ‚È‚é–â‘è‚ª‹N‚«‚Ü‚¹‚ñ)B
 
   pi = bigdec("3.141592653589793238462643383279")
   r  = bigdec("10")
-  c  = pi * r * bigdec("2")      ; å††å‘¨
+  c  = pi * r * bigdec("2")      ; ‰~ü
   mes str(c)
   mes vartype(pi)                ; => "bigdec"
 
-é™¤ç®— (/) ã¯ 30 æ¡ã§åˆ‡ã‚Šæ¨ã¦ã§ã™ã€‚
+œZ (/) ‚ÍƒfƒtƒHƒ‹ƒg‚Å 30 Œ…‚ÅØ‚èÌ‚Ä‚Å‚·B
+‚æ‚èÚ×‚ÉŠÛ‚ßƒ‚[ƒhEŒ…”‚ğ§Œä‚µ‚½‚¢ê‡‚Íƒnƒ“ƒhƒ‹ API ‚Ì
+bigdec_div ‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
 
 %href
 bigint
+bigdec_create
+bigdec_div
 %sample
 #include "hspmathex.as"
 a = bigdec("0.1")
@@ -112,5 +155,1919 @@ b = bigdec("0.2")
 c = a + b
 mes "a = "+str(a)
 mes "b = "+str(b)
-mes "a+b = "+str(c)   ; æµ®å‹•å°æ•°ç‚¹ã¨é•ã„ã€æ­£ç¢ºã« 0.3 ã«ãªã‚‹
+mes "a+b = "+str(c)   ; •‚“®¬”“_‚Æˆá‚¢A³Šm‚É 0.3 ‚É‚È‚é
+stop
+
+;============================================================
+; (2a) BigInt ƒnƒ“ƒhƒ‹ API
+;============================================================
+
+%index
+bi_create_int
+int ‚©‚ç BigInt ƒnƒ“ƒhƒ‹‚ğ¶¬
+%group
+hspmathex
+%prm
+v
+v : ¶¬Œ³‚Ì 32bit ®”’l
+%inst
+32bit ®”’l v ‚©‚ç BigInt ‚Ìƒnƒ“ƒhƒ‹‚ğ¶¬‚µAreturn ’l‚Æ‚µ‚Ä
+•Ô‚µ‚Ü‚· (ŠÖ”Œ`®)B•s—v‚É‚È‚Á‚½‚ç•K‚¸ bi_free ‚Å‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B
+ƒnƒ“ƒhƒ‹ 0 ‚Í–³Œø’l (¶¬¸”s) ‚ğˆÓ–¡‚µ‚Ü‚·B
+
+%href
+bi_create_str
+bi_create_int64_split
+bi_free
+%sample
+#include "hspmathex.as"
+h = bi_create_int(12345)
+sdim s, 64
+bi_to_str h, s, 10
+mes s                 ; => 12345
+bi_free h
+stop
+
+%index
+bi_create_int64_split
+2 ‚Â‚Ì int32 ‚©‚ç 64bit ’l‚ğ‡¬‚µ‚Ä BigInt ‚ğ¶¬
+%group
+hspmathex
+%prm
+lo, hi
+lo : 64bit ’l‚Ì‰ºˆÊ 32bit
+hi : 64bit ’l‚ÌãˆÊ 32bit
+%inst
+HSP ‚Ì•W€Œ^‚É‚Í 64bit ®”‚ª–³‚¢‚½‚ßA2 ‚Â‚Ì int32 (lo, hi) ‚É
+•ªŠ„‚³‚ê‚½ 64bit ’l‚©‚ç BigInt ƒnƒ“ƒhƒ‹‚ğ¶¬‚µ‚Ü‚·B
+lo ‚Í•„†–³‚µAhi ‚Í•„†•t‚«‚Æ‚µ‚Äˆµ‚¢AŒ‹‰Ê‚Í
+  (hi << 32) | (lo & 0xFFFFFFFF)
+‚Æ‚È‚è‚Ü‚·B•s—v‚É‚È‚Á‚½‚ç bi_free ‚Å‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bi_create_int
+bi_to_int64_split
+%sample
+#include "hspmathex.as"
+; 10000000000 (= 0x2540BE400) ‚ğ¶¬
+lo = 0x540BE400 : hi = 0x2
+h  = bi_create_int64_split(lo, hi)
+sdim s, 64
+bi_to_str h, s, 10
+mes s
+bi_free h
+stop
+
+%index
+bi_create_str
+10i•¶š—ñ‚©‚ç BigInt ƒnƒ“ƒhƒ‹‚ğ¶¬
+%group
+hspmathex
+%prm
+"s"
+"s" : 10i•¶š—ñ ("-" æ“ª‰Â)
+%inst
+10i•¶š—ñ s ‚©‚ç BigInt ‚Ìƒnƒ“ƒhƒ‹‚ğ¶¬‚µ‚Ü‚·B
+Œ…”‚É§ŒÀ‚Í‚ ‚è‚Ü‚¹‚ñBƒp[ƒX¸”s‚Íƒnƒ“ƒhƒ‹ 0 ‚ª•Ô‚è‚Ü‚·B
+•s—v‚É‚È‚Á‚½‚ç bi_free ‚Å‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bi_create_int
+bi_to_str
+%sample
+#include "hspmathex.as"
+h = bi_create_str("123456789012345678901234567890")
+sdim s, 128
+bi_to_str h, s, 10
+mes s
+bi_free h
+stop
+
+%index
+bi_clone
+BigInt ƒnƒ“ƒhƒ‹‚ğ•¡»
+%group
+hspmathex
+%prm
+h
+h : •¡»Œ³ƒnƒ“ƒhƒ‹
+%inst
+BigInt ƒnƒ“ƒhƒ‹ h ‚Æ“¯‚¶’l‚ğ‚ÂV‚µ‚¢ƒnƒ“ƒhƒ‹‚ğ¶¬‚µ‚Ä•Ô‚µ‚Ü‚·B
+BigInt ‚Í’lƒZƒ}ƒ“ƒeƒBƒNƒX‚Åˆµ‚¤‚×‚«‚È‚Ì‚ÅA‘¼‚Ì•Ï”‚ÉuƒRƒs[v
+‚µ‚½‚¢ê‡‚Í•K‚¸ bi_clone ‚ğ’Ê‚µ‚Ä‚­‚¾‚³‚¢ (“¯‚¶ƒnƒ“ƒhƒ‹‚ğ‹¤—L
+‚·‚é‚Æ•Ğ•û‚Ì bi_free ‚Å—¼•û‚ª–³Œø‚É‚È‚è‚Ü‚·)B
+
+%href
+bi_create_int
+bi_free
+%sample
+#include "hspmathex.as"
+a = bi_create_str("1000")
+b = bi_clone(a)
+bi_free a        ; a ‚ğ‰ğ•ú‚µ‚Ä‚à b ‚Í—LŒø
+sdim s, 64
+bi_to_str b, s, 10
+mes s            ; => 1000
+bi_free b
+stop
+
+%index
+bi_free
+BigInt ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú
+%group
+hspmathex
+%prm
+h
+h : ‰ğ•ú‚·‚éƒnƒ“ƒhƒ‹
+%inst
+BigInt ƒnƒ“ƒhƒ‹ h ‚ğ‰ğ•ú‚µ‚Ü‚·B
+‰ğ•ú–Y‚ê‚Íƒƒ‚ƒŠƒŠ[ƒN‚É‚È‚é‚Ì‚ÅAƒnƒ“ƒhƒ‹ API ‚ğg‚¤Û‚É‚Í
+¶¬‚µ‚½ƒnƒ“ƒhƒ‹‚Í•K‚¸ bi_free ‚Å‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B
+ƒnƒ“ƒhƒ‹ 0 ‚ğ“n‚µ‚½ê‡‚Í‰½‚à‚µ‚Ü‚¹‚ñ (ˆÀ‘S)B
+
+%href
+bi_create_int
+bi_clone
+%sample
+#include "hspmathex.as"
+h = bi_create_int(42)
+bi_free h
+stop
+
+%index
+bi_to_str
+BigInt ‚ğw’èŠî”‚Ì•¶š—ñ‚É•ÏŠ·
+%group
+hspmathex
+%prm
+h, var, radix
+h     : BigInt ƒnƒ“ƒhƒ‹
+var   : o—Í•¶š—ñƒoƒbƒtƒ@•Ï”
+radix : Šî” (2-36)
+%inst
+BigInt ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğ radix i”‚Ì•¶š—ñ‚É•ÏŠ·‚µ‚Ä var ‚ÉŠi”[
+‚µ‚Ü‚·Bvar ‚Í sdim “™‚Å‚ ‚ç‚©‚¶‚ß\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µ‚Ä‚¨‚­•K—v
+‚ª‚ ‚è‚Ü‚· (10 i‚Å 1 Œ…‚ ‚½‚è log10(2)*bit ’ö“x)B
+
+stat ‚Í¬Œ÷ 0A¸”s‚É”ñ 0 ‚ª•Ô‚è‚Ü‚·B
+
+%href
+bi_to_hex
+bi_to_int32
+bi_to_int64
+%sample
+#include "hspmathex.as"
+h = bi_create_str("123456789012345")
+sdim s, 64
+bi_to_str h, s, 10
+mes "10i: "+s
+bi_to_str h, s, 2
+mes "2i: "+s
+bi_free h
+stop
+
+%index
+bi_to_hex
+BigInt ‚ğ16i•¶š—ñ‚É•ÏŠ·
+%group
+hspmathex
+%prm
+h, var, upper
+h     : BigInt ƒnƒ“ƒhƒ‹
+var   : o—Í•¶š—ñƒoƒbƒtƒ@•Ï”
+upper : 1=‘å•¶š A-F / 0=¬•¶š a-f
+%inst
+BigInt ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğ16i•¶š—ñ‚É•ÏŠ·‚µ var ‚ÉŠi”[‚µ‚Ü‚·B
+bi_to_str(h, var, 16) ‚Æ‚Ù‚Ú“¯‚¶‚Å‚·‚ªA‘å•¶š/¬•¶š‚Ìw’è‚ª
+‚Å‚«‚é“_‚ªˆÙ‚È‚è‚Ü‚·B
+
+%href
+bi_to_str
+%sample
+#include "hspmathex.as"
+h = bi_create_str("255")
+sdim s, 32
+bi_to_hex h, s, 1
+mes s            ; => FF
+bi_free h
+stop
+
+%index
+bi_to_int64
+BigInt ‚ğ 2 ‚Â‚Ì int32 (64bit •ªŠ„) ‚É•ÏŠ·
+%group
+hspmathex
+%prm
+h, var
+h   : BigInt ƒnƒ“ƒhƒ‹
+var : o—Í•Ï” (int ”z—ñ 2 —v‘fˆÈã)
+%inst
+BigInt ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğ 64bit ‚Æ‚µ‚Äæ‚èo‚µA2 ‚Â‚Ì int32 ‚É
+•ªŠ„‚µ‚Ä var ‚ÉŠi”[‚µ‚Ü‚·B
+  var(0) : ‰ºˆÊ 32bit (•„†–³‚µ‘Š“–‚Ìƒrƒbƒgƒpƒ^[ƒ“)
+  var(1) : ãˆÊ 32bit (•„†•t‚«)
+
+’l‚ª 64bit ‚Éû‚Ü‚ç‚È‚¢ê‡‚Í‰ºˆÊ 64bit ‚¾‚¯‚ªæ‚èo‚³‚ê‚Ü‚·B
+stat ‚Í¬Œ÷ 0 ‚Å‚·B
+
+%href
+bi_to_int64_split
+bi_to_int32
+bi_create_int64_split
+%sample
+#include "hspmathex.as"
+h = bi_create_str("10000000000")   ; 0x2540BE400
+dim v, 2
+bi_to_int64 h, v
+mes "lo = "+strf("0x%08X", v(0))
+mes "hi = "+strf("0x%08X", v(1))
+bi_free h
+stop
+
+%index
+bi_to_int64_split
+BigInt ‚ğ 2 ‚Â‚Ì•Ï”‚É 64bit •ªŠ„‚µ‚Äæ‚èo‚·
+%group
+hspmathex
+%prm
+h, lo_var, hi_var
+h      : BigInt ƒnƒ“ƒhƒ‹
+lo_var : ‰ºˆÊ 32bit ‚ğŠi”[‚·‚é•Ï”
+hi_var : ãˆÊ 32bit ‚ğŠi”[‚·‚é•Ï”
+%inst
+BigInt ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğ 64bit ‚Æ‚µ‚Äæ‚èo‚µA‰ºˆÊ 32bit ‚ğ lo_var
+‚ÉAãˆÊ 32bit ‚ğ hi_var ‚ÉŠi”[‚µ‚Ü‚·B
+bi_to_int64 ‚Í”z—ñ‚ğg‚¢‚Ü‚·‚ªA‚±‚¿‚ç‚Í•ÊX‚Ì•Ï”‚Æ‚µ‚Äó‚¯æ‚ê‚é
+•Ö—˜Œ`‚Å‚·B
+
+%href
+bi_to_int64
+bi_create_int64_split
+%sample
+#include "hspmathex.as"
+h = bi_create_str("10000000000")
+bi_to_int64_split h, lo, hi
+mes "lo = "+strf("0x%08X", lo)
+mes "hi = "+strf("0x%08X", hi)
+bi_free h
+stop
+
+%index
+bi_to_int32
+BigInt ‚ğ 32bit ®”‚É•ÏŠ·
+%group
+hspmathex
+%prm
+h
+h : BigInt ƒnƒ“ƒhƒ‹
+%inst
+BigInt ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğ 32bit ®”‚Æ‚µ‚Äæ‚èo‚µ‚Ä return ’l‚Å
+•Ô‚µ‚Ü‚· (ŠÖ”Œ`®)B’l‚ª 32bit ‚Éû‚Ü‚ç‚È‚¢ê‡‚Í‰ºˆÊ 32bit ‚¾‚¯
+‚ª•Ô‚è‚Ü‚· (Ø‚è‹l‚ß)B
+
+%href
+bi_to_int64
+bi_to_str
+%sample
+#include "hspmathex.as"
+h = bi_create_int(12345)
+mes str(bi_to_int32(h))
+bi_free h
+stop
+
+%index
+bi_add
+BigInt ‰ÁZ (a + b)
+%group
+hspmathex
+%prm
+a, b
+a : BigInt ƒnƒ“ƒhƒ‹ (”í‰Á”)
+b : BigInt ƒnƒ“ƒhƒ‹ (‰Á”)
+%inst
+a + b ‚ğŒvZ‚µAŒ‹‰Ê‚ğV‚µ‚¢ BigInt ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+a, b ‚Í•ÏX‚³‚ê‚Ü‚¹‚ñBŒ‹‰Êƒnƒ“ƒhƒ‹‚Í•s—v‚É‚È‚Á‚½‚ç bi_free ‚Å
+‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bi_sub
+bi_mul
+bi_div
+%sample
+#include "hspmathex.as"
+a = bi_create_str("99999999999999999999")
+b = bi_create_str("1")
+c = bi_add(a, b)
+sdim s, 64
+bi_to_str c, s, 10
+mes s
+bi_free a : bi_free b : bi_free c
+stop
+
+%index
+bi_sub
+BigInt Œ¸Z (a - b)
+%group
+hspmathex
+%prm
+a, b
+a : BigInt ƒnƒ“ƒhƒ‹ (”íŒ¸”)
+b : BigInt ƒnƒ“ƒhƒ‹ (Œ¸”)
+%inst
+a - b ‚ğŒvZ‚µAŒ‹‰Ê‚ğV‚µ‚¢ BigInt ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+Œ‹‰Ê‚ª•‰‚É‚È‚éê‡‚à‚»‚Ì‚Ü‚Ü•\Œ»‚³‚ê‚Ü‚·B
+Œ‹‰Êƒnƒ“ƒhƒ‹‚Í•s—v‚É‚È‚Á‚½‚ç bi_free ‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bi_add
+bi_neg
+%sample
+#include "hspmathex.as"
+a = bi_create_str("100")
+b = bi_create_str("30")
+c = bi_sub(a, b)   ; => 70
+sdim s, 32
+bi_to_str c, s, 10
+mes s
+bi_free a : bi_free b : bi_free c
+stop
+
+%index
+bi_mul
+BigInt æZ (a * b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigInt ƒnƒ“ƒhƒ‹
+%inst
+a * b ‚ğŒvZ‚µAŒ‹‰Ê‚ğV‚µ‚¢ BigInt ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+Œ…”‚ª–c‘å‚É‚È‚éê‡‚Í“à•”‚Å Karatsuba ŒnƒAƒ‹ƒSƒŠƒYƒ€‚ªg‚í‚ê‚é
+‚Ì‚ÅA’Êí‚Ì•MZæZ‚æ‚è‚‘¬‚Å‚·B
+Œ‹‰Êƒnƒ“ƒhƒ‹‚Í•s—v‚É‚È‚Á‚½‚ç bi_free ‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bi_add
+bi_pow
+%sample
+#include "hspmathex.as"
+a = bi_create_str("123456789")
+b = bi_create_str("987654321")
+c = bi_mul(a, b)
+sdim s, 64
+bi_to_str c, s, 10
+mes s
+bi_free a : bi_free b : bi_free c
+stop
+
+%index
+bi_div
+BigInt œZ (a / b, Ø‚èÌ‚Ä)
+%group
+hspmathex
+%prm
+a, b
+a : BigInt ƒnƒ“ƒhƒ‹ (”íœ”)
+b : BigInt ƒnƒ“ƒhƒ‹ (œ”)
+%inst
+a / b ‚Ì¤‚ğ BigInt ‚Æ‚µ‚Ä return ‚µ‚Ü‚· (®”œZA—]‚è‚ÍØ‚èÌ‚Ä)B
+—]‚è‚à•K—v‚Èê‡‚Í•Ê“r bi_mod ‚ğŒÄ‚Ô‚©A–‘O‚É bigdec_div ‚Å
+•‚“®¬”¸“x‚Ì¤‚ğæ‚é‚©ŒŸ“¢‚µ‚Ä‚­‚¾‚³‚¢B
+b ‚ª 0 ‚Ìê‡‚Íƒnƒ“ƒhƒ‹ 0 ‚ª•Ô‚è‚Ü‚·B
+
+%href
+bi_mod
+bi_mul
+bigdec_div
+%sample
+#include "hspmathex.as"
+a = bi_create_str("1000000000000")
+b = bi_create_str("7")
+q = bi_div(a, b)
+sdim s, 64
+bi_to_str q, s, 10
+mes s
+bi_free a : bi_free b : bi_free q
+stop
+
+%index
+bi_mod
+BigInt è—] (a mod b)
+%group
+hspmathex
+%prm
+a, b
+a : BigInt ƒnƒ“ƒhƒ‹
+b : BigInt ƒnƒ“ƒhƒ‹ (b > 0 „§)
+%inst
+a ‚ğ b ‚ÅŠ„‚Á‚½—]‚è‚ğ BigInt ‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+•‰”‚É‘Î‚·‚é‹““®‚ÍuŒ‹‰Ê‚Ì•„†‚Í a ‚Æ“¯‚¶v‚Å‚· (C Œ¾Œê‚Ì %
+‚Æ“¯‚¶ truncated modulo)Bb ‚ª 0 ‚Ìê‡‚Íƒnƒ“ƒhƒ‹ 0 ‚ª•Ô‚è‚Ü‚·B
+
+%href
+bi_div
+%sample
+#include "hspmathex.as"
+a = bi_create_str("100")
+b = bi_create_str("7")
+r = bi_mod(a, b)  ; => 2
+sdim s, 32
+bi_to_str r, s, 10
+mes s
+bi_free a : bi_free b : bi_free r
+stop
+
+%index
+bi_and
+BigInt ƒrƒbƒg AND (a & b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigInt ƒnƒ“ƒhƒ‹
+%inst
+a ‚Æ b ‚Ìƒrƒbƒg’PˆÊ AND ‚ğŒvZ‚µAŒ‹‰Êƒnƒ“ƒhƒ‹‚ğ return ‚µ‚Ü‚·B
+•‰”‚Í 2 ‚Ì•â”•\Œ»‚Æ‚µ‚Äˆµ‚í‚ê‚Ü‚·B
+
+%href
+bi_or
+bi_xor
+%sample
+#include "hspmathex.as"
+a = bi_create_str("0xFF00FF00")
+b = bi_create_str("0x0F0F0F0F")
+c = bi_and(a, b)
+sdim s, 32
+bi_to_hex c, s, 1
+mes s
+bi_free a : bi_free b : bi_free c
+stop
+
+%index
+bi_or
+BigInt ƒrƒbƒg OR (a | b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigInt ƒnƒ“ƒhƒ‹
+%inst
+a ‚Æ b ‚Ìƒrƒbƒg’PˆÊ OR ‚ğŒvZ‚µAŒ‹‰Êƒnƒ“ƒhƒ‹‚ğ return ‚µ‚Ü‚·B
+
+%href
+bi_and
+bi_xor
+%sample
+#include "hspmathex.as"
+a = bi_create_int(0x00FF)
+b = bi_create_int(0xFF00)
+c = bi_or(a, b)
+mes str(bi_to_int32(c))   ; => 65535
+bi_free a : bi_free b : bi_free c
+stop
+
+%index
+bi_xor
+BigInt ƒrƒbƒg XOR (a ^ b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigInt ƒnƒ“ƒhƒ‹
+%inst
+a ‚Æ b ‚Ìƒrƒbƒg’PˆÊ XOR ‚ğŒvZ‚µAŒ‹‰Êƒnƒ“ƒhƒ‹‚ğ return ‚µ‚Ü‚·B
+
+%href
+bi_and
+bi_or
+%sample
+#include "hspmathex.as"
+a = bi_create_int(0xFFFF)
+b = bi_create_int(0x0F0F)
+c = bi_xor(a, b)
+mes strf("0x%X", bi_to_int32(c))
+bi_free a : bi_free b : bi_free c
+stop
+
+%index
+bi_pow
+BigInt ™pæ (a ^ exp)
+%group
+hspmathex
+%prm
+a, exp
+a   : BigInt ƒnƒ“ƒhƒ‹ (’ê)
+exp : w” (int, ”ñ•‰)
+%inst
+a ‚Ì exp æ‚ğ BigInt ‚Æ‚µ‚Ä return ‚µ‚Ü‚·Bexp ‚Í’Êí‚Ì int ‚Å‚·B
+exp ‚ª”ñí‚É‘å‚«‚¢ê‡‚ÍŒ‹‰Ê‚ÌŒ…”‚ª”š”­“I‚É‘‚¦‚é‚Ì‚Å’ˆÓ
+‚µ‚Ä‚­‚¾‚³‚¢ (ƒƒ‚ƒŠÁ”ï‚ÆŒvZŠÔ)B
+
+%href
+bi_mul
+bigdec_pow
+%sample
+#include "hspmathex.as"
+a = bi_create_str("2")
+c = bi_pow(a, 256)     ; 2^256
+sdim s, 256
+bi_to_str c, s, 10
+mes s
+bi_free a : bi_free c
+stop
+
+%index
+bi_gcd
+BigInt Å‘åŒö–ñ”
+%group
+hspmathex
+%prm
+a, b
+a, b : BigInt ƒnƒ“ƒhƒ‹
+%inst
+a ‚Æ b ‚ÌÅ‘åŒö–ñ” (GCD) ‚ğ BigInt ‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+a, b ‚ª 0 ‚Ìê‡‚Å‚àƒGƒ‰[‚É‚Í‚È‚è‚Ü‚¹‚ñ (GCD(0, x) = x)B
+
+%href
+bi_mul
+bi_div
+%sample
+#include "hspmathex.as"
+a = bi_create_str("462")
+b = bi_create_str("1071")
+g = bi_gcd(a, b)   ; => 21
+mes str(bi_to_int32(g))
+bi_free a : bi_free b : bi_free g
+stop
+
+%index
+bi_abs
+BigInt â‘Î’l
+%group
+hspmathex
+%prm
+h
+h : BigInt ƒnƒ“ƒhƒ‹
+%inst
+h ‚Ìâ‘Î’l |h| ‚ğV‚µ‚¢ BigInt ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+
+%href
+bi_neg
+%sample
+#include "hspmathex.as"
+a = bi_create_str("-12345")
+b = bi_abs(a)
+mes str(bi_to_int32(b))   ; => 12345
+bi_free a : bi_free b
+stop
+
+%index
+bi_neg
+BigInt •„†”½“] (-h)
+%group
+hspmathex
+%prm
+h
+h : BigInt ƒnƒ“ƒhƒ‹
+%inst
+h ‚Ì•„†‚ğ”½“]‚µ‚½’l -h ‚ğV‚µ‚¢ BigInt ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return
+‚µ‚Ü‚·B
+
+%href
+bi_abs
+bi_sub
+%sample
+#include "hspmathex.as"
+a = bi_create_str("100")
+b = bi_neg(a)
+mes str(bi_to_int32(b))   ; => -100
+bi_free a : bi_free b
+stop
+
+%index
+bi_cmp
+BigInt ”äŠr (a ‚Æ b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigInt ƒnƒ“ƒhƒ‹
+%inst
+a ‚Æ b ‚ğ”äŠr‚µA
+  a <  b  : •‰‚Ì®”
+  a == b  : 0
+  a >  b  : ³‚Ì®”
+‚ğ return ‚µ‚Ü‚· (C ‚Ì strcmp •—)B
+‹ï‘Ì“I‚È‘å¬‚¾‚¯’m‚è‚½‚¢ê‡‚Í return ’l‚Ì•„†‚¾‚¯Œ©‚ê‚Î\•ª‚Å‚·B
+
+%href
+bi_add
+bi_sub
+%sample
+#include "hspmathex.as"
+a = bi_create_str("100")
+b = bi_create_str("200")
+if bi_cmp(a, b) < 0 : mes "a < b"
+bi_free a : bi_free b
+stop
+
+%index
+bi_shl
+BigInt ¶ƒVƒtƒg (a << n)
+%group
+hspmathex
+%prm
+a, n
+a : BigInt ƒnƒ“ƒhƒ‹
+n : ƒVƒtƒgƒrƒbƒg” (”ñ•‰, int)
+%inst
+a ‚ğ n ƒrƒbƒg¶‚ÉƒVƒtƒg‚µ‚½’l‚ğ BigInt ‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+n ‚ª•‰‚Ìê‡‚Ì‹““®‚Í–¢’è‹`‚È‚Ì‚ÅA0 ˆÈã‚ğ“n‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bi_shr
+bi_mul
+%sample
+#include "hspmathex.as"
+a = bi_create_int(1)
+b = bi_shl(a, 100)    ; 2^100
+sdim s, 64
+bi_to_str b, s, 10
+mes s
+bi_free a : bi_free b
+stop
+
+%index
+bi_shr
+BigInt ‰EƒVƒtƒg (a >> n, Zp)
+%group
+hspmathex
+%prm
+a, n
+a : BigInt ƒnƒ“ƒhƒ‹
+n : ƒVƒtƒgƒrƒbƒg” (”ñ•‰, int)
+%inst
+a ‚ğ n ƒrƒbƒg‰E‚ÉƒVƒtƒg‚µ‚½’l‚ğ BigInt ‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+•‰‚Ì’l‚É‘Î‚µ‚Ä‚ÍZpƒVƒtƒg (•„†Šg’£) ‚É‚È‚è‚Ü‚·B
+
+%href
+bi_shl
+bi_div
+%sample
+#include "hspmathex.as"
+a = bi_create_str("1024")
+b = bi_shr(a, 3)      ; 1024 >> 3 = 128
+mes str(bi_to_int32(b))
+bi_free a : bi_free b
+stop
+
+%index
+bi_bitlen
+BigInt ‚Ìƒrƒbƒg’·
+%group
+hspmathex
+%prm
+h
+h : BigInt ƒnƒ“ƒhƒ‹
+%inst
+|h| ‚ğ 2 i•\Œ»‚µ‚½‚Æ‚«‚Ìƒrƒbƒg”‚ğ int ‚Å return ‚µ‚Ü‚·B
+0 ‚Ìê‡‚Í 0 ‚ğ•Ô‚µ‚Ü‚·B
+•‰”‚Ìê‡‚Íâ‘Î’l‚Ìƒrƒbƒg’·‚ª•Ô‚è‚Ü‚·B
+
+%href
+bi_shl
+bi_shr
+%sample
+#include "hspmathex.as"
+a = bi_create_str("1024")
+mes str(bi_bitlen(a))    ; => 11
+bi_free a
+stop
+
+;============================================================
+; (2b) BigDecimal ƒnƒ“ƒhƒ‹ API
+;============================================================
+
+%index
+bigdec_create
+•¶š—ñ‚©‚ç BigDec ƒnƒ“ƒhƒ‹‚ğ¶¬
+%group
+hspmathex
+%prm
+"s"
+"s" : 10i•¶š—ñ (•„†E¬”“_Ew”•\‹L‘Î‰)
+%inst
+•¶š—ñ s ‚©‚ç BigDec ƒnƒ“ƒhƒ‹‚ğ¶¬‚µ‚Ü‚·B
+"3.14", "-0.001", "1.5e10" ‚Ì‚æ‚¤‚È•\‹L‚ªó‚¯•t‚¯‚ç‚ê‚Ü‚·B
+ƒp[ƒX¸”s‚Íƒnƒ“ƒhƒ‹ 0 ‚ª•Ô‚è‚Ü‚·B
+•s—v‚É‚È‚Á‚½‚ç bigdec_free ‚Å‰ğ•ú‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bigdec_create_from_double
+bigdec_free
+%sample
+#include "hspmathex.as"
+h = bigdec_create("3.141592653589793238462643383279")
+sdim s, 64
+bigdec_to_str h, s, 0
+mes s
+bigdec_free h
+stop
+
+%index
+bigdec_create_from_double
+double ‚©‚ç BigDec ƒnƒ“ƒhƒ‹‚ğ¶¬
+%group
+hspmathex
+%prm
+v, scale
+v     : ¶¬Œ³ double ’l
+scale : ¬”“_ˆÈ‰º‚ÌŒ…” (ƒXƒP[ƒ‹)
+%inst
+double ’l v ‚ğw’è scale ‚ÅŠÛ‚ß‚Ä BigDec ƒnƒ“ƒhƒ‹‚ğ¶¬‚µ‚Ü‚·B
+double ‚É‚Í 2 i‚ÌŠÛ‚ßŒë·‚ª‚ ‚é‚½‚ßA10 i‚ÅŒµ–§‚È’l‚ª•K—v‚È
+ê‡‚Í bigdec_create("...") Œo—R‚Ì•¶š—ñ¶¬‚ğ„§‚µ‚Ü‚·B
+
+%href
+bigdec_create
+bigdec_scale
+%sample
+#include "hspmathex.as"
+h = bigdec_create_from_double(3.14, 5)
+sdim s, 32
+bigdec_to_str h, s, 0
+mes s
+bigdec_free h
+stop
+
+%index
+bigdec_clone
+BigDec ƒnƒ“ƒhƒ‹‚ğ•¡»
+%group
+hspmathex
+%prm
+h
+h : •¡»Œ³ƒnƒ“ƒhƒ‹
+%inst
+BigDec ƒnƒ“ƒhƒ‹ h ‚Æ“¯‚¶’l‚ğ‚ÂV‚µ‚¢ƒnƒ“ƒhƒ‹‚ğ¶¬‚µ‚Ä return
+‚µ‚Ü‚·B•Ï”ŠÔ‚Åu’lƒRƒs[v‚µ‚½‚¢ê‡‚Ég‚¢‚Ü‚·B
+Œ‹‰Êƒnƒ“ƒhƒ‹‚Í•s—v‚É‚È‚Á‚½‚ç bigdec_free ‚µ‚Ä‚­‚¾‚³‚¢B
+
+%href
+bigdec_create
+bigdec_free
+%sample
+#include "hspmathex.as"
+a = bigdec_create("3.14")
+b = bigdec_clone(a)
+bigdec_free a     ; a ‚ğ‰ğ•ú‚µ‚Ä‚à b ‚Í—LŒø
+bigdec_free b
+stop
+
+%index
+bigdec_free
+BigDec ƒnƒ“ƒhƒ‹‚ğ‰ğ•ú
+%group
+hspmathex
+%prm
+h
+h : ‰ğ•ú‚·‚éƒnƒ“ƒhƒ‹
+%inst
+BigDec ƒnƒ“ƒhƒ‹ h ‚ğ‰ğ•ú‚µ‚Ü‚·B
+‰ğ•ú–Y‚ê‚Íƒƒ‚ƒŠƒŠ[ƒN‚É‚È‚è‚Ü‚·Bƒnƒ“ƒhƒ‹ 0 ‚ğ“n‚µ‚½ê‡‚Í
+‰½‚à‚µ‚Ü‚¹‚ñ (ˆÀ‘S)B
+
+%href
+bigdec_create
+%sample
+#include "hspmathex.as"
+h = bigdec_create("1.23")
+bigdec_free h
+stop
+
+%index
+bigdec_to_str
+BigDec ‚ğ•¶š—ñ‚É•ÏŠ· (toString)
+%group
+hspmathex
+%prm
+h, var, unused
+h      : BigDec ƒnƒ“ƒhƒ‹
+var    : o—Í•¶š—ñƒoƒbƒtƒ@•Ï”
+unused : —\–ñ (0 ‚ğ“n‚·)
+%inst
+BigDec ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğ•¶š—ñ‚É•ÏŠ·‚µ‚Ä var ‚ÉŠi”[‚µ‚Ü‚·B
+”ñí‚É‘å‚«‚¢/¬‚³‚¢’l‚Íw”•\‹L (1.5E+20 ‚È‚Ç) ‚É‚È‚é‚±‚Æ‚ª‚ ‚è
+‚Ü‚·Bw”•\‹L‚ğ”ğ‚¯‚½‚¢ê‡‚Í bigdec_to_plain_str ‚ğg‚Á‚Ä‚­‚¾
+‚³‚¢B
+
+var ‚Í sdim “™‚Å\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚è‚Ü‚·B
+
+%href
+bigdec_to_plain_str
+bigdec_to_double
+%sample
+#include "hspmathex.as"
+h = bigdec_create("12345.6789")
+sdim s, 64
+bigdec_to_str h, s, 0
+mes s
+bigdec_free h
+stop
+
+%index
+bigdec_to_plain_str
+BigDec ‚ğw”•\‹L‚È‚µ‚Ì•¶š—ñ‚É•ÏŠ·
+%group
+hspmathex
+%prm
+h, var, unused
+h      : BigDec ƒnƒ“ƒhƒ‹
+var    : o—Í•¶š—ñƒoƒbƒtƒ@•Ï”
+unused : —\–ñ (0 ‚ğ“n‚·)
+%inst
+BigDec ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğw”•\‹L‚ğg‚í‚È‚¢ƒˆ‚È10i•¶š—ñ
+("0.0000001" ‚â "10000000000000" ‚Ì‚æ‚¤‚ÈŒ`) ‚Æ‚µ‚Ä var ‚ÉŠi”[
+‚µ‚Ü‚·BlŠÔ‚ª“Ç‚İ‚â‚·‚¢Œ`‚Å•\¦‚µ‚½‚¢ê‡‚É•Ö—˜‚Å‚·B
+
+%href
+bigdec_to_str
+%sample
+#include "hspmathex.as"
+h = bigdec_create("1.5e-10")
+sdim s, 128
+bigdec_to_plain_str h, s, 0
+mes s              ; => 0.00000000015
+bigdec_free h
+stop
+
+%index
+bigdec_to_double
+BigDec ‚ğ double ‚É•ÏŠ·
+%group
+hspmathex
+%prm
+h, var
+h   : BigDec ƒnƒ“ƒhƒ‹
+var : o—Í•Ï” (double)
+%inst
+BigDec ƒnƒ“ƒhƒ‹ h ‚Ì’l‚ğ double ‚É•ÏŠ·‚µ‚Ä var ‚ÉŠi”[‚µ‚Ü‚·B
+•ÏŠ·‚É IEEE754 ‚Ì¸“x‚Ü‚ÅŠÛ‚ß‚ç‚ê‚é‚Ì‚ÅAŒ³‚Ì¸“x‚ª•Û‚³‚ê
+‚È‚¢ê‡‚ª‚ ‚è‚Ü‚·B
+
+%href
+bigdec_to_str
+bigdec_create_from_double
+%sample
+#include "hspmathex.as"
+h = bigdec_create("3.141592653589793")
+bigdec_to_double h, v
+mes str(v)
+bigdec_free h
+stop
+
+%index
+bigdec_add
+BigDec ‰ÁZ (a + b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigDec ƒnƒ“ƒhƒ‹
+%inst
+a + b ‚ğŒvZ‚µAŒ‹‰Ê‚ğV‚µ‚¢ BigDec ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+Œ‹‰Ê‚ÌƒXƒP[ƒ‹ (¬”“_ˆÈ‰º‚ÌŒ…”) ‚Í a, b ‚Ì‚¤‚¿‘å‚«‚¢•û‚É‚È‚è‚Ü‚·B
+
+%href
+bigdec_sub
+bigdec_mul
+%sample
+#include "hspmathex.as"
+a = bigdec_create("0.1")
+b = bigdec_create("0.2")
+c = bigdec_add(a, b)
+sdim s, 32
+bigdec_to_str c, s, 0
+mes s               ; => 0.3 (³Šm)
+bigdec_free a : bigdec_free b : bigdec_free c
+stop
+
+%index
+bigdec_sub
+BigDec Œ¸Z (a - b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigDec ƒnƒ“ƒhƒ‹
+%inst
+a - b ‚ğŒvZ‚µAŒ‹‰Ê‚ğV‚µ‚¢ BigDec ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+
+%href
+bigdec_add
+bigdec_neg
+%sample
+#include "hspmathex.as"
+a = bigdec_create("1.0")
+b = bigdec_create("0.3")
+c = bigdec_sub(a, b)   ; => 0.7
+sdim s, 32
+bigdec_to_str c, s, 0
+mes s
+bigdec_free a : bigdec_free b : bigdec_free c
+stop
+
+%index
+bigdec_mul
+BigDec æZ (a * b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigDec ƒnƒ“ƒhƒ‹
+%inst
+a * b ‚ğŒvZ‚µAŒ‹‰Ê‚ğV‚µ‚¢ BigDec ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+Œ‹‰Ê‚ÌƒXƒP[ƒ‹‚Í (scale(a) + scale(b)) ‚É‚È‚è‚Ü‚·B
+¸“x‚ğ—}‚¦‚½‚¢ê‡‚Í bigdec_scale ‚â bigdec_round ‚ÅŠÛ‚ß‚Ä‚­‚¾‚³‚¢B
+
+%href
+bigdec_add
+bigdec_div
+bigdec_round
+%sample
+#include "hspmathex.as"
+a = bigdec_create("1.5")
+b = bigdec_create("2.5")
+c = bigdec_mul(a, b)   ; => 3.75
+sdim s, 32
+bigdec_to_str c, s, 0
+mes s
+bigdec_free a : bigdec_free b : bigdec_free c
+stop
+
+%index
+bigdec_div
+BigDec œZ (a / b, ¸“xEŠÛ‚ßw’è)
+%group
+hspmathex
+%prm
+a, b, scale, roundMode
+a         : BigDec ƒnƒ“ƒhƒ‹ (”íœ”)
+b         : BigDec ƒnƒ“ƒhƒ‹ (œ”)
+scale     : Œ‹‰Ê‚Ì¬”“_ˆÈ‰ºŒ…”
+roundMode : ŠÛ‚ßƒ‚[ƒh (BIGDEC_HALF_UP ‚È‚Ç)
+%inst
+a / b ‚ğ scale Œ…Ew’èŠÛ‚ßƒ‚[ƒh‚ÅŒvZ‚µ‚½ BigDec ‚ğ return ‚µ‚Ü‚·B
+b ‚ª 0 ‚Ìê‡‚Íƒnƒ“ƒhƒ‹ 0 ‚ª•Ô‚è‚Ü‚·B
+
+ŠÛ‚ßƒ‚[ƒh:
+  BIGDEC_HALF_UP   (0) : 5 ˆÈãØ‚èã‚° (ˆê”Ê“I‚ÈlÌŒÜ“ü)
+  BIGDEC_HALF_EVEN (1) : ‹âsŠÛ‚ß (‹ô”‘¤‚ÉŠÛ‚ß‚é)
+  BIGDEC_DOWN      (2) : 0 •ûŒü‚ÉØ‚èÌ‚Ä
+  BIGDEC_UP        (3) : 0 ‚©‚ç—£‚ê‚é•ûŒü‚ÉØ‚èã‚°
+  BIGDEC_FLOOR     (4) : -–³ŒÀ‘å •ûŒü‚ÉØ‚èÌ‚Ä
+  BIGDEC_CEILING   (5) : +–³ŒÀ‘å •ûŒü‚ÉØ‚èã‚°
+
+%href
+bigdec_mul
+bigdec_round
+bigdec_scale
+%sample
+#include "hspmathex.as"
+a = bigdec_create("1")
+b = bigdec_create("3")
+c = bigdec_div(a, b, 20, BIGDEC_HALF_UP)   ; 20 Œ…¸“x
+sdim s, 64
+bigdec_to_str c, s, 0
+mes s               ; => 0.33333333333333333333
+bigdec_free a : bigdec_free b : bigdec_free c
+stop
+
+%index
+bigdec_pow
+BigDec ™pæ (a ^ exp)
+%group
+hspmathex
+%prm
+a, exp
+a   : BigDec ƒnƒ“ƒhƒ‹ (’ê)
+exp : w” (int, ”ñ•‰)
+%inst
+a ‚Ì exp æ‚ğ BigDec ‚Æ‚µ‚Ä return ‚µ‚Ü‚·Bexp ‚Í intB
+•‰‚Ìw”‚â¬”w”‚Í–¢‘Î‰‚Å‚· (³Šm‚È BigDec ‰‰Z‚Å‚Í—LŒÀŒ…‚É
+û‚Ü‚ç‚È‚¢‚½‚ß)B•K—v‚È‚ç double Œo—R‚Ì pow ‚ğg‚¤‚©Aƒ†[ƒU[
+‘¤‚Å Taylor “WŠJ‚ğ‘g‚ñ‚Å‚­‚¾‚³‚¢B
+
+%href
+bigdec_mul
+bi_pow
+%sample
+#include "hspmathex.as"
+a = bigdec_create("1.01")
+c = bigdec_pow(a, 100)   ; •¡—˜ 1% ‚ğ 100 ‰ñ
+sdim s, 64
+bigdec_to_str c, s, 0
+mes s
+bigdec_free a : bigdec_free c
+stop
+
+%index
+bigdec_abs
+BigDec â‘Î’l
+%group
+hspmathex
+%prm
+h
+h : BigDec ƒnƒ“ƒhƒ‹
+%inst
+|h| ‚ğV‚µ‚¢ BigDec ‚Æ‚µ‚Ä return ‚µ‚Ü‚·B
+%href
+bigdec_neg
+%sample
+#include "hspmathex.as"
+a = bigdec_create("-3.14")
+b = bigdec_abs(a)
+sdim s, 32
+bigdec_to_str b, s, 0
+mes s          ; => 3.14
+bigdec_free a : bigdec_free b
+stop
+
+%index
+bigdec_neg
+BigDec •„†”½“] (-h)
+%group
+hspmathex
+%prm
+h
+h : BigDec ƒnƒ“ƒhƒ‹
+%inst
+h ‚Ì•„†‚ğ”½“]‚µ‚½ BigDec ‚ğ return ‚µ‚Ü‚·B
+
+%href
+bigdec_abs
+bigdec_sub
+%sample
+#include "hspmathex.as"
+a = bigdec_create("3.14")
+b = bigdec_neg(a)
+sdim s, 32
+bigdec_to_str b, s, 0
+mes s          ; => -3.14
+bigdec_free a : bigdec_free b
+stop
+
+%index
+bigdec_round
+BigDec ‚ğw’è¸“x‚ÅŠÛ‚ß‚é
+%group
+hspmathex
+%prm
+h, precision, roundMode
+h         : BigDec ƒnƒ“ƒhƒ‹
+precision : —LŒøŒ…” (MathContext ‚Ì precision)
+roundMode : ŠÛ‚ßƒ‚[ƒh (BIGDEC_HALF_UP ‚È‚Ç)
+%inst
+BigDec h ‚ğw’è‚³‚ê‚½—LŒøŒ…”‚ÅŠÛ‚ß‚½V‚µ‚¢ BigDec ‚ğ return
+‚µ‚Ü‚·Bprecision ‚Íuæ“ª‚©‚ç‰½Œ…‚Å‘Å‚¿Ø‚é‚©v‚ÅAscale
+(¬”“_ˆÈ‰ºŒ…”) ‚Æ‚ÍˆÙ‚È‚é“_‚É’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢B
+
+ŠÛ‚ßƒ‚[ƒh‚Í bigdec_div ‚Æ“¯‚¶ BIGDEC_* ’è”‚ªg‚¦‚Ü‚·B
+
+%href
+bigdec_scale
+bigdec_div
+%sample
+#include "hspmathex.as"
+a = bigdec_create("3.14159265358979")
+b = bigdec_round(a, 5, BIGDEC_HALF_UP)  ; —LŒø 5 Œ…
+sdim s, 32
+bigdec_to_str b, s, 0
+mes s          ; => 3.1416
+bigdec_free a : bigdec_free b
+stop
+
+%index
+bigdec_scale
+BigDec ‚ÌƒXƒP[ƒ‹ (¬”“_ˆÈ‰ºŒ…”) ‚ğ•ÏX
+%group
+hspmathex
+%prm
+h, newScale, roundMode
+h         : BigDec ƒnƒ“ƒhƒ‹
+newScale  : V‚µ‚¢¬”“_ˆÈ‰ºŒ…”
+roundMode : ŠÛ‚ßƒ‚[ƒh
+%inst
+BigDec h ‚ÌƒXƒP[ƒ‹‚ğ newScale ‚É•ÏX‚µ‚½V‚µ‚¢ BigDec ‚ğ return
+‚µ‚Ü‚·B
+  newScale ‚ªŒ»İ‚æ‚è‘å‚«‚¢  : 0 ‚ÅƒpƒfƒBƒ“ƒO (’l‚Í•Ï‚í‚ç‚È‚¢)
+  newScale ‚ªŒ»İ‚æ‚è¬‚³‚¢  : roundMode ‚É]‚Á‚ÄŠÛ‚ß‚é
+
+‹àŠzŒvZ‚Åu•K‚¸¬”“_ˆÈ‰º 2 Œ…‚É®‚¦‚év‚Æ‚¢‚Á‚½—p“r‚É•Ö—˜‚Å‚·B
+
+%href
+bigdec_round
+bigdec_get_scale
+%sample
+#include "hspmathex.as"
+a = bigdec_create("12.3456")
+b = bigdec_scale(a, 2, BIGDEC_HALF_UP)
+sdim s, 32
+bigdec_to_str b, s, 0
+mes s          ; => 12.35
+bigdec_free a : bigdec_free b
+stop
+
+%index
+bigdec_cmp
+BigDec ”äŠr (a ‚Æ b)
+%group
+hspmathex
+%prm
+a, b
+a, b : BigDec ƒnƒ“ƒhƒ‹
+%inst
+a ‚Æ b ‚ğ”äŠr‚µA
+  a <  b : •‰‚Ì®”
+  a == b : 0
+  a >  b : ³‚Ì®”
+‚ğ return ‚µ‚Ü‚·BƒXƒP[ƒ‹‚ªˆá‚Á‚Ä‚àu”Šw“I‚É“¯‚¶’lv‚È‚ç 0 ‚ğ
+•Ô‚µ‚Ü‚· (—á: 1.0 ‚Æ 1.00 ‚Í“™‚µ‚¢)B
+
+%href
+bigdec_add
+bigdec_sub
+%sample
+#include "hspmathex.as"
+a = bigdec_create("1.0")
+b = bigdec_create("1.00")
+mes str(bigdec_cmp(a, b))  ; => 0
+bigdec_free a : bigdec_free b
+stop
+
+%index
+bigdec_get_scale
+BigDec ‚ÌƒXƒP[ƒ‹ (¬”“_ˆÈ‰ºŒ…”) ‚ğæ“¾
+%group
+hspmathex
+%prm
+h
+h : BigDec ƒnƒ“ƒhƒ‹
+%inst
+BigDec h ‚ÌƒXƒP[ƒ‹ (¬”“_ˆÈ‰º‚ÌŒ…”) ‚ğ int ‚Å return ‚µ‚Ü‚·B
+•‰‚ÌƒXƒP[ƒ‹‚à‚ ‚è“¾‚Ü‚· (—á: "120" ‚ğ scale=-1 ‚Å‚Â‚Æ "12e1")B
+
+%href
+bigdec_scale
+bigdec_get_precision
+%sample
+#include "hspmathex.as"
+h = bigdec_create("3.14159")
+mes str(bigdec_get_scale(h))    ; => 5
+bigdec_free h
+stop
+
+%index
+bigdec_get_precision
+BigDec ‚Ì—LŒøŒ…”‚ğæ“¾
+%group
+hspmathex
+%prm
+h
+h : BigDec ƒnƒ“ƒhƒ‹
+%inst
+BigDec h ‚Ì—LŒøŒ…” (precision, æ“ª‚Ì 0 ‚ğœ‚¢‚½—LŒø”š‚ÌŒ…”)
+‚ğ int ‚Å return ‚µ‚Ü‚·B
+
+%href
+bigdec_get_scale
+bigdec_round
+%sample
+#include "hspmathex.as"
+h = bigdec_create("3.14159")
+mes str(bigdec_get_precision(h))  ; => 6
+bigdec_free h
+stop
+
+%index
+bigdec_sqrt
+BigDec •½•ûª
+%group
+hspmathex
+%prm
+h, scale
+h     : BigDec ƒnƒ“ƒhƒ‹ (”ñ•‰)
+scale : Œ‹‰Ê‚Ì¬”“_ˆÈ‰ºŒ…”
+%inst
+BigDec h ‚Ì•½•ûª‚ğ scale Œ…‚ÅŒvZ‚µ‚½ BigDec ‚ğ return ‚µ‚Ü‚·B
+Newton –@‚Å”½•œŒvZ‚³‚ê‚Ü‚·Bh ‚ª•‰‚Ìê‡‚Íƒnƒ“ƒhƒ‹ 0 ‚ª•Ô‚è‚Ü‚·B
+
+scale ‚Í•K—vŒ…”‚ğ–¾¦“I‚Éw’è‚µ‚Ä‚­‚¾‚³‚¢ (—á: 20-50 ‚È‚Ç)B
+scale ‚ğ‘å‚«‚­‚·‚é‚ÆŒvZŠÔ‚ª‘‚¦‚Ü‚·B
+
+%href
+bigdec_pow
+bigdec_div
+%sample
+#include "hspmathex.as"
+a = bigdec_create("2")
+b = bigdec_sqrt(a, 30)
+sdim s, 64
+bigdec_to_str b, s, 0
+mes s          ; => 1.414213562373095048801688724209
+bigdec_free a : bigdec_free b
+stop
+
+;============================================================
+; (3) SIMD API
+;   ¦ ’Êí‚Í iron_simd.hsp ‚Ìƒ‰ƒbƒpŒo—R‚Åg‚¤‚Ì‚ğ„§
+;============================================================
+
+%index
+simd_has_sse
+SSE ‘Î‰”»’è
+%group
+hspmathex
+%prm
+
+%inst
+Às’†‚Ì CPU ‚ª SSE –½—ß‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚µA
+1 (‘Î‰) / 0 (”ñ‘Î‰) ‚ğ return ‚µ‚Ü‚·B
+DLL ƒ[ƒh‚É CPUID ‚Åˆê“x‚¾‚¯ŒŸo‚³‚êAˆÈŒã‚Í’è”“I‚É•Ô‚è‚Ü‚·B
+
+%href
+simd_has_sse2
+simd_has_avx
+simd_cpu_name
+%sample
+#include "hspmathex.as"
+#uselib "hspmathex.dll"
+#cfunc simd_has_sse "simd_has_sse"
+mes "SSE: "+simd_has_sse()
+stop
+
+%index
+simd_has_sse2
+SSE2 ‘Î‰”»’è
+%group
+hspmathex
+%prm
+
+%inst
+CPU ‚ª SSE2 –½—ß‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚µ 1/0 ‚ğ return ‚µ‚Ü‚·B
+
+%href
+simd_has_sse
+simd_has_avx
+%sample
+#include "hspmathex.as"
+#uselib "hspmathex.dll"
+#cfunc simd_has_sse2 "simd_has_sse2"
+mes "SSE2: "+simd_has_sse2()
+stop
+
+%index
+simd_has_avx
+AVX ‘Î‰”»’è
+%group
+hspmathex
+%prm
+
+%inst
+CPU+OS ‚ª AVX –½—ß‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚µ 1/0 ‚ğ return ‚µ‚Ü‚·B
+CPUID ‚¾‚¯‚Å‚È‚­ XGETBV ‚É‚æ‚é OS ƒTƒ|[ƒgŠm”F‚às‚í‚ê‚Ü‚·B
+
+%href
+simd_has_avx2
+simd_has_avx512
+%sample
+#include "hspmathex.as"
+#uselib "hspmathex.dll"
+#cfunc simd_has_avx "simd_has_avx"
+mes "AVX: "+simd_has_avx()
+stop
+
+%index
+simd_has_avx2
+AVX2 ‘Î‰”»’è
+%group
+hspmathex
+%prm
+
+%inst
+CPU+OS ‚ª AVX2 –½—ß‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚µ 1/0 ‚ğ return ‚µ‚Ü‚·B
+SIMD ®”‰‰Z‚Ì‘½‚­‚Í AVX2 ‚Å‚‘¬‰»‚³‚ê‚Ü‚·B
+
+%href
+simd_has_avx
+simd_has_avx512
+%sample
+#include "hspmathex.as"
+#uselib "hspmathex.dll"
+#cfunc simd_has_avx2 "simd_has_avx2"
+mes "AVX2: "+simd_has_avx2()
+stop
+
+%index
+simd_has_avx512
+AVX-512 ‘Î‰”»’è
+%group
+hspmathex
+%prm
+
+%inst
+CPU+OS ‚ª AVX-512 Foundation (AVX-512F) ‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ
+”»’è‚µ 1/0 ‚ğ return ‚µ‚Ü‚·BXGETBV ‚É‚æ‚é ZMM ƒŒƒWƒXƒ^‚Ì OS —LŒø
+‰»Šm”F‚às‚í‚ê‚Ü‚·B
+
+%href
+simd_has_avx2
+%sample
+#include "hspmathex.as"
+#uselib "hspmathex.dll"
+#cfunc simd_has_avx512 "simd_has_avx512"
+mes "AVX-512: "+simd_has_avx512()
+stop
+
+%index
+simd_cpu_name
+CPU ƒuƒ‰ƒ“ƒh–¼æ“¾
+%group
+hspmathex
+%prm
+var, maxlen
+var    : o—Í•¶š—ñƒoƒbƒtƒ@•Ï”
+maxlen : var ‚ÌƒTƒCƒY (64 „§)
+%inst
+CPUID ‚ÌŠg’£‹@”\ 0x80000002-0x80000004 ‚©‚ç“¾‚ç‚ê‚é CPU ‚Ì
+ƒuƒ‰ƒ“ƒh–¼•¶š—ñ (—á: "Intel(R) Core(TM) i7-...") ‚ğ var ‚ÉŠi”[
+‚µ‚Ü‚·Bstat ‚Í¬Œ÷ 0A¸”s -1B
+
+%href
+simd_has_sse
+simd_has_avx2
+%sample
+#include "hspmathex.as"
+#uselib "hspmathex.dll"
+#func simd_cpu_name "simd_cpu_name" var, int
+sdim name, 64
+simd_cpu_name name, 64
+mes name
+stop
+
+%index
+simd_add_d
+double ”z—ñ‰ÁZ (out = a + b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b : double ”z—ñ (“ü—Í, ’·‚³ n)
+out  : double ”z—ñ (o—Í, ’·‚³ n)
+n    : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) + b(i) ‚ğŒvZ‚µ‚Ä out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+AVX ‚ª‚ ‚ê‚Î 4 —v‘f‚¸‚ÂA–³‚¯‚ê‚Î SSE2 ‚Å 2 —v‘f‚¸‚Âˆ—‚µ‚Ü‚·B
+
+stat ‚Í¬Œ÷ 0Aˆø”•s³ (NULL / n<=0) ‚Ì -1B
+
+%href
+simd_sub_d
+simd_mul_d
+simd_div_d
+%sample
+#include "hspmathex.as"
+#uselib "hspmathex.dll"
+#func simd_add_d "simd_add_d" var, var, var, int
+ddim a, 4 : ddim b, 4 : ddim c, 4
+a = 1.0, 2.0, 3.0, 4.0
+b = 10.0, 20.0, 30.0, 40.0
+simd_add_d a, b, c, 4
+repeat 4 : mes str(c(cnt)) : loop
+stop
+
+%index
+simd_sub_d
+double ”z—ñŒ¸Z (out = a - b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : double ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) - b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_add_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_mul_d
+double ”z—ñæZ (out = a * b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : double ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) * b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_add_d
+simd_scale_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_div_d
+double ”z—ñœZ (out = a / b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : double ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) / b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+b(i) ‚ª 0 ‚ÌˆÊ’u‚Í IEEE754 ‚Ì–³ŒÀ‘å/NaN ‚É‚È‚è‚Ü‚·B
+%href
+simd_mul_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_scale_d
+double ”z—ñƒXƒJƒ‰[”{ (out = a * s)
+%group
+hspmathex
+%prm
+a, s, out, n
+a, out : double ”z—ñ
+s      : double ƒXƒJƒ‰[
+n      : —v‘f”
+%inst
+a ‚ÌŠe—v‘f‚ğ“¯‚¶ƒXƒJƒ‰[ s ‚ÅŠ|‚¯‚Ä out ‚ÉŠi”[‚µ‚Ü‚·B
+a = a*s ‚ÌŒ`‚Åg‚¤‚Æ”z—ñˆêŠ‡ƒXƒP[ƒŠƒ“ƒO‚É•Ö—˜‚Å‚·B
+%href
+simd_mul_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_dot_d
+double ”z—ñ‚Ì“àÏ
+%group
+hspmathex
+%prm
+a, b, n, result
+a, b   : double ”z—ñ
+n      : —v‘f”
+result : double (o—Í)
+%inst
+aEb = ƒ° a(i)*b(i) ‚ğŒvZ‚µ‚Ä result ‚ÉŠi”[‚µ‚Ü‚·B
+AVX ‚ª‚ ‚ê‚Î 4 —v‘f•À—ñ‚Å—İZ‚µ‚Ü‚·B
+%href
+simd_sum_d
+simd_mul_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_sum_d
+double ”z—ñ‚Ì‘˜a
+%group
+hspmathex
+%prm
+a, n, result
+a      : double ”z—ñ
+n      : —v‘f”
+result : double (o—Í)
+%inst
+ƒ° a(i) ‚ğŒvZ‚µ‚Ä result ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_dot_d
+simd_min_d
+simd_max_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_min_d
+double ”z—ñ‚ÌÅ¬’l
+%group
+hspmathex
+%prm
+a, n, result
+a      : double ”z—ñ
+n      : —v‘f”
+result : double (o—Í)
+%inst
+a(i) ‚Ì‚¤‚¿Å¬’l‚ğ result ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_max_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_max_d
+double ”z—ñ‚ÌÅ‘å’l
+%group
+hspmathex
+%prm
+a, n, result
+a      : double ”z—ñ
+n      : —v‘f”
+result : double (o—Í)
+%inst
+a(i) ‚Ì‚¤‚¿Å‘å’l‚ğ result ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_min_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_abs_d
+double ”z—ñ‚Ìâ‘Î’l
+%group
+hspmathex
+%prm
+a, out, n
+a, out : double ”z—ñ
+n      : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É |a(i)| ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·BAVX ‚ª‚ ‚ê‚Î•„†ƒrƒbƒg
+ƒ}ƒXƒN‚Åˆê‹C‚Éˆ—‚µ‚Ü‚·B
+%href
+simd_sqrt_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_sqrt_d
+double ”z—ñ‚Ì•½•ûª
+%group
+hspmathex
+%prm
+a, out, n
+a, out : double ”z—ñ
+n      : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É sqrt(a(i)) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+a(i) ‚ª•‰‚ÌˆÊ’u‚Í NaN ‚É‚È‚è‚Ü‚·B
+%href
+simd_abs_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_add_i
+int32 ”z—ñ‰ÁZ (out = a + b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : int ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) + b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+AVX2 ‚ª‚ ‚ê‚Î 8 —v‘f‚¸‚ÂA–³‚¯‚ê‚Î SSE2 ‚Å 4 —v‘f‚¸‚Âˆ—‚µ‚Ü‚·B
+ƒI[ƒo[ƒtƒ[‚Í 32bit ƒ‰ƒbƒvƒAƒ‰ƒEƒ“ƒh‚µ‚Ü‚·B
+%href
+simd_sub_i
+simd_mul_i
+simd_sum_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_sub_i
+int32 ”z—ñŒ¸Z (out = a - b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : int ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) - b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_add_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_mul_i
+int32 ”z—ñæZ (out = a * b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : int ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) * b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+‰ºˆÊ 32bit ‚Ì‚İ‚ªo—Í‚³‚ê‚Ü‚· (ƒI[ƒo[ƒtƒ[Ø‚èÌ‚Ä)B
+%href
+simd_add_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_sum_i
+int32 ”z—ñ‚Ì‘˜a
+%group
+hspmathex
+%prm
+a, n, result
+a      : int ”z—ñ
+n      : —v‘f”
+result : int (o—Í)
+%inst
+ƒ° a(i) ‚ğŒvZ‚µ‚Ä result ‚ÉŠi”[‚µ‚Ü‚·B“à•”‚Å‚Í int64 ‚Å—İZ‚µA
+ÅIŒ‹‰Ê‚ğ int32 ”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv (–O˜a) ‚µ‚Ü‚·B
+%href
+simd_min_i
+simd_max_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_min_i
+int32 ”z—ñ‚ÌÅ¬’l
+%group
+hspmathex
+%prm
+a, n, result
+a      : int ”z—ñ
+n      : —v‘f”
+result : int (o—Í)
+%inst
+a(i) ‚Ì‚¤‚¿Å¬’l‚ğ result ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_max_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_max_i
+int32 ”z—ñ‚ÌÅ‘å’l
+%group
+hspmathex
+%prm
+a, n, result
+a      : int ”z—ñ
+n      : —v‘f”
+result : int (o—Í)
+%inst
+a(i) ‚Ì‚¤‚¿Å‘å’l‚ğ result ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_min_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_and_i
+int32 ”z—ñ‚Ìƒrƒbƒg AND
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : int ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) & b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_or_i
+simd_xor_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_or_i
+int32 ”z—ñ‚Ìƒrƒbƒg OR
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : int ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) | b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_and_i
+simd_xor_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_xor_i
+int32 ”z—ñ‚Ìƒrƒbƒg XOR
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : int ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) ^ b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_and_i
+simd_or_i
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_add_f
+float ”z—ñ‰ÁZ (out = a + b)
+%group
+hspmathex
+%prm
+a, b, out, n
+a, b, out : float ”z—ñ
+n         : —v‘f”
+%inst
+—v‘f‚²‚Æ‚É a(i) + b(i) ‚ğ out(i) ‚ÉŠi”[‚µ‚Ü‚·B
+AVX ‚ª‚ ‚ê‚Î 8 —v‘f‚¸‚ÂASSE ‚Å 4 —v‘f‚¸‚Âˆ—‚µ‚Ü‚·B
+HSP ‚Å‚Í float ”z—ñ‚ğ’¼Úˆµ‚¦‚È‚¢‚½‚ßA’Êí‚ÍƒoƒCƒiƒŠƒoƒbƒtƒ@ã‚Ì
+’P¸“xƒf[ƒ^‚É‘Î‚µ‚Äg‚¢‚Ü‚·B
+%href
+simd_dot_f
+simd_sum_f
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_dot_f
+float ”z—ñ‚Ì“àÏ
+%group
+hspmathex
+%prm
+a, b, n, result
+a, b   : float ”z—ñ
+n      : —v‘f”
+result : float (o—Í)
+%inst
+aEb = ƒ° a(i)*b(i) ‚ğŒvZ‚µ‚Ä result ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_sum_f
+simd_dot_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_sum_f
+float ”z—ñ‚Ì‘˜a
+%group
+hspmathex
+%prm
+a, n, result
+a      : float ”z—ñ
+n      : —v‘f”
+result : float (o—Í)
+%inst
+ƒ° a(i) ‚ğŒvZ‚µ‚Ä result ‚ÉŠi”[‚µ‚Ü‚·B
+%href
+simd_sum_d
+simd_dot_f
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_matmul_f
+float s—ñÏ C = A * B
+%group
+hspmathex
+%prm
+a, b, c, m, n, k
+a : float s—ñ A (m x n, row-major)
+b : float s—ñ B (n x k, row-major)
+c : float s—ñ C (m x k, row-major, o—Í)
+m, n, k : ŸŒ³ƒTƒCƒY
+%inst
+row-major ‚Ìs—ñÏ C = A * B ‚ğŒvZ‚µ‚Ü‚·B
+o—Ís—ñ C ‚ÌƒTƒCƒY‚Í m*k —v‘f•ª (float) Šm•Û‚µ‚Ä‚¨‚¢‚Ä‚­‚¾‚³‚¢B
+AVX ‚ª‚ ‚ê‚Î 8 —ñ‚¸‚Â•À—ñ‰»‚³‚ê‚Ü‚·B
+
+¬`’†‹K–ÍŒü‚¯‚ÌƒVƒ“ƒvƒ‹‚ÈÀ‘•‚ÅABLAS ‚Ù‚ÇÅ“K‰»‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ
+(‘å‹K–Ís—ñ‚Å‚Íê—p BLAS “™‚ÌÌ—p‚ğŒŸ“¢‚µ‚Ä‚­‚¾‚³‚¢)B
+%href
+simd_matmul_d
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_matmul_d
+double s—ñÏ C = A * B
+%group
+hspmathex
+%prm
+a, b, c, m, n, k
+a : double s—ñ A (m x n, row-major)
+b : double s—ñ B (n x k, row-major)
+c : double s—ñ C (m x k, row-major, o—Í)
+m, n, k : ŸŒ³ƒTƒCƒY
+%inst
+row-major ‚Ìs—ñÏ C = A * B ‚ğ double ¸“x‚ÅŒvZ‚µ‚Ü‚·B
+AVX ‚ª‚ ‚ê‚Î 4 —ñ‚¸‚Â•À—ñ‰»‚³‚ê‚Ü‚·B
+%href
+simd_matmul_f
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_pixel_blend
+ƒsƒNƒZƒ‹”z—ñ‚Ì ƒ¿ ƒuƒŒƒ“ƒh
+%group
+hspmathex
+%prm
+a, b, out, n, alpha
+a, b   : uint8 ”z—ñ (ƒoƒCƒgƒoƒbƒtƒ@)
+out    : uint8 ”z—ñ (o—Í)
+n      : ƒoƒCƒg”
+alpha  : ƒuƒŒƒ“ƒhŒW” (0.0-1.0, float)
+%inst
+out(i) = a(i) * (1 - alpha) + b(i) * alpha ‚ğŠeƒoƒCƒg‚ÅŒvZ‚µA
+0-255 ‚ÅƒNƒ‰ƒ“ƒv‚µ‚Äo—Í‚µ‚Ü‚·B
+AVX2 ‚ª‚ ‚ê‚Î 8 ƒoƒCƒg‚¸‚Â•À—ñ‰»‚³‚ê‚Ü‚·B
+RGBA ‰æ‘œ‚Å‚ ‚ê‚Î n = width * height * 4 ‚ğ“n‚µ‚Ü‚·B
+
+alpha ‚ª”ÍˆÍŠO‚Ìê‡‚Í 0.0-1.0 ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚Ü‚·B
+%href
+simd_pixel_grayscale
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
+stop
+
+%index
+simd_pixel_grayscale
+RGBA -> ƒOƒŒ[ƒXƒP[ƒ‹•ÏŠ·
+%group
+hspmathex
+%prm
+rgba, out, n
+rgba : uint8 ”z—ñ (RGBA Œ`®, ’·‚³ n ƒoƒCƒg, n ‚Í 4 ‚Ì”{”)
+out  : uint8 ”z—ñ (’·‚³ n/4, ’Pˆêƒ`ƒƒƒ“ƒlƒ‹)
+n    : rgba ‚ÌƒoƒCƒg”
+%inst
+BT.601 ‚Ì‹P“xd‚İ (0.299R + 0.587G + 0.114B) ‚Å RGBA ‚ğ’Pˆê
+ƒ`ƒƒƒ“ƒlƒ‹ 8bit ƒOƒŒ[ƒXƒP[ƒ‹‚É•ÏŠ·‚µ‚Ü‚·B
+“à•”‚Å‚Í 8bit ŒÅ’è¬”“_‰‰Z‚Å‚· (77*R + 150*G + 29*B + 128) >> 8B
+
+‚±‚Ìƒ‹[ƒ`ƒ“‚ÍƒLƒƒƒbƒVƒ…ƒoƒEƒ“ƒh‚È‚½‚ßAŒ»óƒXƒJƒ‰À‘•‚Ì‚İ‚ğ
+’ñ‹Ÿ‚µ‚Ä‚¢‚Ü‚· (SIMD ‰»‚ÍÀ‘ª‚ÅŒø‰Ê‚ª¬‚³‚©‚Á‚½)B
+%href
+simd_pixel_blend
+%sample
+#include "hspmathex.as"
+; iron_simd.hsp Œo—R‚Ì—˜—p‚ğ„§
 stop
