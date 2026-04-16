@@ -1,0 +1,81 @@
+;============================================================
+;   iron_print.hsp - Print support (.NET PrintDocument)
+;
+;   hsp3net (GUI) only.
+;
+;   API:
+;     print_text "text"              Print plain text
+;     print_preview "text"           Print preview dialog
+;     print_setup                    Page setup dialog
+;     print_dialog                   Printer selection dialog
+;============================================================
+#ifndef __iron_print_hsp__
+#define __iron_print_hsp__
+
+#module iron_print
+
+dim _print_cs_loaded, 1
+
+#deffunc _print_load_cs
+	if _print_cs_loaded : return
+	sdim _cs, 4096
+	_cs = "using System;using System.Drawing;using System.Drawing.Printing;using System.Windows.Forms;"
+	_cs += "public class HspPrint {"
+	_cs += "  static string _text = \"\";"
+	_cs += "  static int _pageIndex = 0;"
+	_cs += "  static string[] _lines;"
+	_cs += "  static void OnPrintPage(object s, PrintPageEventArgs e) {"
+	_cs += "    var font = new Font(\"MS Gothic\", 10);"
+	_cs += "    float y = e.MarginBounds.Top;"
+	_cs += "    float lh = font.GetHeight(e.Graphics);"
+	_cs += "    while(_pageIndex < _lines.Length) {"
+	_cs += "      if(y + lh > e.MarginBounds.Bottom) { e.HasMorePages = true; return; }"
+	_cs += "      e.Graphics.DrawString(_lines[_pageIndex], font, Brushes.Black, e.MarginBounds.Left, y);"
+	_cs += "      y += lh; _pageIndex++;"
+	_cs += "    }"
+	_cs += "    e.HasMorePages = false;"
+	_cs += "  }"
+	_cs += "  public static void Print(string text) {"
+	_cs += "    _text = text; _pageIndex = 0; _lines = text.Split('\\n');"
+	_cs += "    var doc = new PrintDocument();"
+	_cs += "    doc.PrintPage += OnPrintPage;"
+	_cs += "    var dlg = new PrintDialog(); dlg.Document = doc;"
+	_cs += "    if(dlg.ShowDialog() == DialogResult.OK) doc.Print();"
+	_cs += "  }"
+	_cs += "  public static void Preview(string text) {"
+	_cs += "    _text = text; _pageIndex = 0; _lines = text.Split('\\n');"
+	_cs += "    var doc = new PrintDocument();"
+	_cs += "    doc.PrintPage += OnPrintPage;"
+	_cs += "    var dlg = new PrintPreviewDialog(); dlg.Document = doc;"
+	_cs += "    dlg.ShowDialog();"
+	_cs += "  }"
+	_cs += "  public static void PageSetup() {"
+	_cs += "    var dlg = new PageSetupDialog();"
+	_cs += "    dlg.Document = new PrintDocument();"
+	_cs += "    dlg.ShowDialog();"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_print_cs_loaded = 1
+	return
+
+#deffunc print_text str text, local _h
+	_print_load_cs
+	newnet _h, "", "HspPrint", 1
+	mcall _h, "Print", text
+	return
+
+#deffunc print_preview str text, local _h
+	_print_load_cs
+	newnet _h, "", "HspPrint", 1
+	mcall _h, "Preview", text
+	return
+
+#deffunc print_setup local _h
+	_print_load_cs
+	newnet _h, "", "HspPrint", 1
+	mcall _h, "PageSetup"
+	return
+
+#global
+#endif

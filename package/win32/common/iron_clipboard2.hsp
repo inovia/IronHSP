@@ -1,0 +1,98 @@
+;============================================================
+;   iron_clipboard2.hsp - Advanced clipboard (.NET)
+;
+;   hsp3net only. Text/Image/HTML/FileDropList support.
+;
+;   API:
+;     clip_set_text "text"           Set text
+;     clip_get_text()                Get text
+;     clip_has_text()                Has text → 1/0
+;     clip_set_html "html"           Set HTML
+;     clip_get_html()                Get HTML
+;     clip_has_image()               Has image → 1/0
+;     clip_save_image "file.png"     Save clipboard image to file
+;     clip_get_files()               Get dropped files (newline sep)
+;     clip_clear                     Clear clipboard
+;============================================================
+#ifndef __iron_clipboard2_hsp__
+#define __iron_clipboard2_hsp__
+
+#module iron_clipboard2
+
+dim _clip_cs_loaded, 1
+
+#deffunc _clip_load_cs
+	if _clip_cs_loaded : return
+	sdim _cs, 4096
+	_cs = "using System;using System.Windows.Forms;using System.Drawing;using System.Drawing.Imaging;using System.Collections.Specialized;"
+	_cs += "public class HspClip {"
+	_cs += "  public static void SetText(string s) { Clipboard.SetText(s); }"
+	_cs += "  public static string GetText() { return Clipboard.ContainsText() ? Clipboard.GetText() : \"\"; }"
+	_cs += "  public static bool HasText() { return Clipboard.ContainsText(); }"
+	_cs += "  public static void SetHtml(string s) { Clipboard.SetText(s, TextDataFormat.Html); }"
+	_cs += "  public static string GetHtml() { return Clipboard.ContainsText(TextDataFormat.Html) ? Clipboard.GetText(TextDataFormat.Html) : \"\"; }"
+	_cs += "  public static bool HasImage() { return Clipboard.ContainsImage(); }"
+	_cs += "  public static string SaveImage(string path) {"
+	_cs += "    if(!Clipboard.ContainsImage()) return \"no image\";"
+	_cs += "    var img = Clipboard.GetImage();"
+	_cs += "    var fmt = ImageFormat.Png;"
+	_cs += "    if(path.EndsWith(\".jpg\")||path.EndsWith(\".jpeg\")) fmt=ImageFormat.Jpeg;"
+	_cs += "    if(path.EndsWith(\".bmp\")) fmt=ImageFormat.Bmp;"
+	_cs += "    img.Save(path, fmt); return \"ok\";"
+	_cs += "  }"
+	_cs += "  public static string GetFiles() {"
+	_cs += "    if(!Clipboard.ContainsFileDropList()) return \"\";"
+	_cs += "    var fl = Clipboard.GetFileDropList();"
+	_cs += "    var arr = new string[fl.Count]; fl.CopyTo(arr,0);"
+	_cs += "    return string.Join(\"\\n\", arr);"
+	_cs += "  }"
+	_cs += "  public static void Clear() { Clipboard.Clear(); }"
+	_cs += "}"
+	loadnet _cs, 3
+	_clip_cs_loaded = 1
+	return
+
+#deffunc clip_set_text str text, local _h
+	_clip_load_cs
+	newnet _h, "", "HspClip", 1
+	mcall _h, "SetText", text
+	return
+
+#defcfunc clip_get_text local _h, local _r
+	_clip_load_cs
+	newnet _h, "", "HspClip", 1
+	netres _r : mcall _h, "GetText"
+	return nettoval(_r, 2)
+
+#defcfunc clip_has_text local _h, local _r
+	_clip_load_cs
+	newnet _h, "", "HspClip", 1
+	netres _r : mcall _h, "HasText"
+	return nettoval(_r, 4)
+
+#defcfunc clip_has_image local _h, local _r
+	_clip_load_cs
+	newnet _h, "", "HspClip", 1
+	netres _r : mcall _h, "HasImage"
+	return nettoval(_r, 4)
+
+#deffunc clip_save_image str path, local _h, local _r
+	_clip_load_cs
+	newnet _h, "", "HspClip", 1
+	netres _r : mcall _h, "SaveImage", path
+	return nettoval(_r, 2)
+
+#defcfunc clip_get_files local _h, local _r
+	_clip_load_cs
+	newnet _h, "", "HspClip", 1
+	netres _r : mcall _h, "GetFiles"
+	return nettoval(_r, 2)
+
+#deffunc clip_clear local _h
+	_clip_load_cs
+	newnet _h, "", "HspClip", 1
+	mcall _h, "Clear"
+	return
+
+#global
+#endif

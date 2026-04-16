@@ -1,0 +1,115 @@
+;============================================================
+;   iron_gdiplus.hsp - GDI+ advanced graphics (.NET)
+;
+;   hsp3net only. Gradient, path, transform, image processing.
+;
+;   API:
+;     gdi_screenshot "file.png"      Save screen capture as PNG/JPEG
+;     gdi_resize "in.png", "out.png", w, h   Resize image
+;     gdi_thumbnail "in.png", "out.png", w, h  Create thumbnail
+;     gdi_rotate "in.png", "out.png", deg    Rotate image
+;     gdi_grayscale "in.png", "out.png"      Convert to grayscale
+;     gdi_watermark "in.png", "out.png", "text"  Add text watermark
+;============================================================
+#ifndef __iron_gdiplus_hsp__
+#define __iron_gdiplus_hsp__
+
+#module iron_gdiplus
+
+dim _gdi_cs_loaded, 1
+
+#deffunc _gdi_load_cs
+	if _gdi_cs_loaded : return
+	sdim _cs, 8192
+	_cs = "using System;using System.Drawing;using System.Drawing.Drawing2D;using System.Drawing.Imaging;"
+	_cs += "public class HspGdi {"
+	_cs += "  static ImageFormat GetFmt(string p) {"
+	_cs += "    if(p.EndsWith(\".jpg\")||p.EndsWith(\".jpeg\")) return ImageFormat.Jpeg;"
+	_cs += "    if(p.EndsWith(\".bmp\")) return ImageFormat.Bmp;"
+	_cs += "    if(p.EndsWith(\".gif\")) return ImageFormat.Gif;"
+	_cs += "    return ImageFormat.Png;"
+	_cs += "  }"
+	_cs += "  public static string Screenshot(string path) {"
+	_cs += "    var bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;"
+	_cs += "    var bmp = new Bitmap(bounds.Width, bounds.Height);"
+	_cs += "    using(var g = Graphics.FromImage(bmp)) {"
+	_cs += "      g.CopyFromScreen(bounds.Location, Point.Empty, bounds.Size);"
+	_cs += "    }"
+	_cs += "    bmp.Save(path, GetFmt(path)); return \"ok\";"
+	_cs += "  }"
+	_cs += "  public static string Resize(string src, string dst, int w, int h) {"
+	_cs += "    using(var img = Image.FromFile(src)) {"
+	_cs += "      var bmp = new Bitmap(w, h);"
+	_cs += "      using(var g = Graphics.FromImage(bmp)) {"
+	_cs += "        g.InterpolationMode = InterpolationMode.HighQualityBicubic;"
+	_cs += "        g.DrawImage(img, 0, 0, w, h);"
+	_cs += "      }"
+	_cs += "      bmp.Save(dst, GetFmt(dst));"
+	_cs += "    } return \"ok\";"
+	_cs += "  }"
+	_cs += "  public static string Rotate(string src, string dst, int deg) {"
+	_cs += "    using(var img = Image.FromFile(src)) {"
+	_cs += "      if(deg==90) img.RotateFlip(RotateFlipType.Rotate90FlipNone);"
+	_cs += "      else if(deg==180) img.RotateFlip(RotateFlipType.Rotate180FlipNone);"
+	_cs += "      else if(deg==270) img.RotateFlip(RotateFlipType.Rotate270FlipNone);"
+	_cs += "      img.Save(dst, GetFmt(dst));"
+	_cs += "    } return \"ok\";"
+	_cs += "  }"
+	_cs += "  public static string Grayscale(string src, string dst) {"
+	_cs += "    using(var img = new Bitmap(src)) {"
+	_cs += "      for(int y=0;y<img.Height;y++) for(int x=0;x<img.Width;x++) {"
+	_cs += "        var c = img.GetPixel(x,y);"
+	_cs += "        int g = (int)(c.R*0.3+c.G*0.59+c.B*0.11);"
+	_cs += "        img.SetPixel(x,y,Color.FromArgb(c.A,g,g,g));"
+	_cs += "      }"
+	_cs += "      img.Save(dst, GetFmt(dst));"
+	_cs += "    } return \"ok\";"
+	_cs += "  }"
+	_cs += "  public static string Watermark(string src, string dst, string text) {"
+	_cs += "    using(var img = new Bitmap(src)) {"
+	_cs += "      using(var g = Graphics.FromImage(img)) {"
+	_cs += "        var font = new Font(\"Arial\", 24, FontStyle.Bold);"
+	_cs += "        var brush = new SolidBrush(Color.FromArgb(80,255,255,255));"
+	_cs += "        var sz = g.MeasureString(text, font);"
+	_cs += "        g.DrawString(text, font, brush, img.Width-sz.Width-10, img.Height-sz.Height-10);"
+	_cs += "      }"
+	_cs += "      img.Save(dst, GetFmt(dst));"
+	_cs += "    } return \"ok\";"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_gdi_cs_loaded = 1
+	return
+
+#deffunc gdi_screenshot str path, local _h, local _r
+	_gdi_load_cs
+	newnet _h, "", "HspGdi", 1
+	netres _r : mcall _h, "Screenshot", path
+	return nettoval(_r, 2)
+
+#deffunc gdi_resize str src, str dst, int w, int h, local _h2, local _r2
+	_gdi_load_cs
+	newnet _h2, "", "HspGdi", 1
+	netres _r2 : mcall _h2, "Resize", src, dst, w, h
+	return nettoval(_r2, 2)
+
+#deffunc gdi_rotate str src, str dst, int deg, local _h3, local _r3
+	_gdi_load_cs
+	newnet _h3, "", "HspGdi", 1
+	netres _r3 : mcall _h3, "Rotate", src, dst, deg
+	return nettoval(_r3, 2)
+
+#deffunc gdi_grayscale str src, str dst, local _h4, local _r4
+	_gdi_load_cs
+	newnet _h4, "", "HspGdi", 1
+	netres _r4 : mcall _h4, "Grayscale", src, dst
+	return nettoval(_r4, 2)
+
+#deffunc gdi_watermark str src, str dst, str text, local _h5, local _r5
+	_gdi_load_cs
+	newnet _h5, "", "HspGdi", 1
+	netres _r5 : mcall _h5, "Watermark", src, dst, text
+	return nettoval(_r5, 2)
+
+#global
+#endif

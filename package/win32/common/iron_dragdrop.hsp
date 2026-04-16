@@ -1,0 +1,90 @@
+;============================================================
+;   iron_dragdrop.hsp - Drag & Drop file support
+;
+;   hsp3net (GUI) only. Form.AllowDrop + DragDrop event.
+;
+;   API:
+;     dragdrop_enable              Enable file drop on current window
+;     dragdrop_files()             Get dropped file list (newline separated)
+;     dragdrop_count()             Number of dropped files
+;     dragdrop_file(index)         Get i-th dropped file path
+;
+;   Example:
+;     #include "iron_dragdrop.hsp"
+;     dragdrop_enable
+;     mes "Drop files here!"
+;     *main
+;     await 100
+;     if dragdrop_count() > 0 {
+;         repeat dragdrop_count()
+;             mes dragdrop_file(cnt)
+;         loop
+;     }
+;     goto *main
+;============================================================
+#ifndef __iron_dragdrop_hsp__
+#define __iron_dragdrop_hsp__
+
+#module iron_dragdrop
+
+sdim _dd_files, 65536
+_dd_count = 0
+
+; C# helper for DragDrop event
+dim _dd_cs_loaded, 1
+
+#deffunc _dd_load_cs
+	if _dd_cs_loaded : return
+	sdim _cs, 4096
+	_cs = "using System;using System.Windows.Forms;"
+	_cs += "public class HspDragDrop {"
+	_cs += "  static string _files = \"\";"
+	_cs += "  static int _count = 0;"
+	_cs += "  public static void Setup(Form f) {"
+	_cs += "    f.AllowDrop = true;"
+	_cs += "    f.DragEnter += (s,e) => {"
+	_cs += "      if(e.Data.GetDataPresent(DataFormats.FileDrop))"
+	_cs += "        e.Effect = DragDropEffects.Copy;"
+	_cs += "    };"
+	_cs += "    f.DragDrop += (s,e) => {"
+	_cs += "      var files = (string[])e.Data.GetData(DataFormats.FileDrop);"
+	_cs += "      _files = string.Join(\"\\n\", files);"
+	_cs += "      _count = files.Length;"
+	_cs += "    };"
+	_cs += "  }"
+	_cs += "  public static string GetFiles() { var r=_files; _files=\"\"; _count=0; return r; }"
+	_cs += "  public static int GetCount() { return _count; }"
+	_cs += "}"
+	loadnet _cs, 3
+	_dd_cs_loaded = 1
+	return
+
+#deffunc dragdrop_enable local _frm, local _h
+	_dd_load_cs
+	getforms _frm, 0
+	newnet _h, "", "HspDragDrop", 1
+	mcall _h, "Setup", _frm
+	return
+
+#defcfunc dragdrop_count local _h, local _r
+	if _dd_cs_loaded == 0 : return 0
+	newnet _h, "", "HspDragDrop", 1
+	netres _r
+	mcall _h, "GetCount"
+	return nettoval(_r, 4)
+
+#defcfunc dragdrop_files local _h, local _r
+	if _dd_cs_loaded == 0 : return ""
+	newnet _h, "", "HspDragDrop", 1
+	netres _r
+	mcall _h, "GetFiles"
+	return nettoval(_r, 2)
+
+#defcfunc dragdrop_file int index, local _all, local _i
+	_all = dragdrop_files()
+	notesel _all
+	noteget _r, index
+	return _r
+
+#global
+#endif
