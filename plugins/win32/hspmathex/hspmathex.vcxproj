@@ -84,6 +84,18 @@
     <ClCompile Include="src\hspmathex_bigint.cpp" />
     <ClCompile Include="src\hspmathex_bigdec.cpp" />
     <ClCompile Include="src\hspmathex_simd.cpp" />
+    <ClCompile Include="src\hsp3plugin.cpp" />
+    <ClCompile Include="src\hspvar_bigint.cpp" />
+    <ClCompile Include="src\hspvar_bigdec.cpp" />
+    <ClCompile Include="src\hspmathex_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\hsp3plugin.h" />
+    <ClInclude Include="src\hsp3struct.h" />
+    <ClInclude Include="src\hsp3debug.h" />
+    <ClInclude Include="src\hspvar_core.h" />
+    <ClInclude Include="src\hspvar_bigint.h" />
+    <ClInclude Include="src\hspvar_bigdec.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

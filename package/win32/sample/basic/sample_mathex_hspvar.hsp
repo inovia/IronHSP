@@ -1,0 +1,50 @@
+;
+;  sample_mathex_hspvar.hsp
+;
+;  hspmathex.dll のサンプル — 任意精度整数 (bigint) と任意精度10進固定小数
+;  (bigdec) を、HSPVAR 拡張型として通常の変数と同じ感覚で使う例。
+;
+
+#include "hspmathex.as"
+
+; ---- 1. 任意精度整数 (bigint) ----
+mes "---- bigint ----"
+a = bigint("12345678901234567890")
+b = bigint("99999999999999999999")
+c = a + b
+mes "a     = "+str(a)
+mes "b     = "+str(b)
+mes "a+b   = "+str(c)
+mes "vartype(a) = "+vartype(a)
+mes ""
+
+; 引き算・掛け算
+d = b - a
+mes "b-a   = "+str(d)
+e = a * bigint("1000")
+mes "a*1000= "+str(e)
+mes ""
+
+; 剰余・比較
+f = bigint("100")
+g = bigint("7")
+mes "100\\7 = "+str(f \ g)
+if f > g : mes "100 > 7"
+if a == bigint("12345678901234567890") : mes "a == 12345678901234567890"
+mes ""
+
+; ---- 2. 任意精度10進固定小数 (bigdec) ----
+mes "---- bigdec ----"
+x = bigdec("0.1")
+y = bigdec("0.2")
+z = x + y
+mes "0.1 + 0.2 = "+str(z)       ; 浮動小数点と違い正確に 0.3
+mes "vartype(x) = "+vartype(x)
+mes ""
+
+pi = bigdec("3.141592653589793238462643383279")
+r  = bigdec("10")
+mes "pi = "+str(pi)
+mes "pi*r*2 = "+str(pi * r * bigdec("2"))
+
+stop
