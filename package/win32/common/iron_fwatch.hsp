@@ -1,0 +1,82 @@
+;============================================================
+;   iron_fwatch.hsp — ファイル/ディレクトリ変更監視モジュール
+;
+;   Win32 FindFirstChangeNotification / FindNextChangeNotification
+;   を使用してディレクトリの変更を監視する。
+;
+;   API:
+;     fwatch_start "path" [, filter]   監視開始 → stat にハンドル
+;     fwatch_check handle              変更があれば stat=1, なければ 0
+;     fwatch_stop handle               監視終了
+;
+;   filter 定数 (OR 結合可):
+;     FWATCH_FILENAME   = 1   ファイル名変更
+;     FWATCH_DIRNAME    = 2   ディレクトリ名変更
+;     FWATCH_ATTRIBUTES = 4   属性変更
+;     FWATCH_SIZE       = 8   サイズ変更
+;     FWATCH_LASTWRITE  = 16  最終書き込み変更
+;     FWATCH_SECURITY   = 256 セキュリティ変更
+;     FWATCH_ALL        = 31  全変更
+;
+;   例:
+;     #include "iron_fwatch.hsp"
+;     fwatch_start "C:\\temp", FWATCH_ALL
+;     hWatch = stat
+;     repeat
+;         fwatch_check hWatch
+;         if stat : mes "変更検出!"
+;         await 1000
+;     loop
+;============================================================
+
+#ifndef __iron_fwatch_hsp__
+#define __iron_fwatch_hsp__
+
+#const global FWATCH_FILENAME   1
+#const global FWATCH_DIRNAME    2
+#const global FWATCH_ATTRIBUTES 4
+#const global FWATCH_SIZE       8
+#const global FWATCH_LASTWRITE  16
+#const global FWATCH_SECURITY   256
+#const global FWATCH_ALL        31
+
+#module iron_fwatch
+
+#uselib "kernel32.dll"
+#cfunc _FindFirstChangeNotificationA "FindFirstChangeNotificationA" str, int, int
+#cfunc _FindNextChangeNotification   "FindNextChangeNotification" int
+#cfunc _WaitForSingleObject          "WaitForSingleObject" int, int
+#cfunc _FindCloseChangeNotification  "FindCloseChangeNotification" int
+
+;------------------------------------------------------------
+; fwatch_start path [, filter]  → stat にハンドル (-1=失敗)
+;------------------------------------------------------------
+#deffunc fwatch_start str path, int filter_
+	if filter_ == 0 {
+		return _FindFirstChangeNotificationA(path, 1, FWATCH_ALL)
+	}
+	return _FindFirstChangeNotificationA(path, 1, filter_)
+
+;------------------------------------------------------------
+; fwatch_check handle → stat: 1=変更あり, 0=なし
+;------------------------------------------------------------
+#deffunc fwatch_check int handle
+	; WaitForSingleObject(handle, 0) — 即時チェック
+	; WAIT_OBJECT_0 = 0 → 変更あり
+	if _WaitForSingleObject(handle, 0) == 0 {
+		; 次の変更を受け取るために再登録
+		_FindNextChangeNotification handle
+		return 1
+	}
+	return 0
+
+;------------------------------------------------------------
+; fwatch_stop handle
+;------------------------------------------------------------
+#deffunc fwatch_stop int handle
+	_FindCloseChangeNotification handle
+	return
+
+#global
+
+#endif

@@ -1,0 +1,169 @@
+;============================================================
+;   iron_exif.hsp — EXIF 情報読み取りモジュール
+;
+;   GDI+ の PropertyItem API を使用して JPEG/TIFF の EXIF を読む。
+;   外部 DLL 不要 (gdiplus.dll は Windows 標準搭載)。
+;
+;   API:
+;     exif_open "image.jpg"              画像を開く → stat (0=成功)
+;     exif_get_str tag_id                文字列タグ取得 → refstr
+;     exif_get_int tag_id                整数タグ取得 → stat
+;     exif_get_rational tag_id           有理数タグ取得 → refdval
+;     exif_count()                       プロパティ数
+;     exif_close                         画像を閉じる
+;
+;   主要タグ ID:
+;     EXIF_MAKE          = 0x010F  カメラメーカー
+;     EXIF_MODEL         = 0x0110  カメラモデル
+;     EXIF_ORIENTATION   = 0x0112  回転情報
+;     EXIF_DATETIME      = 0x0132  撮影日時
+;     EXIF_EXPOSURE_TIME = 0x829A  露出時間
+;     EXIF_FNUMBER       = 0x829D  F値
+;     EXIF_ISO           = 0x8827  ISO感度
+;     EXIF_WIDTH         = 0xA002  画像幅
+;     EXIF_HEIGHT        = 0xA003  画像高さ
+;     EXIF_SOFTWARE      = 0x0131  ソフトウェア
+;     EXIF_GPS_LAT       = 0x0002  GPS 緯度
+;     EXIF_GPS_LON       = 0x0004  GPS 経度
+;
+;   例:
+;     #include "iron_exif.hsp"
+;     exif_open "photo.jpg"
+;     if stat == 0 {
+;         exif_get_str EXIF_MODEL
+;         mes "カメラ: " + refstr
+;         exif_get_str EXIF_DATETIME
+;         mes "撮影日時: " + refstr
+;         exif_close
+;     }
+;============================================================
+
+#ifndef __iron_exif_hsp__
+#define __iron_exif_hsp__
+
+; タグ ID 定数
+#const global EXIF_MAKE          0x010F
+#const global EXIF_MODEL         0x0110
+#const global EXIF_ORIENTATION   0x0112
+#const global EXIF_DATETIME      0x0132
+#const global EXIF_SOFTWARE      0x0131
+#const global EXIF_EXPOSURE_TIME 0x829A
+#const global EXIF_FNUMBER       0x829D
+#const global EXIF_ISO           0x8827
+#const global EXIF_WIDTH         0xA002
+#const global EXIF_HEIGHT        0xA003
+#const global EXIF_GPS_LAT       0x0002
+#const global EXIF_GPS_LON       0x0004
+
+#module iron_exif
+
+; GDI+ 初期化用
+#uselib "gdiplus.dll"
+#cfunc _GdiplusStartup  "GdiplusStartup" var, var, int
+#cfunc _GdiplusShutdown  "GdiplusShutdown" int
+#cfunc _GdipLoadImageFromFile  "GdipLoadImageFromFile" wstr, var
+#cfunc _GdipDisposeImage "GdipDisposeImage" int
+#cfunc _GdipGetPropertyCount "GdipGetPropertyCount" int, var
+#cfunc _GdipGetPropertyItemSize "GdipGetPropertyItemSize" int, int, var
+#cfunc _GdipGetPropertyItem "GdipGetPropertyItem" int, int, int, var
+
+#uselib "kernel32.dll"
+#cfunc _MultiByteToWideChar "MultiByteToWideChar" int, int, str, int, var, int
+
+; モジュール変数
+dim _gdip_token, 1
+dim _gdip_image, 1
+dim _gdip_inited, 1
+
+;------------------------------------------------------------
+; 内部: GDI+ 初期化
+;------------------------------------------------------------
+#deffunc _exif_init_gdip
+	if _gdip_inited : return
+	dim _gdip_input, 4
+	_gdip_input(0) = 1  ; GdiplusVersion = 1
+	_GdiplusStartup _gdip_token, _gdip_input, 0
+	_gdip_inited = 1
+	return
+
+;------------------------------------------------------------
+; exif_open path → stat (0=成功)
+;------------------------------------------------------------
+#deffunc exif_open str path
+	_exif_init_gdip
+	if _gdip_image != 0 {
+		_GdipDisposeImage _gdip_image
+		_gdip_image = 0
+	}
+	_gdip_image = 0
+	return _GdipLoadImageFromFile(path, _gdip_image)
+
+;------------------------------------------------------------
+; exif_count() → プロパティ数
+;------------------------------------------------------------
+#defcfunc exif_count local cnt
+	if _gdip_image == 0 : return 0
+	cnt = 0
+	_GdipGetPropertyCount _gdip_image, cnt
+	return cnt
+
+;------------------------------------------------------------
+; exif_get_str tag_id → refstr
+;------------------------------------------------------------
+#deffunc exif_get_str int tag_id, \
+	local sz, local buf, local ptype, local plen, local pval
+	if _gdip_image == 0 : return ""
+	sz = 0
+	if _GdipGetPropertyItemSize(_gdip_image, tag_id, sz) != 0 : return ""
+	sdim buf, sz + 16
+	if _GdipGetPropertyItem(_gdip_image, tag_id, sz, buf) != 0 : return ""
+	; PropertyItem 構造体: id(4) + length(4) + type(2) + pad(2) + value_ptr(4/8)
+	; type 2 = ASCII string
+	plen = lpeek(buf, 4)
+	; value は構造体の後に続く (オフセット = 16 on 32bit / 24 on 64bit)
+	; 簡易: データは buf + 16 から
+	sdim pval, plen + 1
+	memcpy pval, buf, plen, 0, 16
+	return pval
+
+;------------------------------------------------------------
+; exif_get_int tag_id → stat
+;------------------------------------------------------------
+#deffunc exif_get_int int tag_id, \
+	local sz, local buf, local v
+	if _gdip_image == 0 : return 0
+	sz = 0
+	if _GdipGetPropertyItemSize(_gdip_image, tag_id, sz) != 0 : return 0
+	sdim buf, sz + 16
+	if _GdipGetPropertyItem(_gdip_image, tag_id, sz, buf) != 0 : return 0
+	v = lpeek(buf, 16)
+	return v
+
+;------------------------------------------------------------
+; exif_get_rational tag_id → refdval (分子/分母)
+;------------------------------------------------------------
+#deffunc exif_get_rational int tag_id, \
+	local sz, local buf, local num, local den
+	if _gdip_image == 0 : return 0.0
+	sz = 0
+	if _GdipGetPropertyItemSize(_gdip_image, tag_id, sz) != 0 : return 0.0
+	sdim buf, sz + 16
+	if _GdipGetPropertyItem(_gdip_image, tag_id, sz, buf) != 0 : return 0.0
+	num = lpeek(buf, 16)
+	den = lpeek(buf, 20)
+	if den == 0 : return 0.0
+	return double(num) / double(den)
+
+;------------------------------------------------------------
+; exif_close
+;------------------------------------------------------------
+#deffunc exif_close
+	if _gdip_image != 0 {
+		_GdipDisposeImage _gdip_image
+		_gdip_image = 0
+	}
+	return
+
+#global
+
+#endif

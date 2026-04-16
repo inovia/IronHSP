@@ -27,6 +27,10 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **連想配列 (MAP 型)** — `dimmap map` で連想配列を作成し、`map("key") = value` で文字列キーによる読み書きが可能。内部は `std::unordered_map<std::string, std::string>`。`mapcount` / `hasmap` / `mapkey` 関数と `delmap` / `mapclear` 命令を追加。サンプル: [`package/win32/sample/basic/sample_map.hsp`](package/win32/sample/basic/sample_map.hsp)。
 - **統計関数 (`iron_stat.hsp`)** — 外部 DLL 不要の純 HSP 実装。`stat_mean` / `stat_median` / `stat_stddev` / `stat_variance` / `stat_min` / `stat_max` / `stat_sum` / `stat_range` / `stat_percentile` / `stat_describe` の 10 関数。int/double 配列対応。
 - **正規表現 2 エンジン** — `hspregex.dll` (C++11 std::regex, ECMAScript 互換) と `hsppcre2.dll` (PCRE2 10.44, Perl 互換, Unicode フル対応)。高レベルラッパー `iron_regex.hsp` / `iron_pcre2.hsp` で `regex_match` / `regex_search` / `regex_replace` / `regex_find` + `regex_get` が使える。32/64bit 両対応。
+- **暗号化/復号 (`iron_crypto.hsp` + `hspcrypto.dll`)** — Blowfish / RC4 / ChaCha20 (RFC 7539) / XOR / AES-256-CBC (BCrypt) / HMAC-SHA256 / PBKDF2-SHA256。32/64bit 両対応。
+- **レジストリ操作 (`iron_registry.hsp`)** — Win32 API 直叩き。`reg_read` / `reg_write` / `reg_write_dword` / `reg_delete_value` / `reg_delete_key` / `reg_exists`。
+- **ファイル監視 (`iron_fwatch.hsp`)** — Win32 `FindFirstChangeNotification` ベース。`fwatch_start` / `fwatch_check` / `fwatch_stop` でディレクトリの変更をポーリング監視。
+- **EXIF 読み取り (`iron_exif.hsp`)** — GDI+ PropertyItem API。`exif_open` / `exif_get_str` / `exif_get_int` / `exif_get_rational` / `exif_close` で JPEG/TIFF の撮影情報を取得。
 
 ### 新規プラグイン
 

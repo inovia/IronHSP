@@ -1,0 +1,130 @@
+;============================================================
+;   iron_registry.hsp — レジストリ操作モジュール
+;
+;   Win32 API (advapi32.dll) を使用。外部 DLL 不要。
+;
+;   API:
+;     reg_read hkey, "subkey", "name"    → refstr に値, stat (0=成功)
+;     reg_write hkey, "subkey", "name", "value"  → stat (0=成功)
+;     reg_write_dword hkey, "subkey", "name", value  → stat
+;     reg_delete_value hkey, "subkey", "name"    → stat
+;     reg_delete_key hkey, "subkey"              → stat
+;     reg_exists(hkey, "subkey", "name")         → 1/0
+;
+;   hkey 定数:
+;     HKEY_CLASSES_ROOT   = 0x80000000
+;     HKEY_CURRENT_USER   = 0x80000001
+;     HKEY_LOCAL_MACHINE  = 0x80000002
+;     HKEY_USERS          = 0x80000003
+;     HKEY_CURRENT_CONFIG = 0x80000005
+;
+;   例:
+;     #include "iron_registry.hsp"
+;     reg_read HKEY_CURRENT_USER, "Environment", "TEMP"
+;     mes "TEMP = " + refstr
+;============================================================
+
+#ifndef __iron_registry_hsp__
+#define __iron_registry_hsp__
+
+; 定数
+#const global HKEY_CLASSES_ROOT   0x80000000
+#const global HKEY_CURRENT_USER   0x80000001
+#const global HKEY_LOCAL_MACHINE  0x80000002
+#const global HKEY_USERS          0x80000003
+#const global HKEY_CURRENT_CONFIG 0x80000005
+
+#module iron_registry
+
+#uselib "advapi32.dll"
+#cfunc _RegOpenKeyExA  "RegOpenKeyExA" int, str, int, int, var
+#cfunc _RegCloseKey    "RegCloseKey" int
+#cfunc _RegQueryValueExA "RegQueryValueExA" int, str, int, var, var, var
+#cfunc _RegSetValueExA "RegSetValueExA" int, str, int, int, var, int
+#cfunc _RegDeleteValueA "RegDeleteValueA" int, str
+#cfunc _RegDeleteKeyA "RegDeleteKeyA" int, str
+
+; KEY_READ = 0x20019, KEY_WRITE = 0x20006, KEY_ALL_ACCESS = 0xF003F
+#define _KEY_READ   0x20019
+#define _KEY_WRITE  0x20006
+#define _REG_SZ     1
+#define _REG_DWORD  4
+
+;------------------------------------------------------------
+; reg_read hkey, subkey, name → refstr, stat (0=success)
+;------------------------------------------------------------
+#deffunc reg_read int hkey, str subkey, str name, \
+	local hk, local rtype, local buf, local bsz, local ret
+	hk = 0
+	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_READ, hk)
+	if ret != 0 : return ret
+	bsz = 32768
+	sdim buf, bsz
+	rtype = 0
+	ret = _RegQueryValueExA(hk, name, 0, rtype, buf, bsz)
+	_RegCloseKey hk
+	if ret != 0 : return ret
+	return buf
+
+;------------------------------------------------------------
+; reg_write hkey, subkey, name, value (文字列)
+;------------------------------------------------------------
+#deffunc reg_write int hkey, str subkey, str name, str value, \
+	local hk, local ret, local vbuf, local vlen
+	hk = 0
+	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_WRITE, hk)
+	if ret != 0 : return ret
+	vbuf = value
+	vlen = strlen@hsp(vbuf) + 1
+	ret = _RegSetValueExA(hk, name, 0, _REG_SZ, vbuf, vlen)
+	_RegCloseKey hk
+	return ret
+
+;------------------------------------------------------------
+; reg_write_dword hkey, subkey, name, value (整数)
+;------------------------------------------------------------
+#deffunc reg_write_dword int hkey, str subkey, str name, int value, \
+	local hk, local ret, local dw
+	hk = 0
+	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_WRITE, hk)
+	if ret != 0 : return ret
+	dw = value
+	ret = _RegSetValueExA(hk, name, 0, _REG_DWORD, dw, 4)
+	_RegCloseKey hk
+	return ret
+
+;------------------------------------------------------------
+; reg_delete_value
+;------------------------------------------------------------
+#deffunc reg_delete_value int hkey, str subkey, str name, \
+	local hk, local ret
+	hk = 0
+	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_WRITE, hk)
+	if ret != 0 : return ret
+	ret = _RegDeleteValueA(hk, name)
+	_RegCloseKey hk
+	return ret
+
+;------------------------------------------------------------
+; reg_delete_key
+;------------------------------------------------------------
+#deffunc reg_delete_key int hkey, str subkey
+	return _RegDeleteKeyA(hkey, subkey)
+
+;------------------------------------------------------------
+; reg_exists(hkey, subkey, name) → 1/0
+;------------------------------------------------------------
+#defcfunc reg_exists int hkey, str subkey, str name, \
+	local hk, local ret, local bsz
+	hk = 0
+	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_READ, hk)
+	if ret != 0 : return 0
+	bsz = 0
+	ret = _RegQueryValueExA(hk, name, 0, 0, 0, bsz)
+	_RegCloseKey hk
+	if ret == 0 : return 1
+	return 0
+
+#global
+
+#endif
