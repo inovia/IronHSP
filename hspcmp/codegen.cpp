@@ -2769,7 +2769,19 @@ int CToken::GenerateCodeBlock( void )
 	if ( res == TK_EOL ) {
 		cg_ptr = GetLineCG();
 		if ( iflev ) {
-			if ( ifscope[iflev-1] == CG_IFCHECK_LINE ) CheckCMDIF_Fin(0);			// 'if' jump support
+			if ( ifscope[iflev-1] == CG_IFCHECK_LINE ) {
+				// 次行が '{' で始まるなら単行 if を閉じずにスコープモードへ移行させる
+				// (Allman / 改行ブレーススタイル: if cond\n{ ... } を許容)
+				int nextIsBrace = 0;
+				if (cg_ptr != NULL) {
+					unsigned char *peek = (unsigned char *)cg_ptr;
+					while (*peek == ' ' || *peek == '\t') peek++;
+					if (*peek == '{') nextIsBrace = 1;
+				}
+				if (!nextIsBrace) {
+					CheckCMDIF_Fin(0);
+				}
+			}
 		}
 		if ( cg_debug ) PutDI();
 		cg_orgline++;
