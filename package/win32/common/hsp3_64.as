@@ -6,6 +6,7 @@
 #runtime "hsp3_64"
 #bootopt hsp64 1
 #cmpopt utf8 1
+#define global _HSP64 1
 #endif
 
 

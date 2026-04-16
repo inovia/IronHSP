@@ -1,0 +1,87 @@
+;============================================================
+;   iron_test_ex.hsp  —  HSP 自動テスト DSL (hsptestrt.dll ラッパ)
+;
+;   hsptestrt.dll の低レベル API (testrt_*) をもう少し書きやすい形に
+;   ラップする薄い層。マクロ主体で余分なラッパ関数呼び出しは入れない
+;   (fail 時のメッセージに呼び出し元のソース行番号を残すため)。
+;
+;   使い方:
+;     #include "iron_test_ex.hsp"
+;
+;     test_case "add works"
+;         expect_eq 1+2, 3
+;         expect_eq 4*5, 20
+;     test_end
+;
+;     test_case "strings"
+;         s = "hello"
+;         expect_eq strlen(s), 5
+;         expect_streq s, "hello"
+;     test_end
+;
+;     end test_finish()
+;
+;   end test_finish() とすることで、プロセスの終了コード =
+;   失敗したアサーション件数 となる (CI で 0/非0 判定に使える)。
+;
+;   依存:
+;     - hsptestrt.dll / hsptestrt_64.dll
+;     - (推奨) hsp3_net_test.exe / hsp3cl_net_test.exe で実行
+;============================================================
+
+#ifndef __iron_test_ex_hsp__
+#define __iron_test_ex_hsp__
+
+#include "hsptestrt.as"
+
+;------------------------------------------------------------
+; マクロ群 (全てシングルライン)
+;------------------------------------------------------------
+
+; テストケース開始 / 終了
+#define global test_case(%1)           testrt_begin %1
+#define global test_end                testrt_end
+
+; 最終集計 (テストスクリプトの一番最後に置く)
+;   end test_finish       ← 失敗件数を終了コードにする
+#define global test_finish     testrt_summary()
+
+; アサーション / 期待値 (デフォルトメッセージ版)
+#define global assert_true(%1)         testrt_expect_true  %1, "assert_true"
+#define global assert_false(%1)        testrt_expect_false %1, "assert_false"
+
+#define global expect_eq(%1,%2)        testrt_expect_eq_i  %1, %2, "expect_eq"
+#define global expect_ne(%1,%2)        testrt_expect_ne_i  %1, %2, "expect_ne"
+
+#define global expect_feq(%1,%2,%3)    testrt_expect_eq_d  %1, %2, %3, "expect_feq"
+
+#define global expect_streq(%1,%2)     testrt_expect_eq_s  %1, %2, "expect_streq"
+#define global expect_strne(%1,%2)     testrt_expect_ne_s  %1, %2, "expect_strne"
+
+; int64 / intptr / 近似 / 配列
+#define global expect_eq_i64(%1,%2)       testrt_expect_eq_i64    %1, %2, "expect_eq_i64"
+#define global expect_ne_i64(%1,%2)       testrt_expect_ne_i64    %1, %2, "expect_ne_i64"
+#define global expect_near(%1,%2,%3)      testrt_expect_near_i    %1, %2, %3, "expect_near"
+#define global expect_eq_ptr(%1,%2)       testrt_expect_eq_intptr %1, %2, "expect_eq_ptr"
+#define global expect_array_eq(%1,%2,%3)  testrt_expect_array_eq_i %1, %2, %3, "expect_array_eq"
+#define global expect_array_feq(%1,%2,%3,%4) testrt_expect_array_eq_d %1, %2, %3, %4, "expect_array_feq"
+
+; 任意メッセージ版 (第3/第4引数に明示)
+#define global assert_with(%1,%2)      testrt_assert       %1, %2
+#define global expect_eq_m(%1,%2,%3)   testrt_expect_eq_i  %1, %2, %3
+#define global expect_streq_m(%1,%2,%3) testrt_expect_eq_s %1, %2, %3
+
+; ロジックの通過確認
+#define global trace(%1)               testrt_trace %1
+#define global emit(%1,%2)             testrt_emit  %1, %2
+
+; スクリーンショット (GUI 版ランタイム向け)
+#define global screenshot(%1)            testrt_screenshot(%1, 0)
+#define global screenshot_hwnd(%1,%2)    testrt_screenshot(%1, %2)
+
+; 画像比較 (baseline PNG vs current PNG)
+#define global expect_image_eq(%1,%2,%3) testrt_expect_image_eq %1, %2, %3, "expect_image_eq"
+#define global ctype test_image_cmp(%1,%2,%3)     testrt_image_cmp(%1, %2, %3)
+#define global ctype test_image_diff(%1,%2,%3,%4) testrt_image_diff(%1, %2, %3, %4)
+
+#endif

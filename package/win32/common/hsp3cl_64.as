@@ -5,6 +5,7 @@
 #define __hsp3cl_64__
 #runtime "hsp3cl_64"
 #bootopt hsp64 1
+#define global _HSP64 1
 #endif
 
 #addition "dish_enhance.as"

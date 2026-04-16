@@ -10,4 +10,6 @@
 #runtime "hsp3_net_64"
 #bootopt hsp64 1
 #cmpopt utf8 1
+; 64bit 用プリプロセッサ識別子 (プラグイン .as 側の #ifdef _HSP64 を有効化)
+#define global _HSP64 1
 #endif
