@@ -1,0 +1,155 @@
+;============================================================
+;  sample_bigdec.hsp — 任意精度小数 (BigDecimal) サンプル
+;
+;  1. 1/3 を小数点以下 30 桁まで
+;  2. √2 を 50 桁まで
+;  3. Machin's formula で円周率 π を 50 桁まで
+;     π = 16 * arctan(1/5) - 4 * arctan(1/239)
+;     arctan(1/x) = 1/x - 1/(3x^3) + 1/(5x^5) - ...
+;============================================================
+#include "iron_bigdec.hsp"
+
+    screen 0, 800, 600
+    title "BigDecimal sample — Machin's formula"
+    font "MS Gothic", 14
+    objsize 200, 28
+
+; --- 1) 1/3 を 30 桁 ----------------------------------------
+    mes "--- 1/3 (30 decimals) ---"
+    a = bigdec("1")
+    b = bigdec("3")
+    q = bigdec_div(a, b, 30, BIGDEC_HALF_UP)
+    mes bigdec_str(q)
+    bigdec_release a
+    bigdec_release b
+    bigdec_release q
+
+    mes ""
+
+; --- 2) √2 を 50 桁 -----------------------------------------
+    mes "--- sqrt(2) (50 decimals) ---"
+    two = bigdec("2")
+    r   = bigdec_sqrt(two, 50)
+    mes bigdec_str(r)
+    bigdec_release two
+    bigdec_release r
+
+    mes ""
+
+; --- 3) Machin's formula で π を 50 桁 ----------------------
+    mes "--- pi via Machin's formula (50 decimals) ---"
+    PREC = 60   ; 計算は少し余裕を持って 60 桁、最後に 50 桁へ丸める
+
+    sixteen   = bigdec("16")
+    four      = bigdec("4")
+
+    atan_1_5   = calc_atan_reciprocal(5,   PREC)
+    atan_1_239 = calc_atan_reciprocal(239, PREC)
+
+    t1 = bigdec_mul(sixteen, atan_1_5)
+    t2 = bigdec_mul(four,    atan_1_239)
+    pi = bigdec_sub(t1, t2)
+
+    pi50 = bigdec_round(pi, 50, BIGDEC_HALF_UP)
+    mes bigdec_str(pi50)
+    mes "Reference:"
+    mes "3.14159265358979323846264338327950288419716939937510"
+
+    bigdec_release sixteen
+    bigdec_release four
+    bigdec_release atan_1_5
+    bigdec_release atan_1_239
+    bigdec_release t1
+    bigdec_release t2
+    bigdec_release pi
+    bigdec_release pi50
+
+    stop
+
+;============================================================
+; arctan(1/x) = 1/x - 1/(3x^3) + 1/(5x^5) - ...
+; x: 整数, prec: 途中計算桁数
+; 戻り値: 新しい BigDecimal ハンドル (呼び出し側で解放)
+;============================================================
+#deffunc calc_atan_reciprocal int x, int prec, local one, local xb, local x2, local term_num, \
+                              local sum_, local sign_, local k, local denom, local cur, \
+                              local prev_sum, local dcmp, local next_sum, local mult, \
+                              local div_result, local str_buf
+
+    one = bigdec("1")
+    xb  = bigdec(str(x))
+    x2  = bigdec_mul(xb, xb)          ; x^2
+
+    ; 初項: 1/x (精度 prec)
+    term_num = bigdec_div(one, xb, prec, BIGDEC_HALF_EVEN)
+
+    ; sum_ を初項で初期化
+    sum_ = bigdec_copy(term_num)
+
+    k = 1    ; 次の分母係数は (2k+1)
+    repeat
+        ; next term: 前の分子を x^2 で割って、符号反転して (2k+1) で割る
+        div_result = bigdec_div(term_num, x2, prec, BIGDEC_HALF_EVEN)
+        bigdec_release term_num
+        term_num = div_result
+
+        ; 符号反転 & (2k+1) で割る
+        denom_str = "" + (2*k + 1)
+        denom = bigdec(denom_str)
+        cur = bigdec_div(term_num, denom, prec, BIGDEC_HALF_EVEN)
+        bigdec_release denom
+
+        ; 加算 or 減算
+        if k \ 2 == 1 {
+            next_sum = bigdec_sub(sum_, cur)
+        } else {
+            next_sum = bigdec_add(sum_, cur)
+        }
+        bigdec_release cur
+
+        ; 収束判定: |term_num / (2k+1)| が 10^(-prec) 未満なら打ち切り
+        ; ここでは term_num の大きさで判定
+        ; prev_sum と next_sum が同じ十進文字列になったら収束
+        prev_sum = sum_
+        sum_ = next_sum
+
+        if bigdec_precision(term_num) == 1 {
+            ; term_num が 0 になったら終了
+            ; ただし scale を考慮する必要があるので文字列で判定
+            sdim tbuf, 4096
+            bigdec_to_plain_str term_num, tbuf, 4096
+            ; 全部 0 か . しか無ければ終了
+            ok = 1
+            ln = strlen(tbuf)
+            idx = 0
+            repeat ln
+                c = peek(tbuf, idx)
+                if c != '0' && c != '.' && c != '-' : ok = 0 : break
+                idx++
+            loop
+            if ok : bigdec_release prev_sum : break
+        }
+
+        ; |prev_sum - next_sum| が十分小さい (scale=prec+1 の 10^(-prec) 未満) なら終了
+        ; 単純化: 差のハンドル precision と scale を比べる
+        diff = bigdec_sub(prev_sum, sum_)
+        diff_abs = bigdec_abs(diff)
+        bigdec_release diff
+        ; diff_abs == 0 なら収束
+        tiny = bigdec("0")
+        cmp  = bigdec_cmp(diff_abs, tiny)
+        bigdec_release tiny
+        bigdec_release diff_abs
+        bigdec_release prev_sum
+        if cmp == 0 : break
+
+        k++
+        if k > 5000 : break    ; 安全装置
+    loop
+
+    bigdec_release one
+    bigdec_release xb
+    bigdec_release x2
+    bigdec_release term_num
+
+    return sum_

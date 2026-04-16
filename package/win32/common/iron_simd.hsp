@@ -1,0 +1,166 @@
+;============================================================
+;   iron_simd.hsp — SSE/AVX SIMD 配列演算ラッパー
+;
+;   hspmathex.dll を使用して HSP の配列に対する SIMD 演算を提供。
+;   CPU 機能は自動検出され、AVX2 > SSE2 > scalar の順で最適実装を選択。
+;
+;   前提:
+;     double 配列:  ddim arr, n
+;     int 配列:     dim  arr, n
+;     float 配列:   HSP は float 型を持たないので sdim バイト配列に実値を
+;                   詰めて varptr() で渡す (4 byte/element)。通常は double
+;                   版 (_d) を使えば OK。float 版は外部ライブラリ連携用。
+;
+;   API 例:
+;     #include "iron_simd.hsp"
+;     ddim a, 1000 : ddim b, 1000 : ddim c, 1000
+;     iron_simd_add_d a, b, c, 1000        ; c[i] = a[i] + b[i]
+;     iron_simd_dot_d a, b, 1000, dot      ; dot = Σ a[i]*b[i]
+;============================================================
+#ifndef __iron_simd_hsp__
+#define __iron_simd_hsp__
+
+#include "hspsimd.as"
+
+; ------------------------------------------------------------
+;  CPU 機能検出
+; ------------------------------------------------------------
+#deffunc iron_simd_has_sse
+    return simd_has_sse()
+#deffunc iron_simd_has_sse2
+    return simd_has_sse2()
+#deffunc iron_simd_has_avx
+    return simd_has_avx()
+#deffunc iron_simd_has_avx2
+    return simd_has_avx2()
+#deffunc iron_simd_has_avx512
+    return simd_has_avx512()
+
+; iron_simd_cpu_name name_var
+#deffunc iron_simd_cpu_name  var _name
+    sdim _name, 128
+    simd_cpu_name _name, 128
+    return
+
+; iron_simd_features  → 文字列 ("SSE2 AVX AVX2" etc.)
+#deffunc iron_simd_features  var _out
+    sdim _out, 256
+    _out = ""
+    if simd_has_sse()    : _out += "SSE "
+    if simd_has_sse2()   : _out += "SSE2 "
+    if simd_has_avx()    : _out += "AVX "
+    if simd_has_avx2()   : _out += "AVX2 "
+    if simd_has_avx512() : _out += "AVX512 "
+    return
+
+; ------------------------------------------------------------
+;  double 配列演算
+; ------------------------------------------------------------
+#deffunc iron_simd_add_d  array _a, array _b, array _out, int _n
+    simd_add_d  varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_sub_d  array _a, array _b, array _out, int _n
+    simd_sub_d  varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_mul_d  array _a, array _b, array _out, int _n
+    simd_mul_d  varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_div_d  array _a, array _b, array _out, int _n
+    simd_div_d  varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_scale_d  array _a, double _s, array _out, int _n
+    simd_scale_d varptr(_a), _s, varptr(_out), _n
+    return
+#deffunc iron_simd_dot_d  array _a, array _b, int _n, var _result
+    _result = 0.0
+    simd_dot_d varptr(_a), varptr(_b), _n, varptr(_result)
+    return
+#deffunc iron_simd_sum_d  array _a, int _n, var _result
+    _result = 0.0
+    simd_sum_d varptr(_a), _n, varptr(_result)
+    return
+#deffunc iron_simd_min_d  array _a, int _n, var _result
+    _result = 0.0
+    simd_min_d varptr(_a), _n, varptr(_result)
+    return
+#deffunc iron_simd_max_d  array _a, int _n, var _result
+    _result = 0.0
+    simd_max_d varptr(_a), _n, varptr(_result)
+    return
+#deffunc iron_simd_abs_d  array _a, array _out, int _n
+    simd_abs_d varptr(_a), varptr(_out), _n
+    return
+#deffunc iron_simd_sqrt_d  array _a, array _out, int _n
+    simd_sqrt_d varptr(_a), varptr(_out), _n
+    return
+
+; ------------------------------------------------------------
+;  int32 配列演算
+; ------------------------------------------------------------
+#deffunc iron_simd_add_i  array _a, array _b, array _out, int _n
+    simd_add_i varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_sub_i  array _a, array _b, array _out, int _n
+    simd_sub_i varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_mul_i  array _a, array _b, array _out, int _n
+    simd_mul_i varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_sum_i  array _a, int _n, var _result
+    _result = 0
+    simd_sum_i varptr(_a), _n, varptr(_result)
+    return
+#deffunc iron_simd_min_i  array _a, int _n, var _result
+    _result = 0
+    simd_min_i varptr(_a), _n, varptr(_result)
+    return
+#deffunc iron_simd_max_i  array _a, int _n, var _result
+    _result = 0
+    simd_max_i varptr(_a), _n, varptr(_result)
+    return
+#deffunc iron_simd_and_i  array _a, array _b, array _out, int _n
+    simd_and_i varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_or_i   array _a, array _b, array _out, int _n
+    simd_or_i  varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_xor_i  array _a, array _b, array _out, int _n
+    simd_xor_i varptr(_a), varptr(_b), varptr(_out), _n
+    return
+
+; ------------------------------------------------------------
+;  float32 配列演算 (低精度・高速用。バッファは sdim バイト列で渡す)
+; ------------------------------------------------------------
+#deffunc iron_simd_add_f  var _a, var _b, var _out, int _n
+    simd_add_f varptr(_a), varptr(_b), varptr(_out), _n
+    return
+#deffunc iron_simd_dot_f  var _a, var _b, int _n, var _result
+    _result = 0.0
+    simd_dot_f varptr(_a), varptr(_b), _n, varptr(_result)
+    return
+#deffunc iron_simd_sum_f  var _a, int _n, var _result
+    _result = 0.0
+    simd_sum_f varptr(_a), _n, varptr(_result)
+    return
+
+; ------------------------------------------------------------
+;  行列積  C(mxk) = A(mxn) * B(nxk)   (row-major)
+; ------------------------------------------------------------
+#deffunc iron_simd_matmul_f  var _a, var _b, var _c, int _m, int _n, int _k
+    simd_matmul_f varptr(_a), varptr(_b), varptr(_c), _m, _n, _k
+    return
+#deffunc iron_simd_matmul_d  array _a, array _b, array _c, int _m, int _n, int _k
+    simd_matmul_d varptr(_a), varptr(_b), varptr(_c), _m, _n, _k
+    return
+
+; ------------------------------------------------------------
+;  画像 / ピクセル演算 (RGBA / 汎用バイト列)
+; ------------------------------------------------------------
+#deffunc iron_simd_pixel_blend  var _a, var _b, var _out, int _n, double _alpha
+    simd_pixel_blend varptr(_a), varptr(_b), varptr(_out), _n, _alpha
+    return
+#deffunc iron_simd_pixel_grayscale  var _rgba, var _out, int _n
+    simd_pixel_grayscale varptr(_rgba), varptr(_out), _n
+    return
+
+#endif

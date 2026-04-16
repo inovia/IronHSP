@@ -1,0 +1,99 @@
+;============================================================
+;   iron_bigdec.hsp — 任意精度 10 進小数演算 (Java BigDecimal 相当)
+;
+;   hspmathex.dll によるハンドルベース BigDecimal 実装。
+;   内部表現: unscaled (BigInteger) * 10^(-scale)
+;
+;   API:
+;     h = bigdec("3.14159")                 文字列から生成
+;     h = bigdec_from_d(3.14, 6)            double から生成 (6 桁精度)
+;     h = bigdec_copy(h)                    コピー
+;     bigdec_release h                      解放
+;     s = bigdec_str(h)                     文字列化 (指数表記あり)
+;     s = bigdec_plain(h)                   文字列化 (指数表記なし)
+;     d = bigdec_double(h)                  double へ変換
+;     h = bigdec_add(a, b)                  a + b
+;     h = bigdec_sub(a, b)                  a - b
+;     h = bigdec_mul(a, b)                  a * b (scale = a.scale + b.scale)
+;     h = bigdec_div(a, b, prec, mode)      a / b (scale=prec, mode=丸め)
+;     h = bigdec_pow(a, exp)                a ^ exp (exp >= 0)
+;     h = bigdec_abs(a)                     |a|
+;     h = bigdec_neg(a)                     -a
+;     h = bigdec_round(a, prec, mode)       prec 桁で丸め
+;     h = bigdec_rescale(a, scale, mode)    scale 再設定
+;     c = bigdec_cmp(a, b)                  -1 / 0 / 1
+;     n = bigdec_scale(h)                   スケール取得
+;     n = bigdec_precision(h)               有効桁数
+;     h = bigdec_sqrt(a, prec)              √a (Newton 法)
+;
+;   丸めモード (Java RoundingMode 互換):
+;     BIGDEC_HALF_UP    0  四捨五入
+;     BIGDEC_HALF_EVEN  1  銀行丸め
+;     BIGDEC_DOWN       2  切り捨て (0 方向)
+;     BIGDEC_UP         3  切り上げ (∞ 方向)
+;     BIGDEC_FLOOR      4  床 (-∞ 方向)
+;     BIGDEC_CEILING    5  天井 (+∞ 方向)
+;
+;   例:
+;     #include "iron_bigdec.hsp"
+;     a = bigdec("0.1")
+;     b = bigdec("0.2")
+;     c = bigdec_add(a, b)
+;     mes bigdec_str(c)          ; → 0.3  (2 進 double と違い誤差無し)
+;     bigdec_release a
+;     bigdec_release b
+;     bigdec_release c
+;============================================================
+#ifndef __iron_bigdec_hsp__
+#define __iron_bigdec_hsp__
+
+#include "hspbigdec.as"
+
+#module m_iron_bigdec
+
+#deffunc _bd_none_
+
+#global
+
+; ---- 生成・解放 --------------------------------------------
+#defcfunc bigdec          str s
+    return bigdec_create(s)
+
+#defcfunc bigdec_from_d   double v, int prec
+    return bigdec_create_from_double(v, prec)
+
+#defcfunc bigdec_copy     int h
+    return bigdec_clone(h)
+
+#deffunc bigdec_release   int h
+    bigdec_free h
+    return
+
+; ---- 文字列化 ----------------------------------------------
+#defcfunc bigdec_str      int h
+    sdim _bdbuf, 4096
+    bigdec_to_str h, _bdbuf, 4096
+    return _bdbuf
+
+#defcfunc bigdec_plain    int h
+    sdim _bdbuf, 4096
+    bigdec_to_plain_str h, _bdbuf, 4096
+    return _bdbuf
+
+#defcfunc bigdec_double   int h
+    d = 0.0
+    bigdec_to_double h, d
+    return d
+
+; ---- 問い合わせ --------------------------------------------
+#defcfunc bigdec_scale    int h
+    return bigdec_get_scale(h)
+
+#defcfunc bigdec_precision int h
+    return bigdec_get_precision(h)
+
+; ---- 再スケール (名前衝突を避けるため ラッパー) -------------
+#defcfunc bigdec_rescale  int h, int new_scale, int mode
+    return bigdec_scale_(h, new_scale, mode)
+
+#endif

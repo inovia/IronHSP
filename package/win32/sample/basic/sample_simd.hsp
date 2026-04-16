@@ -1,0 +1,142 @@
+;============================================================
+;   sample_simd.hsp — SSE/AVX SIMD ベンチマーク
+;
+;   1,000,000 要素の double 配列に対する
+;     (A) HSP スカラループ   (for i ... : out(i) = a(i)+b(i))
+;     (B) iron_simd_add_d    (プラグイン SIMD)
+;   の実行時間を計測して比較。ついで sum / dot / matmul も実演。
+;============================================================
+    #include "iron_simd.hsp"
+
+    title "iron_simd benchmark"
+    screen 0, 640, 600
+    objmode 2
+    font "MS Gothic", 14
+
+    ; ---- CPU 機能表示 ---------------------------------------
+    iron_simd_cpu_name cpu_name
+    iron_simd_features feat
+    mes "CPU : " + cpu_name
+    mes "SIMD: " + feat
+    mes ""
+
+    N = 1000000
+    mes "要素数 N = " + N
+
+    ddim a, N
+    ddim b, N
+    ddim c, N
+
+    ; ランダム風の値で初期化
+    randomize 1234
+    repeat N
+        a(cnt) = double(cnt & 1023) / 1024.0
+        b(cnt) = double((cnt * 7) & 1023) / 1024.0
+    loop
+
+    ; =========================================================
+    ; (A) スカラ (純 HSP ループ)
+    ;   tick = gettime(7) (ms) + gettime(6) (sec) * 1000
+    ; =========================================================
+    t0 = gettime(7) + gettime(6) * 1000
+    repeat N
+        c(cnt) = a(cnt) + b(cnt)
+    loop
+    t1 = gettime(7) + gettime(6) * 1000
+    scalar_ms = t1 - t0
+    if scalar_ms < 0 : scalar_ms += 60000    ; 分またぎ簡易補正
+
+    ; 参照値
+    ref_c0 = c(0)
+    ref_c_last = c(N - 1)
+
+    ; =========================================================
+    ; (B) SIMD (iron_simd_add_d)
+    ; =========================================================
+    ; c をゼロに戻してから
+    repeat N : c(cnt) = 0.0 : loop
+
+    t0 = gettime(7) + gettime(6) * 1000
+    iron_simd_add_d a, b, c, N
+    t1 = gettime(7) + gettime(6) * 1000
+    simd_ms = t1 - t0
+    if simd_ms < 0 : simd_ms += 60000
+
+    ; 結果検証
+    simd_c0 = c(0)
+    simd_c_last = c(N - 1)
+
+    mes ""
+    mes "=== add_d ベンチマーク ==="
+    mes strf("  scalar HSP loop : %5d ms", scalar_ms)
+    mes strf("  iron_simd_add_d : %5d ms", simd_ms)
+    if simd_ms > 0 {
+        mes strf("  speedup         : x %.2f", double(scalar_ms) / double(simd_ms))
+    }
+    mes ""
+    mes strf("  c[0]   scalar=%.6f  simd=%.6f", ref_c0, simd_c0)
+    mes strf("  c[N-1] scalar=%.6f  simd=%.6f", ref_c_last, simd_c_last)
+
+    ; =========================================================
+    ; sum / dot
+    ; =========================================================
+    t0 = gettime(7) + gettime(6) * 1000
+    iron_simd_sum_d a, N, s
+    t1 = gettime(7) + gettime(6) * 1000
+    sum_ms = t1 - t0 : if sum_ms < 0 : sum_ms += 60000
+
+    t0 = gettime(7) + gettime(6) * 1000
+    iron_simd_dot_d a, b, N, dot
+    t1 = gettime(7) + gettime(6) * 1000
+    dot_ms = t1 - t0 : if dot_ms < 0 : dot_ms += 60000
+
+    mes ""
+    mes "=== 集約演算 ==="
+    mes strf("  sum = %.4f   (%d ms)", s, sum_ms)
+    mes strf("  dot = %.4f   (%d ms)", dot, dot_ms)
+
+    iron_simd_min_d a, N, vmin
+    iron_simd_max_d a, N, vmax
+    mes strf("  min = %.4f", vmin)
+    mes strf("  max = %.4f", vmax)
+
+    ; =========================================================
+    ; 行列積 (64x64 * 64x64 = 64x64 float)
+    ; =========================================================
+    M = 64 : NN = 64 : K = 64
+    sdim mA, 4 * M * NN
+    sdim mB, 4 * NN * K
+    sdim mC, 4 * M * K
+
+    ; 行列に float を詰める (lpoke 相当; ここでは各要素を 1.0/255 刻みの簡易値に)
+    ; iron_simd は float=32bit/要素 と期待するので、poke で int→float ビットキャスト
+    ; を行う。ここでは簡便のため A, B をゼロ+対角 1 に設定:
+    repeat M * NN : poke mA, cnt * 4, 0 : poke mA, cnt * 4 + 1, 0 : poke mA, cnt * 4 + 2, 0 : poke mA, cnt * 4 + 3, 0 : loop
+    repeat NN * K : poke mB, cnt * 4, 0 : poke mB, cnt * 4 + 1, 0 : poke mB, cnt * 4 + 2, 0 : poke mB, cnt * 4 + 3, 0 : loop
+    ; 対角成分を 1.0f (IEEE754: 0x3f800000) に設定
+    repeat M
+        if cnt < NN {
+            lpoke mA, (cnt * NN + cnt) * 4, 0x3f800000
+        }
+    loop
+    repeat NN
+        if cnt < K {
+            lpoke mB, (cnt * K + cnt) * 4, 0x3f800000
+        }
+    loop
+
+    t0 = gettime(7) + gettime(6) * 1000
+    iron_simd_matmul_f mA, mB, mC, M, NN, K
+    t1 = gettime(7) + gettime(6) * 1000
+    mm_ms = t1 - t0 : if mm_ms < 0 : mm_ms += 60000
+
+    c00 = lpeek(mC, 0)                        ; ビットパターン
+    c11 = lpeek(mC, (1 * K + 1) * 4)
+    mes ""
+    mes strf("=== matmul 64x64 float ===  (%d ms)", mm_ms)
+    mes strf("  C[0,0] bits = 0x%08x  (1.0 の期待値 = 0x3f800000)", c00)
+    mes strf("  C[1,1] bits = 0x%08x", c11)
+
+    mes ""
+    mes "完了"
+    stop

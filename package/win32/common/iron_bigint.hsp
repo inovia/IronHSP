@@ -1,0 +1,221 @@
+;============================================================
+;   iron_bigint.hsp — 任意精度整数ラッパ (hspmathex.dll)
+;
+;   Java の BigInteger / Python の int 相当の任意精度整数を
+;   HSP から扱うためのハンドルベース API。
+;
+;   基本:
+;     #include "iron_bigint.hsp"
+;
+;     a = bi("123456789012345678901234567890")  ; 文字列から生成
+;     b = bi("1000000")
+;     c = bi_mul(a, b)                          ; a * b → 新ハンドル
+;     mes bi_str(c)                             ; 文字列化
+;     bi_free a : bi_free b : bi_free c          ; 必ず解放
+;
+;   あるいは自動解放プール:
+;     bi_push                                    ; プール開始
+;       a = bi("10") : b = bi("20")
+;       c = bi_add(a, b)
+;       mes bi_str(c)
+;     bi_pop                                     ; プール内を一括解放
+;
+;   API (主要):
+;     bi("str")              → ハンドル (失敗 0)
+;     bi_from(int)           → ハンドル
+;     bi_from64(lo, hi)      → ハンドル (64bit 分割)
+;     bi_clone(h)            → 新ハンドル
+;     bi_free h              : ハンドル解放
+;     bi_str(h), bi_hex(h)   → 文字列
+;     bi_int(h)              → int32 (下位 32bit)
+;     bi_bitlen(h)           → int
+;
+;     bi_add/sub/mul/div/mod/pow/gcd (h1, h2) → 新ハンドル
+;     bi_pow(h, e)  (e は int)
+;     bi_abs/neg (h)
+;     bi_cmp(a, b) → -1/0/1
+;     bi_eq/lt/gt (a, b) → 0/1
+;     bi_shl/shr (h, bits), bi_and/or/xor (h1, h2)
+;
+;   プール:
+;     bi_push / bi_pop       : スコープ内ハンドルを一括解放
+;     bi_track h             : 手動追加
+;============================================================
+
+#ifndef __iron_bigint_hsp__
+#define __iron_bigint_hsp__
+
+#include "hspbigint.as"
+
+#module iron_bigint
+
+;============================================================
+; プール状態
+;   _bi_pool_init : 0 = 未初期化 / 1 = 初期化済
+;   _bi_pool_top  : -1 = プール未使用 / >=0 = 現在のネストレベル
+;   _bi_pool(i,lv): lv レベルの i 番目ハンドル (int 配列 2次元)
+;   _bi_pool_cnt(lv): lv レベルの件数
+;   最大 _BI_MAX_NEST 段 / 1 段あたり _BI_MAX_PER_LV 個
+;============================================================
+#define _BI_MAX_NEST 32
+#define _BI_MAX_PER_LV 4096
+
+#deffunc _bi_init
+    if _bi_pool_init : return
+    dim _bi_pool, _BI_MAX_PER_LV, _BI_MAX_NEST
+    dim _bi_pool_cnt, _BI_MAX_NEST
+    _bi_pool_top = -1
+    _bi_pool_init = 1
+    return
+
+#deffunc bi_push
+    _bi_init
+    _bi_pool_top++
+    if _bi_pool_top >= _BI_MAX_NEST : _bi_pool_top = _BI_MAX_NEST - 1
+    _bi_pool_cnt(_bi_pool_top) = 0
+    return
+
+#deffunc bi_pop, local _lv, local _n, local _hid, local _i
+    _bi_init
+    if _bi_pool_top < 0 : return
+    _lv = _bi_pool_top
+    _n  = _bi_pool_cnt(_lv)
+    _i  = 0
+    repeat _n
+        _hid = _bi_pool(cnt, _lv)
+        if _hid > 0 : bigint_free _hid
+    loop
+    _bi_pool_cnt(_lv) = 0
+    _bi_pool_top--
+    return
+
+#deffunc bi_track int h, local _lv, local _n
+    _bi_init
+    if _bi_pool_top < 0 : return     ; プール未使用 → 何もしない
+    if h <= 0           : return
+    _lv = _bi_pool_top
+    _n  = _bi_pool_cnt(_lv)
+    if _n >= _BI_MAX_PER_LV : return     ; オーバーフローは無視 (管理外に)
+    _bi_pool(_n, _lv) = h
+    _bi_pool_cnt(_lv) = _n + 1
+    return
+
+;============================================================
+; 生成
+;============================================================
+#defcfunc bi str s, local _h
+    _h = bigint_create_str(s)
+    bi_track _h
+    return _h
+
+#defcfunc bi_from int v, local _h
+    _h = bigint_create_int(v)
+    bi_track _h
+    return _h
+
+#defcfunc bi_from64 int lo, int hi, local _h
+    _h = bigint_create_int64(lo, hi)
+    bi_track _h
+    return _h
+
+#defcfunc bi_clone int h, local _h
+    _h = bigint_clone(h)
+    bi_track _h
+    return _h
+
+#deffunc bi_free int h
+    if h > 0 : bigint_free h
+    return
+
+;============================================================
+; 文字列化 / 取得
+;============================================================
+#defcfunc bi_str int h, local _buf
+    sdim _buf, 4096
+    bigint_to_str h, _buf, 4096
+    return _buf
+
+#defcfunc bi_hex int h, local _buf
+    sdim _buf, 4096
+    bigint_to_hex h, _buf, 4096
+    return _buf
+
+#defcfunc bi_int int h
+    return bigint_to_int32(h)
+
+#deffunc bi_int64 int h, var lo, var hi
+    bigint_to_int64 h, lo, hi
+    return
+
+#defcfunc bi_bitlen int h
+    return bigint_bitlen(h)
+
+;============================================================
+; 算術 (新ハンドル)
+;============================================================
+#defcfunc bi_add int a, int b, local _h
+    _h = bigint_add(a, b) : bi_track _h : return _h
+
+#defcfunc bi_sub int a, int b, local _h
+    _h = bigint_sub(a, b) : bi_track _h : return _h
+
+#defcfunc bi_mul int a, int b, local _h
+    _h = bigint_mul(a, b) : bi_track _h : return _h
+
+#defcfunc bi_div int a, int b, local _h
+    _h = bigint_div(a, b) : bi_track _h : return _h
+
+#defcfunc bi_mod int a, int b, local _h
+    _h = bigint_mod(a, b) : bi_track _h : return _h
+
+#defcfunc bi_pow int a, int e, local _h
+    _h = bigint_pow(a, e) : bi_track _h : return _h
+
+#defcfunc bi_gcd int a, int b, local _h
+    _h = bigint_gcd(a, b) : bi_track _h : return _h
+
+#defcfunc bi_abs int a, local _h
+    _h = bigint_abs(a) : bi_track _h : return _h
+
+#defcfunc bi_neg int a, local _h
+    _h = bigint_neg(a) : bi_track _h : return _h
+
+;============================================================
+; 比較
+;============================================================
+#defcfunc bi_cmp int a, int b
+    return bigint_cmp(a, b)
+
+#defcfunc bi_eq int a, int b
+    if bigint_cmp(a, b) == 0 : return 1
+    return 0
+
+#defcfunc bi_lt int a, int b
+    if bigint_cmp(a, b) < 0 : return 1
+    return 0
+
+#defcfunc bi_gt int a, int b
+    if bigint_cmp(a, b) > 0 : return 1
+    return 0
+
+;============================================================
+; ビット演算
+;============================================================
+#defcfunc bi_shl int a, int bits, local _h
+    _h = bigint_shl(a, bits) : bi_track _h : return _h
+
+#defcfunc bi_shr int a, int bits, local _h
+    _h = bigint_shr(a, bits) : bi_track _h : return _h
+
+#defcfunc bi_and int a, int b, local _h
+    _h = bigint_and(a, b) : bi_track _h : return _h
+
+#defcfunc bi_or int a, int b, local _h
+    _h = bigint_or(a, b) : bi_track _h : return _h
+
+#defcfunc bi_xor int a, int b, local _h
+    _h = bigint_xor(a, b) : bi_track _h : return _h
+
+#global
+
+#endif

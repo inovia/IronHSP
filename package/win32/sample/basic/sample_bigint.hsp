@@ -1,0 +1,43 @@
+;============================================================
+;   sample_bigint.hsp — 任意精度整数サンプル (hspbigint.dll)
+;
+;   100! を計算して 100 桁超の数を表示。
+;   bi_push / bi_pop でハンドルを自動解放。
+;============================================================
+
+#include "iron_bigint.hsp"
+
+    title "BigInt demo — 100!"
+
+    bi_push
+        result = bi("1")
+        repeat 100, 1
+            term = bi_from(cnt)
+            next_r = bi_mul(result, term)
+            result = next_r    ; ポインタ更新 (旧 result は pool が解放)
+        loop
+
+        mes "100! ="
+        mes bi_str(result)
+        mes ""
+        mes "bit length = " + bi_bitlen(result)
+        mes "hex = "
+        mes bi_hex(result)
+    bi_pop
+
+    mes ""
+    mes "--- 巨大な冪と GCD ---"
+
+    bi_push
+        a = bi_pow(bi("2"), 256)              ; 2^256
+        b = bi_pow(bi("3"), 128)              ; 3^128
+        mes "2^256 = " + bi_str(a)
+        mes "3^128 = " + bi_str(b)
+        g = bi_gcd(a, b)
+        mes "gcd(2^256, 3^128) = " + bi_str(g)
+
+        sum = bi_add(a, b)
+        mes "2^256 + 3^128 = " + bi_str(sum)
+    bi_pop
+
+    stop
