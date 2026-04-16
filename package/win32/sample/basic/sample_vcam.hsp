@@ -1,0 +1,115 @@
+;============================================================
+;   sample_vcam.hsp — 仮想ウェブカメラ サンプル
+;
+;   HSP のスクリーン描画内容を仮想カメラとして配信するデモ。
+;   OBS Studio や Zoom 等のアプリで仮想カメラ映像を確認できます。
+;
+;   前提:
+;     - hspvcam.dll がランタイムフォルダに存在すること
+;     - 仮想カメラブリッジプロセスが共有メモリを読み出し中であること
+;       (ブリッジプロセスは別途起動する必要があります)
+;============================================================
+
+#include "iron_vcam.hsp"
+
+    ; 仮想カメラの作成 (640x480, 30fps)
+    cam_w = 640
+    cam_h = 480
+    cam_fps = 30
+
+    ; HSP ウィンドウをカメラと同じサイズに設定
+    screen 0, cam_w, cam_h
+    title "IronHSP Virtual Webcam Demo"
+
+    ; 仮想カメラ作成
+    vcam_create cam_w, cam_h, cam_fps
+    cam = stat
+    if cam == 0 {
+        dialog "仮想カメラの作成に失敗しました", 1, "エラー"
+        end
+    }
+
+    mes "仮想カメラを作成しました (handle=" + cam + ")"
+    mes "解像度: " + cam_w + "x" + cam_h + " @ " + cam_fps + "fps"
+    mes ""
+    mes "このウィンドウの内容が仮想カメラに送信されます。"
+    mes "ESC キーで終了します。"
+    mes ""
+
+    ; アニメーションパラメータ
+    angle = 0
+    frame_count = 0
+
+    ; メインループ
+    repeat
+        ; ESC キーで終了
+        getkey k, 27
+        if k : goto *quit
+
+        redraw 0
+
+        ; 背景をグラデーションで描画
+        repeat cam_h
+            r = cnt * 64 / cam_h
+            g = 32 + cnt * 128 / cam_h
+            b = 128 + cnt * 127 / cam_h
+            color r, g, b
+            line 0, cnt, cam_w, cnt
+        loop
+
+        ; 回転する四角形
+        cx = cam_w / 2
+        cy = cam_h / 2
+        sz = 80
+
+        ; 簡易回転 (sin/cos テーブルなし版)
+        ; HSP の sin/cos は double
+        rad = double(angle) * 3.14159265 / 180.0
+        cs = cos(rad)
+        sn = sin(rad)
+
+        ; 四角形の 4 頂点
+        color 255, 200, 0
+        ; 簡易的に円を描画
+        circle cx - sz, cy - sz, cx + sz, cy + sz, 1
+
+        ; テキスト表示
+        color 255, 255, 255
+        font "MS Gothic", 20
+        pos 10, 10
+        mes "IronHSP Virtual Webcam"
+        pos 10, 35
+        mes "Frame: " + frame_count
+        pos 10, 60
+
+        ; 接続状態の表示
+        connected = vcam_is_connected(cam)
+        if connected == 1 {
+            color 0, 255, 0
+            mes "ブリッジ: 接続中"
+        } else {
+            color 255, 100, 100
+            mes "ブリッジ: 未接続"
+        }
+
+        ; 時刻表示
+        color 255, 255, 255
+        pos 10, cam_h - 30
+        mes "Time: " + gettime(4) + ":" + strf("%02d", gettime(5)) + ":" + strf("%02d", gettime(6))
+
+        redraw 1
+
+        ; カレントスクリーンを仮想カメラに送信
+        vcam_send cam
+
+        angle += 3
+        if angle >= 360 : angle -= 360
+        frame_count++
+
+        await 1000 / cam_fps
+    loop
+
+*quit
+    ; 後始末
+    vcam_close cam
+    end

@@ -1,0 +1,127 @@
+;============================================================
+;   iron_wasapi.hsp -- WASAPI オーディオ キャプチャ / 再生 ラッパ
+;
+;   hspwasapi.dll を経由して Windows WASAPI で
+;   マイク録音やスピーカー出力を行う HSP モジュール。
+;
+#ifndef __iron_wasapi_hsp__
+#define __iron_wasapi_hsp__
+
+#module iron_wasapi
+
+#ifdef __hsp64__
+#uselib "hspwasapi64.dll"
+#else
+#uselib "hspwasapi.dll"
+#endif
+
+#cfunc _wa_init          "wasapi_init"
+#cfunc _wa_dev_count     "wasapi_device_count"     int
+#func  _wa_dev_name      "wasapi_device_name"      int, int, var, int
+#cfunc _wa_open          "wasapi_open"             int, int, int, int, int
+#func  _wa_start_file    "wasapi_start_file"       int, str
+#func  _wa_stop_         "wasapi_stop"             int
+#func  _wa_get_pcm       "wasapi_get_pcm"          int, var, int
+#cfunc _wa_get_level     "wasapi_get_level"        int
+#func  _wa_get_info      "wasapi_get_info"         int, var, var, var
+#func  _wa_close_        "wasapi_close"            int
+#cfunc _wa_shutdown      "wasapi_shutdown"
+
+; 方向定数
+#define global WASAPI_DIR_CAPTURE 0
+#define global WASAPI_DIR_RENDER  1
+
+;------------------------------------------------------------
+; wasapi_init -- WASAPI 初期化
+;   stat: 0=成功 / 負=失敗
+;------------------------------------------------------------
+#deffunc wasapi_init
+    return _wa_init()
+
+;------------------------------------------------------------
+; wasapi_device_list direction, var_names
+;   direction: 0=キャプチャ, 1=レンダー
+;   var_names: デバイス名を \n 区切りで格納
+;   stat: デバイス数
+;------------------------------------------------------------
+#deffunc wasapi_device_list int _dir, var _names, local _cnt, local _i, local _buf
+    _cnt = _wa_dev_count(_dir)
+    sdim _names, 4096
+    sdim _buf, 512
+    _i = 0
+    repeat _cnt
+        _wa_dev_name _dir, cnt, _buf, 511
+        if _i > 0 : _names += "\n"
+        _names += _buf
+        _i++
+    loop
+    return _cnt
+
+;------------------------------------------------------------
+; wasapi_capture_open device_idx, ch, hz, bps
+;   キャプチャデバイスを開く (device_idx = -1 でデフォルト)
+;   stat: ハンドル (>=0) / 負=失敗
+;------------------------------------------------------------
+#deffunc wasapi_capture_open int _dev, int _ch, int _hz, int _bps
+    return _wa_open(WASAPI_DIR_CAPTURE, _dev, _ch, _hz, _bps)
+
+;------------------------------------------------------------
+; wasapi_render_open device_idx, ch, hz, bps
+;   レンダーデバイスを開く (device_idx = -1 でデフォルト)
+;   stat: ハンドル (>=0) / 負=失敗
+;------------------------------------------------------------
+#deffunc wasapi_render_open int _dev, int _ch, int _hz, int _bps
+    return _wa_open(WASAPI_DIR_RENDER, _dev, _ch, _hz, _bps)
+
+;------------------------------------------------------------
+; wasapi_rec_start handle, "file.wav"
+;   録音開始 (WAV ファイル書き出し)
+;   stat: 0=成功 / 負=失敗
+;------------------------------------------------------------
+#deffunc wasapi_rec_start int _h, str _file
+    _wa_start_file _h, _file
+    return stat
+
+;------------------------------------------------------------
+; wasapi_rec_stop handle
+;   録音停止 (WAV ヘッダを確定してクローズ)
+;   stat: 0=成功 / 負=失敗
+;------------------------------------------------------------
+#deffunc wasapi_rec_stop int _h
+    _wa_stop_ _h
+    return stat
+
+;------------------------------------------------------------
+; wasapi_get_pcm handle, var_buf, max_samples
+;   リングバッファから PCM データを取得 (16bit)
+;   stat: 書き込まれたサンプル数
+;------------------------------------------------------------
+#deffunc wasapi_get_pcm int _h, var _buf, int _max
+    _wa_get_pcm _h, _buf, _max
+    return stat
+
+;------------------------------------------------------------
+; wasapi_get_level(handle) -- ピークレベル (0-32767)
+;   defcfunc (関数形式)
+;------------------------------------------------------------
+#defcfunc wasapi_get_level int _h
+    return _wa_get_level(_h)
+
+;------------------------------------------------------------
+; wasapi_close handle -- デバイスを閉じる
+;   stat: 0=成功 / 負=失敗
+;------------------------------------------------------------
+#deffunc wasapi_close int _h
+    _wa_close_ _h
+    return stat
+
+;------------------------------------------------------------
+; wasapi_shutdown -- 全デバイスを閉じて終了処理
+;   stat: 0=成功
+;------------------------------------------------------------
+#deffunc wasapi_shutdown
+    return _wa_shutdown()
+
+#global
+
+#endif

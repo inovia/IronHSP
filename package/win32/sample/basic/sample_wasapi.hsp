@@ -1,0 +1,102 @@
+;============================================================
+;   sample_wasapi.hsp -- WASAPI 録音サンプル
+;
+;   マイクから 5 秒間録音して record.wav に保存する。
+;   録音中はピークレベルをバー表示する。
+;============================================================
+#include "iron_wasapi.hsp"
+
+    ; ウィンドウ設定
+    screen 0, 480, 320
+    title "WASAPI 録音サンプル"
+
+    ; WASAPI 初期化
+    wasapi_init
+    if stat < 0 {
+        dialog "WASAPI の初期化に失敗しました"
+        end
+    }
+
+    ; キャプチャデバイス一覧を表示
+    wasapi_device_list WASAPI_DIR_CAPTURE, devnames
+    dev_count = stat
+    mes "キャプチャデバイス数: " + dev_count
+    if dev_count <= 0 {
+        dialog "録音デバイスが見つかりません"
+        wasapi_shutdown
+        end
+    }
+    notesel devnames
+    repeat dev_count
+        noteget s, cnt
+        mes "  [" + cnt + "] " + s
+    loop
+    mes ""
+
+    ; デフォルトデバイスを開く (ステレオ, 44100Hz, 16bit)
+    wasapi_capture_open -1, 2, 44100, 16
+    handle = stat
+    if handle < 0 {
+        dialog "デバイスのオープンに失敗しました (stat=" + handle + ")"
+        wasapi_shutdown
+        end
+    }
+    mes "デバイスオープン成功 (handle=" + handle + ")"
+    mes ""
+
+    ; 録音開始
+    fname = "record.wav"
+    wasapi_rec_start handle, fname
+    if stat < 0 {
+        dialog "録音開始に失敗しました"
+        wasapi_close handle
+        wasapi_shutdown
+        end
+    }
+    mes "録音中... (5秒間) → " + fname
+    mes ""
+
+    ; 録音タイマー (5秒)
+    rec_start = GetTickCount()
+    rec_ms    = 5000
+
+*main_loop
+    ; 経過時間
+    elapsed = GetTickCount() - rec_start
+    if elapsed >= rec_ms : goto *rec_done
+
+    ; ピークレベル取得 & 描画
+    lv = wasapi_get_level(handle)
+    bar_w = lv * 400 / 32767
+    color 255, 255, 255
+    boxf 20, 200, 440, 230
+    color 0, 200, 80
+    boxf 20, 200, 20 + bar_w, 230
+
+    ; 残り時間表示
+    remain = (rec_ms - elapsed) / 1000
+    color 0, 0, 0
+    pos 20, 240
+    mes "残り " + remain + " 秒  Level: " + lv
+
+    await 30
+    goto *main_loop
+
+*rec_done
+    ; 録音停止
+    wasapi_rec_stop handle
+    mes "録音完了! " + fname + " に保存しました。"
+
+    ; デバイスを閉じる
+    wasapi_close handle
+
+    ; 終了処理
+    wasapi_shutdown
+    mes ""
+    mes "何かキーを押すと終了します。"
+
+*wait_end
+    stick k
+    if k : end
+    await 30
+    goto *wait_end

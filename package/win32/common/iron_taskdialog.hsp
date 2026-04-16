@@ -1,0 +1,271 @@
+;============================================================
+;   iron_taskdialog.hsp — Vista+ タスクダイアログ (TaskDialogIndirect)
+;
+;   Windows Vista 以降の TaskDialogIndirect API を使用した
+;   モダンなダイアログを表示する。MessageBox の上位互換として
+;   メインメッセージ / サブメッセージ / フッター / アイコン /
+;   コマンドリンク形式の選択肢 / ハイパーリンク / 展開テキスト
+;   に対応。
+;
+;   comctl32.dll の TaskDialogIndirect を直接呼び出すため、
+;   外部 DLL は不要。hsp3net でもバニラ HSP でも動作する。
+;
+;   元のコード: modTaskDialog v1.00 (inovia, 2011)
+;   リファクタ: IronHSP iron_ シリーズに統合、W版化、
+;               API 簡素化、#module 化
+;
+;   API:
+;     taskdlg_init                              ; 初期化 (自動呼び出し)
+;     taskdlg "title", "main", "content",
+;             "footer", "choices", mainico, footico
+;       stat に選択 ID が返る (101〜 = 選択肢 / 2 = キャンセル)
+;
+;     taskdlg_simple "title", "main", buttons
+;       簡易版 (OK/Yes/No/Cancel/Retry/Close)
+;       stat に IDOK(1)/IDCANCEL(2)/IDYES(6)/IDNO(7) 等
+;
+;     taskdlg_set_flags flags     ; dwFlags を設定
+;     taskdlg_set_width px        ; ダイアログ幅 (0=自動)
+;     taskdlg_set_buttons btns    ; dwCommonButtons
+;     taskdlg_set_default_id id   ; デフォルトボタン ID
+;
+;   アイコン定数:
+;     TDICO_NONE(0) / TDICO_WARNING(1) / TDICO_ERROR(2)
+;     TDICO_INFO(3) / TDICO_SHIELD(4)
+;
+;   ボタン定数:
+;     TDBTN_OK(1) / TDBTN_YES(2) / TDBTN_NO(4)
+;     TDBTN_CANCEL(8) / TDBTN_RETRY(16) / TDBTN_CLOSE(32)
+;============================================================
+
+#ifndef __iron_taskdialog_hsp__
+#define __iron_taskdialog_hsp__
+
+#module iron_taskdialog
+
+#uselib "comctl32.dll"
+#func _TaskDialogIndirect "TaskDialogIndirect" var, var, int, int
+
+; アイコン定数
+#define global TDICO_NONE     0
+#define global TDICO_WARNING  1
+#define global TDICO_ERROR    2
+#define global TDICO_INFO     3
+#define global TDICO_SHIELD   4
+
+; ボタン定数
+#define global TDBTN_OK       0x01
+#define global TDBTN_YES      0x02
+#define global TDBTN_NO       0x04
+#define global TDBTN_CANCEL   0x08
+#define global TDBTN_RETRY    0x10
+#define global TDBTN_CLOSE    0x20
+
+; フラグ定数
+#define global TDF_ENABLE_HYPERLINKS          0x0001
+#define global TDF_ALLOW_DIALOG_CANCELLATION  0x0008
+#define global TDF_USE_COMMAND_LINKS          0x0010
+#define global TDF_USE_COMMAND_LINKS_NO_ICON  0x0020
+#define global TDF_EXPAND_FOOTER_AREA         0x0040
+#define global TDF_EXPANDED_BY_DEFAULT        0x0080
+#define global TDF_SHOW_PROGRESS_BAR          0x0200
+#define global TDF_CAN_BE_MINIMIZED           0x8000
+
+; 内部: アイコン定数変換
+#defcfunc _tdlg_icon int ico
+    if ico = 0 : return 0
+    if ico = 1 : return 0xFFFF     ; TD_WARNING_ICON
+    if ico = 2 : return 0xFFFE     ; TD_ERROR_ICON
+    if ico = 3 : return 0xFFFD     ; TD_INFORMATION_ICON
+    if ico = 4 : return 0xFFFC     ; TD_SHIELD_ICON
+    return ico
+
+;------------------------------------------------------------
+; 状態変数
+;------------------------------------------------------------
+#deffunc taskdlg_init
+    _td_flags  = TDF_ALLOW_DIALOG_CANCELLATION | TDF_USE_COMMAND_LINKS | TDF_ENABLE_HYPERLINKS
+    _td_buttons = 0
+    _td_default = 0
+    _td_width = 0
+    _td_inited = 1
+    return
+
+#deffunc taskdlg_set_flags int f
+    _td_flags = f
+    return
+
+#deffunc taskdlg_set_width int w
+    _td_width = w
+    return
+
+#deffunc taskdlg_set_buttons int b
+    _td_buttons = b
+    return
+
+#deffunc taskdlg_set_default_id int id
+    _td_default = id
+    return
+
+;------------------------------------------------------------
+; taskdlg — フル機能タスクダイアログ
+;   title: ダイアログタイトル
+;   main: メインメッセージ (大きい文字)
+;   content: サブメッセージ (小さい文字)
+;   footer: フッターメッセージ
+;   choices: 選択肢 (\n 区切り)
+;   mainico: メインアイコン (0-4)
+;   footico: フッターアイコン (0-4)
+;   戻り値: stat = 選択 ID (101〜 / 2=キャンセル)
+;------------------------------------------------------------
+#deffunc taskdlg str _title, str _main, str _content, str _footer, str _choices, int _mainico, int _footico, \
+    local _wt, local _wm, local _wc, local _wf, \
+    local _pt, local _pm, local _pc, local _pf, \
+    local _sel, local _tmp, local _nmax, local _maxsz, \
+    local _wsel, local _dbtn, local _st, local _tc, \
+    local _choose, local _radio, local _verify, \
+    local _mico, local _fico, local _i
+
+    if _td_inited = 0 : taskdlg_init
+
+    ; 文字列を Unicode に変換
+    if strlen(_title) > 0 {
+        sdim _wt, strlen(_title) * 2 + 4
+        cnvstow _wt, _title
+        _pt = varptr(_wt)
+    } else { _pt = 0 }
+
+    if strlen(_main) > 0 {
+        sdim _wm, strlen(_main) * 2 + 4
+        cnvstow _wm, _main
+        _pm = varptr(_wm)
+    } else { _pm = 0 }
+
+    if strlen(_content) > 0 {
+        sdim _wc, strlen(_content) * 2 + 4
+        cnvstow _wc, _content
+        _pc = varptr(_wc)
+    } else { _pc = 0 }
+
+    if strlen(_footer) > 0 {
+        sdim _wf, strlen(_footer) * 2 + 4
+        cnvstow _wf, _footer
+        _pf = varptr(_wf)
+    } else { _pf = 0 }
+
+    ; 選択肢を分解
+    _sel = _choices
+    notesel _sel
+    _nmax = notemax
+
+    if _nmax = 0 : return -2
+
+    ; 最大文字列長を取得
+    _maxsz = 0
+    repeat _nmax
+        noteget _tmp, cnt
+        if strlen(_tmp) > _maxsz : _maxsz = strlen(_tmp)
+    loop
+    if _maxsz = 0 : return -3
+
+    ; Unicode 配列に変換
+    sdim _wsel, _maxsz * 2 + 4, _nmax
+    repeat _nmax
+        noteget _tmp, cnt
+        cnvstow _wsel(cnt), _tmp
+    loop
+
+    ; TASKDIALOG_BUTTON 構造体配列 (nButtonID + pszButtonText)
+    dim _dbtn, _nmax * 2
+    _st = 101
+    repeat _nmax
+        _dbtn(cnt * 2) = _st
+        _dbtn(cnt * 2 + 1) = varptr(_wsel(cnt))
+        _st++
+    loop
+
+    ; アイコン変換
+    _mico = _tdlg_icon(_mainico)
+    _fico = _tdlg_icon(_footico)
+
+    ; TASKDIALOGCONFIG 構造体 (24 int = 96 bytes)
+    dim _tc, 24
+    _tc(0) = 96              ; cbSize
+    _tc(1) = hwnd             ; hwndParent
+    _tc(2) = hinstance        ; hInstance
+    _tc(3) = _td_flags        ; dwFlags
+    _tc(4) = _td_buttons      ; dwCommonButtons
+    _tc(5) = _pt              ; pszWindowTitle
+    _tc(6) = _mico            ; hMainIcon
+    _tc(7) = _pm              ; pszMainInstruction
+    _tc(8) = _pc              ; pszContent
+    _tc(9) = _nmax            ; cButtons
+    _tc(10) = varptr(_dbtn)   ; pButtons
+    _tc(11) = _td_default     ; nDefaultButton
+    _tc(12) = 0               ; cRadioButtons
+    _tc(13) = 0               ; pRadioButtons
+    _tc(14) = 0               ; nDefaultRadioButton
+    _tc(15) = 0               ; pszVerificationText
+    _tc(16) = 0               ; pszExpandedInformation
+    _tc(17) = 0               ; pszExpandedControlText
+    _tc(18) = 0               ; pszCollapsedControlText
+    _tc(19) = _fico           ; hFooterIcon
+    _tc(20) = _pf             ; pszFooter
+    _tc(21) = 0               ; pfCallback
+    _tc(22) = 0               ; lpCallbackData
+    _tc(23) = _td_width       ; cxWidth
+
+    _choose = 0
+    _radio = 0
+    _verify = 0
+    _TaskDialogIndirect _tc, _choose, _radio, _verify
+    if stat ! 0 : return stat
+
+    return _choose
+
+;------------------------------------------------------------
+; taskdlg_simple — 簡易版 (選択肢なし、共通ボタンのみ)
+;   buttons: TDBTN_OK | TDBTN_YES | TDBTN_NO 等の組み合わせ
+;   戻り値: stat = IDOK(1)/IDCANCEL(2)/IDYES(6)/IDNO(7) 等
+;------------------------------------------------------------
+#deffunc taskdlg_simple str _title, str _main, int _buttons, \
+    local _wt, local _wm, local _pt, local _pm, \
+    local _tc, local _choose, local _radio, local _verify
+
+    if _td_inited = 0 : taskdlg_init
+
+    if strlen(_title) > 0 {
+        sdim _wt, strlen(_title) * 2 + 4
+        cnvstow _wt, _title
+        _pt = varptr(_wt)
+    } else { _pt = 0 }
+
+    if strlen(_main) > 0 {
+        sdim _wm, strlen(_main) * 2 + 4
+        cnvstow _wm, _main
+        _pm = varptr(_wm)
+    } else { _pm = 0 }
+
+    dim _tc, 24
+    _tc(0) = 96
+    _tc(1) = hwnd
+    _tc(2) = hinstance
+    _tc(3) = TDF_ALLOW_DIALOG_CANCELLATION
+    _tc(4) = _buttons
+    _tc(5) = _pt
+    _tc(6) = 0
+    _tc(7) = _pm
+    ; 8-23: all 0
+
+    _choose = 0
+    _TaskDialogIndirect _tc, _choose, 0, 0
+    if stat ! 0 : return stat
+
+    return _choose
+
+#global
+
+; 自動初期化
+    _td_inited@iron_taskdialog = 0
+
+#endif

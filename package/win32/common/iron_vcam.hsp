@@ -1,0 +1,80 @@
+;============================================================
+;   iron_vcam.hsp — 仮想ウェブカメラ モジュール (IronHSP)
+;
+;   HSP のスクリーン内容を仮想カメラデバイスとして配信するための
+;   高レベルラッパ。hspvcam.dll の低レベル API を包み、
+;   ginfo / mref を使ったスクリーンキャプチャを簡便に行えます。
+;
+;   API:
+;     vcam_create w, h, fps       ; 仮想カメラ作成 → stat=handle
+;     vcam_send handle            ; カレントスクリーン全体を送信
+;     vcam_send_region handle, x, y, w, h  ; スクリーン領域を送信
+;     vcam_send_buffer handle, buf ; BGRA バッファを直接送信
+;     vcam_is_connected(handle)   ; コンシューマ接続チェック
+;     vcam_close handle           ; 仮想カメラ破棄
+;
+;   依存: hspvcam.as
+;============================================================
+
+#ifndef __iron_vcam_hsp__
+#define __iron_vcam_hsp__
+
+#include "hspvcam.as"
+
+;------------------------------------------------------------
+; #module iron_vcam
+;------------------------------------------------------------
+#module iron_vcam
+
+;------------------------------------------------------------
+; vcam_create w, h, fps
+;   仮想カメラを作成する。
+;   stat にハンドル (>0) が返る。0 なら失敗。
+;------------------------------------------------------------
+#deffunc vcam_create int _w, int _h, int _fps
+    _ret = vcam_create_(_w, _h, _fps)
+    return _ret
+
+;------------------------------------------------------------
+; vcam_send handle
+;   HSP のカレントウィンドウ全体をキャプチャして送信する。
+;   内部で ginfo を使ってウィンドウの位置・サイズを取得し、
+;   スクリーン DC から BitBlt でキャプチャする。
+;------------------------------------------------------------
+#deffunc vcam_send int _handle
+    ; カレントウィンドウの位置とサイズを取得
+    _wx = ginfo_wx1   ; ウィンドウ左端 (クライアント領域)
+    _wy = ginfo_wy1   ; ウィンドウ上端
+    _ww = ginfo_winx   ; ウィンドウ幅
+    _wh = ginfo_winy   ; ウィンドウ高さ
+
+    ; hspvcam.dll のスクリーンキャプチャ機能を使用
+    vcam_send_from_screen _handle, _wx, _wy, _ww, _wh
+    return stat
+
+;------------------------------------------------------------
+; vcam_send_region handle, x, y, w, h
+;   HSP のカレントウィンドウ内の指定領域をキャプチャして送信する。
+;   座標はスクリーン座標で指定する。
+;------------------------------------------------------------
+#deffunc vcam_send_region int _handle, int _x, int _y, int _w, int _h
+    vcam_send_from_screen _handle, _x, _y, _w, _h
+    return stat
+
+;------------------------------------------------------------
+; vcam_send_buffer handle, buf
+;   BGRA バッファを直接送信する。
+;   buf は sdim / dim 等で確保した変数で、
+;   width * height * 4 バイト以上のデータが必要。
+;------------------------------------------------------------
+#deffunc vcam_send_buffer int _handle, var _buf
+    ; バッファサイズの取得: カメラの幅 * 高さ * 4
+    vcam_get_info _handle, _iw, _ih, _ifps
+    if stat != 0 : return -1
+    _sz = _iw * _ih * 4
+    vcam_send_frame _handle, _buf, _sz
+    return stat
+
+#global
+
+#endif
