@@ -1,0 +1,85 @@
+;============================================================
+;   iron_docking_pro.hsp - VS-style Docking (WeifenLuo DockPanel Suite)
+;
+;   WeifenLuo.WinFormsUI.Docking.dll required.
+;   Full docking: float/dock/auto-hide/tabbed document.
+;   hsp3net (GUI) only.
+;
+;   API:
+;     dockpro_init                    Init DockPanel on current form
+;     dockpro_add "title", state      Add DockContent panel
+;       state: 0=DockLeft, 1=DockRight, 2=DockBottom, 3=Document, 4=Float
+;     dockpro_show_at panel_id, state Move panel to new dock state
+;
+;   Example:
+;     #include "iron_docking_pro.hsp"
+;     screen 0, 800, 600
+;     dockpro_init
+;     dockpro_add "Solution Explorer", 0   ; DockLeft
+;     dockpro_add "Properties", 1           ; DockRight
+;     dockpro_add "Output", 2               ; DockBottom
+;     dockpro_add "Editor", 3               ; Document
+;============================================================
+#ifndef __iron_docking_pro_hsp__
+#define __iron_docking_pro_hsp__
+
+#module iron_docking_pro
+
+dim _dkp_loaded, 1
+
+#deffunc _dkp_load
+	if _dkp_loaded : return
+	; Load DockPanel Suite assembly
+	loadnet "WeifenLuo.WinFormsUI.Docking", 0
+	; Load C# helper
+	sdim _cs, 8192
+	_cs = "using System;using System.Drawing;using System.Windows.Forms;"
+	_cs += "using WeifenLuo.WinFormsUI.Docking;"
+	_cs += "public class HspDockPro {"
+	_cs += "  static DockPanel _panel;"
+	_cs += "  static int _count = 0;"
+	_cs += "  public static void Init(Form f) {"
+	_cs += "    _panel = new DockPanel();"
+	_cs += "    _panel.Dock = DockStyle.Fill;"
+	_cs += "    _panel.DocumentStyle = DocumentStyle.DockingWindow;"
+	_cs += "    _panel.Theme = new VS2015BlueTheme();"
+	_cs += "    f.Controls.Add(_panel);"
+	_cs += "    f.IsMdiContainer = false;"
+	_cs += "  }"
+	_cs += "  public static int AddPanel(string title, int state) {"
+	_cs += "    var content = new DockContent();"
+	_cs += "    content.Text = title;"
+	_cs += "    content.DockAreas = DockAreas.DockLeft | DockAreas.DockRight |"
+	_cs += "      DockAreas.DockTop | DockAreas.DockBottom | DockAreas.Document | DockAreas.Float;"
+	_cs += "    DockState ds = DockState.DockLeft;"
+	_cs += "    switch(state) {"
+	_cs += "      case 0: ds = DockState.DockLeft; break;"
+	_cs += "      case 1: ds = DockState.DockRight; break;"
+	_cs += "      case 2: ds = DockState.DockBottom; break;"
+	_cs += "      case 3: ds = DockState.Document; break;"
+	_cs += "      case 4: ds = DockState.Float; break;"
+	_cs += "    }"
+	_cs += "    content.Show(_panel, ds);"
+	_cs += "    return _count++;"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_dkp_loaded = 1
+	return
+
+#deffunc dockpro_init local _frm, local _h
+	_dkp_load
+	getforms _frm, 0
+	newnet _h, "", "HspDockPro", 1
+	mcall _h, "Init", _frm
+	return
+
+#deffunc dockpro_add str title, int state, local _h, local _r
+	_dkp_load
+	newnet _h, "", "HspDockPro", 1
+	netres _r
+	mcall _h, "AddPanel", title, state
+	return nettoval(_r, 4)
+
+#global
+#endif

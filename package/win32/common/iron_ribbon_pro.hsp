@@ -1,0 +1,169 @@
+;============================================================
+;   iron_ribbon_pro.hsp - Rich Ribbon UI
+;
+;   WinForms TabControl + FlowLayoutPanel + ToolStrip.
+;   Office-like ribbon with groups, large/small buttons, dropdowns.
+;   hsp3net (GUI) only.
+;
+;   API:
+;     ribpro_init                         Init ribbon
+;     ribpro_add_tab "name"               Add tab → stat (tab_id)
+;     ribpro_begin_group tab_id, "name"   Begin button group
+;     ribpro_add_large "text", *label     Large button (icon above text)
+;     ribpro_add_small "text", *label     Small button
+;     ribpro_add_dropdown "text", "item1|item2|..."  Dropdown
+;     ribpro_end_group                    End group
+;
+;   Example:
+;     #include "iron_ribbon_pro.hsp"
+;     screen 0, 800, 600
+;     ribpro_init
+;     ribpro_add_tab "Home"
+;     ribpro_begin_group stat, "Clipboard"
+;     ribpro_add_large "Paste"
+;     ribpro_add_small "Cut"
+;     ribpro_add_small "Copy"
+;     ribpro_end_group
+;============================================================
+#ifndef __iron_ribbon_pro_hsp__
+#define __iron_ribbon_pro_hsp__
+
+#module iron_ribbon_pro
+
+dim _rbp_loaded, 1
+
+#deffunc _rbp_load
+	if _rbp_loaded : return
+	sdim _cs, 16384
+	_cs = "using System;using System.Drawing;using System.Windows.Forms;"
+	_cs += "using System.Collections.Generic;"
+	_cs += "public class HspRibPro {"
+	_cs += "  static TabControl _tabs;"
+	_cs += "  static int _tabCount = 0;"
+	_cs += "  static FlowLayoutPanel _currentGroup;"
+	_cs += "  static List<FlowLayoutPanel> _groupPanels = new List<FlowLayoutPanel>();"
+	_cs += "  public static void Init(Form f) {"
+	_cs += "    _tabs = new TabControl();"
+	_cs += "    _tabs.Dock = DockStyle.Top;"
+	_cs += "    _tabs.Height = 120;"
+	_cs += "    _tabs.Font = new Font(\"Segoe UI\", 9);"
+	_cs += "    _tabs.ItemSize = new Size(80, 24);"
+	_cs += "    f.Controls.Add(_tabs);"
+	_cs += "    f.Controls.SetChildIndex(_tabs, 0);"
+	_cs += "  }"
+	_cs += "  public static int AddTab(string name) {"
+	_cs += "    var page = new TabPage(name);"
+	_cs += "    page.BackColor = Color.FromArgb(245,246,247);"
+	_cs += "    page.AutoScroll = false;"
+	_cs += "    var flow = new FlowLayoutPanel();"
+	_cs += "    flow.Dock = DockStyle.Fill;"
+	_cs += "    flow.FlowDirection = FlowDirection.LeftToRight;"
+	_cs += "    flow.WrapContents = false;"
+	_cs += "    flow.AutoSize = false;"
+	_cs += "    page.Controls.Add(flow);"
+	_cs += "    page.Tag = flow;"
+	_cs += "    _tabs.TabPages.Add(page);"
+	_cs += "    return _tabCount++;"
+	_cs += "  }"
+	_cs += "  public static void BeginGroup(int tabId, string name) {"
+	_cs += "    var page = _tabs.TabPages[tabId];"
+	_cs += "    var mainFlow = (FlowLayoutPanel)page.Tag;"
+	_cs += "    var grp = new GroupBox();"
+	_cs += "    grp.Text = name;"
+	_cs += "    grp.Height = 85;"
+	_cs += "    grp.AutoSize = true;"
+	_cs += "    grp.Font = new Font(\"Segoe UI\", 8);"
+	_cs += "    grp.ForeColor = Color.FromArgb(100,100,100);"
+	_cs += "    var inner = new FlowLayoutPanel();"
+	_cs += "    inner.Dock = DockStyle.Fill;"
+	_cs += "    inner.FlowDirection = FlowDirection.LeftToRight;"
+	_cs += "    inner.WrapContents = true;"
+	_cs += "    grp.Controls.Add(inner);"
+	_cs += "    mainFlow.Controls.Add(grp);"
+	_cs += "    _currentGroup = inner;"
+	_cs += "  }"
+	_cs += "  public static void AddLarge(string text) {"
+	_cs += "    if(_currentGroup == null) return;"
+	_cs += "    var btn = new Button();"
+	_cs += "    btn.Text = text;"
+	_cs += "    btn.Size = new Size(60, 66);"
+	_cs += "    btn.TextAlign = ContentAlignment.BottomCenter;"
+	_cs += "    btn.FlatStyle = FlatStyle.Flat;"
+	_cs += "    btn.FlatAppearance.BorderSize = 0;"
+	_cs += "    btn.BackColor = Color.Transparent;"
+	_cs += "    btn.Font = new Font(\"Segoe UI\", 8);"
+	_cs += "    _currentGroup.Controls.Add(btn);"
+	_cs += "  }"
+	_cs += "  public static void AddSmall(string text) {"
+	_cs += "    if(_currentGroup == null) return;"
+	_cs += "    var btn = new Button();"
+	_cs += "    btn.Text = text;"
+	_cs += "    btn.Size = new Size(70, 22);"
+	_cs += "    btn.FlatStyle = FlatStyle.Flat;"
+	_cs += "    btn.FlatAppearance.BorderSize = 0;"
+	_cs += "    btn.BackColor = Color.Transparent;"
+	_cs += "    btn.TextAlign = ContentAlignment.MiddleLeft;"
+	_cs += "    btn.Font = new Font(\"Segoe UI\", 8);"
+	_cs += "    _currentGroup.Controls.Add(btn);"
+	_cs += "  }"
+	_cs += "  public static void AddDropdown(string text, string items) {"
+	_cs += "    if(_currentGroup == null) return;"
+	_cs += "    var cmb = new ComboBox();"
+	_cs += "    cmb.Width = 100;"
+	_cs += "    cmb.DropDownStyle = ComboBoxStyle.DropDownList;"
+	_cs += "    foreach(var item in items.Split('|')) cmb.Items.Add(item);"
+	_cs += "    if(cmb.Items.Count > 0) cmb.SelectedIndex = 0;"
+	_cs += "    _currentGroup.Controls.Add(cmb);"
+	_cs += "  }"
+	_cs += "  public static void EndGroup() { _currentGroup = null; }"
+	_cs += "}"
+	loadnet _cs, 3
+	_rbp_loaded = 1
+	return
+
+#deffunc ribpro_init local _frm, local _h
+	_rbp_load
+	getforms _frm, 0
+	newnet _h, "", "HspRibPro", 1
+	mcall _h, "Init", _frm
+	return
+
+#deffunc ribpro_add_tab str name, local _h, local _r
+	_rbp_load
+	newnet _h, "", "HspRibPro", 1
+	netres _r
+	mcall _h, "AddTab", name
+	return nettoval(_r, 4)
+
+#deffunc ribpro_begin_group int tabid, str name, local _h
+	_rbp_load
+	newnet _h, "", "HspRibPro", 1
+	mcall _h, "BeginGroup", tabid, name
+	return
+
+#deffunc ribpro_add_large str text, local _h
+	_rbp_load
+	newnet _h, "", "HspRibPro", 1
+	mcall _h, "AddLarge", text
+	return
+
+#deffunc ribpro_add_small str text, local _h
+	_rbp_load
+	newnet _h, "", "HspRibPro", 1
+	mcall _h, "AddSmall", text
+	return
+
+#deffunc ribpro_add_dropdown str text, str items, local _h
+	_rbp_load
+	newnet _h, "", "HspRibPro", 1
+	mcall _h, "AddDropdown", text, items
+	return
+
+#deffunc ribpro_end_group local _h
+	_rbp_load
+	newnet _h, "", "HspRibPro", 1
+	mcall _h, "EndGroup"
+	return
+
+#global
+#endif
