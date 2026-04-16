@@ -60,6 +60,8 @@
 #cfunc global _rib_height    "ribbon_get_height"
 #func global _rib_minimize   "ribbon_minimize" int
 #func global _rib_bgcolor    "ribbon_set_background_color" int, int, int
+#func global _rib_load_bml   "ribbon_load_bml" str
+#func global _rib_load_xml   "ribbon_load_xml" str, str
 #func global _rib_destroy    "ribbon_destroy"
 
 #module iron_ribbon_native
@@ -108,6 +110,19 @@ dim _rib_verb, 1
 #deffunc ribbon_native_set_bgcolor int r, int g, int b
 	_rib_bgcolor r, g, b
 	return
+
+; Load pre-compiled BML file directly (no uicc needed at runtime)
+; Creates a temporary resource DLL automatically.
+#deffunc ribbon_native_load_bml str bml_path
+	_rib_load_bml bml_path
+	return stat
+
+; Compile XML → BML → Load in one step.
+; uicc_path: full path to uicc.exe (Windows SDK)
+; If uicc_path is "", searches PATH.
+#deffunc ribbon_native_load_xml str xml_path, str uicc_path
+	_rib_load_xml xml_path, uicc_path
+	return stat
 
 #deffunc ribbon_native_destroy
 	_rib_destroy

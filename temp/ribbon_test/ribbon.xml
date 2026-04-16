@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+  <Application.Commands>
+    <Command Name="cmdTab1" LabelTitle="Home" />
+    <Command Name="cmdTab2" LabelTitle="Edit" />
+    <Command Name="cmdGrpFile" LabelTitle="File" />
+    <Command Name="cmdGrpEdit" LabelTitle="Editing" />
+    <Command Name="cmdNew"   Id="101" LabelTitle="New" />
+    <Command Name="cmdOpen"  Id="102" LabelTitle="Open" />
+    <Command Name="cmdSave"  Id="103" LabelTitle="Save" />
+    <Command Name="cmdCut"   Id="104" LabelTitle="Cut" />
+    <Command Name="cmdCopy"  Id="105" LabelTitle="Copy" />
+    <Command Name="cmdPaste" Id="106" LabelTitle="Paste" />
+    <Command Name="cmdBold"  Id="107" LabelTitle="Bold" />
+    <Command Name="cmdExit"  Id="108" LabelTitle="Exit" />
+  </Application.Commands>
+
+  <Application.Views>
+    <Ribbon>
+      <Ribbon.ApplicationMenu>
+        <ApplicationMenu>
+          <MenuGroup>
+            <Button CommandName="cmdNew" />
+            <Button CommandName="cmdOpen" />
+            <Button CommandName="cmdSave" />
+          </MenuGroup>
+          <MenuGroup>
+            <Button CommandName="cmdExit" />
+          </MenuGroup>
+        </ApplicationMenu>
+      </Ribbon.ApplicationMenu>
+
+      <Ribbon.Tabs>
+        <Tab CommandName="cmdTab1">
+          <Group CommandName="cmdGrpFile" SizeDefinition="ThreeButtons">
+            <Button CommandName="cmdNew" />
+            <Button CommandName="cmdOpen" />
+            <Button CommandName="cmdSave" />
+          </Group>
+          <Group CommandName="cmdGrpEdit" SizeDefinition="ThreeButtons">
+            <Button CommandName="cmdCut" />
+            <Button CommandName="cmdCopy" />
+            <Button CommandName="cmdPaste" />
+          </Group>
+        </Tab>
+        <Tab CommandName="cmdTab2">
+          <Group CommandName="cmdGrpEdit" SizeDefinition="TwoButtons">
+            <ToggleButton CommandName="cmdBold" />
+            <Button CommandName="cmdPaste" />
+          </Group>
+        </Tab>
+      </Ribbon.Tabs>
+    </Ribbon>
+  </Application.Views>
+</Application>
