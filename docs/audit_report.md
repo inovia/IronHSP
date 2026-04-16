@@ -1,6 +1,6 @@
 # IronHSP サンプル/.as 自動テスト監査レポート
 
-生成日時: 2026-04-18T19:28:51
+生成日時: 2026-04-18T19:56:57
 
 ## Phase A — .as ファイル (compile-only)
 
@@ -42,11 +42,11 @@
 | 289 | `error code=21 line=N file=... "サポートされない機能を選択しました"` |
 | 63 | `error code=0 "compile failed: #HSP script preprocessor ver3.8beta1 / onion software 1997-2025(c)` |
 | 59 | `error code=38 line=N file=... "外部DLLの呼び出しに失敗しました"` |
-| 12 | `error code=-1073741819 "non-zero exit without events"` |
+| 11 | `error code=-1073741819 "non-zero exit without events"` |
 | 9 | `error code=2 line=N file=... "文法が間違っています"` |
 | 7 | `error code=12 line=N file=... "ファイルが見つからないか無効な名前です"` |
 | 6 | `error code=5 line=N file=... "パラメータの省略はできません"` |
-| 5 | `error code=23 line=N file=... "変数名が指定されていません"` |
+| 6 | `error code=23 line=N file=... "変数名が指定されていません"` |
 | 4 | `error code=41 line=N file=... "関数を命令として記述しています。"` |
 | 3 | `error code=32 line=N file=... "関数のパラメーター記述が不正です"` |
 | 3 | `error code=1 line=N file=... "システムエラーが発生しました"` |
@@ -59,8 +59,8 @@
 |---|---:|---|
 | `CERR` | 75 | コンパイルエラー|
 | `ERR` | 404 | -|
-| `PASS` | 81 | 正常終了 (exit=0)|
-| `TIMO` | 12 | タイムアウト (GUI/waitループ等)|
+| `PASS` | 80 | 正常終了 (exit=0)|
+| `TIMO` | 13 | タイムアウト (GUI/waitループ等)|
 
 ### CERR 詳細 (75 件)
 
@@ -442,7 +442,7 @@
 | `package\win32\sample\iron\sample_camera_preview.hsp` | error code=21 line=23 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_camera_preview.hsp "サポートされない機能を選択しました" |
 | `package\win32\sample\iron\sample_clip.hsp` | error code=2 line=12 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_clip.hsp "文法が間違っています" |
 | `package\win32\sample\iron\sample_csv.hsp` | error code=21 line=11 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_csv.hsp "サポートされない機能を選択しました" |
-| `package\win32\sample\iron\sample_hash.hsp` | error code=-1073741819 "non-zero exit without events" |
+| `package\win32\sample\iron\sample_hash.hsp` | error code=23 line=227 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_hash.hsp "変数名が指定されていません" |
 | `package\win32\sample\iron\sample_http_get.hsp` | error code=23 line=21 file=J:\HNWorks\IronHSP_2026\package\win32\sample\iron\sample_http_get.hsp "変数名が指定されていません" |
 | `package\win32\sample\iron\sample_ini_config.hsp` | error code=2 line=121 file=J:/HNWorks/IronHSP_2026/package/win32/common/iron_ini.hsp "文法が間違っています" |
 | `package\win32\sample\iron\sample_json.hsp` | error code=38 line=49 file=iron_json.hsp "外部DLLの呼び出しに失敗しました" |

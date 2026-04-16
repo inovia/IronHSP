@@ -58,18 +58,21 @@
 ; ここでは ANSI 文字列を変換して wstr で渡す。
 ;------------------------------------------------------------
 #uselib "bcrypt.dll"
+; BCrypt ハンドル (BCRYPT_ALG_HANDLE / BCRYPT_HASH_HANDLE) は
+; x64 で 8 バイトポインタなので intptr 必須
 #cfunc _bc_open  "BCryptOpenAlgorithmProvider" var, wstr, wstr, int
-#cfunc _bc_close "BCryptCloseAlgorithmProvider" int, int
-#cfunc _bc_chash "BCryptCreateHash" int, var, int, int, int, int, int
-#cfunc _bc_hdata "BCryptHashData" int, var, int, int
-#cfunc _bc_fhash "BCryptFinishHash" int, var, int, int
-#cfunc _bc_dhash "BCryptDestroyHash" int
+#cfunc _bc_close "BCryptCloseAlgorithmProvider" intptr, int
+#cfunc _bc_chash "BCryptCreateHash" intptr, var, int, int, int, int, int
+#cfunc _bc_hdata "BCryptHashData" intptr, var, int, int
+#cfunc _bc_fhash "BCryptFinishHash" intptr, var, int, int
+#cfunc _bc_dhash "BCryptDestroyHash" intptr
 
 ;------------------------------------------------------------
 ; CryptStringToBinary / CryptBinaryToString (crypt32.dll) — Base64 系
 ;------------------------------------------------------------
 #uselib "crypt32.dll"
-#cfunc _b64_b2s "CryptBinaryToStringA" var, int, int, int, var
+; 4 番目の引数は出力バッファ (LPSTR)。sptr なら文字列変数でも 0 (NULL) でも受ける
+#cfunc _b64_b2s "CryptBinaryToStringA" var, int, int, sptr, var
 #cfunc _b64_s2b "CryptStringToBinaryA" str, int, int, var, var, int, int
 
 ;------------------------------------------------------------
@@ -89,8 +92,9 @@
 ;------------------------------------------------------------
 #deffunc _hash_compute str alg, var data, int data_len, \
         local _hAlg, local _hHash, local _out, local _hash_len, local _i, local _b, local _hex
-    _hAlg = 0
-    _hHash = 0
+    ; BCrypt ハンドルは x64 で 8 バイトポインタなので int64 で確保
+    _hAlg  = int64(0)
+    _hHash = int64(0)
 
     if _bc_open(_hAlg, alg, "", 0) != 0 : return "", -1
 
@@ -121,8 +125,8 @@
         return "", -4
     }
 
-    _bc_dhash _hHash
-    _bc_close _hAlg, 0
+    r_ = _bc_dhash(_hHash)
+    r_ = _bc_close(_hAlg, 0)
 
     ; hex 文字列化
     _hex = ""

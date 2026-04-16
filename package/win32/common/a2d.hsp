@@ -17,67 +17,67 @@
 
 ; GDI+ Token
 #uselib "gdiplus"
-#func GdiplusStartup	"GdiplusStartup"	int, int, int
-#func GdiplusShutdown	"GdiplusShutdown"	int
+#func GdiplusStartup	"GdiplusStartup"	intptr, intptr, intptr
+#func GdiplusShutdown	"GdiplusShutdown"	intptr
 
 ; Image Object
 #uselib "gdiplus"
-#func GdipCreateBitmapFromScan0	"GdipCreateBitmapFromScan0"	int, int, int, int, int, int
-#func GdipCreateBitmapFromGdiDib "GdipCreateBitmapFromGdiDib"	int, int, int
-#func GdipLoadImageFromFile	"GdipLoadImageFromFile"	wstr, int
-#func GdipDisposeImage		"GdipDisposeImage"	int
-#func GdipBitmapLockBits	"GdipBitmapLockBits"	int, int, int, int, int
-#func GdipBitmapUnlockBits	"GdipBitmapUnlockBits"	int, int
-#func GdipGetImageWidth		"GdipGetImageWidth"	int, int
-#func GdipGetImageHeight	"GdipGetImageHeight"	int, int
-#func GdipBitmapGetPixel	"GdipBitmapGetPixel"	int, int, int, int
-#func GdipBitmapSetPixel	"GdipBitmapSetPixel"	int, int, int, int
-#func GdipSaveImageToFile	"GdipSaveImageToFile"	int, wstr, int, int
+#func GdipCreateBitmapFromScan0	"GdipCreateBitmapFromScan0"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipCreateBitmapFromGdiDib "GdipCreateBitmapFromGdiDib"	intptr, intptr, intptr
+#func GdipLoadImageFromFile	"GdipLoadImageFromFile"	wstr, intptr
+#func GdipDisposeImage		"GdipDisposeImage"	intptr
+#func GdipBitmapLockBits	"GdipBitmapLockBits"	intptr, intptr, intptr, intptr, intptr
+#func GdipBitmapUnlockBits	"GdipBitmapUnlockBits"	intptr, intptr
+#func GdipGetImageWidth		"GdipGetImageWidth"	intptr, intptr
+#func GdipGetImageHeight	"GdipGetImageHeight"	intptr, intptr
+#func GdipBitmapGetPixel	"GdipBitmapGetPixel"	intptr, intptr, intptr, intptr
+#func GdipBitmapSetPixel	"GdipBitmapSetPixel"	intptr, intptr, intptr, intptr
+#func GdipSaveImageToFile	"GdipSaveImageToFile"	intptr, wstr, intptr, intptr
 
 ; Graphics Object
 #uselib "gdiplus"
-#func GdipGetImageGraphicsContext "GdipGetImageGraphicsContext" int, int
-#func GdipCreateFromHDC		"GdipCreateFromHDC"	int, int
-#func GdipDeleteGraphics	"GdipDeleteGraphics"	int
-#func GdipSetSmoothingMode	"GdipSetSmoothingMode"	int, int
-#func GdipSetPixelOffsetMode	"GdipSetPixelOffsetMode"	int, int
-#func GdipSetCompositingQuality	"GdipSetCompositingQuality"	int, int
-#func GdipSetTextRenderingHint	"GdipSetTextRenderingHint"	int, int
-#func GdipSetCompositingMode	"GdipSetCompositingMode"	int, int
-#func GdipSetWorldTransform	"GdipSetWorldTransform"	int, int
-#func GdipResetWorldTransform	"GdipResetWorldTransform" int
-#func GdipSetClipRectI		"GdipSetClipRectI"	int, int, int, int, int, int
-#func GdipResetClip		"GdipResetClip"		int
+#func GdipGetImageGraphicsContext "GdipGetImageGraphicsContext" intptr, intptr
+#func GdipCreateFromHDC		"GdipCreateFromHDC"	intptr, intptr
+#func GdipDeleteGraphics	"GdipDeleteGraphics"	intptr
+#func GdipSetSmoothingMode	"GdipSetSmoothingMode"	intptr, intptr
+#func GdipSetPixelOffsetMode	"GdipSetPixelOffsetMode"	intptr, intptr
+#func GdipSetCompositingQuality	"GdipSetCompositingQuality"	intptr, intptr
+#func GdipSetTextRenderingHint	"GdipSetTextRenderingHint"	intptr, intptr
+#func GdipSetCompositingMode	"GdipSetCompositingMode"	intptr, intptr
+#func GdipSetWorldTransform	"GdipSetWorldTransform"	intptr, intptr
+#func GdipResetWorldTransform	"GdipResetWorldTransform" intptr
+#func GdipSetClipRectI		"GdipSetClipRectI"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipResetClip		"GdipResetClip"		intptr
 
 ; Brush Object
 #uselib "gdiplus"
-#func GdipCreateSolidFill	"GdipCreateSolidFill"	int, int
-#func GdipCreateLineBrushI	"GdipCreateLineBrushI"	int, int, int, int, int, int
-#func GdipCreateTexture		"GdipCreateTexture"	int, int, int
-#func GdipDeleteBrush		"GdipDeleteBrush"	int
+#func GdipCreateSolidFill	"GdipCreateSolidFill"	intptr, intptr
+#func GdipCreateLineBrushI	"GdipCreateLineBrushI"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipCreateTexture		"GdipCreateTexture"	intptr, intptr, intptr
+#func GdipDeleteBrush		"GdipDeleteBrush"	intptr
 
 ; Pen Object
 #uselib "gdiplus"
-#func GdipCreatePen1		"GdipCreatePen1"	int, float, int, int
-#func GdipCreatePen2		"GdipCreatePen2"	int, float, int, int
-#func GdipDeletePen		"GdipDeletePen"		int
-#func GdipGetPenWidth		"GdipGetPenWidth"	int, int
-#func GdipSetPenWidth		"GdipSetPenWidth"	int, int
-#func GdipGetPenDashStyle	"GdipGetPenDashStyle"	int, int
-#func GdipSetPenDashStyle	"GdipSetPenDashStyle"	int, int
-#func GdipSetPenMode		"GdipSetPenMode"	int, int
+#func GdipCreatePen1		"GdipCreatePen1"	intptr, float, intptr, intptr
+#func GdipCreatePen2		"GdipCreatePen2"	intptr, float, intptr, intptr
+#func GdipDeletePen		"GdipDeletePen"		intptr
+#func GdipGetPenWidth		"GdipGetPenWidth"	intptr, intptr
+#func GdipSetPenWidth		"GdipSetPenWidth"	intptr, intptr
+#func GdipGetPenDashStyle	"GdipGetPenDashStyle"	intptr, intptr
+#func GdipSetPenDashStyle	"GdipSetPenDashStyle"	intptr, intptr
+#func GdipSetPenMode		"GdipSetPenMode"	intptr, intptr
 
 ; Font Object
 #uselib "gdiplus"
-#func GdipCreateFontFromDC	"GdipCreateFontFromDC"	int, int
-#func GdipDeleteFont		"GdipDeleteFont"	int
+#func GdipCreateFontFromDC	"GdipCreateFontFromDC"	intptr, intptr
+#func GdipDeleteFont		"GdipDeleteFont"	intptr
 
 ; DrawImage
 #uselib "gdiplus"
-#func GdipDrawImageI		"GdipDrawImageI"		int, int, int, int
-#func GdipDrawImagePointRectI	"GdipDrawImagePointRectI"	int, int, int, int, int, int, int, int, int
-#func GdipDrawImageRectRectI	"GdipDrawImageRectRectI"	int, int, int, int, int, int, int, int, int, int, int, int, int, int
-#func GdipDrawImagePointsI	"GdipDrawImagePointsI"		int, int, int, int
+#func GdipDrawImageI		"GdipDrawImageI"		intptr, intptr, intptr, intptr
+#func GdipDrawImagePointRectI	"GdipDrawImagePointRectI"	intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipDrawImageRectRectI	"GdipDrawImageRectRectI"	intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipDrawImagePointsI	"GdipDrawImagePointsI"		intptr, intptr, intptr, intptr
 
 ; PixelFormat
 #const	PixelFormatGDI          0x00020000 // Is a GDI-supported format
@@ -156,12 +156,22 @@
 		dim imgWidthArr, IMGS_MAX	; Image Width
 		dim imgHeightArr, IMGS_MAX	; Image Height
 
-		; img object
+		; img object (x64 ではハンドルが 8 バイトなので int64 配列で確保)
+#ifdef _HSP64
+		dimtype imgImageArr,    8, IMGS_MAX
+		dimtype imgGraphicsArr, 8, IMGS_MAX
+		dimtype imgBrushArr,    8, IMGS_MAX
+		dimtype imgPenArr,      8, IMGS_MAX
+		dimtype imgFontArr,     8, IMGS_MAX
+		dimtype gdiplusToken, 8, 1
+		gdiplusToken = 0
+#else
 		dim imgImageArr, IMGS_MAX
 		dim imgGraphicsArr, IMGS_MAX
 		dim imgBrushArr, IMGS_MAX
 		dim imgPenArr, IMGS_MAX
 		dim imgFontArr, IMGS_MAX
+#endif
 
 		if varptr(GdiplusStartup) {
 			gsi = 1, 0, 0, 0
@@ -325,11 +335,11 @@
 
 ; ImageAttributes Object
 #uselib "gdiplus"
-#func GdipCreateImageAttributes		"GdipCreateImageAttributes"	int
-#func GdipDisposeImageAttributes	"GdipDisposeImageAttributes"	int
-#func GdipSetImageAttributesColorMatrix	"GdipSetImageAttributesColorMatrix"	int, int, int, int, int, int
-#func GdipSetImageAttributesColorKeys	"GdipSetImageAttributesColorKeys"	int, int, int, int, int
-#func GdipSetImageAttributesGamma	"GdipSetImageAttributesGamma"		int, int, int, float
+#func GdipCreateImageAttributes		"GdipCreateImageAttributes"	intptr
+#func GdipDisposeImageAttributes	"GdipDisposeImageAttributes"	intptr
+#func GdipSetImageAttributesColorMatrix	"GdipSetImageAttributesColorMatrix"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipSetImageAttributesColorKeys	"GdipSetImageAttributesColorKeys"	intptr, intptr, intptr, intptr, intptr
+#func GdipSetImageAttributesGamma	"GdipSetImageAttributesGamma"		intptr, intptr, intptr, float
 
 ;-----------------------------------------------------------
 #deffunc alResetCopyMode
@@ -507,8 +517,8 @@
 
 ; ImageEncoder
 #uselib "gdiplus"
-#func GdipGetImageEncodersSize	"GdipGetImageEncodersSize"	int, int
-#func GdipGetImageEncoders	"GdipGetImageEncoders"	int, int, int
+#func GdipGetImageEncodersSize	"GdipGetImageEncodersSize"	intptr, intptr
+#func GdipGetImageEncoders	"GdipGetImageEncoders"	intptr, intptr, intptr
 
 ;-----------------------------------------------------------
 #deffunc alLoadFile str p1, int pdx, int pdy  ; filename, point
@@ -700,28 +710,28 @@
 
 ; String Format Object
 #uselib "gdiplus"
-#func GdipCreateStringFormat	"GdipCreateStringFormat"	int, int, int
-#func GdipDeleteStringFormat	"GdipDeleteStringFormat"	int
-#func GdipSetStringFormatAlign	"GdipSetStringFormatAlign"	int, int
-#func GdipSetStringFormatLineAlign "GdipSetStringFormatLineAlign"	int, int
+#func GdipCreateStringFormat	"GdipCreateStringFormat"	intptr, intptr, intptr
+#func GdipDeleteStringFormat	"GdipDeleteStringFormat"	intptr
+#func GdipSetStringFormatAlign	"GdipSetStringFormatAlign"	intptr, intptr
+#func GdipSetStringFormatLineAlign "GdipSetStringFormatLineAlign"	intptr, intptr
 
 ; Graphics Object -> Draw / Fill
 #uselib "gdiplus"
-#func GdipDrawLineI		"GdipDrawLineI"		int, int, int, int, int, int
-#func GdipDrawEllipseI		"GdipDrawEllipseI"	int, int, int, int, int, int
-#func GdipFillEllipseI		"GdipFillEllipseI"	int, int, int, int, int, int
-#func GdipDrawRectangleI	"GdipDrawRectangleI"	int, int, int, int, int, int
-#func GdipFillRectangleI	"GdipFillRectangleI"	int, int, int, int, int, int
-#func GdipDrawLinesI		"GdipDrawLinesI"	int, int, int, int
-#func GdipDrawPolygonI		"GdipDrawPolygonI"	int, int, int, int
-#func GdipFillPolygonI		"GdipFillPolygonI"	int, int, int, int, int
-#func GdipDrawCurve2I		"GdipDrawCurve2I"	int, int, int, int, float
-#func GdipDrawClosedCurve2I	"GdipDrawClosedCurve2I"	int, int, int, int, float
-#func GdipFillClosedCurve2I	"GdipFillClosedCurve2I"	int, int, int, int, float, int
-#func GdipDrawArcI		"GdipDrawArcI"		int, int, int, int, int, int, float, float
-#func GdipDrawPieI		"GdipDrawPieI"		int, int, int, int, int, int, float, float
-#func GdipFillPieI		"GdipFillPieI"		int, int, int, int, int, int, float, float
-#func GdipDrawString		"GdipDrawString"	int, wstr, int, int, int, int, int
+#func GdipDrawLineI		"GdipDrawLineI"		intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipDrawEllipseI		"GdipDrawEllipseI"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipFillEllipseI		"GdipFillEllipseI"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipDrawRectangleI	"GdipDrawRectangleI"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipFillRectangleI	"GdipFillRectangleI"	intptr, intptr, intptr, intptr, intptr, intptr
+#func GdipDrawLinesI		"GdipDrawLinesI"	intptr, intptr, intptr, intptr
+#func GdipDrawPolygonI		"GdipDrawPolygonI"	intptr, intptr, intptr, intptr
+#func GdipFillPolygonI		"GdipFillPolygonI"	intptr, intptr, intptr, intptr, intptr
+#func GdipDrawCurve2I		"GdipDrawCurve2I"	intptr, intptr, intptr, intptr, float
+#func GdipDrawClosedCurve2I	"GdipDrawClosedCurve2I"	intptr, intptr, intptr, intptr, float
+#func GdipFillClosedCurve2I	"GdipFillClosedCurve2I"	intptr, intptr, intptr, intptr, float, intptr
+#func GdipDrawArcI		"GdipDrawArcI"		intptr, intptr, intptr, intptr, intptr, intptr, float, float
+#func GdipDrawPieI		"GdipDrawPieI"		intptr, intptr, intptr, intptr, intptr, intptr, float, float
+#func GdipFillPieI		"GdipFillPieI"		intptr, intptr, intptr, intptr, intptr, intptr, float, float
+#func GdipDrawString		"GdipDrawString"	intptr, wstr, intptr, intptr, intptr, intptr, intptr
 
 ;-----------------------------------------------------------
 #deffunc alDrawText_ str p1, int px, int py, int pw, int ph, int pah, int pav
@@ -819,12 +829,12 @@
 
 ; Matrix Object
 #uselib "gdiplus"
-#func GdipCreateMatrix		"GdipCreateMatrix"	int
-#func GdipCreateMatrix2		"GdipCreateMatrix2"	float, float, float, float, float, float, int
-#func GdipDeleteMatrix		"GdipDeleteMatrix"	int
-#func GdipTranslateMatrix	"GdipTranslateMatrix"	int, float, float, int
-#func GdipRotateMatrix		"GdipRotateMatrix"	int, float, int
-#func GdipScaleMatrix		"GdipScaleMatrix"	int, float, float, int
+#func GdipCreateMatrix		"GdipCreateMatrix"	intptr
+#func GdipCreateMatrix2		"GdipCreateMatrix2"	float, float, float, float, float, float, intptr
+#func GdipDeleteMatrix		"GdipDeleteMatrix"	intptr
+#func GdipTranslateMatrix	"GdipTranslateMatrix"	intptr, float, float, intptr
+#func GdipRotateMatrix		"GdipRotateMatrix"	intptr, float, intptr
+#func GdipScaleMatrix		"GdipScaleMatrix"	intptr, float, float, intptr
 
 ;-----------------------------------------------------------
 #deffunc alResetTransMode
