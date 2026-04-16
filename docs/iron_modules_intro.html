@@ -53,7 +53,7 @@
 
 <h1>IronHSP プラグイン &amp; モジュール リファレンス</h1>
 <p class="muted">最終更新: 2026-04-18 / 対象: HSP3 (hsp3net) + IronHSP 2026 拡張</p>
-<p class="muted">全 150 iron_* モジュール + 22 C++ プラグイン DLL + hspd2d + DxLib 統合</p>
+<p class="muted">全 151 iron_* モジュール + 22 C++ プラグイン DLL + hspd2d + DxLib 統合</p>
 
 <p>
 <strong>IronHSP Simple モジュール集</strong> (<code>iron_*.hsp</code>) は、HTTP 通信、JSON、AI API、音声認識、DB、アーカイブ、Webcam、MCP、暗号化、正規表現、グラフ描画など、
@@ -64,8 +64,9 @@
 <div class="toc">
 <strong>目次</strong>
 <ul>
-  <li><a href="#master">総合一覧表 (150 モジュール)</a></li>
+  <li><a href="#master">総合一覧表 (151 モジュール)</a></li>
   <li><a href="#dlls">C++ プラグイン DLL 一覧</a></li>
+  <li><a href="#cat0">目玉機能: 描画エンジン &amp; 画像処理</a></li>
   <li><a href="#cat1">1. システム / ユーティリティ</a></li>
   <li><a href="#cat2">2. AI / 機械学習</a></li>
   <li><a href="#cat3">3. マルチメディア</a></li>
@@ -77,7 +78,6 @@
   <li><a href="#cat9">9. UI / GUI</a></li>
   <li><a href="#cat10">10. ゲーム</a></li>
   <li><a href="#cat11">11. グラフィックス</a></li>
-  <li><a href="#cat12">12. 描画エンジン連携</a></li>
   <li><a href="#cat13">13. テスト / 開発ツール</a></li>
   <li><a href="#cat14">14. .NET 専用</a></li>
   <li><a href="#examples">コード例</a></li>
@@ -87,7 +87,7 @@
 </div>
 
 <!-- ========================================== -->
-<h2 id="master">総合一覧表 (150 モジュール)</h2>
+<h2 id="master">総合一覧表 (151 モジュール)</h2>
 
 <p>全 iron_* モジュールの一覧です。<strong>実装方式</strong>と<strong>バニラ HSP3 互換性</strong>を確認できます。</p>
 
@@ -144,6 +144,7 @@
 <tr><td>iron_duckdb</td><td>データ</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>DuckDB 組み込み分析 DB (CSV/Parquet SQL 直接クエリ / インメモリ / 集計・結合・ウィンドウ関数)</td></tr>
 <tr><td>iron_embedding</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>テキスト埋め込み + ベクトル検索 (コサイン類似度)</td></tr>
 <tr><td>iron_event</td><td>ユーティリティ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>イベントエミッター (Pub/Sub パターン)</td></tr>
+<tr><td>iron_excel</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>Excel .xlsx 読み書き (OpenXML 直接操作、Office 不要)</td></tr>
 <tr><td>iron_exif</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>EXIF メタデータ読み取り (GDI+ PropertyItem)</td></tr>
 <tr><td>iron_faker</td><td>テスト</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>フェイクデータ生成 (名前 / メール / 電話番号)</td></tr>
 <tr><td>iron_ffmpeg</td><td>マルチメディア</td><td><span class="badge badge-exe">外部exe</span></td><td class="compat-ok">○</td><td>FFmpeg ラッパー (変換 / 抽出 / トリム)</td></tr>
@@ -189,7 +190,7 @@
 <tr><td>iron_nn</td><td>AI/ML</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ニューラルネットワーク (1 隠れ層 / XOR 学習)</td></tr>
 <tr><td>iron_oauth</td><td>ネットワーク</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>OAuth 2.0 Authorization Code Flow (PKCE / localhost リダイレクト受信 / トークン交換)</td></tr>
 <tr><td>iron_ode</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>常微分方程式ソルバー (Runge-Kutta 4次)</td></tr>
-<tr><td>iron_office</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>Office COM 自動化 (VBScript ブリッジ) -- Excel セル読み書き / Excel・Word・PPT → PDF 変換</td></tr>
+<tr><td>iron_office</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>Office COM 自動化 (.NET COM Interop / Type.GetTypeFromProgID + dynamic dispatch) -- Excel セル読み書き / Excel・Word・PPT → PDF 変換</td></tr>
 <tr><td>iron_onnx</td><td>AI/ML</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>ONNX Runtime 推論 (DirectML GPU 対応)</td></tr>
 <tr><td>iron_optimize</td><td>数学</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>最適化 (黄金分割法)</td></tr>
 <tr><td>iron_path</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>パス操作 (結合 / 拡張子 / ファイル名 / 存在確認)</td></tr>
@@ -257,7 +258,7 @@
 <tr><td>iron_yaml</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>簡易 YAML パーサー</td></tr>
 </table>
 
-<p class="muted">Pure HSP: 93 / C++ DLL: 33 / .NET (hsp3net): 19 / 外部 exe: 1 -- バニラ互換 ○: 91 / △ (DLL): 33 / × (hsp3net): 26</p>
+<p class="muted">Pure HSP: 93 / C++ DLL: 33 / .NET (hsp3net): 20 / 外部 exe: 1 -- バニラ互換 ○: 91 / △ (DLL): 33 / × (hsp3net): 27</p>
 
 <!-- ========================================== -->
 <h2 id="dlls">C++ プラグイン DLL 一覧</h2>
@@ -290,6 +291,121 @@
 <tr><td><code>hspcv4.dll</code></td><td>OpenCV 4.12 統合 (画像 / フィルタ / DNN / 追跡 / ArUco 等)</td><td>277</td><td>x64</td></tr>
 </table>
 
+
+<!-- ========================================== -->
+<h2 id="cat0">目玉機能: 描画エンジン &amp; 画像処理</h2>
+
+<p>IronHSP 2026 の最大の目玉機能群です。DirectWrite + Direct2D による高品質テキスト描画、DxLib の 2,548 関数をまるごと HSP から呼び出せる統合ヘッダ、OpenCV 4.12 の 277 関数を搭載する画像処理プラグインを含みます。</p>
+
+<h3>hspd2d (DirectWrite + Direct2D + WIC)</h3>
+
+<div class="card">
+<h4>hspd2d --- DirectWrite + Direct2D + WIC 統合モジュール</h4>
+<p class="muted">ソース: <code>package/win32/common/hspd2d.hsp</code></p>
+<p><code>hspd2d.hsp</code> は DirectWrite + Direct2D + WIC を HSP の COM 機能 (<code>#usecom</code> / <code>#comfunc</code> / <code>newcom</code>) だけで wrap した Pure HSP モジュールです。
+C++ DLL を一切介さずに、ハードウェアアクセラレーション対応の高品質テキスト描画と PNG 出力を実現します。
+色付き絵文字 (Segoe UI Emoji 等) の描画にも対応しており、hsp3net 環境で DirectWrite の ClearType / サブピクセルレンダリングを
+活用した美しいフォント表示が���能です。オフスクリーン画像を複数管理でき、それぞれに独立して描画操作を行えます。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>d2d_init</code></td><td>COM 初期化 + DWrite / D2D / WIC factory 作成</td></tr>
+<tr><td><code>d2d_image_create id, w, h</code></td><td>オフスクリーン画像 (32bpp PBGRA) を作成</td></tr>
+<tr><td><code>d2d_image_select id</code></td><td>カレント描画対象を切り替え</td></tr>
+<tr><td><code>d2d_clear r, g, b, a</code></td><td>単色で塗りつぶし</td></tr>
+<tr><td><code>d2d_color r, g, b, a</code></td><td>以後の描画色を設定</td></tr>
+<tr><td><code>d2d_font "family", size, weight, italic</code></td><td>テキストフォーマット作成</td></tr>
+<tr><td><code>d2d_drawtext "text", x, y, w, h</code></td><td>文字列描画 (色付き絵文字対応)</td></tr>
+<tr><td><code>d2d_image_save id, "out.png"</code></td><td>PNG として保存</td></tr>
+<tr><td><code>d2d_shutdown</code></td><td>リソース解放</td></tr>
+</table>
+</div>
+
+<h3>DxLib 統合 (hspdxlib)</h3>
+
+<div class="card">
+<h4>hspdxlib --- DxLib (DX ライブラリ) 完全統合ヘッダ</h4>
+<p class="muted">ソース: <code>plugins/win32/hspdxlib/hspdxlib.as</code> / <code>hspdxlib_const.as</code> / <code>hspdxlib_struct.as</code> / <code>hspdxlib_macro.as</code></p>
+<p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
+DxLibW (Unicode 版) を使用し、32bit / 64bit の両方に対応します。
+<strong>2,548 関数 + 151 構造体戻り関数 + 901 定数</strong>を宣言済みで、
+DxLib の全機能 (2D/3D 描画、サウンド、入力、ネットワーク、モデル、シェーダー、ムービー再生等) に
+HSP からフルアクセス可能です。HSP 風の短縮名マクロも提供されます。</p>
+<table>
+<tr><th>ファイル</th><th>内容</th></tr>
+<tr><td><code>hspdxlib.as</code></td><td>メインヘッダ -- 2,548 #cfunc/#func + 151 #cfuncst</td></tr>
+<tr><td><code>hspdxlib_const.as</code></td><td>901 個の定数定義</td></tr>
+<tr><td><code>hspdxlib_struct.as</code></td><td>55 構造体のバッファオフセット定義</td></tr>
+<tr><td><code>hspdxlib_macro.as</code></td><td>HSP 風短縮名マクロ (dxinit / dxdraw / dxflip 等)</td></tr>
+</table>
+</div>
+
+<pre><code>#include "hspdxlib.as"
+
+    ChangeWindowMode TRUE
+    SetGraphMode 640, 480, 32
+    SetMainWindowText "My Game"
+    if DxLib_Init() == -1 : end
+    SetDrawScreen DX_SCREEN_BACK
+    white = GetColor(255, 255, 255)
+
+*main
+    ClearDrawScreen_1
+    DrawString 10, 10, "Hello, DxLib!", white
+    ScreenFlip
+    if ProcessMessage() != 0 : goto *quit
+    if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+    goto *main
+
+*quit
+    DxLib_End
+    end</code></pre>
+
+<h3>hspcv4 (OpenCV 4.12)</h3>
+
+<div class="card">
+<h4>hspcv4 --- OpenCV 4.12 統合プラグイン (277 関数)</h4>
+<p class="muted">ソース: <code>package/win32/common/hspcv4.as</code> / DLL: <code>hspcv4.dll</code> / ヘルプ: <code>package/hsphelp/hspcv4.hs</code></p>
+<p>OpenCV 4.12 をネイティブ C++ DLL として HSP から利用するための統合プラグインです。
+画像は int ハンドル ID で管理し、<code>cv4load</code> / <code>cv4save</code> / <code>cv4del</code> で生成・保存・解放します。
+HSP のカレントウィンドウへの描画は <code>cv4getimg</code> で直接コピー、逆に HSP の画面を OpenCV に取り込むには <code>cv4putimg</code> ���使用。
+全 277 関数は初心者向けアンダースコアなし API (cv4load, cv4save 等) と、
+上級者向けアンダースコア付き API (cv4_erode, cv4_dnn_forward 等) に分けられています。</p>
+<p>対応分野:</p>
+<ul>
+<li>画像読み書き / 色変換 / リサイズ / フィルタ (ガウス / メディアン / バイラテラル)</li>
+<li>モルフォロジー演算 (erode / dilate / open / close / gradient / tophat / blackhat)</li>
+<li>エッジ検出 (Canny / Sobel / Scharr / Laplacian)</li>
+<li>輪郭検出 / 形状解析 (面積 / 周囲長 / バウンディングボックス / 凸包)</li>
+<li>特徴量 (ORB / AKAZE / SIFT / BFMatcher / FLANN)</li>
+<li>オブジェクト検出 (Haar / LBP カスケード分類器)</li>
+<li>DNN 推論 (ONNX / Caffe / TensorFlow / Darknet モデル対応)</li>
+<li>動画 I/O (VideoCapture / VideoWriter)</li>
+<li>光学フロー / 背景差分 / オブジェクト追跡 (KCF / CSRT / MOSSE)</li>
+<li>射影変換 / ホモグラフィ / ステレオ視差</li>
+<li>機械学習 (SVM / KNN / RTrees / ANN_MLP)</li>
+<li>顔認識 (LBPH / Eigenface / Fisherface / FacemarkLBF)</li>
+<li>ArUco マーカー検出・生成</li>
+<li>カルマンフィルタ</li>
+</ul>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>cv4load id, "image.jpg"</code></td><td>画像読み込み (id にハンドル)</td></tr>
+<tr><td><code>cv4save id, "out.png"</code></td><td>画像保存 (拡張子で形式自動判別)</td></tr>
+<tr><td><code>cv4getimg id, bmscr</code></td><td>OpenCV 画像を HSP ウィン���ウに転送</td></tr>
+<tr><td><code>cv4putimg id, bmscr</code></td><td>HSP ウィンドウ内容を OpenCV 画像に取り込み</td></tr>
+<tr><td><code>cv4cvt src, dst, code</code></td><td>色変換 (BGR→GRAY 等)</td></tr>
+<tr><td><code>cv4resize src, dst, w, h</code></td><td>リサイズ</td></tr>
+<tr><td><code>cv4_gaussian_blur src, dst, kw, kh</code></td><td>ガウシアンブラー</td></tr>
+<tr><td><code>cv4_canny src, dst, th1, th2</code></td><td>Canny エッジ検出</td></tr>
+<tr><td><code>cv4_cascade_detect_multi h, img, rects, n</code></td><td>Haar カスケード顔検出</td></tr>
+<tr><td><code>cv4_dnn_read_net "model.onnx"</code></td><td>DNN モデル読み込み</td></tr>
+<tr><td><code>cv4_dnn_forward net_id, out_id</code></td><td>DNN 推論実行</td></tr>
+<tr><td><code>cv4_find_contours src, ...</code></td><td>輪郭検出</td></tr>
+<tr><td><code>cv4_orb_detect img, kp, n</code></td><td>ORB 特徴量検出</td></tr>
+<tr><td><code>cv4_aruco_detect img, dict, corners, ids, n</code></td><td>ArUco マーカー検出</td></tr>
+<tr><td><code>cv4del id</code> / <code>cv4reset</code></td><td>ハンドル解放 / 全解放</td></tr>
+</table>
+</div>
 
 <!-- ========================================== -->
 <h2 id="cat1">1. システム / ユーティリティ</h2>
@@ -687,16 +803,59 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 </div>
 
 <div class="card">
-<h4>iron_sentiment / iron_summarize / iron_kmeans / iron_nn / iron_ga --- 軽量 AI アルゴリズム</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_sentiment.hsp</code> 等</p>
-<p>Pure HSP 実装の軽量 AI アルゴリズム群。外部 DLL 不要。感情分析 (キーワードベース)、抽出型テキスト要約、K-means クラスタリング、1隠れ層ニューラルネットワーク (XOR 学習)、遺伝的アルゴリズムを提供。</p>
+<h4>iron_sentiment --- 簡易感情分析 (キーワードベース)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_sentiment.hsp</code> / ヘルプ: <code>package/hsphelp/iron_sentiment.hs</code></p>
+<p>テキストに含まれるポジティブ/ネガティブキーワード (good, great, excellent, bad, terrible 等) を検出し、合計スコアで感情を判定する Pure HSP 実装。ML モデル不要で手軽に使える。</p>
 <table>
 <tr><th>命令/関数</th><th>説明</th></tr>
-<tr><td><code>sentiment_score(text)</code></td><td>感情スコア (-1.0〜+1.0)</td></tr>
-<tr><td><code>summarize(text, max_sentences)</code></td><td>抽出型要約</td></tr>
-<tr><td><code>kmeans_cluster x, y, n, k, labels</code></td><td>K-means クラスタリング</td></tr>
-<tr><td><code>nn_train_xor weights, epochs</code></td><td>ニューラルネット学習</td></tr>
-<tr><td><code>ga_init 20, 100</code> / <code>ga_evolve</code></td><td>遺伝的アルゴリズム</td></tr>
+<tr><td><code>sentiment_score(text)</code></td><td>感情スコアを返す (正=ポジティブ、負=ネガティブ、0=中立)</td></tr>
+<tr><td><code>sentiment_label(text)</code></td><td>"positive" / "negative" / "neutral" の文字列ラベルを返す</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_summarize --- 抽出型テキスト要約</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_summarize.hsp</code> / ヘルプ: <code>package/hsphelp/iron_summarize.hs</code></p>
+<p>テキストを改行で文に分割し、文の長さをヒューリスティックな重要度指標として上位 N 文を抽出する。Pure HSP 実装で外部依存なし。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>summarize(text, max_sentences)</code></td><td>text から最大 max_sentences 文を抽出して要約結果を返す</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_kmeans --- K-means クラスタリング</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_kmeans.hsp</code> / ヘルプ: <code>package/hsphelp/iron_kmeans.hs</code></p>
+<p>2D ポイントデータを K 個のクラスタに分類する K-means 法の Pure HSP 実装。重心を最大 20 回反復更新する。出力の labels 配列に各ポイントの所属クラスタ番号が格納される。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>kmeans_cluster x, y, n, k, labels</code></td><td>2D K-means クラスタリング (x,y: double 配列, n: 点数, k: クラスタ数)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_nn --- シンプルニューラルネットワーク (1 隠れ層)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_nn.hsp</code> / ヘルプ: <code>package/hsphelp/iron_nn.hs</code></p>
+<p>単純パーセプトロン (sigmoid 活性化) と XOR 学習デモを提供する教育用ニューラルネットワーク。Pure HSP 実装。勾配降下法 (簡易版) で重みを更新する。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>nn_sigmoid(x)</code></td><td>シグモイド関数</td></tr>
+<tr><td><code>nn_predict(x1, x2, w1, w2, bias)</code></td><td>2入力パーセプトロン推論</td></tr>
+<tr><td><code>nn_train_xor weights, epochs</code></td><td>XOR パターンの学習 (weights 配列に w1, w2, bias を出力)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_ga --- 遺伝的アルゴリズム</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_ga.hsp</code> / ヘルプ: <code>package/hsphelp/iron_ga.hs</code></p>
+<p>トーナメント選択 + 交叉 (平均) + 突然変異 (5% 確率) による遺伝的アルゴリズム。整数遺伝子を持つ個体群を世代交代させ、適応度関数の最大化を図る。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>ga_init pop_size, gene_max</code></td><td>初期集団を生成 (pop_size 個体、遺伝子 0〜gene_max)</td></tr>
+<tr><td><code>ga_evaluate fitness_arr</code></td><td>外部で計算した適応度配列を設定</td></tr>
+<tr><td><code>ga_evolve</code></td><td>1 世代進化 (選択 + 交叉 + 突然変異)</td></tr>
+<tr><td><code>ga_best()</code></td><td>最高適応度の個体の遺伝子値を返す</td></tr>
+<tr><td><code>ga_get(index)</code></td><td>index 番目の個体の遺伝子値を返す</td></tr>
 </table>
 </div>
 
@@ -715,17 +874,33 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 </div>
 
 <div class="card">
-<h4>iron_tflite / iron_mediapipe --- TensorFlow Lite 推論 + MediaPipe 手検出</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_tflite.hsp</code> / <code>iron_mediapipe.hsp</code> / ヘッダ: <code>package/win32/common/hsptflite.as</code></p>
-<p>hsptflite.dll の糖衣モジュール。.tflite モデルの汎用推論と、MediaPipe の palm_detector + hand_landmarker 2段パイプラインによる手検出を提供。RGB バッファを渡すだけで手の位置と21キーポイントを取得可能。</p>
+<h4>iron_tflite --- TensorFlow Lite 推論エンジン</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_tflite.hsp</code> / ヘッダ: <code>package/win32/common/hsptflite.as</code> / ヘルプ: <code>package/hsphelp/iron_tflite.hs</code></p>
+<p>hsptflite.dll の糖衣モジュール。任意の .tflite モデルをロードし、入出力テンソルの shape/rank/type を取得した上で float32 バイナリバッファで入出力して推論を行う汎用 TFLite ランタイム。</p>
 <table>
 <tr><th>命令/関数</th><th>説明</th></tr>
-<tr><td><code>iron_tflite_open "model.tflite"</code></td><td>モデルロード</td></tr>
+<tr><td><code>iron_tflite_open "model.tflite"</code></td><td>モデルロード (stat にハンドル)</td></tr>
+<tr><td><code>iron_tflite_input_info h, idx, shape, rank, type</code></td><td>入力テンソル情報取得</td></tr>
+<tr><td><code>iron_tflite_output_info h, idx, shape, rank, type</code></td><td>出力テンソル情報取得</td></tr>
 <tr><td><code>tflite_set_input h, 0, buf, len</code></td><td>入力データ設定</td></tr>
 <tr><td><code>tflite_invoke h</code></td><td>推論実行</td></tr>
-<tr><td><code>mp_hand_init "det.tflite", "lm.tflite"</code></td><td>手検出初期化</td></tr>
+<tr><td><code>tflite_get_output h, 0, buf, len</code></td><td>出力データ取得</td></tr>
+<tr><td><code>iron_tflite_close h</code></td><td>モデル解放</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_mediapipe --- MediaPipe 手検出 / 姿勢推定</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_mediapipe.hsp</code> / ヘルプ: <code>package/hsphelp/iron_mediapipe.hs</code></p>
+<p>hsptflite.dll をバックエンドに、MediaPipe の palm_detector + hand_landmarker 2段パイプラインによる手検出を提供。RGB バッファを渡すだけで手の位置 (バウンディングボックス)、信頼度スコア、21 キーポイント座標を取得可能。最大 16 手同時検出対応。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>mp_hand_init "det.tflite", "lm.tflite"</code></td><td>手検出初期化 (2 モデル)</td></tr>
 <tr><td><code>mp_hand_run rgb_buf, w, h</code></td><td>手検出実行 (stat に検出数)</td></tr>
-<tr><td><code>mp_hand_landmark_pt hand, pt, x, y</code></td><td>キーポイント座標取得</td></tr>
+<tr><td><code>mp_hand_bbox idx, x, y, w, h</code></td><td>バウンディングボックス取得</td></tr>
+<tr><td><code>mp_hand_score idx, score</code></td><td>信頼度スコア取得</td></tr>
+<tr><td><code>mp_hand_landmark_pt hand, pt, x, y</code></td><td>21 キーポイント座標取得</td></tr>
+<tr><td><code>mp_hand_close</code></td><td>リソース解放</td></tr>
 </table>
 </div>
 
@@ -839,20 +1014,67 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 </div>
 
 <div class="card">
-<h4>iron_synth / iron_spectrum / iron_midi / iron_exif / iron_ruffle --- その他マルチメディア</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_synth.hsp</code> 等</p>
-<p><strong>iron_synth</strong>: サイン波/矩形波/三角波/のこぎり波/ノイズの WAV ファイル生成 (Pure HSP)。
-<strong>iron_spectrum</strong>: 簡易 DFT によるスペクトラム解析 (Pure HSP)。
-<strong>iron_midi</strong>: hspmidi.dll で MIDI in/out。GM 音色再生、リアルタイム受信、音名→ノート変換。
-<strong>iron_exif</strong>: GDI+ PropertyItem で JPEG/TIFF の EXIF メタデータ読み取り。カメラ名、撮影日時、GPS 等。
-<strong>iron_ruffle</strong>: WebView2 上で Ruffle JS をロードし Flash SWF ファイルを再生。</p>
+<h4>iron_synth --- オーディオ合成 WAV 生成</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_synth.hsp</code> / ヘルプ: <code>package/hsphelp/iron_synth.hs</code></p>
+<p>指定した周波数・秒数・サンプルレートで WAV ファイルを直接生成する Pure HSP 実装。正弦波 (sine)、矩形波 (square)、ホワイトノイズに対応。WAV ヘッダを手動構築し bsave で書き出す。効果音やテスト信号の生成に使える。</p>
 <table>
 <tr><th>命令/関数</th><th>説明</th></tr>
-<tr><td><code>synth_sine "out.wav", 440.0, 1.0, 44100</code></td><td>正弦波 WAV 生成</td></tr>
-<tr><td><code>spectrum_compute samples, n, bins, num_bins</code></td><td>DFT スペクトラム</td></tr>
-<tr><td><code>midi_out_note_on ch, note, vel</code></td><td>MIDI ノートオン</td></tr>
-<tr><td><code>exif_open "photo.jpg"</code> / <code>exif_get_str EXIF_MODEL</code></td><td>EXIF 読み取り</td></tr>
-<tr><td><code>ruffle_init hwnd, x, y, w, h</code></td><td>Flash 再生初期化</td></tr>
+<tr><td><code>synth_sine "out.wav", 440.0, 1.0, 44100</code></td><td>正弦波 WAV 生成 (周波数, 秒数, サンプルレート)</td></tr>
+<tr><td><code>synth_square "out.wav", 440.0, 1.0, 44100</code></td><td>矩形波 WAV 生成</td></tr>
+<tr><td><code>synth_noise "out.wav", 1.0, 44100</code></td><td>ホワイトノイズ WAV 生成</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_spectrum --- スペクトラム解析 (簡易 DFT)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_spectrum.hsp</code> / ヘルプ: <code>package/hsphelp/iron_spectrum.hs</code></p>
+<p>16bit PCM サンプル配列に対して離散フーリエ変換 (DFT) を行い、周波数ごとの振幅スペクトラムを計算する。オーディオ可視化やスペクトログラム表示に使用。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>spectrum_compute samples, n, bins, num_bins</code></td><td>DFT スペクトラム計算 (samples: int 配列, bins: double 出力配列)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_midi --- MIDI 入出力 (GM 音色再生 / リアルタイム受信)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_midi.hsp</code> / ヘッダ: <code>package/win32/common/hspmidi.as</code> / ヘルプ: <code>package/hsphelp/iron_midi.hs</code></p>
+<p>hspmidi.dll (winmm ベース) のラッパ。MIDI 出力 (GM 音色再生、ノートオン/オフ、プログラムチェンジ) と MIDI 入力 (リアルタイムポーリング受信) に対応。音名文字列 ("C4", "C#4" 等) からノート番号への変換ユーティリティも提供。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>midi_out_open devid</code></td><td>MIDI 出力デバイスを開く</td></tr>
+<tr><td><code>midi_out_note_on ch, note, vel</code></td><td>ノートオン</td></tr>
+<tr><td><code>midi_out_note_off ch, note, vel</code></td><td>ノートオフ</td></tr>
+<tr><td><code>midi_out_program_change ch, program</code></td><td>音色切替 (GM プログラム番号)</td></tr>
+<tr><td><code>note_name("C4")</code></td><td>音名文字列からノート番号に変換 (#/b 対応)</td></tr>
+<tr><td><code>midi_in_open devid</code> / <code>midi_in_poll</code></td><td>MIDI 入力 (ポーリング式)</td></tr>
+<tr><td><code>midi_out_close</code></td><td>デバイスを閉じる</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_exif --- EXIF メタデータ読み取り</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_exif.hsp</code> / ヘルプ: <code>package/hsphelp/iron_exif.hs</code></p>
+<p>GDI+ の PropertyItem API を使って JPEG/TIFF 画像の EXIF メタデータを読み取る。カメラメーカー、モデル名、撮影日時、露出時間、F 値、ISO 感度、GPS 緯度/経度など主要タグ ID を定数として定義済み。外部 DLL 不要 (gdiplus.dll は Windows 標準)。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>exif_open "photo.jpg"</code></td><td>画像を開く (stat=0 で成功)</td></tr>
+<tr><td><code>exif_get_str EXIF_MODEL</code></td><td>文字列タグ取得 (refstr)</td></tr>
+<tr><td><code>exif_get_int EXIF_ISO</code></td><td>整数タグ取得 (stat)</td></tr>
+<tr><td><code>exif_get_rational EXIF_FNUMBER</code></td><td>有理数タグ取得 (refdval)</td></tr>
+<tr><td><code>exif_count()</code></td><td>プロパティ数</td></tr>
+<tr><td><code>exif_close</code></td><td>画像を閉じる</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_ruffle --- Flash SWF 再生 (Ruffle + WebView2)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_ruffle.hsp</code> / ヘルプ: <code>package/hsphelp/iron_ruffle.hs</code></p>
+<p>WebView2 上で Ruffle (Rust 製 Flash Player エミュレータ) の self-hosted JS をロードし、任意の .swf ファイルを再生する。Ruffle のビルドファイル一式 (ruffle.js + .wasm) を実行ファイルと同じディレクトリの ruffle/ 以下に配置して使用。AS3 完全サポートではないが古典 SWF の再生に対応。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>ruffle_init hwnd, x, y, w, h</code></td><td>WebView2 + Ruffle 初期化 (stat に wv_id)</td></tr>
+<tr><td><code>ruffle_load wv_id, "movie.swf"</code></td><td>SWF ファイルの読み込み・再生</td></tr>
+<tr><td><code>ruffle_close wv_id</code></td><td>再生終了・リソース解放</td></tr>
 </table>
 </div>
 
@@ -1065,13 +1287,67 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 </div>
 
 <div class="card">
-<h4>iron_yaml / iron_xml / iron_collection / iron_bloom / iron_cache --- その他データ</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_yaml.hsp</code> 等</p>
-<p><strong>iron_yaml</strong>: 簡易 YAML パーサ (key: value、ネスト非対応)。<code>yaml_load</code> / <code>yaml_get("key")</code>。
-<strong>iron_xml</strong>: MSXML DOM を COM 経由で操作する XML 読み書き (hsp3net 専用)。
-<strong>iron_collection</strong>: スタック/キューデータ構造。<code>stack_push</code> / <code>stack_pop()</code>。
-<strong>iron_bloom</strong>: ブルームフィルタ (確率的メンバーシップ判定)。
-<strong>iron_cache</strong>: TTL 付きインメモリキャッシュ。<code>cache_set "key", "val", 60</code>。</p>
+<h4>iron_yaml --- 簡易 YAML パーサー</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_yaml.hsp</code> / ヘルプ: <code>package/hsphelp/iron_yaml.hs</code></p>
+<p>key: value 形式のフラットな YAML テキストをパースする。コメント (#) 対応。ネスト構造には非対応だが、設定ファイルの読み込みには十分。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>yaml_load text</code></td><td>YAML テキストをパース (stat にエントリ数)</td></tr>
+<tr><td><code>yaml_get("key")</code></td><td>キーに対応する値を返す (未発見時は "")</td></tr>
+<tr><td><code>yaml_count()</code></td><td>パースしたエントリ数を返す</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_xml --- XML 読み書き (MSXML DOM)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_xml.hsp</code> / ヘルプ: <code>package/hsphelp/iron_xml.hs</code></p>
+<p>MSXML2.DOMDocument.6.0 COM オブジェクトを経由して XML ファイルまたは XML 文字列をパースする。hsp3net 専用 (newcom 使用)。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>xml_load "file.xml"</code></td><td>XML ファイルを読み込み</td></tr>
+<tr><td><code>xml_loadstr xmlstr</code></td><td>XML 文字列をパース</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_collection --- スタック / キュー データ構造</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_collection.hsp</code> / ヘルプ: <code>package/hsphelp/iron_collection.hs</code></p>
+<p>整数型のスタック (LIFO) とキュー (FIFO) を提供する Pure HSP 実装。内部配列は最大 256 要素。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>stack_push val</code></td><td>スタックに値をプッシュ</td></tr>
+<tr><td><code>stack_pop()</code></td><td>スタックから値をポップ</td></tr>
+<tr><td><code>stack_peek()</code></td><td>先頭を覗く (取り出さない)</td></tr>
+<tr><td><code>stack_size()</code></td><td>要素数</td></tr>
+<tr><td><code>queue_push val</code></td><td>キューに値を追加</td></tr>
+<tr><td><code>queue_pop()</code></td><td>キューから値を取り出し</td></tr>
+<tr><td><code>queue_size()</code></td><td>要素数</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_bloom --- ブルームフィルタ (確率的メンバーシップ判定)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_bloom.hsp</code> / ヘルプ: <code>package/hsphelp/iron_bloom.hs</code></p>
+<p>2 つの独立したハッシュ関数 (DJB2 系) でビットアレイを操作するブルームフィルタ。「含まれない」は確実だが「含まれる」は偽陽性の可能性がある確率的データ構造。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>bloom_init size</code></td><td>ビットサイズを指定して初期化 (デフォルト 8192)</td></tr>
+<tr><td><code>bloom_add "item"</code></td><td>要素を追加</td></tr>
+<tr><td><code>bloom_contains("item")</code></td><td>メンバーシップ判定 (1=含まれうる, 0=含まれない)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_cache --- TTL 付きインメモリキャッシュ</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_cache.hsp</code> / ヘルプ: <code>package/hsphelp/iron_cache.hs</code></p>
+<p>キーと値のペアを TTL (有効期限秒) 付きでメモリに保存する。期限切れのエントリは取得時に自動的に空文字列を返す。最大 100 エントリ。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>cache_set "key", "value", 60</code></td><td>値を設定 (60 秒の TTL)</td></tr>
+<tr><td><code>cache_get("key")</code></td><td>値を取得 (期限切れ時は "")</td></tr>
+<tr><td><code>cache_has("key")</code></td><td>有効なエントリが存在するか (1/0)</td></tr>
+<tr><td><code>cache_clear</code></td><td>全エントリ削除</td></tr>
+</table>
 </div>
 
 <!-- ========================================== -->
@@ -1093,32 +1369,165 @@ IShellLink COM を使った .lnk ショートカット作成を1行で実行可�
 </div>
 
 <div class="card">
-<h4>iron_fft / iron_complex / iron_matrix / iron_geometry --- 数学基盤</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_fft.hsp</code> 等</p>
-<p><strong>iron_fft</strong>: Cooley-Tukey アルゴリズムによる高速フーリエ変換。<code>fft_compute re, im, n</code>。
-<strong>iron_complex</strong>: 複素数演算 (加減乗除、絶対値、偏角)。
-<strong>iron_matrix</strong>: 行列演算 (積/転置/行列式)、ベクトル内積/外積。
-<strong>iron_geometry</strong>: 2D/3D 幾何学 (三角形面積、球体積、点間距離)。</p>
+<h4>iron_fft --- 高速フーリエ変換 (Cooley-Tukey)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_fft.hsp</code> / ヘルプ: <code>package/hsphelp/iron_fft.hs</code></p>
+<p>Cooley-Tukey アルゴリズムによるインプレース FFT。ビット反転置換 + バタフライ演算。入力は実数部 (re) と虚数部 (im) の double 配列で、サイズは 2 のべき乗。Pure HSP 実装。</p>
 <table>
 <tr><th>命令/関数</th><th>説明</th></tr>
-<tr><td><code>fft_compute re, im, n</code></td><td>FFT 計算</td></tr>
-<tr><td><code>complex_mul a, b, c</code></td><td>複素数乗算</td></tr>
-<tr><td><code>mat_mul / mat_transpose</code></td><td>行列積/転置</td></tr>
-<tr><td><code>tri_area(x1,y1,x2,y2,x3,y3)</code></td><td>三角形面積</td></tr>
+<tr><td><code>fft_compute re, im, n</code></td><td>インプレース FFT (re, im が変換結果で上書きされる)</td></tr>
 </table>
 </div>
 
 <div class="card">
-<h4>その他の数学モジュール</h4>
-<p><strong>iron_quaternion</strong>: クォータニオン (3D 回転)。
-<strong>iron_graph</strong>: グラフ探索 (BFS / ダイクストラ最短経路)。
-<strong>iron_ode</strong>: 常微分方程式 (Runge-Kutta 4次)。
-<strong>iron_optimize</strong>: 最適化 (黄金分割法)。
-<strong>iron_curvefit</strong>: カーブフィッティング (最小二乗法)。
-<strong>iron_random_dist</strong>: 確率分布乱数 (正規/指数/ポアソン)。
-<strong>iron_combinatorics</strong>: 組み合わせ論 (factorial/combination/gcd/is_prime)。
-<strong>iron_montecarlo</strong>: モンテカルロ法 (円周率推定/数値積分)。
-<strong>iron_filter</strong>: 信号フィルタ (移動平均/ローパス/ハイパス)。</p>
+<h4>iron_complex --- 複素数演算</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_complex.hsp</code> / ヘルプ: <code>package/hsphelp/iron_complex.hs</code></p>
+<p>複素数を (re, im) の double 配列 [2] で表現し、加減乗除、絶対値、偏角を計算する。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>complex_add a, b, c</code></td><td>加算 c = a + b</td></tr>
+<tr><td><code>complex_sub a, b, c</code></td><td>減算 c = a - b</td></tr>
+<tr><td><code>complex_mul a, b, c</code></td><td>乗算 c = a * b</td></tr>
+<tr><td><code>complex_div a, b, c</code></td><td>除算 c = a / b</td></tr>
+<tr><td><code>complex_abs(a)</code></td><td>絶対値 |a|</td></tr>
+<tr><td><code>complex_arg(a)</code></td><td>偏角 (ラジアン)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_matrix --- 行列演算</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_matrix.hsp</code> / ヘルプ: <code>package/hsphelp/iron_matrix.hs</code></p>
+<p>n x n 行列 (double 配列, 最大 4x4) の積、転置、行列式 (2x2, 3x3)、単位行列生成、ベクトル内積・外積 (3D) を提供する Pure HSP 実装。3D グラフィックスやゲームの座標変換に使える。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>mat_mul A, B, C, n</code></td><td>行列積 C = A * B (n x n)</td></tr>
+<tr><td><code>mat_transpose A, B, n</code></td><td>転置 B = A^T</td></tr>
+<tr><td><code>mat_identity M, n</code></td><td>単位行列生成</td></tr>
+<tr><td><code>mat_det2(A)</code> / <code>mat_det3(A)</code></td><td>行列式 (2x2 / 3x3)</td></tr>
+<tr><td><code>vec_dot(A, B, n)</code></td><td>ベクトル内積</td></tr>
+<tr><td><code>vec_cross A, B, C</code></td><td>ベクトル外積 (3D)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_geometry --- 2D/3D 幾何学計算</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_geometry.hsp</code> / ヘルプ: <code>package/hsphelp/iron_geometry.hs</code></p>
+<p>三角形面積、点と直線の距離、円の面積/周囲長、多角形面積 (Shoelace 公式)、球の体積/表面積を計算する Pure HSP 幾何学関数群。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>tri_area(x1,y1,x2,y2,x3,y3)</code></td><td>三角形面積</td></tr>
+<tr><td><code>point_line_dist(px,py,x1,y1,x2,y2)</code></td><td>点と直線の距離</td></tr>
+<tr><td><code>circle_area(r)</code></td><td>円の面積</td></tr>
+<tr><td><code>polygon_area(x, y, n)</code></td><td>多角形面積 (Shoelace 公式)</td></tr>
+<tr><td><code>sphere_volume(r)</code></td><td>球の体積</td></tr>
+<tr><td><code>sphere_surface(r)</code></td><td>球の表面積</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_quaternion --- クォータニ���ン (3D 回転)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_quaternion.hsp</code> / ヘルプ: <code>package/hsphelp/iron_quaternion.hs</code></p>
+<p>クォータニオン q = (w, x, y, z) を double 配列 [4] で表現し、単位クォータニオン生成、軸角度からの変換、乗算、正規化、3D 点の回転を提供。ジンバルロックのない 3D 回転に使用。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>quat_identity q</code></td><td>単位クォータニオン (1, 0, 0, 0) を設定</td></tr>
+<tr><td><code>quat_from_axis_angle q, ax, ay, az, angle</code></td><td>軸角度からクォータニオンを生成</td></tr>
+<tr><td><code>quat_mul a, b, c</code></td><td>乗算 c = a * b</td></tr>
+<tr><td><code>quat_normalize q</code></td><td>正規化</td></tr>
+<tr><td><code>quat_rotate q, px, py, pz</code></td><td>3D 点を回転</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_graph --- グラフ探索 (BFS / ダイクストラ最短経路)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_graph.hsp</code> / ヘルプ: <code>package/hsphelp/iron_graph.hs</code></p>
+<p>隣接行列ベースのグラフ探索アルゴリズム。幅優先探索 (BFS) と重み付きダイクストラ最短経路を提供する。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>graph_bfs adj, start, n, dist</code></td><td>BFS (dist 配列に各ノードまでの距離)</td></tr>
+<tr><td><code>graph_dijkstra weight, start, n, dist</code></td><td>ダイクストラ (dist 配列に最短距離)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_ode --- 常微分方程式ソルバー (Runge-Kutta 4 次)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_ode.hsp</code> / ヘルプ: <code>package/hsphelp/iron_ode.hs</code></p>
+<p>4 次ルンゲ・クッタ法 (RK4) による常微分方程式の数値解法。組み込みの指数減衰 (dy/dt = -y) ソルバーを提供。結果は t_out, y_out の double 配列に格納。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>ode_solve_decay t_out, y_out, steps, t0, y0, dt</code></td><td>指数減衰を RK4 で解く</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_optimize --- 最適化 (黄金分割法)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_optimize.hsp</code> / ヘルプ: <code>package/hsphelp/iron_optimize.hs</code></p>
+<p>黄金分割探索 (Golden Section Search) で区間 [a, b] における関数の最小値を見つける。内蔵例は f(x) = x^2 - 4x + 4 (最小値 x=2)。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>optimize_golden(a, b, max_iter)</code></td><td>黄金分割法で最小値の x を返す</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_curvefit --- カーブフィッティング (最小二乗法)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_curvefit.hsp</code> / ヘルプ: <code>package/hsphelp/iron_curvefit.hs</code></p>
+<p>データ点列 (x, y) に対する線形最小二乗法フィッティング (y = slope * x + intercept) と決定係数 R^2 の計算。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>curvefit_linear x, y, n, slope, intercept</code></td><td>線形フィット (slope, intercept を出力)</td></tr>
+<tr><td><code>curvefit_r2(x, y, n, slope, intercept)</code></td><td>決定係数 R^2 を返す</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_random_dist --- 確率分布乱数生成</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_random_dist.hsp</code> / ヘルプ: <code>package/hsphelp/iron_random_dist.hs</code></p>
+<p>Box-Muller 変換による正規分布乱数、指数分���、ポアソン分布、一様実数分布を生成する。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>rand_normal(mean, stddev)</code></td><td>正規分布乱数</td></tr>
+<tr><td><code>rand_exponential(lambda)</code></td><td>指数分布乱数</td></tr>
+<tr><td><code>rand_poisson(lambda)</code></td><td>ポアソン分布乱数</td></tr>
+<tr><td><code>rand_uniform(min, max)</code></td><td>一様実数分布乱数</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_combinatorics --- 組み合わせ論</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_combinatorics.hsp</code> / ヘルプ: <code>package/hsphelp/iron_combinatorics.hs</code></p>
+<p>階乗、順列、組み合わせ、最大公約数 (GCD)、最小公倍数 (LCM)、素数判定を提供する。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>factorial(n)</code></td><td>n の階乗</td></tr>
+<tr><td><code>combination(n, r)</code></td><td>組み合わせ nCr</td></tr>
+<tr><td><code>permutation(n, r)</code></td><td>順列 nPr</td></tr>
+<tr><td><code>gcd(a, b)</code></td><td>最大公約数</td></tr>
+<tr><td><code>lcm(a, b)</code></td><td>最小公倍数</td></tr>
+<tr><td><code>is_prime(n)</code></td><td>素数判定 (1=素数, 0=非素数)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_montecarlo --- モンテカルロシミュレーション</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_montecarlo.hsp</code> / ヘルプ: <code>package/hsphelp/iron_montecarlo.hs</code></p>
+<p>モンテカルロ法による円周率推定 (単位円内の点の割合) と数値積分 (f(x) = x^2 の区間積分) を提供。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>mc_estimate_pi(samples)</code></td><td>モンテカルロ法で円周率を推定</td></tr>
+<tr><td><code>mc_integrate_x2(a, b, samples)</code></td><td>x^2 の [a, b] 区間積分をモンテカルロ法で近似</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_filter --- デジタル信号フィルタ</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_filter.hsp</code> / ヘルプ: <code>package/hsphelp/iron_filter.hs</code></p>
+<p>移動平均フィルタ、指数平滑ローパスフィルタ、ハイパスフィルタ (原信号 - ローパス) を提供。センサーデー��のノイズ除去や信号処理に使用。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>filter_moving_avg data, n, window, out</code></td><td>移動平均フィルタ</td></tr>
+<tr><td><code>filter_lowpass data, n, alpha, out</code></td><td>指数平滑ローパスフィルタ (alpha: 平滑係数)</td></tr>
+<tr><td><code>filter_highpass data, n, alpha, out</code></td><td>ハイパスフィルタ</td></tr>
+</table>
 </div>
 
 <pre><code>#include "iron_stat.hsp"
@@ -1229,24 +1638,98 @@ loop</code></pre>
 <div class="card">
 <h4>iron_dialog --- モダンファイルダイアログ / フォルダ選択 (IFileOpenDialog COM)</h4>
 <p class="muted">ソース: <code>package/win32/common/iron_dialog.hsp</code> / ヘルプ: <code>package/hsphelp/iron_dialog.hs</code></p>
-<p>Vista 以降の IFileOpenDialog / IFileSaveDialog COM を使った新しいファイルダイアログ。フォルダ選択にも対応。ole32 + COM。</p>
+<p>Windows Vista 以降の IFileOpenDialog / IFileSaveDialog COM インターフェースを使った新しいファイルダイアログ。旧 GetOpenFileName より見た目がモダンで、Win10/11 の「最近のフォルダ」「クイックアクセス」「OneDrive」等の左ペインがそのまま使える。フォルダ選択にも対応。hsp3net 専用 (newcom -2 アタッチ)。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>dialog_open "title", "filter"</code></td><td>ファイル選択ダイアログ (refstr にパス、stat=0 成功)</td></tr>
+<tr><td><code>dialog_save "title", "filter", "ext"</code></td><td>名前を付けて保存ダイアログ</td></tr>
+</table>
 </div>
 
 <div class="card">
-<h4>iron_toast / iron_toast_winrt / iron_tray --- 通知系</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_toast.hsp</code> 等</p>
-<p><strong>iron_toast</strong>: <code>Shell_NotifyIcon</code> でタスクトレイバルーン通知 (info/warning/error)。
-<strong>iron_toast_winrt</strong>: WinRT トースト通知 (アクションセンター対応)。DLL 必要。
-<strong>iron_tray</strong>: 通知領域アイコン (タスクトレイ常駐)。</p>
+<h4>iron_toast --- タスクトレイバルーン通知</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_toast.hsp</code> / ヘルプ: <code>package/hsphelp/iron_toast.hs</code></p>
+<p><code>Shell_NotifyIconA</code> + <code>NOTIFYICONDATAA</code> でタスクトレイ領域にバルーン通知を出す簡易 API。Windows 10/11 ではトースト風の通知として表示される。1 行で通知を出したい用途に特化。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>toast "title", "body"</code></td><td>情報通知 (青 i アイコン)</td></tr>
+<tr><td><code>toast_warning "title", "body"</code></td><td>警告通知 (黄 ! アイコン)</td></tr>
+<tr><td><code>toast_error "title", "body"</code></td><td>エラー通知 (赤 x アイコン)</td></tr>
+<tr><td><code>toast_clear</code></td><td>通知を消してトレイアイコンを削除</td></tr>
+</table>
 </div>
 
 <div class="card">
-<h4>iron_darkmode / iron_dpi / iron_ime / iron_hotkey --- システム UI 制御</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_darkmode.hsp</code> 等</p>
-<p><strong>iron_darkmode</strong>: <code>DwmSetWindowAttribute</code> でダークモード有効化。
-<strong>iron_dpi</strong>: Per-Monitor DPI V2 対応 (<code>dpi_set_awareness</code> / <code>dpi_scale</code>)。
-<strong>iron_ime</strong>: IME 制御 (on/off/モード切替)。imm32.dll。
-<strong>iron_hotkey</strong>: <code>RegisterHotKey</code> でグローバルホットキー登録。</p>
+<h4>iron_toast_winrt --- WinRT モダン トースト通知</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_toast_winrt.hsp</code> / ヘルプ: <code>package/hsphelp/iron_toast_winrt.hs</code></p>
+<p>Windows.UI.Notifications.ToastNotification (WinRT) を HSP から使うラッパ。通知センターに履歴が残り、フォーカスアシストに対応。Start Menu ショートカットと AppUserModelID を自動登録する。hsp3net 専用 (intptr で raw ポインタを扱うため)。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>toast_winrt_init "display_name", "app_id"</code></td><td>初期化 + ToastNotifier 生成</td></tr>
+<tr><td><code>toast_winrt1 "message"</code></td><td>1 行テキスト通知</td></tr>
+<tr><td><code>toast_winrt2 "title", "body"</code></td><td>タイトル + 本文</td></tr>
+<tr><td><code>toast_winrt3 "title", "line1", "line2"</code></td><td>タイトル + 2 行本文</td></tr>
+<tr><td><code>toast_winrt_shutdown</code></td><td>COM 解放</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_tray --- 通知領域 (タスクトレイ) アイコン</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_tray.hsp</code> / ヘルプ: <code>package/hsphelp/iron_tray.hs</code></p>
+<p><code>Shell_NotifyIconW</code> でタスクトレイに常駐アイコンを追加・削除する。ツールチップ表示に対応。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>tray_add "tooltip"</code></td><td>トレイにアイコン追加</td></tr>
+<tr><td><code>tray_remove</code></td><td>トレイからアイコン削除</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_darkmode --- ダークモード有効化</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_darkmode.hsp</code> / ヘルプ: <code>package/hsphelp/iron_darkmode.hs</code></p>
+<p>Windows 10/11 のダークモード検出 (<code>AppsUseLightTheme</code> レジストリ値) と、<code>DwmSetWindowAttribute</code> (DWMWA_USE_IMMERSIVE_DARK_MODE) によるタイトルバーのダーク化を行う。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>darkmode_is_enabled()</code></td><td>システムのダークモードが有効か (1=ダーク, 0=ライト)</td></tr>
+<tr><td><code>darkmode_apply_titlebar</code></td><td>アクティブウィンドウのタイトルバーをダークにする</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_dpi --- Per-Monitor DPI V2 対応</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_dpi.hsp</code> / ヘルプ: <code>package/hsphelp/iron_dpi.hs</code></p>
+<p><code>SetProcessDpiAwarenessContext</code> で DPI 認識モード (UNAWARE / SYSTEM_AWARE / PER_MONITOR_AWARE_V2) を設定し、<code>GetDpiForSystem</code> で現在の DPI を取得する。96dpi 基準のスケーリング関数も提供。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>dpi_set_awareness mode</code></td><td>DPI 認識モード設定 (0=無関心, 1=システム, 2=Per-Monitor V2)</td></tr>
+<tr><td><code>dpi_get()</code></td><td>現在の DPI を返す</td></tr>
+<tr><td><code>dpi_get_system()</code></td><td>システム DPI を返す</td></tr>
+<tr><td><code>dpi_scale(value)</code></td><td>96dpi 基準で value をスケール</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_ime --- IME 制御</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_ime.hsp</code> / ヘルプ: <code>package/hsphelp/iron_ime.hs</code></p>
+<p>imm32.dll の <code>ImmSetOpenStatus</code> / <code>ImmGetOpenStatus</code> / <code>ImmSetConversionStatus</code> を使った IME 制御。日本語入力の ON/OFF 切り替えや変換モード (ひらがな/カタカナ/直接入力) の設定に使用。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>ime_on</code></td><td>IME をオンにする</td></tr>
+<tr><td><code>ime_off</code></td><td>IME をオフにする</td></tr>
+<tr><td><code>ime_get_state()</code></td><td>ON/OFF 状態を返す (1=ON, 0=OFF)</td></tr>
+<tr><td><code>ime_set_mode mode</code></td><td>変換モード設定 (0=直接, 1=ひらがな, 2=全角カタカナ)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_hotkey --- グローバルホットキー登録</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_hotkey.hsp</code> / ヘルプ: <code>package/hsphelp/iron_hotkey.hs</code></p>
+<p><code>RegisterHotKey</code> / <code>UnregisterHotKey</code> (user32.dll) でシステムグローバルなホットキーを登録する。MOD_ALT / MOD_CONTROL / MOD_SHIFT / MOD_WIN の修飾キー定数をグローバル定義済み。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>hotkey_register id, modifiers, vk</code></td><td>ホットキー登録 (id は一意な番号)</td></tr>
+<tr><td><code>hotkey_unregister id</code></td><td>ホットキー解除</td></tr>
+</table>
 </div>
 
 <div class="card">
@@ -1269,13 +1752,66 @@ loop</code></pre>
 </div>
 
 <div class="card">
-<h4>iron_dragdrop / iron_touch / iron_magnify / iron_splash / iron_print --- その他 UI</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_dragdrop.hsp</code> 等</p>
-<p><strong>iron_dragdrop</strong>: ドラッグ&amp;ドロップ受け取り (OLE DnD)。
-<strong>iron_touch</strong>: タッチ入力シミュレーション (<code>InjectTouchInput</code>)。
-<strong>iron_magnify</strong>: Magnification API で画面拡大。
-<strong>iron_splash</strong>: スプラッシュスクリーン (画像表示 + 自動消去)。
-<strong>iron_print</strong>: 印刷ダイアログ + GDI 印刷。</p>
+<h4>iron_dragdrop --- ドラッグ&amp;ドロップ ファイル受け取り</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_dragdrop.hsp</code> / ヘルプ: <code>package/hsphelp/iron_dragdrop.hs</code></p>
+<p>hsp3net 専用。C# 動的コンパイルで <code>Form.AllowDrop</code> + <code>DragEnter</code> / <code>DragDrop</code> イベントを設定し、ファイルのドラッグ&amp;ドロップを受け取る。ドロップされたファイルパスは改行区切りの文字列として取得可能。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>dragdrop_enable</code></td><td>現在のフォームで DnD を有効化</td></tr>
+<tr><td><code>dragdrop_get_files()</code></td><td>ドロップされたファイルパスを取得 (改行区切り)</td></tr>
+<tr><td><code>dragdrop_get_count()</code></td><td>ドロップされたファイル数</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_touch --- タッチ入力シミュレーション</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_touch.hsp</code> / ヘルプ: <code>package/hsphelp/iron_touch.hs</code></p>
+<p><code>InitializeTouchInjection</code> / <code>InjectTouchInput</code> (user32.dll) で仮想タッチイベントを発行する。UI テストや自動操作に使用。Windows 8 以降。座標はスクリーンピクセル (物理座標)。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>touch_init max_contacts</code></td><td>タッチ入力初期化 (最大同時タッチ数)</td></tr>
+<tr><td><code>touch_tap x, y</code></td><td>タップ (タッチ + リリース)</td></tr>
+<tr><td><code>touch_down id, x, y</code></td><td>指を置く</td></tr>
+<tr><td><code>touch_move id, x, y</code></td><td>指を動かす</td></tr>
+<tr><td><code>touch_up id, x, y</code></td><td>指を離す</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_magnify --- 画面拡大 (Magnification API)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_magnify.hsp</code> / ヘルプ: <code>package/hsphelp/iron_magnify.hs</code></p>
+<p>Windows Magnification API を使用した画面拡大機能。全画面拡大の倍率指定と色効果 (反転/グレースケール) に対応。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>mag_init</code></td><td>Magnification 初期化</td></tr>
+<tr><td><code>mag_fullscreen_on factor</code></td><td>全画面拡大 ON (factor: 100=等倍, 200=2倍)</td></tr>
+<tr><td><code>mag_fullscreen_off</code></td><td>全画面拡大 OFF</td></tr>
+<tr><td><code>mag_set_color_effect mode</code></td><td>色効果 (0=なし, 1=反転, 2=グレースケール)</td></tr>
+<tr><td><code>mag_bye</code></td><td>終了処理</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_splash --- スプラッシュスクリーン</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_splash.hsp</code> / ヘルプ: <code>package/hsphelp/iron_splash.hs</code></p>
+<p>WS_POPUP ウィンドウで画像を表示し、指定ミリ秒後に自動消去するスプラッシュスクリーン。アプリケーション起動時のロゴ表示に使用。Pure HSP 実装。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>splash_show "image.bmp", 3000</code></td><td>スプラッシュ表示 (ミリ秒指定で自動消去)</td></tr>
+<tr><td><code>splash_close</code></td><td>手動で閉じる</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_print --- 印刷ダイアログ + GDI 印刷</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_print.hsp</code> / ヘルプ: <code>package/hsphelp/iron_print.hs</code></p>
+<p>hsp3net 専用。C# 動的コンパイルで <code>PrintDocument</code> / <code>PrintDialog</code> / <code>PrintPreviewDialog</code> を使い、テキストの印刷、印刷プレビュー、ページ設定を行う。フォントは MS Gothic 10pt。ページまたぎ対応。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>print_text "text"</code></td><td>印刷ダイアログを表示して印刷</td></tr>
+<tr><td><code>print_preview "text"</code></td><td>印刷プレビューを表示</td></tr>
+<tr><td><code>print_page_setup</code></td><td>ページ設定ダイアログ</td></tr>
+</table>
 </div>
 
 <!-- ========================================== -->
@@ -1341,61 +1877,6 @@ chart_data "売上", 120, 200, 150, 300, 250
 chart_show</code></pre>
 
 <!-- ========================================== -->
-<h2 id="cat12">12. 描画エンジン連携</h2>
-
-<h3>hspd2d (DirectWrite + Direct2D + WIC)</h3>
-
-<p><code>hspd2d.hsp</code> は DirectWrite + Direct2D + WIC を HSP の COM 機能 (#usecom / #comfunc / newcom) だけで wrap した Pure HSP モジュールです。
-C++ DLL を介さずに高品質テキスト描画と PNG 出力を実現します。</p>
-
-<table>
-<tr><th>コマンド</th><th>説明</th></tr>
-<tr><td><code>d2d_init</code></td><td>COM 初期化 + DWrite / D2D / WIC factory 作成</td></tr>
-<tr><td><code>d2d_image_create id, w, h</code></td><td>オフスクリーン画像 (32bpp PBGRA) を作成</td></tr>
-<tr><td><code>d2d_image_select id</code></td><td>カレント描画対象を切り替え</td></tr>
-<tr><td><code>d2d_clear r, g, b, a</code></td><td>単色で塗りつぶし</td></tr>
-<tr><td><code>d2d_color r, g, b, a</code></td><td>以後の描画色を設定</td></tr>
-<tr><td><code>d2d_font "family", size, weight, italic</code></td><td>テキストフォーマット作成</td></tr>
-<tr><td><code>d2d_drawtext "text", x, y, w, h</code></td><td>文字列描画 (色付き絵文字対応)</td></tr>
-<tr><td><code>d2d_image_save id, "out.png"</code></td><td>PNG として保存</td></tr>
-<tr><td><code>d2d_shutdown</code></td><td>リソース解放</td></tr>
-</table>
-
-<h3>DxLib 統合 (hspdxlib)</h3>
-
-<p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
-DxLibW (Unicode 版) を使用し、32bit / 64bit の両方に対応します。<strong>2,548 関数 + 151 構造体戻り関数 + 901 定数</strong>を宣言済み。</p>
-
-<table>
-<tr><th>ファイル</th><th>内容</th></tr>
-<tr><td><code>hspdxlib.as</code></td><td>メインヘッダ -- 2,548 #cfunc/#func + 151 #cfuncst</td></tr>
-<tr><td><code>hspdxlib_const.as</code></td><td>901 個の定数定義</td></tr>
-<tr><td><code>hspdxlib_struct.as</code></td><td>55 構造体のバッファオフセット定義</td></tr>
-<tr><td><code>hspdxlib_macro.as</code></td><td>HSP 風短縮名マクロ (dxinit / dxdraw / dxflip 等)</td></tr>
-</table>
-
-<pre><code>#include "hspdxlib.as"
-
-    ChangeWindowMode TRUE
-    SetGraphMode 640, 480, 32
-    SetMainWindowText "My Game"
-    if DxLib_Init() == -1 : end
-    SetDrawScreen DX_SCREEN_BACK
-    white = GetColor(255, 255, 255)
-
-*main
-    ClearDrawScreen_1
-    DrawString 10, 10, "Hello, DxLib!", white
-    ScreenFlip
-    if ProcessMessage() != 0 : goto *quit
-    if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
-    goto *main
-
-*quit
-    DxLib_End
-    end</code></pre>
-
-<!-- ========================================== -->
 <h2 id="cat13">13. テスト / 開発ツール</h2>
 
 <p>ユニットテスト、フェイクデータ生成、ログ出力など、開発を支援するモジュール群です。</p>
@@ -1446,12 +1927,67 @@ DxLibW (Unicode 版) を使用し、32bit / 64bit の両方に対応します。
 </div>
 
 <div class="card">
-<h4>iron_docx / iron_pptx / iron_msgpack / iron_office --- Office/シリアライズ</h4>
-<p class="muted">ソース: <code>package/win32/common/iron_docx.hsp</code> 等</p>
-<p><strong>iron_docx</strong>: OpenXML で Word .docx 生成。
-<strong>iron_pptx</strong>: OpenXML で PowerPoint .pptx 生成。
-<strong>iron_msgpack</strong>: MessagePack バイナリシリアライズ。
-<strong>iron_office</strong>: Office COM 自動化 (VBScript ブリッジ)。Excel セル読み書き、Excel/Word/PPT → PDF 変換。Office インストール必須。</p>
+<h4>iron_docx --- Word .docx 生成</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_docx.hsp</code> / ヘルプ: <code>package/hsphelp/iron_docx.hs</code></p>
+<p>.NET の <code>System.IO.Packaging</code> + <code>System.Xml</code> を使って OpenXML 形式の Word .docx ファイルを直接生成する。Office インストール不要。改行で段落分割。hsp3net 専用。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>docx_create "file.docx", "本文テキスト"</code></td><td>.docx ファイルを生成 (改行で段落分割)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_pptx --- PowerPoint .pptx 生成</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_pptx.hsp</code> / ヘルプ: <code>package/hsphelp/iron_pptx.hs</code></p>
+<p>.NET の <code>System.IO.Packaging</code> を使って OpenXML 形式の .pptx ファイルを直接生成する。スライドをタイトル + 本文の形式で追加可能。Office インストール不要。hsp3net 専用。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>pptx_create "file.pptx"</code></td><td>新規 .pptx を作成</td></tr>
+<tr><td><code>pptx_add_slide "title", "body"</code></td><td>スライド追加</td></tr>
+<tr><td><code>pptx_save</code></td><td>保存して閉じる</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_msgpack --- MessagePack シリアライズ</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_msgpack.hsp</code> / ヘルプ: <code>package/hsphelp/iron_msgpack.hs</code></p>
+<p>C# 動的コンパイルによる MessagePack バイナリシリアライズ。文字列と整数のパック/アンパックに対応。hsp3net 専用。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>msgpack_pack_str "text", out_buf</code></td><td>文字列を MessagePack バイト列にパック</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_office --- Office COM 自動化 (.NET COM Interop)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_office.hsp</code> / ヘルプ: <code>package/hsphelp/iron_office.hs</code></p>
+<p>.NET Framework の COM Interop (<code>Type.GetTypeFromProgID</code> + <code>Activator.CreateInstance</code> + dynamic dispatch) を使って Excel / Word / PowerPoint の COM オートメーション (IDispatch late binding) を駆動する。Excel セルの読み書き、Excel/Word/PPT の PDF 変換に対応。Office がインストールされていない環境では全関数が stat != 0 を返す。hsp3net 専用。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>office_excel_get_cell "file.xlsx", sheet, row, col, var</code></td><td>Excel セル値読み取り</td></tr>
+<tr><td><code>office_excel_set_cell "file.xlsx", sheet, row, col, "value"</code></td><td>Excel セル値書き込み</td></tr>
+<tr><td><code>office_excel_to_pdf "file.xlsx", "out.pdf"</code></td><td>Excel → PDF 変換</td></tr>
+<tr><td><code>office_word_to_pdf "file.docx", "out.pdf"</code></td><td>Word → PDF 変換</td></tr>
+<tr><td><code>office_ppt_to_pdf "file.pptx", "out.pdf"</code></td><td>PowerPoint → PDF 変換</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h4>iron_excel --- Excel .xlsx 読み書き (OpenXML 直接操作)</h4>
+<p class="muted">ソース: <code>package/win32/common/iron_excel.hsp</code> / ヘルプ: <code>package/hsphelp/iron_excel.hs</code></p>
+<p>.NET Framework の <code>System.IO.Packaging</code> + <code>System.Xml</code> を使って .xlsx ファイルを直接読み書きする。Office インストール不要。iron_xlsx.hsp (hsp7z + XML) より高速で、セル座標指定の読み書き API、シート管理、SharedStrings 解析に対応。hsp3net 専用。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>excel_create "file.xlsx"</code></td><td>新規ブック作成 (空の Sheet1)</td></tr>
+<tr><td><code>excel_open "file.xlsx"</code></td><td>既存ファイルを開く</td></tr>
+<tr><td><code>excel_set_cell sheet, row, col, "value"</code></td><td>セル書き込み (1-origin)</td></tr>
+<tr><td><code>excel_get_cell(sheet, row, col)</code></td><td>セル読み取り</td></tr>
+<tr><td><code>excel_sheet_count()</code></td><td>シート数</td></tr>
+<tr><td><code>excel_sheet_name(index)</code></td><td>シート名取得 (1-origin)</td></tr>
+<tr><td><code>excel_add_sheet "name"</code></td><td>シート追加</td></tr>
+<tr><td><code>excel_save</code></td><td>保存</td></tr>
+<tr><td><code>excel_close</code></td><td>閉じる</td></tr>
+</table>
 </div>
 
 <p>その他の .NET 専用モジュール: <code>iron_forms</code> / <code>iron_designer</code> / <code>iron_docking</code> / <code>iron_docking_pro</code> / <code>iron_ribbon</code> / <code>iron_ribbon2</code> / <code>iron_ribbon_pro</code></p>

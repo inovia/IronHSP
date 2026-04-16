@@ -42,7 +42,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-18 (AI/ML/数学 20 モジュール + 汎用ユーティリティ 23 モジュール追加 / 全 150 iron_* モジュール + 150 .hs + 68 サンプル / .hs/.hsp/.as 日本語統一)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-18 (章構成再編 11 章 / 変数型・コンパイラ・ランタイムを正しく分離 / ネイティブコールバック + 環境変数説明拡充 / 全 151 iron_* + 31 C++ DLL + 51 Win32 DLL 6020 関数)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="warning-banner">
@@ -111,12 +111,22 @@
 <div class="card">
 <h3>プラグイン・モジュール面の主な拡張</h3>
 <ul>
-  <li><strong>hspd2d</strong> &mdash; DirectWrite + Direct2D + WIC を pure HSP の COM 機能だけで wrap した 2D 描画モジュール。色付き絵文字 (COLR/CPAL/CBDT/sbix) / SVG ドキュメント / GIF アニメ / PNG 保存対応</li>
-  <li><strong>hspcv4</strong> &mdash; OpenCV 4.12 統合 (277 関数)。画像IO / 描画 / フィルタ / モルフォ / imgproc / core Mat / DNN / video / contours / features2d / photo / cascade / tracker / ml / face / stereo / xphoto / aruco / calib3d を網羅。2026-04-16 に全関数を typed <code>#func</code> 化し OLDDLL <code>$202</code> 形式を完全撤廃</li>
-  <li><strong>hspdxlib</strong> &mdash; DxLibW 自動生成バインディング (2,548 関数 + 901 定数 + 55 構造体)</li>
-  <li><strong>Win32 API 大幅拡充</strong> &mdash; Phase D/E/F で +21 DLL / +2,077 関数を追加 (ws2_32, iphlpapi, urlmon, d2d1, dwrite, windowscodecs, dxgi, d3d11, xaudio2_8, dinput8, secur32, gdiplus, opengl32, glu32, httpapi, xmllite, wlanapi, wer, powrprof, wtsapi32 ほか)。CsWin32 bridge + libclang パースで自動生成</li>
-  <li><strong>新規プラグイン DLL (11 個)</strong> &mdash; <code>hspllama</code> (llama.cpp, SmolLM-135M 動作確認済) / <code>hspjson</code> / <code>hspmidi</code> / <code>hspwasm</code> (Wasm3 embed) / <code>hspduckdb</code> / <code>hspwinrtocr</code> / <code>hspwgcapture</code> (Windows Graphics Capture) / <code>hspble</code> (BLE) / <code>hsppdf</code> (PDFium) / <code>hspwebview2</code> / <code>hsponnx</code> / <code>hsptflite</code> (MediaPipe hand detection)。すべて hsp3net 用に typed <code>#func</code> + <code>pval</code>/<code>bmscr</code>/<code>pexinfo</code> 混合戦略で設計</li>
-  <li><strong>iron_* シンプルモジュール集</strong> &mdash; <code>iron_csv</code> / <code>iron_xlsx</code> / <code>iron_office</code> / <code>iron_duckdb</code> / <code>iron_ai</code> (LOCAL_LLAMA backend 含む) / <code>iron_toast</code> (WinRT) / <code>iron_url</code> ほか、HSP スクリプト層で使いやすい高レベル API</li>
+  <li><strong>hspd2d</strong> &mdash; DirectWrite + Direct2D + WIC を pure HSP の COM 機能だけで wrap した 2D 描画モジュール。色付き絵文字 (COLR/CPAL/CBDT/sbix) / SVG ドキュメント / GIF アニメ / PNG 保存対応。C++ DLL 不要</li>
+  <li><strong>hspcv4</strong> &mdash; OpenCV 4.12 統合プラグイン (<strong>277 関数</strong>)。画像IO / 描画 / フィルタ / モルフォ / imgproc / core Mat / DNN / video / contours / features2d / photo / cascade / tracker / ml / face / stereo / xphoto / aruco / calib3d / QR / barcode を網羅。全関数を typed <code>#func</code> 化済。32bit + 64bit</li>
+  <li><strong>hspdxlib</strong> &mdash; DxLibW (Unicode 版) 自動生成バインディング (<strong>2,548 関数 + 151 #cfuncst + 901 定数 + 55 構造体</strong>)。32bit / 64bit 両対応</li>
+  <li><strong>Win32 API 大幅拡充</strong> &mdash; CsWin32 bridge で <strong>51 DLL / 6,020 関数</strong>の W 版 API 宣言を自動生成。全関数に日本語ドキュメント付き (28,373 entries)</li>
+  <li><strong>新規 C++ プラグイン DLL (31 個)</strong> &mdash;
+    <ul>
+    <li><em>AI/音声認識:</em> <code>hspllama</code> (llama.cpp LLM) / <code>hspwhisper</code> (whisper.cpp) / <code>hspvosk</code> (Kaldi) / <code>hspsapi</code> (SAPI 5) / <code>hspwinrtspeech</code> (WinRT) / <code>hsponnx</code> (ONNX Runtime) / <code>hsptflite</code> (TFLite + MediaPipe)</li>
+    <li><em>メディア:</em> <code>hspmfcam</code> (Webcam 68 関数) / <code>hspmidi</code> (MIDI) / <code>hspaudioloop</code> (WASAPI ループバック) / <code>hspcapture</code> (DXGI キャプチャ) / <code>hspwgcapture</code> (Win Graphics Capture)</li>
+    <li><em>データ:</em> <code>hspjson</code> (JSON) / <code>hspdb</code> (SQLite) / <code>hspduckdb</code> (DuckDB)</li>
+    <li><em>ネットワーク:</em> <code>hspwebsrv</code> (HTTP/WS サーバ) / <code>hspmcp</code> (MCP) / <code>hspsmtp</code> (SMTP) / <code>hspssh</code> (libssh2) / <code>hsphtml</code> (HTML パース)</li>
+    <li><em>暗号化/正規表現:</em> <code>hspcrypto</code> (AES/ChaCha20) / <code>hspregex</code> (std::regex) / <code>hsppcre2</code> (PCRE2)</li>
+    <li><em>UI:</em> <code>hspwebview2</code> (Edge WebView2) / <code>hspribbon</code> (Ribbon Framework) / <code>hspble</code> (BLE) / <code>hspwinrtocr</code> (WinRT OCR)</li>
+    <li><em>その他:</em> <code>hsp7z</code> (7-Zip) / <code>hspwasm</code> (Wasm3) / <code>hsppdf</code> (PDFium) / <code>hspcv4</code> (OpenCV, 上述)</li>
+    </ul>
+    全て typed <code>#func</code> 形式。32bit + 64bit 両対応 (一部 x64 専用)</li>
+  <li><strong>iron_* モジュール集 (151 個)</strong> &mdash; AI/ML、マルチメディア、ネットワーク、データ処理、数学、暗号化、正規表現、UI、ゲーム、テスト等の全カテゴリをカバーする HSP スクリプト層の高レベルラッパー群。詳細は <a href="iron_modules_intro.html">モジュールリファレンス</a> 参照</li>
   <li><strong>hsp3net ランタイム配置</strong> &mdash; <code>package/win32/</code> に <code>hsp3_net(_64).exe</code> / <code>hsp3cl_net(_64).exe</code> / <code>hspcmp_net(_64).exe</code> を配置。バニラと共存</li>
 </ul>
 </div>
@@ -1914,13 +1924,13 @@ package/hsphelp/
 <!-- ======================================== -->
 <h2 id="modules-ref">9. プラグイン & モジュール リファレンス</h2>
 
-<p>IronHSP が提供する <strong>150 個の iron_* モジュール</strong>、<strong>22 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib 統合</strong> の詳細は別ドキュメントに記載しています:</p>
+<p>IronHSP が提供する <strong>151 個の iron_* モジュール</strong>、<strong>31 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib / OpenCV 統合</strong> の詳細は別ドキュメントに記載しています:</p>
 
 <div class="card">
 <p><strong><a href="iron_modules_intro.html">iron_modules_intro.html &mdash; モジュール & プラグイン リファレンス</a></strong></p>
 <ul>
-<li>全 150 モジュールのカテゴリ別一覧表 (実装方式・バニラ互換性付き)</li>
-<li>22 個の C++ プラグイン DLL の詳細仕様</li>
+<li>全 151 モジュールのカテゴリ別一覧表 (実装方式・バニラ互換性付き)</li>
+<li>31 個の C++ プラグイン DLL の詳細仕様</li>
 <li>hspd2d (Direct2D/DirectWrite) / DxLib 統合</li>
 <li>AI/ML / マルチメディア / 数学 / ネットワーク / OS 操作 / 暗号化 / 正規表現 等</li>
 <li>コード例 10 本</li>
