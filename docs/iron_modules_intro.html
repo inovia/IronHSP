@@ -53,7 +53,7 @@
 
 <h1>IronHSP プラグイン &amp; モジュール リファレンス</h1>
 <p class="muted">最終更新: 2026-04-18 / 対象: HSP3 (hsp3net) + IronHSP 拡張</p>
-<p class="muted">全 151 iron_* モジュール + 22 C++ プラグイン DLL + hspd2d + DxLib 統合</p>
+<p class="muted">全 179 iron_* モジュール + C++ プラグイン DLL 多数 + hspd2d + DxLib + hspmathex (bigint/bigdec HSPVAR 型) 統合</p>
 
 <p>
 <strong>IronHSP Simple モジュール集</strong> (<code>iron_*.hsp</code>) は、HTTP 通信、JSON、AI API、音声認識、DB、アーカイブ、Webcam、MCP、暗号化、正規表現、グラフ描画など、
@@ -111,6 +111,8 @@
 <tr><td>iron_async</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>.NET Task.Run 非同期実行 + CSharpCodeProvider による C# 動的評価 (cs_eval / async_run)</td></tr>
 <tr><td>iron_audioloop</td><td>マルチメディア</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>WASAPI 音声ループバック録音 (PC 再生音を WAV 保存)</td></tr>
 <tr><td>iron_barcode</td><td>グラフィックス</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>1D バーコード BMP 生成</td></tr>
+<tr><td>iron_bigdec</td><td>数学</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>任意精度10進固定小数 (Java BigDecimal 相当、ハンドル API)</td></tr>
+<tr><td>iron_bigint</td><td>数学</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>任意精度整数 (Java BigInteger 相当、ハンドル API)</td></tr>
 <tr><td>iron_ble</td><td>ネットワーク</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>BLE GATT セントラル (WinRT -- スキャン / 接続 / サービス列挙 / 読み書き / Notify 購読)</td></tr>
 <tr><td>iron_bloom</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ブルームフィルタ (確率的メンバーシップ判定)</td></tr>
 <tr><td>iron_cache</td><td>データ</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>TTL 付きインメモリキャッシュ</td></tr>
@@ -220,6 +222,7 @@
 <tr><td>iron_serial</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>シリアルポート RS-232 / USB CDC</td></tr>
 <tr><td>iron_service</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>Windows サービス制御 (start / stop / status)</td></tr>
 <tr><td>iron_shell</td><td>システム</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>ShellExecute / ゴミ箱送り / .lnk ショートカット作成</td></tr>
+<tr><td>iron_simd</td><td>数学</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>SSE/AVX2 SIMD 配列演算 (加減乗除 / 内積 / 行列乗算 / 画素ブレンド等)</td></tr>
 <tr><td>iron_smtp</td><td>ネットワーク</td><td><span class="badge badge-dll">C++ DLL</span></td><td class="compat-dll">△</td><td>SMTP メール送信 (AUTH LOGIN / Winsock2)</td></tr>
 <tr><td>iron_smtp_net</td><td>.NET 専用</td><td><span class="badge badge-net">.NET</span></td><td class="compat-no">×</td><td>メール送信 .NET 版 (TLS/SSL 自動対応)</td></tr>
 <tr><td>iron_spectrum</td><td>マルチメディア</td><td><span class="badge badge-pure">Pure HSP</span></td><td class="compat-ok">○</td><td>スペクトラム解析 (簡易 DFT)</td></tr>
@@ -263,10 +266,11 @@
 <!-- ========================================== -->
 <h2 id="dlls">C++ プラグイン DLL 一覧</h2>
 
-<p>iron_* モジュール群の足回りとして新規開発した独立 C++ プラグイン DLL (合計 <strong>22 個 / 529 export 関数</strong>):</p>
+<p>iron_* モジュール群の足回りとして新規開発した独立 C++ プラグイン DLL:</p>
 
 <table>
 <tr><th>DLL</th><th>役割</th><th>関数数</th><th>対応</th></tr>
+<tr><td><code>hspmathex.dll</code></td><td>任意精度整数 (bigint) + 任意精度10進小数 (bigdec) HSPVAR 型拡張 + SSE/AVX2 SIMD 配列演算。bigint/bigdec は <code>a + b</code> 形式で使える HSP ネイティブ変数型として登録され、handle API (bi_*/bigdec_*) も併設</td><td>80 (hsp3cmdinit + 22 bigint + 20 bigdec + 33 simd)</td><td>Win32 + x64</td></tr>
 <tr><td><code>hspjson.dll</code></td><td>自前 JSON parser/writer (依存ゼロ、~300 KB)</td><td>10</td><td>Win32 + x64</td></tr>
 <tr><td><code>hspmfcam.dll</code></td><td>Pure Media Foundation Webcam キャプチャ + 録画 + マイク録音 (最大 256 デバイス並列)</td><td>68</td><td>Win32 + x64</td></tr>
 <tr><td><code>hspmcp.dll</code></td><td>Model Context Protocol プロセスパイプヘルパ (最大 64 並列)</td><td>7</td><td>Win32 + x64</td></tr>
