@@ -870,7 +870,7 @@ Windows API や DxLib のような C 構造体を直接扱う場合に便利で�
 
 <div class="card">
 <h3>使用例</h3>
-<pre><code>#defstruct global POINT
+<pre><code>#defstruct POINT
 #field int x
 #field int y
 #endstruct
@@ -944,7 +944,7 @@ mes "size=" + varsize(POINT)   ; → 8</code></pre>
 <p>構造体型の変数を確保するには <code>stdim</code> 命令を使います。
 内部では <code>HSPVAR_FLAG_NSTRUCT</code> 型の PVal が確保されます。</p>
 
-<pre><code>#defstruct global VECTOR, pack=1
+<pre><code>#defstruct VECTOR, pack=1
 #field float x
 #field float y
 #field float z
@@ -971,7 +971,7 @@ arr(2)->x = 100.0            ; 配列要素のメンバアクセス</code></pre>
 プリプロセッサ定数 (<code>LAB_TYPE_PPVAL</code>) として登録されます。値は構造体の合計バイトサイズです。
 このため、構造体名をそのまま整数リテラルのように式の中で使えます。</p>
 
-<pre><code>#defstruct global VECTOR, pack=1
+<pre><code>#defstruct VECTOR, pack=1
 #field float x
 #field float y
 #field float z
@@ -1007,7 +1007,7 @@ sdim buf, varsize(VECTOR) * 100          ; バッファ確保にも使える</co
 <p>構造体内にインラインの共用体サブブロックを定義する場合も <code>#defunion</code> / <code>#endunion</code> を使います
 (構造体名は省略します):</p>
 
-<pre><code>#defstruct global MY_VARIANT
+<pre><code>#defstruct MY_VARIANT
 #field short vt
 #defunion
 #field int intVal
@@ -1025,7 +1025,7 @@ sdim buf, varsize(VECTOR) * 100          ; バッファ確保にも使える</co
 </ul>
 
 <h3>配列メンバ</h3>
-<pre><code>#defstruct global MATRIX
+<pre><code>#defstruct MATRIX
 #field float m[16]
 #endstruct
 
@@ -1034,25 +1034,25 @@ mat->m(0) = 1.0
 mat->m(5) = 1.0</code></pre>
 
 <h3>パックアライメント</h3>
-<pre><code>#defstruct global PACKED_STRUCT, pack=1
+<pre><code>#defstruct PACKED_STRUCT, pack=1
 #field byte flag
 #field int value
 #endstruct
 ; size = 5 (パディングなし。pack=1 で詰め詰め配置)
 
-#defstruct global DEFAULT_STRUCT
+#defstruct DEFAULT_STRUCT
 #field byte flag
 #field int value
 #endstruct
 ; size = 8 (デフォルト pack=8。flag の後に 3 bytes パディング)</code></pre>
 
 <h3>入れ子構造体</h3>
-<pre><code>#defstruct global POINT
+<pre><code>#defstruct POINT
 #field int x
 #field int y
 #endstruct
 
-#defstruct global RECT
+#defstruct RECT
 #field POINT topLeft
 #field POINT bottomRight
 #endstruct
@@ -1076,7 +1076,7 @@ points(1)->y = 400</code></pre>
 構造体を <strong>値渡し (pass by value)</strong> で C/C++ 側 DLL に渡せます。
 DxLib の <code>VECTOR</code> や Win32 API の <code>POINT</code>, <code>RECT</code> などを直接呼び出せます。</p>
 
-<pre><code>#defstruct global VECTOR, pack=1
+<pre><code>#defstruct VECTOR, pack=1
 #field float x
 #field float y
 #field float z
@@ -1345,7 +1345,7 @@ VECTOR dx_VGet(float x, float y, float z);
 
 <h4>使用例 (新構文)</h4>
 
-<pre><code>#defstruct global VECTOR, pack=1
+<pre><code>#defstruct VECTOR, pack=1
 #field float x
 #field float y
 #field float z
