@@ -6,11 +6,11 @@
 %type
 Šg’£–½—ß
 %ver
-1.0
+3.8
 %date
-2026-04-15
+2026/04/18
 %author
-IronHSP / iron_office
+IronHSP
 %dll
 iron_office.hsp
 

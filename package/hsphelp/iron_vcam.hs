@@ -1,19 +1,19 @@
 ;
 ;   iron_vcam.hs - HSP Help Manager 用ヘルプソース
-;   hspvcam プラグイン (仮想ウェブカメラ) のコマンドリファレンス
+;   hspvcam プラグイン (DirectShow 仮想ウェブカメラ) のコマンドリファレンス
 ;
 
 %type
 拡張命令
 %ver
-0.1
+3.8
 %note
 hspvcam.as をインクルードすること。
 iron_vcam.hsp を使用する場合は iron_vcam.hsp をインクルードすること。
 %date
 2026/04/18
 %author
-HNWorks / IronHSP
+IronHSP
 %dll
 hspvcam
 %url
@@ -24,47 +24,50 @@ Win
 
 
 ;==========================================================================
-; 仮想カメラの基本操作
+; 基本 API (iron_vcam.hsp)
 ;==========================================================================
 
 %group
-hspvcam (仮想ウェブカメラ)
+hspvcam 基本命令
 
 %index
-vcam_create
-仮想カメラの作成
+vcam_init
+仮想カメラの初期化
 %group
-hspvcam 基本操作
+hspvcam 基本命令
 %prm
 w, h, fps
 w : フレーム幅 (int, ピクセル)
 h : フレーム高さ (int, ピクセル)
 fps : フレームレート (int, 例: 30)
 %inst
-指定した解像度・フレームレートで仮想カメラを作成します。
-内部的には名前付き共有メモリとイベントオブジェクトが生成され、
-外部のブリッジプロセスがフレームデータを読み出せるようになります。
+指定した解像度・フレームレートで仮想カメラを初期化します。
+内部では名前付き共有メモリとイベントオブジェクトを作成し、
+DirectShow フィルタ側がフレームデータを読み出せるようにします。
 
-stat にハンドル (正の整数) が返ります。0 の場合は作成失敗です。
+事前に管理者権限のコマンドプロンプトで以下を実行し、
+DirectShow フィルタを登録しておく必要があります:
+
+  regsvr32 hspvcam.dll
+
+stat = 0: 成功, -1: 失敗
 
 一般的な解像度の例:
   640, 480, 30    (VGA, 30fps)
   1280, 720, 30   (HD, 30fps)
   1920, 1080, 30  (Full HD, 30fps)
 
-iron_vcam.hsp をインクルードしている場合は、モジュール版の
-vcam_create 命令が使用されます。
+この命令は iron_vcam.hsp をインクルードした場合に利用できます。
 %sample
     #include "iron_vcam.hsp"
-    vcam_create 640, 480, 30
-    cam = stat
-    if cam == 0 {
-        dialog "仮想カメラの作成に失敗しました"
+    vcam_init 640, 480, 30
+    if stat != 0 {
+        dialog "仮想カメラの初期化に失敗しました"
         end
     }
-    mes "仮想カメラ作成: handle=" + cam
+    mes "仮想カメラを初期化しました"
 %href
-vcam_close,vcam_send,vcam_send_frame
+vcam_term,vcam_send,vcam_create
 
 
 
@@ -72,37 +75,38 @@ vcam_close,vcam_send,vcam_send_frame
 vcam_send
 カレントスクリーンの送信
 %group
-hspvcam 基本操作
+hspvcam 基本命令
 %prm
-handle
-handle : vcam_create で取得したハンドル (int)
+(パラメータなし)
 %inst
 HSP のカレントウィンドウ全体をキャプチャして仮想カメラに送信します。
 内部で ginfo を使ってウィンドウのスクリーン座標とサイズを取得し、
-デスクトップ DC から BitBlt / StretchBlt でキャプチャします。
+デスクトップ DC から BitBlt でキャプチャ後、共有メモリに書き込みます。
 
-キャプチャしたフレームは共有メモリに書き込まれ、フレームカウンタが
-インクリメントされます。
+カレントウィンドウのサイズが仮想カメラの解像度と異なる場合は
+自動的にストレッチ (リサイズ) されます。
 
-この命令は iron_vcam.hsp をインクルードした場合に利用できます。
-hspvcam.as のみの場合は vcam_send_from_screen を直接使用してください。
+redraw 1 のあと (描画完了後) に呼び出してください。
 
 stat = 0: 成功, -1: 失敗
+
+この命令は iron_vcam.hsp をインクルードした場合に利用できます。
 %sample
     #include "iron_vcam.hsp"
-    vcam_create 640, 480, 30
-    cam = stat
+    vcam_init 640, 480, 30
+    if stat != 0 : end
+    screen 0, 640, 480
     repeat
         redraw 0
         color 0, 0, 0 : boxf
         color 255, 255, 255
         pos 10, 10 : mes "フレーム: " + cnt
         redraw 1
-        vcam_send cam
+        vcam_send
         await 33
     loop
 %href
-vcam_send_region,vcam_send_buffer,vcam_send_from_screen
+vcam_send_region,vcam_send_buffer,vcam_init
 
 
 
@@ -110,25 +114,24 @@ vcam_send_region,vcam_send_buffer,vcam_send_from_screen
 vcam_send_region
 スクリーン領域の送信
 %group
-hspvcam 基本操作
+hspvcam 基本命令
 %prm
-handle, x, y, w, h
-handle : vcam_create で取得したハンドル (int)
+x, y, w, h
 x : キャプチャ開始 X 座標 (int, スクリーン座標)
 y : キャプチャ開始 Y 座標 (int, スクリーン座標)
 w : キャプチャ幅 (int)
 h : キャプチャ高さ (int)
 %inst
 スクリーン上の指定矩形領域をキャプチャして仮想カメラに送信します。
-キャプチャ領域が仮想カメラの解像度と異なる場合は自動でストレッチ
-(リサイズ) されます。
+キャプチャ領域が仮想カメラの解像度と異なる場合は自動的にストレッチ
+されます。
 
 座標はスクリーン座標で指定します。
 HSP ウィンドウの座標は ginfo_wx1 / ginfo_wy1 で取得できます。
 
-この命令は iron_vcam.hsp をインクルードした場合に利用できます。
-
 stat = 0: 成功, -1: 失敗
+
+この命令は iron_vcam.hsp をインクルードした場合に利用できます。
 %href
 vcam_send,vcam_send_buffer
 
@@ -138,10 +141,9 @@ vcam_send,vcam_send_buffer
 vcam_send_buffer
 BGRA バッファの送信
 %group
-hspvcam 基本操作
+hspvcam 基本命令
 %prm
-handle, buf
-handle : vcam_create で取得したハンドル (int)
+buf
 buf : BGRA ピクセルデータ変数 (var)
 %inst
 BGRA 形式のピクセルデータを直接仮想カメラに送信します。
@@ -150,28 +152,112 @@ buf には width * height * 4 バイト以上のデータが格納されて
 
 ピクセルフォーマットは BGRA (Blue, Green, Red, Alpha) の
 4 バイト/ピクセルです。Alpha チャンネルは通常 255 を指定します。
-
-この命令は iron_vcam.hsp をインクルードした場合に利用できます。
+走査方向はトップダウン (先頭バイトが左上ピクセル) です。
 
 stat = 0: 成功, -1: 失敗
+
+この命令は iron_vcam.hsp をインクルードした場合に利用できます。
 %sample
     #include "iron_vcam.hsp"
     w = 640 : h = 480
-    vcam_create w, h, 30
-    cam = stat
-    ; BGRA バッファを作成
+    vcam_init w, h, 30
+    if stat != 0 : end
+    ; BGRA バッファを作成 (赤一色)
     sz = w * h * 4
     sdim buf, sz
-    ; 赤一色で塗りつぶし
     repeat w * h
         poke buf, cnt * 4 + 0, 0     ; B
         poke buf, cnt * 4 + 1, 0     ; G
         poke buf, cnt * 4 + 2, 255   ; R
         poke buf, cnt * 4 + 3, 255   ; A
     loop
-    vcam_send_buffer cam, buf
+    vcam_send_buffer buf
 %href
 vcam_send,vcam_send_frame
+
+
+
+%index
+vcam_is_active
+フィルタ接続チェック
+%group
+hspvcam 基本命令
+%prm
+()
+%inst
+DirectShow 仮想カメラフィルタが消費側アプリケーション (Zoom, Teams,
+OBS 等) によって接続されているかどうかを返します。
+
+仮想カメラフィルタは消費側アプリのプロセス内で動作するため、
+アプリがカメラを選択してストリーミングを開始すると、
+共有メモリの consumer_alive フラグが 1 になります。
+
+戻り値:
+  1: 接続中 (フィルタがフレームを読み出している)
+  0: 未接続
+
+この関数は iron_vcam.hsp をインクルードした場合に利用できます。
+%sample
+    #include "iron_vcam.hsp"
+    vcam_init 640, 480, 30
+    if stat != 0 : end
+    if vcam_is_active() {
+        mes "仮想カメラは接続中です"
+    } else {
+        mes "仮想カメラは未接続です"
+    }
+%href
+vcam_init,vcam_is_connected
+
+
+
+%index
+vcam_term
+仮想カメラの終了
+%group
+hspvcam 基本命令
+%prm
+(パラメータなし)
+%inst
+仮想カメラを終了し、共有メモリとイベントオブジェクトを解放します。
+プログラム終了時には自動的に解放されますが、
+明示的に解放するのが望ましいです。
+
+stat = 0: 成功, -1: 失敗
+%sample
+    #include "iron_vcam.hsp"
+    vcam_init 640, 480, 30
+    if stat != 0 : end
+    ; ... 使用 ...
+    vcam_term
+    end
+%href
+vcam_init
+
+
+
+;==========================================================================
+; 低レベル API (hspvcam.as)
+;==========================================================================
+
+%index
+vcam_create
+仮想カメラの作成 (低レベル)
+%group
+hspvcam 低レベル API
+%prm
+w, h, fps
+w : フレーム幅 (int, ピクセル)
+h : フレーム高さ (int, ピクセル)
+fps : フレームレート (int)
+%inst
+hspvcam.dll の低レベル関数です。共有メモリとイベントを作成します。
+
+通常は iron_vcam.hsp の vcam_init を使用してください。
+
+stat = 0: 成功, -1: 失敗
+%href
+vcam_init,vcam_send_frame,vcam_close
 
 
 
@@ -181,124 +267,55 @@ BGRA バッファの低レベル送信
 %group
 hspvcam 低レベル API
 %prm
-handle, buf, size
-handle : vcam_create で取得したハンドル (int)
+buf, size
 buf : BGRA ピクセルデータ変数 (var)
 size : データサイズ (int, バイト)
 %inst
-BGRA 形式のピクセルデータを指定サイズで送信します。
-hspvcam.as の低レベル関数です。
+BGRA 形式のピクセルデータを指定サイズで共有メモリに書き込みます。
+hspvcam.dll の低レベル関数です。
 
 通常は iron_vcam.hsp の vcam_send_buffer を使用してください。
-この関数ではサイズを明示的に指定する必要があります。
 
 stat = 0: 成功, -1: 失敗
 %href
-vcam_send_buffer
-
-
-
-%index
-vcam_send_from_screen
-スクリーン領域の低レベルキャプチャ送信
-%group
-hspvcam 低レベル API
-%prm
-handle, x, y, w, h
-handle : vcam_create で取得したハンドル (int)
-x : キャプチャ開始 X 座標 (int, スクリーン座標)
-y : キャプチャ開始 Y 座標 (int, スクリーン座標)
-w : キャプチャ幅 (int, 0 で仮想カメラ幅)
-h : キャプチャ高さ (int, 0 で仮想カメラ高さ)
-%inst
-デスクトップのスクリーン DC から指定矩形を BitBlt / StretchBlt で
-キャプチャし、仮想カメラの共有メモリに書き込みます。
-w, h に 0 を指定すると仮想カメラの解像度がそのまま使われます。
-
-hspvcam.as の低レベル関数です。
-
-stat = 0: 成功, -1: 失敗
-%href
-vcam_send_region
-
-
-
-%index
-vcam_get_info
-仮想カメラ情報の取得
-%group
-hspvcam 基本操作
-%prm
-handle, var_w, var_h, var_fps
-handle : vcam_create で取得したハンドル (int)
-var_w : 幅を受け取る変数 (var)
-var_h : 高さを受け取る変数 (var)
-var_fps : FPS を受け取る変数 (var)
-%inst
-指定ハンドルの仮想カメラの解像度とフレームレートを取得します。
-
-stat = 0: 成功, -1: 失敗
-%sample
-    #include "hspvcam.as"
-    h = vcam_create_(640, 480, 30)
-    vcam_get_info h, w, h2, fps
-    mes "幅=" + w + " 高さ=" + h2 + " FPS=" + fps
-%href
-vcam_create
+vcam_send_buffer,vcam_create
 
 
 
 %index
 vcam_is_connected
-コンシューマ接続チェック
+コンシューマ接続チェック (低レベル)
 %group
-hspvcam 基本操作
+hspvcam 低レベル API
 %prm
-(handle)
-handle : vcam_create で取得したハンドル (int)
+()
 %inst
-仮想カメラブリッジプロセス (コンシューマ) が共有メモリを読み出して
-いるかどうかを確認します。
+共有メモリの consumer_alive フラグを確認します。
+DirectShow フィルタが消費側プロセスで動作中なら 1 を返します。
 
-ブリッジプロセスは共有メモリヘッダの consumer_alive フィールドに
-非 0 を書き込むことで接続を通知します。
+通常は iron_vcam.hsp の vcam_is_active() を使用してください。
 
 戻り値:
-  1: コンシューマが接続中
+  1: 接続中
   0: 未接続
-  -1: 無効なハンドル
-%sample
-    #include "hspvcam.as"
-    h = vcam_create_(640, 480, 30)
-    if vcam_is_connected(h) {
-        mes "ブリッジプロセスが接続中です"
-    } else {
-        mes "ブリッジプロセスが未接続です"
-    }
 %href
-vcam_create
+vcam_is_active,vcam_create
 
 
 
 %index
 vcam_close
-仮想カメラの破棄
+仮想カメラの破棄 (低レベル)
 %group
-hspvcam 基本操作
+hspvcam 低レベル API
 %prm
-handle
-handle : vcam_create で取得したハンドル (int)
+(パラメータなし)
 %inst
-仮想カメラを破棄し、共有メモリとイベントオブジェクトを解放します。
-プログラム終了時には自動的に全ハンドルが解放されますが、
-明示的に解放するのが推奨です。
+共有メモリとイベントオブジェクトを解放します。
+hspvcam.dll の低レベル関数です。
+
+通常は iron_vcam.hsp の vcam_term を使用してください。
 
 stat = 0: 成功, -1: 失敗
-%sample
-    #include "iron_vcam.hsp"
-    vcam_create 640, 480, 30
-    cam = stat
-    ; ... 使用 ...
-    vcam_close cam
 %href
-vcam_create
+vcam_term,vcam_create

@@ -6,11 +6,11 @@
 %type
 Šg’£–½—ß
 %ver
-1.0
+3.8
 %date
-2026-04-18
+2026/04/18
 %author
-IronHSP / iron_wasapi
+IronHSP
 %dll
 iron_wasapi.hsp
 

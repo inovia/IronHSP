@@ -6,11 +6,11 @@
 %type
 Šg’£–½—ß (ƒ‚ƒWƒ…[ƒ‹)
 %ver
-1.0
+3.8
 %date
-2026-04-15
+2026/04/18
 %author
-IronHSP / iron_mediapipe
+IronHSP
 %dll
 iron_mediapipe.hsp
 

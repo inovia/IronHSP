@@ -1,0 +1,16 @@
+LIBRARY hspvcam
+EXPORTS
+    DllGetClassObject PRIVATE
+    DllCanUnloadNow PRIVATE
+    DllRegisterServer PRIVATE
+    DllUnregisterServer PRIVATE
+    vcam_create
+    vcam_send_frame
+    vcam_send_from_screen
+    vcam_get_info
+    vcam_is_connected
+    vcam_close
+    vcam_mf_create
+    vcam_mf_send_frame
+    vcam_mf_stop
+    vcam_mf_is_available

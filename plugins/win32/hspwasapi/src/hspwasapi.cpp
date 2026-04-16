@@ -195,7 +195,7 @@ static DWORD WINAPI CaptureWorker(LPVOID param)
     if (FAILED(hr)) return (DWORD)hr;
 
     DWORD mmcssIdx = 0;
-    HANDLE mmcss = AvSetMmThreadCharacteristics(L"Audio", &mmcssIdx);
+    HANDLE mmcss = AvSetMmThreadCharacteristicsA("Audio", &mmcssIdx);
 
     HANDLE waitArr[2] = { s->hShutdown, s->hReady };
     bool running = true;
@@ -282,7 +282,7 @@ static bool GetDevFriendlyName(IMMDeviceCollection *col, UINT idx, wchar_t *name
     hr = ps->GetValue(PKEY_Device_FriendlyName, &pv);
     SafeRelease(&ps);
     if (FAILED(hr)) return false;
-    StringCchCopy(name, cch, pv.vt == VT_LPWSTR ? pv.pwszVal : L"Unknown");
+    StringCchCopyW(name, cch, pv.vt == VT_LPWSTR ? pv.pwszVal : L"Unknown");
     PropVariantClear(&pv);
     return true;
 }

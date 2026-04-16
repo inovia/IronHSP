@@ -46,21 +46,20 @@
 <div class="container">
 
 <h1>IronHSP 仮想ウェブカメラ ガイド</h1>
-<p class="muted">hspvcam プラグイン &mdash; 最終更新: 2026-04-18</p>
+<p class="muted">hspvcam DirectShow 仮想カメラプラグイン &mdash; 最終更新: 2026-04-18</p>
 
 <div class="toc">
 <strong>目次</strong>
 <ul>
   <li><a href="#overview">1. 仮想ウェブカメラとは</a></li>
-  <li><a href="#usecases">2. 主なユースケース</a></li>
-  <li><a href="#architecture">3. アーキテクチャ</a></li>
-  <li><a href="#setup">4. セットアップ手順</a></li>
-  <li><a href="#quickstart">5. クイックスタート</a></li>
-  <li><a href="#api">6. API リファレンス</a></li>
-  <li><a href="#shared-memory">7. 共有メモリ仕様</a></li>
-  <li><a href="#bridge">8. ブリッジプロセスについて</a></li>
-  <li><a href="#examples">9. コード例</a></li>
-  <li><a href="#troubleshooting">10. トラブルシューティング</a></li>
+  <li><a href="#architecture">2. アーキテクチャ</a></li>
+  <li><a href="#setup">3. セットアップ手順</a></li>
+  <li><a href="#quickstart">4. クイックスタート</a></li>
+  <li><a href="#api">5. API リファレンス</a></li>
+  <li><a href="#how-it-works">6. DirectShow 仮想カメラの仕組み</a></li>
+  <li><a href="#apps">7. アプリケーションでの仮想カメラ選択</a></li>
+  <li><a href="#examples">8. コード例</a></li>
+  <li><a href="#troubleshooting">9. トラブルシューティング</a></li>
 </ul>
 </div>
 
@@ -68,114 +67,92 @@
 
 <p>仮想ウェブカメラ (Virtual Webcam) とは、物理的なカメラデバイスがなくても、ソフトウェアが生成した映像をあたかもウェブカメラの映像であるかのように OS に認識させる仕組みです。</p>
 
-<p>IronHSP の <code>hspvcam</code> プラグインを使うと、HSP プログラムの画面描画内容をリアルタイムに仮想カメラとして配信できます。これにより、HSP で作成したアニメーション、ゲーム画面、テキストオーバーレイなどを Zoom, Google Meet, OBS Studio, Discord 等のアプリケーションで「カメラ映像」として使用できます。</p>
+<p>IronHSP の <code>hspvcam</code> プラグインは <strong>DirectShow ソースフィルタ</strong> として実装されており、<code>regsvr32</code> で登録すると Windows のカメラデバイス一覧に「<strong>IronHSP Virtual Camera</strong>」として表示されます。HSP プログラムから送信した映像を、Zoom、Google Meet、Microsoft Teams、Discord など、カメラ入力に対応するあらゆるアプリケーションで使用できます。</p>
+
+<h2 id="architecture">2. アーキテクチャ</h2>
+
+<p><code>hspvcam.dll</code> は1つの DLL で2つの役割を果たします:</p>
 
 <div class="card">
-<h3>従来の hspycp との違い</h3>
-<p>旧 HSP プラグイン <code>hspycp</code> は DirectShow の <code>ycapture</code> ライブラリを使って仮想キャプチャデバイスを直接登録する方式でした。この方式は以下の問題がありました:</p>
-<ul>
-  <li>DirectShow フィルタの登録に <code>regsvr32</code> (管理者権限) が必要</li>
-  <li>Windows 10 以降で DirectShow の互換性問題が発生しやすい</li>
-  <li>64bit 対応が困難</li>
-</ul>
-<p><code>hspvcam</code> は名前付き共有メモリ方式を採用し、HSP プロセスとブリッジプロセスを分離することで、これらの問題を回避しています。</p>
+<h3>(A) HSP プロセス側 (プロデューサ)</h3>
+<p>HSP から <code>vcam_create</code> / <code>vcam_send_frame</code> 等の関数を呼び出すと、名前付き共有メモリにフレームデータ (BGRA ピクセル) を書き込みます。</p>
 </div>
 
-<h2 id="usecases">2. 主なユースケース</h2>
-
-<ul>
-  <li><strong>配信・実況</strong> &mdash; HSP で作成したゲーム画面やアニメーションを OBS Studio 経由でライブ配信</li>
-  <li><strong>ビデオ会議</strong> &mdash; Zoom / Google Meet / Teams で HSP 製のオーバーレイ (時計、字幕、背景エフェクト) をカメラ映像として送信</li>
-  <li><strong>録画</strong> &mdash; HSP の描画内容を仮想カメラ経由で動画として録画</li>
-  <li><strong>プレゼンテーション</strong> &mdash; リアルタイムでデータ可視化やインタラクティブなデモを「カメラ」として表示</li>
-  <li><strong>映像エフェクト</strong> &mdash; 物理カメラの映像を HSP で加工し、仮想カメラとして再出力 (hspcv4 と組み合わせ)</li>
-  <li><strong>テスト・開発</strong> &mdash; カメラ入力を必要とするアプリケーションのテスト用にダミー映像を供給</li>
-</ul>
-
-<h2 id="architecture">3. アーキテクチャ</h2>
-
-<p><code>hspvcam</code> は「プロデューサ - コンシューマ」モデルで動作します。HSP プログラム (プロデューサ) がフレームデータを共有メモリに書き込み、外部のブリッジプロセス (コンシューマ) がそれを読み出して OS のカメラデバイスとして公開します。</p>
+<div class="card">
+<h3>(B) 消費側プロセス (コンシューマ)</h3>
+<p>Zoom や Teams 等のアプリケーションが「IronHSP Virtual Camera」を選択すると、同じ <code>hspvcam.dll</code> がそのアプリのプロセス内に DirectShow フィルタとしてロードされます。フィルタは共有メモリからフレームを読み出して映像ストリームとして出力します。</p>
+</div>
 
 <div class="arch-diagram">
 <span class="highlight">HSP プログラム (プロデューサ)</span>
     |
-    | hspvcam.dll API (vcam_create / vcam_send / ...)
+    | hspvcam.dll (vcam_create / vcam_send_frame / ...)
     |
     v
-<span class="yellow">名前付き共有メモリ</span>  <span class="muted">[IronHSP_VCam_{handle}]</span>
-    |  VCamSharedHeader + BGRA ピクセルデータ
+<span class="yellow">名前付き共有メモリ</span>  <span class="muted">[IronHSP_VCam_SharedMem]</span>
+    |  VCamSharedHeader (64 bytes) + BGRA ピクセルデータ
     |
-    | <span class="yellow">名前付きイベント</span>  <span class="muted">[IronHSP_VCam_Event_{handle}]</span>
+    | <span class="yellow">名前付きイベント</span>  <span class="muted">[IronHSP_VCam_FrameReady]</span>
     |  フレーム更新の通知
     v
-<span class="green">ブリッジプロセス (コンシューマ)</span>
+<span class="green">消費アプリ (Zoom / Teams / OBS / ...)</span>
     |
-    | DirectShow Source Filter / Media Foundation Virtual Camera
-    |
+    | hspvcam.dll (DirectShow IBaseFilter として動作)
+    | 共有メモリからフレーム読み出し → 映像ストリーム
     v
-<span class="highlight">OS カメラデバイス一覧</span>
-    |
-    v
-Zoom / OBS / Teams / Discord / ...
+<span class="highlight">アプリ内のカメラ映像として表示</span>
 </div>
 
 <h3>この設計のメリット</h3>
 <ul>
-  <li><strong>プロセス分離</strong> &mdash; HSP プロセスがクラッシュしてもブリッジプロセスは影響を受けない (逆も同様)</li>
-  <li><strong>権限分離</strong> &mdash; regsvr32 が必要なのはブリッジプロセスのインストール時のみ。HSP 実行時は一般ユーザ権限で動作</li>
-  <li><strong>柔軟性</strong> &mdash; ブリッジプロセスを差し替えることで DirectShow / Media Foundation / OBS Virtual Camera 等の異なるバックエンドに対応可能</li>
-  <li><strong>32/64bit 混在</strong> &mdash; 共有メモリはプロセス間共有なので、32bit HSP から 64bit ブリッジ (またはその逆) にフレームを渡せる</li>
+  <li><strong>単一 DLL</strong> &mdash; ブリッジプロセスが不要。hspvcam.dll 一つで完結</li>
+  <li><strong>クロスプロセス</strong> &mdash; 共有メモリを使うため、32bit HSP と 64bit アプリ (またはその逆) の組み合わせでも動作可能</li>
+  <li><strong>高効率</strong> &mdash; フレームデータのコピーは memcpy 1回のみ。ネットワーク等を経由しない</li>
+  <li><strong>互換性</strong> &mdash; DirectShow はほぼ全てのカメラ対応アプリで使用可能</li>
 </ul>
 
-<h2 id="setup">4. セットアップ手順</h2>
+<h2 id="setup">3. セットアップ手順</h2>
 
-<h3>4.1 必要なファイル</h3>
+<h3>3.1 必要なファイル</h3>
 
 <table>
 <tr><th>ファイル</th><th>配置先</th><th>説明</th></tr>
-<tr><td><code>hspvcam.dll</code></td><td>HSP ランタイムフォルダ</td><td>HSP 側 DLL (共有メモリ管理)</td></tr>
+<tr><td><code>hspvcam.dll</code></td><td>HSP ランタイムフォルダ</td><td>DirectShow フィルタ + HSP API (32bit)</td></tr>
+<tr><td><code>hspvcam_64.dll</code></td><td>HSP ランタイムフォルダ</td><td>同上 (64bit)</td></tr>
 <tr><td><code>hspvcam.as</code></td><td><code>common/</code></td><td>低レベル API ヘッダー</td></tr>
 <tr><td><code>iron_vcam.hsp</code></td><td><code>common/</code></td><td>高レベル API モジュール</td></tr>
 </table>
 
-<h3>4.2 ブリッジプロセスの選択</h3>
+<h3>3.2 DirectShow フィルタの登録</h3>
 
-<p>仮想カメラとして OS に認識させるには、ブリッジプロセスが必要です。以下のいずれかの方法で利用できます:</p>
+<p>仮想カメラデバイスを OS に認識させるため、<strong>管理者権限のコマンドプロンプト</strong>で以下を実行します:</p>
 
-<div class="card">
-<h3>方法 A: OBS Virtual Camera (推奨)</h3>
-<p>OBS Studio をインストールすると「OBS Virtual Camera」が OS に登録されます。OBS のシーンソースとして「ウィンドウキャプチャ」で HSP ウィンドウを選択すれば、ブリッジプロセスなしでも仮想カメラとして使えます。</p>
-<p>ただし、この方法では hspvcam.dll は不要で、HSP 側から配信制御はできません。</p>
-</div>
+<pre><code>; 32bit 版の登録
+regsvr32 hspvcam.dll
 
-<div class="card">
-<h3>方法 B: IronHSP VCam Bridge (専用ブリッジ)</h3>
-<p>IronHSP 専用のブリッジプロセスを使用します。共有メモリからフレームを読み出して DirectShow ソースフィルタに供給するため、HSP プログラムから完全に配信を制御できます。</p>
-<ol>
-  <li>ブリッジ DLL (<code>IronHSP_VCamBridge.dll</code>) を管理者権限で登録:
-    <pre><code>regsvr32 IronHSP_VCamBridge.dll</code></pre>
-  </li>
-  <li>ブリッジプロセス (<code>vcam_bridge.exe</code>) を起動:
-    <pre><code>vcam_bridge.exe --handle 1</code></pre>
-  </li>
-  <li>HSP プログラムから <code>vcam_create</code> で同じハンドル番号を使用</li>
-</ol>
-</div>
+; 64bit 版の登録 (64bit アプリで使う場合)
+regsvr32 hspvcam_64.dll</code></pre>
 
 <div class="note">
-<strong>注意:</strong> ブリッジプロセス (<code>vcam_bridge.exe</code> / <code>IronHSP_VCamBridge.dll</code>) は現在開発中です。当面は OBS Virtual Camera との併用、または共有メモリを読み出す独自アプリケーションの作成をお勧めします。
+<strong>注意:</strong> regsvr32 は必ず管理者権限で実行してください。通常のコマンドプロンプトでは「アクセスが拒否されました」エラーが発生します。
 </div>
 
-<h2 id="quickstart">5. クイックスタート</h2>
+<h3>3.3 登録解除</h3>
+
+<p>仮想カメラを削除する場合:</p>
+
+<pre><code>regsvr32 /u hspvcam.dll
+regsvr32 /u hspvcam_64.dll</code></pre>
+
+<h2 id="quickstart">4. クイックスタート</h2>
 
 <p>最小限のコードで仮想カメラにフレームを送信する例です:</p>
 
 <pre><code>#include "iron_vcam.hsp"
 
-    ; 640x480, 30fps で仮想カメラを作成
-    vcam_create 640, 480, 30
-    cam = stat
-    if cam == 0 : dialog "失敗" : end
+    ; 640x480, 30fps で仮想カメラを初期化
+    vcam_init 640, 480, 30
+    if stat != 0 : dialog "失敗" : end
 
     screen 0, 640, 480
     title "Virtual Webcam"
@@ -189,189 +166,158 @@ Zoom / OBS / Teams / Discord / ...
         redraw 1
 
         ; カレントスクリーンを送信
-        vcam_send cam
+        vcam_send
 
         await 33   ; 約 30fps
     loop</code></pre>
 
-<h2 id="api">6. API リファレンス</h2>
+<h2 id="api">5. API リファレンス</h2>
 
-<h3>6.1 高レベル API (iron_vcam.hsp)</h3>
+<h3>5.1 高レベル API (iron_vcam.hsp)</h3>
 
 <p><code>#include "iron_vcam.hsp"</code> で利用できるモジュール版 API です。</p>
 
 <table>
 <tr><th>命令 / 関数</th><th>説明</th><th>戻り値 (stat)</th></tr>
 <tr>
-  <td><code>vcam_create w, h, fps</code></td>
-  <td>仮想カメラを作成する</td>
-  <td>ハンドル (>0)。0 で失敗</td>
+  <td><code>vcam_init w, h, fps</code></td>
+  <td>仮想カメラを初期化する</td>
+  <td>0: 成功, -1: 失敗</td>
 </tr>
 <tr>
-  <td><code>vcam_send handle</code></td>
+  <td><code>vcam_send</code></td>
   <td>カレントスクリーン全体を送信</td>
   <td>0: 成功, -1: 失敗</td>
 </tr>
 <tr>
-  <td><code>vcam_send_region handle, x, y, w, h</code></td>
+  <td><code>vcam_send_region x, y, w, h</code></td>
   <td>スクリーン領域を送信 (スクリーン座標)</td>
   <td>0: 成功, -1: 失敗</td>
 </tr>
 <tr>
-  <td><code>vcam_send_buffer handle, buf</code></td>
+  <td><code>vcam_send_buffer buf</code></td>
   <td>BGRA バッファを直接送信</td>
   <td>0: 成功, -1: 失敗</td>
 </tr>
 <tr>
-  <td><code>vcam_is_connected(handle)</code></td>
-  <td>コンシューマ接続チェック</td>
-  <td>1: 接続, 0: 未接続, -1: 無効</td>
+  <td><code>vcam_is_active()</code></td>
+  <td>フィルタ接続チェック</td>
+  <td>1: 接続, 0: 未接続</td>
 </tr>
 <tr>
-  <td><code>vcam_close handle</code></td>
-  <td>仮想カメラを破棄</td>
+  <td><code>vcam_term</code></td>
+  <td>仮想カメラを終了・解放</td>
   <td>0: 成功, -1: 失敗</td>
 </tr>
 </table>
 
-<h3>6.2 低レベル API (hspvcam.as)</h3>
+<h3>5.2 低レベル API (hspvcam.as)</h3>
 
 <p><code>#include "hspvcam.as"</code> で利用できる DLL 直接呼び出し API です。</p>
 
 <table>
 <tr><th>関数 / 命令</th><th>プロトタイプ</th><th>説明</th></tr>
 <tr>
-  <td><code>vcam_create_(w, h, fps)</code></td>
-  <td><code>#cfunc</code></td>
-  <td>仮想カメラ作成。戻り値=ハンドル</td>
+  <td><code>vcam_create</code></td>
+  <td><code>w, h, fps</code></td>
+  <td>共有メモリ作成。stat=0: 成功</td>
 </tr>
 <tr>
   <td><code>vcam_send_frame</code></td>
-  <td><code>handle, var, size</code></td>
+  <td><code>buf, size</code></td>
   <td>BGRA バッファ送信 (サイズ指定)</td>
 </tr>
 <tr>
-  <td><code>vcam_send_from_screen</code></td>
-  <td><code>handle, x, y, w, h</code></td>
-  <td>スクリーン領域キャプチャ送信</td>
-</tr>
-<tr>
-  <td><code>vcam_get_info</code></td>
-  <td><code>handle, var_w, var_h, var_fps</code></td>
-  <td>カメラ情報取得</td>
-</tr>
-<tr>
-  <td><code>vcam_is_connected(handle)</code></td>
+  <td><code>vcam_is_connected()</code></td>
   <td><code>#cfunc</code></td>
-  <td>接続チェック</td>
+  <td>接続チェック。1=接続, 0=未接続</td>
 </tr>
 <tr>
   <td><code>vcam_close</code></td>
-  <td><code>handle</code></td>
-  <td>仮想カメラ破棄</td>
+  <td>(なし)</td>
+  <td>共有メモリ解放</td>
 </tr>
 </table>
 
-<h2 id="shared-memory">7. 共有メモリ仕様</h2>
+<h2 id="how-it-works">6. DirectShow 仮想カメラの仕組み</h2>
 
-<p>ブリッジプロセスを独自に実装する場合の共有メモリレイアウトです。</p>
+<h3>6.1 DirectShow とは</h3>
 
-<h3>7.1 命名規則</h3>
+<p>DirectShow は Windows のマルチメディアフレームワークで、フィルタグラフと呼ばれるパイプラインでメディアを処理します。カメラデバイスは「ソースフィルタ」として実装され、映像フレームをダウンストリームに配信します。</p>
+
+<h3>6.2 hspvcam.dll の COM 登録</h3>
+
+<p><code>regsvr32 hspvcam.dll</code> を実行すると、以下のレジストリエントリが作成されます:</p>
+
 <table>
-<tr><th>オブジェクト</th><th>名前パターン</th><th>説明</th></tr>
-<tr><td>共有メモリ</td><td><code>IronHSP_VCam_{handle}</code></td><td>ヘッダー + ピクセルデータ</td></tr>
-<tr><td>イベント</td><td><code>IronHSP_VCam_Event_{handle}</code></td><td>フレーム送信通知 (自動リセット)</td></tr>
+<tr><th>キー</th><th>説明</th></tr>
+<tr><td><code>HKCR\CLSID\{8A5E2CE1-...}</code></td><td>フィルタの COM クラス登録</td></tr>
+<tr><td><code>HKCR\CLSID\{8A5E2CE1-...}\InprocServer32</code></td><td>DLL パスとスレッディングモデル</td></tr>
+<tr><td><code>HKCR\CLSID\{860BB310-...}\Instance\{8A5E2CE1-...}</code></td><td>ビデオキャプチャデバイスカテゴリへの登録</td></tr>
 </table>
 
-<h3>7.2 ヘッダー構造体</h3>
+<p>これにより、アプリケーションが <code>CLSID_VideoInputDeviceCategory</code> を列挙したとき (= カメラ一覧を取得したとき) に「IronHSP Virtual Camera」が表示されるようになります。</p>
 
-<pre><code>struct VCamSharedHeader {
-    int width;           // フレーム幅 (ピクセル)
-    int height;          // フレーム高さ (ピクセル)
-    int fps;             // フレームレート
-    int frame_counter;   // フレーム番号 (送信ごとにインクリメント)
-    int consumer_alive;  // コンシューマが書き込む接続フラグ (0/1)
-    int reserved[3];     // 将来の拡張用 (32 bytes 境界)
-};
-// ヘッダーの直後に BGRA ピクセルデータが続く
-// サイズ: width * height * 4 バイト</code></pre>
-
-<h3>7.3 ピクセルフォーマット</h3>
-
-<ul>
-  <li><strong>フォーマット:</strong> BGRA (Blue, Green, Red, Alpha)</li>
-  <li><strong>ビット深度:</strong> 各チャンネル 8 bit (32 bpp)</li>
-  <li><strong>走査方向:</strong> トップダウン (先頭バイトが左上ピクセル)</li>
-  <li><strong>ストライド:</strong> width * 4 (パディングなし)</li>
-  <li><strong>Alpha:</strong> 通常は 255 (不透明)。ブリッジ側で合成に使用可能</li>
-</ul>
-
-<h3>7.4 同期プロトコル</h3>
+<h3>6.3 フレーム配信の流れ</h3>
 
 <ol>
-  <li>プロデューサ (HSP) が共有メモリにピクセルデータを書き込む</li>
-  <li>プロデューサが <code>frame_counter</code> をインクリメント</li>
-  <li>プロデューサがイベントをシグナル状態にする (<code>SetEvent</code>)</li>
-  <li>コンシューマ (ブリッジ) が <code>WaitForSingleObject</code> でイベントを待機</li>
-  <li>コンシューマが共有メモリからピクセルデータを読み出す</li>
-  <li>コンシューマは <code>consumer_alive</code> を 1 に設定して接続を通知</li>
+  <li>HSP プログラムが <code>vcam_create()</code> で共有メモリとイベントを作成</li>
+  <li>HSP が <code>vcam_send_frame()</code> でフレームデータを共有メモリに書き込み、イベントをシグナル</li>
+  <li>消費アプリが「IronHSP Virtual Camera」を選択すると、hspvcam.dll がそのプロセス内にロード</li>
+  <li>DirectShow フィルタのストリーミングスレッドが共有メモリを開き、イベントを待機</li>
+  <li>イベントがシグナルされるとフレームを読み出し、<code>IMemInputPin::Receive()</code> でダウンストリームに配信</li>
+  <li>フィルタは <code>consumer_alive</code> フラグを 1 に設定し、HSP 側が接続状態を確認可能</li>
+</ol>
+
+<h3>6.4 ピクセルフォーマット</h3>
+
+<ul>
+  <li><strong>フォーマット:</strong> BGRA (Blue, Green, Red, Alpha) = MEDIASUBTYPE_RGB32</li>
+  <li><strong>ビット深度:</strong> 各チャンネル 8 bit (32 bpp)</li>
+  <li><strong>走査方向:</strong> 共有メモリ内はトップダウン。DirectShow フィルタが自動的にボトムアップに変換</li>
+  <li><strong>ストライド:</strong> width * 4 (パディングなし)</li>
+</ul>
+
+<h2 id="apps">7. アプリケーションでの仮想カメラ選択</h2>
+
+<h3>7.1 Zoom</h3>
+<ol>
+  <li>設定 &rarr; ビデオ を開く</li>
+  <li>「カメラ」ドロップダウンから「<strong>IronHSP Virtual Camera</strong>」を選択</li>
+  <li>プレビューに HSP からの映像が表示される</li>
+</ol>
+
+<h3>7.2 Microsoft Teams</h3>
+<ol>
+  <li>設定 &rarr; デバイス &rarr; カメラ を開く</li>
+  <li>「<strong>IronHSP Virtual Camera</strong>」を選択</li>
+</ol>
+
+<h3>7.3 Google Meet</h3>
+<ol>
+  <li>設定 (歯車アイコン) &rarr; ビデオ を開く</li>
+  <li>カメラのドロップダウンから選択</li>
+</ol>
+
+<h3>7.4 Discord</h3>
+<ol>
+  <li>設定 &rarr; 音声・ビデオ を開く</li>
+  <li>「ビデオカメラ」から「<strong>IronHSP Virtual Camera</strong>」を選択</li>
 </ol>
 
 <div class="note">
-<strong>排他制御について:</strong> 現在の実装ではプロデューサとコンシューマ間でミューテックスによる排他は行っていません。frame_counter の変化を確認することで新フレームの到着を検知できます。1 フレームの書き込みが途中で読まれるティアリング (tearing) が問題になる場合は、ダブルバッファリングの導入を検討してください。
+<strong>ヒント:</strong> 一部のアプリケーションでは、仮想カメラを認識するためにアプリの再起動が必要な場合があります。regsvr32 実行後にアプリを再起動してください。
 </div>
 
-<h2 id="bridge">8. ブリッジプロセスについて</h2>
+<h2 id="examples">8. コード例</h2>
 
-<p>IronHSP 専用のブリッジプロセスは現在開発中です。当面は以下の方法で仮想カメラ機能を利用できます:</p>
-
-<h3>8.1 OBS Virtual Camera との併用</h3>
-
-<p>最も簡単な方法です。hspvcam を使わず、OBS Studio のウィンドウキャプチャ機能で HSP ウィンドウを取り込み、OBS の「仮想カメラ開始」ボタンで配信します。</p>
-
-<h3>8.2 独自ブリッジの実装</h3>
-
-<p>共有メモリ仕様 (第 7 章) に基づいて独自のブリッジプロセスを実装できます。C# / Python / C++ 等で共有メモリを開き、フレームを読み出して仮想カメラデバイスに供給します。</p>
-
-<p>Python での読み出し例:</p>
-
-<pre><code>import mmap
-import struct
-import time
-
-# 共有メモリを開く (handle=1 の場合)
-shm = mmap.mmap(-1, 32 + 640*480*4, tagname="IronHSP_VCam_1", access=mmap.ACCESS_READ)
-
-# ヘッダーの読み取り
-header = struct.unpack("8i", shm[:32])
-width, height, fps = header[0], header[1], header[2]
-frame_counter = header[3]
-
-print(f"Resolution: {width}x{height} @ {fps}fps")
-print(f"Frame: {frame_counter}")
-
-# ピクセルデータの読み取り (BGRA)
-pixel_data = shm[32:32 + width*height*4]
-
-shm.close()</code></pre>
-
-<h3>8.3 DirectShow ソースフィルタの実装</h3>
-
-<p>本格的な仮想カメラデバイスとして OS に認識させるには、DirectShow ソースフィルタ (IBaseFilter + IPin + IMediaSample) を実装した COM DLL を作成し、<code>regsvr32</code> で登録する必要があります。これは旧 hspycp の ycapture ライブラリと同等の実装です。</p>
-
-<h3>8.4 Media Foundation Virtual Camera (Windows 11+)</h3>
-
-<p>Windows 11 22H2 以降では、Media Foundation の <code>IMFVirtualCamera</code> インターフェースを使って、regsvr32 なしで仮想カメラデバイスを作成できます。将来のブリッジプロセスではこの方式の採用を検討しています。</p>
-
-<h2 id="examples">9. コード例</h2>
-
-<h3>9.1 基本的な配信</h3>
+<h3>8.1 基本的な配信</h3>
 
 <pre><code>#include "iron_vcam.hsp"
 
     screen 0, 640, 480
-    vcam_create 640, 480, 30
-    cam = stat
+    vcam_init 640, 480, 30
+    if stat != 0 : dialog "初期化失敗" : end
 
     repeat
         redraw 0
@@ -379,40 +325,53 @@ shm.close()</code></pre>
         color 255, 255, 255
         pos 10, 10 : mes "Live from IronHSP!"
         redraw 1
-        vcam_send cam
+        vcam_send
         await 33
     loop</code></pre>
 
-<h3>9.2 スクリーン領域の選択送信</h3>
+<h3>8.2 接続状態の監視</h3>
 
 <pre><code>#include "iron_vcam.hsp"
 
-    ; 1920x1080 ウィンドウの中央 640x480 を送信
-    screen 0, 1920, 1080
-    vcam_create 640, 480, 30
-    cam = stat
+    vcam_init 640, 480, 30
+    if stat != 0 : end
+
+    screen 0, 320, 100
 
     repeat
         redraw 0
-        ; ... 描画処理 ...
+        color 240, 240, 240 : boxf
+
+        if vcam_is_active() {
+            color 0, 128, 0
+            pos 10, 10 : mes "状態: 配信中"
+        } else {
+            color 200, 0, 0
+            pos 10, 10 : mes "状態: 待機中"
+        }
+
+        color 0, 0, 0
+        pos 10, 40 : mes "ESC で終了"
         redraw 1
 
-        ; ウィンドウ中央部分のスクリーン座標を計算
-        sx = ginfo_wx1 + (1920 - 640) / 2
-        sy = ginfo_wy1 + (1080 - 480) / 2
-        vcam_send_region cam, sx, sy, 640, 480
+        vcam_send
 
-        await 33
-    loop</code></pre>
+        getkey k, 27
+        if k : break
+        await 100
+    loop
 
-<h3>9.3 hspcv4 との連携 (カメラ映像にエフェクト)</h3>
+    vcam_term
+    end</code></pre>
+
+<h3>8.3 hspcv4 との連携 (カメラ映像にエフェクト)</h3>
 
 <pre><code>#include "iron_vcam.hsp"
 #include "hspcv4.as"
 
     cam_w = 640 : cam_h = 480
-    vcam_create cam_w, cam_h, 30
-    vcam_handle = stat
+    vcam_init cam_w, cam_h, 30
+    if stat != 0 : end
 
     ; 物理カメラを開く
     cv4_video_open 0, "0"
@@ -433,85 +392,59 @@ shm.close()</code></pre>
         redraw 1
 
         ; 仮想カメラに送信
-        vcam_send vcam_handle
+        vcam_send
 
         await 33
     loop</code></pre>
 
-<h3>9.4 接続状態の監視</h3>
-
-<pre><code>#include "iron_vcam.hsp"
-
-    vcam_create 640, 480, 30
-    cam = stat
-
-    screen 0, 320, 100
-
-    repeat
-        redraw 0
-        color 240, 240, 240 : boxf
-
-        if vcam_is_connected(cam) == 1 {
-            color 0, 128, 0
-            pos 10, 10 : mes "状態: 配信中"
-        } else {
-            color 200, 0, 0
-            pos 10, 10 : mes "状態: 待機中 (ブリッジ未接続)"
-        }
-
-        color 0, 0, 0
-        pos 10, 40 : mes "ESC で終了"
-        redraw 1
-
-        ; 接続状態に関わらずフレームは送信し続ける
-        vcam_send cam
-
-        getkey k, 27
-        if k : break
-        await 100
-    loop
-
-    vcam_close cam
-    end</code></pre>
-
-<h2 id="troubleshooting">10. トラブルシューティング</h2>
+<h2 id="troubleshooting">9. トラブルシューティング</h2>
 
 <table>
 <tr><th>症状</th><th>原因</th><th>対処</th></tr>
 <tr>
-  <td><code>vcam_create</code> が 0 を返す</td>
+  <td><code>vcam_init</code> が -1 を返す</td>
   <td>hspvcam.dll が見つからない / パラメータが不正</td>
   <td>DLL がランタイムフォルダにあるか確認。width/height/fps は正の整数を指定</td>
 </tr>
 <tr>
-  <td>フレームが送信されない</td>
-  <td>ハンドルが無効</td>
-  <td><code>vcam_create</code> の戻り値が 0 でないことを確認</td>
+  <td>カメラ一覧に表示されない</td>
+  <td>regsvr32 が未実行 / 管理者権限なし</td>
+  <td>管理者権限のコマンドプロンプトで <code>regsvr32 hspvcam.dll</code> を実行。その後アプリを再起動</td>
 </tr>
 <tr>
-  <td><code>vcam_is_connected</code> が常に 0</td>
-  <td>ブリッジプロセスが起動していない</td>
-  <td>ブリッジプロセスを起動するか、OBS Virtual Camera を使用</td>
+  <td>64bit アプリで認識されない</td>
+  <td>32bit DLL のみ登録済み</td>
+  <td><code>regsvr32 hspvcam_64.dll</code> も実行する</td>
 </tr>
 <tr>
-  <td>映像がティアリング (ちらつく)</td>
-  <td>プロデューサとコンシューマの書き込み/読み出しが衝突</td>
-  <td>フレームレートを下げるか、ブリッジ側でダブルバッファリングを実装</td>
+  <td><code>vcam_is_active()</code> が常に 0</td>
+  <td>消費アプリがカメラを選択していない</td>
+  <td>Zoom 等でカメラに「IronHSP Virtual Camera」を選択</td>
 </tr>
 <tr>
-  <td>映像が上下反転している</td>
-  <td>ピクセルデータの走査方向の不一致</td>
-  <td>共有メモリのデータはトップダウン方式。ブリッジ側で変換が必要な場合あり</td>
+  <td>映像が真っ暗</td>
+  <td>HSP 側がフレームを送信していない</td>
+  <td><code>vcam_send</code> がメインループ内で呼ばれているか確認</td>
+</tr>
+<tr>
+  <td>映像が暗い青一色</td>
+  <td>フィルタは動作しているが HSP プログラムが未起動</td>
+  <td>HSP プログラムを起動して <code>vcam_init</code> + <code>vcam_send</code> を実行</td>
+</tr>
+<tr>
+  <td>映像がカクつく</td>
+  <td>フレームレートが不足</td>
+  <td><code>await</code> の値を確認。30fps なら <code>await 33</code>。描画処理の負荷を確認</td>
 </tr>
 <tr>
   <td>色がおかしい (赤と青が入れ替わる)</td>
   <td>BGRA と RGBA の混同</td>
-  <td>共有メモリのデータは BGRA 順序。RGB を期待するブリッジでは B/R の入れ替えが必要</td>
+  <td>共有メモリのデータは BGRA 順序。外部ツールで加工する場合は注意</td>
 </tr>
 <tr>
-  <td>メモリ使用量が大きい</td>
-  <td>高解像度の共有メモリ</td>
-  <td>1920x1080 BGRA = 約 8MB。不要になったら <code>vcam_close</code> で解放</td>
+  <td>regsvr32 でエラー</td>
+  <td>DLL の依存関係が不足</td>
+  <td>Visual C++ ランタイムがインストールされているか確認</td>
 </tr>
 </table>
 
@@ -520,12 +453,13 @@ shm.close()</code></pre>
 <ul>
   <li>フレームレートは用途に合わせて設定 (配信なら 30fps、プレゼン用なら 15fps で十分)</li>
   <li>解像度は必要最小限に (640x480 で約 1.2MB/フレーム、1920x1080 で約 8MB/フレーム)</li>
-  <li><code>vcam_send</code> はスクリーン DC からの BitBlt を伴うため、描画完了 (redraw 1) 後に呼び出すこと</li>
+  <li><code>vcam_send</code> はスクリーン DC からの BitBlt を伴うため、<code>redraw 1</code> 後に呼び出すこと</li>
+  <li>HSP プログラムを先に起動してからアプリでカメラを選択すると、初回のフレーム欠落を防げる</li>
 </ul>
 </div>
 
 <footer>
-  <p>IronHSP &mdash; hspvcam Virtual Webcam Plugin Documentation</p>
+  <p>IronHSP &mdash; hspvcam DirectShow Virtual Webcam Plugin Documentation</p>
   <p>Copyright &copy; 2026 HNWorks. All rights reserved.</p>
 </footer>
 

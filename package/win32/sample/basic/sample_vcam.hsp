@@ -1,18 +1,20 @@
 ;============================================================
-;   sample_vcam.hsp — 仮想ウェブカメラ サンプル
+;   sample_vcam.hsp -- DirectShow 仮想ウェブカメラ サンプル
 ;
 ;   HSP のスクリーン描画内容を仮想カメラとして配信するデモ。
-;   OBS Studio や Zoom 等のアプリで仮想カメラ映像を確認できます。
+;   Zoom / Teams / OBS 等のアプリで「IronHSP Virtual Camera」を
+;   カメラデバイスとして選択すると映像を確認できます。
 ;
-;   前提:
-;     - hspvcam.dll がランタイムフォルダに存在すること
-;     - 仮想カメラブリッジプロセスが共有メモリを読み出し中であること
-;       (ブリッジプロセスは別途起動する必要があります)
+;   事前準備:
+;     1. 管理者権限のコマンドプロンプトで以下を実行:
+;        regsvr32 hspvcam.dll
+;     2. このサンプルを実行
+;     3. Zoom 等のアプリでカメラに「IronHSP Virtual Camera」を選択
 ;============================================================
 
 #include "iron_vcam.hsp"
 
-    ; 仮想カメラの作成 (640x480, 30fps)
+    ; 仮想カメラの解像度とフレームレート
     cam_w = 640
     cam_h = 480
     cam_fps = 30
@@ -21,18 +23,18 @@
     screen 0, cam_w, cam_h
     title "IronHSP Virtual Webcam Demo"
 
-    ; 仮想カメラ作成
-    vcam_create cam_w, cam_h, cam_fps
-    cam = stat
-    if cam == 0 {
-        dialog "仮想カメラの作成に失敗しました", 1, "エラー"
+    ; 仮想カメラ初期化
+    vcam_init cam_w, cam_h, cam_fps
+    if stat != 0 {
+        dialog "仮想カメラの初期化に失敗しました\n\nregsvr32 hspvcam.dll を\n管理者権限で実行してください", 1, "エラー"
         end
     }
 
-    mes "仮想カメラを作成しました (handle=" + cam + ")"
+    mes "仮想カメラを初期化しました"
     mes "解像度: " + cam_w + "x" + cam_h + " @ " + cam_fps + "fps"
     mes ""
     mes "このウィンドウの内容が仮想カメラに送信されます。"
+    mes "Zoom 等で「IronHSP Virtual Camera」を選択してください。"
     mes "ESC キーで終了します。"
     mes ""
 
@@ -57,20 +59,12 @@
             line 0, cnt, cam_w, cnt
         loop
 
-        ; 回転する四角形
+        ; 回転する円
         cx = cam_w / 2
         cy = cam_h / 2
         sz = 80
 
-        ; 簡易回転 (sin/cos テーブルなし版)
-        ; HSP の sin/cos は double
-        rad = double(angle) * 3.14159265 / 180.0
-        cs = cos(rad)
-        sn = sin(rad)
-
-        ; 四角形の 4 頂点
         color 255, 200, 0
-        ; 簡易的に円を描画
         circle cx - sz, cy - sz, cx + sz, cy + sz, 1
 
         ; テキスト表示
@@ -80,16 +74,15 @@
         mes "IronHSP Virtual Webcam"
         pos 10, 35
         mes "Frame: " + frame_count
-        pos 10, 60
 
         ; 接続状態の表示
-        connected = vcam_is_connected(cam)
-        if connected == 1 {
+        pos 10, 60
+        if vcam_is_active() {
             color 0, 255, 0
-            mes "ブリッジ: 接続中"
+            mes "Status: LIVE"
         } else {
             color 255, 100, 100
-            mes "ブリッジ: 未接続"
+            mes "Status: Waiting..."
         }
 
         ; 時刻表示
@@ -100,7 +93,7 @@
         redraw 1
 
         ; カレントスクリーンを仮想カメラに送信
-        vcam_send cam
+        vcam_send
 
         angle += 3
         if angle >= 360 : angle -= 360
@@ -111,5 +104,5 @@
 
 *quit
     ; 後始末
-    vcam_close cam
+    vcam_term
     end

@@ -1,17 +1,32 @@
 ;============================================================
-;   iron_vcam.hsp — 仮想ウェブカメラ モジュール (IronHSP)
+;   iron_vcam.hsp -- 仮想ウェブカメラ モジュール (IronHSP)
 ;
-;   HSP のスクリーン内容を仮想カメラデバイスとして配信するための
-;   高レベルラッパ。hspvcam.dll の低レベル API を包み、
-;   ginfo / mref を使ったスクリーンキャプチャを簡便に行えます。
+;   HSP のス��リーン内容を仮想カメラデバイスとして配信する
+;   高レベルラッパ。hspvcam.dll を使用。
 ;
-;   API:
-;     vcam_create w, h, fps       ; 仮想カメラ作成 → stat=handle
-;     vcam_send handle            ; カレントスクリーン全体を送信
-;     vcam_send_region handle, x, y, w, h  ; スクリーン領域を送信
-;     vcam_send_buffer handle, buf ; BGRA バッファを直接送信
-;     vcam_is_connected(handle)   ; コンシューマ接続チェック
-;     vcam_close handle           ; 仮想カメラ破棄
+;   2 つの方式をサポート:
+;     - DirectShow (Vista-Win10): regsvr32 が必要
+;     - MF IMFVirtualCamera (Win11+): regsvr32 不要
+;
+;   DirectShow API:
+;     vcam_init w, h, fps          ; 仮想カメ��初期化 → stat=0 ok
+;     vcam_send                    ; カレントスクリ��ン全体を送信
+;     vcam_send_region x, y, w, h  ; スクリーン領域を送信
+;     vcam_send_buffer buf         ; BGRA バッファを直接送信
+;     vcam_is_active()             ; フィルタ接続チェック
+;     vcam_term                    ; 仮想カ���ラ終了
+;
+;   MF API (Windows 11+):
+;     vcam_mf_init w, h, fps, "name" ; MF 仮想カメラ初期化
+;     vcam_mf_send                   ; カレントスクリーン送信
+;     vcam_mf_send_buffer buf        ; BGRA バッファ送信
+;     vcam_mf_available()            ; API 利用可否チェ���ク
+;     vcam_mf_term                   ; MF 仮想カメラ終了
+;
+;   自動検出ラッパ:
+;     vcam_auto_init w, h, fps     ; MF 優先、DS フォールバック
+;     vcam_auto_send               ; モードに応じて送信
+;     vcam_auto_term               ; モードに応じて終了
 ;
 ;   依存: hspvcam.as
 ;============================================================
@@ -21,58 +36,317 @@
 
 #include "hspvcam.as"
 
+; GDI API 宣言 (iron_vcam 内部で使用)
+#uselib "user32.dll"
+#cfunc iron_vcam_GetDC "GetDC" int
+#func iron_vcam_ReleaseDC "ReleaseDC" int, int
+#uselib "gdi32.dll"
+#cfunc iron_vcam_CreateCompatibleDC "CreateCompatibleDC" int
+#func iron_vcam_DeleteDC "DeleteDC" int
+#cfunc iron_vcam_CreateDIBSection "CreateDIBSection" int, int, int, var, int, int
+#cfunc iron_vcam_SelectObject "SelectObject" int, int
+#func iron_vcam_DeleteObject "DeleteObject" int
+#func iron_vcam_BitBlt "BitBlt" int, int, int, int, int, int, int, int, int
+#func iron_vcam_StretchBlt "StretchBlt" int, int, int, int, int, int, int, int, int, int, int
+#func iron_vcam_SetStretchBltMode "SetStretchBltMode" int, int
+
 ;------------------------------------------------------------
 ; #module iron_vcam
 ;------------------------------------------------------------
 #module iron_vcam
 
-;------------------------------------------------------------
-; vcam_create w, h, fps
-;   仮想カメラを作成する。
-;   stat にハンドル (>0) が返る。0 なら失敗。
-;------------------------------------------------------------
-#deffunc vcam_create int _w, int _h, int _fps
-    _ret = vcam_create_(_w, _h, _fps)
-    return _ret
+#define SRCCOPY $00CC0020
 
 ;------------------------------------------------------------
-; vcam_send handle
-;   HSP のカレントウィンドウ全体をキャプチャして送信する。
-;   内部で ginfo を使ってウィンドウの位置・サイズを取得し、
-;   スクリーン DC から BitBlt でキャプチャする。
+; vcam_init w, h, fps
+;   仮想カメラを初期化する。
+;   stat = 0 なら成功、-1 なら失敗。
 ;------------------------------------------------------------
-#deffunc vcam_send int _handle
-    ; カレントウィンドウの位置とサイズを取得
-    _wx = ginfo_wx1   ; ウィンドウ左端 (クライアント領域)
-    _wy = ginfo_wy1   ; ウィンドウ上端
-    _ww = ginfo_winx   ; ウィンドウ幅
-    _wh = ginfo_winy   ; ウィンドウ高さ
-
-    ; hspvcam.dll のスクリーンキャプチャ機能を使用
-    vcam_send_from_screen _handle, _wx, _wy, _ww, _wh
-    return stat
-
-;------------------------------------------------------------
-; vcam_send_region handle, x, y, w, h
-;   HSP のカレントウィンドウ内の指定領域をキャプチャして送信する。
-;   座標はスクリーン座標で指定する。
-;------------------------------------------------------------
-#deffunc vcam_send_region int _handle, int _x, int _y, int _w, int _h
-    vcam_send_from_screen _handle, _x, _y, _w, _h
-    return stat
-
-;------------------------------------------------------------
-; vcam_send_buffer handle, buf
-;   BGRA バッファを直接送信する。
-;   buf は sdim / dim 等で確保した変数で、
-;   width * height * 4 バイト以上のデータが必要。
-;------------------------------------------------------------
-#deffunc vcam_send_buffer int _handle, var _buf
-    ; バッファサイズの取得: カメラの幅 * 高さ * 4
-    vcam_get_info _handle, _iw, _ih, _ifps
+#deffunc vcam_init int p_w, int p_h, int p_fps
+    mvcam_w = p_w
+    mvcam_h = p_h
+    mvcam_fps = p_fps
+    vcam_create mvcam_w, mvcam_h, mvcam_fps
     if stat != 0 : return -1
-    _sz = _iw * _ih * 4
-    vcam_send_frame _handle, _buf, _sz
+    mvcam_open = 1
+    return 0
+
+;------------------------------------------------------------
+; vcam_send
+;   HSP のカレントウィンドウ全体をキャプチャして送信する。
+;   内部で ginfo でウィンドウ位置・サイズを取得し、
+;   デスクトップ DC から DIB へ BitBlt して共有メモリに書き込む。
+;------------------------------------------------------------
+#deffunc vcam_send
+    if mvcam_open == 0 : return -1
+
+    wx = ginfo_wx1
+    wy = ginfo_wy1
+    ww = ginfo_winx
+    wh = ginfo_winy
+
+    sz = mvcam_w * mvcam_h * 4
+
+    hDeskDC = iron_vcam_GetDC(0)
+    hMemDC = iron_vcam_CreateCompatibleDC(hDeskDC)
+
+    ; BITMAPINFOHEADER (トップダウン DIB)
+    dim bmi, 10
+    bmi(0) = 40           ; biSize
+    bmi(1) = mvcam_w      ; biWidth
+    bmi(2) = -mvcam_h     ; biHeight (負=トップダウン)
+    lpoke bmi, 12, $00200001  ; biPlanes=1, biBitCount=32
+
+    hBmp = iron_vcam_CreateDIBSection(hMemDC, varptr(bmi), 0, pBits, 0, 0)
+    if hBmp == 0 {
+        iron_vcam_DeleteDC hMemDC
+        iron_vcam_ReleaseDC 0, hDeskDC
+        return -1
+    }
+
+    hOld = iron_vcam_SelectObject(hMemDC, hBmp)
+
+    if ww == mvcam_w & wh == mvcam_h {
+        iron_vcam_BitBlt hMemDC, 0, 0, mvcam_w, mvcam_h, hDeskDC, wx, wy, SRCCOPY
+    } else {
+        iron_vcam_SetStretchBltMode hMemDC, 4
+        iron_vcam_StretchBlt hMemDC, 0, 0, mvcam_w, mvcam_h, hDeskDC, wx, wy, ww, wh, SRCCOPY
+    }
+
+    ; DIB ビットを送信
+    dupptr dibBuf, pBits, sz, 2
+    vcam_send_frame dibBuf, sz
+    ret = stat
+
+    iron_vcam_SelectObject hMemDC, hOld
+    iron_vcam_DeleteObject hBmp
+    iron_vcam_DeleteDC hMemDC
+    iron_vcam_ReleaseDC 0, hDeskDC
+
+    return ret
+
+;------------------------------------------------------------
+; vcam_send_region x, y, w, h
+;   スクリーン上の指定矩形領域をキャプチャして送信する。
+;   座標はスクリーン座標。
+;------------------------------------------------------------
+#deffunc vcam_send_region int p_x, int p_y, int p_w, int p_h
+    if mvcam_open == 0 : return -1
+
+    sz = mvcam_w * mvcam_h * 4
+
+    hDeskDC = iron_vcam_GetDC(0)
+    hMemDC = iron_vcam_CreateCompatibleDC(hDeskDC)
+
+    dim bmi, 10
+    bmi(0) = 40
+    bmi(1) = mvcam_w
+    bmi(2) = -mvcam_h
+    lpoke bmi, 12, $00200001
+
+    hBmp = iron_vcam_CreateDIBSection(hMemDC, varptr(bmi), 0, pBits, 0, 0)
+    if hBmp == 0 {
+        iron_vcam_DeleteDC hMemDC
+        iron_vcam_ReleaseDC 0, hDeskDC
+        return -1
+    }
+
+    hOld = iron_vcam_SelectObject(hMemDC, hBmp)
+    iron_vcam_SetStretchBltMode hMemDC, 4
+    iron_vcam_StretchBlt hMemDC, 0, 0, mvcam_w, mvcam_h, hDeskDC, p_x, p_y, p_w, p_h, SRCCOPY
+
+    dupptr dibBuf, pBits, sz, 2
+    vcam_send_frame dibBuf, sz
+    ret = stat
+
+    iron_vcam_SelectObject hMemDC, hOld
+    iron_vcam_DeleteObject hBmp
+    iron_vcam_DeleteDC hMemDC
+    iron_vcam_ReleaseDC 0, hDeskDC
+
+    return ret
+
+;------------------------------------------------------------
+; vcam_send_buffer buf
+;   BGRA バッファを直接送信する。
+;   buf は width * height * 4 バイト以上のデータ。
+;------------------------------------------------------------
+#deffunc vcam_send_buffer var p_buf
+    if mvcam_open == 0 : return -1
+    sz = mvcam_w * mvcam_h * 4
+    vcam_send_frame p_buf, sz
+    return stat
+
+;------------------------------------------------------------
+; vcam_is_active()
+;   DirectShow フィルタが接続中かどうか。
+;   戻り値: 1=接続中, 0=未接続
+;------------------------------------------------------------
+#defcfunc vcam_is_active
+    if mvcam_open == 0 : return 0
+    return vcam_is_connected()
+
+;------------------------------------------------------------
+; vcam_term
+;   仮想カメラを終了・解放する。
+;------------------------------------------------------------
+#deffunc vcam_term
+    if mvcam_open == 0 : return -1
+    vcam_close
+    mvcam_open = 0
+    return 0
+
+
+;------------------------------------------------------------
+; === MF Virtual Camera (Windows 11+) ===
+;------------------------------------------------------------
+
+;------------------------------------------------------------
+; vcam_mf_init w, h, fps, "name"
+;   Windows 11+ の IMFVirtualCamera で仮想カメラを初期化する。
+;   regsvr32 不要。stat = 0 なら成功。
+;------------------------------------------------------------
+#deffunc vcam_mf_init int _mw, int _mh, int _mfps, str _mname
+    mvcam_mf_w = _mw
+    mvcam_mf_h = _mh
+    mvcam_mf_fps = _mfps
+    vcam_mf_create _mw, _mh, _mfps, _mname
+    if stat != 0 : return stat
+    mvcam_mf_open = 1
+    return 0
+
+;------------------------------------------------------------
+; vcam_mf_send
+;   カレントウィンドウの内容を MF 仮想カメラに送信する。
+;   内部でスクリーンキャプチャ → BGRA バッファ → vcam_mf_send_frame。
+;------------------------------------------------------------
+#deffunc vcam_mf_send
+    if mvcam_mf_open == 0 : return -1
+
+    wx = ginfo_wx1
+    wy = ginfo_wy1
+    ww = ginfo_winx
+    wh = ginfo_winy
+
+    sz = mvcam_mf_w * mvcam_mf_h * 4
+
+    hDeskDC = iron_vcam_GetDC(0)
+    hMemDC = iron_vcam_CreateCompatibleDC(hDeskDC)
+
+    dim bmi, 10
+    bmi(0) = 40
+    bmi(1) = mvcam_mf_w
+    bmi(2) = -mvcam_mf_h
+    lpoke bmi, 12, $00200001
+
+    hBmp = iron_vcam_CreateDIBSection(hMemDC, varptr(bmi), 0, pBits, 0, 0)
+    if hBmp == 0 {
+        iron_vcam_DeleteDC hMemDC
+        iron_vcam_ReleaseDC 0, hDeskDC
+        return -1
+    }
+
+    hOld = iron_vcam_SelectObject(hMemDC, hBmp)
+
+    if ww == mvcam_mf_w & wh == mvcam_mf_h {
+        iron_vcam_BitBlt hMemDC, 0, 0, mvcam_mf_w, mvcam_mf_h, hDeskDC, wx, wy, SRCCOPY
+    } else {
+        iron_vcam_SetStretchBltMode hMemDC, 4
+        iron_vcam_StretchBlt hMemDC, 0, 0, mvcam_mf_w, mvcam_mf_h, hDeskDC, wx, wy, ww, wh, SRCCOPY
+    }
+
+    dupptr dibBuf, pBits, sz, 2
+    vcam_mf_send_frame dibBuf, sz
+    ret = stat
+
+    iron_vcam_SelectObject hMemDC, hOld
+    iron_vcam_DeleteObject hBmp
+    iron_vcam_DeleteDC hMemDC
+    iron_vcam_ReleaseDC 0, hDeskDC
+
+    return ret
+
+;------------------------------------------------------------
+; vcam_mf_send_buffer buf
+;   BGRA バッファを直接 MF 仮想カメラに送信する。
+;------------------------------------------------------------
+#deffunc vcam_mf_send_buffer var _mbuf
+    if mvcam_mf_open == 0 : return -1
+    sz = mvcam_mf_w * mvcam_mf_h * 4
+    vcam_mf_send_frame _mbuf, sz
+    return stat
+
+;------------------------------------------------------------
+; vcam_mf_term
+;   MF 仮想カメラを停止・削除する。
+;------------------------------------------------------------
+#deffunc vcam_mf_term
+    if mvcam_mf_open == 0 : return -1
+    vcam_mf_stop
+    mvcam_mf_open = 0
+    return stat
+
+;------------------------------------------------------------
+; vcam_mf_available()
+;   Win11 API 利用可否 (1=可, 0=不可)
+;------------------------------------------------------------
+#defcfunc vcam_mf_available
+    return vcam_mf_is_available()
+
+;------------------------------------------------------------
+; === 自動検出ラッパ ===
+;------------------------------------------------------------
+
+;------------------------------------------------------------
+; vcam_auto_init w, h, fps
+;   自動検出ラッパ。Win11+ なら MF、それ以外なら DirectShow を使う。
+;   stat = 0 なら成功。
+;------------------------------------------------------------
+#deffunc vcam_auto_init int _aw, int _ah, int _afps
+    mvcam_auto_mode = -1
+    if vcam_mf_is_available() {
+        vcam_mf_create _aw, _ah, _afps, "IronHSP Virtual Camera"
+        if stat == 0 {
+            mvcam_auto_mode = 0
+            mvcam_mf_w = _aw
+            mvcam_mf_h = _ah
+            mvcam_mf_fps = _afps
+            mvcam_mf_open = 1
+            return 0
+        }
+    }
+    ; フォールバック: DirectShow
+    mvcam_w = _aw
+    mvcam_h = _ah
+    mvcam_fps = _afps
+    vcam_create mvcam_w, mvcam_h, mvcam_fps
+    if stat != 0 : return -1
+    mvcam_open = 1
+    mvcam_auto_mode = 1
+    return 0
+
+;------------------------------------------------------------
+; vcam_auto_send
+;   自動検出ラッパ。vcam_auto_init で選択された方式で送信。
+;------------------------------------------------------------
+#deffunc vcam_auto_send
+    if mvcam_auto_mode == 0 {
+        vcam_mf_send
+        return stat
+    }
+    vcam_send
+    return stat
+
+;------------------------------------------------------------
+; vcam_auto_term
+;   自動検出ラッパ。使用中のモードに応じて終了する。
+;------------------------------------------------------------
+#deffunc vcam_auto_term
+    if mvcam_auto_mode == 0 {
+        vcam_mf_term
+        return stat
+    }
+    vcam_term
     return stat
 
 #global

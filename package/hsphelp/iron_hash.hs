@@ -6,11 +6,11 @@
 %type
 Šg’£–½—ß
 %ver
-1.0
+3.8
 %date
-2026-04-13
+2026/04/18
 %author
-IronHSP / iron_hash
+IronHSP
 %dll
 iron_hash.hsp
 
