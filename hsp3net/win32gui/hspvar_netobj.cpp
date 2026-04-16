@@ -48,7 +48,7 @@ static void *HspVarNetobj_Cnv(const void *buffer, int flag)
 	//
 
 	// 自信の型の場合
-	if ( flag == TYPE_NETOBJ)
+	if ( flag == HSPVAR_FLAG_NETOBJ)
 	{
 		return (void *)buffer;
 	}
@@ -254,7 +254,7 @@ static void HspVarNetobj_ObjectMethod(PVal *pval)
 					GlobalAccess::g_Hsp3Net->CreateDouble(*(double*)mpval->pt));
 				break;
 			}
-			case TYPE_NETOBJ:
+			case HSPVAR_FLAG_NETOBJ:
 			{
 				NativePointer native_ptr = *((NativePointer*)mpval->pt);
 				auto managed_ptr = GlobalAccess::GetNativePtrToNetClass(native_ptr);
@@ -414,7 +414,7 @@ static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 				GlobalAccess::g_Hsp3Net->CreateDouble(*(double*)data);
 			break;
 		}
-		case TYPE_NETOBJ:
+		case HSPVAR_FLAG_NETOBJ:
 		{
 			NativePointer native_ptr = *((NativePointer*)data);
 			pValue = GlobalAccess::GetNativePtrToNetClass(native_ptr);
@@ -498,7 +498,7 @@ static void *HspVarNetobj_ArrayObjectRead(PVal *pval, int *mptype)
 	ctx->stat = (Ret != nullptr) ? 0 : -1;
 
 	// TODO: 変換せずに返す？良い？
-	*mptype = TYPE_NETOBJ;
+	*mptype = HSPVAR_FLAG_NETOBJ;
 	conv = GlobalAccess::CreateNativePtr(Ret);
 	return &conv;
 }

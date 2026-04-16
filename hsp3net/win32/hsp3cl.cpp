@@ -336,7 +336,7 @@ int hsp3cl_init( char *startfile )
 	HspVarCoreRegisterType( TYPE_COMOBJ, HspVarComobj_Init );
 	HspVarCoreRegisterType( TYPE_VARIANT, HspVarVariant_Init );
 #endif
-	HspVarCoreRegisterType( TYPE_NETOBJ, HspVarNetobj_Init );
+	HspVarCoreRegisterType( HSPVAR_FLAG_NETOBJ, HspVarNetobj_Init );
 
 	hsp3typeinit_dllcmd( code_gettypeinfo( TYPE_DLLFUNC ) );
 	hsp3typeinit_dllctrl( code_gettypeinfo( TYPE_DLLCTRL ) );

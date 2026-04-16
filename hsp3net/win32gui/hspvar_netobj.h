@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-#define TYPE_NETOBJ 9
+#define HSPVAR_FLAG_NETOBJ 9
 	using NativePointer = void*;
 
 	void HspVarNetobj_Init(HspVarProc *p);

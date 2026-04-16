@@ -425,7 +425,7 @@ int hsp3win_init( HINSTANCE hInstance, char *startfile )
 	HspVarCoreRegisterType( TYPE_VARIANT, HspVarVariant_Init );
 #endif
 
-	HspVarCoreRegisterType( TYPE_NETOBJ, HspVarNetobj_Init);
+	HspVarCoreRegisterType( HSPVAR_FLAG_NETOBJ, HspVarNetobj_Init);
 
 	// .NET 例外ハンドリング（終了時のListBox破棄時エラー等を抑制）
 	System::Windows::Forms::Application::SetUnhandledExceptionMode(

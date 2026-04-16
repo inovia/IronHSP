@@ -992,7 +992,7 @@ void comget_variantres( VARIANT *var, HRESULT hr, BOOL noconv )
 void netget_variantres(NativePointer* ptr)
 {
 	if (netres_pval == nullptr) return;
-	code_setva(netres_pval, netres_aptr, TYPE_NETOBJ, &ptr);
+	code_setva(netres_pval, netres_aptr, HSPVAR_FLAG_NETOBJ, &ptr);
 }
 
 DISPID get_dispid( IUnknown* punk, char *propname, BOOL *bVariant )
@@ -1845,7 +1845,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		// 引数:1（戻り値）
 		aptr = code_getva(&pval);
-		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		code_setva(pval, aptr, HSPVAR_FLAG_NETOBJ, &iptr);
 		pNativePtr = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
 		// 引数:2（アセンブリ名）
@@ -1891,7 +1891,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 				// ジェネリック型パラメータ領域
 				if (argIndex < genericCount)
 				{
-					if (mpval->flag == TYPE_NETOBJ)
+					if (mpval->flag == HSPVAR_FLAG_NETOBJ)
 					{
 						NativePointer native_ptr = *((NativePointer*)mpval->pt);
 						auto managed_ptr = GlobalAccess::GetNativePtrToNetClass(native_ptr);
@@ -1950,7 +1950,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 							GlobalAccess::g_Hsp3Net->CreateDouble(*(double*)mpval->pt));
 						break;
 					}
-					case TYPE_NETOBJ:
+					case HSPVAR_FLAG_NETOBJ:
 					{
 						NativePointer native_ptr = *((NativePointer*)mpval->pt);
 						auto managed_ptr = GlobalAccess::GetNativePtrToNetClass(native_ptr);
@@ -1995,7 +1995,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		ptr = HspVarCorePtrAPTR(pval, aptr);
 		switch (pval->flag) 
 		{
-			case TYPE_NETOBJ:
+			case HSPVAR_FLAG_NETOBJ:
 			{
 				native_ptr = *((NativePointer*)ptr);
 				ret = GlobalAccess::Free(native_ptr);
@@ -2038,7 +2038,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		// 引数:1（出力先 netobj 変数）
 		aptr = code_getva(&pval);
-		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		code_setva(pval, aptr, HSPVAR_FLAG_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
 		// 引数:2（変換元の値）
@@ -2060,7 +2060,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		case HSPVAR_FLAG_INT64:
 			ret = GlobalAccess::g_Hsp3Net->CreateInt64(*(int64_t*)mpval->pt);
 			break;
-		case TYPE_NETOBJ:
+		case HSPVAR_FLAG_NETOBJ:
 		{
 			// netobj → netobj はそのままコピー
 			NativePointer native_ptr = *((NativePointer*)mpval->pt);
@@ -2097,7 +2097,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		// 引数:1（戻り値）
 		aptr = code_getva(&pval);
-		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		code_setva(pval, aptr, HSPVAR_FLAG_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
 		// 引数:2（netobj変数 or アセンブリ名文字列）
@@ -2105,7 +2105,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			int prm2 = code_get();
 			if (prm2 <= PARAM_END) throw HSPERR_NO_DEFAULT;
 
-			if (mpval->flag == TYPE_NETOBJ)
+			if (mpval->flag == HSPVAR_FLAG_NETOBJ)
 			{
 				NativePointer pNativePtrIn = *((NativePointer*)mpval->pt);
 				Input = GlobalAccess::GetNativePtrToNetClass(pNativePtrIn);
@@ -2216,7 +2216,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		// 引数:1（戻り値）
 		aptr = code_getva(&pval);
-		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		code_setva(pval, aptr, HSPVAR_FLAG_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
 		// 引数:2（ウィンドウID）
@@ -2264,7 +2264,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		// 引数:1（戻り値 netobj変数）
 		aptr = code_getva(&pval);
-		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		code_setva(pval, aptr, HSPVAR_FLAG_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
 		// 引数:2（コントロールタイプ）
@@ -2347,7 +2347,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			{
 				switch ( mpval->flag)
 				{
-					case TYPE_NETOBJ:
+					case HSPVAR_FLAG_NETOBJ:
 					{
 						NativePointer native_ptr = *((NativePointer*)mpval->pt);
 						listParams->Add( IntPtr(native_ptr));
@@ -2528,7 +2528,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		// 引数:1（出力先 netobj）
 		aptr = code_getva(&pval);
-		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		code_setva(pval, aptr, HSPVAR_FLAG_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
 		// 引数:2（デリゲート型名）
@@ -2638,14 +2638,14 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		// 引数:1（出力先）
 		aptr = code_getva(&pval);
-		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		code_setva(pval, aptr, HSPVAR_FLAG_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
 		// 引数:2（コレクション）
 		{
 			int prm2 = code_get();
 			if (prm2 <= PARAM_END) throw HSPERR_NO_DEFAULT;
-			if (mpval->flag != TYPE_NETOBJ) throw HSPERR_TYPE_MISMATCH;
+			if (mpval->flag != HSPVAR_FLAG_NETOBJ) throw HSPERR_TYPE_MISMATCH;
 		}
 		NativePointer collNP = *((NativePointer*)mpval->pt);
 		auto collection = GlobalAccess::GetNativePtrToNetClass(collNP);
@@ -2875,7 +2875,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		{
 			int prm = code_get();
 			if (prm <= PARAM_END) throw HSPERR_NO_DEFAULT;
-			if (mpval->flag != TYPE_NETOBJ) throw HSPERR_TYPE_MISMATCH;
+			if (mpval->flag != HSPVAR_FLAG_NETOBJ) throw HSPERR_TYPE_MISMATCH;
 			native_ptr = *((NativePointer*)mpval->pt);
 		}
 
