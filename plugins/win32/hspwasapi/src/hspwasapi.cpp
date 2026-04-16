@@ -195,7 +195,7 @@ static DWORD WINAPI CaptureWorker(LPVOID param)
     if (FAILED(hr)) return (DWORD)hr;
 
     DWORD mmcssIdx = 0;
-    HANDLE mmcss = AvSetMmThreadCharacteristicsA("Audio", &mmcssIdx);
+    HANDLE mmcss = AvSetMmThreadCharacteristicsW(L"Audio", &mmcssIdx);
 
     HANDLE waitArr[2] = { s->hShutdown, s->hReady };
     bool running = true;

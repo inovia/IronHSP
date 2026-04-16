@@ -393,7 +393,7 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
     GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
                        GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                        (LPCSTR)&ribbon_load_bml, &hSelf);
-    GetModuleFileNameA(hSelf, selfPath, MAX_PATH);
+    GetModuleFileNameW(hSelf, selfPath, MAX_PATH);
     CopyFileW(utf8_to_wide(selfPath).c_str(), utf8_to_wide(dllPath).c_str(), FALSE);
 
     // Update resources in the copy
@@ -660,7 +660,7 @@ EXPORT int __cdecl ribbon_load_xml(const char *xmlPath, const char *sdkBinPath)
         GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
                            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                            (LPCSTR)&ribbon_load_xml, &hSelf);
-        GetModuleFileNameA(hSelf, selfPath, MAX_PATH);
+        GetModuleFileNameW(hSelf, selfPath, MAX_PATH);
         CopyFileW(utf8_to_wide(selfPath).c_str(), utf8_to_wide(dllPath).c_str(), FALSE);
 
         HANDLE hUpdate = BeginUpdateResourceW(utf8_to_wide(dllPath).c_str(), TRUE);

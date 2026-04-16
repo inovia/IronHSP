@@ -130,7 +130,7 @@ HSP7Z_EXPORT int __stdcall sevenz_run(const char* args, char* out_buf, int out_s
 BOOL WINAPI DllMain(HMODULE hModule, DWORD reason, LPVOID) {
     if (reason == DLL_PROCESS_ATTACH) {
         char buf[MAX_PATH];
-        DWORD n = GetModuleFileNameA(hModule, buf, MAX_PATH);
+        DWORD n = GetModuleFileNameW(hModule, buf, MAX_PATH);
         if (n > 0 && n < MAX_PATH) {
             std::string full(buf, n);
             size_t slash = full.find_last_of("\\/");

@@ -76,9 +76,9 @@ struct VCamSharedHeader {
 };
 #pragma pack(pop)
 
-static const char SHM_NAME[]   = "IronHSP_VCam_SharedMem";
-static const char EVT_FRAME[]  = "IronHSP_VCam_FrameReady";
-static const char EVT_ALIVE[]  = "IronHSP_VCam_Alive";
+static const wchar_t SHM_NAME[]   = L"IronHSP_VCam_SharedMem";
+static const wchar_t EVT_FRAME[]  = L"IronHSP_VCam_FrameReady";
+static const wchar_t EVT_ALIVE[]  = L"IronHSP_VCam_Alive";
 
 // Default resolution when no producer is active
 static const int DEFAULT_W   = 1280;
@@ -164,7 +164,7 @@ class CVCamPin : public IPin, public IQualityControl, public IAMStreamConfig,
     }
 
     bool OpenSharedMemory() {
-        m_hMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, SHM_NAME);
+        m_hMap = OpenFileMappingW(FILE_MAP_ALL_ACCESS, FALSE, SHM_NAME);
         if (!m_hMap) return false;
 
         // Map just header first to get size
@@ -190,8 +190,8 @@ class CVCamPin : public IPin, public IQualityControl, public IAMStreamConfig,
         m_height  = h;
         m_fps     = fps;
 
-        m_hEvtFrame = OpenEventA(EVENT_ALL_ACCESS, FALSE, EVT_FRAME);
-        m_hEvtAlive = OpenEventA(EVENT_ALL_ACCESS, FALSE, EVT_ALIVE);
+        m_hEvtFrame = OpenEventW(EVENT_ALL_ACCESS, FALSE, EVT_FRAME);
+        m_hEvtAlive = OpenEventW(EVENT_ALL_ACCESS, FALSE, EVT_ALIVE);
 
         // Signal that consumer is alive
         if (m_pHeader) m_pHeader->consumer_alive = 1;
@@ -1071,7 +1071,7 @@ extern "C" __declspec(dllexport) int __cdecl vcam_create(int width, int height, 
     size_t totalSize = sizeof(VCamSharedHeader) + pixelSize;
 
     // Create shared memory
-    HANDLE hMap = CreateFileMappingA(
+    HANDLE hMap = CreateFileMappingW(
         INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE,
         (DWORD)(totalSize >> 32), (DWORD)(totalSize & 0xFFFFFFFF),
         SHM_NAME
@@ -1094,10 +1094,10 @@ extern "C" __declspec(dllexport) int __cdecl vcam_create(int width, int height, 
     ZeroMemory(pPixels, pixelSize);
 
     // Create events
-    HANDLE hEvtFrame = CreateEventA(NULL, FALSE, FALSE, EVT_FRAME);
+    HANDLE hEvtFrame = CreateEventW(NULL, FALSE, FALSE, EVT_FRAME);
     if (!hEvtFrame) { UnmapViewOfFile(pBuf); CloseHandle(hMap); return -1; }
 
-    HANDLE hEvtAlive = CreateEventA(NULL, FALSE, FALSE, EVT_ALIVE);
+    HANDLE hEvtAlive = CreateEventW(NULL, FALSE, FALSE, EVT_ALIVE);
     if (!hEvtAlive) { CloseHandle(hEvtFrame); UnmapViewOfFile(pBuf); CloseHandle(hMap); return -1; }
 
     g_prodMapFile = hMap;

@@ -224,15 +224,15 @@ struct VCamSharedHeader_MF {
     int reserved[3];
 };
 
-static const char* MF_SHM_NAME  = "IronHSP_VCam_MF";
-static const char* MF_EVT_NAME  = "IronHSP_VCam_MF_Event";
+static const wchar_t* MF_SHM_NAME  = L"IronHSP_VCam_MF";
+static const wchar_t* MF_EVT_NAME  = L"IronHSP_VCam_MF_Event";
 
 static bool CreateMFSharedMemory(int w, int h)
 {
     size_t pixelSize = (size_t)w * h * 4;
     size_t totalSize = sizeof(VCamSharedHeader_MF) + pixelSize;
 
-    HANDLE hMap = CreateFileMappingA(
+    HANDLE hMap = CreateFileMappingW(
         INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE,
         (DWORD)(totalSize >> 32), (DWORD)(totalSize & 0xFFFFFFFF),
         MF_SHM_NAME);
@@ -250,7 +250,7 @@ static bool CreateMFSharedMemory(int w, int h)
     hdr->height = h;
     hdr->fps    = 0;
 
-    HANDLE hEvt = CreateEventA(NULL, FALSE, FALSE, MF_EVT_NAME);
+    HANDLE hEvt = CreateEventW(NULL, FALSE, FALSE, MF_EVT_NAME);
     if (!hEvt) {
         UnmapViewOfFile(pBuf);
         CloseHandle(hMap);

@@ -194,7 +194,7 @@ HSPMCP_EXPORT int __stdcall mcp_proc_open(const char* command_line, const char* 
     }
     p.pending.clear();
     p.lines.clear();
-    p.stop_event = CreateEventA(NULL, TRUE, FALSE, NULL);
+    p.stop_event = CreateEventW(NULL, TRUE, FALSE, NULL);
     p.reader_thread = CreateThread(NULL, 0, ReaderProc, &p, 0, NULL);
 
     p.active = true;
