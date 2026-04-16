@@ -1,28 +1,28 @@
 ;
-; iron_logger.hsp - Log output module
+; iron_log.hsp - Log output module
 ;
-#ifndef __iron_logger_hsp__
-#define __iron_logger_hsp__
+#ifndef __iron_log_hsp__
+#define __iron_log_hsp__
 #include "iron_datetime.hsp"
 
-#define global LOG_DEBUG 0
-#define global LOG_INFO  1
-#define global LOG_WARN  2
-#define global LOG_ERROR 3
+#define global LOGLV_DEBUG 0
+#define global LOGLV_INFO  1
+#define global LOGLV_WARN  2
+#define global LOGLV_ERROR 3
 
-#module iron_logger
+#module iron_log
 
-#deffunc ilog_init str filepath, int level
+#deffunc log_init str filepath, int level
 	_log_file = filepath
 	_log_level = level
 	_log_console = 1
 	return
 
-#deffunc ilog_set_level int level
+#deffunc log_set_level int level
 	_log_level = level
 	return
 
-#deffunc ilog_write int level, str msg, local ts, local lv, local _line
+#deffunc log_write int level, str msg, local ts, local lv, local _line
 	if level < _log_level : return
 	ts = datetime_now()
 	if level == 0 : lv = "DEBUG"
@@ -33,20 +33,20 @@
 	if _log_console : mes _line
 	return
 
-#deffunc ilog_debug str msg
-	ilog_write 0, msg
+#deffunc log_debug str msg
+	log_write 0, msg
 	return
 
-#deffunc ilog_info str msg
-	ilog_write 1, msg
+#deffunc log_info str msg
+	log_write 1, msg
 	return
 
-#deffunc ilog_warn str msg
-	ilog_write 2, msg
+#deffunc log_warn str msg
+	log_write 2, msg
 	return
 
-#deffunc ilog_error str msg
-	ilog_write 3, msg
+#deffunc log_error str msg
+	log_write 3, msg
 	return
 
 #global
