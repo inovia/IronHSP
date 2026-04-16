@@ -1,0 +1,12 @@
+;	sample_fwatch.hsp - ファイル監視サンプル
+	#include "iron_fwatch.hsp"
+	mes "monitoring current dir for 5 seconds..."
+	fwatch_start dir_cur, FWATCH_ALL
+	hw = stat
+	repeat 10
+		fwatch_check hw
+		if stat : mes "change detected!"
+		await 500
+	loop
+	fwatch_stop hw
+	mes "done"

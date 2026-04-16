@@ -1,0 +1,10 @@
+;	sample_pcre2.hsp - PCRE2 正規表現サンプル
+	#include "iron_pcre2.hsp"
+	pcre2_search "[0-9]+", "abc123def456"
+	mes "first number: " + refstr
+	pcre2_search "(?<=@)\w+", "user@example.com"
+	mes "domain: " + refstr
+	pcre2_replace "[aeiou]", "hello world", "*"
+	mes "replaced: " + refstr
+	n = pcre2_count("[0-9]+", "a1b2c3")
+	mes "count: " + n

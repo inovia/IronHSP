@@ -1,0 +1,15 @@
+;	sample_oauth.hsp - OAuth 2.0 サンプル
+	#include "iron_oauth.hsp"
+	oauth_start_listener 8080
+	if stat == 0 {
+		mes "Listener started on port 8080"
+		mes "Open browser and authorize, then redirect to http://localhost:8080/callback?code=XXX"
+		; exec auth_url, 16
+		oauth_wait_code 30
+		if stat == 0 {
+			mes "Authorization code: " + refstr
+		} else {
+			mes "Timeout"
+		}
+		oauth_stop_listener
+	}

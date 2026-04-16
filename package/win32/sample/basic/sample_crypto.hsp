@@ -1,0 +1,14 @@
+;	sample_crypto.hsp - 暗号化サンプル
+	#include "iron_crypto.hsp"
+	; Blowfish
+	sdim txt, 64 : txt = "Hello Blowfish"
+	sdim enc, 64 : sdim dec, 64
+	bf_encrypt "SecretKey123", txt, 14, enc
+	mes "encrypted " + stat + " bytes"
+	bf_decrypt "SecretKey123", enc, stat, dec
+	mes "decrypted: " + dec
+	; HMAC-SHA256
+	sdim k, 64 : k = "secret"
+	sdim m, 64 : m = "hello"
+	hmac_sha256 k, 6, m, 5
+	mes "HMAC: " + refstr

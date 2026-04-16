@@ -1,0 +1,11 @@
+;	sample_html.hsp - HTML パースサンプル
+	#include "iron_html.hsp"
+	html = "<html><body><h1>Title</h1><a href='http://example.com'>Link1</a><p>Hello</p><a href='http://test.org'>Link2</a></body></html>"
+	html_parse html
+	mes "tags: " + stat
+	html_find "a"
+	mes "links: " + stat
+	repeat stat
+		mes "  href=" + html_tag_attr(cnt, "href") + " text=" + html_tag_text(cnt)
+	loop
+	mes "plain text: " + html_text()

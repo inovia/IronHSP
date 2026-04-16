@@ -1,0 +1,11 @@
+;	sample_exif.hsp - EXIF 読み取りサンプル
+	#include "iron_exif.hsp"
+	; exif_open "photo.jpg"
+	; if stat == 0 {
+	;     exif_get_str EXIF_MODEL
+	;     mes "Camera: " + refstr
+	;     exif_get_str EXIF_DATETIME
+	;     mes "Date: " + refstr
+	;     exif_close
+	; }
+	mes "EXIF sample - provide a JPEG file to test"

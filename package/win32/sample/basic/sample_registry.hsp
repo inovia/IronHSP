@@ -1,0 +1,9 @@
+;	sample_registry.hsp - レジストリサンプル
+	#include "iron_registry.hsp"
+	reg_read HKEY_CURRENT_USER, "Environment", "TEMP"
+	if stat == 0 {
+		mes "TEMP = " + refstr
+	}
+	if reg_exists(HKEY_CURRENT_USER, "Environment", "PATH") {
+		mes "PATH exists"
+	}

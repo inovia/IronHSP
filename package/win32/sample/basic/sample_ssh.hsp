@@ -1,0 +1,9 @@
+;	sample_ssh.hsp - SSH サンプル (接続例)
+	#include "iron_ssh.hsp"
+	; ssh_connect "192.168.1.100", 22, "user", "password"
+	; if stat == 0 {
+	;     ssh_exec "ls -la"
+	;     mes refstr
+	;     ssh_disconnect
+	; }
+	mes "SSH sample - edit connection info to test"

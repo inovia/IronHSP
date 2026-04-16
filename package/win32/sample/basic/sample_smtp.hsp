@@ -1,0 +1,5 @@
+;	sample_smtp.hsp - SMTP メール送信サンプル
+	#include "iron_smtp.hsp"
+	; mail_send "smtp.example.com", 587, "from@example.com", "to@example.com", "Test", "Hello!"
+	; if stat != 0 : mes "Error: " + mail_error()
+	mes "SMTP sample - edit server info to test"

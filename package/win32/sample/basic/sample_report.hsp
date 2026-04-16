@@ -1,0 +1,13 @@
+;	sample_report.hsp - 帳票出力サンプル
+	#include "iron_report.hsp"
+	report_init
+	report_template "<html><head><style>body{font-family:sans-serif}table{border-collapse:collapse;width:100%}th,td{border:1px solid #333;padding:6px}th{background:#eee}</style></head><body><h1>Invoice</h1><p>Customer: {{customer}}</p><p>Date: {{date}}</p><table><tr><th>Item</th><th>Qty</th><th>Price</th></tr>{{TABLE:items}}</table><p><b>Total: {{total}}</b></p></body></html>"
+	report_set "customer", "Yamada Taro"
+	report_set "date", "2026/04/16"
+	report_table_begin "items"
+	report_table_row "Apple", "3", "450"
+	report_table_row "Orange", "5", "500"
+	report_table_row "Banana", "2", "300"
+	report_table_end
+	report_set "total", "1,250 yen"
+	report_preview

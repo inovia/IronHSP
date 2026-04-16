@@ -1,0 +1,9 @@
+;	sample_ftp.hsp - FTP サンプル (接続例)
+	#include "iron_ftp.hsp"
+	; ftp_connect "ftp.example.com", "user", "pass"
+	; if stat == 0 {
+	;     ftp_list "*"
+	;     mes refstr
+	;     ftp_disconnect
+	; }
+	mes "FTP sample - edit connection info to test"
