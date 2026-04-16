@@ -14,7 +14,9 @@
 	mes ""
 	mes "[1] 開くダイアログ"
 	mes "[2] 保存ダイアログ"
-	mes "[3] フォルダ選択ダイアログ"
+	mes "[3] フォルダ選択 (モダン Explorer風)"
+	mes "[4] フォルダ選択 (クラシック ツリービュー)"
+	mes "[5] フォルダ選択 (新スタイル リサイズ可)"
 	mes "[ESC] 終了"
 	mes ""
 
@@ -47,13 +49,31 @@
 	}
 
 	if iparam = '3' {
-		dialog_pickfolder "フォルダを選択してください"
+		dialog_pickfolder "フォルダを選択 (モダン)"
 		if stat = 0 {
 			mes "選択フォルダ: " + refstr
 		} else : if stat = 1 {
 			mes "(キャンセル)"
 		} else {
 			mes "エラー: stat=" + stat
+		}
+	}
+
+	if iparam = '4' {
+		dialog_browse_classic "フォルダを選択 (クラシック)"
+		if stat = 0 {
+			mes "選択フォルダ: " + refstr
+		} else {
+			mes "(キャンセル)"
+		}
+	}
+
+	if iparam = '5' {
+		dialog_browse_new "フォルダを選択 (新スタイル)"
+		if stat = 0 {
+			mes "選択フォルダ: " + refstr
+		} else {
+			mes "(キャンセル)"
 		}
 	}
 	return
