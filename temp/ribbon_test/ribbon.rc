@@ -1,0 +1,278 @@
+// ******************************************************************************
+// * This is an automatically generated file containing the ribbon resource for *
+// * your application.                                                          *
+// ******************************************************************************
+
+#include ".\ribbon.h"
+
+STRINGTABLE 
+BEGIN
+    cmdTabHome_LabelTitle_RESID L"Home" /* LabelTitle cmdTabHome_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdTabInsert_LabelTitle_RESID L"Insert" /* LabelTitle cmdTabInsert_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdTabView_LabelTitle_RESID L"View" /* LabelTitle cmdTabView_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpFile_LabelTitle_RESID L"File" /* LabelTitle cmdGrpFile_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdNew_LabelTitle_RESID L"New" /* LabelTitle cmdNew_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdOpen_LabelTitle_RESID L"Open" /* LabelTitle cmdOpen_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdSave_LabelTitle_RESID L"Save" /* LabelTitle cmdSave_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpClipboard_LabelTitle_RESID L"Clipboard" /* LabelTitle cmdGrpClipboard_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdPaste_LabelTitle_RESID L"Paste" /* LabelTitle cmdPaste_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdCut_LabelTitle_RESID L"Cut" /* LabelTitle cmdCut_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdCopy_LabelTitle_RESID L"Copy" /* LabelTitle cmdCopy_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpFont_LabelTitle_RESID L"Font" /* LabelTitle cmdGrpFont_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdBold_LabelTitle_RESID L"Bold" /* LabelTitle cmdBold_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdItalic_LabelTitle_RESID L"Italic" /* LabelTitle cmdItalic_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdUnderline_LabelTitle_RESID L"Underline" /* LabelTitle cmdUnderline_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdFontColor_LabelTitle_RESID L"Font Color" /* LabelTitle cmdFontColor_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpParagraph_LabelTitle_RESID L"Paragraph" /* LabelTitle cmdGrpParagraph_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdAlignLeft_LabelTitle_RESID L"Align Left" /* LabelTitle cmdAlignLeft_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdAlignCenter_LabelTitle_RESID L"Center" /* LabelTitle cmdAlignCenter_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdAlignRight_LabelTitle_RESID L"Align Right" /* LabelTitle cmdAlignRight_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdBullets_LabelTitle_RESID L"Bullets" /* LabelTitle cmdBullets_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdNumbering_LabelTitle_RESID L"Numbering" /* LabelTitle cmdNumbering_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpEditing_LabelTitle_RESID L"Editing" /* LabelTitle cmdGrpEditing_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdFind_LabelTitle_RESID L"Find" /* LabelTitle cmdFind_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdReplace_LabelTitle_RESID L"Replace" /* LabelTitle cmdReplace_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdSelectAll_LabelTitle_RESID L"Select All" /* LabelTitle cmdSelectAll_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdUndo_LabelTitle_RESID L"Undo" /* LabelTitle cmdUndo_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdRedo_LabelTitle_RESID L"Redo" /* LabelTitle cmdRedo_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpInsert_LabelTitle_RESID L"Insert" /* LabelTitle cmdGrpInsert_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdTable_LabelTitle_RESID L"Table" /* LabelTitle cmdTable_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdPicture_LabelTitle_RESID L"Picture" /* LabelTitle cmdPicture_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdChart_LabelTitle_RESID L"Chart" /* LabelTitle cmdChart_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdLink_LabelTitle_RESID L"Hyperlink" /* LabelTitle cmdLink_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdShape_LabelTitle_RESID L"Shapes" /* LabelTitle cmdShape_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdHeader_LabelTitle_RESID L"Header" /* LabelTitle cmdHeader_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdFooter_LabelTitle_RESID L"Footer" /* LabelTitle cmdFooter_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdPageBreak_LabelTitle_RESID L"Page Break" /* LabelTitle cmdPageBreak_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpZoom_LabelTitle_RESID L"Zoom" /* LabelTitle cmdGrpZoom_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpShow_LabelTitle_RESID L"Show" /* LabelTitle cmdGrpShow_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdZoomIn_LabelTitle_RESID L"Zoom In" /* LabelTitle cmdZoomIn_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdZoomOut_LabelTitle_RESID L"Zoom Out" /* LabelTitle cmdZoomOut_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdZoom100_LabelTitle_RESID L"100%" /* LabelTitle cmdZoom100_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdRuler_LabelTitle_RESID L"Ruler" /* LabelTitle cmdRuler_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGridlines_LabelTitle_RESID L"Gridlines" /* LabelTitle cmdGridlines_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdStatusBar_LabelTitle_RESID L"Status Bar" /* LabelTitle cmdStatusBar_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdDarkMode_LabelTitle_RESID L"Dark Mode" /* LabelTitle cmdDarkMode_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdFullScreen_LabelTitle_RESID L"Full Screen" /* LabelTitle cmdFullScreen_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdPrint_LabelTitle_RESID L"Print" /* LabelTitle cmdPrint_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdSaveAs_LabelTitle_RESID L"Save As" /* LabelTitle cmdSaveAs_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdExport_LabelTitle_RESID L"Export" /* LabelTitle cmdExport_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdOptions_LabelTitle_RESID L"Options" /* LabelTitle cmdOptions_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdAbout_LabelTitle_RESID L"About" /* LabelTitle cmdAbout_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdExit_LabelTitle_RESID L"Exit" /* LabelTitle cmdExit_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    InternalCmd2_LabelTitle_RESID L"Label:InternalCmd2" /* LabelTitle InternalCmd2_LabelTitle_RESID: (null) */
+END
+
+APPLICATION_RIBBON    UIFILE    "ribbon.bml"

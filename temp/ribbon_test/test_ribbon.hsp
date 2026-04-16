@@ -1,33 +1,36 @@
 	#include "iron_ribbon_native.hsp"
 
-	screen 0, 800, 600
-	title "Ribbon Framework Test"
+	screen 0, 900, 600
+	title "Windows Ribbon Framework - Full Demo"
 
-	; Initialize ribbon
+	; Initialize
 	ribbon_native_init
 	mes "init: " + stat
 
-	; Load BML (pre-compiled)
-	ribbon_native_load_bml dir_cur + "\\ribbon.bml"
-	mes "load_bml: " + stat
+	; Full auto build: XML → uicc → rc → link → DLL → LoadUI
+	sdkbin = "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x86"
+	ribbon_native_load_xml dir_cur + "\\ribbon.xml", sdkbin
+	mes "load_xml: " + stat
 
-	mes "Ribbon height: " + ribbon_native_height()
+	h = ribbon_native_height()
+	mes "Ribbon height: " + h + "px"
+
+	; Enable event mode (oncmd で受信)
+	; WM_APP + 200 = 0x80C8
+	ribbon_native_set_event_mode 1, 0x80C8
+
 	mes ""
-	mes "Click ribbon buttons!"
-	mes "Commands: New=101, Open=102, Save=103"
-	mes "          Cut=104, Copy=105, Paste=106"
-	mes "          Bold=107, Exit=108"
+	mes "Click any ribbon button!"
 
-	*main
-	await 50
-	ribbon_native_poll
-	if stat == 1 {
-		cmd = ribbon_native_cmd_id()
-		verb = ribbon_native_cmd_verb()
-		mes "CMD: " + cmd + " VERB: " + verb
-		if cmd == 108 {
-			ribbon_native_destroy
-			end
-		}
+	oncmd gosub *on_ribbon, 0x80C8
+	stop
+
+*on_ribbon
+	cmd = wparam
+	verb = lparam
+	mes "Event: CMD=" + cmd + " VERB=" + verb
+	if cmd == 999 {
+		ribbon_native_destroy
+		end
 	}
-	goto *main
+	return

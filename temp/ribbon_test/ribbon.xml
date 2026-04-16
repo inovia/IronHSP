@@ -1,18 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
   <Application.Commands>
-    <Command Name="cmdTab1" LabelTitle="Home" />
-    <Command Name="cmdTab2" LabelTitle="Edit" />
-    <Command Name="cmdGrpFile" LabelTitle="File" />
-    <Command Name="cmdGrpEdit" LabelTitle="Editing" />
-    <Command Name="cmdNew"   Id="101" LabelTitle="New" />
-    <Command Name="cmdOpen"  Id="102" LabelTitle="Open" />
-    <Command Name="cmdSave"  Id="103" LabelTitle="Save" />
-    <Command Name="cmdCut"   Id="104" LabelTitle="Cut" />
-    <Command Name="cmdCopy"  Id="105" LabelTitle="Copy" />
-    <Command Name="cmdPaste" Id="106" LabelTitle="Paste" />
-    <Command Name="cmdBold"  Id="107" LabelTitle="Bold" />
-    <Command Name="cmdExit"  Id="108" LabelTitle="Exit" />
+    <!-- Tabs -->
+    <Command Name="cmdTabHome" Id="10" LabelTitle="Home" />
+    <Command Name="cmdTabInsert" Id="11" LabelTitle="Insert" />
+    <Command Name="cmdTabView" Id="12" LabelTitle="View" />
+
+    <!-- File Group -->
+    <Command Name="cmdGrpFile" Id="20" LabelTitle="File" />
+    <Command Name="cmdNew"    Id="101" LabelTitle="New" />
+    <Command Name="cmdOpen"   Id="102" LabelTitle="Open" />
+    <Command Name="cmdSave"   Id="103" LabelTitle="Save" />
+
+    <!-- Clipboard Group -->
+    <Command Name="cmdGrpClipboard" Id="21" LabelTitle="Clipboard" />
+    <Command Name="cmdPaste"  Id="106" LabelTitle="Paste" />
+    <Command Name="cmdCut"    Id="104" LabelTitle="Cut" />
+    <Command Name="cmdCopy"   Id="105" LabelTitle="Copy" />
+
+    <!-- Font Group -->
+    <Command Name="cmdGrpFont" Id="22" LabelTitle="Font" />
+    <Command Name="cmdBold"      Id="201" LabelTitle="Bold" />
+    <Command Name="cmdItalic"    Id="202" LabelTitle="Italic" />
+    <Command Name="cmdUnderline" Id="203" LabelTitle="Underline" />
+    <Command Name="cmdFontColor" Id="205" LabelTitle="Font Color" />
+
+    <!-- Paragraph Group -->
+    <Command Name="cmdGrpParagraph" Id="23" LabelTitle="Paragraph" />
+    <Command Name="cmdAlignLeft"   Id="301" LabelTitle="Align Left" />
+    <Command Name="cmdAlignCenter" Id="302" LabelTitle="Center" />
+    <Command Name="cmdAlignRight"  Id="303" LabelTitle="Align Right" />
+    <Command Name="cmdBullets"     Id="304" LabelTitle="Bullets" />
+    <Command Name="cmdNumbering"   Id="305" LabelTitle="Numbering" />
+
+    <!-- Editing Group -->
+    <Command Name="cmdGrpEditing" Id="24" LabelTitle="Editing" />
+    <Command Name="cmdFind"    Id="601" LabelTitle="Find" />
+    <Command Name="cmdReplace" Id="602" LabelTitle="Replace" />
+    <Command Name="cmdSelectAll" Id="603" LabelTitle="Select All" />
+    <Command Name="cmdUndo"    Id="604" LabelTitle="Undo" />
+    <Command Name="cmdRedo"    Id="605" LabelTitle="Redo" />
+
+    <!-- Insert Group -->
+    <Command Name="cmdGrpInsert" Id="30" LabelTitle="Insert" />
+    <Command Name="cmdTable"   Id="401" LabelTitle="Table" />
+    <Command Name="cmdPicture" Id="402" LabelTitle="Picture" />
+    <Command Name="cmdChart"   Id="403" LabelTitle="Chart" />
+    <Command Name="cmdLink"    Id="404" LabelTitle="Hyperlink" />
+    <Command Name="cmdShape"   Id="405" LabelTitle="Shapes" />
+    <Command Name="cmdHeader"  Id="406" LabelTitle="Header" />
+    <Command Name="cmdFooter"  Id="407" LabelTitle="Footer" />
+    <Command Name="cmdPageBreak" Id="408" LabelTitle="Page Break" />
+
+    <!-- View Group -->
+    <Command Name="cmdGrpZoom" Id="40" LabelTitle="Zoom" />
+    <Command Name="cmdGrpShow" Id="41" LabelTitle="Show" />
+    <Command Name="cmdZoomIn"    Id="501" LabelTitle="Zoom In" />
+    <Command Name="cmdZoomOut"   Id="502" LabelTitle="Zoom Out" />
+    <Command Name="cmdZoom100"   Id="503" LabelTitle="100%" />
+    <Command Name="cmdRuler"     Id="504" LabelTitle="Ruler" />
+    <Command Name="cmdGridlines" Id="505" LabelTitle="Gridlines" />
+    <Command Name="cmdStatusBar" Id="506" LabelTitle="Status Bar" />
+    <Command Name="cmdDarkMode"  Id="507" LabelTitle="Dark Mode" />
+    <Command Name="cmdFullScreen" Id="508" LabelTitle="Full Screen" />
+
+    <!-- App Menu -->
+    <Command Name="cmdPrint"     Id="701" LabelTitle="Print" />
+    <Command Name="cmdSaveAs"   Id="702" LabelTitle="Save As" />
+    <Command Name="cmdExport"   Id="703" LabelTitle="Export" />
+    <Command Name="cmdOptions"  Id="704" LabelTitle="Options" />
+    <Command Name="cmdAbout"    Id="705" LabelTitle="About" />
+    <Command Name="cmdExit"     Id="999" LabelTitle="Exit" />
   </Application.Commands>
 
   <Application.Views>
@@ -23,6 +81,15 @@
             <Button CommandName="cmdNew" />
             <Button CommandName="cmdOpen" />
             <Button CommandName="cmdSave" />
+            <Button CommandName="cmdSaveAs" />
+          </MenuGroup>
+          <MenuGroup>
+            <Button CommandName="cmdPrint" />
+            <Button CommandName="cmdExport" />
+          </MenuGroup>
+          <MenuGroup>
+            <Button CommandName="cmdOptions" />
+            <Button CommandName="cmdAbout" />
           </MenuGroup>
           <MenuGroup>
             <Button CommandName="cmdExit" />
@@ -31,25 +98,73 @@
       </Ribbon.ApplicationMenu>
 
       <Ribbon.Tabs>
-        <Tab CommandName="cmdTab1">
-          <Group CommandName="cmdGrpFile" SizeDefinition="ThreeButtons">
-            <Button CommandName="cmdNew" />
-            <Button CommandName="cmdOpen" />
-            <Button CommandName="cmdSave" />
-          </Group>
-          <Group CommandName="cmdGrpEdit" SizeDefinition="ThreeButtons">
+        <!-- ===== Home Tab ===== -->
+        <Tab CommandName="cmdTabHome">
+          <Group CommandName="cmdGrpClipboard" SizeDefinition="ThreeButtons">
+            <Button CommandName="cmdPaste" />
             <Button CommandName="cmdCut" />
             <Button CommandName="cmdCopy" />
-            <Button CommandName="cmdPaste" />
+          </Group>
+          <Group CommandName="cmdGrpFont">
+            <ToggleButton CommandName="cmdBold" />
+            <ToggleButton CommandName="cmdItalic" />
+            <ToggleButton CommandName="cmdUnderline" />
+            <DropDownColorPicker CommandName="cmdFontColor" ColorTemplate="ThemeColors" />
+          </Group>
+          <Group CommandName="cmdGrpParagraph" SizeDefinition="FiveButtons">
+            <ToggleButton CommandName="cmdAlignLeft" />
+            <ToggleButton CommandName="cmdAlignCenter" />
+            <ToggleButton CommandName="cmdAlignRight" />
+            <ToggleButton CommandName="cmdBullets" />
+            <ToggleButton CommandName="cmdNumbering" />
+          </Group>
+          <Group CommandName="cmdGrpEditing" SizeDefinition="ThreeButtons">
+            <Button CommandName="cmdFind" />
+            <Button CommandName="cmdReplace" />
+            <Button CommandName="cmdSelectAll" />
           </Group>
         </Tab>
-        <Tab CommandName="cmdTab2">
-          <Group CommandName="cmdGrpEdit" SizeDefinition="TwoButtons">
-            <ToggleButton CommandName="cmdBold" />
-            <Button CommandName="cmdPaste" />
+
+        <!-- ===== Insert Tab ===== -->
+        <Tab CommandName="cmdTabInsert">
+          <Group CommandName="cmdGrpInsert">
+            <Button CommandName="cmdTable" />
+            <Button CommandName="cmdPicture" />
+            <Button CommandName="cmdChart" />
+            <Button CommandName="cmdLink" />
+            <Button CommandName="cmdShape" />
+            <Button CommandName="cmdHeader" />
+            <Button CommandName="cmdFooter" />
+            <Button CommandName="cmdPageBreak" />
+          </Group>
+        </Tab>
+
+        <!-- ===== View Tab ===== -->
+        <Tab CommandName="cmdTabView">
+          <Group CommandName="cmdGrpZoom" SizeDefinition="ThreeButtons">
+            <Button CommandName="cmdZoomIn" />
+            <Button CommandName="cmdZoomOut" />
+            <Button CommandName="cmdZoom100" />
+          </Group>
+          <Group CommandName="cmdGrpShow" SizeDefinition="FiveButtons">
+            <ToggleButton CommandName="cmdRuler" />
+            <ToggleButton CommandName="cmdGridlines" />
+            <ToggleButton CommandName="cmdStatusBar" />
+            <ToggleButton CommandName="cmdDarkMode" />
+            <Button CommandName="cmdFullScreen" />
           </Group>
         </Tab>
       </Ribbon.Tabs>
+
+      <Ribbon.QuickAccessToolbar>
+        <QuickAccessToolbar>
+          <QuickAccessToolbar.ApplicationDefaults>
+            <Button CommandName="cmdSave" />
+            <Button CommandName="cmdUndo" />
+            <Button CommandName="cmdRedo" />
+          </QuickAccessToolbar.ApplicationDefaults>
+        </QuickAccessToolbar>
+      </Ribbon.QuickAccessToolbar>
     </Ribbon>
   </Application.Views>
 </Application>

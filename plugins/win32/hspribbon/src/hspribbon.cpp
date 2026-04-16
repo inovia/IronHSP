@@ -41,6 +41,9 @@ static int g_last_cmd_id = -1;
 static int g_last_cmd_verb = -1;
 static std::wstring g_last_string_value;
 static int g_last_int_value = 0;
+static UINT g_wm_ribbon_cmd = WM_APP + 100;  // Customizable message ID
+static bool g_event_mode = false;             // true = PostMessage, false = poll
+static HWND g_hWnd = 0;  // Forward declaration for event mode
 
 //============================================================
 // IUICommandHandler implementation
@@ -70,13 +73,16 @@ public:
                        IUISimplePropertySet *pCmdExecProps) {
         g_last_cmd_id = nCmdID;
         g_last_cmd_verb = (int)verb;
-        // Extract string value if available
+        // Extract value
         if (val && val->vt == VT_LPWSTR && val->pwszVal)
             g_last_string_value = val->pwszVal;
         else if (val && val->vt == VT_UI4)
             g_last_int_value = val->ulVal;
         else if (val && val->vt == VT_BOOL)
             g_last_int_value = val->boolVal ? 1 : 0;
+        // Event mode: send message to HSP window
+        if (g_event_mode && g_hWnd)
+            PostMessage(g_hWnd, g_wm_ribbon_cmd, (WPARAM)nCmdID, (LPARAM)verb);
         return S_OK;
     }
 
@@ -135,7 +141,6 @@ public:
 //============================================================
 static IUIFramework *g_pFramework = nullptr;
 static CApplication *g_pApp = nullptr;
-static HWND g_hWnd = 0;
 
 //------------------------------------------------------------
 // ribbon_init(hwnd) - Initialize ribbon
@@ -198,6 +203,26 @@ EXPORT int __cdecl ribbon_poll_cmd(int *cmd_id, int *verb)
 EXPORT int __cdecl ribbon_get_last_int()
 {
     return g_last_int_value;
+}
+
+//------------------------------------------------------------
+// ribbon_set_event_mode(enabled, wm_id) - Enable event notification
+//   enabled: 1=PostMessage mode, 0=poll mode
+//   wm_id: custom WM_ message id (0 = use default WM_APP+100)
+//------------------------------------------------------------
+EXPORT int __cdecl ribbon_set_event_mode(int enabled, int wm_id)
+{
+    g_event_mode = (enabled != 0);
+    if (wm_id > 0) g_wm_ribbon_cmd = (UINT)wm_id;
+    return 0;
+}
+
+//------------------------------------------------------------
+// ribbon_get_event_msgid() - Get current event message ID
+//------------------------------------------------------------
+EXPORT int __cdecl ribbon_get_event_msgid()
+{
+    return (int)g_wm_ribbon_cmd;
 }
 
 //------------------------------------------------------------
@@ -382,43 +407,216 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
 }
 
 //------------------------------------------------------------
-// ribbon_load_xml(xml_path, uicc_path) - Compile XML and load
-//   Calls uicc.exe to compile, then loads the BML.
+// Helper: run a command and wait
 //------------------------------------------------------------
-EXPORT int __cdecl ribbon_load_xml(const char *xmlPath, const char *uiccPath)
+static int run_cmd(const char *cmd)
 {
-    if (!g_pFramework) return -1;
-
-    // Generate temp BML path
-    char tmpDir[MAX_PATH], bmlPath[MAX_PATH];
-    GetTempPathA(MAX_PATH, tmpDir);
-    GetTempFileNameA(tmpDir, "bml", 0, bmlPath);
-    char *ext = strrchr(bmlPath, '.');
-    if (ext) strcpy(ext, ".bml");
-
-    // Build uicc command
-    char cmd[2048];
-    sprintf(cmd, "\"%s\" \"%s\" \"%s\"", uiccPath, xmlPath, bmlPath);
-
-    // Run uicc.exe
     STARTUPINFOA si = { sizeof(si) };
     PROCESS_INFORMATION pi = {};
     si.dwFlags = STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
-    if (!CreateProcessA(nullptr, cmd, nullptr, nullptr, FALSE,
-                        CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi)) {
-        return -2;
-    }
-    WaitForSingleObject(pi.hProcess, 10000);
-    DWORD exitCode = 0;
+    char cmdBuf[4096];
+    strncpy(cmdBuf, cmd, sizeof(cmdBuf)-1);
+    if (!CreateProcessA(nullptr, cmdBuf, nullptr, nullptr, FALSE,
+                        CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi))
+        return -1;
+    WaitForSingleObject(pi.hProcess, 30000);
+    DWORD exitCode = 1;
     GetExitCodeProcess(pi.hProcess, &exitCode);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
+    return (int)exitCode;
+}
 
-    if (exitCode != 0) return -3;
+//------------------------------------------------------------
+// ribbon_load_xml(xml_path, sdk_bin_path) - Full auto build & load
+//   sdk_bin_path: path to Windows SDK bin (containing uicc.exe, rc.exe, link.exe)
+//   e.g. "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86"
+//
+//   Steps: XML → uicc → BML + RC + H → rc.exe → RES → link.exe → DLL → LoadUI
+//------------------------------------------------------------
+EXPORT int __cdecl ribbon_load_xml(const char *xmlPath, const char *sdkBinPath)
+{
+    if (!g_pFramework) return -1;
 
-    // Load the compiled BML
-    return ribbon_load_bml(bmlPath);
+    // Temp directory
+    char tmpDir[MAX_PATH];
+    GetTempPathA(MAX_PATH, tmpDir);
+
+    char baseName[MAX_PATH];
+    sprintf(baseName, "%shsp_ribbon_%u", tmpDir, GetCurrentProcessId());
+
+    char bmlPath[MAX_PATH], hPath[MAX_PATH], rcPath[MAX_PATH], resPath[MAX_PATH], dllPath[MAX_PATH];
+    sprintf(bmlPath, "%s.bml", baseName);
+    sprintf(hPath, "%s.h", baseName);
+    sprintf(rcPath, "%s.rc", baseName);
+    sprintf(resPath, "%s.res", baseName);
+    sprintf(dllPath, "%s.dll", baseName);
+
+    // Find MSVC tools
+    // We need: uicc.exe (SDK), rc.exe (SDK), cl.exe + link.exe (MSVC)
+    char uiccExe[MAX_PATH], rcExe[MAX_PATH];
+    sprintf(uiccExe, "%s\\uicc.exe", sdkBinPath);
+    sprintf(rcExe, "%s\\rc.exe", sdkBinPath);
+
+    // Step 1: uicc.exe ribbon.xml → .bml + .h + .rc
+    char cmd[4096];
+    sprintf(cmd, "\"%s\" \"%s\" \"%s\" /header:\"%s\" /res:\"%s\"",
+            uiccExe, xmlPath, bmlPath, hPath, rcPath);
+    int r = run_cmd(cmd);
+    if (r != 0) return -10 - r;
+
+    // Step 2: rc.exe → .res
+    sprintf(cmd, "\"%s\" /nologo /I\"%s\" /fo\"%s\" \"%s\"",
+            rcExe, tmpDir, resPath, rcPath);
+    r = run_cmd(cmd);
+    if (r != 0) return -20 - r;
+
+    // Step 3: Create DLL from .res
+    // Instead of using link.exe (requires MSVC), use UpdateResource approach:
+    // Create a minimal DLL by copying ourselves, then replace all resources with the .res content
+
+    // Alternative simpler approach: use a tiny C file + cl + link
+    // But that requires MSVC env setup.
+
+    // Best approach: use rc.exe output (.res) + a minimal PE DLL + UpdateResource
+    // Actually: link.exe can create a DLL from just a .res file with /NOENTRY
+
+    // Try to find link.exe in common MSVC paths
+    const char *linkPaths[] = {
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx86\\x86\\link.exe",
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\Hostx86\\x86\\link.exe",
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx86\\x86\\link.exe",
+        nullptr
+    };
+    const char *linkExe = nullptr;
+    for (int i = 0; linkPaths[i]; i++) {
+        if (GetFileAttributesA(linkPaths[i]) != INVALID_FILE_ATTRIBUTES) {
+            linkExe = linkPaths[i];
+            break;
+        }
+    }
+
+    // Step 3: Parse .rc file and build resource DLL using UpdateResource
+    // (No rc.exe or link.exe needed!)
+    {
+        // Copy this DLL as PE template
+        char selfPath[MAX_PATH];
+        HMODULE hSelf = nullptr;
+        GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                           GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                           (LPCSTR)&ribbon_load_xml, &hSelf);
+        GetModuleFileNameA(hSelf, selfPath, MAX_PATH);
+        CopyFileA(selfPath, dllPath, FALSE);
+
+        HANDLE hUpdate = BeginUpdateResourceA(dllPath, TRUE);
+        if (!hUpdate) return -30;
+
+        // Add BML as UIFILE resource
+        FILE *fpBml = fopen(bmlPath, "rb");
+        if (!fpBml) { EndUpdateResourceA(hUpdate, TRUE); return -31; }
+        fseek(fpBml, 0, SEEK_END);
+        long bmlSize = ftell(fpBml);
+        fseek(fpBml, 0, SEEK_SET);
+        void *bmlData = malloc(bmlSize);
+        fread(bmlData, 1, bmlSize, fpBml);
+        fclose(fpBml);
+
+        UpdateResourceA(hUpdate, "UIFILE", "APPLICATION_RIBBON",
+                        MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+                        bmlData, bmlSize);
+        free(bmlData);
+
+        // Parse .rc file for STRINGTABLE entries and add them
+        FILE *fpRc = fopen(rcPath, "r");
+        if (fpRc) {
+            char line[1024];
+            bool inStringTable = false;
+            while (fgets(line, sizeof(line), fpRc)) {
+                if (strstr(line, "STRINGTABLE")) { inStringTable = true; continue; }
+                if (inStringTable && strstr(line, "END")) { inStringTable = false; continue; }
+                if (inStringTable && strstr(line, "BEGIN")) continue;
+
+                if (inStringTable) {
+                    // Parse: <id_macro> L"text"
+                    // Find the L" string
+                    char *lq = strstr(line, "L\"");
+                    if (!lq) continue;
+                    lq += 2; // skip L"
+                    char *eq = strrchr(lq, '"');
+                    if (!eq) continue;
+                    *eq = 0;
+                    std::wstring wstr;
+                    for (char *p = lq; *p; p++) wstr += (wchar_t)*p;
+
+                    // Parse ID from ribbon.h - need the numeric ID
+                    // Extract the macro name (first non-space token)
+                    char *tok = line;
+                    while (*tok == ' ' || *tok == '\t') tok++;
+                    char macroName[256] = {};
+                    int mi = 0;
+                    while (*tok && *tok != ' ' && *tok != '\t' && mi < 255)
+                        macroName[mi++] = *tok++;
+
+                    // Look up macro in .h file
+                    int strId = 0;
+                    FILE *fpH = fopen(hPath, "r");
+                    if (fpH) {
+                        char hline[512];
+                        while (fgets(hline, sizeof(hline), fpH)) {
+                            if (strstr(hline, macroName)) {
+                                char *numP = strrchr(hline, ' ');
+                                if (numP) strId = atoi(numP);
+                                break;
+                            }
+                        }
+                        fclose(fpH);
+                    }
+
+                    if (strId > 0) {
+                        // STRINGTABLE resource: bundle ID = (strId / 16) + 1
+                        // String index within bundle = strId % 16
+                        // Each bundle is 16 counted-Unicode-strings
+                        int bundleId = (strId / 16) + 1;
+                        int idx = strId % 16;
+
+                        // Build the string bundle (16 counted strings)
+                        // For simplicity: create a bundle with just this one string
+                        // (Multiple strings in same bundle would need merging)
+                        wchar_t bundle[4096] = {};
+                        int pos = 0;
+                        for (int i = 0; i < 16; i++) {
+                            if (i == idx) {
+                                int len = (int)wstr.size();
+                                bundle[pos++] = (wchar_t)len;
+                                for (int j = 0; j < len; j++)
+                                    bundle[pos++] = wstr[j];
+                            } else {
+                                bundle[pos++] = 0; // empty string
+                            }
+                        }
+                        UpdateResourceW(hUpdate, MAKEINTRESOURCEW(6), MAKEINTRESOURCEW(bundleId),
+                                        MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+                                        bundle, pos * sizeof(wchar_t));
+                    }
+                }
+            }
+            fclose(fpRc);
+        }
+
+        EndUpdateResourceA(hUpdate, FALSE);
+    }
+
+    // Step 4: Load the DLL
+    if (g_hResDll) { FreeLibrary(g_hResDll); g_hResDll = nullptr; }
+    g_hResDll = LoadLibraryA(dllPath);
+    if (!g_hResDll) return -50;
+
+    HRESULT hr = g_pFramework->LoadUI(g_hResDll, L"APPLICATION_RIBBON");
+    if (FAILED(hr)) return -60;
+
+    strcpy(g_resDllPath, dllPath);
+    return 0;
 }
 
 //------------------------------------------------------------

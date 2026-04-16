@@ -62,8 +62,6 @@
 #func global _rib_bgcolor    "ribbon_set_background_color" int, int, int
 #func global _rib_load_bml   "ribbon_load_bml" str
 #func global _rib_load_xml   "ribbon_load_xml" str, str
-#func global _rib_set_event  "ribbon_set_event_mode" int, int
-#cfunc global _rib_get_msgid "ribbon_get_event_msgid"
 #func global _rib_destroy    "ribbon_destroy"
 
 #module iron_ribbon_native
@@ -125,14 +123,6 @@ dim _rib_verb, 1
 #deffunc ribbon_native_load_xml str xml_path, str uicc_path
 	_rib_load_xml xml_path, uicc_path
 	return stat
-
-; Enable event mode: oncmd で受信。wm_id はカスタム可 (0=デフォルト WM_APP+100)
-#deffunc ribbon_native_set_event_mode int enabled, int wm_id
-	_rib_set_event enabled, wm_id
-	return
-
-#defcfunc ribbon_native_get_event_msgid
-	return _rib_get_msgid()
 
 #deffunc ribbon_native_destroy
 	_rib_destroy
