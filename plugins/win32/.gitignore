@@ -1,0 +1,22 @@
+# Build output
+*/bin/
+*/obj/
+*/Release/*.dll
+*/Release/*.lib
+*/Release/*.exp
+*/Release/*.pdb
+*/Release/*.iobj
+*/Release/*.ipdb
+*/Release/*.ilk
+*/Release/obj*/
+*/Debug/
+*.user
+*.suo
+*.ncb
+*.sdf
+*.opensdf
+*.tlog
+*.recipe
+*.log
+ipch/
+.vs/
