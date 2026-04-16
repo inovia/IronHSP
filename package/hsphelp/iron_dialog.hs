@@ -74,3 +74,68 @@ iron_dialog
 例:
   dialog_save "保存先を指定", "テキスト|*.txt|", "txt"
   if stat = 0 : notesave refstr
+
+
+%index
+dialog_pickfolder
+モダンフォルダ選択ダイアログ (Vista+ Explorer風)
+%group
+iron_dialog
+%prm
+["title"]
+"title" : ダイアログタイトル (省略可)
+
+%inst
+IFileOpenDialog + FOS_PICKFOLDERS を使用したモダン UI のフォルダ選択ダイアログです。
+Windows Vista 以降の Explorer 風 UI。クイックアクセス・最近のフォルダ・ OneDrive 等が使えます。
+  refstr : 選択されたフォルダパス
+  stat   : 0 成功 / 1 キャンセル
+
+例:
+  dialog_pickfolder "フォルダを選択"
+  if stat = 0 : mes refstr
+%href
+dialog_browse_classic
+dialog_browse_new
+
+%index
+dialog_browse_classic
+クラシックフォルダ選択ダイアログ (ツリービュー)
+%group
+iron_dialog
+%prm
+["title"]
+
+%inst
+SHBrowseForFolder を使用したクラシック UI のフォルダ選択ダイアログです。
+Windows 95 以降の定番。小さなツリービュー形式。
+  refstr : 選択されたフォルダパス
+  stat   : 0 成功 / 1 キャンセル
+
+例:
+  dialog_browse_classic "フォルダを選択"
+  if stat = 0 : mes refstr
+%href
+dialog_pickfolder
+dialog_browse_new
+
+%index
+dialog_browse_new
+新スタイルフォルダ選択ダイアログ (リサイズ可+新規フォルダ)
+%group
+iron_dialog
+%prm
+["title"]
+
+%inst
+SHBrowseForFolder + BIF_NEWDIALOGSTYLE を使用したフォルダ選択ダイアログです。
+リサイズ可能なツリービュー + 「新しいフォルダ」ボタン + パス編集ボックス付き。
+  refstr : 選択されたフォルダパス
+  stat   : 0 成功 / 1 キャンセル
+
+例:
+  dialog_browse_new "出力先フォルダを選択"
+  if stat = 0 : mes refstr
+%href
+dialog_pickfolder
+dialog_browse_classic

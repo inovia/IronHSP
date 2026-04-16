@@ -310,6 +310,84 @@
     delcom _dlg
     return refstr, stat
 
+;------------------------------------------------------------
+; SHBrowseForFolder 系 (shell32.dll)
+;------------------------------------------------------------
+#uselib "shell32.dll"
+#cfunc _SHBrowseForFolderA "SHBrowseForFolderA" var
+#cfunc _SHGetPathFromIDListA "SHGetPathFromIDListA" int, var
+#func  _CoTaskMemFree2 "CoTaskMemFree" int
+
+#uselib "ole32.dll"
+#cfunc _CoInitialize2 "CoInitialize" int
+
+; BIF フラグ
+#define BIF_RETURNONLYFSDIRS  0x00000001
+#define BIF_DONTGOBELOWDOMAIN 0x00000002
+#define BIF_STATUSTEXT        0x00000004
+#define BIF_RETURNFSANCESTORS 0x00000008
+#define BIF_EDITBOX           0x00000010
+#define BIF_VALIDATE          0x00000020
+#define BIF_NEWDIALOGSTYLE    0x00000040
+#define BIF_BROWSEINCLUDEFILES 0x00004000
+#define BIF_USENEWUI          0x00000050
+
+;------------------------------------------------------------
+; dialog_browse_classic ["title"]
+;   SHBrowseForFolder (クラシック UI)
+;   小さなツリービュー。Windows 95 以降の定番。
+;   → refstr にフォルダパス, stat (0=成功, 1=キャンセル)
+;------------------------------------------------------------
+#deffunc dialog_browse_classic str title, \
+	local bi, local pidl, local path
+	_CoInitialize2 0
+	; BROWSEINFOA 構造体 (32byte on x86, 48byte on x64)
+	; hwndOwner(ptr) + pidlRoot(ptr) + pszDisplayName(ptr) +
+	; lpszTitle(ptr) + ulFlags(int) + lpfn(ptr) + lParam(ptr) + iImage(int)
+	sdim bi, 64
+	; hwndOwner = 0 (デスクトップ)
+	; pidlRoot = 0 (デスクトップからブラウズ)
+	; pszDisplayName = 0
+	; lpszTitle = 文字列ポインタ (title)
+	; ulFlags = BIF_RETURNONLYFSDIRS
+	sdim _browse_title, 256
+	_browse_title = title
+	; 32bit: offset 0=hwnd(4), 4=pidlRoot(4), 8=pszDisplayName(4), 12=lpszTitle(4), 16=ulFlags(4)
+	; 64bit: offset 0=hwnd(8), 8=pidlRoot(8), 16=pszDisplayName(8), 24=lpszTitle(8), 32=ulFlags(4)
+	; ポインタサイズに依存するので lpoke/qpoke で設定
+	; 簡易: varptr で title のアドレスを取得
+	lpoke bi, 12, varptr(_browse_title)   ; lpszTitle (32bit 用)
+	lpoke bi, 16, BIF_RETURNONLYFSDIRS    ; ulFlags
+	pidl = _SHBrowseForFolderA(bi)
+	if pidl == 0 : return "", 1
+
+	sdim path, 260
+	_SHGetPathFromIDListA pidl, path
+	_CoTaskMemFree2 pidl
+	return path, 0
+
+;------------------------------------------------------------
+; dialog_browse_new ["title"]
+;   SHBrowseForFolder + BIF_NEWDIALOGSTYLE
+;   リサイズ可能なツリービュー + 「新しいフォルダ」ボタン付き。
+;   → refstr にフォルダパス, stat (0=成功, 1=キャンセル)
+;------------------------------------------------------------
+#deffunc dialog_browse_new str title, \
+	local bi, local pidl, local path
+	_CoInitialize2 0
+	sdim bi, 64
+	sdim _browse_title2, 256
+	_browse_title2 = title
+	lpoke bi, 12, varptr(_browse_title2)
+	lpoke bi, 16, BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE | BIF_EDITBOX
+	pidl = _SHBrowseForFolderA(bi)
+	if pidl == 0 : return "", 1
+
+	sdim path, 260
+	_SHGetPathFromIDListA pidl, path
+	_CoTaskMemFree2 pidl
+	return path, 0
+
 #global
 
 #endif
