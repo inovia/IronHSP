@@ -295,13 +295,13 @@
 <!-- ========================================== -->
 <h2 id="cat0">目玉機能: 描画エンジン &amp; 画像処理</h2>
 
-<p>IronHSP 2026 の最大の目玉機能群です。DirectWrite + Direct2D による高品質テキスト描画、DxLib の 2,548 関数をまるごと HSP から呼び出せる統合ヘッダ、OpenCV 4.12 の 277 関数を搭載する画像処理プラグインを含みます。</p>
+<p>DirectWrite + Direct2D による高品質テキスト描画、DxLib の 2,548 関数をまるごと HSP から呼び出せる統合ヘッダ、OpenCV 4.12 の 277 関数を搭載する画像処理プラグインを含みます。</p>
 
 <h3>hspd2d (DirectWrite + Direct2D + WIC)</h3>
 
 <div class="card">
 <h4>hspd2d --- DirectWrite + Direct2D + WIC 統合モジュール</h4>
-<p class="muted">ソース: <code>package/win32/common/hspd2d.hsp</code></p>
+<p class="muted">ソース: <code>package/win32/common/hspd2d.hsp</code> / ヘルプ: <code>package/hsphelp/hspd2d.hs</code></p>
 <p><code>hspd2d.hsp</code> は DirectWrite + Direct2D + WIC を HSP の COM 機能 (<code>#usecom</code> / <code>#comfunc</code> / <code>newcom</code>) だけで wrap した Pure HSP モジュールです。
 C++ DLL を一切介さずに、ハードウェアアクセラレーション対応の高品質テキスト描画と PNG 出力を実現します。
 色付き絵文字 (Segoe UI Emoji 等) の描画にも対応しており、hsp3net 環境で DirectWrite の ClearType / サブピクセルレンダリングを
@@ -324,7 +324,7 @@ C++ DLL を一切介さずに、ハードウェアアクセラレーション対
 
 <div class="card">
 <h4>hspdxlib --- DxLib (DX ライブラリ) 完全統合ヘッダ</h4>
-<p class="muted">ソース: <code>plugins/win32/hspdxlib/hspdxlib.as</code> / <code>hspdxlib_const.as</code> / <code>hspdxlib_struct.as</code> / <code>hspdxlib_macro.as</code></p>
+<p class="muted">ソース: <code>package/win32/common/hspdxlib.as</code> / <code>hspdxlib_const.as</code> / <code>hspdxlib_struct.as</code> / <code>hspdxlib_macro.as</code> / ヘルプ: <code>package/hsphelp/hspdxlib.hs</code></p>
 <p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
 DxLibW (Unicode 版) を使用し、32bit / 64bit の両方に対応します。
 <strong>2,548 関数 + 151 構造体戻り関数 + 901 定数</strong>を宣言済みで、
