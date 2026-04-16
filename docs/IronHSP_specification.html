@@ -73,7 +73,13 @@
   <li><a href="#maptype">18. 連想配列 (MAP 型)</a></li>
   <li><a href="#ironstat">19. 統計関数 (iron_stat)</a></li>
   <li><a href="#ironregex">20. 正規表現 (hspregex / hsppcre2)</a></li>
-  <li><a href="#changelog">21. 変更履歴</a></li>
+  <li><a href="#ironcrypto">21. 暗号化 (iron_crypto / hspcrypto)</a></li>
+  <li><a href="#ironos">22. OS操作モジュール (レジストリ / ファイル監視 / EXIF)</a></li>
+  <li><a href="#ironnet">23. ネットワーク (FTP / SMTP / HTTP / SSH)</a></li>
+  <li><a href="#irontext">24. テキスト処理 (HTMLパース / MeCab)</a></li>
+  <li><a href="#ironchart">25. グラフ/チャート (Chart.js / hspd2d)</a></li>
+  <li><a href="#ironmisc">26. その他 (OAuth / 帳票出力 / フォルダ選択)</a></li>
+  <li><a href="#changelog">27. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -2426,7 +2432,156 @@ repeat stat
 loop</code></pre>
 
 <!-- ======================================== -->
-<h2 id="changelog">21. 変更履歴</h2>
+<!-- ======================================== -->
+<h2 id="ironcrypto">21. 暗号化 (iron_crypto / hspcrypto) <span class="badge">IronHSP</span></h2>
+
+<p><code>#include "iron_crypto.hsp"</code> で利用可能。<code>hspcrypto.dll</code> (32/64bit) が必要。</p>
+
+<table>
+<tr><th>命令</th><th>アルゴリズム</th><th>説明</th></tr>
+<tr><td><code>bf_encrypt key, data, len, out</code></td><td>Blowfish ECB</td><td>暗号化 (PKCS7 パディング)。stat に出力長</td></tr>
+<tr><td><code>bf_decrypt key, data, len, out</code></td><td>Blowfish ECB</td><td>復号。stat に平文長</td></tr>
+<tr><td><code>rc4_encrypt key, data, len, out</code></td><td>RC4</td><td>ストリーム暗号。暗号化と復号は同一命令</td></tr>
+<tr><td><code>chacha20_encrypt key32, nonce12, data, len, out</code></td><td>ChaCha20 RFC7539</td><td>ストリーム暗号</td></tr>
+<tr><td><code>aes256_encrypt key32, iv16, data, len, out</code></td><td>AES-256-CBC</td><td>BCrypt ベース</td></tr>
+<tr><td><code>aes256_decrypt key32, iv16, data, len, out</code></td><td>AES-256-CBC</td><td>BCrypt ベース</td></tr>
+<tr><td><code>hmac_sha256 key, klen, data, dlen</code></td><td>HMAC-SHA256</td><td>refstr に 64桁 hex</td></tr>
+<tr><td><code>pbkdf2_sha256 pass, salt, slen, iter, outlen</code></td><td>PBKDF2-SHA256</td><td>鍵導出。refstr に hex</td></tr>
+</table>
+
+<p>ハッシュ関数 (SHA256/SHA512/MD5 等) と Base64 は <code>iron_hash.hsp</code> を参照。</p>
+
+<!-- ======================================== -->
+<h2 id="ironos">22. OS操作モジュール <span class="badge">IronHSP</span></h2>
+
+<h3>レジストリ (iron_registry.hsp)</h3>
+<p>Win32 advapi32 API。外部 DLL 不要。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>reg_read hkey, "subkey", "name"</code></td><td>値を読む → refstr, stat=0 で成功</td></tr>
+<tr><td><code>reg_write hkey, "subkey", "name", "value"</code></td><td>REG_SZ 書き込み</td></tr>
+<tr><td><code>reg_write_dword hkey, "subkey", "name", val</code></td><td>REG_DWORD 書き込み</td></tr>
+<tr><td><code>reg_delete_value hkey, "subkey", "name"</code></td><td>値を削除</td></tr>
+<tr><td><code>reg_delete_key hkey, "subkey"</code></td><td>キーを削除</td></tr>
+<tr><td><code>reg_exists(hkey, "subkey", "name")</code></td><td>存在確認 → 1/0</td></tr>
+</table>
+
+<h3>ファイル監視 (iron_fwatch.hsp)</h3>
+<p>Win32 <code>FindFirstChangeNotification</code>。外部 DLL 不要。</p>
+<table>
+<tr><th>命令</th><th>説明</th></tr>
+<tr><td><code>fwatch_start "path" [, filter]</code></td><td>監視開始 → stat にハンドル</td></tr>
+<tr><td><code>fwatch_check handle</code></td><td>変更検出 → stat=1 で変更あり</td></tr>
+<tr><td><code>fwatch_stop handle</code></td><td>監視終了</td></tr>
+</table>
+
+<h3>EXIF 読み取り (iron_exif.hsp)</h3>
+<p>GDI+ PropertyItem API。外部 DLL 不要。</p>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>exif_open "image.jpg"</code></td><td>画像を開く → stat=0 で成功</td></tr>
+<tr><td><code>exif_get_str EXIF_MODEL</code></td><td>文字列タグ → refstr</td></tr>
+<tr><td><code>exif_get_int EXIF_ORIENTATION</code></td><td>整数タグ → stat</td></tr>
+<tr><td><code>exif_get_rational EXIF_FNUMBER</code></td><td>有理数タグ → refdval</td></tr>
+<tr><td><code>exif_close</code></td><td>画像を閉じる</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="ironnet">23. ネットワーク <span class="badge">IronHSP</span></h2>
+
+<h3>HTTP クライアント (iron_http.hsp)</h3>
+<p>WinHTTP API。HTTPS 自動対応。外部 DLL 不要。</p>
+
+<h3>FTP クライアント (iron_ftp.hsp)</h3>
+<p>WinINet API。パッシブモード。外部 DLL 不要。</p>
+<table>
+<tr><th>命令</th><th>説明</th></tr>
+<tr><td><code>ftp_connect "host", "user", "pass" [, port]</code></td><td>接続 → stat=0 で成功</td></tr>
+<tr><td><code>ftp_upload "local", "remote"</code></td><td>アップロード</td></tr>
+<tr><td><code>ftp_download "remote", "local"</code></td><td>ダウンロード</td></tr>
+<tr><td><code>ftp_list "pattern"</code></td><td>ファイル一覧 → refstr (改行区切り)</td></tr>
+<tr><td><code>ftp_mkdir "dir"</code> / <code>ftp_cd "dir"</code></td><td>ディレクトリ操作</td></tr>
+<tr><td><code>ftp_disconnect</code></td><td>切断</td></tr>
+</table>
+
+<h3>SMTP メール送信 (iron_smtp.hsp + hspsmtp.dll)</h3>
+<p>Winsock2 ベース。AUTH LOGIN 認証対応。</p>
+<pre><code>mail_send "smtp.example.com", 587, "from@example.com", "to@example.com", "件名", "本文", "user", "pass"</code></pre>
+
+<h3>SSH/SFTP (iron_ssh.hsp + hspssh.dll)</h3>
+<p>libssh2 + WinCNG。パスワード認証。</p>
+<table>
+<tr><th>命令</th><th>説明</th></tr>
+<tr><td><code>ssh_connect "host", port, "user", "pass"</code></td><td>接続</td></tr>
+<tr><td><code>ssh_exec "command"</code></td><td>コマンド実行 → refstr に stdout</td></tr>
+<tr><td><code>sftp_upload "local", "remote"</code></td><td>SFTP アップロード</td></tr>
+<tr><td><code>sftp_download "remote", "local"</code></td><td>SFTP ダウンロード</td></tr>
+<tr><td><code>ssh_disconnect</code></td><td>切断</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="irontext">24. テキスト処理 <span class="badge">IronHSP</span></h2>
+
+<h3>HTML パース (iron_html.hsp + hsphtml.dll)</h3>
+<p>軽量 C++ 実装。タグ検索・属性取得・テキスト抽出。</p>
+<pre><code>#include "iron_html.hsp"
+html_parse "&lt;a href='http://example.com'&gt;Link&lt;/a&gt;"
+html_find "a"
+mes html_tag_attr(0, "href")    ; → "http://example.com"
+mes html_tag_text(0)             ; → "Link"</code></pre>
+
+<h3>形態素解析 (iron_mecab.hsp)</h3>
+<p>MeCab C API ラッパー。libmecab.dll と辞書が別途必要。</p>
+<pre><code>#include "iron_mecab.hsp"
+mecab_init
+mecab_parse "すもももももももものうち"
+mes refstr</code></pre>
+
+<!-- ======================================== -->
+<h2 id="ironchart">25. グラフ/チャート <span class="badge">IronHSP</span></h2>
+
+<h3>Chart.js 版 (iron_chart.hsp)</h3>
+<p>Chart.js (CDN) + ブラウザで表示。棒/折れ線/円/ドーナツ/レーダー/散布図の 6 種。</p>
+<pre><code>#include "iron_chart.hsp"
+chart_init
+chart_type CHART_BAR
+chart_title "月別売上"
+chart_labels "1月","2月","3月","4月","5月"
+chart_data "売上", 120, 200, 150, 300, 250
+chart_show</code></pre>
+
+<h3>hspd2d 版 (iron_chart_d2d.hsp)</h3>
+<p>hspd2d (Direct2D) 直接描画。WebView2 不要。棒グラフ・折れ線グラフ・2系列棒グラフ。</p>
+<pre><code>#include "hspd2d.hsp"
+#include "iron_chart_d2d.hsp"
+d2d_init : d2d_font "Meiryo", 14
+chartd2d_bar labels, data, 5, "月別売上"</code></pre>
+
+<!-- ======================================== -->
+<h2 id="ironmisc">26. その他 <span class="badge">IronHSP</span></h2>
+
+<h3>OAuth 2.0 認証 (iron_oauth.hsp)</h3>
+<p>localhost TCP コールバックで Authorization Code を受け取る。</p>
+<pre><code>oauth_start_listener 8080
+exec auth_url, 16          ; ブラウザで認証画面を開く
+oauth_wait_code 30         ; 30秒待機
+mes "code: " + refstr
+oauth_stop_listener</code></pre>
+
+<h3>帳票出力 (iron_report.hsp)</h3>
+<p>HTML テンプレートに <code>{{key}}</code> でデータを差し込み、ブラウザで表示/印刷。</p>
+
+<h3>フォルダ選択ダイアログ (iron_dialog.hsp)</h3>
+<p>3 種の UI を選択可能:</p>
+<table>
+<tr><th>命令</th><th>API</th><th>UI</th></tr>
+<tr><td><code>dialog_pickfolder "title"</code></td><td>IFileOpenDialog + FOS_PICKFOLDERS</td><td>モダン Explorer 風 (Vista+)</td></tr>
+<tr><td><code>dialog_browse_classic "title"</code></td><td>SHBrowseForFolder</td><td>クラシック ツリービュー</td></tr>
+<tr><td><code>dialog_browse_new "title"</code></td><td>SHBrowseForFolder + BIF_NEWDIALOGSTYLE</td><td>リサイズ可 + 新規フォルダ作成</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="changelog">27. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
