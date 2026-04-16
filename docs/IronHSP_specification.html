@@ -886,7 +886,7 @@ mes "size=" + varsize(POINT)   ; → 8</code></pre>
 <table>
 <tr><th>ディレクティブ</th><th>説明</th></tr>
 <tr><td><code>#defstruct [global] NAME [, pack=N]</code></td><td>構造体定義の開始。<code>global</code> を付けると <code>#module</code> 内からも参照可能 (共有 .as ファイルで定義する場合は <code>global</code> 推奨)。<code>pack=N</code> でアライメントを指定 (デフォルト 8、C ABI に従い末尾はメンバ最大アライメントで切り上げ)</td></tr>
-<tr><td><code>#defunion NAME</code></td><td>トップレベル共用体定義の開始 (全メンバが同一オフセット)</td></tr>
+<tr><td><code>#defunion [global] NAME</code></td><td>トップレベル共用体定義の開始 (全メンバが同一オフセット)。<code>global</code> の動作は <code>#defstruct</code> と同じ</td></tr>
 <tr><td><code>#defunion</code> (名前なし)</td><td><code>#defstruct</code> 内のサブ共用体ブロック開始</td></tr>
 <tr><td><code>#field 型 メンバ名 [配列]</code></td><td>メンバ定義 (<code>#defstruct</code>/<code>#defunion</code> 内で必須)</td></tr>
 <tr><td><code>#endstruct</code> / <code>#endunion</code></td><td>定義の終了</td></tr>
