@@ -33,19 +33,19 @@
 #module iron_ftp
 
 #uselib "wininet.dll"
-#cfunc _InternetOpenA      "InternetOpenA" str, int, int, int, int
-#cfunc _InternetConnectA   "InternetConnectA" int, str, int, str, str, int, int, int
+#cfunc _InternetOpenA      "InternetOpenW" wstr, int, int, int, int
+#cfunc _InternetConnectA   "InternetConnectW" int, wstr, int, wstr, wstr, int, int, int
 #cfunc _InternetCloseHandle "InternetCloseHandle" int
-#cfunc _FtpPutFileA        "FtpPutFileA" int, str, str, int, int
-#cfunc _FtpGetFileA        "FtpGetFileA" int, str, str, int, int, int, int
-#cfunc _FtpDeleteFileA     "FtpDeleteFileA" int, str
-#cfunc _FtpRenameFileA     "FtpRenameFileA" int, str, str
-#cfunc _FtpCreateDirectoryA "FtpCreateDirectoryA" int, str
-#cfunc _FtpRemoveDirectoryA "FtpRemoveDirectoryA" int, str
-#cfunc _FtpSetCurrentDirectoryA "FtpSetCurrentDirectoryA" int, str
-#cfunc _FtpGetCurrentDirectoryA "FtpGetCurrentDirectoryA" int, var, var
-#cfunc _FtpFindFirstFileA "FtpFindFirstFileA" int, str, var, int, int
-#cfunc _InternetFindNextFileA "InternetFindNextFileA" int, var
+#cfunc _FtpPutFileA        "FtpPutFileW" int, wstr, wstr, int, int
+#cfunc _FtpGetFileA        "FtpGetFileW" int, wstr, wstr, int, int, int, int
+#cfunc _FtpDeleteFileA     "FtpDeleteFileW" int, wstr
+#cfunc _FtpRenameFileA     "FtpRenameFileW" int, wstr, wstr
+#cfunc _FtpCreateDirectoryA "FtpCreateDirectoryW" int, wstr
+#cfunc _FtpRemoveDirectoryA "FtpRemoveDirectoryW" int, wstr
+#cfunc _FtpSetCurrentDirectoryA "FtpSetCurrentDirectoryW" int, wstr
+#cfunc _FtpGetCurrentDirectoryA "FtpGetCurrentDirectoryW" int, var, var
+#cfunc _FtpFindFirstFileA "FtpFindFirstFileW" int, wstr, var, int, int
+#cfunc _InternetFindNextFileA "InternetFindNextFileW" int, var
 
 ; INTERNET_SERVICE_FTP = 1
 ; FTP_TRANSFER_TYPE_BINARY = 2

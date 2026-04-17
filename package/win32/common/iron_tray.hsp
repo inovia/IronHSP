@@ -6,7 +6,7 @@
 #module iron_tray
 
 #uselib "shell32.dll"
-#cfunc _Shell_NotifyIconA "Shell_NotifyIconA" int, var
+#cfunc _Shell_NotifyIconA "Shell_NotifyIconW" int, var
 #uselib "user32.dll"
 #cfunc _LoadIconA "LoadIconA" int, int
 

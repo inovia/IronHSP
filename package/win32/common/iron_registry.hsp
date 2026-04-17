@@ -37,12 +37,14 @@
 #module iron_registry
 
 #uselib "advapi32.dll"
-#cfunc _RegOpenKeyExA  "RegOpenKeyExA" int, str, int, int, var
+#cfunc _RegOpenKeyExW  "RegOpenKeyExW" int, wstr, int, int, var
 #cfunc _RegCloseKey    "RegCloseKey" int
-#cfunc _RegQueryValueExA "RegQueryValueExA" int, str, int, var, var, var
-#cfunc _RegSetValueExA "RegSetValueExA" int, str, int, int, var, int
-#cfunc _RegDeleteValueA "RegDeleteValueA" int, str
-#cfunc _RegDeleteKeyA "RegDeleteKeyA" int, str
+#cfunc _RegQueryValueExW "RegQueryValueExW" int, wstr, int, var, var, var
+#cfunc _RegSetValueExW "RegSetValueExW" int, wstr, int, int, var, int
+#cfunc _RegDeleteValueW "RegDeleteValueW" int, wstr
+#cfunc _RegDeleteKeyW "RegDeleteKeyW" int, wstr
+#uselib "kernel32.dll"
+#cfunc _WC2MB_r "WideCharToMultiByte" int, int, var, int, var, int, int, int
 
 ; KEY_READ = 0x20019, KEY_WRITE = 0x20006, KEY_ALL_ACCESS = 0xF003F
 #define _KEY_READ   0x20019
@@ -56,15 +58,18 @@
 #deffunc reg_read int hkey, str subkey, str name, \
 	local hk, local rtype, local buf, local bsz, local ret
 	hk = 0
-	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_READ, hk)
+	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_READ, hk)
 	if ret != 0 : return ret
 	bsz = 32768
 	sdim buf, bsz
 	rtype = 0
-	ret = _RegQueryValueExA(hk, name, 0, rtype, buf, bsz)
-	_RegCloseKey hk
+	ret = _RegQueryValueExW(hk, name, 0, rtype, buf, bsz)
+	_r = _RegCloseKey(hk)
 	if ret != 0 : return ret
-	return buf
+	; REG_SZ: UTF-16 → UTF-8 変換
+	sdim _ubuf_r, 32768
+	_r = _WC2MB_r(65001, 0, buf, -1, _ubuf_r, 32768, 0, 0)
+	return _ubuf_r
 
 ;------------------------------------------------------------
 ; reg_write hkey, subkey, name, value (文字列)
@@ -72,12 +77,12 @@
 #deffunc reg_write int hkey, str subkey, str name, str value, \
 	local hk, local ret, local vbuf, local vlen
 	hk = 0
-	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_WRITE, hk)
+	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_WRITE, hk)
 	if ret != 0 : return ret
 	vbuf = value
 	vlen = strlen(vbuf) + 1
-	ret = _RegSetValueExA(hk, name, 0, _REG_SZ, vbuf, vlen)
-	_RegCloseKey hk
+	ret = _RegSetValueExW(hk, name, 0, _REG_SZ, vbuf, vlen)
+	_r = _RegCloseKey(hk)
 	return ret
 
 ;------------------------------------------------------------
@@ -86,11 +91,11 @@
 #deffunc reg_write_dword int hkey, str subkey, str name, int value, \
 	local hk, local ret, local dw
 	hk = 0
-	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_WRITE, hk)
+	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_WRITE, hk)
 	if ret != 0 : return ret
 	dw = value
-	ret = _RegSetValueExA(hk, name, 0, _REG_DWORD, dw, 4)
-	_RegCloseKey hk
+	ret = _RegSetValueExW(hk, name, 0, _REG_DWORD, dw, 4)
+	_r = _RegCloseKey(hk)
 	return ret
 
 ;------------------------------------------------------------
@@ -99,17 +104,17 @@
 #deffunc reg_delete_value int hkey, str subkey, str name, \
 	local hk, local ret
 	hk = 0
-	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_WRITE, hk)
+	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_WRITE, hk)
 	if ret != 0 : return ret
-	ret = _RegDeleteValueA(hk, name)
-	_RegCloseKey hk
+	ret = _RegDeleteValueW(hk, name)
+	_r = _RegCloseKey(hk)
 	return ret
 
 ;------------------------------------------------------------
 ; reg_delete_key
 ;------------------------------------------------------------
 #deffunc reg_delete_key int hkey, str subkey
-	return _RegDeleteKeyA(hkey, subkey)
+	return _RegDeleteKeyW(hkey, subkey)
 
 ;------------------------------------------------------------
 ; reg_exists(hkey, subkey, name) → 1/0
@@ -117,11 +122,11 @@
 #defcfunc reg_exists int hkey, str subkey, str name, \
 	local hk, local ret, local bsz
 	hk = 0
-	ret = _RegOpenKeyExA(hkey, subkey, 0, _KEY_READ, hk)
+	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_READ, hk)
 	if ret != 0 : return 0
 	bsz = 0
-	ret = _RegQueryValueExA(hk, name, 0, 0, 0, bsz)
-	_RegCloseKey hk
+	ret = _RegQueryValueExW(hk, name, 0, 0, 0, bsz)
+	_r = _RegCloseKey(hk)
 	if ret == 0 : return 1
 	return 0
 

@@ -6,9 +6,9 @@
 #module iron_service
 
 #uselib "advapi32.dll"
-#cfunc _OpenSCManagerA "OpenSCManagerA" int, int, int
-#cfunc _OpenServiceA   "OpenServiceA" int, str, int
-#cfunc _StartServiceA  "StartServiceA" int, int, int
+#cfunc _OpenSCManagerA "OpenSCManagerW" int, int, int
+#cfunc _OpenServiceA   "OpenServiceW" int, wstr, int
+#cfunc _StartServiceA  "StartServiceW" int, int, int
 #cfunc _ControlService "ControlService" int, int, var
 #cfunc _CloseServiceHandle "CloseServiceHandle" int
 #cfunc _QueryServiceStatus "QueryServiceStatus" int, var

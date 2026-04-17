@@ -6,7 +6,9 @@
 #module iron_folder
 
 #uselib "shell32.dll"
-#cfunc _SHGetFolderPathA "SHGetFolderPathA" int, int, int, int, var
+#cfunc _SHGetFolderPathW "SHGetFolderPathW" int, int, int, int, var
+#uselib "kernel32.dll"
+#cfunc _WC2MB_f "WideCharToMultiByte" int, int, var, int, var, int, int, int
 
 ; CSIDL 定数
 #const CSIDL_DESKTOP         0x0000
@@ -22,10 +24,12 @@
 #const CSIDL_SYSTEM          0x0025
 #const CSIDL_WINDOWS         0x0024
 
-#defcfunc folder_get int csidl, local buf
-	sdim buf, 260
-	_r = _SHGetFolderPathA(0, csidl, 0, 0, buf)
-	return buf
+#defcfunc folder_get int csidl, local wbuf, local ubuf
+	sdim wbuf, 520
+	_r = _SHGetFolderPathW(0, csidl, 0, 0, wbuf)
+	sdim ubuf, 520
+	_r = _WC2MB_f(65001, 0, wbuf, -1, ubuf, 520, 0, 0)
+	return ubuf
 
 #defcfunc folder_desktop
 	return folder_get(CSIDL_DESKTOP)

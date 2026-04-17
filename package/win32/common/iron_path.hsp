@@ -6,22 +6,25 @@
 #module iron_path
 
 #uselib "shlwapi.dll"
-#cfunc _PathCombineA      "PathCombineA" var, str, str
+#cfunc _PathCombineA      "PathCombineW" var, wstr, wstr
 #cfunc _PathFindExtensionA "PathFindExtensionA" str
 #cfunc _PathFindFileNameA  "PathFindFileNameA" str
 #cfunc _PathRemoveFileSpecA "PathRemoveFileSpecA" var
-#cfunc _PathIsRelativeA    "PathIsRelativeA" str
-#cfunc _PathFileExistsA    "PathFileExistsA" str
+#cfunc _PathIsRelativeA    "PathIsRelativeW" wstr
+#cfunc _PathFileExistsA    "PathFileExistsW" wstr
 
 #uselib "kernel32.dll"
-#cfunc _GetTempPathA  "GetTempPathA" int, var
-#cfunc _lstrcpyA2 "lstrcpyA" var, int
+#cfunc _GetTempPathW2  "GetTempPathW" int, var
+#cfunc _WC2MB2 "WideCharToMultiByte" int, int, var, int, var, int, int, int
 
 ; パス結合
-#defcfunc path_combine str dir, str file, local buf
-	sdim buf, 520
-	_r = _PathCombineA(buf, dir, file)
-	return buf
+#defcfunc path_combine str dir, str file, local wbuf, local ubuf
+	sdim wbuf, 520
+	_r = _PathCombineA(wbuf, dir, file)
+	; PathCombineW outputs UTF-16
+	sdim ubuf, 520
+	_r = _WC2MB2(65001, 0, wbuf, -1, ubuf, 520, 0, 0)
+	return ubuf
 
 ; 拡張子取得 (.txt 等)
 #defcfunc path_ext str path
@@ -51,10 +54,12 @@
 	return _PathIsRelativeA(path)
 
 ; 一時フォルダ
-#defcfunc path_temp local buf
-	sdim buf, 520
-	_r = _GetTempPathA(520, buf)
-	return buf
+#defcfunc path_temp local wbuf2, local ubuf2
+	sdim wbuf2, 520
+	_r = _GetTempPathW2(260, wbuf2)
+	sdim ubuf2, 520
+	_r = _WC2MB2(65001, 0, wbuf2, -1, ubuf2, 520, 0, 0)
+	return ubuf2
 
 #global
 #endif
