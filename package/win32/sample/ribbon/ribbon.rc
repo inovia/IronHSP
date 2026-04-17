@@ -1,0 +1,309 @@
+// ******************************************************************************
+// * This is an automatically generated file containing the ribbon resource for *
+// * your application.                                                          *
+// ******************************************************************************
+
+#include ".\ribbon.h"
+
+STRINGTABLE 
+BEGIN
+    cmdTabHome_LabelTitle_RESID L"Home" /* LabelTitle cmdTabHome_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdTabInsert_LabelTitle_RESID L"Insert" /* LabelTitle cmdTabInsert_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdTabView_LabelTitle_RESID L"View" /* LabelTitle cmdTabView_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpFile_LabelTitle_RESID L"File" /* LabelTitle cmdGrpFile_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdNew_LabelTitle_RESID L"New" /* LabelTitle cmdNew_LabelTitle_RESID: (null) */
+END
+
+cmdNew_SmallImages_RESID    BITMAP    "res\new16.bmp" /* SmallImages cmdNew_SmallImages_RESID: (null) */
+cmdNew_LargeImages_RESID    BITMAP    "res\new32.bmp" /* LargeImages cmdNew_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdOpen_LabelTitle_RESID L"Open" /* LabelTitle cmdOpen_LabelTitle_RESID: (null) */
+END
+
+cmdOpen_SmallImages_RESID    BITMAP    "res\open16.bmp" /* SmallImages cmdOpen_SmallImages_RESID: (null) */
+cmdOpen_LargeImages_RESID    BITMAP    "res\open32.bmp" /* LargeImages cmdOpen_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdSave_LabelTitle_RESID L"Save" /* LabelTitle cmdSave_LabelTitle_RESID: (null) */
+END
+
+cmdSave_SmallImages_RESID    BITMAP    "res\save16.bmp" /* SmallImages cmdSave_SmallImages_RESID: (null) */
+cmdSave_LargeImages_RESID    BITMAP    "res\save32.bmp" /* LargeImages cmdSave_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdGrpClipboard_LabelTitle_RESID L"Clipboard" /* LabelTitle cmdGrpClipboard_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdPaste_LabelTitle_RESID L"Paste" /* LabelTitle cmdPaste_LabelTitle_RESID: (null) */
+END
+
+cmdPaste_SmallImages_RESID    BITMAP    "res\paste16.bmp" /* SmallImages cmdPaste_SmallImages_RESID: (null) */
+cmdPaste_LargeImages_RESID    BITMAP    "res\paste32.bmp" /* LargeImages cmdPaste_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdCut_LabelTitle_RESID L"Cut" /* LabelTitle cmdCut_LabelTitle_RESID: (null) */
+END
+
+cmdCut_SmallImages_RESID    BITMAP    "res\cut16.bmp" /* SmallImages cmdCut_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdCopy_LabelTitle_RESID L"Copy" /* LabelTitle cmdCopy_LabelTitle_RESID: (null) */
+END
+
+cmdCopy_SmallImages_RESID    BITMAP    "res\copy16.bmp" /* SmallImages cmdCopy_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdGrpFont_LabelTitle_RESID L"Font" /* LabelTitle cmdGrpFont_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdBold_LabelTitle_RESID L"Bold" /* LabelTitle cmdBold_LabelTitle_RESID: (null) */
+END
+
+cmdBold_SmallImages_RESID    BITMAP    "res\bold16.bmp" /* SmallImages cmdBold_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdItalic_LabelTitle_RESID L"Italic" /* LabelTitle cmdItalic_LabelTitle_RESID: (null) */
+END
+
+cmdItalic_SmallImages_RESID    BITMAP    "res\italic16.bmp" /* SmallImages cmdItalic_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdUnderline_LabelTitle_RESID L"Underline" /* LabelTitle cmdUnderline_LabelTitle_RESID: (null) */
+END
+
+cmdUnderline_SmallImages_RESID    BITMAP    "res\underline16.bmp" /* SmallImages cmdUnderline_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdFontColor_LabelTitle_RESID L"Font Color" /* LabelTitle cmdFontColor_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpParagraph_LabelTitle_RESID L"Paragraph" /* LabelTitle cmdGrpParagraph_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdAlignLeft_LabelTitle_RESID L"Align Left" /* LabelTitle cmdAlignLeft_LabelTitle_RESID: (null) */
+END
+
+cmdAlignLeft_SmallImages_RESID    BITMAP    "res\alignleft16.bmp" /* SmallImages cmdAlignLeft_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdAlignCenter_LabelTitle_RESID L"Center" /* LabelTitle cmdAlignCenter_LabelTitle_RESID: (null) */
+END
+
+cmdAlignCenter_SmallImages_RESID    BITMAP    "res\aligncenter16.bmp" /* SmallImages cmdAlignCenter_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdAlignRight_LabelTitle_RESID L"Align Right" /* LabelTitle cmdAlignRight_LabelTitle_RESID: (null) */
+END
+
+cmdAlignRight_SmallImages_RESID    BITMAP    "res\alignright16.bmp" /* SmallImages cmdAlignRight_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdBullets_LabelTitle_RESID L"Bullets" /* LabelTitle cmdBullets_LabelTitle_RESID: (null) */
+END
+
+cmdBullets_SmallImages_RESID    BITMAP    "res\bullets16.bmp" /* SmallImages cmdBullets_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdNumbering_LabelTitle_RESID L"Numbering" /* LabelTitle cmdNumbering_LabelTitle_RESID: (null) */
+END
+
+cmdNumbering_SmallImages_RESID    BITMAP    "res\bullets16.bmp" /* SmallImages cmdNumbering_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdGrpEditing_LabelTitle_RESID L"Editing" /* LabelTitle cmdGrpEditing_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdFind_LabelTitle_RESID L"Find" /* LabelTitle cmdFind_LabelTitle_RESID: (null) */
+END
+
+cmdFind_SmallImages_RESID    BITMAP    "res\find16.bmp" /* SmallImages cmdFind_SmallImages_RESID: (null) */
+cmdFind_LargeImages_RESID    BITMAP    "res\find32.bmp" /* LargeImages cmdFind_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdReplace_LabelTitle_RESID L"Replace" /* LabelTitle cmdReplace_LabelTitle_RESID: (null) */
+END
+
+cmdReplace_SmallImages_RESID    BITMAP    "res\replace16.bmp" /* SmallImages cmdReplace_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdSelectAll_LabelTitle_RESID L"Select All" /* LabelTitle cmdSelectAll_LabelTitle_RESID: (null) */
+END
+
+cmdSelectAll_SmallImages_RESID    BITMAP    "res\selectall16.bmp" /* SmallImages cmdSelectAll_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdUndo_LabelTitle_RESID L"Undo" /* LabelTitle cmdUndo_LabelTitle_RESID: (null) */
+END
+
+cmdUndo_SmallImages_RESID    BITMAP    "res\new16.bmp" /* SmallImages cmdUndo_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdRedo_LabelTitle_RESID L"Redo" /* LabelTitle cmdRedo_LabelTitle_RESID: (null) */
+END
+
+cmdRedo_SmallImages_RESID    BITMAP    "res\open16.bmp" /* SmallImages cmdRedo_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdGrpInsert_LabelTitle_RESID L"Insert" /* LabelTitle cmdGrpInsert_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdTable_LabelTitle_RESID L"Table" /* LabelTitle cmdTable_LabelTitle_RESID: (null) */
+END
+
+cmdTable_LargeImages_RESID    BITMAP    "res\table32.bmp" /* LargeImages cmdTable_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdPicture_LabelTitle_RESID L"Picture" /* LabelTitle cmdPicture_LabelTitle_RESID: (null) */
+END
+
+cmdPicture_LargeImages_RESID    BITMAP    "res\picture32.bmp" /* LargeImages cmdPicture_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdChart_LabelTitle_RESID L"Chart" /* LabelTitle cmdChart_LabelTitle_RESID: (null) */
+END
+
+cmdChart_LargeImages_RESID    BITMAP    "res\chart32.bmp" /* LargeImages cmdChart_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdLink_LabelTitle_RESID L"Hyperlink" /* LabelTitle cmdLink_LabelTitle_RESID: (null) */
+END
+
+cmdLink_SmallImages_RESID    BITMAP    "res\link16.bmp" /* SmallImages cmdLink_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdShape_LabelTitle_RESID L"Shapes" /* LabelTitle cmdShape_LabelTitle_RESID: (null) */
+END
+
+cmdShape_LargeImages_RESID    BITMAP    "res\shape32.bmp" /* LargeImages cmdShape_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdHeader_LabelTitle_RESID L"Header" /* LabelTitle cmdHeader_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdFooter_LabelTitle_RESID L"Footer" /* LabelTitle cmdFooter_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdPageBreak_LabelTitle_RESID L"Page Break" /* LabelTitle cmdPageBreak_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpZoom_LabelTitle_RESID L"Zoom" /* LabelTitle cmdGrpZoom_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGrpShow_LabelTitle_RESID L"Show" /* LabelTitle cmdGrpShow_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdZoomIn_LabelTitle_RESID L"Zoom In" /* LabelTitle cmdZoomIn_LabelTitle_RESID: (null) */
+END
+
+cmdZoomIn_SmallImages_RESID    BITMAP    "res\zoomin16.bmp" /* SmallImages cmdZoomIn_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdZoomOut_LabelTitle_RESID L"Zoom Out" /* LabelTitle cmdZoomOut_LabelTitle_RESID: (null) */
+END
+
+cmdZoomOut_SmallImages_RESID    BITMAP    "res\zoomout16.bmp" /* SmallImages cmdZoomOut_SmallImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdZoom100_LabelTitle_RESID L"100%" /* LabelTitle cmdZoom100_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdRuler_LabelTitle_RESID L"Ruler" /* LabelTitle cmdRuler_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGridlines_LabelTitle_RESID L"Gridlines" /* LabelTitle cmdGridlines_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdStatusBar_LabelTitle_RESID L"Status Bar" /* LabelTitle cmdStatusBar_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdDarkMode_LabelTitle_RESID L"Dark Mode" /* LabelTitle cmdDarkMode_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdFullScreen_LabelTitle_RESID L"Full Screen" /* LabelTitle cmdFullScreen_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdPrint_LabelTitle_RESID L"Print" /* LabelTitle cmdPrint_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdSaveAs_LabelTitle_RESID L"Save As" /* LabelTitle cmdSaveAs_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdExport_LabelTitle_RESID L"Export" /* LabelTitle cmdExport_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdOptions_LabelTitle_RESID L"Options" /* LabelTitle cmdOptions_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdAbout_LabelTitle_RESID L"About" /* LabelTitle cmdAbout_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdExit_LabelTitle_RESID L"Exit" /* LabelTitle cmdExit_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    InternalCmd2_LabelTitle_RESID L"Label:InternalCmd2" /* LabelTitle InternalCmd2_LabelTitle_RESID: (null) */
+END
+
+APPLICATION_RIBBON    UIFILE    "ribbon.bml"

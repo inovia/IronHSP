@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>IronHSP - Windows Ribbon Framework ガイド</title>
+<style>
+body { font-family: 'Segoe UI', 'Meiryo', sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.7; }
+h1 { border-bottom: 3px solid #0078d4; padding-bottom: 8px; }
+h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-top: 2em; }
+h3 { color: #0078d4; }
+pre { background: #f5f5f5; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 13px; }
+code { background: #eee; padding: 2px 5px; border-radius: 3px; font-size: 13px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background: #f0f0f0; }
+.note { background: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 4px; margin: 1em 0; }
+.important { background: #f8d7da; border: 1px solid #dc3545; padding: 10px; border-radius: 4px; margin: 1em 0; }
+</style>
+</head>
+<body>
+
+<h1>Windows Ribbon Framework ガイド</h1>
+
+<p>IronHSP の <code>iron_ribbon_native.hsp</code> + <code>hspribbon.dll</code> を使用して、
+Office 風のネイティブリボン UI を HSP アプリケーションに組み込む方法を解説します。</p>
+
+<h2>1. 概要</h2>
+
+<p>Windows Ribbon Framework は Windows 7 以降に標準搭載されている UI コンポーネントです。
+Office 2007 以降のリボンインターフェースと同じネイティブ品質で表示されます。</p>
+
+<h3>必要なもの</h3>
+<ul>
+  <li><code>hspribbon.dll</code> / <code>hspribbon_64.dll</code> — IronHSP プラグイン (同梱済み)</li>
+  <li><code>iron_ribbon_native.hsp</code> — HSP ラッパーモジュール (同梱済み)</li>
+  <li><strong>uicc.exe</strong> — リボンマークアップコンパイラ (Windows SDK に含まれる)</li>
+</ul>
+
+<h2>2. uicc.exe の入手方法</h2>
+
+<p><code>uicc.exe</code> は <strong>Windows SDK</strong> に含まれています。</p>
+
+<h3>インストール方法</h3>
+<ol>
+  <li>Visual Studio Installer を開く</li>
+  <li>「個別のコンポーネント」タブを選択</li>
+  <li>「Windows 10 SDK」または「Windows 11 SDK」にチェック</li>
+  <li>インストール</li>
+</ol>
+
+<p>または <a href="https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/">Microsoft 公式サイト</a>から単体でダウンロードできます。</p>
+
+<h3>パスの確認</h3>
+<pre>C:\Program Files (x86)\Windows Kits\10\bin\10.0.XXXXX.0\x86\uicc.exe</pre>
+<p>複数バージョンがインストールされている場合は最新版を使用してください。</p>
+
+<h2>3. ワークフロー</h2>
+
+<pre>
+┌──────────┐     uicc.exe      ┌──────────┐
+│ ribbon.xml │ ──────────────→ │ ribbon.bml │  (バイナリマークアップ)
+│ (XML定義)  │                  │ ribbon.rc  │  (リソーススクリプト)
+│            │                  │ ribbon.h   │  (C/C++ ヘッダ)
+└──────────┘                  └──────────┘
+                                       │
+                              hspribbon.dll が
+                              自動的にリソース DLL を
+                              生成してロード
+                                       │
+                                       ▼
+                              ┌──────────────┐
+                              │ リボン表示！     │
+                              └──────────────┘
+</pre>
+
+<div class="note">
+<strong>ポイント:</strong> <code>rc.exe</code> や <code>link.exe</code> は不要です。
+<code>hspribbon.dll</code> が <code>ribbon.bml</code> + <code>ribbon.rc</code> + <code>ribbon.h</code> を読み取り、
+<code>UpdateResource</code> API で一時 DLL にリソースを自動埋め込みします。
+</div>
+
+<h2>4. リボンマークアップ XML の書き方</h2>
+
+<h3>4.1 基本構造</h3>
+<pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon"&gt;
+
+  &lt;!-- コマンド定義 --&gt;
+  &lt;Application.Commands&gt;
+    &lt;Command Name="cmdNew" Id="101" LabelTitle="New" /&gt;
+  &lt;/Application.Commands&gt;
+
+  &lt;!-- ビュー定義 --&gt;
+  &lt;Application.Views&gt;
+    &lt;Ribbon&gt;
+      &lt;Ribbon.Tabs&gt;
+        &lt;Tab CommandName="cmdTabHome"&gt;
+          &lt;Group CommandName="cmdGrpFile"&gt;
+            &lt;Button CommandName="cmdNew" /&gt;
+          &lt;/Group&gt;
+        &lt;/Tab&gt;
+      &lt;/Ribbon.Tabs&gt;
+    &lt;/Ribbon&gt;
+  &lt;/Application.Views&gt;
+
+&lt;/Application&gt;</pre>
+
+<h3>4.2 Command 要素の属性</h3>
+<table>
+<tr><th>属性</th><th>説明</th><th>例</th></tr>
+<tr><td><code>Name</code></td><td>コマンド名 (必須、一意)</td><td><code>"cmdNew"</code></td></tr>
+<tr><td><code>Id</code></td><td>コマンド ID (整数、HSP で識別に使用)</td><td><code>"101"</code></td></tr>
+<tr><td><code>LabelTitle</code></td><td>表示テキスト</td><td><code>"New"</code></td></tr>
+<tr><td><code>TooltipTitle</code></td><td>ツールチップのタイトル</td><td><code>"Create New File"</code></td></tr>
+<tr><td><code>TooltipDescription</code></td><td>ツールチップの説明文</td><td><code>"Creates a new document."</code></td></tr>
+<tr><td><code>Keytip</code></td><td>キーボードショートカット</td><td><code>"N"</code></td></tr>
+</table>
+
+<h3>4.3 画像の指定</h3>
+<pre>&lt;Command Name="cmdNew" Id="101" LabelTitle="New"&gt;
+  &lt;Command.LargeImages&gt;
+    &lt;Image Source="res\new32.bmp" /&gt;      &lt;!-- 32x32 BMP --&gt;
+  &lt;/Command.LargeImages&gt;
+  &lt;Command.SmallImages&gt;
+    &lt;Image Source="res\new16.bmp" /&gt;      &lt;!-- 16x16 BMP --&gt;
+  &lt;/Command.SmallImages&gt;
+&lt;/Command&gt;</pre>
+
+<div class="note">
+<strong>画像フォーマット:</strong> 32bit BMP (BGRA) を使用します。PNG は使用できません。
+サイズは 16x16 (Small) と 32x32 (Large) の 2 種類を用意してください。
+高 DPI 対応が必要な場合は 20x20, 40x40, 48x48, 64x64 も追加できます。
+</div>
+
+<h3>4.4 コントロール種別</h3>
+<table>
+<tr><th>要素</th><th>説明</th><th>例</th></tr>
+<tr><td><code>&lt;Button&gt;</code></td><td>通常ボタン</td><td>New, Open, Save</td></tr>
+<tr><td><code>&lt;ToggleButton&gt;</code></td><td>トグル (ON/OFF)</td><td>Bold, Italic</td></tr>
+<tr><td><code>&lt;CheckBox&gt;</code></td><td>チェックボックス</td><td>Ruler, Gridlines</td></tr>
+<tr><td><code>&lt;DropDownButton&gt;</code></td><td>ドロップダウンメニュー</td><td>Font Size</td></tr>
+<tr><td><code>&lt;SplitButton&gt;</code></td><td>分割ボタン (ボタン + ▼)</td><td>Paste</td></tr>
+<tr><td><code>&lt;DropDownColorPicker&gt;</code></td><td>カラーピッカー</td><td>Font Color</td></tr>
+<tr><td><code>&lt;Spinner&gt;</code></td><td>数値入力 (上下)</td><td>Font Size</td></tr>
+<tr><td><code>&lt;ComboBox&gt;</code></td><td>コンボボックス</td><td>Font Name</td></tr>
+<tr><td><code>&lt;InRibbonGallery&gt;</code></td><td>リボン内ギャラリー</td><td>Styles</td></tr>
+<tr><td><code>&lt;DropDownGallery&gt;</code></td><td>ドロップダウンギャラリー</td><td>Shapes</td></tr>
+</table>
+
+<h3>4.5 SizeDefinition (グループ内レイアウト)</h3>
+<table>
+<tr><th>SizeDefinition</th><th>説明</th></tr>
+<tr><td><code>OneButton</code></td><td>ボタン 1 個</td></tr>
+<tr><td><code>TwoButtons</code></td><td>ボタン 2 個</td></tr>
+<tr><td><code>ThreeButtons</code></td><td>ボタン 3 個</td></tr>
+<tr><td><code>ThreeButtons-OneBigAndTwoSmall</code></td><td>大 1 + 小 2</td></tr>
+<tr><td><code>FourButtons</code></td><td>ボタン 4 個</td></tr>
+<tr><td><code>FiveButtons</code></td><td>ボタン 5 個</td></tr>
+<tr><td>(未指定)</td><td>自動レイアウト</td></tr>
+</table>
+
+<h3>4.6 ApplicationMenu (ファイルメニュー)</h3>
+<pre>&lt;Ribbon.ApplicationMenu&gt;
+  &lt;ApplicationMenu&gt;
+    &lt;MenuGroup&gt;
+      &lt;Button CommandName="cmdNew" /&gt;
+      &lt;Button CommandName="cmdOpen" /&gt;
+      &lt;Button CommandName="cmdSave" /&gt;
+    &lt;/MenuGroup&gt;
+    &lt;MenuGroup&gt;
+      &lt;Button CommandName="cmdExit" /&gt;
+    &lt;/MenuGroup&gt;
+  &lt;/ApplicationMenu&gt;
+&lt;/Ribbon.ApplicationMenu&gt;</pre>
+
+<h3>4.7 Quick Access Toolbar</h3>
+<pre>&lt;Ribbon.QuickAccessToolbar&gt;
+  &lt;QuickAccessToolbar&gt;
+    &lt;QuickAccessToolbar.ApplicationDefaults&gt;
+      &lt;Button CommandName="cmdSave" /&gt;
+      &lt;Button CommandName="cmdUndo" /&gt;
+      &lt;Button CommandName="cmdRedo" /&gt;
+    &lt;/QuickAccessToolbar.ApplicationDefaults&gt;
+  &lt;/QuickAccessToolbar&gt;
+&lt;/Ribbon.QuickAccessToolbar&gt;</pre>
+
+<h3>4.8 ColorTemplate (カラーピッカー)</h3>
+<pre>&lt;DropDownColorPicker CommandName="cmdFontColor" ColorTemplate="ThemeColors" /&gt;</pre>
+<p>ColorTemplate: <code>ThemeColors</code> / <code>StandardColors</code> / <code>HighlightColors</code></p>
+
+<h2>5. コンパイル手順</h2>
+
+<pre>uicc.exe ribbon.xml ribbon.bml /header:ribbon.h /res:ribbon.rc</pre>
+
+<table>
+<tr><th>出力ファイル</th><th>説明</th></tr>
+<tr><td><code>ribbon.bml</code></td><td>バイナリマークアップ (必須)</td></tr>
+<tr><td><code>ribbon.rc</code></td><td>リソーススクリプト (STRINGTABLE + BITMAP 参照)</td></tr>
+<tr><td><code>ribbon.h</code></td><td>コマンド ID の C/C++ ヘッダ</td></tr>
+</table>
+
+<div class="important">
+<strong>重要:</strong> <code>ribbon.bml</code> だけでなく、<code>ribbon.rc</code> と <code>ribbon.h</code> も
+同じフォルダに配置してください。<code>hspribbon.dll</code> がこれらを読み取って
+テキストと画像を自動的にリソース DLL に埋め込みます。
+</div>
+
+<h2>6. HSP からの使い方</h2>
+
+<h3>6.1 基本</h3>
+<pre>#include "iron_ribbon_native.hsp"
+
+screen 0, 1024, 600
+
+; 初期化
+ribbon_native_init
+
+; BML ロード (.rc + .h + res/*.bmp も同じフォルダに必要)
+ribbon_native_load_bml dir_cur + "\\ribbon.bml"
+
+; イベントモード ON (メッセージ ID はユーザーが自由に設定可能)
+ribbon_native_set_event_mode 1, 0x80C8
+
+; oncmd でコマンドを受信
+oncmd gosub *on_ribbon, 0x80C8
+stop
+
+*on_ribbon
+    cmd_id = wparam    ; コマンド ID (ribbon.xml の Id 属性)
+    cmd_verb = lparam  ; 0=Execute, 1=Preview, 2=CancelPreview
+    mes "CMD=" + cmd_id
+    return</pre>
+
+<h3>6.2 API リファレンス</h3>
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr><td><code>ribbon_native_init</code></td><td>Ribbon Framework 初期化</td></tr>
+<tr><td><code>ribbon_native_load_bml "path"</code></td><td>BML ファイルからリボンをロード</td></tr>
+<tr><td><code>ribbon_native_load_xml "xml", "sdk_bin"</code></td><td>XML から自動コンパイル＆ロード (uicc.exe パス指定)</td></tr>
+<tr><td><code>ribbon_native_set_event_mode sw, wm_id</code></td><td>イベント通知 ON/OFF + メッセージ ID 設定</td></tr>
+<tr><td><code>ribbon_native_poll</code></td><td>ポーリング方式でコマンド取得</td></tr>
+<tr><td><code>ribbon_native_cmd_id()</code></td><td>最後のコマンド ID</td></tr>
+<tr><td><code>ribbon_native_cmd_verb()</code></td><td>最後の verb (0/1/2)</td></tr>
+<tr><td><code>ribbon_native_last_int()</code></td><td>Toggle/Checkbox の値</td></tr>
+<tr><td><code>ribbon_native_height()</code></td><td>リボンの高さ (px)</td></tr>
+<tr><td><code>ribbon_native_minimize sw</code></td><td>リボン最小化 (1) / 復元 (0)</td></tr>
+<tr><td><code>ribbon_native_set_modes mask</code></td><td>アプリケーションモード (32bit マスク)</td></tr>
+<tr><td><code>ribbon_native_set_bgcolor r,g,b</code></td><td>背景色変更</td></tr>
+<tr><td><code>ribbon_native_destroy</code></td><td>終了処理</td></tr>
+</table>
+
+<h2>7. トラブルシューティング</h2>
+
+<table>
+<tr><th>症状</th><th>原因</th><th>対策</th></tr>
+<tr><td>リボンが表示されない</td><td>BML ファイルが見つからない</td><td>フルパスで指定する</td></tr>
+<tr><td>テキストが表示されない</td><td>.rc / .h ファイルが不足</td><td>BML と同じフォルダに配置</td></tr>
+<tr><td>画像が表示されない</td><td>BMP ファイルが見つからない</td><td>res/ フォルダに 32bit BMP を配置</td></tr>
+<tr><td>load_bml が -6 を返す</td><td>リソース DLL のロード失敗</td><td>アンチウイルスの一時除外を確認</td></tr>
+<tr><td>タブが「Yu Gothic UI」と表示</td><td>古い BML を使っている</td><td>uicc で再コンパイル</td></tr>
+</table>
+
+<h2>8. 参考リンク</h2>
+<ul>
+  <li><a href="https://learn.microsoft.com/en-us/windows/win32/windowsribbon/windowsribbon-schema">Windows Ribbon Framework XML Schema (Microsoft Docs)</a></li>
+  <li><a href="https://github.com/fafalone/UIRibbonDemos">UIRibbonDemos (fafalone) - VB6/twinBASIC サンプル</a></li>
+  <li><a href="https://github.com/nicecai/UIRibbon-Reversing">UIRibbon-Reversing - BML フォーマット解析</a></li>
+</ul>
+
+</body>
+</html>

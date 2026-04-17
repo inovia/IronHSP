@@ -1,0 +1,70 @@
+;============================================================
+;  Windows Ribbon Framework サンプル
+;
+;  事前準備:
+;    1. ribbon.xml を uicc.exe でコンパイルして ribbon.bml を生成
+;       > uicc.exe ribbon.xml ribbon.bml /header:ribbon.h /res:ribbon.rc
+;    2. ribbon.bml, ribbon.rc, ribbon.h を同じフォルダに配置
+;    3. アイコン BMP を res/ フォルダに配置
+;
+;  uicc.exe は Windows SDK に含まれています:
+;    C:\Program Files (x86)\Windows Kits\10\bin\<version>\x86\uicc.exe
+;============================================================
+
+	#include "iron_ribbon_native.hsp"
+
+	screen 0, 1024, 600
+	title "Ribbon Framework Demo"
+
+	; リボン初期化
+	ribbon_native_init
+	if stat != 0 {
+		mes "Ribbon init failed: " + stat
+		stop
+	}
+
+	; BML ロード (.rc + .h も同じフォルダに必要)
+	ribbon_native_load_bml dir_cur + "\\ribbon.bml"
+	if stat != 0 {
+		mes "Ribbon load failed: " + stat
+		stop
+	}
+
+	h = ribbon_native_height()
+
+	; イベントモード (oncmd で受信)
+	; メッセージ ID は 0x80C8 (WM_APP + 200) を使用
+	ribbon_native_set_event_mode 1, 0x80C8
+
+	; リボンの下にメッセージエリア
+	pos 10, h + 10
+	mes "Ribbon loaded! Height = " + h + "px"
+	mes ""
+	mes "Click buttons to see events."
+	mes "Command IDs: New=101, Open=102, Save=103"
+	mes "             Cut=104, Copy=105, Paste=106"
+	mes "             Bold=201, Italic=202, Underline=203"
+	mes ""
+
+	oncmd gosub *on_ribbon, 0x80C8
+	stop
+
+*on_ribbon
+	cmd_id = wparam
+	cmd_verb = lparam
+
+	pos 10, h + 180
+	; verb: 0=Execute, 1=Preview, 2=CancelPreview
+	if cmd_verb == 0 {
+		mes "Execute: CMD=" + cmd_id + "              "
+	}
+	if cmd_verb == 1 {
+		mes "Preview: CMD=" + cmd_id + "              "
+	}
+
+	; Exit コマンド
+	if cmd_id == 999 {
+		ribbon_native_destroy
+		end
+	}
+	return
