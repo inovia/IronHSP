@@ -1,0 +1,34 @@
+;
+; iron_random_dist.hsp - Random number distributions
+;
+#ifndef __iron_random_dist_hsp__
+#define __iron_random_dist_hsp__
+#module iron_random_dist
+
+; Box-Muller transform: generate normal distribution
+#defcfunc rand_normal double mean, double stddev, local u1, local u2
+	u1 = (double(rnd(10000)) + 1.0) / 10001.0
+	u2 = double(rnd(10000)) / 10000.0
+	return mean + stddev * sqrt(-2.0 * logf(u1)) * cos(6.28318 * u2)
+
+; Exponential distribution
+#defcfunc rand_exponential double lambda
+	return -logf((double(rnd(10000)) + 1.0) / 10001.0) / lambda
+
+; Poisson distribution (for small lambda)
+#defcfunc rand_poisson double lambda, local L, local k, local p
+	L = expf(-lambda)
+	k = 0 : p = 1.0
+	repeat
+		k++
+		p *= double(rnd(10000)) / 10000.0
+		if p <= L : break
+	loop
+	return k - 1
+
+; Uniform float [min, max)
+#defcfunc rand_uniform double vmin, double vmax
+	return vmin + (vmax - vmin) * double(rnd(10000)) / 10000.0
+
+#global
+#endif

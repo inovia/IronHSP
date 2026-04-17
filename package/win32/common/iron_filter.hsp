@@ -1,0 +1,42 @@
+;
+; iron_filter.hsp - Digital signal filters (IIR / moving average)
+;
+#ifndef __iron_filter_hsp__
+#define __iron_filter_hsp__
+#module iron_filter
+
+; Moving average filter
+#deffunc filter_moving_avg array data, int n, int window, array out, local sum
+	dimtype out, 3, n
+	repeat n
+		sum = 0.0
+		repeat window
+			idx = cnt - window / 2 + cnt
+			if idx < 0 : idx = 0
+			if idx >= n : idx = n - 1
+			sum += 0.0 + data(idx)
+		loop
+		out(cnt) = sum / double(window)
+	loop
+	return
+
+; Simple low-pass filter (exponential smoothing)
+#deffunc filter_lowpass array data, int n, double alpha, array out
+	dimtype out, 3, n
+	out(0) = 0.0 + data(0)
+	repeat n - 1, 1
+		out(cnt) = alpha * (0.0 + data(cnt)) + (1.0 - alpha) * out(cnt - 1)
+	loop
+	return
+
+; Simple high-pass (original - lowpass)
+#deffunc filter_highpass array data, int n, double alpha, array out, local lp
+	dimtype out, 3, n
+	filter_lowpass data, n, alpha, lp
+	repeat n
+		out(cnt) = (0.0 + data(cnt)) - lp(cnt)
+	loop
+	return
+
+#global
+#endif

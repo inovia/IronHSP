@@ -1,0 +1,51 @@
+;
+; iron_combinatorics.hsp - Permutations / combinations
+;
+#ifndef __iron_combinatorics_hsp__
+#define __iron_combinatorics_hsp__
+#module iron_combinatorics
+
+#defcfunc factorial int n, local r
+	r = 1
+	repeat n, 1 : r *= cnt : loop
+	return r
+
+#defcfunc combination int n, int r
+	if r > n : return 0
+	return factorial(n) / (factorial(r) * factorial(n - r))
+
+#defcfunc permutation int n, int r
+	if r > n : return 0
+	return factorial(n) / factorial(n - r)
+
+; GCD (Euclidean algorithm)
+#defcfunc gcd int a, int b, local t, local _a, local _b
+	_a = a : _b = b
+	if _a < 0 : _a = -_a
+	if _b < 0 : _b = -_b
+	repeat
+		if _b == 0 : break
+		t = _b : _b = _a \ _b : _a = t
+	loop
+	return _a
+
+; LCM
+#defcfunc lcm int a, int b
+	if a == 0 | b == 0 : return 0
+	return (a / gcd(a, b)) * b
+
+; Is prime
+#defcfunc is_prime int n, local i
+	if n < 2 : return 0
+	if n < 4 : return 1
+	if (n \ 2) == 0 : return 0
+	i = 3
+	repeat
+		if i * i > n : break
+		if (n \ i) == 0 : return 0
+		i += 2
+	loop
+	return 1
+
+#global
+#endif

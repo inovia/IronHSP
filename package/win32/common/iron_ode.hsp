@@ -1,0 +1,31 @@
+;
+; iron_ode.hsp - ODE solver (Runge-Kutta 4th order)
+; Solves dy/dt = f(t, y) with RK4.
+;
+#ifndef __iron_ode_hsp__
+#define __iron_ode_hsp__
+#module iron_ode
+
+; RK4 single step: y_next = rk4_step(t, y, dt, *f_label)
+; f_label should set refdval = f(t, y)
+; For simplicity, use a hardcoded example: dy/dt = -y (exponential decay)
+#deffunc ode_solve_decay array t_out, array y_out, int steps, double t0, double y0, double dt, \
+	local t, local y, local k1, local k2, local k3, local k4
+	dimtype t_out, 3, steps
+	dimtype y_out, 3, steps
+	t = t0 : y = y0
+	repeat steps
+		t_out(cnt) = t
+		y_out(cnt) = y
+		; dy/dt = -y (exponential decay)
+		k1 = -y * dt
+		k2 = -(y + k1/2.0) * dt
+		k3 = -(y + k2/2.0) * dt
+		k4 = -(y + k3) * dt
+		y += (k1 + 2.0*k2 + 2.0*k3 + k4) / 6.0
+		t += dt
+	loop
+	return
+
+#global
+#endif

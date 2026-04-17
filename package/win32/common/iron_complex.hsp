@@ -1,0 +1,42 @@
+;
+; iron_complex.hsp - Complex number arithmetic
+;
+#ifndef __iron_complex_hsp__
+#define __iron_complex_hsp__
+#module iron_complex
+
+; Complex: stored as (re, im) pair in double array
+#deffunc complex_add array a, array b, array c
+	dimtype c, 3, 2
+	c(0) = a(0) + b(0)
+	c(1) = a(1) + b(1)
+	return
+
+#deffunc complex_sub array a, array b, array c
+	dimtype c, 3, 2
+	c(0) = a(0) - b(0)
+	c(1) = a(1) - b(1)
+	return
+
+#deffunc complex_mul array a, array b, array c
+	dimtype c, 3, 2
+	c(0) = a(0)*b(0) - a(1)*b(1)
+	c(1) = a(0)*b(1) + a(1)*b(0)
+	return
+
+#deffunc complex_div array a, array b, array c, local d
+	dimtype c, 3, 2
+	d = b(0)*b(0) + b(1)*b(1)
+	if d == 0.0 : return
+	c(0) = (a(0)*b(0) + a(1)*b(1)) / d
+	c(1) = (a(1)*b(0) - a(0)*b(1)) / d
+	return
+
+#defcfunc complex_abs array a
+	return sqrt(a(0)*a(0) + a(1)*a(1))
+
+#defcfunc complex_arg array a
+	return atan(a(1), a(0))
+
+#global
+#endif

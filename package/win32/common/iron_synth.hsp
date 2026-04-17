@@ -1,0 +1,67 @@
+;
+; iron_synth.hsp - Audio synthesis (generate WAV)
+; Pure HSP. Sine/square/triangle/sawtooth/noise.
+;
+#ifndef __iron_synth_hsp__
+#define __iron_synth_hsp__
+#module iron_synth
+
+#define PI2 6.28318530718
+
+#deffunc synth_sine str outfile, double freq, double duration, int sample_rate, \
+	local samples, local i, local v, local header
+	samples = int(double(sample_rate) * duration)
+	sdim header, 44
+	; WAV header
+	poke header, 0, 'R' : poke header, 1, 'I' : poke header, 2, 'F' : poke header, 3, 'F'
+	lpoke header, 4, 36 + samples * 2
+	poke header, 8, 'W' : poke header, 9, 'A' : poke header, 10, 'V' : poke header, 11, 'E'
+	poke header, 12, 'f' : poke header, 13, 'm' : poke header, 14, 't' : poke header, 15, ' '
+	lpoke header, 16, 16
+	wpoke header, 20, 1
+	wpoke header, 22, 1
+	lpoke header, 24, sample_rate
+	lpoke header, 28, sample_rate * 2
+	wpoke header, 32, 2
+	wpoke header, 34, 16
+	poke header, 36, 'd' : poke header, 37, 'a' : poke header, 38, 't' : poke header, 39, 'a'
+	lpoke header, 40, samples * 2
+	bsave outfile, header, 44
+	; Generate samples
+	sdim buf, 2
+	repeat samples
+		v = int(sin(PI2 * freq * double(cnt) / double(sample_rate)) * 32000.0)
+		wpoke buf, 0, v
+		bsave outfile, buf, 2, 44 + cnt * 2
+	loop
+	return
+
+#deffunc synth_square str outfile, double freq, double duration, int sample_rate, \
+	local samples, local i, local v, local phase
+	samples = int(double(sample_rate) * duration)
+	; Write header (same as sine)
+	synth_sine outfile, freq, 0.0, sample_rate
+	; Overwrite with square wave
+	sdim buf, 2
+	repeat samples
+		phase = double(cnt) * freq / double(sample_rate)
+		if (phase - double(int(phase))) < 0.5 { v = 32000 } else { v = -32000 }
+		wpoke buf, 0, v
+		bsave outfile, buf, 2, 44 + cnt * 2
+	loop
+	return
+
+#deffunc synth_noise str outfile, double duration, int sample_rate, \
+	local samples, local v
+	samples = int(double(sample_rate) * duration)
+	synth_sine outfile, 440.0, 0.0, sample_rate
+	sdim buf, 2
+	repeat samples
+		v = rnd(65536) - 32768
+		wpoke buf, 0, v
+		bsave outfile, buf, 2, 44 + cnt * 2
+	loop
+	return
+
+#global
+#endif

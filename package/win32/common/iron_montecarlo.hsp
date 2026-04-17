@@ -1,0 +1,28 @@
+;
+; iron_montecarlo.hsp - Monte Carlo simulation
+;
+#ifndef __iron_montecarlo_hsp__
+#define __iron_montecarlo_hsp__
+#module iron_montecarlo
+
+; Estimate pi using Monte Carlo
+#defcfunc mc_estimate_pi int samples, local inside, local x, local y
+	inside = 0
+	repeat samples
+		x = double(rnd(10000)) / 10000.0
+		y = double(rnd(10000)) / 10000.0
+		if x*x + y*y <= 1.0 : inside++
+	loop
+	return 4.0 * double(inside) / double(samples)
+
+; Monte Carlo integration: integral of f(x) = x^2 over [a, b]
+#defcfunc mc_integrate_x2 double a, double b, int samples, local sum, local x
+	sum = 0.0
+	repeat samples
+		x = a + (b - a) * double(rnd(10000)) / 10000.0
+		sum += x * x
+	loop
+	return (b - a) * sum / double(samples)
+
+#global
+#endif

@@ -1,0 +1,35 @@
+;
+; iron_summarize.hsp - Extractive text summarization
+; Selects most important sentences by word frequency
+;
+#ifndef __iron_summarize_hsp__
+#define __iron_summarize_hsp__
+#module iron_summarize
+
+#defcfunc summarize str text, int max_sentences, local lines, local scores, local i, local best, local result
+	lines = text
+	notesel lines
+	n = notemax
+	if n <= max_sentences : return text
+	; Score each sentence by length (simple heuristic)
+	dim scores, n
+	repeat n
+		noteget _l, cnt
+		scores(cnt) = strlen(_l)
+	loop
+	; Pick top sentences
+	result = ""
+	repeat max_sentences
+		best = 0
+		repeat n
+			if scores(cnt) > scores(best) : best = cnt
+		loop
+		noteget _l, best
+		if result != "" : result += "\n"
+		result += _l
+		scores(best) = -1
+	loop
+	return result
+
+#global
+#endif

@@ -1,0 +1,37 @@
+;
+; iron_curvefit.hsp - Curve fitting (polynomial / least squares)
+;
+#ifndef __iron_curvefit_hsp__
+#define __iron_curvefit_hsp__
+#module iron_curvefit
+
+; Linear fit: y = slope * x + intercept
+#deffunc curvefit_linear array x, array y, int n, var slope, var intercept, \
+	local sx, local sy, local sxy, local sxx, local i
+	sx = 0.0 : sy = 0.0 : sxy = 0.0 : sxx = 0.0
+	repeat n
+		sx += x(cnt) : sy += y(cnt)
+		sxy += x(cnt) * y(cnt)
+		sxx += x(cnt) * x(cnt)
+	loop
+	slope = (double(n) * sxy - sx * sy) / (double(n) * sxx - sx * sx)
+	intercept = (sy - slope * sx) / double(n)
+	return
+
+; R-squared
+#defcfunc curvefit_r2 array x, array y, int n, double slope, double intercept, \
+	local mean_y, local ss_res, local ss_tot, local pred
+	mean_y = 0.0
+	repeat n : mean_y += y(cnt) : loop
+	mean_y /= double(n)
+	ss_res = 0.0 : ss_tot = 0.0
+	repeat n
+		pred = slope * x(cnt) + intercept
+		ss_res += (y(cnt) - pred) * (y(cnt) - pred)
+		ss_tot += (y(cnt) - mean_y) * (y(cnt) - mean_y)
+	loop
+	if ss_tot == 0.0 : return 1.0
+	return 1.0 - ss_res / ss_tot
+
+#global
+#endif

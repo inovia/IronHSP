@@ -1,0 +1,41 @@
+;
+; iron_nn.hsp - Simple neural network (1 hidden layer)
+; Pure HSP. For learning purposes.
+;
+#ifndef __iron_nn_hsp__
+#define __iron_nn_hsp__
+#module iron_nn
+
+#defcfunc nn_sigmoid double x
+	return 1.0 / (1.0 + expf(-x))
+
+; Simple perceptron: y = sigmoid(w1*x1 + w2*x2 + bias)
+#defcfunc nn_predict double x1, double x2, double w1, double w2, double bias
+	return nn_sigmoid(w1 * x1 + w2 * x2 + bias)
+
+; Train XOR-like pattern (simplified gradient descent)
+#deffunc nn_train_xor array weights, int epochs, local lr, local err, local pred, local i
+	; weights: w1, w2, bias (dim 3)
+	dimtype weights, 3, 3
+	weights(0) = 0.5 : weights(1) = 0.5 : weights(2) = -0.2
+	lr = 0.1
+	; XOR training data: (0,0)=0, (0,1)=1, (1,0)=1, (1,1)=0
+	dim _x1, 4 : dim _x2, 4 : dimtype _y, 3, 4
+	_x1(0)=0:_x1(1)=0:_x1(2)=1:_x1(3)=1
+	_x2(0)=0:_x2(1)=1:_x2(2)=0:_x2(3)=1
+	_y(0)=0.0:_y(1)=1.0:_y(2)=1.0:_y(3)=0.0
+	repeat epochs
+		repeat 4
+			i = cnt
+			pred = nn_predict(double(_x1(i)), double(_x2(i)), weights(0), weights(1), weights(2))
+			err = _y(i) - pred
+			; Gradient (simplified)
+			weights(0) += lr * err * double(_x1(i))
+			weights(1) += lr * err * double(_x2(i))
+			weights(2) += lr * err
+		loop
+	loop
+	return
+
+#global
+#endif

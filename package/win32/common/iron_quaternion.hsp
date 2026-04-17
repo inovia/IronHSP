@@ -1,0 +1,49 @@
+;
+; iron_quaternion.hsp - Quaternion for 3D rotation
+; q = (w, x, y, z) stored in double array[4]
+;
+#ifndef __iron_quaternion_hsp__
+#define __iron_quaternion_hsp__
+#module iron_quaternion
+
+#deffunc quat_identity array q
+	dimtype q, 3, 4
+	q(0) = 1.0 : q(1) = 0.0 : q(2) = 0.0 : q(3) = 0.0
+	return
+
+#deffunc quat_from_axis_angle array q, double ax, double ay, double az, double angle, local s
+	dimtype q, 3, 4
+	s = sin(angle / 2.0)
+	q(0) = cos(angle / 2.0)
+	q(1) = ax * s : q(2) = ay * s : q(3) = az * s
+	return
+
+#deffunc quat_mul array a, array b, array c
+	dimtype c, 3, 4
+	c(0) = a(0)*b(0) - a(1)*b(1) - a(2)*b(2) - a(3)*b(3)
+	c(1) = a(0)*b(1) + a(1)*b(0) + a(2)*b(3) - a(3)*b(2)
+	c(2) = a(0)*b(2) - a(1)*b(3) + a(2)*b(0) + a(3)*b(1)
+	c(3) = a(0)*b(3) + a(1)*b(2) - a(2)*b(1) + a(3)*b(0)
+	return
+
+#defcfunc quat_norm array q
+	return sqrt(q(0)*q(0) + q(1)*q(1) + q(2)*q(2) + q(3)*q(3))
+
+#deffunc quat_normalize array q, local n
+	n = quat_norm(q)
+	if n > 0.0001 {
+		q(0) /= n : q(1) /= n : q(2) /= n : q(3) /= n
+	}
+	return
+
+; Rotate point (px, py, pz) by quaternion q
+#deffunc quat_rotate array q, var px, var py, var pz, local t, local rx, local ry, local rz
+	; v' = q * v * q^-1 (simplified)
+	rx = (1.0 - 2.0*(q(2)*q(2)+q(3)*q(3))) * px + 2.0*(q(1)*q(2)-q(0)*q(3)) * py + 2.0*(q(1)*q(3)+q(0)*q(2)) * pz
+	ry = 2.0*(q(1)*q(2)+q(0)*q(3)) * px + (1.0 - 2.0*(q(1)*q(1)+q(3)*q(3))) * py + 2.0*(q(2)*q(3)-q(0)*q(1)) * pz
+	rz = 2.0*(q(1)*q(3)-q(0)*q(2)) * px + 2.0*(q(2)*q(3)+q(0)*q(1)) * py + (1.0 - 2.0*(q(1)*q(1)+q(2)*q(2))) * pz
+	px = rx : py = ry : pz = rz
+	return
+
+#global
+#endif

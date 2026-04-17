@@ -1,0 +1,30 @@
+;
+; iron_spectrum.hsp - Audio spectrum analysis (simple DFT)
+; Pure HSP. For visualization.
+;
+#ifndef __iron_spectrum_hsp__
+#define __iron_spectrum_hsp__
+#module iron_spectrum
+
+#define PI2_S 6.28318530718
+
+; Compute magnitude spectrum of audio samples
+; samples: int array (16-bit PCM), n: sample count, bins: output double array
+#deffunc spectrum_compute array samples, int n, array bins, int num_bins, \
+	local re, local im, local k, local i, local angle
+	dimtype bins, 3, num_bins
+	repeat num_bins
+		k = cnt
+		re = 0.0 : im = 0.0
+		repeat n
+			i = cnt
+			angle = PI2_S * double(k) * double(i) / double(n)
+			re += double(samples(i)) * cos(angle)
+			im -= double(samples(i)) * sin(angle)
+		loop
+		bins(k) = sqrt(re * re + im * im) / double(n)
+	loop
+	return
+
+#global
+#endif

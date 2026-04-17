@@ -1,0 +1,41 @@
+;
+; iron_sentiment.hsp - Simple sentiment analysis
+; Keyword-based (no ML model needed)
+;
+#ifndef __iron_sentiment_hsp__
+#define __iron_sentiment_hsp__
+#module iron_sentiment
+
+; Returns score: positive > 0, negative < 0, neutral = 0
+#defcfunc sentiment_score str text, local score, local t
+	t = text
+	score = 0
+	; Positive words
+	if instr(t, 0, "good") >= 0 : score += 1
+	if instr(t, 0, "great") >= 0 : score += 2
+	if instr(t, 0, "excellent") >= 0 : score += 3
+	if instr(t, 0, "amazing") >= 0 : score += 3
+	if instr(t, 0, "love") >= 0 : score += 2
+	if instr(t, 0, "happy") >= 0 : score += 2
+	if instr(t, 0, "nice") >= 0 : score += 1
+	if instr(t, 0, "best") >= 0 : score += 2
+	if instr(t, 0, "wonderful") >= 0 : score += 3
+	; Negative words
+	if instr(t, 0, "bad") >= 0 : score -= 1
+	if instr(t, 0, "terrible") >= 0 : score -= 3
+	if instr(t, 0, "awful") >= 0 : score -= 3
+	if instr(t, 0, "hate") >= 0 : score -= 2
+	if instr(t, 0, "ugly") >= 0 : score -= 2
+	if instr(t, 0, "worst") >= 0 : score -= 3
+	if instr(t, 0, "horrible") >= 0 : score -= 3
+	if instr(t, 0, "poor") >= 0 : score -= 1
+	return score
+
+#defcfunc sentiment_label str text, local s
+	s = sentiment_score(text)
+	if s > 0 : return "positive"
+	if s < 0 : return "negative"
+	return "neutral"
+
+#global
+#endif

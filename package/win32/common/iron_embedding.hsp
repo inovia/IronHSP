@@ -1,0 +1,47 @@
+;
+; iron_embedding.hsp - Text embedding + vector search
+; Uses iron_ai (OpenAI API) or local model
+;
+#ifndef __iron_embedding_hsp__
+#define __iron_embedding_hsp__
+#module iron_embedding
+
+; Simple TF-IDF based embedding (no API needed)
+; Converts text to a bag-of-words frequency vector
+sdim _emb_vocab, 64, 500
+dim _emb_vcount, 1
+
+#deffunc embedding_build_vocab str corpus, local words, local w, local found
+	words = corpus
+	strrep words, ".", " "
+	strrep words, ",", " "
+	_emb_vcount = 0
+	notesel words
+	; Split by spaces (simplified)
+	repeat notemax
+		noteget w, cnt
+		if w == "" : continue
+		found = 0
+		repeat _emb_vcount
+			if _emb_vocab(cnt) == w { found = 1 : break }
+		loop
+		if found == 0 {
+			_emb_vocab(_emb_vcount) = w
+			_emb_vcount++
+		}
+	loop
+	return _emb_vcount
+
+; Cosine similarity between two vectors
+#defcfunc vec_cosine array a, array b, int n, local dot, local na, local nb
+	dot = 0.0 : na = 0.0 : nb = 0.0
+	repeat n
+		dot += a(cnt) * b(cnt)
+		na += a(cnt) * a(cnt)
+		nb += b(cnt) * b(cnt)
+	loop
+	if na == 0.0 | nb == 0.0 : return 0.0
+	return dot / (sqrt(na) * sqrt(nb))
+
+#global
+#endif

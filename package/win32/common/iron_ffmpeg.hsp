@@ -1,0 +1,47 @@
+;
+; iron_ffmpeg.hsp - FFmpeg wrapper (process call)
+; Requires ffmpeg.exe in PATH or specified path.
+;
+#ifndef __iron_ffmpeg_hsp__
+#define __iron_ffmpeg_hsp__
+#include "iron_process.hsp"
+#module iron_ffmpeg
+
+sdim _ff_path, 260
+
+#deffunc ffmpeg_set_path str path
+	_ff_path = path
+	return
+
+#deffunc ffmpeg_run str args, local cmd
+	if _ff_path == "" : _ff_path = "ffmpeg"
+	cmd = "\"" + _ff_path + "\" " + args
+	process_exec cmd
+	return stat
+
+#deffunc ffmpeg_convert str input_file, str output_file
+	ffmpeg_run "-i \"" + input_file + "\" \"" + output_file + "\" -y"
+	return stat
+
+#deffunc ffmpeg_extract_audio str video, str audio
+	ffmpeg_run "-i \"" + video + "\" -vn -acodec copy \"" + audio + "\" -y"
+	return stat
+
+#deffunc ffmpeg_trim str input_file, str output_file, str start_time, str duration
+	ffmpeg_run "-i \"" + input_file + "\" -ss " + start_time + " -t " + duration + " -c copy \"" + output_file + "\" -y"
+	return stat
+
+#deffunc ffmpeg_concat str list_file, str output_file
+	ffmpeg_run "-f concat -safe 0 -i \"" + list_file + "\" -c copy \"" + output_file + "\" -y"
+	return stat
+
+#deffunc ffmpeg_thumbnail str video, str image, str time_pos
+	ffmpeg_run "-i \"" + video + "\" -ss " + time_pos + " -vframes 1 \"" + image + "\" -y"
+	return stat
+
+#deffunc ffmpeg_info str file
+	ffmpeg_run "-i \"" + file + "\" 2>&1"
+	return refstr
+
+#global
+#endif

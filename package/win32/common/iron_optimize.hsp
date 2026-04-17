@@ -1,0 +1,23 @@
+;
+; iron_optimize.hsp - Optimization (gradient descent / golden section)
+;
+#ifndef __iron_optimize_hsp__
+#define __iron_optimize_hsp__
+#module iron_optimize
+
+; Golden section search: find minimum of f(x) in [a, b]
+; f is evaluated as x*x - 4*x + 4 (example: minimum at x=2)
+#defcfunc optimize_golden double a, double b, int max_iter, \
+	local gr, local c, local d, local fc, local fd
+	gr = 0.6180339887  ; (sqrt(5)-1)/2
+	repeat max_iter
+		c = b - gr * (b - a)
+		d = a + gr * (b - a)
+		fc = c*c - 4.0*c + 4.0
+		fd = d*d - 4.0*d + 4.0
+		if fc < fd { b = d } else { a = c }
+	loop
+	return (a + b) / 2.0
+
+#global
+#endif

@@ -1,0 +1,43 @@
+;
+; iron_geometry.hsp - 2D/3D geometry calculations
+;
+#ifndef __iron_geometry_hsp__
+#define __iron_geometry_hsp__
+#module iron_geometry
+
+; Triangle area (2D, Heron's formula from vertices)
+#defcfunc tri_area double x1, double y1, double x2, double y2, double x3, double y3
+	return absf((x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)) / 2.0)
+
+; Distance point to line (2D)
+#defcfunc point_line_dist double px, double py, double x1, double y1, double x2, double y2, local a, local b, local c
+	a = y2 - y1 : b = x1 - x2 : c = x2*y1 - x1*y2
+	return absf(a*px + b*py + c) / sqrt(a*a + b*b)
+
+; Circle area / circumference
+#defcfunc circle_area double r
+	return 3.14159265358979 * r * r
+
+#defcfunc circle_circumference double r
+	return 2.0 * 3.14159265358979 * r
+
+; Polygon area (Shoelace formula)
+#defcfunc polygon_area array x, array y, int n, local area, local i, local j
+	area = 0.0
+	j = n - 1
+	repeat n
+		i = cnt
+		area += (x(j) + x(i)) * (y(j) - y(i))
+		j = i
+	loop
+	return absf(area / 2.0)
+
+; 3D: Sphere volume / surface
+#defcfunc sphere_volume double r
+	return 4.0 / 3.0 * 3.14159265358979 * r * r * r
+
+#defcfunc sphere_surface double r
+	return 4.0 * 3.14159265358979 * r * r
+
+#global
+#endif

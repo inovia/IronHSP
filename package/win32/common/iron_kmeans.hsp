@@ -1,0 +1,55 @@
+;
+; iron_kmeans.hsp - K-means clustering
+; Pure HSP. 2D points.
+;
+#ifndef __iron_kmeans_hsp__
+#define __iron_kmeans_hsp__
+#module iron_kmeans
+
+; kmeans_cluster x_arr, y_arr, n, k, labels
+; x_arr, y_arr: double arrays of points
+; k: number of clusters
+; labels: output int array of cluster assignments
+#deffunc kmeans_cluster array x, array y, int n, int k, array labels, \
+	local cx, local cy, local i, local j, local best, local bestd, local d, local cnt2, local sum_x, local sum_y, local counts
+	dimtype cx, 3, k
+	dimtype cy, 3, k
+	dim labels, n
+	; Init centroids to first k points
+	repeat k
+		cx(cnt) = x(cnt) : cy(cnt) = y(cnt)
+	loop
+	; Iterate
+	repeat 20
+		; Assign
+		repeat n
+			i = cnt
+			bestd = 1e18 : best = 0
+			repeat k
+				j = cnt
+				d = (x(i)-cx(j))*(x(i)-cx(j)) + (y(i)-cy(j))*(y(i)-cy(j))
+				if d < bestd { bestd = d : best = j }
+			loop
+			labels(i) = best
+		loop
+		; Update centroids
+		dimtype sum_x, 3, k
+		dimtype sum_y, 3, k
+		dim counts, k
+		repeat n
+			j = labels(cnt)
+			sum_x(j) += x(cnt)
+			sum_y(j) += y(cnt)
+			counts(j)++
+		loop
+		repeat k
+			if counts(cnt) > 0 {
+				cx(cnt) = sum_x(cnt) / double(counts(cnt))
+				cy(cnt) = sum_y(cnt) / double(counts(cnt))
+			}
+		loop
+	loop
+	return
+
+#global
+#endif

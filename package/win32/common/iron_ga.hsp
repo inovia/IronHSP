@@ -1,0 +1,58 @@
+;
+; iron_ga.hsp - Genetic algorithm
+; Pure HSP. Maximize a fitness function.
+;
+#ifndef __iron_ga_hsp__
+#define __iron_ga_hsp__
+#module iron_ga
+
+dim _ga_pop, 100
+dim _ga_fit, 100
+dim _ga_size, 1
+dim _ga_genes, 1
+
+#deffunc ga_init int pop_size, int gene_max
+	_ga_size = pop_size
+	_ga_genes = gene_max
+	dim _ga_pop, pop_size
+	dim _ga_fit, pop_size
+	repeat pop_size
+		_ga_pop(cnt) = rnd(gene_max)
+	loop
+	return
+
+#deffunc ga_evaluate array fitness_arr
+	repeat _ga_size
+		_ga_fit(cnt) = fitness_arr(cnt)
+	loop
+	return
+
+#deffunc ga_evolve local best1, local best2, local child, local i
+	; Tournament selection + crossover + mutation
+	repeat _ga_size
+		; Select 2 parents by tournament
+		best1 = rnd(_ga_size) : best2 = rnd(_ga_size)
+		if _ga_fit(best2) > _ga_fit(best1) : best1 = best2
+		best2 = rnd(_ga_size)
+		i = rnd(_ga_size)
+		if _ga_fit(i) > _ga_fit(best2) : best2 = i
+		; Crossover (average)
+		child = (_ga_pop(best1) + _ga_pop(best2)) / 2
+		; Mutation (5% chance)
+		if rnd(100) < 5 : child = rnd(_ga_genes)
+		_ga_pop(cnt) = child
+	loop
+	return
+
+#defcfunc ga_best local best, local i
+	best = 0
+	repeat _ga_size
+		if _ga_fit(cnt) > _ga_fit(best) : best = cnt
+	loop
+	return _ga_pop(best)
+
+#defcfunc ga_get int index
+	return _ga_pop(index)
+
+#global
+#endif

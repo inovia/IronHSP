@@ -1,0 +1,57 @@
+;
+; iron_fft.hsp - Fast Fourier Transform (Cooley-Tukey)
+; Pure HSP. Power-of-2 sizes.
+;
+#ifndef __iron_fft_hsp__
+#define __iron_fft_hsp__
+#module iron_fft
+
+#define FFT_PI2 6.28318530718
+
+; In-place FFT. re/im: double arrays, n: power of 2
+#deffunc fft_compute array re, array im, int n, \
+	local i, local j, local k, local m, local step, local angle, local wr, local wi, local tr, local ti
+	; Bit-reversal permutation
+	j = 0
+	repeat n - 1, 1
+		i = cnt
+		m = n / 2
+		repeat
+			if j < m : break
+			j -= m : m /= 2
+			if m < 1 : break
+		loop
+		j += m
+		if i < j {
+			tr = re(i) : re(i) = re(j) : re(j) = tr
+			ti = im(i) : im(i) = im(j) : im(j) = ti
+		}
+	loop
+	; FFT
+	step = 1
+	repeat
+		if step >= n : break
+		m = step * 2
+		repeat step
+			k = cnt
+			angle = -FFT_PI2 * double(k) / double(m)
+			wr = cos(angle) : wi = sin(angle)
+			i = k
+			repeat
+				if i >= n : break
+				j = i + step
+				tr = wr * re(j) - wi * im(j)
+				ti = wr * im(j) + wi * re(j)
+				re(j) = re(i) - tr
+				im(j) = im(i) - ti
+				re(i) += tr
+				im(i) += ti
+				i += m
+			loop
+		loop
+		step = m
+	loop
+	return
+
+#global
+#endif
