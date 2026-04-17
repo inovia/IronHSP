@@ -1,0 +1,32 @@
+;
+; iron_dotenv.hsp - Load .env file into environment variables
+;
+#ifndef __iron_dotenv_hsp__
+#define __iron_dotenv_hsp__
+#include "iron_fs.hsp"
+#module iron_dotenv
+
+#uselib "kernel32.dll"
+#cfunc _SetEnvW "SetEnvironmentVariableW" wstr, wstr
+
+#deffunc dotenv_load str filepath, local text, local lines, local line, local p, local k, local v
+	text = fs_readtext(filepath)
+	if text == "" : return -1
+	lines = text
+	notesel lines
+	repeat notemax
+		noteget line, cnt
+		if line == "" : continue
+		if strmid(line, 0, 1) == "#" : continue
+		p = instr(line, 0, "=")
+		if p < 0 : continue
+		k = strmid(line, 0, p)
+		v = strmid(line, p + 1, 4096)
+		; Remove quotes
+		if strmid(v, 0, 1) == """ : v = strmid(v, 1, strlen(v) - 2)
+		_r = _SetEnvW(k, v)
+	loop
+	return 0
+
+#global
+#endif

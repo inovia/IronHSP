@@ -1,0 +1,27 @@
+;
+; iron_event.hsp - Event emitter (Pub/Sub)
+;
+#ifndef __iron_event_hsp__
+#define __iron_event_hsp__
+#module iron_event
+
+sdim _ev_name, 64, 50
+dim _ev_label, 50
+dim _ev_count, 1
+
+#deffunc event_on str name, int lbl
+	_ev_name(_ev_count) = name
+	_ev_label(_ev_count) = lbl
+	_ev_count++
+	return
+
+#deffunc event_emit str name, local i
+	repeat _ev_count
+		if _ev_name(cnt) == name {
+			gosub _ev_label(cnt)
+		}
+	loop
+	return
+
+#global
+#endif

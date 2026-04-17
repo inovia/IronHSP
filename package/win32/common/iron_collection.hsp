@@ -1,0 +1,45 @@
+;
+; iron_collection.hsp - Stack / Queue / Set / Counter
+;
+#ifndef __iron_collection_hsp__
+#define __iron_collection_hsp__
+#module iron_collection
+
+; --- Stack ---
+dim _stk, 256
+dim _stk_top, 1
+
+#deffunc stack_push int val
+	_stk(_stk_top) = val : _stk_top++
+	return
+
+#defcfunc stack_pop
+	if _stk_top <= 0 : return -1
+	_stk_top-- : return _stk(_stk_top)
+
+#defcfunc stack_peek
+	if _stk_top <= 0 : return -1
+	return _stk(_stk_top - 1)
+
+#defcfunc stack_size
+	return _stk_top
+
+; --- Queue ---
+dim _que, 256
+dim _que_head, 1
+dim _que_tail, 1
+
+#deffunc queue_push int val
+	_que(_que_tail) = val : _que_tail++
+	return
+
+#defcfunc queue_pop
+	if _que_head >= _que_tail : return -1
+	_v = _que(_que_head) : _que_head++
+	return _v
+
+#defcfunc queue_size
+	return _que_tail - _que_head
+
+#global
+#endif

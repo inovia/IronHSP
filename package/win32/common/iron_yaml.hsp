@@ -1,0 +1,37 @@
+;
+; iron_yaml.hsp - Simple YAML parser (key: value, no nesting)
+;
+#ifndef __iron_yaml_hsp__
+#define __iron_yaml_hsp__
+#module iron_yaml
+
+sdim _yk, 256, 100
+sdim _yv, 4096, 100
+dim _yn, 1
+
+#deffunc yaml_load str text, local lines, local line, local p
+	_yn = 0
+	lines = text
+	notesel lines
+	repeat notemax
+		noteget line, cnt
+		if strmid(line, 0, 1) == "#" : continue
+		p = instr(line, 0, ":")
+		if p < 0 : continue
+		_yk(_yn) = str_trim(strmid(line, 0, p))
+		_yv(_yn) = str_trim(strmid(line, p + 1, 4096))
+		_yn++
+	loop
+	return _yn
+
+#defcfunc yaml_get str key, local i
+	repeat _yn
+		if _yk(cnt) == key : return _yv(cnt)
+	loop
+	return ""
+
+#defcfunc yaml_count
+	return _yn
+
+#global
+#endif

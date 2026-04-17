@@ -1,0 +1,65 @@
+;
+; iron_pptx.hsp - PowerPoint .pptx generation
+; Uses .NET System.IO.Packaging (hsp3net only)
+;
+#ifndef __iron_pptx_hsp__
+#define __iron_pptx_hsp__
+#module iron_pptx
+
+dim _pptx_cs_loaded, 1
+
+#deffunc _pptx_load_cs
+	if _pptx_cs_loaded : return
+	sdim _cs, 8192
+	_cs = "using System;using System.IO;using System.IO.Packaging;using System.Xml;"
+	_cs += "public class HspPptx {"
+	_cs += "  static int _slideCount = 0;"
+	_cs += "  static Package _pkg;"
+	_cs += "  public static string Create(string path) {"
+	_cs += "    try { _pkg = Package.Open(path, FileMode.Create); _slideCount = 0; return "ok"; }"
+	_cs += "    catch(Exception e) { return "ERROR:"+e.Message; }"
+	_cs += "  }"
+	_cs += "  public static string AddSlide(string title, string body) {"
+	_cs += "    try {"
+	_cs += "      _slideCount++;"
+	_cs += "      string ns = "http://schemas.openxmlformats.org/presentationml/2006/main";"
+	_cs += "      string ans = "http://schemas.openxmlformats.org/drawingml/2006/main";"
+	_cs += "      var uri = new Uri("/ppt/slides/slide"+_slideCount+".xml", UriKind.Relative);"
+	_cs += "      var part = _pkg.CreatePart(uri, "application/vnd.openxmlformats-officedocument.presentationml.slide+xml");"
+	_cs += "      var xml = "<p:sld xmlns:p='"+ns+"' xmlns:a='"+ans+"'>";"
+	_cs += "      xml += "<p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id='1' name=''/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr>";"
+	_cs += "      xml += "<p:grpSpPr/><p:sp><p:nvSpPr><p:cNvPr id='2' name='Title'/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>";"
+	_cs += "      xml += "<p:spPr/><p:txBody><a:bodyPr/><a:p><a:r><a:t>"+title+"</a:t></a:r></a:p>";"
+	_cs += "      xml += "<a:p><a:r><a:t>"+body+"</a:t></a:r></a:p></p:txBody></p:sp></p:spTree></p:cSld></p:sld>";"
+	_cs += "      using(var s = part.GetStream()) { var w = new StreamWriter(s); w.Write(xml); w.Flush(); }"
+	_cs += "      return "ok";"
+	_cs += "    } catch(Exception e) { return "ERROR:"+e.Message; }"
+	_cs += "  }"
+	_cs += "  public static string Save() {"
+	_cs += "    try { _pkg.Close(); return "ok"; } catch(Exception e) { return "ERROR:"+e.Message; }"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_pptx_cs_loaded = 1
+	return
+
+#deffunc pptx_create str path, local _h, local _r
+	_pptx_load_cs
+	newnet _h, "", "HspPptx", 1
+	netres _r : mcall _h, "Create", path
+	return nettoval(_r, 2)
+
+#deffunc pptx_add_slide str title, str body, local _h2, local _r2
+	_pptx_load_cs
+	newnet _h2, "", "HspPptx", 1
+	netres _r2 : mcall _h2, "AddSlide", title, body
+	return nettoval(_r2, 2)
+
+#deffunc pptx_save local _h3, local _r3
+	_pptx_load_cs
+	newnet _h3, "", "HspPptx", 1
+	netres _r3 : mcall _h3, "Save"
+	return nettoval(_r3, 2)
+
+#global
+#endif

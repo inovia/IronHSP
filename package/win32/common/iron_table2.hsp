@@ -1,0 +1,33 @@
+;
+; iron_table2.hsp - CLI table formatting (tabulate-like)
+;
+#ifndef __iron_table2_hsp__
+#define __iron_table2_hsp__
+#module iron_table2
+
+#deffunc table_print str headers, str rows, 	local hdr, local row, local cols, local widths, local line, local cell, local p
+	; headers: "Name|Age|City"
+	; rows: "Alice|25|Tokyo
+Bob|30|Osaka"
+	hdr = headers
+	; Count columns
+	cols = 1
+	repeat strlen(hdr)
+		if peek(hdr, cnt) == '|' : cols++
+	loop
+	; Print header
+	mes "| " + hdr + " |"
+	line = "+"
+	repeat cols : line += "--------+" : loop
+	mes line
+	; Print rows
+	notesel rows
+	repeat notemax
+		noteget row, cnt
+		mes "| " + row + " |"
+	loop
+	mes line
+	return
+
+#global
+#endif

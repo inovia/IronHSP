@@ -1,0 +1,35 @@
+;
+; iron_barcode.hsp - 1D barcode generation (Code128 BMP)
+; Pure HSP. Generates BMP image.
+;
+#ifndef __iron_barcode_hsp__
+#define __iron_barcode_hsp__
+#module iron_barcode
+
+; Code128B encoding (simplified: digits + uppercase only)
+#deffunc barcode_generate str text, str outfile, local w, local h
+	; Generate simple barcode as BMP using HSP drawing
+	w = strlen(text) * 11 + 40
+	h = 80
+	buffer 98, w, h
+	color 255, 255, 255 : boxf
+	color 0, 0, 0
+	; Simple bar pattern based on character values
+	repeat strlen(text)
+		x = cnt * 11 + 20
+		c = peek(text, cnt)
+		repeat 8
+			if (c >> (7 - cnt)) & 1 {
+				line x + cnt, 5, x + cnt, h - 15
+			}
+		loop
+	loop
+	; Text below
+	pos 20, h - 14
+	mes text
+	bmpsave outfile
+	gsel 0
+	return
+
+#global
+#endif

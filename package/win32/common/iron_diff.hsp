@@ -1,0 +1,32 @@
+;
+; iron_diff.hsp - Simple text diff (line-by-line)
+;
+#ifndef __iron_diff_hsp__
+#define __iron_diff_hsp__
+#module iron_diff
+
+#deffunc diff_text str old_text, str new_text, 	local old_lines, local new_lines, local ol, local nl, local result
+	old_lines = old_text : new_lines = new_text
+	result = ""
+	notesel old_lines
+	oc = notemax
+	notesel new_lines
+	nc = notemax
+	mx = oc : if nc > mx : mx = nc
+	repeat mx
+		ol = "" : nl = ""
+		notesel old_lines
+		if cnt < oc : noteget ol, cnt
+		notesel new_lines
+		if cnt < nc : noteget nl, cnt
+		if ol == nl {
+			result += "  " + ol + "\n"
+		} else {
+			if ol != "" : result += "- " + ol + "\n"
+			if nl != "" : result += "+ " + nl + "\n"
+		}
+	loop
+	return result
+
+#global
+#endif

@@ -1,0 +1,51 @@
+;
+; iron_docx.hsp - Word .docx generation
+; Uses .NET System.IO.Packaging (hsp3net only)
+;
+#ifndef __iron_docx_hsp__
+#define __iron_docx_hsp__
+#module iron_docx
+
+dim _docx_cs_loaded, 1
+
+#deffunc _docx_load_cs
+	if _docx_cs_loaded : return
+	sdim _cs, 8192
+	_cs = "using System;using System.IO;using System.IO.Packaging;using System.Xml;"
+	_cs += "public class HspDocx {"
+	_cs += "  public static string Create(string path, string body) {"
+	_cs += "    try {"
+	_cs += "      using(var pkg = Package.Open(path, FileMode.Create)) {"
+	_cs += "        var uri = new Uri("/word/document.xml", UriKind.Relative);"
+	_cs += "        var part = pkg.CreatePart(uri, "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");"
+	_cs += "        var doc = new XmlDocument();"
+	_cs += "        string ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";"
+	_cs += "        doc.LoadXml("<w:document xmlns:w='" + ns + "'><w:body></w:body></w:document>");"
+	_cs += "        foreach(var line in body.Split('\n')) {"
+	_cs += "          var p = doc.CreateElement("w","p",ns);"
+	_cs += "          var r = doc.CreateElement("w","r",ns);"
+	_cs += "          var t = doc.CreateElement("w","t",ns);"
+	_cs += "          t.InnerText = line;"
+	_cs += "          r.AppendChild(t); p.AppendChild(r);"
+	_cs += "          doc.DocumentElement.FirstChild.AppendChild(p);"
+	_cs += "        }"
+	_cs += "        using(var s = part.GetStream()) doc.Save(s);"
+	_cs += "        pkg.CreateRelationship(uri, TargetMode.Internal,"
+	_cs += "          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");"
+	_cs += "      }"
+	_cs += "      return "ok";"
+	_cs += "    } catch(Exception e) { return "ERROR:" + e.Message; }"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_docx_cs_loaded = 1
+	return
+
+#deffunc docx_create str path, str body, local _h, local _r
+	_docx_load_cs
+	newnet _h, "", "HspDocx", 1
+	netres _r : mcall _h, "Create", path, body
+	return nettoval(_r, 2)
+
+#global
+#endif

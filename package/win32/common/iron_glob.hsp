@@ -1,0 +1,33 @@
+;
+; iron_glob.hsp - Recursive file search
+;
+#ifndef __iron_glob_hsp__
+#define __iron_glob_hsp__
+#include "iron_fs.hsp"
+#module iron_glob
+
+#deffunc glob_find str dir, str pattern, int recursive, 	local files, local dirs, local f, local subdir
+	fs_listfiles dir, pattern
+	files = refstr
+	if recursive {
+		fs_listdirs dir
+		dirs = refstr
+		notesel dirs
+		repeat notemax
+			noteget f, cnt
+			if f == "" : continue
+			subdir = dir + "\\" + f
+			glob_find subdir, pattern, 1
+			if refstr != "" {
+				notesel refstr
+				repeat notemax
+					noteget f, cnt
+					if f != "" : files += "\n" + subdir + "\\" + f
+				loop
+			}
+		loop
+	}
+	return files
+
+#global
+#endif

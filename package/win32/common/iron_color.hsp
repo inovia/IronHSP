@@ -1,0 +1,53 @@
+;
+; iron_color.hsp - Color conversion (RGB/HSV/HEX/Name)
+;
+#ifndef __iron_color_hsp__
+#define __iron_color_hsp__
+#module iron_color
+
+#defcfunc color_rgb2hex int r, int g, int b
+	return "#" + strf("%02X%02X%02X", r, g, b)
+
+#deffunc color_hex2rgb str hex, var r, var g, var b, local h
+	h = hex
+	if strmid(h, 0, 1) == "#" : h = strmid(h, 1, 6)
+	r = int("$" + strmid(h, 0, 2))
+	g = int("$" + strmid(h, 2, 2))
+	b = int("$" + strmid(h, 4, 2))
+	return
+
+#deffunc color_rgb2hsv int r, int g, int b, var h, var s, var v, \
+	local rf, local gf, local bf, local mx, local mn, local d
+	rf = double(r)/255.0 : gf = double(g)/255.0 : bf = double(b)/255.0
+	mx = rf : if gf > mx : mx = gf
+	if bf > mx : mx = bf
+	mn = rf : if gf < mn : mn = gf
+	if bf < mn : mn = bf
+	d = mx - mn
+	v = int(mx * 100.0)
+	if mx == 0.0 { s = 0 : h = 0 : return }
+	s = int(d / mx * 100.0)
+	if d == 0.0 { h = 0 : return }
+	if mx == rf : h = int(60.0 * (gf - bf) / d)
+	if mx == gf : h = int(60.0 * (2.0 + (bf - rf) / d))
+	if mx == bf : h = int(60.0 * (4.0 + (rf - gf) / d))
+	if h < 0 : h += 360
+	return
+
+#defcfunc color_name str name
+	if name == "red"    : return 0xFF0000
+	if name == "green"  : return 0x00FF00
+	if name == "blue"   : return 0x0000FF
+	if name == "white"  : return 0xFFFFFF
+	if name == "black"  : return 0x000000
+	if name == "yellow" : return 0xFFFF00
+	if name == "cyan"   : return 0x00FFFF
+	if name == "magenta": return 0xFF00FF
+	if name == "orange" : return 0xFFA500
+	if name == "purple" : return 0x800080
+	if name == "gray"   : return 0x808080
+	if name == "pink"   : return 0xFFC0CB
+	return 0
+
+#global
+#endif

@@ -1,0 +1,31 @@
+;
+; iron_retry.hsp - Retry with exponential backoff
+;
+#ifndef __iron_retry_hsp__
+#define __iron_retry_hsp__
+#module iron_retry
+
+dim _retry_attempts, 1
+dim _retry_last_err, 1
+
+#deffunc retry_exec int max_attempts, int base_delay_ms, int lbl, 	local attempt, local delay
+	_retry_attempts = 0
+	delay = base_delay_ms
+	repeat max_attempts
+		attempt = cnt + 1
+		_retry_attempts = attempt
+		gosub lbl
+		if stat == 0 : return 0
+		_retry_last_err = stat
+		if attempt < max_attempts {
+			await delay
+			delay = delay * 2
+		}
+	loop
+	return _retry_last_err
+
+#defcfunc retry_attempts
+	return _retry_attempts
+
+#global
+#endif

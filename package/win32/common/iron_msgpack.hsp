@@ -1,0 +1,50 @@
+;
+; iron_msgpack.hsp - MessagePack serialize/deserialize
+; Uses .NET MessagePack library or C# dynamic compile
+; hsp3net only.
+;
+#ifndef __iron_msgpack_hsp__
+#define __iron_msgpack_hsp__
+#module iron_msgpack
+
+dim _mp_cs_loaded, 1
+
+#deffunc _mp_load_cs
+	if _mp_cs_loaded : return
+	sdim _cs, 4096
+	_cs = "using System;using System.Collections.Generic;using System.Text;"
+	_cs += "public class HspMsgPack {"
+	_cs += "  public static byte[] PackString(string s) {"
+	_cs += "    var bytes = Encoding.UTF8.GetBytes(s);"
+	_cs += "    var result = new List<byte>();"
+	_cs += "    if(bytes.Length < 32) result.Add((byte)(0xa0 | bytes.Length));"
+	_cs += "    else if(bytes.Length < 256) { result.Add(0xd9); result.Add((byte)bytes.Length); }"
+	_cs += "    else { result.Add(0xda); result.Add((byte)(bytes.Length>>8)); result.Add((byte)bytes.Length); }"
+	_cs += "    result.AddRange(bytes);"
+	_cs += "    return result.ToArray();"
+	_cs += "  }"
+	_cs += "  public static string UnpackString(byte[] data) {"
+	_cs += "    int len = 0; int offset = 1;"
+	_cs += "    if((data[0] & 0xe0) == 0xa0) { len = data[0] & 0x1f; }"
+	_cs += "    else if(data[0] == 0xd9) { len = data[1]; offset = 2; }"
+	_cs += "    else if(data[0] == 0xda) { len = (data[1]<<8)|data[2]; offset = 3; }"
+	_cs += "    return Encoding.UTF8.GetString(data, offset, len);"
+	_cs += "  }"
+	_cs += "  public static string PackInt(int v) {"
+	_cs += "    if(v >= 0 && v < 128) return Convert.ToBase64String(new byte[]{(byte)v});"
+	_cs += "    return Convert.ToBase64String(BitConverter.GetBytes(v));"
+	_cs += "  }"
+	_cs += "}"
+	loadnet _cs, 3
+	_mp_cs_loaded = 1
+	return
+
+#deffunc msgpack_pack_str str text, var out_buf, local _h, local _r
+	_mp_load_cs
+	newnet _h, "", "HspMsgPack", 1
+	netres _r : mcall _h, "PackString", text
+	out_buf = _r
+	return
+
+#global
+#endif

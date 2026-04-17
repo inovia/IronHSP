@@ -1,0 +1,33 @@
+;
+; iron_scraper.hsp - Web scraping (HTTP + HTML parse)
+;
+#ifndef __iron_scraper_hsp__
+#define __iron_scraper_hsp__
+#include "iron_http.hsp"
+#include "iron_html.hsp"
+#module iron_scraper
+
+#deffunc scrape_links str url, local body
+	http_get url, body
+	if stat != 200 : return ""
+	html_parse body
+	html_find "a"
+	n = stat
+	result = ""
+	repeat n
+		href = html_tag_attr(cnt, "href")
+		if href != "" {
+			if result != "" : result += "\n"
+			result += href
+		}
+	loop
+	return result
+
+#deffunc scrape_text str url, local body
+	http_get url, body
+	if stat != 200 : return ""
+	html_parse body
+	return html_text()
+
+#global
+#endif

@@ -1,0 +1,48 @@
+;
+; iron_cache.hsp - In-memory cache with TTL
+;
+#ifndef __iron_cache_hsp__
+#define __iron_cache_hsp__
+#module iron_cache
+
+sdim _ck, 256, 100
+sdim _cv, 4096, 100
+dim _ct, 100
+dim _cn, 1
+
+#deffunc cache_set str key, str value, int ttl_sec, local i, local now
+	now = gettime(5) * 3600 + gettime(6) * 60 + gettime(7)
+	; Check existing
+	repeat _cn
+		if _ck(cnt) == key { _cv(cnt) = value : _ct(cnt) = now + ttl_sec : return }
+	loop
+	_ck(_cn) = key : _cv(_cn) = value : _ct(_cn) = now + ttl_sec
+	_cn++
+	return
+
+#defcfunc cache_get str key, local now
+	now = gettime(5) * 3600 + gettime(6) * 60 + gettime(7)
+	repeat _cn
+		if _ck(cnt) == key {
+			if _ct(cnt) > 0 & now > _ct(cnt) : return ""
+			return _cv(cnt)
+		}
+	loop
+	return ""
+
+#defcfunc cache_has str key, local now
+	now = gettime(5) * 3600 + gettime(6) * 60 + gettime(7)
+	repeat _cn
+		if _ck(cnt) == key {
+			if _ct(cnt) > 0 & now > _ct(cnt) : return 0
+			return 1
+		}
+	loop
+	return 0
+
+#deffunc cache_clear
+	_cn = 0
+	return
+
+#global
+#endif

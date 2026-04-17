@@ -1,0 +1,57 @@
+;
+; iron_test.hsp - Unit test framework
+; assert_eq / assert_ne / assert_true / test_begin / test_end
+;
+#ifndef __iron_test_hsp__
+#define __iron_test_hsp__
+#module iron_test
+
+dim _t_pass, 1
+dim _t_fail, 1
+dim _t_total, 1
+sdim _t_name, 256
+
+#deffunc test_begin str name
+	_t_name = name
+	_t_pass = 0 : _t_fail = 0 : _t_total = 0
+	mes "=== TEST: " + name + " ==="
+	return
+
+#deffunc assert_eq str actual, str expected, str msg
+	_t_total++
+	if actual == expected {
+		_t_pass++ : return
+	}
+	_t_fail++
+	mes "  FAIL: " + msg + " expected=[" + expected + "] actual=[" + actual + "]"
+	return
+
+#deffunc assert_ne str actual, str notexpected, str msg
+	_t_total++
+	if actual != notexpected { _t_pass++ : return }
+	_t_fail++
+	mes "  FAIL: " + msg + " should not be [" + notexpected + "]"
+	return
+
+#deffunc assert_true int cond, str msg
+	_t_total++
+	if cond { _t_pass++ : return }
+	_t_fail++
+	mes "  FAIL: " + msg
+	return
+
+#deffunc assert_false int cond, str msg
+	assert_true (cond == 0), msg
+	return
+
+#deffunc test_end
+	mes "--- " + _t_name + ": " + _t_pass + "/" + _t_total + " passed"
+	if _t_fail > 0 : mes "  ** " + _t_fail + " FAILED **"
+	if _t_fail == 0 : mes "  ALL PASSED"
+	return
+
+#defcfunc test_passed
+	return _t_fail == 0
+
+#global
+#endif

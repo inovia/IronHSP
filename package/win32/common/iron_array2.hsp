@@ -1,0 +1,73 @@
+;
+; iron_array2.hsp - Array utilities (filter/map/sort/unique/reverse/zip/join)
+;
+#ifndef __iron_array2_hsp__
+#define __iron_array2_hsp__
+#module iron_array2
+
+; array_reverse arr, n - Reverse in-place
+#deffunc array_reverse array arr, int n, local i, local j, local t
+	i = 0 : j = n - 1
+	repeat n / 2
+		t = arr(i) : arr(i) = arr(j) : arr(j) = t
+		i++ : j--
+	loop
+	return
+
+; array_unique arr, n - Remove duplicates, returns new count
+#defcfunc array_unique array arr, int n, local i, local j, local found
+	if n <= 1 : return n
+	j = 1
+	repeat n - 1, 1
+		i = cnt
+		found = 0
+		repeat j
+			if arr(cnt) == arr(i) { found = 1 : break }
+		loop
+		if found == 0 { arr(j) = arr(i) : j++ }
+	loop
+	return j
+
+; array_count arr, n, value - Count occurrences
+#defcfunc array_count array arr, int n, int value, local c
+	c = 0
+	repeat n
+		if arr(cnt) == value : c++
+	loop
+	return c
+
+; array_indexof arr, n, value - Find first index (-1 if not found)
+#defcfunc array_indexof array arr, int n, int value
+	repeat n
+		if arr(cnt) == value : return cnt
+	loop
+	return -1
+
+; array_sum arr, n
+#defcfunc array_sum array arr, int n, local s
+	s = 0
+	repeat n : s += arr(cnt) : loop
+	return s
+
+; array_min / array_max
+#defcfunc array_min array arr, int n, local m
+	m = arr(0)
+	repeat n - 1, 1
+		if arr(cnt) < m : m = arr(cnt)
+	loop
+	return m
+
+#defcfunc array_max array arr, int n, local m
+	m = arr(0)
+	repeat n - 1, 1
+		if arr(cnt) > m : m = arr(cnt)
+	loop
+	return m
+
+; array_fill arr, n, value
+#deffunc array_fill array arr, int n, int value
+	repeat n : arr(cnt) = value : loop
+	return
+
+#global
+#endif

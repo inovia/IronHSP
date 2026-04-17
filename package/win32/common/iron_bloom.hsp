@@ -1,0 +1,52 @@
+;
+; iron_bloom.hsp - Bloom filter (probabilistic set)
+; Pure HSP implementation.
+;
+#ifndef __iron_bloom_hsp__
+#define __iron_bloom_hsp__
+#module iron_bloom
+
+dim _bf_bits, 1024
+dim _bf_size, 1
+
+#deffunc bloom_init int size
+	_bf_size = size
+	if _bf_size <= 0 : _bf_size = 8192
+	dim _bf_bits, _bf_size / 32 + 1
+	return
+
+; Simple hash functions
+#defcfunc _bf_hash1 str s, local h, local _bs1
+	h = 5381
+	_bs1 = s
+	repeat strlen(s)
+		h = h * 33 + peek(_bs1, cnt)
+		h = h & 0x7FFFFFFF
+	loop
+	return h \ _bf_size
+
+#defcfunc _bf_hash2 str s, local h, local _bs2
+	h = 0
+	_bs2 = s
+	repeat strlen(s)
+		h = h * 31 + peek(_bs2, cnt) + 1
+		h = h & 0x7FFFFFFF
+	loop
+	return h \ _bf_size
+
+#deffunc bloom_add str item, local h1, local h2
+	h1 = _bf_hash1(item)
+	h2 = _bf_hash2(item)
+	_bf_bits(h1 / 32) = _bf_bits(h1 / 32) | (1 << (h1 \ 32))
+	_bf_bits(h2 / 32) = _bf_bits(h2 / 32) | (1 << (h2 \ 32))
+	return
+
+#defcfunc bloom_contains str item, local h1, local h2
+	h1 = _bf_hash1(item)
+	h2 = _bf_hash2(item)
+	if (_bf_bits(h1 / 32) & (1 << (h1 \ 32))) == 0 : return 0
+	if (_bf_bits(h2 / 32) & (1 << (h2 \ 32))) == 0 : return 0
+	return 1
+
+#global
+#endif

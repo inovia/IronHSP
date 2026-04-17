@@ -1,0 +1,50 @@
+;
+; iron_statemachine.hsp - Finite state machine
+;
+#ifndef __iron_statemachine_hsp__
+#define __iron_statemachine_hsp__
+#module iron_statemachine
+
+sdim _sm_states, 64, 20
+dim _sm_current, 1
+dim _sm_count, 1
+sdim _sm_transitions, 256, 100
+dim _sm_tr_count, 1
+
+#deffunc sm_add_state str name
+	_sm_states(_sm_count) = name
+	_sm_count++
+	return _sm_count - 1
+
+#deffunc sm_set_state int state_id
+	_sm_current = state_id
+	return
+
+#defcfunc sm_get_state
+	return _sm_current
+
+#defcfunc sm_state_name
+	return _sm_states(_sm_current)
+
+#deffunc sm_add_transition int from_state, str event_name, int to_state
+	_sm_transitions(_sm_tr_count) = "" + from_state + ":" + event_name + ":" + to_state
+	_sm_tr_count++
+	return
+
+#deffunc sm_fire str event_name, local i, local tr, local p1, local p2, local from_s, local to_s
+	repeat _sm_tr_count
+		tr = _sm_transitions(cnt)
+		p1 = instr(tr, 0, ":")
+		p2 = instr(tr, p1+1, ":")
+		from_s = int(strmid(tr, 0, p1))
+		ev = strmid(tr, p1+1, p2)
+		to_s = int(strmid(tr, p1+p2+2, 10))
+		if from_s == _sm_current & ev == event_name {
+			_sm_current = to_s
+			return 0
+		}
+	loop
+	return -1
+
+#global
+#endif

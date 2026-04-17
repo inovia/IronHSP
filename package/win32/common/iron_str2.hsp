@@ -1,0 +1,88 @@
+;
+; iron_str2.hsp - String utilities
+;
+#ifndef __iron_str2_hsp__
+#define __iron_str2_hsp__
+#module iron_str2
+
+#defcfunc str_starts_with str _s1, str _p1, local _ss1, local _pp1
+	_ss1 = _s1 : _pp1 = _p1
+	if strlen(_ss1) < strlen(_pp1) : return 0
+	return strmid(_ss1, 0, strlen(_pp1)) == _pp1
+
+#defcfunc str_ends_with str _s2, str _p2, local _ss2, local _pp2, local _sl, local _pl
+	_ss2 = _s2 : _pp2 = _p2
+	_sl = strlen(_ss2) : _pl = strlen(_pp2)
+	if _sl < _pl : return 0
+	return strmid(_ss2, _sl - _pl, _pl) == _pp2
+
+#defcfunc str_repeat str _s3, int _n3, local _r3
+	_r3 = ""
+	repeat _n3 : _r3 += _s3 : loop
+	return _r3
+
+#defcfunc str_pad_left str _s4, int _w4, str _p4, local _r4
+	_r4 = _s4
+	repeat _w4 - strlen(_r4) : _r4 = _p4 + _r4 : loop
+	return _r4
+
+#defcfunc str_pad_right str _s5, int _w5, str _p5, local _r5
+	_r5 = _s5
+	repeat _w5 - strlen(_r5) : _r5 += _p5 : loop
+	return _r5
+
+#defcfunc str_count str _s6, str _sub6, local _c6, local _p6, local _ss6, local _found
+	_ss6 = _s6
+	_c6 = 0 : _p6 = 0
+	repeat
+		_found = instr(_ss6, _p6, _sub6)
+		if _found < 0 : break
+		_c6++ : _p6 = _p6 + _found + strlen(_sub6)
+		if _p6 >= strlen(_ss6) : break
+	loop
+	return _c6
+
+#defcfunc str_trim str _s7, local _ss7, local _i7, local _j7, local _c7
+	_ss7 = _s7
+	_i7 = 0
+	repeat strlen(_ss7)
+		_c7 = peek(_ss7, cnt)
+		if _c7 != ' ' & _c7 != 9 & _c7 != 10 & _c7 != 13 : break
+		_i7++
+	loop
+	_j7 = strlen(_ss7) - 1
+	repeat strlen(_ss7)
+		if _j7 <= _i7 : break
+		_c7 = peek(_ss7, _j7)
+		if _c7 != ' ' & _c7 != 9 & _c7 != 10 & _c7 != 13 : break
+		_j7--
+	loop
+	return strmid(_ss7, _i7, _j7 - _i7 + 1)
+
+#defcfunc str_upper str _s8, local _r8, local _c8
+	_r8 = _s8
+	repeat strlen(_r8)
+		_c8 = peek(_r8, cnt)
+		if _c8 >= 'a' & _c8 <= 'z' : poke _r8, cnt, _c8 - 32
+	loop
+	return _r8
+
+#defcfunc str_lower str _s9, local _r9, local _c9
+	_r9 = _s9
+	repeat strlen(_r9)
+		_c9 = peek(_r9, cnt)
+		if _c9 >= 'A' & _c9 <= 'Z' : poke _r9, cnt, _c9 + 32
+	loop
+	return _r9
+
+#defcfunc str_contains str _sa, str _sub_a, local _ssa
+	_ssa = _sa
+	return instr(_ssa, 0, _sub_a) >= 0
+
+#defcfunc str_replace str _sb, str _old_b, str _new_b, local _rb
+	_rb = _sb
+	strrep _rb, _old_b, _new_b
+	return _rb
+
+#global
+#endif

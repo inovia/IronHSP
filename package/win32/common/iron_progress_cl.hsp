@@ -1,0 +1,22 @@
+;
+; iron_progress_cl.hsp - CLI progress bar (tqdm-like)
+; CL runtime only (mes-based).
+;
+#ifndef __iron_progress_cl_hsp__
+#define __iron_progress_cl_hsp__
+#module iron_progress_cl
+
+#deffunc progress_show int current, int total, int width, local pct, local filled, local bar, local i
+	if total <= 0 : return
+	pct = current * 100 / total
+	filled = current * width / total
+	bar = "["
+	repeat width
+		if cnt < filled { bar += "#" } else { bar += "." }
+	loop
+	bar += "] " + pct + "% (" + current + "/" + total + ")"
+	mes bar
+	return
+
+#global
+#endif

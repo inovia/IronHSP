@@ -1,0 +1,45 @@
+;
+; iron_faker.hsp - Fake data generator
+;
+#ifndef __iron_faker_hsp__
+#define __iron_faker_hsp__
+#module iron_faker
+
+sdim _fk_first, 64, 20
+sdim _fk_last, 64, 20
+sdim _fk_domain, 64, 10
+sdim _fk_city, 64, 10
+
+#deffunc _faker_init
+	_fk_first(0)="Taro" : _fk_first(1)="Hanako" : _fk_first(2)="Ichiro"
+	_fk_first(3)="Yuki" : _fk_first(4)="Sakura" : _fk_first(5)="Kenji"
+	_fk_first(6)="Miki" : _fk_first(7)="Ryo" : _fk_first(8)="Aoi" : _fk_first(9)="Sora"
+	_fk_last(0)="Tanaka" : _fk_last(1)="Suzuki" : _fk_last(2)="Sato"
+	_fk_last(3)="Yamada" : _fk_last(4)="Watanabe" : _fk_last(5)="Ito"
+	_fk_last(6)="Nakamura" : _fk_last(7)="Kobayashi" : _fk_last(8)="Kato" : _fk_last(9)="Yoshida"
+	_fk_domain(0)="example.com" : _fk_domain(1)="test.org" : _fk_domain(2)="mail.jp"
+	_fk_domain(3)="sample.net" : _fk_domain(4)="demo.co.jp"
+	_fk_city(0)="Tokyo" : _fk_city(1)="Osaka" : _fk_city(2)="Nagoya"
+	_fk_city(3)="Fukuoka" : _fk_city(4)="Sapporo" : _fk_city(5)="Yokohama"
+	return
+
+#defcfunc fake_name
+	_faker_init
+	return _fk_first(rnd(10)) + " " + _fk_last(rnd(10))
+
+#defcfunc fake_email
+	_faker_init
+	return str_lower(_fk_first(rnd(10))) + "." + str_lower(_fk_last(rnd(10))) + "@" + _fk_domain(rnd(5))
+
+#defcfunc fake_phone
+	return "0" + (rnd(9)+1) + "0-" + strf("%04d", rnd(10000)) + "-" + strf("%04d", rnd(10000))
+
+#defcfunc fake_address
+	_faker_init
+	return _fk_city(rnd(6)) + " " + (rnd(9)+1) + "-" + (rnd(30)+1) + "-" + (rnd(20)+1)
+
+#defcfunc fake_int int vmin, int vmax
+	return vmin + rnd(vmax - vmin + 1)
+
+#global
+#endif
