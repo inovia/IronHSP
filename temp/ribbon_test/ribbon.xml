@@ -8,21 +8,43 @@
 
     <!-- File Group -->
     <Command Name="cmdGrpFile" Id="20" LabelTitle="File" />
-    <Command Name="cmdNew"    Id="101" LabelTitle="New" />
-    <Command Name="cmdOpen"   Id="102" LabelTitle="Open" />
-    <Command Name="cmdSave"   Id="103" LabelTitle="Save" />
+    <Command Name="cmdNew" Id="101" LabelTitle="New">
+      <Command.LargeImages><Image Source="res\new32.bmp" /></Command.LargeImages>
+      <Command.SmallImages><Image Source="res\new16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdOpen" Id="102" LabelTitle="Open">
+      <Command.LargeImages><Image Source="res\open32.bmp" /></Command.LargeImages>
+      <Command.SmallImages><Image Source="res\open16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdSave" Id="103" LabelTitle="Save">
+      <Command.LargeImages><Image Source="res\save32.bmp" /></Command.LargeImages>
+      <Command.SmallImages><Image Source="res\save16.bmp" /></Command.SmallImages>
+    </Command>
 
     <!-- Clipboard Group -->
     <Command Name="cmdGrpClipboard" Id="21" LabelTitle="Clipboard" />
-    <Command Name="cmdPaste"  Id="106" LabelTitle="Paste" />
-    <Command Name="cmdCut"    Id="104" LabelTitle="Cut" />
-    <Command Name="cmdCopy"   Id="105" LabelTitle="Copy" />
+    <Command Name="cmdPaste" Id="106" LabelTitle="Paste">
+      <Command.LargeImages><Image Source="res\paste32.bmp" /></Command.LargeImages>
+      <Command.SmallImages><Image Source="res\paste16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdCut" Id="104" LabelTitle="Cut">
+      <Command.SmallImages><Image Source="res\cut16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdCopy" Id="105" LabelTitle="Copy">
+      <Command.SmallImages><Image Source="res\copy16.bmp" /></Command.SmallImages>
+    </Command>
 
     <!-- Font Group -->
     <Command Name="cmdGrpFont" Id="22" LabelTitle="Font" />
-    <Command Name="cmdBold"      Id="201" LabelTitle="Bold" />
-    <Command Name="cmdItalic"    Id="202" LabelTitle="Italic" />
-    <Command Name="cmdUnderline" Id="203" LabelTitle="Underline" />
+    <Command Name="cmdBold" Id="201" LabelTitle="Bold">
+      <Command.SmallImages><Image Source="res\bold16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdItalic" Id="202" LabelTitle="Italic">
+      <Command.SmallImages><Image Source="res\italic16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdUnderline" Id="203" LabelTitle="Underline">
+      <Command.SmallImages><Image Source="res\underline16.bmp" /></Command.SmallImages>
+    </Command>
     <Command Name="cmdFontColor" Id="205" LabelTitle="Font Color" />
 
     <!-- Paragraph Group -->
@@ -35,9 +57,16 @@
 
     <!-- Editing Group -->
     <Command Name="cmdGrpEditing" Id="24" LabelTitle="Editing" />
-    <Command Name="cmdFind"    Id="601" LabelTitle="Find" />
-    <Command Name="cmdReplace" Id="602" LabelTitle="Replace" />
-    <Command Name="cmdSelectAll" Id="603" LabelTitle="Select All" />
+    <Command Name="cmdFind" Id="601" LabelTitle="Find">
+      <Command.LargeImages><Image Source="res\find32.bmp" /></Command.LargeImages>
+      <Command.SmallImages><Image Source="res\find16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdReplace" Id="602" LabelTitle="Replace">
+      <Command.SmallImages><Image Source="res\replace16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdSelectAll" Id="603" LabelTitle="Select All">
+      <Command.SmallImages><Image Source="res\selectall16.bmp" /></Command.SmallImages>
+    </Command>
     <Command Name="cmdUndo"    Id="604" LabelTitle="Undo" />
     <Command Name="cmdRedo"    Id="605" LabelTitle="Redo" />
 

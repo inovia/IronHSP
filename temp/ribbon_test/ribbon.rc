@@ -30,16 +30,22 @@ BEGIN
     cmdNew_LabelTitle_RESID L"New" /* LabelTitle cmdNew_LabelTitle_RESID: (null) */
 END
 
+cmdNew_SmallImages_RESID    BITMAP    "res\new16.bmp" /* SmallImages cmdNew_SmallImages_RESID: (null) */
+cmdNew_LargeImages_RESID    BITMAP    "res\new32.bmp" /* LargeImages cmdNew_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdOpen_LabelTitle_RESID L"Open" /* LabelTitle cmdOpen_LabelTitle_RESID: (null) */
 END
 
+cmdOpen_SmallImages_RESID    BITMAP    "res\open16.bmp" /* SmallImages cmdOpen_SmallImages_RESID: (null) */
+cmdOpen_LargeImages_RESID    BITMAP    "res\open32.bmp" /* LargeImages cmdOpen_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdSave_LabelTitle_RESID L"Save" /* LabelTitle cmdSave_LabelTitle_RESID: (null) */
 END
 
+cmdSave_SmallImages_RESID    BITMAP    "res\save16.bmp" /* SmallImages cmdSave_SmallImages_RESID: (null) */
+cmdSave_LargeImages_RESID    BITMAP    "res\save32.bmp" /* LargeImages cmdSave_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdGrpClipboard_LabelTitle_RESID L"Clipboard" /* LabelTitle cmdGrpClipboard_LabelTitle_RESID: (null) */
@@ -50,16 +56,20 @@ BEGIN
     cmdPaste_LabelTitle_RESID L"Paste" /* LabelTitle cmdPaste_LabelTitle_RESID: (null) */
 END
 
+cmdPaste_SmallImages_RESID    BITMAP    "res\paste16.bmp" /* SmallImages cmdPaste_SmallImages_RESID: (null) */
+cmdPaste_LargeImages_RESID    BITMAP    "res\paste32.bmp" /* LargeImages cmdPaste_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdCut_LabelTitle_RESID L"Cut" /* LabelTitle cmdCut_LabelTitle_RESID: (null) */
 END
 
+cmdCut_SmallImages_RESID    BITMAP    "res\cut16.bmp" /* SmallImages cmdCut_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdCopy_LabelTitle_RESID L"Copy" /* LabelTitle cmdCopy_LabelTitle_RESID: (null) */
 END
 
+cmdCopy_SmallImages_RESID    BITMAP    "res\copy16.bmp" /* SmallImages cmdCopy_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdGrpFont_LabelTitle_RESID L"Font" /* LabelTitle cmdGrpFont_LabelTitle_RESID: (null) */
@@ -70,16 +80,19 @@ BEGIN
     cmdBold_LabelTitle_RESID L"Bold" /* LabelTitle cmdBold_LabelTitle_RESID: (null) */
 END
 
+cmdBold_SmallImages_RESID    BITMAP    "res\bold16.bmp" /* SmallImages cmdBold_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdItalic_LabelTitle_RESID L"Italic" /* LabelTitle cmdItalic_LabelTitle_RESID: (null) */
 END
 
+cmdItalic_SmallImages_RESID    BITMAP    "res\italic16.bmp" /* SmallImages cmdItalic_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdUnderline_LabelTitle_RESID L"Underline" /* LabelTitle cmdUnderline_LabelTitle_RESID: (null) */
 END
 
+cmdUnderline_SmallImages_RESID    BITMAP    "res\underline16.bmp" /* SmallImages cmdUnderline_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdFontColor_LabelTitle_RESID L"Font Color" /* LabelTitle cmdFontColor_LabelTitle_RESID: (null) */
@@ -125,16 +138,20 @@ BEGIN
     cmdFind_LabelTitle_RESID L"Find" /* LabelTitle cmdFind_LabelTitle_RESID: (null) */
 END
 
+cmdFind_SmallImages_RESID    BITMAP    "res\find16.bmp" /* SmallImages cmdFind_SmallImages_RESID: (null) */
+cmdFind_LargeImages_RESID    BITMAP    "res\find32.bmp" /* LargeImages cmdFind_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdReplace_LabelTitle_RESID L"Replace" /* LabelTitle cmdReplace_LabelTitle_RESID: (null) */
 END
 
+cmdReplace_SmallImages_RESID    BITMAP    "res\replace16.bmp" /* SmallImages cmdReplace_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdSelectAll_LabelTitle_RESID L"Select All" /* LabelTitle cmdSelectAll_LabelTitle_RESID: (null) */
 END
 
+cmdSelectAll_SmallImages_RESID    BITMAP    "res\selectall16.bmp" /* SmallImages cmdSelectAll_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdUndo_LabelTitle_RESID L"Undo" /* LabelTitle cmdUndo_LabelTitle_RESID: (null) */

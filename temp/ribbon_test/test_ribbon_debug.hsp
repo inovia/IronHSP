@@ -1,0 +1,33 @@
+	#include "iron_ribbon_native.hsp"
+
+	screen 0, 900, 600
+	title "Ribbon Debug Test"
+
+	; Init
+	ribbon_native_init
+	r1 = stat
+
+	; Load BML (with .rc + .h for string table)
+	ribbon_native_load_bml dir_cur + "\\ribbon.bml"
+	r2 = stat
+
+	h = ribbon_native_height()
+
+	; Display below ribbon
+	pos 10, h + 10
+	mes "1. init: stat=" + r1
+	mes "2. load_bml: stat=" + r2
+	mes "3. height: " + h
+	mes ""
+	mes "Click ribbon buttons!"
+	mes "(Close window to exit)"
+
+	; Event mode
+	ribbon_native_set_event_mode 1, 0x80C8
+	oncmd gosub *on_ribbon, 0x80C8
+	stop
+
+*on_ribbon
+	pos 10, h + 150
+	mes "Event: CMD=" + wparam + " VERB=" + lparam + "    "
+	return
