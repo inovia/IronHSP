@@ -120,12 +120,14 @@
 ; reg_exists(hkey, subkey, name) → 1/0
 ;------------------------------------------------------------
 #defcfunc reg_exists int hkey, str subkey, str name, \
-	local hk, local ret, local bsz
+	local hk, local ret, local bsz, local _rtype2, local _dummy2
 	hk = 0
 	ret = _RegOpenKeyExW(hkey, subkey, 0, _KEY_READ, hk)
 	if ret != 0 : return 0
-	bsz = 0
-	ret = _RegQueryValueExW(hk, name, 0, 0, 0, bsz)
+	bsz = 4
+	_rtype2 = 0
+	sdim _dummy2, 4
+	ret = _RegQueryValueExW(hk, name, 0, _rtype2, _dummy2, bsz)
 	_r = _RegCloseKey(hk)
 	if ret == 0 : return 1
 	return 0
