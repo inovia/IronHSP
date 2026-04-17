@@ -3,11 +3,13 @@
 %ver
 3.8
 %date
-2026/04/16
+2026/04/17
 %author
 IronHSP
+%note
+Win32 API (W版 Unicode)。外部DLL不要。
 %type
-ユーザー定義命令
+User command
 %group
 レジストリ
 
@@ -15,9 +17,14 @@ IronHSP
 reg_read
 レジストリ値を読み取る
 %prm
-hkey, "subkey", "name"
+hkey, "subkey", "name", var_result
+hkey : HKEY_CURRENT_USER 等
+var_result : 結果を格納する変数
 %inst
-refstr に値。stat=0 で成功。
+stat=0 で成功。結果は第4引数 (var) に格納されます。
+%sample
+	reg_read HKEY_CURRENT_USER, "Environment", "TEMP", result
+	if stat == 0 : mes result
 %href
 reg_write
 
@@ -29,25 +36,21 @@ hkey, "subkey", "name", "value"
 %inst
 REG_SZ 型。stat=0 で成功。
 %href
-reg_write_dword
+reg_read
 
 %index
 reg_write_dword
 DWORD 値を書き込む
 %prm
 hkey, "subkey", "name", value
-%inst
-REG_DWORD 型。
 %href
-reg_delete_value
+reg_write
 
 %index
 reg_delete_value
 値を削除
 %prm
 hkey, "subkey", "name"
-%inst
-
 %href
 reg_delete_key
 
@@ -56,10 +59,8 @@ reg_delete_key
 キーを削除
 %prm
 hkey, "subkey"
-%inst
-
 %href
-reg_exists
+reg_delete_value
 
 %index
 reg_exists
@@ -67,4 +68,6 @@ reg_exists
 %prm
 (hkey, "subkey", "name")
 %inst
-存在すれば 1、なければ 0。
+1=存在, 0=なし
+%href
+reg_read
