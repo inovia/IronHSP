@@ -42,23 +42,25 @@
 #module iron_fs
 
 #uselib "kernel32.dll"
-#cfunc _CopyFileA        "CopyFileA" str, str, int
-#cfunc _MoveFileA        "MoveFileA" str, str
-#cfunc _DeleteFileA      "DeleteFileA" str
-#cfunc _GetFileAttributesA "GetFileAttributesA" str
-#cfunc _SetFileAttributesA "SetFileAttributesA" str, int
-#cfunc _CreateDirectoryA "CreateDirectoryA" str, int
-#cfunc _RemoveDirectoryA "RemoveDirectoryA" str
-#cfunc _GetTempFileNameA "GetTempFileNameA" str, str, int, var
-#cfunc _GetTempPathA2    "GetTempPathA" int, var
-#cfunc _FindFirstFileA   "FindFirstFileA" str, var
-#cfunc _FindNextFileA    "FindNextFileA" int, var
+#cfunc _CopyFileW        "CopyFileW" wstr, wstr, int
+#cfunc _MoveFileW        "MoveFileW" wstr, wstr
+#cfunc _DeleteFileW      "DeleteFileW" wstr
+#cfunc _GetFileAttributesW "GetFileAttributesW" wstr
+#cfunc _SetFileAttributesW "SetFileAttributesW" wstr, int
+#cfunc _CreateDirectoryW "CreateDirectoryW" wstr, int
+#cfunc _RemoveDirectoryW "RemoveDirectoryW" wstr
+#cfunc _GetTempFileNameW "GetTempFileNameW" var, wstr, int, var
+#cfunc _GetTempPathW     "GetTempPathW" int, var
+#cfunc _FindFirstFileW   "FindFirstFileW" wstr, var
+#cfunc _FindNextFileW    "FindNextFileW" int, var
 #cfunc _FindClose2       "FindClose" int
 #cfunc _GetFileSizeEx    "GetFileSize" int, var
-#cfunc _CreateFileA      "CreateFileA" str, int, int, int, int, int, int
+#cfunc _CreateFileW      "CreateFileW" wstr, int, int, int, int, int, int
 #cfunc _CloseHandle3     "CloseHandle" int
 #cfunc _SetFileTime2     "SetFileTime" int, int, int, var
 #cfunc _GetSystemTimeAsFileTime "GetSystemTimeAsFileTime" var
+; UTF-16 → UTF-8 変換用
+#cfunc _WC2MB "WideCharToMultiByte" int, int, var, int, var, int, int, int
 
 ; FILE_ATTRIBUTE constants
 #define _ATTR_READONLY  0x01
@@ -72,19 +74,19 @@
 ;------------------------------------------------------------
 
 #deffunc fs_copy str src, str dst
-	if _CopyFileA(src, dst, 0) == 0 : return -1
+	if _CopyFileW(src, dst, 0) == 0 : return -1
 	return 0
 
 #deffunc fs_move str src, str dst
-	if _MoveFileA(src, dst) == 0 : return -1
+	if _MoveFileW(src, dst) == 0 : return -1
 	return 0
 
 #deffunc fs_rename str oldname, str newname
-	if _MoveFileA(oldname, newname) == 0 : return -1
+	if _MoveFileW(oldname, newname) == 0 : return -1
 	return 0
 
 #defcfunc fs_size str path, local _h, local _hi
-	_h = _CreateFileA(path, 0x80000000, 1, 0, 3, 0, 0)
+	_h = _CreateFileW(path, 0x80000000, 1, 0, 3, 0, 0)
 	if _h == -1 : return -1
 	_hi = 0
 	sz = _GetFileSizeEx(_h, _hi)
@@ -92,43 +94,43 @@
 	return sz
 
 #defcfunc fs_attr str path
-	return _GetFileAttributesA(path)
+	return _GetFileAttributesW(path)
 
 #defcfunc fs_is_readonly str path, local _a
-	_a = _GetFileAttributesA(path)
+	_a = _GetFileAttributesW(path)
 	if _a == _ATTR_INVALID : return 0
 	return (_a & _ATTR_READONLY) != 0
 
 #defcfunc fs_is_hidden str path, local _a
-	_a = _GetFileAttributesA(path)
+	_a = _GetFileAttributesW(path)
 	if _a == _ATTR_INVALID : return 0
 	return (_a & _ATTR_HIDDEN) != 0
 
 #defcfunc fs_is_dir str path, local _a
-	_a = _GetFileAttributesA(path)
+	_a = _GetFileAttributesW(path)
 	if _a == _ATTR_INVALID : return 0
 	return (_a & _ATTR_DIRECTORY) != 0
 
 #defcfunc fs_is_file str path, local _a
-	_a = _GetFileAttributesA(path)
+	_a = _GetFileAttributesW(path)
 	if _a == _ATTR_INVALID : return 0
 	if (_a & _ATTR_DIRECTORY) != 0 : return 0
 	return 1
 
 #deffunc fs_set_readonly str path, int sw, local _a
-	_a = _GetFileAttributesA(path)
+	_a = _GetFileAttributesW(path)
 	if _a == _ATTR_INVALID : return -1
 	if sw {
 		_a = _a | _ATTR_READONLY
 	} else {
 		_a = _a & (_ATTR_READONLY ^ 0xFFFFFFFF)
 	}
-	_r = _SetFileAttributesA(path, _a)
+	_r = _SetFileAttributesW(path, _a)
 	return 0
 
 #deffunc fs_touch str path, local _h, local _ft
 	; Create or open existing
-	_h = _CreateFileA(path, 0x40000000, 0, 0, 4, 0, 0)
+	_h = _CreateFileW(path, 0x40000000, 0, 0, 4, 0, 0)
 	if _h == -1 : return -1
 	; Update modification time to now
 	sdim _ft, 8
@@ -158,12 +160,15 @@
 	notesave path
 	return
 
-#defcfunc fs_tempfile local _tmpdir, local _tmpfile, local _tr
-	sdim _tmpdir, 260
-	_tr = _GetTempPathA2(260, _tmpdir)
-	sdim _tmpfile, 260
-	_tr = _GetTempFileNameA(_tmpdir, "hsp", 0, _tmpfile)
-	return _tmpfile
+#defcfunc fs_tempfile local _tmpdir, local _tmpfile, local _tr, local _u8
+	sdim _tmpdir, 520
+	_tr = _GetTempPathW(260, _tmpdir)
+	sdim _tmpfile, 520
+	_tr = _GetTempFileNameW(_tmpdir, "hsp", 0, _tmpfile)
+	; UTF-16 → UTF-8
+	sdim _u8, 520
+	_tr = _WC2MB(65001, 0, _tmpfile, -1, _u8, 520, 0, 0)
+	return _u8
 
 #defcfunc fs_ext str path
 	return getpath(path, 2)
@@ -177,7 +182,7 @@
 ; Check if file is locked (in use by another process)
 #defcfunc fs_is_locked str path, local _lh
 	; Try to open with exclusive access
-	_lh = _CreateFileA(path, 0xC0000000, 0, 0, 3, 0, 0)
+	_lh = _CreateFileW(path, 0xC0000000, 0, 0, 3, 0, 0)
 	if _lh == -1 : return 1  ; locked
 	_r = _CloseHandle3(_lh)
 	return 0  ; not locked
@@ -203,26 +208,29 @@
 		built += seg
 		; Skip drive letter (C:)
 		if strlen(built) > 2 {
-			_r = _CreateDirectoryA(built, 0)
+			_r = _CreateDirectoryW(built, 0)
 		}
 		if i < 0 : break
 	loop
 	return 0
 
 ; List files in directory
-#deffunc fs_listfiles str dir, str pattern, local _fd, local _hf, local _res, local _fn, local fpath
-	sdim _fd, 592
+#deffunc fs_listfiles str dir, str pattern, local _fd, local _hf, local _res, local _fn, local fpath, local _wn, local _cvr
+	sdim _fd, 624  ; WIN32_FIND_DATAW
 	if pattern == "" {
 		fpath = dir + "\\*"
 	} else {
 		fpath = dir + "\\" + pattern
 	}
-	_hf = _FindFirstFileA(fpath, _fd)
+	_hf = _FindFirstFileW(fpath, _fd)
 	if _hf == -1 : return ""
 	_res = ""
 	repeat
-		sdim _fn, 260
-		memcpy _fn, _fd, 260, 0, 44
+		; cFileName at offset 44, 260 wchars = 520 bytes
+		sdim _wn, 520
+		memcpy _wn, _fd, 520, 0, 44
+		sdim _fn, 520
+		_cvr = _WC2MB(65001, 0, _wn, -1, _fn, 520, 0, 0)
 		; Skip . and ..
 		if _fn != "." {
 			if _fn != ".." {
@@ -234,32 +242,34 @@
 				}
 			}
 		}
-		sdim _fd, 592
-		if _FindNextFileA(_hf, _fd) == 0 : break
+		sdim _fd, 624
+		if _FindNextFileW(_hf, _fd) == 0 : break
 	loop
 	_r = _FindClose2(_hf)
 	return _res
 
 ; List subdirectories
-#deffunc fs_listdirs str dir, local _fd2, local _hf2, local _res2, local _fn2, local _a2
-	sdim _fd2, 592
-	_hf2 = _FindFirstFileA(dir + "\\*", _fd2)
+#deffunc fs_listdirs str dir, local _fd2, local _hf2, local _res2, local _fn2, local _a2, local _wn2, local _cvr2
+	sdim _fd2, 624
+	_hf2 = _FindFirstFileW(dir + "\\*", _fd2)
 	if _hf2 == -1 : return ""
 	_res2 = ""
 	repeat
-		sdim _fn2, 260
-		memcpy _fn2, _fd2, 260, 0, 44
+		sdim _wn2, 520
+		memcpy _wn2, _fd2, 520, 0, 44
+		sdim _fn2, 520
+		_cvr2 = _WC2MB(65001, 0, _wn2, -1, _fn2, 520, 0, 0)
 		if _fn2 != "." {
 			if _fn2 != ".." {
 				_a2 = lpeek(_fd2, 0)
 				if (_a2 & _ATTR_DIRECTORY) != 0 {
 					if _res2 != "" : _res2 += "\n"
-					_res += _fn
+					_res2 += _fn2
 				}
 			}
 		}
-		sdim _fd2, 592
-		if _FindNextFileA(_hf, _fd2) == 0 : break
+		sdim _fd2, 624
+		if _FindNextFileW(_hf2, _fd2) == 0 : break
 	loop
 	_r = _FindClose2(_hf2)
 	return _res2
@@ -272,7 +282,7 @@
 	notesel files
 	repeat notemax
 		noteget f, cnt
-		if f != "" : _r = _DeleteFileA(path) + "\\" + f
+		if f != "" : _r = _DeleteFileW(path) + "\\" + f
 	loop
 	; Recurse into subdirs
 	fs_listdirs path
@@ -282,7 +292,7 @@
 		noteget f, cnt
 		if f != "" : fs_rmdir_r path + "\\" + f
 	loop
-	_r = _RemoveDirectoryA(path)
+	_r = _RemoveDirectoryW(path)
 	return
 
 #global
