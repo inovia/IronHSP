@@ -1,0 +1,3 @@
+	; #include "iron_dotenv.hsp"
+	; dotenv_load ".env"
+	mes "dotenv sample - create .env file first"

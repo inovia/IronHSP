@@ -1,0 +1,5 @@
+	#include "iron_str2.hsp"
+	#include "iron_faker.hsp"
+	repeat 5
+		mes fake_name() + " | " + fake_email() + " | " + fake_phone()
+	loop

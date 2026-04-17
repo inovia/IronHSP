@@ -1,0 +1,4 @@
+	#include "iron_cache.hsp"
+	cache_set "key1", "value1", 60
+	mes "key1=" + cache_get("key1")
+	mes "has=" + cache_has("key1")

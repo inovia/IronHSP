@@ -56,6 +56,7 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **D&D (iron_dragdrop)** / **クリップボード (iron_clipboard2)** / **印刷 (iron_print)** / **GDI+ (iron_gdiplus)** / **ドッキング (iron_docking)** / **リボン (iron_ribbon2)**
 - **Windows Ribbon Framework (`iron_ribbon_native.hsp`)** — 本物の UIRibbon COM。uicc.exe で XML → BML コンパイル → 画像+文字列自動埋め込み → ロード。[専用ドキュメント](docs/ribbon_guide.html)
 - **Math.NET Numerics (`iron_math_net.hsp`)** — 統計/分布/線形代数/補間。MathNet.Numerics.dll 同梱
+- **テスト (`iron_test`)** / **配列操作 (`iron_array2`)** / **文字列拡張 (`iron_str2`)** / **色変換 (`iron_color`)** / **ヒューマナイズ (`iron_humanize`)** / **再帰検索 (`iron_glob`)** / **テキスト差分 (`iron_diff`)** / **Stack/Queue (`iron_collection`)** / **偽データ (`iron_faker`)** / **YAML (`iron_yaml`)** / **.env (`iron_dotenv`)** / **CLI 表 (`iron_table2`)** / **プログレスバー (`iron_progress_cl`)** / **Word (`iron_docx`)** / **PowerPoint (`iron_pptx`)** / **バーコード (`iron_barcode`)** / **スクレイピング (`iron_scraper`)** / **キャッシュ (`iron_cache`)** / **Pub/Sub (`iron_event`)** / **リトライ (`iron_retry`)** / **ステートマシン (`iron_statemachine`)** / **MessagePack (`iron_msgpack`)** / **Bloom フィルタ (`iron_bloom`)**
 
 ### 新規プラグイン
 

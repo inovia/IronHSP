@@ -1,0 +1,6 @@
+	#include "iron_str2.hsp"
+	mes str_starts_with("hello", "he")
+	mes str_repeat("ab", 3)
+	mes str_trim("  hello  ")
+	mes str_upper("hello")
+	mes str_count("abcabc", "a")

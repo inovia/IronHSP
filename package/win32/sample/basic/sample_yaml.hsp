@@ -1,0 +1,6 @@
+	#include "iron_str2.hsp"
+	#include "iron_yaml.hsp"
+	yml = "name: IronHSP\nversion: 3.8\nauthor: inovia"
+	yaml_load yml
+	mes "name=" + yaml_get("name")
+	mes "version=" + yaml_get("version")

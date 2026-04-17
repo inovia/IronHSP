@@ -1,0 +1,6 @@
+	#include "iron_bloom.hsp"
+	bloom_init 1024
+	bloom_add "hello"
+	bloom_add "world"
+	mes "hello: " + bloom_contains("hello")
+	mes "xyz: " + bloom_contains("xyz")

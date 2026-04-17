@@ -1,0 +1,4 @@
+	#include "iron_humanize.hsp"
+	mes humanize_bytes(2621440)
+	mes humanize_seconds(3661)
+	mes humanize_number(1234567)

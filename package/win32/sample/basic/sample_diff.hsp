@@ -1,0 +1,5 @@
+	#include "iron_diff.hsp"
+	old = "line1\nline2\nline3"
+	new2 = "line1\nmodified\nline3\nline4"
+	diff_text old, new2
+	mes refstr

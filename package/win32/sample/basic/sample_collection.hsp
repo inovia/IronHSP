@@ -1,0 +1,5 @@
+	#include "iron_collection.hsp"
+	stack_push 10 : stack_push 20 : stack_push 30
+	mes "pop=" + stack_pop()
+	mes "peek=" + stack_peek()
+	mes "size=" + stack_size()

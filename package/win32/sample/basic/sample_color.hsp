@@ -1,0 +1,4 @@
+	#include "iron_color.hsp"
+	mes color_rgb2hex(255, 0, 0)
+	color_hex2rgb "#00FF00", r, g, b
+	mes "R=" + r + " G=" + g + " B=" + b

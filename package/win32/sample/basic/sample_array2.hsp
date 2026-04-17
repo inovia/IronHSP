@@ -1,0 +1,7 @@
+	#include "iron_array2.hsp"
+	dim a, 5
+	a = 3, 1, 4, 1, 5
+	mes "sum=" + array_sum(a, 5)
+	mes "min=" + array_min(a, 5)
+	mes "max=" + array_max(a, 5)
+	mes "unique=" + array_unique(a, 5)

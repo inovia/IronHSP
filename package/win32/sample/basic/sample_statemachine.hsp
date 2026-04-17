@@ -1,0 +1,12 @@
+	#include "iron_statemachine.hsp"
+	sm_add_state "idle"
+	sm_add_state "running"
+	sm_add_state "done"
+	sm_set_state 0
+	sm_add_transition 0, "start", 1
+	sm_add_transition 1, "finish", 2
+	mes sm_state_name()
+	sm_fire "start"
+	mes sm_state_name()
+	sm_fire "finish"
+	mes sm_state_name()

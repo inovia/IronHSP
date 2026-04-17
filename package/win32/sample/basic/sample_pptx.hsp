@@ -1,0 +1,6 @@
+	; #include "hsp3_net_64.as"
+	; #include "iron_pptx.hsp"
+	; pptx_create "test.pptx"
+	; pptx_add_slide "Title", "Content here"
+	; pptx_save
+	mes "pptx sample - hsp3net GUI required"
