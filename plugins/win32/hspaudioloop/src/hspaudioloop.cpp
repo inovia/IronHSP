@@ -9,9 +9,27 @@
 #include <mmdeviceapi.h>
 #include <audioclient.h>
 #include <cstdio>
+#include <string>
 #include <cstring>
 
 #pragma comment(lib, "ole32.lib")
+
+// UTF-8 → UTF-16 helper
+static std::wstring utf8_to_wide(const char *s) {
+    if (!s || !s[0]) return L"";
+    int len = MultiByteToWideChar(CP_UTF8, 0, s, -1, NULL, 0);
+    std::wstring w(len, 0);
+    MultiByteToWideChar(CP_UTF8, 0, s, -1, &w[0], len);
+    return w;
+}
+static std::string wide_to_utf8(const wchar_t *w) {
+    if (!w || !w[0]) return "";
+    int len = WideCharToMultiByte(CP_UTF8, 0, w, -1, NULL, 0, NULL, NULL);
+    std::string s(len, 0);
+    WideCharToMultiByte(CP_UTF8, 0, w, -1, &s[0], len, NULL, NULL);
+    return s;
+}
+
 
 #define EXPORT extern "C" __declspec(dllexport)
 
@@ -78,7 +96,7 @@ EXPORT int __cdecl audioloop_start(const char *filename)
     hr = g_client->GetService(__uuidof(IAudioCaptureClient), (void **)&g_capture);
     if (FAILED(hr)) return -7;
 
-    g_wavfp = fopen(filename, "wb");
+    g_wavfp = _wfopen(utf8_to_wide(filename).c_str(), L"wb");
     if (!g_wavfp) return -8;
 
     // Write placeholder header

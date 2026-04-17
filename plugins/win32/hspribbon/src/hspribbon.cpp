@@ -31,6 +31,23 @@
 #pragma comment(lib, "propsys.lib")
 #pragma comment(lib, "shlwapi.lib")
 
+// UTF-8 → UTF-16 helper
+static std::wstring utf8_to_wide(const char *s) {
+    if (!s || !s[0]) return L"";
+    int len = MultiByteToWideChar(CP_UTF8, 0, s, -1, NULL, 0);
+    std::wstring w(len, 0);
+    MultiByteToWideChar(CP_UTF8, 0, s, -1, &w[0], len);
+    return w;
+}
+static std::string wide_to_utf8(const wchar_t *w) {
+    if (!w || !w[0]) return "";
+    int len = WideCharToMultiByte(CP_UTF8, 0, w, -1, NULL, 0, NULL, NULL);
+    std::string s(len, 0);
+    WideCharToMultiByte(CP_UTF8, 0, w, -1, &s[0], len, NULL, NULL);
+    return s;
+}
+
+
 #define EXPORT extern "C" __declspec(dllexport)
 
 //============================================================
@@ -177,7 +194,7 @@ EXPORT int __cdecl ribbon_load_markup(const wchar_t *resourceName)
 EXPORT int __cdecl ribbon_load_dll(const char *dllPath, const wchar_t *resourceName)
 {
     if (!g_pFramework) return -1;
-    HMODULE hMod = LoadLibraryA(dllPath);
+    HMODULE hMod = LoadLibraryW(utf8_to_wide(dllPath).c_str());
     if (!hMod) return -2;
     HRESULT hr = g_pFramework->LoadUI(hMod, resourceName);
     if (FAILED(hr)) return -3;
@@ -342,7 +359,7 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
     if (!g_pFramework) return -1;
 
     // Read BML file
-    FILE *fp = fopen(bmlPath, "rb");
+    FILE *fp = _wfopen(utf8_to_wide(bmlPath).c_str(), L"rb");
     if (!fp) return -2;
     fseek(fp, 0, SEEK_END);
     long bmlSize = ftell(fp);
@@ -377,10 +394,10 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
                        GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                        (LPCSTR)&ribbon_load_bml, &hSelf);
     GetModuleFileNameA(hSelf, selfPath, MAX_PATH);
-    CopyFileA(selfPath, dllPath, FALSE);
+    CopyFileW(utf8_to_wide(selfPath).c_str(), utf8_to_wide(dllPath).c_str(), FALSE);
 
     // Update resources in the copy
-    HANDLE hUpdate = BeginUpdateResourceA(dllPath, TRUE); // TRUE = delete all existing resources
+    HANDLE hUpdate = BeginUpdateResourceW(utf8_to_wide(dllPath).c_str(), TRUE); // TRUE = delete all existing resources
     if (!hUpdate) {
         free(bmlData);
         return -3;
@@ -403,7 +420,7 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
     // Collect all string table entries: map<strId, wstring>
     std::map<int, std::wstring> stringEntries;
 
-    FILE *fpRc = fopen(rcPath, "r");
+    FILE *fpRc = _wfopen(utf8_to_wide(rcPath).c_str(), L"r");
     if (fpRc) {
         char line[1024];
         bool inStringTable = false;
@@ -434,7 +451,7 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
                 int strId = 0;
                 char searchStr[300];
                 sprintf(searchStr, "#define %s ", macroName);
-                FILE *fpH = fopen(hPath, "r");
+                FILE *fpH = _wfopen(utf8_to_wide(hPath).c_str(), L"r");
                 if (fpH) {
                     char hline[512];
                     while (fgets(hline, sizeof(hline), fpH)) {
@@ -485,7 +502,7 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
 
     // Also parse BITMAP entries from .rc and embed them
     // Format: <macro_RESID>    BITMAP    "filepath"
-    fpRc = fopen(rcPath, "r");
+    fpRc = _wfopen(utf8_to_wide(rcPath).c_str(), L"r");
     if (fpRc) {
         // Get base directory of .bml file for relative paths
         char baseDir[MAX_PATH];
@@ -517,7 +534,7 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
             int bmpResId = 0;
             char bsearch[300];
             sprintf(bsearch, "#define %s ", bmacro);
-            FILE *fpBH = fopen(hPath, "r");
+            FILE *fpBH = _wfopen(utf8_to_wide(hPath).c_str(), L"r");
             if (fpBH) {
                 char bhl[512];
                 while (fgets(bhl, sizeof(bhl), fpBH)) {
@@ -540,7 +557,7 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
                     sprintf(bmpFullPath, "%s%s", baseDir, bmpQuote);
                 }
                 // Read BMP file (skip 14-byte BMP file header, embed DIB data)
-                FILE *fbmp = fopen(bmpFullPath, "rb");
+                FILE *fbmp = _wfopen(utf8_to_wide(bmpFullPath).c_str(), L"rb");
                 if (fbmp) {
                     fseek(fbmp, 0, SEEK_END);
                     long bmpFileSize = ftell(fbmp);
@@ -561,10 +578,10 @@ EXPORT int __cdecl ribbon_load_bml(const char *bmlPath)
         fclose(fpRc);
     }
 
-    EndUpdateResourceA(hUpdate, FALSE);
+    EndUpdateResourceW(hUpdate, FALSE);
 
     // Load the DLL
-    g_hResDll = LoadLibraryA(dllPath);
+    g_hResDll = LoadLibraryW(utf8_to_wide(dllPath).c_str());
     if (!g_hResDll) return -5;
 
     HRESULT hr = g_pFramework->LoadUI(g_hResDll, L"APPLICATION_RIBBON");
@@ -644,13 +661,13 @@ EXPORT int __cdecl ribbon_load_xml(const char *xmlPath, const char *sdkBinPath)
                            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                            (LPCSTR)&ribbon_load_xml, &hSelf);
         GetModuleFileNameA(hSelf, selfPath, MAX_PATH);
-        CopyFileA(selfPath, dllPath, FALSE);
+        CopyFileW(utf8_to_wide(selfPath).c_str(), utf8_to_wide(dllPath).c_str(), FALSE);
 
-        HANDLE hUpdate = BeginUpdateResourceA(dllPath, TRUE);
+        HANDLE hUpdate = BeginUpdateResourceW(utf8_to_wide(dllPath).c_str(), TRUE);
         if (!hUpdate) return -30;
 
         // Add BML as UIFILE resource
-        FILE *fpBml = fopen(bmlPath, "rb");
+        FILE *fpBml = _wfopen(utf8_to_wide(bmlPath).c_str(), L"rb");
         if (!fpBml) { EndUpdateResourceA(hUpdate, TRUE); return -31; }
         fseek(fpBml, 0, SEEK_END);
         long bmlSize = ftell(fpBml);
@@ -666,7 +683,7 @@ EXPORT int __cdecl ribbon_load_xml(const char *xmlPath, const char *sdkBinPath)
 
         // Parse .rc + .h and collect all STRINGTABLE entries
         std::map<int, std::wstring> xmlStringEntries;
-        FILE *fpRc2 = fopen(rcPath, "r");
+        FILE *fpRc2 = _wfopen(utf8_to_wide(rcPath).c_str(), L"r");
         if (fpRc2) {
             char line2[1024];
             bool inST = false;
@@ -692,7 +709,7 @@ EXPORT int __cdecl ribbon_load_xml(const char *xmlPath, const char *sdkBinPath)
                     int sid2 = 0;
                     char ss2[300];
                     sprintf(ss2, "#define %s ", mn2);
-                    FILE *fH2 = fopen(hPath, "r");
+                    FILE *fH2 = _wfopen(utf8_to_wide(hPath).c_str(), L"r");
                     if (fH2) {
                         char hl2[512];
                         while (fgets(hl2, sizeof(hl2), fH2)) {
@@ -734,12 +751,12 @@ EXPORT int __cdecl ribbon_load_xml(const char *xmlPath, const char *sdkBinPath)
                             xbuf, xpos * sizeof(wchar_t));
         }
 
-        EndUpdateResourceA(hUpdate, FALSE);
+        EndUpdateResourceW(hUpdate, FALSE);
     }
 
     // Step 4: Load the DLL
     if (g_hResDll) { FreeLibrary(g_hResDll); g_hResDll = nullptr; }
-    g_hResDll = LoadLibraryA(dllPath);
+    g_hResDll = LoadLibraryW(utf8_to_wide(dllPath).c_str());
     if (!g_hResDll) return -50;
 
     HRESULT hr = g_pFramework->LoadUI(g_hResDll, L"APPLICATION_RIBBON");
@@ -770,7 +787,7 @@ BOOL WINAPI DllMain(HINSTANCE h, DWORD r, LPVOID p) {
     if (r == DLL_PROCESS_DETACH) {
         ribbon_destroy();
         if (g_hResDll) { FreeLibrary(g_hResDll); g_hResDll = nullptr; }
-        if (g_resDllPath[0]) { DeleteFileA(g_resDllPath); g_resDllPath[0] = 0; }
+        if (g_resDllPath[0]) { DeleteFileW(utf8_to_wide(g_resDllPath).c_str()); g_resDllPath[0] = 0; }
     }
     return TRUE;
 }

@@ -20,6 +20,23 @@
 #include "libssh2.h"
 #include "libssh2_sftp.h"
 
+// UTF-8 → UTF-16 helper
+static std::wstring utf8_to_wide(const char *s) {
+    if (!s || !s[0]) return L"";
+    int len = MultiByteToWideChar(CP_UTF8, 0, s, -1, NULL, 0);
+    std::wstring w(len, 0);
+    MultiByteToWideChar(CP_UTF8, 0, s, -1, &w[0], len);
+    return w;
+}
+static std::string wide_to_utf8(const wchar_t *w) {
+    if (!w || !w[0]) return "";
+    int len = WideCharToMultiByte(CP_UTF8, 0, w, -1, NULL, 0, NULL, NULL);
+    std::string s(len, 0);
+    WideCharToMultiByte(CP_UTF8, 0, w, -1, &s[0], len, NULL, NULL);
+    return s;
+}
+
+
 #define EXPORT extern "C" __declspec(dllexport)
 
 static SOCKET g_sock = INVALID_SOCKET;
@@ -123,7 +140,7 @@ EXPORT int __cdecl sftp_upload(const char *local_path, const char *remote_path)
 {
     if (!g_sftp) { set_error("sftp not initialized"); return -1; }
 
-    FILE *f = fopen(local_path, "rb");
+    FILE *f = _wfopen(utf8_to_wide(local_path).c_str(), L"rb");
     if (!f) { set_error("local file open failed"); return -2; }
 
     LIBSSH2_SFTP_HANDLE *sftp_h = libssh2_sftp_open(g_sftp, remote_path,
@@ -157,7 +174,7 @@ EXPORT int __cdecl sftp_download(const char *remote_path, const char *local_path
         LIBSSH2_FXF_READ, 0);
     if (!sftp_h) { set_error("sftp open failed"); return -2; }
 
-    FILE *f = fopen(local_path, "wb");
+    FILE *f = _wfopen(utf8_to_wide(local_path).c_str(), L"wb");
     if (!f) { libssh2_sftp_close(sftp_h); set_error("local file create failed"); return -3; }
 
     char buf[32768];

@@ -10,9 +10,27 @@
 #include <dxgi1_2.h>
 #include <cstring>
 #include <cstdio>
+#include <string>
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
+
+// UTF-8 → UTF-16 helper
+static std::wstring utf8_to_wide(const char *s) {
+    if (!s || !s[0]) return L"";
+    int len = MultiByteToWideChar(CP_UTF8, 0, s, -1, NULL, 0);
+    std::wstring w(len, 0);
+    MultiByteToWideChar(CP_UTF8, 0, s, -1, &w[0], len);
+    return w;
+}
+static std::string wide_to_utf8(const wchar_t *w) {
+    if (!w || !w[0]) return "";
+    int len = WideCharToMultiByte(CP_UTF8, 0, w, -1, NULL, 0, NULL, NULL);
+    std::string s(len, 0);
+    WideCharToMultiByte(CP_UTF8, 0, w, -1, &s[0], len, NULL, NULL);
+    return s;
+}
+
 
 #define EXPORT extern "C" __declspec(dllexport)
 
@@ -151,7 +169,7 @@ EXPORT int __cdecl capture_save_bmp(const char *filename)
     int img_size = g_height * row_bytes;
     int file_size = 54 + img_size;
 
-    FILE *fp = fopen(filename, "wb");
+    FILE *fp = _wfopen(utf8_to_wide(filename).c_str(), L"wb");
     if (!fp) { g_context->Unmap(g_staging, 0); return -4; }
 
     // BMP header
