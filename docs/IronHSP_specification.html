@@ -2727,6 +2727,7 @@ audioloop_stop</code></pre>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/17 20:07</td><td></td><td><span class="badge">改善</span> <strong>全 iron_* モジュールの Win32 API を W 版 (Unicode) に変更</strong>: iron_fs / iron_path / iron_folder / iron_registry / iron_ftp / iron_service / iron_tray の全 API 宣言を A→W に移行。入力は <code>wstr</code> (HSP 自動 UTF-8→UTF-16 変換)、出力バッファは <code>WideCharToMultiByte</code> で UTF-16→UTF-8 変換。絵文字・環境依存文字を含むファイルパスに対応</td></tr>
 <tr><td>4/17 20:02</td><td></td><td><span class="badge">新機能</span> <strong>Windows Ribbon Framework 完全対応</strong>: hspribbon.dll で UIRibbon COM をフルサポート。STRINGTABLE バンドルマージ + BITMAP 画像自動埋め込み + イベントモード (PostMessage) + ribbon_load_bml (uicc.exe のみ必要、rc.exe/link.exe 不要)。<a href="ribbon_guide.html">専用ドキュメント</a> + <a href="../package/win32/sample/ribbon/">サンプル一式</a></td></tr>
 <tr><td>4/16 20:53</td><td></td><td><span class="badge">新機能</span> <strong>Math.NET Numerics 5.0</strong>: iron_math_net.hsp で統計/分布/線形代数/補間を hsp3net から利用可能</td></tr>
 <tr><td>4/16 20:50</td><td></td><td><span class="badge">新機能</span> <strong>iron_fs.hsp</strong>: ファイル/フォルダ操作 (copy/move/size/readtext/writetext/is_locked/mkdir_p/rmdir_r/listfiles)</td></tr>

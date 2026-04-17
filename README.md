@@ -52,8 +52,10 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 - **WinForms UI (iron_forms)** — Anchor/Dock/DataGridView/TabControl/SplitContainer/MenuStrip/PropertyGrid/TableLayout。リサイズ追従の ctrl_anchor が目玉。
 - **ゲーム (iron_game)** — HitTest/Vec2D/Easing 10種/FPS/Tilemap
 - **バリデーション (iron_validate)** / **C#スクリプト (iron_async)** / **ダークモード (iron_darkmode)**
-- **ファイル操作 (iron_fs)** — copy/move/readtext/writetext/is_locked/mkdir_p/rmdir_r/listfiles
+- **ファイル操作 (iron_fs)** — copy/move/readtext/writetext/is_locked/mkdir_p/rmdir_r/listfiles。**全 API Unicode (W版) 対応**、絵文字・環境依存文字パス可
 - **D&D (iron_dragdrop)** / **クリップボード (iron_clipboard2)** / **印刷 (iron_print)** / **GDI+ (iron_gdiplus)** / **ドッキング (iron_docking)** / **リボン (iron_ribbon2)**
+- **Windows Ribbon Framework (`iron_ribbon_native.hsp`)** — 本物の UIRibbon COM。uicc.exe で XML → BML コンパイル → 画像+文字列自動埋め込み → ロード。[専用ドキュメント](docs/ribbon_guide.html)
+- **Math.NET Numerics (`iron_math_net.hsp`)** — 統計/分布/線形代数/補間。MathNet.Numerics.dll 同梱
 
 ### 新規プラグイン
 

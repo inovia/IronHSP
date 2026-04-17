@@ -246,31 +246,37 @@ BEGIN
     cmdZoom100_LabelTitle_RESID L"100%" /* LabelTitle cmdZoom100_LabelTitle_RESID: (null) */
 END
 
+cmdZoom100_SmallImages_RESID    BITMAP    "res\zoomin16.bmp" /* SmallImages cmdZoom100_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdRuler_LabelTitle_RESID L"Ruler" /* LabelTitle cmdRuler_LabelTitle_RESID: (null) */
 END
 
+cmdRuler_SmallImages_RESID    BITMAP    "res\ruler16.bmp" /* SmallImages cmdRuler_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdGridlines_LabelTitle_RESID L"Gridlines" /* LabelTitle cmdGridlines_LabelTitle_RESID: (null) */
 END
 
+cmdGridlines_SmallImages_RESID    BITMAP    "res\ruler16.bmp" /* SmallImages cmdGridlines_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdStatusBar_LabelTitle_RESID L"Status Bar" /* LabelTitle cmdStatusBar_LabelTitle_RESID: (null) */
 END
 
+cmdStatusBar_SmallImages_RESID    BITMAP    "res\ruler16.bmp" /* SmallImages cmdStatusBar_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdDarkMode_LabelTitle_RESID L"Dark Mode" /* LabelTitle cmdDarkMode_LabelTitle_RESID: (null) */
 END
 
+cmdDarkMode_SmallImages_RESID    BITMAP    "res\bold16.bmp" /* SmallImages cmdDarkMode_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdFullScreen_LabelTitle_RESID L"Full Screen" /* LabelTitle cmdFullScreen_LabelTitle_RESID: (null) */
 END
 
+cmdFullScreen_SmallImages_RESID    BITMAP    "res\fullscreen16.bmp" /* SmallImages cmdFullScreen_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdPrint_LabelTitle_RESID L"Print" /* LabelTitle cmdPrint_LabelTitle_RESID: (null) */

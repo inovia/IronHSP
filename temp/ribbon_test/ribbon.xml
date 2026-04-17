@@ -114,12 +114,24 @@
     <Command Name="cmdZoomOut" Id="502" LabelTitle="Zoom Out">
       <Command.SmallImages><Image Source="res\zoomout16.bmp" /></Command.SmallImages>
     </Command>
-    <Command Name="cmdZoom100" Id="503" LabelTitle="100%" />
-    <Command Name="cmdRuler" Id="504" LabelTitle="Ruler" />
-    <Command Name="cmdGridlines" Id="505" LabelTitle="Gridlines" />
-    <Command Name="cmdStatusBar" Id="506" LabelTitle="Status Bar" />
-    <Command Name="cmdDarkMode"  Id="507" LabelTitle="Dark Mode" />
-    <Command Name="cmdFullScreen" Id="508" LabelTitle="Full Screen" />
+    <Command Name="cmdZoom100" Id="503" LabelTitle="100%">
+      <Command.SmallImages><Image Source="res\zoomin16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdRuler" Id="504" LabelTitle="Ruler">
+      <Command.SmallImages><Image Source="res\ruler16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdGridlines" Id="505" LabelTitle="Gridlines">
+      <Command.SmallImages><Image Source="res\ruler16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdStatusBar" Id="506" LabelTitle="Status Bar">
+      <Command.SmallImages><Image Source="res\ruler16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdDarkMode" Id="507" LabelTitle="Dark Mode">
+      <Command.SmallImages><Image Source="res\bold16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdFullScreen" Id="508" LabelTitle="Full Screen">
+      <Command.SmallImages><Image Source="res\fullscreen16.bmp" /></Command.SmallImages>
+    </Command>
 
     <!-- App Menu -->
     <Command Name="cmdPrint"     Id="701" LabelTitle="Print" />

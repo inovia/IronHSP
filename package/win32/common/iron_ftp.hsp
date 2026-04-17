@@ -47,6 +47,9 @@
 #cfunc _FtpFindFirstFileA "FtpFindFirstFileW" int, wstr, var, int, int
 #cfunc _InternetFindNextFileA "InternetFindNextFileW" int, var
 
+#uselib "kernel32.dll"
+#cfunc _WC2MB_ftp "WideCharToMultiByte" int, int, var, int, var, int, int, int
+
 ; INTERNET_SERVICE_FTP = 1
 ; FTP_TRANSFER_TYPE_BINARY = 2
 ; INTERNET_FLAG_PASSIVE = 0x08000000
@@ -102,32 +105,35 @@ dim _hFtp, 1
 	if _hFtp == 0 : return -1
 	return 1 - _FtpSetCurrentDirectoryA(_hFtp, dir)
 
-#deffunc ftp_pwd local buf, local bsz
+#deffunc ftp_pwd local wbuf, local bsz, local ubuf
 	if _hFtp == 0 : return ""
-	bsz = 4096
-	sdim buf, bsz
-	_FtpGetCurrentDirectoryA _hFtp, buf, bsz
-	return buf
+	bsz = 520
+	sdim wbuf, bsz
+	_r = _FtpGetCurrentDirectoryA(_hFtp, wbuf, bsz)
+	sdim ubuf, 520
+	_r = _WC2MB_ftp(65001, 0, wbuf, -1, ubuf, 520, 0, 0)
+	return ubuf
 
 #deffunc ftp_list str pattern, \
-	local find_data, local hFind, local result, local fname
+	local _fd_f, local _hf_f, local _res_f, local _wn_f, local _fn_f, local _cvr_f
 	if _hFtp == 0 : return ""
-	; WIN32_FIND_DATAA = 320 bytes (cFileName at offset 44, 260 chars)
-	sdim find_data, 320
-	hFind = _FtpFindFirstFileA(_hFtp, pattern, find_data, 0, 0)
-	if hFind == 0 : return ""
-	result = ""
+	; WIN32_FIND_DATAW = 624 bytes, cFileName at offset 44, 260 wchars = 520 bytes
+	sdim _fd_f, 624
+	_hf_f = _FtpFindFirstFileA(_hFtp, pattern, _fd_f, 0, 0)
+	if _hf_f == 0 : return ""
+	_res_f = ""
 	repeat
-		; cFileName は offset 44 から
-		sdim fname, 260
-		memcpy fname, find_data, 260, 0, 44
-		if result != "" : result += "\n"
-		result += fname
-		sdim find_data, 320
-		if _InternetFindNextFileA(hFind, find_data) == 0 : break
+		sdim _wn_f, 520
+		memcpy _wn_f, _fd_f, 520, 0, 44
+		sdim _fn_f, 520
+		_cvr_f = _WC2MB_ftp(65001, 0, _wn_f, -1, _fn_f, 520, 0, 0)
+		if _res_f != "" : _res_f += "\n"
+		_res_f += _fn_f
+		sdim _fd_f, 624
+		if _InternetFindNextFileA(_hf_f, _fd_f) == 0 : break
 	loop
-	_InternetCloseHandle hFind
-	return result
+	_r = _InternetCloseHandle(_hf_f)
+	return _res_f
 
 #global
 
