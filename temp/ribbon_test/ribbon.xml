@@ -49,11 +49,21 @@
 
     <!-- Paragraph Group -->
     <Command Name="cmdGrpParagraph" Id="23" LabelTitle="Paragraph" />
-    <Command Name="cmdAlignLeft"   Id="301" LabelTitle="Align Left" />
-    <Command Name="cmdAlignCenter" Id="302" LabelTitle="Center" />
-    <Command Name="cmdAlignRight"  Id="303" LabelTitle="Align Right" />
-    <Command Name="cmdBullets"     Id="304" LabelTitle="Bullets" />
-    <Command Name="cmdNumbering"   Id="305" LabelTitle="Numbering" />
+    <Command Name="cmdAlignLeft" Id="301" LabelTitle="Align Left">
+      <Command.SmallImages><Image Source="res\alignleft16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdAlignCenter" Id="302" LabelTitle="Center">
+      <Command.SmallImages><Image Source="res\aligncenter16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdAlignRight" Id="303" LabelTitle="Align Right">
+      <Command.SmallImages><Image Source="res\alignright16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdBullets" Id="304" LabelTitle="Bullets">
+      <Command.SmallImages><Image Source="res\bullets16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdNumbering" Id="305" LabelTitle="Numbering">
+      <Command.SmallImages><Image Source="res\bullets16.bmp" /></Command.SmallImages>
+    </Command>
 
     <!-- Editing Group -->
     <Command Name="cmdGrpEditing" Id="24" LabelTitle="Editing" />
@@ -67,16 +77,30 @@
     <Command Name="cmdSelectAll" Id="603" LabelTitle="Select All">
       <Command.SmallImages><Image Source="res\selectall16.bmp" /></Command.SmallImages>
     </Command>
-    <Command Name="cmdUndo"    Id="604" LabelTitle="Undo" />
-    <Command Name="cmdRedo"    Id="605" LabelTitle="Redo" />
+    <Command Name="cmdUndo" Id="604" LabelTitle="Undo">
+      <Command.SmallImages><Image Source="res\new16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdRedo" Id="605" LabelTitle="Redo">
+      <Command.SmallImages><Image Source="res\open16.bmp" /></Command.SmallImages>
+    </Command>
 
     <!-- Insert Group -->
     <Command Name="cmdGrpInsert" Id="30" LabelTitle="Insert" />
-    <Command Name="cmdTable"   Id="401" LabelTitle="Table" />
-    <Command Name="cmdPicture" Id="402" LabelTitle="Picture" />
-    <Command Name="cmdChart"   Id="403" LabelTitle="Chart" />
-    <Command Name="cmdLink"    Id="404" LabelTitle="Hyperlink" />
-    <Command Name="cmdShape"   Id="405" LabelTitle="Shapes" />
+    <Command Name="cmdTable" Id="401" LabelTitle="Table">
+      <Command.LargeImages><Image Source="res\table32.bmp" /></Command.LargeImages>
+    </Command>
+    <Command Name="cmdPicture" Id="402" LabelTitle="Picture">
+      <Command.LargeImages><Image Source="res\picture32.bmp" /></Command.LargeImages>
+    </Command>
+    <Command Name="cmdChart" Id="403" LabelTitle="Chart">
+      <Command.LargeImages><Image Source="res\chart32.bmp" /></Command.LargeImages>
+    </Command>
+    <Command Name="cmdLink" Id="404" LabelTitle="Hyperlink">
+      <Command.SmallImages><Image Source="res\link16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdShape" Id="405" LabelTitle="Shapes">
+      <Command.LargeImages><Image Source="res\shape32.bmp" /></Command.LargeImages>
+    </Command>
     <Command Name="cmdHeader"  Id="406" LabelTitle="Header" />
     <Command Name="cmdFooter"  Id="407" LabelTitle="Footer" />
     <Command Name="cmdPageBreak" Id="408" LabelTitle="Page Break" />
@@ -84,10 +108,14 @@
     <!-- View Group -->
     <Command Name="cmdGrpZoom" Id="40" LabelTitle="Zoom" />
     <Command Name="cmdGrpShow" Id="41" LabelTitle="Show" />
-    <Command Name="cmdZoomIn"    Id="501" LabelTitle="Zoom In" />
-    <Command Name="cmdZoomOut"   Id="502" LabelTitle="Zoom Out" />
-    <Command Name="cmdZoom100"   Id="503" LabelTitle="100%" />
-    <Command Name="cmdRuler"     Id="504" LabelTitle="Ruler" />
+    <Command Name="cmdZoomIn" Id="501" LabelTitle="Zoom In">
+      <Command.SmallImages><Image Source="res\zoomin16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdZoomOut" Id="502" LabelTitle="Zoom Out">
+      <Command.SmallImages><Image Source="res\zoomout16.bmp" /></Command.SmallImages>
+    </Command>
+    <Command Name="cmdZoom100" Id="503" LabelTitle="100%" />
+    <Command Name="cmdRuler" Id="504" LabelTitle="Ruler" />
     <Command Name="cmdGridlines" Id="505" LabelTitle="Gridlines" />
     <Command Name="cmdStatusBar" Id="506" LabelTitle="Status Bar" />
     <Command Name="cmdDarkMode"  Id="507" LabelTitle="Dark Mode" />

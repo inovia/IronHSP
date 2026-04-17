@@ -108,26 +108,31 @@ BEGIN
     cmdAlignLeft_LabelTitle_RESID L"Align Left" /* LabelTitle cmdAlignLeft_LabelTitle_RESID: (null) */
 END
 
+cmdAlignLeft_SmallImages_RESID    BITMAP    "res\alignleft16.bmp" /* SmallImages cmdAlignLeft_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdAlignCenter_LabelTitle_RESID L"Center" /* LabelTitle cmdAlignCenter_LabelTitle_RESID: (null) */
 END
 
+cmdAlignCenter_SmallImages_RESID    BITMAP    "res\aligncenter16.bmp" /* SmallImages cmdAlignCenter_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdAlignRight_LabelTitle_RESID L"Align Right" /* LabelTitle cmdAlignRight_LabelTitle_RESID: (null) */
 END
 
+cmdAlignRight_SmallImages_RESID    BITMAP    "res\alignright16.bmp" /* SmallImages cmdAlignRight_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdBullets_LabelTitle_RESID L"Bullets" /* LabelTitle cmdBullets_LabelTitle_RESID: (null) */
 END
 
+cmdBullets_SmallImages_RESID    BITMAP    "res\bullets16.bmp" /* SmallImages cmdBullets_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdNumbering_LabelTitle_RESID L"Numbering" /* LabelTitle cmdNumbering_LabelTitle_RESID: (null) */
 END
 
+cmdNumbering_SmallImages_RESID    BITMAP    "res\bullets16.bmp" /* SmallImages cmdNumbering_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdGrpEditing_LabelTitle_RESID L"Editing" /* LabelTitle cmdGrpEditing_LabelTitle_RESID: (null) */
@@ -157,11 +162,13 @@ BEGIN
     cmdUndo_LabelTitle_RESID L"Undo" /* LabelTitle cmdUndo_LabelTitle_RESID: (null) */
 END
 
+cmdUndo_SmallImages_RESID    BITMAP    "res\new16.bmp" /* SmallImages cmdUndo_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdRedo_LabelTitle_RESID L"Redo" /* LabelTitle cmdRedo_LabelTitle_RESID: (null) */
 END
 
+cmdRedo_SmallImages_RESID    BITMAP    "res\open16.bmp" /* SmallImages cmdRedo_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdGrpInsert_LabelTitle_RESID L"Insert" /* LabelTitle cmdGrpInsert_LabelTitle_RESID: (null) */
@@ -172,26 +179,31 @@ BEGIN
     cmdTable_LabelTitle_RESID L"Table" /* LabelTitle cmdTable_LabelTitle_RESID: (null) */
 END
 
+cmdTable_LargeImages_RESID    BITMAP    "res\table32.bmp" /* LargeImages cmdTable_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdPicture_LabelTitle_RESID L"Picture" /* LabelTitle cmdPicture_LabelTitle_RESID: (null) */
 END
 
+cmdPicture_LargeImages_RESID    BITMAP    "res\picture32.bmp" /* LargeImages cmdPicture_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdChart_LabelTitle_RESID L"Chart" /* LabelTitle cmdChart_LabelTitle_RESID: (null) */
 END
 
+cmdChart_LargeImages_RESID    BITMAP    "res\chart32.bmp" /* LargeImages cmdChart_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdLink_LabelTitle_RESID L"Hyperlink" /* LabelTitle cmdLink_LabelTitle_RESID: (null) */
 END
 
+cmdLink_SmallImages_RESID    BITMAP    "res\link16.bmp" /* SmallImages cmdLink_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdShape_LabelTitle_RESID L"Shapes" /* LabelTitle cmdShape_LabelTitle_RESID: (null) */
 END
 
+cmdShape_LargeImages_RESID    BITMAP    "res\shape32.bmp" /* LargeImages cmdShape_LargeImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdHeader_LabelTitle_RESID L"Header" /* LabelTitle cmdHeader_LabelTitle_RESID: (null) */
@@ -222,11 +234,13 @@ BEGIN
     cmdZoomIn_LabelTitle_RESID L"Zoom In" /* LabelTitle cmdZoomIn_LabelTitle_RESID: (null) */
 END
 
+cmdZoomIn_SmallImages_RESID    BITMAP    "res\zoomin16.bmp" /* SmallImages cmdZoomIn_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdZoomOut_LabelTitle_RESID L"Zoom Out" /* LabelTitle cmdZoomOut_LabelTitle_RESID: (null) */
 END
 
+cmdZoomOut_SmallImages_RESID    BITMAP    "res\zoomout16.bmp" /* SmallImages cmdZoomOut_SmallImages_RESID: (null) */
 STRINGTABLE 
 BEGIN
     cmdZoom100_LabelTitle_RESID L"100%" /* LabelTitle cmdZoom100_LabelTitle_RESID: (null) */
