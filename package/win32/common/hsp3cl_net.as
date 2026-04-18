@@ -8,4 +8,7 @@
 #define __hsp3cl_net__
 #runtime "hsp3cl_net"
 #cmpopt utf8 1
+; hsp3net 専用識別子 (intptr / NSTRUCT / cfuncst / #defcbcom 等の
+;   .NET 限定機能を `#ifdef _HSP_NET` でガード可能にする)
+#define global _HSP_NET 1
 #endif

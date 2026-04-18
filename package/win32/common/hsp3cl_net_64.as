@@ -18,6 +18,9 @@
 #runtime "hsp3cl_net_64"
 #bootopt hsp64 1
 #cmpopt utf8 1
-; 64bit 用プリプロセッサ識別子 (プラグイン .as 側の #ifdef _HSP64 を有効化)
-#define global _HSP64 1
+; 64bit 用プリプロセッサ識別子 (_HSP64) は hspcmp64 が自動定義するので
+; ここで `#define global _HSP64 1` を書くと「定義済み識別子」エラーになる
+; hsp3net 専用識別子 (intptr / NSTRUCT / cfuncst / cfuncd / cfuncf /
+;   #defcbcom 等の .NET 限定機能を `#ifdef _HSP_NET` でガード可能にする)
+#define global _HSP_NET 1
 #endif
