@@ -3,6 +3,8 @@
 HSP で書かれたアルゴリズム教材。全ファイルが `hsp3cl_net_64.exe` /
 `hsp3cl_net_test_64.exe` で動作確認済。
 
+サンプル配置: [`package/win32/sample/algorithms/`](../package/win32/sample/algorithms/)
+
 ## ファイル一覧 (計 50 アルゴリズム / 10 ファイル)
 
 | # | ファイル | 収録アルゴリズム (各 5 個) |
