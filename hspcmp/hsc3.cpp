@@ -158,6 +158,15 @@ void CHsc3::AddSystemMacros( CToken *tk, int option )
 #ifdef HSPWIN		// Windows(WIN32) version flag
 		tk->RegistExtMacro("_hspwin", "");
 #endif
+#if defined(PTR64BIT) || defined(_WIN64) || defined(__LP64__)
+		// 64bit compiler (hspcmp64) - auto-enable _HSP64 so that
+		//  plugin .as / a2d.hsp / iron_hash.hsp etc. that use
+		//  `#ifdef _HSP64 ... #else ...` take the 64bit branch
+		//  (e.g. `dimtype imgImageArr, 8, ...` for pointer-sized
+		//   handles) even when the user script does not explicitly
+		//  `#include "hsp3_64.as"` or `"hsp3_net_64.as"`.
+		tk->RegistExtMacro("_HSP64", "1");
+#endif
 #ifdef HSPMAC		// Macintosh version flag
 		tk->RegistExtMacro("_hspmac", "");
 #endif

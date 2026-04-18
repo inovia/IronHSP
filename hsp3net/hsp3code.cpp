@@ -1358,8 +1358,18 @@ void code_setva( PVal *pval, APTR aptr, int type, const void *ptr )
 #endif
 	proc = HspVarCoreGetProc( type );
 	if ( pval->flag != type ) {
-		if ( aptr != 0 ) throw HSPERR_INVALID_ARRAYSTORE;
-		HspVarCoreClearWC( pval, type );				// 最小サイズのメモリを確保
+		// x64 で `dimtype v, 8, 1`(INT64 スカラー) を INT リテラルで代入すると
+		// 従来は INT に降格されていたが、その後 varptr(v) 経由で DLL が 8byte
+		// 書き込むと隣接ヒープ破壊 → 次の DLL 呼出しで AccessViolation になる。
+		// INT64 destination + INT source に限り、値だけ変換して宛先型を保持する。
+		if ( pval->flag == HSPVAR_FLAG_INT64 && type == HSPVAR_FLAG_INT ) {
+			ptr = hspvarproc[HSPVAR_FLAG_INT64].Cnv( ptr, HSPVAR_FLAG_INT );
+			type = HSPVAR_FLAG_INT64;
+			proc = HspVarCoreGetProc( type );
+		} else {
+			if ( aptr != 0 ) throw HSPERR_INVALID_ARRAYSTORE;
+			HspVarCoreClearWC( pval, type );			// 最小サイズのメモリを確保
+		}
 	}
 	proc->Set( pval, proc->GetPtr( pval ), ptr );
 #ifdef HSPDEBUG
@@ -2033,10 +2043,26 @@ static int cmdfunc_var( int cmd )
 		}
 		else {
 			if (pval->flag != mpval->flag) {
-				if (aptr != 0) throw HSPERR_INVALID_ARRAYSTORE;	// 型変更の場合は配列要素0のみ
-				HspVarCoreClearWC(pval, mpval->flag);		// 最小サイズのメモリを確保
-				proc = HspVarCoreGetProc(pval->flag);
-				dst = proc->GetPtr(pval);					// PDATポインタを取得
+				// x64 で `dimtype v, 8, 1`(INT64 スカラー) を確保し、INT リテラル値
+				// (e.g. `v = 0`) を代入した場合、従来は destination を INT に降格して
+				// ストレージを 4byte に縮めていた。
+				//   → その後 `GdipCreateFromHDC hdc, varptr(v)` などで DLL が 8byte
+				//     書き込むと、隣接ヒープを破壊し次の DLL 呼出しで AccessViolation。
+				// INT64 (pointer-sized handle 用) に限り、INT リテラル代入では
+				// destination 型を保持して値だけ変換する。
+				// DOUBLE / STR / その他の型変更は従来どおり clear+realloc。
+				if ( aptr == 0 &&
+				     pval->flag == HSPVAR_FLAG_INT64 &&
+				     mpval->flag == HSPVAR_FLAG_INT ) {
+					ptr = (char *)hspvarproc[HSPVAR_FLAG_INT64].Cnv( ptr, HSPVAR_FLAG_INT );
+					// proc / dst はそのまま宛先 INT64 のものを使用
+				}
+				else {
+					if (aptr != 0) throw HSPERR_INVALID_ARRAYSTORE;	// 型変更の場合は配列要素0のみ
+					HspVarCoreClearWC(pval, mpval->flag);		// 最小サイズのメモリを確保
+					proc = HspVarCoreGetProc(pval->flag);
+					dst = proc->GetPtr(pval);					// PDATポインタを取得
+				}
 			}
 		}
 		proc->Set( pval, dst, ptr );
