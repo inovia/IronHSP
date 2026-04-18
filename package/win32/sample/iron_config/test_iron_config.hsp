@@ -1,0 +1,93 @@
+;============================================================
+; iron_toml / iron_yaml ユニットテスト (hsptestrt + iron_test_ex)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hsptestrt.as"
+#include "iron_test_ex.hsp"
+#include "iron_toml.hsp"
+#include "iron_yaml.hsp"
+
+; ==================== TOML ====================
+test_case "toml: basic key = string"
+	dimmap c
+	toml_parse c, "title = \"hello\"\n"
+	expect_eq stat, 0
+	expect_streq c("title"), "hello"
+test_end
+
+test_case "toml: integer with underscore"
+	dimmap c
+	toml_parse c, "n = 1_000_000\n"
+	expect_eq stat, 0
+	expect_eq toml_get_int(c, "n", -1), 1000000
+test_end
+
+test_case "toml: section + bool"
+	dimmap c
+	sdim t, 256
+	t  = "[srv]\n"
+	t += "port = 8080\n"
+	t += "ssl = true\n"
+	toml_parse c, t
+	expect_eq stat, 0
+	expect_eq toml_get_int(c, "srv.port", 0), 8080
+	expect_eq toml_get_bool(c, "srv.ssl", 0), 1
+test_end
+
+test_case "toml: comment ignored"
+	dimmap c
+	sdim t, 128
+	t  = "# comment\n"
+	t += "k = \"v\"\n"
+	toml_parse c, t
+	expect_eq stat, 0
+	expect_streq c("k"), "v"
+test_end
+
+; ==================== YAML ====================
+test_case "yaml: flat mapping"
+	dimmap c
+	yaml_parse c, "name: foo\nport: 8080\n"
+	expect_eq stat, 0
+	expect_streq c("name"), "foo"
+	expect_eq yaml_get_int(c, "port", 0), 8080
+test_end
+
+test_case "yaml: nested mapping (2 level)"
+	dimmap c
+	sdim t, 256
+	t  = "server:\n"
+	t += "  host: example.com\n"
+	t += "  port: 8080\n"
+	yaml_parse c, t
+	expect_eq stat, 0
+	expect_streq c("server.host"), "example.com"
+	expect_eq yaml_get_int(c, "server.port", 0), 8080
+test_end
+
+test_case "yaml: booleans"
+	dimmap c
+	sdim t, 256
+	t  = "a: true\n"
+	t += "b: false\n"
+	t += "c: yes\n"
+	t += "d: no\n"
+	yaml_parse c, t
+	expect_eq yaml_get_bool(c, "a", 0), 1
+	expect_eq yaml_get_bool(c, "b", 1), 0
+	expect_eq yaml_get_bool(c, "c", 0), 1
+	expect_eq yaml_get_bool(c, "d", 1), 0
+test_end
+
+test_case "yaml: document separator"
+	dimmap c
+	sdim t, 128
+	t  = "---\n"
+	t += "key: value\n"
+	yaml_parse c, t
+	expect_eq stat, 0
+	expect_streq c("key"), "value"
+test_end
+
+end test_finish

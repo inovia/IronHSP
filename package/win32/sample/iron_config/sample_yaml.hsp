@@ -1,0 +1,46 @@
+;============================================================
+; iron_yaml サンプル: YAML をパースして値を取得
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_yaml.hsp"
+
+	sdim src, 2048
+	src  = "# Docker Compose 風 config\n"
+	src += "version: '3'\n"
+	src += "\n"
+	src += "services:\n"
+	src += "  app:\n"
+	src += "    image: myapp:latest\n"
+	src += "    port: 8080\n"
+	src += "    restart: always\n"
+	src += "  db:\n"
+	src += "    image: postgres:15\n"
+	src += "    port: 5432\n"
+	src += "\n"
+	src += "volumes:\n"
+	src += "  data: ./data\n"
+	src += "  logs: ./logs\n"
+
+	dimmap cfg
+	yaml_parse cfg, src
+	if stat < 0 {
+		yaml_last_error emsg, eln
+		mes "parse error line " + eln + ": " + emsg
+		end 1
+	}
+
+	mes "=== 全エントリ ==="
+	n = mapcount(cfg)
+	repeat n
+		k = mapkey(cfg, cnt)
+		mes "  " + k + " = " + cfg(k)
+	loop
+
+	mes ""
+	mes "=== 取得ヘルパ ==="
+	mes "version     : " + cfg("version")
+	mes "app port    : " + yaml_get_int(cfg, "services.app.port", 0)
+	mes "db port     : " + yaml_get_int(cfg, "services.db.port", 0)
+	mes "volumes.data: " + cfg("volumes.data")
+	end 0

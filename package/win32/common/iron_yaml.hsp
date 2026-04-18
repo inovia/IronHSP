@@ -1,37 +1,266 @@
+;============================================================
+;   iron_yaml.hsp — YAML (サブセット) パーサ / ライタ (Pure HSP)
 ;
-; iron_yaml.hsp — 簡易 YAML パーサー (key: value、ネスト非対応)
+;   YAML 1.2 の "よく使う" サブセットのみ対応した軽量パーサ。
+;   外部 DLL 不要、MAP 変数へのフラットキー格納スタイル (iron_toml 相当)。
 ;
-#ifndef __iron_yaml_hsp__
-#define __iron_yaml_hsp__
-#module iron_yaml
+;   対応構文:
+;     - key: value                     基本 mapping
+;     - key:\n  sub: value              ネストマッピング (インデントでネスト)
+;     - key: value # comment            行コメント
+;     - "..." / '...' の文字列クォート
+;     - true / false / null / yes / no (booleans/null)
+;     - ---  document separator (最初のみ受理)
+;
+;   対応外:
+;     - ブロックスタイル配列 (- item)
+;     - フロー配列 [1, 2, 3] (値として文字列保持のみ)
+;     - アンカー & エイリアス / タグ
+;     - 複数行スカラー (| > 表記)
+;     - 複数ドキュメントストリーム
+;
+;   API:
+;
+;     yaml_parse  var map, "yaml text"
+;         YAML 文字列をパースして MAP に "parent.child" → value の
+;         フラット形式で格納する。
+;
+;     yaml_load   var map, "file.yaml"
+;         bload + yaml_parse。
+;
+;     yaml_get  var out, var map, "key.path"[, default]
+;     yaml_get_int / yaml_get_double / yaml_get_bool
+;         取得ヘルパ (iron_toml と対称)。
+;
+;   例:
+;       sdim y, 1024
+;       y =  "server:\n"
+;       y += "  host: example.com\n"
+;       y += "  port: 8080\n"
+;       y += "enabled: true\n"
+;
+;       dimmap cfg
+;       yaml_parse cfg, y
+;       mes cfg("server.host")             ; → example.com
+;       mes yaml_get_int(cfg, "server.port")   ; → 8080
 
-sdim _yk, 256, 100
-sdim _yv, 4096, 100
-dim _yn, 1
+#ifndef __iron_yaml__
+#define __iron_yaml__
 
-#deffunc yaml_load str text, local lines, local line, local p
-	_yn = 0
-	lines = text
-	notesel lines
-	repeat notemax
-		noteget line, cnt
-		if strmid(line, 0, 1) == "#" : continue
-		p = instr(line, 0, ":")
-		if p < 0 : continue
-		_yk(_yn) = str_trim(strmid(line, 0, p))
-		_yv(_yn) = str_trim(strmid(line, p + 1, 4096))
-		_yn++
+#module "m_iron_yaml"
+
+sdim _yaml_err_msg, 256
+dim  _yaml_err_line, 1
+
+#deffunc yaml_last_error var _msg, var _line
+	_msg = _yaml_err_msg
+	_line = _yaml_err_line
+	return 0
+
+#defcfunc _yaml_leading_space var s
+	p = 0
+	repeat
+		c = peek(s, p)
+		if c <= 0 : break
+		if c != ' ' : break
+		p++
 	loop
-	return _yn
+	return p
 
-#defcfunc yaml_get str key, local i
-	repeat _yn
-		if _yk(cnt) == key : return _yv(cnt)
+#deffunc _yaml_trim var s
+	; leading whitespace
+	lp = 0
+	repeat
+		c = peek(s, lp)
+		if c <= 0 : break
+		if (c == ' ') | (c == 9) : lp++ : continue
+		break
 	loop
-	return ""
+	if lp > 0 {
+		sdim _tt, strlen(s) - lp + 1
+		memcpy _tt, s, strlen(s) - lp, 0, lp
+		poke _tt, strlen(s) - lp, 0
+		s = _tt
+	}
+	; trailing whitespace
+	p = strlen(s)
+	repeat
+		if p <= 0 : break
+		c = peek(s, p - 1)
+		if (c == ' ') | (c == 9) | (c == 13) | (c == 10) : p-- : continue
+		break
+	loop
+	poke s, p, 0
+	return 0
 
-#defcfunc yaml_count
-	return _yn
+#deffunc _yaml_parse_scalar var v
+	if strlen(v) <= 0 : return 0
+	c0 = peek(v, 0)
+	if (c0 == '"') | (c0 == 39) {
+		n = strlen(v)
+		if peek(v, n - 1) == c0 {
+			sdim t, n
+			memcpy t, v, n - 2, 0, 1
+			poke t, n - 2, 0
+			v = t
+		}
+		return 0
+	}
+	if (v == "true")  | (v == "True")  | (v == "TRUE")  : v = "1" : return 0
+	if (v == "false") | (v == "False") | (v == "FALSE") : v = "0" : return 0
+	if (v == "null")  | (v == "Null")  | (v == "NULL")  : v = ""  : return 0
+	if (v == "yes")   | (v == "Yes")   | (v == "YES")   : v = "1" : return 0
+	if (v == "no")    | (v == "No")    | (v == "NO")    : v = "0" : return 0
+	return 0
+
+;---------------------------------------------------------
+; yaml_parse  var outmap, str txt
+;---------------------------------------------------------
+#deffunc yaml_parse array outmap, str txt, local _line, local ind, local k, local v, local fullkey
+
+	_yaml_err_msg = ""
+	_yaml_err_line = 0
+
+	dimmap outmap
+
+	sdim path, 256, 16
+	dim  path_indent, 16
+	path_level = 0
+
+	sdim buf, strlen(txt) + 1
+	buf = txt
+	notesel buf
+	n_lines = notemax
+
+	repeat n_lines
+		ln_idx = cnt
+		noteget _line, ln_idx
+		; trailing trim only — leading whitespace is the indent, keep it
+		ltp = strlen(_line)
+		repeat
+			if ltp <= 0 : break
+			cc = peek(_line, ltp - 1)
+			if (cc == ' ') | (cc == 9) | (cc == 13) | (cc == 10) : ltp-- : continue
+			break
+		loop
+		poke _line, ltp, 0
+		lenl = strlen(_line)
+		if lenl == 0 : continue
+		ind = _yaml_leading_space(_line)
+		cp = peek(_line, ind)
+		if cp == '#' : continue
+		if cp == '-' : continue
+		if (lenl >= 3) & (peek(_line, 0) == '-') & (peek(_line, 1) == '-') & (peek(_line, 2) == '-') : continue
+
+		repeat
+			if path_level <= 0 : break
+			if ind > path_indent(path_level - 1) : break
+			path_level--
+		loop
+
+		sdim rest, lenl - ind + 1
+		memcpy rest, _line, lenl - ind, 0, ind
+		poke rest, lenl - ind, 0
+
+		cp = instr(rest, 0, ":")
+		if cp < 0 {
+			_yaml_err_msg = "expected ':' in mapping _line"
+			_yaml_err_line = ln_idx + 1
+			noteunsel
+			return -1
+		}
+		sdim k, cp + 2
+		memcpy k, rest, cp, 0, 0
+		poke k, cp, 0
+		_yaml_trim k
+		if strlen(k) >= 2 {
+			c0 = peek(k, 0)
+			if (c0 == '"') | (c0 == 39) {
+				if peek(k, strlen(k) - 1) == c0 {
+					sdim t, strlen(k)
+					memcpy t, k, strlen(k) - 2, 0, 1
+					poke t, strlen(k) - 2, 0
+					k = t
+				}
+			}
+		}
+
+		sdim v, strlen(rest) - cp
+		if strlen(rest) > cp + 1 {
+			memcpy v, rest, strlen(rest) - cp - 1, 0, cp + 1
+			poke v, strlen(rest) - cp - 1, 0
+		} else {
+			v = ""
+		}
+		_yaml_trim v
+		hp = instr(v, 0, "#")
+		if (hp > 0) & (peek(v, 0) != '"') & (peek(v, 0) != 39) {
+			poke v, hp, 0
+			_yaml_trim v
+		}
+
+		if path_level > 0 {
+			sdim fullkey, 256
+			fullkey = path(path_level - 1) + "." + k
+		} else {
+			sdim fullkey, strlen(k) + 1
+			fullkey = k
+		}
+
+		if strlen(v) == 0 {
+			path(path_level) = fullkey
+			path_indent(path_level) = ind
+			path_level++
+		} else {
+			_yaml_parse_scalar v
+			outmap(fullkey) = v
+		}
+	loop
+	noteunsel
+	return 0
+
+;---------------------------------------------------------
+; yaml_load  var map, "file.yaml"
+;---------------------------------------------------------
+#deffunc yaml_load array outmap, str fname
+	exist fname
+	if strsize <= 0 {
+		_yaml_err_msg = "file not found"
+		_yaml_err_line = 0
+		return -1
+	}
+	sdim buf, strsize + 16
+	bload fname, buf, strsize
+	yaml_parse outmap, buf
+	return stat
+
+;---------------------------------------------------------
+; 取得ヘルパ (toml と対称)
+;---------------------------------------------------------
+#deffunc yaml_get var outv, array inmap, str key, str defv
+	if hasmap(inmap, key) {
+		outv = inmap(key)
+	} else {
+		outv = defv
+	}
+	return 0
+
+#defcfunc yaml_get_int array inmap, str key, int defv
+	if hasmap(inmap, key) : return int(inmap(key))
+	return defv
+
+#defcfunc yaml_get_double array inmap, str key, double defv
+	if hasmap(inmap, key) : return double(inmap(key))
+	return defv
+
+#defcfunc yaml_get_bool array inmap, str key, int defv
+	if hasmap(inmap, key) {
+		s = inmap(key)
+		if (s == "1") | (s == "true") | (s == "TRUE") : return 1
+		return 0
+	}
+	return defv
 
 #global
+
 #endif

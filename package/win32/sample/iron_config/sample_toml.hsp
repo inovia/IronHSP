@@ -1,0 +1,48 @@
+;============================================================
+; iron_toml サンプル: 設定ファイルをパースして表示
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_toml.hsp"
+
+	sdim src, 2048
+	src  = "# アプリ設定\n"
+	src += "app_name = \"MyApp\"\n"
+	src += "version = \"1.0.3\"\n"
+	src += "\n"
+	src += "[server]\n"
+	src += "host = \"api.example.com\"\n"
+	src += "port = 8080\n"
+	src += "timeout = 30\n"
+	src += "ssl = true\n"
+	src += "\n"
+	src += "[database]\n"
+	src += "driver = \"postgres\"\n"
+	src += "pool_size = 16\n"
+	src += "retry_interval = 5.5\n"
+
+	dimmap cfg
+	toml_parse cfg, src
+	if stat < 0 {
+		toml_last_error emsg, eln
+		mes "parse error line " + eln + ": " + emsg
+		end 1
+	}
+
+	mes "=== トップレベル ==="
+	mes "app_name: " + cfg("app_name")
+	mes "version : " + cfg("version")
+	mes ""
+	mes "=== [server] ==="
+	mes "host   : " + cfg("server.host")
+	mes "port   : " + toml_get_int(cfg, "server.port", 0)
+	mes "timeout: " + toml_get_int(cfg, "server.timeout", 0) + " sec"
+	mes "ssl    : " + toml_get_bool(cfg, "server.ssl", 0)
+	mes ""
+	mes "=== [database] ==="
+	mes "driver       : " + cfg("database.driver")
+	mes "pool_size    : " + toml_get_int(cfg, "database.pool_size", 1)
+	mes "retry_interval: " + toml_get_double(cfg, "database.retry_interval", 0.0)
+	mes ""
+	mes "全キー数: " + mapcount(cfg)
+	end 0

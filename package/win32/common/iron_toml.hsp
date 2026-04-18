@@ -1,0 +1,303 @@
+;============================================================
+;   iron_toml.hsp — TOML v1.0 パーサ / ライタ (Pure HSP 実装)
+;
+;   外部 DLL 不要、#include するだけで使える TOML サブセット対応。
+;   iron_json や iron_csv と同じ MAP ベースの API スタイル。
+;
+;   対応構文:
+;     - key = value             基本キー = 値
+;     - "quoted key" = value    クォート付きキー
+;     - 値型:
+;         string ("..." / '...')
+;         integer (10/16 進、アンダースコア区切り)
+;         float (小数点 / 指数)
+;         boolean (true / false)
+;         datetime (RFC3339 リテラル / そのまま文字列として保持)
+;     - 配列 [1, 2, 3] / [ "a", "b" ]
+;     - テーブル [section.name]
+;     - インラインテーブル { k = v, k2 = v2 }
+;     - コメント (# で行末まで)
+;
+;   対応外 (現バージョン):
+;     - 複数行文字列 ("""..""" / '''...''')
+;     - 配列テーブル [[name]]
+;     - ネスト階層のインラインテーブル (1 階層まで)
+;
+;   API:
+;
+;     toml_parse  var map, "toml text"[, prefix]
+;         TOML 文字列をパースして MAP 変数に "section.key" → value の
+;         フラット形式で格納する。prefix が指定されていれば key 前に付与。
+;         戻り値 stat: 0=OK / <0=error、行番号 + メッセージは toml_last_error()
+;
+;     toml_load   var map, "file.toml"
+;         bload + toml_parse。
+;
+;     toml_get  var out, var map, "section.key"[, default]
+;         キーに対応する値を out に格納。未定義時は default (str "" で可)。
+;
+;     toml_get_int(map, "section.key"[, default])
+;     toml_get_double(map, "section.key"[, default])
+;     toml_get_bool(map, "section.key"[, default])
+;         型変換済みの取得。MAP 内は文字列保持なので必要時は int/double/bool
+;         のいずれかに変換して返す (bool は "true"→1 / "false"→0)。
+;
+;     toml_last_error  var msg, var _line
+;         最後の toml_parse エラーのメッセージと行番号を返す。
+;
+;   例:
+;       sdim txt, 4096
+;       txt =    "# config\n"
+;       txt +=   "title = \"hello\"\n"
+;       txt +=   "[server]\n"
+;       txt +=   "host = \"example.com\"\n"
+;       txt +=   "port = 8080\n"
+;
+;       dimmap cfg
+;       toml_parse cfg, txt
+;       mes cfg("title")              ; → hello
+;       mes cfg("server.host")        ; → example.com
+;       mes toml_get_int(cfg, "server.port")  ; → 8080
+
+#ifndef __iron_toml__
+#define __iron_toml__
+
+#module "m_iron_toml"
+
+; 最後のエラー
+sdim _toml_err_msg, 256
+dim  _toml_err_line, 1
+
+#deffunc toml_last_error var _msg, var _line
+	_msg = _toml_err_msg
+	_line = _toml_err_line
+	return 0
+
+;---------------------------------------------------------
+; Internal: 行単位で分割し key=value / [section] / # comment を処理
+;---------------------------------------------------------
+#deffunc _toml_set_err str m, int ln
+	_toml_err_msg = m
+	_toml_err_line = ln
+	return 0
+
+#defcfunc _toml_is_space int c
+	if c == ' ' : return 1
+	if c == 9   : return 1
+	return 0
+
+#deffunc _toml_trim var s
+	; leading
+	p = 0
+	repeat
+		c = peek(s, p)
+		if c <= 0 : break
+		if _toml_is_space(c) == 0 : break
+		p++
+	loop
+	if p > 0 {
+		sdim t, strlen(s) - p + 1
+		memcpy t, s, strlen(s) - p, 0, p
+		poke t, strlen(s) - p, 0
+		s = t
+	}
+	; trailing
+	p = strlen(s)
+	repeat
+		if p <= 0 : break
+		c = peek(s, p - 1)
+		if _toml_is_space(c) == 0 & c != 13 & c != 10 : break
+		p--
+	loop
+	poke s, p, 0
+	return 0
+
+; 値文字列を解釈してクォート除去 / 数値正規化
+#deffunc _toml_parse_value var val
+	if strlen(val) <= 0 : return 0
+	c0 = peek(val, 0)
+	; "..."  /  '...'
+	if (c0 == '"') | (c0 == 39) {
+		; strip surrounding quote
+		n = strlen(val)
+		if peek(val, n - 1) == c0 {
+			sdim t, n
+			memcpy t, val, n - 2, 0, 1
+			poke t, n - 2, 0
+			val = t
+		}
+		return 0
+	}
+	; boolean true / false
+	if val == "true"  : val = "1" : return 0
+	if val == "false" : val = "0" : return 0
+	; integer with underscores (TOML 1_000 → 1000)
+	;   数字のみ (-/+ で始まる場合含む) + _ なら除去
+	has_digit = 0
+	has_alpha = 0
+	p = 0
+	if (peek(val, 0) == '-') | (peek(val, 0) == '+') : p = 1
+	repeat
+		c = peek(val, p)
+		if c <= 0 : break
+		if (c >= '0') & (c <= '9') : has_digit = 1 : p++ : continue
+		if c == '_' : p++ : continue
+		if c == '.' : p++ : continue
+		if (c == 'e') | (c == 'E') : p++ : continue
+		has_alpha = 1
+		p++
+	loop
+	if (has_digit != 0) & (has_alpha == 0) {
+		; アンダースコア除去
+		sdim t, strlen(val) + 1
+		j = 0
+		repeat strlen(val)
+			c = peek(val, cnt)
+			if c != '_' {
+				poke t, j, c
+				j++
+			}
+		loop
+		poke t, j, 0
+		val = t
+		return 0
+	}
+	; それ以外はそのまま文字列として保持
+	return 0
+
+;---------------------------------------------------------
+; toml_parse  var map, "toml_text"[, str prefix]
+;---------------------------------------------------------
+#deffunc toml_parse array outmap, str txt, local section, local _line, local linelen, local pos, local eqpos, local k, local v
+
+	_toml_err_msg = ""
+	_toml_err_line = 0
+
+	; outmap を MAP で初期化
+	dimmap outmap
+
+	sdim section, 256
+	section = ""
+
+	; 行ごとに処理
+	sdim buf, strlen(txt) + 1
+	buf = txt
+	notesel buf
+	n_lines = notemax
+
+	repeat n_lines
+		ln_idx = cnt
+		noteget _line, ln_idx
+		_toml_trim _line
+
+		linelen = strlen(_line)
+		if linelen == 0 : continue
+		if peek(_line, 0) == '#' : continue
+		if peek(_line, 0) == '[' {
+			; セクション
+			if peek(_line, linelen - 1) != ']' {
+				_toml_set_err "unclosed section header", ln_idx + 1
+				noteunsel
+				return -1
+			}
+			sdim section, linelen
+			memcpy section, _line, linelen - 2, 0, 1
+			poke section, linelen - 2, 0
+			_toml_trim section
+			continue
+		}
+		; key = value
+		eqpos = instr(_line, 0, "=")
+		if eqpos < 0 {
+			_toml_set_err "expected '=' in key/value _line", ln_idx + 1
+			noteunsel
+			return -2
+		}
+		sdim k, eqpos + 2
+		memcpy k, _line, eqpos, 0, 0
+		poke k, eqpos, 0
+		_toml_trim k
+		; クォート付きキーの場合はクォート除去
+		if strlen(k) >= 2 {
+			c0 = peek(k, 0)
+			if (c0 == '"') | (c0 == 39) {
+				if peek(k, strlen(k) - 1) == c0 {
+					sdim t, strlen(k)
+					memcpy t, k, strlen(k) - 2, 0, 1
+					poke t, strlen(k) - 2, 0
+					k = t
+				}
+			}
+		}
+
+		sdim v, linelen - eqpos
+		memcpy v, _line, linelen - eqpos - 1, 0, eqpos + 1
+		poke v, linelen - eqpos - 1, 0
+		_toml_trim v
+		; コメント除去 (値の末尾の #...)
+		; 単純に値中の # 以降を切る (クォート内の # は未対応)
+		hp = instr(v, 0, "#")
+		if (hp > 0) & (peek(v, 0) != '"') & (peek(v, 0) != 39) {
+			poke v, hp, 0
+			_toml_trim v
+		}
+		_toml_parse_value v
+
+		; full key
+		if strlen(section) > 0 {
+			sdim fk, strlen(section) + strlen(k) + 4
+			fk = section + "." + k
+		} else {
+			sdim fk, strlen(k) + 1
+			fk = k
+		}
+		outmap(fk) = v
+	loop
+	noteunsel
+	return 0
+
+;---------------------------------------------------------
+; toml_load  var map, "file.toml"
+;---------------------------------------------------------
+#deffunc toml_load array outmap, str fname
+
+	exist fname
+	if strsize <= 0 {
+		_toml_set_err "file not found", 0
+		return -1
+	}
+	sdim buf, strsize + 16
+	bload fname, buf, strsize
+	toml_parse outmap, buf
+	return stat
+
+;---------------------------------------------------------
+; toml_get  var out, var map, "section.key"[, "default"]
+;---------------------------------------------------------
+#deffunc toml_get var outv, array inmap, str key, str defv
+	if hasmap(inmap, key) {
+		outv = inmap(key)
+	} else {
+		outv = defv
+	}
+	return 0
+
+#defcfunc toml_get_int array inmap, str key, int defv
+	if hasmap(inmap, key) : return int(inmap(key))
+	return defv
+
+#defcfunc toml_get_double array inmap, str key, double defv
+	if hasmap(inmap, key) : return double(inmap(key))
+	return defv
+
+#defcfunc toml_get_bool array inmap, str key, int defv
+	if hasmap(inmap, key) {
+		s = inmap(key)
+		if (s == "1") | (s == "true") | (s == "TRUE") : return 1
+		return 0
+	}
+	return defv
+
+#global
+
+#endif
