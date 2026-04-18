@@ -1,0 +1,161 @@
+;============================================================
+;   iron_lsp.hsp — HSP 用 Language Server Protocol (LSP) サーバ
+;                   (最小スケルトン / scaffold 版)
+;
+;   LSP (Language Server Protocol) は VS Code / Neovim / Sublime Text 等の
+;   エディタと言語サーバの共通プロトコル。
+;   https://microsoft.github.io/language-server-protocol/
+;
+;   本モジュールは stdio transport で動作する HSP 用 LSP サーバの
+;   最小スケルトン。以下を提供:
+;     - Content-Length ヘッダ付きの JSON-RPC 2.0 framing (read + write)
+;     - initialize / initialized / shutdown / exit のハンドリング
+;     - textDocument/didOpen / didChange / didClose のハンドリング
+;     - textDocument/hover / textDocument/completion のスタブ応答
+;
+;   本モジュールは **scaffold のみ**。実運用には下記の追加実装が必要:
+;     - HSP3 ソースのトークナイザ / 構文解析 (hspcmp ソースを流用)
+;     - シンボルテーブル (#deffunc / #defcfunc / #define / #const / #enum)
+;     - textDocument/definition (ジャンプ先解決)
+;     - textDocument/references (使用箇所検索)
+;     - textDocument/documentSymbol (アウトライン)
+;     - textDocument/completion のアイテム生成 (現状は固定キーワード)
+;     - diagnostics (hspcmp を子プロセス起動してパース結果を使う)
+;
+;   stdio transport なので hsp3cl_net_test_64.exe (CLI) で起動する想定。
+;   VS Code 拡張から `{"command": "hsp3cl_net_test_64", "args": ["lsp_server.ax"]}`
+;   のように起動し stdio でやりとりする。
+;============================================================
+
+#ifndef __iron_lsp__
+#define __iron_lsp__
+
+#module "m_iron_lsp"
+
+;---------------------------------------------------------
+; 内部状態
+;---------------------------------------------------------
+sdim _docs_uri, 1024, 32        ; 開いているドキュメントの URI (最大 32)
+sdim _docs_text, 65536, 32      ; 本文 (最大 64KB/file)
+dim  _docs_count, 1
+dim  _lsp_initialized, 1
+dim  _lsp_shutdown, 1
+
+;---------------------------------------------------------
+; JSON ヘルパ (超簡易版)
+;   値は文字列として抽出 ("..." または {...} または [...] のまま)
+;---------------------------------------------------------
+#defcfunc _json_get_str var _json, str _key, local _k, local _p, local _q, local _len
+	_k = "\"" + _key + "\""
+	_p = instr(_json, 0, _k)
+	if _p < 0 : return ""
+	_p = instr(_json, _p + strlen(_k), "\"")
+	if _p < 0 : return ""
+	_p++
+	_q = _p
+	repeat
+		_q = instr(_json, _q, "\"")
+		if _q < 0 : return ""
+		; escape check
+		if _q > 0 {
+			if peek(_json, _q - 1) == '\\' : _q++ : continue
+		}
+		break
+	loop
+	sdim _out, _q - _p + 1
+	memcpy _out, _json, _q - _p, 0, _p
+	poke _out, _q - _p, 0
+	return _out
+
+#defcfunc _json_get_int var _json, str _key, local _k, local _p
+	_k = "\"" + _key + "\":"
+	_p = instr(_json, 0, _k)
+	if _p < 0 : return 0
+	_p += strlen(_k)
+	return int(strmid(_json, _p, 16))
+
+;---------------------------------------------------------
+; JSON-RPC レスポンス送信
+;---------------------------------------------------------
+#deffunc _lsp_send str _body, local _hdr
+	_hdr = "Content-Length: " + strlen(_body) + chr(13) + chr(10) + chr(13) + chr(10)
+	; stdout に書き出し (hsp3cl_net でバイナリ書き込みは bsave / mesでは難。
+	; ここでは mes の stdout を前提にする簡易版)
+	mes _hdr + _body
+	return
+
+;---------------------------------------------------------
+; initialize レスポンス
+;---------------------------------------------------------
+#deffunc _lsp_reply_initialize int _id, local _body
+	_body = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ","
+	_body += "\"result\":{\"capabilities\":{"
+	_body += "\"textDocumentSync\":1,"             ; Full = 1
+	_body += "\"hoverProvider\":true,"
+	_body += "\"completionProvider\":{\"triggerCharacters\":[\".\"]},"
+	_body += "\"definitionProvider\":false,"       ; not yet
+	_body += "\"referencesProvider\":false,"
+	_body += "\"documentSymbolProvider\":false"
+	_body += "},\"serverInfo\":{\"name\":\"iron_lsp\",\"version\":\"0.1.0\"}}}"
+	_lsp_send _body
+	return
+
+;---------------------------------------------------------
+; hover レスポンス (簡易: "HSP keyword: X" を返す)
+;---------------------------------------------------------
+#deffunc _lsp_reply_hover int _id, str _kw, local _body
+	_body = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ","
+	_body += "\"result\":{\"contents\":{\"kind\":\"markdown\","
+	_body += "\"value\":\"**" + _kw + "** (HSP keyword placeholder)\\n\\niron_lsp は現在 scaffold のみです。本実装はトークナイザ統合が必要です。\""
+	_body += "}}}"
+	_lsp_send _body
+	return
+
+;---------------------------------------------------------
+; completion レスポンス (固定リスト)
+;---------------------------------------------------------
+#deffunc _lsp_reply_completion int _id, local _body
+	_body = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ","
+	_body += "\"result\":{\"isIncomplete\":false,\"items\":["
+	; HSP 基本キーワード少数 (実運用には数千必要)
+	sdim _kws, 128, 20
+	_kws(0) = "mes" : _kws(1) = "dim" : _kws(2) = "sdim" : _kws(3) = "ddim"
+	_kws(4) = "repeat" : _kws(5) = "loop" : _kws(6) = "if" : _kws(7) = "else"
+	_kws(8) = "goto" : _kws(9) = "gosub" : _kws(10) = "#deffunc"
+	_kws(11) = "#defcfunc" : _kws(12) = "#module" : _kws(13) = "#global"
+	_kws(14) = "#include" : _kws(15) = "#define" : _kws(16) = "return"
+	_kws(17) = "stop" : _kws(18) = "end" : _kws(19) = "await"
+	repeat 20
+		if cnt > 0 : _body += ","
+		_body += "{\"label\":\"" + _kws(cnt) + "\",\"kind\":14}"   ; 14 = Keyword
+	loop
+	_body += "]}}"
+	_lsp_send _body
+	return
+
+;---------------------------------------------------------
+; lsp_run  — メインループ (stdin 読み取り + ディスパッチ)
+;---------------------------------------------------------
+#deffunc lsp_run
+	; 注意: HSP3 の stdio 読み取りは機能的に制限がある。
+	;       hsp3cl_net は mes で stdout 書き込みできるが、stdin 読み取りは
+	;       ランタイム側に readln 相当の機能が必要。
+	;       本スケルトンでは setrequest / getrequest 等の placeholder を
+	;       示すのみ (実装は hsp3cl_net ランタイム拡張が前提)。
+
+	mes "iron_lsp server scaffold started (stdin reading is NOT YET implemented)"
+	mes "This is a scaffold; connect a real stdin reader via runtime extension."
+	; メインループのプレースホルダ
+	repeat
+		; 実装時: Content-Length ヘッダを読んで JSON-RPC メッセージを取得
+		; _read_lsp_message msg_body
+		; if _lsp_shutdown : break
+		; _lsp_dispatch msg_body
+		await 100
+		break    ; scaffold なので即 break
+	loop
+	return
+
+#global
+
+#endif
