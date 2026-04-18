@@ -1,0 +1,24 @@
+LIBRARY hspcoreaudio
+
+EXPORTS
+    coreaudio_init
+    coreaudio_shutdown
+
+    coreaudio_system_get_volume
+    coreaudio_system_set_volume
+    coreaudio_system_get_mute
+    coreaudio_system_set_mute
+    coreaudio_system_get_peak
+
+    coreaudio_session_count
+    coreaudio_session_name
+    coreaudio_session_pid
+    coreaudio_session_get_volume
+    coreaudio_session_set_volume
+    coreaudio_session_get_mute
+    coreaudio_session_set_mute
+    coreaudio_session_get_peak
+
+    coreaudio_device_count
+    coreaudio_device_name
+    coreaudio_device_get_default

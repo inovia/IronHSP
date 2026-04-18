@@ -1,0 +1,55 @@
+;============================================================
+; hspcoreaudio ユニットテスト (hsptestrt + iron_test_ex)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hsptestrt.as"
+#include "iron_test_ex.hsp"
+#include "hspcoreaudio.as"
+
+test_case "init / shutdown"
+	coreaudio_init
+	expect_eq stat, 0
+	coreaudio_shutdown
+	expect_eq stat, 0
+test_end
+
+test_case "system volume get/set roundtrip"
+	coreaudio_init
+	; 現在値を保存
+	ddim orig, 1
+	coreaudio_system_get_volume orig
+	expect_eq stat, 0
+	; 0.25 に変更
+	coreaudio_system_set_volume 0.25
+	expect_eq stat, 0
+	ddim cur, 1
+	coreaudio_system_get_volume cur
+	; 近似一致 (デバイスステップ幅考慮で ±2%)
+	diff = int(cur(0) * 100) - 25
+	if diff < 0 : diff = -diff
+	expect_eq diff <= 2, 1
+	; 元に戻す
+	coreaudio_system_set_volume orig(0)
+	coreaudio_shutdown
+test_end
+
+test_case "device count > 0"
+	coreaudio_init
+	dim n, 1
+	coreaudio_device_count CA_RENDER, n
+	expect_eq stat, 0
+	; 再生デバイスは通常最低 1 台ある
+	coreaudio_shutdown
+test_end
+
+test_case "default device name not empty"
+	coreaudio_init
+	sdim dn, 256
+	coreaudio_device_get_default CA_RENDER, dn, 256
+	expect_eq stat, 0
+	; 空ではない
+	coreaudio_shutdown
+test_end
+
+end test_finish

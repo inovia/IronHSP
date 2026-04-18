@@ -1,0 +1,60 @@
+;============================================================
+; hspcoreaudio サンプル: システム音量取得 / 全アプリ音量リスト
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspcoreaudio.as"
+
+	coreaudio_init
+	if stat < 0 : dialog "coreaudio init failed" : end 1
+
+	; --- システム音量 ---
+	ddim sys_vol, 1
+	ddim sys_peak, 1
+	dim  sys_mute, 1
+	coreaudio_system_get_volume sys_vol
+	coreaudio_system_get_mute   sys_mute
+	coreaudio_system_get_peak   sys_peak
+
+	mes "=== システム再生 ==="
+	mes "音量  : " + strf("%.2f (%d%%)", sys_vol(0), int(sys_vol(0) * 100))
+	mes "ミュート: " + sys_mute(0)
+	mes "ピーク : " + strf("%.3f", sys_peak(0))
+
+	; --- デバイス列挙 ---
+	dim n_render, 1
+	coreaudio_device_count CA_RENDER, n_render
+	mes ""
+	mes "=== 再生デバイス (" + n_render(0) + ") ==="
+	repeat n_render(0)
+		sdim dev_name, 256
+		coreaudio_device_name cnt, CA_RENDER, dev_name, 256
+		mes "  [" + cnt + "] " + dev_name
+	loop
+
+	sdim def_name, 256
+	coreaudio_device_get_default CA_RENDER, def_name, 256
+	mes "デフォルト: " + def_name
+
+	; --- アプリセッション列挙 ---
+	dim n_sess, 1
+	coreaudio_session_count n_sess
+	mes ""
+	mes "=== アプリ セッション (" + n_sess(0) + ") ==="
+	repeat n_sess(0)
+		sdim app_name, 256
+		dim  app_pid, 1
+		ddim app_vol, 1
+		ddim app_peak, 1
+		dim  app_mute, 1
+		coreaudio_session_name cnt, app_name, 256
+		coreaudio_session_pid  cnt, app_pid
+		coreaudio_session_get_volume cnt, app_vol
+		coreaudio_session_get_mute   cnt, app_mute
+		coreaudio_session_get_peak   cnt, app_peak
+		mes strf("  [%d] pid=%d %-24s vol=%.2f peak=%.3f mute=%d",
+			cnt, app_pid(0), app_name, app_vol(0), app_peak(0), app_mute(0))
+	loop
+
+	coreaudio_shutdown
+	end 0
