@@ -1,0 +1,122 @@
+;============================================================
+;  アルゴリズム 44〜47: 数値計算
+;    44. Newton 法 (非線形方程式の根)
+;    45. Simpson 積分 (1/3 則)
+;    46. Runge-Kutta 4 次 (常微分方程式)
+;    47. Gauss-Jordan 消去法 (連立 1 次方程式)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+
+#module
+; ----- 44. Newton 法 (f(x) = x^2 - 2 の根) -----
+#defcfunc newton_sqrt double _target, double _x0, int _max_iter, \
+	local x, local i
+	x = _x0
+	for i, 0, _max_iter
+		; f(x)  = x^2 - target
+		; f'(x) = 2x
+		; x <- x - f/f'
+		x = x - (x * x - _target) / (2.0 * x)
+	next
+	return x
+
+; ----- 45. Simpson 積分 (a..b, n 分割、n は偶数) -----
+;  f(x) = x^2 の場合をハードコード (関数値を差し替え可)
+#defcfunc simpson_square double _a, double _b, int _n, \
+	local h, local s, local i, local x
+	h = (_b - _a) / _n
+	s = _a * _a + _b * _b
+	for i, 1, _n
+		x = _a + h * i
+		if i & 1 : s += 4.0 * x * x : else : s += 2.0 * x * x
+	next
+	return s * h / 3.0
+
+; ----- 46. RK4 (y' = f(t, y), y(t0) = y0) -----
+;  デモ: y' = -2y (解析解 y(t) = y0 * exp(-2t))
+#defcfunc rk4_decay double _t0, double _y0, double _t1, int _steps, \
+	local t, local y, local h, local k1, local k2, local k3, local k4, local i
+	h = (_t1 - _t0) / _steps
+	t = _t0 : y = _y0
+	for i, 0, _steps
+		k1 = -2.0 * y
+		k2 = -2.0 * (y + h * k1 / 2.0)
+		k3 = -2.0 * (y + h * k2 / 2.0)
+		k4 = -2.0 * (y + h * k3)
+		y += h * (k1 + 2.0 * k2 + 2.0 * k3 + k4) / 6.0
+		t += h
+	next
+	return y
+
+; ----- 47. Gauss-Jordan 消去法 (N x N 連立) -----
+;  拡大係数行列 A|b を in/out、解 x は A の最右列
+#deffunc gauss_jordan array _m, int _n, \
+	local i, local j, local k, local pivot, local r, local maxv, local maxr, local tmp
+	; 行数 n、列数 n+1 (augmented)
+	for i, 0, _n
+		; ピボット選択 (部分ピボット)
+		maxv = absf(_m(i * (_n + 1) + i))
+		maxr = i
+		for r, i + 1, _n
+			if absf(_m(r * (_n + 1) + i)) > maxv {
+				maxv = absf(_m(r * (_n + 1) + i))
+				maxr = r
+			}
+		next
+		if maxr != i {
+			for k, 0, _n + 1
+				tmp = _m(i * (_n + 1) + k)
+				_m(i * (_n + 1) + k) = _m(maxr * (_n + 1) + k)
+				_m(maxr * (_n + 1) + k) = tmp
+			next
+		}
+		pivot = _m(i * (_n + 1) + i)
+		if absf(pivot) < 1e-12 {
+			mes "  (singular matrix)"
+			return -1
+		}
+		for k, 0, _n + 1
+			_m(i * (_n + 1) + k) = _m(i * (_n + 1) + k) / pivot
+		next
+		for j, 0, _n
+			if j != i {
+				pivot = _m(j * (_n + 1) + i)
+				for k, 0, _n + 1
+					_m(j * (_n + 1) + k) = _m(j * (_n + 1) + k) - pivot * _m(i * (_n + 1) + k)
+				next
+			}
+		next
+	next
+	return 0
+
+
+#global
+
+; ===== デモ =====
+	mes "=== Newton 法: sqrt(2) ==="
+	mes strf("x = %.10f (期待: 1.41421356...)", newton_sqrt(2.0, 1.0, 10))
+
+	mes ""
+	mes "=== Simpson 積分 ∫₀² x² dx = 8/3 ==="
+	mes strf("n=10:  %.10f", simpson_square(0.0, 2.0, 10))
+	mes strf("n=100: %.10f", simpson_square(0.0, 2.0, 100))
+	mes strf("期待:  %.10f", 8.0 / 3.0)
+
+	mes ""
+	mes "=== RK4: y'=-2y, y(0)=1, t=1 ==="
+	mes strf("RK4 (50 steps): y(1) = %.10f", rk4_decay(0.0, 1.0, 1.0, 50))
+	mes strf("解析解:         y(1) = %.10f = e^(-2)", 0.1353352832366127)
+
+	mes ""
+	mes "=== Gauss-Jordan: 3x + 2y - z = 1, 2x - 2y + 4z = -2, -x + y/2 - z = 0 ==="
+	; A|b (3x4):
+	ddim mt, 12
+	mt(0) =  3.0 : mt(1) =  2.0 : mt(2) = -1.0 : mt(3) =  1.0
+	mt(4) =  2.0 : mt(5) = -2.0 : mt(6) =  4.0 : mt(7) = -2.0
+	mt(8) = -1.0 : mt(9) =  0.5 : mt(10)= -1.0 : mt(11)=  0.0
+	gauss_jordan mt, 3
+	mes strf("x = %.6f (期待: 1)",  mt(3))
+	mes strf("y = %.6f (期待: -2)", mt(7))
+	mes strf("z = %.6f (期待: -2)", mt(11))
+	end 0

@@ -1,0 +1,108 @@
+;============================================================
+;   RawInput API サンプル: 複数キーボード識別
+;
+;   Windows の Raw Input API を使って、複数のキーボードデバイスを
+;   区別して入力を受け取ります。バーコードリーダー、USB テンキー、
+;   内蔵キーボードなどが別々の Device ID で表示されます。
+;
+;   物理的に 2 つ以上のキーボードを接続して実行してみてください。
+;   ウィンドウを閉じれば終了。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "user32_gen2.as"
+#include "win32_types_gen2.as"
+
+	title "RawInput 複数キーボード識別サンプル"
+	screen 0, 720, 520, screen_normal
+	color 255, 255, 255 : boxf
+	color 0, 0, 0
+	pos 10, 10
+	mes "複数キーボードを繋いでキーを押してください。発生元を Device ID"
+	mes "ごとに区別して表示します。[ウィンドウの × ] で終了"
+	mes ""
+
+	; --- RAWINPUTDEVICE 構造体 (16 byte on x64) を組み立て ---
+	; offset 0  USHORT UsagePage  = 0x01 (Generic Desktop)
+	; offset 2  USHORT Usage      = 0x06 (Keyboard)
+	; offset 4  DWORD  Flags      = RIDEV_INPUTSINK (フォーカス無くても受信)
+	; offset 8  HWND   Target     = hwnd
+	sdim rid, 16
+	wpoke rid, 0, 0x01
+	wpoke rid, 2, 0x06
+	lpoke rid, 4, RIDEV_INPUTSINK
+	lpoke rid, 8,  hwnd
+	lpoke rid, 12, 0
+
+	RegisterRawInputDevices rid, 1, 16
+	if stat = 0 : dialog "RegisterRawInputDevices failed" : end
+
+	; WM_INPUT (0x00FF) を oncmd でフック
+	oncmd gosub *on_wm_input, 0x00FF
+
+	pos 10, 90
+	mes "Event Log:"
+	log_y = 110
+
+*main_loop
+	wait 1
+	redraw 1
+	goto *main_loop
+
+; ---------------------------------------------------------
+; WM_INPUT ハンドラ
+;   wparam : 0=RIM_INPUT / 1=RIM_INPUTSINK
+;   lparam : HRAWINPUT handle
+; ---------------------------------------------------------
+*on_wm_input
+	; サイズを問い合わせ
+	dim sz, 1
+	sz(0) = 0
+	GetRawInputData lparam, RID_INPUT, 0, sz, 24   ; sizeof(RAWINPUTHEADER) = 24
+	if sz(0) <= 0 : return
+
+	; バッファ確保してデータ取得
+	sdim buf, sz(0) + 16
+	GetRawInputData lparam, RID_INPUT, varptr(buf), sz, 24
+
+	; RAWINPUTHEADER:
+	;   0:  DWORD  Type         (0=mouse,1=kbd,2=hid)
+	;   4:  DWORD  Size
+	;   8:  HANDLE hDevice      (8 byte on x64)
+	;   16: WPARAM wParam       (8 byte on x64)
+	dw_type = lpeek(buf, 0)
+	if dw_type != 1 : return              ; keyboard 以外は無視
+	hdev_lo = lpeek(buf, 8)
+	hdev_hi = lpeek(buf, 12)
+
+	; RAWKEYBOARD (offset 24):
+	;   24: USHORT MakeCode
+	;   26: USHORT Flags
+	;   28: USHORT Reserved
+	;   30: USHORT VKey
+	;   32: UINT   Message   = WM_KEYDOWN / WM_KEYUP / WM_SYSKEYDOWN / WM_SYSKEYUP
+	make_code = wpeek(buf, 24)
+	kb_flags  = wpeek(buf, 26)
+	vkey      = wpeek(buf, 30)
+	kb_msg    = lpeek(buf, 32)
+
+	; キーダウンのみ表示
+	if (kb_msg != 0x100) & (kb_msg != 0x104) : return
+
+	redraw 0
+	color 0, 0, 0
+	pos 10, log_y
+	ch = ""
+	if (vkey >= 'A') & (vkey <= 'Z') : ch = strf(" '%c'", vkey)
+	if (vkey >= '0') & (vkey <= '9') : ch = strf(" '%c'", vkey)
+	if vkey == 0x0D : ch = " [ENTER]"
+	mes strf("  [Device=%08X:%08X] VK=0x%02X%s  (make=0x%02X flags=0x%02X)",
+	         hdev_hi, hdev_lo, vkey, ch, make_code, kb_flags)
+	log_y += 18
+	if log_y > 500 {
+		color 255, 255, 255
+		boxf 10, 110, 710, 515
+		color 0, 0, 0
+		log_y = 110
+	}
+	return

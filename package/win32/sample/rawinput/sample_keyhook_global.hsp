@@ -1,0 +1,128 @@
+;============================================================
+;   SetWindowsHookEx WH_KEYBOARD_LL サンプル: グローバルキーフック
+;
+;   Low-level keyboard hook で全プロセスのキーストロークを受信します。
+;   ホットキーマネージャ、キー履歴、自動操作検出などに応用できます。
+;
+;   注意:
+;     - setcallback が必要 (hsp3net 専用機能)
+;     - ブロッキング動作のため重い処理は避ける
+;     - 終了時に UnhookWindowsHookEx を必ず呼ぶ (さもないと全プロセスが固まる)
+;     - Ctrl+Alt+X で終了
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "user32_gen2.as"
+#include "win32_types_gen2.as"
+
+	title "グローバル KeyHook サンプル"
+	screen 0, 720, 520, screen_normal
+	color 255, 255, 255 : boxf
+	color 0, 0, 0
+	pos 10, 10
+	mes "Windows 全体のキーストロークを受信中..."
+	mes "【終了】 Ctrl + Alt + X を押す"
+	mes ""
+	pos 10, 80
+	log_y = 80
+
+	; setcallback で LowLevelKeyboardProc を作成
+	; プロトタイプ: LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+	setcallback *on_key_hook, 3
+	cb_ptr = stat
+
+	; SetWindowsHookExW(WH_KEYBOARD_LL=13, proc, hInstance=0, threadId=0)
+	WH_KEYBOARD_LL = 13
+	SetWindowsHookExW WH_KEYBOARD_LL, cb_ptr, 0, 0
+	hhk = stat
+	if hhk = 0 : dialog "SetWindowsHookEx failed" : end
+
+	terminated = 0
+
+*main_loop
+	wait 2
+	if terminated : goto *done
+	goto *main_loop
+
+; ---------------------------------------------------------
+; LowLevelKeyboardProc (callback)
+;   nCode: < 0 なら必ず CallNextHookEx を呼んで素通し
+;   wParam: WM_KEYDOWN (0x100) / WM_KEYUP (0x101) /
+;           WM_SYSKEYDOWN (0x104) / WM_SYSKEYUP (0x105)
+;   lParam: KBDLLHOOKSTRUCT* へのポインタ
+;     struct KBDLLHOOKSTRUCT {
+;       DWORD vkCode;        // offset 0
+;       DWORD scanCode;      // offset 4
+;       DWORD flags;         // offset 8
+;       DWORD time;          // offset 12
+;       ULONG_PTR dwExtraInfo;  // offset 16 (8 byte on x64)
+;     }
+; ---------------------------------------------------------
+*on_key_hook
+	n_code = callbackarg(0)
+	w_param = callbackarg(1)
+	l_param = callbackarg(2)
+
+	if n_code < 0 {
+		; 素通し
+		CallNextHookEx 0, n_code, w_param, l_param
+		comret stat
+		return
+	}
+
+	; l_param から KBDLLHOOKSTRUCT を読む
+	; lparam は intptr なので dupptr でバッファに紐付け
+	dupptr kbs, l_param, 24, 4          ; 24 byte, int 型
+	vk_code = kbs(0)          ; offset 0
+	scan    = kbs(1)          ; offset 4
+	flags   = kbs(2)          ; offset 8
+
+	; 終了判定: Ctrl+Alt+X (keyup のみ)
+	if w_param == 0x101 {       ; WM_KEYUP
+		if vk_code == 'X' {
+			dim ks1, 1
+			GetKeyState 0x11      ; VK_CONTROL
+			if (stat & 0x8000) {
+				GetKeyState 0x12  ; VK_MENU (Alt)
+				if (stat & 0x8000) {
+					terminated = 1
+				}
+			}
+		}
+	}
+
+	; KEYDOWN のみログ表示
+	if (w_param == 0x100) | (w_param == 0x104) {
+		; ロック系は log 取らない (CapsLock/NumLock/ScrollLock 頻出)
+		if (vk_code != 0x14) & (vk_code != 0x90) & (vk_code != 0x91) {
+			redraw 0
+			pos 10, log_y
+			; 印字可能な文字は strf
+			ch = ""
+			if (vk_code >= 'A') & (vk_code <= 'Z') : ch = strf(" '%c'", vk_code)
+			if (vk_code >= '0') & (vk_code <= '9') : ch = strf(" '%c'", vk_code)
+			if vk_code == 0x08 : ch = " [BS]"
+			if vk_code == 0x0D : ch = " [ENTER]"
+			if vk_code == 0x20 : ch = " [SP]"
+			if vk_code == 0x1B : ch = " [ESC]"
+			color 0, 0, 0
+			mes strf("  VK=0x%02X%s scan=0x%02X flags=0x%02X msg=0x%03X",
+			         vk_code, ch, scan, flags, w_param)
+			log_y += 18
+			if log_y > 500 {
+				color 255, 255, 255 : boxf 10, 80, 710, 515
+				color 0, 0, 0
+				log_y = 80
+			}
+		}
+	}
+
+	; 次のフック or 既定処理へ素通し
+	CallNextHookEx 0, n_code, w_param, l_param
+	comret stat
+	return
+
+*done
+	UnhookWindowsHookEx hhk
+	dialog "Hook removed. Bye!"
+	end

@@ -1,0 +1,164 @@
+;============================================================
+;   RawInput API サンプル: バーコードリーダー連携
+;
+;   USB バーコードリーダーは通常 HID Keyboard としてエミュレートされ、
+;   フォーカスのあるウィンドウに文字列を打鍵してくる。
+;   Raw Input を使えば:
+;     - フォーカスに関係なく入力を受信 (RIDEV_INPUTSINK)
+;     - 本体キーボードと区別 (hDevice)
+;     - 途中でユーザが本体キーボードを叩いても混ざらない
+;
+;   動作:
+;     1. 起動直後、本体キーボードの hDevice を識別のためまず 1 文字
+;        叩いてもらう (Enter で完了)
+;     2. 以降、本体と異なる hDevice からの入力を「バーコード」として
+;        受信開始 → Enter (CR = VK_RETURN) まで累積 → 1 件として表示
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "user32_gen2.as"
+#include "win32_types_gen2.as"
+
+	title "RawInput バーコードリーダー サンプル"
+	screen 0, 720, 520, screen_normal
+	color 255, 255, 255 : boxf
+	color 0, 0, 0
+	pos 10, 10
+	mes "バーコードリーダー連携サンプル (Raw Input)"
+	mes ""
+	mes "【Step 1】 本体キーボードから何でもいいので 1 文字押して Enter"
+	mes "         → これで本体キーボードを識別します"
+	mes ""
+	mes "【Step 2】 バーコードをスキャン"
+	mes "         → 本体キーボードと区別して受信、Enter 終端で 1 件確定"
+	mes ""
+
+	; RAWINPUTDEVICE
+	sdim rid, 16
+	wpoke rid, 0, 0x01
+	wpoke rid, 2, 0x06
+	lpoke rid, 4, RIDEV_INPUTSINK
+	lpoke rid, 8,  hwnd
+	lpoke rid, 12, 0
+
+	RegisterRawInputDevices rid, 1, 16
+	if stat = 0 : dialog "RegisterRawInputDevices failed" : end
+
+	; 状態
+	dim main_hdev_lo, 1
+	dim main_hdev_hi, 1
+	main_hdev_lo = 0
+	main_hdev_hi = 0
+	calibrated   = 0
+
+	sdim cur_barcode, 512
+	cur_barcode = ""
+
+	oncmd gosub *on_wm_input, 0x00FF
+
+	log_y = 160
+
+*main_loop
+	wait 1
+	redraw 1
+	goto *main_loop
+
+; ---------------------------------------------------------
+; RawInput VK → ASCII 変換 (US 配列基準、簡易)
+; ---------------------------------------------------------
+#module
+#defcfunc vk_to_ascii int vk, int shift
+	if (vk >= 'A') & (vk <= 'Z') {
+		if shift : return vk
+		return vk + 32   ; 小文字化
+	}
+	if (vk >= '0') & (vk <= '9') {
+		if shift == 0 : return vk
+		; shift 付き数字 → 記号 (US 配列)
+		s_tbl = ")!@#$%^&*("
+		return peek(s_tbl, vk - '0')
+	}
+	if vk == 0x20 : return ' '          ; VK_SPACE
+	if vk == 0xBD : return '-'
+	if vk == 0xBB : return '='
+	if vk == 0xBC : return ','
+	if vk == 0xBE : return '.'
+	if vk == 0xBF : return '/'
+	return 0
+#global
+
+; ---------------------------------------------------------
+; 本体キーボード計測 + バーコード受信
+; ---------------------------------------------------------
+*on_wm_input
+	dim sz, 1
+	GetRawInputData lparam, RID_INPUT, 0, sz, 24
+	if sz(0) <= 0 : return
+	sdim buf, sz(0) + 16
+	GetRawInputData lparam, RID_INPUT, varptr(buf), sz, 24
+
+	if lpeek(buf, 0) != 1 : return       ; keyboard 以外
+
+	hlo = lpeek(buf, 8)
+	hhi = lpeek(buf, 12)
+	vkey = wpeek(buf, 30)
+	kb_msg = lpeek(buf, 32)
+
+	; キーダウンのみ
+	if (kb_msg != 0x100) & (kb_msg != 0x104) : return
+
+	; Shift 状態は本サンプルでは簡易処理 (GetKeyState で静的に取る)
+	dim sstate, 1
+	GetKeyState 0x10
+	shift = (stat & 0x8000) != 0
+
+	if calibrated == 0 {
+		; Step 1: 本体キーボード計測
+		if vkey == 0x0D {    ; Enter
+			main_hdev_lo = hlo
+			main_hdev_hi = hhi
+			calibrated = 1
+			color 0, 128, 0
+			pos 10, 140
+			mes strf("本体キーボード識別: hDevice=%08X:%08X", hhi, hlo)
+			color 0, 0, 0
+			pos 10, 160
+			mes "→ これ以外の hDevice からの入力を"
+			mes "   バーコードとして受信します。スキャンしてください:"
+			mes ""
+			log_y = 220
+		}
+		return
+	}
+
+	; Step 2: バーコード受信
+	if (hlo == main_hdev_lo) & (hhi == main_hdev_hi) {
+		; 本体キーボードからの入力は無視
+		return
+	}
+
+	if vkey == 0x0D {
+		; Enter で確定
+		redraw 0
+		color 0, 0, 128
+		pos 10, log_y
+		mes strf("[BARCODE] %s  (hDevice=%08X:%08X, 長さ=%d)",
+		         cur_barcode, hhi, hlo, strlen(cur_barcode))
+		color 0, 0, 0
+		log_y += 20
+		cur_barcode = ""
+		if log_y > 500 {
+			color 255, 255, 255 : boxf 10, 220, 710, 515
+			color 0, 0, 0
+			log_y = 220
+		}
+		return
+	}
+
+	; 文字を累積
+	c = vk_to_ascii(vkey, shift)
+	if c > 0 {
+		cc = strf("%c", c)
+		cur_barcode += cc
+	}
+	return

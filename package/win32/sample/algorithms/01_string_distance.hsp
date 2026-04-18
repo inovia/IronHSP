@@ -1,0 +1,193 @@
+;============================================================
+;  アルゴリズム 01〜05: 文字列距離 / 類似度
+;    01. Levenshtein (編集距離, DP)
+;    02. Hamming 距離
+;    03. Jaro-Winkler 類似度
+;    04. SoundEx (英語発音コード)
+;    05. Bigram Jaccard 類似度
+;============================================================
+
+#include "hsp3cl_net_64.as"
+
+; ----- 01. Levenshtein 距離 -----
+#module
+#defcfunc levenshtein var _a, var _b, \
+	local _i, local _j, local _la, local _lb, local _ca, local _cb, local _cost, local _m, local _n
+	_la = strlen(_a) : _lb = strlen(_b)
+	if _la == 0 : return _lb
+	if _lb == 0 : return _la
+	dim dp, (_la + 1) * (_lb + 1)
+	repeat _la + 1 : dp(cnt) = cnt : loop
+	repeat _lb + 1 : dp(cnt * (_la + 1)) = cnt : loop
+	repeat _lb
+		_j = cnt + 1
+		repeat _la
+		_i = cnt + 1
+			_ca = peek(_a, _i - 1)
+			_cb = peek(_b, _j - 1)
+			_cost = 0 : if _ca != _cb : _cost = 1
+			_m = dp((_j) * (_la + 1) + _i - 1) + 1
+			_n = dp((_j - 1) * (_la + 1) + _i) + 1
+			if _n < _m : _m = _n
+			_n = dp((_j - 1) * (_la + 1) + _i - 1) + _cost
+			if _n < _m : _m = _n
+			dp(_j * (_la + 1) + _i) = _m
+		loop
+	loop
+	return dp(_lb * (_la + 1) + _la)
+#global
+
+; ----- 02. Hamming 距離 -----
+#module
+#defcfunc hamming var _a, var _b, local _n, local _d
+	_n = strlen(_a)
+	if _n != strlen(_b) : return -1
+	_d = 0
+	repeat _n
+		if peek(_a, cnt) != peek(_b, cnt) : _d++
+	loop
+	return _d
+#global
+
+; ----- 03. Jaro-Winkler (×1000 で返却) -----
+#module
+#defcfunc jaro_winkler_1000 var _a, var _b, \
+	local _la, local _lb, local _i, local _j, local _match, local _trans, \
+	local _half, local _lo, local _hi, local _prefix, local _jaro, local _found
+	_la = strlen(_a) : _lb = strlen(_b)
+	if (_la == 0) | (_lb == 0) : return 0
+	_half = _la
+	if _lb > _half : _half = _lb
+	_half = (_half / 2) - 1 : if _half < 0 : _half = 0
+	dim am, _la : dim bm, _lb
+	_match = 0
+	repeat _la
+		_i = cnt
+		_lo = _i - _half : if _lo < 0 : _lo = 0
+		_hi = _i + _half + 1 : if _hi > _lb : _hi = _lb
+		_found = 0
+		repeat _hi - _lo
+			_j = _lo + cnt
+			if _found : continue
+			if bm(_j) == 0 {
+				if peek(_a, _i) == peek(_b, _j) {
+					am(_i) = 1 : bm(_j) = 1 : _match++
+					_found = 1
+				}
+			}
+		loop
+	loop
+	if _match == 0 : return 0
+	_trans = 0 : _j = 0
+	repeat _la
+		_i = cnt
+		if am(_i) {
+			repeat : if bm(_j) : break : else : _j++
+			loop
+			if peek(_a, _i) != peek(_b, _j) : _trans++
+			_j++
+		}
+	loop
+	_trans /= 2
+	_jaro = ((1000 * _match / _la) + (1000 * _match / _lb) + (1000 * (_match - _trans) / _match)) / 3
+	_prefix = 0
+	repeat 4
+		if cnt >= _la : break
+		if cnt >= _lb : break
+		if peek(_a, cnt) != peek(_b, cnt) : break
+		_prefix++
+	loop
+	return _jaro + _prefix * (1000 - _jaro) / 10
+#global
+
+; ----- 04. SoundEx -----
+#module
+#defcfunc soundex var _s, local _c, local _i, local _prev, local _digit, local _out, local _j
+	if strlen(_s) == 0 : return ""
+	_c = peek(_s, 0)
+	if (_c >= 'a') & (_c <= 'z') : _c -= 32
+	sdim _out, 8
+	poke _out, 0, _c
+	_prev = -1
+	_i = 1
+	_j = 1
+	repeat strlen(_s) - 1
+		if _i >= 4 : break
+		_c = peek(_s, _j) : _j++
+		if (_c >= 'a') & (_c <= 'z') : _c -= 32
+		if (_c == 'A') | (_c == 'E') | (_c == 'I') | (_c == 'O') | (_c == 'U') | (_c == 'H') | (_c == 'W') | (_c == 'Y') {
+			_prev = -1
+			continue
+		}
+		_digit = 0
+		if (_c == 'B') | (_c == 'F') | (_c == 'P') | (_c == 'V') : _digit = 1
+		if (_c == 'C') | (_c == 'G') | (_c == 'J') | (_c == 'K') | (_c == 'Q') | (_c == 'S') | (_c == 'X') | (_c == 'Z') : _digit = 2
+		if (_c == 'D') | (_c == 'T') : _digit = 3
+		if _c == 'L' : _digit = 4
+		if (_c == 'M') | (_c == 'N') : _digit = 5
+		if _c == 'R' : _digit = 6
+		if _digit > 0 {
+			if _digit != _prev {
+				poke _out, _i, _digit + '0'
+				_i++
+			}
+			_prev = _digit
+		} else {
+			_prev = -1
+		}
+	loop
+	repeat 4 - _i
+		poke _out, _i, '0' : _i++
+	loop
+	poke _out, 4, 0
+	return _out
+#global
+
+; ----- 05. Bigram Jaccard 類似度 (×1000) -----
+#module
+#defcfunc jaccard_1000 var _a, var _b, \
+	local _la, local _lb, local _common, local _uni, local _i, local _j, local _found
+	_la = strlen(_a) - 1 : if _la < 0 : _la = 0
+	_lb = strlen(_b) - 1 : if _lb < 0 : _lb = 0
+	if (_la == 0) | (_lb == 0) : return 0
+	dim used_b, _lb
+	_common = 0
+	repeat _la
+		_i = cnt
+		_found = 0
+		repeat _lb
+		_j = cnt
+			if _found : continue
+			if used_b(_j) == 0 {
+				if (peek(_a, _i) == peek(_b, _j)) & (peek(_a, _i + 1) == peek(_b, _j + 1)) {
+					_common++ : used_b(_j) = 1 : _found = 1
+				}
+			}
+		loop
+	loop
+	_uni = _la + _lb - _common
+	if _uni == 0 : return 1000
+	return 1000 * _common / _uni
+#global
+
+; ===== デモ =====
+	mes "=== 文字列距離 / 類似度 ==="
+	s1 = "kitten" : s2 = "sitting"
+	mes strf("Levenshtein(kitten, sitting) = %d", levenshtein(s1, s2))
+	s1 = "hello" : s2 = "world"
+	mes strf("Levenshtein(hello, world) = %d",    levenshtein(s1, s2))
+	s1 = "karolin" : s2 = "kathrin"
+	mes strf("Hamming(karolin, kathrin) = %d",    hamming(s1, s2))
+	s1 = "martha" : s2 = "marhta"
+	jw1 = 1.0 * jaro_winkler_1000(s1, s2) / 1000
+	mes strf("Jaro-Winkler(martha, marhta) = %.3f", jw1)
+	s1 = "dixon" : s2 = "dicksonx"
+	jw2 = 1.0 * jaro_winkler_1000(s1, s2) / 1000
+	mes strf("Jaro-Winkler(dixon, dicksonx) = %.3f", jw2)
+	s1 = "Robert"   : mes strf("SoundEx(Robert) = %s",   soundex(s1))
+	s1 = "Rupert"   : mes strf("SoundEx(Rupert) = %s",   soundex(s1))
+	s1 = "Ashcraft" : mes strf("SoundEx(Ashcraft) = %s", soundex(s1))
+	s1 = "night" : s2 = "nacht"
+	jc = 1.0 * jaccard_1000(s1, s2) / 1000
+	mes strf("Bigram Jaccard(night, nacht) = %.3f", jc)
+	end 0

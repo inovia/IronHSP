@@ -1,0 +1,238 @@
+;============================================================
+;  アルゴリズム 21〜25: グラフアルゴリズム
+;    21. Dijkstra (単一始点最短経路, O((V+E) log V) 相当)
+;    22. Bellman-Ford (負辺対応)
+;    23. Floyd-Warshall (全点対最短経路)
+;    24. Topological Sort (Kahn 法)
+;    25. Kruskal (最小全域木, Union-Find)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+
+; ----- 21. Dijkstra (隣接行列版、シンプル O(V^2)) -----
+#module
+#deffunc dijkstra array _mat, int _n, int _src, array _dist, \
+	local i, local u, local min_d, local INF
+	INF = 0x7FFFFFFF
+	dim _dist, _n
+	dim _done, _n
+	repeat _n : _dist(cnt) = INF : loop
+	_dist(_src) = 0
+	repeat _n
+		u = -1 : min_d = INF
+		for i, 0, _n
+			if (_done(i) == 0) & (_dist(i) < min_d) : min_d = _dist(i) : u = i
+		next
+		if u == -1 : break
+		_done(u) = 1
+		for i, 0, _n
+			w = _mat(u * _n + i)
+			if (w > 0) & (_done(i) == 0) {
+				if _dist(u) + w < _dist(i) : _dist(i) = _dist(u) + w
+			}
+		next
+	loop
+	return
+#global
+
+; ----- 22. Bellman-Ford (辺リスト表現、負辺 OK) -----
+#module
+#deffunc bellman_ford array _u, array _v, array _w, int _m, int _n, int _src, array _dist, \
+	local i, local j, local INF, local ok
+	INF = 0x7FFFFFFF
+	dim _dist, _n
+	repeat _n : _dist(cnt) = INF : loop
+	_dist(_src) = 0
+	for i, 0, _n - 1
+		ok = 1
+		for j, 0, _m
+			if _dist(_u(j)) != INF {
+				if _dist(_u(j)) + _w(j) < _dist(_v(j)) {
+					_dist(_v(j)) = _dist(_u(j)) + _w(j)
+					ok = 0
+				}
+			}
+		next
+		if ok : break
+	next
+	; 負閉路検出
+	for j, 0, _m
+		if _dist(_u(j)) != INF {
+			if _dist(_u(j)) + _w(j) < _dist(_v(j)) {
+				mes "WARNING: negative cycle detected"
+				break
+			}
+		}
+	next
+	return
+#global
+
+; ----- 23. Floyd-Warshall (全点対最短路) -----
+#module
+#deffunc floyd_warshall array _d, int _n, \
+	local k, local i, local j, local INF, local via
+	INF = 0x7FFFFFFF
+	for k, 0, _n
+		for i, 0, _n
+			for j, 0, _n
+				if (_d(i * _n + k) != INF) & (_d(k * _n + j) != INF) {
+					via = _d(i * _n + k) + _d(k * _n + j)
+					if via < _d(i * _n + j) : _d(i * _n + j) = via
+				}
+			next
+		next
+	next
+	return
+#global
+
+; ----- 24. Topological Sort (Kahn) -----
+#module
+#deffunc topo_sort array _head, array _nx, array _to, int _n, array _order, var _ok, \
+	local i, local f, local r, local u, local e
+	dim indeg, _n
+	for u, 0, _n
+		e = _head(u)
+		while e != -1
+			indeg(_to(e))++
+			e = _nx(e)
+		wend
+	next
+	dim _order, _n
+	dim q, _n
+	f = 0 : r = 0
+	for i, 0, _n
+		if indeg(i) == 0 : q(r) = i : r++
+	next
+	k = 0
+	while f < r
+		u = q(f) : f++
+		_order(k) = u : k++
+		e = _head(u)
+		while e != -1
+			v = _to(e)
+			indeg(v)--
+			if indeg(v) == 0 : q(r) = v : r++
+			e = _nx(e)
+		wend
+	wend
+	_ok = (k == _n)
+	return
+#global
+
+; ----- 25. Kruskal (MST) + Union-Find -----
+#module
+#deffunc uf_init array _par, int _n, local i
+	dim _par, _n
+	for i, 0, _n : _par(i) = i : next
+	return
+
+#defcfunc uf_find array _par, int _x, local r
+	r = _x
+	while _par(r) != r : r = _par(r) : wend
+	; path compression
+	while _par(_x) != r : t = _par(_x) : _par(_x) = r : _x = t : wend
+	return r
+
+#defcfunc uf_union array _par, int _x, int _y, local a, local b
+	a = uf_find(_par, _x) : b = uf_find(_par, _y)
+	if a == b : return 0
+	_par(a) = b
+	return 1
+
+; edges を (w, u, v) の 3 要素単位で保持。n_edges は辺数。
+#deffunc kruskal array _w, array _u, array _v, int _m, int _n, var _total, var _cnt_picked, \
+	local i, local j, local idx, local tmp
+	; (w, u, v) を w で昇順ソート (単純 selection sort、m 小さい前提)
+	dim ord, _m
+	for i, 0, _m : ord(i) = i : next
+	for i, 0, _m - 1
+		for j, i + 1, _m
+			if _w(ord(i)) > _w(ord(j)) : tmp = ord(i) : ord(i) = ord(j) : ord(j) = tmp
+		next
+	next
+	uf_init par, _n
+	_total = 0
+	_cnt_picked = 0
+	for i, 0, _m
+		idx = ord(i)
+		if uf_union(par, _u(idx), _v(idx)) {
+			_total += _w(idx)
+			_cnt_picked++
+		}
+	next
+	return
+#global
+
+; ===== デモ =====
+	mes "=== Dijkstra ==="
+	; 4 ノード、隣接行列
+	N = 4
+	dim mat, N * N
+	;   0 1 2 3
+	; 0 0 5 0 1
+	; 1 0 0 2 0
+	; 2 0 0 0 0
+	; 3 0 0 3 0
+	mat(0) = 0 : mat(1) = 5 : mat(2) = 0 : mat(3) = 1
+	mat(4) = 0 : mat(5) = 0 : mat(6) = 2 : mat(7) = 0
+	mat(8) = 0 : mat(9) = 0 : mat(10)= 0 : mat(11)= 0
+	mat(12)= 0 : mat(13)= 0 : mat(14)= 3 : mat(15)= 0
+	dijkstra mat, N, 0, dist
+	repeat N : mes "dist[" + cnt + "] = " + dist(cnt) : loop
+
+	mes ""
+	mes "=== Bellman-Ford ==="
+	; 負辺含む小さなグラフ
+	dim bu, 4 : bu = 0, 0, 1, 2
+	dim bv, 4 : bv = 1, 2, 2, 3
+	dim bw, 4 : bw = 4, 5, -3, 4
+	bellman_ford bu, bv, bw, 4, 4, 0, bdist
+	repeat 4 : mes "bdist[" + cnt + "] = " + bdist(cnt) : loop
+
+	mes ""
+	mes "=== Floyd-Warshall ==="
+	INF = 0x7FFFFFFF
+	M = 3
+	dim fmat, M * M
+	fmat(0) = 0   : fmat(1) = 3   : fmat(2) = INF
+	fmat(3) = INF : fmat(4) = 0   : fmat(5) = 1
+	fmat(6) = 7   : fmat(7) = INF : fmat(8) = 0
+	floyd_warshall fmat, M
+	repeat M
+		line = "" + cnt + ": "
+		repeat M
+			v = fmat(cnt * M + (cnt@))   ; outer cnt inaccessible; skip fancy
+		loop
+	loop
+	; 単純プリント
+	repeat 3
+		mes strf("[%d]: %d %d %d", cnt,
+		         fmat(cnt * 3), fmat(cnt * 3 + 1), fmat(cnt * 3 + 2))
+	loop
+
+	mes ""
+	mes "=== Topological Sort ==="
+	; 0 -> 1, 0 -> 2, 1 -> 3, 2 -> 3
+	N = 4
+	dim thead, N : repeat N : thead(cnt) = -1 : loop
+	dim tnx, 8 : dim tto, 8 : ne = 0
+	edges = 0,1, 0,2, 1,3, 2,3
+	repeat length(edges) / 2
+		u = edges(cnt * 2) : v = edges(cnt * 2 + 1)
+		tto(ne) = v : tnx(ne) = thead(u) : thead(u) = ne : ne++
+	loop
+	topo_sort thead, tnx, tto, N, order, ok
+	line = "topo order: "
+	repeat N : line += "" + order(cnt) + " " : loop
+	mes line + "(ok=" + ok + ")"
+
+	mes ""
+	mes "=== Kruskal MST ==="
+	; 4 ノード、5 辺
+	M = 5 : KN = 4
+	dim kw, M : kw = 1, 3, 4, 2, 5
+	dim ku, M : ku = 0, 0, 1, 2, 2
+	dim kv, M : kv = 1, 2, 2, 3, 1
+	kruskal kw, ku, kv, M, KN, total, picked
+	mes strf("MST total weight = %d (picked %d edges)", total, picked)
+	end 0

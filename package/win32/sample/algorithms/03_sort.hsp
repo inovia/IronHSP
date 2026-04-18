@@ -1,0 +1,146 @@
+;============================================================
+;  アルゴリズム 11〜15: ソート
+;    11. QuickSort
+;    12. MergeSort
+;    13. HeapSort
+;    14. RadixSort (LSD, 32bit)
+;    15. CountingSort
+;============================================================
+
+#include "hsp3cl_net_64.as"
+
+#module
+; ----- 11. QuickSort (in-place, Lomuto partition) -----
+#deffunc quicksort array _a, int _lo, int _hi, \
+	local i, local j, local pivot, local t
+	if _lo >= _hi : return
+	pivot = _a(_hi)
+	i = _lo - 1
+	for j, _lo, _hi
+		if _a(j) <= pivot {
+			i++
+			t = _a(i) : _a(i) = _a(j) : _a(j) = t
+		}
+	next
+	t = _a(i + 1) : _a(i + 1) = _a(_hi) : _a(_hi) = t
+	quicksort _a, _lo, i
+	quicksort _a, i + 2, _hi
+	return
+
+; ----- 12. MergeSort -----
+#deffunc mergesort array _a, int _lo, int _hi, \
+	local mid, local i, local j, local k
+	if _lo >= _hi : return
+	mid = (_lo + _hi) / 2
+	mergesort _a, _lo, mid
+	mergesort _a, mid + 1, _hi
+	dim tmp, _hi - _lo + 1
+	i = _lo : j = mid + 1 : k = 0
+	while (i <= mid) & (j <= _hi)
+		if _a(i) <= _a(j) : tmp(k) = _a(i) : i++ : else : tmp(k) = _a(j) : j++
+		k++
+	wend
+	while i <= mid : tmp(k) = _a(i) : i++ : k++ : wend
+	while j <= _hi : tmp(k) = _a(j) : j++ : k++ : wend
+	repeat _hi - _lo + 1 : _a(_lo + cnt) = tmp(cnt) : loop
+	return
+
+; ----- 13. HeapSort -----
+#deffunc _heapify array _a, int _n, int _i, \
+	local largest, local l, local r, local t
+	largest = _i
+	l = 2 * _i + 1
+	r = 2 * _i + 2
+	if (l < _n) & (_a(l) > _a(largest)) : largest = l
+	if (r < _n) & (_a(r) > _a(largest)) : largest = r
+	if largest != _i {
+		t = _a(_i) : _a(_i) = _a(largest) : _a(largest) = t
+		_heapify _a, _n, largest
+	}
+	return
+
+#deffunc heapsort array _a, int _n, local i, local t
+	for i, _n / 2 - 1, -1, -1
+		_heapify _a, _n, i
+	next
+	for i, _n - 1, 0, -1
+		t = _a(0) : _a(0) = _a(i) : _a(i) = t
+		_heapify _a, i, 0
+	next
+	return
+
+; ----- 14. RadixSort (LSD、32bit 非負整数) -----
+#deffunc radixsort array _a, int _n, \
+	local shift, local pass, local i, local b
+	if _n <= 1 : return
+	dim tmp, _n
+	for pass, 0, 4
+		shift = pass * 8
+		dim cnt_buf, 256
+		for i, 0, _n
+			b = (_a(i) >> shift) & 0xFF
+			cnt_buf(b)++
+		next
+		for i, 1, 256 : cnt_buf(i) += cnt_buf(i - 1) : next
+		for i, _n - 1, -1, -1
+			b = (_a(i) >> shift) & 0xFF
+			cnt_buf(b)--
+			tmp(cnt_buf(b)) = _a(i)
+		next
+		for i, 0, _n : _a(i) = tmp(i) : next
+	next
+	return
+
+; ----- 15. CountingSort (非負整数、最大値 K) -----
+#deffunc counting_sort array _a, int _n, int _k, \
+	local i
+	dim cnt_arr, _k + 1
+	for i, 0, _n : cnt_arr(_a(i))++ : next
+	idx = 0
+	for i, 0, _k + 1
+		repeat cnt_arr(i) : _a(idx) = i : idx++ : loop
+	next
+	return
+
+#global
+
+#deffunc print_arr str label, array _a, int _n, local line
+	sdim line, 256
+	line = label + ": ["
+	repeat _n
+		line += "" + _a(cnt)
+		if cnt < _n - 1 : line += ", "
+	loop
+	line += "]"
+	mes line
+	return
+
+; ===== デモ =====
+	mes "=== Sorting algorithms ==="
+	N = 10
+	dim data, N
+	data = 64, 34, 25, 12, 22, 11, 90, 50, 3, 77
+
+	dim a : dim a, N : repeat N : a(cnt) = data(cnt) : loop
+	print_arr "Input    ", a, N
+
+	repeat N : a(cnt) = data(cnt) : loop
+	quicksort a, 0, N - 1
+	print_arr "QuickSort", a, N
+
+	repeat N : a(cnt) = data(cnt) : loop
+	mergesort a, 0, N - 1
+	print_arr "MergeSort", a, N
+
+	repeat N : a(cnt) = data(cnt) : loop
+	heapsort a, N
+	print_arr "HeapSort ", a, N
+
+	repeat N : a(cnt) = data(cnt) : loop
+	radixsort a, N
+	print_arr "RadixSort", a, N
+
+	repeat N : a(cnt) = data(cnt) : loop
+	counting_sort a, N, 100
+	print_arr "Counting ", a, N
+	end 0

@@ -1,0 +1,158 @@
+;============================================================
+;  アルゴリズム 16〜20: 探索
+;    16. Binary Search (二分探索)
+;    17. Ternary Search (三分探索、単峰関数の最大化)
+;    18. Interpolation Search
+;    19. Jump Search
+;    20. BFS / DFS (グラフ)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+
+#module
+; ----- 16. Binary Search (昇順配列) -----
+#defcfunc binary_search array _a, int _n, int _target, local lo, local hi, local mid
+	lo = 0 : hi = _n - 1
+	while lo <= hi
+		mid = (lo + hi) / 2
+		if _a(mid) == _target : return mid
+		if _a(mid) < _target : lo = mid + 1 : else : hi = mid - 1
+	wend
+	return -1
+
+; ----- 17. Ternary Search (f(x) の単峰最大化、整数範囲 [lo, hi]) -----
+#defcfunc ternary_max int _lo, int _hi, local lo, local hi, local m1, local m2
+	lo = _lo : hi = _hi
+	while hi - lo > 2
+		m1 = lo + (hi - lo) / 3
+		m2 = hi - (hi - lo) / 3
+		; 評価関数: -(x-7)^2 + 50 の最大値を探す (答え: x=7 で 50)
+		if -(m1 - 7) * (m1 - 7) + 50 < -(m2 - 7) * (m2 - 7) + 50 {
+			lo = m1 + 1
+		} else {
+			hi = m2 - 1
+		}
+	wend
+	; 残り 3 点から最大を探す
+	best = lo : bestv = -(lo - 7) * (lo - 7) + 50
+	for i, lo, hi + 1
+		v = -(i - 7) * (i - 7) + 50
+		if v > bestv : bestv = v : best = i
+	next
+	return best
+
+; ----- 18. Interpolation Search -----
+#defcfunc interpolation_search array _a, int _n, int _target, local lo, local hi, local pos
+	lo = 0 : hi = _n - 1
+	while (lo <= hi) & (_target >= _a(lo)) & (_target <= _a(hi))
+		if _a(hi) == _a(lo) {
+			if _a(lo) == _target : return lo
+			return -1
+		}
+		pos = lo + ((_target - _a(lo)) * (hi - lo)) / (_a(hi) - _a(lo))
+		if _a(pos) == _target : return pos
+		if _a(pos) < _target : lo = pos + 1 : else : hi = pos - 1
+	wend
+	return -1
+
+; ----- 19. Jump Search -----
+#defcfunc jump_search array _a, int _n, int _target, local step, local prev, local i
+	step = int(sqrt(1.0 * _n))
+	prev = 0
+	while (prev < _n) & (_a(prev) < _target)
+		prev += step
+	wend
+	i = prev - step : if i < 0 : i = 0
+	while (i < _n) & (_a(i) <= _target)
+		if _a(i) == _target : return i
+		i++
+	wend
+	return -1
+
+#global
+
+; ----- 20. BFS / DFS (隣接リスト表現) -----
+#module
+#deffunc bfs array _head, array _next, array _to, int _start, int _n, \
+	local f, local r, local v, local e
+	; head(v) = 先頭辺のインデックス / -1 = 無し
+	; next(e) = 次の辺 / to(e) = 行き先
+	dim _visited, _n
+	dim _queue, _n
+	f = 0 : r = 0
+	_queue(r) = _start : r++
+	_visited(_start) = 1
+	sdim _out, 256
+	_out = "BFS order: " + _start
+	while f < r
+		v = _queue(f) : f++
+		e = _head(v)
+		while e != -1
+			if _visited(_to(e)) == 0 {
+				_visited(_to(e)) = 1
+				_queue(r) = _to(e) : r++
+				_out += " -> " + _to(e)
+			}
+			e = _next(e)
+		wend
+	wend
+	mes _out
+	return
+
+#deffunc dfs array _head, array _next, array _to, int _start, int _n, \
+	local v, local e
+	dim _visited, _n
+	; iterative DFS with stack
+	dim _stack, _n * 2 + 16
+	_sp = 0
+	_stack(_sp) = _start : _sp++
+	sdim _out, 256
+	_out = "DFS order:"
+	while _sp > 0
+		_sp--
+		v = _stack(_sp)
+		if _visited(v) : continue
+		_visited(v) = 1
+		_out += " " + v
+		e = _head(v)
+		while e != -1
+			if _visited(_to(e)) == 0 : _stack(_sp) = _to(e) : _sp++
+			e = _next(e)
+		wend
+	wend
+	mes _out
+	return
+#global
+
+; ===== デモ =====
+	mes "=== 配列探索 ==="
+	dim a, 10
+	a = 2, 5, 7, 10, 14, 19, 23, 28, 35, 42
+	mes "Array: 2 5 7 10 14 19 23 28 35 42"
+	mes strf("BinarySearch(23) = %d",         binary_search(a, 10, 23))
+	mes strf("InterpolationSearch(23) = %d",  interpolation_search(a, 10, 23))
+	mes strf("JumpSearch(23) = %d",           jump_search(a, 10, 23))
+	mes strf("BinarySearch(6) = %d (期待: -1)", binary_search(a, 10, 6))
+
+	mes ""
+	mes "=== Ternary Search ==="
+	mes strf("Argmax of -(x-7)^2 + 50 in [0..20] = %d (期待: 7)",
+	         ternary_max(0, 20))
+
+	mes ""
+	mes "=== Graph BFS/DFS ==="
+	; グラフ: 0-1, 0-2, 1-3, 1-4, 2-5, 3-6 (ツリー)
+	; 隣接リスト (adjacency list as linked list)
+	N = 7
+	dim head, N : repeat N : head(cnt) = -1 : loop
+	dim nx, 16 : dim tog, 16 : ne = 0
+	; 追加ヘルパ
+	edges = 0,1, 0,2, 1,3, 1,4, 2,5, 3,6
+	repeat length(edges) / 2
+		u = edges(cnt * 2) : v = edges(cnt * 2 + 1)
+		tog(ne) = v : nx(ne) = head(u) : head(u) = ne : ne++
+		tog(ne) = u : nx(ne) = head(v) : head(v) = ne : ne++
+	loop
+	bfs head, nx, tog, 0, N
+	dfs head, nx, tog, 0, N
+	end 0

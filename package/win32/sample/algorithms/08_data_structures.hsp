@@ -1,0 +1,267 @@
+;============================================================
+;  アルゴリズム 38〜43: データ構造
+;    38. Union-Find (DSU) — path compression + union by rank
+;    39. Fenwick Tree (Binary Indexed Tree)
+;    40. Segment Tree (区間和 + 点更新)
+;    41. Priority Queue (Binary Heap)
+;    42. LRU Cache
+;    43. Trie (文字列辞書)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+
+#module
+; ----- 38. Union-Find -----
+#deffunc uf_init array _par, array _rank, int _n, local i
+	dim _par, _n
+	dim _rank, _n
+	for i, 0, _n : _par(i) = i : next
+	return
+
+#defcfunc uf_find array _par, int _x, local r, local t
+	r = _x
+	while _par(r) != r : r = _par(r) : wend
+	while _par(_x) != r : t = _par(_x) : _par(_x) = r : _x = t : wend
+	return r
+
+#defcfunc uf_union array _par, array _rank, int _x, int _y, local a, local b
+	a = uf_find(_par, _x) : b = uf_find(_par, _y)
+	if a == b : return 0
+	if _rank(a) < _rank(b) : _par(a) = b
+	else : if _rank(a) > _rank(b) { _par(b) = a } else 
+	else {
+		_par(b) = a
+		_rank(a)++
+	}
+	return 1
+
+; ----- 39. Fenwick Tree -----
+#deffunc bit_init array _bit, int _n
+	dim _bit, _n + 1
+	return
+
+#deffunc bit_add array _bit, int _n, int _i, int _v, local i
+	i = _i + 1
+	while i <= _n
+		_bit(i) += _v
+		i += i & (-i)
+	wend
+	return
+
+#defcfunc bit_sum array _bit, int _i, local i, local s
+	s = 0 : i = _i + 1
+	while i > 0
+		s += _bit(i)
+		i -= i & (-i)
+	wend
+	return s
+
+; ----- 40. Segment Tree (点更新, 区間和) -----
+#deffunc seg_init array _seg, int _n
+	; 次の 2 冪
+	p = 1
+	while p < _n : p <<= 1 : wend
+	dim _seg, 2 * p
+	return
+
+#deffunc seg_set array _seg, int _n, int _i, int _v, local k
+	; Segment tree size = 2 * 次の 2 冪
+	p = length(_seg) / 2
+	k = _i + p
+	_seg(k) = _v
+	while k > 1
+		k /= 2
+		_seg(k) = _seg(2 * k) + _seg(2 * k + 1)
+	wend
+	return
+
+#defcfunc seg_sum array _seg, int _l, int _r, local lo, local hi, local s, local p
+	; 区間 [_l, _r) の和
+	p = length(_seg) / 2
+	lo = _l + p : hi = _r + p
+	s = 0
+	while lo < hi
+		if lo & 1 : s += _seg(lo) : lo++
+		if hi & 1 : hi-- : s += _seg(hi)
+		lo /= 2 : hi /= 2
+	wend
+	return s
+
+; ----- 41. Priority Queue (Min-Heap of int) -----
+#deffunc pq_init array _pq, var _size
+	dim _pq, 1024
+	_size = 0
+	return
+
+#deffunc pq_push array _pq, var _size, int _v, local i, local p, local t
+	_pq(_size) = _v
+	i = _size
+	_size++
+	while i > 0
+		p = (i - 1) / 2
+		if _pq(p) <= _pq(i) : break
+		t = _pq(p) : _pq(p) = _pq(i) : _pq(i) = t
+		i = p
+	wend
+	return
+
+#defcfunc pq_pop array _pq, var _size, local top, local i, local l, local r, local s, local t
+	top = _pq(0)
+	_size--
+	_pq(0) = _pq(_size)
+	i = 0
+	while 1
+		l = 2 * i + 1 : r = 2 * i + 2
+		s = i
+		if (l < _size) & (_pq(l) < _pq(s)) : s = l
+		if (r < _size) & (_pq(r) < _pq(s)) : s = r
+		if s == i : break
+		t = _pq(i) : _pq(i) = _pq(s) : _pq(s) = t
+		i = s
+	wend
+	return top
+
+; ----- 42. LRU Cache (dict + doubly linked list) -----
+;  簡略版: 固定容量 N、キー=int、値=int
+;  実装: 連想配列 (MAP) でキー→値、線形配列でアクセス順 (ヘッドが最新)
+#deffunc lru_init var _cap, int _n
+	dimmap _kv_@m_algo
+	dim _ord_@m_algo, _n
+	_cap = _n
+	_sz_@m_algo = 0
+	return
+
+#deffunc lru_put int _k, int _v, var _cap, local i, local pos
+	; 既存?
+	pos = -1
+	repeat _sz_@m_algo
+		if _ord_@m_algo(cnt) == _k : pos = cnt : break
+	loop
+	if pos >= 0 {
+		; 位置を先頭へ
+		for i, pos, 0, -1 : _ord_@m_algo(i) = _ord_@m_algo(i - 1) : next
+		_ord_@m_algo(0) = _k
+		_kv_@m_algo(str(_k)) = "" + _v
+		return
+	}
+	if _sz_@m_algo >= _cap {
+		; 末尾を破棄
+		old_k = _ord_@m_algo(_sz_@m_algo - 1)
+		delmap _kv_@m_algo, "" + old_k
+	} else {
+		_sz_@m_algo++
+	}
+	; 新規を先頭へ
+	for i, _sz_@m_algo - 1, 0, -1 : _ord_@m_algo(i) = _ord_@m_algo(i - 1) : next
+	_ord_@m_algo(0) = _k
+	_kv_@m_algo("" + _k) = "" + _v
+	return
+
+#defcfunc lru_get int _k, local pos, local i, local v
+	pos = -1
+	repeat _sz_@m_algo
+		if _ord_@m_algo(cnt) == _k : pos = cnt : break
+	loop
+	if pos < 0 : return -1
+	v = int(_kv_@m_algo("" + _k))
+	for i, pos, 0, -1 : _ord_@m_algo(i) = _ord_@m_algo(i - 1) : next
+	_ord_@m_algo(0) = _k
+	return v
+
+; ----- 43. Trie (文字列辞書) -----
+#deffunc trie_init array _child, array _term
+	dim _child, 26 * 1024     ; 最大 1024 ノード × 26 辺
+	dim _term, 1024
+	_trie_cnt_@m_algo = 1     ; root
+	return
+
+#deffunc trie_insert array _child, array _term, str _s, local i, local cur, local c
+	cur = 0
+	for i, 0, strlen(_s)
+		c = peek(_s, i) - 'a'
+		if c < 0 | c >= 26 : continue
+		if _child(cur * 26 + c) == 0 {
+			_child(cur * 26 + c) = _trie_cnt_@m_algo
+			_trie_cnt_@m_algo++
+		}
+		cur = _child(cur * 26 + c)
+	next
+	_term(cur) = 1
+	return
+
+#defcfunc trie_search array _child, array _term, str _s, local i, local cur, local c
+	cur = 0
+	for i, 0, strlen(_s)
+		c = peek(_s, i) - 'a'
+		if c < 0 | c >= 26 : return 0
+		if _child(cur * 26 + c) == 0 : return 0
+		cur = _child(cur * 26 + c)
+	next
+	return _term(cur)
+
+#global
+
+; ===== デモ =====
+	mes "=== Union-Find ==="
+	uf_init par, rk, 5
+	uf_union par, rk, 0, 1
+	uf_union par, rk, 2, 3
+	uf_union par, rk, 1, 2
+	mes strf("find(0)=find(3)? %d = %d => %d",
+	         uf_find(par, 0), uf_find(par, 3), uf_find(par, 0) == uf_find(par, 3))
+
+	mes ""
+	mes "=== Fenwick Tree ==="
+	bit_init bit, 10
+	bit_add bit, 10, 3, 5
+	bit_add bit, 10, 5, 3
+	bit_add bit, 10, 8, 2
+	mes strf("sum[0..5] = %d (期待: 8)",  bit_sum(bit, 5))
+	mes strf("sum[0..9] = %d (期待: 10)", bit_sum(bit, 9))
+
+	mes ""
+	mes "=== Segment Tree ==="
+	seg_init seg, 8
+	seg_set seg, 8, 0, 5
+	seg_set seg, 8, 3, 7
+	seg_set seg, 8, 7, 2
+	mes strf("sum[0..8) = %d (期待: 14)", seg_sum(seg, 0, 8))
+	mes strf("sum[0..4) = %d (期待: 12)", seg_sum(seg, 0, 4))
+	mes strf("sum[4..8) = %d (期待: 2)",  seg_sum(seg, 4, 8))
+
+	mes ""
+	mes "=== Priority Queue (min-heap) ==="
+	pq_init pq, sz
+	pq_push pq, sz, 3
+	pq_push pq, sz, 1
+	pq_push pq, sz, 4
+	pq_push pq, sz, 1
+	pq_push pq, sz, 5
+	line = "pops: "
+	while sz > 0
+		line += "" + pq_pop(pq, sz) + " "
+	wend
+	mes line
+
+	mes ""
+	mes "=== LRU Cache ==="
+	lru_init lru_cap, 3
+	lru_put 1, 100, lru_cap
+	lru_put 2, 200, lru_cap
+	lru_put 3, 300, lru_cap
+	mes "get(1) = " + lru_get(1)        ; 1 を最新化
+	lru_put 4, 400, lru_cap              ; 2 を追い出し
+	mes "get(2) = " + lru_get(2)         ; -1 期待
+	mes "get(4) = " + lru_get(4)
+
+	mes ""
+	mes "=== Trie ==="
+	trie_init tc, tt
+	trie_insert tc, tt, "apple"
+	trie_insert tc, tt, "app"
+	trie_insert tc, tt, "banana"
+	mes "search(apple)  = " + trie_search(tc, tt, "apple")
+	mes "search(app)    = " + trie_search(tc, tt, "app")
+	mes "search(appl)   = " + trie_search(tc, tt, "appl")
+	mes "search(banana) = " + trie_search(tc, tt, "banana")
+	end 0
