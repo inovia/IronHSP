@@ -1,0 +1,60 @@
+;============================================================
+;   iron_stl_dxlib.hsp — iron_stl の DxLib 描画アドオン
+;
+;   DxLib (hspdxlib.as) を #include した状態で本ファイルを #include
+;   すると stl_draw_dxlib / stl_draw_wire が使えるようになる。
+;
+;   例:
+;     #include "hspdxlib.as"
+;     #include "iron_stl.hsp"
+;     #include "iron_stl_dxlib.hsp"
+;
+;     stl_load mesh, n_tri, "model.stl"
+;     stl_draw_dxlib mesh, n_tri, GetColor(255,128,0), 0
+
+#ifndef __iron_stl_dxlib__
+#define __iron_stl_dxlib__
+
+#module "m_iron_stl_dx"
+
+;---------------------------------------------------------
+; stl_draw_dxlib  var mesh, n_tri, int color, int face_flag
+;     face_flag: 0 = 塗りつぶし / 1 = ワイヤーフレーム
+;---------------------------------------------------------
+#deffunc stl_draw_dxlib var mesh, int n_tri, int color, int face_flag
+	if n_tri <= 0 : return -1
+	ddim v0, 3
+	ddim v1, 3
+	ddim v2, 3
+	repeat n_tri
+		base = cnt * 12
+		v0(0) = mesh(base + 0) : v0(1) = mesh(base + 1) : v0(2) = mesh(base + 2)
+		v1(0) = mesh(base + 3) : v1(1) = mesh(base + 4) : v1(2) = mesh(base + 5)
+		v2(0) = mesh(base + 6) : v2(1) = mesh(base + 7) : v2(2) = mesh(base + 8)
+		DrawTriangle3DD v0, v1, v2, color, face_flag ^ 1
+	loop
+	return 0
+
+;---------------------------------------------------------
+; stl_draw_wire  var mesh, n_tri, int color
+;     全三角形をワイヤーフレームで描画
+;---------------------------------------------------------
+#deffunc stl_draw_wire var mesh, int n_tri, int color
+	if n_tri <= 0 : return -1
+	ddim v0, 3
+	ddim v1, 3
+	ddim v2, 3
+	repeat n_tri
+		base = cnt * 12
+		v0(0) = mesh(base + 0) : v0(1) = mesh(base + 1) : v0(2) = mesh(base + 2)
+		v1(0) = mesh(base + 3) : v1(1) = mesh(base + 4) : v1(2) = mesh(base + 5)
+		v2(0) = mesh(base + 6) : v2(1) = mesh(base + 7) : v2(2) = mesh(base + 8)
+		DrawLine3DD v0, v1, color
+		DrawLine3DD v1, v2, color
+		DrawLine3DD v2, v0, color
+	loop
+	return 0
+
+#global
+
+#endif

@@ -1,0 +1,73 @@
+;============================================================
+; iron_ar + iron_stl サンプル: マーカー上に STL モデルを AR 描画
+;
+; ArUco マーカーを検出し、上に STL 3D モデルをオーバーレイ。
+; STL ファイルは ASCII / Binary どちらでも可。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspcv4.as"
+#include "hspdxlib.as"
+#include "hspdxlib_const.as"
+#include "hspdxlib_macro.as"
+#include "iron_ar.hsp"
+#include "iron_stl.hsp"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 1280, 720, 32
+	SetMainWindowText "iron_ar + iron_stl: AR STL model"
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	; ---- STL 読込 ----
+	stl_load mesh, n_tri, "sample.stl"
+	if stat < 0 : dialog "sample.stl not found" : end
+	mes "STL loaded: " + n_tri + " triangles"
+
+	; マーカー上に収まるよう 5cm (=0.05m) に正規化
+	stl_normalize mesh, n_tri, 0.05
+
+	; ---- 画像読込 + マーカー検出 ----
+	CV_FRAME = 1
+	cv4_imread CV_FRAME, "scene.png"
+	if stat < 0 : dialog "scene.png not found" : end
+	cv4_mat_shape CV_FRAME, ih, iw, _t, _c
+
+	ar_default_calibration K, D, iw, ih
+	ar_make_mat_k 100, K
+	ar_make_mat_d 101, D
+	ar_detect_markers corners, ids, n_found, CV_FRAME, CV4_ARUCO_DICT_4X4_50
+
+	cv4_imwrite "__temp_frame.png", CV_FRAME
+	bg_gh = LoadGraph("__temp_frame.png")
+
+*main
+	ClearDrawScreen_1
+	DrawExtendGraph 0, 0, 1280, 720, bg_gh, FALSE
+
+	if n_found > 0 {
+		SetCameraNearFar 0.01, 10.0
+		SetupCamera_Perspective 0.8
+
+		MARKER_SIZE = 0.05
+		repeat n_found
+			ar_estimate_pose_single corners, cnt, MARKER_SIZE, 100, 101, rvec, tvec
+			if stat < 0 : continue
+			ar_pose_to_dxmat rvec, tvec, viewmat
+			SetTransformToViewD viewmat
+
+			; STL をマーカー原点に描画 (面: 緑、ワイヤ: 黒)
+			stl_draw_dxlib mesh, n_tri, GetColor(100, 220, 120), 0  ; filled
+		loop
+		SetTransformToViewIdentity
+	}
+
+	ScreenFlip
+	if CheckHitKey(DX_KEY_INPUT_ESCAPE) == 1 : goto *done
+	await 16
+	goto *main
+
+*done
+	DeleteGraph bg_gh
+	DxLib_End
+	end

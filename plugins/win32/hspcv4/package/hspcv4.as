@@ -316,6 +316,12 @@
 #func global cv4_mat_shape      "cv4_mat_shape"      int, var, var, var, var
 #func global cv4_mat_geti       "cv4_mat_geti"       int, int, int, var
 #func global cv4_mat_getf       "cv4_mat_getf"       int, int, int, var
+; setter (AR pose など HSP 側で作った値を Mat に詰める用途)
+#func global cv4_mat_seti       "cv4_mat_seti"       int, int, int, int
+#func global cv4_mat_setf       "cv4_mat_setf"       int, int, int, int  ; value_x10000
+; bulk array transfer (HSP double 配列 <-> cv::Mat, AR で頻用)
+#func global cv4_mat_from_darray "cv4_mat_from_darray" int, int, int, int, var, int
+#func global cv4_mat_to_darray   "cv4_mat_to_darray"   int, var, int
 #func global cv4_min_max_loc    "cv4_min_max_loc"    int, var, var, var, var, var, var
 
 ; ---- core Mat operations ----

@@ -1,8 +1,8 @@
 ;
-;   hspcv4.dll ヘッダー (OpenCV 4.x プラグイン for IronHSP)
+;   hspcv4.dll header  (OpenCV 4.x plugin for IronHSP)
 ;
-;   Phase 1 : 初心者向け API (アンダースコアなし)
-;   使い方:
+;   Phase 1 : beginner API (no underscore)
+;   Usage:
 ;     #include "hspcv4.as"
 ;
 #ifndef __hspcv4__
@@ -114,7 +114,7 @@
 
 ; ---- struct types (Phase 2e 以降で使用) ----
 ; cv_rect: 検出結果などの矩形領域を表す構造体 (16 bytes)
-#defstruct global cv_rect
+#defstruct cv_rect
 #field int x
 #field int y
 #field int w
@@ -316,6 +316,10 @@
 #func global cv4_mat_shape      "cv4_mat_shape"      int, var, var, var, var
 #func global cv4_mat_geti       "cv4_mat_geti"       int, int, int, var
 #func global cv4_mat_getf       "cv4_mat_getf"       int, int, int, var
+#func global cv4_mat_seti       "cv4_mat_seti"       int, int, int, int
+#func global cv4_mat_setf       "cv4_mat_setf"       int, int, int, int
+#func global cv4_mat_from_darray "cv4_mat_from_darray" int, int, int, int, var, int
+#func global cv4_mat_to_darray  "cv4_mat_to_darray"  int, var, int
 #func global cv4_min_max_loc    "cv4_min_max_loc"    int, var, var, var, var, var, var
 
 ; ---- core Mat operations ----

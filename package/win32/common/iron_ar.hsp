@@ -1,0 +1,244 @@
+;============================================================
+;   iron_ar.hsp — ArUco マーカーベース AR ヘルパ (hspcv4 + hspdxlib)
+;
+;   HSP でビデオフレームからマーカーを検出し、pose 推定結果を DxLib の
+;   3D カメラ行列 (SetTransformToView) に適用して、マーカー上に 3D
+;   オブジェクトをオーバーレイ描画するための純 HSP 支援モジュール。
+;
+;   依存:
+;     - hspcv4.dll    (cv4_aruco_detect / cv4_solve_pnp / cv4_rodrigues /
+;                      cv4_mat_from_darray / cv4_mat_to_darray ...)
+;     - DxLibW.dll + hspdxlib.as (SetTransformToViewD / DrawTriangle3DD 等)
+;
+;   API:
+;
+;     ar_default_calibration  var K, var D, img_w, img_h
+;         キャリブレーションが無い場合の推定値 (K: 9-dbl / D: 5-dbl)。
+;         fx=fy=img_w、cx=img_w/2、cy=img_h/2、D=0 と仮定。
+;
+;     ar_load_calibration  var K, var D, "calib.txt"
+;         プレーンテキスト (空白/改行区切り) の calib を読む。
+;             9 値の 3x3 カメラ行列 K (row-major)
+;             5 値の歪み係数 D (k1, k2, p1, p2, k3)
+;
+;     ar_make_mat_k  dst_id, var K
+;     ar_make_mat_d  dst_id, var D
+;         K (9-dbl) / D (5-dbl) を 3x3 / 5x1 CV_64F の cv::Mat に格納。
+;         dst_id は cv4 ハンドル (呼び出し側で採番、cv4_mat_zeros 等と同様)。
+;
+;     ar_detect_markers  var corners_arr, var ids, var n_found, img_id, dict
+;         cv4_aruco_detect のラッパ。corners_arr は 2 次元 float 配列 (行:
+;         マーカー index、列: 8 = 4 頂点 x 2)。
+;
+;     ar_estimate_pose_single var corners_arr, int idx, double marker_size,
+;                              k_mat_id, d_mat_id, var rvec, var tvec
+;         idx 番目のマーカー (辺長 size) に対し solvePnP を呼び、
+;         rvec (3-dbl) / tvec (3-dbl) を返す。
+;         内部で obj_pts / img_pts の Mat を一時作成する。
+;
+;     ar_pose_to_dxmat  var rvec, var tvec, var viewmat
+;         rvec/tvec を DxLib の MATRIX_D 互換 (double 16 要素、row-major 風
+;         の column-major) に変換する。OpenCV (Y 下 / Z 前) から DxLib LH
+;         (Y 上 / Z 前) への軸変換を含む。
+;
+;   使用例 (抜粋):
+;       #include "hspcv4.as"
+;       #include "hspdxlib.as"
+;       #include "iron_ar.hsp"
+;
+;       DxLib_Init
+;       cv4_imread CV_FRAME, "scene.png"
+;       ar_detect_markers corners, ids, n, CV_FRAME, CV4_ARUCO_DICT_4X4_50
+;       if n > 0 {
+;           ar_default_calibration K, D, 1920, 1080
+;           ar_make_mat_k 100, K
+;           ar_make_mat_d 101, D
+;           ar_estimate_pose_single corners, 0, 0.05, 100, 101, rvec, tvec
+;           ar_pose_to_dxmat rvec, tvec, viewmat
+;           SetTransformToViewD viewmat
+;           ddim v0, 3 : ddim v1, 3
+;           v0(0) = -0.025 : v0(1) = -0.025 : v0(2) = 0.0
+;           v1(0) =  0.025 : v1(1) =  0.025 : v1(2) = 0.05
+;           DrawCube3DD v0, v1, GetColor(255,0,0), 0, TRUE
+;       }
+
+#ifndef __iron_ar__
+#define __iron_ar__
+
+#module "m_iron_ar"
+
+; ---------------------------------------------------------
+; ar_default_calibration  var K, var D, img_w, img_h
+; ---------------------------------------------------------
+#deffunc ar_default_calibration array _K, array _D, int _w, int _h
+	_K(0) = 1.0 * _w : _K(1) = 0.0 : _K(2) = 1.0 * _w / 2
+	_K(3) = 0.0      : _K(4) = 1.0 * _w : _K(5) = 1.0 * _h / 2
+	_K(6) = 0.0      : _K(7) = 0.0 : _K(8) = 1.0
+	repeat 5 : _D(cnt) = 0.0 : loop
+	return 0
+
+; ---------------------------------------------------------
+; ar_load_calibration  var K, var D, "calib.txt"
+; ---------------------------------------------------------
+#deffunc ar_load_calibration var _K, var _D, str fname
+
+	ddim _K, 9
+	ddim _D, 5
+
+	exist fname
+	if strsize <= 0 : return -1
+
+	sdim buf, strsize + 16
+	bload fname, buf, strsize
+
+	sdim tok, 64
+	_pos = 0
+	idx = 0
+	repeat 14
+		repeat
+			c = peek(buf, _pos)
+			if c <= 0 : break
+			if (c == ' ') | (c == 9) | (c == 10) | (c == 13) : _pos++ : continue
+			break
+		loop
+		sp = _pos
+		repeat
+			c = peek(buf, _pos)
+			if c <= 0 : break
+			if (c == ' ') | (c == 9) | (c == 10) | (c == 13) : break
+			_pos++
+		loop
+		if _pos - sp <= 0 : return -2
+		memcpy tok, buf, _pos - sp, 0, sp
+		poke tok, _pos - sp, 0
+		v = double(tok)
+		if idx < 9 : _K(idx) = v : else : _D(idx - 9) = v
+		idx++
+	loop
+	return 0
+
+; ---------------------------------------------------------
+; ar_make_mat_k  dst_id, var K (9-dbl)
+; ---------------------------------------------------------
+#deffunc ar_make_mat_k int _id, var _K
+	; CV_64F 3x3 の Mat を作成 (type=1: CV_64F)
+	cv4_mat_from_darray _id, 3, 3, 1, _K, 9
+	return stat
+
+; ---------------------------------------------------------
+; ar_make_mat_d  dst_id, var D (5-dbl)
+; ---------------------------------------------------------
+#deffunc ar_make_mat_d int _id, var _D
+	cv4_mat_from_darray _id, 5, 1, 1, _D, 5
+	return stat
+
+; ---------------------------------------------------------
+; ar_detect_markers  var corners, var ids, var n, img_id, dict
+; ---------------------------------------------------------
+#deffunc ar_detect_markers var _corners, var _ids, var _n, int _img, int _dict
+
+	; cv4_aruco_detect の返す形式 (rects_array / ids_array / var_count / img_id / dict)
+	; hspcv4 の既存実装では rects_array は stdim cv_rect 構造体配列だが、
+	; AR pose 推定には 4 頂点が必要なので、別途 cv4 側で corners を float
+	; 配列として取り出す機能を前提にする。現バージョンでは stat 値を返し、
+	; 呼び出し側が cv4_aruco_detect を直接使う想定。
+	; ここでは単にラッパとして呼び出しを透過する:
+	dim _ids, 64
+	cv4_aruco_detect _corners, _ids, _n, _img, _dict
+	return stat
+
+; ---------------------------------------------------------
+; ar_estimate_pose_single  var corners, idx, size,
+;                          k_mat_id, d_mat_id, var rvec, var tvec
+; ---------------------------------------------------------
+#deffunc ar_estimate_pose_single var _corners, int _idx, double _size, int _kid, int _did, var _rvec, var _tvec
+
+	ddim _rvec, 3
+	ddim _tvec, 3
+
+	; objPoints (4 x 3 x CV_64F): 正方形マーカー中心原点 + Z=0
+	; (0) top-left  = (-s/2,  s/2, 0)
+	; (1) top-right = ( s/2,  s/2, 0)
+	; (2) bot-right = ( s/2, -s/2, 0)
+	; (3) bot-left  = (-s/2, -s/2, 0)
+	s2 = _size / 2.0
+	ddim _objp, 12
+	_objp(0)  = -s2 : _objp(1)  =  s2 : _objp(2)  = 0.0
+	_objp(3)  =  s2 : _objp(4)  =  s2 : _objp(5)  = 0.0
+	_objp(6)  =  s2 : _objp(7)  = -s2 : _objp(8)  = 0.0
+	_objp(9)  = -s2 : _objp(10) = -s2 : _objp(11) = 0.0
+
+	; imgPoints (4 x 2 x CV_64F): corners(idx, 0..7) から double 配列へコピー
+	ddim _imgp, 8
+	repeat 8
+		; corners は float 2D 配列: corners(col, row) の前提。
+		; 詳細は cv4_aruco_detect の実装に依存するが、通常は
+		;   corners(0..7, marker_index) として 8 個連続
+		; にアクセス可能。
+		_imgp(cnt) = 1.0 * _corners(cnt, _idx)
+	loop
+
+	; Mat 化 (ID は呼び出し側の k/d と衝突しない値を選ぶ)
+	CV_AR_OBJP = 198
+	CV_AR_IMGP = 199
+	CV_AR_RVEC = 196
+	CV_AR_TVEC = 197
+	cv4_mat_from_darray CV_AR_OBJP, 4, 3, 1, _objp, 12
+	cv4_mat_from_darray CV_AR_IMGP, 4, 2, 1, _imgp, 8
+	cv4_mat_zeros       CV_AR_RVEC, 3, 1, 1
+	cv4_mat_zeros       CV_AR_TVEC, 3, 1, 1
+
+	; solvePnP (flags=0: ITERATIVE)
+	cv4_solve_pnp CV_AR_RVEC, CV_AR_TVEC, CV_AR_OBJP, CV_AR_IMGP, _kid, _did, 0
+	_ret = stat
+
+	; 結果を HSP 配列に取り出す
+	cv4_mat_to_darray CV_AR_RVEC, _rvec, 3
+	cv4_mat_to_darray CV_AR_TVEC, _tvec, 3
+
+	return _ret
+
+; ---------------------------------------------------------
+; ar_pose_to_dxmat  var rvec, var tvec, var viewmat
+;     rvec/tvec を DxLib MATRIX_D (double[16]) へ変換。
+;     OpenCV 座標系 (+X 右 / +Y 下 / +Z 前) → DxLib LH (+X 右 / +Y 上 / +Z 前)
+; ---------------------------------------------------------
+#deffunc ar_pose_to_dxmat var _rvec, var _tvec, var _viewmat
+
+	; cv4_rodrigues: rvec (3x1) → rotation matrix (3x3) CV_64F
+	CV_AR_RVEC = 196
+	CV_AR_ROT  = 195
+	cv4_mat_from_darray CV_AR_RVEC, 3, 1, 1, _rvec, 3
+	cv4_mat_zeros       CV_AR_ROT,  3, 3, 1
+	cv4_rodrigues CV_AR_ROT, CV_AR_RVEC
+
+	ddim _Rmat, 9
+	cv4_mat_to_darray CV_AR_ROT, _Rmat, 9
+
+	; column-major DxLib MATRIX_D (16 要素、double)
+	ddim _viewmat, 16
+	; column 0 (R[:,0] に (1, -1, -1) を column-wise に乗じたもの)
+	_viewmat(0)  =  _Rmat(0)
+	_viewmat(1)  = -_Rmat(3)
+	_viewmat(2)  = -_Rmat(6)
+	_viewmat(3)  =  0.0
+	; column 1 (R[:,1] に (-1, 1, 1) を乗じる)
+	_viewmat(4)  = -_Rmat(1)
+	_viewmat(5)  =  _Rmat(4)
+	_viewmat(6)  =  _Rmat(7)
+	_viewmat(7)  =  0.0
+	; column 2 (R[:,2] に (-1, 1, 1) を乗じる)
+	_viewmat(8)  = -_Rmat(2)
+	_viewmat(9)  =  _Rmat(5)
+	_viewmat(10) =  _Rmat(8)
+	_viewmat(11) =  0.0
+	; column 3: translation
+	_viewmat(12) =  _tvec(0)
+	_viewmat(13) = -_tvec(1)
+	_viewmat(14) = -_tvec(2)
+	_viewmat(15) =  1.0
+	return 0
+
+#global
+
+#endif

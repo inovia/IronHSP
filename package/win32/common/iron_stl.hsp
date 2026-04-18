@@ -1,0 +1,303 @@
+;============================================================
+;   iron_stl.hsp — STL (STereoLithography) ローダ & 描画 (Pure HSP)
+;
+;   ASCII / Binary 両フォーマットの STL を読み込み、三角形メッシュとして
+;   保持する。DxLib (hspdxlib) の DrawTriangle3DD でそのまま描画する
+;   ヘルパ stl_draw_dxlib も提供。
+;
+;   Binary STL 書式:
+;     offset 0..79:  ヘッダ (80 byte、無視)
+;     offset 80..83: 三角形数 N (uint32 LE)
+;     offset 84〜:   三角形 50 byte × N
+;         - float[3] normal
+;         - float[3] v0, v1, v2
+;         - uint16  attribute (通常 0)
+;
+;   ASCII STL 書式:
+;     solid name
+;       facet normal nx ny nz
+;         outer loop
+;           vertex x y z
+;           vertex x y z
+;           vertex x y z
+;         endloop
+;       endfacet
+;       ...
+;     endsolid name
+;
+;   API:
+;
+;     stl_load  var mesh, var n_tri, "file.stl"
+;         指定ファイルを読み込み、mesh に double 配列として格納する。
+;         mesh のレイアウトは 1 三角形あたり 12 要素 (v0, v1, v2 各 3 要素
+;         + normal 3 要素) 計 12 * n_tri。n_tri に三角形数が返る。
+;         - format はヘッダを見て ASCII / Binary を自動判別 ("solid "
+;           で始まっても binary の場合があるので、n_tri フィールドが
+;           ファイルサイズと整合するかで最終判定)。
+;         戻り値 stat: 0 = success / <0 = error
+;
+;     stl_bounds  var mesh, n_tri, var mins, var maxs
+;         bounding box を計算し、mins(3) / maxs(3) に格納。
+;
+;     stl_normalize  var mesh, n_tri, double target_size
+;         モデル全体を原点中心に移動し、最大寸法が target_size に
+;         なるようスケーリング。AR 表示の既定サイズ合わせに便利。
+;
+;     stl_draw_dxlib  var mesh, n_tri, int color, int face_flag
+;         DxLib で描画。内部は DrawTriangle3DD ループ。
+;         DxLib の初期化 / Set3DMaterial 等は呼び出し側責務。
+;         face_flag: 0 = 塗りつぶし / 1 = ワイヤーフレーム
+
+#ifndef __iron_stl__
+#define __iron_stl__
+
+#module "m_iron_stl"
+
+;---------------------------------------------------------
+; 内部ヘルパ: buf から offset で float (4 byte, IEEE-754) を読む
+;---------------------------------------------------------
+#defcfunc _stl_peek_float var buf, int ofs
+	; peek で 32bit を取り出し、bitcast で float に
+	bits = lpeek(buf, ofs)
+	; HSP には float bitcast が無いので、一旦 double 経由で
+	; 再計算する簡易版 (IEEE-754 32bit 手動展開)
+	sign = (bits >> 31) & 1
+	exp  = (bits >> 23) & 0xFF
+	mant = bits & 0x7FFFFF
+	if exp == 0 {
+		if mant == 0 : return 0.0 * (1 - 2 * sign)
+		; subnormal は略 (0 として返す)
+		return 0.0
+	}
+	if exp == 0xFF {
+		return 0.0   ; NaN / Inf は 0 扱い
+	}
+	mantd = 1.0 + (1.0 * mant) / 8388608.0   ; 1 + mant / 2^23
+	e = exp - 127
+	v = mantd
+	if e >= 0 {
+		repeat e : v *= 2.0 : loop
+	} else {
+		repeat -e : v *= 0.5 : loop
+	}
+	if sign : v *= -1.0
+	return v
+
+;---------------------------------------------------------
+; stl_load  var mesh, var n_tri, "file.stl"
+;---------------------------------------------------------
+#deffunc stl_load array mesh, var n_tri, str fname
+
+	n_tri = 0
+
+	exist fname
+	if strsize <= 0 {
+		return -1
+	}
+	size = strsize
+
+	sdim buf, size + 16
+	bload fname, buf, size
+
+	; ASCII 判定: 先頭 "solid " + 5-10 行目あたりに "facet normal" があるか
+	; ただし binary でも先頭 80byte は任意なので、バイナリ時のトライアングル数
+	; から期待ファイルサイズを計算し、一致したら binary と判定する。
+	;   expected_bin_size = 84 + n * 50
+	if size >= 84 {
+		nb = lpeek(buf, 80)
+		expected = 84 + nb * 50
+		if expected == size {
+			; Binary
+			ddim mesh, nb * 12
+			ofs = 84
+			repeat nb
+				; normal
+				nx = _stl_peek_float(buf, ofs     )
+				ny = _stl_peek_float(buf, ofs +  4)
+				nz = _stl_peek_float(buf, ofs +  8)
+				; v0
+				ax = _stl_peek_float(buf, ofs + 12)
+				ay = _stl_peek_float(buf, ofs + 16)
+				az = _stl_peek_float(buf, ofs + 20)
+				; v1
+				bx = _stl_peek_float(buf, ofs + 24)
+				by = _stl_peek_float(buf, ofs + 28)
+				bz = _stl_peek_float(buf, ofs + 32)
+				; v2
+				cx = _stl_peek_float(buf, ofs + 36)
+				cy = _stl_peek_float(buf, ofs + 40)
+				cz = _stl_peek_float(buf, ofs + 44)
+				ofs += 50
+
+				base = cnt * 12
+				mesh(base     ) = ax : mesh(base +  1) = ay : mesh(base +  2) = az
+				mesh(base +  3) = bx : mesh(base +  4) = by : mesh(base +  5) = bz
+				mesh(base +  6) = cx : mesh(base +  7) = cy : mesh(base +  8) = cz
+				mesh(base +  9) = nx : mesh(base + 10) = ny : mesh(base + 11) = nz
+			loop
+			n_tri = nb
+			return 0
+		}
+	}
+
+	; ASCII 解析: "vertex x y z" を 3 個ずつ集めて 1 三角形
+	; notesel で 1 行ずつ読む
+	notesel buf
+	n = notemax
+	; 最大三角形数をざっくり見積り (行数 / 7)
+	maxtri = (n / 7) + 64
+	ddim mesh, maxtri * 12
+
+	tri = 0
+	vi = 0    ; 0..2 = vertex index in current triangle
+	nx = 0.0 : ny = 0.0 : nz = 0.0
+
+	repeat n
+		noteget ln, cnt
+		; trim leading whitespace
+		p = 0
+		repeat
+			c = peek(ln, p)
+			if c <= 0 : break
+			if (c == ' ') | (c == 9) : p++ : continue
+			break
+		loop
+		if p > 0 {
+			sdim tmpln, strlen(ln) + 1
+			memcpy tmpln, ln, strlen(ln) - p, 0, p
+			poke tmpln, strlen(ln) - p, 0
+			ln = tmpln
+		}
+		if strlen(ln) < 6 : continue
+		if instr(ln, 0, "facet normal") == 0 {
+			; facet normal nx ny nz
+			; 3 つの token を取得
+			sdim rest, strlen(ln) + 1
+			memcpy rest, ln, strlen(ln) - 12, 0, 12
+			poke rest, strlen(ln) - 12, 0
+			; split by space
+			split rest, " ", parts
+			k = 0
+			repeat length(parts)
+				if strlen(parts(cnt)) > 0 {
+					if k == 0 : nx = double(parts(cnt))
+					if k == 1 : ny = double(parts(cnt))
+					if k == 2 : nz = double(parts(cnt))
+					k++
+					if k >= 3 : break
+				}
+			loop
+			vi = 0
+		}
+		if instr(ln, 0, "vertex") == 0 {
+			sdim rest, strlen(ln) + 1
+			memcpy rest, ln, strlen(ln) - 6, 0, 6
+			poke rest, strlen(ln) - 6, 0
+			split rest, " ", parts
+			k = 0
+			vx = 0.0 : vy = 0.0 : vz = 0.0
+			repeat length(parts)
+				if strlen(parts(cnt)) > 0 {
+					if k == 0 : vx = double(parts(cnt))
+					if k == 1 : vy = double(parts(cnt))
+					if k == 2 : vz = double(parts(cnt))
+					k++
+					if k >= 3 : break
+				}
+			loop
+			if tri >= maxtri {
+				; resize (double array の再確保)
+				maxtri = maxtri * 2
+				ddim tmp_mesh, maxtri * 12
+				memcpy tmp_mesh, mesh, tri * 12 * 8
+				dim mesh, 0
+				ddim mesh, maxtri * 12
+				memcpy mesh, tmp_mesh, tri * 12 * 8
+			}
+			base = tri * 12 + vi * 3
+			mesh(base + 0) = vx
+			mesh(base + 1) = vy
+			mesh(base + 2) = vz
+			vi++
+			if vi >= 3 {
+				; normal を書き込んで三角形完成
+				nbase = tri * 12 + 9
+				mesh(nbase + 0) = nx
+				mesh(nbase + 1) = ny
+				mesh(nbase + 2) = nz
+				tri++
+				vi = 0
+			}
+		}
+	loop
+	noteunsel
+
+	n_tri = tri
+	return 0
+
+;---------------------------------------------------------
+; stl_bounds  var mesh, n_tri, var mins, var maxs
+;---------------------------------------------------------
+#deffunc stl_bounds var mesh, int n_tri, var mins, var maxs
+
+	ddim mins, 3
+	ddim maxs, 3
+	if n_tri <= 0 {
+		return -1
+	}
+	mins(0) = mesh(0) : mins(1) = mesh(1) : mins(2) = mesh(2)
+	maxs(0) = mesh(0) : maxs(1) = mesh(1) : maxs(2) = mesh(2)
+	repeat n_tri
+		base = cnt * 12
+		repeat 3                 ; 3 vertices
+			vb = base + cnt * 3
+			x = mesh(vb + 0)
+			y = mesh(vb + 1)
+			z = mesh(vb + 2)
+			if x < mins(0) : mins(0) = x
+			if y < mins(1) : mins(1) = y
+			if z < mins(2) : mins(2) = z
+			if x > maxs(0) : maxs(0) = x
+			if y > maxs(1) : maxs(1) = y
+			if z > maxs(2) : maxs(2) = z
+		loop
+	loop
+	return 0
+
+;---------------------------------------------------------
+; stl_normalize  var mesh, n_tri, double target_size
+;---------------------------------------------------------
+#deffunc stl_normalize var mesh, int n_tri, double target
+
+	if n_tri <= 0 {
+		return -1
+	}
+	stl_bounds mesh, n_tri, mins, maxs
+	cx = (mins(0) + maxs(0)) * 0.5
+	cy = (mins(1) + maxs(1)) * 0.5
+	cz = (mins(2) + maxs(2)) * 0.5
+	dx = maxs(0) - mins(0)
+	dy = maxs(1) - mins(1)
+	dz = maxs(2) - mins(2)
+	dmax = dx
+	if dy > dmax : dmax = dy
+	if dz > dmax : dmax = dz
+	if dmax <= 0.0 : return -2
+	s = target / dmax
+
+	repeat n_tri
+		base = cnt * 12
+		repeat 3
+			vb = base + cnt * 3
+			mesh(vb + 0) = (mesh(vb + 0) - cx) * s
+			mesh(vb + 1) = (mesh(vb + 1) - cy) * s
+			mesh(vb + 2) = (mesh(vb + 2) - cz) * s
+		loop
+	loop
+	return 0
+
+#global
+
+#endif
+
+; stl_draw_dxlib は DxLib 依存なので iron_stl_dxlib.hsp に分離

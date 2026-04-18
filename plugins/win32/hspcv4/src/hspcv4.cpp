@@ -5239,6 +5239,105 @@ CV4_EXPORT int __stdcall cv4_mat_getf(int id, int row, int col, int* out_v_x1000
       catch (...) { return fail("cv4_mat_getf: unknown"); }
 }
 
+//  cv4_mat_seti id, row, col, value
+//    整数型 (CV_8U / CV_8S / CV_16U / CV_16S / CV_32S) Mat の 1ch セルに値を書き込む
+CV4_EXPORT int __stdcall cv4_mat_seti(int id, int row, int col, int value)
+{
+    try {
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_mat_seti: invalid handle");
+        if (row < 0 || row >= m->rows || col < 0 || col >= m->cols) {
+            return fail("cv4_mat_seti: index out of bounds");
+        }
+        int depth = m->depth();
+        if (depth == CV_8U)       m->at<uchar>(row, col)  = (uchar)value;
+        else if (depth == CV_8S)  m->at<schar>(row, col)  = (schar)value;
+        else if (depth == CV_16U) m->at<ushort>(row, col) = (ushort)value;
+        else if (depth == CV_16S) m->at<short>(row, col)  = (short)value;
+        else if (depth == CV_32S) m->at<int>(row, col)    = value;
+        else return fail("cv4_mat_seti: non-integer Mat (use cv4_mat_setf)");
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mat_seti: unknown"); }
+}
+
+//  cv4_mat_setf id, row, col, value_x10000
+//    浮動小数型 (CV_32F / CV_64F) Mat の 1ch セルに値を書き込む
+//    value_x10000 は int 固定小数点 (getf と対称)
+CV4_EXPORT int __stdcall cv4_mat_setf(int id, int row, int col, int value_x10000)
+{
+    try {
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_mat_setf: invalid handle");
+        if (row < 0 || row >= m->rows || col < 0 || col >= m->cols) {
+            return fail("cv4_mat_setf: index out of bounds");
+        }
+        double v = value_x10000 / 10000.0;
+        int depth = m->depth();
+        if (depth == CV_32F)      m->at<float>(row, col)  = (float)v;
+        else if (depth == CV_64F) m->at<double>(row, col) = v;
+        else return fail("cv4_mat_setf: non-float Mat (use cv4_mat_seti)");
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mat_setf: unknown"); }
+}
+
+//  cv4_mat_from_darray dst_id, rows, cols, type, double_varptr, length
+//    HSP の double 配列から Mat を生成 (AR pose 推定の入力用)
+//    type : 0=CV_32F (float), 1=CV_64F (double)
+//    double_varptr : HSP 側で ddim した double 配列の varptr() を渡す
+//    length : 要素数 (rows * cols * channels、不足時エラー)
+CV4_EXPORT int __stdcall cv4_mat_from_darray(int dst, int rows, int cols, int type,
+    double* data, int length)
+{
+    try {
+        if (!data) return fail("cv4_mat_from_darray: null data");
+        int ch = 1;
+        int need = rows * cols * ch;
+        if (length < need) return fail("cv4_mat_from_darray: array too small");
+        int cvtype;
+        if (type == 0) cvtype = CV_32FC1;
+        else if (type == 1) cvtype = CV_64FC1;
+        else return fail("cv4_mat_from_darray: type must be 0=CV_32F or 1=CV_64F");
+
+        cv::Mat m(rows, cols, cvtype);
+        if (cvtype == CV_64FC1) {
+            std::memcpy(m.ptr(), data, need * sizeof(double));
+        } else {
+            float* fp = reinterpret_cast<float*>(m.ptr());
+            for (int i = 0; i < need; ++i) fp[i] = (float)data[i];
+        }
+        hspcv4::handle_set(dst, std::move(m));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mat_from_darray: unknown"); }
+}
+
+//  cv4_mat_to_darray src_id, double_varptr, length
+//    Mat から HSP double 配列へデータを取り出す (rvec/tvec 読み出し用)
+//    CV_32F / CV_64F 両方受ける。1ch のみ。
+CV4_EXPORT int __stdcall cv4_mat_to_darray(int src, double* out, int length)
+{
+    try {
+        if (!out) return fail("cv4_mat_to_darray: null out");
+        cv::Mat* m = hspcv4::handle_get(src);
+        if (!m || m->empty()) return fail("cv4_mat_to_darray: invalid handle");
+        int need = m->rows * m->cols;
+        if (length < need) return fail("cv4_mat_to_darray: array too small");
+        int depth = m->depth();
+        if (depth == CV_64F) {
+            std::memcpy(out, m->ptr(), need * sizeof(double));
+        } else if (depth == CV_32F) {
+            const float* fp = reinterpret_cast<const float*>(m->ptr());
+            for (int i = 0; i < need; ++i) out[i] = (double)fp[i];
+        } else {
+            return fail("cv4_mat_to_darray: Mat must be CV_32F or CV_64F");
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mat_to_darray: unknown"); }
+}
+
 //  cv4_min_max_loc id, var_minval_x10000, var_maxval_x10000, var_minx, var_miny, var_maxx, var_maxy
 CV4_EXPORT int __stdcall cv4_min_max_loc(int id,
     int* out_min_x10000, int* out_max_x10000,

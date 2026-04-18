@@ -1,0 +1,103 @@
+;============================================================
+; iron_ar サンプル: ArUco マーカー上に立方体を AR 描画
+;
+; 入力画像 (scene.png) に写っている ArUco マーカーを検出し、
+; それぞれのマーカー上に赤い立方体を DxLib で 3D オーバーレイする。
+;
+; 事前準備:
+;   1. マーカー画像の生成 (cv4_aruco_generate で ID=0, DICT_4X4_50)
+;   2. 印刷 → 実物を適当な辺長 (例: 5cm = 0.05m) に切り取り
+;   3. カメラで撮影 → scene.png として保存
+;   4. カメラキャリブレーション結果があれば calib.txt を準備
+;      (無ければ ar_default_calibration で雑に推定)
+;
+; 実行:
+;   hspcmp64 sample_ar_cube.hsp
+;   hsp3_net_64 sample_ar_cube.ax
+;
+; 依存: hspcv4.dll (cv4_mat_from_darray 対応版), DxLibW_x64.dll, hspdxlib.as
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspcv4.as"
+#include "hspdxlib.as"
+#include "hspdxlib_const.as"
+#include "hspdxlib_macro.as"
+#include "iron_ar.hsp"
+
+	; ---- DxLib ウィンドウ設定 ----
+	ChangeWindowMode TRUE
+	SetGraphMode 1280, 720, 32
+	SetMainWindowText "iron_ar sample: ArUco + AR Cube"
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	; ---- 入力画像読込 + OpenCV で検出 ----
+	CV_FRAME   = 1
+	cv4_imread CV_FRAME, "scene.png"
+	if stat < 0 : dialog "scene.png を開けません (マーカーを印刷 → 撮影してください)" : end
+
+	; 画像サイズ
+	cv4_mat_shape CV_FRAME, img_rows, img_cols, img_type, img_ch
+
+	; ---- キャリブレーション (とりあえず雑な推定) ----
+	ar_default_calibration K, D, img_cols, img_rows
+	; calib.txt があれば優先:
+	; ar_load_calibration K, D, "calib.txt"
+
+	ar_make_mat_k 100, K
+	ar_make_mat_d 101, D
+
+	; ---- マーカー検出 ----
+	ar_detect_markers corners, ids, n_found, CV_FRAME, CV4_ARUCO_DICT_4X4_50
+	mes "detected markers: " + n_found
+
+	; ---- DxLib にカメラ画像を背景として読み込む ----
+	cv4_imwrite "__temp_frame.png", CV_FRAME
+	bg_gh = LoadGraph("__temp_frame.png")
+
+	; ---- メインループ ----
+*main
+	ClearDrawScreen_1
+
+	; 背景を画面全体に描画
+	DrawExtendGraph 0, 0, 1280, 720, bg_gh, FALSE
+
+	; 3D 投影を有効化して各マーカー上に cube 描画
+	if n_found > 0 {
+		; 投影行列はカメラ内部パラメータに基づいて設定
+		; 簡易的に SetCameraNearFar + SetupCamera_ProjectionMatrix だけ
+		SetCameraNearFar 0.01, 10.0
+		SetupCamera_Perspective 0.8   ; 視野角 ≒ 46 度
+
+		; マーカー 1 辺 5cm 想定
+		MARKER_SIZE = 0.05
+
+		repeat n_found
+			ar_estimate_pose_single corners, cnt, MARKER_SIZE, 100, 101, rvec, tvec
+			if stat < 0 : continue
+			ar_pose_to_dxmat rvec, tvec, viewmat
+			SetTransformToViewD viewmat
+
+			; マーカー上 (Z+) に小さな立方体
+			ddim v0, 3 : ddim v1, 3
+			half = MARKER_SIZE * 0.5
+			v0(0) = -half : v0(1) = -half : v0(2) = 0.0
+			v1(0) =  half : v1(1) =  half : v1(2) = MARKER_SIZE
+			DrawCube3DD v0, v1, GetColor(255, 0, 0), GetColor(255, 128, 128), TRUE
+		loop
+
+		; 3D 変換をリセット
+		SetTransformToViewIdentity
+	}
+
+	ScreenFlip
+	; ESC で終了
+	if CheckHitKey(DX_KEY_INPUT_ESCAPE) == 1 : goto *done
+	await 16
+	goto *main
+
+*done
+	DeleteGraph bg_gh
+	DxLib_End
+	end

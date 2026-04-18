@@ -1,0 +1,79 @@
+;============================================================
+; iron_ar + hspmfcam サンプル: ライブカメラで AR
+;
+; Media Foundation カメラから毎フレーム取得 → ArUco 検出 →
+; マーカー上に立方体オーバーレイ。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspcv4.as"
+#include "hspdxlib.as"
+#include "hspdxlib_const.as"
+#include "hspdxlib_macro.as"
+#include "hspmfcam.as"
+#include "iron_ar.hsp"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 1280, 720, 32
+	SetMainWindowText "iron_ar Live AR"
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	; ---- カメラ open ----
+	mf_open 0, 1280, 720, 30
+	if stat < 0 : dialog "camera open failed" : end
+
+	CAM_W = 1280 : CAM_H = 720
+	CV_FRAME = 1
+
+	ar_default_calibration K, D, CAM_W, CAM_H
+	ar_make_mat_k 100, K
+	ar_make_mat_d 101, D
+
+*main
+	ClearDrawScreen_1
+
+	; フレーム取得 → ファイル経由で cv4 へ
+	mf_grab_to_file 0, "__frame.png"
+	if stat < 0 : goto *skip_frame
+	cv4_imread CV_FRAME, "__frame.png"
+
+	ar_detect_markers corners, ids, n_found, CV_FRAME, CV4_ARUCO_DICT_4X4_50
+
+	; 背景描画
+	bg_gh = LoadGraph("__frame.png")
+	DrawExtendGraph 0, 0, 1280, 720, bg_gh, FALSE
+
+	if n_found > 0 {
+		SetCameraNearFar 0.01, 10.0
+		SetupCamera_Perspective 0.8
+
+		MARKER_SIZE = 0.05
+		repeat n_found
+			ar_estimate_pose_single corners, cnt, MARKER_SIZE, 100, 101, rvec, tvec
+			if stat < 0 : continue
+			ar_pose_to_dxmat rvec, tvec, viewmat
+			SetTransformToViewD viewmat
+
+			ddim v0, 3 : ddim v1, 3
+			half = MARKER_SIZE * 0.5
+			v0(0) = -half : v0(1) = -half : v0(2) = 0.0
+			v1(0) =  half : v1(1) =  half : v1(2) = MARKER_SIZE
+			DrawCube3DD v0, v1, GetColor(0, 255, 128), GetColor(128, 255, 180), TRUE
+		loop
+		SetTransformToViewIdentity
+	}
+
+	DrawString 20, 20, "markers: " + n_found, GetColor(255, 255, 255)
+	DeleteGraph bg_gh
+
+*skip_frame
+	ScreenFlip
+	if CheckHitKey(DX_KEY_INPUT_ESCAPE) == 1 : goto *done
+	await 16
+	goto *main
+
+*done
+	mf_close 0
+	DxLib_End
+	end
