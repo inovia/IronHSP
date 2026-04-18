@@ -3672,6 +3672,14 @@ ppresult_t CToken::PP_BootOpt(void)
 
 	if (val) {
 		hed_option |= i;
+		// #bootopt hsp64 1 → target runtime は 64bit。
+		// プラグイン .as (a2d.hsp 等) の `#ifdef _HSP64 ... dimtype ..., 8, ...`
+		// 分岐が評価されるよう、_HSP64 preprocessor マクロを自動登録する。
+		// コンパイラビット幅 (hspcmp vs hspcmp64) とは独立 ―
+		// 32bit hspcmp でも `#bootopt hsp64 1` が来れば target は 64bit と判断。
+		if (i == HEDINFO_HSP64) {
+			RegistExtMacro("_HSP64", "1");
+		}
 	}
 	else {
 		hed_option &= ~i;
