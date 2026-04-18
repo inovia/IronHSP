@@ -67,6 +67,15 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 
 - **hspdxlib** ([`plugins/win32/hspdxlib/`](plugins/win32/hspdxlib/)) — [DX ライブラリ (山田 巧 氏)](https://dxlib.xsrv.jp/) を `#uselib` / `#func` / `#cfunc` / `#cfuncst` で呼べるよう自動ラッパ生成。`gen_hspdxlib.py` で 55 構造体を自動 `#defstruct` 化、166 関数で値渡し ABI 修正、32 / 64 bit 検証済み。
 
+### Phase M 拡充 (2026-04-18 追加)
+
+- **hspcoreaudio** ([`plugins/win32/hspcoreaudio/`](plugins/win32/hspcoreaudio/)) — Windows CoreAudio 制御プラグイン。システム全体 / アプリ単位の音量 get/set / mute / ピークメーター取得、再生・録音デバイス列挙。`IMMDeviceEnumerator` / `IAudioEndpointVolume` / `IAudioSessionManager2` / `ISimpleAudioVolume` / `IAudioMeterInformation` を直接ラップ。外部 SDK 不要。サンプル: [`package/win32/sample/coreaudio/`](package/win32/sample/coreaudio/)、ヘルプ: [`package/hsphelp/hspcoreaudio.hs`](package/hsphelp/hspcoreaudio.hs)。
+- **hspaudiometer** ([`plugins/win32/hspaudiometer/`](plugins/win32/hspaudiometer/)) — WASAPI ループバック サウンドメーター。システム再生音をキャプチャして RMS / peak / dBFS / 8 バンド周波数分析 (1024pt Hann 窓 FFT + Cooley-Tukey radix-2 を内製) を HSP へ返す。サウンドメーター UI / スペクトラムアナライザ / 音圧監視に使える。サンプル: [`package/win32/sample/audiometer/`](package/win32/sample/audiometer/)。
+- **iron_ar** ([`package/win32/common/iron_ar.hsp`](package/win32/common/iron_ar.hsp)) — ArUco マーカーベース AR ヘルパ。hspcv4 (ArUco 検出 + `cv4_solve_pnp` + `cv4_rodrigues`) と hspdxlib (3D 描画) を連携し、カメラ画像上に 3D オブジェクトをオーバーレイする AR を数行で実現。関連: `ar_default_calibration` / `ar_make_mat_k` / `ar_estimate_pose_single` / `ar_pose_to_dxmat`。サンプル: [`package/win32/sample/ar/`](package/win32/sample/ar/) (`sample_ar_cube` / `sample_ar_stl` / `sample_ar_live`)。hspcv4 に `cv4_mat_from_darray` / `cv4_mat_to_darray` / `cv4_mat_setf` / `cv4_mat_seti` を追加 (AR pose 推定用の Mat 双方向転送)。
+- **iron_stl / iron_stl_dxlib** — Pure HSP の STL (STereoLithography) ローダ。ASCII / Binary 自動判別。`stl_load` / `stl_bounds` / `stl_normalize` + DxLib 描画アドオン `stl_draw_dxlib` / `stl_draw_wire`。
+- **iron_toml** ([`package/win32/common/iron_toml.hsp`](package/win32/common/iron_toml.hsp)) — TOML v1.0 サブセットの Pure HSP パーサ。`[section]` + `key = value` + `bool` + `int(1_000)` + `"quoted key"` + `# comment` + インラインテーブル。API は MAP ベース (`toml_parse` → `dimmap` / `toml_get_int` / `toml_get_bool` 等)。
+- **iron_yaml** (改訂版) ([`package/win32/common/iron_yaml.hsp`](package/win32/common/iron_yaml.hsp)) — YAML 1.2 サブセットの Pure HSP パーサ。flat + ネスト mapping + `true/false/null/yes/no` + `---` separator。`yaml_parse` / `yaml_get_*`。
+
 ### Pure HSP モジュール
 
 - **hspd2d** ([`package/win32/common/hspd2d.hsp`](package/win32/common/hspd2d.hsp)) — DirectWrite + Direct2D + WIC を **HSP の COM 機能 (`#usecom` / `#comfunc` / `newcom -1/-2`) だけで wrap** したモジュール。C++ DLL を介さずに高品質テキスト描画と画像読み書きを実現。`d2d_init` / `d2d_image_create` / `d2d_image_load` / `d2d_clear` / `d2d_font` / `d2d_color` / `d2d_drawtext` / `d2d_drawline` / `d2d_drawrect` / `d2d_fillrect` / `d2d_drawellipse` / `d2d_fillellipse` / `d2d_drawimage` / `d2d_image_save` 等のコマンドを提供。PNG / BMP / JPEG / TIFF / GIF 形式のロード・保存対応。`D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT` を有効にしているので **Segoe UI Emoji 等の COLR/CPAL カラーフォントによる絵文字** も自動で色付き描画される。サンプル: [`package/win32/sample/hspd2d/`](package/win32/sample/hspd2d/)。

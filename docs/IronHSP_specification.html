@@ -1925,6 +1925,19 @@ package/hsphelp/
 <!-- ======================================== -->
 <h2 id="modules-ref">9. プラグイン & モジュール リファレンス</h2>
 
+<div class="card">
+<h4>Phase M 追加プラグイン (2026-04-18)</h4>
+<ul>
+<li><strong>hspcoreaudio</strong> — Windows CoreAudio 制御。システム全体 / アプリ単位の音量 get/set / mute / ピークメーター、再生・録音デバイス列挙。<code>IMMDeviceEnumerator</code> / <code>IAudioEndpointVolume</code> / <code>IAudioSessionManager2</code> / <code>ISimpleAudioVolume</code> / <code>IAudioMeterInformation</code> の直接ラッパ。</li>
+<li><strong>hspaudiometer</strong> — WASAPI ループバックキャプチャ + 1024pt Hann 窓 FFT (Cooley-Tukey radix-2 内製) による RMS / peak / dBFS / 8 バンドスペクトラム分析。</li>
+<li><strong>iron_ar</strong> (Pure HSP) — ArUco + solvePnP + Rodrigues と DxLib 3D 描画を連携する AR ヘルパ。<code>ar_estimate_pose_single</code> → <code>ar_pose_to_dxmat</code> で数行でマーカー上にオブジェクトをオーバーレイ。hspcv4 に <code>cv4_mat_from_darray</code> / <code>cv4_mat_to_darray</code> / <code>cv4_mat_setf</code> / <code>cv4_mat_seti</code> を追加。</li>
+<li><strong>iron_stl / iron_stl_dxlib</strong> (Pure HSP) — STL (STereoLithography) ASCII/Binary 両対応ローダ。DxLib の <code>DrawTriangle3DD</code> でそのまま描画。</li>
+<li><strong>iron_toml</strong> (Pure HSP) — TOML v1.0 サブセットパーサ。MAP ベース API (<code>toml_parse</code> / <code>toml_get_int</code> / <code>toml_get_bool</code> 等)。</li>
+<li><strong>iron_yaml</strong> (Pure HSP, 改訂) — YAML 1.2 サブセット。flat + インデントベース ネスト mapping、<code>yaml_parse</code> / <code>yaml_get_*</code>。</li>
+</ul>
+<p>詳細は README、サンプル (<code>package/win32/sample/coreaudio/</code> / <code>audiometer/</code> / <code>ar/</code> / <code>iron_config/</code>)、ヘルプファイル (<code>package/hsphelp/hspcoreaudio.hs</code> / <code>hspaudiometer.hs</code> / <code>iron_ar.hs</code> / <code>iron_stl.hs</code> / <code>iron_toml.hs</code> / <code>iron_yaml.hs</code>) を参照。</p>
+</div>
+
 <p>IronHSP が提供する <strong>179 個の iron_* モジュール</strong>、<strong>34 個の C++ プラグイン DLL</strong>、<strong>hspd2d / DxLib / OpenCV 統合</strong> の詳細は別ドキュメントに記載しています:</p>
 
 <div class="card">
