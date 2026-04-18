@@ -1,0 +1,11 @@
+LIBRARY hspaudiometer
+
+EXPORTS
+    sm_open
+    sm_close
+    sm_poll
+    sm_get_rms
+    sm_get_peak
+    sm_get_dbfs
+    sm_get_band
+    sm_get_sample_rate

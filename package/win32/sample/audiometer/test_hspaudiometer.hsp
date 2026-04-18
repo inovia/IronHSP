@@ -1,0 +1,63 @@
+;============================================================
+; hspaudiometer ユニットテスト
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hsptestrt.as"
+#include "iron_test_ex.hsp"
+#include "hspaudiometer.as"
+
+test_case "open / close"
+	sm_open
+	expect_eq stat, 0
+	sm_close
+	expect_eq stat, 0
+test_end
+
+test_case "sample rate positive"
+	sm_open
+	dim sr, 1
+	sm_get_sample_rate sr
+	expect_eq stat, 0
+	; サンプリングレートは通常 44100 or 48000 or 96000
+	expect_eq sr(0) > 0, 1
+	sm_close
+test_end
+
+test_case "poll + rms + peak + dbfs"
+	sm_open
+	await 50
+	sm_poll
+	expect_eq stat, 0
+	ddim rms, 1
+	ddim peak, 1
+	ddim dbfs, 1
+	sm_get_rms  rms
+	expect_eq stat, 0
+	sm_get_peak peak
+	expect_eq stat, 0
+	sm_get_dbfs dbfs
+	expect_eq stat, 0
+	; 無音でも値は取得できる (NaN/Inf でない)
+	expect_eq rms(0) >= 0.0, 1
+	expect_eq peak(0) >= 0.0, 1
+	; dBFS は -inf になることがあるので下限 -200 dB までは許容
+	expect_eq dbfs(0) <= 0.001, 1
+	sm_close
+test_end
+
+test_case "8 bands accessible"
+	sm_open
+	await 50
+	sm_poll
+	pass_ct = 0
+	repeat 8
+		ddim b, 1
+		sm_get_band cnt, b
+		if stat == 0 : pass_ct++
+	loop
+	expect_eq pass_ct, 8
+	sm_close
+test_end
+
+end test_finish

@@ -1,0 +1,61 @@
+;============================================================
+; hspaudiometer サンプル: リアルタイム音圧 + 8 バンド スペクトラム
+;
+; Windows の再生音 (システム全体) を WASAPI ループバックで取得し、
+; 1 秒間のピーク / RMS / dBFS と 8 バンド周波数分布を表示。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspaudiometer.as"
+
+	sm_open
+	if stat < 0 {
+		dialog "hspaudiometer open failed (stat=" + stat + ")"
+		end 1
+	}
+
+	dim sr, 1
+	sm_get_sample_rate sr
+	mes "WASAPI loopback ready (sample rate = " + sr(0) + " Hz)"
+	mes "音楽や動画を再生しながらこのプログラムを動かしてください..."
+	mes "Ctrl+C で終了"
+	mes ""
+
+	sdim band_names, 16, 8
+	band_names(0) = "SubLo" : band_names(1) = "Low"   : band_names(2) = "MidLo"
+	band_names(3) = "Mid"   : band_names(4) = "MidHi" : band_names(5) = "High"
+	band_names(6) = "Super" : band_names(7) = "Ultra"
+
+	repeat 60                ; 60 x 200ms = 12 sec 計測
+		await 200
+		sm_poll
+		ddim rms, 1 : ddim peak, 1 : ddim dbfs, 1
+		sm_get_rms  rms
+		sm_get_peak peak
+		sm_get_dbfs dbfs
+
+		sdim bar, 128
+		bar = ""
+		n = int(peak(0) * 40)
+		if n > 40 : n = 40
+		repeat n : bar += "=" : loop
+		mes strf("  %4.1fdB peak=%.3f %s", dbfs(0), peak(0), bar)
+
+		; バンドメーター (改行して並べる)
+		sdim bline, 256
+		bline = "   "
+		repeat 8
+			ddim b, 1
+			sm_get_band cnt, b
+			bn = int(b(0) * 1500)
+			if bn > 10 : bn = 10
+			sdim bb, 16
+			bb = ""
+			repeat bn : bb += "|" : loop
+			bline += strf(" %s=%-10s", band_names(cnt), bb)
+		loop
+		mes bline
+	loop
+
+	sm_close
+	end 0
