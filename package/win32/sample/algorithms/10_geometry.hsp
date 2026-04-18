@@ -1,149 +1,96 @@
 ;============================================================
-;  アルゴリズム 48〜50: 計算幾何 + ボーナス 2 個
-;    48. Convex Hull (Andrew's monotone chain, O(N log N))
-;    49. Point-in-Polygon (Ray Casting)
-;    50. Line Segment Intersection
-;    51. CRC32 (ボーナス)
-;    52. FNV-1a hash (ボーナス)
+;  アルゴリズム 41〜45: 計算幾何 + ハッシュ
+;    41. Point in Polygon (Ray Casting)
+;    42. Line Segment Intersection
+;    43. Triangle Area (Shoelace formula)
+;    44. CRC32
+;    45. FNV-1a hash (32 bit)
 ;============================================================
 
 #include "hsp3cl_net_64.as"
 
+; ----- 41. Point in Polygon (Ray casting) -----
 #module
-; ----- 48. Convex Hull -----
-;  入力: xs, ys (double 配列, n 点)
-;  出力: hull_x, hull_y, hull_n
-#defcfunc _cross double ox, double oy, double ax, double ay, double bx, double by
-	return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox)
-
-#deffunc convex_hull array _xs, array _ys, int _n, array _hx, array _hy, var _hn, \
-	local i, local k, local o, local a, local b
-	; 点を xs (tiebreak ys) で昇順ソート
-	dim idx, _n
-	for i, 0, _n : idx(i) = i : next
-	; 簡易バブル (n 小想定)
-	for i, 0, _n - 1
-		for j, 0, _n - 1 - i
-			if (_xs(idx(j)) > _xs(idx(j + 1))) | \
-			   ((_xs(idx(j)) == _xs(idx(j + 1))) & (_ys(idx(j)) > _ys(idx(j + 1)))) {
-				t = idx(j) : idx(j) = idx(j + 1) : idx(j + 1) = t
-			}
-		next
-	next
-	; 下半
-	dim stk, _n * 2
-	k = 0
-	for i, 0, _n
-		while k >= 2
-			o = stk(k - 2) : a = stk(k - 1) : b = idx(i)
-			if _cross(_xs(o), _ys(o), _xs(a), _ys(a), _xs(b), _ys(b)) <= 0 : k--
-			else : break
-		wend
-		stk(k) = idx(i) : k++
-	next
-	; 上半
-	t_lower = k + 1
-	for i, _n - 2, -1, -1
-		while k >= t_lower - 1
-			o = stk(k - 2) : a = stk(k - 1) : b = idx(i)
-			if _cross(_xs(o), _ys(o), _xs(a), _ys(a), _xs(b), _ys(b)) <= 0 : k--
-			else : break
-		wend
-		stk(k) = idx(i) : k++
-	next
-	_hn = k - 1
-	ddim _hx, _hn
-	ddim _hy, _hn
-	for i, 0, _hn
-		_hx(i) = _xs(stk(i)) : _hy(i) = _ys(stk(i))
-	next
-	return
-
-; ----- 49. Point in Polygon (Ray casting) -----
 #defcfunc point_in_poly array _px, array _py, int _n, double _x, double _y, \
-	local i, local j, local inside, local xi, local yi, local xj, local yj
-	inside = 0
-	j = _n - 1
-	for i, 0, _n
-		xi = _px(i) : yi = _py(i)
-		xj = _px(j) : yj = _py(j)
-		if ((yi > _y) != (yj > _y)) {
-			if _x < (xj - xi) * (_y - yi) / (yj - yi) + xi : inside = 1 - inside
+	local _i, local _j, local _inside, local _xi, local _yi, local _xj, local _yj
+	_inside = 0
+	_j = _n - 1
+	repeat _n
+		_i = cnt
+		_xi = _px(_i) : _yi = _py(_i)
+		_xj = _px(_j) : _yj = _py(_j)
+		if (_yi > _y) != (_yj > _y) {
+			if _x < (_xj - _xi) * (_y - _yi) / (_yj - _yi) + _xi : _inside = 1 - _inside
 		}
-		j = i
-	next
-	return inside
+		_j = _i
+	loop
+	return _inside
+#global
 
-; ----- 50. Line Segment Intersection (2 線分) -----
-;   A1(x1,y1)-A2(x2,y2) と B1(x3,y3)-B2(x4,y4) の交点。交差なければ戻り値 0、
-;   交点あれば 1 + out に x, y。
-#defcfunc seg_intersect double x1, double y1, double x2, double y2, \
-                         double x3, double y3, double x4, double y4, \
-                         var _out_x, var _out_y, \
-                         local den, local tx, local ty, local ua, local ub
-	den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-	if absd(den) < 1e-12 : return 0     ; parallel
-	ua = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den
-	ub = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den
-	if (ua < 0.0) | (ua > 1.0) | (ub < 0.0) | (ub > 1.0) : return 0
-	_out_x = x1 + ua * (x2 - x1)
-	_out_y = y1 + ua * (y2 - y1)
+; ----- 42. Line Segment Intersection -----
+#module
+#defcfunc seg_intersect double _x1, double _y1, double _x2, double _y2, \
+                        double _x3, double _y3, double _x4, double _y4, \
+                        var _ox, var _oy, \
+                        local _den, local _ua, local _ub
+	_den = (_x1 - _x2) * (_y3 - _y4) - (_y1 - _y2) * (_x3 - _x4)
+	if absf(_den) < 1e-12 : return 0
+	_ua = ((_x1 - _x3) * (_y3 - _y4) - (_y1 - _y3) * (_x3 - _x4)) / _den
+	_ub = -((_x1 - _x2) * (_y1 - _y3) - (_y1 - _y2) * (_x1 - _x3)) / _den
+	if _ua < 0.0 : return 0
+	if _ua > 1.0 : return 0
+	if _ub < 0.0 : return 0
+	if _ub > 1.0 : return 0
+	_ox = _x1 + _ua * (_x2 - _x1)
+	_oy = _y1 + _ua * (_y2 - _y1)
 	return 1
+#global
 
-#defcfunc absd double _x
-	if _x < 0.0 : return -_x
-	return _x
+; ----- 43. Triangle Area (Shoelace) -----
+#module
+#defcfunc tri_area double _x1, double _y1, double _x2, double _y2, double _x3, double _y3, \
+	local _a
+	_a = ((_x2 - _x1) * (_y3 - _y1) - (_x3 - _x1) * (_y2 - _y1)) * 0.5
+	if _a < 0.0 : return -_a
+	return _a
+#global
 
-; ----- 51. CRC32 -----
-#defcfunc crc32 var _data, int _len, local i, local j, local c, local crc
-	crc = 0xFFFFFFFF
-	for i, 0, _len
-		c = crc ^ peek(_data, i)
-		for j, 0, 8
-			if c & 1 : c = (c >> 1) ^ 0xEDB88320
-			else     : c = c >> 1
-		next
-		crc = c
-	next
-	return crc ^ 0xFFFFFFFF
+; ----- 44. CRC32 -----
+#module
+#defcfunc crc32_compute var _data, int _len, \
+	local _i, local _j, local _c, local _crc
+	_crc = 0xFFFFFFFF
+	repeat _len
+		_i = cnt
+		_c = _crc ^ peek(_data, _i)
+		repeat 8
+			if _c & 1 : _c = (_c >> 1) ^ 0xEDB88320 : else : _c = _c >> 1
+		loop
+		_crc = _c
+	loop
+	return _crc ^ 0xFFFFFFFF
+#global
 
-; ----- 52. FNV-1a hash (32 bit) -----
-#defcfunc fnv1a str _s, local h, local i
-	h = 0x811C9DC5
-	for i, 0, strlen(_s)
-		h = h ^ peek(_s, i)
-		; 16777619 * h mod 2^32 (HSP の 32bit 整数乗算は自動で wrap)
-		h = h * 16777619
-	next
-	return h
-
+; ----- 45. FNV-1a (32 bit) -----
+#module
+#defcfunc fnv1a var _s, \
+	local _h, local _i
+	_h = 0x811C9DC5
+	repeat strlen(_s)
+		_h = _h ^ peek(_s, cnt)
+		_h = _h * 16777619
+	loop
+	return _h
 #global
 
 ; ===== デモ =====
-	mes "=== Convex Hull ==="
-	N = 8
-	ddim xs, N : xs = 0.0, 1.0, 2.0, 3.0, 0.0, 1.0, 2.0, 3.0
-	ddim ys, N : ys = 0.0, 0.0, 0.0, 0.0, 3.0, 3.0, 3.0, 3.0
-	convex_hull xs, ys, N, hx, hy, hn
-	mes strf("Hull points: %d", hn)
-	repeat hn
-		mes strf("  (%.1f, %.1f)", hx(cnt), hy(cnt))
-	loop
-
-	mes ""
 	mes "=== Point in Polygon ==="
 	; 四角形 (0,0)-(4,0)-(4,3)-(0,3)
-	PN = 4
-	ddim px, PN : px = 0.0, 4.0, 4.0, 0.0
-	ddim py, PN : py = 0.0, 0.0, 3.0, 3.0
-	tests_x = 2.0, 5.0, 0.0
-	tests_y = 1.5, 1.5, 5.0
-	ddim tx, 3 : tx = 2.0, 5.0, 0.0
-	ddim ty, 3 : ty = 1.5, 1.5, 5.0
-	repeat 3
-		mes strf("  (%.1f, %.1f) inside = %d", tx(cnt), ty(cnt),
-		         point_in_poly(px, py, PN, tx(cnt), ty(cnt)))
-	loop
+	ddim px, 4 : px = 0.0, 4.0, 4.0, 0.0
+	ddim py, 4 : py = 0.0, 0.0, 3.0, 3.0
+	mes strf("  (2.0, 1.5) inside = %d (期待: 1)", point_in_poly(px, py, 4, 2.0, 1.5))
+	mes strf("  (5.0, 1.5) inside = %d (期待: 0)", point_in_poly(px, py, 4, 5.0, 1.5))
+	mes strf("  (0.0, 5.0) inside = %d (期待: 0)", point_in_poly(px, py, 4, 0.0, 5.0))
 
 	mes ""
 	mes "=== Segment Intersection ==="
@@ -152,13 +99,23 @@
 	mes strf("  intersect? %d at (%.2f, %.2f)", ok, ix, iy)
 
 	mes ""
+	mes "=== Triangle Area (Shoelace) ==="
+	ta = tri_area(0.0, 0.0, 4.0, 0.0, 0.0, 3.0)
+	mes strf("  area((0,0),(4,0),(0,3)) = %.2f (期待: 6.0)", ta)
+
+	mes ""
 	mes "=== CRC32 ==="
 	sdim buf, 64
 	buf = "123456789"
-	mes strf("CRC32('123456789') = %08X (期待: CBF43926)", crc32(buf, 9))
+	crc = crc32_compute(buf, 9)
+	mes strf("CRC32('123456789') = %08X (期待: CBF43926)", crc & 0xFFFFFFFF)
 
 	mes ""
 	mes "=== FNV-1a ==="
-	mes strf("FNV1a('hello') = %08X", fnv1a("hello") & 0xFFFFFFFF)
-	mes strf("FNV1a('world') = %08X", fnv1a("world") & 0xFFFFFFFF)
+	s = "hello"
+	h = fnv1a(s) & 0xFFFFFFFF
+	mes strf("FNV1a('hello') = %08X", h)
+	s = "world"
+	h = fnv1a(s) & 0xFFFFFFFF
+	mes strf("FNV1a('world') = %08X", h)
 	end 0

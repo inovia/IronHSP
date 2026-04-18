@@ -1,169 +1,149 @@
 ;============================================================
-;  アルゴリズム 06〜10: 文字列検索 / パターンマッチ
-;    06. KMP 文字列検索
-;    07. Boyer-Moore (bad character rule)
-;    08. Rabin-Karp (rolling hash)
-;    09. Z-function
-;    10. Manacher (最長回文)
+;  アルゴリズム 06〜10: 文字列検索
+;    06. 愚直 find (Naive)
+;    07. KMP 文字列検索
+;    08. Boyer-Moore (bad char)
+;    09. Rabin-Karp (rolling hash)
+;    10. StrRev (reverse string - bonus)
 ;============================================================
 
 #include "hsp3cl_net_64.as"
 
-; ----- 06. KMP -----
+; ----- 06. Naive -----
 #module
-#defcfunc kmp_find str _hay, str _pat, \
-	local n, local m, local i, local j
-	n = strlen(_hay) : m = strlen(_pat)
-	if m == 0 : return 0
-	if m > n : return -1
-	dim lps, m
-	; failure 関数
-	j = 0
-	for i, 1, m
-		while (j > 0) & (peek(_pat, i) != peek(_pat, j)) : j = lps(j - 1) : wend
-		if peek(_pat, i) == peek(_pat, j) : j++
-		lps(i) = j
-	next
-	i = 0 : j = 0
-	while i < n
-		if peek(_hay, i) == peek(_pat, j) : i++ : j++
-		if j == m : return i - j
-		if (i < n) & (peek(_hay, i) != peek(_pat, j)) {
-			if j > 0 : j = lps(j - 1) : else : i++
+#defcfunc naive_find var _hay, var _pat, \
+	local _n, local _m, local _i, local _j, local _match
+	_n = strlen(_hay) : _m = strlen(_pat)
+	if _m == 0 : return 0
+	repeat _n - _m + 1
+		_i = cnt
+		_match = 1
+		repeat _m
+			_j = cnt
+			if peek(_hay, _i + _j) != peek(_pat, _j) : _match = 0 : break
+		loop
+		if _match : return _i
+	loop
+	return -1
+#global
+
+; ----- 07. KMP -----
+#module
+#defcfunc kmp_find var _hay, var _pat, \
+	local _n, local _m, local _i, local _j
+	_n = strlen(_hay) : _m = strlen(_pat)
+	if _m == 0 : return 0
+	if _m > _n : return -1
+	dim lps, _m
+	_j = 0
+	repeat _m - 1
+		_i = cnt + 1
+		repeat
+			if _j <= 0 : break
+			if peek(_pat, _i) == peek(_pat, _j) : break
+			_j = lps(_j - 1)
+		loop
+		if peek(_pat, _i) == peek(_pat, _j) : _j++
+		lps(_i) = _j
+	loop
+	_i = 0 : _j = 0
+	repeat
+		if _i >= _n : return -1
+		if peek(_hay, _i) == peek(_pat, _j) {
+			_i++ : _j++
+			if _j == _m : return _i - _j
+		} else {
+			if _j > 0 : _j = lps(_j - 1) : else : _i++
 		}
-	wend
-	return -1
+	loop
 #global
 
-; ----- 07. Boyer-Moore (bad char 簡易版) -----
+; ----- 08. Boyer-Moore (bad char) -----
 #module
-#defcfunc bm_find str _hay, str _pat, \
-	local n, local m, local i, local j, local shift, local c
-	n = strlen(_hay) : m = strlen(_pat)
-	if m == 0 : return 0
-	if m > n : return -1
-	dim bad, 256
-	repeat 256 : bad(cnt) = -1 : loop
-	for i, 0, m : bad(peek(_pat, i)) = i : next
-	i = 0
-	while i <= n - m
-		j = m - 1
-		while (j >= 0) & (peek(_pat, j) == peek(_hay, i + j)) : j--
-		if j < 0 : return i
-		c = peek(_hay, i + j)
-		shift = j - bad(c)
-		if shift < 1 : shift = 1
-		i += shift
-	wend
-	return -1
+#defcfunc bm_find var _hay, var _pat, \
+	local _n, local _m, local _i, local _j, local _shift, local _c, local _found
+	_n = strlen(_hay) : _m = strlen(_pat)
+	if _m == 0 : return 0
+	if _m > _n : return -1
+	dim _bad, 256
+	repeat 256 : _bad(cnt) = -1 : loop
+	repeat _m : _bad(peek(_pat, cnt)) = cnt : loop
+	_i = 0
+	repeat
+		if _i > _n - _m : return -1
+		_j = _m - 1
+		_found = 1
+		repeat
+			if _j < 0 : break
+			if peek(_pat, _j) != peek(_hay, _i + _j) : _found = 0 : break
+			_j--
+		loop
+		if _found : return _i
+		_c = peek(_hay, _i + _j)
+		_shift = _j - _bad(_c)
+		if _shift < 1 : _shift = 1
+		_i += _shift
+	loop
 #global
 
-; ----- 08. Rabin-Karp (mod 2^31-1) -----
+; ----- 09. Rabin-Karp -----
 #module
-#defcfunc rabin_karp str _hay, str _pat, \
-	local n, local m, local i, local h, local phash, local hhash, local BASE, local MOD
-	BASE = 131 : MOD = 2147483647
-	n = strlen(_hay) : m = strlen(_pat)
-	if m == 0 : return 0
-	if m > n : return -1
-	phash = 0 : hhash = 0 : h = 1
-	repeat m - 1 : h = h * BASE \ MOD : loop
-	for i, 0, m
-		phash = (phash * BASE + peek(_pat, i)) \ MOD
-		hhash = (hhash * BASE + peek(_hay, i)) \ MOD
-	next
-	for i, 0, n - m + 1
-		if phash == hhash {
-			; verify
-			dup_hit = 1
-			repeat m
-				if peek(_pat, cnt) != peek(_hay, i + cnt) : dup_hit = 0 : break
+#defcfunc rabin_karp var _hay, var _pat, \
+	local _n, local _m, local _i, local _h, local _ph, local _hh, local _BASE, local _MOD, \
+	local _ok
+	_BASE = 131 : _MOD = 2147483647
+	_n = strlen(_hay) : _m = strlen(_pat)
+	if _m == 0 : return 0
+	if _m > _n : return -1
+	_ph = 0 : _hh = 0 : _h = 1
+	repeat _m - 1 : _h = _h * _BASE \ _MOD : loop
+	repeat _m
+		_ph = (_ph * _BASE + peek(_pat, cnt)) \ _MOD
+		_hh = (_hh * _BASE + peek(_hay, cnt)) \ _MOD
+	loop
+	repeat _n - _m + 1
+		_i = cnt
+		if _ph == _hh {
+			_ok = 1
+			repeat _m
+				if peek(_pat, cnt) != peek(_hay, _i + cnt) : _ok = 0 : break
 			loop
-			if dup_hit : return i
+			if _ok : return _i
 		}
-		if i < n - m {
-			hhash = ((hhash - peek(_hay, i) * h) * BASE + peek(_hay, i + m)) \ MOD
-			if hhash < 0 : hhash += MOD
+		if _i < _n - _m {
+			_hh = ((_hh - peek(_hay, _i) * _h) * _BASE + peek(_hay, _i + _m)) \ _MOD
+			if _hh < 0 : _hh += _MOD
 		}
-	next
+	loop
 	return -1
 #global
 
-; ----- 09. Z-function -----
-;  文字列の各位置について「先頭との一致長」を返す配列を構築
+; ----- 10. String reverse -----
 #module
-#deffunc z_function var _s, array _out, local n, local i, local l, local r
-	n = strlen(_s)
-	dim _out, n
-	if n == 0 : return
-	_out(0) = n
-	l = 0 : r = 0
-	for i, 1, n
-		if i < r {
-			_out(i) = (r - i < _out(i - l)) * (r - i) + (r - i >= _out(i - l)) * _out(i - l)
-		}
-		while (i + _out(i) < n) & (peek(_s, _out(i)) == peek(_s, i + _out(i))) : _out(i)++ : wend
-		if i + _out(i) > r : l = i : r = i + _out(i)
-	next
+#deffunc str_reverse var _s, var _out, local _n, local _i
+	_n = strlen(_s)
+	sdim _out, _n + 1
+	repeat _n
+		_i = _n - 1 - cnt
+		poke _out, cnt, peek(_s, _i)
+	loop
+	poke _out, _n, 0
 	return
-#global
-
-; ----- 10. Manacher (最長回文) -----
-#module
-#defcfunc manacher_longest var _s, \
-	local n, local i, local t, local c, local r, local best_i, local best_p
-	n = strlen(_s)
-	if n == 0 : return ""
-	; T = ^ # s[0] # s[1] # ... # s[n-1] # $
-	sdim t_buf, 2 * n + 4
-	poke t_buf, 0, '^'
-	poke t_buf, 1, '#'
-	for i, 0, n
-		poke t_buf, 2 + i * 2,     peek(_s, i)
-		poke t_buf, 2 + i * 2 + 1, '#'
-	next
-	poke t_buf, 2 + n * 2 + 1, '$'
-	t = 2 * n + 3
-	dim p, t
-	c = 0 : r = 0
-	for i, 1, t - 1
-		if r > i : p(i) = (p(2 * c - i) < r - i) * p(2 * c - i) + (p(2 * c - i) >= r - i) * (r - i)
-		while peek(t_buf, i + p(i) + 1) == peek(t_buf, i - p(i) - 1) : p(i)++ : wend
-		if i + p(i) > r : c = i : r = i + p(i)
-	next
-	best_i = 0 : best_p = 0
-	for i, 1, t - 1
-		if p(i) > best_p : best_p = p(i) : best_i = i
-	next
-	sdim ret, best_p + 1
-	for i, 0, best_p
-		poke ret, i, peek(_s, (best_i - best_p) / 2 + i)
-	next
-	poke ret, best_p, 0
-	return ret
 #global
 
 ; ===== デモ =====
 	mes "=== 文字列検索 ==="
-	hay = "ABAAABCDABAABCABAB" : pat = "ABAB"
-	mes strf("KMP(%s, %s) = %d",        hay, pat, kmp_find(hay, pat))
-	mes strf("Boyer-Moore(%s, %s) = %d", hay, pat, bm_find(hay, pat))
-	mes strf("Rabin-Karp(%s, %s) = %d",  hay, pat, rabin_karp(hay, pat))
+	hay = "ABAAABCDABAABCABAB"
+	pat = "ABAB"
+	mes "hay = " + hay
+	mes "pat = " + pat
+	mes strf("Naive(hay, pat) = %d",       naive_find(hay, pat))
+	mes strf("KMP(hay, pat) = %d",         kmp_find(hay, pat))
+	mes strf("BoyerMoore(hay, pat) = %d",  bm_find(hay, pat))
+	mes strf("Rabin-Karp(hay, pat) = %d",  rabin_karp(hay, pat))
 
 	mes ""
-	mes "=== Z-function ==="
-	z_function "aabcaabxaaz", z
-	sdim zline, 128
-	zline = "Z = "
-	repeat length(z)
-		zline += "" + z(cnt) + " "
-	loop
-	mes zline
-
-	mes ""
-	mes "=== Manacher ==="
-	s = "babad"
-	mes strf("Longest palindrome(%s) = '%s'", s, manacher_longest(s))
-	s = "forgeeksskeegfor"
-	mes strf("Longest palindrome(%s) = '%s'", s, manacher_longest(s))
+	s = "Hello, World!"
+	str_reverse s, r
+	mes strf("reverse('%s') = '%s'", s, r)
 	end 0

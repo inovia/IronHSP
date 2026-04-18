@@ -1,7 +1,7 @@
 ;============================================================
 ;  アルゴリズム 16〜20: 探索
-;    16. Binary Search (二分探索)
-;    17. Ternary Search (三分探索、単峰関数の最大化)
+;    16. Binary Search
+;    17. Ternary Search (単峰関数の最大化)
 ;    18. Interpolation Search
 ;    19. Jump Search
 ;    20. BFS / DFS (グラフ)
@@ -9,123 +9,152 @@
 
 #include "hsp3cl_net_64.as"
 
+; ----- 16. Binary Search -----
 #module
-; ----- 16. Binary Search (昇順配列) -----
-#defcfunc binary_search array _a, int _n, int _target, local lo, local hi, local mid
-	lo = 0 : hi = _n - 1
-	while lo <= hi
-		mid = (lo + hi) / 2
-		if _a(mid) == _target : return mid
-		if _a(mid) < _target : lo = mid + 1 : else : hi = mid - 1
-	wend
-	return -1
-
-; ----- 17. Ternary Search (f(x) の単峰最大化、整数範囲 [lo, hi]) -----
-#defcfunc ternary_max int _lo, int _hi, local lo, local hi, local m1, local m2
-	lo = _lo : hi = _hi
-	while hi - lo > 2
-		m1 = lo + (hi - lo) / 3
-		m2 = hi - (hi - lo) / 3
-		; 評価関数: -(x-7)^2 + 50 の最大値を探す (答え: x=7 で 50)
-		if -(m1 - 7) * (m1 - 7) + 50 < -(m2 - 7) * (m2 - 7) + 50 {
-			lo = m1 + 1
-		} else {
-			hi = m2 - 1
-		}
-	wend
-	; 残り 3 点から最大を探す
-	best = lo : bestv = -(lo - 7) * (lo - 7) + 50
-	for i, lo, hi + 1
-		v = -(i - 7) * (i - 7) + 50
-		if v > bestv : bestv = v : best = i
-	next
-	return best
-
-; ----- 18. Interpolation Search -----
-#defcfunc interpolation_search array _a, int _n, int _target, local lo, local hi, local pos
-	lo = 0 : hi = _n - 1
-	while (lo <= hi) & (_target >= _a(lo)) & (_target <= _a(hi))
-		if _a(hi) == _a(lo) {
-			if _a(lo) == _target : return lo
-			return -1
-		}
-		pos = lo + ((_target - _a(lo)) * (hi - lo)) / (_a(hi) - _a(lo))
-		if _a(pos) == _target : return pos
-		if _a(pos) < _target : lo = pos + 1 : else : hi = pos - 1
-	wend
-	return -1
-
-; ----- 19. Jump Search -----
-#defcfunc jump_search array _a, int _n, int _target, local step, local prev, local i
-	step = int(sqrt(1.0 * _n))
-	prev = 0
-	while (prev < _n) & (_a(prev) < _target)
-		prev += step
-	wend
-	i = prev - step : if i < 0 : i = 0
-	while (i < _n) & (_a(i) <= _target)
-		if _a(i) == _target : return i
-		i++
-	wend
-	return -1
-
+#defcfunc binary_search array _a, int _n, int _target, \
+	local _lo, local _hi, local _mid
+	_lo = 0 : _hi = _n - 1
+	repeat
+		if _lo > _hi : return -1
+		_mid = (_lo + _hi) / 2
+		if _a(_mid) == _target : return _mid
+		if _a(_mid) < _target : _lo = _mid + 1 : else : _hi = _mid - 1
+	loop
 #global
 
-; ----- 20. BFS / DFS (隣接リスト表現) -----
+; ----- 17. Ternary Search: f(x) = -(x-7)^2 + 50 の最大化 -----
 #module
-#deffunc bfs array _head, array _next, array _to, int _start, int _n, \
-	local f, local r, local v, local e
-	; head(v) = 先頭辺のインデックス / -1 = 無し
-	; next(e) = 次の辺 / to(e) = 行き先
-	dim _visited, _n
-	dim _queue, _n
-	f = 0 : r = 0
-	_queue(r) = _start : r++
-	_visited(_start) = 1
-	sdim _out, 256
-	_out = "BFS order: " + _start
-	while f < r
-		v = _queue(f) : f++
-		e = _head(v)
-		while e != -1
-			if _visited(_to(e)) == 0 {
-				_visited(_to(e)) = 1
-				_queue(r) = _to(e) : r++
-				_out += " -> " + _to(e)
-			}
-			e = _next(e)
-		wend
-	wend
-	mes _out
-	return
+#defcfunc _f int _x
+	return -(_x - 7) * (_x - 7) + 50
 
-#deffunc dfs array _head, array _next, array _to, int _start, int _n, \
-	local v, local e
-	dim _visited, _n
-	; iterative DFS with stack
-	dim _stack, _n * 2 + 16
+#defcfunc ternary_max int _ra, int _rb, \
+	local _lo, local _hi, local _m1, local _m2, local _best, local _bestv, local _v, local _i
+	_lo = _ra : _hi = _rb
+	repeat
+		if _hi - _lo <= 2 : break
+		_m1 = _lo + (_hi - _lo) / 3
+		_m2 = _hi - (_hi - _lo) / 3
+		if _f(_m1) < _f(_m2) : _lo = _m1 + 1 : else : _hi = _m2 - 1
+	loop
+	_best = _lo : _bestv = _f(_lo)
+	repeat _hi - _lo + 1
+		_i = _lo + cnt
+		_v = _f(_i)
+		if _v > _bestv : _bestv = _v : _best = _i
+	loop
+	return _best
+#global
+
+; ----- 18. Interpolation Search -----
+#module
+#defcfunc interpolation_search array _a, int _n, int _target, \
+	local _lo, local _hi, local _ix
+	_lo = 0 : _hi = _n - 1
+	repeat
+		if _lo > _hi : return -1
+		if _target < _a(_lo) : return -1
+		if _target > _a(_hi) : return -1
+		if _a(_hi) == _a(_lo) {
+			if _a(_lo) == _target : return _lo
+			return -1
+		}
+		_ix = _lo + ((_target - _a(_lo)) * (_hi - _lo)) / (_a(_hi) - _a(_lo))
+		if _a(_ix) == _target : return _ix
+		if _a(_ix) < _target : _lo = _ix + 1 : else : _hi = _ix - 1
+	loop
+#global
+
+; ----- 19. Jump Search -----
+#module
+#defcfunc jump_search array _a, int _n, int _target, \
+	local _stp, local _prev, local _i
+	_stp = int(sqrt(1.0 * _n))
+	if _stp < 1 : _stp = 1
+	_prev = 0
+	repeat
+		if _prev >= _n : break
+		if _a(_prev) >= _target : break
+		_prev += _stp
+	loop
+	_i = _prev - _stp
+	if _i < 0 : _i = 0
+	repeat
+		if _i >= _n : return -1
+		if _a(_i) > _target : return -1
+		if _a(_i) == _target : return _i
+		_i++
+	loop
+#global
+
+; ----- 20. BFS / DFS -----
+#module
+#deffunc bfs_dfs_demo array _edges, int _n_edges, int _n_nodes, int _start, \
+	local _head, local _nx, local _to, local _ne, local _u, local _v, \
+	local _front, local _rear, local _vertex, local _e, local _line, local _q, local _vis, \
+	local _sp, local _st
+
+	dim _head, _n_nodes
+	repeat _n_nodes : _head(cnt) = -1 : loop
+	dim _nx, _n_edges * 2
+	dim _to, _n_edges * 2
+	_ne = 0
+	repeat _n_edges
+		_u = _edges(cnt * 2)
+		_v = _edges(cnt * 2 + 1)
+		_to(_ne) = _v : _nx(_ne) = _head(_u) : _head(_u) = _ne : _ne++
+		_to(_ne) = _u : _nx(_ne) = _head(_v) : _head(_v) = _ne : _ne++
+	loop
+
+	; BFS
+	dim _vis, _n_nodes
+	dim _q, _n_nodes
+	_front = 0 : _rear = 0
+	_q(_rear) = _start : _rear++
+	_vis(_start) = 1
+	sdim _line, 256
+	_line = "BFS: " + _start
+	repeat
+		if _front >= _rear : break
+		_vertex = _q(_front) : _front++
+		_e = _head(_vertex)
+		repeat
+			if _e == -1 : break
+			if _vis(_to(_e)) == 0 {
+				_vis(_to(_e)) = 1
+				_q(_rear) = _to(_e) : _rear++
+				_line += " -> " + _to(_e)
+			}
+			_e = _nx(_e)
+		loop
+	loop
+	mes _line
+
+	; DFS (iterative)
+	dim _vis, _n_nodes
+	dim _st, _n_nodes * 2 + 16
 	_sp = 0
-	_stack(_sp) = _start : _sp++
-	sdim _out, 256
-	_out = "DFS order:"
-	while _sp > 0
+	_st(_sp) = _start : _sp++
+	_line = "DFS:"
+	repeat
+		if _sp <= 0 : break
 		_sp--
-		v = _stack(_sp)
-		if _visited(v) : continue
-		_visited(v) = 1
-		_out += " " + v
-		e = _head(v)
-		while e != -1
-			if _visited(_to(e)) == 0 : _stack(_sp) = _to(e) : _sp++
-			e = _next(e)
-		wend
-	wend
-	mes _out
+		_vertex = _st(_sp)
+		if _vis(_vertex) : continue
+		_vis(_vertex) = 1
+		_line += " " + _vertex
+		_e = _head(_vertex)
+		repeat
+			if _e == -1 : break
+			if _vis(_to(_e)) == 0 : _st(_sp) = _to(_e) : _sp++
+			_e = _nx(_e)
+		loop
+	loop
+	mes _line
 	return
 #global
 
 ; ===== デモ =====
-	mes "=== 配列探索 ==="
+	mes "=== Array Search ==="
 	dim a, 10
 	a = 2, 5, 7, 10, 14, 19, 23, 28, 35, 42
 	mes "Array: 2 5 7 10 14 19 23 28 35 42"
@@ -136,23 +165,11 @@
 
 	mes ""
 	mes "=== Ternary Search ==="
-	mes strf("Argmax of -(x-7)^2 + 50 in [0..20] = %d (期待: 7)",
-	         ternary_max(0, 20))
+	mes strf("argmax of -(x-7)^2+50 in [0,20] = %d (期待: 7)", ternary_max(0, 20))
 
 	mes ""
 	mes "=== Graph BFS/DFS ==="
-	; グラフ: 0-1, 0-2, 1-3, 1-4, 2-5, 3-6 (ツリー)
-	; 隣接リスト (adjacency list as linked list)
-	N = 7
-	dim head, N : repeat N : head(cnt) = -1 : loop
-	dim nx, 16 : dim tog, 16 : ne = 0
-	; 追加ヘルパ
+	dim edges, 12
 	edges = 0,1, 0,2, 1,3, 1,4, 2,5, 3,6
-	repeat length(edges) / 2
-		u = edges(cnt * 2) : v = edges(cnt * 2 + 1)
-		tog(ne) = v : nx(ne) = head(u) : head(u) = ne : ne++
-		tog(ne) = u : nx(ne) = head(v) : head(v) = ne : ne++
-	loop
-	bfs head, nx, tog, 0, N
-	dfs head, nx, tog, 0, N
+	bfs_dfs_demo edges, 6, 7, 0
 	end 0

@@ -1,171 +1,171 @@
 ;============================================================
-;  アルゴリズム 32〜37: 動的計画法 (DP)
-;    32. 0/1 Knapsack
-;    33. Unbounded Knapsack
-;    34. Longest Increasing Subsequence (LIS) O(N log N)
-;    35. Coin Change (最小枚数)
-;    36. Matrix Chain Multiplication
-;    37. Edit Distance (with operations trace)
+;  アルゴリズム 31〜35: 動的計画法 (DP)
+;    31. 0/1 Knapsack
+;    32. Unbounded Knapsack
+;    33. Longest Increasing Subsequence (LIS) O(N log N)
+;    34. Coin Change (最小枚数)
+;    35. Edit Distance (operations trace 付)
 ;============================================================
 
 #include "hsp3cl_net_64.as"
 
+; ----- 31. 0/1 Knapsack -----
 #module
-; ----- 32. 0/1 Knapsack -----
 #defcfunc knapsack_01 array _w, array _v, int _n, int _cap, \
-	local i, local j
-	dim dp, (_n + 1) * (_cap + 1)
-	for i, 1, _n + 1
-		for j, 0, _cap + 1
-			dp(i * (_cap + 1) + j) = dp((i - 1) * (_cap + 1) + j)
-			if j >= _w(i - 1) {
-				alt = dp((i - 1) * (_cap + 1) + j - _w(i - 1)) + _v(i - 1)
-				if alt > dp(i * (_cap + 1) + j) : dp(i * (_cap + 1) + j) = alt
+	local _i, local _j, local _alt
+	dim _dp, (_n + 1) * (_cap + 1)
+	repeat _n
+		_i = cnt + 1
+		repeat _cap + 1
+			_j = cnt
+			_dp(_i * (_cap + 1) + _j) = _dp((_i - 1) * (_cap + 1) + _j)
+			if _j >= _w(_i - 1) {
+				_alt = _dp((_i - 1) * (_cap + 1) + _j - _w(_i - 1)) + _v(_i - 1)
+				if _alt > _dp(_i * (_cap + 1) + _j) : _dp(_i * (_cap + 1) + _j) = _alt
 			}
-		next
-	next
-	return dp(_n * (_cap + 1) + _cap)
+		loop
+	loop
+	return _dp(_n * (_cap + 1) + _cap)
+#global
 
-; ----- 33. Unbounded Knapsack -----
-#defcfunc knapsack_un array _w, array _v, int _n, int _cap, local i, local j
-	dim dp, _cap + 1
-	for j, 1, _cap + 1
-		for i, 0, _n
-			if _w(i) <= j {
-				alt = dp(j - _w(i)) + _v(i)
-				if alt > dp(j) : dp(j) = alt
+; ----- 32. Unbounded Knapsack -----
+#module
+#defcfunc knapsack_un array _w, array _v, int _n, int _cap, \
+	local _i, local _j, local _alt
+	dim _dp, _cap + 1
+	repeat _cap
+		_j = cnt + 1
+		repeat _n
+			_i = cnt
+			if _w(_i) <= _j {
+				_alt = _dp(_j - _w(_i)) + _v(_i)
+				if _alt > _dp(_j) : _dp(_j) = _alt
 			}
-		next
-	next
-	return dp(_cap)
+		loop
+	loop
+	return _dp(_cap)
+#global
 
-; ----- 34. LIS (O(N log N)、patience sorting) -----
-#defcfunc lis array _a, int _n, local i, local lo, local hi, local mid, local len
-	dim tails, _n
-	len = 0
-	for i, 0, _n
-		lo = 0 : hi = len
-		while lo < hi
-			mid = (lo + hi) / 2
-			if tails(mid) < _a(i) : lo = mid + 1 : else : hi = mid
-		wend
-		tails(lo) = _a(i)
-		if lo == len : len++
-	next
-	return len
+; ----- 33. LIS (O(N log N), patience) -----
+#module
+#defcfunc lis array _a, int _n, \
+	local _i, local _lo, local _hi, local _mid, local _len
+	dim _tails, _n
+	_len = 0
+	repeat _n
+		_i = cnt
+		_lo = 0 : _hi = _len
+		repeat
+			if _lo >= _hi : break
+			_mid = (_lo + _hi) / 2
+			if _tails(_mid) < _a(_i) : _lo = _mid + 1 : else : _hi = _mid
+		loop
+		_tails(_lo) = _a(_i)
+		if _lo == _len : _len++
+	loop
+	return _len
+#global
 
-; ----- 35. Coin Change (DP、最小枚数) -----
-#defcfunc coin_change array _coins, int _m, int _amt, local i, local j, local INF
-	INF = 0x7FFFFFFF
-	dim dp, _amt + 1
-	for i, 1, _amt + 1 : dp(i) = INF : next
-	for i, 1, _amt + 1
-		for j, 0, _m
-			if _coins(j) <= i {
-				if dp(i - _coins(j)) != INF {
-					alt = dp(i - _coins(j)) + 1
-					if alt < dp(i) : dp(i) = alt
-				}
+; ----- 34. Coin Change (最小枚数) -----
+#module
+#defcfunc coin_change array _coins, int _m, int _amt, \
+	local _i, local _j, local _INF, local _alt
+	_INF = 0x7FFFFFFF
+	dim _dp, _amt + 1
+	repeat _amt : _dp(cnt + 1) = _INF : loop
+	repeat _amt
+		_i = cnt + 1
+		repeat _m
+			_j = cnt
+			if _coins(_j) <= _i : if _dp(_i - _coins(_j)) != _INF {
+				_alt = _dp(_i - _coins(_j)) + 1
+				if _alt < _dp(_i) : _dp(_i) = _alt
 			}
-		next
-	next
-	if dp(_amt) == INF : return -1
-	return dp(_amt)
+		loop
+	loop
+	if _dp(_amt) == _INF : return -1
+	return _dp(_amt)
+#global
 
-; ----- 36. Matrix Chain Multiplication -----
-#defcfunc mat_chain array _p, int _n, local i, local j, local k, local L, local q, local INF
-	INF = 0x7FFFFFFF
-	; m(i,j) = 行列 A_i..A_j の最適乗算コスト
-	dim m, _n * _n
-	for L, 2, _n
-		for i, 1, _n - L + 1
-			j = i + L - 1
-			m(i * _n + j) = INF
-			for k, i, j
-				q = m(i * _n + k) + m((k + 1) * _n + j) + _p(i - 1) * _p(k) * _p(j)
-				if q < m(i * _n + j) : m(i * _n + j) = q
-			next
-		next
-	next
-	return m(1 * _n + _n - 1)
-
-; ----- 37. Edit Distance (with op trace) -----
-#deffunc edit_distance_trace str _a, str _b, var _out_dist, var _out_ops, \
-	local i, local j, local la, local lb
-	la = strlen(_a) : lb = strlen(_b)
-	dim dp, (la + 1) * (lb + 1)
-	for i, 0, la + 1 : dp(i * (lb + 1)) = i : next
-	for j, 0, lb + 1 : dp(j) = j : next
-	for i, 1, la + 1
-		for j, 1, lb + 1
-			if peek(_a, i - 1) == peek(_b, j - 1) {
-				dp(i * (lb + 1) + j) = dp((i - 1) * (lb + 1) + j - 1)
+; ----- 35. Edit Distance + Trace -----
+#module
+#deffunc edit_distance_trace var _a, var _b, var _dst, var _ops, \
+	local _i, local _j, local _la, local _lb, local _a1, local _a2, local _a3, local _m, \
+	local _ci, local _cj
+	_la = strlen(_a) : _lb = strlen(_b)
+	dim _dp, (_la + 1) * (_lb + 1)
+	repeat _la + 1 : _dp(cnt * (_lb + 1)) = cnt : loop
+	repeat _lb + 1 : _dp(cnt) = cnt : loop
+	repeat _la
+		_i = cnt + 1
+		repeat _lb
+			_j = cnt + 1
+			_ci = peek(_a, _i - 1)
+			_cj = peek(_b, _j - 1)
+			if _ci == _cj {
+				_dp(_i * (_lb + 1) + _j) = _dp((_i - 1) * (_lb + 1) + _j - 1)
 			} else {
-				a1 = dp((i - 1) * (lb + 1) + j) + 1       ; delete
-				a2 = dp(i * (lb + 1) + j - 1) + 1         ; insert
-				a3 = dp((i - 1) * (lb + 1) + j - 1) + 1   ; replace
-				m = a1
-				if a2 < m : m = a2
-				if a3 < m : m = a3
-				dp(i * (lb + 1) + j) = m
+				_a1 = _dp((_i - 1) * (_lb + 1) + _j) + 1
+				_a2 = _dp(_i * (_lb + 1) + _j - 1) + 1
+				_a3 = _dp((_i - 1) * (_lb + 1) + _j - 1) + 1
+				_m = _a1
+				if _a2 < _m : _m = _a2
+				if _a3 < _m : _m = _a3
+				_dp(_i * (_lb + 1) + _j) = _m
 			}
-		next
-	next
-	_out_dist = dp(la * (lb + 1) + lb)
-	; trace operations
-	sdim _out_ops, 512
-	_out_ops = ""
-	i = la : j = lb
-	while (i > 0) | (j > 0)
-		if (i > 0) & (j > 0) & (peek(_a, i - 1) == peek(_b, j - 1)) {
-			i-- : j--
+		loop
+	loop
+	_dst = _dp(_la * (_lb + 1) + _lb)
+	sdim _ops, 512
+	_ops = ""
+	_i = _la : _j = _lb
+	repeat
+		if (_i <= 0) & (_j <= 0) : break
+		if (_i > 0) & (_j > 0) {
+			_ci = peek(_a, _i - 1) : _cj = peek(_b, _j - 1)
+			if _ci == _cj : _i-- : _j-- : continue
+			if _dp(_i * (_lb + 1) + _j) == _dp((_i - 1) * (_lb + 1) + _j - 1) + 1 {
+				_ops = strf("replace '%c'->'%c' at %d\n", _ci, _cj, _i - 1) + _ops
+				_i-- : _j-- : continue
+			}
+		}
+		if _i > 0 : if _dp(_i * (_lb + 1) + _j) == _dp((_i - 1) * (_lb + 1) + _j) + 1 {
+			_ci = peek(_a, _i - 1)
+			_ops = strf("delete '%c' at %d\n", _ci, _i - 1) + _ops
+			_i--
 			continue
 		}
-		if (i > 0) & (j > 0) & (dp(i * (lb + 1) + j) == dp((i - 1) * (lb + 1) + j - 1) + 1) {
-			_out_ops = strf("replace '%c'->'%c' at %d\n", peek(_a, i - 1), peek(_b, j - 1), i - 1) + _out_ops
-			i-- : j--
-		} else : if (i > 0) & (dp(i * (lb + 1) + j) == dp((i - 1) * (lb + 1) + j) + 1) {
-			_out_ops = strf("delete '%c' at %d\n", peek(_a, i - 1), i - 1) + _out_ops
-			i--
-		} else {
-			_out_ops = strf("insert '%c' at %d\n", peek(_b, j - 1), i) + _out_ops
-			j--
-		}
-	wend
+		_cj = peek(_b, _j - 1)
+		_ops = strf("insert '%c' at %d\n", _cj, _i) + _ops
+		_j--
+	loop
 	return
-
 #global
 
 ; ===== デモ =====
 	mes "=== 0/1 Knapsack ==="
 	dim kw, 3 : kw = 2, 3, 4
 	dim kv, 3 : kv = 3, 4, 5
-	mes strf("items=[(w=2,v=3),(w=3,v=4),(w=4,v=5)] capacity=5 => max=%d",
-	         knapsack_01(kw, kv, 3, 5))
-
+	v01 = knapsack_01(kw, kv, 3, 5)
+	mes strf("items=(w:2,v:3),(w:3,v:4),(w:4,v:5), cap=5  => max=%d", v01)
 	mes strf("Unbounded: max=%d", knapsack_un(kw, kv, 3, 5))
 
 	mes ""
 	mes "=== LIS ==="
-	dim la, 8 : la = 10, 22, 9, 33, 21, 50, 41, 60
-	mes strf("LIS of [10,22,9,33,21,50,41,60] = %d (期待: 5)", lis(la, 8))
+	dim la_arr, 8 : la_arr = 10, 22, 9, 33, 21, 50, 41, 60
+	mes strf("LIS of [10,22,9,33,21,50,41,60] = %d (期待: 5)", lis(la_arr, 8))
 
 	mes ""
 	mes "=== Coin Change ==="
 	dim c, 3 : c = 1, 3, 4
-	mes strf("min coins for 6 (from {1,3,4}) = %d", coin_change(c, 3, 6))
-	mes strf("min coins for 11 = %d", coin_change(c, 3, 11))
-
-	mes ""
-	mes "=== Matrix Chain ==="
-	; 4 行列 P = [40, 20, 30, 10, 30]
-	dim p, 5 : p = 40, 20, 30, 10, 30
-	mes strf("optimal mult cost = %d", mat_chain(p, 5))
+	mes strf("min coins for 6 (from {1,3,4}) = %d",  coin_change(c, 3, 6))
+	mes strf("min coins for 11 = %d",                coin_change(c, 3, 11))
 
 	mes ""
 	mes "=== Edit Distance with trace ==="
-	edit_distance_trace "kitten", "sitting", dst, ops
-	mes "Distance = " + dst
+	s1 = "kitten" : s2 = "sitting"
+	edit_distance_trace s1, s2, dst, ops
+	mes strf("Distance = %d", dst)
 	mes "Operations:"
 	mes ops
 	end 0

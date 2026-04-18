@@ -1,137 +1,129 @@
 ;============================================================
-;  アルゴリズム 26〜31: 数論
-;    26. Euclidean GCD
+;  アルゴリズム 26〜30: 数論
+;    26. Euclidean GCD + LCM
 ;    27. Extended Euclidean (逆元)
-;    28. Modular Exponentiation (繰返し二乗法)
-;    29. Miller-Rabin 確率的素数判定
-;    30. Sieve of Eratosthenes
-;    31. Euler's Totient φ(n)
+;    28. Modular Exponentiation
+;    29. Sieve of Eratosthenes
+;    30. Euler's Totient φ(n)
 ;============================================================
 
 #include "hsp3cl_net_64.as"
 
-#module
 ; ----- 26. GCD / LCM -----
-#defcfunc gcd int _a, int _b, local a, local b, local t
-	a = _a : b = _b
-	while b != 0 : t = b : b = a \ b : a = t : wend
-	return a
+#module
+#defcfunc gcd int _a, int _b, local _x, local _y, local _t
+	_x = _a : _y = _b
+	repeat
+		if _y == 0 : break
+		_t = _y : _y = _x \ _y : _x = _t
+	loop
+	return _x
 
 #defcfunc lcm int _a, int _b
 	return _a / gcd(_a, _b) * _b
+#global
 
 ; ----- 27. Extended Euclidean -----
-;  ax + by = gcd(a, b) の x, y を返す (x に out 格納)
-#deffunc ext_gcd int _a, int _b, var _x, var _y, local x1, local y1, local g
+#module
+#deffunc ext_gcd int _a, int _b, var _x, var _y, local _x1, local _y1
 	if _b == 0 {
 		_x = 1 : _y = 0 : return _a
 	}
-	ext_gcd _b, _a \ _b, x1, y1
-	_x = y1
-	_y = x1 - (_a / _b) * y1
+	ext_gcd _b, _a \ _b, _x1, _y1
+	_x = _y1
+	_y = _x1 - (_a / _b) * _y1
 	return stat
 
-#defcfunc mod_inv int _a, int _m, local x, local y
-	ext_gcd _a, _m, x, y
-	if stat != 1 : return -1    ; 逆元なし (gcd != 1)
-	return (x \ _m + _m) \ _m
+#defcfunc mod_inv int _a, int _m, local _x, local _y, local _g
+	ext_gcd _a, _m, _x, _y
+	_g = stat
+	if _g != 1 : return -1
+	return (_x \ _m + _m) \ _m
+#global
 
 ; ----- 28. Modular Exponentiation (a^b mod m) -----
-#defcfunc mod_pow int _a, int _b, int _m, local r, local a, local b
-	r = 1 : a = _a \ _m : b = _b
-	while b > 0
-		if b & 1 : r = r * a \ _m
-		a = a * a \ _m
-		b >>= 1
-	wend
-	return r
+#module
+#defcfunc mod_pow int _a, int _b, int _m, local _r, local _x, local _y
+	_r = 1 : _x = _a \ _m : _y = _b
+	repeat
+		if _y <= 0 : break
+		if _y & 1 : _r = _r * _x \ _m
+		_x = _x * _x \ _m
+		_y >>= 1
+	loop
+	return _r
+#global
 
-; ----- 29. Miller-Rabin (決定論的、n < 3215031751) -----
-#defcfunc _mr_test int _n, int _a, int _d, int _s, \
-	local x, local i
-	x = mod_pow(_a, _d, _n)
-	if (x == 1) | (x == _n - 1) : return 1
-	for i, 0, _s - 1
-		x = x * x \ _n
-		if x == _n - 1 : return 1
-	next
-	return 0
-
-#defcfunc is_prime int _n, local d, local s, local witness
-	if _n < 2 : return 0
-	if _n < 4 : return 1
-	if (_n & 1) == 0 : return 0
-	d = _n - 1 : s = 0
-	while (d & 1) == 0 : d >>= 1 : s++ : wend
-	; witnesses: 2, 3, 5, 7 で n < 3,215,031,751 まで決定論的
-	foreach_w = 2, 3, 5, 7
-	dim wit, 4 : wit = 2, 3, 5, 7
-	for i, 0, 4
-		witness = wit(i)
-		if witness >= _n : break
-		if _mr_test(_n, witness, d, s) == 0 : return 0
-	next
-	return 1
-
-; ----- 30. Sieve of Eratosthenes -----
-#deffunc sieve int _n, array _out
+; ----- 29. Sieve of Eratosthenes -----
+#module
+#deffunc sieve int _n, array _out, local _i, local _j
 	dim _out, _n + 1
-	for i, 2, _n + 1 : _out(i) = 1 : next
-	for i, 2, _n + 1
-		if _out(i) {
-			for j, i * i, _n + 1, i : _out(j) = 0 : next
-		}
-	next
+	repeat _n - 1
+		_out(cnt + 2) = 1
+	loop
+	repeat _n - 1
+		_i = cnt + 2
+		if _out(_i) == 0 : continue
+		_j = _i * _i
+		repeat
+			if _j > _n : break
+			_out(_j) = 0
+			_j += _i
+		loop
+	loop
 	return
+#global
 
-; ----- 31. Euler's Totient φ(n) -----
-#defcfunc euler_phi int _n, local n, local result, local p
-	n = _n : result = _n
-	p = 2
-	while p * p <= n
-		if n \ p == 0 {
-			while n \ p == 0 : n = n / p : wend
-			result -= result / p
+; ----- 30. Euler's Totient φ(n) -----
+#module
+#defcfunc euler_phi int _n, local _nv, local _result, local _p
+	_nv = _n : _result = _n
+	_p = 2
+	repeat
+		if _p * _p > _nv : break
+		if _nv \ _p == 0 {
+			repeat
+				if _nv \ _p != 0 : break
+				_nv = _nv / _p
+			loop
+			_result -= _result / _p
 		}
-		p++
-	wend
-	if n > 1 : result -= result / n
-	return result
-
+		_p++
+	loop
+	if _nv > 1 : _result -= _result / _nv
+	return _result
 #global
 
 ; ===== デモ =====
-	mes "=== 数論 ==="
+	mes "=== GCD / LCM ==="
 	mes strf("gcd(48, 18) = %d", gcd(48, 18))
 	mes strf("lcm(12, 18) = %d", lcm(12, 18))
 
+	mes ""
+	mes "=== Extended Euclidean ==="
 	ext_gcd 30, 18, xx, yy
 	mes strf("30*x + 18*y = gcd: x=%d y=%d gcd=%d", xx, yy, stat)
-
 	mes strf("mod_inv(3, 11) = %d (期待: 4)", mod_inv(3, 11))
+
+	mes ""
+	mes "=== Modular Exponentiation ==="
 	mes strf("mod_pow(2, 10, 1000) = %d", mod_pow(2, 10, 1000))
 	mes strf("mod_pow(3, 200, 100) = %d", mod_pow(3, 200, 100))
 
 	mes ""
-	mes "=== 素数判定 ==="
-	nums = 2, 17, 100, 1000003, 1000004, 2147483647
-	repeat length(nums)
-		n = nums(cnt)
-		mes strf("is_prime(%d) = %d", n, is_prime(n))
-	loop
-
-	mes ""
 	mes "=== Sieve 50 ==="
 	sieve 50, primes
-	line = "primes: "
-	repeat length(primes)
-		if primes(cnt) : line += "" + cnt + " "
+	sdim _line, 256
+	_line = "primes: "
+	repeat 51
+		if primes(cnt) : _line += "" + cnt + " "
 	loop
-	mes line
+	mes _line
 
 	mes ""
 	mes "=== Euler's phi ==="
-	foreach_n = 1, 2, 9, 10, 12, 36
-	dim tns, 6 : tns = 1, 2, 9, 10, 12, 36
-	repeat 6 : mes strf("phi(%d) = %d", tns(cnt), euler_phi(tns(cnt))) : loop
+	mes strf("phi(1) = %d",  euler_phi(1))
+	mes strf("phi(9) = %d (期待: 6)",  euler_phi(9))
+	mes strf("phi(10) = %d (期待: 4)", euler_phi(10))
+	mes strf("phi(36) = %d (期待: 12)", euler_phi(36))
 	end 0
