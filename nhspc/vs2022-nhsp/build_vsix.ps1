@@ -11,10 +11,13 @@ $repo = Split-Path -Parent $here
 $out  = Join-Path $here 'nhsp-language.vsix'
 $vsclient = Join-Path $repo 'NhspVsLanguageClient\bin\Release\net472'
 $lsp      = Join-Path $repo 'NhspLanguageServer\bin\Release\net48'
+$compiler = Join-Path $repo 'nhspc\bin\Release'
 
 # Files that go into the vsix zip. `Dst` is the entry path (forward slashes),
 # `Src` is the local source. `extension.vsixmanifest` and `[Content_Types].xml`
 # are OPC metadata; everything else is payload.
+# nhspc.exe is shipped so F5 / Ctrl+F5 can compile the active buffer without
+# requiring the user to have nhspc on PATH.
 $payload = @(
     @{ Src = (Join-Path $here 'nhsp.pkgdef');                       Dst = 'nhsp.pkgdef' }
     @{ Src = (Join-Path $here 'language-configuration.json');       Dst = 'language-configuration.json' }
@@ -24,6 +27,7 @@ $payload = @(
     @{ Src = (Join-Path $lsp 'NhspCompiler.Core.dll');              Dst = 'NhspCompiler.Core.dll' }
     @{ Src = (Join-Path $lsp 'Newtonsoft.Json.dll');                Dst = 'Newtonsoft.Json.dll' }
     @{ Src = (Join-Path $lsp 'nhspls.exe.config');                  Dst = 'nhspls.exe.config' }
+    @{ Src = (Join-Path $compiler 'nhspc.exe');                     Dst = 'nhspc.exe' }
 )
 
 # Drop optional files that don't exist (e.g. .config when the compiler didn't emit one).
