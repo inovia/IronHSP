@@ -192,6 +192,8 @@ dumpbin /exports → tools/cswin32_bridge/dump_exports.py → NativeMethods.txt
 | **[`hspwinrtocr.dll`](plugins/win32/hspwinrtocr/)** | Windows.Media.Ocr (WinRT) ローカル OCR | x64 |
 | **[`hspwgcapture.dll`](plugins/win32/hspwgcapture/)** | Windows.Graphics.Capture でスクリーン / ウィンドウキャプチャ | x64 |
 | **[`hspble.dll`](plugins/win32/hspble/)** | Windows.Devices.Bluetooth (cppwinrt) BLE GATT クライアント | x64 |
+| **[`hsptoast.dll`](plugins/win32/hsptoast/)** | Shell_NotifyIconW ベースの Windows 10/11 トースト通知 (info/warn/error/clear)。UTF-8 → UTF-16 変換、追加 SDK 不要 | Win32 + x64 |
+| **[`hspmqtt.dll`](plugins/win32/hspmqtt/)** | 純 C + Winsock で書いた最小 MQTT 3.1.1 クライアント (~330 LOC 単一 cpp)。CONNECT/PUBLISH QoS0/SUBSCRIBE/PINGREQ/DISCONNECT。paho.mqtt.c 等の外部 SDK 不要 | Win32 + x64 |
 
 ### プラグイン関数宣言形式について
 
