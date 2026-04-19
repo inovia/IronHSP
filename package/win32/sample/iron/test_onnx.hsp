@@ -1,0 +1,27 @@
+;============================================================
+;  test_onnx.hsp — hsponnx.dll 軽量テスト
+;
+;  onnx_init + bad path で負ハンドル + close 安全性を検証。
+;  onnxruntime.dll が同じディレクトリに必要。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hsponnx.as"
+#include "iron_test_ex.hsp"
+
+    onnx_init
+
+    test_case "onnx_load_model(nonexistent) returns <0"
+        onnx_load_model "__no_such_model__.onnx", h
+        ok = 0
+        if h < 0 : ok = 1
+        assert_true ok
+    test_end
+
+    test_case "onnx_close(-1) is safe"
+        onnx_close -1
+        assert_true 1
+    test_end
+
+    onnx_shutdown
+    end testrt_summary()

@@ -5,7 +5,11 @@
 #ifndef __hsponnx_as__
 #define __hsponnx_as__
 
+#ifdef _HSP64
+#uselib "hsponnx_64.dll"
+#else
 #uselib "hsponnx.dll"
+#endif
 #func global onnx_init             "onnx_init"
 #func global onnx_shutdown         "onnx_shutdown"
 #func global onnx_load_model       "onnx_load_model"       str, var
