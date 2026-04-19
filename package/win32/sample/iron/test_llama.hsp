@@ -1,0 +1,27 @@
+;============================================================
+;  test_llama.hsp — hspllama.dll 軽量テスト
+;
+;  llama_init + bad path で負ハンドル + close 安全性を検証。
+;  GGUF モデル (大容量) 不要の軽量確認。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspllama.as"
+#include "iron_test_ex.hsp"
+
+    llama_init
+
+    test_case "llama_load(nonexistent) returns <0"
+        llama_load "__no_such_model__.gguf", 512, 0, h
+        ok = 0
+        if h < 0 : ok = 1
+        assert_true ok
+    test_end
+
+    test_case "llama_close(-1) is safe"
+        llama_close -1
+        assert_true 1
+    test_end
+
+    llama_shutdown
+    end testrt_summary()

@@ -23,7 +23,11 @@
 #ifndef __hspllama_as__
 #define __hspllama_as__
 
+#ifdef _HSP64
+#uselib "hspllama_64.dll"
+#else
 #uselib "hspllama.dll"
+#endif
 #func global llama_init         "hspllama_init"
 #func global llama_shutdown     "hspllama_shutdown"
 #func global llama_load         "hspllama_load"          str, int, int, var
