@@ -325,6 +325,33 @@ HSPMCP_EXPORT int __stdcall mcp_stdin_read_line(char* buf, int buflen) {
     }
 }
 
+// Read exactly `want` bytes from stdin into buf (no newline handling).
+// Returns bytes read, or -1 on EOF. Useful for LSP Content-Length bodies
+// where the payload may contain '\n' inside JSON.
+HSPMCP_EXPORT int __stdcall mcp_stdin_read_bytes(char* buf, int want) {
+    if (!buf || want <= 0) return 0;
+    if (g_stdin == INVALID_HANDLE_VALUE) {
+        g_stdin = GetStdHandle(STD_INPUT_HANDLE);
+    }
+    if (g_stdin == INVALID_HANDLE_VALUE) return -1;
+
+    while ((int)g_stdin_pending.size() < want) {
+        char tmp[4096];
+        DWORD readN = 0;
+        if (!ReadFile(g_stdin, tmp, sizeof(tmp), &readN, NULL) || readN == 0) {
+            break; // EOF — return whatever's pending
+        }
+        g_stdin_pending.append(tmp, readN);
+    }
+
+    int take = (int)g_stdin_pending.size();
+    if (take > want) take = want;
+    if (take <= 0) return -1;
+    memcpy(buf, g_stdin_pending.data(), (size_t)take);
+    g_stdin_pending.erase(0, (size_t)take);
+    return take;
+}
+
 HSPMCP_EXPORT int __stdcall mcp_stdout_write(const char* data, int len) {
     if (!data) return 0;
     if (g_stdout == INVALID_HANDLE_VALUE) {

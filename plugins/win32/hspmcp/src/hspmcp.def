@@ -6,4 +6,5 @@ EXPORTS
     mcp_proc_alive
     mcp_proc_close
     mcp_stdin_read_line
+    mcp_stdin_read_bytes
     mcp_stdout_write

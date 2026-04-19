@@ -1,0 +1,20 @@
+;============================================================
+;  test_lsp.hsp — iron_lsp.hsp 軽量テスト
+;
+;  実 stdio loop は走らせない (stdin が tty のためデッドロック) が、
+;  include が通ること + モジュール初期化が crash しないことを確認。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_lsp.hsp"
+#include "iron_test_ex.hsp"
+
+    test_case "iron_lsp include compiles and loads"
+        ; iron_lsp module のシンボルが見える
+        assert_true 1
+    test_end
+
+    ; lsp_run は stdin を読むので iron_test_runner 下では呼べない
+    ; (実運用は VS Code 拡張から起動される想定)
+
+    end testrt_summary()
