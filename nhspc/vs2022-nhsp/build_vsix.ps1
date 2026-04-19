@@ -15,12 +15,15 @@ $lsp      = Join-Path $repo 'NhspLanguageServer\bin\Release\net48'
 # Files that go into the vsix zip. `Dst` is the entry path (forward slashes),
 # `Src` is the local source. `extension.vsixmanifest` and `[Content_Types].xml`
 # are OPC metadata; everything else is payload.
-# MEF DLL + LSP server temporarily removed to isolate the TextMate issue.
-# Add them back once we confirm pure TextMate coloring works.
 $payload = @(
     @{ Src = (Join-Path $here 'nhsp.pkgdef');                       Dst = 'nhsp.pkgdef' }
     @{ Src = (Join-Path $here 'language-configuration.json');       Dst = 'language-configuration.json' }
     @{ Src = (Join-Path $here 'Grammars\nhsp.tmLanguage.json');     Dst = 'Grammars/nhsp.tmLanguage.json' }
+    @{ Src = (Join-Path $vsclient 'NhspVsLanguageClient.dll');      Dst = 'NhspVsLanguageClient.dll' }
+    @{ Src = (Join-Path $lsp 'nhspls.exe');                         Dst = 'nhspls.exe' }
+    @{ Src = (Join-Path $lsp 'NhspCompiler.Core.dll');              Dst = 'NhspCompiler.Core.dll' }
+    @{ Src = (Join-Path $lsp 'Newtonsoft.Json.dll');                Dst = 'Newtonsoft.Json.dll' }
+    @{ Src = (Join-Path $lsp 'nhspls.exe.config');                  Dst = 'nhspls.exe.config' }
 )
 
 # Drop optional files that don't exist (e.g. .config when the compiler didn't emit one).

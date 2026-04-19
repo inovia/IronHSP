@@ -157,8 +157,19 @@ def main():
         resp = read_frame(p.stdout)
         result = resp.get("result")
         if result:
-            md = result["contents"]["value"]
-            results[sym] = md
+            # Contents may be: MarkedString[] (list), MarkedString ({...}),
+            # MarkupContent ({ kind, value }), or plain string.
+            contents = result["contents"]
+            parts = []
+            if isinstance(contents, list):
+                for c in contents:
+                    if isinstance(c, str): parts.append(c)
+                    elif isinstance(c, dict): parts.append(c.get("value", ""))
+            elif isinstance(contents, dict):
+                parts.append(contents.get("value", ""))
+            elif isinstance(contents, str):
+                parts.append(contents)
+            results[sym] = "\n".join(parts)
         next_id += 1
 
     # shutdown

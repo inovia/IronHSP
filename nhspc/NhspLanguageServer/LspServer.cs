@@ -742,10 +742,18 @@ namespace NhspLanguageServer
             };
             if (!string.IsNullOrWhiteSpace(documentation))
             {
+                // Flatten doc to a plain markdown string for CompletionItem.
+                // (MarkupContent works fine here — VS/VSCode both render it in
+                // the completion details popup. The hover popup is the one
+                // with MarkupContent rendering issues in VS 2022.)
+                var sb = new StringBuilder();
+                sb.Append("```\n").Append(detail ?? label).Append("\n```\n\n");
+                sb.Append(documentation.Replace("@param ", "\n@param ")
+                                       .Replace("@return ", "\n@return "));
                 item["documentation"] = new JObject
                 {
                     ["kind"] = "markdown",
-                    ["value"] = RenderHover(detail ?? label, documentation)
+                    ["value"] = sb.ToString()
                 };
             }
             return item;
@@ -763,16 +771,12 @@ namespace NhspLanguageServer
             var tok = TokenAt(doc, line, col);
             if (tok == null) return null;
 
-            string md = HoverMarkdown(tok.Value, doc);
-            if (md == null) return null;
+            JToken contents = HoverContents(tok.Value, doc);
+            if (contents == null) return null;
 
             return new JObject
             {
-                ["contents"] = new JObject
-                {
-                    ["kind"] = "markdown",
-                    ["value"] = md
-                },
+                ["contents"] = contents,
                 ["range"] = MakePointRange(tok.Value.Line, tok.Value.Column, tok.Value.Text?.Length ?? 1)
             };
         }
@@ -791,15 +795,19 @@ namespace NhspLanguageServer
             return null;
         }
 
-        private string HoverMarkdown(Token t, DocumentEntry doc)
+        // Build the LSP `Hover.contents` payload as `MarkupContent`
+        // (`{ kind: "markdown", value: ... }`). VS 2022's LSP client renders
+        // this with syntax highlighting and markdown formatting — unlike
+        // `MarkedString[]` which is treated as plain text (raw `**` leaks).
+        private JToken HoverContents(Token t, DocumentEntry doc)
         {
             if (t.Kind == TokenKind.TypeName)
             {
                 if (NhspCompiler.Core.Lexing.Keywords.TypeAliases.TryGetValue(t.Text, out string clr))
-                    return $"```\n{t.Text} → {clr}\n```";
+                    return BuildHover($"{t.Text} → {clr}", null);
             }
             if (t.Kind == TokenKind.Keyword)
-                return $"**{t.Text}** &mdash; NHSP keyword";
+                return MarkupContentObject($"**{t.Text}** — NHSP keyword");
             if (t.Kind == TokenKind.Identifier)
             {
                 foreach (var unit in AllUnits(doc))
@@ -807,37 +815,105 @@ namespace NhspLanguageServer
                     foreach (var cls in unit.Classes)
                     {
                         if (cls.Name == t.Text)
-                            return RenderHover($"{(cls.IsStruct ? "struct" : "class")} {cls.Name}", cls.Documentation);
+                            return BuildHover($"{(cls.IsStruct ? "struct" : "class")} {cls.Name}", cls.Documentation);
 
                         foreach (var m in cls.Methods)
                             if (m.Name == t.Text)
-                                return RenderHover(FormatMethodSig(cls, m), m.Documentation);
+                                return BuildHover(FormatMethodSig(cls, m), m.Documentation);
 
                         foreach (var f in cls.Fields)
                             if (f.Name == t.Text)
-                                return RenderHover($"{f.TypeName} {cls.Name}.{f.Name}", f.Documentation);
+                                return BuildHover($"{f.TypeName} {cls.Name}.{f.Name}", f.Documentation);
 
                         foreach (var p in cls.Properties)
                             if (p.Name == t.Text)
-                                return RenderHover($"{p.TypeName} {cls.Name}.{p.Name} {{ get; set; }}", p.Documentation);
+                                return BuildHover($"{p.TypeName} {cls.Name}.{p.Name} {{ get; set; }}", p.Documentation);
                     }
                     foreach (var iface in unit.Interfaces)
                         if (iface.Name == t.Text)
-                            return RenderHover($"interface {iface.Name}", iface.Documentation);
+                            return BuildHover($"interface {iface.Name}", iface.Documentation);
                     foreach (var en in unit.Enums)
                         if (en.Name == t.Text)
-                            return RenderHover($"enum {en.Name}", en.Documentation);
+                            return BuildHover($"enum {en.Name}", en.Documentation);
                     foreach (var del in unit.Delegates)
                         if (del.Name == t.Text)
-                            return RenderHover($"delegate {del.ReturnType} {del.Name}(...)", del.Documentation);
+                            return BuildHover($"delegate {del.ReturnType} {del.Name}(...)", del.Documentation);
                 }
 
-                // Phase C fallback: referenced-assembly XML docs.
+                // Phase C fallback: referenced-assembly XML docs. Each entry is
+                // already a full markdown block (with its own code fence).
                 if (_referencedDocs.TryGetValue(t.Text, out string refDoc))
-                    return refDoc;
+                    return MarkupContentObject(refDoc);
             }
             return null;
         }
+
+        // Build the hover body as plain text wrapped in MarkupContent {kind:"plaintext"}.
+        //
+        // Why plaintext and not markdown: VS 2022's built-in LSP client silently
+        // drops the trailing portion of MarkupContent markdown — users see only
+        // the first code-block section, no summary/param/return body. With
+        // plaintext the entire content renders reliably in both VS 2022 and
+        // VS Code. We lose bold/monospace coloring but gain the full doc text.
+        //
+        // Visual structure without markdown: use blank lines + ASCII arrows
+        // ("→", "─") for separators and indentation to group param/return info.
+        private static JToken BuildHover(string signature, string doc)
+        {
+            var sb = new StringBuilder();
+            if (!string.IsNullOrEmpty(signature))
+                sb.Append(signature);
+
+            if (!string.IsNullOrWhiteSpace(doc))
+            {
+                var summary = new StringBuilder();
+                var paramLines = new List<string>();
+                string returnLine = null;
+
+                foreach (var raw in doc.Split('\n'))
+                {
+                    string line = raw.TrimEnd();
+                    string trim = line.TrimStart();
+                    if (trim.StartsWith("@param ", StringComparison.Ordinal))
+                    {
+                        string rest = trim.Substring("@param ".Length).TrimStart();
+                        int sp = rest.IndexOf(' ');
+                        if (sp > 0)
+                            paramLines.Add($"    {rest.Substring(0, sp)} — {rest.Substring(sp + 1).TrimStart()}");
+                        else
+                            paramLines.Add($"    {rest}");
+                    }
+                    else if (trim.StartsWith("@return ", StringComparison.Ordinal))
+                        returnLine = trim.Substring("@return ".Length).TrimStart();
+                    else if (trim.Equals("@return", StringComparison.Ordinal))
+                        returnLine = "";
+                    else
+                        summary.AppendLine(line);
+                }
+
+                string summaryStr = summary.ToString().Trim();
+                if (summaryStr.Length > 0)
+                {
+                    if (sb.Length > 0) sb.Append("\n\n");
+                    sb.Append(summaryStr);
+                }
+                if (paramLines.Count > 0)
+                {
+                    if (sb.Length > 0) sb.Append("\n\n");
+                    sb.Append("Parameters:\n").Append(string.Join("\n", paramLines));
+                }
+                if (returnLine != null)
+                {
+                    if (sb.Length > 0) sb.Append("\n\n");
+                    sb.Append("Returns: ").Append(returnLine);
+                }
+            }
+            if (sb.Length == 0) return null;
+            return new JObject { ["kind"] = "plaintext", ["value"] = sb.ToString() };
+        }
+
+        private static JObject MarkupContentObject(string markdown) =>
+            new JObject { ["kind"] = "markdown", ["value"] = markdown };
 
         private static string FormatMethodSig(ClassDeclaration cls, MethodDeclaration m)
         {
@@ -855,53 +931,6 @@ namespace NhspLanguageServer
             return sb.ToString();
         }
 
-        // Renders a fenced code block with the signature, followed by doc comment
-        // text with `@param` / `@return` tags reformatted as markdown bullets.
-        private static string RenderHover(string signature, string doc)
-        {
-            var sb = new StringBuilder();
-            sb.Append("```\n").Append(signature).Append("\n```");
-            if (string.IsNullOrWhiteSpace(doc)) return sb.ToString();
-
-            var summary = new StringBuilder();
-            var paramLines = new List<string>();
-            string returnLine = null;
-
-            foreach (var raw in doc.Split('\n'))
-            {
-                string line = raw.TrimEnd();
-                string trim = line.TrimStart();
-                if (trim.StartsWith("@param ", StringComparison.Ordinal))
-                {
-                    // @param name description
-                    string rest = trim.Substring("@param ".Length).TrimStart();
-                    int sp = rest.IndexOf(' ');
-                    if (sp > 0)
-                        paramLines.Add($"- **`{rest.Substring(0, sp)}`** — {rest.Substring(sp + 1).TrimStart()}");
-                    else
-                        paramLines.Add($"- **`{rest}`**");
-                }
-                else if (trim.StartsWith("@return ", StringComparison.Ordinal))
-                    returnLine = trim.Substring("@return ".Length).TrimStart();
-                else if (trim.Equals("@return", StringComparison.Ordinal))
-                    returnLine = "";
-                else
-                    summary.AppendLine(line);
-            }
-
-            string summaryStr = summary.ToString().TrimEnd();
-            if (summaryStr.Length > 0) sb.Append("\n\n").Append(summaryStr);
-            if (paramLines.Count > 0)
-            {
-                sb.Append("\n\n**Parameters**\n\n");
-                sb.Append(string.Join("\n", paramLines));
-            }
-            if (returnLine != null)
-            {
-                sb.Append("\n\n**Returns** — ").Append(returnLine);
-            }
-            return sb.ToString();
-        }
 
         // ============ definition ============
 

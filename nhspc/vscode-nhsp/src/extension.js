@@ -464,12 +464,26 @@ class NhspHoverProvider {
         if (client) {
             const result = await client.hover(document, position);
             if (result && result.contents) {
-                const md = new vscode.MarkdownString(
-                    typeof result.contents === 'string'
-                        ? result.contents
-                        : result.contents.value || ''
-                );
-                md.isTrusted = false;
+                // Contents per LSP spec: MarkedString | MarkedString[] |
+                // MarkupContent. Collect each shape into one MarkdownString
+                // so the popup renders the signature + doc comment sections
+                // in their intended order.
+                const md = new vscode.MarkdownString();
+                md.supportHtml = false;
+                const parts = Array.isArray(result.contents)
+                    ? result.contents
+                    : [result.contents];
+                for (const c of parts) {
+                    if (typeof c === 'string') {
+                        md.appendMarkdown(c + '\n\n');
+                    } else if (c && typeof c === 'object') {
+                        if ('language' in c) {
+                            md.appendCodeblock(c.value || '', c.language);
+                        } else if ('value' in c) {
+                            md.appendMarkdown((c.value || '') + '\n\n');
+                        }
+                    }
+                }
                 return new vscode.Hover(md);
             }
         }

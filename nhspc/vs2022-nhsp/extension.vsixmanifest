@@ -39,5 +39,6 @@ work like for C# code.</Description>
   </Prerequisites>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="nhsp.pkgdef" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="File" Path="NhspVsLanguageClient.dll" />
   </Assets>
 </PackageManifest>

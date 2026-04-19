@@ -97,9 +97,15 @@ async function expectHover(client, fakeDoc, text, sym, keyword) {
     const pos = locate(text, sym);
     if (!pos) return `  [FAIL] ${sym}: not found in source`;
     const result = await client.hover(fakeDoc, pos);
-    const md = result && result.contents
-        ? (typeof result.contents === 'string' ? result.contents : result.contents.value || '')
-        : '';
+    // Contents can be MarkedString[] | MarkedString | MarkupContent | string.
+    let md = '';
+    if (result && result.contents) {
+        const parts = Array.isArray(result.contents) ? result.contents : [result.contents];
+        for (const c of parts) {
+            if (typeof c === 'string') md += c + '\n';
+            else if (c && typeof c === 'object') md += (c.value || '') + '\n';
+        }
+    }
     if (md.includes(keyword))
         return `  [OK]   hover ${sym.padEnd(10)}: contains '${keyword}'`;
     return `  [FAIL] hover ${sym.padEnd(10)}: expected '${keyword}' in:\n${md}`;
