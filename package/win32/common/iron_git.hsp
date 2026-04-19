@@ -1,0 +1,144 @@
+;============================================================
+;  iron_git.hsp — git 子プロセスラッパ
+;
+;  git CLI を hspmcp.dll の mcp_proc_* 経由で起動し、stdout を
+;  まとめて回収する。iron_process_net (C# loadnet) より軽く確実。
+;
+;  前提:
+;    - PATH に git.exe が通っていること
+;    - hspmcp.dll (hsp3net 用、標準同梱)
+;
+;  API:
+;    iron_git_set_cwd "C:\\repo"
+;    iron_git_exec "status --porcelain", var_out   ; stat = 0 成功
+;    iron_git_status var_out
+;    iron_git_log    var_out, lines
+;    iron_git_diff   var_out
+;    iron_git_branch var_out
+;    iron_git_add    "file.txt"
+;    iron_git_commit "msg"
+;    iron_git_push / iron_git_pull
+;    iron_git_clone  "url", "dest"
+;============================================================
+
+#ifndef __iron_git_hsp__
+#define __iron_git_hsp__
+
+#ifdef _HSP64
+#uselib "hspmcp_64.dll"
+#else
+#uselib "hspmcp.dll"
+#endif
+#cfunc global _ig_proc_open    "mcp_proc_open"      str, str
+#cfunc global _ig_proc_alive   "mcp_proc_alive"     int
+#cfunc global _ig_proc_recv    "mcp_proc_recv_line" int, var, int
+#func  global _ig_proc_close   "mcp_proc_close"     int
+
+#module iron_git
+
+#deffunc iron_git_set_cwd str _path
+    sdim _ig_cwd, 1024
+    _ig_cwd = _path
+    return
+
+; 任意コマンド実行。stdout を _out に集約。
+#deffunc iron_git_exec str _args, var _out
+    sdim _out, 131072
+    _out = ""
+    sdim _cmd, 2048
+    _cmd = "git " + _args
+    _h = _ig_proc_open(_cmd, _ig_cwd)
+    if _h < 0 : return -1
+
+    sdim _line, 8192
+    _empty_polls = 0
+    repeat
+        _n = _ig_proc_recv(_h, _line, 8192)
+        if _n > 0 {
+            _out += _line + "\n"
+            _empty_polls = 0
+            continue
+        }
+        if _ig_proc_alive(_h) = 0 : break
+        _empty_polls++
+        if _empty_polls > 100 : break   ; 2 秒タイムアウト
+        await 20
+    loop
+    _ig_proc_close _h
+    return 0
+
+#deffunc iron_git_status var _out
+    iron_git_exec "status --porcelain", _out
+    return stat
+
+#deffunc iron_git_log var _out, int _lines
+    sdim _args, 64
+    _args = "log --oneline -n " + _lines
+    iron_git_exec _args, _out
+    return stat
+
+#deffunc iron_git_diff var _out
+    iron_git_exec "diff", _out
+    return stat
+
+#deffunc iron_git_branch var _out
+    iron_git_exec "rev-parse --abbrev-ref HEAD", _out
+    ; trim trailing \r\n (loop limit=4 to avoid pathology)
+    _len = strlen(_out)
+    _loops = 0
+    repeat
+        if _len <= 0 : break
+        if _loops >= 4 : break
+        _idx = _len - 1
+        _c = peek(_out, _idx)
+        if (_c != 10) & (_c != 13) : break
+        _len--
+        _loops++
+    loop
+    poke _out, _len, 0
+    return stat
+
+#deffunc iron_git_add str _path
+    sdim _args, 1024
+    _args = "add \"" + _path + "\""
+    sdim _o, 4096
+    iron_git_exec _args, _o
+    return stat
+
+#deffunc iron_git_commit str _msg
+    sdim _esc, strlen(_msg) * 2 + 16
+    _len = strlen(_msg)
+    _ti = 0
+    repeat _len
+        _c = peek(_msg, cnt)
+        if _c = '"' : poke _esc, _ti, '\\' : _ti++
+        poke _esc, _ti, _c
+        _ti++
+    loop
+    poke _esc, _ti, 0
+    sdim _args, 4096
+    _args = "commit -m \"" + _esc + "\""
+    sdim _o, 4096
+    iron_git_exec _args, _o
+    return stat
+
+#deffunc iron_git_push
+    sdim _o, 4096
+    iron_git_exec "push", _o
+    return stat
+
+#deffunc iron_git_pull
+    sdim _o, 4096
+    iron_git_exec "pull", _o
+    return stat
+
+#deffunc iron_git_clone str _url, str _dest
+    sdim _args, 4096
+    _args = "clone \"" + _url + "\" \"" + _dest + "\""
+    sdim _o, 4096
+    iron_git_exec _args, _o
+    return stat
+
+#global
+
+#endif

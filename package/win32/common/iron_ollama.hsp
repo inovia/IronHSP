@@ -65,7 +65,7 @@
     sdim _tmp, _len * 6 + 16
     _ti = 0
     repeat _len
-        peek _c, _in, cnt
+        _c = peek(_in, cnt)
         if _c = '"' : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, '"'  : _ti++ : continue
         if _c = '\\' : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, '\\' : _ti++ : continue
         if _c = 10 : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, 'n' : _ti++ : continue

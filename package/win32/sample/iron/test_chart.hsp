@@ -1,0 +1,35 @@
+;============================================================
+;  test_chart.hsp — iron_chart 軽量テスト (HTML 生成のみ、表示はしない)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_chart.hsp"
+#include "iron_test_ex.hsp"
+
+    test_case "chart_init + type + labels no crash"
+        chart_init
+        chart_type CHART_BAR
+        chart_title "売上"
+        chart_labels "Q1", "Q2", "Q3", "Q4", "", "", "", "", "", "", "", ""
+        chart_data "2024", 100, 200, 150, 300, 0, 0, 0, 0, 0, 0, 0, 0
+        assert_true 1
+    test_end
+
+    test_case "chart_html() returns non-empty HTML"
+        sdim h, 65536
+        h = chart_html()
+        ok = 0
+        if strlen(h) > 100 : ok = 1
+        assert_true ok
+    test_end
+
+    test_case "generated HTML contains Chart.js reference"
+        sdim h, 65536
+        h = chart_html()
+        if instr(h, 0, "chart.js") >= 0 : ok = 1 : else : ok = 0
+        if instr(h, 0, "Chart.js") >= 0 : ok = 1
+        if instr(h, 0, "cdn") >= 0 : ok = 1        ; chart.js は通常 cdn 経由
+        assert_true ok
+    test_end
+
+    end testrt_summary()

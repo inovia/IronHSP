@@ -119,7 +119,7 @@ public class HspProcessNet {
     }
 }
 "}
-	loadnet _cs, 3
+	loadnet _cs, 3, ""
 	_procn_cs_loaded = 1
 	return
 
@@ -129,7 +129,7 @@ public class HspProcessNet {
 #deffunc procn_exec str cmd, var v_stdout, var v_exitcode, \
 	local _h, local _r, local _s, local _tab
 	_procn_load_cs
-	newnet _h, "HspProcessNet"
+	newnet _h, "", "HspProcessNet", 0
 	mcall _h, "Exec", _r, cmd
 	_s = "" + _r
 	_tab = instr(_s, 0, "\t")
@@ -148,7 +148,7 @@ public class HspProcessNet {
 #deffunc procn_exec_async str cmd, \
 	local _h, local _r, local _s
 	_procn_load_cs
-	newnet _h, "HspProcessNet"
+	newnet _h, "", "HspProcessNet", 0
 	mcall _h, "ExecAsync", _r, cmd
 	_s = "" + _r
 	if instr(_s, 0, "\t") >= 0 : return -1
@@ -160,7 +160,7 @@ public class HspProcessNet {
 #deffunc procn_exec_stdin str cmd, str input, var v_stdout, \
 	local _h, local _r, local _s, local _tab
 	_procn_load_cs
-	newnet _h, "HspProcessNet"
+	newnet _h, "", "HspProcessNet", 0
 	mcall _h, "ExecStdin", _r, cmd, input
 	_s = "" + _r
 	_tab = instr(_s, 0, "\t")
@@ -177,7 +177,7 @@ public class HspProcessNet {
 #deffunc procn_kill int pid, \
 	local _h, local _r
 	_procn_load_cs
-	newnet _h, "HspProcessNet"
+	newnet _h, "", "HspProcessNet", 0
 	mcall _h, "Kill", _r, pid
 	if instr("" + _r, 0, "ERROR") >= 0 : return 1
 	return 0
@@ -188,7 +188,7 @@ public class HspProcessNet {
 #deffunc procn_is_running int pid, \
 	local _h, local _r
 	_procn_load_cs
-	newnet _h, "HspProcessNet"
+	newnet _h, "", "HspProcessNet", 0
 	mcall _h, "IsRunning", _r, pid
 	return int("" + _r)
 
@@ -198,7 +198,7 @@ public class HspProcessNet {
 #deffunc procn_set_env str key, str val, \
 	local _h, local _r
 	_procn_load_cs
-	newnet _h, "HspProcessNet"
+	newnet _h, "", "HspProcessNet", 0
 	mcall _h, "SetEnv", _r, key, val
 	return 0
 
@@ -208,7 +208,7 @@ public class HspProcessNet {
 #deffunc procn_set_workdir str path, \
 	local _h, local _r
 	_procn_load_cs
-	newnet _h, "HspProcessNet"
+	newnet _h, "", "HspProcessNet", 0
 	mcall _h, "SetWorkDir", _r, path
 	return 0
 

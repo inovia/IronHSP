@@ -1,0 +1,40 @@
+;============================================================
+;  test_schedule.hsp — iron_schedule 軽量テスト
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_schedule.hsp"
+#include "iron_test_ex.hsp"
+
+    test_case "schedule_add returns handle >= 0"
+        schedule_add "every:10", *dummy
+        h = stat
+        ok = 0
+        if h >= 0 : ok = 1
+        assert_true ok
+    test_end
+
+    test_case "schedule_clear no crash"
+        schedule_clear
+        assert_true 1
+    test_end
+
+    test_case "schedule_add multiple specs no crash"
+        schedule_add "every:5", *dummy
+        schedule_add "daily:09:00", *dummy
+        schedule_add "hourly:30", *dummy
+        schedule_add "weekly:1:09:00", *dummy
+        assert_true 1
+    test_end
+
+    test_case "schedule_tick no crash when no match"
+        schedule_clear
+        schedule_add "daily:00:00", *dummy    ; 深夜 0:00 なので発火しない (通常)
+        schedule_tick
+        assert_true 1
+    test_end
+
+    end testrt_summary()
+
+*dummy
+    return

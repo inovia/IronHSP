@@ -1,0 +1,129 @@
+;============================================================
+;  iron_schedule.hsp — 純 HSP の cron 風スケジューラ (pure HSP)
+;
+;  ポーリングベース (1 秒単位) で「時:分」「毎分」「毎時の N 分」などの
+;  シンプルなスケジュールでラベルを呼ぶ。外部プロセス / スレッド不要。
+;
+;  使い方:
+;    #include "iron_schedule.hsp"
+;    schedule_add "every:60", *on_tick           ; 毎 60 秒
+;    schedule_add "daily:09:00", *on_morning      ; 毎日 09:00
+;    schedule_add "hourly:30", *on_half_past      ; 毎時 30 分
+;    schedule_add "weekly:1:09:00", *on_monday    ; 毎週月曜 09:00 (1=月 ... 0=日)
+;    ; メインループで schedule_tick を呼び続ける
+;    repeat
+;        schedule_tick
+;        await 500
+;    loop
+;
+;  スペック:
+;    every:N              — N 秒ごと (追加時からカウント)
+;    daily:HH:MM          — 毎日 HH:MM
+;    hourly:MM            — 毎時 MM 分
+;    weekly:D:HH:MM       — 毎週 D 曜日 HH:MM (D は 0=日, 1=月, ..., 6=土)
+;
+;  同時登録上限: 32 件
+;============================================================
+
+#ifndef __iron_schedule_hsp__
+#define __iron_schedule_hsp__
+
+#module iron_schedule
+
+;---------------------------------------------------------
+; 内部状態 (デフォルト 0 初期化される)
+;---------------------------------------------------------
+#deffunc _isc_init
+    if _isc_ready : return
+    sdim _isc_spec, 64, 32       ; spec 文字列
+    dim  _isc_label, 32          ; ラベル (ポインタ相当)
+    dim  _isc_every_sec, 32      ; every:N の N 秒
+    dim  _isc_last_fired, 32     ; 最後に発火した epoch 秒
+    dim  _isc_count, 1
+    _isc_count = 0
+    _isc_ready = 1
+    return
+
+#deffunc schedule_add str _spec, label _lb
+    _isc_init
+    if _isc_count >= 32 : return -1
+    sdim _tmp, 64
+    _tmp = _spec
+    _isc_spec(_isc_count) = _tmp
+    _isc_label(_isc_count) = _lb
+    _isc_last_fired(_isc_count) = _now_sec()
+    ; every:N を事前解析しておく
+    if strmid(_tmp, 0, 6) = "every:" {
+        _isc_every_sec(_isc_count) = int(strmid(_tmp, 6, 16))
+    } else {
+        _isc_every_sec(_isc_count) = 0
+    }
+    _isc_count++
+    return _isc_count - 1
+
+#deffunc schedule_clear
+    _isc_count = 0
+    return
+
+#defcfunc _now_sec
+    ; HSP の gettime で epoch 秒を取る (近似): gettime(0)=年 ...
+    ; gettime は西暦/月/日/曜/時/分/秒/ミリ秒 を返す。epoch 換算が面倒なので、
+    ; ここでは「日付キーと時:分:秒」の組で発火済判定する。
+    _y = gettime(0) : _m = gettime(1) : _d = gettime(3)
+    _hh = gettime(4) : _mm = gettime(5) : _ss = gettime(6)
+    ; 単純な日内秒数 (同日内で単調増加、日付をまたぐと 0 に戻る)
+    return _hh * 3600 + _mm * 60 + _ss
+
+#defcfunc _now_daykey
+    return gettime(0) * 10000 + gettime(1) * 100 + gettime(3)
+
+#defcfunc _wday
+    return gettime(2)            ; 0=日, 1=月, ..., 6=土
+
+; spec にマッチしたら 1 を返す (発火判定)
+#defcfunc _match_spec str _sp, int _idx
+    sdim _s, 64
+    _s = _sp
+    if strmid(_s, 0, 6) = "every:" {
+        _delta = _now_sec() - _isc_last_fired(_idx)
+        if _delta < 0 : _delta += 86400
+        if _delta >= _isc_every_sec(_idx) : return 1
+        return 0
+    }
+    if strmid(_s, 0, 6) = "daily:" {
+        _hh = int(strmid(_s, 6, 2))
+        _mm = int(strmid(_s, 9, 2))
+        if (gettime(4) = _hh) & (gettime(5) = _mm) & (gettime(6) <= 1) : return 1
+        return 0
+    }
+    if strmid(_s, 0, 7) = "hourly:" {
+        _mm = int(strmid(_s, 7, 2))
+        if (gettime(5) = _mm) & (gettime(6) <= 1) : return 1
+        return 0
+    }
+    if strmid(_s, 0, 7) = "weekly:" {
+        _wd = int(strmid(_s, 7, 1))
+        _hh = int(strmid(_s, 9, 2))
+        _mm = int(strmid(_s, 12, 2))
+        if (_wday() = _wd) & (gettime(4) = _hh) & (gettime(5) = _mm) & (gettime(6) <= 1) : return 1
+        return 0
+    }
+    return 0
+
+; メインループで繰り返し呼ぶ。条件一致したエントリの label に飛ぶ。
+#deffunc schedule_tick
+    _isc_init
+    if _isc_count = 0 : return
+    i = 0
+    repeat _isc_count
+        if _match_spec(_isc_spec(i), i) {
+            _isc_last_fired(i) = _now_sec()
+            gosub _isc_label(i)
+        }
+        i++
+    loop
+    return
+
+#global
+
+#endif

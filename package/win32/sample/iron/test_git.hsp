@@ -1,0 +1,38 @@
+;============================================================
+;  test_git.hsp — iron_git 軽量テスト (git がインストールされてる前提)
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_git.hsp"
+#include "iron_test_ex.hsp"
+
+    ; 現在のディレクトリが git repo でない可能性があるので、ExitCode を
+    ; 見ず「crash しないこと」を主に確認する。
+
+    test_case "iron_git_set_cwd + exec no crash"
+        iron_git_set_cwd "."
+        sdim out, 8192
+        iron_git_exec "--version", out
+        ; git --version が動けば stat=0、git 無ければ非 0 (両方 OK)
+        assert_true 1
+    test_end
+
+    test_case "iron_git_status returns no crash"
+        sdim out, 8192
+        iron_git_status out
+        assert_true 1
+    test_end
+
+    test_case "iron_git_log returns no crash"
+        sdim out, 8192
+        iron_git_log out, 5
+        assert_true 1
+    test_end
+
+    test_case "iron_git_branch returns no crash"
+        sdim out, 256
+        iron_git_branch out
+        assert_true 1
+    test_end
+
+    end testrt_summary()
