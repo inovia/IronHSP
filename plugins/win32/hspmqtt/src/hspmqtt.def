@@ -1,0 +1,7 @@
+LIBRARY hspmqtt
+EXPORTS
+    hspmqtt_open
+    hspmqtt_publish
+    hspmqtt_subscribe
+    hspmqtt_recv
+    hspmqtt_close

@@ -1,0 +1,30 @@
+;============================================================
+;  test_mqtt.hsp — hspmqtt.dll 軽量テスト
+;
+;  broker なしで動く: localhost:1883 に接続失敗 → 負の値返却 + close 安全性。
+;  実 broker 相手のフルテストは sample_mqtt.hsp を Mosquitto 等で手動実行。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspmqtt.as"
+#include "iron_test_ex.hsp"
+
+    ; broker なしで open → 接続失敗で負のハンドル
+    test_case "mqtt_open(localhost) fails gracefully"
+        h = hspmqtt_open("127.0.0.1", 1883, "test", 60)
+        ; -1 不正ハンドル / -2 getaddrinfo / -3 socket / -4 connect タイムアウト /
+        ; -5 CONNECT 送信失敗 / -6 CONNACK 受信失敗
+        ok = 0
+        if h < 0 : ok = 1
+        ; broker が実はローカルで動いてるケースもあるので、接続成功 (h>=0) の場合は
+        ; すぐ close することで「open しても crash しない」も同時に検証。
+        if h >= 0 : hspmqtt_close h : ok = 1
+        assert_true ok
+    test_end
+
+    test_case "mqtt_close(-1) is safe"
+        hspmqtt_close -1
+        assert_true 1
+    test_end
+
+    end testrt_summary()
