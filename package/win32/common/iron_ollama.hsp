@@ -1,0 +1,188 @@
+;============================================================
+;  iron_ollama.hsp — Ollama REST API クライアント (Pure HSP)
+;
+;  ローカルで走らせた Ollama (http://localhost:11434) に HTTP で叩いて
+;  モデル一覧 / チャット / 補完 / 埋め込み / pull / 削除 を行う。
+;  iron_ai.hsp の "OpenAI 互換" レイヤを剥がした Ollama 専用 API。
+;
+;  依存:
+;    - iron_http.hsp (http_get / http_post)
+;    - iron_json.hsp (json_get_str)
+;
+;  API:
+;    iron_ollama_set_endpoint  "http://localhost:11434"   ; default
+;    iron_ollama_set_model     "llama3.2"
+;    iron_ollama_set_system    "You are a helpful assistant."
+;    iron_ollama_list_models   var_json                    ; GET /api/tags
+;    iron_ollama_chat          "user msg", var_reply       ; POST /api/chat (non-stream)
+;    iron_ollama_generate      "prompt",  var_reply        ; POST /api/generate
+;    iron_ollama_embed         "text",    var_json         ; POST /api/embeddings
+;    iron_ollama_pull          "model"                     ; POST /api/pull (同期)
+;    iron_ollama_delete        "model"                     ; DELETE /api/delete
+;    iron_ollama_history_clear                             ; チャット履歴クリア
+;
+;  例:
+;    #include "iron_ollama.hsp"
+;    iron_ollama_set_model "llama3.2"
+;    iron_ollama_chat "日本の首都は?", reply
+;    mes reply
+;============================================================
+
+#ifndef __iron_ollama_hsp__
+#define __iron_ollama_hsp__
+
+#include "iron_http.hsp"
+#include "iron_json.hsp"
+
+#module iron_ollama
+
+#deffunc iron_ollama_set_endpoint str _url
+    _io_endpoint = _url
+    return
+
+#deffunc iron_ollama_set_model str _name
+    _io_model = _name
+    return
+
+#deffunc iron_ollama_set_system str _sys
+    _io_system = _sys
+    return
+
+#deffunc _io_ensure_defaults
+    if _io_endpoint = "" : _io_endpoint = "http://localhost:11434"
+    if _io_model = "" : _io_model = "llama3.2"
+    return
+
+#deffunc iron_ollama_history_clear
+    _io_history_count = 0
+    return
+
+; 内部: JSON 文字列エスケープ (最小: \ " \n \r \t)
+#deffunc _io_json_escape str _in, var _out
+    sdim _out
+    _out = ""
+    _len = strlen(_in)
+    sdim _tmp, _len * 6 + 16
+    _ti = 0
+    repeat _len
+        peek _c, _in, cnt
+        if _c = '"' : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, '"'  : _ti++ : continue
+        if _c = '\\' : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, '\\' : _ti++ : continue
+        if _c = 10 : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, 'n' : _ti++ : continue
+        if _c = 13 : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, 'r' : _ti++ : continue
+        if _c = 9  : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, 't' : _ti++ : continue
+        poke _tmp, _ti, _c
+        _ti++
+    loop
+    poke _tmp, _ti, 0
+    _out = _tmp
+    return
+
+; GET /api/tags (モデル一覧 JSON)
+#deffunc iron_ollama_list_models var _out
+    _io_ensure_defaults
+    sdim _out, 65536
+    http_get _io_endpoint + "/api/tags", _out
+    return stat
+
+; POST /api/chat  (non-streaming: "stream": false)
+#deffunc iron_ollama_chat str _msg, var _reply
+    _io_ensure_defaults
+    sdim _reply, 65536
+    _reply = ""
+
+    sdim _escm, strlen(_msg) * 6 + 16
+    _io_json_escape _msg, _escm
+    sdim _essys, strlen(_io_system) * 6 + 16
+    _io_json_escape _io_system, _essys
+    sdim _esmodel, strlen(_io_model) * 6 + 16
+    _io_json_escape _io_model, _esmodel
+
+    sdim _body, 262144
+    _body = "{\"model\":\"" + _esmodel + "\",\"stream\":false,\"messages\":["
+    if _io_system != "" : _body += "{\"role\":\"system\",\"content\":\"" + _essys + "\"},"
+    ; 履歴 (user/assistant 交互)
+    i = 0
+    repeat _io_history_count
+        _hr = _io_hist_role(i)
+        sdim _esh, strlen(_io_hist_content(i)) * 6 + 16
+        _io_json_escape _io_hist_content(i), _esh
+        _body += "{\"role\":\"" + _hr + "\",\"content\":\"" + _esh + "\"},"
+        i++
+    loop
+    _body += "{\"role\":\"user\",\"content\":\"" + _escm + "\"}]}"
+
+    sdim _resp, 262144
+    http_post _io_endpoint + "/api/chat", _body, _resp, "application/json"
+    _http_stat = stat
+    if _http_stat != 200 : return _http_stat
+
+    ; 返り値 JSON: { "message": {"role":"assistant","content":"..."} }
+    json_get_str _resp, "message.content", _reply
+    ; 履歴更新 (最大 32 turns で古いのを捨てる)
+    if _io_history_count < 32 {
+        _io_hist_role(_io_history_count) = "user"
+        _io_hist_content(_io_history_count) = _msg
+        _io_history_count++
+        _io_hist_role(_io_history_count) = "assistant"
+        _io_hist_content(_io_history_count) = _reply
+        _io_history_count++
+    }
+    return _http_stat
+
+; POST /api/generate (single-turn completion)
+#deffunc iron_ollama_generate str _prompt, var _reply
+    _io_ensure_defaults
+    sdim _reply, 65536
+
+    sdim _esp, strlen(_prompt) * 6 + 16
+    _io_json_escape _prompt, _esp
+    sdim _esmodel, strlen(_io_model) * 6 + 16
+    _io_json_escape _io_model, _esmodel
+
+    sdim _body, 262144
+    _body = "{\"model\":\"" + _esmodel + "\",\"stream\":false,\"prompt\":\"" + _esp + "\"}"
+
+    sdim _resp, 262144
+    http_post _io_endpoint + "/api/generate", _body, _resp, "application/json"
+    _http_stat = stat
+    if _http_stat != 200 : return _http_stat
+
+    json_get_str _resp, "response", _reply
+    return _http_stat
+
+; POST /api/embeddings
+#deffunc iron_ollama_embed str _text, var _out_json
+    _io_ensure_defaults
+    sdim _out_json, 65536
+
+    sdim _esp, strlen(_text) * 6 + 16
+    _io_json_escape _text, _esp
+    sdim _esmodel, strlen(_io_model) * 6 + 16
+    _io_json_escape _io_model, _esmodel
+
+    sdim _body, 4096
+    _body = "{\"model\":\"" + _esmodel + "\",\"prompt\":\"" + _esp + "\"}"
+    http_post _io_endpoint + "/api/embeddings", _body, _out_json, "application/json"
+    return stat
+
+; POST /api/pull (同期 DL、完了まで待つ)
+#deffunc iron_ollama_pull str _model
+    _io_ensure_defaults
+    sdim _esname, strlen(_model) * 6 + 16
+    _io_json_escape _model, _esname
+    sdim _body, 1024
+    _body = "{\"name\":\"" + _esname + "\",\"stream\":false}"
+    sdim _resp, 4096
+    http_post _io_endpoint + "/api/pull", _body, _resp, "application/json"
+    return stat
+
+; DELETE /api/delete — 現状の iron_http は DELETE 未対応なので POST で代替不可。
+; Ollama は実際には `DELETE /api/delete` を要求。将来 iron_http 拡張が入ったら差し替え。
+; 暫定: 0 (no-op) を返す。
+#deffunc iron_ollama_delete str _model
+    return 0
+
+#global
+
+#endif

@@ -1,0 +1,31 @@
+;============================================================
+;  test_ollama.hsp — iron_ollama.hsp 軽量テスト
+;
+;  Ollama サーバが居なくても動く: 不正エンドポイントに対して接続失敗 ≠ crash。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_ollama.hsp"
+#include "iron_test_ex.hsp"
+
+    test_case "set_endpoint + set_model no crash"
+        iron_ollama_set_endpoint "http://127.0.0.1:65535"
+        iron_ollama_set_model "nonexistent"
+        assert_true 1
+    test_end
+
+    test_case "list_models against dead port returns non-200"
+        sdim out, 65536
+        iron_ollama_list_models out
+        ; 接続失敗で stat は 0 or 接続拒否ステータス (iron_http の実装依存) だが非 200
+        ok = 0
+        if stat != 200 : ok = 1
+        assert_true ok
+    test_end
+
+    test_case "history_clear no crash"
+        iron_ollama_history_clear
+        assert_true 1
+    test_end
+
+    end testrt_summary()

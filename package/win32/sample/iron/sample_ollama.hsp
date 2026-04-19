@@ -1,0 +1,49 @@
+;============================================================
+;  sample_ollama.hsp — Ollama REST API 経由のチャット
+;
+;  事前にローカルで Ollama を起動してモデルを入れておく:
+;    ollama pull llama3.2   (またはお好みのモデル)
+;    ollama serve           (バックグラウンド)
+;
+;  実行するとコンソールで連続チャットできる。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "iron_ollama.hsp"
+
+    title "iron_ollama demo"
+    screen 0, 720, 500
+    font "MS Gothic", 14
+
+    iron_ollama_set_endpoint "http://localhost:11434"
+    iron_ollama_set_model    "llama3.2"
+    iron_ollama_set_system   "あなたは日本語で親切に答えるアシスタントです。"
+
+    pos 20, 20
+    mes "iron_ollama — Enter で送信、空行で終了"
+    mes ""
+
+    objmode 2
+    input text, 640, 20
+    button "送信", *on_send
+    button "クリア", *on_clear
+    stop
+
+*on_send
+    if text = "" : stop
+    mes "> " + text
+    iron_ollama_chat text, reply
+    if stat != 200 {
+        mes "エラー: HTTP " + stat
+        text = ""
+        stop
+    }
+    mes "assistant: " + reply
+    mes ""
+    text = ""
+    stop
+
+*on_clear
+    iron_ollama_history_clear
+    mes "[履歴をクリアしました]"
+    stop
