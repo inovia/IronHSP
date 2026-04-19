@@ -1,0 +1,27 @@
+;============================================================
+;  test_pdf.hsp — hsppdf.dll 軽量テスト
+;
+;  PDFium の init/shutdown + bad path の負のハンドル返却を検証。
+;  pdfium.dll が同じディレクトリに必要。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hsppdf.as"
+#include "iron_test_ex.hsp"
+
+    pdf_init
+
+    test_case "pdf_load(nonexistent) returns <0"
+        pdf_load "__no_such_file__.pdf", "", h
+        ok = 0
+        if h < 0 : ok = 1
+        assert_true ok
+    test_end
+
+    test_case "pdf_close(-1) is safe"
+        pdf_close -1
+        assert_true 1
+    test_end
+
+    pdf_shutdown
+    end testrt_summary()

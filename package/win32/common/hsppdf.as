@@ -5,7 +5,11 @@
 #ifndef __hsppdf_as__
 #define __hsppdf_as__
 
+#ifdef _HSP64
+#uselib "hsppdf_64.dll"
+#else
 #uselib "hsppdf.dll"
+#endif
 #func global pdf_init             "pdf_init"
 #func global pdf_shutdown         "pdf_shutdown"
 #func global pdf_load             "pdf_load"             str, str, var
