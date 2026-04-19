@@ -8,7 +8,11 @@
 #ifndef __hspduckdb_as__
 #define __hspduckdb_as__
 
+#ifdef _HSP64
+#uselib "hspduckdb_64.dll"
+#else
 #uselib "hspduckdb.dll"
+#endif
 #func global duckdb_open_db          "hspduckdb_open_db"          str, var
 #func global duckdb_close_db         "hspduckdb_close_db"         int
 #func global duckdb_exec             "hspduckdb_exec"             int, str, var
