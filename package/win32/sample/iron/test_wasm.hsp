@@ -1,0 +1,73 @@
+;============================================================
+;  test_wasm.hsp — hspwasm.dll 自動テスト
+;
+;  iron_test_ex DSL で shared.wasm の各エクスポート関数を呼んで
+;  期待値と比較。iron_test_runner.exe から以下で走らせる:
+;
+;    iron_test_runner.exe test_wasm.hsp
+;
+;  shared.wasm は wasm_shared/ に置いてあるのでカレントを移して実行
+;  (iron_test_runner は .hsp の chdir までは面倒みないので cd で対処)。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspwasm.as"
+#include "iron_test_ex.hsp"
+
+    ; Load shared.wasm (wasm_shared/ フォルダに置いてある)
+    wasm_load "wasm_shared/shared.wasm", h
+    test_case "wasm_load shared.wasm"
+        ok = 0
+        if h >= 0 : ok = 1
+        assert_true ok
+    test_end
+
+    if h < 0 : end testrt_summary()
+
+    ; linear memory size (shared.wasm にはメモリセクションがないので 0 でも OK)
+    test_case "wasm_memory_size callable"
+        wasm_memory_size h, sz
+        ok = 0
+        if sz >= 0 : ok = 1
+        assert_true ok
+    test_end
+
+    ; add(12, 30) == 42
+    test_case "add(12, 30) == 42"
+        dim args, 2
+        args(0) = 12 : args(1) = 30
+        wasm_call_i h, "add", args, 2, r
+        expect_eq r, 42
+    test_end
+
+    ; mul(7, 6) == 42
+    test_case "mul(7, 6) == 42"
+        args(0) = 7 : args(1) = 6
+        wasm_call_i h, "mul", args, 2, r
+        expect_eq r, 42
+    test_end
+
+    ; fib(10) == 55
+    test_case "fib(10) == 55"
+        dim args1, 1
+        args1(0) = 10
+        wasm_call_i h, "fib", args1, 1, r
+        expect_eq r, 55
+    test_end
+
+    ; fib(20) == 6765
+    test_case "fib(20) == 6765"
+        args1(0) = 20
+        wasm_call_i h, "fib", args1, 1, r
+        expect_eq r, 6765
+    test_end
+
+    ; sum_to(100) == 5050
+    test_case "sum_to(100) == 5050"
+        args1(0) = 100
+        wasm_call_i h, "sum_to", args1, 1, r
+        expect_eq r, 5050
+    test_end
+
+    wasm_close h
+    end testrt_summary()

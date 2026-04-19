@@ -5,7 +5,11 @@
 #ifndef __hspwasm_as__
 #define __hspwasm_as__
 
+#ifdef _HSP64
+#uselib "hspwasm_64.dll"
+#else
 #uselib "hspwasm.dll"
+#endif
 #func global wasm_load         "hspwasm_load"          str, var
 #func global wasm_load_mem     "hspwasm_load_mem"      var, int, var
 #func global wasm_close        "hspwasm_close"         int
