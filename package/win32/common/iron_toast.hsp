@@ -1,209 +1,42 @@
 ;============================================================
-;   iron_toast.hsp — Windows トースト風バルーン通知ラッパ
+;   iron_toast.hsp — Windows トースト風通知ラッパ
 ;
-;   Shell_NotifyIconA + NOTIFYICONDATAA を使ってタスクトレイ領域に
-;   バルーン通知 (Windows 10/11 ではトースト風の通知) を出す簡易 API。
-;
-;   WinRT の ToastNotificationManager はもっとリッチだが COM 階層が
-;   深い。iron_toast は「1 行で通知を出したい」用途に特化した
-;   シンプル実装。
+;   hsptoast.dll (Shell_NotifyIconW + NIIF_INFO) を呼ぶ薄い層。
+;   UTF-8 titile/body をそのまま渡せる (DLL 側で UTF-16 に変換)。
 ;
 ;   API:
-;     toast title, body               ; 情報通知 (青 i アイコン)
-;     toast_warning title, body       ; 警告通知 (黄 ! アイコン)
-;     toast_error title, body         ; エラー通知 (赤 × アイコン)
-;     toast_clear                     ; 通知を消す
+;     toast title, body           ; 情報通知 (青 i アイコン)
+;     toast_warning title, body   ; 警告通知 (黄 ! アイコン)
+;     toast_error title, body     ; エラー通知 (赤 × アイコン)
+;     toast_clear                 ; トレイアイコンを消す
 ;
 ;   例:
 ;     #include "iron_toast.hsp"
 ;         toast "IronHSP", "ビルドが完了しました"
 ;         toast_error "エラー", "ファイルが見つかりません"
-;
-;   注意:
-;     - タスクトレイにアイコンを登録する必要があるため、最初の呼び出しで
-;       アイコン (LoadIconA の IDI_APPLICATION) が追加される
-;     - タスクトレイアイコンは toast_clear まで残る
-;     - 32bit / 64bit で NOTIFYICONDATAA 構造体サイズが異なる
 ;============================================================
 
 #ifndef __iron_toast_hsp__
 #define __iron_toast_hsp__
 
+#include "hsptoast.as"
+
 #module iron_toast
 
-;------------------------------------------------------------
-; shell32 / user32 API
-;------------------------------------------------------------
-#uselib "shell32.dll"
-#func _shell_notify "Shell_NotifyIconA" int, var
-
-#uselib "user32.dll"
-#cfunc _load_icon "LoadIconA" int, int
-
-;------------------------------------------------------------
-; 定数
-;------------------------------------------------------------
-#define NIM_ADD       0x00000000
-#define NIM_MODIFY    0x00000001
-#define NIM_DELETE    0x00000002
-
-#define NIF_MESSAGE   0x00000001
-#define NIF_ICON      0x00000002
-#define NIF_TIP       0x00000004
-#define NIF_INFO      0x00000010
-
-#define NIIF_NONE     0x00000000
-#define NIIF_INFO     0x00000001
-#define NIIF_WARNING  0x00000002
-#define NIIF_ERROR    0x00000003
-
-#define IDI_APPLICATION 32512
-
-;------------------------------------------------------------
-; 内部: 構造体レイアウト (ptr サイズを実行時に判定)
-;
-; 32bit: total 508 byte
-; 64bit: total 528 byte
-;
-;  offset name                 32bit off / 64bit off
-;   cbSize (DWORD)              0 /   0
-;   hWnd (HWND)                 4 /   8
-;   uID (UINT)                  8 /  16
-;   uFlags (UINT)              12 /  20
-;   uCallbackMessage (UINT)    16 /  24
-;   hIcon (HICON)              20 /  32
-;   szTip[128] (CHAR)          24 /  40
-;   dwState (DWORD)           152 / 168
-;   dwStateMask (DWORD)       156 / 172
-;   szInfo[256] (CHAR)        160 / 176
-;   uTimeout/uVersion (UINT)  416 / 432
-;   szInfoTitle[64] (CHAR)    420 / 436
-;   dwInfoFlags (DWORD)       484 / 500
-;   guidItem[16] (GUID)       488 / 504
-;   hBalloonIcon (HICON)      504 / 520
-;
-; HWND/HICON は 64bit では 8byte のため、後続メンバが 8byte ずつズレる。
-;------------------------------------------------------------
-#define STRUCT_SZ_32  508
-#define STRUCT_SZ_64  528
-
-;------------------------------------------------------------
-; ptr サイズ判定 (runtime)
-;   4 → 32bit, 8 → 64bit
-;------------------------------------------------------------
-#deffunc _toast_init
-    if _toast_inited ! 0 : return
-    _toast_inited = 1
-    ; runtime detect pointer size via varsize of a known intptr var
-    ; HSP3: int var is always 4 byte. 64bit runtime uses 8 byte handles.
-    ; 実用上: sizeof(HINSTANCE) を決め撃ちで 4 or 8 を選ぶのは難しいので、
-    ; "hsp3_64.exe" 前提か "hsp3.exe" 前提かで切り替える必要がある。
-    ; ここでは #ifdef _HSP64_ がないので、運用上 32bit 固定実装とする。
-    _toast_ptr_size = 4
-    _toast_struct_size = STRUCT_SZ_32
-    sdim _toast_nid, _toast_struct_size + 16
-    _toast_added = 0
+#deffunc toast str _tl, str _bd
+    hsptoast_show_info _tl, _bd
     return
 
-;------------------------------------------------------------
-; オフセット定数 (32bit 用)
-;------------------------------------------------------------
-#define OFF_CBSIZE       0
-#define OFF_HWND         4
-#define OFF_UID          8
-#define OFF_UFLAGS      12
-#define OFF_UCB         16
-#define OFF_HICON       20
-#define OFF_SZTIP       24
-#define OFF_DWSTATE    152
-#define OFF_SZINFO     160
-#define OFF_UTIMEOUT   416
-#define OFF_SZTITLE    420
-#define OFF_DWINFOFLAG 484
-#define OFF_HBALLOON   504
-
-;------------------------------------------------------------
-; 内部: 構造体をクリアして基本フィールドを埋める
-;------------------------------------------------------------
-#deffunc _toast_build_nid int info_flags, str _in_title, str _in_body,  local _i, local _hIcon, local _ttl, local _bdy
-    _toast_init
-    sdim _ttl, 512
-    sdim _bdy, 512
-    _ttl = _in_title
-    _bdy = _in_body
-    ; 構造体を 0 クリア
-    repeat _toast_struct_size
-        poke _toast_nid, cnt, 0
-    loop
-    ; cbSize
-    lpoke _toast_nid, OFF_CBSIZE, _toast_struct_size
-    lpoke _toast_nid, OFF_HWND, 0
-    lpoke _toast_nid, OFF_UID, 1
-    lpoke _toast_nid, OFF_UFLAGS, NIF_ICON | NIF_TIP | NIF_INFO
-    _hIcon = _load_icon(0, IDI_APPLICATION)
-    lpoke _toast_nid, OFF_HICON, _hIcon
-    ; szTip (title 流用, max 127 byte)
-    _i = strlen(_ttl)
-    if _i > 127 : _i = 127
-    memcpy _toast_nid, _ttl, _i, OFF_SZTIP, 0
-    poke _toast_nid, OFF_SZTIP + _i, 0
-    ; szInfo (body, max 255 byte)
-    _i = strlen(_bdy)
-    if _i > 255 : _i = 255
-    memcpy _toast_nid, _bdy, _i, OFF_SZINFO, 0
-    poke _toast_nid, OFF_SZINFO + _i, 0
-    ; szInfoTitle (title, max 63 byte)
-    _i = strlen(_ttl)
-    if _i > 63 : _i = 63
-    memcpy _toast_nid, _ttl, _i, OFF_SZTITLE, 0
-    poke _toast_nid, OFF_SZTITLE + _i, 0
-    ; dwInfoFlags = info_flags (NIIF_INFO 等)
-    lpoke _toast_nid, OFF_DWINFOFLAG, info_flags
+#deffunc toast_warning str _tl, str _bd
+    hsptoast_show_warn _tl, _bd
     return
 
-;------------------------------------------------------------
-; 内部: 通知表示 (初回は ADD、以降は MODIFY)
-;------------------------------------------------------------
-#deffunc _toast_show int info_flags, str _in_title, str _in_body,  local _msg
-    _toast_build_nid info_flags, _in_title, _in_body
-    if _toast_added = 0 {
-        _msg = NIM_ADD
-        _toast_added = 1
-    } else {
-        _msg = NIM_MODIFY
-    }
-    _shell_notify _msg, _toast_nid
+#deffunc toast_error str _tl, str _bd
+    hsptoast_show_error _tl, _bd
     return
 
-;------------------------------------------------------------
-; toast title, body — 情報通知
-;------------------------------------------------------------
-#deffunc toast str t_title, str t_body
-    _toast_show NIIF_INFO, t_title, t_body
-    return
-
-;------------------------------------------------------------
-; toast_warning title, body — 警告通知
-;------------------------------------------------------------
-#deffunc toast_warning str t_title, str t_body
-    _toast_show NIIF_WARNING, t_title, t_body
-    return
-
-;------------------------------------------------------------
-; toast_error title, body — エラー通知
-;------------------------------------------------------------
-#deffunc toast_error str t_title, str t_body
-    _toast_show NIIF_ERROR, t_title, t_body
-    return
-
-;------------------------------------------------------------
-; toast_clear — タスクトレイからアイコン削除
-;------------------------------------------------------------
 #deffunc toast_clear
-    _toast_init
-    if _toast_added = 0 : return
-    _shell_notify NIM_DELETE, _toast_nid
-    _toast_added = 0
+    hsptoast_clear
     return
 
 #global

@@ -1,0 +1,32 @@
+;============================================================
+;  test_toast.hsp — hsptoast.dll / iron_toast 軽量テスト
+;
+;  実際にはトーストが画面表示されるが、ここでは DLL 呼び出しが
+;  エラーなく動くこと (戻り値が負でないこと) だけ確認。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_toast.hsp"
+#include "iron_test_ex.hsp"
+
+    test_case "toast info (info)"
+        toast "IronHSP test", "これはテスト通知です"
+        assert_true 1
+    test_end
+
+    test_case "toast warning"
+        toast_warning "警告", "テスト用の警告通知"
+        assert_true 1
+    test_end
+
+    test_case "toast error"
+        toast_error "エラー", "テスト用のエラー通知"
+        assert_true 1
+    test_end
+
+    test_case "toast clear"
+        toast_clear
+        assert_true 1
+    test_end
+
+    end testrt_summary()

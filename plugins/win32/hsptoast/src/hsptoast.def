@@ -1,0 +1,6 @@
+LIBRARY hsptoast
+EXPORTS
+    hsptoast_show_info
+    hsptoast_show_warn
+    hsptoast_show_error
+    hsptoast_clear
