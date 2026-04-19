@@ -10,3 +10,4 @@ EXPORTS
     hspwasm_call_i
     hspwasm_call_i64
     hspwasm_call_d
+    hspwasm_get_log

@@ -69,5 +69,12 @@
         expect_eq r, 5050
     test_end
 
+    ; v2: host imports が無い wasm では wasm_get_log は 0 を返す
+    test_case "wasm_get_log returns 0 on module without env.print"
+        sdim log_out, 512
+        wasm_get_log h, log_out, 512
+        expect_eq stat, 0
+    test_end
+
     wasm_close h
     end testrt_summary()

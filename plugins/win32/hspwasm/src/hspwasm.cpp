@@ -79,6 +79,7 @@ struct ModuleState {
     std::vector<uint8_t> wasm_bytes;  // LoadModule はバイト列所有権を runtime 側に移すが
                                       // ParseModule に渡したバッファは runtime 破棄まで
                                       // 生存していなければならないので保持する。
+    std::string   log_buf;            // v2: env.print / env.log_i / env.log_d が書き込む
 };
 
 static std::array<ModuleState, 16> g_modules;
@@ -113,6 +114,9 @@ static ModuleState* get_slot(int h) {
 }
 
 // ---- common: raw bytes から 1 つの module を runtime に load ----
+// v2 host imports 用の forward declaration (定義はファイル後半)
+static void LinkHostImports(int h, ModuleState& m);
+
 static int load_from_bytes(std::vector<uint8_t>&& bytes) {
 #if !HSPWASM_HAVE_WASM3
     (void)bytes;
@@ -139,10 +143,107 @@ static int load_from_bytes(std::vector<uint8_t>&& bytes) {
     r = m3_LoadModule(m.runtime, m.module);
     if (r) { free_slot(h); return -5; }
 
+    // v2 host imports: env.print(ptr,len) / env.log_i(i) / env.log_d(d) /
+    // env.time_ms() / env.rand_u32(). 各 import が wasm 側に存在しなければ
+    // m3_LinkRawFunction は "function lookup failed" を返すが、unused import
+    // 扱いでよいので無視する。
+    LinkHostImports(h, m);
+
     m.used = true;
     return h;
 #endif
 }
+
+// ============================================================
+// v2 Host imports
+//   wasm 側が `import "env" "print"` 等で宣言した関数を HSP ネイティブの
+//   関数として埋める。ログは ModuleState 内の log_buf に溜める。
+// ============================================================
+#if HSPWASM_HAVE_WASM3
+
+// wasm3 raw call signatures:
+//   v(ii)   = void (i32,i32)
+//   v(i)    = void (i32)
+//   v(F)    = void (f64)
+//   I()     = i64 ()
+//   i()     = i32 ()
+//
+// Signature 型文字:  v=void  i=i32  I=i64  f=f32  F=f64
+// 引数は _sp から読み、戻り値は _sp[0] に書く。
+
+static const void* host_print(IM3Runtime /*rt*/, IM3ImportContext ctx,
+                              uint64_t* _sp, void* _mem)
+{
+    uint32_t ptr = (uint32_t)_sp[0];
+    uint32_t len = (uint32_t)_sp[1];
+    ModuleState* m = ctx && ctx->userdata ? (ModuleState*)ctx->userdata : nullptr;
+    if (!m) return nullptr;
+    const uint8_t* base = (const uint8_t*)_mem;
+    if (base && len < (1u<<20)) {
+        m->log_buf.append((const char*)(base + ptr), len);
+    }
+    return nullptr;
+}
+
+static const void* host_log_i(IM3Runtime /*rt*/, IM3ImportContext ctx,
+                              uint64_t* _sp, void* /*_mem*/)
+{
+    int32_t v = (int32_t)_sp[0];
+    ModuleState* m = ctx && ctx->userdata ? (ModuleState*)ctx->userdata : nullptr;
+    if (m) {
+        char buf[32]; int n = (int)sprintf(buf, "%d", (int)v);
+        m->log_buf.append(buf, (size_t)n);
+    }
+    return nullptr;
+}
+
+static const void* host_log_d(IM3Runtime /*rt*/, IM3ImportContext ctx,
+                              uint64_t* _sp, void* /*_mem*/)
+{
+    double d;
+    memcpy(&d, &_sp[0], sizeof(double));
+    ModuleState* m = ctx && ctx->userdata ? (ModuleState*)ctx->userdata : nullptr;
+    if (m) {
+        char buf[64]; int n = (int)sprintf(buf, "%g", d);
+        m->log_buf.append(buf, (size_t)n);
+    }
+    return nullptr;
+}
+
+static const void* host_time_ms(IM3Runtime /*rt*/, IM3ImportContext /*ctx*/,
+                                uint64_t* _sp, void* /*_mem*/)
+{
+    FILETIME ft; GetSystemTimeAsFileTime(&ft);
+    uint64_t t = ((uint64_t)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+    // 100ns → ms  (1601/01/01 基点のまま、差分用に使う前提)
+    int64_t ms = (int64_t)(t / 10000);
+    _sp[0] = (uint64_t)ms;
+    return nullptr;
+}
+
+static const void* host_rand_u32(IM3Runtime /*rt*/, IM3ImportContext /*ctx*/,
+                                 uint64_t* _sp, void* /*_mem*/)
+{
+    // xorshift32 (thread-local seed、初回は Tick で初期化)
+    thread_local uint32_t s = 0;
+    if (!s) s = (uint32_t)GetTickCount() | 1u;
+    s ^= s << 13; s ^= s >> 17; s ^= s << 5;
+    _sp[0] = (uint64_t)s;
+    return nullptr;
+}
+
+static void LinkHostImports(int /*h*/, ModuleState& m)
+{
+    // userdata で ModuleState* を各 import に渡す
+    m3_LinkRawFunctionEx(m.module, "env", "print",     "v(ii)", host_print,    &m);
+    m3_LinkRawFunctionEx(m.module, "env", "log_i",     "v(i)",  host_log_i,    &m);
+    m3_LinkRawFunctionEx(m.module, "env", "log_d",     "v(F)",  host_log_d,    &m);
+    m3_LinkRawFunctionEx(m.module, "env", "time_ms",   "I()",   host_time_ms,  &m);
+    m3_LinkRawFunctionEx(m.module, "env", "rand_u32",  "i()",   host_rand_u32, &m);
+}
+#else
+static void LinkHostImports(int, ModuleState&) {}
+#endif
 
 // ============================================================
 // HSP exports (新形式 typed #func)
@@ -195,6 +296,26 @@ HSPWASM_EXPORT int __stdcall hspwasm_clear()
 {
     for (int i = 0; i < (int)g_modules.size(); ++i) free_slot(i);
     return 0;
+}
+
+// wasm_get_log hid, var_buf, buf_len  →  stat = bytes copied (0 = nothing)
+// env.print / env.log_i / env.log_d で wasm 側が書いたログをコピーして
+// 内部バッファをクリアする。
+HSPWASM_EXPORT int __stdcall hspwasm_get_log(int h, char* out, int out_len)
+{
+    if (out && out_len > 0) out[0] = 0;
+    ModuleState* m = get_slot(h);
+    if (!m) return 0;
+    int src_len = (int)m->log_buf.size();
+    if (!out || out_len <= 1 || src_len <= 0) {
+        m->log_buf.clear();
+        return 0;
+    }
+    int take = src_len < (out_len - 1) ? src_len : (out_len - 1);
+    memcpy(out, m->log_buf.data(), (size_t)take);
+    out[take] = 0;
+    m->log_buf.clear();
+    return take;
 }
 
 // wasm_memory_size hid, var_int

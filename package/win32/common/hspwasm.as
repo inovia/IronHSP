@@ -20,5 +20,8 @@
 #func global wasm_call_i       "hspwasm_call_i"        int, str, var, int, var
 #func global wasm_call_i64     "hspwasm_call_i64"      int, str, var, int, var
 #func global wasm_call_d       "hspwasm_call_d"        int, str, var, int, var
+; v2: host imports (env.print / env.log_i / env.log_d / env.time_ms / env.rand_u32)
+; が書き出したログ文字列を取得。取り出した後はクリアされる。
+#func global wasm_get_log      "hspwasm_get_log"       int, var, int
 
 #endif
