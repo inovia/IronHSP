@@ -1,0 +1,45 @@
+;============================================================
+;  sample_discord.hsp — iron_discord デモ
+;
+;  Discord Webhook URL を設定して 3 種類のメッセージを送信:
+;  プレーン / Embed (赤/青) / 送信確認
+;
+;  実行前に Discord サーバーでウェブフックを作成して URL を取得し、
+;  下の _URL に貼る。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "iron_discord.hsp"
+
+    ;; 下を実際の webhook URL に置き換える
+    _URL = "https://discord.com/api/webhooks/XXXXX/YYYYY"
+
+    title "iron_discord demo"
+    screen 0, 520, 360
+    font "MS Gothic", 14
+
+    iron_discord_set_webhook _URL
+    iron_discord_set_username "IronHSP bot"
+
+    pos 20, 20
+    mes "iron_discord demo"
+    mes "webhook: " + _URL
+    mes ""
+
+    mes "[1] plain text 送信..."
+    iron_discord_send "IronHSP からこんにちは! " + gettime(0) + "-" + gettime(1) + "-" + gettime(3)
+    mes "  HTTP status = " + stat
+    mes ""
+
+    mes "[2] embed (赤) 送信..."
+    iron_discord_send_embed "ビルド失敗", "エラー: test.nhsp (line 42)", 0xFF2222
+    mes "  HTTP status = " + stat
+    mes ""
+
+    mes "[3] embed (緑) 送信..."
+    iron_discord_send_embed "ビルド成功", "all tests pass (39/39)", 0x22FF22
+    mes "  HTTP status = " + stat
+    mes ""
+
+    mes "DONE"
+    stop

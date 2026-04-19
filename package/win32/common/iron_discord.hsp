@@ -1,0 +1,134 @@
+;============================================================
+;  iron_discord.hsp — Discord Webhook 送信クライアント (Pure HSP)
+;
+;  Discord チャンネルの Webhook URL に対して POST でメッセージを送る。
+;  ボットトークンではなく webhook なので権限管理が不要、HSP スクリプト
+;  から「ビルド完了通知」「エラー報告」「定期レポート」等をチャンネル
+;  に流すだけなら最小セットアップで動く。
+;
+;  Webhook URL の取得:
+;    Discord サーバー → チャンネル設定 → 連携サービス → ウェブフック作成 →
+;    "ウェブフック URL をコピー"
+;
+;  依存: iron_http.hsp (http_post_file あり版)
+;
+;  API:
+;    iron_discord_set_webhook "https://discord.com/api/webhooks/..."
+;    iron_discord_set_username "iron_bot"         ; 送信者名 override
+;    iron_discord_set_avatar   "https://..."       ; アバター URL
+;    iron_discord_send "メッセージ本文"
+;    iron_discord_send_embed "title", "description", color_hex
+;    iron_discord_send_file  "path/to/file.png", "キャプション"
+;
+;  色 (color_hex) は Discord embed の左側帯。0xFF0000 = 赤、0x00FF00 = 緑 等。
+;============================================================
+
+#ifndef __iron_discord_hsp__
+#define __iron_discord_hsp__
+
+#include "iron_http.hsp"
+
+#module iron_discord
+
+#deffunc iron_discord_set_webhook str _url
+    _idc_webhook = _url
+    return
+
+#deffunc iron_discord_set_username str _name
+    _idc_username = _name
+    return
+
+#deffunc iron_discord_set_avatar str _url
+    _idc_avatar = _url
+    return
+
+; 内部: JSON エスケープ (\ " \n \r \t のみ)
+#deffunc _idc_json_escape str _in, var _out
+    sdim _out
+    _out = ""
+    _len = strlen(_in)
+    sdim _tmp, _len * 6 + 16
+    _ti = 0
+    repeat _len
+        peek _c, _in, cnt
+        if _c = '"'  : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, '"'  : _ti++ : continue
+        if _c = '\\' : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, '\\' : _ti++ : continue
+        if _c = 10 : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, 'n' : _ti++ : continue
+        if _c = 13 : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, 'r' : _ti++ : continue
+        if _c = 9  : poke _tmp, _ti, '\\' : _ti++ : poke _tmp, _ti, 't' : _ti++ : continue
+        poke _tmp, _ti, _c
+        _ti++
+    loop
+    poke _tmp, _ti, 0
+    _out = _tmp
+    return
+
+; 内部: content/username/avatar を含む JSON を組み立てて body にセット
+#deffunc _idc_build_body str _content, var _out
+    sdim _esc_content, strlen(_content) * 6 + 16
+    _idc_json_escape _content, _esc_content
+    sdim _esc_name, strlen(_idc_username) * 6 + 16
+    _idc_json_escape _idc_username, _esc_name
+    sdim _esc_av, strlen(_idc_avatar) * 6 + 16
+    _idc_json_escape _idc_avatar, _esc_av
+
+    sdim _out, 65536
+    _out = "{\"content\":\"" + _esc_content + "\""
+    if _idc_username != "" : _out += ",\"username\":\"" + _esc_name + "\""
+    if _idc_avatar != ""   : _out += ",\"avatar_url\":\"" + _esc_av + "\""
+    _out += "}"
+    return
+
+; テキストメッセージ送信
+#deffunc iron_discord_send str _msg
+    if _idc_webhook = "" : return -1
+    sdim _body, 65536
+    _idc_build_body _msg, _body
+    sdim _resp, 4096
+    http_post _idc_webhook, _body, _resp, "application/json"
+    return stat
+
+; Embed (色付き) メッセージ送信
+; 成功時 stat = 200 (204 もあるので http_post 実装次第)
+#deffunc iron_discord_send_embed str _tl, str _desc, int _color
+    if _idc_webhook = "" : return -1
+    sdim _esc_tl, strlen(_tl) * 6 + 16
+    _idc_json_escape _tl, _esc_tl
+    sdim _esc_desc, strlen(_desc) * 6 + 16
+    _idc_json_escape _desc, _esc_desc
+    sdim _esc_name, strlen(_idc_username) * 6 + 16
+    _idc_json_escape _idc_username, _esc_name
+    sdim _esc_av, strlen(_idc_avatar) * 6 + 16
+    _idc_json_escape _idc_avatar, _esc_av
+
+    sdim _body, 65536
+    _body  = "{"
+    if _idc_username != "" : _body += "\"username\":\"" + _esc_name + "\","
+    if _idc_avatar != ""   : _body += "\"avatar_url\":\"" + _esc_av + "\","
+    _body += "\"embeds\":[{"
+    _body += "\"title\":\"" + _esc_tl + "\","
+    _body += "\"description\":\"" + _esc_desc + "\","
+    _body += "\"color\":" + _color
+    _body += "}]}"
+    sdim _resp, 4096
+    http_post _idc_webhook, _body, _resp, "application/json"
+    return stat
+
+; ファイル添付送信 (iron_http の multipart/form-data 使用)
+#deffunc iron_discord_send_file str _path, str _caption
+    if _idc_webhook = "" : return -1
+    sdim _extra_kv, 4096
+    _extra_kv = ""
+    if _caption != "" {
+        sdim _body, 1024
+        _idc_build_body _caption, _body
+        ; http_post_file の extra_kv は key=value\nkey=value 形式
+        _extra_kv = "payload_json=" + _body
+    }
+    sdim _resp, 4096
+    http_post_file _idc_webhook, _path, "file", "application/octet-stream", _extra_kv, _resp
+    return stat
+
+#global
+
+#endif

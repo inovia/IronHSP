@@ -1,0 +1,28 @@
+;============================================================
+;  test_discord.hsp — iron_discord 軽量テスト
+;
+;  Webhook URL 無しで送信すると -1 が返ることを確認 (ネット通信不要)。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "iron_discord.hsp"
+#include "iron_test_ex.hsp"
+
+    test_case "send without webhook returns -1"
+        iron_discord_send "test"
+        expect_eq stat, -1
+    test_end
+
+    test_case "send_embed without webhook returns -1"
+        iron_discord_send_embed "Title", "Desc", 0xFF0000
+        expect_eq stat, -1
+    test_end
+
+    test_case "set_webhook + set_username no crash"
+        iron_discord_set_webhook "https://discord.com/api/webhooks/0/fake"
+        iron_discord_set_username "test_bot"
+        iron_discord_set_avatar "https://example.com/a.png"
+        assert_true 1
+    test_end
+
+    end testrt_summary()
