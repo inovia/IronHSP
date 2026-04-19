@@ -254,7 +254,20 @@ namespace NhspLanguageServer
             try
             {
                 var u = new Uri(uri);
-                return u.IsFile ? u.LocalPath : null;
+                if (!u.IsFile) return null;
+                string path = u.LocalPath;
+                // VS Code sends Windows paths as file:///j%3A/foo (URL-encoded
+                // drive colon). Uri.LocalPath decodes the %3A late, so the
+                // result looks like "\j:\foo" with a leading separator that
+                // Path.GetFullPath rejects with NotSupportedException. Strip
+                // the leading slash when a drive letter follows.
+                if (path.Length >= 3 &&
+                    (path[0] == '\\' || path[0] == '/') &&
+                    char.IsLetter(path[1]) && path[2] == ':')
+                {
+                    path = path.Substring(1);
+                }
+                return path;
             }
             catch { return null; }
         }
