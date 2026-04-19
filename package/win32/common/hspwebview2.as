@@ -15,7 +15,11 @@
 #ifndef __hspwebview2_as__
 #define __hspwebview2_as__
 
+#ifdef _HSP64
+#uselib "hspwebview2_64.dll"
+#else
 #uselib "hspwebview2.dll"
+#endif
 #func global wv2_init              "wv2_init"              str
 #func global wv2_attach            "wv2_attach"            int, int, int, int, int
 #func global wv2_detach            "wv2_detach"            int

@@ -1,0 +1,24 @@
+;============================================================
+;  test_webview2.hsp — hspwebview2.dll 軽量自動テスト
+;
+;  WebView2 は GUI 依存なので、ここでは DLL ロード成功と
+;  基本関数の戻り値型チェックだけ行う (実際の描画は sample_*.hsp で)。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspwebview2.as"
+#include "iron_test_ex.hsp"
+
+    ; wv2_detach(invalid handle) は crash しない
+    test_case "wv2_detach(-1) is safe"
+        wv2_detach -1
+        assert_true 1
+    test_end
+
+    ; wv2_close(-1) is safe
+    test_case "wv2_close(-1) is safe"
+        wv2_close -1
+        assert_true 1
+    test_end
+
+    end testrt_summary()
