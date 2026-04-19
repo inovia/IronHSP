@@ -69,7 +69,7 @@ dim  _lsp_shutdown, 1
         if _q < 0 : return ""
         ; エスケープチェック (直前が \ なら継続)
         if _q > 0 {
-            peek _c, _json, _q - 1
+            _c = peek(_json, _q - 1)
             if _c = '\\' {
                 _q++
                 continue
@@ -90,13 +90,13 @@ dim  _lsp_shutdown, 1
     _p += strlen(_k)
     ; 空白スキップ
     repeat
-        peek _c, _json, _p
+        _c = peek(_json, _p)
         if _c != ' ' : break
         _p++
     loop
     _end = _p
     repeat
-        peek _c, _json, _end
+        _c = peek(_json, _end)
         if (_c < '0') | (_c > '9') : break
         _end++
     loop
