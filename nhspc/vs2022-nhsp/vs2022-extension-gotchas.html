@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>VS 2022 拡張機能開発の罠集 — nhsp-language セッションで踏んだもの</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --accent: #0969da;
+  --danger: #cf222e;
+  --ok: #1a7f37;
+  --code-bg: #f6f8fa;
+  --kbd-bg: #f6f8fa;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8d96a0;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --danger: #f85149;
+    --ok: #3fb950;
+    --code-bg: #161b22;
+    --kbd-bg: #161b22;
+  }
+}
+html { background: var(--bg); color: var(--fg); }
+body {
+  font-family: -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  line-height: 1.65;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 6rem;
+}
+h1 { font-size: 1.8rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+h2 {
+  font-size: 1.35rem;
+  margin-top: 2.5rem;
+  padding: 0.4rem 0.7rem;
+  background: var(--code-bg);
+  border-left: 4px solid var(--accent);
+  border-radius: 3px;
+}
+h3 { font-size: 1.05rem; color: var(--accent); margin-top: 1.2rem; }
+code {
+  font-family: "Cascadia Code", "Consolas", "Menlo", monospace;
+  background: var(--code-bg);
+  padding: 0.08em 0.35em;
+  border-radius: 3px;
+  font-size: 0.92em;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+  font-size: 0.88em;
+  font-family: "Cascadia Code", "Consolas", "Menlo", monospace;
+}
+pre code { background: transparent; padding: 0; }
+.tag {
+  display: inline-block;
+  padding: 0.1em 0.6em;
+  border-radius: 10px;
+  font-size: 0.78em;
+  font-weight: 600;
+  margin-right: 0.4em;
+  vertical-align: middle;
+}
+.tag-vsix    { background: #ddf4ff; color: #0969da; }
+.tag-mef     { background: #dafbe1; color: #1a7f37; }
+.tag-lsp     { background: #fff8c5; color: #9a6700; }
+.tag-debug   { background: #ffebe9; color: #cf222e; }
+.tag-editor  { background: #fbefff; color: #8250df; }
+.tag-shell   { background: #f1f8ff; color: #0550ae; }
+@media (prefers-color-scheme: dark) {
+  .tag-vsix    { background: #033d8b; color: #79c0ff; }
+  .tag-mef     { background: #0f5323; color: #7ee787; }
+  .tag-lsp     { background: #5a4500; color: #e3b341; }
+  .tag-debug   { background: #67060c; color: #ff7b72; }
+  .tag-editor  { background: #40275e; color: #d2a8ff; }
+  .tag-shell   { background: #0a3069; color: #79c0ff; }
+}
+.symptom {
+  border-left: 3px solid var(--danger);
+  padding: 0.3rem 0.9rem;
+  background: var(--code-bg);
+  margin: 0.6rem 0;
+  font-size: 0.94em;
+}
+.symptom::before { content: "症状 — "; font-weight: 600; color: var(--danger); }
+.fix {
+  border-left: 3px solid var(--ok);
+  padding: 0.3rem 0.9rem;
+  background: var(--code-bg);
+  margin: 0.6rem 0;
+  font-size: 0.94em;
+}
+.fix::before { content: "対処 — "; font-weight: 600; color: var(--ok); }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.8rem 0;
+  font-size: 0.92em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code-bg); }
+small { color: var(--muted); }
+.toc { font-size: 0.95em; }
+.toc ol { padding-left: 1.2rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+.footer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 3rem; }
+</style>
+</head>
+<body>
+
+<h1>VS 2022 拡張機能開発の罠集</h1>
+<p>
+nhsp-language 拡張 (IronHSP / 2026-04-19) を書く過程で踏んだ落とし穴を、
+同種の拡張を書く未来の自分・他人のために時系列順とテーマ別でまとめたものです。
+各項目に <strong>症状</strong> / <strong>根本原因</strong> / <strong>対処コード</strong> を併記。
+</p>
+<p><small>対象: Visual Studio 2022 (17.x) Community / Professional / Enterprise。net472 ベースの MEF 拡張。</small></p>
+
+<div class="toc">
+<strong>目次</strong>
+<ol>
+  <li><a href="#vsix">VSIX パッケージング</a></li>
+  <li><a href="#grammar">TextMate grammar の読み込み</a></li>
+  <li><a href="#mef">MEF ContentType ルーティング</a></li>
+  <li><a href="#lsp">LSP (built-in VS 2022 client) の癖</a></li>
+  <li><a href="#lsp-uri">LSP URI の Windows drive colon 問題</a></li>
+  <li><a href="#editor">エディタ拡張 API の落とし穴</a></li>
+  <li><a href="#debug">デバッグ起動 (F5 / ツールバー ▶)</a></li>
+  <li><a href="#workspace">Open-Folder / Workspace 拡張</a></li>
+  <li><a href="#output">Output ウィンドウ</a></li>
+  <li><a href="#bat">配布用 .bat ファイル</a></li>
+  <li><a href="#msvc-misc">MSVC / Windows ヘッダの関連ハマり</a></li>
+  <li><a href="#hsp-module">HSP プラグイン .hsp モジュール側の罠</a></li>
+  <li><a href="#summary">最終構成ダイジェスト</a></li>
+</ol>
+</div>
+
+<hr>
+
+<h2 id="vsix">1. VSIX パッケージング</h2>
+
+<h3><span class="tag tag-vsix">VSIX</span>ユーザーインストールでは pkgdef が読まれない</h3>
+<div class="symptom">
+<code>VSIXInstaller.exe foo.vsix</code> (管理者なし) で入れると拡張は「インストール済」になるが、
+pkgdef による TextMate grammar 登録が効かず全機能が動かない。
+</div>
+<p>
+VS 2022 は <code>PkgDefSearchPath</code> にユーザー拡張フォルダを含めない。
+pkgdef で登録した grammar / editor mapping / language service は
+<strong>システム配置 (<code>/admin</code>)</strong> のときだけ読まれる。
+</p>
+<div class="fix">
+<code>VSIXInstaller.exe /admin /q foo.vsix</code> (管理者コンソールから実行)。
+開発ループ用に <code>reinstall_admin.bat</code> を同梱する。
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span>/admin 時は manifest.json に全ファイルの SHA-256 必須</h3>
+<div class="symptom">
+「Invalid VSIX package」でインストール失敗。manifest.json に listed されていないファイルが zip 内にあると落ちる。
+</div>
+<p>
+VsixUtil.exe の auto-gen は不十分。手書きスクリプトで全 payload を列挙し
+<code>{ fileName: "/foo", sha256: "..." }</code> 配列を作って
+<code>manifest.json</code> に書く必要がある。さらに <code>catalog.json</code> も
+マニフェスト 1.1 形式で必要。
+</p>
+<div class="fix">
+<a href="build_vsix.ps1"><code>build_vsix.ps1</code></a> を参照 — payload 配列 → SHA-256 → manifest.json/catalog.json 自動生成。
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span>ProductArchitecture は amd64 (x86 不可)</h3>
+<div class="symptom">
+<code>&lt;ProductArchitecture&gt;x86&lt;/ProductArchitecture&gt;</code> にすると <code>NoApplicableSKUsException</code>。
+</div>
+<p>VS 2022 本体が 64-bit 化されたため、拡張側の宣言も <code>amd64</code>。</p>
+
+<h3><span class="tag tag-vsix">VSIX</span>zip エントリは forward slash 必須</h3>
+<div class="symptom">
+Windows の <code>ZipFile.CreateFromDirectory</code> が出す backslash パス (<code>Grammars\nhsp.tmLanguage.json</code>) だと VSIXInstaller が path を認識しない。
+</div>
+<div class="fix">
+<code>7z.exe a -tzip</code> を使うか、<code>ZipArchive.CreateEntry(string entryName, ...)</code> で明示的に <code>/</code> 区切りのエントリ名を渡す。
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span><code>[Content_Types].xml</code> で全 payload 拡張子を宣言必須</h3>
+<div class="symptom">
+「Invalid VSIX package」でインストール失敗。OPC の仕様で zip 内の各ファイル拡張子は <code>[Content_Types].xml</code> で MIME type にマップされていないといけない。
+</div>
+<div class="fix">
+<pre><code>&lt;Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"&gt;
+  &lt;Default Extension="vsixmanifest" ContentType="text/xml" /&gt;
+  &lt;Default Extension="pkgdef"       ContentType="text/plain" /&gt;
+  &lt;Default Extension="json"         ContentType="application/json" /&gt;
+  &lt;Default Extension="dll"          ContentType="application/octet-stream" /&gt;
+  &lt;Default Extension="exe"          ContentType="application/octet-stream" /&gt;
+  &lt;Default Extension="config"       ContentType="text/xml" /&gt;
+  &lt;Default Extension="xml"          ContentType="text/xml" /&gt;
+&lt;/Types&gt;</code></pre>
+payload に新しい拡張子を追加するたびに忘れず <code>[Content_Types].xml</code> も更新する。
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span>同じ ID の既存拡張があると新規インストールできない</h3>
+<div class="symptom">
+VSIXInstaller がエラーなしで silent fail、あるいは「このバージョンは既にインストール済み」と表示。
+</div>
+<div class="fix">
+インストールの前に必ず uninstall。再インストールスクリプトにも組み込む:
+<pre><code>"%VSIXER%" /admin /q /u:IronHSP.NhspLanguage.5b3a8b62-3f6e-4f9e-a2bd-6e4a8c1e6b7e
+"%VSIXER%" /admin /q "%VSIX%"</code></pre>
+初回 uninstall 時は errorlevel=2002 が出るが <strong>無視して続行</strong>して OK (= 「元々入ってなかった」)。
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span>VS が起動中だと DLL lock で再インストールできない</h3>
+<div class="symptom">
+開発ループで <code>/admin</code> で上書きインストールしたら「ファイルがロックされています」。
+</div>
+<p>
+MEF component DLL は VS プロセスが掴みっぱなしなので、稼働中の VS 2022 を<strong>全て閉じてから</strong> reinstall する。
+最低でも対象の VS インスタンスは落とす。
+</p>
+
+<h2 id="grammar">2. TextMate grammar の読み込み</h2>
+
+<h3><span class="tag tag-vsix">VSIX</span><code>$schema</code> 行で grammar が reject される</h3>
+<div class="symptom">
+<code>"$schema": "..."</code> を含む <code>.tmLanguage.json</code> を pkgdef 経由で登録しても、
+VS 2022 の TextMate parser は無言で reject する。シンタックスハイライトが一切効かない。
+</div>
+<div class="fix">
+<code>$schema</code> 行を grammar JSON から削除する。VS Code 側は許容するので、
+その設定は <code>.vscode/settings.json</code> か別の schema 指定手段に逃がす。
+</div>
+
+<h2 id="mef">3. MEF ContentType ルーティング</h2>
+
+<h3><span class="tag tag-mef">MEF</span><code>[BaseDefinition("code")]</code> で TextMate が無効化される</h3>
+<div class="symptom">
+<code>ILanguageClient</code> を MEF export するために ContentTypeDefinition も export すると、TextMate の色付けが効かなくなる。
+</div>
+<p>
+<code>[BaseDefinition("code")]</code> は .xxx ファイルを「標準のテキストエディタ」に紐付けてしまい、
+TextMate grammar の経路をバイパスする。
+</p>
+<div class="fix">
+<pre><code>[Export]
+[Name(ContentTypeName)]
+[BaseDefinition(CodeRemoteContentDefinition.CodeRemoteContentTypeName)]
+internal static ContentTypeDefinition NhspContentType;</code></pre>
+<code>CodeRemoteContentDefinition.CodeRemoteContentTypeName</code> (MS VSSDK-Extensibility-Samples
+の LSP サンプルで使われている) が「LSP 向けだが TextMate 経路は残す」正解。
+</div>
+
+<h2 id="lsp">4. LSP (built-in VS 2022 client) の癖</h2>
+
+<h3><span class="tag tag-lsp">LSP</span><code>Hover.contents</code> の markdown body が消される</h3>
+<div class="symptom">
+<code>MarkupContent { kind: "markdown", value: "```xxx\nsignature\n```\n\nSummary\n@param ..." }</code>
+を返すと、signature の code fence だけ表示されて summary 以降が無音で捨てられる。
+</div>
+
+<table>
+<tr><th>Contents 型</th><th>結果</th></tr>
+<tr><td><code>MarkupContent { kind: "markdown" }</code> 複数行</td><td>先頭 code fence のみ表示、body 欠落</td></tr>
+<tr><td><code>MarkedString[]</code> (plain string 配列)</td><td>全部表示 / markdown 未解釈 (<code>**bold**</code> が生で出る)</td></tr>
+<tr><td><code>MarkedString[]</code> 先頭 <code>{language, value}</code> + 以降 plain</td><td>先頭 code block だけ色付き</td></tr>
+<tr><td><code>MarkupContent { kind: "plaintext" }</code></td><td>全文表示 / 色なし ← <strong>現状の落としどころ</strong></td></tr>
+</table>
+<p>
+<code>Microsoft.VisualStudio.LanguageServer.Client</code> 17.x のレンダラ側の既知問題。
+MS 公式 VSSDK sample ですら Hover は単一 <code>"Mock Hover"</code> 文字列しか返していない。
+</p>
+<div class="fix">
+色付きが必要なら VS 2022 LSP 経路ではなく、<code>IAsyncQuickInfoSource</code> を MEF export して
+自前で QuickInfo UI を構築する (Roslyn / PTVS の道)。本リポジトリでは plaintext で妥協。
+</div>
+
+<h2 id="lsp-uri">4.5 LSP URI の Windows drive colon 問題</h2>
+
+<h3><span class="tag tag-lsp">LSP</span><code>file:///j%3A/...</code> を <code>Uri.LocalPath</code> が正しくデコードしない</h3>
+<div class="symptom">
+VS Code で .xxx ファイルを開いた瞬間に「internal: 指定されたパスのフォーマットは
+サポートされていません」という diagnostic が 1:1 に出る (エディタ上は赤波線)。
+デバッグ実行やコンパイルは通る。
+</div>
+<p>
+VS Code は Windows パスを送るとき drive colon を URL-encode して
+<code>file:///j%3A/HNWorks/foo.xxx</code> の形にしてくる。.NET の
+<code>new Uri(s).LocalPath</code> は URL 解釈時点で drive 検出をやるため、
+encode された <code>%3A</code> を後からデコードしても先頭の <code>/</code> が
+残って <code>/j:/HNWorks/foo.xxx</code> という不正なパスになる。
+これに <code>Path.GetFullPath</code> を掛けると
+<code>NotSupportedException</code> が飛ぶ。
+</p>
+<table>
+<tr><th>URI</th><th><code>Uri.LocalPath</code></th><th><code>Path.GetFullPath</code></th></tr>
+<tr><td><code>file:///j:/foo</code></td><td><code>j:\foo</code></td><td>OK</td></tr>
+<tr><td><code>file:///j%3A/foo</code></td><td><code>/j:/foo</code></td><td><span style="color:var(--danger)">NotSupported</span></td></tr>
+<tr><td><code>file:///C:/foo</code></td><td><code>C:\foo</code></td><td>OK</td></tr>
+<tr><td><code>file:///J%3A/foo</code></td><td><code>/J:/foo</code></td><td><span style="color:var(--danger)">NotSupported</span></td></tr>
+</table>
+<div class="fix">
+<pre><code>private static string UriToPath(string uri) {
+    if (string.IsNullOrEmpty(uri)) return null;
+    try {
+        var u = new Uri(uri);
+        if (!u.IsFile) return null;
+        string path = u.LocalPath;
+        // file:///j%3A/foo → "\j:\foo"。leading separator を剥がす。
+        if (path.Length &gt;= 3 &amp;&amp;
+            (path[0] == '\\' || path[0] == '/') &amp;&amp;
+            char.IsLetter(path[1]) &amp;&amp; path[2] == ':')
+            path = path.Substring(1);
+        return path;
+    } catch { return null; }
+}</code></pre>
+VS Code / VS 2022 built-in LSP client 両方でこのパターン。テストは
+<code>file:///j:/...</code>, <code>file:///C:/...</code> も走らせて regression が出ないこと確認。
+</div>
+
+<h2 id="editor">5. エディタ拡張 API の落とし穴</h2>
+
+<h3><span class="tag tag-editor">Editor</span><code>IVsTextView</code> から <code>IVsCodeWindow</code> に直接到達できない</h3>
+<div class="symptom">
+ナビゲーションバー (<code>IVsDropdownBarManager</code>) を attach しようと
+<code>vsView as IVsDropdownBarManager</code> したら null。<code>IOleServiceProvider</code>
+経由の <code>QueryService(SVsCodeWindow)</code> もぜんぶ失敗 (VS 2022 では
+<code>vsView as IOleServiceProvider</code> も null を返す)。
+</div>
+<div class="fix">
+<strong>shell の document frame を列挙</strong>して、primary/secondary view が
+match する <code>IVsCodeWindow</code> を探す。これだけが通る道:
+<pre><code>var uiShell = Package.GetGlobalService(typeof(SVsUIShell)) as IVsUIShell;
+uiShell.GetDocumentWindowEnum(out IEnumWindowFrames winEnum);
+var frames = new IVsWindowFrame[1];
+while (winEnum.Next(1, frames, out uint fetched) == VSConstants.S_OK &amp;&amp; fetched == 1) {
+    frames[0].GetProperty((int)__VSFPROPID.VSFPROPID_DocView, out object dv);
+    var cw = dv as IVsCodeWindow;
+    if (cw == null) continue;
+    cw.GetPrimaryView(out var primary);
+    cw.GetSecondaryView(out var secondary);
+    if (primary == target || secondary == target)
+        return cw as IVsDropdownBarManager;  // ← code window は両方実装している
+}</code></pre>
+実装: <a href="../NhspVsLanguageClient/NhspTextViewCreationListener.cs"><code>NhspTextViewCreationListener.FindCodeWindowByEnumeration</code></a>
+</div>
+
+<h3><span class="tag tag-editor">Editor</span>ナビゲーションバーは <code>IVsDropdownBarClient</code> 自前実装</h3>
+<p>
+LSP の <code>textDocument/documentSymbol</code> を VS 2022 が自動でナビゲーションバーに
+繋いでくれる仕組みは<strong>ない</strong>。Roslyn / PTVS は独自実装している。
+単純な言語ならソース正規表現パースで十分。
+</p>
+<p>
+<code>IVsDropdownBarClient.GetComboAttributes</code> の <code>puEntryType</code> は
+<code>DROPDOWNENTRYTYPE</code> enum だが VS SDK バージョンによって名前が揺れるので
+<code>0x1</code> (ENTRY_TEXT) を即値で渡すのが安全。<code>FONTATTR</code> enum も
+同様に名前揺れがあるので <code>pAttr = 0</code> (= FONTATTR_PLAIN) を即値で返す。
+</p>
+
+<h3><span class="tag tag-editor">Editor</span><code>ENTRY_IMAGE</code> を立てると画像リストが必須</h3>
+<p>
+<code>puEntryType</code> に <code>ENTRY_IMAGE (0x4)</code> を含めた場合、
+<code>phImgList</code> が非 null (valid な HIMAGELIST) じゃないと描画失敗する。
+画像なしでいいなら <code>ENTRY_TEXT (0x1)</code> のみにして <code>phImgList = IntPtr.Zero</code>、
+<code>GetEntryImage</code> は呼ばれないように仕向ける。
+</p>
+
+<h3><span class="tag tag-mef">MEF</span><code>Microsoft.VisualStudio.Editor</code> NuGet が必須</h3>
+<div class="symptom">
+<code>IVsEditorAdaptersFactoryService.GetWpfTextView(vsView)</code> のために
+<code>Microsoft.VisualStudio.Editor</code> への参照が必要だが、<code>Shell.15.0</code>
+だけでは引っ張られない。
+</div>
+<div class="fix">
+<code>&lt;PackageReference Include="Microsoft.VisualStudio.Editor" Version="17.0.491" PrivateAssets="all" /&gt;</code>
+を csproj に追加。<code>IVsTextViewCreationListener</code> で <code>IVsTextView</code> ↔ <code>IWpfTextView</code> 相互変換に必須。
+</div>
+
+<h2 id="debug">6. デバッグ起動 (F5 / ツールバー ▶)</h2>
+
+<h3><span class="tag tag-debug">Debug</span><code>LaunchDebugTargets4</code> の engine GUID を空にすると E_INVALIDARG</h3>
+<div class="symptom">
+<code>guidLaunchDebugEngine = Guid.Empty</code>, <code>dwDebugEngineCount = 0</code> で呼ぶと
+<code>HRESULT 0x80070057</code> (E_INVALIDARG) を返して起動できない。
+</div>
+<div class="fix">
+managed (CLR2/CLR4 両対応) engine GUID を明示する:
+<pre><code>static readonly Guid ManagedEngineGuid =
+    new Guid("449EC4CC-30D2-4032-9256-EE18EB41B62B");
+
+var info = new VsDebugTargetInfo4 {
+    dlo = (uint)DEBUG_LAUNCH_OPERATION.DLO_CreateProcess,
+    bstrExe = exe,
+    bstrCurDir = Path.GetDirectoryName(exe),
+    guidLaunchDebugEngine = ManagedEngineGuid,
+    LaunchFlags = (uint)__VSDBGLAUNCHFLAGS.DBGLAUNCH_StopDebuggingOnEnd,
+};
+((IVsDebugger4)Package.GetGlobalService(typeof(SVsShellDebugger)))
+    .LaunchDebugTargets4(1, new[] { info }, new VsDebugTargetProcessInfo[1]);</code></pre>
+</div>
+
+<h3><span class="tag tag-debug">Debug</span>ツールバー ▶ は「startup item」がないと Debug.Start を発火しない</h3>
+<div class="symptom">
+<code>IVsRegisterPriorityCommandTarget</code> で <code>VSStd97CmdID.Start</code> を intercept しても、
+ツールバー ▶ をクリックすると「スタートアップ アイテムの選択」dropdown が出るだけ
+(そもそもコマンドが dispatch されない)。F5 キー / Debug メニュー / 右クリックは動く。
+</div>
+<div class="fix">
+VS 2022 Open-Folder の <code>ILaunchDebugTargetProvider</code> / <code>ILaunchConfigurationProvider</code> を
+MEF export する。詳細は次セクション。これを付けると dropdown に
+<strong>「現在のドキュメント (xxx.xxx)」</strong>が自動で出て ▶ も動くようになる。
+</div>
+
+<h3><span class="tag tag-debug">Debug</span>priority target と Workspace provider の二重発火</h3>
+<div class="symptom">
+ツールバー ▶ を 1 回クリックしたのに compile が 2 回走り、2 回目が
+<code>ERROR_SHARING_VIOLATION (0x80070020)</code> で失敗する
+(1 回目の exe を debugger が掴んでいるため)。
+</div>
+<p>priority command target と Workspace LaunchDebugTarget の両方が Start を拾ってしまっている。</p>
+<div class="fix">
+<strong>Workspace provider 1 本に絞る</strong>。F5 / ツールバー / Debug メニュー /
+右クリック全経路が Workspace 経由で届くので、それ以外の command filter は削除して OK。
+nhsp では <code>NhspCommandFilter.cs</code> と <code>NhspGlobalCommandTarget.cs</code> を
+commit a48e67bd で削除した。
+</div>
+
+<h2 id="workspace">7. Open-Folder / Workspace 拡張</h2>
+
+<h3><span class="tag tag-shell">Shell</span>「現在のドキュメント」dropdown の正体</h3>
+<p>
+PTVS が <code>.py</code> で "Current Document (xxx.py)" を dropdown に出している仕組み。
+純 MEF 2 枚で実現できる (<strong>AsyncPackage / VSCT 不要</strong>):
+</p>
+<pre><code>[ExportLaunchDebugTarget(PROVIDER_GUID, new[] { ".nhsp" })]
+internal sealed class NhspLaunchDebugTargetProvider : ILaunchDebugTargetProvider {
+    public void LaunchDebugTarget(IWorkspace ws, IServiceProvider sp,
+                                  DebugLaunchActionContext ctx) {
+        string target = ctx.LaunchConfiguration.GetValue("target", "");
+        // compile → IVsDebugger4.LaunchDebugTargets4
+    }
+    public bool SupportsContext(IWorkspace ws, string p) =&gt; throw new NotImplementedException();
+}
+
+[ExportLaunchConfigurationProvider(PROVIDER_GUID, new[] { ".nhsp" }, "nhsp", JsonSchema)]
+internal sealed class NhspLaunchConfigurationProvider : ILaunchConfigurationProvider {
+    public bool IsDebugLaunchActionSupported(DebugLaunchActionContext _) =&gt; true;
+    public void CustomizeLaunchConfiguration(DebugLaunchActionContext _, IPropertySettings _) { }
+}</code></pre>
+<p>
+JSON schema の <code>"defaults": { ".nhsp": { "$ref": "#/definitions/nhsp" } }</code>
+が実装の肝 — これが登録されて初めて「現在のドキュメント」エントリが dropdown に現れる。
+実装: <a href="../NhspVsLanguageClient/NhspWorkspaceLaunch.cs"><code>NhspWorkspaceLaunch.cs</code></a>。
+</p>
+
+<h3><span class="tag tag-shell">Shell</span>Workspace DLL は NuGet で復元できない</h3>
+<div class="symptom">
+<code>PackageReference Include="Microsoft.VisualStudio.Workspace"</code> を追加すると
+<code>NU1101: Unable to find package Microsoft.PerformanceUtilities</code> が出る
+(Microsoft 内部 feed にしかない)。さらに <code>NU1605</code> で Threading / Shell の downgrade 連鎖。
+</div>
+<div class="fix">
+PTVS と同じく VS インストール先の <code>OpenFolder</code> ディレクトリから <code>HintPath</code> で直接参照する:
+<pre><code>&lt;PropertyGroup&gt;
+  &lt;NhspVsOpenFolderDir
+      Condition="'$(NhspVsOpenFolderDir)' == '' AND Exists('$(ProgramFiles)\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\OpenFolder\Microsoft.VisualStudio.Workspace.dll')"&gt;
+    $(ProgramFiles)\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\OpenFolder
+  &lt;/NhspVsOpenFolderDir&gt;
+  &lt;!-- Professional / Enterprise 分も同様 --&gt;
+&lt;/PropertyGroup&gt;
+&lt;ItemGroup Condition="'$(NhspVsOpenFolderDir)' != ''"&gt;
+  &lt;Reference Include="Microsoft.VisualStudio.Workspace"&gt;
+    &lt;HintPath&gt;$(NhspVsOpenFolderDir)\Microsoft.VisualStudio.Workspace.dll&lt;/HintPath&gt;
+    &lt;Private&gt;False&lt;/Private&gt;
+  &lt;/Reference&gt;
+  &lt;!-- Workspace.Extensions / Workspace.VSIntegration も同様 --&gt;
+&lt;/ItemGroup&gt;</code></pre>
+<code>$(VSINSTALLDIR)</code> は Developer Command Prompt 以外では空なので、
+SKU 順検索する条件付き property を自前で書く。
+</div>
+
+<h3><span class="tag tag-shell">Shell</span>Workspace 17.12 は Threading 17.13 を要求</h3>
+<div class="symptom">
+Workspace DLL (17.0) を HintPath 参照した瞬間に:
+<br><code>CS1705: Assembly 'Microsoft.VisualStudio.Workspace' uses 'Microsoft.VisualStudio.Threading, Version=17.13.0.0' which has a higher version than referenced assembly 17.0.0.0</code>
+</div>
+<div class="fix">
+<code>PackageReference "Microsoft.VisualStudio.Threading" Version="17.13.2"</code> に bump。
+</div>
+
+<h2 id="output">8. Output ウィンドウ</h2>
+
+<h3><span class="tag tag-shell">Shell</span><code>pane.Activate()</code> だけでは前面に出ない</h3>
+<div class="symptom">
+<code>IVsOutputWindowPane.OutputStringThreadSafe</code> + <code>Activate</code> を呼んでも、
+ユーザーが Output ツールウィンドウ自体を閉じていると何も見えない。他言語は F5 時に勝手に出てくる。
+</div>
+<div class="fix">
+<pre><code>Guid outputToolWindow = new Guid("34e76e81-ee4a-11d0-ae2e-00a0c90fffc3");
+var uiShell = Package.GetGlobalService(typeof(SVsUIShell)) as IVsUIShell;
+uiShell.FindToolWindow((uint)__VSFINDTOOLWIN.FTW_fForceCreate,
+                       ref outputToolWindow, out IVsWindowFrame frame);
+frame?.Show();</code></pre>
+tool window frame ごと強制表示する。pane 作成時に 1 回だけ呼べば十分。
+</div>
+
+<h2 id="bat">9. 配布用 .bat ファイル</h2>
+
+<h3><span class="tag tag-vsix">VSIX</span>LF-only な .bat は cmd がパースに失敗する</h3>
+<div class="symptom">
+ダブルクリックしても何も起きない or エラーが大量に出て閉じる。
+<code>rem</code> 行の末尾が「コマンドとして認識されていません」と言われる。
+</div>
+<p>
+PowerShell の <code>Out-File</code> / Claude Code の Write tool / Node の
+<code>fs.writeFileSync</code> はデフォルト LF で書く。
+cmd.exe は LF-only だと行境界を見失い、ファイル全体を 1 行の巨大コマンドとして誤認する。
+</p>
+<div class="fix">
+<pre><code>$text = [IO.File]::ReadAllText($bat)
+$text = $text -replace "`r?`n", "`r`n"
+[IO.File]::WriteAllText($bat, $text, [Text.Encoding]::ASCII)</code></pre>
+メッセージは ASCII に留めるか、<code>chcp 65001 &gt;nul</code> を冒頭で呼んでから UTF-8 で書く。
+<code>cmd.exe</code> の既定コードページは日本語 Windows で CP932 なので、UTF-8 のまま出すと化ける。
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span>自己昇格パターン</h3>
+<p>ダブルクリック 1 回で管理者昇格して同じ .bat を実行し直すパターン:</p>
+<pre><code>@echo off
+setlocal
+net session &gt;nul 2&gt;&amp;1
+if %errorlevel% neq 0 goto :elevate
+
+cd /d "%~dp0"
+rem ---- 管理者で実行される処理をここに ----
+
+exit /b
+
+:elevate
+powershell -NoProfile -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+exit /b</code></pre>
+<p>
+<code>%~f0</code> は <code>if (...)</code> ブロック内でも安全に展開される (変数ではなく batch パラメータ参照のため遅延展開の影響を受けない)。
+<strong><code>cd /d "%~dp0"</code> を忘れない</strong> — 昇格後の cmd は <code>C:\Windows\System32</code> から始まるし、スクリプトと違うドライブだと <code>cd</code> 単独では移動しない (<code>/d</code> でドライブ跨ぎを許可)。
+実装例: <a href="reinstall_admin.bat"><code>reinstall_admin.bat</code></a>
+</p>
+
+<h2 id="msvc-misc">9.5 MSVC / Windows ヘッダの関連ハマり</h2>
+<p>
+VS 拡張直接ではないが、併設プラグイン DLL 開発中に踏んだ MSVC / Windows SDK 固有の罠。
+</p>
+
+<h3><span class="tag tag-vsix">VSIX</span>関数宣言の直前行に日本語コメントを書くと C2062 が出る</h3>
+<div class="symptom">
+<code>// non-blocking 受信。...</code> のような Japanese コメント行の直後に
+<code>HSPMQTT_EXPORT int __stdcall hspmqtt_recv(...)</code> を置くと
+<code>error C2062: 型 'int' は不要です</code>。関数が全く parse できなくなる。
+</div>
+<p>
+原因不明 (UTF-8 エンコード + 特定の文字並びで発生)。関数シグネチャ列の直前
+にコメントが来ている時だけ再現。ファイル内の他の場所では同じ日本語でも通る。
+</p>
+<div class="fix">
+関数シグネチャ行の直前の comment は <strong>ASCII に留める</strong>。
+本当に日本語 explanation を書きたければ関数先頭の <code>{</code> 内側に移動する。
+<pre><code>// BAD:  引数 / 戻り値の説明を日本語で長く書くと C2062 になる事例あり
+HSPMQTT_EXPORT int __stdcall foo(...)
+
+// GOOD:
+// non-blocking recv. Returns bytes read or 0/negative.
+HSPMQTT_EXPORT int __stdcall foo(...)
+{
+    // (日本語 OK) ここで引数の説明
+}</code></pre>
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span>関数名 <code>_poll</code> は Winsock2 の <code>poll</code> マクロと衝突</h3>
+<div class="symptom">
+<code>winsock2.h</code> を include した DLL で <code>HSPMQTT_EXPORT int hspmqtt_poll(...)</code>
+を書くと謎の C2062 / C2059 エラーが延々出る。
+</div>
+<p>
+<code>winsock2.h</code> / <code>ws2tcpip.h</code> のいずれかが
+<code>#define poll WSAPoll</code> (または類似) を定義しており、関数名を識別子段階で
+マクロ展開してしまう。他に衝突しそうな名前: <code>send</code>, <code>recv</code>,
+<code>connect</code> (これらは OS 関数なので export 名として使える形で避ける)。
+</p>
+<div class="fix">
+Winsock 使う DLL では関数名を <code>_recv</code> / <code>_send</code> などと同じく
+別名にリネームする。hspmqtt は <code>hspmqtt_poll</code> → <code>hspmqtt_recv</code> に変更。
+</div>
+
+<h3><span class="tag tag-vsix">VSIX</span>Windows SDK 10.0.26100 の <code>ws2tcpip.h</code> で <code>PIP_MSFILTER</code> 未定義エラー</h3>
+<div class="symptom">
+DuckDB amalgamation の <code>duckdb.cpp</code> をビルドすると
+<code>ws2tcpip.h(756,5): error C2065: 'Filter': 定義されていない識別子です。</code>
+が 100+ 件出る。<code>Filter</code> は実際は SDK 関数の local variable 名で、
+その上の <code>PIP_MSFILTER</code> の解決が出来ていない。
+</div>
+<div class="fix">
+以下の define 一式を PreprocessorDefinitions に追加:
+<pre><code>WIN32_LEAN_AND_MEAN
+_WIN32_WINNT=0x0A00
+WINVER=0x0A00
+NOMINMAX</code></pre>
+<code>_WIN32_WINNT</code> が低い値のままだと <code>ws2tcpip.h</code> の
+Vista+ 限定 API がスルーされず、<code>PIP_MSFILTER</code> の前方宣言部分だけ
+がマスクされて unknown identifier 扱いになる。
+</div>
+
+<h2 id="hsp-module">9.9 HSP プラグイン .hsp モジュール側の罠 (補足)</h2>
+<p>VS 2022 拡張そのものではないが、プラグイン DLL を呼ぶ HSP 側のラッパ
+(<code>common/*.as</code> + <code>#module</code> でカプセル化した <code>iron_*.hsp</code>)
+で頻繁に踏むので併記。詳細は <code>reference_hsp_module_quirks.md</code> §24 にも記録。</p>
+
+<h3><span class="tag tag-mef">HSP</span><code>#cfunc</code> / <code>#func</code> は <code>global</code> 付けないと <code>#module</code> 内から呼べない</h3>
+<div class="symptom">
+<code>.as</code> ファイルで <code>#cfunc foo ...</code> と宣言し、それを
+<code>#module mymod</code> の中の <code>#deffunc</code> から呼ぶとコンパイルエラー:
+<pre><code>#初期化の変数が見つかりません(foo@mymod)
+iron_toast.hsp(27) : error 2 : 構文が間違っています
+--&gt; foo@mymod arg1, arg2</code></pre>
+<code>foo@mymod</code> のように @ 付きで解釈されている = 未定義識別子扱い。
+</div>
+<div class="fix">
+<code>#cfunc global</code> / <code>#func global</code> にする:
+<pre><code>#uselib "hsptoast.dll"
+#cfunc global hsptoast_show_info "hsptoast_show_info" str, str
+#func  global hsptoast_clear     "hsptoast_clear"</code></pre>
+<code>#uselib</code> 自身は scope を持たないので <code>global</code> 不要。
+<strong>エラー文の <code>@module_name</code> サフィックスを見逃すと誤診しやすい</strong>
+(I 自身が最初「cfunc が str param を marshall できない」と誤診した例あり)。
+</div>
+
+<h3><span class="tag tag-mef">HSP</span><code>\</code> による行継続は HSP 構文でサポートされない</h3>
+<div class="symptom">
+C/C++ 感覚で長い文字列連結を <code>\</code> で複数行に分けると
+<code>error 4: パラメーター名の記述が無効です</code>。
+</div>
+<div class="fix">
+HSP は <code>\</code> 行継続非対応。<code>+=</code> で 1 行ずつ連結する:
+<pre><code>; BAD
+_body = "{\"a\":1," + \
+        "\"b\":2}"
+
+; GOOD
+_body  = "{\"a\":1,"
+_body += "\"b\":2}"</code></pre>
+</div>
+
+<h3><span class="tag tag-mef">HSP</span>パラメータ名に <code>title</code> / <code>body</code> 等の組込み名を避ける</h3>
+<div class="symptom">
+<code>#deffunc toast str title, str body</code> → <code>error 30: 無効な名前がパラメーターに指定されています</code>。
+<code>title</code> は HSP のウィンドウタイトル設定命令なので、パラメータ名に出来ない。
+</div>
+<div class="fix">
+<code>_tl</code> / <code>_bd</code> のようなアンダースコア接頭辞付きに改名。既知の予約済み名は
+<code>line</code> / <code>pos</code> / <code>default</code> / <code>title</code> / <code>_f</code> / <code>_r</code> / <code>rank</code> ほか多数
+(メモリの <code>reference_hsp_module_quirks.md</code> に詳細あり)。
+</div>
+
+<h2 id="summary">10. 最終構成ダイジェスト</h2>
+
+<p>本リポジトリの <a href="../NhspVsLanguageClient/"><code>NhspVsLanguageClient/</code></a> 一式:</p>
+
+<table>
+<tr><th>ファイル</th><th>役割</th><th>MEF export</th></tr>
+<tr>
+  <td><a href="../NhspVsLanguageClient/NhspContentDefinition.cs">NhspContentDefinition.cs</a></td>
+  <td>.nhsp を MEF content type 化</td>
+  <td><code>ContentTypeDefinition</code>, <code>FileExtensionToContentTypeDefinition</code></td>
+</tr>
+<tr>
+  <td><a href="../NhspVsLanguageClient/NhspLanguageClient.cs">NhspLanguageClient.cs</a></td>
+  <td>nhspls.exe (LSP サーバ) との pipe 接続</td>
+  <td><code>ILanguageClient</code></td>
+</tr>
+<tr>
+  <td><a href="../NhspVsLanguageClient/NhspTextViewCreationListener.cs">NhspTextViewCreationListener.cs</a></td>
+  <td>view 作成時にナビゲーションバーを attach</td>
+  <td><code>IVsTextViewCreationListener</code></td>
+</tr>
+<tr>
+  <td><a href="../NhspVsLanguageClient/NhspDropdownBarClient.cs">NhspDropdownBarClient.cs</a></td>
+  <td>Type / Member 2-combo の実装</td>
+  <td>(通常クラス)</td>
+</tr>
+<tr>
+  <td><a href="../NhspVsLanguageClient/NhspSymbolParser.cs">NhspSymbolParser.cs</a></td>
+  <td>#class / #func 等の正規表現パーサ</td>
+  <td>(通常クラス)</td>
+</tr>
+<tr>
+  <td><a href="../NhspVsLanguageClient/NhspWorkspaceLaunch.cs">NhspWorkspaceLaunch.cs</a></td>
+  <td>「現在のドキュメント」dropdown + F5 / ▶ 起動</td>
+  <td><code>ILaunchDebugTargetProvider</code>, <code>ILaunchConfigurationProvider</code></td>
+</tr>
+<tr>
+  <td><a href="../NhspVsLanguageClient/NhspDebugLauncher.cs">NhspDebugLauncher.cs</a></td>
+  <td>nhspc.exe compile + LaunchDebugTargets4</td>
+  <td>(通常クラス)</td>
+</tr>
+</table>
+
+<p>VSIX payload (<a href="build_vsix.ps1"><code>build_vsix.ps1</code></a>):</p>
+
+<ul>
+  <li><code>nhsp.pkgdef</code> — TextMate editor 紐付け + grammar repository 登録</li>
+  <li><code>language-configuration.json</code> — 括弧対応 / コメントパターン</li>
+  <li><code>Grammars/nhsp.tmLanguage.json</code> — シンタックスハイライト定義 (<code>$schema</code> 削除必須)</li>
+  <li><code>NhspVsLanguageClient.dll</code> — 本ドキュメントで述べた MEF exports</li>
+  <li><code>nhspls.exe</code> + <code>NhspCompiler.Core.dll</code> + <code>Newtonsoft.Json.dll</code> — LSP サーバ</li>
+  <li><code>nhspc.exe</code> — コンパイラ (F5 時に呼ぶ)</li>
+</ul>
+
+<p>登録経路のサマリ:</p>
+<table>
+<tr><th>機能</th><th>登録方法</th></tr>
+<tr><td>シンタックスハイライト</td><td>pkgdef → <code>TextMate\Repositories</code></td></tr>
+<tr><td>ファイル関連付け</td><td>pkgdef → <code>Editors\{TextMate-GUID}\Extensions</code></td></tr>
+<tr><td>LSP (hover/completion/定義へ移動)</td><td>MEF <code>ILanguageClient</code></td></tr>
+<tr><td>ナビゲーションバー</td><td>MEF <code>IVsTextViewCreationListener</code> → frame 列挙で <code>IVsCodeWindow</code> 取得 → <code>AddDropdownBar</code></td></tr>
+<tr><td>F5 / Ctrl+F5 / ツールバー ▶</td><td>MEF <code>ILaunchDebugTargetProvider</code> + <code>ILaunchConfigurationProvider</code></td></tr>
+</table>
+
+<hr>
+<div class="footer">
+Generated for IronHSP nhsp-language extension, 2026-04-19.<br>
+See commits d2a1b51d / 27a2c898 / a48e67bd for the full development history.
+</div>
+
+</body>
+</html>
