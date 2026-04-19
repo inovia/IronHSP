@@ -1,0 +1,29 @@
+;============================================================
+;  test_whisper.hsp — hspwhisper.dll 自動テスト (軽量版)
+;
+;  whisper モデル (~75MB) を DL しなくても動かせるよう、
+;  "存在しないモデルパス" を食わせて負のハンドルが返ることだけ検証。
+;
+;  フル機能テストは examples/sample_whisper.hsp 側で model + WAV を
+;  用意して行う。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspwhisper.as"
+#include "iron_test_ex.hsp"
+
+    ; 存在しないモデルを開いたら負の値が返るべき
+    test_case "whisper_open returns <0 for missing model"
+        h = hspwhisper_open("__no_such_model__.bin")
+        ok = 0
+        if h < 0 : ok = 1
+        assert_true ok
+    test_end
+
+    ; 正しく閉じられる (handle=-1 でも crash しない)
+    test_case "whisper_close is safe with bad handle"
+        hspwhisper_close -1
+        assert_true 1
+    test_end
+
+    end testrt_summary()

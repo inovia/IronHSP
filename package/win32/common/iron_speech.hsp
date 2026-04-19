@@ -50,8 +50,13 @@
 ;------------------------------------------------------------
 ; hspwhisper.dll (オフライン whisper.cpp バックエンド)
 ;   存在しない環境でも include 可 (open 時に -1 が返るだけ)
+;   x64 ビルドのみ提供 (whisper.cpp が重いので 32-bit は未サポート)
 ;------------------------------------------------------------
+#ifdef _HSP64
+#uselib "hspwhisper_64.dll"
+#else
 #uselib "hspwhisper.dll"
+#endif
 #cfunc _hwhisper_open           "whisper_open"           str
 #cfunc _hwhisper_transcribe_wav "whisper_transcribe_wav" int, str, str, var, int
 #func  _hwhisper_close          "whisper_close"          int

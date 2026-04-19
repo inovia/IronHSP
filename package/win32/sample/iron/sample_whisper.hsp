@@ -1,0 +1,65 @@
+;============================================================
+;  sample_whisper.hsp — hspwhisper.dll オフライン音声認識デモ
+;
+;  前提:
+;    1. GGML モデルを DL して models/ggml-base.bin に置く
+;         curl -L -o models/ggml-base.bin \
+;            https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin
+;       または tiny (~75MB) が軽い:
+;         https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.bin
+;    2. audio.wav (16kHz mono 推奨) を用意
+;
+;  hspwhisper.dll が見つからない (x86 ビルド等) / モデルがない場合は
+;  表示だけ行って終了。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspwhisper.as"
+
+    title "hspwhisper demo"
+    screen 0, 800, 500
+    font "MS Gothic", 14
+
+    model_path = "models/ggml-base.bin"
+    wav_path   = "audio.wav"
+    lang       = "auto"     ; "ja" / "en" / "auto"
+
+    mes "hspwhisper demo — オフライン音声認識"
+    mes "model : " + model_path
+    mes "wav   : " + wav_path
+    mes "lang  : " + lang
+    mes ""
+
+    ; 1. モデルロード
+    h = hspwhisper_open(model_path)
+    if h < 0 {
+        color 255, 0, 0
+        mes "モデルのロードに失敗 (code=" + h + ")"
+        mes "models/ggml-base.bin を DL してください:"
+        mes "  curl -L -o models/ggml-base.bin \\"
+        mes "    https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin"
+        stop
+    }
+    mes "モデルをハンドル " + h + " でロードしました"
+
+    ; 2. 推論 (WAV → テキスト)
+    sdim out_text, 65536
+    mes "推論中..."
+    redraw 1
+    n = hspwhisper_transcribe_wav(h, wav_path, lang, out_text, 65536)
+    if n < 0 {
+        color 255, 0, 0
+        mes "推論失敗 (code=" + n + ") — " + wav_path + " が無効か、"
+        mes "16kHz mono PCM WAV でない可能性があります"
+    } else {
+        color 0, 128, 0
+        mes "結果 (" + n + " bytes):"
+        color 0, 0, 0
+        mes out_text
+    }
+
+    ; 3. クローズ
+    hspwhisper_close h
+    mes ""
+    mes "DONE"
+    stop
