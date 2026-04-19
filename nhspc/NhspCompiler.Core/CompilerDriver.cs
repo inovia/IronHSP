@@ -44,6 +44,11 @@ namespace NhspCompiler.Core
             = new System.Collections.Generic.List<string>();
 
         public string Win32IconPath { get; set; }
+
+        // Emit a .NET XML documentation file alongside the output. When null,
+        // no XML is emitted. When set to an empty string, defaults to the
+        // output path with its extension replaced by `.xml`.
+        public string XmlDocPath { get; set; }
     }
 
     public class CompilerDriver
@@ -120,6 +125,19 @@ namespace NhspCompiler.Core
 
             var emitter = new AssemblyEmitter(unit, diag, outputPath, fileName, Options.EmitDebugInfo, Options.Platform, Options.Subsystem);
             bool ok = emitter.Emit();
+
+            // Emit XML documentation alongside the output if requested.
+            if (ok && Options.XmlDocPath != null)
+            {
+                string xmlPath = Options.XmlDocPath;
+                if (string.IsNullOrEmpty(xmlPath))
+                    xmlPath = Path.ChangeExtension(outputPath, ".xml");
+                try { XmlDocEmitter.Emit(unit, xmlPath); }
+                catch (System.Exception ex)
+                {
+                    diag.Warning(0, 0, "Failed to write XML doc: " + ex.Message);
+                }
+            }
 
             return new CompilationResult
             {

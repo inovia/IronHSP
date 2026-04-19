@@ -31,9 +31,13 @@ namespace NhspCompiler.Core.Lexing
                 SkipWhitespace();
                 if (_pos >= _source.Length) break;
 
-                // Comment
-                if (Cur == ';') { SkipToEndOfLine(); continue; }
-                if (Cur == '/' && Next == '/') { SkipToEndOfLine(); continue; }
+                // Doc comment (only at start of line): ;;; ... or /// ...
+                // Plain comment: ; ... or // ...
+                if (Cur == ';' || (Cur == '/' && Next == '/'))
+                {
+                    if (TryReadDocComment(tokens)) continue;
+                    SkipToEndOfLine(); continue;
+                }
 
                 // Line continuation: \ + newline → skip (HSP compatible)
                 if (Cur == '\\' && (_pos + 1 < _source.Length) &&
@@ -155,6 +159,46 @@ namespace NhspCompiler.Core.Lexing
         private void SkipToEndOfLine()
         {
             while (_pos < _source.Length && Cur != '\n' && Cur != '\r') { _pos++; _col++; }
+        }
+
+        // `;;;` / `///` are doc comments only when first non-whitespace on the line.
+        // Uses Current token list: if the previous token is EOL or list is empty, we're at line head.
+        private bool TryReadDocComment(List<Token> tokens)
+        {
+            bool atLineStart = tokens.Count == 0 || tokens[tokens.Count - 1].Kind == TokenKind.EOL;
+            if (!atLineStart) return false;
+
+            int startPos = _pos, startCol = _col, startLine = _line;
+
+            // Detect ;;; (3+) or /// (exactly 3, since // is plain and /**/ handled elsewhere)
+            int markerLen = 0;
+            if (Cur == ';')
+            {
+                int semi = 0;
+                while (_pos + semi < _source.Length && _source[_pos + semi] == ';') semi++;
+                if (semi < 3) return false;
+                markerLen = semi;
+            }
+            else if (Cur == '/' && Next == '/')
+            {
+                int slash = 0;
+                while (_pos + slash < _source.Length && _source[_pos + slash] == '/') slash++;
+                if (slash < 3) return false;
+                markerLen = slash;
+            }
+            else return false;
+
+            _pos += markerLen; _col += markerLen;
+
+            // Optional single leading space
+            if (_pos < _source.Length && Cur == ' ') { _pos++; _col++; }
+
+            var sb = new StringBuilder();
+            while (_pos < _source.Length && Cur != '\n' && Cur != '\r')
+            { sb.Append(Cur); _pos++; _col++; }
+
+            tokens.Add(new Token(TokenKind.DocComment, sb.ToString(), startLine, startCol));
+            return true;
         }
 
         private Token ReadString()

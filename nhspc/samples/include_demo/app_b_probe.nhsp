@@ -1,0 +1,11 @@
+; app_b_probe.nhsp — Phase B workspace-scan test fixture.
+; This file intentionally references `Extras` without #include'ing lib_extras.
+; If nhspls' workspace scan works, hover on `Extras` here surfaces its doc.
+; Compiling this file with nhspc will fail (missing include); it's LSP-only.
+
+#assembly "PhaseBProbe"
+
+#main
+  int m = Extras.Meaning()
+  print str(m)
+#endmain

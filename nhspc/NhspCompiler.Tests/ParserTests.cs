@@ -61,5 +61,65 @@ namespace NhspCompiler.Tests
             Assert.IsTrue(bin.Right is BinaryExpr);
             Assert.AreEqual("*", ((BinaryExpr)bin.Right).Operator);
         }
+
+        [Test] public void DocCommentOnClass_TripleSemi()
+        {
+            var u = Parse(
+                "#assembly \"T\"\n" +
+                ";;; A person.\n" +
+                ";;; @param name full name\n" +
+                "#class public Person\n" +
+                "#endclass");
+            Assert.AreEqual("A person.\n@param name full name", u.Classes[0].Documentation);
+        }
+
+        [Test] public void DocCommentOnClass_TripleSlash()
+        {
+            var u = Parse(
+                "#assembly \"T\"\n" +
+                "/// A person.\n" +
+                "#class public Person\n" +
+                "#endclass");
+            Assert.AreEqual("A person.", u.Classes[0].Documentation);
+        }
+
+        [Test] public void DocCommentOnMethodAndField()
+        {
+            var u = Parse(
+                "#assembly \"T\"\n" +
+                "#class public Person\n" +
+                "  ;;; the name\n" +
+                "  #field public string Name\n" +
+                "  ;;; Greet someone.\n" +
+                "  ;;; @return greeting string\n" +
+                "  #func public string Greet\n" +
+                "    return \"hi\"\n" +
+                "  #endfunc\n" +
+                "#endclass");
+            Assert.AreEqual("the name", u.Classes[0].Fields[0].Documentation);
+            Assert.AreEqual("Greet someone.\n@return greeting string", u.Classes[0].Methods[0].Documentation);
+        }
+
+        [Test] public void DocCommentBlankLineBetweenNotAttached()
+        {
+            var u = Parse(
+                "#assembly \"T\"\n" +
+                ";;; orphaned\n" +
+                "\n" +
+                "#class public Foo\n" +
+                "#endclass");
+            Assert.IsTrue(u.Classes[0].Documentation == null, "blank line must break attachment");
+        }
+
+        [Test] public void DocCommentMixedMarkersAccumulate()
+        {
+            var u = Parse(
+                "#assembly \"T\"\n" +
+                ";;; line one\n" +
+                "/// line two\n" +
+                "#class public Foo\n" +
+                "#endclass");
+            Assert.AreEqual("line one\nline two", u.Classes[0].Documentation);
+        }
     }
 }

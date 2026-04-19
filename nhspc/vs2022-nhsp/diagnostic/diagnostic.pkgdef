@@ -1,0 +1,13 @@
+// Diagnostic: route .nhsp files to VS 2022's built-in XML editor.
+// XML editor GUID: {FA3CD31E-987B-11D4-8575-00C04F68A1B2}
+// Priority 0x64 beats any default fallback (e.g. TextMate `*=0x25`).
+//
+// Also writes a unique marker string we can grep for later in
+// privateregistry.bin — if the marker is missing, pkgdef processing
+// never ran; if it's present, pkgdef works but editor routing didn't.
+
+[$RootKey$\Editors\{FA3CD31E-987B-11D4-8575-00C04F68A1B2}\Extensions]
+"nhsp"=dword:00000064
+
+[$RootKey$\NhspDiagnosticMarker]
+"Hello"="NhspDiagnostic-v1-marker-9b4c8e62"

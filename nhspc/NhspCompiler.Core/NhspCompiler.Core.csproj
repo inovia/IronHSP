@@ -28,6 +28,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lexing\Token.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="Emit\MethodEmitter.cs" />
     <Compile Include="Diagnostics\Diagnostic.cs" />
     <Compile Include="CompilerDriver.cs" />
+    <Compile Include="XmlDocEmitter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

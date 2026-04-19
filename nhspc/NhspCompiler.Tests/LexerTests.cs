@@ -84,5 +84,56 @@ namespace NhspCompiler.Tests
             Assert.AreEqual(TokenKind.Identifier, tokens[0].Kind);
             Assert.AreEqual("x", tokens[0].Text);
         }
+
+        [Test]
+        public void TokenizeDocCommentTripleSemi()
+        {
+            var lexer = new Lexer(";;; summary text\n#class Foo");
+            var tokens = lexer.Tokenize();
+            Assert.AreEqual(TokenKind.DocComment, tokens[0].Kind);
+            Assert.AreEqual("summary text", tokens[0].Text);
+        }
+
+        [Test]
+        public void TokenizeDocCommentTripleSlash()
+        {
+            var lexer = new Lexer("/// summary text\n#class Foo");
+            var tokens = lexer.Tokenize();
+            Assert.AreEqual(TokenKind.DocComment, tokens[0].Kind);
+            Assert.AreEqual("summary text", tokens[0].Text);
+        }
+
+        [Test]
+        public void TokenizeDocCommentOnlyAtLineStart()
+        {
+            // `x = 1 ;;; trailing` — `;;;` after code is a plain comment, not doc.
+            var lexer = new Lexer("x = 1 ;;; not a doc\n");
+            var tokens = lexer.Tokenize();
+            foreach (var t in tokens)
+                Assert.IsFalse(t.Kind == TokenKind.DocComment, "trailing ;;; must not be a DocComment");
+        }
+
+        [Test]
+        public void TokenizeDocCommentStripsMarker()
+        {
+            // `;;` (only 2) is plain; `;;;;` (4+) is still a doc with the content after the marker.
+            var lexer = new Lexer(";;;;  leading-ws kept-after-one-space\n");
+            var tokens = lexer.Tokenize();
+            Assert.AreEqual(TokenKind.DocComment, tokens[0].Kind);
+            Assert.AreEqual(" leading-ws kept-after-one-space", tokens[0].Text);
+        }
+
+        [Test]
+        public void TokenizeDocCommentWithTags()
+        {
+            var lexer = new Lexer(";;; @param id user id\n;;; @return name\n");
+            var tokens = lexer.Tokenize();
+            Assert.AreEqual(TokenKind.DocComment, tokens[0].Kind);
+            Assert.AreEqual("@param id user id", tokens[0].Text);
+            // tokens[1] is EOL, tokens[2] is next DocComment
+            Assert.AreEqual(TokenKind.EOL, tokens[1].Kind);
+            Assert.AreEqual(TokenKind.DocComment, tokens[2].Kind);
+            Assert.AreEqual("@return name", tokens[2].Text);
+        }
     }
 }

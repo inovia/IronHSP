@@ -1,0 +1,11 @@
+; app_c_probe.nhsp — Phase C probe.
+; References LibC.dll (compiled from lib_c.nhsp with -xmldoc).
+; Hover on `Currency` or `Dollars` should pull docs from LibC.xml.
+
+#assembly "AppC", exe
+#reference "LibC.dll"
+
+#main
+  int d = Currency.Dollars(1234)
+  print str(d)
+#endmain

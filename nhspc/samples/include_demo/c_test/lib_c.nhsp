@@ -1,0 +1,17 @@
+; lib_c.nhsp — compiled to a DLL with -xmldoc; used as a #reference target
+; by app_c_probe.nhsp to exercise Phase C (XML doc → LSP hover).
+
+#assembly "LibC"
+
+;;; Currency helpers for Phase C testing.
+;;; @param amount in minor units (e.g. cents)
+#class public Currency
+
+  /// Convert cents to major units (dollars).
+  /// @param cents value in minor units
+  /// @return dollars (floor)
+  #func public static int Dollars, int cents
+    return cents / 100
+  #endfunc
+
+#endclass

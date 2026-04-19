@@ -1,0 +1,11 @@
+; lib_extras.nhsp — NOT #include'd by app.nhsp
+; Phase B workspace scan should still surface `Extras` in hover / completion
+; across the entire workspace.
+
+;;; Miscellaneous unrelated helpers, reached only via workspace scan.
+;;; @return always 42
+#class public Extras
+  #func public static int Meaning
+    return 42
+  #endfunc
+#endclass

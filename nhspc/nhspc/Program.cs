@@ -19,6 +19,8 @@ namespace nhspc
                 Console.WriteLine("  -subsystem <sub>   Subsystem for EXE: console (default) | windows");
                 Console.WriteLine("  -r <assembly>      Add reference assembly (repeatable)");
                 Console.WriteLine("  -win32icon <ico>   Embed a .ico file as the application icon");
+                Console.WriteLine("  -xmldoc [path]     Emit .NET XML documentation file next to the output");
+                Console.WriteLine("                     (path optional; defaults to <output>.xml)");
                 return 1;
             }
 
@@ -30,6 +32,7 @@ namespace nhspc
             SubsystemKind subsystem = SubsystemKind.Default;
             var extraRefs = new System.Collections.Generic.List<string>();
             string win32Icon = null;
+            string xmlDocPath = null; // null = no XML, "" = default path, non-empty = explicit
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -80,6 +83,15 @@ namespace nhspc
                     extraRefs.Add(args[++i]);
                 else if (args[i] == "-win32icon" && i + 1 < args.Length)
                     win32Icon = args[++i];
+                else if (args[i] == "-xmldoc")
+                {
+                    // Optional next arg: explicit path (if not another flag and not the input file).
+                    if (i + 1 < args.Length && !args[i + 1].StartsWith("-") &&
+                        args[i + 1].EndsWith(".xml", System.StringComparison.OrdinalIgnoreCase))
+                        xmlDocPath = args[++i];
+                    else
+                        xmlDocPath = ""; // empty = derive from output
+                }
                 else if (!args[i].StartsWith("-"))
                     inputPath = args[i];
             }
@@ -97,6 +109,7 @@ namespace nhspc
             driver.Options.Subsystem = subsystem;
             driver.Options.ExtraReferences.AddRange(extraRefs);
             driver.Options.Win32IconPath = win32Icon;
+            driver.Options.XmlDocPath = xmlDocPath;
             var result = driver.Compile(inputPath, outputPath);
 
             foreach (var d in result.Diagnostics.Items)

@@ -72,6 +72,9 @@ namespace NhspCompiler.Core.Lexing
         // Interpolated string
         InterpolatedString,  // $"...{expr}..."
 
+        // Documentation comment: ;;; ... or /// ... (only at start of line)
+        DocComment,
+
         // Special
         EOL,
         EOF,

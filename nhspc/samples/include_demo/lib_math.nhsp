@@ -1,0 +1,37 @@
+; lib_math.nhsp — doc comments on library classes
+; Included by app.nhsp via #include
+
+;;; 2D vector with integer coordinates.
+;;; @param x X coordinate
+;;; @param y Y coordinate
+#class public Vec2
+  #field public int X
+  #field public int Y
+
+  #init int x, int y
+    X = x
+    Y = y
+  #endinit
+
+  /// Euclidean-ish squared magnitude (fits in int).
+  /// @return X*X + Y*Y
+  #func public int Mag2
+    return X * X + Y * Y
+  #endfunc
+#endclass
+
+;;; Clamps an integer to the inclusive range [lo, hi].
+;;; @param v  value
+;;; @param lo lower bound
+;;; @param hi upper bound
+;;; @return the clamped value
+#class public Clamp
+  #func public static int ClampInt, int v, int lo, int hi
+    if v < lo
+      return lo
+    elseif v > hi
+      return hi
+    endif
+    return v
+  #endfunc
+#endclass

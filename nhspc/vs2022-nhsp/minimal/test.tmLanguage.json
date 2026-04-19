@@ -1,0 +1,20 @@
+{
+  "name": "NhspMinimalTest",
+  "scopeName": "source.nhsptest",
+  "fileTypes": ["nhsp"],
+  "patterns": [
+    {
+      "name": "comment.line.semicolon.nhspmin",
+      "match": ";.*$"
+    },
+    {
+      "name": "string.quoted.double.nhspmin",
+      "begin": "\"",
+      "end": "\""
+    },
+    {
+      "name": "keyword.control.nhspmin",
+      "match": "\\b(if|else|while|for|return|dim|print)\\b"
+    }
+  ]
+}

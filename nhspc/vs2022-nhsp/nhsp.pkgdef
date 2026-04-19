@@ -1,0 +1,19 @@
+// Register the NHSP grammar with VS 2022's TextMate engine.
+// $PackageFolder$ resolves to the extracted extension directory at runtime.
+// Mirrors the Razor extension's Microsoft.VisualStudio.RazorExtension.Custom.pkgdef.
+
+// Tell VS 2022 that the TextMate editor ({3B902123-F8A7-4915-9F01-361F908088D0})
+// should handle .nhsp files. Priority 0x64 beats the default * = 0x25 binding,
+// so VS picks TextMate over the generic editor even if another MEF component
+// declares a ContentType for .nhsp.
+[$RootKey$\Editors\{3B902123-F8A7-4915-9F01-361F908088D0}\Extensions]
+"nhsp"=dword:00000064
+
+[$RootKey$\TextMate\Repositories]
+"NhspLanguage"="$PackageFolder$\Grammars"
+
+[$RootKey$\TextMate\LanguageConfiguration\GrammarMapping]
+"source.nhsp"="$PackageFolder$\language-configuration.json"
+
+[$RootKey$\TextMate\LanguageConfiguration\ContentTypeMapping]
+"nhsp"="$PackageFolder$\language-configuration.json"

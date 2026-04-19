@@ -1,0 +1,63 @@
+; 51: Doc comments — `;;;` and `///` are recognized as documentation
+; comments. The nhspls LSP surfaces them in hover / completion.
+;
+; Supported tags:
+;   @param <name> <description>
+;   @return <description>
+;
+; Both markers can be mixed (each line independently). The comment block
+; must be on consecutive lines directly above the declaration; a blank
+; line breaks the attachment.
+
+#assembly "DocCommentsDemo"
+
+;;; Represents a single user record.
+;;; Use `Greet()` for a formatted display string.
+#class public User
+
+  ;;; The user's display name.
+  #field public string Name
+
+  ;;; The user's numeric ID (1-based).
+  #field public int Id
+
+  /// Construct a new User.
+  /// @param name the display name
+  /// @param id   numeric id, must be positive
+  #init string name, int id
+    Name = name
+    Id = id
+  #endinit
+
+  ;;; Build a short greeting for this user.
+  ;;; @return a sentence like "Hello, Alice (id 7)"
+  #func public string Greet
+    return "Hello, " + Name + " (id " + str(Id) + ")"
+  #endfunc
+
+  /// Age the user up by one year.
+  /// @param years how many years to add
+  /// @return new notional id (for chaining in examples)
+  #func public int AgeBy, int years
+    Id = Id + years
+    return Id
+  #endfunc
+
+#endclass
+
+;;; Formatter helpers for User objects.
+#class public UserFormat
+
+  ;;; Return `User.Greet()` wrapped in brackets.
+  ;;; @param u the user to format
+  #func public static string Bracketed, User u
+    return "[" + u.Greet() + "]"
+  #endfunc
+
+#endclass
+
+#main
+  User u = new User("Alice", 7)
+  print u.Greet()
+  print "new id: " + str(u.AgeBy(1))
+#endmain

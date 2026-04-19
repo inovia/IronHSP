@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Xml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NhspCompiler.Core;
@@ -20,6 +22,16 @@ namespace NhspLanguageServer
         public string Text;
         public List<Token> Tokens;
         public CompilationUnit Unit;
+        // #include-resolved auxiliary units (transitive), each with the absolute
+        // file path it came from. Stored separately from Unit so diagnostics keep
+        // their original line numbers against the open document.
+        public List<AuxUnit> Aux;
+    }
+
+    internal sealed class AuxUnit
+    {
+        public string AbsolutePath;
+        public CompilationUnit Unit;
     }
 
     internal sealed class LspServer
@@ -27,6 +39,18 @@ namespace NhspLanguageServer
         private readonly Stream _input;
         private readonly Stream _output;
         private readonly Dictionary<string, DocumentEntry> _docs = new Dictionary<string, DocumentEntry>();
+        // Workspace-wide parsed units, keyed by absolute file path (OrdinalIgnoreCase
+        // to match Windows semantics). Populated once on `initialized` and refreshed
+        // whenever a document is opened/changed.
+        private readonly Dictionary<string, CompilationUnit> _workspaceUnits
+            = new Dictionary<string, CompilationUnit>(StringComparer.OrdinalIgnoreCase);
+        private readonly List<string> _workspaceRoots = new List<string>();
+        // Docs extracted from `<DllName>.xml` files that sit next to referenced
+        // assemblies. Key = simple identifier ("User", "Greet"), value = already-
+        // rendered Markdown. Multiple assemblies can contribute entries; last
+        // write wins (rare in practice).
+        private readonly Dictionary<string, string> _referencedDocs
+            = new Dictionary<string, string>(StringComparer.Ordinal);
         private bool _shutdown;
 
         public LspServer(Stream input, Stream output)
@@ -71,6 +95,7 @@ namespace NhspLanguageServer
             switch (method)
             {
                 case "initialize":
+                    CaptureWorkspaceRoots(@params);
                     SendResult(id, BuildInitializeResult());
                     break;
                 case "shutdown":
@@ -101,6 +126,11 @@ namespace NhspLanguageServer
             switch (method)
             {
                 case "initialized":
+                    // Workspace scan is deferred until after the client is ready so
+                    // the initialize handshake stays snappy. Large workspaces are
+                    // still indexed synchronously here — acceptable since `.nhsp`
+                    // files are tiny and file count is bounded for real projects.
+                    ScanWorkspace();
                     break;
                 case "textDocument/didOpen":
                     {
@@ -149,6 +179,19 @@ namespace NhspLanguageServer
                 entry.Tokens = lexer.Tokenize();
                 var parser = new Parser(entry.Tokens, bag);
                 entry.Unit = parser.ParseCompilationUnit();
+
+                // Resolve #include transitively so hover/completion/definition
+                // can see symbols in the included files. Failed reads are silently
+                // ignored — the main document's diagnostics must not regress.
+                entry.Aux = LoadIncludes(entry.Unit, uri);
+
+                // Keep the workspace cache in sync with the open document —
+                // without this, edits wouldn't surface until the user restarts.
+                RefreshWorkspaceUnit(uri, entry.Unit);
+
+                // Phase C: pull XML docs from any `<Dll>.xml` sibling of
+                // `#reference`d assemblies into `_referencedDocs`.
+                LoadReferencedXmlDocs(entry.Unit, uri);
             }
             catch (Exception ex)
             {
@@ -159,6 +202,237 @@ namespace NhspLanguageServer
             var diags = new List<JObject>();
             foreach (var d in bag.Items) diags.Add(ToLspDiagnostic(d));
             PublishDiagnostics(uri, diags);
+        }
+
+        // Walk `unit.Includes` recursively and parse each included .nhsp file.
+        // Paths are resolved relative to the including file. Cycles are broken
+        // by the `seen` set. Parse errors in aux files are dropped (main doc
+        // diagnostics are authoritative).
+        private static List<AuxUnit> LoadIncludes(CompilationUnit unit, string uri)
+        {
+            var result = new List<AuxUnit>();
+            string baseFile = UriToPath(uri);
+            if (baseFile == null) return result;
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { Path.GetFullPath(baseFile) };
+            LoadIncludesRec(unit, Path.GetDirectoryName(baseFile) ?? ".", seen, result);
+            return result;
+        }
+
+        private static void LoadIncludesRec(CompilationUnit unit, string baseDir,
+            HashSet<string> seen, List<AuxUnit> result)
+        {
+            if (unit?.Includes == null) return;
+            foreach (var inc in unit.Includes)
+            {
+                string path;
+                try { path = Path.GetFullPath(Path.Combine(baseDir, inc)); }
+                catch { continue; }
+                if (!seen.Add(path)) continue;
+                if (!File.Exists(path)) continue;
+                string src;
+                try { src = File.ReadAllText(path); }
+                catch { continue; }
+
+                CompilationUnit child = null;
+                try
+                {
+                    var bag = new DiagnosticBag();
+                    var tokens = new Lexer(src, path).Tokenize();
+                    child = new Parser(tokens, bag).ParseCompilationUnit();
+                }
+                catch { continue; }
+                if (child == null) continue;
+
+                result.Add(new AuxUnit { AbsolutePath = path, Unit = child });
+                LoadIncludesRec(child, Path.GetDirectoryName(path) ?? ".", seen, result);
+            }
+        }
+
+        private static string UriToPath(string uri)
+        {
+            if (string.IsNullOrEmpty(uri)) return null;
+            try
+            {
+                var u = new Uri(uri);
+                return u.IsFile ? u.LocalPath : null;
+            }
+            catch { return null; }
+        }
+
+        // Enumerate the main unit + include-resolved units + workspace-wide units.
+        // Workspace units are deduped against the doc's own absolute path and any
+        // aux paths so we don't return the same file twice (which would double up
+        // completion candidates).
+        private IEnumerable<CompilationUnit> AllUnits(DocumentEntry doc)
+        {
+            var seenPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            string docPath = null;
+            // The caller owns the URI → path conversion context, but for dedup we
+            // need the doc's path. We can recover it from the _docs map if needed;
+            // here we just skip dedup for the main doc (it's always first).
+            if (doc?.Unit != null) yield return doc.Unit;
+            if (doc?.Aux != null)
+            {
+                foreach (var a in doc.Aux)
+                {
+                    seenPaths.Add(a.AbsolutePath);
+                    yield return a.Unit;
+                }
+            }
+            // Locate the document's own path so workspace-wide results don't return it again.
+            foreach (var kv in _docs)
+            {
+                if (ReferenceEquals(kv.Value, doc))
+                {
+                    docPath = UriToPath(kv.Key);
+                    if (docPath != null) seenPaths.Add(Path.GetFullPath(docPath));
+                    break;
+                }
+            }
+            foreach (var kv in _workspaceUnits)
+            {
+                if (seenPaths.Contains(kv.Key)) continue;
+                yield return kv.Value;
+            }
+        }
+
+        // ============ workspace scan (Phase B) ============
+
+        // Pull rootUri / rootPath / workspaceFolders out of initialize params.
+        private void CaptureWorkspaceRoots(JToken @params)
+        {
+            if (@params == null) return;
+            var roots = new List<string>();
+
+            var folders = @params["workspaceFolders"];
+            if (folders is JArray arr)
+            {
+                foreach (var f in arr)
+                {
+                    string uri = (string)f?["uri"];
+                    string p = UriToPath(uri);
+                    if (p != null) roots.Add(p);
+                }
+            }
+            string rootUri = (string)@params["rootUri"];
+            if (rootUri != null)
+            {
+                string p = UriToPath(rootUri);
+                if (p != null && !roots.Contains(p, StringComparer.OrdinalIgnoreCase))
+                    roots.Add(p);
+            }
+            string rootPath = (string)@params["rootPath"];
+            if (!string.IsNullOrEmpty(rootPath) && !roots.Contains(rootPath, StringComparer.OrdinalIgnoreCase))
+                roots.Add(rootPath);
+
+            _workspaceRoots.Clear();
+            _workspaceRoots.AddRange(roots);
+        }
+
+        // Scan each workspace root for `*.nhsp` and store their parsed units.
+        // Parse errors are swallowed — broken files simply don't contribute symbols.
+        private void ScanWorkspace()
+        {
+            _workspaceUnits.Clear();
+            foreach (var root in _workspaceRoots)
+            {
+                if (!Directory.Exists(root)) continue;
+                string[] files;
+                try { files = Directory.GetFiles(root, "*.nhsp", SearchOption.AllDirectories); }
+                catch { continue; }
+                foreach (var path in files)
+                {
+                    string key = Path.GetFullPath(path);
+                    string text;
+                    try { text = File.ReadAllText(path); }
+                    catch { continue; }
+                    CompilationUnit unit = null;
+                    try
+                    {
+                        var bag = new DiagnosticBag();
+                        var toks = new Lexer(text, path).Tokenize();
+                        unit = new Parser(toks, bag).ParseCompilationUnit();
+                    }
+                    catch { continue; }
+                    if (unit != null) _workspaceUnits[key] = unit;
+                }
+            }
+        }
+
+        // Refresh the workspace cache for a single file after it's been edited.
+        private void RefreshWorkspaceUnit(string uri, CompilationUnit unit)
+        {
+            string path = UriToPath(uri);
+            if (path == null || unit == null) return;
+            _workspaceUnits[Path.GetFullPath(path)] = unit;
+        }
+
+        // ============ Phase C: referenced-assembly XML docs ============
+
+        // For each `#reference "path.dll"` in the unit, look for a sibling
+        // `path.xml` and ingest its `<member>` entries into `_referencedDocs`.
+        private void LoadReferencedXmlDocs(CompilationUnit unit, string uri)
+        {
+            if (unit?.References == null) return;
+            string baseDir = null;
+            string docPath = UriToPath(uri);
+            if (docPath != null) baseDir = Path.GetDirectoryName(docPath);
+
+            foreach (var refPath in unit.References)
+            {
+                string dllPath = refPath;
+                if (baseDir != null && !Path.IsPathRooted(dllPath))
+                    dllPath = Path.Combine(baseDir, dllPath);
+                string xmlPath = Path.ChangeExtension(dllPath, ".xml");
+                if (!File.Exists(xmlPath)) continue;
+                try { IngestXmlDoc(xmlPath); }
+                catch { /* ignore malformed XML */ }
+            }
+        }
+
+        private void IngestXmlDoc(string xmlPath)
+        {
+            var xd = new XmlDocument();
+            xd.Load(xmlPath);
+            var members = xd.SelectNodes("/doc/members/member");
+            if (members == null) return;
+
+            foreach (XmlNode m in members)
+            {
+                string id = m.Attributes?["name"]?.Value;
+                if (string.IsNullOrEmpty(id) || id.Length < 3 || id[1] != ':') continue;
+
+                // Strip prefix and any `(paramlist)` suffix.
+                string bare = id.Substring(2);
+                int paren = bare.IndexOf('(');
+                if (paren >= 0) bare = bare.Substring(0, paren);
+                int dot = bare.LastIndexOf('.');
+                string simple = dot >= 0 ? bare.Substring(dot + 1) : bare;
+                if (simple == "#ctor") simple = dot >= 0 ? bare.Substring(0, dot) : bare;
+
+                string summary = m.SelectSingleNode("summary")?.InnerText?.Trim();
+                var parms = m.SelectNodes("param");
+                string returns = m.SelectSingleNode("returns")?.InnerText?.Trim();
+
+                var sb = new StringBuilder();
+                sb.Append("```\n").Append(id).Append("\n```");
+                if (!string.IsNullOrEmpty(summary)) sb.Append("\n\n").Append(summary);
+                if (parms != null && parms.Count > 0)
+                {
+                    sb.Append("\n\n**Parameters**\n");
+                    foreach (XmlNode p in parms)
+                    {
+                        string n = p.Attributes?["name"]?.Value ?? "";
+                        sb.Append("\n- **`").Append(n).Append("`** — ").Append(p.InnerText.Trim());
+                    }
+                }
+                if (!string.IsNullOrEmpty(returns))
+                    sb.Append("\n\n**Returns** — ").Append(returns);
+
+                // Last write wins — fine, since duplicate simple names across
+                // multiple referenced DLLs are rare.
+                _referencedDocs[simple] = sb.ToString();
+            }
         }
 
         private DocumentEntry GetDoc(JToken @params)
@@ -359,12 +633,15 @@ namespace NhspLanguageServer
             foreach (var t in NhspCompiler.Core.Lexing.Keywords.TypeAliases)
                 items.Add(MakeCompletionItem(t.Key, t.Value, CompletionKindStruct));
 
-            if (doc.Unit != null)
+            var added = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var unit in AllUnits(doc))
             {
-                foreach (var cls in doc.Unit.Classes)
-                    items.Add(MakeCompletionItem(cls.Name, "class", CompletionKindClass));
-                foreach (var iface in doc.Unit.Interfaces)
-                    items.Add(MakeCompletionItem(iface.Name, "interface", CompletionKindInterface));
+                foreach (var cls in unit.Classes)
+                    if (added.Add("C:" + cls.Name))
+                        items.Add(MakeCompletionItem(cls.Name, "class", CompletionKindClass, cls.Documentation));
+                foreach (var iface in unit.Interfaces)
+                    if (added.Add("I:" + iface.Name))
+                        items.Add(MakeCompletionItem(iface.Name, "interface", CompletionKindInterface, iface.Documentation));
             }
             return items;
         }
@@ -455,14 +732,23 @@ namespace NhspLanguageServer
             return text.Length;
         }
 
-        private static JObject MakeCompletionItem(string label, string detail, int kind)
+        private static JObject MakeCompletionItem(string label, string detail, int kind, string documentation = null)
         {
-            return new JObject
+            var item = new JObject
             {
                 ["label"] = label,
                 ["kind"] = kind,
                 ["detail"] = detail ?? ""
             };
+            if (!string.IsNullOrWhiteSpace(documentation))
+            {
+                item["documentation"] = new JObject
+                {
+                    ["kind"] = "markdown",
+                    ["value"] = RenderHover(detail ?? label, documentation)
+                };
+            }
+            return item;
         }
 
         // ============ hover ============
@@ -505,7 +791,7 @@ namespace NhspLanguageServer
             return null;
         }
 
-        private static string HoverMarkdown(Token t, DocumentEntry doc)
+        private string HoverMarkdown(Token t, DocumentEntry doc)
         {
             if (t.Kind == TokenKind.TypeName)
             {
@@ -514,28 +800,107 @@ namespace NhspLanguageServer
             }
             if (t.Kind == TokenKind.Keyword)
                 return $"**{t.Text}** &mdash; NHSP keyword";
-            if (t.Kind == TokenKind.Identifier && doc.Unit != null)
+            if (t.Kind == TokenKind.Identifier)
             {
-                // Look up user-defined symbol
-                foreach (var cls in doc.Unit.Classes)
+                foreach (var unit in AllUnits(doc))
                 {
-                    if (cls.Name == t.Text)
-                        return $"```\n{(cls.IsStruct ? "struct" : "class")} {cls.Name}\n```";
-                    foreach (var m in cls.Methods)
-                        if (m.Name == t.Text)
-                            return $"```\n{m.ReturnType} {cls.Name}.{m.Name}(...)\n```";
-                    foreach (var f in cls.Fields)
-                        if (f.Name == t.Text)
-                            return $"```\n{f.TypeName} {cls.Name}.{f.Name}\n```";
+                    foreach (var cls in unit.Classes)
+                    {
+                        if (cls.Name == t.Text)
+                            return RenderHover($"{(cls.IsStruct ? "struct" : "class")} {cls.Name}", cls.Documentation);
+
+                        foreach (var m in cls.Methods)
+                            if (m.Name == t.Text)
+                                return RenderHover(FormatMethodSig(cls, m), m.Documentation);
+
+                        foreach (var f in cls.Fields)
+                            if (f.Name == t.Text)
+                                return RenderHover($"{f.TypeName} {cls.Name}.{f.Name}", f.Documentation);
+
+                        foreach (var p in cls.Properties)
+                            if (p.Name == t.Text)
+                                return RenderHover($"{p.TypeName} {cls.Name}.{p.Name} {{ get; set; }}", p.Documentation);
+                    }
+                    foreach (var iface in unit.Interfaces)
+                        if (iface.Name == t.Text)
+                            return RenderHover($"interface {iface.Name}", iface.Documentation);
+                    foreach (var en in unit.Enums)
+                        if (en.Name == t.Text)
+                            return RenderHover($"enum {en.Name}", en.Documentation);
+                    foreach (var del in unit.Delegates)
+                        if (del.Name == t.Text)
+                            return RenderHover($"delegate {del.ReturnType} {del.Name}(...)", del.Documentation);
                 }
-                foreach (var iface in doc.Unit.Interfaces)
-                    if (iface.Name == t.Text)
-                        return $"```\ninterface {iface.Name}\n```";
-                foreach (var en in doc.Unit.Enums)
-                    if (en.Name == t.Text)
-                        return $"```\nenum {en.Name}\n```";
+
+                // Phase C fallback: referenced-assembly XML docs.
+                if (_referencedDocs.TryGetValue(t.Text, out string refDoc))
+                    return refDoc;
             }
             return null;
+        }
+
+        private static string FormatMethodSig(ClassDeclaration cls, MethodDeclaration m)
+        {
+            var sb = new StringBuilder();
+            sb.Append(m.ReturnType).Append(' ').Append(cls.Name).Append('.').Append(m.Name).Append('(');
+            for (int i = 0; i < m.Parameters.Count; i++)
+            {
+                if (i > 0) sb.Append(", ");
+                var p = m.Parameters[i];
+                if (p.IsRef) sb.Append("ref ");
+                if (p.IsOut) sb.Append("out ");
+                sb.Append(p.TypeName).Append(' ').Append(p.Name);
+            }
+            sb.Append(')');
+            return sb.ToString();
+        }
+
+        // Renders a fenced code block with the signature, followed by doc comment
+        // text with `@param` / `@return` tags reformatted as markdown bullets.
+        private static string RenderHover(string signature, string doc)
+        {
+            var sb = new StringBuilder();
+            sb.Append("```\n").Append(signature).Append("\n```");
+            if (string.IsNullOrWhiteSpace(doc)) return sb.ToString();
+
+            var summary = new StringBuilder();
+            var paramLines = new List<string>();
+            string returnLine = null;
+
+            foreach (var raw in doc.Split('\n'))
+            {
+                string line = raw.TrimEnd();
+                string trim = line.TrimStart();
+                if (trim.StartsWith("@param ", StringComparison.Ordinal))
+                {
+                    // @param name description
+                    string rest = trim.Substring("@param ".Length).TrimStart();
+                    int sp = rest.IndexOf(' ');
+                    if (sp > 0)
+                        paramLines.Add($"- **`{rest.Substring(0, sp)}`** — {rest.Substring(sp + 1).TrimStart()}");
+                    else
+                        paramLines.Add($"- **`{rest}`**");
+                }
+                else if (trim.StartsWith("@return ", StringComparison.Ordinal))
+                    returnLine = trim.Substring("@return ".Length).TrimStart();
+                else if (trim.Equals("@return", StringComparison.Ordinal))
+                    returnLine = "";
+                else
+                    summary.AppendLine(line);
+            }
+
+            string summaryStr = summary.ToString().TrimEnd();
+            if (summaryStr.Length > 0) sb.Append("\n\n").Append(summaryStr);
+            if (paramLines.Count > 0)
+            {
+                sb.Append("\n\n**Parameters**\n\n");
+                sb.Append(string.Join("\n", paramLines));
+            }
+            if (returnLine != null)
+            {
+                sb.Append("\n\n**Returns** — ").Append(returnLine);
+            }
+            return sb.ToString();
         }
 
         // ============ definition ============
@@ -549,9 +914,39 @@ namespace NhspLanguageServer
             if (tok == null || tok.Value.Kind != TokenKind.Identifier) return null;
 
             string name = tok.Value.Text;
-            string uri = (string)@params["textDocument"]["uri"];
+            string mainUri = (string)@params["textDocument"]["uri"];
 
-            foreach (var cls in doc.Unit.Classes)
+            // Main document first.
+            var hit = FindDef(doc.Unit, name, mainUri);
+            if (hit != null) return hit;
+
+            // Included auxiliary files — return a file:// URI pointing at them.
+            var seenPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            string mainPath = UriToPath(mainUri);
+            if (mainPath != null) seenPaths.Add(Path.GetFullPath(mainPath));
+            if (doc.Aux != null)
+            {
+                foreach (var a in doc.Aux)
+                {
+                    seenPaths.Add(a.AbsolutePath);
+                    string auxUri = PathToUri(a.AbsolutePath);
+                    hit = FindDef(a.Unit, name, auxUri);
+                    if (hit != null) return hit;
+                }
+            }
+            // Workspace-wide — covers files the user hasn't included.
+            foreach (var kv in _workspaceUnits)
+            {
+                if (seenPaths.Contains(kv.Key)) continue;
+                hit = FindDef(kv.Value, name, PathToUri(kv.Key));
+                if (hit != null) return hit;
+            }
+            return null;
+        }
+
+        private static JObject FindDef(CompilationUnit unit, string name, string uri)
+        {
+            foreach (var cls in unit.Classes)
             {
                 if (cls.Name == name) return MakeLocation(uri, cls.Line, cls.Column, name.Length);
                 foreach (var m in cls.Methods)
@@ -561,13 +956,20 @@ namespace NhspLanguageServer
                 foreach (var p in cls.Properties)
                     if (p.Name == name) return MakeLocation(uri, p.Line, p.Column, name.Length);
             }
-            foreach (var iface in doc.Unit.Interfaces)
+            foreach (var iface in unit.Interfaces)
                 if (iface.Name == name) return MakeLocation(uri, iface.Line, iface.Column, name.Length);
-            foreach (var en in doc.Unit.Enums)
+            foreach (var en in unit.Enums)
                 if (en.Name == name) return MakeLocation(uri, en.Line, en.Column, name.Length);
-            foreach (var del in doc.Unit.Delegates)
+            foreach (var del in unit.Delegates)
                 if (del.Name == name) return MakeLocation(uri, del.Line, del.Column, name.Length);
             return null;
+        }
+
+        private static string PathToUri(string path)
+        {
+            if (string.IsNullOrEmpty(path)) return null;
+            try { return new Uri(path).AbsoluteUri; }
+            catch { return null; }
         }
 
         private static JObject MakeLocation(string uri, int line, int col, int length)
@@ -633,7 +1035,7 @@ namespace NhspLanguageServer
 
         private void WriteMessage(JObject obj)
         {
-            string json = obj.ToString(Formatting.None);
+            string json = obj.ToString(Newtonsoft.Json.Formatting.None);
             byte[] body = Encoding.UTF8.GetBytes(json);
             byte[] header = Encoding.ASCII.GetBytes("Content-Length: " + body.Length + "\r\n\r\n");
             _output.Write(header, 0, header.Length);

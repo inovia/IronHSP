@@ -8,6 +8,10 @@ let diagnosticCollection;
 let outputChannel;
 let lspClient;
 
+// Providers are registered before the LSP client starts; fetch the live client
+// on every call so it can lazily attach once the server has spun up.
+function getLspClient() { return lspClient; }
+
 // ========== Activation ==========
 
 function activate(context) {
@@ -66,19 +70,18 @@ function activate(context) {
         })
     );
 
-    // Completion provider: type names + keywords + member completion
+    // Completion / Hover / Definition providers.
+    // Registered BEFORE the LSP client starts so their `lspClient` reference
+    // is updated by reference once the server is up; `getLspClient()` fetches
+    // the live instance each call.
     context.subscriptions.push(
-        vscode.languages.registerCompletionItemProvider('nhsp', new NhspCompletionProvider(), '.', '#')
+        vscode.languages.registerCompletionItemProvider('nhsp', new NhspCompletionProvider(getLspClient), '.', '#')
     );
-
-    // Hover provider
     context.subscriptions.push(
-        vscode.languages.registerHoverProvider('nhsp', new NhspHoverProvider())
+        vscode.languages.registerHoverProvider('nhsp', new NhspHoverProvider(getLspClient))
     );
-
-    // Definition provider
     context.subscriptions.push(
-        vscode.languages.registerDefinitionProvider('nhsp', new NhspDefinitionProvider())
+        vscode.languages.registerDefinitionProvider('nhsp', new NhspDefinitionProvider(getLspClient))
     );
 
     // Language server (nhspls.exe) for real-time diagnostics.
@@ -297,10 +300,40 @@ const MEMBER_DB = {
 };
 
 class NhspCompletionProvider {
-    provideCompletionItems(document, position, token, context) {
+    constructor(getClient) { this.getClient = getClient || (() => null); }
+
+    async provideCompletionItems(document, position, token, context) {
         const items = [];
         const lineText = document.lineAt(position).text;
         const textBefore = lineText.substring(0, position.character);
+
+        // Pull user-defined classes/interfaces (with doc comments) from LSP.
+        // We merge these with the hardcoded type/keyword list rather than
+        // returning LSP-only, because the server doesn't know about built-in
+        // .NET types or language keywords. Skipped for the `#` trigger since
+        // the local NHSP_DIRECTIVES list is authoritative and deduplicating
+        // there is cheaper than asking nhspls for the same list.
+        const trigger = context && context.triggerCharacter;
+        const client = this.getClient();
+        if (client && trigger !== '#' && !textBefore.endsWith('#')) {
+            const lspResult = await client.completion(document, position, trigger);
+            const lspItems = Array.isArray(lspResult) ? lspResult : (lspResult && lspResult.items) || [];
+            const seen = new Set();
+            for (const li of lspItems) {
+                if (seen.has(li.label)) continue;
+                seen.add(li.label);
+                const kind = lspKindToVscode(li.kind);
+                const ci = new vscode.CompletionItem(li.label, kind);
+                if (li.detail) ci.detail = li.detail;
+                if (li.documentation) {
+                    const doc = typeof li.documentation === 'string'
+                        ? li.documentation
+                        : li.documentation.value || '';
+                    if (doc) ci.documentation = new vscode.MarkdownString(doc);
+                }
+                items.push(ci);
+            }
+        }
 
         // After '#' → directive completion
         if (context.triggerCharacter === '#' || textBefore.endsWith('#')) {
@@ -377,6 +410,26 @@ class NhspCompletionProvider {
     }
 }
 
+// Map LSP CompletionItemKind → vscode.CompletionItemKind.
+// Only the kinds our server emits are listed; anything else falls back to Text.
+function lspKindToVscode(kind) {
+    switch (kind) {
+        case 1:  return vscode.CompletionItemKind.Text;
+        case 2:  return vscode.CompletionItemKind.Method;
+        case 3:  return vscode.CompletionItemKind.Function;
+        case 4:  return vscode.CompletionItemKind.Constructor;
+        case 5:  return vscode.CompletionItemKind.Field;
+        case 6:  return vscode.CompletionItemKind.Variable;
+        case 7:  return vscode.CompletionItemKind.Class;
+        case 8:  return vscode.CompletionItemKind.Interface;
+        case 10: return vscode.CompletionItemKind.Property;
+        case 13: return vscode.CompletionItemKind.Enum;
+        case 14: return vscode.CompletionItemKind.Keyword;
+        case 22: return vscode.CompletionItemKind.Struct;
+        default: return vscode.CompletionItemKind.Text;
+    }
+}
+
 function inferTypeFromDocument(document, position, varName) {
     const text = document.getText();
     // Look for dim Type varName or Type varName = ...
@@ -401,7 +454,27 @@ for (const t of NHSP_TYPES) TYPE_DOCS[t] = `NHSP プリミティブ型`;
 for (const t of NHSP_DOTNET_TYPES) TYPE_DOCS[t] = `.NET Framework 型`;
 
 class NhspHoverProvider {
-    provideHover(document, position) {
+    constructor(getClient) { this.getClient = getClient || (() => null); }
+
+    async provideHover(document, position) {
+        // LSP-backed hover takes precedence: it knows user-defined classes,
+        // methods, fields, and doc comments (including cross-file via
+        // #include / workspace scan / #reference XML).
+        const client = this.getClient();
+        if (client) {
+            const result = await client.hover(document, position);
+            if (result && result.contents) {
+                const md = new vscode.MarkdownString(
+                    typeof result.contents === 'string'
+                        ? result.contents
+                        : result.contents.value || ''
+                );
+                md.isTrusted = false;
+                return new vscode.Hover(md);
+            }
+        }
+
+        // Fallback: local type/keyword docs (no LSP or server has no answer).
         const range = document.getWordRangeAtPosition(position);
         if (!range) return null;
         const word = document.getText(range);
@@ -457,7 +530,28 @@ class NhspHoverProvider {
 // ========== Definition Provider ==========
 
 class NhspDefinitionProvider {
-    provideDefinition(document, position) {
+    constructor(getClient) { this.getClient = getClient || (() => null); }
+
+    async provideDefinition(document, position) {
+        // LSP first — it knows cross-file resolution via #include / workspace.
+        const client = this.getClient();
+        if (client) {
+            const result = await client.definition(document, position);
+            if (result) {
+                const locs = Array.isArray(result) ? result : [result];
+                const out = [];
+                for (const loc of locs) {
+                    if (!loc || !loc.uri || !loc.range) continue;
+                    const r = loc.range;
+                    out.push(new vscode.Location(
+                        vscode.Uri.parse(loc.uri),
+                        new vscode.Range(r.start.line, r.start.character, r.end.line, r.end.character)
+                    ));
+                }
+                if (out.length > 0) return out;
+            }
+        }
+
         const range = document.getWordRangeAtPosition(position);
         if (!range) return null;
         const word = document.getText(range);

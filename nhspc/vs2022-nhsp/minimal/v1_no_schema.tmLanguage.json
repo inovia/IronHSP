@@ -1,0 +1,114 @@
+{
+  "name": "NHSP",
+  "scopeName": "source.nhsp",
+  "fileTypes": ["nhsp"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#interpolated-strings" },
+    { "include": "#directives" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#operators" },
+    { "include": "#numbers" },
+    { "include": "#functions" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        { "name": "comment.line.semicolon.nhsp", "match": ";.*$" },
+        { "name": "comment.line.double-slash.nhsp", "match": "//.*$" }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.nhsp",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "name": "constant.character.escape.nhsp", "match": "\\\\[nrt\\\\\"{}]" }
+          ]
+        }
+      ]
+    },
+    "interpolated-strings": {
+      "patterns": [
+        {
+          "name": "string.interpolated.nhsp",
+          "begin": "\\$\"",
+          "end": "\"",
+          "patterns": [
+            { "name": "constant.character.escape.nhsp", "match": "\\\\[nrt\\\\\"{}]" },
+            {
+              "name": "meta.interpolation.nhsp",
+              "begin": "\\{",
+              "end": "\\}",
+              "beginCaptures": { "0": { "name": "punctuation.definition.interpolation.begin.nhsp" } },
+              "endCaptures": { "0": { "name": "punctuation.definition.interpolation.end.nhsp" } },
+              "patterns": [
+                { "include": "#keywords" },
+                { "include": "#types" },
+                { "include": "#numbers" },
+                { "include": "#constants" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "directives": {
+      "patterns": [
+        { "name": "keyword.control.directive.nhsp", "match": "#(assembly|reference|using|namespace|endnamespace|include|main|endmain|dllimport|dllfunc|attribute)\\b" },
+        { "name": "keyword.control.class.nhsp", "match": "#(class|endclass|struct|endstruct|interface|endinterface|enum|endenum)\\b" },
+        { "name": "keyword.control.member.nhsp", "match": "#(func|endfunc|init|endinit|property|endproperty|get|endget|set|endset|field|event|endevent|indexer|endindexer|operator|endoperator|destructor|enddestructor|delegate|access)\\b" }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        { "name": "keyword.control.flow.nhsp", "match": "\\b(if|else|elseif|endif|repeat|loop|while|wend|for|to|step|next|foreach|in|switch|case|default|endswitch|break|continue|return|throw|try|catch|finally|endtry|when|lock|endlock|using|endusing)\\b" },
+        { "name": "keyword.other.modifier.nhsp", "match": "\\b(public|private|protected|static|virtual|override|abstract|sealed|const|readonly|ref|out|params|new)\\b" },
+        { "name": "keyword.operator.logical.nhsp", "match": "\\b(and|or|not|is|as|typeof)\\b" },
+        { "name": "keyword.other.nhsp", "match": "\\b(dim|print|sleep)\\b" }
+      ]
+    },
+    "types": {
+      "patterns": [
+        { "name": "storage.type.primitive.nhsp", "match": "\\b(int|int64|long|short|ushort|uint|ulong|double|float|string|bool|byte|sbyte|char|void|var|object|IntPtr|UIntPtr)\\b" },
+        { "name": "storage.type.generic.nhsp", "match": "\\b(List|Dictionary|HashSet|Queue|Stack|Nullable|Action|Func|Task|IEnumerable|IList|ICollection)\\b" },
+        { "name": "support.class.dotnet.nhsp", "match": "\\b(Console|Math|String|StringBuilder|DateTime|File|Path|Directory|Environment|Process|Thread|Timer|Mutex|Monitor|Exception|Type|Array|Convert|Encoding|StreamReader|StreamWriter|MemoryStream|Regex|Guid|Random|Stopwatch|EventArgs|EventHandler)\\b" }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        { "name": "constant.language.boolean.nhsp", "match": "\\b(true|false)\\b" },
+        { "name": "constant.language.null.nhsp", "match": "\\b(null|nullptr)\\b" },
+        { "name": "variable.language.nhsp", "match": "\\b(this|cnt|value)\\b" }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        { "name": "keyword.operator.comparison.nhsp", "match": "(==|!=|<=|>=|<|>)" },
+        { "name": "keyword.operator.assignment.nhsp", "match": "(\\+=|-=|\\*=|/=|&=|\\|=|\\^=|=)" },
+        { "name": "keyword.operator.arithmetic.nhsp", "match": "(\\+\\+|--|\\+|-|\\*|/|%)" },
+        { "name": "keyword.operator.bitwise.nhsp", "match": "(<<|>>|&|\\||\\^|~)" },
+        { "name": "keyword.operator.logical.nhsp", "match": "(&&|\\|\\||!)" },
+        { "name": "keyword.operator.ternary.nhsp", "match": "(\\?\\?|\\?)" }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        { "name": "constant.numeric.hex.nhsp", "match": "(0[xX][0-9a-fA-F]+|\\$[0-9a-fA-F]+)\\b" },
+        { "name": "constant.numeric.float.nhsp", "match": "\\b[0-9]+\\.[0-9]+\\b" },
+        { "name": "constant.numeric.integer.nhsp", "match": "\\b[0-9]+\\b" }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        { "name": "entity.name.function.builtin.nhsp", "match": "\\b(str|int|double|float)(?=\\s*\\()" },
+        { "name": "entity.name.function.call.nhsp", "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*\\()" }
+      ]
+    }
+  }
+}

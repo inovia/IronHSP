@@ -79,6 +79,8 @@
   <a href="#cli">CLI オプション</a>
   <a href="#pdb">PDB / Portable PDB</a>
   <a href="#vs2022">Visual Studio 2022 で使う</a>
+  <a href="#doc-comments">ドキュメントコメント</a>
+  <a href="#xml-doc">XML ドキュメント出力</a>
   <a href="#lsp">Language Server (nhspls)</a>
   <a href="#limits">既知の制限</a>
 </nav>
@@ -2877,8 +2879,147 @@ VS 2022 の <strong>Open Folder</strong> モードに <code>tasks.vs.json</code>
 <tr><td>シンタックスハイライト</td><td>白黒</td><td>キーワード/型/文字列/コメントが色分け</td></tr>
 <tr><td>ファイル拡張子の関連付け</td><td>「不明な拡張子」扱い</td><td>NHSP として開く</td></tr>
 <tr><td>デバッグ (BP / Locals / Step)</td><td>動く</td><td>動く (変わらず)</td></tr>
-<tr><td>IntelliSense / 補完</td><td>なし</td><td>なし (LSP の補完機能は将来追加予定)</td></tr>
+<tr><td>IntelliSense / 補完 / hover / 定義ジャンプ</td><td>なし</td><td>nhspls 経由で動作 (型エイリアス / キーワード / ユーザ定義クラス・メソッド・フィールドのドキュメントコメント対応、<code>#include</code> / ワークスペース / <code>#reference</code>d DLL の XML すべて横断)</td></tr>
 <tr><td>エラー波線 (リアルタイム)</td><td>なし</td><td>VS Code 経由で nhspls.exe を使えば可 (下記 LSP セクション参照)</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="doc-comments">ドキュメントコメント</h2>
+
+<p>
+NHSP は C# の <code>///</code> や Rust の <code>;;;</code> に相当する
+<strong>ドキュメントコメント</strong>をサポートしています。
+宣言 (クラス/メソッド/フィールド/プロパティ/構造体/enum/delegate 等) の直前に書かれた
+ドキュメントコメントは <code>nhspls</code> の <code>hover</code> / <code>completion</code> に
+Markdown として表示されます。
+</p>
+
+<h3>記法</h3>
+
+<table>
+<tr><th>マーカー</th><th>由来</th><th>例</th></tr>
+<tr><td><code>;;;</code> (セミコロン 3 個以上)</td><td>HSP / Julia / Racket 風</td><td><code>;;; ユーザー名を取得</code></td></tr>
+<tr><td><code>///</code> (スラッシュ 3 個)</td><td>C# / Rust 風</td><td><code>/// ユーザー名を取得</code></td></tr>
+</table>
+
+<p>
+両方のマーカーは <strong>行ごとに混在</strong>可能です。行の先頭 (前置空白のみ許容) に置く必要があり、
+コード行の末尾コメント (<code>x = 1 ;;; foo</code>) は通常の行末コメントとして扱われます。
+</p>
+
+<h3>サポートタグ</h3>
+
+<table>
+<tr><th>タグ</th><th>意味</th><th>hover 表示</th></tr>
+<tr><td><code>@param &lt;name&gt; &lt;description&gt;</code></td><td>引数の説明</td><td><code>**Parameters**</code> として箇条書き</td></tr>
+<tr><td><code>@return &lt;description&gt;</code></td><td>戻り値の説明</td><td><code>**Returns**</code> としてインライン</td></tr>
+</table>
+
+<p>
+タグ以外の行はサマリ (説明文) として扱われます。タグに含まれない文は Markdown そのままレンダリングされます。
+</p>
+
+<h3>例</h3>
+
+<pre><code>;;; 単一ユーザーのレコード。
+;;; @param name 表示名
+;;; @param id   1 始まりの ID
+#class public User
+  #field public string Name
+  #field public int Id
+
+  /// 挨拶文を返す。
+  /// @return "Hello, Alice (id 7)" 形式の文字列
+  #func public string Greet
+    return "Hello, " + Name + " (id " + str(Id) + ")"
+  #endfunc
+#endclass</code></pre>
+
+<h3>アタッチ規則</h3>
+
+<ul>
+<li>ドキュメントコメントは <strong>連続した行</strong>として 1 ブロックにまとめられる</li>
+<li>宣言の行と <strong>隙間なく</strong>隣接している必要がある
+(間に空行が挟まると切り離される &mdash; C# と同じ仕様)</li>
+<li>宣言以外の文が間にあると切り離される</li>
+<li>パーサは raw なテキストで保持するので、タグ構文が崩れていても警告は出さない
+(LSP 側のレンダラが簡易パースする)</li>
+</ul>
+
+<h3>対応している宣言</h3>
+
+<p>
+<code>#class</code> / <code>#struct</code> / <code>#interface</code> / <code>#enum</code> /
+<code>#delegate</code> / <code>#field</code> / <code>#property</code> /
+<code>#func</code> / <code>#init</code> / <code>#event</code> /
+<code>#indexer</code> / <code>#operator</code> に対応しています。
+</p>
+
+<h3>クロスファイル・クロスアセンブリ visibility</h3>
+
+<p>
+ドキュメントコメントは以下の経路で他のファイルからも LSP (nhspls) の hover / completion に表示されます:
+</p>
+
+<table>
+<tr><th>経路</th><th>仕組み</th></tr>
+<tr><td><code>#include "other.nhsp"</code></td><td>LSP が再帰的に include ファイルを読み、補助ユニットとして保持。対象ファイルの symbol と doc が同一ドキュメントと同等に扱われる</td></tr>
+<tr><td>ワークスペース内の他の <code>.nhsp</code></td><td>LSP 起動時の <code>initialize</code> で <code>rootUri</code> / <code>workspaceFolders</code> を受け取り、配下の <code>.nhsp</code> を全てスキャンしてグローバルシンボルテーブルを構築</td></tr>
+<tr><td><code>#reference "foo.dll"</code> (XML あり)</td><td>DLL の隣の <code>foo.xml</code> (<a href="#xml-doc">後述</a>) を読み、<code>&lt;member&gt;</code> エントリを hover 対象に追加</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="xml-doc">XML ドキュメント出力 (<code>-xmldoc</code>)</h2>
+
+<p>
+<code>nhspc</code> にフラグ <code>-xmldoc [path]</code> を渡すと、
+ドキュメントコメントを .NET 標準の XML ドキュメント形式で出力できます。
+出力先を省略すると <code>&lt;output&gt;.xml</code> (例: <code>LibC.xml</code>) が生成されます。
+</p>
+
+<pre><code>nhspc lib_math.nhsp -target dll -xmldoc
+# → lib_math.dll + lib_math.xml が生成</code></pre>
+
+<h3>出力形式</h3>
+
+<p>
+Microsoft の C# XML ドキュメントと互換です。ECMA-335 の ID 文字列
+(<code>T:</code> 型 / <code>M:</code> メソッド / <code>F:</code> フィールド /
+<code>P:</code> プロパティ / <code>E:</code> イベント) でメンバーを一意に識別します。
+</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;doc&gt;
+    &lt;assembly&gt;&lt;name&gt;LibC&lt;/name&gt;&lt;/assembly&gt;
+    &lt;members&gt;
+        &lt;member name="T:Currency"&gt;
+            &lt;summary&gt;Currency helpers for Phase C testing.&lt;/summary&gt;
+        &lt;/member&gt;
+        &lt;member name="M:Currency.Dollars(System.Int32)"&gt;
+            &lt;summary&gt;Convert cents to major units (dollars).&lt;/summary&gt;
+            &lt;param name="cents"&gt;value in minor units&lt;/param&gt;
+            &lt;returns&gt;dollars (floor)&lt;/returns&gt;
+        &lt;/member&gt;
+    &lt;/members&gt;
+&lt;/doc&gt;</code></pre>
+
+<h3>利用先</h3>
+
+<ul>
+<li>nhspc 自身の <code>nhspls</code> &mdash; <code>#reference "LibC.dll"</code> された側で
+hover を出すとき、<code>LibC.xml</code> を自動で読み込む</li>
+<li>Visual Studio / JetBrains Rider &mdash; C# プロジェクトから nhspc ビルド済み DLL を参照しても、
+同名の XML が隣にあれば IntelliSense に表示される</li>
+<li>DocFX / SandCastle などのドキュメント生成ツール &mdash; 同じ XML 形式を入力とする</li>
+</ul>
+
+<h3>タグ変換</h3>
+
+<table>
+<tr><th>nhspc の記法</th><th>XML 出力</th></tr>
+<tr><td>タグなしのテキスト</td><td><code>&lt;summary&gt;</code></td></tr>
+<tr><td><code>@param &lt;name&gt; &lt;desc&gt;</code></td><td><code>&lt;param name="..."&gt;...&lt;/param&gt;</code></td></tr>
+<tr><td><code>@return &lt;desc&gt;</code></td><td><code>&lt;returns&gt;...&lt;/returns&gt;</code></td></tr>
 </table>
 
 <!-- ========================================== -->
@@ -2899,17 +3040,28 @@ nhspls がリアルタイムで構文解析を回して <code>publishDiagnostics
 <tr><td><code>textDocument/didOpen</code> / <code>didChange</code> / <code>didClose</code></td><td>文書ストアに lex+parse 結果をキャッシュ → 各機能で共有</td></tr>
 <tr><td><code>textDocument/publishDiagnostics</code></td><td>パースで集めた <code>DiagnosticBag</code> を LSP 形式で送出 (リアルタイム赤波線)</td></tr>
 <tr><td><code>textDocument/documentSymbol</code></td><td>アウトライン: クラス → メソッド/フィールド/プロパティ/イベント の階層、インターフェース、enum、delegate</td></tr>
-<tr><td><code>textDocument/completion</code></td><td><code>#</code> 後はディレクティブ一覧、それ以外はキーワード + 型エイリアス + ユーザー定義クラス/インターフェース</td></tr>
-<tr><td><code>textDocument/hover</code></td><td>カーソル下のトークン種別を判定: 型エイリアスは CLR 名、キーワードは説明、識別子はクラス/メソッド/フィールドのシグネチャ</td></tr>
+<tr><td><code>textDocument/completion</code></td><td><code>#</code> 後はディレクティブ一覧、それ以外はキーワード + 型エイリアス + ユーザー定義クラス/インターフェース。ドキュメントコメントが付いていれば Markdown として <code>documentation</code> フィールドに同梱</td></tr>
+<tr><td><code>textDocument/hover</code></td><td>カーソル下のトークン種別を判定: 型エイリアスは CLR 名、キーワードは説明、識別子はクラス/メソッド/フィールドのシグネチャ + ドキュメントコメント (<code>@param</code> / <code>@return</code> タグを整形)。詳細は <a href="#doc-comments">ドキュメントコメント</a> セクション参照</td></tr>
 <tr><td><code>textDocument/definition</code></td><td>カーソル下の識別子をユニット内のクラス/メソッド/フィールド/プロパティ/インターフェース/enum/delegate と照合してジャンプ先を返す</td></tr>
 <tr><td><code>shutdown</code> / <code>exit</code></td><td>クリーン終了</td></tr>
 </table>
 
+<p>クロスファイル解析 (Phase A/B/C):</p>
+
+<ul>
+<li><strong>Phase A</strong>: <code>#include "other.nhsp"</code> を LSP も再帰的に読み、補助ユニットとして保持。
+隣ファイルの symbol / doc が hover / completion / go-to-definition で使える。</li>
+<li><strong>Phase B</strong>: 起動時の <code>initialize</code> で <code>rootUri</code> / <code>workspaceFolders</code> を
+受け取り、配下の <code>.nhsp</code> を全スキャンしてグローバルシンボルテーブルを作る。
+include していないワークスペース内ファイルの symbol も候補に並ぶ。</li>
+<li><strong>Phase C</strong>: <code>#reference "foo.dll"</code> された DLL の隣に <code>foo.xml</code> (<a href="#xml-doc">XML ドキュメント</a>) があれば読み込み、hover に表示。</li>
+</ul>
+
 <p>未実装 (将来予定):</p>
 <ul>
-<li>クロスファイル定義ジャンプ (現状は同一文書内のみ)</li>
 <li>メンバー補完 (<code>obj.</code> のあとの候補表示) &mdash; 型推論が必要</li>
 <li>シグネチャヘルプ (<code>(</code> 入力時のパラメータヒント)</li>
+<li>referenced assembly のリフレクション (<code>System.Windows.Forms.Button</code> 等 XML なし DLL の hover)</li>
 <li>リネームリファクタリング</li>
 <li>セマンティックトークン (TextMate より精度の高い色付け)</li>
 </ul>
@@ -2918,8 +3070,17 @@ nhspls がリアルタイムで構文解析を回して <code>publishDiagnostics
 
 <p>
 vscode-nhsp 拡張は起動時に nhspls.exe を子プロセスとして spawn し、開いている <code>.nhsp</code>
-すべてに対して didOpen/didChange を流します。設定:
+すべてに対して didOpen/didChange を流します。hover / completion / go-to-definition も
+LSP 経由で nhspls にリクエストし、結果を VSCode のネイティブ UI (ツールチップ / 候補パネル /
+F12 ジャンプ) で表示します。
 </p>
+
+<p>
+拡張は <code>workspaceFolders</code> を <code>initialize</code> params に含めて渡すので
+<a href="#doc-comments">Phase B ワークスペーススキャン</a>も自動で有効になります。
+</p>
+
+<p>設定:</p>
 
 <table>
 <tr><th>設定キー</th><th>既定値</th><th>説明</th></tr>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+    <assembly>
+        <name>LibC</name>
+    </assembly>
+    <members>
+        <member name="T:Currency">
+            <summary>Currency helpers for Phase C testing.</summary>
+            <param name="amount">in minor units (e.g. cents)</param>
+        </member>
+        <member name="M:Currency.Dollars(System.Int32)">
+            <summary>Convert cents to major units (dollars).</summary>
+            <param name="cents">value in minor units</param>
+            <returns>dollars (floor)</returns>
+        </member>
+    </members>
+</doc>

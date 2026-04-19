@@ -1,0 +1,5 @@
+// Minimal TextMate grammar registration for .nhspmin files.
+// No MEF, no LSP, no content type — just pkgdef-based grammar registration.
+
+[$RootKey$\TextMate\Repositories]
+"NhspMinimalTest"="$PackageFolder$"

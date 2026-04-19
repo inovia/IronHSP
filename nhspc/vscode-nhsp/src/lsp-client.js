@@ -16,6 +16,10 @@ class NhspLanguageClient {
         this.buffer = Buffer.alloc(0);
         this.nextId = 1;
         this.openDocs = new Set();
+        // Pending request tracking: id → { resolve, reject, timer }.
+        // Responses from the server are matched by id; unresolved requests are
+        // timed out so UI commands don't hang if the server crashes mid-reply.
+        this.pending = new Map();
     }
 
     start() {
@@ -36,13 +40,30 @@ class NhspLanguageClient {
         this.proc.on('exit', (code) => {
             this.output.appendLine('[lsp] server exited (code=' + code + ')');
             this.proc = null;
+            // Reject any in-flight requests so callers don't hang forever.
+            for (const [, entry] of this.pending) {
+                clearTimeout(entry.timer);
+                entry.reject(new Error('language server exited'));
+            }
+            this.pending.clear();
         });
+
+        // Pass workspace folders so nhspls can scan the project for Phase B.
+        // VSCode exposes them via vscode.workspace.workspaceFolders; if empty
+        // (unsaved document opened directly), Phase B is inactive but Phase A/C
+        // still work because they rely on the document's own resolved path.
+        const folders = (vscode.workspace.workspaceFolders || []).map((f) => ({
+            uri: f.uri.toString(),
+            name: f.name
+        }));
+        const rootUri = folders.length > 0 ? folders[0].uri : null;
 
         this._sendRequest('initialize', {
             processId: process.pid,
-            rootUri: null,
+            rootUri,
+            workspaceFolders: folders,
             capabilities: {}
-        });
+        }).catch(() => { /* initialize failures are logged via stderr */ });
         this._sendNotification('initialized', {});
         return true;
     }
@@ -119,10 +140,62 @@ class NhspLanguageClient {
         return null;
     }
 
+    // Promise-returning request. Used by hover / completion / definition
+    // providers in extension.js. Rejects on a 5-second timeout so the UI
+    // doesn't hang if the server is unresponsive.
     _sendRequest(method, params) {
         const id = this.nextId++;
-        this._writeMessage({ jsonrpc: '2.0', id, method, params });
-        return id;
+        return new Promise((resolve, reject) => {
+            if (!this.proc || !this.proc.stdin.writable) {
+                reject(new Error('language server not running'));
+                return;
+            }
+            const timer = setTimeout(() => {
+                this.pending.delete(id);
+                reject(new Error('language server request timed out: ' + method));
+            }, 5000);
+            this.pending.set(id, { resolve, reject, timer });
+            this._writeMessage({ jsonrpc: '2.0', id, method, params });
+        });
+    }
+
+    // ---------- Typed LSP helpers ----------
+
+    // Convert a vscode.Position into an LSP position (LSP is 0-based on both
+    // axes; vscode is also 0-based, so this is a pass-through but explicit for
+    // clarity / future platform differences).
+    _lspPos(position) {
+        return { line: position.line, character: position.character };
+    }
+
+    async hover(document, position) {
+        try {
+            return await this._sendRequest('textDocument/hover', {
+                textDocument: { uri: document.uri.toString() },
+                position: this._lspPos(position)
+            });
+        } catch (e) { return null; }
+    }
+
+    async completion(document, position, triggerCharacter) {
+        try {
+            return await this._sendRequest('textDocument/completion', {
+                textDocument: { uri: document.uri.toString() },
+                position: this._lspPos(position),
+                context: triggerCharacter
+                    ? { triggerKind: 2, triggerCharacter }
+                    : { triggerKind: 1 }
+            });
+        } catch (e) { return null; }
+    }
+
+    async definition(document, position) {
+        try {
+            return await this._sendRequest('textDocument/definition', {
+                textDocument: { uri: document.uri.toString() },
+                position: this._lspPos(position)
+            });
+        } catch (e) { return null; }
     }
 
     _sendNotification(method, params) {
@@ -168,6 +241,19 @@ class NhspLanguageClient {
     }
 
     _handleMessage(msg) {
+        // Responses: match to the pending request by id.
+        if (msg.id !== undefined && (msg.result !== undefined || msg.error !== undefined)) {
+            const entry = this.pending.get(msg.id);
+            if (entry) {
+                clearTimeout(entry.timer);
+                this.pending.delete(msg.id);
+                if (msg.error) entry.reject(new Error(msg.error.message || 'LSP error'));
+                else entry.resolve(msg.result);
+            }
+            return;
+        }
+
+        // Server-sent notifications.
         if (msg.method === 'textDocument/publishDiagnostics') {
             const p = msg.params;
             const diags = (p.diagnostics || []).map((d) => {
@@ -186,7 +272,6 @@ class NhspLanguageClient {
             });
             this.diagnostics.set(vscode.Uri.parse(p.uri), diags);
         }
-        // initialize response and shutdown response: nothing to do for now.
     }
 }
 

@@ -18,6 +18,11 @@ namespace NhspCompiler.Core.Parsing
         private bool _pendingDllExactSpelling;
         private List<AttributeDeclaration> _pendingAttributes = new List<AttributeDeclaration>();
 
+        // Doc comments (;;; or ///) collected above a declaration. The buffer holds
+        // consecutive lines immediately before the declaration; gaps clear the buffer.
+        private readonly List<string> _pendingDoc = new List<string>();
+        private int _lastDocLine = -2; // sentinel: "no previous doc"
+
         public Parser(List<Token> tokens, DiagnosticBag diag)
         {
             _tokens = tokens;
@@ -45,7 +50,38 @@ namespace NhspCompiler.Core.Parsing
         }
 
         private bool MatchEOL() => Match(TokenKind.EOL) || Match(TokenKind.Colon);
-        private void SkipEOL() { while (MatchEOL()) Advance(); }
+        private void SkipEOL()
+        {
+            while (true)
+            {
+                if (Current.Kind == TokenKind.DocComment)
+                {
+                    // Reset if the previous doc line wasn't the immediately preceding line.
+                    if (_pendingDoc.Count > 0 && Current.Line != _lastDocLine + 1)
+                        _pendingDoc.Clear();
+                    _pendingDoc.Add(Current.Text);
+                    _lastDocLine = Current.Line;
+                    Advance();
+                    continue;
+                }
+                if (MatchEOL()) { Advance(); continue; }
+                break;
+            }
+        }
+
+        // Called at the start of every Parse* declaration method. Returns the
+        // accumulated doc string only if the buffer is adjacent to the declaration
+        // (lastDocLine + 1 == declLine). In all cases clears the buffer.
+        private string TakePendingDoc(int declLine)
+        {
+            if (_pendingDoc.Count == 0) return null;
+            string doc = null;
+            if (_lastDocLine + 1 == declLine || _lastDocLine == declLine)
+                doc = string.Join("\n", _pendingDoc);
+            _pendingDoc.Clear();
+            _lastDocLine = -2;
+            return doc;
+        }
 
         // ======== Top Level ========
 
@@ -153,6 +189,7 @@ namespace NhspCompiler.Core.Parsing
         private ClassDeclaration ParseClass()
         {
             var cls = new ClassDeclaration { Line = Current.Line };
+            cls.Documentation = TakePendingDoc(cls.Line);
             Advance(); // "class"
 
             // Leading modifiers: #class public sealed ClassName
@@ -300,6 +337,7 @@ namespace NhspCompiler.Core.Parsing
         private FieldDeclaration ParseField(string defAccess)
         {
             var f = new FieldDeclaration { Line = Current.Line, Access = defAccess };
+            f.Documentation = TakePendingDoc(f.Line);
             Advance(); // "field"
 
             // Parse [attributes] before field: [MarshalAs LPWStr] [FieldOffset 0]
@@ -355,6 +393,7 @@ namespace NhspCompiler.Core.Parsing
         private MethodDeclaration ParseMethod(string defAccess)
         {
             var m = new MethodDeclaration { Line = Current.Line };
+            m.Documentation = TakePendingDoc(m.Line);
             Advance(); // "func"
 
             // New syntax: #func [modifiers...] [returnType] Name [, params...]
@@ -1253,6 +1292,7 @@ namespace NhspCompiler.Core.Parsing
         private InterfaceDeclaration ParseInterface()
         {
             var iface = new InterfaceDeclaration { Line = Current.Line };
+            iface.Documentation = TakePendingDoc(iface.Line);
             Advance(); // "interface"
             iface.Name = Expect(TokenKind.Identifier, "Expected interface name").Text;
             SkipEOL();
@@ -1299,6 +1339,7 @@ namespace NhspCompiler.Core.Parsing
         private ConstructorDeclaration ParseConstructor(string defAccess)
         {
             var ctor = new ConstructorDeclaration { Line = Current.Line, Access = defAccess };
+            ctor.Documentation = TakePendingDoc(ctor.Line);
             Advance(); // "init"
 
             // #init [access] [type name [, type name] ...]
@@ -1318,6 +1359,7 @@ namespace NhspCompiler.Core.Parsing
         private PropertyDeclaration ParseProperty(string defAccess)
         {
             var prop = new PropertyDeclaration { Line = Current.Line, Access = defAccess };
+            prop.Documentation = TakePendingDoc(prop.Line);
             Advance(); // "property"
             prop.Name = Expect(TokenKind.Identifier, "Expected property name").Text;
             if (MatchKW("as")) { Advance(); prop.TypeName = ReadTypeName(); }
@@ -1447,6 +1489,7 @@ namespace NhspCompiler.Core.Parsing
         private ClassDeclaration ParseStruct()
         {
             var cls = new ClassDeclaration { Line = Current.Line, IsStruct = true, LayoutKind = "Sequential" };
+            cls.Documentation = TakePendingDoc(cls.Line);
             Advance(); // "struct"
 
             // Leading modifiers
@@ -1542,6 +1585,7 @@ namespace NhspCompiler.Core.Parsing
         private DelegateDeclaration ParseDelegate()
         {
             var del = new DelegateDeclaration { Line = Current.Line };
+            del.Documentation = TakePendingDoc(del.Line);
             Advance(); // "delegate"
 
             // Modifiers
@@ -1571,6 +1615,7 @@ namespace NhspCompiler.Core.Parsing
         private EventDeclaration ParseEvent(string defAccess)
         {
             var ev = new EventDeclaration { Line = Current.Line, Access = defAccess };
+            ev.Documentation = TakePendingDoc(ev.Line);
             Advance(); // "event"
             while (IsModifierKeyword()) { string mod = Advance().Text; if (mod == "public" || mod == "private") ev.Access = mod; }
             ev.TypeName = ReadTypeName();
@@ -1582,6 +1627,7 @@ namespace NhspCompiler.Core.Parsing
         private IndexerDeclaration ParseIndexer(string defAccess)
         {
             var idx = new IndexerDeclaration { Line = Current.Line, Access = defAccess };
+            idx.Documentation = TakePendingDoc(idx.Line);
             Advance(); // "indexer"
             while (IsModifierKeyword()) { string mod = Advance().Text; if (mod == "public" || mod == "private") idx.Access = mod; }
             idx.TypeName = ReadTypeName();
@@ -1612,6 +1658,7 @@ namespace NhspCompiler.Core.Parsing
         private OperatorDeclaration ParseOperator()
         {
             var op = new OperatorDeclaration { Line = Current.Line };
+            op.Documentation = TakePendingDoc(op.Line);
             Advance(); // "operator"
 
             // Return type
@@ -1638,6 +1685,7 @@ namespace NhspCompiler.Core.Parsing
         private EnumDeclaration ParseEnum()
         {
             var en = new EnumDeclaration { Line = Current.Line };
+            en.Documentation = TakePendingDoc(en.Line);
             Advance(); // "enum"
             while (IsModifierKeyword()) { string mod = Advance().Text; if (mod == "public" || mod == "private") en.Access = mod; }
             en.Name = Expect(TokenKind.Identifier, "Expected enum name").Text;

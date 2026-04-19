@@ -1,0 +1,12 @@
+; app.nhsp — consumes lib_math via #include
+; Hover on `Vec2` or `Clamp` should show the docs from lib_math.nhsp.
+
+#assembly "IncludeDemo"
+
+#include "lib_math.nhsp"
+
+#main
+  Vec2 v = new Vec2(3, 4)
+  print "mag2 = " + str(v.Mag2())
+  print "clamped = " + str(Clamp.ClampInt(42, 0, 10))
+#endmain

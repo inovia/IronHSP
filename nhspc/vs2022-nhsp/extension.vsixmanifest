@@ -38,13 +38,6 @@ work like for C# code.</Description>
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
   </Prerequisites>
   <Assets>
-    <!-- TextMate grammar at Grammars/nhsp.tmLanguage.json is picked up automatically
-         by VS 2022's grammar scanner once the extension is installed. No formal
-         Asset entry is required for grammars; the entry below just keeps the
-         schema validator happy. -->
-    <Asset Type="NhspLanguage.Grammar" d:Source="File" Path="Grammars\nhsp.tmLanguage.json" />
-    <!-- LSP MEF component: declares the .nhsp content type and an ILanguageClient
-         that spawns nhspls.exe (bundled in the same folder). -->
-    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="File" Path="NhspVsLanguageClient.dll" />
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="nhsp.pkgdef" />
   </Assets>
 </PackageManifest>

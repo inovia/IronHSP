@@ -6,4 +6,6 @@
   <Default Extension="md" ContentType="text/markdown" />
   <Default Extension="dll" ContentType="application/octet-stream" />
   <Default Extension="exe" ContentType="application/octet-stream" />
+  <Default Extension="config" ContentType="application/xml" />
+  <Default Extension="pkgdef" ContentType="text/plain" />
 </Types>
