@@ -64,7 +64,11 @@
 ;------------------------------------------------------------
 ; hspvosk.dll (オフライン Vosk バックエンド)
 ;------------------------------------------------------------
+#ifdef _HSP64
+#uselib "hspvosk_64.dll"
+#else
 #uselib "hspvosk.dll"
+#endif
 #cfunc _hvosk_open              "hvosk_open"              str, int
 #cfunc _hvosk_transcribe_wav    "hvosk_transcribe_wav"    int, str, var, int
 #cfunc _hvosk_accept_pcm_s16    "hvosk_accept_pcm_s16"    int, var, int
@@ -76,7 +80,11 @@
 ;------------------------------------------------------------
 ; hspsapi.dll (Windows SAPI 5 バックエンド)
 ;------------------------------------------------------------
+#ifdef _HSP64
+#uselib "hspsapi_64.dll"
+#else
 #uselib "hspsapi.dll"
+#endif
 #cfunc _hsapi_open              "sapi_open"               str
 #cfunc _hsapi_transcribe_wav    "sapi_transcribe_wav"     int, str, var, int
 #func  _hsapi_close             "sapi_close"              int
@@ -84,7 +92,11 @@
 ;------------------------------------------------------------
 ; hspwinrtspeech.dll (Windows.Media.SpeechRecognition, mic only)
 ;------------------------------------------------------------
+#ifdef _HSP64
+#uselib "hspwinrtspeech_64.dll"
+#else
 #uselib "hspwinrtspeech.dll"
+#endif
 #cfunc _hwinrt_speech_open        "winrt_speech_open"        str
 #cfunc _hwinrt_speech_listen_once "winrt_speech_listen_once" int, var, int
 #func  _hwinrt_speech_close       "winrt_speech_close"       int

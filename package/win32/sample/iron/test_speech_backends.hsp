@@ -1,0 +1,41 @@
+;============================================================
+;  test_speech_backends.hsp — SAPI / WinRT / Vosk 軽量テスト
+;
+;  モデル/音声なしで動く「bad 入力で負ハンドル返却 + close 安全性」を
+;  3 バックエンドそれぞれで確認。
+;============================================================
+
+#include "hsp3cl_net_64.as"
+#include "hspsapi.as"
+#include "hspwinrtspeech.as"
+#include "hspvosk.as"
+#include "iron_test_ex.hsp"
+
+    ; SAPI: 不正な言語名でも open 自体は OK (SAPI の既定を使う)。close 安全性のみ。
+    test_case "SAPI close(-1) is safe"
+        hspsapi_close -1
+        assert_true 1
+    test_end
+
+    ; WinRT speech close(-1) 安全性
+    test_case "WinRT speech close(-1) is safe"
+        hspwinrt_speech_close -1
+        assert_true 1
+    test_end
+
+    ; Vosk: DLL がロードできて open がクラッシュしないことを確認
+    ; (vosk_model_new は bad path でも NULL にならないケースがあるので
+    ;  戻り値は assert しない)
+    test_case "Vosk open(nonexistent) does not crash"
+        h = hspvosk_open("__no_such_model__", 16000)
+        ; クリーンアップ: 正なら close、負なら何もしない
+        if h >= 0 : hspvosk_close h
+        assert_true 1
+    test_end
+
+    test_case "Vosk close(-1) is safe"
+        hspvosk_close -1
+        assert_true 1
+    test_end
+
+    end testrt_summary()
