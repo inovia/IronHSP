@@ -1,8 +1,6 @@
 using System.ComponentModel.Composition;
-using System.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
@@ -11,15 +9,10 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace NhspVsLanguageClient
 {
-    // MEF listener fired once per text view created on an .nhsp buffer.
-    //   1. Installs a per-view NhspCommandFilter (catches F5 when the editor
-    //      has keyboard focus — fast path).
-    //   2. The first time any .nhsp view opens in this VS session, registers
-    //      NhspGlobalCommandTarget with IVsRegisterPriorityCommandTarget so
-    //      that the Debug toolbar button (which bypasses per-view filters)
-    //      is also caught.
-    //   3. Attaches a 2-combo navigation bar (Type / Member) to the code
-    //      window hosting the view.
+    // Per-view MEF listener. Attaches the Type/Member navigation bar above
+    // the editor. F5 / Ctrl+F5 / toolbar ▶ are handled entirely by the
+    // Open-Folder Launch providers in NhspWorkspaceLaunch.cs, so this
+    // listener no longer installs a command filter.
     [Export(typeof(IVsTextViewCreationListener))]
     [ContentType(NhspContentDefinition.ContentTypeName)]
     [TextViewRole(PredefinedTextViewRoles.Editable)]
@@ -27,21 +20,10 @@ namespace NhspVsLanguageClient
     {
         [Import] internal IVsEditorAdaptersFactoryService AdapterService = null;
 
-        private static int _priorityTargetRegistered = 0;
-
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
-            if (Interlocked.CompareExchange(ref _priorityTargetRegistered, 1, 0) == 0)
-                RegisterPriorityTarget();
-
             var wpf = AdapterService?.GetWpfTextView(textViewAdapter);
             if (wpf == null) return;
-
-            var filter = new NhspCommandFilter(wpf);
-            IOleCommandTarget next;
-            textViewAdapter.AddCommandFilter(filter, out next);
-            filter.Next = next;
-
             AttachDropdownBar(textViewAdapter, wpf);
         }
 
@@ -50,8 +32,6 @@ namespace NhspVsLanguageClient
             var mgr = FindCodeWindowByEnumeration(vsView);
             if (mgr == null) return;
 
-            // Replace any existing bar (e.g. added by a previous session that
-            // forgot to clean up) so our two combos take over.
             IVsDropdownBar existing;
             if (mgr.GetDropdownBar(out existing) == VSConstants.S_OK && existing != null)
                 mgr.RemoveDropdownBar();
@@ -91,18 +71,6 @@ namespace NhspVsLanguageClient
                     return cw as IVsDropdownBarManager;
             }
             return null;
-        }
-
-        private static void RegisterPriorityTarget()
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var reg = Package.GetGlobalService(typeof(SVsRegisterPriorityCommandTarget))
-                as IVsRegisterPriorityCommandTarget;
-            if (reg == null) return;
-            uint cookie;
-            // Cookie intentionally leaked: the target is meant to live for
-            // the entire VS session.
-            reg.RegisterPriorityCommandTarget(0, new NhspGlobalCommandTarget(), out cookie);
         }
     }
 }

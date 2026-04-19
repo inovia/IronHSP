@@ -9,10 +9,39 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.LanguageServer.Client" Version="17.0.5232" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="17.0.32112.339" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.0.64" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.13.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Utilities" Version="17.0.32112.339" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.CoreUtility" Version="17.0.491" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Editor" Version="17.0.491" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.11.0" Version="17.0.32112.339" PrivateAssets="all" />
+  </ItemGroup>
+  <!--
+    Open-Folder / Workspace extensibility DLLs. They are not distributed as
+    NuGet packages — only as part of the VS 2022 install under the OpenFolder
+    CommonExtension. Referenced by file so we don't pull in the transitive
+    17.12 dependency chain that drags in Microsoft.PerformanceUtilities (not
+    on nuget.org) and downgrades our Threading/Shell refs.
+
+    Path is probed in SKU order (Community → Professional → Enterprise).
+    Set NhspVsOpenFolderDir in your environment to override for a custom install.
+  -->
+  <PropertyGroup>
+    <NhspVsOpenFolderDir Condition="'$(NhspVsOpenFolderDir)' == '' AND Exists('$(ProgramFiles)\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\OpenFolder\Microsoft.VisualStudio.Workspace.dll')">$(ProgramFiles)\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\OpenFolder</NhspVsOpenFolderDir>
+    <NhspVsOpenFolderDir Condition="'$(NhspVsOpenFolderDir)' == '' AND Exists('$(ProgramFiles)\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\OpenFolder\Microsoft.VisualStudio.Workspace.dll')">$(ProgramFiles)\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\OpenFolder</NhspVsOpenFolderDir>
+    <NhspVsOpenFolderDir Condition="'$(NhspVsOpenFolderDir)' == '' AND Exists('$(ProgramFiles)\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\OpenFolder\Microsoft.VisualStudio.Workspace.dll')">$(ProgramFiles)\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\OpenFolder</NhspVsOpenFolderDir>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(NhspVsOpenFolderDir)' != ''">
+    <Reference Include="Microsoft.VisualStudio.Workspace">
+      <HintPath>$(NhspVsOpenFolderDir)\Microsoft.VisualStudio.Workspace.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Workspace.Extensions">
+      <HintPath>$(NhspVsOpenFolderDir)\Microsoft.VisualStudio.Workspace.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Workspace.VSIntegration">
+      <HintPath>$(NhspVsOpenFolderDir)\Microsoft.VisualStudio.Workspace.VSIntegration.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 </Project>

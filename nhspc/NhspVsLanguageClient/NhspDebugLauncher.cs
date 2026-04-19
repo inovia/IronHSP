@@ -30,56 +30,19 @@ namespace NhspVsLanguageClient
 
         private static IVsOutputWindowPane _pane;
 
-        public static void Launch(IWpfTextView view, bool debug)
+        // Entry point used by the Open-Folder LaunchDebugTarget provider when
+        // the user picks "Current Document" from the toolbar startup dropdown
+        // (or presses F5 / uses Debug menu). Workspace infra delivers this
+        // call on the UI thread already.
+        public static void LaunchFilePublic(string srcPath, bool debug)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            if (!TryGetFilePath(view, out string srcPath))
+            if (string.IsNullOrEmpty(srcPath) || !System.IO.File.Exists(srcPath))
             {
-                Log("NHSP: save the file first (current buffer has no path).");
+                Log("NHSP: file not found: " + srcPath);
                 return;
             }
             LaunchFile(srcPath, debug);
-        }
-
-        // Entry point used by the shell-level priority command target — the
-        // toolbar's Start button bypasses per-view filters, so we route through
-        // DTE to find whichever .nhsp document is currently active.
-        public static void LaunchActive(bool debug)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string src = GetActiveNhspPath(saveIfDirty: true);
-            if (src == null)
-            {
-                Log("NHSP: no active .nhsp document to run.");
-                return;
-            }
-            LaunchFile(src, debug);
-        }
-
-        public static bool IsActiveDocNhsp()
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            return GetActiveNhspPath(saveIfDirty: false) != null;
-        }
-
-        private static string GetActiveNhspPath(bool saveIfDirty)
-        {
-            try
-            {
-                var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
-                var doc = dte?.ActiveDocument;
-                if (doc == null) return null;
-                string name = doc.FullName;
-                if (string.IsNullOrEmpty(name) ||
-                    !name.EndsWith(".nhsp", StringComparison.OrdinalIgnoreCase))
-                    return null;
-                if (saveIfDirty && !doc.Saved)
-                {
-                    try { doc.Save(); } catch { /* logged below if missing */ }
-                }
-                return File.Exists(name) ? name : null;
-            }
-            catch { return null; }
         }
 
         private static void LaunchFile(string srcPath, bool debug)
@@ -108,23 +71,6 @@ namespace NhspVsLanguageClient
 
             if (debug) LaunchDebugger(outExe);
             else LaunchStandalone(outExe);
-        }
-
-        private static bool TryGetFilePath(IWpfTextView view, out string path)
-        {
-            path = null;
-            ITextDocument doc;
-            if (!view.TextBuffer.Properties.TryGetProperty<ITextDocument>(typeof(ITextDocument), out doc) || doc == null)
-                return false;
-            if (doc.IsDirty)
-            {
-                try { doc.Save(); }
-                catch (Exception e) { Log("NHSP: save failed: " + e.Message); return false; }
-            }
-            if (string.IsNullOrEmpty(doc.FilePath) || !File.Exists(doc.FilePath))
-                return false;
-            path = doc.FilePath;
-            return true;
         }
 
         private static int RunCompiler(string compilerPath, string src, string outExe)
