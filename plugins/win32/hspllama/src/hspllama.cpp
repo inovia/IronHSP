@@ -127,8 +127,15 @@ struct StreamState {
     int           slot_h = -1;
     int           max_tokens = 0;
     int           emitted = 0;
-    std::string   fake_text;  // stub / 暫定実装
+    std::string   fake_text;  // stub / フォールバック用
     size_t        fake_pos = 0;
+#if HSPLLAMA_HAVE_LLAMA
+    // 真のストリーミング実装で使う
+    llama_sampler* smpl = nullptr;
+    const llama_vocab* vocab = nullptr;
+    std::string    carry;       // まだ返し切れていないバイト (連続呼び出しでチャンク化)
+    bool           eos = false;
+#endif
 };
 static StreamState g_stream;
 
@@ -317,47 +324,170 @@ HSPLLAMA_EXPORT int __stdcall hspllama_chat(
 }
 
 // llama_stream_begin(h, prompt, max_tokens)
+//   prompt をトークン化 → 初回 decode まで済ませてステート保存。
+//   以降 hspllama_stream_next を繰り返し呼ぶとトークン 1 つずつ返す。
 HSPLLAMA_EXPORT int __stdcall hspllama_stream_begin(
     int h, const char* prompt, int max_tokens)
 {
-    (void)prompt;
-    g_stream = StreamState{};
-    g_stream.active = true;
-    g_stream.slot_h = h;
-    g_stream.max_tokens = max_tokens;
-    g_stream.emitted = 0;
 #if HSPLLAMA_HAVE_LLAMA
-    // TODO: 真のストリーミング実装 (現状 fake)
-    g_stream.fake_text = "[stream impl pending]";
-#else
-    g_stream.fake_text = "[hspllama stub] ";
+    // 前回のストリームが残ってれば掃除
+    if (g_stream.active && g_stream.smpl) {
+        llama_sampler_free(g_stream.smpl);
+        g_stream.smpl = nullptr;
+    }
 #endif
+    g_stream = StreamState{};
+    g_stream.slot_h     = h;
+    g_stream.max_tokens = max_tokens > 0 ? max_tokens : 256;
+
+#if HSPLLAMA_HAVE_LLAMA
+    LlamaState* s = get_slot(h);
+    if (!s || !s->ctx || !s->model || !prompt) {
+        g_stream.fake_text = "[hspllama: invalid handle or null prompt]";
+        g_stream.active = true;
+        return 0;
+    }
+
+    const llama_vocab* vocab = llama_model_get_vocab(s->model);
+    if (!vocab) {
+        g_stream.fake_text = "[hspllama: no vocab]";
+        g_stream.active = true;
+        return 0;
+    }
+
+    // KV cache を前回呼び出しの残渣ごとクリア
+    llama_memory_t mem = llama_get_memory(s->ctx);
+    if (mem) llama_memory_clear(mem, true);
+
+    int prompt_len = (int)strlen(prompt);
+    std::vector<llama_token> tokens;
+    tokens.resize((size_t)prompt_len + 16);
+    int n_tokens = llama_tokenize(vocab, prompt, prompt_len,
+                                  tokens.data(), (int)tokens.size(),
+                                  /*add_special*/ true,
+                                  /*parse_special*/ true);
+    if (n_tokens < 0) {
+        tokens.resize((size_t)(-n_tokens));
+        n_tokens = llama_tokenize(vocab, prompt, prompt_len,
+                                  tokens.data(), (int)tokens.size(),
+                                  true, true);
+    }
+    if (n_tokens <= 0) {
+        g_stream.fake_text = "[hspllama: tokenize failed]";
+        g_stream.active = true;
+        return 0;
+    }
+    tokens.resize((size_t)n_tokens);
+
+    // greedy sampler (同期 API と揃える)
+    llama_sampler_chain_params sp = llama_sampler_chain_default_params();
+    g_stream.smpl = llama_sampler_chain_init(sp);
+    llama_sampler_chain_add(g_stream.smpl, llama_sampler_init_greedy());
+
+    llama_batch batch = llama_batch_get_one(tokens.data(), (int32_t)tokens.size());
+    if (llama_decode(s->ctx, batch) != 0) {
+        llama_sampler_free(g_stream.smpl);
+        g_stream.smpl = nullptr;
+        g_stream.fake_text = "[hspllama: prompt decode failed]";
+        g_stream.active = true;
+        return 0;
+    }
+
+    g_stream.vocab  = vocab;
+    g_stream.eos    = false;
+    g_stream.carry.clear();
+    g_stream.active = true;
+    g_stream.fake_text.clear();
     g_stream.fake_pos = 0;
     return 0;
+#else
+    g_stream.fake_text = "[hspllama stub] ";
+    g_stream.fake_pos  = 0;
+    g_stream.active    = true;
+    return 0;
+#endif
 }
 
-// llama_stream_next(var_buf, buf_size)  → 空文字 = eos
+// llama_stream_next(var_buf, buf_size)
+//   1 トークン分の detokenize 結果 (UTF-8) を out_buf に書き込む。
+//   空文字列を書いた場合は EOS (ストリーム終了)。
 HSPLLAMA_EXPORT int __stdcall hspllama_stream_next(char* out_buf, int out_size) {
     if (out_buf && out_size > 0) out_buf[0] = 0;
-    if (!g_stream.active) return 0;
+    if (!g_stream.active || out_size < 2) return 0;
 
+#if HSPLLAMA_HAVE_LLAMA
+    // 真のストリーミング (vocab/sampler あり)
+    if (g_stream.vocab && g_stream.smpl && g_stream.fake_text.empty()) {
+        LlamaState* s = get_slot(g_stream.slot_h);
+        if (!s || !s->ctx) { g_stream.active = false; return 0; }
+
+        // carry に残ってるバイトがあれば先に吐く
+        if (!g_stream.carry.empty()) {
+            int take = (int)g_stream.carry.size();
+            if (take >= out_size) take = out_size - 1;
+            memcpy(out_buf, g_stream.carry.data(), (size_t)take);
+            out_buf[take] = 0;
+            g_stream.carry.erase(0, (size_t)take);
+            return 0;
+        }
+
+        if (g_stream.eos || g_stream.emitted >= g_stream.max_tokens) {
+            g_stream.active = false;
+            return 0;
+        }
+
+        llama_token id = llama_sampler_sample(g_stream.smpl, s->ctx, -1);
+        if (id < 0 || llama_vocab_is_eog(g_stream.vocab, id)) {
+            g_stream.eos = true;
+            g_stream.active = false;
+            return 0;
+        }
+
+        char detok[256];
+        int n = llama_detokenize(g_stream.vocab, &id, 1,
+                                 detok, (int)sizeof(detok),
+                                 false, false);
+        if (n > 0) {
+            int take = n < (out_size - 1) ? n : (out_size - 1);
+            memcpy(out_buf, detok, (size_t)take);
+            out_buf[take] = 0;
+            if (n > take) g_stream.carry.assign(detok + take, (size_t)(n - take));
+        }
+
+        // 次トークンのため 1 件 decode
+        llama_batch nb = llama_batch_get_one(&id, 1);
+        if (llama_decode(s->ctx, nb) != 0) {
+            g_stream.eos = true;
+        }
+        ++g_stream.emitted;
+        return 0;
+    }
+#endif
+
+    // フォールバック (fake_text から 1 文字ずつ返す)
     if (g_stream.fake_pos >= g_stream.fake_text.size()
-        || g_stream.emitted >= g_stream.max_tokens)
-    {
+        || g_stream.emitted >= g_stream.max_tokens) {
         g_stream.active = false;
         return 0;
     }
-    if (out_size >= 2) {
-        out_buf[0] = g_stream.fake_text[g_stream.fake_pos++];
-        out_buf[1] = 0;
-        ++g_stream.emitted;
-    }
+    out_buf[0] = g_stream.fake_text[g_stream.fake_pos++];
+    out_buf[1] = 0;
+    ++g_stream.emitted;
     return 0;
 }
 
 // llama_stream_end
 HSPLLAMA_EXPORT int __stdcall hspllama_stream_end() {
     g_stream.active = false;
+#if HSPLLAMA_HAVE_LLAMA
+    if (g_stream.smpl) {
+        llama_sampler_free(g_stream.smpl);
+        g_stream.smpl = nullptr;
+    }
+    g_stream.vocab = nullptr;
+    g_stream.carry.clear();
+    g_stream.eos = false;
+#endif
     g_stream.fake_text.clear();
     g_stream.fake_pos = 0;
     g_stream.emitted = 0;
