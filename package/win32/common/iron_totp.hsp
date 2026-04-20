@@ -24,6 +24,12 @@
 #ifndef __iron_totp_hsp__
 #define __iron_totp_hsp__
 
+; UTC 時刻取得のため kernel32 の GetSystemTime を使う。
+; SYSTEMTIME = WORD wYear, wMonth, wDayOfWeek, wDay, wHour, wMinute,
+;              wSecond, wMilliseconds (合計 16 バイト、全て little-endian)
+#uselib "kernel32.dll"
+#func global _totp_GetSystemTime "GetSystemTime" var
+
 #module iron_totp
 
 ;---------------------------------------------------------
@@ -199,19 +205,23 @@
 
 ;---------------------------------------------------------
 ; TOTP コード生成 (内部)
+;   counter は HSP の 64bit int。_hi / _lo に分割して big-endian 化
 ;---------------------------------------------------------
-#deffunc _totp_generate_at var key, int key_len, int counter, int digits, var v_code, \
-	local _ctbuf, local _mac, local _offset, local _bin_code, local _code, local _div, local _i
+#deffunc _totp_generate_at var key, int key_len, int64 counter, int digits, var v_code, \
+	local _ctbuf, local _mac, local _offset, local _bin_code, local _code, local _div, \
+	local _hi, local _lo
 	sdim _ctbuf, 16
-	; 64-bit big-endian counter (上位 32bit は 0)
-	poke _ctbuf, 0, 0
-	poke _ctbuf, 1, 0
-	poke _ctbuf, 2, 0
-	poke _ctbuf, 3, 0
-	poke _ctbuf, 4, (counter >> 24) & 0xFF
-	poke _ctbuf, 5, (counter >> 16) & 0xFF
-	poke _ctbuf, 6, (counter >>  8) & 0xFF
-	poke _ctbuf, 7, counter & 0xFF
+	; HSP int64 → 8 バイト big-endian
+	_hi = int(counter >> 32) & 0xFFFFFFFF
+	_lo = int(counter)       & 0xFFFFFFFF
+	poke _ctbuf, 0, (_hi >> 24) & 0xFF
+	poke _ctbuf, 1, (_hi >> 16) & 0xFF
+	poke _ctbuf, 2, (_hi >>  8) & 0xFF
+	poke _ctbuf, 3, _hi & 0xFF
+	poke _ctbuf, 4, (_lo >> 24) & 0xFF
+	poke _ctbuf, 5, (_lo >> 16) & 0xFF
+	poke _ctbuf, 6, (_lo >>  8) & 0xFF
+	poke _ctbuf, 7, _lo & 0xFF
 	_totp_hmac_sha1 key, key_len, _ctbuf, 8, _mac
 	_offset = peek(_mac, 19) & 0x0F
 	_bin_code = ((peek(_mac, _offset) & 0x7F) << 24) | (peek(_mac, _offset + 1) << 16) | (peek(_mac, _offset + 2) << 8) | peek(_mac, _offset + 3)
@@ -230,16 +240,13 @@
 ;---------------------------------------------------------
 #deffunc totp_code str secret, var v_code, \
 	array _opt, \
-	local _key, local _klen, local _now, local _counter, \
+	local _key, local _klen, local _counter, \
 	local _digits, local _period
 	_digits = 6 : _period = 30
 	if length(_opt) >= 1 : if _opt(0) > 0 : _digits = _opt(0)
 	if length(_opt) >= 2 : if _opt(1) > 0 : _period = _opt(1)
 	_klen = _totp_base32_decode(secret, _key)
-	_now  = gettime(0) * 0    ; placeholder
-	; HSP の gettime は 年/月/日/曜/時/分/秒 を個別取得。
-	; UTC unix time を組み立てる:
-	_counter = _unix_time() / _period
+	_counter = _unix_time_utc() / _period
 	sdim v_code, 16
 	_totp_generate_at _key, _klen, _counter, _digits, v_code
 	return 0
@@ -256,7 +263,7 @@
 	if length(_opt) >= 1 : if _opt(0) > 0 : _digits = _opt(0)
 	if length(_opt) >= 2 : if _opt(1) > 0 : _period = _opt(1)
 	_klen = _totp_base32_decode(secret, _key)
-	_counter = _unix_time() / _period
+	_counter = _unix_time_utc() / _period
 	sdim _c1, 16
 	sdim _c2, 16
 	sdim _c3, 16
@@ -269,17 +276,21 @@
 	return 0
 
 ;---------------------------------------------------------
-; unix time (UTC 秒)
-;   HSP の gettime() はローカル時刻なので、これを UTC に補正する簡易版。
-;   Windows のタイムゾーン bias は考慮しないので、JST (+09:00) 想定の環境で
-;   使うなら JST 分を引く。本実装はローカル時刻をそのまま unix time とみなす。
-;   (Authenticator 互換は多くのクライアントで ±30 秒許容のため誤差吸収可)
+; unix time (UTC 秒、int64)
+;   Win32 GetSystemTime で UTC を直接取り、2038 年以降でも壊れないよう
+;   計算部を int64 で実施する。
 ;---------------------------------------------------------
-#defcfunc _unix_time \
-	local _y, local _m, local _d, local _h, local _mi, local _s, \
-	local _days, local _is_leap, local _i
-	_y = gettime(0) : _m = gettime(1) : _d = gettime(3)
-	_h = gettime(4) : _mi = gettime(5) : _s = gettime(6)
+#defcfunc _unix_time_utc \
+	local _st, local _y, local _m, local _d, local _h, local _mi, local _s, \
+	local _days, local _is_leap, local _i, local _mdays, local _result64
+	sdim _st, 16
+	_totp_GetSystemTime _st
+	_y  = wpeek(_st, 0)     ; wYear
+	_m  = wpeek(_st, 2)     ; wMonth
+	_d  = wpeek(_st, 6)     ; wDay   (wDayOfWeek をスキップ)
+	_h  = wpeek(_st, 8)
+	_mi = wpeek(_st, 10)
+	_s  = wpeek(_st, 12)
 	; 1970-01-01 からの日数
 	_days = 0
 	_i = 1970
@@ -297,12 +308,13 @@
 	_is_leap = 0
 	if ((_y \ 4) = 0) & (((_y \ 100) != 0) | ((_y \ 400) = 0)) : _is_leap = 1
 	if _is_leap : _mdays(1) = 29
-	_i = 0
 	repeat _m - 1
 		_days = _days + _mdays(cnt)
 	loop
 	_days = _days + _d - 1
-	return _days * 86400 + _h * 3600 + _mi * 60 + _s
+	; int64 で秒計算 (2038 年問題回避)
+	_result64 = int64(_days) * 86400 + int64(_h) * 3600 + int64(_mi) * 60 + int64(_s)
+	return _result64
 
 ;---------------------------------------------------------
 ; totp_uri "secret", "account@example.com", "Issuer", var_uri

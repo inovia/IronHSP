@@ -38,6 +38,7 @@ using System.Text;
 
 public class HspCredManNet {
     const int CRED_TYPE_GENERIC = 1;
+    const int CRED_TYPE_DOMAIN_PASSWORD = 2;
     const int CRED_PERSIST_LOCAL_MACHINE = 2;
     const int CRED_MAX_CREDENTIAL_BLOB_SIZE = 512 * 5;
 
@@ -69,7 +70,16 @@ public class HspCredManNet {
     [DllImport("advapi32.dll", SetLastError = true)]
     static extern bool CredFree([In] IntPtr cred);
 
+    [DllImport("advapi32.dll", EntryPoint = "CredEnumerateW", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern bool CredEnumerate(string filter, int flag, out int count, out IntPtr pCredentials);
+
     public static string Write(string target, string user, string pw) {
+        return WriteTyped(target, user, pw, CRED_TYPE_GENERIC);
+    }
+    public static string WriteDomain(string target, string user, string pw) {
+        return WriteTyped(target, user, pw, CRED_TYPE_DOMAIN_PASSWORD);
+    }
+    static string WriteTyped(string target, string user, string pw, int type) {
         try {
             byte[] pwBytes = Encoding.Unicode.GetBytes(pw ?? "");
             if (pwBytes.Length > CRED_MAX_CREDENTIAL_BLOB_SIZE)
@@ -78,7 +88,7 @@ public class HspCredManNet {
             try {
                 Marshal.Copy(pwBytes, 0, blob, pwBytes.Length);
                 var c = new CREDENTIAL();
-                c.Type = CRED_TYPE_GENERIC;
+                c.Type = type;
                 c.TargetName = target;
                 c.CredentialBlobSize = pwBytes.Length;
                 c.CredentialBlob = blob;
@@ -91,6 +101,28 @@ public class HspCredManNet {
                 Marshal.FreeHGlobal(blob);
             }
         } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string Enumerate(string filter) {
+        IntPtr pCreds = IntPtr.Zero;
+        try {
+            int count = 0;
+            if (!CredEnumerate(filter, 0, out count, out pCreds)) {
+                int err = Marshal.GetLastWin32Error();
+                return "0\t"; // 何もなし
+            }
+            var sb = new StringBuilder();
+            int ptrSize = IntPtr.Size;
+            for (int i = 0; i < count; i++) {
+                IntPtr p = Marshal.ReadIntPtr(pCreds, i * ptrSize);
+                var c = (CREDENTIAL)Marshal.PtrToStructure(p, typeof(CREDENTIAL));
+                sb.Append("Target=").Append((c.TargetName ?? "").Replace('|','/'));
+                sb.Append("|User=").Append((c.UserName ?? "").Replace('|','/'));
+                sb.Append("|Type=").Append(c.Type);
+                sb.AppendLine();
+            }
+            return count + "\t" + sb.ToString();
+        } catch (Exception e) { return "-1\t" + e.Message; }
+        finally { if (pCreds != IntPtr.Zero) CredFree(pCreds); }
     }
 
     public static string Read(string target) {
@@ -181,6 +213,34 @@ public class HspCredManNet {
 	newnet _h, "HspCredManNet"
 	mcall _h, "Exists", _r, target
 	return int("" + _r)
+
+;------------------------------------------------------------
+; credmann_write_domain "target", "DOMAIN\\user", "password"
+;   ドメイン資格情報を保存 (net use 等で使われる形式)
+;------------------------------------------------------------
+#deffunc credmann_write_domain str target, str user, str pw, \
+	local _h, local _r
+	_credmann_load_cs
+	newnet _h, "HspCredManNet"
+	mcall _h, "WriteDomain", _r, target, user, pw
+	return int("" + _r)
+
+;------------------------------------------------------------
+; credmann_enumerate "filter or empty", var_tsv
+;   保存済み資格情報を列挙 (パスワード本文は出さない)
+;   filter は "GitHub*" 等のワイルドカード
+;------------------------------------------------------------
+#deffunc credmann_enumerate str filter, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_credmann_load_cs
+	newnet _h, "HspCredManNet"
+	mcall _h, "Enumerate", _r, filter
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
 
 #global
 #endif

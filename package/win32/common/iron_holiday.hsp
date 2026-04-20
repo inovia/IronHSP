@@ -34,6 +34,8 @@
 #ifndef __iron_holiday_hsp__
 #define __iron_holiday_hsp__
 
+#include "iron_http.hsp"
+
 #define global HOLIDAY_CSV_URL "https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv"
 
 #module iron_holiday
@@ -97,16 +99,29 @@ dim  _h_count, 1
 	return _h_count
 
 ;---------------------------------------------------------
-; holiday_fetch — iron_http が利用可能な環境で CSV を取得
-;   呼び出し側で #include "iron_http.hsp" しておくこと
+; holiday_fetch [cache_path]
+;   内閣府 CSV を HTTP で取得し、その場で holiday_load 相当を実行。
+;   cache_path を指定すると取得した CSV を保存 (次回は holiday_load でも OK)
 ;---------------------------------------------------------
 #deffunc holiday_fetch \
-	local _body, local _tmp
+	array _opt, \
+	local _body, local _code, local _tmp_path, local _tmp, local _save_path
 	sdim _body, 262144
-	; iron_http の http_get を "外部" から間接呼び出しは難しいので、
-	; 呼び出し側が直接 http_get して holiday_load で渡すのを推奨。
-	; ここでは #bload 方式で temp ファイル経由のフォールバックを返す。
-	return -2  ; Not supported within module — use external http_get + temp file
+	; オプション: 保存先パス (第 1 引数)
+	_save_path = ""
+	if length(_opt) >= 1 : _save_path = _opt(0)
+	http_get HOLIDAY_CSV_URL, _body
+	_code = stat
+	if _code != 200 : return 0 - _code
+	; 一度ファイルに書き出して holiday_load を再利用 (parser が exist+bload 前提)
+	if strlen(_save_path) > 0 {
+		_tmp_path = _save_path
+	} else {
+		_tmp_path = "syukujitsu_cache.csv"
+	}
+	bsave _tmp_path, _body, strlen(_body)
+	holiday_load _tmp_path
+	return stat
 
 ;---------------------------------------------------------
 ; holiday_is(y, m, d) → 1/0

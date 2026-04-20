@@ -12,6 +12,10 @@
 ;     docxn_create "path.docx"                      空 .docx を新規作成
 ;     docxn_get_text var_out                         全パラグラフを連結取得
 ;     docxn_append_paragraph "text"                 末尾に段落追加
+;     docxn_append_heading "text", level            見出し追加 (1〜6)
+;     docxn_append_styled "text", bold, italic, size_pt, "色HEX"
+;     docxn_append_image "path.png", width_px, height_px   画像挿入
+;     docxn_append_table rows, cols, "csv_data"     CSV をそのまま Table に
 ;     docxn_replace "old", "new"                    全文字列置換 (テンプレ差込)
 ;     docxn_save                                     上書き保存
 ;     docxn_close
@@ -75,6 +79,99 @@ public class HspDocxNet {
         doc.MainDocumentPart.Document.Save();
         return \"0\";
     }
+    public static string AppendHeading(string text, int level) {
+        if (doc == null) return \"-1\";
+        if (level < 1) level = 1; if (level > 6) level = 6;
+        var body = doc.MainDocumentPart.Document.Body;
+        var pp = new ParagraphProperties(new ParagraphStyleId() { Val = \"Heading\" + level });
+        var p = new Paragraph(pp, new Run(new Text(text)));
+        body.Append(p);
+        doc.MainDocumentPart.Document.Save();
+        return \"0\";
+    }
+    public static string AppendStyled(string text, int bold, int italic, int sizePt, string colorHex) {
+        if (doc == null) return \"-1\";
+        var body = doc.MainDocumentPart.Document.Body;
+        var rPr = new RunProperties();
+        if (bold != 0) rPr.Append(new Bold());
+        if (italic != 0) rPr.Append(new Italic());
+        if (sizePt > 0) rPr.Append(new FontSize() { Val = (sizePt * 2).ToString() });
+        if (!string.IsNullOrEmpty(colorHex)) rPr.Append(new Color() { Val = colorHex.TrimStart('#') });
+        var run = new Run(rPr, new Text(text));
+        body.Append(new Paragraph(run));
+        doc.MainDocumentPart.Document.Save();
+        return \"0\";
+    }
+    public static string AppendImage(string imagePath, int widthPx, int heightPx) {
+        if (doc == null) return \"-1\";
+        try {
+            var main = doc.MainDocumentPart;
+            var imgExt = System.IO.Path.GetExtension(imagePath).ToLower();
+            ImagePartType t = ImagePartType.Png;
+            if (imgExt == \".jpg\" || imgExt == \".jpeg\") t = ImagePartType.Jpeg;
+            else if (imgExt == \".gif\") t = ImagePartType.Gif;
+            else if (imgExt == \".bmp\") t = ImagePartType.Bmp;
+            var imgPart = main.AddImagePart(t);
+            using (var fs = new System.IO.FileStream(imagePath, System.IO.FileMode.Open)) imgPart.FeedData(fs);
+            string relId = main.GetIdOfPart(imgPart);
+            long cx = widthPx * 9525L;   // EMU per pixel (96 DPI)
+            long cy = heightPx * 9525L;
+            // Minimal image run (inline drawing) — use a safe XML template
+            string xml =
+              \"<w:p xmlns:w='http://schemas.openxmlformats.org/wordprocessingml/2006/main'>\" +
+              \"<w:r><w:drawing>\" +
+              \"<wp:inline xmlns:wp='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing' distT='0' distB='0' distL='0' distR='0'>\" +
+              \"<wp:extent cx='\" + cx + \"' cy='\" + cy + \"'/>\" +
+              \"<wp:docPr id='1' name='Picture'/>\" +
+              \"<a:graphic xmlns:a='http://schemas.openxmlformats.org/drawingml/2006/main'>\" +
+              \"<a:graphicData uri='http://schemas.openxmlformats.org/drawingml/2006/picture'>\" +
+              \"<pic:pic xmlns:pic='http://schemas.openxmlformats.org/drawingml/2006/picture'>\" +
+              \"<pic:nvPicPr><pic:cNvPr id='2' name='Picture'/><pic:cNvPicPr/></pic:nvPicPr>\" +
+              \"<pic:blipFill><a:blip xmlns:r='http://schemas.openxmlformats.org/officeDocument/2006/relationships' r:embed='\" + relId + \"'/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>\" +
+              \"<pic:spPr><a:xfrm><a:off x='0' y='0'/><a:ext cx='\" + cx + \"' cy='\" + cy + \"'/></a:xfrm><a:prstGeom prst='rect'/></pic:spPr>\" +
+              \"</pic:pic>\" +
+              \"</a:graphicData>\" +
+              \"</a:graphic>\" +
+              \"</wp:inline>\" +
+              \"</w:drawing></w:r>\" +
+              \"</w:p>\";
+            var body = main.Document.Body;
+            var newP = new Paragraph();
+            newP.InnerXml = xml;
+            body.Append(newP);
+            main.Document.Save();
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string AppendTable(int rows, int cols, string csvData) {
+        if (doc == null) return \"-1\";
+        var body = doc.MainDocumentPart.Document.Body;
+        var tbl = new Table();
+        var tblProps = new TableProperties(
+            new TableBorders(
+                new TopBorder() { Val = BorderValues.Single, Size = 4 },
+                new BottomBorder() { Val = BorderValues.Single, Size = 4 },
+                new LeftBorder() { Val = BorderValues.Single, Size = 4 },
+                new RightBorder() { Val = BorderValues.Single, Size = 4 },
+                new InsideHorizontalBorder() { Val = BorderValues.Single, Size = 4 },
+                new InsideVerticalBorder() { Val = BorderValues.Single, Size = 4 }
+            ));
+        tbl.Append(tblProps);
+        string[] lines = (csvData ?? \"\").Split('\\n');
+        for (int r = 0; r < rows; r++) {
+            var row = new TableRow();
+            string[] cells = r < lines.Length ? lines[r].TrimEnd('\\r').Split(',') : new string[0];
+            for (int c = 0; c < cols; c++) {
+                string val = c < cells.Length ? cells[c] : \"\";
+                var tc = new TableCell(new Paragraph(new Run(new Text(val))));
+                row.Append(tc);
+            }
+            tbl.Append(row);
+        }
+        body.Append(tbl);
+        doc.MainDocumentPart.Document.Save();
+        return \"0\";
+    }
     public static string Replace(string oldText, string newText) {
         if (doc == null) return \"-1\";
         int n = 0;
@@ -130,6 +227,34 @@ public class HspDocxNet {
 	_docxn_load_cs
 	newnet _h, "HspDocxNet"
 	mcall _h, "AppendParagraph", _r, text
+	return int("" + _r)
+
+#deffunc docxn_append_heading str text, int level, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "AppendHeading", _r, text, level
+	return int("" + _r)
+
+#deffunc docxn_append_styled str text, int bold, int italic, int size_pt, str color_hex, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "AppendStyled", _r, text, bold, italic, size_pt, color_hex
+	return int("" + _r)
+
+#deffunc docxn_append_image str path, int width_px, int height_px, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "AppendImage", _r, path, width_px, height_px
+	return int("" + _r)
+
+#deffunc docxn_append_table int rows, int cols, str csv_data, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "AppendTable", _r, rows, cols, csv_data
 	return int("" + _r)
 
 #deffunc docxn_replace str old_text, str new_text, \

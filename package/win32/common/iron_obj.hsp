@@ -180,27 +180,112 @@
 	loop
 	return
 
+;---------------------------------------------------------
+; internal: face token → 3 int 0-based (OBJ は 1-based、負値は末尾相対)
+;   負値の正規化には現在の頂点数が必要なので引数で受ける
+;---------------------------------------------------------
 #deffunc _obj_parse_face_idx str tok, var v_iv, var v_it, var v_in, \
-	local _p1, local _p2, local _part
+	local _p1, local _p2, local _part, local _val
 	v_iv = -1 : v_it = -1 : v_in = -1
 	_p1 = instr(tok, 0, "/")
 	if _p1 < 0 {
-		v_iv = int(tok) - 1
+		_val = int(tok)
+		if _val > 0 : v_iv = _val - 1 : else : v_iv = _val
 		return
 	}
 	_part = strmid(tok, 0, _p1)
-	if strlen(_part) > 0 : v_iv = int(_part) - 1
+	if strlen(_part) > 0 {
+		_val = int(_part)
+		if _val > 0 : v_iv = _val - 1 : else : v_iv = _val
+	}
 	_p2 = instr(tok, _p1 + 1, "/")
 	if _p2 < 0 {
 		_part = strmid(tok, _p1 + 1, strlen(tok) - _p1 - 1)
-		if strlen(_part) > 0 : v_it = int(_part) - 1
+		if strlen(_part) > 0 {
+			_val = int(_part)
+			if _val > 0 : v_it = _val - 1 : else : v_it = _val
+		}
 		return
 	}
 	_part = strmid(tok, _p1 + 1, _p2 - _p1 - 1)
-	if strlen(_part) > 0 : v_it = int(_part) - 1
+	if strlen(_part) > 0 {
+		_val = int(_part)
+		if _val > 0 : v_it = _val - 1 : else : v_it = _val
+	}
 	_part = strmid(tok, _p2 + 1, strlen(tok) - _p2 - 1)
-	if strlen(_part) > 0 : v_in = int(_part) - 1
+	if strlen(_part) > 0 {
+		_val = int(_part)
+		if _val > 0 : v_in = _val - 1 : else : v_in = _val
+	}
 	return
+
+;---------------------------------------------------------
+; obj_load_mtl "file.mtl", var_names, var_kd, var_map_kd, var n
+;   .mtl ファイルを読み込み、マテリアル配列に展開
+;     names:  str[n]         マテリアル名
+;     kd:     double[3*n]    拡散色 (RGB 0..1)
+;     map_kd: str[n]         拡散テクスチャファイル名
+;---------------------------------------------------------
+#deffunc obj_load_mtl str path, var v_names, var v_kd, var v_map_kd, var v_n, \
+	local _size, local _buf, local _p, local _eol, local _line, \
+	local _space, local _tag, local _rest, \
+	local _n, local _cap, \
+	local _toks, local _ntok
+	_cap = 256
+	sdim v_names, 64, _cap
+	ddim v_kd, _cap * 3
+	sdim v_map_kd, 256, _cap
+	_n = 0
+	exist path
+	_size = strsize
+	if _size <= 0 : v_n = 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+	_p = 0
+	repeat
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p)
+			_p = _eol + 1
+		}
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		if strlen(_line) = 0 : continue
+		if peek(_line, 0) = '#' : continue
+		_space = instr(_line, 0, " ")
+		if _space < 0 : continue
+		_tag  = strmid(_line, 0, _space)
+		_rest = strmid(_line, _space + 1, strlen(_line) - _space - 1)
+		if _tag = "newmtl" {
+			if _n >= _cap : continue
+			v_names(_n) = _rest
+			_n++
+			continue
+		}
+		if _n = 0 : continue
+		if _tag = "Kd" {
+			sdim _toks, 64, 6
+			_ntok = 0
+			_obj_split_ws _rest, _toks, _ntok
+			if _ntok >= 3 {
+				v_kd((_n - 1) * 3 + 0) = double(_toks(0))
+				v_kd((_n - 1) * 3 + 1) = double(_toks(1))
+				v_kd((_n - 1) * 3 + 2) = double(_toks(2))
+			}
+			continue
+		}
+		if _tag = "map_Kd" {
+			v_map_kd(_n - 1) = _rest
+			continue
+		}
+	loop
+	v_n = _n
+	return 0
 
 #global
 #endif

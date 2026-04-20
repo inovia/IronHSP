@@ -11,13 +11,19 @@
 ;     (NuGet で導入)。無い環境では loadnet が失敗する。
 ;
 ;   API:
-;     xlsxn_open "path.xlsx"                          → stat 0=OK
-;     xlsxn_create "path.xlsx"                        空の xlsx を新規作成
-;     xlsxn_sheet_count                                → stat=シート数
-;     xlsxn_sheet_name idx, var_name                  シート名取得
-;     xlsxn_read_cell sheet_idx, row, col, var_out    セル値 (文字列化)
-;     xlsxn_write_cell sheet_idx, row, col, "value"   セル書き込み
-;     xlsxn_save                                        保存 (同名に上書き)
+;     xlsxn_open "path.xlsx"                            → stat 0=OK
+;     xlsxn_create "path.xlsx"                          空の xlsx を新規作成
+;     xlsxn_sheet_add "name"                            シート追加 (戻り sheet index)
+;     xlsxn_sheet_count                                 → stat=シート数
+;     xlsxn_sheet_name idx, var_name                    シート名取得
+;     xlsxn_read_cell sheet_idx, row, col, var_out      セル値 (文字列化)
+;     xlsxn_read_num sheet_idx, row, col                 → refdval で数値取得
+;     xlsxn_write_cell sheet_idx, row, col, "value"      文字列書き込み
+;     xlsxn_write_num  sheet_idx, row, col, double val   数値書き込み
+;     xlsxn_write_formula sheet_idx, row, col, "=SUM(A1:A10)"
+;     xlsxn_merge_cells sheet_idx, r1, c1, r2, c2        セル結合
+;     xlsxn_set_col_width sheet_idx, col, width          列幅 (文字単位)
+;     xlsxn_save                                         上書き保存
 ;     xlsxn_save_as "new_path.xlsx"
 ;     xlsxn_close
 ;
@@ -100,7 +106,26 @@ public class HspXlsxNet {
         }
         return val;
     }
+    public static string ReadNum(int sheetIdx, int row, int col) {
+        string s = ReadCell(sheetIdx, row, col);
+        if (double.TryParse(s, System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture, out double d)) return d.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        return \"0\";
+    }
     public static string WriteCell(int sheetIdx, int row, int col, string value) {
+        return Put(sheetIdx, row, col, value, CellValues.String, null);
+    }
+    public static string WriteNum(int sheetIdx, int row, int col, double value) {
+        return Put(sheetIdx, row, col,
+            value.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            CellValues.Number, null);
+    }
+    public static string WriteFormula(int sheetIdx, int row, int col, string formula) {
+        if (!string.IsNullOrEmpty(formula) && formula.StartsWith(\"=\"))
+            formula = formula.Substring(1);
+        return Put(sheetIdx, row, col, null, CellValues.String, formula);
+    }
+    static string Put(int sheetIdx, int row, int col, string value, CellValues kind, string formula) {
         if (doc == null) return \"-1\";
         var s = doc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAtOrDefault(sheetIdx);
         if (s == null) return \"-2\";
@@ -117,8 +142,62 @@ public class HspXlsxNet {
             cell = new Cell() { CellReference = cellRef };
             rowElem.Append(cell);
         }
-        cell.CellValue = new CellValue(value ?? \"\");
-        cell.DataType = new EnumValue<CellValues>(CellValues.String);
+        if (formula != null) {
+            cell.CellFormula = new CellFormula(formula);
+            cell.CellValue = new CellValue(value ?? \"\");
+        } else {
+            cell.CellFormula = null;
+            cell.CellValue = new CellValue(value ?? \"\");
+        }
+        cell.DataType = new EnumValue<CellValues>(kind);
+        wsp.Worksheet.Save();
+        return \"0\";
+    }
+    public static string AddSheet(string name) {
+        if (doc == null) return \"-1\";
+        var wbp = doc.WorkbookPart;
+        var wsp = wbp.AddNewPart<WorksheetPart>();
+        wsp.Worksheet = new Worksheet(new SheetData());
+        wsp.Worksheet.Save();
+        var sheets = wbp.Workbook.GetFirstChild<Sheets>();
+        uint maxId = 1;
+        foreach (var sh in sheets.Elements<Sheet>()) if (sh.SheetId != null && sh.SheetId.Value >= maxId) maxId = sh.SheetId.Value + 1;
+        var sheet = new Sheet() { Id = wbp.GetIdOfPart(wsp), SheetId = maxId, Name = name };
+        sheets.Append(sheet);
+        wbp.Workbook.Save();
+        return (sheets.Elements<Sheet>().Count() - 1).ToString();
+    }
+    public static string MergeCells(int sheetIdx, int r1, int c1, int r2, int c2) {
+        if (doc == null) return \"-1\";
+        var s = doc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAtOrDefault(sheetIdx);
+        if (s == null) return \"-2\";
+        var wsp = (WorksheetPart)doc.WorkbookPart.GetPartById(s.Id);
+        var ws = wsp.Worksheet;
+        string range = ColName(c1) + r1 + \":\" + ColName(c2) + r2;
+        var mcs = ws.Elements<MergeCells>().FirstOrDefault();
+        if (mcs == null) {
+            mcs = new MergeCells();
+            // SheetData の後に挿入
+            var sheetData = ws.GetFirstChild<SheetData>();
+            ws.InsertAfter(mcs, sheetData);
+        }
+        mcs.Append(new MergeCell() { Reference = range });
+        wsp.Worksheet.Save();
+        return \"0\";
+    }
+    public static string SetColWidth(int sheetIdx, int col, double width) {
+        if (doc == null) return \"-1\";
+        var s = doc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAtOrDefault(sheetIdx);
+        if (s == null) return \"-2\";
+        var wsp = (WorksheetPart)doc.WorkbookPart.GetPartById(s.Id);
+        var ws = wsp.Worksheet;
+        var cols = ws.Elements<Columns>().FirstOrDefault();
+        if (cols == null) {
+            cols = new Columns();
+            var sheetData = ws.GetFirstChild<SheetData>();
+            ws.InsertBefore(cols, sheetData);
+        }
+        cols.Append(new Column() { Min = (uint)col, Max = (uint)col, Width = width, CustomWidth = true });
         wsp.Worksheet.Save();
         return \"0\";
     }
@@ -200,6 +279,48 @@ public class HspXlsxNet {
 	_xlsxn_load_cs
 	newnet _h, "HspXlsxNet"
 	mcall _h, "WriteCell", _r, sheet_idx, row, col, value
+	return int("" + _r)
+
+#deffunc xlsxn_write_num int sheet_idx, int row, int col, double value, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "WriteNum", _r, sheet_idx, row, col, value
+	return int("" + _r)
+
+#deffunc xlsxn_write_formula int sheet_idx, int row, int col, str formula, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "WriteFormula", _r, sheet_idx, row, col, formula
+	return int("" + _r)
+
+#defcfunc xlsxn_read_num int sheet_idx, int row, int col, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "ReadNum", _r, sheet_idx, row, col
+	return double("" + _r)
+
+#deffunc xlsxn_sheet_add str name, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "AddSheet", _r, name
+	return int("" + _r)
+
+#deffunc xlsxn_merge_cells int sheet_idx, int r1, int c1, int r2, int c2, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "MergeCells", _r, sheet_idx, r1, c1, r2, c2
+	return int("" + _r)
+
+#deffunc xlsxn_set_col_width int sheet_idx, int col, double width, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "SetColWidth", _r, sheet_idx, col, width
 	return int("" + _r)
 
 #deffunc xlsxn_save \

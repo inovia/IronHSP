@@ -77,6 +77,42 @@
 	return peek(buf, ofs)
 
 ;---------------------------------------------------------
+; internal: data URI ("data:*/*;base64,XXX") のデコード
+;   v_out にバイナリ書き込み、v_len にバイト数
+;---------------------------------------------------------
+#deffunc _gltf_decode_data_uri str uri, var v_out, var v_len, \
+	local _comma, local _b64, local _c, local _val, \
+	local _bits, local _bufbits, local _write_pos, local _len
+	_comma = instr(uri, 0, ",")
+	if _comma < 0 : v_len = 0 : return
+	_b64 = strmid(uri, _comma + 1, strlen(uri) - _comma - 1)
+	; 上限: base64 は 4 文字で 3 バイト → 出力バッファを確保
+	sdim v_out, strlen(_b64) * 3 / 4 + 16
+	_bits = 0 : _bufbits = 0 : _write_pos = 0
+	repeat strlen(_b64)
+		_c = peek(_b64, cnt)
+		if _c = '=' : break
+		_val = -1
+		if (_c >= 'A') & (_c <= 'Z') : _val = _c - 'A'
+		if (_c >= 'a') & (_c <= 'z') : _val = 26 + _c - 'a'
+		if (_c >= '0') & (_c <= '9') : _val = 52 + _c - '0'
+		if _c = '+' : _val = 62
+		if _c = '/' : _val = 63
+		if _c = '-' : _val = 62           ; URL-safe variant
+		if _c = '_' : _val = 63
+		if _val < 0 : continue            ; 空白等を読み飛ばし
+		_bits = (_bits << 6) | _val
+		_bufbits = _bufbits + 6
+		if _bufbits >= 8 {
+			_bufbits = _bufbits - 8
+			poke v_out, _write_pos, (_bits >> _bufbits) & 0xFF
+			_write_pos++
+		}
+	loop
+	v_len = _write_pos
+	return
+
+;---------------------------------------------------------
 ; internal: ディレクトリを取り出して URI と結合
 ;---------------------------------------------------------
 #deffunc _gltf_join_path str gltf_path, str uri, var v_out, \
@@ -164,17 +200,25 @@
 		_hid = json_load(_json_text)
 		if _hid < 0 : return -2
 	} else {
-		; --- 従来の .gltf + 外部 .bin ---
+		; --- 従来の .gltf + 外部 .bin / data URI ---
 		_hid = json_load(_file_buf)
 		if _hid < 0 : return -2
 		_bin_uri = json_str(_hid, "buffers[0].uri")
 		if strlen(_bin_uri) = 0 { json_release _hid : return -3 }
-		_gltf_join_path path, _bin_uri, _bin_path
-		exist _bin_path
-		_bin_size = strsize
-		if _bin_size <= 0 { json_release _hid : return -4 }
-		sdim _bin_buf, _bin_size + 16
-		bload _bin_path, _bin_buf, _bin_size
+		; data URI ("data:application/octet-stream;base64,...") を検出
+		if instr(_bin_uri, 0, "data:") = 0 {
+			_bin_size = 0
+			sdim _bin_buf, 1
+			_gltf_decode_data_uri _bin_uri, _bin_buf, _bin_size
+			if _bin_size <= 0 { json_release _hid : return -4 }
+		} else {
+			_gltf_join_path path, _bin_uri, _bin_path
+			exist _bin_path
+			_bin_size = strsize
+			if _bin_size <= 0 { json_release _hid : return -4 }
+			sdim _bin_buf, _bin_size + 16
+			bload _bin_path, _bin_buf, _bin_size
+		}
 	}
 	; meshes[0].primitives[0].attributes.POSITION / NORMAL / TEXCOORD_0 / indices
 	_pos_acc = json_int(_hid, "meshes[0].primitives[0].attributes.POSITION")

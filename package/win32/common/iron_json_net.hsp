@@ -109,6 +109,75 @@ public class HspJsonNet {
         return root.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
     }
 
+    // ---- 書き込み系 ----
+    public static string NewObject() { root = new JsonObject(); return "0"; }
+    public static string NewArray()  { root = new JsonArray();  return "0"; }
+
+    public static string SetStr(string path, string value) { return Put(path, JsonValue.Create(value)); }
+    public static string SetInt(string path, long value)   { return Put(path, JsonValue.Create(value)); }
+    public static string SetDbl(string path, double value) { return Put(path, JsonValue.Create(value)); }
+    public static string SetBool(string path, int value)   { return Put(path, JsonValue.Create(value != 0)); }
+    public static string SetNull(string path)              { return Put(path, null); }
+
+    public static string ArrAppend(string path, string json_fragment) {
+        var parent = Navigate(path);
+        if (!(parent is JsonArray arr)) return "-1";
+        JsonNode node = string.IsNullOrEmpty(json_fragment)
+            ? null : JsonNode.Parse(json_fragment);
+        arr.Add(node);
+        return "0";
+    }
+    public static string Remove(string path) {
+        if (string.IsNullOrEmpty(path)) { root = null; return "0"; }
+        // parent までナビし最後のキー/添字で削除
+        int lastDot = path.LastIndexOf('.');
+        int lastBr  = path.LastIndexOf('[');
+        int tail = lastDot > lastBr ? lastDot : lastBr;
+        if (tail < 0) {
+            if (root is JsonObject o) { o.Remove(path); return "0"; }
+            return "-1";
+        }
+        var parent = Navigate(path.Substring(0, tail));
+        if (parent == null) return "-1";
+        string key = path.Substring(tail);
+        if (key.StartsWith(".")) key = key.Substring(1);
+        if (key.StartsWith("[") && key.EndsWith("]")) {
+            int idx = int.Parse(key.Substring(1, key.Length - 2));
+            if (parent is JsonArray a && idx >= 0 && idx < a.Count) { a.RemoveAt(idx); return "0"; }
+            return "-1";
+        }
+        if (parent is JsonObject o2) { o2.Remove(key); return "0"; }
+        return "-1";
+    }
+
+    static string Put(string path, JsonNode value) {
+        if (root == null) root = new JsonObject();
+        if (string.IsNullOrEmpty(path)) return "-1";
+        int lastDot = path.LastIndexOf('.');
+        int lastBr  = path.LastIndexOf('[');
+        int tail = lastDot > lastBr ? lastDot : lastBr;
+        if (tail < 0) {
+            if (root is JsonObject o) { o[path] = value == null ? null : value.DeepClone(); return "0"; }
+            return "-1";
+        }
+        var parent = Navigate(path.Substring(0, tail));
+        if (parent == null) return "-1";
+        string key = path.Substring(tail);
+        if (key.StartsWith(".")) key = key.Substring(1);
+        JsonNode vv = value == null ? null : value.DeepClone();
+        if (key.StartsWith("[") && key.EndsWith("]")) {
+            int idx = int.Parse(key.Substring(1, key.Length - 2));
+            if (parent is JsonArray a) {
+                while (a.Count <= idx) a.Add(null);
+                a[idx] = vv;
+                return "0";
+            }
+            return "-1";
+        }
+        if (parent is JsonObject o2) { o2[key] = vv; return "0"; }
+        return "-1";
+    }
+
     static JsonNode Navigate(string path) {
         if (root == null) return null;
         if (string.IsNullOrEmpty(path)) return root;
@@ -204,6 +273,72 @@ public class HspJsonNet {
 	newnet _h, "HspJsonNet"
 	mcall _h, "ToPretty", _r
 	return "" + _r
+
+;------------------------------------------------------------
+; 書き込み系
+;------------------------------------------------------------
+#deffunc jsonn_new_object \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "NewObject", _r
+	return 0
+
+#deffunc jsonn_new_array \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "NewArray", _r
+	return 0
+
+#deffunc jsonn_set_str str path, str value, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "SetStr", _r, path, value
+	return int("" + _r)
+
+#deffunc jsonn_set_int str path, int value, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "SetInt", _r, path, value
+	return int("" + _r)
+
+#deffunc jsonn_set_dbl str path, double value, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "SetDbl", _r, path, value
+	return int("" + _r)
+
+#deffunc jsonn_set_bool str path, int value, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "SetBool", _r, path, value
+	return int("" + _r)
+
+#deffunc jsonn_set_null str path, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "SetNull", _r, path
+	return int("" + _r)
+
+#deffunc jsonn_arr_append str path, str json_fragment, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "ArrAppend", _r, path, json_fragment
+	return int("" + _r)
+
+#deffunc jsonn_remove str path, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "Remove", _r, path
+	return int("" + _r)
 
 #global
 #endif

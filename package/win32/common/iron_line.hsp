@@ -86,6 +86,63 @@ _ln_token = ""
 	http_post "https://api.line.me/v2/bot/message/push", _body, _resp, "application/json"
 	return stat
 
+;---------------------------------------------------------
+; line_push_image "to", "original_url", "preview_url"
+;   画像メッセージ (URL ベース、HTTPS 必須)
+;---------------------------------------------------------
+#deffunc line_push_image str to, str orig_url, str prev_url, \
+	local _body, local _resp
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_body = "{\"to\":\"" + to + "\",\"messages\":[{\"type\":\"image\","
+	_body += "\"originalContentUrl\":\"" + orig_url + "\","
+	_body += "\"previewImageUrl\":\"" + prev_url + "\"}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/push", _body, _resp, "application/json"
+	return stat
+
+;---------------------------------------------------------
+; line_push_video "to", "video_url", "preview_url"
+;---------------------------------------------------------
+#deffunc line_push_video str to, str video_url, str prev_url, \
+	local _body, local _resp
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_body = "{\"to\":\"" + to + "\",\"messages\":[{\"type\":\"video\","
+	_body += "\"originalContentUrl\":\"" + video_url + "\","
+	_body += "\"previewImageUrl\":\"" + prev_url + "\"}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/push", _body, _resp, "application/json"
+	return stat
+
+;---------------------------------------------------------
+; line_push_flex "to", "alt_text", "raw flex json"
+;   Flex Message (複雑レイアウト) を生 JSON で送信
+;---------------------------------------------------------
+#deffunc line_push_flex str to, str alt_text, str flex_json, \
+	local _body, local _resp
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_body = "{\"to\":\"" + to + "\",\"messages\":[{\"type\":\"flex\","
+	_body += "\"altText\":\"" + _ln_escape(alt_text) + "\","
+	_body += "\"contents\":" + flex_json + "}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/push", _body, _resp, "application/json"
+	return stat
+
+;---------------------------------------------------------
+; line_user_profile "user_id", var_out
+;   userId から displayName / pictureUrl / statusMessage を取得 (JSON)
+;---------------------------------------------------------
+#deffunc line_user_profile str user_id, var v_out, \
+	local _url
+	sdim v_out, 8192
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_url = "https://api.line.me/v2/bot/profile/" + user_id
+	http_get _url, v_out
+	return stat
+
 #deffunc line_reply_text str reply_token, str msg, \
 	local _body, local _resp
 	if strlen(_ln_token) = 0 : return -1

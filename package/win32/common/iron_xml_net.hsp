@@ -110,6 +110,51 @@ public class HspXmlNet {
         if (doc == null) return "";
         return doc.ToString();
     }
+
+    // ---- 書き込み系 ----
+    public static string New(string rootName) {
+        doc = new XDocument(new XElement(rootName));
+        return "0";
+    }
+    public static string Save(string path) {
+        if (doc == null) return "-1";
+        try { doc.Save(path); return "0"; }
+        catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string AppendChild(string parentXpath, string name, string text) {
+        if (doc == null) return "-1";
+        try {
+            var nodes = ((IEnumerable<object>)doc.XPathEvaluate(parentXpath)).OfType<XElement>();
+            var p = nodes.FirstOrDefault();
+            if (p == null) return "-2";
+            var child = new XElement(name);
+            if (!string.IsNullOrEmpty(text)) child.Value = text;
+            p.Add(child);
+            return "0";
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string SetAttr(string xpath, string name, string value) {
+        if (doc == null) return "-1";
+        try {
+            var nodes = ((IEnumerable<object>)doc.XPathEvaluate(xpath)).OfType<XElement>();
+            var e = nodes.FirstOrDefault();
+            if (e == null) return "-2";
+            e.SetAttributeValue(name, value);
+            return "0";
+        } catch (Exception ex) { return "-1\t" + ex.Message; }
+    }
+    public static string Remove(string xpath) {
+        if (doc == null) return "-1";
+        try {
+            var nodes = ((System.Collections.IEnumerable)doc.XPathEvaluate(xpath)).Cast<object>().ToList();
+            int n = 0;
+            foreach (var x in nodes) {
+                if (x is XElement e) { e.Remove(); n++; }
+                else if (x is XAttribute a) { a.Remove(); n++; }
+            }
+            return n.ToString();
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
 }
 "}
 	loadnet _cs, 3, "System.Xml.dll", "System.Xml.Linq.dll"
@@ -178,6 +223,44 @@ public class HspXmlNet {
 	newnet _h, "HspXmlNet"
 	mcall _h, "ToPretty", _r
 	return "" + _r
+
+;------------------------------------------------------------
+; 書き込み系
+;------------------------------------------------------------
+#deffunc xmln_new str root_name, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "New", _r, root_name
+	return int("" + _r)
+
+#deffunc xmln_save str path, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "Save", _r, path
+	return int("" + _r)
+
+#deffunc xmln_append_child str parent_xpath, str name, str text, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "AppendChild", _r, parent_xpath, name, text
+	return int("" + _r)
+
+#deffunc xmln_set_attr str xpath, str name, str value, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "SetAttr", _r, xpath, name, value
+	return int("" + _r)
+
+#deffunc xmln_remove str xpath, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "Remove", _r, xpath
+	return int("" + _r)
 
 #global
 #endif

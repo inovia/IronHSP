@@ -136,6 +136,86 @@ public class HspAdNet {
             }
         } catch { return "0"; }
     }
+
+    // ---- 書き込み系 ----
+    public static string CreateUser(string sam, string password, string displayName) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = new UserPrincipal(ctx)) {
+                u.SamAccountName = sam;
+                u.DisplayName = displayName ?? sam;
+                u.Enabled = true;
+                u.SetPassword(password);
+                u.Save();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string DeleteUser(string user) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                if (u == null) return "-2\tNOT_FOUND";
+                u.Delete();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string SetPassword(string user, string newPw) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                if (u == null) return "-2\tNOT_FOUND";
+                u.SetPassword(newPw);
+                u.Save();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string EnableUser(string user, int enable) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                if (u == null) return "-2\tNOT_FOUND";
+                u.Enabled = enable != 0;
+                u.Save();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string AddToGroup(string user, string group) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user))
+            using (var g = GroupPrincipal.FindByIdentity(ctx, group)) {
+                if (u == null || g == null) return "-2\tNOT_FOUND";
+                if (!g.Members.Contains(u)) { g.Members.Add(u); g.Save(); }
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string RemoveFromGroup(string user, string group) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user))
+            using (var g = GroupPrincipal.FindByIdentity(ctx, group)) {
+                if (u == null || g == null) return "-2\tNOT_FOUND";
+                if (g.Members.Contains(u)) { g.Members.Remove(u); g.Save(); }
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string UnlockUser(string user) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                if (u == null) return "-2\tNOT_FOUND";
+                if (u.IsAccountLockedOut()) u.UnlockAccount();
+                u.Save();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
 }
 "}
 	loadnet _cs, 3, "System.DirectoryServices.AccountManagement.dll"
@@ -207,6 +287,58 @@ public class HspAdNet {
 	_adn_load_cs
 	newnet _h, "HspAdNet"
 	mcall _h, "UserExists", _r, user
+	return int("" + _r)
+
+;------------------------------------------------------------
+; 書き込み系 — 管理者権限が必要
+;------------------------------------------------------------
+#deffunc adn_create_user str sam, str password, str display_name, \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "CreateUser", _r, sam, password, display_name
+	return int("" + _r)
+
+#deffunc adn_delete_user str user, \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "DeleteUser", _r, user
+	return int("" + _r)
+
+#deffunc adn_set_password str user, str new_pw, \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "SetPassword", _r, user, new_pw
+	return int("" + _r)
+
+#deffunc adn_enable_user str user, int enable, \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "EnableUser", _r, user, enable
+	return int("" + _r)
+
+#deffunc adn_add_to_group str user, str group, \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "AddToGroup", _r, user, group
+	return int("" + _r)
+
+#deffunc adn_remove_from_group str user, str group, \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "RemoveFromGroup", _r, user, group
+	return int("" + _r)
+
+#deffunc adn_unlock_user str user, \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "UnlockUser", _r, user
 	return int("" + _r)
 
 #global

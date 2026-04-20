@@ -94,6 +94,46 @@ public class HspWmiNet {
         else s = v.ToString();
         return s.Replace("\r"," ").Replace("\n"," ").Replace("|","/");
     }
+
+    // ---- Invoke method (例: Win32_Process.Create) ----
+    // className: "Win32_Process", methodName: "Create"
+    // args: "a=b|c=d" (| 区切りの key=value ペア)
+    public static string InvokeClassMethod(string className, string methodName, string args) {
+        try {
+            var mc = new ManagementClass(className);
+            var pars = mc.GetMethodParameters(methodName);
+            foreach (var kv in (args ?? "").Split('|')) {
+                int eq = kv.IndexOf('=');
+                if (eq < 0) continue;
+                pars[kv.Substring(0, eq)] = kv.Substring(eq + 1);
+            }
+            var res = mc.InvokeMethod(methodName, pars, null);
+            var sb = new StringBuilder();
+            foreach (PropertyData p in res.Properties) {
+                sb.Append(p.Name).Append("=").Append(SafeVal(p.Value)).Append("|");
+            }
+            return "0\t" + sb.ToString();
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    // ---- Event subscription (一定時間ポーリングで取得、タイムアウトあり) ----
+    // eventQuery: 例 "SELECT * FROM __InstanceCreationEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_Process'"
+    // timeout_ms: 取得待機時間
+    public static string WaitEvent(string eventQuery, int timeout_ms) {
+        try {
+            var watcher = new ManagementEventWatcher(new WqlEventQuery(eventQuery));
+            ManagementBaseObject evt = null;
+            try {
+                evt = watcher.WaitForNextEvent();
+            } finally { watcher.Stop(); }
+            if (evt == null) return "0\t";
+            var sb = new StringBuilder();
+            foreach (PropertyData p in evt.Properties) {
+                sb.Append(p.Name).Append("=").Append(SafeVal(p.Value)).Append("|");
+            }
+            return "1\t" + sb.ToString();
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
 }
 "}
 	loadnet _cs, 3, "System.Management.dll"
@@ -139,6 +179,39 @@ public class HspWmiNet {
 #deffunc wmin_get_processes var v_out
 	wmin_query "SELECT Name,ProcessId,WorkingSetSize FROM Win32_Process", "Name;ProcessId;WorkingSetSize", v_out
 	return stat
+
+;------------------------------------------------------------
+; wmin_invoke "Win32_Process", "Create", "CommandLine=notepad.exe",  var_result
+;   クラスメソッド呼び出し。args は "key1=val1|key2=val2" で指定
+;------------------------------------------------------------
+#deffunc wmin_invoke str class_name, str method, str args, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 8192
+	_wmin_load_cs
+	newnet _h, "HspWmiNet"
+	mcall _h, "InvokeClassMethod", _r, class_name, method, args
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; wmin_wait_event "WQL event query", timeout_ms, var_out
+;   同期 WaitForNextEvent (タイムアウト指定は実質 0 扱い → 永久ブロック)
+;   呼び出し側で別スレ化するか注意
+;------------------------------------------------------------
+#deffunc wmin_wait_event str event_query, int timeout_ms, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 8192
+	_wmin_load_cs
+	newnet _h, "HspWmiNet"
+	mcall _h, "WaitEvent", _r, event_query, timeout_ms
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
 
 #global
 #endif

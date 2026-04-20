@@ -5,7 +5,7 @@
 ;   頂点位置 / (オプションで) 法線・色・UV、および面リストを配列に展開する。
 ;   点群 (face 数 0) でも問題なく読める。
 ;
-;   対応: format ascii 1.0 のみ (binary_little_endian は未対応)
+;   対応: format ascii 1.0 / binary_little_endian 1.0
 ;   element vertex N + element face M の典型構造を期待する。
 ;   vertex プロパティは x y z (+ nx ny nz + red green blue など) を
 ;   自動検出して可能な限り拾う。
@@ -37,12 +37,13 @@
 	var v_nv, var v_nt, var v_has_color, var v_has_norm, \
 	local _size, local _buf, local _p, local _eol, local _line, \
 	local _in_header, local _vert_count, local _face_count, \
-	local _props, local _np, local _i, local _toks, local _ntok, \
-	local _pi, local _n_verts, local _n_tris, \
+	local _props, local _prop_sz, local _np, local _i, local _toks, local _ntok, \
+	local _pi, local _n_verts, local _n_tris, local _is_binary, \
 	local _ix, local _iy, local _iz, local _inx, local _iny, local _inz, \
-	local _ir, local _ig, local _ib, \
+	local _ir, local _ig, local _ib, local _stride, local _offsets, \
 	local _val_x, local _val_y, local _val_z, \
-	local _face_k, local _first_v, local _prev_v, local _cur_v
+	local _face_k, local _first_v, local _prev_v, local _cur_v, \
+	local _list_cnt_sz, local _list_idx_sz, local _in_face_section
 	exist path
 	_size = strsize
 	if _size <= 0 : return -1
@@ -59,17 +60,27 @@
 	_ix = -1 : _iy = -1 : _iz = -1
 	_inx = -1 : _iny = -1 : _inz = -1
 	_ir = -1 : _ig = -1 : _ib = -1
+	_list_cnt_sz = 1 : _list_idx_sz = 4
+	_is_binary = 0
 	sdim _props, 32, 32
-	_np = 0
+	dim _prop_sz, 32
+	dim _offsets, 32
+	_np = 0 : _stride = 0
 	_in_header = 1
+	_in_face_section = 0
 	_p = 0
 
 	; ---- header ----
 	repeat
 		if _p >= _size : break
 		_eol = instr(_buf, _p, "\n")
-		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
-		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p)
+			_p = _eol + 1
+		}
 		if strlen(_line) > 0 {
 			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
 		}
@@ -80,21 +91,32 @@
 		_ply_split_ws _line, _toks, _ntok
 		if _ntok = 0 : continue
 		if _toks(0) = "format" {
-			if _toks(1) != "ascii" : return -2    ; binary 未対応
+			if _toks(1) = "ascii" : _is_binary = 0
+			if _toks(1) = "binary_little_endian" : _is_binary = 1
+			if _toks(1) = "binary_big_endian" : return -2   ; BE 未対応
 			continue
 		}
 		if _toks(0) = "element" {
-			if _toks(1) = "vertex" : _vert_count = int(_toks(2))
-			if _toks(1) = "face"   : _face_count = int(_toks(2))
+			if _toks(1) = "vertex" : _vert_count = int(_toks(2)) : _in_face_section = 0
+			if _toks(1) = "face"   : _face_count = int(_toks(2)) : _in_face_section = 1
 			continue
 		}
 		if _toks(0) = "property" {
-			if _toks(1) = "list" : continue  ; face 用の list は無視
-			; property <type> <name>
-			if _vert_count > 0 & _face_count = 0 {
-				; まだ vertex セクション内
+			if _toks(1) = "list" {
+				; property list <count_type> <index_type> vertex_indices
+				if _in_face_section {
+					_list_cnt_sz = _ply_type_size(_toks(2))
+					_list_idx_sz = _ply_type_size(_toks(3))
+				}
+				continue
+			}
+			; property <type> <name> — element vertex 側のみ index を記録
+			if _in_face_section = 0 {
 				if _np < 32 {
-					_props(_np) = _toks(2)
+					_props(_np)   = _toks(2)
+					_prop_sz(_np) = _ply_type_size(_toks(1))
+					_offsets(_np) = _stride
+					_stride = _stride + _prop_sz(_np)
 					if _toks(2) = "x"  : _ix  = _np
 					if _toks(2) = "y"  : _iy  = _np
 					if _toks(2) = "z"  : _iz  = _np
@@ -115,13 +137,70 @@
 	if _inx >= 0 : v_has_norm = 1
 	if _ir  >= 0 : v_has_color = 1
 
+	; ---- Binary 分岐 (inline) ----
+	if _is_binary {
+		; 頂点
+		repeat _vert_count
+			if _p + _stride > _size : break
+			if _n_verts >= PLY_MAX_VERTS : break
+			if _prop_sz(_ix) = 4 {
+				v_verts(_n_verts * 3 + 0) = _ply_float(_buf, _p + _offsets(_ix))
+				v_verts(_n_verts * 3 + 1) = _ply_float(_buf, _p + _offsets(_iy))
+				v_verts(_n_verts * 3 + 2) = _ply_float(_buf, _p + _offsets(_iz))
+			}
+			if v_has_norm : if _inx >= 0 {
+				v_norms(_n_verts * 3 + 0) = _ply_float(_buf, _p + _offsets(_inx))
+				v_norms(_n_verts * 3 + 1) = _ply_float(_buf, _p + _offsets(_iny))
+				v_norms(_n_verts * 3 + 2) = _ply_float(_buf, _p + _offsets(_inz))
+			}
+			if v_has_color : if _ir >= 0 {
+				v_cols(_n_verts * 3 + 0) = peek(_buf, _p + _offsets(_ir))
+				v_cols(_n_verts * 3 + 1) = peek(_buf, _p + _offsets(_ig))
+				v_cols(_n_verts * 3 + 2) = peek(_buf, _p + _offsets(_ib))
+			}
+			_n_verts++
+			_p = _p + _stride
+		loop
+		; 面: property list <cnt_size> <idx_size>
+		repeat _face_count
+			if _p + _list_cnt_sz > _size : break
+			_face_k = _ply_uint(_buf, _p, _list_cnt_sz)
+			_p = _p + _list_cnt_sz
+			if _face_k < 3 {
+				_p = _p + _face_k * _list_idx_sz
+				continue
+			}
+			_first_v = _ply_uint(_buf, _p, _list_idx_sz)
+			_prev_v  = _ply_uint(_buf, _p + _list_idx_sz, _list_idx_sz)
+			_i = 2
+			repeat _face_k - 2
+				if _n_tris >= PLY_MAX_TRIS : break
+				_cur_v = _ply_uint(_buf, _p + _i * _list_idx_sz, _list_idx_sz)
+				v_tris(_n_tris * 3 + 0) = _first_v
+				v_tris(_n_tris * 3 + 1) = _prev_v
+				v_tris(_n_tris * 3 + 2) = _cur_v
+				_prev_v = _cur_v
+				_i++
+				_n_tris++
+			loop
+			_p = _p + _face_k * _list_idx_sz
+		loop
+		v_nv = _n_verts : v_nt = _n_tris
+		return 0
+	}
+
 	; ---- vertex body ----
 	_i = 0
 	repeat _vert_count
 		if _p >= _size : break
 		_eol = instr(_buf, _p, "\n")
-		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
-		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p)
+			_p = _eol + 1
+		}
 		if strlen(_line) > 0 {
 			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
 		}
@@ -155,8 +234,13 @@
 	repeat _face_count
 		if _p >= _size : break
 		_eol = instr(_buf, _p, "\n")
-		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
-		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p)
+			_p = _eol + 1
+		}
 		if strlen(_line) > 0 {
 			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
 		}
@@ -202,6 +286,55 @@
 		}
 	loop
 	return
+
+;---------------------------------------------------------
+; internal: PLY 型名 → バイトサイズ
+;---------------------------------------------------------
+#defcfunc _ply_type_size str t
+	if t = "char"  : return 1
+	if t = "uchar" : return 1
+	if t = "int8"  : return 1
+	if t = "uint8" : return 1
+	if t = "short" : return 2
+	if t = "ushort": return 2
+	if t = "int16" : return 2
+	if t = "uint16": return 2
+	if t = "int"   : return 4
+	if t = "uint"  : return 4
+	if t = "int32" : return 4
+	if t = "uint32": return 4
+	if t = "float" : return 4
+	if t = "float32": return 4
+	if t = "double": return 8
+	if t = "float64": return 8
+	return 4
+
+;---------------------------------------------------------
+; internal: little-endian float 32bit 読み (pure HSP)
+;---------------------------------------------------------
+#defcfunc _ply_float var buf, int ofs, \
+	local _b, local _s, local _e, local _m, local _md, local _ex, local _v
+	_b = lpeek(buf, ofs)
+	_s = (_b >> 31) & 1
+	_e = (_b >> 23) & 0xFF
+	_m = _b & 0x7FFFFF
+	if _e = 0 : return 0.0
+	if _e = 0xFF : return 0.0
+	_md = 1.0 + (1.0 * _m) / 8388608.0
+	_ex = _e - 127
+	_v = _md
+	if _ex >= 0 : repeat _ex : _v *= 2.0 : loop
+	if _ex < 0  : repeat 0 - _ex : _v *= 0.5 : loop
+	if _s = 1 : _v = 0.0 - _v
+	return _v
+
+;---------------------------------------------------------
+; internal: unsigned int read at given byte size (1/2/4)
+;---------------------------------------------------------
+#defcfunc _ply_uint var buf, int ofs, int sz
+	if sz = 1 : return peek(buf, ofs)
+	if sz = 2 : return wpeek(buf, ofs)
+	return lpeek(buf, ofs)
 
 #global
 #endif

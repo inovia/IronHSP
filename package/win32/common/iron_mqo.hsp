@@ -11,13 +11,25 @@
 ;     face の V(...) は 3 以上で扇分割
 ;
 ;   対応外:
-;     BLOB (3-D バイナリ) / UV / material / bone / anim / mirror / patch
+;     BLOB (3-D バイナリ) / bone / anim / mirror / patch
 ;
 ;   API:
 ;     mqo_load "file.mqo", var_verts, var_tris, var n_verts, var n_tris
 ;        verts: double[3 * n_verts]
-;        tris:  int[3 * n_tris]
+;        tris:  int[3 * n_tris]  頂点インデックス
 ;        戻り値: 0=OK / <0=エラー
+;
+;     mqo_load_ex "file.mqo", var_verts, var_tris, var_uvs, var_mats,
+;                 var n_verts, var n_tris
+;        verts: double[3 * n_verts]
+;        tris:  int[3 * n_tris]  頂点インデックス
+;        uvs:   double[6 * n_tris]  各面 3 頂点の (u, v) ペア
+;        mats:  int[n_tris]      face の M(n) インデックス (材質 id)、ない時 -1
+;
+;     mqo_load_materials "file.mqo", var_names, var_colors, var_textures, var n
+;        names:    str[n]        "mat1" 等
+;        colors:   double[4*n]   RGBA 0..1 (col(...) から取得)
+;        textures: str[n]        tex("...") のファイル名 (なければ "")
 ;============================================================
 #ifndef __iron_mqo_hsp__
 #define __iron_mqo_hsp__
@@ -52,8 +64,13 @@
 	repeat
 		if _p >= _size : break
 		_eol = instr(_buf, _p, "\n")
-		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
-		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p)
+			_p = _eol + 1
+		}
 		if strlen(_line) > 0 {
 			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
 		}
@@ -142,6 +159,232 @@
 		}
 	loop
 	return
+
+;---------------------------------------------------------
+; mqo_load_ex  — verts + tris + uvs + per-face material id
+;---------------------------------------------------------
+#deffunc mqo_load_ex str path, var v_verts, var v_tris, var v_uvs, var v_mats, \
+	var v_nv, var v_nt, \
+	local _size, local _buf, local _p, local _eol, local _line, \
+	local _state, local _n_verts, local _n_tris, \
+	local _toks, local _ntok, \
+	local _vlp, local _vrp, local _mi, local _fa, local _fb, local _fc, local _fv, \
+	local _ulp, local _urp, local _us, local _mlp, local _mrp, local _ms, \
+	local _mat_id, local _u0, local _v0, local _u1, local _v1, local _u2, local _v2, \
+	local _face_k, local _found_obj
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+	ddim v_verts, MQO_MAX_VERTS * 3
+	dim  v_tris,  MQO_MAX_TRIS * 3
+	ddim v_uvs,   MQO_MAX_TRIS * 6
+	dim  v_mats,  MQO_MAX_TRIS
+	v_nv = 0 : v_nt = 0
+	_n_verts = 0 : _n_tris = 0
+	_state = 0 : _found_obj = 0
+	_p = 0
+	repeat
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p) : _p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		}
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		; trim left
+		repeat strlen(_line)
+			if peek(_line, 0) = ' ' : _line = strmid(_line, 1, strlen(_line) - 1) : continue
+			if peek(_line, 0) = 9   : _line = strmid(_line, 1, strlen(_line) - 1) : continue
+			break
+		loop
+		if strlen(_line) = 0 : continue
+
+		if _state = 0 {
+			if instr(_line, 0, "Object") = 0 & _found_obj = 0 {
+				_state = 1 : _found_obj = 1
+			}
+			continue
+		}
+		if _state = 1 {
+			if peek(_line, 0) = '}' : _state = 0 : continue
+			if instr(_line, 0, "vertex") = 0 : _state = 2 : continue
+			if instr(_line, 0, "face")   = 0 : _state = 3 : continue
+			continue
+		}
+		if _state = 2 {
+			if peek(_line, 0) = '}' : _state = 1 : continue
+			if _n_verts >= MQO_MAX_VERTS : continue
+			sdim _toks, 64, 8
+			_ntok = 0
+			_mqo_split_ws _line, _toks, _ntok
+			if _ntok < 3 : continue
+			v_verts(_n_verts * 3 + 0) = double(_toks(0))
+			v_verts(_n_verts * 3 + 1) = double(_toks(1))
+			v_verts(_n_verts * 3 + 2) = double(_toks(2))
+			_n_verts++
+			continue
+		}
+		if _state = 3 {
+			if peek(_line, 0) = '}' : _state = 1 : continue
+			; 頂点配列 V(...)
+			_vlp = instr(_line, 0, "V(")
+			if _vlp < 0 : continue
+			_vrp = instr(_line, _vlp + 2, ")")
+			if _vrp < 0 : continue
+			_mi = strmid(_line, _vlp + 2, _vrp - _vlp - 2)
+			sdim _toks, 64, 16
+			_ntok = 0
+			_mqo_split_ws _mi, _toks, _ntok
+			if _ntok < 3 : continue
+			; material
+			_mat_id = -1
+			_mlp = instr(_line, 0, "M(")
+			if _mlp >= 0 {
+				_mrp = instr(_line, _mlp + 2, ")")
+				if _mrp >= 0 : _mat_id = int(strmid(_line, _mlp + 2, _mrp - _mlp - 2))
+			}
+			; UV
+			dim _uv_arr, 16
+			_ulp = instr(_line, 0, "UV(")
+			if _ulp >= 0 {
+				_urp = instr(_line, _ulp + 3, ")")
+				if _urp >= 0 {
+					_us = strmid(_line, _ulp + 3, _urp - _ulp - 3)
+					sdim _toks, 64, 16
+					_ntok = 0
+					_mqo_split_ws _us, _toks, _ntok
+					repeat _ntok
+						if cnt < 16 : _uv_arr(cnt) = double(_toks(cnt))
+					loop
+				}
+			}
+			; 多角形 → 三角扇 (V は sdim だったので再取得)
+			sdim _toks, 64, 16
+			_ntok = 0
+			_mqo_split_ws _mi, _toks, _ntok
+			_face_k = int(_toks(0))
+			; _toks(1..) が頂点 index
+			_fa = int(_toks(1))
+			_fb = int(_toks(2))
+			_u0 = _uv_arr(0) : _v0 = _uv_arr(1)
+			_u1 = _uv_arr(2) : _v1 = _uv_arr(3)
+			_fv = 3
+			repeat _face_k - 2
+				if _n_tris >= MQO_MAX_TRIS : break
+				_fc = int(_toks(_fv))
+				v_tris(_n_tris * 3 + 0) = _fa
+				v_tris(_n_tris * 3 + 1) = _fb
+				v_tris(_n_tris * 3 + 2) = _fc
+				v_uvs(_n_tris * 6 + 0) = _u0
+				v_uvs(_n_tris * 6 + 1) = _v0
+				v_uvs(_n_tris * 6 + 2) = _u1
+				v_uvs(_n_tris * 6 + 3) = _v1
+				_u2 = _uv_arr(_fv * 2) : _v2 = _uv_arr(_fv * 2 + 1)
+				v_uvs(_n_tris * 6 + 4) = _u2
+				v_uvs(_n_tris * 6 + 5) = _v2
+				v_mats(_n_tris) = _mat_id
+				_fb = _fc : _u1 = _u2 : _v1 = _v2
+				_fv++
+				_n_tris++
+			loop
+			continue
+		}
+	loop
+	v_nv = _n_verts : v_nt = _n_tris
+	return 0
+
+;---------------------------------------------------------
+; mqo_load_materials  — Material セクションから名前/色/テクスチャ抽出
+;---------------------------------------------------------
+#deffunc mqo_load_materials str path, var v_names, var v_colors, var v_textures, var v_n, \
+	local _size, local _buf, local _p, local _eol, local _line, \
+	local _state, local _n, local _quote_start, local _quote_end, \
+	local _name, local _lp, local _rp, local _colstr, local _texstr, \
+	local _toks, local _ntok
+	exist path
+	_size = strsize
+	if _size <= 0 : v_n = 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+	sdim v_names, 64, 128
+	ddim v_colors, 128 * 4
+	sdim v_textures, 256, 128
+	_n = 0
+	_state = 0
+	_p = 0
+	repeat
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p) : _p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		}
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		repeat strlen(_line)
+			if peek(_line, 0) = ' ' : _line = strmid(_line, 1, strlen(_line) - 1) : continue
+			if peek(_line, 0) = 9   : _line = strmid(_line, 1, strlen(_line) - 1) : continue
+			break
+		loop
+		if strlen(_line) = 0 : continue
+		if _state = 0 {
+			if instr(_line, 0, "Material") = 0 : _state = 1
+			continue
+		}
+		if _state = 1 {
+			if peek(_line, 0) = '}' {
+				break
+			}
+			if _n >= 128 : continue
+			; 名前は行頭の "..." で囲まれる
+			_quote_start = instr(_line, 0, "\"")
+			if _quote_start < 0 : continue
+			_quote_end = instr(_line, _quote_start + 1, "\"")
+			if _quote_end < 0 : continue
+			_name = strmid(_line, _quote_start + 1, _quote_end - _quote_start - 1)
+			v_names(_n) = _name
+			; col(r g b a)
+			_lp = instr(_line, 0, "col(")
+			if _lp >= 0 {
+				_rp = instr(_line, _lp + 4, ")")
+				if _rp >= 0 {
+					_colstr = strmid(_line, _lp + 4, _rp - _lp - 4)
+					sdim _toks, 64, 8
+					_ntok = 0
+					_mqo_split_ws _colstr, _toks, _ntok
+					if _ntok >= 3 {
+						v_colors(_n * 4 + 0) = double(_toks(0))
+						v_colors(_n * 4 + 1) = double(_toks(1))
+						v_colors(_n * 4 + 2) = double(_toks(2))
+						if _ntok >= 4 {
+							v_colors(_n * 4 + 3) = double(_toks(3))
+						} else {
+							v_colors(_n * 4 + 3) = 1.0
+						}
+					}
+				}
+			}
+			; tex("...")
+			_lp = instr(_line, 0, "tex(\"")
+			if _lp >= 0 {
+				_rp = instr(_line, _lp + 5, "\"")
+				if _rp >= 0 {
+					_texstr = strmid(_line, _lp + 5, _rp - _lp - 5)
+					v_textures(_n) = _texstr
+				}
+			}
+			_n++
+		}
+	loop
+	v_n = _n
+	return 0
 
 #global
 #endif

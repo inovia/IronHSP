@@ -22,13 +22,63 @@
 ;        kind:  1=PMD / 2=PMX
 ;        戻り値: 0=OK / <0=エラー
 ;
-;   注意: 文字エンコーディングは PMX 2.0 ヘッダで UTF-16/UTF-8 を選べるが、
-;   本実装は名前系をスキップするためエンコーディングを読むだけで解釈しない。
+;     mmd_meta "file.pmx", var_name_jp, var_name_en, var_comment_jp, var_comment_en
+;        PMX モデル名 / コメントを取得 (PMX のみ、PMD は空文字返却)
+;
+;   文字エンコーディング:
+;     PMX 2.0 ヘッダ[0]=0 なら UTF-16LE、=1 なら UTF-8。
+;     mmd_meta は hsp3net の cnvwtos でシステム依存 SJIS に、
+;     cnvstow 経由で wstr に変換してから返す。
 ;============================================================
 #ifndef __iron_mmd_hsp__
 #define __iron_mmd_hsp__
 
 #module iron_mmd
+
+;---------------------------------------------------------
+; internal: PMX TextBuf (u32 len + bytes) から文字列取り出し
+;   encoding: 0=UTF-16LE / 1=UTF-8
+;   v_out に SJIS 相当を格納、new_off に次の offset を返す
+;---------------------------------------------------------
+#deffunc _mmd_read_text var buf, int ofs, int encoding, var v_out, var v_new_off, \
+	local _len, local _tmp, local _i, local _cp, local _hi, local _lo
+	_len = lpeek(buf, ofs)
+	sdim v_out, 1024
+	if _len <= 0 {
+		v_out = ""
+		v_new_off = ofs + 4
+		return
+	}
+	if encoding = 1 {
+		; UTF-8: そのまま SJIS としては扱えないが、hsp3net ならそのまま入れる
+		sdim v_out, _len + 16
+		memcpy v_out, buf, _len, 0, ofs + 4
+		poke v_out, _len, 0
+	} else {
+		; UTF-16LE → BMP 範囲なら UTF-8 化して返す (簡易版)
+		sdim v_out, _len * 3 + 16
+		sdim _tmp, _len * 3 + 16
+		_i = 0
+		repeat _len / 2
+			_cp = wpeek(buf, ofs + 4 + _i)
+			_i = _i + 2
+			if _cp < 0x80 {
+				poke _tmp, strlen(_tmp), _cp
+			} else {
+				if _cp < 0x800 {
+					poke _tmp, strlen(_tmp), 0xC0 | (_cp >> 6)
+					poke _tmp, strlen(_tmp), 0x80 | (_cp & 0x3F)
+				} else {
+					poke _tmp, strlen(_tmp), 0xE0 | (_cp >> 12)
+					poke _tmp, strlen(_tmp), 0x80 | ((_cp >> 6) & 0x3F)
+					poke _tmp, strlen(_tmp), 0x80 | (_cp & 0x3F)
+				}
+			}
+		loop
+		v_out = _tmp
+	}
+	v_new_off = ofs + 4 + _len
+	return
 
 #defcfunc _mmd_flt var buf, int ofs, \
 	local _b, local _s, local _e, local _m, local _md, local _ex, local _v
@@ -149,8 +199,9 @@
 	_morphidx_size= peek(_buf, _off + 6)
 	_rbidx_size   = peek(_buf, _off + 7)
 	_off = _off + _globals_count
-	; model info: 4 TextBuf (Japanese name / Japanese comment / English name / English comment)
-	; TextBuf = (u32 byte length) + bytes
+	; model info: 4 TextBuf (Japanese name / English name / Japanese comment / English comment)
+	; PMX スペックでは name_jp, name_en, comment_jp, comment_en の順
+	; スキップのみ (名前を取るのは mmd_meta で別途)
 	repeat 4
 		_tmp_count = lpeek(_buf, _off)
 		_off = _off + 4 + _tmp_count
@@ -199,6 +250,30 @@
 		_off = _off + 3 * _vidx_size
 	loop
 	v_nv = _vcount : v_nt = _fcount : v_kind = 2
+	return 0
+
+;---------------------------------------------------------
+; mmd_meta  — PMX のモデル名 / コメントを UTF-8 で取得
+;   PMD は未対応 (SJIS 固定文字列だが省略)
+;---------------------------------------------------------
+#deffunc mmd_meta str path, var v_name_jp, var v_name_en, var v_comment_jp, var v_comment_en, \
+	local _size, local _buf, local _off, local _enc, local _globals_count
+	sdim v_name_jp, 256 : sdim v_name_en, 256
+	sdim v_comment_jp, 2048 : sdim v_comment_en, 2048
+	v_name_jp = "" : v_name_en = "" : v_comment_jp = "" : v_comment_en = ""
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+	if (peek(_buf, 0) != 'P') | (peek(_buf, 1) != 'M') | (peek(_buf, 2) != 'X') : return -2
+	_globals_count = peek(_buf, 8)
+	_enc = peek(_buf, 9)    ; globals[0] = text encoding
+	_off = 9 + _globals_count
+	_mmd_read_text _buf, _off, _enc, v_name_jp,    _off
+	_mmd_read_text _buf, _off, _enc, v_name_en,    _off
+	_mmd_read_text _buf, _off, _enc, v_comment_jp, _off
+	_mmd_read_text _buf, _off, _enc, v_comment_en, _off
 	return 0
 
 #global

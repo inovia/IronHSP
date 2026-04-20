@@ -96,6 +96,40 @@ public class HspEventLogNet {
             return EventLog.Exists(logName) ? "1" : "0";
         } catch { return "0"; }
     }
+
+    // ---- Modern EvtLog (System.Diagnostics.Eventing.Reader) ----
+    // XPath クエリで絞り込み (例: "*[System[Level=2 and TimeCreated[timediff(@SystemTime) <= 86400000]]]")
+    public static string QueryModern(string logName, string xpath, int count) {
+        try {
+            var q = new System.Diagnostics.Eventing.Reader.EventLogQuery(
+                logName, System.Diagnostics.Eventing.Reader.PathType.LogName,
+                string.IsNullOrEmpty(xpath) ? "*" : xpath);
+            var reader = new System.Diagnostics.Eventing.Reader.EventLogReader(q);
+            if (count <= 0) count = 100;
+            var sb = new StringBuilder();
+            int emitted = 0;
+            System.Diagnostics.Eventing.Reader.EventRecord rec;
+            while (emitted < count && (rec = reader.ReadEvent()) != null) {
+                sb.Append("Time=").Append(rec.TimeCreated.HasValue ? rec.TimeCreated.Value.ToString("yyyy-MM-dd HH:mm:ss") : "").Append("|");
+                sb.Append("Provider=").Append(rec.ProviderName ?? "").Append("|");
+                sb.Append("EventID=").Append(rec.Id).Append("|");
+                sb.Append("Level=").Append(rec.Level ?? 0).Append("|");
+                string msg = "";
+                try { msg = rec.FormatDescription() ?? ""; } catch {}
+                if (msg.Length > 2048) msg = msg.Substring(0, 2048);
+                sb.Append("Message=").Append(msg.Replace("\r"," ").Replace("\n"," ").Replace("|","/"));
+                sb.AppendLine();
+                rec.Dispose();
+                emitted++;
+            }
+            return emitted + "\t" + sb.ToString();
+        } catch (Exception e) { return "-1\tERROR:" + e.Message; }
+    }
+
+    public static string QueryLast(string logName, int minutes, int count) {
+        string xpath = "*[System[TimeCreated[timediff(@SystemTime) <= " + (minutes * 60000) + "]]]";
+        return QueryModern(logName, xpath, count);
+    }
 }
 "}
 	loadnet _cs, 3
@@ -141,6 +175,39 @@ public class HspEventLogNet {
 	newnet _h, "HspEventLogNet"
 	mcall _h, "Exists", _r, logName
 	return int("" + _r)
+
+;------------------------------------------------------------
+; evlogn_query_modern "Application", "*[System[Level=2]]", count, var_tsv
+;   Modern Windows Event Log を XPath 式で絞り込み
+;   level: 1=Critical / 2=Error / 3=Warning / 4=Info / 5=Verbose
+;------------------------------------------------------------
+#deffunc evlogn_query_modern str logName, str xpath, int count, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_evlogn_load_cs
+	newnet _h, "HspEventLogNet"
+	mcall _h, "QueryModern", _r, logName, xpath, count
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; evlogn_query_last "Application", minutes, count, var_tsv
+;   直近 N 分のエントリのみ取得
+;------------------------------------------------------------
+#deffunc evlogn_query_last str logName, int minutes, int count, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_evlogn_load_cs
+	newnet _h, "HspEventLogNet"
+	mcall _h, "QueryLast", _r, logName, minutes, count
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
 
 #global
 #endif

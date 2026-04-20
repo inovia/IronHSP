@@ -122,6 +122,57 @@ public class HspLdapNet {
             return "0";
         } catch { return "-1"; }
     }
+
+    // ---- 変更系 ----
+    public static string AddAttr(string dn, string attr, string value) {
+        try {
+            string url = (serverUrl ?? "LDAP://").TrimEnd('/') + "/" + dn;
+            using (var e = new DirectoryEntry(url, bindDn, bindPw, AuthenticationTypes.Secure)) {
+                e.Properties[attr].Add(value);
+                e.CommitChanges();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string SetAttr(string dn, string attr, string value) {
+        try {
+            string url = (serverUrl ?? "LDAP://").TrimEnd('/') + "/" + dn;
+            using (var e = new DirectoryEntry(url, bindDn, bindPw, AuthenticationTypes.Secure)) {
+                e.Properties[attr].Value = value;
+                e.CommitChanges();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string DeleteAttr(string dn, string attr) {
+        try {
+            string url = (serverUrl ?? "LDAP://").TrimEnd('/') + "/" + dn;
+            using (var e = new DirectoryEntry(url, bindDn, bindPw, AuthenticationTypes.Secure)) {
+                e.Properties[attr].Clear();
+                e.CommitChanges();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string DeleteEntry(string dn) {
+        try {
+            string url = (serverUrl ?? "LDAP://").TrimEnd('/') + "/" + dn;
+            using (var e = new DirectoryEntry(url, bindDn, bindPw, AuthenticationTypes.Secure)) {
+                e.DeleteTree();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string AddEntry(string parentDn, string rdn, string objectClass) {
+        try {
+            string url = (serverUrl ?? "LDAP://").TrimEnd('/') + "/" + parentDn;
+            using (var parent = new DirectoryEntry(url, bindDn, bindPw, AuthenticationTypes.Secure)) {
+                var child = parent.Children.Add(rdn, objectClass);
+                child.CommitChanges();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
 }
 "}
 	loadnet _cs, 3, "System.DirectoryServices.dll"
@@ -171,6 +222,50 @@ public class HspLdapNet {
 	}
 	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
 	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; ldapn_add_attr  "CN=...,DC=...", "title", "Manager"
+;   既存エントリに属性値を 1 つ追加 (multi-value 対応)
+; ldapn_set_attr  同上で置換
+; ldapn_delete_attr "DN", "title"  属性値を全クリア
+; ldapn_delete_entry "DN"          エントリごと削除 (子孫含む)
+; ldapn_add_entry "parent_dn", "CN=NewUser", "user"
+;   新規エントリ (rdn = "CN=NewUser"、objectClass = "user" 等)
+;------------------------------------------------------------
+#deffunc ldapn_add_attr str dn, str attr, str value, \
+	local _h, local _r
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "AddAttr", _r, dn, attr, value
+	return int("" + _r)
+
+#deffunc ldapn_set_attr str dn, str attr, str value, \
+	local _h, local _r
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "SetAttr", _r, dn, attr, value
+	return int("" + _r)
+
+#deffunc ldapn_delete_attr str dn, str attr, \
+	local _h, local _r
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "DeleteAttr", _r, dn, attr
+	return int("" + _r)
+
+#deffunc ldapn_delete_entry str dn, \
+	local _h, local _r
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "DeleteEntry", _r, dn
+	return int("" + _r)
+
+#deffunc ldapn_add_entry str parent_dn, str rdn, str object_class, \
+	local _h, local _r
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "AddEntry", _r, parent_dn, rdn, object_class
+	return int("" + _r)
 
 ;------------------------------------------------------------
 ; ldapn_close

@@ -17,8 +17,14 @@
 ;     slack_post "hello"                         Webhook に平文投稿
 ;     slack_post_channel "#general", "msg"       Web API で任意チャネルに投稿
 ;     slack_post_blocks "blocks json"             Block Kit JSON を webhook に POST
+;     slack_post_file "channel_id", "filepath", "title", "initial_comment"
+;                                                ファイルアップロード (files.upload)
+;     slack_history "channel_id", limit, var_out 会話履歴取得 (conversations.history)
+;     slack_user_info "user_id", var_out         ユーザー情報 (users.info)
+;     slack_channel_id_by_name "#general", var_id
+;                                                チャネル名 → ID 変換
 ;
-;   依存: iron_http.hsp (http_post / http_set_header)
+;   依存: iron_http.hsp (http_post / http_set_header / http_post_file)
 ;============================================================
 #ifndef __iron_slack_hsp__
 #define __iron_slack_hsp__
@@ -73,6 +79,83 @@ _sl_hook = "" : _sl_token = ""
 	sdim _resp, 8192
 	http_post "https://slack.com/api/chat.postMessage", _body, _resp, "application/json"
 	return stat
+
+;---------------------------------------------------------
+; slack_post_file "channel_id", "filepath", "title", "comment"
+;   files.upload (multipart/form-data)。iron_http の http_post_file を使う
+;   channel は ID (C... で始まる) を指定。名前の場合は slack_channel_id_by_name で変換
+;---------------------------------------------------------
+#deffunc slack_post_file str channel, str filepath, str title, str comment, \
+	local _url, local _resp, local _form
+	if strlen(_sl_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _sl_token
+	; form フィールド (http_post_file が "key=val|key=val" 形式を受け付ける想定)
+	_form = "channels=" + channel + "|title=" + title + "|initial_comment=" + comment
+	sdim _resp, 8192
+	http_post_file "https://slack.com/api/files.upload", filepath, _resp, _form
+	return stat
+
+;---------------------------------------------------------
+; slack_history "channel_id", limit, var_out
+;   conversations.history (Bot scope: channels:history 要)
+;---------------------------------------------------------
+#deffunc slack_history str channel_id, int limit, var v_out, \
+	local _url, local _resp
+	sdim v_out, 65536
+	if strlen(_sl_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _sl_token
+	_url = "https://slack.com/api/conversations.history?channel=" + channel_id + "&limit=" + limit
+	http_get _url, v_out
+	return stat
+
+;---------------------------------------------------------
+; slack_user_info "user_id", var_out
+;---------------------------------------------------------
+#deffunc slack_user_info str user_id, var v_out, \
+	local _url, local _resp
+	sdim v_out, 8192
+	if strlen(_sl_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _sl_token
+	_url = "https://slack.com/api/users.info?user=" + user_id
+	http_get _url, v_out
+	return stat
+
+;---------------------------------------------------------
+; slack_channel_id_by_name "#general", var_id
+;   conversations.list から検索 (非効率だが少人数 Workspace なら OK)
+;---------------------------------------------------------
+#deffunc slack_channel_id_by_name str name, var v_id, \
+	local _resp, local _target, local _p, local _ip, local _iq, local _id_str, \
+	local _np, local _name_str
+	sdim v_id, 32
+	v_id = ""
+	if strlen(_sl_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _sl_token
+	sdim _resp, 131072
+	http_get "https://slack.com/api/conversations.list?limit=1000&types=public_channel,private_channel", _resp
+	if stat != 200 : return -1
+	_target = name
+	if peek(_target, 0) = '#' : _target = strmid(_target, 1, strlen(_target) - 1)
+	; 非常に雑な検索: "name":"general","id":"CXXXX" を探す代わりに
+	;   '"name":"target"' の後の '"id":"...."' を拾う
+	_p = instr(_resp, 0, "\"name\":\"" + _target + "\"")
+	if _p < 0 : return -1
+	_ip = instr(_resp, 0, "\"id\":\"")
+	; 実は順序が name, id と id, name の両方ありうるので、該当区間から id を再探索
+	_np = _p
+	_ip = instr(_resp, 0, "\"id\":\"")
+	; 最後の "id" が最も近いとは限らない。name 位置から前方 200 文字以内の id を採用
+	repeat
+		if _ip < 0 : break
+		if _ip > _np - 200 & _ip < _np { break }
+		_ip = instr(_resp, _ip + 1, "\"id\":\"")
+	loop
+	if _ip < 0 : return -1
+	_ip = _ip + 6
+	_iq = instr(_resp, _ip, "\"")
+	if _iq < 0 : return -1
+	v_id = strmid(_resp, _ip, _iq - _ip)
+	return 0
 
 ;---------------------------------------------------------
 ; 内部: JSON 文字列エスケープ

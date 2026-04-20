@@ -35,6 +35,11 @@ sdim _pos_raw, 16 * 1024 * 1024  ; KEN_ALL.CSV バッファ (16MB 上限)
 sdim _pos_code, 8, 130000         ; 郵便番号 7 桁
 sdim _pos_addr, 128, 130000       ; "都道府県|市区町村|町域"
 dim  _pos_count, 1
+; ハッシュ索引: 郵便番号 7 桁を int として扱い、open addressing で保存。
+; 10003 は 130000 * 1.3 弱の素数。
+dim  _pos_hash_key, 10003
+dim  _pos_hash_idx, 10003
+dim  _pos_hash_used, 10003
 
 ;---------------------------------------------------------
 ; postal_load "KEN_ALL.CSV"
@@ -97,14 +102,44 @@ dim  _pos_count, 1
 		_pos_addr(_pos_count) = _pref + "|" + _city + "|" + _town
 		_pos_count++
 	loop
+	; index 再構築
+	_pos_build_index
 	return _pos_count
+
+;---------------------------------------------------------
+; 内部: ハッシュ索引を一括再構築
+;   郵便番号 7 桁を int にして mod 10003 でバケット決定、
+;   衝突は linear probing
+;---------------------------------------------------------
+#deffunc _pos_build_index \
+	local _i, local _zip, local _key, local _slot
+	repeat 10003
+		_pos_hash_used(cnt) = 0
+	loop
+	repeat _pos_count
+		_i = cnt
+		_zip = _pos_code(_i)
+		_key = int(_zip)
+		_slot = _key \ 10003
+		if _slot < 0 : _slot = 0 - _slot
+		repeat 10003
+			if _pos_hash_used(_slot) = 0 {
+				_pos_hash_used(_slot) = 1
+				_pos_hash_key(_slot)  = _key
+				_pos_hash_idx(_slot)  = _i
+				break
+			}
+			_slot = (_slot + 1) \ 10003
+		loop
+	loop
+	return
 
 ;---------------------------------------------------------
 ; postal_lookup "1000001" / "100-0001", var_result
 ;   var_result = "都道府県|市区町村|町域"
 ;---------------------------------------------------------
 #deffunc postal_lookup str zip_in, var v_out, \
-	local _zip
+	local _zip, local _key, local _slot, local _idx
 	sdim v_out, 256
 	; ハイフン除去
 	_zip = ""
@@ -112,11 +147,20 @@ dim  _pos_count, 1
 		if peek(zip_in, cnt) != '-' : _zip = _zip + strf("%c", peek(zip_in, cnt))
 	loop
 	if strlen(_zip) != 7 : return -1
-	repeat _pos_count
-		if _pos_code(cnt) = _zip {
-			v_out = _pos_addr(cnt)
-			return 0
+	; O(1) ハッシュ検索
+	_key = int(_zip)
+	_slot = _key \ 10003
+	if _slot < 0 : _slot = 0 - _slot
+	repeat 10003
+		if _pos_hash_used(_slot) = 0 : return -1
+		if _pos_hash_key(_slot) = _key {
+			_idx = _pos_hash_idx(_slot)
+			if _pos_code(_idx) = _zip {
+				v_out = _pos_addr(_idx)
+				return 0
+			}
 		}
+		_slot = (_slot + 1) \ 10003
 	loop
 	return -1
 
