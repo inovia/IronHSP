@@ -129,7 +129,8 @@
       }
     ],
     "breakpoints": [
-      { "language": "nhsp" }
+      { "language": "nhsp" },
+      { "language": "hsp" }
     ],
     "debuggers": [
       {
@@ -167,6 +168,55 @@
               "name": "NHSP Debug",
               "program": "^\"\\${workspaceFolder}/${1:program}.exe\"",
               "cwd": "^\"\\${workspaceFolder}\""
+            }
+          }
+        ]
+      },
+      {
+        "type": "hsp3net",
+        "label": "HSP3 (hsp3net) Debug",
+        "languages": ["hsp"],
+        "configurationAttributes": {
+          "launch": {
+            "required": ["program"],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Path to the compiled .ax file (hspcmp64 -d で生成)"
+              },
+              "runtime": {
+                "type": "string",
+                "description": "hsp3cl_net_dbg_64.exe のパス。未指定時は nhspdap と同じフォルダから自動検出。"
+              },
+              "cwd": {
+                "type": "string",
+                "description": "実行時のカレントディレクトリ"
+              },
+              "args": {
+                "type": "array",
+                "description": "スクリプトに渡すコマンドライン引数",
+                "items": { "type": "string" },
+                "default": []
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "起動直後の最初の行で停止する",
+                "default": true
+              }
+            }
+          }
+        },
+        "configurationSnippets": [
+          {
+            "label": "HSP3 (hsp3net): Launch",
+            "description": "hspcmp64 -d で生成した .ax を hsp3net デバッガで実行",
+            "body": {
+              "type": "hsp3net",
+              "request": "launch",
+              "name": "HSP3 Debug",
+              "program": "^\"\\${workspaceFolder}/${1:program}.ax\"",
+              "cwd": "^\"\\${workspaceFolder}\"",
+              "stopOnEntry": true
             }
           }
         ]
@@ -318,6 +368,16 @@
           "type": "string",
           "default": "",
           "description": "Command line arguments passed to the EXE when launched via NHSP Debug. Used as the 'args' value of the debug session unless overridden in launch.json."
+        },
+        "hsp3net.adapterPath": {
+          "type": "string",
+          "default": "",
+          "description": "nhspdap.exe (DAP アダプタ) のパス。空なら拡張にバンドルされたものか PATH を使う。"
+        },
+        "hsp3net.runtimePath": {
+          "type": "string",
+          "default": "",
+          "description": "hsp3cl_net_dbg_64.exe (デバッグランタイム) のパス。launch.json の runtime より優先度低。"
         }
       }
     },

@@ -45,10 +45,41 @@ extern "C" {
 }
 
 // -----------------------------------------------------------
+//  Debug log
+// -----------------------------------------------------------
+#include <stdarg.h>
+static void dap_log(const char* fmt, ...) {
+    static FILE* f = nullptr;
+    static bool tried = false;
+    if (!tried) {
+        tried = true;
+        char path[MAX_PATH] = {0};
+        DWORD n = GetEnvironmentVariableA("HSP3DAP_LOG", path, MAX_PATH);
+        if (n == 0 || n >= MAX_PATH) {
+            GetModuleFileNameA(nullptr, path, MAX_PATH);
+            char* slash = strrchr(path, '\\');
+            if (slash) strcpy_s(slash + 1, MAX_PATH - (slash - path + 1), "hsp3dap.log");
+            else strcpy_s(path, MAX_PATH, "hsp3dap.log");
+        }
+        fopen_s(&f, path, "w");
+    }
+    if (!f) return;
+    va_list ap; va_start(ap, fmt);
+    vfprintf(f, fmt, ap);
+    va_end(ap);
+    fputc('\n', f);
+    fflush(f);
+}
+
+// -----------------------------------------------------------
 //  Global state
 // -----------------------------------------------------------
 static HSP3DEBUG* g_dbg = nullptr;
-static HANDLE    g_pipe = INVALID_HANDLE_VALUE;
+// Two simplex pipes: evt (server writes, client reads) + cmd (server reads,
+// client writes). Two pipes avoid the /clr restriction against concurrent
+// ReadFile+WriteFile on a single duplex handle from different threads.
+static HANDLE    g_pipe_evt = INVALID_HANDLE_VALUE;
+static HANDLE    g_pipe_cmd = INVALID_HANDLE_VALUE;
 static HANDLE    g_pipe_thread = nullptr;
 static std::atomic<bool> g_shutdown{false};
 
@@ -70,6 +101,8 @@ extern "C" __declspec(dllexport) int __stdcall hsp3dap_check_bp(const char* file
 static std::atomic<int> g_pending_cmd{0};  // 0=none, 1=continue, 2=step_over,
                                             // 3=step_in, 4=step_out, 5=pause
 static std::atomic<bool> g_paused{false};
+static bool g_entry_stop_consumed = false;  // guarded by g_bp_mutex
+static bool g_step_requested = false;       // guarded by g_bp_mutex
 
 // Adapter notified this handle to signal resume
 static HANDLE g_resume_event = nullptr;
@@ -77,12 +110,30 @@ static HANDLE g_resume_event = nullptr;
 // -----------------------------------------------------------
 //  Pipe helpers
 // -----------------------------------------------------------
-static bool pipe_write_line(const std::string& s) {
-    if (g_pipe == INVALID_HANDLE_VALUE) return false;
+static std::mutex g_pipe_write_mutex;
+static std::atomic<bool> g_pipe_connected{false};
+
+static bool write_evt_pipe(const std::string& s) {
+    if (g_pipe_evt == INVALID_HANDLE_VALUE) return false;
     std::string buf = s + "\n";
     DWORD written = 0;
-    BOOL ok = WriteFile(g_pipe, buf.data(), (DWORD)buf.size(), &written, nullptr);
+    std::lock_guard<std::mutex> lock(g_pipe_write_mutex);
+    BOOL ok = WriteFile(g_pipe_evt, buf.data(), (DWORD)buf.size(), &written, nullptr);
+    if (!ok) {
+        dap_log("WriteFile(evt) failed err=%lu len=%zu head=%.60s",
+                GetLastError(), buf.size(), s.c_str());
+    }
     return ok && written == buf.size();
+}
+
+// Either enqueue (if pipe_thread owns the evt write, e.g. inside command
+// handling) or write directly (from main thread after adapter is connected).
+static bool pipe_write_line(const std::string& s) {
+    if (!g_pipe_connected.load()) {
+        dap_log("pipe_write skipped (not connected): %.60s", s.c_str());
+        return false;
+    }
+    return write_evt_pipe(s);
 }
 
 static bool pipe_read_line(std::string& out) {
@@ -91,7 +142,16 @@ static bool pipe_read_line(std::string& out) {
     DWORD n;
     for (;;) {
         if (g_shutdown) return false;
-        if (!ReadFile(g_pipe, &c, 1, &n, nullptr) || n == 0) return false;
+        BOOL ok = ReadFile(g_pipe_cmd, &c, 1, &n, nullptr);
+        if (!ok) {
+            dap_log("ReadFile(cmd) failed err=%lu after %zu bytes",
+                    GetLastError(), out.size());
+            return false;
+        }
+        if (n == 0) {
+            dap_log("ReadFile(cmd) n=0 after %zu bytes", out.size());
+            return false;
+        }
         if (c == '\n') return true;
         if (c != '\r') out.push_back(c);
     }
@@ -147,11 +207,19 @@ extern "C" __declspec(dllexport) int __stdcall hsp3dap_check_bp(const char* file
     return it != g_breakpoints.end() ? 1 : 0;
 }
 
-// Update the exe's BP counter variable (if we resolved it successfully).
-static void sync_bp_count_to_exe() {
+// Isolated writer wrapped in SEH (must be in a function with no C++ unwinds).
+static int seh_write_int(volatile int* dst, int v) {
+    __try { *dst = v; return 0; }
+    __except (EXCEPTION_EXECUTE_HANDLER) { return (int)GetExceptionCode(); }
+}
+
+// Update the exe's BP counter variable. Must be called while g_bp_mutex is
+// already held by the caller — this avoids re-locking the non-recursive mutex.
+static void sync_bp_count_to_exe_locked() {
     if (!g_exe_bp_count) return;
-    std::lock_guard<std::mutex> lock(g_bp_mutex);
-    *g_exe_bp_count = (int)g_breakpoints.size();
+    int n = (int)g_breakpoints.size();
+    int rc = seh_write_int(g_exe_bp_count, n);
+    if (rc) dap_log("sync_bp: write raised 0x%08X", rc);
 }
 
 // -----------------------------------------------------------
@@ -188,29 +256,124 @@ static void handle_command(const std::string& line) {
                 }
             }
         }
-        // Reflect new count back to exe so dispatch loop starts/stops tracing
-        sync_bp_count_to_exe();
+        // Reflect new count back to exe so dispatch loop starts/stops tracing.
+        // Caller still holds g_bp_mutex from above (lock is inside the scope).
+        sync_bp_count_to_exe_locked();
         pipe_write_line("{\"resp\":\"bp_ack\"}");
     } else if (cmd == "continue") {
         g_pending_cmd = 1;
         if (g_resume_event) SetEvent(g_resume_event);
     } else if (cmd == "step_over") {
+        { std::lock_guard<std::mutex> lk(g_bp_mutex); g_step_requested = true; }
         g_pending_cmd = 2;
         if (g_resume_event) SetEvent(g_resume_event);
     } else if (cmd == "step_in") {
+        { std::lock_guard<std::mutex> lk(g_bp_mutex); g_step_requested = true; }
         g_pending_cmd = 3;
         if (g_resume_event) SetEvent(g_resume_event);
     } else if (cmd == "step_out") {
+        { std::lock_guard<std::mutex> lk(g_bp_mutex); g_step_requested = true; }
         g_pending_cmd = 4;
         if (g_resume_event) SetEvent(g_resume_event);
     } else if (cmd == "pause") {
         g_pending_cmd = 5;  // adapter wants break at next instruction
     } else if (cmd == "get_vars") {
-        // MVP: empty response (wired in Phase 5)
-        pipe_write_line("{\"resp\":\"vars\",\"items\":[]}");
+        std::string json = "{\"resp\":\"vars\",\"items\":[";
+        if (g_dbg && g_dbg->get_varinf) {
+            // Fetch the list of variable names. option=2 includes module-
+            // scoped vars (name@module). We cap at 200 to avoid huge payloads.
+            char* names_raw = g_dbg->get_varinf((char*)NULL, 2);
+            std::string names = names_raw ? names_raw : "";
+            bool first = true;
+            size_t p = 0;
+            int count = 0;
+            while (p < names.size() && count < 200) {
+                size_t nl = names.find("\r\n", p);
+                std::string name = (nl == std::string::npos) ? names.substr(p)
+                                                             : names.substr(p, nl - p);
+                p = (nl == std::string::npos) ? names.size() : nl + 2;
+                if (name.empty()) continue;
+
+                // Fetch per-variable details (type + dump).
+                char* detail = g_dbg->get_varinf((char*)name.c_str(), 0);
+                std::string info = detail ? detail : "";
+
+                // Extract type: look for lines starting with 型: or Type:
+                std::string vtype = "?";
+                auto find_line = [&](const char* key) -> std::string {
+                    auto tp = info.find(key);
+                    if (tp == std::string::npos) return "";
+                    tp += strlen(key);
+                    auto te = info.find("\r\n", tp);
+                    if (te == std::string::npos) te = info.size();
+                    return info.substr(tp, te - tp);
+                };
+                std::string t = find_line("\xe5\x9e\x8b:");  // "型:" UTF-8
+                if (t.empty()) t = find_line("Type:");
+                if (!t.empty()) vtype = t;
+
+                // Value: truncate info to something readable
+                std::string value = info;
+                if (value.size() > 512) value = value.substr(0, 512) + "...";
+
+                if (!first) json += ",";
+                first = false;
+                json += "{\"name\":\"" + json_esc(name) +
+                        "\",\"type\":\"" + json_esc(vtype) +
+                        "\",\"value\":\"" + json_esc(value) +
+                        "\",\"variablesReference\":0}";
+                ++count;
+            }
+        }
+        json += "]}";
+        pipe_write_line(json);
     } else if (cmd == "get_callstack") {
-        // MVP: empty response (wired in Phase 5)
-        pipe_write_line("{\"resp\":\"callstack\",\"frames\":[]}");
+        std::string json = "{\"resp\":\"callstack\",\"frames\":[";
+        bool first = true;
+
+        // Frame 0 = current position (top of stack).
+        if (g_dbg && g_dbg->fname) {
+            char cur[1024];
+            sprintf_s(cur, "{\"name\":\"(current)\",\"file\":\"%s\",\"line\":%d}",
+                      json_esc(g_dbg->fname).c_str(), g_dbg->line);
+            json += cur;
+            first = false;
+        }
+
+        // Remaining frames from dbg_callstack (each line is "file:line").
+        if (g_dbg && g_dbg->dbg_callstack) {
+            char* raw = g_dbg->dbg_callstack();
+            std::string s = raw ? raw : "";
+            size_t p = 0;
+            int idx = 1;
+            while (p < s.size()) {
+                size_t nl = s.find("\r\n", p);
+                std::string line = (nl == std::string::npos) ? s.substr(p)
+                                                             : s.substr(p, nl - p);
+                p = (nl == std::string::npos) ? s.size() : nl + 2;
+                if (line.empty()) continue;
+                // Split at last ':' (Windows drive letter contains ':').
+                auto colon = line.rfind(':');
+                std::string file = line;
+                int lineno = 0;
+                if (colon != std::string::npos) {
+                    file = line.substr(0, colon);
+                    std::string ln = line.substr(colon + 1);
+                    while (!ln.empty() && (ln.back() == ' ' || ln.back() == '\r')) ln.pop_back();
+                    lineno = atoi(ln.c_str());
+                }
+                if (!first) json += ",";
+                first = false;
+                char buf[1024];
+                sprintf_s(buf, "{\"name\":\"gosub#%d\",\"file\":\"%s\",\"line\":%d}",
+                          idx, json_esc(file).c_str(), lineno);
+                json += buf;
+                ++idx;
+            }
+        }
+
+        json += "]}";
+        pipe_write_line(json);
     } else if (cmd == "disconnect") {
         g_shutdown = true;
         g_pending_cmd = 1;  // let runtime continue and exit
@@ -222,35 +385,59 @@ static void handle_command(const std::string& line) {
 //  Pipe server thread
 // -----------------------------------------------------------
 static DWORD WINAPI pipe_thread_proc(LPVOID) {
-    char pipe_name[128];
-    sprintf_s(pipe_name, "\\\\.\\pipe\\hsp3dap_%lu", GetCurrentProcessId());
+    char evt_name[128], cmd_name[128];
+    DWORD pid = GetCurrentProcessId();
+    sprintf_s(evt_name, "\\\\.\\pipe\\hsp3dap_%lu_evt", pid);
+    sprintf_s(cmd_name, "\\\\.\\pipe\\hsp3dap_%lu_cmd", pid);
 
-    g_pipe = CreateNamedPipeA(
-        pipe_name,
-        PIPE_ACCESS_DUPLEX,
+    g_pipe_evt = CreateNamedPipeA(
+        evt_name, PIPE_ACCESS_OUTBOUND,
+        PIPE_TYPE_BYTE | PIPE_WAIT, 1, 65536, 65536, 0, nullptr);
+    g_pipe_cmd = CreateNamedPipeA(
+        cmd_name, PIPE_ACCESS_INBOUND,
         PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
         1, 65536, 65536, 0, nullptr);
-    if (g_pipe == INVALID_HANDLE_VALUE) return 1;
+    if (g_pipe_evt == INVALID_HANDLE_VALUE || g_pipe_cmd == INVALID_HANDLE_VALUE) {
+        dap_log("CreateNamedPipe failed (evt=%p cmd=%p)", g_pipe_evt, g_pipe_cmd);
+        return 1;
+    }
+    dap_log("pipes created, waiting for adapter");
 
-    // Wait for adapter connection (blocks until nhspdap connects)
-    if (!ConnectNamedPipe(g_pipe, nullptr) &&
+    // Adapter must connect evt first, then cmd — we wait for both in order.
+    if (!ConnectNamedPipe(g_pipe_evt, nullptr) &&
         GetLastError() != ERROR_PIPE_CONNECTED) {
-        CloseHandle(g_pipe);
-        g_pipe = INVALID_HANDLE_VALUE;
+        dap_log("ConnectNamedPipe(evt) failed err=%lu", GetLastError());
+        return 1;
+    }
+    if (!ConnectNamedPipe(g_pipe_cmd, nullptr) &&
+        GetLastError() != ERROR_PIPE_CONNECTED) {
+        dap_log("ConnectNamedPipe(cmd) failed err=%lu", GetLastError());
         return 1;
     }
 
-    pipe_write_line("{\"evt\":\"ready\"}");
+    dap_log("pipes connected, sending ready");
+    g_pipe_connected = true;
+    write_evt_pipe("{\"evt\":\"ready\"}");
 
     // Command loop
     std::string line;
-    while (!g_shutdown && pipe_read_line(line)) {
+    while (!g_shutdown) {
+        if (!pipe_read_line(line)) {
+            dap_log("pipe_read_line returned false (EOF or error)");
+            break;
+        }
+        dap_log("cmd rx: %.100s", line.c_str());
         handle_command(line);
+        dap_log("cmd done: %.60s", line.c_str());
     }
 
-    DisconnectNamedPipe(g_pipe);
-    CloseHandle(g_pipe);
-    g_pipe = INVALID_HANDLE_VALUE;
+    dap_log("pipe thread exiting");
+    g_pipe_connected = false;
+    DisconnectNamedPipe(g_pipe_evt);
+    DisconnectNamedPipe(g_pipe_cmd);
+    CloseHandle(g_pipe_evt);
+    CloseHandle(g_pipe_cmd);
+    g_pipe_evt = g_pipe_cmd = INVALID_HANDLE_VALUE;
     return 0;
 }
 
@@ -259,6 +446,7 @@ static DWORD WINAPI pipe_thread_proc(LPVOID) {
 // -----------------------------------------------------------
 extern "C" __declspec(dllexport) BOOL __stdcall debugini(HSP3DEBUG* dbg, int p2, int p3, int p4) {
     (void)p2; (void)p3; (void)p4;
+    dap_log("debugini enter, dbg=%p", dbg);
     g_dbg = dbg;
     g_resume_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
@@ -269,28 +457,46 @@ extern "C" __declspec(dllexport) BOOL __stdcall debugini(HSP3DEBUG* dbg, int p2,
         g_exe_bp_count = (volatile int*)GetProcAddress(exe, "hsp3dap_bp_count");
         auto reg = (register_bp_check_fn)GetProcAddress(exe, "hsp3dap_register_bp_check");
         if (reg) reg(hsp3dap_check_bp);
+        dap_log("exe hooks: bp_count=%p reg=%p", g_exe_bp_count, reg);
+
+        // Force first-line stop: STEPIN mode makes code_dbgtrace fire on
+        // every line change. The adapter can switch to RUN after setting BPs.
+        auto force_step = (void(*)())GetProcAddress(exe, "hsp3dap_force_step");
+        if (force_step) force_step();
+        dap_log("force_step=%p", force_step);
     }
 
     g_pipe_thread = CreateThread(nullptr, 0, pipe_thread_proc, nullptr, 0, nullptr);
-    // Start in STOP mode so adapter can set breakpoints before first line
-    if (dbg && dbg->dbg_set) dbg->dbg_set(HSPDEBUG_STOP);
+    dap_log("debugini done");
     return TRUE;
 }
 
 extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int cause, int p3, int p4) {
-    (void)p3; (void)p4;
+    (void)cause; (void)p3; (void)p4;
     if (!dbg) return FALSE;
     g_dbg = dbg;
 
     // Refresh current line/file
     if (dbg->dbg_curinf) dbg->dbg_curinf();
 
-    // Classify stop reason
+    // Classify stop reason by inspecting our own state — the upstream `cause`
+    // parameter isn't populated by hsp3's dispatch loop.
     const char* reason = "step";
-    if (cause == 0) reason = "entry";       // initial stop after launch
-    else if (cause == 1) reason = "breakpoint";
-    else if (cause == 2) reason = "pause";
-    else if (cause == 3) reason = "exception";
+    {
+        std::lock_guard<std::mutex> lock(g_bp_mutex);
+        if (!g_entry_stop_consumed) {
+            reason = "entry";
+            g_entry_stop_consumed = true;
+        } else if (!g_breakpoints.empty() && dbg->fname &&
+                   g_breakpoints.find({std::string(dbg->fname), dbg->line}) != g_breakpoints.end()) {
+            reason = "breakpoint";
+        } else if (g_step_requested) {
+            reason = "step";
+            g_step_requested = false;
+        } else {
+            reason = "pause";
+        }
+    }
 
     // Notify adapter
     char evt[1024];
@@ -328,7 +534,8 @@ BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
     if (reason == DLL_PROCESS_DETACH) {
         g_shutdown = true;
         if (g_resume_event) SetEvent(g_resume_event);
-        if (g_pipe != INVALID_HANDLE_VALUE) CloseHandle(g_pipe);
+        if (g_pipe_evt != INVALID_HANDLE_VALUE) CloseHandle(g_pipe_evt);
+        if (g_pipe_cmd != INVALID_HANDLE_VALUE) CloseHandle(g_pipe_cmd);
     }
     return TRUE;
 }

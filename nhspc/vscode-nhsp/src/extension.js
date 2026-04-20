@@ -58,6 +58,11 @@ function activate(context) {
         vscode.commands.registerCommand('nhsp.debug', () => compileAndDebug())
     );
 
+    // HSP3 (hsp3net) DAP adapter: spawns nhspdap.exe for type "hsp3net"
+    context.subscriptions.push(
+        vscode.debug.registerDebugAdapterDescriptorFactory('hsp3net', new Hsp3NetDapFactory(context))
+    );
+
     // Block auto-close: #func → Enter → auto-insert #endfunc
     context.subscriptions.push(
         vscode.workspace.onDidChangeTextDocument((e) => {
@@ -1013,6 +1018,43 @@ function parseDiagnostics(output, sourceFile) {
         diagnostics.push(diag);
     }
     return diagnostics;
+}
+
+// ========== HSP3 (hsp3net) DAP Adapter ==========
+
+class Hsp3NetDapFactory {
+    constructor(context) { this.context = context; }
+
+    createDebugAdapterDescriptor(session, executable) {
+        const adapter = this._findAdapter();
+        if (!adapter) {
+            vscode.window.showErrorMessage(
+                'nhspdap.exe が見つかりません。hsp3net.adapterPath を設定するか ' +
+                '拡張の bin/ に配置してください。');
+            return null;
+        }
+        return new vscode.DebugAdapterExecutable(adapter, []);
+    }
+
+    _findAdapter() {
+        // 1. User-configured path
+        const cfg = vscode.workspace.getConfiguration('hsp3net');
+        const configured = cfg.get('adapterPath');
+        if (configured && fs.existsSync(configured)) return configured;
+
+        // 2. Bundled with the extension
+        const bundled = path.join(this.context.extensionPath, 'bin', 'nhspdap.exe');
+        if (fs.existsSync(bundled)) return bundled;
+
+        // 3. Relative to extension (dev workspace): ../nhspdap/bin/Release/net48/nhspdap.exe
+        const devPaths = [
+            path.join(this.context.extensionPath, '..', 'nhspdap', 'bin', 'Release', 'net48', 'nhspdap.exe'),
+            path.join(this.context.extensionPath, '..', 'nhspdap', 'bin', 'Debug', 'net48', 'nhspdap.exe'),
+        ];
+        for (const p of devPaths) if (fs.existsSync(p)) return p;
+
+        return null;
+    }
 }
 
 function deactivate() {

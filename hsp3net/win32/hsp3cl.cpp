@@ -144,11 +144,12 @@ static void hsp3cl_stop( HSPCTX *hspctx )
 #ifdef HSPDEBUG
 	if ( h_dbgwin != NULL ) dbgnotice( dbginfo, 0, 0, 0 );		// Debug Window Notice
 #endif
-	while(1) {
+	// dbgnotice が dbg_set(HSPDEBUG_RUN) で runmode を既に RUN にしていれば
+	// GetMessage に入らず即座に戻る (DAP モード: メッセージポンプ不要)。
+	while( hspctx->runmode == RUNMODE_STOP ) {
 		GetMessage( &msg, NULL, 0, 0 );
 		if ( msg.message == WM_QUIT ) throw HSPERR_NONE;
 		hsp3win_dispatch( &msg );
-		if ( hspctx->runmode != RUNMODE_STOP ) break;
 	}
 }
 #endif

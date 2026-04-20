@@ -70,6 +70,13 @@ extern "C" __declspec(dllexport) void hsp3dap_register_bp_check(hsp3dap_bp_check
 {
 	g_hsp3dap_bp_check = fn;
 }
+
+// STEPIN モード相当: 次の行変化で code_dbgtrace が停止をトリガする。
+// debugini 直後に呼ぶと最初のスクリプト行で pause できる (stopOnEntry 実装)。
+extern "C" __declspec(dllexport) void hsp3dap_force_step(void)
+{
+	dbgmode = HSPDEBUG_STEPIN;
+}
 #endif
 
 PVal *plugin_pval;								// プラグインに渡される変数ポインタの実態

@@ -18,11 +18,16 @@ using System.IO;
 using System.IO.Pipes;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace NhspDap {
     internal sealed class DebuggeeBridge : IDisposable {
-        private NamedPipeClientStream _pipe;
+        // Two simplex pipes: evt (server→us), cmd (us→server). See
+        // hsp3debug_dap.cpp for the rationale (concurrent R/W on a duplex
+        // handle is unreliable under /clr mixed-mode).
+        private NamedPipeClientStream _evtPipe;
+        private NamedPipeClientStream _cmdPipe;
         private StreamWriter _writer;
         private StreamReader _reader;
         private Thread _readerThread;
@@ -30,19 +35,27 @@ namespace NhspDap {
         private volatile bool _disposed;
 
         public event Action<JObject> EventReceived;
-        public event Action<JObject> ResponseReceived;
         public event Action Disconnected;
 
-        // Blocks until the pipe server (DLL) accepts the connection.
-        // The DLL creates the pipe during debugini() — so the runtime
+        // Single in-flight request slot. The adapter handles one DAP variables /
+        // stackTrace request at a time (they're serial from VS Code's side
+        // anyway), so a single TCS is enough for MVP.
+        private readonly object _respLock = new object();
+        private TaskCompletionSource<JObject> _pendingResp;
+
+        // Blocks until both pipe servers (DLL) accept their connection.
+        // The DLL creates the pipes during debugini(), so the runtime
         // must be spawned before we call this.
         public void Connect(int pid, int timeoutMs = 10000) {
-            string name = "hsp3dap_" + pid;
-            _pipe = new NamedPipeClientStream(".", name, PipeDirection.InOut,
-                PipeOptions.Asynchronous);
-            _pipe.Connect(timeoutMs);
-            _writer = new StreamWriter(_pipe, new UTF8Encoding(false)) { NewLine = "\n", AutoFlush = true };
-            _reader = new StreamReader(_pipe, new UTF8Encoding(false));
+            string evtName = "hsp3dap_" + pid + "_evt";
+            string cmdName = "hsp3dap_" + pid + "_cmd";
+            _evtPipe = new NamedPipeClientStream(".", evtName, PipeDirection.In);
+            _cmdPipe = new NamedPipeClientStream(".", cmdName, PipeDirection.Out);
+            _evtPipe.Connect(timeoutMs);
+            _cmdPipe.Connect(timeoutMs);
+            var utf8 = new UTF8Encoding(false);
+            _writer = new StreamWriter(_cmdPipe, utf8) { NewLine = "\n", AutoFlush = true };
+            _reader = new StreamReader(_evtPipe, utf8);
             _readerThread = new Thread(ReadLoop) { IsBackground = true, Name = "DebuggeeBridge-Reader" };
             _readerThread.Start();
         }
@@ -55,6 +68,26 @@ namespace NhspDap {
             }
         }
 
+        // Send a command and block until the DLL answers with a "resp" message.
+        // Returns null on timeout or pipe error. Only one SendRequest can be
+        // in flight at a time.
+        public JObject SendRequest(JObject cmd, int timeoutMs = 2000) {
+            TaskCompletionSource<JObject> tcs;
+            lock (_respLock) {
+                if (_pendingResp != null) return null;
+                tcs = new TaskCompletionSource<JObject>();
+                _pendingResp = tcs;
+            }
+            try {
+                Send(cmd);
+                return tcs.Task.Wait(timeoutMs) ? tcs.Task.Result : null;
+            } finally {
+                lock (_respLock) {
+                    if (_pendingResp == tcs) _pendingResp = null;
+                }
+            }
+        }
+
         private void ReadLoop() {
             try {
                 string line;
@@ -63,8 +96,13 @@ namespace NhspDap {
                     JObject obj;
                     try { obj = JObject.Parse(line); }
                     catch { continue; }
-                    if (obj["evt"] != null) EventReceived?.Invoke(obj);
-                    else if (obj["resp"] != null) ResponseReceived?.Invoke(obj);
+                    if (obj["evt"] != null) {
+                        EventReceived?.Invoke(obj);
+                    } else if (obj["resp"] != null) {
+                        TaskCompletionSource<JObject> tcs;
+                        lock (_respLock) { tcs = _pendingResp; _pendingResp = null; }
+                        tcs?.TrySetResult(obj);
+                    }
                 }
             } catch (IOException) {
                 // pipe closed
@@ -75,7 +113,8 @@ namespace NhspDap {
 
         public void Dispose() {
             _disposed = true;
-            try { _pipe?.Close(); } catch { }
+            try { _evtPipe?.Close(); } catch { }
+            try { _cmdPipe?.Close(); } catch { }
             try { _reader?.Dispose(); } catch { }
             try { _writer?.Dispose(); } catch { }
         }

@@ -78,10 +78,21 @@ namespace NhspDap {
             string cwd = (string)args["cwd"] ?? Path.GetDirectoryName(Path.GetFullPath(program));
 
             if (string.IsNullOrEmpty(runtime)) {
-                // Auto-locate hsp3cl_net_dbg_64.exe next to this .exe
-                string here = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-                string candidate = Path.Combine(here, "hsp3cl_net_dbg_64.exe");
-                runtime = File.Exists(candidate) ? candidate : "hsp3cl_net_dbg_64.exe";
+                runtime = LocateRuntime();
+                if (runtime == null) {
+                    Respond(req, reqSeq, null, success: false,
+                        message: "hsp3cl_net_dbg_64.exe が見つかりません。launch.json の runtime を設定してください。");
+                    return;
+                }
+            }
+
+            // Ensure hsp3debug_dap_64.dll is staged as hsp3debug.dll next to the
+            // runtime so LoadLibraryA("hsp3debug.dll") succeeds.
+            try { StageDebugDll(runtime); }
+            catch (Exception ex) {
+                Respond(req, reqSeq, null, success: false,
+                    message: "hsp3debug.dll の配置に失敗: " + ex.Message);
+                return;
             }
 
             // Launch runtime
@@ -120,6 +131,44 @@ namespace NhspDap {
             var parts = new List<string> { "\"" + program + "\"" };
             if (argv != null) foreach (var t in argv) parts.Add("\"" + (string)t + "\"");
             return string.Join(" ", parts);
+        }
+
+        // Locate hsp3cl_net_dbg_64.exe by searching a few known locations.
+        private static string LocateRuntime() {
+            string here = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var candidates = new[] {
+                Path.Combine(here, "hsp3cl_net_dbg_64.exe"),
+                // Dev layout: .../nhspc/nhspdap/bin/Release/net48/
+                // runtime:     .../hsp3net/Release_dbg/hsp3cl_net_dbg_64.exe
+                Path.GetFullPath(Path.Combine(here, "..", "..", "..", "..", "..", "hsp3net", "Release_dbg", "hsp3cl_net_dbg_64.exe")),
+            };
+            foreach (var c in candidates) if (File.Exists(c)) return c;
+            return null;
+        }
+
+        // Copy hsp3debug_dap_64.dll → hsp3debug.dll next to the runtime (idempotent,
+        // skip if already present and up-to-date).
+        private static void StageDebugDll(string runtimePath) {
+            string runtimeDir = Path.GetDirectoryName(runtimePath);
+            string target = Path.Combine(runtimeDir, "hsp3debug.dll");
+
+            string here = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var candidates = new[] {
+                Path.Combine(here, "hsp3debug_dap_64.dll"),
+                Path.Combine(here, "hsp3debug.dll"),
+                // Dev layout: plugins/win32/hsp3debug_dap/Release/hsp3debug_dap_64.dll
+                Path.GetFullPath(Path.Combine(here, "..", "..", "..", "..", "..", "plugins", "win32", "hsp3debug_dap", "Release", "hsp3debug_dap_64.dll")),
+            };
+            string source = null;
+            foreach (var c in candidates) if (File.Exists(c)) { source = c; break; }
+            if (source == null) throw new FileNotFoundException("hsp3debug_dap_64.dll not found");
+
+            // Skip copy if target is same file or already newer/same
+            if (File.Exists(target)) {
+                var si = new FileInfo(source); var ti = new FileInfo(target);
+                if (si.Length == ti.Length && ti.LastWriteTimeUtc >= si.LastWriteTimeUtc) return;
+            }
+            File.Copy(source, target, overwrite: true);
         }
 
         private void SetBreakpoints(JObject req, int reqSeq) {
@@ -161,25 +210,57 @@ namespace NhspDap {
         }
 
         private void StackTrace(JObject req, int reqSeq) {
-            // MVP stub — Phase 5 wires real callstack via get_callstack
+            var resp = _bridge.SendRequest(new JObject { ["cmd"] = "get_callstack" });
+            var frames = new JArray();
+            if (resp?["frames"] is JArray arr) {
+                int id = 1;
+                foreach (var f in arr) {
+                    frames.Add(new JObject {
+                        ["id"] = id++,
+                        ["name"] = (string)f["name"],
+                        ["source"] = new JObject {
+                            ["name"] = Path.GetFileName((string)f["file"] ?? ""),
+                            ["path"] = (string)f["file"],
+                        },
+                        ["line"] = (int?)f["line"] ?? 0,
+                        ["column"] = 1,
+                    });
+                }
+            }
             Respond(req, reqSeq, new JObject {
-                ["stackFrames"] = new JArray(),
-                ["totalFrames"] = 0,
+                ["stackFrames"] = frames,
+                ["totalFrames"] = frames.Count,
             });
         }
 
         private void Scopes(JObject req, int reqSeq) {
+            // Single flat scope for now — HSP's variable list already contains
+            // both globals and module-scoped vars.
             Respond(req, reqSeq, new JObject {
                 ["scopes"] = new JArray {
-                    new JObject { ["name"] = "Locals", ["variablesReference"] = 1, ["expensive"] = false },
-                    new JObject { ["name"] = "Globals", ["variablesReference"] = 2, ["expensive"] = false },
+                    new JObject {
+                        ["name"] = "Variables",
+                        ["variablesReference"] = 1,
+                        ["expensive"] = false,
+                    },
                 }
             });
         }
 
         private void Variables(JObject req, int reqSeq) {
-            // MVP stub
-            Respond(req, reqSeq, new JObject { ["variables"] = new JArray() });
+            var resp = _bridge.SendRequest(new JObject { ["cmd"] = "get_vars" });
+            var vars = new JArray();
+            if (resp?["items"] is JArray arr) {
+                foreach (var v in arr) {
+                    vars.Add(new JObject {
+                        ["name"] = (string)v["name"],
+                        ["type"] = (string)v["type"],
+                        ["value"] = (string)v["value"],
+                        ["variablesReference"] = 0,
+                    });
+                }
+            }
+            Respond(req, reqSeq, new JObject { ["variables"] = vars });
         }
 
         private void SendSimple(string cmd) {
