@@ -208,10 +208,16 @@ function activate(context) {
                                 : undefined
                         );
                         si.parameters = (s.parameters || []).map((p) => {
-                            // LSP param label can be [start, end] (range into signature label).
-                            return new vscode.ParameterInformation(
-                                Array.isArray(p.label) ? p.label : p.label
-                            );
+                            // LSP param label can be [start, end] (range into signature label)
+                            // or a plain string. Documentation surfaces as the
+                            // "current parameter" description in the popup.
+                            let pdoc;
+                            if (p.documentation) {
+                                const v = typeof p.documentation === 'string'
+                                    ? p.documentation : p.documentation.value;
+                                pdoc = new vscode.MarkdownString(v);
+                            }
+                            return new vscode.ParameterInformation(p.label, pdoc);
                         });
                         return si;
                     });
