@@ -91,19 +91,28 @@ namespace HspLanguageServer {
 
                 // See if this line declares a symbol. Try explicit decls first
                 // (more specific), then fall back to bare-assignment form.
-                if (docBuf.Count > 0) {
-                    string name = null;
-                    var m = DeclRx.Match(raw);
-                    if (m.Success) {
-                        name = m.Groups[2].Value;
-                    } else {
-                        var ma = VarAssignRx.Match(raw);
-                        if (ma.Success) name = ma.Groups[1].Value;
-                    }
-                    if (name != null) {
-                        AttachDocsToSymbol(symbols, name, sourceBaseName,
-                                           declLine: i + 1, docLines: docBuf);
-                    }
+                string name = null;
+                string kind = null;
+                var m = DeclRx.Match(raw);
+                if (m.Success) {
+                    kind = m.Groups[1].Value;
+                    name = m.Groups[2].Value;
+                } else {
+                    var ma = VarAssignRx.Match(raw);
+                    if (ma.Success) name = ma.Groups[1].Value;
+                }
+
+                if (name != null && docBuf.Count > 0) {
+                    AttachDocsToSymbol(symbols, name, sourceBaseName,
+                                       declLine: i + 1, docLines: docBuf);
+                }
+
+                // Always (even without doc comments) parse function-like
+                // declarations for signature info — feeds signatureHelp.
+                if (name != null && kind != null && IsFunctionKind(kind)) {
+                    var sigParams = ExtractSigParams(raw, kind);
+                    AttachSignatureToSymbol(symbols, name, sourceBaseName,
+                                             declLine: i + 1, sigParams: sigParams);
                 }
 
                 // Any non-doc, non-blank line resets the doc buffer (whether
@@ -174,6 +183,146 @@ namespace HspLanguageServer {
                 if (s[i] == c1 || s[i] == c2) return i;
             }
             return -1;
+        }
+
+        // Whether this declaration kind has a parameter list we care about
+        // for signature help.
+        private static bool IsFunctionKind(string kind) {
+            switch (kind) {
+                case "#deffunc": case "#defcfunc":
+                case "#func":    case "#cfunc":
+                case "#cfuncd":  case "#cfuncf": case "#cfuncst":
+                case "#comfunc":
+                case "#modfunc": case "#modcfunc":
+                    return true;
+                default: return false;
+            }
+        }
+
+        // Extract the parameter list from a declaration like:
+        //   #deffunc foo str _name, int _age
+        //   #defcfunc bar int _a, int _b
+        //   #func Beep "Beep" sptr, sptr
+        //   #cfunc GetX "GetX" int, int
+        //
+        // For #deffunc / #defcfunc / #modfunc / #modcfunc: each param has
+        // `type name` (sometimes with `array` / `var`). We capture both.
+        // For #func / #cfunc / #cfuncd / #cfuncf / #cfuncst / #comfunc: the
+        // param is just a type tag (sptr / int / str / var / wstr / int64 /
+        // float / double / intptr / comobj / varptr etc.). Name = "".
+        private static List<HspSigParam> ExtractSigParams(string line, string kind) {
+            var result = new List<HspSigParam>();
+
+            // Walk past: <kind> [global] <name> [ "DllName" ]
+            int p = line.IndexOf(kind);
+            if (p < 0) return result;
+            p += kind.Length;
+            // Skip `global` keyword if present
+            p = SkipWhite(line, p);
+            if (MatchWord(line, p, "global")) { p += "global".Length; p = SkipWhite(line, p); }
+            // Function name
+            while (p < line.Length && (char.IsLetterOrDigit(line[p]) || line[p] == '_' || line[p] == '@')) p++;
+            p = SkipWhite(line, p);
+            // Optional numeric (e.g. `#comfunc name 3 ...`) / DLL export string
+            if (p < line.Length && line[p] == '"') {
+                p++;
+                while (p < line.Length && line[p] != '"') p++;
+                if (p < line.Length) p++;
+            } else if (p < line.Length && char.IsDigit(line[p])) {
+                while (p < line.Length && char.IsDigit(line[p])) p++;
+            }
+            p = SkipWhite(line, p);
+
+            // From here on, the rest is the param list (comma-separated).
+            // Strip trailing `;` comment.
+            int end = line.Length;
+            for (int j = p; j < end; j++) {
+                if (line[j] == ';') { end = j; break; }
+                if (j + 1 < end && line[j] == '/' && line[j + 1] == '/') { end = j; break; }
+            }
+            string paramStr = line.Substring(p, end - p).Trim();
+            if (paramStr.Length == 0) return result;
+
+            bool named = (kind == "#deffunc" || kind == "#defcfunc" ||
+                          kind == "#modfunc" || kind == "#modcfunc");
+
+            foreach (var raw in SplitTopLevel(paramStr, ',')) {
+                var part = raw.Trim();
+                if (part.Length == 0) continue;
+                // Drop `local _x` pseudo-params (internal scratch).
+                if (part.StartsWith("local ", StringComparison.Ordinal) || part == "local") continue;
+
+                if (named) {
+                    // "int _foo" or "array _buf" or "var _out"
+                    var tokens = part.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (tokens.Length >= 2) {
+                        result.Add(new HspSigParam {
+                            Type = string.Join(" ", tokens, 0, tokens.Length - 1),
+                            Name = tokens[tokens.Length - 1],
+                        });
+                    } else if (tokens.Length == 1) {
+                        result.Add(new HspSigParam { Type = "", Name = tokens[0] });
+                    }
+                } else {
+                    result.Add(new HspSigParam { Type = part, Name = "" });
+                }
+            }
+            return result;
+        }
+
+        // Split at commas that are NOT inside () or "".
+        private static IEnumerable<string> SplitTopLevel(string s, char sep) {
+            var parts = new List<string>();
+            int depth = 0; bool inStr = false;
+            var cur = new StringBuilder();
+            for (int i = 0; i < s.Length; i++) {
+                char c = s[i];
+                if (inStr) {
+                    cur.Append(c);
+                    if (c == '"') inStr = false;
+                    else if (c == '\\' && i + 1 < s.Length) { cur.Append(s[++i]); }
+                    continue;
+                }
+                if (c == '"') { inStr = true; cur.Append(c); continue; }
+                if (c == '(') depth++;
+                else if (c == ')') depth--;
+                if (c == sep && depth == 0) {
+                    parts.Add(cur.ToString());
+                    cur.Clear();
+                } else {
+                    cur.Append(c);
+                }
+            }
+            if (cur.Length > 0 || parts.Count > 0) parts.Add(cur.ToString());
+            return parts;
+        }
+
+        private static int SkipWhite(string s, int p) {
+            while (p < s.Length && (s[p] == ' ' || s[p] == '\t')) p++;
+            return p;
+        }
+
+        private static bool MatchWord(string s, int p, string w) {
+            if (p + w.Length > s.Length) return false;
+            for (int i = 0; i < w.Length; i++) if (s[p + i] != w[i]) return false;
+            int after = p + w.Length;
+            return after >= s.Length || !(char.IsLetterOrDigit(s[after]) || s[after] == '_');
+        }
+
+        private static void AttachSignatureToSymbol(Dictionary<string, List<HspSymbol>> symbols,
+                                                    string name, string sourceBaseName,
+                                                    int declLine, List<HspSigParam> sigParams) {
+            string key = name.ToLowerInvariant();
+            if (!symbols.TryGetValue(key, out var list)) return;
+            foreach (var sym in list) {
+                string symFile = sym.File ?? "";
+                int slash = symFile.LastIndexOfAny(new[] { '/', '\\' });
+                string symBase = slash >= 0 ? symFile.Substring(slash + 1) : symFile;
+                if (!string.Equals(symBase, sourceBaseName, StringComparison.OrdinalIgnoreCase)) continue;
+                if (Math.Abs(sym.Line - declLine) > 2) continue;
+                sym.SigParams = sigParams;
+                return;
+            }
         }
     }
 }

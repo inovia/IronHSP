@@ -162,6 +162,18 @@ class HspLanguageClient {
         } catch (e) { return null; }
     }
 
+    async signatureHelp(document, position, triggerCharacter) {
+        try {
+            return await this._sendRequest('textDocument/signatureHelp', {
+                textDocument: { uri: document.uri.toString() },
+                position: this._lspPos(position),
+                context: triggerCharacter
+                    ? { triggerKind: 2, triggerCharacter, isRetrigger: false }
+                    : { triggerKind: 1, isRetrigger: false },
+            });
+        } catch (e) { return null; }
+    }
+
     _findServer() {
         // 1. User override
         const cfg = vscode.workspace.getConfiguration('hsp3net');

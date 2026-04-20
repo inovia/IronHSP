@@ -23,6 +23,15 @@ namespace HspLanguageServer {
         public string DocDescription;            // free-form intro
         public List<HspDocParam> DocParams;      // @param entries in order
         public string DocReturn;                 // @return text
+
+        // Parameter list extracted from the declaration syntax itself (used
+        // by signatureHelp). Populated only for function-like symbols.
+        public List<HspSigParam> SigParams;
+    }
+
+    internal sealed class HspSigParam {
+        public string Type;   // e.g. "int", "double", "str", "var", empty for #func w/o type tag
+        public string Name;   // e.g. "_a" for #deffunc; "" for #func with anonymous params
     }
 
     internal sealed class HspDocParam {

@@ -113,6 +113,9 @@ namespace HspLanguageServer {
                 case "textDocument/semanticTokens/full":
                     SendResult(id, HandleSemanticTokens(ps));
                     break;
+                case "textDocument/signatureHelp":
+                    SendResult(id, HandleSignatureHelp(ps));
+                    break;
                 default:
                     SendResult(id, null);
                     break;
@@ -176,6 +179,10 @@ namespace HspLanguageServer {
                     ["documentSymbolProvider"] = true,
                     ["completionProvider"] = new JObject {
                         ["triggerCharacters"] = new JArray { "#", "@" },
+                    },
+                    ["signatureHelpProvider"] = new JObject {
+                        ["triggerCharacters"] = new JArray { "(", ",", " " },
+                        ["retriggerCharacters"] = new JArray { "," },
                     },
                     ["semanticTokensProvider"] = new JObject {
                         ["legend"] = new JObject {
@@ -439,6 +446,166 @@ namespace HspLanguageServer {
                 });
             }
             return items;
+        }
+
+        // ================ Signature help ================
+
+        private JToken HandleSignatureHelp(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            if (!_docs.TryGetValue(uri, out var doc)) return null;
+            int line = (int)ps["position"]["line"];
+            int col  = (int)ps["position"]["character"];
+
+            if (!TryLocateCall(doc.Text ?? "", line, col, out string fnName, out int activeParam))
+                return null;
+
+            if (!doc.WorkspaceSymbols.TryGetValue(fnName, out var hits)) return null;
+
+            var signatures = new JArray();
+            foreach (var s in hits) {
+                if (s.SigParams == null) continue;
+                // Build the label: "name(type1 arg1, type2 arg2): ret"
+                var labelSb = new StringBuilder();
+                labelSb.Append(s.Name).Append('(');
+                var paramRanges = new List<(int start, int end)>();
+                for (int i = 0; i < s.SigParams.Count; i++) {
+                    if (i > 0) labelSb.Append(", ");
+                    int pStart = labelSb.Length;
+                    var pp = s.SigParams[i];
+                    if (!string.IsNullOrEmpty(pp.Type)) labelSb.Append(pp.Type);
+                    if (!string.IsNullOrEmpty(pp.Type) && !string.IsNullOrEmpty(pp.Name)) labelSb.Append(' ');
+                    if (!string.IsNullOrEmpty(pp.Name)) labelSb.Append(pp.Name);
+                    paramRanges.Add((pStart, labelSb.Length));
+                }
+                labelSb.Append(')');
+
+                var paramsArr = new JArray();
+                foreach (var (start, end) in paramRanges) {
+                    paramsArr.Add(new JObject {
+                        ["label"] = new JArray { start, end },
+                    });
+                }
+
+                var sigObj = new JObject {
+                    ["label"] = labelSb.ToString(),
+                    ["parameters"] = paramsArr,
+                };
+                // Doc description as signature documentation.
+                if (!string.IsNullOrWhiteSpace(s.DocDescription)) {
+                    sigObj["documentation"] = new JObject {
+                        ["kind"] = "markdown",
+                        ["value"] = s.DocDescription,
+                    };
+                }
+                signatures.Add(sigObj);
+            }
+
+            if (signatures.Count == 0) return null;
+            return new JObject {
+                ["signatures"] = signatures,
+                ["activeSignature"] = 0,
+                ["activeParameter"] = Math.Max(0, activeParam),
+            };
+        }
+
+        // Walk the source backwards from (line, col) looking for the
+        // enclosing function call. Returns the function name + which
+        // argument index the cursor is currently on.
+        //
+        // Recognises two HSP call styles:
+        //   fn(a, b, c)    → paren style (defcfunc / cfunc)
+        //   fn a, b, c     → statement style (deffunc)
+        //
+        // For paren style: walk left counting nested parens until we find
+        // the unmatched `(`, then the identifier before it is the function.
+        // For statement style: fall back to scanning the current line — the
+        // first identifier is the function, commas between it and the
+        // cursor count arguments.
+        private static bool TryLocateCall(string text, int line, int col,
+                                          out string fnName, out int activeParam) {
+            fnName = null;
+            activeParam = 0;
+            if (text == null) return false;
+
+            // Compute absolute offset of (line, col).
+            int pos = 0;
+            int curLine = 0;
+            while (curLine < line && pos < text.Length) {
+                if (text[pos] == '\n') curLine++;
+                pos++;
+            }
+            int lineStart = pos;
+            int cursor = Math.Min(text.Length, lineStart + col);
+
+            // Paren-style: walk left from cursor, skipping nested ()/"".
+            int depth = 0;
+            bool inStr = false;
+            int commas = 0;
+            int foundParen = -1;
+            for (int i = cursor - 1; i >= 0; i--) {
+                char c = text[i];
+                if (c == '\n') break;  // stay on current logical line
+                if (inStr) {
+                    if (c == '"') inStr = false;
+                    continue;
+                }
+                if (c == '"') { inStr = true; continue; }
+                if (c == ')') depth++;
+                else if (c == '(') {
+                    if (depth == 0) { foundParen = i; break; }
+                    depth--;
+                } else if (c == ',' && depth == 0) commas++;
+            }
+
+            if (foundParen >= 0) {
+                // Function name is the identifier immediately before `(`
+                int end = foundParen;
+                while (end > 0 && (text[end - 1] == ' ' || text[end - 1] == '\t')) end--;
+                int start = end;
+                while (start > 0 && (char.IsLetterOrDigit(text[start - 1]) || text[start - 1] == '_' || text[start - 1] == '@')) start--;
+                if (end > start) {
+                    fnName = text.Substring(start, end - start).ToLowerInvariant();
+                    activeParam = commas;
+                    return true;
+                }
+            }
+
+            // Statement-style fallback: scan the current line from start.
+            int lineEnd = text.IndexOf('\n', lineStart);
+            if (lineEnd < 0) lineEnd = text.Length;
+            string ln = text.Substring(lineStart, lineEnd - lineStart);
+            int p = 0;
+            while (p < ln.Length && (ln[p] == ' ' || ln[p] == '\t')) p++;
+            int idStart = p;
+            while (p < ln.Length && (char.IsLetterOrDigit(ln[p]) || ln[p] == '_' || ln[p] == '@')) p++;
+            if (p == idStart) return false;
+            string maybeFn = ln.Substring(idStart, p - idStart);
+            // Skip leading `;` / `//` — they're comments, not calls.
+            if (ln.TrimStart().StartsWith(";") || ln.TrimStart().StartsWith("//")) return false;
+            // Reject keywords that look like fn names.
+            switch (maybeFn.ToLowerInvariant()) {
+                case "if": case "else": case "repeat": case "loop":
+                case "return": case "goto": case "gosub": case "end":
+                case "stop": case "wait": case "await": case "foreach":
+                case "switch": case "case": case "break": case "continue":
+                    return false;
+            }
+            // Count commas from after the name to the cursor's col.
+            int commaCount = 0;
+            int cursorCol = Math.Min(col, ln.Length);
+            bool inStr2 = false;
+            int depth2 = 0;
+            for (int i = p; i < cursorCol; i++) {
+                char c = ln[i];
+                if (inStr2) { if (c == '"') inStr2 = false; continue; }
+                if (c == '"') { inStr2 = true; continue; }
+                if (c == '(') depth2++;
+                else if (c == ')') depth2--;
+                else if (c == ',' && depth2 == 0) commaCount++;
+            }
+            fnName = maybeFn.ToLowerInvariant();
+            activeParam = commaCount;
+            return true;
         }
 
         // ================ Semantic tokens ================

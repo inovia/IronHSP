@@ -194,7 +194,32 @@ function activate(context) {
                         return ci;
                     });
                 }
-            }, '#', '@')
+            }, '#', '@'),
+            vscode.languages.registerSignatureHelpProvider('hsp', {
+                provideSignatureHelp: async (doc, pos, token, context) => {
+                    const resp = await hspLspClient.signatureHelp(doc, pos, context.triggerCharacter);
+                    if (!resp || !resp.signatures) return null;
+                    const help = new vscode.SignatureHelp();
+                    help.signatures = resp.signatures.map((s) => {
+                        const si = new vscode.SignatureInformation(
+                            s.label,
+                            s.documentation
+                                ? new vscode.MarkdownString(typeof s.documentation === 'string' ? s.documentation : s.documentation.value)
+                                : undefined
+                        );
+                        si.parameters = (s.parameters || []).map((p) => {
+                            // LSP param label can be [start, end] (range into signature label).
+                            return new vscode.ParameterInformation(
+                                Array.isArray(p.label) ? p.label : p.label
+                            );
+                        });
+                        return si;
+                    });
+                    help.activeSignature = resp.activeSignature || 0;
+                    help.activeParameter = resp.activeParameter || 0;
+                    return help;
+                }
+            }, '(', ',', ' ')
         );
 
         // Semantic tokens — three-way colouring (user func / library / builtin).
