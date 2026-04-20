@@ -1,0 +1,104 @@
+;============================================================
+;  sample_mqtt.hsp — hspmqtt.dll MQTT 3.1.1 pub/sub デモ
+;
+;  前提:
+;    ローカルまたは LAN 上の MQTT ブローカが必要。
+;    最も手軽なのは Mosquitto:
+;       winget install EclipseFoundation.Mosquitto
+;       mosquitto -v        ; デフォルトで 1883/tcp を listen
+;    クラウドで試すなら test.mosquitto.org (公開テスト用、誰でも読める):
+;       host = "test.mosquitto.org" : port = 1883
+;
+;  このサンプルは 1 プロセスで subscriber + publisher を兼ねる:
+;    1. broker に接続
+;    2. topic "hsp/demo/#" を subscribe
+;    3. 1 秒ごとに "hsp/demo/tick" に publish
+;    4. 同時に recv で流れてきたメッセージを表示
+;  stop で終了するまでループ。close が SIGINT に相当。
+;
+;  仕様上の制約 (hspmqtt.dll v1):
+;    - QoS 0 のみ / TLS 非対応 / Retained/LWT 未対応
+;    - recv は非ブロッキング (0 バイトなら「今は何も来てない」)
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspmqtt.as"
+
+    title "hspmqtt demo"
+    screen 0, 720, 520
+    font "MS Gothic", 14
+
+    host     = "127.0.0.1"
+    port     = 1883
+    clientid = "hsp-demo-" + gettime(6) + gettime(7)  ; 一意っぽく
+    keepalive = 60
+
+    mes "hspmqtt demo — MQTT 3.1.1 over TCP"
+    mes "broker : " + host + ":" + port
+    mes "client : " + clientid
+    mes ""
+
+    ;--------------- 接続 ---------------
+    h = hspmqtt_open(host, port, clientid, keepalive)
+    if h < 0 {
+        color 255, 0, 0
+        mes "broker に接続できません (code=" + h + ")"
+        mes ""
+        color 0, 0, 0
+        mes "Mosquitto を起動してから再実行してください:"
+        mes "  winget install EclipseFoundation.Mosquitto"
+        mes "  mosquitto -v"
+        mes ""
+        mes "もしくはクラウドテストブローカを使う場合 (送信内容は公開)"
+        mes "  host = \"test.mosquitto.org\" に書き換え"
+        stop
+    }
+    color 0, 128, 0
+    mes "[OK] 接続成功 handle=" + h
+    color 0, 0, 0
+
+    ;--------------- subscribe ---------------
+    ret = 0
+    hspmqtt_subscribe h, "hsp/demo/#"
+    ret = stat
+    if ret < 0 {
+        color 255, 0, 0
+        mes "subscribe 失敗 (code=" + ret + ")"
+        hspmqtt_close h
+        stop
+    }
+    mes "[OK] subscribe \"hsp/demo/#\""
+    mes ""
+    mes "1 秒ごとに \"hsp/demo/tick\" に publish します..."
+    mes "(閉じるには ウィンドウを閉じる か Ctrl+C)"
+    mes ""
+
+    ;--------------- pub/sub ループ ---------------
+    counter = 0
+    last_pub = gettime(7)
+    sdim topic_buf, 256
+    sdim payload_buf, 1024
+
+*mainloop
+    ; 1 秒ごとに publish
+    now_sec = gettime(7)
+    if now_sec != last_pub {
+        last_pub = now_sec
+        counter++
+        payload = "tick #" + counter + " at " + gettime(4) + ":" + gettime(5) + ":" + gettime(6)
+        hspmqtt_publish h, "hsp/demo/tick", payload
+        color 0, 0, 192
+        mes "PUB > hsp/demo/tick : " + payload
+    }
+
+    ; 非ブロッキング recv (ちょっとだけ待つ)
+    n = hspmqtt_recv(h, topic_buf, 256, payload_buf, 1024)
+    if n > 0 {
+        color 128, 0, 128
+        mes "SUB < " + topic_buf + " : " + payload_buf
+    }
+    color 0, 0, 0
+
+    await 100       ; 100ms 刻みでポーリング
+    goto *mainloop
+
