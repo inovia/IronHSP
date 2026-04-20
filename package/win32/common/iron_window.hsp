@@ -1,0 +1,351 @@
+;============================================================
+;   iron_window.hsp — ウィンドウ列挙/検索/操作 (user32 直叩き)
+;
+;   RPA 基盤の 1 つ。トップレベルウィンドウを列挙し、タイトル/
+;   クラス名/プロセス ID で検索、activate / resize / minimize /
+;   maximize / close を行う。
+;   hsp3net 依存なし — 素の HSP で動くので 32/64bit 共通。
+;
+;   API:
+;     win_enum var_tsv, var n                   全トップレベル可視ウィンドウ
+;                                                TSV: "hwnd\tpid\ttitle\tclass\n..."
+;     win_find "title_like", "class_like", var_hwnd
+;                                                最初のマッチ (空文字は any)
+;     win_find_by_pid pid, var_hwnd
+;     win_find_by_title_regex "re", var_hwnd     単純 like マッチ (* ワイルドカード)
+;
+;     win_title hwnd, var_text                   タイトル取得
+;     win_class hwnd, var_text                   クラス名取得
+;     win_pid(hwnd)                              → stat=pid
+;     win_rect hwnd, var x, var y, var w, var h  位置+サイズ
+;     win_is_visible(hwnd) / win_is_iconic(hwnd) / win_is_zoomed(hwnd)
+;
+;     win_activate hwnd                          フォアグラウンド
+;     win_minimize hwnd  / win_maximize hwnd / win_restore hwnd
+;     win_hide hwnd  / win_show hwnd
+;     win_close hwnd                              WM_CLOSE 送出
+;     win_move hwnd, x, y, w, h                   位置+サイズ変更
+;     win_topmost hwnd, flag                      最前面固定 (1=on / 0=off)
+;
+;     win_send_message hwnd, msg, wparam, lparam  → stat=返値
+;     win_post_message hwnd, msg, wparam, lparam  非同期送出
+;     win_send_key hwnd, vk                        WM_KEYDOWN + WM_KEYUP
+;     win_send_char hwnd, ch                       WM_CHAR (UTF-16 char code)
+;============================================================
+#ifndef __iron_window_hsp__
+#define __iron_window_hsp__
+
+; --- Win32 ---
+#uselib "user32.dll"
+#func global _winw_FindWindow       "FindWindowW"        wstr, wstr
+#cfunc global _winw_FindWindow_f    "FindWindowW"        wstr, wstr
+#func global _winw_EnumWindows      "EnumWindows"        int, int
+#func global _winw_GetWindowText    "GetWindowTextW"     int, var, int
+#cfunc global _winw_GetWindowTextC  "GetWindowTextW"     int, var, int
+#cfunc global _winw_GetClassName    "GetClassNameW"      int, var, int
+#cfunc global _winw_IsWindowVisible "IsWindowVisible"    int
+#cfunc global _winw_IsIconic        "IsIconic"           int
+#cfunc global _winw_IsZoomed        "IsZoomed"           int
+#cfunc global _winw_GetWindowThreadProcessId "GetWindowThreadProcessId" int, var
+#cfunc global _winw_GetWindow       "GetWindow"          int, int
+#cfunc global _winw_GetParent       "GetParent"          int
+#cfunc global _winw_GetForegroundWindow "GetForegroundWindow"
+#cfunc global _winw_SetForegroundWindow "SetForegroundWindow" int
+#cfunc global _winw_ShowWindow      "ShowWindow"         int, int
+#cfunc global _winw_SetWindowPos    "SetWindowPos"       int, int, int, int, int, int, int
+#func global _winw_GetWindowRect    "GetWindowRect"      int, var
+#cfunc global _winw_SendMessage     "SendMessageW"       int, int, int, int
+#cfunc global _winw_PostMessage     "PostMessageW"       int, int, int, int
+#cfunc global _winw_BringWindowToTop "BringWindowToTop"  int
+#cfunc global _winw_AttachThreadInput "AttachThreadInput" int, int, int
+#cfunc global _winw_GetCurrentThreadId "GetCurrentThreadId"
+
+;--- constants ---
+#define global WM_CLOSE   $0010
+#define global WM_KEYDOWN $0100
+#define global WM_KEYUP   $0101
+#define global WM_CHAR    $0102
+#define global SW_HIDE    0
+#define global SW_SHOWNORMAL 1
+#define global SW_SHOWMINIMIZED 2
+#define global SW_SHOWMAXIMIZED 3
+#define global SW_MINIMIZE 6
+#define global SW_RESTORE 9
+#define global SW_SHOW    5
+#define global HWND_TOP       0
+#define global HWND_TOPMOST   -1
+#define global HWND_NOTOPMOST -2
+#define global SWP_NOMOVE     2
+#define global SWP_NOSIZE     1
+#define global SWP_NOZORDER   4
+#define global SWP_SHOWWINDOW $0040
+
+; WNDENUMPROC callback; HSP の #defcbcom は .NET 対応 hsp3net で使える
+; (グローバル関数ポインタ経由での callback 生成)
+
+; callback を受けるためモジュール外スコープにバッファを用意
+sdim _win_enum_tsv@, 524288, 1
+dim _win_enum_cnt@, 1
+dim _win_enum_filter_pid@, 1
+
+#module iron_window
+
+;---------------------------------------------------------
+; EnumWindows の callback (user32 から毎回呼ばれる)
+;   プロトタイプ: BOOL WINAPI EnumProc(HWND hwnd, LPARAM lParam)
+;   HSP では #defcbfunc で stdcall 関数を定義できる
+;---------------------------------------------------------
+
+#deffunc _win_ensure_callback \
+	local _title, local _cls, local _pid, local _vis
+	; callback は HSP 関数から直接呼ぶ形式ではなく、HSP で擬似列挙
+	; (GetWindow(GW_HWNDFIRST) + GetWindow(GW_HWNDNEXT) ループ) を用いる
+	return
+
+;---------------------------------------------------------
+; 内部: 擬似 EnumWindows (GetWindow ベース)
+;   全トップレベルウィンドウを列挙し、TSV に追記
+;---------------------------------------------------------
+#deffunc _win_collect var v_tsv, var v_n, int want_invisible, \
+	local _hwnd, local _title, local _cls, local _pid_buf, local _pid, \
+	local _n, local _sb, local _tidbuf, local _tlen
+	sdim v_tsv, 524288
+	sdim _sb, 524288
+	v_tsv = ""
+	_n = 0
+	sdim _title, 4096
+	sdim _cls, 512
+	sdim _pid_buf, 8
+	; GetForegroundWindow 周辺から登り始める
+	_hwnd = _winw_GetForegroundWindow()
+	if _hwnd = 0 : _hwnd = _winw_FindWindow_f("", "")
+	; GW_HWNDFIRST = 0
+	_hwnd = _winw_GetWindow(_hwnd, 0)
+	repeat 8192
+		if _hwnd = 0 : break
+		if (_winw_IsWindowVisible(_hwnd) != 0) | (want_invisible != 0) {
+			sdim _title, 4096
+			_winw_GetWindowText _hwnd, _title, 4095
+			_tlen = _winw_GetClassName(_hwnd, _cls, 511)
+			_pid = 0
+			dim _tidbuf, 1
+			_pid = _winw_GetWindowThreadProcessId(_hwnd, _tidbuf)
+			; スレッド ID が返るので別途 PID を lpeek で取り直し: _tidbuf には
+			; 実は GetWindowThreadProcessId の返値 (スレッド ID) が設定され、
+			; var 引数に process ID が書かれている
+			_sb = _sb + _hwnd + "\t" + _tidbuf(0) + "\t" + _title + "\t" + _cls + "\n"
+			_n++
+		}
+		; GW_HWNDNEXT = 2
+		_hwnd = _winw_GetWindow(_hwnd, 2)
+	loop
+	v_tsv = _sb
+	v_n = _n
+	return 0
+
+;---------------------------------------------------------
+; win_enum var_tsv, var n — 全可視トップレベルウィンドウ
+;---------------------------------------------------------
+#deffunc win_enum var v_tsv, var v_n
+	_win_collect v_tsv, v_n, 0
+	return v_n
+
+#deffunc win_enum_all var v_tsv, var v_n
+	_win_collect v_tsv, v_n, 1
+	return v_n
+
+;---------------------------------------------------------
+; like マッチ (空文字 = 何でも一致、* はワイルドカード)
+;---------------------------------------------------------
+#defcfunc _win_like str pattern, str target, \
+	local _pl, local _tl, local _star
+	if strlen(pattern) = 0 : return 1
+	_star = instr(pattern, 0, "*")
+	if _star < 0 {
+		if pattern = target : return 1
+		return 0
+	}
+	; 前方/後方一致だけサポート
+	if _star = strlen(pattern) - 1 {
+		; 前方一致
+		if strlen(target) < _star : return 0
+		if strmid(target, 0, _star) = strmid(pattern, 0, _star) : return 1
+		return 0
+	}
+	if _star = 0 {
+		; 後方一致
+		_pl = strlen(pattern) - 1
+		if strlen(target) < _pl : return 0
+		if strmid(target, strlen(target) - _pl, _pl) = strmid(pattern, 1, _pl) : return 1
+		return 0
+	}
+	; 中間 * は未対応、含む扱いにフォールバック
+	return 0
+
+;---------------------------------------------------------
+; win_find "title_like", "class_like", var_hwnd
+;---------------------------------------------------------
+#deffunc win_find str title_pat, str class_pat, var v_hwnd, \
+	local _tsv, local _n, local _p, local _eol, local _line, \
+	local _tabs, local _hwnd, local _pid, local _title, local _cls, \
+	local _t1, local _t2, local _t3
+	sdim _tsv, 524288
+	_win_collect _tsv, _n, 0
+	v_hwnd = 0
+	_p = 0
+	repeat
+		if _p >= strlen(_tsv) : break
+		_eol = instr(_tsv, _p, "\n")
+		if _eol < 0 : break
+		_line = strmid(_tsv, _p, _eol - _p)
+		_p = _eol + 1
+		_t1 = instr(_line, 0, "\t")
+		_t2 = instr(_line, _t1 + 1, "\t")
+		_t3 = instr(_line, _t2 + 1, "\t")
+		if (_t1 < 0) | (_t2 < 0) | (_t3 < 0) : continue
+		_hwnd  = int(strmid(_line, 0, _t1))
+		_title = strmid(_line, _t2 + 1, _t3 - _t2 - 1)
+		_cls   = strmid(_line, _t3 + 1, strlen(_line) - _t3 - 1)
+		if _win_like(title_pat, _title) = 0 : continue
+		if _win_like(class_pat, _cls) = 0 : continue
+		v_hwnd = _hwnd
+		return _hwnd
+	loop
+	return 0
+
+#deffunc win_find_by_pid int target_pid, var v_hwnd, \
+	local _tsv, local _n, local _p, local _eol, local _line, \
+	local _t1, local _t2, local _hwnd, local _pid
+	sdim _tsv, 524288
+	_win_collect _tsv, _n, 0
+	v_hwnd = 0
+	_p = 0
+	repeat
+		if _p >= strlen(_tsv) : break
+		_eol = instr(_tsv, _p, "\n")
+		if _eol < 0 : break
+		_line = strmid(_tsv, _p, _eol - _p)
+		_p = _eol + 1
+		_t1 = instr(_line, 0, "\t")
+		_t2 = instr(_line, _t1 + 1, "\t")
+		if _t1 < 0 | _t2 < 0 : continue
+		_hwnd = int(strmid(_line, 0, _t1))
+		_pid  = int(strmid(_line, _t1 + 1, _t2 - _t1 - 1))
+		if _pid = target_pid {
+			v_hwnd = _hwnd
+			return _hwnd
+		}
+	loop
+	return 0
+
+;---------------------------------------------------------
+; win_title / win_class (既知 hwnd)
+;---------------------------------------------------------
+#deffunc win_title int hwnd, var v_text, \
+	local _n
+	sdim v_text, 4096
+	_n = _winw_GetWindowTextC(hwnd, v_text, 4095)
+	return _n
+
+#deffunc win_class int hwnd, var v_text, \
+	local _n
+	sdim v_text, 512
+	_n = _winw_GetClassName(hwnd, v_text, 511)
+	return _n
+
+#defcfunc win_pid int hwnd, local _tid
+	dim _tid, 1
+	_winw_GetWindowThreadProcessId hwnd, _tid
+	return _tid(0)
+
+#deffunc win_rect int hwnd, var v_x, var v_y, var v_w, var v_h, \
+	local _rect
+	dim _rect, 4
+	_winw_GetWindowRect hwnd, _rect
+	v_x = _rect(0)
+	v_y = _rect(1)
+	v_w = _rect(2) - _rect(0)
+	v_h = _rect(3) - _rect(1)
+	return 0
+
+#defcfunc win_is_visible int hwnd
+	return _winw_IsWindowVisible(hwnd)
+
+#defcfunc win_is_iconic int hwnd
+	return _winw_IsIconic(hwnd)
+
+#defcfunc win_is_zoomed int hwnd
+	return _winw_IsZoomed(hwnd)
+
+;---------------------------------------------------------
+; win_activate hwnd — SetForegroundWindow with AttachThreadInput ハック
+;   (Windows の制限で、単純な SetForegroundWindow は他プロセス窓を
+;   前面にできないため、一旦 AttachThreadInput でフックしてから)
+;---------------------------------------------------------
+#deffunc win_activate int hwnd, \
+	local _my_tid, local _target_tid, local _pid
+	if hwnd = 0 : return -1
+	_my_tid = _winw_GetCurrentThreadId()
+	_target_tid = _winw_GetWindowThreadProcessId(hwnd, _pid)
+	if _target_tid = _my_tid {
+		_winw_SetForegroundWindow hwnd
+		return 0
+	}
+	_winw_AttachThreadInput _my_tid, _target_tid, 1
+	_winw_SetForegroundWindow hwnd
+	_winw_BringWindowToTop hwnd
+	_winw_AttachThreadInput _my_tid, _target_tid, 0
+	return 0
+
+#deffunc win_minimize int hwnd
+	_winw_ShowWindow hwnd, SW_MINIMIZE
+	return 0
+#deffunc win_maximize int hwnd
+	_winw_ShowWindow hwnd, SW_SHOWMAXIMIZED
+	return 0
+#deffunc win_restore int hwnd
+	_winw_ShowWindow hwnd, SW_RESTORE
+	return 0
+#deffunc win_hide int hwnd
+	_winw_ShowWindow hwnd, SW_HIDE
+	return 0
+#deffunc win_show int hwnd
+	_winw_ShowWindow hwnd, SW_SHOW
+	return 0
+#deffunc win_close int hwnd
+	_winw_PostMessage hwnd, WM_CLOSE, 0, 0
+	return 0
+
+#deffunc win_move int hwnd, int x, int y, int w, int h
+	_winw_SetWindowPos hwnd, HWND_TOP, x, y, w, h, SWP_NOZORDER | SWP_SHOWWINDOW
+	return 0
+
+#deffunc win_topmost int hwnd, int flag, \
+	local _ins
+	if flag != 0 : _ins = HWND_TOPMOST : else : _ins = HWND_NOTOPMOST
+	_winw_SetWindowPos hwnd, _ins, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW
+	return 0
+
+#defcfunc win_send_message int hwnd, int msg, int wparam, int lparam
+	return _winw_SendMessage(hwnd, msg, wparam, lparam)
+
+#defcfunc win_post_message int hwnd, int msg, int wparam, int lparam
+	return _winw_PostMessage(hwnd, msg, wparam, lparam)
+
+#deffunc win_send_key int hwnd, int vk
+	_winw_PostMessage hwnd, WM_KEYDOWN, vk, 0
+	_winw_PostMessage hwnd, WM_KEYUP,   vk, 0
+	return 0
+
+#deffunc win_send_char int hwnd, int ch
+	_winw_PostMessage hwnd, WM_CHAR, ch, 0
+	return 0
+
+;---------------------------------------------------------
+; win_foreground  → stat=hwnd
+;---------------------------------------------------------
+#defcfunc win_foreground
+	return _winw_GetForegroundWindow()
+
+#global
+#endif

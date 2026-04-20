@@ -1,0 +1,378 @@
+;============================================================
+;   iron_template_match.hsp — 画面内画像検索 (.NET System.Drawing)
+;
+;   System.Drawing で画面キャプチャ + CCOEFF_NORMED マッチング。
+;   hspcv4 に依存せず、inline C# から LockBits で直接ピクセル処理する
+;   ので最低限のパフォーマンスあり。
+;   hsp3net 専用。
+;
+;   API (全てハンドル管理):
+;     tmpl_capture_screen var h                  全画面を取り込み (Primary desktop)
+;     tmpl_capture_rect x, y, w, h, var h        矩形取り込み
+;     tmpl_load "file.png", var h                テンプレ読み込み
+;     tmpl_close h                                ハンドル解放
+;     tmpl_close_all
+;
+;     tmpl_find cap, tmpl, var x, var y, var score, var w, var h
+;         → stat 0=OK、score は 0..1 の CCOEFF_NORMED 類似度
+;     tmpl_find_threshold cap, tmpl, threshold, var x, var y, var score
+;         閾値を超えれば stat=0
+;     tmpl_find_all cap, tmpl, threshold, var tsv, var n
+;         TSV: "x\ty\tscore\n..."
+;
+;     tmpl_click "template.png" [, threshold [, button]]
+;         高レベル: 画面キャプチャ → 検索 → 中心クリック
+;     tmpl_exists "template.png" [, threshold]
+;     tmpl_wait   "template.png", timeout_ms, var x, var y [, threshold]
+;
+;   依存: iron_input.hsp (tmpl_click で使用)
+;============================================================
+#ifndef __iron_template_match_hsp__
+#define __iron_template_match_hsp__
+
+#include "iron_input.hsp"
+
+#module iron_template
+
+dim _tmpl_cs_loaded, 1
+
+#deffunc _tmpl_load_cs
+	if _tmpl_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
+
+public class HspTmpl {
+    static Dictionary<int, Bitmap> bmps = new Dictionary<int, Bitmap>();
+    static int nextHandle = 1;
+
+    static int Register(Bitmap b) {
+        int h = nextHandle++;
+        bmps[h] = b;
+        return h;
+    }
+
+    public static string CaptureScreen() {
+        try {
+            var bounds = SystemInformation.VirtualScreen;
+            var bmp = new Bitmap(bounds.Width, bounds.Height, PixelFormat.Format24bppRgb);
+            using (var g = Graphics.FromImage(bmp)) {
+                g.CopyFromScreen(bounds.Left, bounds.Top, 0, 0, bounds.Size, CopyPixelOperation.SourceCopy);
+            }
+            return Register(bmp).ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string CaptureRect(int x, int y, int w, int h) {
+        try {
+            var bmp = new Bitmap(w, h, PixelFormat.Format24bppRgb);
+            using (var g = Graphics.FromImage(bmp)) {
+                g.CopyFromScreen(x, y, 0, 0, new Size(w, h), CopyPixelOperation.SourceCopy);
+            }
+            return Register(bmp).ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Load(string path) {
+        try {
+            // Bitmap(path) はファイルハンドルを保持し続けるので一度コピー
+            using (var src = new Bitmap(path)) {
+                var b = new Bitmap(src.Width, src.Height, PixelFormat.Format24bppRgb);
+                using (var g = Graphics.FromImage(b)) g.DrawImage(src, 0, 0);
+                return Register(b).ToString();
+            }
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Close(int h) {
+        Bitmap b;
+        if (bmps.TryGetValue(h, out b)) { b.Dispose(); bmps.Remove(h); }
+        return \"0\";
+    }
+    public static string CloseAll() {
+        foreach (var b in bmps.Values) { try { b.Dispose(); } catch {} }
+        bmps.Clear();
+        return \"0\";
+    }
+
+    // ---- CCOEFF_NORMED template matching ----
+    // 画像を 8bit グレースケールに変換 (24bpp 想定、BGR → Gray)、
+    // テンプレ全体で 1 ピクセルずつスライドして CCOEFF_NORMED を計算。
+    // 実用速度のため LockBits + unsafe 相当のポインタアクセスを使う。
+    public static string Find(int capH, int tmplH) {
+        Bitmap cap, tmpl;
+        if (!bmps.TryGetValue(capH, out cap) || !bmps.TryGetValue(tmplH, out tmpl))
+            return \"-1\\t\";
+        int cw = cap.Width, ch = cap.Height;
+        int tw = tmpl.Width, th = tmpl.Height;
+        if (tw > cw || th > ch) return \"-1\\t\";
+        byte[] capGray = ToGray(cap);
+        byte[] tmplGray = ToGray(tmpl);
+        double bestScore = -1.0;
+        int bestX = 0, bestY = 0;
+        // テンプレ平均
+        double tMean = 0;
+        for (int i = 0; i < tw * th; i++) tMean += tmplGray[i];
+        tMean /= (tw * th);
+        double tVar = 0;
+        for (int i = 0; i < tw * th; i++) { double d = tmplGray[i] - tMean; tVar += d * d; }
+        if (tVar < 1e-9) return \"-1\\t\";
+        for (int y = 0; y + th <= ch; y++) {
+            for (int x = 0; x + tw <= cw; x++) {
+                // 部分画像平均
+                double sMean = 0;
+                for (int ty = 0; ty < th; ty++) {
+                    int srow = (y + ty) * cw + x;
+                    for (int tx = 0; tx < tw; tx++) sMean += capGray[srow + tx];
+                }
+                sMean /= (tw * th);
+                double num = 0, sVar = 0;
+                for (int ty = 0; ty < th; ty++) {
+                    int srow = (y + ty) * cw + x;
+                    int trow = ty * tw;
+                    for (int tx = 0; tx < tw; tx++) {
+                        double a = capGray[srow + tx] - sMean;
+                        double b = tmplGray[trow + tx] - tMean;
+                        num += a * b;
+                        sVar += a * a;
+                    }
+                }
+                double denom = Math.Sqrt(sVar * tVar);
+                double score = denom > 1e-9 ? num / denom : 0;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestX = x; bestY = y;
+                }
+            }
+        }
+        return bestX + \"\\t\" + bestY + \"\\t\" + bestScore.ToString(System.Globalization.CultureInfo.InvariantCulture) + \"\\t\" + tw + \"\\t\" + th;
+    }
+
+    public static string FindAll(int capH, int tmplH, double threshold) {
+        Bitmap cap, tmpl;
+        if (!bmps.TryGetValue(capH, out cap) || !bmps.TryGetValue(tmplH, out tmpl))
+            return \"0\\t\";
+        int cw = cap.Width, ch = cap.Height;
+        int tw = tmpl.Width, th = tmpl.Height;
+        if (tw > cw || th > ch) return \"0\\t\";
+        byte[] capGray = ToGray(cap);
+        byte[] tmplGray = ToGray(tmpl);
+        double tMean = 0;
+        for (int i = 0; i < tw * th; i++) tMean += tmplGray[i];
+        tMean /= (tw * th);
+        double tVar = 0;
+        for (int i = 0; i < tw * th; i++) { double d = tmplGray[i] - tMean; tVar += d * d; }
+        if (tVar < 1e-9) return \"0\\t\";
+        var sb = new StringBuilder();
+        int count = 0;
+        // 非最大抑制用: 見つけたら tw × th 分ステップスキップ
+        for (int y = 0; y + th <= ch; y++) {
+            for (int x = 0; x + tw <= cw; x++) {
+                double sMean = 0;
+                for (int ty = 0; ty < th; ty++) {
+                    int srow = (y + ty) * cw + x;
+                    for (int tx = 0; tx < tw; tx++) sMean += capGray[srow + tx];
+                }
+                sMean /= (tw * th);
+                double num = 0, sVar = 0;
+                for (int ty = 0; ty < th; ty++) {
+                    int srow = (y + ty) * cw + x;
+                    int trow = ty * tw;
+                    for (int tx = 0; tx < tw; tx++) {
+                        double a = capGray[srow + tx] - sMean;
+                        double b = tmplGray[trow + tx] - tMean;
+                        num += a * b;
+                        sVar += a * a;
+                    }
+                }
+                double denom = Math.Sqrt(sVar * tVar);
+                double score = denom > 1e-9 ? num / denom : 0;
+                if (score >= threshold) {
+                    sb.Append(x).Append('\\t').Append(y).Append('\\t')
+                      .Append(score.ToString(System.Globalization.CultureInfo.InvariantCulture))
+                      .Append('\\n');
+                    count++;
+                    // 非最大抑制 (次のスキャンは tw だけスキップ)
+                    x += tw - 1;
+                }
+            }
+        }
+        return count + \"\\t\" + sb.ToString();
+    }
+
+    static byte[] ToGray(Bitmap bmp) {
+        int w = bmp.Width, h = bmp.Height;
+        var gray = new byte[w * h];
+        var rect = new System.Drawing.Rectangle(0, 0, w, h);
+        var data = bmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+        try {
+            int stride = data.Stride;
+            int bytes = stride * h;
+            byte[] buf = new byte[bytes];
+            Marshal.Copy(data.Scan0, buf, 0, bytes);
+            for (int y = 0; y < h; y++) {
+                int srcRow = y * stride;
+                int dstRow = y * w;
+                for (int x = 0; x < w; x++) {
+                    int p = srcRow + x * 3;
+                    // luminance: 0.299 R + 0.587 G + 0.114 B (BGR order)
+                    byte b = buf[p];
+                    byte g = buf[p + 1];
+                    byte r = buf[p + 2];
+                    gray[dstRow + x] = (byte)((r * 76 + g * 150 + b * 30) >> 8);
+                }
+            }
+        } finally {
+            bmp.UnlockBits(data);
+        }
+        return gray;
+    }
+}
+"}
+	loadnet _cs, 3, "System.Drawing.dll", "System.Windows.Forms.dll"
+	_tmpl_cs_loaded = 1
+	return
+
+#deffunc tmpl_capture_screen var v_h, \
+	local _hh, local _r
+	_tmpl_load_cs
+	newnet _hh, "HspTmpl"
+	mcall _hh, "CaptureScreen", _r
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc tmpl_capture_rect int x, int y, int w, int h, var v_h, \
+	local _hh, local _r
+	_tmpl_load_cs
+	newnet _hh, "HspTmpl"
+	mcall _hh, "CaptureRect", _r, x, y, w, h
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc tmpl_load str path, var v_h, \
+	local _hh, local _r
+	_tmpl_load_cs
+	newnet _hh, "HspTmpl"
+	mcall _hh, "Load", _r, path
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc tmpl_close int h, \
+	local _hh, local _r
+	_tmpl_load_cs
+	newnet _hh, "HspTmpl"
+	mcall _hh, "Close", _r, h
+	return 0
+
+#deffunc tmpl_close_all \
+	local _hh, local _r
+	_tmpl_load_cs
+	newnet _hh, "HspTmpl"
+	mcall _hh, "CloseAll", _r
+	return 0
+
+#deffunc tmpl_find int cap_h, int tmpl_h, var v_x, var v_y, var v_score, var v_w, var v_h, \
+	local _hh, local _r, local _s, local _t1, local _t2, local _t3, local _t4
+	_tmpl_load_cs
+	newnet _hh, "HspTmpl"
+	mcall _hh, "Find", _r, cap_h, tmpl_h
+	_s = "" + _r
+	_t1 = instr(_s, 0, "\t")
+	if _t1 < 0 : v_x = 0 : v_y = 0 : v_score = 0.0 : v_w = 0 : v_h = 0 : return -1
+	_t2 = instr(_s, _t1 + 1, "\t")
+	_t3 = instr(_s, _t2 + 1, "\t")
+	_t4 = instr(_s, _t3 + 1, "\t")
+	v_x = int(strmid(_s, 0, _t1))
+	v_y = int(strmid(_s, _t1 + 1, _t2 - _t1 - 1))
+	v_score = double(strmid(_s, _t2 + 1, _t3 - _t2 - 1))
+	v_w = int(strmid(_s, _t3 + 1, _t4 - _t3 - 1))
+	v_h = int(strmid(_s, _t4 + 1, strlen(_s) - _t4 - 1))
+	return 0
+
+#deffunc tmpl_find_all int cap_h, int tmpl_h, double threshold, var v_tsv, var v_n, \
+	local _hh, local _r, local _s, local _tab
+	sdim v_tsv, 65536
+	_tmpl_load_cs
+	newnet _hh, "HspTmpl"
+	mcall _hh, "FindAll", _r, cap_h, tmpl_h, threshold
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_n = 0 : v_tsv = "" : return -1
+	v_n = int(strmid(_s, 0, _tab))
+	v_tsv = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return v_n
+
+;---------------------------------------------------------
+; tmpl_click "template.png" [, threshold [, button]]
+;---------------------------------------------------------
+#deffunc tmpl_click str path, array _opt, \
+	local _thr, local _btn, local _cap_h, local _tmpl_h, \
+	local _x, local _y, local _score, local _w, local _h, \
+	local _cx, local _cy
+	_thr = 0.9 : _btn = 0
+	if length(_opt) >= 1 : _thr = double(_opt(0))
+	if length(_opt) >= 2 : _btn = int(_opt(1))
+	tmpl_capture_screen _cap_h
+	if _cap_h < 0 : return -1
+	tmpl_load path, _tmpl_h
+	if _tmpl_h < 0 : tmpl_close _cap_h : return -2
+	tmpl_find _cap_h, _tmpl_h, _x, _y, _score, _w, _h
+	tmpl_close _cap_h
+	tmpl_close _tmpl_h
+	if _score < _thr : return -3
+	_cx = _x + _w / 2
+	_cy = _y + _h / 2
+	input_mouse_move _cx, _cy
+	input_mouse_click _btn
+	return 0
+
+#defcfunc tmpl_exists str path, array _opt, \
+	local _thr, local _cap_h, local _tmpl_h, \
+	local _x, local _y, local _score, local _w, local _h
+	_thr = 0.9
+	if length(_opt) >= 1 : _thr = double(_opt(0))
+	tmpl_capture_screen _cap_h
+	if _cap_h < 0 : return 0
+	tmpl_load path, _tmpl_h
+	if _tmpl_h < 0 : tmpl_close _cap_h : return 0
+	tmpl_find _cap_h, _tmpl_h, _x, _y, _score, _w, _h
+	tmpl_close _cap_h
+	tmpl_close _tmpl_h
+	if _score >= _thr : return 1
+	return 0
+
+#deffunc tmpl_wait str path, int timeout_ms, var v_x, var v_y, \
+	array _opt, \
+	local _thr, local _elapsed, local _cap_h, local _tmpl_h, \
+	local _x, local _y, local _score, local _w, local _h
+	_thr = 0.9
+	if length(_opt) >= 1 : _thr = double(_opt(0))
+	tmpl_load path, _tmpl_h
+	if _tmpl_h < 0 : return -2
+	_elapsed = 0
+	repeat
+		tmpl_capture_screen _cap_h
+		if _cap_h >= 0 {
+			tmpl_find _cap_h, _tmpl_h, _x, _y, _score, _w, _h
+			tmpl_close _cap_h
+			if _score >= _thr {
+				v_x = _x + _w / 2 : v_y = _y + _h / 2
+				tmpl_close _tmpl_h
+				return 0
+			}
+		}
+		wait 30
+		_elapsed = _elapsed + 300
+		if _elapsed >= timeout_ms : break
+	loop
+	tmpl_close _tmpl_h
+	return -1
+
+#global
+#endif

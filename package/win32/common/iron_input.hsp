@@ -1,0 +1,426 @@
+;============================================================
+;   iron_input.hsp — SendInput ラッパ (RPA マウス/キーボード合成)
+;
+;   Win32 SendInput で合成入力イベントを生成。Unicode 文字列入力、
+;   修飾キー付きショートカット、マウス移動/クリック/ホイール、
+;   デュアルディスプレイ絶対座標まで一通り。
+;
+;   INPUT 構造体 (x64 想定):
+;     DWORD type    4 byte  (0=MOUSE / 1=KEYBOARD / 2=HARDWARE)
+;     [align 4 byte]
+;     union {
+;        MOUSEINPUT    (x64: 32 byte)
+;        KEYBDINPUT    (x64: 24 byte)
+;        HARDWAREINPUT ( 8 byte)
+;     }
+;   INPUT 全体サイズ x64 = 40 byte, x86 = 28 byte
+;
+;   API:
+;     input_mouse_move x, y                      画面絶対座標へカーソル移動
+;     input_mouse_move_rel dx, dy                 現在位置からの相対
+;     input_mouse_click button                    0=L / 1=R / 2=M
+;     input_mouse_down  button                    ボタン押下のみ
+;     input_mouse_up    button                    ボタン離上のみ
+;     input_mouse_double_click button             ダブルクリック
+;     input_mouse_wheel delta                      wheel (+ = up)
+;     input_mouse_hwheel delta                     horizontal wheel
+;
+;     input_key_down vk                             仮想キーコード押下
+;     input_key_up   vk                             同 離上
+;     input_key_press vk                            押下+離上
+;     input_key_press_scan sc                       ScanCode 版 (extended 対応)
+;     input_type_text "string"                      UTF-16 で 1 文字ずつ送出
+;     input_type_unicode codepoint                   1 コードポイント送出
+;     input_combo "ctrl+shift+t"                    ショートカット (解析+送出)
+;
+;     input_wait_ms ms                              精密 sleep
+;
+;   修飾キー識別子 (combo 内で使える):
+;     ctrl / shift / alt / win / lctrl / rctrl / lshift / rshift / lalt / ralt
+;============================================================
+#ifndef __iron_input_hsp__
+#define __iron_input_hsp__
+
+#uselib "user32.dll"
+#cfunc global _inp_SendInput "SendInput" int, var, int
+#cfunc global _inp_GetSystemMetrics "GetSystemMetrics" int
+#cfunc global _inp_VkKeyScan "VkKeyScanW" int
+#cfunc global _inp_MapVirtualKey "MapVirtualKeyW" int, int
+
+; INPUT 定数
+#define global INPUT_MOUSE     0
+#define global INPUT_KEYBOARD  1
+
+; MOUSEEVENTF_*
+#define global MOUSEEVENTF_MOVE          $0001
+#define global MOUSEEVENTF_LEFTDOWN      $0002
+#define global MOUSEEVENTF_LEFTUP        $0004
+#define global MOUSEEVENTF_RIGHTDOWN     $0008
+#define global MOUSEEVENTF_RIGHTUP       $0010
+#define global MOUSEEVENTF_MIDDLEDOWN    $0020
+#define global MOUSEEVENTF_MIDDLEUP      $0040
+#define global MOUSEEVENTF_XDOWN         $0080
+#define global MOUSEEVENTF_XUP           $0100
+#define global MOUSEEVENTF_WHEEL         $0800
+#define global MOUSEEVENTF_HWHEEL        $1000
+#define global MOUSEEVENTF_ABSOLUTE      $8000
+#define global MOUSEEVENTF_VIRTUALDESK   $4000
+
+; KEYEVENTF_*
+#define global KEYEVENTF_EXTENDEDKEY     $0001
+#define global KEYEVENTF_KEYUP           $0002
+#define global KEYEVENTF_UNICODE         $0004
+#define global KEYEVENTF_SCANCODE        $0008
+
+; 主要 VK_*
+#define global VK_LBUTTON   $01
+#define global VK_RBUTTON   $02
+#define global VK_MBUTTON   $04
+#define global VK_BACK      $08
+#define global VK_TAB       $09
+#define global VK_RETURN    $0D
+#define global VK_SHIFT     $10
+#define global VK_CONTROL   $11
+#define global VK_MENU      $12
+#define global VK_ESCAPE    $1B
+#define global VK_SPACE     $20
+#define global VK_LEFT      $25
+#define global VK_UP        $26
+#define global VK_RIGHT     $27
+#define global VK_DOWN      $28
+#define global VK_LWIN      $5B
+#define global VK_RWIN      $5C
+#define global VK_F1        $70
+#define global VK_LSHIFT    $A0
+#define global VK_RSHIFT    $A1
+#define global VK_LCONTROL  $A2
+#define global VK_RCONTROL  $A3
+#define global VK_LMENU     $A4
+#define global VK_RMENU     $A5
+
+; SM_CX/CYVIRTUALSCREEN etc
+#define global SM_XVIRTUALSCREEN  76
+#define global SM_YVIRTUALSCREEN  77
+#define global SM_CXVIRTUALSCREEN 78
+#define global SM_CYVIRTUALSCREEN 79
+
+#module iron_input
+
+;---------------------------------------------------------
+; INPUT 構造体サイズ (x64 = 40, x86 = 28)
+;---------------------------------------------------------
+#defcfunc _inp_size
+#ifdef _HSP64
+	return 40
+#else
+	return 28
+#endif
+
+;---------------------------------------------------------
+; INPUT (MOUSE) を構築して送出
+;   x64:
+;     offs  size  field
+;       0     4   type (INPUT_MOUSE)
+;       4     4   pad
+;       8     4   dx
+;      12     4   dy
+;      16     4   mouseData
+;      20     4   dwFlags
+;      24     4   time (0)
+;      28     8   dwExtraInfo (pointer)
+;   x86:
+;     offs  size  field
+;       0     4   type
+;       4     4   dx
+;       8     4   dy
+;      12     4   mouseData
+;      16     4   dwFlags
+;      20     4   time
+;      24     4   dwExtraInfo
+;---------------------------------------------------------
+#deffunc _inp_mouse_send int dx, int dy, int mouse_data, int flags, \
+	local _buf, local _sz
+	_sz = _inp_size()
+	sdim _buf, _sz + 8
+#ifdef _HSP64
+	lpoke _buf,  0, INPUT_MOUSE
+	lpoke _buf,  4, 0
+	lpoke _buf,  8, dx
+	lpoke _buf, 12, dy
+	lpoke _buf, 16, mouse_data
+	lpoke _buf, 20, flags
+	lpoke _buf, 24, 0
+	lpoke _buf, 28, 0
+	lpoke _buf, 32, 0
+#else
+	lpoke _buf,  0, INPUT_MOUSE
+	lpoke _buf,  4, dx
+	lpoke _buf,  8, dy
+	lpoke _buf, 12, mouse_data
+	lpoke _buf, 16, flags
+	lpoke _buf, 20, 0
+	lpoke _buf, 24, 0
+#endif
+	_inp_SendInput 1, _buf, _sz
+	return 0
+
+;---------------------------------------------------------
+; INPUT (KEYBOARD)
+;   x64:
+;     offs size  field
+;       0    4   type (INPUT_KEYBOARD=1)
+;       4    4   pad
+;       8    2   wVk
+;      10    2   wScan
+;      12    4   dwFlags
+;      16    4   time
+;      20    8   dwExtraInfo (ptr)
+;   x86:
+;       0    4   type
+;       4    2   wVk
+;       6    2   wScan
+;       8    4   dwFlags
+;      12    4   time
+;      16    4   dwExtraInfo
+;---------------------------------------------------------
+#deffunc _inp_keybd_send int vk, int scan, int flags, \
+	local _buf, local _sz
+	_sz = _inp_size()
+	sdim _buf, _sz + 8
+#ifdef _HSP64
+	lpoke _buf,  0, INPUT_KEYBOARD
+	lpoke _buf,  4, 0
+	wpoke _buf,  8, vk & 0xFFFF
+	wpoke _buf, 10, scan & 0xFFFF
+	lpoke _buf, 12, flags
+	lpoke _buf, 16, 0
+	lpoke _buf, 20, 0
+	lpoke _buf, 24, 0
+#else
+	lpoke _buf,  0, INPUT_KEYBOARD
+	wpoke _buf,  4, vk & 0xFFFF
+	wpoke _buf,  6, scan & 0xFFFF
+	lpoke _buf,  8, flags
+	lpoke _buf, 12, 0
+	lpoke _buf, 16, 0
+#endif
+	_inp_SendInput 1, _buf, _sz
+	return 0
+
+;---------------------------------------------------------
+; マウス API
+;---------------------------------------------------------
+#deffunc input_mouse_move int x, int y, \
+	local _cx, local _cy, local _ox, local _oy, local _ax, local _ay
+	; 絶対座標: 0..65535 にマップ必須 (MOUSEEVENTF_VIRTUALDESK で全画面)
+	_ox = _inp_GetSystemMetrics(SM_XVIRTUALSCREEN)
+	_oy = _inp_GetSystemMetrics(SM_YVIRTUALSCREEN)
+	_cx = _inp_GetSystemMetrics(SM_CXVIRTUALSCREEN)
+	_cy = _inp_GetSystemMetrics(SM_CYVIRTUALSCREEN)
+	if _cx = 0 : _cx = 1
+	if _cy = 0 : _cy = 1
+	_ax = ((x - _ox) * 65535) / _cx
+	_ay = ((y - _oy) * 65535) / _cy
+	_inp_mouse_send _ax, _ay, 0, MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_VIRTUALDESK
+	return 0
+
+#deffunc input_mouse_move_rel int dx, int dy
+	_inp_mouse_send dx, dy, 0, MOUSEEVENTF_MOVE
+	return 0
+
+#deffunc input_mouse_down int button, local _dflags
+	if button = 0 : _dflags = MOUSEEVENTF_LEFTDOWN
+	if button = 1 : _dflags = MOUSEEVENTF_RIGHTDOWN
+	if button = 2 : _dflags = MOUSEEVENTF_MIDDLEDOWN
+	_inp_mouse_send 0, 0, 0, _dflags
+	return 0
+
+#deffunc input_mouse_up int button, local _dflags
+	if button = 0 : _dflags = MOUSEEVENTF_LEFTUP
+	if button = 1 : _dflags = MOUSEEVENTF_RIGHTUP
+	if button = 2 : _dflags = MOUSEEVENTF_MIDDLEUP
+	_inp_mouse_send 0, 0, 0, _dflags
+	return 0
+
+#deffunc input_mouse_click int button
+	input_mouse_down button
+	input_mouse_up   button
+	return 0
+
+#deffunc input_mouse_double_click int button
+	input_mouse_down button
+	input_mouse_up   button
+	input_mouse_down button
+	input_mouse_up   button
+	return 0
+
+#deffunc input_mouse_wheel int delta
+	_inp_mouse_send 0, 0, delta, MOUSEEVENTF_WHEEL
+	return 0
+
+#deffunc input_mouse_hwheel int delta
+	_inp_mouse_send 0, 0, delta, MOUSEEVENTF_HWHEEL
+	return 0
+
+;---------------------------------------------------------
+; キーボード API
+;---------------------------------------------------------
+#deffunc input_key_down int vk
+	_inp_keybd_send vk, 0, 0
+	return 0
+
+#deffunc input_key_up int vk
+	_inp_keybd_send vk, 0, KEYEVENTF_KEYUP
+	return 0
+
+#deffunc input_key_press int vk
+	_inp_keybd_send vk, 0, 0
+	_inp_keybd_send vk, 0, KEYEVENTF_KEYUP
+	return 0
+
+#deffunc input_key_press_scan int sc
+	_inp_keybd_send 0, sc, KEYEVENTF_SCANCODE
+	_inp_keybd_send 0, sc, KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP
+	return 0
+
+;---------------------------------------------------------
+; Unicode 文字列入力
+;   HSP の文字列は SJIS。UTF-16 codepoint 列に変換して 1 つずつ送出
+;   hsp3net 専用の cnvstow を想定
+;---------------------------------------------------------
+#deffunc input_type_text str text, \
+	local _wbuf, local _i, local _cp
+	; cnvstow は hsp3net 拡張で SJIS→UTF-16 変換
+	sdim _wbuf, strlen(text) * 4 + 16
+	cnvstow _wbuf, text
+	_i = 0
+	repeat
+		_cp = wpeek(_wbuf, _i)
+		if _cp = 0 : break
+		_inp_keybd_send 0, _cp, KEYEVENTF_UNICODE
+		_inp_keybd_send 0, _cp, KEYEVENTF_UNICODE | KEYEVENTF_KEYUP
+		_i = _i + 2
+	loop
+	return 0
+
+#deffunc input_type_unicode int codepoint
+	_inp_keybd_send 0, codepoint, KEYEVENTF_UNICODE
+	_inp_keybd_send 0, codepoint, KEYEVENTF_UNICODE | KEYEVENTF_KEYUP
+	return 0
+
+;---------------------------------------------------------
+; input_combo "ctrl+shift+t"
+;   +で区切り、修飾キーを順に down → 末尾キー down/up → 修飾キー up
+;---------------------------------------------------------
+#deffunc input_combo str spec, \
+	local _parts, local _n, local _i, local _p, local _start, local _c, \
+	local _tok, local _mods, local _main_vk, local _k
+	; + で split
+	sdim _parts, 32, 16
+	_n = 0 : _start = 0
+	repeat strlen(spec) + 1
+		if cnt = strlen(spec) {
+			_parts(_n) = strmid(spec, _start, cnt - _start)
+			_n++
+			break
+		}
+		if peek(spec, cnt) = '+' {
+			_parts(_n) = strmid(spec, _start, cnt - _start)
+			_n++
+			_start = cnt + 1
+		}
+	loop
+	if _n = 0 : return -1
+	_main_vk = 0
+	dim _mods, 8
+	_i = 0
+	; 末尾が main key、それ以外は修飾キー
+	repeat _n
+		_tok = _parts(cnt)
+		; lower case
+		sdim _k, strlen(_tok) + 1
+		_k = _tok
+		repeat strlen(_k)
+			_c = peek(_k, cnt)
+			if (_c >= 'A') & (_c <= 'Z') : poke _k, cnt, _c + 32
+		loop
+		if cnt = _n - 1 {
+			; main key
+			_main_vk = _input_resolve_key(_k)
+			break
+		}
+		; modifier
+		if _k = "ctrl"    : _mods(_i) = VK_CONTROL : _i++
+		if _k = "lctrl"   : _mods(_i) = VK_LCONTROL : _i++
+		if _k = "rctrl"   : _mods(_i) = VK_RCONTROL : _i++
+		if _k = "shift"   : _mods(_i) = VK_SHIFT : _i++
+		if _k = "lshift"  : _mods(_i) = VK_LSHIFT : _i++
+		if _k = "rshift"  : _mods(_i) = VK_RSHIFT : _i++
+		if _k = "alt"     : _mods(_i) = VK_MENU : _i++
+		if _k = "lalt"    : _mods(_i) = VK_LMENU : _i++
+		if _k = "ralt"    : _mods(_i) = VK_RMENU : _i++
+		if _k = "win"     : _mods(_i) = VK_LWIN : _i++
+	loop
+	; down modifiers
+	repeat _i
+		_inp_keybd_send _mods(cnt), 0, 0
+	loop
+	; press main
+	if _main_vk > 0 {
+		_inp_keybd_send _main_vk, 0, 0
+		_inp_keybd_send _main_vk, 0, KEYEVENTF_KEYUP
+	}
+	; up modifiers (逆順)
+	repeat _i
+		_inp_keybd_send _mods(_i - 1 - cnt), 0, KEYEVENTF_KEYUP
+	loop
+	return 0
+
+#defcfunc _input_resolve_key str k, local _c, local _vk
+	; 単一英字 a-z
+	if strlen(k) = 1 {
+		_c = peek(k, 0)
+		if (_c >= 'a') & (_c <= 'z') : return _c - 32   ; 'A'..'Z' (VK は ASCII)
+		if (_c >= '0') & (_c <= '9') : return _c
+	}
+	if k = "f1"  : return VK_F1
+	if k = "f2"  : return $71
+	if k = "f3"  : return $72
+	if k = "f4"  : return $73
+	if k = "f5"  : return $74
+	if k = "f6"  : return $75
+	if k = "f7"  : return $76
+	if k = "f8"  : return $77
+	if k = "f9"  : return $78
+	if k = "f10" : return $79
+	if k = "f11" : return $7A
+	if k = "f12" : return $7B
+	if k = "enter"  : return VK_RETURN
+	if k = "return" : return VK_RETURN
+	if k = "tab"    : return VK_TAB
+	if k = "space"  : return VK_SPACE
+	if k = "esc"    : return VK_ESCAPE
+	if k = "escape" : return VK_ESCAPE
+	if k = "back"   : return VK_BACK
+	if k = "bs"     : return VK_BACK
+	if k = "delete" : return $2E
+	if k = "del"    : return $2E
+	if k = "home"   : return $24
+	if k = "end"    : return $23
+	if k = "pageup" : return $21
+	if k = "pagedown" : return $22
+	if k = "up"     : return VK_UP
+	if k = "down"   : return VK_DOWN
+	if k = "left"   : return VK_LEFT
+	if k = "right"  : return VK_RIGHT
+	return 0
+
+;---------------------------------------------------------
+; input_wait_ms ms (精密 sleep / 精度はシステム依存)
+;---------------------------------------------------------
+#deffunc input_wait_ms int ms
+	wait (ms + 5) / 10
+	return 0
+
+#global
+#endif

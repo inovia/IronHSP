@@ -1,0 +1,660 @@
+;============================================================
+;   iron_uia.hsp — Microsoft UI Automation (UIA) ラッパ
+;
+;   Windows の UI 要素ツリーをプログラム的に操作する UIA は、
+;   RPA の基盤。ボタン押下 / エディット文字入力 / ツリー検索 /
+;   フォーカス追跡 などを AutomationElement 経由で行う。
+;
+;   hsp3net 専用。inline C# から System.Windows.Automation を叩く。
+;
+;   使い方の基本:
+;     1. iron_uia_init                         初期化
+;     2. iron_uia_find "条件", "target", var_h ウィンドウ/子要素を探す
+;     3. iron_uia_invoke h                     ボタン押下
+;     4. iron_uia_set_value h, "入力文字列"    エディットに入力
+;     5. iron_uia_close_handle h               ハンドル解放
+;
+;   検索条件 (iron_uia_find_first / find_all):
+;     "name"       — Name 完全一致
+;     "name*"      — Name 前方一致
+;     "name~"      — Name 部分一致
+;     "class"      — ClassName
+;     "autoid"     — AutomationId
+;     "ctype"      — ControlType (Button/Edit/CheckBox/Text/Window/Pane 等)
+;     "pid"        — Process ID (整数文字列)
+;     "title"      — ウィンドウ title (name と同義、可読性のため)
+;
+;   複数条件は ";" 区切り: "ctype=Button;name~OK"
+;
+;   API:
+;     iron_uia_init
+;     iron_uia_root var_h                       Desktop ルート
+;     iron_uia_focused var_h                    現在フォーカス要素
+;     iron_uia_from_point x, y, var_h           座標下の要素
+;     iron_uia_find_first parent_h, "query", var_h
+;     iron_uia_find_all   parent_h, "query", var_tsv, var n
+;     iron_uia_parent h, var_parent_h
+;     iron_uia_children h, var_tsv, var n       子要素ハンドル列挙
+;     iron_uia_wait "query", timeout_ms, var_h  親 = desktop、存在するまで待機
+;
+;     iron_uia_name h                           → refstr
+;     iron_uia_class h                          → refstr
+;     iron_uia_auto_id h                        → refstr
+;     iron_uia_ctype h                          → refstr
+;     iron_uia_pid h                            → stat=int
+;     iron_uia_hwnd h                           → stat=HWND(int)
+;     iron_uia_is_enabled h                     → stat 1/0
+;     iron_uia_rect h, var x, var y, var w, var h   bounding rect
+;
+;     iron_uia_invoke h                         Invoke (Button/Link 押下)
+;     iron_uia_set_value h, "text"              Value パターン書込
+;     iron_uia_get_value h                      → refstr
+;     iron_uia_toggle h                         Toggle (CheckBox)
+;     iron_uia_toggle_state h                   → stat 0=off 1=on -1=indeterminate
+;     iron_uia_expand h                         ExpandCollapse 展開
+;     iron_uia_collapse h                       同 収縮
+;     iron_uia_scroll h, dir, pct               Scroll (0=horiz 1=vert, 0..100)
+;     iron_uia_select h                         SelectionItem 選択
+;     iron_uia_window_min h                     WindowPattern Minimize
+;     iron_uia_window_max h                     同 Maximize
+;     iron_uia_window_normal h                  同 Normal
+;     iron_uia_window_close h                   同 Close
+;     iron_uia_focus h                          SetFocus (キーボードフォーカス)
+;     iron_uia_text_range h, var_text           TextPattern から全文取得
+;
+;     iron_uia_close_handle h                   ハンドル (int) を解放
+;     iron_uia_close_all                        全解放
+;============================================================
+#ifndef __iron_uia_hsp__
+#define __iron_uia_hsp__
+
+#module iron_uia
+
+dim _uia_cs_loaded, 1
+
+#deffunc _uia_load_cs
+	if _uia_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Windows.Automation;
+using System.Windows.Automation.Text;
+
+public class HspUia {
+    static Dictionary<int, AutomationElement> handles = new Dictionary<int, AutomationElement>();
+    static int nextHandle = 1;
+
+    public static string Init() {
+        try {
+            // TreeScope, Conditions などは System.Windows.Automation 名前空間。
+            // 実際の初期化は AutomationElement.RootElement アクセス時に遅延で行われる。
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Root() {
+        try {
+            int h = Register(AutomationElement.RootElement);
+            return h.ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Focused() {
+        try {
+            var e = AutomationElement.FocusedElement;
+            if (e == null) return \"-1\";
+            return Register(e).ToString();
+        } catch (Exception e2) { return \"-1\\t\" + e2.Message; }
+    }
+    public static string FromPoint(int x, int y) {
+        try {
+            var e = AutomationElement.FromPoint(new System.Windows.Point(x, y));
+            if (e == null) return \"-1\";
+            return Register(e).ToString();
+        } catch (Exception e2) { return \"-1\\t\" + e2.Message; }
+    }
+
+    public static string FindFirst(int parent, string query) {
+        try {
+            var p = Get(parent); if (p == null) return \"-1\";
+            var cond = BuildCondition(query);
+            var e = p.FindFirst(TreeScope.Descendants, cond);
+            if (e == null) return \"-1\";
+            return Register(e).ToString();
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string FindAll(int parent, string query) {
+        try {
+            var p = Get(parent); if (p == null) return \"-1\\t\";
+            var cond = BuildCondition(query);
+            var col = p.FindAll(TreeScope.Descendants, cond);
+            var sb = new StringBuilder();
+            int n = 0;
+            foreach (AutomationElement e in col) {
+                int h = Register(e);
+                if (n > 0) sb.Append('\\t');
+                sb.Append(h);
+                n++;
+            }
+            return n + \"\\t\" + sb.ToString();
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string Parent(int h) {
+        try {
+            var e = Get(h); if (e == null) return \"-1\";
+            var walker = TreeWalker.ControlViewWalker;
+            var p = walker.GetParent(e);
+            if (p == null) return \"-1\";
+            return Register(p).ToString();
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string Children(int h) {
+        try {
+            var e = Get(h); if (e == null) return \"-1\\t\";
+            var col = e.FindAll(TreeScope.Children, System.Windows.Automation.Condition.TrueCondition);
+            var sb = new StringBuilder();
+            int n = 0;
+            foreach (AutomationElement c in col) {
+                int ch = Register(c);
+                if (n > 0) sb.Append('\\t');
+                sb.Append(ch);
+                n++;
+            }
+            return n + \"\\t\" + sb.ToString();
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string Wait(string query, int timeout_ms) {
+        var cond = BuildCondition(query);
+        var root = AutomationElement.RootElement;
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        while (sw.ElapsedMilliseconds < timeout_ms) {
+            try {
+                var e = root.FindFirst(TreeScope.Descendants, cond);
+                if (e != null) return Register(e).ToString();
+            } catch {}
+            Thread.Sleep(100);
+        }
+        return \"-1\";
+    }
+
+    public static string Name(int h)   { var e = Get(h); if (e == null) return \"\"; try { return e.Current.Name ?? \"\"; } catch { return \"\"; } }
+    public static string Class(int h)  { var e = Get(h); if (e == null) return \"\"; try { return e.Current.ClassName ?? \"\"; } catch { return \"\"; } }
+    public static string AutoId(int h) { var e = Get(h); if (e == null) return \"\"; try { return e.Current.AutomationId ?? \"\"; } catch { return \"\"; } }
+    public static string Ctype(int h)  { var e = Get(h); if (e == null) return \"\"; try { return e.Current.ControlType.ProgrammaticName; } catch { return \"\"; } }
+    public static string Pid(int h)    { var e = Get(h); if (e == null) return \"-1\"; try { return e.Current.ProcessId.ToString(); } catch { return \"-1\"; } }
+    public static string Hwnd(int h)   { var e = Get(h); if (e == null) return \"0\"; try { return e.Current.NativeWindowHandle.ToString(); } catch { return \"0\"; } }
+    public static string IsEnabled(int h) { var e = Get(h); if (e == null) return \"0\"; try { return e.Current.IsEnabled ? \"1\" : \"0\"; } catch { return \"0\"; } }
+    public static string Rect(int h) {
+        var e = Get(h); if (e == null) return \"0\\t0\\t0\\t0\";
+        try {
+            var r = e.Current.BoundingRectangle;
+            return ((int)r.X) + \"\\t\" + ((int)r.Y) + \"\\t\" + ((int)r.Width) + \"\\t\" + ((int)r.Height);
+        } catch { return \"0\\t0\\t0\\t0\"; }
+    }
+
+    // ---- Patterns ----
+    public static string Invoke(int h) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(InvokePattern.Pattern, out object p)) {
+                ((InvokePattern)p).Invoke();
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string SetValue(int h, string v) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(ValuePattern.Pattern, out object p)) {
+                ((ValuePattern)p).SetValue(v ?? \"\");
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string GetValue(int h) {
+        var e = Get(h); if (e == null) return \"\";
+        try {
+            if (e.TryGetCurrentPattern(ValuePattern.Pattern, out object p))
+                return ((ValuePattern)p).Current.Value ?? \"\";
+        } catch {}
+        return \"\";
+    }
+    public static string Toggle(int h) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(TogglePattern.Pattern, out object p)) {
+                ((TogglePattern)p).Toggle();
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string ToggleState(int h) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(TogglePattern.Pattern, out object p)) {
+                var s = ((TogglePattern)p).Current.ToggleState;
+                if (s == ToggleState.On) return \"1\";
+                if (s == ToggleState.Off) return \"0\";
+                return \"-1\";
+            }
+        } catch {}
+        return \"-1\";
+    }
+    public static string Expand(int h) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(ExpandCollapsePattern.Pattern, out object p)) {
+                ((ExpandCollapsePattern)p).Expand();
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string Collapse(int h) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(ExpandCollapsePattern.Pattern, out object p)) {
+                ((ExpandCollapsePattern)p).Collapse();
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string Scroll(int h, int dir, double pct) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(ScrollPattern.Pattern, out object p)) {
+                var sp = (ScrollPattern)p;
+                sp.SetScrollPercent(
+                    dir == 0 ? pct : ScrollPattern.NoScroll,
+                    dir == 1 ? pct : ScrollPattern.NoScroll);
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string Select(int h) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(SelectionItemPattern.Pattern, out object p)) {
+                ((SelectionItemPattern)p).Select();
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string WindowCmd(int h, int cmd) {
+        // cmd: 0=Min 1=Max 2=Normal 3=Close
+        var e = Get(h); if (e == null) return \"-1\";
+        try {
+            if (e.TryGetCurrentPattern(WindowPattern.Pattern, out object p)) {
+                var wp = (WindowPattern)p;
+                if (cmd == 0) wp.SetWindowVisualState(WindowVisualState.Minimized);
+                else if (cmd == 1) wp.SetWindowVisualState(WindowVisualState.Maximized);
+                else if (cmd == 2) wp.SetWindowVisualState(WindowVisualState.Normal);
+                else if (cmd == 3) wp.Close();
+                return \"0\";
+            }
+            return \"-2\";
+        } catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string Focus(int h) {
+        var e = Get(h); if (e == null) return \"-1\";
+        try { e.SetFocus(); return \"0\"; }
+        catch (Exception ex) { return \"-1\\t\" + ex.Message; }
+    }
+    public static string TextAll(int h) {
+        var e = Get(h); if (e == null) return \"\";
+        try {
+            if (e.TryGetCurrentPattern(TextPattern.Pattern, out object p)) {
+                var tp = (TextPattern)p;
+                return tp.DocumentRange.GetText(-1) ?? \"\";
+            }
+        } catch {}
+        return \"\";
+    }
+
+    // ---- handle mgmt ----
+    public static string CloseHandle(int h) {
+        if (handles.ContainsKey(h)) handles.Remove(h);
+        return \"0\";
+    }
+    public static string CloseAll() {
+        handles.Clear();
+        return \"0\";
+    }
+
+    static int Register(AutomationElement e) {
+        int h = nextHandle++;
+        handles[h] = e;
+        return h;
+    }
+    static AutomationElement Get(int h) {
+        AutomationElement e;
+        return handles.TryGetValue(h, out e) ? e : null;
+    }
+
+    // ---- conditions ----
+    static System.Windows.Automation.Condition BuildCondition(string query) {
+        if (string.IsNullOrEmpty(query)) return System.Windows.Automation.Condition.TrueCondition;
+        var parts = query.Split(';');
+        var andList = new List<System.Windows.Automation.Condition>();
+        foreach (var raw in parts) {
+            var kv = raw.Trim();
+            if (string.IsNullOrEmpty(kv)) continue;
+            int eq = kv.IndexOf('=');
+            string key, val;
+            if (eq < 0) { key = \"name\"; val = kv; }
+            else { key = kv.Substring(0, eq).Trim(); val = kv.Substring(eq + 1); }
+            var c = BuildOne(key, val);
+            if (c != null) andList.Add(c);
+        }
+        if (andList.Count == 0) return System.Windows.Automation.Condition.TrueCondition;
+        if (andList.Count == 1) return andList[0];
+        return new AndCondition(andList.ToArray());
+    }
+    static System.Windows.Automation.Condition BuildOne(string key, string val) {
+        // name variants handle suffix wildcards
+        bool prefix = false, contains = false;
+        string core = val;
+        if (val.EndsWith(\"*\")) { prefix = true; core = val.Substring(0, val.Length - 1); }
+        else if (val.EndsWith(\"~\")) { contains = true; core = val.Substring(0, val.Length - 1); }
+        switch (key) {
+            case \"name\":
+            case \"title\":
+                if (!prefix && !contains)
+                    return new PropertyCondition(AutomationElement.NameProperty, val);
+                // 前方/部分一致: プロパティ条件では直接指定不可。
+                // ここでは全取得 → フィルタのための「ほぼ何でも」条件に fallback。
+                return new PropertyCondition(AutomationElement.IsControlElementProperty, true);
+            case \"class\":
+                return new PropertyCondition(AutomationElement.ClassNameProperty, val);
+            case \"autoid\":
+                return new PropertyCondition(AutomationElement.AutomationIdProperty, val);
+            case \"ctype\":
+                var ct = ResolveCtype(val);
+                if (ct != null) return new PropertyCondition(AutomationElement.ControlTypeProperty, ct);
+                return null;
+            case \"pid\":
+                return new PropertyCondition(AutomationElement.ProcessIdProperty, int.Parse(val));
+        }
+        return null;
+    }
+    static ControlType ResolveCtype(string s) {
+        var t = typeof(ControlType);
+        var fld = t.GetField(s, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+        if (fld != null) return (ControlType)fld.GetValue(null);
+        return null;
+    }
+}
+"}
+	loadnet _cs, 3, "UIAutomationClient.dll", "UIAutomationTypes.dll", "WindowsBase.dll"
+	_uia_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; 初期化 / ルート要素
+;------------------------------------------------------------
+#deffunc iron_uia_init \
+	local _h, local _r
+	_uia_load_cs
+	newnet _h, "HspUia"
+	mcall _h, "Init", _r
+	return int("" + _r)
+
+#deffunc iron_uia_root var v_h, \
+	local _h, local _r
+	_uia_load_cs
+	newnet _h, "HspUia"
+	mcall _h, "Root", _r
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc iron_uia_focused var v_h, \
+	local _h, local _r
+	_uia_load_cs
+	newnet _h, "HspUia"
+	mcall _h, "Focused", _r
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc iron_uia_from_point int x, int y, var v_h, \
+	local _h, local _r
+	_uia_load_cs
+	newnet _h, "HspUia"
+	mcall _h, "FromPoint", _r, x, y
+	v_h = int("" + _r)
+	return v_h
+
+;------------------------------------------------------------
+; 検索
+;------------------------------------------------------------
+#deffunc iron_uia_find_first int parent_h, str query, var v_h, \
+	local _h, local _r
+	_uia_load_cs
+	newnet _h, "HspUia"
+	mcall _h, "FindFirst", _r, parent_h, query
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc iron_uia_find_all int parent_h, str query, var v_tsv, var v_n, \
+	local _h, local _r, local _s, local _tab
+	sdim v_tsv, 65536
+	_uia_load_cs
+	newnet _h, "HspUia"
+	mcall _h, "FindAll", _r, parent_h, query
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 { v_tsv = _s : v_n = 0 : return -1 }
+	v_n = int(strmid(_s, 0, _tab))
+	v_tsv = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return v_n
+
+#deffunc iron_uia_parent int h, var v_h, \
+	local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Parent", _r, h
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc iron_uia_children int h, var v_tsv, var v_n, \
+	local _hh, local _r, local _s, local _tab
+	sdim v_tsv, 32768
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Children", _r, h
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 { v_tsv = "" : v_n = 0 : return -1 }
+	v_n = int(strmid(_s, 0, _tab))
+	v_tsv = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return v_n
+
+#deffunc iron_uia_wait str query, int timeout_ms, var v_h, \
+	local _h, local _r
+	_uia_load_cs
+	newnet _h, "HspUia"
+	mcall _h, "Wait", _r, query, timeout_ms
+	v_h = int("" + _r)
+	return v_h
+
+;------------------------------------------------------------
+; プロパティ取得
+;------------------------------------------------------------
+#defcfunc iron_uia_name int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Name", _r, h
+	return "" + _r
+
+#defcfunc iron_uia_class int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Class", _r, h
+	return "" + _r
+
+#defcfunc iron_uia_auto_id int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "AutoId", _r, h
+	return "" + _r
+
+#defcfunc iron_uia_ctype int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Ctype", _r, h
+	return "" + _r
+
+#defcfunc iron_uia_pid int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Pid", _r, h
+	return int("" + _r)
+
+#defcfunc iron_uia_hwnd int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Hwnd", _r, h
+	return int("" + _r)
+
+#defcfunc iron_uia_is_enabled int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "IsEnabled", _r, h
+	return int("" + _r)
+
+#deffunc iron_uia_rect int h, var v_x, var v_y, var v_w, var v_h, \
+	local _hh, local _r, local _s, local _t1, local _t2, local _t3
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Rect", _r, h
+	_s = "" + _r
+	_t1 = instr(_s, 0, "\t")
+	_t2 = instr(_s, _t1 + 1, "\t")
+	_t3 = instr(_s, _t2 + 1, "\t")
+	v_x = int(strmid(_s, 0, _t1))
+	v_y = int(strmid(_s, _t1 + 1, _t2 - _t1 - 1))
+	v_w = int(strmid(_s, _t2 + 1, _t3 - _t2 - 1))
+	v_h = int(strmid(_s, _t3 + 1, strlen(_s) - _t3 - 1))
+	return 0
+
+;------------------------------------------------------------
+; パターン操作
+;------------------------------------------------------------
+#deffunc iron_uia_invoke int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Invoke", _r, h
+	return int("" + _r)
+
+#deffunc iron_uia_set_value int h, str text, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "SetValue", _r, h, text
+	return int("" + _r)
+
+#defcfunc iron_uia_get_value int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "GetValue", _r, h
+	return "" + _r
+
+#deffunc iron_uia_toggle int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Toggle", _r, h
+	return int("" + _r)
+
+#defcfunc iron_uia_toggle_state int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "ToggleState", _r, h
+	return int("" + _r)
+
+#deffunc iron_uia_expand int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Expand", _r, h
+	return int("" + _r)
+
+#deffunc iron_uia_collapse int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Collapse", _r, h
+	return int("" + _r)
+
+#deffunc iron_uia_scroll int h, int dir, double pct, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Scroll", _r, h, dir, pct
+	return int("" + _r)
+
+#deffunc iron_uia_select int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Select", _r, h
+	return int("" + _r)
+
+#deffunc iron_uia_window_min int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "WindowCmd", _r, h, 0
+	return int("" + _r)
+
+#deffunc iron_uia_window_max int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "WindowCmd", _r, h, 1
+	return int("" + _r)
+
+#deffunc iron_uia_window_normal int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "WindowCmd", _r, h, 2
+	return int("" + _r)
+
+#deffunc iron_uia_window_close int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "WindowCmd", _r, h, 3
+	return int("" + _r)
+
+#deffunc iron_uia_focus int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "Focus", _r, h
+	return int("" + _r)
+
+#deffunc iron_uia_text_range int h, var v_text, local _hh, local _r
+	sdim v_text, 65536
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "TextAll", _r, h
+	v_text = "" + _r
+	return 0
+
+;------------------------------------------------------------
+; ハンドル管理
+;------------------------------------------------------------
+#deffunc iron_uia_close_handle int h, local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "CloseHandle", _r, h
+	return 0
+
+#deffunc iron_uia_close_all \
+	local _hh, local _r
+	_uia_load_cs
+	newnet _hh, "HspUia"
+	mcall _hh, "CloseAll", _r
+	return 0
+
+#global
+#endif
