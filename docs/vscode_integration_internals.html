@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VS Code 統合 内部仕様書 — IronHSP</title>
+<style>
+  :root { --accent: #2563eb; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1040px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.5rem; color: var(--accent); margin: 2.5rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 0.75rem; }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 1rem; margin: 1rem 0 0.4rem; color: #334155; }
+  p, li { margin-bottom: 0.4rem; }
+  ul, ol { padding-left: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; }
+  th { background: #eef2ff; font-weight: 600; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 3px; font-family: 'Consolas', 'Source Code Pro', monospace; font-size: 0.9em; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 0.85rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .trap { background: #fef2f2; border-left: 4px solid #dc2626; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .toc ul { list-style: none; padding-left: 0; }
+  .toc li { padding: 0.2rem 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  .arch { font-family: 'Consolas', monospace; white-space: pre; background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.85rem; line-height: 1.4; overflow-x: auto; }
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>VS Code 統合 内部仕様書</h1>
+<p class="muted">対象読者: コア実装に手を入れる開発者。ユーザー向けセットアップや機能紹介は <a href="IronHSP_specification.html#vscode">IronHSP 仕様書 §11</a> 参照。</p>
+<p class="muted">最終更新: 2026-04-20 / ブランチ: update-hsp3net / 関連コミット: <code>a025002b</code> 〜 <code>25c95535</code></p>
+
+<div class="toc">
+<strong>目次</strong>
+<ul>
+  <li><a href="#overview">1. 全体アーキテクチャ</a></li>
+  <li><a href="#repo-map">2. 該当ファイル/ディレクトリマップ</a></li>
+  <li><a href="#dap">3. DAP デバッガ実装詳細</a>
+    <ul>
+    <li><a href="#dap-arch">3.1 プロセス構成と起動フロー</a></li>
+    <li><a href="#dap-2pipe">3.2 2-pipe アーキテクチャの理由</a></li>
+    <li><a href="#dap-runtime">3.3 hsp3net ランタイム改変箇所</a></li>
+    <li><a href="#dap-wire">3.4 IPC wire protocol</a></li>
+    <li><a href="#dap-setvar">3.5 setVariable / evaluate 実装</a></li>
+    </ul>
+  </li>
+  <li><a href="#lsp">4. LSP サーバ (hspls) 実装詳細</a>
+    <ul>
+    <li><a href="#lsp-arch">4.1 プロセス構成</a></li>
+    <li><a href="#lsp-hspcmp">4.2 hspcmp 出力パース</a></li>
+    <li><a href="#lsp-tempfile">4.3 temp file 方式</a></li>
+    </ul>
+  </li>
+  <li><a href="#semantic">5. セマンティックトークン実装</a></li>
+  <li><a href="#build">6. ビルド手順</a></li>
+  <li><a href="#gotchas">7. 既知の罠 (踏みやすい順)</a></li>
+  <li><a href="#extend">8. 拡張方法</a></li>
+</ul>
+</div>
+
+<!-- ======================================== -->
+<h2 id="overview">1. 全体アーキテクチャ</h2>
+
+<p>VS Code 統合は 3 つの独立した機能の集合体で、それぞれ別プロセス/別バイナリで動作します:</p>
+
+<table>
+<tr><th>機能</th><th>バイナリ</th><th>プロトコル</th><th>言語</th><th>LOC</th></tr>
+<tr><td>デバッガ (DAP)</td><td><code>nhspdap.exe</code> + <code>hsp3debug_dap_64.dll</code> + <code>hsp3cl_net_dbg_64.exe</code></td><td>DAP over stdio + 名前付きパイプ</td><td>C# + C++</td><td>~800</td></tr>
+<tr><td>言語サーバ (LSP)</td><td><code>hspls.exe</code></td><td>LSP over stdio</td><td>C#</td><td>~600</td></tr>
+<tr><td>色分け (TextMate)</td><td>—</td><td>JSON grammar</td><td>JSON</td><td>~150</td></tr>
+</table>
+
+<p>これら全てを <strong>vscode-nhsp 拡張</strong> から起動/接続します (既存の <code>.nhsp</code> 拡張に <code>.hsp</code> 機能を追加した形)。</p>
+
+<div class="arch">VS Code
+  │
+  │ DAP (stdio)                      LSP (stdio)
+  ├──────────→ nhspdap.exe           ├──────────→ hspls.exe
+  │            │                     │            │
+  │            │ Named Pipe          │            │ subprocess
+  │            │ (evt / cmd 2 本)    │            │
+  │            ▼                     │            ▼
+  │            hsp3debug_dap_64.dll  │            hspcmp64.exe -ll -lv -ls
+  │            │  (hsp3debug.dll として名前変更)     │  (user32.as/kernel32.as も辿る)
+  │            │ LoadLibraryA         │            │
+  │            ▼                     │            │
+  │            hsp3cl_net_dbg_64.exe ←───(対象 .hsp)─┘
+  │
+  ▼
+.hsp ソース (エディタ表示) ← TextMate grammar (syntax coloring)
+                         ← LSP semantic tokens (上書き色分け)</div>
+
+<!-- ======================================== -->
+<h2 id="repo-map">2. 該当ファイル/ディレクトリマップ</h2>
+
+<table>
+<tr><th>パス</th><th>役割</th></tr>
+<tr><td><code>hsp3net/hsp3code.cpp</code></td><td>HSP3_DAP_MODE 下で BP フック + set_var_* export (既存ファイルへの追加)</td></tr>
+<tr><td><code>hsp3net/win32/hsp3cl.cpp</code></td><td>hsp3debug.dll ロード時の GetProcAddress を x64 bare name + x86 decorated の両対応に / hsp3cl_stop() の GetMessage ループを runmode check に変更</td></tr>
+<tr><td><code>hsp3net/win32/main.cpp</code></td><td>HSP3_DAP_MODE 下で setvbuf(stdout, _IONBF) 呼び出し</td></tr>
+<tr><td><code>hsp3net/hsp3cl_net_dbg_64.vcxproj</code></td><td>新規: デバッグ用ランタイムのビルド定義 (HSP3_DAP_MODE 定義、HSP_TEST_MODE なし)</td></tr>
+<tr><td><code>plugins/win32/hsp3debug_dap/</code></td><td>新規: DAP ブリッジ DLL (C++)。src/hsp3debug_dap.cpp に全ロジック、def で export</td></tr>
+<tr><td><code>nhspc/nhspdap/</code></td><td>新規: DAP アダプタ (C#)。Program.cs / DapIo.cs / DebuggeeBridge.cs / DapSession.cs</td></tr>
+<tr><td><code>nhspc/HspLanguageServer/</code></td><td>新規: LSP サーバ (C#)。Program.cs / LspServer.cs / HspSymbol.cs / HspcmpRunner.cs</td></tr>
+<tr><td><code>nhspc/vscode-nhsp/syntaxes/hsp.tmLanguage.json</code></td><td>新規: HSP3 TextMate grammar</td></tr>
+<tr><td><code>nhspc/vscode-nhsp/src/hsp-lsp-client.js</code></td><td>新規: VS Code 側 LSP クライアント (.hsp 用)</td></tr>
+<tr><td><code>nhspc/vscode-nhsp/src/extension.js</code></td><td>既存: DAP factory + LSP client 登録 + semantic tokens provider 登録を追加</td></tr>
+<tr><td><code>nhspc/vscode-nhsp/package.json</code></td><td>既存: debuggers (type:"hsp3net") + grammars + languages + breakpoints + activationEvents 追加</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="dap">3. DAP デバッガ実装詳細</h2>
+
+<h3 id="dap-arch">3.1 プロセス構成と起動フロー</h3>
+
+<div class="arch">VS Code (Debug UI)
+  │
+  │ DAP: initialize → launch → setBreakpoints → configurationDone
+  ▼
+nhspdap.exe (DAP adapter)
+  │
+  │ 1. LocateRuntime() で hsp3cl_net_dbg_64.exe を探す
+  │ 2. StageDebugDll() で hsp3debug_dap_64.dll を runtime dir に
+  │    hsp3debug.dll として配置 (copy-on-demand)
+  │ 3. hsp3cl_net_dbg_64.exe <program.ax> を spawn
+  │ 4. Child の stdout/stderr を "output" event として VS Code に流す
+  ▼
+hsp3cl_net_dbg_64.exe (runtime)
+  │
+  │ 1. .ax 読込 → HSPHED_BOOTOPT_DEBUGWIN が立ってれば
+  │    LoadLibraryA("hsp3debug.dll") で DLL ロード
+  │ 2. debugini() 呼び出し → DLL 初期化
+  ▼
+hsp3debug_dap_64.dll (HSP3DEBUG ハンドラ)
+  │
+  │ 1. GetProcAddress(exe, "hsp3dap_bp_count") でカウンタアドレス取得
+  │ 2. GetProcAddress(exe, "hsp3dap_register_bp_check") でコールバック登録
+  │ 3. GetProcAddress(exe, "hsp3dap_force_step") を呼び dbgmode=STEPIN
+  │ 4. pipe_thread を spawn:
+  │      ├─ CreateNamedPipeA "\\\\.\\pipe\\hsp3dap_&lt;pid&gt;_evt" (outbound)
+  │      └─ CreateNamedPipeA "\\\\.\\pipe\\hsp3dap_&lt;pid&gt;_cmd" (inbound)
+  │ 5. debugini 即 return → runtime 続行 → 最初の行で STEPIN hit
+  ▼
+ (nhspdap が NamedPipeClientStream で 2 本とも Connect)
+  │
+  │ ↔ 双方向通信 (events / commands)
+  ▼
+ユーザが BP 設定 / 停止 / 変数編集 / 続行</div>
+
+<h3 id="dap-2pipe">3.2 2-pipe アーキテクチャの理由</h3>
+
+<div class="trap">
+<strong>/clr mixed-mode + 同一 duplex pipe の concurrent ReadFile+WriteFile は壊れる。</strong>
+<p>hsp3cl_net_dbg_64.exe は CLRSupport=true でコンパイルされており、mixed native+managed 環境。
+この環境下で pipe_thread が ReadFile で blocking 中、メインスレッドから同じハンドルに WriteFile すると、
+<code>ERROR_BROKEN_PIPE (109)</code> / <code>ERROR_NO_DATA (232)</code> がランダムに発生する。</p>
+<p>解決: simplex pipe を 2 本用意 (<code>_evt</code> は PIPE_ACCESS_OUTBOUND、<code>_cmd</code> は PIPE_ACCESS_INBOUND)。
+各パイプは単一スレッドしか触らない ⇒ concurrent I/O の問題が発生しない。</p>
+</div>
+
+<h3 id="dap-runtime">3.3 hsp3net ランタイム改変箇所</h3>
+
+<h4>hsp3code.cpp</h4>
+<p>HSP3_DAP_MODE 下でのみ有効な追加 export:</p>
+<pre><code>// exe が export するシンボル (DLL から GetProcAddress で解決)
+extern "C" __declspec(dllexport) volatile int hsp3dap_bp_count = 0;
+extern "C" __declspec(dllexport) void hsp3dap_register_bp_check(fn);
+extern "C" __declspec(dllexport) void hsp3dap_force_step(void);
+extern "C" __declspec(dllexport) int  hsp3dap_get_var_type(const char*);
+extern "C" __declspec(dllexport) int  hsp3dap_set_var_int(name, idx[], num_idx, value);
+extern "C" __declspec(dllexport) int  hsp3dap_set_var_int64(...);
+extern "C" __declspec(dllexport) int  hsp3dap_set_var_double(...);
+extern "C" __declspec(dllexport) int  hsp3dap_set_var_str(...);   // sbStrCopy 経由
+extern "C" __declspec(dllexport) int  hsp3dap_set_var_wstr(...);  // UTF-8 → UTF-16
+
+// dispatch loop の 4 箇所に追加された条件 (HSP3_DAP_MODE 時のみ):
+if (dbgmode || hsp3dap_bp_count > 0) code_dbgtrace();
+
+// code_dbgtrace() 内で BP ヒット検知:
+if (g_hsp3dap_bp_check && hsp3dap_bp_count > 0) {
+    bp_hit = g_hsp3dap_bp_check(dbginfo.fname, dbginfo.line);
+}
+if (dbgmode || bp_hit) { runmode = STOP; msgfunc(); }</code></pre>
+
+<h4>win32/hsp3cl.cpp</h4>
+<pre><code>// 修正前: x86 stdcall decorated name のみ
+dbgwin = GetProcAddress(h_dbgwin, "_debugini@16");
+
+// 修正後: x64 bare name 優先、失敗時 x86 decorated へ fallback
+dbgwin = GetProcAddress(h_dbgwin, "debugini");
+if (dbgwin == NULL) dbgwin = GetProcAddress(h_dbgwin, "_debugini@16");
+
+// hsp3cl_stop() の GetMessage ループ:
+// 修正前: while(1) { GetMessage(...); if (runmode != STOP) break; }
+//         → runmode が既に RUN でも GetMessage で blocking (msg 無し)
+// 修正後: while (runmode == STOP) { GetMessage(...); ... }
+//         → dbgnotice で runmode=RUN なら即抜ける</code></pre>
+
+<h4>win32/main.cpp</h4>
+<pre><code>#ifdef HSP3_DAP_MODE
+    // 子プロセスで stdout を redirect される時に block-buffered になって
+    // mes 出力が end まで届かない問題を回避
+    setvbuf(stdout, NULL, _IONBF, 0);
+    setvbuf(stderr, NULL, _IONBF, 0);
+#endif</code></pre>
+
+<h3 id="dap-wire">3.4 IPC wire protocol</h3>
+
+<p>名前付きパイプ <code>\\.\pipe\hsp3dap_&lt;pid&gt;_evt</code> / <code>_cmd</code>、UTF-8 改行区切り (LF) JSON。</p>
+
+<h4>DLL → adapter (events) — _evt パイプ経由</h4>
+<pre><code>{"evt":"ready"}
+{"evt":"stopped","reason":"entry|breakpoint|step|pause|exception","line":N,"file":"path"}
+{"evt":"terminated","exit":N}</code></pre>
+
+<h4>adapter → DLL (commands) — _cmd パイプ経由</h4>
+<pre><code>{"cmd":"set_bp","file":"path","lines":[10,20]}      → {"resp":"bp_ack"}
+{"cmd":"continue"|"step_over"|"step_in"|"step_out"|"pause"}
+{"cmd":"get_vars"}                                   → {"resp":"vars","items":[...]}
+{"cmd":"get_callstack"}                              → {"resp":"callstack","frames":[...]}
+{"cmd":"set_var","name":"x","indices":[0,1],"value":"42"}
+                                                     → {"resp":"set_var","ok":1}
+{"cmd":"evaluate","expr":"iarr(1,1) = 77"}           → {"resp":"evaluate","ok":1,"result":"77"}
+{"cmd":"disconnect"}</code></pre>
+
+<p>BP パスマッチングは両側で <code>Path.GetFileName().ToLowerInvariant()</code> に正規化して比較
+(VS Code は絶対パス、HSP runtime は相対パスを送ってくるため)。</p>
+
+<h3 id="dap-setvar">3.5 setVariable / evaluate 実装</h3>
+
+<p>5 種の HSP 変数型に対応。配列・モジュール変数透過。</p>
+
+<h4>ランタイム側の書き込みロジック</h4>
+<pre><code>// int / int64 / double: pv-&gt;pt から要素 offset 計算して直接代入
+int* arr = (int*)pv-&gt;pt;
+arr[offset] = value;
+
+// str: HSP の文字列は sbAlloc 可変長バッファで管理 (pv-&gt;pt は char*、
+// 配列時は (char**)pv-&gt;master[idx] が各要素の buffer ptr)。
+// sbStrCopy() で安全に再確保 (memcpy 直書きは NG)。
+char** pp = (off == 0) ? &amp;pv-&gt;pt : &amp;((char**)pv-&gt;master)[off];
+sbStrCopy(pp, (char*)value);
+
+// wstr: UTF-8 → UTF-16 変換して固定長 wchar_t バッファへ
+MultiByteToWideChar(CP_UTF8, 0, value_utf8, -1, base, elem_chars);</code></pre>
+
+<h4>evaluate の式パース</h4>
+<p>DLL 側の <code>handle_command("evaluate", ...)</code> で簡易 LHS parser を走らせる:</p>
+<pre><code>expr = "iarr(1,1) = 77"
+ → split by '='
+ → lhs = "iarr(1,1)", rhs = "77"
+ → paren split: name = "iarr", indices = [1, 1]
+ → hsp3dap_get_var_type("iarr") → HSPVAR_FLAG_INT
+ → hsp3dap_set_var_int("iarr", [1,1], 2, 77)
+
+expr = "m_val@mymod = 555"
+ → name = "m_val@mymod" (そのまま HSP 名前解決に渡せる)
+ → hsp3dap_get_var_type("m_val@mymod") → HSPVAR_FLAG_INT
+ → hsp3dap_set_var_int("m_val@mymod", NULL, 0, 555)</code></pre>
+
+<!-- ======================================== -->
+<h2 id="lsp">4. LSP サーバ (hspls) 実装詳細</h2>
+
+<h3 id="lsp-arch">4.1 プロセス構成</h3>
+
+<p>VS Code 拡張が <code>hspls.exe</code> を spawn。拡張からの LSP 要求に応じて、
+hspls が <code>hspcmp64.exe</code> を subprocess で呼び出し、出力を LSP レスポンスに変換する。</p>
+
+<div class="arch">VS Code (Language client — vscode-nhsp/src/hsp-lsp-client.js)
+  │ LSP: initialize → textDocument/didOpen → didSave → definition etc.
+  ▼
+hspls.exe (C# LSP server — nhspc/HspLanguageServer/)
+  │
+  │ didOpen / didSave 時に:
+  │ 1. buffer を sidecar temp file に書く (foo.__hspls.hsp)
+  │ 2. hspcmp64 -ll -lv -ls -lr -d -i &lt;temp&gt; を subprocess
+  │ 3. stdout / stderr の dfnc/dvar/dmac/dmod/dexc/dlab + error N を parse
+  │ 4. temp を削除、symbols/diagnostics を保持
+  │ 5. publishDiagnostics で赤波線送信
+  │
+  │ 以降の definition / hover / documentSymbol / completion /
+  │ semanticTokens の要求はキャッシュ済 symbols を lookup するだけ
+  ▼
+hspcmp64.exe (HSP3 parser)</div>
+
+<h3 id="lsp-hspcmp">4.2 hspcmp 出力パース</h3>
+
+<h4>シンボルリスト (<code>-ll</code> / <code>-lv</code> / <code>-ls</code>)</h4>
+<p>出力書式: <code>&lt;kind&gt; &lt;name&gt; &lt;line&gt;:&lt;file&gt;</code></p>
+<table>
+<tr><th>kind</th><th>意味</th><th>LSP SymbolKind</th><th>Semantic type</th></tr>
+<tr><td><code>dfnc</code></td><td>#deffunc / #defcfunc (ユーザ定義関数)</td><td>Function (12)</td><td>function</td></tr>
+<tr><td><code>dexc</code></td><td>#func / #cfunc (外部 DLL 関数)</td><td>Method (6)</td><td>method</td></tr>
+<tr><td><code>dvar</code></td><td>変数 (dim / sdim / 初代入)</td><td>Variable (13)</td><td>— (grammar 任せ)</td></tr>
+<tr><td><code>dlab</code></td><td>*label</td><td>Variable (13)</td><td>—</td></tr>
+<tr><td><code>dmac</code></td><td>#define / #const / #enum / #func alias</td><td>Constant (14)</td><td>複雑 (下記)</td></tr>
+<tr><td><code>dmod</code></td><td>#module 名前</td><td>Module (2)</td><td>—</td></tr>
+</table>
+
+<h4><code>dmac</code> の分類 — ファイル由来で意味が変わる</h4>
+<table>
+<tr><th>File</th><th>実態</th><th>Semantic type</th></tr>
+<tr><td><code>hspdef.as</code></td><td>HSP3 ランタイム定数 (screen_normal, ginfo_mx 等)</td><td>macro (ビルトイン扱い)</td></tr>
+<tr><td>その他の <code>.as</code></td><td>DLL binding の <code>#define alias</code> / <code>#func</code> エイリアス</td><td>method (外部 DLL 扱い)</td></tr>
+<tr><td><code>.hsp</code></td><td>ユーザの <code>#define</code> / <code>#const</code></td><td>function (ユーザ定義扱い)</td></tr>
+</table>
+
+<h4>ビルトインキーワード (<code>-lk</code>)</h4>
+<p>出力書式: <code>&lt;name&gt;\t,&lt;kind&gt;</code> (例: <code>goto\t,sys|func</code>)。
+hspls 起動時に 1 回だけ呼んで HashSet 化、Symbol テーブルに未登録な識別子の fallback 分類に使う。</p>
+
+<h4>診断 (エラー/警告)</h4>
+<p>書式: <code>&lt;file&gt;(&lt;line&gt;) : error &lt;code&gt; : &lt;message&gt;</code> (または warning)</p>
+<pre><code>test.hsp(2) : error 2 : 文法が間違っています (2行目)</code></pre>
+
+<h3 id="lsp-tempfile">4.3 temp file 方式</h3>
+
+<div class="trap">
+<strong>絶対にユーザの本ファイルを上書きしてはいけない。</strong>
+<p>初期実装では <code>File.WriteAllText(absPath, text)</code> で本ファイルを上書きしていたが、
+Explorer の別エディタで開いているファイルと衝突する、BOM が勝手に入る等の不具合の温床になる。</p>
+</div>
+
+<p>現在は同じディレクトリに <code>foo.__hspls.hsp</code> のサイドカー temp file を書いて
+hspcmp に食わせ、出力の file フィールドを本ファイル名に rewrite した後 temp を削除する。</p>
+<p>同じ dir に書く理由は、HSP の <code>#include "common/..."</code> 等の相対 path 解決を壊さないため。</p>
+
+<!-- ======================================== -->
+<h2 id="semantic">5. セマンティックトークン実装</h2>
+
+<p>LSP の <code>textDocument/semanticTokens/full</code> で、識別子単位の 4 分類色分けを提供。
+TextMate grammar の regex では判別不能な「ユーザ定義 vs 外部 DLL」を実シンボル情報で区別する。</p>
+
+<h4>Token legend (LspServer.cs)</h4>
+<pre><code>tokenTypes: [
+  "function",   // 0: user #deffunc/#defcfunc (.hsp 由来 dfnc)
+  "method",     // 1: external DLL (.as 由来 dexc or dfnc)
+  "macro",      // 2: HSP3 built-in (hspcmp -lk or hspdef.as dmac)
+  "variable",   // 3: reserved
+  "keyword",    // 4: control flow (if/else/repeat/loop/…)
+]
+tokenModifiers: []  (未使用)</code></pre>
+
+<h4>分類アルゴリズム (LspServer.ClassifyIdentifier)</h4>
+<pre><code>// 1. 制御構文キーワードは最優先で keyword
+if (ControlKeywords.Contains(word)) return TYPE_KEYWORD;
+
+// 2. ワークスペース symbol table lookup
+if (syms.TryGetValue(word.ToLowerInvariant(), out hits)) {
+    foreach (var s in hits) {
+        bool isAs     = fname.EndsWith(".as");
+        bool isHspdef = fname == "hspdef.as";
+        switch (s.Kind) {
+            case "dfnc": return (isAs && !isHspdef) ? METHOD : FUNCTION;
+            case "dexc": return METHOD;
+            case "dmac":
+                if (isHspdef) return MACRO;        // ビルトイン定数
+                if (isAs)     return METHOD;        // DLL binding
+                return FUNCTION;                    // ユーザ #define
+        }
+    }
+}
+
+// 3. hspcmp -lk のビルトインキーワード集合
+if (_builtins.Contains(word)) return TYPE_MACRO;
+
+// 4. それ以外 — TextMate grammar に委譲
+return -1;</code></pre>
+
+<h4>トークナイザ (LspServer.TokenizeHsp)</h4>
+<p>独自 mini-lexer。行単位で walk、<code>;</code>/<code>//</code>/<code>/* */</code>/<code>"..."</code>/<code>{"..."}</code> をスキップ。
+識別子は <code>[A-Za-z_][A-Za-z_0-9@]*</code> (<code>@</code> は <code>name@module</code> の区切りとして含める)。</p>
+
+<h4>Delta encoding (LSP 仕様)</h4>
+<pre><code>// token = [deltaLine, deltaStart, length, typeIdx, modifierMask]
+// deltaLine = 前トークンとの行差
+// deltaStart = 同じ行なら前トークンとの列差、違う行なら行頭からの列
+// 全 token を (line, col) 昇順でソート済であること</code></pre>
+
+<!-- ======================================== -->
+<h2 id="build">6. ビルド手順</h2>
+
+<h4>全部入りビルド (初回)</h4>
+<pre><code># C# (nhspdap / hspls / nhspls)
+cd nhspc
+dotnet build NhspCompiler.sln -c Release
+
+# C++ (hsp3debug_dap.dll)
+MSBuild.exe plugins/win32/hsp3debug_dap/hsp3debug_dap.vcxproj \
+    -p:Configuration=Release -p:Platform=x64
+
+# C++ (hsp3cl_net_dbg_64.exe)
+MSBuild.exe hsp3net/hsp3cl_net_dbg_64.vcxproj \
+    -p:Configuration=Release -p:Platform=x64</code></pre>
+
+<h4>VS Code 拡張 (dev モード)</h4>
+<pre><code># 拡張自体は node.js なのでビルド不要
+# VS Code で nhspc/vscode-nhsp/ を開いて F5 で Extension Development Host が起動</code></pre>
+
+<div class="note">
+<strong>ファイルロック注意:</strong> Extension Development Host が起動中は
+<code>hspls.exe</code> / <code>nhspls.exe</code> がロックされて再ビルド失敗する。
+<code>taskkill /F /IM hspls.exe</code> で殺してからビルドすること (dev host は自動再起動する)。
+</div>
+
+<!-- ======================================== -->
+<h2 id="gotchas">7. 既知の罠 (踏みやすい順)</h2>
+
+<ol>
+<li>
+<strong>hspcmp64 の <code>-d</code> だけでは DLL がロードされない。</strong><br>
+<code>-d</code> はデバッグ情報を .ax に埋め込むだけ。hsp3debug.dll がロードされるためには
+<code>HSPHED_BOOTOPT_DEBUGWIN</code> が立っている必要があり、これは <code>-w</code> (debug window force) で立つ。
+結論: デバッグ対象は必ず <code>hspcmp64 -d -w -i foo.hsp</code> でコンパイルする。
+</li>
+
+<li>
+<strong>/clr mixed-mode + 同一 duplex pipe の concurrent ReadFile + WriteFile は壊れる。</strong><br>
+<code>ERROR_BROKEN_PIPE (109)</code> が ReadFile 直後に発生。2 本の simplex pipe に分けるのが唯一の解。
+</li>
+
+<li>
+<strong>HSP の str 変数は sbAlloc 可変長バッファ。memcpy で直書きすると死ぬ。</strong><br>
+<code>pv-&gt;pt</code> は「文字列バッファへの char*」であって「バッファ本体」ではない。
+書換は <code>sbStrCopy(&amp;pv-&gt;pt, new_value)</code> で行う (可変長なので再確保が必要)。
+</li>
+
+<li>
+<strong>hspcmp に絶対 path を渡すと -ll/-lv/-ls の file 欄も絶対 path になる。</strong><br>
+basename 正規化で比較するコードが両側 (DLL の BP マッチャ、LSP の Local フィルタ) に要る。
+</li>
+
+<li>
+<strong>stackTrace の source.path は絶対 path 必須。</strong><br>
+VS Code が相対 path で source を開けず内部エラー (<code>Cannot read properties of undefined</code>) で落ちる。
+setBreakpoints 時に basename → absolute path マップを保持して、stackTrace 時に絶対化する。
+</li>
+
+<li>
+<strong>子プロセスの stdout は block-buffered になる。</strong><br>
+親 (nhspdap) が pipe 経由で読むとき、HSP runtime の <code>fputs(mes, stdout)</code> は end/exit まで
+溜まる。<code>setvbuf(stdout, NULL, _IONBF, 0)</code> で runtime 起動時に無効化。
+</li>
+
+<li>
+<strong>CLR /clr exe の <code>__declspec(dllexport)</code> 変数は動く、ただし .cpp が /clr でない時のみ安全。</strong><br>
+hsp3code.cpp は <code>&lt;CompileAs&gt;CompileAsCpp&lt;/CompileAs&gt;</code> でネイティブビルド指定。
+/clr ファイルに dllexport 変数を書くと AppDomain 分離等で挙動が不安定。
+</li>
+
+<li>
+<strong>std::mutex は non-recursive。</strong><br>
+set_bp ハンドラが g_bp_mutex を保持したまま sync_bp_count_to_exe を呼び、そこで再ロックすると
+例外になる。<code>_locked</code> サフィックスで「lock 済前提」を明示する命名規則で統一。
+</li>
+
+<li>
+<strong>package.json の <code>languageModelTools</code> は canBeReferencedInPrompt で
+<code>modelDescription</code> + <code>toolReferenceName</code> 必須。</strong><br>
+VS Code の API が変わった。legacy に無い型で <code>Extension CANNOT register tool</code> エラー。
+</li>
+
+<li>
+<strong><code>.hsp</code> → <code>hsp</code> 言語マッピングが無いと BP を置けない。</strong><br>
+package.json の <code>contributes.languages</code> に <code>{id:"hsp", extensions:[".hsp"]}</code> を
+登録しないと、<code>breakpoints: [{language:"hsp"}]</code> が効かない。
+</li>
+
+<li>
+<strong>HSP runtime は空行を dispatch しない。</strong><br>
+BP を blank 行に設定しても絶対ヒットしない。adapter 側で「最も近い次の実行行」にスナップする
+機能は未実装 (v2)。ユーザに <code>_bp_target = 1</code> のような明示的な BP 行を用意してもらう想定。
+</li>
+
+<li>
+<strong>外部 DLL 関数の hspcmp kind は <code>dfnc</code> でも <code>dmac</code> でもなく <code>dexc</code>。</strong><br>
+正規表現 <code>(dfnc|dlab|dvar|dmac|dmod)</code> だけでパースすると <code>GetTickCount</code> 等が
+未分類になる (method カラーが出ない)。<code>dexc</code> を必ず含める。
+</li>
+</ol>
+
+<!-- ======================================== -->
+<h2 id="extend">8. 拡張方法</h2>
+
+<h3>新しい LSP メソッドを追加する</h3>
+<ol>
+<li><code>nhspc/HspLanguageServer/LspServer.cs</code> の <code>HandleRequest</code> switch に case 追加</li>
+<li>ハンドラメソッドを実装 (例: <code>HandleReferences(ps)</code>)</li>
+<li>capabilities にプロパティ追加 (<code>BuildInitializeResult</code>)</li>
+<li><code>nhspc/vscode-nhsp/src/hsp-lsp-client.js</code> にラッパメソッド追加</li>
+<li><code>extension.js</code> で VS Code Provider 登録
+(<code>vscode.languages.registerReferenceProvider</code> 等)</li>
+</ol>
+
+<h3>新しい変数型の書換サポート</h3>
+<ol>
+<li><code>hsp3net/hsp3code.cpp</code> に <code>hsp3dap_set_var_&lt;type&gt;</code> を export として追加</li>
+<li>DLL の <code>hsp3debug_dap.cpp</code> で:
+  <ul>
+  <li>関数ポインタ型を定義</li>
+  <li><code>g_fn_set_&lt;type&gt;</code> グローバル追加</li>
+  <li><code>debugini</code> で GetProcAddress 解決</li>
+  <li><code>handle_command("set_var"/"evaluate")</code> で HSPVAR_FLAG を見て dispatch</li>
+  </ul>
+</li>
+<li>HSPVAR_FLAG 定数を <code>hsp3debug_dap.cpp</code> の enum に追加</li>
+</ol>
+
+<h3>新しいセマンティックトークンカテゴリ</h3>
+<ol>
+<li><code>LspServer.cs</code> の <code>TokenTypes</code> 配列に追加 (順序 = ABI)</li>
+<li>対応する <code>TYPE_&lt;X&gt;</code> 定数追加</li>
+<li><code>ClassifyIdentifier</code> にロジック追加</li>
+<li><code>extension.js</code> の <code>SemanticTokensLegend</code> を同じ順に揃える</li>
+</ol>
+
+<h3>新しい DAP イベント/コマンド</h3>
+<ol>
+<li>DLL の <code>handle_command</code> に case 追加 or <code>debug_notice</code> で evt 送信</li>
+<li>adapter の <code>DapSession.HandleRequest</code> に case 追加</li>
+<li>adapter の <code>DebuggeeBridge.SendRequest</code> で同期往復</li>
+<li>必要なら VS Code capabilities を <code>Initialize</code> で true に</li>
+</ol>
+
+<footer>
+IronHSP — VS Code 統合 内部仕様書 / 2026-04-20
+</footer>
+
+</div>
+</body>
+</html>

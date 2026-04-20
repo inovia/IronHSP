@@ -32,7 +32,7 @@
       {
         "id": "hsp",
         "aliases": ["HSP", "hsp", "HSP3"],
-        "extensions": [".hsp"],
+        "extensions": [".hsp", ".as"],
         "configuration": "./language-configuration.json"
       }
     ],

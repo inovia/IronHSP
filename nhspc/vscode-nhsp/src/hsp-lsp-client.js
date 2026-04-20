@@ -71,7 +71,10 @@ class HspLanguageClient {
     }
 
     didOpen(document) {
-        if (!this.proc || document.languageId !== 'hsp') return;
+        if (!this.proc) return;
+        // Support both .hsp main files and .as include files — VS Code
+        // maps both to languageId="hsp" via contributes.languages.
+        if (document.languageId !== 'hsp') return;
         const uri = document.uri.toString();
         this.openDocs.add(uri);
         this._sendNotification('textDocument/didOpen', {

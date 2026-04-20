@@ -42,7 +42,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-18 (179 iron_* モジュール + 34 C++ DLL / hspmathex.dll で bigint/bigdec HSPVAR 型拡張 + SSE/AVX SIMD 追加 / .NET・AI・ネットワーク 25 モジュール / WASAPI・仮想カメラ・TaskDialog)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-20 (VS Code 統合: DAP デバッガ + HSP LSP サーバ + セマンティックトークンで 4 色分類 / 179 iron_* モジュール + 34 C++ DLL / hspmathex.dll で bigint/bigdec HSPVAR 型拡張 + SSE/AVX SIMD / .NET・AI・ネットワーク 25 モジュール / WASAPI・仮想カメラ・TaskDialog)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="warning-banner">
@@ -82,7 +82,15 @@
   <li><a href="#win32api">8. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
   <li><a href="#modules-ref">9. プラグイン &amp; モジュール リファレンス</a></li>
   <li><a href="#notes">10. 注意事項・既知の制限</a></li>
-  <li><a href="#changelog">11. 変更履歴</a></li>
+  <li><a href="#vscode">11. VS Code IDE 統合 (デバッガ / LSP / 色分け)</a>
+    <ul style="padding-left:1.2rem;">
+    <li><a href="#vscode-dap">11.1 DAP デバッガ</a></li>
+    <li><a href="#vscode-lsp">11.2 言語サーバ (hspls)</a></li>
+    <li><a href="#vscode-tokens">11.3 セマンティックトークン (4 色分類)</a></li>
+    <li><a href="#vscode-setup">11.4 セットアップ</a></li>
+    </ul>
+  </li>
+  <li><a href="#changelog">12. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -2113,10 +2121,162 @@ mes "v = " + v->x + ", " + v->y + ", " + v->z</code></pre>
 </div>
 
 <!-- ======================================== -->
-<h2 id="changelog">11. 変更履歴</h2>
+<h2 id="vscode">11. VS Code IDE 統合 (デバッガ / LSP / 色分け)</h2>
+
+<p>HSP3 (<code>.hsp</code>) ファイルに対して、VS Code で <strong>Python / C# と同等のデバッグ体験</strong>
+と <strong>IDE 機能 (定義ジャンプ / ホバー / アウトライン / 4 色分類)</strong> が利用可能です。
+拡張機能は <code>nhspc/vscode-nhsp/</code> にあり、<code>.nhsp</code> 用の既存機能に加え、
+本セクションの .hsp 専用機能を追加で提供します。</p>
+
+<div class="card">
+<h3>3 つのランタイム / アダプタ / 言語サーバ</h3>
+<table>
+<tr><th>プロセス</th><th>役割</th><th>プロトコル</th></tr>
+<tr><td><code>hsp3cl_net_dbg_64.exe</code></td><td>デバッグ用 HSP3 ランタイム (<code>HSP3_DAP_MODE</code> ビルド)</td><td>—</td></tr>
+<tr><td><code>hsp3debug_dap_64.dll</code></td><td>ランタイムにロードされる HSP3DEBUG ハンドラ。2 本の名前付きパイプで adapter と通信</td><td>Named Pipe</td></tr>
+<tr><td><code>nhspdap.exe</code></td><td>DAP アダプタ (C# .NET 4.8)。VS Code と名前付きパイプの間を仲介</td><td>DAP (stdio, Content-Length)</td></tr>
+<tr><td><code>hspls.exe</code></td><td>HSP3 用 LSP サーバ (C# .NET 4.8)。<code>hspcmp64</code> を subprocess 実行してシンボル情報を得る</td><td>LSP (stdio, Content-Length)</td></tr>
+</table>
+</div>
+
+<h3 id="vscode-dap">11.1 DAP デバッガ</h3>
+<p><code>.ax</code> ファイル (<code>hspcmp64 -d -w</code> でコンパイル) を対象に、VS Code の標準デバッグ UI
+(ブレークポイント / ステップ実行 / 変数パネル / コールスタック / Debug Console) が利用できます。</p>
+
+<h4>サポート機能</h4>
+<ul>
+  <li><strong>ブレークポイント</strong> — ソース行マージンクリックで赤丸 BP。ヒット時に VS Code が停止状態へ</li>
+  <li><strong>変数表示</strong> — 停止中に Variables パネルに全変数が表示される (型 + 値)。モジュール変数は <code>m_val@mymod</code> 形式</li>
+  <li><strong>変数書換</strong> — Variables パネルで値をダブルクリック編集、または Debug Console で <code>x = 999</code> / <code>iarr(1,2) = 77</code> / <code>m_val@mymod = 555</code> など HSP 式で</li>
+  <li><strong>コールスタック</strong> — 現在位置 + gosub / <code>#deffunc</code> 呼び出しフレーム</li>
+  <li><strong>mes 出力リアルタイム表示</strong> — Debug Console に <code>stdout</code> が即時反映 (runtime の <code>stdout</code> は line-unbuffered 化済)</li>
+  <li><strong>ホバー評価</strong> — 変数名にマウスオーバーで現在値表示</li>
+  <li><strong>ステップ実行</strong> — F10 / F11 で行単位 (step_over / step_out は現状 step_in と同等)</li>
+</ul>
+
+<div class="note">
+<strong>対応ファイル拡張子:</strong> <code>.hsp</code> (メインソース) および <code>.as</code>
+(include 用ヘッダ) の両方に色分け・定義ジャンプ・ホバー・アウトライン・診断が適用されます。
+デバッガの対象は <code>.ax</code> (コンパイル済バイトコード) のみ。
+</div>
+
+<h4>変数書換対応型</h4>
+<table>
+<tr><th>型</th><th>宣言</th><th>スカラー</th><th>多次元配列</th><th>モジュール変数</th></tr>
+<tr><td><code>int</code></td><td><code>dim</code></td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>int64</code></td><td><code>dim64</code></td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>double</code></td><td><code>ddim</code></td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>str</code></td><td><code>sdim</code></td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>wstr</code></td><td><code>wdim</code> (IronHSP)</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>label / struct / nstruct / comobj / variant / netobj / map</td><td>—</td><td colspan="3">非対応 (将来対応予定)</td></tr>
+</table>
+
+<h4>launch.json</h4>
+<pre><code>{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "hsp3net",
+      "request": "launch",
+      "name": "HSP3 Debug",
+      "program": "${workspaceFolder}/foo.ax",
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": true
+    }
+  ]
+}</code></pre>
+
+<h3 id="vscode-lsp">11.2 言語サーバ (hspls)</h3>
+<p><code>hspls.exe</code> は stdio LSP サーバで、内部的に <code>hspcmp64.exe -ll -lv -ls -lk</code> を
+subprocess 起動し、出力のシンボルリストを LSP 機能に変換します。<strong>本物のパーサ (hspcmp) の出力</strong>
+を使うので、HSP3 の文法に 100% 忠実な解釈が保証されます。</p>
+
+<h4>対応 LSP 機能</h4>
+<table>
+<tr><th>機能</th><th>LSP メソッド</th><th>動作</th></tr>
+<tr><td>構文エラー表示</td><td><code>publishDiagnostics</code></td><td>hspcmp の "<code>foo.hsp(N) : error C : msg</code>" をパースして赤波線を表示</td></tr>
+<tr><td>定義へジャンプ</td><td><code>textDocument/definition</code></td><td>F12 or Ctrl+クリック → <code>#deffunc</code> / <code>#const</code> / <code>*label</code> / 変数宣言位置へ</td></tr>
+<tr><td>ホバー情報</td><td><code>textDocument/hover</code></td><td>種別 (function/DLL function/macro/variable/label) + 定義ファイル:行</td></tr>
+<tr><td>アウトライン表示</td><td><code>textDocument/documentSymbol</code></td><td>Explorer → OUTLINE に関数/変数/ラベル/モジュール一覧</td></tr>
+<tr><td>補完候補</td><td><code>textDocument/completion</code></td><td>ワークスペース全シンボル + HSP3 builtin キーワード。<code>#</code>/<code>@</code> トリガ対応</td></tr>
+<tr><td>色分け (4 分類)</td><td><code>textDocument/semanticTokens/full</code></td><td>11.3 参照</td></tr>
+</table>
+
+<h3 id="vscode-tokens">11.3 セマンティックトークン (4 色分類)</h3>
+<p>LSP のセマンティックトークンで、識別子を実シンボル情報に基づいて 4 カテゴリに分類します。
+TextMate grammar の regex では判別できない「ユーザ定義 vs 外部 DLL」を区別できます。</p>
+
+<table>
+<tr><th>カテゴリ</th><th>LSP token type</th><th>判定条件</th><th>例</th></tr>
+<tr><td>ユーザ定義</td><td><code>function</code></td><td>hspcmp 出力の <code>dfnc</code> (<code>#deffunc</code>/<code>#defcfunc</code>) で <code>.hsp</code> 由来、または <code>dmac</code> で <code>.hsp</code> 由来 (<code>#define</code>/<code>#const</code>)</td><td><code>greet</code>, <code>compute_sum</code>, <code>mod_show</code></td></tr>
+<tr><td>外部 DLL</td><td><code>method</code></td><td>hspcmp 出力の <code>dexc</code> (<code>#func</code>/<code>#cfunc</code>)、または <code>dmac</code>/<code>dfnc</code> で <code>.as</code> (<code>hspdef.as</code> を除く) 由来</td><td><code>GetTickCount</code>, <code>MessageBoxA</code>, <code>Sleep</code></td></tr>
+<tr><td>ビルトイン</td><td><code>macro</code></td><td><code>hspcmp -lk</code> 出力のランタイム組込コマンド/関数、または <code>dmac</code> で <code>hspdef.as</code> 由来</td><td><code>mes</code>, <code>dim</code>, <code>sdim</code>, <code>screen_normal</code>, <code>ginfo_mx</code></td></tr>
+<tr><td>制御構文</td><td><code>keyword</code></td><td>ハードコード辞書の制御フロー構文</td><td><code>if</code>, <code>else</code>, <code>repeat</code>, <code>loop</code>, <code>return</code>, <code>goto</code></td></tr>
+</table>
+
+<div class="note">
+<strong>色を強調したい場合:</strong> VS Code の <code>settings.json</code> に以下を追加すると 4 色に明確な差がつきます:
+<pre><code>"editor.semanticTokenColorCustomizations": {
+  "enabled": true,
+  "rules": {
+    "function": "#FFD700",
+    "method":   "#87CEEB",
+    "macro":    "#DA70D6",
+    "keyword":  "#FF69B4"
+  }
+}</code></pre>
+</div>
+
+<h3 id="vscode-setup">11.4 セットアップ</h3>
+
+<h4>必要バイナリ (ソリューションをビルドすれば自動生成)</h4>
+<ul>
+  <li><code>nhspc/nhspdap/bin/Release/net48/nhspdap.exe</code></li>
+  <li><code>nhspc/HspLanguageServer/bin/Release/net48/hspls.exe</code></li>
+  <li><code>nhspc/NhspLanguageServer/bin/Release/net48/nhspls.exe</code></li>
+  <li><code>hsp3net/Release_dbg/hsp3cl_net_dbg_64.exe</code></li>
+  <li><code>plugins/win32/hsp3debug_dap/Release/hsp3debug_dap_64.dll</code></li>
+</ul>
+
+<h4>VS Code 拡張 (dev モード起動)</h4>
+<ol>
+  <li>VS Code で <code>nhspc/vscode-nhsp/</code> フォルダを開く</li>
+  <li>F5 → "Run Extension" (<code>.vscode/launch.json</code> に設定済) で Extension Development Host が起動</li>
+  <li>Extension Development Host 側で <code>.hsp</code> ファイルのあるフォルダを開く</li>
+  <li>色分け / アウトライン / 定義ジャンプ / ホバー / 補完 が自動的に有効</li>
+</ol>
+
+<h4>launch.json のあるフォルダで F5 → DAP デバッガ起動</h4>
+<ol>
+  <li><code>.hsp</code> を <code>hspcmp64 -d -w -i foo.hsp</code> でコンパイル (<code>-w</code> が重要: <code>HSPHED_BOOTOPT_DEBUGWIN</code> をセットしないと <code>hsp3debug.dll</code> がロードされない)</li>
+  <li><code>.vscode/launch.json</code> に <code>{"type": "hsp3net", "program": "foo.ax"}</code> を記述</li>
+  <li>F5 → nhspdap.exe 起動 → hsp3cl_net_dbg_64.exe 起動 → hsp3debug_dap_64.dll が <code>hsp3debug.dll</code> としてロード → デバッグ開始</li>
+</ol>
+
+<div class="note">
+<strong>実装詳細:</strong> アーキテクチャ、プロトコル仕様、コードガイドは
+<a href="vscode_integration_internals.html">VS Code 統合 内部仕様書</a> 参照。
+</div>
+
+<!-- ======================================== -->
+<h2 id="changelog">12. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+
+<tr><td>4/20 20:08</td><td><code>25c95535</code></td><td><span class="badge">改善</span> <strong>外部 DLL 関数 (dexc) 分類対応 + hello_debug.hsp 4 カテゴリ網羅</strong>: hspcmp の <code>#func</code> 出力 kind は <code>dfnc</code>/<code>dmac</code> ではなく <code>dexc</code> という別種であることが判明 → SymbolRx に追加、ClassifyIdentifier で dexc → TYPE_METHOD に。temp/vscode_dbg_test/hello_debug.hsp をユーザ定義 / 外部 DLL (GetTickCount/Sleep) / ビルトイン / 制御構文 の 4 カテゴリ全部入りデモに</td></tr>
+
+<tr><td>4/20 20:07</td><td><code>984a8346</code></td><td><span class="badge">新機能</span> <strong>HSP LSP セマンティックトークンで 3+1 色分類</strong>: <code>textDocument/semanticTokens/full</code> 実装。hspcmp の -ll/-lv/-ls (WorkspaceSymbols) + -lk (ビルトイン集合) を併用して識別子を 4 カテゴリに分類 — ユーザ定義 (<code>function</code>) / 外部 DLL (<code>method</code>) / ビルトイン (<code>macro</code>) / 制御構文 (<code>keyword</code>)。TextMate grammar の regex では判別不能な「ユーザ vs 外部 DLL」を semantic 情報で区別</td></tr>
+
+<tr><td>4/20 20:06</td><td><code>c034a253</code></td><td><span class="badge">バグ修正</span> <strong>hspls / nhspls の sibling パス探索 + temp ファイル方式</strong>: 独立ワークスペース (temp/vscode_dbg_test 等) 下で <code>_findServer()</code> が exe を見つけられず LSP 無効化される問題。<code>context.extensionPath</code> を client に渡し、<code>extDir/../HspLanguageServer/bin/...</code> で sibling 探索。併せて LspServer.ReparseDoc がユーザの本ファイルを <code>File.WriteAllText</code> で上書きする危険実装を、サイドカー temp ファイルに書いて hspcmp に食わせ処理後削除する方式に変更</td></tr>
+
+<tr><td>4/20 20:05</td><td><code>3c4a5dd4</code></td><td><span class="badge">新機能</span> <strong>HSP 用 LSP サーバ hspls.exe + TextMate grammar</strong>: hspcmp64 の -ll/-lv/-ls 出力を parse して <code>textDocument/definition</code> / <code>hover</code> / <code>documentSymbol</code> / <code>completion</code> / <code>publishDiagnostics</code> を実装 (C# .NET 4.8, 新規 <code>nhspc/HspLanguageServer/</code>)。HSP3 用 TextMate grammar (キーワード/プリプロセッサ/数値/文字列/ラベル/モジュール参照) も追加。vscode-nhsp 拡張が <code>.hsp</code> ファイルに対して定義ジャンプ/ホバー/アウトライン/補完を提供。本物のパーサ (hspcmp) を流用しているので HSP3 文法に 100% 忠実</td></tr>
+
+<tr><td>4/20 20:04</td><td><code>38a01839</code></td><td><span class="badge">バグ修正</span> <strong>VS Code DAP の UX 問題 4 つ修正</strong>: (1) mes 出力が end まで溜まる → runtime の stdout を <code>setvbuf(_IONBF)</code> で無効化、(2) Debug Console で日本語文字化け → nhspdap の <code>StandardOutputEncoding</code> を UTF-8 に、(3) Variables パネルで編集すると変数名 dump が書き込まれる → value フィールドを「内容:」行だけに整形、(4) VS Code が相対 path の source を開けず落ちる → stackTrace 時に basename→absolute path マップで絶対化</td></tr>
+
+<tr><td>4/20 20:02〜20:03</td><td><code>0aebb4ee</code> / <code>493d7be0</code></td><td><span class="badge">新機能</span> <strong>DAP setVariable / evaluate (5 型 × スカラー/多次元配列/モジュール変数)</strong>: Variables パネルからの直接編集と Debug Console での <code>iarr(1,2) = 77</code> 形式の HSP 式書換に対応。hsp3code.cpp に <code>hsp3dap_set_var_int/int64/double/str/wstr</code> を export (str は sbStrCopy 経由で安全)、DLL 側の set_var/evaluate コマンドが型判定して適切なセッターへディスパッチ。BP パスは basename 正規化で VS Code の絶対パスと runtime の相対パス両方に対応</td></tr>
+
+<tr><td>4/20 20:00〜20:01</td><td><code>a025002b</code> / <code>e6cff7ab</code></td><td><span class="badge">新機能</span> <strong>HSP3 用 VS Code DAP デバッガ (Phase 1〜3)</strong>: <code>hsp3cl_net_dbg_64.exe</code> (HSP3_DAP_MODE ビルド) + <code>hsp3debug_dap_64.dll</code> (名前付きパイプサーバ、2-pipe 構成で /clr 下の concurrent R/W 問題回避) + <code>nhspdap.exe</code> (C# DAP アダプタ、stdio Content-Length framing) + vscode-nhsp 拡張の <code>type:"hsp3net"</code> debugger contribution。BP 設定 → 停止 → 変数列挙 → コールスタック → 続行/ステップ → 終了 の全 DAP フローを実 VS Code で確認</td></tr>
 
 <tr><td>4/19 12:15</td><td><code>hspmqtt</code></td><td><span class="badge">新機能</span> <strong>hspmqtt.dll — 最小 MQTT 3.1.1 クライアント</strong>: 純 C + Winsock で書いた ~330 LOC 単一 cpp プラグイン。paho.mqtt.c / mosquitto 等の外部 SDK 不要 (<code>ws2_32.lib</code> のみ)。CONNECT/CONNACK/PUBLISH QoS0/SUBSCRIBE QoS0/PINGREQ/DISCONNECT 対応。同時 8 セッション、keepalive 自動 PINGREQ。x86/x64 両ビルド (122KB / 161KB)。TLS / QoS1-2 / LWT / MQTT 5.0 は非対応 (v2)。<code>test_mqtt.hsp</code> 2/2 pass (broker 不要)</td></tr>
 
