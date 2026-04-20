@@ -1,0 +1,186 @@
+;============================================================
+;   iron_credman_net.hsp — Windows 資格情報マネージャ (.NET 版)
+;
+;   advapi32 の CredRead / CredWrite / CredDelete を C#/PInvoke
+;   でラップし、OS 標準の「資格情報マネージャ」に ID/パスワードを
+;   保存して安全に取り出せるようにする。
+;
+;   保存対象:
+;     CRED_TYPE_GENERIC (= 1): 汎用。API キーや独自 ID/PW 用
+;
+;   特徴:
+;     - Windows Credential Manager (controluserpasswords2 と同じ場所)
+;     - DPAPI でユーザー単位に暗号化される (平文ファイルで持つより安全)
+;     - Persistence = LocalMachine (3) だと端末全体で共通利用可
+;
+;   API:
+;     credmann_write "target", "user", "password"     → stat 0=OK
+;     credmann_read  "target", var_user, var_pw       → stat 0=OK / 1=not found
+;     credmann_delete "target"                        → stat 0=OK / 1=not found
+;     credmann_exists("target")                        → stat 1/0
+;
+;   依存アセンブリ: なし (P/Invoke は CLR ランタイムのみ)
+;============================================================
+#ifndef __iron_credman_net_hsp__
+#define __iron_credman_net_hsp__
+
+#module iron_credman_net
+
+dim _credmann_cs_loaded, 1
+
+#deffunc _credmann_load_cs
+	if _credmann_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+
+public class HspCredManNet {
+    const int CRED_TYPE_GENERIC = 1;
+    const int CRED_PERSIST_LOCAL_MACHINE = 2;
+    const int CRED_MAX_CREDENTIAL_BLOB_SIZE = 512 * 5;
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    struct CREDENTIAL {
+        public int Flags;
+        public int Type;
+        public string TargetName;
+        public string Comment;
+        public System.Runtime.InteropServices.ComTypes.FILETIME LastWritten;
+        public int CredentialBlobSize;
+        public IntPtr CredentialBlob;
+        public int Persist;
+        public int AttributeCount;
+        public IntPtr Attributes;
+        public string TargetAlias;
+        public string UserName;
+    }
+
+    [DllImport("advapi32.dll", EntryPoint = "CredReadW", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern bool CredRead(string target, int type, int reservedFlag, out IntPtr CredentialPtr);
+
+    [DllImport("advapi32.dll", EntryPoint = "CredWriteW", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern bool CredWrite([In] ref CREDENTIAL userCredential, [In] uint flags);
+
+    [DllImport("advapi32.dll", EntryPoint = "CredDeleteW", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern bool CredDelete(string target, int type, int flags);
+
+    [DllImport("advapi32.dll", SetLastError = true)]
+    static extern bool CredFree([In] IntPtr cred);
+
+    public static string Write(string target, string user, string pw) {
+        try {
+            byte[] pwBytes = Encoding.Unicode.GetBytes(pw ?? "");
+            if (pwBytes.Length > CRED_MAX_CREDENTIAL_BLOB_SIZE)
+                return "-1\tPASSWORD_TOO_LARGE";
+            IntPtr blob = Marshal.AllocHGlobal(pwBytes.Length);
+            try {
+                Marshal.Copy(pwBytes, 0, blob, pwBytes.Length);
+                var c = new CREDENTIAL();
+                c.Type = CRED_TYPE_GENERIC;
+                c.TargetName = target;
+                c.CredentialBlobSize = pwBytes.Length;
+                c.CredentialBlob = blob;
+                c.Persist = CRED_PERSIST_LOCAL_MACHINE;
+                c.UserName = user ?? "";
+                bool ok = CredWrite(ref c, 0);
+                if (!ok) return "-1\tCredWrite=" + Marshal.GetLastWin32Error();
+                return "0";
+            } finally {
+                Marshal.FreeHGlobal(blob);
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string Read(string target) {
+        IntPtr p = IntPtr.Zero;
+        try {
+            if (!CredRead(target, CRED_TYPE_GENERIC, 0, out p)) {
+                int err = Marshal.GetLastWin32Error();
+                if (err == 1168 /* ERROR_NOT_FOUND */) return "1\t\t";
+                return "-1\tCredRead=" + err;
+            }
+            var c = (CREDENTIAL)Marshal.PtrToStructure(p, typeof(CREDENTIAL));
+            string user = c.UserName ?? "";
+            string pw = "";
+            if (c.CredentialBlob != IntPtr.Zero && c.CredentialBlobSize > 0) {
+                byte[] bytes = new byte[c.CredentialBlobSize];
+                Marshal.Copy(c.CredentialBlob, bytes, 0, c.CredentialBlobSize);
+                pw = Encoding.Unicode.GetString(bytes);
+            }
+            return "0\t" + user + "\t" + pw;
+        } catch (Exception e) { return "-1\t" + e.Message; }
+        finally { if (p != IntPtr.Zero) CredFree(p); }
+    }
+
+    public static string Delete(string target) {
+        try {
+            if (!CredDelete(target, CRED_TYPE_GENERIC, 0)) {
+                int err = Marshal.GetLastWin32Error();
+                if (err == 1168) return "1";
+                return "-1";
+            }
+            return "0";
+        } catch { return "-1"; }
+    }
+
+    public static string Exists(string target) {
+        IntPtr p = IntPtr.Zero;
+        try {
+            bool ok = CredRead(target, CRED_TYPE_GENERIC, 0, out p);
+            return ok ? "1" : "0";
+        } catch { return "0"; }
+        finally { if (p != IntPtr.Zero) CredFree(p); }
+    }
+}
+"}
+	loadnet _cs, 3
+	_credmann_cs_loaded = 1
+	return
+
+#deffunc credmann_write str target, str user, str pw, \
+	local _h, local _r
+	_credmann_load_cs
+	newnet _h, "HspCredManNet"
+	mcall _h, "Write", _r, target, user, pw
+	return int("" + _r)
+
+#deffunc credmann_read str target, var v_user, var v_pw, \
+	local _h, local _r, local _s, local _t1, local _t2, local _code
+	sdim v_user, 512
+	sdim v_pw, 512
+	v_user = "" : v_pw = ""
+	_credmann_load_cs
+	newnet _h, "HspCredManNet"
+	mcall _h, "Read", _r, target
+	_s = "" + _r
+	_t1 = instr(_s, 0, "\t")
+	if _t1 < 0 : return -1
+	_code = int(strmid(_s, 0, _t1))
+	if _code != 0 : return _code
+	_t2 = instr(_s, _t1 + 1, "\t")
+	if _t2 < 0 {
+		v_user = strmid(_s, _t1 + 1, strlen(_s) - _t1 - 1)
+		return 0
+	}
+	v_user = strmid(_s, _t1 + 1, _t2 - _t1 - 1)
+	v_pw   = strmid(_s, _t2 + 1, strlen(_s) - _t2 - 1)
+	return 0
+
+#deffunc credmann_delete str target, \
+	local _h, local _r
+	_credmann_load_cs
+	newnet _h, "HspCredManNet"
+	mcall _h, "Delete", _r, target
+	return int("" + _r)
+
+#defcfunc credmann_exists str target, \
+	local _h, local _r
+	_credmann_load_cs
+	newnet _h, "HspCredManNet"
+	mcall _h, "Exists", _r, target
+	return int("" + _r)
+
+#global
+#endif

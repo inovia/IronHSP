@@ -1,0 +1,186 @@
+;============================================================
+;   iron_ldap_net.hsp — LDAP / Active Directory クライアント (.NET 版)
+;
+;   System.DirectoryServices.DirectoryEntry + DirectorySearcher を
+;   使って LDAP v3 / Active Directory に問い合わせる。
+;   hsp3net 専用。
+;
+;   特徴:
+;     - LDAP / LDAPS 両対応 (server URL 先頭の ldap:// / ldaps:// で指定)
+;     - Windows 統合認証 (資格情報を空文字にすると現行 SID)
+;     - 単純バインド (DN + password) 両対応
+;     - サブツリー検索 / 属性指定 / ページング
+;
+;   API:
+;     ldapn_bind  "ldap://dc.example.com", "CN=User,DC=example,DC=com", "pass"
+;                                        → stat 0=成功 / 非 0=失敗
+;     ldapn_auth  "user@example.com", "pass"
+;                                        → stat 1=認証成功 / 0=失敗
+;     ldapn_search "base_dn", "(objectClass=user)", "cn;mail;sAMAccountName",
+;                                          var_result_tsv
+;                                        stat=件数、result=TSV 形式
+;     ldapn_close
+;
+;   依存アセンブリ: System.DirectoryServices.dll (.NET Framework 標準)
+;============================================================
+#ifndef __iron_ldap_net_hsp__
+#define __iron_ldap_net_hsp__
+
+#module iron_ldap_net
+
+dim _ldapn_cs_loaded, 1
+
+#deffunc _ldapn_load_cs
+	if _ldapn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.DirectoryServices;
+using System.Text;
+
+public class HspLdapNet {
+    static DirectoryEntry root = null;
+    static string serverUrl = "";
+    static string bindDn = "";
+    static string bindPw = "";
+
+    public static string Bind(string url, string dn, string pw) {
+        try {
+            serverUrl = url; bindDn = dn; bindPw = pw;
+            if (root != null) { try { root.Dispose(); } catch {} root = null; }
+            root = new DirectoryEntry(url, dn, pw, AuthenticationTypes.Secure);
+            // Force a query to validate credentials
+            object _ = root.NativeObject;
+            return "0";
+        } catch (Exception e) {
+            return "-1\t" + e.Message;
+        }
+    }
+
+    public static string Auth(string user, string pw) {
+        // Use the default naming context (rootDSE) for auth check
+        try {
+            string url = string.IsNullOrEmpty(serverUrl) ? "LDAP://" : serverUrl;
+            using (var e = new DirectoryEntry(url, user, pw, AuthenticationTypes.Secure)) {
+                object _ = e.NativeObject;
+            }
+            return "1";
+        } catch {
+            return "0";
+        }
+    }
+
+    public static string Search(string baseDn, string filter, string attrsSemi) {
+        try {
+            string url = string.IsNullOrEmpty(serverUrl) ? "LDAP://" : serverUrl;
+            string fullUrl = url.TrimEnd('/') + "/" + baseDn;
+            using (var entry = new DirectoryEntry(fullUrl, bindDn, bindPw, AuthenticationTypes.Secure))
+            using (var searcher = new DirectorySearcher(entry)) {
+                searcher.Filter = string.IsNullOrEmpty(filter) ? "(objectClass=*)" : filter;
+                searcher.SearchScope = SearchScope.Subtree;
+                searcher.PageSize = 1000;
+                searcher.SizeLimit = 10000;
+                string[] attrs = string.IsNullOrEmpty(attrsSemi)
+                    ? new string[] { "distinguishedName", "cn", "mail", "sAMAccountName" }
+                    : attrsSemi.Split(';');
+                foreach (var a in attrs) if (!string.IsNullOrWhiteSpace(a)) searcher.PropertiesToLoad.Add(a.Trim());
+
+                var sb = new StringBuilder();
+                int count = 0;
+                using (var results = searcher.FindAll()) {
+                    foreach (SearchResult r in results) {
+                        // TSV: attr1=val1|attr2=val2|...\n
+                        var line = new StringBuilder();
+                        bool first = true;
+                        foreach (var a in attrs) {
+                            string name = a.Trim();
+                            if (string.IsNullOrEmpty(name)) continue;
+                            string val = "";
+                            if (r.Properties.Contains(name) && r.Properties[name].Count > 0) {
+                                val = r.Properties[name][0] == null ? "" : r.Properties[name][0].ToString();
+                            }
+                            if (!first) line.Append("|");
+                            line.Append(name).Append("=").Append(val.Replace("\r"," ").Replace("\n"," ").Replace("|","/"));
+                            first = false;
+                        }
+                        sb.AppendLine(line.ToString());
+                        count++;
+                    }
+                }
+                return count.ToString() + "\t" + sb.ToString();
+            }
+        } catch (Exception e) {
+            return "-1\tERROR:" + e.Message;
+        }
+    }
+
+    public static string Close() {
+        try {
+            if (root != null) { root.Dispose(); root = null; }
+            serverUrl = ""; bindDn = ""; bindPw = "";
+            return "0";
+        } catch { return "-1"; }
+    }
+}
+"}
+	loadnet _cs, 3, "System.DirectoryServices.dll"
+	_ldapn_cs_loaded = 1
+	return
+
+;------------------------------------------------------------
+; ldapn_bind "ldap://server", "bind_dn", "password"
+;------------------------------------------------------------
+#deffunc ldapn_bind str url, str dn, str pw, \
+	local _h, local _r, local _s, local _tab
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "Bind", _r, url, dn, pw
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab >= 0 : return int(strmid(_s, 0, _tab))
+	return int(_s)
+
+;------------------------------------------------------------
+; ldapn_auth "user@domain", "password"
+;   → stat: 1=成功 / 0=失敗
+;------------------------------------------------------------
+#defcfunc ldapn_auth str user, str pw, \
+	local _h, local _r
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "Auth", _r, user, pw
+	return int("" + _r)
+
+;------------------------------------------------------------
+; ldapn_search "base_dn", "filter", "attr1;attr2;attr3", var_tsv
+;   var_tsv に 1 行 1 entry で "attr1=val1|attr2=val2|..." が返る
+;   stat=件数 / -1=エラー
+;------------------------------------------------------------
+#deffunc ldapn_search str base_dn, str filter, str attrs, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "Search", _r, base_dn, filter, attrs
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 {
+		v_out = _s
+		return -1
+	}
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+;------------------------------------------------------------
+; ldapn_close
+;------------------------------------------------------------
+#deffunc ldapn_close \
+	local _h, local _r
+	_ldapn_load_cs
+	newnet _h, "HspLdapNet"
+	mcall _h, "Close", _r
+	return 0
+
+#global
+#endif

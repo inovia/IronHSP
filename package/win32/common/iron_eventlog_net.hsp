@@ -1,0 +1,146 @@
+;============================================================
+;   iron_eventlog_net.hsp — Windows Event Log 書き出し/読み取り (.NET 版)
+;
+;   System.Diagnostics.EventLog を使って Windows Event Log に
+;   Information / Warning / Error を書き込み、直近のエントリを
+;   TSV 形式で読み出す。
+;   hsp3net 専用。
+;
+;   特徴:
+;     - Application / System / Security など標準ログに書き込み可
+;     - ソース名が未登録の場合、管理者権限で自動登録
+;     - 古い EventLog API (EventLog.WriteEntry) なので WPP / EventSource は別途
+;
+;   API:
+;     evlogn_write "Source", "message", type        0=info / 1=warn / 2=error
+;     evlogn_write_log "LogName", "Source", "msg", type
+;     evlogn_read "LogName", "Source", count, var_tsv
+;                                                    → stat=件数、var_tsv
+;     evlogn_clear "LogName"                         管理者権限必要
+;     evlogn_exists("LogName")                       → stat 1/0
+;
+;   依存アセンブリ: なし (.NET Framework 標準)
+;============================================================
+#ifndef __iron_eventlog_net_hsp__
+#define __iron_eventlog_net_hsp__
+
+#module iron_eventlog_net
+
+dim _evlogn_cs_loaded, 1
+
+#deffunc _evlogn_load_cs
+	if _evlogn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Diagnostics;
+using System.Text;
+
+public class HspEventLogNet {
+    public static string Write(string source, string msg, int type) {
+        return WriteLog("Application", source, msg, type);
+    }
+
+    public static string WriteLog(string logName, string source, string msg, int type) {
+        try {
+            if (string.IsNullOrEmpty(source)) source = "IronHSP";
+            if (!EventLog.SourceExists(source)) {
+                try { EventLog.CreateEventSource(source, logName); }
+                catch { /* 管理者権限なし時はフォールバック */ source = "Application"; }
+            }
+            EventLogEntryType kind = EventLogEntryType.Information;
+            if (type == 1) kind = EventLogEntryType.Warning;
+            else if (type == 2) kind = EventLogEntryType.Error;
+            EventLog.WriteEntry(source, msg, kind);
+            return "0";
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string Read(string logName, string source, int count) {
+        try {
+            using (var log = new EventLog(logName)) {
+                int total = log.Entries.Count;
+                int want = count > 0 ? count : 100;
+                int start = total - want; if (start < 0) start = 0;
+                var sb = new StringBuilder();
+                int emitted = 0;
+                for (int i = total - 1; i >= start; i--) {
+                    var e = log.Entries[i];
+                    if (!string.IsNullOrEmpty(source) && !string.Equals(e.Source, source, StringComparison.OrdinalIgnoreCase)) continue;
+                    sb.Append("Time=").Append(e.TimeGenerated.ToString("yyyy-MM-dd HH:mm:ss")).Append("|");
+                    sb.Append("Source=").Append(e.Source ?? "").Append("|");
+                    sb.Append("EventID=").Append(e.InstanceId).Append("|");
+                    sb.Append("Type=").Append(e.EntryType.ToString()).Append("|");
+                    string m = e.Message ?? "";
+                    if (m.Length > 1024) m = m.Substring(0, 1024);
+                    sb.Append("Message=").Append(m.Replace("\r"," ").Replace("\n"," ").Replace("|","/"));
+                    sb.AppendLine();
+                    emitted++;
+                }
+                return emitted.ToString() + "\t" + sb.ToString();
+            }
+        } catch (Exception e) { return "-1\tERROR:" + e.Message; }
+    }
+
+    public static string Clear(string logName) {
+        try {
+            using (var log = new EventLog(logName)) {
+                log.Clear();
+                return "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string Exists(string logName) {
+        try {
+            return EventLog.Exists(logName) ? "1" : "0";
+        } catch { return "0"; }
+    }
+}
+"}
+	loadnet _cs, 3
+	_evlogn_cs_loaded = 1
+	return
+
+#deffunc evlogn_write str source, str msg, int type, \
+	local _h, local _r
+	_evlogn_load_cs
+	newnet _h, "HspEventLogNet"
+	mcall _h, "Write", _r, source, msg, type
+	return int("" + _r)
+
+#deffunc evlogn_write_log str logName, str source, str msg, int type, \
+	local _h, local _r
+	_evlogn_load_cs
+	newnet _h, "HspEventLogNet"
+	mcall _h, "WriteLog", _r, logName, source, msg, type
+	return int("" + _r)
+
+#deffunc evlogn_read str logName, str source, int count, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_evlogn_load_cs
+	newnet _h, "HspEventLogNet"
+	mcall _h, "Read", _r, logName, source, count
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+#deffunc evlogn_clear str logName, \
+	local _h, local _r
+	_evlogn_load_cs
+	newnet _h, "HspEventLogNet"
+	mcall _h, "Clear", _r, logName
+	return int("" + _r)
+
+#defcfunc evlogn_exists str logName, \
+	local _h, local _r
+	_evlogn_load_cs
+	newnet _h, "HspEventLogNet"
+	mcall _h, "Exists", _r, logName
+	return int("" + _r)
+
+#global
+#endif

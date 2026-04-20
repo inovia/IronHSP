@@ -1,0 +1,213 @@
+;============================================================
+;   iron_ad_net.hsp — Active Directory 高レベル API (.NET 版)
+;
+;   System.DirectoryServices.AccountManagement を使って AD の
+;   ユーザー / グループ / 組織単位を扱いやすい API で提供する。
+;   iron_ldap_net.hsp より高レベルで、実務的なユーザー管理向き。
+;   hsp3net 専用。
+;
+;   API (全て stat で結果コード、refstr や out 変数に値):
+;     adn_ctx_machine                        ローカルマシン (Workgroup) 用コンテキスト
+;     adn_ctx_domain "example.com"           AD ドメイン用コンテキスト
+;     adn_validate "user", "password"        → stat 1=有効 / 0=失敗
+;     adn_user_info "user", var_tsv          → UPN / DN / Email / Display / Enabled etc
+;     adn_user_groups "user", var_text       → グループ名改行区切り
+;     adn_group_members "group", var_text    → ユーザー名改行区切り
+;     adn_user_enabled "user"                → stat 1/0
+;     adn_user_exists "user"                 → stat 1/0
+;
+;   依存アセンブリ: System.DirectoryServices.AccountManagement.dll
+;                    (Windows + .NET Framework 標準)
+;============================================================
+#ifndef __iron_ad_net_hsp__
+#define __iron_ad_net_hsp__
+
+#module iron_ad_net
+
+dim _adn_cs_loaded, 1
+
+#deffunc _adn_load_cs
+	if _adn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.DirectoryServices.AccountManagement;
+using System.Text;
+
+public class HspAdNet {
+    static ContextType ctxType = ContextType.Machine;
+    static string ctxName = null;
+    static PrincipalContext Ctx() {
+        return ctxName == null ? new PrincipalContext(ctxType)
+                                : new PrincipalContext(ctxType, ctxName);
+    }
+
+    public static string SetMachine() {
+        ctxType = ContextType.Machine; ctxName = null;
+        return "0";
+    }
+    public static string SetDomain(string domain) {
+        ctxType = ContextType.Domain;
+        ctxName = string.IsNullOrEmpty(domain) ? null : domain;
+        return "0";
+    }
+
+    public static string Validate(string user, string pw) {
+        try {
+            using (var ctx = Ctx()) {
+                bool ok = ctx.ValidateCredentials(user, pw);
+                return ok ? "1" : "0";
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string UserInfo(string user) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                if (u == null) return "-1\tNOT_FOUND";
+                var sb = new StringBuilder();
+                sb.Append("SamAccountName=").Append(u.SamAccountName ?? "").Append("|");
+                sb.Append("UserPrincipalName=").Append(u.UserPrincipalName ?? "").Append("|");
+                sb.Append("DistinguishedName=").Append(u.DistinguishedName ?? "").Append("|");
+                sb.Append("DisplayName=").Append(u.DisplayName ?? "").Append("|");
+                sb.Append("GivenName=").Append(u.GivenName ?? "").Append("|");
+                sb.Append("Surname=").Append(u.Surname ?? "").Append("|");
+                sb.Append("EmailAddress=").Append(u.EmailAddress ?? "").Append("|");
+                sb.Append("Description=").Append((u.Description ?? "").Replace("|","/")).Append("|");
+                sb.Append("Enabled=").Append(u.Enabled.HasValue ? (u.Enabled.Value ? "1" : "0") : "?").Append("|");
+                sb.Append("Locked=").Append(u.IsAccountLockedOut() ? "1" : "0").Append("|");
+                sb.Append("LastLogon=").Append(u.LastLogon.HasValue ? u.LastLogon.Value.ToString("yyyy-MM-dd HH:mm:ss") : "").Append("|");
+                sb.Append("BadLogons=").Append(u.BadLogonCount);
+                return "0\t" + sb.ToString();
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string UserGroups(string user) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                if (u == null) return "-1\tNOT_FOUND";
+                var sb = new StringBuilder();
+                using (var groups = u.GetGroups()) {
+                    foreach (var g in groups) {
+                        sb.AppendLine(g.SamAccountName ?? g.Name ?? "(null)");
+                        g.Dispose();
+                    }
+                }
+                return "0\t" + sb.ToString();
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string GroupMembers(string group) {
+        try {
+            using (var ctx = Ctx())
+            using (var g = GroupPrincipal.FindByIdentity(ctx, group)) {
+                if (g == null) return "-1\tNOT_FOUND";
+                var sb = new StringBuilder();
+                using (var members = g.GetMembers()) {
+                    foreach (var m in members) {
+                        sb.AppendLine(m.SamAccountName ?? m.Name ?? "(null)");
+                        m.Dispose();
+                    }
+                }
+                return "0\t" + sb.ToString();
+            }
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string UserEnabled(string user) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                if (u == null) return "0";
+                return (u.Enabled.HasValue && u.Enabled.Value) ? "1" : "0";
+            }
+        } catch { return "0"; }
+    }
+
+    public static string UserExists(string user) {
+        try {
+            using (var ctx = Ctx())
+            using (var u = UserPrincipal.FindByIdentity(ctx, user)) {
+                return u != null ? "1" : "0";
+            }
+        } catch { return "0"; }
+    }
+}
+"}
+	loadnet _cs, 3, "System.DirectoryServices.AccountManagement.dll"
+	_adn_cs_loaded = 1
+	return
+
+#deffunc adn_ctx_machine \
+	local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "SetMachine", _r
+	return 0
+
+#deffunc adn_ctx_domain str domain, local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "SetDomain", _r, domain
+	return 0
+
+#defcfunc adn_validate str user, str pw, local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "Validate", _r, user, pw
+	return int("" + _r)
+
+#deffunc adn_user_info str user, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 4096
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "UserInfo", _r, user
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+#deffunc adn_user_groups str user, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 8192
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "UserGroups", _r, user
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+#deffunc adn_group_members str group, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 32768
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "GroupMembers", _r, group
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+#defcfunc adn_user_enabled str user, local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "UserEnabled", _r, user
+	return int("" + _r)
+
+#defcfunc adn_user_exists str user, local _h, local _r
+	_adn_load_cs
+	newnet _h, "HspAdNet"
+	mcall _h, "UserExists", _r, user
+	return int("" + _r)
+
+#global
+#endif

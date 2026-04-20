@@ -1,0 +1,144 @@
+;============================================================
+;   iron_wmi_net.hsp — WMI クエリ (.NET 版)
+;
+;   System.Management.ManagementObjectSearcher を使って WMI を叩き、
+;   Win32_* 系クラスからシステム情報、プロセス、ディスク等を取る。
+;   リモートマシン (資格情報付き) にも対応。
+;   hsp3net 専用。
+;
+;   API:
+;     wmin_query "SELECT * FROM Win32_Process", "Name;ProcessId", var_tsv
+;                                              ; → stat=件数、var_tsv=TSV
+;     wmin_query_remote "host", "user", "pw",
+;                       "SELECT ...", "attr;attr", var_tsv
+;     wmin_get_os var_tsv                      OS 基本情報ワンライナー
+;     wmin_get_cpu var_tsv                     CPU 情報
+;     wmin_get_disks var_tsv                   論理ドライブ
+;     wmin_get_processes var_tsv               プロセス一覧 (Name|Pid|Mem)
+;
+;   依存アセンブリ: System.Management.dll
+;============================================================
+#ifndef __iron_wmi_net_hsp__
+#define __iron_wmi_net_hsp__
+
+#module iron_wmi_net
+
+dim _wmin_cs_loaded, 1
+
+#deffunc _wmin_load_cs
+	if _wmin_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Management;
+using System.Text;
+
+public class HspWmiNet {
+    public static string Query(string wql, string propsSemi) {
+        try {
+            using (var s = new ManagementObjectSearcher(wql)) {
+                return Emit(s.Get(), propsSemi);
+            }
+        } catch (Exception e) { return "-1\tERROR:" + e.Message; }
+    }
+
+    public static string QueryRemote(string host, string user, string pw, string wql, string propsSemi) {
+        try {
+            var opt = new ConnectionOptions();
+            if (!string.IsNullOrEmpty(user)) { opt.Username = user; opt.Password = pw; }
+            opt.Impersonation = ImpersonationLevel.Impersonate;
+            opt.EnablePrivileges = true;
+            var scope = new ManagementScope("\\\\" + host + "\\root\\cimv2", opt);
+            scope.Connect();
+            using (var s = new ManagementObjectSearcher(scope, new ObjectQuery(wql))) {
+                return Emit(s.Get(), propsSemi);
+            }
+        } catch (Exception e) { return "-1\tERROR:" + e.Message; }
+    }
+
+    static string Emit(ManagementObjectCollection col, string propsSemi) {
+        string[] props = string.IsNullOrEmpty(propsSemi) ? null : propsSemi.Split(';');
+        var sb = new StringBuilder();
+        int count = 0;
+        foreach (ManagementObject o in col) {
+            var line = new StringBuilder();
+            if (props == null) {
+                bool first = true;
+                foreach (PropertyData p in o.Properties) {
+                    if (!first) line.Append("|");
+                    line.Append(p.Name).Append("=").Append(SafeVal(p.Value));
+                    first = false;
+                }
+            } else {
+                for (int i = 0; i < props.Length; i++) {
+                    string k = props[i].Trim();
+                    if (string.IsNullOrEmpty(k)) continue;
+                    object v = null;
+                    try { v = o[k]; } catch {}
+                    if (i > 0) line.Append("|");
+                    line.Append(k).Append("=").Append(SafeVal(v));
+                }
+            }
+            sb.AppendLine(line.ToString());
+            count++;
+            o.Dispose();
+        }
+        col.Dispose();
+        return count.ToString() + "\t" + sb.ToString();
+    }
+
+    static string SafeVal(object v) {
+        if (v == null) return "";
+        string s;
+        if (v is string[]) s = string.Join(",", (string[])v);
+        else s = v.ToString();
+        return s.Replace("\r"," ").Replace("\n"," ").Replace("|","/");
+    }
+}
+"}
+	loadnet _cs, 3, "System.Management.dll"
+	_wmin_cs_loaded = 1
+	return
+
+#deffunc wmin_query str wql, str props, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_wmin_load_cs
+	newnet _h, "HspWmiNet"
+	mcall _h, "Query", _r, wql, props
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+#deffunc wmin_query_remote str host, str user, str pw, str wql, str props, var v_out, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_wmin_load_cs
+	newnet _h, "HspWmiNet"
+	mcall _h, "QueryRemote", _r, host, user, pw, wql, props
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_out = _s : return -1
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return int(strmid(_s, 0, _tab))
+
+#deffunc wmin_get_os var v_out
+	wmin_query "SELECT Caption,Version,BuildNumber,OSArchitecture,InstallDate,LastBootUpTime FROM Win32_OperatingSystem", "Caption;Version;BuildNumber;OSArchitecture;InstallDate;LastBootUpTime", v_out
+	return stat
+
+#deffunc wmin_get_cpu var v_out
+	wmin_query "SELECT Name,NumberOfCores,NumberOfLogicalProcessors,MaxClockSpeed FROM Win32_Processor", "Name;NumberOfCores;NumberOfLogicalProcessors;MaxClockSpeed", v_out
+	return stat
+
+#deffunc wmin_get_disks var v_out
+	wmin_query "SELECT DeviceID,VolumeName,Size,FreeSpace,FileSystem FROM Win32_LogicalDisk WHERE DriveType=3", "DeviceID;VolumeName;Size;FreeSpace;FileSystem", v_out
+	return stat
+
+#deffunc wmin_get_processes var v_out
+	wmin_query "SELECT Name,ProcessId,WorkingSetSize FROM Win32_Process", "Name;ProcessId;WorkingSetSize", v_out
+	return stat
+
+#global
+#endif
