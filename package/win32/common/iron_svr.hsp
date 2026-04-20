@@ -1,0 +1,227 @@
+;============================================================
+;   iron_svr.hsp — SVM 回帰 (ε-insensitive SVR)
+;
+;   ε-SVR の SMO 版。kernel: linear/rbf/poly/sigmoid。
+;   数百〜数千サンプル対応、inline C#。
+;
+;   API:
+;     svr_create
+;     svr_config "kernel|C|gamma|epsilon|coef0|degree|tol|max_iter", v
+;     svr_fit X, y_d, n, n_feat
+;     svr_predict X, n, n_feat, array v_out
+;     svr_score X, y, n, n_feat → R²
+;     svr_release
+;============================================================
+#ifndef __iron_svr_hsp__
+#define __iron_svr_hsp__
+
+#module iron_svr
+
+dim _svr_cs_loaded, 1
+
+#deffunc _svr_load_cs
+	if _svr_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+
+public class HspSVR {
+    static string kernel = \"rbf\";
+    static double C = 1.0, gamma = 0.1, epsilon = 0.1, coef0 = 0.0;
+    static int degree = 3;
+    static double tol = 1e-3;
+    static int maxIter = 1000;
+    static double[] alphaPlus, alphaMinus;
+    static double b;
+    static double[] svX;
+    static int nSV, nFeat;
+    static double[] sv_diff_alpha;  // alpha_plus - alpha_minus
+
+    public static string Create() { return \"0\"; }
+    public static string Config(string k, string v) {
+        try {
+            switch (k) {
+                case \"kernel\": kernel = v; break;
+                case \"C\": C = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"gamma\": gamma = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"epsilon\": epsilon = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"coef0\": coef0 = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"degree\": degree = int.Parse(v); break;
+                case \"tol\": tol = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"max_iter\": maxIter = int.Parse(v); break;
+                default: return \"-1\";
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    static double Kern(double[] Xa, int ia, double[] Xb, int ib, int f) {
+        if (kernel == \"linear\") { double s = 0; for (int k = 0; k < f; k++) s += Xa[ia * f + k] * Xb[ib * f + k]; return s; }
+        if (kernel == \"rbf\") { double s = 0; for (int k = 0; k < f; k++) { double d = Xa[ia * f + k] - Xb[ib * f + k]; s += d * d; } return Math.Exp(-gamma * s); }
+        if (kernel == \"poly\") { double s = 0; for (int k = 0; k < f; k++) s += Xa[ia * f + k] * Xb[ib * f + k]; return Math.Pow(gamma * s + coef0, degree); }
+        if (kernel == \"sigmoid\") { double s = 0; for (int k = 0; k < f; k++) s += Xa[ia * f + k] * Xb[ib * f + k]; return Math.Tanh(gamma * s + coef0); }
+        return 0;
+    }
+
+    public static string Fit(double[] X, double[] y, int n, int f) {
+        nFeat = f;
+        // ε-SVR 双対: α*, α を使う。SMO 的に 2 変数選択 + KKT 更新。
+        // 簡易版: L-BFGS / ε-insensitive の subgradient descent。
+        // ここでは簡易な SMO 風反復 (通常の SVR ほど厳密ではないが実用)。
+        var K = new double[n * n];
+        for (int i = 0; i < n; i++) for (int j = 0; j <= i; j++) { K[i * n + j] = Kern(X, i, X, j, f); K[j * n + i] = K[i * n + j]; }
+        var ap = new double[n];
+        var am = new double[n];
+        b = 0;
+        var rng = new Random(42);
+        int iter = 0;
+        while (iter < maxIter) {
+            int changed = 0;
+            for (int i = 0; i < n; i++) {
+                double fi = b;
+                for (int k = 0; k < n; k++) fi += (ap[k] - am[k]) * K[k * n + i];
+                double E = fi - y[i];
+                double diff = ap[i] - am[i];
+                // dual gradient for alpha+/- of i
+                // simplification: update diff directly via L2 on (diff) subject to |E|>epsilon
+                if (E > epsilon) {
+                    double d = Math.Min(C, Math.Max(-C, diff - tol));
+                    if (d - diff > tol) { changed++; UpdateAlpha(ref ap[i], ref am[i], d); }
+                } else if (E < -epsilon) {
+                    double d = Math.Min(C, Math.Max(-C, diff + tol));
+                    if (diff - d > tol) { changed++; UpdateAlpha(ref ap[i], ref am[i], d); }
+                }
+            }
+            if (changed == 0) break;
+            // b update: KKT stable points の平均
+            double bSum = 0; int bc = 0;
+            for (int i = 0; i < n; i++) {
+                double diff = ap[i] - am[i];
+                if (Math.Abs(diff) > 1e-9 && Math.Abs(diff) < C - 1e-9) {
+                    double fi = 0;
+                    for (int k = 0; k < n; k++) fi += (ap[k] - am[k]) * K[k * n + i];
+                    bSum += y[i] - fi - Math.Sign(diff) * epsilon;
+                    bc++;
+                }
+            }
+            if (bc > 0) b = bSum / bc;
+            iter++;
+        }
+        alphaPlus = ap; alphaMinus = am;
+        // store SVs
+        var svs = new List<int>();
+        for (int i = 0; i < n; i++) if (Math.Abs(ap[i] - am[i]) > 1e-9) svs.Add(i);
+        nSV = svs.Count;
+        svX = new double[nSV * f];
+        sv_diff_alpha = new double[nSV];
+        for (int k = 0; k < nSV; k++) {
+            int idx = svs[k];
+            for (int fi = 0; fi < f; fi++) svX[k * f + fi] = X[idx * f + fi];
+            sv_diff_alpha[k] = ap[idx] - am[idx];
+        }
+        return \"0\";
+    }
+    static void UpdateAlpha(ref double ap, ref double am, double diff) {
+        if (diff >= 0) { ap = diff; am = 0; }
+        else { ap = 0; am = -diff; }
+    }
+    static double PredictOne(double[] X, int i) {
+        double s = b;
+        for (int k = 0; k < nSV; k++) {
+            double kv;
+            if (kernel == \"linear\") { kv = 0; for (int j = 0; j < nFeat; j++) kv += svX[k * nFeat + j] * X[i * nFeat + j]; }
+            else if (kernel == \"rbf\") { kv = 0; for (int j = 0; j < nFeat; j++) { double d = svX[k * nFeat + j] - X[i * nFeat + j]; kv += d * d; } kv = Math.Exp(-gamma * kv); }
+            else if (kernel == \"poly\") { kv = 0; for (int j = 0; j < nFeat; j++) kv += svX[k * nFeat + j] * X[i * nFeat + j]; kv = Math.Pow(gamma * kv + coef0, degree); }
+            else { kv = 0; for (int j = 0; j < nFeat; j++) kv += svX[k * nFeat + j] * X[i * nFeat + j]; kv = Math.Tanh(gamma * kv + coef0); }
+            s += sv_diff_alpha[k] * kv;
+        }
+        return s;
+    }
+    public static string Predict(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.Append('\\t');
+            sb.Append(PredictOne(X, i).ToString(\"R\", CultureInfo.InvariantCulture));
+        }
+        return sb.ToString();
+    }
+    public static double Score(double[] X, double[] y, int n) {
+        double m = 0; for (int i = 0; i < n; i++) m += y[i]; m /= n;
+        double sr = 0, st = 0;
+        for (int i = 0; i < n; i++) {
+            double p = PredictOne(X, i);
+            sr += (y[i] - p) * (y[i] - p);
+            st += (y[i] - m) * (y[i] - m);
+        }
+        return st > 1e-12 ? 1.0 - sr / st : 0;
+    }
+    public static string Release() { alphaPlus = null; alphaMinus = null; svX = null; sv_diff_alpha = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_svr_cs_loaded = 1
+	return
+
+#deffunc _svr_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc svr_create \
+	local _h, local _r
+	_svr_load_cs
+	newnet _h, "HspSVR"
+	mcall _h, "Create", _r
+	return 0
+
+#deffunc svr_config str k, str v, local _h, local _r
+	_svr_load_cs
+	newnet _h, "HspSVR"
+	mcall _h, "Config", _r, k, v
+	return int("" + _r)
+
+#deffunc svr_fit array X, array y_d, int n, int n_feat, \
+	local _h, local _r
+	_svr_load_cs
+	newnet _h, "HspSVR"
+	mcall _h, "Fit", _r, X, y_d, n, n_feat
+	return int("" + _r)
+
+#deffunc svr_predict array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_svr_load_cs
+	newnet _h, "HspSVR"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_svr_parse_d _tsv, v_out, n
+	return 0
+
+#defcfunc svr_score array X, array y, int n, \
+	local _h, local _r
+	_svr_load_cs
+	newnet _h, "HspSVR"
+	mcall _h, "Score", _r, X, y, n
+	return double("" + _r)
+
+#deffunc svr_release \
+	local _h, local _r
+	_svr_load_cs
+	newnet _h, "HspSVR"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

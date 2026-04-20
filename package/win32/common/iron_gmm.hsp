@@ -1,0 +1,233 @@
+;============================================================
+;   iron_gmm.hsp — ガウス混合モデル (EM アルゴリズム)
+;
+;   K 個の多次元正規分布の混合。EM でパラメータ学習 (混合比 π、
+;   平均 μ、共分散 Σ)。対角共分散でも近似可。
+;   inline C# 実装。
+;
+;   API:
+;     gmm_fit X, n, n_feat, k, max_iter, tol
+;     gmm_predict X, n, n_feat, array v_labels       最大尤度のコンポーネント
+;     gmm_predict_proba X, n, n_feat, k, array v_resp  responsibility γ
+;     gmm_log_likelihood X, n, n_feat  → refdval
+;     gmm_release
+;============================================================
+#ifndef __iron_gmm_hsp__
+#define __iron_gmm_hsp__
+
+#module iron_gmm
+
+dim _gmm_cs_loaded, 1
+
+#deffunc _gmm_load_cs
+	if _gmm_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Globalization;
+using System.Text;
+
+public class HspGMM {
+    static int n, f, k;
+    static double[] pi;       // [k]
+    static double[] mu;       // [k * f]
+    static double[] sigma;    // [k * f] diagonal covariance only
+    static double[] respBuf;  // [n * k]
+
+    public static string Fit(double[] X, int ns, int nf, int K, int maxIter, double tol) {
+        n = ns; f = nf; k = K;
+        pi = new double[k];
+        mu = new double[k * f];
+        sigma = new double[k * f];
+        respBuf = new double[n * k];
+        // initialize: pick k random points as means
+        var rng = new Random(42);
+        var chosen = new bool[n];
+        for (int c = 0; c < k; c++) {
+            int idx;
+            do { idx = rng.Next(n); } while (chosen[idx]);
+            chosen[idx] = true;
+            for (int j = 0; j < f; j++) mu[c * f + j] = X[idx * f + j];
+            for (int j = 0; j < f; j++) sigma[c * f + j] = 1.0;
+            pi[c] = 1.0 / k;
+        }
+        double prevLL = double.NegativeInfinity;
+        for (int iter = 0; iter < maxIter; iter++) {
+            // E step
+            double ll = 0;
+            for (int i = 0; i < n; i++) {
+                double sum = 0;
+                for (int c = 0; c < k; c++) {
+                    double logp = Math.Log(pi[c] + 1e-30);
+                    for (int j = 0; j < f; j++) {
+                        double d = X[i * f + j] - mu[c * f + j];
+                        logp -= 0.5 * Math.Log(2 * Math.PI * sigma[c * f + j]);
+                        logp -= 0.5 * d * d / sigma[c * f + j];
+                    }
+                    respBuf[i * k + c] = logp;
+                }
+                double m = respBuf[i * k];
+                for (int c = 1; c < k; c++) if (respBuf[i * k + c] > m) m = respBuf[i * k + c];
+                for (int c = 0; c < k; c++) { respBuf[i * k + c] = Math.Exp(respBuf[i * k + c] - m); sum += respBuf[i * k + c]; }
+                ll += Math.Log(sum + 1e-30) + m;
+                for (int c = 0; c < k; c++) respBuf[i * k + c] /= sum;
+            }
+            // M step
+            for (int c = 0; c < k; c++) {
+                double Nc = 0;
+                for (int i = 0; i < n; i++) Nc += respBuf[i * k + c];
+                pi[c] = Nc / n;
+                for (int j = 0; j < f; j++) {
+                    double s = 0;
+                    for (int i = 0; i < n; i++) s += respBuf[i * k + c] * X[i * f + j];
+                    mu[c * f + j] = Nc > 1e-12 ? s / Nc : 0;
+                }
+                for (int j = 0; j < f; j++) {
+                    double s = 0;
+                    for (int i = 0; i < n; i++) { double d = X[i * f + j] - mu[c * f + j]; s += respBuf[i * k + c] * d * d; }
+                    sigma[c * f + j] = Nc > 1e-12 ? s / Nc + 1e-6 : 1.0;
+                }
+            }
+            if (Math.Abs(ll - prevLL) < tol) break;
+            prevLL = ll;
+        }
+        return \"0\";
+    }
+
+    public static string Predict(double[] X, int nq) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < nq; i++) {
+            double best = double.NegativeInfinity; int bc = 0;
+            for (int c = 0; c < k; c++) {
+                double logp = Math.Log(pi[c] + 1e-30);
+                for (int j = 0; j < f; j++) {
+                    double d = X[i * f + j] - mu[c * f + j];
+                    logp -= 0.5 * Math.Log(2 * Math.PI * sigma[c * f + j]);
+                    logp -= 0.5 * d * d / sigma[c * f + j];
+                }
+                if (logp > best) { best = logp; bc = c; }
+            }
+            if (i > 0) sb.Append('\\t');
+            sb.Append(bc);
+        }
+        return sb.ToString();
+    }
+    public static string PredictProba(double[] X, int nq) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < nq; i++) {
+            var logp = new double[k];
+            for (int c = 0; c < k; c++) {
+                logp[c] = Math.Log(pi[c] + 1e-30);
+                for (int j = 0; j < f; j++) {
+                    double d = X[i * f + j] - mu[c * f + j];
+                    logp[c] -= 0.5 * Math.Log(2 * Math.PI * sigma[c * f + j]);
+                    logp[c] -= 0.5 * d * d / sigma[c * f + j];
+                }
+            }
+            double m = logp[0]; for (int c = 1; c < k; c++) if (logp[c] > m) m = logp[c];
+            double sum = 0; for (int c = 0; c < k; c++) { logp[c] = Math.Exp(logp[c] - m); sum += logp[c]; }
+            for (int c = 0; c < k; c++) {
+                if (i > 0 || c > 0) sb.Append('\\t');
+                sb.Append((logp[c] / sum).ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+    public static double LogLikelihood(double[] X, int nq) {
+        double ll = 0;
+        for (int i = 0; i < nq; i++) {
+            var logp = new double[k];
+            for (int c = 0; c < k; c++) {
+                logp[c] = Math.Log(pi[c] + 1e-30);
+                for (int j = 0; j < f; j++) {
+                    double d = X[i * f + j] - mu[c * f + j];
+                    logp[c] -= 0.5 * Math.Log(2 * Math.PI * sigma[c * f + j]);
+                    logp[c] -= 0.5 * d * d / sigma[c * f + j];
+                }
+            }
+            double m = logp[0]; for (int c = 1; c < k; c++) if (logp[c] > m) m = logp[c];
+            double sum = 0; for (int c = 0; c < k; c++) sum += Math.Exp(logp[c] - m);
+            ll += Math.Log(sum + 1e-30) + m;
+        }
+        return ll;
+    }
+    public static string Release() { pi = null; mu = null; sigma = null; respBuf = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_gmm_cs_loaded = 1
+	return
+
+#deffunc _gmm_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _gmm_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc gmm_fit array X, int n, int n_feat, int k, int max_iter, double tol, \
+	local _h, local _r
+	_gmm_load_cs
+	newnet _h, "HspGMM"
+	mcall _h, "Fit", _r, X, n, n_feat, k, max_iter, tol
+	return int("" + _r)
+
+#deffunc gmm_predict array X, int n, array v_labels, \
+	local _h, local _r, local _tsv
+	_gmm_load_cs
+	newnet _h, "HspGMM"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_gmm_parse_i _tsv, v_labels, n
+	return 0
+
+#deffunc gmm_predict_proba array X, int n, int k, array v_resp, \
+	local _h, local _r, local _tsv
+	_gmm_load_cs
+	newnet _h, "HspGMM"
+	mcall _h, "PredictProba", _r, X, n
+	_tsv = "" + _r
+	_gmm_parse_d _tsv, v_resp, n * k
+	return 0
+
+#defcfunc gmm_log_likelihood array X, int n, \
+	local _h, local _r
+	_gmm_load_cs
+	newnet _h, "HspGMM"
+	mcall _h, "LogLikelihood", _r, X, n
+	return double("" + _r)
+
+#deffunc gmm_release \
+	local _h, local _r
+	_gmm_load_cs
+	newnet _h, "HspGMM"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

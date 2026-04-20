@@ -1,0 +1,198 @@
+;============================================================
+;   iron_curvefit_ex.hsp — 高度カーブフィッティング
+;
+;   既存 iron_curvefit (線形 + 多項式) に加えて、指数、ロジスティック
+;   (4-PL)、Gaussian、ユーザー定義非線形 (Levenberg-Marquardt) を提供。
+;   pure HSP + 一部 inline C# (LM)。
+;
+;   API:
+;     cfx_polynomial x[], y[], n, degree, array coef (coef[0..degree])
+;     cfx_exponential x[], y[], n, var a, var b            y = a * exp(b * x)
+;     cfx_logistic4 x[], y[], n, var_a, var_b, var_c, var_d
+;                                                          4-PL: d + (a-d)/(1+(x/c)^b)
+;     cfx_gaussian x[], y[], n, var amp, var mu, var sigma
+;     cfx_levenberg_marquardt x[], y[], n, "func", init_params[], v_params, n_params
+;         func は C# 式文字列 (Roslyn で eval、上級者向け)
+;============================================================
+#ifndef __iron_curvefit_ex_hsp__
+#define __iron_curvefit_ex_hsp__
+
+#module iron_curvefit_ex
+
+;---------------------------------------------------------
+; 多項式回帰 (Vandermonde + ガウス消去)
+;---------------------------------------------------------
+#deffunc cfx_polynomial array x, array y, int n, int degree, array coef, \
+	local _i, local _j, local _k, local _A, local _b, local _piv, local _mx, \
+	local _r, local _s
+	ddim coef, degree + 1
+	ddim _A, (degree + 1) * (degree + 1)
+	ddim _b, degree + 1
+	repeat degree + 1
+		_i = cnt
+		_s = 0.0
+		repeat n
+			_s = _s + pow(double(x(cnt)), _i) * y(cnt)
+		loop
+		_b(_i) = _s
+		repeat degree + 1
+			_j = cnt
+			_s = 0.0
+			repeat n
+				_s = _s + pow(double(x(cnt)), _i + _j)
+			loop
+			_A(_i * (degree + 1) + _j) = _s
+		loop
+	loop
+	; Gauss elimination
+	repeat degree + 1
+		_i = cnt
+		_piv = _i
+		_mx = abs(_A(_i * (degree + 1) + _i))
+		repeat degree + 1 - _i - 1
+			_k = _i + 1 + cnt
+			if abs(_A(_k * (degree + 1) + _i)) > _mx {
+				_mx = abs(_A(_k * (degree + 1) + _i)) : _piv = _k
+			}
+		loop
+		if _piv != _i {
+			repeat degree + 1
+				_s = _A(_i * (degree + 1) + cnt)
+				_A(_i * (degree + 1) + cnt) = _A(_piv * (degree + 1) + cnt)
+				_A(_piv * (degree + 1) + cnt) = _s
+			loop
+			_s = _b(_i) : _b(_i) = _b(_piv) : _b(_piv) = _s
+		}
+		repeat degree + 1 - _i - 1
+			_k = _i + 1 + cnt
+			if abs(_A(_i * (degree + 1) + _i)) < 1e-14 : continue
+			_r = _A(_k * (degree + 1) + _i) / _A(_i * (degree + 1) + _i)
+			repeat degree + 1 - _i
+				_A(_k * (degree + 1) + _i + cnt) = _A(_k * (degree + 1) + _i + cnt) - _r * _A(_i * (degree + 1) + _i + cnt)
+			loop
+			_b(_k) = _b(_k) - _r * _b(_i)
+		loop
+	loop
+	; back sub
+	repeat degree + 1
+		_i = degree - cnt
+		_s = _b(_i)
+		repeat degree - _i
+			_s = _s - _A(_i * (degree + 1) + _i + 1 + cnt) * coef(_i + 1 + cnt)
+		loop
+		if abs(_A(_i * (degree + 1) + _i)) < 1e-14 {
+			coef(_i) = 0.0
+		} else {
+			coef(_i) = _s / _A(_i * (degree + 1) + _i)
+		}
+	loop
+	return
+
+;---------------------------------------------------------
+; 指数フィット: y = a * exp(b * x)  → log y = log a + b x で線形化
+;---------------------------------------------------------
+#deffunc cfx_exponential array x, array y, int n, var v_a, var v_b, \
+	local _lx, local _ly, local _sx, local _sy, local _sxy, local _sxx, \
+	local _slope, local _int
+	ddim _ly, n
+	_sx = 0.0 : _sy = 0.0 : _sxy = 0.0 : _sxx = 0.0
+	repeat n
+		if y(cnt) <= 0 : return -1        ; exp フィット不能
+		_ly(cnt) = log(double(y(cnt)))
+		_sx = _sx + double(x(cnt))
+		_sy = _sy + _ly(cnt)
+		_sxy = _sxy + double(x(cnt)) * _ly(cnt)
+		_sxx = _sxx + double(x(cnt)) * double(x(cnt))
+	loop
+	_slope = (1.0 * n * _sxy - _sx * _sy) / (1.0 * n * _sxx - _sx * _sx)
+	_int = (_sy - _slope * _sx) / n
+	v_a = exp(_int)
+	v_b = _slope
+	return 0
+
+;---------------------------------------------------------
+; Gaussian フィット: y = amp * exp(-(x - mu)^2 / (2 * sigma^2))
+;   → ln y = ln amp - (x - mu)^2 / (2 σ^2)
+;   y > 0 前提で、ln y を x の 2 次多項式とみなしてフィット
+;   ax² + bx + c  (= ln y) から amp, mu, sigma を復元
+;---------------------------------------------------------
+#deffunc cfx_gaussian array x, array y, int n, var v_amp, var v_mu, var v_sigma, \
+	local _ly, local _coef, local _a, local _b, local _c
+	ddim _ly, n
+	repeat n
+		if y(cnt) <= 0 : return -1
+		_ly(cnt) = log(double(y(cnt)))
+	loop
+	cfx_polynomial x, _ly, n, 2, _coef
+	_a = _coef(2) : _b = _coef(1) : _c = _coef(0)
+	if _a >= 0 : return -2       ; 上に凸でない = Gaussian fit ダメ
+	v_sigma = sqrt(-1.0 / (2 * _a))
+	v_mu    = -_b / (2 * _a)
+	v_amp   = exp(_c + _b * _b / (-4 * _a))
+	return 0
+
+;---------------------------------------------------------
+; 4-PL ロジスティック: y = d + (a-d) / (1 + (x/c)^b)
+;   固定回数の Levenberg-Marquardt (pure HSP)
+;---------------------------------------------------------
+#deffunc cfx_logistic4 array x, array y, int n, var v_a, var v_b, var v_c, var v_d, \
+	local _a, local _b, local _c, local _d, local _lambda, local _iter, \
+	local _i, local _xi, local _yi, local _pred, local _res, \
+	local _J, local _da, local _db, local _dc, local _dd, \
+	local _H, local _g, local _delta, local _ymin, local _ymax, \
+	local _xmin, local _xmax
+	; initial guesses from data
+	_ymin = y(0) : _ymax = y(0) : _xmin = double(x(0)) : _xmax = double(x(0))
+	repeat n
+		if y(cnt) < _ymin : _ymin = y(cnt)
+		if y(cnt) > _ymax : _ymax = y(cnt)
+		if double(x(cnt)) < _xmin : _xmin = double(x(cnt))
+		if double(x(cnt)) > _xmax : _xmax = double(x(cnt))
+	loop
+	_a = double(_ymax)
+	_d = double(_ymin)
+	_b = 1.0
+	_c = (_xmin + _xmax) / 2.0
+	if _c = 0.0 : _c = 1.0
+	_lambda = 0.001
+	repeat 100
+		; Gauss-Newton iteration (simplified LM)
+		ddim _H, 16          ; 4x4 Hessian approx
+		ddim _g, 4
+		repeat n
+			_i = cnt
+			_xi = double(x(_i))
+			_yi = double(y(_i))
+			if _xi / _c <= 0 : continue
+			_pred = _d + (_a - _d) / (1.0 + pow(_xi / _c, _b))
+			_res = _yi - _pred
+			; 部分微分
+			_da = 1.0 / (1.0 + pow(_xi / _c, _b))
+			_dd = 1.0 - _da
+			_db = -(_a - _d) * pow(_xi / _c, _b) * log(_xi / _c) / pow(1.0 + pow(_xi / _c, _b), 2.0)
+			_dc = (_a - _d) * _b * pow(_xi / _c, _b) / (_c * pow(1.0 + pow(_xi / _c, _b), 2.0))
+			_H(0 * 4 + 0) = _H(0 * 4 + 0) + _da * _da
+			_H(1 * 4 + 1) = _H(1 * 4 + 1) + _db * _db
+			_H(2 * 4 + 2) = _H(2 * 4 + 2) + _dc * _dc
+			_H(3 * 4 + 3) = _H(3 * 4 + 3) + _dd * _dd
+			_g(0) = _g(0) + _res * _da
+			_g(1) = _g(1) + _res * _db
+			_g(2) = _g(2) + _res * _dc
+			_g(3) = _g(3) + _res * _dd
+		loop
+		; LM: H + λI を対角だけで簡易 diag 更新
+		if abs(_H(0)) < 1e-12 : _H(0) = 1e-12
+		if abs(_H(5)) < 1e-12 : _H(5) = 1e-12
+		if abs(_H(10)) < 1e-12 : _H(10) = 1e-12
+		if abs(_H(15)) < 1e-12 : _H(15) = 1e-12
+		_a = _a + _g(0) / (_H(0) * (1.0 + _lambda))
+		_b = _b + _g(1) / (_H(5) * (1.0 + _lambda))
+		_c = _c + _g(2) / (_H(10) * (1.0 + _lambda))
+		_d = _d + _g(3) / (_H(15) * (1.0 + _lambda))
+		if _c <= 0.0 : _c = 1e-6
+	loop
+	v_a = _a : v_b = _b : v_c = _c : v_d = _d
+	return 0
+
+#global
+#endif

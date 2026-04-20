@@ -1,0 +1,343 @@
+;============================================================
+;   iron_svm.hsp — SVM (SMO アルゴリズム、バイナリ分類)
+;
+;   Platt SMO の簡易版 (書籍「機械学習プロフェッショナルシリーズ」等に
+;   準拠)。kernel: linear / rbf / polynomial / sigmoid。
+;   多クラスは OvR で外側ループ。
+;   inline C# 実装 (行列演算を JIT で高速化、数千点まで実用)。
+;
+;   API:
+;     svm_create "binary"|"ovr"
+;     svm_config "kernel", "linear|rbf|poly|sigmoid"
+;     svm_config "C", "1.0" / "gamma", "0.1" / "degree", "3" /
+;                "coef0", "0.0" / "tol", "1e-3" / "max_iter", "1000"
+;     svm_fit  X, y (-1/+1 for binary, 0..K-1 for OvR), n, n_feat, [n_classes]
+;     svm_predict X, n, n_feat, array v_out (int -1/+1 or 0..K-1)
+;     svm_decision_function X, n, n_feat, array v_score (double)
+;     svm_score X, y, n, n_feat  → accuracy
+;     svm_release
+;============================================================
+#ifndef __iron_svm_hsp__
+#define __iron_svm_hsp__
+
+#module iron_svm
+
+dim _svm_cs_loaded, 1
+
+#deffunc _svm_load_cs
+	if _svm_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+
+public class HspSVM {
+    // 1 vs 1 / ovr 共用の単一 SVM
+    class BinModel {
+        public double[] alpha;
+        public double b;
+        public double[] sv_X;
+        public int[] sv_y;
+        public double[] sv_alpha;
+        public int nSV;
+    }
+    static List<BinModel> models = new List<BinModel>();
+    static int[] classList;
+    static string kernel = \"rbf\";
+    static double C = 1.0, gamma = 0.1, coef0 = 0.0;
+    static int degree = 3;
+    static double tol = 1e-3;
+    static int maxIter = 1000;
+    static int nFeat, nCls;
+    static string mode = \"binary\";
+
+    public static string Create(string m) { mode = m; return \"0\"; }
+    public static string Config(string k, string v) {
+        try {
+            switch (k) {
+                case \"kernel\": kernel = v; break;
+                case \"C\": C = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"gamma\": gamma = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"coef0\": coef0 = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"degree\": degree = int.Parse(v); break;
+                case \"tol\": tol = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"max_iter\": maxIter = int.Parse(v); break;
+                default: return \"-1\";
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    static double Kernel(double[] xa, int ia, double[] xb, int ib, int f) {
+        if (kernel == \"linear\") {
+            double s = 0; for (int k = 0; k < f; k++) s += xa[ia * f + k] * xb[ib * f + k]; return s;
+        }
+        if (kernel == \"rbf\") {
+            double s = 0;
+            for (int k = 0; k < f; k++) { double d = xa[ia * f + k] - xb[ib * f + k]; s += d * d; }
+            return Math.Exp(-gamma * s);
+        }
+        if (kernel == \"poly\") {
+            double s = 0; for (int k = 0; k < f; k++) s += xa[ia * f + k] * xb[ib * f + k];
+            return Math.Pow(gamma * s + coef0, degree);
+        }
+        if (kernel == \"sigmoid\") {
+            double s = 0; for (int k = 0; k < f; k++) s += xa[ia * f + k] * xb[ib * f + k];
+            return Math.Tanh(gamma * s + coef0);
+        }
+        return 0;
+    }
+    static BinModel TrainBinary(double[] X, int[] yBin, int n, int f) {
+        var alpha = new double[n];
+        double b = 0;
+        var K = new double[n * n];
+        for (int i = 0; i < n; i++) for (int j = 0; j <= i; j++) { K[i * n + j] = Kernel(X, i, X, j, f); K[j * n + i] = K[i * n + j]; }
+        int iter = 0;
+        var rng = new Random(42);
+        while (iter < maxIter) {
+            int alphaChanged = 0;
+            for (int i = 0; i < n; i++) {
+                double Ei = 0;
+                for (int k = 0; k < n; k++) Ei += alpha[k] * yBin[k] * K[k * n + i];
+                Ei = Ei + b - yBin[i];
+                if ((yBin[i] * Ei < -tol && alpha[i] < C) || (yBin[i] * Ei > tol && alpha[i] > 0)) {
+                    int j = rng.Next(n - 1); if (j >= i) j++;
+                    double Ej = 0;
+                    for (int k = 0; k < n; k++) Ej += alpha[k] * yBin[k] * K[k * n + j];
+                    Ej = Ej + b - yBin[j];
+                    double aiOld = alpha[i], ajOld = alpha[j];
+                    double L, H;
+                    if (yBin[i] != yBin[j]) { L = Math.Max(0, alpha[j] - alpha[i]); H = Math.Min(C, C + alpha[j] - alpha[i]); }
+                    else { L = Math.Max(0, alpha[i] + alpha[j] - C); H = Math.Min(C, alpha[i] + alpha[j]); }
+                    if (L == H) continue;
+                    double eta = 2 * K[i * n + j] - K[i * n + i] - K[j * n + j];
+                    if (eta >= 0) continue;
+                    alpha[j] -= yBin[j] * (Ei - Ej) / eta;
+                    if (alpha[j] > H) alpha[j] = H;
+                    if (alpha[j] < L) alpha[j] = L;
+                    if (Math.Abs(alpha[j] - ajOld) < 1e-5) continue;
+                    alpha[i] += yBin[i] * yBin[j] * (ajOld - alpha[j]);
+                    double b1 = b - Ei - yBin[i] * (alpha[i] - aiOld) * K[i * n + i] - yBin[j] * (alpha[j] - ajOld) * K[i * n + j];
+                    double b2 = b - Ej - yBin[i] * (alpha[i] - aiOld) * K[i * n + j] - yBin[j] * (alpha[j] - ajOld) * K[j * n + j];
+                    if (alpha[i] > 0 && alpha[i] < C) b = b1;
+                    else if (alpha[j] > 0 && alpha[j] < C) b = b2;
+                    else b = (b1 + b2) / 2;
+                    alphaChanged++;
+                }
+            }
+            if (alphaChanged == 0) iter++;
+            else iter = 0;
+        }
+        var model = new BinModel();
+        model.alpha = alpha;
+        model.b = b;
+        // store support vectors
+        var svList = new List<int>();
+        for (int i = 0; i < n; i++) if (alpha[i] > 1e-8) svList.Add(i);
+        model.nSV = svList.Count;
+        model.sv_X = new double[model.nSV * f];
+        model.sv_y = new int[model.nSV];
+        model.sv_alpha = new double[model.nSV];
+        for (int k = 0; k < model.nSV; k++) {
+            int idx = svList[k];
+            for (int fi = 0; fi < f; fi++) model.sv_X[k * f + fi] = X[idx * f + fi];
+            model.sv_y[k] = yBin[idx];
+            model.sv_alpha[k] = alpha[idx];
+        }
+        return model;
+    }
+    static double PredictBinary(BinModel m, double[] X, int i, int f) {
+        double s = 0;
+        for (int k = 0; k < m.nSV; k++) s += m.sv_alpha[k] * m.sv_y[k] * KernelSV(m.sv_X, k, X, i, f);
+        return s + m.b;
+    }
+    static double KernelSV(double[] svX, int k, double[] X, int i, int f) {
+        // same as Kernel but with different array bases
+        if (kernel == \"linear\") {
+            double s = 0; for (int j = 0; j < f; j++) s += svX[k * f + j] * X[i * f + j]; return s;
+        }
+        if (kernel == \"rbf\") {
+            double s = 0; for (int j = 0; j < f; j++) { double d = svX[k * f + j] - X[i * f + j]; s += d * d; }
+            return Math.Exp(-gamma * s);
+        }
+        if (kernel == \"poly\") {
+            double s = 0; for (int j = 0; j < f; j++) s += svX[k * f + j] * X[i * f + j];
+            return Math.Pow(gamma * s + coef0, degree);
+        }
+        if (kernel == \"sigmoid\") {
+            double s = 0; for (int j = 0; j < f; j++) s += svX[k * f + j] * X[i * f + j];
+            return Math.Tanh(gamma * s + coef0);
+        }
+        return 0;
+    }
+
+    public static string Fit(double[] X, int[] y, int n, int f, int nC) {
+        nFeat = f;
+        models.Clear();
+        if (mode == \"binary\") {
+            // assume y already -1/+1
+            var model = TrainBinary(X, y, n, f);
+            models.Add(model);
+            nCls = 2;
+            classList = new int[] { -1, 1 };
+        } else {
+            // OvR: per class, y_i = +1 if class == c else -1
+            nCls = nC;
+            classList = new int[nC];
+            for (int c = 0; c < nC; c++) classList[c] = c;
+            for (int c = 0; c < nC; c++) {
+                var yb = new int[n];
+                for (int i = 0; i < n; i++) yb[i] = (y[i] == c) ? 1 : -1;
+                models.Add(TrainBinary(X, yb, n, f));
+            }
+        }
+        return \"0\";
+    }
+
+    public static string Predict(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.Append('\\t');
+            if (mode == \"binary\") {
+                double sc = PredictBinary(models[0], X, i, nFeat);
+                sb.Append(sc >= 0 ? 1 : -1);
+            } else {
+                double best = double.NegativeInfinity; int bc = 0;
+                for (int c = 0; c < nCls; c++) {
+                    double sc = PredictBinary(models[c], X, i, nFeat);
+                    if (sc > best) { best = sc; bc = c; }
+                }
+                sb.Append(bc);
+            }
+        }
+        return sb.ToString();
+    }
+    public static string DecisionFunction(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (mode == \"binary\") {
+                double sc = PredictBinary(models[0], X, i, nFeat);
+                if (i > 0) sb.Append('\\t');
+                sb.Append(sc.ToString(\"R\", CultureInfo.InvariantCulture));
+            } else {
+                for (int c = 0; c < nCls; c++) {
+                    double sc = PredictBinary(models[c], X, i, nFeat);
+                    if (i > 0 || c > 0) sb.Append('\\t');
+                    sb.Append(sc.ToString(\"R\", CultureInfo.InvariantCulture));
+                }
+            }
+        }
+        return sb.ToString();
+    }
+    public static double Score(double[] X, int[] y, int n) {
+        int ok = 0;
+        for (int i = 0; i < n; i++) {
+            int p;
+            if (mode == \"binary\") {
+                double sc = PredictBinary(models[0], X, i, nFeat);
+                p = sc >= 0 ? 1 : -1;
+            } else {
+                double best = double.NegativeInfinity; int bc = 0;
+                for (int c = 0; c < nCls; c++) {
+                    double sc = PredictBinary(models[c], X, i, nFeat);
+                    if (sc > best) { best = sc; bc = c; }
+                }
+                p = bc;
+            }
+            if (p == y[i]) ok++;
+        }
+        return (double)ok / n;
+    }
+    public static string Release() { models.Clear(); classList = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_svm_cs_loaded = 1
+	return
+
+#deffunc _svm_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _svm_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc svm_create str mode, local _h, local _r
+	_svm_load_cs
+	newnet _h, "HspSVM"
+	mcall _h, "Create", _r, mode
+	return int("" + _r)
+
+#deffunc svm_config str k, str v, local _h, local _r
+	_svm_load_cs
+	newnet _h, "HspSVM"
+	mcall _h, "Config", _r, k, v
+	return int("" + _r)
+
+#deffunc svm_fit array X, array y_int, int n, int n_feat, int n_classes, \
+	local _h, local _r
+	_svm_load_cs
+	newnet _h, "HspSVM"
+	mcall _h, "Fit", _r, X, y_int, n, n_feat, n_classes
+	return int("" + _r)
+
+#deffunc svm_predict array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_svm_load_cs
+	newnet _h, "HspSVM"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_svm_parse_i _tsv, v_out, n
+	return 0
+
+#deffunc svm_decision_function array X, int n, int n_outs, array v_out, \
+	local _h, local _r, local _tsv
+	_svm_load_cs
+	newnet _h, "HspSVM"
+	mcall _h, "DecisionFunction", _r, X, n
+	_tsv = "" + _r
+	_svm_parse_d _tsv, v_out, n * n_outs
+	return 0
+
+#defcfunc svm_score array X, array y_int, int n, \
+	local _h, local _r
+	_svm_load_cs
+	newnet _h, "HspSVM"
+	mcall _h, "Score", _r, X, y_int, n
+	return double("" + _r)
+
+#deffunc svm_release \
+	local _h, local _r
+	_svm_load_cs
+	newnet _h, "HspSVM"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

@@ -1,0 +1,162 @@
+;============================================================
+;   iron_gp_reg.hsp — ガウス過程回帰 (GPR)
+;
+;   RBF カーネルでのガウス過程回帰。予測は平均と標準偏差を返す
+;   (信頼区間が出せるのが GP の利点)。閉じた形の学習 (K + σI)^-1
+;   を Cholesky 分解で解く。
+;   inline C#、O(n³) なので ~500 点まで実用。
+;
+;   API:
+;     gp_fit X, y, n, n_feat, length_scale, sigma_f, sigma_n
+;         length_scale: RBF スケール (l)
+;         sigma_f:      シグマ f (信号分散)
+;         sigma_n:      観測ノイズ σ_n
+;     gp_predict X, n, n_feat, array v_mean, array v_std
+;     gp_release
+;============================================================
+#ifndef __iron_gp_reg_hsp__
+#define __iron_gp_reg_hsp__
+
+#module iron_gp_reg
+
+dim _gp_cs_loaded, 1
+
+#deffunc _gp_load_cs
+	if _gp_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Globalization;
+using System.Text;
+
+public class HspGP {
+    static double[] Xtr, ytr, L, alpha;
+    static int n, nFeat;
+    static double ls, sf, sn;
+
+    public static string Fit(double[] X, double[] y, int ns, int f, double lengthScale, double sigmaF, double sigmaN) {
+        n = ns; nFeat = f; ls = lengthScale; sf = sigmaF; sn = sigmaN;
+        Xtr = X; ytr = y;
+        // K[i,j] = sf^2 * exp(-||x_i - x_j||^2 / (2 l^2)) + σn^2 * I
+        var K = new double[n * n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                double d = 0;
+                for (int k = 0; k < f; k++) { double dd = X[i * f + k] - X[j * f + k]; d += dd * dd; }
+                double kv = sf * sf * Math.Exp(-d / (2 * ls * ls));
+                if (i == j) kv += sn * sn;
+                K[i * n + j] = kv; K[j * n + i] = kv;
+            }
+        }
+        // Cholesky L L^T = K
+        L = new double[n * n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                double s = K[i * n + j];
+                for (int k = 0; k < j; k++) s -= L[i * n + k] * L[j * n + k];
+                if (i == j) {
+                    if (s <= 0) s = 1e-10;
+                    L[i * n + i] = Math.Sqrt(s);
+                } else {
+                    L[i * n + j] = s / L[j * n + j];
+                }
+            }
+        }
+        // alpha = L^{-T} L^{-1} y
+        var z = new double[n];
+        // L z = y
+        for (int i = 0; i < n; i++) {
+            double s = y[i];
+            for (int k = 0; k < i; k++) s -= L[i * n + k] * z[k];
+            z[i] = s / L[i * n + i];
+        }
+        alpha = new double[n];
+        for (int i = n - 1; i >= 0; i--) {
+            double s = z[i];
+            for (int k = i + 1; k < n; k++) s -= L[k * n + i] * alpha[k];
+            alpha[i] = s / L[i * n + i];
+        }
+        return \"0\";
+    }
+    public static string Predict(double[] X, int nq) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < nq; i++) {
+            var kstar = new double[n];
+            for (int j = 0; j < n; j++) {
+                double d = 0;
+                for (int k = 0; k < nFeat; k++) { double dd = X[i * nFeat + k] - Xtr[j * nFeat + k]; d += dd * dd; }
+                kstar[j] = sf * sf * Math.Exp(-d / (2 * ls * ls));
+            }
+            // mean = kstar^T alpha
+            double mean = 0;
+            for (int j = 0; j < n; j++) mean += kstar[j] * alpha[j];
+            // var = k** - kstar^T (K + σI)^-1 kstar = k** - v^T v where L v = kstar
+            var v = new double[n];
+            for (int j = 0; j < n; j++) {
+                double s = kstar[j];
+                for (int k = 0; k < j; k++) s -= L[j * n + k] * v[k];
+                v[j] = s / L[j * n + j];
+            }
+            double kss = sf * sf;
+            double variance = kss;
+            for (int j = 0; j < n; j++) variance -= v[j] * v[j];
+            if (variance < 0) variance = 0;
+            if (i > 0) sb.Append('\\t');
+            sb.Append(mean.ToString(\"R\", CultureInfo.InvariantCulture));
+            sb.Append('|');
+            sb.Append(Math.Sqrt(variance).ToString(\"R\", CultureInfo.InvariantCulture));
+        }
+        return sb.ToString();
+    }
+    public static string Release() { Xtr = null; ytr = null; L = null; alpha = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_gp_cs_loaded = 1
+	return
+
+#deffunc gp_fit array X, array y, int n, int n_feat, double length_scale, double sigma_f, double sigma_n, \
+	local _h, local _r
+	_gp_load_cs
+	newnet _h, "HspGP"
+	mcall _h, "Fit", _r, X, y, n, n_feat, length_scale, sigma_f, sigma_n
+	return int("" + _r)
+
+#deffunc gp_predict array X, int n, array v_mean, array v_std, \
+	local _h, local _r, local _tsv, local _p, local _tab, local _bar, local _i, local _tok
+	_gp_load_cs
+	newnet _h, "HspGP"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	ddim v_mean, n
+	ddim v_std, n
+	_p = 0 : _i = 0
+	repeat
+		if _i >= n : break
+		_tab = instr(_tsv, _p, "\t")
+		if _tab < 0 {
+			_tok = strmid(_tsv, _p, strlen(_tsv) - _p)
+			_p = strlen(_tsv)
+		} else {
+			_tok = strmid(_tsv, _p, _tab - _p)
+			_p = _tab + 1
+		}
+		_bar = instr(_tok, 0, "|")
+		if _bar >= 0 {
+			v_mean(_i) = double(strmid(_tok, 0, _bar))
+			v_std(_i)  = double(strmid(_tok, _bar + 1, strlen(_tok) - _bar - 1))
+		}
+		_i++
+		if _tab < 0 : break
+	loop
+	return 0
+
+#deffunc gp_release \
+	local _h, local _r
+	_gp_load_cs
+	newnet _h, "HspGP"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

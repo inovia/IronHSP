@@ -1,0 +1,230 @@
+;============================================================
+;   iron_hier_cluster.hsp — 階層クラスタリング (凝集型)
+;
+;   Agglomerative Hierarchical Clustering。距離関数 + リンケージ:
+;   single / complete / average / ward を選択。dendrogram 相当の
+;   merge 情報も返す。inline C#、O(n² log n) 程度 (~数千点まで)。
+;
+;   API:
+;     hc_fit X, n, n_feat, "linkage" (single/complete/average/ward), "metric"
+;     hc_labels n_clusters, array v_labels   (木を切って n_clusters に分割)
+;     hc_merge_count                         → stat=n-1
+;     hc_merge array v_merges                  [n-1 * 3]: (id1, id2, dist)
+;     hc_release
+;============================================================
+#ifndef __iron_hier_cluster_hsp__
+#define __iron_hier_cluster_hsp__
+
+#module iron_hier_cluster
+
+dim _hc_cs_loaded, 1
+
+#deffunc _hc_load_cs
+	if _hc_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+
+public class HspHC {
+    static int n;
+    // merge[k] = (a, b, dist)  merged k-th step, new cluster id = n + k
+    static int[] mergeA, mergeB;
+    static double[] mergeD;
+    static int[][] members;  // per active cluster list
+    static string linkage = \"average\", metric = \"euclidean\";
+
+    static double Dist(double[] X, int i, int j, int f) {
+        if (metric == \"manhattan\") { double s = 0; for (int k = 0; k < f; k++) s += Math.Abs(X[i * f + k] - X[j * f + k]); return s; }
+        if (metric == \"chebyshev\") { double s = 0; for (int k = 0; k < f; k++) { double d = Math.Abs(X[i * f + k] - X[j * f + k]); if (d > s) s = d; } return s; }
+        double ss = 0; for (int k = 0; k < f; k++) { double d = X[i * f + k] - X[j * f + k]; ss += d * d; } return Math.Sqrt(ss);
+    }
+    public static string Fit(double[] X, int ns, int f, string lk, string m) {
+        n = ns; linkage = lk; metric = m;
+        mergeA = new int[n - 1];
+        mergeB = new int[n - 1];
+        mergeD = new double[n - 1];
+        // active clusters (stored as sorted list of original point ids)
+        var clusters = new List<List<int>>();
+        for (int i = 0; i < n; i++) { var l = new List<int>(); l.Add(i); clusters.Add(l); }
+        // initial pairwise distances (between clusters, singletons == point distance)
+        int maxId = 2 * n;
+        var clusterIds = new int[n];
+        for (int i = 0; i < n; i++) clusterIds[i] = i;
+        // compute naive dist matrix across current clusters
+        for (int step = 0; step < n - 1; step++) {
+            int nc = clusters.Count;
+            double minD = double.PositiveInfinity;
+            int minI = -1, minJ = -1;
+            for (int i = 0; i < nc; i++) for (int j = i + 1; j < nc; j++) {
+                double d = ClusterDist(X, clusters[i], clusters[j], f);
+                if (d < minD) { minD = d; minI = i; minJ = j; }
+            }
+            mergeA[step] = clusterIds[minI];
+            mergeB[step] = clusterIds[minJ];
+            mergeD[step] = minD;
+            var newList = new List<int>(clusters[minI]);
+            newList.AddRange(clusters[minJ]);
+            // remove minJ first (larger index) then minI
+            clusters.RemoveAt(minJ);
+            clusters.RemoveAt(minI);
+            clusters.Add(newList);
+            var newIds = new List<int>();
+            for (int k = 0; k < clusterIds.Length; k++) if (k != minI && k != minJ) newIds.Add(clusterIds[k]);
+            newIds.Add(n + step);
+            clusterIds = newIds.ToArray();
+        }
+        members = null;
+        return \"0\";
+    }
+    static double ClusterDist(double[] X, List<int> a, List<int> b, int f) {
+        if (linkage == \"single\") {
+            double m = double.PositiveInfinity;
+            foreach (var i in a) foreach (var j in b) { double d = Dist(X, i, j, f); if (d < m) m = d; }
+            return m;
+        } else if (linkage == \"complete\") {
+            double m = 0;
+            foreach (var i in a) foreach (var j in b) { double d = Dist(X, i, j, f); if (d > m) m = d; }
+            return m;
+        } else if (linkage == \"ward\") {
+            // Lance-Williams formula fallback: compute centroid distance and weight by sizes
+            var ca = Centroid(X, a, f);
+            var cb = Centroid(X, b, f);
+            double d = 0;
+            for (int k = 0; k < f; k++) { double dd = ca[k] - cb[k]; d += dd * dd; }
+            return Math.Sqrt((double)(a.Count * b.Count) / (a.Count + b.Count) * d);
+        } else {
+            // average
+            double s = 0;
+            foreach (var i in a) foreach (var j in b) s += Dist(X, i, j, f);
+            return s / (a.Count * b.Count);
+        }
+    }
+    static double[] Centroid(double[] X, List<int> idx, int f) {
+        var c = new double[f];
+        foreach (var i in idx) for (int k = 0; k < f; k++) c[k] += X[i * f + k];
+        for (int k = 0; k < f; k++) c[k] /= idx.Count;
+        return c;
+    }
+
+    public static string Labels(int k) {
+        // dendrogram を k 分割: merge の後ろから (n-1-k)+1 回マージしなかった状態まで戻す
+        // まず各点の初期 id = 0..n-1、merge の代わりに union-find で n-k-1 回 union
+        var parent = new int[2 * n];
+        for (int i = 0; i < 2 * n; i++) parent[i] = i;
+        // 先頭から n-1-k ステップのみ適用
+        int steps = Math.Max(0, n - k);
+        for (int s = 0; s < steps; s++) {
+            int a = Find(parent, mergeA[s]);
+            int b = Find(parent, mergeB[s]);
+            if (a != b) parent[a] = b;
+        }
+        // cluster id 正規化 (root ごとにラベル振り直し)
+        var rootToLabel = new Dictionary<int, int>();
+        var sb = new StringBuilder();
+        int next = 0;
+        for (int i = 0; i < n; i++) {
+            int r = Find(parent, i);
+            if (!rootToLabel.TryGetValue(r, out int lab)) { lab = next++; rootToLabel[r] = lab; }
+            if (i > 0) sb.Append('\\t');
+            sb.Append(lab);
+        }
+        return sb.ToString();
+    }
+    static int Find(int[] p, int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; }
+    public static int MergeCount() { return n - 1; }
+    public static string Merges() {
+        var sb = new StringBuilder();
+        for (int s = 0; s < n - 1; s++) {
+            if (s > 0) sb.Append('\\t');
+            sb.Append(mergeA[s]).Append('|').Append(mergeB[s]).Append('|').Append(mergeD[s].ToString(\"R\", CultureInfo.InvariantCulture));
+        }
+        return sb.ToString();
+    }
+    public static string Release() { mergeA = null; mergeB = null; mergeD = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_hc_cs_loaded = 1
+	return
+
+#deffunc _hc_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc hc_fit array X, int n, int n_feat, str linkage, str metric, \
+	local _h, local _r
+	_hc_load_cs
+	newnet _h, "HspHC"
+	mcall _h, "Fit", _r, X, n, n_feat, linkage, metric
+	return int("" + _r)
+
+#deffunc hc_labels int n_clusters, int n, array v_labels, \
+	local _h, local _r, local _tsv
+	_hc_load_cs
+	newnet _h, "HspHC"
+	mcall _h, "Labels", _r, n_clusters
+	_tsv = "" + _r
+	_hc_parse_i _tsv, v_labels, n
+	return 0
+
+#defcfunc hc_merge_count \
+	local _h, local _r
+	_hc_load_cs
+	newnet _h, "HspHC"
+	mcall _h, "MergeCount", _r
+	return int("" + _r)
+
+#deffunc hc_merge array v_merges, int n, \
+	local _h, local _r, local _tsv, local _p, local _tab, local _tok, \
+	local _b1, local _b2, local _k
+	sdim _tsv, 65536
+	_hc_load_cs
+	newnet _h, "HspHC"
+	mcall _h, "Merges", _r
+	_tsv = "" + _r
+	dim v_merges, (n - 1) * 3
+	_p = 0 : _k = 0
+	repeat
+		if _k >= n - 1 : break
+		_tab = instr(_tsv, _p, "\t")
+		if _tab < 0 {
+			_tok = strmid(_tsv, _p, strlen(_tsv) - _p)
+			_p = strlen(_tsv)
+		} else {
+			_tok = strmid(_tsv, _p, _tab - _p)
+			_p = _tab + 1
+		}
+		_b1 = instr(_tok, 0, "|")
+		_b2 = instr(_tok, _b1 + 1, "|")
+		v_merges(_k * 3 + 0) = int(strmid(_tok, 0, _b1))
+		v_merges(_k * 3 + 1) = int(strmid(_tok, _b1 + 1, _b2 - _b1 - 1))
+		v_merges(_k * 3 + 2) = int(double(strmid(_tok, _b2 + 1, strlen(_tok) - _b2 - 1)) * 1000000)
+		_k++
+		if _tab < 0 : break
+	loop
+	return 0
+
+#deffunc hc_release \
+	local _h, local _r
+	_hc_load_cs
+	newnet _h, "HspHC"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif
