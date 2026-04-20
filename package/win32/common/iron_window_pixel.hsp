@@ -1,0 +1,155 @@
+;============================================================
+;   iron_window_pixel.hsp — 指定座標/ウィンドウのピクセル色取得
+;
+;   RPA で「指定位置のボタン色が変わったら次の処理」のような
+;   ピクセルトリガを書くためのユーティリティ。
+;   GDI GetPixel は遅いので、矩形バッチ取得 + byte 配列で提供。
+;
+;   素の HSP + user32/gdi32 で 32/64bit 両対応。
+;
+;   API:
+;     pix_screen x, y                             → stat = RGB (0xRRGGBB)
+;     pix_screen_rgb x, y, var_r, var_g, var_b    R/G/B を個別に取得
+;     pix_window hwnd, x, y                        → stat = RGB (ウィンドウ相対)
+;     pix_screen_region x, y, w, h, var_buf, var stride
+;                                                 矩形を 32bpp BGRA で var_buf に
+;                                                 書き込み、stride バイト数返す
+;     pix_wait_color x, y, rgb, tolerance, timeout_ms
+;                                                 指定色が現れるまでポーリング
+;     pix_find_color_rect x, y, w, h, rgb, tolerance, var fx, var fy
+;                                                 矩形内で最初の該当色位置を返す
+;============================================================
+#ifndef __iron_window_pixel_hsp__
+#define __iron_window_pixel_hsp__
+
+#uselib "user32.dll"
+#cfunc global _pxw_GetDC "GetDC" int
+#cfunc global _pxw_ReleaseDC "ReleaseDC" int, int
+#cfunc global _pxw_GetDesktopWindow "GetDesktopWindow"
+
+#uselib "gdi32.dll"
+#cfunc global _pxw_GetPixel "GetPixel" int, int, int
+#cfunc global _pxw_CreateCompatibleDC "CreateCompatibleDC" int
+#cfunc global _pxw_CreateCompatibleBitmap "CreateCompatibleBitmap" int, int, int
+#cfunc global _pxw_SelectObject "SelectObject" int, int
+#cfunc global _pxw_BitBlt "BitBlt" int, int, int, int, int, int, int, int, int
+#cfunc global _pxw_DeleteObject "DeleteObject" int
+#cfunc global _pxw_DeleteDC "DeleteDC" int
+#cfunc global _pxw_GetDIBits "GetDIBits" int, int, int, int, var, var, int
+
+#define global SRCCOPY $CC0020
+
+#module iron_window_pixel
+
+;---------------------------------------------------------
+; pix_screen x, y → RGB (int)
+;---------------------------------------------------------
+#defcfunc pix_screen int x, int y, \
+	local _dc, local _cr
+	_dc = _pxw_GetDC(0)
+	_cr = _pxw_GetPixel(_dc, x, y)
+	_pxw_ReleaseDC 0, _dc
+	; GetPixel returns COLORREF = 0x00BBGGRR, convert to 0xRRGGBB
+	return ((_cr & 0xFF) << 16) | ((_cr & 0xFF00)) | ((_cr >> 16) & 0xFF)
+
+#deffunc pix_screen_rgb int x, int y, var v_r, var v_g, var v_b, \
+	local _dc, local _cr
+	_dc = _pxw_GetDC(0)
+	_cr = _pxw_GetPixel(_dc, x, y)
+	_pxw_ReleaseDC 0, _dc
+	v_r = _cr & 0xFF
+	v_g = (_cr >> 8) & 0xFF
+	v_b = (_cr >> 16) & 0xFF
+	return 0
+
+#defcfunc pix_window int hwnd, int x, int y, \
+	local _dc, local _cr
+	_dc = _pxw_GetDC(hwnd)
+	_cr = _pxw_GetPixel(_dc, x, y)
+	_pxw_ReleaseDC hwnd, _dc
+	return ((_cr & 0xFF) << 16) | ((_cr & 0xFF00)) | ((_cr >> 16) & 0xFF)
+
+;---------------------------------------------------------
+; pix_screen_region: 矩形を 32bpp BGRA 形式で v_buf に書き込む
+;   BITMAPINFOHEADER (40 byte) + BI_RGB = 0, biBitCount = 32
+;---------------------------------------------------------
+#deffunc pix_screen_region int x, int y, int w, int h, var v_buf, var v_stride, \
+	local _dc_screen, local _dc_mem, local _bmp, local _old, local _bmi, local _sz
+	_dc_screen = _pxw_GetDC(0)
+	_dc_mem = _pxw_CreateCompatibleDC(_dc_screen)
+	_bmp = _pxw_CreateCompatibleBitmap(_dc_screen, w, h)
+	_old = _pxw_SelectObject(_dc_mem, _bmp)
+	_pxw_BitBlt _dc_mem, 0, 0, w, h, _dc_screen, x, y, SRCCOPY
+	_sz = w * 4 * h
+	sdim v_buf, _sz + 16
+	; BITMAPINFOHEADER
+	sdim _bmi, 64
+	lpoke _bmi,  0, 40       ; biSize
+	lpoke _bmi,  4, w
+	lpoke _bmi,  8, 0 - h    ; 負値で top-down
+	wpoke _bmi, 12, 1        ; biPlanes
+	wpoke _bmi, 14, 32       ; biBitCount
+	lpoke _bmi, 16, 0        ; biCompression=BI_RGB
+	_pxw_GetDIBits _dc_mem, _bmp, 0, h, v_buf, _bmi, 0
+	_pxw_SelectObject _dc_mem, _old
+	_pxw_DeleteObject _bmp
+	_pxw_DeleteDC _dc_mem
+	_pxw_ReleaseDC 0, _dc_screen
+	v_stride = w * 4
+	return _sz
+
+;---------------------------------------------------------
+; pix_wait_color x, y, rgb, tol, timeout_ms
+;   指定色 (tolerance 許容) が現れるまで 50ms おきにポーリング
+;---------------------------------------------------------
+#deffunc pix_wait_color int x, int y, int target_rgb, int tol, int timeout_ms, \
+	local _elapsed, local _cur, local _tr, local _tg, local _tb, \
+	local _cr, local _cg, local _cb
+	_tr = (target_rgb >> 16) & 0xFF
+	_tg = (target_rgb >> 8) & 0xFF
+	_tb = target_rgb & 0xFF
+	_elapsed = 0
+	repeat
+		_cur = pix_screen(x, y)
+		_cr = (_cur >> 16) & 0xFF
+		_cg = (_cur >> 8) & 0xFF
+		_cb = _cur & 0xFF
+		if (abs(_cr - _tr) <= tol) & (abs(_cg - _tg) <= tol) & (abs(_cb - _tb) <= tol) : return 0
+		wait 5           ; ~50ms
+		_elapsed = _elapsed + 50
+		if _elapsed >= timeout_ms : break
+	loop
+	return -1
+
+;---------------------------------------------------------
+; pix_find_color_rect: 矩形内を走査して最初の一致ピクセルを返す
+;---------------------------------------------------------
+#deffunc pix_find_color_rect int x, int y, int w, int h, \
+	int target_rgb, int tol, var v_fx, var v_fy, \
+	local _buf, local _stride, local _tr, local _tg, local _tb, \
+	local _ix, local _iy, local _idx, local _cr, local _cg, local _cb
+	_tr = (target_rgb >> 16) & 0xFF
+	_tg = (target_rgb >> 8) & 0xFF
+	_tb = target_rgb & 0xFF
+	pix_screen_region x, y, w, h, _buf, _stride
+	v_fx = -1 : v_fy = -1
+	repeat h
+		_iy = cnt
+		repeat w
+			_ix = cnt
+			_idx = _iy * _stride + _ix * 4
+			; BGRA order
+			_cb = peek(_buf, _idx + 0)
+			_cg = peek(_buf, _idx + 1)
+			_cr = peek(_buf, _idx + 2)
+			if (abs(_cr - _tr) <= tol) & (abs(_cg - _tg) <= tol) & (abs(_cb - _tb) <= tol) {
+				v_fx = x + _ix
+				v_fy = y + _iy
+				return 0
+			}
+		loop
+	loop
+	return -1
+
+#global
+#endif

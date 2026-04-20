@@ -1,0 +1,291 @@
+;============================================================
+;   iron_accessibility.hsp — MSAA / IAccessible (UIA のレガシー代替)
+;
+;   Microsoft Active Accessibility (MSAA) を oleacc.dll 経由で叩く。
+;   iron_uia が未対応 (古いアプリ、WinForms 等) のコントロールにも
+;   アクセスできることが多い。
+;
+;   hsp3net 専用 (.NET の Accessibility.IAccessible 経由)。
+;
+;   API:
+;     acc_from_hwnd hwnd, var_acc_h             HWND から IAccessible 取得
+;     acc_from_point x, y, var_acc_h            座標から取得
+;     acc_name acc_h                              → refstr
+;     acc_role acc_h                              → refstr (role name)
+;     acc_value acc_h                             → refstr
+;     acc_state acc_h                             → stat=bitset
+;     acc_description acc_h                       → refstr
+;     acc_default_action acc_h                    → refstr
+;     acc_do_default acc_h                        実行 (Click 相当)
+;     acc_focus acc_h                              SetFocus
+;     acc_select acc_h flags                      Select
+;     acc_children acc_h, var_tsv, var n          子要素ハンドル列挙
+;     acc_parent acc_h, var_parent_h
+;     acc_location acc_h, var x, var y, var w, var h
+;     acc_close acc_h                              ハンドル解放
+;============================================================
+#ifndef __iron_accessibility_hsp__
+#define __iron_accessibility_hsp__
+
+#module iron_accessibility
+
+dim _acc_cs_loaded, 1
+
+#deffunc _acc_load_cs
+	if _acc_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
+using Accessibility;
+
+public class HspAcc {
+    static Dictionary<int, IAccessible> handles = new Dictionary<int, IAccessible>();
+    static int nextHandle = 1;
+
+    [DllImport(\"oleacc.dll\")]
+    static extern int AccessibleObjectFromWindow(IntPtr hwnd, uint id, ref Guid riid, out IAccessible acc);
+    [DllImport(\"oleacc.dll\")]
+    static extern int AccessibleObjectFromPoint(System.Drawing.Point pt, out IAccessible acc, out object childId);
+    [DllImport(\"oleacc.dll\")]
+    static extern uint GetRoleText(uint role, StringBuilder sb, uint cch);
+
+    const uint OBJID_CLIENT = 0xFFFFFFFC;
+    static Guid IID_IAccessible = new Guid(\"{618736E0-3C3D-11CF-810C-00AA00389B71}\");
+
+    static int Register(IAccessible a) { int h = nextHandle++; handles[h] = a; return h; }
+    static IAccessible Get(int h) { IAccessible a; return handles.TryGetValue(h, out a) ? a : null; }
+
+    public static string FromHwnd(int hwnd) {
+        try {
+            IAccessible acc;
+            Guid iid = IID_IAccessible;
+            int hr = AccessibleObjectFromWindow(new IntPtr(hwnd), OBJID_CLIENT, ref iid, out acc);
+            if (hr != 0 || acc == null) return \"-1\";
+            return Register(acc).ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string FromPoint(int x, int y) {
+        try {
+            IAccessible acc; object id;
+            int hr = AccessibleObjectFromPoint(new System.Drawing.Point(x, y), out acc, out id);
+            if (hr != 0 || acc == null) return \"-1\";
+            return Register(acc).ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Name(int h) {
+        var a = Get(h); if (a == null) return \"\";
+        try { return a.get_accName(0) ?? \"\"; } catch { return \"\"; }
+    }
+    public static string Role(int h) {
+        var a = Get(h); if (a == null) return \"\";
+        try {
+            var r = a.get_accRole(0);
+            if (r is int iv) {
+                var sb = new StringBuilder(128);
+                GetRoleText((uint)iv, sb, (uint)sb.Capacity);
+                return sb.ToString();
+            }
+            return r?.ToString() ?? \"\";
+        } catch { return \"\"; }
+    }
+    public static string Value(int h) {
+        var a = Get(h); if (a == null) return \"\";
+        try { return a.get_accValue(0) ?? \"\"; } catch { return \"\"; }
+    }
+    public static string StateI(int h) {
+        var a = Get(h); if (a == null) return \"0\";
+        try {
+            var v = a.get_accState(0);
+            if (v is int iv) return iv.ToString();
+            return \"0\";
+        } catch { return \"0\"; }
+    }
+    public static string Description(int h) {
+        var a = Get(h); if (a == null) return \"\";
+        try { return a.get_accDescription(0) ?? \"\"; } catch { return \"\"; }
+    }
+    public static string DefaultAction(int h) {
+        var a = Get(h); if (a == null) return \"\";
+        try { return a.get_accDefaultAction(0) ?? \"\"; } catch { return \"\"; }
+    }
+    public static string DoDefault(int h) {
+        var a = Get(h); if (a == null) return \"-1\";
+        try { a.accDoDefaultAction(0); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Focus(int h) {
+        var a = Get(h); if (a == null) return \"-1\";
+        try { a.accSelect(1 /* SELFLAG_TAKEFOCUS */, 0); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Select(int h, int flags) {
+        var a = Get(h); if (a == null) return \"-1\";
+        try { a.accSelect(flags, 0); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Children(int h) {
+        var a = Get(h); if (a == null) return \"0\\t\";
+        try {
+            int cnt = a.accChildCount;
+            object[] arr = new object[cnt];
+            int obtained = 0;
+            // AccessibleChildren は Reflection で呼び出す
+            // 簡易実装: 1..cnt で get_accChild をループ
+            var sb = new StringBuilder();
+            int n = 0;
+            for (int i = 1; i <= cnt; i++) {
+                object child = null;
+                try { child = a.get_accChild(i); } catch {}
+                if (child is IAccessible ca) {
+                    int h2 = Register(ca);
+                    if (n > 0) sb.Append('\\t');
+                    sb.Append(h2);
+                    n++;
+                }
+            }
+            return n + \"\\t\" + sb.ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Parent(int h) {
+        var a = Get(h); if (a == null) return \"-1\";
+        try {
+            var p = a.accParent;
+            if (p is IAccessible pa) return Register(pa).ToString();
+            return \"-1\";
+        } catch { return \"-1\"; }
+    }
+    public static string Location(int h) {
+        var a = Get(h); if (a == null) return \"0\\t0\\t0\\t0\";
+        try {
+            int x, y, w, he;
+            a.accLocation(out x, out y, out w, out he, 0);
+            return x + \"\\t\" + y + \"\\t\" + w + \"\\t\" + he;
+        } catch { return \"0\\t0\\t0\\t0\"; }
+    }
+    public static string Close(int h) {
+        if (handles.ContainsKey(h)) handles.Remove(h);
+        return \"0\";
+    }
+}
+"}
+	loadnet _cs, 3, "Accessibility.dll", "System.Drawing.dll"
+	_acc_cs_loaded = 1
+	return
+
+#deffunc acc_from_hwnd int hwnd, var v_h, \
+	local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "FromHwnd", _r, hwnd
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc acc_from_point int x, int y, var v_h, \
+	local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "FromPoint", _r, x, y
+	v_h = int("" + _r)
+	return v_h
+
+#defcfunc acc_name int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Name", _r, h
+	return "" + _r
+
+#defcfunc acc_role int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Role", _r, h
+	return "" + _r
+
+#defcfunc acc_value int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Value", _r, h
+	return "" + _r
+
+#defcfunc acc_state int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "StateI", _r, h
+	return int("" + _r)
+
+#defcfunc acc_description int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Description", _r, h
+	return "" + _r
+
+#defcfunc acc_default_action int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "DefaultAction", _r, h
+	return "" + _r
+
+#deffunc acc_do_default int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "DoDefault", _r, h
+	return int("" + _r)
+
+#deffunc acc_focus int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Focus", _r, h
+	return int("" + _r)
+
+#deffunc acc_select int h, int flags, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Select", _r, h, flags
+	return int("" + _r)
+
+#deffunc acc_children int h, var v_tsv, var v_n, \
+	local _hh, local _r, local _s, local _tab
+	sdim v_tsv, 4096
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Children", _r, h
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_n = 0 : v_tsv = "" : return -1
+	v_n = int(strmid(_s, 0, _tab))
+	v_tsv = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return v_n
+
+#deffunc acc_parent int h, var v_h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Parent", _r, h
+	v_h = int("" + _r)
+	return v_h
+
+#deffunc acc_location int h, var v_x, var v_y, var v_w, var v_h, \
+	local _hh, local _r, local _s, local _t1, local _t2, local _t3
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Location", _r, h
+	_s = "" + _r
+	_t1 = instr(_s, 0, "\t")
+	_t2 = instr(_s, _t1 + 1, "\t")
+	_t3 = instr(_s, _t2 + 1, "\t")
+	v_x = int(strmid(_s, 0, _t1))
+	v_y = int(strmid(_s, _t1 + 1, _t2 - _t1 - 1))
+	v_w = int(strmid(_s, _t2 + 1, _t3 - _t2 - 1))
+	v_h = int(strmid(_s, _t3 + 1, strlen(_s) - _t3 - 1))
+	return 0
+
+#deffunc acc_close int h, local _hh, local _r
+	_acc_load_cs
+	newnet _hh, "HspAcc"
+	mcall _hh, "Close", _r, h
+	return 0
+
+#global
+#endif

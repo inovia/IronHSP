@@ -1,0 +1,259 @@
+;============================================================
+;   iron_rpa_flow.hsp — RPA ハイレベル DSL
+;
+;   iron_uia / iron_window / iron_input / iron_template_match /
+;   iron_screen_ocr を合成し、「ウィンドウA のボタンB を押す」を
+;   1 行で書ける高レベル API。
+;
+;   すべてのヘルパは「ウィンドウタイトル」+「target name/autoid」を
+;   受ける文字列 API。内部でウィンドウ活性化 → UIA 要素検索 →
+;   操作の 3 段を自動でやる。失敗時はデフォルトで wait_ms 刻みで
+;   リトライ (最大 rpa_set_timeout_ms)。
+;
+;   API:
+;     rpa_set_timeout_ms ms                     全ての wait 系のデフォルト
+;     rpa_set_retry_ms ms                       ポーリング間隔 (既定 100)
+;
+;     rpa_focus_window "title_like"              フォアグラウンド化
+;     rpa_wait_window "title_like", [timeout_ms] タイトル出現待ち
+;                                                  → stat=hwnd
+;
+;     rpa_click_button "window_title", "button_name"
+;                                                 ウィンドウ内のボタンをクリック
+;     rpa_type_text "window_title", "field_name", "text"
+;                                                 エディットに文字入力
+;     rpa_select_menu "window_title", "menu_path|sub1|sub2"
+;                                                 メニュー階層たどって選択
+;     rpa_wait_text "window_title", "expected_text", timeout_ms
+;                                                 テキストが出るまで待つ
+;     rpa_read_text "window_title", "field_name", var_out
+;     rpa_toggle_check "window_title", "checkbox_name", want_state
+;
+;     rpa_click_image "template.png" [, threshold]
+;                                                 画面上の画像検出 → クリック
+;     rpa_wait_image "template.png", timeout_ms   画像出現待ち → クリック
+;     rpa_ocr_wait_text "expected", timeout_ms    OCR で画面にテキスト出現待ち
+;
+;     rpa_key "combo"                              ショートカット送出
+;     rpa_text "plain text"                        文字列タイプ
+;     rpa_sleep_ms ms                              待機
+;
+;   依存: iron_uia.hsp / iron_window.hsp / iron_input.hsp /
+;         iron_template_match.hsp / iron_screen_ocr.hsp (optional)
+;============================================================
+#ifndef __iron_rpa_flow_hsp__
+#define __iron_rpa_flow_hsp__
+
+#include "iron_uia.hsp"
+#include "iron_window.hsp"
+#include "iron_input.hsp"
+#include "iron_template_match.hsp"
+
+#module iron_rpa
+
+dim _rpa_timeout_ms, 1
+_rpa_timeout_ms = 10000
+dim _rpa_retry_ms, 1
+_rpa_retry_ms = 100
+
+#deffunc rpa_set_timeout_ms int ms
+	_rpa_timeout_ms = ms
+	return
+
+#deffunc rpa_set_retry_ms int ms
+	_rpa_retry_ms = ms
+	return
+
+;---------------------------------------------------------
+; rpa_focus_window "title"
+;---------------------------------------------------------
+#deffunc rpa_focus_window str title, \
+	local _hwnd
+	win_find title, "", _hwnd
+	if _hwnd = 0 : return -1
+	win_restore _hwnd
+	win_activate _hwnd
+	return _hwnd
+
+;---------------------------------------------------------
+; rpa_wait_window "title" [, timeout_ms]
+;---------------------------------------------------------
+#deffunc rpa_wait_window str title, array _opt, \
+	local _tmo, local _elapsed, local _hwnd
+	_tmo = _rpa_timeout_ms
+	if length(_opt) >= 1 : _tmo = _opt(0)
+	_elapsed = 0
+	repeat
+		win_find title, "", _hwnd
+		if _hwnd > 0 : return _hwnd
+		wait _rpa_retry_ms / 10
+		_elapsed = _elapsed + _rpa_retry_ms
+		if _elapsed >= _tmo : break
+	loop
+	return 0
+
+;---------------------------------------------------------
+; 内部: window_title 内の UIA 要素を検索してハンドルを返す
+;   query は rpa_click_button 等からの target (name / autoid / ctype)
+;---------------------------------------------------------
+#deffunc _rpa_find_in_window str window_title, str query, var v_uh, \
+	local _hwnd, local _root_h, local _window_h, local _elapsed, local _tmo
+	v_uh = -1
+	_tmo = _rpa_timeout_ms
+	_elapsed = 0
+	repeat
+		win_find window_title, "", _hwnd
+		if _hwnd > 0 {
+			iron_uia_from_point 0, 0, _root_h        ; desktop root 代わり
+			iron_uia_root _root_h
+			iron_uia_find_first _root_h, "name=" + window_title + ";ctype=Window", _window_h
+			if _window_h > 0 {
+				iron_uia_find_first _window_h, query, v_uh
+				if v_uh > 0 : return v_uh
+			}
+		}
+		wait _rpa_retry_ms / 10
+		_elapsed = _elapsed + _rpa_retry_ms
+		if _elapsed >= _tmo : break
+	loop
+	return -1
+
+;---------------------------------------------------------
+; rpa_click_button "window", "button"
+;---------------------------------------------------------
+#deffunc rpa_click_button str window_title, str button_name, \
+	local _uh
+	_rpa_find_in_window window_title, "ctype=Button;name=" + button_name, _uh
+	if _uh < 0 : return -1
+	iron_uia_invoke _uh
+	iron_uia_close_handle _uh
+	return 0
+
+;---------------------------------------------------------
+; rpa_type_text "window", "field", "text"
+;   エディット (ctype=Edit) を name or autoid で見つけて SetValue
+;---------------------------------------------------------
+#deffunc rpa_type_text str window_title, str field, str text, \
+	local _uh
+	_rpa_find_in_window window_title, "ctype=Edit;name=" + field, _uh
+	if _uh < 0 {
+		_rpa_find_in_window window_title, "ctype=Edit;autoid=" + field, _uh
+		if _uh < 0 : return -1
+	}
+	iron_uia_set_value _uh, text
+	iron_uia_close_handle _uh
+	return 0
+
+;---------------------------------------------------------
+; rpa_read_text "window", "field", var_out
+;---------------------------------------------------------
+#deffunc rpa_read_text str window_title, str field, var v_out, \
+	local _uh, local _val
+	sdim v_out, 4096
+	_rpa_find_in_window window_title, "name=" + field, _uh
+	if _uh < 0 : v_out = "" : return -1
+	_val = iron_uia_get_value(_uh)
+	v_out = _val
+	iron_uia_close_handle _uh
+	return 0
+
+;---------------------------------------------------------
+; rpa_toggle_check: Checkbox を指定状態に
+;   want_state: 0=off, 1=on
+;---------------------------------------------------------
+#deffunc rpa_toggle_check str window_title, str checkbox_name, int want_state, \
+	local _uh, local _state
+	_rpa_find_in_window window_title, "ctype=CheckBox;name=" + checkbox_name, _uh
+	if _uh < 0 : return -1
+	_state = iron_uia_toggle_state(_uh)
+	if _state != want_state : iron_uia_toggle _uh
+	iron_uia_close_handle _uh
+	return 0
+
+;---------------------------------------------------------
+; rpa_select_menu "window", "File|Save As"
+;   MenuItem 階層を | で区切って順にクリック
+;---------------------------------------------------------
+#deffunc rpa_select_menu str window_title, str menu_path, \
+	local _parts, local _n, local _start, local _uh, local _i
+	sdim _parts, 64, 16
+	_n = 0 : _start = 0
+	repeat strlen(menu_path) + 1
+		if cnt = strlen(menu_path) {
+			_parts(_n) = strmid(menu_path, _start, cnt - _start)
+			_n++
+			break
+		}
+		if peek(menu_path, cnt) = '|' {
+			_parts(_n) = strmid(menu_path, _start, cnt - _start)
+			_n++
+			_start = cnt + 1
+		}
+	loop
+	repeat _n
+		_rpa_find_in_window window_title, "ctype=MenuItem;name=" + _parts(cnt), _uh
+		if _uh < 0 : return -1 - cnt
+		iron_uia_invoke _uh
+		iron_uia_close_handle _uh
+		wait 10
+	loop
+	return 0
+
+;---------------------------------------------------------
+; rpa_wait_text "window", "expected", timeout_ms
+;   ウィンドウ内のどこかに expected テキスト (partial match) が出るまで
+;---------------------------------------------------------
+#deffunc rpa_wait_text str window_title, str expected, int timeout_ms, \
+	local _hwnd, local _elapsed, local _uh, local _root_h, local _text
+	_elapsed = 0
+	repeat
+		win_find window_title, "", _hwnd
+		if _hwnd > 0 {
+			iron_uia_root _root_h
+			iron_uia_find_first _root_h, "name=" + expected, _uh
+			if _uh > 0 {
+				iron_uia_close_handle _uh
+				return 0
+			}
+		}
+		wait _rpa_retry_ms / 10
+		_elapsed = _elapsed + _rpa_retry_ms
+		if _elapsed >= timeout_ms : break
+	loop
+	return -1
+
+;---------------------------------------------------------
+; 画像ベース
+;---------------------------------------------------------
+#deffunc rpa_click_image str path, array _opt
+	tmpl_click path, _opt
+	return stat
+
+#deffunc rpa_wait_image str path, int timeout_ms, \
+	array _opt, \
+	local _thr, local _x, local _y
+	_thr = 0.9
+	if length(_opt) >= 1 : _thr = double(_opt(0))
+	tmpl_wait path, timeout_ms, _x, _y, _thr
+	if stat < 0 : return -1
+	input_mouse_move _x, _y
+	input_mouse_click 0
+	return 0
+
+;---------------------------------------------------------
+; キー・テキスト送出
+;---------------------------------------------------------
+#deffunc rpa_key str combo
+	input_combo combo
+	return 0
+
+#deffunc rpa_text str text
+	input_type_text text
+	return 0
+
+#deffunc rpa_sleep_ms int ms
+	wait ms / 10
+	return 0
+
+#global
+#endif
