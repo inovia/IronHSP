@@ -1,0 +1,147 @@
+;============================================================
+;   iron_mqo.hsp — Metasequoia (.mqo) ローダ (pure HSP、最小実装)
+;
+;   .mqo はテキスト形式で、Object セクション内に vertex 配列と
+;   face 配列が記述される。本モジュールは 1 つ目の Object の
+;   頂点と面 (三角化して格納) を抽出する最小実装。
+;
+;   対応:
+;     ASCII .mqo (UTF-8 推奨 / SJIS 可)
+;     Object ブロックの vertex / face / face M(n) V(...) のみ
+;     face の V(...) は 3 以上で扇分割
+;
+;   対応外:
+;     BLOB (3-D バイナリ) / UV / material / bone / anim / mirror / patch
+;
+;   API:
+;     mqo_load "file.mqo", var_verts, var_tris, var n_verts, var n_tris
+;        verts: double[3 * n_verts]
+;        tris:  int[3 * n_tris]
+;        戻り値: 0=OK / <0=エラー
+;============================================================
+#ifndef __iron_mqo_hsp__
+#define __iron_mqo_hsp__
+
+#ifndef MQO_MAX_VERTS
+#define MQO_MAX_VERTS 131072
+#endif
+#ifndef MQO_MAX_TRIS
+#define MQO_MAX_TRIS 262144
+#endif
+
+#module iron_mqo
+
+#deffunc mqo_load str path, var v_verts, var v_tris, var v_nv, var v_nt, \
+	local _size, local _buf, local _p, local _eol, local _line, \
+	local _state, local _n_verts, local _n_tris, \
+	local _toks, local _ntok, local _lp, \
+	local _mi, local _vlp, local _vrp, local _fv, local _fa, local _fb, local _fc, \
+	local _found_obj
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+	ddim v_verts, MQO_MAX_VERTS * 3
+	dim  v_tris,  MQO_MAX_TRIS * 3
+	v_nv = 0 : v_nt = 0
+	_n_verts = 0 : _n_tris = 0
+	_state = 0   ; 0=top / 1=inside Object / 2=reading vertex list / 3=reading face list
+	_found_obj = 0
+	_p = 0
+	repeat
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
+		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		; trim
+		repeat strlen(_line)
+			if peek(_line, 0) = ' ' : _line = strmid(_line, 1, strlen(_line) - 1) : continue
+			if peek(_line, 0) = 9   : _line = strmid(_line, 1, strlen(_line) - 1) : continue
+			break
+		loop
+		if strlen(_line) = 0 : continue
+
+		if _state = 0 {
+			; top-level: Object "..." { を探す
+			if instr(_line, 0, "Object") = 0 & _found_obj = 0 {
+				_state = 1
+				_found_obj = 1
+				continue
+			}
+			continue
+		}
+		if _state = 1 {
+			; Inside object; look for "vertex N {" or "face N {" or "}"
+			if peek(_line, 0) = '}' : _state = 0 : continue
+			if instr(_line, 0, "vertex") = 0 : _state = 2 : continue
+			if instr(_line, 0, "face")   = 0 : _state = 3 : continue
+			continue
+		}
+		if _state = 2 {
+			; vertex list: 1 行 1 頂点、"x y z"
+			if peek(_line, 0) = '}' : _state = 1 : continue
+			if _n_verts >= MQO_MAX_VERTS : continue
+			sdim _toks, 64, 8
+			_ntok = 0
+			_mqo_split_ws _line, _toks, _ntok
+			if _ntok < 3 : continue
+			v_verts(_n_verts * 3 + 0) = double(_toks(0))
+			v_verts(_n_verts * 3 + 1) = double(_toks(1))
+			v_verts(_n_verts * 3 + 2) = double(_toks(2))
+			_n_verts++
+			continue
+		}
+		if _state = 3 {
+			; face list: "N V(a b c ...) M(...) ..."
+			if peek(_line, 0) = '}' : _state = 1 : continue
+			_vlp = instr(_line, 0, "V(")
+			if _vlp < 0 : continue
+			_vrp = instr(_line, _vlp + 2, ")")
+			if _vrp < 0 : continue
+			_mi = strmid(_line, _vlp + 2, _vrp - _vlp - 2)
+			sdim _toks, 64, 16
+			_ntok = 0
+			_mqo_split_ws _mi, _toks, _ntok
+			if _ntok < 3 : continue
+			_fa = int(_toks(0))
+			_fb = int(_toks(1))
+			_fv = 2
+			repeat _ntok - 2
+				if _n_tris >= MQO_MAX_TRIS : break
+				_fc = int(_toks(_fv))
+				v_tris(_n_tris * 3 + 0) = _fa
+				v_tris(_n_tris * 3 + 1) = _fb
+				v_tris(_n_tris * 3 + 2) = _fc
+				_fb = _fc
+				_fv++
+				_n_tris++
+			loop
+			continue
+		}
+	loop
+	v_nv = _n_verts : v_nt = _n_tris
+	return 0
+
+#deffunc _mqo_split_ws str s, array v_out, var v_n, \
+	local _start, local _in_tok, local _c
+	_start = 0 : _in_tok = 0 : v_n = 0
+	repeat strlen(s) + 1
+		if cnt = strlen(s) {
+			if _in_tok = 1 : v_out(v_n) = strmid(s, _start, cnt - _start) : v_n++
+			break
+		}
+		_c = peek(s, cnt)
+		if (_c = ' ') | (_c = 9) {
+			if _in_tok = 1 : v_out(v_n) = strmid(s, _start, cnt - _start) : v_n++ : _in_tok = 0
+		} else {
+			if _in_tok = 0 : _start = cnt : _in_tok = 1
+		}
+	loop
+	return
+
+#global
+#endif

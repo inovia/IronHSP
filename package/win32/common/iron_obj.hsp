@@ -1,0 +1,206 @@
+;============================================================
+;   iron_obj.hsp — Wavefront OBJ ローダ (pure HSP)
+;
+;   Wavefront .obj を読み込み、頂点配列 / 法線配列 / UV 配列 /
+;   三角形インデックス配列に展開する。
+;
+;   対応する構文:
+;     v x y z           頂点座標
+;     vn nx ny nz       法線
+;     vt u v            テクスチャ UV
+;     f v1 v2 v3 ...    多角形面 (三角扇で自動分割)
+;     f v1/t1/n1 ...    v/t/n の組、t n は省略可
+;     f v1//n1 ...      UV なし
+;     g / o / s         無視 (構造のみ認識)
+;     # ...             コメント
+;
+;   対応外: 曲面 / NURBS / mtl 本体パース (ファイル名の記憶のみ)
+;
+;   API:
+;     obj_load "file.obj", var_verts, var_norms, var_uvs, var_tris,
+;              var n_verts, var n_norms, var n_uvs, var n_tris
+;          verts: double[3 * n_verts]  (x, y, z * n_verts)
+;          norms: double[3 * n_norms]
+;          uvs:   double[2 * n_uvs]
+;          tris:  int[9 * n_tris]  (v1, t1, n1, v2, t2, n2, v3, t3, n3)
+;                 0-based index、欠落は -1。
+;          戻り値: 0=OK / <0=エラー
+;
+;   制限: 初期容量は verts=65536 / norms=65536 / uvs=65536 / tris=131072。
+;         これを超えるモデルは別途 OBJ_MAX_* マクロで拡大するか split する。
+;============================================================
+#ifndef __iron_obj_hsp__
+#define __iron_obj_hsp__
+
+#ifndef OBJ_MAX_VERTS
+#define OBJ_MAX_VERTS 65536
+#endif
+#ifndef OBJ_MAX_NORMS
+#define OBJ_MAX_NORMS 65536
+#endif
+#ifndef OBJ_MAX_UVS
+#define OBJ_MAX_UVS 65536
+#endif
+#ifndef OBJ_MAX_TRIS
+#define OBJ_MAX_TRIS 131072
+#endif
+
+#module iron_obj
+
+#deffunc obj_load str path, var v_verts, var v_norms, var v_uvs, var v_tris, \
+	var v_nv, var v_nn, var v_nu, var v_nt, \
+	local _size, local _buf, local _p, local _eol, local _line, \
+	local _space, local _tag, local _rest, \
+	local _x, local _y, local _z, local _u, local _uv_v, \
+	local _n_verts, local _n_norms, local _n_uvs, local _n_tris, \
+	local _face_toks, local _face_n, local _face_i, \
+	local _i_v, local _i_t, local _i_n
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+	ddim v_verts, OBJ_MAX_VERTS * 3
+	ddim v_norms, OBJ_MAX_NORMS * 3
+	ddim v_uvs,   OBJ_MAX_UVS   * 2
+	dim  v_tris,  OBJ_MAX_TRIS  * 9
+	_n_verts = 0 : _n_norms = 0 : _n_uvs = 0 : _n_tris = 0
+	_p = 0
+	repeat
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p) : _p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		}
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		if strlen(_line) = 0 : continue
+		if peek(_line, 0) = '#' : continue
+		_space = instr(_line, 0, " ")
+		if _space < 0 : continue
+		_tag  = strmid(_line, 0, _space)
+		_rest = strmid(_line, _space + 1, strlen(_line) - _space - 1)
+		if _tag = "v" {
+			if _n_verts >= OBJ_MAX_VERTS : continue
+			_obj_parse_3 _rest, _x, _y, _z
+			v_verts(_n_verts * 3 + 0) = _x
+			v_verts(_n_verts * 3 + 1) = _y
+			v_verts(_n_verts * 3 + 2) = _z
+			_n_verts++
+			continue
+		}
+		if _tag = "vn" {
+			if _n_norms >= OBJ_MAX_NORMS : continue
+			_obj_parse_3 _rest, _x, _y, _z
+			v_norms(_n_norms * 3 + 0) = _x
+			v_norms(_n_norms * 3 + 1) = _y
+			v_norms(_n_norms * 3 + 2) = _z
+			_n_norms++
+			continue
+		}
+		if _tag = "vt" {
+			if _n_uvs >= OBJ_MAX_UVS : continue
+			_obj_parse_2 _rest, _u, _uv_v
+			v_uvs(_n_uvs * 2 + 0) = _u
+			v_uvs(_n_uvs * 2 + 1) = _uv_v
+			_n_uvs++
+			continue
+		}
+		if _tag = "f" {
+			sdim _face_toks, 64, 16
+			_face_n = 0
+			_obj_split_ws _rest, _face_toks, _face_n
+			if _face_n < 3 : continue
+			repeat _face_n - 2
+				if _n_tris >= OBJ_MAX_TRIS : break
+				_face_i = cnt
+				_obj_parse_face_idx _face_toks(0), _i_v, _i_t, _i_n
+				v_tris(_n_tris * 9 + 0) = _i_v
+				v_tris(_n_tris * 9 + 1) = _i_t
+				v_tris(_n_tris * 9 + 2) = _i_n
+				_obj_parse_face_idx _face_toks(_face_i + 1), _i_v, _i_t, _i_n
+				v_tris(_n_tris * 9 + 3) = _i_v
+				v_tris(_n_tris * 9 + 4) = _i_t
+				v_tris(_n_tris * 9 + 5) = _i_n
+				_obj_parse_face_idx _face_toks(_face_i + 2), _i_v, _i_t, _i_n
+				v_tris(_n_tris * 9 + 6) = _i_v
+				v_tris(_n_tris * 9 + 7) = _i_t
+				v_tris(_n_tris * 9 + 8) = _i_n
+				_n_tris++
+			loop
+			continue
+		}
+	loop
+	v_nv = _n_verts : v_nn = _n_norms : v_nu = _n_uvs : v_nt = _n_tris
+	return 0
+
+#deffunc _obj_parse_3 str s, var v_x, var v_y, var v_z, \
+	local _toks, local _n
+	sdim _toks, 64, 6
+	_n = 0
+	_obj_split_ws s, _toks, _n
+	if _n >= 1 : v_x = double(_toks(0))
+	if _n >= 2 : v_y = double(_toks(1))
+	if _n >= 3 : v_z = double(_toks(2))
+	return
+
+#deffunc _obj_parse_2 str s, var v_u, var v_v, \
+	local _toks, local _n
+	sdim _toks, 64, 4
+	_n = 0
+	_obj_split_ws s, _toks, _n
+	if _n >= 1 : v_u = double(_toks(0))
+	if _n >= 2 : v_v = double(_toks(1))
+	return
+
+#deffunc _obj_split_ws str s, array v_out, var v_n, \
+	local _start, local _in_tok, local _c
+	_start = 0 : _in_tok = 0 : v_n = 0
+	repeat strlen(s) + 1
+		if cnt = strlen(s) {
+			if _in_tok = 1 {
+				v_out(v_n) = strmid(s, _start, cnt - _start)
+				v_n++
+			}
+			break
+		}
+		_c = peek(s, cnt)
+		if (_c = ' ') | (_c = 9) {
+			if _in_tok = 1 {
+				v_out(v_n) = strmid(s, _start, cnt - _start)
+				v_n++
+				_in_tok = 0
+			}
+		} else {
+			if _in_tok = 0 : _start = cnt : _in_tok = 1
+		}
+	loop
+	return
+
+#deffunc _obj_parse_face_idx str tok, var v_iv, var v_it, var v_in, \
+	local _p1, local _p2, local _part
+	v_iv = -1 : v_it = -1 : v_in = -1
+	_p1 = instr(tok, 0, "/")
+	if _p1 < 0 {
+		v_iv = int(tok) - 1
+		return
+	}
+	_part = strmid(tok, 0, _p1)
+	if strlen(_part) > 0 : v_iv = int(_part) - 1
+	_p2 = instr(tok, _p1 + 1, "/")
+	if _p2 < 0 {
+		_part = strmid(tok, _p1 + 1, strlen(tok) - _p1 - 1)
+		if strlen(_part) > 0 : v_it = int(_part) - 1
+		return
+	}
+	_part = strmid(tok, _p1 + 1, _p2 - _p1 - 1)
+	if strlen(_part) > 0 : v_it = int(_part) - 1
+	_part = strmid(tok, _p2 + 1, strlen(tok) - _p2 - 1)
+	if strlen(_part) > 0 : v_in = int(_part) - 1
+	return
+
+#global
+#endif

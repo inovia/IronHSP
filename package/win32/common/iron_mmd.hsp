@@ -1,0 +1,205 @@
+;============================================================
+;   iron_mmd.hsp — MikuMiku Dance PMD / PMX ローダ (最小実装)
+;
+;   MMD の PMD (旧) / PMX (新) バイナリモデルから頂点位置 / 法線 /
+;   UV / 三角形インデックスのみを抜き出す最小実装。
+;
+;   対応:
+;     PMD 1.0 (ヘッダ "Pmd\0")    — vertex / face のみ
+;     PMX 2.0 / 2.1 (ヘッダ "PMX ") — vertex / face のみ (bone/morph/material 無視)
+;
+;   対応外:
+;     マテリアル / ボーン / モーフ / IK / 剛体 / ジョイント / 物理 /
+;     テクスチャ / 英名表示 / toon / SDEF ...
+;
+;   API:
+;     mmd_load "file.pmx", var_verts, var_norms, var_uvs, var_tris,
+;              var n_verts, var n_tris, var kind
+;        verts: double[3 * n_verts]
+;        norms: double[3 * n_verts]
+;        uvs:   double[2 * n_verts]
+;        tris:  int[3 * n_tris]
+;        kind:  1=PMD / 2=PMX
+;        戻り値: 0=OK / <0=エラー
+;
+;   注意: 文字エンコーディングは PMX 2.0 ヘッダで UTF-16/UTF-8 を選べるが、
+;   本実装は名前系をスキップするためエンコーディングを読むだけで解釈しない。
+;============================================================
+#ifndef __iron_mmd_hsp__
+#define __iron_mmd_hsp__
+
+#module iron_mmd
+
+#defcfunc _mmd_flt var buf, int ofs, \
+	local _b, local _s, local _e, local _m, local _md, local _ex, local _v
+	_b = lpeek(buf, ofs)
+	_s = (_b >> 31) & 1
+	_e = (_b >> 23) & 0xFF
+	_m = _b & 0x7FFFFF
+	if _e = 0 : return 0.0
+	if _e = 0xFF : return 0.0
+	_md = 1.0 + (1.0 * _m) / 8388608.0
+	_ex = _e - 127
+	_v = _md
+	if _ex >= 0 : repeat _ex : _v *= 2.0 : loop
+	if _ex < 0  : repeat 0 - _ex : _v *= 0.5 : loop
+	if _s = 1 : _v = 0.0 - _v
+	return _v
+
+#defcfunc _mmd_idx_signed var buf, int ofs, int nbytes
+	if nbytes = 1 {
+		if peek(buf, ofs) & 0x80 : return peek(buf, ofs) - 256
+		return peek(buf, ofs)
+	}
+	if nbytes = 2 {
+		if wpeek(buf, ofs) & 0x8000 : return wpeek(buf, ofs) - 65536
+		return wpeek(buf, ofs)
+	}
+	return lpeek(buf, ofs)
+
+#defcfunc _mmd_idx_unsigned var buf, int ofs, int nbytes
+	if nbytes = 1 : return peek(buf, ofs)
+	if nbytes = 2 : return wpeek(buf, ofs)
+	return lpeek(buf, ofs)
+
+;---------------------------------------------------------
+; mmd_load メイン
+;---------------------------------------------------------
+#deffunc mmd_load str path, var v_verts, var v_norms, var v_uvs, var v_tris, \
+	var v_nv, var v_nt, var v_kind, \
+	local _size, local _buf, local _off, local _kind, \
+	local _vcount, local _fcount, local _i, local _globals_count, \
+	local _text_enc, local _add_uv, local _vidx_size, local _texidx_size, \
+	local _matidx_size, local _boneidx_size, local _morphidx_size, local _rbidx_size, \
+	local _tmp_count, local _skip_len, local _wdef
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+
+	; ヘッダ判別
+	_kind = 0
+	if (peek(_buf, 0) = 'P') & (peek(_buf, 1) = 'm') & (peek(_buf, 2) = 'd') : _kind = 1
+	if (peek(_buf, 0) = 'P') & (peek(_buf, 1) = 'M') & (peek(_buf, 2) = 'X') : _kind = 2
+	if _kind = 0 : return -2
+
+	if _kind = 1 {
+		; ========== PMD ==========
+		; 0-2  "Pmd"
+		; 3-6  version float
+		; 7-26 model name (20 bytes SJIS)
+		; 27-282 comment (256 bytes)
+		; 283- vertex count (u32)
+		_off = 283
+		_vcount = lpeek(_buf, _off)
+		_off = _off + 4
+		; vertex: 38 bytes × N
+		;  position float[3] (12), normal float[3] (12), uv float[2] (8),
+		;  bone_num u16[2] (4), bone_weight u8 (1), edge_flag u8 (1)
+		ddim v_verts, _vcount * 3
+		ddim v_norms, _vcount * 3
+		ddim v_uvs,   _vcount * 2
+		repeat _vcount
+			v_verts(cnt * 3 + 0) = _mmd_flt(_buf, _off + cnt * 38 + 0)
+			v_verts(cnt * 3 + 1) = _mmd_flt(_buf, _off + cnt * 38 + 4)
+			v_verts(cnt * 3 + 2) = _mmd_flt(_buf, _off + cnt * 38 + 8)
+			v_norms(cnt * 3 + 0) = _mmd_flt(_buf, _off + cnt * 38 + 12)
+			v_norms(cnt * 3 + 1) = _mmd_flt(_buf, _off + cnt * 38 + 16)
+			v_norms(cnt * 3 + 2) = _mmd_flt(_buf, _off + cnt * 38 + 20)
+			v_uvs(cnt * 2 + 0)   = _mmd_flt(_buf, _off + cnt * 38 + 24)
+			v_uvs(cnt * 2 + 1)   = _mmd_flt(_buf, _off + cnt * 38 + 28)
+		loop
+		_off = _off + _vcount * 38
+		; face index count (u32) → triangle = count / 3
+		_fcount = lpeek(_buf, _off) / 3
+		_off = _off + 4
+		dim v_tris, _fcount * 3
+		repeat _fcount
+			v_tris(cnt * 3 + 0) = wpeek(_buf, _off + cnt * 6 + 0)
+			v_tris(cnt * 3 + 1) = wpeek(_buf, _off + cnt * 6 + 2)
+			v_tris(cnt * 3 + 2) = wpeek(_buf, _off + cnt * 6 + 4)
+		loop
+		v_nv = _vcount : v_nt = _fcount : v_kind = 1
+		return 0
+	}
+
+	; ========== PMX ==========
+	; 0-3  "PMX "
+	; 4-7  version float (2.0 / 2.1)
+	; 8    globals count (expected 8)
+	; 9..  globals[globals_count]:
+	;   [0] text encoding (0=UTF-16LE / 1=UTF-8)
+	;   [1] extra UV count (0-4)
+	;   [2] vertex index size (1/2/4)
+	;   [3] texture index size (1/2/4)
+	;   [4] material index size
+	;   [5] bone index size
+	;   [6] morph index size
+	;   [7] rigidbody index size
+	_globals_count = peek(_buf, 8)
+	_off = 9
+	if _globals_count < 8 : return -3
+	_text_enc     = peek(_buf, _off + 0)
+	_add_uv       = peek(_buf, _off + 1)
+	_vidx_size    = peek(_buf, _off + 2)
+	_texidx_size  = peek(_buf, _off + 3)
+	_matidx_size  = peek(_buf, _off + 4)
+	_boneidx_size = peek(_buf, _off + 5)
+	_morphidx_size= peek(_buf, _off + 6)
+	_rbidx_size   = peek(_buf, _off + 7)
+	_off = _off + _globals_count
+	; model info: 4 TextBuf (Japanese name / Japanese comment / English name / English comment)
+	; TextBuf = (u32 byte length) + bytes
+	repeat 4
+		_tmp_count = lpeek(_buf, _off)
+		_off = _off + 4 + _tmp_count
+	loop
+	; vertex count
+	_vcount = lpeek(_buf, _off)
+	_off = _off + 4
+	; vertex size (2.0): pos[3] (12) + normal[3] (12) + uv[2] (8)
+	;                  + additional_uv[4]*addUV (16*addUV) + weight_kind (1)
+	;                  + variable weight data + edge factor (4)
+	ddim v_verts, _vcount * 3
+	ddim v_norms, _vcount * 3
+	ddim v_uvs,   _vcount * 2
+	_i = 0
+	repeat _vcount
+		v_verts(cnt * 3 + 0) = _mmd_flt(_buf, _off + 0)
+		v_verts(cnt * 3 + 1) = _mmd_flt(_buf, _off + 4)
+		v_verts(cnt * 3 + 2) = _mmd_flt(_buf, _off + 8)
+		v_norms(cnt * 3 + 0) = _mmd_flt(_buf, _off + 12)
+		v_norms(cnt * 3 + 1) = _mmd_flt(_buf, _off + 16)
+		v_norms(cnt * 3 + 2) = _mmd_flt(_buf, _off + 20)
+		v_uvs(cnt * 2 + 0)   = _mmd_flt(_buf, _off + 24)
+		v_uvs(cnt * 2 + 1)   = _mmd_flt(_buf, _off + 28)
+		_off = _off + 32 + 16 * _add_uv
+		; weight
+		_wdef = peek(_buf, _off)
+		_off++
+		if _wdef = 0 : _skip_len = _boneidx_size                                   ; BDEF1
+		if _wdef = 1 : _skip_len = _boneidx_size * 2 + 4                           ; BDEF2
+		if _wdef = 2 : _skip_len = _boneidx_size * 4 + 16                          ; BDEF4
+		if _wdef = 3 : _skip_len = _boneidx_size * 2 + 4 + 36                      ; SDEF
+		if _wdef = 4 : _skip_len = _boneidx_size * 4 + 16                          ; QDEF (PMX 2.1)
+		_off = _off + _skip_len
+		; edge factor
+		_off = _off + 4
+	loop
+	; face index count (u32)
+	_tmp_count = lpeek(_buf, _off)
+	_off = _off + 4
+	_fcount = _tmp_count / 3
+	dim v_tris, _fcount * 3
+	repeat _fcount
+		v_tris(cnt * 3 + 0) = _mmd_idx_unsigned(_buf, _off + 0 * _vidx_size, _vidx_size)
+		v_tris(cnt * 3 + 1) = _mmd_idx_unsigned(_buf, _off + 1 * _vidx_size, _vidx_size)
+		v_tris(cnt * 3 + 2) = _mmd_idx_unsigned(_buf, _off + 2 * _vidx_size, _vidx_size)
+		_off = _off + 3 * _vidx_size
+	loop
+	v_nv = _vcount : v_nt = _fcount : v_kind = 2
+	return 0
+
+#global
+#endif

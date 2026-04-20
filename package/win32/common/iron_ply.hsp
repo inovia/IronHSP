@@ -1,0 +1,207 @@
+;============================================================
+;   iron_ply.hsp — Stanford PLY ローダ (pure HSP)
+;
+;   .ply (Stanford Polygon Library) の ASCII 版を読み込み、
+;   頂点位置 / (オプションで) 法線・色・UV、および面リストを配列に展開する。
+;   点群 (face 数 0) でも問題なく読める。
+;
+;   対応: format ascii 1.0 のみ (binary_little_endian は未対応)
+;   element vertex N + element face M の典型構造を期待する。
+;   vertex プロパティは x y z (+ nx ny nz + red green blue など) を
+;   自動検出して可能な限り拾う。
+;
+;   API:
+;     ply_load "file.ply", var_verts, var_cols, var_norms, var_tris,
+;              var n_verts, var n_tris, var has_color, var has_norm
+;        verts:   double[3 * n_verts]
+;        cols:    int[3 * n_verts]  (0-255 RGB、色なし時は未使用)
+;        norms:   double[3 * n_verts]
+;        tris:    int[3 * n_tris]   (三角形化済、頂点インデックス)
+;        戻り値: 0=OK / <0=エラー
+;
+;   制限: ASCII only / 255 > の頂点要素種別 / 三角以外の面は扇分割
+;============================================================
+#ifndef __iron_ply_hsp__
+#define __iron_ply_hsp__
+
+#ifndef PLY_MAX_VERTS
+#define PLY_MAX_VERTS 1048576
+#endif
+#ifndef PLY_MAX_TRIS
+#define PLY_MAX_TRIS 1048576
+#endif
+
+#module iron_ply
+
+#deffunc ply_load str path, var v_verts, var v_cols, var v_norms, var v_tris, \
+	var v_nv, var v_nt, var v_has_color, var v_has_norm, \
+	local _size, local _buf, local _p, local _eol, local _line, \
+	local _in_header, local _vert_count, local _face_count, \
+	local _props, local _np, local _i, local _toks, local _ntok, \
+	local _pi, local _n_verts, local _n_tris, \
+	local _ix, local _iy, local _iz, local _inx, local _iny, local _inz, \
+	local _ir, local _ig, local _ib, \
+	local _val_x, local _val_y, local _val_z, \
+	local _face_k, local _first_v, local _prev_v, local _cur_v
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+
+	ddim v_verts, PLY_MAX_VERTS * 3
+	ddim v_norms, PLY_MAX_VERTS * 3
+	dim  v_cols,  PLY_MAX_VERTS * 3
+	dim  v_tris,  PLY_MAX_TRIS * 3
+	v_nv = 0 : v_nt = 0 : v_has_color = 0 : v_has_norm = 0
+	_n_verts = 0 : _n_tris = 0
+	_vert_count = 0 : _face_count = 0
+	_ix = -1 : _iy = -1 : _iz = -1
+	_inx = -1 : _iny = -1 : _inz = -1
+	_ir = -1 : _ig = -1 : _ib = -1
+	sdim _props, 32, 32
+	_np = 0
+	_in_header = 1
+	_p = 0
+
+	; ---- header ----
+	repeat
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
+		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		if strlen(_line) = 0 : continue
+		if _line = "end_header" : _in_header = 0 : break
+		sdim _toks, 64, 8
+		_ntok = 0
+		_ply_split_ws _line, _toks, _ntok
+		if _ntok = 0 : continue
+		if _toks(0) = "format" {
+			if _toks(1) != "ascii" : return -2    ; binary 未対応
+			continue
+		}
+		if _toks(0) = "element" {
+			if _toks(1) = "vertex" : _vert_count = int(_toks(2))
+			if _toks(1) = "face"   : _face_count = int(_toks(2))
+			continue
+		}
+		if _toks(0) = "property" {
+			if _toks(1) = "list" : continue  ; face 用の list は無視
+			; property <type> <name>
+			if _vert_count > 0 & _face_count = 0 {
+				; まだ vertex セクション内
+				if _np < 32 {
+					_props(_np) = _toks(2)
+					if _toks(2) = "x"  : _ix  = _np
+					if _toks(2) = "y"  : _iy  = _np
+					if _toks(2) = "z"  : _iz  = _np
+					if _toks(2) = "nx" : _inx = _np
+					if _toks(2) = "ny" : _iny = _np
+					if _toks(2) = "nz" : _inz = _np
+					if _toks(2) = "red"   : _ir = _np
+					if _toks(2) = "green" : _ig = _np
+					if _toks(2) = "blue"  : _ib = _np
+					_np++
+				}
+			}
+			continue
+		}
+	loop
+	if _in_header = 1 : return -3
+	if _ix < 0 | _iy < 0 | _iz < 0 : return -4
+	if _inx >= 0 : v_has_norm = 1
+	if _ir  >= 0 : v_has_color = 1
+
+	; ---- vertex body ----
+	_i = 0
+	repeat _vert_count
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
+		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		if strlen(_line) = 0 : continue
+		sdim _toks, 64, 32
+		_ntok = 0
+		_ply_split_ws _line, _toks, _ntok
+		if _n_verts >= PLY_MAX_VERTS : break
+		v_verts(_n_verts * 3 + 0) = double(_toks(_ix))
+		v_verts(_n_verts * 3 + 1) = double(_toks(_iy))
+		v_verts(_n_verts * 3 + 2) = double(_toks(_iz))
+		if v_has_norm {
+			if (_inx < _ntok) & (_iny < _ntok) & (_inz < _ntok) {
+				v_norms(_n_verts * 3 + 0) = double(_toks(_inx))
+				v_norms(_n_verts * 3 + 1) = double(_toks(_iny))
+				v_norms(_n_verts * 3 + 2) = double(_toks(_inz))
+			}
+		}
+		if v_has_color {
+			if (_ir < _ntok) & (_ig < _ntok) & (_ib < _ntok) {
+				v_cols(_n_verts * 3 + 0) = int(_toks(_ir))
+				v_cols(_n_verts * 3 + 1) = int(_toks(_ig))
+				v_cols(_n_verts * 3 + 2) = int(_toks(_ib))
+			}
+		}
+		_n_verts++
+	loop
+
+	; ---- face body ----
+	_i = 0
+	repeat _face_count
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 : _line = strmid(_buf, _p, _size - _p) : _p = _size
+		else : _line = strmid(_buf, _p, _eol - _p) : _p = _eol + 1
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		if strlen(_line) = 0 : continue
+		sdim _toks, 64, 32
+		_ntok = 0
+		_ply_split_ws _line, _toks, _ntok
+		if _ntok < 4 : continue        ; "3 a b c" 最小
+		_face_k = int(_toks(0))
+		if _face_k < 3 : continue
+		_first_v = int(_toks(1))
+		_prev_v  = int(_toks(2))
+		repeat _face_k - 2
+			if _n_tris >= PLY_MAX_TRIS : break
+			_cur_v = int(_toks(3 + cnt))
+			v_tris(_n_tris * 3 + 0) = _first_v
+			v_tris(_n_tris * 3 + 1) = _prev_v
+			v_tris(_n_tris * 3 + 2) = _cur_v
+			_prev_v = _cur_v
+			_n_tris++
+		loop
+	loop
+
+	v_nv = _n_verts : v_nt = _n_tris
+	return 0
+
+#deffunc _ply_split_ws str s, array v_out, var v_n, \
+	local _start, local _in_tok, local _c
+	_start = 0 : _in_tok = 0 : v_n = 0
+	repeat strlen(s) + 1
+		if cnt = strlen(s) {
+			if _in_tok = 1 : v_out(v_n) = strmid(s, _start, cnt - _start) : v_n++
+			break
+		}
+		_c = peek(s, cnt)
+		if (_c = ' ') | (_c = 9) {
+			if _in_tok = 1 {
+				v_out(v_n) = strmid(s, _start, cnt - _start) : v_n++
+				_in_tok = 0
+			}
+		} else {
+			if _in_tok = 0 : _start = cnt : _in_tok = 1
+		}
+	loop
+	return
+
+#global
+#endif

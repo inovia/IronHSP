@@ -1,0 +1,217 @@
+;============================================================
+;   iron_gltf.hsp — glTF 2.0 ローダ (最小実装、pure HSP)
+;
+;   Khronos glTF 2.0 の .gltf (+ .bin sidecar) を読み込み、
+;   1 つ目の mesh.primitives[0] から位置 / 法線 / UV / indices を
+;   配列展開する最小実装。
+;
+;   対応:
+;     - .gltf (JSON) + 同ディレクトリの .bin (URI は相対パス)
+;     - POSITION / NORMAL / TEXCOORD_0 / indices
+;     - indices componentType 5121 (u8) / 5123 (u16) / 5125 (u32)
+;     - 頂点データ componentType 5126 (float) のみ
+;
+;   対応外:
+;     - .glb バイナリコンテナ
+;     - data URI (base64 埋め込み)
+;     - スキン / アニメーション / マテリアル詳細
+;     - 複数 mesh / primitives (最初の 1 組のみ)
+;     - 行列変換 / スケール
+;
+;   API:
+;     gltf_load "model.gltf", var_verts, var_norms, var_uvs, var_tris,
+;               var n_verts, var n_tris, var has_norm, var has_uv
+;         verts: double[3 * n_verts]
+;         norms: double[3 * n_verts]
+;         uvs:   double[2 * n_verts]
+;         tris:  int[3 * n_tris]
+;         戻り値: 0=OK / <0=エラー
+;
+;   依存: iron_json.hsp (hspjson.dll)
+;============================================================
+#ifndef __iron_gltf_hsp__
+#define __iron_gltf_hsp__
+
+#include "iron_json.hsp"
+
+#ifndef GLTF_MAX_VERTS
+#define GLTF_MAX_VERTS 524288
+#endif
+#ifndef GLTF_MAX_TRIS
+#define GLTF_MAX_TRIS 524288
+#endif
+
+#module iron_gltf
+
+;---------------------------------------------------------
+; internal: buf から offset で 4-byte little-endian float を取り出す
+;---------------------------------------------------------
+#defcfunc _gltf_float var buf, int ofs, \
+	local _bits, local _sign, local _exp, local _mant, \
+	local _mantd, local _e, local _v
+	_bits = lpeek(buf, ofs)
+	_sign = (_bits >> 31) & 1
+	_exp  = (_bits >> 23) & 0xFF
+	_mant = _bits & 0x7FFFFF
+	if _exp = 0 {
+		if _mant = 0 : return 0.0
+		return 0.0
+	}
+	if _exp = 0xFF : return 0.0
+	_mantd = 1.0 + (1.0 * _mant) / 8388608.0
+	_e = _exp - 127
+	_v = _mantd
+	if _e >= 0 {
+		repeat _e : _v *= 2.0 : loop
+	} else {
+		repeat 0 - _e : _v *= 0.5 : loop
+	}
+	if _sign = 1 : _v = 0.0 - _v
+	return _v
+
+#defcfunc _gltf_u16 var buf, int ofs
+	return wpeek(buf, ofs)
+#defcfunc _gltf_u32 var buf, int ofs
+	return lpeek(buf, ofs)
+#defcfunc _gltf_u8 var buf, int ofs
+	return peek(buf, ofs)
+
+;---------------------------------------------------------
+; internal: ディレクトリを取り出して URI と結合
+;---------------------------------------------------------
+#deffunc _gltf_join_path str gltf_path, str uri, var v_out, \
+	local _slash1, local _slash2, local _dir
+	sdim v_out, 1024
+	; 絶対パスらしきものは素通し
+	if strlen(uri) >= 2 {
+		if peek(uri, 1) = ':' : v_out = uri : return
+	}
+	if peek(uri, 0) = '/' : v_out = uri : return
+	; gltf_path の最終 / or \ までを取り出す
+	_slash1 = -1 : _slash2 = -1
+	repeat strlen(gltf_path)
+		if peek(gltf_path, cnt) = '/'  : _slash1 = cnt
+		if peek(gltf_path, cnt) = '\\' : _slash2 = cnt
+	loop
+	if _slash2 > _slash1 : _slash1 = _slash2
+	if _slash1 < 0 : v_out = uri : return
+	_dir = strmid(gltf_path, 0, _slash1 + 1)
+	v_out = _dir + uri
+	return
+
+;---------------------------------------------------------
+; gltf_load メイン
+;---------------------------------------------------------
+#deffunc gltf_load str path, var v_verts, var v_norms, var v_uvs, var v_tris, \
+	var v_nv, var v_nt, var v_has_norm, var v_has_uv, \
+	local _size, local _json_text, local _hid, \
+	local _bin_uri, local _bin_path, local _bin_buf, local _bin_size, \
+	local _pos_acc, local _norm_acc, local _uv_acc, local _idx_acc, \
+	local _pos_bv, local _norm_bv, local _uv_bv, local _idx_bv, \
+	local _pos_off, local _pos_len, local _norm_off, local _norm_len, \
+	local _uv_off, local _uv_len, local _idx_off, local _idx_len, \
+	local _pos_count, local _idx_count, local _idx_ct, \
+	local _bv_offset, local _bv_length, local _i
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _json_text, _size + 16
+	bload path, _json_text, _size
+	_hid = json_load(_json_text)
+	if _hid < 0 : return -2
+	; buffers[0].uri
+	_bin_uri = json_str(_hid, "buffers[0].uri")
+	if strlen(_bin_uri) = 0 { json_release _hid : return -3 }
+	_gltf_join_path path, _bin_uri, _bin_path
+	exist _bin_path
+	_bin_size = strsize
+	if _bin_size <= 0 { json_release _hid : return -4 }
+	sdim _bin_buf, _bin_size + 16
+	bload _bin_path, _bin_buf, _bin_size
+	; meshes[0].primitives[0].attributes.POSITION / NORMAL / TEXCOORD_0 / indices
+	_pos_acc = json_int(_hid, "meshes[0].primitives[0].attributes.POSITION")
+	_norm_acc = json_int(_hid, "meshes[0].primitives[0].attributes.NORMAL")
+	_uv_acc = json_int(_hid, "meshes[0].primitives[0].attributes.TEXCOORD_0")
+	_idx_acc = json_int(_hid, "meshes[0].primitives[0].indices")
+	v_has_norm = 0 : v_has_uv = 0
+	if _pos_acc < 0 { json_release _hid : return -5 }
+	_pos_bv   = json_int(_hid, "accessors[" + _pos_acc + "].bufferView")
+	_pos_count= json_int(_hid, "accessors[" + _pos_acc + "].count")
+	_pos_off  = json_int(_hid, "bufferViews[" + _pos_bv + "].byteOffset")
+	if _pos_off < 0 : _pos_off = 0
+	ddim v_verts, GLTF_MAX_VERTS * 3
+	ddim v_norms, GLTF_MAX_VERTS * 3
+	ddim v_uvs,   GLTF_MAX_VERTS * 2
+	dim  v_tris,  GLTF_MAX_TRIS * 3
+	; --- 頂点 ---
+	repeat _pos_count
+		if cnt >= GLTF_MAX_VERTS : break
+		v_verts(cnt * 3 + 0) = _gltf_float(_bin_buf, _pos_off + cnt * 12 + 0)
+		v_verts(cnt * 3 + 1) = _gltf_float(_bin_buf, _pos_off + cnt * 12 + 4)
+		v_verts(cnt * 3 + 2) = _gltf_float(_bin_buf, _pos_off + cnt * 12 + 8)
+	loop
+	v_nv = _pos_count
+	; --- 法線 ---
+	if _norm_acc >= 0 {
+		_norm_bv  = json_int(_hid, "accessors[" + _norm_acc + "].bufferView")
+		_norm_off = json_int(_hid, "bufferViews[" + _norm_bv + "].byteOffset")
+		if _norm_off < 0 : _norm_off = 0
+		repeat _pos_count
+			if cnt >= GLTF_MAX_VERTS : break
+			v_norms(cnt * 3 + 0) = _gltf_float(_bin_buf, _norm_off + cnt * 12 + 0)
+			v_norms(cnt * 3 + 1) = _gltf_float(_bin_buf, _norm_off + cnt * 12 + 4)
+			v_norms(cnt * 3 + 2) = _gltf_float(_bin_buf, _norm_off + cnt * 12 + 8)
+		loop
+		v_has_norm = 1
+	}
+	; --- UV ---
+	if _uv_acc >= 0 {
+		_uv_bv  = json_int(_hid, "accessors[" + _uv_acc + "].bufferView")
+		_uv_off = json_int(_hid, "bufferViews[" + _uv_bv + "].byteOffset")
+		if _uv_off < 0 : _uv_off = 0
+		repeat _pos_count
+			if cnt >= GLTF_MAX_VERTS : break
+			v_uvs(cnt * 2 + 0) = _gltf_float(_bin_buf, _uv_off + cnt * 8 + 0)
+			v_uvs(cnt * 2 + 1) = _gltf_float(_bin_buf, _uv_off + cnt * 8 + 4)
+		loop
+		v_has_uv = 1
+	}
+	; --- indices ---
+	v_nt = 0
+	if _idx_acc >= 0 {
+		_idx_bv   = json_int(_hid, "accessors[" + _idx_acc + "].bufferView")
+		_idx_count= json_int(_hid, "accessors[" + _idx_acc + "].count")
+		_idx_ct   = json_int(_hid, "accessors[" + _idx_acc + "].componentType")
+		_idx_off  = json_int(_hid, "bufferViews[" + _idx_bv + "].byteOffset")
+		if _idx_off < 0 : _idx_off = 0
+		; indices は 3 つずつ 1 triangle
+		_i = 0
+		repeat _idx_count / 3
+			if _i + 3 > _idx_count : break
+			if (cnt * 3) >= (GLTF_MAX_TRIS * 3) : break
+			if _idx_ct = 5121 {
+				v_tris(cnt * 3 + 0) = _gltf_u8(_bin_buf, _idx_off + _i + 0)
+				v_tris(cnt * 3 + 1) = _gltf_u8(_bin_buf, _idx_off + _i + 1)
+				v_tris(cnt * 3 + 2) = _gltf_u8(_bin_buf, _idx_off + _i + 2)
+				_i = _i + 3
+			}
+			if _idx_ct = 5123 {
+				v_tris(cnt * 3 + 0) = _gltf_u16(_bin_buf, _idx_off + _i + 0)
+				v_tris(cnt * 3 + 1) = _gltf_u16(_bin_buf, _idx_off + _i + 2)
+				v_tris(cnt * 3 + 2) = _gltf_u16(_bin_buf, _idx_off + _i + 4)
+				_i = _i + 6
+			}
+			if _idx_ct = 5125 {
+				v_tris(cnt * 3 + 0) = _gltf_u32(_bin_buf, _idx_off + _i + 0)
+				v_tris(cnt * 3 + 1) = _gltf_u32(_bin_buf, _idx_off + _i + 4)
+				v_tris(cnt * 3 + 2) = _gltf_u32(_bin_buf, _idx_off + _i + 8)
+				_i = _i + 12
+			}
+		loop
+		v_nt = _idx_count / 3
+	}
+	json_release _hid
+	return 0
+
+#global
+#endif
