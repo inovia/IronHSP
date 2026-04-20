@@ -480,10 +480,38 @@ namespace HspLanguageServer {
                 labelSb.Append(')');
 
                 var paramsArr = new JArray();
-                foreach (var (start, end) in paramRanges) {
-                    paramsArr.Add(new JObject {
+                for (int i = 0; i < paramRanges.Count; i++) {
+                    var (start, end) = paramRanges[i];
+                    var paramObj = new JObject {
                         ["label"] = new JArray { start, end },
-                    });
+                    };
+                    // Attach per-param doc if the @param name matches the
+                    // signature param name. Falls back to ordinal matching
+                    // if the names don't line up (e.g. #func where the decl
+                    // has no names).
+                    string paramDoc = null;
+                    if (s.DocParams != null && i < s.SigParams.Count) {
+                        string targetName = s.SigParams[i].Name ?? "";
+                        foreach (var dp in s.DocParams) {
+                            if (!string.IsNullOrEmpty(targetName) &&
+                                string.Equals(dp.Name, targetName, StringComparison.Ordinal)) {
+                                paramDoc = dp.Description;
+                                break;
+                            }
+                        }
+                        // Ordinal fallback: i-th @param entry for the i-th
+                        // signature param (when names weren't captured).
+                        if (paramDoc == null && i < s.DocParams.Count) {
+                            paramDoc = s.DocParams[i].Description;
+                        }
+                    }
+                    if (!string.IsNullOrWhiteSpace(paramDoc)) {
+                        paramObj["documentation"] = new JObject {
+                            ["kind"] = "markdown",
+                            ["value"] = paramDoc,
+                        };
+                    }
+                    paramsArr.Add(paramObj);
                 }
 
                 var sigObj = new JObject {
