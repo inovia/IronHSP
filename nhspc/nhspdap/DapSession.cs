@@ -383,11 +383,29 @@ namespace NhspDap {
             var bps = args["breakpoints"] as JArray;
             var lines = new List<int>();
             var verified = new JArray();
+
+            // Load source so we can tag non-executable lines (#directive,
+            // comments, empty lines) as unverified — VS Code shows these as
+            // hollow gray circles and the user immediately sees that the BP
+            // won't fire. Failure to read falls back to "all verified".
+            string[] sourceLines = null;
+            if (!string.IsNullOrEmpty(path) && File.Exists(path)) {
+                try { sourceLines = File.ReadAllLines(path); } catch { }
+            }
+
             if (bps != null) {
                 foreach (var bp in bps) {
                     int line = (int)bp["line"];
-                    lines.Add(line);
-                    verified.Add(new JObject { ["verified"] = true, ["line"] = line });
+                    bool isExec = IsExecutableLine(sourceLines, line);
+                    var bpResp = new JObject { ["line"] = line };
+                    if (isExec) {
+                        bpResp["verified"] = true;
+                        lines.Add(line);  // forward to DLL
+                    } else {
+                        bpResp["verified"] = false;
+                        bpResp["message"] = "この行は実行されません (コメント / preprocessor / 空行)";
+                    }
+                    verified.Add(bpResp);
                 }
             }
             _pendingBps[path] = lines;
@@ -450,6 +468,30 @@ namespace NhspDap {
                 ["stackFrames"] = frames,
                 ["totalFrames"] = frames.Count,
             });
+        }
+
+        // Best-effort check: can this line actually be hit as a breakpoint?
+        // HSP's preprocessor directives, comments, and empty lines never make
+        // it into the compiled bytecode so the runtime can't stop on them.
+        //
+        // Heuristic (not 100% accurate but catches the common noise):
+        //   - empty / whitespace-only  → no
+        //   - leading `;` or `//`      → line comment, no
+        //   - leading `#`              → preprocessor directive, no
+        //   - anything else            → assume executable
+        //
+        // Doesn't track multi-line /* */ block comments — rare in HSP, and
+        // the downside is just a false positive (verified=true for a line
+        // that won't hit). Tolerable.
+        private static bool IsExecutableLine(string[] sourceLines, int lineNumber) {
+            if (sourceLines == null) return true;  // don't have source → assume yes
+            if (lineNumber < 1 || lineNumber > sourceLines.Length) return false;
+            string trimmed = sourceLines[lineNumber - 1].Trim();
+            if (trimmed.Length == 0) return false;
+            if (trimmed.StartsWith(";")) return false;
+            if (trimmed.StartsWith("//")) return false;
+            if (trimmed.StartsWith("#")) return false;
+            return true;
         }
 
         // Convert a possibly-relative filename from the HSP runtime into an
