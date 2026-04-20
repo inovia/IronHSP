@@ -1,0 +1,227 @@
+;============================================================
+;   iron_xlsx_net.hsp — Excel XLSX (OpenXML SDK 版)
+;
+;   Microsoft が公式提供する DocumentFormat.OpenXml を使って
+;   Excel .xlsx を Office 不要で読み書きする。
+;
+;   ClosedXML や EPPlus より依存が少なく、ライセンスも MIT。
+;
+;   前提:
+;     DocumentFormat.OpenXml.dll が GAC or 実行フォルダにあること
+;     (NuGet で導入)。無い環境では loadnet が失敗する。
+;
+;   API:
+;     xlsxn_open "path.xlsx"                          → stat 0=OK
+;     xlsxn_create "path.xlsx"                        空の xlsx を新規作成
+;     xlsxn_sheet_count                                → stat=シート数
+;     xlsxn_sheet_name idx, var_name                  シート名取得
+;     xlsxn_read_cell sheet_idx, row, col, var_out    セル値 (文字列化)
+;     xlsxn_write_cell sheet_idx, row, col, "value"   セル書き込み
+;     xlsxn_save                                        保存 (同名に上書き)
+;     xlsxn_save_as "new_path.xlsx"
+;     xlsxn_close
+;
+;   row/col は 1-based (Excel 行/列と一致)。
+;   依存アセンブリ: DocumentFormat.OpenXml.dll (>= 3.0)
+;                  WindowsBase.dll も必要 (.NET 標準)
+;============================================================
+#ifndef __iron_xlsx_net_hsp__
+#define __iron_xlsx_net_hsp__
+
+#module iron_xlsx_net
+
+dim _xlsxn_cs_loaded, 1
+
+#deffunc _xlsxn_load_cs
+	if _xlsxn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.Linq;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+
+public class HspXlsxNet {
+    static SpreadsheetDocument doc = null;
+    static string curPath = null;
+
+    public static string Open(string path) {
+        try {
+            Close();
+            doc = SpreadsheetDocument.Open(path, true);
+            curPath = path;
+            return "0";
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string Create(string path) {
+        try {
+            Close();
+            doc = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook);
+            var wbp = doc.AddWorkbookPart();
+            wbp.Workbook = new Workbook();
+            var wsp = wbp.AddNewPart<WorksheetPart>();
+            wsp.Worksheet = new Worksheet(new SheetData());
+            var sheets = wbp.Workbook.AppendChild(new Sheets());
+            sheets.Append(new Sheet() {
+                Id = wbp.GetIdOfPart(wsp), SheetId = 1U, Name = \"Sheet1\"
+            });
+            wbp.Workbook.Save();
+            curPath = path;
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string SheetCount() {
+        if (doc == null) return \"0\";
+        var sheets = doc.WorkbookPart.Workbook.Descendants<Sheet>();
+        return sheets.Count().ToString();
+    }
+    public static string SheetName(int idx) {
+        if (doc == null) return \"\";
+        var s = doc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAtOrDefault(idx);
+        return s?.Name?.Value ?? \"\";
+    }
+    public static string ReadCell(int sheetIdx, int row, int col) {
+        if (doc == null) return \"\";
+        var s = doc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAtOrDefault(sheetIdx);
+        if (s == null) return \"\";
+        var wsp = (WorksheetPart)doc.WorkbookPart.GetPartById(s.Id);
+        string cellRef = ColName(col) + row;
+        var cell = wsp.Worksheet.Descendants<Cell>().FirstOrDefault(c => c.CellReference == cellRef);
+        if (cell == null) return \"\";
+        string val = cell.CellValue?.InnerText ?? \"\";
+        if (cell.DataType?.Value == CellValues.SharedString) {
+            int i = int.Parse(val);
+            var ss = doc.WorkbookPart.SharedStringTablePart;
+            if (ss != null) {
+                return ss.SharedStringTable.ChildElements[i].InnerText;
+            }
+        }
+        return val;
+    }
+    public static string WriteCell(int sheetIdx, int row, int col, string value) {
+        if (doc == null) return \"-1\";
+        var s = doc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAtOrDefault(sheetIdx);
+        if (s == null) return \"-2\";
+        var wsp = (WorksheetPart)doc.WorkbookPart.GetPartById(s.Id);
+        var sheetData = wsp.Worksheet.GetFirstChild<SheetData>();
+        string cellRef = ColName(col) + row;
+        var rowElem = sheetData.Elements<Row>().FirstOrDefault(r => r.RowIndex == (uint)row);
+        if (rowElem == null) {
+            rowElem = new Row() { RowIndex = (uint)row };
+            sheetData.Append(rowElem);
+        }
+        var cell = rowElem.Elements<Cell>().FirstOrDefault(c => c.CellReference == cellRef);
+        if (cell == null) {
+            cell = new Cell() { CellReference = cellRef };
+            rowElem.Append(cell);
+        }
+        cell.CellValue = new CellValue(value ?? \"\");
+        cell.DataType = new EnumValue<CellValues>(CellValues.String);
+        wsp.Worksheet.Save();
+        return \"0\";
+    }
+    public static string Save() {
+        if (doc == null) return \"-1\";
+        doc.WorkbookPart.Workbook.Save();
+        return \"0\";
+    }
+    public static string SaveAs(string path) {
+        if (doc == null) return \"-1\";
+        doc.WorkbookPart.Workbook.Save();
+        doc.Dispose(); doc = null;
+        File.Copy(curPath, path, true);
+        doc = SpreadsheetDocument.Open(path, true);
+        curPath = path;
+        return \"0\";
+    }
+    public static string Close() {
+        if (doc != null) { doc.Dispose(); doc = null; }
+        curPath = null;
+        return \"0\";
+    }
+    static string ColName(int col) {
+        string s = \"\";
+        while (col > 0) {
+            int m = (col - 1) % 26;
+            s = (char)('A' + m) + s;
+            col = (col - 1) / 26;
+        }
+        return s;
+    }
+}
+"}
+	loadnet _cs, 3, "DocumentFormat.OpenXml.dll", "WindowsBase.dll"
+	_xlsxn_cs_loaded = 1
+	return
+
+#deffunc xlsxn_open str path, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "Open", _r, path
+	return int("" + _r)
+
+#deffunc xlsxn_create str path, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "Create", _r, path
+	return int("" + _r)
+
+#defcfunc xlsxn_sheet_count \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "SheetCount", _r
+	return int("" + _r)
+
+#deffunc xlsxn_sheet_name int idx, var v_name, \
+	local _h, local _r
+	sdim v_name, 256
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "SheetName", _r, idx
+	v_name = "" + _r
+	return 0
+
+#deffunc xlsxn_read_cell int sheet_idx, int row, int col, var v_out, \
+	local _h, local _r
+	sdim v_out, 4096
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "ReadCell", _r, sheet_idx, row, col
+	v_out = "" + _r
+	return 0
+
+#deffunc xlsxn_write_cell int sheet_idx, int row, int col, str value, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "WriteCell", _r, sheet_idx, row, col, value
+	return int("" + _r)
+
+#deffunc xlsxn_save \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "Save", _r
+	return int("" + _r)
+
+#deffunc xlsxn_save_as str path, \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "SaveAs", _r, path
+	return int("" + _r)
+
+#deffunc xlsxn_close \
+	local _h, local _r
+	_xlsxn_load_cs
+	newnet _h, "HspXlsxNet"
+	mcall _h, "Close", _r
+	return 0
+
+#global
+#endif

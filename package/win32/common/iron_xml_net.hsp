@@ -1,0 +1,183 @@
+;============================================================
+;   iron_xml_net.hsp — XML (System.Xml.Linq 版)
+;
+;   XDocument + XPath (System.Xml.XPath 拡張) を使った堅牢な XML 読み書き。
+;   既存 iron_xml (自前) と比較して:
+;     + 完全な XPath 1.0 対応
+;     + ネームスペース / エンコーディング自動判別
+;     + XML schema 検証 (別 API)
+;   hsp3net 専用。
+;
+;   API:
+;     xmln_parse "...xml text..."                        → stat 0=OK
+;     xmln_load  "path.xml"                              → stat 0=OK
+;     xmln_xpath "//book[@id='123']/title", var_out     → 最初にマッチした要素テキスト
+;     xmln_xpath_all "//book/title", var_tsv            → 全マッチをタブ区切り
+;     xmln_attr  "//book[1]", "id", var_out             → 属性値
+;     xmln_count "//book"                                → stat=件数
+;     xmln_set_text "//book/title", "new title"         → 1 件更新
+;     xmln_to_string                                     → refstr (XML 文字列化)
+;     xmln_pretty                                        → refstr (整形)
+;
+;   依存: System.Xml.dll / System.Xml.Linq.dll (.NET Framework 標準)
+;============================================================
+#ifndef __iron_xml_net_hsp__
+#define __iron_xml_net_hsp__
+
+#module iron_xml_net
+
+dim _xmln_cs_loaded, 1
+
+#deffunc _xmln_load_cs
+	if _xmln_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+
+public class HspXmlNet {
+    static XDocument doc = null;
+
+    public static string Parse(string text) {
+        try { doc = XDocument.Parse(text); return "0"; }
+        catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string Load(string path) {
+        try { doc = XDocument.Load(path); return "0"; }
+        catch (Exception e) { return "-1\t" + e.Message; }
+    }
+    public static string XPath(string xpath) {
+        if (doc == null) return "";
+        try {
+            var nodes = ((IEnumerable<object>)doc.XPathEvaluate(xpath)).OfType<object>();
+            var first = nodes.FirstOrDefault();
+            if (first == null) return "";
+            if (first is XElement e) return e.Value;
+            if (first is XAttribute a) return a.Value;
+            return first.ToString();
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+    public static string XPathAll(string xpath) {
+        if (doc == null) return "";
+        try {
+            var nodes = ((System.Collections.IEnumerable)doc.XPathEvaluate(xpath)).Cast<object>();
+            var sb = new StringBuilder();
+            foreach (var n in nodes) {
+                string v = n is XElement xe ? xe.Value :
+                           n is XAttribute xa ? xa.Value :
+                           n.ToString();
+                sb.Append(v.Replace('\t',' ').Replace('\n',' '));
+                sb.Append('\t');
+            }
+            return sb.ToString();
+        } catch (Exception e) { return "ERROR:" + e.Message; }
+    }
+    public static string Attr(string xpath, string name) {
+        if (doc == null) return "";
+        try {
+            var nodes = ((IEnumerable<object>)doc.XPathEvaluate(xpath)).OfType<XElement>();
+            var e = nodes.FirstOrDefault();
+            return e?.Attribute(name)?.Value ?? "";
+        } catch { return ""; }
+    }
+    public static string Count(string xpath) {
+        if (doc == null) return "0";
+        try {
+            var nodes = ((System.Collections.IEnumerable)doc.XPathEvaluate(xpath)).Cast<object>();
+            return nodes.Count().ToString();
+        } catch { return "0"; }
+    }
+    public static string SetText(string xpath, string text) {
+        if (doc == null) return "-1";
+        try {
+            var nodes = ((IEnumerable<object>)doc.XPathEvaluate(xpath)).OfType<XElement>();
+            var e = nodes.FirstOrDefault();
+            if (e == null) return "0";
+            e.Value = text;
+            return "1";
+        } catch { return "-1"; }
+    }
+    public static string ToText() {
+        if (doc == null) return "";
+        return doc.ToString(SaveOptions.DisableFormatting);
+    }
+    public static string ToPretty() {
+        if (doc == null) return "";
+        return doc.ToString();
+    }
+}
+"}
+	loadnet _cs, 3, "System.Xml.dll", "System.Xml.Linq.dll"
+	_xmln_cs_loaded = 1
+	return
+
+#deffunc xmln_parse str text, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "Parse", _r, text
+	return int("" + _r)
+
+#deffunc xmln_load str path, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "Load", _r, path
+	return int("" + _r)
+
+#defcfunc xmln_xpath str xpath, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "XPath", _r, xpath
+	return "" + _r
+
+#defcfunc xmln_xpath_all str xpath, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "XPathAll", _r, xpath
+	return "" + _r
+
+#defcfunc xmln_attr str xpath, str name, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "Attr", _r, xpath, name
+	return "" + _r
+
+#defcfunc xmln_count str xpath, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "Count", _r, xpath
+	return int("" + _r)
+
+#deffunc xmln_set_text str xpath, str text, \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "SetText", _r, xpath, text
+	return int("" + _r)
+
+#defcfunc xmln_to_string \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "ToText", _r
+	return "" + _r
+
+#defcfunc xmln_pretty \
+	local _h, local _r
+	_xmln_load_cs
+	newnet _h, "HspXmlNet"
+	mcall _h, "ToPretty", _r
+	return "" + _r
+
+#global
+#endif

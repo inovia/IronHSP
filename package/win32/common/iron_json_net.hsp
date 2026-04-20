@@ -1,0 +1,209 @@
+;============================================================
+;   iron_json_net.hsp — JSON (.NET System.Text.Json 版)
+;
+;   System.Text.Json.JsonDocument を使った堅牢な JSON 読み書き。
+;   既存 iron_json (hspjson.dll) と比較して:
+;     + JSON-Text 標準 (RFC 8259) に厳密準拠
+;     + large number 精度保持 / unicode escape 完全対応
+;     + LINQ 的な深掘りが 1 行
+;   hsp3net 専用。
+;
+;   API:
+;     jsonn_parse "...json text..."                        → stat=0 OK
+;     jsonn_str   "path.to.key", var_out                    → refstr / var_out
+;     jsonn_int   "path.to.key"                             → stat=int
+;     jsonn_dbl   "path.to.key"                             → refdval=double
+;     jsonn_len   "path.to.array"                           → stat=len
+;     jsonn_type  "path.to.key"                             → stat 0=null 1=obj 2=arr 3=str 4=num 5=bool
+;     jsonn_to_string                                        → refstr (roundtrip)
+;     jsonn_pretty                                           → refstr (indented)
+;
+;   パス形式: "a.b.c" / "arr[0].x"
+;
+;   依存アセンブリ: System.Text.Json.dll (.NET Framework 4.7.2+ or
+;                    System.Text.Json NuGet を GAC に入れた .NET Fw 4.6.1+)
+;                  未導入環境なら iron_json (hspjson) を使うこと。
+;============================================================
+#ifndef __iron_json_net_hsp__
+#define __iron_json_net_hsp__
+
+#module iron_json_net
+
+dim _jsn_cs_loaded, 1
+
+#deffunc _jsn_load_cs
+	if _jsn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
+public class HspJsonNet {
+    static JsonNode root = null;
+
+    public static string Parse(string text) {
+        try {
+            root = JsonNode.Parse(text);
+            return "0";
+        } catch (Exception e) { return "-1\t" + e.Message; }
+    }
+
+    public static string GetStr(string path) {
+        var n = Navigate(path);
+        if (n == null) return "";
+        if (n is JsonValue v) {
+            if (v.TryGetValue<string>(out var s)) return s;
+            return v.ToString();
+        }
+        return n.ToJsonString();
+    }
+
+    public static string GetInt(string path) {
+        var n = Navigate(path);
+        if (n == null) return "0";
+        if (n is JsonValue v) {
+            if (v.TryGetValue<long>(out var l)) return l.ToString();
+            if (v.TryGetValue<double>(out var d)) return ((long)d).ToString();
+        }
+        return "0";
+    }
+
+    public static string GetDbl(string path) {
+        var n = Navigate(path);
+        if (n == null) return "0";
+        if (n is JsonValue v) {
+            if (v.TryGetValue<double>(out var d)) return d.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        }
+        return "0";
+    }
+
+    public static string GetLen(string path) {
+        var n = Navigate(path);
+        if (n == null) return "-1";
+        if (n is JsonArray a) return a.Count.ToString();
+        if (n is JsonObject o) return o.Count.ToString();
+        return "-1";
+    }
+
+    public static string GetType(string path) {
+        var n = Navigate(path);
+        if (n == null) return "0";
+        if (n is JsonObject) return "1";
+        if (n is JsonArray)  return "2";
+        if (n is JsonValue v) {
+            if (v.TryGetValue<string>(out _)) return "3";
+            if (v.TryGetValue<double>(out _)) return "4";
+            if (v.TryGetValue<bool>(out _))   return "5";
+        }
+        return "0";
+    }
+
+    public static string ToText() {
+        if (root == null) return "";
+        return root.ToJsonString();
+    }
+    public static string ToPretty() {
+        if (root == null) return "";
+        return root.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
+    }
+
+    static JsonNode Navigate(string path) {
+        if (root == null) return null;
+        if (string.IsNullOrEmpty(path)) return root;
+        var cur = root;
+        int i = 0;
+        while (i < path.Length) {
+            int dot = path.IndexOf('.', i);
+            int br  = path.IndexOf('[', i);
+            int end;
+            if (dot < 0 && br < 0) end = path.Length;
+            else if (dot < 0)      end = br;
+            else if (br  < 0)      end = dot;
+            else                   end = dot < br ? dot : br;
+            string name = path.Substring(i, end - i);
+            if (name.Length > 0) {
+                if (cur is JsonObject o) { cur = o[name]; if (cur == null) return null; }
+                else return null;
+            }
+            if (end < path.Length && path[end] == '[') {
+                int rb = path.IndexOf(']', end);
+                if (rb < 0) return null;
+                int idx = int.Parse(path.Substring(end + 1, rb - end - 1));
+                if (cur is JsonArray a) {
+                    if (idx < 0 || idx >= a.Count) return null;
+                    cur = a[idx];
+                } else return null;
+                i = rb + 1;
+                if (i < path.Length && path[i] == '.') i++;
+            } else {
+                i = end + 1;
+            }
+        }
+        return cur;
+    }
+}
+"}
+	loadnet _cs, 3
+	_jsn_cs_loaded = 1
+	return
+
+#deffunc jsonn_parse str text, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "Parse", _r, text
+	return int("" + _r)
+
+#defcfunc jsonn_str str path, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "GetStr", _r, path
+	return "" + _r
+
+#defcfunc jsonn_int str path, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "GetInt", _r, path
+	return int("" + _r)
+
+#defcfunc jsonn_dbl str path, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "GetDbl", _r, path
+	return double("" + _r)
+
+#defcfunc jsonn_len str path, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "GetLen", _r, path
+	return int("" + _r)
+
+#defcfunc jsonn_type str path, \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "GetType", _r, path
+	return int("" + _r)
+
+#defcfunc jsonn_to_string \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "ToText", _r
+	return "" + _r
+
+#defcfunc jsonn_pretty \
+	local _h, local _r
+	_jsn_load_cs
+	newnet _h, "HspJsonNet"
+	mcall _h, "ToPretty", _r
+	return "" + _r
+
+#global
+#endif

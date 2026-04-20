@@ -1,0 +1,157 @@
+;============================================================
+;   iron_docx_net.hsp — Word DOCX (OpenXML SDK 版)
+;
+;   DocumentFormat.OpenXml を使って Word .docx を Office 不要で
+;   読み書きする。テンプレ差し込み (string replace) を含む。
+;
+;   前提:
+;     DocumentFormat.OpenXml.dll が GAC or 実行フォルダにあること。
+;
+;   API:
+;     docxn_open "path.docx"                        既存 .docx オープン
+;     docxn_create "path.docx"                      空 .docx を新規作成
+;     docxn_get_text var_out                         全パラグラフを連結取得
+;     docxn_append_paragraph "text"                 末尾に段落追加
+;     docxn_replace "old", "new"                    全文字列置換 (テンプレ差込)
+;     docxn_save                                     上書き保存
+;     docxn_close
+;
+;   依存アセンブリ: DocumentFormat.OpenXml.dll / WindowsBase.dll
+;============================================================
+#ifndef __iron_docx_net_hsp__
+#define __iron_docx_net_hsp__
+
+#module iron_docx_net
+
+dim _docxn_cs_loaded, 1
+
+#deffunc _docxn_load_cs
+	if _docxn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+
+public class HspDocxNet {
+    static WordprocessingDocument doc = null;
+
+    public static string Open(string path) {
+        try {
+            Close();
+            doc = WordprocessingDocument.Open(path, true);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Create(string path) {
+        try {
+            Close();
+            doc = WordprocessingDocument.Create(path, WordprocessingDocumentType.Document);
+            var main = doc.AddMainDocumentPart();
+            main.Document = new Document(new Body());
+            main.Document.Save();
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string GetText() {
+        if (doc == null) return \"\";
+        var body = doc.MainDocumentPart.Document.Body;
+        var sb = new StringBuilder();
+        foreach (var p in body.Descendants<Paragraph>()) {
+            foreach (var t in p.Descendants<Text>()) sb.Append(t.Text);
+            sb.Append('\\n');
+        }
+        return sb.ToString();
+    }
+    public static string AppendParagraph(string text) {
+        if (doc == null) return \"-1\";
+        var body = doc.MainDocumentPart.Document.Body;
+        var p = new Paragraph(new Run(new Text(text)));
+        body.Append(p);
+        doc.MainDocumentPart.Document.Save();
+        return \"0\";
+    }
+    public static string Replace(string oldText, string newText) {
+        if (doc == null) return \"-1\";
+        int n = 0;
+        foreach (var t in doc.MainDocumentPart.Document.Body.Descendants<Text>()) {
+            if (t.Text.Contains(oldText)) {
+                t.Text = t.Text.Replace(oldText, newText);
+                n++;
+            }
+        }
+        doc.MainDocumentPart.Document.Save();
+        return n.ToString();
+    }
+    public static string Save() {
+        if (doc == null) return \"-1\";
+        doc.MainDocumentPart.Document.Save();
+        return \"0\";
+    }
+    public static string Close() {
+        if (doc != null) { doc.Dispose(); doc = null; }
+        return \"0\";
+    }
+}
+"}
+	loadnet _cs, 3, "DocumentFormat.OpenXml.dll", "WindowsBase.dll"
+	_docxn_cs_loaded = 1
+	return
+
+#deffunc docxn_open str path, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "Open", _r, path
+	return int("" + _r)
+
+#deffunc docxn_create str path, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "Create", _r, path
+	return int("" + _r)
+
+#deffunc docxn_get_text var v_out, \
+	local _h, local _r
+	sdim v_out, 65536
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "GetText", _r
+	v_out = "" + _r
+	return 0
+
+#deffunc docxn_append_paragraph str text, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "AppendParagraph", _r, text
+	return int("" + _r)
+
+#deffunc docxn_replace str old_text, str new_text, \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "Replace", _r, old_text, new_text
+	return int("" + _r)
+
+#deffunc docxn_save \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "Save", _r
+	return int("" + _r)
+
+#deffunc docxn_close \
+	local _h, local _r
+	_docxn_load_cs
+	newnet _h, "HspDocxNet"
+	mcall _h, "Close", _r
+	return 0
+
+#global
+#endif
