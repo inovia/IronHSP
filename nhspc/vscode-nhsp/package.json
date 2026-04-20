@@ -41,6 +41,11 @@
         "language": "nhsp",
         "scopeName": "source.nhsp",
         "path": "./syntaxes/nhsp.tmLanguage.json"
+      },
+      {
+        "language": "hsp",
+        "scopeName": "source.hsp",
+        "path": "./syntaxes/hsp.tmLanguage.json"
       }
     ],
     "snippets": [

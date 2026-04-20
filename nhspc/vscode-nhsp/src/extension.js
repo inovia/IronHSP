@@ -3,14 +3,17 @@ const path = require('path');
 const { execFile } = require('child_process');
 const fs = require('fs');
 const { NhspLanguageClient } = require('./lsp-client');
+const { HspLanguageClient } = require('./hsp-lsp-client');
 
 let diagnosticCollection;
 let outputChannel;
 let lspClient;
+let hspLspClient;
 
 // Providers are registered before the LSP client starts; fetch the live client
 // on every call so it can lazily attach once the server has spun up.
 function getLspClient() { return lspClient; }
+function getHspLspClient() { return hspLspClient; }
 
 // ========== Activation ==========
 
@@ -108,6 +111,75 @@ function activate(context) {
                 vscode.workspace.onDidCloseTextDocument((doc) => lspClient.didClose(doc))
             );
         }
+    }
+
+    // HSP (.hsp) language server (hspls.exe — wraps hspcmp64 parser).
+    const hspDiagnostics = vscode.languages.createDiagnosticCollection('hspls');
+    context.subscriptions.push(hspDiagnostics);
+    hspLspClient = new HspLanguageClient(outputChannel, hspDiagnostics);
+    if (hspLspClient.start()) {
+        // Seed the server with anything already open.
+        for (const doc of vscode.workspace.textDocuments)
+            if (doc.languageId === 'hsp') hspLspClient.didOpen(doc);
+
+        context.subscriptions.push(
+            vscode.workspace.onDidOpenTextDocument((doc) => hspLspClient.didOpen(doc)),
+            vscode.workspace.onDidChangeTextDocument((e) => hspLspClient.didChange(e.document)),
+            vscode.workspace.onDidSaveTextDocument((doc) => hspLspClient.didSave(doc)),
+            vscode.workspace.onDidCloseTextDocument((doc) => hspLspClient.didClose(doc))
+        );
+
+        // VS Code language providers that delegate to the LSP server.
+        context.subscriptions.push(
+            vscode.languages.registerDefinitionProvider('hsp', {
+                provideDefinition: async (doc, pos) => {
+                    const locs = await hspLspClient.definition(doc, pos);
+                    if (!locs) return null;
+                    const arr = Array.isArray(locs) ? locs : [locs];
+                    return arr.map((l) => new vscode.Location(
+                        vscode.Uri.parse(l.uri),
+                        new vscode.Range(l.range.start.line, l.range.start.character,
+                                         l.range.end.line,   l.range.end.character)
+                    ));
+                }
+            }),
+            vscode.languages.registerHoverProvider('hsp', {
+                provideHover: async (doc, pos) => {
+                    const r = await hspLspClient.hover(doc, pos);
+                    if (!r || !r.contents) return null;
+                    const md = new vscode.MarkdownString(r.contents.value || '');
+                    md.isTrusted = false;
+                    return new vscode.Hover(md);
+                }
+            }),
+            vscode.languages.registerDocumentSymbolProvider('hsp', {
+                provideDocumentSymbols: async (doc) => {
+                    const syms = await hspLspClient.documentSymbol(doc);
+                    if (!syms) return [];
+                    return syms.map((s) => new vscode.DocumentSymbol(
+                        s.name, '',
+                        (s.kind - 1),  // LSP SymbolKind is 1-based, VS Code's is 0-based
+                        new vscode.Range(s.range.start.line, s.range.start.character,
+                                         s.range.end.line,   s.range.end.character),
+                        new vscode.Range(s.selectionRange.start.line, s.selectionRange.start.character,
+                                         s.selectionRange.end.line,   s.selectionRange.end.character)
+                    ));
+                }
+            }),
+            vscode.languages.registerCompletionItemProvider('hsp', {
+                provideCompletionItems: async (doc, pos, token, context) => {
+                    const items = await hspLspClient.completion(doc, pos, context.triggerCharacter);
+                    if (!items) return null;
+                    const list = Array.isArray(items) ? items : items.items || [];
+                    return list.map((it) => {
+                        const ci = new vscode.CompletionItem(it.label,
+                            typeof it.kind === 'number' ? (it.kind - 1) : vscode.CompletionItemKind.Text);
+                        if (it.detail) ci.detail = it.detail;
+                        return ci;
+                    });
+                }
+            }, '#', '@')
+        );
     }
 }
 
@@ -1061,6 +1133,10 @@ function deactivate() {
     if (lspClient) {
         try { lspClient.stop(); } catch (e) { /* ignore */ }
         lspClient = null;
+    }
+    if (hspLspClient) {
+        try { hspLspClient.stop(); } catch (e) { /* ignore */ }
+        hspLspClient = null;
     }
     if (diagnosticCollection) diagnosticCollection.dispose();
     if (outputChannel) outputChannel.dispose();

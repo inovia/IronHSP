@@ -1,0 +1,520 @@
+//
+//  LspServer.cs — JSON-RPC LSP dispatcher for HSP3.
+//
+//  Handles a compact subset of the LSP spec sufficient to give VS Code:
+//    - diagnostics (textDocument/publishDiagnostics, pushed on save)
+//    - go to definition (textDocument/definition)
+//    - hover tooltip (textDocument/hover)
+//    - outline (textDocument/documentSymbol)
+//    - completion (textDocument/completion)
+//
+//  Parsing is delegated to the real hspcmp64 via HspcmpRunner.
+//
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using Newtonsoft.Json.Linq;
+
+namespace HspLanguageServer {
+    internal sealed class LspServer {
+        private readonly Stream _input;
+        private readonly Stream _output;
+        private readonly object _writeLock = new object();
+        private readonly Dictionary<string, HspDocument> _docs =
+            new Dictionary<string, HspDocument>(StringComparer.OrdinalIgnoreCase);
+        private readonly HspcmpRunner _runner = new HspcmpRunner();
+        private bool _shutdown;
+
+        // HSP3 built-in keywords; surfaced in completion alongside user symbols.
+        private static readonly string[] HspKeywords = new[] {
+            "if", "else", "repeat", "loop", "continue", "break", "return",
+            "gosub", "goto", "on", "exgoto", "end", "stop", "wait", "await",
+            "foreach", "switch", "case", "default", "swbreak", "swend",
+            "mes", "print", "pos", "color", "font", "boxf", "line", "pset",
+            "circle", "picload", "picsave", "redraw", "gsel", "screen", "buffer",
+            "title", "cls", "dialog", "exec", "strlen", "strrep", "strmid",
+            "instr", "getstr", "split", "strf", "peek", "poke", "lpoke",
+            "wpoke", "wpeek", "lpeek", "memcpy", "memset", "dim", "sdim",
+            "ddim", "ldim", "dimtype", "dim64", "newcom", "delcom", "newmod",
+            "delmod", "mref", "varptr", "dup", "dupptr", "int", "double", "str",
+            "abs", "sqrt", "log", "exp", "sin", "cos", "tan", "atan",
+            "limit", "rnd", "randomize", "atoi", "atof",
+        };
+
+        public LspServer(Stream input, Stream output) {
+            _input = input;
+            _output = output;
+
+            // Auto-detect hspcmp64.exe — prefer one bundled near this assembly,
+            // then fall back to package/win32/ in the dev tree.
+            string here = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var candidates = new[] {
+                Path.Combine(here, "hspcmp64.exe"),
+                Path.GetFullPath(Path.Combine(here, "..", "..", "..", "..", "..", "package", "win32", "hspcmp64.exe")),
+            };
+            foreach (var c in candidates) {
+                if (File.Exists(c)) { _runner.HspcmpPath = c; break; }
+            }
+        }
+
+        public void Run() {
+            while (true) {
+                JObject msg;
+                try { msg = ReadMessage(); }
+                catch (EndOfStreamException) { return; }
+                if (msg == null) return;
+
+                string method = (string)msg["method"];
+                JToken id = msg["id"];
+                JToken ps = msg["params"];
+
+                try {
+                    if (id != null) HandleRequest(id, method, ps);
+                    else HandleNotification(method, ps);
+                } catch (Exception ex) {
+                    Console.Error.WriteLine("hspls error: " + ex);
+                    if (id != null) SendError(id, -32603, ex.Message);
+                }
+
+                if (_shutdown && method == "exit") return;
+            }
+        }
+
+        // ================ Dispatch ================
+
+        private void HandleRequest(JToken id, string method, JToken ps) {
+            switch (method) {
+                case "initialize":
+                    SendResult(id, BuildInitializeResult());
+                    break;
+                case "shutdown":
+                    _shutdown = true;
+                    SendResult(id, null);
+                    break;
+                case "textDocument/definition":
+                    SendResult(id, HandleDefinition(ps));
+                    break;
+                case "textDocument/hover":
+                    SendResult(id, HandleHover(ps));
+                    break;
+                case "textDocument/documentSymbol":
+                    SendResult(id, HandleDocumentSymbol(ps));
+                    break;
+                case "textDocument/completion":
+                    SendResult(id, HandleCompletion(ps));
+                    break;
+                default:
+                    SendResult(id, null);
+                    break;
+            }
+        }
+
+        private void HandleNotification(string method, JToken ps) {
+            switch (method) {
+                case "initialized":
+                    break;
+                case "exit":
+                    _shutdown = true;
+                    break;
+                case "textDocument/didOpen":
+                    OnDidOpen(ps);
+                    break;
+                case "textDocument/didChange":
+                    OnDidChange(ps);
+                    break;
+                case "textDocument/didSave":
+                    OnDidSave(ps);
+                    break;
+                case "textDocument/didClose":
+                    OnDidClose(ps);
+                    break;
+            }
+        }
+
+        private static JObject BuildInitializeResult() {
+            return new JObject {
+                ["capabilities"] = new JObject {
+                    ["textDocumentSync"] = 1,  // full sync
+                    ["definitionProvider"] = true,
+                    ["hoverProvider"] = true,
+                    ["documentSymbolProvider"] = true,
+                    ["completionProvider"] = new JObject {
+                        ["triggerCharacters"] = new JArray { "#", "@" },
+                    },
+                },
+                ["serverInfo"] = new JObject {
+                    ["name"] = "hspls",
+                    ["version"] = "0.1.0",
+                },
+            };
+        }
+
+        // ================ Document lifecycle ================
+
+        private void OnDidOpen(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            string text = (string)ps["textDocument"]["text"];
+            ReparseDoc(uri, text);
+        }
+
+        private void OnDidChange(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            var changes = ps["contentChanges"] as JArray;
+            if (changes == null || changes.Count == 0) return;
+            // With textDocumentSync=Full, the only change is the full new text.
+            string text = (string)changes[changes.Count - 1]["text"];
+            if (_docs.TryGetValue(uri, out var doc)) doc.Text = text;
+            // Don't reparse on every keystroke; wait for save.
+        }
+
+        private void OnDidSave(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            if (_docs.TryGetValue(uri, out var doc)) {
+                ReparseDoc(uri, doc.Text);
+            }
+        }
+
+        private void OnDidClose(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            _docs.Remove(uri);
+            // Also clear diagnostics so VS Code drops the squiggles.
+            PublishDiagnostics(uri, new List<HspDiagnostic>());
+        }
+
+        private void ReparseDoc(string uri, string text) {
+            string absPath = UriToPath(uri);
+            if (string.IsNullOrEmpty(absPath)) return;
+            string cwd = Path.GetDirectoryName(absPath);
+
+            var doc = new HspDocument {
+                Uri = uri,
+                AbsPath = absPath,
+                Text = text,
+            };
+
+            // Persist buffer to disk so hspcmp reads the latest content.
+            try { File.WriteAllText(absPath, text ?? "", new UTF8Encoding(false)); }
+            catch { /* ignore — compile what's on disk anyway */ }
+
+            var symbols = new Dictionary<string, List<HspSymbol>>(StringComparer.OrdinalIgnoreCase);
+            var diags = new List<HspDiagnostic>();
+            _runner.Run(absPath, cwd, symbols, diags);
+
+            doc.WorkspaceSymbols = symbols;
+            // hspcmp may emit s.File as basename or absolute path depending on
+            // how the argument was passed. Normalise to basename on both sides.
+            string baseName = Path.GetFileName(absPath);
+            foreach (var kv in symbols) {
+                foreach (var s in kv.Value) {
+                    string symFile = Path.GetFileName(s.File ?? "");
+                    if (string.Equals(symFile, baseName, StringComparison.OrdinalIgnoreCase)) {
+                        doc.LocalSymbols.Add(s);
+                    }
+                }
+            }
+            doc.Diagnostics.AddRange(diags);
+            _docs[uri] = doc;
+
+            PublishDiagnostics(uri, diags);
+        }
+
+        private void PublishDiagnostics(string uri, List<HspDiagnostic> diags) {
+            // Only publish diagnostics whose file matches this document —
+            // hspcmp reports errors from #include files against their own paths.
+            string baseName;
+            try { baseName = Path.GetFileName(UriToPath(uri) ?? ""); }
+            catch { baseName = ""; }
+
+            var arr = new JArray();
+            foreach (var d in diags) {
+                if (!string.IsNullOrEmpty(baseName) &&
+                    !string.Equals(Path.GetFileName(d.File ?? ""), baseName, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                arr.Add(new JObject {
+                    ["range"] = new JObject {
+                        ["start"] = new JObject { ["line"] = d.Line - 1, ["character"] = 0 },
+                        ["end"]   = new JObject { ["line"] = d.Line - 1, ["character"] = 200 },
+                    },
+                    ["severity"] = d.Severity,
+                    ["code"] = d.Code,
+                    ["source"] = "hspcmp",
+                    ["message"] = d.Message,
+                });
+            }
+            SendNotification("textDocument/publishDiagnostics", new JObject {
+                ["uri"] = uri,
+                ["diagnostics"] = arr,
+            });
+        }
+
+        // ================ LSP method handlers ================
+
+        private JToken HandleDefinition(JToken ps) {
+            if (!TryResolveSymbolAt(ps, out HspDocument doc, out string word, out _, out _))
+                return null;
+
+            if (!doc.WorkspaceSymbols.TryGetValue(word, out var hits)) return null;
+            var results = new JArray();
+            foreach (var s in hits) {
+                if (string.IsNullOrEmpty(s.AbsPath)) continue;
+                results.Add(new JObject {
+                    ["uri"] = PathToUri(s.AbsPath),
+                    ["range"] = new JObject {
+                        ["start"] = new JObject { ["line"] = s.Line - 1, ["character"] = 0 },
+                        ["end"]   = new JObject { ["line"] = s.Line - 1, ["character"] = 200 },
+                    },
+                });
+            }
+            return results;
+        }
+
+        private JToken HandleHover(JToken ps) {
+            if (!TryResolveSymbolAt(ps, out HspDocument doc, out string word, out _, out _))
+                return null;
+            if (!doc.WorkspaceSymbols.TryGetValue(word, out var hits)) return null;
+
+            var sb = new StringBuilder();
+            sb.Append("```hsp\n");
+            foreach (var s in hits) {
+                sb.Append(KindLabel(s.Kind)).Append(" ").Append(s.Name);
+                sb.Append("   — ").Append(s.File).Append(":").Append(s.Line).Append("\n");
+            }
+            sb.Append("```");
+
+            return new JObject {
+                ["contents"] = new JObject {
+                    ["kind"] = "markdown",
+                    ["value"] = sb.ToString(),
+                },
+            };
+        }
+
+        private JToken HandleDocumentSymbol(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            if (!_docs.TryGetValue(uri, out var doc)) return new JArray();
+
+            var arr = new JArray();
+            foreach (var s in doc.LocalSymbols) {
+                arr.Add(new JObject {
+                    ["name"] = s.Name,
+                    ["kind"] = KindToSymbolKind(s.Kind),
+                    ["range"] = new JObject {
+                        ["start"] = new JObject { ["line"] = s.Line - 1, ["character"] = 0 },
+                        ["end"]   = new JObject { ["line"] = s.Line - 1, ["character"] = 200 },
+                    },
+                    ["selectionRange"] = new JObject {
+                        ["start"] = new JObject { ["line"] = s.Line - 1, ["character"] = 0 },
+                        ["end"]   = new JObject { ["line"] = s.Line - 1, ["character"] = 200 },
+                    },
+                });
+            }
+            return arr;
+        }
+
+        private JToken HandleCompletion(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            if (!_docs.TryGetValue(uri, out var doc)) return new JArray();
+
+            var items = new JArray();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var kv in doc.WorkspaceSymbols) {
+                foreach (var s in kv.Value) {
+                    if (!seen.Add(s.Name)) continue;
+                    items.Add(new JObject {
+                        ["label"] = s.Name,
+                        ["kind"] = KindToCompletionKind(s.Kind),
+                        ["detail"] = KindLabel(s.Kind),
+                    });
+                }
+            }
+            foreach (var kw in HspKeywords) {
+                if (!seen.Add(kw)) continue;
+                items.Add(new JObject {
+                    ["label"] = kw,
+                    ["kind"] = 14,  // keyword
+                });
+            }
+            return items;
+        }
+
+        // ================ Helpers ================
+
+        private bool TryResolveSymbolAt(JToken ps,
+                                        out HspDocument doc,
+                                        out string word,
+                                        out int line,
+                                        out int col) {
+            doc = null; word = null; line = 0; col = 0;
+            string uri = (string)ps["textDocument"]["uri"];
+            if (!_docs.TryGetValue(uri, out doc)) return false;
+            line = (int)ps["position"]["line"];
+            col  = (int)ps["position"]["character"];
+            word = ExtractWordAt(doc.Text, line, col);
+            return !string.IsNullOrEmpty(word);
+        }
+
+        // Extract the HSP identifier at (zero-based line, zero-based col).
+        // Supports module refs via the `@` separator: `name@mod` → `name@mod`.
+        private static string ExtractWordAt(string text, int line, int col) {
+            if (text == null) return null;
+            int pos = 0, curLine = 0;
+            while (curLine < line && pos < text.Length) {
+                if (text[pos] == '\n') curLine++;
+                pos++;
+            }
+            int lineStart = pos;
+            int cursor = lineStart + col;
+            if (cursor >= text.Length) cursor = text.Length - 1;
+            if (cursor < 0) return null;
+
+            // Walk left until non-identifier character.
+            int s = cursor;
+            while (s > lineStart && IsIdentChar(text[s - 1])) s--;
+            int e = cursor;
+            while (e < text.Length && IsIdentChar(text[e])) e++;
+            if (e <= s) return null;
+            return text.Substring(s, e - s);
+        }
+
+        private static bool IsIdentChar(char c) {
+            return char.IsLetterOrDigit(c) || c == '_' || c == '@';
+        }
+
+        private static string KindLabel(string kind) {
+            switch (kind) {
+                case "dfnc": return "(function)";
+                case "dlab": return "(label)";
+                case "dvar": return "(variable)";
+                case "dmac": return "(macro)";
+                case "dmod": return "(module)";
+                default:     return "(" + kind + ")";
+            }
+        }
+
+        private static int KindToSymbolKind(string kind) {
+            // LSP SymbolKind values.
+            switch (kind) {
+                case "dfnc": return 12; // Function
+                case "dlab": return 13; // Variable (closest for labels)
+                case "dvar": return 13; // Variable
+                case "dmac": return 14; // Constant
+                case "dmod": return 2;  // Module
+                default:     return 1;  // File
+            }
+        }
+
+        private static int KindToCompletionKind(string kind) {
+            // LSP CompletionItemKind values.
+            switch (kind) {
+                case "dfnc": return 3;  // Function
+                case "dlab": return 20; // EnumMember (closest for label)
+                case "dvar": return 6;  // Variable
+                case "dmac": return 21; // Constant
+                case "dmod": return 9;  // Module
+                default:     return 1;  // Text
+            }
+        }
+
+        private static string UriToPath(string uri) {
+            if (string.IsNullOrEmpty(uri)) return null;
+            try {
+                var u = new Uri(uri);
+                if (!u.IsFile) return null;
+                string path = u.LocalPath;
+                // VS Code sends Windows paths as file:///j%3A/foo — localPath
+                // turns this into /j:/foo; trim the leading slash.
+                if (path.Length >= 3 &&
+                    (path[0] == '\\' || path[0] == '/') &&
+                    char.IsLetter(path[1]) && path[2] == ':')
+                    path = path.Substring(1);
+                return path;
+            } catch { return null; }
+        }
+
+        private static string PathToUri(string path) {
+            try {
+                return new Uri(Path.GetFullPath(path)).AbsoluteUri;
+            } catch {
+                return "file:///" + path.Replace('\\', '/');
+            }
+        }
+
+        // ================ JSON-RPC plumbing ================
+
+        private JObject ReadMessage() {
+            int contentLength = -1;
+            while (true) {
+                string header = ReadHeaderLine();
+                if (header == null) return null;
+                if (header.Length == 0) break;
+                int colon = header.IndexOf(':');
+                if (colon < 0) continue;
+                string name = header.Substring(0, colon).Trim();
+                string value = header.Substring(colon + 1).Trim();
+                if (string.Equals(name, "Content-Length", StringComparison.OrdinalIgnoreCase))
+                    contentLength = int.Parse(value);
+            }
+            if (contentLength <= 0) return null;
+            byte[] buf = new byte[contentLength];
+            int read = 0;
+            while (read < contentLength) {
+                int n = _input.Read(buf, read, contentLength - read);
+                if (n <= 0) throw new EndOfStreamException();
+                read += n;
+            }
+            return JObject.Parse(Encoding.UTF8.GetString(buf));
+        }
+
+        private string ReadHeaderLine() {
+            var sb = new StringBuilder();
+            int prev = -1;
+            while (true) {
+                int c = _input.ReadByte();
+                if (c < 0) return sb.Length == 0 ? null : sb.ToString();
+                if (prev == '\r' && c == '\n') {
+                    sb.Length -= 1;
+                    return sb.ToString();
+                }
+                sb.Append((char)c);
+                prev = c;
+            }
+        }
+
+        private void WriteMessage(JObject obj) {
+            byte[] body = Encoding.UTF8.GetBytes(obj.ToString(Newtonsoft.Json.Formatting.None));
+            byte[] header = Encoding.ASCII.GetBytes("Content-Length: " + body.Length + "\r\n\r\n");
+            lock (_writeLock) {
+                _output.Write(header, 0, header.Length);
+                _output.Write(body, 0, body.Length);
+                _output.Flush();
+            }
+        }
+
+        private void SendResult(JToken id, JToken result) {
+            WriteMessage(new JObject {
+                ["jsonrpc"] = "2.0",
+                ["id"] = id,
+                ["result"] = result ?? JValue.CreateNull(),
+            });
+        }
+
+        private void SendError(JToken id, int code, string message) {
+            WriteMessage(new JObject {
+                ["jsonrpc"] = "2.0",
+                ["id"] = id,
+                ["error"] = new JObject { ["code"] = code, ["message"] = message ?? "" },
+            });
+        }
+
+        private void SendNotification(string method, JToken @params) {
+            WriteMessage(new JObject {
+                ["jsonrpc"] = "2.0",
+                ["method"] = method,
+                ["params"] = @params,
+            });
+        }
+    }
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "HSP",
+  "scopeName": "source.hsp",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#preprocessor" },
+    { "include": "#labels" },
+    { "include": "#keywords" },
+    { "include": "#builtins" },
+    { "include": "#systemvars" },
+    { "include": "#constants" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#functions" },
+    { "include": "#modulerefs" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        { "name": "comment.line.semicolon.hsp", "match": ";.*$" },
+        { "name": "comment.line.double-slash.hsp", "match": "//.*$" },
+        { "name": "comment.block.hsp", "begin": "/\\*", "end": "\\*/" }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.hsp",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "name": "constant.character.escape.hsp", "match": "\\\\." }
+          ]
+        },
+        {
+          "name": "string.quoted.braces.hsp",
+          "begin": "\\{\"",
+          "end": "\"\\}"
+        },
+        {
+          "name": "string.quoted.char.hsp",
+          "match": "'(?:\\\\.|[^'\\\\])'"
+        }
+      ]
+    },
+    "preprocessor": {
+      "patterns": [
+        {
+          "name": "meta.preprocessor.function.hsp",
+          "match": "^\\s*(#(?:deffunc|defcfunc|modfunc|modcfunc|func|cfunc|comfunc|modinit|modterm|module|global))\\b\\s+(global\\s+)?([A-Za-z_][A-Za-z_0-9]*)?",
+          "captures": {
+            "1": { "name": "keyword.control.preprocessor.hsp" },
+            "2": { "name": "storage.modifier.hsp" },
+            "3": { "name": "entity.name.function.hsp" }
+          }
+        },
+        {
+          "name": "meta.preprocessor.constant.hsp",
+          "match": "^\\s*(#(?:const|enum|define))\\b\\s+(global\\s+)?([A-Za-z_][A-Za-z_0-9]*)?",
+          "captures": {
+            "1": { "name": "keyword.control.preprocessor.hsp" },
+            "2": { "name": "storage.modifier.hsp" },
+            "3": { "name": "entity.name.constant.hsp" }
+          }
+        },
+        {
+          "name": "meta.preprocessor.include.hsp",
+          "match": "^\\s*(#(?:include|addition|uselib|regcmd|usecom|bootopt|packopt|runtime|epack|pack|cmpopt|aorder|if|ifdef|ifndef|else|endif|undef|undefine|usesprite|error))\\b",
+          "captures": {
+            "1": { "name": "keyword.control.preprocessor.hsp" }
+          }
+        }
+      ]
+    },
+    "labels": {
+      "patterns": [
+        {
+          "name": "entity.name.label.hsp",
+          "match": "\\*[A-Za-z_][A-Za-z_0-9]*"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.hsp",
+          "match": "\\b(if|else|repeat|loop|continue|break|gosub|return|goto|on|exgoto|end|stop|wait|await|foreach|switch|case|default|swbreak|swend)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.hsp",
+          "match": "\\b(and|or|xor|not)\\b"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.hsp",
+          "match": "\\b(mes|print|pos|color|font|boxf|line|pset|circle|picload|picsave|redraw|gsel|screen|buffer|title|cls|dialog|exec|chdir|chdpm|bcopy|bload|bsave|delete|mkdir|notesel|noteadd|noteget|notedel|noteinfo|notemax|notesize|notefind|noteload|notesave|noteunsel|strlen|strrep|strmid|instr|getstr|split|strf|peek|poke|lpoke|wpoke|wpeek|lpeek|memcpy|memset|memexpand|memfile|dupptr|dup|varptr|mref|newmod|delmod|getpath|getstr|objsel|objprm|objsend|objmode|objimage|objinfo|objsize|clrobj|button|chkbox|combox|listbox|input|mesbox|getkey|stick|ginfo|sysinfo|varuse|length|length2|length3|length4|vartype|varsize|int|double|str|abs|sqrt|log|exp|sin|cos|tan|atan|limit|rnd|randomize|powf|atoi|atof|deffunc|defcfunc|dim|sdim|ddim|ldim|dimtype|dim64|comevent|comres|newcom|delcom|assert|logmes|gmode|gcopy|gzoom|grect|groll|gsquare|groll|gradf|gradient|sprite|font)\\b"
+        }
+      ]
+    },
+    "systemvars": {
+      "patterns": [
+        {
+          "name": "variable.language.system.hsp",
+          "match": "\\b(mousex|mousey|mousew|mousel|mouser|mousem|ginfo_mx|ginfo_my|ginfo_act|ginfo_sel|ginfo_wx1|ginfo_wy1|ginfo_wx2|ginfo_wy2|ginfo_vx|ginfo_vy|ginfo_dispx|ginfo_dispy|ginfo_sizex|ginfo_sizey|ginfo_winx|ginfo_winy|ginfo_cx|ginfo_cy|ginfo_r|ginfo_g|ginfo_b|ginfo_paluse|ginfo_mesx|ginfo_mesy|ginfo_intid|ginfo_newid|hwnd|hdc|hinstance|hspstat|hspver|strsize|stat|refdval|refstr|iparam|wparam|lparam|looplev|sublev|cnt|gosublev|syserror|notemax|noteinfo|err|systable)\\b"
+        },
+        {
+          "name": "constant.language.hsp",
+          "match": "\\b(PI|M_PI|CLR_NONE|CLR_BLACK|screen_normal|screen_hide|screen_fixedsize|screen_tool|screen_frame|gmode_gdi|gmode_mem|gmode_rgb0|gmode_alpha|gmode_rgb0alpha|gmode_add|gmode_sub|gmode_pixela)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        { "name": "constant.language.boolean.hsp", "match": "\\b(true|false)\\b" },
+        { "name": "constant.language.null.hsp", "match": "\\b(null)\\b" }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        { "name": "constant.numeric.hex.hsp", "match": "(?:0[xX]|\\$)[0-9A-Fa-f]+" },
+        { "name": "constant.numeric.binary.hsp", "match": "%[01]+" },
+        { "name": "constant.numeric.float.hsp", "match": "\\b[0-9]+\\.[0-9]+(?:[eE][-+]?[0-9]+)?\\b" },
+        { "name": "constant.numeric.integer.hsp", "match": "\\b[0-9]+\\b" }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        { "name": "keyword.operator.assignment.hsp", "match": "(\\+=|-=|\\*=|/=|\\\\=|=|\\+\\+|--)" },
+        { "name": "keyword.operator.comparison.hsp", "match": "(==|!=|<=|>=|<|>)" },
+        { "name": "keyword.operator.arithmetic.hsp", "match": "(\\+|-|\\*|/|\\\\|<<|>>|&|\\||\\^|~)" }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "meta.function-call.hsp",
+          "match": "\\b([A-Za-z_][A-Za-z_0-9]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "entity.name.function.call.hsp" }
+          }
+        }
+      ]
+    },
+    "modulerefs": {
+      "patterns": [
+        {
+          "match": "([A-Za-z_][A-Za-z_0-9]*)(@)([A-Za-z_][A-Za-z_0-9]*)",
+          "captures": {
+            "1": { "name": "variable.other.hsp" },
+            "2": { "name": "punctuation.separator.module.hsp" },
+            "3": { "name": "entity.name.namespace.hsp" }
+          }
+        }
+      ]
+    }
+  }
+}
