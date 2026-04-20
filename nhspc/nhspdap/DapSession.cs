@@ -250,6 +250,11 @@ namespace NhspDap {
                 return false;
             }
 
+            // hspcmp64 は UTF-8 入力モード (-i) でもエラーメッセージ出力は
+            // 実行環境の ANSI code page (日本語 Windows なら CP932) で出す。
+            // UTF-8 と仮定して読むと「文法が間違っています」が化ける。
+            var ansi = System.Text.Encoding.GetEncoding(
+                System.Globalization.CultureInfo.CurrentCulture.TextInfo.ANSICodePage);
             var psi = new ProcessStartInfo {
                 FileName = hspcmp,
                 Arguments = "-d -w -i \"" + srcPath + "\"",
@@ -258,8 +263,8 @@ namespace NhspDap {
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                StandardOutputEncoding = new System.Text.UTF8Encoding(false),
-                StandardErrorEncoding  = new System.Text.UTF8Encoding(false),
+                StandardOutputEncoding = ansi,
+                StandardErrorEncoding  = ansi,
             };
             string stdout, stderr;
             int exitCode;
