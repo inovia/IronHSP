@@ -195,13 +195,43 @@ namespace HspLanguageServer {
                 Text = text,
             };
 
-            // Persist buffer to disk so hspcmp reads the latest content.
-            try { File.WriteAllText(absPath, text ?? "", new UTF8Encoding(false)); }
-            catch { /* ignore — compile what's on disk anyway */ }
+            // Write buffer to a side-car temp file in the SAME directory (so
+            // relative #includes still resolve from cwd) and point hspcmp at
+            // that file. We never touch the user's real source file.
+            string tempPath = null;
+            try {
+                string baseName = Path.GetFileNameWithoutExtension(absPath) + ".__hspls.hsp";
+                tempPath = Path.Combine(cwd, baseName);
+                File.WriteAllText(tempPath, text ?? "", new UTF8Encoding(false));
+            } catch (Exception ex) {
+                Console.Error.WriteLine("hspls temp write failed: " + ex.Message);
+                tempPath = absPath;  // fall back to the on-disk version
+            }
 
             var symbols = new Dictionary<string, List<HspSymbol>>(StringComparer.OrdinalIgnoreCase);
             var diags = new List<HspDiagnostic>();
-            _runner.Run(absPath, cwd, symbols, diags);
+            _runner.Run(tempPath, cwd, symbols, diags);
+
+            // Rewrite emitted file paths that point at the temp sidecar back to
+            // the real source, so VS Code links to the user's editor buffer.
+            if (tempPath != absPath) {
+                string tempName = Path.GetFileName(tempPath);
+                string realName = Path.GetFileName(absPath);
+                foreach (var kv in symbols) {
+                    foreach (var s in kv.Value) {
+                        if (string.Equals(Path.GetFileName(s.File ?? ""), tempName, StringComparison.OrdinalIgnoreCase)) {
+                            s.File = realName;
+                            s.AbsPath = absPath;
+                        }
+                    }
+                }
+                foreach (var d in diags) {
+                    if (string.Equals(Path.GetFileName(d.File ?? ""), tempName, StringComparison.OrdinalIgnoreCase)) {
+                        d.File = realName;
+                    }
+                }
+                try { File.Delete(tempPath); } catch { }
+            }
 
             doc.WorkspaceSymbols = symbols;
             // hspcmp may emit s.File as basename or absolute path depending on

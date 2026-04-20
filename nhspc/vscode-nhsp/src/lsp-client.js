@@ -9,9 +9,10 @@ const fs = require('fs');
 const vscode = require('vscode');
 
 class NhspLanguageClient {
-    constructor(outputChannel, diagnosticCollection) {
+    constructor(outputChannel, diagnosticCollection, extensionPath) {
         this.output = outputChannel;
         this.diagnostics = diagnosticCollection;
+        this.extensionPath = extensionPath;
         this.proc = null;
         this.buffer = Buffer.alloc(0);
         this.nextId = 1;
@@ -120,9 +121,16 @@ class NhspLanguageClient {
         if (cfgPath && fs.existsSync(cfgPath)) return cfgPath;
 
         // Bundled with the extension.
-        const extDir = path.join(__dirname, '..');
+        const extDir = this.extensionPath || path.join(__dirname, '..');
         const bundled = path.join(extDir, 'compiler', 'nhspls.exe');
         if (fs.existsSync(bundled)) return bundled;
+
+        // Dev layout: vscode-nhsp sits next to NhspLanguageServer under nhspc/.
+        const sibling = [
+            path.join(extDir, '..', 'NhspLanguageServer', 'bin', 'Release', 'net48', 'nhspls.exe'),
+            path.join(extDir, '..', 'NhspLanguageServer', 'bin', 'Debug',   'net48', 'nhspls.exe'),
+        ];
+        for (const c of sibling) if (fs.existsSync(c)) return c;
 
         // Workspace dev paths.
         const folders = vscode.workspace.workspaceFolders;
@@ -133,6 +141,7 @@ class NhspLanguageClient {
                     path.join(f.uri.fsPath, 'nhspc', 'NhspLanguageServer', 'bin', 'Release', 'net48', 'nhspls.exe'),
                     path.join(f.uri.fsPath, 'nhspc', 'NhspLanguageServer', 'bin', 'Debug', 'net48', 'nhspls.exe'),
                     path.join(f.uri.fsPath, '..', 'nhspc', 'NhspLanguageServer', 'bin', 'Release', 'net48', 'nhspls.exe'),
+                    path.join(f.uri.fsPath, '..', '..', 'nhspc', 'NhspLanguageServer', 'bin', 'Release', 'net48', 'nhspls.exe'),
                 ];
                 for (const c of candidates) if (fs.existsSync(c)) return c;
             }

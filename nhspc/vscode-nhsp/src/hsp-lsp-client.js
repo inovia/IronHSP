@@ -8,9 +8,10 @@ const fs = require('fs');
 const vscode = require('vscode');
 
 class HspLanguageClient {
-    constructor(outputChannel, diagnosticCollection) {
+    constructor(outputChannel, diagnosticCollection, extensionPath) {
         this.output = outputChannel;
         this.diagnostics = diagnosticCollection;
+        this.extensionPath = extensionPath;
         this.proc = null;
         this.buffer = Buffer.alloc(0);
         this.nextId = 1;
@@ -157,19 +158,29 @@ class HspLanguageClient {
         if (cfgPath && fs.existsSync(cfgPath)) return cfgPath;
 
         // 2. Bundled with the extension
-        const extDir = path.join(__dirname, '..');
+        const extDir = this.extensionPath || path.join(__dirname, '..');
         const bundled = path.join(extDir, 'compiler', 'hspls.exe');
         if (fs.existsSync(bundled)) return bundled;
 
-        // 3. Workspace dev paths
+        // 3. Dev layout: <repo>/nhspc/vscode-nhsp/ + <repo>/nhspc/HspLanguageServer/
+        //    The extension lives under nhspc/, so `../HspLanguageServer/...`
+        //    from the extension dir points straight at the sibling server.
+        const siblingCandidates = [
+            path.join(extDir, '..', 'HspLanguageServer', 'bin', 'Release', 'net48', 'hspls.exe'),
+            path.join(extDir, '..', 'HspLanguageServer', 'bin', 'Debug',   'net48', 'hspls.exe'),
+        ];
+        for (const c of siblingCandidates) if (fs.existsSync(c)) return c;
+
+        // 4. Workspace dev paths (user opened the repo root as workspace)
         const folders = vscode.workspace.workspaceFolders;
         if (folders) {
             for (const f of folders) {
                 const candidates = [
                     path.join(f.uri.fsPath, 'hspls.exe'),
                     path.join(f.uri.fsPath, 'nhspc', 'HspLanguageServer', 'bin', 'Release', 'net48', 'hspls.exe'),
-                    path.join(f.uri.fsPath, 'nhspc', 'HspLanguageServer', 'bin', 'Debug', 'net48', 'hspls.exe'),
+                    path.join(f.uri.fsPath, 'nhspc', 'HspLanguageServer', 'bin', 'Debug',   'net48', 'hspls.exe'),
                     path.join(f.uri.fsPath, '..', 'nhspc', 'HspLanguageServer', 'bin', 'Release', 'net48', 'hspls.exe'),
+                    path.join(f.uri.fsPath, '..', '..', 'nhspc', 'HspLanguageServer', 'bin', 'Release', 'net48', 'hspls.exe'),
                 ];
                 for (const c of candidates) if (fs.existsSync(c)) return c;
             }

@@ -99,7 +99,7 @@ function activate(context) {
     if (cfg.get('languageServer.enabled') !== false) {
         const lspDiagnostics = vscode.languages.createDiagnosticCollection('nhspls');
         context.subscriptions.push(lspDiagnostics);
-        lspClient = new NhspLanguageClient(outputChannel, lspDiagnostics);
+        lspClient = new NhspLanguageClient(outputChannel, lspDiagnostics, context.extensionPath);
         if (lspClient.start()) {
             // Push every already-open .nhsp document to the server.
             for (const doc of vscode.workspace.textDocuments)
@@ -116,7 +116,7 @@ function activate(context) {
     // HSP (.hsp) language server (hspls.exe — wraps hspcmp64 parser).
     const hspDiagnostics = vscode.languages.createDiagnosticCollection('hspls');
     context.subscriptions.push(hspDiagnostics);
-    hspLspClient = new HspLanguageClient(outputChannel, hspDiagnostics);
+    hspLspClient = new HspLanguageClient(outputChannel, hspDiagnostics, context.extensionPath);
     if (hspLspClient.start()) {
         // Seed the server with anything already open.
         for (const doc of vscode.workspace.textDocuments)
