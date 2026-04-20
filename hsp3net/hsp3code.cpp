@@ -77,6 +77,9 @@ extern "C" __declspec(dllexport) void hsp3dap_force_step(void)
 {
 	dbgmode = HSPDEBUG_STEPIN;
 }
+// NOTE: hsp3dap_set_var_* / hsp3dap_get_var_type / hsp3dap_find_var /
+// hsp3dap_calc_offset は `maxvar` / `hspctx->mem_var` に依存するため、
+// ファイル末尾 (それらが定義された後) にまとめて配置している。
 #endif
 
 PVal *plugin_pval;								// プラグインに渡される変数ポインタの実態
@@ -4502,6 +4505,140 @@ void code_dbgtrace( void )
 }
 
 
+// ============================================================
+//  DAP 変数書き換え API (HSP3_DAP_MODE のみ)
+//
+//  戻り値: 0=OK / -1=未定義 / -2=型不一致 / -3=インデックス範囲外
+// ============================================================
+#ifdef HSP3_DAP_MODE
+
+static int hsp3dap_find_var( const char* name )
+{
+	int max = maxvar;
+	for ( int id = 0; id < max; id++ ) {
+		const char* vn = code_getdebug_varname( id );
+		if ( vn && strcmp( vn, name ) == 0 ) return id;
+	}
+	return -1;
+}
+
+// HSP 配列: len[1..4] が各次元の要素数。linear offset = Σ idx[d] * Π len[1..d].
+static int hsp3dap_calc_offset( PVal* pv, const int* idx, int num_idx, int* out_offset )
+{
+	int offset = 0;
+	int mult = 1;
+	if ( num_idx > 4 ) num_idx = 4;
+	for ( int d = 0; d < num_idx; d++ ) {
+		int dim_size = pv->len[d + 1];
+		if ( dim_size <= 0 ) dim_size = 1;
+		if ( idx[d] < 0 || idx[d] >= dim_size ) return -3;
+		offset += idx[d] * mult;
+		mult *= dim_size;
+	}
+	*out_offset = offset;
+	return 0;
+}
+
+extern "C" __declspec(dllexport) int hsp3dap_get_var_type( const char* name )
+{
+	int id = hsp3dap_find_var( name );
+	if ( id < 0 ) return -1;
+	return hspctx->mem_var[id].flag;
+}
+
+extern "C" __declspec(dllexport) int hsp3dap_set_var_int(
+	const char* name, const int* idx, int num_idx, int value )
+{
+	int id = hsp3dap_find_var( name );
+	if ( id < 0 ) return -1;
+	PVal* pv = &hspctx->mem_var[id];
+	if ( pv->flag != HSPVAR_FLAG_INT ) return -2;
+	int off;
+	int rc = hsp3dap_calc_offset( pv, idx, num_idx, &off );
+	if ( rc ) return rc;
+	((int*)pv->pt)[off] = value;
+	return 0;
+}
+
+extern "C" __declspec(dllexport) int hsp3dap_set_var_int64(
+	const char* name, const int* idx, int num_idx, __int64 value )
+{
+	int id = hsp3dap_find_var( name );
+	if ( id < 0 ) return -1;
+	PVal* pv = &hspctx->mem_var[id];
+	if ( pv->flag != HSPVAR_FLAG_INT64 ) return -2;
+	int off;
+	int rc = hsp3dap_calc_offset( pv, idx, num_idx, &off );
+	if ( rc ) return rc;
+	((__int64*)pv->pt)[off] = value;
+	return 0;
+}
+
+extern "C" __declspec(dllexport) int hsp3dap_set_var_double(
+	const char* name, const int* idx, int num_idx, double value )
+{
+	int id = hsp3dap_find_var( name );
+	if ( id < 0 ) return -1;
+	PVal* pv = &hspctx->mem_var[id];
+	if ( pv->flag != HSPVAR_FLAG_DOUBLE ) return -2;
+	int off;
+	int rc = hsp3dap_calc_offset( pv, idx, num_idx, &off );
+	if ( rc ) return rc;
+	((double*)pv->pt)[off] = value;
+	return 0;
+}
+
+// str: HSP の str 変数は char** で管理された可変長 sbAlloc バッファ。
+// 要素 0 は pval->pt 自体が char* バッファ。要素 N (>0) は
+// ((char**)pval->master)[N] が char* バッファ。sbStrCopy で安全に再確保。
+extern "C" __declspec(dllexport) int hsp3dap_set_var_str(
+	const char* name, const int* idx, int num_idx, const char* value )
+{
+	int id = hsp3dap_find_var( name );
+	if ( id < 0 ) return -1;
+	PVal* pv = &hspctx->mem_var[id];
+	if ( pv->flag != HSPVAR_FLAG_STR ) return -2;
+	int off;
+	int rc = hsp3dap_calc_offset( pv, idx, num_idx, &off );
+	if ( rc ) return rc;
+	char** pp;
+	if ( off == 0 ) {
+		pp = (char**)&pv->pt;
+	} else {
+		char** master = (char**)pv->master;
+		if ( master == NULL ) return -2;
+		pp = &master[off];
+	}
+	sbStrCopy( pp, (char*)value );
+	return 0;
+}
+
+// wstr (IronHSP 拡張): UTF-8 入力を UTF-16 に変換して書く。
+extern "C" __declspec(dllexport) int hsp3dap_set_var_wstr(
+	const char* name, const int* idx, int num_idx, const char* value_utf8 )
+{
+	int id = hsp3dap_find_var( name );
+	if ( id < 0 ) return -1;
+	PVal* pv = &hspctx->mem_var[id];
+	HspVarProc* proc = HspVarCoreGetProc( pv->flag );
+	if ( !proc || !proc->vartype_name ||
+		 strcmp( proc->vartype_name, "wstr" ) != 0 ) return -2;
+	int off;
+	int rc = hsp3dap_calc_offset( pv, idx, num_idx, &off );
+	if ( rc ) return rc;
+	int total = 1;
+	for ( int d = 0; d < 4; d++ ) { if ( pv->len[d+1] > 0 ) total *= pv->len[d+1]; }
+	if ( total <= 0 ) total = 1;
+	int elem_bytes = pv->size / total;
+	int elem_chars = elem_bytes / 2;
+	if ( elem_chars <= 0 ) return -2;
+	wchar_t* base = (wchar_t*)pv->pt + (size_t)off * elem_chars;
+	int wlen = MultiByteToWideChar( CP_UTF8, 0, value_utf8, -1, base, elem_chars );
+	if ( wlen == 0 ) { base[0] = 0; return -2; }
+	return 0;
+}
+
+#endif // HSP3_DAP_MODE
 
 
 #endif

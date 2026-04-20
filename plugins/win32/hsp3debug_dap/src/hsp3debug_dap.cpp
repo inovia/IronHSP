@@ -93,6 +93,29 @@ static volatile int* g_exe_bp_count = nullptr;
 
 typedef void (*register_bp_check_fn)(int (*)(const char*, int));
 
+// Exe-exported set/get helpers. Resolved in debugini so we can cheaply
+// call them from command handlers.
+typedef int      (*fn_get_var_type)  (const char*);
+typedef int      (*fn_set_var_int)   (const char*, const int*, int, int);
+typedef int      (*fn_set_var_int64) (const char*, const int*, int, long long);
+typedef int      (*fn_set_var_double)(const char*, const int*, int, double);
+typedef int      (*fn_set_var_str)   (const char*, const int*, int, const char*);
+typedef int      (*fn_set_var_wstr)  (const char*, const int*, int, const char*);
+static fn_get_var_type   g_fn_get_type = nullptr;
+static fn_set_var_int    g_fn_set_int = nullptr;
+static fn_set_var_int64  g_fn_set_i64 = nullptr;
+static fn_set_var_double g_fn_set_dbl = nullptr;
+static fn_set_var_str    g_fn_set_str = nullptr;
+static fn_set_var_wstr   g_fn_set_wstr = nullptr;
+
+// HSPVAR_FLAG_* values from hspvar_core.h. Kept in sync.
+enum {
+    HSP_T_STR    = 2,
+    HSP_T_DOUBLE = 3,
+    HSP_T_INT    = 4,
+    HSP_T_INT64  = 8,
+};
+
 // Forward decl — registered with the exe so its dispatch loop can call us
 // on every line change to test if the current (file,line) hits a BP.
 extern "C" __declspec(dllexport) int __stdcall hsp3dap_check_bp(const char* file, int line);
@@ -374,6 +397,121 @@ static void handle_command(const std::string& line) {
 
         json += "]}";
         pipe_write_line(json);
+    } else if (cmd == "set_var" || cmd == "evaluate") {
+        // Common flow: resolve name + indices + value, dispatch to exe setter
+        // based on current var type, serialize response.
+        std::string vname, vvalue;
+        int idx[4] = {0,0,0,0};
+        int num_idx = 0;
+        bool parse_ok = true;
+
+        if (cmd == "set_var") {
+            vname = json_get_str(line, "name");
+            vvalue = json_get_str(line, "value");
+            // Parse "indices":[N,M,...]
+            auto p = line.find("\"indices\"");
+            if (p != std::string::npos) {
+                p = line.find('[', p);
+                if (p != std::string::npos) {
+                    auto e = line.find(']', p);
+                    if (e != std::string::npos) {
+                        size_t i = p + 1;
+                        while (i < e && num_idx < 4) {
+                            while (i < e && !(isdigit((unsigned char)line[i]) || line[i] == '-')) i++;
+                            if (i >= e) break;
+                            bool neg = false;
+                            if (line[i] == '-') { neg = true; i++; }
+                            int v = 0;
+                            while (i < e && isdigit((unsigned char)line[i])) { v = v*10 + (line[i]-'0'); i++; }
+                            idx[num_idx++] = neg ? -v : v;
+                        }
+                    }
+                }
+            }
+        } else {
+            // evaluate: parse "name[(i,j,..)] = value" from expr
+            std::string expr = json_get_str(line, "expr");
+            auto eq = expr.find('=');
+            if (eq == std::string::npos) { parse_ok = false; }
+            else {
+                auto trim = [](std::string s){
+                    size_t a=0,b=s.size();
+                    while (a<b && isspace((unsigned char)s[a])) a++;
+                    while (b>a && isspace((unsigned char)s[b-1])) b--;
+                    return s.substr(a,b-a);
+                };
+                std::string lhs = trim(expr.substr(0, eq));
+                vvalue = trim(expr.substr(eq + 1));
+                // Strip surrounding quotes from value if present
+                if (vvalue.size() >= 2 && vvalue.front() == '"' && vvalue.back() == '"') {
+                    vvalue = vvalue.substr(1, vvalue.size() - 2);
+                }
+                auto paren = lhs.find('(');
+                if (paren == std::string::npos) {
+                    vname = lhs;
+                } else {
+                    vname = trim(lhs.substr(0, paren));
+                    auto close = lhs.rfind(')');
+                    if (close == std::string::npos || close < paren) { parse_ok = false; }
+                    else {
+                        std::string ixs = lhs.substr(paren + 1, close - paren - 1);
+                        size_t i = 0;
+                        while (i < ixs.size() && num_idx < 4) {
+                            while (i < ixs.size() && (isspace((unsigned char)ixs[i]) || ixs[i] == ',')) i++;
+                            if (i >= ixs.size()) break;
+                            bool neg = false;
+                            if (ixs[i] == '-') { neg = true; i++; }
+                            int v = 0;
+                            while (i < ixs.size() && isdigit((unsigned char)ixs[i])) { v = v*10 + (ixs[i]-'0'); i++; }
+                            idx[num_idx++] = neg ? -v : v;
+                        }
+                    }
+                }
+            }
+        }
+
+        const char* resp_key = (cmd == "set_var") ? "set_var" : "evaluate";
+        if (!parse_ok || vname.empty() || !g_fn_get_type) {
+            pipe_write_line(std::string("{\"resp\":\"") + resp_key +
+                            "\",\"ok\":0,\"error\":\"parse_error\"}");
+        } else {
+            int vtype = g_fn_get_type(vname.c_str());
+            int rc = -99;
+            if (vtype < 0) {
+                rc = -1;  // not found
+            } else if (vtype == HSP_T_INT && g_fn_set_int) {
+                rc = g_fn_set_int(vname.c_str(), idx, num_idx, atoi(vvalue.c_str()));
+            } else if (vtype == HSP_T_INT64 && g_fn_set_i64) {
+                rc = g_fn_set_i64(vname.c_str(), idx, num_idx, _atoi64(vvalue.c_str()));
+            } else if (vtype == HSP_T_DOUBLE && g_fn_set_dbl) {
+                rc = g_fn_set_dbl(vname.c_str(), idx, num_idx, atof(vvalue.c_str()));
+            } else if (vtype == HSP_T_STR && g_fn_set_str) {
+                rc = g_fn_set_str(vname.c_str(), idx, num_idx, vvalue.c_str());
+            } else if (g_fn_set_wstr) {
+                // Fallback: try wstr (IronHSP extension). The runtime verifies
+                // the type name inside and returns -2 on mismatch.
+                rc = g_fn_set_wstr(vname.c_str(), idx, num_idx, vvalue.c_str());
+            }
+
+            const char* err = "";
+            switch (rc) {
+                case 0:  err = ""; break;
+                case -1: err = "not_found"; break;
+                case -2: err = "type_mismatch"; break;
+                case -3: err = "index_out_of_range"; break;
+                default: err = "unknown"; break;
+            }
+
+            std::string r = std::string("{\"resp\":\"") + resp_key + "\"";
+            if (rc == 0) {
+                r += ",\"ok\":1,\"result\":\"" + json_esc(vvalue) + "\"}";
+            } else {
+                r += ",\"ok\":0,\"error\":\"";
+                r += err;
+                r += "\"}";
+            }
+            pipe_write_line(r);
+        }
     } else if (cmd == "disconnect") {
         g_shutdown = true;
         g_pending_cmd = 1;  // let runtime continue and exit
@@ -464,6 +602,16 @@ extern "C" __declspec(dllexport) BOOL __stdcall debugini(HSP3DEBUG* dbg, int p2,
         auto force_step = (void(*)())GetProcAddress(exe, "hsp3dap_force_step");
         if (force_step) force_step();
         dap_log("force_step=%p", force_step);
+
+        // Variable write-back hooks.
+        g_fn_get_type  = (fn_get_var_type)  GetProcAddress(exe, "hsp3dap_get_var_type");
+        g_fn_set_int   = (fn_set_var_int)   GetProcAddress(exe, "hsp3dap_set_var_int");
+        g_fn_set_i64   = (fn_set_var_int64) GetProcAddress(exe, "hsp3dap_set_var_int64");
+        g_fn_set_dbl   = (fn_set_var_double)GetProcAddress(exe, "hsp3dap_set_var_double");
+        g_fn_set_str   = (fn_set_var_str)   GetProcAddress(exe, "hsp3dap_set_var_str");
+        g_fn_set_wstr  = (fn_set_var_wstr)  GetProcAddress(exe, "hsp3dap_set_var_wstr");
+        dap_log("set_var hooks: type=%p int=%p i64=%p dbl=%p str=%p wstr=%p",
+                g_fn_get_type, g_fn_set_int, g_fn_set_i64, g_fn_set_dbl, g_fn_set_str, g_fn_set_wstr);
     }
 
     g_pipe_thread = CreateThread(nullptr, 0, pipe_thread_proc, nullptr, 0, nullptr);

@@ -48,6 +48,8 @@ namespace NhspDap {
                 case "stackTrace":       StackTrace(req, reqSeq); break;
                 case "scopes":           Scopes(req, reqSeq); break;
                 case "variables":        Variables(req, reqSeq); break;
+                case "setVariable":      SetVariable(req, reqSeq); break;
+                case "evaluate":         Evaluate(req, reqSeq); break;
                 case "continue":         SendSimple("continue"); RespondEmpty(req, reqSeq, new JObject {["allThreadsContinued"] = true}); break;
                 case "next":             SendSimple("step_over"); RespondEmpty(req, reqSeq); break;
                 case "stepIn":           SendSimple("step_in"); RespondEmpty(req, reqSeq); break;
@@ -61,13 +63,73 @@ namespace NhspDap {
         private void Initialize(JObject req, int reqSeq) {
             var body = new JObject {
                 ["supportsConfigurationDoneRequest"] = true,
-                ["supportsEvaluateForHovers"] = false,  // wired later
+                ["supportsEvaluateForHovers"] = true,
                 ["supportsStepBack"] = false,
-                ["supportsSetVariable"] = false,
+                ["supportsSetVariable"] = true,
                 ["supportsRestartRequest"] = false,
                 ["supportTerminateDebuggee"] = true,
             };
             Respond(req, reqSeq, body);
+        }
+
+        private void SetVariable(JObject req, int reqSeq) {
+            var args = (JObject)req["arguments"];
+            string name = (string)args["name"];
+            string value = (string)args["value"];
+            var cmd = new JObject {
+                ["cmd"] = "set_var",
+                ["name"] = name,
+                ["value"] = value,
+                ["indices"] = new JArray(),
+            };
+            var resp = _bridge.SendRequest(cmd);
+            if (resp != null && (int?)resp["ok"] == 1) {
+                Respond(req, reqSeq, new JObject { ["value"] = value });
+            } else {
+                string err = (string)resp?["error"] ?? "no_response";
+                Respond(req, reqSeq, null, success: false, message: err);
+            }
+        }
+
+        private void Evaluate(JObject req, int reqSeq) {
+            var args = (JObject)req["arguments"];
+            string expr = (string)args["expression"];
+            string context = (string)args["context"] ?? "";
+
+            // Assignment via `=` → send to DLL as evaluate command.
+            if (expr.Contains("=")) {
+                var cmd = new JObject { ["cmd"] = "evaluate", ["expr"] = expr };
+                var resp = _bridge.SendRequest(cmd);
+                if (resp != null && (int?)resp["ok"] == 1) {
+                    Respond(req, reqSeq, new JObject {
+                        ["result"] = (string)resp["result"] ?? "",
+                        ["variablesReference"] = 0,
+                    });
+                } else {
+                    string err = (string)resp?["error"] ?? "no_response";
+                    Respond(req, reqSeq, null, success: false, message: err);
+                }
+                return;
+            }
+
+            // Read-only evaluation: look up the variable in current scope.
+            // For MVP we fetch the whole variables list and filter by name.
+            // Covers hover + watch simple cases; complex expressions NYI.
+            var varsResp = _bridge.SendRequest(new JObject { ["cmd"] = "get_vars" });
+            if (varsResp?["items"] is JArray arr) {
+                string trimmed = expr.Trim();
+                foreach (var v in arr) {
+                    if (string.Equals((string)v["name"], trimmed, StringComparison.Ordinal)) {
+                        Respond(req, reqSeq, new JObject {
+                            ["result"] = (string)v["value"] ?? "",
+                            ["type"] = (string)v["type"] ?? "",
+                            ["variablesReference"] = 0,
+                        });
+                        return;
+                    }
+                }
+            }
+            Respond(req, reqSeq, null, success: false, message: "not_found: " + expr);
         }
 
         private void Launch(JObject req, int reqSeq) {
