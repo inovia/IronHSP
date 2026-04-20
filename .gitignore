@@ -66,3 +66,13 @@ plugins/win32/hspllama/third_party/llamacpp/bin/
 # MediaPipe .tflite モデル (大きいので DL 手順のみリポジトリに)
 package/win32/sample/iron/mediapipe_models/*.tflite
 package/win32/sample/iron/mediapipe_models/*.task
+
+# DxLib Windows SDK (ユーザーが公式から手動配置、リポジトリには含めない)
+hsp3dx/extlib/dxlib_win/include/
+hsp3dx/extlib/dxlib_win/lib/
+hsp3dx/extlib/dxlib_win/LICENSE.txt
+!hsp3dx/extlib/dxlib_win/README.md
+
+# hsp3dx ビルド成果物
+hsp3dx/bin/
+hsp3dx/obj/

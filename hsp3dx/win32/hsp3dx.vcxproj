@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    hsp3dx.vcxproj — Windows 版 hsp3dx.exe (Phase 1.0 スケルトン)
+
+    本 vcxproj は hsp3dx/src/ 配下のスケルトンソースと DxLib SDK を参照してビルドする。
+    現状 VM (hsp3embed) は未リンク、Phase 1.1 で追加する。
+
+    前提:
+      hsp3dx/extlib/dxlib_win/include/DxLib.h
+      hsp3dx/extlib/dxlib_win/lib/x64/DxLib_x64.lib
+    を手動配置 (extlib/dxlib_win/README.md 参照)
+-->
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A3D21000-3DX1-4DX1-BDX1-000000000001}</ProjectGuid>
+    <RootNamespace>hsp3dx</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
+    <TargetName>hsp3dx</TargetName>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>
+        $(ProjectDir)..\src;
+        $(ProjectDir)..\extlib\dxlib_win\include;
+        $(ProjectDir)..\..\hsp3;
+        $(ProjectDir)..\..\hsp3embed;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+        _HSP64;HSP3DX;WIN32;_WINDOWS;
+        %(PreprocessorDefinitions)
+      </PreprocessorDefinitions>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization Condition="'$(Configuration)'=='Release'">MaxSpeed</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>
+        $(ProjectDir)..\extlib\dxlib_win\lib\x64;
+        %(AdditionalLibraryDirectories)
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+        DxLib_x64.lib;
+        user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;winmm.lib;shell32.lib;
+        %(AdditionalDependencies)
+      </AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <!-- Phase 1.0: アプリシェル + hgio_dx だけ。VM (hsp3embed) は Phase 1.1 で追加 -->
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\hgio_dx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\hgio_dx.h" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
