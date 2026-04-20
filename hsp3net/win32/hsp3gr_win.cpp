@@ -136,7 +136,20 @@ static void cmdfunc_dialog( void )
 		i=0;
 		if (p1&1) i|=MB_ICONEXCLAMATION; else i|=MB_ICONINFORMATION;
 		if (p1&2) i|=MB_YESNO; else i|=MB_OK;
-		ctx->stat = MessageBoxA( NULL, stmp, ps, i );
+		// HSPUTF8 ビルドでは stmp/ps が UTF-8 バイト列 → MessageBoxW に変換して渡す。
+		{
+			int wlen1 = MultiByteToWideChar( CP_UTF8, 0, stmp, -1, NULL, 0 );
+			int wlen2 = MultiByteToWideChar( CP_UTF8, 0, ps,   -1, NULL, 0 );
+			if ( wlen1 > 0 && wlen1 < 8192 && wlen2 > 0 && wlen2 < 512 ) {
+				wchar_t wtext[8192];
+				wchar_t wcap[512];
+				MultiByteToWideChar( CP_UTF8, 0, stmp, -1, wtext, wlen1 );
+				MultiByteToWideChar( CP_UTF8, 0, ps,   -1, wcap,  wlen2 );
+				ctx->stat = MessageBoxW( NULL, wtext, wcap, i );
+			} else {
+				ctx->stat = MessageBoxA( NULL, stmp, ps, i );
+			}
+		}
 	}
 }
 

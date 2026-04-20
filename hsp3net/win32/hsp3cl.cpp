@@ -415,7 +415,19 @@ void hsp3cl_error( void )
 #ifdef HSPDEBUG
 	hsp3win_debugopen();
 	hsp3win_dialog( errmsg );
-	MessageBoxA( NULL, errmsg, "Error",MB_ICONEXCLAMATION | MB_OK );
+	// HSPUTF8 ビルドでは errmsg が UTF-8 バイト列。MessageBoxA は ANSI
+	// 扱いで表示するので CP932 環境だと文字化けする → UTF-16 に変換して
+	// MessageBoxW を使う。エラーメッセージは高々 256 バイト弱なのでスタック確保。
+	{
+		int wlen = MultiByteToWideChar( CP_UTF8, 0, errmsg, -1, NULL, 0 );
+		if ( wlen > 0 && wlen < 2048 ) {
+			wchar_t wbuf[2048];
+			MultiByteToWideChar( CP_UTF8, 0, errmsg, -1, wbuf, wlen );
+			MessageBoxW( NULL, wbuf, L"Error", MB_ICONEXCLAMATION | MB_OK );
+		} else {
+			MessageBoxA( NULL, errmsg, "Error", MB_ICONEXCLAMATION | MB_OK );
+		}
+	}
 #else
 	hsp3win_dialog( errmsg );
 #endif
