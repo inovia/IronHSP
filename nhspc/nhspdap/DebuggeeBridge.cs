@@ -103,6 +103,7 @@ namespace NhspDap {
                     // one bad event / one slow VS Code response cannot kill
                     // the reader thread and drop every subsequent event.
                     try {
+                        DapTrace.Log("BRG " + (line.Length > 200 ? line.Substring(0, 200) + "..." : line));
                         if (obj["evt"] != null) {
                             EventReceived?.Invoke(obj);
                         } else if (obj["resp"] != null) {
@@ -111,7 +112,7 @@ namespace NhspDap {
                             tcs?.TrySetResult(obj);
                         }
                     } catch (Exception ex) {
-                        Console.Error.WriteLine("bridge handler error: " + ex);
+                        DapTrace.Log("bridge handler error: " + ex);
                     }
                 }
             } catch (IOException) {

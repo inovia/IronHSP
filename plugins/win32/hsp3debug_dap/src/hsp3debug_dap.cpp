@@ -650,6 +650,7 @@ extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int
 
     // Refresh current line/file
     if (dbg->dbg_curinf) dbg->dbg_curinf();
+    dap_log("debug_notice ENTER line=%d file=%s", dbg->line, dbg->fname ? dbg->fname : "(null)");
 
     // Classify stop reason by inspecting our own state — the upstream `cause`
     // parameter isn't populated by hsp3's dispatch loop.
@@ -670,19 +671,23 @@ extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int
         }
     }
 
-    // Notify adapter
-    char evt[1024];
-    const char* fname = dbg->fname ? dbg->fname : "";
-    sprintf_s(evt, "{\"evt\":\"stopped\",\"reason\":\"%s\",\"line\":%d,\"file\":\"%s\"}",
-              reason, dbg->line, fname);
+    // Notify adapter. The file name often contains Windows backslashes; these
+    // must be JSON-escaped (\\\\) or the adapter's JObject.Parse will silently
+    // drop the entire event.
+    std::string fname_esc = json_esc(dbg->fname ? dbg->fname : "");
+    std::string evt = std::string("{\"evt\":\"stopped\",\"reason\":\"")
+                    + reason + "\",\"line\":" + std::to_string(dbg->line)
+                    + ",\"file\":\"" + fname_esc + "\"}";
     pipe_write_line(evt);
 
     g_paused = true;
+    dap_log("debug_notice WAIT for resume");
 
     // Wait for resume (pipe reader thread sets the event when cmd arrives)
     while (!g_shutdown) {
         WaitForSingleObject(g_resume_event, INFINITE);
         int cmd = g_pending_cmd.exchange(0);
+        dap_log("debug_notice WAKE cmd=%d", cmd);
         if (cmd == 1) {  // continue
             if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_RUN);
             break;
@@ -696,6 +701,7 @@ extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int
     }
 
     g_paused = false;
+    dap_log("debug_notice EXIT");
     return TRUE;
 }
 

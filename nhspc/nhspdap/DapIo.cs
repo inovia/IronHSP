@@ -15,6 +15,39 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
+// Diagnostic log helper: writes to %HSP3DAP_ADAPTER_LOG% if set.
+internal static class DapTrace {
+    private static readonly object _lock = new object();
+    private static StreamWriter _writer;
+    private static bool _tried;
+
+    private static StreamWriter Writer {
+        get {
+            if (!_tried) {
+                _tried = true;
+                try {
+                    string path = Environment.GetEnvironmentVariable("HSP3DAP_ADAPTER_LOG");
+                    if (string.IsNullOrEmpty(path)) {
+                        // Default: next to the nhspdap.exe
+                        string here = Path.GetDirectoryName(typeof(DapTrace).Assembly.Location);
+                        path = Path.Combine(here, "nhspdap.log");
+                    }
+                    _writer = new StreamWriter(path, false, new UTF8Encoding(false)) { AutoFlush = true };
+                } catch { }
+            }
+            return _writer;
+        }
+    }
+
+    public static void Log(string msg) {
+        var w = Writer;
+        if (w == null) return;
+        lock (_lock) {
+            try { w.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + " " + msg); } catch { }
+        }
+    }
+}
+
 namespace NhspDap {
     internal sealed class DapIo {
         private readonly Stream _in;
@@ -27,6 +60,15 @@ namespace NhspDap {
         }
 
         public JObject ReadMessage() {
+            var msg = ReadMessageRaw();
+            if (msg != null) {
+                string s = msg.ToString(Newtonsoft.Json.Formatting.None);
+                DapTrace.Log("IN  " + (s.Length > 200 ? s.Substring(0, 200) + "..." : s));
+            }
+            return msg;
+        }
+
+        private JObject ReadMessageRaw() {
             int contentLength = -1;
             while (true) {
                 string header = ReadHeaderLine();
@@ -52,6 +94,7 @@ namespace NhspDap {
 
         public void WriteMessage(JObject obj) {
             string body = obj.ToString(Newtonsoft.Json.Formatting.None);
+            DapTrace.Log("OUT " + (body.Length > 200 ? body.Substring(0, 200) + "..." : body));
             byte[] payload = Encoding.UTF8.GetBytes(body);
             byte[] header = Encoding.ASCII.GetBytes(
                 "Content-Length: " + payload.Length + "\r\n\r\n");
