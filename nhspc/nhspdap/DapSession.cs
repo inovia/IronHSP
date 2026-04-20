@@ -165,13 +165,22 @@ namespace NhspDap {
 
             // If a sibling .hsp source exists and is newer than the .ax, or the
             // .ax is missing, auto-compile before launching. Without this, the
-            // user would debug a stale .ax (source changes don't take effect,
-            // breakpoints on new lines don't hit).
-            if (!CompileIfNeeded(program, cwd, out string compileErr)) {
-                SendOutputEvent("stderr", "hspcmp64 compile failed:\n" + compileErr + "\n");
-                Respond(req, reqSeq, null, success: false,
-                    message: "コンパイルエラー: " + compileErr.Split('\n').FirstOrDefault());
-                return;
+            // user would debug a stale .ax. Can be disabled via launch.json
+            // "autoCompile": false, or the "hsp3net.autoCompile": false setting.
+            bool autoCompile = (bool?)args["autoCompile"] ?? true;
+            if (autoCompile) {
+                try {
+                    if (!CompileIfNeeded(program, cwd, out string compileErr)) {
+                        SendOutputEvent("stderr", "hspcmp64 compile failed:\n" + compileErr + "\n");
+                        Respond(req, reqSeq, null, success: false,
+                            message: "コンパイルエラー: " + compileErr.Split('\n').FirstOrDefault());
+                        return;
+                    }
+                } catch (Exception ex) {
+                    // Don't block the debug session just because auto-compile
+                    // itself crashed — log and fall through to use existing .ax.
+                    SendOutputEvent("stderr", "[auto-compile skipped: " + ex.Message + "]\n");
+                }
             }
 
             // Ensure hsp3debug_dap_64.dll is staged as hsp3debug.dll next to the
@@ -253,8 +262,13 @@ namespace NhspDap {
             // hspcmp64 は UTF-8 入力モード (-i) でもエラーメッセージ出力は
             // 実行環境の ANSI code page (日本語 Windows なら CP932) で出す。
             // UTF-8 と仮定して読むと「文法が間違っています」が化ける。
-            var ansi = System.Text.Encoding.GetEncoding(
-                System.Globalization.CultureInfo.CurrentCulture.TextInfo.ANSICodePage);
+            System.Text.Encoding ansi;
+            try {
+                ansi = System.Text.Encoding.GetEncoding(
+                    System.Globalization.CultureInfo.CurrentCulture.TextInfo.ANSICodePage);
+            } catch {
+                ansi = System.Text.Encoding.Default;
+            }
             var psi = new ProcessStartInfo {
                 FileName = hspcmp,
                 Arguments = "-d -w -i \"" + srcPath + "\"",
@@ -280,17 +294,14 @@ namespace NhspDap {
                 return false;
             }
 
-            // hspcmp writes diagnostics to stdout (+stderr on some builds).
-            // Success when the final line includes "No error detected" AND
-            // exit code is 0.
             string allOutput = (stdout ?? "") + (stderr ?? "");
             SendOutputEvent("console", allOutput);
 
-            if (exitCode != 0 || allOutput.Contains(" : error ")) {
-                // Extract the first error line for the top-level message.
+            // Trust hspcmp's exit code. Non-zero = compile failed.
+            if (exitCode != 0) {
                 var firstError = allOutput.Split('\n')
                     .FirstOrDefault(l => l.Contains(" : error ")) ?? allOutput;
-                error = firstError.Trim();
+                error = string.IsNullOrWhiteSpace(firstError) ? "exit " + exitCode : firstError.Trim();
                 return false;
             }
             return true;
