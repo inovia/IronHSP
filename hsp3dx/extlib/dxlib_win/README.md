@@ -4,8 +4,11 @@
 
 ## 取得手順
 
-1. 公式サイト https://dxlib.xsrv.jp/ から「VC (Visual C++) 用パッケージ」をダウンロード
-2. zip を展開して、以下の構造で本ディレクトリに配置:
+1. 公式ダウンロードページ https://dxlib.xsrv.jp/dxdload.html にアクセス
+2. **Windows (Visual C++) 用パッケージ** をダウンロード
+   - 直リンク (Ver3.24f 時点): https://dxlib.xsrv.jp/DxLib/DxLib_VC3_24f.zip
+   - サイズ: 約 206 MB
+3. zip を展開して、以下の構造で本ディレクトリに配置:
 
 ```
 hsp3dx/extlib/dxlib_win/
