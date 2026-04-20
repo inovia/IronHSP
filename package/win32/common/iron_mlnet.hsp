@@ -1,0 +1,258 @@
+;============================================================
+;   iron_mlnet.hsp — Microsoft ML.NET 統合ラッパ
+;
+;   Microsoft.ML NuGet パッケージ (ML.NET) を inline C# でラップ。
+;   本モジュールは「複雑な前処理・学習・推論を .NET 側のエコシステムに
+;   丸投げしたい」ユーザー向けの逃げ道。AutoML / SDCA / FastTree /
+;   LBFGS / KMeans / PCA を選択的に使える。
+;
+;   前提:
+;     Microsoft.ML.dll + Microsoft.ML.Core.dll + Microsoft.ML.Data.dll
+;     + Microsoft.ML.StandardTrainers.dll + Microsoft.ML.FastTree.dll
+;     が hsp3net_test_64.exe の AppBase (or GAC) に存在すること。
+;     未配置時は loadnet が失敗する。
+;
+;   API:
+;     mln_create_context                                   MLContext 生成
+;     mln_load_csv "path.csv", "label_col", "feature_cols_csv"
+;                                                           CSV 読み込み
+;     mln_train "trainer_name" [, "param_key=val|...;..."]
+;       trainer_name:
+;         "sdca_logistic"    多項ロジスティック (SDCA)
+;         "sdca_regression"  SDCA 回帰
+;         "fast_tree"        FastTree 決定木 (boosted)
+;         "fast_tree_reg"    FastTree 回帰
+;         "lbfgs_logistic"   LBFGS ロジスティック
+;         "kmeans"           K-Means クラスタリング
+;         "pca"              PCA (次元削減 / 異常検知)
+;     mln_predict "input_csv_path", "output_csv_path"
+;     mln_save_model "model.zip"
+;     mln_load_model "model.zip"
+;     mln_evaluate  → stat=精度指標の JSON 文字列
+;     mln_release
+;
+;   注意: API は ML.NET のトレーナー名を受ける薄いラッパ。詳細な
+;   パラメータ調整は AutoML か「params_json」のサブセットで。
+;============================================================
+#ifndef __iron_mlnet_hsp__
+#define __iron_mlnet_hsp__
+
+#module iron_mlnet
+
+dim _mln_cs_loaded, 1
+
+#deffunc _mln_load_cs
+	if _mln_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using Microsoft.ML;
+using Microsoft.ML.Data;
+using Microsoft.ML.Trainers;
+using Microsoft.ML.Transforms;
+
+public class HspMLNet {
+    static MLContext ctx;
+    static IDataView trainData;
+    static ITransformer model;
+    static string labelCol = \"Label\";
+    static string[] featureCols = new string[0];
+    static string trainerKind = \"\";
+    static string evalJson = \"{}\";
+
+    public static string CreateContext() {
+        ctx = new MLContext(seed: 42);
+        return \"0\";
+    }
+
+    public static string LoadCsv(string path, string label, string featuresCsv) {
+        try {
+            labelCol = label;
+            featureCols = (featuresCsv ?? \"\").Split(',');
+            // TextLoader を動的構築
+            var cols = new List<TextLoader.Column>();
+            int idx = 0;
+            cols.Add(new TextLoader.Column(label, DataKind.Single, idx++));
+            foreach (var f in featureCols) cols.Add(new TextLoader.Column(f, DataKind.Single, idx++));
+            var loader = ctx.Data.CreateTextLoader(new TextLoader.Options {
+                Columns = cols.ToArray(),
+                HasHeader = true,
+                Separators = new char[] { ',' }
+            });
+            trainData = loader.Load(path);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Train(string trainer, string paramsStr) {
+        try {
+            if (ctx == null) CreateContext();
+            if (trainData == null) return \"-1\\tno_data\";
+            trainerKind = trainer;
+            // Concatenate feature columns into Features vector
+            var featurePipe = ctx.Transforms.Concatenate(\"Features\", featureCols);
+            IEstimator<ITransformer> pipeline;
+            switch (trainer) {
+                case \"sdca_logistic\":
+                    pipeline = featurePipe
+                        .Append(ctx.Transforms.Conversion.MapValueToKey(\"LabelKey\", labelCol))
+                        .Append(ctx.MulticlassClassification.Trainers.SdcaMaximumEntropy(\"LabelKey\", \"Features\"))
+                        .Append(ctx.Transforms.Conversion.MapKeyToValue(\"PredictedLabel\"));
+                    break;
+                case \"sdca_regression\":
+                    pipeline = featurePipe
+                        .Append(ctx.Regression.Trainers.Sdca(labelCol, \"Features\"));
+                    break;
+                case \"fast_tree\":
+                    pipeline = featurePipe
+                        .Append(ctx.Transforms.Conversion.MapValueToKey(\"LabelKey\", labelCol))
+                        .Append(ctx.MulticlassClassification.Trainers.OneVersusAll(
+                            ctx.BinaryClassification.Trainers.FastTree(\"LabelKey\", \"Features\"), \"LabelKey\"))
+                        .Append(ctx.Transforms.Conversion.MapKeyToValue(\"PredictedLabel\"));
+                    break;
+                case \"fast_tree_reg\":
+                    pipeline = featurePipe
+                        .Append(ctx.Regression.Trainers.FastTree(labelCol, \"Features\"));
+                    break;
+                case \"lbfgs_logistic\":
+                    pipeline = featurePipe
+                        .Append(ctx.Transforms.Conversion.MapValueToKey(\"LabelKey\", labelCol))
+                        .Append(ctx.MulticlassClassification.Trainers.LbfgsMaximumEntropy(\"LabelKey\", \"Features\"))
+                        .Append(ctx.Transforms.Conversion.MapKeyToValue(\"PredictedLabel\"));
+                    break;
+                case \"kmeans\":
+                    int k = 3;
+                    foreach (var kv in (paramsStr ?? \"\").Split('|')) {
+                        int eq = kv.IndexOf('=');
+                        if (eq >= 0 && kv.Substring(0, eq).Trim() == \"k\") k = int.Parse(kv.Substring(eq + 1));
+                    }
+                    pipeline = featurePipe
+                        .Append(ctx.Clustering.Trainers.KMeans(\"Features\", numberOfClusters: k));
+                    break;
+                case \"pca\":
+                    int rank = 2;
+                    foreach (var kv in (paramsStr ?? \"\").Split('|')) {
+                        int eq = kv.IndexOf('=');
+                        if (eq >= 0 && kv.Substring(0, eq).Trim() == \"rank\") rank = int.Parse(kv.Substring(eq + 1));
+                    }
+                    pipeline = featurePipe
+                        .Append(ctx.Transforms.ProjectToPrincipalComponents(\"PCA\", \"Features\", rank: rank));
+                    break;
+                default: return \"-1\\tunknown_trainer\";
+            }
+            model = pipeline.Fit(trainData);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Evaluate() {
+        try {
+            if (model == null) return \"-1\\tno_model\";
+            var preds = model.Transform(trainData);
+            var sb = new StringBuilder();
+            sb.Append(\"{\");
+            if (trainerKind.Contains(\"regression\") || trainerKind == \"fast_tree_reg\") {
+                var m = ctx.Regression.Evaluate(preds, labelCol);
+                sb.Append(\"\\\"rmse\\\":\").Append(m.RootMeanSquaredError.ToString(\"R\", CultureInfo.InvariantCulture)).Append(\",\");
+                sb.Append(\"\\\"r2\\\":\").Append(m.RSquared.ToString(\"R\", CultureInfo.InvariantCulture)).Append(\",\");
+                sb.Append(\"\\\"mae\\\":\").Append(m.MeanAbsoluteError.ToString(\"R\", CultureInfo.InvariantCulture));
+            } else if (trainerKind == \"kmeans\") {
+                var m = ctx.Clustering.Evaluate(preds);
+                sb.Append(\"\\\"db\\\":\").Append(m.DaviesBouldinIndex.ToString(\"R\", CultureInfo.InvariantCulture));
+            } else if (trainerKind != \"pca\") {
+                var m = ctx.MulticlassClassification.Evaluate(preds, \"LabelKey\");
+                sb.Append(\"\\\"micro_acc\\\":\").Append(m.MicroAccuracy.ToString(\"R\", CultureInfo.InvariantCulture)).Append(\",\");
+                sb.Append(\"\\\"macro_acc\\\":\").Append(m.MacroAccuracy.ToString(\"R\", CultureInfo.InvariantCulture)).Append(\",\");
+                sb.Append(\"\\\"log_loss\\\":\").Append(m.LogLoss.ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+            sb.Append(\"}\");
+            evalJson = sb.ToString();
+            return evalJson;
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string SaveModel(string path) {
+        try {
+            if (model == null) return \"-1\";
+            ctx.Model.Save(model, trainData.Schema, path);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string LoadModel(string path) {
+        try {
+            if (ctx == null) CreateContext();
+            model = ctx.Model.Load(path, out var schema);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Release() {
+        ctx = null; trainData = null; model = null;
+        return \"0\";
+    }
+}
+"}
+	loadnet _cs, 3, "Microsoft.ML.dll", "Microsoft.ML.Core.dll", "Microsoft.ML.Data.dll", "Microsoft.ML.StandardTrainers.dll", "Microsoft.ML.FastTree.dll"
+	_mln_cs_loaded = 1
+	return
+
+#deffunc mln_create_context \
+	local _h, local _r
+	_mln_load_cs
+	newnet _h, "HspMLNet"
+	mcall _h, "CreateContext", _r
+	return int("" + _r)
+
+#deffunc mln_load_csv str path, str label_col, str features_csv, \
+	local _h, local _r
+	_mln_load_cs
+	newnet _h, "HspMLNet"
+	mcall _h, "LoadCsv", _r, path, label_col, features_csv
+	return int("" + _r)
+
+#deffunc mln_train str trainer_name, array _opt, \
+	local _h, local _r, local _params
+	_params = ""
+	if length(_opt) >= 1 : _params = _opt(0)
+	_mln_load_cs
+	newnet _h, "HspMLNet"
+	mcall _h, "Train", _r, trainer_name, _params
+	return int("" + _r)
+
+#deffunc mln_evaluate var v_json, \
+	local _h, local _r
+	sdim v_json, 4096
+	_mln_load_cs
+	newnet _h, "HspMLNet"
+	mcall _h, "Evaluate", _r
+	v_json = "" + _r
+	return 0
+
+#deffunc mln_save_model str path, \
+	local _h, local _r
+	_mln_load_cs
+	newnet _h, "HspMLNet"
+	mcall _h, "SaveModel", _r, path
+	return int("" + _r)
+
+#deffunc mln_load_model str path, \
+	local _h, local _r
+	_mln_load_cs
+	newnet _h, "HspMLNet"
+	mcall _h, "LoadModel", _r, path
+	return int("" + _r)
+
+#deffunc mln_release \
+	local _h, local _r
+	_mln_load_cs
+	newnet _h, "HspMLNet"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif
