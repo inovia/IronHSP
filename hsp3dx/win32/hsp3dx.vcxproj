@@ -58,7 +58,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>
         $(ProjectDir)..\src;
-        $(ProjectDir)..\extlib\dxlib_win\include;
+        $(ProjectDir)..\extlib\dxlib_win\DxLib_VC;
         $(ProjectDir)..\..\hsp3;
         $(ProjectDir)..\..\hsp3embed;
         %(AdditionalIncludeDirectories)
@@ -72,15 +72,21 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <WarningLevel>Level3</WarningLevel>
       <Optimization Condition="'$(Configuration)'=='Release'">MaxSpeed</Optimization>
+      <!-- hsp3dx ソースは UTF-8 (BOM なし)。MSVC にも UTF-8 として解釈させる。
+           /wd4828 は DxLib.h 内の SJIS 日本語コメントで出る警告を抑制 (我々のコードは無関係) -->
+      <AdditionalOptions>/utf-8 /wd4828 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>
-        $(ProjectDir)..\extlib\dxlib_win\lib\x64;
+        $(ProjectDir)..\extlib\dxlib_win\DxLib_VC;
         %(AdditionalLibraryDirectories)
       </AdditionalLibraryDirectories>
+      <!--
+          DxLib 本体と依存ライブラリ (libjpeg/libpng/libtheora/bullet 等) は DxLib.h 内の
+          #pragma comment(lib, ...) により自動リンクされる。ここでは Windows 標準 lib のみ列挙。
+      -->
       <AdditionalDependencies>
-        DxLib_x64.lib;
         user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;winmm.lib;shell32.lib;
         %(AdditionalDependencies)
       </AdditionalDependencies>
