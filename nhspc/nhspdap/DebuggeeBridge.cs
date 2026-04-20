@@ -55,7 +55,10 @@ namespace NhspDap {
             _cmdPipe.Connect(timeoutMs);
             var utf8 = new UTF8Encoding(false);
             _writer = new StreamWriter(_cmdPipe, utf8) { NewLine = "\n", AutoFlush = true };
-            _reader = new StreamReader(_evtPipe, utf8);
+            // detectEncodingFromByteOrderMarks=false: the DLL never emits a
+            // BOM; leaving the default true lets StreamReader swallow the
+            // first 2–3 bytes as a non-existent BOM and misalign the stream.
+            _reader = new StreamReader(_evtPipe, utf8, detectEncodingFromByteOrderMarks: false);
             _readerThread = new Thread(ReadLoop) { IsBackground = true, Name = "DebuggeeBridge-Reader" };
             _readerThread.Start();
         }
@@ -96,16 +99,25 @@ namespace NhspDap {
                     JObject obj;
                     try { obj = JObject.Parse(line); }
                     catch { continue; }
-                    if (obj["evt"] != null) {
-                        EventReceived?.Invoke(obj);
-                    } else if (obj["resp"] != null) {
-                        TaskCompletionSource<JObject> tcs;
-                        lock (_respLock) { tcs = _pendingResp; _pendingResp = null; }
-                        tcs?.TrySetResult(obj);
+                    // CRITICAL: isolate each handler in its own try/catch so
+                    // one bad event / one slow VS Code response cannot kill
+                    // the reader thread and drop every subsequent event.
+                    try {
+                        if (obj["evt"] != null) {
+                            EventReceived?.Invoke(obj);
+                        } else if (obj["resp"] != null) {
+                            TaskCompletionSource<JObject> tcs;
+                            lock (_respLock) { tcs = _pendingResp; _pendingResp = null; }
+                            tcs?.TrySetResult(obj);
+                        }
+                    } catch (Exception ex) {
+                        Console.Error.WriteLine("bridge handler error: " + ex);
                     }
                 }
             } catch (IOException) {
-                // pipe closed
+                // pipe closed — normal shutdown path
+            } catch (Exception ex) {
+                Console.Error.WriteLine("bridge reader crashed: " + ex);
             } finally {
                 if (!_disposed) Disconnected?.Invoke();
             }

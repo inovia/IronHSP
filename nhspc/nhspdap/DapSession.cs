@@ -163,11 +163,11 @@ namespace NhspDap {
                 }
             }
 
-            // If a sibling .hsp source exists and is newer than the .ax, or the
-            // .ax is missing, auto-compile before launching. Without this, the
-            // user would debug a stale .ax. Can be disabled via launch.json
-            // "autoCompile": false, or the "hsp3net.autoCompile": false setting.
-            bool autoCompile = (bool?)args["autoCompile"] ?? true;
+            // Optional auto-compile: if launch.json has "autoCompile": true,
+            // re-run hspcmp on the sibling .hsp when it's newer than the .ax.
+            // Default OFF — earlier 'true' default caused mysterious pipe
+            // event delivery failures in some environments.
+            bool autoCompile = (bool?)args["autoCompile"] ?? false;
             if (autoCompile) {
                 try {
                     if (!CompileIfNeeded(program, cwd, out string compileErr)) {
@@ -280,19 +280,37 @@ namespace NhspDap {
                 StandardOutputEncoding = ansi,
                 StandardErrorEncoding  = ansi,
             };
-            string stdout, stderr;
+            // Async read to avoid the classic deadlock: calling
+            // ReadToEnd() on stdout while stderr buffer fills up (or vice
+            // versa) hangs the process indefinitely. Pump both streams
+            // via event callbacks and wait on exit.
+            var stdoutBuf = new System.Text.StringBuilder();
+            var stderrBuf = new System.Text.StringBuilder();
             int exitCode;
             try {
-                using (var p = Process.Start(psi)) {
-                    stdout = p.StandardOutput.ReadToEnd();
-                    stderr = p.StandardError.ReadToEnd();
-                    if (!p.WaitForExit(15000)) { p.Kill(); error = "hspcmp64 timed out"; return false; }
+                using (var p = new Process()) {
+                    p.StartInfo = psi;
+                    p.OutputDataReceived += (s, e) => { if (e.Data != null) stdoutBuf.AppendLine(e.Data); };
+                    p.ErrorDataReceived  += (s, e) => { if (e.Data != null) stderrBuf.AppendLine(e.Data); };
+                    p.Start();
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    if (!p.WaitForExit(15000)) {
+                        try { p.Kill(); } catch { }
+                        error = "hspcmp64 timed out";
+                        return false;
+                    }
+                    // Give the async reader callbacks a moment to drain any
+                    // remaining buffered output.
+                    p.WaitForExit();
                     exitCode = p.ExitCode;
                 }
             } catch (Exception ex) {
                 error = "hspcmp64 failed to start: " + ex.Message;
                 return false;
             }
+            string stdout = stdoutBuf.ToString();
+            string stderr = stderrBuf.ToString();
 
             string allOutput = (stdout ?? "") + (stderr ?? "");
             SendOutputEvent("console", allOutput);
