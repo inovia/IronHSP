@@ -1,0 +1,146 @@
+;============================================================
+;   iron_dbscan.hsp — DBSCAN 密度ベースクラスタリング
+;
+;   Ester et al. の密度ベース。eps 半径以内の近傍点数が min_pts 以上なら
+;   core、それ以外で core に到達できるなら border、残りが noise (-1)。
+;   任意形状のクラスタ検出 + 外れ値抽出。
+;   inline C# (O(n²) ブルートフォース近傍検索)。中規模 (~5000 点) まで。
+;
+;   API:
+;     dbscan_fit X, n, n_feat, eps, min_pts
+;     dbscan_labels array v_labels, int n        → 各点のクラスタ id (noise=-1)
+;     dbscan_cluster_count                         → stat=クラスタ数
+;     dbscan_noise_count                           → stat=外れ値数
+;     dbscan_release
+;============================================================
+#ifndef __iron_dbscan_hsp__
+#define __iron_dbscan_hsp__
+
+#module iron_dbscan
+
+dim _db_cs_loaded, 1
+
+#deffunc _db_load_cs
+	if _db_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+public class HspDBSCAN {
+    static int[] labels;
+    static int nCluster = 0;
+
+    public static string Fit(double[] X, int n, int f, double eps, int minPts) {
+        labels = new int[n];
+        for (int i = 0; i < n; i++) labels[i] = -2;   // -2 = unvisited
+        double eps2 = eps * eps;
+        int cid = 0;
+        for (int i = 0; i < n; i++) {
+            if (labels[i] != -2) continue;
+            var neighbors = RegionQuery(X, n, f, i, eps2);
+            if (neighbors.Count < minPts) {
+                labels[i] = -1;   // noise
+                continue;
+            }
+            labels[i] = cid;
+            var seeds = new Queue<int>(neighbors);
+            while (seeds.Count > 0) {
+                int q = seeds.Dequeue();
+                if (labels[q] == -1) labels[q] = cid;
+                if (labels[q] != -2) continue;
+                labels[q] = cid;
+                var qNeighbors = RegionQuery(X, n, f, q, eps2);
+                if (qNeighbors.Count >= minPts) {
+                    foreach (var p in qNeighbors) seeds.Enqueue(p);
+                }
+            }
+            cid++;
+        }
+        nCluster = cid;
+        return \"0\";
+    }
+    static List<int> RegionQuery(double[] X, int n, int f, int i, double eps2) {
+        var r = new List<int>();
+        for (int j = 0; j < n; j++) {
+            if (j == i) continue;
+            double d = 0;
+            for (int k = 0; k < f; k++) { double dd = X[i * f + k] - X[j * f + k]; d += dd * dd; }
+            if (d <= eps2) r.Add(j);
+        }
+        r.Add(i);
+        return r;
+    }
+    public static string Labels() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < labels.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(labels[i]); }
+        return sb.ToString();
+    }
+    public static int ClusterCount() { return nCluster; }
+    public static int NoiseCount() {
+        int c = 0; for (int i = 0; i < labels.Length; i++) if (labels[i] == -1) c++;
+        return c;
+    }
+    public static string Release() { labels = null; nCluster = 0; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_db_cs_loaded = 1
+	return
+
+#deffunc _db_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc dbscan_fit array X, int n, int n_feat, double eps, int min_pts, \
+	local _h, local _r
+	_db_load_cs
+	newnet _h, "HspDBSCAN"
+	mcall _h, "Fit", _r, X, n, n_feat, eps, min_pts
+	return int("" + _r)
+
+#deffunc dbscan_labels array v_labels, int n, \
+	local _h, local _r, local _tsv
+	_db_load_cs
+	newnet _h, "HspDBSCAN"
+	mcall _h, "Labels", _r
+	_tsv = "" + _r
+	_db_parse_i _tsv, v_labels, n
+	return 0
+
+#defcfunc dbscan_cluster_count \
+	local _h, local _r
+	_db_load_cs
+	newnet _h, "HspDBSCAN"
+	mcall _h, "ClusterCount", _r
+	return int("" + _r)
+
+#defcfunc dbscan_noise_count \
+	local _h, local _r
+	_db_load_cs
+	newnet _h, "HspDBSCAN"
+	mcall _h, "NoiseCount", _r
+	return int("" + _r)
+
+#deffunc dbscan_release \
+	local _h, local _r
+	_db_load_cs
+	newnet _h, "HspDBSCAN"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

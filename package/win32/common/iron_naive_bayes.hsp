@@ -1,0 +1,205 @@
+;============================================================
+;   iron_naive_bayes.hsp — ガウシアン/多項 Naive Bayes
+;
+;   Gaussian NB: 各特徴量の条件付き確率を正規分布で近似。
+;   Multinomial NB: 離散カウント特徴量 (Bag-of-Words 向け)、
+;   Laplace smoothing 付き。
+;   pure HSP で軽量実装 (sklearn と同等のクラス事後確率式)。
+;
+;   API:
+;     nb_fit_gaussian X (double), y_int, n, n_feat, n_classes
+;     nb_fit_multinomial X (double、非負カウント), y_int, n, n_feat, n_classes,
+;                        alpha (Laplace smoothing、既定 1.0)
+;     nb_predict X, n, n_feat, array v_out (int)
+;     nb_predict_proba X, n, n_feat, n_classes, array v_proba (double)
+;     nb_score X, y, n → accuracy
+;     nb_release
+;============================================================
+#ifndef __iron_naive_bayes_hsp__
+#define __iron_naive_bayes_hsp__
+
+#module iron_naive_bayes
+
+sdim _nb_kind, 16
+_nb_kind = ""
+dim _nb_nfeat, 1
+dim _nb_nclass, 1
+ddim _nb_prior, 1      ; log priors per class
+ddim _nb_mean, 1        ; gaussian: [class * n_feat]
+ddim _nb_var, 1         ; gaussian: same
+ddim _nb_logp, 1        ; multinomial: [class * n_feat] log prob
+
+#deffunc nb_fit_gaussian array X, array y_int, int n, int n_feat, int n_classes, \
+	local _c, local _i, local _f, local _cnt, local _m, local _v, \
+	local _eps
+	_nb_kind = "gaussian"
+	_nb_nfeat = n_feat
+	_nb_nclass = n_classes
+	ddim _nb_prior, n_classes
+	ddim _nb_mean, n_classes * n_feat
+	ddim _nb_var, n_classes * n_feat
+	; class priors
+	repeat n_classes : _nb_prior(cnt) = 0.0 : loop
+	repeat n_classes : repeat n_feat : _nb_mean(cnt * n_feat + cnt) = 0.0 : loop : loop
+	dim _counts, n_classes
+	repeat n
+		_counts(y_int(cnt)) = _counts(y_int(cnt)) + 1
+	loop
+	repeat n_classes
+		_nb_prior(cnt) = log(1.0 * _counts(cnt) / n)
+	loop
+	; means
+	repeat n
+		_c = y_int(cnt)
+		_i = cnt
+		repeat n_feat
+			_nb_mean(_c * n_feat + cnt) = _nb_mean(_c * n_feat + cnt) + X(_i * n_feat + cnt)
+		loop
+	loop
+	repeat n_classes
+		_c = cnt
+		if _counts(_c) = 0 : continue
+		repeat n_feat
+			_nb_mean(_c * n_feat + cnt) = _nb_mean(_c * n_feat + cnt) / _counts(_c)
+		loop
+	loop
+	; variances (with smoothing)
+	_eps = 1e-9
+	repeat n
+		_c = y_int(cnt)
+		_i = cnt
+		repeat n_feat
+			_v = X(_i * n_feat + cnt) - _nb_mean(_c * n_feat + cnt)
+			_nb_var(_c * n_feat + cnt) = _nb_var(_c * n_feat + cnt) + _v * _v
+		loop
+	loop
+	repeat n_classes
+		_c = cnt
+		if _counts(_c) = 0 : continue
+		repeat n_feat
+			_nb_var(_c * n_feat + cnt) = _nb_var(_c * n_feat + cnt) / _counts(_c) + _eps
+		loop
+	loop
+	return 0
+
+#deffunc nb_fit_multinomial array X, array y_int, int n, int n_feat, int n_classes, double alpha, \
+	local _c, local _i, local _f, local _cls_total, local _sum
+	_nb_kind = "multinomial"
+	_nb_nfeat = n_feat
+	_nb_nclass = n_classes
+	ddim _nb_prior, n_classes
+	ddim _nb_logp, n_classes * n_feat
+	dim _counts, n_classes
+	repeat n
+		_counts(y_int(cnt)) = _counts(y_int(cnt)) + 1
+	loop
+	repeat n_classes
+		_nb_prior(cnt) = log(1.0 * _counts(cnt) / n)
+	loop
+	; feature counts per class
+	ddim _fc, n_classes * n_feat
+	repeat n
+		_c = y_int(cnt)
+		_i = cnt
+		repeat n_feat
+			_fc(_c * n_feat + cnt) = _fc(_c * n_feat + cnt) + X(_i * n_feat + cnt)
+		loop
+	loop
+	; smoothing + log prob
+	repeat n_classes
+		_c = cnt
+		_sum = 0.0
+		repeat n_feat
+			_sum = _sum + _fc(_c * n_feat + cnt) + alpha
+		loop
+		if _sum < 1e-12 : _sum = 1.0
+		repeat n_feat
+			_nb_logp(_c * n_feat + cnt) = log((_fc(_c * n_feat + cnt) + alpha) / _sum)
+		loop
+	loop
+	return 0
+
+;---------------------------------------------------------
+; predict / predict_proba
+;---------------------------------------------------------
+#deffunc _nb_logpost array X, int i, int n_feat, var v_logpost, \
+	local _c, local _f, local _lp, local _v, local _dd
+	ddim v_logpost, _nb_nclass
+	repeat _nb_nclass
+		_c = cnt
+		_lp = _nb_prior(_c)
+		if _nb_kind = "gaussian" {
+			repeat n_feat
+				_f = cnt
+				_dd = X(i * n_feat + _f) - _nb_mean(_c * n_feat + _f)
+				_v = _nb_var(_c * n_feat + _f)
+				_lp = _lp - 0.5 * log(2.0 * 3.141592653589793 * _v) - (_dd * _dd) / (2.0 * _v)
+			loop
+		}
+		if _nb_kind = "multinomial" {
+			repeat n_feat
+				_f = cnt
+				_lp = _lp + X(i * n_feat + _f) * _nb_logp(_c * n_feat + _f)
+			loop
+		}
+		v_logpost(_c) = _lp
+	loop
+	return
+
+#deffunc nb_predict array X, int n, array v_out, \
+	local _i, local _logp, local _c, local _best, local _bv
+	dim v_out, n
+	repeat n
+		_i = cnt
+		_nb_logpost X, _i, _nb_nfeat, _logp
+		_best = 0 : _bv = _logp(0)
+		repeat _nb_nclass
+			if _logp(cnt) > _bv : _bv = _logp(cnt) : _best = cnt
+		loop
+		v_out(_i) = _best
+	loop
+	return 0
+
+#deffunc nb_predict_proba array X, int n, int n_classes, array v_proba, \
+	local _i, local _logp, local _c, local _maxlp, local _sum
+	ddim v_proba, n * n_classes
+	repeat n
+		_i = cnt
+		_nb_logpost X, _i, _nb_nfeat, _logp
+		_maxlp = _logp(0)
+		repeat _nb_nclass
+			if _logp(cnt) > _maxlp : _maxlp = _logp(cnt)
+		loop
+		_sum = 0.0
+		repeat _nb_nclass
+			v_proba(_i * n_classes + cnt) = exp(_logp(cnt) - _maxlp)
+			_sum = _sum + v_proba(_i * n_classes + cnt)
+		loop
+		if _sum > 1e-12 {
+			repeat _nb_nclass
+				v_proba(_i * n_classes + cnt) = v_proba(_i * n_classes + cnt) / _sum
+			loop
+		}
+	loop
+	return 0
+
+#defcfunc nb_score array X, array y_int, int n, \
+	local _i, local _logp, local _best, local _bv, local _ok
+	_ok = 0
+	repeat n
+		_i = cnt
+		_nb_logpost X, _i, _nb_nfeat, _logp
+		_best = 0 : _bv = _logp(0)
+		repeat _nb_nclass
+			if _logp(cnt) > _bv : _bv = _logp(cnt) : _best = cnt
+		loop
+		if _best = y_int(_i) : _ok++
+	loop
+	return 1.0 * _ok / n
+
+#deffunc nb_release
+	_nb_nfeat = 0 : _nb_nclass = 0
+	return 0
+
+#global
+#endif

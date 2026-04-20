@@ -1,0 +1,252 @@
+;============================================================
+;   iron_ridge_lasso.hsp — Ridge / Lasso / ElasticNet 回帰
+;
+;   L2 (Ridge): closed-form で (X'X + λI)^-1 X'y 解く (Jacobi)。
+;   L1 (Lasso) / ElasticNet: 座標降下法 (Coordinate Descent)、
+;   sklearn の Lasso / ElasticNet と同じ式形。
+;   inline C#。
+;
+;   API:
+;     rl_fit_ridge X, y_d, n, n_feat, alpha_l2
+;     rl_fit_lasso X, y_d, n, n_feat, alpha_l1, max_iter, tol
+;     rl_fit_enet  X, y_d, n, n_feat, alpha, l1_ratio, max_iter, tol
+;     rl_coef array v_w, int n_feat
+;     rl_intercept → refdval
+;     rl_predict X, n, n_feat, array v_out
+;     rl_score X, y, n, n_feat → R²
+;     rl_release
+;============================================================
+#ifndef __iron_ridge_lasso_hsp__
+#define __iron_ridge_lasso_hsp__
+
+#module iron_ridge_lasso
+
+dim _rl_cs_loaded, 1
+
+#deffunc _rl_load_cs
+	if _rl_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Globalization;
+using System.Text;
+
+public class HspRL {
+    static double[] coef;
+    static double intercept;
+    static int nFeat;
+
+    public static string FitRidge(double[] X, double[] y, int n, int f, double alpha) {
+        nFeat = f;
+        coef = new double[f];
+        // 中心化
+        double my = 0;
+        for (int i = 0; i < n; i++) my += y[i]; my /= n;
+        var mx = new double[f];
+        for (int i = 0; i < n; i++) for (int j = 0; j < f; j++) mx[j] += X[i * f + j];
+        for (int j = 0; j < f; j++) mx[j] /= n;
+        // form A = X'X + alpha*I, b = X'y  (centered)
+        var A = new double[f * f];
+        var b = new double[f];
+        for (int i = 0; i < n; i++) {
+            double yi = y[i] - my;
+            for (int a = 0; a < f; a++) {
+                double xa = X[i * f + a] - mx[a];
+                b[a] += xa * yi;
+                for (int bb = 0; bb < f; bb++) A[a * f + bb] += xa * (X[i * f + bb] - mx[bb]);
+            }
+        }
+        for (int a = 0; a < f; a++) A[a * f + a] += alpha;
+        // Gauss elimination
+        SolveSystem(A, b, f);
+        for (int j = 0; j < f; j++) coef[j] = b[j];
+        double ic = my;
+        for (int j = 0; j < f; j++) ic -= coef[j] * mx[j];
+        intercept = ic;
+        return \"0\";
+    }
+    public static string FitLasso(double[] X, double[] y, int n, int f, double alpha, int maxIter, double tol) {
+        return FitElasticNet(X, y, n, f, alpha, 1.0, maxIter, tol);
+    }
+    public static string FitElasticNet(double[] X, double[] y, int n, int f, double alpha, double l1Ratio, int maxIter, double tol) {
+        nFeat = f;
+        coef = new double[f];
+        double my = 0;
+        for (int i = 0; i < n; i++) my += y[i]; my /= n;
+        var mx = new double[f];
+        for (int i = 0; i < n; i++) for (int j = 0; j < f; j++) mx[j] += X[i * f + j];
+        for (int j = 0; j < f; j++) mx[j] /= n;
+        var Xc = new double[n * f];
+        var yc = new double[n];
+        for (int i = 0; i < n; i++) {
+            yc[i] = y[i] - my;
+            for (int j = 0; j < f; j++) Xc[i * f + j] = X[i * f + j] - mx[j];
+        }
+        // 残差
+        var r = new double[n];
+        for (int i = 0; i < n; i++) r[i] = yc[i];
+        // col norms
+        var norms = new double[f];
+        for (int j = 0; j < f; j++) for (int i = 0; i < n; i++) norms[j] += Xc[i * f + j] * Xc[i * f + j];
+        double a1 = alpha * l1Ratio;
+        double a2 = alpha * (1 - l1Ratio);
+        for (int it = 0; it < maxIter; it++) {
+            double maxChange = 0;
+            for (int j = 0; j < f; j++) {
+                double oj = coef[j];
+                // restore residual without j
+                for (int i = 0; i < n; i++) r[i] += oj * Xc[i * f + j];
+                // compute OLS for coordinate j
+                double rho = 0;
+                for (int i = 0; i < n; i++) rho += Xc[i * f + j] * r[i];
+                // soft thresholding
+                double newC;
+                if (rho > n * a1) newC = (rho - n * a1) / (norms[j] + n * a2);
+                else if (rho < -n * a1) newC = (rho + n * a1) / (norms[j] + n * a2);
+                else newC = 0;
+                coef[j] = newC;
+                for (int i = 0; i < n; i++) r[i] -= newC * Xc[i * f + j];
+                if (Math.Abs(newC - oj) > maxChange) maxChange = Math.Abs(newC - oj);
+            }
+            if (maxChange < tol) break;
+        }
+        double ic = my;
+        for (int j = 0; j < f; j++) ic -= coef[j] * mx[j];
+        intercept = ic;
+        return \"0\";
+    }
+    static void SolveSystem(double[] A, double[] b, int f) {
+        for (int i = 0; i < f; i++) {
+            int piv = i;
+            double mv = Math.Abs(A[i * f + i]);
+            for (int k = i + 1; k < f; k++) if (Math.Abs(A[k * f + i]) > mv) { mv = Math.Abs(A[k * f + i]); piv = k; }
+            if (piv != i) {
+                for (int c = 0; c < f; c++) { double t = A[i * f + c]; A[i * f + c] = A[piv * f + c]; A[piv * f + c] = t; }
+                double tb = b[i]; b[i] = b[piv]; b[piv] = tb;
+            }
+            if (Math.Abs(A[i * f + i]) < 1e-14) continue;
+            for (int k = i + 1; k < f; k++) {
+                double r2 = A[k * f + i] / A[i * f + i];
+                for (int c = i; c < f; c++) A[k * f + c] -= r2 * A[i * f + c];
+                b[k] -= r2 * b[i];
+            }
+        }
+        for (int i = f - 1; i >= 0; i--) {
+            double s = b[i];
+            for (int k = i + 1; k < f; k++) s -= A[i * f + k] * b[k];
+            if (Math.Abs(A[i * f + i]) < 1e-14) b[i] = 0;
+            else b[i] = s / A[i * f + i];
+        }
+    }
+    public static string Coef() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < coef.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(coef[i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+        return sb.ToString();
+    }
+    public static double Intercept() { return intercept; }
+    public static string Predict(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            double s = intercept;
+            for (int j = 0; j < nFeat; j++) s += X[i * nFeat + j] * coef[j];
+            if (i > 0) sb.Append('\\t');
+            sb.Append(s.ToString(\"R\", CultureInfo.InvariantCulture));
+        }
+        return sb.ToString();
+    }
+    public static double Score(double[] X, double[] y, int n) {
+        double m = 0; for (int i = 0; i < n; i++) m += y[i]; m /= n;
+        double sr = 0, st = 0;
+        for (int i = 0; i < n; i++) {
+            double p = intercept;
+            for (int j = 0; j < nFeat; j++) p += X[i * nFeat + j] * coef[j];
+            sr += (y[i] - p) * (y[i] - p);
+            st += (y[i] - m) * (y[i] - m);
+        }
+        return st > 1e-12 ? 1.0 - sr / st : 0;
+    }
+    public static string Release() { coef = null; intercept = 0; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_rl_cs_loaded = 1
+	return
+
+#deffunc _rl_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc rl_fit_ridge array X, array y_d, int n, int n_feat, double alpha, \
+	local _h, local _r
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "FitRidge", _r, X, y_d, n, n_feat, alpha
+	return int("" + _r)
+
+#deffunc rl_fit_lasso array X, array y_d, int n, int n_feat, double alpha, int max_iter, double tol, \
+	local _h, local _r
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "FitLasso", _r, X, y_d, n, n_feat, alpha, max_iter, tol
+	return int("" + _r)
+
+#deffunc rl_fit_enet array X, array y_d, int n, int n_feat, double alpha, double l1_ratio, int max_iter, double tol, \
+	local _h, local _r
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "FitElasticNet", _r, X, y_d, n, n_feat, alpha, l1_ratio, max_iter, tol
+	return int("" + _r)
+
+#deffunc rl_coef array v_w, int n_feat, \
+	local _h, local _r, local _tsv
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "Coef", _r
+	_tsv = "" + _r
+	_rl_parse_d _tsv, v_w, n_feat
+	return 0
+
+#defcfunc rl_intercept \
+	local _h, local _r
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "Intercept", _r
+	return double("" + _r)
+
+#deffunc rl_predict array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_rl_parse_d _tsv, v_out, n
+	return 0
+
+#defcfunc rl_score array X, array y, int n, \
+	local _h, local _r
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "Score", _r, X, y, n
+	return double("" + _r)
+
+#deffunc rl_release \
+	local _h, local _r
+	_rl_load_cs
+	newnet _h, "HspRL"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

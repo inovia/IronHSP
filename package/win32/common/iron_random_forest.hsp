@@ -1,0 +1,503 @@
+;============================================================
+;   iron_random_forest.hsp — ランダムフォレスト (分類+回帰)
+;
+;   bootstrap サンプリング + max_features random + CART 木のアンサンブル。
+;   inline C# 実装。n_estimators 木を並行して訓練 (Parallel.For 使用時は
+;   .NET TPL の恩恵)、予測は多数決 (分類) / 平均 (回帰)。
+;   OOB スコアもサポート。
+;
+;   API:
+;     rf_create "classification"|"regression"
+;     rf_config "key", "value"  — n_estimators/max_depth/min_split/
+;                                   min_leaf/max_features/bootstrap/
+;                                   random_seed/oob_score
+;     rf_fit_classification  X, y_int, n, n_feat, n_classes
+;     rf_fit_regression      X, y_d, n, n_feat
+;     rf_predict X, n, n_feat, array v_out
+;     rf_predict_proba X, n, n_feat, n_classes, array v_proba
+;     rf_score X, y, n, n_feat
+;     rf_oob_score  → refdval
+;     rf_feature_importance array v_imp, int n_feat
+;     rf_release
+;============================================================
+#ifndef __iron_random_forest_hsp__
+#define __iron_random_forest_hsp__
+
+#module iron_random_forest
+
+dim _rf_cs_loaded, 1
+
+#deffunc _rf_load_cs
+	if _rf_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+using System.Threading.Tasks;
+
+public class HspRF {
+    class TreeNode {
+        public int feat = -1;
+        public double thresh;
+        public TreeNode left, right;
+        public double[] probs;      // classification
+        public double value;        // regression
+    }
+    static string task = \"classification\";
+    static int nEst = 100, maxDepth = -1, minSplit = 2, minLeaf = 1;
+    static string maxFeatures = \"sqrt\";
+    static bool bootstrap = true;
+    static int seed = 42;
+    static bool oobEnabled = true;
+    static int nFeat, nCls;
+    static List<TreeNode> forest = new List<TreeNode>();
+    static List<int[]> oobSamples = new List<int[]>();   // per tree: indices NOT in bootstrap
+    static double[] featImp;
+    static double oobScore;
+
+    public static string Create(string t) {
+        task = t;
+        return \"0\";
+    }
+    public static string Config(string k, string v) {
+        try {
+            switch (k) {
+                case \"n_estimators\": nEst = int.Parse(v); break;
+                case \"max_depth\": maxDepth = int.Parse(v); break;
+                case \"min_split\": minSplit = int.Parse(v); break;
+                case \"min_leaf\": minLeaf = int.Parse(v); break;
+                case \"max_features\": maxFeatures = v; break;
+                case \"bootstrap\": bootstrap = v == \"1\" || v == \"true\"; break;
+                case \"oob_score\": oobEnabled = v == \"1\" || v == \"true\"; break;
+                case \"random_seed\": seed = int.Parse(v); break;
+                default: return \"-1\";
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string FitClassification(double[] X, int[] y, int n, int f, int c) {
+        nFeat = f; nCls = c;
+        featImp = new double[f];
+        forest.Clear(); oobSamples.Clear();
+        var rngs = new Random[nEst];
+        var trees = new TreeNode[nEst];
+        var oobs = new int[nEst][];
+        var imps = new double[nEst][];
+        for (int t = 0; t < nEst; t++) rngs[t] = new Random(seed + t);
+        Parallel.For(0, nEst, t => {
+            imps[t] = new double[f];
+            int[] idx;
+            int[] oob = null;
+            if (bootstrap) {
+                idx = new int[n];
+                var used = new bool[n];
+                for (int i = 0; i < n; i++) { int s = rngs[t].Next(n); idx[i] = s; used[s] = true; }
+                var oobL = new List<int>();
+                for (int i = 0; i < n; i++) if (!used[i]) oobL.Add(i);
+                oob = oobL.ToArray();
+            } else {
+                idx = new int[n]; for (int i = 0; i < n; i++) idx[i] = i;
+            }
+            trees[t] = BuildClassification(X, y, idx, 0, rngs[t], imps[t]);
+            oobs[t] = oob;
+        });
+        for (int t = 0; t < nEst; t++) {
+            forest.Add(trees[t]);
+            oobSamples.Add(oobs[t]);
+            for (int i = 0; i < f; i++) featImp[i] += imps[t][i];
+        }
+        // normalize imp
+        double s = 0; foreach (var v in featImp) s += v;
+        if (s > 0) for (int i = 0; i < f; i++) featImp[i] /= s;
+        if (oobEnabled && bootstrap) ComputeOobClassification(X, y, n);
+        return \"0\";
+    }
+
+    public static string FitRegression(double[] X, double[] y, int n, int f) {
+        nFeat = f; nCls = 0;
+        featImp = new double[f];
+        forest.Clear(); oobSamples.Clear();
+        var rngs = new Random[nEst];
+        var trees = new TreeNode[nEst];
+        var oobs = new int[nEst][];
+        var imps = new double[nEst][];
+        for (int t = 0; t < nEst; t++) rngs[t] = new Random(seed + t);
+        Parallel.For(0, nEst, t => {
+            imps[t] = new double[f];
+            int[] idx;
+            int[] oob = null;
+            if (bootstrap) {
+                idx = new int[n];
+                var used = new bool[n];
+                for (int i = 0; i < n; i++) { int s2 = rngs[t].Next(n); idx[i] = s2; used[s2] = true; }
+                var oobL = new List<int>();
+                for (int i = 0; i < n; i++) if (!used[i]) oobL.Add(i);
+                oob = oobL.ToArray();
+            } else {
+                idx = new int[n]; for (int i = 0; i < n; i++) idx[i] = i;
+            }
+            trees[t] = BuildRegression(X, y, idx, 0, rngs[t], imps[t]);
+            oobs[t] = oob;
+        });
+        for (int t = 0; t < nEst; t++) {
+            forest.Add(trees[t]);
+            oobSamples.Add(oobs[t]);
+            for (int i = 0; i < f; i++) featImp[i] += imps[t][i];
+        }
+        double s = 0; foreach (var v in featImp) s += v;
+        if (s > 0) for (int i = 0; i < f; i++) featImp[i] /= s;
+        if (oobEnabled && bootstrap) ComputeOobRegression(X, y, n);
+        return \"0\";
+    }
+
+    static TreeNode BuildClassification(double[] X, int[] y, int[] idx, int depth, Random rng, double[] imp) {
+        var node = new TreeNode();
+        // stop?
+        if (idx.Length < minSplit || (maxDepth >= 0 && depth >= maxDepth) || AllSameInt(y, idx)) {
+            MakeLeafCls(node, y, idx); return node;
+        }
+        var fSel = SelFeat(rng);
+        int bestF = -1; double bestT = 0, bestImp = double.PositiveInfinity;
+        foreach (int f in fSel) {
+            var vals = new double[idx.Length];
+            for (int i = 0; i < idx.Length; i++) vals[i] = X[idx[i] * nFeat + f];
+            Array.Sort(vals);
+            for (int i = 1; i < vals.Length; i++) {
+                if (vals[i] == vals[i - 1]) continue;
+                double t = (vals[i] + vals[i - 1]) / 2;
+                double im = SplitImpCls(X, y, idx, f, t);
+                if (im < bestImp) { bestImp = im; bestF = f; bestT = t; }
+            }
+        }
+        if (bestF < 0) { MakeLeafCls(node, y, idx); return node; }
+        var lL = new List<int>(); var rL = new List<int>();
+        foreach (var i in idx) { if (X[i * nFeat + bestF] <= bestT) lL.Add(i); else rL.Add(i); }
+        if (lL.Count < minLeaf || rL.Count < minLeaf) { MakeLeafCls(node, y, idx); return node; }
+        // gain
+        double parent = Gini(y, idx);
+        double left = Gini(y, lL.ToArray()), right = Gini(y, rL.ToArray());
+        double gain = parent - (lL.Count * left + rL.Count * right) / idx.Length;
+        imp[bestF] += gain * idx.Length;
+        node.feat = bestF; node.thresh = bestT;
+        node.left = BuildClassification(X, y, lL.ToArray(), depth + 1, rng, imp);
+        node.right = BuildClassification(X, y, rL.ToArray(), depth + 1, rng, imp);
+        return node;
+    }
+    static TreeNode BuildRegression(double[] X, double[] y, int[] idx, int depth, Random rng, double[] imp) {
+        var node = new TreeNode();
+        if (idx.Length < minSplit || (maxDepth >= 0 && depth >= maxDepth) || AllSameDbl(y, idx)) {
+            MakeLeafReg(node, y, idx); return node;
+        }
+        var fSel = SelFeat(rng);
+        int bestF = -1; double bestT = 0, bestImp = double.PositiveInfinity;
+        foreach (int f in fSel) {
+            var vals = new double[idx.Length];
+            for (int i = 0; i < idx.Length; i++) vals[i] = X[idx[i] * nFeat + f];
+            Array.Sort(vals);
+            for (int i = 1; i < vals.Length; i++) {
+                if (vals[i] == vals[i - 1]) continue;
+                double t = (vals[i] + vals[i - 1]) / 2;
+                double im = SplitImpReg(X, y, idx, f, t);
+                if (im < bestImp) { bestImp = im; bestF = f; bestT = t; }
+            }
+        }
+        if (bestF < 0) { MakeLeafReg(node, y, idx); return node; }
+        var lL = new List<int>(); var rL = new List<int>();
+        foreach (var i in idx) { if (X[i * nFeat + bestF] <= bestT) lL.Add(i); else rL.Add(i); }
+        if (lL.Count < minLeaf || rL.Count < minLeaf) { MakeLeafReg(node, y, idx); return node; }
+        double parent = MSEVal(y, idx);
+        double left = MSEVal(y, lL.ToArray()), right = MSEVal(y, rL.ToArray());
+        double gain = parent - (lL.Count * left + rL.Count * right) / idx.Length;
+        imp[bestF] += gain * idx.Length;
+        node.feat = bestF; node.thresh = bestT;
+        node.left = BuildRegression(X, y, lL.ToArray(), depth + 1, rng, imp);
+        node.right = BuildRegression(X, y, rL.ToArray(), depth + 1, rng, imp);
+        return node;
+    }
+    static void MakeLeafCls(TreeNode node, int[] y, int[] idx) {
+        var p = new double[nCls];
+        foreach (var i in idx) p[y[i]]++;
+        for (int c = 0; c < nCls; c++) p[c] /= idx.Length;
+        node.probs = p;
+    }
+    static void MakeLeafReg(TreeNode node, double[] y, int[] idx) {
+        double s = 0; foreach (var i in idx) s += y[i];
+        node.value = s / idx.Length;
+    }
+    static bool AllSameInt(int[] y, int[] idx) { int v = y[idx[0]]; foreach (var i in idx) if (y[i] != v) return false; return true; }
+    static bool AllSameDbl(double[] y, int[] idx) { double v = y[idx[0]]; foreach (var i in idx) if (y[i] != v) return false; return true; }
+    static int[] SelFeat(Random rng) {
+        int want;
+        if (maxFeatures == \"all\") { var r = new int[nFeat]; for (int i = 0; i < nFeat; i++) r[i] = i; return r; }
+        if (maxFeatures == \"sqrt\") want = Math.Max(1, (int)Math.Sqrt(nFeat));
+        else if (maxFeatures == \"log2\") want = Math.Max(1, (int)Math.Log(nFeat, 2));
+        else want = int.Parse(maxFeatures);
+        if (want >= nFeat) { var r = new int[nFeat]; for (int i = 0; i < nFeat; i++) r[i] = i; return r; }
+        var all = new int[nFeat]; for (int i = 0; i < nFeat; i++) all[i] = i;
+        for (int i = all.Length - 1; i > 0; i--) { int j = rng.Next(i + 1); var t2 = all[i]; all[i] = all[j]; all[j] = t2; }
+        var r2 = new int[want]; Array.Copy(all, r2, want); return r2;
+    }
+    static double Gini(int[] y, int[] idx) {
+        var c = new int[nCls]; foreach (var i in idx) c[y[i]]++;
+        double g = 1; for (int k = 0; k < nCls; k++) { double p = (double)c[k] / idx.Length; g -= p * p; } return g;
+    }
+    static double MSEVal(double[] y, int[] idx) {
+        double m = 0; foreach (var i in idx) m += y[i]; m /= idx.Length;
+        double s = 0; foreach (var i in idx) { double d = y[i] - m; s += d * d; } return s / idx.Length;
+    }
+    static double SplitImpCls(double[] X, int[] y, int[] idx, int f, double t) {
+        var l = new List<int>(); var r = new List<int>();
+        foreach (var i in idx) { if (X[i * nFeat + f] <= t) l.Add(i); else r.Add(i); }
+        if (l.Count == 0 || r.Count == 0) return double.PositiveInfinity;
+        return (l.Count * Gini(y, l.ToArray()) + r.Count * Gini(y, r.ToArray())) / idx.Length;
+    }
+    static double SplitImpReg(double[] X, double[] y, int[] idx, int f, double t) {
+        var l = new List<int>(); var r = new List<int>();
+        foreach (var i in idx) { if (X[i * nFeat + f] <= t) l.Add(i); else r.Add(i); }
+        if (l.Count == 0 || r.Count == 0) return double.PositiveInfinity;
+        return (l.Count * MSEVal(y, l.ToArray()) + r.Count * MSEVal(y, r.ToArray())) / idx.Length;
+    }
+    static double[] PredictProbOne(TreeNode root, double[] X, int i) {
+        var node = root;
+        while (node.feat != -1) node = (X[i * nFeat + node.feat] <= node.thresh) ? node.left : node.right;
+        return node.probs;
+    }
+    static double PredictValOne(TreeNode root, double[] X, int i) {
+        var node = root;
+        while (node.feat != -1) node = (X[i * nFeat + node.feat] <= node.thresh) ? node.left : node.right;
+        return node.value;
+    }
+    public static string Predict(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (task == \"classification\") {
+                var agg = new double[nCls];
+                foreach (var t in forest) { var p = PredictProbOne(t, X, i); for (int c = 0; c < nCls; c++) agg[c] += p[c]; }
+                int best = 0; double bv = agg[0];
+                for (int c = 1; c < nCls; c++) if (agg[c] > bv) { bv = agg[c]; best = c; }
+                if (i > 0) sb.Append('\\t');
+                sb.Append(best);
+            } else {
+                double s = 0;
+                foreach (var t in forest) s += PredictValOne(t, X, i);
+                if (i > 0) sb.Append('\\t');
+                sb.Append((s / forest.Count).ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+    public static string PredictProba(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            var agg = new double[nCls];
+            foreach (var t in forest) { var p = PredictProbOne(t, X, i); for (int c = 0; c < nCls; c++) agg[c] += p[c]; }
+            for (int c = 0; c < nCls; c++) agg[c] /= forest.Count;
+            for (int c = 0; c < nCls; c++) {
+                if (i > 0 || c > 0) sb.Append('\\t');
+                sb.Append(agg[c].ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+    public static double Score(double[] X, double[] yd, int[] yi, int n) {
+        if (task == \"classification\") {
+            int ok = 0;
+            for (int i = 0; i < n; i++) {
+                var agg = new double[nCls];
+                foreach (var t in forest) { var p = PredictProbOne(t, X, i); for (int c = 0; c < nCls; c++) agg[c] += p[c]; }
+                int best = 0; double bv = agg[0];
+                for (int c = 1; c < nCls; c++) if (agg[c] > bv) { bv = agg[c]; best = c; }
+                if (best == yi[i]) ok++;
+            }
+            return (double)ok / n;
+        } else {
+            double m = 0; for (int i = 0; i < n; i++) m += yd[i]; m /= n;
+            double sr = 0, st = 0;
+            for (int i = 0; i < n; i++) {
+                double s = 0;
+                foreach (var t in forest) s += PredictValOne(t, X, i);
+                double p = s / forest.Count;
+                sr += (yd[i] - p) * (yd[i] - p);
+                st += (yd[i] - m) * (yd[i] - m);
+            }
+            return st > 1e-12 ? 1.0 - sr / st : 0;
+        }
+    }
+    static void ComputeOobClassification(double[] X, int[] y, int n) {
+        // for each sample, aggregate trees where it's oob
+        int ok = 0, cnt = 0;
+        for (int i = 0; i < n; i++) {
+            var agg = new double[nCls];
+            int contrib = 0;
+            for (int t = 0; t < forest.Count; t++) {
+                if (Array.IndexOf(oobSamples[t], i) < 0) continue;
+                var p = PredictProbOne(forest[t], X, i);
+                for (int c = 0; c < nCls; c++) agg[c] += p[c];
+                contrib++;
+            }
+            if (contrib == 0) continue;
+            int best = 0; double bv = agg[0];
+            for (int c = 1; c < nCls; c++) if (agg[c] > bv) { bv = agg[c]; best = c; }
+            if (best == y[i]) ok++;
+            cnt++;
+        }
+        oobScore = cnt > 0 ? (double)ok / cnt : 0;
+    }
+    static void ComputeOobRegression(double[] X, double[] y, int n) {
+        double m = 0; for (int i = 0; i < n; i++) m += y[i]; m /= n;
+        double sr = 0, st = 0;
+        for (int i = 0; i < n; i++) {
+            double s = 0; int c2 = 0;
+            for (int t = 0; t < forest.Count; t++) {
+                if (Array.IndexOf(oobSamples[t], i) < 0) continue;
+                s += PredictValOne(forest[t], X, i); c2++;
+            }
+            if (c2 == 0) continue;
+            double p = s / c2;
+            sr += (y[i] - p) * (y[i] - p);
+            st += (y[i] - m) * (y[i] - m);
+        }
+        oobScore = st > 1e-12 ? 1.0 - sr / st : 0;
+    }
+    public static double OobScore() { return oobScore; }
+    public static string FeatImp() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < featImp.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(featImp[i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+        return sb.ToString();
+    }
+    public static string Release() { forest.Clear(); oobSamples.Clear(); featImp = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_rf_cs_loaded = 1
+	return
+
+#deffunc _rf_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _rf_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc rf_create str task, local _h, local _r
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "Create", _r, task
+	return int("" + _r)
+
+#deffunc rf_config str k, str v, local _h, local _r
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "Config", _r, k, v
+	return int("" + _r)
+
+#deffunc rf_fit_classification array X, array y_int, int n, int n_feat, int n_classes, \
+	local _h, local _r
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "FitClassification", _r, X, y_int, n, n_feat, n_classes
+	return int("" + _r)
+
+#deffunc rf_fit_regression array X, array y_d, int n, int n_feat, \
+	local _h, local _r
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "FitRegression", _r, X, y_d, n, n_feat
+	return int("" + _r)
+
+#deffunc rf_predict_classification array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_rf_parse_i _tsv, v_out, n
+	return 0
+
+#deffunc rf_predict_regression array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_rf_parse_d _tsv, v_out, n
+	return 0
+
+#deffunc rf_predict_proba array X, int n, int n_classes, array v_proba, \
+	local _h, local _r, local _tsv
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "PredictProba", _r, X, n
+	_tsv = "" + _r
+	_rf_parse_d _tsv, v_proba, n * n_classes
+	return 0
+
+#defcfunc rf_score_classification array X, array y_int, int n, \
+	local _h, local _r, local _yd
+	ddim _yd, 1
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "Score", _r, X, _yd, y_int, n
+	return double("" + _r)
+
+#defcfunc rf_score_regression array X, array y_d, int n, \
+	local _h, local _r, local _yi
+	dim _yi, 1
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "Score", _r, X, y_d, _yi, n
+	return double("" + _r)
+
+#defcfunc rf_oob_score \
+	local _h, local _r
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "OobScore", _r
+	return double("" + _r)
+
+#deffunc rf_feature_importance array v_imp, int n_feat, \
+	local _h, local _r, local _tsv
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "FeatImp", _r
+	_tsv = "" + _r
+	_rf_parse_d _tsv, v_imp, n_feat
+	return 0
+
+#deffunc rf_release \
+	local _h, local _r
+	_rf_load_cs
+	newnet _h, "HspRF"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif
