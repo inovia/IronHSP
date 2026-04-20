@@ -180,6 +180,24 @@ function activate(context) {
                 }
             }, '#', '@')
         );
+
+        // Semantic tokens — three-way colouring (user func / library / builtin).
+        // The legend order MUST match TokenTypes in LspServer.cs.
+        const hspSemanticLegend = new vscode.SemanticTokensLegend(
+            ['function', 'method', 'macro', 'variable', 'keyword'],
+            []
+        );
+        context.subscriptions.push(
+            vscode.languages.registerDocumentSemanticTokensProvider('hsp', {
+                provideDocumentSemanticTokens: async (doc) => {
+                    const res = await hspLspClient.semanticTokens(doc);
+                    if (!res || !res.data) return null;
+                    // LSP returns a flat uint[] already in delta form — pass
+                    // it through as-is via SemanticTokens constructor.
+                    return new vscode.SemanticTokens(new Uint32Array(res.data));
+                }
+            }, hspSemanticLegend)
+        );
     }
 }
 

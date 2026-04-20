@@ -151,6 +151,14 @@ class HspLanguageClient {
         } catch (e) { return null; }
     }
 
+    async semanticTokens(document) {
+        try {
+            return await this._sendRequest('textDocument/semanticTokens/full', {
+                textDocument: { uri: document.uri.toString() }
+            });
+        } catch (e) { return null; }
+    }
+
     _findServer() {
         // 1. User override
         const cfg = vscode.workspace.getConfiguration('hsp3net');

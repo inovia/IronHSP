@@ -27,6 +27,10 @@ namespace HspLanguageServer {
             new Dictionary<string, HspDocument>(StringComparer.OrdinalIgnoreCase);
         private readonly HspcmpRunner _runner = new HspcmpRunner();
         private bool _shutdown;
+        // Built-in command/function names from hspcmp -lk. Populated lazily on
+        // first semanticTokens request; fall back to a hardcoded subset if
+        // hspcmp is unavailable.
+        private HashSet<string> _builtins;
 
         // HSP3 built-in keywords; surfaced in completion alongside user symbols.
         private static readonly string[] HspKeywords = new[] {
@@ -106,6 +110,9 @@ namespace HspLanguageServer {
                 case "textDocument/completion":
                     SendResult(id, HandleCompletion(ps));
                     break;
+                case "textDocument/semanticTokens/full":
+                    SendResult(id, HandleSemanticTokens(ps));
+                    break;
                 default:
                     SendResult(id, null);
                     break;
@@ -134,7 +141,33 @@ namespace HspLanguageServer {
             }
         }
 
-        private static JObject BuildInitializeResult() {
+        // Semantic token legend. VS Code maps tokenType index → name at decode
+        // time, so the order here IS the ABI. Don't reorder without bumping
+        // the corresponding indices in EmitToken().
+        private static readonly string[] TokenTypes = new[] {
+            "function",  // 0: user-defined #deffunc / #defcfunc
+            "method",    // 1: external DLL (#func / #cfunc in .as)
+            "macro",     // 2: HSP3 built-in command / function
+            "variable",  // 3: (reserved for future use)
+            "keyword",   // 4: control flow (if/else/repeat/…)
+        };
+        private const int TYPE_FUNCTION = 0;
+        private const int TYPE_METHOD   = 1;
+        private const int TYPE_MACRO    = 2;
+        private const int TYPE_KEYWORD  = 4;
+
+        // Control-flow words. These get `keyword` colour even though hspcmp
+        // lists them as `dmac` / `sys|func` — they read as language keywords
+        // to the human eye.
+        private static readonly HashSet<string> ControlKeywords = new HashSet<string>(
+            StringComparer.OrdinalIgnoreCase) {
+            "if", "else", "repeat", "loop", "continue", "break", "return",
+            "gosub", "goto", "on", "exgoto", "end", "stop", "wait", "await",
+            "foreach", "switch", "case", "default", "swbreak", "swend",
+            "and", "or", "xor", "not",
+        };
+
+        private JObject BuildInitializeResult() {
             return new JObject {
                 ["capabilities"] = new JObject {
                     ["textDocumentSync"] = 1,  // full sync
@@ -143,6 +176,13 @@ namespace HspLanguageServer {
                     ["documentSymbolProvider"] = true,
                     ["completionProvider"] = new JObject {
                         ["triggerCharacters"] = new JArray { "#", "@" },
+                    },
+                    ["semanticTokensProvider"] = new JObject {
+                        ["legend"] = new JObject {
+                            ["tokenTypes"] = new JArray(TokenTypes),
+                            ["tokenModifiers"] = new JArray(),
+                        },
+                        ["full"] = true,
                     },
                 },
                 ["serverInfo"] = new JObject {
@@ -200,8 +240,8 @@ namespace HspLanguageServer {
             // that file. We never touch the user's real source file.
             string tempPath = null;
             try {
-                string baseName = Path.GetFileNameWithoutExtension(absPath) + ".__hspls.hsp";
-                tempPath = Path.Combine(cwd, baseName);
+                string tempName = Path.GetFileNameWithoutExtension(absPath) + ".__hspls.hsp";
+                tempPath = Path.Combine(cwd, tempName);
                 File.WriteAllText(tempPath, text ?? "", new UTF8Encoding(false));
             } catch (Exception ex) {
                 Console.Error.WriteLine("hspls temp write failed: " + ex.Message);
@@ -368,6 +408,126 @@ namespace HspLanguageServer {
                 });
             }
             return items;
+        }
+
+        // ================ Semantic tokens ================
+
+        private JToken HandleSemanticTokens(JToken ps) {
+            string uri = (string)ps["textDocument"]["uri"];
+            if (!_docs.TryGetValue(uri, out var doc)) return new JObject { ["data"] = new JArray() };
+
+            // Lazy-populate the builtin set on first request.
+            if (_builtins == null) _builtins = _runner.FetchBuiltins();
+
+            var tokens = new List<(int line, int col, int len, int type)>();
+            TokenizeHsp(doc.Text ?? "", doc.WorkspaceSymbols, tokens);
+
+            // Delta-encode per LSP spec: [deltaLine, deltaStart, length, type, mod]
+            var data = new JArray();
+            int prevLine = 0, prevCol = 0;
+            foreach (var t in tokens) {
+                int dl = t.line - prevLine;
+                int dc = dl == 0 ? t.col - prevCol : t.col;
+                data.Add(dl); data.Add(dc); data.Add(t.len); data.Add(t.type); data.Add(0);
+                prevLine = t.line;
+                prevCol  = t.col;
+            }
+            return new JObject { ["data"] = data };
+        }
+
+        // Walks the source once, skipping comments and string literals, and
+        // collects identifier tokens classified by lookup in the symbol table.
+        private void TokenizeHsp(string text,
+                                 Dictionary<string, List<HspSymbol>> syms,
+                                 List<(int line, int col, int len, int type)> output) {
+            var lines = text.Split('\n');
+            bool inBlockComment = false;
+            for (int li = 0; li < lines.Length; li++) {
+                string line = lines[li].TrimEnd('\r');
+                int p = 0;
+                while (p < line.Length) {
+                    if (inBlockComment) {
+                        int ec = line.IndexOf("*/", p);
+                        if (ec < 0) break;  // comment continues on next line
+                        p = ec + 2;
+                        inBlockComment = false;
+                        continue;
+                    }
+                    char c = line[p];
+                    if (char.IsWhiteSpace(c)) { p++; continue; }
+
+                    // Line comments: ; or //
+                    if (c == ';') break;
+                    if (c == '/' && p + 1 < line.Length && line[p + 1] == '/') break;
+
+                    // Block comment
+                    if (c == '/' && p + 1 < line.Length && line[p + 1] == '*') {
+                        inBlockComment = true; p += 2; continue;
+                    }
+
+                    // String literal
+                    if (c == '"') {
+                        p++;
+                        while (p < line.Length && line[p] != '"') {
+                            if (line[p] == '\\' && p + 1 < line.Length) p++;
+                            p++;
+                        }
+                        if (p < line.Length) p++;  // past closing "
+                        continue;
+                    }
+
+                    // Brace-quoted multi-line string {"..."} — skip opening
+                    if (c == '{' && p + 1 < line.Length && line[p + 1] == '"') {
+                        int ec = line.IndexOf("\"}", p + 2);
+                        p = ec < 0 ? line.Length : ec + 2;
+                        continue;
+                    }
+
+                    // Identifier (HSP: letter/underscore followed by letters,
+                    // digits, underscores, and optionally @module).
+                    if (char.IsLetter(c) || c == '_') {
+                        int start = p;
+                        while (p < line.Length &&
+                               (char.IsLetterOrDigit(line[p]) || line[p] == '_' || line[p] == '@')) p++;
+                        string word = line.Substring(start, p - start);
+                        int type = ClassifyIdentifier(word, syms);
+                        if (type >= 0) {
+                            output.Add((li, start, word.Length, type));
+                        }
+                        continue;
+                    }
+
+                    p++;
+                }
+            }
+        }
+
+        private int ClassifyIdentifier(string word,
+                                       Dictionary<string, List<HspSymbol>> syms) {
+            // Control-flow keywords get `keyword` colour.
+            if (ControlKeywords.Contains(word)) return TYPE_KEYWORD;
+
+            // Workspace symbols (user / library) take precedence over builtins
+            // so a shadowed name colours to the shadowing site's kind.
+            if (syms != null) {
+                string key = word.ToLowerInvariant();
+                if (syms.TryGetValue(key, out var hits)) {
+                    foreach (var s in hits) {
+                        if (s.Kind == "dfnc") {
+                            string f = s.File ?? "";
+                            return f.EndsWith(".as", StringComparison.OrdinalIgnoreCase)
+                                ? TYPE_METHOD
+                                : TYPE_FUNCTION;
+                        }
+                    }
+                }
+            }
+
+            // HSP runtime builtins.
+            if (_builtins != null && _builtins.Contains(word)) return TYPE_MACRO;
+
+            return -1;  // Not a named symbol we want to colour — let the
+                        // TextMate grammar handle it.
         }
 
         // ================ Helpers ================

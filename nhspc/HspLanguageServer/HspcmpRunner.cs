@@ -71,6 +71,37 @@ namespace HspLanguageServer {
             return true;
         }
 
+        // Run `hspcmp -lk` once to capture the built-in keyword set. Output is
+        // "<name>\t,<kind>" per line; we only care about the name (for semantic
+        // token classification) so the kind column is ignored.
+        public HashSet<string> FetchBuiltins() {
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrEmpty(HspcmpPath) || !File.Exists(HspcmpPath))
+                return result;
+            var psi = new ProcessStartInfo {
+                FileName = HspcmpPath,
+                Arguments = "-lk",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                StandardOutputEncoding = new UTF8Encoding(false),
+            };
+            try {
+                using (var p = Process.Start(psi)) {
+                    string line;
+                    while ((line = p.StandardOutput.ReadLine()) != null) {
+                        int tab = line.IndexOf('\t');
+                        string name = tab > 0 ? line.Substring(0, tab) : line;
+                        name = name.Trim();
+                        if (name.Length > 0) result.Add(name);
+                    }
+                    p.WaitForExit(3000);
+                }
+            } catch { }
+            return result;
+        }
+
         private void ParseStreams(string allOutput, string cwd,
                                   Dictionary<string, List<HspSymbol>> symbols,
                                   List<HspDiagnostic> diagnostics) {
