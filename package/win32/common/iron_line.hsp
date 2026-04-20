@@ -1,0 +1,145 @@
+;============================================================
+;   iron_line.hsp — LINE Messaging API / Notify クライアント
+;
+;   LINE 公式アカウントへの push / multicast、旧 LINE Notify 代替、
+;   LINE Notify トークンで送る簡易通知をサポート。
+;
+;   LINE Notify は 2025 年以降終了。後継の Messaging API には
+;   Channel Access Token (long-lived) が必要。開発者コンソールで発行。
+;
+;   API (Messaging API):
+;     line_set_token "CHANNEL_ACCESS_TOKEN"
+;     line_push_text "UserID or GroupID", "message"
+;     line_multicast_text "userid1,userid2", "msg"
+;     line_broadcast_text "msg"                       全フォロワーに送信
+;     line_push_sticker "to", pkg_id, sticker_id
+;     line_reply_text "replyToken", "msg"             Webhook 応答用
+;
+;   API (Notify 互換):
+;     line_notify_send "NOTIFY_TOKEN", "msg"         Notify トークンで送信
+;
+;   依存: iron_http.hsp
+;============================================================
+#ifndef __iron_line_hsp__
+#define __iron_line_hsp__
+
+#include "iron_http.hsp"
+
+#module iron_line
+
+sdim _ln_token, 256
+_ln_token = ""
+
+#deffunc line_set_token str token
+	_ln_token = token
+	return
+
+#deffunc line_push_text str to, str msg, \
+	local _body, local _resp
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_body = "{\"to\":\"" + to + "\",\"messages\":[{\"type\":\"text\",\"text\":\"" + _ln_escape(msg) + "\"}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/push", _body, _resp, "application/json"
+	return stat
+
+#deffunc line_multicast_text str ids_csv, str msg, \
+	local _body, local _resp, local _ids, local _i, local _id, local _sb, \
+	local _start, local _comma
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	; CSV を JSON array 化
+	_sb = "["
+	_start = 0
+	repeat
+		_comma = instr(ids_csv, _start, ",")
+		if _comma < 0 {
+			_id = strmid(ids_csv, _start, strlen(ids_csv) - _start)
+			if strlen(_id) > 0 : _sb = _sb + "\"" + _id + "\""
+			break
+		}
+		_id = strmid(ids_csv, _start, _comma - _start)
+		if strlen(_id) > 0 : _sb = _sb + "\"" + _id + "\","
+		_start = _comma + 1
+	loop
+	_sb = _sb + "]"
+	_body = "{\"to\":" + _sb + ",\"messages\":[{\"type\":\"text\",\"text\":\"" + _ln_escape(msg) + "\"}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/multicast", _body, _resp, "application/json"
+	return stat
+
+#deffunc line_broadcast_text str msg, \
+	local _body, local _resp
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_body = "{\"messages\":[{\"type\":\"text\",\"text\":\"" + _ln_escape(msg) + "\"}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/broadcast", _body, _resp, "application/json"
+	return stat
+
+#deffunc line_push_sticker str to, int pkg_id, int stk_id, \
+	local _body, local _resp
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_body = "{\"to\":\"" + to + "\",\"messages\":[{\"type\":\"sticker\",\"packageId\":\"" + pkg_id + "\",\"stickerId\":\"" + stk_id + "\"}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/push", _body, _resp, "application/json"
+	return stat
+
+#deffunc line_reply_text str reply_token, str msg, \
+	local _body, local _resp
+	if strlen(_ln_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _ln_token
+	_body = "{\"replyToken\":\"" + reply_token + "\",\"messages\":[{\"type\":\"text\",\"text\":\"" + _ln_escape(msg) + "\"}]}"
+	sdim _resp, 4096
+	http_post "https://api.line.me/v2/bot/message/reply", _body, _resp, "application/json"
+	return stat
+
+;---------------------------------------------------------
+; LINE Notify 互換 (2025 年以降停止済、レガシー用)
+;   body は application/x-www-form-urlencoded: "message=..."
+;---------------------------------------------------------
+#deffunc line_notify_send str notify_token, str msg, \
+	local _body, local _resp, local _enc
+	http_set_header "Authorization", "Bearer " + notify_token
+	_ln_urlencode msg, _enc
+	_body = "message=" + _enc
+	sdim _resp, 4096
+	http_post "https://notify-api.line.me/api/notify", _body, _resp, "application/x-www-form-urlencoded"
+	return stat
+
+;---------------------------------------------------------
+; 内部: JSON 文字列エスケープ
+;---------------------------------------------------------
+#defcfunc _ln_escape str s, local _out, local _c
+	sdim _out, strlen(s) * 2 + 16
+	_out = ""
+	repeat strlen(s)
+		_c = peek(s, cnt)
+		if _c = '"' : _out = _out + "\\\"" : continue
+		if _c = '\\' : _out = _out + "\\\\" : continue
+		if _c = 10 : _out = _out + "\\n" : continue
+		if _c = 13 : _out = _out + "\\r" : continue
+		_out = _out + strf("%c", _c)
+	loop
+	return _out
+
+;---------------------------------------------------------
+; URL encode
+;---------------------------------------------------------
+#deffunc _ln_urlencode str src, var v_out, \
+	local _c
+	sdim v_out, strlen(src) * 3 + 16
+	v_out = ""
+	repeat strlen(src)
+		_c = peek(src, cnt)
+		if ((_c >= 'A') & (_c <= 'Z')) | ((_c >= 'a') & (_c <= 'z')) | ((_c >= '0') & (_c <= '9')) | (_c = '-') | (_c = '.') | (_c = '_') | (_c = '~') {
+			v_out = v_out + strf("%c", _c)
+		} else {
+			v_out = v_out + strf("%%%02X", _c)
+		}
+	loop
+	return
+
+#global
+#endif

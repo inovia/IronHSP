@@ -1,0 +1,95 @@
+;============================================================
+;   iron_slack.hsp — Slack 通知 (Incoming Webhook + Web API)
+;
+;   Slack へのメッセージ送信を 1 行で書けるラッパ。
+;     - Incoming Webhook: チャネル固有の URL に POST するだけで投稿可
+;     - Web API (chat.postMessage): Bot Token 経由、リッチメッセージ可
+;
+;   前提:
+;     Workspace 管理者が Slack App を作成し、
+;       (A) Incoming Webhook を有効化して URL 発行、または
+;       (B) Bot User OAuth Token (xoxb-...) を発行
+;     どちらかの資格情報が必要。
+;
+;   API:
+;     slack_set_webhook "https://hooks.slack.com/services/T.../B.../..."
+;     slack_set_token "xoxb-..."
+;     slack_post "hello"                         Webhook に平文投稿
+;     slack_post_channel "#general", "msg"       Web API で任意チャネルに投稿
+;     slack_post_blocks "blocks json"             Block Kit JSON を webhook に POST
+;
+;   依存: iron_http.hsp (http_post / http_set_header)
+;============================================================
+#ifndef __iron_slack_hsp__
+#define __iron_slack_hsp__
+
+#include "iron_http.hsp"
+
+#module iron_slack
+
+sdim _sl_hook, 256
+sdim _sl_token, 128
+_sl_hook = "" : _sl_token = ""
+
+#deffunc slack_set_webhook str url
+	_sl_hook = url
+	return
+
+#deffunc slack_set_token str token
+	_sl_token = token
+	return
+
+;---------------------------------------------------------
+; slack_post "text"
+;   Incoming Webhook にシンプル JSON で POST
+;---------------------------------------------------------
+#deffunc slack_post str text, \
+	local _body, local _resp, local _json
+	if strlen(_sl_hook) = 0 : return -1
+	_json = "{\"text\":\"" + _slack_escape(text) + "\"}"
+	sdim _resp, 4096
+	http_post _sl_hook, _json, _resp, "application/json"
+	return stat
+
+;---------------------------------------------------------
+; slack_post_blocks "raw blocks JSON body"
+;---------------------------------------------------------
+#deffunc slack_post_blocks str body, \
+	local _resp
+	if strlen(_sl_hook) = 0 : return -1
+	sdim _resp, 4096
+	http_post _sl_hook, body, _resp, "application/json"
+	return stat
+
+;---------------------------------------------------------
+; slack_post_channel "#channel" または "@user" または "channel_id", "text"
+;   Web API chat.postMessage (Bot Token 必須)
+;---------------------------------------------------------
+#deffunc slack_post_channel str channel, str text, \
+	local _resp, local _body
+	if strlen(_sl_token) = 0 : return -1
+	http_set_header "Authorization", "Bearer " + _sl_token
+	_body = "{\"channel\":\"" + _slack_escape(channel) + "\",\"text\":\"" + _slack_escape(text) + "\"}"
+	sdim _resp, 8192
+	http_post "https://slack.com/api/chat.postMessage", _body, _resp, "application/json"
+	return stat
+
+;---------------------------------------------------------
+; 内部: JSON 文字列エスケープ
+;---------------------------------------------------------
+#defcfunc _slack_escape str s, local _out, local _c
+	sdim _out, strlen(s) * 2 + 16
+	_out = ""
+	repeat strlen(s)
+		_c = peek(s, cnt)
+		if _c = '"' : _out = _out + "\\\"" : continue
+		if _c = '\\' : _out = _out + "\\\\" : continue
+		if _c = 10 : _out = _out + "\\n" : continue
+		if _c = 13 : _out = _out + "\\r" : continue
+		if _c = 9 : _out = _out + "\\t" : continue
+		_out = _out + strf("%c", _c)
+	loop
+	return _out
+
+#global
+#endif

@@ -1,0 +1,78 @@
+;============================================================
+;   iron_teams.hsp — Microsoft Teams 通知 (Incoming Webhook)
+;
+;   Teams チャネルの Incoming Webhook / Workflow (Power Automate) に
+;   Adaptive Card / 簡易テキストを POST する。
+;
+;   前提:
+;     Teams チャネル → 「コネクタ」 → Incoming Webhook
+;     または Power Automate で webhook を公開。
+;     ※ 2024 以降、旧 Office 365 Connector は段階的終了。
+;        Workflow (Power Automate) 経由が推奨。
+;
+;   API:
+;     teams_set_webhook "https://....webhook.office.com/..."
+;     teams_post "hello from HSP"                    簡易テキスト
+;     teams_post_card "title", "subtitle", "body"    MessageCard (旧形式)
+;     teams_post_adaptive "raw adaptive card JSON"   Adaptive Card (新形式)
+;
+;   依存: iron_http.hsp
+;============================================================
+#ifndef __iron_teams_hsp__
+#define __iron_teams_hsp__
+
+#include "iron_http.hsp"
+
+#module iron_teams
+
+sdim _tm_hook, 512
+_tm_hook = ""
+
+#deffunc teams_set_webhook str url
+	_tm_hook = url
+	return
+
+#deffunc teams_post str text, \
+	local _body, local _resp
+	if strlen(_tm_hook) = 0 : return -1
+	_body = "{\"text\":\"" + _teams_escape(text) + "\"}"
+	sdim _resp, 4096
+	http_post _tm_hook, _body, _resp, "application/json"
+	return stat
+
+#deffunc teams_post_card str title, str subtitle, str text, \
+	local _body, local _resp
+	if strlen(_tm_hook) = 0 : return -1
+	_body = "{\"@type\":\"MessageCard\",\"@context\":\"https://schema.org/extensions\","
+	_body = _body + "\"summary\":\"" + _teams_escape(title) + "\","
+	_body = _body + "\"themeColor\":\"0078D7\","
+	_body = _body + "\"title\":\"" + _teams_escape(title) + "\","
+	_body = _body + "\"sections\":[{\"activitySubtitle\":\"" + _teams_escape(subtitle) + "\","
+	_body = _body + "\"text\":\"" + _teams_escape(text) + "\"}]}"
+	sdim _resp, 4096
+	http_post _tm_hook, _body, _resp, "application/json"
+	return stat
+
+#deffunc teams_post_adaptive str card_json, \
+	local _body, local _resp
+	if strlen(_tm_hook) = 0 : return -1
+	_body = "{\"type\":\"message\",\"attachments\":[{\"contentType\":\"application/vnd.microsoft.card.adaptive\",\"content\":" + card_json + "}]}"
+	sdim _resp, 4096
+	http_post _tm_hook, _body, _resp, "application/json"
+	return stat
+
+#defcfunc _teams_escape str s, local _out, local _c
+	sdim _out, strlen(s) * 2 + 16
+	_out = ""
+	repeat strlen(s)
+		_c = peek(s, cnt)
+		if _c = '"' : _out = _out + "\\\"" : continue
+		if _c = '\\' : _out = _out + "\\\\" : continue
+		if _c = 10 : _out = _out + "\\n" : continue
+		if _c = 13 : _out = _out + "\\r" : continue
+		_out = _out + strf("%c", _c)
+	loop
+	return _out
+
+#global
+#endif

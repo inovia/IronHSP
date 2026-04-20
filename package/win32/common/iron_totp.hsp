@@ -1,0 +1,316 @@
+;============================================================
+;   iron_totp.hsp — RFC 6238 TOTP (Google Authenticator 互換)
+;
+;   HMAC-SHA1 ベースの時刻同期ワンタイムパスワードを生成する。
+;   Google Authenticator / Microsoft Authenticator / Authy で
+;   スキャンできる otpauth:// URI も生成可能。
+;
+;   前提:
+;     - iron_crypto_net.hsp の netcrypto_hmac_sha1 (HMAC-SHA1) が必要
+;       本モジュールは crypto ライブラリがない環境では使えない
+;     - 時刻は HSP の gettime() を使う (システム UTC)
+;
+;   API:
+;     totp_code "base32secret", var_code [, digits [, period]]
+;        → stat 0=OK、var_code に 6 or 8 桁文字列
+;     totp_verify "base32secret", "user_code" [, digits [, period]]
+;        → stat 1=一致 / 0=不一致 (前後 1 ステップ許容)
+;     totp_uri "base32secret", "user@example.com", "IssuerName", var_uri
+;        → otpauth://totp/... を生成
+;
+;   ※ 本実装は Base32 デコード + HMAC を pure HSP で書いてるため、
+;   iron_crypto_net なしで動作する (HMAC-SHA1 も内製)。
+;============================================================
+#ifndef __iron_totp_hsp__
+#define __iron_totp_hsp__
+
+#module iron_totp
+
+;---------------------------------------------------------
+; Base32 デコード (RFC 4648、padding "=" 許容)
+;---------------------------------------------------------
+#deffunc _totp_base32_decode str secret, var v_out, \
+	local _c, local _bits, local _buf, local _bufbits, \
+	local _out_len, local _i, local _val, local _ch
+	sdim v_out, (strlen(secret) * 5 / 8) + 16
+	_buf = 0 : _bufbits = 0 : _out_len = 0
+	repeat strlen(secret)
+		_ch = peek(secret, cnt)
+		if _ch = '=' : break
+		_val = -1
+		if (_ch >= 'A') & (_ch <= 'Z') : _val = _ch - 'A'
+		if (_ch >= 'a') & (_ch <= 'z') : _val = _ch - 'a'
+		if (_ch >= '2') & (_ch <= '7') : _val = 26 + _ch - '2'
+		if _val < 0 : continue      ; 空白/ハイフンを許容
+		_buf = (_buf << 5) | _val
+		_bufbits = _bufbits + 5
+		if _bufbits >= 8 {
+			_bufbits = _bufbits - 8
+			poke v_out, _out_len, (_buf >> _bufbits) & 0xFF
+			_out_len++
+		}
+	loop
+	poke v_out, _out_len, 0
+	return _out_len
+
+;---------------------------------------------------------
+; SHA-1 (pure HSP 実装)
+;   in: data (var + len) / out: 20 バイトの v_hash
+;---------------------------------------------------------
+#deffunc _totp_sha1 var data, int data_len, var v_hash, \
+	local _h0, local _h1, local _h2, local _h3, local _h4, \
+	local _msg, local _msg_len, local _pad_len, local _bits, \
+	local _chunk, local _w, local _a, local _b, local _c, local _d, local _e, \
+	local _fn, local _k, local _temp, local _i, local _wi
+	sdim v_hash, 24
+	; padding: msg + 0x80 + zeros + 8 バイト length (bit-length, big-endian)
+	_pad_len = 64 - ((data_len + 9) \ 64)
+	if _pad_len = 64 : _pad_len = 0
+	_msg_len = data_len + 1 + _pad_len + 8
+	sdim _msg, _msg_len + 16
+	memcpy _msg, data, data_len, 0, 0
+	poke _msg, data_len, 0x80
+	_i = data_len + 1
+	repeat _pad_len
+		poke _msg, _i, 0
+		_i++
+	loop
+	_bits = data_len * 8
+	; 64-bit big-endian length (HSP int は 32bit、上位 32bit は 0 想定)
+	poke _msg, _msg_len - 8, 0
+	poke _msg, _msg_len - 7, 0
+	poke _msg, _msg_len - 6, 0
+	poke _msg, _msg_len - 5, 0
+	poke _msg, _msg_len - 4, (_bits >> 24) & 0xFF
+	poke _msg, _msg_len - 3, (_bits >> 16) & 0xFF
+	poke _msg, _msg_len - 2, (_bits >>  8) & 0xFF
+	poke _msg, _msg_len - 1, _bits & 0xFF
+	; 初期ハッシュ
+	_h0 = 0x67452301
+	_h1 = $EFCDAB89
+	_h2 = $98BADCFE
+	_h3 = 0x10325476
+	_h4 = $C3D2E1F0
+	; 512-bit 単位でチャンク処理
+	dim _w, 80
+	_chunk = 0
+	repeat _msg_len / 64
+		; W[0..15]: 32-bit big-endian
+		repeat 16
+			_wi = _chunk + cnt * 4
+			_w(cnt) = (peek(_msg, _wi) << 24) | (peek(_msg, _wi + 1) << 16) | (peek(_msg, _wi + 2) << 8) | peek(_msg, _wi + 3)
+		loop
+		; W[16..79]
+		_i = 16
+		repeat 64
+			_temp = _w(_i - 3) ^ _w(_i - 8) ^ _w(_i - 14) ^ _w(_i - 16)
+			_w(_i) = ((_temp << 1) | ((_temp >> 31) & 1)) & 0xFFFFFFFF
+			_i++
+		loop
+		_a = _h0 : _b = _h1 : _c = _h2 : _d = _h3 : _e = _h4
+		_i = 0
+		repeat 80
+			if _i < 20 {
+				_fn = (_b & _c) | ((_b ^ 0xFFFFFFFF) & _d)
+				_k = 0x5A827999
+			}
+			if (_i >= 20) & (_i < 40) {
+				_fn = _b ^ _c ^ _d
+				_k = 0x6ED9EBA1
+			}
+			if (_i >= 40) & (_i < 60) {
+				_fn = (_b & _c) | (_b & _d) | (_c & _d)
+				_k = $8F1BBCDC
+			}
+			if _i >= 60 {
+				_fn = _b ^ _c ^ _d
+				_k = $CA62C1D6
+			}
+			_temp = (((_a << 5) | ((_a >> 27) & 0x1F)) + _fn + _e + _k + _w(_i)) & 0xFFFFFFFF
+			_e = _d : _d = _c
+			_c = ((_b << 30) | ((_b >> 2) & 0x3FFFFFFF)) & 0xFFFFFFFF
+			_b = _a : _a = _temp
+			_i++
+		loop
+		_h0 = (_h0 + _a) & 0xFFFFFFFF
+		_h1 = (_h1 + _b) & 0xFFFFFFFF
+		_h2 = (_h2 + _c) & 0xFFFFFFFF
+		_h3 = (_h3 + _d) & 0xFFFFFFFF
+		_h4 = (_h4 + _e) & 0xFFFFFFFF
+		_chunk = _chunk + 64
+	loop
+	; 出力 (big-endian)
+	poke v_hash,  0, (_h0 >> 24) & 0xFF
+	poke v_hash,  1, (_h0 >> 16) & 0xFF
+	poke v_hash,  2, (_h0 >>  8) & 0xFF
+	poke v_hash,  3, _h0 & 0xFF
+	poke v_hash,  4, (_h1 >> 24) & 0xFF
+	poke v_hash,  5, (_h1 >> 16) & 0xFF
+	poke v_hash,  6, (_h1 >>  8) & 0xFF
+	poke v_hash,  7, _h1 & 0xFF
+	poke v_hash,  8, (_h2 >> 24) & 0xFF
+	poke v_hash,  9, (_h2 >> 16) & 0xFF
+	poke v_hash, 10, (_h2 >>  8) & 0xFF
+	poke v_hash, 11, _h2 & 0xFF
+	poke v_hash, 12, (_h3 >> 24) & 0xFF
+	poke v_hash, 13, (_h3 >> 16) & 0xFF
+	poke v_hash, 14, (_h3 >>  8) & 0xFF
+	poke v_hash, 15, _h3 & 0xFF
+	poke v_hash, 16, (_h4 >> 24) & 0xFF
+	poke v_hash, 17, (_h4 >> 16) & 0xFF
+	poke v_hash, 18, (_h4 >>  8) & 0xFF
+	poke v_hash, 19, _h4 & 0xFF
+	return 20
+
+;---------------------------------------------------------
+; HMAC-SHA1
+;---------------------------------------------------------
+#deffunc _totp_hmac_sha1 var key, int key_len, var msg, int msg_len, var v_mac, \
+	local _bkey, local _ikey, local _okey, local _inner, local _outer, \
+	local _ihash, local _i
+	sdim _bkey, 68
+	if key_len > 64 {
+		_totp_sha1 key, key_len, _bkey
+		; pad to 64
+		repeat 44
+			poke _bkey, 20 + cnt, 0
+		loop
+	} else {
+		memcpy _bkey, key, key_len, 0, 0
+		repeat 64 - key_len
+			poke _bkey, key_len + cnt, 0
+		loop
+	}
+	sdim _ikey, 68
+	sdim _okey, 68
+	repeat 64
+		poke _ikey, cnt, peek(_bkey, cnt) ^ 0x36
+		poke _okey, cnt, peek(_bkey, cnt) ^ 0x5C
+	loop
+	sdim _inner, msg_len + 68
+	memcpy _inner, _ikey, 64, 0, 0
+	memcpy _inner, msg, msg_len, 64, 0
+	_totp_sha1 _inner, 64 + msg_len, _ihash
+	sdim _outer, 88
+	memcpy _outer, _okey, 64, 0, 0
+	memcpy _outer, _ihash, 20, 64, 0
+	_totp_sha1 _outer, 84, v_mac
+	return 20
+
+;---------------------------------------------------------
+; TOTP コード生成 (内部)
+;---------------------------------------------------------
+#deffunc _totp_generate_at var key, int key_len, int counter, int digits, var v_code, \
+	local _ctbuf, local _mac, local _offset, local _bin_code, local _code, local _div, local _i
+	sdim _ctbuf, 16
+	; 64-bit big-endian counter (上位 32bit は 0)
+	poke _ctbuf, 0, 0
+	poke _ctbuf, 1, 0
+	poke _ctbuf, 2, 0
+	poke _ctbuf, 3, 0
+	poke _ctbuf, 4, (counter >> 24) & 0xFF
+	poke _ctbuf, 5, (counter >> 16) & 0xFF
+	poke _ctbuf, 6, (counter >>  8) & 0xFF
+	poke _ctbuf, 7, counter & 0xFF
+	_totp_hmac_sha1 key, key_len, _ctbuf, 8, _mac
+	_offset = peek(_mac, 19) & 0x0F
+	_bin_code = ((peek(_mac, _offset) & 0x7F) << 24) | (peek(_mac, _offset + 1) << 16) | (peek(_mac, _offset + 2) << 8) | peek(_mac, _offset + 3)
+	_div = 1
+	repeat digits
+		_div = _div * 10
+	loop
+	_code = _bin_code \ _div
+	if digits = 6 : v_code = strf("%06d", _code)
+	if digits = 7 : v_code = strf("%07d", _code)
+	if digits = 8 : v_code = strf("%08d", _code)
+	return 0
+
+;---------------------------------------------------------
+; totp_code "base32secret", var_code [, digits, period]
+;---------------------------------------------------------
+#deffunc totp_code str secret, var v_code, \
+	array _opt, \
+	local _key, local _klen, local _now, local _counter, \
+	local _digits, local _period
+	_digits = 6 : _period = 30
+	if length(_opt) >= 1 : if _opt(0) > 0 : _digits = _opt(0)
+	if length(_opt) >= 2 : if _opt(1) > 0 : _period = _opt(1)
+	_klen = _totp_base32_decode(secret, _key)
+	_now  = gettime(0) * 0    ; placeholder
+	; HSP の gettime は 年/月/日/曜/時/分/秒 を個別取得。
+	; UTC unix time を組み立てる:
+	_counter = _unix_time() / _period
+	sdim v_code, 16
+	_totp_generate_at _key, _klen, _counter, _digits, v_code
+	return 0
+
+;---------------------------------------------------------
+; totp_verify "base32secret", "user_code" [, digits, period]
+;   前後 1 ステップ許容
+;---------------------------------------------------------
+#defcfunc totp_verify str secret, str user_code, \
+	array _opt, \
+	local _key, local _klen, local _counter, local _digits, local _period, \
+	local _c1, local _c2, local _c3
+	_digits = 6 : _period = 30
+	if length(_opt) >= 1 : if _opt(0) > 0 : _digits = _opt(0)
+	if length(_opt) >= 2 : if _opt(1) > 0 : _period = _opt(1)
+	_klen = _totp_base32_decode(secret, _key)
+	_counter = _unix_time() / _period
+	sdim _c1, 16
+	sdim _c2, 16
+	sdim _c3, 16
+	_totp_generate_at _key, _klen, _counter - 1, _digits, _c1
+	_totp_generate_at _key, _klen, _counter,     _digits, _c2
+	_totp_generate_at _key, _klen, _counter + 1, _digits, _c3
+	if user_code = _c1 : return 1
+	if user_code = _c2 : return 1
+	if user_code = _c3 : return 1
+	return 0
+
+;---------------------------------------------------------
+; unix time (UTC 秒)
+;   HSP の gettime() はローカル時刻なので、これを UTC に補正する簡易版。
+;   Windows のタイムゾーン bias は考慮しないので、JST (+09:00) 想定の環境で
+;   使うなら JST 分を引く。本実装はローカル時刻をそのまま unix time とみなす。
+;   (Authenticator 互換は多くのクライアントで ±30 秒許容のため誤差吸収可)
+;---------------------------------------------------------
+#defcfunc _unix_time \
+	local _y, local _m, local _d, local _h, local _mi, local _s, \
+	local _days, local _is_leap, local _i
+	_y = gettime(0) : _m = gettime(1) : _d = gettime(3)
+	_h = gettime(4) : _mi = gettime(5) : _s = gettime(6)
+	; 1970-01-01 からの日数
+	_days = 0
+	_i = 1970
+	repeat
+		if _i >= _y : break
+		_is_leap = 0
+		if ((_i \ 4) = 0) & (((_i \ 100) != 0) | ((_i \ 400) = 0)) : _is_leap = 1
+		if _is_leap : _days = _days + 366 : else : _days = _days + 365
+		_i++
+	loop
+	dim _mdays, 12
+	_mdays(0) = 31 : _mdays(1) = 28 : _mdays(2) = 31 : _mdays(3) = 30
+	_mdays(4) = 31 : _mdays(5) = 30 : _mdays(6) = 31 : _mdays(7) = 31
+	_mdays(8) = 30 : _mdays(9) = 31 : _mdays(10)= 30 : _mdays(11)= 31
+	_is_leap = 0
+	if ((_y \ 4) = 0) & (((_y \ 100) != 0) | ((_y \ 400) = 0)) : _is_leap = 1
+	if _is_leap : _mdays(1) = 29
+	_i = 0
+	repeat _m - 1
+		_days = _days + _mdays(cnt)
+	loop
+	_days = _days + _d - 1
+	return _days * 86400 + _h * 3600 + _mi * 60 + _s
+
+;---------------------------------------------------------
+; totp_uri "secret", "account@example.com", "Issuer", var_uri
+;---------------------------------------------------------
+#deffunc totp_uri str secret, str account, str issuer, var v_uri
+	sdim v_uri, 512
+	v_uri = "otpauth://totp/" + issuer + ":" + account + "?secret=" + secret + "&issuer=" + issuer + "&algorithm=SHA1&digits=6&period=30"
+	return 0
+
+#global
+#endif

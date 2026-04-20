@@ -1,0 +1,151 @@
+;============================================================
+;   iron_postal.hsp — 郵便番号 → 住所 (日本郵便 KEN_ALL.CSV)
+;
+;   日本郵便の全国郵便番号ファイル (KEN_ALL.CSV) を読み込み、
+;   郵便番号 から都道府県/市区町村/町域を返す。逆引き (住所→郵便番号)
+;   は grep で近似検索。
+;
+;   データ入手:
+;     https://www.post.japanpost.jp/zipcode/dl/kogaki-zip.html
+;     → ken_all.zip をダウンロードして解凍した KEN_ALL.CSV (SJIS / ~12MB) を使う。
+;     または外部 API (zipcloud 等) を叩く代替は iron_http ベースで別途。
+;
+;   KEN_ALL.CSV のレコード (主要カラム):
+;     col[0]  全国地方公共団体コード
+;     col[2]  郵便番号 (7 桁、ハイフンなし)
+;     col[6]  都道府県名
+;     col[7]  市区町村名
+;     col[8]  町域名
+;
+;   API:
+;     postal_load "KEN_ALL.CSV"                  CSV をロード (初回のみ数秒)
+;     postal_lookup "1000001", var_result        "都道府県|市区町村|町域" を返す
+;     postal_count                               → stat 登録件数
+;     postal_search "東京都千代田区", var_tsv    部分一致、"郵便番号|住所" TSV
+;
+;   メモリ使用量:
+;     約 12MB (bload バッファ) + 索引 50000 件で ~4MB。
+;============================================================
+#ifndef __iron_postal_hsp__
+#define __iron_postal_hsp__
+
+#module iron_postal
+
+sdim _pos_raw, 16 * 1024 * 1024  ; KEN_ALL.CSV バッファ (16MB 上限)
+sdim _pos_code, 8, 130000         ; 郵便番号 7 桁
+sdim _pos_addr, 128, 130000       ; "都道府県|市区町村|町域"
+dim  _pos_count, 1
+
+;---------------------------------------------------------
+; postal_load "KEN_ALL.CSV"
+;---------------------------------------------------------
+#deffunc postal_load str path, \
+	local _size, local _p, local _eol, local _line, \
+	local _c, local _col, local _field_start, local _i, \
+	local _zip, local _pref, local _city, local _town, local _addr
+	_pos_count = 0
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	bload path, _pos_raw, _size
+	_p = 0
+	repeat
+		if _p >= _size : break
+		_eol = instr(_pos_raw, _p, "\n")
+		if _eol < 0 {
+			_line = strmid(_pos_raw, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(_pos_raw, _p, _eol - _p)
+			_p = _eol + 1
+		}
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		if strlen(_line) = 0 : continue
+		; CSV fields: カラム 2=zip / 6=pref / 7=city / 8=town (0-indexed)
+		; シンプル split by "," (引用符を外す)
+		_col = 0 : _field_start = 0 : _zip = "" : _pref = "" : _city = "" : _town = ""
+		_i = 0
+		repeat strlen(_line) + 1
+			if cnt = strlen(_line) {
+				; last field
+				_c = strmid(_line, _field_start, cnt - _field_start)
+				; strip surrounding quotes
+				if strlen(_c) >= 2 : if (peek(_c, 0) = '"') & (peek(_c, strlen(_c) - 1) = '"') : _c = strmid(_c, 1, strlen(_c) - 2)
+				if _col = 2 : _zip = _c
+				if _col = 6 : _pref = _c
+				if _col = 7 : _city = _c
+				if _col = 8 : _town = _c
+				break
+			}
+			if peek(_line, cnt) = ',' {
+				_c = strmid(_line, _field_start, cnt - _field_start)
+				if strlen(_c) >= 2 : if (peek(_c, 0) = '"') & (peek(_c, strlen(_c) - 1) = '"') : _c = strmid(_c, 1, strlen(_c) - 2)
+				if _col = 2 : _zip = _c
+				if _col = 6 : _pref = _c
+				if _col = 7 : _city = _c
+				if _col = 8 : _town = _c
+				_col++
+				_field_start = cnt + 1
+				if _col > 8 : break
+			}
+		loop
+		if strlen(_zip) != 7 : continue
+		if _pos_count >= 130000 : break
+		_pos_code(_pos_count) = _zip
+		_pos_addr(_pos_count) = _pref + "|" + _city + "|" + _town
+		_pos_count++
+	loop
+	return _pos_count
+
+;---------------------------------------------------------
+; postal_lookup "1000001" / "100-0001", var_result
+;   var_result = "都道府県|市区町村|町域"
+;---------------------------------------------------------
+#deffunc postal_lookup str zip_in, var v_out, \
+	local _zip
+	sdim v_out, 256
+	; ハイフン除去
+	_zip = ""
+	repeat strlen(zip_in)
+		if peek(zip_in, cnt) != '-' : _zip = _zip + strf("%c", peek(zip_in, cnt))
+	loop
+	if strlen(_zip) != 7 : return -1
+	repeat _pos_count
+		if _pos_code(cnt) = _zip {
+			v_out = _pos_addr(cnt)
+			return 0
+		}
+	loop
+	return -1
+
+;---------------------------------------------------------
+; postal_count
+;---------------------------------------------------------
+#defcfunc postal_count
+	return _pos_count
+
+;---------------------------------------------------------
+; postal_search "東京都千代田区", var_tsv
+;   部分一致 (前方一致風)、最大 200 件
+;---------------------------------------------------------
+#deffunc postal_search str query, var v_out, \
+	local _sb, local _found
+	sdim v_out, 65536
+	sdim _sb, 65536
+	_sb = ""
+	_found = 0
+	if strlen(query) = 0 : v_out = "" : return 0
+	repeat _pos_count
+		if instr(_pos_addr(cnt), 0, query) >= 0 {
+			_sb = _sb + _pos_code(cnt) + "|" + _pos_addr(cnt) + "\n"
+			_found++
+			if _found >= 200 : break
+		}
+	loop
+	v_out = _sb
+	return _found
+
+#global
+#endif

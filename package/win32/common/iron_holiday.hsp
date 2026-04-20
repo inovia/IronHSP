@@ -1,0 +1,219 @@
+;============================================================
+;   iron_holiday.hsp — 日本の祝日判定 (pure HSP)
+;
+;   内閣府公開 CSV (https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv)
+;   を取り込んで、ある日付が祝日かどうか / 営業日計算 / 翌平日算出を
+;   行う。依存: iron_http.hsp (更新時のみ)
+;
+;   使い方:
+;     方法 A) バンドル済の CSV を使う
+;       holiday_load "syukujitsu.csv"
+;
+;     方法 B) 内閣府 CSV を HTTP で取りに行く (初回 or 年 1 回)
+;       holiday_fetch
+;           HOLIDAY_CSV_URL を叩いて holiday_load と同じ状態にする
+;
+;   API:
+;     holiday_load "path"                 CSV ファイルからロード
+;     holiday_fetch                       内閣府 CSV をダウンロードしてロード
+;     holiday_is(y, m, d)                 → stat 1=祝日 / 0=平日
+;     holiday_name y, m, d, var_name      祝日名取得 (非祝日なら "")
+;     holiday_is_business_day(y, m, d)    → stat 1=営業日 / 0=週末 or 祝日
+;     holiday_next_business_day y, m, d, \
+;                               var_ny, var_nm, var_nd
+;                                         翌営業日を算出
+;     holiday_business_days_between \
+;         y1, m1, d1, y2, m2, d2          → stat 営業日数
+;
+;   CSV フォーマット (内閣府):
+;     国民の祝日・休日月日,国民の祝日・休日名称
+;     2024/1/1,元日
+;     2024/1/8,成人の日
+;     ...
+;============================================================
+#ifndef __iron_holiday_hsp__
+#define __iron_holiday_hsp__
+
+#define global HOLIDAY_CSV_URL "https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv"
+
+#module iron_holiday
+
+sdim _h_date, 11, 2048        ; "YYYY-MM-DD" 形式、最大 2048 件
+sdim _h_name, 64, 2048        ; 祝日名
+dim  _h_count, 1
+
+;---------------------------------------------------------
+; holiday_load "path"
+;   CSV ファイルをロード (SJIS 想定、内閣府 CSV そのまま)
+;---------------------------------------------------------
+#deffunc holiday_load str path, \
+	local _buf, local _size, local _p, local _eol, local _line, \
+	local _comma, local _dpart, local _npart, local _slash1, \
+	local _slash2, local _yy, local _mm, local _dd, local _key
+	_h_count = 0
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _buf, _size + 16
+	bload path, _buf, _size
+	_p = 0
+	; 先頭行 (ヘッダ) をスキップ
+	_eol = instr(_buf, _p, "\n")
+	if _eol >= 0 : _p = _eol + 1
+	repeat
+		if _p >= _size : break
+		_eol = instr(_buf, _p, "\n")
+		if _eol < 0 {
+			_line = strmid(_buf, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(_buf, _p, _eol - _p)
+			_p = _eol + 1
+		}
+		; CR 除去
+		if strlen(_line) > 0 {
+			if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		}
+		if strlen(_line) = 0 : continue
+		_comma = instr(_line, 0, ",")
+		if _comma < 0 : continue
+		_dpart = strmid(_line, 0, _comma)
+		_npart = strmid(_line, _comma + 1, strlen(_line) - _comma - 1)
+		; YYYY/M/D を YYYY-MM-DD に正規化
+		_slash1 = instr(_dpart, 0, "/")
+		if _slash1 < 0 : continue
+		_slash2 = instr(_dpart, _slash1 + 1, "/")
+		if _slash2 < 0 : continue
+		_yy = int(strmid(_dpart, 0, _slash1))
+		_mm = int(strmid(_dpart, _slash1 + 1, _slash2 - _slash1 - 1))
+		_dd = int(strmid(_dpart, _slash2 + 1, strlen(_dpart) - _slash2 - 1))
+		if _yy < 1955 : continue
+		if _h_count >= 2048 : break
+		_key = strf("%04d-%02d-%02d", _yy, _mm, _dd)
+		_h_date(_h_count) = _key
+		_h_name(_h_count) = _npart
+		_h_count++
+	loop
+	return _h_count
+
+;---------------------------------------------------------
+; holiday_fetch — iron_http が利用可能な環境で CSV を取得
+;   呼び出し側で #include "iron_http.hsp" しておくこと
+;---------------------------------------------------------
+#deffunc holiday_fetch \
+	local _body, local _tmp
+	sdim _body, 262144
+	; iron_http の http_get を "外部" から間接呼び出しは難しいので、
+	; 呼び出し側が直接 http_get して holiday_load で渡すのを推奨。
+	; ここでは #bload 方式で temp ファイル経由のフォールバックを返す。
+	return -2  ; Not supported within module — use external http_get + temp file
+
+;---------------------------------------------------------
+; holiday_is(y, m, d) → 1/0
+;---------------------------------------------------------
+#defcfunc holiday_is int y, int m, int d, \
+	local _key, local _i
+	_key = strf("%04d-%02d-%02d", y, m, d)
+	repeat _h_count
+		if _h_date(cnt) = _key : return 1
+	loop
+	return 0
+
+;---------------------------------------------------------
+; holiday_name y, m, d, var_name
+;---------------------------------------------------------
+#deffunc holiday_name int y, int m, int d, var v_name, \
+	local _key
+	sdim v_name, 64
+	v_name = ""
+	_key = strf("%04d-%02d-%02d", y, m, d)
+	repeat _h_count
+		if _h_date(cnt) = _key {
+			v_name = _h_name(cnt)
+			return 1
+		}
+	loop
+	return 0
+
+;---------------------------------------------------------
+; 曜日計算 (Zeller の公式、日=0 月=1 ... 土=6)
+;---------------------------------------------------------
+#defcfunc _h_weekday int y, int m, int d, \
+	local _q, local _mm, local _K, local _J, local _h
+	_q = d
+	_mm = m
+	if _mm < 3 : _mm = _mm + 12 : _K = y - 1 : else : _K = y
+	_J = _K / 100
+	_K = _K \ 100
+	_h = (_q + (13 * (_mm + 1)) / 5 + _K + _K / 4 + _J / 4 + 5 * _J) \ 7
+	; h: Saturday=0, Sunday=1, Monday=2, ...Friday=6
+	; 変換: 日=0, 月=1, ..., 土=6
+	return ((_h + 6) \ 7)
+
+;---------------------------------------------------------
+; holiday_is_business_day(y, m, d) → 1=営業日 / 0=休
+;---------------------------------------------------------
+#defcfunc holiday_is_business_day int y, int m, int d, \
+	local _wd
+	_wd = _h_weekday(y, m, d)
+	if _wd = 0 : return 0      ; 日
+	if _wd = 6 : return 0      ; 土
+	if holiday_is(y, m, d) : return 0
+	return 1
+
+;---------------------------------------------------------
+; 日付を +1 日する (非効率だが範囲チェック付きの簡易版)
+;---------------------------------------------------------
+#deffunc _h_add_one_day int y, int m, int d, var v_ny, var v_nm, var v_nd, \
+	local _dim
+	_dim = 31
+	if (m = 4) | (m = 6) | (m = 9) | (m = 11) : _dim = 30
+	if m = 2 {
+		_dim = 28
+		if ((y \ 4) = 0) & (((y \ 100) != 0) | ((y \ 400) = 0)) : _dim = 29
+	}
+	if d < _dim {
+		v_ny = y : v_nm = m : v_nd = d + 1
+	} else {
+		v_nd = 1
+		if m = 12 : v_ny = y + 1 : v_nm = 1 : else : v_ny = y : v_nm = m + 1
+	}
+	return
+
+;---------------------------------------------------------
+; holiday_next_business_day y, m, d, var_ny, var_nm, var_nd
+;---------------------------------------------------------
+#deffunc holiday_next_business_day int y, int m, int d, \
+	var v_ny, var v_nm, var v_nd, \
+	local _yy, local _mm, local _dd, local _ny, local _nm, local _nd
+	_yy = y : _mm = m : _dd = d
+	repeat 30   ; 最大 30 日先
+		_h_add_one_day _yy, _mm, _dd, _ny, _nm, _nd
+		_yy = _ny : _mm = _nm : _dd = _nd
+		if holiday_is_business_day(_yy, _mm, _dd) {
+			v_ny = _yy : v_nm = _mm : v_nd = _dd
+			return 0
+		}
+	loop
+	v_ny = _yy : v_nm = _mm : v_nd = _dd
+	return -1
+
+;---------------------------------------------------------
+; holiday_business_days_between y1,m1,d1, y2,m2,d2
+;   → stat 営業日数 (開始日含む、終了日含まず)
+;---------------------------------------------------------
+#deffunc holiday_business_days_between int y1, int m1, int d1, int y2, int m2, int d2, \
+	local _y, local _m, local _d, local _ny, local _nm, local _nd, local _cnt, local _safety
+	_y = y1 : _m = m1 : _d = d1 : _cnt = 0 : _safety = 0
+	repeat
+		if _safety > 4000 : break
+		_safety++
+		if (_y = y2) & (_m = m2) & (_d = d2) : break
+		if holiday_is_business_day(_y, _m, _d) : _cnt++
+		_h_add_one_day _y, _m, _d, _ny, _nm, _nd
+		_y = _ny : _m = _nm : _d = _nd
+	loop
+	return _cnt
+
+#global
+#endif

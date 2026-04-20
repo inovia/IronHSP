@@ -1,0 +1,148 @@
+;============================================================
+;   iron_houjin.hsp — 国税庁法人番号 Web API ラッパ
+;
+;   国税庁の「法人番号公表サイト Web-API」を叩いて法人情報を取る。
+;   https://www.houjin-bangou.nta.go.jp/webapi/
+;
+;   前提:
+;     1. 国税庁 Web-API から **アプリケーション ID** を取得
+;        (無料、メール登録のみ)
+;     2. iron_http.hsp をインクルード済であること
+;
+;   API:
+;     houjin_set_id "your_application_id"      初回必須
+;     houjin_by_number "1234567890123", var_tsv
+;                                               法人番号 13 桁で検索
+;     houjin_by_name "株式会社○○", var_tsv    商号部分一致検索
+;     houjin_set_type typ                       0=JSON(default)/1=CSV
+;
+;   返却 TSV: 法人番号|商号|所在地|更新日|ステータス を \n 区切り
+;
+;   レスポンス詳細: https://www.houjin-bangou.nta.go.jp/webapi/houjin.html
+;============================================================
+#ifndef __iron_houjin_hsp__
+#define __iron_houjin_hsp__
+
+#include "iron_http.hsp"
+
+#module iron_houjin
+
+sdim _hj_app_id, 128
+_hj_app_id = ""
+
+#deffunc houjin_set_id str app_id
+	_hj_app_id = app_id
+	return
+
+;---------------------------------------------------------
+; houjin_by_number "1234567890123", var_out
+;---------------------------------------------------------
+#deffunc houjin_by_number str number, var v_out, \
+	local _url, local _body, local _code
+	sdim v_out, 8192
+	if strlen(_hj_app_id) = 0 {
+		v_out = "[ERROR] houjin_set_id で ID を先に設定してください"
+		return -1
+	}
+	; type=02 = CSV / 12 = JSON、ここでは CSV を使って自前パース
+	_url = "https://api.houjin-bangou.nta.go.jp/4/num?id=" + _hj_app_id + "&number=" + number + "&type=02"
+	sdim _body, 65536
+	http_get _url, _body
+	_code = stat
+	if _code != 200 : v_out = "[HTTP " + _code + "] " + _body : return _code
+	_houjin_parse_csv _body, v_out
+	return 0
+
+;---------------------------------------------------------
+; houjin_by_name "株式会社○○", var_out
+;---------------------------------------------------------
+#deffunc houjin_by_name str name, var v_out, \
+	local _url, local _body, local _code, local _enc
+	sdim v_out, 65536
+	if strlen(_hj_app_id) = 0 {
+		v_out = "[ERROR] houjin_set_id で ID を先に設定してください"
+		return -1
+	}
+	; name は URL エンコード必須。簡易 URL encode:
+	_houjin_url_encode name, _enc
+	_url = "https://api.houjin-bangou.nta.go.jp/4/name?id=" + _hj_app_id + "&name=" + _enc + "&type=02"
+	sdim _body, 262144
+	http_get _url, _body
+	_code = stat
+	if _code != 200 : v_out = "[HTTP " + _code + "] " + _body : return _code
+	_houjin_parse_csv _body, v_out
+	return 0
+
+;---------------------------------------------------------
+; 簡易 CSV パーサ (法人番号 API CSV 形式)
+;   返却は "法人番号|商号|所在地|更新日|ステータス\n" の繰り返し
+;   CSV カラム: 1=seq 2=houjinNumber 3=process 4=correct 5=updateDate ...
+;                6=changeDate 7=name 8=nameImageId ...
+;---------------------------------------------------------
+#deffunc _houjin_parse_csv var csv, var v_out, \
+	local _p, local _eol, local _line, local _size
+	_size = strlen(csv)
+	sdim v_out, 65536
+	v_out = ""
+	_p = 0
+	repeat
+		if _p >= _size : break
+		_eol = instr(csv, _p, "\n")
+		if _eol < 0 {
+			_line = strmid(csv, _p, _size - _p)
+			_p = _size
+		} else {
+			_line = strmid(csv, _p, _eol - _p)
+			_p = _eol + 1
+		}
+		if strlen(_line) = 0 : continue
+		if peek(_line, strlen(_line) - 1) = 13 : _line = strmid(_line, 0, strlen(_line) - 1)
+		_houjin_extract_line _line, v_out
+	loop
+	return
+
+#deffunc _houjin_extract_line str line, var v_out, \
+	local _cols, local _n, local _i, local _field_start, local _c, local _cur
+	sdim _cols, 512, 32
+	_n = 0 : _field_start = 0
+	repeat strlen(line) + 1
+		if cnt = strlen(line) {
+			_cur = strmid(line, _field_start, cnt - _field_start)
+			if strlen(_cur) >= 2 : if (peek(_cur, 0) = '"') & (peek(_cur, strlen(_cur) - 1) = '"') : _cur = strmid(_cur, 1, strlen(_cur) - 2)
+			if _n < 32 : _cols(_n) = _cur
+			_n++
+			break
+		}
+		if peek(line, cnt) = ',' {
+			_cur = strmid(line, _field_start, cnt - _field_start)
+			if strlen(_cur) >= 2 : if (peek(_cur, 0) = '"') & (peek(_cur, strlen(_cur) - 1) = '"') : _cur = strmid(_cur, 1, strlen(_cur) - 2)
+			if _n < 32 : _cols(_n) = _cur
+			_n++
+			_field_start = cnt + 1
+		}
+	loop
+	if _n < 10 : return
+	; 10=prefectureName 11=cityName 12=streetNumber 6=name
+	; 実 API 仕様は バージョン 4 で公表。最小限の抽出:
+	v_out = v_out + _cols(1) + "|" + _cols(6) + "|" + _cols(9) + _cols(10) + _cols(11) + "|" + _cols(4) + "|" + _cols(2) + "\n"
+	return
+
+;---------------------------------------------------------
+; URL encode (UTF-8 の 3 バイト想定の最小実装)
+;---------------------------------------------------------
+#deffunc _houjin_url_encode str src, var v_out, \
+	local _c, local _i
+	sdim v_out, strlen(src) * 3 + 16
+	v_out = ""
+	repeat strlen(src)
+		_c = peek(src, cnt)
+		if ((_c >= 'A') & (_c <= 'Z')) | ((_c >= 'a') & (_c <= 'z')) | ((_c >= '0') & (_c <= '9')) | (_c = '-') | (_c = '.') | (_c = '_') | (_c = '~') {
+			v_out = v_out + strf("%c", _c)
+		} else {
+			v_out = v_out + strf("%%%02X", _c)
+		}
+	loop
+	return
+
+#global
+#endif
