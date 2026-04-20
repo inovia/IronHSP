@@ -652,17 +652,23 @@ extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int
     if (dbg->dbg_curinf) dbg->dbg_curinf();
     dap_log("debug_notice ENTER line=%d file=%s", dbg->line, dbg->fname ? dbg->fname : "(null)");
 
-    // Classify stop reason by inspecting our own state — the upstream `cause`
-    // parameter isn't populated by hsp3's dispatch loop.
+    // Classify stop reason. BP wins over "entry" when the current line also
+    // has a user-set breakpoint — otherwise line-1 BPs get silently absorbed
+    // by the stopOnEntry stop and users think their BP never fired.
     const char* reason = "step";
     {
         std::lock_guard<std::mutex> lock(g_bp_mutex);
-        if (!g_entry_stop_consumed) {
+        bool line_has_bp = !g_breakpoints.empty() && dbg->fname &&
+            g_breakpoints.find({path_basename_lower(dbg->fname), dbg->line}) != g_breakpoints.end();
+
+        if (line_has_bp) {
+            reason = "breakpoint";
+            // Still consume the entry-stop slot so the next non-BP stop is
+            // classified as "step" / "pause" rather than "entry" again.
+            g_entry_stop_consumed = true;
+        } else if (!g_entry_stop_consumed) {
             reason = "entry";
             g_entry_stop_consumed = true;
-        } else if (!g_breakpoints.empty() && dbg->fname &&
-                   g_breakpoints.find({path_basename_lower(dbg->fname), dbg->line}) != g_breakpoints.end()) {
-            reason = "breakpoint";
         } else if (g_step_requested) {
             reason = "step";
             g_step_requested = false;
