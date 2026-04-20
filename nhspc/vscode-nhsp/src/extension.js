@@ -66,6 +66,16 @@ function activate(context) {
         vscode.debug.registerDebugAdapterDescriptorFactory('hsp3net', new Hsp3NetDapFactory(context))
     );
 
+    // ;;; / /// auto-template: when the user finishes typing `///` or `;;;`
+    // on a line directly above a #deffunc/#defcfunc/#func/… declaration,
+    // replace that line with a doc-comment skeleton pre-filled from the
+    // declaration's parameters (like Visual Studio's C# /// behaviour).
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeTextDocument((event) => {
+            try { maybeInsertHspDocTemplate(event); } catch (e) { /* best effort */ }
+        })
+    );
+
     // HSP3: Compile / Compile & Run commands (F7 / Ctrl+F7).
     context.subscriptions.push(
         vscode.commands.registerCommand('hsp3net.compile', () => compileHsp(false)),
@@ -1114,6 +1124,107 @@ function parseDiagnostics(output, sourceFile) {
         diagnostics.push(diag);
     }
     return diagnostics;
+}
+
+// ========== HSP3 Doc Comment Auto-Template ==========
+//
+// Mirrors Visual Studio C# XMLDoc behaviour: typing the 3rd `/` (or `;`)
+// on a line immediately above a declaration expands into a full template
+// with parameter placeholders. The user tabs through fields.
+
+const HSP_DECL_RX = /^\s*(#(?:deffunc|defcfunc|func|cfunc|cfuncd|cfuncf|cfuncst|comfunc|modfunc|modcfunc))\s+(?:global\s+)?(\w+)\s*(.*)$/;
+
+let _hspDocTemplateBusy = false;
+
+function maybeInsertHspDocTemplate(event) {
+    if (_hspDocTemplateBusy) return;
+    if (event.document.languageId !== 'hsp') return;
+    if (event.contentChanges.length === 0) return;
+
+    const change = event.contentChanges[0];
+    // Only trigger on a single-character insert of '/' or ';'.
+    if (change.text.length !== 1) return;
+    const ch = change.text;
+    if (ch !== '/' && ch !== ';') return;
+
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || editor.document !== event.document) return;
+
+    const lineNum = change.range.start.line;
+    const lineText = event.document.lineAt(lineNum).text;
+    const trimmed = lineText.trim();
+
+    // Must be exactly "///" or ";;;" — not 4+ and not already a full doc line.
+    let marker;
+    if (trimmed === '///') marker = '///';
+    else if (trimmed === ';;;') marker = ';;;';
+    else return;
+
+    // Find next non-blank, non-comment line below — that's the decl candidate.
+    let declLineNum = -1;
+    for (let i = lineNum + 1; i < event.document.lineCount; i++) {
+        const t = event.document.lineAt(i).text.trim();
+        if (t.length === 0) continue;
+        if (t.startsWith(';') || t.startsWith('//')) continue;
+        declLineNum = i;
+        break;
+    }
+    if (declLineNum < 0) return;
+
+    const declText = event.document.lineAt(declLineNum).text;
+    const m = HSP_DECL_RX.exec(declText);
+    if (!m) return;
+
+    const kind = m[1];              // e.g. "#deffunc"
+    const paramsStr = (m[3] || '').replace(/\s*;.*$/, '');  // strip trailing line comment
+    const paramNames = parseHspParamNames(paramsStr, kind);
+    const hasReturn = /^#(?:defcfunc|cfunc|cfuncd|cfuncf|cfuncst|modcfunc)$/.test(kind);
+
+    // Build snippet. Keep the original indent so it aligns with the decl.
+    const indent = lineText.substring(0, lineText.indexOf(marker));
+    let snipText = `${marker} \${1:説明}`;
+    let idx = 2;
+    for (const pn of paramNames) {
+        snipText += `\n${indent}${marker} @param ${pn} \${${idx++}:説明}`;
+    }
+    if (hasReturn) {
+        snipText += `\n${indent}${marker} @return \${${idx++}:戻り値の説明}`;
+    }
+
+    const snippet = new vscode.SnippetString(snipText);
+    const lineRange = event.document.lineAt(lineNum).range;
+    // Replace only the marker we just typed (keep indent). Defer one tick so
+    // the change handler has finished processing.
+    _hspDocTemplateBusy = true;
+    setTimeout(() => {
+        editor.insertSnippet(snippet,
+            new vscode.Range(new vscode.Position(lineNum, indent.length), lineRange.end)
+        ).then(
+            () => { _hspDocTemplateBusy = false; },
+            () => { _hspDocTemplateBusy = false; }
+        );
+    }, 0);
+}
+
+// Extract named parameter identifiers from the tail of a #deffunc-like
+// declaration. For unnamed binding types (#func / #cfunc) returns a
+// positional "pN" placeholder instead.
+function parseHspParamNames(paramsStr, kind) {
+    const isNamedFunc = /^#(?:def(?:c)?func|modfunc|modcfunc)$/.test(kind);
+    const parts = paramsStr.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+    const out = [];
+    let posIdx = 1;
+    for (const raw of parts) {
+        // Drop `local _foo` — internal scratch vars, not input params.
+        if (/^local(\s|$)/i.test(raw)) continue;
+        if (isNamedFunc) {
+            const toks = raw.split(/\s+/);
+            out.push(toks[toks.length - 1]);
+        } else {
+            out.push('p' + posIdx++);
+        }
+    }
+    return out;
 }
 
 // ========== HSP3 (hsp3net) Compile Command ==========
