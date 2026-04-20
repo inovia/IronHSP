@@ -271,6 +271,68 @@ Phase 6 到達時に以下を再検討:
   <li>方針 1 期のプラグイン手書きコードは Phase 5 で <strong>生成コードに置き換わって捨てる前提</strong> で書く (繋ぎコードに投資しすぎない)</li>
 </ul>
 
+<h3>3.7 コールバック方針 (iOS / Android 制約への対処)</h3>
+<p>DxLib には <code>SetMovieSurfaceCallback</code> / サウンドストリーム / ネットワーク受信 / MV1 当たり判定など <strong>C 関数ポインタを受ける API が 10〜20 個</strong>存在する。これを HSP 側から扱う方針。</p>
+
+<h4>3.7.1 プラットフォーム制約</h4>
+<table>
+<tr><th>プラットフォーム</th><th>動的コード生成 (JIT / trampoline 実行時生成)</th><th>静的 C 関数ポインタ渡し</th></tr>
+<tr><td>Windows</td><td><span class="badge badge-ok">○</span> 自由</td><td><span class="badge badge-ok">○</span></td></tr>
+<tr><td>Android</td><td>△ NDK で <code>mprotect</code> 使えば可、ただし Android 10+ で制限強化</td><td><span class="badge badge-ok">○</span></td></tr>
+<tr><td><strong>iOS</strong></td><td><span class="badge badge-ng">✗</span> <strong>原則禁止</strong> (W^X、executable page を write できない)</td><td><span class="badge badge-ok">○</span></td></tr>
+</table>
+
+<h4>3.7.2 コールバック 3 技法と対応</h4>
+<table>
+<tr><th>技法</th><th>仕組み</th><th>iOS</th><th>Android</th><th>Win</th></tr>
+<tr><td>(a) <strong>静的スロット trampoline</strong></td><td>ビルド時に N 個の C 関数 (<code>cb_slot_0</code>, <code>cb_slot_1</code>, …) を用意、スロット ID から HSP 側ハンドラへ dispatch</td><td><span class="badge badge-ok">✅</span></td><td><span class="badge badge-ok">✅</span></td><td><span class="badge badge-ok">✅</span></td></tr>
+<tr><td>(b) 動的 trampoline 生成</td><td>実行時に機械語を書き出して関数ポインタ化 (HSP3 classic の <code>callback</code> 命令、libffi closure)</td><td><span class="badge badge-ng">❌</span></td><td>△</td><td><span class="badge badge-ok">✅</span></td></tr>
+<tr><td>(c) .NET CLR thunk</td><td>CLR が JIT で生成 (hsp3net の <code>#defcbcom</code>)</td><td><span class="badge badge-ng">❌</span> (iOS Mono は AOT 必須、JIT 不可)</td><td>△</td><td><span class="badge badge-ok">✅</span></td></tr>
+</table>
+
+<div class="ok">
+<strong>hsp3dx は (a) 静的スロット方式を採用。</strong>HSP3 classic の <code>callback</code> / hsp3net の <code>#defcbcom</code> はそのままでは iOS 動作不可。
+</div>
+
+<h4>3.7.3 静的スロット方式の具体像</h4>
+<pre><code>// ビルド時に signature family ごとに N 個事前生成 (DxLib.h パース時に自動)
+static int g_hsp_label[256];
+static void cb_slot_0(int arg0, int arg1) {
+    VM_CallHspLabel(g_hsp_label[0], arg0, arg1);
+}
+static void cb_slot_1(int arg0, int arg1) { ... }
+/* ... cb_slot_255 まで ... */
+
+static void (*trampolines[256])(int,int) = {
+    cb_slot_0, cb_slot_1, /* ... */, cb_slot_255
+};</code></pre>
+<p>HSP 側:</p>
+<pre><code>dx_set_callback_xxx *my_handler     ; プラグインが空きスロットを確保、ラベル ID を記録
+...
+*my_handler
+    ; DxLib からコールバックされたときここに来る
+    return</code></pre>
+
+<h4>3.7.4 制約と運用</h4>
+<ul>
+  <li><strong>シグネチャごとに別スロット群が必要</strong> (<code>void(int,int)</code> と <code>void(float*)</code> はスロット共有不可) → DxLib のコールバック API は 10〜20 種、5〜10 種類のシグネチャで各 256 スロット事前生成で実用十分</li>
+  <li><strong>同時登録可能数に上限あり</strong> (スロット数まで) → ゲーム用途では問題にならない</li>
+  <li><strong>スレッド安全性</strong>: DxLib 側が別スレッドから呼ぶ API では VM ロック必須 (VM を呼ぶ前に mutex 取得)</li>
+</ul>
+
+<h4>3.7.5 Phase 対応</h4>
+<table>
+<tr><th>Phase</th><th>コールバック対応</th></tr>
+<tr><td>Phase 1 (MVP 40 関数)</td><td>コールバック不使用、スキップ</td></tr>
+<tr><td>Phase 5 (API 拡張)</td><td>静的スロット trampoline 導入、5 シグネチャ × 256 スロット程度で初期実装</td></tr>
+<tr><td>Phase 6 (3D / 動画)</td><td><code>SetMovieSurfaceCallback</code> など本命コールバック対応</td></tr>
+</table>
+
+<h4>3.7.6 §3.2 の <code>#defcbcom</code> 記述の補足</h4>
+<div class="note">
+§3.2 の型機構比較表では「<code>#defcbcom</code> は DxLib では概ね不要」と書いたが、これは <strong>CLR thunk 方式の <code>#defcbcom</code> そのものは mobile で動かないので流用できない</strong> 意味であり、コールバック機能自体が不要ではない。hsp3dx では代わりに <strong><code>#defcallback</code> (仮称) + 静的スロット方式</strong> を自前で用意する。
+</div>
+
 <!-- ======================================== -->
 <h2 id="plugins">4. プラグイン方針</h2>
 

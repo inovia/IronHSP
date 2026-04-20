@@ -158,6 +158,72 @@ DxLib の 2000 関数を手書きで `#deffunc` / `#cfunc` 定義するのは非
 - **Phase 6 自動生成**: 方針 3 ベース (NSTRUCT 対応済、構造体そのまま渡せる)
 - 方針 1 期のプラグイン手書きコードは Phase 5 で **生成コードに置き換わって捨てる前提** で書く (繋ぎコードに投資しすぎない)
 
+### 3.7 コールバック方針 (iOS / Android 制約への対処)
+
+DxLib には `SetMovieSurfaceCallback` / サウンドストリーム / ネットワーク受信 / MV1 当たり判定など **C 関数ポインタを受ける API が 10〜20 個** 存在する。これを HSP 側から扱う方針。
+
+#### 3.7.1 プラットフォーム制約
+
+| プラットフォーム | 動的コード生成 (JIT / trampoline 実行時生成) | 静的 C 関数ポインタ渡し |
+|---|---|---|
+| Windows | ○ 自由 | ○ |
+| Android | △ NDK で `mprotect` 使えば可、ただし Android 10+ で制限強化 | ○ |
+| **iOS** | **✗ 原則禁止** (W^X、executable page を write できない) | ○ |
+
+#### 3.7.2 コールバック 3 技法と対応
+
+| 技法 | 仕組み | iOS | Android | Win |
+|---|---|---|---|---|
+| (a) **静的スロット trampoline** | ビルド時に N 個の C 関数 (`cb_slot_0`, `cb_slot_1`, …) を用意し、スロット ID から HSP 側ハンドラへ dispatch | ✅ | ✅ | ✅ |
+| (b) 動的 trampoline 生成 | 実行時に機械語を書き出して関数ポインタ化 (HSP3 classic の `callback` 命令、libffi closure) | ❌ | △ | ✅ |
+| (c) .NET CLR thunk | CLR が JIT で生成 (hsp3net の `#defcbcom`) | ❌ (iOS Mono は AOT 必須、JIT 不可) | △ | ✅ |
+
+**hsp3dx は (a) 静的スロット方式を採用**。HSP3 classic の `callback` / hsp3net の `#defcbcom` はそのままでは iOS 動作不可。
+
+#### 3.7.3 静的スロット方式の具体像
+
+```cpp
+// ビルド時に signature family ごとに N 個事前生成 (DxLib.h パース時に自動)
+static int g_hsp_label[256];
+static void cb_slot_0(int arg0, int arg1) {
+    VM_CallHspLabel(g_hsp_label[0], arg0, arg1);
+}
+static void cb_slot_1(int arg0, int arg1) { ... }
+/* ... cb_slot_255 まで ... */
+
+static void (*trampolines[256])(int,int) = {
+    cb_slot_0, cb_slot_1, /* ... */, cb_slot_255
+};
+```
+
+HSP 側:
+
+```hsp
+dx_set_callback_xxx *my_handler     ; プラグインが空きスロットを確保、ラベル ID を記録
+...
+*my_handler
+    ; DxLib からコールバックされたときここに来る
+    return
+```
+
+#### 3.7.4 制約と運用
+
+- **シグネチャごとに別スロット群が必要** (`void(int,int)` と `void(float*)` はスロット共有不可) → DxLib のコールバック API は 10〜20 種、5〜10 種類のシグネチャで各 256 スロット事前生成で実用十分
+- **同時登録可能数に上限あり** (スロット数まで) → ゲーム用途では問題にならない
+- **スレッド安全性**: DxLib 側が別スレッドから呼ぶ API では VM ロック必須 (VM を呼ぶ前に mutex 取得)
+
+#### 3.7.5 Phase 対応
+
+| Phase | コールバック対応 |
+|---|---|
+| Phase 1 (MVP 40 関数) | コールバック不使用、スキップ |
+| Phase 5 (API 拡張) | 静的スロット trampoline 導入、5 シグネチャ × 256 スロット程度で初期実装 |
+| Phase 6 (3D / 動画) | `SetMovieSurfaceCallback` など本命コールバック対応 |
+
+#### 3.7.6 §3.2 の `#defcbcom` 記述の補足
+
+§3.2 の型機構比較表では「`#defcbcom` は DxLib では概ね不要」と書いたが、これは **CLR thunk 方式の `#defcbcom` そのものは mobile で動かないので流用できない** 意味であり、コールバック機能自体が不要ではない。hsp3dx では代わりに **`#defcallback` (仮称) + 静的スロット方式** を自前で用意する。
+
 ---
 
 ## 4. プラグイン方針
