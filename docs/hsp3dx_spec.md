@@ -8,19 +8,34 @@
 
 | 項目 | 方針 |
 |---|---|
-| VM | HSP3 インタプリタをそのまま流用 (hsp3net / hsp3dish のコア) |
-| 描画 / 音声 / 入力 | すべて DxLib 経由に差し替え |
-| `.ax` バイト列 | 3 プラットフォーム共通 |
-| `.ax` 配布経路 | Win = ファイル直読み / iOS = bundle 埋め込み / Android = assets 埋め込み |
+| VM ベース | **`hsp3embed` を fork** (`HSPIOS` / `HSPNDK` 分岐が既存、mobile ビルド実績あり) |
+| 描画 / 音声 / 入力 | hgio 層を DxLib バックエンドに差し替え (`hgio_dx.cpp`) |
+| DxLib 全 API 公開 | `dxlib_core` プラグインを静的リンク (`dx_*` 命令として HSP 側に公開) |
+| `.ax` バイト列 | 3 プラットフォーム共通、**すべて VM インタプリトで実行** |
+| `.ax` 配布経路 | Win = ファイル直読み / iOS = bundle 内バイト配列 / Android = assets 内バイト配列 |
 | JIT | なし (インタプリト実行、iOS 禁止のため) |
 | ポインタ幅 | 64bit 固定 (`#bootopt hsp64 1` 既定) |
 | 文字コード | UTF-8 固定 (3 プラットフォーム共通) |
 
-### HSP3Dish との差別化ポイント
+### HSP3Dish との差別化ポイント (4 点)
 
-- **DxLib の豊富な API** をそのまま呼べる (3D / エフェクト / 動画再生 / ネットワークなど 2000 関数超)
-- DxLib 既存ユーザーの資産移行パス
-- DxLib 公式 mobile サポートに乗るので、プラットフォーム追随コストを DxLib 側に委譲
+1. **真の "同一 `.ax` が 3 プラットフォームで同じ VM で走る"**
+   HSP3Dish mobile は `hsp3cnv` で `.ax → C++` AOT 翻訳して native ビルドするため、Win (interpret) と mobile (AOT native) で実行コードパスが違う。hsp3dx は全プラットフォームで VM インタプリタ統一のため、**挙動再現性が高い** (Win で出たバグは mobile でも同じ VM で再現)。
+2. **DxLib の豊富な API** をそのまま呼べる (3D / エフェクト / 動画再生 / ネットワークなど 2000 関数超、HSP3Dish は 2D + 簡易 3D のみ)
+3. **DxLib 既存ユーザーの資産移行パス**
+4. **新命令追加時に翻訳ルール不要** (hsp3cnv に HSP→C++ 翻訳ルール追加が要らない、プラグイン側の命令表だけでよい)
+
+### Route B を採用した理由 (Route A との比較)
+
+| 項目 | Route A (hsp3dish AOT 方式) | **Route B (全 VM interpret) ← 採用** |
+|---|---|---|
+| Win 実行 | インタプリタ | インタプリタ |
+| Mobile 実行 | hsp3cnv で AOT、native 実行 | VM がインタプリト |
+| 挙動一致性 | 翻訳バグの可能性 | 完全一致 |
+| Mobile 性能 | ★★★ (native) | ★★ (interpret) |
+| 新命令追加コスト | 翻訳ルール + plugin 両方 | plugin のみ |
+| 実装ベース | hsp3dish fork | `hsp3embed` fork |
+| hsp3dish との差別化 | 薄い | **明確** |
 
 ---
 
@@ -155,19 +170,28 @@ your_game.hsp  →  hspcmp (#cmpopt utf8 1, #bootopt hsp64 1)  →  start.ax
 ```
 your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-              hsp3dx_cnv  →  start.cpp (const unsigned char ax_data[] = { ... })
+              hsp3dx_cnv (単純バイト配列化)  →  start.cpp:
+                                                 const uint8_t ax_data[] = { 0x48, 0x53, ... };
+                                                 const size_t  ax_size   = N;
                               ↓
-            Xcode project + libhsp3dx.a + DxLib iOS lib + start.cpp  →  .ipa
+      Xcode project + libhsp3dx.a (hsp3embed VM + hgio_dx + dxlib_core) + DxLib iOS lib + start.cpp
+                              ↓
+                             .ipa
 ```
+
+起動時に `libhsp3dx` が `VM_Run(ax_data, ax_size)` を呼ぶ形でインタプリト実行。
+`hsp3cnv` のような HSP→C++ AOT 翻訳は**行わない**。
 
 ### 5.3 Android
 
 ```
 your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-              hsp3dx_cnv  →  start.cpp
+              hsp3dx_cnv (単純バイト配列化)  →  start.cpp
                               ↓
-          Android Studio + libhsp3dx.so + DxLib Android lib + start.cpp  →  .apk
+     Android Studio + libhsp3dx.so (hsp3embed VM + hgio_dx + dxlib_core) + DxLib Android lib + start.cpp
+                              ↓
+                             .apk / .aab
 ```
 
 ### 5.4 共通アセットパッケージング
@@ -220,8 +244,8 @@ tools/
 
 ## 8. 未確定事項 (Phase 1 着手時に決める)
 
-- [ ] VM ソースは `hsp3net` を fork するか `hsp3dish` を fork するか
-  - 候補: `hsp3dish` — cross-platform すでに対応済、hgio 層を差し替えるだけ
+- [x] ~~VM ソースは `hsp3net` を fork するか `hsp3dish` を fork するか~~
+  → **`hsp3embed` を fork** で確定 (`HSPIOS`/`HSPNDK` 条件コンパイルが既存、mobile ビルド実績あり)
 - [ ] DxLib SDK の取得方法 (公式配布 zip / Git submodule)
 - [ ] DxLib ライセンス条項確認 (再配布可否)
 - [ ] プラグイン ID テーブルの設計 (HSP 命令 ID 付与ルール)

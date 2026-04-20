@@ -69,45 +69,70 @@
 
 <table>
 <tr><th>項目</th><th>方針</th></tr>
-<tr><td>VM</td><td>HSP3 インタプリタをそのまま流用 (hsp3dish fork が第一候補)</td></tr>
-<tr><td>描画 / 音声 / 入力</td><td>すべて DxLib 経由に差し替え (hgio 層を DxLib バックエンドで実装)</td></tr>
-<tr><td><code>.ax</code> バイト列</td><td>3 プラットフォーム共通</td></tr>
-<tr><td><code>.ax</code> 配布経路</td><td>Win = ファイル直読み / iOS = bundle 埋め込み / Android = assets 埋め込み</td></tr>
+<tr><td>VM ベース</td><td><strong><code>hsp3embed</code> を fork</strong> (<code>HSPIOS</code> / <code>HSPNDK</code> 分岐が既存、mobile ビルド実績あり)</td></tr>
+<tr><td>描画 / 音声 / 入力</td><td>hgio 層を DxLib バックエンドに差し替え (<code>hgio_dx.cpp</code>)</td></tr>
+<tr><td>DxLib 全 API 公開</td><td><code>dxlib_core</code> プラグインを静的リンク (<code>dx_*</code> 命令として HSP 側に公開)</td></tr>
+<tr><td><code>.ax</code> バイト列</td><td>3 プラットフォーム共通、<strong>すべて VM インタプリトで実行</strong></td></tr>
+<tr><td><code>.ax</code> 配布経路</td><td>Win = ファイル直読み / iOS = bundle 内バイト配列 / Android = assets 内バイト配列</td></tr>
 <tr><td>JIT</td><td>なし (インタプリト実行、iOS 禁止のため)</td></tr>
 <tr><td>ポインタ幅</td><td>64bit 固定 (<code>#bootopt hsp64 1</code> 既定)</td></tr>
 <tr><td>文字コード</td><td>UTF-8 固定 (3 プラットフォーム共通)</td></tr>
 </table>
 
-<h3>HSP3Dish との差別化ポイント</h3>
-<ul>
-  <li><strong>DxLib の豊富な API</strong> をそのまま呼べる (3D / エフェクト / 動画再生 / ネットワークなど 2000 関数超)</li>
-  <li>DxLib 既存ユーザーの資産移行パスを提供</li>
-  <li>DxLib 公式 mobile サポートに乗るので、プラットフォーム追随コストを DxLib 側に委譲できる</li>
-</ul>
+<h3>HSP3Dish との差別化ポイント (4 点)</h3>
+<ol>
+  <li><strong>真の "同一 <code>.ax</code> が 3 プラットフォームで同じ VM で走る"</strong><br>
+  HSP3Dish mobile は <code>hsp3cnv</code> で <code>.ax → C++</code> AOT 翻訳して native ビルドするため、Win (interpret) と mobile (AOT native) で実行コードパスが違う。hsp3dx は全プラットフォームで VM インタプリタ統一のため、<strong>挙動再現性が高い</strong> (Win で出たバグは mobile でも同じ VM で再現)。</li>
+  <li><strong>DxLib の豊富な API</strong> をそのまま呼べる (3D / エフェクト / 動画再生 / ネットワークなど 2000 関数超、HSP3Dish は 2D + 簡易 3D のみ)</li>
+  <li><strong>DxLib 既存ユーザーの資産移行パス</strong></li>
+  <li><strong>新命令追加時に翻訳ルール不要</strong> (hsp3cnv に HSP→C++ 翻訳ルール追加が要らない、プラグイン側の命令表だけでよい)</li>
+</ol>
 
-<h3>hgio 差し替え戦略</h3>
+<h3>Route B を採用した理由 (Route A との比較)</h3>
+<table>
+<tr><th>項目</th><th>Route A (hsp3dish AOT 方式)</th><th>Route B (全 VM interpret) <span class="badge badge-ok">採用</span></th></tr>
+<tr><td>Win 実行</td><td>インタプリタ</td><td>インタプリタ</td></tr>
+<tr><td>Mobile 実行</td><td><code>hsp3cnv</code> で AOT、native 実行</td><td>VM がインタプリト</td></tr>
+<tr><td>挙動一致性</td><td>翻訳バグの可能性</td><td>完全一致</td></tr>
+<tr><td>Mobile 性能</td><td>★★★ (native)</td><td>★★ (interpret)</td></tr>
+<tr><td>新命令追加コスト</td><td>翻訳ルール + plugin 両方</td><td>plugin のみ</td></tr>
+<tr><td>実装ベース</td><td>hsp3dish fork</td><td><code>hsp3embed</code> fork</td></tr>
+<tr><td>hsp3dish との差別化</td><td>薄い</td><td><strong>明確</strong></td></tr>
+</table>
+
+<h3>ランタイム構成と hgio 差し替え戦略</h3>
 <p><strong>hgio</strong> = HSP Graphics I/O。HSP3Dish が導入した描画/音声/入力の抽象層で、VM からは統一 C++ 関数群 (<code>hgio_init</code> / <code>hgio_render_start</code> / <code>hgio_gsel</code> など) だけが見える。プラットフォーム別実装を差し替えることでマルチプラットフォーム化する設計。</p>
 
-<div class="ascii-diagram">HSP3 VM
-  │ (hgio.h に定義された統一インタフェース)
-  ▼
-┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────────┐
-│hgio_win │  │hgio_ios │  │hgio_ndk │  │hgio_linux│  │hgio_emscripten│  ← 既存 HSP3Dish
-│ DX/GL   │  │GLES/Metal│  │ GLES    │  │  GL      │  │  WebGL        │
-└─────────┘  └─────────┘  └─────────┘  └─────────┘  └─────────────┘
+<div class="ascii-diagram">hsp3dx ランタイム (libhsp3dx / hsp3dx.exe) の内部構成
+════════════════════════════════════════════════════════
 
-                             ▼ hsp3dx で追加
+  HSP ユーザーコード (.hsp)  →  hspcmp  →  .ax バイト列
+                                             │
+                                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  hsp3embed VM (HSP3 インタプリタ)             │
+│                  ※ Win / iOS / Android 共通                  │
+└─────────────┬───────────────────────────────┬───────────────┘
+              │                               │
+   HSP 標準命令 (mes/pset/redraw/getkey)   dx_* プラグイン命令
+              │                               │
+              ▼                               ▼
+┌─────────────────────────┐   ┌─────────────────────────────┐
+│   hgio_dx.cpp           │   │   dxlib_core プラグイン     │
+│   (HSP stdlib → DxLib)  │   │   (dx_drawmodel など 2000)  │
+│   約 30 関数            │   │   DxLib 全 API を直接公開   │
+└──────────┬──────────────┘   └──────────┬──────────────────┘
+           │                             │
+           └──────────────┬──────────────┘
+                          ▼
+              ┌──────────────────────┐
+              │   DxLib API          │
+              │   (Win/iOS/Android)  │
+              └──────────────────────┘</div>
 
-                       ┌─────────────┐
-                       │  hgio_dx    │   ← 全プラットフォーム共通
-                       │  DxLib API  │
-                       └─────────────┘
-                         │      │      │
-                         ▼      ▼      ▼
-                       Win    iOS   Android
-                     (DxLib_*.lib が各プラットフォームで提供)</div>
+<p>hsp3dx では <code>hgio_dx.cpp</code> を新規に書いて <code>hgio_init</code> → <code>DxLib_Init</code>、<code>hgio_render_start</code> → <code>ClearDrawScreen</code>、のように DxLib API に転送する。<strong>VM 側 (hsp3embed) は一切触らない</strong>。</p>
 
-<p>hsp3dx では <code>hgio_dx.cpp</code> を新規に書いて <code>hgio_init</code> → <code>DxLib_Init</code>、<code>hgio_render_start</code> → <code>ClearDrawScreen</code>、のように DxLib API に転送する。<strong>VM 側は一切触らない</strong>。</p>
+<p>さらに DxLib の 2000 関数を <code>dx_*</code> 命令として HSP 側に公開する <strong>dxlib_core プラグイン</strong> を別途静的リンクする。これにより (a) 既存 HSP コード (<code>mes</code> など) の互換性 と (b) DxLib 全 API フルアクセス の両立。</p>
 
 <!-- ======================================== -->
 <h2 id="commands">2. HSP コマンド分類</h2>
@@ -248,16 +273,23 @@ hsp3dx_sjis2utf8 --dir path\to\project --dry-run</code></pre>
 <h3>5.2 iOS</h3>
 <div class="ascii-diagram">your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-              hsp3dx_cnv  →  start.cpp (const unsigned char ax_data[] = { ... })
+          hsp3dx_cnv (単純バイト配列化)  →  start.cpp:
+                                             const uint8_t ax_data[] = { 0x48, 0x53, ... };
+                                             const size_t  ax_size   = N;
                               ↓
-            Xcode project + libhsp3dx.a + DxLib iOS lib + start.cpp  →  .ipa</div>
+  Xcode project + libhsp3dx.a (hsp3embed VM + hgio_dx + dxlib_core) + DxLib iOS lib + start.cpp
+                              ↓
+                             .ipa</div>
+<p>起動時に <code>libhsp3dx</code> が <code>VM_Run(ax_data, ax_size)</code> を呼ぶ形でインタプリト実行。<code>hsp3cnv</code> のような HSP→C++ AOT 翻訳は<strong>行わない</strong>。</p>
 
 <h3>5.3 Android</h3>
 <div class="ascii-diagram">your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-              hsp3dx_cnv  →  start.cpp
+          hsp3dx_cnv (単純バイト配列化)  →  start.cpp
                               ↓
-          Android Studio + libhsp3dx.so + DxLib Android lib + start.cpp  →  .apk</div>
+ Android Studio + libhsp3dx.so (hsp3embed VM + hgio_dx + dxlib_core) + DxLib Android lib + start.cpp
+                              ↓
+                             .apk / .aab</div>
 
 <h3>5.4 共通アセットパッケージング</h3>
 <p><code>.ax</code> 以外の素材 (画像 / 音声 / フォント) は <code>hsp3dx_pack</code> ツール (Phase 2) で<strong>仮想 FS</strong> に固める。ランタイムはプラットフォーム問わず同じ API で素材にアクセス可能。</p>
@@ -306,8 +338,8 @@ tools/
 <h2 id="pending">8. 未確定事項 (Phase 1 着手時に決める)</h2>
 
 <ul>
-  <li>VM ソースは <code>hsp3net</code> を fork するか <code>hsp3dish</code> を fork するか
-    <ul><li>第一候補: <code>hsp3dish</code> — cross-platform 対応済、hgio 層を差し替えるだけで済む</li></ul>
+  <li><del>VM ソースは <code>hsp3net</code> を fork するか <code>hsp3dish</code> を fork するか</del>
+    → <strong><code>hsp3embed</code> を fork で確定</strong> (<code>HSPIOS</code>/<code>HSPNDK</code> 条件コンパイルが既存、mobile ビルド実績あり)
   </li>
   <li>DxLib SDK の取得方法 (公式配布 zip / Git submodule)</li>
   <li>DxLib ライセンス条項確認 (再配布可否)</li>
