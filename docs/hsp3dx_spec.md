@@ -8,7 +8,7 @@
 
 | 項目 | 方針 |
 |---|---|
-| VM ベース | **`hsp3embed` を fork** (`HSPIOS` / `HSPNDK` 分岐が既存、mobile ビルド実績あり) |
+| VM ベース | **`hsp3/` コア (`Hsp3` クラス) を fork** (`Hsp3::Reset()` が runtime で .ax を読み込み、HSPHED 解析まで自己完結。標準の `hsp3cl.exe` が採用している方式) |
 | 描画 / 音声 / 入力 | hgio 層を DxLib バックエンドに差し替え (`hgio_dx.cpp`) |
 | DxLib 全 API 公開 | `dxlib_core` プラグインを静的リンク (`dx_*` 命令として HSP 側に公開) |
 | `.ax` バイト列 | 3 プラットフォーム共通、**すべて VM インタプリトで実行** |
@@ -34,7 +34,7 @@
 | 挙動一致性 | 翻訳バグの可能性 | 完全一致 |
 | Mobile 性能 | ★★★ (native) | ★★ (interpret) |
 | 新命令追加コスト | 翻訳ルール + plugin 両方 | plugin のみ |
-| 実装ベース | hsp3dish fork | `hsp3embed` fork |
+| 実装ベース | hsp3dish fork | **`hsp3/` コア fork** (Hsp3 クラス、`Hsp3::Reset()` が runtime ロード担当) |
 | hsp3dish との差別化 | 薄い | **明確** |
 
 ---
@@ -142,11 +142,19 @@ DxLib は **float / 構造体 / 構造体配列** を多用するため、段階
 | Phase 4-5 (API 40 → 500) | **方針 2** | `#cfuncf` 追加、float 精度必要な API が増える |
 | **Phase 6** (3D / 動画) | **方針 3** | NSTRUCT / cfuncst 移植、MATRIX / VERTEX3D を touch する段階 |
 
-### 3.5 長期ベース判断 (Phase 6 入りで再考)
+### 3.5 長期ベース判断 (Phase 1.1 で前倒し確定 / Phase 6 で再々考)
 
-Phase 6 到達時に以下を再検討:
+Phase 1.1 着手時点で、当初予定の `hsp3embed` fork は不適と判明:
 
-- `hsp3embed` を hsp3net 系に寄せて進化させるか
+- `hsp3embed` の `Hsp3r` クラスは `__HspInit(Hsp3r*)` を **hsp3cnv が .ax ごとに自動生成** する前提
+- これは AOT 翻訳モデル専用で、Route B (runtime .ax interpret) と本質的に非互換
+- 標準の `hsp3cl.exe` は `hsp3/` コアの `Hsp3` クラスを使い、`Hsp3::Reset()` で runtime .ax ロード
+
+**Phase 1.1 確定: VM ベースは `hsp3/` コア (`Hsp3` クラス)**。`hsp3embed` は採用しない。
+
+Phase 6 (NSTRUCT / cfuncst 必要) 到達時に再々考する項目:
+
+- `hsp3net` の型拡張機構 (NSTRUCT / cfuncf / cfuncst) を `hsp3/` コアに移植するか
 - いっそ `hsp3net` を fork して DxLib プラグインだけ追加する方針に切り替えるか
 - 両方メンテするのは現実的でないので、**Phase 6 時点で系統統合の判断** をする
 
@@ -315,7 +323,7 @@ your_game.hsp  →  hspcmp  →  start.ax
                                                  const uint8_t ax_data[] = { 0x48, 0x53, ... };
                                                  const size_t  ax_size   = N;
                               ↓
-      Xcode project + libhsp3dx.a (hsp3embed VM + hgio_dx + dxlib_core) + DxLib iOS lib + start.cpp
+      Xcode project + libhsp3dx.a (hsp3 VM (Hsp3) + hgio_dx + dxlib_core) + DxLib iOS lib + start.cpp
                               ↓
                              .ipa
 ```
@@ -330,7 +338,7 @@ your_game.hsp  →  hspcmp  →  start.ax
                               ↓
               hsp3dx_cnv (単純バイト配列化)  →  start.cpp
                               ↓
-     Android Studio + libhsp3dx.so (hsp3embed VM + hgio_dx + dxlib_core) + DxLib Android lib + start.cpp
+     Android Studio + libhsp3dx.so (hsp3 VM (Hsp3) + hgio_dx + dxlib_core) + DxLib Android lib + start.cpp
                               ↓
                              .apk / .aab
 ```
@@ -386,9 +394,14 @@ tools/
 ## 9. 未確定事項 (Phase 1 着手時に決める)
 
 - [x] ~~VM ソースは `hsp3net` を fork するか `hsp3dish` を fork するか~~
-  → **`hsp3embed` を fork** で確定 (`HSPIOS`/`HSPNDK` 条件コンパイルが既存、mobile ビルド実績あり)
-- [ ] DxLib SDK の取得方法 (公式配布 zip / Git submodule)
-- [ ] DxLib ライセンス条項確認 (再配布可否)
+  → Phase 0 時点では `hsp3embed` fork で合意
+- [x] ~~`hsp3embed` を fork~~
+  → **Phase 1.1 で訂正: `hsp3/` コア (`Hsp3` クラス) を fork で確定**
+  理由: `hsp3embed` の `Hsp3r::Reset()` は `__HspInit(Hsp3r*)` (hsp3cnv が .ax ごとに自動生成) に
+  依存しており、Route B (runtime .ax interpret) 方式と非互換。`hsp3/` の `Hsp3::Reset(int mode)`
+  は runtime に .ax を読み込んで HSPHED 解析まで自己完結する。参考実装は `hsp3/win32/hsp3cl.cpp`
+- [x] DxLib SDK の取得方法 → 公式配布 zip を各自 DL (リポジトリ非含有、`.gitignore` 管理)
+- [x] DxLib ライセンス条項確認 → 商用 OK / ライセンス料なし / 再配布時は著作権表記必須
 - [ ] プラグイン ID テーブルの設計 (HSP 命令 ID 付与ルール)
 - [ ] `sdim` のバイト数自動調整をランタイム側で行うか (互換性のため)
 - [ ] `hsp3dx` 独自の拡張命令 (`dx_*` prefix) を `iron_dxlib.hsp` に畳み込むか、ランタイム組み込みにするか

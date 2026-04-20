@@ -1,71 +1,61 @@
 //
-//  main.cpp — hsp3dx.exe Windows エントリポイント (Phase 1.0 スケルトン)
+//  main.cpp — hsp3dx.exe Windows エントリポイント (Phase 1.1)
 //
 //  処理の流れ:
-//    1. コマンドライン引数 or 同ディレクトリの start.ax を読み込み
+//    1. コマンドライン引数 or カレントディレクトリの start.ax をパスとして決定
 //    2. hgio_dx_init で DxLib 初期化 (UTF-8 固定)
-//    3. hsp3embed VM を init し、.ax を食わせる
-//    4. メインループ: ProcessMessage → render_start → VM 実行 (1 フレーム分)
-//                    → render_end → ループ
-//    5. 終了時 hgio_dx_term
-//
-//  Phase 1.1 で VM の実際の実行ドライブを実装する。現状はスケルトン。
+//    3. hsp3dxcl_init で HSP3 VM 起動 + .ax ロード
+//    4. メインループ:
+//       - ProcessMessage → ウィンドウ閉じ要求で終了
+//       - render_start → VM 実行 (hsp3dxcl_exec を 1 回) → render_end
+//       - VM が終了 (RUNMODE_END) したら ESC 押下まで待機
+//    5. 終了処理
 //
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "hgio_dx.h"
-#include "DxLib.h"                           // KEY_INPUT_ESCAPE などの定数用
-// #include "../../hsp3embed/hsp3embed.h"     // Phase 1.1 で有効化
-
-static int LoadAx( const char *path, unsigned char **out_buf, size_t *out_len )
-{
-    FILE *fp = fopen( path, "rb" );
-    if ( !fp ) return -1;
-    fseek( fp, 0, SEEK_END );
-    long sz = ftell( fp );
-    fseek( fp, 0, SEEK_SET );
-    unsigned char *buf = (unsigned char *)malloc( sz );
-    if ( !buf ) { fclose( fp ); return -2; }
-    fread( buf, 1, sz, fp );
-    fclose( fp );
-    *out_buf = buf;
-    *out_len = (size_t)sz;
-    return 0;
-}
+#include "hsp3dxcl.h"
+#include "DxLib.h"
 
 int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR cmdline, int )
 {
+    //  ---- .ax パス決定 ----
     const char *ax_path = ( cmdline && cmdline[0] ) ? cmdline : "start.ax";
 
-    unsigned char *ax_buf = nullptr;
-    size_t         ax_len = 0;
-    if ( LoadAx( ax_path, &ax_buf, &ax_len ) != 0 ) {
-        MessageBoxA( nullptr, "start.ax が見つかりません", "hsp3dx", MB_OK );
-        return 1;
-    }
-
+    //  ---- DxLib 初期化 ----
     if ( hgio_dx_init( 0, 640, 480, nullptr ) != 0 ) {
-        MessageBoxA( nullptr, "DxLib 初期化失敗", "hsp3dx", MB_OK );
-        free( ax_buf );
+        MessageBoxA( nullptr, "DxLib 初期化失敗", "hsp3dx", MB_OK | MB_ICONERROR );
         return 2;
     }
 
-    // TODO (Phase 1.1):
-    //   hsp3eb_init();
-    //   hsp3eb_load_ax( ax_buf, ax_len );
-    //   hsp3eb_execstart();
-    //   メインループで hsp3eb_exectime(16) を呼びつつ hgio_dx_render_* で挟む
+    //  ---- HSP3 VM 起動 + .ax ロード ----
+    if ( hsp3dxcl_init( ax_path ) != 0 ) {
+        char buf[1024];
+        snprintf( buf, sizeof(buf), "start.ax の読み込みに失敗しました\npath=%s", ax_path );
+        MessageBoxA( nullptr, buf, "hsp3dx", MB_OK | MB_ICONERROR );
+        hgio_dx_term();
+        return 1;
+    }
 
-    // Phase 1.0 暫定: ESC が押されるまで空ループ
+    //  ---- メインループ ----
+    //  hsp3dxcl_exec() は VM が end / stop に到達するまで内部で回る。
+    //  その前に wait/await に入れば msgfunc (hsp3dxcl 側) で制御が戻ってくる。
+    //  Phase 1.1 は VM 実行と描画のサイクルがまだ完全統合されていないので、
+    //  VM を 1 回走らせて終わり → あとは ESC 待ちの単純ループ。
+    //  Phase 1.2 以降で redraw / await と ScreenFlip を同期させる。
+
+    int vm_result = hsp3dxcl_exec();
+
     while ( hgio_dx_process_message() == 0 ) {
         hgio_dx_render_start();
-        // TODO: VM 1 フレーム実行
+        //  TODO (Phase 1.2): dx_drawstring で "VM終了" 表示などを入れる
         hgio_dx_render_end();
         if ( hgio_dx_getkey( KEY_INPUT_ESCAPE ) ) break;
     }
 
+    hsp3dxcl_bye();
     hgio_dx_term();
-    free( ax_buf );
-    return 0;
+    return vm_result;
 }

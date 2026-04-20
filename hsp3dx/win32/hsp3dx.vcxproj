@@ -64,7 +64,7 @@
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>
-        _HSP64;HSP3DX;WIN32;_WINDOWS;
+        _HSP64;HSP64;HSP3DX;HSPWIN;HSPUTF8;UNICODE;_UNICODE;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;
         %(PreprocessorDefinitions)
       </PreprocessorDefinitions>
       <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
@@ -95,12 +95,40 @@
   </ItemDefinitionGroup>
 
   <ItemGroup>
-    <!-- Phase 1.0: アプリシェル + hgio_dx だけ。VM (hsp3embed) は Phase 1.1 で追加 -->
+    <!-- hsp3dx アプリシェル + hgio_dx -->
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\hgio_dx.cpp" />
+    <ClCompile Include="..\src\hsp3dxcl.cpp" />
+    <ClCompile Include="..\src\hsp3dx_stubs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\hgio_dx.h" />
+    <ClInclude Include="..\src\hsp3dxcl.h" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- HSP3 VM コア (Phase 1.1: hsp3/ 配下の platform-agnostic ソース 19 ファイル) -->
+    <ClCompile Include="..\..\hsp3\hsp3.cpp" />
+    <ClCompile Include="..\..\hsp3\hsp3code.cpp" />
+    <ClCompile Include="..\..\hsp3\hsp3crypt.cpp" />
+    <ClCompile Include="..\..\hsp3\hsp3debug.cpp" />
+    <ClCompile Include="..\..\hsp3\hsp3int.cpp" />
+    <ClCompile Include="..\..\hsp3\hsp3utfcnv.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_core.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_double.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_int.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_int64.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_label.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_str.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_struct.cpp" />
+    <ClCompile Include="..\..\hsp3\hspvar_wstr.cpp" />
+    <ClCompile Include="..\..\hsp3\stack.cpp" />
+    <ClCompile Include="..\..\hsp3\strbuf.cpp" />
+    <ClCompile Include="..\..\hsp3\strnote.cpp" />
+    <ClCompile Include="..\..\hsp3\dpmread.cpp" />
+    <ClCompile Include="..\..\hsp3\filepack.cpp" />
+    <!-- プラットフォーム依存 I/O ユーティリティ (Win+UTF8 版) -->
+    <ClCompile Include="..\..\hsp3\win32gui\supio_win_unicode.cpp" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

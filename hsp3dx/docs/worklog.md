@@ -6,7 +6,51 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-20 (初日: Phase 0 全走破 + Phase 1.0 起点)
+## 2026-04-20 (初日: Phase 0 全走破 + Phase 1.0 起点 + Phase 1.1 VM 統合)
+
+### (これから commit) @ 20:59 — Phase 1.1: hsp3 VM コア統合 + hsp3dxcl ドライバ
+
+**やったこと**
+- **設計訂正**: VM ベースを `hsp3embed` fork から **`hsp3/` コア (`Hsp3` クラス) fork** に変更
+  - 根拠: `hsp3embed` の `Hsp3r::Reset()` は `__HspInit(Hsp3r*)` を **hsp3cnv が .ax ごとに
+    自動生成** する前提で、AOT 翻訳モデル専用。Route B (runtime .ax interpret) と非互換
+  - `hsp3/` の `Hsp3::Reset(int mode)` は runtime で `.ax` ファイルを読み込んで HSPHED 解析
+    まで自己完結。標準 `hsp3cl.exe` が採用している方式
+  - 仕様書 §1 / §3.5 / §6.2 / §6.3 / §9 を訂正、MD/HTML 両方
+- **vcxproj 更新**: `hsp3/` コアの 19 ファイル + `win32gui/supio_win_unicode.cpp` を追加
+- **`hsp3dxcl.{h,cpp}` 新規作成** — `hsp3/win32/hsp3cl.cpp` を参考に、COM / ComCtrl /
+  Win32 MessagePump / Debug Dialog / DLL ロードを削った cross-platform ミニマル版:
+  - `Hsp3` インスタンス管理
+  - `Hsp3::Reset()` で .ax ロード
+  - `msgfunc` は tick ベース wait のみ (PeekMessage 依存なし)
+  - `code_execcmd()` を呼ぶ実行ループ
+- **`hsp3dx_stubs.cpp` 新規作成** — `hsp3typeinit_cl_extcmd` / `hsp3typeinit_cl_extfunc` の
+  空実装 (Phase 1.2 で mes / wait / await 等を実装予定)
+- **`main.cpp` 書き直し** — DxLib init → VM init + .ax ロード → VM 実行 → ESC 待ち → 終了
+- **Preprocessor 追加**: `HSP64` / `HSPWIN` / `HSPUTF8` / `UNICODE` / `_UNICODE` /
+  `_CRT_SECURE_NO_WARNINGS`
+- **ビルド成功**: `hsp3dx.exe` 6.94 MB (Phase 1.0 比 +150 KB = hsp3 VM コア 19 ファイル分)
+
+**詰まりどころ**
+- 初回ビルドで `supio_win_unicode.cpp` に大量の `wchar_t → char` 変換エラー
+  → 原因: `UNICODE` / `_UNICODE` マクロが未定義だったため TCHAR マクロが ANSI 版 API に展開
+    されていた。`hsp3utfcnv.cpp` / `dpmread.cpp` でも同様
+  → 対策: preprocessor に `UNICODE;_UNICODE` 追加で `_wfopen` / `MessageBoxW` 等 wide 版
+    に正しく展開され、すべて解消
+
+**制約 (Phase 1.1 時点)**
+- 拡張命令 (`mes` / `wait` / `await` / `exist` など) は未実装スタブ
+  → 実際の HSP 命令を含む .ax を走らせると runtime error になる見込み
+  → Phase 1.2 で extcmd テーブルを埋めていく
+- 起動時の挙動: DxLib ウィンドウが開き、`start.ax` を読み込み試行。実行が終わったら
+  ESC で終了
+- 実動作確認 (GUI) は sandbox 環境では実行不可のため未検証。コンパイル/リンクの成功のみ確認
+
+**決めごと**
+- VM ベース確定: `hsp3/` コア、`hsp3embed` は採用しない
+- Phase 6 到達時に hsp3net 系への統合判断を再考する点は据え置き
+
+### ed9117ec @ 20:57 — DxLib SDK 配置 + Phase 1.0 の初回ビルド成功
 
 ### ed9117ec @ 20:57 — DxLib SDK 配置 + 初回ビルド成功
 
