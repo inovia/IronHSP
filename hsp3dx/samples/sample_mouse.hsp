@@ -1,0 +1,25 @@
+;============================================================
+;   sample_mouse.hsp — hsp3dx Phase 1 検証用サンプル (雛形)
+;
+;   DxLib 入力命令 (dx_getmousepoint / dx_getmouseinput) の動作確認。
+;============================================================
+#include "iron_dxlib.hsp"
+
+    dx_setgraphmode 640, 480, 32
+    dx_changewindowmode 1
+
+    repeat
+        dx_cleardrawscreen
+        dx_getmousepoint mx, my
+        btn = dx_getmouseinput()
+
+        dx_drawstring 10, 10, strf("mouse=(%d,%d)", mx, my), 0xFFFFFF
+        dx_drawstring 10, 30, strf("buttons=0x%x", btn), 0xFFFFFF
+
+        if btn & 1 : dx_drawcircle mx, my, 20, 0xFF4040, 1   ; 左クリックで赤丸
+
+        if dx_checkhitkey(1) : break
+        dx_screenflip
+        await 16
+    loop
+    end

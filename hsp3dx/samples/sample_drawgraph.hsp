@@ -1,0 +1,25 @@
+;============================================================
+;   sample_drawgraph.hsp — hsp3dx Phase 1 検証用サンプル (雛形)
+;
+;   DxLib 命令 (dx_loadgraph / dx_drawgraph / dx_screenflip) が
+;   Phase 1 で実装された後に動く想定。
+;
+;   現状 (Phase 0) は雛形で、コンパイル/実行はまだできない。
+;============================================================
+#include "iron_dxlib.hsp"
+
+    dx_setgraphmode 800, 600, 32
+    dx_setwindowtext "hsp3dx sample: drawgraph"
+    dx_changewindowmode 1
+
+    dx_loadgraph "assets/logo.png", h_logo
+
+    repeat
+        dx_cleardrawscreen
+        dx_drawgraph 100, 100, h_logo
+        dx_drawstring 10, 10, "Hello, hsp3dx! (UTF-8)", 0xFFFFFF
+        dx_screenflip
+        if dx_checkhitkey(1) : break    ; VK_ESCAPE
+        await 16
+    loop
+    end

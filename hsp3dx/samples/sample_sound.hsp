@@ -1,0 +1,26 @@
+;============================================================
+;   sample_sound.hsp — hsp3dx Phase 1 検証用サンプル (雛形)
+;
+;   DxLib 音声命令の動作確認。Phase 1 実装待ち。
+;============================================================
+#include "iron_dxlib.hsp"
+
+    dx_setgraphmode 640, 480, 32
+    dx_changewindowmode 1
+
+    dx_loadsoundmem "assets/bgm.ogg", h_bgm
+    dx_loadsoundmem "assets/se.wav",  h_se
+
+    dx_playsoundmem h_bgm, 2            ; DX_PLAYTYPE_LOOP
+    dx_setvolumesoundmem 128, h_bgm     ; 半音量
+
+    repeat
+        dx_cleardrawscreen
+        dx_drawstring 10, 10, "SPACE: play SE   ESC: quit", 0xFFFFFF
+        if dx_checkhitkey(57) : dx_playsoundmem h_se, 3    ; DX_PLAYTYPE_BACK
+        if dx_checkhitkey(1)  : break
+        dx_screenflip
+        await 16
+    loop
+    dx_stopsoundmem h_bgm
+    end
