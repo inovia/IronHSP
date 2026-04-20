@@ -1,0 +1,5 @@
+LIBRARY hsp3debug_dap
+EXPORTS
+    debugini
+    debug_notice
+    hsp3dap_check_bp

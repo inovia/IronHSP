@@ -111,8 +111,11 @@ int hsp3win_debugopen( void )
 	if ( h_dbgwin != NULL ) return 0;
 	h_dbgwin = LoadLibraryA( "hsp3debug.dll" );
 	if ( h_dbgwin != NULL ) {
-		dbgwin = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "_debugini@16" );
-		dbgnotice = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "_debug_notice@16" );
+		// x64 ではバレ名前、x86 では stdcall 装飾。両方試す。
+		dbgwin = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "debugini" );
+		if ( dbgwin == NULL ) dbgwin = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "_debugini@16" );
+		dbgnotice = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "debug_notice" );
+		if ( dbgnotice == NULL ) dbgnotice = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "_debug_notice@16" );
 		if (( dbgwin == NULL )||( dbgnotice == NULL )) h_dbgwin = NULL;
 	}
 	if ( h_dbgwin == NULL ) {

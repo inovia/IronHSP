@@ -55,6 +55,23 @@ static HSP3DEBUG dbginfo;
 static int dbgmode;
 #endif
 
+#ifdef HSP3_DAP_MODE
+// DAP ブレークポイント連携用のフック。
+// hsp3debug_dap.dll が GetProcAddress(GetModuleHandle(NULL), ...) で解決し、
+// hsp3dap_bp_count を現在の BP 数に、hsp3dap_register_bp_check に照合関数を
+// 設定する。dispatch ループは hsp3dap_bp_count > 0 の時のみ code_dbgtrace()
+// を経由して BP をチェックする。
+typedef int (*hsp3dap_bp_check_fn)(const char* file, int line);
+static hsp3dap_bp_check_fn g_hsp3dap_bp_check = 0;
+
+extern "C" __declspec(dllexport) volatile int hsp3dap_bp_count = 0;
+
+extern "C" __declspec(dllexport) void hsp3dap_register_bp_check(hsp3dap_bp_check_fn fn)
+{
+	g_hsp3dap_bp_check = fn;
+}
+#endif
+
 PVal *plugin_pval;								// プラグインに渡される変数ポインタの実態
 PVal *mpval;									// code_getで使用されたテンポラリ変数
 static PVal *mpval_int;							// code_getで使用されたテンポラリ変数(int用)
@@ -1478,7 +1495,11 @@ static int cmdfunc_gosub( unsigned short *subr )
 	//
 	while(1) {
 #ifdef HSPDEBUG
+#ifdef HSP3_DAP_MODE
+		if ( dbgmode || hsp3dap_bp_count > 0 ) code_dbgtrace();
+#else
 		if ( dbgmode ) code_dbgtrace();					// トレースモード時の処理
+#endif
 #endif
 		if ( GetTypeInfoPtr( type )->cmdfunc( val ) ) {	// タイプごとの関数振り分け
 			if ( hspctx->runmode == RUNMODE_RETURN ) {
@@ -1532,7 +1553,11 @@ static int code_callfunc( int cmd )
 	while(1) {
 
 #ifdef HSPDEBUG
+#ifdef HSP3_DAP_MODE
+		if ( dbgmode || hsp3dap_bp_count > 0 ) code_dbgtrace();
+#else
 		if ( dbgmode ) code_dbgtrace();					// トレースモード時の処理
+#endif
 #endif
 		if ( GetTypeInfoPtr( type )->cmdfunc( val ) ) {	// タイプごとの関数振り分け
 			if ( hspctx->runmode == RUNMODE_END ) {
@@ -3446,7 +3471,11 @@ rerun:
 			//stack->ResumeLevel();
 
 #ifdef HSPDEBUG
+#ifdef HSP3_DAP_MODE
+			if ( dbgmode || hsp3dap_bp_count > 0 ) code_dbgtrace();
+#else
 			if ( dbgmode ) code_dbgtrace();					// トレースモード時の処理
+#endif
 #endif
 
 #ifdef HSP_TEST_MODE
@@ -3529,7 +3558,11 @@ rerun:
 			//stack->ResumeLevel();
 
 #ifdef HSPDEBUG
+#ifdef HSP3_DAP_MODE
+			if ( dbgmode || hsp3dap_bp_count > 0 ) code_dbgtrace();
+#else
 			if ( dbgmode ) code_dbgtrace();					// トレースモード時の処理
+#endif
 #endif
 
 #ifdef HSP_TEST_MODE
@@ -4444,8 +4477,20 @@ void code_dbgtrace( void )
 	i = dbginfo.line;
 	code_dbgcurinf();
 	if ( i != dbginfo.line ) {
+#ifdef HSP3_DAP_MODE
+		// DAP: dbgmode で停止要求がある or BP ヒットの両方で停止。
+		int bp_hit = 0;
+		if ( g_hsp3dap_bp_check && hsp3dap_bp_count > 0 ) {
+			bp_hit = g_hsp3dap_bp_check( dbginfo.fname, dbginfo.line );
+		}
+		if ( dbgmode || bp_hit ) {
+			hspctx->runmode = RUNMODE_STOP;
+			hspctx->msgfunc( hspctx );
+		}
+#else
 		hspctx->runmode = RUNMODE_STOP;
 		hspctx->msgfunc( hspctx );
+#endif
 	}
 }
 
