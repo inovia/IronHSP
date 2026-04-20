@@ -146,6 +146,7 @@ namespace NhspDap {
             var argv = args["args"] as JArray;
             string cwd = (string)args["cwd"] ?? Path.GetDirectoryName(Path.GetFullPath(program));
             _cwd = cwd;
+            _stopOnEntry = (bool?)args["stopOnEntry"] ?? false;
             // Pre-register the program's directory for source resolution.
             if (!string.IsNullOrEmpty(program)) {
                 string programDir = Path.GetDirectoryName(Path.GetFullPath(program));
@@ -405,11 +406,18 @@ namespace NhspDap {
             Respond(req, reqSeq, new JObject { ["breakpoints"] = verified });
         }
 
+        private bool _stopOnEntry;
+
         private void ConfigurationDone(JObject req, int reqSeq) {
             _configDone = true;
             Respond(req, reqSeq, new JObject());
-            // Kick off execution
-            _bridge.Send(new JObject { ["cmd"] = "continue" });
+            // DLL's debugini is blocked waiting for us to signal that BPs are
+            // set. Send "start" with the stopOnEntry flag we captured from
+            // launch args — DLL will force_step only if requested.
+            _bridge.Send(new JObject {
+                ["cmd"] = "start",
+                ["stopOnEntry"] = _stopOnEntry,
+            });
         }
 
         private void Threads(JObject req, int reqSeq) {

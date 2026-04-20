@@ -136,6 +136,13 @@ static std::atomic<bool> g_paused{false};
 static bool g_entry_stop_consumed = false;  // guarded by g_bp_mutex
 static bool g_step_requested = false;       // guarded by g_bp_mutex
 
+// Startup gate: debugini blocks until the adapter sends {"cmd":"start",...}
+// after it has finished setting breakpoints. This avoids the race where the
+// first line change fires before BPs reach the DLL (would otherwise classify
+// legitimate BP hits as "entry" stops).
+static HANDLE g_start_event = nullptr;
+static bool g_want_stop_on_entry = false;
+
 // Adapter notified this handle to signal resume
 static HANDLE g_resume_event = nullptr;
 
@@ -536,6 +543,23 @@ static void handle_command(const std::string& line) {
             }
             pipe_write_line(r);
         }
+    } else if (cmd == "start") {
+        // Adapter has finished setting up BPs and is releasing the debugini
+        // block. Parse stopOnEntry; default = false (just run until BP).
+        auto p = line.find("\"stopOnEntry\"");
+        bool soe = false;
+        if (p != std::string::npos) {
+            auto col = line.find(':', p);
+            if (col != std::string::npos) {
+                auto tp = line.find("true", col);
+                auto fp = line.find("false", col);
+                // Closer occurrence wins (cheap heuristic).
+                if (tp != std::string::npos && (fp == std::string::npos || tp < fp)) soe = true;
+            }
+        }
+        g_want_stop_on_entry = soe;
+        if (g_start_event) SetEvent(g_start_event);
+        pipe_write_line("{\"resp\":\"start_ack\"}");
     } else if (cmd == "disconnect") {
         g_shutdown = true;
         g_pending_cmd = 1;  // let runtime continue and exit
@@ -606,26 +630,25 @@ static DWORD WINAPI pipe_thread_proc(LPVOID) {
 // -----------------------------------------------------------
 //  HSP3DEBUG entry points (stdcall exports)
 // -----------------------------------------------------------
+// Exe-resolved helper kept here so both debugini and handle_command("start")
+// can invoke it. Cached on first debugini call.
+typedef void (*force_step_fn)();
+static force_step_fn g_fn_force_step = nullptr;
+
 extern "C" __declspec(dllexport) BOOL __stdcall debugini(HSP3DEBUG* dbg, int p2, int p3, int p4) {
     (void)p2; (void)p3; (void)p4;
     dap_log("debugini enter, dbg=%p", dbg);
     g_dbg = dbg;
     g_resume_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+    g_start_event  = CreateEvent(nullptr, TRUE,  FALSE, nullptr);  // manual-reset
 
-    // Hook into the host exe: register our BP check callback and resolve the
-    // exe-exported counter so we can wake the dispatch-loop trace cheaply.
     HMODULE exe = GetModuleHandleA(NULL);
     if (exe) {
         g_exe_bp_count = (volatile int*)GetProcAddress(exe, "hsp3dap_bp_count");
         auto reg = (register_bp_check_fn)GetProcAddress(exe, "hsp3dap_register_bp_check");
         if (reg) reg(hsp3dap_check_bp);
-        dap_log("exe hooks: bp_count=%p reg=%p", g_exe_bp_count, reg);
-
-        // Force first-line stop: STEPIN mode makes code_dbgtrace fire on
-        // every line change. The adapter can switch to RUN after setting BPs.
-        auto force_step = (void(*)())GetProcAddress(exe, "hsp3dap_force_step");
-        if (force_step) force_step();
-        dap_log("force_step=%p", force_step);
+        g_fn_force_step = (force_step_fn)GetProcAddress(exe, "hsp3dap_force_step");
+        dap_log("exe hooks: bp_count=%p reg=%p force_step=%p", g_exe_bp_count, reg, g_fn_force_step);
 
         // Variable write-back hooks.
         g_fn_get_type  = (fn_get_var_type)  GetProcAddress(exe, "hsp3dap_get_var_type");
@@ -634,12 +657,28 @@ extern "C" __declspec(dllexport) BOOL __stdcall debugini(HSP3DEBUG* dbg, int p2,
         g_fn_set_dbl   = (fn_set_var_double)GetProcAddress(exe, "hsp3dap_set_var_double");
         g_fn_set_str   = (fn_set_var_str)   GetProcAddress(exe, "hsp3dap_set_var_str");
         g_fn_set_wstr  = (fn_set_var_wstr)  GetProcAddress(exe, "hsp3dap_set_var_wstr");
-        dap_log("set_var hooks: type=%p int=%p i64=%p dbl=%p str=%p wstr=%p",
-                g_fn_get_type, g_fn_set_int, g_fn_set_i64, g_fn_set_dbl, g_fn_set_str, g_fn_set_wstr);
     }
 
     g_pipe_thread = CreateThread(nullptr, 0, pipe_thread_proc, nullptr, 0, nullptr);
-    dap_log("debugini done");
+
+    // BLOCK until the adapter has had a chance to set breakpoints and signal
+    // "start". This means BPs are already in g_breakpoints when the very
+    // first line change fires — so the first stop can be classified as
+    // "breakpoint" (if the user put a BP on line 1) instead of "entry".
+    //
+    // 30-second timeout so we don't hang forever if no adapter connects
+    // (e.g. user ran the dbg exe directly with hsp3debug.dll in the folder
+    // but without nhspdap). Post-timeout we fall through as if stopOnEntry
+    // was requested, preserving the previous behaviour.
+    dap_log("debugini waiting for adapter start...");
+    DWORD w = WaitForSingleObject(g_start_event, 30000);
+    if (w == WAIT_TIMEOUT) {
+        dap_log("debugini start timeout — falling back to stopOnEntry=true");
+        if (g_fn_force_step) g_fn_force_step();
+    } else if (g_want_stop_on_entry && g_fn_force_step) {
+        g_fn_force_step();
+    }
+    dap_log("debugini done (stopOnEntry=%d)", (int)g_want_stop_on_entry);
     return TRUE;
 }
 
