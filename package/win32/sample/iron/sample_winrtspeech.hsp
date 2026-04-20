@@ -1,0 +1,90 @@
+;============================================================
+;  sample_winrtspeech.hsp — hspwinrtspeech.dll ライブマイク認識デモ
+;
+;  Windows.Media.SpeechRecognition (WinRT) を使ってマイクから
+;  1 フレーズずつ文字起こし。
+;
+;  重要:
+;    WinRT SpeechRecognition は microphone-only。
+;    WAV ファイルから認識したい場合は SAPI / Vosk / Whisper を使う。
+;
+;  前提:
+;    - Windows 10/11 + 認識させたい言語の Speech Pack が入っている
+;      (en-US は標準、ja-JP は別途インストール)
+;    - マイクのアクセス許可が有効
+;      (設定 → プライバシー → マイク → デスクトップアプリにマイクの使用を許可)
+;    - 「マイク認識」ボタンを押してから、マイクに向かって発話
+;
+;  listen_once は「1 回の発話」を最大 ~10 秒待ってブロッキング取得する。
+;  連続認識したい場合は Vosk + iron_speech_listen_start_mic / poll を使う。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspwinrtspeech.as"
+
+    title "hspwinrtspeech demo"
+    screen 0, 720, 500
+    font "MS Gothic", 14
+
+    lang = "ja-JP"      ; "en-US" / "" (システム既定)
+
+    mes "hspwinrtspeech demo — WinRT ライブマイク認識"
+    mes "language : " + lang + " (空欄 = システム既定)"
+    mes ""
+
+    ;------- 1. recognizer 起動 -------
+    h = hspwinrt_speech_open(lang)
+    if h < 0 {
+        color 255, 0, 0
+        mes "WinRT SpeechRecognizer の初期化に失敗しました (code=" + h + ")"
+        mes ""
+        color 0, 0, 0
+        mes "確認事項:"
+        mes "  - 指定の言語 Speech Pack がインストールされているか"
+        mes "    (設定 → 時刻と言語 → 音声認識)"
+        mes "  - マイクのアクセス許可が有効か"
+        mes "  - Windows 10/11 か"
+        stop
+    }
+    color 0, 128, 0
+    mes "[OK] WinRT speech open handle=" + h
+    color 0, 0, 0
+    mes ""
+
+    ;------- 2. UI -------
+    pos 10, 130
+    objsize 200, 36
+    button gosub "マイク認識 (1 フレーズ)", *do_listen
+
+    pos 10, 180
+    mes "----- 認識結果 -----"
+    pos 10, 205
+    sdim result_text, 16384
+    mesbox result_text, 700, 270, 4
+
+    pos 10, 485
+    mes "終了するには ウィンドウを閉じる"
+
+    stop
+
+*do_listen
+    result_text = "[info] マイクに向かって話してください..." + "\n"
+    objprm 1, result_text
+    await 50
+
+    sdim text, 4096
+    hspwinrt_speech_listen_once h, text, 4095
+    ret = stat
+
+    if ret < 0 {
+        result_text = "[error] 認識失敗 (code=" + ret + ")\n"
+        result_text = result_text + "無音のままタイムアウト、またはマイクに問題があります。\n"
+    } else {
+        if strlen(text) = 0 {
+            result_text = "[warn] 結果が空でした (発話が短すぎた?)\n"
+        } else {
+            result_text = "[OK] " + text + "\n"
+        }
+    }
+    objprm 1, result_text
+    return

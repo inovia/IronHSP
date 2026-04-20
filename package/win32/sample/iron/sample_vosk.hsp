@@ -1,0 +1,96 @@
+;============================================================
+;  sample_vosk.hsp — hspvosk.dll オフライン音声認識 (WAV) デモ
+;
+;  alphacephei Vosk (Kaldi ベース) の軽量オフライン STT。
+;  モデル 50MB 〜で多言語対応 (日本語含む)。
+;
+;  前提:
+;    1. Vosk のモデルを DL して展開:
+;         https://alphacephei.com/vosk/models
+;       日本語なら vosk-model-small-ja-0.22 (約 48MB)
+;       英語なら  vosk-model-small-en-us-0.15 (約 40MB)
+;    2. 展開先ディレクトリ名を model_path に設定
+;    3. 16kHz mono の WAV を用意
+;
+;  モデルの置き方:
+;    sample_vosk.hsp と同じフォルダに
+;      vosk-model-small-ja-0.22/
+;        am/ conf/ graph/ ivector/ rescore/ rnnlm/ (展開後の中身)
+;    を丸ごと配置。
+;
+;  ライブマイク認識は iron_speech.hsp 経由の
+;    iron_speech_listen_start_mic / listen_poll / listen_stop
+;  で行う (partial + final phrase 取得可)。
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspvosk.as"
+
+    title "hspvosk demo"
+    screen 0, 720, 500
+    font "MS Gothic", 14
+
+    model_path = "vosk-model-small-ja-0.22"
+    wav_path   = "voice.wav"
+    sample_rate = 16000
+
+    mes "hspvosk demo — Vosk (Kaldi) オフライン認識"
+    mes "model : " + model_path
+    mes "wav   : " + wav_path
+    mes "rate  : " + sample_rate + " Hz"
+    mes ""
+
+    ;------- 1. モデルロード -------
+    exist model_path
+    if strsize < 0 {
+        ; HSP の exist はディレクトリには効かないが、strsize が -1 に
+        ; なるケースもある。ここでは情報表示のみ。
+    }
+
+    h = hspvosk_open(model_path, sample_rate)
+    if h < 0 {
+        color 255, 0, 0
+        mes "モデルのロードに失敗しました (code=" + h + ")"
+        mes ""
+        color 0, 0, 0
+        mes "次の手順でモデルを用意してください:"
+        mes "  1. https://alphacephei.com/vosk/models から"
+        mes "     vosk-model-small-ja-0.22.zip を DL"
+        mes "  2. このスクリプトと同じフォルダに解凍"
+        mes "     vosk-model-small-ja-0.22/am/..."
+        mes ""
+        mes "モデルディレクトリ内に am / conf / graph 等があれば OK。"
+        stop
+    }
+    color 0, 128, 0
+    mes "[OK] Vosk open handle=" + h
+    color 0, 0, 0
+
+    ;------- 2. 文字起こし -------
+    exist wav_path
+    if strsize < 0 {
+        color 255, 0, 0
+        mes ""
+        mes "voice.wav が見つかりません。"
+        mes "16kHz mono PCM の WAV を用意してください。"
+        hspvosk_close h
+        stop
+    }
+
+    sdim text, 65536
+    ret = hspvosk_transcribe_wav(h, wav_path, text, 65535)
+
+    mes ""
+    if ret < 0 {
+        color 255, 0, 0
+        mes "認識に失敗しました (code=" + ret + ")"
+        color 0, 0, 0
+    } else {
+        color 0, 0, 192
+        mes "----- 認識結果 -----"
+        color 0, 0, 0
+        mes text
+    }
+
+    hspvosk_close h
+    stop

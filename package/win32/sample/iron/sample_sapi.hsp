@@ -1,0 +1,78 @@
+;============================================================
+;  sample_sapi.hsp — hspsapi.dll Windows SAPI 5 認識デモ
+;
+;  Windows 標準の Microsoft Speech API 5 で WAV ファイルを
+;  文字起こしする。追加 DL 不要 (sapi.dll は OS 同梱)。
+;
+;  前提:
+;    1. 認識したい言語を Windows の音声認識に入れておく
+;         設定 → 時刻と言語 → 音声認識
+;       英語 (en-US) は Win10 以降デフォルトで入ってる
+;       日本語 (ja-JP) は Speech Pack を別途インストール
+;    2. 16kHz mono の WAV を用意 (他のレートでも動くが推奨)
+;
+;  注意:
+;    - 品質は whisper.cpp / Vosk より低いが、速い & 追加 DL 不要
+;    - ライブマイク入力は未対応 (WAV のみ、live は WinRT or Vosk で)
+;============================================================
+
+#include "hsp3_net_64.as"
+#include "hspsapi.as"
+
+    title "hspsapi demo"
+    screen 0, 720, 460
+    font "MS Gothic", 14
+
+    lang     = ""               ; "" = システム既定、"ja-JP" / "en-US" を明示も可
+    wav_path = "voice.wav"
+
+    mes "hspsapi demo — Windows SAPI 5"
+    mes "language : " + lang + " (空欄 = システム既定)"
+    mes "wav      : " + wav_path
+    mes ""
+
+    ;------- 1. recognizer 起動 -------
+    h = hspsapi_open(lang)
+    if h < 0 {
+        color 255, 0, 0
+        mes "SAPI の初期化に失敗しました (code=" + h + ")"
+        mes ""
+        color 0, 0, 0
+        mes "確認事項:"
+        mes "  - Windows の音声認識言語がインストールされているか"
+        mes "  - sapi.dll が OS に存在するか (通常は System32)"
+        stop
+    }
+    color 0, 128, 0
+    mes "[OK] SAPI open handle=" + h
+    color 0, 0, 0
+
+    ;------- 2. 文字起こし -------
+    exist wav_path
+    if strsize < 0 {
+        color 255, 0, 0
+        mes ""
+        mes "voice.wav が見つかりません。"
+        mes "このスクリプトと同じフォルダに 16kHz mono の WAV を置いてください。"
+        hspsapi_close h
+        stop
+    }
+
+    sdim text, 65536
+    hspsapi_transcribe_wav h, wav_path, text, 65535
+    ret = stat
+
+    mes ""
+    if ret <= 0 {
+        color 255, 0, 0
+        mes "認識に失敗または結果が空です (code=" + ret + ")"
+        color 0, 0, 0
+    } else {
+        color 0, 0, 192
+        mes "----- 認識結果 -----"
+        color 0, 0, 0
+        mes text
+    }
+
+    hspsapi_close h
+    stop
