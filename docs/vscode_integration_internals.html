@@ -40,7 +40,7 @@
 
 <h1>VS Code 統合 内部仕様書</h1>
 <p class="muted">対象読者: コア実装に手を入れる開発者。ユーザー向けセットアップや機能紹介は <a href="IronHSP_specification.html#vscode">IronHSP 仕様書 §11</a> 参照。</p>
-<p class="muted">最終更新: 2026-04-20 / ブランチ: update-hsp3net / 関連コミット: <code>a025002b</code> 〜 <code>25c95535</code></p>
+<p class="muted">最終更新: 2026-04-20 / ブランチ: update-hsp3net / 関連コミット: <code>a025002b</code> 〜 <code>e6ca6653</code></p>
 
 <div class="toc">
 <strong>目次</strong>
@@ -390,6 +390,72 @@ return -1;</code></pre>
 // 全 token を (line, col) 昇順でソート済であること</code></pre>
 
 <!-- ======================================== -->
+<h2 id="doccomment">5.5 ドキュメントコメント (;;; / ///) の仕組み</h2>
+
+<p><code>nhspc/HspLanguageServer/DocCommentParser.cs</code> で実装。
+hspcmp によるシンボル抽出の<strong>後</strong>に source を 1 パス舐める。</p>
+
+<h4>アルゴリズム (疑似コード)</h4>
+<pre><code>docBuf = []
+for line in source.split('\n'):
+    trimmed = line.trimStart()
+    if trimmed.startsWith(";;;") or trimmed.startsWith("///"):
+        docBuf.append(stripMarker(trimmed))
+        continue
+    if trimmed.isEmpty: continue               # 1行空けは許容
+    if trimmed.startsWith(";") or "//":
+        continue                                # 普通のコメントはスルー (重要)
+    # 実行可能 or 宣言行
+    m = DeclRx.match(line)   # #deffunc / #defcfunc / #func / ... / #const / #define / #enum
+    if m and docBuf.nonEmpty:
+        attachDocsToSymbol(name = m[2], declLine, docBuf)
+    docBuf.clear()</code></pre>
+
+<p>宣言との結びつきは名前 + 行番号の近傍一致 (±2 行) で検証。hspcmp の
+kind ごとの行番号のズレを吸収。<code>@param name desc</code> / <code>@return desc</code>
+(<code>@arg</code> / <code>@returns</code> は alias) を分離、残りは description。</p>
+
+<div class="trap">
+<strong>temp ファイル対応:</strong> LspServer は sidecar temp file
+(<code>foo.__hspls.hsp</code>) で hspcmp を実行するため、symbol の <code>File</code>
+フィールドは temp 名で返ってくる。DocCommentParser は basename 比較するが、
+temp→real のリネームが済んだ後で呼ぶ必要がある。初期実装では順序ミスで
+doc が attach されない不具合があった (修正済)。
+</div>
+
+<h4>ホバー出力フォーマット</h4>
+<pre><code>```hsp
+(function) distance
+```
+&lt;description&gt;
+
+**Parameters:**
+- `name` &mdash; desc
+- ...
+
+**Returns:** ...
+
+_&mdash; file.hsp:NN_</code></pre>
+
+<!-- ======================================== -->
+<h2 id="bp-verified">5.6 BP verified 判定</h2>
+
+<p><code>nhspdap/DapSession.SetBreakpoints</code> で各 BP 行を簡易チェック:</p>
+
+<table>
+<tr><th>条件</th><th>verified</th><th>VS Code 表示</th></tr>
+<tr><td>実行可能な行</td><td>true</td><td>🔴 赤丸 (ヒット予定)</td></tr>
+<tr><td>空行 / <code>;</code> / <code>//</code> / <code>#</code> で始まる行</td><td>false</td><td>⚪ グレーホロー丸 + メッセージ</td></tr>
+</table>
+
+<p>実行可能行の判定は heuristic (regex <code>^\s*[^;/#\s]</code> 相当)。
+ブロックコメント <code>/* */</code> の中身は不正確に true 返すが許容。</p>
+
+<p>unverified な BP は DLL への <code>set_bp</code> コマンドの <code>lines</code> 配列に
+含めない → <code>bp_count</code> が余分にインクリされず runtime のホットパスを
+軽く保てる。</p>
+
+<!-- ======================================== -->
 <h2 id="build">6. ビルド手順</h2>
 
 <h4>全部入りビルド (初回)</h4>
@@ -488,6 +554,56 @@ BP を blank 行に設定しても絶対ヒットしない。adapter 側で「�
 <strong>外部 DLL 関数の hspcmp kind は <code>dfnc</code> でも <code>dmac</code> でもなく <code>dexc</code>。</strong><br>
 正規表現 <code>(dfnc|dlab|dvar|dmac|dmod)</code> だけでパースすると <code>GetTickCount</code> 等が
 未分類になる (method カラーが出ない)。<code>dexc</code> を必ず含める。
+</li>
+
+<li>
+<strong>DLL が stopped event を送る時 fname を JSON エスケープしないと死ぬ。</strong><br>
+dbginfo.fname は <code>j:\HNWorks\...</code> 形式の Windows パス。JSON 文字列に
+直入れすると <code>\H</code> <code>\t</code> 等が無効エスケープとして扱われ、adapter の
+<code>JObject.Parse</code> が silently fail。try/catch で continue されるためエラー
+ログにも出ず、VS Code から見ると「BP ヒットしても何も起きない」状態に。
+相対パスでコンパイルしていた頃は地雷が見えなかった。必ず <code>json_esc()</code> を通す。
+</li>
+
+<li>
+<strong>line 1 (最初の実行行) の BP は force_step entry stop に吸収される。</strong><br>
+force_step を debugini で即呼ぶと、adapter の set_bp が pipe に到達する前に
+debug_notice が発火し、<code>g_breakpoints</code> が空のため reason="breakpoint" に
+分類できない。解決: debugini を <code>g_start_event</code> で待機させ、
+adapter の configurationDone 受信時に <code>{"cmd":"start","stopOnEntry":N}</code>
+を送って DLL 側が初めて force_step 要否を判断する流れに変更。ついでに
+launch.json の <code>stopOnEntry</code> が実際に効くようになる。
+</li>
+
+<li>
+<strong>.NET subprocess で stdout + stderr を両方 ReadToEnd() すると deadlock。</strong><br>
+典型的な .NET trap。stderr が満杯 → hspcmp ブロック → stdout EOF 来ない →
+ReadToEnd ずっと blocking → WaitForExit すら呼べない。<code>OutputDataReceived</code> /
+<code>ErrorDataReceived</code> イベント + BeginOutputReadLine / BeginErrorReadLine で
+async 読み取りにする。
+</li>
+
+<li>
+<strong>hspcmp のエラー出力は UTF-8 でなく ANSI code page (日本語環境なら CP932)。</strong><br>
+<code>-i</code> (UTF-8 入力モード) を付けても ERROR MESSAGE は実行環境の ANSI。
+.NET 側で <code>StandardOutputEncoding = GetEncoding(ANSICodePage)</code> で受け取り、
+内部で UTF-16 に変換してから VS Code (UTF-8) へ渡す。一方 HSP ランタイム
+(HSPUTF8 ビルド) の stdout は UTF-8 なので読み取り側を使い分ける。
+</li>
+
+<li>
+<strong><code>MessageBoxA</code> + UTF-8 バイト列はエラーメッセージ文字化けの温床。</strong><br>
+HSPUTF8 ビルドでは errmsg が UTF-8 バイト列。A 系 Win32 API は ANSI
+として解釈するので日本語環境で必ず文字化け。<code>MultiByteToWideChar(CP_UTF8)</code>
+で UTF-16 変換してから <code>MessageBoxW</code> を使う。
+</li>
+
+<li>
+<strong>LSP で didChange 時に再解析しないと hover が陳腐化する。</strong><br>
+didSave 限定の再解析はエディタバッファ編集や外部ツールによるディスク書換に
+追従できない。didChange 内で毎回 ReparseDoc を呼ぶのが最短。hspcmp は
+小規模 .hsp なら数十ms で回るので打鍵毎でも許容範囲。大規模プロジェクト
+なら debouncer を追加検討。
 </li>
 </ol>
 

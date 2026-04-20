@@ -42,7 +42,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-20 (VS Code 統合: DAP デバッガ + HSP LSP サーバ + セマンティックトークンで 4 色分類 / 179 iron_* モジュール + 34 C++ DLL / hspmathex.dll で bigint/bigdec HSPVAR 型拡張 + SSE/AVX SIMD / .NET・AI・ネットワーク 25 モジュール / WASAPI・仮想カメラ・TaskDialog)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-20 (VS Code 統合強化: DAP デバッガ + HSP LSP サーバ + セマンティックトークンで 4 色分類 + ドキュメントコメント (;;; / ///) + F7 コンパイルコマンド / 179 iron_* モジュール + 34 C++ DLL / hspmathex.dll で bigint/bigdec HSPVAR 型拡張 + SSE/AVX SIMD / .NET・AI・ネットワーク 25 モジュール / WASAPI・仮想カメラ・TaskDialog)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="warning-banner">
@@ -87,7 +87,9 @@
     <li><a href="#vscode-dap">11.1 DAP デバッガ</a></li>
     <li><a href="#vscode-lsp">11.2 言語サーバ (hspls)</a></li>
     <li><a href="#vscode-tokens">11.3 セマンティックトークン (4 色分類)</a></li>
-    <li><a href="#vscode-setup">11.4 セットアップ</a></li>
+    <li><a href="#vscode-doccomment">11.4 ドキュメントコメント (;;; / ///)</a></li>
+    <li><a href="#vscode-compile">11.5 メニュー/ショートカットからのコンパイル (F7)</a></li>
+    <li><a href="#vscode-setup">11.6 セットアップ</a></li>
     </ul>
   </li>
   <li><a href="#changelog">12. 変更履歴</a></li>
@@ -2227,7 +2229,66 @@ TextMate grammar の regex では判別できない「ユーザ定義 vs 外部 
 }</code></pre>
 </div>
 
-<h3 id="vscode-setup">11.4 セットアップ</h3>
+<h3 id="vscode-doccomment">11.4 ドキュメントコメント (;;; / ///)</h3>
+
+<p>ユーザ定義関数/マクロの宣言の<strong>直前</strong>に <code>;;;</code> または <code>///</code> で始まるブロックを置くと、
+ホバー時に Markdown で説明/引数/戻り値が表示されます。NHSP の doc コメントと同じ記法です。</p>
+
+<pre><code>;;; 2 点間のユークリッド距離を計算する。
+;;; @param x1 始点の x 座標
+;;; @param y1 始点の y 座標
+;;; @param x2 終点の x 座標
+;;; @param y2 終点の y 座標
+;;; @return 2 点間の距離
+#defcfunc distance double x1, double y1, double x2, double y2
+    return sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
+
+/// /// 記法も可 (;;; と等価)
+/// @param msg 表示するメッセージ
+#deffunc show_dialog str msg
+    dialog msg
+    return</code></pre>
+
+<p>対応宣言: <code>#deffunc</code> / <code>#defcfunc</code> / <code>#func</code> / <code>#cfunc</code> /
+<code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> / <code>#comfunc</code> /
+<code>#modfunc</code> / <code>#modcfunc</code> / <code>#const</code> / <code>#define</code> /
+<code>#enum</code>。</p>
+
+<p>認識タグ: <code>@param</code> / <code>@arg</code> (引数) / <code>@return</code> / <code>@returns</code> (戻り値)。
+タグなしの行は description として扱う。</p>
+
+<div class="note">
+<strong>ブレークポイントの verified 判定:</strong> <code>#include</code> / <code>#module</code> /
+コメント行など、HSP のバイトコードに存在しない行は BP を置いても runtime が到達しないため、
+LSP adapter が <code>verified:false</code> を返します。VS Code ではグレーのホロー丸で表示され、
+一目で「この BP は当たらない」と分かります。ホバーすると「この行は実行されません」と理由も出ます。
+</div>
+
+<h3 id="vscode-compile">11.5 メニュー/ショートカットからのコンパイル (F7)</h3>
+
+<p>エディタで <code>.hsp</code> を開いた状態で以下のコマンドが使えます:</p>
+
+<table>
+<tr><th>コマンド</th><th>ショートカット</th><th>動作</th></tr>
+<tr><td>HSP3: Compile (-d -w)</td><td>F7</td><td>現在の .hsp を <code>hspcmp64 -d -w -i</code> で再コンパイル。生成 .ax は F5 で使える</td></tr>
+<tr><td>HSP3: Compile &amp; Run</td><td>Ctrl+F7</td><td>コンパイル成功後に <code>hsp3cl_net_64.exe</code> で実行</td></tr>
+</table>
+
+<ul>
+  <li>エディタタイトルバーの ▶ アイコンからも呼べる</li>
+  <li>右クリック → <code>HSP3: Compile</code></li>
+  <li>コマンドパレット (<code>Ctrl+Shift+P</code>) → <code>HSP3: Compile</code></li>
+  <li>構文エラーは自動で問題タブ + エディタ内の赤波線に表示 (<code>hspcmp</code> 出力をパース)</li>
+</ul>
+
+<div class="note">
+<strong>F5 時の自動コンパイル (opt-in):</strong> <code>launch.json</code> に
+<code>"autoCompile": true</code> を追加すると、F5 デバッグ開始時に
+<code>.hsp</code> が <code>.ax</code> より新しければ自動で再コンパイルしてからデバッグを
+開始します。デフォルトは <code>false</code> (F7 で明示コンパイル推奨)。
+</div>
+
+<h3 id="vscode-setup">11.6 セットアップ</h3>
 
 <h4>必要バイナリ (ソリューションをビルドすれば自動生成)</h4>
 <ul>
@@ -2263,6 +2324,20 @@ TextMate grammar の regex では判別できない「ユーザ定義 vs 外部 
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+
+<tr><td>4/20 20:23</td><td><code>e6ca6653</code></td><td><span class="badge">バグ修正</span> <strong>hspls: didChange でも再解析する</strong>: 従来 didSave のみで再解析していたのでエディタで編集しても hover / outline が古いままだった。OnDidChange 内で ReparseDoc を常に呼ぶように (hspcmp は &lt;100ms なので打鍵毎でも許容)</td></tr>
+
+<tr><td>4/20 20:21〜20:22</td><td><code>7889f8c5</code> / <code>5a814c95</code></td><td><span class="badge">新機能</span> <strong>ドキュメントコメント (;;; / ///) 対応</strong>: HSP 用 LSP に NHSP と同じ doc コメント記法を追加。<code>#deffunc</code> / <code>#defcfunc</code> / <code>#func</code> / <code>#cfunc</code> / <code>#const</code> / <code>#define</code> 等の宣言直前の <code>;;;</code> または <code>///</code> ブロックをホバー表示。<code>@param name desc</code> / <code>@return desc</code> をパースして Markdown で整形 (引数一覧 + Returns セクション)。hello_debug.hsp の 3 関数に doc コメント追加して実機確認</td></tr>
+
+<tr><td>4/20 20:19〜20:20</td><td><code>58891354</code> / <code>e8d448bb</code></td><td><span class="badge">バグ修正</span> <strong>DAP UX 3 点改善</strong>: (1) line 1 BP 問題 — debugini を adapter の BP 設定完了まで待たせる <code>start</code> コマンド機構を新設、force_step は adapter が stopOnEntry を true で指示した時のみ発火 (launch.json の flag が実際に効くように)、(2) 非実行行 (<code>#include</code> / コメント / 空行) の BP は <code>verified:false</code> で返し VS Code 上でグレーのホロー丸 + 理由メッセージ表示、(3) preprocessor 先頭判定の heuristic 実装</td></tr>
+
+<tr><td>4/20 20:17〜20:18</td><td><code>0fd2f75d</code> / <code>a3562c89</code></td><td><span class="badge">バグ修正</span> <strong>stopped event の file path が JSON エスケープされず壊れる問題</strong>: .ax を絶対パスでコンパイルすると dbginfo.fname が <code>j:\HNWorks\...</code> になり、DLL → adapter の JSON に未エスケープバックスラッシュが混入。adapter の <code>JObject.Parse</code> が silently fail して stopped event がサイレント廃棄 → 「BP ヒットしても VS Code が反応しない」症状の根治。F7 経由でコンパイルすると絶対パスが渡るので以前の E2E では検出できなかった地雷</td></tr>
+
+<tr><td>4/20 20:16</td><td><code>c7781826</code></td><td><span class="badge">新機能</span> <strong>HSP3: Compile / Compile &amp; Run コマンド (F7 / Ctrl+F7)</strong>: 毎回ターミナルで hspcmp64 するのがつらいという要望対応。エディタタイトルバーの ▶ / 右クリックメニュー / キーボードショートカット全部から呼べる。hspcmp64 の CP932 エラー出力を Node 組込 <code>TextDecoder('shift-jis')</code> で decode (iconv-lite 依存なし)、<code>&lt;file&gt;(N) : error</code> を正規表現パースして問題タブ/赤波線に反映</td></tr>
+
+<tr><td>4/20 20:11〜20:15</td><td><code>614d9b4e</code> 他</td><td><span class="badge">バグ修正</span> <strong>MessageBox 文字化け修正 + auto-compile default off</strong>: HSP ランタイムエラー時の日本語ダイアログが <code>MessageBoxA</code> + UTF-8 バイト列で文字化けていた。<code>MessageBoxW</code> + <code>MultiByteToWideChar(CP_UTF8)</code> で修正 (hsp3cl.cpp / hsp3gr_win.cpp)。併せて auto-compile 機能はイベント配信不具合の原因だったため launch.json の <code>"autoCompile": true</code> opt-in に変更 (真の原因は stopped event JSON escape バグだったが発覚前に回避策導入)</td></tr>
+
+<tr><td>4/20 20:09〜20:10</td><td><code>fd867af4</code> / <code>d93e2ff9</code></td><td><span class="badge">ドキュメント</span> <strong>仕様書 §11 VS Code IDE 統合セクション新設 + 実装者向け内部仕様書 <a href="vscode_integration_internals.html">vscode_integration_internals.html</a> 追加 + .as 拡張子対応</strong>: デバッガ / LSP / 色分け の機能紹介と、アーキテクチャ図 / プロトコル / 既知の罠 12 項目 を 2 本の HTML に整理。<code>.hsp</code> に加えて <code>.as</code> include ファイルも同じ IDE 機能 (色分け / 定義ジャンプ / アウトライン) 対応。hello_debug.hsp の named module 修正 (Error 30)</td></tr>
 
 <tr><td>4/20 20:08</td><td><code>25c95535</code></td><td><span class="badge">改善</span> <strong>外部 DLL 関数 (dexc) 分類対応 + hello_debug.hsp 4 カテゴリ網羅</strong>: hspcmp の <code>#func</code> 出力 kind は <code>dfnc</code>/<code>dmac</code> ではなく <code>dexc</code> という別種であることが判明 → SymbolRx に追加、ClassifyIdentifier で dexc → TYPE_METHOD に。temp/vscode_dbg_test/hello_debug.hsp をユーザ定義 / 外部 DLL (GetTickCount/Sleep) / ビルトイン / 制御構文 の 4 カテゴリ全部入りデモに</td></tr>
 
