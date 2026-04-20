@@ -6,13 +6,12 @@
 ;   作者 / ライセンス / サムネイル index / version) を JSON から抽出。
 ;
 ;   注意:
-;     .vrm ファイルの実体は .glb (glTF Binary) なので、iron_gltf の
-;     現在の実装 (.gltf + .bin 分離のみ対応) では直接読めない。
-;     本モジュールは Mesh ロード部を iron_gltf 互換にするための
-;     glTF JSON メタ抽出に留める。.glb バイナリ展開は別途必要。
+;     .vrm ファイルの実体は .glb (glTF Binary)。本モジュールは
+;     .glb / .vrm / .gltf(JSON) のいずれも受け取り、内部で JSON chunk を
+;     自動抽出してメタ情報を返す。メッシュ本体のロードは iron_gltf.hsp で。
 ;
 ;   API:
-;     vrm_load_meta "model.gltf" or "model.vrm.gltf" (JSON 部分のみ),
+;     vrm_load_meta "model.vrm" (.vrm/.glb/.gltf いずれも可),
 ;                   var_name, var_author, var_license, var_version
 ;         → stat 0=OK
 ;
@@ -28,17 +27,59 @@
 
 #module iron_vrm
 
+;---------------------------------------------------------
+; internal: .vrm/.glb/.gltf ファイルから JSON 本体を var_out に書き出す
+;---------------------------------------------------------
+#deffunc _vrm_extract_json str path, var v_out, \
+	local _size, local _fb, local _magic, local _total_len, \
+	local _cp, local _clen, local _ctype
+	sdim v_out, 1
+	exist path
+	_size = strsize
+	if _size <= 0 : return -1
+	sdim _fb, _size + 16
+	bload path, _fb, _size
+	if _size < 12 {
+		sdim v_out, _size + 16
+		memcpy v_out, _fb, _size
+		return _size
+	}
+	_magic = lpeek(_fb, 0)
+	if _magic != 0x46546C67 {
+		; 非 GLB (plain .gltf JSON)
+		sdim v_out, _size + 16
+		memcpy v_out, _fb, _size
+		return _size
+	}
+	; GLB: JSON chunk を取り出す
+	_total_len = lpeek(_fb, 8)
+	if _total_len > _size : _total_len = _size
+	_cp = 12
+	repeat
+		if _cp + 8 > _total_len : return -2
+		_clen  = lpeek(_fb, _cp)
+		_ctype = lpeek(_fb, _cp + 4)
+		_cp = _cp + 8
+		if _ctype = 0x4E4F534A {       ; "JSON"
+			sdim v_out, _clen + 16
+			memcpy v_out, _fb, _clen, 0, _cp
+			poke v_out, _clen, 0
+			return _clen
+		}
+		_cp = _cp + _clen
+		if _cp >= _total_len : break
+	loop
+	return -3
+
 #deffunc vrm_load_meta str path, var v_name, var v_author, var v_license, var v_version, \
-	local _size, local _buf, local _hid
+	local _buf, local _hid, local _n
 	sdim v_name,    256
 	sdim v_author,  256
 	sdim v_license, 256
 	sdim v_version, 64
-	exist path
-	_size = strsize
-	if _size <= 0 : return -1
-	sdim _buf, _size + 16
-	bload path, _buf, _size
+	_vrm_extract_json path, _buf
+	_n = stat
+	if _n <= 0 : return -1
 	_hid = json_load(_buf)
 	if _hid < 0 : return -2
 	; VRM 1.0
@@ -55,17 +96,15 @@
 	return 0
 
 #deffunc vrm_describe str path, var v_out, \
-	local _size, local _buf, local _hid, local _sb, \
+	local _buf, local _hid, local _n, local _sb, \
 	local _name, local _author, local _lic, local _ver, \
 	local _contact, local _allow_sexual, local _allow_violent, \
 	local _allow_commercial, local _thumb_idx
 	sdim v_out, 4096
 	v_out = ""
-	exist path
-	_size = strsize
-	if _size <= 0 : return -1
-	sdim _buf, _size + 16
-	bload path, _buf, _size
+	_vrm_extract_json path, _buf
+	_n = stat
+	if _n <= 0 : return -1
 	_hid = json_load(_buf)
 	if _hid < 0 : return -2
 

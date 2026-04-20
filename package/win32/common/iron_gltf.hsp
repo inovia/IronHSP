@@ -7,13 +7,13 @@
 ;
 ;   対応:
 ;     - .gltf (JSON) + 同ディレクトリの .bin (URI は相対パス)
+;     - .glb (バイナリコンテナ、JSON + BIN chunk)
 ;     - POSITION / NORMAL / TEXCOORD_0 / indices
 ;     - indices componentType 5121 (u8) / 5123 (u16) / 5125 (u32)
 ;     - 頂点データ componentType 5126 (float) のみ
 ;
 ;   対応外:
-;     - .glb バイナリコンテナ
-;     - data URI (base64 埋め込み)
+;     - data URI (base64 埋め込み、.gltf 内に JSON と一緒に入ってるケース)
 ;     - スキン / アニメーション / マテリアル詳細
 ;     - 複数 mesh / primitives (最初の 1 組のみ)
 ;     - 行列変換 / スケール
@@ -104,8 +104,10 @@
 ;---------------------------------------------------------
 #deffunc gltf_load str path, var v_verts, var v_norms, var v_uvs, var v_tris, \
 	var v_nv, var v_nt, var v_has_norm, var v_has_uv, \
-	local _size, local _json_text, local _hid, \
+	local _size, local _file_buf, local _json_text, local _hid, \
 	local _bin_uri, local _bin_path, local _bin_buf, local _bin_size, \
+	local _is_glb, local _magic, local _total_len, \
+	local _cp, local _chunk_len, local _chunk_type, \
 	local _pos_acc, local _norm_acc, local _uv_acc, local _idx_acc, \
 	local _pos_bv, local _norm_bv, local _uv_bv, local _idx_bv, \
 	local _pos_off, local _pos_len, local _norm_off, local _norm_len, \
@@ -115,19 +117,65 @@
 	exist path
 	_size = strsize
 	if _size <= 0 : return -1
-	sdim _json_text, _size + 16
-	bload path, _json_text, _size
-	_hid = json_load(_json_text)
-	if _hid < 0 : return -2
-	; buffers[0].uri
-	_bin_uri = json_str(_hid, "buffers[0].uri")
-	if strlen(_bin_uri) = 0 { json_release _hid : return -3 }
-	_gltf_join_path path, _bin_uri, _bin_path
-	exist _bin_path
-	_bin_size = strsize
-	if _bin_size <= 0 { json_release _hid : return -4 }
-	sdim _bin_buf, _bin_size + 16
-	bload _bin_path, _bin_buf, _bin_size
+	sdim _file_buf, _size + 16
+	bload path, _file_buf, _size
+
+	; --- GLB 判別 ---
+	; Header (12 bytes):
+	;   0-3  magic "glTF" (0x46546C67, little-endian u32 = 0x46546C67)
+	;   4-7  version (u32, 通常 2)
+	;   8-11 total length (u32)
+	; その後 chunk 列 (each: 4 length u32 + 4 type u32 + data)
+	;   chunk 0: type "JSON" (0x4E4F534A)
+	;   chunk 1: type "BIN\0" (0x004E4942) — オプション
+	_is_glb = 0
+	if _size >= 12 {
+		_magic = lpeek(_file_buf, 0)
+		if _magic = 0x46546C67 : _is_glb = 1
+	}
+
+	if _is_glb {
+		_total_len = lpeek(_file_buf, 8)
+		if _total_len > _size : _total_len = _size
+		_cp = 12
+		sdim _json_text, 1
+		sdim _bin_buf, 1
+		_bin_size = 0
+		repeat
+			if _cp + 8 > _total_len : break
+			_chunk_len  = lpeek(_file_buf, _cp)
+			_chunk_type = lpeek(_file_buf, _cp + 4)
+			_cp = _cp + 8
+			if _chunk_type = 0x4E4F534A {       ; "JSON"
+				sdim _json_text, _chunk_len + 16
+				memcpy _json_text, _file_buf, _chunk_len, 0, _cp
+				poke _json_text, _chunk_len, 0
+			}
+			if _chunk_type = 0x004E4942 {       ; "BIN\0"
+				sdim _bin_buf, _chunk_len + 16
+				memcpy _bin_buf, _file_buf, _chunk_len, 0, _cp
+				_bin_size = _chunk_len
+			}
+			_cp = _cp + _chunk_len
+			if _cp >= _total_len : break
+		loop
+		if strlen(_json_text) = 0 : return -6
+		if _bin_size = 0 : return -7
+		_hid = json_load(_json_text)
+		if _hid < 0 : return -2
+	} else {
+		; --- 従来の .gltf + 外部 .bin ---
+		_hid = json_load(_file_buf)
+		if _hid < 0 : return -2
+		_bin_uri = json_str(_hid, "buffers[0].uri")
+		if strlen(_bin_uri) = 0 { json_release _hid : return -3 }
+		_gltf_join_path path, _bin_uri, _bin_path
+		exist _bin_path
+		_bin_size = strsize
+		if _bin_size <= 0 { json_release _hid : return -4 }
+		sdim _bin_buf, _bin_size + 16
+		bload _bin_path, _bin_buf, _bin_size
+	}
 	; meshes[0].primitives[0].attributes.POSITION / NORMAL / TEXCOORD_0 / indices
 	_pos_acc = json_int(_hid, "meshes[0].primitives[0].attributes.POSITION")
 	_norm_acc = json_int(_hid, "meshes[0].primitives[0].attributes.NORMAL")
