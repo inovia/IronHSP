@@ -20,8 +20,15 @@ namespace HspLanguageServer {
         public string HspcmpPath { get; set; }
 
         // Symbol listing lines are "<kind> <name> <line>:<file>".
+        // Known hspcmp kinds:
+        //   dfnc — #deffunc / #defcfunc (user-defined command / function)
+        //   dvar — variable (first use or dim/sdim/ddim)
+        //   dlab — *label
+        //   dmac — #define / #const / #enum / module-qualified alias
+        //   dmod — #module name
+        //   dexc — external DLL function (#func / #cfunc bound via #uselib)
         private static readonly Regex SymbolRx = new Regex(
-            @"^(dfnc|dlab|dvar|dmac|dmod)\s+(\S+)\s+(\d+):(.+)$",
+            @"^(dfnc|dlab|dvar|dmac|dmod|dexc)\s+(\S+)\s+(\d+):(.+)$",
             RegexOptions.Compiled);
 
         // Diagnostic lines are "<file>(<line>) : <error|warning> <code> : <message>".

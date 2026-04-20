@@ -1,0 +1,99 @@
+;=================================================================
+;  hello_debug.hsp — VS Code デバッガ + LSP 色分けデモ
+;
+;  このファイルは下の 4 カテゴリを網羅しているので、
+;  セマンティックトークン適用後はそれぞれ色が変わって見えるはず。
+;
+;    1. ユーザ定義関数        : greet / compute_sum / log_kv   (function)
+;    2. 外部 DLL 関数         : GetTickCount / GetCurrentProcessId / Sleep (method)
+;    3. ビルトイン命令/関数   : mes / dim / sdim / ddim / int / double / …  (macro)
+;    4. 制御構文キーワード    : if / else / repeat / loop / return / end  (keyword)
+;=================================================================
+
+#include "kernel32.as"   ; GetTickCount / Sleep / GetCurrentProcessId 等
+
+;-----------------------------------------------------------------
+;  ユーザ定義モジュール (dfnc from .hsp → function)
+;-----------------------------------------------------------------
+#module mathx
+
+#defcfunc compute_sum int _a, int _b
+    return _a + _b
+
+#deffunc log_kv str _key, int _val
+    mes _key + " = " + _val
+    return
+
+#global
+
+;-----------------------------------------------------------------
+;  ユーザ定義関数 (top-level)
+;-----------------------------------------------------------------
+#deffunc greet str _name
+    mes "Hello, " + _name + "!"
+    return
+
+;-----------------------------------------------------------------
+;  変数宣言 (ビルトイン命令 — dim/sdim/ddim)
+;-----------------------------------------------------------------
+    dim iarr, 3, 2
+    iarr(0,0) = 1 : iarr(1,0) = 2 : iarr(2,0) = 3
+    iarr(0,1) = 10 : iarr(1,1) = 20 : iarr(2,1) = 30
+
+    sdim sarr, 64, 3
+    sarr(0) = "hello" : sarr(1) = "world" : sarr(2) = "foo"
+
+    ddim darr, 2
+    darr(0) = 1.5 : darr(1) = 2.5
+
+    ddim y, 1
+    sdim s, 64
+
+    x = 100
+    y = 3.14
+    s = "original"
+
+    _bp_target = 1          ; ← line 45: F5 はここで止める BP target
+
+    ;-----------------------------------------------------------------
+    ;  制御構文 + ビルトイン関数呼び出し
+    ;-----------------------------------------------------------------
+    greet "IronHSP"                        ; ユーザ定義命令
+    sum = compute_sum(40, 2)               ; ユーザ定義関数
+    log_kv "sum", sum                      ; モジュール内ユーザ定義
+
+    mes "=== builtin + external DLL demo ==="
+
+    repeat 3
+        mes "loop iter: " + cnt
+    loop
+
+    if x > 50 {
+        mes "x is large"
+    } else {
+        mes "x is small"
+    }
+
+    ;-----------------------------------------------------------------
+    ;  外部 DLL 呼び出し (dfnc from .as → method)
+    ;-----------------------------------------------------------------
+    GetTickCount           ; → stat に tick 値が入る
+    mes "GetTickCount stat = " + stat
+
+    GetCurrentProcessId
+    mes "pid = " + stat
+
+    ; Sleep は重いと困るので 1ms だけ
+    Sleep 1
+
+    ;-----------------------------------------------------------------
+    ;  後片付け + 終了
+    ;-----------------------------------------------------------------
+    mes "=== after write-back ==="
+    mes "x=" + x
+    mes "y=" + y
+    mes "s=" + s
+    mes "iarr(1,1)=" + iarr(1,1)
+    mes "darr(0)=" + darr(0)
+    mes "sarr(2)=" + sarr(2)
+    end

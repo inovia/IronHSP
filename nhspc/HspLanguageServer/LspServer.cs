@@ -507,27 +507,46 @@ namespace HspLanguageServer {
             // Control-flow keywords get `keyword` colour.
             if (ControlKeywords.Contains(word)) return TYPE_KEYWORD;
 
-            // Workspace symbols (user / library) take precedence over builtins
-            // so a shadowed name colours to the shadowing site's kind.
+            // Workspace symbols (user / library) take precedence over builtins.
+            // hspcmp categorises entries as:
+            //   dfnc — #deffunc / #defcfunc (user) OR imported #func from .as
+            //   dmac — #define / #const / #enum AND (surprise) #func in .as
+            //          is also listed under dmac since it registers a keyword
+            // So we decide on the defining file's extension:
+            //   hspdef.as → builtin macro (HSP runtime constant)
+            //   other .as → external DLL method
+            //   .hsp      → user-defined (function or macro)
             if (syms != null) {
                 string key = word.ToLowerInvariant();
                 if (syms.TryGetValue(key, out var hits)) {
                     foreach (var s in hits) {
+                        string fname = Path.GetFileName(s.File ?? "");
+                        bool isAsFile  = fname.EndsWith(".as", StringComparison.OrdinalIgnoreCase);
+                        bool isHspdef  = string.Equals(fname, "hspdef.as", StringComparison.OrdinalIgnoreCase);
+
                         if (s.Kind == "dfnc") {
-                            string f = s.File ?? "";
-                            return f.EndsWith(".as", StringComparison.OrdinalIgnoreCase)
-                                ? TYPE_METHOD
-                                : TYPE_FUNCTION;
+                            return (isAsFile && !isHspdef) ? TYPE_METHOD : TYPE_FUNCTION;
                         }
+                        if (s.Kind == "dexc") {
+                            // External DLL function (#func/#cfunc) — almost
+                            // always in an .as file; if it isn't, still treat
+                            // as library binding.
+                            return TYPE_METHOD;
+                        }
+                        if (s.Kind == "dmac") {
+                            if (isHspdef) return TYPE_MACRO;      // runtime constant
+                            if (isAsFile) return TYPE_METHOD;      // #define alias in DLL binding
+                            return TYPE_FUNCTION;                  // user #define / #const
+                        }
+                        // dvar / dlab / dmod intentionally fall through.
                     }
                 }
             }
 
-            // HSP runtime builtins.
+            // HSP runtime builtins (from hspcmp -lk).
             if (_builtins != null && _builtins.Contains(word)) return TYPE_MACRO;
 
-            return -1;  // Not a named symbol we want to colour — let the
-                        // TextMate grammar handle it.
+            return -1;  // Let the TextMate grammar handle it.
         }
 
         // ================ Helpers ================
@@ -576,6 +595,7 @@ namespace HspLanguageServer {
         private static string KindLabel(string kind) {
             switch (kind) {
                 case "dfnc": return "(function)";
+                case "dexc": return "(DLL function)";
                 case "dlab": return "(label)";
                 case "dvar": return "(variable)";
                 case "dmac": return "(macro)";
@@ -588,6 +608,7 @@ namespace HspLanguageServer {
             // LSP SymbolKind values.
             switch (kind) {
                 case "dfnc": return 12; // Function
+                case "dexc": return 6;  // Method (external DLL)
                 case "dlab": return 13; // Variable (closest for labels)
                 case "dvar": return 13; // Variable
                 case "dmac": return 14; // Constant
@@ -600,6 +621,7 @@ namespace HspLanguageServer {
             // LSP CompletionItemKind values.
             switch (kind) {
                 case "dfnc": return 3;  // Function
+                case "dexc": return 2;  // Method
                 case "dlab": return 20; // EnumMember (closest for label)
                 case "dvar": return 6;  // Variable
                 case "dmac": return 21; // Constant
