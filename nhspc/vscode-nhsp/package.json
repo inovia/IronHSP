@@ -14,7 +14,11 @@
     "Chat"
   ],
   "activationEvents": [
-    "onLanguage:nhsp"
+    "onLanguage:nhsp",
+    "onLanguage:hsp",
+    "onDebug",
+    "onDebugResolve:hsp3net",
+    "onDebugDynamicConfigurations:hsp3net"
   ],
   "main": "./src/extension.js",
   "contributes": {

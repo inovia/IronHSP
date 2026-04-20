@@ -83,9 +83,18 @@ static HANDLE    g_pipe_cmd = INVALID_HANDLE_VALUE;
 static HANDLE    g_pipe_thread = nullptr;
 static std::atomic<bool> g_shutdown{false};
 
-// Breakpoints: file -> set of lines
+// Breakpoints keyed by file *basename* (lowercase), not full path. VS Code
+// sends absolute paths but HSP's dbginfo.fname is usually a relative/leaf
+// name, so we normalise both sides to basename + case-folded for matching.
 static std::mutex g_bp_mutex;
 static std::set<std::pair<std::string, int>> g_breakpoints;
+
+static std::string path_basename_lower(const std::string& p) {
+    auto slash = p.find_last_of("/\\");
+    std::string b = (slash == std::string::npos) ? p : p.substr(slash + 1);
+    for (auto& c : b) c = (char)tolower((unsigned char)c);
+    return b;
+}
 
 // Exe-exported BP count — we write to this so the dispatch loop can
 // cheaply test `hsp3dap_bp_count > 0` without crossing the DLL boundary.
@@ -226,7 +235,7 @@ extern "C" __declspec(dllexport) int __stdcall hsp3dap_check_bp(const char* file
     std::lock_guard<std::mutex> lock(g_bp_mutex);
     if (g_breakpoints.empty()) return 0;
     if (!file) return 0;
-    auto it = g_breakpoints.find({std::string(file), line});
+    auto it = g_breakpoints.find({path_basename_lower(file), line});
     return it != g_breakpoints.end() ? 1 : 0;
 }
 
@@ -251,7 +260,8 @@ static void sync_bp_count_to_exe_locked() {
 static void handle_command(const std::string& line) {
     std::string cmd = json_get_str(line, "cmd");
     if (cmd == "set_bp") {
-        std::string file = json_get_str(line, "file");
+        std::string file_raw = json_get_str(line, "file");
+        std::string file = path_basename_lower(file_raw);
         std::lock_guard<std::mutex> lock(g_bp_mutex);
         // Remove all BPs for this file
         for (auto it = g_breakpoints.begin(); it != g_breakpoints.end();) {
@@ -636,7 +646,7 @@ extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int
             reason = "entry";
             g_entry_stop_consumed = true;
         } else if (!g_breakpoints.empty() && dbg->fname &&
-                   g_breakpoints.find({std::string(dbg->fname), dbg->line}) != g_breakpoints.end()) {
+                   g_breakpoints.find({path_basename_lower(dbg->fname), dbg->line}) != g_breakpoints.end()) {
             reason = "breakpoint";
         } else if (g_step_requested) {
             reason = "step";
