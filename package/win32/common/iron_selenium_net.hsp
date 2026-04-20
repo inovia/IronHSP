@@ -1,0 +1,338 @@
+;============================================================
+;   iron_selenium_net.hsp — Selenium WebDriver (.NET 版) ラッパ
+;
+;   Selenium.WebDriver (.NET) NuGet パッケージを inline C# で使い、
+;   Firefox / Chrome / Edge を WebDriver 経由で自動化する。
+;   iron_cdp は Chrome 系専用だが、こちらは多ブラウザ対応が特徴。
+;
+;   前提:
+;     Selenium.WebDriver.dll (と各 Driver EXE: chromedriver.exe /
+;     msedgedriver.exe / geckodriver.exe) を実行フォルダ or PATH に
+;     配置。
+;     WebDriver NuGet (2024 以降は Selenium.WebDriver が既定):
+;        Install-Package Selenium.WebDriver
+;
+;   API:
+;     sel_start "chrome"|"edge"|"firefox"   ドライバ起動
+;     sel_start_headless "chrome"            --headless モード
+;     sel_goto "url"                          URL 遷移
+;     sel_find "by", "value", var_id         要素検索
+;                                              by: "id" / "css" / "xpath" /
+;                                                 "name" / "tag" / "class" /
+;                                                 "link" / "partiallink"
+;     sel_click element_id
+;     sel_type element_id, "text"
+;     sel_clear element_id
+;     sel_submit element_id
+;     sel_text element_id, var_out
+;     sel_attr element_id, "name", var_out
+;     sel_is_displayed element_id             → stat 1/0
+;     sel_execute_script "js_code", var_out
+;     sel_screenshot "out.png"
+;     sel_title var_out
+;     sel_url var_out
+;     sel_back / sel_forward / sel_refresh
+;     sel_wait_visible element_id, timeout_ms
+;     sel_quit                                 ブラウザ終了
+;============================================================
+#ifndef __iron_selenium_net_hsp__
+#define __iron_selenium_net_hsp__
+
+#module iron_selenium
+
+dim _sel_cs_loaded, 1
+
+#deffunc _sel_load_cs
+	if _sel_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
+
+public class HspSelenium {
+    static IWebDriver driver;
+    static Dictionary<int, IWebElement> elements = new Dictionary<int, IWebElement>();
+    static int nextId = 1;
+
+    public static string Start(string browser) {
+        try { return StartInternal(browser, false); }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string StartHeadless(string browser) {
+        try { return StartInternal(browser, true); }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    static string StartInternal(string browser, bool headless) {
+        browser = (browser ?? \"chrome\").ToLower();
+        if (browser == \"chrome\") {
+            var opts = new ChromeOptions();
+            if (headless) opts.AddArgument(\"--headless=new\");
+            driver = new ChromeDriver(opts);
+        } else if (browser == \"edge\") {
+            var opts = new EdgeOptions();
+            if (headless) opts.AddArgument(\"--headless=new\");
+            driver = new EdgeDriver(opts);
+        } else if (browser == \"firefox\") {
+            var opts = new FirefoxOptions();
+            if (headless) opts.AddArgument(\"--headless\");
+            driver = new FirefoxDriver(opts);
+        } else {
+            return \"-1\\tunknown_browser\";
+        }
+        return \"0\";
+    }
+
+    public static string Goto(string url) {
+        try { driver.Navigate().GoToUrl(url); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Find(string by, string value) {
+        try {
+            if (driver == null) return \"-1\\tno_driver\";
+            By locator;
+            switch ((by ?? \"\").ToLower()) {
+                case \"id\":           locator = By.Id(value); break;
+                case \"css\":          locator = By.CssSelector(value); break;
+                case \"xpath\":        locator = By.XPath(value); break;
+                case \"name\":         locator = By.Name(value); break;
+                case \"tag\":          locator = By.TagName(value); break;
+                case \"class\":        locator = By.ClassName(value); break;
+                case \"link\":         locator = By.LinkText(value); break;
+                case \"partiallink\":  locator = By.PartialLinkText(value); break;
+                default: return \"-1\\tunknown_by\";
+            }
+            var el = driver.FindElement(locator);
+            int id = nextId++;
+            elements[id] = el;
+            return id.ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Click(int id) {
+        try { elements[id].Click(); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Type(int id, string text) {
+        try { elements[id].SendKeys(text ?? \"\"); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Clear(int id) {
+        try { elements[id].Clear(); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Submit(int id) {
+        try { elements[id].Submit(); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Text(int id) {
+        try { return elements[id].Text ?? \"\"; }
+        catch { return \"\"; }
+    }
+    public static string Attr(int id, string name) {
+        try { return elements[id].GetAttribute(name) ?? \"\"; }
+        catch { return \"\"; }
+    }
+    public static string IsDisplayed(int id) {
+        try { return elements[id].Displayed ? \"1\" : \"0\"; }
+        catch { return \"0\"; }
+    }
+    public static string Execute(string js) {
+        try {
+            if (!(driver is IJavaScriptExecutor je)) return \"\";
+            var v = je.ExecuteScript(js);
+            return v == null ? \"\" : v.ToString();
+        } catch (Exception e) { return \"ERROR:\" + e.Message; }
+    }
+    public static string Screenshot(string path) {
+        try {
+            var ss = ((ITakesScreenshot)driver).GetScreenshot();
+            ss.SaveAsFile(path);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Title() {
+        try { return driver.Title ?? \"\"; } catch { return \"\"; }
+    }
+    public static string Url() {
+        try { return driver.Url ?? \"\"; } catch { return \"\"; }
+    }
+    public static string Back() { try { driver.Navigate().Back(); return \"0\"; } catch (Exception e) { return \"-1\\t\" + e.Message; } }
+    public static string Forward() { try { driver.Navigate().Forward(); return \"0\"; } catch (Exception e) { return \"-1\\t\" + e.Message; } }
+    public static string Refresh() { try { driver.Navigate().Refresh(); return \"0\"; } catch (Exception e) { return \"-1\\t\" + e.Message; } }
+
+    public static string WaitVisible(int id, int timeout_ms) {
+        try {
+            var wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(timeout_ms));
+            wait.Until(d => elements[id].Displayed);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Quit() {
+        try {
+            if (driver != null) {
+                driver.Quit();
+                driver.Dispose();
+                driver = null;
+            }
+            elements.Clear();
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+}
+"}
+	loadnet _cs, 3, "Selenium.WebDriver.dll", "WebDriver.Support.dll"
+	_sel_cs_loaded = 1
+	return
+
+#deffunc sel_start str browser, \
+	local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Start", _r, browser
+	return int("" + _r)
+
+#deffunc sel_start_headless str browser, \
+	local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "StartHeadless", _r, browser
+	return int("" + _r)
+
+#deffunc sel_goto str url, \
+	local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Goto", _r, url
+	return int("" + _r)
+
+#deffunc sel_find str by, str value, var v_id, \
+	local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Find", _r, by, value
+	v_id = int("" + _r)
+	return v_id
+
+#deffunc sel_click int id, local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Click", _r, id
+	return int("" + _r)
+
+#deffunc sel_type int id, str text, local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Type", _r, id, text
+	return int("" + _r)
+
+#deffunc sel_clear int id, local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Clear", _r, id
+	return int("" + _r)
+
+#deffunc sel_submit int id, local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Submit", _r, id
+	return int("" + _r)
+
+#deffunc sel_text int id, var v_out, \
+	local _h, local _r
+	sdim v_out, 65536
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Text", _r, id
+	v_out = "" + _r
+	return 0
+
+#deffunc sel_attr int id, str name, var v_out, \
+	local _h, local _r
+	sdim v_out, 4096
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Attr", _r, id, name
+	v_out = "" + _r
+	return 0
+
+#defcfunc sel_is_displayed int id, local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "IsDisplayed", _r, id
+	return int("" + _r)
+
+#deffunc sel_execute_script str js, var v_out, \
+	local _h, local _r
+	sdim v_out, 65536
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Execute", _r, js
+	v_out = "" + _r
+	return 0
+
+#deffunc sel_screenshot str path, \
+	local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Screenshot", _r, path
+	return int("" + _r)
+
+#deffunc sel_title var v_out, \
+	local _h, local _r
+	sdim v_out, 1024
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Title", _r
+	v_out = "" + _r
+	return 0
+
+#deffunc sel_url var v_out, \
+	local _h, local _r
+	sdim v_out, 4096
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Url", _r
+	v_out = "" + _r
+	return 0
+
+#deffunc sel_back local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Back", _r
+	return int("" + _r)
+
+#deffunc sel_forward local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Forward", _r
+	return int("" + _r)
+
+#deffunc sel_refresh local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Refresh", _r
+	return int("" + _r)
+
+#deffunc sel_wait_visible int id, int timeout_ms, local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "WaitVisible", _r, id, timeout_ms
+	return int("" + _r)
+
+#deffunc sel_quit local _h, local _r
+	_sel_load_cs
+	newnet _h, "HspSelenium"
+	mcall _h, "Quit", _r
+	return int("" + _r)
+
+#global
+#endif

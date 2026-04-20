@@ -1,0 +1,423 @@
+;============================================================
+;   iron_cdp.hsp — Chrome DevTools Protocol (CDP) クライアント
+;
+;   Chrome / Edge を `--remote-debugging-port=9222` で起動すると、
+;   DevTools Protocol が http://127.0.0.1:9222/json で公開される。
+;   各タブ固有の ws://... に WebSocket 接続し、JSON-RPC 風に
+;   コマンドを投げてページを操作する。
+;
+;   hsp3net 専用 (System.Net.WebSockets.ClientWebSocket + inline C#)。
+;
+;   機能:
+;     - Chrome/Edge に --remote-debugging-port で接続
+;     - 既存タブ一覧 (http://127.0.0.1:9222/json)
+;     - 新規タブ作成
+;     - Page.navigate / Page.reload
+;     - Runtime.evaluate (JS 実行)
+;     - DOM.querySelector + DOM.focus + Input.dispatchKeyEvent / Mouse
+;     - ページスクリーンショット (Page.captureScreenshot base64 PNG)
+;     - PDF 印刷 (Page.printToPDF)
+;
+;   Chrome 起動例:
+;     chrome.exe --remote-debugging-port=9222 --user-data-dir=%TEMP%\chrome_cdp
+;
+;   API:
+;     cdp_connect "127.0.0.1", 9222         デバッグポート選択
+;     cdp_list_tabs var_tsv, var n           開いているタブ一覧
+;                                              "id|title|url|webSocketDebuggerUrl\n..."
+;     cdp_attach_tab_index idx               idx 番目のタブにアタッチ
+;     cdp_attach_tab_id "id"                 ID 直接指定
+;     cdp_new_tab "url"                      新規タブ open
+;     cdp_close_tab "id"
+;
+;     cdp_navigate "url"                     現在タブを url へ
+;     cdp_reload
+;     cdp_wait_load timeout_ms               ロード完了待機
+;
+;     cdp_eval "1+2", var_result             → JS 実行結果 (JSON)
+;     cdp_eval_str "document.title", var_out
+;     cdp_click "css_selector"               要素クリック
+;     cdp_type "css_selector", "text"         input/textarea に入力
+;     cdp_get_text "css_selector", var_out
+;     cdp_get_attr "css_selector", "href", var_out
+;     cdp_screenshot "out.png" [, fullPage]
+;     cdp_print_pdf "out.pdf"
+;
+;     cdp_disconnect
+;============================================================
+#ifndef __iron_cdp_hsp__
+#define __iron_cdp_hsp__
+
+#module iron_cdp
+
+dim _cdp_cs_loaded, 1
+
+#deffunc _cdp_load_cs
+	if _cdp_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.WebSockets;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+
+public class HspCdp {
+    static string host = \"127.0.0.1\";
+    static int port = 9222;
+    static ClientWebSocket ws;
+    static int nextId = 1;
+    static string currentTabId = \"\";
+
+    public static string Connect(string h, int p) {
+        host = h; port = p;
+        return \"0\";
+    }
+
+    public static string ListTabs() {
+        try {
+            using (var c = new HttpClient()) {
+                string url = \"http://\" + host + \":\" + port + \"/json\";
+                string body = c.GetStringAsync(url).Result;
+                var doc = JsonDocument.Parse(body);
+                var sb = new StringBuilder();
+                int n = 0;
+                foreach (var e in doc.RootElement.EnumerateArray()) {
+                    string id = e.TryGetProperty(\"id\", out var pid) ? pid.GetString() : \"\";
+                    string title = e.TryGetProperty(\"title\", out var pt) ? (pt.GetString() ?? \"\") : \"\";
+                    string u = e.TryGetProperty(\"url\", out var pu) ? (pu.GetString() ?? \"\") : \"\";
+                    string ws_url = e.TryGetProperty(\"webSocketDebuggerUrl\", out var pw) ? (pw.GetString() ?? \"\") : \"\";
+                    string type = e.TryGetProperty(\"type\", out var pty) ? (pty.GetString() ?? \"\") : \"\";
+                    if (type != \"page\") continue;
+                    sb.Append(id).Append('|').Append(title.Replace('|','/')).Append('|')
+                      .Append(u.Replace('|','/')).Append('|').Append(ws_url).Append('\\n');
+                    n++;
+                }
+                return n + \"\\t\" + sb.ToString();
+            }
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string AttachByIndex(int idx) {
+        try {
+            string list = ListTabs();
+            int tab = list.IndexOf('\\t');
+            if (tab < 0) return \"-1\";
+            string body = list.Substring(tab + 1);
+            var lines = body.Split('\\n');
+            if (idx < 0 || idx >= lines.Length) return \"-1\";
+            var parts = lines[idx].Split('|');
+            if (parts.Length < 4) return \"-1\";
+            currentTabId = parts[0];
+            return AttachToWs(parts[3]);
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string AttachById(string id) {
+        try {
+            string list = ListTabs();
+            int tab = list.IndexOf('\\t');
+            string body = list.Substring(tab + 1);
+            foreach (var ln in body.Split('\\n')) {
+                var parts = ln.Split('|');
+                if (parts.Length < 4) continue;
+                if (parts[0] == id) { currentTabId = id; return AttachToWs(parts[3]); }
+            }
+            return \"-1\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    static string AttachToWs(string wsUrl) {
+        try {
+            if (ws != null) { try { ws.Dispose(); } catch {} }
+            ws = new ClientWebSocket();
+            ws.ConnectAsync(new Uri(wsUrl), CancellationToken.None).Wait();
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string NewTab(string url) {
+        try {
+            using (var c = new HttpClient()) {
+                string api = \"http://\" + host + \":\" + port + \"/json/new?\" + Uri.EscapeDataString(url);
+                string body = c.PutAsync(api, new StringContent(\"\")).Result.Content.ReadAsStringAsync().Result;
+                var doc = JsonDocument.Parse(body);
+                string wsUrl = doc.RootElement.GetProperty(\"webSocketDebuggerUrl\").GetString();
+                currentTabId = doc.RootElement.GetProperty(\"id\").GetString();
+                return AttachToWs(wsUrl);
+            }
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string CloseTab(string id) {
+        try {
+            using (var c = new HttpClient()) {
+                string api = \"http://\" + host + \":\" + port + \"/json/close/\" + id;
+                var resp = c.GetStringAsync(api).Result;
+                return \"0\";
+            }
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Send(string method, string paramsJson) {
+        try {
+            if (ws == null || ws.State != WebSocketState.Open) return \"-1\\tno_ws\";
+            int id = nextId++;
+            string msg = \"{\\\"id\\\":\" + id + \",\\\"method\\\":\\\"\" + method + \"\\\"\"
+                        + (string.IsNullOrEmpty(paramsJson) ? \"\" : \",\\\"params\\\":\" + paramsJson)
+                        + \"}\";
+            var sendBuf = Encoding.UTF8.GetBytes(msg);
+            ws.SendAsync(new ArraySegment<byte>(sendBuf), WebSocketMessageType.Text, true, CancellationToken.None).Wait();
+            // ID 一致のレスポンスまで受信
+            var sb = new StringBuilder();
+            byte[] buf = new byte[65536];
+            var tmo = DateTime.UtcNow.AddSeconds(30);
+            while (DateTime.UtcNow < tmo) {
+                sb.Clear();
+                WebSocketReceiveResult r;
+                do {
+                    r = ws.ReceiveAsync(new ArraySegment<byte>(buf), CancellationToken.None).Result;
+                    sb.Append(Encoding.UTF8.GetString(buf, 0, r.Count));
+                } while (!r.EndOfMessage);
+                string text = sb.ToString();
+                if (text.Contains(\"\\\"id\\\":\" + id)) return text;
+                // イベントメッセージは読み飛ばす
+            }
+            return \"-1\\ttimeout\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Navigate(string url) {
+        return Send(\"Page.navigate\", \"{\\\"url\\\":\\\"\" + JsonEsc(url) + \"\\\"}\");
+    }
+    public static string Reload() { return Send(\"Page.reload\", \"\"); }
+
+    public static string Eval(string jsCode) {
+        return Send(\"Runtime.evaluate\",
+            \"{\\\"expression\\\":\\\"\" + JsonEsc(jsCode) + \"\\\",\\\"returnByValue\\\":true}\");
+    }
+
+    public static string Screenshot(string path, int fullPage) {
+        try {
+            var r = Send(\"Page.captureScreenshot\",
+                fullPage != 0 ? \"{\\\"captureBeyondViewport\\\":true}\" : \"\");
+            var doc = JsonDocument.Parse(r);
+            if (!doc.RootElement.TryGetProperty(\"result\", out var rp)) return \"-1\";
+            if (!rp.TryGetProperty(\"data\", out var d)) return \"-1\";
+            var bytes = Convert.FromBase64String(d.GetString());
+            File.WriteAllBytes(path, bytes);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string PrintPdf(string path) {
+        try {
+            var r = Send(\"Page.printToPDF\", \"\");
+            var doc = JsonDocument.Parse(r);
+            if (!doc.RootElement.TryGetProperty(\"result\", out var rp)) return \"-1\";
+            if (!rp.TryGetProperty(\"data\", out var d)) return \"-1\";
+            var bytes = Convert.FromBase64String(d.GetString());
+            File.WriteAllBytes(path, bytes);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Click(string selector) {
+        string js = \"document.querySelector('\" + JsSafe(selector) + \"').click();\";
+        return Eval(js);
+    }
+    public static string Type(string selector, string text) {
+        string js = \"(function(){var e=document.querySelector('\" + JsSafe(selector) + \"');if(!e)return 'NOT_FOUND';e.focus();e.value='\" + JsSafe(text) + \"';e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));return 'OK';})()\";
+        return Eval(js);
+    }
+    public static string GetText(string selector) {
+        string js = \"(document.querySelector('\" + JsSafe(selector) + \"')||{textContent:''}).textContent\";
+        var r = Eval(js);
+        // 抽出: result.value
+        try {
+            var doc = JsonDocument.Parse(r);
+            return doc.RootElement.GetProperty(\"result\").GetProperty(\"result\").GetProperty(\"value\").GetString() ?? \"\";
+        } catch { return \"\"; }
+    }
+    public static string GetAttr(string selector, string attr) {
+        string js = \"(function(){var e=document.querySelector('\" + JsSafe(selector) + \"');return e?e.getAttribute('\" + JsSafe(attr) + \"'):'';})()\";
+        var r = Eval(js);
+        try {
+            var doc = JsonDocument.Parse(r);
+            return doc.RootElement.GetProperty(\"result\").GetProperty(\"result\").GetProperty(\"value\").GetString() ?? \"\";
+        } catch { return \"\"; }
+    }
+
+    public static string WaitLoad(int timeout_ms) {
+        try {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            while (sw.ElapsedMilliseconds < timeout_ms) {
+                var r = Eval(\"document.readyState\");
+                if (r.Contains(\"complete\")) return \"0\";
+                Thread.Sleep(100);
+            }
+            return \"-1\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Disconnect() {
+        try {
+            if (ws != null) {
+                try { ws.CloseAsync(WebSocketCloseStatus.NormalClosure, \"\", CancellationToken.None).Wait(1000); } catch {}
+                ws.Dispose(); ws = null;
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    static string JsonEsc(string s) {
+        if (s == null) return \"\";
+        return s.Replace(\"\\\\\", \"\\\\\\\\\").Replace(\"\\\"\", \"\\\\\\\"\").Replace(\"\\n\", \"\\\\n\").Replace(\"\\r\", \"\\\\r\");
+    }
+    static string JsSafe(string s) {
+        if (s == null) return \"\";
+        return s.Replace(\"\\\\\", \"\\\\\\\\\").Replace(\"'\", \"\\\\'\").Replace(\"\\n\", \"\\\\n\").Replace(\"\\r\", \"\\\\r\");
+    }
+}
+"}
+	loadnet _cs, 3, "System.Net.Http.dll", "System.Net.WebSockets.Client.dll", "System.Text.Json.dll"
+	_cdp_cs_loaded = 1
+	return
+
+#deffunc cdp_connect str host, int port, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Connect", _r, host, port
+	return int("" + _r)
+
+#deffunc cdp_list_tabs var v_out, var v_n, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "ListTabs", _r
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_n = 0 : v_out = "" : return -1
+	v_n = int(strmid(_s, 0, _tab))
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return v_n
+
+#deffunc cdp_attach_tab_index int idx, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "AttachByIndex", _r, idx
+	return int("" + _r)
+
+#deffunc cdp_attach_tab_id str id, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "AttachById", _r, id
+	return int("" + _r)
+
+#deffunc cdp_new_tab str url, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "NewTab", _r, url
+	return int("" + _r)
+
+#deffunc cdp_close_tab str id, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "CloseTab", _r, id
+	return int("" + _r)
+
+#deffunc cdp_navigate str url, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Navigate", _r, url
+	return 0
+
+#deffunc cdp_reload \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Reload", _r
+	return 0
+
+#deffunc cdp_wait_load int timeout_ms, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "WaitLoad", _r, timeout_ms
+	return int("" + _r)
+
+#deffunc cdp_eval str js, var v_out, \
+	local _h, local _r
+	sdim v_out, 65536
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Eval", _r, js
+	v_out = "" + _r
+	return 0
+
+#deffunc cdp_click str selector, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Click", _r, selector
+	return 0
+
+#deffunc cdp_type str selector, str text, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Type", _r, selector, text
+	return 0
+
+#deffunc cdp_get_text str selector, var v_out, \
+	local _h, local _r
+	sdim v_out, 65536
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "GetText", _r, selector
+	v_out = "" + _r
+	return 0
+
+#deffunc cdp_get_attr str selector, str attr, var v_out, \
+	local _h, local _r
+	sdim v_out, 4096
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "GetAttr", _r, selector, attr
+	v_out = "" + _r
+	return 0
+
+#deffunc cdp_screenshot str path, array _opt, \
+	local _full, local _h, local _r
+	_full = 0
+	if length(_opt) >= 1 : _full = _opt(0)
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Screenshot", _r, path, _full
+	return int("" + _r)
+
+#deffunc cdp_print_pdf str path, \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "PrintPdf", _r, path
+	return int("" + _r)
+
+#deffunc cdp_disconnect \
+	local _h, local _r
+	_cdp_load_cs
+	newnet _h, "HspCdp"
+	mcall _h, "Disconnect", _r
+	return 0
+
+#global
+#endif
