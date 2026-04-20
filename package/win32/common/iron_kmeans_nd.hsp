@@ -1,0 +1,221 @@
+;============================================================
+;   iron_kmeans_nd.hsp — n 次元 K-means + K-means++ 初期化
+;
+;   既存 iron_kmeans (2D 固定) の汎化版。任意次元、K-means++、
+;   収束判定 (重心変化 < tol)、max_iter、inertia (クラスタ内分散和)。
+;   実数座標のラベルに加えて、後続処理用の重心座標も返す。
+;   hsp3net 専用 (inline C#)。
+;
+;   API:
+;     kmn_fit X, n, n_feat, k, max_iter, tol
+;     kmn_labels array v_labels, int n                   → 各点のクラスタ id
+;     kmn_centroids array v_centers, int k, int n_feat   → 重心 [k * n_feat]
+;     kmn_inertia                                        → stat 値 (double)
+;     kmn_predict X, n, n_feat, array v_labels           新データを近い重心へ
+;     kmn_release
+;============================================================
+#ifndef __iron_kmeans_nd_hsp__
+#define __iron_kmeans_nd_hsp__
+
+#module iron_kmeans_nd
+
+dim _kmn_cs_loaded, 1
+
+#deffunc _kmn_load_cs
+	if _kmn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Globalization;
+using System.Text;
+
+public class HspKMeansNd {
+    static double[] centers;     // [k * nFeat]
+    static int[] labels;         // [n]
+    static int nFeat, k, nLast;
+    static double inertia;
+    static Random rng = new Random(42);
+
+    public static string Fit(double[] X, int n, int f, int K, int maxIter, double tol) {
+        nFeat = f; k = K; nLast = n;
+        centers = new double[k * f];
+        labels = new int[n];
+        // K-means++ init
+        int first = rng.Next(n);
+        Array.Copy(X, first * f, centers, 0, f);
+        var distSq = new double[n];
+        for (int cc = 1; cc < k; cc++) {
+            double sum = 0;
+            for (int i = 0; i < n; i++) {
+                double m = double.PositiveInfinity;
+                for (int c2 = 0; c2 < cc; c2++) {
+                    double d = 0;
+                    for (int fi = 0; fi < f; fi++) { double dd = X[i * f + fi] - centers[c2 * f + fi]; d += dd * dd; }
+                    if (d < m) m = d;
+                }
+                distSq[i] = m; sum += m;
+            }
+            double pick = rng.NextDouble() * sum;
+            double acc = 0; int chosen = n - 1;
+            for (int i = 0; i < n; i++) { acc += distSq[i]; if (acc >= pick) { chosen = i; break; } }
+            Array.Copy(X, chosen * f, centers, cc * f, f);
+        }
+        // Iterations
+        var counts = new int[k];
+        var newC = new double[k * f];
+        for (int iter = 0; iter < maxIter; iter++) {
+            // assign
+            for (int i = 0; i < n; i++) {
+                double m = double.PositiveInfinity; int best = 0;
+                for (int c = 0; c < k; c++) {
+                    double d = 0;
+                    for (int fi = 0; fi < f; fi++) { double dd = X[i * f + fi] - centers[c * f + fi]; d += dd * dd; }
+                    if (d < m) { m = d; best = c; }
+                }
+                labels[i] = best;
+            }
+            // recompute
+            Array.Clear(counts, 0, k);
+            Array.Clear(newC, 0, k * f);
+            for (int i = 0; i < n; i++) {
+                int c = labels[i];
+                counts[c]++;
+                for (int fi = 0; fi < f; fi++) newC[c * f + fi] += X[i * f + fi];
+            }
+            double shift = 0;
+            for (int c = 0; c < k; c++) {
+                if (counts[c] == 0) continue;
+                for (int fi = 0; fi < f; fi++) {
+                    double nv = newC[c * f + fi] / counts[c];
+                    double d = nv - centers[c * f + fi];
+                    shift += d * d;
+                    centers[c * f + fi] = nv;
+                }
+            }
+            if (shift < tol) break;
+        }
+        // compute inertia
+        inertia = 0;
+        for (int i = 0; i < n; i++) {
+            int c = labels[i];
+            double d = 0;
+            for (int fi = 0; fi < f; fi++) { double dd = X[i * f + fi] - centers[c * f + fi]; d += dd * dd; }
+            inertia += d;
+        }
+        return \"0\";
+    }
+
+    public static string Labels() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < labels.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(labels[i]); }
+        return sb.ToString();
+    }
+    public static string Centroids() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < centers.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(centers[i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+        return sb.ToString();
+    }
+    public static double Inertia() { return inertia; }
+    public static string Predict(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            double m = double.PositiveInfinity; int best = 0;
+            for (int c = 0; c < k; c++) {
+                double d = 0;
+                for (int fi = 0; fi < nFeat; fi++) { double dd = X[i * nFeat + fi] - centers[c * nFeat + fi]; d += dd * dd; }
+                if (d < m) { m = d; best = c; }
+            }
+            if (i > 0) sb.Append('\\t');
+            sb.Append(best);
+        }
+        return sb.ToString();
+    }
+    public static string Release() { centers = null; labels = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_kmn_cs_loaded = 1
+	return
+
+#deffunc _kmn_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _kmn_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc kmn_fit array X, int n, int n_feat, int k, int max_iter, double tol, \
+	local _h, local _r
+	_kmn_load_cs
+	newnet _h, "HspKMeansNd"
+	mcall _h, "Fit", _r, X, n, n_feat, k, max_iter, tol
+	return int("" + _r)
+
+#deffunc kmn_labels array v_labels, int n, \
+	local _h, local _r, local _tsv
+	_kmn_load_cs
+	newnet _h, "HspKMeansNd"
+	mcall _h, "Labels", _r
+	_tsv = "" + _r
+	_kmn_parse_i _tsv, v_labels, n
+	return 0
+
+#deffunc kmn_centroids array v_centers, int k, int n_feat, \
+	local _h, local _r, local _tsv
+	_kmn_load_cs
+	newnet _h, "HspKMeansNd"
+	mcall _h, "Centroids", _r
+	_tsv = "" + _r
+	_kmn_parse_d _tsv, v_centers, k * n_feat
+	return 0
+
+#defcfunc kmn_inertia \
+	local _h, local _r
+	_kmn_load_cs
+	newnet _h, "HspKMeansNd"
+	mcall _h, "Inertia", _r
+	return double("" + _r)
+
+#deffunc kmn_predict array X, int n, array v_labels, \
+	local _h, local _r, local _tsv
+	_kmn_load_cs
+	newnet _h, "HspKMeansNd"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_kmn_parse_i _tsv, v_labels, n
+	return 0
+
+#deffunc kmn_release \
+	local _h, local _r
+	_kmn_load_cs
+	newnet _h, "HspKMeansNd"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

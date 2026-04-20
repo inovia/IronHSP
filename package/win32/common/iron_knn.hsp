@@ -1,0 +1,240 @@
+;============================================================
+;   iron_knn.hsp — k-Nearest Neighbors (分類+回帰)
+;
+;   ブルートフォース全探索 + 距離関数切替 (euclidean/manhattan/
+;   chebyshev/cosine)。重み付き投票 (distance/uniform)。
+;   回帰は近傍の y 平均 or 距離重み付き平均。
+;   hsp3net 専用 (inline C#)。
+;
+;   API:
+;     knn_fit X, y_int or y_double, n, n_feat, [n_classes]
+;         task は y の種類で判別 (y_int が渡されたら分類)
+;     knn_config "metric", "euclidean|manhattan|chebyshev|cosine"
+;     knn_config "k", "5" / knn_config "weights", "uniform|distance"
+;     knn_predict X, n, n_feat, array v_out
+;     knn_score X, y_int, n → accuracy (分類)
+;     knn_score_regression X, y_d, n → R²
+;     knn_release
+;============================================================
+#ifndef __iron_knn_hsp__
+#define __iron_knn_hsp__
+
+#module iron_knn
+
+dim _knn_cs_loaded, 1
+
+#deffunc _knn_load_cs
+	if _knn_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Globalization;
+using System.Text;
+
+public class HspKNN {
+    static double[] Xtr;
+    static int[] yi_tr;
+    static double[] yd_tr;
+    static int n, nFeat, nCls;
+    static string task = \"classification\";
+    static string metric = \"euclidean\";
+    static int K = 5;
+    static string weights = \"uniform\";
+
+    public static string FitClassification(double[] X, int[] y, int ns, int f, int c) {
+        Xtr = X; yi_tr = y; n = ns; nFeat = f; nCls = c;
+        task = \"classification\"; yd_tr = null;
+        return \"0\";
+    }
+    public static string FitRegression(double[] X, double[] y, int ns, int f) {
+        Xtr = X; yd_tr = y; n = ns; nFeat = f;
+        task = \"regression\"; yi_tr = null;
+        return \"0\";
+    }
+    public static string Config(string k, string v) {
+        switch (k) {
+            case \"metric\": metric = v; break;
+            case \"k\": K = int.Parse(v); break;
+            case \"weights\": weights = v; break;
+            default: return \"-1\";
+        }
+        return \"0\";
+    }
+
+    static double Dist(double[] X, int i1, double[] Y, int i2) {
+        double s = 0;
+        if (metric == \"manhattan\") {
+            for (int f = 0; f < nFeat; f++) s += Math.Abs(X[i1 * nFeat + f] - Y[i2 * nFeat + f]);
+            return s;
+        }
+        if (metric == \"chebyshev\") {
+            for (int f = 0; f < nFeat; f++) { double d = Math.Abs(X[i1 * nFeat + f] - Y[i2 * nFeat + f]); if (d > s) s = d; }
+            return s;
+        }
+        if (metric == \"cosine\") {
+            double dot = 0, na = 0, nb = 0;
+            for (int f = 0; f < nFeat; f++) { double a = X[i1 * nFeat + f], b = Y[i2 * nFeat + f]; dot += a * b; na += a * a; nb += b * b; }
+            double denom = Math.Sqrt(na * nb);
+            return denom > 1e-12 ? 1.0 - dot / denom : 1.0;
+        }
+        // euclidean
+        for (int f = 0; f < nFeat; f++) { double d = X[i1 * nFeat + f] - Y[i2 * nFeat + f]; s += d * d; }
+        return Math.Sqrt(s);
+    }
+
+    public static string Predict(double[] Xq, int nq) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < nq; i++) {
+            // find K nearest
+            var dist = new double[n];
+            var idx = new int[n];
+            for (int j = 0; j < n; j++) { dist[j] = Dist(Xq, i, Xtr, j); idx[j] = j; }
+            // partial sort: K 番目までの最小選択
+            for (int k = 0; k < K; k++) {
+                int mi = k;
+                for (int j = k + 1; j < n; j++) if (dist[j] < dist[mi]) mi = j;
+                if (mi != k) { double dt = dist[k]; dist[k] = dist[mi]; dist[mi] = dt; int it = idx[k]; idx[k] = idx[mi]; idx[mi] = it; }
+            }
+            if (i > 0) sb.Append('\\t');
+            if (task == \"classification\") {
+                var votes = new double[nCls];
+                for (int k = 0; k < K; k++) {
+                    double w = weights == \"distance\" ? 1.0 / (dist[k] + 1e-9) : 1.0;
+                    votes[yi_tr[idx[k]]] += w;
+                }
+                int best = 0; double bv = votes[0];
+                for (int c = 1; c < nCls; c++) if (votes[c] > bv) { bv = votes[c]; best = c; }
+                sb.Append(best);
+            } else {
+                double sum = 0, wsum = 0;
+                for (int k = 0; k < K; k++) {
+                    double w = weights == \"distance\" ? 1.0 / (dist[k] + 1e-9) : 1.0;
+                    sum += w * yd_tr[idx[k]];
+                    wsum += w;
+                }
+                sb.Append((sum / wsum).ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+    public static double ScoreClassification(double[] Xq, int[] y, int nq) {
+        int ok = 0;
+        var tsv = Predict(Xq, nq);
+        var parts = tsv.Split('\\t');
+        for (int i = 0; i < nq; i++) if (int.Parse(parts[i]) == y[i]) ok++;
+        return (double)ok / nq;
+    }
+    public static double ScoreRegression(double[] Xq, double[] y, int nq) {
+        var tsv = Predict(Xq, nq);
+        var parts = tsv.Split('\\t');
+        double mean = 0;
+        for (int i = 0; i < nq; i++) mean += y[i];
+        mean /= nq;
+        double sr = 0, st = 0;
+        for (int i = 0; i < nq; i++) {
+            double p = double.Parse(parts[i], CultureInfo.InvariantCulture);
+            sr += (y[i] - p) * (y[i] - p);
+            st += (y[i] - mean) * (y[i] - mean);
+        }
+        return st > 1e-12 ? 1.0 - sr / st : 0;
+    }
+    public static string Release() { Xtr = null; yi_tr = null; yd_tr = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_knn_cs_loaded = 1
+	return
+
+#deffunc _knn_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _knn_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc knn_fit_classification array X, array y_int, int n, int n_feat, int n_classes, \
+	local _h, local _r
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "FitClassification", _r, X, y_int, n, n_feat, n_classes
+	return int("" + _r)
+
+#deffunc knn_fit_regression array X, array y_d, int n, int n_feat, \
+	local _h, local _r
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "FitRegression", _r, X, y_d, n, n_feat
+	return int("" + _r)
+
+#deffunc knn_config str k, str v, local _h, local _r
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "Config", _r, k, v
+	return int("" + _r)
+
+#deffunc knn_predict_classification array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_knn_parse_i _tsv, v_out, n
+	return 0
+
+#deffunc knn_predict_regression array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_knn_parse_d _tsv, v_out, n
+	return 0
+
+#defcfunc knn_score_classification array X, array y, int n, \
+	local _h, local _r
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "ScoreClassification", _r, X, y, n
+	return double("" + _r)
+
+#defcfunc knn_score_regression array X, array y, int n, \
+	local _h, local _r
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "ScoreRegression", _r, X, y, n
+	return double("" + _r)
+
+#deffunc knn_release \
+	local _h, local _r
+	_knn_load_cs
+	newnet _h, "HspKNN"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

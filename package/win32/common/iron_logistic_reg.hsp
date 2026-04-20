@@ -1,0 +1,265 @@
+;============================================================
+;   iron_logistic_reg.hsp — ロジスティック回帰 (バイナリ + 多項)
+;
+;   実装: バッチ勾配降下 + Momentum (デフォルト lr=0.1, momentum=0.9)。
+;   バイナリは sigmoid + BCE、多項は softmax + CE。
+;   L2 正則化、early stopping (損失変化閾値)。
+;
+;   inline C# (loadnet)、hsp3net 専用。
+;
+;   API:
+;     lr_create n_features, n_classes
+;         n_classes: 2=binary, 3以上=multinomial
+;     lr_config "key", "value"   (lr / l2 / max_iter / tol / mu)
+;     lr_fit  X, y_int, n_samples
+;     lr_predict  X, n_samples, array v_out (int[])
+;     lr_predict_proba  X, n_samples, array v_proba (double[n*C])
+;     lr_score  X, y_int, n_samples  → refdval=accuracy
+;     lr_coef   array v_w, array v_b   学習済み重み取得
+;     lr_release
+;============================================================
+#ifndef __iron_logistic_reg_hsp__
+#define __iron_logistic_reg_hsp__
+
+#module iron_logistic_reg
+
+dim _lr_cs_loaded, 1
+
+#deffunc _lr_load_cs
+	if _lr_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Globalization;
+using System.Text;
+
+public class HspLR {
+    static int nFeat, nCls;
+    static double[] W;   // [nCls * nFeat]
+    static double[] B;   // [nCls]
+    static double[] vW, vB;
+    static double lr = 0.1, l2 = 0.0, mu = 0.9, tol = 1e-6;
+    static int maxIter = 500;
+
+    public static string Create(int f, int c) {
+        nFeat = f; nCls = c;
+        W = new double[nCls * nFeat];
+        B = new double[nCls];
+        vW = new double[nCls * nFeat];
+        vB = new double[nCls];
+        return \"0\";
+    }
+    public static string Config(string k, string v) {
+        try {
+            switch (k) {
+                case \"lr\": lr = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"l2\": l2 = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"mu\": mu = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"tol\": tol = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"max_iter\": maxIter = int.Parse(v); break;
+                default: return \"-1\";
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string Fit(double[] X, int[] y, int n) {
+        double prevLoss = double.MaxValue;
+        for (int it = 0; it < maxIter; it++) {
+            // compute logits + softmax
+            double[] logits = new double[n * nCls];
+            for (int i = 0; i < n; i++) {
+                for (int c = 0; c < nCls; c++) {
+                    double s = B[c];
+                    for (int f = 0; f < nFeat; f++) s += W[c * nFeat + f] * X[i * nFeat + f];
+                    logits[i * nCls + c] = s;
+                }
+                // softmax
+                double m = logits[i * nCls];
+                for (int c = 1; c < nCls; c++) if (logits[i * nCls + c] > m) m = logits[i * nCls + c];
+                double sum = 0;
+                for (int c = 0; c < nCls; c++) { logits[i * nCls + c] = Math.Exp(logits[i * nCls + c] - m); sum += logits[i * nCls + c]; }
+                for (int c = 0; c < nCls; c++) logits[i * nCls + c] /= sum;
+            }
+            // loss + grad
+            double loss = 0;
+            double[] gW = new double[nCls * nFeat];
+            double[] gB = new double[nCls];
+            for (int i = 0; i < n; i++) {
+                int yi = y[i];
+                double p = logits[i * nCls + yi];
+                if (p < 1e-12) p = 1e-12;
+                loss -= Math.Log(p);
+                for (int c = 0; c < nCls; c++) {
+                    double diff = logits[i * nCls + c] - (c == yi ? 1.0 : 0.0);
+                    gB[c] += diff;
+                    for (int f = 0; f < nFeat; f++) gW[c * nFeat + f] += diff * X[i * nFeat + f];
+                }
+            }
+            loss /= n;
+            // L2 reg
+            if (l2 > 0) {
+                for (int i = 0; i < W.Length; i++) { gW[i] = gW[i] / n + l2 * W[i]; }
+                for (int i = 0; i < B.Length; i++) gB[i] /= n;
+            } else {
+                for (int i = 0; i < gW.Length; i++) gW[i] /= n;
+                for (int i = 0; i < gB.Length; i++) gB[i] /= n;
+            }
+            // momentum update
+            for (int i = 0; i < W.Length; i++) { vW[i] = mu * vW[i] - lr * gW[i]; W[i] += vW[i]; }
+            for (int i = 0; i < B.Length; i++) { vB[i] = mu * vB[i] - lr * gB[i]; B[i] += vB[i]; }
+            if (Math.Abs(prevLoss - loss) < tol) break;
+            prevLoss = loss;
+        }
+        return \"0\";
+    }
+    public static string PredictProba(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            double[] lg = new double[nCls];
+            for (int c = 0; c < nCls; c++) {
+                double s = B[c];
+                for (int f = 0; f < nFeat; f++) s += W[c * nFeat + f] * X[i * nFeat + f];
+                lg[c] = s;
+            }
+            double m = lg[0];
+            for (int c = 1; c < nCls; c++) if (lg[c] > m) m = lg[c];
+            double sum = 0;
+            for (int c = 0; c < nCls; c++) { lg[c] = Math.Exp(lg[c] - m); sum += lg[c]; }
+            for (int c = 0; c < nCls; c++) {
+                if (i > 0 || c > 0) sb.Append('\\t');
+                sb.Append((lg[c] / sum).ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+    public static string Predict(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            double best = double.NegativeInfinity; int bestC = 0;
+            for (int c = 0; c < nCls; c++) {
+                double s = B[c];
+                for (int f = 0; f < nFeat; f++) s += W[c * nFeat + f] * X[i * nFeat + f];
+                if (s > best) { best = s; bestC = c; }
+            }
+            if (i > 0) sb.Append('\\t');
+            sb.Append(bestC);
+        }
+        return sb.ToString();
+    }
+    public static double Score(double[] X, int[] y, int n) {
+        int ok = 0;
+        for (int i = 0; i < n; i++) {
+            double best = double.NegativeInfinity; int bestC = 0;
+            for (int c = 0; c < nCls; c++) {
+                double s = B[c];
+                for (int f = 0; f < nFeat; f++) s += W[c * nFeat + f] * X[i * nFeat + f];
+                if (s > best) { best = s; bestC = c; }
+            }
+            if (bestC == y[i]) ok++;
+        }
+        return (double)ok / n;
+    }
+    public static string GetCoef() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < W.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(W[i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+        sb.Append('\\n');
+        for (int i = 0; i < B.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(B[i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+        return sb.ToString();
+    }
+    public static string Release() { W = null; B = null; vW = null; vB = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_lr_cs_loaded = 1
+	return
+
+;---------------------------------------------------------
+; 内部: TSV → double 配列
+;---------------------------------------------------------
+#deffunc _lr_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _lr_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc lr_create int n_feat, int n_classes, \
+	local _h, local _r
+	_lr_load_cs
+	newnet _h, "HspLR"
+	mcall _h, "Create", _r, n_feat, n_classes
+	return int("" + _r)
+
+#deffunc lr_config str k, str v, \
+	local _h, local _r
+	_lr_load_cs
+	newnet _h, "HspLR"
+	mcall _h, "Config", _r, k, v
+	return int("" + _r)
+
+#deffunc lr_fit array X, array y_int, int n, \
+	local _h, local _r
+	_lr_load_cs
+	newnet _h, "HspLR"
+	mcall _h, "Fit", _r, X, y_int, n
+	return int("" + _r)
+
+#deffunc lr_predict array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_lr_load_cs
+	newnet _h, "HspLR"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_lr_parse_i _tsv, v_out, n
+	return 0
+
+#deffunc lr_predict_proba array X, int n, int n_classes, array v_proba, \
+	local _h, local _r, local _tsv
+	_lr_load_cs
+	newnet _h, "HspLR"
+	mcall _h, "PredictProba", _r, X, n
+	_tsv = "" + _r
+	_lr_parse_d _tsv, v_proba, n * n_classes
+	return 0
+
+#defcfunc lr_score array X, array y_int, int n, \
+	local _h, local _r
+	_lr_load_cs
+	newnet _h, "HspLR"
+	mcall _h, "Score", _r, X, y_int, n
+	return double("" + _r)
+
+#deffunc lr_release \
+	local _h, local _r
+	_lr_load_cs
+	newnet _h, "HspLR"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

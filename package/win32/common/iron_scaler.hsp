@@ -1,0 +1,135 @@
+;============================================================
+;   iron_scaler.hsp — 特徴量スケーリング
+;
+;   Standard / MinMax / Robust スケーラーの fit/transform/
+;   fit_transform/inverse_transform。統計量を保持するので
+;   訓練データで fit、テストデータで transform のセット運用可。
+;   pure HSP 実装 (軽量、外部依存なし)。
+;
+;   API:
+;     scaler_create "standard"|"minmax"|"robust"
+;     scaler_fit X, n, n_feat
+;     scaler_transform X, n, n_feat, array v_out
+;     scaler_fit_transform X, n, n_feat, array v_out
+;     scaler_inverse X_scaled, n, n_feat, array v_out
+;     scaler_release
+;============================================================
+#ifndef __iron_scaler_hsp__
+#define __iron_scaler_hsp__
+
+#module iron_scaler
+
+sdim _sc_kind, 16
+_sc_kind = "standard"
+ddim _sc_param_a, 1     ; mean / min / median
+ddim _sc_param_b, 1     ; std / range / iqr
+dim _sc_nfeat, 1
+
+#deffunc scaler_create str kind
+	_sc_kind = kind
+	return 0
+
+#deffunc scaler_fit array X, int n, int n_feat, \
+	local _i, local _f, local _sum, local _ss, local _mean, local _std, \
+	local _mn, local _mx, local _arr, local _q1, local _q3, local _med
+	_sc_nfeat = n_feat
+	ddim _sc_param_a, n_feat
+	ddim _sc_param_b, n_feat
+	if _sc_kind = "standard" {
+		repeat n_feat
+			_f = cnt
+			_sum = 0.0
+			repeat n
+				_sum = _sum + X(cnt * n_feat + _f)
+			loop
+			_mean = _sum / n
+			_ss = 0.0
+			repeat n
+				_ss = _ss + (X(cnt * n_feat + _f) - _mean) * (X(cnt * n_feat + _f) - _mean)
+			loop
+			_std = sqrt(_ss / n)
+			if _std < 1e-12 : _std = 1.0
+			_sc_param_a(_f) = _mean
+			_sc_param_b(_f) = _std
+		loop
+		return 0
+	}
+	if _sc_kind = "minmax" {
+		repeat n_feat
+			_f = cnt
+			_mn = X(_f)
+			_mx = X(_f)
+			repeat n
+				if X(cnt * n_feat + _f) < _mn : _mn = X(cnt * n_feat + _f)
+				if X(cnt * n_feat + _f) > _mx : _mx = X(cnt * n_feat + _f)
+			loop
+			_sc_param_a(_f) = _mn
+			if _mx - _mn < 1e-12 : _sc_param_b(_f) = 1.0 : else : _sc_param_b(_f) = _mx - _mn
+		loop
+		return 0
+	}
+	if _sc_kind = "robust" {
+		repeat n_feat
+			_f = cnt
+			ddim _arr, n
+			repeat n
+				_arr(cnt) = X(cnt * n_feat + _f)
+			loop
+			; insertion sort (n が中規模なら十分)
+			repeat n - 1
+				_i = cnt + 1
+				repeat _i
+					if _arr(_i - 1 - cnt) > _arr(_i - cnt) {
+						_sum = _arr(_i - 1 - cnt)
+						_arr(_i - 1 - cnt) = _arr(_i - cnt)
+						_arr(_i - cnt) = _sum
+					} else {
+						break
+					}
+				loop
+			loop
+			_q1 = _arr(n / 4)
+			_med = _arr(n / 2)
+			_q3 = _arr((3 * n) / 4)
+			_sc_param_a(_f) = _med
+			if _q3 - _q1 < 1e-12 : _sc_param_b(_f) = 1.0 : else : _sc_param_b(_f) = _q3 - _q1
+		loop
+		return 0
+	}
+	return -1
+
+#deffunc scaler_transform array X, int n, int n_feat, array v_out, \
+	local _i, local _f
+	ddim v_out, n * n_feat
+	repeat n
+		_i = cnt
+		repeat n_feat
+			_f = cnt
+			v_out(_i * n_feat + _f) = (X(_i * n_feat + _f) - _sc_param_a(_f)) / _sc_param_b(_f)
+		loop
+	loop
+	return 0
+
+#deffunc scaler_fit_transform array X, int n, int n_feat, array v_out
+	scaler_fit X, n, n_feat
+	scaler_transform X, n, n_feat, v_out
+	return 0
+
+#deffunc scaler_inverse array X_scaled, int n, int n_feat, array v_out, \
+	local _i, local _f
+	ddim v_out, n * n_feat
+	repeat n
+		_i = cnt
+		repeat n_feat
+			_f = cnt
+			v_out(_i * n_feat + _f) = X_scaled(_i * n_feat + _f) * _sc_param_b(_f) + _sc_param_a(_f)
+		loop
+	loop
+	return 0
+
+#deffunc scaler_release
+	_sc_nfeat = 0
+	return 0
+
+#global
+#endif

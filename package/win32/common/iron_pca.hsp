@@ -1,0 +1,235 @@
+;============================================================
+;   iron_pca.hsp — 主成分分析 (PCA)
+;
+;   共分散行列の固有値分解 (Jacobi 回転法、対称行列用) で
+;   主成分ベクトルと固有値を求め、射影 (transform) と逆射影を提供。
+;   inline C# 実装、中規模 (~数千サンプル × 数十〜数百特徴量) 想定。
+;
+;   API:
+;     pca_fit X, n, n_feat, n_components
+;     pca_transform X, n, n_feat, array v_transformed  (n * n_comp)
+;     pca_fit_transform X, n, n_feat, n_comp, array v_out
+;     pca_components array v_comp, int n_comp, int n_feat   [comp * feat]
+;     pca_explained_variance array v_var, int n_comp
+;     pca_explained_ratio array v_ratio, int n_comp        正規化済
+;     pca_inverse X_tr, n, n_comp, n_feat, array v_back
+;     pca_release
+;============================================================
+#ifndef __iron_pca_hsp__
+#define __iron_pca_hsp__
+
+#module iron_pca
+
+dim _pca_cs_loaded, 1
+
+#deffunc _pca_load_cs
+	if _pca_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Globalization;
+using System.Text;
+
+public class HspPCA {
+    static double[] mean;
+    static double[] components;   // [nComp * nFeat]
+    static double[] expVar;
+    static double totalVar;
+    static int nFeat, nComp;
+
+    public static string Fit(double[] X, int n, int f, int nc) {
+        nFeat = f; nComp = nc;
+        mean = new double[f];
+        for (int i = 0; i < n; i++) for (int j = 0; j < f; j++) mean[j] += X[i * f + j];
+        for (int j = 0; j < f; j++) mean[j] /= n;
+        // 共分散行列
+        var cov = new double[f * f];
+        for (int i = 0; i < n; i++) {
+            for (int a = 0; a < f; a++) {
+                double da = X[i * f + a] - mean[a];
+                for (int b = a; b < f; b++) {
+                    cov[a * f + b] += da * (X[i * f + b] - mean[b]);
+                }
+            }
+        }
+        for (int a = 0; a < f; a++) for (int b = a; b < f; b++) {
+            cov[a * f + b] /= (n - 1);
+            cov[b * f + a] = cov[a * f + b];
+        }
+        // Jacobi eigendecomp
+        var V = new double[f * f];
+        for (int i = 0; i < f; i++) V[i * f + i] = 1;
+        var D = (double[])cov.Clone();
+        JacobiEigen(D, V, f, 200, 1e-10);
+        // 固有値列でソート (降順)
+        var idx = new int[f];
+        for (int i = 0; i < f; i++) idx[i] = i;
+        Array.Sort(idx, (a, b) => D[b * f + b].CompareTo(D[a * f + a]));
+        components = new double[nc * f];
+        expVar = new double[nc];
+        totalVar = 0;
+        for (int i = 0; i < f; i++) totalVar += D[i * f + i];
+        for (int c = 0; c < nc; c++) {
+            int pi = idx[c];
+            expVar[c] = D[pi * f + pi];
+            for (int j = 0; j < f; j++) components[c * f + j] = V[j * f + pi];
+        }
+        return \"0\";
+    }
+    static void JacobiEigen(double[] D, double[] V, int n, int maxIter, double tol) {
+        for (int iter = 0; iter < maxIter; iter++) {
+            // 最大オフ対角成分を探す
+            int p = 0, q = 1;
+            double m = Math.Abs(D[p * n + q]);
+            for (int i = 0; i < n; i++) for (int j = i + 1; j < n; j++) {
+                double v = Math.Abs(D[i * n + j]);
+                if (v > m) { m = v; p = i; q = j; }
+            }
+            if (m < tol) return;
+            double app = D[p * n + p], aqq = D[q * n + q], apq = D[p * n + q];
+            double theta;
+            if (Math.Abs(app - aqq) < 1e-30) theta = Math.PI / 4;
+            else theta = 0.5 * Math.Atan2(2 * apq, app - aqq);
+            double c = Math.Cos(theta), s = Math.Sin(theta);
+            // rotate rows/cols p,q of D
+            for (int i = 0; i < n; i++) {
+                double dip = D[i * n + p], diq = D[i * n + q];
+                D[i * n + p] = c * dip + s * diq;
+                D[i * n + q] = -s * dip + c * diq;
+            }
+            for (int j = 0; j < n; j++) {
+                double dpj = D[p * n + j], dqj = D[q * n + j];
+                D[p * n + j] = c * dpj + s * dqj;
+                D[q * n + j] = -s * dpj + c * dqj;
+            }
+            // accumulate V
+            for (int i = 0; i < n; i++) {
+                double vip = V[i * n + p], viq = V[i * n + q];
+                V[i * n + p] = c * vip + s * viq;
+                V[i * n + q] = -s * vip + c * viq;
+            }
+        }
+    }
+    public static string Transform(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int c = 0; c < nComp; c++) {
+                double s = 0;
+                for (int j = 0; j < nFeat; j++) s += (X[i * nFeat + j] - mean[j]) * components[c * nFeat + j];
+                if (i > 0 || c > 0) sb.Append('\\t');
+                sb.Append(s.ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+    public static string InverseTransform(double[] Xt, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < nFeat; j++) {
+                double s = mean[j];
+                for (int c = 0; c < nComp; c++) s += Xt[i * nComp + c] * components[c * nFeat + j];
+                if (i > 0 || j > 0) sb.Append('\\t');
+                sb.Append(s.ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+    public static string GetComponents() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < components.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(components[i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+        return sb.ToString();
+    }
+    public static string GetExpVar() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < expVar.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append(expVar[i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+        return sb.ToString();
+    }
+    public static string GetExpRatio() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < expVar.Length; i++) { if (i > 0) sb.Append('\\t'); sb.Append((expVar[i] / totalVar).ToString(\"R\", CultureInfo.InvariantCulture)); }
+        return sb.ToString();
+    }
+    public static string Release() { mean = null; components = null; expVar = null; return \"0\"; }
+}
+"}
+	loadnet _cs, 3
+	_pca_cs_loaded = 1
+	return
+
+#deffunc _pca_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc pca_fit array X, int n, int n_feat, int n_comp, \
+	local _h, local _r
+	_pca_load_cs
+	newnet _h, "HspPCA"
+	mcall _h, "Fit", _r, X, n, n_feat, n_comp
+	return int("" + _r)
+
+#deffunc pca_transform array X, int n, int n_comp, array v_out, \
+	local _h, local _r, local _tsv
+	_pca_load_cs
+	newnet _h, "HspPCA"
+	mcall _h, "Transform", _r, X, n
+	_tsv = "" + _r
+	_pca_parse_d _tsv, v_out, n * n_comp
+	return 0
+
+#deffunc pca_inverse array Xt, int n, int n_feat, array v_out, \
+	local _h, local _r, local _tsv
+	_pca_load_cs
+	newnet _h, "HspPCA"
+	mcall _h, "InverseTransform", _r, Xt, n
+	_tsv = "" + _r
+	_pca_parse_d _tsv, v_out, n * n_feat
+	return 0
+
+#deffunc pca_components array v_comp, int n_comp, int n_feat, \
+	local _h, local _r, local _tsv
+	_pca_load_cs
+	newnet _h, "HspPCA"
+	mcall _h, "GetComponents", _r
+	_tsv = "" + _r
+	_pca_parse_d _tsv, v_comp, n_comp * n_feat
+	return 0
+
+#deffunc pca_explained_variance array v_var, int n_comp, \
+	local _h, local _r, local _tsv
+	_pca_load_cs
+	newnet _h, "HspPCA"
+	mcall _h, "GetExpVar", _r
+	_tsv = "" + _r
+	_pca_parse_d _tsv, v_var, n_comp
+	return 0
+
+#deffunc pca_explained_ratio array v_ratio, int n_comp, \
+	local _h, local _r, local _tsv
+	_pca_load_cs
+	newnet _h, "HspPCA"
+	mcall _h, "GetExpRatio", _r
+	_tsv = "" + _r
+	_pca_parse_d _tsv, v_ratio, n_comp
+	return 0
+
+#deffunc pca_release \
+	local _h, local _r
+	_pca_load_cs
+	newnet _h, "HspPCA"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

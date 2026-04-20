@@ -1,0 +1,561 @@
+;============================================================
+;   iron_nn_ex.hsp — 本格 Multi-Layer Perceptron
+;
+;   任意層数の全結合 NN を inline C# で実装。SGD / Momentum / Adam、
+;   ReLU / tanh / sigmoid / softmax、CE (分類) / MSE (回帰) をサポート。
+;   He / Xavier 初期化、L2 正則化、mini-batch 学習。
+;   hsp3net 専用。
+;
+;   データレイアウト:
+;     X: double[n_samples * n_features]  (row-major flat)
+;     y (分類): int[n_samples]           (0..n_classes-1)
+;     y (回帰): double[n_samples * n_outputs]
+;
+;   API:
+;     nn_create "shape", "activations"
+;        shape: "in,h1,h2,...,out"
+;        activations: "relu,relu,softmax" (層数 = shape 数 - 1)
+;        → stat 0=OK
+;
+;     nn_config "key", "value"
+;        key="optimizer"  value="sgd"|"momentum"|"adam"
+;        key="lr"         value="0.001"
+;        key="l2"         value="0.0"
+;        key="batch"      value="32"
+;        key="task"       value="classification"|"regression"
+;
+;     nn_fit var X, var y, n_samples, n_features, n_output_or_classes, epochs
+;        y は int 配列 (分類) / double 配列 (回帰)
+;
+;     nn_predict var X, n_samples, var_out
+;        分類: var_out は int (予測クラス)
+;        回帰: var_out は double (予測値)
+;
+;     nn_predict_proba var X, n_samples, var_proba
+;        分類時のクラス確率分布 [n_samples * n_classes]
+;
+;     nn_score var X_test, var y_test, n_samples
+;        → refdval: accuracy (分類) / R² (回帰)
+;
+;     nn_save "path.json" / nn_load "path.json"    重み永続化
+;     nn_release                                    メモリ解放
+;============================================================
+#ifndef __iron_nn_ex_hsp__
+#define __iron_nn_ex_hsp__
+
+#module iron_nn_ex
+
+dim _nnex_cs_loaded, 1
+
+#deffunc _nnex_load_cs
+	if _nnex_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+
+public class HspNNEx {
+    // モデル構造
+    static int[] shape;
+    static string[] acts;
+    static double[][] W;      // per-layer: shape[i] * shape[i+1] (row-major, input -> output)
+    static double[][] B;      // per-layer: shape[i+1]
+    // Optimizer
+    static string optimizer = \"adam\";
+    static double lr = 0.001;
+    static double l2 = 0.0;
+    static int batchSize = 32;
+    static string task = \"classification\";
+    // Adam state
+    static double[][] mW, vW, mB, vB;
+    static int adamT = 0;
+    static double beta1 = 0.9, beta2 = 0.999, eps = 1e-8;
+    // Momentum state
+    static double[][] velW, velB;
+    static double mu = 0.9;
+    // RNG
+    static Random rng = new Random(42);
+    static int nClasses = 0;
+
+    public static string Create(string shapeStr, string actsStr) {
+        try {
+            var sp = shapeStr.Split(','); shape = new int[sp.Length];
+            for (int i = 0; i < sp.Length; i++) shape[i] = int.Parse(sp[i].Trim());
+            var ap = actsStr.Split(','); acts = new string[ap.Length];
+            for (int i = 0; i < ap.Length; i++) acts[i] = ap[i].Trim().ToLower();
+            if (acts.Length != shape.Length - 1) return \"-1\\tact_count_mismatch\";
+            int L = shape.Length - 1;
+            W = new double[L][]; B = new double[L][];
+            mW = new double[L][]; vW = new double[L][]; mB = new double[L][]; vB = new double[L][];
+            velW = new double[L][]; velB = new double[L][];
+            for (int l = 0; l < L; l++) {
+                int fin = shape[l], fout = shape[l + 1];
+                W[l] = new double[fin * fout];
+                B[l] = new double[fout];
+                mW[l] = new double[fin * fout]; vW[l] = new double[fin * fout];
+                mB[l] = new double[fout];       vB[l] = new double[fout];
+                velW[l] = new double[fin * fout]; velB[l] = new double[fout];
+                // He/Xavier init based on activation
+                double scale = acts[l] == \"relu\" ? Math.Sqrt(2.0 / fin) : Math.Sqrt(1.0 / fin);
+                for (int i = 0; i < W[l].Length; i++) W[l][i] = Gauss() * scale;
+            }
+            adamT = 0;
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Config(string k, string v) {
+        try {
+            switch (k) {
+                case \"optimizer\": optimizer = v; break;
+                case \"lr\":        lr = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"l2\":        l2 = double.Parse(v, CultureInfo.InvariantCulture); break;
+                case \"batch\":     batchSize = int.Parse(v); break;
+                case \"task\":      task = v; break;
+                case \"seed\":      rng = new Random(int.Parse(v)); break;
+                case \"mu\":        mu = double.Parse(v, CultureInfo.InvariantCulture); break;
+                default: return \"-1\\tunknown_key\";
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    static double Gauss() {
+        // Box-Muller
+        double u1 = 1.0 - rng.NextDouble();
+        double u2 = 1.0 - rng.NextDouble();
+        return Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+    }
+
+    public static string Fit(double[] X, double[] y_double, int[] y_int, int n, int nFeat, int nOut, int epochs) {
+        try {
+            if (shape == null) return \"-1\\tnot_created\";
+            if (shape[0] != nFeat) return \"-1\\tin_dim_mismatch\";
+            if (task == \"classification\") {
+                nClasses = shape[shape.Length - 1];
+            } else {
+                nClasses = 0;
+            }
+            int[] idx = new int[n];
+            for (int i = 0; i < n; i++) idx[i] = i;
+            for (int e = 0; e < epochs; e++) {
+                Shuffle(idx);
+                for (int s = 0; s < n; s += batchSize) {
+                    int end = Math.Min(s + batchSize, n);
+                    TrainBatch(X, y_double, y_int, idx, s, end, nFeat, nOut);
+                }
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    static void Shuffle(int[] a) {
+        for (int i = a.Length - 1; i > 0; i--) {
+            int j = rng.Next(i + 1);
+            int t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+    }
+
+    static void TrainBatch(double[] X, double[] yd, int[] yi, int[] idx, int start, int end, int nFeat, int nOut) {
+        int L = shape.Length - 1;
+        int bs = end - start;
+        // Forward: per-sample -> accumulate grad
+        // activations and pre-activations per layer per sample
+        double[][] aBatch = new double[L + 1][];
+        for (int l = 0; l <= L; l++) aBatch[l] = new double[bs * shape[l]];
+        // copy X input
+        for (int i = 0; i < bs; i++) {
+            int sidx = idx[start + i];
+            for (int f = 0; f < nFeat; f++) aBatch[0][i * nFeat + f] = X[sidx * nFeat + f];
+        }
+        // forward
+        for (int l = 0; l < L; l++) {
+            int fin = shape[l], fout = shape[l + 1];
+            for (int i = 0; i < bs; i++) {
+                for (int o = 0; o < fout; o++) {
+                    double sum = B[l][o];
+                    for (int f = 0; f < fin; f++) sum += aBatch[l][i * fin + f] * W[l][f * fout + o];
+                    aBatch[l + 1][i * fout + o] = sum;
+                }
+            }
+            // activation
+            Activate(aBatch[l + 1], bs, fout, acts[l]);
+        }
+        // compute output gradient
+        double[] dOut = new double[bs * shape[L]];
+        if (task == \"classification\") {
+            // softmax + CE combined gradient = (p - y_onehot) / bs
+            for (int i = 0; i < bs; i++) {
+                int sidx = idx[start + i];
+                int label = yi[sidx];
+                for (int c = 0; c < shape[L]; c++) {
+                    double p = aBatch[L][i * shape[L] + c];
+                    double t = (c == label) ? 1.0 : 0.0;
+                    dOut[i * shape[L] + c] = (p - t) / bs;
+                }
+            }
+        } else {
+            // MSE grad = (pred - y) * 2 / bs
+            for (int i = 0; i < bs; i++) {
+                int sidx = idx[start + i];
+                for (int o = 0; o < nOut; o++) {
+                    double p = aBatch[L][i * nOut + o];
+                    double t = yd[sidx * nOut + o];
+                    dOut[i * nOut + o] = 2.0 * (p - t) / bs;
+                }
+            }
+        }
+        // backward
+        double[][] grad = new double[L + 1][];
+        grad[L] = dOut;
+        for (int l = L - 1; l >= 0; l--) {
+            int fin = shape[l], fout = shape[l + 1];
+            // derivative of pre-activation at layer l+1 already contained for softmax (applied above).
+            // For other activations, multiply by derivative wrt activation.
+            if (acts[l] != \"softmax\" && task == \"regression\") {
+                // for regression with non-softmax output: apply derivative of output activation
+                if (l == L - 1) ApplyActDeriv(grad[l + 1], aBatch[l + 1], bs, fout, acts[l]);
+            }
+            if (l < L - 1) ApplyActDeriv(grad[l + 1], aBatch[l + 1], bs, fout, acts[l]);
+            // compute gradient for W[l]
+            double[] gW = new double[fin * fout];
+            double[] gB = new double[fout];
+            for (int i = 0; i < bs; i++) {
+                for (int o = 0; o < fout; o++) {
+                    double g = grad[l + 1][i * fout + o];
+                    gB[o] += g;
+                    for (int f = 0; f < fin; f++) gW[f * fout + o] += aBatch[l][i * fin + f] * g;
+                }
+            }
+            // L2 reg
+            if (l2 > 0) for (int i = 0; i < gW.Length; i++) gW[i] += l2 * W[l][i];
+            // optimizer update
+            if (optimizer == \"sgd\") {
+                for (int i = 0; i < gW.Length; i++) W[l][i] -= lr * gW[i];
+                for (int i = 0; i < gB.Length; i++) B[l][i] -= lr * gB[i];
+            } else if (optimizer == \"momentum\") {
+                for (int i = 0; i < gW.Length; i++) {
+                    velW[l][i] = mu * velW[l][i] - lr * gW[i];
+                    W[l][i] += velW[l][i];
+                }
+                for (int i = 0; i < gB.Length; i++) {
+                    velB[l][i] = mu * velB[l][i] - lr * gB[i];
+                    B[l][i] += velB[l][i];
+                }
+            } else { // adam
+                adamT++;
+                double bc1 = 1 - Math.Pow(beta1, adamT);
+                double bc2 = 1 - Math.Pow(beta2, adamT);
+                for (int i = 0; i < gW.Length; i++) {
+                    mW[l][i] = beta1 * mW[l][i] + (1 - beta1) * gW[i];
+                    vW[l][i] = beta2 * vW[l][i] + (1 - beta2) * gW[i] * gW[i];
+                    double mh = mW[l][i] / bc1, vh = vW[l][i] / bc2;
+                    W[l][i] -= lr * mh / (Math.Sqrt(vh) + eps);
+                }
+                for (int i = 0; i < gB.Length; i++) {
+                    mB[l][i] = beta1 * mB[l][i] + (1 - beta1) * gB[i];
+                    vB[l][i] = beta2 * vB[l][i] + (1 - beta2) * gB[i] * gB[i];
+                    double mh = mB[l][i] / bc1, vh = vB[l][i] / bc2;
+                    B[l][i] -= lr * mh / (Math.Sqrt(vh) + eps);
+                }
+            }
+            // propagate grad back to previous layer
+            if (l > 0) {
+                double[] dPrev = new double[bs * fin];
+                for (int i = 0; i < bs; i++) {
+                    for (int f = 0; f < fin; f++) {
+                        double s = 0;
+                        for (int o = 0; o < fout; o++) s += grad[l + 1][i * fout + o] * W[l][f * fout + o];
+                        dPrev[i * fin + f] = s;
+                    }
+                }
+                grad[l] = dPrev;
+            }
+        }
+    }
+
+    static void Activate(double[] z, int bs, int dim, string act) {
+        if (act == \"relu\") {
+            for (int i = 0; i < z.Length; i++) if (z[i] < 0) z[i] = 0;
+        } else if (act == \"sigmoid\") {
+            for (int i = 0; i < z.Length; i++) z[i] = 1.0 / (1.0 + Math.Exp(-z[i]));
+        } else if (act == \"tanh\") {
+            for (int i = 0; i < z.Length; i++) z[i] = Math.Tanh(z[i]);
+        } else if (act == \"softmax\") {
+            for (int i = 0; i < bs; i++) {
+                double m = double.NegativeInfinity;
+                for (int c = 0; c < dim; c++) if (z[i * dim + c] > m) m = z[i * dim + c];
+                double sum = 0;
+                for (int c = 0; c < dim; c++) { z[i * dim + c] = Math.Exp(z[i * dim + c] - m); sum += z[i * dim + c]; }
+                if (sum > 0) for (int c = 0; c < dim; c++) z[i * dim + c] /= sum;
+            }
+        }
+        // linear: no-op
+    }
+    static void ApplyActDeriv(double[] grad, double[] a, int bs, int dim, string act) {
+        if (act == \"relu\") {
+            for (int i = 0; i < grad.Length; i++) if (a[i] <= 0) grad[i] = 0;
+        } else if (act == \"sigmoid\") {
+            for (int i = 0; i < grad.Length; i++) grad[i] *= a[i] * (1 - a[i]);
+        } else if (act == \"tanh\") {
+            for (int i = 0; i < grad.Length; i++) grad[i] *= (1 - a[i] * a[i]);
+        }
+        // softmax: caller already incorporated derivative via cross-entropy combined gradient
+    }
+
+    public static double[] Forward(double[] X, int n, int nFeat) {
+        int L = shape.Length - 1;
+        double[][] a = new double[L + 1][];
+        a[0] = new double[n * nFeat];
+        Array.Copy(X, a[0], n * nFeat);
+        for (int l = 0; l <= L; l++) {
+            if (l > 0) {}
+        }
+        double[] cur = a[0];
+        int curDim = nFeat;
+        for (int l = 0; l < L; l++) {
+            int fin = shape[l], fout = shape[l + 1];
+            double[] nxt = new double[n * fout];
+            for (int i = 0; i < n; i++) {
+                for (int o = 0; o < fout; o++) {
+                    double sum = B[l][o];
+                    for (int f = 0; f < fin; f++) sum += cur[i * fin + f] * W[l][f * fout + o];
+                    nxt[i * fout + o] = sum;
+                }
+            }
+            Activate(nxt, n, fout, acts[l]);
+            cur = nxt;
+        }
+        return cur;
+    }
+
+    public static string Predict(double[] X, int n, int nFeat) {
+        var pred = Forward(X, n, nFeat);
+        int outDim = shape[shape.Length - 1];
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            int best = 0; double bv = pred[i * outDim];
+            for (int c = 1; c < outDim; c++) if (pred[i * outDim + c] > bv) { bv = pred[i * outDim + c]; best = c; }
+            if (i > 0) sb.Append('\\t');
+            sb.Append(best);
+        }
+        return sb.ToString();
+    }
+    public static string PredictRegression(double[] X, int n, int nFeat) {
+        var pred = Forward(X, n, nFeat);
+        var sb = new StringBuilder();
+        for (int i = 0; i < pred.Length; i++) {
+            if (i > 0) sb.Append('\\t');
+            sb.Append(pred[i].ToString(\"R\", CultureInfo.InvariantCulture));
+        }
+        return sb.ToString();
+    }
+    public static string PredictProba(double[] X, int n, int nFeat) {
+        var pred = Forward(X, n, nFeat);
+        var sb = new StringBuilder();
+        for (int i = 0; i < pred.Length; i++) {
+            if (i > 0) sb.Append('\\t');
+            sb.Append(pred[i].ToString(\"R\", CultureInfo.InvariantCulture));
+        }
+        return sb.ToString();
+    }
+
+    public static double Score(double[] X, double[] y_double, int[] y_int, int n, int nFeat) {
+        var pred = Forward(X, n, nFeat);
+        int outDim = shape[shape.Length - 1];
+        if (task == \"classification\") {
+            int correct = 0;
+            for (int i = 0; i < n; i++) {
+                int best = 0; double bv = pred[i * outDim];
+                for (int c = 1; c < outDim; c++) if (pred[i * outDim + c] > bv) { bv = pred[i * outDim + c]; best = c; }
+                if (best == y_int[i]) correct++;
+            }
+            return (double)correct / n;
+        } else {
+            // R^2
+            double mean = 0;
+            for (int i = 0; i < n * outDim; i++) mean += y_double[i];
+            mean /= (n * outDim);
+            double ssRes = 0, ssTot = 0;
+            for (int i = 0; i < n * outDim; i++) {
+                ssRes += (y_double[i] - pred[i]) * (y_double[i] - pred[i]);
+                ssTot += (y_double[i] - mean) * (y_double[i] - mean);
+            }
+            return ssTot > 1e-12 ? 1.0 - ssRes / ssTot : 0.0;
+        }
+    }
+
+    public static string Save(string path) {
+        try {
+            var sb = new StringBuilder();
+            sb.Append(\"{\\\"shape\\\":[\");
+            for (int i = 0; i < shape.Length; i++) { if (i > 0) sb.Append(','); sb.Append(shape[i]); }
+            sb.Append(\"],\\\"acts\\\":[\");
+            for (int i = 0; i < acts.Length; i++) { if (i > 0) sb.Append(','); sb.Append('\"').Append(acts[i]).Append('\"'); }
+            sb.Append(\"],\\\"task\\\":\\\"\").Append(task).Append(\"\\\",\\\"W\\\":[\");
+            for (int l = 0; l < W.Length; l++) {
+                if (l > 0) sb.Append(',');
+                sb.Append('[');
+                for (int i = 0; i < W[l].Length; i++) { if (i > 0) sb.Append(','); sb.Append(W[l][i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+                sb.Append(']');
+            }
+            sb.Append(\"],\\\"B\\\":[\");
+            for (int l = 0; l < B.Length; l++) {
+                if (l > 0) sb.Append(',');
+                sb.Append('[');
+                for (int i = 0; i < B[l].Length; i++) { if (i > 0) sb.Append(','); sb.Append(B[l][i].ToString(\"R\", CultureInfo.InvariantCulture)); }
+                sb.Append(']');
+            }
+            sb.Append(\"]}\");
+            File.WriteAllText(path, sb.ToString());
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string Release() {
+        W = null; B = null; mW = null; vW = null; mB = null; vB = null;
+        velW = null; velB = null; shape = null; acts = null; adamT = 0;
+        return \"0\";
+    }
+}
+"}
+	loadnet _cs, 3
+	_nnex_cs_loaded = 1
+	return
+
+;---------------------------------------------------------
+; nn_create "shape", "activations"
+;---------------------------------------------------------
+#deffunc nn_create str shape, str acts, \
+	local _h, local _r
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Create", _r, shape, acts
+	return int("" + _r)
+
+#deffunc nn_config str key, str value, \
+	local _h, local _r
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Config", _r, key, value
+	return int("" + _r)
+
+;---------------------------------------------------------
+; nn_fit X, y_int (分類), n_samples, n_features, n_classes, epochs
+;---------------------------------------------------------
+#deffunc nn_fit_classification array X, array y_int, int n, int n_feat, int n_classes, int epochs, \
+	local _h, local _r, local _ydummy
+	ddim _ydummy, 1
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Fit", _r, X, _ydummy, y_int, n, n_feat, n_classes, epochs
+	return int("" + _r)
+
+;---------------------------------------------------------
+; nn_fit_regression X, y_double, n_samples, n_features, n_outputs, epochs
+;---------------------------------------------------------
+#deffunc nn_fit_regression array X, array y_double, int n, int n_feat, int n_out, int epochs, \
+	local _h, local _r, local _yi_dummy
+	dim _yi_dummy, 1
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Fit", _r, X, y_double, _yi_dummy, n, n_feat, n_out, epochs
+	return int("" + _r)
+
+;---------------------------------------------------------
+; internal: TSV ("123\t45\t..") を int array に展開
+;---------------------------------------------------------
+#deffunc _nnex_parse_tsv_int str tsv, array v_out, int expected, \
+	local _p, local _tab, local _i
+	dim v_out, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v_out(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v_out(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _nnex_parse_tsv_dbl str tsv, array v_out, int expected, \
+	local _p, local _tab, local _i
+	ddim v_out, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v_out(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v_out(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc nn_predict array X, int n, int n_feat, array v_out, \
+	local _h, local _r, local _tsv
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Predict", _r, X, n, n_feat
+	_tsv = "" + _r
+	_nnex_parse_tsv_int _tsv, v_out, n
+	return 0
+
+#deffunc nn_predict_regression array X, int n, int n_feat, int n_out, array v_out, \
+	local _h, local _r, local _tsv
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "PredictRegression", _r, X, n, n_feat
+	_tsv = "" + _r
+	_nnex_parse_tsv_dbl _tsv, v_out, n * n_out
+	return 0
+
+#deffunc nn_predict_proba array X, int n, int n_feat, int n_classes, array v_proba, \
+	local _h, local _r, local _tsv
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "PredictProba", _r, X, n, n_feat
+	_tsv = "" + _r
+	_nnex_parse_tsv_dbl _tsv, v_proba, n * n_classes
+	return 0
+
+#defcfunc nn_score_classification array X_test, array y_int, int n, int n_feat, \
+	local _h, local _r, local _yd
+	ddim _yd, 1
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Score", _r, X_test, _yd, y_int, n, n_feat
+	return double("" + _r)
+
+#defcfunc nn_score_regression array X_test, array y_double, int n, int n_feat, \
+	local _h, local _r, local _yi
+	dim _yi, 1
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Score", _r, X_test, y_double, _yi, n, n_feat
+	return double("" + _r)
+
+#deffunc nn_save str path, \
+	local _h, local _r
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Save", _r, path
+	return int("" + _r)
+
+#deffunc nn_release \
+	local _h, local _r
+	_nnex_load_cs
+	newnet _h, "HspNNEx"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

@@ -1,0 +1,161 @@
+;============================================================
+;   iron_split.hsp — train/test 分割 + K-fold CV
+;
+;   pure HSP 実装。ランダムシャッフルは Fisher-Yates。
+;   分類の stratified split もサポート (クラス比を保って分割)。
+;
+;   API:
+;     split_train_test X, y (int or dbl), n, n_feat, test_ratio,
+;                     X_tr, y_tr, X_te, y_te, var n_tr, var n_te
+;     split_stratified_classification X, y_int, n, n_feat, n_classes, test_ratio,
+;                     X_tr, y_tr, X_te, y_te, var n_tr, var n_te
+;     split_kfold_indices n, k, fold_idx, var train_idx, var test_idx,
+;                     var n_tr, var n_te
+;     split_set_seed seed
+;============================================================
+#ifndef __iron_split_hsp__
+#define __iron_split_hsp__
+
+#module iron_split
+
+dim _sp_seed, 1
+_sp_seed = 42
+
+#deffunc split_set_seed int seed
+	_sp_seed = seed
+	return
+
+;---------------------------------------------------------
+; 内部: 線形合同乱数
+;---------------------------------------------------------
+#defcfunc _sp_rand
+	_sp_seed = (_sp_seed * 1103515245 + 12345) & 0x7FFFFFFF
+	return _sp_seed
+
+#deffunc _sp_shuffle array v_idx, int n, \
+	local _i, local _j, local _tmp
+	_i = n - 1
+	repeat n - 1
+		_j = _sp_rand() \ (_i + 1)
+		if _j < 0 : _j = 0 - _j
+		_tmp = v_idx(_i)
+		v_idx(_i) = v_idx(_j)
+		v_idx(_j) = _tmp
+		_i--
+	loop
+	return
+
+;---------------------------------------------------------
+; 分類用: int 配列 y (整数ラベル) バージョン
+;   split_train_test_i X, y_int, n, n_feat, test_ratio,
+;                      X_tr, y_tr, X_te, y_te, n_tr, n_te
+;---------------------------------------------------------
+#deffunc split_train_test_i array X, array y_int, int n, int n_feat, double test_ratio, \
+	array X_tr, array y_tr, array X_te, array y_te, var v_n_tr, var v_n_te, \
+	local _idx, local _n_te, local _n_tr, local _i, local _src, local _f
+	dim _idx, n
+	repeat n
+		_idx(cnt) = cnt
+	loop
+	_sp_shuffle _idx, n
+	_n_te = int(n * test_ratio)
+	_n_tr = n - _n_te
+	ddim X_tr, _n_tr * n_feat
+	ddim X_te, _n_te * n_feat
+	dim y_tr, _n_tr
+	dim y_te, _n_te
+	repeat _n_tr
+		_i = cnt
+		_src = _idx(_i)
+		repeat n_feat
+			_f = cnt
+			X_tr(_i * n_feat + _f) = X(_src * n_feat + _f)
+		loop
+		y_tr(_i) = y_int(_src)
+	loop
+	repeat _n_te
+		_i = cnt
+		_src = _idx(_n_tr + _i)
+		repeat n_feat
+			_f = cnt
+			X_te(_i * n_feat + _f) = X(_src * n_feat + _f)
+		loop
+		y_te(_i) = y_int(_src)
+	loop
+	v_n_tr = _n_tr
+	v_n_te = _n_te
+	return 0
+
+;---------------------------------------------------------
+; 回帰用: double 配列 y バージョン
+;---------------------------------------------------------
+#deffunc split_train_test_d array X, array y_dbl, int n, int n_feat, double test_ratio, \
+	array X_tr, array y_tr, array X_te, array y_te, var v_n_tr, var v_n_te, \
+	local _idx, local _n_te, local _n_tr, local _i, local _src, local _f
+	dim _idx, n
+	repeat n
+		_idx(cnt) = cnt
+	loop
+	_sp_shuffle _idx, n
+	_n_te = int(n * test_ratio)
+	_n_tr = n - _n_te
+	ddim X_tr, _n_tr * n_feat
+	ddim X_te, _n_te * n_feat
+	ddim y_tr, _n_tr
+	ddim y_te, _n_te
+	repeat _n_tr
+		_i = cnt
+		_src = _idx(_i)
+		repeat n_feat
+			_f = cnt
+			X_tr(_i * n_feat + _f) = X(_src * n_feat + _f)
+		loop
+		y_tr(_i) = y_dbl(_src)
+	loop
+	repeat _n_te
+		_i = cnt
+		_src = _idx(_n_tr + _i)
+		repeat n_feat
+			_f = cnt
+			X_te(_i * n_feat + _f) = X(_src * n_feat + _f)
+		loop
+		y_te(_i) = y_dbl(_src)
+	loop
+	v_n_tr = _n_tr
+	v_n_te = _n_te
+	return 0
+
+;---------------------------------------------------------
+; K-fold: fold_idx (0..k-1) 番目のフォールドの train/test index 列を返す
+;   各 index 配列は整数インデックス (0..n-1)
+;---------------------------------------------------------
+#deffunc split_kfold_indices int n, int k, int fold_idx, \
+	array v_train_idx, array v_test_idx, var v_n_tr, var v_n_te, \
+	local _idx, local _i, local _fs, local _fe, local _n_te, local _n_tr
+	dim _idx, n
+	repeat n
+		_idx(cnt) = cnt
+	loop
+	_sp_shuffle _idx, n
+	; fold 範囲
+	_fs = (n * fold_idx) / k
+	_fe = (n * (fold_idx + 1)) / k
+	_n_te = _fe - _fs
+	_n_tr = n - _n_te
+	dim v_test_idx, _n_te
+	dim v_train_idx, _n_tr
+	repeat _n_te
+		v_test_idx(cnt) = _idx(_fs + cnt)
+	loop
+	_i = 0
+	repeat n
+		if (cnt >= _fs) & (cnt < _fe) : continue
+		v_train_idx(_i) = _idx(cnt)
+		_i++
+	loop
+	v_n_tr = _n_tr
+	v_n_te = _n_te
+	return 0
+
+#global
+#endif

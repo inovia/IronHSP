@@ -1,0 +1,450 @@
+;============================================================
+;   iron_decision_tree.hsp — CART 決定木 (分類+回帰)
+;
+;   CART (Classification and Regression Trees) を inline C# で実装。
+;   分類: Gini / Entropy、回帰: MSE。max_depth / min_samples_split /
+;   min_samples_leaf / max_features (sqrt/log2/全) 対応。
+;   RandomForest (iron_random_forest.hsp) から内部利用もされる。
+;
+;   hsp3net 専用。
+;
+;   API:
+;     dt_create "classification"|"regression"
+;     dt_config "key", "value"
+;        criterion  "gini"|"entropy"|"mse"
+;        max_depth      int (既定 = 無制限)
+;        min_split      int (既定 2)
+;        min_leaf       int (既定 1)
+;        max_features   "all"|"sqrt"|"log2"|"<int>"
+;        random_seed    int
+;
+;     dt_fit_classification  X, y_int, n, n_feat, n_classes
+;     dt_fit_regression      X, y_double, n, n_feat
+;     dt_predict X, n, n_feat, array v_out        (分類=int, 回帰=double)
+;     dt_score   X_test, y_, n, n_feat            (accuracy or R²)
+;     dt_feature_importance array v_imp
+;     dt_depth / dt_leaf_count
+;     dt_release
+;============================================================
+#ifndef __iron_decision_tree_hsp__
+#define __iron_decision_tree_hsp__
+
+#module iron_decision_tree
+
+dim _dt_cs_loaded, 1
+
+#deffunc _dt_load_cs
+	if _dt_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+
+public class HspDT {
+    // ツリーは配列で表現:
+    //   nodeFeat[i] == -1 ならリーフ (nodeValue[i] が予測値 or クラス確率)
+    //   分岐ノード: nodeFeat[i], nodeThresh[i], leftId[i], rightId[i]
+    static string task = \"classification\";
+    static string criterion = \"gini\";
+    static int maxDepth = -1;
+    static int minSplit = 2;
+    static int minLeaf = 1;
+    static string maxFeatures = \"all\";
+    static int nFeat, nCls;
+    static Random rng = new Random(42);
+    // tree
+    static List<int> nodeFeat = new List<int>();
+    static List<double> nodeThresh = new List<double>();
+    static List<int> leftId = new List<int>();
+    static List<int> rightId = new List<int>();
+    static List<double[]> nodeProbs = new List<double[]>();   // classification
+    static List<double> nodeValue = new List<double>();       // regression
+    static double[] featImp;
+
+    public static string Create(string t) {
+        task = t;
+        if (task != \"classification\" && task != \"regression\") return \"-1\";
+        criterion = task == \"classification\" ? \"gini\" : \"mse\";
+        return \"0\";
+    }
+    public static string Config(string k, string v) {
+        try {
+            switch (k) {
+                case \"criterion\": criterion = v; break;
+                case \"max_depth\": maxDepth = int.Parse(v); break;
+                case \"min_split\": minSplit = int.Parse(v); break;
+                case \"min_leaf\": minLeaf = int.Parse(v); break;
+                case \"max_features\": maxFeatures = v; break;
+                case \"random_seed\": rng = new Random(int.Parse(v)); break;
+                default: return \"-1\";
+            }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string FitClassification(double[] X, int[] y, int n, int f, int c) {
+        nFeat = f; nCls = c;
+        ResetTree();
+        featImp = new double[f];
+        int[] idx = new int[n];
+        for (int i = 0; i < n; i++) idx[i] = i;
+        BuildNode(X, null, y, idx, 0, 0);
+        NormalizeImp();
+        return \"0\";
+    }
+    public static string FitRegression(double[] X, double[] y, int n, int f) {
+        nFeat = f; nCls = 0;
+        ResetTree();
+        featImp = new double[f];
+        int[] idx = new int[n];
+        for (int i = 0; i < n; i++) idx[i] = i;
+        BuildNode(X, y, null, idx, 0, 0);
+        NormalizeImp();
+        return \"0\";
+    }
+    static void ResetTree() {
+        nodeFeat.Clear(); nodeThresh.Clear(); leftId.Clear(); rightId.Clear();
+        nodeProbs.Clear(); nodeValue.Clear();
+    }
+    static void NormalizeImp() {
+        double s = 0;
+        foreach (var v in featImp) s += v;
+        if (s > 0) for (int i = 0; i < featImp.Length; i++) featImp[i] /= s;
+    }
+
+    static int BuildNode(double[] X, double[] yd, int[] yi, int[] idx, int depth, int _unused) {
+        // ノードを追加してインデックスを返す
+        int nodeId = nodeFeat.Count;
+        nodeFeat.Add(-1); nodeThresh.Add(0); leftId.Add(-1); rightId.Add(-1);
+        nodeProbs.Add(null); nodeValue.Add(0);
+        // 停止条件
+        int nSamples = idx.Length;
+        bool stop = false;
+        if (nSamples < minSplit) stop = true;
+        if (maxDepth >= 0 && depth >= maxDepth) stop = true;
+        if (task == \"classification\" && AllSameClass(yi, idx)) stop = true;
+        if (task == \"regression\" && AllSameValue(yd, idx)) stop = true;
+        if (stop) {
+            MakeLeaf(nodeId, yd, yi, idx);
+            return nodeId;
+        }
+        // best split
+        int[] features = SelectFeatures();
+        int bestFeat = -1;
+        double bestThresh = 0, bestImp = double.PositiveInfinity;
+        foreach (int f in features) {
+            // 値で昇順ソートして閾値候補を探す
+            var vals = new double[nSamples];
+            for (int i = 0; i < nSamples; i++) vals[i] = X[idx[i] * nFeat + f];
+            var order = new int[nSamples];
+            for (int i = 0; i < nSamples; i++) order[i] = i;
+            Array.Sort(vals, order);
+            for (int i = 1; i < nSamples; i++) {
+                if (vals[i] == vals[i - 1]) continue;
+                double t = (vals[i] + vals[i - 1]) / 2;
+                double imp = SplitImp(X, yd, yi, idx, f, t, nSamples);
+                if (imp < bestImp) {
+                    bestImp = imp; bestFeat = f; bestThresh = t;
+                }
+            }
+        }
+        if (bestFeat < 0) {
+            MakeLeaf(nodeId, yd, yi, idx);
+            return nodeId;
+        }
+        // split
+        var leftL = new List<int>(); var rightL = new List<int>();
+        for (int i = 0; i < nSamples; i++) {
+            if (X[idx[i] * nFeat + bestFeat] <= bestThresh) leftL.Add(idx[i]);
+            else rightL.Add(idx[i]);
+        }
+        if (leftL.Count < minLeaf || rightL.Count < minLeaf) {
+            MakeLeaf(nodeId, yd, yi, idx);
+            return nodeId;
+        }
+        // impurity gain の累積で特徴量重要度
+        double parentImp = CalcImp(yd, yi, idx);
+        double leftImp = CalcImp(yd, yi, leftL.ToArray());
+        double rightImp = CalcImp(yd, yi, rightL.ToArray());
+        double gain = parentImp - (leftL.Count * leftImp + rightL.Count * rightImp) / nSamples;
+        featImp[bestFeat] += gain * nSamples;
+        nodeFeat[nodeId] = bestFeat;
+        nodeThresh[nodeId] = bestThresh;
+        int lid = BuildNode(X, yd, yi, leftL.ToArray(), depth + 1, 0);
+        int rid = BuildNode(X, yd, yi, rightL.ToArray(), depth + 1, 0);
+        leftId[nodeId] = lid;
+        rightId[nodeId] = rid;
+        return nodeId;
+    }
+    static void MakeLeaf(int nodeId, double[] yd, int[] yi, int[] idx) {
+        if (task == \"classification\") {
+            var probs = new double[nCls];
+            foreach (var i in idx) probs[yi[i]]++;
+            for (int c = 0; c < nCls; c++) probs[c] /= idx.Length;
+            nodeProbs[nodeId] = probs;
+        } else {
+            double s = 0;
+            foreach (var i in idx) s += yd[i];
+            nodeValue[nodeId] = s / idx.Length;
+        }
+    }
+    static bool AllSameClass(int[] y, int[] idx) {
+        if (idx.Length == 0) return true;
+        int v = y[idx[0]];
+        foreach (var i in idx) if (y[i] != v) return false;
+        return true;
+    }
+    static bool AllSameValue(double[] y, int[] idx) {
+        if (idx.Length == 0) return true;
+        double v = y[idx[0]];
+        foreach (var i in idx) if (y[i] != v) return false;
+        return true;
+    }
+    static int[] SelectFeatures() {
+        int want;
+        if (maxFeatures == \"all\") return Range(nFeat);
+        if (maxFeatures == \"sqrt\") want = Math.Max(1, (int)Math.Sqrt(nFeat));
+        else if (maxFeatures == \"log2\") want = Math.Max(1, (int)Math.Log(nFeat, 2));
+        else want = int.Parse(maxFeatures);
+        if (want >= nFeat) return Range(nFeat);
+        var all = Range(nFeat);
+        // Fisher-Yates
+        for (int i = all.Length - 1; i > 0; i--) { int j = rng.Next(i + 1); var t = all[i]; all[i] = all[j]; all[j] = t; }
+        var r = new int[want];
+        Array.Copy(all, r, want);
+        return r;
+    }
+    static int[] Range(int n) { var r = new int[n]; for (int i = 0; i < n; i++) r[i] = i; return r; }
+
+    static double CalcImp(double[] yd, int[] yi, int[] idx) {
+        if (task == \"classification\") {
+            if (criterion == \"entropy\") {
+                var cnt = new int[nCls];
+                foreach (var i in idx) cnt[yi[i]]++;
+                double h = 0;
+                for (int c = 0; c < nCls; c++) {
+                    if (cnt[c] == 0) continue;
+                    double p = (double)cnt[c] / idx.Length;
+                    h -= p * Math.Log(p, 2);
+                }
+                return h;
+            } else {
+                var cnt = new int[nCls];
+                foreach (var i in idx) cnt[yi[i]]++;
+                double g = 1;
+                for (int c = 0; c < nCls; c++) { double p = (double)cnt[c] / idx.Length; g -= p * p; }
+                return g;
+            }
+        } else {
+            double m = 0;
+            foreach (var i in idx) m += yd[i];
+            m /= idx.Length;
+            double ss = 0;
+            foreach (var i in idx) { double d = yd[i] - m; ss += d * d; }
+            return ss / idx.Length;
+        }
+    }
+    static double SplitImp(double[] X, double[] yd, int[] yi, int[] idx, int f, double t, int nS) {
+        var l = new List<int>(); var r = new List<int>();
+        for (int i = 0; i < nS; i++) {
+            if (X[idx[i] * nFeat + f] <= t) l.Add(idx[i]);
+            else r.Add(idx[i]);
+        }
+        if (l.Count == 0 || r.Count == 0) return double.PositiveInfinity;
+        double li = CalcImp(yd, yi, l.ToArray());
+        double ri = CalcImp(yd, yi, r.ToArray());
+        return (l.Count * li + r.Count * ri) / nS;
+    }
+
+    public static string Predict(double[] X, int n) {
+        var sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            int node = 0;
+            while (nodeFeat[node] != -1) {
+                double v = X[i * nFeat + nodeFeat[node]];
+                node = (v <= nodeThresh[node]) ? leftId[node] : rightId[node];
+            }
+            if (i > 0) sb.Append('\\t');
+            if (task == \"classification\") {
+                var p = nodeProbs[node];
+                int best = 0; double bv = p[0];
+                for (int c = 1; c < nCls; c++) if (p[c] > bv) { bv = p[c]; best = c; }
+                sb.Append(best);
+            } else {
+                sb.Append(nodeValue[node].ToString(\"R\", CultureInfo.InvariantCulture));
+            }
+        }
+        return sb.ToString();
+    }
+
+    public static double Score(double[] X, double[] yd, int[] yi, int n) {
+        if (task == \"classification\") {
+            int ok = 0;
+            for (int i = 0; i < n; i++) {
+                int node = 0;
+                while (nodeFeat[node] != -1) {
+                    double v = X[i * nFeat + nodeFeat[node]];
+                    node = (v <= nodeThresh[node]) ? leftId[node] : rightId[node];
+                }
+                var p = nodeProbs[node];
+                int best = 0; double bv = p[0];
+                for (int c = 1; c < nCls; c++) if (p[c] > bv) { bv = p[c]; best = c; }
+                if (best == yi[i]) ok++;
+            }
+            return (double)ok / n;
+        } else {
+            double mean = 0;
+            for (int i = 0; i < n; i++) mean += yd[i];
+            mean /= n;
+            double ssRes = 0, ssTot = 0;
+            for (int i = 0; i < n; i++) {
+                int node = 0;
+                while (nodeFeat[node] != -1) {
+                    double v = X[i * nFeat + nodeFeat[node]];
+                    node = (v <= nodeThresh[node]) ? leftId[node] : rightId[node];
+                }
+                double pred = nodeValue[node];
+                ssRes += (yd[i] - pred) * (yd[i] - pred);
+                ssTot += (yd[i] - mean) * (yd[i] - mean);
+            }
+            return ssTot > 1e-12 ? 1.0 - ssRes / ssTot : 0.0;
+        }
+    }
+    public static string GetFeatureImportance() {
+        var sb = new StringBuilder();
+        for (int i = 0; i < featImp.Length; i++) {
+            if (i > 0) sb.Append('\\t');
+            sb.Append(featImp[i].ToString(\"R\", CultureInfo.InvariantCulture));
+        }
+        return sb.ToString();
+    }
+    public static int GetNodeCount() { return nodeFeat.Count; }
+    public static string Release() {
+        ResetTree();
+        featImp = null;
+        return \"0\";
+    }
+}
+"}
+	loadnet _cs, 3
+	_dt_cs_loaded = 1
+	return
+
+#deffunc _dt_parse_d str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	ddim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = double(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = double(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc _dt_parse_i str tsv, array v, int expected, \
+	local _p, local _tab, local _i
+	dim v, expected
+	_p = 0 : _i = 0
+	repeat
+		_tab = instr(tsv, _p, "\t")
+		if _tab < 0 {
+			if _i < expected : v(_i) = int(strmid(tsv, _p, strlen(tsv) - _p))
+			break
+		}
+		if _i < expected : v(_i) = int(strmid(tsv, _p, _tab - _p))
+		_p = _tab + 1
+		_i++
+	loop
+	return
+
+#deffunc dt_create str task, local _h, local _r
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "Create", _r, task
+	return int("" + _r)
+
+#deffunc dt_config str k, str v, local _h, local _r
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "Config", _r, k, v
+	return int("" + _r)
+
+#deffunc dt_fit_classification array X, array y_int, int n, int n_feat, int n_classes, \
+	local _h, local _r
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "FitClassification", _r, X, y_int, n, n_feat, n_classes
+	return int("" + _r)
+
+#deffunc dt_fit_regression array X, array y_d, int n, int n_feat, \
+	local _h, local _r
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "FitRegression", _r, X, y_d, n, n_feat
+	return int("" + _r)
+
+#deffunc dt_predict_classification array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_dt_parse_i _tsv, v_out, n
+	return 0
+
+#deffunc dt_predict_regression array X, int n, array v_out, \
+	local _h, local _r, local _tsv
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "Predict", _r, X, n
+	_tsv = "" + _r
+	_dt_parse_d _tsv, v_out, n
+	return 0
+
+#defcfunc dt_score_classification array X, array y_int, int n, \
+	local _h, local _r, local _yd
+	ddim _yd, 1
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "Score", _r, X, _yd, y_int, n
+	return double("" + _r)
+
+#defcfunc dt_score_regression array X, array y_d, int n, \
+	local _h, local _r, local _yi
+	dim _yi, 1
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "Score", _r, X, y_d, _yi, n
+	return double("" + _r)
+
+#deffunc dt_feature_importance array v_imp, int n_feat, \
+	local _h, local _r, local _tsv
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "GetFeatureImportance", _r
+	_tsv = "" + _r
+	_dt_parse_d _tsv, v_imp, n_feat
+	return 0
+
+#defcfunc dt_node_count \
+	local _h, local _r
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "GetNodeCount", _r
+	return int("" + _r)
+
+#deffunc dt_release \
+	local _h, local _r
+	_dt_load_cs
+	newnet _h, "HspDT"
+	mcall _h, "Release", _r
+	return 0
+
+#global
+#endif

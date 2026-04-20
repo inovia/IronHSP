@@ -1,0 +1,166 @@
+;============================================================
+;   iron_metrics.hsp — 評価指標
+;
+;   分類: accuracy / precision / recall / F1 (binary, macro, weighted)
+;         / confusion_matrix / log_loss / ROC-AUC (binary)
+;   回帰: MSE / RMSE / MAE / R² / explained_variance
+;   pure HSP で軽量実装。
+;
+;   API (分類):
+;     metrics_accuracy y_true, y_pred, n                → refdval
+;     metrics_precision_recall_f1 y_true, y_pred, n, n_classes,
+;                                 var p, var r, var f1  (macro)
+;     metrics_confusion y_true, y_pred, n, n_classes, array v_mat
+;                                                       (n_classes × n_classes row-major)
+;     metrics_log_loss y_true, y_proba, n, n_classes    → refdval
+;     metrics_roc_auc_binary y_true (0/1), y_score, n   → refdval
+;
+;   API (回帰):
+;     metrics_mse y_true, y_pred, n         → refdval
+;     metrics_rmse y_true, y_pred, n        → refdval
+;     metrics_mae y_true, y_pred, n         → refdval
+;     metrics_r2 y_true, y_pred, n          → refdval
+;     metrics_explained_variance y_true, y_pred, n  → refdval
+;============================================================
+#ifndef __iron_metrics_hsp__
+#define __iron_metrics_hsp__
+
+#module iron_metrics
+
+#defcfunc metrics_accuracy array y_true, array y_pred, int n, \
+	local _ok
+	_ok = 0
+	repeat n
+		if y_true(cnt) = y_pred(cnt) : _ok++
+	loop
+	return 1.0 * _ok / n
+
+#deffunc metrics_confusion array y_true, array y_pred, int n, int n_classes, array v_mat, \
+	local _i
+	dim v_mat, n_classes * n_classes
+	repeat n
+		_i = y_true(cnt) * n_classes + y_pred(cnt)
+		v_mat(_i) = v_mat(_i) + 1
+	loop
+	return 0
+
+#deffunc metrics_precision_recall_f1 array y_true, array y_pred, int n, int n_classes, \
+	var v_p, var v_r, var v_f, \
+	local _cm, local _tp, local _fp, local _fn, local _c, \
+	local _prec, local _rec, local _f1, local _sum_p, local _sum_r, local _sum_f
+	metrics_confusion y_true, y_pred, n, n_classes, _cm
+	_sum_p = 0.0 : _sum_r = 0.0 : _sum_f = 0.0
+	repeat n_classes
+		_c = cnt
+		_tp = _cm(_c * n_classes + _c)
+		_fp = 0 : _fn = 0
+		repeat n_classes
+			if cnt != _c {
+				_fp = _fp + _cm(cnt * n_classes + _c)
+				_fn = _fn + _cm(_c * n_classes + cnt)
+			}
+		loop
+		if _tp + _fp > 0 : _prec = 1.0 * _tp / (_tp + _fp) : else : _prec = 0.0
+		if _tp + _fn > 0 : _rec  = 1.0 * _tp / (_tp + _fn) : else : _rec  = 0.0
+		if _prec + _rec > 0 : _f1 = 2.0 * _prec * _rec / (_prec + _rec) : else : _f1 = 0.0
+		_sum_p = _sum_p + _prec
+		_sum_r = _sum_r + _rec
+		_sum_f = _sum_f + _f1
+	loop
+	v_p = _sum_p / n_classes
+	v_r = _sum_r / n_classes
+	v_f = _sum_f / n_classes
+	return 0
+
+#defcfunc metrics_log_loss array y_true, array y_proba, int n, int n_classes, \
+	local _sum, local _p
+	_sum = 0.0
+	repeat n
+		_p = y_proba(cnt * n_classes + y_true(cnt))
+		if _p < 1e-12 : _p = 1e-12
+		_sum = _sum - log(_p)
+	loop
+	return _sum / n
+
+#defcfunc metrics_roc_auc_binary array y_true, array y_score, int n, \
+	local _np, local _nn, local _i, local _j, local _auc, local _tied, local _gt
+	_np = 0 : _nn = 0
+	repeat n
+		if y_true(cnt) = 1 {
+			_np++
+		} else {
+			_nn++
+		}
+	loop
+	if _np = 0 | _nn = 0 : return 0.0
+	; Wilcoxon-Mann-Whitney 統計量 (U) から AUC
+	_auc = 0.0
+	repeat n
+		_i = cnt
+		if y_true(_i) != 1 : continue
+		repeat n
+			_j = cnt
+			if y_true(_j) != 0 : continue
+			if y_score(_i) > y_score(_j) : _auc = _auc + 1.0
+			if y_score(_i) = y_score(_j) : _auc = _auc + 0.5
+		loop
+	loop
+	return _auc / (_np * _nn)
+
+;--------- 回帰 ---------
+#defcfunc metrics_mse array y_true, array y_pred, int n, \
+	local _s, local _d
+	_s = 0.0
+	repeat n
+		_d = y_true(cnt) - y_pred(cnt)
+		_s = _s + _d * _d
+	loop
+	return _s / n
+
+#defcfunc metrics_rmse array y_true, array y_pred, int n
+	return sqrt(metrics_mse(y_true, y_pred, n))
+
+#defcfunc metrics_mae array y_true, array y_pred, int n, \
+	local _s, local _d
+	_s = 0.0
+	repeat n
+		_d = y_true(cnt) - y_pred(cnt)
+		if _d < 0 : _d = 0.0 - _d
+		_s = _s + _d
+	loop
+	return _s / n
+
+#defcfunc metrics_r2 array y_true, array y_pred, int n, \
+	local _m, local _sr, local _st
+	_m = 0.0
+	repeat n : _m = _m + y_true(cnt) : loop
+	_m = _m / n
+	_sr = 0.0 : _st = 0.0
+	repeat n
+		_sr = _sr + (y_true(cnt) - y_pred(cnt)) * (y_true(cnt) - y_pred(cnt))
+		_st = _st + (y_true(cnt) - _m) * (y_true(cnt) - _m)
+	loop
+	if _st < 1e-12 : return 0.0
+	return 1.0 - _sr / _st
+
+#defcfunc metrics_explained_variance array y_true, array y_pred, int n, \
+	local _m_err, local _m_y, local _v_err, local _v_y, local _e
+	_m_err = 0.0 : _m_y = 0.0
+	repeat n
+		_e = y_true(cnt) - y_pred(cnt)
+		_m_err = _m_err + _e
+		_m_y = _m_y + y_true(cnt)
+	loop
+	_m_err = _m_err / n
+	_m_y = _m_y / n
+	_v_err = 0.0 : _v_y = 0.0
+	repeat n
+		_e = (y_true(cnt) - y_pred(cnt)) - _m_err
+		_v_err = _v_err + _e * _e
+		_v_y = _v_y + (y_true(cnt) - _m_y) * (y_true(cnt) - _m_y)
+	loop
+	if _v_y < 1e-12 : return 0.0
+	return 1.0 - _v_err / _v_y
+
+#global
+#endif
