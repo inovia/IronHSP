@@ -331,8 +331,6 @@ static void handle_command(const std::string& line) {
                 char* detail = g_dbg->get_varinf((char*)name.c_str(), 0);
                 std::string info = detail ? detail : "";
 
-                // Extract type: look for lines starting with 型: or Type:
-                std::string vtype = "?";
                 auto find_line = [&](const char* key) -> std::string {
                     auto tp = info.find(key);
                     if (tp == std::string::npos) return "";
@@ -341,13 +339,29 @@ static void handle_command(const std::string& line) {
                     if (te == std::string::npos) te = info.size();
                     return info.substr(tp, te - tp);
                 };
-                std::string t = find_line("\xe5\x9e\x8b:");  // "型:" UTF-8
+
+                // Extract type (型: in UTF-8)
+                std::string vtype = "?";
+                std::string t = find_line("\xe5\x9e\x8b:");
                 if (t.empty()) t = find_line("Type:");
                 if (!t.empty()) vtype = t;
 
-                // Value: truncate info to something readable
-                std::string value = info;
-                if (value.size() > 512) value = value.substr(0, 512) + "...";
+                // Clean value: pull the "内容:\r\n<value>" portion. get_varinf
+                // puts the actual value on the line after "内容:" (first
+                // array element for arrays; the string itself for str).
+                std::string value;
+                std::string naiyou_key = "\xe5\x86\x85\xe5\xae\xb9:\r\n";  // 内容:\r\n
+                auto np = info.find(naiyou_key);
+                if (np != std::string::npos) {
+                    size_t vstart = np + naiyou_key.size();
+                    auto vend = info.find("\r\n", vstart);
+                    if (vend == std::string::npos) vend = info.size();
+                    value = info.substr(vstart, vend - vstart);
+                } else {
+                    // Fallback: truncated dump
+                    value = info;
+                    if (value.size() > 256) value = value.substr(0, 256) + "...";
+                }
 
                 if (!first) json += ",";
                 first = false;

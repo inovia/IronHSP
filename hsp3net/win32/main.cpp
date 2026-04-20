@@ -20,6 +20,14 @@ int main( int argc, char *argv[] )
 	int res;
 	char *p;
 
+#ifdef HSP3_DAP_MODE
+	// DAP モードでは stdout/stderr をラインバッファ化する。デフォルトの
+	// ブロックバッファだと mes 出力が end まで溜め込まれ、VS Code の
+	// Debug Console にリアルタイムに流れない。
+	setvbuf( stdout, NULL, _IONBF, 0 );
+	setvbuf( stderr, NULL, _IONBF, 0 );
+#endif
+
 #ifdef HSPDEBUG
 	if ( argc > 1 ) p = argv[ 1 ]; else p = "";
 #else

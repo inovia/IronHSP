@@ -19,7 +19,13 @@ namespace NhspDap {
         private Process _runtime;
         private int _seq = 1;
         private bool _configDone;
+        private string _cwd;
         private readonly Dictionary<string, List<int>> _pendingBps = new Dictionary<string, List<int>>();
+        // Maps basename (case-insensitive) → absolute path supplied via
+        // setBreakpoints. Used to resolve the HSP runtime's relative fname
+        // back to the full workspace path so VS Code can open the source.
+        private readonly Dictionary<string, string> _sourcePaths =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         public void Run() {
             _bridge.EventReceived += OnBridgeEvent;
@@ -138,6 +144,14 @@ namespace NhspDap {
             string runtime = (string)args["runtime"];  // optional override
             var argv = args["args"] as JArray;
             string cwd = (string)args["cwd"] ?? Path.GetDirectoryName(Path.GetFullPath(program));
+            _cwd = cwd;
+            // Pre-register the program's directory for source resolution.
+            if (!string.IsNullOrEmpty(program)) {
+                string programDir = Path.GetDirectoryName(Path.GetFullPath(program));
+                if (programDir != null && !string.IsNullOrEmpty(programDir)) {
+                    _sourcePaths["__programDir__"] = programDir;
+                }
+            }
 
             if (string.IsNullOrEmpty(runtime)) {
                 runtime = LocateRuntime();
@@ -166,6 +180,10 @@ namespace NhspDap {
                 CreateNoWindow = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
+                // HSP runtime emits UTF-8 (HSPUTF8 defined); default console
+                // encoding would garble non-ASCII `mes` output.
+                StandardOutputEncoding = new System.Text.UTF8Encoding(false),
+                StandardErrorEncoding = new System.Text.UTF8Encoding(false),
             };
             _runtime = Process.Start(psi);
             _runtime.EnableRaisingEvents = true;
@@ -247,6 +265,10 @@ namespace NhspDap {
                 }
             }
             _pendingBps[path] = lines;
+            // Remember basename → absolute path so we can round-trip.
+            if (!string.IsNullOrEmpty(path)) {
+                _sourcePaths[Path.GetFileName(path)] = path;
+            }
 
             // Forward to DLL
             var cmd = new JObject {
@@ -277,12 +299,14 @@ namespace NhspDap {
             if (resp?["frames"] is JArray arr) {
                 int id = 1;
                 foreach (var f in arr) {
+                    string runtimeFile = (string)f["file"] ?? "";
+                    string absPath = ResolveSourcePath(runtimeFile);
                     frames.Add(new JObject {
                         ["id"] = id++,
                         ["name"] = (string)f["name"],
                         ["source"] = new JObject {
-                            ["name"] = Path.GetFileName((string)f["file"] ?? ""),
-                            ["path"] = (string)f["file"],
+                            ["name"] = Path.GetFileName(absPath),
+                            ["path"] = absPath,
                         },
                         ["line"] = (int?)f["line"] ?? 0,
                         ["column"] = 1,
@@ -293,6 +317,29 @@ namespace NhspDap {
                 ["stackFrames"] = frames,
                 ["totalFrames"] = frames.Count,
             });
+        }
+
+        // Convert a possibly-relative filename from the HSP runtime into an
+        // absolute path VS Code can open. Lookup order:
+        //   1. Already absolute → return as-is
+        //   2. Cached from a prior setBreakpoints for the same basename
+        //   3. Resolve relative to cwd
+        //   4. Resolve relative to program dir
+        //   5. Fall back to the original string
+        private string ResolveSourcePath(string file) {
+            if (string.IsNullOrEmpty(file)) return "";
+            if (Path.IsPathRooted(file)) return file;
+            string basename = Path.GetFileName(file);
+            if (_sourcePaths.TryGetValue(basename, out var hit)) return hit;
+            if (!string.IsNullOrEmpty(_cwd)) {
+                string candidate = Path.Combine(_cwd, file);
+                if (File.Exists(candidate)) return Path.GetFullPath(candidate);
+            }
+            if (_sourcePaths.TryGetValue("__programDir__", out var progDir)) {
+                string candidate = Path.Combine(progDir, file);
+                if (File.Exists(candidate)) return Path.GetFullPath(candidate);
+            }
+            return file;
         }
 
         private void Scopes(JObject req, int reqSeq) {

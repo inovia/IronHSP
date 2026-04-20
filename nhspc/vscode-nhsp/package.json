@@ -28,6 +28,12 @@
         "aliases": ["NHSP", "nhsp", "Net HSP"],
         "extensions": [".nhsp"],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "hsp",
+        "aliases": ["HSP", "hsp", "HSP3"],
+        "extensions": [".hsp"],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -47,8 +53,10 @@
       {
         "name": "nhsp-spec",
         "displayName": "NHSP Language Specification",
-        "description": "Look up NHSP (Net HSP) language syntax, directives, types, control flow, operators, and built-in functions. NHSP is a custom language with HSP-like syntax that compiles to .NET assemblies. Use this tool when the user asks about NHSP syntax or wants to write NHSP code.",
+        "description": "Look up NHSP language syntax reference.",
+        "modelDescription": "Look up NHSP (Net HSP) language syntax, directives, types, control flow, operators, and built-in functions. NHSP is a custom language with HSP-like syntax that compiles to .NET assemblies. Use this tool when the user asks about NHSP syntax or wants to write NHSP code.",
         "canBeReferencedInPrompt": true,
+        "toolReferenceName": "nhspSpec",
         "inputSchema": {
           "type": "object",
           "properties": {
@@ -63,8 +71,10 @@
       {
         "name": "nhsp-convert",
         "displayName": "C# to NHSP Conversion Rules",
-        "description": "Get the rules for converting C# code to NHSP syntax. Use this when the user wants to convert C# code to NHSP or needs to understand the mapping between C# and NHSP constructs.",
+        "description": "Rules for converting C# code to NHSP syntax.",
+        "modelDescription": "Get the rules for converting C# code to NHSP syntax. Use this when the user wants to convert C# code to NHSP or needs to understand the mapping between C# and NHSP constructs.",
         "canBeReferencedInPrompt": true,
+        "toolReferenceName": "nhspConvert",
         "inputSchema": {
           "type": "object",
           "properties": {}
@@ -73,8 +83,10 @@
       {
         "name": "nhsp-current-file",
         "displayName": "Current NHSP File",
-        "description": "Get the contents and structure of the currently open NHSP file, including class names, method names, and field names.",
+        "description": "Contents and structure of the open NHSP file.",
+        "modelDescription": "Get the contents and structure of the currently open NHSP file, including class names, method names, and field names.",
         "canBeReferencedInPrompt": true,
+        "toolReferenceName": "nhspCurrentFile",
         "inputSchema": {
           "type": "object",
           "properties": {}
