@@ -207,7 +207,10 @@ namespace HspLanguageServer {
             // With textDocumentSync=Full, the only change is the full new text.
             string text = (string)changes[changes.Count - 1]["text"];
             if (_docs.TryGetValue(uri, out var doc)) doc.Text = text;
-            // Don't reparse on every keystroke; wait for save.
+            // Reparse on every change so hover / outline / diagnostics stay
+            // in sync with the editor buffer. hspcmp is fast enough (<100 ms
+            // on typical files) that this is fine for keystroke-level events.
+            ReparseDoc(uri, text);
         }
 
         private void OnDidSave(JToken ps) {
