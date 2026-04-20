@@ -55,6 +55,7 @@
   <ol>
     <li><a href="#design">設計コンセプト</a></li>
     <li><a href="#commands">HSP コマンド分類 (採用 / 除外 / DxLib 置換)</a></li>
+    <li><a href="#types">型システムの進化計画 (float / 構造体 / NSTRUCT)</a></li>
     <li><a href="#plugins">プラグイン方針</a></li>
     <li><a href="#encoding">文字コード規則</a></li>
     <li><a href="#build">ビルド / 配布フロー</a></li>
@@ -184,7 +185,94 @@
 </table>
 
 <!-- ======================================== -->
-<h2 id="plugins">3. プラグイン方針</h2>
+<h2 id="types">3. 型システムの進化計画</h2>
+
+<p>DxLib は <strong>float / 構造体 / 構造体配列</strong> を多用するため、段階的に HSP の型システムを拡張する必要がある。本章で <strong>段階的移植計画</strong> を明記する。</p>
+
+<h3>3.1 DxLib が使う型 / 機構</h3>
+<table>
+<tr><th>カテゴリ</th><th>具体例</th></tr>
+<tr><td>float 引数 / 戻り値</td><td><code>VECTOR = {float x,y,z;}</code> / <code>DrawCircle(x,y,r,color,fill,thickness)</code> の半径 / 音量・ピッチ</td></tr>
+<tr><td>構造体</td><td><code>VECTOR</code> / <code>VECTOR_D</code> / <code>VERTEX3D</code> / <code>MATRIX</code> / <code>RECT</code> / <code>COLOR_F</code> / <code>MV1_COLL_RESULT_POLY</code> 他多数</td></tr>
+<tr><td>構造体の出力 (pointer)</td><td><code>GetCameraPosition(&amp;pos)</code> で VECTOR を返す</td></tr>
+<tr><td>構造体配列</td><td>頂点バッファ、当たり判定ポリゴン群</td></tr>
+<tr><td>コールバック</td><td><code>SetMovieSurfaceCallback</code> 等 (少数)</td></tr>
+</table>
+
+<h3>3.2 hsp3net にあって hsp3embed に無い型機構</h3>
+<p>ベースとする <code>hsp3embed</code> は HSP3 素の型セット (<code>int</code> / <code>double</code> / <code>str</code> / 配列) しか持たない。対して <code>hsp3net</code> には以下が実装済:</p>
+<table>
+<tr><th>機能</th><th>hsp3net</th><th>hsp3embed (fork 元)</th><th>用途例</th></tr>
+<tr><td><code>#cfunc</code> (int 返し)</td><td><span class="badge badge-ok">○</span></td><td><span class="badge badge-ok">○</span></td><td>ハンドル / カウント</td></tr>
+<tr><td><code>#cfuncd</code> (double 返し)</td><td><span class="badge badge-ok">○</span></td><td><span class="badge badge-ng">✗</span></td><td>一般数値</td></tr>
+<tr><td><strong><code>#cfuncf</code> (float 返し)</strong></td><td><span class="badge badge-ok">○</span></td><td><span class="badge badge-ng">✗</span></td><td>DxLib float 戻り値</td></tr>
+<tr><td><strong><code>#cfuncst</code> (struct 返し)</strong></td><td><span class="badge badge-ok">○</span></td><td><span class="badge badge-ng">✗</span></td><td>VECTOR 取得など</td></tr>
+<tr><td><strong><code>NSTRUCT</code> (構造体型)</strong></td><td><span class="badge badge-ok">○</span></td><td><span class="badge badge-ng">✗</span></td><td><code>pos.x</code> で触れる</td></tr>
+<tr><td><code>#defcbcom</code> (COM callback)</td><td><span class="badge badge-ok">○</span></td><td><span class="badge badge-ng">✗</span></td><td>DxLib では概ね不要</td></tr>
+</table>
+
+<h3>3.3 取れる 3 方針</h3>
+
+<div class="card">
+<h4>方針 1: プラグイン側ですべて吸収</h4>
+<ul>
+  <li>型拡張なし、HSP 側は <code>int</code> / <code>double</code> / <code>str</code> のみ</li>
+  <li><code>dx_get_camera_position posx, posy, posz</code> のように <strong>スカラ 3 引数に分解</strong></li>
+  <li>構造体配列は TSV 文字列 or <code>array double</code> で返し、HSP 側でパース (<code>iron_mlnet.hsp</code> と同じ方式)</li>
+  <li><strong>実装コスト</strong>: 最小 (hsp3embed に手を入れない)</li>
+  <li><strong>API の醜さ</strong>: 大 (MATRIX 16 要素、頂点バッファなど冗長)</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>方針 2: 最小限の型拡張 (float + cfuncf だけ移植)</h4>
+<ul>
+  <li>hsp3embed に <code>HSPVAR_FLAG_FLOAT</code> + <code>#cfuncf</code> を追加</li>
+  <li>構造体は引き続きプラグイン側で分解</li>
+  <li><strong>実装コスト</strong>: 中 (VM の型テーブル拡張、hspcmp の型認識追加)</li>
+  <li>DxLib の float 精度が保てる</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>方針 3: hsp3net の型機構フル移植</h4>
+<ul>
+  <li>hsp3embed に NSTRUCT + cfuncf + cfuncd + cfuncst を移植</li>
+  <li>HSP 側で <code>ddim pos, 3 : dx_get_camera_pos pos : mes pos.x</code> のように struct 風に触れる</li>
+  <li><strong>実装コスト</strong>: 大 (VM 型システムの大改修、hspcmp 改修、互換性検証)</li>
+  <li>2000 関数の自動生成が機械的にできるようになる</li>
+</ul>
+</div>
+
+<h3>3.4 Phase と方針の対応</h3>
+<table>
+<tr><th>Phase</th><th>型方針</th><th>理由</th></tr>
+<tr><td><strong>Phase 1</strong> (MVP 40 関数)</td><td><strong>方針 1</strong></td><td>スカラ分解で DrawGraph / DrawCircle / GetMousePoint など動かす</td></tr>
+<tr><td>Phase 2-3 (cnv + mobile)</td><td>方針 1 継続</td><td>VM 側は触らず、安定化優先</td></tr>
+<tr><td>Phase 4-5 (API 40 → 500)</td><td><strong>方針 2</strong></td><td><code>#cfuncf</code> 追加、float 精度必要な API が増える</td></tr>
+<tr><td><strong>Phase 6</strong> (3D / 動画)</td><td><strong>方針 3</strong></td><td>NSTRUCT / cfuncst 移植、MATRIX / VERTEX3D を touch する段階</td></tr>
+</table>
+
+<h3>3.5 長期ベース判断 (Phase 6 入りで再考)</h3>
+<div class="note">
+Phase 6 到達時に以下を再検討:
+<ul>
+  <li><code>hsp3embed</code> を hsp3net 系に寄せて進化させるか</li>
+  <li>いっそ <code>hsp3net</code> を fork して DxLib プラグインだけ追加する方針に切り替えるか</li>
+  <li>両方メンテするのは現実的でないので、<strong>Phase 6 時点で系統統合の判断</strong> をする</li>
+</ul>
+</div>
+
+<h3>3.6 自動コード生成の指針</h3>
+<p>DxLib の 2000 関数を手書きで <code>#deffunc</code> / <code>#cfunc</code> 定義するのは非現実的 → <code>DxLib.h</code> をパースして機械生成するスクリプトを Phase 5 で整備予定。</p>
+<ul>
+  <li><strong>Phase 5 自動生成</strong>: 方針 2 ベース (float 対応済、構造体はスカラ分解)</li>
+  <li><strong>Phase 6 自動生成</strong>: 方針 3 ベース (NSTRUCT 対応済、構造体そのまま渡せる)</li>
+  <li>方針 1 期のプラグイン手書きコードは Phase 5 で <strong>生成コードに置き換わって捨てる前提</strong> で書く (繋ぎコードに投資しすぎない)</li>
+</ul>
+
+<!-- ======================================== -->
+<h2 id="plugins">4. プラグイン方針</h2>
 
 <div class="warn">
 <strong>⚠ <code>#uselib</code> での任意 DLL ロードは禁止</strong><br>
@@ -193,7 +281,7 @@ iOS はダイナミックロードが原則禁止、Android も外部 .so 配布
 
 <p>同梱プラグインは <strong>事前承認制</strong> (ランタイムビルド時に静的リンク) となる。</p>
 
-<h3>3.1 OK プラグイン <span class="badge badge-ok">pure HSP / cross-platform 可</span></h3>
+<h3>4.1 OK プラグイン <span class="badge badge-ok">pure HSP / cross-platform 可</span></h3>
 <div class="ok">
 <ul>
   <li><code>iron_math_ex.hsp</code> — 数値計算拡張</li>
@@ -207,7 +295,7 @@ iOS はダイナミックロードが原則禁止、Android も外部 .so 配布
 </ul>
 </div>
 
-<h3>3.2 NG プラグイン <span class="badge badge-ng">使えない</span></h3>
+<h3>4.2 NG プラグイン <span class="badge badge-ng">使えない</span></h3>
 <div class="warn">
 <ul>
   <li><code>iron_*_net.hsp</code> — .NET 依存</li>
@@ -221,9 +309,9 @@ iOS はダイナミックロードが原則禁止、Android も外部 .so 配布
 </div>
 
 <!-- ======================================== -->
-<h2 id="encoding">4. 文字コード規則</h2>
+<h2 id="encoding">5. 文字コード規則</h2>
 
-<h3>4.1 統一ルール</h3>
+<h3>5.1 統一ルール</h3>
 
 <table>
 <tr><th>層</th><th>エンコーディング</th></tr>
@@ -236,14 +324,14 @@ iOS はダイナミックロードが原則禁止、Android も外部 .so 配布
 <tr><td>フォントファイル (<code>.ttf</code> / <code>.otf</code>)</td><td>バイナリなので非依存</td></tr>
 </table>
 
-<h3>4.2 DxLib 公式ドキュメント準拠</h3>
+<h3>5.2 DxLib 公式ドキュメント準拠</h3>
 <ul>
   <li>Windows DxLib: デフォルトは Shift-JIS / UTF-16LE、<code>SetUseCharCodeFormat</code> で切り替え可</li>
   <li>Android / iOS DxLib: UTF-8 固定</li>
   <li>hsp3dx ランタイムは <strong>起動時必ず <code>SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8)</code> を呼ぶ</strong> → 3 プラットフォームで統一</li>
 </ul>
 
-<h3>4.3 移行時の既知の落とし穴</h3>
+<h3>5.3 移行時の既知の落とし穴</h3>
 
 <div class="note">
 <ol>
@@ -255,7 +343,7 @@ iOS はダイナミックロードが原則禁止、Android も外部 .so 配布
 </ol>
 </div>
 
-<h3>4.4 既存資産の移行サポート</h3>
+<h3>5.4 既存資産の移行サポート</h3>
 <p><code>tools/hsp3dx_sjis2utf8/</code> に <code>.hsp</code> ソースを Shift-JIS → UTF-8 に一括変換するツールを同梱。</p>
 
 <pre><code>hsp3dx_sjis2utf8 --in path\to\src.hsp [--out path\to\dst.hsp]
@@ -263,14 +351,14 @@ hsp3dx_sjis2utf8 --dir path\to\project [--recursive]
 hsp3dx_sjis2utf8 --dir path\to\project --dry-run</code></pre>
 
 <!-- ======================================== -->
-<h2 id="build">5. ビルド / 配布フロー</h2>
+<h2 id="build">6. ビルド / 配布フロー</h2>
 
-<h3>5.1 Windows</h3>
+<h3>6.1 Windows</h3>
 <div class="ascii-diagram">your_game.hsp  →  hspcmp (#cmpopt utf8 1, #bootopt hsp64 1)  →  start.ax
                                                                ↓
                                          hsp3dx.exe  ←  start.ax を読んで実行</div>
 
-<h3>5.2 iOS</h3>
+<h3>6.2 iOS</h3>
 <div class="ascii-diagram">your_game.hsp  →  hspcmp  →  start.ax
                               ↓
           hsp3dx_cnv (単純バイト配列化)  →  start.cpp:
@@ -282,7 +370,7 @@ hsp3dx_sjis2utf8 --dir path\to\project --dry-run</code></pre>
                              .ipa</div>
 <p>起動時に <code>libhsp3dx</code> が <code>VM_Run(ax_data, ax_size)</code> を呼ぶ形でインタプリト実行。<code>hsp3cnv</code> のような HSP→C++ AOT 翻訳は<strong>行わない</strong>。</p>
 
-<h3>5.3 Android</h3>
+<h3>6.3 Android</h3>
 <div class="ascii-diagram">your_game.hsp  →  hspcmp  →  start.ax
                               ↓
           hsp3dx_cnv (単純バイト配列化)  →  start.cpp
@@ -291,25 +379,25 @@ hsp3dx_sjis2utf8 --dir path\to\project --dry-run</code></pre>
                               ↓
                              .apk / .aab</div>
 
-<h3>5.4 共通アセットパッケージング</h3>
+<h3>6.4 共通アセットパッケージング</h3>
 <p><code>.ax</code> 以外の素材 (画像 / 音声 / フォント) は <code>hsp3dx_pack</code> ツール (Phase 2) で<strong>仮想 FS</strong> に固める。ランタイムはプラットフォーム問わず同じ API で素材にアクセス可能。</p>
 
 <!-- ======================================== -->
-<h2 id="phases">6. Phase 計画</h2>
+<h2 id="phases">7. Phase 計画</h2>
 
 <table>
-<tr><th>Phase</th><th>内容</th><th>状態</th></tr>
-<tr><td><strong>Phase 0</strong></td><td>仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形</td><td><span class="badge badge-ok">完了 (2026-04-20)</span></td></tr>
-<tr><td>Phase 1</td><td>Windows 版 <code>hsp3dx.exe</code> MVP (DxLib コア 40 関数 + 3 サンプル)</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 2</td><td><code>hsp3dx_cnv</code> ツール + <code>hsp3dx_pack</code> ツール</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 3</td><td>iOS 版 <code>libhsp3dx.a</code> + Xcode テンプレ</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 4</td><td>Android 版 <code>libhsp3dx.so</code> + Android Studio テンプレ</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 5</td><td>DxLib API を 40 → 500 関数に拡張</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 6</td><td>3D / 動画 / ネットワーク機能追加</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><th>Phase</th><th>内容</th><th>型方針 (§3)</th><th>状態</th></tr>
+<tr><td><strong>Phase 0</strong></td><td>仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形</td><td>—</td><td><span class="badge badge-ok">完了 (2026-04-20)</span></td></tr>
+<tr><td>Phase 1</td><td>Windows 版 <code>hsp3dx.exe</code> MVP (DxLib コア 40 関数 + 3 サンプル)</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 2</td><td><code>hsp3dx_cnv</code> ツール + <code>hsp3dx_pack</code> ツール</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 3</td><td>iOS 版 <code>libhsp3dx.a</code> + Xcode テンプレ</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 4</td><td>Android 版 <code>libhsp3dx.so</code> + Android Studio テンプレ</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 5</td><td>DxLib API を 40 → 500 関数に拡張 (自動生成)</td><td>方針 2 (float + <code>#cfuncf</code>)</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 6</td><td>3D / 動画 / ネットワーク機能追加</td><td>方針 3 (NSTRUCT / cfuncst 移植)</td><td><span class="badge badge-future">未着手</span></td></tr>
 </table>
 
 <!-- ======================================== -->
-<h2 id="layout">7. ディレクトリ構成 (Phase 0 時点)</h2>
+<h2 id="layout">8. ディレクトリ構成 (Phase 0 時点)</h2>
 
 <pre><code>hsp3dx/
   README.md                    このドキュメントへのリンク
@@ -335,7 +423,7 @@ tools/
     README.md</code></pre>
 
 <!-- ======================================== -->
-<h2 id="pending">8. 未確定事項 (Phase 1 着手時に決める)</h2>
+<h2 id="pending">9. 未確定事項 (Phase 1 着手時に決める)</h2>
 
 <ul>
   <li><del>VM ソースは <code>hsp3net</code> を fork するか <code>hsp3dish</code> を fork するか</del>

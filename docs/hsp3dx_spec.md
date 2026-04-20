@@ -85,13 +85,88 @@
 
 ---
 
-## 3. プラグイン方針
+## 3. 型システムの進化計画
 
-### 3.1 `#uselib` での任意 DLL ロードは **禁止**
+DxLib は **float / 構造体 / 構造体配列** を多用するため、段階的に HSP の型システムを拡張する必要がある。本章で **段階的移植計画** を明記する。
+
+### 3.1 DxLib が使う型 / 機構
+
+| カテゴリ | 具体例 |
+|---|---|
+| float 引数 / 戻り値 | `VECTOR = {float x,y,z;}` / `DrawCircle(x,y,r,color,fill,thickness)` の半径 / 音量・ピッチなど |
+| 構造体 | `VECTOR` / `VECTOR_D` / `VERTEX3D` / `MATRIX` / `RECT` / `COLOR_F` / `MV1_COLL_RESULT_POLY` 他多数 |
+| 構造体の出力 (pointer) | `GetCameraPosition(&pos)` で VECTOR を返す |
+| 構造体配列 | 頂点バッファ、当たり判定ポリゴン群 |
+| コールバック | `SetMovieSurfaceCallback` 等 (少数) |
+
+### 3.2 hsp3net にあって hsp3embed に無い型機構
+
+ベースとする `hsp3embed` は HSP3 素の型セット (int / double / str / 配列) しか持たない。対して `hsp3net` には以下が実装済:
+
+| 機能 | hsp3net | hsp3embed (fork 元) | 用途例 |
+|---|---|---|---|
+| `#cfunc` (int 返し) | ○ | ○ | ハンドル / カウント |
+| `#cfuncd` (double 返し) | ○ | ✗ | 一般数値 |
+| **`#cfuncf` (float 返し)** | ○ | ✗ | DxLib float 戻り値 |
+| **`#cfuncst` (struct 返し)** | ○ | ✗ | VECTOR 取得など |
+| **`NSTRUCT` (構造体型)** | ○ | ✗ | `pos.x` で触れる |
+| `#defcbcom` (COM callback) | ○ | ✗ | DxLib では概ね不要 |
+
+### 3.3 取れる 3 方針
+
+**方針 1: プラグイン側ですべて吸収**
+- 型拡張なし、HSP 側は `int` / `double` / `str` のみ
+- `dx_get_camera_position posx, posy, posz` のように **スカラ 3 引数に分解**
+- 構造体配列は TSV 文字列 or `array double` で返し、HSP 側でパース (`iron_mlnet.hsp` と同じ方式)
+- 実装コスト: 最小 (hsp3embed に手を入れない)
+- API の醜さ: 大 (MATRIX 16 要素、頂点バッファなど冗長)
+
+**方針 2: 最小限の型拡張 (float + cfuncf だけ移植)**
+- hsp3embed に `HSPVAR_FLAG_FLOAT` + `#cfuncf` を追加
+- 構造体は引き続きプラグイン側で分解
+- 実装コスト: 中 (VM の型テーブル拡張、hspcmp の型認識追加)
+- DxLib の float 精度が保てる
+
+**方針 3: hsp3net の型機構フル移植**
+- hsp3embed に NSTRUCT + cfuncf + cfuncd + cfuncst を移植
+- HSP 側で `ddim pos, 3 : dx_get_camera_pos pos : mes pos.x` のように struct 風に触れる
+- 実装コスト: 大 (VM 型システムの大改修、hspcmp 改修、互換性検証)
+- 2000 関数の自動生成が機械的にできるようになる
+
+### 3.4 Phase と方針の対応
+
+| Phase | 型方針 | 理由 |
+|---|---|---|
+| **Phase 1** (MVP 40 関数) | **方針 1** | スカラ分解で DrawGraph / DrawCircle / GetMousePoint など動かす |
+| Phase 2-3 (cnv + mobile) | 方針 1 継続 | VM 側は触らず、安定化優先 |
+| Phase 4-5 (API 40 → 500) | **方針 2** | `#cfuncf` 追加、float 精度必要な API が増える |
+| **Phase 6** (3D / 動画) | **方針 3** | NSTRUCT / cfuncst 移植、MATRIX / VERTEX3D を touch する段階 |
+
+### 3.5 長期ベース判断 (Phase 6 入りで再考)
+
+Phase 6 到達時に以下を再検討:
+
+- `hsp3embed` を hsp3net 系に寄せて進化させるか
+- いっそ `hsp3net` を fork して DxLib プラグインだけ追加する方針に切り替えるか
+- 両方メンテするのは現実的でないので、**Phase 6 時点で系統統合の判断** をする
+
+### 3.6 自動コード生成の指針
+
+DxLib の 2000 関数を手書きで `#deffunc` / `#cfunc` 定義するのは非現実的 → `DxLib.h` をパースして機械生成するスクリプトを Phase 5 で整備予定。
+
+- **Phase 5 自動生成**: 方針 2 ベース (float 対応済、構造体はスカラ分解)
+- **Phase 6 自動生成**: 方針 3 ベース (NSTRUCT 対応済、構造体そのまま渡せる)
+- 方針 1 期のプラグイン手書きコードは Phase 5 で **生成コードに置き換わって捨てる前提** で書く (繋ぎコードに投資しすぎない)
+
+---
+
+## 4. プラグイン方針
+
+### 4.1 `#uselib` での任意 DLL ロードは **禁止**
 
 iOS ではダイナミックロードが原則禁止、Android でも .so の外部ロードは面倒で配布負荷が高いため。
 
-### 3.2 同梱プラグインは **事前承認制** (静的リンク)
+### 4.2 同梱プラグインは **事前承認制** (静的リンク)
 
 hsp3dx ランタイムのビルド時に静的リンクされたプラグインだけがユーザーから利用可能。
 
@@ -116,9 +191,9 @@ hsp3dx ランタイムのビルド時に静的リンクされたプラグイン�
 
 ---
 
-## 4. 文字コード規則
+## 5. 文字コード規則
 
-### 4.1 統一ルール
+### 5.1 統一ルール
 
 | 層 | エンコーディング |
 |---|---|
@@ -130,13 +205,13 @@ hsp3dx ランタイムのビルド時に静的リンクされたプラグイン�
 | ファイルパス | UTF-8 (Win は `_wfopen` 経由で UTF-16 変換、iOS/Android はネイティブ UTF-8) |
 | フォントファイル (.ttf/.otf) | バイナリなので非依存 |
 
-### 4.2 DxLib 公式ドキュメント準拠
+### 5.2 DxLib 公式ドキュメント準拠
 
 - Windows DxLib: デフォルトは Shift-JIS / UTF-16LE。`SetUseCharCodeFormat` で切り替え
 - Android / iOS DxLib: UTF-8 固定
 - hsp3dx ランタイムは **起動時必ず `SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8)` を呼ぶ** → 3 プラットフォームで統一
 
-### 4.3 移行時の既知の落とし穴
+### 5.3 移行時の既知の落とし穴
 
 1. **Shift-JIS の 2 バイト目 0x5C 問題**: `表` (0x95 0x5C) などの文字がリテラル中に出ると 0x5C がエスケープ文字として解釈されてリテラルが破壊される → **UTF-8 化で自動解消**
 2. **`sdim` のサイズ指定**: UTF-8 では 1 文字 1〜4 バイト。Shift-JIS で 2 バイトだった文字が UTF-8 で 3 バイトになる例が多数 → **バッファサイズを 1.5 倍程度で見積もる**
@@ -144,7 +219,7 @@ hsp3dx ランタイムのビルド時に静的リンクされたプラグイン�
 4. **`poke`/`peek` でバイト単位に触っている既存コード**: 非互換、書き換え必須
 5. **DxLib API 引数**: `SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8)` 呼び出し後は UTF-8 で渡せばよく、特別な変換は不要
 
-### 4.4 既存資産の移行サポート
+### 5.4 既存資産の移行サポート
 
 `tools/hsp3dx_sjis2utf8/` に `.hsp` ソースを Shift-JIS → UTF-8 に一括変換するツールを同梱。使い方:
 
@@ -155,9 +230,9 @@ hsp3dx_sjis2utf8 --dir path\to\project [--recursive]
 
 ---
 
-## 5. ビルド/配布フロー
+## 6. ビルド/配布フロー
 
-### 5.1 Windows
+### 6.1 Windows
 
 ```
 your_game.hsp  →  hspcmp (#cmpopt utf8 1, #bootopt hsp64 1)  →  start.ax
@@ -165,7 +240,7 @@ your_game.hsp  →  hspcmp (#cmpopt utf8 1, #bootopt hsp64 1)  →  start.ax
                                          hsp3dx.exe  ←  start.ax を読んで実行
 ```
 
-### 5.2 iOS
+### 6.2 iOS
 
 ```
 your_game.hsp  →  hspcmp  →  start.ax
@@ -182,7 +257,7 @@ your_game.hsp  →  hspcmp  →  start.ax
 起動時に `libhsp3dx` が `VM_Run(ax_data, ax_size)` を呼ぶ形でインタプリト実行。
 `hsp3cnv` のような HSP→C++ AOT 翻訳は**行わない**。
 
-### 5.3 Android
+### 6.3 Android
 
 ```
 your_game.hsp  →  hspcmp  →  start.ax
@@ -194,27 +269,27 @@ your_game.hsp  →  hspcmp  →  start.ax
                              .apk / .aab
 ```
 
-### 5.4 共通アセットパッケージング
+### 6.4 共通アセットパッケージング
 
 `.ax` 以外の素材 (画像 / 音声 / フォント) は `hsp3dx_pack` ツール (Phase 2 で作成予定) で **仮想 FS** に固める。ランタイムはプラットフォーム問わず同じ API で素材にアクセスできる。
 
 ---
 
-## 6. Phase 計画
+## 7. Phase 計画
 
-| Phase | 内容 | 状態 |
-|---|---|---|
-| **Phase 0** | 仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形 | 作業中 |
-| Phase 1 | Windows 版 `hsp3dx.exe` MVP (DxLib コア 40 関数 + 3 サンプル) | 未着手 |
-| Phase 2 | `hsp3dx_cnv` ツール + `hsp3dx_pack` ツール | 未着手 |
-| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | 未着手 |
-| Phase 4 | Android 版 `libhsp3dx.so` + Android Studio テンプレ | 未着手 |
-| Phase 5 | DxLib API を 40 → 500 関数に拡張 | 未着手 |
-| Phase 6 | 3D / 動画 / ネットワーク機能追加 | 未着手 |
+| Phase | 内容 | 型方針 (§3) | 状態 |
+|---|---|---|---|
+| **Phase 0** | 仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形 | — | ✅ 完了 |
+| Phase 1 | Windows 版 `hsp3dx.exe` MVP (DxLib コア 40 関数 + 3 サンプル) | 方針 1 | 未着手 |
+| Phase 2 | `hsp3dx_cnv` ツール + `hsp3dx_pack` ツール | 方針 1 | 未着手 |
+| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | 方針 1 | 未着手 |
+| Phase 4 | Android 版 `libhsp3dx.so` + Android Studio テンプレ | 方針 1 | 未着手 |
+| Phase 5 | DxLib API を 40 → 500 関数に拡張 (自動生成) | 方針 2 (float + `#cfuncf` 追加) | 未着手 |
+| Phase 6 | 3D / 動画 / ネットワーク機能追加 | 方針 3 (NSTRUCT / cfuncst 移植) | 未着手 |
 
 ---
 
-## 7. ディレクトリ構成 (Phase 0 時点)
+## 8. ディレクトリ構成 (Phase 0 時点)
 
 ```
 hsp3dx/
@@ -242,7 +317,7 @@ tools/
 
 ---
 
-## 8. 未確定事項 (Phase 1 着手時に決める)
+## 9. 未確定事項 (Phase 1 着手時に決める)
 
 - [x] ~~VM ソースは `hsp3net` を fork するか `hsp3dish` を fork するか~~
   → **`hsp3embed` を fork** で確定 (`HSPIOS`/`HSPNDK` 条件コンパイルが既存、mobile ビルド実績あり)
