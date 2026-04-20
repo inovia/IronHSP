@@ -1132,7 +1132,12 @@ function parseDiagnostics(output, sourceFile) {
 // on a line immediately above a declaration expands into a full template
 // with parameter placeholders. The user tabs through fields.
 
-const HSP_DECL_RX = /^\s*(#(?:deffunc|defcfunc|func|cfunc|cfuncd|cfuncf|cfuncst|comfunc|modfunc|modcfunc))\s+(?:global\s+)?(\w+)\s*(.*)$/;
+// Functions / macros / constants (with @param / @return).
+const HSP_DECL_RX = /^\s*(#(?:deffunc|defcfunc|func|cfunc|cfuncd|cfuncf|cfuncst|comfunc|modfunc|modcfunc|const|define|enum))\s+(?:global\s+)?(\w+)\s*(.*)$/;
+
+// Variable declaration commands (dim / sdim / ddim / ldim / dim64 / wdim /
+// dimtype) — no @param, just a description line.
+const HSP_VAR_DECL_RX = /^\s*(dim|sdim|ddim|ldim|dim64|wdim|dimtype)\s+(\w+)/;
 
 let _hspDocTemplateBusy = false;
 
@@ -1172,23 +1177,31 @@ function maybeInsertHspDocTemplate(event) {
     if (declLineNum < 0) return;
 
     const declText = event.document.lineAt(declLineNum).text;
-    const m = HSP_DECL_RX.exec(declText);
-    if (!m) return;
-
-    const kind = m[1];              // e.g. "#deffunc"
-    const paramsStr = (m[3] || '').replace(/\s*;.*$/, '');  // strip trailing line comment
-    const paramNames = parseHspParamNames(paramsStr, kind);
-    const hasReturn = /^#(?:defcfunc|cfunc|cfuncd|cfuncf|cfuncst|modcfunc)$/.test(kind);
-
-    // Build snippet. Keep the original indent so it aligns with the decl.
     const indent = lineText.substring(0, lineText.indexOf(marker));
-    let snipText = `${marker} \${1:説明}`;
-    let idx = 2;
-    for (const pn of paramNames) {
-        snipText += `\n${indent}${marker} @param ${pn} \${${idx++}:説明}`;
-    }
-    if (hasReturn) {
-        snipText += `\n${indent}${marker} @return \${${idx++}:戻り値の説明}`;
+    let snipText;
+
+    const mFunc = HSP_DECL_RX.exec(declText);
+    const mVar  = HSP_VAR_DECL_RX.exec(declText);
+
+    if (mFunc) {
+        const kind = mFunc[1];
+        const paramsStr = (mFunc[3] || '').replace(/\s*;.*$/, '');  // strip trailing line comment
+        const paramNames = parseHspParamNames(paramsStr, kind);
+        const hasReturn = /^#(?:defcfunc|cfunc|cfuncd|cfuncf|cfuncst|modcfunc)$/.test(kind);
+
+        snipText = `${marker} \${1:説明}`;
+        let idx = 2;
+        for (const pn of paramNames) {
+            snipText += `\n${indent}${marker} @param ${pn} \${${idx++}:説明}`;
+        }
+        if (hasReturn) {
+            snipText += `\n${indent}${marker} @return \${${idx++}:戻り値の説明}`;
+        }
+    } else if (mVar) {
+        // Variable declaration: one-line description only.
+        snipText = `${marker} \${1:変数の説明}`;
+    } else {
+        return;
     }
 
     const snippet = new vscode.SnippetString(snipText);

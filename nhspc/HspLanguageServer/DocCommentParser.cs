@@ -30,8 +30,14 @@ namespace HspLanguageServer {
         // Match one of the decl keywords after optional leading whitespace.
         // Capture the user-visible name (the identifier right after the
         // keyword — skipping optional `global`).
+        //
+        // Covers:
+        //   - # directives: deffunc/defcfunc/func/cfunc/cfuncd/cfuncf/cfuncst/
+        //     comfunc/modfunc/modcfunc/const/define/enum
+        //   - variable declaration commands: dim/sdim/ddim/ldim/dim64/
+        //     wdim/dimtype (these don't take `global` modifier)
         private static readonly Regex DeclRx = new Regex(
-            @"^\s*(#(?:deffunc|defcfunc|func|cfunc|cfuncd|cfuncf|cfuncst|comfunc|modfunc|modcfunc|const|define|enum))\s+(?:global\s+)?([A-Za-z_][A-Za-z_0-9]*)",
+            @"^\s*(#(?:deffunc|defcfunc|func|cfunc|cfuncd|cfuncf|cfuncst|comfunc|modfunc|modcfunc|const|define|enum)|dim|sdim|ddim|ldim|dim64|wdim|dimtype)\s+(?:global\s+)?([A-Za-z_][A-Za-z_0-9]*)",
             RegexOptions.Compiled);
 
         // Parse the source and annotate matching symbols in-place. Only
