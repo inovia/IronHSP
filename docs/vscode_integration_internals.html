@@ -40,7 +40,7 @@
 
 <h1>VS Code 統合 内部仕様書</h1>
 <p class="muted">対象読者: コア実装に手を入れる開発者。ユーザー向けセットアップや機能紹介は <a href="IronHSP_specification.html#vscode">IronHSP 仕様書 §11</a> 参照。</p>
-<p class="muted">最終更新: 2026-04-20 / ブランチ: update-hsp3net / 関連コミット: <code>a025002b</code> 〜 <code>e6ca6653</code></p>
+<p class="muted">最終更新: 2026-04-20 / ブランチ: update-hsp3net / 関連コミット: <code>a025002b</code> 〜 <code>1e5a3fee</code></p>
 
 <div class="toc">
 <strong>目次</strong>
@@ -438,7 +438,116 @@ doc が attach されない不具合があった (修正済)。
 _&mdash; file.hsp:NN_</code></pre>
 
 <!-- ======================================== -->
-<h2 id="bp-verified">5.6 BP verified 判定</h2>
+<h2 id="sighelp">5.6 signatureHelp の実装</h2>
+
+<p>LSP の <code>textDocument/signatureHelp</code> で、関数呼び出し中に
+シグネチャ + activeParameter を返す。</p>
+
+<h4>シグネチャデータ (DocCommentParser.ExtractSigParams)</h4>
+
+<p>宣言行を regex で切り出し、引数リストを <code>HspSigParam { Type, Name }</code> の
+配列に変換して <code>HspSymbol.SigParams</code> に保存。宣言種別 (<code>#deffunc</code> 等)
+は別フィールド <code>DeclKind</code> に保存 (hspcmp の Kind=dfnc だけでは <code>#deffunc</code>
+と <code>#defcfunc</code> が区別できないため)。</p>
+
+<pre><code>// 命令形式 (名前付き)
+#deffunc foo str _name, int _age
+  → SigParams = [{Type:"str", Name:"_name"}, {Type:"int", Name:"_age"}]
+    DeclKind = "#deffunc"
+
+// 関数形式 (名前付き)
+#defcfunc bar int _a, int _b
+  → SigParams = [{Type:"int", Name:"_a"}, {Type:"int", Name:"_b"}]
+    DeclKind = "#defcfunc"
+
+// DLL バインディング (名前なし)
+#func Beep "Beep" sptr, sptr
+  → SigParams = [{Type:"sptr", Name:""}, {Type:"sptr", Name:""}]
+    DeclKind = "#func"</code></pre>
+
+<p><code>local _tmp</code> の内部 scratch パラメータは除外。文字列/括弧ネストを
+考慮した top-level 分割 (<code>DocCommentParser.SplitTopLevel</code>) で
+<code>foo(a, b)</code> のような型修飾内の <code>,</code> を誤認しないように。</p>
+
+<h4>TryLocateCall: カーソル位置から呼び出しを特定</h4>
+
+<p>カーソル位置から source を backward scan:</p>
+<ol>
+<li>未マッチの <code>(</code> を探す (<code>)</code> でカウント減)</li>
+<li>見つかれば <strong>paren 形式</strong>: その直前の識別子が関数名、
+   <code>(</code> とカーソル間の top-level コンマ数が activeParameter</li>
+<li>無ければ <strong>statement 形式 fallback</strong>: 現在行の行頭から最初の
+   識別子が関数名、識別子後からカーソルまでのコンマ数が activeParameter</li>
+</ol>
+
+<p>文字列リテラル <code>"..."</code> の中の <code>(</code> / <code>)</code> / <code>,</code> は無視。
+制御構文キーワード (<code>if</code>/<code>else</code>/<code>repeat</code>/<code>loop</code>/
+<code>goto</code>/<code>gosub</code>/<code>return</code>/<code>end</code> 等) は関数として
+扱わない (偽陽性回避)。</p>
+
+<h4>ラベル書式 (命令 vs 関数)</h4>
+
+<p>統一せず <code>DeclKind</code> で書式切替。HSP のユーザはコードで両者を
+使い分けるので、<code>log_kv "y", y</code> に対して <code>log_kv(str _key, int _val)</code>
+と括弧付きで出すと紛らわしい。</p>
+
+<pre><code>statementStyle = DeclKind ∈ { "#deffunc", "#func", "#modfunc", "#comfunc" }
+  ↓
+  命令形式:   "name type1 arg1, type2 arg2"   (括弧なし)
+  関数形式:   "name(type1 arg1, type2 arg2)"  (括弧あり)</code></pre>
+
+<h4>パラメータ documentation</h4>
+
+<p>LSP の <code>ParameterInformation</code> は <code>label</code> と <code>documentation</code>
+(optional) を持つ。activeParameter のときに VS Code が下部に表示する。</p>
+
+<p>各 SigParam に対応する DocParam を検索して attach:</p>
+<ol>
+<li><strong>名前一致</strong>: SigParam.Name == DocParam.Name で探す</li>
+<li><strong>順序フォールバック</strong>: 名前なし (<code>#func</code> 等) なら i 番目の
+   SigParam に i 番目の DocParam をペアリング</li>
+</ol>
+
+<div class="trap">
+<strong>VS Code 拡張側で ParameterInformation に documentation を渡し忘れると</strong>
+サーバが送っても popup に出ない。<code>new vscode.ParameterInformation(label, doc)</code>
+の第 2 引数を確実に設定すること (v0 で踏んだバグ)。
+</div>
+
+<!-- ======================================== -->
+<h2 id="auto-template">5.7 ;;; / /// の自動テンプレ展開</h2>
+
+<p>VS Code 拡張の <code>onDidChangeTextDocument</code> で単一文字 <code>/</code> /
+<code>;</code> の挿入を検知。現在行が trim 後 exactly <code>///</code> / <code>;;;</code> で、
+直下の非空非コメント行がマッチする宣言なら <code>vscode.SnippetString</code> で
+placeholder 付きテンプレに置換。</p>
+
+<pre><code>// 再入防止フラグ _hspDocTemplateBusy で自前の edit がループしないように
+// protect。setTimeout(..., 0) で change handler 終了後に defer する。
+const snippet = new vscode.SnippetString(
+    `${marker} \${1:説明}\n` +
+    `${indent}${marker} @param ${paramName} \${2:説明}\n` +
+    `${indent}${marker} @return \${3:戻り値の説明}`
+);
+editor.insertSnippet(snippet, markerRange);</code></pre>
+
+<p>宣言種別を regex で判定:</p>
+<ul>
+<li><code>HSP_DECL_RX</code>: <code>#deffunc</code> / <code>#defcfunc</code> / <code>#func</code> /
+    <code>#cfunc</code> / <code>#cfuncd</code>/<code>#cfuncf</code>/<code>#cfuncst</code> /
+    <code>#comfunc</code> / <code>#modfunc</code> / <code>#modcfunc</code> / <code>#const</code> /
+    <code>#define</code> / <code>#enum</code></li>
+<li><code>HSP_VAR_DECL_RX</code>: <code>dim</code> / <code>sdim</code> / <code>ddim</code> /
+    <code>ldim</code> / <code>dim64</code> / <code>wdim</code> / <code>dimtype</code></li>
+<li><code>HSP_VAR_ASSIGN_RX</code>: <code>^\s*([A-Za-z_]\w*)\s*=(?!=)</code>
+    (<code>==</code> や <code>arr(0) = 1</code> を除外)</li>
+</ul>
+
+<p>関数系は戻り値有無を kind で判定 (<code>#defcfunc</code>/<code>#cfunc*</code>/<code>#modcfunc</code>
+は <code>@return</code> 行付き)。変数系・暗黙宣言は description 1 行のみ。</p>
+
+<!-- ======================================== -->
+<h2 id="bp-verified">5.8 BP verified 判定</h2>
 
 <p><code>nhspdap/DapSession.SetBreakpoints</code> で各 BP 行を簡易チェック:</p>
 
@@ -604,6 +713,28 @@ didSave 限定の再解析はエディタバッファ編集や外部ツールに
 追従できない。didChange 内で毎回 ReparseDoc を呼ぶのが最短。hspcmp は
 小規模 .hsp なら数十ms で回るので打鍵毎でも許容範囲。大規模プロジェクト
 なら debouncer を追加検討。
+</li>
+
+<li>
+<strong>signatureHelp の ParameterInformation に documentation を渡し忘れる。</strong><br>
+LSP 応答側で <code>parameter.documentation</code> を送っても、VS Code 拡張側で
+<code>new vscode.ParameterInformation(label)</code> と 1 引数だけで作ると popup に
+出ない。第 2 引数 (MarkdownString) に <code>p.documentation.value</code> を包んで渡す。
+</li>
+
+<li>
+<strong>hspcmp の Kind は <code>#deffunc</code> と <code>#defcfunc</code> を区別しない。</strong><br>
+両方とも <code>dfnc</code> として emit される。signatureHelp の書式切替 (括弧の有無)
+や命令/関数の意味的差異は、source から DeclKind を直接拾って HspSymbol に
+保持しておく必要がある。
+</li>
+
+<li>
+<strong>HSP の変数は「最初の出現位置」が定義扱い。</strong><br>
+<code>x = 10</code> を 3 箇所で書いても hspcmp は 1 個の <code>dvar</code> エントリしか emit
+しない (一番上)。DocCommentParser の ±2 行マッチング条件により自然と
+「最初の doc 勝ち」になるが、これは HSP の semantics と一致。
+後続の再代入上の <code>;;;</code> は silently 無視される。
 </li>
 </ol>
 

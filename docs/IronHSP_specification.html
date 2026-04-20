@@ -42,7 +42,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-20 (VS Code 統合強化: DAP デバッガ + HSP LSP サーバ + セマンティックトークンで 4 色分類 + ドキュメントコメント (;;; / ///) + F7 コンパイルコマンド / 179 iron_* モジュール + 34 C++ DLL / hspmathex.dll で bigint/bigdec HSPVAR 型拡張 + SSE/AVX SIMD / .NET・AI・ネットワーク 25 モジュール / WASAPI・仮想カメラ・TaskDialog)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-20 (VS Code 統合強化: DAP デバッガ + HSP LSP サーバ + セマンティックトークン 4 色分類 + ドキュメントコメント (;;; / ///) + ;;; 自動テンプレ展開 + シグネチャヘルプ + F7 コンパイル / 179 iron_* モジュール + 34 C++ DLL / hspmathex.dll で bigint/bigdec HSPVAR 型拡張 + SSE/AVX SIMD / .NET・AI・ネットワーク 25 モジュール / WASAPI・仮想カメラ・TaskDialog)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="warning-banner">
@@ -88,8 +88,9 @@
     <li><a href="#vscode-lsp">11.2 言語サーバ (hspls)</a></li>
     <li><a href="#vscode-tokens">11.3 セマンティックトークン (4 色分類)</a></li>
     <li><a href="#vscode-doccomment">11.4 ドキュメントコメント (;;; / ///)</a></li>
-    <li><a href="#vscode-compile">11.5 メニュー/ショートカットからのコンパイル (F7)</a></li>
-    <li><a href="#vscode-setup">11.6 セットアップ</a></li>
+    <li><a href="#vscode-sighelp">11.5 シグネチャヘルプ</a></li>
+    <li><a href="#vscode-compile">11.6 メニュー/ショートカットからのコンパイル (F7)</a></li>
+    <li><a href="#vscode-setup">11.7 セットアップ</a></li>
     </ul>
   </li>
   <li><a href="#changelog">12. 変更履歴</a></li>
@@ -2249,13 +2250,73 @@ TextMate grammar の regex では判別できない「ユーザ定義 vs 外部 
     dialog msg
     return</code></pre>
 
-<p>対応宣言: <code>#deffunc</code> / <code>#defcfunc</code> / <code>#func</code> / <code>#cfunc</code> /
-<code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> / <code>#comfunc</code> /
-<code>#modfunc</code> / <code>#modcfunc</code> / <code>#const</code> / <code>#define</code> /
-<code>#enum</code>。</p>
+<p>対応宣言:</p>
+<ul>
+  <li><strong>関数/マクロ</strong> (説明 + @param + @return):
+    <code>#deffunc</code> / <code>#defcfunc</code> / <code>#func</code> / <code>#cfunc</code> /
+    <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> / <code>#comfunc</code> /
+    <code>#modfunc</code> / <code>#modcfunc</code> / <code>#const</code> / <code>#define</code> /
+    <code>#enum</code></li>
+  <li><strong>変数宣言</strong> (説明のみ):
+    <code>dim</code> / <code>sdim</code> / <code>ddim</code> / <code>ldim</code> /
+    <code>dim64</code> / <code>wdim</code> / <code>dimtype</code></li>
+  <li><strong>暗黙宣言</strong> (説明のみ): <code>x = 100</code> のような初代入でも OK
+    (同じ変数の再代入上の doc は hspcmp が変数の最初の出現位置を「定義」扱いするため無視される)</li>
+</ul>
 
-<p>認識タグ: <code>@param</code> / <code>@arg</code> (引数) / <code>@return</code> / <code>@returns</code> (戻り値)。
+<p>認識タグ: <code>@param name desc</code> / <code>@arg name desc</code> (引数、エイリアス) /
+<code>@return desc</code> / <code>@returns desc</code> (戻り値、エイリアス)。
 タグなしの行は description として扱う。</p>
+
+<div class="note">
+<strong>自動テンプレ展開 (Visual Studio の /// と同様):</strong>
+<code>#deffunc</code> の直上で <code>;</code> を 3 回 (or <code>/</code> を 3 回) 入力した瞬間、
+直下の宣言を解析して以下のテンプレが挿入されます。Tab キーで placeholder 間を移動:
+<pre><code>;;; ${1:説明}
+;;; @param _a ${2:説明}
+;;; @param _b ${3:説明}
+;;; @return ${4:戻り値の説明}
+#defcfunc compute_sum int _a, int _b</code></pre>
+<ul>
+  <li><code>#deffunc</code> (戻り値なし) は <code>@return</code> 行を省略</li>
+  <li><code>#func</code>/<code>#cfunc</code> 等の引数名なし宣言は <code>p1</code>/<code>p2</code> の位置番号</li>
+  <li><code>local _tmp</code> の内部変数は <code>@param</code> から除外</li>
+  <li>変数宣言 (<code>dim</code> 等) は 1 行 description テンプレ</li>
+</ul>
+</div>
+
+<h3 id="vscode-sighelp">11.5 シグネチャヘルプ</h3>
+
+<p>関数呼び出しの <code>(</code> or <code>,</code> を入力中にポップアップが出て、
+現在のパラメータがハイライト + そのパラメータの説明が表示されます
+(Visual Studio / C# 系 IDE と同等)。</p>
+
+<p>書式は宣言形式に合わせて自動切替:</p>
+
+<table>
+<tr><th>宣言種別</th><th>呼び出し構文</th><th>signatureHelp 表示</th></tr>
+<tr><td><code>#defcfunc</code> / <code>#cfunc</code> / <code>#cfuncd</code> /
+    <code>#cfuncf</code> / <code>#cfuncst</code> / <code>#modcfunc</code></td>
+    <td>関数形式 <code>r = foo(a, b)</code></td>
+    <td><code>foo(type_a arg_a, type_b arg_b)</code></td></tr>
+<tr><td><code>#deffunc</code> / <code>#func</code> / <code>#modfunc</code> / <code>#comfunc</code></td>
+    <td>命令形式 <code>foo a, b</code></td>
+    <td><code>foo type_a arg_a, type_b arg_b</code> (括弧なし)</td></tr>
+</table>
+
+<p>下部の説明は <code>@param</code> で書いた引数別の description を、カーソル位置
+(active parameter) に追従して自動で切り替えます。コンマを打つごとに次の引数に進みます。</p>
+
+<pre><code>compute_sum(10, |
+                ↑ ここでポップアップ:
+──────────────────────────────
+compute_sum(int _a, int _b)
+                    ^^^^^^
+2 つの整数の合計を返す。
+
+2 番目の整数             ← @param _b の説明 (activeParameter のもの)</code></pre>
+
+<p>手動で呼び出す場合は <strong>Ctrl+Shift+Space</strong>。</p>
 
 <div class="note">
 <strong>ブレークポイントの verified 判定:</strong> <code>#include</code> / <code>#module</code> /
@@ -2264,7 +2325,7 @@ LSP adapter が <code>verified:false</code> を返します。VS Code ではグ�
 一目で「この BP は当たらない」と分かります。ホバーすると「この行は実行されません」と理由も出ます。
 </div>
 
-<h3 id="vscode-compile">11.5 メニュー/ショートカットからのコンパイル (F7)</h3>
+<h3 id="vscode-compile">11.6 メニュー/ショートカットからのコンパイル (F7)</h3>
 
 <p>エディタで <code>.hsp</code> を開いた状態で以下のコマンドが使えます:</p>
 
@@ -2288,7 +2349,7 @@ LSP adapter が <code>verified:false</code> を返します。VS Code ではグ�
 開始します。デフォルトは <code>false</code> (F7 で明示コンパイル推奨)。
 </div>
 
-<h3 id="vscode-setup">11.6 セットアップ</h3>
+<h3 id="vscode-setup">11.7 セットアップ</h3>
 
 <h4>必要バイナリ (ソリューションをビルドすれば自動生成)</h4>
 <ul>
@@ -2324,6 +2385,10 @@ LSP adapter が <code>verified:false</code> を返します。VS Code ではグ�
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+
+<tr><td>4/20 20:28〜20:31</td><td><code>d7d705e0</code> / <code>17e146bb</code> / <code>e2fc3b73</code> / <code>1e5a3fee</code></td><td><span class="badge">新機能</span> <strong>signatureHelp 対応 (引数入力中にシグネチャポップアップ)</strong>: VS / C# 系 IDE お馴染みの、関数呼び出し中に現在パラメータがハイライト + 下部にそのパラメータの説明が出る機能を HSP にも実装。<code>(</code> と <code>,</code> で trigger、<code>@param</code> の description を activeParameter 追従で表示。<code>#deffunc</code> (命令形式) と <code>#defcfunc</code> (関数形式) で表示書式を自動切替 (括弧有無)。</td></tr>
+
+<tr><td>4/20 20:24〜20:27</td><td><code>a937c095</code> / <code>d0539f97</code> / <code>c770b441</code></td><td><span class="badge">新機能</span> <strong>;;; / /// 自動テンプレ展開 + 変数・暗黙宣言 doc 対応</strong>: VS の <code>///</code> XMLDoc ひな形展開と同等の機能。<code>#deffunc</code> の直上で <code>;</code> を 3 回入力すると宣言を解析して <code>@param _a ${説明}</code> 等のテンプレが挿入される (Tab で placeholder 間移動)。<code>dim</code>/<code>sdim</code>/<code>ddim</code>/<code>ldim</code>/<code>dim64</code>/<code>wdim</code>/<code>dimtype</code> および暗黙宣言 <code>x = 100</code> にも hover 用の doc 紐付け対応 (HSP は変数の最初の出現位置が「定義」扱いなので再代入上の doc は自動的に無視)。</td></tr>
 
 <tr><td>4/20 20:23</td><td><code>e6ca6653</code></td><td><span class="badge">バグ修正</span> <strong>hspls: didChange でも再解析する</strong>: 従来 didSave のみで再解析していたのでエディタで編集しても hover / outline が古いままだった。OnDidChange 内で ReparseDoc を常に呼ぶように (hspcmp は &lt;100ms なので打鍵毎でも許容)</td></tr>
 
