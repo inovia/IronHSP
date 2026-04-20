@@ -17,6 +17,17 @@ namespace HspLanguageServer {
         public int Line;       // 1-based source line
         public string File;    // basename as emitted by hspcmp
         public string AbsPath; // resolved against the run cwd if possible
+
+        // Doc comment fields (populated by DocCommentParser when the symbol
+        // declaration is preceded by a contiguous block of ;;; or /// lines).
+        public string DocDescription;            // free-form intro
+        public List<HspDocParam> DocParams;      // @param entries in order
+        public string DocReturn;                 // @return text
+    }
+
+    internal sealed class HspDocParam {
+        public string Name;
+        public string Description;
     }
 
     // A parsed snapshot of a single .hsp / .as file after an hspcmp run.

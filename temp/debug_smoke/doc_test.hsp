@@ -1,0 +1,20 @@
+;;; 2 点間のユークリッド距離を計算する。
+;;; @param x1 始点の x 座標
+;;; @param y1 始点の y 座標
+;;; @param x2 終点の x 座標
+;;; @param y2 終点の y 座標
+;;; @return 2 点間の距離
+#defcfunc distance double x1, double y1, double x2, double y2
+    return sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
+
+/// メッセージをダイアログで表示する。
+/// @param msg 表示するメッセージ本文
+/// @param title ダイアログタイトル (省略可)
+#deffunc show_dialog str msg, str title
+    mes title + ": " + msg
+    return
+
+    ; main code
+    d = distance(0.0, 0.0, 3.0, 4.0)
+    show_dialog "Hello", "Info"
+    end

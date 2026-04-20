@@ -273,6 +273,11 @@ namespace HspLanguageServer {
                 try { File.Delete(tempPath); } catch { }
             }
 
+            // Scan the source text for `;;;` / `///` doc comments and attach
+            // them to the declaration they precede. Must run AFTER the temp→
+            // real filename rewrite so basenames compare correctly.
+            DocCommentParser.Parse(text ?? "", Path.GetFileName(absPath), symbols);
+
             doc.WorkspaceSymbols = symbols;
             // hspcmp may emit s.File as basename or absolute path depending on
             // how the argument was passed. Normalise to basename on both sides.
@@ -347,17 +352,40 @@ namespace HspLanguageServer {
             if (!doc.WorkspaceSymbols.TryGetValue(word, out var hits)) return null;
 
             var sb = new StringBuilder();
-            sb.Append("```hsp\n");
             foreach (var s in hits) {
-                sb.Append(KindLabel(s.Kind)).Append(" ").Append(s.Name);
-                sb.Append("   — ").Append(s.File).Append(":").Append(s.Line).Append("\n");
+                // Code-style signature line so VS Code picks up the hsp scope
+                // for syntax highlight inside the hover.
+                sb.Append("```hsp\n");
+                sb.Append(KindLabel(s.Kind)).Append(" ").Append(s.Name).Append('\n');
+                sb.Append("```\n");
+
+                // Doc comment body (if any) as plain Markdown.
+                if (!string.IsNullOrWhiteSpace(s.DocDescription)) {
+                    sb.Append(s.DocDescription).Append("\n\n");
+                }
+                if (s.DocParams != null && s.DocParams.Count > 0) {
+                    sb.Append("**Parameters:**  \n");
+                    foreach (var p in s.DocParams) {
+                        sb.Append("- `").Append(p.Name).Append("`");
+                        if (!string.IsNullOrWhiteSpace(p.Description)) {
+                            sb.Append(" &mdash; ").Append(p.Description);
+                        }
+                        sb.Append("  \n");
+                    }
+                    sb.Append('\n');
+                }
+                if (!string.IsNullOrWhiteSpace(s.DocReturn)) {
+                    sb.Append("**Returns:** ").Append(s.DocReturn).Append("\n\n");
+                }
+
+                // Always end with the source location for navigation.
+                sb.Append("_\u2014 ").Append(s.File).Append(':').Append(s.Line).Append("_\n\n");
             }
-            sb.Append("```");
 
             return new JObject {
                 ["contents"] = new JObject {
                     ["kind"] = "markdown",
-                    ["value"] = sb.ToString(),
+                    ["value"] = sb.ToString().TrimEnd(),
                 },
             };
         }
