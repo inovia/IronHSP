@@ -40,6 +40,20 @@ namespace HspLanguageServer {
             @"^\s*(#(?:deffunc|defcfunc|func|cfunc|cfuncd|cfuncf|cfuncst|comfunc|modfunc|modcfunc|const|define|enum)|dim|sdim|ddim|ldim|dim64|wdim|dimtype)\s+(?:global\s+)?([A-Za-z_][A-Za-z_0-9]*)",
             RegexOptions.Compiled);
 
+        // Implicit variable declaration via bare `name = value` assignment.
+        // HSP creates the variable on first assignment. hspcmp emits ONE
+        // dvar entry at that first-use line, so the ±2 line check in
+        // AttachDocsToSymbol naturally attributes docs to the first
+        // assignment only (re-assignments further down are silently skipped).
+        //
+        // Rejects:
+        //   - `x == 10` (comparison — `=(?!=)`)
+        //   - `arr(0) = 1` (array element; identifier is followed by `(`)
+        //   - Non-identifier line starts
+        private static readonly Regex VarAssignRx = new Regex(
+            @"^\s*([A-Za-z_][A-Za-z_0-9]*)\s*=(?!=)",
+            RegexOptions.Compiled);
+
         // Parse the source and annotate matching symbols in-place. Only
         // annotates symbols whose `File` basename matches `sourceBaseName`,
         // so workspace-wide lookups that touched other files aren't clobbered.
@@ -75,12 +89,21 @@ namespace HspLanguageServer {
                     continue;
                 }
 
-                // See if this line declares a symbol.
-                var m = DeclRx.Match(raw);
-                if (m.Success && docBuf.Count > 0) {
-                    string name = m.Groups[2].Value;
-                    AttachDocsToSymbol(symbols, name, sourceBaseName,
-                                       declLine: i + 1, docLines: docBuf);
+                // See if this line declares a symbol. Try explicit decls first
+                // (more specific), then fall back to bare-assignment form.
+                if (docBuf.Count > 0) {
+                    string name = null;
+                    var m = DeclRx.Match(raw);
+                    if (m.Success) {
+                        name = m.Groups[2].Value;
+                    } else {
+                        var ma = VarAssignRx.Match(raw);
+                        if (ma.Success) name = ma.Groups[1].Value;
+                    }
+                    if (name != null) {
+                        AttachDocsToSymbol(symbols, name, sourceBaseName,
+                                           declLine: i + 1, docLines: docBuf);
+                    }
                 }
 
                 // Any non-doc, non-blank line resets the doc buffer (whether

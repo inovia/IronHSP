@@ -1139,6 +1139,10 @@ const HSP_DECL_RX = /^\s*(#(?:deffunc|defcfunc|func|cfunc|cfuncd|cfuncf|cfuncst|
 // dimtype) — no @param, just a description line.
 const HSP_VAR_DECL_RX = /^\s*(dim|sdim|ddim|ldim|dim64|wdim|dimtype)\s+(\w+)/;
 
+// Implicit variable creation via bare `name = expr` assignment.
+// Rejects `x == 10` comparisons and `arr(0) = ...` array element writes.
+const HSP_VAR_ASSIGN_RX = /^\s*([A-Za-z_][A-Za-z_0-9]*)\s*=(?!=)/;
+
 let _hspDocTemplateBusy = false;
 
 function maybeInsertHspDocTemplate(event) {
@@ -1182,6 +1186,7 @@ function maybeInsertHspDocTemplate(event) {
 
     const mFunc = HSP_DECL_RX.exec(declText);
     const mVar  = HSP_VAR_DECL_RX.exec(declText);
+    const mAssign = HSP_VAR_ASSIGN_RX.exec(declText);
 
     if (mFunc) {
         const kind = mFunc[1];
@@ -1199,6 +1204,10 @@ function maybeInsertHspDocTemplate(event) {
         }
     } else if (mVar) {
         // Variable declaration: one-line description only.
+        snipText = `${marker} \${1:変数の説明}`;
+    } else if (mAssign) {
+        // Bare `x = value` — implicit variable creation. Same template as
+        // explicit dim. HSP doesn't distinguish these at the language level.
         snipText = `${marker} \${1:変数の説明}`;
     } else {
         return;
