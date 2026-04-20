@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Newtonsoft.Json.Linq;
 
@@ -162,6 +163,17 @@ namespace NhspDap {
                 }
             }
 
+            // If a sibling .hsp source exists and is newer than the .ax, or the
+            // .ax is missing, auto-compile before launching. Without this, the
+            // user would debug a stale .ax (source changes don't take effect,
+            // breakpoints on new lines don't hit).
+            if (!CompileIfNeeded(program, cwd, out string compileErr)) {
+                SendOutputEvent("stderr", "hspcmp64 compile failed:\n" + compileErr + "\n");
+                Respond(req, reqSeq, null, success: false,
+                    message: "コンパイルエラー: " + compileErr.Split('\n').FirstOrDefault());
+                return;
+            }
+
             // Ensure hsp3debug_dap_64.dll is staged as hsp3debug.dll next to the
             // runtime so LoadLibraryA("hsp3debug.dll") succeeds.
             try { StageDebugDll(runtime); }
@@ -211,6 +223,85 @@ namespace NhspDap {
             var parts = new List<string> { "\"" + program + "\"" };
             if (argv != null) foreach (var t in argv) parts.Add("\"" + (string)t + "\"");
             return string.Join(" ", parts);
+        }
+
+        // Auto-compile the source .hsp next to the .ax if needed.
+        //
+        //   - Source missing         → no-op (user supplied a standalone .ax)
+        //   - .ax missing or stale   → run hspcmp64 -d -w -i <src>
+        //   - compile fails          → return false + message via `error`
+        //
+        // The -w flag is required so the runtime loads hsp3debug.dll.
+        private bool CompileIfNeeded(string program, string cwd, out string error) {
+            error = null;
+            if (string.IsNullOrEmpty(program)) return true;
+            string srcPath = Path.ChangeExtension(program, ".hsp");
+            if (!File.Exists(srcPath)) return true;
+
+            if (File.Exists(program)) {
+                var srcTime = File.GetLastWriteTimeUtc(srcPath);
+                var axTime  = File.GetLastWriteTimeUtc(program);
+                if (axTime > srcTime) return true;
+            }
+
+            string hspcmp = LocateHspcmp();
+            if (hspcmp == null) {
+                error = "hspcmp64.exe が見つかりません";
+                return false;
+            }
+
+            var psi = new ProcessStartInfo {
+                FileName = hspcmp,
+                Arguments = "-d -w -i \"" + srcPath + "\"",
+                WorkingDirectory = string.IsNullOrEmpty(cwd) ? Path.GetDirectoryName(srcPath) : cwd,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                StandardOutputEncoding = new System.Text.UTF8Encoding(false),
+                StandardErrorEncoding  = new System.Text.UTF8Encoding(false),
+            };
+            string stdout, stderr;
+            int exitCode;
+            try {
+                using (var p = Process.Start(psi)) {
+                    stdout = p.StandardOutput.ReadToEnd();
+                    stderr = p.StandardError.ReadToEnd();
+                    if (!p.WaitForExit(15000)) { p.Kill(); error = "hspcmp64 timed out"; return false; }
+                    exitCode = p.ExitCode;
+                }
+            } catch (Exception ex) {
+                error = "hspcmp64 failed to start: " + ex.Message;
+                return false;
+            }
+
+            // hspcmp writes diagnostics to stdout (+stderr on some builds).
+            // Success when the final line includes "No error detected" AND
+            // exit code is 0.
+            string allOutput = (stdout ?? "") + (stderr ?? "");
+            SendOutputEvent("console", allOutput);
+
+            if (exitCode != 0 || allOutput.Contains(" : error ")) {
+                // Extract the first error line for the top-level message.
+                var firstError = allOutput.Split('\n')
+                    .FirstOrDefault(l => l.Contains(" : error ")) ?? allOutput;
+                error = firstError.Trim();
+                return false;
+            }
+            return true;
+        }
+
+        // Locate hspcmp64.exe relative to the adapter binary (dev tree layout).
+        private static string LocateHspcmp() {
+            string here = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var candidates = new[] {
+                Path.Combine(here, "hspcmp64.exe"),
+                // .../nhspc/nhspdap/bin/Release/net48/ → ../../../../../package/win32/
+                Path.GetFullPath(Path.Combine(here, "..", "..", "..", "..", "..", "package", "win32", "hspcmp64.exe")),
+                Path.GetFullPath(Path.Combine(here, "..", "..", "..", "..", "..", "hspcmp", "win32", "x64", "Release", "hspcmp64.exe")),
+            };
+            foreach (var c in candidates) if (File.Exists(c)) return c;
+            return null;
         }
 
         // Locate hsp3cl_net_dbg_64.exe by searching a few known locations.
