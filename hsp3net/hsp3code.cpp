@@ -77,6 +77,13 @@ extern "C" __declspec(dllexport) void hsp3dap_force_step(void)
 {
 	dbgmode = HSPDEBUG_STEPIN;
 }
+
+// 現在のサブルーチン深度 (gosub / #deffunc ネストレベル)。step_over / step_out
+// で「深い呼び出しの内側は黙ってスキップ」するために DLL から参照される。
+extern "C" __declspec(dllexport) int hsp3dap_get_sublev(void)
+{
+	return hspctx ? hspctx->sublev : 0;
+}
 // NOTE: hsp3dap_set_var_* / hsp3dap_get_var_type / hsp3dap_find_var /
 // hsp3dap_calc_offset は `maxvar` / `hspctx->mem_var` に依存するため、
 // ファイル末尾 (それらが定義された後) にまとめて配置している。

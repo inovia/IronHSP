@@ -1,0 +1,35 @@
+;============================================================
+;  step_test.hsp — step_over / step_out 動作確認用
+;
+;  想定シナリオ:
+;    BP on line 15 (*main の ins_a の呼び出し直前)
+;    → step_over すると 16 行目に移る (ins_a の内部は踏まない)
+;    → BP on line 30 (ins_b 内) → step_out すると 17 行目に戻る
+;============================================================
+
+    x = 10
+    y = 20
+
+*main
+    mes "before ins_a"        ; line 14
+    ins_a 5                   ; line 15  ← step_over する位置
+    mes "after ins_a"         ; line 16  ← step_over 後ここに来るはず
+    ins_b                     ; line 17  ← step_out 後ここに来るはず
+    mes "done"                ; line 18
+    end
+
+#deffunc ins_a int a
+    mes "inside ins_a a=" + a
+    tmp = a * 2
+    return
+
+#deffunc ins_b
+    mes "ins_b start"          ; line 29
+    z = 42                     ; line 30  ← BP
+    ins_c
+    mes "ins_b end"
+    return
+
+#deffunc ins_c
+    mes "ins_c deep"
+    return

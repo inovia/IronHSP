@@ -635,6 +635,23 @@ static DWORD WINAPI pipe_thread_proc(LPVOID) {
 typedef void (*force_step_fn)();
 static force_step_fn g_fn_force_step = nullptr;
 
+// Exe-exported call-stack depth reader. Used by step_over / step_out to
+// decide when a STEPIN pass should be "silent" (keep running) vs "visible"
+// (emit a stopped event to the adapter).
+typedef int (*get_sublev_fn)();
+static get_sublev_fn g_fn_get_sublev = nullptr;
+
+static int current_sublev() {
+    return g_fn_get_sublev ? g_fn_get_sublev() : 0;
+}
+
+// ステップ種別:  0=none, 2=step_over, 4=step_out
+// target_depth: -1 = 比較なし (step_in / continue)
+//               step_over: user pressed step_over — stop when depth <= target
+//               step_out : user pressed step_out  — stop when depth <  target
+static std::atomic<int> g_step_mode{0};
+static std::atomic<int> g_step_target_depth{-1};
+
 extern "C" __declspec(dllexport) BOOL __stdcall debugini(HSP3DEBUG* dbg, int p2, int p3, int p4) {
     (void)p2; (void)p3; (void)p4;
     dap_log("debugini enter, dbg=%p", dbg);
@@ -648,7 +665,9 @@ extern "C" __declspec(dllexport) BOOL __stdcall debugini(HSP3DEBUG* dbg, int p2,
         auto reg = (register_bp_check_fn)GetProcAddress(exe, "hsp3dap_register_bp_check");
         if (reg) reg(hsp3dap_check_bp);
         g_fn_force_step = (force_step_fn)GetProcAddress(exe, "hsp3dap_force_step");
-        dap_log("exe hooks: bp_count=%p reg=%p force_step=%p", g_exe_bp_count, reg, g_fn_force_step);
+        g_fn_get_sublev = (get_sublev_fn)GetProcAddress(exe, "hsp3dap_get_sublev");
+        dap_log("exe hooks: bp_count=%p reg=%p force_step=%p get_sublev=%p",
+                g_exe_bp_count, reg, g_fn_force_step, g_fn_get_sublev);
 
         // Variable write-back hooks.
         g_fn_get_type  = (fn_get_var_type)  GetProcAddress(exe, "hsp3dap_get_var_type");
@@ -691,20 +710,58 @@ extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int
     if (dbg->dbg_curinf) dbg->dbg_curinf();
     dap_log("debug_notice ENTER line=%d file=%s", dbg->line, dbg->fname ? dbg->fname : "(null)");
 
+    // --- BP hit detection (shared by silent-step and normal classification) ---
+    bool line_has_bp;
+    {
+        std::lock_guard<std::mutex> lock(g_bp_mutex);
+        line_has_bp = !g_breakpoints.empty() && dbg->fname &&
+            g_breakpoints.find({path_basename_lower(dbg->fname), dbg->line}) != g_breakpoints.end();
+    }
+
+    // --- Silent STEPIN pass for step_over / step_out ---
+    // If the user pressed step_over on a line that called into a function, or
+    // step_out from inside a function, we want the runtime to keep stepping
+    // without the adapter seeing each inner line. We only break silence when:
+    //   - a BP is hit on the current line, or
+    //   - the call depth returns to / below the target
+    if (!line_has_bp) {
+        int mode = g_step_mode.load();
+        int target = g_step_target_depth.load();
+        if (mode != 0 && target >= 0) {
+            int depth = current_sublev();
+            bool keep_stepping = false;
+            if (mode == 2) {
+                // step_over: stop when depth <= target (returned to same level)
+                keep_stepping = (depth > target);
+            } else if (mode == 4) {
+                // step_out: stop when depth <  target (returned to caller)
+                keep_stepping = (depth >= target);
+            }
+            if (keep_stepping) {
+                dap_log("  silent step (mode=%d target=%d depth=%d)", mode, target, depth);
+                if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_STEPIN);
+                return TRUE;
+            }
+            // Reached target — clear and let normal stop handling take over.
+            g_step_mode = 0;
+            g_step_target_depth = -1;
+        }
+    }
+
     // Classify stop reason. BP wins over "entry" when the current line also
     // has a user-set breakpoint — otherwise line-1 BPs get silently absorbed
     // by the stopOnEntry stop and users think their BP never fired.
     const char* reason = "step";
     {
         std::lock_guard<std::mutex> lock(g_bp_mutex);
-        bool line_has_bp = !g_breakpoints.empty() && dbg->fname &&
-            g_breakpoints.find({path_basename_lower(dbg->fname), dbg->line}) != g_breakpoints.end();
-
         if (line_has_bp) {
             reason = "breakpoint";
             // Still consume the entry-stop slot so the next non-BP stop is
             // classified as "step" / "pause" rather than "entry" again.
             g_entry_stop_consumed = true;
+            // BP wins over an in-flight step_over/out — cancel silent stepping.
+            g_step_mode = 0;
+            g_step_target_depth = -1;
         } else if (!g_entry_stop_consumed) {
             reason = "entry";
             g_entry_stop_consumed = true;
@@ -734,13 +791,32 @@ extern "C" __declspec(dllexport) BOOL __stdcall debug_notice(HSP3DEBUG* dbg, int
         int cmd = g_pending_cmd.exchange(0);
         dap_log("debug_notice WAKE cmd=%d", cmd);
         if (cmd == 1) {  // continue
+            g_step_mode = 0;
+            g_step_target_depth = -1;
             if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_RUN);
             break;
-        } else if (cmd == 2 || cmd == 3) {  // step_over / step_in
+        } else if (cmd == 3) {  // step_in — stop on next line regardless of depth
+            g_step_mode = 0;
+            g_step_target_depth = -1;
             if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_STEPIN);
             break;
-        } else if (cmd == 4) {  // step_out (MVP: treat as continue)
-            if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_RUN);
+        } else if (cmd == 2) {  // step_over — STEPIN but skip inner calls
+            g_step_mode = 2;
+            g_step_target_depth = current_sublev();
+            if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_STEPIN);
+            break;
+        } else if (cmd == 4) {  // step_out — STEPIN until depth drops below current
+            int depth = current_sublev();
+            if (depth <= 0) {
+                // Already at top level — nothing to step out of, behave as continue
+                g_step_mode = 0;
+                g_step_target_depth = -1;
+                if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_RUN);
+            } else {
+                g_step_mode = 4;
+                g_step_target_depth = depth;
+                if (dbg->dbg_set) dbg->dbg_set(HSPDEBUG_STEPIN);
+            }
             break;
         }
     }
