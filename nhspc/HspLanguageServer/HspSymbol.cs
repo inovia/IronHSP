@@ -27,6 +27,11 @@ namespace HspLanguageServer {
         // Parameter list extracted from the declaration syntax itself (used
         // by signatureHelp). Populated only for function-like symbols.
         public List<HspSigParam> SigParams;
+
+        // Original declaration directive (e.g. "#deffunc" / "#defcfunc" /
+        // "#func"). Distinguishes statement-style vs function-style calls —
+        // hspcmp's Kind field only tells us "dfnc" for both.
+        public string DeclKind;
     }
 
     internal sealed class HspSigParam {

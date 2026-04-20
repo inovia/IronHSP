@@ -112,7 +112,8 @@ namespace HspLanguageServer {
                 if (name != null && kind != null && IsFunctionKind(kind)) {
                     var sigParams = ExtractSigParams(raw, kind);
                     AttachSignatureToSymbol(symbols, name, sourceBaseName,
-                                             declLine: i + 1, sigParams: sigParams);
+                                             declLine: i + 1,
+                                             sigParams: sigParams, declKind: kind);
                 }
 
                 // Any non-doc, non-blank line resets the doc buffer (whether
@@ -311,7 +312,8 @@ namespace HspLanguageServer {
 
         private static void AttachSignatureToSymbol(Dictionary<string, List<HspSymbol>> symbols,
                                                     string name, string sourceBaseName,
-                                                    int declLine, List<HspSigParam> sigParams) {
+                                                    int declLine, List<HspSigParam> sigParams,
+                                                    string declKind) {
             string key = name.ToLowerInvariant();
             if (!symbols.TryGetValue(key, out var list)) return;
             foreach (var sym in list) {
@@ -321,6 +323,7 @@ namespace HspLanguageServer {
                 if (!string.Equals(symBase, sourceBaseName, StringComparison.OrdinalIgnoreCase)) continue;
                 if (Math.Abs(sym.Line - declLine) > 2) continue;
                 sym.SigParams = sigParams;
+                sym.DeclKind = declKind;
                 return;
             }
         }

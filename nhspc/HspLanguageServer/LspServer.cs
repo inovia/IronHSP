@@ -464,9 +464,19 @@ namespace HspLanguageServer {
             var signatures = new JArray();
             foreach (var s in hits) {
                 if (s.SigParams == null) continue;
-                // Build the label: "name(type1 arg1, type2 arg2): ret"
+                // Build the label. Statement-style decls (#deffunc / #func /
+                // #modfunc / #comfunc) get "name arg1, arg2" without parens
+                // to match actual HSP call syntax. Function-style decls
+                // (#defcfunc / #cfunc / #cfuncd / #cfuncf / #cfuncst /
+                // #modcfunc) get "name(arg1, arg2)".
+                bool statementStyle = s.DeclKind == "#deffunc"
+                    || s.DeclKind == "#func"
+                    || s.DeclKind == "#modfunc"
+                    || s.DeclKind == "#comfunc";
+
                 var labelSb = new StringBuilder();
-                labelSb.Append(s.Name).Append('(');
+                labelSb.Append(s.Name);
+                labelSb.Append(statementStyle ? ' ' : '(');
                 var paramRanges = new List<(int start, int end)>();
                 for (int i = 0; i < s.SigParams.Count; i++) {
                     if (i > 0) labelSb.Append(", ");
@@ -477,7 +487,7 @@ namespace HspLanguageServer {
                     if (!string.IsNullOrEmpty(pp.Name)) labelSb.Append(pp.Name);
                     paramRanges.Add((pStart, labelSb.Length));
                 }
-                labelSb.Append(')');
+                if (!statementStyle) labelSb.Append(')');
 
                 var paramsArr = new JArray();
                 for (int i = 0; i < paramRanges.Count; i++) {
