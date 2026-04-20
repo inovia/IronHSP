@@ -66,6 +66,12 @@ function activate(context) {
         vscode.debug.registerDebugAdapterDescriptorFactory('hsp3net', new Hsp3NetDapFactory(context))
     );
 
+    // HSP3: Compile / Compile & Run commands (F7 / Ctrl+F7).
+    context.subscriptions.push(
+        vscode.commands.registerCommand('hsp3net.compile', () => compileHsp(false)),
+        vscode.commands.registerCommand('hsp3net.compileRun', () => compileHsp(true))
+    );
+
     // Block auto-close: #func → Enter → auto-insert #endfunc
     context.subscriptions.push(
         vscode.workspace.onDidChangeTextDocument((e) => {
@@ -1108,6 +1114,142 @@ function parseDiagnostics(output, sourceFile) {
         diagnostics.push(diag);
     }
     return diagnostics;
+}
+
+// ========== HSP3 (hsp3net) Compile Command ==========
+
+async function compileHsp(thenRun) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || editor.document.languageId !== 'hsp') {
+        vscode.window.showWarningMessage('HSP3: アクティブな .hsp ファイルがありません。');
+        return;
+    }
+    await editor.document.save();
+
+    const sourceFile = editor.document.uri.fsPath;
+    const sourceDir = path.dirname(sourceFile);
+    const axFile = sourceFile.replace(/\.hsp$/i, '.ax');
+
+    const hspcmp = findHspcmp();
+    if (!hspcmp) {
+        vscode.window.showErrorMessage(
+            'HSP3: hspcmp64.exe が見つかりません。hsp3net.hspcmpPath で設定してください。');
+        return;
+    }
+
+    outputChannel.clear();
+    outputChannel.appendLine(`> ${hspcmp} -d -w -i "${sourceFile}"`);
+    outputChannel.show(true);
+
+    return new Promise((resolve) => {
+        execFile(hspcmp, ['-d', '-w', '-i', sourceFile],
+            { cwd: sourceDir, timeout: 30000, encoding: 'buffer' },
+            (error, stdoutBuf, stderrBuf) => {
+                // hspcmp64 emits messages in the ANSI code page (CP932 on JP
+                // Windows). Decode via Node's built-in TextDecoder so we
+                // don't need an extra iconv-lite dependency.
+                const output = decodeSjis(stdoutBuf) + decodeSjis(stderrBuf);
+                outputChannel.appendLine(output);
+
+                // Parse error lines for diagnostics.
+                const hspDiags = parseHspDiagnostics(output, sourceFile);
+                if (hspDiags.length > 0) {
+                    diagnosticCollection.set(vscode.Uri.file(sourceFile), hspDiags);
+                } else {
+                    diagnosticCollection.delete(vscode.Uri.file(sourceFile));
+                }
+
+                if (error || hspDiags.some((d) => d.severity === vscode.DiagnosticSeverity.Error)) {
+                    outputChannel.appendLine('\nCompile FAILED.');
+                    vscode.window.showErrorMessage('HSP3: コンパイルエラー。Output (NHSP) を確認してください。');
+                    resolve(false);
+                    return;
+                }
+
+                outputChannel.appendLine(`\nCompile OK: ${axFile}`);
+                if (thenRun) {
+                    runAx(axFile, sourceDir);
+                }
+                resolve(true);
+            });
+    });
+}
+
+function runAx(axFile, cwd) {
+    const cfg = vscode.workspace.getConfiguration('hsp3net');
+    let runtime = cfg.get('runtimeForRun');
+    if (!runtime || !fs.existsSync(runtime)) {
+        const hspcmp = findHspcmp();
+        if (hspcmp) {
+            const candidate = path.join(path.dirname(hspcmp), 'hsp3cl_net_64.exe');
+            if (fs.existsSync(candidate)) runtime = candidate;
+        }
+    }
+    if (!runtime) {
+        vscode.window.showErrorMessage('HSP3: hsp3cl_net_64.exe が見つかりません。');
+        return;
+    }
+    outputChannel.appendLine(`> ${runtime} "${axFile}"`);
+    const { spawn } = require('child_process');
+    const proc = spawn(runtime, [axFile], { cwd, stdio: 'pipe' });
+    // HSP runtime emits UTF-8 (HSPUTF8 builds). Default toString('utf8') OK.
+    proc.stdout.on('data', (b) => outputChannel.append(b.toString('utf8')));
+    proc.stderr.on('data', (b) => outputChannel.append(b.toString('utf8')));
+    proc.on('exit', (code) => outputChannel.appendLine(`\n[exit ${code}]`));
+}
+
+// Decode CP932 (Shift-JIS) Buffer → string via Node's built-in TextDecoder.
+// Falls back to UTF-8 if TextDecoder refuses the encoding (rare).
+function decodeSjis(buf) {
+    if (!buf) return '';
+    try {
+        return new TextDecoder('shift-jis', { fatal: false }).decode(buf);
+    } catch (e) {
+        return buf.toString('utf8');
+    }
+}
+
+function findHspcmp() {
+    const cfg = vscode.workspace.getConfiguration('hsp3net');
+    const cfgPath = cfg.get('hspcmpPath');
+    if (cfgPath && fs.existsSync(cfgPath)) return cfgPath;
+
+    const extDir = path.join(__dirname, '..');
+    const candidates = [
+        // Dev layout: .../nhspc/vscode-nhsp/ → .../package/win32/hspcmp64.exe
+        path.join(extDir, '..', '..', 'package', 'win32', 'hspcmp64.exe'),
+        path.join(extDir, 'compiler', 'hspcmp64.exe'),
+    ];
+    for (const c of candidates) if (fs.existsSync(c)) return c;
+
+    const folders = vscode.workspace.workspaceFolders;
+    if (folders) for (const f of folders) {
+        const c = path.join(f.uri.fsPath, 'package', 'win32', 'hspcmp64.exe');
+        if (fs.existsSync(c)) return c;
+    }
+    return null;
+}
+
+// hspcmp64 diagnostic format: "<file>(<line>) : error <N> : <msg>"
+function parseHspDiagnostics(output, sourceFile) {
+    const diags = [];
+    const rx = /^(.+?)\((\d+)\)\s*:\s*(error|warning)\s+(\d+)\s*:\s*(.+)$/;
+    const srcBase = path.basename(sourceFile);
+    for (const raw of output.split('\n')) {
+        const line = raw.replace(/\r$/, '');
+        const m = rx.exec(line);
+        if (!m) continue;
+        const file = m[1].trim();
+        if (path.basename(file).toLowerCase() !== srcBase.toLowerCase()) continue;
+        const ln = parseInt(m[2]) - 1;
+        const range = new vscode.Range(ln, 0, ln, 200);
+        const sev = m[3] === 'error' ? vscode.DiagnosticSeverity.Error : vscode.DiagnosticSeverity.Warning;
+        const d = new vscode.Diagnostic(range, m[4] + ' ' + m[5].trim(), sev);
+        d.source = 'hspcmp';
+        d.code = m[3] + ' ' + m[4];
+        diags.push(d);
+    }
+    return diags;
 }
 
 // ========== HSP3 (hsp3net) DAP Adapter ==========

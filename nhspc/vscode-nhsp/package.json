@@ -147,6 +147,15 @@
         "command": "nhsp.debug",
         "title": "NHSP: Debug (Compile & Launch Debugger)",
         "icon": "$(debug-alt)"
+      },
+      {
+        "command": "hsp3net.compile",
+        "title": "HSP3: Compile (-d -w)",
+        "icon": "$(play)"
+      },
+      {
+        "command": "hsp3net.compileRun",
+        "title": "HSP3: Compile & Run"
       }
     ],
     "breakpoints": [
@@ -259,6 +268,16 @@
           "command": "nhsp.debug",
           "group": "1_nhsp@3",
           "when": "resourceLangId == nhsp"
+        },
+        {
+          "command": "hsp3net.compile",
+          "group": "1_hsp@1",
+          "when": "resourceLangId == hsp"
+        },
+        {
+          "command": "hsp3net.compileRun",
+          "group": "1_hsp@2",
+          "when": "resourceLangId == hsp"
         }
       ],
       "editor/title": [
@@ -283,6 +302,16 @@
           "command": "nhsp.run",
           "group": "1_nhsp@3",
           "when": "resourceLangId == nhsp"
+        },
+        {
+          "command": "hsp3net.compile",
+          "group": "1_hsp@1",
+          "when": "resourceLangId == hsp"
+        },
+        {
+          "command": "hsp3net.compileRun",
+          "group": "1_hsp@2",
+          "when": "resourceLangId == hsp"
         }
       ]
     },
@@ -311,6 +340,16 @@
         "command": "nhsp.run",
         "key": "f6",
         "when": "resourceLangId == nhsp"
+      },
+      {
+        "command": "hsp3net.compile",
+        "key": "f7",
+        "when": "resourceLangId == hsp"
+      },
+      {
+        "command": "hsp3net.compileRun",
+        "key": "ctrl+f7",
+        "when": "resourceLangId == hsp"
       }
     ],
     "configuration": {
@@ -399,6 +438,16 @@
           "type": "string",
           "default": "",
           "description": "hsp3cl_net_dbg_64.exe (デバッグランタイム) のパス。launch.json の runtime より優先度低。"
+        },
+        "hsp3net.hspcmpPath": {
+          "type": "string",
+          "default": "",
+          "description": "hspcmp64.exe のパス。空なら package/win32/ の dev 配置から自動検出。"
+        },
+        "hsp3net.runtimeForRun": {
+          "type": "string",
+          "default": "",
+          "description": "HSP3: Compile & Run (F7+Ctrl) で使う HSP ランタイム exe のパス。空なら package/win32/hsp3cl_net_64.exe を自動検出。"
         }
       }
     },
