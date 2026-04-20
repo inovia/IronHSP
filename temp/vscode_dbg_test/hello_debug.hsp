@@ -9,17 +9,26 @@
 ;    3. ビルトイン命令/関数   : mes / dim / sdim / ddim / int / double / …  (macro)
 ;    4. 制御構文キーワード    : if / else / repeat / loop / return / end  (keyword)
 ;=================================================================
+mes "=== Hello, Debug! ==="
 
 #include "kernel32.as"   ; GetTickCount / Sleep / GetCurrentProcessId 等
-
+mes "=== Hello, Debug!2 ==="
 ;-----------------------------------------------------------------
 ;  ユーザ定義モジュール (dfnc from .hsp → function)
 ;-----------------------------------------------------------------
 #module mathx
 
+;;; 2 つの整数の合計を返すシンプルな関数。
+;;; Doc コメント動作確認用。ホバーすると説明と引数情報が出ます。
+;;; @param _a 加算する 1 番目の整数
+;;; @param _b 加算する 2 番目の整数
+;;; @return _a + _b の結果
 #defcfunc compute_sum int _a, int _b
     return _a + _b
 
+;;; key と値を "key = value" の形式で mes 出力するデバッグヘルパ。
+;;; @param _key ラベル文字列
+;;; @param _val 数値 (int)
 #deffunc log_kv str _key, int _val
     mes _key + " = " + _val
     return
@@ -31,12 +40,15 @@
 ;-----------------------------------------------------------------
 #module greetmod
 
+/// 指定した名前にあいさつする。
+/// /// 記法での doc コメント確認用 (;;; と等価)。
+/// @param _name あいさつ対象の名前
 #deffunc greet str _name
     mes "Hello, " + _name + "!"
     return
 
 #global
-
+mes "=== Hello, Debug!3 ==="
 ;-----------------------------------------------------------------
 ;  変数宣言 (ビルトイン命令 — dim/sdim/ddim)
 ;-----------------------------------------------------------------
@@ -58,7 +70,9 @@
     s = "original"
 
     _bp_target = 1          ; ← line 45: F5 はここで止める BP target
-
+mes "=== Hello, Debug!4 ==="
+    //x = 100
+    //mes x / 0    ; ← 0除算で実行時エラー (Error 19)
     ;-----------------------------------------------------------------
     ;  制御構文 + ビルトイン関数呼び出し
     ;-----------------------------------------------------------------
