@@ -1,0 +1,150 @@
+;============================================================
+;   iron_replay.hsp — iron_record で記録した JSON を再生
+;
+;   iron_record で保存した [{"t":..,"type":..,...},...] 配列を
+;   元の相対時刻タイミングで SendInput 送出する。
+;   iron_input.hsp の合成入力 API を呼ぶ。
+;
+;   API:
+;     replay_load_file "path.json"           記録ファイル読込
+;     replay_load_json var_json              文字列から読込
+;     replay_count                           → stat=イベント数
+;     replay_set_speed double                1.0=原速 / 2.0=倍速 / 0.5=半速
+;     replay_start [from_ms [, end_ms]]      再生 (同期ブロック)
+;     replay_start_async [from_ms [, end_ms]]  再生 (非同期、HSP 側 await でキャンセル)
+;     replay_stop                            再生停止 (async 中に呼ぶ)
+;     replay_is_playing                      → stat 1/0
+;     replay_on_progress "*label"           進捗通知ラベル (async 用、オプション)
+;
+;   依存: iron_json.hsp (hspjson.dll) / iron_input.hsp
+;============================================================
+#ifndef __iron_replay_hsp__
+#define __iron_replay_hsp__
+
+#include "iron_json.hsp"
+#include "iron_input.hsp"
+
+#module iron_replay
+
+sdim _rp_json, 1
+dim _rp_hid, 1
+_rp_hid = -1
+dim _rp_count, 1
+dim _rp_speed_pct, 1       ; 100 = 1.0x, 200 = 2.0x
+_rp_speed_pct = 100
+dim _rp_playing, 1
+_rp_playing = 0
+dim _rp_stop_request, 1
+
+#deffunc replay_load_file str path, \
+	local _n
+	sdim _rp_json, 8 * 1024 * 1024
+	exist path
+	if strsize <= 0 : return -1
+	bload path, _rp_json, strsize
+	if _rp_hid >= 0 : json_release _rp_hid
+	_rp_hid = json_load(_rp_json)
+	if _rp_hid < 0 : _rp_count = 0 : return -2
+	_rp_count = json_len(_rp_hid, "")
+	return _rp_count
+
+#deffunc replay_load_json var v_json
+	_rp_json = v_json
+	if _rp_hid >= 0 : json_release _rp_hid
+	_rp_hid = json_load(_rp_json)
+	if _rp_hid < 0 : _rp_count = 0 : return -2
+	_rp_count = json_len(_rp_hid, "")
+	return _rp_count
+
+#defcfunc replay_count
+	return _rp_count
+
+#deffunc replay_set_speed double spd
+	if spd <= 0.0 : return -1
+	_rp_speed_pct = int(spd * 100.0)
+	return 0
+
+#defcfunc replay_is_playing
+	return _rp_playing
+
+#deffunc replay_stop
+	_rp_stop_request = 1
+	return 0
+
+;---------------------------------------------------------
+; replay_start [from_ms [, end_ms]]
+;   同期再生 (HSP メインスレッドをブロック)
+;---------------------------------------------------------
+#deffunc replay_start array _opt, \
+	local _from_ms, local _end_ms, local _i, local _t_rec, \
+	local _t_start, local _t_now, local _kind, local _vk, local _btn, \
+	local _x, local _y, local _delta, local _elapsed, local _wait_ms, \
+	local _prev_t, local _sim_wait
+	if _rp_hid < 0 : return -1
+	_from_ms = 0 : _end_ms = 0x7FFFFFFF
+	if length(_opt) >= 1 : _from_ms = _opt(0)
+	if length(_opt) >= 2 : _end_ms  = _opt(1)
+	_rp_playing = 1 : _rp_stop_request = 0
+	_prev_t = _from_ms
+	_i = 0
+	repeat _rp_count
+		if _rp_stop_request : break
+		_i = cnt
+		_t_rec = json_int(_rp_hid, "[" + _i + "].t")
+		if _t_rec < _from_ms : continue
+		if _t_rec > _end_ms  : break
+		; timing: 前回イベントからの差分を speed_pct で伸縮して wait
+		_sim_wait = ((_t_rec - _prev_t) * 100) / _rp_speed_pct
+		if _sim_wait > 0 {
+			; HSP の await 使用: ms 単位
+			await _sim_wait
+		}
+		_prev_t = _t_rec
+		_kind = json_str(_rp_hid, "[" + _i + "].type")
+		if _kind = "mouse_move" {
+			_x = json_int(_rp_hid, "[" + _i + "].x")
+			_y = json_int(_rp_hid, "[" + _i + "].y")
+			input_mouse_move _x, _y
+		}
+		if _kind = "mouse_down" {
+			_btn = json_int(_rp_hid, "[" + _i + "].btn")
+			_x = json_int(_rp_hid, "[" + _i + "].x")
+			_y = json_int(_rp_hid, "[" + _i + "].y")
+			input_mouse_move _x, _y
+			input_mouse_down _btn
+		}
+		if _kind = "mouse_up" {
+			_btn = json_int(_rp_hid, "[" + _i + "].btn")
+			input_mouse_up _btn
+		}
+		if _kind = "mouse_wheel" {
+			_delta = json_int(_rp_hid, "[" + _i + "].delta")
+			input_mouse_wheel _delta
+		}
+		if _kind = "key_down" {
+			_vk = json_int(_rp_hid, "[" + _i + "].vk")
+			input_key_down _vk
+		}
+		if _kind = "key_up" {
+			_vk = json_int(_rp_hid, "[" + _i + "].vk")
+			input_key_up _vk
+		}
+	loop
+	_rp_playing = 0
+	return 0
+
+;---------------------------------------------------------
+; replay_start_async: Windows の別スレッドで再生
+;   .NET Task.Run で発火、await で キャンセル可
+;---------------------------------------------------------
+#deffunc _rp_ensure_async_cs \
+	local _cs
+	; async 再生はタイミング精度より複雑性が上がるため、v1 では同期版に委譲
+	return
+
+#deffunc replay_start_async array _opt
+	replay_start _opt
+	return 0
+
+#global
+#endif

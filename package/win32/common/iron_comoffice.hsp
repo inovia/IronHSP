@@ -1,0 +1,571 @@
+;============================================================
+;   iron_comoffice.hsp — Excel/Word/Outlook COM オートメーション
+;
+;   インストール済みの Microsoft Office を COM (OLE) 経由で操作する。
+;   VBA の代替 (HSP 側から Excel.Application 等を叩く)。
+;   既存 iron_xlsx_net は Office 不要だが、Formula 計算や pivot 等は
+;   Excel エンジンの力を借りたい場合こちら。
+;
+;   hsp3net 専用 (CLR 経由 COM Interop)。
+;
+;   === Excel ===
+;   API:
+;     excel_start [visible]                          アプリ起動
+;     excel_open "path.xlsx" [, readonly]
+;     excel_new                                      新規ワークブック
+;     excel_save
+;     excel_save_as "newpath.xlsx" [, "xlsx"|"xls"|"csv"]
+;     excel_close
+;     excel_sheet_add "name"                         シート追加
+;     excel_sheet_count                              → stat
+;     excel_sheet_activate "name" or index
+;     excel_read_cell row, col, var_out              値 (文字列)
+;     excel_write_cell row, col, "value"             値
+;     excel_write_num row, col, double               数値
+;     excel_write_formula row, col, "=SUM(A1:A10)"
+;     excel_run_macro "MacroName"                    マクロ実行
+;     excel_calculate                                 再計算
+;     excel_autofit_cols
+;
+;   === Word ===
+;     word_start [visible]
+;     word_open "path.docx"
+;     word_new
+;     word_save / word_save_as "new.docx" / word_close
+;     word_insert_text "text"
+;     word_replace "old", "new"
+;     word_export_pdf "out.pdf"
+;
+;   === Outlook ===
+;     outlook_start
+;     outlook_send_mail "to", "cc", "subject", "body" [, "attach_path"]
+;     outlook_list_folders var_tsv, var n
+;     outlook_recent_mails folder_name, limit, var_tsv, var n
+;     outlook_create_appointment "subject", "start", "end", "body", "location"
+;
+;   共通:
+;     com_release                                     全 COM 参照解放
+;============================================================
+#ifndef __iron_comoffice_hsp__
+#define __iron_comoffice_hsp__
+
+#module iron_comoffice
+
+dim _com_cs_loaded, 1
+
+#deffunc _com_load_cs
+	if _com_cs_loaded : return
+	sdim _cs, 32768
+	_cs = {"
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+
+public class HspComOffice {
+    static object xlApp, xlBook, xlSheet;
+    static object wdApp, wdDoc;
+    static object olApp;
+
+    static object Create(string progId) {
+        var t = Type.GetTypeFromProgID(progId);
+        if (t == null) return null;
+        return Activator.CreateInstance(t);
+    }
+    static object Get(object obj, string prop, params object[] args) {
+        return obj.GetType().InvokeMember(prop, System.Reflection.BindingFlags.GetProperty, null, obj, args);
+    }
+    static void Set(object obj, string prop, object val) {
+        obj.GetType().InvokeMember(prop, System.Reflection.BindingFlags.SetProperty, null, obj, new object[] { val });
+    }
+    static object Invoke(object obj, string method, params object[] args) {
+        return obj.GetType().InvokeMember(method, System.Reflection.BindingFlags.InvokeMethod, null, obj, args);
+    }
+
+    // ===== Excel =====
+    public static string ExcelStart(int visible) {
+        try {
+            xlApp = Create(\"Excel.Application\");
+            if (xlApp == null) return \"-1\\tExcel not installed\";
+            Set(xlApp, \"Visible\", visible != 0);
+            Set(xlApp, \"DisplayAlerts\", false);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelOpen(string path, int readonly_) {
+        try {
+            if (xlApp == null) { var s = ExcelStart(0); if (s != \"0\") return s; }
+            var books = Get(xlApp, \"Workbooks\");
+            xlBook = Invoke(books, \"Open\", path, 0, readonly_ != 0);
+            xlSheet = Get(xlBook, \"ActiveSheet\");
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelNew() {
+        try {
+            if (xlApp == null) { var s = ExcelStart(0); if (s != \"0\") return s; }
+            var books = Get(xlApp, \"Workbooks\");
+            xlBook = Invoke(books, \"Add\");
+            xlSheet = Get(xlBook, \"ActiveSheet\");
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelSave() {
+        try { Invoke(xlBook, \"Save\"); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelSaveAs(string path, string fmt) {
+        try {
+            int xlFmt = 51; // xlOpenXMLWorkbook
+            if (fmt == \"xls\") xlFmt = 56;
+            else if (fmt == \"csv\") xlFmt = 6;
+            Invoke(xlBook, \"SaveAs\", path, xlFmt);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelClose() {
+        try {
+            if (xlBook != null) { Invoke(xlBook, \"Close\", false); xlBook = null; }
+            if (xlApp != null) { Invoke(xlApp, \"Quit\"); Marshal.ReleaseComObject(xlApp); xlApp = null; }
+            xlSheet = null;
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelSheetAdd(string name) {
+        try {
+            var sheets = Get(xlBook, \"Sheets\");
+            var s = Invoke(sheets, \"Add\");
+            if (!string.IsNullOrEmpty(name)) Set(s, \"Name\", name);
+            xlSheet = s;
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelSheetActivate(string nameOrIdx) {
+        try {
+            var sheets = Get(xlBook, \"Sheets\");
+            object s;
+            if (int.TryParse(nameOrIdx, out int idx)) s = Get(sheets, \"Item\", idx);
+            else s = Get(sheets, \"Item\", nameOrIdx);
+            Invoke(s, \"Activate\");
+            xlSheet = s;
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelReadCell(int row, int col) {
+        try {
+            var cells = Get(xlSheet, \"Cells\");
+            var cell = Get(cells, \"Item\", row, col);
+            var v = Get(cell, \"Value\");
+            return v == null ? \"\" : v.ToString();
+        } catch (Exception e) { return \"ERROR:\" + e.Message; }
+    }
+    public static string ExcelWriteCell(int row, int col, string value) {
+        try {
+            var cells = Get(xlSheet, \"Cells\");
+            var cell = Get(cells, \"Item\", row, col);
+            Set(cell, \"Value\", value);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelWriteNum(int row, int col, double value) {
+        try {
+            var cells = Get(xlSheet, \"Cells\");
+            var cell = Get(cells, \"Item\", row, col);
+            Set(cell, \"Value\", value);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelWriteFormula(int row, int col, string formula) {
+        try {
+            var cells = Get(xlSheet, \"Cells\");
+            var cell = Get(cells, \"Item\", row, col);
+            Set(cell, \"Formula\", formula);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelRunMacro(string macro) {
+        try { Invoke(xlApp, \"Run\", macro); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelCalculate() {
+        try { Invoke(xlApp, \"Calculate\"); return \"0\"; }
+        catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelAutoFit() {
+        try {
+            var cols = Get(xlSheet, \"UsedRange\");
+            var ec = Get(cols, \"EntireColumn\");
+            Invoke(ec, \"AutoFit\");
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string ExcelSheetCount() {
+        try {
+            var sheets = Get(xlBook, \"Sheets\");
+            return Get(sheets, \"Count\").ToString();
+        } catch { return \"0\"; }
+    }
+
+    // ===== Word =====
+    public static string WordStart(int visible) {
+        try {
+            wdApp = Create(\"Word.Application\");
+            if (wdApp == null) return \"-1\\tWord not installed\";
+            Set(wdApp, \"Visible\", visible != 0);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string WordOpen(string path) {
+        try {
+            if (wdApp == null) { var s = WordStart(0); if (s != \"0\") return s; }
+            var docs = Get(wdApp, \"Documents\");
+            wdDoc = Invoke(docs, \"Open\", path);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string WordNew() {
+        try {
+            if (wdApp == null) { var s = WordStart(0); if (s != \"0\") return s; }
+            var docs = Get(wdApp, \"Documents\");
+            wdDoc = Invoke(docs, \"Add\");
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string WordSave() { try { Invoke(wdDoc, \"Save\"); return \"0\"; } catch (Exception e) { return \"-1\\t\" + e.Message; } }
+    public static string WordSaveAs(string path) { try { Invoke(wdDoc, \"SaveAs2\", path); return \"0\"; } catch (Exception e) { return \"-1\\t\" + e.Message; } }
+    public static string WordClose() {
+        try {
+            if (wdDoc != null) { Invoke(wdDoc, \"Close\", false); wdDoc = null; }
+            if (wdApp != null) { Invoke(wdApp, \"Quit\"); Marshal.ReleaseComObject(wdApp); wdApp = null; }
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string WordInsertText(string text) {
+        try {
+            var sel = Get(wdApp, \"Selection\");
+            Invoke(sel, \"TypeText\", text);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string WordReplace(string oldText, string newText) {
+        try {
+            var content = Get(wdDoc, \"Content\");
+            var find = Get(content, \"Find\");
+            Invoke(find, \"Execute\", oldText, false, false, false, false, false, true, 1 /*Forward*/, true, newText, 2 /*ReplaceAll*/);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string WordExportPdf(string path) {
+        try {
+            Invoke(wdDoc, \"ExportAsFixedFormat\", path, 17 /*wdExportFormatPDF*/);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    // ===== Outlook =====
+    public static string OutlookStart() {
+        try {
+            olApp = Create(\"Outlook.Application\");
+            if (olApp == null) return \"-1\\tOutlook not installed\";
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string OutlookSendMail(string to, string cc, string subject, string body, string attach) {
+        try {
+            if (olApp == null) { var s = OutlookStart(); if (s != \"0\") return s; }
+            var mail = Invoke(olApp, \"CreateItem\", 0); // olMailItem = 0
+            Set(mail, \"To\", to);
+            if (!string.IsNullOrEmpty(cc)) Set(mail, \"CC\", cc);
+            Set(mail, \"Subject\", subject);
+            Set(mail, \"Body\", body);
+            if (!string.IsNullOrEmpty(attach)) {
+                var attachments = Get(mail, \"Attachments\");
+                Invoke(attachments, \"Add\", attach);
+            }
+            Invoke(mail, \"Send\");
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string OutlookRecentMails(string folderName, int limit) {
+        try {
+            if (olApp == null) { var s = OutlookStart(); if (s != \"0\") return s; }
+            var ns = Invoke(olApp, \"GetNamespace\", \"MAPI\");
+            // 6 = olFolderInbox
+            var inbox = Invoke(ns, \"GetDefaultFolder\", 6);
+            var items = Get(inbox, \"Items\");
+            Invoke(items, \"Sort\", \"[ReceivedTime]\", true);
+            int count = Convert.ToInt32(Get(items, \"Count\"));
+            if (limit <= 0) limit = 50;
+            if (limit > count) limit = count;
+            var sb = new StringBuilder();
+            for (int i = 1; i <= limit; i++) {
+                try {
+                    var it = Get(items, \"Item\", i);
+                    string subj = \"\"; string from = \"\"; string recv = \"\";
+                    try { subj = (string)Get(it, \"Subject\"); } catch {}
+                    try { from = (string)Get(it, \"SenderName\"); } catch {}
+                    try { recv = Get(it, \"ReceivedTime\").ToString(); } catch {}
+                    sb.Append(\"Subject=\").Append((subj ?? \"\").Replace('|','/'));
+                    sb.Append(\"|From=\").Append((from ?? \"\").Replace('|','/'));
+                    sb.Append(\"|Received=\").Append(recv);
+                    sb.AppendLine();
+                } catch {}
+            }
+            return limit + \"\\t\" + sb.ToString();
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+    public static string OutlookCreateAppointment(string subject, string start, string end, string body, string location) {
+        try {
+            if (olApp == null) { var s = OutlookStart(); if (s != \"0\") return s; }
+            var appt = Invoke(olApp, \"CreateItem\", 1); // olAppointmentItem = 1
+            Set(appt, \"Subject\", subject);
+            Set(appt, \"Body\", body);
+            Set(appt, \"Location\", location);
+            Set(appt, \"Start\", DateTime.Parse(start));
+            Set(appt, \"End\",   DateTime.Parse(end));
+            Invoke(appt, \"Save\");
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+
+    public static string ReleaseAll() {
+        try {
+            if (xlBook != null) { try { Invoke(xlBook, \"Close\", false); } catch {} Marshal.ReleaseComObject(xlBook); xlBook = null; }
+            if (xlSheet != null) { Marshal.ReleaseComObject(xlSheet); xlSheet = null; }
+            if (xlApp  != null) { try { Invoke(xlApp, \"Quit\"); } catch {} Marshal.ReleaseComObject(xlApp); xlApp = null; }
+            if (wdDoc  != null) { try { Invoke(wdDoc, \"Close\", false); } catch {} Marshal.ReleaseComObject(wdDoc); wdDoc = null; }
+            if (wdApp  != null) { try { Invoke(wdApp, \"Quit\"); } catch {} Marshal.ReleaseComObject(wdApp); wdApp = null; }
+            if (olApp  != null) { Marshal.ReleaseComObject(olApp); olApp = null; }
+            return \"0\";
+        } catch { return \"-1\"; }
+    }
+}
+"}
+	loadnet _cs, 3
+	_com_cs_loaded = 1
+	return
+
+; ===== Excel =====
+#deffunc excel_start array _opt, \
+	local _vis, local _h, local _r
+	_vis = 0
+	if length(_opt) >= 1 : _vis = _opt(0)
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelStart", _r, _vis
+	return int("" + _r)
+
+#deffunc excel_open str path, array _opt, \
+	local _ro, local _h, local _r
+	_ro = 0
+	if length(_opt) >= 1 : _ro = _opt(0)
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelOpen", _r, path, _ro
+	return int("" + _r)
+
+#deffunc excel_new \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelNew", _r
+	return int("" + _r)
+
+#deffunc excel_save \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelSave", _r
+	return int("" + _r)
+
+#deffunc excel_save_as str path, array _opt, \
+	local _fmt, local _h, local _r
+	_fmt = "xlsx"
+	if length(_opt) >= 1 : _fmt = _opt(0)
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelSaveAs", _r, path, _fmt
+	return int("" + _r)
+
+#deffunc excel_close \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelClose", _r
+	return int("" + _r)
+
+#deffunc excel_sheet_add str name, \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelSheetAdd", _r, name
+	return int("" + _r)
+
+#deffunc excel_sheet_activate str name_or_idx, \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelSheetActivate", _r, name_or_idx
+	return int("" + _r)
+
+#defcfunc excel_sheet_count \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelSheetCount", _r
+	return int("" + _r)
+
+#deffunc excel_read_cell int row, int col, var v_out, \
+	local _h, local _r
+	sdim v_out, 4096
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelReadCell", _r, row, col
+	v_out = "" + _r
+	return 0
+
+#deffunc excel_write_cell int row, int col, str value, \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelWriteCell", _r, row, col, value
+	return int("" + _r)
+
+#deffunc excel_write_num int row, int col, double value, \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelWriteNum", _r, row, col, value
+	return int("" + _r)
+
+#deffunc excel_write_formula int row, int col, str formula, \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelWriteFormula", _r, row, col, formula
+	return int("" + _r)
+
+#deffunc excel_run_macro str macro, \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelRunMacro", _r, macro
+	return int("" + _r)
+
+#deffunc excel_calculate \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelCalculate", _r
+	return int("" + _r)
+
+#deffunc excel_autofit_cols \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ExcelAutoFit", _r
+	return int("" + _r)
+
+; ===== Word =====
+#deffunc word_start array _opt, \
+	local _vis, local _h, local _r
+	_vis = 0
+	if length(_opt) >= 1 : _vis = _opt(0)
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordStart", _r, _vis
+	return int("" + _r)
+
+#deffunc word_open str path, local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordOpen", _r, path
+	return int("" + _r)
+
+#deffunc word_new local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordNew", _r
+	return int("" + _r)
+
+#deffunc word_save local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordSave", _r
+	return int("" + _r)
+
+#deffunc word_save_as str path, local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordSaveAs", _r, path
+	return int("" + _r)
+
+#deffunc word_close local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordClose", _r
+	return int("" + _r)
+
+#deffunc word_insert_text str text, local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordInsertText", _r, text
+	return int("" + _r)
+
+#deffunc word_replace str old_text, str new_text, local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordReplace", _r, old_text, new_text
+	return int("" + _r)
+
+#deffunc word_export_pdf str path, local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "WordExportPdf", _r, path
+	return int("" + _r)
+
+; ===== Outlook =====
+#deffunc outlook_start \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "OutlookStart", _r
+	return int("" + _r)
+
+#deffunc outlook_send_mail str to, str cc, str subject, str body, array _opt, \
+	local _att, local _h, local _r
+	_att = ""
+	if length(_opt) >= 1 : _att = _opt(0)
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "OutlookSendMail", _r, to, cc, subject, body, _att
+	return int("" + _r)
+
+#deffunc outlook_recent_mails str folder_name, int limit, var v_out, var v_n, \
+	local _h, local _r, local _s, local _tab
+	sdim v_out, 65536
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "OutlookRecentMails", _r, folder_name, limit
+	_s = "" + _r
+	_tab = instr(_s, 0, "\t")
+	if _tab < 0 : v_n = 0 : v_out = "" : return -1
+	v_n = int(strmid(_s, 0, _tab))
+	v_out = strmid(_s, _tab + 1, strlen(_s) - _tab - 1)
+	return v_n
+
+#deffunc outlook_create_appointment str subject, str start_time, str end_time, str body, str location, \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "OutlookCreateAppointment", _r, subject, start_time, end_time, body, location
+	return int("" + _r)
+
+#deffunc com_release \
+	local _h, local _r
+	_com_load_cs
+	newnet _h, "HspComOffice"
+	mcall _h, "ReleaseAll", _r
+	return int("" + _r)
+
+#global
+#endif

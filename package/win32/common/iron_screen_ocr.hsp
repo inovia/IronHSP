@@ -1,0 +1,168 @@
+;============================================================
+;   iron_screen_ocr.hsp — 画面キャプチャ + OCR ヘルパ
+;
+;   iron_template_match の CaptureScreen/CaptureRect と、Windows 10
+;   以降標準の WinRT OCR (hspwinrtocr) を組み合わせ、画面の任意領域から
+;   テキストを抽出する。
+;
+;   WinRT OCR は ja-JP / en-US / zh-CN 等 30+ 言語対応。言語は OS の
+;   Speech/OCR パック設定に依存。
+;
+;   hsp3net + hspwinrtocr_64.dll が必要。
+;
+;   API:
+;     ocr_screen_rect x, y, w, h, var_text      指定矩形から OCR
+;                                                 stat=文字数 / -1=失敗
+;     ocr_screen_full var_text                  全画面 OCR
+;     ocr_set_language "ja"                     認識言語 (空でシステム既定)
+;     ocr_file "path.png", var_text             画像ファイルから OCR
+;
+;     ocr_screen_rect_lines x, y, w, h, var_tsv var n
+;                                                行ごとに \n で区切って返す
+;============================================================
+#ifndef __iron_screen_ocr_hsp__
+#define __iron_screen_ocr_hsp__
+
+#include "iron_template_match.hsp"
+#include "hspwinrtocr.as"
+
+#module iron_screen_ocr
+
+sdim _ocr_lang, 8
+_ocr_lang = ""
+
+dim _ocr_initialized, 1
+_ocr_initialized = 0
+
+#deffunc ocr_set_language str lang
+	_ocr_lang = lang
+	_ocr_initialized = 0
+	return
+
+;---------------------------------------------------------
+; 画像ファイルから OCR (hspwinrtocr の ocr_run_file)
+;---------------------------------------------------------
+#deffunc ocr_file str path, var v_out, \
+	local _n
+	sdim v_out, 65536
+	if _ocr_initialized = 0 {
+		ocr_init _ocr_lang
+		_ocr_initialized = 1
+	}
+	ocr_run_file v_out, 65535, path
+	_n = stat
+	return _n
+
+;---------------------------------------------------------
+; 画面全体 OCR: tmpl_capture_screen で Bitmap 化 → PNG 一時書き出し →
+; hspwinrtocr_file で読み取り
+; (hspwinrtocr が直接 Bitmap を受けない場合の回避)
+;---------------------------------------------------------
+#deffunc ocr_screen_full var v_out, \
+	local _cap_h, local _tmp_path, local _n
+	sdim v_out, 65536
+	tmpl_capture_screen _cap_h
+	if _cap_h < 0 : return -1
+	_tmp_path = dir_cache + "\\iron_screen_ocr_" + gettime(7) + ".png"
+	_tmpl_save_png _cap_h, _tmp_path
+	tmpl_close _cap_h
+	ocr_file _tmp_path, v_out
+	_n = stat
+	delete _tmp_path
+	return _n
+
+;---------------------------------------------------------
+; 指定矩形 OCR
+;---------------------------------------------------------
+#deffunc ocr_screen_rect int x, int y, int w, int h, var v_out, \
+	local _cap_h, local _tmp_path, local _n
+	sdim v_out, 65536
+	tmpl_capture_rect x, y, w, h, _cap_h
+	if _cap_h < 0 : return -1
+	_tmp_path = dir_cache + "\\iron_screen_ocr_" + gettime(7) + ".png"
+	_tmpl_save_png _cap_h, _tmp_path
+	tmpl_close _cap_h
+	ocr_file _tmp_path, v_out
+	_n = stat
+	delete _tmp_path
+	return _n
+
+;---------------------------------------------------------
+; ocr_screen_rect_lines: 結果を \n で区切った TSV に
+;   hspwinrtocr は通常 lines を改行区切りで返す想定 (仕様により空白区切り
+;   の場合もあり、そのまま返す)
+;---------------------------------------------------------
+#deffunc ocr_screen_rect_lines int x, int y, int w, int h, var v_tsv, var v_n, \
+	local _n, local _text, local _p, local _eol, local _count
+	ocr_screen_rect x, y, w, h, _text
+	_n = stat
+	if _n < 0 : v_tsv = "" : v_n = 0 : return -1
+	v_tsv = _text
+	; 行数だけカウント
+	_count = 0
+	_p = 0
+	repeat
+		if _p >= strlen(_text) : break
+		_eol = instr(_text, _p, "\n")
+		if _eol < 0 {
+			if strlen(_text) - _p > 0 : _count++
+			break
+		}
+		if _eol > _p : _count++
+		_p = _eol + 1
+	loop
+	v_n = _count
+	return _count
+
+;---------------------------------------------------------
+; 内部: Bitmap ハンドルを PNG に保存
+;   iron_template_match の HspTmpl クラスに SavePng を追加する必要がある。
+;   既存の実装にその API がないため、ここで追加 C# を loadnet する。
+;---------------------------------------------------------
+dim _ocr_cs_loaded, 1
+
+#deffunc _ocr_ensure_cs
+	if _ocr_cs_loaded : return
+	sdim _cs, 4096
+	_cs = {"
+using System;
+using System.Reflection;
+using System.Drawing;
+using System.Drawing.Imaging;
+
+public class HspTmplSave {
+    public static string SavePng(int h, string path) {
+        try {
+            var t = Type.GetType(\"HspTmpl\");
+            if (t == null) return \"-1\\tHspTmpl not loaded\";
+            var fld = t.GetField(\"bmps\", BindingFlags.Static | BindingFlags.NonPublic);
+            if (fld == null) return \"-1\\tbmps field missing\";
+            var dict = fld.GetValue(null);
+            var mi = dict.GetType().GetMethod(\"TryGetValue\");
+            object[] args = new object[] { h, null };
+            bool ok = (bool)mi.Invoke(dict, args);
+            if (!ok || args[1] == null) return \"-1\\tnot found\";
+            var bmp = (Bitmap)args[1];
+            bmp.Save(path, ImageFormat.Png);
+            return \"0\";
+        } catch (Exception e) { return \"-1\\t\" + e.Message; }
+    }
+}
+"}
+	loadnet _cs, 3, "System.Drawing.dll"
+	_ocr_cs_loaded = 1
+	return
+
+#deffunc _tmpl_save_png int h, str path, \
+	local _hh, local _r
+	_ocr_ensure_cs
+	newnet _hh, "HspTmplSave"
+	mcall _hh, "SavePng", _r, h, path
+	return int("" + _r)
+
+;---------------------------------------------------------
+; dir_cache: HSP の定数 ($TMP 相当)、既に HSP に定義済
+;---------------------------------------------------------
+
+#global
+#endif

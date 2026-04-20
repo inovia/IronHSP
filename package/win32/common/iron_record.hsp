@@ -1,0 +1,244 @@
+;============================================================
+;   iron_record.hsp — マウス/キーボード操作の記録
+;
+;   Windows のグローバルフック (WH_MOUSE_LL / WH_KEYBOARD_LL) を
+;   .NET で設定し、ユーザーの操作を JSON 形式で記録する。
+;   iron_replay.hsp と組み合わせてマクロ再生に使える。
+;
+;   hsp3net 専用 (CLR のフック + P/Invoke を使う)。
+;
+;   記録フォーマット (JSON 配列):
+;     [
+;       {"t":1234, "type":"mouse_move",  "x":100, "y":200},
+;       {"t":1250, "type":"mouse_down",  "btn":0, "x":100, "y":200},
+;       {"t":1260, "type":"mouse_up",    "btn":0, "x":100, "y":200},
+;       {"t":1300, "type":"key_down",    "vk":65},
+;       {"t":1320, "type":"key_up",      "vk":65},
+;       ...
+;     ]
+;     t: 開始時刻からのミリ秒
+;
+;   API:
+;     rec_start                          記録開始
+;     rec_stop                           記録停止
+;     rec_is_recording                   → stat 1/0
+;     rec_save_json var_json             → JSON を var_json に書き出し
+;     rec_save_file "path.json"          → ファイル保存
+;     rec_clear                          バッファクリア
+;     rec_count                          → stat=記録イベント数
+;     rec_set_throttle_ms N              mouse_move のサンプリング間隔 (既定 16ms)
+;============================================================
+#ifndef __iron_record_hsp__
+#define __iron_record_hsp__
+
+#module iron_record
+
+dim _rec_cs_loaded, 1
+
+#deffunc _rec_load_cs
+	if _rec_cs_loaded : return
+	sdim _cs, 16384
+	_cs = {"
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+
+public class HspRecord {
+    const int WH_MOUSE_LL = 14;
+    const int WH_KEYBOARD_LL = 13;
+    const int WM_MOUSEMOVE = 0x0200;
+    const int WM_LBUTTONDOWN = 0x0201;
+    const int WM_LBUTTONUP   = 0x0202;
+    const int WM_RBUTTONDOWN = 0x0204;
+    const int WM_RBUTTONUP   = 0x0205;
+    const int WM_MBUTTONDOWN = 0x0207;
+    const int WM_MBUTTONUP   = 0x0208;
+    const int WM_MOUSEWHEEL  = 0x020A;
+    const int WM_KEYDOWN     = 0x0100;
+    const int WM_KEYUP       = 0x0101;
+    const int WM_SYSKEYDOWN  = 0x0104;
+    const int WM_SYSKEYUP    = 0x0105;
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct POINT { public int X; public int Y; }
+    [StructLayout(LayoutKind.Sequential)]
+    struct MSLLHOOKSTRUCT { public POINT pt; public uint mouseData; public uint flags; public uint time; public IntPtr dwExtraInfo; }
+    [StructLayout(LayoutKind.Sequential)]
+    struct KBDLLHOOKSTRUCT { public uint vkCode; public uint scanCode; public uint flags; public uint time; public IntPtr dwExtraInfo; }
+
+    delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
+    [DllImport(\"user32.dll\", CharSet = CharSet.Auto, SetLastError = true)]
+    static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
+    [DllImport(\"user32.dll\", CharSet = CharSet.Auto, SetLastError = true)]
+    static extern bool UnhookWindowsHookEx(IntPtr hhk);
+    [DllImport(\"user32.dll\", CharSet = CharSet.Auto, SetLastError = true)]
+    static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+    [DllImport(\"kernel32.dll\", CharSet = CharSet.Auto, SetLastError = true)]
+    static extern IntPtr GetModuleHandle(string lpModuleName);
+
+    static IntPtr mouseHook = IntPtr.Zero;
+    static IntPtr keyHook = IntPtr.Zero;
+    static HookProc mouseProc = MouseHookProc;
+    static HookProc keyProc = KeyHookProc;
+    static StringBuilder sb = new StringBuilder();
+    static bool recording = false;
+    static Stopwatch sw = new Stopwatch();
+    static int count = 0;
+    static int throttleMs = 16;
+    static long lastMoveT = -1000;
+    static object lockObj = new object();
+
+    public static string Start() {
+        lock (lockObj) {
+            if (recording) return \"0\";
+            sb.Clear();
+            sb.Append('[');
+            count = 0;
+            sw.Reset(); sw.Start();
+            var hmod = GetModuleHandle(null);
+            mouseHook = SetWindowsHookEx(WH_MOUSE_LL, mouseProc, hmod, 0);
+            keyHook = SetWindowsHookEx(WH_KEYBOARD_LL, keyProc, hmod, 0);
+            recording = true;
+            lastMoveT = -1000;
+            return (mouseHook != IntPtr.Zero && keyHook != IntPtr.Zero) ? \"0\" : \"-1\";
+        }
+    }
+    public static string Stop() {
+        lock (lockObj) {
+            if (!recording) return \"0\";
+            if (mouseHook != IntPtr.Zero) { UnhookWindowsHookEx(mouseHook); mouseHook = IntPtr.Zero; }
+            if (keyHook   != IntPtr.Zero) { UnhookWindowsHookEx(keyHook);   keyHook = IntPtr.Zero; }
+            recording = false;
+            sw.Stop();
+            return \"0\";
+        }
+    }
+    public static string IsRecording() { return recording ? \"1\" : \"0\"; }
+    public static string Count() { return count.ToString(); }
+    public static string Clear() {
+        lock (lockObj) { sb.Clear(); sb.Append('['); count = 0; sw.Reset(); }
+        return \"0\";
+    }
+    public static string GetJson() {
+        lock (lockObj) {
+            string s = sb.ToString();
+            // 末尾の , を除去
+            if (s.EndsWith(\",\")) s = s.Substring(0, s.Length - 1);
+            return s + \"]\";
+        }
+    }
+    public static string SetThrottle(int ms) { throttleMs = ms < 0 ? 0 : ms; return \"0\"; }
+
+    static void Append(string s) {
+        lock (lockObj) {
+            if (count > 0) sb.Append(',');
+            sb.Append(s);
+            count++;
+        }
+    }
+
+    static IntPtr MouseHookProc(int nCode, IntPtr wParam, IntPtr lParam) {
+        if (nCode < 0 || !recording) return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+        var d = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
+        long t = sw.ElapsedMilliseconds;
+        int msg = wParam.ToInt32();
+        if (msg == WM_MOUSEMOVE) {
+            if (t - lastMoveT >= throttleMs) {
+                lastMoveT = t;
+                Append(\"{\\\"t\\\":\" + t + \",\\\"type\\\":\\\"mouse_move\\\",\\\"x\\\":\" + d.pt.X + \",\\\"y\\\":\" + d.pt.Y + \"}\");
+            }
+        } else if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN) {
+            int btn = msg == WM_LBUTTONDOWN ? 0 : (msg == WM_RBUTTONDOWN ? 1 : 2);
+            Append(\"{\\\"t\\\":\" + t + \",\\\"type\\\":\\\"mouse_down\\\",\\\"btn\\\":\" + btn + \",\\\"x\\\":\" + d.pt.X + \",\\\"y\\\":\" + d.pt.Y + \"}\");
+        } else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP) {
+            int btn = msg == WM_LBUTTONUP ? 0 : (msg == WM_RBUTTONUP ? 1 : 2);
+            Append(\"{\\\"t\\\":\" + t + \",\\\"type\\\":\\\"mouse_up\\\",\\\"btn\\\":\" + btn + \",\\\"x\\\":\" + d.pt.X + \",\\\"y\\\":\" + d.pt.Y + \"}\");
+        } else if (msg == WM_MOUSEWHEEL) {
+            int delta = (short)((d.mouseData >> 16) & 0xFFFF);
+            Append(\"{\\\"t\\\":\" + t + \",\\\"type\\\":\\\"mouse_wheel\\\",\\\"delta\\\":\" + delta + \",\\\"x\\\":\" + d.pt.X + \",\\\"y\\\":\" + d.pt.Y + \"}\");
+        }
+        return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+    }
+
+    static IntPtr KeyHookProc(int nCode, IntPtr wParam, IntPtr lParam) {
+        if (nCode < 0 || !recording) return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+        var d = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
+        long t = sw.ElapsedMilliseconds;
+        int msg = wParam.ToInt32();
+        if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) {
+            Append(\"{\\\"t\\\":\" + t + \",\\\"type\\\":\\\"key_down\\\",\\\"vk\\\":\" + d.vkCode + \",\\\"sc\\\":\" + d.scanCode + \"}\");
+        } else if (msg == WM_KEYUP || msg == WM_SYSKEYUP) {
+            Append(\"{\\\"t\\\":\" + t + \",\\\"type\\\":\\\"key_up\\\",\\\"vk\\\":\" + d.vkCode + \",\\\"sc\\\":\" + d.scanCode + \"}\");
+        }
+        return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+    }
+}
+"}
+	loadnet _cs, 3
+	_rec_cs_loaded = 1
+	return
+
+#deffunc rec_start \
+	local _h, local _r
+	_rec_load_cs
+	newnet _h, "HspRecord"
+	mcall _h, "Start", _r
+	return int("" + _r)
+
+#deffunc rec_stop \
+	local _h, local _r
+	_rec_load_cs
+	newnet _h, "HspRecord"
+	mcall _h, "Stop", _r
+	return int("" + _r)
+
+#defcfunc rec_is_recording \
+	local _h, local _r
+	_rec_load_cs
+	newnet _h, "HspRecord"
+	mcall _h, "IsRecording", _r
+	return int("" + _r)
+
+#defcfunc rec_count \
+	local _h, local _r
+	_rec_load_cs
+	newnet _h, "HspRecord"
+	mcall _h, "Count", _r
+	return int("" + _r)
+
+#deffunc rec_clear \
+	local _h, local _r
+	_rec_load_cs
+	newnet _h, "HspRecord"
+	mcall _h, "Clear", _r
+	return 0
+
+#deffunc rec_save_json var v_out, \
+	local _h, local _r
+	sdim v_out, 8 * 1024 * 1024
+	_rec_load_cs
+	newnet _h, "HspRecord"
+	mcall _h, "GetJson", _r
+	v_out = "" + _r
+	return strlen(v_out)
+
+#deffunc rec_save_file str path, \
+	local _json, local _n
+	sdim _json, 8 * 1024 * 1024
+	rec_save_json _json
+	_n = strlen(_json)
+	bsave path, _json, _n
+	return _n
+
+#deffunc rec_set_throttle_ms int ms, \
+	local _h, local _r
+	_rec_load_cs
+	newnet _h, "HspRecord"
+	mcall _h, "SetThrottle", _r, ms
+	return 0
+
+#global
+#endif
