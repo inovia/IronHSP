@@ -90,6 +90,11 @@ static int  s_font_size  = 18;              // 行高 / DrawString フォント�
 static int  s_buf_handle[HSP3DX_MAX_BUFFERS];   // DxLib graph handle (LoadGraph / MakeScreen の戻り値)、-1 = 未割当
 static int  s_buf_w     [HSP3DX_MAX_BUFFERS];
 static int  s_buf_h     [HSP3DX_MAX_BUFFERS];
+//  ---- Phase 1.11: celdiv 情報 (スプライトシート分割) ----
+static int  s_buf_cel_w [HSP3DX_MAX_BUFFERS];   // cell 幅 (0 = celdiv 未指定、画像全体)
+static int  s_buf_cel_h [HSP3DX_MAX_BUFFERS];   // cell 高
+static int  s_buf_cel_ox[HSP3DX_MAX_BUFFERS];   // 描画原点 x オフセット
+static int  s_buf_cel_oy[HSP3DX_MAX_BUFFERS];   // 描画原点 y オフセット
 static int  s_cur_window = 0;                   // gsel 現在値 (ID)
 
 //  ---- Phase 1.7: sound 管理 ----
@@ -118,7 +123,13 @@ static void init_buffers_once( void )
 {
     static int initialized = 0;
     if ( initialized ) return;
-    for ( int i = 0; i < HSP3DX_MAX_BUFFERS; i++ ) s_buf_handle[i] = -1;
+    for ( int i = 0; i < HSP3DX_MAX_BUFFERS; i++ ) {
+        s_buf_handle[i] = -1;
+        s_buf_cel_w[i]  = 0;
+        s_buf_cel_h[i]  = 0;
+        s_buf_cel_ox[i] = 0;
+        s_buf_cel_oy[i] = 0;
+    }
     initialized = 1;
 }
 
@@ -259,6 +270,18 @@ static int cmdfunc_extcmd( int cmd )
                 if ( p1 >= HSP3DX_MAX_SOUNDS ) throw HSPERR_ILLEGAL_FUNCTION;
                 if ( s_snd_handle[p1] != -1 ) StopSoundMem( s_snd_handle[p1] );
             }
+            break;
+        }
+
+    case 0x0d:                      // pget x, y  (読み取った色を ctx->stat にパック RGB)
+        {
+            int x = code_getdi( s_cur_x );
+            int y = code_getdi( s_cur_y );
+            int dxc = GetPixel( x, y );
+            //  DxLib GetPixel の戻り値をパック RGB (0xRRGGBB) に変換
+            int r, g, b;
+            GetColor2( dxc, &r, &g, &b );
+            ctx->stat = ( r << 16 ) | ( g << 8 ) | b;
             break;
         }
 
@@ -571,6 +594,53 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    case 0x3d:                      // celdiv ID, cell_w, cell_h, origin_x, origin_y
+        {
+            int id = code_getdi( 1 );
+            int cw = code_getdi( 0 );
+            int ch = code_getdi( 0 );
+            int ox = code_getdi( 0 );
+            int oy = code_getdi( 0 );
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
+            s_buf_cel_w [id] = cw;
+            s_buf_cel_h [id] = ch;
+            s_buf_cel_ox[id] = ox;
+            s_buf_cel_oy[id] = oy;
+            break;
+        }
+
+    case 0x3f:                      // gfilter mode (0=nearest, 1=linear, 2=高品質)
+        {
+            int mode = code_getdi( 0 );
+            //  DxLib SetDrawMode は DX_DRAWMODE_NEAREST / DX_DRAWMODE_BILINEAR / DX_DRAWMODE_ANISOTROPIC
+            int dx_mode;
+            if ( mode == 0 )      dx_mode = DX_DRAWMODE_NEAREST;
+            else if ( mode == 1 ) dx_mode = DX_DRAWMODE_BILINEAR;
+            else                  dx_mode = DX_DRAWMODE_ANISOTROPIC;
+            SetDrawMode( dx_mode );
+            break;
+        }
+
+    case 0x04e:                     // rgbcolor packed_rgb (0xRRGGBB) → s_cur_color に
+        {
+            int packed = code_getdi( 0 );
+            int r = ( packed >> 16 ) & 0xFF;
+            int g = ( packed >>  8 ) & 0xFF;
+            int b =   packed         & 0xFF;
+            s_cur_color = GetColor( r, g, b );
+            break;
+        }
+
+    case 0x05d:                     // gmulcolor r, g, b  (描画時の乗算カラー。255 でフラット)
+        {
+            int r = code_getdi( 255 );
+            int g = code_getdi( 255 );
+            int b = code_getdi( 255 );
+            //  DxLib の SetDrawBright は 0..255 の範囲で設定
+            SetDrawBright( r, g, b );
+            break;
+        }
+
     case 0x3c:                      // celload "file", ID
         {
             char *fname = code_gets();
@@ -606,25 +676,42 @@ static int cmdfunc_extcmd( int cmd )
     case 0x3e:                      // celput ID [, frame, zx, zy, rot]
         {
             p1 = code_getdi( 1 );           // ID
-            p2 = code_getdi( 0 );           // frame (現状無視、celdiv 未実装)
+            p2 = code_getdi( 0 );           // frame (celdiv 設定がある場合のセル番号)
             double zx  = code_getdd( 1.0 );
             double zy  = code_getdd( 1.0 );
             double rot = code_getdd( 0.0 );
-            (void)p2; (void)zy;
 
             if ( p1 <= 0 || p1 >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
             int src = s_buf_handle[p1];
             if ( src == -1 ) throw HSPERR_PICTURE_MISSING;
             apply_gmode_blend();
-            if ( rot == 0.0 && zx == 1.0 && zy == 1.0 ) {
-                //  HSP celput は画像の中心を現在位置に置く仕様
-                int cx = s_cur_x + s_buf_w[p1] / 2;
-                int cy = s_cur_y + s_buf_h[p1] / 2;
-                DrawRotaGraph( cx, cy, 1.0, 0.0, src, TRUE );
+
+            int cell_w = s_buf_cel_w[p1];
+            int cell_h = s_buf_cel_h[p1];
+            if ( cell_w > 0 && cell_h > 0 ) {
+                //  celdiv で分割されている: frame からセル矩形を計算
+                int cells_per_row = s_buf_w[p1] / cell_w;
+                if ( cells_per_row <= 0 ) cells_per_row = 1;
+                int cell_x = ( p2 % cells_per_row ) * cell_w;
+                int cell_y = ( p2 / cells_per_row ) * cell_h;
+                //  描画原点は cur_x/cur_y を中心に。origin_x/y を引いてオフセット。
+                int draw_x = s_cur_x - s_buf_cel_ox[p1];
+                int draw_y = s_cur_y - s_buf_cel_oy[p1];
+                DrawRectRotaGraph( s_cur_x, s_cur_y,
+                                   cell_x, cell_y, cell_w, cell_h,
+                                   zx, rot, src, TRUE );
+                (void)draw_x; (void)draw_y;  // 将来 origin の用途拡張用
             } else {
-                int cx = s_cur_x + (int)( s_buf_w[p1] * zx / 2.0 );
-                int cy = s_cur_y + (int)( s_buf_h[p1] * zy / 2.0 );
-                DrawRotaGraph( cx, cy, zx, rot, src, TRUE );
+                //  celdiv 未設定: 画像全体
+                if ( rot == 0.0 && zx == 1.0 && zy == 1.0 ) {
+                    int cx = s_cur_x + s_buf_w[p1] / 2;
+                    int cy = s_cur_y + s_buf_h[p1] / 2;
+                    DrawRotaGraph( cx, cy, 1.0, 0.0, src, TRUE );
+                } else {
+                    int cx = s_cur_x + (int)( s_buf_w[p1] * zx / 2.0 );
+                    int cy = s_cur_y + (int)( s_buf_h[p1] * zy / 2.0 );
+                    DrawRotaGraph( cx, cy, zx, rot, src, TRUE );
+                }
             }
             break;
         }

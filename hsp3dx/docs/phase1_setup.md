@@ -79,6 +79,8 @@ hsp3dx.exe
 | **1.7** | 音声 (mmload / mmplay / mmstop → DxLib LoadSoundMem / PlaySoundMem / StopSoundMem) | ✅ |
 | **1.8** | sysvar/reffunc 拡充 (hwnd / hinstance / sysinfo(p) / dirinfo(p) + 既存の hsp3int 自動登録) | ✅ |
 | **1.9** | 総合サンプル (シューティング) + getkey VK 互換修正 | ✅ |
+| **1.10** | grect / grotate / gradf / mmvol / mmpan / mmstat | ✅ |
+| **1.11** | pget / celdiv + celput frame / gfilter / gmulcolor / rgbcolor | ✅ |
 
 ## Phase 2 サブフェーズ進捗
 

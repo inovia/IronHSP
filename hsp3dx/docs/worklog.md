@@ -6,6 +6,38 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 1.11: celdiv / pget / gfilter / gmulcolor / rgbcolor)
+
+### (これから commit) @ 20:14 — Phase 1.11: スプライトシート + 色・ピクセル操作
+
+**追加 opcode**
+- `0x00d pget x, y` — ピクセル色読み取り、`stat` に 0xRRGGBB で格納
+- `0x03d celdiv ID, cell_w, cell_h, origin_x, origin_y` — スプライトシート分割
+- `0x03e celput ID, frame, zx, zy, rot` — celdiv 設定済 ID ならフレーム番号でセル選択、
+  `DrawRectRotaGraph` でサブ矩形描画
+- `0x03f gfilter mode` — 0=nearest (デフォルト) / 1=linear / 2=anisotropic
+- `0x04e rgbcolor 0xRRGGBB` — パック int から色設定 (`color r,g,b` の簡易版)
+- `0x05d gmulcolor r, g, b` — 描画乗算カラー (`SetDrawBright`)
+
+**サンプル** `sample_cel.hsp`:
+- `test_sprites.png` (128×32、32×32 × 4 フレーム) を celdiv で分割
+- 4 フレーム等寸 + 右にアニメーション (3× 拡大)
+- gmulcolor で赤スプライト減光 (乗算なので茶色に、色置換ではない)
+- gfilter 1 で線形補間拡大
+- rgbcolor で水色文字
+- pget で画面中央ピクセル値取得 → HUD 表示
+
+**詰まりどころ (ユーザー指摘)**
+- gmulcolor (128, 255, 128) を赤スプライトに適用 → 「緑に染まる」と期待したが茶色に
+  → gmulcolor は乗算カラーで色置換ではない。赤 (255, 80, 80) × (0.5, 1.0, 0.5) = 茶色
+    (127, 80, 40) は仕様通り。サンプルコメントを「減光/色調補正」に修正
+- 色置換したい場合は元スプライトが白など全チャネル成分ありのもの推奨
+
+**動作確認**
+- スプライトシートアニメーション動作 OK、拡大・線形補間・色調整すべて ✅
+
+---
+
 ## 2026-04-21 (Phase 5.2: 3D プリミティブ + MV1 モデル + 動画)
 
 ### (これから commit) @ 20:13 — Phase 5.2: 3D 描画基礎
