@@ -109,11 +109,13 @@
     <ClCompile Include="..\src\hsp3dxcl.cpp" />
     <ClCompile Include="..\src\hsp3dx_extcmd.cpp" />
     <ClCompile Include="..\src\hsp3dx_console.cpp" />
+    <ClCompile Include="..\src\hsp3dx_platform_io_win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\hgio_dx.h" />
     <ClInclude Include="..\src\hsp3dxcl.h" />
     <ClInclude Include="..\src\hsp3dx_console.h" />
+    <ClInclude Include="..\src\hsp3dx_platform_io.h" />
   </ItemGroup>
 
   <ItemGroup>

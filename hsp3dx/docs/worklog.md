@@ -6,7 +6,36 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-21 (Phase 1 完了 + 仕様訂正)
+## 2026-04-21 (Phase 1 完了 + 仕様訂正 + Phase 2.0 scaffold)
+
+### (これから commit) @ 20:09 — Phase 2.0: platform abstraction I/O API
+
+**やったこと**
+- `hsp3dx_platform_io.h` 新規: UTF-8 パスで読み込み専用のファイル I/O 抽象 API
+  - stream 型: `hsp3dx_fopen` / `fread` / `fsize` / `fclose`
+  - 便利関数: `hsp3dx_load_file_all` (malloc バッファにロード、free 関数付き)
+  - 存在確認: `hsp3dx_file_size_if_exists` (サイズ or -1)
+- `hsp3dx_platform_io_win.cpp` 新規: UTF-8 → wchar_t 変換 + `_wfopen` ベースで実装
+- vcxproj に追加、ビルド成功
+
+**設計意図**
+* Win: Phase 1 実装そのままで OK、この API は scaffold (Win impl を載せたのは
+  symbol を解決させるため)
+* iOS (Phase 3): `hsp3dx_platform_io_ios.mm` を追加、`[NSBundle pathForResource:]`
+  で bundle 内ファイルパスを取ってから fopen
+* Android (Phase 4): `hsp3dx_platform_io_ndk.cpp` を追加、`AAssetManager_open`
+  ベースで実装
+
+**未着手 (Phase 2.1 / 2.2)**
+* 2.1: VM `.ax` ローダ (Hsp3::Reset 内の dpm_readalloc) を platform_io 経由に書き換え
+       Win は既存の fopen でも動くので急がない
+* 2.2: picload / celload / mmload を mobile で `*FromMem` 系 (CreateGraphFromMem /
+       LoadSoundMemByMemImage) に切替える橋渡し。Win は LoadGraph / LoadSoundMem で OK
+
+Phase 3/4 実装時に「iOS/Android 側の実装を追加するだけ」で動くようになっている
+ことが重要。Windows 実行バイナリは Phase 1 からサイズほぼ変わらず。
+
+---
 
 ### (これから commit) @ 20:08 — 仕様訂正: hsp3dx_cnv 見送り、bundle/assets 統一
 

@@ -80,6 +80,14 @@ hsp3dx.exe
 | **1.8** | sysvar/reffunc 拡充 (hwnd / hinstance / sysinfo(p) / dirinfo(p) + 既存の hsp3int 自動登録) | ✅ |
 | **1.9** | 総合サンプル (シューティング) + getkey VK 互換修正 | ✅ |
 
+## Phase 2 サブフェーズ進捗
+
+| サブ Phase | 内容 | 状態 |
+|---|---|---|
+| **2.0** | platform abstraction I/O API (`hsp3dx_platform_io.h`) + Win 実装 | ✅ |
+| 2.1 | VM .ax ローダを platform_io 経由に書き換え (optional) | 未着手 |
+| 2.2 | `picload` / `celload` / `mmload` を mobile 向けに `*FromMem` に切替可能化 | 未着手 |
+
 ## トラブルシュート
 
 - **ビルドエラー `DxLib.h: No such file`**: extlib/dxlib_win/include/ が存在するか確認
