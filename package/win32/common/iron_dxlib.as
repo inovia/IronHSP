@@ -19,6 +19,9 @@
 #include "iron_dxlib_auto.as"
 ;  関数形式 (#ccmd、opcode 0x300〜 EXTSYSVAR) — v = dx_Xxx_f(args) で呼べる
 #include "iron_dxlib_auto_f.as"
+;  iron_dxlib_auto_f.as 内の #regcmd 10 で pptype が書き換わるので、以降の
+;  手書き #cmd は EXTCMD として登録するため 9 に戻す。
+#regcmd 9
 
 ;  ---- アンチエイリアス描画 (DxLib 独自、HSP 標準にない) ----
 ;      直接版は auto-gen の dx_DrawCircleAA / dx_DrawLineAA / dx_DrawBoxAA /

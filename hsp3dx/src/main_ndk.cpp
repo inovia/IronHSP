@@ -69,11 +69,26 @@ int android_main( void )
     //  カレントディレクトリを内部 dir に移動 (filepack の fopen 相対パス用)
     chdir( internal_dir );
 
-    //  assets/start.ax を内部 dir にコピー
-    if ( extract_asset( "start.ax", internal_dir ) != 0 ) {
-        LOGE( "start.ax not found in assets" );
-        hgio_dx_term();
-        return -1;
+    //  開発時のサンプル切替用: `adb push foo.ax /data/data/<pkg>/files/start_override.ax`
+    //  で置いた場合はそれを優先 (assets からの start.ax 抽出はスキップ)。
+    char override_path[1024];
+    snprintf( override_path, sizeof(override_path), "%s/start_override.ax", internal_dir );
+    FILE *ov = fopen( override_path, "rb" );
+    if ( ov ) {
+        fclose( ov );
+        char target[1024];
+        snprintf( target, sizeof(target), "%s/start.ax", internal_dir );
+        //  override を start.ax にリネーム (rename で上書きコピー)
+        remove( target );
+        rename( override_path, target );
+        LOGI( "using pushed override .ax as start.ax" );
+    } else {
+        //  assets/start.ax を内部 dir にコピー
+        if ( extract_asset( "start.ax", internal_dir ) != 0 ) {
+            LOGE( "start.ax not found in assets" );
+            hgio_dx_term();
+            return -1;
+        }
     }
     //  他のアセット (PNG / WAV 等) も必要に応じて展開
     //  (ユーザが使うものを事前に名前で extract_asset 呼べばよい)
