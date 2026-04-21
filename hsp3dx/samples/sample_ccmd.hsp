@@ -1,37 +1,44 @@
 ;============================================================
-;   sample_ccmd.hsp — Phase 5.5o: #ccmd (関数形式 #cmd) smoke test
+;   sample_ccmd.hsp — Phase 5.5p: 関数形式 DxLib 命令 (自動生成)
 ;
-;   #ccmd は #cmd の関数形式版。#func/#cfunc と同じ対応関係。
-;   HSP スクリプトから式として呼び出せる。
+;   1144 個の DxLib 関数が `_f` サフィックス付きで式として呼び出せる。
+;   (スカラー戻り値 + スカラー引数のみ、ref 引数/struct は不可)
 ;============================================================
 #bootopt hsp64 1
 #cmpopt utf8 1
 #include "iron_dxlib.as"
 
-;  自分で #ccmd を試しに登録する (runtime 側は 0x300 をテストハンドラで処理)
-#regcmd 10
-#ccmd dx_GetColor_f    $300      ; r, g, b → stat に DxLib カラーコード
+    title "hsp3dx: #ccmd auto-gen 関数形式"
 
-    title "hsp3dx: #ccmd smoke test"
-
-    color 20, 30, 60
+    color 15, 20, 40
     boxf 0, 0, 640, 480
-    font "MS Gothic", 16
+    font "MS Gothic", 14
+    color 255, 220, 80
+    pos 10, 10
 
-    ;  式形式で呼び出し (#ccmd なので var = func(args) の形)
+    ;  ---- 式形式の呼び出し (dx_Xxx_f は #ccmd で登録済) ----
     col_red   = dx_GetColor_f(255, 0, 0)
     col_green = dx_GetColor_f(0, 255, 0)
     col_blue  = dx_GetColor_f(0, 0, 255)
 
-    color 255, 220, 80
-    pos 10, 10
-    mes "Phase 5.5o: #ccmd 関数形式 smoke test"
+    rand1 = dx_GetRand_f(99)
+    rand2 = dx_GetRand_f(99)
+    rand3 = dx_GetRand_f(99)
+
+    tick = dx_GetNowCount_f(0)          ; ミリ秒カウント
+
+    mes "Phase 5.5p: #ccmd 自動生成 式形式関数"
     mes ""
-    mes "col_red   = dx_GetColor_f(255, 0, 0) = " + col_red
-    mes "col_green = dx_GetColor_f(0, 255, 0) = " + col_green
-    mes "col_blue  = dx_GetColor_f(0, 0, 255) = " + col_blue
+    mes "(1) 色コード (GetColor)"
+    mes "    dx_GetColor_f(255,0,0) = " + col_red
+    mes "    dx_GetColor_f(0,255,0) = " + col_green
+    mes "    dx_GetColor_f(0,0,255) = " + col_blue
     mes ""
-    mes "(DxLib の GetColor() をそのまま式として呼べる!)"
+    mes "(2) 乱数 (GetRand)"
+    mes "    dx_GetRand_f(99) × 3 回  = " + rand1 + ", " + rand2 + ", " + rand3
+    mes ""
+    mes "(3) tick (GetNowCount)"
+    mes "    dx_GetNowCount_f(0) = " + tick + "  (ms)"
 
     pos 10, 450
     color 255, 220, 80

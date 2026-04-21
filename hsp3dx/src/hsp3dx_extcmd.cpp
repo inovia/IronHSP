@@ -71,8 +71,10 @@
 #include "hsp3dx_ws.h"
 #include "DxLib.h"
 
-//  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜0x3FF)
+//  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜)
 extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx );
+//  Phase 5.5p 自動生成 #ccmd (関数形式) dispatcher (opcode 0x300〜)
+extern "C" int hsp3dx_dxlib_auto_f_dispatch( int cmd, int *type_res, void **ptr_out );
 
 static HSPCTX    *ctx    = nullptr;
 static HSPEXINFO *exinfo = nullptr;
@@ -2100,23 +2102,18 @@ static void *reffunc_function( int *type_res, int arg )
             break;
         }
 
-    //  ---- Phase 5.5o: #ccmd 式形式 DxLib 関数 (smoke test) ----
-    //      本格対応は Phase 5.5p で gen_dxlib_bindings.py 拡張 + 別ファイル分離。
-    //      ここでは疎通確認として GetColor(r,g,b) のみ手書き。
-    case 0x300:                             // dx_GetColor_f(r, g, b) smoke test
-        {
-            if ( !has_parens ) throw HSPERR_INVALID_FUNCPARAM;
-            code_next();
-            int r = code_geti();
-            int g = code_geti();
-            int b = code_geti();
-            if ( *type != TYPE_MARK || *val != ')' ) throw HSPERR_INVALID_FUNCPARAM;
-            code_next();
-            reffunc_intfunc_ivalue = GetColor( r, g, b );
-            break;
-        }
-
+    //  Phase 5.5p: #ccmd 式形式 DxLib 関数の自動生成 dispatcher
     default:
+        if ( arg >= 0x300 ) {
+            if ( !has_parens ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();    //  `(` を消費
+            void *r = nullptr;
+            if ( hsp3dx_dxlib_auto_f_dispatch( arg, type_res, &r ) ) {
+                if ( *type != TYPE_MARK || *val != ')' ) throw HSPERR_INVALID_FUNCPARAM;
+                code_next();
+                return r ? r : ptr;
+            }
+        }
         throw HSPERR_UNSUPPORTED_FUNCTION;
     }
 

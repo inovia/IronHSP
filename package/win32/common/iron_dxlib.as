@@ -17,6 +17,8 @@
 
 ;  自動生成の DxLib 全 binding (opcode 0x200〜) を取り込む
 #include "iron_dxlib_auto.as"
+;  関数形式 (#ccmd、opcode 0x300〜 EXTSYSVAR) — v = dx_Xxx_f(args) で呼べる
+#include "iron_dxlib_auto_f.as"
 
 ;  ---- アンチエイリアス描画 (DxLib 独自、HSP 標準にない) ----
 ;      直接版は auto-gen の dx_DrawCircleAA / dx_DrawLineAA / dx_DrawBoxAA /

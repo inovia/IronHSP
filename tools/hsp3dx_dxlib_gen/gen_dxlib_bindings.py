@@ -27,13 +27,19 @@ import re
 import sys
 import os
 
-HDR_PATH   = r"J:\HNWorks\IronHSP_2026\hsp3dx\extlib\dxlib_win\DxLib_VC\DxLib.h"
-OUT_CPP    = r"J:\HNWorks\IronHSP_2026\hsp3dx\src\hsp3dx_dxlib_auto.cpp"
-OUT_AS     = r"J:\HNWorks\IronHSP_2026\package\win32\common\iron_dxlib_auto.as"
-OUT_HS     = r"J:\HNWorks\IronHSP_2026\package\hsphelp\iron_dxlib_auto.hs"
+HDR_PATH    = r"J:\HNWorks\IronHSP_2026\hsp3dx\extlib\dxlib_win\DxLib_VC\DxLib.h"
+OUT_CPP     = r"J:\HNWorks\IronHSP_2026\hsp3dx\src\hsp3dx_dxlib_auto.cpp"
+OUT_AS      = r"J:\HNWorks\IronHSP_2026\package\win32\common\iron_dxlib_auto.as"
+OUT_HS      = r"J:\HNWorks\IronHSP_2026\package\hsphelp\iron_dxlib_auto.hs"
+#  Phase 5.5p: #ccmd (関数形式) 版の別出力
+OUT_CPP_F   = r"J:\HNWorks\IronHSP_2026\hsp3dx\src\hsp3dx_dxlib_auto_f.cpp"
+OUT_AS_F    = r"J:\HNWorks\IronHSP_2026\package\win32\common\iron_dxlib_auto_f.as"
 
-OPCODE_START = 0x200
-OPCODE_END   = 0x9FF
+OPCODE_START  = 0x200
+OPCODE_END    = 0x9FF
+#  #ccmd 式形式用の opcode は別範囲 (EXTSYSVAR 空間)
+OPCODE_FSTART = 0x300
+OPCODE_FEND   = 0xFFF
 
 # Function signature pattern:
 #   extern <rettype> FuncName( arg1, arg2 ... );
@@ -545,6 +551,152 @@ def main():
         f.write('\n'.join(cpp))
 
     # ------------------------------------------------------------------
+    # Phase 5.5p: 関数形式 (#ccmd) 出力
+    # 対象: スカラー戻り (int/uint/float/double/int64/uint64) かつ
+    #       引数がスカラー + tchar のみ (out-param / struct in / struct ret は不可)
+    # 命名: 元の dx_CamelCase の後ろに _f (function form) を付けた名前
+    # opcode 範囲: 0x300 〜 (EXTSYSVAR 空間)
+    # ------------------------------------------------------------------
+    SCALAR_ARG_KINDS = {'int', 'uint', 'uchar', 'ushort', 'ulong', 'int64', 'uint64',
+                        'float', 'double', 'tchar', 'char'}
+    SCALAR_RET_KINDS = {'r_int', 'r_uint', 'r_float', 'r_double', 'r_int64', 'r_uint64'}
+
+    f_functions = []
+    for fn, rkind, args in functions:
+        if rkind not in SCALAR_RET_KINDS: continue
+        bad = False
+        for (t, _, _) in args:
+            if t not in SCALAR_ARG_KINDS: bad = True; break
+        if bad: continue
+        f_functions.append((fn, rkind, args))
+
+    if len(f_functions) > OPCODE_FEND - OPCODE_FSTART + 1:
+        f_functions = f_functions[:OPCODE_FEND - OPCODE_FSTART + 1]
+
+    #  ---- iron_dxlib_auto_f.as (#ccmd 版) ----
+    fas = [
+        ';============================================================',
+        ';  iron_dxlib_auto_f.as — Phase 5.5p 自動生成 DxLib 関数形式 (#ccmd)',
+        ';  DO NOT EDIT — gen_dxlib_bindings.py で再生成',
+        f';  関数数: {len(f_functions)}',
+        ';============================================================',
+        '#ifndef __iron_dxlib_auto_f_as__',
+        '#define __iron_dxlib_auto_f_as__',
+        '',
+        '#regcmd 10',    # TYPE_EXTSYSVAR
+        '',
+    ]
+    R_CTYPE_SHORT = {'r_int':'int','r_uint':'uint','r_float':'float','r_double':'double',
+                     'r_int64':'int64','r_uint64':'uint64'}
+    for i, (fn, rkind, args) in enumerate(f_functions):
+        opcode = OPCODE_FSTART + i
+        name = to_dx_name(fn) + '_f'
+        sig_in = ', '.join(type_label(t) for (t, _, _) in args)
+        fas.append(f'#ccmd {name:<48} ${opcode:03x}     ; [{R_CTYPE_SHORT[rkind]}] <- {fn}({sig_in})')
+    fas.append('')
+    fas.append('#endif')
+    with open(OUT_AS_F, 'w', encoding='utf-8', newline='\n') as f:
+        f.write('\n'.join(fas))
+
+    #  ---- hsp3dx_dxlib_auto_f.cpp (dispatcher) ----
+    fcpp = []
+    fcpp.append('//  hsp3dx_dxlib_auto_f.cpp — 関数形式 DxLib binding (#ccmd)')
+    fcpp.append('//  DO NOT EDIT — gen_dxlib_bindings.py で再生成')
+    fcpp.append(f'//  関数数: {len(f_functions)}')
+    fcpp.append('#include <stdio.h>')
+    fcpp.append('#include <string.h>')
+    fcpp.append('#include <windows.h>')
+    fcpp.append('#include "../../hsp3/hsp3config.h"')
+    fcpp.append('#include "../../hsp3/hsp3struct.h"')
+    fcpp.append('#include "../../hsp3/hsp3code.h"')
+    fcpp.append('#include "../../hsp3/hsp3debug.h"')
+    fcpp.append('#include "DxLib.h"')
+    fcpp.append('#include "hsp3dx_console.h"')
+    fcpp.append('')
+    fcpp.append('//  dispatcher: reffunc_function から呼ばれる。')
+    fcpp.append('//  既に `(` は code_next() で消費済、ここでは引数列を順に parse して DxLib 関数を呼ぶ。')
+    fcpp.append('//  戻り値は専用 static 領域に格納、戻り type を *type_res、ポインタを return。')
+    fcpp.append('//  戻り値 0 = 未対応 (dispatcher は触らなかった) / 1 = 処理済')
+    fcpp.append('static int    s_ret_i = 0;')
+    fcpp.append('static double s_ret_d = 0.0;')
+    fcpp.append('static LONGLONG s_ret_i64 = 0;')
+    fcpp.append('')
+    fcpp.append('extern "C" int hsp3dx_dxlib_auto_f_dispatch( int cmd, int *type_res, void **ptr_out )')
+    fcpp.append('{')
+    fcpp.append('    switch ( cmd ) {')
+    for i, (fn, rkind, args) in enumerate(f_functions):
+        opcode = OPCODE_FSTART + i
+        fcpp.append(f'    case 0x{opcode:03x}: {{  // {fn} -> {rkind}')
+        call_args = []
+        for idx, (t, aname, default) in enumerate(args):
+            local = f'_a{idx}'
+            if t == 'int':
+                d = default if default else '0'
+                if d == 'TRUE': d = '1'
+                elif d == 'FALSE': d = '0'
+                fcpp.append(f'        int {local} = code_getdi( {d} );')
+                call_args.append(local)
+            elif t in ('uint', 'uchar', 'ushort', 'ulong'):
+                ctype = KIND_TO_CTYPE[t]
+                d = default if default else '0'
+                if d == 'TRUE': d = '1'
+                elif d == 'FALSE': d = '0'
+                fcpp.append(f'        {ctype} {local} = ({ctype})code_getdi( (int)({d}) );')
+                call_args.append(local)
+            elif t == 'int64':
+                fcpp.append(f'        LONGLONG {local} = (LONGLONG)code_geti64();')
+                call_args.append(local)
+            elif t == 'uint64':
+                fcpp.append(f'        ULONGLONG {local} = (ULONGLONG)code_geti64();')
+                call_args.append(local)
+            elif t == 'float':
+                d = default if default else '0.0'
+                d = d.rstrip('f')
+                fcpp.append(f'        float {local} = (float)code_getdd( {d} );')
+                call_args.append(local)
+            elif t == 'double':
+                d = default if default else '0.0'
+                fcpp.append(f'        double {local} = code_getdd( {d} );')
+                call_args.append(local)
+            elif t == 'tchar':
+                fcpp.append(f'        const char *{local}_u8 = code_gets();')
+                fcpp.append(f'        static wchar_t {local}_w[1024];')
+                fcpp.append(f'        hsp3dx_utf8_to_wide( {local}_u8, {local}_w, 1024 );')
+                call_args.append(f'{local}_w')
+            elif t == 'char':
+                fcpp.append(f'        const char *{local} = code_gets();')
+                call_args.append(local)
+        call_str = f'{fn}( {", ".join(call_args)} )'
+        if rkind == 'r_int':
+            fcpp.append(f'        s_ret_i = {call_str};')
+            fcpp.append('        *type_res = HSPVAR_FLAG_INT;')
+            fcpp.append('        *ptr_out = &s_ret_i;')
+        elif rkind == 'r_uint':
+            fcpp.append(f'        s_ret_i = (int)({call_str});')
+            fcpp.append('        *type_res = HSPVAR_FLAG_INT;')
+            fcpp.append('        *ptr_out = &s_ret_i;')
+        elif rkind == 'r_float':
+            fcpp.append(f'        s_ret_d = (double)({call_str});')
+            fcpp.append('        *type_res = HSPVAR_FLAG_DOUBLE;')
+            fcpp.append('        *ptr_out = &s_ret_d;')
+        elif rkind == 'r_double':
+            fcpp.append(f'        s_ret_d = {call_str};')
+            fcpp.append('        *type_res = HSPVAR_FLAG_DOUBLE;')
+            fcpp.append('        *ptr_out = &s_ret_d;')
+        elif rkind in ('r_int64', 'r_uint64'):
+            fcpp.append(f'        s_ret_i64 = (LONGLONG)({call_str});')
+            fcpp.append('        *type_res = HSPVAR_FLAG_INT64;')
+            fcpp.append('        *ptr_out = &s_ret_i64;')
+        fcpp.append('        return 1;')
+        fcpp.append('    }')
+    fcpp.append('    }')
+    fcpp.append('    return 0;')
+    fcpp.append('}')
+    fcpp.append('')
+    with open(OUT_CPP_F, 'w', encoding='utf-8', newline='\n') as f:
+        f.write('\n'.join(fcpp))
+
+    # ------------------------------------------------------------------
     # iron_dxlib_auto.hs — HSP Help (VS Code / VS 2022 / hsed から照会)
     # ------------------------------------------------------------------
     def guess_group(fn):
@@ -635,9 +787,11 @@ def main():
         f.write('\n'.join(hs))
 
     print(f'generated:')
-    print(f'  {OUT_AS}   ({len(functions)} #cmd entries)')
-    print(f'  {OUT_CPP}  ({len(functions)} case handlers)')
-    print(f'  {OUT_HS}   ({len(functions)} %index entries)')
+    print(f'  {OUT_AS}     ({len(functions)} #cmd entries)')
+    print(f'  {OUT_CPP}    ({len(functions)} case handlers)')
+    print(f'  {OUT_HS}     ({len(functions)} %index entries)')
+    print(f'  {OUT_AS_F}   ({len(f_functions)} #ccmd entries)')
+    print(f'  {OUT_CPP_F}  ({len(f_functions)} case handlers)')
 
 
 if __name__ == '__main__':
