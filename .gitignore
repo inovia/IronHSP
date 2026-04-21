@@ -80,3 +80,10 @@ hsp3dx/extlib/dxlib_android/*
 # hsp3dx ビルド成果物
 hsp3dx/bin/
 hsp3dx/obj/
+
+# hsp3dx Android 成果物 + ローカル設定 (Phase 4)
+hsp3dx/ndk/template/local.properties
+hsp3dx/ndk/template/.gradle/
+hsp3dx/ndk/template/build/
+hsp3dx/ndk/template/app/build/
+hsp3dx/ndk/template/app/.cxx/
