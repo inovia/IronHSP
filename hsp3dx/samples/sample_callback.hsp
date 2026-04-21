@@ -1,0 +1,59 @@
+;============================================================
+;   sample_callback.hsp — Phase 5.5k: DxLib コールバック smoke test
+;
+;   dx_SetUseASyncLoadFlag 1 + dx_LoadGraph で非同期ロード →
+;   dx_SetASyncLoadFinishCallback でロード完了コールバックを受ける。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx: callback smoke test (ASyncLoadFinish)"
+
+    loaded = 0
+
+    ;  非同期ロード ON
+    dx_SetUseASyncLoadFlag 1
+
+    ;  直接 DxLib の LoadGraph を呼ぶ (auto-gen 経由、int 戻り値 → stat)
+    dx_LoadGraph "shooter_player.png"
+    h_pic = stat
+
+    ;  完了時コールバック登録
+    dx_SetASyncLoadFinishCallback h_pic, *on_load_done
+
+    ;  以降のロードは同期に戻す
+    dx_SetUseASyncLoadFlag 0
+
+    repeat
+        redraw 0
+        color 15, 20, 40
+        boxf 0, 0, 640, 480
+        color 255, 220, 80
+        font "MS Gothic", 14
+        pos 10, 10
+        mes "Phase 5.5k callback smoke test (ASyncLoadFinish)"
+        mes ""
+        mes "対象: shooter_player.png"
+        mes "graph handle (stat): " + h_pic
+        mes ""
+        if loaded {
+            color 80, 255, 80
+            mes "コールバック呼出済!  loaded = " + loaded
+            color 255, 220, 80
+        } else {
+            mes "(非同期ロード待機中…)"
+        }
+        mes ""
+        mes "[ESC] quit"
+        redraw 1
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
+
+
+*on_load_done
+    loaded++
+    return

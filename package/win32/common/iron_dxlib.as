@@ -19,13 +19,11 @@
 #include "iron_dxlib_auto.as"
 
 ;  ---- アンチエイリアス描画 (DxLib 独自、HSP 標準にない) ----
-#cmd dx_drawcircleaa   $100     ; dx_drawcircleaa x, y, r, color [, fill, thickness]
-#cmd dx_drawlineaa     $101     ; dx_drawlineaa x1, y1, x2, y2, color [, thickness]
-#cmd dx_drawboxaa      $102     ; dx_drawboxaa x1, y1, x2, y2, color [, fill, thickness]
-#cmd dx_drawtriangle   $103     ; dx_drawtriangle x1, y1, x2, y2, x3, y3, color, fill
-
-;  ---- 自由変形 (DxLib DrawModiGraph、4 頂点で画像を歪める) ----
-#cmd dx_drawmodigraph  $104     ; dx_drawmodigraph srcID, x1,y1, x2,y2, x3,y3, x4,y4
+;      直接版は auto-gen の dx_DrawCircleAA / dx_DrawLineAA / dx_DrawBoxAA /
+;      dx_DrawTriangle / dx_DrawModiGraph も利用可能。
+;      以下の _s サフィックス付きは簡易ラッパ (引数少なめ・内部でデフォルト値補完)。
+#cmd dx_drawcircleaa_s $100     ; dx_drawcircleaa_s x, y, r, color [, fill, thickness]
+#cmd dx_drawmodigraph_s $104    ; dx_drawmodigraph_s srcID, x1,y1, x2,y2, x3,y3, x4,y4 (引数順 IronHSP 独自)
 
 ;  ---- ジョイパッド入力 ----
 #cmd dx_getjoypad      $110     ; dx_getjoypad var [, pad_no] — ビットフィールドを var に
@@ -36,12 +34,12 @@
 #cmd dx_setfullscreen  $121     ; dx_setfullscreen flag — フルスクリーン切替
 
 ;  ---- Phase 5.2: 3D プリミティブ / カメラ ----
+;      直接版は auto-gen の dx_SetCameraPositionAndTarget_UpVecY / dx_DrawSphere3D / dx_DrawCube3D / dx_SetUseLighting も利用可能。
 #cmd dx_setcamerapos   $130     ; dx_setcamerapos cx, cy, cz, tx, ty, tz  視点 (cx,cy,cz) → 注視点 (tx,ty,tz)
 #cmd dx_setcameraperspective $131  ; dx_setcameraperspective fov_deg  視野角 (度、DxLib は内部で rad 換算)
-#cmd dx_drawsphere3d   $132     ; dx_drawsphere3d x, y, z, r, divnum, difcol, spccol, fill
-#cmd dx_drawcube3d     $133     ; dx_drawcube3d x1,y1,z1, x2,y2,z2, difcol, spccol, fill
+#cmd dx_drawsphere3d_s $132     ; dx_drawsphere3d_s x, y, z, r, divnum, difcol, spccol, fill (スカラー xyz 版)
+#cmd dx_drawcube3d_s   $133     ; dx_drawcube3d_s x1,y1,z1, x2,y2,z2, difcol, spccol, fill (スカラー xyz 版)
 #cmd dx_setbgcolor3d   $134     ; dx_setbgcolor3d r, g, b  3D 背景色
-#cmd dx_setuselighting $135     ; dx_setuselighting flag — 照明 ON/OFF (OFF で DifColor がフラット表示)
 #cmd dx_setlightdir    $136     ; dx_setlightdir dx, dy, dz — 平行光源の方向
 #cmd dx_setzbuffer     $137     ; dx_setzbuffer flag — Z バッファ (深度テスト) ON/OFF
 
@@ -50,7 +48,7 @@
 #cmd dx_mv1draw        $141     ; dx_mv1draw handle
 #cmd dx_mv1setpos      $142     ; dx_mv1setpos handle, x, y, z
 #cmd dx_mv1setrot      $143     ; dx_mv1setrot handle, rx, ry, rz (radians)
-#cmd dx_mv1setscale    $144     ; dx_mv1setscale handle, sx, sy, sz
+#cmd dx_mv1setscale_s  $144     ; dx_mv1setscale_s handle, sx, sy, sz (直接版は dx_MV1SetScale)
 #cmd dx_mv1delete      $145     ; dx_mv1delete handle
 
 ;  ---- Phase 5.2: 動画再生 ----
@@ -114,13 +112,16 @@
 #cmd dx_ws_recv            $1a5   ; dx_ws_recv handle, var [, timeout_ms] (stat: 0=TEXT / 1=BIN / -1=closed / -2=timeout, strsize=bytes)
 #cmd dx_ws_status          $1a6   ; dx_ws_status handle (stat: 0=OPEN / 1=CONNECTING / 2=CLOSING / 3=CLOSED)
 
-;  ---- Phase 5.5b: VECTOR 引数を取る 3D プリミティブ ----
-;  VECTOR は #defstruct + #field float x/y/z で 12 byte の NSTRUCT として
-;  確保した変数を渡す (DxLib::VECTOR と ABI 一致)
-#cmd dx_drawline3d         $1c0   ; dx_drawline3d p1, p2, color
-#cmd dx_drawtriangle3d     $1c1   ; dx_drawtriangle3d p1, p2, p3, color, fill
-#cmd dx_drawcube3dv        $1c2   ; dx_drawcube3dv p1, p2, difcol, spccol, fill (VECTOR 版、既存 dx_drawcube3d と別)
-#cmd dx_drawcapsule3d      $1c3   ; dx_drawcapsule3d p1, p2, r, divnum, difcol, spccol, fill
-#cmd dx_drawcone3d         $1c4   ; dx_drawcone3d top, bottom, r, divnum, difcol, spccol, fill
+;  ---- Phase 5.5b の VECTOR 3D プリミティブは Phase 5.5l で廃止 ----
+;      auto-gen の dx_DrawLine3D / dx_DrawTriangle3D / dx_DrawCapsule3D /
+;      dx_DrawCone3D / dx_DrawCube3D が全く同じ引数仕様で使える。
+
+;  ---- Phase 5.5k: DxLib コールバック (静的スロット方式) ----
+;  HSP 側は通常のラベルを渡す。dx_SetASyncLoadFinishCallback は handle 引数あり。
+#cmd dx_SetRestoreGraphCallback         $1d0   ; dx_SetRestoreGraphCallback *label
+#cmd dx_SetRestoreShredPoint            $1d1   ; dx_SetRestoreShredPoint *label
+#cmd dx_SetGraphicsDeviceRestoreCallback $1d2  ; dx_SetGraphicsDeviceRestoreCallback *label
+#cmd dx_SetGraphicsDeviceLostCallback   $1d3   ; dx_SetGraphicsDeviceLostCallback *label
+#cmd dx_SetASyncLoadFinishCallback      $1d4   ; dx_SetASyncLoadFinishCallback handle, *label
 
 #endif

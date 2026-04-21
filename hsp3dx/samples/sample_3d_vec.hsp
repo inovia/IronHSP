@@ -1,7 +1,7 @@
 ;============================================================
 ;   sample_3d_vec.hsp — Phase 5.5b: VECTOR (#defstruct) で 3D プリミティブ
 ;
-;   dx_drawline3d / drawtriangle3d / drawcube3dv / drawcapsule3d /
+;   dx_DrawLine3D / drawtriangle3d / drawcube3dv / drawcapsule3d /
 ;   drawcone3d は VECTOR 型 (#defstruct で float x/y/z) を受け取る。
 ;============================================================
 #bootopt hsp64 1
@@ -17,7 +17,7 @@
     title "hsp3dx sample: VECTOR 3D"
     screen 0, 640, 480
     dx_setzbuffer 1
-    dx_setuselighting 1
+    dx_SetUseLighting 1
     dx_setlightdir 0.3, -0.5, 0.8
 
     ;  ---- VECTOR 変数の用意 ----
@@ -42,27 +42,27 @@
         a->x = -100.0 : a->y =  0.0 : a->z = 0.0
         b->x =  100.0 : b->y =  0.0 : b->z = 0.0
         c->x =    0.0 : c->y = 150.0 : c->z = 0.0
-        dx_drawtriangle3d a, b, c, 0xFFCC44, 1
+        dx_DrawTriangle3D a, b, c, 0xFFCC44, 1
 
         ;  ---- (2) Line (赤い軸) ----
         a->x = 0.0   : a->y = 0.0 : a->z = 0.0
         b->x = 250.0 : b->y = 0.0 : b->z = 0.0
-        dx_drawline3d a, b, 0xFF4040
+        dx_DrawLine3D a, b, 0xFF4040
 
         ;  ---- (3) カプセル ----
         a->x = -150.0 : a->y = -50.0 : a->z = 100.0
         b->x = -150.0 : b->y = 100.0 : b->z = 100.0
-        dx_drawcapsule3d a, b, 30.0, 12, 0x44AAFF, 0, 1
+        dx_DrawCapsule3D a, b, 30.0, 12, 0x44AAFF, 0, 1
 
         ;  ---- (4) Cone (円錐) ----
         a->x = 150.0 : a->y = 120.0 : a->z = 100.0
         b->x = 150.0 : b->y =   0.0 : b->z = 100.0
-        dx_drawcone3d a, b, 50.0, 16, 0x44FFAA, 0, 1
+        dx_DrawCone3D a, b, 50.0, 16, 0x44FFAA, 0, 1
 
         ;  ---- (5) Cube (立方体、VECTOR 2 点 = 対角) ----
         a->x = -50.0 : a->y = -120.0 : a->z = -50.0
         b->x =  50.0 : b->y =  -70.0 : b->z =  50.0
-        dx_drawcube3dv a, b, 0xAA88FF, 0, 1
+        dx_DrawCube3D a, b, 0xAA88FF, 0, 1
 
         ;  2D HUD は 3D 描画後に
         color 255, 220, 80

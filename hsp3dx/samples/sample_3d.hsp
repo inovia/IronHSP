@@ -1,6 +1,6 @@
 ;============================================================
 ;   sample_3d.hsp — Phase 5.2 3D プリミティブデモ
-;   dx_setcamerapos / dx_setcameraperspective / dx_drawsphere3d / dx_drawcube3d
+;   dx_setcamerapos / dx_setcameraperspective / dx_drawsphere3d_s / dx_drawcube3d_s
 ;
 ;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_3d.hsp
 ;============================================================
@@ -17,8 +17,8 @@
     dx_setcameraperspective 60.0
 
     ;  照明を OFF にして DifColor をフラット表示 (立体感より色優先のデモ用)
-    ;  ON にしたい場合は dx_setuselighting 1 + dx_setlightdir で調整
-    dx_setuselighting 0
+    ;  ON にしたい場合は dx_SetUseLighting 1 + dx_setlightdir で調整
+    dx_SetUseLighting 0
 
     ;  Z バッファ ON: 奥のオブジェクトが前のオブジェクトに隠れるように
     dx_setzbuffer 1
@@ -40,7 +40,7 @@
     dx_setcamerapos cx, cy, cz, 0, 20, 0  ; やや上目を注視
 
     ;  ---- 中央に赤い球 ----
-    dx_drawsphere3d 0, 0, 0, 60, 20, 0xFF5050, 0x000000, 1
+    dx_drawsphere3d_s 0, 0, 0, 60, 20, 0xFF5050, 0x000000, 1
 
     ;  ---- 周囲に 6 個の色付きキューブ ----
     repeat 6
@@ -55,11 +55,11 @@
         if cnt = 3 : col = 0xFF40FF
         if cnt = 4 : col = 0xFFFF40
         if cnt = 5 : col = 0xFF4040
-        dx_drawcube3d x - 25, y - 25, z - 25, x + 25, y + 25, z + 25, col, 0x000000, 1
+        dx_drawcube3d_s x - 25, y - 25, z - 25, x + 25, y + 25, z + 25, col, 0x000000, 1
     loop
 
     ;  ---- 下に緑の地面キューブ (大きく薄い) ----
-    dx_drawcube3d -300, -80, -300, 300, -60, 300, 0x206040, 0x000000, 1
+    dx_drawcube3d_s -300, -80, -300, 300, -60, 300, 0x206040, 0x000000, 1
 
     ;  ---- 2D 文字 HUD (3D 上にオーバーレイ) ----
     color 255, 255, 255

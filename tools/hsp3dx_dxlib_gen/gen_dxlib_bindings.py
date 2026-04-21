@@ -132,10 +132,12 @@ KIND_TO_CTYPE = {
     'struct_FLOAT4':   'FLOAT4',
 }
 
-# Skip list: 既に hand-written で実装済、または名前空間かぶりを避ける、
-# または VS x64 ビルドに含まれていない (DxLib.h に宣言だけある) 関数
+# Skip list: auto-gen から除外する関数名
+# 除外理由は以下のいずれか:
+#   (A) VS x64 ビルドで .lib に実体が無い (リンクエラー)
+#   (B) hsp3dx ランタイムのライフサイクル管理側で呼ぶため直接公開しない
 SKIP_NAMES = {
-    # VS x64 ビルドで未定義シンボル (2026-04-21 ビルドで発覚)
+    # --- (A) 未定義シンボル ---
     'MailApp_Send',
     'SetProxySetting', 'SetIEProxySetting',
     'CheckNetWorkSendUDP',
@@ -143,36 +145,12 @@ SKIP_NAMES = {
     'HTTP_GetDownloadedFileSize', 'HTTP_GetError', 'HTTP_GetFileSize',
     'HTTP_GetState', 'HTTP_StartGetFileSize',
     'URLConvert', 'URLAnalys', 'fgetsForNetHandle',
-    'GetProxySetting',  # out-param 版、既存 SetProxySetting と同じく無効化
-    # Phase 1/5.1/5.2 で手書き実装済
-    'DrawPixel', 'DrawCircle', 'DrawBox', 'DrawLine', 'DrawGraph',
-    'DrawRotaGraph', 'DrawRectGraph', 'DrawExtendGraph', 'DrawString',
-    'DrawCircleAA', 'DrawLineAA', 'DrawBoxAA', 'DrawTriangle',
-    'DrawModiGraph', 'DrawRectRotaGraph',
-    'LoadGraph', 'LoadSoundMem', 'MakeScreen', 'DeleteGraph',
-    'PlaySoundMem', 'StopSoundMem', 'DeleteSoundMem',
-    'SetVolumeSoundMem', 'SetPanSoundMem', 'CheckSoundMem',
-    'DrawCube3D', 'DrawSphere3D',
-    # Phase 5.5b 手書き VECTOR 版 (dx_drawline3d など) と重複回避
-    'DrawLine3D', 'DrawTriangle3D', 'DrawCapsule3D', 'DrawCone3D',
-    'SetCameraPositionAndTarget_UpVecY', 'SetupCamera_Perspective',
-    'MV1LoadModel', 'MV1DrawModel', 'MV1SetPosition', 'MV1SetRotationXYZ',
-    'MV1SetScale', 'MV1DeleteModel',
-    'GetColor', 'GetJoypadInputState', 'GetJoypadAnalogInput',
-    'CheckHitKey', 'GetMousePoint', 'GetMouseInput', 'SetMousePoint',
-    'ClearDrawScreen', 'ScreenFlip', 'DxLib_Init', 'DxLib_End',
-    'ProcessMessage', 'SetDrawScreen',
-    'SetMainWindowText', 'SetWindowText', 'SetGraphMode',
-    'ChangeWindowMode', 'SetBackgroundColor',
-    'CreateFontToHandle', 'ChangeFont', 'SetFontSize', 'SetFontThickness',
-    'SetUseLighting', 'SetLightDirection',
-    'SetUseZBuffer3D', 'SetWriteZBuffer3D',
-    'SetUseCharCodeFormat', 'SetWaitVSyncFlag',
-    'SetDrawMode', 'SetDrawBright', 'SetDrawBlendMode',
-    'GetMainWindowHandle', 'GetGraphSize',
-    'PlayMovieToGraph', 'PauseMovieToGraph',
-    'SaveDrawScreen',
-    # 戻り値を ctx->stat に入れるだけで意味が取れない (refstr/refdval 必要) ものも後で
+    'GetProxySetting',
+
+    # --- (B) hsp3dx ランタイム専管 ---
+    #  DxLib_Init / DxLib_End: hgio_dx_init/term が呼ぶ (ユーザが呼ぶと壊れる)
+    #  ProcessMessage: ランタイムのメインループが呼んでいる
+    'DxLib_Init', 'DxLib_End', 'ProcessMessage',
 }
 
 

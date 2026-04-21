@@ -1,7 +1,7 @@
 //
 //  hsp3dx_dxlib_auto.cpp — Phase 5.3 自動生成 DxLib binding dispatcher
 //  DO NOT EDIT — tools/hsp3dx_dxlib_gen/gen_dxlib_bindings.py で再生成
-//  関数数: 1585
+//  関数数: 1650
 //
 //  hsp3dx_extcmd.cpp の cmdfunc_extcmd() から以下で呼ばれる:
 //      if ( hsp3dx_dxlib_auto_dispatch( cmd, ctx ) ) return RUNMODE_RUN;
@@ -364,17 +364,39 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetMouseDispIgnoreMenuFlag( _a0 );
         return 1;
     }
-    case 0x239: {  // GetMouseWheelRotVol  -> r_int
+    case 0x239: {  // GetMousePoint  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        int _a0 = 0;
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        int _a1 = 0;
+        ctx->stat = GetMousePoint( &_a0, &_a1 );
+        code_setva( _a0_pv, _a0_ap, TYPE_INUM, &_a0 );
+        code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
+        return 1;
+    }
+    case 0x23a: {  // SetMousePoint  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetMousePoint( _a0, _a1 );
+        return 1;
+    }
+    case 0x23b: {  // GetMouseInput  -> r_int
+        ctx->stat = GetMouseInput(  );
+        return 1;
+    }
+    case 0x23c: {  // GetMouseWheelRotVol  -> r_int
         int _a0 = hsp3dx_auto_geti( 1 );
         ctx->stat = GetMouseWheelRotVol( _a0 );
         return 1;
     }
-    case 0x23a: {  // GetMouseHWheelRotVol  -> r_int
+    case 0x23d: {  // GetMouseHWheelRotVol  -> r_int
         int _a0 = hsp3dx_auto_geti( 1 );
         ctx->stat = GetMouseHWheelRotVol( _a0 );
         return 1;
     }
-    case 0x23b: {  // GetMouseWheelRotVolF  -> r_float
+    case 0x23e: {  // GetMouseWheelRotVolF  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 1 );
@@ -383,7 +405,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x23c: {  // GetMouseHWheelRotVolF  -> r_float
+    case 0x23f: {  // GetMouseHWheelRotVolF  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 1 );
@@ -392,7 +414,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x23d: {  // GetMouseInputLog  -> r_int
+    case 0x240: {  // GetMouseInputLog  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -409,7 +431,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x23e: {  // GetMouseInputLog2  -> r_int
+    case 0x241: {  // GetMouseInputLog2  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -430,11 +452,11 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_INUM, &_a3 );
         return 1;
     }
-    case 0x23f: {  // GetTouchInputNum  -> r_int
+    case 0x242: {  // GetTouchInputNum  -> r_int
         ctx->stat = GetTouchInputNum(  );
         return 1;
     }
-    case 0x240: {  // GetTouchInput  -> r_int
+    case 0x243: {  // GetTouchInput  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -460,62 +482,62 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a5_pv, _a5_ap, TYPE_DNUM, &_a5_d );
         return 1;
     }
-    case 0x241: {  // GetTouchInputLogNum  -> r_int
+    case 0x244: {  // GetTouchInputLogNum  -> r_int
         ctx->stat = GetTouchInputLogNum(  );
         return 1;
     }
-    case 0x242: {  // ClearTouchInputLog  -> r_int
+    case 0x245: {  // ClearTouchInputLog  -> r_int
         ctx->stat = ClearTouchInputLog(  );
         return 1;
     }
-    case 0x243: {  // GetTouchInputDownLogNum  -> r_int
+    case 0x246: {  // GetTouchInputDownLogNum  -> r_int
         ctx->stat = GetTouchInputDownLogNum(  );
         return 1;
     }
-    case 0x244: {  // ClearTouchInputDownLog  -> r_int
+    case 0x247: {  // ClearTouchInputDownLog  -> r_int
         ctx->stat = ClearTouchInputDownLog(  );
         return 1;
     }
-    case 0x245: {  // GetTouchInputUpLogNum  -> r_int
+    case 0x248: {  // GetTouchInputUpLogNum  -> r_int
         ctx->stat = GetTouchInputUpLogNum(  );
         return 1;
     }
-    case 0x246: {  // ClearTouchInputUpLog  -> r_int
+    case 0x249: {  // ClearTouchInputUpLog  -> r_int
         ctx->stat = ClearTouchInputUpLog(  );
         return 1;
     }
-    case 0x247: {  // DxSetAllocPrintFlag  -> r_int
+    case 0x24a: {  // DxSetAllocPrintFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DxSetAllocPrintFlag( _a0 );
         return 1;
     }
-    case 0x248: {  // DxGetAllocNum  -> r_int
+    case 0x24b: {  // DxGetAllocNum  -> r_int
         ctx->stat = DxGetAllocNum(  );
         return 1;
     }
-    case 0x249: {  // DxErrorCheckAlloc  -> r_int
+    case 0x24c: {  // DxErrorCheckAlloc  -> r_int
         ctx->stat = DxErrorCheckAlloc(  );
         return 1;
     }
-    case 0x24a: {  // DxSetAllocSizeOutFlag  -> r_int
+    case 0x24d: {  // DxSetAllocSizeOutFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DxSetAllocSizeOutFlag( _a0 );
         return 1;
     }
-    case 0x24b: {  // DxSetAllocMemoryErrorCheckFlag  -> r_int
+    case 0x24e: {  // DxSetAllocMemoryErrorCheckFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DxSetAllocMemoryErrorCheckFlag( _a0 );
         return 1;
     }
-    case 0x24c: {  // GetUseCharCodeFormat  -> r_int
+    case 0x24f: {  // GetUseCharCodeFormat  -> r_int
         ctx->stat = GetUseCharCodeFormat(  );
         return 1;
     }
-    case 0x24d: {  // Get_wchar_t_CharCodeFormat  -> r_int
+    case 0x250: {  // Get_wchar_t_CharCodeFormat  -> r_int
         ctx->stat = Get_wchar_t_CharCodeFormat(  );
         return 1;
     }
-    case 0x24e: {  // strcmpDx  -> r_int
+    case 0x251: {  // strcmpDx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -525,7 +547,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = strcmpDx( _a0_w, _a1_w );
         return 1;
     }
-    case 0x24f: {  // stricmpDx  -> r_int
+    case 0x252: {  // stricmpDx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -535,7 +557,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = stricmpDx( _a0_w, _a1_w );
         return 1;
     }
-    case 0x250: {  // strncmpDx  -> r_int
+    case 0x253: {  // strncmpDx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -546,7 +568,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = strncmpDx( _a0_w, _a1_w, _a2 );
         return 1;
     }
-    case 0x251: {  // strncmp2Dx  -> r_int
+    case 0x254: {  // strncmp2Dx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -557,7 +579,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = strncmp2Dx( _a0_w, _a1_w, _a2 );
         return 1;
     }
-    case 0x252: {  // strpncmpDx  -> r_int
+    case 0x255: {  // strpncmpDx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -569,7 +591,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = strpncmpDx( _a0_w, _a1_w, _a2, _a3 );
         return 1;
     }
-    case 0x253: {  // strpncmp2Dx  -> r_int
+    case 0x256: {  // strpncmp2Dx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -581,7 +603,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = strpncmp2Dx( _a0_w, _a1_w, _a2, _a3 );
         return 1;
     }
-    case 0x254: {  // strstr2Dx  -> r_int
+    case 0x257: {  // strstr2Dx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -591,7 +613,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = strstr2Dx( _a0_w, _a1_w );
         return 1;
     }
-    case 0x255: {  // strrstr2Dx  -> r_int
+    case 0x258: {  // strrstr2Dx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -601,14 +623,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = strrstr2Dx( _a0_w, _a1_w );
         return 1;
     }
-    case 0x256: {  // atoiDx  -> r_int
+    case 0x259: {  // atoiDx  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = atoiDx( _a0_w );
         return 1;
     }
-    case 0x257: {  // atofDx  -> r_double
+    case 0x25a: {  // atofDx  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         const char *_a0_u8 = hsp3dx_auto_gets();
@@ -618,115 +640,115 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x258: {  // ProcessNetMessage  -> r_int
+    case 0x25b: {  // ProcessNetMessage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ProcessNetMessage( _a0 );
         return 1;
     }
-    case 0x259: {  // PreparationListenNetWork  -> r_int
+    case 0x25c: {  // PreparationListenNetWork  -> r_int
         int _a0 = hsp3dx_auto_geti( -1 );
         ctx->stat = PreparationListenNetWork( _a0 );
         return 1;
     }
-    case 0x25a: {  // PreparationListenNetWork_IPv6  -> r_int
+    case 0x25d: {  // PreparationListenNetWork_IPv6  -> r_int
         int _a0 = hsp3dx_auto_geti( -1 );
         ctx->stat = PreparationListenNetWork_IPv6( _a0 );
         return 1;
     }
-    case 0x25b: {  // StopListenNetWork  -> r_int
+    case 0x25e: {  // StopListenNetWork  -> r_int
         ctx->stat = StopListenNetWork(  );
         return 1;
     }
-    case 0x25c: {  // CloseNetWork  -> r_int
+    case 0x25f: {  // CloseNetWork  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CloseNetWork( _a0 );
         return 1;
     }
-    case 0x25d: {  // GetNetWorkAcceptState  -> r_int
+    case 0x260: {  // GetNetWorkAcceptState  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetNetWorkAcceptState( _a0 );
         return 1;
     }
-    case 0x25e: {  // GetNetWorkDataLength  -> r_int
+    case 0x261: {  // GetNetWorkDataLength  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetNetWorkDataLength( _a0 );
         return 1;
     }
-    case 0x25f: {  // GetNetWorkSendDataLength  -> r_int
+    case 0x262: {  // GetNetWorkSendDataLength  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetNetWorkSendDataLength( _a0 );
         return 1;
     }
-    case 0x260: {  // GetNewAcceptNetWork  -> r_int
+    case 0x263: {  // GetNewAcceptNetWork  -> r_int
         ctx->stat = GetNewAcceptNetWork(  );
         return 1;
     }
-    case 0x261: {  // GetLostNetWork  -> r_int
+    case 0x264: {  // GetLostNetWork  -> r_int
         ctx->stat = GetLostNetWork(  );
         return 1;
     }
-    case 0x262: {  // SetConnectTimeOutWait  -> r_int
+    case 0x265: {  // SetConnectTimeOutWait  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetConnectTimeOutWait( _a0 );
         return 1;
     }
-    case 0x263: {  // SetUseDXNetWorkProtocol  -> r_int
+    case 0x266: {  // SetUseDXNetWorkProtocol  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseDXNetWorkProtocol( _a0 );
         return 1;
     }
-    case 0x264: {  // GetUseDXNetWorkProtocol  -> r_int
+    case 0x267: {  // GetUseDXNetWorkProtocol  -> r_int
         ctx->stat = GetUseDXNetWorkProtocol(  );
         return 1;
     }
-    case 0x265: {  // SetUseDXProtocol  -> r_int
+    case 0x268: {  // SetUseDXProtocol  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseDXProtocol( _a0 );
         return 1;
     }
-    case 0x266: {  // GetUseDXProtocol  -> r_int
+    case 0x269: {  // GetUseDXProtocol  -> r_int
         ctx->stat = GetUseDXProtocol(  );
         return 1;
     }
-    case 0x267: {  // SetNetWorkCloseAfterLostFlag  -> r_int
+    case 0x26a: {  // SetNetWorkCloseAfterLostFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetNetWorkCloseAfterLostFlag( _a0 );
         return 1;
     }
-    case 0x268: {  // GetNetWorkCloseAfterLostFlag  -> r_int
+    case 0x26b: {  // GetNetWorkCloseAfterLostFlag  -> r_int
         ctx->stat = GetNetWorkCloseAfterLostFlag(  );
         return 1;
     }
-    case 0x269: {  // NetWorkRecvBufferClear  -> r_int
+    case 0x26c: {  // NetWorkRecvBufferClear  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = NetWorkRecvBufferClear( _a0 );
         return 1;
     }
-    case 0x26a: {  // MakeUDPSocket  -> r_int
+    case 0x26d: {  // MakeUDPSocket  -> r_int
         int _a0 = hsp3dx_auto_geti( -1 );
         ctx->stat = MakeUDPSocket( _a0 );
         return 1;
     }
-    case 0x26b: {  // MakeUDPSocket_IPv6  -> r_int
+    case 0x26e: {  // MakeUDPSocket_IPv6  -> r_int
         int _a0 = hsp3dx_auto_geti( -1 );
         ctx->stat = MakeUDPSocket_IPv6( _a0 );
         return 1;
     }
-    case 0x26c: {  // DeleteUDPSocket  -> r_int
+    case 0x26f: {  // DeleteUDPSocket  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteUDPSocket( _a0 );
         return 1;
     }
-    case 0x26d: {  // CheckNetWorkRecvUDP  -> r_int
+    case 0x270: {  // CheckNetWorkRecvUDP  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckNetWorkRecvUDP( _a0 );
         return 1;
     }
-    case 0x26e: {  // ClearInputCharBuf  -> r_int
+    case 0x271: {  // ClearInputCharBuf  -> r_int
         ctx->stat = ClearInputCharBuf(  );
         return 1;
     }
-    case 0x26f: {  // GetOneChar  -> r_int
+    case 0x272: {  // GetOneChar  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -734,7 +756,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetOneChar( _a0_w, _a1 );
         return 1;
     }
-    case 0x270: {  // GetOneCharWait  -> r_int
+    case 0x273: {  // GetOneCharWait  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -742,7 +764,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetOneCharWait( _a0_w, _a1 );
         return 1;
     }
-    case 0x271: {  // DrawIMEInputString  -> r_int
+    case 0x274: {  // DrawIMEInputString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -750,7 +772,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawIMEInputString( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x272: {  // DrawIMEInputExtendString  -> r_int
+    case 0x275: {  // DrawIMEInputExtendString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -760,26 +782,26 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawIMEInputExtendString( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x273: {  // SetUseIMEFlag  -> r_int
+    case 0x276: {  // SetUseIMEFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseIMEFlag( _a0 );
         return 1;
     }
-    case 0x274: {  // GetUseIMEFlag  -> r_int
+    case 0x277: {  // GetUseIMEFlag  -> r_int
         ctx->stat = GetUseIMEFlag(  );
         return 1;
     }
-    case 0x275: {  // SetInputStringMaxLengthIMESync  -> r_int
+    case 0x278: {  // SetInputStringMaxLengthIMESync  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetInputStringMaxLengthIMESync( _a0 );
         return 1;
     }
-    case 0x276: {  // SetIMEInputStringMaxLength  -> r_int
+    case 0x279: {  // SetIMEInputStringMaxLength  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetIMEInputStringMaxLength( _a0 );
         return 1;
     }
-    case 0x277: {  // GetStringPoint  -> r_int
+    case 0x27a: {  // GetStringPoint  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -787,7 +809,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetStringPoint( _a0_w, _a1 );
         return 1;
     }
-    case 0x278: {  // GetStringPoint2  -> r_int
+    case 0x27b: {  // GetStringPoint2  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -795,14 +817,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetStringPoint2( _a0_w, _a1 );
         return 1;
     }
-    case 0x279: {  // GetStringLength  -> r_int
+    case 0x27c: {  // GetStringLength  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = GetStringLength( _a0_w );
         return 1;
     }
-    case 0x27a: {  // DrawObtainsString  -> r_int
+    case 0x27d: {  // DrawObtainsString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -824,7 +846,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a12_pv, _a12_ap, TYPE_INUM, &_a12 );
         return 1;
     }
-    case 0x27b: {  // DrawObtainsString_CharClip  -> r_int
+    case 0x27e: {  // DrawObtainsString_CharClip  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -846,7 +868,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a12_pv, _a12_ap, TYPE_INUM, &_a12 );
         return 1;
     }
-    case 0x27c: {  // DrawObtainsString_WordClip  -> r_int
+    case 0x27f: {  // DrawObtainsString_WordClip  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -868,7 +890,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a12_pv, _a12_ap, TYPE_INUM, &_a12 );
         return 1;
     }
-    case 0x27d: {  // GetObtainsStringCharPosition  -> r_int
+    case 0x280: {  // GetObtainsStringCharPosition  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -892,7 +914,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a8_pv, _a8_ap, TYPE_INUM, &_a8 );
         return 1;
     }
-    case 0x27e: {  // GetObtainsStringCharPosition_CharClip  -> r_int
+    case 0x281: {  // GetObtainsStringCharPosition_CharClip  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -916,7 +938,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a8_pv, _a8_ap, TYPE_INUM, &_a8 );
         return 1;
     }
-    case 0x27f: {  // GetObtainsStringCharPosition_WordClip  -> r_int
+    case 0x282: {  // GetObtainsStringCharPosition_WordClip  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -940,7 +962,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a8_pv, _a8_ap, TYPE_INUM, &_a8 );
         return 1;
     }
-    case 0x280: {  // DrawObtainsBox  -> r_int
+    case 0x283: {  // DrawObtainsBox  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -951,7 +973,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawObtainsBox( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x281: {  // KeyInputNumber  -> r_int
+    case 0x284: {  // KeyInputNumber  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -960,64 +982,64 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = KeyInputNumber( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x282: {  // GetIMEInputModeStr  -> r_int
+    case 0x285: {  // GetIMEInputModeStr  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = GetIMEInputModeStr( _a0_w );
         return 1;
     }
-    case 0x283: {  // SetIMEInputString  -> r_int
+    case 0x286: {  // SetIMEInputString  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = SetIMEInputString( _a0_w );
         return 1;
     }
-    case 0x284: {  // SetKeyInputStringFont  -> r_int
+    case 0x287: {  // SetKeyInputStringFont  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputStringFont( _a0 );
         return 1;
     }
-    case 0x285: {  // DrawKeyInputModeString  -> r_int
+    case 0x288: {  // DrawKeyInputModeString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = DrawKeyInputModeString( _a0, _a1 );
         return 1;
     }
-    case 0x286: {  // InitKeyInput  -> r_int
+    case 0x289: {  // InitKeyInput  -> r_int
         ctx->stat = InitKeyInput(  );
         return 1;
     }
-    case 0x287: {  // DeleteKeyInput  -> r_int
+    case 0x28a: {  // DeleteKeyInput  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteKeyInput( _a0 );
         return 1;
     }
-    case 0x288: {  // SetActiveKeyInput  -> r_int
+    case 0x28b: {  // SetActiveKeyInput  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetActiveKeyInput( _a0 );
         return 1;
     }
-    case 0x289: {  // GetActiveKeyInput  -> r_int
+    case 0x28c: {  // GetActiveKeyInput  -> r_int
         ctx->stat = GetActiveKeyInput(  );
         return 1;
     }
-    case 0x28a: {  // CheckKeyInput  -> r_int
+    case 0x28d: {  // CheckKeyInput  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckKeyInput( _a0 );
         return 1;
     }
-    case 0x28b: {  // ReStartKeyInput  -> r_int
+    case 0x28e: {  // ReStartKeyInput  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ReStartKeyInput( _a0 );
         return 1;
     }
-    case 0x28c: {  // ProcessActKeyInput  -> r_int
+    case 0x28f: {  // ProcessActKeyInput  -> r_int
         ctx->stat = ProcessActKeyInput(  );
         return 1;
     }
-    case 0x28d: {  // DrawKeyInputString  -> r_int
+    case 0x290: {  // DrawKeyInputString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1025,7 +1047,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawKeyInputString( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x28e: {  // DrawKeyInputExtendString  -> r_int
+    case 0x291: {  // DrawKeyInputExtendString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -1035,7 +1057,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawKeyInputExtendString( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x28f: {  // SetKeyInputDrawArea  -> r_int
+    case 0x292: {  // SetKeyInputDrawArea  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1044,14 +1066,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetKeyInputDrawArea( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x290: {  // SetKeyInputSelectArea  -> r_int
+    case 0x293: {  // SetKeyInputSelectArea  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputSelectArea( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x291: {  // GetKeyInputSelectArea  -> r_int
+    case 0x294: {  // GetKeyInputSelectArea  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -1064,28 +1086,28 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x292: {  // SetKeyInputDrawStartPos  -> r_int
+    case 0x295: {  // SetKeyInputDrawStartPos  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputDrawStartPos( _a0, _a1 );
         return 1;
     }
-    case 0x293: {  // GetKeyInputDrawStartPos  -> r_int
+    case 0x296: {  // GetKeyInputDrawStartPos  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetKeyInputDrawStartPos( _a0 );
         return 1;
     }
-    case 0x294: {  // SetKeyInputCursorBrinkTime  -> r_int
+    case 0x297: {  // SetKeyInputCursorBrinkTime  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputCursorBrinkTime( _a0 );
         return 1;
     }
-    case 0x295: {  // SetKeyInputCursorBrinkFlag  -> r_int
+    case 0x298: {  // SetKeyInputCursorBrinkFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputCursorBrinkFlag( _a0 );
         return 1;
     }
-    case 0x296: {  // SetKeyInputString  -> r_int
+    case 0x299: {  // SetKeyInputString  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1093,19 +1115,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetKeyInputString( _a0_w, _a1 );
         return 1;
     }
-    case 0x297: {  // SetKeyInputNumber  -> r_int
+    case 0x29a: {  // SetKeyInputNumber  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputNumber( _a0, _a1 );
         return 1;
     }
-    case 0x298: {  // SetKeyInputNumberToFloat  -> r_int
+    case 0x29b: {  // SetKeyInputNumberToFloat  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputNumberToFloat( _a0, _a1 );
         return 1;
     }
-    case 0x299: {  // GetKeyInputString  -> r_int
+    case 0x29c: {  // GetKeyInputString  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1113,12 +1135,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetKeyInputString( _a0_w, _a1 );
         return 1;
     }
-    case 0x29a: {  // GetKeyInputNumber  -> r_int
+    case 0x29d: {  // GetKeyInputNumber  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetKeyInputNumber( _a0 );
         return 1;
     }
-    case 0x29b: {  // GetKeyInputNumberToFloat  -> r_float
+    case 0x29e: {  // GetKeyInputNumberToFloat  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -1127,18 +1149,18 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x29c: {  // SetKeyInputCursorPosition  -> r_int
+    case 0x29f: {  // SetKeyInputCursorPosition  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetKeyInputCursorPosition( _a0, _a1 );
         return 1;
     }
-    case 0x29d: {  // GetKeyInputCursorPosition  -> r_int
+    case 0x2a0: {  // GetKeyInputCursorPosition  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetKeyInputCursorPosition( _a0 );
         return 1;
     }
-    case 0x29e: {  // FileRead_open  -> r_int
+    case 0x2a1: {  // FileRead_open  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1146,7 +1168,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = FileRead_open( _a0_w, _a1 );
         return 1;
     }
-    case 0x29f: {  // FileRead_size  -> r_int64
+    case 0x2a2: {  // FileRead_size  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         const char *_a0_u8 = hsp3dx_auto_gets();
@@ -1157,7 +1179,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x2a0: {  // FileRead_size_handle  -> r_int64
+    case 0x2a3: {  // FileRead_size_handle  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -1166,12 +1188,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x2a1: {  // FileRead_close  -> r_int
+    case 0x2a4: {  // FileRead_close  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = FileRead_close( _a0 );
         return 1;
     }
-    case 0x2a2: {  // FileRead_tell  -> r_int64
+    case 0x2a5: {  // FileRead_tell  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -1180,24 +1202,24 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x2a3: {  // FileRead_seek  -> r_int
+    case 0x2a6: {  // FileRead_seek  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         LONGLONG _a1 = (LONGLONG)code_geti64();
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = FileRead_seek( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x2a4: {  // FileRead_idle_chk  -> r_int
+    case 0x2a7: {  // FileRead_idle_chk  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = FileRead_idle_chk( _a0 );
         return 1;
     }
-    case 0x2a5: {  // FileRead_eof  -> r_int
+    case 0x2a8: {  // FileRead_eof  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = FileRead_eof( _a0 );
         return 1;
     }
-    case 0x2a6: {  // FileRead_gets  -> r_int
+    case 0x2a9: {  // FileRead_gets  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1206,19 +1228,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = FileRead_gets( _a0_w, _a1, _a2 );
         return 1;
     }
-    case 0x2a7: {  // FileRead_fullyLoad  -> r_int
+    case 0x2aa: {  // FileRead_fullyLoad  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = FileRead_fullyLoad( _a0_w );
         return 1;
     }
-    case 0x2a8: {  // FileRead_fullyLoad_delete  -> r_int
+    case 0x2ab: {  // FileRead_fullyLoad_delete  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = FileRead_fullyLoad_delete( _a0 );
         return 1;
     }
-    case 0x2a9: {  // FileRead_fullyLoad_getSize  -> r_int64
+    case 0x2ac: {  // FileRead_fullyLoad_getSize  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -1227,11 +1249,11 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x2aa: {  // GetStreamFunctionDefault  -> r_int
+    case 0x2ad: {  // GetStreamFunctionDefault  -> r_int
         ctx->stat = GetStreamFunctionDefault(  );
         return 1;
     }
-    case 0x2ab: {  // ConvertFullPath  -> r_int
+    case 0x2ae: {  // ConvertFullPath  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1244,12 +1266,17 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ConvertFullPath( _a0_w, _a1_w, _a2_w );
         return 1;
     }
-    case 0x2ac: {  // CheckHitKeyAll  -> r_int
+    case 0x2af: {  // CheckHitKey  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = CheckHitKey( _a0 );
+        return 1;
+    }
+    case 0x2b0: {  // CheckHitKeyAll  -> r_int
         int _a0 = hsp3dx_auto_geti( DX_CHECKINPUT_ALL );
         ctx->stat = CheckHitKeyAll( _a0 );
         return 1;
     }
-    case 0x2ad: {  // GetHitKeyStateAllEx  -> r_int
+    case 0x2b1: {  // GetHitKeyStateAllEx  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -1257,16 +1284,34 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a0_pv, _a0_ap, TYPE_INUM, &_a0 );
         return 1;
     }
-    case 0x2ae: {  // GetJoypadNum  -> r_int
+    case 0x2b2: {  // GetJoypadNum  -> r_int
         ctx->stat = GetJoypadNum(  );
         return 1;
     }
-    case 0x2af: {  // GetJoypadButtonNum  -> r_int
+    case 0x2b3: {  // GetJoypadButtonNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetJoypadButtonNum( _a0 );
         return 1;
     }
-    case 0x2b0: {  // GetJoypadAnalogInputRight  -> r_int
+    case 0x2b4: {  // GetJoypadInputState  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = GetJoypadInputState( _a0 );
+        return 1;
+    }
+    case 0x2b5: {  // GetJoypadAnalogInput  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        int _a0 = 0;
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        int _a1 = 0;
+        int _a2 = hsp3dx_auto_geti( 0 );
+        ctx->stat = GetJoypadAnalogInput( &_a0, &_a1, _a2 );
+        code_setva( _a0_pv, _a0_ap, TYPE_INUM, &_a0 );
+        code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
+        return 1;
+    }
+    case 0x2b6: {  // GetJoypadAnalogInputRight  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -1279,17 +1324,17 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x2b1: {  // CheckJoypadXInput  -> r_int
+    case 0x2b7: {  // CheckJoypadXInput  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckJoypadXInput( _a0 );
         return 1;
     }
-    case 0x2b2: {  // GetJoypadType  -> r_int
+    case 0x2b8: {  // GetJoypadType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetJoypadType( _a0 );
         return 1;
     }
-    case 0x2b3: {  // SetJoypadInputToKeyInput  -> r_int
+    case 0x2b9: {  // SetJoypadInputToKeyInput  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1299,13 +1344,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetJoypadInputToKeyInput( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x2b4: {  // SetJoypadDeadZone  -> r_int
+    case 0x2ba: {  // SetJoypadDeadZone  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         double _a1 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetJoypadDeadZone( _a0, _a1 );
         return 1;
     }
-    case 0x2b5: {  // GetJoypadDeadZone  -> r_double
+    case 0x2bb: {  // GetJoypadDeadZone  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -1313,19 +1358,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x2b6: {  // SetJoypadDefaultDeadZoneAll  -> r_int
+    case 0x2bc: {  // SetJoypadDefaultDeadZoneAll  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetJoypadDefaultDeadZoneAll( _a0 );
         return 1;
     }
-    case 0x2b7: {  // GetJoypadDefaultDeadZoneAll  -> r_double
+    case 0x2bd: {  // GetJoypadDefaultDeadZoneAll  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetJoypadDefaultDeadZoneAll(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x2b8: {  // StartJoypadVibration  -> r_int
+    case 0x2be: {  // StartJoypadVibration  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1333,39 +1378,46 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = StartJoypadVibration( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x2b9: {  // StopJoypadVibration  -> r_int
+    case 0x2bf: {  // StopJoypadVibration  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( -1 );
         ctx->stat = StopJoypadVibration( _a0, _a1 );
         return 1;
     }
-    case 0x2ba: {  // GetJoypadPOVState  -> r_int
+    case 0x2c0: {  // GetJoypadPOVState  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetJoypadPOVState( _a0, _a1 );
         return 1;
     }
-    case 0x2bb: {  // ReSetupJoypad  -> r_int
+    case 0x2c1: {  // ReSetupJoypad  -> r_int
         ctx->stat = ReSetupJoypad(  );
         return 1;
     }
-    case 0x2bc: {  // ReSetupInputSystem  -> r_int
+    case 0x2c2: {  // ReSetupInputSystem  -> r_int
         ctx->stat = ReSetupInputSystem(  );
         return 1;
     }
-    case 0x2bd: {  // SetUseJoypadVibrationFlag  -> r_int
+    case 0x2c3: {  // SetUseJoypadVibrationFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseJoypadVibrationFlag( _a0 );
         return 1;
     }
-    case 0x2be: {  // MakeGraph  -> r_int
+    case 0x2c4: {  // MakeGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeGraph( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x2bf: {  // DerivationGraph  -> r_int
+    case 0x2c5: {  // MakeScreen  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        ctx->stat = MakeScreen( _a0, _a1, _a2 );
+        return 1;
+    }
+    case 0x2c6: {  // DerivationGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1374,7 +1426,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DerivationGraph( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x2c0: {  // DerivationGraphF  -> r_int
+    case 0x2c7: {  // DerivationGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -1383,16 +1435,21 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DerivationGraphF( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x2c1: {  // DeleteSharingGraph  -> r_int
+    case 0x2c8: {  // DeleteGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DeleteGraph( _a0 );
+        return 1;
+    }
+    case 0x2c9: {  // DeleteSharingGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteSharingGraph( _a0 );
         return 1;
     }
-    case 0x2c2: {  // GetGraphNum  -> r_int
+    case 0x2ca: {  // GetGraphNum  -> r_int
         ctx->stat = GetGraphNum(  );
         return 1;
     }
-    case 0x2c3: {  // FillGraph  -> r_int
+    case 0x2cb: {  // FillGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1401,7 +1458,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = FillGraph( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x2c4: {  // FillRectGraph  -> r_int
+    case 0x2cc: {  // FillRectGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1414,7 +1471,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = FillRectGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x2c5: {  // SetGraphLostFlag  -> r_int
+    case 0x2cd: {  // SetGraphLostFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -1423,26 +1480,26 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x2c6: {  // InitGraph  -> r_int
+    case 0x2ce: {  // InitGraph  -> r_int
         ctx->stat = InitGraph(  );
         return 1;
     }
-    case 0x2c7: {  // ReloadFileGraphAll  -> r_int
+    case 0x2cf: {  // ReloadFileGraphAll  -> r_int
         ctx->stat = ReloadFileGraphAll(  );
         return 1;
     }
-    case 0x2c8: {  // MakeShadowMap  -> r_int
+    case 0x2d0: {  // MakeShadowMap  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeShadowMap( _a0, _a1 );
         return 1;
     }
-    case 0x2c9: {  // DeleteShadowMap  -> r_int
+    case 0x2d1: {  // DeleteShadowMap  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteShadowMap( _a0 );
         return 1;
     }
-    case 0x2ca: {  // SetShadowMapLightDirection  -> r_int
+    case 0x2d2: {  // SetShadowMapLightDirection  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -1453,22 +1510,22 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetShadowMapLightDirection( _a0, _a1 );
         return 1;
     }
-    case 0x2cb: {  // ShadowMap_DrawSetup  -> r_int
+    case 0x2d3: {  // ShadowMap_DrawSetup  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ShadowMap_DrawSetup( _a0 );
         return 1;
     }
-    case 0x2cc: {  // ShadowMap_DrawEnd  -> r_int
+    case 0x2d4: {  // ShadowMap_DrawEnd  -> r_int
         ctx->stat = ShadowMap_DrawEnd(  );
         return 1;
     }
-    case 0x2cd: {  // SetUseShadowMap  -> r_int
+    case 0x2d5: {  // SetUseShadowMap  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseShadowMap( _a0, _a1 );
         return 1;
     }
-    case 0x2ce: {  // SetShadowMapDrawArea  -> r_int
+    case 0x2d6: {  // SetShadowMapDrawArea  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -1485,18 +1542,18 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetShadowMapDrawArea( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x2cf: {  // ResetShadowMapDrawArea  -> r_int
+    case 0x2d7: {  // ResetShadowMapDrawArea  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetShadowMapDrawArea( _a0 );
         return 1;
     }
-    case 0x2d0: {  // SetShadowMapAdjustDepth  -> r_int
+    case 0x2d8: {  // SetShadowMapAdjustDepth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetShadowMapAdjustDepth( _a0, _a1 );
         return 1;
     }
-    case 0x2d1: {  // GetShadowMapViewProjectionMatrix  -> r_int
+    case 0x2d9: {  // GetShadowMapViewProjectionMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -1506,7 +1563,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetShadowMapViewProjectionMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x2d2: {  // TestDrawShadowMap  -> r_int
+    case 0x2da: {  // TestDrawShadowMap  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1515,7 +1572,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = TestDrawShadowMap( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x2d3: {  // LoadBmpToGraph  -> r_int
+    case 0x2db: {  // LoadBmpToGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1525,7 +1582,15 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = LoadBmpToGraph( _a0_w, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x2d4: {  // LoadReverseGraph  -> r_int
+    case 0x2dc: {  // LoadGraph  -> r_int
+        const char *_a0_u8 = hsp3dx_auto_gets();
+        wchar_t _a0_w[1024];
+        hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        ctx->stat = LoadGraph( _a0_w, _a1 );
+        return 1;
+    }
+    case 0x2dd: {  // LoadReverseGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1533,7 +1598,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = LoadReverseGraph( _a0_w, _a1 );
         return 1;
     }
-    case 0x2d5: {  // LoadDivGraph  -> r_int
+    case 0x2de: {  // LoadDivGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1552,7 +1617,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2d6: {  // LoadDivGraphF  -> r_int
+    case 0x2df: {  // LoadDivGraphF  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1571,7 +1636,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2d7: {  // LoadDivBmpToGraph  -> r_int
+    case 0x2e0: {  // LoadDivBmpToGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1591,7 +1656,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2d8: {  // LoadDivBmpToGraphF  -> r_int
+    case 0x2e1: {  // LoadDivBmpToGraphF  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1611,7 +1676,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2d9: {  // LoadReverseDivGraph  -> r_int
+    case 0x2e2: {  // LoadReverseDivGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1630,7 +1695,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2da: {  // LoadReverseDivGraphF  -> r_int
+    case 0x2e3: {  // LoadReverseDivGraphF  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1649,24 +1714,24 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2db: {  // LoadBlendGraph  -> r_int
+    case 0x2e4: {  // LoadBlendGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadBlendGraph( _a0_w );
         return 1;
     }
-    case 0x2dc: {  // CreateBlendGraphFromSoftImage  -> r_int
+    case 0x2e5: {  // CreateBlendGraphFromSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CreateBlendGraphFromSoftImage( _a0 );
         return 1;
     }
-    case 0x2dd: {  // CreateGraphFromSoftImage  -> r_int
+    case 0x2e6: {  // CreateGraphFromSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CreateGraphFromSoftImage( _a0 );
         return 1;
     }
-    case 0x2de: {  // CreateGraphFromRectSoftImage  -> r_int
+    case 0x2e7: {  // CreateGraphFromRectSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1675,13 +1740,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateGraphFromRectSoftImage( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x2df: {  // ReCreateGraphFromSoftImage  -> r_int
+    case 0x2e8: {  // ReCreateGraphFromSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ReCreateGraphFromSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x2e0: {  // ReCreateGraphFromRectSoftImage  -> r_int
+    case 0x2e9: {  // ReCreateGraphFromRectSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1691,7 +1756,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ReCreateGraphFromRectSoftImage( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x2e1: {  // CreateDivGraphFromSoftImage  -> r_int
+    case 0x2ea: {  // CreateDivGraphFromSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1705,7 +1770,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2e2: {  // CreateDivGraphFFromSoftImage  -> r_int
+    case 0x2eb: {  // CreateDivGraphFFromSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1719,7 +1784,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2e3: {  // ReCreateDivGraphFromSoftImage  -> r_int
+    case 0x2ec: {  // ReCreateDivGraphFromSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1733,7 +1798,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2e4: {  // ReCreateDivGraphFFromSoftImage  -> r_int
+    case 0x2ed: {  // ReCreateDivGraphFFromSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -1747,7 +1812,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2e5: {  // ReloadGraph  -> r_int
+    case 0x2ee: {  // ReloadGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1756,7 +1821,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ReloadGraph( _a0_w, _a1, _a2 );
         return 1;
     }
-    case 0x2e6: {  // ReloadDivGraph  -> r_int
+    case 0x2ef: {  // ReloadDivGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1773,7 +1838,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2e7: {  // ReloadDivGraphF  -> r_int
+    case 0x2f0: {  // ReloadDivGraphF  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1790,7 +1855,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2e8: {  // ReloadReverseGraph  -> r_int
+    case 0x2f1: {  // ReloadReverseGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1798,7 +1863,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ReloadReverseGraph( _a0_w, _a1 );
         return 1;
     }
-    case 0x2e9: {  // ReloadReverseDivGraph  -> r_int
+    case 0x2f2: {  // ReloadReverseDivGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1814,7 +1879,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2ea: {  // ReloadReverseDivGraphF  -> r_int
+    case 0x2f3: {  // ReloadReverseDivGraphF  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -1830,52 +1895,52 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x2eb: {  // SetGraphColorBitDepth  -> r_int
+    case 0x2f4: {  // SetGraphColorBitDepth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetGraphColorBitDepth( _a0 );
         return 1;
     }
-    case 0x2ec: {  // GetGraphColorBitDepth  -> r_int
+    case 0x2f5: {  // GetGraphColorBitDepth  -> r_int
         ctx->stat = GetGraphColorBitDepth(  );
         return 1;
     }
-    case 0x2ed: {  // SetCreateGraphColorBitDepth  -> r_int
+    case 0x2f6: {  // SetCreateGraphColorBitDepth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateGraphColorBitDepth( _a0 );
         return 1;
     }
-    case 0x2ee: {  // GetCreateGraphColorBitDepth  -> r_int
+    case 0x2f7: {  // GetCreateGraphColorBitDepth  -> r_int
         ctx->stat = GetCreateGraphColorBitDepth(  );
         return 1;
     }
-    case 0x2ef: {  // SetCreateGraphChannelBitDepth  -> r_int
+    case 0x2f8: {  // SetCreateGraphChannelBitDepth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateGraphChannelBitDepth( _a0 );
         return 1;
     }
-    case 0x2f0: {  // GetCreateGraphChannelBitDepth  -> r_int
+    case 0x2f9: {  // GetCreateGraphChannelBitDepth  -> r_int
         ctx->stat = GetCreateGraphChannelBitDepth(  );
         return 1;
     }
-    case 0x2f1: {  // SetCreateGraphInitGraphDelete  -> r_int
+    case 0x2fa: {  // SetCreateGraphInitGraphDelete  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateGraphInitGraphDelete( _a0 );
         return 1;
     }
-    case 0x2f2: {  // GetCreateGraphInitGraphDelete  -> r_int
+    case 0x2fb: {  // GetCreateGraphInitGraphDelete  -> r_int
         ctx->stat = GetCreateGraphInitGraphDelete(  );
         return 1;
     }
-    case 0x2f3: {  // SetCreateGraphHandle  -> r_int
+    case 0x2fc: {  // SetCreateGraphHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateGraphHandle( _a0 );
         return 1;
     }
-    case 0x2f4: {  // GetCreateGraphHandle  -> r_int
+    case 0x2fd: {  // GetCreateGraphHandle  -> r_int
         ctx->stat = GetCreateGraphHandle(  );
         return 1;
     }
-    case 0x2f5: {  // SetCreateDivGraphHandle  -> r_int
+    case 0x2fe: {  // SetCreateDivGraphHandle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -1884,7 +1949,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a0_pv, _a0_ap, TYPE_INUM, &_a0 );
         return 1;
     }
-    case 0x2f6: {  // GetCreateDivGraphHandle  -> r_int
+    case 0x2ff: {  // GetCreateDivGraphHandle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -1892,196 +1957,196 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a0_pv, _a0_ap, TYPE_INUM, &_a0 );
         return 1;
     }
-    case 0x2f7: {  // SetDrawValidGraphCreateFlag  -> r_int
+    case 0x300: {  // SetDrawValidGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawValidGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x2f8: {  // GetDrawValidGraphCreateFlag  -> r_int
+    case 0x301: {  // GetDrawValidGraphCreateFlag  -> r_int
         ctx->stat = GetDrawValidGraphCreateFlag(  );
         return 1;
     }
-    case 0x2f9: {  // SetDrawValidFlagOf3DGraph  -> r_int
+    case 0x302: {  // SetDrawValidFlagOf3DGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawValidFlagOf3DGraph( _a0 );
         return 1;
     }
-    case 0x2fa: {  // SetLeftUpColorIsTransColorFlag  -> r_int
+    case 0x303: {  // SetLeftUpColorIsTransColorFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLeftUpColorIsTransColorFlag( _a0 );
         return 1;
     }
-    case 0x2fb: {  // SetUsePaletteGraphFlag  -> r_int
+    case 0x304: {  // SetUsePaletteGraphFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUsePaletteGraphFlag( _a0 );
         return 1;
     }
-    case 0x2fc: {  // SetUseBlendGraphCreateFlag  -> r_int
+    case 0x305: {  // SetUseBlendGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseBlendGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x2fd: {  // GetUseBlendGraphCreateFlag  -> r_int
+    case 0x306: {  // GetUseBlendGraphCreateFlag  -> r_int
         ctx->stat = GetUseBlendGraphCreateFlag(  );
         return 1;
     }
-    case 0x2fe: {  // SetUseAlphaTestGraphCreateFlag  -> r_int
+    case 0x307: {  // SetUseAlphaTestGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseAlphaTestGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x2ff: {  // GetUseAlphaTestGraphCreateFlag  -> r_int
+    case 0x308: {  // GetUseAlphaTestGraphCreateFlag  -> r_int
         ctx->stat = GetUseAlphaTestGraphCreateFlag(  );
         return 1;
     }
-    case 0x300: {  // SetUseAlphaTestFlag  -> r_int
+    case 0x309: {  // SetUseAlphaTestFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseAlphaTestFlag( _a0 );
         return 1;
     }
-    case 0x301: {  // GetUseAlphaTestFlag  -> r_int
+    case 0x30a: {  // GetUseAlphaTestFlag  -> r_int
         ctx->stat = GetUseAlphaTestFlag(  );
         return 1;
     }
-    case 0x302: {  // SetCubeMapTextureCreateFlag  -> r_int
+    case 0x30b: {  // SetCubeMapTextureCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCubeMapTextureCreateFlag( _a0 );
         return 1;
     }
-    case 0x303: {  // GetCubeMapTextureCreateFlag  -> r_int
+    case 0x30c: {  // GetCubeMapTextureCreateFlag  -> r_int
         ctx->stat = GetCubeMapTextureCreateFlag(  );
         return 1;
     }
-    case 0x304: {  // SetUseNoBlendModeParam  -> r_int
+    case 0x30d: {  // SetUseNoBlendModeParam  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseNoBlendModeParam( _a0 );
         return 1;
     }
-    case 0x305: {  // SetDrawValidAlphaChannelGraphCreateFlag  -> r_int
+    case 0x30e: {  // SetDrawValidAlphaChannelGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawValidAlphaChannelGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x306: {  // GetDrawValidAlphaChannelGraphCreateFlag  -> r_int
+    case 0x30f: {  // GetDrawValidAlphaChannelGraphCreateFlag  -> r_int
         ctx->stat = GetDrawValidAlphaChannelGraphCreateFlag(  );
         return 1;
     }
-    case 0x307: {  // SetDrawValidFloatTypeGraphCreateFlag  -> r_int
+    case 0x310: {  // SetDrawValidFloatTypeGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawValidFloatTypeGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x308: {  // GetDrawValidFloatTypeGraphCreateFlag  -> r_int
+    case 0x311: {  // GetDrawValidFloatTypeGraphCreateFlag  -> r_int
         ctx->stat = GetDrawValidFloatTypeGraphCreateFlag(  );
         return 1;
     }
-    case 0x309: {  // SetDrawValidGraphCreateZBufferFlag  -> r_int
+    case 0x312: {  // SetDrawValidGraphCreateZBufferFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawValidGraphCreateZBufferFlag( _a0 );
         return 1;
     }
-    case 0x30a: {  // GetDrawValidGraphCreateZBufferFlag  -> r_int
+    case 0x313: {  // GetDrawValidGraphCreateZBufferFlag  -> r_int
         ctx->stat = GetDrawValidGraphCreateZBufferFlag(  );
         return 1;
     }
-    case 0x30b: {  // SetCreateDrawValidGraphZBufferBitDepth  -> r_int
+    case 0x314: {  // SetCreateDrawValidGraphZBufferBitDepth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateDrawValidGraphZBufferBitDepth( _a0 );
         return 1;
     }
-    case 0x30c: {  // GetCreateDrawValidGraphZBufferBitDepth  -> r_int
+    case 0x315: {  // GetCreateDrawValidGraphZBufferBitDepth  -> r_int
         ctx->stat = GetCreateDrawValidGraphZBufferBitDepth(  );
         return 1;
     }
-    case 0x30d: {  // SetCreateDrawValidGraphMipLevels  -> r_int
+    case 0x316: {  // SetCreateDrawValidGraphMipLevels  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateDrawValidGraphMipLevels( _a0 );
         return 1;
     }
-    case 0x30e: {  // GetCreateDrawValidGraphMipLevels  -> r_int
+    case 0x317: {  // GetCreateDrawValidGraphMipLevels  -> r_int
         ctx->stat = GetCreateDrawValidGraphMipLevels(  );
         return 1;
     }
-    case 0x30f: {  // SetCreateDrawValidGraphChannelNum  -> r_int
+    case 0x318: {  // SetCreateDrawValidGraphChannelNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateDrawValidGraphChannelNum( _a0 );
         return 1;
     }
-    case 0x310: {  // GetCreateDrawValidGraphChannelNum  -> r_int
+    case 0x319: {  // GetCreateDrawValidGraphChannelNum  -> r_int
         ctx->stat = GetCreateDrawValidGraphChannelNum(  );
         return 1;
     }
-    case 0x311: {  // SetCreateDrawValidGraphMultiSample  -> r_int
+    case 0x31a: {  // SetCreateDrawValidGraphMultiSample  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateDrawValidGraphMultiSample( _a0, _a1 );
         return 1;
     }
-    case 0x312: {  // SetDrawValidMultiSample  -> r_int
+    case 0x31b: {  // SetDrawValidMultiSample  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawValidMultiSample( _a0, _a1 );
         return 1;
     }
-    case 0x313: {  // GetMultiSampleQuality  -> r_int
+    case 0x31c: {  // GetMultiSampleQuality  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetMultiSampleQuality( _a0 );
         return 1;
     }
-    case 0x314: {  // SetUseTransColor  -> r_int
+    case 0x31d: {  // SetUseTransColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseTransColor( _a0 );
         return 1;
     }
-    case 0x315: {  // SetUseTransColorGraphCreateFlag  -> r_int
+    case 0x31e: {  // SetUseTransColorGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseTransColorGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x316: {  // SetUseGraphAlphaChannel  -> r_int
+    case 0x31f: {  // SetUseGraphAlphaChannel  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseGraphAlphaChannel( _a0 );
         return 1;
     }
-    case 0x317: {  // GetUseGraphAlphaChannel  -> r_int
+    case 0x320: {  // GetUseGraphAlphaChannel  -> r_int
         ctx->stat = GetUseGraphAlphaChannel(  );
         return 1;
     }
-    case 0x318: {  // SetUseAlphaChannelGraphCreateFlag  -> r_int
+    case 0x321: {  // SetUseAlphaChannelGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseAlphaChannelGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x319: {  // GetUseAlphaChannelGraphCreateFlag  -> r_int
+    case 0x322: {  // GetUseAlphaChannelGraphCreateFlag  -> r_int
         ctx->stat = GetUseAlphaChannelGraphCreateFlag(  );
         return 1;
     }
-    case 0x31a: {  // SetUseNotManageTextureFlag  -> r_int
+    case 0x323: {  // SetUseNotManageTextureFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseNotManageTextureFlag( _a0 );
         return 1;
     }
-    case 0x31b: {  // GetUseNotManageTextureFlag  -> r_int
+    case 0x324: {  // GetUseNotManageTextureFlag  -> r_int
         ctx->stat = GetUseNotManageTextureFlag(  );
         return 1;
     }
-    case 0x31c: {  // SetUsePlatformTextureFormat  -> r_int
+    case 0x325: {  // SetUsePlatformTextureFormat  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUsePlatformTextureFormat( _a0 );
         return 1;
     }
-    case 0x31d: {  // GetUsePlatformTextureFormat  -> r_int
+    case 0x326: {  // GetUsePlatformTextureFormat  -> r_int
         ctx->stat = GetUsePlatformTextureFormat(  );
         return 1;
     }
-    case 0x31e: {  // SetTransColor  -> r_int
+    case 0x327: {  // SetTransColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetTransColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x31f: {  // GetTransColor  -> r_int
+    case 0x328: {  // GetTransColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -2097,73 +2162,86 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x320: {  // SetUseDivGraphFlag  -> r_int
+    case 0x329: {  // SetUseDivGraphFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseDivGraphFlag( _a0 );
         return 1;
     }
-    case 0x321: {  // SetUseAlphaImageLoadFlag  -> r_int
+    case 0x32a: {  // SetUseAlphaImageLoadFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseAlphaImageLoadFlag( _a0 );
         return 1;
     }
-    case 0x322: {  // SetUseMaxTextureSize  -> r_int
+    case 0x32b: {  // SetUseMaxTextureSize  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseMaxTextureSize( _a0 );
         return 1;
     }
-    case 0x323: {  // SetUseGraphBaseDataBackup  -> r_int
+    case 0x32c: {  // SetUseGraphBaseDataBackup  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseGraphBaseDataBackup( _a0 );
         return 1;
     }
-    case 0x324: {  // GetUseGraphBaseDataBackup  -> r_int
+    case 0x32d: {  // GetUseGraphBaseDataBackup  -> r_int
         ctx->stat = GetUseGraphBaseDataBackup(  );
         return 1;
     }
-    case 0x325: {  // SetUseSystemMemGraphCreateFlag  -> r_int
+    case 0x32e: {  // SetUseSystemMemGraphCreateFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseSystemMemGraphCreateFlag( _a0 );
         return 1;
     }
-    case 0x326: {  // GetUseSystemMemGraphCreateFlag  -> r_int
+    case 0x32f: {  // GetUseSystemMemGraphCreateFlag  -> r_int
         ctx->stat = GetUseSystemMemGraphCreateFlag(  );
         return 1;
     }
-    case 0x327: {  // SetUseLoadDivGraphSizeCheckFlag  -> r_int
+    case 0x330: {  // SetUseLoadDivGraphSizeCheckFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseLoadDivGraphSizeCheckFlag( _a0 );
         return 1;
     }
-    case 0x328: {  // GetUseLoadDivGraphSizeCheckFlag  -> r_int
+    case 0x331: {  // GetUseLoadDivGraphSizeCheckFlag  -> r_int
         ctx->stat = GetUseLoadDivGraphSizeCheckFlag(  );
         return 1;
     }
-    case 0x329: {  // GraphUnLock  -> r_int
+    case 0x332: {  // GraphUnLock  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GraphUnLock( _a0 );
         return 1;
     }
-    case 0x32a: {  // SetUseGraphZBuffer  -> r_int
+    case 0x333: {  // SetUseGraphZBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( -1 );
         ctx->stat = SetUseGraphZBuffer( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x32b: {  // CopyGraphZBufferImage  -> r_int
+    case 0x334: {  // CopyGraphZBufferImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = CopyGraphZBufferImage( _a0, _a1 );
         return 1;
     }
-    case 0x32c: {  // SetDeviceLostDeleteGraphFlag  -> r_int
+    case 0x335: {  // SetDeviceLostDeleteGraphFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDeviceLostDeleteGraphFlag( _a0, _a1 );
         return 1;
     }
-    case 0x32d: {  // GetGraphSizeF  -> r_int
+    case 0x336: {  // GetGraphSize  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        int _a1 = 0;
+        PVal *_a2_pv; APTR _a2_ap;
+        _a2_ap = code_getva( &_a2_pv );
+        int _a2 = 0;
+        ctx->stat = GetGraphSize( _a0, &_a1, &_a2 );
+        code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
+        code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
+        return 1;
+    }
+    case 0x337: {  // GetGraphSizeF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -2178,7 +2256,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_DNUM, &_a2_d );
         return 1;
     }
-    case 0x32e: {  // GetGraphTextureSize  -> r_int
+    case 0x338: {  // GetGraphTextureSize  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -2191,7 +2269,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x32f: {  // GetGraphUseBaseGraphArea  -> r_int
+    case 0x339: {  // GetGraphUseBaseGraphArea  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -2212,12 +2290,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_INUM, &_a4 );
         return 1;
     }
-    case 0x330: {  // GetGraphMipmapCount  -> r_int
+    case 0x33a: {  // GetGraphMipmapCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetGraphMipmapCount( _a0 );
         return 1;
     }
-    case 0x331: {  // GetGraphFilePath  -> r_int
+    case 0x33b: {  // GetGraphFilePath  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -2225,12 +2303,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetGraphFilePath( _a0, _a1_w );
         return 1;
     }
-    case 0x332: {  // CheckDrawValidGraph  -> r_int
+    case 0x33c: {  // CheckDrawValidGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckDrawValidGraph( _a0 );
         return 1;
     }
-    case 0x333: {  // GetMaxGraphTextureSize  -> r_int
+    case 0x33d: {  // GetMaxGraphTextureSize  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -2242,11 +2320,11 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x334: {  // GetValidRestoreShredPoint  -> r_int
+    case 0x33e: {  // GetValidRestoreShredPoint  -> r_int
         ctx->stat = GetValidRestoreShredPoint(  );
         return 1;
     }
-    case 0x335: {  // GetGraphPalette  -> r_int
+    case 0x33f: {  // GetGraphPalette  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -2264,7 +2342,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_INUM, &_a4 );
         return 1;
     }
-    case 0x336: {  // GetGraphOriginalPalette  -> r_int
+    case 0x340: {  // GetGraphOriginalPalette  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -2282,19 +2360,61 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_INUM, &_a4 );
         return 1;
     }
-    case 0x337: {  // SetGraphPalette  -> r_int
+    case 0x341: {  // SetGraphPalette  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         unsigned int _a2 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
         ctx->stat = SetGraphPalette( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x338: {  // ResetGraphPalette  -> r_int
+    case 0x342: {  // ResetGraphPalette  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetGraphPalette( _a0 );
         return 1;
     }
-    case 0x339: {  // DrawFillBox  -> r_int
+    case 0x343: {  // DrawLine  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a5 = hsp3dx_auto_geti( 1 );
+        ctx->stat = DrawLine( _a0, _a1, _a2, _a3, _a4, _a5 );
+        return 1;
+    }
+    case 0x344: {  // DrawLineAA  -> r_int
+        float _a0 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a3 = (float)hsp3dx_auto_getd( 0.0 );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        float _a5 = (float)hsp3dx_auto_getd( 1.0 );
+        ctx->stat = DrawLineAA( _a0, _a1, _a2, _a3, _a4, _a5 );
+        return 1;
+    }
+    case 0x345: {  // DrawBox  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        int _a6 = hsp3dx_auto_geti( 1 );
+        ctx->stat = DrawBox( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
+        return 1;
+    }
+    case 0x346: {  // DrawBoxAA  -> r_int
+        float _a0 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a3 = (float)hsp3dx_auto_getd( 0.0 );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        float _a6 = (float)hsp3dx_auto_getd( 1.0 );
+        ctx->stat = DrawBoxAA( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
+        return 1;
+    }
+    case 0x347: {  // DrawFillBox  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2303,7 +2423,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawFillBox( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x33a: {  // DrawLineBox  -> r_int
+    case 0x348: {  // DrawLineBox  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2313,7 +2433,29 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawLineBox( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x33b: {  // DrawOval  -> r_int
+    case 0x349: {  // DrawCircle  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        unsigned int _a3 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a4 = hsp3dx_auto_geti( 1 );
+        int _a5 = hsp3dx_auto_geti( 1 );
+        ctx->stat = DrawCircle( _a0, _a1, _a2, _a3, _a4, _a5 );
+        return 1;
+    }
+    case 0x34a: {  // DrawCircleAA  -> r_int
+        float _a0 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a5 = hsp3dx_auto_geti( 1 );
+        float _a6 = (float)hsp3dx_auto_getd( 1.0 );
+        double _a7 = hsp3dx_auto_getd( 0.0 );
+        ctx->stat = DrawCircleAA( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
+        return 1;
+    }
+    case 0x34b: {  // DrawOval  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2324,7 +2466,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawOval( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x33c: {  // DrawOvalAA  -> r_int
+    case 0x34c: {  // DrawOvalAA  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2336,7 +2478,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawOvalAA( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x33d: {  // DrawOval_Rect  -> r_int
+    case 0x34d: {  // DrawOval_Rect  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2346,7 +2488,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawOval_Rect( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x33e: {  // DrawTriangleAA  -> r_int
+    case 0x34e: {  // DrawTriangle  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        unsigned int _a6 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a7 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawTriangle( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
+        return 1;
+    }
+    case 0x34f: {  // DrawTriangleAA  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2359,7 +2513,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawTriangleAA( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x33f: {  // DrawQuadrangle  -> r_int
+    case 0x350: {  // DrawQuadrangle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2373,7 +2527,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawQuadrangle( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x340: {  // DrawQuadrangleAA  -> r_int
+    case 0x351: {  // DrawQuadrangleAA  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2388,7 +2542,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawQuadrangleAA( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10 );
         return 1;
     }
-    case 0x341: {  // DrawRoundRect  -> r_int
+    case 0x352: {  // DrawRoundRect  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2400,7 +2554,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRoundRect( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x342: {  // DrawRoundRectAA  -> r_int
+    case 0x353: {  // DrawRoundRectAA  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2414,15 +2568,22 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRoundRectAA( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x343: {  // BeginAADraw  -> r_int
+    case 0x354: {  // BeginAADraw  -> r_int
         ctx->stat = BeginAADraw(  );
         return 1;
     }
-    case 0x344: {  // EndAADraw  -> r_int
+    case 0x355: {  // EndAADraw  -> r_int
         ctx->stat = EndAADraw(  );
         return 1;
     }
-    case 0x345: {  // DrawPixel3D  -> r_int
+    case 0x356: {  // DrawPixel  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        unsigned int _a2 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        ctx->stat = DrawPixel( _a0, _a1, _a2 );
+        return 1;
+    }
+    case 0x357: {  // DrawPixel3D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -2433,7 +2594,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawPixel3D( _a0, _a1 );
         return 1;
     }
-    case 0x346: {  // DrawPixel3DD  -> r_int
+    case 0x358: {  // DrawPixel3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2444,7 +2605,24 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawPixel3DD( _a0, _a1 );
         return 1;
     }
-    case 0x347: {  // DrawLine3DD  -> r_int
+    case 0x359: {  // DrawLine3D  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        unsigned int _a2 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        ctx->stat = DrawLine3D( _a0, _a1, _a2 );
+        return 1;
+    }
+    case 0x35a: {  // DrawLine3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2461,7 +2639,31 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawLine3DD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x348: {  // DrawTriangle3DD  -> r_int
+    case 0x35b: {  // DrawTriangle3D  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        PVal *_a2_pv; APTR _a2_ap;
+        _a2_ap = code_getva( &_a2_pv );
+        if ( _a2_pv->pt == nullptr || _a2_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a2;
+        memcpy( &_a2, _a2_pv->pt + _a2_ap * _a2_pv->len[0], sizeof(VECTOR) );
+        unsigned int _a3 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawTriangle3D( _a0, _a1, _a2, _a3, _a4 );
+        return 1;
+    }
+    case 0x35c: {  // DrawTriangle3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2485,7 +2687,26 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawTriangle3DD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x349: {  // DrawCube3DD  -> r_int
+    case 0x35d: {  // DrawCube3D  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        unsigned int _a2 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        unsigned int _a3 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawCube3D( _a0, _a1, _a2, _a3, _a4 );
+        return 1;
+    }
+    case 0x35e: {  // DrawCube3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2504,7 +2725,22 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCube3DD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x34a: {  // DrawSphere3DD  -> r_int
+    case 0x35f: {  // DrawSphere3D  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        float _a1 = (float)hsp3dx_auto_getd( 0.0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        unsigned int _a3 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawSphere3D( _a0, _a1, _a2, _a3, _a4, _a5 );
+        return 1;
+    }
+    case 0x360: {  // DrawSphere3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2519,7 +2755,28 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawSphere3DD( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x34b: {  // DrawCapsule3DD  -> r_int
+    case 0x361: {  // DrawCapsule3D  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        unsigned int _a5 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a6 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawCapsule3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
+        return 1;
+    }
+    case 0x362: {  // DrawCapsule3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2540,7 +2797,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCapsule3DD( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x34c: {  // DrawCylinder3D  -> r_int
+    case 0x363: {  // DrawCylinder3D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -2561,7 +2818,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCylinder3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x34d: {  // DrawCylinder3DD  -> r_int
+    case 0x364: {  // DrawCylinder3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2582,7 +2839,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCylinder3DD( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x34e: {  // DrawTube3D  -> r_int
+    case 0x365: {  // DrawTube3D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -2604,7 +2861,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawTube3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x34f: {  // DrawTube3DD  -> r_int
+    case 0x366: {  // DrawTube3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2626,7 +2883,28 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawTube3DD( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x350: {  // DrawCone3DD  -> r_int
+    case 0x367: {  // DrawCone3D  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        float _a2 = (float)hsp3dx_auto_getd( 0.0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        unsigned int _a5 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        int _a6 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawCone3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
+        return 1;
+    }
+    case 0x368: {  // DrawCone3DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -2647,7 +2925,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCone3DD( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x351: {  // LoadGraphScreen  -> r_int
+    case 0x369: {  // LoadGraphScreen  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -2657,7 +2935,37 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = LoadGraphScreen( _a0, _a1, _a2_w, _a3 );
         return 1;
     }
-    case 0x352: {  // DrawRotaGraph2  -> r_int
+    case 0x36a: {  // DrawGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawGraph( _a0, _a1, _a2, _a3 );
+        return 1;
+    }
+    case 0x36b: {  // DrawExtendGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawExtendGraph( _a0, _a1, _a2, _a3, _a4, _a5 );
+        return 1;
+    }
+    case 0x36c: {  // DrawRotaGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        double _a2 = hsp3dx_auto_getd( 0.0 );
+        double _a3 = hsp3dx_auto_getd( 0.0 );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        int _a6 = hsp3dx_auto_geti( 0 );
+        int _a7 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawRotaGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
+        return 1;
+    }
+    case 0x36d: {  // DrawRotaGraph2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2671,7 +2979,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraph2( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x353: {  // DrawRotaGraph3  -> r_int
+    case 0x36e: {  // DrawRotaGraph3  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2686,7 +2994,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraph3( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10 );
         return 1;
     }
-    case 0x354: {  // DrawRotaGraphFast  -> r_int
+    case 0x36f: {  // DrawRotaGraphFast  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2698,7 +3006,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraphFast( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x355: {  // DrawRotaGraphFast2  -> r_int
+    case 0x370: {  // DrawRotaGraphFast2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2712,7 +3020,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraphFast2( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x356: {  // DrawRotaGraphFast3  -> r_int
+    case 0x371: {  // DrawRotaGraphFast3  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2727,7 +3035,21 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraphFast3( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10 );
         return 1;
     }
-    case 0x357: {  // DrawTurnGraph  -> r_int
+    case 0x372: {  // DrawModiGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        int _a6 = hsp3dx_auto_geti( 0 );
+        int _a7 = hsp3dx_auto_geti( 0 );
+        int _a8 = hsp3dx_auto_geti( 0 );
+        int _a9 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawModiGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
+        return 1;
+    }
+    case 0x373: {  // DrawTurnGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2735,7 +3057,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawTurnGraph( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x358: {  // DrawReverseGraph  -> r_int
+    case 0x374: {  // DrawReverseGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2745,7 +3067,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawReverseGraph( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x359: {  // DrawGraphF  -> r_int
+    case 0x375: {  // DrawGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2753,7 +3075,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawGraphF( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x35a: {  // DrawExtendGraphF  -> r_int
+    case 0x376: {  // DrawExtendGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2763,7 +3085,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendGraphF( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x35b: {  // DrawRotaGraphF  -> r_int
+    case 0x377: {  // DrawRotaGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -2775,7 +3097,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraphF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x35c: {  // DrawRotaGraph2F  -> r_int
+    case 0x378: {  // DrawRotaGraph2F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2789,7 +3111,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraph2F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x35d: {  // DrawRotaGraph3F  -> r_int
+    case 0x379: {  // DrawRotaGraph3F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2804,7 +3126,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraph3F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10 );
         return 1;
     }
-    case 0x35e: {  // DrawRotaGraphFastF  -> r_int
+    case 0x37a: {  // DrawRotaGraphFastF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2816,7 +3138,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraphFastF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x35f: {  // DrawRotaGraphFast2F  -> r_int
+    case 0x37b: {  // DrawRotaGraphFast2F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2830,7 +3152,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraphFast2F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x360: {  // DrawRotaGraphFast3F  -> r_int
+    case 0x37c: {  // DrawRotaGraphFast3F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2845,7 +3167,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraphFast3F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10 );
         return 1;
     }
-    case 0x361: {  // DrawModiGraphF  -> r_int
+    case 0x37d: {  // DrawModiGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -2859,7 +3181,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawModiGraphF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x362: {  // DrawTurnGraphF  -> r_int
+    case 0x37e: {  // DrawTurnGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2867,7 +3189,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawTurnGraphF( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x363: {  // DrawReverseGraphF  -> r_int
+    case 0x37f: {  // DrawReverseGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2877,7 +3199,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawReverseGraphF( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x364: {  // DrawChipMap  -> r_int
+    case 0x380: {  // DrawChipMap  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2896,7 +3218,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a7_pv, _a7_ap, TYPE_INUM, &_a7 );
         return 1;
     }
-    case 0x365: {  // DrawChipMap2  -> r_int
+    case 0x381: {  // DrawChipMap2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -2918,7 +3240,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_INUM, &_a4 );
         return 1;
     }
-    case 0x366: {  // DrawTile  -> r_int
+    case 0x382: {  // DrawTile  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2932,7 +3254,21 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawTile( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x367: {  // DrawRectExtendGraph  -> r_int
+    case 0x383: {  // DrawRectGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        int _a6 = hsp3dx_auto_geti( 0 );
+        int _a7 = hsp3dx_auto_geti( 0 );
+        int _a8 = hsp3dx_auto_geti( 0 );
+        int _a9 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawRectGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
+        return 1;
+    }
+    case 0x384: {  // DrawRectExtendGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2946,7 +3282,23 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectExtendGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x368: {  // DrawRectRotaGraph2  -> r_int
+    case 0x385: {  // DrawRectRotaGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        int _a4 = hsp3dx_auto_geti( 0 );
+        int _a5 = hsp3dx_auto_geti( 0 );
+        double _a6 = hsp3dx_auto_getd( 0.0 );
+        double _a7 = hsp3dx_auto_getd( 0.0 );
+        int _a8 = hsp3dx_auto_geti( 0 );
+        int _a9 = hsp3dx_auto_geti( 0 );
+        int _a10 = hsp3dx_auto_geti( 0 );
+        int _a11 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DrawRectRotaGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11 );
+        return 1;
+    }
+    case 0x386: {  // DrawRectRotaGraph2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2964,7 +3316,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraph2( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13 );
         return 1;
     }
-    case 0x369: {  // DrawRectRotaGraph3  -> r_int
+    case 0x387: {  // DrawRectRotaGraph3  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2983,7 +3335,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraph3( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13, _a14 );
         return 1;
     }
-    case 0x36a: {  // DrawRectRotaGraphFast  -> r_int
+    case 0x388: {  // DrawRectRotaGraphFast  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -2999,7 +3351,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraphFast( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11 );
         return 1;
     }
-    case 0x36b: {  // DrawRectRotaGraphFast2  -> r_int
+    case 0x389: {  // DrawRectRotaGraphFast2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3017,7 +3369,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraphFast2( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13 );
         return 1;
     }
-    case 0x36c: {  // DrawRectRotaGraphFast3  -> r_int
+    case 0x38a: {  // DrawRectRotaGraphFast3  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3036,7 +3388,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraphFast3( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13, _a14 );
         return 1;
     }
-    case 0x36d: {  // DrawRectModiGraph  -> r_int
+    case 0x38b: {  // DrawRectModiGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3054,7 +3406,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectModiGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13 );
         return 1;
     }
-    case 0x36e: {  // DrawRectGraphF  -> r_int
+    case 0x38c: {  // DrawRectGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3068,7 +3420,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectGraphF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x36f: {  // DrawRectGraphF2  -> r_int
+    case 0x38d: {  // DrawRectGraphF2  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3082,7 +3434,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectGraphF2( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x370: {  // DrawRectExtendGraphF  -> r_int
+    case 0x38e: {  // DrawRectExtendGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3096,7 +3448,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectExtendGraphF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x371: {  // DrawRectExtendGraphF2  -> r_int
+    case 0x38f: {  // DrawRectExtendGraphF2  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3110,7 +3462,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectExtendGraphF2( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x372: {  // DrawRectRotaGraphF  -> r_int
+    case 0x390: {  // DrawRectRotaGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3126,7 +3478,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraphF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11 );
         return 1;
     }
-    case 0x373: {  // DrawRectRotaGraph2F  -> r_int
+    case 0x391: {  // DrawRectRotaGraph2F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3144,7 +3496,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraph2F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13 );
         return 1;
     }
-    case 0x374: {  // DrawRectRotaGraph3F  -> r_int
+    case 0x392: {  // DrawRectRotaGraph3F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3163,7 +3515,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraph3F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13, _a14 );
         return 1;
     }
-    case 0x375: {  // DrawRectRotaGraphFastF  -> r_int
+    case 0x393: {  // DrawRectRotaGraphFastF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3179,7 +3531,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraphFastF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11 );
         return 1;
     }
-    case 0x376: {  // DrawRectRotaGraphFast2F  -> r_int
+    case 0x394: {  // DrawRectRotaGraphFast2F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3197,7 +3549,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraphFast2F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13 );
         return 1;
     }
-    case 0x377: {  // DrawRectRotaGraphFast3F  -> r_int
+    case 0x395: {  // DrawRectRotaGraphFast3F  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3216,7 +3568,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectRotaGraphFast3F( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13, _a14 );
         return 1;
     }
-    case 0x378: {  // DrawRectModiGraphF  -> r_int
+    case 0x396: {  // DrawRectModiGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3234,7 +3586,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRectModiGraphF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13 );
         return 1;
     }
-    case 0x379: {  // DrawBlendGraph  -> r_int
+    case 0x397: {  // DrawBlendGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3245,7 +3597,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawBlendGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x37a: {  // DrawBlendGraphF  -> r_int
+    case 0x398: {  // DrawBlendGraphF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3256,7 +3608,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawBlendGraphF( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x37b: {  // DrawBlendGraphPos  -> r_int
+    case 0x399: {  // DrawBlendGraphPos  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3269,7 +3621,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawBlendGraphPos( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x37c: {  // DrawCircleGauge  -> r_int
+    case 0x39a: {  // DrawCircleGauge  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -3281,7 +3633,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCircleGauge( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x37d: {  // DrawCircleGaugeF  -> r_int
+    case 0x39b: {  // DrawCircleGaugeF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -3293,14 +3645,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCircleGaugeF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x37e: {  // DrawPolygon3D_UseVertexBuffer  -> r_int
+    case 0x39c: {  // DrawPolygon3D_UseVertexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = DrawPolygon3D_UseVertexBuffer( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x37f: {  // DrawPolygonIndexed3D_UseVertexBuffer  -> r_int
+    case 0x39d: {  // DrawPolygonIndexed3D_UseVertexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3308,7 +3660,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawPolygonIndexed3D_UseVertexBuffer( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x380: {  // DrawGraph3D  -> r_int
+    case 0x39e: {  // DrawGraph3D  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3317,7 +3669,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawGraph3D( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x381: {  // DrawExtendGraph3D  -> r_int
+    case 0x39f: {  // DrawExtendGraph3D  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3328,7 +3680,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendGraph3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x382: {  // DrawRotaGraph3D  -> r_int
+    case 0x3a0: {  // DrawRotaGraph3D  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3341,7 +3693,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaGraph3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x383: {  // DrawRota2Graph3D  -> r_int
+    case 0x3a1: {  // DrawRota2Graph3D  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -3357,7 +3709,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRota2Graph3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11 );
         return 1;
     }
-    case 0x384: {  // DrawModiBillboard3D  -> r_int
+    case 0x3a2: {  // DrawModiBillboard3D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -3377,7 +3729,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawModiBillboard3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10 );
         return 1;
     }
-    case 0x385: {  // DrawBillboard3D  -> r_int
+    case 0x3a3: {  // DrawBillboard3D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -3395,11 +3747,22 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawBillboard3D( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x386: {  // GetDrawMode  -> r_int
+    case 0x3a4: {  // SetDrawMode  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetDrawMode( _a0 );
+        return 1;
+    }
+    case 0x3a5: {  // GetDrawMode  -> r_int
         ctx->stat = GetDrawMode(  );
         return 1;
     }
-    case 0x387: {  // GetDrawBlendMode  -> r_int
+    case 0x3a6: {  // SetDrawBlendMode  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetDrawBlendMode( _a0, _a1 );
+        return 1;
+    }
+    case 0x3a7: {  // GetDrawBlendMode  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -3411,7 +3774,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x388: {  // GetDrawCustomBlendMode  -> r_int
+    case 0x3a8: {  // GetDrawCustomBlendMode  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -3447,13 +3810,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a7_pv, _a7_ap, TYPE_INUM, &_a7 );
         return 1;
     }
-    case 0x389: {  // SetDrawAlphaTest  -> r_int
+    case 0x3a9: {  // SetDrawAlphaTest  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawAlphaTest( _a0, _a1 );
         return 1;
     }
-    case 0x38a: {  // GetDrawAlphaTest  -> r_int
+    case 0x3aa: {  // GetDrawAlphaTest  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -3465,20 +3828,27 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x38b: {  // SetBlendGraph  -> r_int
+    case 0x3ab: {  // SetBlendGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetBlendGraph( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x38c: {  // SetBlendGraphPosition  -> r_int
+    case 0x3ac: {  // SetBlendGraphPosition  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetBlendGraphPosition( _a0, _a1 );
         return 1;
     }
-    case 0x38d: {  // GetDrawBright  -> r_int
+    case 0x3ad: {  // SetDrawBright  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetDrawBright( _a0, _a1, _a2 );
+        return 1;
+    }
+    case 0x3ae: {  // GetDrawBright  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -3494,14 +3864,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x38e: {  // SetDrawAddColor  -> r_int
+    case 0x3af: {  // SetDrawAddColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawAddColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x38f: {  // GetDrawAddColor  -> r_int
+    case 0x3b0: {  // GetDrawAddColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -3517,73 +3887,83 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x390: {  // SetWriteAlphaChannelFlag  -> r_int
+    case 0x3b1: {  // SetWriteAlphaChannelFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetWriteAlphaChannelFlag( _a0 );
         return 1;
     }
-    case 0x391: {  // GetWriteAlphaChannelFlag  -> r_int
+    case 0x3b2: {  // GetWriteAlphaChannelFlag  -> r_int
         ctx->stat = GetWriteAlphaChannelFlag(  );
         return 1;
     }
-    case 0x392: {  // CheckSeparateAlphaBlendEnable  -> r_int
+    case 0x3b3: {  // CheckSeparateAlphaBlendEnable  -> r_int
         ctx->stat = CheckSeparateAlphaBlendEnable(  );
         return 1;
     }
-    case 0x393: {  // SetIgnoreDrawGraphColor  -> r_int
+    case 0x3b4: {  // SetIgnoreDrawGraphColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetIgnoreDrawGraphColor( _a0 );
         return 1;
     }
-    case 0x394: {  // GetIgnoreDrawGraphColor  -> r_int
+    case 0x3b5: {  // GetIgnoreDrawGraphColor  -> r_int
         ctx->stat = GetIgnoreDrawGraphColor(  );
         return 1;
     }
-    case 0x395: {  // SetMaxAnisotropy  -> r_int
+    case 0x3b6: {  // SetMaxAnisotropy  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMaxAnisotropy( _a0 );
         return 1;
     }
-    case 0x396: {  // GetMaxAnisotropy  -> r_int
+    case 0x3b7: {  // GetMaxAnisotropy  -> r_int
         ctx->stat = GetMaxAnisotropy(  );
         return 1;
     }
-    case 0x397: {  // SetUseLarge3DPositionSupport  -> r_int
+    case 0x3b8: {  // SetUseLarge3DPositionSupport  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseLarge3DPositionSupport( _a0 );
         return 1;
     }
-    case 0x398: {  // SetUseZBufferFlag  -> r_int
+    case 0x3b9: {  // SetUseZBufferFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseZBufferFlag( _a0 );
         return 1;
     }
-    case 0x399: {  // SetWriteZBufferFlag  -> r_int
+    case 0x3ba: {  // SetWriteZBufferFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetWriteZBufferFlag( _a0 );
         return 1;
     }
-    case 0x39a: {  // SetZBias  -> r_int
+    case 0x3bb: {  // SetZBias  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetZBias( _a0 );
         return 1;
     }
-    case 0x39b: {  // SetZBias3D  -> r_int
+    case 0x3bc: {  // SetUseZBuffer3D  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetUseZBuffer3D( _a0 );
+        return 1;
+    }
+    case 0x3bd: {  // SetWriteZBuffer3D  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetWriteZBuffer3D( _a0 );
+        return 1;
+    }
+    case 0x3be: {  // SetZBias3D  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetZBias3D( _a0 );
         return 1;
     }
-    case 0x39c: {  // SetDrawZ  -> r_int
+    case 0x3bf: {  // SetDrawZ  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetDrawZ( _a0 );
         return 1;
     }
-    case 0x39d: {  // SetUseReversedZ  -> r_int
+    case 0x3c0: {  // SetUseReversedZ  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseReversedZ( _a0 );
         return 1;
     }
-    case 0x39e: {  // SetDrawArea  -> r_int
+    case 0x3c1: {  // SetDrawArea  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -3591,20 +3971,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetDrawArea( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x39f: {  // SetDrawAreaFull  -> r_int
+    case 0x3c2: {  // SetDrawAreaFull  -> r_int
         ctx->stat = SetDrawAreaFull(  );
         return 1;
     }
-    case 0x3a0: {  // SetDraw3DScale  -> r_int
+    case 0x3c3: {  // SetDraw3DScale  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetDraw3DScale( _a0 );
         return 1;
     }
-    case 0x3a1: {  // RunRestoreShred  -> r_int
+    case 0x3c4: {  // RunRestoreShred  -> r_int
         ctx->stat = RunRestoreShred(  );
         return 1;
     }
-    case 0x3a2: {  // SetTransformTo2D  -> r_int
+    case 0x3c5: {  // SetTransformTo2D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3613,7 +3993,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformTo2D( _a0 );
         return 1;
     }
-    case 0x3a3: {  // SetTransformTo2DD  -> r_int
+    case 0x3c6: {  // SetTransformTo2DD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3622,11 +4002,11 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformTo2DD( _a0 );
         return 1;
     }
-    case 0x3a4: {  // ResetTransformTo2D  -> r_int
+    case 0x3c7: {  // ResetTransformTo2D  -> r_int
         ctx->stat = ResetTransformTo2D(  );
         return 1;
     }
-    case 0x3a5: {  // SetTransformToWorld  -> r_int
+    case 0x3c8: {  // SetTransformToWorld  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3635,7 +4015,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToWorld( _a0 );
         return 1;
     }
-    case 0x3a6: {  // SetTransformToWorldD  -> r_int
+    case 0x3c9: {  // SetTransformToWorldD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3644,7 +4024,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToWorldD( _a0 );
         return 1;
     }
-    case 0x3a7: {  // GetTransformToWorldMatrix  -> r_int
+    case 0x3ca: {  // GetTransformToWorldMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3653,7 +4033,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToWorldMatrix( _a0 );
         return 1;
     }
-    case 0x3a8: {  // GetTransformToWorldMatrixD  -> r_int
+    case 0x3cb: {  // GetTransformToWorldMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3662,7 +4042,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToWorldMatrixD( _a0 );
         return 1;
     }
-    case 0x3a9: {  // SetTransformToView  -> r_int
+    case 0x3cc: {  // SetTransformToView  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3671,7 +4051,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToView( _a0 );
         return 1;
     }
-    case 0x3aa: {  // SetTransformToViewD  -> r_int
+    case 0x3cd: {  // SetTransformToViewD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3680,7 +4060,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToViewD( _a0 );
         return 1;
     }
-    case 0x3ab: {  // GetTransformToViewMatrix  -> r_int
+    case 0x3ce: {  // GetTransformToViewMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3689,7 +4069,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToViewMatrix( _a0 );
         return 1;
     }
-    case 0x3ac: {  // GetTransformToViewMatrixD  -> r_int
+    case 0x3cf: {  // GetTransformToViewMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3698,7 +4078,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToViewMatrixD( _a0 );
         return 1;
     }
-    case 0x3ad: {  // SetTransformToProjection  -> r_int
+    case 0x3d0: {  // SetTransformToProjection  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3707,7 +4087,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToProjection( _a0 );
         return 1;
     }
-    case 0x3ae: {  // SetTransformToProjectionD  -> r_int
+    case 0x3d1: {  // SetTransformToProjectionD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3716,7 +4096,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToProjectionD( _a0 );
         return 1;
     }
-    case 0x3af: {  // GetTransformToProjectionMatrix  -> r_int
+    case 0x3d2: {  // GetTransformToProjectionMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3725,7 +4105,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToProjectionMatrix( _a0 );
         return 1;
     }
-    case 0x3b0: {  // GetTransformToProjectionMatrixD  -> r_int
+    case 0x3d3: {  // GetTransformToProjectionMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3734,7 +4114,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToProjectionMatrixD( _a0 );
         return 1;
     }
-    case 0x3b1: {  // SetTransformToViewport  -> r_int
+    case 0x3d4: {  // SetTransformToViewport  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3743,7 +4123,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToViewport( _a0 );
         return 1;
     }
-    case 0x3b2: {  // SetTransformToViewportD  -> r_int
+    case 0x3d5: {  // SetTransformToViewportD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3752,7 +4132,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTransformToViewportD( _a0 );
         return 1;
     }
-    case 0x3b3: {  // GetTransformToViewportMatrix  -> r_int
+    case 0x3d6: {  // GetTransformToViewportMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3761,7 +4141,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToViewportMatrix( _a0 );
         return 1;
     }
-    case 0x3b4: {  // GetTransformToViewportMatrixD  -> r_int
+    case 0x3d7: {  // GetTransformToViewportMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3770,7 +4150,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToViewportMatrixD( _a0 );
         return 1;
     }
-    case 0x3b5: {  // GetTransformToAPIViewportMatrix  -> r_int
+    case 0x3d8: {  // GetTransformToAPIViewportMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -3779,7 +4159,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToAPIViewportMatrix( _a0 );
         return 1;
     }
-    case 0x3b6: {  // GetTransformToAPIViewportMatrixD  -> r_int
+    case 0x3d9: {  // GetTransformToAPIViewportMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -3788,11 +4168,11 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetTransformToAPIViewportMatrixD( _a0 );
         return 1;
     }
-    case 0x3b7: {  // SetDefTransformMatrix  -> r_int
+    case 0x3da: {  // SetDefTransformMatrix  -> r_int
         ctx->stat = SetDefTransformMatrix(  );
         return 1;
     }
-    case 0x3b8: {  // GetTransformPosition  -> r_int
+    case 0x3db: {  // GetTransformPosition  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -3811,7 +4191,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_DNUM, &_a2_d );
         return 1;
     }
-    case 0x3b9: {  // GetTransformPositionD  -> r_int
+    case 0x3dc: {  // GetTransformPositionD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -3828,7 +4208,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_DNUM, &_a2 );
         return 1;
     }
-    case 0x3ba: {  // GetBillboardPixelSize  -> r_float
+    case 0x3dd: {  // GetBillboardPixelSize  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -3843,7 +4223,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x3bb: {  // GetBillboardPixelSizeD  -> r_double
+    case 0x3de: {  // GetBillboardPixelSizeD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -3857,7 +4237,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x3bc: {  // ConvWorldPosToViewPos  -> r_VECTOR
+    case 0x3df: {  // ConvWorldPosToViewPos  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -3872,7 +4252,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x3bd: {  // ConvWorldPosToViewPosD  -> r_VECTOR_D
+    case 0x3e0: {  // ConvWorldPosToViewPosD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -3887,7 +4267,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x3be: {  // ConvWorldPosToScreenPos  -> r_VECTOR
+    case 0x3e1: {  // ConvWorldPosToScreenPos  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -3902,7 +4282,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x3bf: {  // ConvWorldPosToScreenPosD  -> r_VECTOR_D
+    case 0x3e2: {  // ConvWorldPosToScreenPosD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -3917,7 +4297,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x3c0: {  // ConvWorldPosToScreenPosPlusW  -> r_FLOAT4
+    case 0x3e3: {  // ConvWorldPosToScreenPosPlusW  -> r_FLOAT4
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -3932,7 +4312,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(FLOAT4) );
         return 1;
     }
-    case 0x3c1: {  // ConvScreenPosToWorldPos  -> r_VECTOR
+    case 0x3e4: {  // ConvScreenPosToWorldPos  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -3947,7 +4327,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x3c2: {  // ConvScreenPosToWorldPosD  -> r_VECTOR_D
+    case 0x3e5: {  // ConvScreenPosToWorldPosD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -3962,7 +4342,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x3c3: {  // ConvScreenPosToWorldPos_ZLinear  -> r_VECTOR
+    case 0x3e6: {  // ConvScreenPosToWorldPos_ZLinear  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -3977,7 +4357,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x3c4: {  // ConvScreenPosToWorldPos_ZLinearD  -> r_VECTOR_D
+    case 0x3e7: {  // ConvScreenPosToWorldPos_ZLinearD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -3992,32 +4372,32 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x3c5: {  // SetUseCullingFlag  -> r_int
+    case 0x3e8: {  // SetUseCullingFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseCullingFlag( _a0 );
         return 1;
     }
-    case 0x3c6: {  // GetUseBackCulling  -> r_int
+    case 0x3e9: {  // GetUseBackCulling  -> r_int
         ctx->stat = GetUseBackCulling(  );
         return 1;
     }
-    case 0x3c7: {  // SetUseRightHandClippingProcess  -> r_int
+    case 0x3ea: {  // SetUseRightHandClippingProcess  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseRightHandClippingProcess( _a0 );
         return 1;
     }
-    case 0x3c8: {  // GetUseRightHandClippingProcess  -> r_int
+    case 0x3eb: {  // GetUseRightHandClippingProcess  -> r_int
         ctx->stat = GetUseRightHandClippingProcess(  );
         return 1;
     }
-    case 0x3c9: {  // SetTextureAddressModeUV  -> r_int
+    case 0x3ec: {  // SetTextureAddressModeUV  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( -1 );
         ctx->stat = SetTextureAddressModeUV( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x3ca: {  // SetTextureAddressTransform  -> r_int
+    case 0x3ed: {  // SetTextureAddressTransform  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -4028,7 +4408,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTextureAddressTransform( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x3cb: {  // SetTextureAddressTransformMatrix  -> r_int
+    case 0x3ee: {  // SetTextureAddressTransformMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -4038,31 +4418,31 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetTextureAddressTransformMatrix( _a0 );
         return 1;
     }
-    case 0x3cc: {  // ResetTextureAddressTransform  -> r_int
+    case 0x3ef: {  // ResetTextureAddressTransform  -> r_int
         ctx->stat = ResetTextureAddressTransform(  );
         return 1;
     }
-    case 0x3cd: {  // SetFogEnable  -> r_int
+    case 0x3f0: {  // SetFogEnable  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFogEnable( _a0 );
         return 1;
     }
-    case 0x3ce: {  // GetFogEnable  -> r_int
+    case 0x3f1: {  // GetFogEnable  -> r_int
         ctx->stat = GetFogEnable(  );
         return 1;
     }
-    case 0x3cf: {  // GetFogMode  -> r_int
+    case 0x3f2: {  // GetFogMode  -> r_int
         ctx->stat = GetFogMode(  );
         return 1;
     }
-    case 0x3d0: {  // SetFogColor  -> r_int
+    case 0x3f3: {  // SetFogColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFogColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x3d1: {  // GetFogColor  -> r_int
+    case 0x3f4: {  // GetFogColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4078,13 +4458,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x3d2: {  // SetFogStartEnd  -> r_int
+    case 0x3f5: {  // SetFogStartEnd  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetFogStartEnd( _a0, _a1 );
         return 1;
     }
-    case 0x3d3: {  // GetFogStartEnd  -> r_int
+    case 0x3f6: {  // GetFogStartEnd  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         float _a0 = 0.0f;
@@ -4098,12 +4478,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1_d );
         return 1;
     }
-    case 0x3d4: {  // SetFogDensity  -> r_int
+    case 0x3f7: {  // SetFogDensity  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetFogDensity( _a0 );
         return 1;
     }
-    case 0x3d5: {  // GetFogDensity  -> r_float
+    case 0x3f8: {  // GetFogDensity  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetFogDensity(  );
@@ -4111,27 +4491,27 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x3d6: {  // SetVerticalFogEnable  -> r_int
+    case 0x3f9: {  // SetVerticalFogEnable  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetVerticalFogEnable( _a0 );
         return 1;
     }
-    case 0x3d7: {  // GetVerticalFogEnable  -> r_int
+    case 0x3fa: {  // GetVerticalFogEnable  -> r_int
         ctx->stat = GetVerticalFogEnable(  );
         return 1;
     }
-    case 0x3d8: {  // GetVerticalFogMode  -> r_int
+    case 0x3fb: {  // GetVerticalFogMode  -> r_int
         ctx->stat = GetVerticalFogMode(  );
         return 1;
     }
-    case 0x3d9: {  // SetVerticalFogColor  -> r_int
+    case 0x3fc: {  // SetVerticalFogColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetVerticalFogColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x3da: {  // GetVerticalFogColor  -> r_int
+    case 0x3fd: {  // GetVerticalFogColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4147,13 +4527,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x3db: {  // SetVerticalFogStartEnd  -> r_int
+    case 0x3fe: {  // SetVerticalFogStartEnd  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetVerticalFogStartEnd( _a0, _a1 );
         return 1;
     }
-    case 0x3dc: {  // GetVerticalFogStartEnd  -> r_int
+    case 0x3ff: {  // GetVerticalFogStartEnd  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         float _a0 = 0.0f;
@@ -4167,13 +4547,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1_d );
         return 1;
     }
-    case 0x3dd: {  // SetVerticalFogDensity  -> r_int
+    case 0x400: {  // SetVerticalFogDensity  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetVerticalFogDensity( _a0, _a1 );
         return 1;
     }
-    case 0x3de: {  // GetVerticalFogDensity  -> r_int
+    case 0x401: {  // GetVerticalFogDensity  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         float _a0 = 0.0f;
@@ -4187,7 +4567,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1_d );
         return 1;
     }
-    case 0x3df: {  // GetPixel  -> r_uint
+    case 0x402: {  // GetPixel  -> r_uint
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -4198,7 +4578,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = (int)_ret;
         return 1;
     }
-    case 0x3e0: {  // GetPixelDX  -> r_uint
+    case 0x403: {  // GetPixelDX  -> r_uint
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -4209,7 +4589,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = (int)_ret;
         return 1;
     }
-    case 0x3e1: {  // GetPixelF  -> r_COLOR_F
+    case 0x404: {  // GetPixelF  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -4220,7 +4600,15 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x3e2: {  // GetBackgroundColor  -> r_int
+    case 0x405: {  // SetBackgroundColor  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetBackgroundColor( _a0, _a1, _a2, _a3 );
+        return 1;
+    }
+    case 0x406: {  // GetBackgroundColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4240,7 +4628,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_INUM, &_a3 );
         return 1;
     }
-    case 0x3e3: {  // GetDrawScreenGraph  -> r_int
+    case 0x407: {  // GetDrawScreenGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4250,7 +4638,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetDrawScreenGraph( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x3e4: {  // BltDrawValidGraph  -> r_int
+    case 0x408: {  // BltDrawValidGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4262,42 +4650,59 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = BltDrawValidGraph( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x3e5: {  // ScreenCopy  -> r_int
+    case 0x409: {  // ScreenFlip  -> r_int
+        ctx->stat = ScreenFlip(  );
+        return 1;
+    }
+    case 0x40a: {  // ScreenCopy  -> r_int
         ctx->stat = ScreenCopy(  );
         return 1;
     }
-    case 0x3e6: {  // WaitVSync  -> r_int
+    case 0x40b: {  // WaitVSync  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = WaitVSync( _a0 );
         return 1;
     }
-    case 0x3e7: {  // ClsDrawScreen  -> r_int
+    case 0x40c: {  // ClsDrawScreen  -> r_int
         ctx->stat = ClsDrawScreen(  );
         return 1;
     }
-    case 0x3e8: {  // GetDrawScreen  -> r_int
+    case 0x40d: {  // SetDrawScreen  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetDrawScreen( _a0 );
+        return 1;
+    }
+    case 0x40e: {  // GetDrawScreen  -> r_int
         ctx->stat = GetDrawScreen(  );
         return 1;
     }
-    case 0x3e9: {  // GetActiveGraph  -> r_int
+    case 0x40f: {  // GetActiveGraph  -> r_int
         ctx->stat = GetActiveGraph(  );
         return 1;
     }
-    case 0x3ea: {  // SetUseSetDrawScreenSettingReset  -> r_int
+    case 0x410: {  // SetUseSetDrawScreenSettingReset  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseSetDrawScreenSettingReset( _a0 );
         return 1;
     }
-    case 0x3eb: {  // GetUseSetDrawScreenSettingReset  -> r_int
+    case 0x411: {  // GetUseSetDrawScreenSettingReset  -> r_int
         ctx->stat = GetUseSetDrawScreenSettingReset(  );
         return 1;
     }
-    case 0x3ec: {  // SetDrawZBuffer  -> r_int
+    case 0x412: {  // SetDrawZBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDrawZBuffer( _a0 );
         return 1;
     }
-    case 0x3ed: {  // GetFullScreenResolutionMode  -> r_int
+    case 0x413: {  // SetGraphMode  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 60 );
+        ctx->stat = SetGraphMode( _a0, _a1, _a2, _a3 );
+        return 1;
+    }
+    case 0x414: {  // GetFullScreenResolutionMode  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4309,37 +4714,42 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x3ee: {  // GetUseFullScreenResolutionMode  -> r_int
+    case 0x415: {  // GetUseFullScreenResolutionMode  -> r_int
         ctx->stat = GetUseFullScreenResolutionMode(  );
         return 1;
     }
-    case 0x3ef: {  // SetEmulation320x240  -> r_int
+    case 0x416: {  // SetEmulation320x240  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetEmulation320x240( _a0 );
         return 1;
     }
-    case 0x3f0: {  // SetZBufferSize  -> r_int
+    case 0x417: {  // SetZBufferSize  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetZBufferSize( _a0, _a1 );
         return 1;
     }
-    case 0x3f1: {  // SetZBufferBitDepth  -> r_int
+    case 0x418: {  // SetZBufferBitDepth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetZBufferBitDepth( _a0 );
         return 1;
     }
-    case 0x3f2: {  // GetWaitVSyncFlag  -> r_int
+    case 0x419: {  // SetWaitVSyncFlag  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetWaitVSyncFlag( _a0 );
+        return 1;
+    }
+    case 0x41a: {  // GetWaitVSyncFlag  -> r_int
         ctx->stat = GetWaitVSyncFlag(  );
         return 1;
     }
-    case 0x3f3: {  // SetFullSceneAntiAliasingMode  -> r_int
+    case 0x41b: {  // SetFullSceneAntiAliasingMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFullSceneAntiAliasingMode( _a0, _a1 );
         return 1;
     }
-    case 0x3f4: {  // SetGraphDisplayArea  -> r_int
+    case 0x41c: {  // SetGraphDisplayArea  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4347,12 +4757,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetGraphDisplayArea( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x3f5: {  // SetChangeScreenModeGraphicsSystemResetFlag  -> r_int
+    case 0x41d: {  // SetChangeScreenModeGraphicsSystemResetFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetChangeScreenModeGraphicsSystemResetFlag( _a0 );
         return 1;
     }
-    case 0x3f6: {  // GetScreenState  -> r_int
+    case 0x41e: {  // GetScreenState  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4368,7 +4778,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x3f7: {  // GetDrawScreenSize  -> r_int
+    case 0x41f: {  // GetDrawScreenSize  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4380,19 +4790,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x3f8: {  // GetScreenBitDepth  -> r_int
+    case 0x420: {  // GetScreenBitDepth  -> r_int
         ctx->stat = GetScreenBitDepth(  );
         return 1;
     }
-    case 0x3f9: {  // GetColorBitDepth  -> r_int
+    case 0x421: {  // GetColorBitDepth  -> r_int
         ctx->stat = GetColorBitDepth(  );
         return 1;
     }
-    case 0x3fa: {  // GetChangeDisplayFlag  -> r_int
+    case 0x422: {  // GetChangeDisplayFlag  -> r_int
         ctx->stat = GetChangeDisplayFlag(  );
         return 1;
     }
-    case 0x3fb: {  // GetVideoMemorySize  -> r_int
+    case 0x423: {  // GetVideoMemorySize  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4404,15 +4814,15 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x3fc: {  // GetRefreshRate  -> r_int
+    case 0x424: {  // GetRefreshRate  -> r_int
         ctx->stat = GetRefreshRate(  );
         return 1;
     }
-    case 0x3fd: {  // GetDisplayNum  -> r_int
+    case 0x425: {  // GetDisplayNum  -> r_int
         ctx->stat = GetDisplayNum(  );
         return 1;
     }
-    case 0x3fe: {  // GetDisplayInfo  -> r_int
+    case 0x426: {  // GetDisplayInfo  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4441,12 +4851,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x3ff: {  // GetDisplayModeNum  -> r_int
+    case 0x427: {  // GetDisplayModeNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetDisplayModeNum( _a0 );
         return 1;
     }
-    case 0x400: {  // GetDisplayMaxResolution  -> r_int
+    case 0x428: {  // GetDisplayMaxResolution  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -4459,99 +4869,99 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x401: {  // GetMultiDrawScreenNum  -> r_int
+    case 0x429: {  // GetMultiDrawScreenNum  -> r_int
         ctx->stat = GetMultiDrawScreenNum(  );
         return 1;
     }
-    case 0x402: {  // GetDrawFloatCoordType  -> r_int
+    case 0x42a: {  // GetDrawFloatCoordType  -> r_int
         ctx->stat = GetDrawFloatCoordType(  );
         return 1;
     }
-    case 0x403: {  // SetUseNormalDrawShader  -> r_int
+    case 0x42b: {  // SetUseNormalDrawShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseNormalDrawShader( _a0 );
         return 1;
     }
-    case 0x404: {  // SetUseSoftwareRenderModeFlag  -> r_int
+    case 0x42c: {  // SetUseSoftwareRenderModeFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseSoftwareRenderModeFlag( _a0 );
         return 1;
     }
-    case 0x405: {  // SetNotUse3DFlag  -> r_int
+    case 0x42d: {  // SetNotUse3DFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetNotUse3DFlag( _a0 );
         return 1;
     }
-    case 0x406: {  // SetUse3DFlag  -> r_int
+    case 0x42e: {  // SetUse3DFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUse3DFlag( _a0 );
         return 1;
     }
-    case 0x407: {  // GetUse3DFlag  -> r_int
+    case 0x42f: {  // GetUse3DFlag  -> r_int
         ctx->stat = GetUse3DFlag(  );
         return 1;
     }
-    case 0x408: {  // SetScreenMemToVramFlag  -> r_int
+    case 0x430: {  // SetScreenMemToVramFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetScreenMemToVramFlag( _a0 );
         return 1;
     }
-    case 0x409: {  // GetScreenMemToSystemMemFlag  -> r_int
+    case 0x431: {  // GetScreenMemToSystemMemFlag  -> r_int
         ctx->stat = GetScreenMemToSystemMemFlag(  );
         return 1;
     }
-    case 0x40a: {  // RestoreGraphSystem  -> r_int
+    case 0x432: {  // RestoreGraphSystem  -> r_int
         ctx->stat = RestoreGraphSystem(  );
         return 1;
     }
-    case 0x40b: {  // SetUseHardwareVertexProcessing  -> r_int
+    case 0x433: {  // SetUseHardwareVertexProcessing  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseHardwareVertexProcessing( _a0 );
         return 1;
     }
-    case 0x40c: {  // SetUsePixelLighting  -> r_int
+    case 0x434: {  // SetUsePixelLighting  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUsePixelLighting( _a0 );
         return 1;
     }
-    case 0x40d: {  // SetUseOldDrawModiGraphCodeFlag  -> r_int
+    case 0x435: {  // SetUseOldDrawModiGraphCodeFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseOldDrawModiGraphCodeFlag( _a0 );
         return 1;
     }
-    case 0x40e: {  // SetUseVramFlag  -> r_int
+    case 0x436: {  // SetUseVramFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseVramFlag( _a0 );
         return 1;
     }
-    case 0x40f: {  // GetUseVramFlag  -> r_int
+    case 0x437: {  // GetUseVramFlag  -> r_int
         ctx->stat = GetUseVramFlag(  );
         return 1;
     }
-    case 0x410: {  // SetBasicBlendFlag  -> r_int
+    case 0x438: {  // SetBasicBlendFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetBasicBlendFlag( _a0 );
         return 1;
     }
-    case 0x411: {  // SetUseBasicGraphDraw3DDeviceMethodFlag  -> r_int
+    case 0x439: {  // SetUseBasicGraphDraw3DDeviceMethodFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseBasicGraphDraw3DDeviceMethodFlag( _a0 );
         return 1;
     }
-    case 0x412: {  // SetUseDisplayIndex  -> r_int
+    case 0x43a: {  // SetUseDisplayIndex  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseDisplayIndex( _a0 );
         return 1;
     }
-    case 0x413: {  // RenderVertex  -> r_int
+    case 0x43b: {  // RenderVertex  -> r_int
         ctx->stat = RenderVertex(  );
         return 1;
     }
-    case 0x414: {  // GetDrawCallCount  -> r_int
+    case 0x43c: {  // GetDrawCallCount  -> r_int
         ctx->stat = GetDrawCallCount(  );
         return 1;
     }
-    case 0x415: {  // GetFPS  -> r_float
+    case 0x43d: {  // GetFPS  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetFPS(  );
@@ -4559,7 +4969,22 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x416: {  // SaveDrawScreenToBMP  -> r_int
+    case 0x43e: {  // SaveDrawScreen  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( 0 );
+        const char *_a4_u8 = hsp3dx_auto_gets();
+        wchar_t _a4_w[1024];
+        hsp3dx_utf8_to_wide( _a4_u8, _a4_w, 1024 );
+        int _a5 = hsp3dx_auto_geti( DX_IMAGESAVETYPE_BMP );
+        int _a6 = hsp3dx_auto_geti( 80 );
+        int _a7 = hsp3dx_auto_geti( 1 );
+        int _a8 = hsp3dx_auto_geti( -1 );
+        ctx->stat = SaveDrawScreen( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6, _a7, _a8 );
+        return 1;
+    }
+    case 0x43f: {  // SaveDrawScreenToBMP  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4570,7 +4995,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawScreenToBMP( _a0, _a1, _a2, _a3, _a4_w );
         return 1;
     }
-    case 0x417: {  // SaveDrawScreenToDDS  -> r_int
+    case 0x440: {  // SaveDrawScreenToDDS  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4581,7 +5006,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawScreenToDDS( _a0, _a1, _a2, _a3, _a4_w );
         return 1;
     }
-    case 0x418: {  // SaveDrawScreenToJPEG  -> r_int
+    case 0x441: {  // SaveDrawScreenToJPEG  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4594,7 +5019,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawScreenToJPEG( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6 );
         return 1;
     }
-    case 0x419: {  // SaveDrawScreenToPNG  -> r_int
+    case 0x442: {  // SaveDrawScreenToPNG  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4606,7 +5031,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawScreenToPNG( _a0, _a1, _a2, _a3, _a4_w, _a5 );
         return 1;
     }
-    case 0x41a: {  // SaveDrawValidGraph  -> r_int
+    case 0x443: {  // SaveDrawValidGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4622,7 +5047,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawValidGraph( _a0, _a1, _a2, _a3, _a4, _a5_w, _a6, _a7, _a8, _a9 );
         return 1;
     }
-    case 0x41b: {  // SaveDrawValidGraphToBMP  -> r_int
+    case 0x444: {  // SaveDrawValidGraphToBMP  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4634,7 +5059,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawValidGraphToBMP( _a0, _a1, _a2, _a3, _a4, _a5_w );
         return 1;
     }
-    case 0x41c: {  // SaveDrawValidGraphToDDS  -> r_int
+    case 0x445: {  // SaveDrawValidGraphToDDS  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4646,7 +5071,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawValidGraphToDDS( _a0, _a1, _a2, _a3, _a4, _a5_w );
         return 1;
     }
-    case 0x41d: {  // SaveDrawValidGraphToJPEG  -> r_int
+    case 0x446: {  // SaveDrawValidGraphToJPEG  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4660,7 +5085,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawValidGraphToJPEG( _a0, _a1, _a2, _a3, _a4, _a5_w, _a6, _a7 );
         return 1;
     }
-    case 0x41e: {  // SaveDrawValidGraphToPNG  -> r_int
+    case 0x447: {  // SaveDrawValidGraphToPNG  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -4673,81 +5098,81 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveDrawValidGraphToPNG( _a0, _a1, _a2, _a3, _a4, _a5_w, _a6 );
         return 1;
     }
-    case 0x41f: {  // DeleteVertexBuffer  -> r_int
+    case 0x448: {  // DeleteVertexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteVertexBuffer( _a0 );
         return 1;
     }
-    case 0x420: {  // InitVertexBuffer  -> r_int
+    case 0x449: {  // InitVertexBuffer  -> r_int
         ctx->stat = InitVertexBuffer(  );
         return 1;
     }
-    case 0x421: {  // UpdateVertexBuffer  -> r_int
+    case 0x44a: {  // UpdateVertexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = UpdateVertexBuffer( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x422: {  // DeleteIndexBuffer  -> r_int
+    case 0x44b: {  // DeleteIndexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteIndexBuffer( _a0 );
         return 1;
     }
-    case 0x423: {  // InitIndexBuffer  -> r_int
+    case 0x44c: {  // InitIndexBuffer  -> r_int
         ctx->stat = InitIndexBuffer(  );
         return 1;
     }
-    case 0x424: {  // UpdateIndexBuffer  -> r_int
+    case 0x44d: {  // UpdateIndexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = UpdateIndexBuffer( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x425: {  // GetMaxPrimitiveCount  -> r_int
+    case 0x44e: {  // GetMaxPrimitiveCount  -> r_int
         ctx->stat = GetMaxPrimitiveCount(  );
         return 1;
     }
-    case 0x426: {  // GetMaxVertexIndex  -> r_int
+    case 0x44f: {  // GetMaxVertexIndex  -> r_int
         ctx->stat = GetMaxVertexIndex(  );
         return 1;
     }
-    case 0x427: {  // GetValidShaderVersion  -> r_int
+    case 0x450: {  // GetValidShaderVersion  -> r_int
         ctx->stat = GetValidShaderVersion(  );
         return 1;
     }
-    case 0x428: {  // LoadVertexShader  -> r_int
+    case 0x451: {  // LoadVertexShader  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadVertexShader( _a0_w );
         return 1;
     }
-    case 0x429: {  // LoadGeometryShader  -> r_int
+    case 0x452: {  // LoadGeometryShader  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadGeometryShader( _a0_w );
         return 1;
     }
-    case 0x42a: {  // LoadPixelShader  -> r_int
+    case 0x453: {  // LoadPixelShader  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadPixelShader( _a0_w );
         return 1;
     }
-    case 0x42b: {  // DeleteShader  -> r_int
+    case 0x454: {  // DeleteShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteShader( _a0 );
         return 1;
     }
-    case 0x42c: {  // InitShader  -> r_int
+    case 0x455: {  // InitShader  -> r_int
         ctx->stat = InitShader(  );
         return 1;
     }
-    case 0x42d: {  // GetConstIndexToShader  -> r_int
+    case 0x456: {  // GetConstIndexToShader  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -4755,7 +5180,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetConstIndexToShader( _a0_w, _a1 );
         return 1;
     }
-    case 0x42e: {  // GetConstCountToShader  -> r_int
+    case 0x457: {  // GetConstCountToShader  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -4763,13 +5188,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetConstCountToShader( _a0_w, _a1 );
         return 1;
     }
-    case 0x42f: {  // SetVSConstSF  -> r_int
+    case 0x458: {  // SetVSConstSF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetVSConstSF( _a0, _a1 );
         return 1;
     }
-    case 0x430: {  // SetVSConstF  -> r_int
+    case 0x459: {  // SetVSConstF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4780,7 +5205,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetVSConstF( _a0, _a1 );
         return 1;
     }
-    case 0x431: {  // SetVSConstFMtx  -> r_int
+    case 0x45a: {  // SetVSConstFMtx  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4791,7 +5216,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetVSConstFMtx( _a0, _a1 );
         return 1;
     }
-    case 0x432: {  // SetVSConstFMtxT  -> r_int
+    case 0x45b: {  // SetVSConstFMtxT  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4802,13 +5227,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetVSConstFMtxT( _a0, _a1 );
         return 1;
     }
-    case 0x433: {  // SetVSConstSI  -> r_int
+    case 0x45c: {  // SetVSConstSI  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetVSConstSI( _a0, _a1 );
         return 1;
     }
-    case 0x434: {  // SetVSConstSFArray  -> r_int
+    case 0x45d: {  // SetVSConstSFArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4819,7 +5244,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1_d );
         return 1;
     }
-    case 0x435: {  // SetVSConstFArray  -> r_int
+    case 0x45e: {  // SetVSConstFArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4830,7 +5255,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetVSConstFArray( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x436: {  // SetVSConstFMtxArray  -> r_int
+    case 0x45f: {  // SetVSConstFMtxArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4841,7 +5266,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetVSConstFMtxArray( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x437: {  // SetVSConstFMtxTArray  -> r_int
+    case 0x460: {  // SetVSConstFMtxTArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4852,7 +5277,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetVSConstFMtxTArray( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x438: {  // SetVSConstSIArray  -> r_int
+    case 0x461: {  // SetVSConstSIArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4862,31 +5287,31 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x439: {  // ResetVSConstF  -> r_int
+    case 0x462: {  // ResetVSConstF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetVSConstF( _a0, _a1 );
         return 1;
     }
-    case 0x43a: {  // ResetVSConstI  -> r_int
+    case 0x463: {  // ResetVSConstI  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetVSConstI( _a0, _a1 );
         return 1;
     }
-    case 0x43b: {  // ResetVSConstB  -> r_int
+    case 0x464: {  // ResetVSConstB  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetVSConstB( _a0, _a1 );
         return 1;
     }
-    case 0x43c: {  // SetPSConstSF  -> r_int
+    case 0x465: {  // SetPSConstSF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetPSConstSF( _a0, _a1 );
         return 1;
     }
-    case 0x43d: {  // SetPSConstF  -> r_int
+    case 0x466: {  // SetPSConstF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4897,7 +5322,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetPSConstF( _a0, _a1 );
         return 1;
     }
-    case 0x43e: {  // SetPSConstFMtx  -> r_int
+    case 0x467: {  // SetPSConstFMtx  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4908,7 +5333,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetPSConstFMtx( _a0, _a1 );
         return 1;
     }
-    case 0x43f: {  // SetPSConstFMtxT  -> r_int
+    case 0x468: {  // SetPSConstFMtxT  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4919,13 +5344,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetPSConstFMtxT( _a0, _a1 );
         return 1;
     }
-    case 0x440: {  // SetPSConstSI  -> r_int
+    case 0x469: {  // SetPSConstSI  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetPSConstSI( _a0, _a1 );
         return 1;
     }
-    case 0x441: {  // SetPSConstSFArray  -> r_int
+    case 0x46a: {  // SetPSConstSFArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4936,7 +5361,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1_d );
         return 1;
     }
-    case 0x442: {  // SetPSConstFArray  -> r_int
+    case 0x46b: {  // SetPSConstFArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4947,7 +5372,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetPSConstFArray( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x443: {  // SetPSConstFMtxArray  -> r_int
+    case 0x46c: {  // SetPSConstFMtxArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4958,7 +5383,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetPSConstFMtxArray( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x444: {  // SetPSConstFMtxTArray  -> r_int
+    case 0x46d: {  // SetPSConstFMtxTArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4969,7 +5394,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetPSConstFMtxTArray( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x445: {  // SetPSConstSIArray  -> r_int
+    case 0x46e: {  // SetPSConstSIArray  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -4979,25 +5404,25 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x446: {  // ResetPSConstF  -> r_int
+    case 0x46f: {  // ResetPSConstF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetPSConstF( _a0, _a1 );
         return 1;
     }
-    case 0x447: {  // ResetPSConstI  -> r_int
+    case 0x470: {  // ResetPSConstI  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetPSConstI( _a0, _a1 );
         return 1;
     }
-    case 0x448: {  // ResetPSConstB  -> r_int
+    case 0x471: {  // ResetPSConstB  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetPSConstB( _a0, _a1 );
         return 1;
     }
-    case 0x449: {  // SetRenderTargetToShader  -> r_int
+    case 0x472: {  // SetRenderTargetToShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -5005,28 +5430,28 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetRenderTargetToShader( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x44a: {  // SetUseTextureToShader  -> r_int
+    case 0x473: {  // SetUseTextureToShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseTextureToShader( _a0, _a1 );
         return 1;
     }
-    case 0x44b: {  // SetUseVertexShader  -> r_int
+    case 0x474: {  // SetUseVertexShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseVertexShader( _a0 );
         return 1;
     }
-    case 0x44c: {  // SetUseGeometryShader  -> r_int
+    case 0x475: {  // SetUseGeometryShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseGeometryShader( _a0 );
         return 1;
     }
-    case 0x44d: {  // SetUsePixelShader  -> r_int
+    case 0x476: {  // SetUsePixelShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUsePixelShader( _a0 );
         return 1;
     }
-    case 0x44e: {  // DrawBillboard3DToShader  -> r_int
+    case 0x477: {  // DrawBillboard3DToShader  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5044,42 +5469,42 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawBillboard3DToShader( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x44f: {  // DrawPolygon3DToShader_UseVertexBuffer  -> r_int
+    case 0x478: {  // DrawPolygon3DToShader_UseVertexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DrawPolygon3DToShader_UseVertexBuffer( _a0 );
         return 1;
     }
-    case 0x450: {  // DrawPolygonIndexed3DToShader_UseVertexBuffer  -> r_int
+    case 0x479: {  // DrawPolygonIndexed3DToShader_UseVertexBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = DrawPolygonIndexed3DToShader_UseVertexBuffer( _a0, _a1 );
         return 1;
     }
-    case 0x451: {  // InitShaderConstantBuffer  -> r_int
+    case 0x47a: {  // InitShaderConstantBuffer  -> r_int
         ctx->stat = InitShaderConstantBuffer(  );
         return 1;
     }
-    case 0x452: {  // CreateShaderConstantBuffer  -> r_int
+    case 0x47b: {  // CreateShaderConstantBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CreateShaderConstantBuffer( _a0 );
         return 1;
     }
-    case 0x453: {  // DeleteShaderConstantBuffer  -> r_int
+    case 0x47c: {  // DeleteShaderConstantBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteShaderConstantBuffer( _a0 );
         return 1;
     }
-    case 0x454: {  // UpdateShaderConstantBuffer  -> r_int
+    case 0x47d: {  // UpdateShaderConstantBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = UpdateShaderConstantBuffer( _a0 );
         return 1;
     }
-    case 0x455: {  // SetGraphBlendScalingFilterMode  -> r_int
+    case 0x47e: {  // SetGraphBlendScalingFilterMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetGraphBlendScalingFilterMode( _a0 );
         return 1;
     }
-    case 0x456: {  // PlayMovie  -> r_int
+    case 0x47f: {  // PlayMovie  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -5088,7 +5513,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = PlayMovie( _a0_w, _a1, _a2 );
         return 1;
     }
-    case 0x457: {  // GetMovieImageSize_File  -> r_int
+    case 0x480: {  // GetMovieImageSize_File  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -5103,7 +5528,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x458: {  // OpenMovieToGraph  -> r_int
+    case 0x481: {  // OpenMovieToGraph  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -5111,73 +5536,86 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = OpenMovieToGraph( _a0_w, _a1 );
         return 1;
     }
-    case 0x459: {  // AddMovieFrameToGraph  -> r_int
+    case 0x482: {  // PlayMovieToGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( DX_PLAYTYPE_BACK );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        ctx->stat = PlayMovieToGraph( _a0, _a1, _a2 );
+        return 1;
+    }
+    case 0x483: {  // PauseMovieToGraph  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        ctx->stat = PauseMovieToGraph( _a0, _a1 );
+        return 1;
+    }
+    case 0x484: {  // AddMovieFrameToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         unsigned int _a1 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
         ctx->stat = AddMovieFrameToGraph( _a0, _a1 );
         return 1;
     }
-    case 0x45a: {  // SeekMovieToGraph  -> r_int
+    case 0x485: {  // SeekMovieToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SeekMovieToGraph( _a0, _a1 );
         return 1;
     }
-    case 0x45b: {  // SetPlaySpeedRateMovieToGraph  -> r_int
+    case 0x486: {  // SetPlaySpeedRateMovieToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         double _a1 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetPlaySpeedRateMovieToGraph( _a0, _a1 );
         return 1;
     }
-    case 0x45c: {  // GetMovieStateToGraph  -> r_int
+    case 0x487: {  // GetMovieStateToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetMovieStateToGraph( _a0 );
         return 1;
     }
-    case 0x45d: {  // SetMovieVolumeToGraph  -> r_int
+    case 0x488: {  // SetMovieVolumeToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMovieVolumeToGraph( _a0, _a1 );
         return 1;
     }
-    case 0x45e: {  // GetMovieVolumeToGraph  -> r_int
+    case 0x489: {  // GetMovieVolumeToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetMovieVolumeToGraph( _a0 );
         return 1;
     }
-    case 0x45f: {  // ChangeMovieVolumeToGraph  -> r_int
+    case 0x48a: {  // ChangeMovieVolumeToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeMovieVolumeToGraph( _a0, _a1 );
         return 1;
     }
-    case 0x460: {  // GetMovieVolumeToGraph2  -> r_int
+    case 0x48b: {  // GetMovieVolumeToGraph2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetMovieVolumeToGraph2( _a0 );
         return 1;
     }
-    case 0x461: {  // GetMovieTotalFrameToGraph  -> r_int
+    case 0x48c: {  // GetMovieTotalFrameToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetMovieTotalFrameToGraph( _a0 );
         return 1;
     }
-    case 0x462: {  // TellMovieToGraph  -> r_int
+    case 0x48d: {  // TellMovieToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = TellMovieToGraph( _a0 );
         return 1;
     }
-    case 0x463: {  // TellMovieToGraphToFrame  -> r_int
+    case 0x48e: {  // TellMovieToGraphToFrame  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = TellMovieToGraphToFrame( _a0 );
         return 1;
     }
-    case 0x464: {  // SeekMovieToGraphToFrame  -> r_int
+    case 0x48f: {  // SeekMovieToGraphToFrame  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SeekMovieToGraphToFrame( _a0, _a1 );
         return 1;
     }
-    case 0x465: {  // GetOneFrameTimeMovieToGraph  -> r_int64
+    case 0x490: {  // GetOneFrameTimeMovieToGraph  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -5186,44 +5624,60 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x466: {  // GetLastUpdateTimeMovieToGraph  -> r_int
+    case 0x491: {  // GetLastUpdateTimeMovieToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetLastUpdateTimeMovieToGraph( _a0 );
         return 1;
     }
-    case 0x467: {  // UpdateMovieToGraph  -> r_int
+    case 0x492: {  // UpdateMovieToGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = UpdateMovieToGraph( _a0 );
         return 1;
     }
-    case 0x468: {  // SetMovieRightImageAlphaFlag  -> r_int
+    case 0x493: {  // SetMovieRightImageAlphaFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMovieRightImageAlphaFlag( _a0 );
         return 1;
     }
-    case 0x469: {  // SetMovieColorA8R8G8B8Flag  -> r_int
+    case 0x494: {  // SetMovieColorA8R8G8B8Flag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMovieColorA8R8G8B8Flag( _a0 );
         return 1;
     }
-    case 0x46a: {  // SetMovieUseYUVFormatSurfaceFlag  -> r_int
+    case 0x495: {  // SetMovieUseYUVFormatSurfaceFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMovieUseYUVFormatSurfaceFlag( _a0 );
         return 1;
     }
-    case 0x46b: {  // SetCameraNearFar  -> r_int
+    case 0x496: {  // SetCameraNearFar  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCameraNearFar( _a0, _a1 );
         return 1;
     }
-    case 0x46c: {  // SetCameraNearFarD  -> r_int
+    case 0x497: {  // SetCameraNearFarD  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         double _a1 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCameraNearFarD( _a0, _a1 );
         return 1;
     }
-    case 0x46d: {  // SetCameraPositionAndTarget_UpVecYD  -> r_int
+    case 0x498: {  // SetCameraPositionAndTarget_UpVecY  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        ctx->stat = SetCameraPositionAndTarget_UpVecY( _a0, _a1 );
+        return 1;
+    }
+    case 0x499: {  // SetCameraPositionAndTarget_UpVecYD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -5239,7 +5693,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetCameraPositionAndTarget_UpVecYD( _a0, _a1 );
         return 1;
     }
-    case 0x46e: {  // SetCameraPositionAndTargetAndUpVec  -> r_int
+    case 0x49a: {  // SetCameraPositionAndTargetAndUpVec  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5261,7 +5715,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetCameraPositionAndTargetAndUpVec( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x46f: {  // SetCameraPositionAndTargetAndUpVecD  -> r_int
+    case 0x49b: {  // SetCameraPositionAndTargetAndUpVecD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -5283,7 +5737,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetCameraPositionAndTargetAndUpVecD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x470: {  // SetCameraPositionAndAngle  -> r_int
+    case 0x49c: {  // SetCameraPositionAndAngle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5296,7 +5750,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetCameraPositionAndAngle( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x471: {  // SetCameraPositionAndAngleD  -> r_int
+    case 0x49d: {  // SetCameraPositionAndAngleD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -5309,7 +5763,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetCameraPositionAndAngleD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x472: {  // SetCameraViewMatrix  -> r_int
+    case 0x49e: {  // SetCameraViewMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -5319,7 +5773,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetCameraViewMatrix( _a0 );
         return 1;
     }
-    case 0x473: {  // SetCameraViewMatrixD  -> r_int
+    case 0x49f: {  // SetCameraViewMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -5329,34 +5783,39 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetCameraViewMatrixD( _a0 );
         return 1;
     }
-    case 0x474: {  // SetCameraScreenCenter  -> r_int
+    case 0x4a0: {  // SetCameraScreenCenter  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCameraScreenCenter( _a0, _a1 );
         return 1;
     }
-    case 0x475: {  // SetCameraScreenCenterD  -> r_int
+    case 0x4a1: {  // SetCameraScreenCenterD  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         double _a1 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCameraScreenCenterD( _a0, _a1 );
         return 1;
     }
-    case 0x476: {  // SetupCamera_PerspectiveD  -> r_int
+    case 0x4a2: {  // SetupCamera_Perspective  -> r_int
+        float _a0 = (float)hsp3dx_auto_getd( 0.0 );
+        ctx->stat = SetupCamera_Perspective( _a0 );
+        return 1;
+    }
+    case 0x4a3: {  // SetupCamera_PerspectiveD  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetupCamera_PerspectiveD( _a0 );
         return 1;
     }
-    case 0x477: {  // SetupCamera_Ortho  -> r_int
+    case 0x4a4: {  // SetupCamera_Ortho  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetupCamera_Ortho( _a0 );
         return 1;
     }
-    case 0x478: {  // SetupCamera_OrthoD  -> r_int
+    case 0x4a5: {  // SetupCamera_OrthoD  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetupCamera_OrthoD( _a0 );
         return 1;
     }
-    case 0x479: {  // SetupCamera_ProjectionMatrix  -> r_int
+    case 0x4a6: {  // SetupCamera_ProjectionMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -5366,7 +5825,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetupCamera_ProjectionMatrix( _a0 );
         return 1;
     }
-    case 0x47a: {  // SetupCamera_ProjectionMatrixD  -> r_int
+    case 0x4a7: {  // SetupCamera_ProjectionMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -5376,17 +5835,17 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetupCamera_ProjectionMatrixD( _a0 );
         return 1;
     }
-    case 0x47b: {  // SetCameraDotAspect  -> r_int
+    case 0x4a8: {  // SetCameraDotAspect  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCameraDotAspect( _a0 );
         return 1;
     }
-    case 0x47c: {  // SetCameraDotAspectD  -> r_int
+    case 0x4a9: {  // SetCameraDotAspectD  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCameraDotAspectD( _a0 );
         return 1;
     }
-    case 0x47d: {  // CheckCameraViewClip  -> r_int
+    case 0x4aa: {  // CheckCameraViewClip  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5396,7 +5855,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CheckCameraViewClip( _a0 );
         return 1;
     }
-    case 0x47e: {  // CheckCameraViewClipD  -> r_int
+    case 0x4ab: {  // CheckCameraViewClipD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -5406,7 +5865,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CheckCameraViewClipD( _a0 );
         return 1;
     }
-    case 0x47f: {  // CheckCameraViewClip_Dir  -> r_int
+    case 0x4ac: {  // CheckCameraViewClip_Dir  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5416,7 +5875,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CheckCameraViewClip_Dir( _a0 );
         return 1;
     }
-    case 0x480: {  // CheckCameraViewClip_DirD  -> r_int
+    case 0x4ad: {  // CheckCameraViewClip_DirD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -5426,7 +5885,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CheckCameraViewClip_DirD( _a0 );
         return 1;
     }
-    case 0x481: {  // CheckCameraViewClip_Box  -> r_int
+    case 0x4ae: {  // CheckCameraViewClip_Box  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5442,7 +5901,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CheckCameraViewClip_Box( _a0, _a1 );
         return 1;
     }
-    case 0x482: {  // CheckCameraViewClip_BoxD  -> r_int
+    case 0x4af: {  // CheckCameraViewClip_BoxD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -5458,7 +5917,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CheckCameraViewClip_BoxD( _a0, _a1 );
         return 1;
     }
-    case 0x483: {  // GetCameraNear  -> r_float
+    case 0x4b0: {  // GetCameraNear  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraNear(  );
@@ -5466,14 +5925,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x484: {  // GetCameraNearD  -> r_double
+    case 0x4b1: {  // GetCameraNearD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraNearD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x485: {  // GetCameraFar  -> r_float
+    case 0x4b2: {  // GetCameraFar  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraFar(  );
@@ -5481,14 +5940,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x486: {  // GetCameraFarD  -> r_double
+    case 0x4b3: {  // GetCameraFarD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraFarD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x487: {  // GetCameraPosition  -> r_VECTOR
+    case 0x4b4: {  // GetCameraPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5497,7 +5956,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x488: {  // GetCameraPositionD  -> r_VECTOR_D
+    case 0x4b5: {  // GetCameraPositionD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5506,7 +5965,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x489: {  // GetCameraTarget  -> r_VECTOR
+    case 0x4b6: {  // GetCameraTarget  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5515,7 +5974,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x48a: {  // GetCameraTargetD  -> r_VECTOR_D
+    case 0x4b7: {  // GetCameraTargetD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5524,7 +5983,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x48b: {  // GetCameraUpVector  -> r_VECTOR
+    case 0x4b8: {  // GetCameraUpVector  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5533,7 +5992,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x48c: {  // GetCameraUpVectorD  -> r_VECTOR_D
+    case 0x4b9: {  // GetCameraUpVectorD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5542,7 +6001,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x48d: {  // GetCameraDownVector  -> r_VECTOR
+    case 0x4ba: {  // GetCameraDownVector  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5551,7 +6010,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x48e: {  // GetCameraDownVectorD  -> r_VECTOR_D
+    case 0x4bb: {  // GetCameraDownVectorD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5560,7 +6019,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x48f: {  // GetCameraRightVector  -> r_VECTOR
+    case 0x4bc: {  // GetCameraRightVector  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5569,7 +6028,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x490: {  // GetCameraRightVectorD  -> r_VECTOR_D
+    case 0x4bd: {  // GetCameraRightVectorD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5578,7 +6037,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x491: {  // GetCameraLeftVector  -> r_VECTOR
+    case 0x4be: {  // GetCameraLeftVector  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5587,7 +6046,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x492: {  // GetCameraLeftVectorD  -> r_VECTOR_D
+    case 0x4bf: {  // GetCameraLeftVectorD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5596,7 +6055,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x493: {  // GetCameraFrontVector  -> r_VECTOR
+    case 0x4c0: {  // GetCameraFrontVector  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5605,7 +6064,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x494: {  // GetCameraFrontVectorD  -> r_VECTOR_D
+    case 0x4c1: {  // GetCameraFrontVectorD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5614,7 +6073,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x495: {  // GetCameraBackVector  -> r_VECTOR
+    case 0x4c2: {  // GetCameraBackVector  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5623,7 +6082,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x496: {  // GetCameraBackVectorD  -> r_VECTOR_D
+    case 0x4c3: {  // GetCameraBackVectorD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -5632,7 +6091,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x497: {  // GetCameraAngleHRotate  -> r_float
+    case 0x4c4: {  // GetCameraAngleHRotate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraAngleHRotate(  );
@@ -5640,14 +6099,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x498: {  // GetCameraAngleHRotateD  -> r_double
+    case 0x4c5: {  // GetCameraAngleHRotateD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraAngleHRotateD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x499: {  // GetCameraAngleVRotate  -> r_float
+    case 0x4c6: {  // GetCameraAngleVRotate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraAngleVRotate(  );
@@ -5655,14 +6114,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x49a: {  // GetCameraAngleVRotateD  -> r_double
+    case 0x4c7: {  // GetCameraAngleVRotateD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraAngleVRotateD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x49b: {  // GetCameraAngleTRotate  -> r_float
+    case 0x4c8: {  // GetCameraAngleTRotate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraAngleTRotate(  );
@@ -5670,14 +6129,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x49c: {  // GetCameraAngleTRotateD  -> r_double
+    case 0x4c9: {  // GetCameraAngleTRotateD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraAngleTRotateD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x49d: {  // GetCameraViewMatrix  -> r_MATRIX
+    case 0x4ca: {  // GetCameraViewMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -5686,7 +6145,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x49e: {  // GetCameraViewMatrixD  -> r_MATRIX_D
+    case 0x4cb: {  // GetCameraViewMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -5695,7 +6154,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x49f: {  // GetCameraBillboardMatrix  -> r_MATRIX
+    case 0x4cc: {  // GetCameraBillboardMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -5704,7 +6163,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x4a0: {  // GetCameraBillboardMatrixD  -> r_MATRIX_D
+    case 0x4cd: {  // GetCameraBillboardMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -5713,7 +6172,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x4a1: {  // GetCameraScreenCenter  -> r_int
+    case 0x4ce: {  // GetCameraScreenCenter  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         float _a0 = 0.0f;
@@ -5727,7 +6186,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1_d );
         return 1;
     }
-    case 0x4a2: {  // GetCameraScreenCenterD  -> r_int
+    case 0x4cf: {  // GetCameraScreenCenterD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         double _a0 = 0.0;
@@ -5739,7 +6198,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1 );
         return 1;
     }
-    case 0x4a3: {  // GetCameraFov  -> r_float
+    case 0x4d0: {  // GetCameraFov  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraFov(  );
@@ -5747,14 +6206,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x4a4: {  // GetCameraFovD  -> r_double
+    case 0x4d1: {  // GetCameraFovD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraFovD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x4a5: {  // GetCameraSize  -> r_float
+    case 0x4d2: {  // GetCameraSize  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraSize(  );
@@ -5762,14 +6221,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x4a6: {  // GetCameraSizeD  -> r_double
+    case 0x4d3: {  // GetCameraSizeD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraSizeD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x4a7: {  // GetCameraProjectionMatrix  -> r_MATRIX
+    case 0x4d4: {  // GetCameraProjectionMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -5778,7 +6237,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x4a8: {  // GetCameraProjectionMatrixD  -> r_MATRIX_D
+    case 0x4d5: {  // GetCameraProjectionMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -5787,7 +6246,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x4a9: {  // GetCameraDotAspect  -> r_float
+    case 0x4d6: {  // GetCameraDotAspect  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCameraDotAspect(  );
@@ -5795,14 +6254,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x4aa: {  // GetCameraDotAspectD  -> r_double
+    case 0x4d7: {  // GetCameraDotAspectD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         double _ret = GetCameraDotAspectD(  );
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x4ab: {  // GetCameraViewportMatrix  -> r_MATRIX
+    case 0x4d8: {  // GetCameraViewportMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -5811,7 +6270,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x4ac: {  // GetCameraViewportMatrixD  -> r_MATRIX_D
+    case 0x4d9: {  // GetCameraViewportMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -5820,7 +6279,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x4ad: {  // GetCameraAPIViewportMatrix  -> r_MATRIX
+    case 0x4da: {  // GetCameraAPIViewportMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -5829,7 +6288,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x4ae: {  // GetCameraAPIViewportMatrixD  -> r_MATRIX_D
+    case 0x4db: {  // GetCameraAPIViewportMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -5838,22 +6297,27 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x4af: {  // SetMaterialUseVertDifColor  -> r_int
+    case 0x4dc: {  // SetUseLighting  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetUseLighting( _a0 );
+        return 1;
+    }
+    case 0x4dd: {  // SetMaterialUseVertDifColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMaterialUseVertDifColor( _a0 );
         return 1;
     }
-    case 0x4b0: {  // SetMaterialUseVertSpcColor  -> r_int
+    case 0x4de: {  // SetMaterialUseVertSpcColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMaterialUseVertSpcColor( _a0 );
         return 1;
     }
-    case 0x4b1: {  // SetUseSpecular  -> r_int
+    case 0x4df: {  // SetUseSpecular  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseSpecular( _a0 );
         return 1;
     }
-    case 0x4b2: {  // SetGlobalAmbientLight  -> r_int
+    case 0x4e0: {  // SetGlobalAmbientLight  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 16 )
@@ -5863,17 +6327,17 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetGlobalAmbientLight( _a0 );
         return 1;
     }
-    case 0x4b3: {  // SetUseLightAngleAttenuation  -> r_int
+    case 0x4e1: {  // SetUseLightAngleAttenuation  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseLightAngleAttenuation( _a0 );
         return 1;
     }
-    case 0x4b4: {  // SetUseHalfLambertLighting  -> r_int
+    case 0x4e2: {  // SetUseHalfLambertLighting  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseHalfLambertLighting( _a0 );
         return 1;
     }
-    case 0x4b5: {  // ChangeLightTypeDir  -> r_int
+    case 0x4e3: {  // ChangeLightTypeDir  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5883,7 +6347,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ChangeLightTypeDir( _a0 );
         return 1;
     }
-    case 0x4b6: {  // ChangeLightTypeSpot  -> r_int
+    case 0x4e4: {  // ChangeLightTypeSpot  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5905,7 +6369,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ChangeLightTypeSpot( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x4b7: {  // ChangeLightTypePoint  -> r_int
+    case 0x4e5: {  // ChangeLightTypePoint  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -5919,20 +6383,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ChangeLightTypePoint( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x4b8: {  // GetLightType  -> r_int
+    case 0x4e6: {  // GetLightType  -> r_int
         ctx->stat = GetLightType(  );
         return 1;
     }
-    case 0x4b9: {  // SetLightEnable  -> r_int
+    case 0x4e7: {  // SetLightEnable  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLightEnable( _a0 );
         return 1;
     }
-    case 0x4ba: {  // GetLightEnable  -> r_int
+    case 0x4e8: {  // GetLightEnable  -> r_int
         ctx->stat = GetLightEnable(  );
         return 1;
     }
-    case 0x4bb: {  // SetLightDifColor  -> r_int
+    case 0x4e9: {  // SetLightDifColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 16 )
@@ -5942,7 +6406,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightDifColor( _a0 );
         return 1;
     }
-    case 0x4bc: {  // GetLightDifColor  -> r_COLOR_F
+    case 0x4ea: {  // GetLightDifColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -5951,7 +6415,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x4bd: {  // SetLightSpcColor  -> r_int
+    case 0x4eb: {  // SetLightSpcColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 16 )
@@ -5961,7 +6425,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightSpcColor( _a0 );
         return 1;
     }
-    case 0x4be: {  // GetLightSpcColor  -> r_COLOR_F
+    case 0x4ec: {  // GetLightSpcColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -5970,7 +6434,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x4bf: {  // SetLightAmbColor  -> r_int
+    case 0x4ed: {  // SetLightAmbColor  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 16 )
@@ -5980,7 +6444,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightAmbColor( _a0 );
         return 1;
     }
-    case 0x4c0: {  // GetLightAmbColor  -> r_COLOR_F
+    case 0x4ee: {  // GetLightAmbColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -5989,7 +6453,17 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x4c1: {  // GetLightDirection  -> r_VECTOR
+    case 0x4ef: {  // SetLightDirection  -> r_int
+        PVal *_a0_pv; APTR _a0_ap;
+        _a0_ap = code_getva( &_a0_pv );
+        if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a0;
+        memcpy( &_a0, _a0_pv->pt + _a0_ap * _a0_pv->len[0], sizeof(VECTOR) );
+        ctx->stat = SetLightDirection( _a0 );
+        return 1;
+    }
+    case 0x4f0: {  // GetLightDirection  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -5998,7 +6472,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x4c2: {  // SetLightPosition  -> r_int
+    case 0x4f1: {  // SetLightPosition  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -6008,7 +6482,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightPosition( _a0 );
         return 1;
     }
-    case 0x4c3: {  // GetLightPosition  -> r_VECTOR
+    case 0x4f2: {  // GetLightPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -6017,7 +6491,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x4c4: {  // SetLightRangeAtten  -> r_int
+    case 0x4f3: {  // SetLightRangeAtten  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -6025,7 +6499,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightRangeAtten( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x4c5: {  // GetLightRangeAtten  -> r_int
+    case 0x4f4: {  // GetLightRangeAtten  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         float _a0 = 0.0f;
@@ -6049,13 +6523,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x4c6: {  // SetLightAngle  -> r_int
+    case 0x4f5: {  // SetLightAngle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetLightAngle( _a0, _a1 );
         return 1;
     }
-    case 0x4c7: {  // GetLightAngle  -> r_int
+    case 0x4f6: {  // GetLightAngle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         float _a0 = 0.0f;
@@ -6069,13 +6543,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_DNUM, &_a1_d );
         return 1;
     }
-    case 0x4c8: {  // SetLightUseShadowMap  -> r_int
+    case 0x4f7: {  // SetLightUseShadowMap  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLightUseShadowMap( _a0, _a1 );
         return 1;
     }
-    case 0x4c9: {  // CreateDirLightHandle  -> r_int
+    case 0x4f8: {  // CreateDirLightHandle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -6085,7 +6559,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateDirLightHandle( _a0 );
         return 1;
     }
-    case 0x4ca: {  // CreateSpotLightHandle  -> r_int
+    case 0x4f9: {  // CreateSpotLightHandle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -6107,7 +6581,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateSpotLightHandle( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x4cb: {  // CreatePointLightHandle  -> r_int
+    case 0x4fa: {  // CreatePointLightHandle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -6121,28 +6595,28 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreatePointLightHandle( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x4cc: {  // DeleteLightHandle  -> r_int
+    case 0x4fb: {  // DeleteLightHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteLightHandle( _a0 );
         return 1;
     }
-    case 0x4cd: {  // DeleteLightHandleAll  -> r_int
+    case 0x4fc: {  // DeleteLightHandleAll  -> r_int
         ctx->stat = DeleteLightHandleAll(  );
         return 1;
     }
-    case 0x4ce: {  // SetLightTypeHandle  -> r_int
+    case 0x4fd: {  // SetLightTypeHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLightTypeHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4cf: {  // SetLightEnableHandle  -> r_int
+    case 0x4fe: {  // SetLightEnableHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLightEnableHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4d0: {  // SetLightDifColorHandle  -> r_int
+    case 0x4ff: {  // SetLightDifColorHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6153,7 +6627,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightDifColorHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4d1: {  // SetLightSpcColorHandle  -> r_int
+    case 0x500: {  // SetLightSpcColorHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6164,7 +6638,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightSpcColorHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4d2: {  // SetLightAmbColorHandle  -> r_int
+    case 0x501: {  // SetLightAmbColorHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6175,7 +6649,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightAmbColorHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4d3: {  // SetLightDirectionHandle  -> r_int
+    case 0x502: {  // SetLightDirectionHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6186,7 +6660,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightDirectionHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4d4: {  // SetLightPositionHandle  -> r_int
+    case 0x503: {  // SetLightPositionHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6197,7 +6671,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightPositionHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4d5: {  // SetLightRangeAttenHandle  -> r_int
+    case 0x504: {  // SetLightRangeAttenHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -6206,31 +6680,31 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetLightRangeAttenHandle( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x4d6: {  // SetLightAngleHandle  -> r_int
+    case 0x505: {  // SetLightAngleHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetLightAngleHandle( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x4d7: {  // SetLightUseShadowMapHandle  -> r_int
+    case 0x506: {  // SetLightUseShadowMapHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLightUseShadowMapHandle( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x4d8: {  // GetLightTypeHandle  -> r_int
+    case 0x507: {  // GetLightTypeHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetLightTypeHandle( _a0 );
         return 1;
     }
-    case 0x4d9: {  // GetLightEnableHandle  -> r_int
+    case 0x508: {  // GetLightEnableHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetLightEnableHandle( _a0 );
         return 1;
     }
-    case 0x4da: {  // GetLightDifColorHandle  -> r_COLOR_F
+    case 0x509: {  // GetLightDifColorHandle  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -6240,7 +6714,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x4db: {  // GetLightSpcColorHandle  -> r_COLOR_F
+    case 0x50a: {  // GetLightSpcColorHandle  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -6250,7 +6724,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x4dc: {  // GetLightAmbColorHandle  -> r_COLOR_F
+    case 0x50b: {  // GetLightAmbColorHandle  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -6260,7 +6734,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x4dd: {  // GetLightDirectionHandle  -> r_VECTOR
+    case 0x50c: {  // GetLightDirectionHandle  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -6270,7 +6744,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x4de: {  // GetLightPositionHandle  -> r_VECTOR
+    case 0x50d: {  // GetLightPositionHandle  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -6280,7 +6754,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x4df: {  // GetLightRangeAttenHandle  -> r_int
+    case 0x50e: {  // GetLightRangeAttenHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6305,7 +6779,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_DNUM, &_a4_d );
         return 1;
     }
-    case 0x4e0: {  // GetLightAngleHandle  -> r_int
+    case 0x50f: {  // GetLightAngleHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6320,53 +6794,53 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_DNUM, &_a2_d );
         return 1;
     }
-    case 0x4e1: {  // GetEnableLightHandleNum  -> r_int
+    case 0x510: {  // GetEnableLightHandleNum  -> r_int
         ctx->stat = GetEnableLightHandleNum(  );
         return 1;
     }
-    case 0x4e2: {  // GetEnableLightHandle  -> r_int
+    case 0x511: {  // GetEnableLightHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetEnableLightHandle( _a0 );
         return 1;
     }
-    case 0x4e3: {  // CreateMaskScreen  -> r_int
+    case 0x512: {  // CreateMaskScreen  -> r_int
         ctx->stat = CreateMaskScreen(  );
         return 1;
     }
-    case 0x4e4: {  // DeleteMaskScreen  -> r_int
+    case 0x513: {  // DeleteMaskScreen  -> r_int
         ctx->stat = DeleteMaskScreen(  );
         return 1;
     }
-    case 0x4e5: {  // SetUseMaskScreenFlag  -> r_int
+    case 0x514: {  // SetUseMaskScreenFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseMaskScreenFlag( _a0 );
         return 1;
     }
-    case 0x4e6: {  // GetUseMaskScreenFlag  -> r_int
+    case 0x515: {  // GetUseMaskScreenFlag  -> r_int
         ctx->stat = GetUseMaskScreenFlag(  );
         return 1;
     }
-    case 0x4e7: {  // FillMaskScreen  -> r_int
+    case 0x516: {  // FillMaskScreen  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = FillMaskScreen( _a0 );
         return 1;
     }
-    case 0x4e8: {  // SetMaskScreenGraph  -> r_int
+    case 0x517: {  // SetMaskScreenGraph  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMaskScreenGraph( _a0 );
         return 1;
     }
-    case 0x4e9: {  // InitMask  -> r_int
+    case 0x518: {  // InitMask  -> r_int
         ctx->stat = InitMask(  );
         return 1;
     }
-    case 0x4ea: {  // MakeMask  -> r_int
+    case 0x519: {  // MakeMask  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeMask( _a0, _a1 );
         return 1;
     }
-    case 0x4eb: {  // GetMaskSize  -> r_int
+    case 0x51a: {  // GetMaskSize  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -6379,19 +6853,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x4ec: {  // DeleteMask  -> r_int
+    case 0x51b: {  // DeleteMask  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteMask( _a0 );
         return 1;
     }
-    case 0x4ed: {  // LoadMask  -> r_int
+    case 0x51c: {  // LoadMask  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadMask( _a0_w );
         return 1;
     }
-    case 0x4ee: {  // LoadDivMask  -> r_int
+    case 0x51d: {  // LoadDivMask  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6407,7 +6881,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x4ef: {  // DrawMask  -> r_int
+    case 0x51e: {  // DrawMask  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -6415,7 +6889,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawMask( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x4f0: {  // DrawStringMask  -> r_int
+    case 0x51f: {  // DrawStringMask  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -6425,7 +6899,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawStringMask( _a0, _a1, _a2, _a3_w );
         return 1;
     }
-    case 0x4f1: {  // DrawStringMaskToHandle  -> r_int
+    case 0x520: {  // DrawStringMaskToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -6436,7 +6910,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawStringMaskToHandle( _a0, _a1, _a2, _a3, _a4_w );
         return 1;
     }
-    case 0x4f2: {  // DrawFillMask  -> r_int
+    case 0x521: {  // DrawFillMask  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -6445,12 +6919,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawFillMask( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x4f3: {  // SetMaskReverseEffectFlag  -> r_int
+    case 0x522: {  // SetMaskReverseEffectFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetMaskReverseEffectFlag( _a0 );
         return 1;
     }
-    case 0x4f4: {  // GetMaskScreenData  -> r_int
+    case 0x523: {  // GetMaskScreenData  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -6459,11 +6933,11 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetMaskScreenData( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x4f5: {  // GetMaskUseFlag  -> r_int
+    case 0x524: {  // GetMaskUseFlag  -> r_int
         ctx->stat = GetMaskUseFlag(  );
         return 1;
     }
-    case 0x4f6: {  // EnumFontName  -> r_int
+    case 0x525: {  // EnumFontName  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6472,11 +6946,25 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = EnumFontName( _a0_w, _a1, _a2 );
         return 1;
     }
-    case 0x4f7: {  // InitFontToHandle  -> r_int
+    case 0x526: {  // InitFontToHandle  -> r_int
         ctx->stat = InitFontToHandle(  );
         return 1;
     }
-    case 0x4f8: {  // LoadFontDataToHandle  -> r_int
+    case 0x527: {  // CreateFontToHandle  -> r_int
+        const char *_a0_u8 = hsp3dx_auto_gets();
+        wchar_t _a0_w[1024];
+        hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        int _a3 = hsp3dx_auto_geti( -1 );
+        int _a4 = hsp3dx_auto_geti( -1 );
+        int _a5 = hsp3dx_auto_geti( -1 );
+        int _a6 = hsp3dx_auto_geti( 0 );
+        int _a7 = hsp3dx_auto_geti( -1 );
+        ctx->stat = CreateFontToHandle( _a0_w, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
+        return 1;
+    }
+    case 0x528: {  // LoadFontDataToHandle  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6484,24 +6972,24 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = LoadFontDataToHandle( _a0_w, _a1 );
         return 1;
     }
-    case 0x4f9: {  // SetFontSpaceToHandle  -> r_int
+    case 0x529: {  // SetFontSpaceToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontSpaceToHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4fa: {  // SetFontLineSpaceToHandle  -> r_int
+    case 0x52a: {  // SetFontLineSpaceToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontLineSpaceToHandle( _a0, _a1 );
         return 1;
     }
-    case 0x4fb: {  // DeleteFontToHandle  -> r_int
+    case 0x52b: {  // DeleteFontToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteFontToHandle( _a0 );
         return 1;
     }
-    case 0x4fc: {  // SetFontLostFlag  -> r_int
+    case 0x52c: {  // SetFontLostFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -6510,7 +6998,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x4fd: {  // AddFontImageToHandle  -> r_int
+    case 0x52d: {  // AddFontImageToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -6522,7 +7010,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = AddFontImageToHandle( _a0, _a1_w, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x4fe: {  // SubFontImageToHandle  -> r_int
+    case 0x52e: {  // SubFontImageToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -6530,7 +7018,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SubFontImageToHandle( _a0, _a1_w );
         return 1;
     }
-    case 0x4ff: {  // AddSubstitutionFontToHandle  -> r_int
+    case 0x52f: {  // AddSubstitutionFontToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -6538,49 +7026,59 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = AddSubstitutionFontToHandle( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x500: {  // SubSubstitutionFontToHandle  -> r_int
+    case 0x530: {  // SubSubstitutionFontToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SubSubstitutionFontToHandle( _a0, _a1 );
         return 1;
     }
-    case 0x501: {  // ChangeFontFromHandle  -> r_int
+    case 0x531: {  // ChangeFontFromHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeFontFromHandle( _a0 );
         return 1;
     }
-    case 0x502: {  // ChangeFontType  -> r_int
+    case 0x532: {  // ChangeFontType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeFontType( _a0 );
         return 1;
     }
-    case 0x503: {  // GetFontSize  -> r_int
+    case 0x533: {  // SetFontSize  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetFontSize( _a0 );
+        return 1;
+    }
+    case 0x534: {  // GetFontSize  -> r_int
         ctx->stat = GetFontSize(  );
         return 1;
     }
-    case 0x504: {  // GetFontEdgeSize  -> r_int
+    case 0x535: {  // GetFontEdgeSize  -> r_int
         ctx->stat = GetFontEdgeSize(  );
         return 1;
     }
-    case 0x505: {  // SetFontSpace  -> r_int
+    case 0x536: {  // SetFontThickness  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetFontThickness( _a0 );
+        return 1;
+    }
+    case 0x537: {  // SetFontSpace  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontSpace( _a0 );
         return 1;
     }
-    case 0x506: {  // GetFontSpace  -> r_int
+    case 0x538: {  // GetFontSpace  -> r_int
         ctx->stat = GetFontSpace(  );
         return 1;
     }
-    case 0x507: {  // SetFontLineSpace  -> r_int
+    case 0x539: {  // SetFontLineSpace  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontLineSpace( _a0 );
         return 1;
     }
-    case 0x508: {  // GetFontLineSpace  -> r_int
+    case 0x53a: {  // GetFontLineSpace  -> r_int
         ctx->stat = GetFontLineSpace(  );
         return 1;
     }
-    case 0x509: {  // SetDefaultFontState  -> r_int
+    case 0x53b: {  // SetDefaultFontState  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6593,23 +7091,23 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetDefaultFontState( _a0_w, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x50a: {  // GetDefaultFontHandle  -> r_int
+    case 0x53c: {  // GetDefaultFontHandle  -> r_int
         ctx->stat = GetDefaultFontHandle(  );
         return 1;
     }
-    case 0x50b: {  // GetFontMaxCacheCharNum  -> r_int
+    case 0x53d: {  // GetFontMaxCacheCharNum  -> r_int
         ctx->stat = GetFontMaxCacheCharNum(  );
         return 1;
     }
-    case 0x50c: {  // GetFontMaxWidth  -> r_int
+    case 0x53e: {  // GetFontMaxWidth  -> r_int
         ctx->stat = GetFontMaxWidth(  );
         return 1;
     }
-    case 0x50d: {  // GetFontAscent  -> r_int
+    case 0x53f: {  // GetFontAscent  -> r_int
         ctx->stat = GetFontAscent(  );
         return 1;
     }
-    case 0x50e: {  // GetDrawStringWidth  -> r_int
+    case 0x540: {  // GetDrawStringWidth  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6618,7 +7116,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetDrawStringWidth( _a0_w, _a1, _a2 );
         return 1;
     }
-    case 0x50f: {  // GetDrawExtendStringWidth  -> r_int
+    case 0x541: {  // GetDrawExtendStringWidth  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -6628,7 +7126,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetDrawExtendStringWidth( _a0, _a1_w, _a2, _a3 );
         return 1;
     }
-    case 0x510: {  // GetDrawStringSize  -> r_int
+    case 0x542: {  // GetDrawStringSize  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -6649,7 +7147,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x511: {  // GetDrawExtendStringSize  -> r_int
+    case 0x543: {  // GetDrawExtendStringSize  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -6672,7 +7170,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x512: {  // GetDrawStringKerningPairInfo  -> r_int
+    case 0x544: {  // GetDrawStringKerningPairInfo  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6683,42 +7181,42 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x513: {  // GetFontMaxCacheCharNumToHandle  -> r_int
+    case 0x545: {  // GetFontMaxCacheCharNumToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFontMaxCacheCharNumToHandle( _a0 );
         return 1;
     }
-    case 0x514: {  // GetFontMaxWidthToHandle  -> r_int
+    case 0x546: {  // GetFontMaxWidthToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFontMaxWidthToHandle( _a0 );
         return 1;
     }
-    case 0x515: {  // GetFontAscentToHandle  -> r_int
+    case 0x547: {  // GetFontAscentToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFontAscentToHandle( _a0 );
         return 1;
     }
-    case 0x516: {  // GetFontSizeToHandle  -> r_int
+    case 0x548: {  // GetFontSizeToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFontSizeToHandle( _a0 );
         return 1;
     }
-    case 0x517: {  // GetFontEdgeSizeToHandle  -> r_int
+    case 0x549: {  // GetFontEdgeSizeToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFontEdgeSizeToHandle( _a0 );
         return 1;
     }
-    case 0x518: {  // GetFontSpaceToHandle  -> r_int
+    case 0x54a: {  // GetFontSpaceToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFontSpaceToHandle( _a0 );
         return 1;
     }
-    case 0x519: {  // GetFontLineSpaceToHandle  -> r_int
+    case 0x54b: {  // GetFontLineSpaceToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFontLineSpaceToHandle( _a0 );
         return 1;
     }
-    case 0x51a: {  // GetFontCharInfo  -> r_int
+    case 0x54c: {  // GetFontCharInfo  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -6746,7 +7244,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x51b: {  // GetDrawStringWidthToHandle  -> r_int
+    case 0x54d: {  // GetDrawStringWidthToHandle  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6756,7 +7254,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetDrawStringWidthToHandle( _a0_w, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x51c: {  // GetDrawExtendStringWidthToHandle  -> r_int
+    case 0x54e: {  // GetDrawExtendStringWidthToHandle  -> r_int
         double _a0 = hsp3dx_auto_getd( 0.0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -6767,7 +7265,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetDrawExtendStringWidthToHandle( _a0, _a1_w, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x51d: {  // GetDrawStringSizeToHandle  -> r_int
+    case 0x54f: {  // GetDrawStringSizeToHandle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -6789,7 +7287,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x51e: {  // GetDrawExtendStringSizeToHandle  -> r_int
+    case 0x550: {  // GetDrawExtendStringSizeToHandle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         int _a0 = 0;
@@ -6813,7 +7311,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x51f: {  // GetDrawStringKerningPairInfoToHandle  -> r_int
+    case 0x551: {  // GetDrawStringKerningPairInfoToHandle  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6825,7 +7323,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x520: {  // GetFontStateToHandle  -> r_int
+    case 0x552: {  // GetFontStateToHandle  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -6857,99 +7355,110 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a7_pv, _a7_ap, TYPE_INUM, &_a7 );
         return 1;
     }
-    case 0x521: {  // CheckFontCacheToTextureFlag  -> r_int
+    case 0x553: {  // CheckFontCacheToTextureFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckFontCacheToTextureFlag( _a0 );
         return 1;
     }
-    case 0x522: {  // CheckFontChacheToTextureFlag  -> r_int
+    case 0x554: {  // CheckFontChacheToTextureFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckFontChacheToTextureFlag( _a0 );
         return 1;
     }
-    case 0x523: {  // CheckFontHandleValid  -> r_int
+    case 0x555: {  // CheckFontHandleValid  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckFontHandleValid( _a0 );
         return 1;
     }
-    case 0x524: {  // ClearFontCacheToHandle  -> r_int
+    case 0x556: {  // ClearFontCacheToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ClearFontCacheToHandle( _a0 );
         return 1;
     }
-    case 0x525: {  // SetFontCacheToTextureFlag  -> r_int
+    case 0x557: {  // SetFontCacheToTextureFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontCacheToTextureFlag( _a0 );
         return 1;
     }
-    case 0x526: {  // GetFontCacheToTextureFlag  -> r_int
+    case 0x558: {  // GetFontCacheToTextureFlag  -> r_int
         ctx->stat = GetFontCacheToTextureFlag(  );
         return 1;
     }
-    case 0x527: {  // SetFontChacheToTextureFlag  -> r_int
+    case 0x559: {  // SetFontChacheToTextureFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontChacheToTextureFlag( _a0 );
         return 1;
     }
-    case 0x528: {  // GetFontChacheToTextureFlag  -> r_int
+    case 0x55a: {  // GetFontChacheToTextureFlag  -> r_int
         ctx->stat = GetFontChacheToTextureFlag(  );
         return 1;
     }
-    case 0x529: {  // SetFontCacheTextureColorBitDepth  -> r_int
+    case 0x55b: {  // SetFontCacheTextureColorBitDepth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontCacheTextureColorBitDepth( _a0 );
         return 1;
     }
-    case 0x52a: {  // GetFontCacheTextureColorBitDepth  -> r_int
+    case 0x55c: {  // GetFontCacheTextureColorBitDepth  -> r_int
         ctx->stat = GetFontCacheTextureColorBitDepth(  );
         return 1;
     }
-    case 0x52b: {  // SetFontCacheCharNum  -> r_int
+    case 0x55d: {  // SetFontCacheCharNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontCacheCharNum( _a0 );
         return 1;
     }
-    case 0x52c: {  // GetFontCacheCharNum  -> r_int
+    case 0x55e: {  // GetFontCacheCharNum  -> r_int
         ctx->stat = GetFontCacheCharNum(  );
         return 1;
     }
-    case 0x52d: {  // SetFontCacheUsePremulAlphaFlag  -> r_int
+    case 0x55f: {  // SetFontCacheUsePremulAlphaFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontCacheUsePremulAlphaFlag( _a0 );
         return 1;
     }
-    case 0x52e: {  // GetFontCacheUsePremulAlphaFlag  -> r_int
+    case 0x560: {  // GetFontCacheUsePremulAlphaFlag  -> r_int
         ctx->stat = GetFontCacheUsePremulAlphaFlag(  );
         return 1;
     }
-    case 0x52f: {  // SetFontUseAdjustSizeFlag  -> r_int
+    case 0x561: {  // SetFontUseAdjustSizeFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontUseAdjustSizeFlag( _a0 );
         return 1;
     }
-    case 0x530: {  // GetFontUseAdjustSizeFlag  -> r_int
+    case 0x562: {  // GetFontUseAdjustSizeFlag  -> r_int
         ctx->stat = GetFontUseAdjustSizeFlag(  );
         return 1;
     }
-    case 0x531: {  // SetFontOnlyDrawType  -> r_int
+    case 0x563: {  // SetFontOnlyDrawType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontOnlyDrawType( _a0 );
         return 1;
     }
-    case 0x532: {  // GetFontOnlyDrawType  -> r_int
+    case 0x564: {  // GetFontOnlyDrawType  -> r_int
         ctx->stat = GetFontOnlyDrawType(  );
         return 1;
     }
-    case 0x533: {  // SetFontIgnoreLFFlag  -> r_int
+    case 0x565: {  // SetFontIgnoreLFFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFontIgnoreLFFlag( _a0 );
         return 1;
     }
-    case 0x534: {  // GetFontIgnoreLFFlag  -> r_int
+    case 0x566: {  // GetFontIgnoreLFFlag  -> r_int
         ctx->stat = GetFontIgnoreLFFlag(  );
         return 1;
     }
-    case 0x535: {  // DrawVString  -> r_int
+    case 0x567: {  // DrawString  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        const char *_a2_u8 = hsp3dx_auto_gets();
+        wchar_t _a2_w[1024];
+        hsp3dx_utf8_to_wide( _a2_u8, _a2_w, 1024 );
+        unsigned int _a3 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        unsigned int _a4 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
+        ctx->stat = DrawString( _a0, _a1, _a2_w, _a3, _a4 );
+        return 1;
+    }
+    case 0x568: {  // DrawVString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -6960,7 +7469,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawVString( _a0, _a1, _a2_w, _a3, _a4 );
         return 1;
     }
-    case 0x536: {  // DrawExtendString  -> r_int
+    case 0x569: {  // DrawExtendString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -6973,7 +7482,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendString( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6 );
         return 1;
     }
-    case 0x537: {  // DrawExtendVString  -> r_int
+    case 0x56a: {  // DrawExtendVString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -6986,7 +7495,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendVString( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6 );
         return 1;
     }
-    case 0x538: {  // DrawRotaString  -> r_int
+    case 0x56b: {  // DrawRotaString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7003,7 +7512,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaString( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10_w );
         return 1;
     }
-    case 0x539: {  // DrawModiString  -> r_int
+    case 0x56c: {  // DrawModiString  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -7021,7 +7530,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawModiString( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11_w );
         return 1;
     }
-    case 0x53a: {  // DrawStringF  -> r_int
+    case 0x56d: {  // DrawStringF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7032,7 +7541,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawStringF( _a0, _a1, _a2_w, _a3, _a4 );
         return 1;
     }
-    case 0x53b: {  // DrawVStringF  -> r_int
+    case 0x56e: {  // DrawVStringF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7043,7 +7552,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawVStringF( _a0, _a1, _a2_w, _a3, _a4 );
         return 1;
     }
-    case 0x53c: {  // DrawExtendStringF  -> r_int
+    case 0x56f: {  // DrawExtendStringF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7056,7 +7565,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendStringF( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6 );
         return 1;
     }
-    case 0x53d: {  // DrawExtendVStringF  -> r_int
+    case 0x570: {  // DrawExtendVStringF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7069,7 +7578,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendVStringF( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6 );
         return 1;
     }
-    case 0x53e: {  // DrawRotaStringF  -> r_int
+    case 0x571: {  // DrawRotaStringF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7086,7 +7595,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaStringF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10_w );
         return 1;
     }
-    case 0x53f: {  // DrawModiStringF  -> r_int
+    case 0x572: {  // DrawModiStringF  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -7104,7 +7613,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawModiStringF( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11_w );
         return 1;
     }
-    case 0x540: {  // DrawNumberToI  -> r_int
+    case 0x573: {  // DrawNumberToI  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -7114,7 +7623,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberToI( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x541: {  // DrawNumberToF  -> r_int
+    case 0x574: {  // DrawNumberToF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7124,7 +7633,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberToF( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x542: {  // DrawNumberPlusToI  -> r_int
+    case 0x575: {  // DrawNumberPlusToI  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7137,7 +7646,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberPlusToI( _a0, _a1, _a2_w, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x543: {  // DrawNumberPlusToF  -> r_int
+    case 0x576: {  // DrawNumberPlusToF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7150,7 +7659,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberPlusToF( _a0, _a1, _a2_w, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x544: {  // DrawStringToHandle  -> r_int
+    case 0x577: {  // DrawStringToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7163,7 +7672,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawStringToHandle( _a0, _a1, _a2_w, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x545: {  // DrawVStringToHandle  -> r_int
+    case 0x578: {  // DrawVStringToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7175,7 +7684,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawVStringToHandle( _a0, _a1, _a2_w, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x546: {  // DrawExtendStringToHandle  -> r_int
+    case 0x579: {  // DrawExtendStringToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7190,7 +7699,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendStringToHandle( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x547: {  // DrawExtendVStringToHandle  -> r_int
+    case 0x57a: {  // DrawExtendVStringToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7204,7 +7713,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendVStringToHandle( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x548: {  // DrawRotaStringToHandle  -> r_int
+    case 0x57b: {  // DrawRotaStringToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7222,7 +7731,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaStringToHandle( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11_w );
         return 1;
     }
-    case 0x549: {  // DrawModiStringToHandle  -> r_int
+    case 0x57c: {  // DrawModiStringToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -7241,7 +7750,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawModiStringToHandle( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12_w );
         return 1;
     }
-    case 0x54a: {  // DrawStringFToHandle  -> r_int
+    case 0x57d: {  // DrawStringFToHandle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7254,7 +7763,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawStringFToHandle( _a0, _a1, _a2_w, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x54b: {  // DrawVStringFToHandle  -> r_int
+    case 0x57e: {  // DrawVStringFToHandle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7266,7 +7775,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawVStringFToHandle( _a0, _a1, _a2_w, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x54c: {  // DrawExtendStringFToHandle  -> r_int
+    case 0x57f: {  // DrawExtendStringFToHandle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7281,7 +7790,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendStringFToHandle( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x54d: {  // DrawExtendVStringFToHandle  -> r_int
+    case 0x580: {  // DrawExtendVStringFToHandle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7295,7 +7804,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawExtendVStringFToHandle( _a0, _a1, _a2, _a3, _a4_w, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x54e: {  // DrawRotaStringFToHandle  -> r_int
+    case 0x581: {  // DrawRotaStringFToHandle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7313,7 +7822,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawRotaStringFToHandle( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11_w );
         return 1;
     }
-    case 0x54f: {  // DrawModiStringFToHandle  -> r_int
+    case 0x582: {  // DrawModiStringFToHandle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -7332,7 +7841,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawModiStringFToHandle( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12_w );
         return 1;
     }
-    case 0x550: {  // DrawNumberToIToHandle  -> r_int
+    case 0x583: {  // DrawNumberToIToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -7343,7 +7852,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberToIToHandle( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x551: {  // DrawNumberToFToHandle  -> r_int
+    case 0x584: {  // DrawNumberToFToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         double _a2 = hsp3dx_auto_getd( 0.0 );
@@ -7354,7 +7863,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberToFToHandle( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x552: {  // DrawNumberPlusToIToHandle  -> r_int
+    case 0x585: {  // DrawNumberPlusToIToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7368,7 +7877,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberPlusToIToHandle( _a0, _a1, _a2_w, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x553: {  // DrawNumberPlusToFToHandle  -> r_int
+    case 0x586: {  // DrawNumberPlusToFToHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -7382,7 +7891,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawNumberPlusToFToHandle( _a0, _a1, _a2_w, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x554: {  // ConvertMatrixFtoD  -> r_int
+    case 0x587: {  // ConvertMatrixFtoD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7396,7 +7905,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ConvertMatrixFtoD( _a0, _a1 );
         return 1;
     }
-    case 0x555: {  // ConvertMatrixDtoF  -> r_int
+    case 0x588: {  // ConvertMatrixDtoF  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7410,7 +7919,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ConvertMatrixDtoF( _a0, _a1 );
         return 1;
     }
-    case 0x556: {  // CreateIdentityMatrix  -> r_int
+    case 0x589: {  // CreateIdentityMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7419,7 +7928,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateIdentityMatrix( _a0 );
         return 1;
     }
-    case 0x557: {  // CreateIdentityMatrixD  -> r_int
+    case 0x58a: {  // CreateIdentityMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7428,7 +7937,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateIdentityMatrixD( _a0 );
         return 1;
     }
-    case 0x558: {  // CreateLookAtMatrix  -> r_int
+    case 0x58b: {  // CreateLookAtMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7452,7 +7961,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateLookAtMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x559: {  // CreateLookAtMatrixD  -> r_int
+    case 0x58c: {  // CreateLookAtMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7476,7 +7985,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateLookAtMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x55a: {  // CreateLookAtMatrix2  -> r_int
+    case 0x58d: {  // CreateLookAtMatrix2  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7492,7 +8001,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateLookAtMatrix2( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x55b: {  // CreateLookAtMatrix2D  -> r_int
+    case 0x58e: {  // CreateLookAtMatrix2D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7508,7 +8017,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateLookAtMatrix2D( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x55c: {  // CreateLookAtMatrixRH  -> r_int
+    case 0x58f: {  // CreateLookAtMatrixRH  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7532,7 +8041,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateLookAtMatrixRH( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x55d: {  // CreateLookAtMatrixRHD  -> r_int
+    case 0x590: {  // CreateLookAtMatrixRHD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7556,7 +8065,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateLookAtMatrixRHD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x55e: {  // CreateMultiplyMatrix  -> r_int
+    case 0x591: {  // CreateMultiplyMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7575,7 +8084,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateMultiplyMatrix( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x55f: {  // CreateMultiplyMatrixD  -> r_int
+    case 0x592: {  // CreateMultiplyMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7594,7 +8103,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateMultiplyMatrixD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x560: {  // CreatePerspectiveFovMatrix  -> r_int
+    case 0x593: {  // CreatePerspectiveFovMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7607,7 +8116,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreatePerspectiveFovMatrix( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x561: {  // CreatePerspectiveFovMatrixD  -> r_int
+    case 0x594: {  // CreatePerspectiveFovMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7620,7 +8129,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreatePerspectiveFovMatrixD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x562: {  // CreatePerspectiveFovMatrixRH  -> r_int
+    case 0x595: {  // CreatePerspectiveFovMatrixRH  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7633,7 +8142,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreatePerspectiveFovMatrixRH( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x563: {  // CreatePerspectiveFovMatrixRHD  -> r_int
+    case 0x596: {  // CreatePerspectiveFovMatrixRHD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7646,7 +8155,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreatePerspectiveFovMatrixRHD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x564: {  // CreateOrthoMatrix  -> r_int
+    case 0x597: {  // CreateOrthoMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7659,7 +8168,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateOrthoMatrix( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x565: {  // CreateOrthoMatrixD  -> r_int
+    case 0x598: {  // CreateOrthoMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7672,7 +8181,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateOrthoMatrixD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x566: {  // CreateOrthoMatrixRH  -> r_int
+    case 0x599: {  // CreateOrthoMatrixRH  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7685,7 +8194,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateOrthoMatrixRH( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x567: {  // CreateOrthoMatrixRHD  -> r_int
+    case 0x59a: {  // CreateOrthoMatrixRHD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7698,7 +8207,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateOrthoMatrixRHD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x568: {  // CreateScalingMatrix  -> r_int
+    case 0x59b: {  // CreateScalingMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7710,7 +8219,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateScalingMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x569: {  // CreateScalingMatrixD  -> r_int
+    case 0x59c: {  // CreateScalingMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7722,7 +8231,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateScalingMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x56a: {  // CreateRotationXMatrix  -> r_int
+    case 0x59d: {  // CreateRotationXMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7732,7 +8241,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationXMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x56b: {  // CreateRotationXMatrixD  -> r_int
+    case 0x59e: {  // CreateRotationXMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7742,7 +8251,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationXMatrixD( _a0, _a1 );
         return 1;
     }
-    case 0x56c: {  // CreateRotationYMatrix  -> r_int
+    case 0x59f: {  // CreateRotationYMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7752,7 +8261,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationYMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x56d: {  // CreateRotationYMatrixD  -> r_int
+    case 0x5a0: {  // CreateRotationYMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7762,7 +8271,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationYMatrixD( _a0, _a1 );
         return 1;
     }
-    case 0x56e: {  // CreateRotationZMatrix  -> r_int
+    case 0x5a1: {  // CreateRotationZMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7772,7 +8281,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationZMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x56f: {  // CreateRotationZMatrixD  -> r_int
+    case 0x5a2: {  // CreateRotationZMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7782,7 +8291,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationZMatrixD( _a0, _a1 );
         return 1;
     }
-    case 0x570: {  // CreateTranslationMatrix  -> r_int
+    case 0x5a3: {  // CreateTranslationMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7794,7 +8303,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateTranslationMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x571: {  // CreateTranslationMatrixD  -> r_int
+    case 0x5a4: {  // CreateTranslationMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7806,7 +8315,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateTranslationMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x572: {  // CreateTransposeMatrix  -> r_int
+    case 0x5a5: {  // CreateTransposeMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7820,7 +8329,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateTransposeMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x573: {  // CreateTransposeMatrixD  -> r_int
+    case 0x5a6: {  // CreateTransposeMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7834,7 +8343,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateTransposeMatrixD( _a0, _a1 );
         return 1;
     }
-    case 0x574: {  // CreateInverseMatrix  -> r_int
+    case 0x5a7: {  // CreateInverseMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7848,7 +8357,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateInverseMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x575: {  // CreateInverseMatrixD  -> r_int
+    case 0x5a8: {  // CreateInverseMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7862,7 +8371,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateInverseMatrixD( _a0, _a1 );
         return 1;
     }
-    case 0x576: {  // CreateViewportMatrix  -> r_int
+    case 0x5a9: {  // CreateViewportMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7875,7 +8384,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateViewportMatrix( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x577: {  // CreateViewportMatrixD  -> r_int
+    case 0x5aa: {  // CreateViewportMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7888,7 +8397,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateViewportMatrixD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x578: {  // CreateRotationXYZMatrix  -> r_int
+    case 0x5ab: {  // CreateRotationXYZMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7900,7 +8409,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationXYZMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x579: {  // CreateRotationXYZMatrixD  -> r_int
+    case 0x5ac: {  // CreateRotationXYZMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7912,7 +8421,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationXYZMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x57a: {  // CreateRotationXZYMatrix  -> r_int
+    case 0x5ad: {  // CreateRotationXZYMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7924,7 +8433,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationXZYMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x57b: {  // CreateRotationXZYMatrixD  -> r_int
+    case 0x5ae: {  // CreateRotationXZYMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7936,7 +8445,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationXZYMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x57c: {  // CreateRotationYXZMatrix  -> r_int
+    case 0x5af: {  // CreateRotationYXZMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7948,7 +8457,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationYXZMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x57d: {  // CreateRotationYXZMatrixD  -> r_int
+    case 0x5b0: {  // CreateRotationYXZMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7960,7 +8469,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationYXZMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x57e: {  // CreateRotationYZXMatrix  -> r_int
+    case 0x5b1: {  // CreateRotationYZXMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7972,7 +8481,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationYZXMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x57f: {  // CreateRotationYZXMatrixD  -> r_int
+    case 0x5b2: {  // CreateRotationYZXMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -7984,7 +8493,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationYZXMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x580: {  // CreateRotationZXYMatrix  -> r_int
+    case 0x5b3: {  // CreateRotationZXYMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -7996,7 +8505,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationZXYMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x581: {  // CreateRotationZXYMatrixD  -> r_int
+    case 0x5b4: {  // CreateRotationZXYMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8008,7 +8517,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationZXYMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x582: {  // CreateRotationZYXMatrix  -> r_int
+    case 0x5b5: {  // CreateRotationZYXMatrix  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -8020,7 +8529,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationZYXMatrix( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x583: {  // CreateRotationZYXMatrixD  -> r_int
+    case 0x5b6: {  // CreateRotationZYXMatrixD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8032,7 +8541,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = CreateRotationZYXMatrixD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x584: {  // GetMatrixXYZRotation  -> r_int
+    case 0x5b7: {  // GetMatrixXYZRotation  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -8056,7 +8565,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x585: {  // GetMatrixXYZRotationD  -> r_int
+    case 0x5b8: {  // GetMatrixXYZRotationD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8077,7 +8586,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3 );
         return 1;
     }
-    case 0x586: {  // GetMatrixXZYRotation  -> r_int
+    case 0x5b9: {  // GetMatrixXZYRotation  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -8101,7 +8610,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x587: {  // GetMatrixXZYRotationD  -> r_int
+    case 0x5ba: {  // GetMatrixXZYRotationD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8122,7 +8631,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3 );
         return 1;
     }
-    case 0x588: {  // GetMatrixYXZRotation  -> r_int
+    case 0x5bb: {  // GetMatrixYXZRotation  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -8146,7 +8655,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x589: {  // GetMatrixYXZRotationD  -> r_int
+    case 0x5bc: {  // GetMatrixYXZRotationD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8167,7 +8676,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3 );
         return 1;
     }
-    case 0x58a: {  // GetMatrixYZXRotation  -> r_int
+    case 0x5bd: {  // GetMatrixYZXRotation  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -8191,7 +8700,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x58b: {  // GetMatrixYZXRotationD  -> r_int
+    case 0x5be: {  // GetMatrixYZXRotationD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8212,7 +8721,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3 );
         return 1;
     }
-    case 0x58c: {  // GetMatrixZXYRotation  -> r_int
+    case 0x5bf: {  // GetMatrixZXYRotation  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -8236,7 +8745,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x58d: {  // GetMatrixZXYRotationD  -> r_int
+    case 0x5c0: {  // GetMatrixZXYRotationD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8257,7 +8766,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3 );
         return 1;
     }
-    case 0x58e: {  // GetMatrixZYXRotation  -> r_int
+    case 0x5c1: {  // GetMatrixZYXRotation  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 64 )
@@ -8281,7 +8790,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x58f: {  // GetMatrixZYXRotationD  -> r_int
+    case 0x5c2: {  // GetMatrixZYXRotationD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 128 )
@@ -8302,7 +8811,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3 );
         return 1;
     }
-    case 0x590: {  // VectorConvertFtoD  -> r_int
+    case 0x5c3: {  // VectorConvertFtoD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8316,7 +8825,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorConvertFtoD( _a0, _a1 );
         return 1;
     }
-    case 0x591: {  // VectorConvertDtoF  -> r_int
+    case 0x5c4: {  // VectorConvertDtoF  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8330,7 +8839,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorConvertDtoF( _a0, _a1 );
         return 1;
     }
-    case 0x592: {  // VectorNormalize  -> r_int
+    case 0x5c5: {  // VectorNormalize  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8344,7 +8853,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorNormalize( _a0, _a1 );
         return 1;
     }
-    case 0x593: {  // VectorNormalizeD  -> r_int
+    case 0x5c6: {  // VectorNormalizeD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8358,7 +8867,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorNormalizeD( _a0, _a1 );
         return 1;
     }
-    case 0x594: {  // VectorScale  -> r_int
+    case 0x5c7: {  // VectorScale  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8373,7 +8882,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x595: {  // VectorScaleD  -> r_int
+    case 0x5c8: {  // VectorScaleD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8388,7 +8897,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorScaleD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x596: {  // VectorMultiply  -> r_int
+    case 0x5c9: {  // VectorMultiply  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8407,7 +8916,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorMultiply( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x597: {  // VectorMultiplyD  -> r_int
+    case 0x5ca: {  // VectorMultiplyD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8426,7 +8935,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorMultiplyD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x598: {  // VectorSub  -> r_int
+    case 0x5cb: {  // VectorSub  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8445,7 +8954,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorSub( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x599: {  // VectorSubD  -> r_int
+    case 0x5cc: {  // VectorSubD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8464,7 +8973,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorSubD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x59a: {  // VectorAdd  -> r_int
+    case 0x5cd: {  // VectorAdd  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8483,7 +8992,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorAdd( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x59b: {  // VectorAddD  -> r_int
+    case 0x5ce: {  // VectorAddD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8502,7 +9011,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorAddD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x59c: {  // VectorOuterProduct  -> r_int
+    case 0x5cf: {  // VectorOuterProduct  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8521,7 +9030,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorOuterProduct( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x59d: {  // VectorOuterProductD  -> r_int
+    case 0x5d0: {  // VectorOuterProductD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8540,7 +9049,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorOuterProductD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x59e: {  // VectorInnerProduct  -> r_float
+    case 0x5d1: {  // VectorInnerProduct  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8558,7 +9067,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x59f: {  // VectorInnerProductD  -> r_double
+    case 0x5d2: {  // VectorInnerProductD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8575,7 +9084,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5a0: {  // VectorRotationX  -> r_int
+    case 0x5d3: {  // VectorRotationX  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8590,7 +9099,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorRotationX( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a1: {  // VectorRotationXD  -> r_int
+    case 0x5d4: {  // VectorRotationXD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8605,7 +9114,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorRotationXD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a2: {  // VectorRotationY  -> r_int
+    case 0x5d5: {  // VectorRotationY  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8620,7 +9129,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorRotationY( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a3: {  // VectorRotationYD  -> r_int
+    case 0x5d6: {  // VectorRotationYD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8635,7 +9144,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorRotationYD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a4: {  // VectorRotationZ  -> r_int
+    case 0x5d7: {  // VectorRotationZ  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8650,7 +9159,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorRotationZ( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a5: {  // VectorRotationZD  -> r_int
+    case 0x5d8: {  // VectorRotationZD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8665,7 +9174,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorRotationZD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a6: {  // VectorTransform  -> r_int
+    case 0x5d9: {  // VectorTransform  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8684,7 +9193,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorTransform( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a7: {  // VectorTransformD  -> r_int
+    case 0x5da: {  // VectorTransformD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8703,7 +9212,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorTransformD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a8: {  // VectorTransformSR  -> r_int
+    case 0x5db: {  // VectorTransformSR  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8722,7 +9231,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorTransformSR( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5a9: {  // VectorTransformSRD  -> r_int
+    case 0x5dc: {  // VectorTransformSRD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8741,7 +9250,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = VectorTransformSRD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x5aa: {  // VectorTransform4  -> r_int
+    case 0x5dd: {  // VectorTransform4  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -8770,7 +9279,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x5ab: {  // VectorTransform4D  -> r_int
+    case 0x5de: {  // VectorTransform4D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -8797,7 +9306,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3 );
         return 1;
     }
-    case 0x5ac: {  // Segment_Segment_MinLength  -> r_float
+    case 0x5df: {  // Segment_Segment_MinLength  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8829,7 +9338,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5ad: {  // Segment_Segment_MinLengthD  -> r_double
+    case 0x5e0: {  // Segment_Segment_MinLengthD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8860,7 +9369,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5ae: {  // Segment_Segment_MinLength_Square  -> r_float
+    case 0x5e1: {  // Segment_Segment_MinLength_Square  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8892,7 +9401,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5af: {  // Segment_Segment_MinLength_SquareD  -> r_double
+    case 0x5e2: {  // Segment_Segment_MinLength_SquareD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8923,7 +9432,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5b0: {  // Segment_Triangle_MinLength  -> r_float
+    case 0x5e3: {  // Segment_Triangle_MinLength  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8961,7 +9470,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5b1: {  // Segment_Triangle_MinLengthD  -> r_double
+    case 0x5e4: {  // Segment_Triangle_MinLengthD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -8998,7 +9507,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5b2: {  // Segment_Triangle_MinLength_Square  -> r_float
+    case 0x5e5: {  // Segment_Triangle_MinLength_Square  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9036,7 +9545,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5b3: {  // Segment_Triangle_MinLength_SquareD  -> r_double
+    case 0x5e6: {  // Segment_Triangle_MinLength_SquareD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9073,7 +9582,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5b4: {  // Segment_Point_MinLength  -> r_float
+    case 0x5e7: {  // Segment_Point_MinLength  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9099,7 +9608,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5b5: {  // Segment_Point_MinLengthD  -> r_double
+    case 0x5e8: {  // Segment_Point_MinLengthD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9124,7 +9633,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5b6: {  // Segment_Point_MinLength_Square  -> r_float
+    case 0x5e9: {  // Segment_Point_MinLength_Square  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9150,7 +9659,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5b7: {  // Segment_Point_MinLength_SquareD  -> r_double
+    case 0x5ea: {  // Segment_Point_MinLength_SquareD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9175,7 +9684,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5b8: {  // Triangle_Point_MinLength  -> r_float
+    case 0x5eb: {  // Triangle_Point_MinLength  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9207,7 +9716,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5b9: {  // Triangle_Point_MinLengthD  -> r_double
+    case 0x5ec: {  // Triangle_Point_MinLengthD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9238,7 +9747,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5ba: {  // Triangle_Point_MinLength_Square  -> r_float
+    case 0x5ed: {  // Triangle_Point_MinLength_Square  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9270,7 +9779,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5bb: {  // Triangle_Point_MinLength_SquareD  -> r_double
+    case 0x5ee: {  // Triangle_Point_MinLength_SquareD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9301,7 +9810,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5bc: {  // Triangle_Triangle_MinLength  -> r_float
+    case 0x5ef: {  // Triangle_Triangle_MinLength  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9345,7 +9854,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5bd: {  // Triangle_Triangle_MinLengthD  -> r_double
+    case 0x5f0: {  // Triangle_Triangle_MinLengthD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9388,7 +9897,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5be: {  // Triangle_Triangle_MinLength_Square  -> r_float
+    case 0x5f1: {  // Triangle_Triangle_MinLength_Square  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9432,7 +9941,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5bf: {  // Triangle_Triangle_MinLength_SquareD  -> r_double
+    case 0x5f2: {  // Triangle_Triangle_MinLength_SquareD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9475,7 +9984,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5c0: {  // Plane_Point_MinLength_Position  -> r_VECTOR
+    case 0x5f3: {  // Plane_Point_MinLength_Position  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -9502,7 +10011,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x5c1: {  // Plane_Point_MinLength_PositionD  -> r_VECTOR_D
+    case 0x5f4: {  // Plane_Point_MinLength_PositionD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -9529,7 +10038,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x5c2: {  // Plane_Point_MinLength  -> r_float
+    case 0x5f5: {  // Plane_Point_MinLength  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9555,7 +10064,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5c3: {  // Plane_Point_MinLengthD  -> r_double
+    case 0x5f6: {  // Plane_Point_MinLengthD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -9580,7 +10089,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5c4: {  // HitCheck_Triangle_Triangle  -> r_int
+    case 0x5f7: {  // HitCheck_Triangle_Triangle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -9620,7 +10129,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Triangle_Triangle( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5c5: {  // HitCheck_Triangle_TriangleD  -> r_int
+    case 0x5f8: {  // HitCheck_Triangle_TriangleD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -9660,7 +10169,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Triangle_TriangleD( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5c6: {  // HitCheck_Triangle_Triangle_2D  -> r_int
+    case 0x5f9: {  // HitCheck_Triangle_Triangle_2D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -9700,7 +10209,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Triangle_Triangle_2D( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5c7: {  // HitCheck_Triangle_TriangleD_2D  -> r_int
+    case 0x5fa: {  // HitCheck_Triangle_TriangleD_2D  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -9740,7 +10249,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Triangle_TriangleD_2D( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5c8: {  // HitCheck_Point_Cone  -> r_int
+    case 0x5fb: {  // HitCheck_Point_Cone  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -9763,7 +10272,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Point_Cone( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x5c9: {  // HitCheck_Point_ConeD  -> r_int
+    case 0x5fc: {  // HitCheck_Point_ConeD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -9786,7 +10295,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Point_ConeD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x5ca: {  // HitCheck_Line_Sphere  -> r_int
+    case 0x5fd: {  // HitCheck_Line_Sphere  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -9809,7 +10318,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Line_Sphere( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x5cb: {  // HitCheck_Line_SphereD  -> r_int
+    case 0x5fe: {  // HitCheck_Line_SphereD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -9832,7 +10341,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Line_SphereD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x5cc: {  // HitCheck_Sphere_Sphere  -> r_int
+    case 0x5ff: {  // HitCheck_Sphere_Sphere  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -9850,7 +10359,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Sphere_Sphere( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x5cd: {  // HitCheck_Sphere_SphereD  -> r_int
+    case 0x600: {  // HitCheck_Sphere_SphereD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -9868,7 +10377,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Sphere_SphereD( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x5ce: {  // HitCheck_Sphere_Capsule  -> r_int
+    case 0x601: {  // HitCheck_Sphere_Capsule  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -9892,7 +10401,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Sphere_Capsule( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x5cf: {  // HitCheck_Sphere_CapsuleD  -> r_int
+    case 0x602: {  // HitCheck_Sphere_CapsuleD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -9916,7 +10425,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Sphere_CapsuleD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x5d0: {  // HitCheck_Sphere_Triangle  -> r_int
+    case 0x603: {  // HitCheck_Sphere_Triangle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -9945,7 +10454,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Sphere_Triangle( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x5d1: {  // HitCheck_Sphere_TriangleD  -> r_int
+    case 0x604: {  // HitCheck_Sphere_TriangleD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -9974,7 +10483,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Sphere_TriangleD( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x5d2: {  // HitCheck_Capsule_Capsule  -> r_int
+    case 0x605: {  // HitCheck_Capsule_Capsule  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -10004,7 +10513,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Capsule_Capsule( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5d3: {  // HitCheck_Capsule_CapsuleD  -> r_int
+    case 0x606: {  // HitCheck_Capsule_CapsuleD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -10034,7 +10543,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Capsule_CapsuleD( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5d4: {  // HitCheck_Capsule_Triangle  -> r_int
+    case 0x607: {  // HitCheck_Capsule_Triangle  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -10069,7 +10578,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Capsule_Triangle( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5d5: {  // HitCheck_Capsule_TriangleD  -> r_int
+    case 0x608: {  // HitCheck_Capsule_TriangleD  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 24 )
@@ -10104,7 +10613,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = HitCheck_Capsule_TriangleD( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x5d6: {  // MGetIdent  -> r_MATRIX
+    case 0x609: {  // MGetIdent  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10113,7 +10622,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5d7: {  // MGetIdentD  -> r_MATRIX_D
+    case 0x60a: {  // MGetIdentD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10122,7 +10631,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5d8: {  // MMult  -> r_MATRIX
+    case 0x60b: {  // MMult  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10143,7 +10652,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5d9: {  // MMultD  -> r_MATRIX_D
+    case 0x60c: {  // MMultD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10164,7 +10673,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5da: {  // MScale  -> r_MATRIX
+    case 0x60d: {  // MScale  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10180,7 +10689,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5db: {  // MScaleD  -> r_MATRIX_D
+    case 0x60e: {  // MScaleD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10196,7 +10705,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5dc: {  // MAdd  -> r_MATRIX
+    case 0x60f: {  // MAdd  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10217,7 +10726,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5dd: {  // MAddD  -> r_MATRIX_D
+    case 0x610: {  // MAddD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10238,7 +10747,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5de: {  // MGetScale  -> r_MATRIX
+    case 0x611: {  // MGetScale  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10253,7 +10762,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5df: {  // MGetScaleD  -> r_MATRIX_D
+    case 0x612: {  // MGetScaleD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10268,7 +10777,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5e0: {  // MGetRotX  -> r_MATRIX
+    case 0x613: {  // MGetRotX  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10278,7 +10787,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5e1: {  // MGetRotXD  -> r_MATRIX_D
+    case 0x614: {  // MGetRotXD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10288,7 +10797,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5e2: {  // MGetRotY  -> r_MATRIX
+    case 0x615: {  // MGetRotY  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10298,7 +10807,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5e3: {  // MGetRotYD  -> r_MATRIX_D
+    case 0x616: {  // MGetRotYD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10308,7 +10817,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5e4: {  // MGetRotZ  -> r_MATRIX
+    case 0x617: {  // MGetRotZ  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10318,7 +10827,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5e5: {  // MGetRotZD  -> r_MATRIX_D
+    case 0x618: {  // MGetRotZD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10328,7 +10837,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5e6: {  // MGetRotAxis  -> r_MATRIX
+    case 0x619: {  // MGetRotAxis  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10344,7 +10853,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5e7: {  // MGetRotAxisD  -> r_MATRIX_D
+    case 0x61a: {  // MGetRotAxisD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10360,7 +10869,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5e8: {  // MGetRotVec2  -> r_MATRIX
+    case 0x61b: {  // MGetRotVec2  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10381,7 +10890,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5e9: {  // MGetRotVec2D  -> r_MATRIX_D
+    case 0x61c: {  // MGetRotVec2D  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10402,7 +10911,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5ea: {  // MGetTranslate  -> r_MATRIX
+    case 0x61d: {  // MGetTranslate  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10417,7 +10926,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5eb: {  // MGetTranslateD  -> r_MATRIX_D
+    case 0x61e: {  // MGetTranslateD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10432,7 +10941,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5ec: {  // MGetAxis1  -> r_MATRIX
+    case 0x61f: {  // MGetAxis1  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10465,7 +10974,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5ed: {  // MGetAxis1D  -> r_MATRIX_D
+    case 0x620: {  // MGetAxis1D  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10498,7 +11007,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5ee: {  // MGetAxis2  -> r_MATRIX
+    case 0x621: {  // MGetAxis2  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10531,7 +11040,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5ef: {  // MGetAxis2D  -> r_MATRIX_D
+    case 0x622: {  // MGetAxis2D  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10564,7 +11073,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5f0: {  // MTranspose  -> r_MATRIX
+    case 0x623: {  // MTranspose  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10579,7 +11088,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5f1: {  // MTransposeD  -> r_MATRIX_D
+    case 0x624: {  // MTransposeD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10594,7 +11103,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5f2: {  // MInverse  -> r_MATRIX
+    case 0x625: {  // MInverse  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10609,7 +11118,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5f3: {  // MInverseD  -> r_MATRIX_D
+    case 0x626: {  // MInverseD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10624,7 +11133,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5f4: {  // MGetSize  -> r_VECTOR
+    case 0x627: {  // MGetSize  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -10639,7 +11148,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x5f5: {  // MGetSizeD  -> r_VECTOR_D
+    case 0x628: {  // MGetSizeD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -10654,7 +11163,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x5f6: {  // MGetRotElem  -> r_MATRIX
+    case 0x629: {  // MGetRotElem  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -10669,7 +11178,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x5f7: {  // MGetRotElemD  -> r_MATRIX_D
+    case 0x62a: {  // MGetRotElemD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -10684,7 +11193,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x5f8: {  // VNorm  -> r_VECTOR
+    case 0x62b: {  // VNorm  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -10699,7 +11208,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x5f9: {  // VNormD  -> r_VECTOR_D
+    case 0x62c: {  // VNormD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -10714,7 +11223,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x5fa: {  // VSize  -> r_float
+    case 0x62d: {  // VSize  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -10728,7 +11237,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5fb: {  // VSizeD  -> r_double
+    case 0x62e: {  // VSizeD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -10741,7 +11250,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5fc: {  // VCos  -> r_float
+    case 0x62f: {  // VCos  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -10761,7 +11270,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5fd: {  // VCosD  -> r_double
+    case 0x630: {  // VCosD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -10780,7 +11289,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x5fe: {  // VRad  -> r_float
+    case 0x631: {  // VRad  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -10800,7 +11309,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x5ff: {  // VRadD  -> r_double
+    case 0x632: {  // VRadD  -> r_double
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         PVal *_a0_pv; APTR _a0_ap;
@@ -10819,7 +11328,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret );
         return 1;
     }
-    case 0x600: {  // QTRot  -> r_FLOAT4
+    case 0x633: {  // QTRot  -> r_FLOAT4
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -10835,7 +11344,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(FLOAT4) );
         return 1;
     }
-    case 0x601: {  // VRotQ  -> r_VECTOR
+    case 0x634: {  // VRotQ  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -10857,7 +11366,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x602: {  // VRotQD  -> r_VECTOR_D
+    case 0x635: {  // VRotQD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -10879,7 +11388,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x603: {  // GetImageSize_File  -> r_int
+    case 0x636: {  // GetImageSize_File  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -10894,34 +11403,34 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x604: {  // SetUseFastLoadFlag  -> r_int
+    case 0x637: {  // SetUseFastLoadFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseFastLoadFlag( _a0 );
         return 1;
     }
-    case 0x605: {  // GetGraphDataShavedMode  -> r_int
+    case 0x638: {  // GetGraphDataShavedMode  -> r_int
         ctx->stat = GetGraphDataShavedMode(  );
         return 1;
     }
-    case 0x606: {  // SetUsePremulAlphaConvertLoad  -> r_int
+    case 0x639: {  // SetUsePremulAlphaConvertLoad  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUsePremulAlphaConvertLoad( _a0 );
         return 1;
     }
-    case 0x607: {  // GetUsePremulAlphaConvertLoad  -> r_int
+    case 0x63a: {  // GetUsePremulAlphaConvertLoad  -> r_int
         ctx->stat = GetUsePremulAlphaConvertLoad(  );
         return 1;
     }
-    case 0x608: {  // SetUseConvertNormalFormatLoad  -> r_int
+    case 0x63b: {  // SetUseConvertNormalFormatLoad  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseConvertNormalFormatLoad( _a0 );
         return 1;
     }
-    case 0x609: {  // GetUseConvertNormalFormatLoad  -> r_int
+    case 0x63c: {  // GetUseConvertNormalFormatLoad  -> r_int
         ctx->stat = GetUseConvertNormalFormatLoad(  );
         return 1;
     }
-    case 0x60a: {  // GetColorF  -> r_COLOR_F
+    case 0x63d: {  // GetColorF  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -10934,7 +11443,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x60b: {  // GetColorU8  -> r_COLOR_U8
+    case 0x63e: {  // GetColorU8  -> r_COLOR_U8
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 4 )
@@ -10947,7 +11456,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_U8) );
         return 1;
     }
-    case 0x60c: {  // GetColor2  -> r_int
+    case 0x63f: {  // GetColor  -> r_uint
+        PVal *_ret_pv; APTR _ret_ap;
+        _ret_ap = code_getva( &_ret_pv );
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 0 );
+        unsigned int _ret = GetColor( _a0, _a1, _a2 );
+        int _ret_i = (int)_ret;
+        code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
+        ctx->stat = (int)_ret;
+        return 1;
+    }
+    case 0x640: {  // GetColor2  -> r_int
         unsigned int _a0 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -10964,128 +11485,128 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_INUM, &_a3 );
         return 1;
     }
-    case 0x60d: {  // InitSoftImage  -> r_int
+    case 0x641: {  // InitSoftImage  -> r_int
         ctx->stat = InitSoftImage(  );
         return 1;
     }
-    case 0x60e: {  // LoadSoftImage  -> r_int
+    case 0x642: {  // LoadSoftImage  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadSoftImage( _a0_w );
         return 1;
     }
-    case 0x60f: {  // LoadARGB8ColorSoftImage  -> r_int
+    case 0x643: {  // LoadARGB8ColorSoftImage  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadARGB8ColorSoftImage( _a0_w );
         return 1;
     }
-    case 0x610: {  // LoadXRGB8ColorSoftImage  -> r_int
+    case 0x644: {  // LoadXRGB8ColorSoftImage  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadXRGB8ColorSoftImage( _a0_w );
         return 1;
     }
-    case 0x611: {  // MakeSoftImage  -> r_int
+    case 0x645: {  // MakeSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x612: {  // MakeARGBF32ColorSoftImage  -> r_int
+    case 0x646: {  // MakeARGBF32ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeARGBF32ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x613: {  // MakeARGBF16ColorSoftImage  -> r_int
+    case 0x647: {  // MakeARGBF16ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeARGBF16ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x614: {  // MakeXRGB8ColorSoftImage  -> r_int
+    case 0x648: {  // MakeXRGB8ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeXRGB8ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x615: {  // MakeARGB8ColorSoftImage  -> r_int
+    case 0x649: {  // MakeARGB8ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeARGB8ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x616: {  // MakeRGBA8ColorSoftImage  -> r_int
+    case 0x64a: {  // MakeRGBA8ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeRGBA8ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x617: {  // MakeABGR8ColorSoftImage  -> r_int
+    case 0x64b: {  // MakeABGR8ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeABGR8ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x618: {  // MakeBGRA8ColorSoftImage  -> r_int
+    case 0x64c: {  // MakeBGRA8ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeBGRA8ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x619: {  // MakeARGB4ColorSoftImage  -> r_int
+    case 0x64d: {  // MakeARGB4ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeARGB4ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x61a: {  // MakeA1R5G5B5ColorSoftImage  -> r_int
+    case 0x64e: {  // MakeA1R5G5B5ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeA1R5G5B5ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x61b: {  // MakeX1R5G5B5ColorSoftImage  -> r_int
+    case 0x64f: {  // MakeX1R5G5B5ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeX1R5G5B5ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x61c: {  // MakeR5G5B5A1ColorSoftImage  -> r_int
+    case 0x650: {  // MakeR5G5B5A1ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeR5G5B5A1ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x61d: {  // MakeR5G6B5ColorSoftImage  -> r_int
+    case 0x651: {  // MakeR5G6B5ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeR5G6B5ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x61e: {  // MakeRGB8ColorSoftImage  -> r_int
+    case 0x652: {  // MakeRGB8ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeRGB8ColorSoftImage( _a0, _a1 );
         return 1;
     }
-    case 0x61f: {  // MakePAL8ColorSoftImage  -> r_int
+    case 0x653: {  // MakePAL8ColorSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakePAL8ColorSoftImage( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x620: {  // DeleteSoftImage  -> r_int
+    case 0x654: {  // DeleteSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteSoftImage( _a0 );
         return 1;
     }
-    case 0x621: {  // GetSoftImageSize  -> r_int
+    case 0x655: {  // GetSoftImageSize  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -11098,22 +11619,22 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a2_pv, _a2_ap, TYPE_INUM, &_a2 );
         return 1;
     }
-    case 0x622: {  // CheckPaletteSoftImage  -> r_int
+    case 0x656: {  // CheckPaletteSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckPaletteSoftImage( _a0 );
         return 1;
     }
-    case 0x623: {  // CheckAlphaSoftImage  -> r_int
+    case 0x657: {  // CheckAlphaSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckAlphaSoftImage( _a0 );
         return 1;
     }
-    case 0x624: {  // CheckPixelAlphaSoftImage  -> r_int
+    case 0x658: {  // CheckPixelAlphaSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckPixelAlphaSoftImage( _a0 );
         return 1;
     }
-    case 0x625: {  // GetDrawScreenSoftImage  -> r_int
+    case 0x659: {  // GetDrawScreenSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11122,7 +11643,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetDrawScreenSoftImage( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x626: {  // GetDrawScreenSoftImageDestPos  -> r_int
+    case 0x65a: {  // GetDrawScreenSoftImageDestPos  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11133,7 +11654,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = GetDrawScreenSoftImageDestPos( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x627: {  // FillSoftImage  -> r_int
+    case 0x65b: {  // FillSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11142,7 +11663,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = FillSoftImage( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x628: {  // ClearRectSoftImage  -> r_int
+    case 0x65c: {  // ClearRectSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11151,7 +11672,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = ClearRectSoftImage( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x629: {  // GetPaletteSoftImage  -> r_int
+    case 0x65d: {  // GetPaletteSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -11173,7 +11694,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a5_pv, _a5_ap, TYPE_INUM, &_a5 );
         return 1;
     }
-    case 0x62a: {  // SetPaletteSoftImage  -> r_int
+    case 0x65e: {  // SetPaletteSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11183,7 +11704,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetPaletteSoftImage( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x62b: {  // DrawPixelPalCodeSoftImage  -> r_int
+    case 0x65f: {  // DrawPixelPalCodeSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11191,19 +11712,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawPixelPalCodeSoftImage( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x62c: {  // GetPixelPalCodeSoftImage  -> r_int
+    case 0x660: {  // GetPixelPalCodeSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetPixelPalCodeSoftImage( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x62d: {  // GetPitchSoftImage  -> r_int
+    case 0x661: {  // GetPitchSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetPitchSoftImage( _a0 );
         return 1;
     }
-    case 0x62e: {  // DrawPixelSoftImage  -> r_int
+    case 0x662: {  // DrawPixelSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11214,7 +11735,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawPixelSoftImage( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x62f: {  // DrawPixelSoftImageF  -> r_int
+    case 0x663: {  // DrawPixelSoftImageF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11225,7 +11746,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawPixelSoftImageF( _a0, _a1, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x630: {  // GetPixelSoftImage  -> r_int
+    case 0x664: {  // GetPixelSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11248,7 +11769,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_INUM, &_a6 );
         return 1;
     }
-    case 0x631: {  // GetPixelSoftImageF  -> r_int
+    case 0x665: {  // GetPixelSoftImageF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11275,7 +11796,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a6_pv, _a6_ap, TYPE_DNUM, &_a6_d );
         return 1;
     }
-    case 0x632: {  // DrawLineSoftImage  -> r_int
+    case 0x666: {  // DrawLineSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11288,7 +11809,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawLineSoftImage( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x633: {  // DrawCircleSoftImage  -> r_int
+    case 0x667: {  // DrawCircleSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11301,7 +11822,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DrawCircleSoftImage( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x634: {  // BltSoftImage  -> r_int
+    case 0x668: {  // BltSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11313,7 +11834,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = BltSoftImage( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7 );
         return 1;
     }
-    case 0x635: {  // BltSoftImageWithTransColor  -> r_int
+    case 0x669: {  // BltSoftImageWithTransColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11329,7 +11850,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = BltSoftImageWithTransColor( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11 );
         return 1;
     }
-    case 0x636: {  // BltSoftImageWithAlphaBlend  -> r_int
+    case 0x66a: {  // BltSoftImageWithAlphaBlend  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -11342,32 +11863,32 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = BltSoftImageWithAlphaBlend( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x637: {  // ReverseSoftImageH  -> r_int
+    case 0x66b: {  // ReverseSoftImageH  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ReverseSoftImageH( _a0 );
         return 1;
     }
-    case 0x638: {  // ReverseSoftImageV  -> r_int
+    case 0x66c: {  // ReverseSoftImageV  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ReverseSoftImageV( _a0 );
         return 1;
     }
-    case 0x639: {  // ReverseSoftImage  -> r_int
+    case 0x66d: {  // ReverseSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ReverseSoftImage( _a0 );
         return 1;
     }
-    case 0x63a: {  // ConvertPremulAlphaSoftImage  -> r_int
+    case 0x66e: {  // ConvertPremulAlphaSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ConvertPremulAlphaSoftImage( _a0 );
         return 1;
     }
-    case 0x63b: {  // ConvertInterpAlphaSoftImage  -> r_int
+    case 0x66f: {  // ConvertInterpAlphaSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ConvertInterpAlphaSoftImage( _a0 );
         return 1;
     }
-    case 0x63c: {  // BltStringSoftImage  -> r_int
+    case 0x670: {  // BltStringSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -11379,14 +11900,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = BltStringSoftImage( _a0, _a1, _a2_w, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x63d: {  // DrawSoftImage  -> r_int
+    case 0x671: {  // DrawSoftImage  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = DrawSoftImage( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x63e: {  // SaveSoftImageToBmp  -> r_int
+    case 0x672: {  // SaveSoftImageToBmp  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11394,7 +11915,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveSoftImageToBmp( _a0_w, _a1 );
         return 1;
     }
-    case 0x63f: {  // SaveSoftImageToDds  -> r_int
+    case 0x673: {  // SaveSoftImageToDds  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11402,7 +11923,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveSoftImageToDds( _a0_w, _a1 );
         return 1;
     }
-    case 0x640: {  // SaveSoftImageToPng  -> r_int
+    case 0x674: {  // SaveSoftImageToPng  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11411,7 +11932,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveSoftImageToPng( _a0_w, _a1, _a2 );
         return 1;
     }
-    case 0x641: {  // SaveSoftImageToJpeg  -> r_int
+    case 0x675: {  // SaveSoftImageToJpeg  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11421,16 +11942,16 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveSoftImageToJpeg( _a0_w, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x642: {  // InitSoundMem  -> r_int
+    case 0x676: {  // InitSoundMem  -> r_int
         ctx->stat = InitSoundMem(  );
         return 1;
     }
-    case 0x643: {  // AddSoundData  -> r_int
+    case 0x677: {  // AddSoundData  -> r_int
         int _a0 = hsp3dx_auto_geti( -1 );
         ctx->stat = AddSoundData( _a0 );
         return 1;
     }
-    case 0x644: {  // AddStreamSoundMemToFile  -> r_int
+    case 0x678: {  // AddStreamSoundMemToFile  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11441,36 +11962,36 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = AddStreamSoundMemToFile( _a0_w, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x645: {  // SetupStreamSoundMem  -> r_int
+    case 0x679: {  // SetupStreamSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetupStreamSoundMem( _a0 );
         return 1;
     }
-    case 0x646: {  // PlayStreamSoundMem  -> r_int
+    case 0x67a: {  // PlayStreamSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( DX_PLAYTYPE_LOOP );
         int _a2 = hsp3dx_auto_geti( 1 );
         ctx->stat = PlayStreamSoundMem( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x647: {  // CheckStreamSoundMem  -> r_int
+    case 0x67b: {  // CheckStreamSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckStreamSoundMem( _a0 );
         return 1;
     }
-    case 0x648: {  // StopStreamSoundMem  -> r_int
+    case 0x67c: {  // StopStreamSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = StopStreamSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x649: {  // SetStreamSoundCurrentPosition  -> r_int
+    case 0x67d: {  // SetStreamSoundCurrentPosition  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetStreamSoundCurrentPosition( _a0, _a1 );
         return 1;
     }
-    case 0x64a: {  // GetStreamSoundCurrentPosition  -> r_int64
+    case 0x67e: {  // GetStreamSoundCurrentPosition  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -11479,13 +12000,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x64b: {  // SetStreamSoundCurrentTime  -> r_int
+    case 0x67f: {  // SetStreamSoundCurrentTime  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetStreamSoundCurrentTime( _a0, _a1 );
         return 1;
     }
-    case 0x64c: {  // GetStreamSoundCurrentTime  -> r_int64
+    case 0x680: {  // GetStreamSoundCurrentTime  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -11494,16 +12015,16 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x64d: {  // ProcessStreamSoundMem  -> r_int
+    case 0x681: {  // ProcessStreamSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ProcessStreamSoundMem( _a0 );
         return 1;
     }
-    case 0x64e: {  // ProcessStreamSoundMemAll  -> r_int
+    case 0x682: {  // ProcessStreamSoundMemAll  -> r_int
         ctx->stat = ProcessStreamSoundMemAll(  );
         return 1;
     }
-    case 0x64f: {  // LoadSoundMem2  -> r_int
+    case 0x683: {  // LoadSoundMem2  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11513,14 +12034,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = LoadSoundMem2( _a0_w, _a1_w );
         return 1;
     }
-    case 0x650: {  // LoadBGM  -> r_int
+    case 0x684: {  // LoadBGM  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadBGM( _a0_w );
         return 1;
     }
-    case 0x651: {  // LoadSoundMemBase  -> r_int
+    case 0x685: {  // LoadSoundMemBase  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11529,7 +12050,16 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = LoadSoundMemBase( _a0_w, _a1, _a2 );
         return 1;
     }
-    case 0x652: {  // LoadSoundMemToBufNumSitei  -> r_int
+    case 0x686: {  // LoadSoundMem  -> r_int
+        const char *_a0_u8 = hsp3dx_auto_gets();
+        wchar_t _a0_w[1024];
+        hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
+        int _a1 = hsp3dx_auto_geti( 3 );
+        int _a2 = hsp3dx_auto_geti( -1 );
+        ctx->stat = LoadSoundMem( _a0_w, _a1, _a2 );
+        return 1;
+    }
+    case 0x687: {  // LoadSoundMemToBufNumSitei  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -11537,138 +12067,173 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = LoadSoundMemToBufNumSitei( _a0_w, _a1 );
         return 1;
     }
-    case 0x653: {  // DuplicateSoundMem  -> r_int
+    case 0x688: {  // DuplicateSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 3 );
         ctx->stat = DuplicateSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x654: {  // LoadSoundMemFromSoftSound  -> r_int
+    case 0x689: {  // LoadSoundMemFromSoftSound  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 3 );
         ctx->stat = LoadSoundMemFromSoftSound( _a0, _a1 );
         return 1;
     }
-    case 0x655: {  // ChangePanSoundMem  -> r_int
+    case 0x68a: {  // DeleteSoundMem  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = DeleteSoundMem( _a0 );
+        return 1;
+    }
+    case 0x68b: {  // PlaySoundMem  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        int _a2 = hsp3dx_auto_geti( 1 );
+        ctx->stat = PlaySoundMem( _a0, _a1, _a2 );
+        return 1;
+    }
+    case 0x68c: {  // StopSoundMem  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        ctx->stat = StopSoundMem( _a0, _a1 );
+        return 1;
+    }
+    case 0x68d: {  // CheckSoundMem  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = CheckSoundMem( _a0 );
+        return 1;
+    }
+    case 0x68e: {  // SetPanSoundMem  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetPanSoundMem( _a0, _a1 );
+        return 1;
+    }
+    case 0x68f: {  // ChangePanSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangePanSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x656: {  // GetPanSoundMem  -> r_int
+    case 0x690: {  // GetPanSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetPanSoundMem( _a0 );
         return 1;
     }
-    case 0x657: {  // ChangeVolumeSoundMem  -> r_int
+    case 0x691: {  // SetVolumeSoundMem  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        int _a1 = hsp3dx_auto_geti( 0 );
+        ctx->stat = SetVolumeSoundMem( _a0, _a1 );
+        return 1;
+    }
+    case 0x692: {  // ChangeVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeVolumeSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x658: {  // GetVolumeSoundMem  -> r_int
+    case 0x693: {  // GetVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetVolumeSoundMem( _a0 );
         return 1;
     }
-    case 0x659: {  // GetVolumeSoundMem2  -> r_int
+    case 0x694: {  // GetVolumeSoundMem2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetVolumeSoundMem2( _a0 );
         return 1;
     }
-    case 0x65a: {  // SetChannelVolumeSoundMem  -> r_int
+    case 0x695: {  // SetChannelVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetChannelVolumeSoundMem( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x65b: {  // ChangeChannelVolumeSoundMem  -> r_int
+    case 0x696: {  // ChangeChannelVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeChannelVolumeSoundMem( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x65c: {  // GetChannelVolumeSoundMem  -> r_int
+    case 0x697: {  // GetChannelVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetChannelVolumeSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x65d: {  // GetChannelVolumeSoundMem2  -> r_int
+    case 0x698: {  // GetChannelVolumeSoundMem2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetChannelVolumeSoundMem2( _a0, _a1 );
         return 1;
     }
-    case 0x65e: {  // SetFrequencySoundMem  -> r_int
+    case 0x699: {  // SetFrequencySoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetFrequencySoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x65f: {  // GetFrequencySoundMem  -> r_int
+    case 0x69a: {  // GetFrequencySoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetFrequencySoundMem( _a0 );
         return 1;
     }
-    case 0x660: {  // ResetFrequencySoundMem  -> r_int
+    case 0x69b: {  // ResetFrequencySoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetFrequencySoundMem( _a0 );
         return 1;
     }
-    case 0x661: {  // SetNextPlayPanSoundMem  -> r_int
+    case 0x69c: {  // SetNextPlayPanSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetNextPlayPanSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x662: {  // ChangeNextPlayPanSoundMem  -> r_int
+    case 0x69d: {  // ChangeNextPlayPanSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeNextPlayPanSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x663: {  // SetNextPlayVolumeSoundMem  -> r_int
+    case 0x69e: {  // SetNextPlayVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetNextPlayVolumeSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x664: {  // ChangeNextPlayVolumeSoundMem  -> r_int
+    case 0x69f: {  // ChangeNextPlayVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeNextPlayVolumeSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x665: {  // SetNextPlayChannelVolumeSoundMem  -> r_int
+    case 0x6a0: {  // SetNextPlayChannelVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetNextPlayChannelVolumeSoundMem( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x666: {  // ChangeNextPlayChannelVolumeSoundMem  -> r_int
+    case 0x6a1: {  // ChangeNextPlayChannelVolumeSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = ChangeNextPlayChannelVolumeSoundMem( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x667: {  // SetNextPlayFrequencySoundMem  -> r_int
+    case 0x6a2: {  // SetNextPlayFrequencySoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetNextPlayFrequencySoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x668: {  // SetCurrentPositionSoundMem  -> r_int
+    case 0x6a3: {  // SetCurrentPositionSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCurrentPositionSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x669: {  // GetCurrentPositionSoundMem  -> r_int64
+    case 0x6a4: {  // GetCurrentPositionSoundMem  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -11677,13 +12242,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x66a: {  // SetSoundCurrentPosition  -> r_int
+    case 0x6a5: {  // SetSoundCurrentPosition  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetSoundCurrentPosition( _a0, _a1 );
         return 1;
     }
-    case 0x66b: {  // GetSoundCurrentPosition  -> r_int64
+    case 0x6a6: {  // GetSoundCurrentPosition  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -11692,13 +12257,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x66c: {  // SetSoundCurrentTime  -> r_int
+    case 0x6a7: {  // SetSoundCurrentTime  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetSoundCurrentTime( _a0, _a1 );
         return 1;
     }
-    case 0x66d: {  // GetSoundCurrentTime  -> r_int64
+    case 0x6a8: {  // GetSoundCurrentTime  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -11707,7 +12272,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x66e: {  // GetSoundTotalSample  -> r_int64
+    case 0x6a9: {  // GetSoundTotalSample  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -11716,7 +12281,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x66f: {  // GetSoundTotalTime  -> r_int64
+    case 0x6aa: {  // GetSoundTotalTime  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -11725,57 +12290,57 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x670: {  // SetLoopPosSoundMem  -> r_int
+    case 0x6ab: {  // SetLoopPosSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLoopPosSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x671: {  // SetLoopTimePosSoundMem  -> r_int
+    case 0x6ac: {  // SetLoopTimePosSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLoopTimePosSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x672: {  // SetLoopSamplePosSoundMem  -> r_int
+    case 0x6ad: {  // SetLoopSamplePosSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLoopSamplePosSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x673: {  // SetLoopStartTimePosSoundMem  -> r_int
+    case 0x6ae: {  // SetLoopStartTimePosSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLoopStartTimePosSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x674: {  // SetLoopStartSamplePosSoundMem  -> r_int
+    case 0x6af: {  // SetLoopStartSamplePosSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLoopStartSamplePosSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x675: {  // SetLoopAreaTimePosSoundMem  -> r_int
+    case 0x6b0: {  // SetLoopAreaTimePosSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         LONGLONG _a1 = (LONGLONG)code_geti64();
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLoopAreaTimePosSoundMem( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x676: {  // SetLoopAreaSamplePosSoundMem  -> r_int
+    case 0x6b1: {  // SetLoopAreaSamplePosSoundMem  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         LONGLONG _a1 = (LONGLONG)code_geti64();
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetLoopAreaSamplePosSoundMem( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x677: {  // SetPlayFinishDeleteSoundMem  -> r_int
+    case 0x6b2: {  // SetPlayFinishDeleteSoundMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetPlayFinishDeleteSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x678: {  // Set3DPositionSoundMem  -> r_int
+    case 0x6b3: {  // Set3DPositionSoundMem  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -11786,13 +12351,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Set3DPositionSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x679: {  // Set3DRadiusSoundMem  -> r_int
+    case 0x6b4: {  // Set3DRadiusSoundMem  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = Set3DRadiusSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x67a: {  // Set3DVelocitySoundMem  -> r_int
+    case 0x6b5: {  // Set3DVelocitySoundMem  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -11803,7 +12368,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Set3DVelocitySoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x67b: {  // SetNextPlay3DPositionSoundMem  -> r_int
+    case 0x6b6: {  // SetNextPlay3DPositionSoundMem  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -11814,13 +12379,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetNextPlay3DPositionSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x67c: {  // SetNextPlay3DRadiusSoundMem  -> r_int
+    case 0x6b7: {  // SetNextPlay3DRadiusSoundMem  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetNextPlay3DRadiusSoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x67d: {  // SetNextPlay3DVelocitySoundMem  -> r_int
+    case 0x6b8: {  // SetNextPlay3DVelocitySoundMem  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -11831,28 +12396,28 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SetNextPlay3DVelocitySoundMem( _a0, _a1 );
         return 1;
     }
-    case 0x67e: {  // GetOggCommentNum  -> r_int
+    case 0x6b9: {  // GetOggCommentNum  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = GetOggCommentNum( _a0_w );
         return 1;
     }
-    case 0x67f: {  // SetCreateSoundDataType  -> r_int
+    case 0x6ba: {  // SetCreateSoundDataType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateSoundDataType( _a0 );
         return 1;
     }
-    case 0x680: {  // GetCreateSoundDataType  -> r_int
+    case 0x6bb: {  // GetCreateSoundDataType  -> r_int
         ctx->stat = GetCreateSoundDataType(  );
         return 1;
     }
-    case 0x681: {  // SetCreateSoundPitchRate  -> r_int
+    case 0x6bc: {  // SetCreateSoundPitchRate  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCreateSoundPitchRate( _a0 );
         return 1;
     }
-    case 0x682: {  // GetCreateSoundPitchRate  -> r_float
+    case 0x6bd: {  // GetCreateSoundPitchRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCreateSoundPitchRate(  );
@@ -11860,12 +12425,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x683: {  // SetCreateSoundTimeStretchRate  -> r_int
+    case 0x6be: {  // SetCreateSoundTimeStretchRate  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = SetCreateSoundTimeStretchRate( _a0 );
         return 1;
     }
-    case 0x684: {  // GetCreateSoundTimeStretchRate  -> r_float
+    case 0x6bf: {  // GetCreateSoundTimeStretchRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = GetCreateSoundTimeStretchRate(  );
@@ -11873,61 +12438,61 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x685: {  // SetCreateSoundLoopAreaTimePos  -> r_int
+    case 0x6c0: {  // SetCreateSoundLoopAreaTimePos  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         LONGLONG _a1 = (LONGLONG)code_geti64();
         ctx->stat = SetCreateSoundLoopAreaTimePos( _a0, _a1 );
         return 1;
     }
-    case 0x686: {  // SetCreateSoundLoopAreaSamplePos  -> r_int
+    case 0x6c1: {  // SetCreateSoundLoopAreaSamplePos  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         LONGLONG _a1 = (LONGLONG)code_geti64();
         ctx->stat = SetCreateSoundLoopAreaSamplePos( _a0, _a1 );
         return 1;
     }
-    case 0x687: {  // SetCreateSoundIgnoreLoopAreaInfo  -> r_int
+    case 0x6c2: {  // SetCreateSoundIgnoreLoopAreaInfo  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreateSoundIgnoreLoopAreaInfo( _a0 );
         return 1;
     }
-    case 0x688: {  // GetCreateSoundIgnoreLoopAreaInfo  -> r_int
+    case 0x6c3: {  // GetCreateSoundIgnoreLoopAreaInfo  -> r_int
         ctx->stat = GetCreateSoundIgnoreLoopAreaInfo(  );
         return 1;
     }
-    case 0x689: {  // SetDisableReadSoundFunctionMask  -> r_int
+    case 0x6c4: {  // SetDisableReadSoundFunctionMask  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDisableReadSoundFunctionMask( _a0 );
         return 1;
     }
-    case 0x68a: {  // GetDisableReadSoundFunctionMask  -> r_int
+    case 0x6c5: {  // GetDisableReadSoundFunctionMask  -> r_int
         ctx->stat = GetDisableReadSoundFunctionMask(  );
         return 1;
     }
-    case 0x68b: {  // SetEnableSoundCaptureFlag  -> r_int
+    case 0x6c6: {  // SetEnableSoundCaptureFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetEnableSoundCaptureFlag( _a0 );
         return 1;
     }
-    case 0x68c: {  // SetUseOldVolumeCalcFlag  -> r_int
+    case 0x6c7: {  // SetUseOldVolumeCalcFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseOldVolumeCalcFlag( _a0 );
         return 1;
     }
-    case 0x68d: {  // GetSoundCurrentTimeType  -> r_int
+    case 0x6c8: {  // GetSoundCurrentTimeType  -> r_int
         ctx->stat = GetSoundCurrentTimeType(  );
         return 1;
     }
-    case 0x68e: {  // SetCreate3DSoundFlag  -> r_int
+    case 0x6c9: {  // SetCreate3DSoundFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetCreate3DSoundFlag( _a0 );
         return 1;
     }
-    case 0x68f: {  // Set3DSoundOneMetre  -> r_int
+    case 0x6ca: {  // Set3DSoundOneMetre  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = Set3DSoundOneMetre( _a0 );
         return 1;
     }
-    case 0x690: {  // Set3DSoundListenerPosAndFrontPos_UpVecY  -> r_int
+    case 0x6cb: {  // Set3DSoundListenerPosAndFrontPos_UpVecY  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -11943,7 +12508,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Set3DSoundListenerPosAndFrontPos_UpVecY( _a0, _a1 );
         return 1;
     }
-    case 0x691: {  // Set3DSoundListenerPosAndFrontPosAndUpVec  -> r_int
+    case 0x6cc: {  // Set3DSoundListenerPosAndFrontPosAndUpVec  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -11965,7 +12530,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Set3DSoundListenerPosAndFrontPosAndUpVec( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x692: {  // Set3DSoundListenerVelocity  -> r_int
+    case 0x6cd: {  // Set3DSoundListenerVelocity  -> r_int
         PVal *_a0_pv; APTR _a0_ap;
         _a0_ap = code_getva( &_a0_pv );
         if ( _a0_pv->pt == nullptr || _a0_pv->len[0] < 12 )
@@ -11975,32 +12540,32 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Set3DSoundListenerVelocity( _a0 );
         return 1;
     }
-    case 0x693: {  // Set3DSoundListenerConeAngle  -> r_int
+    case 0x6ce: {  // Set3DSoundListenerConeAngle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = Set3DSoundListenerConeAngle( _a0, _a1 );
         return 1;
     }
-    case 0x694: {  // Set3DSoundListenerConeVolume  -> r_int
+    case 0x6cf: {  // Set3DSoundListenerConeVolume  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = Set3DSoundListenerConeVolume( _a0, _a1 );
         return 1;
     }
-    case 0x695: {  // SetBeepFrequency  -> r_int
+    case 0x6d0: {  // SetBeepFrequency  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetBeepFrequency( _a0 );
         return 1;
     }
-    case 0x696: {  // PlayBeep  -> r_int
+    case 0x6d1: {  // PlayBeep  -> r_int
         ctx->stat = PlayBeep(  );
         return 1;
     }
-    case 0x697: {  // StopBeep  -> r_int
+    case 0x6d2: {  // StopBeep  -> r_int
         ctx->stat = StopBeep(  );
         return 1;
     }
-    case 0x698: {  // PlaySoundFile  -> r_int
+    case 0x6d3: {  // PlaySoundFile  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -12008,7 +12573,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = PlaySoundFile( _a0_w, _a1 );
         return 1;
     }
-    case 0x699: {  // PlaySound  -> r_int
+    case 0x6d4: {  // PlaySound  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -12016,7 +12581,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = PlaySound( _a0_w, _a1 );
         return 1;
     }
-    case 0x69a: {  // PlaySoundDX  -> r_int
+    case 0x6d5: {  // PlaySoundDX  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -12024,90 +12589,90 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = PlaySoundDX( _a0_w, _a1 );
         return 1;
     }
-    case 0x69b: {  // CheckSoundFile  -> r_int
+    case 0x6d6: {  // CheckSoundFile  -> r_int
         ctx->stat = CheckSoundFile(  );
         return 1;
     }
-    case 0x69c: {  // CheckSound  -> r_int
+    case 0x6d7: {  // CheckSound  -> r_int
         ctx->stat = CheckSound(  );
         return 1;
     }
-    case 0x69d: {  // StopSoundFile  -> r_int
+    case 0x6d8: {  // StopSoundFile  -> r_int
         ctx->stat = StopSoundFile(  );
         return 1;
     }
-    case 0x69e: {  // StopSound  -> r_int
+    case 0x6d9: {  // StopSound  -> r_int
         ctx->stat = StopSound(  );
         return 1;
     }
-    case 0x69f: {  // SetVolumeSoundFile  -> r_int
+    case 0x6da: {  // SetVolumeSoundFile  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetVolumeSoundFile( _a0 );
         return 1;
     }
-    case 0x6a0: {  // SetVolumeSound  -> r_int
+    case 0x6db: {  // SetVolumeSound  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetVolumeSound( _a0 );
         return 1;
     }
-    case 0x6a1: {  // InitSoftSound  -> r_int
+    case 0x6dc: {  // InitSoftSound  -> r_int
         ctx->stat = InitSoftSound(  );
         return 1;
     }
-    case 0x6a2: {  // LoadSoftSound  -> r_int
+    case 0x6dd: {  // LoadSoftSound  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadSoftSound( _a0_w );
         return 1;
     }
-    case 0x6a3: {  // MakeSoftSound  -> r_int
+    case 0x6de: {  // MakeSoftSound  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         LONGLONG _a1 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound( _a0, _a1 );
         return 1;
     }
-    case 0x6a4: {  // MakeSoftSound2Ch16Bit44KHz  -> r_int
+    case 0x6df: {  // MakeSoftSound2Ch16Bit44KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound2Ch16Bit44KHz( _a0 );
         return 1;
     }
-    case 0x6a5: {  // MakeSoftSound2Ch16Bit22KHz  -> r_int
+    case 0x6e0: {  // MakeSoftSound2Ch16Bit22KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound2Ch16Bit22KHz( _a0 );
         return 1;
     }
-    case 0x6a6: {  // MakeSoftSound2Ch8Bit44KHz  -> r_int
+    case 0x6e1: {  // MakeSoftSound2Ch8Bit44KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound2Ch8Bit44KHz( _a0 );
         return 1;
     }
-    case 0x6a7: {  // MakeSoftSound2Ch8Bit22KHz  -> r_int
+    case 0x6e2: {  // MakeSoftSound2Ch8Bit22KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound2Ch8Bit22KHz( _a0 );
         return 1;
     }
-    case 0x6a8: {  // MakeSoftSound1Ch16Bit44KHz  -> r_int
+    case 0x6e3: {  // MakeSoftSound1Ch16Bit44KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound1Ch16Bit44KHz( _a0 );
         return 1;
     }
-    case 0x6a9: {  // MakeSoftSound1Ch16Bit22KHz  -> r_int
+    case 0x6e4: {  // MakeSoftSound1Ch16Bit22KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound1Ch16Bit22KHz( _a0 );
         return 1;
     }
-    case 0x6aa: {  // MakeSoftSound1Ch8Bit44KHz  -> r_int
+    case 0x6e5: {  // MakeSoftSound1Ch8Bit44KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound1Ch8Bit44KHz( _a0 );
         return 1;
     }
-    case 0x6ab: {  // MakeSoftSound1Ch8Bit22KHz  -> r_int
+    case 0x6e6: {  // MakeSoftSound1Ch8Bit22KHz  -> r_int
         LONGLONG _a0 = (LONGLONG)code_geti64();
         ctx->stat = MakeSoftSound1Ch8Bit22KHz( _a0 );
         return 1;
     }
-    case 0x6ac: {  // MakeSoftSoundCustom  -> r_int
+    case 0x6e7: {  // MakeSoftSoundCustom  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -12116,12 +12681,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MakeSoftSoundCustom( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x6ad: {  // DeleteSoftSound  -> r_int
+    case 0x6e8: {  // DeleteSoftSound  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteSoftSound( _a0 );
         return 1;
     }
-    case 0x6ae: {  // SaveSoftSound  -> r_int
+    case 0x6e9: {  // SaveSoftSound  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -12129,7 +12694,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = SaveSoftSound( _a0, _a1_w );
         return 1;
     }
-    case 0x6af: {  // GetSoftSoundSampleNum  -> r_int64
+    case 0x6ea: {  // GetSoftSoundSampleNum  -> r_int64
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -12138,7 +12703,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_INUM, &_ret_i );
         return 1;
     }
-    case 0x6b0: {  // GetSoftSoundFormat  -> r_int
+    case 0x6eb: {  // GetSoftSoundFormat  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12159,7 +12724,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_INUM, &_a4 );
         return 1;
     }
-    case 0x6b1: {  // ReadSoftSoundData  -> r_int
+    case 0x6ec: {  // ReadSoftSoundData  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         LONGLONG _a1 = (LONGLONG)code_geti64();
         PVal *_a2_pv; APTR _a2_ap;
@@ -12173,7 +12738,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_INUM, &_a3 );
         return 1;
     }
-    case 0x6b2: {  // ReadSoftSoundDataF  -> r_int
+    case 0x6ed: {  // ReadSoftSoundDataF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         LONGLONG _a1 = (LONGLONG)code_geti64();
         PVal *_a2_pv; APTR _a2_ap;
@@ -12189,7 +12754,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_DNUM, &_a3_d );
         return 1;
     }
-    case 0x6b3: {  // WriteSoftSoundData  -> r_int
+    case 0x6ee: {  // WriteSoftSoundData  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         LONGLONG _a1 = (LONGLONG)code_geti64();
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -12197,7 +12762,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = WriteSoftSoundData( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x6b4: {  // WriteSoftSoundDataF  -> r_int
+    case 0x6ef: {  // WriteSoftSoundDataF  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         LONGLONG _a1 = (LONGLONG)code_geti64();
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -12205,19 +12770,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = WriteSoftSoundDataF( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x6b5: {  // WriteTimeStretchSoftSoundData  -> r_int
+    case 0x6f0: {  // WriteTimeStretchSoftSoundData  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = WriteTimeStretchSoftSoundData( _a0, _a1 );
         return 1;
     }
-    case 0x6b6: {  // WritePitchShiftSoftSoundData  -> r_int
+    case 0x6f1: {  // WritePitchShiftSoftSoundData  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = WritePitchShiftSoftSoundData( _a0, _a1 );
         return 1;
     }
-    case 0x6b7: {  // GetFFTVibrationSoftSound  -> r_int
+    case 0x6f2: {  // GetFFTVibrationSoftSound  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         LONGLONG _a2 = (LONGLONG)code_geti64();
@@ -12231,7 +12796,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_DNUM, &_a4_d );
         return 1;
     }
-    case 0x6b8: {  // GetFFTVibrationSoftSoundBase  -> r_int
+    case 0x6f3: {  // GetFFTVibrationSoftSoundBase  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         LONGLONG _a2 = (LONGLONG)code_geti64();
@@ -12250,60 +12815,60 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a5_pv, _a5_ap, TYPE_DNUM, &_a5_d );
         return 1;
     }
-    case 0x6b9: {  // InitSoftSoundPlayer  -> r_int
+    case 0x6f4: {  // InitSoftSoundPlayer  -> r_int
         ctx->stat = InitSoftSoundPlayer(  );
         return 1;
     }
-    case 0x6ba: {  // MakeSoftSoundPlayer  -> r_int
+    case 0x6f5: {  // MakeSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeSoftSoundPlayer( _a0 );
         return 1;
     }
-    case 0x6bb: {  // MakeSoftSoundPlayer2Ch16Bit44KHz  -> r_int
+    case 0x6f6: {  // MakeSoftSoundPlayer2Ch16Bit44KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer2Ch16Bit44KHz(  );
         return 1;
     }
-    case 0x6bc: {  // MakeSoftSoundPlayer2Ch16Bit22KHz  -> r_int
+    case 0x6f7: {  // MakeSoftSoundPlayer2Ch16Bit22KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer2Ch16Bit22KHz(  );
         return 1;
     }
-    case 0x6bd: {  // MakeSoftSoundPlayer2Ch8Bit44KHz  -> r_int
+    case 0x6f8: {  // MakeSoftSoundPlayer2Ch8Bit44KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer2Ch8Bit44KHz(  );
         return 1;
     }
-    case 0x6be: {  // MakeSoftSoundPlayer2Ch8Bit22KHz  -> r_int
+    case 0x6f9: {  // MakeSoftSoundPlayer2Ch8Bit22KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer2Ch8Bit22KHz(  );
         return 1;
     }
-    case 0x6bf: {  // MakeSoftSoundPlayer1Ch16Bit44KHz  -> r_int
+    case 0x6fa: {  // MakeSoftSoundPlayer1Ch16Bit44KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer1Ch16Bit44KHz(  );
         return 1;
     }
-    case 0x6c0: {  // MakeSoftSoundPlayer1Ch16Bit22KHz  -> r_int
+    case 0x6fb: {  // MakeSoftSoundPlayer1Ch16Bit22KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer1Ch16Bit22KHz(  );
         return 1;
     }
-    case 0x6c1: {  // MakeSoftSoundPlayer1Ch8Bit44KHz  -> r_int
+    case 0x6fc: {  // MakeSoftSoundPlayer1Ch8Bit44KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer1Ch8Bit44KHz(  );
         return 1;
     }
-    case 0x6c2: {  // MakeSoftSoundPlayer1Ch8Bit22KHz  -> r_int
+    case 0x6fd: {  // MakeSoftSoundPlayer1Ch8Bit22KHz  -> r_int
         ctx->stat = MakeSoftSoundPlayer1Ch8Bit22KHz(  );
         return 1;
     }
-    case 0x6c3: {  // MakeSoftSoundPlayerCustom  -> r_int
+    case 0x6fe: {  // MakeSoftSoundPlayerCustom  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MakeSoftSoundPlayerCustom( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x6c4: {  // DeleteSoftSoundPlayer  -> r_int
+    case 0x6ff: {  // DeleteSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteSoftSoundPlayer( _a0 );
         return 1;
     }
-    case 0x6c5: {  // AddDataSoftSoundPlayer  -> r_int
+    case 0x700: {  // AddDataSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         LONGLONG _a2 = (LONGLONG)code_geti64();
@@ -12311,14 +12876,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = AddDataSoftSoundPlayer( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x6c6: {  // AddOneDataSoftSoundPlayer  -> r_int
+    case 0x701: {  // AddOneDataSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = AddOneDataSoftSoundPlayer( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x6c7: {  // GetSoftSoundPlayerFormat  -> r_int
+    case 0x702: {  // GetSoftSoundPlayerFormat  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12335,27 +12900,27 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a3_pv, _a3_ap, TYPE_INUM, &_a3 );
         return 1;
     }
-    case 0x6c8: {  // StartSoftSoundPlayer  -> r_int
+    case 0x703: {  // StartSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = StartSoftSoundPlayer( _a0 );
         return 1;
     }
-    case 0x6c9: {  // CheckStartSoftSoundPlayer  -> r_int
+    case 0x704: {  // CheckStartSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckStartSoftSoundPlayer( _a0 );
         return 1;
     }
-    case 0x6ca: {  // StopSoftSoundPlayer  -> r_int
+    case 0x705: {  // StopSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = StopSoftSoundPlayer( _a0 );
         return 1;
     }
-    case 0x6cb: {  // ResetSoftSoundPlayer  -> r_int
+    case 0x706: {  // ResetSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = ResetSoftSoundPlayer( _a0 );
         return 1;
     }
-    case 0x6cc: {  // GetStockDataLengthSoftSoundPlayer  -> r_int
+    case 0x707: {  // GetStockDataLengthSoftSoundPlayer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12364,59 +12929,59 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a1_pv, _a1_ap, TYPE_INUM, &_a1 );
         return 1;
     }
-    case 0x6cd: {  // CheckSoftSoundPlayerNoneData  -> r_int
+    case 0x708: {  // CheckSoftSoundPlayerNoneData  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckSoftSoundPlayerNoneData( _a0 );
         return 1;
     }
-    case 0x6ce: {  // DeleteMusicMem  -> r_int
+    case 0x709: {  // DeleteMusicMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = DeleteMusicMem( _a0 );
         return 1;
     }
-    case 0x6cf: {  // LoadMusicMem  -> r_int
+    case 0x70a: {  // LoadMusicMem  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = LoadMusicMem( _a0_w );
         return 1;
     }
-    case 0x6d0: {  // PlayMusicMem  -> r_int
+    case 0x70b: {  // PlayMusicMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = PlayMusicMem( _a0, _a1 );
         return 1;
     }
-    case 0x6d1: {  // StopMusicMem  -> r_int
+    case 0x70c: {  // StopMusicMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = StopMusicMem( _a0 );
         return 1;
     }
-    case 0x6d2: {  // CheckMusicMem  -> r_int
+    case 0x70d: {  // CheckMusicMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = CheckMusicMem( _a0 );
         return 1;
     }
-    case 0x6d3: {  // SetVolumeMusicMem  -> r_int
+    case 0x70e: {  // SetVolumeMusicMem  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetVolumeMusicMem( _a0, _a1 );
         return 1;
     }
-    case 0x6d4: {  // GetMusicMemPosition  -> r_int
+    case 0x70f: {  // GetMusicMemPosition  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = GetMusicMemPosition( _a0 );
         return 1;
     }
-    case 0x6d5: {  // InitMusicMem  -> r_int
+    case 0x710: {  // InitMusicMem  -> r_int
         ctx->stat = InitMusicMem(  );
         return 1;
     }
-    case 0x6d6: {  // ProcessMusicMem  -> r_int
+    case 0x711: {  // ProcessMusicMem  -> r_int
         ctx->stat = ProcessMusicMem(  );
         return 1;
     }
-    case 0x6d7: {  // PlayMusic  -> r_int
+    case 0x712: {  // PlayMusic  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -12424,53 +12989,53 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = PlayMusic( _a0_w, _a1 );
         return 1;
     }
-    case 0x6d8: {  // SetVolumeMusic  -> r_int
+    case 0x713: {  // SetVolumeMusic  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetVolumeMusic( _a0 );
         return 1;
     }
-    case 0x6d9: {  // StopMusic  -> r_int
+    case 0x714: {  // StopMusic  -> r_int
         ctx->stat = StopMusic(  );
         return 1;
     }
-    case 0x6da: {  // CheckMusic  -> r_int
+    case 0x715: {  // CheckMusic  -> r_int
         ctx->stat = CheckMusic(  );
         return 1;
     }
-    case 0x6db: {  // GetMusicPosition  -> r_int
+    case 0x716: {  // GetMusicPosition  -> r_int
         ctx->stat = GetMusicPosition(  );
         return 1;
     }
-    case 0x6dc: {  // SelectMidiMode  -> r_int
+    case 0x717: {  // SelectMidiMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SelectMidiMode( _a0 );
         return 1;
     }
-    case 0x6dd: {  // SetUseDXArchiveFlag  -> r_int
+    case 0x718: {  // SetUseDXArchiveFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetUseDXArchiveFlag( _a0 );
         return 1;
     }
-    case 0x6de: {  // SetDXArchivePriority  -> r_int
+    case 0x719: {  // SetDXArchivePriority  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = SetDXArchivePriority( _a0 );
         return 1;
     }
-    case 0x6df: {  // SetDXArchiveExtension  -> r_int
+    case 0x71a: {  // SetDXArchiveExtension  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = SetDXArchiveExtension( _a0_w );
         return 1;
     }
-    case 0x6e0: {  // SetDXArchiveKeyString  -> r_int
+    case 0x71b: {  // SetDXArchiveKeyString  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = SetDXArchiveKeyString( _a0_w );
         return 1;
     }
-    case 0x6e1: {  // DXArchivePreLoad  -> r_int
+    case 0x71c: {  // DXArchivePreLoad  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -12478,21 +13043,21 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DXArchivePreLoad( _a0_w, _a1 );
         return 1;
     }
-    case 0x6e2: {  // DXArchiveCheckIdle  -> r_int
+    case 0x71d: {  // DXArchiveCheckIdle  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = DXArchiveCheckIdle( _a0_w );
         return 1;
     }
-    case 0x6e3: {  // DXArchiveRelease  -> r_int
+    case 0x71e: {  // DXArchiveRelease  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = DXArchiveRelease( _a0_w );
         return 1;
     }
-    case 0x6e4: {  // DXArchiveCheckFile  -> r_int
+    case 0x71f: {  // DXArchiveCheckFile  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
@@ -12502,51 +13067,63 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = DXArchiveCheckFile( _a0_w, _a1_w );
         return 1;
     }
-    case 0x6e5: {  // MV1DuplicateModel  -> r_int
+    case 0x720: {  // MV1LoadModel  -> r_int
+        const char *_a0_u8 = hsp3dx_auto_gets();
+        wchar_t _a0_w[1024];
+        hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
+        ctx->stat = MV1LoadModel( _a0_w );
+        return 1;
+    }
+    case 0x721: {  // MV1DuplicateModel  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1DuplicateModel( _a0 );
         return 1;
     }
-    case 0x6e6: {  // MV1CreateCloneModel  -> r_int
+    case 0x722: {  // MV1CreateCloneModel  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1CreateCloneModel( _a0 );
         return 1;
     }
-    case 0x6e7: {  // MV1InitModel  -> r_int
+    case 0x723: {  // MV1DeleteModel  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = MV1DeleteModel( _a0 );
+        return 1;
+    }
+    case 0x724: {  // MV1InitModel  -> r_int
         ctx->stat = MV1InitModel(  );
         return 1;
     }
-    case 0x6e8: {  // MV1SetLoadModelReMakeNormal  -> r_int
+    case 0x725: {  // MV1SetLoadModelReMakeNormal  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelReMakeNormal( _a0 );
         return 1;
     }
-    case 0x6e9: {  // MV1SetLoadModelReMakeNormalSmoothingAngle  -> r_int
+    case 0x726: {  // MV1SetLoadModelReMakeNormalSmoothingAngle  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 1.562069 );
         ctx->stat = MV1SetLoadModelReMakeNormalSmoothingAngle( _a0 );
         return 1;
     }
-    case 0x6ea: {  // MV1SetLoadModelIgnoreScaling  -> r_int
+    case 0x727: {  // MV1SetLoadModelIgnoreScaling  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelIgnoreScaling( _a0 );
         return 1;
     }
-    case 0x6eb: {  // MV1SetLoadModelPositionOptimize  -> r_int
+    case 0x728: {  // MV1SetLoadModelPositionOptimize  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelPositionOptimize( _a0 );
         return 1;
     }
-    case 0x6ec: {  // MV1SetLoadModelNotEqNormalSide_AddZeroAreaPolygon  -> r_int
+    case 0x729: {  // MV1SetLoadModelNotEqNormalSide_AddZeroAreaPolygon  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelNotEqNormalSide_AddZeroAreaPolygon( _a0 );
         return 1;
     }
-    case 0x6ed: {  // MV1SetLoadModelPhysicsWorldGravity  -> r_int
+    case 0x72a: {  // MV1SetLoadModelPhysicsWorldGravity  -> r_int
         float _a0 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetLoadModelPhysicsWorldGravity( _a0 );
         return 1;
     }
-    case 0x6ee: {  // MV1GetLoadModelPhysicsWorldGravity  -> r_float
+    case 0x72b: {  // MV1GetLoadModelPhysicsWorldGravity  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         float _ret = MV1GetLoadModelPhysicsWorldGravity(  );
@@ -12554,7 +13131,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x6ef: {  // MV1SetLoadCalcPhysicsWorldGravity  -> r_int
+    case 0x72c: {  // MV1SetLoadCalcPhysicsWorldGravity  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12565,7 +13142,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetLoadCalcPhysicsWorldGravity( _a0, _a1 );
         return 1;
     }
-    case 0x6f0: {  // MV1GetLoadCalcPhysicsWorldGravity  -> r_VECTOR
+    case 0x72d: {  // MV1GetLoadCalcPhysicsWorldGravity  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -12575,50 +13152,50 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x6f1: {  // MV1SetLoadModelPhysicsCalcPrecision  -> r_int
+    case 0x72e: {  // MV1SetLoadModelPhysicsCalcPrecision  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelPhysicsCalcPrecision( _a0 );
         return 1;
     }
-    case 0x6f2: {  // MV1AddLoadModelDisablePhysicsNameWord  -> r_int
+    case 0x72f: {  // MV1AddLoadModelDisablePhysicsNameWord  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = MV1AddLoadModelDisablePhysicsNameWord( _a0_w );
         return 1;
     }
-    case 0x6f3: {  // MV1ResetLoadModelDisablePhysicsNameWord  -> r_int
+    case 0x730: {  // MV1ResetLoadModelDisablePhysicsNameWord  -> r_int
         ctx->stat = MV1ResetLoadModelDisablePhysicsNameWord(  );
         return 1;
     }
-    case 0x6f4: {  // MV1SetLoadModelAnimFilePath  -> r_int
+    case 0x731: {  // MV1SetLoadModelAnimFilePath  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = MV1SetLoadModelAnimFilePath( _a0_w );
         return 1;
     }
-    case 0x6f5: {  // MV1SetLoadModelUsePackDraw  -> r_int
+    case 0x732: {  // MV1SetLoadModelUsePackDraw  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelUsePackDraw( _a0 );
         return 1;
     }
-    case 0x6f6: {  // MV1SetLoadModelTriangleListUseMaxBoneNum  -> r_int
+    case 0x733: {  // MV1SetLoadModelTriangleListUseMaxBoneNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelTriangleListUseMaxBoneNum( _a0 );
         return 1;
     }
-    case 0x6f7: {  // MV1SetLoadModelTextureLoad  -> r_int
+    case 0x734: {  // MV1SetLoadModelTextureLoad  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelTextureLoad( _a0 );
         return 1;
     }
-    case 0x6f8: {  // MV1SetLoadModelIgnoreIK  -> r_int
+    case 0x735: {  // MV1SetLoadModelIgnoreIK  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetLoadModelIgnoreIK( _a0 );
         return 1;
     }
-    case 0x6f9: {  // MV1SaveModelToMV1File  -> r_int
+    case 0x736: {  // MV1SaveModelToMV1File  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -12633,7 +13210,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SaveModelToMV1File( _a0, _a1_w, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x6fa: {  // MV1SaveModelToXFile  -> r_int
+    case 0x737: {  // MV1SaveModelToXFile  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -12644,25 +13221,30 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SaveModelToXFile( _a0, _a1_w, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x6fb: {  // MV1DrawFrame  -> r_int
+    case 0x738: {  // MV1DrawModel  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        ctx->stat = MV1DrawModel( _a0 );
+        return 1;
+    }
+    case 0x739: {  // MV1DrawFrame  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1DrawFrame( _a0, _a1 );
         return 1;
     }
-    case 0x6fc: {  // MV1DrawMesh  -> r_int
+    case 0x73a: {  // MV1DrawMesh  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1DrawMesh( _a0, _a1 );
         return 1;
     }
-    case 0x6fd: {  // MV1DrawTriangleList  -> r_int
+    case 0x73b: {  // MV1DrawTriangleList  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1DrawTriangleList( _a0, _a1 );
         return 1;
     }
-    case 0x6fe: {  // MV1DrawModelDebug  -> r_int
+    case 0x73c: {  // MV1DrawModelDebug  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         unsigned int _a1 = (unsigned int)hsp3dx_auto_geti( (int)(0) );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -12672,12 +13254,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1DrawModelDebug( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x6ff: {  // MV1SetUseOrigShader  -> r_int
+    case 0x73d: {  // MV1SetUseOrigShader  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetUseOrigShader( _a0 );
         return 1;
     }
-    case 0x700: {  // MV1GetLocalWorldMatrix  -> r_MATRIX
+    case 0x73e: {  // MV1GetLocalWorldMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -12687,7 +13269,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x701: {  // MV1GetLocalWorldMatrixD  -> r_MATRIX_D
+    case 0x73f: {  // MV1GetLocalWorldMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -12697,7 +13279,18 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x702: {  // MV1SetPositionD  -> r_int
+    case 0x740: {  // MV1SetPosition  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        ctx->stat = MV1SetPosition( _a0, _a1 );
+        return 1;
+    }
+    case 0x741: {  // MV1SetPositionD  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12708,7 +13301,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetPositionD( _a0, _a1 );
         return 1;
     }
-    case 0x703: {  // MV1GetPosition  -> r_VECTOR
+    case 0x742: {  // MV1GetPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -12718,7 +13311,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x704: {  // MV1GetPositionD  -> r_VECTOR_D
+    case 0x743: {  // MV1GetPositionD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -12728,7 +13321,18 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x705: {  // MV1GetScale  -> r_VECTOR
+    case 0x744: {  // MV1SetScale  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        ctx->stat = MV1SetScale( _a0, _a1 );
+        return 1;
+    }
+    case 0x745: {  // MV1GetScale  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -12738,7 +13342,18 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x706: {  // MV1GetRotationXYZ  -> r_VECTOR
+    case 0x746: {  // MV1SetRotationXYZ  -> r_int
+        int _a0 = hsp3dx_auto_geti( 0 );
+        PVal *_a1_pv; APTR _a1_ap;
+        _a1_ap = code_getva( &_a1_pv );
+        if ( _a1_pv->pt == nullptr || _a1_pv->len[0] < 12 )
+            throw HSPERR_TYPE_MISMATCH;
+        VECTOR _a1;
+        memcpy( &_a1, _a1_pv->pt + _a1_ap * _a1_pv->len[0], sizeof(VECTOR) );
+        ctx->stat = MV1SetRotationXYZ( _a0, _a1 );
+        return 1;
+    }
+    case 0x747: {  // MV1GetRotationXYZ  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -12748,7 +13363,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x707: {  // MV1SetRotationZYAxis  -> r_int
+    case 0x748: {  // MV1SetRotationZYAxis  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12766,7 +13381,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetRotationZYAxis( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x708: {  // MV1SetRotationYUseDir  -> r_int
+    case 0x749: {  // MV1SetRotationYUseDir  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12778,7 +13393,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetRotationYUseDir( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x709: {  // MV1SetRotationMatrix  -> r_int
+    case 0x74a: {  // MV1SetRotationMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12789,7 +13404,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetRotationMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x70a: {  // MV1GetRotationMatrix  -> r_MATRIX
+    case 0x74b: {  // MV1GetRotationMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -12799,7 +13414,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x70b: {  // MV1SetMatrix  -> r_int
+    case 0x74c: {  // MV1SetMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12810,7 +13425,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x70c: {  // MV1SetMatrixD  -> r_int
+    case 0x74d: {  // MV1SetMatrixD  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12821,7 +13436,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMatrixD( _a0, _a1 );
         return 1;
     }
-    case 0x70d: {  // MV1GetMatrix  -> r_MATRIX
+    case 0x74e: {  // MV1GetMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -12831,7 +13446,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x70e: {  // MV1GetMatrixD  -> r_MATRIX_D
+    case 0x74f: {  // MV1GetMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -12841,31 +13456,31 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x70f: {  // MV1SetVisible  -> r_int
+    case 0x750: {  // MV1SetVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetVisible( _a0, _a1 );
         return 1;
     }
-    case 0x710: {  // MV1GetVisible  -> r_int
+    case 0x751: {  // MV1GetVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetVisible( _a0 );
         return 1;
     }
-    case 0x711: {  // MV1SetMeshCategoryVisible  -> r_int
+    case 0x752: {  // MV1SetMeshCategoryVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshCategoryVisible( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x712: {  // MV1GetMeshCategoryVisible  -> r_int
+    case 0x753: {  // MV1GetMeshCategoryVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshCategoryVisible( _a0, _a1 );
         return 1;
     }
-    case 0x713: {  // MV1SetDifColorScale  -> r_int
+    case 0x754: {  // MV1SetDifColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12876,7 +13491,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetDifColorScale( _a0, _a1 );
         return 1;
     }
-    case 0x714: {  // MV1GetDifColorScale  -> r_COLOR_F
+    case 0x755: {  // MV1GetDifColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -12886,7 +13501,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x715: {  // MV1SetSpcColorScale  -> r_int
+    case 0x756: {  // MV1SetSpcColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12897,7 +13512,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetSpcColorScale( _a0, _a1 );
         return 1;
     }
-    case 0x716: {  // MV1GetSpcColorScale  -> r_COLOR_F
+    case 0x757: {  // MV1GetSpcColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -12907,7 +13522,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x717: {  // MV1SetEmiColorScale  -> r_int
+    case 0x758: {  // MV1SetEmiColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12918,7 +13533,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetEmiColorScale( _a0, _a1 );
         return 1;
     }
-    case 0x718: {  // MV1GetEmiColorScale  -> r_COLOR_F
+    case 0x759: {  // MV1GetEmiColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -12928,7 +13543,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x719: {  // MV1SetAmbColorScale  -> r_int
+    case 0x75a: {  // MV1SetAmbColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -12939,7 +13554,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetAmbColorScale( _a0, _a1 );
         return 1;
     }
-    case 0x71a: {  // MV1GetAmbColorScale  -> r_COLOR_F
+    case 0x75b: {  // MV1GetAmbColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -12949,18 +13564,18 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x71b: {  // MV1GetSemiTransState  -> r_int
+    case 0x75c: {  // MV1GetSemiTransState  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetSemiTransState( _a0 );
         return 1;
     }
-    case 0x71c: {  // MV1SetOpacityRate  -> r_int
+    case 0x75d: {  // MV1SetOpacityRate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetOpacityRate( _a0, _a1 );
         return 1;
     }
-    case 0x71d: {  // MV1GetOpacityRate  -> r_float
+    case 0x75e: {  // MV1GetOpacityRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -12969,71 +13584,71 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x71e: {  // MV1SetUseDrawMulAlphaColor  -> r_int
+    case 0x75f: {  // MV1SetUseDrawMulAlphaColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetUseDrawMulAlphaColor( _a0, _a1 );
         return 1;
     }
-    case 0x71f: {  // MV1GetUseDrawMulAlphaColor  -> r_int
+    case 0x760: {  // MV1GetUseDrawMulAlphaColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetUseDrawMulAlphaColor( _a0 );
         return 1;
     }
-    case 0x720: {  // MV1SetUseZBuffer  -> r_int
+    case 0x761: {  // MV1SetUseZBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetUseZBuffer( _a0, _a1 );
         return 1;
     }
-    case 0x721: {  // MV1SetWriteZBuffer  -> r_int
+    case 0x762: {  // MV1SetWriteZBuffer  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetWriteZBuffer( _a0, _a1 );
         return 1;
     }
-    case 0x722: {  // MV1SetZBias  -> r_int
+    case 0x763: {  // MV1SetZBias  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetZBias( _a0, _a1 );
         return 1;
     }
-    case 0x723: {  // MV1SetUseVertDifColor  -> r_int
+    case 0x764: {  // MV1SetUseVertDifColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetUseVertDifColor( _a0, _a1 );
         return 1;
     }
-    case 0x724: {  // MV1SetUseVertSpcColor  -> r_int
+    case 0x765: {  // MV1SetUseVertSpcColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetUseVertSpcColor( _a0, _a1 );
         return 1;
     }
-    case 0x725: {  // MV1SetSampleFilterMode  -> r_int
+    case 0x766: {  // MV1SetSampleFilterMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetSampleFilterMode( _a0, _a1 );
         return 1;
     }
-    case 0x726: {  // MV1SetMaxAnisotropy  -> r_int
+    case 0x767: {  // MV1SetMaxAnisotropy  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaxAnisotropy( _a0, _a1 );
         return 1;
     }
-    case 0x727: {  // MV1SetWireFrameDrawFlag  -> r_int
+    case 0x768: {  // MV1SetWireFrameDrawFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetWireFrameDrawFlag( _a0, _a1 );
         return 1;
     }
-    case 0x728: {  // MV1RefreshVertColorFromMaterial  -> r_int
+    case 0x769: {  // MV1RefreshVertColorFromMaterial  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1RefreshVertColorFromMaterial( _a0 );
         return 1;
     }
-    case 0x729: {  // MV1SetPhysicsWorldGravity  -> r_int
+    case 0x76a: {  // MV1SetPhysicsWorldGravity  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -13044,35 +13659,35 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetPhysicsWorldGravity( _a0, _a1 );
         return 1;
     }
-    case 0x72a: {  // MV1PhysicsCalculation  -> r_int
+    case 0x76b: {  // MV1PhysicsCalculation  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1PhysicsCalculation( _a0, _a1 );
         return 1;
     }
-    case 0x72b: {  // MV1PhysicsResetState  -> r_int
+    case 0x76c: {  // MV1PhysicsResetState  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1PhysicsResetState( _a0 );
         return 1;
     }
-    case 0x72c: {  // MV1SetPrioritizePhysicsOverAnimFlag  -> r_int
+    case 0x76d: {  // MV1SetPrioritizePhysicsOverAnimFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetPrioritizePhysicsOverAnimFlag( _a0, _a1 );
         return 1;
     }
-    case 0x72d: {  // MV1SetUseShapeFlag  -> r_int
+    case 0x76e: {  // MV1SetUseShapeFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetUseShapeFlag( _a0, _a1 );
         return 1;
     }
-    case 0x72e: {  // MV1GetMaterialNumberOrderFlag  -> r_int
+    case 0x76f: {  // MV1GetMaterialNumberOrderFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialNumberOrderFlag( _a0 );
         return 1;
     }
-    case 0x72f: {  // MV1AttachAnim  -> r_int
+    case 0x770: {  // MV1AttachAnim  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( -1 );
@@ -13080,20 +13695,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1AttachAnim( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x730: {  // MV1DetachAnim  -> r_int
+    case 0x771: {  // MV1DetachAnim  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1DetachAnim( _a0, _a1 );
         return 1;
     }
-    case 0x731: {  // MV1SetAttachAnimTime  -> r_int
+    case 0x772: {  // MV1SetAttachAnimTime  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetAttachAnimTime( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x732: {  // MV1GetAttachAnimTime  -> r_float
+    case 0x773: {  // MV1GetAttachAnimTime  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13103,7 +13718,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x733: {  // MV1GetAttachAnimTotalTime  -> r_float
+    case 0x774: {  // MV1GetAttachAnimTotalTime  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13113,14 +13728,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x734: {  // MV1SetAttachAnimBlendRate  -> r_int
+    case 0x775: {  // MV1SetAttachAnimBlendRate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 1.0 );
         ctx->stat = MV1SetAttachAnimBlendRate( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x735: {  // MV1GetAttachAnimBlendRate  -> r_float
+    case 0x776: {  // MV1GetAttachAnimBlendRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13130,7 +13745,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x736: {  // MV1SetAttachAnimBlendRateToFrame  -> r_int
+    case 0x777: {  // MV1SetAttachAnimBlendRateToFrame  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13139,7 +13754,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetAttachAnimBlendRateToFrame( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x737: {  // MV1GetAttachAnimBlendRateToFrame  -> r_float
+    case 0x778: {  // MV1GetAttachAnimBlendRateToFrame  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13150,7 +13765,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x738: {  // MV1SetAttachAnimTimeToFrame  -> r_int
+    case 0x779: {  // MV1SetAttachAnimTimeToFrame  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13159,7 +13774,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetAttachAnimTimeToFrame( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x739: {  // MV1GetAttachAnimTimeToFrame  -> r_float
+    case 0x77a: {  // MV1GetAttachAnimTimeToFrame  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13170,26 +13785,26 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x73a: {  // MV1GetAttachAnim  -> r_int
+    case 0x77b: {  // MV1GetAttachAnim  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAttachAnim( _a0, _a1 );
         return 1;
     }
-    case 0x73b: {  // MV1SetAttachAnimUseShapeFlag  -> r_int
+    case 0x77c: {  // MV1SetAttachAnimUseShapeFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetAttachAnimUseShapeFlag( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x73c: {  // MV1GetAttachAnimUseShapeFlag  -> r_int
+    case 0x77d: {  // MV1GetAttachAnimUseShapeFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAttachAnimUseShapeFlag( _a0, _a1 );
         return 1;
     }
-    case 0x73d: {  // MV1GetAttachAnimFrameLocalPosition  -> r_VECTOR
+    case 0x77e: {  // MV1GetAttachAnimFrameLocalPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -13201,7 +13816,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x73e: {  // MV1GetAttachAnimFrameLocalMatrix  -> r_MATRIX
+    case 0x77f: {  // MV1GetAttachAnimFrameLocalMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -13213,12 +13828,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x73f: {  // MV1GetAnimNum  -> r_int
+    case 0x780: {  // MV1GetAnimNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimNum( _a0 );
         return 1;
     }
-    case 0x740: {  // MV1SetAnimName  -> r_int
+    case 0x781: {  // MV1SetAnimName  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -13227,7 +13842,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetAnimName( _a0, _a1, _a2_w );
         return 1;
     }
-    case 0x741: {  // MV1GetAnimIndex  -> r_int
+    case 0x782: {  // MV1GetAnimIndex  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -13235,7 +13850,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1GetAnimIndex( _a0, _a1_w );
         return 1;
     }
-    case 0x742: {  // MV1GetAnimTotalTime  -> r_float
+    case 0x783: {  // MV1GetAnimTotalTime  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13245,27 +13860,27 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x743: {  // MV1GetAnimTargetFrameNum  -> r_int
+    case 0x784: {  // MV1GetAnimTargetFrameNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimTargetFrameNum( _a0, _a1 );
         return 1;
     }
-    case 0x744: {  // MV1GetAnimTargetFrame  -> r_int
+    case 0x785: {  // MV1GetAnimTargetFrame  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimTargetFrame( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x745: {  // MV1GetAnimTargetFrameKeySetNum  -> r_int
+    case 0x786: {  // MV1GetAnimTargetFrameKeySetNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimTargetFrameKeySetNum( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x746: {  // MV1GetAnimTargetFrameKeySet  -> r_int
+    case 0x787: {  // MV1GetAnimTargetFrameKeySet  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13273,36 +13888,36 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1GetAnimTargetFrameKeySet( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x747: {  // MV1GetAnimKeySetNum  -> r_int
+    case 0x788: {  // MV1GetAnimKeySetNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimKeySetNum( _a0 );
         return 1;
     }
-    case 0x748: {  // MV1GetAnimKeySetType  -> r_int
+    case 0x789: {  // MV1GetAnimKeySetType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimKeySetType( _a0, _a1 );
         return 1;
     }
-    case 0x749: {  // MV1GetAnimKeySetDataType  -> r_int
+    case 0x78a: {  // MV1GetAnimKeySetDataType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimKeySetDataType( _a0, _a1 );
         return 1;
     }
-    case 0x74a: {  // MV1GetAnimKeySetTimeType  -> r_int
+    case 0x78b: {  // MV1GetAnimKeySetTimeType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimKeySetTimeType( _a0, _a1 );
         return 1;
     }
-    case 0x74b: {  // MV1GetAnimKeySetDataNum  -> r_int
+    case 0x78c: {  // MV1GetAnimKeySetDataNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetAnimKeySetDataNum( _a0, _a1 );
         return 1;
     }
-    case 0x74c: {  // MV1GetAnimKeyDataTime  -> r_float
+    case 0x78d: {  // MV1GetAnimKeyDataTime  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13313,14 +13928,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x74d: {  // MV1GetAnimKeyDataIndexFromTime  -> r_int
+    case 0x78e: {  // MV1GetAnimKeyDataIndexFromTime  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1GetAnimKeyDataIndexFromTime( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x74e: {  // MV1GetAnimKeyDataToQuaternion  -> r_FLOAT4
+    case 0x78f: {  // MV1GetAnimKeyDataToQuaternion  -> r_FLOAT4
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -13332,7 +13947,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(FLOAT4) );
         return 1;
     }
-    case 0x74f: {  // MV1GetAnimKeyDataToQuaternionFromTime  -> r_FLOAT4
+    case 0x790: {  // MV1GetAnimKeyDataToQuaternionFromTime  -> r_FLOAT4
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -13344,7 +13959,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(FLOAT4) );
         return 1;
     }
-    case 0x750: {  // MV1GetAnimKeyDataToVector  -> r_VECTOR
+    case 0x791: {  // MV1GetAnimKeyDataToVector  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -13356,7 +13971,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x751: {  // MV1GetAnimKeyDataToVectorFromTime  -> r_VECTOR
+    case 0x792: {  // MV1GetAnimKeyDataToVectorFromTime  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -13368,7 +13983,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x752: {  // MV1GetAnimKeyDataToMatrix  -> r_MATRIX
+    case 0x793: {  // MV1GetAnimKeyDataToMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -13380,7 +13995,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x753: {  // MV1GetAnimKeyDataToMatrixFromTime  -> r_MATRIX
+    case 0x794: {  // MV1GetAnimKeyDataToMatrixFromTime  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -13392,7 +14007,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x754: {  // MV1GetAnimKeyDataToFlat  -> r_float
+    case 0x795: {  // MV1GetAnimKeyDataToFlat  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13403,7 +14018,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x755: {  // MV1GetAnimKeyDataToFlatFromTime  -> r_float
+    case 0x796: {  // MV1GetAnimKeyDataToFlatFromTime  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13414,7 +14029,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x756: {  // MV1GetAnimKeyDataToLinear  -> r_float
+    case 0x797: {  // MV1GetAnimKeyDataToLinear  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13425,7 +14040,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x757: {  // MV1GetAnimKeyDataToLinearFromTime  -> r_float
+    case 0x798: {  // MV1GetAnimKeyDataToLinearFromTime  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13436,31 +14051,31 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x758: {  // MV1GetMaterialNum  -> r_int
+    case 0x799: {  // MV1GetMaterialNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialNum( _a0 );
         return 1;
     }
-    case 0x759: {  // MV1SetMaterialTypeAll  -> r_int
+    case 0x79a: {  // MV1SetMaterialTypeAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialTypeAll( _a0, _a1 );
         return 1;
     }
-    case 0x75a: {  // MV1SetMaterialType  -> r_int
+    case 0x79b: {  // MV1SetMaterialType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialType( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x75b: {  // MV1GetMaterialType  -> r_int
+    case 0x79c: {  // MV1GetMaterialType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialType( _a0, _a1 );
         return 1;
     }
-    case 0x75c: {  // MV1SetMaterialDifColor  -> r_int
+    case 0x79d: {  // MV1SetMaterialDifColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -13472,7 +14087,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialDifColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x75d: {  // MV1GetMaterialDifColor  -> r_COLOR_F
+    case 0x79e: {  // MV1GetMaterialDifColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -13483,7 +14098,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x75e: {  // MV1SetMaterialSpcColor  -> r_int
+    case 0x79f: {  // MV1SetMaterialSpcColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -13495,7 +14110,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialSpcColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x75f: {  // MV1GetMaterialSpcColor  -> r_COLOR_F
+    case 0x7a0: {  // MV1GetMaterialSpcColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -13506,7 +14121,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x760: {  // MV1SetMaterialEmiColor  -> r_int
+    case 0x7a1: {  // MV1SetMaterialEmiColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -13518,7 +14133,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialEmiColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x761: {  // MV1GetMaterialEmiColor  -> r_COLOR_F
+    case 0x7a2: {  // MV1GetMaterialEmiColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -13529,7 +14144,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x762: {  // MV1SetMaterialAmbColor  -> r_int
+    case 0x7a3: {  // MV1SetMaterialAmbColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -13541,7 +14156,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialAmbColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x763: {  // MV1GetMaterialAmbColor  -> r_COLOR_F
+    case 0x7a4: {  // MV1GetMaterialAmbColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -13552,14 +14167,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x764: {  // MV1SetMaterialSpcPower  -> r_int
+    case 0x7a5: {  // MV1SetMaterialSpcPower  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetMaterialSpcPower( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x765: {  // MV1GetMaterialSpcPower  -> r_float
+    case 0x7a6: {  // MV1GetMaterialSpcPower  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13569,168 +14184,168 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x766: {  // MV1SetMaterialDifMapTexture  -> r_int
+    case 0x7a7: {  // MV1SetMaterialDifMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDifMapTexture( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x767: {  // MV1GetMaterialDifMapTexture  -> r_int
+    case 0x7a8: {  // MV1GetMaterialDifMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDifMapTexture( _a0, _a1 );
         return 1;
     }
-    case 0x768: {  // MV1SetMaterialSubDifMapTexture  -> r_int
+    case 0x7a9: {  // MV1SetMaterialSubDifMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSubDifMapTexture( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x769: {  // MV1GetMaterialSubDifMapTexture  -> r_int
+    case 0x7aa: {  // MV1GetMaterialSubDifMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialSubDifMapTexture( _a0, _a1 );
         return 1;
     }
-    case 0x76a: {  // MV1SetMaterialSpcMapTexture  -> r_int
+    case 0x7ab: {  // MV1SetMaterialSpcMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSpcMapTexture( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x76b: {  // MV1GetMaterialSpcMapTexture  -> r_int
+    case 0x7ac: {  // MV1GetMaterialSpcMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialSpcMapTexture( _a0, _a1 );
         return 1;
     }
-    case 0x76c: {  // MV1SetMaterialNormalMapTexture  -> r_int
+    case 0x7ad: {  // MV1SetMaterialNormalMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialNormalMapTexture( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x76d: {  // MV1GetMaterialNormalMapTexture  -> r_int
+    case 0x7ae: {  // MV1GetMaterialNormalMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialNormalMapTexture( _a0, _a1 );
         return 1;
     }
-    case 0x76e: {  // MV1SetMaterialDifGradTexture  -> r_int
+    case 0x7af: {  // MV1SetMaterialDifGradTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDifGradTexture( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x76f: {  // MV1GetMaterialDifGradTexture  -> r_int
+    case 0x7b0: {  // MV1GetMaterialDifGradTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDifGradTexture( _a0, _a1 );
         return 1;
     }
-    case 0x770: {  // MV1SetMaterialSpcGradTexture  -> r_int
+    case 0x7b1: {  // MV1SetMaterialSpcGradTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSpcGradTexture( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x771: {  // MV1GetMaterialSpcGradTexture  -> r_int
+    case 0x7b2: {  // MV1GetMaterialSpcGradTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialSpcGradTexture( _a0, _a1 );
         return 1;
     }
-    case 0x772: {  // MV1SetMaterialSphereMapTexture  -> r_int
+    case 0x7b3: {  // MV1SetMaterialSphereMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSphereMapTexture( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x773: {  // MV1GetMaterialSphereMapTexture  -> r_int
+    case 0x7b4: {  // MV1GetMaterialSphereMapTexture  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialSphereMapTexture( _a0, _a1 );
         return 1;
     }
-    case 0x774: {  // MV1SetMaterialDifGradBlendTypeAll  -> r_int
+    case 0x7b5: {  // MV1SetMaterialDifGradBlendTypeAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDifGradBlendTypeAll( _a0, _a1 );
         return 1;
     }
-    case 0x775: {  // MV1SetMaterialDifGradBlendType  -> r_int
+    case 0x7b6: {  // MV1SetMaterialDifGradBlendType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDifGradBlendType( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x776: {  // MV1GetMaterialDifGradBlendType  -> r_int
+    case 0x7b7: {  // MV1GetMaterialDifGradBlendType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDifGradBlendType( _a0, _a1 );
         return 1;
     }
-    case 0x777: {  // MV1SetMaterialSpcGradBlendTypeAll  -> r_int
+    case 0x7b8: {  // MV1SetMaterialSpcGradBlendTypeAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSpcGradBlendTypeAll( _a0, _a1 );
         return 1;
     }
-    case 0x778: {  // MV1SetMaterialSpcGradBlendType  -> r_int
+    case 0x7b9: {  // MV1SetMaterialSpcGradBlendType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSpcGradBlendType( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x779: {  // MV1GetMaterialSpcGradBlendType  -> r_int
+    case 0x7ba: {  // MV1GetMaterialSpcGradBlendType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialSpcGradBlendType( _a0, _a1 );
         return 1;
     }
-    case 0x77a: {  // MV1SetMaterialSphereMapBlendTypeAll  -> r_int
+    case 0x7bb: {  // MV1SetMaterialSphereMapBlendTypeAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSphereMapBlendTypeAll( _a0, _a1 );
         return 1;
     }
-    case 0x77b: {  // MV1SetMaterialSphereMapBlendType  -> r_int
+    case 0x7bc: {  // MV1SetMaterialSphereMapBlendType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialSphereMapBlendType( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x77c: {  // MV1GetMaterialSphereMapBlendType  -> r_int
+    case 0x7bd: {  // MV1GetMaterialSphereMapBlendType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialSphereMapBlendType( _a0, _a1 );
         return 1;
     }
-    case 0x77d: {  // MV1SetMaterialOutLineWidthAll  -> r_int
+    case 0x7be: {  // MV1SetMaterialOutLineWidthAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetMaterialOutLineWidthAll( _a0, _a1 );
         return 1;
     }
-    case 0x77e: {  // MV1SetMaterialOutLineWidth  -> r_int
+    case 0x7bf: {  // MV1SetMaterialOutLineWidth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetMaterialOutLineWidth( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x77f: {  // MV1GetMaterialOutLineWidth  -> r_float
+    case 0x7c0: {  // MV1GetMaterialOutLineWidth  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13740,20 +14355,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x780: {  // MV1SetMaterialOutLineDotWidthAll  -> r_int
+    case 0x7c1: {  // MV1SetMaterialOutLineDotWidthAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetMaterialOutLineDotWidthAll( _a0, _a1 );
         return 1;
     }
-    case 0x781: {  // MV1SetMaterialOutLineDotWidth  -> r_int
+    case 0x7c2: {  // MV1SetMaterialOutLineDotWidth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetMaterialOutLineDotWidth( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x782: {  // MV1GetMaterialOutLineDotWidth  -> r_float
+    case 0x7c3: {  // MV1GetMaterialOutLineDotWidth  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -13763,7 +14378,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x783: {  // MV1SetMaterialOutLineColorAll  -> r_int
+    case 0x7c4: {  // MV1SetMaterialOutLineColorAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         PVal *_a1_pv; APTR _a1_ap;
         _a1_ap = code_getva( &_a1_pv );
@@ -13774,7 +14389,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialOutLineColorAll( _a0, _a1 );
         return 1;
     }
-    case 0x784: {  // MV1SetMaterialOutLineColor  -> r_int
+    case 0x7c5: {  // MV1SetMaterialOutLineColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -13786,7 +14401,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialOutLineColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x785: {  // MV1GetMaterialOutLineColor  -> r_COLOR_F
+    case 0x7c6: {  // MV1GetMaterialOutLineColor  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -13797,45 +14412,45 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x786: {  // MV1SetMaterialDrawBlendModeAll  -> r_int
+    case 0x7c7: {  // MV1SetMaterialDrawBlendModeAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDrawBlendModeAll( _a0, _a1 );
         return 1;
     }
-    case 0x787: {  // MV1SetMaterialDrawBlendMode  -> r_int
+    case 0x7c8: {  // MV1SetMaterialDrawBlendMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDrawBlendMode( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x788: {  // MV1GetMaterialDrawBlendMode  -> r_int
+    case 0x7c9: {  // MV1GetMaterialDrawBlendMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDrawBlendMode( _a0, _a1 );
         return 1;
     }
-    case 0x789: {  // MV1SetMaterialDrawBlendParamAll  -> r_int
+    case 0x7ca: {  // MV1SetMaterialDrawBlendParamAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDrawBlendParamAll( _a0, _a1 );
         return 1;
     }
-    case 0x78a: {  // MV1SetMaterialDrawBlendParam  -> r_int
+    case 0x7cb: {  // MV1SetMaterialDrawBlendParam  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMaterialDrawBlendParam( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x78b: {  // MV1GetMaterialDrawBlendParam  -> r_int
+    case 0x7cc: {  // MV1GetMaterialDrawBlendParam  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDrawBlendParam( _a0, _a1 );
         return 1;
     }
-    case 0x78c: {  // MV1SetMaterialDrawAlphaTestAll  -> r_int
+    case 0x7cd: {  // MV1SetMaterialDrawAlphaTestAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13843,7 +14458,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialDrawAlphaTestAll( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x78d: {  // MV1SetMaterialDrawAlphaTest  -> r_int
+    case 0x7ce: {  // MV1SetMaterialDrawAlphaTest  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13852,25 +14467,25 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialDrawAlphaTest( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x78e: {  // MV1GetMaterialDrawAlphaTestEnable  -> r_int
+    case 0x7cf: {  // MV1GetMaterialDrawAlphaTestEnable  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDrawAlphaTestEnable( _a0, _a1 );
         return 1;
     }
-    case 0x78f: {  // MV1GetMaterialDrawAlphaTestMode  -> r_int
+    case 0x7d0: {  // MV1GetMaterialDrawAlphaTestMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDrawAlphaTestMode( _a0, _a1 );
         return 1;
     }
-    case 0x790: {  // MV1GetMaterialDrawAlphaTestParam  -> r_int
+    case 0x7d1: {  // MV1GetMaterialDrawAlphaTestParam  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMaterialDrawAlphaTestParam( _a0, _a1 );
         return 1;
     }
-    case 0x791: {  // MV1SetMaterialDrawAddColorAll  -> r_int
+    case 0x7d2: {  // MV1SetMaterialDrawAddColorAll  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13878,7 +14493,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialDrawAddColorAll( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x792: {  // MV1SetMaterialDrawAddColor  -> r_int
+    case 0x7d3: {  // MV1SetMaterialDrawAddColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13887,7 +14502,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMaterialDrawAddColor( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x793: {  // MV1GetMaterialDrawAddColor  -> r_int
+    case 0x7d4: {  // MV1GetMaterialDrawAddColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -13905,12 +14520,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_INUM, &_a4 );
         return 1;
     }
-    case 0x794: {  // MV1GetTextureNum  -> r_int
+    case 0x7d5: {  // MV1GetTextureNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureNum( _a0 );
         return 1;
     }
-    case 0x795: {  // MV1SetTextureColorFilePath  -> r_int
+    case 0x7d6: {  // MV1SetTextureColorFilePath  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -13919,7 +14534,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetTextureColorFilePath( _a0, _a1, _a2_w );
         return 1;
     }
-    case 0x796: {  // MV1SetTextureAlphaFilePath  -> r_int
+    case 0x7d7: {  // MV1SetTextureAlphaFilePath  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -13928,7 +14543,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetTextureAlphaFilePath( _a0, _a1, _a2_w );
         return 1;
     }
-    case 0x797: {  // MV1SetTextureGraphHandle  -> r_int
+    case 0x7d8: {  // MV1SetTextureGraphHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13936,13 +14551,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetTextureGraphHandle( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x798: {  // MV1GetTextureGraphHandle  -> r_int
+    case 0x7d9: {  // MV1GetTextureGraphHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureGraphHandle( _a0, _a1 );
         return 1;
     }
-    case 0x799: {  // MV1SetTextureAddressMode  -> r_int
+    case 0x7da: {  // MV1SetTextureAddressMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -13950,57 +14565,57 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetTextureAddressMode( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x79a: {  // MV1GetTextureAddressModeU  -> r_int
+    case 0x7db: {  // MV1GetTextureAddressModeU  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureAddressModeU( _a0, _a1 );
         return 1;
     }
-    case 0x79b: {  // MV1GetTextureAddressModeV  -> r_int
+    case 0x7dc: {  // MV1GetTextureAddressModeV  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureAddressModeV( _a0, _a1 );
         return 1;
     }
-    case 0x79c: {  // MV1GetTextureWidth  -> r_int
+    case 0x7dd: {  // MV1GetTextureWidth  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureWidth( _a0, _a1 );
         return 1;
     }
-    case 0x79d: {  // MV1GetTextureHeight  -> r_int
+    case 0x7de: {  // MV1GetTextureHeight  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureHeight( _a0, _a1 );
         return 1;
     }
-    case 0x79e: {  // MV1GetTextureSemiTransState  -> r_int
+    case 0x7df: {  // MV1GetTextureSemiTransState  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureSemiTransState( _a0, _a1 );
         return 1;
     }
-    case 0x79f: {  // MV1SetTextureBumpImageFlag  -> r_int
+    case 0x7e0: {  // MV1SetTextureBumpImageFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetTextureBumpImageFlag( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7a0: {  // MV1GetTextureBumpImageFlag  -> r_int
+    case 0x7e1: {  // MV1GetTextureBumpImageFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureBumpImageFlag( _a0, _a1 );
         return 1;
     }
-    case 0x7a1: {  // MV1SetTextureBumpImageNextPixelLength  -> r_int
+    case 0x7e2: {  // MV1SetTextureBumpImageNextPixelLength  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetTextureBumpImageNextPixelLength( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7a2: {  // MV1GetTextureBumpImageNextPixelLength  -> r_float
+    case 0x7e3: {  // MV1GetTextureBumpImageNextPixelLength  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -14010,20 +14625,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x7a3: {  // MV1SetTextureSampleFilterMode  -> r_int
+    case 0x7e4: {  // MV1SetTextureSampleFilterMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetTextureSampleFilterMode( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7a4: {  // MV1GetTextureSampleFilterMode  -> r_int
+    case 0x7e5: {  // MV1GetTextureSampleFilterMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTextureSampleFilterMode( _a0, _a1 );
         return 1;
     }
-    case 0x7a5: {  // MV1AddTextureGraphHandle  -> r_int
+    case 0x7e6: {  // MV1AddTextureGraphHandle  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -14036,19 +14651,19 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1AddTextureGraphHandle( _a0, _a1_w, _a2, _a3, _a4, _a5, _a6 );
         return 1;
     }
-    case 0x7a6: {  // MV1LoadTexture  -> r_int
+    case 0x7e7: {  // MV1LoadTexture  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = MV1LoadTexture( _a0_w );
         return 1;
     }
-    case 0x7a7: {  // MV1GetFrameNum  -> r_int
+    case 0x7e8: {  // MV1GetFrameNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameNum( _a0 );
         return 1;
     }
-    case 0x7a8: {  // MV1SearchFrame  -> r_int
+    case 0x7e9: {  // MV1SearchFrame  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -14056,7 +14671,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SearchFrame( _a0, _a1_w );
         return 1;
     }
-    case 0x7a9: {  // MV1SearchFrameChild  -> r_int
+    case 0x7ea: {  // MV1SearchFrameChild  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( -1 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -14065,7 +14680,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SearchFrameChild( _a0, _a1, _a2_w );
         return 1;
     }
-    case 0x7aa: {  // MV1GetFrameName2  -> r_int
+    case 0x7eb: {  // MV1GetFrameName2  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         const char *_a2_u8 = hsp3dx_auto_gets();
@@ -14074,26 +14689,26 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1GetFrameName2( _a0, _a1, _a2_w );
         return 1;
     }
-    case 0x7ab: {  // MV1GetFrameParent  -> r_int
+    case 0x7ec: {  // MV1GetFrameParent  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameParent( _a0, _a1 );
         return 1;
     }
-    case 0x7ac: {  // MV1GetFrameChildNum  -> r_int
+    case 0x7ed: {  // MV1GetFrameChildNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( -1 );
         ctx->stat = MV1GetFrameChildNum( _a0, _a1 );
         return 1;
     }
-    case 0x7ad: {  // MV1GetFrameChild  -> r_int
+    case 0x7ee: {  // MV1GetFrameChild  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( -1 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameChild( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7ae: {  // MV1GetFramePosition  -> r_VECTOR
+    case 0x7ef: {  // MV1GetFramePosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -14104,7 +14719,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x7af: {  // MV1GetFramePositionD  -> r_VECTOR_D
+    case 0x7f0: {  // MV1GetFramePositionD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -14115,7 +14730,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x7b0: {  // MV1GetFrameBaseLocalMatrix  -> r_MATRIX
+    case 0x7f1: {  // MV1GetFrameBaseLocalMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -14126,7 +14741,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x7b1: {  // MV1GetFrameBaseLocalMatrixD  -> r_MATRIX_D
+    case 0x7f2: {  // MV1GetFrameBaseLocalMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -14137,7 +14752,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x7b2: {  // MV1GetFrameLocalMatrix  -> r_MATRIX
+    case 0x7f3: {  // MV1GetFrameLocalMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -14148,7 +14763,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x7b3: {  // MV1GetFrameLocalMatrixD  -> r_MATRIX_D
+    case 0x7f4: {  // MV1GetFrameLocalMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -14159,7 +14774,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x7b4: {  // MV1GetFrameLocalWorldMatrix  -> r_MATRIX
+    case 0x7f5: {  // MV1GetFrameLocalWorldMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -14170,7 +14785,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x7b5: {  // MV1GetFrameLocalWorldMatrixD  -> r_MATRIX_D
+    case 0x7f6: {  // MV1GetFrameLocalWorldMatrixD  -> r_MATRIX_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 128 )
@@ -14181,7 +14796,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX_D) );
         return 1;
     }
-    case 0x7b6: {  // MV1SetFrameUserLocalMatrix  -> r_int
+    case 0x7f7: {  // MV1SetFrameUserLocalMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14193,7 +14808,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameUserLocalMatrix( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7b7: {  // MV1SetFrameUserLocalMatrixD  -> r_int
+    case 0x7f8: {  // MV1SetFrameUserLocalMatrixD  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14205,13 +14820,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameUserLocalMatrixD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7b8: {  // MV1ResetFrameUserLocalMatrix  -> r_int
+    case 0x7f9: {  // MV1ResetFrameUserLocalMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1ResetFrameUserLocalMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x7b9: {  // MV1SetFrameUserLocalWorldMatrix  -> r_int
+    case 0x7fa: {  // MV1SetFrameUserLocalWorldMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14223,7 +14838,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameUserLocalWorldMatrix( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7ba: {  // MV1SetFrameUserLocalWorldMatrixD  -> r_int
+    case 0x7fb: {  // MV1SetFrameUserLocalWorldMatrixD  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14235,13 +14850,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameUserLocalWorldMatrixD( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7bb: {  // MV1ResetFrameUserLocalWorldMatrix  -> r_int
+    case 0x7fc: {  // MV1ResetFrameUserLocalWorldMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1ResetFrameUserLocalWorldMatrix( _a0, _a1 );
         return 1;
     }
-    case 0x7bc: {  // MV1GetFrameMaxVertexLocalPosition  -> r_VECTOR
+    case 0x7fd: {  // MV1GetFrameMaxVertexLocalPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -14252,7 +14867,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x7bd: {  // MV1GetFrameMaxVertexLocalPositionD  -> r_VECTOR_D
+    case 0x7fe: {  // MV1GetFrameMaxVertexLocalPositionD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -14263,7 +14878,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x7be: {  // MV1GetFrameMinVertexLocalPosition  -> r_VECTOR
+    case 0x7ff: {  // MV1GetFrameMinVertexLocalPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -14274,7 +14889,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x7bf: {  // MV1GetFrameMinVertexLocalPositionD  -> r_VECTOR_D
+    case 0x800: {  // MV1GetFrameMinVertexLocalPositionD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -14285,7 +14900,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x7c0: {  // MV1GetFrameAvgVertexLocalPosition  -> r_VECTOR
+    case 0x801: {  // MV1GetFrameAvgVertexLocalPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -14296,7 +14911,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x7c1: {  // MV1GetFrameAvgVertexLocalPositionD  -> r_VECTOR_D
+    case 0x802: {  // MV1GetFrameAvgVertexLocalPositionD  -> r_VECTOR_D
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 24 )
@@ -14307,45 +14922,45 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR_D) );
         return 1;
     }
-    case 0x7c2: {  // MV1GetFrameVertexNum  -> r_int
+    case 0x803: {  // MV1GetFrameVertexNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameVertexNum( _a0, _a1 );
         return 1;
     }
-    case 0x7c3: {  // MV1GetFrameTriangleNum  -> r_int
+    case 0x804: {  // MV1GetFrameTriangleNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameTriangleNum( _a0, _a1 );
         return 1;
     }
-    case 0x7c4: {  // MV1GetFrameMeshNum  -> r_int
+    case 0x805: {  // MV1GetFrameMeshNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameMeshNum( _a0, _a1 );
         return 1;
     }
-    case 0x7c5: {  // MV1GetFrameMesh  -> r_int
+    case 0x806: {  // MV1GetFrameMesh  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameMesh( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7c6: {  // MV1SetFrameVisible  -> r_int
+    case 0x807: {  // MV1SetFrameVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetFrameVisible( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7c7: {  // MV1GetFrameVisible  -> r_int
+    case 0x808: {  // MV1GetFrameVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameVisible( _a0, _a1 );
         return 1;
     }
-    case 0x7c8: {  // MV1SetFrameDifColorScale  -> r_int
+    case 0x809: {  // MV1SetFrameDifColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14357,7 +14972,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameDifColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7c9: {  // MV1SetFrameSpcColorScale  -> r_int
+    case 0x80a: {  // MV1SetFrameSpcColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14369,7 +14984,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameSpcColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7ca: {  // MV1SetFrameEmiColorScale  -> r_int
+    case 0x80b: {  // MV1SetFrameEmiColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14381,7 +14996,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameEmiColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7cb: {  // MV1SetFrameAmbColorScale  -> r_int
+    case 0x80c: {  // MV1SetFrameAmbColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14393,7 +15008,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameAmbColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7cc: {  // MV1GetFrameDifColorScale  -> r_COLOR_F
+    case 0x80d: {  // MV1GetFrameDifColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14404,7 +15019,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7cd: {  // MV1GetFrameSpcColorScale  -> r_COLOR_F
+    case 0x80e: {  // MV1GetFrameSpcColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14415,7 +15030,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7ce: {  // MV1GetFrameEmiColorScale  -> r_COLOR_F
+    case 0x80f: {  // MV1GetFrameEmiColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14426,7 +15041,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7cf: {  // MV1GetFrameAmbColorScale  -> r_COLOR_F
+    case 0x810: {  // MV1GetFrameAmbColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14437,20 +15052,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7d0: {  // MV1GetFrameSemiTransState  -> r_int
+    case 0x811: {  // MV1GetFrameSemiTransState  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameSemiTransState( _a0, _a1 );
         return 1;
     }
-    case 0x7d1: {  // MV1SetFrameOpacityRate  -> r_int
+    case 0x812: {  // MV1SetFrameOpacityRate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetFrameOpacityRate( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7d2: {  // MV1GetFrameOpacityRate  -> r_float
+    case 0x813: {  // MV1GetFrameOpacityRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -14460,20 +15075,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x7d3: {  // MV1SetFrameBaseVisible  -> r_int
+    case 0x814: {  // MV1SetFrameBaseVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetFrameBaseVisible( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7d4: {  // MV1GetFrameBaseVisible  -> r_int
+    case 0x815: {  // MV1GetFrameBaseVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetFrameBaseVisible( _a0, _a1 );
         return 1;
     }
-    case 0x7d5: {  // MV1SetFrameTextureAddressTransform  -> r_int
+    case 0x816: {  // MV1SetFrameTextureAddressTransform  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -14486,7 +15101,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameTextureAddressTransform( _a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8 );
         return 1;
     }
-    case 0x7d6: {  // MV1SetFrameTextureAddressTransformMatrix  -> r_int
+    case 0x817: {  // MV1SetFrameTextureAddressTransformMatrix  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14498,49 +15113,49 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetFrameTextureAddressTransformMatrix( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7d7: {  // MV1ResetFrameTextureAddressTransform  -> r_int
+    case 0x818: {  // MV1ResetFrameTextureAddressTransform  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1ResetFrameTextureAddressTransform( _a0, _a1 );
         return 1;
     }
-    case 0x7d8: {  // MV1GetMeshNum  -> r_int
+    case 0x819: {  // MV1GetMeshNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshNum( _a0 );
         return 1;
     }
-    case 0x7d9: {  // MV1GetMeshMaterial  -> r_int
+    case 0x81a: {  // MV1GetMeshMaterial  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshMaterial( _a0, _a1 );
         return 1;
     }
-    case 0x7da: {  // MV1GetMeshVertexNum  -> r_int
+    case 0x81b: {  // MV1GetMeshVertexNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshVertexNum( _a0, _a1 );
         return 1;
     }
-    case 0x7db: {  // MV1GetMeshTriangleNum  -> r_int
+    case 0x81c: {  // MV1GetMeshTriangleNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshTriangleNum( _a0, _a1 );
         return 1;
     }
-    case 0x7dc: {  // MV1SetMeshVisible  -> r_int
+    case 0x81d: {  // MV1SetMeshVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshVisible( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7dd: {  // MV1GetMeshVisible  -> r_int
+    case 0x81e: {  // MV1GetMeshVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshVisible( _a0, _a1 );
         return 1;
     }
-    case 0x7de: {  // MV1SetMeshDifColorScale  -> r_int
+    case 0x81f: {  // MV1SetMeshDifColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14552,7 +15167,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMeshDifColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7df: {  // MV1SetMeshSpcColorScale  -> r_int
+    case 0x820: {  // MV1SetMeshSpcColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14564,7 +15179,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMeshSpcColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7e0: {  // MV1SetMeshEmiColorScale  -> r_int
+    case 0x821: {  // MV1SetMeshEmiColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14576,7 +15191,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMeshEmiColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7e1: {  // MV1SetMeshAmbColorScale  -> r_int
+    case 0x822: {  // MV1SetMeshAmbColorScale  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         PVal *_a2_pv; APTR _a2_ap;
@@ -14588,7 +15203,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetMeshAmbColorScale( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7e2: {  // MV1GetMeshDifColorScale  -> r_COLOR_F
+    case 0x823: {  // MV1GetMeshDifColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14599,7 +15214,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7e3: {  // MV1GetMeshSpcColorScale  -> r_COLOR_F
+    case 0x824: {  // MV1GetMeshSpcColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14610,7 +15225,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7e4: {  // MV1GetMeshEmiColorScale  -> r_COLOR_F
+    case 0x825: {  // MV1GetMeshEmiColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14621,7 +15236,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7e5: {  // MV1GetMeshAmbColorScale  -> r_COLOR_F
+    case 0x826: {  // MV1GetMeshAmbColorScale  -> r_COLOR_F
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 16 )
@@ -14632,14 +15247,14 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(COLOR_F) );
         return 1;
     }
-    case 0x7e6: {  // MV1SetMeshOpacityRate  -> r_int
+    case 0x827: {  // MV1SetMeshOpacityRate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = MV1SetMeshOpacityRate( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7e7: {  // MV1GetMeshOpacityRate  -> r_float
+    case 0x828: {  // MV1GetMeshOpacityRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -14649,59 +15264,59 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x7e8: {  // MV1SetMeshDrawBlendMode  -> r_int
+    case 0x829: {  // MV1SetMeshDrawBlendMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshDrawBlendMode( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7e9: {  // MV1SetMeshDrawBlendParam  -> r_int
+    case 0x82a: {  // MV1SetMeshDrawBlendParam  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshDrawBlendParam( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7ea: {  // MV1GetMeshDrawBlendMode  -> r_int
+    case 0x82b: {  // MV1GetMeshDrawBlendMode  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshDrawBlendMode( _a0, _a1 );
         return 1;
     }
-    case 0x7eb: {  // MV1GetMeshDrawBlendParam  -> r_int
+    case 0x82c: {  // MV1GetMeshDrawBlendParam  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshDrawBlendParam( _a0, _a1 );
         return 1;
     }
-    case 0x7ec: {  // MV1SetMeshBaseVisible  -> r_int
+    case 0x82d: {  // MV1SetMeshBaseVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshBaseVisible( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7ed: {  // MV1GetMeshBaseVisible  -> r_int
+    case 0x82e: {  // MV1GetMeshBaseVisible  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshBaseVisible( _a0, _a1 );
         return 1;
     }
-    case 0x7ee: {  // MV1SetMeshBackCulling  -> r_int
+    case 0x82f: {  // MV1SetMeshBackCulling  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshBackCulling( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7ef: {  // MV1GetMeshBackCulling  -> r_int
+    case 0x830: {  // MV1GetMeshBackCulling  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshBackCulling( _a0, _a1 );
         return 1;
     }
-    case 0x7f0: {  // MV1GetMeshMaxPosition  -> r_VECTOR
+    case 0x831: {  // MV1GetMeshMaxPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -14712,7 +15327,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x7f1: {  // MV1GetMeshMinPosition  -> r_VECTOR
+    case 0x832: {  // MV1GetMeshMinPosition  -> r_VECTOR
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 12 )
@@ -14723,63 +15338,63 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(VECTOR) );
         return 1;
     }
-    case 0x7f2: {  // MV1GetMeshTListNum  -> r_int
+    case 0x833: {  // MV1GetMeshTListNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshTListNum( _a0, _a1 );
         return 1;
     }
-    case 0x7f3: {  // MV1GetMeshTList  -> r_int
+    case 0x834: {  // MV1GetMeshTList  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshTList( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7f4: {  // MV1GetMeshSemiTransState  -> r_int
+    case 0x835: {  // MV1GetMeshSemiTransState  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshSemiTransState( _a0, _a1 );
         return 1;
     }
-    case 0x7f5: {  // MV1SetMeshUseVertDifColor  -> r_int
+    case 0x836: {  // MV1SetMeshUseVertDifColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshUseVertDifColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7f6: {  // MV1SetMeshUseVertSpcColor  -> r_int
+    case 0x837: {  // MV1SetMeshUseVertSpcColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1SetMeshUseVertSpcColor( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7f7: {  // MV1GetMeshUseVertDifColor  -> r_int
+    case 0x838: {  // MV1GetMeshUseVertDifColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshUseVertDifColor( _a0, _a1 );
         return 1;
     }
-    case 0x7f8: {  // MV1GetMeshUseVertSpcColor  -> r_int
+    case 0x839: {  // MV1GetMeshUseVertSpcColor  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshUseVertSpcColor( _a0, _a1 );
         return 1;
     }
-    case 0x7f9: {  // MV1GetMeshShapeFlag  -> r_int
+    case 0x83a: {  // MV1GetMeshShapeFlag  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetMeshShapeFlag( _a0, _a1 );
         return 1;
     }
-    case 0x7fa: {  // MV1GetShapeNum  -> r_int
+    case 0x83b: {  // MV1GetShapeNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetShapeNum( _a0 );
         return 1;
     }
-    case 0x7fb: {  // MV1SearchShape  -> r_int
+    case 0x83c: {  // MV1SearchShape  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -14787,20 +15402,20 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SearchShape( _a0, _a1_w );
         return 1;
     }
-    case 0x7fc: {  // MV1GetShapeTargetMeshNum  -> r_int
+    case 0x83d: {  // MV1GetShapeTargetMeshNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetShapeTargetMeshNum( _a0, _a1 );
         return 1;
     }
-    case 0x7fd: {  // MV1GetShapeTargetMesh  -> r_int
+    case 0x83e: {  // MV1GetShapeTargetMesh  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetShapeTargetMesh( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x7fe: {  // MV1SetShapeRate  -> r_int
+    case 0x83f: {  // MV1SetShapeRate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
@@ -14808,7 +15423,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetShapeRate( _a0, _a1, _a2, _a3 );
         return 1;
     }
-    case 0x7ff: {  // MV1GetShapeRate  -> r_float
+    case 0x840: {  // MV1GetShapeRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -14818,7 +15433,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x800: {  // MV1GetShapeApplyRate  -> r_float
+    case 0x841: {  // MV1GetShapeApplyRate  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -14828,36 +15443,36 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x801: {  // MV1GetTriangleListNum  -> r_int
+    case 0x842: {  // MV1GetTriangleListNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTriangleListNum( _a0 );
         return 1;
     }
-    case 0x802: {  // MV1GetTriangleListVertexType  -> r_int
+    case 0x843: {  // MV1GetTriangleListVertexType  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTriangleListVertexType( _a0, _a1 );
         return 1;
     }
-    case 0x803: {  // MV1GetTriangleListPolygonNum  -> r_int
+    case 0x844: {  // MV1GetTriangleListPolygonNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTriangleListPolygonNum( _a0, _a1 );
         return 1;
     }
-    case 0x804: {  // MV1GetTriangleListVertexNum  -> r_int
+    case 0x845: {  // MV1GetTriangleListVertexNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTriangleListVertexNum( _a0, _a1 );
         return 1;
     }
-    case 0x805: {  // MV1GetTriangleListLocalWorldMatrixNum  -> r_int
+    case 0x846: {  // MV1GetTriangleListLocalWorldMatrixNum  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTriangleListLocalWorldMatrixNum( _a0, _a1 );
         return 1;
     }
-    case 0x806: {  // MV1GetTriangleListLocalWorldMatrix  -> r_MATRIX
+    case 0x847: {  // MV1GetTriangleListLocalWorldMatrix  -> r_MATRIX
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         if ( _ret_pv->pt == nullptr || _ret_pv->len[0] < 64 )
@@ -14869,7 +15484,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         memcpy( _ret_pv->pt + _ret_ap * _ret_pv->len[0], &_ret, sizeof(MATRIX) );
         return 1;
     }
-    case 0x807: {  // MV1GetTriangleListPolygonVertexPosition  -> r_int
+    case 0x848: {  // MV1GetTriangleListPolygonVertexPosition  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -14886,13 +15501,13 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _a4_pv, _a4_ap, TYPE_DNUM, &_a4_d );
         return 1;
     }
-    case 0x808: {  // MV1GetTriangleListUseMaterial  -> r_int
+    case 0x849: {  // MV1GetTriangleListUseMaterial  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         ctx->stat = MV1GetTriangleListUseMaterial( _a0, _a1 );
         return 1;
     }
-    case 0x809: {  // MV1SetupCollInfo  -> r_int
+    case 0x84a: {  // MV1SetupCollInfo  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( -1 );
         int _a2 = hsp3dx_auto_geti( 32 );
@@ -14902,21 +15517,21 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetupCollInfo( _a0, _a1, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x80a: {  // MV1TerminateCollInfo  -> r_int
+    case 0x84b: {  // MV1TerminateCollInfo  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( -1 );
         int _a2 = hsp3dx_auto_geti( -1 );
         ctx->stat = MV1TerminateCollInfo( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x80b: {  // MV1RefreshCollInfo  -> r_int
+    case 0x84c: {  // MV1RefreshCollInfo  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( -1 );
         int _a2 = hsp3dx_auto_geti( -1 );
         ctx->stat = MV1RefreshCollInfo( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x80c: {  // MV1SetupReferenceMesh  -> r_int
+    case 0x84d: {  // MV1SetupReferenceMesh  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -14925,7 +15540,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1SetupReferenceMesh( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x80d: {  // MV1TerminateReferenceMesh  -> r_int
+    case 0x84e: {  // MV1TerminateReferenceMesh  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -14934,7 +15549,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1TerminateReferenceMesh( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x80e: {  // MV1RefreshReferenceMesh  -> r_int
+    case 0x84f: {  // MV1RefreshReferenceMesh  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         int _a1 = hsp3dx_auto_geti( 0 );
         int _a2 = hsp3dx_auto_geti( 0 );
@@ -14943,91 +15558,91 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = MV1RefreshReferenceMesh( _a0, _a1, _a2, _a3, _a4 );
         return 1;
     }
-    case 0x80f: {  // Live2D_SetCubism4CoreDLLPath  -> r_int
+    case 0x850: {  // Live2D_SetCubism4CoreDLLPath  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = Live2D_SetCubism4CoreDLLPath( _a0_w );
         return 1;
     }
-    case 0x810: {  // Live2D_SetCubism3CoreDLLPath  -> r_int
+    case 0x851: {  // Live2D_SetCubism3CoreDLLPath  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = Live2D_SetCubism3CoreDLLPath( _a0_w );
         return 1;
     }
-    case 0x811: {  // Live2D_RenderBegin  -> r_int
+    case 0x852: {  // Live2D_RenderBegin  -> r_int
         ctx->stat = Live2D_RenderBegin(  );
         return 1;
     }
-    case 0x812: {  // Live2D_RenderEnd  -> r_int
+    case 0x853: {  // Live2D_RenderEnd  -> r_int
         ctx->stat = Live2D_RenderEnd(  );
         return 1;
     }
-    case 0x813: {  // Live2D_LoadModel  -> r_int
+    case 0x854: {  // Live2D_LoadModel  -> r_int
         const char *_a0_u8 = hsp3dx_auto_gets();
         wchar_t _a0_w[1024];
         hsp3dx_utf8_to_wide( _a0_u8, _a0_w, 1024 );
         ctx->stat = Live2D_LoadModel( _a0_w );
         return 1;
     }
-    case 0x814: {  // Live2D_DeleteModel  -> r_int
+    case 0x855: {  // Live2D_DeleteModel  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_DeleteModel( _a0 );
         return 1;
     }
-    case 0x815: {  // Live2D_InitModel  -> r_int
+    case 0x856: {  // Live2D_InitModel  -> r_int
         ctx->stat = Live2D_InitModel(  );
         return 1;
     }
-    case 0x816: {  // Live2D_SetUseAutoScaling  -> r_int
+    case 0x857: {  // Live2D_SetUseAutoScaling  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_SetUseAutoScaling( _a0 );
         return 1;
     }
-    case 0x817: {  // Live2D_SetUseAutoCentering  -> r_int
+    case 0x858: {  // Live2D_SetUseAutoCentering  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_SetUseAutoCentering( _a0 );
         return 1;
     }
-    case 0x818: {  // Live2D_SetUseReverseYAxis  -> r_int
+    case 0x859: {  // Live2D_SetUseReverseYAxis  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_SetUseReverseYAxis( _a0 );
         return 1;
     }
-    case 0x819: {  // Live2D_Model_Update  -> r_int
+    case 0x85a: {  // Live2D_Model_Update  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = Live2D_Model_Update( _a0, _a1 );
         return 1;
     }
-    case 0x81a: {  // Live2D_Model_SetTranslate  -> r_int
+    case 0x85b: {  // Live2D_Model_SetTranslate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = Live2D_Model_SetTranslate( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x81b: {  // Live2D_Model_SetExtendRate  -> r_int
+    case 0x85c: {  // Live2D_Model_SetExtendRate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         float _a2 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = Live2D_Model_SetExtendRate( _a0, _a1, _a2 );
         return 1;
     }
-    case 0x81c: {  // Live2D_Model_SetRotate  -> r_int
+    case 0x85d: {  // Live2D_Model_SetRotate  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         float _a1 = (float)hsp3dx_auto_getd( 0.0 );
         ctx->stat = Live2D_Model_SetRotate( _a0, _a1 );
         return 1;
     }
-    case 0x81d: {  // Live2D_Model_Draw  -> r_int
+    case 0x85e: {  // Live2D_Model_Draw  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_Draw( _a0 );
         return 1;
     }
-    case 0x81e: {  // Live2D_Model_StartMotion  -> r_int
+    case 0x85f: {  // Live2D_Model_StartMotion  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -15039,17 +15654,17 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Live2D_Model_StartMotion( _a0, _a1_w, _a2, _a3, _a4, _a5 );
         return 1;
     }
-    case 0x81f: {  // Live2D_Model_GetLastPlayMotionNo  -> r_int
+    case 0x860: {  // Live2D_Model_GetLastPlayMotionNo  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_GetLastPlayMotionNo( _a0 );
         return 1;
     }
-    case 0x820: {  // Live2D_Model_IsMotionFinished  -> r_int
+    case 0x861: {  // Live2D_Model_IsMotionFinished  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_IsMotionFinished( _a0 );
         return 1;
     }
-    case 0x821: {  // Live2D_Model_GetMotionPlayTime  -> r_float
+    case 0x862: {  // Live2D_Model_GetMotionPlayTime  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -15058,7 +15673,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x822: {  // Live2D_Model_SetExpression  -> r_int
+    case 0x863: {  // Live2D_Model_SetExpression  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -15066,7 +15681,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Live2D_Model_SetExpression( _a0, _a1_w );
         return 1;
     }
-    case 0x823: {  // Live2D_Model_HitTest  -> r_int
+    case 0x864: {  // Live2D_Model_HitTest  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -15076,12 +15691,12 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Live2D_Model_HitTest( _a0, _a1_w, _a2, _a3 );
         return 1;
     }
-    case 0x824: {  // Live2D_Model_GetParameterCount  -> r_int
+    case 0x865: {  // Live2D_Model_GetParameterCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_GetParameterCount( _a0 );
         return 1;
     }
-    case 0x825: {  // Live2D_Model_GetParameterValue  -> r_float
+    case 0x866: {  // Live2D_Model_GetParameterValue  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -15093,7 +15708,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x826: {  // Live2D_Model_SetParameterValue  -> r_int
+    case 0x867: {  // Live2D_Model_SetParameterValue  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -15102,22 +15717,22 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Live2D_Model_SetParameterValue( _a0, _a1_w, _a2 );
         return 1;
     }
-    case 0x827: {  // Live2D_Model_GetHitAreasCount  -> r_int
+    case 0x868: {  // Live2D_Model_GetHitAreasCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_GetHitAreasCount( _a0 );
         return 1;
     }
-    case 0x828: {  // Live2D_Model_GetExpressionCount  -> r_int
+    case 0x869: {  // Live2D_Model_GetExpressionCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_GetExpressionCount( _a0 );
         return 1;
     }
-    case 0x829: {  // Live2D_Model_GetMotionGroupCount  -> r_int
+    case 0x86a: {  // Live2D_Model_GetMotionGroupCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_GetMotionGroupCount( _a0 );
         return 1;
     }
-    case 0x82a: {  // Live2D_Model_GetMotionCount  -> r_int
+    case 0x86b: {  // Live2D_Model_GetMotionCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         const char *_a1_u8 = hsp3dx_auto_gets();
         wchar_t _a1_w[1024];
@@ -15125,7 +15740,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         ctx->stat = Live2D_Model_GetMotionCount( _a0, _a1_w );
         return 1;
     }
-    case 0x82b: {  // Live2D_Model_GetMotionFadeInTimeValue  -> r_float
+    case 0x86c: {  // Live2D_Model_GetMotionFadeInTimeValue  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -15138,7 +15753,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x82c: {  // Live2D_Model_GetMotionFadeOutTimeValue  -> r_float
+    case 0x86d: {  // Live2D_Model_GetMotionFadeOutTimeValue  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -15151,17 +15766,17 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x82d: {  // Live2D_Model_GetEyeBlinkParameterCount  -> r_int
+    case 0x86e: {  // Live2D_Model_GetEyeBlinkParameterCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_GetEyeBlinkParameterCount( _a0 );
         return 1;
     }
-    case 0x82e: {  // Live2D_Model_GetLipSyncParameterCount  -> r_int
+    case 0x86f: {  // Live2D_Model_GetLipSyncParameterCount  -> r_int
         int _a0 = hsp3dx_auto_geti( 0 );
         ctx->stat = Live2D_Model_GetLipSyncParameterCount( _a0 );
         return 1;
     }
-    case 0x82f: {  // Live2D_Model_GetCanvasWidth  -> r_float
+    case 0x870: {  // Live2D_Model_GetCanvasWidth  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );
@@ -15170,7 +15785,7 @@ extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx )
         code_setva( _ret_pv, _ret_ap, TYPE_DNUM, &_ret_d );
         return 1;
     }
-    case 0x830: {  // Live2D_Model_GetCanvasHeight  -> r_float
+    case 0x871: {  // Live2D_Model_GetCanvasHeight  -> r_float
         PVal *_ret_pv; APTR _ret_ap;
         _ret_ap = code_getva( &_ret_pv );
         int _a0 = hsp3dx_auto_geti( 0 );

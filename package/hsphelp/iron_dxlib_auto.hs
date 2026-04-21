@@ -1,7 +1,7 @@
 ;
 ; iron_dxlib_auto.hs — hsp3dx 自動生成 DxLib 命令の HSP Help
 ; DO NOT EDIT — tools/hsp3dx_dxlib_gen/gen_dxlib_bindings.py で再生成
-; 関数数: 1585
+; 関数数: 1650
 ;
 
 %dll
@@ -949,6 +949,56 @@ DxLib の SetMouseDispIgnoreMenuFlag() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetMouseDispIgnoreMenuFlag 項を参照。
+
+%index
+dx_GetMousePoint
+DxLib GetMousePoint (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : var (int 出力) XBuf
+p2 : var (int 出力) YBuf
+%inst
+DxLib の GetMousePoint() を呼び出します。
+^p
+元関数シグネチャ: int GetMousePoint(int * XBuf, int * YBuf)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetMousePoint 項を参照。
+
+%index
+dx_SetMousePoint
+DxLib SetMousePoint (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : int PointX
+p2 : int PointY
+%inst
+DxLib の SetMousePoint() を呼び出します。
+^p
+元関数シグネチャ: int SetMousePoint(int PointX, int PointY)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetMousePoint 項を参照。
+
+%index
+dx_GetMouseInput
+DxLib GetMouseInput (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+(引数なし)
+%inst
+DxLib の GetMouseInput() を呼び出します。
+^p
+元関数シグネチャ: int GetMouseInput(void)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetMouseInput 項を参照。
 
 %index
 dx_GetMouseWheelRotVol
@@ -2937,6 +2987,22 @@ DxLib の ConvertFullPath() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvertFullPath 項を参照。
 
 %index
+dx_CheckHitKey
+DxLib CheckHitKey (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : int KeyCode
+%inst
+DxLib の CheckHitKey() を呼び出します。
+^p
+元関数シグネチャ: int CheckHitKey(int KeyCode)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の CheckHitKey 項を参照。
+
+%index
 dx_CheckHitKeyAll
 DxLib CheckHitKeyAll (自動生成、hsp3dx 専用)
 %group
@@ -2999,6 +3065,40 @@ DxLib の GetJoypadButtonNum() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetJoypadButtonNum 項を参照。
+
+%index
+dx_GetJoypadInputState
+DxLib GetJoypadInputState (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : int InputType
+%inst
+DxLib の GetJoypadInputState() を呼び出します。
+^p
+元関数シグネチャ: int GetJoypadInputState(int InputType)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetJoypadInputState 項を参照。
+
+%index
+dx_GetJoypadAnalogInput
+DxLib GetJoypadAnalogInput (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : var (int 出力) XBuf
+p2 : var (int 出力) YBuf
+p3 : int InputType
+%inst
+DxLib の GetJoypadAnalogInput() を呼び出します。
+^p
+元関数シグネチャ: int GetJoypadAnalogInput(int * XBuf, int * YBuf, int InputType)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetJoypadAnalogInput 項を参照。
 
 %index
 dx_GetJoypadAnalogInputRight
@@ -3257,6 +3357,24 @@ DxLib の MakeGraph() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MakeGraph 項を参照。
 
 %index
+dx_MakeScreen
+DxLib MakeScreen (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : int SizeX
+p2 : int SizeY
+p3 : int UseAlphaChannel (default FALSE)
+%inst
+DxLib の MakeScreen() を呼び出します。
+^p
+元関数シグネチャ: int MakeScreen(int SizeX, int SizeY, int UseAlphaChannel)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MakeScreen 項を参照。
+
+%index
 dx_DerivationGraph
 DxLib DerivationGraph (自動生成、hsp3dx 専用)
 %group
@@ -3295,6 +3413,22 @@ DxLib の DerivationGraphF() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DerivationGraphF 項を参照。
+
+%index
+dx_DeleteGraph
+DxLib DeleteGraph (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : int GrHandle
+%inst
+DxLib の DeleteGraph() を呼び出します。
+^p
+元関数シグネチャ: int DeleteGraph(int GrHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DeleteGraph 項を参照。
 
 %index
 dx_DeleteSharingGraph
@@ -3626,6 +3760,23 @@ DxLib の LoadBmpToGraph() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の LoadBmpToGraph 項を参照。
+
+%index
+dx_LoadGraph
+DxLib LoadGraph (自動生成、hsp3dx 専用)
+%group
+DxLib ファイル
+%prm
+p1 : str FileName
+p2 : int NotUse3DFlag (default FALSE)
+%inst
+DxLib の LoadGraph() を呼び出します。
+^p
+元関数シグネチャ: int LoadGraph(const TCHAR * FileName, int NotUse3DFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の LoadGraph 項を参照。
 
 %index
 dx_LoadReverseGraph
@@ -5183,6 +5334,24 @@ DxLib の SetDeviceLostDeleteGraphFlag() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetDeviceLostDeleteGraphFlag 項を参照。
 
 %index
+dx_GetGraphSize
+DxLib GetGraphSize (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int GrHandle
+p2 : var (int 出力) SizeXBuf
+p3 : var (int 出力) SizeYBuf
+%inst
+DxLib の GetGraphSize() を呼び出します。
+^p
+元関数シグネチャ: int GetGraphSize(int GrHandle, int * SizeXBuf, int * SizeYBuf)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetGraphSize 項を参照。
+
+%index
 dx_GetGraphSizeF
 DxLib GetGraphSizeF (自動生成、hsp3dx 専用)
 %group
@@ -5395,6 +5564,92 @@ DxLib の ResetGraphPalette() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ResetGraphPalette 項を参照。
 
 %index
+dx_DrawLine
+DxLib DrawLine (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x1
+p2 : int y1
+p3 : int x2
+p4 : int y2
+p5 : int (uint 扱い) Color
+p6 : int Thickness (default 1)
+%inst
+DxLib の DrawLine() を呼び出します。
+^p
+元関数シグネチャ: int DrawLine(int x1, int y1, int x2, int y2, unsigned int Color, int Thickness)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawLine 項を参照。
+
+%index
+dx_DrawLineAA
+DxLib DrawLineAA (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : double (float 縮小) x1
+p2 : double (float 縮小) y1
+p3 : double (float 縮小) x2
+p4 : double (float 縮小) y2
+p5 : int (uint 扱い) Color
+p6 : double (float 縮小) Thickness (default 1.0f)
+%inst
+DxLib の DrawLineAA() を呼び出します。
+^p
+元関数シグネチャ: int DrawLineAA(float x1, float y1, float x2, float y2, unsigned int Color, float Thickness)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawLineAA 項を参照。
+
+%index
+dx_DrawBox
+DxLib DrawBox (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x1
+p2 : int y1
+p3 : int x2
+p4 : int y2
+p5 : int (uint 扱い) Color
+p6 : int FillFlag
+p7 : int LineThickness (default 1)
+%inst
+DxLib の DrawBox() を呼び出します。
+^p
+元関数シグネチャ: int DrawBox(int x1, int y1, int x2, int y2, unsigned int Color, int FillFlag, int LineThickness)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawBox 項を参照。
+
+%index
+dx_DrawBoxAA
+DxLib DrawBoxAA (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : double (float 縮小) x1
+p2 : double (float 縮小) y1
+p3 : double (float 縮小) x2
+p4 : double (float 縮小) y2
+p5 : int (uint 扱い) Color
+p6 : int FillFlag
+p7 : double (float 縮小) LineThickness (default 1.0f)
+%inst
+DxLib の DrawBoxAA() を呼び出します。
+^p
+元関数シグネチャ: int DrawBoxAA(float x1, float y1, float x2, float y2, unsigned int Color, int FillFlag, float LineThickness)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawBoxAA 項を参照。
+
+%index
 dx_DrawFillBox
 DxLib DrawFillBox (自動生成、hsp3dx 専用)
 %group
@@ -5434,6 +5689,50 @@ DxLib の DrawLineBox() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawLineBox 項を参照。
+
+%index
+dx_DrawCircle
+DxLib DrawCircle (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x
+p2 : int y
+p3 : int r
+p4 : int (uint 扱い) Color
+p5 : int FillFlag (default TRUE)
+p6 : int LineThickness (default 1)
+%inst
+DxLib の DrawCircle() を呼び出します。
+^p
+元関数シグネチャ: int DrawCircle(int x, int y, int r, unsigned int Color, int FillFlag, int LineThickness)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawCircle 項を参照。
+
+%index
+dx_DrawCircleAA
+DxLib DrawCircleAA (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : double (float 縮小) x
+p2 : double (float 縮小) y
+p3 : double (float 縮小) r
+p4 : int posnum
+p5 : int (uint 扱い) Color
+p6 : int FillFlag (default TRUE)
+p7 : double (float 縮小) LineThickness (default 1.0f)
+p8 : double Angle (default 0.0)
+%inst
+DxLib の DrawCircleAA() を呼び出します。
+^p
+元関数シグネチャ: int DrawCircleAA(float x, float y, float r, int posnum, unsigned int Color, int FillFlag, float LineThickness, double Angle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawCircleAA 項を参照。
 
 %index
 dx_DrawOval
@@ -5500,6 +5799,29 @@ DxLib の DrawOval_Rect() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawOval_Rect 項を参照。
+
+%index
+dx_DrawTriangle
+DxLib DrawTriangle (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x1
+p2 : int y1
+p3 : int x2
+p4 : int y2
+p5 : int x3
+p6 : int y3
+p7 : int (uint 扱い) Color
+p8 : int FillFlag
+%inst
+DxLib の DrawTriangle() を呼び出します。
+^p
+元関数シグネチャ: int DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, unsigned int Color, int FillFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawTriangle 項を参照。
 
 %index
 dx_DrawTriangleAA
@@ -5657,6 +5979,24 @@ DxLib の EndAADraw() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の EndAADraw 項を参照。
 
 %index
+dx_DrawPixel
+DxLib DrawPixel (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x
+p2 : int y
+p3 : int (uint 扱い) Color
+%inst
+DxLib の DrawPixel() を呼び出します。
+^p
+元関数シグネチャ: int DrawPixel(int x, int y, unsigned int Color)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawPixel 項を参照。
+
+%index
 dx_DrawPixel3D
 DxLib DrawPixel3D (自動生成、hsp3dx 専用)
 %group
@@ -5691,6 +6031,24 @@ DxLib の DrawPixel3DD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawPixel3DD 項を参照。
 
 %index
+dx_DrawLine3D
+DxLib DrawLine3D (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) Pos1
+p2 : var (VECTOR: #defstruct float x,y,z) Pos2
+p3 : int (uint 扱い) Color
+%inst
+DxLib の DrawLine3D() を呼び出します。
+^p
+元関数シグネチャ: int DrawLine3D(VECTOR Pos1, VECTOR Pos2, unsigned int Color)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawLine3D 項を参照。
+
+%index
 dx_DrawLine3DD
 DxLib DrawLine3DD (自動生成、hsp3dx 専用)
 %group
@@ -5707,6 +6065,26 @@ DxLib の DrawLine3DD() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawLine3DD 項を参照。
+
+%index
+dx_DrawTriangle3D
+DxLib DrawTriangle3D (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) Pos1
+p2 : var (VECTOR: #defstruct float x,y,z) Pos2
+p3 : var (VECTOR: #defstruct float x,y,z) Pos3
+p4 : int (uint 扱い) Color
+p5 : int FillFlag
+%inst
+DxLib の DrawTriangle3D() を呼び出します。
+^p
+元関数シグネチャ: int DrawTriangle3D(VECTOR Pos1, VECTOR Pos2, VECTOR Pos3, unsigned int Color, int FillFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawTriangle3D 項を参照。
 
 %index
 dx_DrawTriangle3DD
@@ -5729,6 +6107,26 @@ DxLib の DrawTriangle3DD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawTriangle3DD 項を参照。
 
 %index
+dx_DrawCube3D
+DxLib DrawCube3D (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) Pos1
+p2 : var (VECTOR: #defstruct float x,y,z) Pos2
+p3 : int (uint 扱い) DifColor
+p4 : int (uint 扱い) SpcColor
+p5 : int FillFlag
+%inst
+DxLib の DrawCube3D() を呼び出します。
+^p
+元関数シグネチャ: int DrawCube3D(VECTOR Pos1, VECTOR Pos2, unsigned int DifColor, unsigned int SpcColor, int FillFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawCube3D 項を参照。
+
+%index
 dx_DrawCube3DD
 DxLib DrawCube3DD (自動生成、hsp3dx 専用)
 %group
@@ -5747,6 +6145,27 @@ DxLib の DrawCube3DD() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawCube3DD 項を参照。
+
+%index
+dx_DrawSphere3D
+DxLib DrawSphere3D (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) CenterPos
+p2 : double (float 縮小) r
+p3 : int DivNum
+p4 : int (uint 扱い) DifColor
+p5 : int (uint 扱い) SpcColor
+p6 : int FillFlag
+%inst
+DxLib の DrawSphere3D() を呼び出します。
+^p
+元関数シグネチャ: int DrawSphere3D(VECTOR CenterPos, float r, int DivNum, unsigned int DifColor, unsigned int SpcColor, int FillFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawSphere3D 項を参照。
 
 %index
 dx_DrawSphere3DD
@@ -5768,6 +6187,28 @@ DxLib の DrawSphere3DD() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawSphere3DD 項を参照。
+
+%index
+dx_DrawCapsule3D
+DxLib DrawCapsule3D (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) Pos1
+p2 : var (VECTOR: #defstruct float x,y,z) Pos2
+p3 : double (float 縮小) r
+p4 : int DivNum
+p5 : int (uint 扱い) DifColor
+p6 : int (uint 扱い) SpcColor
+p7 : int FillFlag
+%inst
+DxLib の DrawCapsule3D() を呼び出します。
+^p
+元関数シグネチャ: int DrawCapsule3D(VECTOR Pos1, VECTOR Pos2, float r, int DivNum, unsigned int DifColor, unsigned int SpcColor, int FillFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawCapsule3D 項を参照。
 
 %index
 dx_DrawCapsule3DD
@@ -5882,6 +6323,28 @@ DxLib の DrawTube3DD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawTube3DD 項を参照。
 
 %index
+dx_DrawCone3D
+DxLib DrawCone3D (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) TopPos
+p2 : var (VECTOR: #defstruct float x,y,z) BottomPos
+p3 : double (float 縮小) r
+p4 : int DivNum
+p5 : int (uint 扱い) DifColor
+p6 : int (uint 扱い) SpcColor
+p7 : int FillFlag
+%inst
+DxLib の DrawCone3D() を呼び出します。
+^p
+元関数シグネチャ: int DrawCone3D(VECTOR TopPos, VECTOR BottomPos, float r, int DivNum, unsigned int DifColor, unsigned int SpcColor, int FillFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawCone3D 項を参照。
+
+%index
 dx_DrawCone3DD
 DxLib DrawCone3DD (自動生成、hsp3dx 専用)
 %group
@@ -5921,6 +6384,69 @@ DxLib の LoadGraphScreen() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の LoadGraphScreen 項を参照。
+
+%index
+dx_DrawGraph
+DxLib DrawGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x
+p2 : int y
+p3 : int GrHandle
+p4 : int TransFlag
+%inst
+DxLib の DrawGraph() を呼び出します。
+^p
+元関数シグネチャ: int DrawGraph(int x, int y, int GrHandle, int TransFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawGraph 項を参照。
+
+%index
+dx_DrawExtendGraph
+DxLib DrawExtendGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x1
+p2 : int y1
+p3 : int x2
+p4 : int y2
+p5 : int GrHandle
+p6 : int TransFlag
+%inst
+DxLib の DrawExtendGraph() を呼び出します。
+^p
+元関数シグネチャ: int DrawExtendGraph(int x1, int y1, int x2, int y2, int GrHandle, int TransFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawExtendGraph 項を参照。
+
+%index
+dx_DrawRotaGraph
+DxLib DrawRotaGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x
+p2 : int y
+p3 : double ExRate
+p4 : double Angle
+p5 : int GrHandle
+p6 : int TransFlag
+p7 : int ReverseXFlag (default FALSE)
+p8 : int ReverseYFlag (default FALSE)
+%inst
+DxLib の DrawRotaGraph() を呼び出します。
+^p
+元関数シグネチャ: int DrawRotaGraph(int x, int y, double ExRate, double Angle, int GrHandle, int TransFlag, int ReverseXFlag, int ReverseYFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawRotaGraph 項を参照。
 
 %index
 dx_DrawRotaGraph2
@@ -6046,6 +6572,31 @@ DxLib の DrawRotaGraphFast3() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawRotaGraphFast3 項を参照。
+
+%index
+dx_DrawModiGraph
+DxLib DrawModiGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x1
+p2 : int y1
+p3 : int x2
+p4 : int y2
+p5 : int x3
+p6 : int y3
+p7 : int x4
+p8 : int y4
+p9 : int GrHandle
+p10 : int TransFlag
+%inst
+DxLib の DrawModiGraph() を呼び出します。
+^p
+元関数シグネチャ: int DrawModiGraph(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int GrHandle, int TransFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawModiGraph 項を参照。
 
 %index
 dx_DrawTurnGraph
@@ -6417,6 +6968,31 @@ DxLib の DrawTile() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawTile 項を参照。
 
 %index
+dx_DrawRectGraph
+DxLib DrawRectGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int DestX
+p2 : int DestY
+p3 : int SrcX
+p4 : int SrcY
+p5 : int Width
+p6 : int Height
+p7 : int GraphHandle
+p8 : int TransFlag
+p9 : int ReverseXFlag (default FALSE)
+p10 : int ReverseYFlag (default FALSE)
+%inst
+DxLib の DrawRectGraph() を呼び出します。
+^p
+元関数シグネチャ: int DrawRectGraph(int DestX, int DestY, int SrcX, int SrcY, int Width, int Height, int GraphHandle, int TransFlag, int ReverseXFlag, int ReverseYFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawRectGraph 項を参照。
+
+%index
 dx_DrawRectExtendGraph
 DxLib DrawRectExtendGraph (自動生成、hsp3dx 専用)
 %group
@@ -6440,6 +7016,33 @@ DxLib の DrawRectExtendGraph() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawRectExtendGraph 項を参照。
+
+%index
+dx_DrawRectRotaGraph
+DxLib DrawRectRotaGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x
+p2 : int y
+p3 : int SrcX
+p4 : int SrcY
+p5 : int Width
+p6 : int Height
+p7 : double ExtRate
+p8 : double Angle
+p9 : int GraphHandle
+p10 : int TransFlag
+p11 : int ReverseXFlag (default FALSE)
+p12 : int ReverseYFlag (default FALSE)
+%inst
+DxLib の DrawRectRotaGraph() を呼び出します。
+^p
+元関数シグネチャ: int DrawRectRotaGraph(int x, int y, int SrcX, int SrcY, int Width, int Height, double ExtRate, double Angle, int GraphHandle, int TransFlag, int ReverseXFlag, int ReverseYFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawRectRotaGraph 項を参照。
 
 %index
 dx_DrawRectRotaGraph2
@@ -7211,6 +7814,22 @@ DxLib の DrawBillboard3D() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawBillboard3D 項を参照。
 
 %index
+dx_SetDrawMode
+DxLib SetDrawMode (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int DrawMode
+%inst
+DxLib の SetDrawMode() を呼び出します。
+^p
+元関数シグネチャ: int SetDrawMode(int DrawMode)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetDrawMode 項を参照。
+
+%index
 dx_GetDrawMode
 DxLib GetDrawMode (自動生成、hsp3dx 専用)
 %group
@@ -7225,6 +7844,23 @@ DxLib の GetDrawMode() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetDrawMode 項を参照。
+
+%index
+dx_SetDrawBlendMode
+DxLib SetDrawBlendMode (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int BlendMode
+p2 : int BlendParam
+%inst
+DxLib の SetDrawBlendMode() を呼び出します。
+^p
+元関数シグネチャ: int SetDrawBlendMode(int BlendMode, int BlendParam)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetDrawBlendMode 項を参照。
 
 %index
 dx_GetDrawBlendMode
@@ -7334,6 +7970,24 @@ DxLib の SetBlendGraphPosition() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetBlendGraphPosition 項を参照。
+
+%index
+dx_SetDrawBright
+DxLib SetDrawBright (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int RedBright
+p2 : int GreenBright
+p3 : int BlueBright
+%inst
+DxLib の SetDrawBright() を呼び出します。
+^p
+元関数シグネチャ: int SetDrawBright(int RedBright, int GreenBright, int BlueBright)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetDrawBright 項を参照。
 
 %index
 dx_GetDrawBright
@@ -7564,6 +8218,38 @@ DxLib の SetZBias() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetZBias 項を参照。
+
+%index
+dx_SetUseZBuffer3D
+DxLib SetUseZBuffer3D (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int Flag
+%inst
+DxLib の SetUseZBuffer3D() を呼び出します。
+^p
+元関数シグネチャ: int SetUseZBuffer3D(int Flag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetUseZBuffer3D 項を参照。
+
+%index
+dx_SetWriteZBuffer3D
+DxLib SetWriteZBuffer3D (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int Flag
+%inst
+DxLib の SetWriteZBuffer3D() を呼び出します。
+^p
+元関数シグネチャ: int SetWriteZBuffer3D(int Flag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetWriteZBuffer3D 項を参照。
 
 %index
 dx_SetZBias3D
@@ -8750,6 +9436,25 @@ DxLib の GetPixelF() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetPixelF 項を参照。
 
 %index
+dx_SetBackgroundColor
+DxLib SetBackgroundColor (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int Red
+p2 : int Green
+p3 : int Blue
+p4 : int Alpha (default 0)
+%inst
+DxLib の SetBackgroundColor() を呼び出します。
+^p
+元関数シグネチャ: int SetBackgroundColor(int Red, int Green, int Blue, int Alpha)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetBackgroundColor 項を参照。
+
+%index
 dx_GetBackgroundColor
 DxLib GetBackgroundColor (自動生成、hsp3dx 専用)
 %group
@@ -8813,6 +9518,22 @@ DxLib の BltDrawValidGraph() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の BltDrawValidGraph 項を参照。
 
 %index
+dx_ScreenFlip
+DxLib ScreenFlip (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+(引数なし)
+%inst
+DxLib の ScreenFlip() を呼び出します。
+^p
+元関数シグネチャ: int ScreenFlip(void)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ScreenFlip 項を参照。
+
+%index
 dx_ScreenCopy
 DxLib ScreenCopy (自動生成、hsp3dx 専用)
 %group
@@ -8859,6 +9580,22 @@ DxLib の ClsDrawScreen() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ClsDrawScreen 項を参照。
+
+%index
+dx_SetDrawScreen
+DxLib SetDrawScreen (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int DrawScreen
+%inst
+DxLib の SetDrawScreen() を呼び出します。
+^p
+元関数シグネチャ: int SetDrawScreen(int DrawScreen)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetDrawScreen 項を参照。
 
 %index
 dx_GetDrawScreen
@@ -8941,6 +9678,25 @@ DxLib の SetDrawZBuffer() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetDrawZBuffer 項を参照。
 
 %index
+dx_SetGraphMode
+DxLib SetGraphMode (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int ScreenSizeX
+p2 : int ScreenSizeY
+p3 : int ColorBitDepth
+p4 : int RefreshRate (default 60)
+%inst
+DxLib の SetGraphMode() を呼び出します。
+^p
+元関数シグネチャ: int SetGraphMode(int ScreenSizeX, int ScreenSizeY, int ColorBitDepth, int RefreshRate)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetGraphMode 項を参照。
+
+%index
 dx_GetFullScreenResolutionMode
 DxLib GetFullScreenResolutionMode (自動生成、hsp3dx 専用)
 %group
@@ -9021,6 +9777,22 @@ DxLib の SetZBufferBitDepth() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetZBufferBitDepth 項を参照。
+
+%index
+dx_SetWaitVSyncFlag
+DxLib SetWaitVSyncFlag (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : int Flag
+%inst
+DxLib の SetWaitVSyncFlag() を呼び出します。
+^p
+元関数シグネチャ: int SetWaitVSyncFlag(int Flag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetWaitVSyncFlag 項を参照。
 
 %index
 dx_GetWaitVSyncFlag
@@ -9613,6 +10385,30 @@ DxLib の GetFPS() を呼び出します。
 戻り値は第 1 引数に指定した変数に書き戻されます。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetFPS 項を参照。
+
+%index
+dx_SaveDrawScreen
+DxLib SaveDrawScreen (自動生成、hsp3dx 専用)
+%group
+DxLib ファイル
+%prm
+p1 : int x1
+p2 : int y1
+p3 : int x2
+p4 : int y2
+p5 : str FileName
+p6 : int SaveType (default DX_IMAGESAVETYPE_BMP)
+p7 : int Jpeg_Quality (default 80)
+p8 : int Jpeg_Sample2x1 (default TRUE)
+p9 : int Png_CompressionLevel (default -1)
+%inst
+DxLib の SaveDrawScreen() を呼び出します。
+^p
+元関数シグネチャ: int SaveDrawScreen(int x1, int y1, int x2, int y2, const TCHAR * FileName, int SaveType, int Jpeg_Quality, int Jpeg_Sample2x1, int Png_CompressionLevel)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SaveDrawScreen 項を参照。
 
 %index
 dx_SaveDrawScreenToBMP
@@ -10798,6 +11594,41 @@ DxLib の OpenMovieToGraph() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の OpenMovieToGraph 項を参照。
 
 %index
+dx_PlayMovieToGraph
+DxLib PlayMovieToGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 動画 / 再生
+%prm
+p1 : int GraphHandle
+p2 : int PlayType (default DX_PLAYTYPE_BACK)
+p3 : int SysPlay (default 0)
+%inst
+DxLib の PlayMovieToGraph() を呼び出します。
+^p
+元関数シグネチャ: int PlayMovieToGraph(int GraphHandle, int PlayType, int SysPlay)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の PlayMovieToGraph 項を参照。
+
+%index
+dx_PauseMovieToGraph
+DxLib PauseMovieToGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 動画 / 再生
+%prm
+p1 : int GraphHandle
+p2 : int SysPause (default 0)
+%inst
+DxLib の PauseMovieToGraph() を呼び出します。
+^p
+元関数シグネチャ: int PauseMovieToGraph(int GraphHandle, int SysPause)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の PauseMovieToGraph 項を参照。
+
+%index
 dx_AddMovieFrameToGraph
 DxLib AddMovieFrameToGraph (自動生成、hsp3dx 専用)
 %group
@@ -11127,6 +11958,23 @@ DxLib の SetCameraNearFarD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetCameraNearFarD 項を参照。
 
 %index
+dx_SetCameraPositionAndTarget_UpVecY
+DxLib SetCameraPositionAndTarget_UpVecY (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) Position
+p2 : var (VECTOR: #defstruct float x,y,z) Target
+%inst
+DxLib の SetCameraPositionAndTarget_UpVecY() を呼び出します。
+^p
+元関数シグネチャ: int SetCameraPositionAndTarget_UpVecY(VECTOR Position, VECTOR Target)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetCameraPositionAndTarget_UpVecY 項を参照。
+
+%index
 dx_SetCameraPositionAndTarget_UpVecYD
 DxLib SetCameraPositionAndTarget_UpVecYD (自動生成、hsp3dx 専用)
 %group
@@ -11282,6 +12130,22 @@ DxLib の SetCameraScreenCenterD() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetCameraScreenCenterD 項を参照。
+
+%index
+dx_SetupCamera_Perspective
+DxLib SetupCamera_Perspective (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : double (float 縮小) Fov
+%inst
+DxLib の SetupCamera_Perspective() を呼び出します。
+^p
+元関数シグネチャ: int SetupCamera_Perspective(float Fov)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetupCamera_Perspective 項を参照。
 
 %index
 dx_SetupCamera_PerspectiveD
@@ -12200,6 +13064,22 @@ DxLib の GetCameraAPIViewportMatrixD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAPIViewportMatrixD 項を参照。
 
 %index
+dx_SetUseLighting
+DxLib SetUseLighting (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : int Flag
+%inst
+DxLib の SetUseLighting() を呼び出します。
+^p
+元関数シグネチャ: int SetUseLighting(int Flag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetUseLighting 項を参照。
+
+%index
 dx_SetMaterialUseVertDifColor
 DxLib SetMaterialUseVertDifColor (自動生成、hsp3dx 専用)
 %group
@@ -12497,6 +13377,22 @@ DxLib の GetLightAmbColor() を呼び出します。
 戻り値は第 1 引数に指定した変数に書き戻されます。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightAmbColor 項を参照。
+
+%index
+dx_SetLightDirection
+DxLib SetLightDirection (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (VECTOR: #defstruct float x,y,z) Direction
+%inst
+DxLib の SetLightDirection() を呼び出します。
+^p
+元関数シグネチャ: int SetLightDirection(VECTOR Direction)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetLightDirection 項を参照。
 
 %index
 dx_GetLightDirection
@@ -13454,6 +14350,29 @@ DxLib の InitFontToHandle() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の InitFontToHandle 項を参照。
 
 %index
+dx_CreateFontToHandle
+DxLib CreateFontToHandle (自動生成、hsp3dx 専用)
+%group
+DxLib フォント
+%prm
+p1 : str FontName
+p2 : int Size
+p3 : int Thick
+p4 : int FontType (default -1)
+p5 : int CharSet (default -1)
+p6 : int EdgeSize (default -1)
+p7 : int Italic (default FALSE)
+p8 : int Handle (default -1)
+%inst
+DxLib の CreateFontToHandle() を呼び出します。
+^p
+元関数シグネチャ: int CreateFontToHandle(const TCHAR * FontName, int Size, int Thick, int FontType, int CharSet, int EdgeSize, int Italic, int Handle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の CreateFontToHandle 項を参照。
+
+%index
 dx_LoadFontDataToHandle
 DxLib LoadFontDataToHandle (自動生成、hsp3dx 専用)
 %group
@@ -13644,6 +14563,22 @@ DxLib の ChangeFontType() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ChangeFontType 項を参照。
 
 %index
+dx_SetFontSize
+DxLib SetFontSize (自動生成、hsp3dx 専用)
+%group
+DxLib フォント
+%prm
+p1 : int FontSize
+%inst
+DxLib の SetFontSize() を呼び出します。
+^p
+元関数シグネチャ: int SetFontSize(int FontSize)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetFontSize 項を参照。
+
+%index
 dx_GetFontSize
 DxLib GetFontSize (自動生成、hsp3dx 専用)
 %group
@@ -13674,6 +14609,22 @@ DxLib の GetFontEdgeSize() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetFontEdgeSize 項を参照。
+
+%index
+dx_SetFontThickness
+DxLib SetFontThickness (自動生成、hsp3dx 専用)
+%group
+DxLib フォント
+%prm
+p1 : int ThickPal
+%inst
+DxLib の SetFontThickness() を呼び出します。
+^p
+元関数シグネチャ: int SetFontThickness(int ThickPal)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetFontThickness 項を参照。
 
 %index
 dx_SetFontSpace
@@ -14502,6 +15453,26 @@ DxLib の GetFontIgnoreLFFlag() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetFontIgnoreLFFlag 項を参照。
+
+%index
+dx_DrawString
+DxLib DrawString (自動生成、hsp3dx 専用)
+%group
+DxLib 描画
+%prm
+p1 : int x
+p2 : int y
+p3 : str String
+p4 : int (uint 扱い) Color
+p5 : int (uint 扱い) EdgeColor (default 0)
+%inst
+DxLib の DrawString() を呼び出します。
+^p
+元関数シグネチャ: int DrawString(int x, int y, const TCHAR * String, unsigned int Color, unsigned int EdgeColor)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DrawString 項を参照。
 
 %index
 dx_DrawVString
@@ -18640,6 +19611,25 @@ DxLib の GetColorU8() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetColorU8 項を参照。
 
 %index
+dx_GetColor
+DxLib GetColor (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 unsigned int 出力)
+p2 : int Red
+p3 : int Green
+p4 : int Blue
+%inst
+DxLib の GetColor() を呼び出します。
+^p
+元関数シグネチャ: unsigned int GetColor(int Red, int Green, int Blue)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetColor 項を参照。
+
+%index
 dx_GetColor2
 DxLib GetColor2 (自動生成、hsp3dx 専用)
 %group
@@ -19908,6 +20898,24 @@ DxLib の LoadSoundMemBase() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の LoadSoundMemBase 項を参照。
 
 %index
+dx_LoadSoundMem
+DxLib LoadSoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : str FileName
+p2 : int BufferNum (default 3)
+p3 : int UnionHandle (default -1)
+%inst
+DxLib の LoadSoundMem() を呼び出します。
+^p
+元関数シグネチャ: int LoadSoundMem(const TCHAR * FileName, int BufferNum, int UnionHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の LoadSoundMem 項を参照。
+
+%index
 dx_LoadSoundMemToBufNumSitei
 DxLib LoadSoundMemToBufNumSitei (自動生成、hsp3dx 専用)
 %group
@@ -19959,6 +20967,90 @@ DxLib の LoadSoundMemFromSoftSound() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の LoadSoundMemFromSoftSound 項を参照。
 
 %index
+dx_DeleteSoundMem
+DxLib DeleteSoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : int SoundHandle
+%inst
+DxLib の DeleteSoundMem() を呼び出します。
+^p
+元関数シグネチャ: int DeleteSoundMem(int SoundHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DeleteSoundMem 項を参照。
+
+%index
+dx_PlaySoundMem
+DxLib PlaySoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : int SoundHandle
+p2 : int PlayType
+p3 : int TopPositionFlag (default TRUE)
+%inst
+DxLib の PlaySoundMem() を呼び出します。
+^p
+元関数シグネチャ: int PlaySoundMem(int SoundHandle, int PlayType, int TopPositionFlag)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の PlaySoundMem 項を参照。
+
+%index
+dx_StopSoundMem
+DxLib StopSoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : int SoundHandle
+p2 : int IsNextLoopEnd (default FALSE)
+%inst
+DxLib の StopSoundMem() を呼び出します。
+^p
+元関数シグネチャ: int StopSoundMem(int SoundHandle, int IsNextLoopEnd)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の StopSoundMem 項を参照。
+
+%index
+dx_CheckSoundMem
+DxLib CheckSoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : int SoundHandle
+%inst
+DxLib の CheckSoundMem() を呼び出します。
+^p
+元関数シグネチャ: int CheckSoundMem(int SoundHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の CheckSoundMem 項を参照。
+
+%index
+dx_SetPanSoundMem
+DxLib SetPanSoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : int PanPal
+p2 : int SoundHandle
+%inst
+DxLib の SetPanSoundMem() を呼び出します。
+^p
+元関数シグネチャ: int SetPanSoundMem(int PanPal, int SoundHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetPanSoundMem 項を参照。
+
+%index
 dx_ChangePanSoundMem
 DxLib ChangePanSoundMem (自動生成、hsp3dx 専用)
 %group
@@ -19990,6 +21082,23 @@ DxLib の GetPanSoundMem() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetPanSoundMem 項を参照。
+
+%index
+dx_SetVolumeSoundMem
+DxLib SetVolumeSoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : int VolumePal
+p2 : int SoundHandle
+%inst
+DxLib の SetVolumeSoundMem() を呼び出します。
+^p
+元関数シグネチャ: int SetVolumeSoundMem(int VolumePal, int SoundHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetVolumeSoundMem 項を参照。
 
 %index
 dx_ChangeVolumeSoundMem
@@ -22367,6 +23476,22 @@ DxLib の DXArchiveCheckFile() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の DXArchiveCheckFile 項を参照。
 
 %index
+dx_MV1LoadModel
+DxLib MV1LoadModel (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : str FileName
+%inst
+DxLib の MV1LoadModel() を呼び出します。
+^p
+元関数シグネチャ: int MV1LoadModel(const TCHAR * FileName)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1LoadModel 項を参照。
+
+%index
 dx_MV1DuplicateModel
 DxLib MV1DuplicateModel (自動生成、hsp3dx 専用)
 %group
@@ -22397,6 +23522,22 @@ DxLib の MV1CreateCloneModel() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1CreateCloneModel 項を参照。
+
+%index
+dx_MV1DeleteModel
+DxLib MV1DeleteModel (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : int MHandle
+%inst
+DxLib の MV1DeleteModel() を呼び出します。
+^p
+元関数シグネチャ: int MV1DeleteModel(int MHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1DeleteModel 項を参照。
 
 %index
 dx_MV1InitModel
@@ -22733,6 +23874,22 @@ DxLib の MV1SaveModelToXFile() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SaveModelToXFile 項を参照。
 
 %index
+dx_MV1DrawModel
+DxLib MV1DrawModel (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : int MHandle
+%inst
+DxLib の MV1DrawModel() を呼び出します。
+^p
+元関数シグネチャ: int MV1DrawModel(int MHandle)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1DrawModel 項を参照。
+
+%index
 dx_MV1DrawFrame
 DxLib MV1DrawFrame (自動生成、hsp3dx 専用)
 %group
@@ -22855,6 +24012,23 @@ DxLib の MV1GetLocalWorldMatrixD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetLocalWorldMatrixD 項を参照。
 
 %index
+dx_MV1SetPosition
+DxLib MV1SetPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : int MHandle
+p2 : var (VECTOR: #defstruct float x,y,z) Position
+%inst
+DxLib の MV1SetPosition() を呼び出します。
+^p
+元関数シグネチャ: int MV1SetPosition(int MHandle, VECTOR Position)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetPosition 項を参照。
+
+%index
 dx_MV1SetPositionD
 DxLib MV1SetPositionD (自動生成、hsp3dx 専用)
 %group
@@ -22906,6 +24080,23 @@ DxLib の MV1GetPositionD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetPositionD 項を参照。
 
 %index
+dx_MV1SetScale
+DxLib MV1SetScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : int MHandle
+p2 : var (VECTOR: #defstruct float x,y,z) Scale
+%inst
+DxLib の MV1SetScale() を呼び出します。
+^p
+元関数シグネチャ: int MV1SetScale(int MHandle, VECTOR Scale)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetScale 項を参照。
+
+%index
 dx_MV1GetScale
 DxLib MV1GetScale (自動生成、hsp3dx 専用)
 %group
@@ -22921,6 +24112,23 @@ DxLib の MV1GetScale() を呼び出します。
 戻り値は第 1 引数に指定した変数に書き戻されます。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetScale 項を参照。
+
+%index
+dx_MV1SetRotationXYZ
+DxLib MV1SetRotationXYZ (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : int MHandle
+p2 : var (VECTOR: #defstruct float x,y,z) Rotate
+%inst
+DxLib の MV1SetRotationXYZ() を呼び出します。
+^p
+元関数シグネチャ: int MV1SetRotationXYZ(int MHandle, VECTOR Rotate)
+^p
+戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetRotationXYZ 項を参照。
 
 %index
 dx_MV1GetRotationXYZ

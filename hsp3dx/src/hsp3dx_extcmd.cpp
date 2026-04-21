@@ -82,6 +82,43 @@ static int *val;
 static int p1, p2, p3, p4, p5;
 static int reffunc_intfunc_ivalue;
 
+//  ---- Phase 5.5k: DxLib コールバック用ラベルスロット ----
+//  仕様書 (hsp3dx_spec.md) の「静的スロット方式」。各 DxLib 関数 1 本につき
+//  1 グローバルラベルポインタを持ち、C スタブが code_callback() で呼び戻す。
+static unsigned short *s_cb_restore_graph      = nullptr;
+static unsigned short *s_cb_restore_shredpoint = nullptr;
+static unsigned short *s_cb_gfxdev_restore     = nullptr;
+static unsigned short *s_cb_gfxdev_lost        = nullptr;
+static unsigned short *s_cb_async_load_finish  = nullptr;
+//  ASyncLoadFinish の引数 (int handle, void *data) を HSP 側に渡すための緯覧
+static int    s_cb_async_handle = 0;
+static void  *s_cb_async_data   = nullptr;
+
+static void hsp3dx_cb_stub_restore_graph( void )
+{
+    if ( s_cb_restore_graph ) code_callback( s_cb_restore_graph );
+}
+static void hsp3dx_cb_stub_restore_shredpoint( void )
+{
+    if ( s_cb_restore_shredpoint ) code_callback( s_cb_restore_shredpoint );
+}
+static void hsp3dx_cb_stub_gfxdev_restore( void *data )
+{
+    s_cb_async_data = data;
+    if ( s_cb_gfxdev_restore ) code_callback( s_cb_gfxdev_restore );
+}
+static void hsp3dx_cb_stub_gfxdev_lost( void *data )
+{
+    s_cb_async_data = data;
+    if ( s_cb_gfxdev_lost ) code_callback( s_cb_gfxdev_lost );
+}
+static void hsp3dx_cb_stub_async_load_finish( int handle, void *data )
+{
+    s_cb_async_handle = handle;
+    s_cb_async_data   = data;
+    if ( s_cb_async_load_finish ) code_callback( s_cb_async_load_finish );
+}
+
 /*------------------------------------------------------------*/
 /*  描画状態 (HSP の BMSCR 相当を最小限だけ持つ)                */
 /*------------------------------------------------------------*/
@@ -866,7 +903,8 @@ static int cmdfunc_extcmd( int cmd )
     //  Phase 5.1: iron_dxlib.as 経由の dx_* 命令 (opcode 0x100〜)
     //  ============================================================
 
-    case 0x100:                     // dx_drawcircleaa x, y, r, color [, fill, thickness]
+    case 0x100:                     // dx_drawcircleaa_s x, y, r, color [, fill, thickness]
+        //  スカラー版、内部で PosNum=32 を補完する簡易ラッパ。直接版は auto-gen dx_DrawCircleAA。
         {
             int x = code_getdi( s_cur_x );
             int y = code_getdi( s_cur_y );
@@ -880,51 +918,8 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
-    case 0x101:                     // dx_drawlineaa x1, y1, x2, y2, color [, thickness]
-        {
-            int x1 = code_getdi( s_cur_x );
-            int y1 = code_getdi( s_cur_y );
-            int x2 = code_getdi( x1 + 10 );
-            int y2 = code_getdi( y1 + 10 );
-            int col = code_getdi( (int)s_cur_color );
-            double thick = code_getdd( 1.0 );
-            apply_gmode_blend();
-            DrawLineAA( (float)x1, (float)y1, (float)x2, (float)y2,
-                        (unsigned int)col, (float)thick );
-            break;
-        }
-
-    case 0x102:                     // dx_drawboxaa x1, y1, x2, y2, color [, fill, thickness]
-        {
-            int x1 = code_getdi( 0 );
-            int y1 = code_getdi( 0 );
-            int x2 = code_getdi( 100 );
-            int y2 = code_getdi( 100 );
-            int col = code_getdi( (int)s_cur_color );
-            int fill = code_getdi( 1 );
-            double thick = code_getdd( 1.0 );
-            apply_gmode_blend();
-            DrawBoxAA( (float)x1, (float)y1, (float)x2, (float)y2,
-                       (unsigned int)col, fill, (float)thick );
-            break;
-        }
-
-    case 0x103:                     // dx_drawtriangle x1,y1, x2,y2, x3,y3, color, fill
-        {
-            int x1 = code_getdi( 0 );
-            int y1 = code_getdi( 0 );
-            int x2 = code_getdi( 0 );
-            int y2 = code_getdi( 0 );
-            int x3 = code_getdi( 0 );
-            int y3 = code_getdi( 0 );
-            int col = code_getdi( (int)s_cur_color );
-            int fill = code_getdi( 1 );
-            apply_gmode_blend();
-            DrawTriangle( x1, y1, x2, y2, x3, y3, (unsigned int)col, fill );
-            break;
-        }
-
-    case 0x104:                     // dx_drawmodigraph srcID, x1,y1, x2,y2, x3,y3, x4,y4
+    case 0x104:                     // dx_drawmodigraph_s srcID, x1,y1, x2,y2, x3,y3, x4,y4
+        //  srcID 先頭、IronHSP 独自引数順。直接版は auto-gen dx_DrawModiGraph。
         {
             int id = code_getdi( 0 );
             int x1 = code_getdi( 0 );
@@ -1016,7 +1011,7 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
-    case 0x132:                     // dx_drawsphere3d x,y,z,r,div,difcol,spccol,fill
+    case 0x132:                     // dx_drawsphere3d_s x,y,z,r,div,difcol,spccol,fill (scalar xyz)
         {
             double x = code_getdd( 0.0 );
             double y = code_getdd( 0.0 );
@@ -1038,7 +1033,7 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
-    case 0x133:                     // dx_drawcube3d x1,y1,z1, x2,y2,z2, difcol, spccol, fill
+    case 0x133:                     // dx_drawcube3d_s x1,y1,z1, x2,y2,z2, difcol, spccol, fill (scalar xyz)
         {
             double x1 = code_getdd( -50.0 );
             double y1 = code_getdd( -50.0 );
@@ -1069,12 +1064,7 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
-    case 0x135:                     // dx_setuselighting flag
-        {
-            int flag = code_getdi( 1 );
-            SetUseLighting( flag );
-            break;
-        }
+    //  case 0x135 dx_setuselighting は Phase 5.5l で廃止 (auto-gen dx_SetUseLighting 使用)
 
     case 0x136:                     // dx_setlightdir dx,dy,dz
         {
@@ -1663,80 +1653,50 @@ static int cmdfunc_extcmd( int cmd )
         ctx->stat = hsp3dx_ws_status( code_getdi( -1 ) );
         break;
 
+    //  ----------------------------------------------------------------
+    //  Phase 5.5b の手書き VECTOR 3D プリミティブ (0x1c0-0x1c4) は
+    //  Phase 5.5l で廃止。auto-gen の dx_DrawLine3D / dx_DrawTriangle3D /
+    //  dx_DrawCube3D / dx_DrawCapsule3D / dx_DrawCone3D が同じ引数仕様で使える。
+    //  ----------------------------------------------------------------
+
     //  -----------------------------------------------------------------
-    //  Phase 5.5b: VECTOR を取る 3D プリミティブ
-    //      NSTRUCT 変数 (sizeof 12, float xyz) を DxLib::VECTOR として渡す
-    //      引数: 変数は code_getva() で PVal を取り、pval->pt + aptr*12 を
-    //      VECTOR * にキャスト。HSP の #defstruct は内部で NSTRUCT 型、
-    //      sizeof(VECTOR)=12 で DxLib と ABI 一致。
-    //
-    //      0x1C0 dx_drawline3d      p1, p2, color
-    //      0x1C1 dx_drawtriangle3d  p1, p2, p3, color, fill
-    //      0x1C2 dx_drawcube3dv     p1, p2, difcol, spccol, fill   (VECTOR 版)
-    //      0x1C3 dx_drawcapsule3d   p1, p2, r, divnum, difcol, spccol, fill
-    //      0x1C4 dx_drawcone3d      top, bottom, r, divnum, difcol, spccol, fill
+    //  Phase 5.5k: DxLib コールバック登録 (静的スロット方式)
+    //      HSP 側: dx_SetRestoreGraphCallback *on_restore
+    //               *on_restore は通常のラベル、C スタブから code_callback() で
+    //               呼び戻される。ラベル内でシステム変数 _dx_cb_handle /
+    //               _dx_cb_data (int) を参照可能 (ASyncLoadFinish 用)。
+    //      NULL ラベル (空引数) 指定で登録解除。
     //  -----------------------------------------------------------------
-    case 0x1c0:                     // dx_drawline3d p1, p2, color
-    case 0x1c1:                     // dx_drawtriangle3d p1, p2, p3, color, fill
-    case 0x1c2:                     // dx_drawcube3dv p1, p2, difcol, spccol, fill
-    case 0x1c3:                     // dx_drawcapsule3d p1, p2, r, div, dif, spc, fill
-    case 0x1c4:                     // dx_drawcone3d top, bot, r, div, dif, spc, fill
+    case 0x1d0:                     // dx_SetRestoreGraphCallback *label
+        s_cb_restore_graph = code_getlb();
+        code_next();
+        SetRestoreGraphCallback( s_cb_restore_graph ? hsp3dx_cb_stub_restore_graph : nullptr );
+        break;
+    case 0x1d1:                     // dx_SetRestoreShredPoint *label
+        s_cb_restore_shredpoint = code_getlb();
+        code_next();
+        SetRestoreShredPoint( s_cb_restore_shredpoint ? hsp3dx_cb_stub_restore_shredpoint : nullptr );
+        break;
+    case 0x1d2:                     // dx_SetGraphicsDeviceRestoreCallback *label
+        s_cb_gfxdev_restore = code_getlb();
+        code_next();
+        SetGraphicsDeviceRestoreCallbackFunction(
+            s_cb_gfxdev_restore ? hsp3dx_cb_stub_gfxdev_restore : nullptr, nullptr );
+        break;
+    case 0x1d3:                     // dx_SetGraphicsDeviceLostCallback *label
+        s_cb_gfxdev_lost = code_getlb();
+        code_next();
+        SetGraphicsDeviceLostCallbackFunction(
+            s_cb_gfxdev_lost ? hsp3dx_cb_stub_gfxdev_lost : nullptr, nullptr );
+        break;
+    case 0x1d4:                     // dx_SetASyncLoadFinishCallback handle, *label
         {
-            auto get_vec = [&]( VECTOR *out ) {
-                PVal *pv; APTR ap;
-                ap = code_getva( &pv );
-                if ( pv->pt == nullptr || pv->len[0] < 12 ) throw HSPERR_TYPE_MISMATCH;
-                memcpy( out, pv->pt + ap * pv->len[0], sizeof(VECTOR) );
-            };
-            VECTOR p1, p2, p3; (void)p3;
-            switch ( cmd ) {
-            case 0x1c0:
-                {
-                    get_vec( &p1 ); get_vec( &p2 );
-                    unsigned int col = (unsigned int)code_getdi( 0 );
-                    ctx->stat = DrawLine3D( p1, p2, col );
-                }
-                break;
-            case 0x1c1:
-                {
-                    get_vec( &p1 ); get_vec( &p2 ); get_vec( &p3 );
-                    unsigned int col = (unsigned int)code_getdi( 0 );
-                    int fill = code_getdi( 1 );
-                    ctx->stat = DrawTriangle3D( p1, p2, p3, col, fill );
-                }
-                break;
-            case 0x1c2:
-                {
-                    get_vec( &p1 ); get_vec( &p2 );
-                    unsigned int dif = (unsigned int)code_getdi( 0 );
-                    unsigned int spc = (unsigned int)code_getdi( 0 );
-                    int fill = code_getdi( 1 );
-                    ctx->stat = DrawCube3D( p1, p2, dif, spc, fill );
-                }
-                break;
-            case 0x1c3:
-                {
-                    get_vec( &p1 ); get_vec( &p2 );
-                    float r = (float)code_getdd( 1.0 );
-                    int divnum = code_getdi( 8 );
-                    unsigned int dif = (unsigned int)code_getdi( 0xFFFFFF );
-                    unsigned int spc = (unsigned int)code_getdi( 0 );
-                    int fill = code_getdi( 1 );
-                    ctx->stat = DrawCapsule3D( p1, p2, r, divnum, dif, spc, fill );
-                }
-                break;
-            case 0x1c4:
-                {
-                    get_vec( &p1 ); get_vec( &p2 );
-                    float r = (float)code_getdd( 1.0 );
-                    int divnum = code_getdi( 8 );
-                    unsigned int dif = (unsigned int)code_getdi( 0xFFFFFF );
-                    unsigned int spc = (unsigned int)code_getdi( 0 );
-                    int fill = code_getdi( 1 );
-                    ctx->stat = DrawCone3D( p1, p2, r, divnum, dif, spc, fill );
-                }
-                break;
-            }
+            int handle = code_getdi( 0 );
+            s_cb_async_load_finish = code_getlb();
+            code_next();
+            SetASyncLoadFinishCallback( handle,
+                s_cb_async_load_finish ? hsp3dx_cb_stub_async_load_finish : nullptr,
+                nullptr );
             break;
         }
 
