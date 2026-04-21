@@ -15,6 +15,9 @@
 
 #regcmd 9
 
+;  自動生成の DxLib 全 binding (opcode 0x200〜) を取り込む
+#include "iron_dxlib_auto.as"
+
 ;  ---- アンチエイリアス描画 (DxLib 独自、HSP 標準にない) ----
 #cmd dx_drawcircleaa   $100     ; dx_drawcircleaa x, y, r, color [, fill, thickness]
 #cmd dx_drawlineaa     $101     ; dx_drawlineaa x1, y1, x2, y2, color [, thickness]

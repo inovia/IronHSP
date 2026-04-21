@@ -33,7 +33,7 @@ OUT_AS     = r"J:\HNWorks\IronHSP_2026\package\win32\common\iron_dxlib_auto.as"
 OUT_HS     = r"J:\HNWorks\IronHSP_2026\package\hsphelp\iron_dxlib_auto.hs"
 
 OPCODE_START = 0x200
-OPCODE_END   = 0x6FF
+OPCODE_END   = 0x7FF
 
 # Function signature pattern:
 #   extern int  FuncName(  arg1,  arg2 ...)  ;
@@ -122,7 +122,8 @@ SKIP_NAMES = {
     'HTTP_Close', 'HTTP_CloseAll', 'HTTP_GetDownloadFileSize',
     'HTTP_GetDownloadedFileSize', 'HTTP_GetError', 'HTTP_GetFileSize',
     'HTTP_GetState', 'HTTP_StartGetFileSize',
-    'URLConvert', 'fgetsForNetHandle',
+    'URLConvert', 'URLAnalys', 'fgetsForNetHandle',
+    'GetProxySetting',  # out-param 版、既存 SetProxySetting と同じく無効化
     # Phase 1/5.1/5.2 で手書き実装済
     'DrawPixel', 'DrawCircle', 'DrawBox', 'DrawLine', 'DrawGraph',
     'DrawRotaGraph', 'DrawRectGraph', 'DrawExtendGraph', 'DrawString',
@@ -132,6 +133,8 @@ SKIP_NAMES = {
     'PlaySoundMem', 'StopSoundMem', 'DeleteSoundMem',
     'SetVolumeSoundMem', 'SetPanSoundMem', 'CheckSoundMem',
     'DrawCube3D', 'DrawSphere3D',
+    # Phase 5.5b 手書き VECTOR 版 (dx_drawline3d など) と重複回避
+    'DrawLine3D', 'DrawTriangle3D', 'DrawCapsule3D', 'DrawCone3D',
     'SetCameraPositionAndTarget_UpVecY', 'SetupCamera_Perspective',
     'MV1LoadModel', 'MV1DrawModel', 'MV1SetPosition', 'MV1SetRotationXYZ',
     'MV1SetScale', 'MV1DeleteModel',
@@ -153,9 +156,55 @@ SKIP_NAMES = {
 }
 
 
+#  out-param (ポインタ引数) として受け入れる型 → kind
+OUT_PARAM_TYPES = {
+    'int':       'out_int',
+    'float':     'out_float',
+    'double':    'out_double',
+    'VECTOR':    'out_VECTOR',
+    'VECTOR_D':  'out_VECTOR_D',
+    'MATRIX':    'out_MATRIX',
+    'MATRIX_D':  'out_MATRIX_D',
+    'COLOR_F':   'out_COLOR_F',
+    'COLOR_U8':  'out_COLOR_U8',
+    'FLOAT2':    'out_FLOAT2',
+    'FLOAT3':    'out_FLOAT3',
+    'FLOAT4':    'out_FLOAT4',
+}
+
+#  out 構造体のサイズ (pval->len[0] チェック用)
+OUT_STRUCT_SIZES = {
+    'out_VECTOR':   12,
+    'out_VECTOR_D': 24,
+    'out_MATRIX':   64,
+    'out_MATRIX_D': 128,
+    'out_COLOR_F':  16,
+    'out_COLOR_U8': 4,
+    'out_FLOAT2':   8,
+    'out_FLOAT3':   12,
+    'out_FLOAT4':   16,
+}
+
+#  out 型 → DxLib 側の型名
+OUT_CTYPE = {
+    'out_int':      'int',
+    'out_float':    'float',
+    'out_double':   'double',
+    'out_VECTOR':   'VECTOR',
+    'out_VECTOR_D': 'VECTOR_D',
+    'out_MATRIX':   'MATRIX',
+    'out_MATRIX_D': 'MATRIX_D',
+    'out_COLOR_F':  'COLOR_F',
+    'out_COLOR_U8': 'COLOR_U8',
+    'out_FLOAT2':   'FLOAT2',
+    'out_FLOAT3':   'FLOAT3',
+    'out_FLOAT4':   'FLOAT4',
+}
+
+
 def parse_arg(arg_str):
     """1 引数文字列から (kind, name, default) を抽出。受け入れ不可なら None。
-       kind は ACCEPT_TYPES の値 ('int', 'uint', 'struct_VECTOR', ...)。"""
+       kind は ACCEPT_TYPES の値 ('int', 'uint', 'struct_VECTOR', 'out_int', ...)。"""
     arg_str = arg_str.strip()
     if not arg_str or arg_str == 'void':
         return None
@@ -170,8 +219,10 @@ def parse_arg(arg_str):
         return ('tchar', name, default) if star == '*' else None
     if type_ == 'char':
         return ('char', name, default) if star == '*' else None
-    # その他はポインタ不可 (値渡し前提)
+    # ポインタ付き: out-param として扱える型か
     if star:
+        if type_ in OUT_PARAM_TYPES:
+            return (OUT_PARAM_TYPES[type_], name, default)
         return None
     if type_ not in ACCEPT_TYPES:
         return None
@@ -223,6 +274,18 @@ def type_label(kind):
         'struct_FLOAT2': 'var (FLOAT2)',
         'struct_FLOAT3': 'var (FLOAT3)',
         'struct_FLOAT4': 'var (FLOAT4)',
+        'out_int': 'var (int 出力)',
+        'out_float': 'var (double 出力、float 昇格)',
+        'out_double': 'var (double 出力)',
+        'out_VECTOR': 'var (VECTOR 出力)',
+        'out_VECTOR_D': 'var (VECTOR_D 出力)',
+        'out_MATRIX': 'var (MATRIX 出力)',
+        'out_MATRIX_D': 'var (MATRIX_D 出力)',
+        'out_COLOR_F': 'var (COLOR_F 出力)',
+        'out_COLOR_U8': 'var (COLOR_U8 出力)',
+        'out_FLOAT2': 'var (FLOAT2 出力)',
+        'out_FLOAT3': 'var (FLOAT3 出力)',
+        'out_FLOAT4': 'var (FLOAT4 出力)',
     }
     return m.get(kind, kind)
 
@@ -369,7 +432,43 @@ def main():
                 cpp.append(f'        {ctype} {local};')
                 cpp.append(f'        memcpy( &{local}, {local}_pv->pt + {local}_ap * {local}_pv->len[0], sizeof({ctype}) );')
                 call_args.append(local)
+            elif t == 'out_int':
+                #  int* : HSP 変数を取り、呼出後に代入で書き戻す
+                cpp.append(f'        PVal *{local}_pv; APTR {local}_ap;')
+                cpp.append(f'        {local}_ap = code_getva( &{local}_pv );')
+                cpp.append(f'        int {local} = 0;')
+                call_args.append(f'&{local}')
+            elif t == 'out_float':
+                cpp.append(f'        PVal *{local}_pv; APTR {local}_ap;')
+                cpp.append(f'        {local}_ap = code_getva( &{local}_pv );')
+                cpp.append(f'        float {local} = 0.0f;')
+                call_args.append(f'&{local}')
+            elif t == 'out_double':
+                cpp.append(f'        PVal *{local}_pv; APTR {local}_ap;')
+                cpp.append(f'        {local}_ap = code_getva( &{local}_pv );')
+                cpp.append(f'        double {local} = 0.0;')
+                call_args.append(f'&{local}')
+            elif t.startswith('out_'):
+                #  struct out: NSTRUCT 変数の生メモリに直接書く (コピー不要)
+                ctype = OUT_CTYPE[t]
+                size  = OUT_STRUCT_SIZES[t]
+                cpp.append(f'        PVal *{local}_pv; APTR {local}_ap;')
+                cpp.append(f'        {local}_ap = code_getva( &{local}_pv );')
+                cpp.append(f'        if ( {local}_pv->pt == nullptr || {local}_pv->len[0] < {size} )')
+                cpp.append(f'            throw HSPERR_TYPE_MISMATCH;')
+                cpp.append(f'        {ctype} *{local} = ({ctype} *)({local}_pv->pt + {local}_ap * {local}_pv->len[0]);')
+                call_args.append(local)
         cpp.append(f'        ctx->stat = {fn}( {", ".join(call_args)} );')
+        #  out-param のスカラーは呼出後に HSP 変数に書き戻す
+        for idx, (t, aname, default) in enumerate(args):
+            local = f'_a{idx}'
+            if t == 'out_int':
+                cpp.append(f'        code_setva( {local}_pv, {local}_ap, TYPE_INUM, &{local} );')
+            elif t == 'out_float':
+                cpp.append(f'        double {local}_d = (double){local};')
+                cpp.append(f'        code_setva( {local}_pv, {local}_ap, TYPE_DNUM, &{local}_d );')
+            elif t == 'out_double':
+                cpp.append(f'        code_setva( {local}_pv, {local}_ap, TYPE_DNUM, &{local} );')
         cpp.append('        return 1;')
         cpp.append('    }')
 
@@ -444,7 +543,11 @@ def main():
         hs.append('%inst')
         hs.append(f'DxLib の {fn}() を呼び出します。')
         hs.append(f'^p')
-        hs.append(f'元関数シグネチャ: int {fn}({", ".join(f"{KIND_TO_CTYPE[t]} {aname}" for t, aname, _ in args) or "void"})')
+        def ctype_of(t):
+            if t in KIND_TO_CTYPE: return KIND_TO_CTYPE[t]
+            if t in OUT_CTYPE:     return OUT_CTYPE[t] + ' *'
+            return t
+        hs.append(f'元関数シグネチャ: int {fn}({", ".join(f"{ctype_of(t)} {aname}" for t, aname, _ in args) or "void"})')
         hs.append(f'^p')
         hs.append(f'戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。')
         hs.append(f'^p')

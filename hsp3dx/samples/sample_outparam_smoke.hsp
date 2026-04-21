@@ -1,0 +1,64 @@
+;============================================================
+;   sample_outparam_smoke.hsp — Phase 5.5g: ref 引数対応 smoke test
+;
+;   GetMousePoint(int *XBuf, int *YBuf) が自動生成されたか確認。
+;   dx_GetMousePoint mx, my で座標が HSP 変数に書き戻されるはず。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+#defstruct VECTOR
+    #field float x
+    #field float y
+    #field float z
+#endstruct
+
+    title "hsp3dx: out-param smoke test"
+
+    stdim a, VECTOR
+    stdim b, VECTOR
+    stdim sum, VECTOR
+    stdim normalized, VECTOR
+
+    ;  ---- (1) ref VECTOR 引数: VectorAdd (a + b → sum) ----
+    a->x =  3.0 : a->y =  4.0 : a->z =  0.0
+    b->x =  1.0 : b->y =  2.0 : b->z = 10.0
+    dx_VectorAdd sum, a, b
+
+    ;  ---- (2) ref VECTOR 引数: VectorNormalize (a → normalized) ----
+    ;  a = (3,4,0) なので normalize すると (0.6, 0.8, 0.0)
+    dx_VectorNormalize normalized, a
+
+    ;  ---- (3) ref int 引数: GetMouseInputLog (log が空なら -1 が返る) ----
+    bx = -1 : by = -1 : btn = -1
+    dx_GetMouseInputLog bx, by, btn, 0
+    mlog_stat = stat
+
+    repeat
+        redraw 0
+        dx_setbgcolor3d 15, 20, 50
+        cls
+
+        color 255, 220, 80
+        pos 10, 10
+        mes "Phase 5.5g ref 引数 (out-param) smoke test"
+        mes ""
+        mes "(1) dx_VectorAdd  a(3,4,0) + b(1,2,10)"
+        mes "    sum = (" + sum->x + ", " + sum->y + ", " + sum->z + ")"
+        mes "    期待値: (4, 6, 10)"
+        mes ""
+        mes "(2) dx_VectorNormalize  a(3,4,0)"
+        mes "    normalized = (" + strf("%.3f", 1.0 * normalized->x) + ", " + strf("%.3f", 1.0 * normalized->y) + ", " + strf("%.3f", 1.0 * normalized->z) + ")"
+        mes "    期待値: (0.600, 0.800, 0.000)"
+        mes ""
+        mes "(3) dx_GetMouseInputLog  stat=" + mlog_stat + " bx=" + bx + " by=" + by + " btn=" + btn
+        mes ""
+        mes "[ESC] quit"
+
+        redraw 1
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
