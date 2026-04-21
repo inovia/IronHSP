@@ -1,0 +1,68 @@
+;============================================================
+;   sample_struct_array.hsp — Phase 5.5j: NSTRUCT 未検証パス
+;
+;   (1) 配列要素  stdim pts, VECTOR, 5 → pts(3)->x = ...
+;   (2) CHAR_ARRAY  #field char name 32
+;   (3) ネスト構造体 (VEC3 の中に別の struct を持つ)
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+#defstruct VEC3
+    #field float x
+    #field float y
+    #field float z
+#endstruct
+
+#defstruct PERSON
+    #field int  age
+    #field char name[32]
+    #field float height
+#endstruct
+
+    title "hsp3dx: #defstruct advanced smoke test"
+
+    ;  ---- (1) 配列要素 ----
+    stdim pts, VEC3, 5
+    repeat 5
+        pts(cnt)->x = cnt * 1.0
+        pts(cnt)->y = cnt * 2.0
+        pts(cnt)->z = cnt * 3.0
+    loop
+
+    ;  ---- (2) CHAR_ARRAY ----
+    stdim alice, PERSON
+    alice->age = 30
+    alice->name = "Alice Smith"
+    alice->height = 162.5
+
+    ;  ---- (3) 読み取り結果をまとめて表示 ----
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+    mes "Phase 5.5j: #defstruct 未検証パス"
+    mes ""
+    mes "(1) 配列要素 stdim pts, VEC3, 5"
+    repeat 5
+        mes "   pts(" + cnt + ") = (" + pts(cnt)->x + ", " + pts(cnt)->y + ", " + pts(cnt)->z + ")"
+    loop
+    mes ""
+    mes "(2) CHAR_ARRAY"
+    mes "   alice->age    = " + alice->age
+    mes "   alice->name   = " + alice->name
+    mes "   alice->height = " + alice->height
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
