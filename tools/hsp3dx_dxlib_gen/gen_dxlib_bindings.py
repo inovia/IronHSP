@@ -33,12 +33,32 @@ OUT_AS     = r"J:\HNWorks\IronHSP_2026\package\win32\common\iron_dxlib_auto.as"
 OUT_HS     = r"J:\HNWorks\IronHSP_2026\package\hsphelp\iron_dxlib_auto.hs"
 
 OPCODE_START = 0x200
-OPCODE_END   = 0x7FF
+OPCODE_END   = 0x9FF
 
 # Function signature pattern:
-#   extern int  FuncName(  arg1,  arg2 ...)  ;
+#   extern <rettype> FuncName( arg1, arg2 ... );
+# rettype: int / unsigned int / float / double / LONGLONG / ULONGLONG /
+#          VECTOR / VECTOR_D / MATRIX / MATRIX_D / COLOR_F / COLOR_U8 /
+#          FLOAT2 / FLOAT3 / FLOAT4
+ACCEPTED_RETURNS = {
+    'int':                  'r_int',
+    'unsigned int':         'r_uint',
+    'float':                'r_float',
+    'double':               'r_double',
+    'LONGLONG':             'r_int64',
+    'ULONGLONG':            'r_uint64',
+    'VECTOR':               'r_VECTOR',
+    'VECTOR_D':             'r_VECTOR_D',
+    'MATRIX':               'r_MATRIX',
+    'MATRIX_D':             'r_MATRIX_D',
+    'COLOR_F':              'r_COLOR_F',
+    'COLOR_U8':             'r_COLOR_U8',
+    'FLOAT2':               'r_FLOAT2',
+    'FLOAT3':               'r_FLOAT3',
+    'FLOAT4':               'r_FLOAT4',
+}
 FUNC_RE = re.compile(
-    r'extern\s+int\s+(\w+)\s*\(\s*(.*?)\s*\)\s*;',
+    r'extern\s+((?:unsigned\s+)?\w+)\s+(\w+)\s*\(\s*(.*?)\s*\)\s*;',
     re.MULTILINE | re.DOTALL
 )
 
@@ -230,24 +250,27 @@ def parse_arg(arg_str):
 
 
 def parse_signature(match):
-    """FUNC_RE マッチから (name, [(type, name, default)...]) または None を返す。
+    """FUNC_RE マッチから (name, return_kind, [(type, name, default)...]) または None を返す。
     フィルタに引っかかる関数は None。
+    return_kind は ACCEPTED_RETURNS の値 ('r_int', 'r_VECTOR' 等)。
     """
-    name = match.group(1)
+    rettype = re.sub(r'\s+', ' ', match.group(1))
+    name    = match.group(2)
     if name in SKIP_NAMES:
         return None
-    raw_args = match.group(2)
-    # void だけの場合 [] を返す
+    if rettype not in ACCEPTED_RETURNS:
+        return None
+    return_kind = ACCEPTED_RETURNS[rettype]
+    raw_args = match.group(3)
     if raw_args.strip() == 'void' or raw_args.strip() == '':
-        return (name, [])
-    # カンマ分割 (ネストなし前提 — TEMPLATE がない DxLib.h では OK)
+        return (name, return_kind, [])
     args = []
     for piece in raw_args.split(','):
         a = parse_arg(piece)
         if a is None:
-            return None    # 1 つでも受け入れ不可なら関数全体を skip
+            return None
         args.append(a)
-    return (name, args)
+    return (name, return_kind, args)
 
 
 def to_dx_name(camel):
@@ -308,11 +331,11 @@ def main():
     # 重複名を排除 (DxLib.h には同名ラッパが複数ある)
     seen = set()
     unique = []
-    for fn, args in functions:
+    for fn, rkind, args in functions:
         if fn in seen:
             continue
         seen.add(fn)
-        unique.append((fn, args))
+        unique.append((fn, rkind, args))
     functions = unique
 
     print(f'parsed: {len(matches)}  accepted: {len(functions)}  skipped: {skipped}')
@@ -336,12 +359,26 @@ def main():
         '#regcmd 9',
         '',
     ]
-    for i, (fn, args) in enumerate(functions):
+    #  非 int 戻り値は HSP 側で "out var, args..." の形 (out が先頭)。
+    #  コメントにそれを反映する。
+    RKIND_LABEL = {
+        'r_int':     'int',     'r_uint':     'uint',
+        'r_float':   'float',   'r_double':   'double',
+        'r_int64':   'int64',   'r_uint64':   'uint64',
+        'r_VECTOR':  'VECTOR',  'r_VECTOR_D': 'VECTOR_D',
+        'r_MATRIX':  'MATRIX',  'r_MATRIX_D': 'MATRIX_D',
+        'r_COLOR_F': 'COLOR_F', 'r_COLOR_U8': 'COLOR_U8',
+        'r_FLOAT2':  'FLOAT2',  'r_FLOAT3':   'FLOAT3', 'r_FLOAT4': 'FLOAT4',
+    }
+    for i, (fn, rkind, args) in enumerate(functions):
         opcode = OPCODE_START + i
         dx_name = to_dx_name(fn)
-        #  引数シグネチャをコメント末尾に付ける (ユーザが type を参照できる)
-        sig = ', '.join(type_label(t) for (t, _, _) in args)
-        as_lines.append(f'#cmd {dx_name:<45} ${opcode:03x}     ; {fn}({sig})')
+        sig_in = ', '.join(type_label(t) for (t, _, _) in args)
+        if rkind == 'r_int':
+            sig = f'[stat] <- {fn}({sig_in})'
+        else:
+            sig = f'[out {RKIND_LABEL[rkind]}] <- {fn}({sig_in})'
+        as_lines.append(f'#cmd {dx_name:<45} ${opcode:03x}     ; {sig}')
     as_lines.append('')
     as_lines.append('#endif')
     with open(OUT_AS, 'w', encoding='utf-8', newline='\n') as f:
@@ -378,9 +415,28 @@ def main():
     cpp.append('{')
     cpp.append('    switch ( cmd ) {')
 
-    for i, (fn, args) in enumerate(functions):
+    for i, (fn, rkind, args) in enumerate(functions):
         opcode = OPCODE_START + i
-        cpp.append(f'    case 0x{opcode:03x}: {{  // {fn}')
+        cpp.append(f'    case 0x{opcode:03x}: {{  // {fn}  -> {rkind}')
+        # 戻り値が非 int の場合、先頭に out 変数を受け取る処理を生成
+        ret_local = '_ret'
+        if rkind == 'r_int':
+            pass  # 既存通り、stat に入れる
+        elif rkind in ('r_uint', 'r_float', 'r_double', 'r_int64', 'r_uint64'):
+            cpp.append(f'        PVal *{ret_local}_pv; APTR {ret_local}_ap;')
+            cpp.append(f'        {ret_local}_ap = code_getva( &{ret_local}_pv );')
+        else:
+            # 構造体戻り値: NSTRUCT 変数に memcpy で書き戻し
+            ctype = {'r_VECTOR':'VECTOR','r_VECTOR_D':'VECTOR_D',
+                     'r_MATRIX':'MATRIX','r_MATRIX_D':'MATRIX_D',
+                     'r_COLOR_F':'COLOR_F','r_COLOR_U8':'COLOR_U8',
+                     'r_FLOAT2':'FLOAT2','r_FLOAT3':'FLOAT3','r_FLOAT4':'FLOAT4'}[rkind]
+            size  = {'r_VECTOR':12,'r_VECTOR_D':24,'r_MATRIX':64,'r_MATRIX_D':128,
+                     'r_COLOR_F':16,'r_COLOR_U8':4,'r_FLOAT2':8,'r_FLOAT3':12,'r_FLOAT4':16}[rkind]
+            cpp.append(f'        PVal *{ret_local}_pv; APTR {ret_local}_ap;')
+            cpp.append(f'        {ret_local}_ap = code_getva( &{ret_local}_pv );')
+            cpp.append(f'        if ( {ret_local}_pv->pt == nullptr || {ret_local}_pv->len[0] < {size} )')
+            cpp.append(f'            throw HSPERR_TYPE_MISMATCH;')
         # 引数展開
         call_args = []
         for idx, (t, aname, default) in enumerate(args):
@@ -458,7 +514,38 @@ def main():
                 cpp.append(f'            throw HSPERR_TYPE_MISMATCH;')
                 cpp.append(f'        {ctype} *{local} = ({ctype} *)({local}_pv->pt + {local}_ap * {local}_pv->len[0]);')
                 call_args.append(local)
-        cpp.append(f'        ctx->stat = {fn}( {", ".join(call_args)} );')
+        call_str = f'{fn}( {", ".join(call_args)} )'
+        # 戻り値処理
+        if rkind == 'r_int':
+            cpp.append(f'        ctx->stat = {call_str};')
+        elif rkind == 'r_uint':
+            cpp.append(f'        unsigned int {ret_local} = {call_str};')
+            cpp.append(f'        int {ret_local}_i = (int){ret_local};')
+            cpp.append(f'        code_setva( {ret_local}_pv, {ret_local}_ap, TYPE_INUM, &{ret_local}_i );')
+            cpp.append(f'        ctx->stat = (int){ret_local};')
+        elif rkind == 'r_float':
+            cpp.append(f'        float {ret_local} = {call_str};')
+            cpp.append(f'        double {ret_local}_d = (double){ret_local};')
+            cpp.append(f'        code_setva( {ret_local}_pv, {ret_local}_ap, TYPE_DNUM, &{ret_local}_d );')
+        elif rkind == 'r_double':
+            cpp.append(f'        double {ret_local} = {call_str};')
+            cpp.append(f'        code_setva( {ret_local}_pv, {ret_local}_ap, TYPE_DNUM, &{ret_local} );')
+        elif rkind == 'r_int64':
+            cpp.append(f'        LONGLONG {ret_local} = {call_str};')
+            cpp.append(f'        int {ret_local}_i = (int){ret_local};')
+            cpp.append(f'        code_setva( {ret_local}_pv, {ret_local}_ap, TYPE_INUM, &{ret_local}_i );')
+        elif rkind == 'r_uint64':
+            cpp.append(f'        ULONGLONG {ret_local} = {call_str};')
+            cpp.append(f'        int {ret_local}_i = (int){ret_local};')
+            cpp.append(f'        code_setva( {ret_local}_pv, {ret_local}_ap, TYPE_INUM, &{ret_local}_i );')
+        else:
+            #  構造体戻り値: NSTRUCT 変数の生メモリに memcpy
+            ctype = {'r_VECTOR':'VECTOR','r_VECTOR_D':'VECTOR_D',
+                     'r_MATRIX':'MATRIX','r_MATRIX_D':'MATRIX_D',
+                     'r_COLOR_F':'COLOR_F','r_COLOR_U8':'COLOR_U8',
+                     'r_FLOAT2':'FLOAT2','r_FLOAT3':'FLOAT3','r_FLOAT4':'FLOAT4'}[rkind]
+            cpp.append(f'        {ctype} {ret_local} = {call_str};')
+            cpp.append(f'        memcpy( {ret_local}_pv->pt + {ret_local}_ap * {ret_local}_pv->len[0], &{ret_local}, sizeof({ctype}) );')
         #  out-param のスカラーは呼出後に HSP 変数に書き戻す
         for idx, (t, aname, default) in enumerate(args):
             local = f'_a{idx}'
@@ -524,21 +611,30 @@ def main():
     hs.append('%port')
     hs.append('Win')
     hs.append('')
-    for fn, args in functions:
+    R_CTYPE_MAP = {'r_int':'int','r_uint':'unsigned int','r_float':'float','r_double':'double',
+                   'r_int64':'LONGLONG','r_uint64':'ULONGLONG',
+                   'r_VECTOR':'VECTOR','r_VECTOR_D':'VECTOR_D','r_MATRIX':'MATRIX','r_MATRIX_D':'MATRIX_D',
+                   'r_COLOR_F':'COLOR_F','r_COLOR_U8':'COLOR_U8',
+                   'r_FLOAT2':'FLOAT2','r_FLOAT3':'FLOAT3','r_FLOAT4':'FLOAT4'}
+    for fn, rkind, args in functions:
         dx_name = to_dx_name(fn)
         group = guess_group(fn)
-        sig_hsp = ', '.join(f'p{i+1}' for i in range(len(args))) if args else ''
         hs.append('%index')
         hs.append(dx_name)
         hs.append(f'DxLib {fn} (自動生成、hsp3dx 専用)')
         hs.append('%group')
         hs.append(group)
         hs.append('%prm')
+        p_idx = 1
+        if rkind != 'r_int':
+            hs.append(f'p{p_idx} : var (戻り値 {R_CTYPE_MAP[rkind]} 出力)')
+            p_idx += 1
         if args:
             for idx, (t, aname, default) in enumerate(args):
                 d = f' (default {default})' if default else ''
-                hs.append(f'p{idx+1} : {type_label(t)} {aname}{d}')
-        else:
+                hs.append(f'p{p_idx} : {type_label(t)} {aname}{d}')
+                p_idx += 1
+        elif rkind == 'r_int':
             hs.append('(引数なし)')
         hs.append('%inst')
         hs.append(f'DxLib の {fn}() を呼び出します。')
@@ -547,9 +643,13 @@ def main():
             if t in KIND_TO_CTYPE: return KIND_TO_CTYPE[t]
             if t in OUT_CTYPE:     return OUT_CTYPE[t] + ' *'
             return t
-        hs.append(f'元関数シグネチャ: int {fn}({", ".join(f"{ctype_of(t)} {aname}" for t, aname, _ in args) or "void"})')
+        ret_c = R_CTYPE_MAP[rkind]
+        hs.append(f'元関数シグネチャ: {ret_c} {fn}({", ".join(f"{ctype_of(t)} {aname}" for t, aname, _ in args) or "void"})')
         hs.append(f'^p')
-        hs.append(f'戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。')
+        if rkind == 'r_int':
+            hs.append(f'戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。')
+        else:
+            hs.append(f'戻り値は第 1 引数に指定した変数に書き戻されます。')
         hs.append(f'^p')
         hs.append(f'詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の {fn} 項を参照。')
         hs.append('')

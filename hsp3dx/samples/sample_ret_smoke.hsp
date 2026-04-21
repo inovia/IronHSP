@@ -1,0 +1,66 @@
+;============================================================
+;   sample_ret_smoke.hsp — Phase 5.5h: 非 int 戻り値の動作確認
+;
+;   VECTOR 戻り値 (ConvWorldPosToScreenPos) / double 戻り値
+;   (GetJoypadDeadZone) / LONGLONG 戻り値 (GetNowHiPerformanceCount) をテスト。
+;
+;   HSP の #cmd は文専用なので、戻り値は第 1 引数の変数に書き戻す形:
+;     dx_GetCameraPosition result_vec
+;     dx_GetNowHiPerformanceCount result_i64
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+#defstruct VECTOR
+    #field float x
+    #field float y
+    #field float z
+#endstruct
+
+    title "hsp3dx: return-value smoke test"
+
+    ;  ---- LONGLONG 戻り値: GetNowHiPerformanceCount ----
+    t0 = 0
+    dx_GetNowHiPerformanceCount t0
+    await 100
+    t1 = 0
+    dx_GetNowHiPerformanceCount t1
+    elapsed = t1 - t0
+
+    ;  ---- VECTOR 戻り値: カメラ設定後に ConvWorldPosToScreenPos ----
+    dx_setcamerapos 0.0, 200.0, -500.0, 0.0, 0.0, 0.0
+    dx_setcameraperspective 60
+
+    stdim world_pos, VECTOR
+    world_pos->x = 0.0 : world_pos->y = 0.0 : world_pos->z = 0.0
+
+    stdim screen_pos, VECTOR
+    dx_ConvWorldPosToScreenPos screen_pos, world_pos
+
+    repeat
+        redraw 0
+        dx_setbgcolor3d 10, 20, 40
+        cls
+
+        color 255, 220, 80
+        pos 10, 10
+        mes "Phase 5.5h return-value smoke test"
+        mes ""
+        mes "[LONGLONG] dx_GetNowHiPerformanceCount"
+        mes "  t0 = " + t0
+        mes "  t1 = " + t1
+        mes "  elapsed (~100ms expected) = " + elapsed + "  (単位はマイクロ秒なので 100000 前後)"
+        mes ""
+        mes "[VECTOR] dx_ConvWorldPosToScreenPos"
+        mes "  world (0,0,0) -> screen = (" + screen_pos->x + ", " + screen_pos->y + ", " + screen_pos->z + ")"
+        mes "  (640x480 画面中央付近の座標 320, 240 前後 + z depth)"
+        mes ""
+        mes "[ESC] quit"
+
+        redraw 1
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end

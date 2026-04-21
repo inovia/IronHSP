@@ -1,7 +1,7 @@
 ;
 ; iron_dxlib_auto.hs — hsp3dx 自動生成 DxLib 命令の HSP Help
 ; DO NOT EDIT — tools/hsp3dx_dxlib_gen/gen_dxlib_bindings.py で再生成
-; 関数数: 1333
+; 関数数: 1585
 ;
 
 %dll
@@ -165,6 +165,191 @@ DxLib の GetNowCount() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetNowCount 項を参照。
+
+%index
+dx_GetNowHiPerformanceCount
+DxLib GetNowHiPerformanceCount (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int UseRDTSCFlag (default FALSE)
+%inst
+DxLib の GetNowHiPerformanceCount() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetNowHiPerformanceCount(int UseRDTSCFlag)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetNowHiPerformanceCount 項を参照。
+
+%index
+dx_GetNowSysPerformanceCount
+DxLib GetNowSysPerformanceCount (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+%inst
+DxLib の GetNowSysPerformanceCount() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG GetNowSysPerformanceCount(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetNowSysPerformanceCount 項を参照。
+
+%index
+dx_GetSysPerformanceFrequency
+DxLib GetSysPerformanceFrequency (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+%inst
+DxLib の GetSysPerformanceFrequency() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG GetSysPerformanceFrequency(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetSysPerformanceFrequency 項を参照。
+
+%index
+dx_ConvSysPerformanceCountToSeconds
+DxLib ConvSysPerformanceCountToSeconds (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) Count
+%inst
+DxLib の ConvSysPerformanceCountToSeconds() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvSysPerformanceCountToSeconds(ULONGLONG Count)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvSysPerformanceCountToSeconds 項を参照。
+
+%index
+dx_ConvSysPerformanceCountToMilliSeconds
+DxLib ConvSysPerformanceCountToMilliSeconds (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) Count
+%inst
+DxLib の ConvSysPerformanceCountToMilliSeconds() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvSysPerformanceCountToMilliSeconds(ULONGLONG Count)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvSysPerformanceCountToMilliSeconds 項を参照。
+
+%index
+dx_ConvSysPerformanceCountToMicroSeconds
+DxLib ConvSysPerformanceCountToMicroSeconds (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) Count
+%inst
+DxLib の ConvSysPerformanceCountToMicroSeconds() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvSysPerformanceCountToMicroSeconds(ULONGLONG Count)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvSysPerformanceCountToMicroSeconds 項を参照。
+
+%index
+dx_ConvSysPerformanceCountToNanoSeconds
+DxLib ConvSysPerformanceCountToNanoSeconds (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) Count
+%inst
+DxLib の ConvSysPerformanceCountToNanoSeconds() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvSysPerformanceCountToNanoSeconds(ULONGLONG Count)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvSysPerformanceCountToNanoSeconds 項を参照。
+
+%index
+dx_ConvSecondsToSysPerformanceCount
+DxLib ConvSecondsToSysPerformanceCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) Seconds
+%inst
+DxLib の ConvSecondsToSysPerformanceCount() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvSecondsToSysPerformanceCount(ULONGLONG Seconds)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvSecondsToSysPerformanceCount 項を参照。
+
+%index
+dx_ConvMilliSecondsToSysPerformanceCount
+DxLib ConvMilliSecondsToSysPerformanceCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) MilliSeconds
+%inst
+DxLib の ConvMilliSecondsToSysPerformanceCount() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvMilliSecondsToSysPerformanceCount(ULONGLONG MilliSeconds)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvMilliSecondsToSysPerformanceCount 項を参照。
+
+%index
+dx_ConvMicroSecondsToSysPerformanceCount
+DxLib ConvMicroSecondsToSysPerformanceCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) MicroSeconds
+%inst
+DxLib の ConvMicroSecondsToSysPerformanceCount() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvMicroSecondsToSysPerformanceCount(ULONGLONG MicroSeconds)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvMicroSecondsToSysPerformanceCount 項を参照。
+
+%index
+dx_ConvNanoSecondsToSysPerformanceCount
+DxLib ConvNanoSecondsToSysPerformanceCount (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 ULONGLONG 出力)
+p2 : int64 (uint64 扱い) NanoSeconds
+%inst
+DxLib の ConvNanoSecondsToSysPerformanceCount() を呼び出します。
+^p
+元関数シグネチャ: ULONGLONG ConvNanoSecondsToSysPerformanceCount(ULONGLONG NanoSeconds)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvNanoSecondsToSysPerformanceCount 項を参照。
 
 %index
 dx_GetRand
@@ -798,6 +983,40 @@ DxLib の GetMouseHWheelRotVol() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetMouseHWheelRotVol 項を参照。
 
 %index
+dx_GetMouseWheelRotVolF
+DxLib GetMouseWheelRotVolF (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int CounterReset (default TRUE)
+%inst
+DxLib の GetMouseWheelRotVolF() を呼び出します。
+^p
+元関数シグネチャ: float GetMouseWheelRotVolF(int CounterReset)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetMouseWheelRotVolF 項を参照。
+
+%index
+dx_GetMouseHWheelRotVolF
+DxLib GetMouseHWheelRotVolF (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int CounterReset (default TRUE)
+%inst
+DxLib の GetMouseHWheelRotVolF() を呼び出します。
+^p
+元関数シグネチャ: float GetMouseHWheelRotVolF(int CounterReset)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetMouseHWheelRotVolF 項を参照。
+
+%index
 dx_GetMouseInputLog
 DxLib GetMouseInputLog (自動生成、hsp3dx 専用)
 %group
@@ -1238,6 +1457,23 @@ DxLib の atoiDx() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の atoiDx 項を参照。
+
+%index
+dx_atofDx
+DxLib atofDx (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : str Str
+%inst
+DxLib の atofDx() を呼び出します。
+^p
+元関数シグネチャ: double atofDx(const TCHAR * Str)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の atofDx 項を参照。
 
 %index
 dx_ProcessNetMessage
@@ -2416,6 +2652,23 @@ DxLib の GetKeyInputNumber() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetKeyInputNumber 項を参照。
 
 %index
+dx_GetKeyInputNumberToFloat
+DxLib GetKeyInputNumberToFloat (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int InputHandle
+%inst
+DxLib の GetKeyInputNumberToFloat() を呼び出します。
+^p
+元関数シグネチャ: float GetKeyInputNumberToFloat(int InputHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetKeyInputNumberToFloat 項を参照。
+
+%index
 dx_SetKeyInputCursorPosition
 DxLib SetKeyInputCursorPosition (自動生成、hsp3dx 専用)
 %group
@@ -2466,6 +2719,40 @@ DxLib の FileRead_open() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の FileRead_open 項を参照。
 
 %index
+dx_FileRead_size
+DxLib FileRead_size (自動生成、hsp3dx 専用)
+%group
+DxLib ファイル
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : str FilePath
+%inst
+DxLib の FileRead_size() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG FileRead_size(const TCHAR * FilePath)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の FileRead_size 項を参照。
+
+%index
+dx_FileRead_size_handle
+DxLib FileRead_size_handle (自動生成、hsp3dx 専用)
+%group
+DxLib ファイル
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int FileHandle
+%inst
+DxLib の FileRead_size_handle() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG FileRead_size_handle(int FileHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の FileRead_size_handle 項を参照。
+
+%index
 dx_FileRead_close
 DxLib FileRead_close (自動生成、hsp3dx 専用)
 %group
@@ -2480,6 +2767,23 @@ DxLib の FileRead_close() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の FileRead_close 項を参照。
+
+%index
+dx_FileRead_tell
+DxLib FileRead_tell (自動生成、hsp3dx 専用)
+%group
+DxLib ファイル
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int FileHandle
+%inst
+DxLib の FileRead_tell() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG FileRead_tell(int FileHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の FileRead_tell 項を参照。
 
 %index
 dx_FileRead_seek
@@ -2580,6 +2884,23 @@ DxLib の FileRead_fullyLoad_delete() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の FileRead_fullyLoad_delete 項を参照。
+
+%index
+dx_FileRead_fullyLoad_getSize
+DxLib FileRead_fullyLoad_getSize (自動生成、hsp3dx 専用)
+%group
+DxLib ファイル
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int FLoadHandle
+%inst
+DxLib の FileRead_fullyLoad_getSize() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG FileRead_fullyLoad_getSize(int FLoadHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の FileRead_fullyLoad_getSize 項を参照。
 
 %index
 dx_GetStreamFunctionDefault
@@ -2768,6 +3089,23 @@ DxLib の SetJoypadDeadZone() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetJoypadDeadZone 項を参照。
 
 %index
+dx_GetJoypadDeadZone
+DxLib GetJoypadDeadZone (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : var (戻り値 double 出力)
+p2 : int InputType
+%inst
+DxLib の GetJoypadDeadZone() を呼び出します。
+^p
+元関数シグネチャ: double GetJoypadDeadZone(int InputType)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetJoypadDeadZone 項を参照。
+
+%index
 dx_SetJoypadDefaultDeadZoneAll
 DxLib SetJoypadDefaultDeadZoneAll (自動生成、hsp3dx 専用)
 %group
@@ -2782,6 +3120,22 @@ DxLib の SetJoypadDefaultDeadZoneAll() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetJoypadDefaultDeadZoneAll 項を参照。
+
+%index
+dx_GetJoypadDefaultDeadZoneAll
+DxLib GetJoypadDefaultDeadZoneAll (自動生成、hsp3dx 専用)
+%group
+DxLib 入力
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetJoypadDefaultDeadZoneAll() を呼び出します。
+^p
+元関数シグネチャ: double GetJoypadDefaultDeadZoneAll(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetJoypadDefaultDeadZoneAll 項を参照。
 
 %index
 dx_StartJoypadVibration
@@ -7715,6 +8069,195 @@ DxLib の GetTransformPositionD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetTransformPositionD 項を参照。
 
 %index
+dx_GetBillboardPixelSize
+DxLib GetBillboardPixelSize (自動生成、hsp3dx 専用)
+%group
+DxLib シェーダ
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) WorldPos
+p3 : double (float 縮小) WorldSize
+%inst
+DxLib の GetBillboardPixelSize() を呼び出します。
+^p
+元関数シグネチャ: float GetBillboardPixelSize(VECTOR WorldPos, float WorldSize)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetBillboardPixelSize 項を参照。
+
+%index
+dx_GetBillboardPixelSizeD
+DxLib GetBillboardPixelSizeD (自動生成、hsp3dx 専用)
+%group
+DxLib シェーダ
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) WorldPos
+p3 : double WorldSize
+%inst
+DxLib の GetBillboardPixelSizeD() を呼び出します。
+^p
+元関数シグネチャ: double GetBillboardPixelSizeD(VECTOR_D WorldPos, double WorldSize)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetBillboardPixelSizeD 項を参照。
+
+%index
+dx_ConvWorldPosToViewPos
+DxLib ConvWorldPosToViewPos (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) WorldPos
+%inst
+DxLib の ConvWorldPosToViewPos() を呼び出します。
+^p
+元関数シグネチャ: VECTOR ConvWorldPosToViewPos(VECTOR WorldPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvWorldPosToViewPos 項を参照。
+
+%index
+dx_ConvWorldPosToViewPosD
+DxLib ConvWorldPosToViewPosD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) WorldPos
+%inst
+DxLib の ConvWorldPosToViewPosD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D ConvWorldPosToViewPosD(VECTOR_D WorldPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvWorldPosToViewPosD 項を参照。
+
+%index
+dx_ConvWorldPosToScreenPos
+DxLib ConvWorldPosToScreenPos (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) WorldPos
+%inst
+DxLib の ConvWorldPosToScreenPos() を呼び出します。
+^p
+元関数シグネチャ: VECTOR ConvWorldPosToScreenPos(VECTOR WorldPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvWorldPosToScreenPos 項を参照。
+
+%index
+dx_ConvWorldPosToScreenPosD
+DxLib ConvWorldPosToScreenPosD (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) WorldPos
+%inst
+DxLib の ConvWorldPosToScreenPosD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D ConvWorldPosToScreenPosD(VECTOR_D WorldPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvWorldPosToScreenPosD 項を参照。
+
+%index
+dx_ConvWorldPosToScreenPosPlusW
+DxLib ConvWorldPosToScreenPosPlusW (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : var (戻り値 FLOAT4 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) WorldPos
+%inst
+DxLib の ConvWorldPosToScreenPosPlusW() を呼び出します。
+^p
+元関数シグネチャ: FLOAT4 ConvWorldPosToScreenPosPlusW(VECTOR WorldPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvWorldPosToScreenPosPlusW 項を参照。
+
+%index
+dx_ConvScreenPosToWorldPos
+DxLib ConvScreenPosToWorldPos (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) ScreenPos
+%inst
+DxLib の ConvScreenPosToWorldPos() を呼び出します。
+^p
+元関数シグネチャ: VECTOR ConvScreenPosToWorldPos(VECTOR ScreenPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvScreenPosToWorldPos 項を参照。
+
+%index
+dx_ConvScreenPosToWorldPosD
+DxLib ConvScreenPosToWorldPosD (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) ScreenPos
+%inst
+DxLib の ConvScreenPosToWorldPosD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D ConvScreenPosToWorldPosD(VECTOR_D ScreenPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvScreenPosToWorldPosD 項を参照。
+
+%index
+dx_ConvScreenPosToWorldPos_ZLinear
+DxLib ConvScreenPosToWorldPos_ZLinear (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) ScreenPos
+%inst
+DxLib の ConvScreenPosToWorldPos_ZLinear() を呼び出します。
+^p
+元関数シグネチャ: VECTOR ConvScreenPosToWorldPos_ZLinear(VECTOR ScreenPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvScreenPosToWorldPos_ZLinear 項を参照。
+
+%index
+dx_ConvScreenPosToWorldPos_ZLinearD
+DxLib ConvScreenPosToWorldPos_ZLinearD (自動生成、hsp3dx 専用)
+%group
+DxLib グラフィック
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) ScreenPos
+%inst
+DxLib の ConvScreenPosToWorldPos_ZLinearD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D ConvScreenPosToWorldPos_ZLinearD(VECTOR_D ScreenPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の ConvScreenPosToWorldPos_ZLinearD 項を参照。
+
+%index
 dx_SetUseCullingFlag
 DxLib SetUseCullingFlag (自動生成、hsp3dx 専用)
 %group
@@ -7985,6 +8528,22 @@ DxLib の SetFogDensity() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetFogDensity 項を参照。
 
 %index
+dx_GetFogDensity
+DxLib GetFogDensity (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetFogDensity() を呼び出します。
+^p
+元関数シグネチャ: float GetFogDensity(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetFogDensity 項を参照。
+
+%index
 dx_SetVerticalFogEnable
 DxLib SetVerticalFogEnable (自動生成、hsp3dx 専用)
 %group
@@ -8135,6 +8694,60 @@ DxLib の GetVerticalFogDensity() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetVerticalFogDensity 項を参照。
+
+%index
+dx_GetPixel
+DxLib GetPixel (自動生成、hsp3dx 専用)
+%group
+DxLib シェーダ
+%prm
+p1 : var (戻り値 unsigned int 出力)
+p2 : int x
+p3 : int y
+%inst
+DxLib の GetPixel() を呼び出します。
+^p
+元関数シグネチャ: unsigned int GetPixel(int x, int y)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetPixel 項を参照。
+
+%index
+dx_GetPixelDX
+DxLib GetPixelDX (自動生成、hsp3dx 専用)
+%group
+DxLib シェーダ
+%prm
+p1 : var (戻り値 unsigned int 出力)
+p2 : int x
+p3 : int y
+%inst
+DxLib の GetPixelDX() を呼び出します。
+^p
+元関数シグネチャ: unsigned int GetPixelDX(int x, int y)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetPixelDX 項を参照。
+
+%index
+dx_GetPixelF
+DxLib GetPixelF (自動生成、hsp3dx 専用)
+%group
+DxLib シェーダ
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int x
+p3 : int y
+%inst
+DxLib の GetPixelF() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetPixelF(int x, int y)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetPixelF 項を参照。
 
 %index
 dx_GetBackgroundColor
@@ -8984,6 +9597,22 @@ DxLib の GetDrawCallCount() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetDrawCallCount 項を参照。
+
+%index
+dx_GetFPS
+DxLib GetFPS (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetFPS() を呼び出します。
+^p
+元関数シグネチャ: float GetFPS(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetFPS 項を参照。
 
 %index
 dx_SaveDrawScreenToBMP
@@ -10367,6 +10996,23 @@ DxLib の SeekMovieToGraphToFrame() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SeekMovieToGraphToFrame 項を参照。
 
 %index
+dx_GetOneFrameTimeMovieToGraph
+DxLib GetOneFrameTimeMovieToGraph (自動生成、hsp3dx 専用)
+%group
+DxLib 動画 / 再生
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int GraphHandle
+%inst
+DxLib の GetOneFrameTimeMovieToGraph() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetOneFrameTimeMovieToGraph(int GraphHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetOneFrameTimeMovieToGraph 項を参照。
+
+%index
 dx_GetLastUpdateTimeMovieToGraph
 DxLib GetLastUpdateTimeMovieToGraph (自動生成、hsp3dx 専用)
 %group
@@ -10848,6 +11494,486 @@ DxLib の CheckCameraViewClip_BoxD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の CheckCameraViewClip_BoxD 項を参照。
 
 %index
+dx_GetCameraNear
+DxLib GetCameraNear (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraNear() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraNear(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraNear 項を参照。
+
+%index
+dx_GetCameraNearD
+DxLib GetCameraNearD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraNearD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraNearD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraNearD 項を参照。
+
+%index
+dx_GetCameraFar
+DxLib GetCameraFar (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraFar() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraFar(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraFar 項を参照。
+
+%index
+dx_GetCameraFarD
+DxLib GetCameraFarD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraFarD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraFarD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraFarD 項を参照。
+
+%index
+dx_GetCameraPosition
+DxLib GetCameraPosition (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraPosition(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraPosition 項を参照。
+
+%index
+dx_GetCameraPositionD
+DxLib GetCameraPositionD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraPositionD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraPositionD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraPositionD 項を参照。
+
+%index
+dx_GetCameraTarget
+DxLib GetCameraTarget (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraTarget() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraTarget(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraTarget 項を参照。
+
+%index
+dx_GetCameraTargetD
+DxLib GetCameraTargetD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraTargetD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraTargetD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraTargetD 項を参照。
+
+%index
+dx_GetCameraUpVector
+DxLib GetCameraUpVector (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraUpVector() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraUpVector(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraUpVector 項を参照。
+
+%index
+dx_GetCameraUpVectorD
+DxLib GetCameraUpVectorD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraUpVectorD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraUpVectorD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraUpVectorD 項を参照。
+
+%index
+dx_GetCameraDownVector
+DxLib GetCameraDownVector (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraDownVector() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraDownVector(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraDownVector 項を参照。
+
+%index
+dx_GetCameraDownVectorD
+DxLib GetCameraDownVectorD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraDownVectorD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraDownVectorD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraDownVectorD 項を参照。
+
+%index
+dx_GetCameraRightVector
+DxLib GetCameraRightVector (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraRightVector() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraRightVector(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraRightVector 項を参照。
+
+%index
+dx_GetCameraRightVectorD
+DxLib GetCameraRightVectorD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraRightVectorD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraRightVectorD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraRightVectorD 項を参照。
+
+%index
+dx_GetCameraLeftVector
+DxLib GetCameraLeftVector (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraLeftVector() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraLeftVector(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraLeftVector 項を参照。
+
+%index
+dx_GetCameraLeftVectorD
+DxLib GetCameraLeftVectorD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraLeftVectorD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraLeftVectorD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraLeftVectorD 項を参照。
+
+%index
+dx_GetCameraFrontVector
+DxLib GetCameraFrontVector (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraFrontVector() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraFrontVector(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraFrontVector 項を参照。
+
+%index
+dx_GetCameraFrontVectorD
+DxLib GetCameraFrontVectorD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraFrontVectorD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraFrontVectorD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraFrontVectorD 項を参照。
+
+%index
+dx_GetCameraBackVector
+DxLib GetCameraBackVector (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetCameraBackVector() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetCameraBackVector(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraBackVector 項を参照。
+
+%index
+dx_GetCameraBackVectorD
+DxLib GetCameraBackVectorD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+%inst
+DxLib の GetCameraBackVectorD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D GetCameraBackVectorD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraBackVectorD 項を参照。
+
+%index
+dx_GetCameraAngleHRotate
+DxLib GetCameraAngleHRotate (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraAngleHRotate() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraAngleHRotate(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAngleHRotate 項を参照。
+
+%index
+dx_GetCameraAngleHRotateD
+DxLib GetCameraAngleHRotateD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraAngleHRotateD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraAngleHRotateD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAngleHRotateD 項を参照。
+
+%index
+dx_GetCameraAngleVRotate
+DxLib GetCameraAngleVRotate (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraAngleVRotate() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraAngleVRotate(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAngleVRotate 項を参照。
+
+%index
+dx_GetCameraAngleVRotateD
+DxLib GetCameraAngleVRotateD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraAngleVRotateD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraAngleVRotateD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAngleVRotateD 項を参照。
+
+%index
+dx_GetCameraAngleTRotate
+DxLib GetCameraAngleTRotate (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraAngleTRotate() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraAngleTRotate(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAngleTRotate 項を参照。
+
+%index
+dx_GetCameraAngleTRotateD
+DxLib GetCameraAngleTRotateD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraAngleTRotateD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraAngleTRotateD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAngleTRotateD 項を参照。
+
+%index
+dx_GetCameraViewMatrix
+DxLib GetCameraViewMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX 出力)
+%inst
+DxLib の GetCameraViewMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX GetCameraViewMatrix(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraViewMatrix 項を参照。
+
+%index
+dx_GetCameraViewMatrixD
+DxLib GetCameraViewMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+%inst
+DxLib の GetCameraViewMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D GetCameraViewMatrixD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraViewMatrixD 項を参照。
+
+%index
+dx_GetCameraBillboardMatrix
+DxLib GetCameraBillboardMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX 出力)
+%inst
+DxLib の GetCameraBillboardMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX GetCameraBillboardMatrix(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraBillboardMatrix 項を参照。
+
+%index
+dx_GetCameraBillboardMatrixD
+DxLib GetCameraBillboardMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+%inst
+DxLib の GetCameraBillboardMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D GetCameraBillboardMatrixD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraBillboardMatrixD 項を参照。
+
+%index
 dx_GetCameraScreenCenter
 DxLib GetCameraScreenCenter (自動生成、hsp3dx 専用)
 %group
@@ -10880,6 +12006,198 @@ DxLib の GetCameraScreenCenterD() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraScreenCenterD 項を参照。
+
+%index
+dx_GetCameraFov
+DxLib GetCameraFov (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraFov() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraFov(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraFov 項を参照。
+
+%index
+dx_GetCameraFovD
+DxLib GetCameraFovD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraFovD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraFovD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraFovD 項を参照。
+
+%index
+dx_GetCameraSize
+DxLib GetCameraSize (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraSize() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraSize(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraSize 項を参照。
+
+%index
+dx_GetCameraSizeD
+DxLib GetCameraSizeD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraSizeD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraSizeD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraSizeD 項を参照。
+
+%index
+dx_GetCameraProjectionMatrix
+DxLib GetCameraProjectionMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX 出力)
+%inst
+DxLib の GetCameraProjectionMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX GetCameraProjectionMatrix(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraProjectionMatrix 項を参照。
+
+%index
+dx_GetCameraProjectionMatrixD
+DxLib GetCameraProjectionMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+%inst
+DxLib の GetCameraProjectionMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D GetCameraProjectionMatrixD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraProjectionMatrixD 項を参照。
+
+%index
+dx_GetCameraDotAspect
+DxLib GetCameraDotAspect (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCameraDotAspect() を呼び出します。
+^p
+元関数シグネチャ: float GetCameraDotAspect(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraDotAspect 項を参照。
+
+%index
+dx_GetCameraDotAspectD
+DxLib GetCameraDotAspectD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 double 出力)
+%inst
+DxLib の GetCameraDotAspectD() を呼び出します。
+^p
+元関数シグネチャ: double GetCameraDotAspectD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraDotAspectD 項を参照。
+
+%index
+dx_GetCameraViewportMatrix
+DxLib GetCameraViewportMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX 出力)
+%inst
+DxLib の GetCameraViewportMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX GetCameraViewportMatrix(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraViewportMatrix 項を参照。
+
+%index
+dx_GetCameraViewportMatrixD
+DxLib GetCameraViewportMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+%inst
+DxLib の GetCameraViewportMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D GetCameraViewportMatrixD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraViewportMatrixD 項を参照。
+
+%index
+dx_GetCameraAPIViewportMatrix
+DxLib GetCameraAPIViewportMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX 出力)
+%inst
+DxLib の GetCameraAPIViewportMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX GetCameraAPIViewportMatrix(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAPIViewportMatrix 項を参照。
+
+%index
+dx_GetCameraAPIViewportMatrixD
+DxLib GetCameraAPIViewportMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib カメラ
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+%inst
+DxLib の GetCameraAPIViewportMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D GetCameraAPIViewportMatrixD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCameraAPIViewportMatrixD 項を参照。
 
 %index
 dx_SetMaterialUseVertDifColor
@@ -11101,6 +12419,22 @@ DxLib の SetLightDifColor() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetLightDifColor 項を参照。
 
 %index
+dx_GetLightDifColor
+DxLib GetLightDifColor (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+%inst
+DxLib の GetLightDifColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetLightDifColor(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightDifColor 項を参照。
+
+%index
 dx_SetLightSpcColor
 DxLib SetLightSpcColor (自動生成、hsp3dx 専用)
 %group
@@ -11115,6 +12449,22 @@ DxLib の SetLightSpcColor() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetLightSpcColor 項を参照。
+
+%index
+dx_GetLightSpcColor
+DxLib GetLightSpcColor (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+%inst
+DxLib の GetLightSpcColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetLightSpcColor(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightSpcColor 項を参照。
 
 %index
 dx_SetLightAmbColor
@@ -11133,6 +12483,38 @@ DxLib の SetLightAmbColor() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetLightAmbColor 項を参照。
 
 %index
+dx_GetLightAmbColor
+DxLib GetLightAmbColor (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+%inst
+DxLib の GetLightAmbColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetLightAmbColor(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightAmbColor 項を参照。
+
+%index
+dx_GetLightDirection
+DxLib GetLightDirection (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetLightDirection() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetLightDirection(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightDirection 項を参照。
+
+%index
 dx_SetLightPosition
 DxLib SetLightPosition (自動生成、hsp3dx 専用)
 %group
@@ -11147,6 +12529,22 @@ DxLib の SetLightPosition() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetLightPosition 項を参照。
+
+%index
+dx_GetLightPosition
+DxLib GetLightPosition (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 VECTOR 出力)
+%inst
+DxLib の GetLightPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetLightPosition(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightPosition 項を参照。
 
 %index
 dx_SetLightRangeAtten
@@ -11534,6 +12932,91 @@ DxLib の GetLightEnableHandle() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightEnableHandle 項を参照。
+
+%index
+dx_GetLightDifColorHandle
+DxLib GetLightDifColorHandle (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int LHandle
+%inst
+DxLib の GetLightDifColorHandle() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetLightDifColorHandle(int LHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightDifColorHandle 項を参照。
+
+%index
+dx_GetLightSpcColorHandle
+DxLib GetLightSpcColorHandle (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int LHandle
+%inst
+DxLib の GetLightSpcColorHandle() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetLightSpcColorHandle(int LHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightSpcColorHandle 項を参照。
+
+%index
+dx_GetLightAmbColorHandle
+DxLib GetLightAmbColorHandle (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int LHandle
+%inst
+DxLib の GetLightAmbColorHandle() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetLightAmbColorHandle(int LHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightAmbColorHandle 項を参照。
+
+%index
+dx_GetLightDirectionHandle
+DxLib GetLightDirectionHandle (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int LHandle
+%inst
+DxLib の GetLightDirectionHandle() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetLightDirectionHandle(int LHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightDirectionHandle 項を参照。
+
+%index
+dx_GetLightPositionHandle
+DxLib GetLightPositionHandle (自動生成、hsp3dx 専用)
+%group
+DxLib ライト
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int LHandle
+%inst
+DxLib の GetLightPositionHandle() を呼び出します。
+^p
+元関数シグネチャ: VECTOR GetLightPositionHandle(int LHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetLightPositionHandle 項を参照。
 
 %index
 dx_GetLightRangeAttenHandle
@@ -15107,6 +16590,42 @@ DxLib の VectorOuterProductD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VectorOuterProductD 項を参照。
 
 %index
+dx_VectorInnerProduct
+DxLib VectorInnerProduct (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR 出力) In1
+p3 : var (VECTOR 出力) In2
+%inst
+DxLib の VectorInnerProduct() を呼び出します。
+^p
+元関数シグネチャ: float VectorInnerProduct(VECTOR * In1, VECTOR * In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VectorInnerProduct 項を参照。
+
+%index
+dx_VectorInnerProductD
+DxLib VectorInnerProductD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D 出力) In1
+p3 : var (VECTOR_D 出力) In2
+%inst
+DxLib の VectorInnerProductD() を呼び出します。
+^p
+元関数シグネチャ: double VectorInnerProductD(VECTOR_D * In1, VECTOR_D * In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VectorInnerProductD 項を参照。
+
+%index
 dx_VectorRotationX
 DxLib VectorRotationX (自動生成、hsp3dx 専用)
 %group
@@ -15325,6 +16844,490 @@ DxLib の VectorTransform4D() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VectorTransform4D 項を参照。
+
+%index
+dx_Segment_Segment_MinLength
+DxLib Segment_Segment_MinLength (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) SegmentAPos1
+p3 : var (VECTOR: #defstruct float x,y,z) SegmentAPos2
+p4 : var (VECTOR: #defstruct float x,y,z) SegmentBPos1
+p5 : var (VECTOR: #defstruct float x,y,z) SegmentBPos2
+%inst
+DxLib の Segment_Segment_MinLength() を呼び出します。
+^p
+元関数シグネチャ: float Segment_Segment_MinLength(VECTOR SegmentAPos1, VECTOR SegmentAPos2, VECTOR SegmentBPos1, VECTOR SegmentBPos2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Segment_MinLength 項を参照。
+
+%index
+dx_Segment_Segment_MinLengthD
+DxLib Segment_Segment_MinLengthD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) SegmentAPos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) SegmentAPos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) SegmentBPos1
+p5 : var (VECTOR_D: #defstruct double x,y,z) SegmentBPos2
+%inst
+DxLib の Segment_Segment_MinLengthD() を呼び出します。
+^p
+元関数シグネチャ: double Segment_Segment_MinLengthD(VECTOR_D SegmentAPos1, VECTOR_D SegmentAPos2, VECTOR_D SegmentBPos1, VECTOR_D SegmentBPos2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Segment_MinLengthD 項を参照。
+
+%index
+dx_Segment_Segment_MinLength_Square
+DxLib Segment_Segment_MinLength_Square (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) SegmentAPos1
+p3 : var (VECTOR: #defstruct float x,y,z) SegmentAPos2
+p4 : var (VECTOR: #defstruct float x,y,z) SegmentBPos1
+p5 : var (VECTOR: #defstruct float x,y,z) SegmentBPos2
+%inst
+DxLib の Segment_Segment_MinLength_Square() を呼び出します。
+^p
+元関数シグネチャ: float Segment_Segment_MinLength_Square(VECTOR SegmentAPos1, VECTOR SegmentAPos2, VECTOR SegmentBPos1, VECTOR SegmentBPos2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Segment_MinLength_Square 項を参照。
+
+%index
+dx_Segment_Segment_MinLength_SquareD
+DxLib Segment_Segment_MinLength_SquareD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) SegmentAPos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) SegmentAPos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) SegmentBPos1
+p5 : var (VECTOR_D: #defstruct double x,y,z) SegmentBPos2
+%inst
+DxLib の Segment_Segment_MinLength_SquareD() を呼び出します。
+^p
+元関数シグネチャ: double Segment_Segment_MinLength_SquareD(VECTOR_D SegmentAPos1, VECTOR_D SegmentAPos2, VECTOR_D SegmentBPos1, VECTOR_D SegmentBPos2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Segment_MinLength_SquareD 項を参照。
+
+%index
+dx_Segment_Triangle_MinLength
+DxLib Segment_Triangle_MinLength (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) SegmentPos1
+p3 : var (VECTOR: #defstruct float x,y,z) SegmentPos2
+p4 : var (VECTOR: #defstruct float x,y,z) TrianglePos1
+p5 : var (VECTOR: #defstruct float x,y,z) TrianglePos2
+p6 : var (VECTOR: #defstruct float x,y,z) TrianglePos3
+%inst
+DxLib の Segment_Triangle_MinLength() を呼び出します。
+^p
+元関数シグネチャ: float Segment_Triangle_MinLength(VECTOR SegmentPos1, VECTOR SegmentPos2, VECTOR TrianglePos1, VECTOR TrianglePos2, VECTOR TrianglePos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Triangle_MinLength 項を参照。
+
+%index
+dx_Segment_Triangle_MinLengthD
+DxLib Segment_Triangle_MinLengthD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos1
+p5 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos2
+p6 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos3
+%inst
+DxLib の Segment_Triangle_MinLengthD() を呼び出します。
+^p
+元関数シグネチャ: double Segment_Triangle_MinLengthD(VECTOR_D SegmentPos1, VECTOR_D SegmentPos2, VECTOR_D TrianglePos1, VECTOR_D TrianglePos2, VECTOR_D TrianglePos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Triangle_MinLengthD 項を参照。
+
+%index
+dx_Segment_Triangle_MinLength_Square
+DxLib Segment_Triangle_MinLength_Square (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) SegmentPos1
+p3 : var (VECTOR: #defstruct float x,y,z) SegmentPos2
+p4 : var (VECTOR: #defstruct float x,y,z) TrianglePos1
+p5 : var (VECTOR: #defstruct float x,y,z) TrianglePos2
+p6 : var (VECTOR: #defstruct float x,y,z) TrianglePos3
+%inst
+DxLib の Segment_Triangle_MinLength_Square() を呼び出します。
+^p
+元関数シグネチャ: float Segment_Triangle_MinLength_Square(VECTOR SegmentPos1, VECTOR SegmentPos2, VECTOR TrianglePos1, VECTOR TrianglePos2, VECTOR TrianglePos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Triangle_MinLength_Square 項を参照。
+
+%index
+dx_Segment_Triangle_MinLength_SquareD
+DxLib Segment_Triangle_MinLength_SquareD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos1
+p5 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos2
+p6 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos3
+%inst
+DxLib の Segment_Triangle_MinLength_SquareD() を呼び出します。
+^p
+元関数シグネチャ: double Segment_Triangle_MinLength_SquareD(VECTOR_D SegmentPos1, VECTOR_D SegmentPos2, VECTOR_D TrianglePos1, VECTOR_D TrianglePos2, VECTOR_D TrianglePos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Triangle_MinLength_SquareD 項を参照。
+
+%index
+dx_Segment_Point_MinLength
+DxLib Segment_Point_MinLength (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) SegmentPos1
+p3 : var (VECTOR: #defstruct float x,y,z) SegmentPos2
+p4 : var (VECTOR: #defstruct float x,y,z) PointPos
+%inst
+DxLib の Segment_Point_MinLength() を呼び出します。
+^p
+元関数シグネチャ: float Segment_Point_MinLength(VECTOR SegmentPos1, VECTOR SegmentPos2, VECTOR PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Point_MinLength 項を参照。
+
+%index
+dx_Segment_Point_MinLengthD
+DxLib Segment_Point_MinLengthD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) PointPos
+%inst
+DxLib の Segment_Point_MinLengthD() を呼び出します。
+^p
+元関数シグネチャ: double Segment_Point_MinLengthD(VECTOR_D SegmentPos1, VECTOR_D SegmentPos2, VECTOR_D PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Point_MinLengthD 項を参照。
+
+%index
+dx_Segment_Point_MinLength_Square
+DxLib Segment_Point_MinLength_Square (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) SegmentPos1
+p3 : var (VECTOR: #defstruct float x,y,z) SegmentPos2
+p4 : var (VECTOR: #defstruct float x,y,z) PointPos
+%inst
+DxLib の Segment_Point_MinLength_Square() を呼び出します。
+^p
+元関数シグネチャ: float Segment_Point_MinLength_Square(VECTOR SegmentPos1, VECTOR SegmentPos2, VECTOR PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Point_MinLength_Square 項を参照。
+
+%index
+dx_Segment_Point_MinLength_SquareD
+DxLib Segment_Point_MinLength_SquareD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) SegmentPos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) PointPos
+%inst
+DxLib の Segment_Point_MinLength_SquareD() を呼び出します。
+^p
+元関数シグネチャ: double Segment_Point_MinLength_SquareD(VECTOR_D SegmentPos1, VECTOR_D SegmentPos2, VECTOR_D PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Segment_Point_MinLength_SquareD 項を参照。
+
+%index
+dx_Triangle_Point_MinLength
+DxLib Triangle_Point_MinLength (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) TrianglePos1
+p3 : var (VECTOR: #defstruct float x,y,z) TrianglePos2
+p4 : var (VECTOR: #defstruct float x,y,z) TrianglePos3
+p5 : var (VECTOR: #defstruct float x,y,z) PointPos
+%inst
+DxLib の Triangle_Point_MinLength() を呼び出します。
+^p
+元関数シグネチャ: float Triangle_Point_MinLength(VECTOR TrianglePos1, VECTOR TrianglePos2, VECTOR TrianglePos3, VECTOR PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Point_MinLength 項を参照。
+
+%index
+dx_Triangle_Point_MinLengthD
+DxLib Triangle_Point_MinLengthD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos3
+p5 : var (VECTOR_D: #defstruct double x,y,z) PointPos
+%inst
+DxLib の Triangle_Point_MinLengthD() を呼び出します。
+^p
+元関数シグネチャ: double Triangle_Point_MinLengthD(VECTOR_D TrianglePos1, VECTOR_D TrianglePos2, VECTOR_D TrianglePos3, VECTOR_D PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Point_MinLengthD 項を参照。
+
+%index
+dx_Triangle_Point_MinLength_Square
+DxLib Triangle_Point_MinLength_Square (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) TrianglePos1
+p3 : var (VECTOR: #defstruct float x,y,z) TrianglePos2
+p4 : var (VECTOR: #defstruct float x,y,z) TrianglePos3
+p5 : var (VECTOR: #defstruct float x,y,z) PointPos
+%inst
+DxLib の Triangle_Point_MinLength_Square() を呼び出します。
+^p
+元関数シグネチャ: float Triangle_Point_MinLength_Square(VECTOR TrianglePos1, VECTOR TrianglePos2, VECTOR TrianglePos3, VECTOR PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Point_MinLength_Square 項を参照。
+
+%index
+dx_Triangle_Point_MinLength_SquareD
+DxLib Triangle_Point_MinLength_SquareD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) TrianglePos3
+p5 : var (VECTOR_D: #defstruct double x,y,z) PointPos
+%inst
+DxLib の Triangle_Point_MinLength_SquareD() を呼び出します。
+^p
+元関数シグネチャ: double Triangle_Point_MinLength_SquareD(VECTOR_D TrianglePos1, VECTOR_D TrianglePos2, VECTOR_D TrianglePos3, VECTOR_D PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Point_MinLength_SquareD 項を参照。
+
+%index
+dx_Triangle_Triangle_MinLength
+DxLib Triangle_Triangle_MinLength (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) Triangle1Pos1
+p3 : var (VECTOR: #defstruct float x,y,z) Triangle1Pos2
+p4 : var (VECTOR: #defstruct float x,y,z) Triangle1Pos3
+p5 : var (VECTOR: #defstruct float x,y,z) Triangle2Pos1
+p6 : var (VECTOR: #defstruct float x,y,z) Triangle2Pos2
+p7 : var (VECTOR: #defstruct float x,y,z) Triangle2Pos3
+%inst
+DxLib の Triangle_Triangle_MinLength() を呼び出します。
+^p
+元関数シグネチャ: float Triangle_Triangle_MinLength(VECTOR Triangle1Pos1, VECTOR Triangle1Pos2, VECTOR Triangle1Pos3, VECTOR Triangle2Pos1, VECTOR Triangle2Pos2, VECTOR Triangle2Pos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Triangle_MinLength 項を参照。
+
+%index
+dx_Triangle_Triangle_MinLengthD
+DxLib Triangle_Triangle_MinLengthD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) Triangle1Pos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) Triangle1Pos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) Triangle1Pos3
+p5 : var (VECTOR_D: #defstruct double x,y,z) Triangle2Pos1
+p6 : var (VECTOR_D: #defstruct double x,y,z) Triangle2Pos2
+p7 : var (VECTOR_D: #defstruct double x,y,z) Triangle2Pos3
+%inst
+DxLib の Triangle_Triangle_MinLengthD() を呼び出します。
+^p
+元関数シグネチャ: double Triangle_Triangle_MinLengthD(VECTOR_D Triangle1Pos1, VECTOR_D Triangle1Pos2, VECTOR_D Triangle1Pos3, VECTOR_D Triangle2Pos1, VECTOR_D Triangle2Pos2, VECTOR_D Triangle2Pos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Triangle_MinLengthD 項を参照。
+
+%index
+dx_Triangle_Triangle_MinLength_Square
+DxLib Triangle_Triangle_MinLength_Square (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) Triangle1Pos1
+p3 : var (VECTOR: #defstruct float x,y,z) Triangle1Pos2
+p4 : var (VECTOR: #defstruct float x,y,z) Triangle1Pos3
+p5 : var (VECTOR: #defstruct float x,y,z) Triangle2Pos1
+p6 : var (VECTOR: #defstruct float x,y,z) Triangle2Pos2
+p7 : var (VECTOR: #defstruct float x,y,z) Triangle2Pos3
+%inst
+DxLib の Triangle_Triangle_MinLength_Square() を呼び出します。
+^p
+元関数シグネチャ: float Triangle_Triangle_MinLength_Square(VECTOR Triangle1Pos1, VECTOR Triangle1Pos2, VECTOR Triangle1Pos3, VECTOR Triangle2Pos1, VECTOR Triangle2Pos2, VECTOR Triangle2Pos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Triangle_MinLength_Square 項を参照。
+
+%index
+dx_Triangle_Triangle_MinLength_SquareD
+DxLib Triangle_Triangle_MinLength_SquareD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) Triangle1Pos1
+p3 : var (VECTOR_D: #defstruct double x,y,z) Triangle1Pos2
+p4 : var (VECTOR_D: #defstruct double x,y,z) Triangle1Pos3
+p5 : var (VECTOR_D: #defstruct double x,y,z) Triangle2Pos1
+p6 : var (VECTOR_D: #defstruct double x,y,z) Triangle2Pos2
+p7 : var (VECTOR_D: #defstruct double x,y,z) Triangle2Pos3
+%inst
+DxLib の Triangle_Triangle_MinLength_SquareD() を呼び出します。
+^p
+元関数シグネチャ: double Triangle_Triangle_MinLength_SquareD(VECTOR_D Triangle1Pos1, VECTOR_D Triangle1Pos2, VECTOR_D Triangle1Pos3, VECTOR_D Triangle2Pos1, VECTOR_D Triangle2Pos2, VECTOR_D Triangle2Pos3)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Triangle_Triangle_MinLength_SquareD 項を参照。
+
+%index
+dx_Plane_Point_MinLength_Position
+DxLib Plane_Point_MinLength_Position (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) PlanePos
+p3 : var (VECTOR: #defstruct float x,y,z) PlaneNormal
+p4 : var (VECTOR: #defstruct float x,y,z) PointPos
+%inst
+DxLib の Plane_Point_MinLength_Position() を呼び出します。
+^p
+元関数シグネチャ: VECTOR Plane_Point_MinLength_Position(VECTOR PlanePos, VECTOR PlaneNormal, VECTOR PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Plane_Point_MinLength_Position 項を参照。
+
+%index
+dx_Plane_Point_MinLength_PositionD
+DxLib Plane_Point_MinLength_PositionD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) PlanePos
+p3 : var (VECTOR_D: #defstruct double x,y,z) PlaneNormal
+p4 : var (VECTOR_D: #defstruct double x,y,z) PointPos
+%inst
+DxLib の Plane_Point_MinLength_PositionD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D Plane_Point_MinLength_PositionD(VECTOR_D PlanePos, VECTOR_D PlaneNormal, VECTOR_D PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Plane_Point_MinLength_PositionD 項を参照。
+
+%index
+dx_Plane_Point_MinLength
+DxLib Plane_Point_MinLength (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) PlanePos
+p3 : var (VECTOR: #defstruct float x,y,z) PlaneNormal
+p4 : var (VECTOR: #defstruct float x,y,z) PointPos
+%inst
+DxLib の Plane_Point_MinLength() を呼び出します。
+^p
+元関数シグネチャ: float Plane_Point_MinLength(VECTOR PlanePos, VECTOR PlaneNormal, VECTOR PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Plane_Point_MinLength 項を参照。
+
+%index
+dx_Plane_Point_MinLengthD
+DxLib Plane_Point_MinLengthD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) PlanePos
+p3 : var (VECTOR_D: #defstruct double x,y,z) PlaneNormal
+p4 : var (VECTOR_D: #defstruct double x,y,z) PointPos
+%inst
+DxLib の Plane_Point_MinLengthD() を呼び出します。
+^p
+元関数シグネチャ: double Plane_Point_MinLengthD(VECTOR_D PlanePos, VECTOR_D PlaneNormal, VECTOR_D PointPos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Plane_Point_MinLengthD 項を参照。
 
 %index
 dx_HitCheck_Triangle_Triangle
@@ -15689,6 +17692,800 @@ DxLib の HitCheck_Capsule_TriangleD() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の HitCheck_Capsule_TriangleD 項を参照。
 
 %index
+dx_MGetIdent
+DxLib MGetIdent (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+%inst
+DxLib の MGetIdent() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetIdent(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetIdent 項を参照。
+
+%index
+dx_MGetIdentD
+DxLib MGetIdentD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+%inst
+DxLib の MGetIdentD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetIdentD(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetIdentD 項を参照。
+
+%index
+dx_MMult
+DxLib MMult (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (MATRIX: 4x4 float) In1
+p3 : var (MATRIX: 4x4 float) In2
+%inst
+DxLib の MMult() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MMult(MATRIX In1, MATRIX In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MMult 項を参照。
+
+%index
+dx_MMultD
+DxLib MMultD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (MATRIX_D: 4x4 double) In1
+p3 : var (MATRIX_D: 4x4 double) In2
+%inst
+DxLib の MMultD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MMultD(MATRIX_D In1, MATRIX_D In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MMultD 項を参照。
+
+%index
+dx_MScale
+DxLib MScale (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (MATRIX: 4x4 float) InM
+p3 : double (float 縮小) Scale
+%inst
+DxLib の MScale() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MScale(MATRIX InM, float Scale)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MScale 項を参照。
+
+%index
+dx_MScaleD
+DxLib MScaleD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (MATRIX_D: 4x4 double) InM
+p3 : double Scale
+%inst
+DxLib の MScaleD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MScaleD(MATRIX_D InM, double Scale)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MScaleD 項を参照。
+
+%index
+dx_MAdd
+DxLib MAdd (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (MATRIX: 4x4 float) In1
+p3 : var (MATRIX: 4x4 float) In2
+%inst
+DxLib の MAdd() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MAdd(MATRIX In1, MATRIX In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MAdd 項を参照。
+
+%index
+dx_MAddD
+DxLib MAddD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (MATRIX_D: 4x4 double) In1
+p3 : var (MATRIX_D: 4x4 double) In2
+%inst
+DxLib の MAddD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MAddD(MATRIX_D In1, MATRIX_D In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MAddD 項を参照。
+
+%index
+dx_MGetScale
+DxLib MGetScale (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) Scale
+%inst
+DxLib の MGetScale() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetScale(VECTOR Scale)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetScale 項を参照。
+
+%index
+dx_MGetScaleD
+DxLib MGetScaleD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) Scale
+%inst
+DxLib の MGetScaleD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetScaleD(VECTOR_D Scale)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetScaleD 項を参照。
+
+%index
+dx_MGetRotX
+DxLib MGetRotX (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : double (float 縮小) XAxisRotate
+%inst
+DxLib の MGetRotX() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetRotX(float XAxisRotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotX 項を参照。
+
+%index
+dx_MGetRotXD
+DxLib MGetRotXD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : double XAxisRotate
+%inst
+DxLib の MGetRotXD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetRotXD(double XAxisRotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotXD 項を参照。
+
+%index
+dx_MGetRotY
+DxLib MGetRotY (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : double (float 縮小) YAxisRotate
+%inst
+DxLib の MGetRotY() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetRotY(float YAxisRotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotY 項を参照。
+
+%index
+dx_MGetRotYD
+DxLib MGetRotYD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : double YAxisRotate
+%inst
+DxLib の MGetRotYD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetRotYD(double YAxisRotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotYD 項を参照。
+
+%index
+dx_MGetRotZ
+DxLib MGetRotZ (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : double (float 縮小) ZAxisRotate
+%inst
+DxLib の MGetRotZ() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetRotZ(float ZAxisRotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotZ 項を参照。
+
+%index
+dx_MGetRotZD
+DxLib MGetRotZD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : double ZAxisRotate
+%inst
+DxLib の MGetRotZD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetRotZD(double ZAxisRotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotZD 項を参照。
+
+%index
+dx_MGetRotAxis
+DxLib MGetRotAxis (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) RotateAxis
+p3 : double (float 縮小) Rotate
+%inst
+DxLib の MGetRotAxis() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetRotAxis(VECTOR RotateAxis, float Rotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotAxis 項を参照。
+
+%index
+dx_MGetRotAxisD
+DxLib MGetRotAxisD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) RotateAxis
+p3 : double Rotate
+%inst
+DxLib の MGetRotAxisD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetRotAxisD(VECTOR_D RotateAxis, double Rotate)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotAxisD 項を参照。
+
+%index
+dx_MGetRotVec2
+DxLib MGetRotVec2 (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) In1
+p3 : var (VECTOR: #defstruct float x,y,z) In2
+%inst
+DxLib の MGetRotVec2() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetRotVec2(VECTOR In1, VECTOR In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotVec2 項を参照。
+
+%index
+dx_MGetRotVec2D
+DxLib MGetRotVec2D (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) In1
+p3 : var (VECTOR_D: #defstruct double x,y,z) In2
+%inst
+DxLib の MGetRotVec2D() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetRotVec2D(VECTOR_D In1, VECTOR_D In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotVec2D 項を参照。
+
+%index
+dx_MGetTranslate
+DxLib MGetTranslate (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) Trans
+%inst
+DxLib の MGetTranslate() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetTranslate(VECTOR Trans)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetTranslate 項を参照。
+
+%index
+dx_MGetTranslateD
+DxLib MGetTranslateD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) Trans
+%inst
+DxLib の MGetTranslateD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetTranslateD(VECTOR_D Trans)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetTranslateD 項を参照。
+
+%index
+dx_MGetAxis1
+DxLib MGetAxis1 (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) XAxis
+p3 : var (VECTOR: #defstruct float x,y,z) YAxis
+p4 : var (VECTOR: #defstruct float x,y,z) ZAxis
+p5 : var (VECTOR: #defstruct float x,y,z) Pos
+%inst
+DxLib の MGetAxis1() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetAxis1(VECTOR XAxis, VECTOR YAxis, VECTOR ZAxis, VECTOR Pos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetAxis1 項を参照。
+
+%index
+dx_MGetAxis1D
+DxLib MGetAxis1D (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) XAxis
+p3 : var (VECTOR_D: #defstruct double x,y,z) YAxis
+p4 : var (VECTOR_D: #defstruct double x,y,z) ZAxis
+p5 : var (VECTOR_D: #defstruct double x,y,z) Pos
+%inst
+DxLib の MGetAxis1D() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetAxis1D(VECTOR_D XAxis, VECTOR_D YAxis, VECTOR_D ZAxis, VECTOR_D Pos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetAxis1D 項を参照。
+
+%index
+dx_MGetAxis2
+DxLib MGetAxis2 (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) XAxis
+p3 : var (VECTOR: #defstruct float x,y,z) YAxis
+p4 : var (VECTOR: #defstruct float x,y,z) ZAxis
+p5 : var (VECTOR: #defstruct float x,y,z) Pos
+%inst
+DxLib の MGetAxis2() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetAxis2(VECTOR XAxis, VECTOR YAxis, VECTOR ZAxis, VECTOR Pos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetAxis2 項を参照。
+
+%index
+dx_MGetAxis2D
+DxLib MGetAxis2D (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) XAxis
+p3 : var (VECTOR_D: #defstruct double x,y,z) YAxis
+p4 : var (VECTOR_D: #defstruct double x,y,z) ZAxis
+p5 : var (VECTOR_D: #defstruct double x,y,z) Pos
+%inst
+DxLib の MGetAxis2D() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetAxis2D(VECTOR_D XAxis, VECTOR_D YAxis, VECTOR_D ZAxis, VECTOR_D Pos)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetAxis2D 項を参照。
+
+%index
+dx_MTranspose
+DxLib MTranspose (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (MATRIX: 4x4 float) InM
+%inst
+DxLib の MTranspose() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MTranspose(MATRIX InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MTranspose 項を参照。
+
+%index
+dx_MTransposeD
+DxLib MTransposeD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (MATRIX_D: 4x4 double) InM
+%inst
+DxLib の MTransposeD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MTransposeD(MATRIX_D InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MTransposeD 項を参照。
+
+%index
+dx_MInverse
+DxLib MInverse (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (MATRIX: 4x4 float) InM
+%inst
+DxLib の MInverse() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MInverse(MATRIX InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MInverse 項を参照。
+
+%index
+dx_MInverseD
+DxLib MInverseD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (MATRIX_D: 4x4 double) InM
+%inst
+DxLib の MInverseD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MInverseD(MATRIX_D InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MInverseD 項を参照。
+
+%index
+dx_MGetSize
+DxLib MGetSize (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (MATRIX: 4x4 float) InM
+%inst
+DxLib の MGetSize() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MGetSize(MATRIX InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetSize 項を参照。
+
+%index
+dx_MGetSizeD
+DxLib MGetSizeD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (MATRIX_D: 4x4 double) InM
+%inst
+DxLib の MGetSizeD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D MGetSizeD(MATRIX_D InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetSizeD 項を参照。
+
+%index
+dx_MGetRotElem
+DxLib MGetRotElem (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : var (MATRIX: 4x4 float) InM
+%inst
+DxLib の MGetRotElem() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MGetRotElem(MATRIX InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotElem 項を参照。
+
+%index
+dx_MGetRotElemD
+DxLib MGetRotElemD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : var (MATRIX_D: 4x4 double) InM
+%inst
+DxLib の MGetRotElemD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MGetRotElemD(MATRIX_D InM)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MGetRotElemD 項を参照。
+
+%index
+dx_VNorm
+DxLib VNorm (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) In
+%inst
+DxLib の VNorm() を呼び出します。
+^p
+元関数シグネチャ: VECTOR VNorm(VECTOR In)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VNorm 項を参照。
+
+%index
+dx_VNormD
+DxLib VNormD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) In
+%inst
+DxLib の VNormD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D VNormD(VECTOR_D In)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VNormD 項を参照。
+
+%index
+dx_VSize
+DxLib VSize (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) In
+%inst
+DxLib の VSize() を呼び出します。
+^p
+元関数シグネチャ: float VSize(VECTOR In)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VSize 項を参照。
+
+%index
+dx_VSizeD
+DxLib VSizeD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) In
+%inst
+DxLib の VSizeD() を呼び出します。
+^p
+元関数シグネチャ: double VSizeD(VECTOR_D In)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VSizeD 項を参照。
+
+%index
+dx_VCos
+DxLib VCos (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) In1
+p3 : var (VECTOR: #defstruct float x,y,z) In2
+%inst
+DxLib の VCos() を呼び出します。
+^p
+元関数シグネチャ: float VCos(VECTOR In1, VECTOR In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VCos 項を参照。
+
+%index
+dx_VCosD
+DxLib VCosD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) In1
+p3 : var (VECTOR_D: #defstruct double x,y,z) In2
+%inst
+DxLib の VCosD() を呼び出します。
+^p
+元関数シグネチャ: double VCosD(VECTOR_D In1, VECTOR_D In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VCosD 項を参照。
+
+%index
+dx_VRad
+DxLib VRad (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) In1
+p3 : var (VECTOR: #defstruct float x,y,z) In2
+%inst
+DxLib の VRad() を呼び出します。
+^p
+元関数シグネチャ: float VRad(VECTOR In1, VECTOR In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VRad 項を参照。
+
+%index
+dx_VRadD
+DxLib VRadD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 double 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) In1
+p3 : var (VECTOR_D: #defstruct double x,y,z) In2
+%inst
+DxLib の VRadD() を呼び出します。
+^p
+元関数シグネチャ: double VRadD(VECTOR_D In1, VECTOR_D In2)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VRadD 項を参照。
+
+%index
+dx_QTRot
+DxLib QTRot (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 FLOAT4 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) Axis
+p3 : double (float 縮小) Angle
+%inst
+DxLib の QTRot() を呼び出します。
+^p
+元関数シグネチャ: FLOAT4 QTRot(VECTOR Axis, float Angle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の QTRot 項を参照。
+
+%index
+dx_VRotQ
+DxLib VRotQ (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : var (VECTOR: #defstruct float x,y,z) P
+p3 : var (VECTOR: #defstruct float x,y,z) Axis
+p4 : double (float 縮小) Angle
+%inst
+DxLib の VRotQ() を呼び出します。
+^p
+元関数シグネチャ: VECTOR VRotQ(VECTOR P, VECTOR Axis, float Angle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VRotQ 項を参照。
+
+%index
+dx_VRotQD
+DxLib VRotQD (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : var (VECTOR_D: #defstruct double x,y,z) P
+p3 : var (VECTOR_D: #defstruct double x,y,z) Axis
+p4 : double Angle
+%inst
+DxLib の VRotQD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D VRotQD(VECTOR_D P, VECTOR_D Axis, double Angle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の VRotQD 項を参照。
+
+%index
 dx_GetImageSize_File
 DxLib GetImageSize_File (自動生成、hsp3dx 専用)
 %group
@@ -15801,6 +18598,46 @@ DxLib の GetUseConvertNormalFormatLoad() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetUseConvertNormalFormatLoad 項を参照。
+
+%index
+dx_GetColorF
+DxLib GetColorF (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : double (float 縮小) Red
+p3 : double (float 縮小) Green
+p4 : double (float 縮小) Blue
+p5 : double (float 縮小) Alpha
+%inst
+DxLib の GetColorF() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F GetColorF(float Red, float Green, float Blue, float Alpha)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetColorF 項を参照。
+
+%index
+dx_GetColorU8
+DxLib GetColorU8 (自動生成、hsp3dx 専用)
+%group
+DxLib 設定 / 取得
+%prm
+p1 : var (戻り値 COLOR_U8 出力)
+p2 : int Red
+p3 : int Green
+p4 : int Blue
+p5 : int Alpha
+%inst
+DxLib の GetColorU8() を呼び出します。
+^p
+元関数シグネチャ: COLOR_U8 GetColorU8(int Red, int Green, int Blue, int Alpha)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetColorU8 項を参照。
 
 %index
 dx_GetColor2
@@ -16937,6 +19774,23 @@ DxLib の SetStreamSoundCurrentPosition() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetStreamSoundCurrentPosition 項を参照。
 
 %index
+dx_GetStreamSoundCurrentPosition
+DxLib GetStreamSoundCurrentPosition (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoundHandle
+%inst
+DxLib の GetStreamSoundCurrentPosition() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetStreamSoundCurrentPosition(int SoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetStreamSoundCurrentPosition 項を参照。
+
+%index
 dx_SetStreamSoundCurrentTime
 DxLib SetStreamSoundCurrentTime (自動生成、hsp3dx 専用)
 %group
@@ -16952,6 +19806,23 @@ DxLib の SetStreamSoundCurrentTime() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetStreamSoundCurrentTime 項を参照。
+
+%index
+dx_GetStreamSoundCurrentTime
+DxLib GetStreamSoundCurrentTime (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoundHandle
+%inst
+DxLib の GetStreamSoundCurrentTime() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetStreamSoundCurrentTime(int SoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetStreamSoundCurrentTime 項を参照。
 
 %index
 dx_ProcessStreamSoundMem
@@ -17427,6 +20298,23 @@ DxLib の SetCurrentPositionSoundMem() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetCurrentPositionSoundMem 項を参照。
 
 %index
+dx_GetCurrentPositionSoundMem
+DxLib GetCurrentPositionSoundMem (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoundHandle
+%inst
+DxLib の GetCurrentPositionSoundMem() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetCurrentPositionSoundMem(int SoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCurrentPositionSoundMem 項を参照。
+
+%index
 dx_SetSoundCurrentPosition
 DxLib SetSoundCurrentPosition (自動生成、hsp3dx 専用)
 %group
@@ -17444,6 +20332,23 @@ DxLib の SetSoundCurrentPosition() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetSoundCurrentPosition 項を参照。
 
 %index
+dx_GetSoundCurrentPosition
+DxLib GetSoundCurrentPosition (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoundHandle
+%inst
+DxLib の GetSoundCurrentPosition() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetSoundCurrentPosition(int SoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetSoundCurrentPosition 項を参照。
+
+%index
 dx_SetSoundCurrentTime
 DxLib SetSoundCurrentTime (自動生成、hsp3dx 専用)
 %group
@@ -17459,6 +20364,57 @@ DxLib の SetSoundCurrentTime() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetSoundCurrentTime 項を参照。
+
+%index
+dx_GetSoundCurrentTime
+DxLib GetSoundCurrentTime (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoundHandle
+%inst
+DxLib の GetSoundCurrentTime() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetSoundCurrentTime(int SoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetSoundCurrentTime 項を参照。
+
+%index
+dx_GetSoundTotalSample
+DxLib GetSoundTotalSample (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoundHandle
+%inst
+DxLib の GetSoundTotalSample() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetSoundTotalSample(int SoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetSoundTotalSample 項を参照。
+
+%index
+dx_GetSoundTotalTime
+DxLib GetSoundTotalTime (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoundHandle
+%inst
+DxLib の GetSoundTotalTime() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetSoundTotalTime(int SoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetSoundTotalTime 項を参照。
 
 %index
 dx_SetLoopPosSoundMem
@@ -17765,6 +20721,22 @@ DxLib の SetCreateSoundPitchRate() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetCreateSoundPitchRate 項を参照。
 
 %index
+dx_GetCreateSoundPitchRate
+DxLib GetCreateSoundPitchRate (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCreateSoundPitchRate() を呼び出します。
+^p
+元関数シグネチャ: float GetCreateSoundPitchRate(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCreateSoundPitchRate 項を参照。
+
+%index
 dx_SetCreateSoundTimeStretchRate
 DxLib SetCreateSoundTimeStretchRate (自動生成、hsp3dx 専用)
 %group
@@ -17779,6 +20751,22 @@ DxLib の SetCreateSoundTimeStretchRate() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SetCreateSoundTimeStretchRate 項を参照。
+
+%index
+dx_GetCreateSoundTimeStretchRate
+DxLib GetCreateSoundTimeStretchRate (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の GetCreateSoundTimeStretchRate() を呼び出します。
+^p
+元関数シグネチャ: float GetCreateSoundTimeStretchRate(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetCreateSoundTimeStretchRate 項を参照。
 
 %index
 dx_SetCreateSoundLoopAreaTimePos
@@ -18467,6 +21455,23 @@ DxLib の SaveSoftSound() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の SaveSoftSound 項を参照。
+
+%index
+dx_GetSoftSoundSampleNum
+DxLib GetSoftSoundSampleNum (自動生成、hsp3dx 専用)
+%group
+DxLib サウンド
+%prm
+p1 : var (戻り値 LONGLONG 出力)
+p2 : int SoftSoundHandle
+%inst
+DxLib の GetSoftSoundSampleNum() を呼び出します。
+^p
+元関数シグネチャ: LONGLONG GetSoftSoundSampleNum(int SoftSoundHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の GetSoftSoundSampleNum 項を参照。
 
 %index
 dx_GetSoftSoundFormat
@@ -19506,6 +22511,22 @@ DxLib の MV1SetLoadModelPhysicsWorldGravity() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetLoadModelPhysicsWorldGravity 項を参照。
 
 %index
+dx_MV1GetLoadModelPhysicsWorldGravity
+DxLib MV1GetLoadModelPhysicsWorldGravity (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+%inst
+DxLib の MV1GetLoadModelPhysicsWorldGravity() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetLoadModelPhysicsWorldGravity(void)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetLoadModelPhysicsWorldGravity 項を参照。
+
+%index
 dx_MV1SetLoadCalcPhysicsWorldGravity
 DxLib MV1SetLoadCalcPhysicsWorldGravity (自動生成、hsp3dx 専用)
 %group
@@ -19521,6 +22542,23 @@ DxLib の MV1SetLoadCalcPhysicsWorldGravity() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetLoadCalcPhysicsWorldGravity 項を参照。
+
+%index
+dx_MV1GetLoadCalcPhysicsWorldGravity
+DxLib MV1GetLoadCalcPhysicsWorldGravity (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int GravityNo
+%inst
+DxLib の MV1GetLoadCalcPhysicsWorldGravity() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetLoadCalcPhysicsWorldGravity(int GravityNo)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetLoadCalcPhysicsWorldGravity 項を参照。
 
 %index
 dx_MV1SetLoadModelPhysicsCalcPrecision
@@ -19783,6 +22821,40 @@ DxLib の MV1SetUseOrigShader() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetUseOrigShader 項を参照。
 
 %index
+dx_MV1GetLocalWorldMatrix
+DxLib MV1GetLocalWorldMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetLocalWorldMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetLocalWorldMatrix(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetLocalWorldMatrix 項を参照。
+
+%index
+dx_MV1GetLocalWorldMatrixD
+DxLib MV1GetLocalWorldMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetLocalWorldMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MV1GetLocalWorldMatrixD(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetLocalWorldMatrixD 項を参照。
+
+%index
 dx_MV1SetPositionD
 DxLib MV1SetPositionD (自動生成、hsp3dx 専用)
 %group
@@ -19798,6 +22870,74 @@ DxLib の MV1SetPositionD() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetPositionD 項を参照。
+
+%index
+dx_MV1GetPosition
+DxLib MV1GetPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetPosition(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetPosition 項を参照。
+
+%index
+dx_MV1GetPositionD
+DxLib MV1GetPositionD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetPositionD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D MV1GetPositionD(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetPositionD 項を参照。
+
+%index
+dx_MV1GetScale
+DxLib MV1GetScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetScale() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetScale(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetScale 項を参照。
+
+%index
+dx_MV1GetRotationXYZ
+DxLib MV1GetRotationXYZ (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetRotationXYZ() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetRotationXYZ(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetRotationXYZ 項を参照。
 
 %index
 dx_MV1SetRotationZYAxis
@@ -19854,6 +22994,23 @@ DxLib の MV1SetRotationMatrix() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetRotationMatrix 項を参照。
 
 %index
+dx_MV1GetRotationMatrix
+DxLib MV1GetRotationMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetRotationMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetRotationMatrix(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetRotationMatrix 項を参照。
+
+%index
 dx_MV1SetMatrix
 DxLib MV1SetMatrix (自動生成、hsp3dx 専用)
 %group
@@ -19886,6 +23043,40 @@ DxLib の MV1SetMatrixD() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMatrixD 項を参照。
+
+%index
+dx_MV1GetMatrix
+DxLib MV1GetMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetMatrix(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMatrix 項を参照。
+
+%index
+dx_MV1GetMatrixD
+DxLib MV1GetMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MV1GetMatrixD(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMatrixD 項を参照。
 
 %index
 dx_MV1SetVisible
@@ -19973,6 +23164,23 @@ DxLib の MV1SetDifColorScale() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetDifColorScale 項を参照。
 
 %index
+dx_MV1GetDifColorScale
+DxLib MV1GetDifColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetDifColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetDifColorScale(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetDifColorScale 項を参照。
+
+%index
 dx_MV1SetSpcColorScale
 DxLib MV1SetSpcColorScale (自動生成、hsp3dx 専用)
 %group
@@ -19988,6 +23196,23 @@ DxLib の MV1SetSpcColorScale() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetSpcColorScale 項を参照。
+
+%index
+dx_MV1GetSpcColorScale
+DxLib MV1GetSpcColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetSpcColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetSpcColorScale(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetSpcColorScale 項を参照。
 
 %index
 dx_MV1SetEmiColorScale
@@ -20007,6 +23232,23 @@ DxLib の MV1SetEmiColorScale() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetEmiColorScale 項を参照。
 
 %index
+dx_MV1GetEmiColorScale
+DxLib MV1GetEmiColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetEmiColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetEmiColorScale(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetEmiColorScale 項を参照。
+
+%index
 dx_MV1SetAmbColorScale
 DxLib MV1SetAmbColorScale (自動生成、hsp3dx 専用)
 %group
@@ -20022,6 +23264,23 @@ DxLib の MV1SetAmbColorScale() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetAmbColorScale 項を参照。
+
+%index
+dx_MV1GetAmbColorScale
+DxLib MV1GetAmbColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetAmbColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetAmbColorScale(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAmbColorScale 項を参照。
 
 %index
 dx_MV1GetSemiTransState
@@ -20055,6 +23314,23 @@ DxLib の MV1SetOpacityRate() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetOpacityRate 項を参照。
+
+%index
+dx_MV1GetOpacityRate
+DxLib MV1GetOpacityRate (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+%inst
+DxLib の MV1GetOpacityRate() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetOpacityRate(int MHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetOpacityRate 項を参照。
 
 %index
 dx_MV1SetUseDrawMulAlphaColor
@@ -20396,6 +23672,42 @@ DxLib の MV1SetAttachAnimTime() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetAttachAnimTime 項を参照。
 
 %index
+dx_MV1GetAttachAnimTime
+DxLib MV1GetAttachAnimTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AttachIndex
+%inst
+DxLib の MV1GetAttachAnimTime() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAttachAnimTime(int MHandle, int AttachIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimTime 項を参照。
+
+%index
+dx_MV1GetAttachAnimTotalTime
+DxLib MV1GetAttachAnimTotalTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AttachIndex
+%inst
+DxLib の MV1GetAttachAnimTotalTime() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAttachAnimTotalTime(int MHandle, int AttachIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimTotalTime 項を参照。
+
+%index
 dx_MV1SetAttachAnimBlendRate
 DxLib MV1SetAttachAnimBlendRate (自動生成、hsp3dx 専用)
 %group
@@ -20412,6 +23724,24 @@ DxLib の MV1SetAttachAnimBlendRate() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetAttachAnimBlendRate 項を参照。
+
+%index
+dx_MV1GetAttachAnimBlendRate
+DxLib MV1GetAttachAnimBlendRate (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AttachIndex
+%inst
+DxLib の MV1GetAttachAnimBlendRate() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAttachAnimBlendRate(int MHandle, int AttachIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimBlendRate 項を参照。
 
 %index
 dx_MV1SetAttachAnimBlendRateToFrame
@@ -20434,6 +23764,25 @@ DxLib の MV1SetAttachAnimBlendRateToFrame() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetAttachAnimBlendRateToFrame 項を参照。
 
 %index
+dx_MV1GetAttachAnimBlendRateToFrame
+DxLib MV1GetAttachAnimBlendRateToFrame (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AttachIndex
+p4 : int FrameIndex
+%inst
+DxLib の MV1GetAttachAnimBlendRateToFrame() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAttachAnimBlendRateToFrame(int MHandle, int AttachIndex, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimBlendRateToFrame 項を参照。
+
+%index
 dx_MV1SetAttachAnimTimeToFrame
 DxLib MV1SetAttachAnimTimeToFrame (自動生成、hsp3dx 専用)
 %group
@@ -20452,6 +23801,25 @@ DxLib の MV1SetAttachAnimTimeToFrame() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetAttachAnimTimeToFrame 項を参照。
+
+%index
+dx_MV1GetAttachAnimTimeToFrame
+DxLib MV1GetAttachAnimTimeToFrame (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AttachIndex
+p4 : int FrameIndex
+%inst
+DxLib の MV1GetAttachAnimTimeToFrame() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAttachAnimTimeToFrame(int MHandle, int AttachIndex, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimTimeToFrame 項を参照。
 
 %index
 dx_MV1GetAttachAnim
@@ -20506,6 +23874,44 @@ DxLib の MV1GetAttachAnimUseShapeFlag() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimUseShapeFlag 項を参照。
 
 %index
+dx_MV1GetAttachAnimFrameLocalPosition
+DxLib MV1GetAttachAnimFrameLocalPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int AttachIndex
+p4 : int FrameIndex
+%inst
+DxLib の MV1GetAttachAnimFrameLocalPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetAttachAnimFrameLocalPosition(int MHandle, int AttachIndex, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimFrameLocalPosition 項を参照。
+
+%index
+dx_MV1GetAttachAnimFrameLocalMatrix
+DxLib MV1GetAttachAnimFrameLocalMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+p3 : int AttachIndex
+p4 : int FrameIndex
+%inst
+DxLib の MV1GetAttachAnimFrameLocalMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetAttachAnimFrameLocalMatrix(int MHandle, int AttachIndex, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAttachAnimFrameLocalMatrix 項を参照。
+
+%index
 dx_MV1GetAnimNum
 DxLib MV1GetAnimNum (自動生成、hsp3dx 専用)
 %group
@@ -20555,6 +23961,24 @@ DxLib の MV1GetAnimIndex() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimIndex 項を参照。
+
+%index
+dx_MV1GetAnimTotalTime
+DxLib MV1GetAnimTotalTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AnimIndex
+%inst
+DxLib の MV1GetAnimTotalTime() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAnimTotalTime(int MHandle, int AnimIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimTotalTime 項を参照。
 
 %index
 dx_MV1GetAnimTargetFrameNum
@@ -20713,6 +24137,25 @@ DxLib の MV1GetAnimKeySetDataNum() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeySetDataNum 項を参照。
 
 %index
+dx_MV1GetAnimKeyDataTime
+DxLib MV1GetAnimKeyDataTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : int Index
+%inst
+DxLib の MV1GetAnimKeyDataTime() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAnimKeyDataTime(int MHandle, int AnimKeySetIndex, int Index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataTime 項を参照。
+
+%index
 dx_MV1GetAnimKeyDataIndexFromTime
 DxLib MV1GetAnimKeyDataIndexFromTime (自動生成、hsp3dx 専用)
 %group
@@ -20729,6 +24172,196 @@ DxLib の MV1GetAnimKeyDataIndexFromTime() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataIndexFromTime 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToQuaternion
+DxLib MV1GetAnimKeyDataToQuaternion (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 FLOAT4 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : int Index
+%inst
+DxLib の MV1GetAnimKeyDataToQuaternion() を呼び出します。
+^p
+元関数シグネチャ: FLOAT4 MV1GetAnimKeyDataToQuaternion(int MHandle, int AnimKeySetIndex, int Index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToQuaternion 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToQuaternionFromTime
+DxLib MV1GetAnimKeyDataToQuaternionFromTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 FLOAT4 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : double (float 縮小) Time
+%inst
+DxLib の MV1GetAnimKeyDataToQuaternionFromTime() を呼び出します。
+^p
+元関数シグネチャ: FLOAT4 MV1GetAnimKeyDataToQuaternionFromTime(int MHandle, int AnimKeySetIndex, float Time)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToQuaternionFromTime 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToVector
+DxLib MV1GetAnimKeyDataToVector (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : int Index
+%inst
+DxLib の MV1GetAnimKeyDataToVector() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetAnimKeyDataToVector(int MHandle, int AnimKeySetIndex, int Index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToVector 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToVectorFromTime
+DxLib MV1GetAnimKeyDataToVectorFromTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : double (float 縮小) Time
+%inst
+DxLib の MV1GetAnimKeyDataToVectorFromTime() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetAnimKeyDataToVectorFromTime(int MHandle, int AnimKeySetIndex, float Time)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToVectorFromTime 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToMatrix
+DxLib MV1GetAnimKeyDataToMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : int Index
+%inst
+DxLib の MV1GetAnimKeyDataToMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetAnimKeyDataToMatrix(int MHandle, int AnimKeySetIndex, int Index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToMatrix 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToMatrixFromTime
+DxLib MV1GetAnimKeyDataToMatrixFromTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : double (float 縮小) Time
+%inst
+DxLib の MV1GetAnimKeyDataToMatrixFromTime() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetAnimKeyDataToMatrixFromTime(int MHandle, int AnimKeySetIndex, float Time)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToMatrixFromTime 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToFlat
+DxLib MV1GetAnimKeyDataToFlat (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : int Index
+%inst
+DxLib の MV1GetAnimKeyDataToFlat() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAnimKeyDataToFlat(int MHandle, int AnimKeySetIndex, int Index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToFlat 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToFlatFromTime
+DxLib MV1GetAnimKeyDataToFlatFromTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : double (float 縮小) Time
+%inst
+DxLib の MV1GetAnimKeyDataToFlatFromTime() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAnimKeyDataToFlatFromTime(int MHandle, int AnimKeySetIndex, float Time)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToFlatFromTime 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToLinear
+DxLib MV1GetAnimKeyDataToLinear (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : int Index
+%inst
+DxLib の MV1GetAnimKeyDataToLinear() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAnimKeyDataToLinear(int MHandle, int AnimKeySetIndex, int Index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToLinear 項を参照。
+
+%index
+dx_MV1GetAnimKeyDataToLinearFromTime
+DxLib MV1GetAnimKeyDataToLinearFromTime (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int AnimKeySetIndex
+p4 : double (float 縮小) Time
+%inst
+DxLib の MV1GetAnimKeyDataToLinearFromTime() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetAnimKeyDataToLinearFromTime(int MHandle, int AnimKeySetIndex, float Time)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetAnimKeyDataToLinearFromTime 項を参照。
 
 %index
 dx_MV1GetMaterialNum
@@ -20817,6 +24450,24 @@ DxLib の MV1SetMaterialDifColor() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialDifColor 項を参照。
 
 %index
+dx_MV1GetMaterialDifColor
+DxLib MV1GetMaterialDifColor (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialDifColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMaterialDifColor(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialDifColor 項を参照。
+
+%index
 dx_MV1SetMaterialSpcColor
 DxLib MV1SetMaterialSpcColor (自動生成、hsp3dx 専用)
 %group
@@ -20833,6 +24484,24 @@ DxLib の MV1SetMaterialSpcColor() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialSpcColor 項を参照。
+
+%index
+dx_MV1GetMaterialSpcColor
+DxLib MV1GetMaterialSpcColor (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialSpcColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMaterialSpcColor(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialSpcColor 項を参照。
 
 %index
 dx_MV1SetMaterialEmiColor
@@ -20853,6 +24522,24 @@ DxLib の MV1SetMaterialEmiColor() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialEmiColor 項を参照。
 
 %index
+dx_MV1GetMaterialEmiColor
+DxLib MV1GetMaterialEmiColor (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialEmiColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMaterialEmiColor(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialEmiColor 項を参照。
+
+%index
 dx_MV1SetMaterialAmbColor
 DxLib MV1SetMaterialAmbColor (自動生成、hsp3dx 専用)
 %group
@@ -20871,6 +24558,24 @@ DxLib の MV1SetMaterialAmbColor() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialAmbColor 項を参照。
 
 %index
+dx_MV1GetMaterialAmbColor
+DxLib MV1GetMaterialAmbColor (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialAmbColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMaterialAmbColor(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialAmbColor 項を参照。
+
+%index
 dx_MV1SetMaterialSpcPower
 DxLib MV1SetMaterialSpcPower (自動生成、hsp3dx 専用)
 %group
@@ -20887,6 +24592,24 @@ DxLib の MV1SetMaterialSpcPower() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialSpcPower 項を参照。
+
+%index
+dx_MV1GetMaterialSpcPower
+DxLib MV1GetMaterialSpcPower (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialSpcPower() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetMaterialSpcPower(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialSpcPower 項を参照。
 
 %index
 dx_MV1SetMaterialDifMapTexture
@@ -21325,6 +25048,24 @@ DxLib の MV1SetMaterialOutLineWidth() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialOutLineWidth 項を参照。
 
 %index
+dx_MV1GetMaterialOutLineWidth
+DxLib MV1GetMaterialOutLineWidth (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialOutLineWidth() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetMaterialOutLineWidth(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialOutLineWidth 項を参照。
+
+%index
 dx_MV1SetMaterialOutLineDotWidthAll
 DxLib MV1SetMaterialOutLineDotWidthAll (自動生成、hsp3dx 専用)
 %group
@@ -21360,6 +25101,24 @@ DxLib の MV1SetMaterialOutLineDotWidth() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialOutLineDotWidth 項を参照。
 
 %index
+dx_MV1GetMaterialOutLineDotWidth
+DxLib MV1GetMaterialOutLineDotWidth (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialOutLineDotWidth() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetMaterialOutLineDotWidth(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialOutLineDotWidth 項を参照。
+
+%index
 dx_MV1SetMaterialOutLineColorAll
 DxLib MV1SetMaterialOutLineColorAll (自動生成、hsp3dx 専用)
 %group
@@ -21393,6 +25152,24 @@ DxLib の MV1SetMaterialOutLineColor() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMaterialOutLineColor 項を参照。
+
+%index
+dx_MV1GetMaterialOutLineColor
+DxLib MV1GetMaterialOutLineColor (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MaterialIndex
+%inst
+DxLib の MV1GetMaterialOutLineColor() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMaterialOutLineColor(int MHandle, int MaterialIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMaterialOutLineColor 項を参照。
 
 %index
 dx_MV1SetMaterialDrawBlendModeAll
@@ -21893,6 +25670,24 @@ DxLib の MV1SetTextureBumpImageNextPixelLength() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetTextureBumpImageNextPixelLength 項を参照。
 
 %index
+dx_MV1GetTextureBumpImageNextPixelLength
+DxLib MV1GetTextureBumpImageNextPixelLength (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int TexIndex
+%inst
+DxLib の MV1GetTextureBumpImageNextPixelLength() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetTextureBumpImageNextPixelLength(int MHandle, int TexIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetTextureBumpImageNextPixelLength 項を参照。
+
+%index
 dx_MV1SetTextureSampleFilterMode
 DxLib MV1SetTextureSampleFilterMode (自動生成、hsp3dx 専用)
 %group
@@ -22087,6 +25882,150 @@ DxLib の MV1GetFrameChild() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameChild 項を参照。
 
 %index
+dx_MV1GetFramePosition
+DxLib MV1GetFramePosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFramePosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetFramePosition(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFramePosition 項を参照。
+
+%index
+dx_MV1GetFramePositionD
+DxLib MV1GetFramePositionD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFramePositionD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D MV1GetFramePositionD(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFramePositionD 項を参照。
+
+%index
+dx_MV1GetFrameBaseLocalMatrix
+DxLib MV1GetFrameBaseLocalMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameBaseLocalMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetFrameBaseLocalMatrix(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameBaseLocalMatrix 項を参照。
+
+%index
+dx_MV1GetFrameBaseLocalMatrixD
+DxLib MV1GetFrameBaseLocalMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameBaseLocalMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MV1GetFrameBaseLocalMatrixD(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameBaseLocalMatrixD 項を参照。
+
+%index
+dx_MV1GetFrameLocalMatrix
+DxLib MV1GetFrameLocalMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameLocalMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetFrameLocalMatrix(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameLocalMatrix 項を参照。
+
+%index
+dx_MV1GetFrameLocalMatrixD
+DxLib MV1GetFrameLocalMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameLocalMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MV1GetFrameLocalMatrixD(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameLocalMatrixD 項を参照。
+
+%index
+dx_MV1GetFrameLocalWorldMatrix
+DxLib MV1GetFrameLocalWorldMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameLocalWorldMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetFrameLocalWorldMatrix(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameLocalWorldMatrix 項を参照。
+
+%index
+dx_MV1GetFrameLocalWorldMatrixD
+DxLib MV1GetFrameLocalWorldMatrixD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX_D 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameLocalWorldMatrixD() を呼び出します。
+^p
+元関数シグネチャ: MATRIX_D MV1GetFrameLocalWorldMatrixD(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameLocalWorldMatrixD 項を参照。
+
+%index
 dx_MV1SetFrameUserLocalMatrix
 DxLib MV1SetFrameUserLocalMatrix (自動生成、hsp3dx 専用)
 %group
@@ -22191,6 +26130,114 @@ DxLib の MV1ResetFrameUserLocalWorldMatrix() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1ResetFrameUserLocalWorldMatrix 項を参照。
+
+%index
+dx_MV1GetFrameMaxVertexLocalPosition
+DxLib MV1GetFrameMaxVertexLocalPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameMaxVertexLocalPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetFrameMaxVertexLocalPosition(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameMaxVertexLocalPosition 項を参照。
+
+%index
+dx_MV1GetFrameMaxVertexLocalPositionD
+DxLib MV1GetFrameMaxVertexLocalPositionD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameMaxVertexLocalPositionD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D MV1GetFrameMaxVertexLocalPositionD(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameMaxVertexLocalPositionD 項を参照。
+
+%index
+dx_MV1GetFrameMinVertexLocalPosition
+DxLib MV1GetFrameMinVertexLocalPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameMinVertexLocalPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetFrameMinVertexLocalPosition(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameMinVertexLocalPosition 項を参照。
+
+%index
+dx_MV1GetFrameMinVertexLocalPositionD
+DxLib MV1GetFrameMinVertexLocalPositionD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameMinVertexLocalPositionD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D MV1GetFrameMinVertexLocalPositionD(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameMinVertexLocalPositionD 項を参照。
+
+%index
+dx_MV1GetFrameAvgVertexLocalPosition
+DxLib MV1GetFrameAvgVertexLocalPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameAvgVertexLocalPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetFrameAvgVertexLocalPosition(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameAvgVertexLocalPosition 項を参照。
+
+%index
+dx_MV1GetFrameAvgVertexLocalPositionD
+DxLib MV1GetFrameAvgVertexLocalPositionD (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR_D 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameAvgVertexLocalPositionD() を呼び出します。
+^p
+元関数シグネチャ: VECTOR_D MV1GetFrameAvgVertexLocalPositionD(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameAvgVertexLocalPositionD 項を参照。
 
 %index
 dx_MV1GetFrameVertexNum
@@ -22369,6 +26416,78 @@ DxLib の MV1SetFrameAmbColorScale() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetFrameAmbColorScale 項を参照。
 
 %index
+dx_MV1GetFrameDifColorScale
+DxLib MV1GetFrameDifColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameDifColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetFrameDifColorScale(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameDifColorScale 項を参照。
+
+%index
+dx_MV1GetFrameSpcColorScale
+DxLib MV1GetFrameSpcColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameSpcColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetFrameSpcColorScale(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameSpcColorScale 項を参照。
+
+%index
+dx_MV1GetFrameEmiColorScale
+DxLib MV1GetFrameEmiColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameEmiColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetFrameEmiColorScale(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameEmiColorScale 項を参照。
+
+%index
+dx_MV1GetFrameAmbColorScale
+DxLib MV1GetFrameAmbColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameAmbColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetFrameAmbColorScale(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameAmbColorScale 項を参照。
+
+%index
 dx_MV1GetFrameSemiTransState
 DxLib MV1GetFrameSemiTransState (自動生成、hsp3dx 専用)
 %group
@@ -22402,6 +26521,24 @@ DxLib の MV1SetFrameOpacityRate() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetFrameOpacityRate 項を参照。
+
+%index
+dx_MV1GetFrameOpacityRate
+DxLib MV1GetFrameOpacityRate (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int FrameIndex
+%inst
+DxLib の MV1GetFrameOpacityRate() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetFrameOpacityRate(int MHandle, int FrameIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetFrameOpacityRate 項を参照。
 
 %index
 dx_MV1SetFrameBaseVisible
@@ -22672,6 +26809,78 @@ DxLib の MV1SetMeshAmbColorScale() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMeshAmbColorScale 項を参照。
 
 %index
+dx_MV1GetMeshDifColorScale
+DxLib MV1GetMeshDifColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MeshIndex
+%inst
+DxLib の MV1GetMeshDifColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMeshDifColorScale(int MHandle, int MeshIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshDifColorScale 項を参照。
+
+%index
+dx_MV1GetMeshSpcColorScale
+DxLib MV1GetMeshSpcColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MeshIndex
+%inst
+DxLib の MV1GetMeshSpcColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMeshSpcColorScale(int MHandle, int MeshIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshSpcColorScale 項を参照。
+
+%index
+dx_MV1GetMeshEmiColorScale
+DxLib MV1GetMeshEmiColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MeshIndex
+%inst
+DxLib の MV1GetMeshEmiColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMeshEmiColorScale(int MHandle, int MeshIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshEmiColorScale 項を参照。
+
+%index
+dx_MV1GetMeshAmbColorScale
+DxLib MV1GetMeshAmbColorScale (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 COLOR_F 出力)
+p2 : int MHandle
+p3 : int MeshIndex
+%inst
+DxLib の MV1GetMeshAmbColorScale() を呼び出します。
+^p
+元関数シグネチャ: COLOR_F MV1GetMeshAmbColorScale(int MHandle, int MeshIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshAmbColorScale 項を参照。
+
+%index
 dx_MV1SetMeshOpacityRate
 DxLib MV1SetMeshOpacityRate (自動生成、hsp3dx 専用)
 %group
@@ -22688,6 +26897,24 @@ DxLib の MV1SetMeshOpacityRate() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetMeshOpacityRate 項を参照。
+
+%index
+dx_MV1GetMeshOpacityRate
+DxLib MV1GetMeshOpacityRate (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int MeshIndex
+%inst
+DxLib の MV1GetMeshOpacityRate() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetMeshOpacityRate(int MHandle, int MeshIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshOpacityRate 項を参照。
 
 %index
 dx_MV1SetMeshDrawBlendMode
@@ -22828,6 +27055,42 @@ DxLib の MV1GetMeshBackCulling() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshBackCulling 項を参照。
+
+%index
+dx_MV1GetMeshMaxPosition
+DxLib MV1GetMeshMaxPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int MeshIndex
+%inst
+DxLib の MV1GetMeshMaxPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetMeshMaxPosition(int MHandle, int MeshIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshMaxPosition 項を参照。
+
+%index
+dx_MV1GetMeshMinPosition
+DxLib MV1GetMeshMinPosition (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 VECTOR 出力)
+p2 : int MHandle
+p3 : int MeshIndex
+%inst
+DxLib の MV1GetMeshMinPosition() を呼び出します。
+^p
+元関数シグネチャ: VECTOR MV1GetMeshMinPosition(int MHandle, int MeshIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetMeshMinPosition 項を参照。
 
 %index
 dx_MV1GetMeshTListNum
@@ -23056,6 +27319,42 @@ DxLib の MV1SetShapeRate() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1SetShapeRate 項を参照。
 
 %index
+dx_MV1GetShapeRate
+DxLib MV1GetShapeRate (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int ShapeIndex
+%inst
+DxLib の MV1GetShapeRate() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetShapeRate(int MHandle, int ShapeIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetShapeRate 項を参照。
+
+%index
+dx_MV1GetShapeApplyRate
+DxLib MV1GetShapeApplyRate (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int MHandle
+p3 : int ShapeIndex
+%inst
+DxLib の MV1GetShapeApplyRate() を呼び出します。
+^p
+元関数シグネチャ: float MV1GetShapeApplyRate(int MHandle, int ShapeIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetShapeApplyRate 項を参照。
+
+%index
 dx_MV1GetTriangleListNum
 DxLib MV1GetTriangleListNum (自動生成、hsp3dx 専用)
 %group
@@ -23138,6 +27437,25 @@ DxLib の MV1GetTriangleListLocalWorldMatrixNum() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetTriangleListLocalWorldMatrixNum 項を参照。
+
+%index
+dx_MV1GetTriangleListLocalWorldMatrix
+DxLib MV1GetTriangleListLocalWorldMatrix (自動生成、hsp3dx 専用)
+%group
+DxLib MV1 モデル
+%prm
+p1 : var (戻り値 MATRIX 出力)
+p2 : int MHandle
+p3 : int TListIndex
+p4 : int LWMatrixIndex
+%inst
+DxLib の MV1GetTriangleListLocalWorldMatrix() を呼び出します。
+^p
+元関数シグネチャ: MATRIX MV1GetTriangleListLocalWorldMatrix(int MHandle, int TListIndex, int LWMatrixIndex)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の MV1GetTriangleListLocalWorldMatrix 項を参照。
 
 %index
 dx_MV1GetTriangleListPolygonVertexPosition
@@ -23593,6 +27911,23 @@ DxLib の Live2D_Model_IsMotionFinished() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_IsMotionFinished 項を参照。
 
 %index
+dx_Live2D_Model_GetMotionPlayTime
+DxLib Live2D_Model_GetMotionPlayTime (自動生成、hsp3dx 専用)
+%group
+DxLib 動画 / 再生
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetMotionPlayTime() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetMotionPlayTime(int Live2DModelHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionPlayTime 項を参照。
+
+%index
 dx_Live2D_Model_SetExpression
 DxLib Live2D_Model_SetExpression (自動生成、hsp3dx 専用)
 %group
@@ -23643,6 +27978,24 @@ DxLib の Live2D_Model_GetParameterCount() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetParameterCount 項を参照。
+
+%index
+dx_Live2D_Model_GetParameterValue
+DxLib Live2D_Model_GetParameterValue (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+p3 : str parameterId
+%inst
+DxLib の Live2D_Model_GetParameterValue() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetParameterValue(int Live2DModelHandle, const TCHAR * parameterId)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetParameterValue 項を参照。
 
 %index
 dx_Live2D_Model_SetParameterValue
@@ -23728,6 +28081,44 @@ DxLib の Live2D_Model_GetMotionCount() を呼び出します。
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionCount 項を参照。
 
 %index
+dx_Live2D_Model_GetMotionFadeInTimeValue
+DxLib Live2D_Model_GetMotionFadeInTimeValue (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+p3 : str groupName
+p4 : int index
+%inst
+DxLib の Live2D_Model_GetMotionFadeInTimeValue() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetMotionFadeInTimeValue(int Live2DModelHandle, const TCHAR * groupName, int index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionFadeInTimeValue 項を参照。
+
+%index
+dx_Live2D_Model_GetMotionFadeOutTimeValue
+DxLib Live2D_Model_GetMotionFadeOutTimeValue (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+p3 : str groupName
+p4 : int index
+%inst
+DxLib の Live2D_Model_GetMotionFadeOutTimeValue() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetMotionFadeOutTimeValue(int Live2DModelHandle, const TCHAR * groupName, int index)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetMotionFadeOutTimeValue 項を参照。
+
+%index
 dx_Live2D_Model_GetEyeBlinkParameterCount
 DxLib Live2D_Model_GetEyeBlinkParameterCount (自動生成、hsp3dx 専用)
 %group
@@ -23758,3 +28149,37 @@ DxLib の Live2D_Model_GetLipSyncParameterCount() を呼び出します。
 戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。
 ^p
 詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetLipSyncParameterCount 項を参照。
+
+%index
+dx_Live2D_Model_GetCanvasWidth
+DxLib Live2D_Model_GetCanvasWidth (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetCanvasWidth() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetCanvasWidth(int Live2DModelHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetCanvasWidth 項を参照。
+
+%index
+dx_Live2D_Model_GetCanvasHeight
+DxLib Live2D_Model_GetCanvasHeight (自動生成、hsp3dx 専用)
+%group
+DxLib その他
+%prm
+p1 : var (戻り値 float 出力)
+p2 : int Live2DModelHandle
+%inst
+DxLib の Live2D_Model_GetCanvasHeight() を呼び出します。
+^p
+元関数シグネチャ: float Live2D_Model_GetCanvasHeight(int Live2DModelHandle)
+^p
+戻り値は第 1 引数に指定した変数に書き戻されます。
+^p
+詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の Live2D_Model_GetCanvasHeight 項を参照。
