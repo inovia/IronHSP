@@ -1,0 +1,53 @@
+;============================================================
+;   sample_sprite.hsp — Phase 1.5 動作確認
+;   celload / celput / gcopy / gmode / buffer のデモ
+;
+;   前提: 同ディレクトリに test_logo.png (128x128) 配置
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_sprite.hsp
+;   実行:   ..\win32\bin\Release\hsp3dx.exe sample_sprite.ax
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: sprite"
+
+    ;  背景
+    color 20, 50, 80
+    boxf 0, 0, 640, 480
+
+    ;  test_logo.png を ID=2 にロード
+    celload "test_logo.png", 2
+
+    ;  中心に原寸で 1 枚
+    pos 256, 176
+    celput 2
+
+    ;  半分サイズで左上
+    pos 20, 20
+    celput 2, 0, 0.5, 0.5
+
+    ;  gmode 3 alpha 128 で右上に半透明
+    gmode 3, 128, 128, 128
+    pos 492, 20
+    celput 2
+
+    ;  加算合成で左下
+    gmode 5, 128, 128, 200
+    pos 20, 332
+    celput 2
+
+    ;  gcopy で右下に部分コピー (source 矩形 0,0,64,64 の左上四半分)
+    gmode 0
+    pos 500, 340
+    gcopy 2, 0, 0, 64, 64
+
+    ;  文字乗せ
+    gmode 0
+    color 255, 255, 255
+    font "MS Gothic", 20, 1
+    pos 200, 440
+    mes "celput / gcopy / gmode"
+
+    redraw 1
+    end

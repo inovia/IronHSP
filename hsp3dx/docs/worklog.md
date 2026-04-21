@@ -6,7 +6,31 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-21 (Phase 1.2 + 1.3 + 1.4)
+## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5)
+
+### (これから commit) @ 20:03 — Phase 1.5: buffer / gsel / celload / celput / gcopy / gmode
+
+**やったこと**
+- **buffer 管理テーブル**追加: `s_buf_handle[256]` / `s_buf_w[]` / `s_buf_h[]`
+  ID 0 = DX_SCREEN_BACK (常に)、ID 1+ = MakeScreen / LoadGraph の graph handle
+- **gmode 状態**追加: `s_gmode` / `s_gmode_w` / `s_gmode_h` / `s_gmode_alpha`
+- `apply_gmode_blend()` ヘルパ: HSP gmode → DxLib SetDrawBlendMode マッピング
+  - 0/2 → NOBLEND、3 → ALPHA、5 → ADD、6 → SUB
+- 実装 extcmd 追加:
+  - `0x1d gsel ID` — SetDrawScreen(resolve_draw_target(ID))
+  - `0x1e gcopy srcID, sx, sy, w, h` — DrawRectGraph + 描画後 cur_x += w
+  - `0x20 gmode mode, w, h, alpha` — 状態更新
+  - `0x29 buffer ID, w, h` — MakeScreen + s_buf_handle[ID] 登録
+  - `0x2a/0x2b screen/bgscr` — ID=0 のみ (サイズ変更は現状無視)、他はエラー
+  - `0x3c celload "file", ID` — LoadGraph + handle 登録、ID<0 で空きを自動割当、stat に確定 ID
+  - `0x3e celput ID [, frame, zx, zy, rot]` — DrawRotaGraph (画像中心を cur_x/cur_y に合わせる HSP 仕様)
+- サンプル `hsp3dx/samples/sample_sprite.hsp` 追加: 通常 / 半分 / 半透明 / 加算 / 部分コピーの 5 パターン描画
+
+**動作確認**
+- ビルド成功 (警告ゼロ)
+- 実機で sample_sprite 表示確認 → 青背景に 5 パターンのロゴ描画 + 白文字が出る ✅
+
+---
 
 ### (これから commit) @ 20:02 — Phase 1.4: font + picload
 

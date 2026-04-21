@@ -13,9 +13,17 @@
 //      font "name", size, style       デフォルトフォント切り替え (SetFontSize / ChangeFont)
 //      picload "file" [, mode]        画像ロード + 現在位置に描画
 //
-//  未実装 (Phase 1.5+):
-//      gcopy / gmode / celload / celput / screen / buffer / gsel /
-//      stick / getkey / mouse / wait 以外の input 系
+//  Phase 1.5 追加:
+//      buffer ID, w, h                MakeScreen で描画可能なオフスクリーンを作成
+//      screen 0, w, h                 メイン screen (現状 ID=0 専用、w/h は無視)
+//      gsel ID                        描画対象をバッファ ID に切替 (SetDrawScreen)
+//      celload "file", ID             画像ロードを指定 ID に保持 (LoadGraph)
+//      celput ID [, frame, zx, zy, rot]  バッファ ID の画像を現在位置に描画
+//      gcopy srcID, sx, sy, w, h      srcID の矩形を現在位置に描画 (DrawRectGraph)
+//      gmode mode, w, h, alpha        ブレンドモード設定 (SetDrawBlendMode)
+//
+//  未実装 (Phase 1.6+):
+//      celdiv / gzoom / stick / getkey / mouse / wait 以外の input 系
 //
 #include <stdio.h>
 #include <string.h>
@@ -46,6 +54,59 @@ static int  s_cur_x      = 0;               // mes / line の始点 x
 static int  s_cur_y      = 0;               // 同 y
 static unsigned int s_cur_color = 0xFFFFFF; // r<<16 | g<<8 | b  (DxLib GetColor 値)
 static int  s_font_size  = 18;              // 行高 / DrawString フォント高
+
+//  ---- Phase 1.5: buffer / cel 管理 ----
+#define HSP3DX_MAX_BUFFERS 256
+static int  s_buf_handle[HSP3DX_MAX_BUFFERS];   // DxLib graph handle (LoadGraph / MakeScreen の戻り値)、-1 = 未割当
+static int  s_buf_w     [HSP3DX_MAX_BUFFERS];
+static int  s_buf_h     [HSP3DX_MAX_BUFFERS];
+static int  s_cur_window = 0;                   // gsel 現在値 (ID)
+
+//  ---- gmode state ----
+static int  s_gmode       = 0;      // 0=copy, 2=key trans, 3=alpha, 5=add
+static int  s_gmode_w     = 32;     // gcopy デフォルト幅
+static int  s_gmode_h     = 32;     // gcopy デフォルト高
+static int  s_gmode_alpha = 255;    // alpha パラメータ
+
+static void init_buffers_once( void )
+{
+    static int initialized = 0;
+    if ( initialized ) return;
+    for ( int i = 0; i < HSP3DX_MAX_BUFFERS; i++ ) s_buf_handle[i] = -1;
+    initialized = 1;
+}
+
+//  HSP の ID → DxLib 描画ターゲット解決
+//  ID 0 は常にメイン画面 (DX_SCREEN_BACK)。それ以外は s_buf_handle[] を引く。
+static int resolve_draw_target( int id )
+{
+    if ( id == 0 ) return DX_SCREEN_BACK;
+    if ( id < 0 || id >= HSP3DX_MAX_BUFFERS ) return -1;
+    return s_buf_handle[id];
+}
+
+//  HSP gmode → DxLib blend mode
+static void apply_gmode_blend( void )
+{
+    switch ( s_gmode ) {
+    case 0:
+    case 2:     // 2 はキーカラー透過だが、DxLib は PNG アルファで代替
+        SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
+        break;
+    case 3:
+        SetDrawBlendMode( DX_BLENDMODE_ALPHA, s_gmode_alpha );
+        break;
+    case 5:
+        SetDrawBlendMode( DX_BLENDMODE_ADD, s_gmode_alpha );
+        break;
+    case 6:
+        SetDrawBlendMode( DX_BLENDMODE_SUB, s_gmode_alpha );
+        break;
+    default:
+        SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
+        break;
+    }
+}
 
 static void advance_mes_y( void )
 {
@@ -184,6 +245,126 @@ static int cmdfunc_extcmd( int cmd )
         s_cur_color = GetColor( p1, p2, p3 );
         break;
 
+    case 0x1d:                      // gsel ID [, mode]
+        {
+            p1 = code_getdi( 0 );           // ID
+            (void)code_getdi( 0 );          // mode (現状無視)
+            int tgt = resolve_draw_target( p1 );
+            if ( tgt == -1 ) throw HSPERR_BUFFER_OVERFLOW;
+            SetDrawScreen( tgt );
+            s_cur_window = p1;
+            break;
+        }
+
+    case 0x1e:                      // gcopy srcID, sx, sy, w, h
+        {
+            p1 = code_getdi( 0 );           // src ID
+            p2 = code_getdi( 0 );           // src x
+            p3 = code_getdi( 0 );           // src y
+            p4 = code_getdi( s_gmode_w );   // width
+            p5 = code_getdi( s_gmode_h );   // height
+            if ( p1 <= 0 || p1 >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
+            int src = s_buf_handle[p1];
+            if ( src == -1 ) throw HSPERR_PICTURE_MISSING;
+            apply_gmode_blend();
+            DrawRectGraph( s_cur_x, s_cur_y, p2, p3, p4, p5, src, TRUE );
+            s_cur_x += p4;                  // HSP の挙動に倣って描画後に x を進める
+            break;
+        }
+
+    case 0x20:                      // gmode mode, w, h, alpha
+        s_gmode       = code_getdi( 0 );
+        s_gmode_w     = code_getdi( 32 );
+        s_gmode_h     = code_getdi( 32 );
+        s_gmode_alpha = code_getdi( 256 );
+        //  HSP alpha は 0〜256、DxLib は 0〜255。256 は 255 に丸める
+        if ( s_gmode_alpha > 255 ) s_gmode_alpha = 255;
+        if ( s_gmode_alpha < 0   ) s_gmode_alpha = 0;
+        break;
+
+    case 0x29:                      // buffer ID, w, h
+    case 0x2a:                      // screen ID, w, h (ID=0 限定)
+    case 0x2b:                      // bgscr (hsp3dx では screen と同等扱い)
+        {
+            p1 = code_getdi( 0 );           // ID
+            p2 = code_getdi( 640 );         // width
+            p3 = code_getdi( 480 );         // height
+            (void)code_getdi( 0 );          // option (現状無視)
+
+            if ( cmd == 0x29 ) {
+                if ( p1 <= 0 || p1 >= HSP3DX_MAX_BUFFERS ) throw HSPERR_ILLEGAL_FUNCTION;
+                if ( s_buf_handle[p1] != -1 ) DeleteGraph( s_buf_handle[p1] );
+                int h = MakeScreen( p2, p3, TRUE );
+                if ( h == -1 ) throw HSPERR_BUFFER_OVERFLOW;
+                s_buf_handle[p1] = h;
+                s_buf_w[p1] = p2;
+                s_buf_h[p1] = p3;
+            } else {
+                //  screen 0 または bgscr: Phase 1.5 では ID=0 以外はエラー、
+                //  ID=0 の場合はサイズ変更を無視 (起動時 640x480 固定)
+                if ( p1 != 0 ) throw HSPERR_ILLEGAL_FUNCTION;
+            }
+            break;
+        }
+
+    case 0x3c:                      // celload "file", ID
+        {
+            char *fname = code_gets();
+            p1 = code_getdi( -2 );          // ID (デフォルト -2 = auto)
+            (void)code_getdi( 0 );          // option
+
+            //  ID < 0 なら空きを探す
+            int id = p1;
+            if ( id < 0 ) {
+                for ( id = 1; id < HSP3DX_MAX_BUFFERS; id++ )
+                    if ( s_buf_handle[id] == -1 ) break;
+                if ( id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
+            } else if ( id == 0 || id >= HSP3DX_MAX_BUFFERS ) {
+                throw HSPERR_ILLEGAL_FUNCTION;
+            }
+
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+
+            if ( s_buf_handle[id] != -1 ) DeleteGraph( s_buf_handle[id] );
+            int hgr = LoadGraph( wfname );
+            if ( hgr == -1 ) throw HSPERR_PICTURE_MISSING;
+            s_buf_handle[id] = hgr;
+            //  GetGraphSize で w/h 取得
+            int w = 0, h = 0;
+            GetGraphSize( hgr, &w, &h );
+            s_buf_w[id] = w;
+            s_buf_h[id] = h;
+            ctx->stat = id;
+            break;
+        }
+
+    case 0x3e:                      // celput ID [, frame, zx, zy, rot]
+        {
+            p1 = code_getdi( 1 );           // ID
+            p2 = code_getdi( 0 );           // frame (現状無視、celdiv 未実装)
+            double zx  = code_getdd( 1.0 );
+            double zy  = code_getdd( 1.0 );
+            double rot = code_getdd( 0.0 );
+            (void)p2; (void)zy;
+
+            if ( p1 <= 0 || p1 >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
+            int src = s_buf_handle[p1];
+            if ( src == -1 ) throw HSPERR_PICTURE_MISSING;
+            apply_gmode_blend();
+            if ( rot == 0.0 && zx == 1.0 && zy == 1.0 ) {
+                //  HSP celput は画像の中心を現在位置に置く仕様
+                int cx = s_cur_x + s_buf_w[p1] / 2;
+                int cy = s_cur_y + s_buf_h[p1] / 2;
+                DrawRotaGraph( cx, cy, 1.0, 0.0, src, TRUE );
+            } else {
+                int cx = s_cur_x + (int)( s_buf_w[p1] * zx / 2.0 );
+                int cy = s_cur_y + (int)( s_buf_h[p1] * zy / 2.0 );
+                DrawRotaGraph( cx, cy, zx, rot, src, TRUE );
+            }
+            break;
+        }
+
     case 0x1b:                      // redraw
         {
             p1 = code_getdi( 1 );
@@ -272,6 +453,8 @@ int hsp3typeinit_cl_extcmd( HSP3TYPEINFO *info )
     exinfo = info->hspexinfo;
     type   = exinfo->nptype;
     val    = exinfo->npval;
+
+    init_buffers_once();
 
     info->cmdfunc  = cmdfunc_extcmd;
     info->termfunc = termfunc_extcmd;
