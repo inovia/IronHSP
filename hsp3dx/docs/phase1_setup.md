@@ -88,6 +88,15 @@ hsp3dx.exe
 | 2.1 | VM .ax ローダを platform_io 経由に書き換え (optional) | 未着手 |
 | 2.2 | `picload` / `celload` / `mmload` を mobile 向けに `*FromMem` に切替可能化 | 未着手 |
 
+## Phase 5 サブフェーズ進捗 (Phase 3/4 より前倒し)
+
+| サブ Phase | 内容 | 状態 |
+|---|---|---|
+| **5.0** | gzoom / bmpsave / hsvcolor / ginfo(p) 追加 (既存 hspcmp 対応 opcode) | ✅ |
+| 5.1 | dx_* 命令公開基盤 (hspcmp 拡張 or #uselib hijack) | 未着手 |
+| 5.2 | joypad / AA drawing / movie / network (DxLib 独自機能) | 未着手 |
+| 5.3 | DxLib API 自動コード生成 (40 → 500 関数) | 未着手 |
+
 ## トラブルシュート
 
 - **ビルドエラー `DxLib.h: No such file`**: extlib/dxlib_win/include/ が存在するか確認

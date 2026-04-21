@@ -1,0 +1,69 @@
+;============================================================
+;   sample_effects.hsp — Phase 5.0 新 opcodes のデモ
+;       gzoom / hsvcolor / bmpsave / ginfo()
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_effects.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: effects"
+
+    ;  ロゴをバッファ 1 に読み込む
+    celload "test_logo.png", 1
+
+    ;  画面サイズを ginfo から取る
+    sw = ginfo(12)
+    sh = ginfo(13)
+
+    t = 0
+*main_loop
+    redraw 0
+
+    ;  HSV 変化する背景 (ゆっくり色相変化)
+    hsvcolor (t \ 256), 80, 30
+    boxf 0, 0, sw, sh
+
+    ;  gzoom: ロゴを拡大縮小しながら描画
+    zoom_px = 80 + t \ 240
+    pos (sw - zoom_px) / 2, (sh - zoom_px) / 2
+    gmode 3, zoom_px, zoom_px, 220
+    gzoom zoom_px, zoom_px, 1, 0, 0, 128, 128
+
+    ;  虹色の円を 12 個円周状に配置
+    gmode 3, 64, 64, 180
+    repeat 12
+        a = cnt * 30 + t / 2
+        cx_ = sw/2 + cos(0.0174 * a) * 180
+        cy_ = sh/2 + sin(0.0174 * a) * 180
+        hsvcolor (cnt * 21 + t / 4) \ 256, 255, 230
+        circle cx_ - 20, cy_ - 20, cx_ + 20, cy_ + 20, 1
+    loop
+
+    gmode 0
+    color 255, 255, 255
+    font "MS Gothic", 18, 1
+    pos 10, 10
+    mes "hsp3dx Phase 5.0 effects"
+    pos 10, 34
+    mes "gzoom + hsvcolor + ginfo"
+    pos 10, 58
+    mes "screen = " + sw + " x " + sh
+    pos 10, 82
+    mes "t = " + t + "   ESC: quit   S: save bmp"
+
+    redraw 1
+
+    getkey esc_pressed, 27
+    if esc_pressed : end
+
+    getkey s_pressed, 83
+    if s_pressed {
+        bmpsave "capture.bmp"
+        ;  連打防止のため軽くウェイト
+        await 400
+    }
+
+    t = t + 1
+    await 16
+    goto *main_loop

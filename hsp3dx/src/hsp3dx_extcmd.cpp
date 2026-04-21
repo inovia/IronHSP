@@ -49,6 +49,7 @@
 //
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include <windows.h>
 
 #include "../../hsp3/hsp3config.h"
@@ -354,6 +355,65 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    case 0x1f:                      // gzoom dst_w, dst_h, srcID, sx, sy, w, h
+        {
+            int dw = code_getdi( s_gmode_w );
+            int dh = code_getdi( s_gmode_h );
+            int id = code_getdi( 0 );
+            int sx = code_getdi( 0 );
+            int sy = code_getdi( 0 );
+            int sw = code_getdi( s_gmode_w );
+            int sh = code_getdi( s_gmode_h );
+            (void)code_getdi( 0 );      // ドットスムージング (Phase 5.0 では常に auto)
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
+            int src = s_buf_handle[id];
+            if ( src == -1 ) throw HSPERR_PICTURE_MISSING;
+            apply_gmode_blend();
+            //  DxLib DrawExtendGraph: dest 矩形を指定して source 全体を伸縮描画。
+            //  ここでは dest=(cur_x, cur_y, cur_x+dw, cur_y+dh) で source 矩形を切り出した
+            //  部分を拡大/縮小するため、一度 DrawRectExtendGraph が必要だが、
+            //  DxLib には「source 矩形 + dest 矩形」のバージョンがない場合は
+            //  簡易的に source 全体を切り出して DrawExtendGraph に渡す運用。
+            DrawRectExtendGraph( s_cur_x, s_cur_y, s_cur_x + dw, s_cur_y + dh,
+                                 sx, sy, sw, sh, src, TRUE );
+            break;
+        }
+
+    case 0x21:                      // bmpsave "file"
+        {
+            char *fname = code_gets();
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+            if ( SaveDrawScreen( 0, 0, 640, 480, wfname ) != 0 ) throw HSPERR_FILE_IO;
+            break;
+        }
+
+    case 0x22:                      // hsvcolor h, s, v (all 0..255)
+        {
+            p1 = code_getdi( 0 );       // h (hue, 0..255 → 0..360)
+            p2 = code_getdi( 0 );       // s (saturation, 0..255)
+            p3 = code_getdi( 0 );       // v (value, 0..255)
+            //  HSV → RGB (簡易実装)
+            double h = (double)p1 * 360.0 / 255.0;
+            double sat = (double)p2 / 255.0;
+            double val = (double)p3 / 255.0;
+            double c = val * sat;
+            double x = c * ( 1.0 - fabs( fmod( h / 60.0, 2.0 ) - 1.0 ) );
+            double m = val - c;
+            double r = 0, g = 0, b = 0;
+            if      ( h <  60 ) { r = c; g = x; }
+            else if ( h < 120 ) { r = x; g = c; }
+            else if ( h < 180 ) { g = c; b = x; }
+            else if ( h < 240 ) { g = x; b = c; }
+            else if ( h < 300 ) { r = x; b = c; }
+            else                { r = c; b = x; }
+            int ri = (int)((r + m) * 255.0);
+            int gi = (int)((g + m) * 255.0);
+            int bi = (int)((b + m) * 255.0);
+            s_cur_color = GetColor( ri, gi, bi );
+            break;
+        }
+
     case 0x20:                      // gmode mode, w, h, alpha
         s_gmode       = code_getdi( 0 );
         s_gmode_w     = code_getdi( 32 );
@@ -588,6 +648,35 @@ static void *reffunc_function( int *type_res, int arg )
     case 0x005:                             // hdc (現状未取得、0 返し)
         reffunc_intfunc_ivalue = 0;
         break;
+
+    case 0x100:                             // ginfo(p)  グラフィック情報取得
+        {
+            if ( !has_parens ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            int p = code_geti();
+            if ( *type != TYPE_MARK || *val != ')' ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            int mx = 0, my = 0;
+            switch ( p ) {
+            case 0: GetMousePoint( &mx, &my ); reffunc_intfunc_ivalue = mx; break;   // mouse x
+            case 1: GetMousePoint( &mx, &my ); reffunc_intfunc_ivalue = my; break;   // mouse y
+            case 2: reffunc_intfunc_ivalue = (int)(intptr_t)GetMainWindowHandle(); break; // active win
+            case 3: reffunc_intfunc_ivalue = s_cur_color; break;     // current color (R<<16|G<<8|B)
+            case 4: reffunc_intfunc_ivalue = s_cur_x; break;         // current draw x (window coord)
+            case 5: reffunc_intfunc_ivalue = s_cur_y; break;         // current draw y
+            case 6: reffunc_intfunc_ivalue = 0; break;               // window x top-left (not tracked)
+            case 7: reffunc_intfunc_ivalue = 0; break;               // window y top-left
+            case 8: reffunc_intfunc_ivalue = 640; break;             // view width  (Phase 1 は 640 固定)
+            case 9: reffunc_intfunc_ivalue = 480; break;             // view height (Phase 1 は 480 固定)
+            case 10: reffunc_intfunc_ivalue = s_cur_x; break;        // draw cursor x (= 4)
+            case 11: reffunc_intfunc_ivalue = s_cur_y; break;        // draw cursor y
+            case 12: reffunc_intfunc_ivalue = 640; break;            // screen width
+            case 13: reffunc_intfunc_ivalue = 480; break;            // screen height
+            case 21: reffunc_intfunc_ivalue = s_cur_window; break;   // current gsel target ID
+            default: reffunc_intfunc_ivalue = 0; break;
+            }
+            break;
+        }
 
     case 0x102:                             // dirinfo(p)
         {

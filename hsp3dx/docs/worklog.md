@@ -6,6 +6,42 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 1 完了 + 仕様訂正 + Phase 2.0 + Phase 5.0)
+
+### (これから commit) @ 20:10 — Phase 5.0: gzoom / bmpsave / hsvcolor / ginfo
+
+Phase 3/4 (mobile) より先に、Windows で目に見える機能追加。hspcmp が既に
+知っている HSP 標準 opcode のうち未実装だった 4 つを extcmd/reffunc に追加。
+
+**追加 opcode**
+- `0x1f gzoom dw,dh,srcID,sx,sy,w,h` → DxLib DrawRectExtendGraph
+  gmode 経由で blend mode 反映。拡大縮小スプライト描画。
+- `0x21 bmpsave "file"` → DxLib SaveDrawScreen
+  現在描画対象 (通常はメイン画面) を BMP として保存。
+- `0x22 hsvcolor h,s,v` → HSV(0..255,0..255,0..255) → RGB 変換 + GetColor
+  `color` の HSV 版、色相グラデーション作れる。
+- `0x100 ginfo(p)` (reffunc) → グラフィック情報 (mouse/color/cur/view/screen 等)
+  HSP 標準の ginfo システム関数。p=12,13 で画面サイズ等。
+
+**サンプル** `sample_effects.hsp`:
+- HSV 色相が循環する背景
+- gzoom で拡大縮小するロゴ
+- 円周状に 12 個配置した虹色の円 (HSV + 加算合成)
+- **S キー** で `capture.bmp` にスクリーンショット保存
+- ginfo(12)/ginfo(13) で画面サイズ取得
+
+**動作確認**
+- ビルド成功 (警告ゼロ)
+- ユーザー実機で確認 ✅
+
+**Phase 5 残り** (別作業)
+- 5.1: dx_* 命令公開基盤 (hspcmp 拡張 or #uselib hijack) — 検討した結果
+       両方インフラ重く、Phase 3/4 (mobile) の後で再検討
+- 5.2: joypad / AA drawing / movie / network
+- 5.3: DxLib.h パース + 自動コード生成 (→ 500 関数)
+
+---
+
 ## 2026-04-21 (Phase 1 完了 + 仕様訂正 + Phase 2.0 scaffold)
 
 ### (これから commit) @ 20:09 — Phase 2.0: platform abstraction I/O API
