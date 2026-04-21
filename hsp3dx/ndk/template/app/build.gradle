@@ -34,4 +34,19 @@ android {
             version "3.18.1"
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //  Phase 4.k: WebSocket via OkHttp (純 Java 3.x 系で Kotlin runtime 不要)
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+}
+
+repositories {
+    google()
+    mavenCentral()
 }
