@@ -17,6 +17,7 @@
 #include "../../hsp3/hsp3code.h"
 #include "../../hsp3/hsp3debug.h"
 #include "DxLib.h"
+#include "hsp3dx_ios_dxlib_override.h"  // iOS 時 LoadGraph/LoadSoundMem をラッパへ差替
 #include "hsp3dx_console.h"    // utf8_to_wide
 
 //  本ファイル専用のユーティリティ (console.h の公開関数を使う)

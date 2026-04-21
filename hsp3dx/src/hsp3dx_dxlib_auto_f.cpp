@@ -12,6 +12,7 @@
 #include "../../hsp3/hsp3code.h"
 #include "../../hsp3/hsp3debug.h"
 #include "DxLib.h"
+#include "hsp3dx_ios_dxlib_override.h"  // iOS 時 LoadGraph/LoadSoundMem をラッパへ差替
 #include "hsp3dx_console.h"
 
 //  dispatcher: reffunc_function から呼ばれる。

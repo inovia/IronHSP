@@ -87,6 +87,7 @@ targets:
           - "hsp3dx_console.cpp"
           - "hsp3dx_dxlib_auto.cpp"
           - "hsp3dx_dxlib_auto_f.cpp"
+          - "hsp3dx_ios_dxlib_override.cpp"
           - "hsp3dx_json.cpp"
           - "main_ios.mm"
           - "hsp3dx_http_ios.mm"
