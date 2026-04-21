@@ -201,6 +201,66 @@ static void init_buffers_once( void )
     initialized = 1;
 }
 
+//  iOS では DxLib の FileRead_open が CWD (chdir した内部 Documents) を
+//  尊重せず bundle Resources のみ読むため、相対パスを絶対パスに解決して
+//  渡す必要がある。他プラットフォームは fname をそのままコピー。
+static void hsp3dx_resolve_asset_path( const char *fname, char *out, size_t out_cap )
+{
+    if ( fname == nullptr || out == nullptr || out_cap == 0 ) return;
+#ifdef __APPLE__
+    if ( fname[0] != '/' ) {
+        char cwd[1024];
+        if ( getcwd( cwd, sizeof(cwd) ) != nullptr ) {
+            snprintf( out, out_cap, "%s/%s", cwd, fname );
+            return;
+        }
+    }
+#endif
+    strncpy( out, fname, out_cap - 1 );
+    out[out_cap - 1] = 0;
+}
+
+#ifdef __APPLE__
+//  iOS の DxLib は LoadGraph / LoadSoundMem に絶対パスを渡しても
+//  Documents 下のファイルを開けない (bundle Resources 前提)。
+//  fopen でメモリに読み、*FromMem / *ByMemImage 系で DxLib ハンドル化する。
+static int hsp3dx_load_graph_ios( const char *path )
+{
+    FILE *fp = fopen( path, "rb" );
+    if ( fp == nullptr ) return -1;
+    fseek( fp, 0, SEEK_END );
+    long sz = ftell( fp );
+    fseek( fp, 0, SEEK_SET );
+    if ( sz <= 0 ) { fclose( fp ); return -1; }
+    void *buf = malloc( (size_t)sz );
+    if ( buf == nullptr ) { fclose( fp ); return -1; }
+    size_t n = fread( buf, 1, (size_t)sz, fp );
+    fclose( fp );
+    if ( (long)n != sz ) { free( buf ); return -1; }
+    int hgr = CreateGraphFromMem( buf, (int)sz );
+    free( buf );
+    return hgr;
+}
+
+static int hsp3dx_load_sound_ios( const char *path )
+{
+    FILE *fp = fopen( path, "rb" );
+    if ( fp == nullptr ) return -1;
+    fseek( fp, 0, SEEK_END );
+    long sz = ftell( fp );
+    fseek( fp, 0, SEEK_SET );
+    if ( sz <= 0 ) { fclose( fp ); return -1; }
+    void *buf = malloc( (size_t)sz );
+    if ( buf == nullptr ) { fclose( fp ); return -1; }
+    size_t n = fread( buf, 1, (size_t)sz, fp );
+    fclose( fp );
+    if ( (long)n != sz ) { free( buf ); return -1; }
+    int h = LoadSoundMemByMemImage( buf, (size_t)sz );
+    free( buf );
+    return h;
+}
+#endif
+
 //  HSP の ID → DxLib 描画ターゲット解決
 //  ID 0 は常にメイン画面 = DX_SCREEN_BACK (iOS も DxLib 自動 letterbox にまかせる)。
 //  ID >=1 は buffer 命令で作った s_buf_handle[]。
@@ -269,11 +329,17 @@ static int cmdfunc_extcmd( int cmd )
             p2 = code_getdi( 0 );       // option (0=one-shot, 1=loop)
             if ( p1 < 0 || p1 >= HSP3DX_MAX_SOUNDS ) throw HSPERR_ILLEGAL_FUNCTION;
 
-            wchar_t wfname[512];
-            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+            char rpath[1024];
+            hsp3dx_resolve_asset_path( fname, rpath, sizeof(rpath) );
 
             if ( s_snd_handle[p1] != -1 ) DeleteSoundMem( s_snd_handle[p1] );
-            int h = LoadSoundMem( HSP3DX_TCHAR_PTR( wfname, fname ) );
+#ifdef __APPLE__
+            int h = hsp3dx_load_sound_ios( rpath );
+#else
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( rpath, wfname, 512 );
+            int h = LoadSoundMem( HSP3DX_TCHAR_PTR( wfname, rpath ) );
+#endif
             if ( h == -1 ) throw HSPERR_FILE_IO;
             s_snd_handle[p1] = h;
             s_snd_option[p1] = p2;
@@ -475,10 +541,15 @@ static int cmdfunc_extcmd( int cmd )
             p1 = code_getdi( 0 );       // mode (0=通常、1=追記描画: Phase 1.4 では常に通常)
             (void)p1;
 
+            char rpath[1024];
+            hsp3dx_resolve_asset_path( fname, rpath, sizeof(rpath) );
+#ifdef __APPLE__
+            int hgr = hsp3dx_load_graph_ios( rpath );
+#else
             wchar_t wfname[512];
-            hsp3dx_utf8_to_wide( fname, wfname, 512 );
-
-            int hgr = LoadGraph( HSP3DX_TCHAR_PTR( wfname, fname ) );
+            hsp3dx_utf8_to_wide( rpath, wfname, 512 );
+            int hgr = LoadGraph( HSP3DX_TCHAR_PTR( wfname, rpath ) );
+#endif
             if ( hgr == -1 ) throw HSPERR_PICTURE_MISSING;
             DrawGraph( s_cur_x, s_cur_y, hgr, TRUE );
             DeleteGraph( hgr );         // Phase 1.4 MVP: 即描画後 dispose
@@ -773,11 +844,17 @@ static int cmdfunc_extcmd( int cmd )
                 throw HSPERR_ILLEGAL_FUNCTION;
             }
 
-            wchar_t wfname[512];
-            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+            char rpath[1024];
+            hsp3dx_resolve_asset_path( fname, rpath, sizeof(rpath) );
 
             if ( s_buf_handle[id] != -1 ) DeleteGraph( s_buf_handle[id] );
-            int hgr = LoadGraph( HSP3DX_TCHAR_PTR( wfname, fname ) );
+#ifdef __APPLE__
+            int hgr = hsp3dx_load_graph_ios( rpath );
+#else
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( rpath, wfname, 512 );
+            int hgr = LoadGraph( HSP3DX_TCHAR_PTR( wfname, rpath ) );
+#endif
             if ( hgr == -1 ) throw HSPERR_PICTURE_MISSING;
             s_buf_handle[id] = hgr;
             //  GetGraphSize で w/h 取得

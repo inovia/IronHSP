@@ -10,6 +10,8 @@
 #include <windows.h>
 #elif defined(__ANDROID__)
 #include <android/log.h>
+#elif defined(__APPLE__)
+#include <os/log.h>
 #endif
 
 void hsp3dx_utf8_to_wide( const char *utf8, wchar_t *out_buf, int out_capacity )
@@ -61,8 +63,15 @@ int hsp3dx_msgbox_utf8( const char *text_utf8, const char *title_utf8, unsigned 
                          title_utf8 ? title_utf8 : "hsp3dx",
                          "%s", text_utf8 ? text_utf8 : "" );
     return 0;
+#elif defined(__APPLE__)
+    //  iOS: os_log に出す (xcrun simctl log / Console.app で見える)
+    (void)mb_flags;
+    os_log_error( OS_LOG_DEFAULT, "[%{public}s] %{public}s",
+                  title_utf8 ? title_utf8 : "hsp3dx",
+                  text_utf8 ? text_utf8 : "" );
+    return 0;
 #else
-    //  iOS/Linux: stderr に出すだけ
+    //  Linux: stderr に出すだけ
     (void)mb_flags;
     fprintf( stderr, "[%s] %s\n",
              title_utf8 ? title_utf8 : "hsp3dx",
