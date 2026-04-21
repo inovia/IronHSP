@@ -15,6 +15,38 @@ import okhttp3.*;
 public class HspHttp {
 
     //  ================================================================
+    //  Cookie 管理 (HttpURLConnection 側のみ自動処理)
+    //  OkHttp (multipart/form-data) 側は未同期 — 必要なら JavaNetCookieJar 追加する
+    //  ================================================================
+    private static CookieManager cookieManager = null;
+
+    public static void cookieEnable( int enabled )
+    {
+        if ( enabled != 0 ) {
+            if ( cookieManager == null ) {
+                cookieManager = new CookieManager( null, CookiePolicy.ACCEPT_ALL );
+                CookieHandler.setDefault( cookieManager );
+                Log.i( "HspHttp", "cookieEnable: ON" );
+            }
+        } else {
+            if ( cookieManager != null ) {
+                cookieManager.getCookieStore().removeAll();
+                CookieHandler.setDefault( null );
+                cookieManager = null;
+                Log.i( "HspHttp", "cookieEnable: OFF" );
+            }
+        }
+    }
+
+    public static void cookieClear()
+    {
+        if ( cookieManager != null ) {
+            cookieManager.getCookieStore().removeAll();
+            Log.i( "HspHttp", "cookieClear" );
+        }
+    }
+
+    //  ================================================================
     //  multipart/form-data (OkHttp ベース)
     //  ================================================================
     private static MultipartBody.Builder mpBuilder = null;
@@ -76,13 +108,27 @@ public class HspHttp {
             Response response = c.newCall( b.build() ).execute();
             int code = response.code();
             byte[] respBody = ( response.body() != null ) ? response.body().bytes() : new byte[0];
+
+            StringBuilder hdrBuf = new StringBuilder();
+            for ( String n : response.headers().names() ) {
+                for ( String v : response.headers( n ) ) {
+                    hdrBuf.append( n ).append( ": " ).append( v ).append( "\r\n" );
+                }
+            }
             response.close();
+            byte[] headerBytes = hdrBuf.toString().getBytes( "UTF-8" );
+            int headerLen = headerBytes.length;
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             out.write( code        & 0xFF );
             out.write( (code >> 8) & 0xFF );
             out.write( (code >>16) & 0xFF );
             out.write( (code >>24) & 0xFF );
+            out.write( headerLen        & 0xFF );
+            out.write( (headerLen >> 8) & 0xFF );
+            out.write( (headerLen >>16) & 0xFF );
+            out.write( (headerLen >>24) & 0xFF );
+            out.write( headerBytes );
             out.write( respBody );
             return out.toByteArray();
         } catch ( Exception e ) {
@@ -90,11 +136,12 @@ public class HspHttp {
             try {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 out.write( 0 ); out.write( 0 ); out.write( 0 ); out.write( 0 );
+                out.write( 0 ); out.write( 0 ); out.write( 0 ); out.write( 0 );
                 String msg = e.getClass().getSimpleName() + ": " + e.getMessage();
                 out.write( msg.getBytes( "UTF-8" ) );
                 return out.toByteArray();
             } catch ( Exception e2 ) {
-                return new byte[]{0,0,0,0};
+                return new byte[]{0,0,0,0,0,0,0,0};
             }
         }
     }
@@ -157,26 +204,47 @@ public class HspHttp {
             }
             byte[] respBody = bos.toByteArray();
 
-            //  形式: [4byte status LE] + body バイト列
+            //  レスポンスヘッダ文字列を "Key: Value\r\n" 形式で build
+            StringBuilder hdrBuf = new StringBuilder();
+            java.util.Map<String, java.util.List<String>> hdrs = conn.getHeaderFields();
+            if ( hdrs != null ) {
+                for ( java.util.Map.Entry<String, java.util.List<String>> e : hdrs.entrySet() ) {
+                    String k = e.getKey();
+                    if ( k == null ) continue;  //  status line (null key) は除外
+                    for ( String v : e.getValue() ) {
+                        hdrBuf.append( k ).append( ": " ).append( v ).append( "\r\n" );
+                    }
+                }
+            }
+            byte[] headerBytes = hdrBuf.toString().getBytes( "UTF-8" );
+            int headerLen = headerBytes.length;
+
+            //  形式: [4B status LE][4B header_len LE][headers][body]
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             out.write( code        & 0xFF );
             out.write( (code >> 8) & 0xFF );
             out.write( (code >>16) & 0xFF );
             out.write( (code >>24) & 0xFF );
+            out.write( headerLen        & 0xFF );
+            out.write( (headerLen >> 8) & 0xFF );
+            out.write( (headerLen >>16) & 0xFF );
+            out.write( (headerLen >>24) & 0xFF );
+            out.write( headerBytes );
             out.write( respBody );
             conn.disconnect();
             return out.toByteArray();
         } catch ( Exception e ) {
             Log.e( "HspHttp", "exception: " + e.getClass().getSimpleName() + ": " + e.getMessage() );
-            //  status = 0、body に例外メッセージ
+            //  status = 0、headers empty、body に例外メッセージ
             try {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                out.write( 0 ); out.write( 0 ); out.write( 0 ); out.write( 0 );
+                out.write( 0 ); out.write( 0 ); out.write( 0 ); out.write( 0 );  // status
+                out.write( 0 ); out.write( 0 ); out.write( 0 ); out.write( 0 );  // header_len
                 String msg = e.getClass().getSimpleName() + ": " + e.getMessage();
                 out.write( msg.getBytes( "UTF-8" ) );
                 return out.toByteArray();
             } catch ( Exception e2 ) {
-                return new byte[]{0, 0, 0, 0};
+                return new byte[]{0, 0, 0, 0, 0, 0, 0, 0};
             }
         }
     }

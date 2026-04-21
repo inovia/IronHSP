@@ -11,6 +11,7 @@
 //
 #include "hsp3dx_http.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -155,25 +156,38 @@ static int do_request( const char *method, const char *url,
     int rc = -1;
     if ( result ) {
         jsize len = env->GetArrayLength( (jbyteArray)result );
-        if ( len >= 4 ) {
+        //  新フォーマット: [4B status LE][4B header_len LE][headers bytes][body]
+        if ( len >= 8 ) {
             jbyte *p = env->GetByteArrayElements( (jbyteArray)result, nullptr );
             int status = (int)(unsigned char)p[0]
                        | ((int)(unsigned char)p[1] << 8)
                        | ((int)(unsigned char)p[2] << 16)
                        | ((int)(unsigned char)p[3] << 24);
-            int body_len = len - 4;
-            char *buf = (char *)malloc( (size_t)body_len + 1 );
-            if ( buf ) {
-                memcpy( buf, p + 4, (size_t)body_len );
+            int hdr_len = (int)(unsigned char)p[4]
+                        | ((int)(unsigned char)p[5] << 8)
+                        | ((int)(unsigned char)p[6] << 16)
+                        | ((int)(unsigned char)p[7] << 24);
+            if ( hdr_len < 0 ) hdr_len = 0;
+            if ( 8 + hdr_len > len ) hdr_len = len - 8;
+            int body_len = len - 8 - hdr_len;
+            char *hbuf = (char *)malloc( (size_t)hdr_len + 1 );
+            char *buf  = (char *)malloc( (size_t)body_len + 1 );
+            if ( hbuf && buf ) {
+                memcpy( hbuf, p + 8, (size_t)hdr_len );
+                hbuf[hdr_len] = 0;
+                memcpy( buf, p + 8 + hdr_len, (size_t)body_len );
                 buf[body_len] = 0;
                 if ( out ) {
                     out->status  = status;
                     out->body    = buf;
                     out->size    = (size_t)body_len;
-                    out->headers = strdup( "" );
+                    out->headers = hbuf;
                 } else {
-                    free( buf );
+                    free( buf ); free( hbuf );
                 }
+            } else {
+                if ( hbuf ) free( hbuf );
+                if ( buf ) free( buf );
             }
             env->ReleaseByteArrayElements( (jbyteArray)result, p, JNI_ABORT );
             rc = 0;
@@ -255,15 +269,79 @@ extern "C" int hsp3dx_http_download( const char *url, const char *dest_path_u8,
     return 0;
 }
 
-extern "C" int hsp3dx_http_get_header( const hsp3dx_http_response *, const char *,
+//  resp->headers ("Key: Value\r\n" 連結) から name を大小無視で検索し、値を out に書く。
+extern "C" int hsp3dx_http_get_header( const hsp3dx_http_response *resp,
+                                        const char *name,
                                         char *out, size_t out_cap )
 {
-    if ( out && out_cap > 0 ) out[0] = 0;
+    if ( !resp || !resp->headers || !name || !out || out_cap == 0 ) return -1;
+    const char *p = resp->headers;
+    size_t name_len = strlen( name );
+    while ( *p ) {
+        const char *colon = strchr( p, ':' );
+        const char *eol   = strstr( p, "\r\n" );
+        if ( !eol ) eol = p + strlen( p );
+        if ( colon && colon < eol ) {
+            size_t key_len = (size_t)( colon - p );
+            if ( key_len == name_len ) {
+                int match = 1;
+                for ( size_t i = 0; i < name_len; i++ ) {
+                    char a = p[i], b = name[i];
+                    if ( a >= 'A' && a <= 'Z' ) a = (char)(a - 'A' + 'a');
+                    if ( b >= 'A' && b <= 'Z' ) b = (char)(b - 'A' + 'a');
+                    if ( a != b ) { match = 0; break; }
+                }
+                if ( match ) {
+                    const char *vstart = colon + 1;
+                    while ( vstart < eol && ( *vstart == ' ' || *vstart == '\t' ) ) vstart++;
+                    size_t vlen = (size_t)( eol - vstart );
+                    if ( vlen >= out_cap ) vlen = out_cap - 1;
+                    memcpy( out, vstart, vlen );
+                    out[vlen] = 0;
+                    return 0;
+                }
+            }
+        }
+        if ( *eol == 0 ) break;
+        p = eol + 2;
+    }
+    out[0] = 0;
     return -1;
 }
 
-extern "C" void hsp3dx_http_cookie_clear( void ) {}
-extern "C" void hsp3dx_http_cookie_set_enabled( int ) {}
+//  Cookie 管理 (HspHttp.cookieEnable / cookieClear 呼び出し)
+static void call_cookie_method( const char *name, const char *sig, ... )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    jmethodID mid = env->GetStaticMethodID( s_HspHttp_class, name, sig );
+    if ( mid ) {
+        va_list ap;
+        va_start( ap, sig );
+        env->CallStaticVoidMethodV( s_HspHttp_class, mid, ap );
+        va_end( ap );
+        if ( env->ExceptionCheck() ) {
+            env->ExceptionDescribe();
+            env->ExceptionClear();
+        }
+    } else {
+        env->ExceptionClear();
+        LOGW( "HspHttp.%s not found", name );
+    }
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" void hsp3dx_http_cookie_clear( void )
+{
+    call_cookie_method( "cookieClear", "()V" );
+}
+
+extern "C" void hsp3dx_http_cookie_set_enabled( int enabled )
+{
+    call_cookie_method( "cookieEnable", "(I)V", (jint)enabled );
+}
 
 extern "C" void hsp3dx_http_free( hsp3dx_http_response *resp )
 {
@@ -276,11 +354,57 @@ extern "C" void hsp3dx_http_free( hsp3dx_http_response *resp )
     resp->status = 0;
 }
 
-extern "C" int hsp3dx_http_build_basic_auth( const char *, const char *,
+//  標準 Base64 エンコード (RFC 4648)。src_len バイトを out に書き、
+//  末尾 '\0' を付ける。out は少なくとも ((src_len+2)/3)*4 + 1 バイト必要。
+static size_t base64_encode( const unsigned char *src, size_t src_len, char *out )
+{
+    static const char tbl[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    size_t i = 0, o = 0;
+    while ( i + 3 <= src_len ) {
+        unsigned v = ( (unsigned)src[i] << 16 ) |
+                     ( (unsigned)src[i+1] << 8 ) |
+                     ( (unsigned)src[i+2] );
+        out[o++] = tbl[ (v >> 18) & 0x3F ];
+        out[o++] = tbl[ (v >> 12) & 0x3F ];
+        out[o++] = tbl[ (v >> 6)  & 0x3F ];
+        out[o++] = tbl[  v        & 0x3F ];
+        i += 3;
+    }
+    if ( i < src_len ) {
+        unsigned v = (unsigned)src[i] << 16;
+        if ( i + 1 < src_len ) v |= (unsigned)src[i+1] << 8;
+        out[o++] = tbl[ (v >> 18) & 0x3F ];
+        out[o++] = tbl[ (v >> 12) & 0x3F ];
+        out[o++] = ( i + 1 < src_len ) ? tbl[ (v >> 6) & 0x3F ] : '=';
+        out[o++] = '=';
+    }
+    out[o] = 0;
+    return o;
+}
+
+//  Basic 認証ヘッダ生成 ("Basic base64(user:pass)")
+extern "C" int hsp3dx_http_build_basic_auth( const char *user, const char *pass,
                                               char *out, size_t out_cap )
 {
-    if ( out && out_cap > 0 ) out[0] = 0;
-    return -1;
+    if ( !user || !pass || !out || out_cap < 32 ) return -1;
+    size_t u_len = strlen( user );
+    size_t p_len = strlen( pass );
+    size_t pair_len = u_len + 1 + p_len;
+    char *pair = (char *)malloc( pair_len + 1 );
+    if ( !pair ) return -1;
+    memcpy( pair, user, u_len );
+    pair[u_len] = ':';
+    memcpy( pair + u_len + 1, pass, p_len );
+    pair[pair_len] = 0;
+
+    size_t need = 6 /*"Basic "*/ + ( (pair_len + 2) / 3 ) * 4 + 1;
+    if ( need > out_cap ) { free( pair ); return -1; }
+
+    strcpy( out, "Basic " );
+    base64_encode( (const unsigned char *)pair, pair_len, out + 6 );
+    free( pair );
+    return 0;
 }
 
 //  ----------------------------------------------------------------
@@ -375,23 +499,36 @@ extern "C" int hsp3dx_http_mp_post( const char *url, const char *ua,
     int rc = -1;
     if ( result ) {
         jsize len = env->GetArrayLength( result );
-        if ( len >= 4 ) {
+        //  新フォーマット: [4B status LE][4B header_len LE][headers bytes][body]
+        if ( len >= 8 ) {
             jbyte *p = env->GetByteArrayElements( result, nullptr );
             int status = (int)(unsigned char)p[0]
                        | ((int)(unsigned char)p[1] << 8)
                        | ((int)(unsigned char)p[2] << 16)
                        | ((int)(unsigned char)p[3] << 24);
-            int body_len = len - 4;
-            char *buf = (char *)malloc( (size_t)body_len + 1 );
-            if ( buf ) {
-                memcpy( buf, p + 4, (size_t)body_len );
+            int hdr_len = (int)(unsigned char)p[4]
+                        | ((int)(unsigned char)p[5] << 8)
+                        | ((int)(unsigned char)p[6] << 16)
+                        | ((int)(unsigned char)p[7] << 24);
+            if ( hdr_len < 0 ) hdr_len = 0;
+            if ( 8 + hdr_len > len ) hdr_len = len - 8;
+            int body_len = len - 8 - hdr_len;
+            char *hbuf = (char *)malloc( (size_t)hdr_len + 1 );
+            char *buf  = (char *)malloc( (size_t)body_len + 1 );
+            if ( hbuf && buf ) {
+                memcpy( hbuf, p + 8, (size_t)hdr_len );
+                hbuf[hdr_len] = 0;
+                memcpy( buf, p + 8 + hdr_len, (size_t)body_len );
                 buf[body_len] = 0;
                 if ( out ) {
                     out->status  = status;
                     out->body    = buf;
                     out->size    = (size_t)body_len;
-                    out->headers = strdup( "" );
-                } else { free( buf ); }
+                    out->headers = hbuf;
+                } else { free( buf ); free( hbuf ); }
+            } else {
+                if ( hbuf ) free( hbuf );
+                if ( buf ) free( buf );
             }
             env->ReleaseByteArrayElements( result, p, JNI_ABORT );
             rc = 0;
