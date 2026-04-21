@@ -68,6 +68,9 @@
 #include "hsp3dx_console.h"
 #include "DxLib.h"
 
+//  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜0x3FF)
+extern "C" int hsp3dx_dxlib_auto_dispatch( int cmd, HSPCTX *ctx );
+
 static HSPCTX    *ctx    = nullptr;
 static HSPEXINFO *exinfo = nullptr;
 static int *type;
@@ -1149,6 +1152,10 @@ static int cmdfunc_extcmd( int cmd )
         }
 
     default:
+        //  Phase 5.3: 自動生成 DxLib bindings (opcode 0x200〜0x3FF)
+        if ( hsp3dx_dxlib_auto_dispatch( cmd, ctx ) ) {
+            return RUNMODE_RUN;
+        }
         throw HSPERR_UNSUPPORTED_FUNCTION;
     }
 

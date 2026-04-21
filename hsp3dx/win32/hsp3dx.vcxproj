@@ -110,6 +110,7 @@
     <ClCompile Include="..\src\hsp3dx_extcmd.cpp" />
     <ClCompile Include="..\src\hsp3dx_console.cpp" />
     <ClCompile Include="..\src\hsp3dx_platform_io_win.cpp" />
+    <ClCompile Include="..\src\hsp3dx_dxlib_auto.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\hgio_dx.h" />

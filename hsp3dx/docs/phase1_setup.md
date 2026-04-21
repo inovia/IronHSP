@@ -97,7 +97,7 @@ hsp3dx.exe
 | **5.0** | gzoom / bmpsave / hsvcolor / ginfo(p) 追加 (既存 hspcmp 対応 opcode) | ✅ |
 | **5.1** | dx_* 命令公開基盤 (#regcmd/#cmd 採用) + AA 描画 + DrawModiGraph + ジョイパッド | ✅ |
 | **5.2** | 3D プリミティブ / カメラ / 照明 / Z バッファ / MV1 モデル / 動画 | ✅ |
-| 5.3 | DxLib API 自動コード生成 (40 → 500 関数) | 未着手 |
+| **5.3** | DxLib API 自動コード生成 (Python パーサ + 512 関数) | ✅ |
 
 ## トラブルシュート
 

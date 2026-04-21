@@ -6,6 +6,54 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 5.3: DxLib API 自動コード生成)
+
+### (これから commit) @ 20:15 — Phase 5.3: DxLib 512 関数を自動生成で追加
+
+**やったこと**
+- **`tools/hsp3dx_dxlib_gen/gen_dxlib_bindings.py`** 新規: Python 正規表現で
+  DxLib.h をパースし、以下を自動生成:
+  - `package/win32/common/iron_dxlib_auto.as` — #regcmd/#cmd エントリ
+  - `hsp3dx/src/hsp3dx_dxlib_auto.cpp` — dispatcher switch 全 case
+- フィルタ条件:
+  - `extern int FuncName(...)` 形式、戻り値 int のみ
+  - 引数型は int / float / double / const TCHAR * のみ
+  - VECTOR / callback / struct / 出力ポインタ関数は skip (方針 1 の原則)
+  - Phase 1/5.1/5.2 で手書き実装済みの関数名は skip (重複回避)
+  - `DxLib_` プレフィックスは命名時に剥がす (`dx_dx_lib_...` 重複回避)
+- opcode 範囲 **0x200〜0x3FF** (512 枠) を自動生成用に予約
+- `hsp3dx_extcmd.cpp` の default case で `hsp3dx_dxlib_auto_dispatch()` を呼ぶ
+  フォールスルー機構を追加
+- 結果: `parsed: 2094  accepted: 941  truncated: 512 to fit opcode range`
+  → **512 個の新規 dx_* 命令が HSP から呼べる** ように
+
+**詰まりどころ**
+- `MailApp_Send` / `HTTP_*` / `SetProxySetting` / `URLConvert` / 一部 UDP 系など
+  14 関数が未定義シンボルでリンクエラー
+- ユーザーからの「別の lib ファイルに入ってない?」の質問でそう思い全 lib 検索
+- 結論: **どの lib にも存在しない**。これらは iOS/Android/Emscripten 版の
+  DxLib でのみ実装されていて、Windows VC バイナリには入っていない関数群
+  (HTTP/Mail/Proxy はモバイル向け機能)
+- SKIP_NAMES 集中ブラックリストで除外 (iOS/Android 版対応時に `#ifdef HSPWIN`
+  で条件化する形で将来復活可能)
+
+**サンプル** `sample_auto.hsp`:
+- `#include "iron_dxlib_auto.as"` で 512 命令使用可能に
+- `dx_get_now_count` / `dx_get_rand 999` / `dx_sleep_thread` /
+  `dx_set_always_run_flag` の 4 命令を呼び出して動作検証
+
+**累計**
+- extcmd 手書き 40+ 個 + 自動生成 512 個 = **552+ 個**
+- reffunc 9 個
+- サンプル 14 本
+
+**意義**
+hsp3dish の hgimg4 ですら手書きで opcode 定義していたのに対し、hsp3dx は
+DxLib.h を直接解析して自動生成することで、**開発の手間を 1 桁削減**。
+新版 DxLib SDK が出るたびに再生成すれば追随が楽。
+
+---
+
 ## 2026-04-21 (Phase 1.11: celdiv / pget / gfilter / gmulcolor / rgbcolor)
 
 ### (これから commit) @ 20:14 — Phase 1.11: スプライトシート + 色・ピクセル操作
