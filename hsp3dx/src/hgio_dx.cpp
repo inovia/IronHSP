@@ -142,25 +142,11 @@ int hgio_dx_get_touch( int index, int *px, int *py )
 #if defined(__ANDROID__) || defined(__APPLE__)
     if ( index < 0 || index >= GetTouchInputNum() ) return -1;
     int tx = 0, ty = 0;
+    //  DxLib 自身が ConvScreenPositionToDxScreenPosition で物理→論理 (DxScreen)
+    //  座標に変換済みの値を返す (iOS DxLib の UpdateTouchInputData 実装を参照)。
+    //  そのため hsp3dx 側での変換は不要。以前は iOS 固有に逆算していたが
+    //  二重変換でタッチ座標がずれていたため 2026-04-21 に削除。
     GetTouchInput( index, &tx, &ty, nullptr, nullptr );
-#ifdef __APPLE__
-    //  iOS: 物理座標 → 論理 (DxLib が自動 letterbox 表示しているので逆算)
-    {
-        int phys_w = 0, phys_h = 0;
-        GetDisplayResolution_iOS( &phys_w, &phys_h );
-        if ( phys_w > 0 && phys_h > 0 ) {
-            float sx = (float)phys_w / (float)s_screen_w;
-            float sy = (float)phys_h / (float)s_screen_h;
-            float scale = sx < sy ? sx : sy;
-            int draw_w = (int)( s_screen_w * scale );
-            int draw_h = (int)( s_screen_h * scale );
-            int off_x = ( phys_w - draw_w ) / 2;
-            int off_y = ( phys_h - draw_h ) / 2;
-            tx = (int)( ( tx - off_x ) / scale );
-            ty = (int)( ( ty - off_y ) / scale );
-        }
-    }
-#endif
     if ( px ) *px = tx;
     if ( py ) *py = ty;
     return 0;
