@@ -78,7 +78,7 @@ hsp3dx.exe
 | **1.6** | 入力: getkey / stick / mouse + mousex/mousey/mousew sysvar + wait/await 中の ProcessMessage | ✅ |
 | **1.7** | 音声 (mmload / mmplay / mmstop → DxLib LoadSoundMem / PlaySoundMem / StopSoundMem) | ✅ |
 | **1.8** | sysvar/reffunc 拡充 (hwnd / hinstance / sysinfo(p) / dirinfo(p) + 既存の hsp3int 自動登録) | ✅ |
-| 1.9 | Phase 1 総合サンプル動作確認 + リリースパッケージ | 未着手 |
+| **1.9** | 総合サンプル (シューティング) + getkey VK 互換修正 | ✅ |
 
 ## トラブルシュート
 

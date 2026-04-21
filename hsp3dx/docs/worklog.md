@@ -6,7 +6,44 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5 + 1.6 + 1.7 + 1.8)
+## 2026-04-21 (Phase 1.2 → 1.9)
+
+### (これから commit) @ 20:07 — Phase 1.9: 総合シューティングサンプル + getkey VK 互換
+
+**やったこと**
+- `sample_shooter.hsp` — 自機 / 弾 / 敵 / 星背景 / 当たり判定 / SCORE 表示 の
+  ミニシューティング (HSP 2838 bytes)
+  - celload x 4 / mmload x 2 / celput / stick / getkey / ginfo 的 sysvar 全部使う
+  - 60fps / 32 発弾 / 16 体敵 / 40 個星 同時
+- Python Pillow / wave でアセット生成:
+  - shooter_player.png (青三角船 32x32)
+  - shooter_enemy.png (赤インベーダー 28x28)
+  - shooter_bullet.png (黄弾 8x12)
+  - shooter_star.png (白星 4x4)
+  - shooter_shoot.wav (0.08 秒ブリップ)
+  - shooter_hit.wav (0.15 秒爆発ノイズ)
+
+**詰まりどころ: getkey の VK ↔ DIK コード問題**
+- 初回テストで ESC キーが反応せず終了できない
+- 原因: DxLib の `CheckHitKey` は **DirectInput 形式 DIK コード** (ESC=0x01) を
+  受け取るが、HSP の getkey は伝統的に **Windows VK コード** (VK_ESCAPE=27) を
+  受け取る仕様
+- 私の getkey は CheckHitKey をそのまま使っていたため、`getkey v, 27` が
+  DIK コード 27 (= KEY_INPUT_INSERT?) を見ていた
+- **修正**: getkey を `GetAsyncKeyState(vk) & 0x8000` に切替、VK コードで HSP 互換
+- stick は DIK コード固定 (arrow/space/enter/LMB) で内部完結してるので変更不要
+- mobile 版では同等の VK→ネイティブキー写像が別途必要 (TODO 記録)
+
+**動作確認**
+- ビルド成功、hsp3dx.exe 7.1 MB
+- 実機で自機移動・射撃・敵撃破・スコア加算・ESC 終了すべて OK ✅
+
+**Phase 1 一旦完了**
+- extcmd 27 / reffunc 8 / サンプル 7 本
+- 描画 / 画像 / 入力 / 音声 / sysvar 全部動作、X ボタン / ESC 終了対応
+- UTF-8 日本語表示 OK
+
+---
 
 ### (これから commit) @ 20:06 — Phase 1.8: sysvar/reffunc 拡充 + exist の罠
 

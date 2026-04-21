@@ -452,8 +452,12 @@ static int cmdfunc_extcmd( int cmd )
             PVal *pval;
             APTR aptr;
             aptr = code_getva( &pval );
-            p1 = code_getdi( 1 );       // keycode (DxLib KEY_INPUT_* と同じ値)
-            int pressed = CheckHitKey( p1 ) ? 1 : 0;
+            p1 = code_getdi( 1 );
+            //  HSP getkey は伝統的に Windows VK コード (VK_ESCAPE=27 など) を受ける。
+            //  DxLib の CheckHitKey は DIK コード (KEY_INPUT_ESCAPE=0x01) なので
+            //  HSP 互換のためには GetAsyncKeyState で VK を直接見る必要がある。
+            //  mobile 版では同等の VK→ネイティブキー写像を別途用意する。
+            int pressed = ( GetAsyncKeyState( p1 ) & 0x8000 ) ? 1 : 0;
             code_setva( pval, aptr, TYPE_INUM, &pressed );
             break;
         }

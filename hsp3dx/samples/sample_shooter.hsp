@@ -1,0 +1,172 @@
+;============================================================
+;   sample_shooter.hsp — Phase 1.9 総合動作確認
+;
+;   Phase 1 で実装した全機能 (描画 / 画像 / 入力 / 音声 / sysvar)
+;   を使った小さなシューティングゲーム。
+;
+;   操作:
+;       矢印キー / 左右: 自機移動
+;       SPACE: 弾を撃つ
+;       ESC または X ボタン: 終了
+;
+;   前提 (同ディレクトリに配置):
+;       shooter_player.png / shooter_enemy.png / shooter_bullet.png
+;       shooter_star.png / shooter_shoot.wav / shooter_hit.wav
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_shooter.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: shooter"
+
+    ;  ---- アセット読み込み ----
+    celload "shooter_player.png", 1
+    celload "shooter_enemy.png",  2
+    celload "shooter_bullet.png", 3
+    celload "shooter_star.png",   4
+
+    mmload "shooter_shoot.wav", 1, 0
+    mmload "shooter_hit.wav",   2, 0
+
+    ;  ---- 状態初期化 ----
+    BULLET_MAX = 32
+    ENEMY_MAX  = 16
+    STAR_MAX   = 40
+
+    dim bx, BULLET_MAX : dim by, BULLET_MAX : dim balive, BULLET_MAX
+    dim ex, ENEMY_MAX  : dim ey, ENEMY_MAX  : dim evy, ENEMY_MAX : dim ealive, ENEMY_MAX
+    dim sx2, STAR_MAX  : dim sy2, STAR_MAX  : dim svy, STAR_MAX
+
+    px = 304 : py = 420
+    score = 0
+    cool = 0                ; shoot cooldown
+
+    ;  星を初期配置
+    repeat STAR_MAX
+        sx2(cnt) = rnd(640)
+        sy2(cnt) = rnd(480)
+        svy(cnt) = 1 + rnd(4)
+    loop
+
+    ;  敵を初期配置 (画面上部にバラ撒き)
+    repeat ENEMY_MAX
+        ex(cnt)     = rnd(610)
+        ey(cnt)     = -30 - rnd(400)
+        evy(cnt)    = 1 + rnd(3)
+        ealive(cnt) = 1
+    loop
+
+*main_loop
+    redraw 0
+
+    ;  ---- 背景 (黒) + 流れる星 ----
+    color 0, 0, 10
+    boxf 0, 0, 640, 480
+
+    repeat STAR_MAX
+        sy2(cnt) = sy2(cnt) + svy(cnt)
+        if sy2(cnt) >= 480 {
+            sy2(cnt) = 0
+            sx2(cnt) = rnd(640)
+        }
+        pos sx2(cnt), sy2(cnt)
+        celput 4
+    loop
+
+    ;  ---- 入力 ----
+    stick key, 0, 1
+    if key & 1  : px = px - 5
+    if key & 4  : px = px + 5
+    if key & 2  : py = py - 5
+    if key & 8  : py = py + 5
+    if px < 0    : px = 0
+    if px > 608  : px = 608
+    if py < 0    : py = 0
+    if py > 448  : py = 448
+
+    if cool > 0  : cool = cool - 1
+    if key & 16 {
+        if cool = 0 {
+            ;  空きスロットに弾を追加
+            repeat BULLET_MAX
+                if balive(cnt) = 0 {
+                    bx(cnt) = px + 12
+                    by(cnt) = py
+                    balive(cnt) = 1
+                    mmplay 1
+                    cool = 8
+                    break
+                }
+            loop
+        }
+    }
+
+    ;  ---- 弾の更新 + 描画 ----
+    repeat BULLET_MAX
+        if balive(cnt) {
+            by(cnt) = by(cnt) - 10
+            if by(cnt) < -12 : balive(cnt) = 0
+            pos bx(cnt), by(cnt)
+            celput 3
+        }
+    loop
+
+    ;  ---- 敵の更新 + 描画 + 弾との当たり判定 ----
+    repeat ENEMY_MAX
+        ei = cnt
+        if ealive(ei) {
+            ey(ei) = ey(ei) + evy(ei)
+            if ey(ei) > 500 {
+                ;  画面下抜け: リポップ
+                ex(ei)  = rnd(610)
+                ey(ei)  = -30 - rnd(200)
+                evy(ei) = 1 + rnd(3)
+            }
+            pos ex(ei), ey(ei)
+            celput 2
+
+            ;  弾との当たり判定 (円-矩形近似、28x28 vs 8x12)
+            repeat BULLET_MAX
+                if balive(cnt) {
+                    dx = bx(cnt) - (ex(ei) + 14)
+                    dy = by(cnt) - (ey(ei) + 14)
+                    if dx*dx + dy*dy < 18*18 {
+                        balive(cnt) = 0
+                        ealive(ei)  = 0
+                        score = score + 10
+                        mmplay 2
+                        ;  リポップ
+                        ex(ei)  = rnd(610)
+                        ey(ei)  = -30 - rnd(200)
+                        evy(ei) = 1 + rnd(3)
+                        ealive(ei) = 1
+                        break
+                    }
+                }
+            loop
+        }
+    loop
+
+    ;  ---- 自機 ----
+    pos px, py
+    celput 1
+
+    ;  ---- HUD ----
+    color 255, 255, 255
+    font "MS Gothic", 16, 1
+    pos 10, 10 : mes "SCORE: " + score
+    pos 10, 30 : mes "Arrow: move  SPACE: shoot  ESC: quit"
+    pos 10, 50 : mes "mouse = (" + mousex + ", " + mousey + ")"
+
+    redraw 1
+
+    ;  ESC / X 終了
+    getkey esc_pressed, 27
+    if esc_pressed {
+        mmstop
+        end
+    }
+
+    await 16
+    goto *main_loop
