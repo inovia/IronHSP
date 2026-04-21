@@ -72,11 +72,13 @@ hsp3dx.exe
 | **1.0** | ディレクトリ + vcxproj + スケルトン main/hgio_dx | ✅ |
 | **1.1** | hsp3/ VM コア統合 (hsp3cl.cpp 参考の hsp3dxcl ドライバ) | ✅ |
 | **1.2** | mes / title / dialog 実装 + UTF-8 描画経路 | ✅ |
-| 1.3 | `dxlib_core` プラグイン 基盤 (`dx_*` 命令登録機構) | 未着手 |
-| 1.4 | 描画 20 関数 (`dx_drawgraph` / `dx_drawbox` など) | 未着手 |
-| 1.5 | 音声 10 関数 (`dx_loadsoundmem` / `dx_playsoundmem` など) | 未着手 |
-| 1.6 | 入力 10 関数 (`dx_getmouseinput` / `dx_checkhitkey` など) | 未着手 |
-| 1.7 | `hsp3dx/samples/` の 3 サンプル動作確認 | 未着手 |
+| **1.3** | pos / color / cls / redraw + pset / line / boxf / circle | ✅ |
+| **1.4** | font + picload (CreateFontToHandle / LoadGraph) | ✅ |
+| 1.5 | gcopy / gmode / celload / celput / buffer / screen / gsel | 未着手 |
+| 1.6 | 入力 (stick / getkey / mouse) | 未着手 |
+| 1.7 | 音声 (mmload / mmplay → DxLib LoadSoundMem / PlaySoundMem) | 未着手 |
+| 1.8 | reffunc (sysinfo / dirinfo / exist / strlen 他) | 未着手 |
+| 1.9 | Phase 1 総合サンプル動作確認 + リリースパッケージ | 未着手 |
 
 ## トラブルシュート
 

@@ -6,7 +6,28 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-21 (Phase 1.2 + 1.3: 描画命令セット)
+## 2026-04-21 (Phase 1.2 + 1.3 + 1.4)
+
+### (これから commit) @ 20:02 — Phase 1.4: font + picload
+
+**やったこと**
+- `0x14 font "name", size, style` 実装
+  - name 空なら size 変更のみ、空でなければ `ChangeFont(name)` でデフォルトフォント切替
+  - size は `SetFontSize`、style bit 0 (bold) は `SetFontThickness` で反映
+  - s_font_size (mes 行送り) も size+4 で更新
+  - italic / effsize は Phase 1.5 以降で対応
+- `0x17 picload "file" [, mode]` 実装
+  - `LoadGraph` → `DrawGraph(s_cur_x, s_cur_y, handle, TRUE)` → `DeleteGraph`
+  - 失敗時は `HSPERR_PICTURE_MISSING` throw
+  - 即描画 + 即 dispose の MVP、ハンドル保持は Phase 1.5 (celload) で対応
+- `hsp3dx/samples/test_logo.png` 追加 (128x128 青背景 + 黄丸、Python Pillow で生成)
+- `hsp3dx/samples/sample_pic.hsp` 追加 (font サイズ変更 + 画像表示 + 日本語文字)
+
+**動作確認**
+- ビルド成功 (警告ゼロ)
+- 実機で sample_pic の表示確認 → 青背景 + ロゴ画像 + 白/黄の文字が出る ✅
+
+---
 
 ### (これから commit) @ 20:01 — Phase 1.3: pos/color/cls/redraw + pset/line/boxf/circle
 

@@ -1,0 +1,48 @@
+;============================================================
+;   sample_pic.hsp — Phase 1.4 動作確認 (font + picload)
+;
+;   font 命令でフォントサイズ変更、picload で画像表示。
+;
+;   前提: 同ディレクトリに test_logo.png (128x128) を配置
+;
+;   ビルド:
+;       ..\..\..\package\win32\hspcmp64.exe -i sample_pic.hsp
+;   実行:
+;       ..\win32\bin\Release\hsp3dx.exe sample_pic.ax
+;
+;   ※ ソース先頭の #cmpopt utf8 1 + cmdline の -i はセットで必須
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: font + picload"
+
+    ;  背景塗りつぶし
+    color 20, 40, 80
+    boxf 0, 0, 640, 480
+
+    ;  画像を (100, 100) に表示
+    pos 100, 100
+    picload "test_logo.png"
+
+    ;  大きめ白文字でタイトル
+    color 255, 255, 255
+    font "MS Gothic", 32
+    pos 260, 120
+    mes "hsp3dx"
+
+    ;  小さめ黄文字
+    color 255, 240, 80
+    font "MS Gothic", 16
+    pos 260, 180
+    mes "Phase 1.4: font + picload"
+    mes "test_logo.png を 128x128 で描画"
+
+    ;  デフォルトに戻して日本語
+    color 255, 255, 255
+    font "", 20, 1        ; 空名 = サイズと太字だけ変更
+    pos 20, 420
+    mes "ESC キーで終了"
+
+    redraw 1
+    end

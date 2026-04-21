@@ -9,9 +9,13 @@
 //      pos / color / cls / redraw     (描画状態)
 //      pset / line / boxf / circle    (描画)
 //
-//  未実装 (Phase 1.4+):
-//      font / picload / gcopy / gmode / celput / screen / buffer /
-//      stick / getkey / mouse / など
+//  Phase 1.4 追加:
+//      font "name", size, style       デフォルトフォント切り替え (SetFontSize / ChangeFont)
+//      picload "file" [, mode]        画像ロード + 現在位置に描画
+//
+//  未実装 (Phase 1.5+):
+//      gcopy / gmode / celload / celput / screen / buffer / gsel /
+//      stick / getkey / mouse / wait 以外の input 系
 //
 #include <stdio.h>
 #include <string.h>
@@ -119,6 +123,47 @@ static int cmdfunc_extcmd( int cmd )
             int ry = abs( p4 - p2 ) / 2;
             int r  = ( rx < ry ) ? rx : ry;
             DrawCircle( cx, cy, r, s_cur_color, p5 );
+            break;
+        }
+
+    case 0x14:                      // font "name", size, style
+        {
+            char *fontname = code_gets();
+            p1 = code_getdi( 12 );      // size (default 12)
+            p2 = code_getdi( 0 );       // style (太字/イタリックなどのビットフラグ)
+            (void)code_getdi( 0 );      // effsize (Phase 1.4 では未使用)
+
+            //  name が空なら size 変更のみ
+            wchar_t wname[128];
+            hsp3dx_utf8_to_wide( fontname, wname, 128 );
+            if ( wname[0] != 0 ) {
+                ChangeFont( wname, -1 );
+            }
+            SetFontSize( p1 );
+            //  style ビット 0: bold, ビット 1: italic (DxLib は bold を
+            //  SetFontThickness で、italic は CreateFontToHandle でしか
+            //  扱えないため、Phase 1.4 では bold のみ反映)
+            if ( p1 < 4 ) p1 = 4;
+            SetFontThickness( ( p2 & 1 ) ? p1 / 4 : 1 );
+            s_font_size = p1 + 4;       // 行送りはサイズ + 少し余白
+            ctx->stat = 0;
+            break;
+        }
+
+    case 0x17:                      // picload "file" [, mode]
+        {
+            char *fname = code_gets();
+            p1 = code_getdi( 0 );       // mode (0=通常、1=追記描画: Phase 1.4 では常に通常)
+            (void)p1;
+
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+
+            int hgr = LoadGraph( wfname );
+            if ( hgr == -1 ) throw HSPERR_PICTURE_MISSING;
+            DrawGraph( s_cur_x, s_cur_y, hgr, TRUE );
+            DeleteGraph( hgr );         // Phase 1.4 MVP: 即描画後 dispose
+            //  Phase 1.5 で celload/gcopy 用ハンドル保持を入れる
             break;
         }
 
