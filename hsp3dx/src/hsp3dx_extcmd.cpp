@@ -28,8 +28,15 @@
 //      mouse  x, y                    マウス位置設定 (SetMousePoint)
 //      mousex / mousey / mousew       システム変数 (reffunc 経由)
 //
-//  未実装 (Phase 1.7+):
-//      celdiv / gzoom / onkey / onclick (VM イベントディスパッチ要) / 音声系
+//  Phase 1.7 追加 (音声):
+//      mmload "file", ID [, option]   WAV/OGG 読み込み (LoadSoundMem)
+//                                     option 0=one-shot / 1=BGM loop
+//      mmplay ID                      再生 (PlaySoundMem)
+//      mmstop [ID]                    停止 (ID 省略で -1 = 全停止)
+//
+//  未実装 (Phase 1.8+):
+//      celdiv / gzoom / onkey / onclick (VM イベントディスパッチ要) /
+//      mmvol / mmpan / mci
 //
 #include <stdio.h>
 #include <string.h>
@@ -67,6 +74,22 @@ static int  s_buf_handle[HSP3DX_MAX_BUFFERS];   // DxLib graph handle (LoadGraph
 static int  s_buf_w     [HSP3DX_MAX_BUFFERS];
 static int  s_buf_h     [HSP3DX_MAX_BUFFERS];
 static int  s_cur_window = 0;                   // gsel 現在値 (ID)
+
+//  ---- Phase 1.7: sound 管理 ----
+#define HSP3DX_MAX_SOUNDS 256
+static int  s_snd_handle[HSP3DX_MAX_SOUNDS];    // DxLib sound handle、-1 = 未割当
+static int  s_snd_option[HSP3DX_MAX_SOUNDS];    // HSP mmload option (0=one-shot, 1=loop)
+
+static void init_sounds_once( void )
+{
+    static int initialized = 0;
+    if ( initialized ) return;
+    for ( int i = 0; i < HSP3DX_MAX_SOUNDS; i++ ) {
+        s_snd_handle[i] = -1;
+        s_snd_option[i] = 0;
+    }
+    initialized = 1;
+}
 
 //  ---- gmode state ----
 static int  s_gmode       = 0;      // 0=copy, 2=key trans, 3=alpha, 5=add
@@ -139,6 +162,50 @@ static int cmdfunc_extcmd( int cmd )
             p1 = code_getdi( 0 );
             char *title = code_getds( "hsp3dx" );
             MessageBoxA( nullptr, stmp, title, MB_OK );
+            break;
+        }
+
+    case 0x08:                      // mmload "file", ID, option
+        {
+            char *fname = code_gets();
+            p1 = code_getdi( 0 );       // ID
+            p2 = code_getdi( 0 );       // option (0=one-shot, 1=loop)
+            if ( p1 < 0 || p1 >= HSP3DX_MAX_SOUNDS ) throw HSPERR_ILLEGAL_FUNCTION;
+
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+
+            if ( s_snd_handle[p1] != -1 ) DeleteSoundMem( s_snd_handle[p1] );
+            int h = LoadSoundMem( wfname );
+            if ( h == -1 ) throw HSPERR_FILE_IO;
+            s_snd_handle[p1] = h;
+            s_snd_option[p1] = p2;
+            break;
+        }
+
+    case 0x09:                      // mmplay ID
+        {
+            p1 = code_getdi( 0 );
+            if ( p1 < 0 || p1 >= HSP3DX_MAX_SOUNDS ) throw HSPERR_ILLEGAL_FUNCTION;
+            int h = s_snd_handle[p1];
+            if ( h == -1 ) throw HSPERR_FILE_IO;
+            int play_type = ( s_snd_option[p1] & 1 ) ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK;
+            PlaySoundMem( h, play_type, TRUE );
+            break;
+        }
+
+    case 0x0a:                      // mmstop [ID]
+        {
+            p1 = code_getdi( -1 );
+            if ( p1 < 0 ) {
+                //  全停止
+                for ( int i = 0; i < HSP3DX_MAX_SOUNDS; i++ ) {
+                    if ( s_snd_handle[i] != -1 ) StopSoundMem( s_snd_handle[i] );
+                }
+            } else {
+                if ( p1 >= HSP3DX_MAX_SOUNDS ) throw HSPERR_ILLEGAL_FUNCTION;
+                if ( s_snd_handle[p1] != -1 ) StopSoundMem( s_snd_handle[p1] );
+            }
             break;
         }
 
@@ -518,6 +585,7 @@ int hsp3typeinit_cl_extcmd( HSP3TYPEINFO *info )
     val    = exinfo->npval;
 
     init_buffers_once();
+    init_sounds_once();
 
     info->cmdfunc  = cmdfunc_extcmd;
     info->termfunc = termfunc_extcmd;

@@ -6,7 +6,25 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5 + 1.6)
+## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5 + 1.6 + 1.7)
+
+### (これから commit) @ 20:05 — Phase 1.7: 音声 (mmload / mmplay / mmstop)
+
+**やったこと**
+- sound handle テーブル `s_snd_handle[256]` + `s_snd_option[256]` 追加
+- `init_sounds_once()` で handle を -1 に初期化
+- **opcode 実装**:
+  - `0x08 mmload "file", ID, option` — LoadSoundMem、option 1 = BGM loop
+  - `0x09 mmplay ID` — PlaySoundMem、option に応じて DX_PLAYTYPE_LOOP / DX_PLAYTYPE_BACK
+  - `0x0a mmstop [ID]` — ID=-1 (省略) で全停止、指定時は StopSoundMem
+- サンプル `sample_sound.hsp` + `test_bgm.wav` (3 秒和音ループ) + `test_se.wav` (0.3 秒ビープ)
+  Python wave モジュールで自動生成
+
+**動作確認**
+- ビルド成功
+- 実機で BGM 自動再生 + スペース SE + ESC 全停止+終了 確認 ✅
+
+---
 
 ### (これから commit) @ 20:04 — Phase 1.6: 入力 (getkey / stick / mouse + sysvar)
 
