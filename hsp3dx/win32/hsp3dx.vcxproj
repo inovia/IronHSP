@@ -72,7 +72,7 @@
             ワイドに変換して渡す運用にする (console / extcmd 内で対応)
       -->
       <PreprocessorDefinitions>
-        _HSP64;HSP64;HSP3DX;HSPWIN;HSPUTF8;UNICODE;_UNICODE;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;
+        _HSP64;HSP64;HSP3DX;HSPWIN;HSPUTF8;UNICODE;_UNICODE;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;HSPDEBUG;
         %(PreprocessorDefinitions)
       </PreprocessorDefinitions>
       <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
@@ -138,6 +138,8 @@
     <ClCompile Include="..\..\hsp3\hspvar_str.cpp" />
     <ClCompile Include="..\..\hsp3\hspvar_struct.cpp" />
     <ClCompile Include="..\..\hsp3\hspvar_wstr.cpp" />
+    <!-- Phase 5.5: #defstruct 対応のため hsp3net の NSTRUCT 実装を共有リンク -->
+    <ClCompile Include="..\..\hsp3net\hspvar_nstruct.cpp" />
     <ClCompile Include="..\..\hsp3\stack.cpp" />
     <ClCompile Include="..\..\hsp3\strbuf.cpp" />
     <ClCompile Include="..\..\hsp3\strnote.cpp" />

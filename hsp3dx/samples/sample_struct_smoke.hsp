@@ -1,0 +1,41 @@
+;============================================================
+;   sample_struct_smoke.hsp — #defstruct 動作確認 (NSTRUCT 型の smoke test)
+;
+;   VECTOR 相当 (float x,y,z) を定義して代入・読み取り。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+#defstruct VEC3
+    #field float x
+    #field float y
+    #field float z
+#endstruct
+
+    title "hsp3dx sample: #defstruct smoke test"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+
+    stdim v, VEC3
+    v->x = 12.5
+    v->y = -3.25
+    v->z = 100.0
+
+    mes "#defstruct smoke"
+    mes "  v->x = " + v->x
+    mes "  v->y = " + v->y
+    mes "  v->z = " + v->z
+
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end

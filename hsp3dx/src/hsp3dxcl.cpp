@@ -17,6 +17,7 @@
 #include "../../hsp3/strbuf.h"
 #include "../../hsp3/hsp3.h"
 #include "../../hsp3/supio.h"
+#include "../../hsp3/hspvar_core.h"
 
 #include "hsp3dxcl.h"
 #include "DxLib.h"
@@ -25,6 +26,9 @@ extern "C" {
     int hsp3typeinit_cl_extcmd( HSP3TYPEINFO *info );
     int hsp3typeinit_cl_extfunc( HSP3TYPEINFO *info );
 }
+
+//  Phase 5.5: #defstruct 対応のため NSTRUCT 型を登録 (C++ リンケージ)
+void HspVarNstruct_Init( HspVarProc *p );
 
 static Hsp3 *s_hsp = nullptr;
 static HSPCTX *s_ctx = nullptr;
@@ -102,6 +106,12 @@ int hsp3dxcl_init( const char *ax_path )
     //  または iron_dxlib 将来版の拡張層で差し替え。
     hsp3typeinit_cl_extcmd( code_gettypeinfo( TYPE_EXTCMD ) );
     hsp3typeinit_cl_extfunc( code_gettypeinfo( TYPE_EXTSYSVAR ) );
+
+    //  Phase 5.5: ネイティブ構造体型 (NSTRUCT) を登録。#defstruct で宣言された
+    //  構造体変数はこの型で確保される。HSPVAR_FLAG_MAX を 12 に拡張済なので
+    //  slot 11 は既に用意されている。
+    HspVarCoreRegisterType( HSPVAR_FLAG_NSTRUCT,
+                            (HSPVAR_COREFUNC)HspVarNstruct_Init );
 
     return 0;
 }

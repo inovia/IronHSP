@@ -2594,14 +2594,93 @@ static int cmdfunc_prog( int cmd )
 		break;
 		}
 
-	case 0x22:								// structdim (NSTRUCT は hsp3 では未サポート)
-		// IronHSP の構造体型 (#defstruct + stdim) は hsp3net 側にのみ実装される。
-		// hsp3 で stdim を使うとここで停止する。NSTRUCT を含むスクリプトは
-		// hsp3net (loadnet 系の機能を持つ runtime) で実行すること。
-		throw HSPERR_UNSUPPORTED_FUNCTION;
+	case 0x22:								// structdim
+		{
+		// structdim var, struct_size [, count]
+		// HSPVAR_FLAG_NSTRUCT として確保する。
+		// pval->len[0] に 1 要素のバイトサイズを格納し、len[1] に要素数を入れる。
+		// NSTRUCT 型未登録のランタイムでは HspVarCoreGetProc が NULL を返すので、
+		// その場合は従来どおり HSPERR_UNSUPPORTED_FUNCTION を投げる。
+		PVal *pval;
+		pval = code_getpval();
+		int struct_size = code_getdi(0);
+		int count = code_getdi(1);
+		if ( count <= 0 ) count = 1;
+		if ( struct_size <= 0 ) throw HSPERR_ILLEGAL_FUNCTION;
 
-	case 0x23:								// _struct_poke (NSTRUCT は hsp3 では未サポート)
-		throw HSPERR_UNSUPPORTED_FUNCTION;
+		HspVarProc *p = HspVarCoreGetProc( HSPVAR_FLAG_NSTRUCT );
+		if ( p == NULL || p->flag != HSPVAR_FLAG_NSTRUCT )
+			throw HSPERR_UNSUPPORTED_FUNCTION;
+		HspVarCoreDispose( pval );
+		pval->flag = HSPVAR_FLAG_NSTRUCT;
+		pval->len[0] = struct_size;	// 1要素のバイトサイズ
+		pval->len[1] = count;
+		pval->len[2] = 0;
+		pval->len[3] = 0;
+		pval->len[4] = 0;
+		pval->offset = 0;
+		pval->arraycnt = 0;
+		pval->support = p->support;
+		p->Alloc( pval, NULL );
+		break;
+		}
+
+	case 0x23:								// _struct_poke
+		{
+		//  PP テキスト展開経由で生成される。実際の引数列は:
+		//      var, member_offset, member_type, struct_size, member_size, value
+		PVal *pval;
+		APTR aptr;
+		aptr = code_getva(&pval);
+		int member_offset = code_geti();
+		int member_type   = code_geti();
+		int struct_size   = code_geti();
+		int member_size   = code_geti();
+
+		char *base = (char*)pval->pt + (aptr * struct_size) + member_offset;
+
+		switch (member_type) {
+		case 0:  // SMT_BYTE
+		case 8:  // SMT_BOOL1
+			*base = (char)code_geti();
+			break;
+		case 1:  // SMT_SHORT
+		case 9:  // SMT_BOOL2
+			*(short*)base = (short)code_geti();
+			break;
+		case 2:  // SMT_INT
+		case 7:  // SMT_BOOL
+			*(int*)base = code_geti();
+			break;
+		case 3:  // SMT_INT64
+			*(int64_t*)base = code_geti64();
+			break;
+		case 4:  // SMT_FLOAT
+			*(float*)base = (float)code_getdd(0.0);
+			break;
+		case 5:  // SMT_DOUBLE
+			*(double*)base = code_getdd(0.0);
+			break;
+		case 6:  // SMT_PTR
+			*(void**)base = (void*)(intptr_t)code_geti64();
+			break;
+		case 10: // SMT_CHAR_ARRAY
+			{
+			char *src = code_gets();
+			if ( src ) strncpy(base, src, member_size);
+			break;
+			}
+		case 11: // SMT_WCHAR_ARRAY
+			{
+			char *src = code_gets();
+			if ( src ) MultiByteToWideChar(CP_ACP, 0, src, -1, (wchar_t*)base, member_size / 2);
+			break;
+			}
+		default:
+			throw HSPERR_UNSUPPORTED_FUNCTION;
+		}
+		break;
+		}
 
 	default:
 		throw HSPERR_UNSUPPORTED_FUNCTION;

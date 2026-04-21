@@ -17,7 +17,8 @@
 
 #define HSPVAR_FLAG_USERDEF 9
 #define HSPVAR_FLAG_WSTR 10
-#define HSPVAR_FLAG_MAX 11
+#define HSPVAR_FLAG_NSTRUCT 11		// ネイティブ構造体型 (hsp3net / hsp3dx 共用)
+#define HSPVAR_FLAG_MAX 12
 
 #define HSPVAR_MODE_NONE -1
 #define HSPVAR_MODE_MALLOC 1
