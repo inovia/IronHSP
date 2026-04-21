@@ -19,6 +19,7 @@
 
 #include "hgio_dx.h"
 #include "hsp3dxcl.h"
+#include "hsp3dx_console.h"
 #include "DxLib.h"
 
 int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR cmdline, int )
@@ -26,7 +27,7 @@ int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR cmdline, int )
     const char *ax_path = ( cmdline && cmdline[0] ) ? cmdline : "start.ax";
 
     if ( hgio_dx_init( 0, 640, 480, nullptr ) != 0 ) {
-        MessageBoxA( nullptr, "DxLib 初期化失敗", "hsp3dx", MB_OK | MB_ICONERROR );
+        hsp3dx_msgbox_utf8( "DxLib 初期化失敗", "hsp3dx", MB_OK | MB_ICONERROR );
         return 2;
     }
 
@@ -39,7 +40,7 @@ int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR cmdline, int )
     if ( hsp3dxcl_init( ax_path ) != 0 ) {
         char buf[1024];
         snprintf( buf, sizeof(buf), "start.ax の読み込みに失敗しました\npath=%s", ax_path );
-        MessageBoxA( nullptr, buf, "hsp3dx", MB_OK | MB_ICONERROR );
+        hsp3dx_msgbox_utf8( buf, "hsp3dx", MB_OK | MB_ICONERROR );
         hgio_dx_term();
         return 1;
     }

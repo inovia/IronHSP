@@ -20,6 +20,7 @@
 #include "../../hsp3/hspvar_core.h"
 
 #include "hsp3dxcl.h"
+#include "hsp3dx_console.h"   // hsp3dx_msgbox_utf8
 #include "DxLib.h"
 
 extern "C" {
@@ -136,7 +137,7 @@ int hsp3dxcl_exec( void )
             } else {
                 snprintf( buf, sizeof(buf), "#Error %d in line %d\n--> %s\n", (int)err, ln, msg );
             }
-            MessageBoxA( nullptr, buf, "hsp3dx", MB_OK | MB_ICONERROR );
+            hsp3dx_msgbox_utf8( buf, "hsp3dx", MB_OK | MB_ICONERROR );
             return -1;
         }
         return s_ctx->endcode;

@@ -19,6 +19,10 @@ extern "C" {
 //  out_capacity は wchar_t 単位の要素数。
 void hsp3dx_utf8_to_wide( const char *utf8, wchar_t *out_buf, int out_capacity );
 
+//  UTF-8 文字列を MessageBoxW で表示 (日本語の文字化けを防ぐ)
+//  title は NULL 可 (デフォルト "hsp3dx")。
+int  hsp3dx_msgbox_utf8( const char *text_utf8, const char *title_utf8, unsigned int mb_flags );
+
 #ifdef __cplusplus
 }
 #endif

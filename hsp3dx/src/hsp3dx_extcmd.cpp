@@ -212,7 +212,7 @@ static int cmdfunc_extcmd( int cmd )
             stmp[sizeof(stmp) - 1] = 0;
             p1 = code_getdi( 0 );
             char *title = code_getds( "hsp3dx" );
-            MessageBoxA( nullptr, stmp, title, MB_OK );
+            hsp3dx_msgbox_utf8( stmp, title, MB_OK );
             break;
         }
 
