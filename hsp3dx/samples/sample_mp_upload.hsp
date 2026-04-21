@@ -1,0 +1,67 @@
+;============================================================
+;   sample_mp_upload.hsp — multipart/form-data アップロード (httpbin.org)
+;
+;   Android: OkHttp MultipartBody 経由
+;   Win:     WinHTTP 自前実装
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i -u --compath=../../package/win32/common/ sample_mp_upload.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx multipart upload"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+
+    pos 10, 10
+    mes "hsp3dx multipart upload test"
+    mes "  送信先: https://httpbin.org/post"
+    mes "  送信中..."
+    redraw 1
+
+    ;  ---- 一時ファイル作成 (バイナリ小さめ、GIF 1x1 透明) ----
+    ;      httpbin.org は multipart を受け取って JSON で返してくれるので検証に便利
+    ;      ここではバイト列を直接 bsave して送る
+    tmppath = "upload_test.bin"
+    sdim payload, 16
+    poke payload, 0, "hsp3dx-mp-test!"
+    bsave tmppath, payload, 16
+
+    ;  ---- multipart 構築 ----
+    dx_http_mp_begin
+    dx_http_mp_add_text "description", "hsp3dx android upload"
+    dx_http_mp_add_text "source",      "phase 4.l"
+    dx_http_mp_add_file "file", tmppath, "application/octet-stream", "blob.bin"
+
+    ;  ---- 送信 ----
+    dx_http_mp_post "https://httpbin.org/post", resp_body
+    status_code = stat
+    dx_http_mp_end
+
+    ;  ---- 結果表示 ----
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    pos 10, 10
+    mes "hsp3dx multipart upload result"
+    mes ""
+    mes "[POST] https://httpbin.org/post (multipart/form-data)"
+    mes "  status = " + status_code + "   body size = " + strlen(resp_body)
+    mes "---- body (前 380 文字) ----"
+    mes strmid(resp_body, 0, 380)
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[BACK/ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end

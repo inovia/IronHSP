@@ -283,11 +283,131 @@ extern "C" int hsp3dx_http_build_basic_auth( const char *, const char *,
     return -1;
 }
 
-//  multipart: Phase 4.x で本実装
-extern "C" void hsp3dx_http_mp_begin( void ) {}
-extern "C" int  hsp3dx_http_mp_add_text( const char *, const char * ) { return -1; }
-extern "C" int  hsp3dx_http_mp_add_file( const char *, const char *, const char *, const char * ) { return -1; }
-extern "C" int  hsp3dx_http_mp_post( const char *, const char *, const char *, int,
-                                      hsp3dx_http_response *out )
-{ if ( out ) { out->status = 0; out->body = nullptr; out->size = 0; out->headers = nullptr; } return -1; }
-extern "C" void hsp3dx_http_mp_end( void ) {}
+//  ----------------------------------------------------------------
+//  multipart/form-data (OkHttp 経由)
+//  ----------------------------------------------------------------
+static jmethodID s_mid_mp_begin   = nullptr;
+static jmethodID s_mid_mp_addText = nullptr;
+static jmethodID s_mid_mp_addFile = nullptr;
+static jmethodID s_mid_mp_post    = nullptr;
+static jmethodID s_mid_mp_end     = nullptr;
+
+static bool ensure_mp_methods( JNIEnv *env )
+{
+    if ( !ensure_jni_init() ) return false;
+    if ( s_mid_mp_begin && s_mid_mp_addText && s_mid_mp_addFile
+         && s_mid_mp_post && s_mid_mp_end ) return true;
+
+    s_mid_mp_begin   = env->GetStaticMethodID( s_HspHttp_class, "mpBegin",   "()V" );
+    s_mid_mp_addText = env->GetStaticMethodID( s_HspHttp_class, "mpAddText", "(Ljava/lang/String;Ljava/lang/String;)I" );
+    s_mid_mp_addFile = env->GetStaticMethodID( s_HspHttp_class, "mpAddFile", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I" );
+    s_mid_mp_post    = env->GetStaticMethodID( s_HspHttp_class, "mpPost",    "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)[B" );
+    s_mid_mp_end     = env->GetStaticMethodID( s_HspHttp_class, "mpEnd",     "()V" );
+    if ( !s_mid_mp_begin || !s_mid_mp_addText || !s_mid_mp_addFile
+         || !s_mid_mp_post || !s_mid_mp_end ) {
+        env->ExceptionClear();
+        LOGW( "HspHttp multipart methods not resolved" );
+        return false;
+    }
+    return true;
+}
+
+extern "C" void hsp3dx_http_mp_begin( void )
+{
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env || !ensure_mp_methods( env ) ) { if ( detach ) s_vm->DetachCurrentThread(); return; }
+    env->CallStaticVoidMethod( s_HspHttp_class, s_mid_mp_begin );
+    if ( env->ExceptionCheck() ) env->ExceptionClear();
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" int hsp3dx_http_mp_add_text( const char *name, const char *value )
+{
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env || !ensure_mp_methods( env ) ) { if ( detach ) s_vm->DetachCurrentThread(); return -1; }
+    jstring jn = env->NewStringUTF( name  ? name  : "" );
+    jstring jv = env->NewStringUTF( value ? value : "" );
+    int rc = env->CallStaticIntMethod( s_HspHttp_class, s_mid_mp_addText, jn, jv );
+    env->DeleteLocalRef( jn ); env->DeleteLocalRef( jv );
+    if ( env->ExceptionCheck() ) { env->ExceptionClear(); rc = -1; }
+    if ( detach ) s_vm->DetachCurrentThread();
+    return rc;
+}
+
+extern "C" int hsp3dx_http_mp_add_file( const char *name, const char *path,
+                                         const char *ctype, const char *filename )
+{
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env || !ensure_mp_methods( env ) ) { if ( detach ) s_vm->DetachCurrentThread(); return -1; }
+    jstring jn = env->NewStringUTF( name     ? name     : "" );
+    jstring jp = env->NewStringUTF( path     ? path     : "" );
+    jstring jc = env->NewStringUTF( ctype    ? ctype    : "" );
+    jstring jf = env->NewStringUTF( filename ? filename : "" );
+    int rc = env->CallStaticIntMethod( s_HspHttp_class, s_mid_mp_addFile, jn, jp, jc, jf );
+    env->DeleteLocalRef( jn ); env->DeleteLocalRef( jp );
+    env->DeleteLocalRef( jc ); env->DeleteLocalRef( jf );
+    if ( env->ExceptionCheck() ) { env->ExceptionClear(); rc = -1; }
+    if ( detach ) s_vm->DetachCurrentThread();
+    return rc;
+}
+
+extern "C" int hsp3dx_http_mp_post( const char *url, const char *ua,
+                                     const char *xhdr, int timeout_ms,
+                                     hsp3dx_http_response *out )
+{
+    if ( out ) { out->status = 0; out->body = nullptr; out->size = 0; out->headers = nullptr; }
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env || !ensure_mp_methods( env ) ) { if ( detach ) s_vm->DetachCurrentThread(); return -1; }
+
+    jstring jurl = env->NewStringUTF( url  ? url  : "" );
+    jstring jua  = env->NewStringUTF( ua   ? ua   : "hsp3dx/1.0" );
+    jstring jxh  = env->NewStringUTF( xhdr ? xhdr : "" );
+    jbyteArray result = (jbyteArray)env->CallStaticObjectMethod(
+        s_HspHttp_class, s_mid_mp_post, jurl, jua, jxh, (jint)timeout_ms );
+    env->DeleteLocalRef( jurl ); env->DeleteLocalRef( jua ); env->DeleteLocalRef( jxh );
+    if ( env->ExceptionCheck() ) { env->ExceptionDescribe(); env->ExceptionClear();
+                                    if ( detach ) s_vm->DetachCurrentThread(); return -1; }
+
+    int rc = -1;
+    if ( result ) {
+        jsize len = env->GetArrayLength( result );
+        if ( len >= 4 ) {
+            jbyte *p = env->GetByteArrayElements( result, nullptr );
+            int status = (int)(unsigned char)p[0]
+                       | ((int)(unsigned char)p[1] << 8)
+                       | ((int)(unsigned char)p[2] << 16)
+                       | ((int)(unsigned char)p[3] << 24);
+            int body_len = len - 4;
+            char *buf = (char *)malloc( (size_t)body_len + 1 );
+            if ( buf ) {
+                memcpy( buf, p + 4, (size_t)body_len );
+                buf[body_len] = 0;
+                if ( out ) {
+                    out->status  = status;
+                    out->body    = buf;
+                    out->size    = (size_t)body_len;
+                    out->headers = strdup( "" );
+                } else { free( buf ); }
+            }
+            env->ReleaseByteArrayElements( result, p, JNI_ABORT );
+            rc = 0;
+        }
+        env->DeleteLocalRef( result );
+    }
+    if ( detach ) s_vm->DetachCurrentThread();
+    return rc;
+}
+
+extern "C" void hsp3dx_http_mp_end( void )
+{
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env || !ensure_mp_methods( env ) ) { if ( detach ) s_vm->DetachCurrentThread(); return; }
+    env->CallStaticVoidMethod( s_HspHttp_class, s_mid_mp_end );
+    if ( env->ExceptionCheck() ) env->ExceptionClear();
+    if ( detach ) s_vm->DetachCurrentThread();
+}
