@@ -55,10 +55,19 @@ int ios_main( void )
         return -1;
     }
 
-    //  参考: 物理画面サイズ
+    //  参考: 物理画面サイズ取得
     int disp_w = 0, disp_h = 0;
-    if ( GetDisplayResolution_iOS( &disp_w, &disp_h ) == 0 ) {
-        NSLog( @"physical display: %dx%d (logical=640x480 stretched)", disp_w, disp_h );
+    int rc = GetDisplayResolution_iOS( &disp_w, &disp_h );
+    NSLog( @"GetDisplayResolution_iOS rc=%d, size=%dx%d", rc, disp_w, disp_h );
+
+    //  iOS DxLib の SetFullScreenScalingMode は storyboard + DxLibGLView 構成だと
+    //  効かず、論理バッファが実画面の左上に原寸配置される。
+    //  → 論理解像度を物理解像度に合わせて画面全体を使う方針 (Android の letterbox と
+    //    挙動が違うが、HSP スクリプト側で screen 命令を呼べば好きなサイズに変更可)。
+    if ( rc == 0 && disp_w > 0 && disp_h > 0 ) {
+        SetGraphMode( disp_w, disp_h, 32 );
+        hgio_dx_set_screen_size( disp_w, disp_h );
+        NSLog( @"iOS logical resolution set to native: %dx%d", disp_w, disp_h );
     }
 
     //  内部 Documents dir 取得
