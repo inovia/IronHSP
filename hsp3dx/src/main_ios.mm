@@ -44,6 +44,39 @@ static int extract_bundle_asset( const char *name, const char *dst_dir )
     return 0;
 }
 
+//  bundle Resources 直下のアセットを Documents にコピーする (拡張子で絞り込み)。
+//  DxLib 内部ファイル (*.strings, *.nib, Info.plist 等) は除外。
+//  既に Documents に同名のファイルがある場合は上書きしない (override を尊重)。
+static void extract_all_bundle_assets( const char *dst_dir )
+{
+    NSString *resDir = [[NSBundle mainBundle] resourcePath];
+    if ( resDir == nil ) return;
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray<NSString *> *files = [fm contentsOfDirectoryAtPath:resDir error:nil];
+    if ( files == nil ) return;
+
+    NSSet<NSString *> *validExt = [NSSet setWithObjects:
+        @"ax", @"png", @"jpg", @"jpeg", @"bmp", @"wav", @"ogg",
+        @"mp3", @"txt", @"json", @"dat", @"csv", @"xml", nil];
+
+    for ( NSString *file in files ) {
+        NSString *ext = [[file pathExtension] lowercaseString];
+        if ( ![validExt containsObject:ext] ) continue;
+
+        char utf8Name[512];
+        strncpy( utf8Name, [file UTF8String], sizeof(utf8Name) - 1 );
+        utf8Name[sizeof(utf8Name) - 1] = 0;
+
+        //  既存ファイルがあればスキップ (毎起動コピーの無駄を避ける)
+        char dst[1024];
+        snprintf( dst, sizeof(dst), "%s/%s", dst_dir, utf8Name );
+        if ( access( dst, F_OK ) == 0 ) continue;
+
+        extract_bundle_asset( utf8Name, dst_dir );
+    }
+}
+
 //  DxLib iOS のユーザーエントリ (libDxLib_iOS.a から呼ばれる)
 int ios_main( void )
 {
@@ -69,6 +102,10 @@ int ios_main( void )
 
     chdir( internal_dir );
 
+    //  bundle Data/ 配下のアセット (画像/音声/json 等) を Documents にコピー。
+    //  既存ファイルは上書きしないので、開発時に Documents に push したファイルは保持される。
+    extract_all_bundle_assets( internal_dir );
+
     //  開発時のサンプル差し替え用: ~/Documents/start_override.ax があれば優先
     //  (シミュレータなら xcrun simctl get_app_container 経由で push 可)
     char override_path[1024];
@@ -82,10 +119,12 @@ int ios_main( void )
         rename( override_path, target );
         NSLog( @"using pushed override .ax as start.ax" );
     } else {
-        //  bundle 内 Data/start.ax を内部 dir にコピー
-        //  (DxLib iOS FileRead_open は bundle resource を透過的に扱える)
-        if ( extract_bundle_asset( "start.ax", internal_dir ) != 0 ) {
-            NSLog( @"start.ax not found in bundle" );
+        //  bundle 内 start.ax を Documents にコピー (extract_all_bundle_assets で
+        //  既にコピー済なら no-op、Documents にも bundle にも無ければエラー)
+        char start_ax_path[1024];
+        snprintf( start_ax_path, sizeof(start_ax_path), "%s/start.ax", internal_dir );
+        if ( access( start_ax_path, F_OK ) != 0 ) {
+            NSLog( @"start.ax not found in bundle or Documents" );
             hgio_dx_term();
             return -1;
         }

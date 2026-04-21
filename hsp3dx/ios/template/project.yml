@@ -58,6 +58,12 @@ settings:
     # シミュレータのみ (実機ビルドは後続フェーズ)
     ONLY_ACTIVE_ARCH: YES
     SUPPORTED_PLATFORMS: "iphonesimulator"
+    # Xcode の PNG 最適化 (CgBI 形式変換) を無効化。
+    # DxLib iOS の CreateGraphFromMem は標準 libpng で復号するため
+    # CgBI 形式の PNG は "Image File Load Error" になる。
+    COMPRESS_PNG_FILES: NO
+    STRIP_PNG_TEXT: NO
+    ASSETCATALOG_COMPRESS_PNG_FILES: NO
     # signing 省略
     CODE_SIGN_IDENTITY: ""
     CODE_SIGNING_REQUIRED: NO
@@ -74,7 +80,10 @@ targets:
         name: Sources
       - path: Resources
         name: Resources
-      - path: Data/start.ax
+      # Data/ 配下のアセットを全て bundle Resources に同梱。
+      # サンプル実行に必要な start.ax と test_*.png/wav を含む。
+      # 起動時に main_ios.mm が Documents にコピー展開する。
+      - path: Data
         buildPhase: resources
         optional: true
       # hsp3dx 本体 (iOS 用 .mm + Win/Android 非依存の共通 .cpp)
