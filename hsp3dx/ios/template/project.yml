@@ -35,14 +35,15 @@ settings:
     GCC_WARN_UNUSED_PARAMETER: NO
     GCC_WARN_UNUSED_VARIABLE: NO
     GCC_WARN_64_TO_32_BIT_CONVERSION: NO
-    # DxLib iOS SDK は日本語ディレクトリ名を避けるため LinkFiles/ にリネーム済
+    # DxLib iOS SDK は日本語ディレクトリ名を避けるため LinkFiles/ にリネーム済。
+    # Simulator / Device (iphoneos) で .a のパスが分かれるため $(PLATFORM_NAME) で自動切替。
     HEADER_SEARCH_PATHS:
-      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/Debug-iphonesimulator"
+      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-$(PLATFORM_NAME)"
       - "$(SRCROOT)/../../../hsp3"
       - "$(SRCROOT)/../../src"
       - "$(SRCROOT)/../../extlib/picojson"
     LIBRARY_SEARCH_PATHS:
-      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-iphonesimulator"
+      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-$(PLATFORM_NAME)"
     OTHER_LDFLAGS:
       - "-lDxLib_iOS"
       - "-lDxUseCLib_iOS"
@@ -55,19 +56,22 @@ settings:
       - "-lvorbis_iOS"
       - "-ltheora_iOS"
       - "-lbullet_iOS"
-    # シミュレータのみ (実機ビルドは後続フェーズ)
+    # Simulator + Device 両対応 (Phase 3.6)
     ONLY_ACTIVE_ARCH: YES
-    SUPPORTED_PLATFORMS: "iphonesimulator"
+    SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
     # Xcode の PNG 最適化 (CgBI 形式変換) を無効化。
     # DxLib iOS の CreateGraphFromMem は標準 libpng で復号するため
     # CgBI 形式の PNG は "Image File Load Error" になる。
     COMPRESS_PNG_FILES: NO
     STRIP_PNG_TEXT: NO
     ASSETCATALOG_COMPRESS_PNG_FILES: NO
-    # signing 省略
-    CODE_SIGN_IDENTITY: ""
-    CODE_SIGNING_REQUIRED: NO
-    CODE_SIGNING_ALLOWED: NO
+    # 実機ビルド用: Personal Team automatic signing。
+    # Simulator ビルドでは code signing はスキップされる (codesign --deep は不要)。
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: "744LT275TZ"
+    CODE_SIGN_IDENTITY: "Apple Development"
+    CODE_SIGNING_REQUIRED: YES
+    CODE_SIGNING_ALLOWED: YES
 
 targets:
   hsp3dx:
