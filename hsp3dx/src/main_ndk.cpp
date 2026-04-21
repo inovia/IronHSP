@@ -17,6 +17,9 @@
 #include "hgio_dx.h"
 #include "hsp3dxcl.h"
 
+//  HTTP モジュール初期化 (ANativeActivity 経由で JavaVM を取得)
+extern "C" void hsp3dx_http_init_jni( void );
+
 #define LOG_TAG "hsp3dx"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO,  LOG_TAG, __VA_ARGS__)
 #define LOGW(...) __android_log_print(ANDROID_LOG_WARN,  LOG_TAG, __VA_ARGS__)
@@ -59,6 +62,9 @@ int android_main( void )
         LOGE( "hgio_dx_init failed" );
         return -1;
     }
+
+    //  HTTP モジュールに JavaVM を教える (DxLib が NativeActivity を保持してから)
+    hsp3dx_http_init_jni();
 
     //  内部データパス取得 (書き込み可能な private dir)
     char internal_dir[1024] = "";
