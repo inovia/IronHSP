@@ -1527,6 +1527,51 @@ static int cmdfunc_extcmd( int cmd )
             ctx->stat = hsp3dx_pref_clear( sec ? sec : "" );
             break;
         }
+    case 0x17e:                     // dx_pref_exists "section", "key"  (stat=1/0)
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            ctx->stat = hsp3dx_pref_exists( sec_c, key ? key : "" );
+            free( sec_c );
+            break;
+        }
+    case 0x17f:                     // dx_pref_set_double "section", "key", double_value
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            char *key_c = _strdup( key ? key : "" );
+            double v = code_getdd( 0.0 );
+            ctx->stat = hsp3dx_pref_set_double( sec_c, key_c, v );
+            free( sec_c ); free( key_c );
+            break;
+        }
+    case 0x194:                     // dx_pref_get_double "section", "key", var_double [, default]
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            char *key_c = _strdup( key ? key : "" );
+            PVal *pv; APTR ap = code_getva( &pv );
+            double def = code_getdd( 0.0 );
+            double v = hsp3dx_pref_get_double( sec_c, key_c, def );
+            code_setva( pv, ap, HSPVAR_FLAG_DOUBLE, &v );
+            free( sec_c ); free( key_c );
+            break;
+        }
+    case 0x195:                     // dx_pref_list_keys "section", var_str (stat=件数)
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            PVal *pv; APTR ap = code_getva( &pv );
+            char buf[8192];
+            int n = hsp3dx_pref_list_keys( sec_c, buf, sizeof(buf) );
+            code_setva( pv, ap, HSPVAR_FLAG_STR, buf );
+            ctx->stat = n;
+            free( sec_c );
+            break;
+        }
 
     //  ---- multipart/form-data ----
     case 0x170:                     // dx_http_mp_begin

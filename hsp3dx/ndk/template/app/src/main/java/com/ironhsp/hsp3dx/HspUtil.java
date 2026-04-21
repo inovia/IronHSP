@@ -173,6 +173,35 @@ public class HspUtil {
         return 0;
     }
 
+    public static int prefExists( String section, String key )
+    {
+        SharedPreferences p = prefs();
+        if ( p == null || key == null ) return 0;
+        return p.contains( fullKey( section, key ) ) ? 1 : 0;
+    }
+
+    public static String prefListKeys( String section )
+    {
+        SharedPreferences p = prefs();
+        if ( p == null ) return "";
+        StringBuilder sb = new StringBuilder();
+        String prefix = ( section != null && !section.isEmpty() ) ? section + "/" : null;
+        boolean first = true;
+        for ( String k : p.getAll().keySet() ) {
+            String keyOnly;
+            if ( prefix != null ) {
+                if ( !k.startsWith( prefix ) ) continue;
+                keyOnly = k.substring( prefix.length() );
+            } else {
+                keyOnly = k;
+            }
+            if ( !first ) sb.append( '\n' );
+            sb.append( keyOnly );
+            first = false;
+        }
+        return sb.toString();
+    }
+
     public static int prefClear( String section )
     {
         SharedPreferences p = prefs();

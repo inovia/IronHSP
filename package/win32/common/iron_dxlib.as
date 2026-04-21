@@ -88,6 +88,10 @@
 #cmd dx_pref_get_int   $17b   ; dx_pref_get_int "section", "key" [, default] (stat=値)
 #cmd dx_pref_remove    $17c   ; dx_pref_remove "section", "key"
 #cmd dx_pref_clear     $17d   ; dx_pref_clear "section"  (section="" で全消去)
+#cmd dx_pref_exists    $17e   ; dx_pref_exists "section", "key"  (stat=1 存在 / 0 無し)
+#cmd dx_pref_set_double $17f  ; dx_pref_set_double "section", "key", double_value
+#cmd dx_pref_get_double $194  ; dx_pref_get_double "section", "key", var_double [, default]
+#cmd dx_pref_list_keys  $195  ; dx_pref_list_keys "section", var_str  (stat=件数、var に \n 区切りで格納)
 
 ;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
 #cmd dx_http_mp_begin      $170   ; dx_http_mp_begin

@@ -162,6 +162,60 @@ extern "C" int hsp3dx_pref_remove( const char *section, const char *key )
     return r ? 0 : -1;
 }
 
+extern "C" int hsp3dx_pref_exists( const char *section, const char *key )
+{
+    if ( !key ) return 0;
+    wchar_t ini[_MAX_PATH] = { 0 };
+    get_ini_path( ini, _MAX_PATH );
+    wchar_t *ws = u8_dup_w( section ? section : "" );
+    wchar_t *wk = u8_dup_w( key );
+    wchar_t sentinel[] = L"\x01NOTSET\x01";
+    wchar_t buf[16];
+    GetPrivateProfileStringW( sanitize_section( ws ), wk, sentinel,
+                              buf, (DWORD)(sizeof(buf)/sizeof(wchar_t)), ini );
+    int ex = ( wcscmp( buf, sentinel ) != 0 ) ? 1 : 0;
+    if ( ws ) free( ws ); if ( wk ) free( wk );
+    return ex;
+}
+
+extern "C" int hsp3dx_pref_list_keys( const char *section, char *out, size_t out_cap )
+{
+    if ( !out || out_cap == 0 ) return -1;
+    out[0] = 0;
+    wchar_t ini[_MAX_PATH] = { 0 };
+    get_ini_path( ini, _MAX_PATH );
+    wchar_t *ws = u8_dup_w( section ? section : "" );
+    //  lpKeyName == NULL で \0 区切りの全キー列を取得
+    wchar_t wbuf[16384];
+    DWORD n = GetPrivateProfileStringW( sanitize_section( ws ), nullptr, L"",
+                                        wbuf, (DWORD)(sizeof(wbuf)/sizeof(wchar_t)), ini );
+    if ( ws ) free( ws );
+    if ( n == 0 ) return 0;
+
+    //  wbuf は "key1\0key2\0...\0\0" の形。\0 区切りを \n に変換しつつ UTF-8 化
+    int count = 0;
+    size_t oi = 0;
+    DWORD i = 0;
+    while ( i < n && wbuf[i] ) {
+        //  次の \0 までを 1 キーとして抽出
+        DWORD start = i;
+        while ( i < n && wbuf[i] ) i++;
+        wbuf[i] = 0;  //  念のため NUL 確定
+        int u8_need = WideCharToMultiByte( CP_UTF8, 0, wbuf + start, -1, nullptr, 0, nullptr, nullptr );
+        if ( u8_need > 0 && oi + (size_t)u8_need + 2 <= out_cap ) {
+            WideCharToMultiByte( CP_UTF8, 0, wbuf + start, -1, out + oi, (int)(out_cap - oi), nullptr, nullptr );
+            oi += (size_t)u8_need - 1;  //  末尾 NUL を上書きするため -1
+            if ( count + 1 > 0 ) out[oi++] = '\n';
+            out[oi] = 0;
+            count++;
+        }
+        i++;  //  NUL を越えて次へ
+    }
+    //  末尾の \n を除く
+    if ( count > 0 && oi > 0 && out[oi-1] == '\n' ) out[--oi] = 0;
+    return count;
+}
+
 extern "C" int hsp3dx_pref_clear( const char *section )
 {
     wchar_t ini[_MAX_PATH] = { 0 };

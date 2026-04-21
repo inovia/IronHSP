@@ -173,6 +173,50 @@ extern "C" int hsp3dx_pref_remove( const char *section, const char *key )
     return 0;
 }
 
+extern "C" int hsp3dx_pref_exists( const char *section, const char *key )
+{
+    if ( !key ) return 0;
+    @autoreleasepool {
+        NSString *fk = full_key( section, key );
+        return [[NSUserDefaults standardUserDefaults] objectForKey:fk] != nil ? 1 : 0;
+    }
+}
+
+extern "C" int hsp3dx_pref_list_keys( const char *section, char *out, size_t out_cap )
+{
+    if ( !out || out_cap == 0 ) return -1;
+    out[0] = 0;
+    @autoreleasepool {
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        NSDictionary *all = [ud dictionaryRepresentation];
+        NSString *prefix = ( section && *section )
+                           ? [NSString stringWithFormat:@"%s/", section]
+                           : nil;
+        int count = 0;
+        size_t oi = 0;
+        for ( NSString *k in all.allKeys ) {
+            NSString *keyOnly;
+            if ( prefix ) {
+                if ( ![k hasPrefix:prefix] ) continue;
+                keyOnly = [k substringFromIndex:prefix.length];
+            } else {
+                keyOnly = k;
+            }
+            const char *c = [keyOnly UTF8String];
+            if ( !c ) continue;
+            size_t L = strlen( c );
+            if ( oi + L + 2 > out_cap ) break;
+            memcpy( out + oi, c, L );
+            oi += L;
+            out[oi++] = '\n';
+            out[oi] = 0;
+            count++;
+        }
+        if ( count > 0 && oi > 0 && out[oi-1] == '\n' ) out[--oi] = 0;
+        return count;
+    }
+}
+
 extern "C" int hsp3dx_pref_clear( const char *section )
 {
     @autoreleasepool {

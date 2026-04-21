@@ -45,6 +45,16 @@ int  hsp3dx_pref_get_int ( const char *section, const char *key, int default_val
 int  hsp3dx_pref_remove  ( const char *section, const char *key );
 int  hsp3dx_pref_clear   ( const char *section );   //  "" or NULL で全削除
 
+//  存在チェック: 1=存在、0=無し
+int  hsp3dx_pref_exists  ( const char *section, const char *key );
+
+//  浮動小数 (内部的には 17 桁精度の文字列として保存)
+int     hsp3dx_pref_set_double( const char *section, const char *key, double value );
+double  hsp3dx_pref_get_double( const char *section, const char *key, double default_value );
+
+//  section 内のキー一覧を \n 区切りで out に書く。戻り値 = 見つかった数 (-1=失敗)
+int  hsp3dx_pref_list_keys( const char *section, char *out, size_t out_cap );
+
 #ifdef __cplusplus
 }
 #endif

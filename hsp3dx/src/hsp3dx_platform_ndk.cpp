@@ -32,6 +32,8 @@ static jmethodID s_mid_prefGetStr  = nullptr;
 static jmethodID s_mid_prefGetInt  = nullptr;
 static jmethodID s_mid_prefRemove  = nullptr;
 static jmethodID s_mid_prefClear   = nullptr;
+static jmethodID s_mid_prefExists    = nullptr;
+static jmethodID s_mid_prefListKeys  = nullptr;
 
 static JNIEnv *jni_env( bool *needs_detach )
 {
@@ -85,6 +87,8 @@ static bool ensure_jni_init()
     s_mid_prefGetInt  = env->GetStaticMethodID( s_HspUtil_class, "prefGetInt",  "(Ljava/lang/String;Ljava/lang/String;I)I" );
     s_mid_prefRemove  = env->GetStaticMethodID( s_HspUtil_class, "prefRemove",  "(Ljava/lang/String;Ljava/lang/String;)I" );
     s_mid_prefClear   = env->GetStaticMethodID( s_HspUtil_class, "prefClear",   "(Ljava/lang/String;)I" );
+    s_mid_prefExists  = env->GetStaticMethodID( s_HspUtil_class, "prefExists",  "(Ljava/lang/String;Ljava/lang/String;)I" );
+    s_mid_prefListKeys= env->GetStaticMethodID( s_HspUtil_class, "prefListKeys","(Ljava/lang/String;)Ljava/lang/String;" );
 
     //  setActivity(act->clazz) で HspUtil にアプリ Activity を渡す
     if ( s_mid_setActivity ) {
@@ -214,6 +218,49 @@ extern "C" int hsp3dx_pref_remove( const char *section, const char *key )
     env->DeleteLocalRef( js ); env->DeleteLocalRef( jk );
     if ( detach ) s_vm->DetachCurrentThread();
     return (int)rc;
+}
+
+extern "C" int hsp3dx_pref_exists( const char *section, const char *key )
+{
+    if ( !ensure_jni_init() || !key ) return 0;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return 0;
+    jstring js = env->NewStringUTF( section ? section : "" );
+    jstring jk = env->NewStringUTF( key );
+    jint rc = env->CallStaticIntMethod( s_HspUtil_class, s_mid_prefExists, js, jk );
+    env->DeleteLocalRef( js ); env->DeleteLocalRef( jk );
+    if ( detach ) s_vm->DetachCurrentThread();
+    return (int)rc;
+}
+
+extern "C" int hsp3dx_pref_list_keys( const char *section, char *out, size_t out_cap )
+{
+    if ( !ensure_jni_init() || !out || out_cap == 0 ) return -1;
+    out[0] = 0;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return -1;
+    jstring js = env->NewStringUTF( section ? section : "" );
+    jstring jresult = (jstring)env->CallStaticObjectMethod( s_HspUtil_class, s_mid_prefListKeys, js );
+    env->DeleteLocalRef( js );
+    int count = 0;
+    if ( jresult ) {
+        const char *c = env->GetStringUTFChars( jresult, nullptr );
+        if ( c ) {
+            strncpy( out, c, out_cap - 1 );
+            out[out_cap - 1] = 0;
+            //  \n を数えてキー数を得る
+            if ( out[0] ) {
+                count = 1;
+                for ( const char *p = out; *p; p++ ) if ( *p == '\n' ) count++;
+            }
+            env->ReleaseStringUTFChars( jresult, c );
+        }
+        env->DeleteLocalRef( jresult );
+    }
+    if ( detach ) s_vm->DetachCurrentThread();
+    return count;
 }
 
 extern "C" int hsp3dx_pref_clear( const char *section )

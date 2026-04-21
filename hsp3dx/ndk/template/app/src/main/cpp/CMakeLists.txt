@@ -68,6 +68,7 @@ set(HSP3DX_SRC
     # Android プラットフォーム固有
     ${HSP3DX_DIR}/src/hsp3dx_platform_io_ndk.cpp
     ${HSP3DX_DIR}/src/hsp3dx_platform_ndk.cpp
+    ${HSP3DX_DIR}/src/hsp3dx_platform_common.cpp
     ${HSP3DX_DIR}/src/hsp3dx_http_ndk.cpp
     ${HSP3DX_DIR}/src/hsp3dx_ws_ndk.cpp
     ${HSP3DX_DIR}/src/main_ndk.cpp
