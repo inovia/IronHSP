@@ -6,9 +6,69 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 1.2: mes 命令 + 文字列描画)
+
+### (これから commit) @ 20:00 — Phase 1.2: mes / title / dialog 実装 + console バッファ + UTF-8 描画 (実機で日本語表示 OK)
+
+**やったこと**
+- **`hsp3dx_console.{h,cpp}`** 新規 — mes / print 用のテキストリングバッファ
+  (64 行 × 512 bytes)。改行毎に新しい行を追加、最大行超過時は先頭をスクロール
+- **`hsp3dx_extcmd.cpp`** 新規 (`hsp3dx_stubs.cpp` を置き換え) — cmdfunc_extcmd と
+  reffunc_function を実装、Phase 1.2 スコープ:
+  - `0x03` dialog: Win32 `MessageBoxA` で暫定代用
+  - `0x0f` mes / print: `hsp3dx_console_append` でバッファに追記
+  - `0x10` title: DxLib `SetMainWindowText` 経由でウィンドウタイトル更新
+  - それ以外の extcmd は `HSPERR_UNSUPPORTED_FUNCTION` を throw
+  - reffunc も全部 UNSUPPORTED throw (Phase 1.3 で sysinfo/dirinfo/exist 実装予定)
+- **main.cpp** のレンダループに `hsp3dx_console_render_dxlib(10, 10, 0xFFFFFF)` を追加、
+  VM が mes で書いた内容が画面に白文字で表示される
+- **vcxproj** を更新: stubs.cpp 除去 → extcmd.cpp + console.cpp 追加
+
+**詰まりどころ (UNICODE 問題)**
+- 最初は `UNICODE;_UNICODE` を削除したが、`hsp3utfcnv.cpp` / `dpmread.cpp` /
+  `supio_win_unicode.cpp` は `_tfopen` / `TEXT()` / `GetModuleFileName` など TCHAR
+  マクロを使っているので UNICODE 必須。削ると wchar_t ↔ char 変換エラーが再発
+- 一方で DxLib は UNICODE 定義下で `DrawString` が `const wchar_t*` を要求、
+  `SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8)` も UNICODE 版では無効化される
+  仕様 (DxLib.h コメントより)
+- **解決策**: global UNICODE 有効のまま、hsp3dx_console.cpp 側で UTF-8 char* を
+  `MultiByteToWideChar(CP_UTF8, ...)` で wchar_t* に変換してから DxLib に渡す運用
+
+**動作確認**
+- ビルド成功: hsp3dx.exe 6.95 MB、警告ゼロ
+- `start.hsp` (`mes "hello, hsp3dx!"` + 日本語 UTF-8 `mes` + `end`) を hspcmp64 で
+  `.ax` に変換
+- ユーザー実機で hsp3dx.exe を起動 → **ウィンドウに hello メッセージが正しく表示** ✅
+- **Phase 1.2 実機動作確認 完了**
+
+**mojibake 対応の経緯**
+- 初回表示で日本語部分 "これは UTF-8 文字列" が "縺薙丨縺ッ UTF-8 譁・ュ恰・" に化けた
+- .ax の hex dump で原因判明: "これ" が UTF-8 `E3 81 93 E3 82 8C` ではなく
+  `E7 B8 BA E8 96 99` (= 縺薙の UTF-8 エンコーディング) として格納されていた
+- 理由: `hspcmp64` を `-u` (出力 UTF-8) のみで実行、`-i` (入力 UTF-8) を指定していなかった
+  ため、UTF-8 ソースを SJIS と誤認して 2 バイトごとに Unicode 文字へ誤変換、それを UTF-8 で出力
+- `-i -u` 両方指定で再コンパイル → 正しい UTF-8 バイト列 `E3 81 93...` が .ax に格納 → 表示 OK
+- hsp3dx ランタイム側のコードには問題なし (ビルド更新不要)
+
+**詰まりどころ (再発防止ドキュメント)**
+- `#cmpopt utf8 1` だけでは入力エンコーディングが SJIS のまま → 必ず hspcmp コマンドライン
+  に `-i` を指定する必要あり
+- `phase1_setup.md` に `-i -u` 両方必須の注意を赤字で追記
+
+**追加成果物**
+- `hsp3dx/samples/sample_mes.hsp` — Phase 1.2 動作確認用サンプル (UTF-8)
+- `phase1_setup.md` の「動作確認」セクションを実機再現手順に更新
+
+**決めごと**
+- UNICODE 定義は global で有効、DxLib 境界で `MultiByteToWideChar` 明示変換
+- mes の \n は `code_getdi(0)` が 0 (通常 mes) なら付加、1 (print) なら付加しない
+- テキストレンダリングは固定 18px 行高 (Phase 1.3 で font サイズ可変化予定)
+
+---
+
 ## 2026-04-20 (初日: Phase 0 全走破 + Phase 1.0 起点 + Phase 1.1 VM 統合)
 
-### (これから commit) @ 20:59 — Phase 1.1: hsp3 VM コア統合 + hsp3dxcl ドライバ
+### 01444ec7 @ 20:59 — Phase 1.1: hsp3 VM コア統合 + hsp3dxcl ドライバ
 
 **やったこと**
 - **設計訂正**: VM ベースを `hsp3embed` fork から **`hsp3/` コア (`Hsp3` クラス) fork** に変更

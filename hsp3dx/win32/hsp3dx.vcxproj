@@ -63,6 +63,14 @@
         $(ProjectDir)..\..\hsp3embed;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
+      <!--
+          UNICODE/_UNICODE を GLOBAL で定義する。理由:
+          * hsp3 コアの HSPWIN+HSPUTF8 パスは _tfopen / TEXT() / GetModuleFileName 等
+            の TCHAR マクロを使用、これらは UNICODE 定義下で wide API に展開される
+          * supio_win_unicode.cpp も同様に UNICODE 前提で書かれている
+          * DxLib は TCHAR = wchar_t モードになるが、hsp3dx では文字列を MultiByteToWideChar で
+            ワイドに変換して渡す運用にする (console / extcmd 内で対応)
+      -->
       <PreprocessorDefinitions>
         _HSP64;HSP64;HSP3DX;HSPWIN;HSPUTF8;UNICODE;_UNICODE;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;
         %(PreprocessorDefinitions)
@@ -99,11 +107,13 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\hgio_dx.cpp" />
     <ClCompile Include="..\src\hsp3dxcl.cpp" />
-    <ClCompile Include="..\src\hsp3dx_stubs.cpp" />
+    <ClCompile Include="..\src\hsp3dx_extcmd.cpp" />
+    <ClCompile Include="..\src\hsp3dx_console.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\hgio_dx.h" />
     <ClInclude Include="..\src\hsp3dxcl.h" />
+    <ClInclude Include="..\src\hsp3dx_console.h" />
   </ItemGroup>
 
   <ItemGroup>
@@ -127,7 +137,6 @@
     <ClCompile Include="..\..\hsp3\strnote.cpp" />
     <ClCompile Include="..\..\hsp3\dpmread.cpp" />
     <ClCompile Include="..\..\hsp3\filepack.cpp" />
-    <!-- プラットフォーム依存 I/O ユーティリティ (Win+UTF8 版) -->
     <ClCompile Include="..\..\hsp3\win32gui\supio_win_unicode.cpp" />
   </ItemGroup>
 

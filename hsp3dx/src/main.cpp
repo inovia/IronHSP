@@ -17,6 +17,7 @@
 
 #include "hgio_dx.h"
 #include "hsp3dxcl.h"
+#include "hsp3dx_console.h"
 #include "DxLib.h"
 
 int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR cmdline, int )
@@ -50,7 +51,7 @@ int WINAPI WinMain( HINSTANCE, HINSTANCE, LPSTR cmdline, int )
 
     while ( hgio_dx_process_message() == 0 ) {
         hgio_dx_render_start();
-        //  TODO (Phase 1.2): dx_drawstring で "VM終了" 表示などを入れる
+        hsp3dx_console_render_dxlib( 10, 10, 0xFFFFFF );
         hgio_dx_render_end();
         if ( hgio_dx_getkey( KEY_INPUT_ESCAPE ) ) break;
     }

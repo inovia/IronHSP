@@ -1,0 +1,23 @@
+;============================================================
+;   sample_mes.hsp — Phase 1.2 動作確認サンプル
+;
+;   mes / title / dialog が動作するかの最小サンプル。UTF-8 固定。
+;
+;   ビルド:
+;       ..\..\..\package\win32\hspcmp64.exe -i -u sample_mes.hsp
+;   実行:
+;       ..\win32\bin\Release\hsp3dx.exe sample_mes.ax
+;       (または sample_mes.ax を start.ax にリネームして hsp3dx.exe を直接起動)
+;
+;   ※ `-i -u` 両方が必須。-i は入力ソース UTF-8、-u は出力 .ax UTF-8
+;      どちらか欠けると文字化け or エンコーディング不一致が発生。
+;============================================================
+#bootopt hsp64 1
+
+    title "hsp3dx sample: mes"
+    mes "hello, hsp3dx!"
+    mes "これは UTF-8 文字列"
+    mes "  半角 / 全角 ミックス OK 123 ABC あいうえお"
+    mes ""
+    mes "ESC キーで終了"
+    end
