@@ -6,6 +6,36 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 1 完了 + 仕様訂正)
+
+### (これから commit) @ 20:08 — 仕様訂正: hsp3dx_cnv 見送り、bundle/assets 統一
+
+**経緯**
+- ユーザー指摘: 「なんで .ax はバンドルじゃなくて C 配列で、画像/音声は bundle なの？」
+- 実はその通りで、iOS bundle / Android assets は任意ファイルタイプを同梱可能。
+  `.ax` だけ別経路 (`const uint8_t[]` の C ソース) にする合理的理由がない
+- Phase 0 時点で hsp3cnv を AOT 翻訳器と誤解した残り火が設計に残っていた。
+  Route B (runtime interpret) 確定後、`hsp3dx_cnv` は「単純バイト配列化ツール」
+  に位置づけ直したが、それ自体が不要だった
+
+**訂正内容**
+- `docs/hsp3dx_spec.md / .html` の §6.2 iOS / §6.3 Android を `.ax` も画像/音声と
+  同じく bundle / assets 経由に統一
+- §6.4 を新設: Win = fopen / iOS = NSBundle / Android = AAssetManager の
+  platform abstraction で全ファイル統一アクセス
+- §7 Phase 計画: 旧 Phase 2 (`hsp3dx_cnv` / `hsp3dx_pack`) を**見送り**に。
+  新 Phase 2 = platform abstraction I/O 層に再定義
+- `.ax` 隠蔽が必要な特殊ケース向けの `hsp3dx_cnv` は Phase 6 以降のオプション扱い
+
+**Phase 1 一旦完了サマリ (20:07 557a9f97)**
+- extcmd 27 / reffunc 8
+- sample_mes / sample_draw / sample_pic / sample_sprite / sample_input /
+  sample_sound / sample_sysvar / sample_shooter の 8 本 (sample_shooter は
+  60fps 自機+弾+敵+星+SCORE の総合サンプル)
+- UTF-8 日本語 / X ボタン / ESC 終了 / 60fps / 音声ループ 全部動作
+
+---
+
 ## 2026-04-21 (Phase 1.2 → 1.9)
 
 ### (これから commit) @ 20:07 — Phase 1.9: 総合シューティングサンプル + getkey VK 互換

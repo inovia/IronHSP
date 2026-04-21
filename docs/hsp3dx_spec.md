@@ -319,29 +319,45 @@ your_game.hsp  →  hspcmp (#cmpopt utf8 1, #bootopt hsp64 1)  →  start.ax
 ```
 your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-              hsp3dx_cnv (単純バイト配列化)  →  start.cpp:
-                                                 const uint8_t ax_data[] = { 0x48, 0x53, ... };
-                                                 const size_t  ax_size   = N;
+   Xcode project に start.ax + 画像/音声を Resources/ にドロップ
                               ↓
-      Xcode project + libhsp3dx.a (hsp3 VM (Hsp3) + hgio_dx + dxlib_core) + DxLib iOS lib + start.cpp
+      Xcode build: libhsp3dx.a (hsp3 VM + hgio_dx + dxlib_core) + DxLib iOS lib
                               ↓
-                             .ipa
+                             .ipa (bundle 内に start.ax / PNG / WAV が同梱)
 ```
 
-起動時に `libhsp3dx` が `VM_Run(ax_data, ax_size)` を呼ぶ形でインタプリト実行。
-`hsp3cnv` のような HSP→C++ AOT 翻訳は**行わない**。
+起動時にランタイムが `[NSBundle pathForResource:@"start"]` 経由で `start.ax` の
+パスを得て、通常の fopen で読み込んで VM にロード → interpret 実行。
+**画像や音声と同じ扱い** で bundle resource としてアクセスするシンプル構成。
 
 ### 6.3 Android
 
 ```
 your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-              hsp3dx_cnv (単純バイト配列化)  →  start.cpp
+   Studio project の app/src/main/assets/ に start.ax + 画像/音声を配置
                               ↓
-     Android Studio + libhsp3dx.so (hsp3 VM (Hsp3) + hgio_dx + dxlib_core) + DxLib Android lib + start.cpp
+     Studio build: libhsp3dx.so (hsp3 VM + hgio_dx + dxlib_core) + DxLib Android lib
                               ↓
-                             .apk / .aab
+                             .apk / .aab (assets/ 内に同梱)
 ```
+
+ランタイムは `AAssetManager_open()` 経由で `start.ax` を読み込み、通常通り VM interpret。
+画像/音声も同じ AAssetManager 経由。
+
+### 6.4 配布経路が統一されている点
+
+Win / iOS / Android で **`.ax` も画像/音声も同じ土俵の通常ファイル** として扱う。
+VM の `.ax` ローダと、プラグインのアセットローダ (`picload` / `mmload`) は
+プラットフォーム抽象を挟んだ共通 I/O 経由で動作する。
+
+Win 用の `fopen`、iOS 用の `[NSBundle pathForResource:]`、Android 用の
+`AAssetManager_open` を `hsp3dx_platform_fopen()` みたいな薄いラッパで束ねる
+設計 (Phase 3/4 で実装)。
+
+**`.ax` の C バイト配列化 (`hsp3dx_cnv`) は必須ではない** (Phase 2 見送り)。
+どうしても `.ax` を隠蔽したい・ファイルにしたくないケース向けの
+**オプションツール** として将来整備する位置づけ。
 
 ### 6.4 共通アセットパッケージング
 
@@ -354,12 +370,29 @@ your_game.hsp  →  hspcmp  →  start.ax
 | Phase | 内容 | 型方針 (§3) | 状態 |
 |---|---|---|---|
 | **Phase 0** | 仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形 | — | ✅ 完了 |
-| Phase 1 | Windows 版 `hsp3dx.exe` MVP (DxLib コア 40 関数 + 3 サンプル) | 方針 1 | 未着手 |
-| Phase 2 | `hsp3dx_cnv` ツール + `hsp3dx_pack` ツール | 方針 1 | 未着手 |
-| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | 方針 1 | 未着手 |
-| Phase 4 | Android 版 `libhsp3dx.so` + Android Studio テンプレ | 方針 1 | 未着手 |
-| Phase 5 | DxLib API を 40 → 500 関数に拡張 (自動生成) | 方針 2 (float + `#cfuncf` 追加) | 未着手 |
+| **Phase 1** | Windows 版 `hsp3dx.exe` MVP (extcmd 27 + reffunc 8 + 7 サンプル) | 方針 1 | ✅ 完了 |
+| ~~Phase 2 (旧)~~ | ~~`hsp3dx_cnv` / `hsp3dx_pack` ツール~~ | — | **見送り** (不要と判明、下記参照) |
+| Phase 2 (新) | iOS/Android 向け platform abstraction I/O 層 (`hsp3dx_platform_fopen` 等) | 方針 1 | 未着手 |
+| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ (`.ax`/アセットは bundle resource) | 方針 1 | 未着手 |
+| Phase 4 | Android 版 `libhsp3dx.so` + Android Studio テンプレ (`.ax`/アセットは assets/) | 方針 1 | 未着手 |
+| Phase 5 | DxLib API を 40 → 500 関数に拡張 + `dx_*` 命令群 | 方針 2 (float + `#cfuncf` 追加) | 未着手 |
 | Phase 6 | 3D / 動画 / ネットワーク機能追加 | 方針 3 (NSTRUCT / cfuncst 移植) | 未着手 |
+
+### 7.1 Phase 2 (旧) 見送りの経緯
+
+初期設計では `.ax` を `const uint8_t[]` の C ソースに変換して mobile アプリに
+静的リンクする `hsp3dx_cnv` ツールを Phase 2 に置いていた。しかし:
+
+- iOS bundle / Android assets はどちらも **任意のファイルタイプを同梱可能**
+- 画像 / 音声は既に bundle / assets 経由で読む設計
+- `.ax` だけ別経路 (C 配列) で扱う必要がなく、一貫性がない
+- ユーザー指摘で 2026-04-21 に設計統一を決定
+
+**新方針**: `.ax` も画像/音声と同じく bundle / assets に通常ファイル配置。
+ランタイムがプラットフォーム抽象 I/O で同一経路から読み込む。
+
+`hsp3dx_cnv` は「`.ax` 隠蔽したい / ファイル出したくない」ケース向けの
+**オプションツール** として Phase 6 以降に譲る。
 
 ---
 

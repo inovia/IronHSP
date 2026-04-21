@@ -432,23 +432,36 @@ hsp3dx_sjis2utf8 --dir path\to\project --dry-run</code></pre>
 <h3>6.2 iOS</h3>
 <div class="ascii-diagram">your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-          hsp3dx_cnv (単純バイト配列化)  →  start.cpp:
-                                             const uint8_t ax_data[] = { 0x48, 0x53, ... };
-                                             const size_t  ax_size   = N;
+   Xcode project に start.ax + 画像/音声を Resources/ にドロップ
                               ↓
-  Xcode project + libhsp3dx.a (hsp3 VM (Hsp3) + hgio_dx + dxlib_core) + DxLib iOS lib + start.cpp
+      Xcode build: libhsp3dx.a (hsp3 VM + hgio_dx + dxlib_core) + DxLib iOS lib
                               ↓
-                             .ipa</div>
-<p>起動時に <code>libhsp3dx</code> が <code>VM_Run(ax_data, ax_size)</code> を呼ぶ形でインタプリト実行。<code>hsp3cnv</code> のような HSP→C++ AOT 翻訳は<strong>行わない</strong>。</p>
+                             .ipa (bundle 内に start.ax / PNG / WAV が同梱)</div>
+<p>起動時にランタイムが <code>[NSBundle pathForResource:@"start"]</code> 経由で <code>start.ax</code> のパスを得て、通常の fopen で読み込んで VM にロード → interpret 実行。<strong>画像や音声と同じ扱い</strong>で bundle resource としてアクセスするシンプル構成。</p>
 
 <h3>6.3 Android</h3>
 <div class="ascii-diagram">your_game.hsp  →  hspcmp  →  start.ax
                               ↓
-          hsp3dx_cnv (単純バイト配列化)  →  start.cpp
+   Studio project の app/src/main/assets/ に start.ax + 画像/音声を配置
                               ↓
- Android Studio + libhsp3dx.so (hsp3 VM (Hsp3) + hgio_dx + dxlib_core) + DxLib Android lib + start.cpp
+     Studio build: libhsp3dx.so (hsp3 VM + hgio_dx + dxlib_core) + DxLib Android lib
                               ↓
-                             .apk / .aab</div>
+                             .apk / .aab (assets/ 内に同梱)</div>
+<p>ランタイムは <code>AAssetManager_open()</code> 経由で <code>start.ax</code> を読み込み、通常通り VM interpret。画像/音声も同じ AAssetManager 経由。</p>
+
+<h3>6.4 配布経路が統一されている点</h3>
+<div class="ok">
+Win / iOS / Android で <strong><code>.ax</code> も画像/音声も同じ土俵の通常ファイル</strong>として扱う。
+VM の <code>.ax</code> ローダと、プラグインのアセットローダ (<code>picload</code> / <code>mmload</code>) は
+プラットフォーム抽象を挟んだ共通 I/O 経由で動作する。
+Win 用の <code>fopen</code>、iOS 用の <code>[NSBundle pathForResource:]</code>、Android 用の
+<code>AAssetManager_open</code> を <code>hsp3dx_platform_fopen()</code> みたいな薄いラッパで束ねる
+設計 (Phase 3/4 で実装)。
+<br><br>
+<strong><code>.ax</code> の C バイト配列化 (<code>hsp3dx_cnv</code>) は必須ではない</strong> (旧 Phase 2 見送り)。
+どうしても <code>.ax</code> を隠蔽したい・ファイルにしたくないケース向けの
+<strong>オプションツール</strong>として Phase 6 以降に整備する位置づけ。
+</div>
 
 <h3>6.4 共通アセットパッケージング</h3>
 <p><code>.ax</code> 以外の素材 (画像 / 音声 / フォント) は <code>hsp3dx_pack</code> ツール (Phase 2) で<strong>仮想 FS</strong> に固める。ランタイムはプラットフォーム問わず同じ API で素材にアクセス可能。</p>
@@ -459,13 +472,30 @@ hsp3dx_sjis2utf8 --dir path\to\project --dry-run</code></pre>
 <table>
 <tr><th>Phase</th><th>内容</th><th>型方針 (§3)</th><th>状態</th></tr>
 <tr><td><strong>Phase 0</strong></td><td>仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形</td><td>—</td><td><span class="badge badge-ok">完了 (2026-04-20)</span></td></tr>
-<tr><td>Phase 1</td><td>Windows 版 <code>hsp3dx.exe</code> MVP (DxLib コア 40 関数 + 3 サンプル)</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 2</td><td><code>hsp3dx_cnv</code> ツール + <code>hsp3dx_pack</code> ツール</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 3</td><td>iOS 版 <code>libhsp3dx.a</code> + Xcode テンプレ</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 4</td><td>Android 版 <code>libhsp3dx.so</code> + Android Studio テンプレ</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
-<tr><td>Phase 5</td><td>DxLib API を 40 → 500 関数に拡張 (自動生成)</td><td>方針 2 (float + <code>#cfuncf</code>)</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td><strong>Phase 1</strong></td><td>Windows 版 <code>hsp3dx.exe</code> MVP (extcmd 27 + reffunc 8 + 7 サンプル)</td><td>方針 1</td><td><span class="badge badge-ok">完了 (2026-04-21)</span></td></tr>
+<tr><td><del>Phase 2 (旧)</del></td><td><del><code>hsp3dx_cnv</code> / <code>hsp3dx_pack</code> ツール</del></td><td>—</td><td><span class="badge badge-ng">見送り</span> (下記参照)</td></tr>
+<tr><td>Phase 2 (新)</td><td>iOS/Android 向け platform abstraction I/O 層 (<code>hsp3dx_platform_fopen</code> 等)</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 3</td><td>iOS 版 <code>libhsp3dx.a</code> + Xcode テンプレ (<code>.ax</code>/アセットは bundle resource)</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 4</td><td>Android 版 <code>libhsp3dx.so</code> + Android Studio テンプレ (<code>.ax</code>/アセットは assets/)</td><td>方針 1</td><td><span class="badge badge-future">未着手</span></td></tr>
+<tr><td>Phase 5</td><td>DxLib API を 40 → 500 関数に拡張 + <code>dx_*</code> 命令群</td><td>方針 2 (float + <code>#cfuncf</code>)</td><td><span class="badge badge-future">未着手</span></td></tr>
 <tr><td>Phase 6</td><td>3D / 動画 / ネットワーク機能追加</td><td>方針 3 (NSTRUCT / cfuncst 移植)</td><td><span class="badge badge-future">未着手</span></td></tr>
 </table>
+
+<h3>7.1 Phase 2 (旧) 見送りの経緯</h3>
+<div class="warn">
+初期設計では <code>.ax</code> を <code>const uint8_t[]</code> の C ソースに変換して mobile アプリに
+静的リンクする <code>hsp3dx_cnv</code> ツールを Phase 2 に置いていた。しかし:
+<ul>
+  <li>iOS bundle / Android assets はどちらも<strong>任意のファイルタイプを同梱可能</strong></li>
+  <li>画像 / 音声は既に bundle / assets 経由で読む設計</li>
+  <li><code>.ax</code> だけ別経路 (C 配列) で扱う必要がなく、一貫性がない</li>
+  <li>ユーザー指摘で 2026-04-21 に設計統一を決定</li>
+</ul>
+<strong>新方針</strong>: <code>.ax</code> も画像/音声と同じく bundle / assets に通常ファイル配置。
+ランタイムがプラットフォーム抽象 I/O で同一経路から読み込む。
+<code>hsp3dx_cnv</code> は「<code>.ax</code> 隠蔽したい / ファイル出したくない」ケース向けの
+<strong>オプションツール</strong>として Phase 6 以降に譲る。
+</div>
 
 <!-- ======================================== -->
 <h2 id="layout">8. ディレクトリ構成 (Phase 0 時点)</h2>
