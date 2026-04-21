@@ -104,7 +104,17 @@ static int do_request( const char *method, const char *url,
                 out->body[L] = 0;
             }
             out->size = L;
-            out->headers = strdup( "" );
+
+            //  allHeaderFields → "Key: Value\r\n" 連結
+            NSMutableString *hdrStr = [NSMutableString string];
+            if ( http ) {
+                for ( NSString *k in http.allHeaderFields ) {
+                    id v = http.allHeaderFields[k];
+                    [hdrStr appendFormat:@"%@: %@\r\n", k, v];
+                }
+            }
+            const char *hdrUtf8 = [hdrStr UTF8String];
+            out->headers = strdup( hdrUtf8 ? hdrUtf8 : "" );
         }
     }
     return 0;
@@ -175,15 +185,62 @@ extern "C" int hsp3dx_http_download( const char *url, const char *dest_path_u8,
     return 0;
 }
 
-extern "C" int hsp3dx_http_get_header( const hsp3dx_http_response *, const char *,
+//  resp->headers ("Key: Value\r\n" 連結) から name を大小無視で検索し、値を out に書く。
+extern "C" int hsp3dx_http_get_header( const hsp3dx_http_response *resp,
+                                        const char *name,
                                         char *out, size_t out_cap )
 {
-    if ( out && out_cap > 0 ) out[0] = 0;
+    if ( !resp || !resp->headers || !name || !out || out_cap == 0 ) return -1;
+    const char *p = resp->headers;
+    size_t name_len = strlen( name );
+    while ( *p ) {
+        const char *colon = strchr( p, ':' );
+        const char *eol   = strstr( p, "\r\n" );
+        if ( !eol ) eol = p + strlen( p );
+        if ( colon && colon < eol ) {
+            size_t key_len = (size_t)( colon - p );
+            if ( key_len == name_len ) {
+                int match = 1;
+                for ( size_t i = 0; i < name_len; i++ ) {
+                    char a = p[i], b = name[i];
+                    if ( a >= 'A' && a <= 'Z' ) a = (char)(a - 'A' + 'a');
+                    if ( b >= 'A' && b <= 'Z' ) b = (char)(b - 'A' + 'a');
+                    if ( a != b ) { match = 0; break; }
+                }
+                if ( match ) {
+                    const char *vstart = colon + 1;
+                    while ( vstart < eol && ( *vstart == ' ' || *vstart == '\t' ) ) vstart++;
+                    size_t vlen = (size_t)( eol - vstart );
+                    if ( vlen >= out_cap ) vlen = out_cap - 1;
+                    memcpy( out, vstart, vlen );
+                    out[vlen] = 0;
+                    return 0;
+                }
+            }
+        }
+        if ( *eol == 0 ) break;
+        p = eol + 2;
+    }
+    out[0] = 0;
     return -1;
 }
 
-extern "C" void hsp3dx_http_cookie_clear( void ) {}
-extern "C" void hsp3dx_http_cookie_set_enabled( int ) {}
+//  NSURLSession sharedSession は NSHTTPCookieStorage.sharedCookieStorage を
+//  デフォルトで使うので Cookie の自動処理は常に ON。
+//  dx_http_cookie_enable は 0 時に既存 cookie をクリアする動作で代用。
+//  dx_http_cookie_clear は NSHTTPCookieStorage を全削除。
+extern "C" void hsp3dx_http_cookie_clear( void )
+{
+    NSHTTPCookieStorage *store = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *cookies = [store cookies];
+    for ( NSHTTPCookie *c in cookies ) [store deleteCookie:c];
+}
+
+extern "C" void hsp3dx_http_cookie_set_enabled( int enabled )
+{
+    if ( !enabled ) hsp3dx_http_cookie_clear();
+    //  有効化は no-op (sharedSession はデフォルトで自動 Cookie 処理する)
+}
 
 extern "C" void hsp3dx_http_free( hsp3dx_http_response *resp )
 {
@@ -196,11 +253,24 @@ extern "C" void hsp3dx_http_free( hsp3dx_http_response *resp )
     resp->status = 0;
 }
 
-extern "C" int hsp3dx_http_build_basic_auth( const char *, const char *,
+//  Basic 認証ヘッダ生成 ("Basic base64(user:pass)")
+extern "C" int hsp3dx_http_build_basic_auth( const char *user, const char *pass,
                                               char *out, size_t out_cap )
 {
-    if ( out && out_cap > 0 ) out[0] = 0;
-    return -1;
+    if ( !user || !pass || !out || out_cap < 32 ) return -1;
+    @autoreleasepool {
+        NSString *pair = [NSString stringWithFormat:@"%s:%s", user, pass];
+        NSData *pairData = [pair dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *b64 = [pairData base64EncodedStringWithOptions:0];
+        NSString *hdr = [NSString stringWithFormat:@"Basic %@", b64];
+        const char *c = [hdr UTF8String];
+        if ( !c ) return -1;
+        size_t L = strlen( c );
+        if ( L + 1 > out_cap ) return -1;
+        memcpy( out, c, L );
+        out[L] = 0;
+    }
+    return 0;
 }
 
 //  ================================================================
@@ -307,7 +377,15 @@ extern "C" int hsp3dx_http_mp_post( const char *url, const char *ua,
             out->body = (char *)malloc( L + 1 );
             if ( out->body ) { if ( L ) memcpy( out->body, respData.bytes, L ); out->body[L] = 0; }
             out->size = L;
-            out->headers = strdup( "" );
+            NSMutableString *hdrStr = [NSMutableString string];
+            if ( http ) {
+                for ( NSString *k in http.allHeaderFields ) {
+                    id v = http.allHeaderFields[k];
+                    [hdrStr appendFormat:@"%@: %@\r\n", k, v];
+                }
+            }
+            const char *hc = [hdrStr UTF8String];
+            out->headers = strdup( hc ? hc : "" );
         }
     }
     return 0;
