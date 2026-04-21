@@ -4,15 +4,16 @@
 ;   mes / title / dialog が動作するかの最小サンプル。UTF-8 固定。
 ;
 ;   ビルド:
-;       ..\..\..\package\win32\hspcmp64.exe -i -u sample_mes.hsp
+;       ..\..\..\package\win32\hspcmp64.exe -i sample_mes.hsp
 ;   実行:
 ;       ..\win32\bin\Release\hsp3dx.exe sample_mes.ax
 ;       (または sample_mes.ax を start.ax にリネームして hsp3dx.exe を直接起動)
 ;
-;   ※ `-i -u` 両方が必須。-i は入力ソース UTF-8、-u は出力 .ax UTF-8
-;      どちらか欠けると文字化け or エンコーディング不一致が発生。
+;   ※ ソースに #cmpopt utf8 1 を書く + cmdline に -i を付けるのがセットで必要。
+;      -u cmdline は単体では効かない (詳細は memory/reference_hspcmp_utf8_flags.md)
 ;============================================================
 #bootopt hsp64 1
+#cmpopt utf8 1
 
     title "hsp3dx sample: mes"
     mes "hello, hsp3dx!"

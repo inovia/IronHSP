@@ -42,21 +42,26 @@ Phase 1.2 時点で `mes` / `title` / `dialog` が動作します。`start.hsp` 
 
 ```
 cd bin\Release
-..\..\..\package\win32\hspcmp64.exe -i -u start.hsp
+..\..\..\package\win32\hspcmp64.exe -i start.hsp
 hsp3dx.exe
 ```
 
-**重要: `hspcmp64` には `-i` と `-u` の両方が必須**
-- `-i` = 入力ソースが UTF-8 (BOM なし)
-- `-u` = 出力 .ax 文字列テーブルが UTF-8
+**重要: UTF-8 で一貫するには以下の 2 点が必須**
 
-これを間違えると:
-- `-i` のみ: SJIS 出力になるが入力は UTF-8 読み込み → ランタイムと不一致で文字化け
-- `-u` のみ: 出力は UTF-8 だが入力を SJIS として誤読 → UTF-8 バイトを SJIS 解釈 → 別の Unicode 文字に変換されて出力 (例: "これ" が "縺薙" になる)
-- 両方なし: 全部 SJIS
-- **両方あり**: ✅ UTF-8 で一貫、文字化けなし
+1. **ソース `.hsp` に `#cmpopt utf8 1` を書く** (`#bootopt` と同じ位置)
+2. **コマンドラインに `-i` を付ける** (入力ソースを UTF-8 として読む指示)
 
-`#cmpopt utf8 1` 指定は `-u` 相当のみで入力側には効かない仕様のため、コマンドライン `-i` が必須。
+2026-04-21 の検証で判明した hspcmp64 の実挙動:
+- `-u` cmdline オプションは単体では出力 UTF-8 化しない (ヘルプと実挙動が違う)
+- `#cmpopt utf8 1` が出力 UTF-8 化の本命
+- `-i` は入力 UTF-8 として読むためにコマンドラインで必須
+- `#cmpopt utf8 1` + `-i` がセットで必要 (どちらか片方だと化ける)
+
+片方欠けた時の化け方:
+- `-i` 欠け: UTF-8 バイトを SJIS 誤認 → 「これは」→「縺薙 丨」みたいな別 Unicode 化け
+- `#cmpopt utf8 1` 欠け: 出力が SJIS のまま → ランタイムが UTF-8 として表示して化け
+
+詳細は `memory/reference_hspcmp_utf8_flags.md` 参照。
 
 実行するとウィンドウが開き、`mes` の内容が白文字で左上に描画されます。ESC で終了。
 

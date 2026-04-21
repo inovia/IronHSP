@@ -6,6 +6,63 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 1.2 + 1.3: 描画命令セット)
+
+### (これから commit) @ 20:01 — Phase 1.3: pos/color/cls/redraw + pset/line/boxf/circle
+
+**やったこと**
+- 描画モデルを再設計: 「console バッファに書いて main で再描画」方式を捨て、
+  **「extcmd から直接 DxLib の back buffer に描く」** 方式に変更
+  (HSP 本来の挙動 = 描画はその場で back buffer に積まれ、redraw 1 で flip)
+- `hsp3dx_console.{h,cpp}` は UTF-8→wchar_t 変換 utility だけに縮退、console バッファは削除
+- 描画状態の global: `s_cur_x` / `s_cur_y` / `s_cur_color` / `s_font_size`
+- 実装 extcmd 追加:
+  - `0x0c pset` — DrawPixel
+  - `0x11 pos` — 描画カーソル位置更新
+  - `0x12 circle` — HSP の bbox 指定を DxLib DrawCircle の中心+半径に変換
+  - `0x13 cls` — ClearDrawScreen + 位置リセット
+  - `0x18 color r,g,b` — DxLib GetColor で packed color 更新
+  - `0x1b redraw` — ビット 0 立ってたら ScreenFlip、0 は no-op
+  - `0x2f line` — DrawLine、描画後に cur_x/cur_y 更新
+  - `0x31 boxf` — DrawBox (fill=TRUE)
+- main.cpp 刷新: VM 起動時に 1 回 Clear+Flip、VM 終了後 1 回 Flip、その後は
+  ClearDrawScreen しないで ESC 待ち (VM の描画が消えないようにする)
+- サンプル `hsp3dx/samples/sample_draw.hsp` 追加: 青背景 + 黄円 + 赤線 + 白文字
+
+**詰まりどころ**
+- 最初の実装では main ループが毎フレーム ClearDrawScreen していたため、VM 終了後に
+  VM が描画したグラフィックが消えてしまう (text overlay だけ残る) 問題があった。
+  → 描画モデルを根本から見直し、back buffer の内容は VM が管理する方式に
+- HSP の `circle x1,y1,x2,y2,fill` は bounding box、DxLib は中心+半径なので変換必要
+
+**動作確認**
+- ビルド成功、hsp3dx.exe 6.95 MB、警告ゼロ
+- 実機で sample_draw 表示確認 → 青背景 + 黄円 + 赤線 + 白文字が正しく表示 ✅
+
+**2 度目の mojibake (sample_draw.hsp で再発) とその検証**
+- 最初 `sample_draw.hsp` に `#cmpopt utf8 1` を書き忘れ → `hspcmp64 -i -u` で
+  コンパイルしても出力が SJIS になった (ユーザー指摘で判明)
+- この発生をきっかけに hspcmp64 の UTF-8 挙動を 7 組み合わせで実測検証
+- **判明した真のルール**:
+  1. `-u` cmdline 単体は **効かない** (ヘルプ記載と実挙動が違う)
+  2. `#cmpopt utf8 1` が出力 UTF-8 化の本命スイッチ
+  3. `-i` cmdline は入力 UTF-8 解釈に必須、`#cmpopt` では代替不可
+  4. **`#cmpopt utf8 1` + `-i` のセット** が正しい UTF-8 ビルド手順
+- 既存メモリ `reference_hspcmp_utf8_flags.md` を実測結果で全面書き直し
+- `sample_mes.hsp` / `sample_draw.hsp` / `phase1_setup.md` のビルド手順も修正
+
+**Phase 1 サブフェーズ進捗**
+- 1.0 ✅ scaffold
+- 1.1 ✅ VM 統合
+- 1.2 ✅ mes / title / dialog (UTF-8)
+- 1.3 ✅ pos / color / cls / redraw / pset / line / boxf / circle ← **これ**
+- 1.4 未: font / picload / gcopy / gmode / celput
+- 1.5 未: 音声 (DxLib LoadSoundMem / PlaySoundMem ラップ)
+- 1.6 未: 入力 (stick / getkey / mouse / GetJoypadInputState)
+- 1.7 未: 3 サンプル動作確認
+
+---
+
 ## 2026-04-21 (Phase 1.2: mes 命令 + 文字列描画)
 
 ### (これから commit) @ 20:00 — Phase 1.2: mes / title / dialog 実装 + console バッファ + UTF-8 描画 (実機で日本語表示 OK)

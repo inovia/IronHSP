@@ -1,0 +1,40 @@
+;============================================================
+;   sample_draw.hsp — Phase 1.3 動作確認 (描画系 extcmd)
+;
+;   pos / color / boxf / line / circle / cls / redraw / mes を使う。
+;
+;   ビルド:
+;       ..\..\..\package\win32\hspcmp64.exe -i sample_draw.hsp
+;   実行:
+;       ..\win32\bin\Release\hsp3dx.exe sample_draw.ax
+;
+;   ※ ソースに #cmpopt utf8 1 + cmdline に -i の組み合わせが必須。
+;      詳細は memory/reference_hspcmp_utf8_flags.md
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: draw"
+
+    ;  背景を青で塗りつぶし
+    color 20, 40, 100
+    boxf 0, 0, 640, 480
+
+    ;  黄色の大きな円
+    color 240, 220, 40
+    circle 220, 140, 420, 340, 1
+
+    ;  赤い斜め線
+    color 255, 80, 80
+    line 600, 50, 60, 430
+
+    ;  白いテキストを乗せる
+    color 255, 255, 255
+    pos 20, 20
+    mes "hsp3dx Phase 1.3 - graphics test"
+    mes "青い背景 + 黄色の円 + 赤い線"
+    mes "ESC キーで終了"
+
+    ;  画面を確定表示
+    redraw 1
+    end
