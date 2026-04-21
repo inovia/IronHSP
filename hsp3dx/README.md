@@ -32,13 +32,18 @@ HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android を動かす�
 |---|---|
 | DxLib.h `extern` 総数 | 2466 |
 | 手書き `dx_*` 拡張命令 (iron_dxlib.as) | 73 |
-| 自動生成 `dx_*` (iron_dxlib_auto.as) | **1650** |
-| **合計 HSP から叩ける DxLib API** | **1723** |
+| 自動生成 文形式 `dx_*` (iron_dxlib_auto.as) | 1650 |
+| 自動生成 **式形式** `dx_*_f` (iron_dxlib_auto_f.as、`#ccmd`) | 1144 |
+| **合計 HSP から叩ける呼び出し口** | **2867** |
 | 追加: HTTP / JSON / WebSocket 独自命令 | 46 |
 | 追加: DxLib コールバック (5 種) | 5 |
 
 `#defstruct` ベースの NSTRUCT 型で VECTOR / MATRIX / COLOR_F 等の DxLib 構造体を
 直接扱える。ref 引数 (out-param) と struct 戻り値も自動生成で対応済。
+
+Phase 5.5p で hspcmp に新規追加した `#ccmd` ディレクティブ
+(文形式 `#cmd` の式形式版、`#func`/`#cfunc` と同じ対応関係)
+により、`v = dx_GetColor_f(255, 0, 0)` のような式呼び出しが可能。
 
 ## 使い方
 
@@ -64,6 +69,9 @@ dx_drawsphere3d_s 0, 0, 0, 80, 16, 0xFF4040, 0, 1   ; scalar 版 (handwritten)
 stdim v, VECTOR
 v->x = 0.0 : v->y = 0.0 : v->z = 0.0
 dx_DrawSphere3D v, 80.0, 16, 0xFF4040, 0, 1         ; VECTOR 版 (auto-gen)
+
+; 式形式 (#ccmd、スカラー戻り値の関数)
+col = dx_GetColor_f(255, 128, 64)                   ; v = func(args) の形
 
 redraw 1
 repeat : await 16 : getkey k, 27 : if k : break : loop

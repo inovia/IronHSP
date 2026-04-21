@@ -367,16 +367,39 @@ Win 用の `fopen`、iOS 用の `[NSBundle pathForResource:]`、Android 用の
 
 ## 7. Phase 計画
 
-| Phase | 内容 | 型方針 (§3) | 状態 |
-|---|---|---|---|
-| **Phase 0** | 仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形 | — | ✅ 完了 |
-| **Phase 1** | Windows 版 `hsp3dx.exe` MVP (extcmd 27 + reffunc 8 + 7 サンプル) | 方針 1 | ✅ 完了 |
-| ~~Phase 2 (旧)~~ | ~~`hsp3dx_cnv` / `hsp3dx_pack` ツール~~ | — | **見送り** (不要と判明、下記参照) |
-| Phase 2 (新) | iOS/Android 向け platform abstraction I/O 層 (`hsp3dx_platform_fopen` 等) | 方針 1 | 未着手 |
-| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ (`.ax`/アセットは bundle resource) | 方針 1 | 未着手 |
-| Phase 4 | Android 版 `libhsp3dx.so` + Android Studio テンプレ (`.ax`/アセットは assets/) | 方針 1 | 未着手 |
-| Phase 5 | DxLib API を 40 → 500 関数に拡張 + `dx_*` 命令群 | 方針 2 (float + `#cfuncf` 追加) | 未着手 |
-| Phase 6 | 3D / 動画 / ネットワーク機能追加 | 方針 3 (NSTRUCT / cfuncst 移植) | 未着手 |
+| Phase | 内容 | 状態 |
+|---|---|---|
+| **Phase 0** | 仕様書 + SJIS→UTF-8 移行ツール + ディレクトリ雛形 | ✅ 完了 |
+| **Phase 1** | Windows 版 `hsp3dx.exe` MVP (extcmd 27 + reffunc 8 + 7 サンプル) | ✅ 完了 |
+| ~~Phase 2 (旧)~~ | ~~`hsp3dx_cnv` / `hsp3dx_pack` ツール~~ | 見送り |
+| Phase 2 (新) | iOS/Android 向け platform abstraction I/O 層 | ✅ 完了 |
+| **Phase 5.0** | エフェクト (gzoom / bmpsave / hsvcolor / ginfo) | ✅ 完了 |
+| **Phase 5.1** | `#regcmd`+`#cmd` 機構、AA 描画 / ジョイパッド (`dx_*` 40 命令) | ✅ 完了 |
+| **Phase 5.2** | 3D プリミティブ / MV1 モデル / 動画再生 | ✅ 完了 |
+| **Phase 5.3** | DxLib API 自動生成 (初期 512 関数) | ✅ 完了 |
+| **Phase 5.4a/b/c** | HTTP / JSON / WebSocket クライアント | ✅ 完了 |
+| **Phase 5.5a-n** | `#defstruct` (NSTRUCT) / ref 引数 / struct 戻り値 / callback / Polygon 3D-2D / カバレッジ 2867 | ✅ 完了 |
+| **Phase 5.5o-p** | `#ccmd` ディレクティブ追加 (hspcmp 拡張) + auto-gen 式形式 1144 関数 | ✅ 完了 |
+| Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | 未着手 |
+| Phase 4 | Android 版 `libhsp3dx.so` + Android Studio テンプレ | 未着手 |
+
+### 7.2 `#ccmd` 追加 (Phase 5.5o、2026-04-21)
+
+HSP プリプロセッサに新規ディレクティブ **`#ccmd name $opcode`** を追加した。
+`#cmd` (文形式、`TYPE_EXTCMD`) の式形式版で、`TYPE_EXTSYSVAR` として登録される。
+既存の `#func`/`#cfunc`、`#deffunc`/`#defcfunc` と同じ対応関係で、DSL の整合性を補完。
+
+```hsp
+#regcmd 9
+#cmd  dx_DrawXxx $nnn       ; 文として呼ぶ: dx_DrawXxx a, b
+#regcmd 10
+#ccmd dx_GetXxx  $nnn       ; 式として呼ぶ: v = dx_GetXxx(a, b)
+```
+
+hspcmp は全ランタイム共有なので、`#ccmd` 構文自体は hsp3net など他ランタイムでも
+コンパイル可能。ただし実行には各ランタイム側の EXTSYSVAR dispatcher 実装が必要。
+hsp3dx は Phase 5.5p で `reffunc_function` + 自動生成 `hsp3dx_dxlib_auto_f_dispatch` を提供、
+1144 個の DxLib スカラー戻り関数を式形式で呼べる (`dx_GetColor_f(255, 0, 0)` 等)。
 
 ### 7.1 Phase 2 (旧) 見送りの経緯
 
