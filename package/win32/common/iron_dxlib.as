@@ -111,4 +111,13 @@
 #cmd dx_ws_recv            $1a5   ; dx_ws_recv handle, var [, timeout_ms] (stat: 0=TEXT / 1=BIN / -1=closed / -2=timeout, strsize=bytes)
 #cmd dx_ws_status          $1a6   ; dx_ws_status handle (stat: 0=OPEN / 1=CONNECTING / 2=CLOSING / 3=CLOSED)
 
+;  ---- Phase 5.5b: VECTOR 引数を取る 3D プリミティブ ----
+;  VECTOR は #defstruct + #field float x/y/z で 12 byte の NSTRUCT として
+;  確保した変数を渡す (DxLib::VECTOR と ABI 一致)
+#cmd dx_drawline3d         $1c0   ; dx_drawline3d p1, p2, color
+#cmd dx_drawtriangle3d     $1c1   ; dx_drawtriangle3d p1, p2, p3, color, fill
+#cmd dx_drawcube3dv        $1c2   ; dx_drawcube3dv p1, p2, difcol, spccol, fill (VECTOR 版、既存 dx_drawcube3d と別)
+#cmd dx_drawcapsule3d      $1c3   ; dx_drawcapsule3d p1, p2, r, divnum, difcol, spccol, fill
+#cmd dx_drawcone3d         $1c4   ; dx_drawcone3d top, bottom, r, divnum, difcol, spccol, fill
+
 #endif

@@ -1663,6 +1663,83 @@ static int cmdfunc_extcmd( int cmd )
         ctx->stat = hsp3dx_ws_status( code_getdi( -1 ) );
         break;
 
+    //  -----------------------------------------------------------------
+    //  Phase 5.5b: VECTOR を取る 3D プリミティブ
+    //      NSTRUCT 変数 (sizeof 12, float xyz) を DxLib::VECTOR として渡す
+    //      引数: 変数は code_getva() で PVal を取り、pval->pt + aptr*12 を
+    //      VECTOR * にキャスト。HSP の #defstruct は内部で NSTRUCT 型、
+    //      sizeof(VECTOR)=12 で DxLib と ABI 一致。
+    //
+    //      0x1C0 dx_drawline3d      p1, p2, color
+    //      0x1C1 dx_drawtriangle3d  p1, p2, p3, color, fill
+    //      0x1C2 dx_drawcube3dv     p1, p2, difcol, spccol, fill   (VECTOR 版)
+    //      0x1C3 dx_drawcapsule3d   p1, p2, r, divnum, difcol, spccol, fill
+    //      0x1C4 dx_drawcone3d      top, bottom, r, divnum, difcol, spccol, fill
+    //  -----------------------------------------------------------------
+    case 0x1c0:                     // dx_drawline3d p1, p2, color
+    case 0x1c1:                     // dx_drawtriangle3d p1, p2, p3, color, fill
+    case 0x1c2:                     // dx_drawcube3dv p1, p2, difcol, spccol, fill
+    case 0x1c3:                     // dx_drawcapsule3d p1, p2, r, div, dif, spc, fill
+    case 0x1c4:                     // dx_drawcone3d top, bot, r, div, dif, spc, fill
+        {
+            auto get_vec = [&]( VECTOR *out ) {
+                PVal *pv; APTR ap;
+                ap = code_getva( &pv );
+                if ( pv->pt == nullptr || pv->len[0] < 12 ) throw HSPERR_TYPE_MISMATCH;
+                memcpy( out, pv->pt + ap * pv->len[0], sizeof(VECTOR) );
+            };
+            VECTOR p1, p2, p3; (void)p3;
+            switch ( cmd ) {
+            case 0x1c0:
+                {
+                    get_vec( &p1 ); get_vec( &p2 );
+                    unsigned int col = (unsigned int)code_getdi( 0 );
+                    ctx->stat = DrawLine3D( p1, p2, col );
+                }
+                break;
+            case 0x1c1:
+                {
+                    get_vec( &p1 ); get_vec( &p2 ); get_vec( &p3 );
+                    unsigned int col = (unsigned int)code_getdi( 0 );
+                    int fill = code_getdi( 1 );
+                    ctx->stat = DrawTriangle3D( p1, p2, p3, col, fill );
+                }
+                break;
+            case 0x1c2:
+                {
+                    get_vec( &p1 ); get_vec( &p2 );
+                    unsigned int dif = (unsigned int)code_getdi( 0 );
+                    unsigned int spc = (unsigned int)code_getdi( 0 );
+                    int fill = code_getdi( 1 );
+                    ctx->stat = DrawCube3D( p1, p2, dif, spc, fill );
+                }
+                break;
+            case 0x1c3:
+                {
+                    get_vec( &p1 ); get_vec( &p2 );
+                    float r = (float)code_getdd( 1.0 );
+                    int divnum = code_getdi( 8 );
+                    unsigned int dif = (unsigned int)code_getdi( 0xFFFFFF );
+                    unsigned int spc = (unsigned int)code_getdi( 0 );
+                    int fill = code_getdi( 1 );
+                    ctx->stat = DrawCapsule3D( p1, p2, r, divnum, dif, spc, fill );
+                }
+                break;
+            case 0x1c4:
+                {
+                    get_vec( &p1 ); get_vec( &p2 );
+                    float r = (float)code_getdd( 1.0 );
+                    int divnum = code_getdi( 8 );
+                    unsigned int dif = (unsigned int)code_getdi( 0xFFFFFF );
+                    unsigned int spc = (unsigned int)code_getdi( 0 );
+                    int fill = code_getdi( 1 );
+                    ctx->stat = DrawCone3D( p1, p2, r, divnum, dif, spc, fill );
+                }
+                break;
+            }
+            break;
+        }
+
     case 0x162:                     // dx_http_get "url", var_body
         {
             //  code_gets() は内部共有バッファを返すので、後続の code_* で上書き
