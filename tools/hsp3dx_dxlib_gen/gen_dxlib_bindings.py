@@ -32,7 +32,7 @@ OUT_CPP    = r"J:\HNWorks\IronHSP_2026\hsp3dx\src\hsp3dx_dxlib_auto.cpp"
 OUT_AS     = r"J:\HNWorks\IronHSP_2026\package\win32\common\iron_dxlib_auto.as"
 
 OPCODE_START = 0x200
-OPCODE_END   = 0x3FF
+OPCODE_END   = 0x6FF
 
 # Function signature pattern:
 #   extern int  FuncName(  arg1,  arg2 ...)  ;
@@ -44,18 +44,71 @@ FUNC_RE = re.compile(
 # DEFAULTPARAM( = value ) in DxLib.h marks default values (optional args)
 DEFAULT_RE = re.compile(r'DEFAULTPARAM\s*\(\s*=\s*([^)]+?)\s*\)')
 
-# Per-arg pattern: optional "const", type, optional "*", name [ DEFAULTPARAM(...)]
+# Per-arg pattern: optional "const", type (1〜2 語: unsigned int など), optional "*", name [ DEFAULTPARAM(...)]
 ARG_RE = re.compile(
-    r'^\s*(?:const\s+)?(\w+)\s*(\*?)\s*(\w+)\s*(?:DEFAULTPARAM\s*\(\s*=\s*([^)]+?)\s*\))?\s*$'
+    r'^\s*(?:const\s+)?((?:unsigned|signed)\s+\w+|\w+)\s*(\*?)\s*(\w+)\s*(?:DEFAULTPARAM\s*\(\s*=\s*([^)]+?)\s*\))?\s*$'
 )
 
 # 受け入れる型
 ACCEPT_TYPES = {
-    'int':    'int',
-    'float':  'float',
-    'double': 'double',
-    'TCHAR':  'tchar',    # const TCHAR* 専用
-    'char':   'char',     # const char* (稀)
+    'int':             'int',
+    'float':           'float',
+    'double':          'double',
+    'TCHAR':           'tchar',       # const TCHAR* 専用
+    'char':            'char',        # const char* (稀)
+    'unsigned int':    'uint',        # color 等
+    'unsigned char':   'uchar',
+    'unsigned short':  'ushort',
+    'unsigned long':   'ulong',
+    'LONGLONG':        'int64',       # 8 byte signed
+    'ULONGLONG':       'uint64',
+    # DxLib 構造体 (NSTRUCT 変数として HSP 側で確保、生メモリを VECTOR* 等にキャスト)
+    'VECTOR':          'struct_VECTOR',
+    'VECTOR_D':        'struct_VECTOR_D',
+    'MATRIX':          'struct_MATRIX',
+    'MATRIX_D':        'struct_MATRIX_D',
+    'COLOR_U8':        'struct_COLOR_U8',
+    'COLOR_F':         'struct_COLOR_F',
+    'FLOAT2':          'struct_FLOAT2',
+    'FLOAT3':          'struct_FLOAT3',
+    'FLOAT4':          'struct_FLOAT4',
+}
+
+# 構造体 → 最小バイトサイズ (PVal->len[0] 側がこれ以上あれば OK と判定)
+STRUCT_SIZES = {
+    'struct_VECTOR':   12,
+    'struct_VECTOR_D': 24,
+    'struct_MATRIX':   64,   # 4x4 float
+    'struct_MATRIX_D': 128,  # 4x4 double
+    'struct_COLOR_U8': 4,
+    'struct_COLOR_F':  16,
+    'struct_FLOAT2':   8,
+    'struct_FLOAT3':   12,
+    'struct_FLOAT4':   16,
+}
+
+# ACCEPT_TYPES の値 → DxLib 側の実型 (生成コード内で使う型名)
+KIND_TO_CTYPE = {
+    'int':             'int',
+    'float':           'float',
+    'double':          'double',
+    'tchar':           'const TCHAR *',
+    'char':            'const char *',
+    'uint':            'unsigned int',
+    'uchar':           'unsigned char',
+    'ushort':          'unsigned short',
+    'ulong':           'unsigned long',
+    'int64':           'LONGLONG',
+    'uint64':          'ULONGLONG',
+    'struct_VECTOR':   'VECTOR',
+    'struct_VECTOR_D': 'VECTOR_D',
+    'struct_MATRIX':   'MATRIX',
+    'struct_MATRIX_D': 'MATRIX_D',
+    'struct_COLOR_U8': 'COLOR_U8',
+    'struct_COLOR_F':  'COLOR_F',
+    'struct_FLOAT2':   'FLOAT2',
+    'struct_FLOAT3':   'FLOAT3',
+    'struct_FLOAT4':   'FLOAT4',
 }
 
 # Skip list: 既に hand-written で実装済、または名前空間かぶりを避ける、
@@ -100,7 +153,8 @@ SKIP_NAMES = {
 
 
 def parse_arg(arg_str):
-    """1 引数文字列から (type, name, default) を抽出。受け入れ不可なら None。"""
+    """1 引数文字列から (kind, name, default) を抽出。受け入れ不可なら None。
+       kind は ACCEPT_TYPES の値 ('int', 'uint', 'struct_VECTOR', ...)。"""
     arg_str = arg_str.strip()
     if not arg_str or arg_str == 'void':
         return None
@@ -108,16 +162,14 @@ def parse_arg(arg_str):
     if not m:
         return None
     type_, star, name, default = m.group(1), m.group(2), m.group(3), m.group(4)
-    # const TCHAR * の場合 type='TCHAR', star='*'
+    # 複数語 (unsigned int 等) は空白を 1 つに正規化
+    type_ = re.sub(r'\s+', ' ', type_)
+    # const TCHAR * / const char * はポインタ必須
     if type_ == 'TCHAR':
-        if star != '*':
-            return None
-        return ('tchar', name, default)
+        return ('tchar', name, default) if star == '*' else None
     if type_ == 'char':
-        if star != '*':
-            return None
-        return ('char', name, default)
-    # int/float/double はポインタ不可
+        return ('char', name, default) if star == '*' else None
+    # その他はポインタ不可 (値渡し前提)
     if star:
         return None
     if type_ not in ACCEPT_TYPES:
@@ -229,6 +281,7 @@ def main():
     cpp.append('#include <string.h>')
     cpp.append('#include <windows.h>')
     cpp.append('#include "../../hsp3/hsp3config.h"')
+    cpp.append('#include "../../hsp3/hsp3struct.h"  // PVal / APTR (struct 引数用)')
     cpp.append('#include "../../hsp3/hsp3code.h"')
     cpp.append('#include "../../hsp3/hsp3debug.h"')
     cpp.append('#include "DxLib.h"')
@@ -248,22 +301,31 @@ def main():
         cpp.append(f'    case 0x{opcode:03x}: {{  // {fn}')
         # 引数展開
         call_args = []
-        local_vars = []
-        needs_wide = False
         for idx, (t, aname, default) in enumerate(args):
             local = f'_a{idx}'
             if t == 'int':
                 d = default if default else '0'
-                # DEFAULTPARAM が TRUE/FALSE の場合
-                if d == 'TRUE':
-                    d = '1'
-                elif d == 'FALSE':
-                    d = '0'
+                if d == 'TRUE': d = '1'
+                elif d == 'FALSE': d = '0'
                 cpp.append(f'        int {local} = hsp3dx_auto_geti( {d} );')
+                call_args.append(local)
+            elif t in ('uint', 'uchar', 'ushort', 'ulong'):
+                ctype = KIND_TO_CTYPE[t]
+                d = default if default else '0'
+                if d == 'TRUE': d = '1'
+                elif d == 'FALSE': d = '0'
+                cpp.append(f'        {ctype} {local} = ({ctype})hsp3dx_auto_geti( (int)({d}) );')
+                call_args.append(local)
+            elif t == 'int64':
+                d = default if default else '0'
+                cpp.append(f'        LONGLONG {local} = (LONGLONG)code_geti64();')
+                call_args.append(local)
+            elif t == 'uint64':
+                cpp.append(f'        ULONGLONG {local} = (ULONGLONG)code_geti64();')
                 call_args.append(local)
             elif t == 'float':
                 d = default if default else '0.0'
-                d = d.rstrip('f')  # "1.0f" → "1.0"
+                d = d.rstrip('f')
                 cpp.append(f'        float {local} = (float)hsp3dx_auto_getd( {d} );')
                 call_args.append(local)
             elif t == 'double':
@@ -271,14 +333,22 @@ def main():
                 cpp.append(f'        double {local} = hsp3dx_auto_getd( {d} );')
                 call_args.append(local)
             elif t == 'tchar':
-                # const TCHAR * — UTF-8 → wide 変換
-                needs_wide = True
                 cpp.append(f'        const char *{local}_u8 = hsp3dx_auto_gets();')
                 cpp.append(f'        wchar_t {local}_w[1024];')
                 cpp.append(f'        hsp3dx_utf8_to_wide( {local}_u8, {local}_w, 1024 );')
                 call_args.append(f'{local}_w')
             elif t == 'char':
                 cpp.append(f'        const char *{local} = hsp3dx_auto_gets();')
+                call_args.append(local)
+            elif t.startswith('struct_'):
+                ctype = KIND_TO_CTYPE[t]
+                size  = STRUCT_SIZES[t]
+                cpp.append(f'        PVal *{local}_pv; APTR {local}_ap;')
+                cpp.append(f'        {local}_ap = code_getva( &{local}_pv );')
+                cpp.append(f'        if ( {local}_pv->pt == nullptr || {local}_pv->len[0] < {size} )')
+                cpp.append(f'            throw HSPERR_TYPE_MISMATCH;')
+                cpp.append(f'        {ctype} {local};')
+                cpp.append(f'        memcpy( &{local}, {local}_pv->pt + {local}_ap * {local}_pv->len[0], sizeof({ctype}) );')
                 call_args.append(local)
         cpp.append(f'        ctx->stat = {fn}( {", ".join(call_args)} );')
         cpp.append('        return 1;')
