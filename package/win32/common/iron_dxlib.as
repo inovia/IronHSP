@@ -116,6 +116,17 @@
 ;      auto-gen の dx_DrawLine3D / dx_DrawTriangle3D / dx_DrawCapsule3D /
 ;      dx_DrawCone3D / dx_DrawCube3D が全く同じ引数仕様で使える。
 
+;  ---- Phase 5.5n: 3D/2D Polygon/Primitive (頂点配列 + インデックス配列版) ----
+;      HSP 側は #defstruct VERTEX3D (VECTOR pos + VECTOR norm + COLOR_U8 dif/spc + float u,v,su,sv)
+;      を定義し、stdim verts, VERTEX3D, N で配列確保して渡す。
+;      インデックスは #field short i[N] NSTRUCT か HSP 標準 int 配列。
+#cmd dx_DrawPolygon3D               $1e0  ; verts, polyNum, grHandle [, transFlag]
+#cmd dx_DrawPolygonIndexed3D        $1e1  ; verts, vNum, idx_short, polyNum, grHandle [, transFlag]
+#cmd dx_DrawPolygon32bitIndexed3D   $1e2  ; verts, vNum, idx_int, polyNum, grHandle [, transFlag] (int 配列 OK)
+#cmd dx_DrawPolygon2D               $1e3  ; verts, polyNum, grHandle, transFlag
+#cmd dx_DrawPolygonIndexed2D        $1e4  ; verts, vNum, idx_short, polyNum, grHandle, transFlag
+#cmd dx_DrawPolygon32bitIndexed2D   $1e5  ; verts, vNum, idx_int, polyNum, grHandle, transFlag
+
 ;  ---- Phase 5.5k: DxLib コールバック (静的スロット方式) ----
 ;  HSP 側は通常のラベルを渡す。dx_SetASyncLoadFinishCallback は handle 引数あり。
 #cmd dx_SetRestoreGraphCallback         $1d0   ; dx_SetRestoreGraphCallback *label

@@ -1660,6 +1660,134 @@ static int cmdfunc_extcmd( int cmd )
     //  ----------------------------------------------------------------
 
     //  -----------------------------------------------------------------
+    //  Phase 5.5n: 3D/2D Polygon/Primitive (頂点配列 + インデックス配列 版)
+    //      HSP 側は #defstruct VERTEX3D (または VERTEX / VERTEX2D) を定義して
+    //      stdim verts, VERTEX3D, N で確保、pval->pt を DxLib に渡す。
+    //      インデックス配列は NSTRUCT (#field short i[N]) または HSP int 配列。
+    //      0x1E0 dx_DrawPolygon3D              verts, polyNum, grHandle [, transFlag]
+    //      0x1E1 dx_DrawPolygonIndexed3D       verts, vNum, idx_short, polyNum, grHandle [, transFlag]
+    //      0x1E2 dx_DrawPolygon32bitIndexed3D  verts, vNum, idx_int, polyNum, grHandle [, transFlag]
+    //      0x1E3 dx_DrawPolygon2D              verts, polyNum, grHandle, transFlag
+    //      0x1E4 dx_DrawPolygonIndexed2D       verts, vNum, idx_short, polyNum, grHandle, transFlag
+    //      0x1E5 dx_DrawPolygon32bitIndexed2D  verts, vNum, idx_int, polyNum, grHandle, transFlag
+    //  -----------------------------------------------------------------
+    case 0x1e0:                     // dx_DrawPolygon3D verts, polyNum, grHandle [, transFlag]
+        {
+            PVal *pv; APTR ap;
+            ap = code_getva( &pv );
+            if ( pv->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const VERTEX3D *va = (const VERTEX3D *)( pv->pt + ap * pv->len[0] );
+            int polyNum = code_getdi( 0 );
+            int gr = code_getdi( -1 );
+            //  -1 等の負値は DX_NONE_GRAPH (テクスチャなし) に読替
+            if ( gr < 0 ) gr = (int)DX_NONE_GRAPH;
+            int trans = code_getdi( 1 );
+            ctx->stat = DrawPolygon3D( va, polyNum, gr, trans );
+            break;
+        }
+    case 0x1e1:                     // dx_DrawPolygonIndexed3D verts, vNum, idx_short, polyNum, grHandle [, transFlag]
+        {
+            PVal *pv_v; APTR ap_v;
+            ap_v = code_getva( &pv_v );
+            if ( pv_v->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const VERTEX3D *va = (const VERTEX3D *)( pv_v->pt + ap_v * pv_v->len[0] );
+            int vNum = code_getdi( 0 );
+            PVal *pv_i; APTR ap_i;
+            ap_i = code_getva( &pv_i );
+            if ( pv_i->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const unsigned short *ia = (const unsigned short *)( pv_i->pt + ap_i * pv_i->len[0] );
+            int polyNum = code_getdi( 0 );
+            int gr = code_getdi( -1 );
+            //  -1 等の負値は DX_NONE_GRAPH (テクスチャなし) に読替
+            if ( gr < 0 ) gr = (int)DX_NONE_GRAPH;
+            int trans = code_getdi( 1 );
+            ctx->stat = DrawPolygonIndexed3D( va, vNum, ia, polyNum, gr, trans );
+            break;
+        }
+    case 0x1e2:                     // dx_DrawPolygon32bitIndexed3D verts, vNum, idx_int, polyNum, grHandle [, transFlag]
+        {
+            PVal *pv_v; APTR ap_v;
+            ap_v = code_getva( &pv_v );
+            if ( pv_v->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const VERTEX3D *va = (const VERTEX3D *)( pv_v->pt + ap_v * pv_v->len[0] );
+            int vNum = code_getdi( 0 );
+            PVal *pv_i; APTR ap_i;
+            ap_i = code_getva( &pv_i );
+            if ( pv_i->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            //  HSP int 配列 (HSPVAR_FLAG_INT) ならそのまま、NSTRUCT ならバイトビューで
+            const unsigned int *ia;
+            if ( pv_i->flag == HSPVAR_FLAG_INT ) {
+                ia = (const unsigned int *)( (int *)pv_i->pt + ap_i );
+            } else {
+                ia = (const unsigned int *)( pv_i->pt + ap_i * pv_i->len[0] );
+            }
+            int polyNum = code_getdi( 0 );
+            int gr = code_getdi( -1 );
+            //  -1 等の負値は DX_NONE_GRAPH (テクスチャなし) に読替
+            if ( gr < 0 ) gr = (int)DX_NONE_GRAPH;
+            int trans = code_getdi( 1 );
+            ctx->stat = DrawPolygon32bitIndexed3D( va, vNum, ia, polyNum, gr, trans );
+            break;
+        }
+    case 0x1e3:                     // dx_DrawPolygon2D verts, polyNum, grHandle, transFlag
+        {
+            PVal *pv; APTR ap;
+            ap = code_getva( &pv );
+            if ( pv->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const VERTEX2D *va = (const VERTEX2D *)( pv->pt + ap * pv->len[0] );
+            int polyNum = code_getdi( 0 );
+            int gr = code_getdi( -1 );
+            //  -1 等の負値は DX_NONE_GRAPH (テクスチャなし) に読替
+            if ( gr < 0 ) gr = (int)DX_NONE_GRAPH;
+            int trans = code_getdi( 1 );
+            ctx->stat = DrawPolygon2D( va, polyNum, gr, trans );
+            break;
+        }
+    case 0x1e4:                     // dx_DrawPolygonIndexed2D verts, vNum, idx_short, polyNum, grHandle, transFlag
+        {
+            PVal *pv_v; APTR ap_v;
+            ap_v = code_getva( &pv_v );
+            if ( pv_v->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const VERTEX2D *va = (const VERTEX2D *)( pv_v->pt + ap_v * pv_v->len[0] );
+            int vNum = code_getdi( 0 );
+            PVal *pv_i; APTR ap_i;
+            ap_i = code_getva( &pv_i );
+            if ( pv_i->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const unsigned short *ia = (const unsigned short *)( pv_i->pt + ap_i * pv_i->len[0] );
+            int polyNum = code_getdi( 0 );
+            int gr = code_getdi( -1 );
+            //  -1 等の負値は DX_NONE_GRAPH (テクスチャなし) に読替
+            if ( gr < 0 ) gr = (int)DX_NONE_GRAPH;
+            int trans = code_getdi( 1 );
+            ctx->stat = DrawPolygonIndexed2D( va, vNum, ia, polyNum, gr, trans );
+            break;
+        }
+    case 0x1e5:                     // dx_DrawPolygon32bitIndexed2D verts, vNum, idx_int, polyNum, grHandle, transFlag
+        {
+            PVal *pv_v; APTR ap_v;
+            ap_v = code_getva( &pv_v );
+            if ( pv_v->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const VERTEX2D *va = (const VERTEX2D *)( pv_v->pt + ap_v * pv_v->len[0] );
+            int vNum = code_getdi( 0 );
+            PVal *pv_i; APTR ap_i;
+            ap_i = code_getva( &pv_i );
+            if ( pv_i->pt == nullptr ) throw HSPERR_TYPE_MISMATCH;
+            const unsigned int *ia;
+            if ( pv_i->flag == HSPVAR_FLAG_INT ) {
+                ia = (const unsigned int *)( (int *)pv_i->pt + ap_i );
+            } else {
+                ia = (const unsigned int *)( pv_i->pt + ap_i * pv_i->len[0] );
+            }
+            int polyNum = code_getdi( 0 );
+            int gr = code_getdi( -1 );
+            //  -1 等の負値は DX_NONE_GRAPH (テクスチャなし) に読替
+            if ( gr < 0 ) gr = (int)DX_NONE_GRAPH;
+            int trans = code_getdi( 1 );
+            ctx->stat = DrawPolygon32bitIndexed2D( va, vNum, ia, polyNum, gr, trans );
+            break;
+        }
+
+    //  -----------------------------------------------------------------
     //  Phase 5.5k: DxLib コールバック登録 (静的スロット方式)
     //      HSP 側: dx_SetRestoreGraphCallback *on_restore
     //               *on_restore は通常のラベル、C スタブから code_callback() で

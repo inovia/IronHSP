@@ -1,0 +1,87 @@
+;============================================================
+;   sample_polygon.hsp — Phase 5.5n: DrawPolygon3D smoke test
+;
+;   #defstruct VERTEX3D を定義 → 3 頂点で三角形を 1 枚描画。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+;  VERTEX3D 構造体 (DxLib レイアウト、48 byte)
+;    VECTOR pos (12)  VECTOR norm (12)  COLOR_U8 dif (4)  COLOR_U8 spc (4)
+;    float u, v (8)   float su, sv (8)
+#defstruct VERTEX3D
+    #field float px
+    #field float py
+    #field float pz
+    #field float nx
+    #field float ny
+    #field float nz
+    #field byte  dr
+    #field byte  dg
+    #field byte  db
+    #field byte  da
+    #field byte  sr
+    #field byte  sg
+    #field byte  sb
+    #field byte  sa
+    #field float u
+    #field float v
+    #field float su
+    #field float sv
+#endstruct
+
+    title "hsp3dx: DrawPolygon3D smoke test"
+
+    ;  カメラ
+    dx_setzbuffer 1
+    dx_SetUseLighting 0
+    dx_setcameraperspective 60
+
+    ;  3 頂点分確保
+    stdim verts, VERTEX3D, 3
+
+    ;  ---- 頂点 0: 赤 ----
+    verts(0)->px = -100.0 : verts(0)->py =   0.0 : verts(0)->pz = 0.0
+    verts(0)->nx = 0.0    : verts(0)->ny = 0.0   : verts(0)->nz = -1.0
+    verts(0)->dr = 255    : verts(0)->dg = 80    : verts(0)->db = 80    : verts(0)->da = 255
+
+    ;  ---- 頂点 1: 緑 ----
+    verts(1)->px =  100.0 : verts(1)->py =   0.0 : verts(1)->pz = 0.0
+    verts(1)->nx = 0.0    : verts(1)->ny = 0.0   : verts(1)->nz = -1.0
+    verts(1)->dr = 80     : verts(1)->dg = 255   : verts(1)->db = 80    : verts(1)->da = 255
+
+    ;  ---- 頂点 2: 青 ----
+    verts(2)->px =    0.0 : verts(2)->py = 180.0 : verts(2)->pz = 0.0
+    verts(2)->nx = 0.0    : verts(2)->ny = 0.0   : verts(2)->nz = -1.0
+    verts(2)->dr = 80     : verts(2)->dg = 80    : verts(2)->db = 255   : verts(2)->da = 255
+
+    angle = 0.0
+
+    repeat
+        redraw 0
+        dx_setbgcolor3d 20, 30, 60
+        cls
+
+        ;  カメラを回す
+        cx = 350.0 * cos(angle)
+        cz = 350.0 * sin(angle)
+        dx_setcamerapos cx, 80.0, cz, 0.0, 80.0, 0.0
+
+        ;  ---- 三角形 1 枚を描画 (1 ポリゴン) ----
+        ;  grHandle = -1 はテクスチャなし、transFlag = 1 は半透明考慮
+        dx_DrawPolygon3D verts, 1, -1, 1
+
+        color 255, 220, 80
+        pos 10, 10
+        mes "Phase 5.5n: DrawPolygon3D"
+        mes "  3 頂点で三角形 1 枚 (頂点色 R/G/B のグラデーション)"
+        mes "  [ESC] quit"
+
+        redraw 1
+        angle = angle + 0.015
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
