@@ -1,0 +1,59 @@
+;============================================================
+;   sample_input.hsp — Phase 1.6 動作確認 (入力 + 60fps ループ)
+;
+;   矢印キーで円を移動、スペースで色変更、マウス位置に小円を描く。
+;   ウィンドウの X ボタンで終了。
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_input.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: input (arrow / space / mouse)"
+
+    ;  円の位置と色
+    cx = 320
+    cy = 240
+    col_r = 255 : col_g = 200 : col_b = 80
+
+*main_loop
+    redraw 0
+
+    ;  背景クリア (青)
+    color 20, 40, 80
+    boxf 0, 0, 640, 480
+
+    ;  入力取得
+    stick key, 0                ; 方向キー + space + enter + 左クリック
+    if key &  1 : cx = cx - 4   ; 左
+    if key &  2 : cy = cy - 4   ; 上
+    if key &  4 : cx = cx + 4   ; 右
+    if key &  8 : cy = cy + 4   ; 下
+    if key & 16 {
+        ;  スペースで色をシャッフル
+        col_r = (col_r + 17) \ 256
+        col_g = (col_g + 31) \ 256
+        col_b = (col_b + 43) \ 256
+    }
+
+    ;  メインの円 (矢印で動かせる)
+    color col_r, col_g, col_b
+    circle cx - 30, cy - 30, cx + 30, cy + 30, 1
+
+    ;  マウス位置に小さな白丸
+    color 255, 255, 255
+    circle mousex - 6, mousey - 6, mousex + 6, mousey + 6, 1
+
+    ;  HUD 情報
+    color 255, 255, 255
+    font "MS Gothic", 16
+    pos 10, 10
+    mes "Arrow: move   Space: color   X button: quit"
+    pos 10, 30
+    mes "circle = (" + cx + ", " + cy + ")"
+    pos 10, 50
+    mes "mouse  = (" + mousex + ", " + mousey + ")"
+
+    redraw 1
+    await 16                    ; 約 60fps
+    goto *main_loop

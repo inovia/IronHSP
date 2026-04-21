@@ -6,7 +6,35 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5)
+## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5 + 1.6)
+
+### (これから commit) @ 20:04 — Phase 1.6: 入力 (getkey / stick / mouse + sysvar)
+
+**やったこと**
+- **cmdfunc 追加**:
+  - `0x23 getkey var, keycode` — `CheckHitKey(keycode)` を 0/1 で変数に代入
+  - `0x2c mouse x, y` — `SetMousePoint(x,y)` (引数省略時は no-op)
+  - `0x34 stick var, nonstop, exkey` — 方向キー / space / enter / 左マウス を
+    ビットフィールド (0x01〜0x80) で返す、`exkey` 非 0 で ESC / 右マウスも含む
+- **reffunc 全面書き直し**: TYPE_EXTSYSVAR は `(` `)` を取らないシステム変数なので、
+  paren チェックを削除。`mousex` (0x000) / `mousey` (0x001) / `mousew` (0x002) 実装
+- **`hsp3dxcl_msgfunc` に `ProcessMessage()` を追加**: wait/await 中もウィンドウ
+  メッセージを処理しないと X ボタンが効かない/マウス入力がペンディングになる問題。
+  ProcessMessage が -1 を返したら RUNMODE_END で VM を終了扱い → X ボタン正常化
+
+**サンプル** `sample_input.hsp`:
+- 矢印キーで黄色い円を移動
+- スペースで色シャッフル
+- マウスカーソルに白丸追従
+- HUD で座標表示
+- 60fps ループ (`await 16`)
+- X ボタンで閉じられる
+
+**動作確認**
+- ビルド成功
+- 実機で矢印移動・色変化・マウス追従・X 終了すべて確認 ✅
+
+---
 
 ### (これから commit) @ 20:03 — Phase 1.5: buffer / gsel / celload / celput / gcopy / gmode
 

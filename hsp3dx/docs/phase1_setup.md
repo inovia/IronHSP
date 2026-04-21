@@ -75,7 +75,7 @@ hsp3dx.exe
 | **1.3** | pos / color / cls / redraw + pset / line / boxf / circle | ✅ |
 | **1.4** | font + picload (CreateFontToHandle / LoadGraph) | ✅ |
 | **1.5** | gcopy / gmode / celload / celput / buffer / screen / gsel | ✅ |
-| 1.6 | 入力 (stick / getkey / mouse) | 未着手 |
+| **1.6** | 入力: getkey / stick / mouse + mousex/mousey/mousew sysvar + wait/await 中の ProcessMessage | ✅ |
 | 1.7 | 音声 (mmload / mmplay → DxLib LoadSoundMem / PlaySoundMem) | 未着手 |
 | 1.8 | reffunc (sysinfo / dirinfo / exist / strlen 他) | 未着手 |
 | 1.9 | Phase 1 総合サンプル動作確認 + リリースパッケージ | 未着手 |

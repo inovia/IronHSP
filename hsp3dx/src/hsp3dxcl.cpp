@@ -19,6 +19,7 @@
 #include "../../hsp3/supio.h"
 
 #include "hsp3dxcl.h"
+#include "DxLib.h"
 
 extern "C" {
     int hsp3typeinit_cl_extcmd( HSP3TYPEINFO *info );
@@ -39,6 +40,14 @@ static void hsp3dxcl_msgfunc( HSPCTX *hspctx )
     //  main.cpp が ProcessMessage を回しているので、ここでは VM が
     //  要求したブロック時間を素直に消化する。
     while ( true ) {
+        //  VM が wait/await に入っている間も Windows メッセージを処理する。
+        //  これをしないと X ボタンが効かない/マウスキー入力がペンディングになる。
+        if ( ProcessMessage() == -1 ) {
+            //  ウィンドウ閉じ要求 → VM を終了扱いに
+            hspctx->runmode = RUNMODE_END;
+            throw HSPERR_NONE;
+        }
+
         int tick = (int)GetTickCount();
         switch ( hspctx->runmode ) {
         case RUNMODE_WAIT:
@@ -46,7 +55,6 @@ static void hsp3dxcl_msgfunc( HSPCTX *hspctx )
             // fall-through
         case RUNMODE_AWAIT:
             if ( code_exec_await( tick ) != RUNMODE_RUN ) {
-                //  短時間 sleep して CPU を譲る。mobile でも動く sleep。
                 Sleep( 1 );
                 continue;
             }

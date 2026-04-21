@@ -22,8 +22,14 @@
 //      gcopy srcID, sx, sy, w, h      srcID の矩形を現在位置に描画 (DrawRectGraph)
 //      gmode mode, w, h, alpha        ブレンドモード設定 (SetDrawBlendMode)
 //
-//  未実装 (Phase 1.6+):
-//      celdiv / gzoom / stick / getkey / mouse / wait 以外の input 系
+//  Phase 1.6 追加 (入力):
+//      getkey var, keycode            キー状態取得 (CheckHitKey)
+//      stick  var, nonstop [, exkey]  方向キー+ボタンのビットフィールド取得
+//      mouse  x, y                    マウス位置設定 (SetMousePoint)
+//      mousex / mousey / mousew       システム変数 (reffunc 経由)
+//
+//  未実装 (Phase 1.7+):
+//      celdiv / gzoom / onkey / onclick (VM イベントディスパッチ要) / 音声系
 //
 #include <stdio.h>
 #include <string.h>
@@ -365,6 +371,53 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    case 0x23:                      // getkey var, keycode
+        {
+            PVal *pval;
+            APTR aptr;
+            aptr = code_getva( &pval );
+            p1 = code_getdi( 1 );       // keycode (DxLib KEY_INPUT_* と同じ値)
+            int pressed = CheckHitKey( p1 ) ? 1 : 0;
+            code_setva( pval, aptr, TYPE_INUM, &pressed );
+            break;
+        }
+
+    case 0x2c:                      // mouse x, y
+        {
+            //  HSP の mouse 命令は引数省略時はカーソル表示状態変更。
+            //  hsp3dx Phase 1.6 MVP: x,y 指定時だけ座標設定、省略時は no-op。
+            p1 = code_getdi( -1 );
+            p2 = code_getdi( -1 );
+            if ( p1 >= 0 && p2 >= 0 ) SetMousePoint( p1, p2 );
+            break;
+        }
+
+    case 0x34:                      // stick var, nonstop_flag [, exkey]
+        {
+            PVal *pval;
+            APTR aptr;
+            aptr = code_getva( &pval );
+            p1 = code_getdi( 0 );       // nonstop_flag (Phase 1.6 では未使用、全キー連続トリガ扱い)
+            p2 = code_getdi( 0 );       // exkey (非 0 で追加キー含む)
+            (void)p1;
+
+            int bits = 0;
+            if ( CheckHitKey( KEY_INPUT_LEFT  ) ) bits |= 0x01;
+            if ( CheckHitKey( KEY_INPUT_UP    ) ) bits |= 0x02;
+            if ( CheckHitKey( KEY_INPUT_RIGHT ) ) bits |= 0x04;
+            if ( CheckHitKey( KEY_INPUT_DOWN  ) ) bits |= 0x08;
+            if ( CheckHitKey( KEY_INPUT_SPACE ) ) bits |= 0x10;
+            if ( CheckHitKey( KEY_INPUT_RETURN) ) bits |= 0x20;
+            if ( GetMouseInput() & MOUSE_INPUT_LEFT ) bits |= 0x40;
+            if ( CheckHitKey( KEY_INPUT_TAB   ) ) bits |= 0x80;
+            if ( p2 ) {
+                if ( CheckHitKey( KEY_INPUT_ESCAPE ) ) bits |= 0x100;
+                if ( GetMouseInput() & MOUSE_INPUT_RIGHT ) bits |= 0x200;
+            }
+            code_setva( pval, aptr, TYPE_INUM, &bits );
+            break;
+        }
+
     case 0x1b:                      // redraw
         {
             p1 = code_getdi( 1 );
@@ -413,25 +466,35 @@ static int cmdfunc_extcmd( int cmd )
 /*  reffunc : TYPE_EXTSYSVAR                                  */
 /*------------------------------------------------------------*/
 
+//  TYPE_EXTSYSVAR は引数なしのシステム変数 (mousex / mousey / stat 等)。
+//  `(`/`)` チェックは不要で、arg に応じた値を即返す。
 static void *reffunc_function( int *type_res, int arg )
 {
     void *ptr;
     *type_res = HSPVAR_FLAG_INT;
     ptr = &reffunc_intfunc_ivalue;
 
-    if ( *type != TYPE_MARK ) throw HSPERR_INVALID_FUNCPARAM;
-    if ( *val  != '('       ) throw HSPERR_INVALID_FUNCPARAM;
-    code_next();
-
-    switch ( arg & 0xff ) {
-    //  Phase 1.4+ で sysinfo / dirinfo / exist / length / strlen などを実装
+    switch ( arg ) {
+    case 0x000:                             // mousex
+        {
+            int mx = 0, my = 0;
+            GetMousePoint( &mx, &my );
+            reffunc_intfunc_ivalue = mx;
+            break;
+        }
+    case 0x001:                             // mousey
+        {
+            int mx = 0, my = 0;
+            GetMousePoint( &mx, &my );
+            reffunc_intfunc_ivalue = my;
+            break;
+        }
+    case 0x002:                             // mousew (ホイール累積値。Phase 1.6 では 0 固定)
+        reffunc_intfunc_ivalue = 0;
+        break;
     default:
         throw HSPERR_UNSUPPORTED_FUNCTION;
     }
-
-    if ( *type != TYPE_MARK ) throw HSPERR_INVALID_FUNCPARAM;
-    if ( *val  != ')'       ) throw HSPERR_INVALID_FUNCPARAM;
-    code_next();
 
     return ptr;
 }
