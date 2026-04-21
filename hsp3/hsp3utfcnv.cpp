@@ -277,9 +277,9 @@ FILE *hsp3_fopen(char*name, int offset)
     
 	// Linux
 	hsp3_fp = fopen(name, "rb");
-#ifdef HSPDEBUG
+#if defined(HSPDEBUG) && !defined(HSP3DX)
 	if (hsp3_fp == NULL) {
-		//	hsptvフォルダを検索する
+		//	hsptvフォルダを検索する (hsp3dish専用のdebug対応なのでhsp3dxでは除外)
 		char fn[2048];
 		strcpy(fn, hsp3ext_getdir(5));		// tv folder
 		strcat(fn, name);

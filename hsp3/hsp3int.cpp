@@ -23,6 +23,46 @@
 #ifdef HSPWIN
 #include <windows.h>
 #include <direct.h>
+#else
+//  hsp3dx Android 用: Windows API 未定義識別子の fallback
+#  ifndef CP_ACP
+#    define CP_ACP   0
+#  endif
+#  ifndef CP_UTF8
+#    define CP_UTF8  65001
+#  endif
+#  include <stdlib.h>
+//  MultiByteToWideChar / WideCharToMultiByte の最小互換 (CP 無視)
+static inline int MultiByteToWideChar( unsigned /*cp*/, unsigned /*flags*/,
+                                        const char *src, int /*srclen*/,
+                                        wchar_t *dst, int dstcap )
+{
+    if ( !src ) { if ( dst && dstcap > 0 ) dst[0] = 0; return 0; }
+    if ( !dst || dstcap <= 0 ) {
+        //  サイズ問い合わせモード
+        size_t n = mbstowcs( nullptr, src, 0 );
+        return n == (size_t)-1 ? 0 : (int)n + 1;
+    }
+    size_t n = mbstowcs( dst, src, (size_t)(dstcap - 1) );
+    if ( n == (size_t)-1 ) { dst[0] = 0; return 0; }
+    dst[n] = 0;
+    return (int)n + 1;
+}
+static inline int WideCharToMultiByte( unsigned /*cp*/, unsigned /*flags*/,
+                                        const wchar_t *src, int /*srclen*/,
+                                        char *dst, int dstcap,
+                                        const char * /*defc*/, int * /*usedDef*/ )
+{
+    if ( !src ) { if ( dst && dstcap > 0 ) dst[0] = 0; return 0; }
+    if ( !dst || dstcap <= 0 ) {
+        size_t n = wcstombs( nullptr, src, 0 );
+        return n == (size_t)-1 ? 0 : (int)n + 1;
+    }
+    size_t n = wcstombs( dst, src, (size_t)(dstcap - 1) );
+    if ( n == (size_t)-1 ) { dst[0] = 0; return 0; }
+    dst[n] = 0;
+    return (int)n + 1;
+}
 #endif
 
 #include "supio.h"

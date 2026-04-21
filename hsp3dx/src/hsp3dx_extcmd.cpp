@@ -59,6 +59,8 @@
 #include <math.h>
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <unistd.h>
 #endif
 #include "hsp3dx_compat.h"
 
@@ -269,7 +271,7 @@ static int cmdfunc_extcmd( int cmd )
             hsp3dx_utf8_to_wide( fname, wfname, 512 );
 
             if ( s_snd_handle[p1] != -1 ) DeleteSoundMem( s_snd_handle[p1] );
-            int h = LoadSoundMem( wfname );
+            int h = LoadSoundMem( HSP3DX_TCHAR_PTR( wfname, fname ) );
             if ( h == -1 ) throw HSPERR_FILE_IO;
             s_snd_handle[p1] = h;
             s_snd_option[p1] = p2;
@@ -412,7 +414,7 @@ static int cmdfunc_extcmd( int cmd )
             char *p = code_gets();
             wchar_t wbuf[256];
             hsp3dx_utf8_to_wide( p, wbuf, 256 );
-            SetMainWindowText( wbuf );
+            SetMainWindowText( HSP3DX_TCHAR_PTR( wbuf, p ) );
             break;
         }
 
@@ -449,7 +451,7 @@ static int cmdfunc_extcmd( int cmd )
             wchar_t wname[128];
             hsp3dx_utf8_to_wide( fontname, wname, 128 );
             if ( wname[0] != 0 ) {
-                ChangeFont( wname, -1 );
+                ChangeFont( HSP3DX_TCHAR_PTR( wname, fontname ), -1 );
             }
             SetFontSize( p1 );
             //  style ビット 0: bold, ビット 1: italic (DxLib は bold を
@@ -474,7 +476,7 @@ static int cmdfunc_extcmd( int cmd )
             wchar_t wfname[512];
             hsp3dx_utf8_to_wide( fname, wfname, 512 );
 
-            int hgr = LoadGraph( wfname );
+            int hgr = LoadGraph( HSP3DX_TCHAR_PTR( wfname, fname ) );
             if ( hgr == -1 ) throw HSPERR_PICTURE_MISSING;
             DrawGraph( s_cur_x, s_cur_y, hgr, TRUE );
             DeleteGraph( hgr );         // Phase 1.4 MVP: 即描画後 dispose
@@ -555,7 +557,7 @@ static int cmdfunc_extcmd( int cmd )
             char *fname = code_gets();
             wchar_t wfname[512];
             hsp3dx_utf8_to_wide( fname, wfname, 512 );
-            if ( SaveDrawScreen( 0, 0, 640, 480, wfname ) != 0 ) throw HSPERR_FILE_IO;
+            if ( SaveDrawScreen( 0, 0, 640, 480, HSP3DX_TCHAR_PTR( wfname, fname ) ) != 0 ) throw HSPERR_FILE_IO;
             break;
         }
 
@@ -766,7 +768,7 @@ static int cmdfunc_extcmd( int cmd )
             hsp3dx_utf8_to_wide( fname, wfname, 512 );
 
             if ( s_buf_handle[id] != -1 ) DeleteGraph( s_buf_handle[id] );
-            int hgr = LoadGraph( wfname );
+            int hgr = LoadGraph( HSP3DX_TCHAR_PTR( wfname, fname ) );
             if ( hgr == -1 ) throw HSPERR_PICTURE_MISSING;
             s_buf_handle[id] = hgr;
             //  GetGraphSize で w/h 取得
@@ -1102,7 +1104,7 @@ static int cmdfunc_extcmd( int cmd )
             char *fname = code_gets();
             wchar_t wfname[512];
             hsp3dx_utf8_to_wide( fname, wfname, 512 );
-            int h = MV1LoadModel( wfname );
+            int h = MV1LoadModel( HSP3DX_TCHAR_PTR( wfname, fname ) );
             ctx->stat = h;      // -1 が失敗、0 以上がハンドル
             break;
         }
@@ -1923,7 +1925,7 @@ static int cmdfunc_extcmd( int cmd )
             hsp3dx_utf8_to_wide( fname, wfname, 512 );
 
             if ( s_buf_handle[id] != -1 ) DeleteGraph( s_buf_handle[id] );
-            int h = LoadGraph( wfname );
+            int h = LoadGraph( HSP3DX_TCHAR_PTR( wfname, fname ) );
             if ( h == -1 ) throw HSPERR_FILE_IO;
             s_buf_handle[id] = h;
             int w = 0, hh = 0;
@@ -2063,12 +2065,18 @@ static void *reffunc_function( int *type_res, int arg )
             *type_res = HSPVAR_FLAG_STR;
             switch ( p ) {
             case 0: {
+#ifdef _WIN32
                 wchar_t wbuf[_MAX_PATH];
                 GetCurrentDirectoryW( _MAX_PATH, wbuf );
                 WideCharToMultiByte( CP_UTF8, 0, wbuf, -1, dst, _MAX_PATH, nullptr, nullptr );
+#else
+                //  Android: 内部 files dir を返す代わりに getcwd を使う
+                if ( !getcwd( dst, _MAX_PATH ) ) *dst = 0;
+#endif
                 break;
             }
             case 1: {
+#ifdef _WIN32
                 wchar_t wbuf[_MAX_PATH];
                 GetModuleFileNameW( nullptr, wbuf, _MAX_PATH );
                 wchar_t *sep = nullptr;
@@ -2076,6 +2084,9 @@ static void *reffunc_function( int *type_res, int arg )
                     if ( *p2 == L'\\' || *p2 == L'/' ) sep = p2;
                 if ( sep ) *sep = 0;
                 WideCharToMultiByte( CP_UTF8, 0, wbuf, -1, dst, _MAX_PATH, nullptr, nullptr );
+#else
+                *dst = 0;   //  Android にモジュールディレクトリ概念なし
+#endif
                 break;
             }
             case 4:
@@ -2101,7 +2112,13 @@ static void *reffunc_function( int *type_res, int arg )
             char *dst = ctx->stmp;
             *dst = 0;
             switch ( p ) {
-            case 0: strcpy( dst, "Windows" );               *type_res = HSPVAR_FLAG_STR; return dst;
+            case 0:
+#ifdef _WIN32
+                strcpy( dst, "Windows" );
+#else
+                strcpy( dst, "Android" );
+#endif
+                *type_res = HSPVAR_FLAG_STR; return dst;
             case 1: strcpy( dst, "x64 (hsp3dx Phase 1.8)" );*type_res = HSPVAR_FLAG_STR; return dst;
             case 2: strcpy( dst, "DxLib" );                 *type_res = HSPVAR_FLAG_STR; return dst;
             case 3: reffunc_intfunc_ivalue = 0x411; break;   // JP LCID

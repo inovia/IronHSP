@@ -51,6 +51,8 @@ set(HSP3_SRC
     ${HSP3_DIR}/strnote.cpp
     ${HSP3_DIR}/dpmread.cpp
     ${HSP3_DIR}/filepack.cpp
+    # Android 専用 supio 実装 (mem_ini / mem_bye / htoi / strsp_ini 等)
+    ${HSP3_DIR}/ndk/supio_ndk.cpp
     # #defstruct (NSTRUCT) 対応のため hsp3net の実装を共有リンク
     ${HSP3NET_DIR}/hspvar_nstruct.cpp
 )

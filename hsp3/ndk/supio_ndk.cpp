@@ -141,9 +141,12 @@ int mem_save( char *p_fname, void *mem, int msize, int seekofs )
 	char *fname;
 
 	fname = p_fname;
+#if !defined(HSP3DX)
+	//  hsp3dish 依存 (hgio_getstorage) — hsp3dx ビルドでは内部 dir を既に chdir 済みなので不要
 	if ( *fname != '/' ) {
 		fname = hgio_getstorage(p_fname);
 	}
+#endif
 	if (seekofs<0) {
 		fp=fopen(fname,"wb");
 	}
@@ -806,8 +809,17 @@ int ReplaceDone( void )
 //
 //		android debug support
 //
+#if !defined(HSP3DX)
 void Alert( const char *mes )
 {
 	LOGI( mes, 1 );
 }
+#else
+//  hsp3dx: LOGI は __android_log_print に直接
+#include <android/log.h>
+void Alert( const char *mes )
+{
+	__android_log_print( ANDROID_LOG_INFO, "hsp3dx", "%s", mes );
+}
+#endif
 

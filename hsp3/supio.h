@@ -23,12 +23,13 @@
 #endif
 #endif
 
-//  hsp3dx ビルドでは hsp3dish 配下の supio_* は使わず、POSIX 基本関数のみ。
-#if defined(HSPIOS) && !defined(HSP3DX)
+//  hsp3dx ビルドでも supio_* の宣言 (mem_ini / htoi / strsp_* 等) は必要。
+//  supio_*.h 内部の hsp3dish 依存 (appengine.h) は HSP3DX でさらに guard 済み。
+#ifdef HSPIOS
 #include "ios/supio_ios.h"
 #endif
 
-#if defined(HSPNDK) && !defined(HSP3DX)
+#ifdef HSPNDK
 #include "ndk/supio_ndk.h"
 #endif
 

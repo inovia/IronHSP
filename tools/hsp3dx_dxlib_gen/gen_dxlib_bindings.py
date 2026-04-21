@@ -178,6 +178,43 @@ SKIP_NAMES = {
     'SetUseDXNetWorkProtocol', 'SetUseDXProtocol',
     'StopListenNetWork', 'URLParamAnalysis',
 
+    # Android DxLib で未宣言/シグネチャ違いの関数 (コンパイルエラー回避)
+    'GetLastErrorMessage', 'GetClipboardText',
+    'ClearInputCharBuf', 'GetOneChar', 'GetOneCharWait',
+    # IME / Key input 系 (Android では IME 機構が Java 側なので DxLib 未実装)
+    'DrawIMEInputString', 'DrawIMEInputExtendString',
+    'SetUseIMEFlag', 'GetUseIMEFlag',
+    'SetInputStringMaxLengthIMESync', 'SetIMEInputStringMaxLength',
+    'KeyInputNumber', 'GetIMEInputModeStr',
+    'SetIMEInputString', 'SetKeyInputStringFont', 'DrawKeyInputModeString',
+    'InitKeyInput', 'DeleteKeyInput',
+    'SetActiveKeyInput', 'GetActiveKeyInput',
+    'CheckKeyInput', 'ReStartKeyInput',
+    'ProcessActKeyInput', 'DrawKeyInputString', 'DrawKeyInputExtendString',
+    'SetKeyInputDrawArea', 'SetKeyInputSelectArea',
+    'SetKeyInputDrawStartPos', 'GetKeyInputDrawStartPos',
+    'SetKeyInputCursorBrinkTime', 'SetKeyInputCursorBrinkFlag',
+    'SetKeyInputString', 'SetKeyInputNumber', 'SetKeyInputNumberToFloat',
+    'GetKeyInputString', 'GetKeyInputNumber', 'GetKeyInputNumberToFloat',
+    'SetKeyInputCursorPosition', 'GetKeyInputCursorPosition',
+    'FileRead_gets',    #  signature ミスマッチ (int argに const char* 期待)
+    'GetKeyInputSelectArea',
+    #  ConvertFullPath / GetGraphFilePath / EnumFontName / MV1GetFrameName2
+    #  は Android で TCHAR 戻り buffer size の扱いが Win 版と異なる
+    'ConvertFullPath', 'GetGraphFilePath', 'EnumFontName', 'MV1GetFrameName2',
+    'GetFontStateToHandle',
+    #  Android DxLib static lib に未実装のマウス関数
+    'SetMouseDispFlag', 'SetMouseDispIgnoreMenuFlag',
+    #  Windows PC speaker beep API (Android 未実装)
+    'SetBeepFrequency', 'PlayBeep', 'StopBeep',
+    #  Live2D (Android ビルドには Live2D Cubism Core が同梱されていない)
+    'Live2D_SetCubism4CoreDLLPath', 'Live2D_SetCubism3CoreDLLPath',
+    'Live2D_RenderBegin', 'Live2D_RenderEnd',
+    'Live2D_LoadModel', 'Live2D_DeleteModel', 'Live2D_InitModel',
+    'Live2D_SetUseAutoScaling', 'Live2D_SetUseAutoCentering',
+    'Live2D_SetUseReverseYAxis',
+    'Live2D_Model_Update', 'Live2D_Model_SetTranslate',
+
     # --- (B) hsp3dx ランタイム専管 ---
     #  DxLib_Init / DxLib_End: hgio_dx_init/term が呼ぶ (ユーザが呼ぶと壊れる)
     #  ProcessMessage: ランタイムのメインループが呼んでいる
@@ -266,6 +303,9 @@ def parse_signature(match):
     rettype = re.sub(r'\s+', ' ', match.group(1))
     name    = match.group(2)
     if name in SKIP_NAMES:
+        return None
+    #  Live2D 系は Android ビルドに Cubism Core がないため全除外
+    if name.startswith('Live2D_'):
         return None
     if rettype not in ACCEPTED_RETURNS:
         return None

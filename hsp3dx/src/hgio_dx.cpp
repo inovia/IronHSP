@@ -5,6 +5,7 @@
 //  各関数の雛形だけ。
 //
 #include "hgio_dx.h"
+#include "hsp3dx_compat.h"
 #include "DxLib.h"    // hsp3dx/extlib/dxlib_win/include/DxLib.h
 
 // hsp3dx はプロセス起動時に UTF-8 固定。HSP3Dish の hgio_init 相当のタイミングで

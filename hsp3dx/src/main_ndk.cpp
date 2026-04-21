@@ -49,8 +49,8 @@ static int extract_asset( const char *name, const char *dst_dir )
 }
 
 //  android_main は DxLib Android のエントリ。libDxLib.a 内の ANativeActivity コールバックから
-//  適切なタイミングで呼び出される。
-extern "C" int android_main( void )
+//  適切なタイミングで呼び出される。DxLib Android は C++ 関数として呼ぶので extern "C" は付けない。
+int android_main( void )
 {
     LOGI( "hsp3dx android_main start" );
 

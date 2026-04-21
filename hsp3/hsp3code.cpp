@@ -2673,7 +2673,11 @@ static int cmdfunc_prog( int cmd )
 		case 11: // SMT_WCHAR_ARRAY
 			{
 			char *src = code_gets();
+#ifdef _WIN32
 			if ( src ) MultiByteToWideChar(CP_ACP, 0, src, -1, (wchar_t*)base, member_size / 2);
+#else
+			if ( src ) mbstowcs((wchar_t*)base, src, (size_t)(member_size / 2));
+#endif
 			break;
 			}
 		default:
