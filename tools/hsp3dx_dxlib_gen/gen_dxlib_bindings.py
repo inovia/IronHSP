@@ -30,6 +30,7 @@ import os
 HDR_PATH   = r"J:\HNWorks\IronHSP_2026\hsp3dx\extlib\dxlib_win\DxLib_VC\DxLib.h"
 OUT_CPP    = r"J:\HNWorks\IronHSP_2026\hsp3dx\src\hsp3dx_dxlib_auto.cpp"
 OUT_AS     = r"J:\HNWorks\IronHSP_2026\package\win32\common\iron_dxlib_auto.as"
+OUT_HS     = r"J:\HNWorks\IronHSP_2026\package\hsphelp\iron_dxlib_auto.hs"
 
 OPCODE_START = 0x200
 OPCODE_END   = 0x6FF
@@ -198,16 +199,32 @@ def parse_signature(match):
     return (name, args)
 
 
-def to_snake_lower(camel):
-    """CamelCase → snake_case。DxLib の大文字混じり関数名を dx_small_snake にする。"""
-    # DxLib_ / NS_ などの既存のプレフィックス + underscore を取り除く
-    if camel.startswith('DxLib_'):
-        camel = camel[len('DxLib_'):]
-    s1 = re.sub(r'(.)([A-Z][a-z]+)', r'\1_\2', camel)
-    s2 = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
-    # 二重下線を 1 つに畳む
-    s2 = re.sub(r'__+', '_', s2)
-    return s2
+def to_dx_name(camel):
+    """DxLib の CamelCase 関数名 → dx_CamelCase (HSP キーワードとして使える形)。
+       元の関数名はそのまま保持 (ユーザが DxLib ドキュメントから照合できる)。"""
+    return 'dx_' + camel
+
+
+def type_label(kind):
+    """ACCEPT_TYPES の値 → .hs / コメント表示用ラベル"""
+    m = {
+        'int': 'int',          'uint': 'int (uint 扱い)',
+        'uchar': 'int (uchar 扱い)', 'ushort': 'int (ushort 扱い)',
+        'ulong': 'int (ulong 扱い)', 'int64': 'int64',
+        'uint64': 'int64 (uint64 扱い)',
+        'float': 'double (float 縮小)', 'double': 'double',
+        'tchar': 'str', 'char': 'str',
+        'struct_VECTOR': 'var (VECTOR: #defstruct float x,y,z)',
+        'struct_VECTOR_D': 'var (VECTOR_D: #defstruct double x,y,z)',
+        'struct_MATRIX': 'var (MATRIX: 4x4 float)',
+        'struct_MATRIX_D': 'var (MATRIX_D: 4x4 double)',
+        'struct_COLOR_U8': 'var (COLOR_U8: byte r,g,b,a)',
+        'struct_COLOR_F': 'var (COLOR_F: float r,g,b,a)',
+        'struct_FLOAT2': 'var (FLOAT2)',
+        'struct_FLOAT3': 'var (FLOAT3)',
+        'struct_FLOAT4': 'var (FLOAT4)',
+    }
+    return m.get(kind, kind)
 
 
 def main():
@@ -258,8 +275,10 @@ def main():
     ]
     for i, (fn, args) in enumerate(functions):
         opcode = OPCODE_START + i
-        dx_name = 'dx_' + to_snake_lower(fn)
-        as_lines.append(f'#cmd {dx_name:<38} ${opcode:03x}')
+        dx_name = to_dx_name(fn)
+        #  引数シグネチャをコメント末尾に付ける (ユーザが type を参照できる)
+        sig = ', '.join(type_label(t) for (t, _, _) in args)
+        as_lines.append(f'#cmd {dx_name:<45} ${opcode:03x}     ; {fn}({sig})')
     as_lines.append('')
     as_lines.append('#endif')
     with open(OUT_AS, 'w', encoding='utf-8', newline='\n') as f:
@@ -361,9 +380,83 @@ def main():
     with open(OUT_CPP, 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(cpp))
 
+    # ------------------------------------------------------------------
+    # iron_dxlib_auto.hs — HSP Help (VS Code / VS 2022 / hsed から照会)
+    # ------------------------------------------------------------------
+    def guess_group(fn):
+        """関数名から大まかなカテゴリを推測 (.hs の %group 用)"""
+        n = fn
+        if n.startswith('Draw'):         return 'DxLib 描画'
+        if n.startswith('MV1'):          return 'DxLib MV1 モデル'
+        if n.startswith('SetCamera') or n.startswith('GetCamera'): return 'DxLib カメラ'
+        if n.startswith('SetLight') or n.startswith('GetLight') or 'Light' in n: return 'DxLib ライト'
+        if 'Sound' in n or 'Music' in n or 'Audio' in n: return 'DxLib サウンド'
+        if 'Movie' in n or 'Play' in n: return 'DxLib 動画 / 再生'
+        if 'Shader' in n or 'Vertex' in n or 'Pixel' in n: return 'DxLib シェーダ'
+        if 'Font' in n:                  return 'DxLib フォント'
+        if 'Key' in n or 'Joypad' in n or 'Mouse' in n or 'Touch' in n: return 'DxLib 入力'
+        if n.startswith('Set') or n.startswith('Get'): return 'DxLib 設定 / 取得'
+        if n.startswith('Load') or n.startswith('Save') or 'File' in n: return 'DxLib ファイル'
+        if 'Network' in n or 'Socket' in n or 'NetWork' in n: return 'DxLib ネットワーク'
+        if 'Screen' in n or 'Graph' in n: return 'DxLib グラフィック'
+        return 'DxLib その他'
+
+    hs = []
+    hs.append(';')
+    hs.append('; iron_dxlib_auto.hs — hsp3dx 自動生成 DxLib 命令の HSP Help')
+    hs.append('; DO NOT EDIT — tools/hsp3dx_dxlib_gen/gen_dxlib_bindings.py で再生成')
+    hs.append(f'; 関数数: {len(functions)}')
+    hs.append(';')
+    hs.append('')
+    hs.append('%dll')
+    hs.append('iron_dxlib_auto')
+    hs.append('%ver')
+    hs.append('hsp3dx 5.5c')
+    hs.append('%date')
+    hs.append('2026/04/21')
+    hs.append('%author')
+    hs.append('DxLib: Takumi Yamada / hsp3dx binding: IronHSP Project')
+    hs.append('%url')
+    hs.append('https://dxlib.xsrv.jp/')
+    hs.append('%note')
+    hs.append('hsp3dx で iron_dxlib.as を #include すれば利用可能 (iron_dxlib_auto.as は内部 include)')
+    hs.append('%type')
+    hs.append('DxLib 自動生成コマンド (hsp3dx)')
+    hs.append('%port')
+    hs.append('Win')
+    hs.append('')
+    for fn, args in functions:
+        dx_name = to_dx_name(fn)
+        group = guess_group(fn)
+        sig_hsp = ', '.join(f'p{i+1}' for i in range(len(args))) if args else ''
+        hs.append('%index')
+        hs.append(dx_name)
+        hs.append(f'DxLib {fn} (自動生成、hsp3dx 専用)')
+        hs.append('%group')
+        hs.append(group)
+        hs.append('%prm')
+        if args:
+            for idx, (t, aname, default) in enumerate(args):
+                d = f' (default {default})' if default else ''
+                hs.append(f'p{idx+1} : {type_label(t)} {aname}{d}')
+        else:
+            hs.append('(引数なし)')
+        hs.append('%inst')
+        hs.append(f'DxLib の {fn}() を呼び出します。')
+        hs.append(f'^p')
+        hs.append(f'元関数シグネチャ: int {fn}({", ".join(f"{KIND_TO_CTYPE[t]} {aname}" for t, aname, _ in args) or "void"})')
+        hs.append(f'^p')
+        hs.append(f'戻り値は stat に入ります (DxLib は慣習として成功 0 / 失敗 -1)。')
+        hs.append(f'^p')
+        hs.append(f'詳細は DxLib 公式リファレンス https://dxlib.xsrv.jp/dxfunc.html の {fn} 項を参照。')
+        hs.append('')
+    with open(OUT_HS, 'w', encoding='utf-8', newline='\n') as f:
+        f.write('\n'.join(hs))
+
     print(f'generated:')
     print(f'  {OUT_AS}   ({len(functions)} #cmd entries)')
     print(f'  {OUT_CPP}  ({len(functions)} case handlers)')
+    print(f'  {OUT_HS}   ({len(functions)} %index entries)')
 
 
 if __name__ == '__main__':

@@ -8,1134 +8,1134 @@
 
 #regcmd 9
 
-#cmd dx_global_struct_initialize            $200
-#cmd dx_is_init                             $201
-#cmd dx_get_last_error_code                 $202
-#cmd dx_get_last_error_message              $203
-#cmd dx_set_always_run_flag                 $204
-#cmd dx_wait_timer                          $205
-#cmd dx_wait_key                            $206
-#cmd dx_sleep_thread                        $207
-#cmd dx_get_now_count                       $208
-#cmd dx_get_rand                            $209
-#cmd dx_s_rand                              $20a
-#cmd dx_get_battery_life_percent            $20b
-#cmd dx_get_clipboard_text                  $20c
-#cmd dx_set_clipboard_text                  $20d
-#cmd dx_log_file_add                        $20e
-#cmd dx_log_file_tab_add                    $20f
-#cmd dx_log_file_tab_sub                    $210
-#cmd dx_error_log_add                       $211
-#cmd dx_error_log_tab_add                   $212
-#cmd dx_error_log_tab_sub                   $213
-#cmd dx_set_use_time_stamp_flag             $214
-#cmd dx_set_out_application_log_valid_flag  $215
-#cmd dx_set_out_application_system_log_valid_flag $216
-#cmd dx_set_application_log_file_name       $217
-#cmd dx_set_application_log_save_directory  $218
-#cmd dx_set_use_date_name_log_file          $219
-#cmd dx_set_log_draw_out_flag               $21a
-#cmd dx_get_log_draw_flag                   $21b
-#cmd dx_set_log_font_size                   $21c
-#cmd dx_set_log_font_handle                 $21d
-#cmd dx_set_log_draw_area                   $21e
-#cmd dx_puts_dx                             $21f
-#cmd dx_cls_dx                              $220
-#cmd dx_set_print_color_dx                  $221
-#cmd dx_set_use_a_sync_load_flag            $222
-#cmd dx_get_use_a_sync_load_flag            $223
-#cmd dx_check_handle_a_sync_load            $224
-#cmd dx_get_handle_a_sync_load_result       $225
-#cmd dx_set_a_sync_load_finish_delete_flag  $226
-#cmd dx_wait_handle_a_sync_load             $227
-#cmd dx_wait_handle_a_sync_load_all         $228
-#cmd dx_get_a_sync_load_num                 $229
-#cmd dx_set_a_sync_load_thread_num          $22a
-#cmd dx_set_mouse_disp_flag                 $22b
-#cmd dx_set_mouse_disp_ignore_menu_flag     $22c
-#cmd dx_get_mouse_wheel_rot_vol             $22d
-#cmd dx_get_mouse_h_wheel_rot_vol           $22e
-#cmd dx_get_touch_input_num                 $22f
-#cmd dx_get_touch_input_log_num             $230
-#cmd dx_clear_touch_input_log               $231
-#cmd dx_get_touch_input_down_log_num        $232
-#cmd dx_clear_touch_input_down_log          $233
-#cmd dx_get_touch_input_up_log_num          $234
-#cmd dx_clear_touch_input_up_log            $235
-#cmd dx_dx_set_alloc_print_flag             $236
-#cmd dx_dx_get_alloc_num                    $237
-#cmd dx_dx_error_check_alloc                $238
-#cmd dx_dx_set_alloc_size_out_flag          $239
-#cmd dx_dx_set_alloc_memory_error_check_flag $23a
-#cmd dx_get_use_char_code_format            $23b
-#cmd dx_get_wchar_t_char_code_format        $23c
-#cmd dx_strcmp_dx                           $23d
-#cmd dx_stricmp_dx                          $23e
-#cmd dx_strncmp_dx                          $23f
-#cmd dx_strncmp2_dx                         $240
-#cmd dx_strpncmp_dx                         $241
-#cmd dx_strpncmp2_dx                        $242
-#cmd dx_strstr2_dx                          $243
-#cmd dx_strrstr2_dx                         $244
-#cmd dx_atoi_dx                             $245
-#cmd dx_process_net_message                 $246
-#cmd dx_preparation_listen_net_work         $247
-#cmd dx_preparation_listen_net_work_i_pv6   $248
-#cmd dx_stop_listen_net_work                $249
-#cmd dx_close_net_work                      $24a
-#cmd dx_get_net_work_accept_state           $24b
-#cmd dx_get_net_work_data_length            $24c
-#cmd dx_get_net_work_send_data_length       $24d
-#cmd dx_get_new_accept_net_work             $24e
-#cmd dx_get_lost_net_work                   $24f
-#cmd dx_set_connect_time_out_wait           $250
-#cmd dx_set_use_dx_net_work_protocol        $251
-#cmd dx_get_use_dx_net_work_protocol        $252
-#cmd dx_set_use_dx_protocol                 $253
-#cmd dx_get_use_dx_protocol                 $254
-#cmd dx_set_net_work_close_after_lost_flag  $255
-#cmd dx_get_net_work_close_after_lost_flag  $256
-#cmd dx_net_work_recv_buffer_clear          $257
-#cmd dx_make_udp_socket                     $258
-#cmd dx_make_udp_socket_i_pv6               $259
-#cmd dx_delete_udp_socket                   $25a
-#cmd dx_check_net_work_recv_udp             $25b
-#cmd dx_clear_input_char_buf                $25c
-#cmd dx_get_one_char                        $25d
-#cmd dx_get_one_char_wait                   $25e
-#cmd dx_draw_ime_input_string               $25f
-#cmd dx_draw_ime_input_extend_string        $260
-#cmd dx_set_use_ime_flag                    $261
-#cmd dx_get_use_ime_flag                    $262
-#cmd dx_set_input_string_max_length_ime_sync $263
-#cmd dx_set_ime_input_string_max_length     $264
-#cmd dx_get_string_point                    $265
-#cmd dx_get_string_point2                   $266
-#cmd dx_get_string_length                   $267
-#cmd dx_draw_obtains_box                    $268
-#cmd dx_key_input_number                    $269
-#cmd dx_get_ime_input_mode_str              $26a
-#cmd dx_set_ime_input_string                $26b
-#cmd dx_set_key_input_string_font           $26c
-#cmd dx_draw_key_input_mode_string          $26d
-#cmd dx_init_key_input                      $26e
-#cmd dx_delete_key_input                    $26f
-#cmd dx_set_active_key_input                $270
-#cmd dx_get_active_key_input                $271
-#cmd dx_check_key_input                     $272
-#cmd dx_re_start_key_input                  $273
-#cmd dx_process_act_key_input               $274
-#cmd dx_draw_key_input_string               $275
-#cmd dx_draw_key_input_extend_string        $276
-#cmd dx_set_key_input_draw_area             $277
-#cmd dx_set_key_input_select_area           $278
-#cmd dx_set_key_input_draw_start_pos        $279
-#cmd dx_get_key_input_draw_start_pos        $27a
-#cmd dx_set_key_input_cursor_brink_time     $27b
-#cmd dx_set_key_input_cursor_brink_flag     $27c
-#cmd dx_set_key_input_string                $27d
-#cmd dx_set_key_input_number                $27e
-#cmd dx_set_key_input_number_to_float       $27f
-#cmd dx_get_key_input_string                $280
-#cmd dx_get_key_input_number                $281
-#cmd dx_set_key_input_cursor_position       $282
-#cmd dx_get_key_input_cursor_position       $283
-#cmd dx_file_read_open                      $284
-#cmd dx_file_read_close                     $285
-#cmd dx_file_read_seek                      $286
-#cmd dx_file_read_idle_chk                  $287
-#cmd dx_file_read_eof                       $288
-#cmd dx_file_read_gets                      $289
-#cmd dx_file_read_fully_load                $28a
-#cmd dx_file_read_fully_load_delete         $28b
-#cmd dx_get_stream_function_default         $28c
-#cmd dx_convert_full_path                   $28d
-#cmd dx_check_hit_key_all                   $28e
-#cmd dx_get_joypad_num                      $28f
-#cmd dx_get_joypad_button_num               $290
-#cmd dx_check_joypad_x_input                $291
-#cmd dx_get_joypad_type                     $292
-#cmd dx_set_joypad_input_to_key_input       $293
-#cmd dx_set_joypad_dead_zone                $294
-#cmd dx_set_joypad_default_dead_zone_all    $295
-#cmd dx_start_joypad_vibration              $296
-#cmd dx_stop_joypad_vibration               $297
-#cmd dx_get_joypad_pov_state                $298
-#cmd dx_re_setup_joypad                     $299
-#cmd dx_re_setup_input_system               $29a
-#cmd dx_set_use_joypad_vibration_flag       $29b
-#cmd dx_make_graph                          $29c
-#cmd dx_derivation_graph                    $29d
-#cmd dx_derivation_graph_f                  $29e
-#cmd dx_delete_sharing_graph                $29f
-#cmd dx_get_graph_num                       $2a0
-#cmd dx_fill_graph                          $2a1
-#cmd dx_fill_rect_graph                     $2a2
-#cmd dx_init_graph                          $2a3
-#cmd dx_reload_file_graph_all               $2a4
-#cmd dx_make_shadow_map                     $2a5
-#cmd dx_delete_shadow_map                   $2a6
-#cmd dx_set_shadow_map_light_direction      $2a7
-#cmd dx_shadow_map_draw_setup               $2a8
-#cmd dx_shadow_map_draw_end                 $2a9
-#cmd dx_set_use_shadow_map                  $2aa
-#cmd dx_set_shadow_map_draw_area            $2ab
-#cmd dx_reset_shadow_map_draw_area          $2ac
-#cmd dx_set_shadow_map_adjust_depth         $2ad
-#cmd dx_test_draw_shadow_map                $2ae
-#cmd dx_load_bmp_to_graph                   $2af
-#cmd dx_load_reverse_graph                  $2b0
-#cmd dx_load_blend_graph                    $2b1
-#cmd dx_create_blend_graph_from_soft_image  $2b2
-#cmd dx_create_graph_from_soft_image        $2b3
-#cmd dx_create_graph_from_rect_soft_image   $2b4
-#cmd dx_re_create_graph_from_soft_image     $2b5
-#cmd dx_re_create_graph_from_rect_soft_image $2b6
-#cmd dx_reload_graph                        $2b7
-#cmd dx_reload_reverse_graph                $2b8
-#cmd dx_set_graph_color_bit_depth           $2b9
-#cmd dx_get_graph_color_bit_depth           $2ba
-#cmd dx_set_create_graph_color_bit_depth    $2bb
-#cmd dx_get_create_graph_color_bit_depth    $2bc
-#cmd dx_set_create_graph_channel_bit_depth  $2bd
-#cmd dx_get_create_graph_channel_bit_depth  $2be
-#cmd dx_set_create_graph_init_graph_delete  $2bf
-#cmd dx_get_create_graph_init_graph_delete  $2c0
-#cmd dx_set_create_graph_handle             $2c1
-#cmd dx_get_create_graph_handle             $2c2
-#cmd dx_set_draw_valid_graph_create_flag    $2c3
-#cmd dx_get_draw_valid_graph_create_flag    $2c4
-#cmd dx_set_draw_valid_flag_of3_d_graph     $2c5
-#cmd dx_set_left_up_color_is_trans_color_flag $2c6
-#cmd dx_set_use_palette_graph_flag          $2c7
-#cmd dx_set_use_blend_graph_create_flag     $2c8
-#cmd dx_get_use_blend_graph_create_flag     $2c9
-#cmd dx_set_use_alpha_test_graph_create_flag $2ca
-#cmd dx_get_use_alpha_test_graph_create_flag $2cb
-#cmd dx_set_use_alpha_test_flag             $2cc
-#cmd dx_get_use_alpha_test_flag             $2cd
-#cmd dx_set_cube_map_texture_create_flag    $2ce
-#cmd dx_get_cube_map_texture_create_flag    $2cf
-#cmd dx_set_use_no_blend_mode_param         $2d0
-#cmd dx_set_draw_valid_alpha_channel_graph_create_flag $2d1
-#cmd dx_get_draw_valid_alpha_channel_graph_create_flag $2d2
-#cmd dx_set_draw_valid_float_type_graph_create_flag $2d3
-#cmd dx_get_draw_valid_float_type_graph_create_flag $2d4
-#cmd dx_set_draw_valid_graph_create_z_buffer_flag $2d5
-#cmd dx_get_draw_valid_graph_create_z_buffer_flag $2d6
-#cmd dx_set_create_draw_valid_graph_z_buffer_bit_depth $2d7
-#cmd dx_get_create_draw_valid_graph_z_buffer_bit_depth $2d8
-#cmd dx_set_create_draw_valid_graph_mip_levels $2d9
-#cmd dx_get_create_draw_valid_graph_mip_levels $2da
-#cmd dx_set_create_draw_valid_graph_channel_num $2db
-#cmd dx_get_create_draw_valid_graph_channel_num $2dc
-#cmd dx_set_create_draw_valid_graph_multi_sample $2dd
-#cmd dx_set_draw_valid_multi_sample         $2de
-#cmd dx_get_multi_sample_quality            $2df
-#cmd dx_set_use_trans_color                 $2e0
-#cmd dx_set_use_trans_color_graph_create_flag $2e1
-#cmd dx_set_use_graph_alpha_channel         $2e2
-#cmd dx_get_use_graph_alpha_channel         $2e3
-#cmd dx_set_use_alpha_channel_graph_create_flag $2e4
-#cmd dx_get_use_alpha_channel_graph_create_flag $2e5
-#cmd dx_set_use_not_manage_texture_flag     $2e6
-#cmd dx_get_use_not_manage_texture_flag     $2e7
-#cmd dx_set_use_platform_texture_format     $2e8
-#cmd dx_get_use_platform_texture_format     $2e9
-#cmd dx_set_trans_color                     $2ea
-#cmd dx_set_use_div_graph_flag              $2eb
-#cmd dx_set_use_alpha_image_load_flag       $2ec
-#cmd dx_set_use_max_texture_size            $2ed
-#cmd dx_set_use_graph_base_data_backup      $2ee
-#cmd dx_get_use_graph_base_data_backup      $2ef
-#cmd dx_set_use_system_mem_graph_create_flag $2f0
-#cmd dx_get_use_system_mem_graph_create_flag $2f1
-#cmd dx_set_use_load_div_graph_size_check_flag $2f2
-#cmd dx_get_use_load_div_graph_size_check_flag $2f3
-#cmd dx_graph_un_lock                       $2f4
-#cmd dx_set_use_graph_z_buffer              $2f5
-#cmd dx_copy_graph_z_buffer_image           $2f6
-#cmd dx_set_device_lost_delete_graph_flag   $2f7
-#cmd dx_get_graph_mipmap_count              $2f8
-#cmd dx_get_graph_file_path                 $2f9
-#cmd dx_check_draw_valid_graph              $2fa
-#cmd dx_get_valid_restore_shred_point       $2fb
-#cmd dx_set_graph_palette                   $2fc
-#cmd dx_reset_graph_palette                 $2fd
-#cmd dx_draw_fill_box                       $2fe
-#cmd dx_draw_line_box                       $2ff
-#cmd dx_draw_oval                           $300
-#cmd dx_draw_oval_aa                        $301
-#cmd dx_draw_oval_rect                      $302
-#cmd dx_draw_triangle_aa                    $303
-#cmd dx_draw_quadrangle                     $304
-#cmd dx_draw_quadrangle_aa                  $305
-#cmd dx_draw_round_rect                     $306
-#cmd dx_draw_round_rect_aa                  $307
-#cmd dx_begin_aa_draw                       $308
-#cmd dx_end_aa_draw                         $309
-#cmd dx_draw_pixel3_d                       $30a
-#cmd dx_draw_pixel3_dd                      $30b
-#cmd dx_draw_line3_d                        $30c
-#cmd dx_draw_line3_dd                       $30d
-#cmd dx_draw_triangle3_d                    $30e
-#cmd dx_draw_triangle3_dd                   $30f
-#cmd dx_draw_cube3_dd                       $310
-#cmd dx_draw_sphere3_dd                     $311
-#cmd dx_draw_capsule3_d                     $312
-#cmd dx_draw_capsule3_dd                    $313
-#cmd dx_draw_cylinder3_d                    $314
-#cmd dx_draw_cylinder3_dd                   $315
-#cmd dx_draw_tube3_d                        $316
-#cmd dx_draw_tube3_dd                       $317
-#cmd dx_draw_cone3_d                        $318
-#cmd dx_draw_cone3_dd                       $319
-#cmd dx_load_graph_screen                   $31a
-#cmd dx_draw_rota_graph2                    $31b
-#cmd dx_draw_rota_graph3                    $31c
-#cmd dx_draw_rota_graph_fast                $31d
-#cmd dx_draw_rota_graph_fast2               $31e
-#cmd dx_draw_rota_graph_fast3               $31f
-#cmd dx_draw_turn_graph                     $320
-#cmd dx_draw_reverse_graph                  $321
-#cmd dx_draw_graph_f                        $322
-#cmd dx_draw_extend_graph_f                 $323
-#cmd dx_draw_rota_graph_f                   $324
-#cmd dx_draw_rota_graph2_f                  $325
-#cmd dx_draw_rota_graph3_f                  $326
-#cmd dx_draw_rota_graph_fast_f              $327
-#cmd dx_draw_rota_graph_fast2_f             $328
-#cmd dx_draw_rota_graph_fast3_f             $329
-#cmd dx_draw_modi_graph_f                   $32a
-#cmd dx_draw_turn_graph_f                   $32b
-#cmd dx_draw_reverse_graph_f                $32c
-#cmd dx_draw_tile                           $32d
-#cmd dx_draw_rect_extend_graph              $32e
-#cmd dx_draw_rect_rota_graph2               $32f
-#cmd dx_draw_rect_rota_graph3               $330
-#cmd dx_draw_rect_rota_graph_fast           $331
-#cmd dx_draw_rect_rota_graph_fast2          $332
-#cmd dx_draw_rect_rota_graph_fast3          $333
-#cmd dx_draw_rect_modi_graph                $334
-#cmd dx_draw_rect_graph_f                   $335
-#cmd dx_draw_rect_graph_f2                  $336
-#cmd dx_draw_rect_extend_graph_f            $337
-#cmd dx_draw_rect_extend_graph_f2           $338
-#cmd dx_draw_rect_rota_graph_f              $339
-#cmd dx_draw_rect_rota_graph2_f             $33a
-#cmd dx_draw_rect_rota_graph3_f             $33b
-#cmd dx_draw_rect_rota_graph_fast_f         $33c
-#cmd dx_draw_rect_rota_graph_fast2_f        $33d
-#cmd dx_draw_rect_rota_graph_fast3_f        $33e
-#cmd dx_draw_rect_modi_graph_f              $33f
-#cmd dx_draw_blend_graph                    $340
-#cmd dx_draw_blend_graph_f                  $341
-#cmd dx_draw_blend_graph_pos                $342
-#cmd dx_draw_circle_gauge                   $343
-#cmd dx_draw_circle_gauge_f                 $344
-#cmd dx_draw_polygon3_d_use_vertex_buffer   $345
-#cmd dx_draw_polygon_indexed3_d_use_vertex_buffer $346
-#cmd dx_draw_graph3_d                       $347
-#cmd dx_draw_extend_graph3_d                $348
-#cmd dx_draw_rota_graph3_d                  $349
-#cmd dx_draw_rota2_graph3_d                 $34a
-#cmd dx_draw_modi_billboard3_d              $34b
-#cmd dx_draw_billboard3_d                   $34c
-#cmd dx_get_draw_mode                       $34d
-#cmd dx_set_draw_alpha_test                 $34e
-#cmd dx_set_blend_graph                     $34f
-#cmd dx_set_blend_graph_position            $350
-#cmd dx_set_draw_add_color                  $351
-#cmd dx_set_write_alpha_channel_flag        $352
-#cmd dx_get_write_alpha_channel_flag        $353
-#cmd dx_check_separate_alpha_blend_enable   $354
-#cmd dx_set_ignore_draw_graph_color         $355
-#cmd dx_get_ignore_draw_graph_color         $356
-#cmd dx_set_max_anisotropy                  $357
-#cmd dx_get_max_anisotropy                  $358
-#cmd dx_set_use_large3_d_position_support   $359
-#cmd dx_set_use_z_buffer_flag               $35a
-#cmd dx_set_write_z_buffer_flag             $35b
-#cmd dx_set_z_bias                          $35c
-#cmd dx_set_z_bias3_d                       $35d
-#cmd dx_set_draw_z                          $35e
-#cmd dx_set_use_reversed_z                  $35f
-#cmd dx_set_draw_area                       $360
-#cmd dx_set_draw_area_full                  $361
-#cmd dx_set_draw3_d_scale                   $362
-#cmd dx_run_restore_shred                   $363
-#cmd dx_reset_transform_to2_d               $364
-#cmd dx_set_def_transform_matrix            $365
-#cmd dx_set_use_culling_flag                $366
-#cmd dx_get_use_back_culling                $367
-#cmd dx_set_use_right_hand_clipping_process $368
-#cmd dx_get_use_right_hand_clipping_process $369
-#cmd dx_set_texture_address_mode_uv         $36a
-#cmd dx_set_texture_address_transform       $36b
-#cmd dx_set_texture_address_transform_matrix $36c
-#cmd dx_reset_texture_address_transform     $36d
-#cmd dx_set_fog_enable                      $36e
-#cmd dx_get_fog_enable                      $36f
-#cmd dx_get_fog_mode                        $370
-#cmd dx_set_fog_color                       $371
-#cmd dx_set_fog_start_end                   $372
-#cmd dx_set_fog_density                     $373
-#cmd dx_set_vertical_fog_enable             $374
-#cmd dx_get_vertical_fog_enable             $375
-#cmd dx_get_vertical_fog_mode               $376
-#cmd dx_set_vertical_fog_color              $377
-#cmd dx_set_vertical_fog_start_end          $378
-#cmd dx_set_vertical_fog_density            $379
-#cmd dx_get_draw_screen_graph               $37a
-#cmd dx_blt_draw_valid_graph                $37b
-#cmd dx_screen_copy                         $37c
-#cmd dx_wait_v_sync                         $37d
-#cmd dx_cls_draw_screen                     $37e
-#cmd dx_get_draw_screen                     $37f
-#cmd dx_get_active_graph                    $380
-#cmd dx_set_use_set_draw_screen_setting_reset $381
-#cmd dx_get_use_set_draw_screen_setting_reset $382
-#cmd dx_set_draw_z_buffer                   $383
-#cmd dx_get_use_full_screen_resolution_mode $384
-#cmd dx_set_emulation320x240                $385
-#cmd dx_set_z_buffer_size                   $386
-#cmd dx_set_z_buffer_bit_depth              $387
-#cmd dx_get_wait_v_sync_flag                $388
-#cmd dx_set_full_scene_anti_aliasing_mode   $389
-#cmd dx_set_graph_display_area              $38a
-#cmd dx_set_change_screen_mode_graphics_system_reset_flag $38b
-#cmd dx_get_screen_bit_depth                $38c
-#cmd dx_get_color_bit_depth                 $38d
-#cmd dx_get_change_display_flag             $38e
-#cmd dx_get_refresh_rate                    $38f
-#cmd dx_get_display_num                     $390
-#cmd dx_get_display_mode_num                $391
-#cmd dx_get_multi_draw_screen_num           $392
-#cmd dx_get_draw_float_coord_type           $393
-#cmd dx_set_use_normal_draw_shader          $394
-#cmd dx_set_use_software_render_mode_flag   $395
-#cmd dx_set_not_use3_d_flag                 $396
-#cmd dx_set_use3_d_flag                     $397
-#cmd dx_get_use3_d_flag                     $398
-#cmd dx_set_screen_mem_to_vram_flag         $399
-#cmd dx_get_screen_mem_to_system_mem_flag   $39a
-#cmd dx_restore_graph_system                $39b
-#cmd dx_set_use_hardware_vertex_processing  $39c
-#cmd dx_set_use_pixel_lighting              $39d
-#cmd dx_set_use_old_draw_modi_graph_code_flag $39e
-#cmd dx_set_use_vram_flag                   $39f
-#cmd dx_get_use_vram_flag                   $3a0
-#cmd dx_set_basic_blend_flag                $3a1
-#cmd dx_set_use_basic_graph_draw3_d_device_method_flag $3a2
-#cmd dx_set_use_display_index               $3a3
-#cmd dx_render_vertex                       $3a4
-#cmd dx_get_draw_call_count                 $3a5
-#cmd dx_save_draw_screen_to_bmp             $3a6
-#cmd dx_save_draw_screen_to_dds             $3a7
-#cmd dx_save_draw_screen_to_jpeg            $3a8
-#cmd dx_save_draw_screen_to_png             $3a9
-#cmd dx_save_draw_valid_graph               $3aa
-#cmd dx_save_draw_valid_graph_to_bmp        $3ab
-#cmd dx_save_draw_valid_graph_to_dds        $3ac
-#cmd dx_save_draw_valid_graph_to_jpeg       $3ad
-#cmd dx_save_draw_valid_graph_to_png        $3ae
-#cmd dx_delete_vertex_buffer                $3af
-#cmd dx_init_vertex_buffer                  $3b0
-#cmd dx_update_vertex_buffer                $3b1
-#cmd dx_delete_index_buffer                 $3b2
-#cmd dx_init_index_buffer                   $3b3
-#cmd dx_update_index_buffer                 $3b4
-#cmd dx_get_max_primitive_count             $3b5
-#cmd dx_get_max_vertex_index                $3b6
-#cmd dx_get_valid_shader_version            $3b7
-#cmd dx_load_vertex_shader                  $3b8
-#cmd dx_load_geometry_shader                $3b9
-#cmd dx_load_pixel_shader                   $3ba
-#cmd dx_delete_shader                       $3bb
-#cmd dx_init_shader                         $3bc
-#cmd dx_get_const_index_to_shader           $3bd
-#cmd dx_get_const_count_to_shader           $3be
-#cmd dx_set_vs_const_sf                     $3bf
-#cmd dx_set_vs_const_f                      $3c0
-#cmd dx_set_vs_const_f_mtx                  $3c1
-#cmd dx_set_vs_const_f_mtx_t                $3c2
-#cmd dx_set_vs_const_si                     $3c3
-#cmd dx_reset_vs_const_f                    $3c4
-#cmd dx_reset_vs_const_i                    $3c5
-#cmd dx_reset_vs_const_b                    $3c6
-#cmd dx_set_ps_const_sf                     $3c7
-#cmd dx_set_ps_const_f                      $3c8
-#cmd dx_set_ps_const_f_mtx                  $3c9
-#cmd dx_set_ps_const_f_mtx_t                $3ca
-#cmd dx_set_ps_const_si                     $3cb
-#cmd dx_reset_ps_const_f                    $3cc
-#cmd dx_reset_ps_const_i                    $3cd
-#cmd dx_reset_ps_const_b                    $3ce
-#cmd dx_set_render_target_to_shader         $3cf
-#cmd dx_set_use_texture_to_shader           $3d0
-#cmd dx_set_use_vertex_shader               $3d1
-#cmd dx_set_use_geometry_shader             $3d2
-#cmd dx_set_use_pixel_shader                $3d3
-#cmd dx_draw_billboard3_d_to_shader         $3d4
-#cmd dx_draw_polygon3_d_to_shader_use_vertex_buffer $3d5
-#cmd dx_draw_polygon_indexed3_d_to_shader_use_vertex_buffer $3d6
-#cmd dx_init_shader_constant_buffer         $3d7
-#cmd dx_create_shader_constant_buffer       $3d8
-#cmd dx_delete_shader_constant_buffer       $3d9
-#cmd dx_update_shader_constant_buffer       $3da
-#cmd dx_set_graph_blend_scaling_filter_mode $3db
-#cmd dx_play_movie                          $3dc
-#cmd dx_open_movie_to_graph                 $3dd
-#cmd dx_add_movie_frame_to_graph            $3de
-#cmd dx_seek_movie_to_graph                 $3df
-#cmd dx_set_play_speed_rate_movie_to_graph  $3e0
-#cmd dx_get_movie_state_to_graph            $3e1
-#cmd dx_set_movie_volume_to_graph           $3e2
-#cmd dx_get_movie_volume_to_graph           $3e3
-#cmd dx_change_movie_volume_to_graph        $3e4
-#cmd dx_get_movie_volume_to_graph2          $3e5
-#cmd dx_get_movie_total_frame_to_graph      $3e6
-#cmd dx_tell_movie_to_graph                 $3e7
-#cmd dx_tell_movie_to_graph_to_frame        $3e8
-#cmd dx_seek_movie_to_graph_to_frame        $3e9
-#cmd dx_get_last_update_time_movie_to_graph $3ea
-#cmd dx_update_movie_to_graph               $3eb
-#cmd dx_set_movie_right_image_alpha_flag    $3ec
-#cmd dx_set_movie_color_a8_r8_g8_b8_flag    $3ed
-#cmd dx_set_movie_use_yuv_format_surface_flag $3ee
-#cmd dx_set_camera_near_far                 $3ef
-#cmd dx_set_camera_near_far_d               $3f0
-#cmd dx_set_camera_position_and_target_up_vec_yd $3f1
-#cmd dx_set_camera_position_and_target_and_up_vec $3f2
-#cmd dx_set_camera_position_and_target_and_up_vec_d $3f3
-#cmd dx_set_camera_position_and_angle       $3f4
-#cmd dx_set_camera_position_and_angle_d     $3f5
-#cmd dx_set_camera_view_matrix              $3f6
-#cmd dx_set_camera_view_matrix_d            $3f7
-#cmd dx_set_camera_screen_center            $3f8
-#cmd dx_set_camera_screen_center_d          $3f9
-#cmd dx_setup_camera_perspective_d          $3fa
-#cmd dx_setup_camera_ortho                  $3fb
-#cmd dx_setup_camera_ortho_d                $3fc
-#cmd dx_setup_camera_projection_matrix      $3fd
-#cmd dx_setup_camera_projection_matrix_d    $3fe
-#cmd dx_set_camera_dot_aspect               $3ff
-#cmd dx_set_camera_dot_aspect_d             $400
-#cmd dx_check_camera_view_clip              $401
-#cmd dx_check_camera_view_clip_d            $402
-#cmd dx_check_camera_view_clip_dir          $403
-#cmd dx_check_camera_view_clip_dir_d        $404
-#cmd dx_check_camera_view_clip_box          $405
-#cmd dx_check_camera_view_clip_box_d        $406
-#cmd dx_set_material_use_vert_dif_color     $407
-#cmd dx_set_material_use_vert_spc_color     $408
-#cmd dx_set_use_specular                    $409
-#cmd dx_set_global_ambient_light            $40a
-#cmd dx_set_use_light_angle_attenuation     $40b
-#cmd dx_set_use_half_lambert_lighting       $40c
-#cmd dx_change_light_type_dir               $40d
-#cmd dx_change_light_type_spot              $40e
-#cmd dx_change_light_type_point             $40f
-#cmd dx_get_light_type                      $410
-#cmd dx_set_light_enable                    $411
-#cmd dx_get_light_enable                    $412
-#cmd dx_set_light_dif_color                 $413
-#cmd dx_set_light_spc_color                 $414
-#cmd dx_set_light_amb_color                 $415
-#cmd dx_set_light_position                  $416
-#cmd dx_set_light_range_atten               $417
-#cmd dx_set_light_angle                     $418
-#cmd dx_set_light_use_shadow_map            $419
-#cmd dx_create_dir_light_handle             $41a
-#cmd dx_create_spot_light_handle            $41b
-#cmd dx_create_point_light_handle           $41c
-#cmd dx_delete_light_handle                 $41d
-#cmd dx_delete_light_handle_all             $41e
-#cmd dx_set_light_type_handle               $41f
-#cmd dx_set_light_enable_handle             $420
-#cmd dx_set_light_dif_color_handle          $421
-#cmd dx_set_light_spc_color_handle          $422
-#cmd dx_set_light_amb_color_handle          $423
-#cmd dx_set_light_direction_handle          $424
-#cmd dx_set_light_position_handle           $425
-#cmd dx_set_light_range_atten_handle        $426
-#cmd dx_set_light_angle_handle              $427
-#cmd dx_set_light_use_shadow_map_handle     $428
-#cmd dx_get_light_type_handle               $429
-#cmd dx_get_light_enable_handle             $42a
-#cmd dx_get_enable_light_handle_num         $42b
-#cmd dx_get_enable_light_handle             $42c
-#cmd dx_create_mask_screen                  $42d
-#cmd dx_delete_mask_screen                  $42e
-#cmd dx_set_use_mask_screen_flag            $42f
-#cmd dx_get_use_mask_screen_flag            $430
-#cmd dx_fill_mask_screen                    $431
-#cmd dx_set_mask_screen_graph               $432
-#cmd dx_init_mask                           $433
-#cmd dx_make_mask                           $434
-#cmd dx_delete_mask                         $435
-#cmd dx_load_mask                           $436
-#cmd dx_draw_mask                           $437
-#cmd dx_draw_string_mask                    $438
-#cmd dx_draw_string_mask_to_handle          $439
-#cmd dx_draw_fill_mask                      $43a
-#cmd dx_set_mask_reverse_effect_flag        $43b
-#cmd dx_get_mask_screen_data                $43c
-#cmd dx_get_mask_use_flag                   $43d
-#cmd dx_enum_font_name                      $43e
-#cmd dx_init_font_to_handle                 $43f
-#cmd dx_load_font_data_to_handle            $440
-#cmd dx_set_font_space_to_handle            $441
-#cmd dx_set_font_line_space_to_handle       $442
-#cmd dx_delete_font_to_handle               $443
-#cmd dx_add_font_image_to_handle            $444
-#cmd dx_sub_font_image_to_handle            $445
-#cmd dx_add_substitution_font_to_handle     $446
-#cmd dx_sub_substitution_font_to_handle     $447
-#cmd dx_change_font_from_handle             $448
-#cmd dx_change_font_type                    $449
-#cmd dx_get_font_size                       $44a
-#cmd dx_get_font_edge_size                  $44b
-#cmd dx_set_font_space                      $44c
-#cmd dx_get_font_space                      $44d
-#cmd dx_set_font_line_space                 $44e
-#cmd dx_get_font_line_space                 $44f
-#cmd dx_set_default_font_state              $450
-#cmd dx_get_default_font_handle             $451
-#cmd dx_get_font_max_cache_char_num         $452
-#cmd dx_get_font_max_width                  $453
-#cmd dx_get_font_ascent                     $454
-#cmd dx_get_draw_string_width               $455
-#cmd dx_get_draw_extend_string_width        $456
-#cmd dx_get_font_max_cache_char_num_to_handle $457
-#cmd dx_get_font_max_width_to_handle        $458
-#cmd dx_get_font_ascent_to_handle           $459
-#cmd dx_get_font_size_to_handle             $45a
-#cmd dx_get_font_edge_size_to_handle        $45b
-#cmd dx_get_font_space_to_handle            $45c
-#cmd dx_get_font_line_space_to_handle       $45d
-#cmd dx_get_draw_string_width_to_handle     $45e
-#cmd dx_get_draw_extend_string_width_to_handle $45f
-#cmd dx_check_font_cache_to_texture_flag    $460
-#cmd dx_check_font_chache_to_texture_flag   $461
-#cmd dx_check_font_handle_valid             $462
-#cmd dx_clear_font_cache_to_handle          $463
-#cmd dx_set_font_cache_to_texture_flag      $464
-#cmd dx_get_font_cache_to_texture_flag      $465
-#cmd dx_set_font_chache_to_texture_flag     $466
-#cmd dx_get_font_chache_to_texture_flag     $467
-#cmd dx_set_font_cache_texture_color_bit_depth $468
-#cmd dx_get_font_cache_texture_color_bit_depth $469
-#cmd dx_set_font_cache_char_num             $46a
-#cmd dx_get_font_cache_char_num             $46b
-#cmd dx_set_font_cache_use_premul_alpha_flag $46c
-#cmd dx_get_font_cache_use_premul_alpha_flag $46d
-#cmd dx_set_font_use_adjust_size_flag       $46e
-#cmd dx_get_font_use_adjust_size_flag       $46f
-#cmd dx_set_font_only_draw_type             $470
-#cmd dx_get_font_only_draw_type             $471
-#cmd dx_set_font_ignore_lf_flag             $472
-#cmd dx_get_font_ignore_lf_flag             $473
-#cmd dx_draw_v_string                       $474
-#cmd dx_draw_extend_string                  $475
-#cmd dx_draw_extend_v_string                $476
-#cmd dx_draw_rota_string                    $477
-#cmd dx_draw_modi_string                    $478
-#cmd dx_draw_string_f                       $479
-#cmd dx_draw_v_string_f                     $47a
-#cmd dx_draw_extend_string_f                $47b
-#cmd dx_draw_extend_v_string_f              $47c
-#cmd dx_draw_rota_string_f                  $47d
-#cmd dx_draw_modi_string_f                  $47e
-#cmd dx_draw_number_to_i                    $47f
-#cmd dx_draw_number_to_f                    $480
-#cmd dx_draw_number_plus_to_i               $481
-#cmd dx_draw_number_plus_to_f               $482
-#cmd dx_draw_string_to_handle               $483
-#cmd dx_draw_v_string_to_handle             $484
-#cmd dx_draw_extend_string_to_handle        $485
-#cmd dx_draw_extend_v_string_to_handle      $486
-#cmd dx_draw_rota_string_to_handle          $487
-#cmd dx_draw_modi_string_to_handle          $488
-#cmd dx_draw_string_f_to_handle             $489
-#cmd dx_draw_v_string_f_to_handle           $48a
-#cmd dx_draw_extend_string_f_to_handle      $48b
-#cmd dx_draw_extend_v_string_f_to_handle    $48c
-#cmd dx_draw_rota_string_f_to_handle        $48d
-#cmd dx_draw_modi_string_f_to_handle        $48e
-#cmd dx_draw_number_to_i_to_handle          $48f
-#cmd dx_draw_number_to_f_to_handle          $490
-#cmd dx_draw_number_plus_to_i_to_handle     $491
-#cmd dx_draw_number_plus_to_f_to_handle     $492
-#cmd dx_hit_check_triangle_triangle         $493
-#cmd dx_hit_check_triangle_triangle_d       $494
-#cmd dx_hit_check_triangle_triangle_2_d     $495
-#cmd dx_hit_check_triangle_triangle_d_2_d   $496
-#cmd dx_hit_check_point_cone                $497
-#cmd dx_hit_check_point_cone_d              $498
-#cmd dx_hit_check_line_sphere               $499
-#cmd dx_hit_check_line_sphere_d             $49a
-#cmd dx_hit_check_sphere_sphere             $49b
-#cmd dx_hit_check_sphere_sphere_d           $49c
-#cmd dx_hit_check_sphere_capsule            $49d
-#cmd dx_hit_check_sphere_capsule_d          $49e
-#cmd dx_hit_check_sphere_triangle           $49f
-#cmd dx_hit_check_sphere_triangle_d         $4a0
-#cmd dx_hit_check_capsule_capsule           $4a1
-#cmd dx_hit_check_capsule_capsule_d         $4a2
-#cmd dx_hit_check_capsule_triangle          $4a3
-#cmd dx_hit_check_capsule_triangle_d        $4a4
-#cmd dx_set_use_fast_load_flag              $4a5
-#cmd dx_get_graph_data_shaved_mode          $4a6
-#cmd dx_set_use_premul_alpha_convert_load   $4a7
-#cmd dx_get_use_premul_alpha_convert_load   $4a8
-#cmd dx_set_use_convert_normal_format_load  $4a9
-#cmd dx_get_use_convert_normal_format_load  $4aa
-#cmd dx_init_soft_image                     $4ab
-#cmd dx_load_soft_image                     $4ac
-#cmd dx_load_argb8_color_soft_image         $4ad
-#cmd dx_load_xrgb8_color_soft_image         $4ae
-#cmd dx_make_soft_image                     $4af
-#cmd dx_make_argbf32_color_soft_image       $4b0
-#cmd dx_make_argbf16_color_soft_image       $4b1
-#cmd dx_make_xrgb8_color_soft_image         $4b2
-#cmd dx_make_argb8_color_soft_image         $4b3
-#cmd dx_make_rgba8_color_soft_image         $4b4
-#cmd dx_make_abgr8_color_soft_image         $4b5
-#cmd dx_make_bgra8_color_soft_image         $4b6
-#cmd dx_make_argb4_color_soft_image         $4b7
-#cmd dx_make_a1_r5_g5_b5_color_soft_image   $4b8
-#cmd dx_make_x1_r5_g5_b5_color_soft_image   $4b9
-#cmd dx_make_r5_g5_b5_a1_color_soft_image   $4ba
-#cmd dx_make_r5_g6_b5_color_soft_image      $4bb
-#cmd dx_make_rgb8_color_soft_image          $4bc
-#cmd dx_make_pal8_color_soft_image          $4bd
-#cmd dx_delete_soft_image                   $4be
-#cmd dx_check_palette_soft_image            $4bf
-#cmd dx_check_alpha_soft_image              $4c0
-#cmd dx_check_pixel_alpha_soft_image        $4c1
-#cmd dx_get_draw_screen_soft_image          $4c2
-#cmd dx_get_draw_screen_soft_image_dest_pos $4c3
-#cmd dx_fill_soft_image                     $4c4
-#cmd dx_clear_rect_soft_image               $4c5
-#cmd dx_set_palette_soft_image              $4c6
-#cmd dx_draw_pixel_pal_code_soft_image      $4c7
-#cmd dx_get_pixel_pal_code_soft_image       $4c8
-#cmd dx_get_pitch_soft_image                $4c9
-#cmd dx_draw_pixel_soft_image               $4ca
-#cmd dx_draw_pixel_soft_image_f             $4cb
-#cmd dx_draw_line_soft_image                $4cc
-#cmd dx_draw_circle_soft_image              $4cd
-#cmd dx_blt_soft_image                      $4ce
-#cmd dx_blt_soft_image_with_trans_color     $4cf
-#cmd dx_blt_soft_image_with_alpha_blend     $4d0
-#cmd dx_reverse_soft_image_h                $4d1
-#cmd dx_reverse_soft_image_v                $4d2
-#cmd dx_reverse_soft_image                  $4d3
-#cmd dx_convert_premul_alpha_soft_image     $4d4
-#cmd dx_convert_interp_alpha_soft_image     $4d5
-#cmd dx_blt_string_soft_image               $4d6
-#cmd dx_draw_soft_image                     $4d7
-#cmd dx_save_soft_image_to_bmp              $4d8
-#cmd dx_save_soft_image_to_dds              $4d9
-#cmd dx_save_soft_image_to_png              $4da
-#cmd dx_save_soft_image_to_jpeg             $4db
-#cmd dx_init_sound_mem                      $4dc
-#cmd dx_add_sound_data                      $4dd
-#cmd dx_add_stream_sound_mem_to_file        $4de
-#cmd dx_setup_stream_sound_mem              $4df
-#cmd dx_play_stream_sound_mem               $4e0
-#cmd dx_check_stream_sound_mem              $4e1
-#cmd dx_stop_stream_sound_mem               $4e2
-#cmd dx_set_stream_sound_current_position   $4e3
-#cmd dx_set_stream_sound_current_time       $4e4
-#cmd dx_process_stream_sound_mem            $4e5
-#cmd dx_process_stream_sound_mem_all        $4e6
-#cmd dx_load_sound_mem2                     $4e7
-#cmd dx_load_bgm                            $4e8
-#cmd dx_load_sound_mem_base                 $4e9
-#cmd dx_load_sound_mem_to_buf_num_sitei     $4ea
-#cmd dx_duplicate_sound_mem                 $4eb
-#cmd dx_load_sound_mem_from_soft_sound      $4ec
-#cmd dx_change_pan_sound_mem                $4ed
-#cmd dx_get_pan_sound_mem                   $4ee
-#cmd dx_change_volume_sound_mem             $4ef
-#cmd dx_get_volume_sound_mem                $4f0
-#cmd dx_get_volume_sound_mem2               $4f1
-#cmd dx_set_channel_volume_sound_mem        $4f2
-#cmd dx_change_channel_volume_sound_mem     $4f3
-#cmd dx_get_channel_volume_sound_mem        $4f4
-#cmd dx_get_channel_volume_sound_mem2       $4f5
-#cmd dx_set_frequency_sound_mem             $4f6
-#cmd dx_get_frequency_sound_mem             $4f7
-#cmd dx_reset_frequency_sound_mem           $4f8
-#cmd dx_set_next_play_pan_sound_mem         $4f9
-#cmd dx_change_next_play_pan_sound_mem      $4fa
-#cmd dx_set_next_play_volume_sound_mem      $4fb
-#cmd dx_change_next_play_volume_sound_mem   $4fc
-#cmd dx_set_next_play_channel_volume_sound_mem $4fd
-#cmd dx_change_next_play_channel_volume_sound_mem $4fe
-#cmd dx_set_next_play_frequency_sound_mem   $4ff
-#cmd dx_set_current_position_sound_mem      $500
-#cmd dx_set_sound_current_position          $501
-#cmd dx_set_sound_current_time              $502
-#cmd dx_set_loop_pos_sound_mem              $503
-#cmd dx_set_loop_time_pos_sound_mem         $504
-#cmd dx_set_loop_sample_pos_sound_mem       $505
-#cmd dx_set_loop_start_time_pos_sound_mem   $506
-#cmd dx_set_loop_start_sample_pos_sound_mem $507
-#cmd dx_set_loop_area_time_pos_sound_mem    $508
-#cmd dx_set_loop_area_sample_pos_sound_mem  $509
-#cmd dx_set_play_finish_delete_sound_mem    $50a
-#cmd dx_set3_d_position_sound_mem           $50b
-#cmd dx_set3_d_radius_sound_mem             $50c
-#cmd dx_set3_d_velocity_sound_mem           $50d
-#cmd dx_set_next_play3_d_position_sound_mem $50e
-#cmd dx_set_next_play3_d_radius_sound_mem   $50f
-#cmd dx_set_next_play3_d_velocity_sound_mem $510
-#cmd dx_get_ogg_comment_num                 $511
-#cmd dx_set_create_sound_data_type          $512
-#cmd dx_get_create_sound_data_type          $513
-#cmd dx_set_create_sound_pitch_rate         $514
-#cmd dx_set_create_sound_time_stretch_rate  $515
-#cmd dx_set_create_sound_loop_area_time_pos $516
-#cmd dx_set_create_sound_loop_area_sample_pos $517
-#cmd dx_set_create_sound_ignore_loop_area_info $518
-#cmd dx_get_create_sound_ignore_loop_area_info $519
-#cmd dx_set_disable_read_sound_function_mask $51a
-#cmd dx_get_disable_read_sound_function_mask $51b
-#cmd dx_set_enable_sound_capture_flag       $51c
-#cmd dx_set_use_old_volume_calc_flag        $51d
-#cmd dx_get_sound_current_time_type         $51e
-#cmd dx_set_create3_d_sound_flag            $51f
-#cmd dx_set3_d_sound_one_metre              $520
-#cmd dx_set3_d_sound_listener_pos_and_front_pos_up_vec_y $521
-#cmd dx_set3_d_sound_listener_pos_and_front_pos_and_up_vec $522
-#cmd dx_set3_d_sound_listener_velocity      $523
-#cmd dx_set3_d_sound_listener_cone_angle    $524
-#cmd dx_set3_d_sound_listener_cone_volume   $525
-#cmd dx_set_beep_frequency                  $526
-#cmd dx_play_beep                           $527
-#cmd dx_stop_beep                           $528
-#cmd dx_play_sound_file                     $529
-#cmd dx_play_sound                          $52a
-#cmd dx_play_sound_dx                       $52b
-#cmd dx_check_sound_file                    $52c
-#cmd dx_check_sound                         $52d
-#cmd dx_stop_sound_file                     $52e
-#cmd dx_stop_sound                          $52f
-#cmd dx_set_volume_sound_file               $530
-#cmd dx_set_volume_sound                    $531
-#cmd dx_init_soft_sound                     $532
-#cmd dx_load_soft_sound                     $533
-#cmd dx_make_soft_sound                     $534
-#cmd dx_make_soft_sound2_ch16_bit44_k_hz    $535
-#cmd dx_make_soft_sound2_ch16_bit22_k_hz    $536
-#cmd dx_make_soft_sound2_ch8_bit44_k_hz     $537
-#cmd dx_make_soft_sound2_ch8_bit22_k_hz     $538
-#cmd dx_make_soft_sound1_ch16_bit44_k_hz    $539
-#cmd dx_make_soft_sound1_ch16_bit22_k_hz    $53a
-#cmd dx_make_soft_sound1_ch8_bit44_k_hz     $53b
-#cmd dx_make_soft_sound1_ch8_bit22_k_hz     $53c
-#cmd dx_make_soft_sound_custom              $53d
-#cmd dx_delete_soft_sound                   $53e
-#cmd dx_save_soft_sound                     $53f
-#cmd dx_write_soft_sound_data               $540
-#cmd dx_write_soft_sound_data_f             $541
-#cmd dx_write_time_stretch_soft_sound_data  $542
-#cmd dx_write_pitch_shift_soft_sound_data   $543
-#cmd dx_init_soft_sound_player              $544
-#cmd dx_make_soft_sound_player              $545
-#cmd dx_make_soft_sound_player2_ch16_bit44_k_hz $546
-#cmd dx_make_soft_sound_player2_ch16_bit22_k_hz $547
-#cmd dx_make_soft_sound_player2_ch8_bit44_k_hz $548
-#cmd dx_make_soft_sound_player2_ch8_bit22_k_hz $549
-#cmd dx_make_soft_sound_player1_ch16_bit44_k_hz $54a
-#cmd dx_make_soft_sound_player1_ch16_bit22_k_hz $54b
-#cmd dx_make_soft_sound_player1_ch8_bit44_k_hz $54c
-#cmd dx_make_soft_sound_player1_ch8_bit22_k_hz $54d
-#cmd dx_make_soft_sound_player_custom       $54e
-#cmd dx_delete_soft_sound_player            $54f
-#cmd dx_add_data_soft_sound_player          $550
-#cmd dx_add_one_data_soft_sound_player      $551
-#cmd dx_start_soft_sound_player             $552
-#cmd dx_check_start_soft_sound_player       $553
-#cmd dx_stop_soft_sound_player              $554
-#cmd dx_reset_soft_sound_player             $555
-#cmd dx_check_soft_sound_player_none_data   $556
-#cmd dx_delete_music_mem                    $557
-#cmd dx_load_music_mem                      $558
-#cmd dx_play_music_mem                      $559
-#cmd dx_stop_music_mem                      $55a
-#cmd dx_check_music_mem                     $55b
-#cmd dx_set_volume_music_mem                $55c
-#cmd dx_get_music_mem_position              $55d
-#cmd dx_init_music_mem                      $55e
-#cmd dx_process_music_mem                   $55f
-#cmd dx_play_music                          $560
-#cmd dx_set_volume_music                    $561
-#cmd dx_stop_music                          $562
-#cmd dx_check_music                         $563
-#cmd dx_get_music_position                  $564
-#cmd dx_select_midi_mode                    $565
-#cmd dx_set_use_dx_archive_flag             $566
-#cmd dx_set_dx_archive_priority             $567
-#cmd dx_set_dx_archive_extension            $568
-#cmd dx_set_dx_archive_key_string           $569
-#cmd dx_dx_archive_pre_load                 $56a
-#cmd dx_dx_archive_check_idle               $56b
-#cmd dx_dx_archive_release                  $56c
-#cmd dx_dx_archive_check_file               $56d
-#cmd dx_mv1_duplicate_model                 $56e
-#cmd dx_mv1_create_clone_model              $56f
-#cmd dx_mv1_init_model                      $570
-#cmd dx_mv1_set_load_model_re_make_normal   $571
-#cmd dx_mv1_set_load_model_re_make_normal_smoothing_angle $572
-#cmd dx_mv1_set_load_model_ignore_scaling   $573
-#cmd dx_mv1_set_load_model_position_optimize $574
-#cmd dx_mv1_set_load_model_not_eq_normal_side_add_zero_area_polygon $575
-#cmd dx_mv1_set_load_model_physics_world_gravity $576
-#cmd dx_mv1_set_load_calc_physics_world_gravity $577
-#cmd dx_mv1_set_load_model_physics_calc_precision $578
-#cmd dx_mv1_add_load_model_disable_physics_name_word $579
-#cmd dx_mv1_reset_load_model_disable_physics_name_word $57a
-#cmd dx_mv1_set_load_model_anim_file_path   $57b
-#cmd dx_mv1_set_load_model_use_pack_draw    $57c
-#cmd dx_mv1_set_load_model_triangle_list_use_max_bone_num $57d
-#cmd dx_mv1_set_load_model_texture_load     $57e
-#cmd dx_mv1_set_load_model_ignore_ik        $57f
-#cmd dx_mv1_save_model_to_mv1_file          $580
-#cmd dx_mv1_save_model_to_x_file            $581
-#cmd dx_mv1_draw_frame                      $582
-#cmd dx_mv1_draw_mesh                       $583
-#cmd dx_mv1_draw_triangle_list              $584
-#cmd dx_mv1_draw_model_debug                $585
-#cmd dx_mv1_set_use_orig_shader             $586
-#cmd dx_mv1_set_position_d                  $587
-#cmd dx_mv1_set_rotation_zy_axis            $588
-#cmd dx_mv1_set_rotation_y_use_dir          $589
-#cmd dx_mv1_set_rotation_matrix             $58a
-#cmd dx_mv1_set_matrix                      $58b
-#cmd dx_mv1_set_matrix_d                    $58c
-#cmd dx_mv1_set_visible                     $58d
-#cmd dx_mv1_get_visible                     $58e
-#cmd dx_mv1_set_mesh_category_visible       $58f
-#cmd dx_mv1_get_mesh_category_visible       $590
-#cmd dx_mv1_set_dif_color_scale             $591
-#cmd dx_mv1_set_spc_color_scale             $592
-#cmd dx_mv1_set_emi_color_scale             $593
-#cmd dx_mv1_set_amb_color_scale             $594
-#cmd dx_mv1_get_semi_trans_state            $595
-#cmd dx_mv1_set_opacity_rate                $596
-#cmd dx_mv1_set_use_draw_mul_alpha_color    $597
-#cmd dx_mv1_get_use_draw_mul_alpha_color    $598
-#cmd dx_mv1_set_use_z_buffer                $599
-#cmd dx_mv1_set_write_z_buffer              $59a
-#cmd dx_mv1_set_z_bias                      $59b
-#cmd dx_mv1_set_use_vert_dif_color          $59c
-#cmd dx_mv1_set_use_vert_spc_color          $59d
-#cmd dx_mv1_set_sample_filter_mode          $59e
-#cmd dx_mv1_set_max_anisotropy              $59f
-#cmd dx_mv1_set_wire_frame_draw_flag        $5a0
-#cmd dx_mv1_refresh_vert_color_from_material $5a1
-#cmd dx_mv1_set_physics_world_gravity       $5a2
-#cmd dx_mv1_physics_calculation             $5a3
-#cmd dx_mv1_physics_reset_state             $5a4
-#cmd dx_mv1_set_prioritize_physics_over_anim_flag $5a5
-#cmd dx_mv1_set_use_shape_flag              $5a6
-#cmd dx_mv1_get_material_number_order_flag  $5a7
-#cmd dx_mv1_attach_anim                     $5a8
-#cmd dx_mv1_detach_anim                     $5a9
-#cmd dx_mv1_set_attach_anim_time            $5aa
-#cmd dx_mv1_set_attach_anim_blend_rate      $5ab
-#cmd dx_mv1_set_attach_anim_blend_rate_to_frame $5ac
-#cmd dx_mv1_set_attach_anim_time_to_frame   $5ad
-#cmd dx_mv1_get_attach_anim                 $5ae
-#cmd dx_mv1_set_attach_anim_use_shape_flag  $5af
-#cmd dx_mv1_get_attach_anim_use_shape_flag  $5b0
-#cmd dx_mv1_get_anim_num                    $5b1
-#cmd dx_mv1_set_anim_name                   $5b2
-#cmd dx_mv1_get_anim_index                  $5b3
-#cmd dx_mv1_get_anim_target_frame_num       $5b4
-#cmd dx_mv1_get_anim_target_frame           $5b5
-#cmd dx_mv1_get_anim_target_frame_key_set_num $5b6
-#cmd dx_mv1_get_anim_target_frame_key_set   $5b7
-#cmd dx_mv1_get_anim_key_set_num            $5b8
-#cmd dx_mv1_get_anim_key_set_type           $5b9
-#cmd dx_mv1_get_anim_key_set_data_type      $5ba
-#cmd dx_mv1_get_anim_key_set_time_type      $5bb
-#cmd dx_mv1_get_anim_key_set_data_num       $5bc
-#cmd dx_mv1_get_anim_key_data_index_from_time $5bd
-#cmd dx_mv1_get_material_num                $5be
-#cmd dx_mv1_set_material_type_all           $5bf
-#cmd dx_mv1_set_material_type               $5c0
-#cmd dx_mv1_get_material_type               $5c1
-#cmd dx_mv1_set_material_dif_color          $5c2
-#cmd dx_mv1_set_material_spc_color          $5c3
-#cmd dx_mv1_set_material_emi_color          $5c4
-#cmd dx_mv1_set_material_amb_color          $5c5
-#cmd dx_mv1_set_material_spc_power          $5c6
-#cmd dx_mv1_set_material_dif_map_texture    $5c7
-#cmd dx_mv1_get_material_dif_map_texture    $5c8
-#cmd dx_mv1_set_material_sub_dif_map_texture $5c9
-#cmd dx_mv1_get_material_sub_dif_map_texture $5ca
-#cmd dx_mv1_set_material_spc_map_texture    $5cb
-#cmd dx_mv1_get_material_spc_map_texture    $5cc
-#cmd dx_mv1_set_material_normal_map_texture $5cd
-#cmd dx_mv1_get_material_normal_map_texture $5ce
-#cmd dx_mv1_set_material_dif_grad_texture   $5cf
-#cmd dx_mv1_get_material_dif_grad_texture   $5d0
-#cmd dx_mv1_set_material_spc_grad_texture   $5d1
-#cmd dx_mv1_get_material_spc_grad_texture   $5d2
-#cmd dx_mv1_set_material_sphere_map_texture $5d3
-#cmd dx_mv1_get_material_sphere_map_texture $5d4
-#cmd dx_mv1_set_material_dif_grad_blend_type_all $5d5
-#cmd dx_mv1_set_material_dif_grad_blend_type $5d6
-#cmd dx_mv1_get_material_dif_grad_blend_type $5d7
-#cmd dx_mv1_set_material_spc_grad_blend_type_all $5d8
-#cmd dx_mv1_set_material_spc_grad_blend_type $5d9
-#cmd dx_mv1_get_material_spc_grad_blend_type $5da
-#cmd dx_mv1_set_material_sphere_map_blend_type_all $5db
-#cmd dx_mv1_set_material_sphere_map_blend_type $5dc
-#cmd dx_mv1_get_material_sphere_map_blend_type $5dd
-#cmd dx_mv1_set_material_out_line_width_all $5de
-#cmd dx_mv1_set_material_out_line_width     $5df
-#cmd dx_mv1_set_material_out_line_dot_width_all $5e0
-#cmd dx_mv1_set_material_out_line_dot_width $5e1
-#cmd dx_mv1_set_material_out_line_color_all $5e2
-#cmd dx_mv1_set_material_out_line_color     $5e3
-#cmd dx_mv1_set_material_draw_blend_mode_all $5e4
-#cmd dx_mv1_set_material_draw_blend_mode    $5e5
-#cmd dx_mv1_get_material_draw_blend_mode    $5e6
-#cmd dx_mv1_set_material_draw_blend_param_all $5e7
-#cmd dx_mv1_set_material_draw_blend_param   $5e8
-#cmd dx_mv1_get_material_draw_blend_param   $5e9
-#cmd dx_mv1_set_material_draw_alpha_test_all $5ea
-#cmd dx_mv1_set_material_draw_alpha_test    $5eb
-#cmd dx_mv1_get_material_draw_alpha_test_enable $5ec
-#cmd dx_mv1_get_material_draw_alpha_test_mode $5ed
-#cmd dx_mv1_get_material_draw_alpha_test_param $5ee
-#cmd dx_mv1_set_material_draw_add_color_all $5ef
-#cmd dx_mv1_set_material_draw_add_color     $5f0
-#cmd dx_mv1_get_texture_num                 $5f1
-#cmd dx_mv1_set_texture_color_file_path     $5f2
-#cmd dx_mv1_set_texture_alpha_file_path     $5f3
-#cmd dx_mv1_set_texture_graph_handle        $5f4
-#cmd dx_mv1_get_texture_graph_handle        $5f5
-#cmd dx_mv1_set_texture_address_mode        $5f6
-#cmd dx_mv1_get_texture_address_mode_u      $5f7
-#cmd dx_mv1_get_texture_address_mode_v      $5f8
-#cmd dx_mv1_get_texture_width               $5f9
-#cmd dx_mv1_get_texture_height              $5fa
-#cmd dx_mv1_get_texture_semi_trans_state    $5fb
-#cmd dx_mv1_set_texture_bump_image_flag     $5fc
-#cmd dx_mv1_get_texture_bump_image_flag     $5fd
-#cmd dx_mv1_set_texture_bump_image_next_pixel_length $5fe
-#cmd dx_mv1_set_texture_sample_filter_mode  $5ff
-#cmd dx_mv1_get_texture_sample_filter_mode  $600
-#cmd dx_mv1_add_texture_graph_handle        $601
-#cmd dx_mv1_load_texture                    $602
-#cmd dx_mv1_get_frame_num                   $603
-#cmd dx_mv1_search_frame                    $604
-#cmd dx_mv1_search_frame_child              $605
-#cmd dx_mv1_get_frame_name2                 $606
-#cmd dx_mv1_get_frame_parent                $607
-#cmd dx_mv1_get_frame_child_num             $608
-#cmd dx_mv1_get_frame_child                 $609
-#cmd dx_mv1_set_frame_user_local_matrix     $60a
-#cmd dx_mv1_set_frame_user_local_matrix_d   $60b
-#cmd dx_mv1_reset_frame_user_local_matrix   $60c
-#cmd dx_mv1_set_frame_user_local_world_matrix $60d
-#cmd dx_mv1_set_frame_user_local_world_matrix_d $60e
-#cmd dx_mv1_reset_frame_user_local_world_matrix $60f
-#cmd dx_mv1_get_frame_vertex_num            $610
-#cmd dx_mv1_get_frame_triangle_num          $611
-#cmd dx_mv1_get_frame_mesh_num              $612
-#cmd dx_mv1_get_frame_mesh                  $613
-#cmd dx_mv1_set_frame_visible               $614
-#cmd dx_mv1_get_frame_visible               $615
-#cmd dx_mv1_set_frame_dif_color_scale       $616
-#cmd dx_mv1_set_frame_spc_color_scale       $617
-#cmd dx_mv1_set_frame_emi_color_scale       $618
-#cmd dx_mv1_set_frame_amb_color_scale       $619
-#cmd dx_mv1_get_frame_semi_trans_state      $61a
-#cmd dx_mv1_set_frame_opacity_rate          $61b
-#cmd dx_mv1_set_frame_base_visible          $61c
-#cmd dx_mv1_get_frame_base_visible          $61d
-#cmd dx_mv1_set_frame_texture_address_transform $61e
-#cmd dx_mv1_set_frame_texture_address_transform_matrix $61f
-#cmd dx_mv1_reset_frame_texture_address_transform $620
-#cmd dx_mv1_get_mesh_num                    $621
-#cmd dx_mv1_get_mesh_material               $622
-#cmd dx_mv1_get_mesh_vertex_num             $623
-#cmd dx_mv1_get_mesh_triangle_num           $624
-#cmd dx_mv1_set_mesh_visible                $625
-#cmd dx_mv1_get_mesh_visible                $626
-#cmd dx_mv1_set_mesh_dif_color_scale        $627
-#cmd dx_mv1_set_mesh_spc_color_scale        $628
-#cmd dx_mv1_set_mesh_emi_color_scale        $629
-#cmd dx_mv1_set_mesh_amb_color_scale        $62a
-#cmd dx_mv1_set_mesh_opacity_rate           $62b
-#cmd dx_mv1_set_mesh_draw_blend_mode        $62c
-#cmd dx_mv1_set_mesh_draw_blend_param       $62d
-#cmd dx_mv1_get_mesh_draw_blend_mode        $62e
-#cmd dx_mv1_get_mesh_draw_blend_param       $62f
-#cmd dx_mv1_set_mesh_base_visible           $630
-#cmd dx_mv1_get_mesh_base_visible           $631
-#cmd dx_mv1_set_mesh_back_culling           $632
-#cmd dx_mv1_get_mesh_back_culling           $633
-#cmd dx_mv1_get_mesh_t_list_num             $634
-#cmd dx_mv1_get_mesh_t_list                 $635
-#cmd dx_mv1_get_mesh_semi_trans_state       $636
-#cmd dx_mv1_set_mesh_use_vert_dif_color     $637
-#cmd dx_mv1_set_mesh_use_vert_spc_color     $638
-#cmd dx_mv1_get_mesh_use_vert_dif_color     $639
-#cmd dx_mv1_get_mesh_use_vert_spc_color     $63a
-#cmd dx_mv1_get_mesh_shape_flag             $63b
-#cmd dx_mv1_get_shape_num                   $63c
-#cmd dx_mv1_search_shape                    $63d
-#cmd dx_mv1_get_shape_target_mesh_num       $63e
-#cmd dx_mv1_get_shape_target_mesh           $63f
-#cmd dx_mv1_set_shape_rate                  $640
-#cmd dx_mv1_get_triangle_list_num           $641
-#cmd dx_mv1_get_triangle_list_vertex_type   $642
-#cmd dx_mv1_get_triangle_list_polygon_num   $643
-#cmd dx_mv1_get_triangle_list_vertex_num    $644
-#cmd dx_mv1_get_triangle_list_local_world_matrix_num $645
-#cmd dx_mv1_get_triangle_list_use_material  $646
-#cmd dx_mv1_setup_coll_info                 $647
-#cmd dx_mv1_terminate_coll_info             $648
-#cmd dx_mv1_refresh_coll_info               $649
-#cmd dx_mv1_setup_reference_mesh            $64a
-#cmd dx_mv1_terminate_reference_mesh        $64b
-#cmd dx_mv1_refresh_reference_mesh          $64c
-#cmd dx_live2_d_set_cubism4_core_dll_path   $64d
-#cmd dx_live2_d_set_cubism3_core_dll_path   $64e
-#cmd dx_live2_d_render_begin                $64f
-#cmd dx_live2_d_render_end                  $650
-#cmd dx_live2_d_load_model                  $651
-#cmd dx_live2_d_delete_model                $652
-#cmd dx_live2_d_init_model                  $653
-#cmd dx_live2_d_set_use_auto_scaling        $654
-#cmd dx_live2_d_set_use_auto_centering      $655
-#cmd dx_live2_d_set_use_reverse_y_axis      $656
-#cmd dx_live2_d_model_update                $657
-#cmd dx_live2_d_model_set_translate         $658
-#cmd dx_live2_d_model_set_extend_rate       $659
-#cmd dx_live2_d_model_set_rotate            $65a
-#cmd dx_live2_d_model_draw                  $65b
-#cmd dx_live2_d_model_start_motion          $65c
-#cmd dx_live2_d_model_get_last_play_motion_no $65d
-#cmd dx_live2_d_model_is_motion_finished    $65e
-#cmd dx_live2_d_model_set_expression        $65f
-#cmd dx_live2_d_model_hit_test              $660
-#cmd dx_live2_d_model_get_parameter_count   $661
-#cmd dx_live2_d_model_set_parameter_value   $662
-#cmd dx_live2_d_model_get_hit_areas_count   $663
-#cmd dx_live2_d_model_get_expression_count  $664
-#cmd dx_live2_d_model_get_motion_group_count $665
-#cmd dx_live2_d_model_get_motion_count      $666
-#cmd dx_live2_d_model_get_eye_blink_parameter_count $667
-#cmd dx_live2_d_model_get_lip_sync_parameter_count $668
+#cmd dx_DxLib_GlobalStructInitialize               $200     ; DxLib_GlobalStructInitialize()
+#cmd dx_DxLib_IsInit                               $201     ; DxLib_IsInit()
+#cmd dx_GetLastErrorCode                           $202     ; GetLastErrorCode()
+#cmd dx_GetLastErrorMessage                        $203     ; GetLastErrorMessage(str, int)
+#cmd dx_SetAlwaysRunFlag                           $204     ; SetAlwaysRunFlag(int)
+#cmd dx_WaitTimer                                  $205     ; WaitTimer(int)
+#cmd dx_WaitKey                                    $206     ; WaitKey()
+#cmd dx_SleepThread                                $207     ; SleepThread(int)
+#cmd dx_GetNowCount                                $208     ; GetNowCount(int)
+#cmd dx_GetRand                                    $209     ; GetRand(int)
+#cmd dx_SRand                                      $20a     ; SRand(int)
+#cmd dx_GetBatteryLifePercent                      $20b     ; GetBatteryLifePercent()
+#cmd dx_GetClipboardText                           $20c     ; GetClipboardText(str, int)
+#cmd dx_SetClipboardText                           $20d     ; SetClipboardText(str)
+#cmd dx_LogFileAdd                                 $20e     ; LogFileAdd(str)
+#cmd dx_LogFileTabAdd                              $20f     ; LogFileTabAdd()
+#cmd dx_LogFileTabSub                              $210     ; LogFileTabSub()
+#cmd dx_ErrorLogAdd                                $211     ; ErrorLogAdd(str)
+#cmd dx_ErrorLogTabAdd                             $212     ; ErrorLogTabAdd()
+#cmd dx_ErrorLogTabSub                             $213     ; ErrorLogTabSub()
+#cmd dx_SetUseTimeStampFlag                        $214     ; SetUseTimeStampFlag(int)
+#cmd dx_SetOutApplicationLogValidFlag              $215     ; SetOutApplicationLogValidFlag(int)
+#cmd dx_SetOutApplicationSystemLogValidFlag        $216     ; SetOutApplicationSystemLogValidFlag(int)
+#cmd dx_SetApplicationLogFileName                  $217     ; SetApplicationLogFileName(str)
+#cmd dx_SetApplicationLogSaveDirectory             $218     ; SetApplicationLogSaveDirectory(str)
+#cmd dx_SetUseDateNameLogFile                      $219     ; SetUseDateNameLogFile(int)
+#cmd dx_SetLogDrawOutFlag                          $21a     ; SetLogDrawOutFlag(int)
+#cmd dx_GetLogDrawFlag                             $21b     ; GetLogDrawFlag()
+#cmd dx_SetLogFontSize                             $21c     ; SetLogFontSize(int)
+#cmd dx_SetLogFontHandle                           $21d     ; SetLogFontHandle(int)
+#cmd dx_SetLogDrawArea                             $21e     ; SetLogDrawArea(int, int, int, int)
+#cmd dx_putsDx                                     $21f     ; putsDx(str, int)
+#cmd dx_clsDx                                      $220     ; clsDx()
+#cmd dx_setPrintColorDx                            $221     ; setPrintColorDx(int, int)
+#cmd dx_SetUseASyncLoadFlag                        $222     ; SetUseASyncLoadFlag(int)
+#cmd dx_GetUseASyncLoadFlag                        $223     ; GetUseASyncLoadFlag()
+#cmd dx_CheckHandleASyncLoad                       $224     ; CheckHandleASyncLoad(int)
+#cmd dx_GetHandleASyncLoadResult                   $225     ; GetHandleASyncLoadResult(int)
+#cmd dx_SetASyncLoadFinishDeleteFlag               $226     ; SetASyncLoadFinishDeleteFlag(int)
+#cmd dx_WaitHandleASyncLoad                        $227     ; WaitHandleASyncLoad(int)
+#cmd dx_WaitHandleASyncLoadAll                     $228     ; WaitHandleASyncLoadAll()
+#cmd dx_GetASyncLoadNum                            $229     ; GetASyncLoadNum()
+#cmd dx_SetASyncLoadThreadNum                      $22a     ; SetASyncLoadThreadNum(int)
+#cmd dx_SetMouseDispFlag                           $22b     ; SetMouseDispFlag(int)
+#cmd dx_SetMouseDispIgnoreMenuFlag                 $22c     ; SetMouseDispIgnoreMenuFlag(int)
+#cmd dx_GetMouseWheelRotVol                        $22d     ; GetMouseWheelRotVol(int)
+#cmd dx_GetMouseHWheelRotVol                       $22e     ; GetMouseHWheelRotVol(int)
+#cmd dx_GetTouchInputNum                           $22f     ; GetTouchInputNum()
+#cmd dx_GetTouchInputLogNum                        $230     ; GetTouchInputLogNum()
+#cmd dx_ClearTouchInputLog                         $231     ; ClearTouchInputLog()
+#cmd dx_GetTouchInputDownLogNum                    $232     ; GetTouchInputDownLogNum()
+#cmd dx_ClearTouchInputDownLog                     $233     ; ClearTouchInputDownLog()
+#cmd dx_GetTouchInputUpLogNum                      $234     ; GetTouchInputUpLogNum()
+#cmd dx_ClearTouchInputUpLog                       $235     ; ClearTouchInputUpLog()
+#cmd dx_DxSetAllocPrintFlag                        $236     ; DxSetAllocPrintFlag(int)
+#cmd dx_DxGetAllocNum                              $237     ; DxGetAllocNum()
+#cmd dx_DxErrorCheckAlloc                          $238     ; DxErrorCheckAlloc()
+#cmd dx_DxSetAllocSizeOutFlag                      $239     ; DxSetAllocSizeOutFlag(int)
+#cmd dx_DxSetAllocMemoryErrorCheckFlag             $23a     ; DxSetAllocMemoryErrorCheckFlag(int)
+#cmd dx_GetUseCharCodeFormat                       $23b     ; GetUseCharCodeFormat()
+#cmd dx_Get_wchar_t_CharCodeFormat                 $23c     ; Get_wchar_t_CharCodeFormat()
+#cmd dx_strcmpDx                                   $23d     ; strcmpDx(str, str)
+#cmd dx_stricmpDx                                  $23e     ; stricmpDx(str, str)
+#cmd dx_strncmpDx                                  $23f     ; strncmpDx(str, str, int)
+#cmd dx_strncmp2Dx                                 $240     ; strncmp2Dx(str, str, int)
+#cmd dx_strpncmpDx                                 $241     ; strpncmpDx(str, str, int, int)
+#cmd dx_strpncmp2Dx                                $242     ; strpncmp2Dx(str, str, int, int)
+#cmd dx_strstr2Dx                                  $243     ; strstr2Dx(str, str)
+#cmd dx_strrstr2Dx                                 $244     ; strrstr2Dx(str, str)
+#cmd dx_atoiDx                                     $245     ; atoiDx(str)
+#cmd dx_ProcessNetMessage                          $246     ; ProcessNetMessage(int)
+#cmd dx_PreparationListenNetWork                   $247     ; PreparationListenNetWork(int)
+#cmd dx_PreparationListenNetWork_IPv6              $248     ; PreparationListenNetWork_IPv6(int)
+#cmd dx_StopListenNetWork                          $249     ; StopListenNetWork()
+#cmd dx_CloseNetWork                               $24a     ; CloseNetWork(int)
+#cmd dx_GetNetWorkAcceptState                      $24b     ; GetNetWorkAcceptState(int)
+#cmd dx_GetNetWorkDataLength                       $24c     ; GetNetWorkDataLength(int)
+#cmd dx_GetNetWorkSendDataLength                   $24d     ; GetNetWorkSendDataLength(int)
+#cmd dx_GetNewAcceptNetWork                        $24e     ; GetNewAcceptNetWork()
+#cmd dx_GetLostNetWork                             $24f     ; GetLostNetWork()
+#cmd dx_SetConnectTimeOutWait                      $250     ; SetConnectTimeOutWait(int)
+#cmd dx_SetUseDXNetWorkProtocol                    $251     ; SetUseDXNetWorkProtocol(int)
+#cmd dx_GetUseDXNetWorkProtocol                    $252     ; GetUseDXNetWorkProtocol()
+#cmd dx_SetUseDXProtocol                           $253     ; SetUseDXProtocol(int)
+#cmd dx_GetUseDXProtocol                           $254     ; GetUseDXProtocol()
+#cmd dx_SetNetWorkCloseAfterLostFlag               $255     ; SetNetWorkCloseAfterLostFlag(int)
+#cmd dx_GetNetWorkCloseAfterLostFlag               $256     ; GetNetWorkCloseAfterLostFlag()
+#cmd dx_NetWorkRecvBufferClear                     $257     ; NetWorkRecvBufferClear(int)
+#cmd dx_MakeUDPSocket                              $258     ; MakeUDPSocket(int)
+#cmd dx_MakeUDPSocket_IPv6                         $259     ; MakeUDPSocket_IPv6(int)
+#cmd dx_DeleteUDPSocket                            $25a     ; DeleteUDPSocket(int)
+#cmd dx_CheckNetWorkRecvUDP                        $25b     ; CheckNetWorkRecvUDP(int)
+#cmd dx_ClearInputCharBuf                          $25c     ; ClearInputCharBuf()
+#cmd dx_GetOneChar                                 $25d     ; GetOneChar(str, int)
+#cmd dx_GetOneCharWait                             $25e     ; GetOneCharWait(str, int)
+#cmd dx_DrawIMEInputString                         $25f     ; DrawIMEInputString(int, int, int, int)
+#cmd dx_DrawIMEInputExtendString                   $260     ; DrawIMEInputExtendString(int, int, double, double, int, int)
+#cmd dx_SetUseIMEFlag                              $261     ; SetUseIMEFlag(int)
+#cmd dx_GetUseIMEFlag                              $262     ; GetUseIMEFlag()
+#cmd dx_SetInputStringMaxLengthIMESync             $263     ; SetInputStringMaxLengthIMESync(int)
+#cmd dx_SetIMEInputStringMaxLength                 $264     ; SetIMEInputStringMaxLength(int)
+#cmd dx_GetStringPoint                             $265     ; GetStringPoint(str, int)
+#cmd dx_GetStringPoint2                            $266     ; GetStringPoint2(str, int)
+#cmd dx_GetStringLength                            $267     ; GetStringLength(str)
+#cmd dx_DrawObtainsBox                             $268     ; DrawObtainsBox(int, int, int, int, int, int (uint 扱い), int)
+#cmd dx_KeyInputNumber                             $269     ; KeyInputNumber(int, int, int, int, int)
+#cmd dx_GetIMEInputModeStr                         $26a     ; GetIMEInputModeStr(str)
+#cmd dx_SetIMEInputString                          $26b     ; SetIMEInputString(str)
+#cmd dx_SetKeyInputStringFont                      $26c     ; SetKeyInputStringFont(int)
+#cmd dx_DrawKeyInputModeString                     $26d     ; DrawKeyInputModeString(int, int)
+#cmd dx_InitKeyInput                               $26e     ; InitKeyInput()
+#cmd dx_DeleteKeyInput                             $26f     ; DeleteKeyInput(int)
+#cmd dx_SetActiveKeyInput                          $270     ; SetActiveKeyInput(int)
+#cmd dx_GetActiveKeyInput                          $271     ; GetActiveKeyInput()
+#cmd dx_CheckKeyInput                              $272     ; CheckKeyInput(int)
+#cmd dx_ReStartKeyInput                            $273     ; ReStartKeyInput(int)
+#cmd dx_ProcessActKeyInput                         $274     ; ProcessActKeyInput()
+#cmd dx_DrawKeyInputString                         $275     ; DrawKeyInputString(int, int, int, int)
+#cmd dx_DrawKeyInputExtendString                   $276     ; DrawKeyInputExtendString(int, int, double, double, int, int)
+#cmd dx_SetKeyInputDrawArea                        $277     ; SetKeyInputDrawArea(int, int, int, int, int)
+#cmd dx_SetKeyInputSelectArea                      $278     ; SetKeyInputSelectArea(int, int, int)
+#cmd dx_SetKeyInputDrawStartPos                    $279     ; SetKeyInputDrawStartPos(int, int)
+#cmd dx_GetKeyInputDrawStartPos                    $27a     ; GetKeyInputDrawStartPos(int)
+#cmd dx_SetKeyInputCursorBrinkTime                 $27b     ; SetKeyInputCursorBrinkTime(int)
+#cmd dx_SetKeyInputCursorBrinkFlag                 $27c     ; SetKeyInputCursorBrinkFlag(int)
+#cmd dx_SetKeyInputString                          $27d     ; SetKeyInputString(str, int)
+#cmd dx_SetKeyInputNumber                          $27e     ; SetKeyInputNumber(int, int)
+#cmd dx_SetKeyInputNumberToFloat                   $27f     ; SetKeyInputNumberToFloat(double (float 縮小), int)
+#cmd dx_GetKeyInputString                          $280     ; GetKeyInputString(str, int)
+#cmd dx_GetKeyInputNumber                          $281     ; GetKeyInputNumber(int)
+#cmd dx_SetKeyInputCursorPosition                  $282     ; SetKeyInputCursorPosition(int, int)
+#cmd dx_GetKeyInputCursorPosition                  $283     ; GetKeyInputCursorPosition(int)
+#cmd dx_FileRead_open                              $284     ; FileRead_open(str, int)
+#cmd dx_FileRead_close                             $285     ; FileRead_close(int)
+#cmd dx_FileRead_seek                              $286     ; FileRead_seek(int, int64, int)
+#cmd dx_FileRead_idle_chk                          $287     ; FileRead_idle_chk(int)
+#cmd dx_FileRead_eof                               $288     ; FileRead_eof(int)
+#cmd dx_FileRead_gets                              $289     ; FileRead_gets(str, int, int)
+#cmd dx_FileRead_fullyLoad                         $28a     ; FileRead_fullyLoad(str)
+#cmd dx_FileRead_fullyLoad_delete                  $28b     ; FileRead_fullyLoad_delete(int)
+#cmd dx_GetStreamFunctionDefault                   $28c     ; GetStreamFunctionDefault()
+#cmd dx_ConvertFullPath                            $28d     ; ConvertFullPath(str, str, str)
+#cmd dx_CheckHitKeyAll                             $28e     ; CheckHitKeyAll(int)
+#cmd dx_GetJoypadNum                               $28f     ; GetJoypadNum()
+#cmd dx_GetJoypadButtonNum                         $290     ; GetJoypadButtonNum(int)
+#cmd dx_CheckJoypadXInput                          $291     ; CheckJoypadXInput(int)
+#cmd dx_GetJoypadType                              $292     ; GetJoypadType(int)
+#cmd dx_SetJoypadInputToKeyInput                   $293     ; SetJoypadInputToKeyInput(int, int, int, int, int, int)
+#cmd dx_SetJoypadDeadZone                          $294     ; SetJoypadDeadZone(int, double)
+#cmd dx_SetJoypadDefaultDeadZoneAll                $295     ; SetJoypadDefaultDeadZoneAll(double)
+#cmd dx_StartJoypadVibration                       $296     ; StartJoypadVibration(int, int, int, int)
+#cmd dx_StopJoypadVibration                        $297     ; StopJoypadVibration(int, int)
+#cmd dx_GetJoypadPOVState                          $298     ; GetJoypadPOVState(int, int)
+#cmd dx_ReSetupJoypad                              $299     ; ReSetupJoypad()
+#cmd dx_ReSetupInputSystem                         $29a     ; ReSetupInputSystem()
+#cmd dx_SetUseJoypadVibrationFlag                  $29b     ; SetUseJoypadVibrationFlag(int)
+#cmd dx_MakeGraph                                  $29c     ; MakeGraph(int, int, int)
+#cmd dx_DerivationGraph                            $29d     ; DerivationGraph(int, int, int, int, int)
+#cmd dx_DerivationGraphF                           $29e     ; DerivationGraphF(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int)
+#cmd dx_DeleteSharingGraph                         $29f     ; DeleteSharingGraph(int)
+#cmd dx_GetGraphNum                                $2a0     ; GetGraphNum()
+#cmd dx_FillGraph                                  $2a1     ; FillGraph(int, int, int, int, int)
+#cmd dx_FillRectGraph                              $2a2     ; FillRectGraph(int, int, int, int, int, int, int, int, int)
+#cmd dx_InitGraph                                  $2a3     ; InitGraph()
+#cmd dx_ReloadFileGraphAll                         $2a4     ; ReloadFileGraphAll()
+#cmd dx_MakeShadowMap                              $2a5     ; MakeShadowMap(int, int)
+#cmd dx_DeleteShadowMap                            $2a6     ; DeleteShadowMap(int)
+#cmd dx_SetShadowMapLightDirection                 $2a7     ; SetShadowMapLightDirection(int, var (VECTOR: #defstruct float x,y,z))
+#cmd dx_ShadowMap_DrawSetup                        $2a8     ; ShadowMap_DrawSetup(int)
+#cmd dx_ShadowMap_DrawEnd                          $2a9     ; ShadowMap_DrawEnd()
+#cmd dx_SetUseShadowMap                            $2aa     ; SetUseShadowMap(int, int)
+#cmd dx_SetShadowMapDrawArea                       $2ab     ; SetShadowMapDrawArea(int, var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_ResetShadowMapDrawArea                     $2ac     ; ResetShadowMapDrawArea(int)
+#cmd dx_SetShadowMapAdjustDepth                    $2ad     ; SetShadowMapAdjustDepth(int, double (float 縮小))
+#cmd dx_TestDrawShadowMap                          $2ae     ; TestDrawShadowMap(int, int, int, int, int)
+#cmd dx_LoadBmpToGraph                             $2af     ; LoadBmpToGraph(str, int, int, int)
+#cmd dx_LoadReverseGraph                           $2b0     ; LoadReverseGraph(str, int)
+#cmd dx_LoadBlendGraph                             $2b1     ; LoadBlendGraph(str)
+#cmd dx_CreateBlendGraphFromSoftImage              $2b2     ; CreateBlendGraphFromSoftImage(int)
+#cmd dx_CreateGraphFromSoftImage                   $2b3     ; CreateGraphFromSoftImage(int)
+#cmd dx_CreateGraphFromRectSoftImage               $2b4     ; CreateGraphFromRectSoftImage(int, int, int, int, int)
+#cmd dx_ReCreateGraphFromSoftImage                 $2b5     ; ReCreateGraphFromSoftImage(int, int)
+#cmd dx_ReCreateGraphFromRectSoftImage             $2b6     ; ReCreateGraphFromRectSoftImage(int, int, int, int, int, int)
+#cmd dx_ReloadGraph                                $2b7     ; ReloadGraph(str, int, int)
+#cmd dx_ReloadReverseGraph                         $2b8     ; ReloadReverseGraph(str, int)
+#cmd dx_SetGraphColorBitDepth                      $2b9     ; SetGraphColorBitDepth(int)
+#cmd dx_GetGraphColorBitDepth                      $2ba     ; GetGraphColorBitDepth()
+#cmd dx_SetCreateGraphColorBitDepth                $2bb     ; SetCreateGraphColorBitDepth(int)
+#cmd dx_GetCreateGraphColorBitDepth                $2bc     ; GetCreateGraphColorBitDepth()
+#cmd dx_SetCreateGraphChannelBitDepth              $2bd     ; SetCreateGraphChannelBitDepth(int)
+#cmd dx_GetCreateGraphChannelBitDepth              $2be     ; GetCreateGraphChannelBitDepth()
+#cmd dx_SetCreateGraphInitGraphDelete              $2bf     ; SetCreateGraphInitGraphDelete(int)
+#cmd dx_GetCreateGraphInitGraphDelete              $2c0     ; GetCreateGraphInitGraphDelete()
+#cmd dx_SetCreateGraphHandle                       $2c1     ; SetCreateGraphHandle(int)
+#cmd dx_GetCreateGraphHandle                       $2c2     ; GetCreateGraphHandle()
+#cmd dx_SetDrawValidGraphCreateFlag                $2c3     ; SetDrawValidGraphCreateFlag(int)
+#cmd dx_GetDrawValidGraphCreateFlag                $2c4     ; GetDrawValidGraphCreateFlag()
+#cmd dx_SetDrawValidFlagOf3DGraph                  $2c5     ; SetDrawValidFlagOf3DGraph(int)
+#cmd dx_SetLeftUpColorIsTransColorFlag             $2c6     ; SetLeftUpColorIsTransColorFlag(int)
+#cmd dx_SetUsePaletteGraphFlag                     $2c7     ; SetUsePaletteGraphFlag(int)
+#cmd dx_SetUseBlendGraphCreateFlag                 $2c8     ; SetUseBlendGraphCreateFlag(int)
+#cmd dx_GetUseBlendGraphCreateFlag                 $2c9     ; GetUseBlendGraphCreateFlag()
+#cmd dx_SetUseAlphaTestGraphCreateFlag             $2ca     ; SetUseAlphaTestGraphCreateFlag(int)
+#cmd dx_GetUseAlphaTestGraphCreateFlag             $2cb     ; GetUseAlphaTestGraphCreateFlag()
+#cmd dx_SetUseAlphaTestFlag                        $2cc     ; SetUseAlphaTestFlag(int)
+#cmd dx_GetUseAlphaTestFlag                        $2cd     ; GetUseAlphaTestFlag()
+#cmd dx_SetCubeMapTextureCreateFlag                $2ce     ; SetCubeMapTextureCreateFlag(int)
+#cmd dx_GetCubeMapTextureCreateFlag                $2cf     ; GetCubeMapTextureCreateFlag()
+#cmd dx_SetUseNoBlendModeParam                     $2d0     ; SetUseNoBlendModeParam(int)
+#cmd dx_SetDrawValidAlphaChannelGraphCreateFlag    $2d1     ; SetDrawValidAlphaChannelGraphCreateFlag(int)
+#cmd dx_GetDrawValidAlphaChannelGraphCreateFlag    $2d2     ; GetDrawValidAlphaChannelGraphCreateFlag()
+#cmd dx_SetDrawValidFloatTypeGraphCreateFlag       $2d3     ; SetDrawValidFloatTypeGraphCreateFlag(int)
+#cmd dx_GetDrawValidFloatTypeGraphCreateFlag       $2d4     ; GetDrawValidFloatTypeGraphCreateFlag()
+#cmd dx_SetDrawValidGraphCreateZBufferFlag         $2d5     ; SetDrawValidGraphCreateZBufferFlag(int)
+#cmd dx_GetDrawValidGraphCreateZBufferFlag         $2d6     ; GetDrawValidGraphCreateZBufferFlag()
+#cmd dx_SetCreateDrawValidGraphZBufferBitDepth     $2d7     ; SetCreateDrawValidGraphZBufferBitDepth(int)
+#cmd dx_GetCreateDrawValidGraphZBufferBitDepth     $2d8     ; GetCreateDrawValidGraphZBufferBitDepth()
+#cmd dx_SetCreateDrawValidGraphMipLevels           $2d9     ; SetCreateDrawValidGraphMipLevels(int)
+#cmd dx_GetCreateDrawValidGraphMipLevels           $2da     ; GetCreateDrawValidGraphMipLevels()
+#cmd dx_SetCreateDrawValidGraphChannelNum          $2db     ; SetCreateDrawValidGraphChannelNum(int)
+#cmd dx_GetCreateDrawValidGraphChannelNum          $2dc     ; GetCreateDrawValidGraphChannelNum()
+#cmd dx_SetCreateDrawValidGraphMultiSample         $2dd     ; SetCreateDrawValidGraphMultiSample(int, int)
+#cmd dx_SetDrawValidMultiSample                    $2de     ; SetDrawValidMultiSample(int, int)
+#cmd dx_GetMultiSampleQuality                      $2df     ; GetMultiSampleQuality(int)
+#cmd dx_SetUseTransColor                           $2e0     ; SetUseTransColor(int)
+#cmd dx_SetUseTransColorGraphCreateFlag            $2e1     ; SetUseTransColorGraphCreateFlag(int)
+#cmd dx_SetUseGraphAlphaChannel                    $2e2     ; SetUseGraphAlphaChannel(int)
+#cmd dx_GetUseGraphAlphaChannel                    $2e3     ; GetUseGraphAlphaChannel()
+#cmd dx_SetUseAlphaChannelGraphCreateFlag          $2e4     ; SetUseAlphaChannelGraphCreateFlag(int)
+#cmd dx_GetUseAlphaChannelGraphCreateFlag          $2e5     ; GetUseAlphaChannelGraphCreateFlag()
+#cmd dx_SetUseNotManageTextureFlag                 $2e6     ; SetUseNotManageTextureFlag(int)
+#cmd dx_GetUseNotManageTextureFlag                 $2e7     ; GetUseNotManageTextureFlag()
+#cmd dx_SetUsePlatformTextureFormat                $2e8     ; SetUsePlatformTextureFormat(int)
+#cmd dx_GetUsePlatformTextureFormat                $2e9     ; GetUsePlatformTextureFormat()
+#cmd dx_SetTransColor                              $2ea     ; SetTransColor(int, int, int)
+#cmd dx_SetUseDivGraphFlag                         $2eb     ; SetUseDivGraphFlag(int)
+#cmd dx_SetUseAlphaImageLoadFlag                   $2ec     ; SetUseAlphaImageLoadFlag(int)
+#cmd dx_SetUseMaxTextureSize                       $2ed     ; SetUseMaxTextureSize(int)
+#cmd dx_SetUseGraphBaseDataBackup                  $2ee     ; SetUseGraphBaseDataBackup(int)
+#cmd dx_GetUseGraphBaseDataBackup                  $2ef     ; GetUseGraphBaseDataBackup()
+#cmd dx_SetUseSystemMemGraphCreateFlag             $2f0     ; SetUseSystemMemGraphCreateFlag(int)
+#cmd dx_GetUseSystemMemGraphCreateFlag             $2f1     ; GetUseSystemMemGraphCreateFlag()
+#cmd dx_SetUseLoadDivGraphSizeCheckFlag            $2f2     ; SetUseLoadDivGraphSizeCheckFlag(int)
+#cmd dx_GetUseLoadDivGraphSizeCheckFlag            $2f3     ; GetUseLoadDivGraphSizeCheckFlag()
+#cmd dx_GraphUnLock                                $2f4     ; GraphUnLock(int)
+#cmd dx_SetUseGraphZBuffer                         $2f5     ; SetUseGraphZBuffer(int, int, int)
+#cmd dx_CopyGraphZBufferImage                      $2f6     ; CopyGraphZBufferImage(int, int)
+#cmd dx_SetDeviceLostDeleteGraphFlag               $2f7     ; SetDeviceLostDeleteGraphFlag(int, int)
+#cmd dx_GetGraphMipmapCount                        $2f8     ; GetGraphMipmapCount(int)
+#cmd dx_GetGraphFilePath                           $2f9     ; GetGraphFilePath(int, str)
+#cmd dx_CheckDrawValidGraph                        $2fa     ; CheckDrawValidGraph(int)
+#cmd dx_GetValidRestoreShredPoint                  $2fb     ; GetValidRestoreShredPoint()
+#cmd dx_SetGraphPalette                            $2fc     ; SetGraphPalette(int, int, int (uint 扱い))
+#cmd dx_ResetGraphPalette                          $2fd     ; ResetGraphPalette(int)
+#cmd dx_DrawFillBox                                $2fe     ; DrawFillBox(int, int, int, int, int (uint 扱い))
+#cmd dx_DrawLineBox                                $2ff     ; DrawLineBox(int, int, int, int, int (uint 扱い), int)
+#cmd dx_DrawOval                                   $300     ; DrawOval(int, int, int, int, int (uint 扱い), int, int)
+#cmd dx_DrawOvalAA                                 $301     ; DrawOvalAA(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int (uint 扱い), int, double (float 縮小))
+#cmd dx_DrawOval_Rect                              $302     ; DrawOval_Rect(int, int, int, int, int (uint 扱い), int)
+#cmd dx_DrawTriangleAA                             $303     ; DrawTriangleAA(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int (uint 扱い), int, double (float 縮小))
+#cmd dx_DrawQuadrangle                             $304     ; DrawQuadrangle(int, int, int, int, int, int, int, int, int (uint 扱い), int)
+#cmd dx_DrawQuadrangleAA                           $305     ; DrawQuadrangleAA(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int (uint 扱い), int, double (float 縮小))
+#cmd dx_DrawRoundRect                              $306     ; DrawRoundRect(int, int, int, int, int, int, int (uint 扱い), int)
+#cmd dx_DrawRoundRectAA                            $307     ; DrawRoundRectAA(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int (uint 扱い), int, double (float 縮小))
+#cmd dx_BeginAADraw                                $308     ; BeginAADraw()
+#cmd dx_EndAADraw                                  $309     ; EndAADraw()
+#cmd dx_DrawPixel3D                                $30a     ; DrawPixel3D(var (VECTOR: #defstruct float x,y,z), int (uint 扱い))
+#cmd dx_DrawPixel3DD                               $30b     ; DrawPixel3DD(var (VECTOR_D: #defstruct double x,y,z), int (uint 扱い))
+#cmd dx_DrawLine3D                                 $30c     ; DrawLine3D(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), int (uint 扱い))
+#cmd dx_DrawLine3DD                                $30d     ; DrawLine3DD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), int (uint 扱い))
+#cmd dx_DrawTriangle3D                             $30e     ; DrawTriangle3D(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), int (uint 扱い), int)
+#cmd dx_DrawTriangle3DD                            $30f     ; DrawTriangle3DD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), int (uint 扱い), int)
+#cmd dx_DrawCube3DD                                $310     ; DrawCube3DD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawSphere3DD                              $311     ; DrawSphere3DD(var (VECTOR_D: #defstruct double x,y,z), double, int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawCapsule3D                              $312     ; DrawCapsule3D(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawCapsule3DD                             $313     ; DrawCapsule3DD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double, int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawCylinder3D                             $314     ; DrawCylinder3D(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawCylinder3DD                            $315     ; DrawCylinder3DD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double, int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawTube3D                                 $316     ; DrawTube3D(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawTube3DD                                $317     ; DrawTube3DD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double, double, int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawCone3D                                 $318     ; DrawCone3D(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_DrawCone3DD                                $319     ; DrawCone3DD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double, int, int (uint 扱い), int (uint 扱い), int)
+#cmd dx_LoadGraphScreen                            $31a     ; LoadGraphScreen(int, int, str, int)
+#cmd dx_DrawRotaGraph2                             $31b     ; DrawRotaGraph2(int, int, int, int, double, double, int, int, int, int)
+#cmd dx_DrawRotaGraph3                             $31c     ; DrawRotaGraph3(int, int, int, int, double, double, double, int, int, int, int)
+#cmd dx_DrawRotaGraphFast                          $31d     ; DrawRotaGraphFast(int, int, double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRotaGraphFast2                         $31e     ; DrawRotaGraphFast2(int, int, int, int, double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRotaGraphFast3                         $31f     ; DrawRotaGraphFast3(int, int, int, int, double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawTurnGraph                              $320     ; DrawTurnGraph(int, int, int, int)
+#cmd dx_DrawReverseGraph                           $321     ; DrawReverseGraph(int, int, int, int, int, int)
+#cmd dx_DrawGraphF                                 $322     ; DrawGraphF(double (float 縮小), double (float 縮小), int, int)
+#cmd dx_DrawExtendGraphF                           $323     ; DrawExtendGraphF(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int)
+#cmd dx_DrawRotaGraphF                             $324     ; DrawRotaGraphF(double (float 縮小), double (float 縮小), double, double, int, int, int, int)
+#cmd dx_DrawRotaGraph2F                            $325     ; DrawRotaGraph2F(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double, double, int, int, int, int)
+#cmd dx_DrawRotaGraph3F                            $326     ; DrawRotaGraph3F(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double, double, double, int, int, int, int)
+#cmd dx_DrawRotaGraphFastF                         $327     ; DrawRotaGraphFastF(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRotaGraphFast2F                        $328     ; DrawRotaGraphFast2F(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRotaGraphFast3F                        $329     ; DrawRotaGraphFast3F(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawModiGraphF                             $32a     ; DrawModiGraphF(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int)
+#cmd dx_DrawTurnGraphF                             $32b     ; DrawTurnGraphF(double (float 縮小), double (float 縮小), int, int)
+#cmd dx_DrawReverseGraphF                          $32c     ; DrawReverseGraphF(double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawTile                                   $32d     ; DrawTile(int, int, int, int, int, int, double, double, int, int)
+#cmd dx_DrawRectExtendGraph                        $32e     ; DrawRectExtendGraph(int, int, int, int, int, int, int, int, int, int)
+#cmd dx_DrawRectRotaGraph2                         $32f     ; DrawRectRotaGraph2(int, int, int, int, int, int, int, int, double, double, int, int, int, int)
+#cmd dx_DrawRectRotaGraph3                         $330     ; DrawRectRotaGraph3(int, int, int, int, int, int, int, int, double, double, double, int, int, int, int)
+#cmd dx_DrawRectRotaGraphFast                      $331     ; DrawRectRotaGraphFast(int, int, int, int, int, int, double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRectRotaGraphFast2                     $332     ; DrawRectRotaGraphFast2(int, int, int, int, int, int, int, int, double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRectRotaGraphFast3                     $333     ; DrawRectRotaGraphFast3(int, int, int, int, int, int, int, int, double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRectModiGraph                          $334     ; DrawRectModiGraph(int, int, int, int, int, int, int, int, int, int, int, int, int, int)
+#cmd dx_DrawRectGraphF                             $335     ; DrawRectGraphF(double (float 縮小), double (float 縮小), int, int, int, int, int, int, int, int)
+#cmd dx_DrawRectGraphF2                            $336     ; DrawRectGraphF2(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRectExtendGraphF                       $337     ; DrawRectExtendGraphF(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int, int, int)
+#cmd dx_DrawRectExtendGraphF2                      $338     ; DrawRectExtendGraphF2(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int)
+#cmd dx_DrawRectRotaGraphF                         $339     ; DrawRectRotaGraphF(double (float 縮小), double (float 縮小), int, int, int, int, double, double, int, int, int, int)
+#cmd dx_DrawRectRotaGraph2F                        $33a     ; DrawRectRotaGraph2F(double (float 縮小), double (float 縮小), int, int, int, int, double (float 縮小), double (float 縮小), double, double, int, int, int, int)
+#cmd dx_DrawRectRotaGraph3F                        $33b     ; DrawRectRotaGraph3F(double (float 縮小), double (float 縮小), int, int, int, int, double (float 縮小), double (float 縮小), double, double, double, int, int, int, int)
+#cmd dx_DrawRectRotaGraphFastF                     $33c     ; DrawRectRotaGraphFastF(double (float 縮小), double (float 縮小), int, int, int, int, double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRectRotaGraphFast2F                    $33d     ; DrawRectRotaGraphFast2F(double (float 縮小), double (float 縮小), int, int, int, int, double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRectRotaGraphFast3F                    $33e     ; DrawRectRotaGraphFast3F(double (float 縮小), double (float 縮小), int, int, int, int, double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawRectModiGraphF                         $33f     ; DrawRectModiGraphF(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int, int, int)
+#cmd dx_DrawBlendGraph                             $340     ; DrawBlendGraph(int, int, int, int, int, int, int)
+#cmd dx_DrawBlendGraphF                            $341     ; DrawBlendGraphF(double (float 縮小), double (float 縮小), int, int, int, int, int)
+#cmd dx_DrawBlendGraphPos                          $342     ; DrawBlendGraphPos(int, int, int, int, int, int, int, int, int)
+#cmd dx_DrawCircleGauge                            $343     ; DrawCircleGauge(int, int, double, int, double, double, int, int)
+#cmd dx_DrawCircleGaugeF                           $344     ; DrawCircleGaugeF(double (float 縮小), double (float 縮小), double, int, double, double, int, int)
+#cmd dx_DrawPolygon3D_UseVertexBuffer              $345     ; DrawPolygon3D_UseVertexBuffer(int, int, int)
+#cmd dx_DrawPolygonIndexed3D_UseVertexBuffer       $346     ; DrawPolygonIndexed3D_UseVertexBuffer(int, int, int, int)
+#cmd dx_DrawGraph3D                                $347     ; DrawGraph3D(double (float 縮小), double (float 縮小), double (float 縮小), int, int)
+#cmd dx_DrawExtendGraph3D                          $348     ; DrawExtendGraph3D(double (float 縮小), double (float 縮小), double (float 縮小), double, double, int, int)
+#cmd dx_DrawRotaGraph3D                            $349     ; DrawRotaGraph3D(double (float 縮小), double (float 縮小), double (float 縮小), double, double, int, int, int, int)
+#cmd dx_DrawRota2Graph3D                           $34a     ; DrawRota2Graph3D(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double, double, double, int, int, int, int)
+#cmd dx_DrawModiBillboard3D                        $34b     ; DrawModiBillboard3D(var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int)
+#cmd dx_DrawBillboard3D                            $34c     ; DrawBillboard3D(var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_GetDrawMode                                $34d     ; GetDrawMode()
+#cmd dx_SetDrawAlphaTest                           $34e     ; SetDrawAlphaTest(int, int)
+#cmd dx_SetBlendGraph                              $34f     ; SetBlendGraph(int, int, int)
+#cmd dx_SetBlendGraphPosition                      $350     ; SetBlendGraphPosition(int, int)
+#cmd dx_SetDrawAddColor                            $351     ; SetDrawAddColor(int, int, int)
+#cmd dx_SetWriteAlphaChannelFlag                   $352     ; SetWriteAlphaChannelFlag(int)
+#cmd dx_GetWriteAlphaChannelFlag                   $353     ; GetWriteAlphaChannelFlag()
+#cmd dx_CheckSeparateAlphaBlendEnable              $354     ; CheckSeparateAlphaBlendEnable()
+#cmd dx_SetIgnoreDrawGraphColor                    $355     ; SetIgnoreDrawGraphColor(int)
+#cmd dx_GetIgnoreDrawGraphColor                    $356     ; GetIgnoreDrawGraphColor()
+#cmd dx_SetMaxAnisotropy                           $357     ; SetMaxAnisotropy(int)
+#cmd dx_GetMaxAnisotropy                           $358     ; GetMaxAnisotropy()
+#cmd dx_SetUseLarge3DPositionSupport               $359     ; SetUseLarge3DPositionSupport(int)
+#cmd dx_SetUseZBufferFlag                          $35a     ; SetUseZBufferFlag(int)
+#cmd dx_SetWriteZBufferFlag                        $35b     ; SetWriteZBufferFlag(int)
+#cmd dx_SetZBias                                   $35c     ; SetZBias(int)
+#cmd dx_SetZBias3D                                 $35d     ; SetZBias3D(int)
+#cmd dx_SetDrawZ                                   $35e     ; SetDrawZ(double (float 縮小))
+#cmd dx_SetUseReversedZ                            $35f     ; SetUseReversedZ(int)
+#cmd dx_SetDrawArea                                $360     ; SetDrawArea(int, int, int, int)
+#cmd dx_SetDrawAreaFull                            $361     ; SetDrawAreaFull()
+#cmd dx_SetDraw3DScale                             $362     ; SetDraw3DScale(double (float 縮小))
+#cmd dx_RunRestoreShred                            $363     ; RunRestoreShred()
+#cmd dx_ResetTransformTo2D                         $364     ; ResetTransformTo2D()
+#cmd dx_SetDefTransformMatrix                      $365     ; SetDefTransformMatrix()
+#cmd dx_SetUseCullingFlag                          $366     ; SetUseCullingFlag(int)
+#cmd dx_GetUseBackCulling                          $367     ; GetUseBackCulling()
+#cmd dx_SetUseRightHandClippingProcess             $368     ; SetUseRightHandClippingProcess(int)
+#cmd dx_GetUseRightHandClippingProcess             $369     ; GetUseRightHandClippingProcess()
+#cmd dx_SetTextureAddressModeUV                    $36a     ; SetTextureAddressModeUV(int, int, int)
+#cmd dx_SetTextureAddressTransform                 $36b     ; SetTextureAddressTransform(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_SetTextureAddressTransformMatrix           $36c     ; SetTextureAddressTransformMatrix(var (MATRIX: 4x4 float))
+#cmd dx_ResetTextureAddressTransform               $36d     ; ResetTextureAddressTransform()
+#cmd dx_SetFogEnable                               $36e     ; SetFogEnable(int)
+#cmd dx_GetFogEnable                               $36f     ; GetFogEnable()
+#cmd dx_GetFogMode                                 $370     ; GetFogMode()
+#cmd dx_SetFogColor                                $371     ; SetFogColor(int, int, int)
+#cmd dx_SetFogStartEnd                             $372     ; SetFogStartEnd(double (float 縮小), double (float 縮小))
+#cmd dx_SetFogDensity                              $373     ; SetFogDensity(double (float 縮小))
+#cmd dx_SetVerticalFogEnable                       $374     ; SetVerticalFogEnable(int)
+#cmd dx_GetVerticalFogEnable                       $375     ; GetVerticalFogEnable()
+#cmd dx_GetVerticalFogMode                         $376     ; GetVerticalFogMode()
+#cmd dx_SetVerticalFogColor                        $377     ; SetVerticalFogColor(int, int, int)
+#cmd dx_SetVerticalFogStartEnd                     $378     ; SetVerticalFogStartEnd(double (float 縮小), double (float 縮小))
+#cmd dx_SetVerticalFogDensity                      $379     ; SetVerticalFogDensity(double (float 縮小), double (float 縮小))
+#cmd dx_GetDrawScreenGraph                         $37a     ; GetDrawScreenGraph(int, int, int, int, int, int)
+#cmd dx_BltDrawValidGraph                          $37b     ; BltDrawValidGraph(int, int, int, int, int, int, int, int)
+#cmd dx_ScreenCopy                                 $37c     ; ScreenCopy()
+#cmd dx_WaitVSync                                  $37d     ; WaitVSync(int)
+#cmd dx_ClsDrawScreen                              $37e     ; ClsDrawScreen()
+#cmd dx_GetDrawScreen                              $37f     ; GetDrawScreen()
+#cmd dx_GetActiveGraph                             $380     ; GetActiveGraph()
+#cmd dx_SetUseSetDrawScreenSettingReset            $381     ; SetUseSetDrawScreenSettingReset(int)
+#cmd dx_GetUseSetDrawScreenSettingReset            $382     ; GetUseSetDrawScreenSettingReset()
+#cmd dx_SetDrawZBuffer                             $383     ; SetDrawZBuffer(int)
+#cmd dx_GetUseFullScreenResolutionMode             $384     ; GetUseFullScreenResolutionMode()
+#cmd dx_SetEmulation320x240                        $385     ; SetEmulation320x240(int)
+#cmd dx_SetZBufferSize                             $386     ; SetZBufferSize(int, int)
+#cmd dx_SetZBufferBitDepth                         $387     ; SetZBufferBitDepth(int)
+#cmd dx_GetWaitVSyncFlag                           $388     ; GetWaitVSyncFlag()
+#cmd dx_SetFullSceneAntiAliasingMode               $389     ; SetFullSceneAntiAliasingMode(int, int)
+#cmd dx_SetGraphDisplayArea                        $38a     ; SetGraphDisplayArea(int, int, int, int)
+#cmd dx_SetChangeScreenModeGraphicsSystemResetFlag $38b     ; SetChangeScreenModeGraphicsSystemResetFlag(int)
+#cmd dx_GetScreenBitDepth                          $38c     ; GetScreenBitDepth()
+#cmd dx_GetColorBitDepth                           $38d     ; GetColorBitDepth()
+#cmd dx_GetChangeDisplayFlag                       $38e     ; GetChangeDisplayFlag()
+#cmd dx_GetRefreshRate                             $38f     ; GetRefreshRate()
+#cmd dx_GetDisplayNum                              $390     ; GetDisplayNum()
+#cmd dx_GetDisplayModeNum                          $391     ; GetDisplayModeNum(int)
+#cmd dx_GetMultiDrawScreenNum                      $392     ; GetMultiDrawScreenNum()
+#cmd dx_GetDrawFloatCoordType                      $393     ; GetDrawFloatCoordType()
+#cmd dx_SetUseNormalDrawShader                     $394     ; SetUseNormalDrawShader(int)
+#cmd dx_SetUseSoftwareRenderModeFlag               $395     ; SetUseSoftwareRenderModeFlag(int)
+#cmd dx_SetNotUse3DFlag                            $396     ; SetNotUse3DFlag(int)
+#cmd dx_SetUse3DFlag                               $397     ; SetUse3DFlag(int)
+#cmd dx_GetUse3DFlag                               $398     ; GetUse3DFlag()
+#cmd dx_SetScreenMemToVramFlag                     $399     ; SetScreenMemToVramFlag(int)
+#cmd dx_GetScreenMemToSystemMemFlag                $39a     ; GetScreenMemToSystemMemFlag()
+#cmd dx_RestoreGraphSystem                         $39b     ; RestoreGraphSystem()
+#cmd dx_SetUseHardwareVertexProcessing             $39c     ; SetUseHardwareVertexProcessing(int)
+#cmd dx_SetUsePixelLighting                        $39d     ; SetUsePixelLighting(int)
+#cmd dx_SetUseOldDrawModiGraphCodeFlag             $39e     ; SetUseOldDrawModiGraphCodeFlag(int)
+#cmd dx_SetUseVramFlag                             $39f     ; SetUseVramFlag(int)
+#cmd dx_GetUseVramFlag                             $3a0     ; GetUseVramFlag()
+#cmd dx_SetBasicBlendFlag                          $3a1     ; SetBasicBlendFlag(int)
+#cmd dx_SetUseBasicGraphDraw3DDeviceMethodFlag     $3a2     ; SetUseBasicGraphDraw3DDeviceMethodFlag(int)
+#cmd dx_SetUseDisplayIndex                         $3a3     ; SetUseDisplayIndex(int)
+#cmd dx_RenderVertex                               $3a4     ; RenderVertex()
+#cmd dx_GetDrawCallCount                           $3a5     ; GetDrawCallCount()
+#cmd dx_SaveDrawScreenToBMP                        $3a6     ; SaveDrawScreenToBMP(int, int, int, int, str)
+#cmd dx_SaveDrawScreenToDDS                        $3a7     ; SaveDrawScreenToDDS(int, int, int, int, str)
+#cmd dx_SaveDrawScreenToJPEG                       $3a8     ; SaveDrawScreenToJPEG(int, int, int, int, str, int, int)
+#cmd dx_SaveDrawScreenToPNG                        $3a9     ; SaveDrawScreenToPNG(int, int, int, int, str, int)
+#cmd dx_SaveDrawValidGraph                         $3aa     ; SaveDrawValidGraph(int, int, int, int, int, str, int, int, int, int)
+#cmd dx_SaveDrawValidGraphToBMP                    $3ab     ; SaveDrawValidGraphToBMP(int, int, int, int, int, str)
+#cmd dx_SaveDrawValidGraphToDDS                    $3ac     ; SaveDrawValidGraphToDDS(int, int, int, int, int, str)
+#cmd dx_SaveDrawValidGraphToJPEG                   $3ad     ; SaveDrawValidGraphToJPEG(int, int, int, int, int, str, int, int)
+#cmd dx_SaveDrawValidGraphToPNG                    $3ae     ; SaveDrawValidGraphToPNG(int, int, int, int, int, str, int)
+#cmd dx_DeleteVertexBuffer                         $3af     ; DeleteVertexBuffer(int)
+#cmd dx_InitVertexBuffer                           $3b0     ; InitVertexBuffer()
+#cmd dx_UpdateVertexBuffer                         $3b1     ; UpdateVertexBuffer(int, int, int)
+#cmd dx_DeleteIndexBuffer                          $3b2     ; DeleteIndexBuffer(int)
+#cmd dx_InitIndexBuffer                            $3b3     ; InitIndexBuffer()
+#cmd dx_UpdateIndexBuffer                          $3b4     ; UpdateIndexBuffer(int, int, int)
+#cmd dx_GetMaxPrimitiveCount                       $3b5     ; GetMaxPrimitiveCount()
+#cmd dx_GetMaxVertexIndex                          $3b6     ; GetMaxVertexIndex()
+#cmd dx_GetValidShaderVersion                      $3b7     ; GetValidShaderVersion()
+#cmd dx_LoadVertexShader                           $3b8     ; LoadVertexShader(str)
+#cmd dx_LoadGeometryShader                         $3b9     ; LoadGeometryShader(str)
+#cmd dx_LoadPixelShader                            $3ba     ; LoadPixelShader(str)
+#cmd dx_DeleteShader                               $3bb     ; DeleteShader(int)
+#cmd dx_InitShader                                 $3bc     ; InitShader()
+#cmd dx_GetConstIndexToShader                      $3bd     ; GetConstIndexToShader(str, int)
+#cmd dx_GetConstCountToShader                      $3be     ; GetConstCountToShader(str, int)
+#cmd dx_SetVSConstSF                               $3bf     ; SetVSConstSF(int, double (float 縮小))
+#cmd dx_SetVSConstF                                $3c0     ; SetVSConstF(int, var (FLOAT4))
+#cmd dx_SetVSConstFMtx                             $3c1     ; SetVSConstFMtx(int, var (MATRIX: 4x4 float))
+#cmd dx_SetVSConstFMtxT                            $3c2     ; SetVSConstFMtxT(int, var (MATRIX: 4x4 float))
+#cmd dx_SetVSConstSI                               $3c3     ; SetVSConstSI(int, int)
+#cmd dx_ResetVSConstF                              $3c4     ; ResetVSConstF(int, int)
+#cmd dx_ResetVSConstI                              $3c5     ; ResetVSConstI(int, int)
+#cmd dx_ResetVSConstB                              $3c6     ; ResetVSConstB(int, int)
+#cmd dx_SetPSConstSF                               $3c7     ; SetPSConstSF(int, double (float 縮小))
+#cmd dx_SetPSConstF                                $3c8     ; SetPSConstF(int, var (FLOAT4))
+#cmd dx_SetPSConstFMtx                             $3c9     ; SetPSConstFMtx(int, var (MATRIX: 4x4 float))
+#cmd dx_SetPSConstFMtxT                            $3ca     ; SetPSConstFMtxT(int, var (MATRIX: 4x4 float))
+#cmd dx_SetPSConstSI                               $3cb     ; SetPSConstSI(int, int)
+#cmd dx_ResetPSConstF                              $3cc     ; ResetPSConstF(int, int)
+#cmd dx_ResetPSConstI                              $3cd     ; ResetPSConstI(int, int)
+#cmd dx_ResetPSConstB                              $3ce     ; ResetPSConstB(int, int)
+#cmd dx_SetRenderTargetToShader                    $3cf     ; SetRenderTargetToShader(int, int, int, int)
+#cmd dx_SetUseTextureToShader                      $3d0     ; SetUseTextureToShader(int, int)
+#cmd dx_SetUseVertexShader                         $3d1     ; SetUseVertexShader(int)
+#cmd dx_SetUseGeometryShader                       $3d2     ; SetUseGeometryShader(int)
+#cmd dx_SetUsePixelShader                          $3d3     ; SetUsePixelShader(int)
+#cmd dx_DrawBillboard3DToShader                    $3d4     ; DrawBillboard3DToShader(var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int, int, int, int)
+#cmd dx_DrawPolygon3DToShader_UseVertexBuffer      $3d5     ; DrawPolygon3DToShader_UseVertexBuffer(int)
+#cmd dx_DrawPolygonIndexed3DToShader_UseVertexBuffer $3d6     ; DrawPolygonIndexed3DToShader_UseVertexBuffer(int, int)
+#cmd dx_InitShaderConstantBuffer                   $3d7     ; InitShaderConstantBuffer()
+#cmd dx_CreateShaderConstantBuffer                 $3d8     ; CreateShaderConstantBuffer(int)
+#cmd dx_DeleteShaderConstantBuffer                 $3d9     ; DeleteShaderConstantBuffer(int)
+#cmd dx_UpdateShaderConstantBuffer                 $3da     ; UpdateShaderConstantBuffer(int)
+#cmd dx_SetGraphBlendScalingFilterMode             $3db     ; SetGraphBlendScalingFilterMode(int)
+#cmd dx_PlayMovie                                  $3dc     ; PlayMovie(str, int, int)
+#cmd dx_OpenMovieToGraph                           $3dd     ; OpenMovieToGraph(str, int)
+#cmd dx_AddMovieFrameToGraph                       $3de     ; AddMovieFrameToGraph(int, int (uint 扱い))
+#cmd dx_SeekMovieToGraph                           $3df     ; SeekMovieToGraph(int, int)
+#cmd dx_SetPlaySpeedRateMovieToGraph               $3e0     ; SetPlaySpeedRateMovieToGraph(int, double)
+#cmd dx_GetMovieStateToGraph                       $3e1     ; GetMovieStateToGraph(int)
+#cmd dx_SetMovieVolumeToGraph                      $3e2     ; SetMovieVolumeToGraph(int, int)
+#cmd dx_GetMovieVolumeToGraph                      $3e3     ; GetMovieVolumeToGraph(int)
+#cmd dx_ChangeMovieVolumeToGraph                   $3e4     ; ChangeMovieVolumeToGraph(int, int)
+#cmd dx_GetMovieVolumeToGraph2                     $3e5     ; GetMovieVolumeToGraph2(int)
+#cmd dx_GetMovieTotalFrameToGraph                  $3e6     ; GetMovieTotalFrameToGraph(int)
+#cmd dx_TellMovieToGraph                           $3e7     ; TellMovieToGraph(int)
+#cmd dx_TellMovieToGraphToFrame                    $3e8     ; TellMovieToGraphToFrame(int)
+#cmd dx_SeekMovieToGraphToFrame                    $3e9     ; SeekMovieToGraphToFrame(int, int)
+#cmd dx_GetLastUpdateTimeMovieToGraph              $3ea     ; GetLastUpdateTimeMovieToGraph(int)
+#cmd dx_UpdateMovieToGraph                         $3eb     ; UpdateMovieToGraph(int)
+#cmd dx_SetMovieRightImageAlphaFlag                $3ec     ; SetMovieRightImageAlphaFlag(int)
+#cmd dx_SetMovieColorA8R8G8B8Flag                  $3ed     ; SetMovieColorA8R8G8B8Flag(int)
+#cmd dx_SetMovieUseYUVFormatSurfaceFlag            $3ee     ; SetMovieUseYUVFormatSurfaceFlag(int)
+#cmd dx_SetCameraNearFar                           $3ef     ; SetCameraNearFar(double (float 縮小), double (float 縮小))
+#cmd dx_SetCameraNearFarD                          $3f0     ; SetCameraNearFarD(double, double)
+#cmd dx_SetCameraPositionAndTarget_UpVecYD         $3f1     ; SetCameraPositionAndTarget_UpVecYD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_SetCameraPositionAndTargetAndUpVec         $3f2     ; SetCameraPositionAndTargetAndUpVec(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_SetCameraPositionAndTargetAndUpVecD        $3f3     ; SetCameraPositionAndTargetAndUpVecD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_SetCameraPositionAndAngle                  $3f4     ; SetCameraPositionAndAngle(var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_SetCameraPositionAndAngleD                 $3f5     ; SetCameraPositionAndAngleD(var (VECTOR_D: #defstruct double x,y,z), double, double, double)
+#cmd dx_SetCameraViewMatrix                        $3f6     ; SetCameraViewMatrix(var (MATRIX: 4x4 float))
+#cmd dx_SetCameraViewMatrixD                       $3f7     ; SetCameraViewMatrixD(var (MATRIX_D: 4x4 double))
+#cmd dx_SetCameraScreenCenter                      $3f8     ; SetCameraScreenCenter(double (float 縮小), double (float 縮小))
+#cmd dx_SetCameraScreenCenterD                     $3f9     ; SetCameraScreenCenterD(double, double)
+#cmd dx_SetupCamera_PerspectiveD                   $3fa     ; SetupCamera_PerspectiveD(double)
+#cmd dx_SetupCamera_Ortho                          $3fb     ; SetupCamera_Ortho(double (float 縮小))
+#cmd dx_SetupCamera_OrthoD                         $3fc     ; SetupCamera_OrthoD(double)
+#cmd dx_SetupCamera_ProjectionMatrix               $3fd     ; SetupCamera_ProjectionMatrix(var (MATRIX: 4x4 float))
+#cmd dx_SetupCamera_ProjectionMatrixD              $3fe     ; SetupCamera_ProjectionMatrixD(var (MATRIX_D: 4x4 double))
+#cmd dx_SetCameraDotAspect                         $3ff     ; SetCameraDotAspect(double (float 縮小))
+#cmd dx_SetCameraDotAspectD                        $400     ; SetCameraDotAspectD(double)
+#cmd dx_CheckCameraViewClip                        $401     ; CheckCameraViewClip(var (VECTOR: #defstruct float x,y,z))
+#cmd dx_CheckCameraViewClipD                       $402     ; CheckCameraViewClipD(var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_CheckCameraViewClip_Dir                    $403     ; CheckCameraViewClip_Dir(var (VECTOR: #defstruct float x,y,z))
+#cmd dx_CheckCameraViewClip_DirD                   $404     ; CheckCameraViewClip_DirD(var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_CheckCameraViewClip_Box                    $405     ; CheckCameraViewClip_Box(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_CheckCameraViewClip_BoxD                   $406     ; CheckCameraViewClip_BoxD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_SetMaterialUseVertDifColor                 $407     ; SetMaterialUseVertDifColor(int)
+#cmd dx_SetMaterialUseVertSpcColor                 $408     ; SetMaterialUseVertSpcColor(int)
+#cmd dx_SetUseSpecular                             $409     ; SetUseSpecular(int)
+#cmd dx_SetGlobalAmbientLight                      $40a     ; SetGlobalAmbientLight(var (COLOR_F: float r,g,b,a))
+#cmd dx_SetUseLightAngleAttenuation                $40b     ; SetUseLightAngleAttenuation(int)
+#cmd dx_SetUseHalfLambertLighting                  $40c     ; SetUseHalfLambertLighting(int)
+#cmd dx_ChangeLightTypeDir                         $40d     ; ChangeLightTypeDir(var (VECTOR: #defstruct float x,y,z))
+#cmd dx_ChangeLightTypeSpot                        $40e     ; ChangeLightTypeSpot(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_ChangeLightTypePoint                       $40f     ; ChangeLightTypePoint(var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_GetLightType                               $410     ; GetLightType()
+#cmd dx_SetLightEnable                             $411     ; SetLightEnable(int)
+#cmd dx_GetLightEnable                             $412     ; GetLightEnable()
+#cmd dx_SetLightDifColor                           $413     ; SetLightDifColor(var (COLOR_F: float r,g,b,a))
+#cmd dx_SetLightSpcColor                           $414     ; SetLightSpcColor(var (COLOR_F: float r,g,b,a))
+#cmd dx_SetLightAmbColor                           $415     ; SetLightAmbColor(var (COLOR_F: float r,g,b,a))
+#cmd dx_SetLightPosition                           $416     ; SetLightPosition(var (VECTOR: #defstruct float x,y,z))
+#cmd dx_SetLightRangeAtten                         $417     ; SetLightRangeAtten(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_SetLightAngle                              $418     ; SetLightAngle(double (float 縮小), double (float 縮小))
+#cmd dx_SetLightUseShadowMap                       $419     ; SetLightUseShadowMap(int, int)
+#cmd dx_CreateDirLightHandle                       $41a     ; CreateDirLightHandle(var (VECTOR: #defstruct float x,y,z))
+#cmd dx_CreateSpotLightHandle                      $41b     ; CreateSpotLightHandle(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_CreatePointLightHandle                     $41c     ; CreatePointLightHandle(var (VECTOR: #defstruct float x,y,z), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_DeleteLightHandle                          $41d     ; DeleteLightHandle(int)
+#cmd dx_DeleteLightHandleAll                       $41e     ; DeleteLightHandleAll()
+#cmd dx_SetLightTypeHandle                         $41f     ; SetLightTypeHandle(int, int)
+#cmd dx_SetLightEnableHandle                       $420     ; SetLightEnableHandle(int, int)
+#cmd dx_SetLightDifColorHandle                     $421     ; SetLightDifColorHandle(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_SetLightSpcColorHandle                     $422     ; SetLightSpcColorHandle(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_SetLightAmbColorHandle                     $423     ; SetLightAmbColorHandle(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_SetLightDirectionHandle                    $424     ; SetLightDirectionHandle(int, var (VECTOR: #defstruct float x,y,z))
+#cmd dx_SetLightPositionHandle                     $425     ; SetLightPositionHandle(int, var (VECTOR: #defstruct float x,y,z))
+#cmd dx_SetLightRangeAttenHandle                   $426     ; SetLightRangeAttenHandle(int, double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_SetLightAngleHandle                        $427     ; SetLightAngleHandle(int, double (float 縮小), double (float 縮小))
+#cmd dx_SetLightUseShadowMapHandle                 $428     ; SetLightUseShadowMapHandle(int, int, int)
+#cmd dx_GetLightTypeHandle                         $429     ; GetLightTypeHandle(int)
+#cmd dx_GetLightEnableHandle                       $42a     ; GetLightEnableHandle(int)
+#cmd dx_GetEnableLightHandleNum                    $42b     ; GetEnableLightHandleNum()
+#cmd dx_GetEnableLightHandle                       $42c     ; GetEnableLightHandle(int)
+#cmd dx_CreateMaskScreen                           $42d     ; CreateMaskScreen()
+#cmd dx_DeleteMaskScreen                           $42e     ; DeleteMaskScreen()
+#cmd dx_SetUseMaskScreenFlag                       $42f     ; SetUseMaskScreenFlag(int)
+#cmd dx_GetUseMaskScreenFlag                       $430     ; GetUseMaskScreenFlag()
+#cmd dx_FillMaskScreen                             $431     ; FillMaskScreen(int)
+#cmd dx_SetMaskScreenGraph                         $432     ; SetMaskScreenGraph(int)
+#cmd dx_InitMask                                   $433     ; InitMask()
+#cmd dx_MakeMask                                   $434     ; MakeMask(int, int)
+#cmd dx_DeleteMask                                 $435     ; DeleteMask(int)
+#cmd dx_LoadMask                                   $436     ; LoadMask(str)
+#cmd dx_DrawMask                                   $437     ; DrawMask(int, int, int, int)
+#cmd dx_DrawStringMask                             $438     ; DrawStringMask(int, int, int, str)
+#cmd dx_DrawStringMaskToHandle                     $439     ; DrawStringMaskToHandle(int, int, int, int, str)
+#cmd dx_DrawFillMask                               $43a     ; DrawFillMask(int, int, int, int, int)
+#cmd dx_SetMaskReverseEffectFlag                   $43b     ; SetMaskReverseEffectFlag(int)
+#cmd dx_GetMaskScreenData                          $43c     ; GetMaskScreenData(int, int, int, int, int)
+#cmd dx_GetMaskUseFlag                             $43d     ; GetMaskUseFlag()
+#cmd dx_EnumFontName                               $43e     ; EnumFontName(str, int, int)
+#cmd dx_InitFontToHandle                           $43f     ; InitFontToHandle()
+#cmd dx_LoadFontDataToHandle                       $440     ; LoadFontDataToHandle(str, int)
+#cmd dx_SetFontSpaceToHandle                       $441     ; SetFontSpaceToHandle(int, int)
+#cmd dx_SetFontLineSpaceToHandle                   $442     ; SetFontLineSpaceToHandle(int, int)
+#cmd dx_DeleteFontToHandle                         $443     ; DeleteFontToHandle(int)
+#cmd dx_AddFontImageToHandle                       $444     ; AddFontImageToHandle(int, str, int, int, int, int)
+#cmd dx_SubFontImageToHandle                       $445     ; SubFontImageToHandle(int, str)
+#cmd dx_AddSubstitutionFontToHandle                $446     ; AddSubstitutionFontToHandle(int, int, int, int)
+#cmd dx_SubSubstitutionFontToHandle                $447     ; SubSubstitutionFontToHandle(int, int)
+#cmd dx_ChangeFontFromHandle                       $448     ; ChangeFontFromHandle(int)
+#cmd dx_ChangeFontType                             $449     ; ChangeFontType(int)
+#cmd dx_GetFontSize                                $44a     ; GetFontSize()
+#cmd dx_GetFontEdgeSize                            $44b     ; GetFontEdgeSize()
+#cmd dx_SetFontSpace                               $44c     ; SetFontSpace(int)
+#cmd dx_GetFontSpace                               $44d     ; GetFontSpace()
+#cmd dx_SetFontLineSpace                           $44e     ; SetFontLineSpace(int)
+#cmd dx_GetFontLineSpace                           $44f     ; GetFontLineSpace()
+#cmd dx_SetDefaultFontState                        $450     ; SetDefaultFontState(str, int, int, int, int, int, int)
+#cmd dx_GetDefaultFontHandle                       $451     ; GetDefaultFontHandle()
+#cmd dx_GetFontMaxCacheCharNum                     $452     ; GetFontMaxCacheCharNum()
+#cmd dx_GetFontMaxWidth                            $453     ; GetFontMaxWidth()
+#cmd dx_GetFontAscent                              $454     ; GetFontAscent()
+#cmd dx_GetDrawStringWidth                         $455     ; GetDrawStringWidth(str, int, int)
+#cmd dx_GetDrawExtendStringWidth                   $456     ; GetDrawExtendStringWidth(double, str, int, int)
+#cmd dx_GetFontMaxCacheCharNumToHandle             $457     ; GetFontMaxCacheCharNumToHandle(int)
+#cmd dx_GetFontMaxWidthToHandle                    $458     ; GetFontMaxWidthToHandle(int)
+#cmd dx_GetFontAscentToHandle                      $459     ; GetFontAscentToHandle(int)
+#cmd dx_GetFontSizeToHandle                        $45a     ; GetFontSizeToHandle(int)
+#cmd dx_GetFontEdgeSizeToHandle                    $45b     ; GetFontEdgeSizeToHandle(int)
+#cmd dx_GetFontSpaceToHandle                       $45c     ; GetFontSpaceToHandle(int)
+#cmd dx_GetFontLineSpaceToHandle                   $45d     ; GetFontLineSpaceToHandle(int)
+#cmd dx_GetDrawStringWidthToHandle                 $45e     ; GetDrawStringWidthToHandle(str, int, int, int)
+#cmd dx_GetDrawExtendStringWidthToHandle           $45f     ; GetDrawExtendStringWidthToHandle(double, str, int, int, int)
+#cmd dx_CheckFontCacheToTextureFlag                $460     ; CheckFontCacheToTextureFlag(int)
+#cmd dx_CheckFontChacheToTextureFlag               $461     ; CheckFontChacheToTextureFlag(int)
+#cmd dx_CheckFontHandleValid                       $462     ; CheckFontHandleValid(int)
+#cmd dx_ClearFontCacheToHandle                     $463     ; ClearFontCacheToHandle(int)
+#cmd dx_SetFontCacheToTextureFlag                  $464     ; SetFontCacheToTextureFlag(int)
+#cmd dx_GetFontCacheToTextureFlag                  $465     ; GetFontCacheToTextureFlag()
+#cmd dx_SetFontChacheToTextureFlag                 $466     ; SetFontChacheToTextureFlag(int)
+#cmd dx_GetFontChacheToTextureFlag                 $467     ; GetFontChacheToTextureFlag()
+#cmd dx_SetFontCacheTextureColorBitDepth           $468     ; SetFontCacheTextureColorBitDepth(int)
+#cmd dx_GetFontCacheTextureColorBitDepth           $469     ; GetFontCacheTextureColorBitDepth()
+#cmd dx_SetFontCacheCharNum                        $46a     ; SetFontCacheCharNum(int)
+#cmd dx_GetFontCacheCharNum                        $46b     ; GetFontCacheCharNum()
+#cmd dx_SetFontCacheUsePremulAlphaFlag             $46c     ; SetFontCacheUsePremulAlphaFlag(int)
+#cmd dx_GetFontCacheUsePremulAlphaFlag             $46d     ; GetFontCacheUsePremulAlphaFlag()
+#cmd dx_SetFontUseAdjustSizeFlag                   $46e     ; SetFontUseAdjustSizeFlag(int)
+#cmd dx_GetFontUseAdjustSizeFlag                   $46f     ; GetFontUseAdjustSizeFlag()
+#cmd dx_SetFontOnlyDrawType                        $470     ; SetFontOnlyDrawType(int)
+#cmd dx_GetFontOnlyDrawType                        $471     ; GetFontOnlyDrawType()
+#cmd dx_SetFontIgnoreLFFlag                        $472     ; SetFontIgnoreLFFlag(int)
+#cmd dx_GetFontIgnoreLFFlag                        $473     ; GetFontIgnoreLFFlag()
+#cmd dx_DrawVString                                $474     ; DrawVString(int, int, str, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawExtendString                           $475     ; DrawExtendString(int, int, double, double, str, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawExtendVString                          $476     ; DrawExtendVString(int, int, double, double, str, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawRotaString                             $477     ; DrawRotaString(int, int, double, double, double, double, double, int (uint 扱い), int (uint 扱い), int, str)
+#cmd dx_DrawModiString                             $478     ; DrawModiString(int, int, int, int, int, int, int, int, int (uint 扱い), int (uint 扱い), int, str)
+#cmd dx_DrawStringF                                $479     ; DrawStringF(double (float 縮小), double (float 縮小), str, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawVStringF                               $47a     ; DrawVStringF(double (float 縮小), double (float 縮小), str, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawExtendStringF                          $47b     ; DrawExtendStringF(double (float 縮小), double (float 縮小), double, double, str, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawExtendVStringF                         $47c     ; DrawExtendVStringF(double (float 縮小), double (float 縮小), double, double, str, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawRotaStringF                            $47d     ; DrawRotaStringF(double (float 縮小), double (float 縮小), double, double, double, double, double, int (uint 扱い), int (uint 扱い), int, str)
+#cmd dx_DrawModiStringF                            $47e     ; DrawModiStringF(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int (uint 扱い), int (uint 扱い), int, str)
+#cmd dx_DrawNumberToI                              $47f     ; DrawNumberToI(int, int, int, int, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawNumberToF                              $480     ; DrawNumberToF(int, int, double, int, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawNumberPlusToI                          $481     ; DrawNumberPlusToI(int, int, str, int, int, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawNumberPlusToF                          $482     ; DrawNumberPlusToF(int, int, str, double, int, int (uint 扱い), int (uint 扱い))
+#cmd dx_DrawStringToHandle                         $483     ; DrawStringToHandle(int, int, str, int (uint 扱い), int, int (uint 扱い), int)
+#cmd dx_DrawVStringToHandle                        $484     ; DrawVStringToHandle(int, int, str, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_DrawExtendStringToHandle                   $485     ; DrawExtendStringToHandle(int, int, double, double, str, int (uint 扱い), int, int (uint 扱い), int)
+#cmd dx_DrawExtendVStringToHandle                  $486     ; DrawExtendVStringToHandle(int, int, double, double, str, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_DrawRotaStringToHandle                     $487     ; DrawRotaStringToHandle(int, int, double, double, double, double, double, int (uint 扱い), int, int (uint 扱い), int, str)
+#cmd dx_DrawModiStringToHandle                     $488     ; DrawModiStringToHandle(int, int, int, int, int, int, int, int, int (uint 扱い), int, int (uint 扱い), int, str)
+#cmd dx_DrawStringFToHandle                        $489     ; DrawStringFToHandle(double (float 縮小), double (float 縮小), str, int (uint 扱い), int, int (uint 扱い), int)
+#cmd dx_DrawVStringFToHandle                       $48a     ; DrawVStringFToHandle(double (float 縮小), double (float 縮小), str, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_DrawExtendStringFToHandle                  $48b     ; DrawExtendStringFToHandle(double (float 縮小), double (float 縮小), double, double, str, int (uint 扱い), int, int (uint 扱い), int)
+#cmd dx_DrawExtendVStringFToHandle                 $48c     ; DrawExtendVStringFToHandle(double (float 縮小), double (float 縮小), double, double, str, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_DrawRotaStringFToHandle                    $48d     ; DrawRotaStringFToHandle(double (float 縮小), double (float 縮小), double, double, double, double, double, int (uint 扱い), int, int (uint 扱い), int, str)
+#cmd dx_DrawModiStringFToHandle                    $48e     ; DrawModiStringFToHandle(double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), int (uint 扱い), int, int (uint 扱い), int, str)
+#cmd dx_DrawNumberToIToHandle                      $48f     ; DrawNumberToIToHandle(int, int, int, int, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_DrawNumberToFToHandle                      $490     ; DrawNumberToFToHandle(int, int, double, int, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_DrawNumberPlusToIToHandle                  $491     ; DrawNumberPlusToIToHandle(int, int, str, int, int, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_DrawNumberPlusToFToHandle                  $492     ; DrawNumberPlusToFToHandle(int, int, str, double, int, int (uint 扱い), int, int (uint 扱い))
+#cmd dx_HitCheck_Triangle_Triangle                 $493     ; HitCheck_Triangle_Triangle(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_HitCheck_Triangle_TriangleD                $494     ; HitCheck_Triangle_TriangleD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_HitCheck_Triangle_Triangle_2D              $495     ; HitCheck_Triangle_Triangle_2D(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_HitCheck_Triangle_TriangleD_2D             $496     ; HitCheck_Triangle_TriangleD_2D(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_HitCheck_Point_Cone                        $497     ; HitCheck_Point_Cone(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小))
+#cmd dx_HitCheck_Point_ConeD                       $498     ; HitCheck_Point_ConeD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double)
+#cmd dx_HitCheck_Line_Sphere                       $499     ; HitCheck_Line_Sphere(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小))
+#cmd dx_HitCheck_Line_SphereD                      $49a     ; HitCheck_Line_SphereD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double)
+#cmd dx_HitCheck_Sphere_Sphere                     $49b     ; HitCheck_Sphere_Sphere(var (VECTOR: #defstruct float x,y,z), double (float 縮小), var (VECTOR: #defstruct float x,y,z), double (float 縮小))
+#cmd dx_HitCheck_Sphere_SphereD                    $49c     ; HitCheck_Sphere_SphereD(var (VECTOR_D: #defstruct double x,y,z), double, var (VECTOR_D: #defstruct double x,y,z), double)
+#cmd dx_HitCheck_Sphere_Capsule                    $49d     ; HitCheck_Sphere_Capsule(var (VECTOR: #defstruct float x,y,z), double (float 縮小), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小))
+#cmd dx_HitCheck_Sphere_CapsuleD                   $49e     ; HitCheck_Sphere_CapsuleD(var (VECTOR_D: #defstruct double x,y,z), double, var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double)
+#cmd dx_HitCheck_Sphere_Triangle                   $49f     ; HitCheck_Sphere_Triangle(var (VECTOR: #defstruct float x,y,z), double (float 縮小), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_HitCheck_Sphere_TriangleD                  $4a0     ; HitCheck_Sphere_TriangleD(var (VECTOR_D: #defstruct double x,y,z), double, var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_HitCheck_Capsule_Capsule                   $4a1     ; HitCheck_Capsule_Capsule(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小))
+#cmd dx_HitCheck_Capsule_CapsuleD                  $4a2     ; HitCheck_Capsule_CapsuleD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double, var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double)
+#cmd dx_HitCheck_Capsule_Triangle                  $4a3     ; HitCheck_Capsule_Triangle(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_HitCheck_Capsule_TriangleD                 $4a4     ; HitCheck_Capsule_TriangleD(var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), double, var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z), var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_SetUseFastLoadFlag                         $4a5     ; SetUseFastLoadFlag(int)
+#cmd dx_GetGraphDataShavedMode                     $4a6     ; GetGraphDataShavedMode()
+#cmd dx_SetUsePremulAlphaConvertLoad               $4a7     ; SetUsePremulAlphaConvertLoad(int)
+#cmd dx_GetUsePremulAlphaConvertLoad               $4a8     ; GetUsePremulAlphaConvertLoad()
+#cmd dx_SetUseConvertNormalFormatLoad              $4a9     ; SetUseConvertNormalFormatLoad(int)
+#cmd dx_GetUseConvertNormalFormatLoad              $4aa     ; GetUseConvertNormalFormatLoad()
+#cmd dx_InitSoftImage                              $4ab     ; InitSoftImage()
+#cmd dx_LoadSoftImage                              $4ac     ; LoadSoftImage(str)
+#cmd dx_LoadARGB8ColorSoftImage                    $4ad     ; LoadARGB8ColorSoftImage(str)
+#cmd dx_LoadXRGB8ColorSoftImage                    $4ae     ; LoadXRGB8ColorSoftImage(str)
+#cmd dx_MakeSoftImage                              $4af     ; MakeSoftImage(int, int)
+#cmd dx_MakeARGBF32ColorSoftImage                  $4b0     ; MakeARGBF32ColorSoftImage(int, int)
+#cmd dx_MakeARGBF16ColorSoftImage                  $4b1     ; MakeARGBF16ColorSoftImage(int, int)
+#cmd dx_MakeXRGB8ColorSoftImage                    $4b2     ; MakeXRGB8ColorSoftImage(int, int)
+#cmd dx_MakeARGB8ColorSoftImage                    $4b3     ; MakeARGB8ColorSoftImage(int, int)
+#cmd dx_MakeRGBA8ColorSoftImage                    $4b4     ; MakeRGBA8ColorSoftImage(int, int)
+#cmd dx_MakeABGR8ColorSoftImage                    $4b5     ; MakeABGR8ColorSoftImage(int, int)
+#cmd dx_MakeBGRA8ColorSoftImage                    $4b6     ; MakeBGRA8ColorSoftImage(int, int)
+#cmd dx_MakeARGB4ColorSoftImage                    $4b7     ; MakeARGB4ColorSoftImage(int, int)
+#cmd dx_MakeA1R5G5B5ColorSoftImage                 $4b8     ; MakeA1R5G5B5ColorSoftImage(int, int)
+#cmd dx_MakeX1R5G5B5ColorSoftImage                 $4b9     ; MakeX1R5G5B5ColorSoftImage(int, int)
+#cmd dx_MakeR5G5B5A1ColorSoftImage                 $4ba     ; MakeR5G5B5A1ColorSoftImage(int, int)
+#cmd dx_MakeR5G6B5ColorSoftImage                   $4bb     ; MakeR5G6B5ColorSoftImage(int, int)
+#cmd dx_MakeRGB8ColorSoftImage                     $4bc     ; MakeRGB8ColorSoftImage(int, int)
+#cmd dx_MakePAL8ColorSoftImage                     $4bd     ; MakePAL8ColorSoftImage(int, int, int)
+#cmd dx_DeleteSoftImage                            $4be     ; DeleteSoftImage(int)
+#cmd dx_CheckPaletteSoftImage                      $4bf     ; CheckPaletteSoftImage(int)
+#cmd dx_CheckAlphaSoftImage                        $4c0     ; CheckAlphaSoftImage(int)
+#cmd dx_CheckPixelAlphaSoftImage                   $4c1     ; CheckPixelAlphaSoftImage(int)
+#cmd dx_GetDrawScreenSoftImage                     $4c2     ; GetDrawScreenSoftImage(int, int, int, int, int)
+#cmd dx_GetDrawScreenSoftImageDestPos              $4c3     ; GetDrawScreenSoftImageDestPos(int, int, int, int, int, int, int)
+#cmd dx_FillSoftImage                              $4c4     ; FillSoftImage(int, int, int, int, int)
+#cmd dx_ClearRectSoftImage                         $4c5     ; ClearRectSoftImage(int, int, int, int, int)
+#cmd dx_SetPaletteSoftImage                        $4c6     ; SetPaletteSoftImage(int, int, int, int, int, int)
+#cmd dx_DrawPixelPalCodeSoftImage                  $4c7     ; DrawPixelPalCodeSoftImage(int, int, int, int)
+#cmd dx_GetPixelPalCodeSoftImage                   $4c8     ; GetPixelPalCodeSoftImage(int, int, int)
+#cmd dx_GetPitchSoftImage                          $4c9     ; GetPitchSoftImage(int)
+#cmd dx_DrawPixelSoftImage                         $4ca     ; DrawPixelSoftImage(int, int, int, int, int, int, int)
+#cmd dx_DrawPixelSoftImageF                        $4cb     ; DrawPixelSoftImageF(int, int, int, double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_DrawLineSoftImage                          $4cc     ; DrawLineSoftImage(int, int, int, int, int, int, int, int, int)
+#cmd dx_DrawCircleSoftImage                        $4cd     ; DrawCircleSoftImage(int, int, int, int, int, int, int, int, int)
+#cmd dx_BltSoftImage                               $4ce     ; BltSoftImage(int, int, int, int, int, int, int, int)
+#cmd dx_BltSoftImageWithTransColor                 $4cf     ; BltSoftImageWithTransColor(int, int, int, int, int, int, int, int, int, int, int, int)
+#cmd dx_BltSoftImageWithAlphaBlend                 $4d0     ; BltSoftImageWithAlphaBlend(int, int, int, int, int, int, int, int, int)
+#cmd dx_ReverseSoftImageH                          $4d1     ; ReverseSoftImageH(int)
+#cmd dx_ReverseSoftImageV                          $4d2     ; ReverseSoftImageV(int)
+#cmd dx_ReverseSoftImage                           $4d3     ; ReverseSoftImage(int)
+#cmd dx_ConvertPremulAlphaSoftImage                $4d4     ; ConvertPremulAlphaSoftImage(int)
+#cmd dx_ConvertInterpAlphaSoftImage                $4d5     ; ConvertInterpAlphaSoftImage(int)
+#cmd dx_BltStringSoftImage                         $4d6     ; BltStringSoftImage(int, int, str, int, int, int)
+#cmd dx_DrawSoftImage                              $4d7     ; DrawSoftImage(int, int, int)
+#cmd dx_SaveSoftImageToBmp                         $4d8     ; SaveSoftImageToBmp(str, int)
+#cmd dx_SaveSoftImageToDds                         $4d9     ; SaveSoftImageToDds(str, int)
+#cmd dx_SaveSoftImageToPng                         $4da     ; SaveSoftImageToPng(str, int, int)
+#cmd dx_SaveSoftImageToJpeg                        $4db     ; SaveSoftImageToJpeg(str, int, int, int)
+#cmd dx_InitSoundMem                               $4dc     ; InitSoundMem()
+#cmd dx_AddSoundData                               $4dd     ; AddSoundData(int)
+#cmd dx_AddStreamSoundMemToFile                    $4de     ; AddStreamSoundMemToFile(str, int, int, int, int)
+#cmd dx_SetupStreamSoundMem                        $4df     ; SetupStreamSoundMem(int)
+#cmd dx_PlayStreamSoundMem                         $4e0     ; PlayStreamSoundMem(int, int, int)
+#cmd dx_CheckStreamSoundMem                        $4e1     ; CheckStreamSoundMem(int)
+#cmd dx_StopStreamSoundMem                         $4e2     ; StopStreamSoundMem(int, int)
+#cmd dx_SetStreamSoundCurrentPosition              $4e3     ; SetStreamSoundCurrentPosition(int64, int)
+#cmd dx_SetStreamSoundCurrentTime                  $4e4     ; SetStreamSoundCurrentTime(int64, int)
+#cmd dx_ProcessStreamSoundMem                      $4e5     ; ProcessStreamSoundMem(int)
+#cmd dx_ProcessStreamSoundMemAll                   $4e6     ; ProcessStreamSoundMemAll()
+#cmd dx_LoadSoundMem2                              $4e7     ; LoadSoundMem2(str, str)
+#cmd dx_LoadBGM                                    $4e8     ; LoadBGM(str)
+#cmd dx_LoadSoundMemBase                           $4e9     ; LoadSoundMemBase(str, int, int)
+#cmd dx_LoadSoundMemToBufNumSitei                  $4ea     ; LoadSoundMemToBufNumSitei(str, int)
+#cmd dx_DuplicateSoundMem                          $4eb     ; DuplicateSoundMem(int, int)
+#cmd dx_LoadSoundMemFromSoftSound                  $4ec     ; LoadSoundMemFromSoftSound(int, int)
+#cmd dx_ChangePanSoundMem                          $4ed     ; ChangePanSoundMem(int, int)
+#cmd dx_GetPanSoundMem                             $4ee     ; GetPanSoundMem(int)
+#cmd dx_ChangeVolumeSoundMem                       $4ef     ; ChangeVolumeSoundMem(int, int)
+#cmd dx_GetVolumeSoundMem                          $4f0     ; GetVolumeSoundMem(int)
+#cmd dx_GetVolumeSoundMem2                         $4f1     ; GetVolumeSoundMem2(int)
+#cmd dx_SetChannelVolumeSoundMem                   $4f2     ; SetChannelVolumeSoundMem(int, int, int)
+#cmd dx_ChangeChannelVolumeSoundMem                $4f3     ; ChangeChannelVolumeSoundMem(int, int, int)
+#cmd dx_GetChannelVolumeSoundMem                   $4f4     ; GetChannelVolumeSoundMem(int, int)
+#cmd dx_GetChannelVolumeSoundMem2                  $4f5     ; GetChannelVolumeSoundMem2(int, int)
+#cmd dx_SetFrequencySoundMem                       $4f6     ; SetFrequencySoundMem(int, int)
+#cmd dx_GetFrequencySoundMem                       $4f7     ; GetFrequencySoundMem(int)
+#cmd dx_ResetFrequencySoundMem                     $4f8     ; ResetFrequencySoundMem(int)
+#cmd dx_SetNextPlayPanSoundMem                     $4f9     ; SetNextPlayPanSoundMem(int, int)
+#cmd dx_ChangeNextPlayPanSoundMem                  $4fa     ; ChangeNextPlayPanSoundMem(int, int)
+#cmd dx_SetNextPlayVolumeSoundMem                  $4fb     ; SetNextPlayVolumeSoundMem(int, int)
+#cmd dx_ChangeNextPlayVolumeSoundMem               $4fc     ; ChangeNextPlayVolumeSoundMem(int, int)
+#cmd dx_SetNextPlayChannelVolumeSoundMem           $4fd     ; SetNextPlayChannelVolumeSoundMem(int, int, int)
+#cmd dx_ChangeNextPlayChannelVolumeSoundMem        $4fe     ; ChangeNextPlayChannelVolumeSoundMem(int, int, int)
+#cmd dx_SetNextPlayFrequencySoundMem               $4ff     ; SetNextPlayFrequencySoundMem(int, int)
+#cmd dx_SetCurrentPositionSoundMem                 $500     ; SetCurrentPositionSoundMem(int64, int)
+#cmd dx_SetSoundCurrentPosition                    $501     ; SetSoundCurrentPosition(int64, int)
+#cmd dx_SetSoundCurrentTime                        $502     ; SetSoundCurrentTime(int64, int)
+#cmd dx_SetLoopPosSoundMem                         $503     ; SetLoopPosSoundMem(int64, int)
+#cmd dx_SetLoopTimePosSoundMem                     $504     ; SetLoopTimePosSoundMem(int64, int)
+#cmd dx_SetLoopSamplePosSoundMem                   $505     ; SetLoopSamplePosSoundMem(int64, int)
+#cmd dx_SetLoopStartTimePosSoundMem                $506     ; SetLoopStartTimePosSoundMem(int64, int)
+#cmd dx_SetLoopStartSamplePosSoundMem              $507     ; SetLoopStartSamplePosSoundMem(int64, int)
+#cmd dx_SetLoopAreaTimePosSoundMem                 $508     ; SetLoopAreaTimePosSoundMem(int64, int64, int)
+#cmd dx_SetLoopAreaSamplePosSoundMem               $509     ; SetLoopAreaSamplePosSoundMem(int64, int64, int)
+#cmd dx_SetPlayFinishDeleteSoundMem                $50a     ; SetPlayFinishDeleteSoundMem(int, int)
+#cmd dx_Set3DPositionSoundMem                      $50b     ; Set3DPositionSoundMem(var (VECTOR: #defstruct float x,y,z), int)
+#cmd dx_Set3DRadiusSoundMem                        $50c     ; Set3DRadiusSoundMem(double (float 縮小), int)
+#cmd dx_Set3DVelocitySoundMem                      $50d     ; Set3DVelocitySoundMem(var (VECTOR: #defstruct float x,y,z), int)
+#cmd dx_SetNextPlay3DPositionSoundMem              $50e     ; SetNextPlay3DPositionSoundMem(var (VECTOR: #defstruct float x,y,z), int)
+#cmd dx_SetNextPlay3DRadiusSoundMem                $50f     ; SetNextPlay3DRadiusSoundMem(double (float 縮小), int)
+#cmd dx_SetNextPlay3DVelocitySoundMem              $510     ; SetNextPlay3DVelocitySoundMem(var (VECTOR: #defstruct float x,y,z), int)
+#cmd dx_GetOggCommentNum                           $511     ; GetOggCommentNum(str)
+#cmd dx_SetCreateSoundDataType                     $512     ; SetCreateSoundDataType(int)
+#cmd dx_GetCreateSoundDataType                     $513     ; GetCreateSoundDataType()
+#cmd dx_SetCreateSoundPitchRate                    $514     ; SetCreateSoundPitchRate(double (float 縮小))
+#cmd dx_SetCreateSoundTimeStretchRate              $515     ; SetCreateSoundTimeStretchRate(double (float 縮小))
+#cmd dx_SetCreateSoundLoopAreaTimePos              $516     ; SetCreateSoundLoopAreaTimePos(int64, int64)
+#cmd dx_SetCreateSoundLoopAreaSamplePos            $517     ; SetCreateSoundLoopAreaSamplePos(int64, int64)
+#cmd dx_SetCreateSoundIgnoreLoopAreaInfo           $518     ; SetCreateSoundIgnoreLoopAreaInfo(int)
+#cmd dx_GetCreateSoundIgnoreLoopAreaInfo           $519     ; GetCreateSoundIgnoreLoopAreaInfo()
+#cmd dx_SetDisableReadSoundFunctionMask            $51a     ; SetDisableReadSoundFunctionMask(int)
+#cmd dx_GetDisableReadSoundFunctionMask            $51b     ; GetDisableReadSoundFunctionMask()
+#cmd dx_SetEnableSoundCaptureFlag                  $51c     ; SetEnableSoundCaptureFlag(int)
+#cmd dx_SetUseOldVolumeCalcFlag                    $51d     ; SetUseOldVolumeCalcFlag(int)
+#cmd dx_GetSoundCurrentTimeType                    $51e     ; GetSoundCurrentTimeType()
+#cmd dx_SetCreate3DSoundFlag                       $51f     ; SetCreate3DSoundFlag(int)
+#cmd dx_Set3DSoundOneMetre                         $520     ; Set3DSoundOneMetre(double (float 縮小))
+#cmd dx_Set3DSoundListenerPosAndFrontPos_UpVecY    $521     ; Set3DSoundListenerPosAndFrontPos_UpVecY(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_Set3DSoundListenerPosAndFrontPosAndUpVec   $522     ; Set3DSoundListenerPosAndFrontPosAndUpVec(var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z))
+#cmd dx_Set3DSoundListenerVelocity                 $523     ; Set3DSoundListenerVelocity(var (VECTOR: #defstruct float x,y,z))
+#cmd dx_Set3DSoundListenerConeAngle                $524     ; Set3DSoundListenerConeAngle(double (float 縮小), double (float 縮小))
+#cmd dx_Set3DSoundListenerConeVolume               $525     ; Set3DSoundListenerConeVolume(double (float 縮小), double (float 縮小))
+#cmd dx_SetBeepFrequency                           $526     ; SetBeepFrequency(int)
+#cmd dx_PlayBeep                                   $527     ; PlayBeep()
+#cmd dx_StopBeep                                   $528     ; StopBeep()
+#cmd dx_PlaySoundFile                              $529     ; PlaySoundFile(str, int)
+#cmd dx_PlaySound                                  $52a     ; PlaySound(str, int)
+#cmd dx_PlaySoundDX                                $52b     ; PlaySoundDX(str, int)
+#cmd dx_CheckSoundFile                             $52c     ; CheckSoundFile()
+#cmd dx_CheckSound                                 $52d     ; CheckSound()
+#cmd dx_StopSoundFile                              $52e     ; StopSoundFile()
+#cmd dx_StopSound                                  $52f     ; StopSound()
+#cmd dx_SetVolumeSoundFile                         $530     ; SetVolumeSoundFile(int)
+#cmd dx_SetVolumeSound                             $531     ; SetVolumeSound(int)
+#cmd dx_InitSoftSound                              $532     ; InitSoftSound()
+#cmd dx_LoadSoftSound                              $533     ; LoadSoftSound(str)
+#cmd dx_MakeSoftSound                              $534     ; MakeSoftSound(int, int64)
+#cmd dx_MakeSoftSound2Ch16Bit44KHz                 $535     ; MakeSoftSound2Ch16Bit44KHz(int64)
+#cmd dx_MakeSoftSound2Ch16Bit22KHz                 $536     ; MakeSoftSound2Ch16Bit22KHz(int64)
+#cmd dx_MakeSoftSound2Ch8Bit44KHz                  $537     ; MakeSoftSound2Ch8Bit44KHz(int64)
+#cmd dx_MakeSoftSound2Ch8Bit22KHz                  $538     ; MakeSoftSound2Ch8Bit22KHz(int64)
+#cmd dx_MakeSoftSound1Ch16Bit44KHz                 $539     ; MakeSoftSound1Ch16Bit44KHz(int64)
+#cmd dx_MakeSoftSound1Ch16Bit22KHz                 $53a     ; MakeSoftSound1Ch16Bit22KHz(int64)
+#cmd dx_MakeSoftSound1Ch8Bit44KHz                  $53b     ; MakeSoftSound1Ch8Bit44KHz(int64)
+#cmd dx_MakeSoftSound1Ch8Bit22KHz                  $53c     ; MakeSoftSound1Ch8Bit22KHz(int64)
+#cmd dx_MakeSoftSoundCustom                        $53d     ; MakeSoftSoundCustom(int, int, int, int64, int)
+#cmd dx_DeleteSoftSound                            $53e     ; DeleteSoftSound(int)
+#cmd dx_SaveSoftSound                              $53f     ; SaveSoftSound(int, str)
+#cmd dx_WriteSoftSoundData                         $540     ; WriteSoftSoundData(int, int64, int, int)
+#cmd dx_WriteSoftSoundDataF                        $541     ; WriteSoftSoundDataF(int, int64, double (float 縮小), double (float 縮小))
+#cmd dx_WriteTimeStretchSoftSoundData              $542     ; WriteTimeStretchSoftSoundData(int, int)
+#cmd dx_WritePitchShiftSoftSoundData               $543     ; WritePitchShiftSoftSoundData(int, int)
+#cmd dx_InitSoftSoundPlayer                        $544     ; InitSoftSoundPlayer()
+#cmd dx_MakeSoftSoundPlayer                        $545     ; MakeSoftSoundPlayer(int)
+#cmd dx_MakeSoftSoundPlayer2Ch16Bit44KHz           $546     ; MakeSoftSoundPlayer2Ch16Bit44KHz()
+#cmd dx_MakeSoftSoundPlayer2Ch16Bit22KHz           $547     ; MakeSoftSoundPlayer2Ch16Bit22KHz()
+#cmd dx_MakeSoftSoundPlayer2Ch8Bit44KHz            $548     ; MakeSoftSoundPlayer2Ch8Bit44KHz()
+#cmd dx_MakeSoftSoundPlayer2Ch8Bit22KHz            $549     ; MakeSoftSoundPlayer2Ch8Bit22KHz()
+#cmd dx_MakeSoftSoundPlayer1Ch16Bit44KHz           $54a     ; MakeSoftSoundPlayer1Ch16Bit44KHz()
+#cmd dx_MakeSoftSoundPlayer1Ch16Bit22KHz           $54b     ; MakeSoftSoundPlayer1Ch16Bit22KHz()
+#cmd dx_MakeSoftSoundPlayer1Ch8Bit44KHz            $54c     ; MakeSoftSoundPlayer1Ch8Bit44KHz()
+#cmd dx_MakeSoftSoundPlayer1Ch8Bit22KHz            $54d     ; MakeSoftSoundPlayer1Ch8Bit22KHz()
+#cmd dx_MakeSoftSoundPlayerCustom                  $54e     ; MakeSoftSoundPlayerCustom(int, int, int)
+#cmd dx_DeleteSoftSoundPlayer                      $54f     ; DeleteSoftSoundPlayer(int)
+#cmd dx_AddDataSoftSoundPlayer                     $550     ; AddDataSoftSoundPlayer(int, int, int64, int)
+#cmd dx_AddOneDataSoftSoundPlayer                  $551     ; AddOneDataSoftSoundPlayer(int, int, int)
+#cmd dx_StartSoftSoundPlayer                       $552     ; StartSoftSoundPlayer(int)
+#cmd dx_CheckStartSoftSoundPlayer                  $553     ; CheckStartSoftSoundPlayer(int)
+#cmd dx_StopSoftSoundPlayer                        $554     ; StopSoftSoundPlayer(int)
+#cmd dx_ResetSoftSoundPlayer                       $555     ; ResetSoftSoundPlayer(int)
+#cmd dx_CheckSoftSoundPlayerNoneData               $556     ; CheckSoftSoundPlayerNoneData(int)
+#cmd dx_DeleteMusicMem                             $557     ; DeleteMusicMem(int)
+#cmd dx_LoadMusicMem                               $558     ; LoadMusicMem(str)
+#cmd dx_PlayMusicMem                               $559     ; PlayMusicMem(int, int)
+#cmd dx_StopMusicMem                               $55a     ; StopMusicMem(int)
+#cmd dx_CheckMusicMem                              $55b     ; CheckMusicMem(int)
+#cmd dx_SetVolumeMusicMem                          $55c     ; SetVolumeMusicMem(int, int)
+#cmd dx_GetMusicMemPosition                        $55d     ; GetMusicMemPosition(int)
+#cmd dx_InitMusicMem                               $55e     ; InitMusicMem()
+#cmd dx_ProcessMusicMem                            $55f     ; ProcessMusicMem()
+#cmd dx_PlayMusic                                  $560     ; PlayMusic(str, int)
+#cmd dx_SetVolumeMusic                             $561     ; SetVolumeMusic(int)
+#cmd dx_StopMusic                                  $562     ; StopMusic()
+#cmd dx_CheckMusic                                 $563     ; CheckMusic()
+#cmd dx_GetMusicPosition                           $564     ; GetMusicPosition()
+#cmd dx_SelectMidiMode                             $565     ; SelectMidiMode(int)
+#cmd dx_SetUseDXArchiveFlag                        $566     ; SetUseDXArchiveFlag(int)
+#cmd dx_SetDXArchivePriority                       $567     ; SetDXArchivePriority(int)
+#cmd dx_SetDXArchiveExtension                      $568     ; SetDXArchiveExtension(str)
+#cmd dx_SetDXArchiveKeyString                      $569     ; SetDXArchiveKeyString(str)
+#cmd dx_DXArchivePreLoad                           $56a     ; DXArchivePreLoad(str, int)
+#cmd dx_DXArchiveCheckIdle                         $56b     ; DXArchiveCheckIdle(str)
+#cmd dx_DXArchiveRelease                           $56c     ; DXArchiveRelease(str)
+#cmd dx_DXArchiveCheckFile                         $56d     ; DXArchiveCheckFile(str, str)
+#cmd dx_MV1DuplicateModel                          $56e     ; MV1DuplicateModel(int)
+#cmd dx_MV1CreateCloneModel                        $56f     ; MV1CreateCloneModel(int)
+#cmd dx_MV1InitModel                               $570     ; MV1InitModel()
+#cmd dx_MV1SetLoadModelReMakeNormal                $571     ; MV1SetLoadModelReMakeNormal(int)
+#cmd dx_MV1SetLoadModelReMakeNormalSmoothingAngle  $572     ; MV1SetLoadModelReMakeNormalSmoothingAngle(double (float 縮小))
+#cmd dx_MV1SetLoadModelIgnoreScaling               $573     ; MV1SetLoadModelIgnoreScaling(int)
+#cmd dx_MV1SetLoadModelPositionOptimize            $574     ; MV1SetLoadModelPositionOptimize(int)
+#cmd dx_MV1SetLoadModelNotEqNormalSide_AddZeroAreaPolygon $575     ; MV1SetLoadModelNotEqNormalSide_AddZeroAreaPolygon(int)
+#cmd dx_MV1SetLoadModelPhysicsWorldGravity         $576     ; MV1SetLoadModelPhysicsWorldGravity(double (float 縮小))
+#cmd dx_MV1SetLoadCalcPhysicsWorldGravity          $577     ; MV1SetLoadCalcPhysicsWorldGravity(int, var (VECTOR: #defstruct float x,y,z))
+#cmd dx_MV1SetLoadModelPhysicsCalcPrecision        $578     ; MV1SetLoadModelPhysicsCalcPrecision(int)
+#cmd dx_MV1AddLoadModelDisablePhysicsNameWord      $579     ; MV1AddLoadModelDisablePhysicsNameWord(str)
+#cmd dx_MV1ResetLoadModelDisablePhysicsNameWord    $57a     ; MV1ResetLoadModelDisablePhysicsNameWord()
+#cmd dx_MV1SetLoadModelAnimFilePath                $57b     ; MV1SetLoadModelAnimFilePath(str)
+#cmd dx_MV1SetLoadModelUsePackDraw                 $57c     ; MV1SetLoadModelUsePackDraw(int)
+#cmd dx_MV1SetLoadModelTriangleListUseMaxBoneNum   $57d     ; MV1SetLoadModelTriangleListUseMaxBoneNum(int)
+#cmd dx_MV1SetLoadModelTextureLoad                 $57e     ; MV1SetLoadModelTextureLoad(int)
+#cmd dx_MV1SetLoadModelIgnoreIK                    $57f     ; MV1SetLoadModelIgnoreIK(int)
+#cmd dx_MV1SaveModelToMV1File                      $580     ; MV1SaveModelToMV1File(int, str, int, int, int, int, int, int, int)
+#cmd dx_MV1SaveModelToXFile                        $581     ; MV1SaveModelToXFile(int, str, int, int, int)
+#cmd dx_MV1DrawFrame                               $582     ; MV1DrawFrame(int, int)
+#cmd dx_MV1DrawMesh                                $583     ; MV1DrawMesh(int, int)
+#cmd dx_MV1DrawTriangleList                        $584     ; MV1DrawTriangleList(int, int)
+#cmd dx_MV1DrawModelDebug                          $585     ; MV1DrawModelDebug(int, int (uint 扱い), int, double (float 縮小), int, int)
+#cmd dx_MV1SetUseOrigShader                        $586     ; MV1SetUseOrigShader(int)
+#cmd dx_MV1SetPositionD                            $587     ; MV1SetPositionD(int, var (VECTOR_D: #defstruct double x,y,z))
+#cmd dx_MV1SetRotationZYAxis                       $588     ; MV1SetRotationZYAxis(int, var (VECTOR: #defstruct float x,y,z), var (VECTOR: #defstruct float x,y,z), double (float 縮小))
+#cmd dx_MV1SetRotationYUseDir                      $589     ; MV1SetRotationYUseDir(int, var (VECTOR: #defstruct float x,y,z), double (float 縮小))
+#cmd dx_MV1SetRotationMatrix                       $58a     ; MV1SetRotationMatrix(int, var (MATRIX: 4x4 float))
+#cmd dx_MV1SetMatrix                               $58b     ; MV1SetMatrix(int, var (MATRIX: 4x4 float))
+#cmd dx_MV1SetMatrixD                              $58c     ; MV1SetMatrixD(int, var (MATRIX_D: 4x4 double))
+#cmd dx_MV1SetVisible                              $58d     ; MV1SetVisible(int, int)
+#cmd dx_MV1GetVisible                              $58e     ; MV1GetVisible(int)
+#cmd dx_MV1SetMeshCategoryVisible                  $58f     ; MV1SetMeshCategoryVisible(int, int, int)
+#cmd dx_MV1GetMeshCategoryVisible                  $590     ; MV1GetMeshCategoryVisible(int, int)
+#cmd dx_MV1SetDifColorScale                        $591     ; MV1SetDifColorScale(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetSpcColorScale                        $592     ; MV1SetSpcColorScale(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetEmiColorScale                        $593     ; MV1SetEmiColorScale(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetAmbColorScale                        $594     ; MV1SetAmbColorScale(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1GetSemiTransState                       $595     ; MV1GetSemiTransState(int)
+#cmd dx_MV1SetOpacityRate                          $596     ; MV1SetOpacityRate(int, double (float 縮小))
+#cmd dx_MV1SetUseDrawMulAlphaColor                 $597     ; MV1SetUseDrawMulAlphaColor(int, int)
+#cmd dx_MV1GetUseDrawMulAlphaColor                 $598     ; MV1GetUseDrawMulAlphaColor(int)
+#cmd dx_MV1SetUseZBuffer                           $599     ; MV1SetUseZBuffer(int, int)
+#cmd dx_MV1SetWriteZBuffer                         $59a     ; MV1SetWriteZBuffer(int, int)
+#cmd dx_MV1SetZBias                                $59b     ; MV1SetZBias(int, int)
+#cmd dx_MV1SetUseVertDifColor                      $59c     ; MV1SetUseVertDifColor(int, int)
+#cmd dx_MV1SetUseVertSpcColor                      $59d     ; MV1SetUseVertSpcColor(int, int)
+#cmd dx_MV1SetSampleFilterMode                     $59e     ; MV1SetSampleFilterMode(int, int)
+#cmd dx_MV1SetMaxAnisotropy                        $59f     ; MV1SetMaxAnisotropy(int, int)
+#cmd dx_MV1SetWireFrameDrawFlag                    $5a0     ; MV1SetWireFrameDrawFlag(int, int)
+#cmd dx_MV1RefreshVertColorFromMaterial            $5a1     ; MV1RefreshVertColorFromMaterial(int)
+#cmd dx_MV1SetPhysicsWorldGravity                  $5a2     ; MV1SetPhysicsWorldGravity(int, var (VECTOR: #defstruct float x,y,z))
+#cmd dx_MV1PhysicsCalculation                      $5a3     ; MV1PhysicsCalculation(int, double (float 縮小))
+#cmd dx_MV1PhysicsResetState                       $5a4     ; MV1PhysicsResetState(int)
+#cmd dx_MV1SetPrioritizePhysicsOverAnimFlag        $5a5     ; MV1SetPrioritizePhysicsOverAnimFlag(int, int)
+#cmd dx_MV1SetUseShapeFlag                         $5a6     ; MV1SetUseShapeFlag(int, int)
+#cmd dx_MV1GetMaterialNumberOrderFlag              $5a7     ; MV1GetMaterialNumberOrderFlag(int)
+#cmd dx_MV1AttachAnim                              $5a8     ; MV1AttachAnim(int, int, int, int)
+#cmd dx_MV1DetachAnim                              $5a9     ; MV1DetachAnim(int, int)
+#cmd dx_MV1SetAttachAnimTime                       $5aa     ; MV1SetAttachAnimTime(int, int, double (float 縮小))
+#cmd dx_MV1SetAttachAnimBlendRate                  $5ab     ; MV1SetAttachAnimBlendRate(int, int, double (float 縮小))
+#cmd dx_MV1SetAttachAnimBlendRateToFrame           $5ac     ; MV1SetAttachAnimBlendRateToFrame(int, int, int, double (float 縮小), int)
+#cmd dx_MV1SetAttachAnimTimeToFrame                $5ad     ; MV1SetAttachAnimTimeToFrame(int, int, int, double (float 縮小), int)
+#cmd dx_MV1GetAttachAnim                           $5ae     ; MV1GetAttachAnim(int, int)
+#cmd dx_MV1SetAttachAnimUseShapeFlag               $5af     ; MV1SetAttachAnimUseShapeFlag(int, int, int)
+#cmd dx_MV1GetAttachAnimUseShapeFlag               $5b0     ; MV1GetAttachAnimUseShapeFlag(int, int)
+#cmd dx_MV1GetAnimNum                              $5b1     ; MV1GetAnimNum(int)
+#cmd dx_MV1SetAnimName                             $5b2     ; MV1SetAnimName(int, int, str)
+#cmd dx_MV1GetAnimIndex                            $5b3     ; MV1GetAnimIndex(int, str)
+#cmd dx_MV1GetAnimTargetFrameNum                   $5b4     ; MV1GetAnimTargetFrameNum(int, int)
+#cmd dx_MV1GetAnimTargetFrame                      $5b5     ; MV1GetAnimTargetFrame(int, int, int)
+#cmd dx_MV1GetAnimTargetFrameKeySetNum             $5b6     ; MV1GetAnimTargetFrameKeySetNum(int, int, int)
+#cmd dx_MV1GetAnimTargetFrameKeySet                $5b7     ; MV1GetAnimTargetFrameKeySet(int, int, int, int)
+#cmd dx_MV1GetAnimKeySetNum                        $5b8     ; MV1GetAnimKeySetNum(int)
+#cmd dx_MV1GetAnimKeySetType                       $5b9     ; MV1GetAnimKeySetType(int, int)
+#cmd dx_MV1GetAnimKeySetDataType                   $5ba     ; MV1GetAnimKeySetDataType(int, int)
+#cmd dx_MV1GetAnimKeySetTimeType                   $5bb     ; MV1GetAnimKeySetTimeType(int, int)
+#cmd dx_MV1GetAnimKeySetDataNum                    $5bc     ; MV1GetAnimKeySetDataNum(int, int)
+#cmd dx_MV1GetAnimKeyDataIndexFromTime             $5bd     ; MV1GetAnimKeyDataIndexFromTime(int, int, double (float 縮小))
+#cmd dx_MV1GetMaterialNum                          $5be     ; MV1GetMaterialNum(int)
+#cmd dx_MV1SetMaterialTypeAll                      $5bf     ; MV1SetMaterialTypeAll(int, int)
+#cmd dx_MV1SetMaterialType                         $5c0     ; MV1SetMaterialType(int, int, int)
+#cmd dx_MV1GetMaterialType                         $5c1     ; MV1GetMaterialType(int, int)
+#cmd dx_MV1SetMaterialDifColor                     $5c2     ; MV1SetMaterialDifColor(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMaterialSpcColor                     $5c3     ; MV1SetMaterialSpcColor(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMaterialEmiColor                     $5c4     ; MV1SetMaterialEmiColor(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMaterialAmbColor                     $5c5     ; MV1SetMaterialAmbColor(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMaterialSpcPower                     $5c6     ; MV1SetMaterialSpcPower(int, int, double (float 縮小))
+#cmd dx_MV1SetMaterialDifMapTexture                $5c7     ; MV1SetMaterialDifMapTexture(int, int, int)
+#cmd dx_MV1GetMaterialDifMapTexture                $5c8     ; MV1GetMaterialDifMapTexture(int, int)
+#cmd dx_MV1SetMaterialSubDifMapTexture             $5c9     ; MV1SetMaterialSubDifMapTexture(int, int, int)
+#cmd dx_MV1GetMaterialSubDifMapTexture             $5ca     ; MV1GetMaterialSubDifMapTexture(int, int)
+#cmd dx_MV1SetMaterialSpcMapTexture                $5cb     ; MV1SetMaterialSpcMapTexture(int, int, int)
+#cmd dx_MV1GetMaterialSpcMapTexture                $5cc     ; MV1GetMaterialSpcMapTexture(int, int)
+#cmd dx_MV1SetMaterialNormalMapTexture             $5cd     ; MV1SetMaterialNormalMapTexture(int, int, int)
+#cmd dx_MV1GetMaterialNormalMapTexture             $5ce     ; MV1GetMaterialNormalMapTexture(int, int)
+#cmd dx_MV1SetMaterialDifGradTexture               $5cf     ; MV1SetMaterialDifGradTexture(int, int, int)
+#cmd dx_MV1GetMaterialDifGradTexture               $5d0     ; MV1GetMaterialDifGradTexture(int, int)
+#cmd dx_MV1SetMaterialSpcGradTexture               $5d1     ; MV1SetMaterialSpcGradTexture(int, int, int)
+#cmd dx_MV1GetMaterialSpcGradTexture               $5d2     ; MV1GetMaterialSpcGradTexture(int, int)
+#cmd dx_MV1SetMaterialSphereMapTexture             $5d3     ; MV1SetMaterialSphereMapTexture(int, int, int)
+#cmd dx_MV1GetMaterialSphereMapTexture             $5d4     ; MV1GetMaterialSphereMapTexture(int, int)
+#cmd dx_MV1SetMaterialDifGradBlendTypeAll          $5d5     ; MV1SetMaterialDifGradBlendTypeAll(int, int)
+#cmd dx_MV1SetMaterialDifGradBlendType             $5d6     ; MV1SetMaterialDifGradBlendType(int, int, int)
+#cmd dx_MV1GetMaterialDifGradBlendType             $5d7     ; MV1GetMaterialDifGradBlendType(int, int)
+#cmd dx_MV1SetMaterialSpcGradBlendTypeAll          $5d8     ; MV1SetMaterialSpcGradBlendTypeAll(int, int)
+#cmd dx_MV1SetMaterialSpcGradBlendType             $5d9     ; MV1SetMaterialSpcGradBlendType(int, int, int)
+#cmd dx_MV1GetMaterialSpcGradBlendType             $5da     ; MV1GetMaterialSpcGradBlendType(int, int)
+#cmd dx_MV1SetMaterialSphereMapBlendTypeAll        $5db     ; MV1SetMaterialSphereMapBlendTypeAll(int, int)
+#cmd dx_MV1SetMaterialSphereMapBlendType           $5dc     ; MV1SetMaterialSphereMapBlendType(int, int, int)
+#cmd dx_MV1GetMaterialSphereMapBlendType           $5dd     ; MV1GetMaterialSphereMapBlendType(int, int)
+#cmd dx_MV1SetMaterialOutLineWidthAll              $5de     ; MV1SetMaterialOutLineWidthAll(int, double (float 縮小))
+#cmd dx_MV1SetMaterialOutLineWidth                 $5df     ; MV1SetMaterialOutLineWidth(int, int, double (float 縮小))
+#cmd dx_MV1SetMaterialOutLineDotWidthAll           $5e0     ; MV1SetMaterialOutLineDotWidthAll(int, double (float 縮小))
+#cmd dx_MV1SetMaterialOutLineDotWidth              $5e1     ; MV1SetMaterialOutLineDotWidth(int, int, double (float 縮小))
+#cmd dx_MV1SetMaterialOutLineColorAll              $5e2     ; MV1SetMaterialOutLineColorAll(int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMaterialOutLineColor                 $5e3     ; MV1SetMaterialOutLineColor(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMaterialDrawBlendModeAll             $5e4     ; MV1SetMaterialDrawBlendModeAll(int, int)
+#cmd dx_MV1SetMaterialDrawBlendMode                $5e5     ; MV1SetMaterialDrawBlendMode(int, int, int)
+#cmd dx_MV1GetMaterialDrawBlendMode                $5e6     ; MV1GetMaterialDrawBlendMode(int, int)
+#cmd dx_MV1SetMaterialDrawBlendParamAll            $5e7     ; MV1SetMaterialDrawBlendParamAll(int, int)
+#cmd dx_MV1SetMaterialDrawBlendParam               $5e8     ; MV1SetMaterialDrawBlendParam(int, int, int)
+#cmd dx_MV1GetMaterialDrawBlendParam               $5e9     ; MV1GetMaterialDrawBlendParam(int, int)
+#cmd dx_MV1SetMaterialDrawAlphaTestAll             $5ea     ; MV1SetMaterialDrawAlphaTestAll(int, int, int, int)
+#cmd dx_MV1SetMaterialDrawAlphaTest                $5eb     ; MV1SetMaterialDrawAlphaTest(int, int, int, int, int)
+#cmd dx_MV1GetMaterialDrawAlphaTestEnable          $5ec     ; MV1GetMaterialDrawAlphaTestEnable(int, int)
+#cmd dx_MV1GetMaterialDrawAlphaTestMode            $5ed     ; MV1GetMaterialDrawAlphaTestMode(int, int)
+#cmd dx_MV1GetMaterialDrawAlphaTestParam           $5ee     ; MV1GetMaterialDrawAlphaTestParam(int, int)
+#cmd dx_MV1SetMaterialDrawAddColorAll              $5ef     ; MV1SetMaterialDrawAddColorAll(int, int, int, int)
+#cmd dx_MV1SetMaterialDrawAddColor                 $5f0     ; MV1SetMaterialDrawAddColor(int, int, int, int, int)
+#cmd dx_MV1GetTextureNum                           $5f1     ; MV1GetTextureNum(int)
+#cmd dx_MV1SetTextureColorFilePath                 $5f2     ; MV1SetTextureColorFilePath(int, int, str)
+#cmd dx_MV1SetTextureAlphaFilePath                 $5f3     ; MV1SetTextureAlphaFilePath(int, int, str)
+#cmd dx_MV1SetTextureGraphHandle                   $5f4     ; MV1SetTextureGraphHandle(int, int, int, int)
+#cmd dx_MV1GetTextureGraphHandle                   $5f5     ; MV1GetTextureGraphHandle(int, int)
+#cmd dx_MV1SetTextureAddressMode                   $5f6     ; MV1SetTextureAddressMode(int, int, int, int)
+#cmd dx_MV1GetTextureAddressModeU                  $5f7     ; MV1GetTextureAddressModeU(int, int)
+#cmd dx_MV1GetTextureAddressModeV                  $5f8     ; MV1GetTextureAddressModeV(int, int)
+#cmd dx_MV1GetTextureWidth                         $5f9     ; MV1GetTextureWidth(int, int)
+#cmd dx_MV1GetTextureHeight                        $5fa     ; MV1GetTextureHeight(int, int)
+#cmd dx_MV1GetTextureSemiTransState                $5fb     ; MV1GetTextureSemiTransState(int, int)
+#cmd dx_MV1SetTextureBumpImageFlag                 $5fc     ; MV1SetTextureBumpImageFlag(int, int, int)
+#cmd dx_MV1GetTextureBumpImageFlag                 $5fd     ; MV1GetTextureBumpImageFlag(int, int)
+#cmd dx_MV1SetTextureBumpImageNextPixelLength      $5fe     ; MV1SetTextureBumpImageNextPixelLength(int, int, double (float 縮小))
+#cmd dx_MV1SetTextureSampleFilterMode              $5ff     ; MV1SetTextureSampleFilterMode(int, int, int)
+#cmd dx_MV1GetTextureSampleFilterMode              $600     ; MV1GetTextureSampleFilterMode(int, int)
+#cmd dx_MV1AddTextureGraphHandle                   $601     ; MV1AddTextureGraphHandle(int, str, int, int, int, int, int)
+#cmd dx_MV1LoadTexture                             $602     ; MV1LoadTexture(str)
+#cmd dx_MV1GetFrameNum                             $603     ; MV1GetFrameNum(int)
+#cmd dx_MV1SearchFrame                             $604     ; MV1SearchFrame(int, str)
+#cmd dx_MV1SearchFrameChild                        $605     ; MV1SearchFrameChild(int, int, str)
+#cmd dx_MV1GetFrameName2                           $606     ; MV1GetFrameName2(int, int, str)
+#cmd dx_MV1GetFrameParent                          $607     ; MV1GetFrameParent(int, int)
+#cmd dx_MV1GetFrameChildNum                        $608     ; MV1GetFrameChildNum(int, int)
+#cmd dx_MV1GetFrameChild                           $609     ; MV1GetFrameChild(int, int, int)
+#cmd dx_MV1SetFrameUserLocalMatrix                 $60a     ; MV1SetFrameUserLocalMatrix(int, int, var (MATRIX: 4x4 float))
+#cmd dx_MV1SetFrameUserLocalMatrixD                $60b     ; MV1SetFrameUserLocalMatrixD(int, int, var (MATRIX_D: 4x4 double))
+#cmd dx_MV1ResetFrameUserLocalMatrix               $60c     ; MV1ResetFrameUserLocalMatrix(int, int)
+#cmd dx_MV1SetFrameUserLocalWorldMatrix            $60d     ; MV1SetFrameUserLocalWorldMatrix(int, int, var (MATRIX: 4x4 float))
+#cmd dx_MV1SetFrameUserLocalWorldMatrixD           $60e     ; MV1SetFrameUserLocalWorldMatrixD(int, int, var (MATRIX_D: 4x4 double))
+#cmd dx_MV1ResetFrameUserLocalWorldMatrix          $60f     ; MV1ResetFrameUserLocalWorldMatrix(int, int)
+#cmd dx_MV1GetFrameVertexNum                       $610     ; MV1GetFrameVertexNum(int, int)
+#cmd dx_MV1GetFrameTriangleNum                     $611     ; MV1GetFrameTriangleNum(int, int)
+#cmd dx_MV1GetFrameMeshNum                         $612     ; MV1GetFrameMeshNum(int, int)
+#cmd dx_MV1GetFrameMesh                            $613     ; MV1GetFrameMesh(int, int, int)
+#cmd dx_MV1SetFrameVisible                         $614     ; MV1SetFrameVisible(int, int, int)
+#cmd dx_MV1GetFrameVisible                         $615     ; MV1GetFrameVisible(int, int)
+#cmd dx_MV1SetFrameDifColorScale                   $616     ; MV1SetFrameDifColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetFrameSpcColorScale                   $617     ; MV1SetFrameSpcColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetFrameEmiColorScale                   $618     ; MV1SetFrameEmiColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetFrameAmbColorScale                   $619     ; MV1SetFrameAmbColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1GetFrameSemiTransState                  $61a     ; MV1GetFrameSemiTransState(int, int)
+#cmd dx_MV1SetFrameOpacityRate                     $61b     ; MV1SetFrameOpacityRate(int, int, double (float 縮小))
+#cmd dx_MV1SetFrameBaseVisible                     $61c     ; MV1SetFrameBaseVisible(int, int, int)
+#cmd dx_MV1GetFrameBaseVisible                     $61d     ; MV1GetFrameBaseVisible(int, int)
+#cmd dx_MV1SetFrameTextureAddressTransform         $61e     ; MV1SetFrameTextureAddressTransform(int, int, double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小), double (float 縮小))
+#cmd dx_MV1SetFrameTextureAddressTransformMatrix   $61f     ; MV1SetFrameTextureAddressTransformMatrix(int, int, var (MATRIX: 4x4 float))
+#cmd dx_MV1ResetFrameTextureAddressTransform       $620     ; MV1ResetFrameTextureAddressTransform(int, int)
+#cmd dx_MV1GetMeshNum                              $621     ; MV1GetMeshNum(int)
+#cmd dx_MV1GetMeshMaterial                         $622     ; MV1GetMeshMaterial(int, int)
+#cmd dx_MV1GetMeshVertexNum                        $623     ; MV1GetMeshVertexNum(int, int)
+#cmd dx_MV1GetMeshTriangleNum                      $624     ; MV1GetMeshTriangleNum(int, int)
+#cmd dx_MV1SetMeshVisible                          $625     ; MV1SetMeshVisible(int, int, int)
+#cmd dx_MV1GetMeshVisible                          $626     ; MV1GetMeshVisible(int, int)
+#cmd dx_MV1SetMeshDifColorScale                    $627     ; MV1SetMeshDifColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMeshSpcColorScale                    $628     ; MV1SetMeshSpcColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMeshEmiColorScale                    $629     ; MV1SetMeshEmiColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMeshAmbColorScale                    $62a     ; MV1SetMeshAmbColorScale(int, int, var (COLOR_F: float r,g,b,a))
+#cmd dx_MV1SetMeshOpacityRate                      $62b     ; MV1SetMeshOpacityRate(int, int, double (float 縮小))
+#cmd dx_MV1SetMeshDrawBlendMode                    $62c     ; MV1SetMeshDrawBlendMode(int, int, int)
+#cmd dx_MV1SetMeshDrawBlendParam                   $62d     ; MV1SetMeshDrawBlendParam(int, int, int)
+#cmd dx_MV1GetMeshDrawBlendMode                    $62e     ; MV1GetMeshDrawBlendMode(int, int)
+#cmd dx_MV1GetMeshDrawBlendParam                   $62f     ; MV1GetMeshDrawBlendParam(int, int)
+#cmd dx_MV1SetMeshBaseVisible                      $630     ; MV1SetMeshBaseVisible(int, int, int)
+#cmd dx_MV1GetMeshBaseVisible                      $631     ; MV1GetMeshBaseVisible(int, int)
+#cmd dx_MV1SetMeshBackCulling                      $632     ; MV1SetMeshBackCulling(int, int, int)
+#cmd dx_MV1GetMeshBackCulling                      $633     ; MV1GetMeshBackCulling(int, int)
+#cmd dx_MV1GetMeshTListNum                         $634     ; MV1GetMeshTListNum(int, int)
+#cmd dx_MV1GetMeshTList                            $635     ; MV1GetMeshTList(int, int, int)
+#cmd dx_MV1GetMeshSemiTransState                   $636     ; MV1GetMeshSemiTransState(int, int)
+#cmd dx_MV1SetMeshUseVertDifColor                  $637     ; MV1SetMeshUseVertDifColor(int, int, int)
+#cmd dx_MV1SetMeshUseVertSpcColor                  $638     ; MV1SetMeshUseVertSpcColor(int, int, int)
+#cmd dx_MV1GetMeshUseVertDifColor                  $639     ; MV1GetMeshUseVertDifColor(int, int)
+#cmd dx_MV1GetMeshUseVertSpcColor                  $63a     ; MV1GetMeshUseVertSpcColor(int, int)
+#cmd dx_MV1GetMeshShapeFlag                        $63b     ; MV1GetMeshShapeFlag(int, int)
+#cmd dx_MV1GetShapeNum                             $63c     ; MV1GetShapeNum(int)
+#cmd dx_MV1SearchShape                             $63d     ; MV1SearchShape(int, str)
+#cmd dx_MV1GetShapeTargetMeshNum                   $63e     ; MV1GetShapeTargetMeshNum(int, int)
+#cmd dx_MV1GetShapeTargetMesh                      $63f     ; MV1GetShapeTargetMesh(int, int, int)
+#cmd dx_MV1SetShapeRate                            $640     ; MV1SetShapeRate(int, int, double (float 縮小), int)
+#cmd dx_MV1GetTriangleListNum                      $641     ; MV1GetTriangleListNum(int)
+#cmd dx_MV1GetTriangleListVertexType               $642     ; MV1GetTriangleListVertexType(int, int)
+#cmd dx_MV1GetTriangleListPolygonNum               $643     ; MV1GetTriangleListPolygonNum(int, int)
+#cmd dx_MV1GetTriangleListVertexNum                $644     ; MV1GetTriangleListVertexNum(int, int)
+#cmd dx_MV1GetTriangleListLocalWorldMatrixNum      $645     ; MV1GetTriangleListLocalWorldMatrixNum(int, int)
+#cmd dx_MV1GetTriangleListUseMaterial              $646     ; MV1GetTriangleListUseMaterial(int, int)
+#cmd dx_MV1SetupCollInfo                           $647     ; MV1SetupCollInfo(int, int, int, int, int, int)
+#cmd dx_MV1TerminateCollInfo                       $648     ; MV1TerminateCollInfo(int, int, int)
+#cmd dx_MV1RefreshCollInfo                         $649     ; MV1RefreshCollInfo(int, int, int)
+#cmd dx_MV1SetupReferenceMesh                      $64a     ; MV1SetupReferenceMesh(int, int, int, int, int)
+#cmd dx_MV1TerminateReferenceMesh                  $64b     ; MV1TerminateReferenceMesh(int, int, int, int, int)
+#cmd dx_MV1RefreshReferenceMesh                    $64c     ; MV1RefreshReferenceMesh(int, int, int, int, int)
+#cmd dx_Live2D_SetCubism4CoreDLLPath               $64d     ; Live2D_SetCubism4CoreDLLPath(str)
+#cmd dx_Live2D_SetCubism3CoreDLLPath               $64e     ; Live2D_SetCubism3CoreDLLPath(str)
+#cmd dx_Live2D_RenderBegin                         $64f     ; Live2D_RenderBegin()
+#cmd dx_Live2D_RenderEnd                           $650     ; Live2D_RenderEnd()
+#cmd dx_Live2D_LoadModel                           $651     ; Live2D_LoadModel(str)
+#cmd dx_Live2D_DeleteModel                         $652     ; Live2D_DeleteModel(int)
+#cmd dx_Live2D_InitModel                           $653     ; Live2D_InitModel()
+#cmd dx_Live2D_SetUseAutoScaling                   $654     ; Live2D_SetUseAutoScaling(int)
+#cmd dx_Live2D_SetUseAutoCentering                 $655     ; Live2D_SetUseAutoCentering(int)
+#cmd dx_Live2D_SetUseReverseYAxis                  $656     ; Live2D_SetUseReverseYAxis(int)
+#cmd dx_Live2D_Model_Update                        $657     ; Live2D_Model_Update(int, double (float 縮小))
+#cmd dx_Live2D_Model_SetTranslate                  $658     ; Live2D_Model_SetTranslate(int, double (float 縮小), double (float 縮小))
+#cmd dx_Live2D_Model_SetExtendRate                 $659     ; Live2D_Model_SetExtendRate(int, double (float 縮小), double (float 縮小))
+#cmd dx_Live2D_Model_SetRotate                     $65a     ; Live2D_Model_SetRotate(int, double (float 縮小))
+#cmd dx_Live2D_Model_Draw                          $65b     ; Live2D_Model_Draw(int)
+#cmd dx_Live2D_Model_StartMotion                   $65c     ; Live2D_Model_StartMotion(int, str, int, double (float 縮小), double (float 縮小), int)
+#cmd dx_Live2D_Model_GetLastPlayMotionNo           $65d     ; Live2D_Model_GetLastPlayMotionNo(int)
+#cmd dx_Live2D_Model_IsMotionFinished              $65e     ; Live2D_Model_IsMotionFinished(int)
+#cmd dx_Live2D_Model_SetExpression                 $65f     ; Live2D_Model_SetExpression(int, str)
+#cmd dx_Live2D_Model_HitTest                       $660     ; Live2D_Model_HitTest(int, str, double (float 縮小), double (float 縮小))
+#cmd dx_Live2D_Model_GetParameterCount             $661     ; Live2D_Model_GetParameterCount(int)
+#cmd dx_Live2D_Model_SetParameterValue             $662     ; Live2D_Model_SetParameterValue(int, str, double (float 縮小))
+#cmd dx_Live2D_Model_GetHitAreasCount              $663     ; Live2D_Model_GetHitAreasCount(int)
+#cmd dx_Live2D_Model_GetExpressionCount            $664     ; Live2D_Model_GetExpressionCount(int)
+#cmd dx_Live2D_Model_GetMotionGroupCount           $665     ; Live2D_Model_GetMotionGroupCount(int)
+#cmd dx_Live2D_Model_GetMotionCount                $666     ; Live2D_Model_GetMotionCount(int, str)
+#cmd dx_Live2D_Model_GetEyeBlinkParameterCount     $667     ; Live2D_Model_GetEyeBlinkParameterCount(int)
+#cmd dx_Live2D_Model_GetLipSyncParameterCount      $668     ; Live2D_Model_GetLipSyncParameterCount(int)
 
 #endif
