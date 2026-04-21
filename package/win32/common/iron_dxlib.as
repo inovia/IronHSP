@@ -78,4 +78,27 @@
 #cmd dx_http_mp_post       $173   ; dx_http_mp_post "url", var_body (stat=status)
 #cmd dx_http_mp_end        $174   ; dx_http_mp_end
 
+;  ---- Phase 5.4b: JSON (picojson ラッパ) ----
+;      path は "user.items[0].name" 形式 (空文字でルート)
+#cmd dx_json_parse         $180   ; dx_json_parse "src"  (stat=handle / -1)
+#cmd dx_json_new_obj       $181   ; dx_json_new_obj      (stat=handle)
+#cmd dx_json_new_arr       $182   ; dx_json_new_arr      (stat=handle)
+#cmd dx_json_free          $183   ; dx_json_free handle
+#cmd dx_json_stringify     $184   ; dx_json_stringify handle, var [, pretty]
+#cmd dx_json_type          $185   ; dx_json_type handle, "path"    (stat=0..5 / -1)
+#cmd dx_json_size          $186   ; dx_json_size handle, "path"    (stat=length / -1)
+#cmd dx_json_key           $187   ; dx_json_key handle, "path", idx, var
+#cmd dx_json_get_str       $188   ; dx_json_get_str handle, "path", var [, "default"]
+#cmd dx_json_get_int       $189   ; dx_json_get_int handle, "path" [, default]  (stat=int)
+#cmd dx_json_get_double    $18a   ; dx_json_get_double handle, "path", var_d
+#cmd dx_json_get_bool      $18b   ; dx_json_get_bool handle, "path" [, default] (stat=0/1)
+#cmd dx_json_set_str       $18c   ; dx_json_set_str handle, "path", "value"
+#cmd dx_json_set_int       $18d   ; dx_json_set_int handle, "path", int_val
+#cmd dx_json_set_double    $18e   ; dx_json_set_double handle, "path", double_var
+#cmd dx_json_set_bool      $18f   ; dx_json_set_bool handle, "path", flag
+#cmd dx_json_set_null      $190   ; dx_json_set_null handle, "path"
+#cmd dx_json_set_obj       $191   ; dx_json_set_obj handle, "path"  (空 object)
+#cmd dx_json_set_arr       $192   ; dx_json_set_arr handle, "path"  (空 array)
+#cmd dx_json_remove        $193   ; dx_json_remove handle, "path"
+
 #endif

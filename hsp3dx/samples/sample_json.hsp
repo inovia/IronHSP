@@ -1,0 +1,103 @@
+;============================================================
+;   sample_json.hsp — Phase 5.4b  dx_json_* 基本動作確認
+;
+;   ・静的 JSON パースで値を取り出す
+;   ・新規ドキュメントを組み立てて serialize する
+;   ・HTTP と組み合わせて httpbin.org /json を取得してパースする
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: JSON"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+
+    pos 10, 10
+    mes "Phase 5.4b JSON test"
+    redraw 1
+
+    ;  ---- (1) リテラル JSON をパースして値を取り出す (日本語キー + 値) ----
+    src = "{\"名前\":\"鉄のHSP\",\"ver\":5.4,\"ok\":true,\"nums\":[10,20,30],\"child\":{\"挨拶\":\"こんにちは、世界\"}}"
+    h1 = 0
+    dx_json_parse src
+    h1 = stat
+
+    dx_json_get_str h1, "名前", s_name
+    dx_json_get_str h1, "child.挨拶", s_greet
+    dx_json_get_int h1, "nums[1]"
+    v_num = stat
+    dx_json_get_int h1, "ok"
+    v_ok = stat
+    dx_json_get_double h1, "ver", d_ver
+    dx_json_type h1, "child"
+    t_child = stat
+    dx_json_size h1, "nums"
+    sz_nums = stat
+
+    mes "(1) literal parse"
+    mes "    名前       = " + s_name
+    mes "    child.挨拶 = " + s_greet
+    mes "    nums[1]    = " + v_num
+    mes "    ok         = " + v_ok
+    mes "    ver        = " + strf("%.2f", d_ver)
+    mes "    type(child)= " + t_child + "  (5=object)"
+    mes "    size(nums) = " + sz_nums
+
+    ;  ---- (2) 新規 object を組み立てて stringify ----
+    h2 = 0
+    dx_json_new_obj
+    h2 = stat
+    dx_json_set_str    h2, "app", "鉄のHSP"
+    dx_json_set_int    h2, "build", 540
+    dx_json_set_bool   h2, "enabled", 1
+    dx_json_set_arr    h2, "tags"
+    dx_json_set_str    h2, "tags[0]", "Windows"
+    dx_json_set_str    h2, "tags[1]", "iOS"
+    dx_json_set_str    h2, "tags[2]", "あんどろいど"
+    dx_json_set_obj    h2, "メッセージ"
+    dx_json_set_str    h2, "メッセージ.題名", "こんにちは"
+    dx_json_set_int    h2, "メッセージ.優先度", 3
+    dx_json_stringify  h2, built_json, 0
+
+    mes ""
+    mes "(2) built JSON: "
+    mes "    " + built_json
+
+    ;  ---- (3) HTTP 取得 → パース ----
+    dx_http_set_timeout 10000
+    dx_http_get "https://httpbin.org/json", resp_http
+    st_http = stat
+
+    mes ""
+    mes "(3) HTTP + parse (httpbin.org/json)   http status=" + st_http
+    if st_http == 200 {
+        dx_json_parse resp_http
+        h3 = stat
+        dx_json_get_str h3, "slideshow.title", s_title
+        dx_json_size h3, "slideshow.slides"
+        n_slides = stat
+        mes "    slideshow.title  = " + s_title
+        mes "    slideshow.slides size = " + n_slides
+        dx_json_free h3
+    } else {
+        mes "    (skipped: HTTP failed)"
+    }
+
+    dx_json_free h1
+    dx_json_free h2
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end

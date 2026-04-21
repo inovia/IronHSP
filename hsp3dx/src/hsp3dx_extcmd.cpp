@@ -67,6 +67,7 @@
 
 #include "hsp3dx_console.h"
 #include "hsp3dx_http.h"
+#include "hsp3dx_json.h"
 #include "DxLib.h"
 
 //  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜0x3FF)
@@ -1375,6 +1376,216 @@ static int cmdfunc_extcmd( int cmd )
     case 0x174:                     // dx_http_mp_end
         hsp3dx_http_mp_end();
         break;
+
+    //  -----------------------------------------------------------------
+    //  Phase 5.4b: JSON (picojson ラッパ、dx_json_*)
+    //      0x180: parse / 0x181: new_obj / 0x182: new_arr / 0x183: free
+    //      0x184: stringify / 0x185: type / 0x186: size / 0x187: key_at
+    //      0x188-0x18b: get_str/int/double/bool
+    //      0x18c-0x192: set_str/int/double/bool/null/obj/arr
+    //      0x193: remove
+    //  -----------------------------------------------------------------
+    case 0x180:                     // dx_json_parse "src" ; stat = handle / -1
+        {
+            const char *raw = code_gets();
+            char *src = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_json_parse( src );
+            free( src );
+            break;
+        }
+    case 0x181:                     // dx_json_new_obj ; stat = handle
+        ctx->stat = hsp3dx_json_new_obj();
+        break;
+    case 0x182:                     // dx_json_new_arr ; stat = handle
+        ctx->stat = hsp3dx_json_new_arr();
+        break;
+    case 0x183:                     // dx_json_free h
+        hsp3dx_json_free( code_getdi( -1 ) );
+        break;
+    case 0x184:                     // dx_json_stringify h, var [, pretty]
+        {
+            int h = code_getdi( -1 );
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            int pretty = code_getdi( 0 );
+            int need = hsp3dx_json_stringify( h, pretty, nullptr, 0 );
+            if ( need < 0 ) {
+                code_setva( pv, ap, TYPE_STRING, (void *)"" );
+                ctx->stat = -1;
+            } else {
+                char *buf = (char *)malloc( (size_t)need + 1 );
+                hsp3dx_json_stringify( h, pretty, buf, (size_t)need + 1 );
+                code_setva( pv, ap, TYPE_STRING, (void *)buf );
+                free( buf );
+                ctx->stat = need;
+            }
+            break;
+        }
+    case 0x185:                     // dx_json_type h, "path" ; stat = type
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_json_type( h, path );
+            free( path );
+            break;
+        }
+    case 0x186:                     // dx_json_size h, "path" ; stat = size
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_json_size( h, path );
+            free( path );
+            break;
+        }
+    case 0x187:                     // dx_json_key h, "path", index, var
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            int idx = code_getdi( 0 );
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            char buf[1024];
+            int rc = hsp3dx_json_key_at( h, path, idx, buf, sizeof(buf) );
+            code_setva( pv, ap, TYPE_STRING, rc == 0 ? (void *)buf : (void *)"" );
+            ctx->stat = rc;
+            free( path );
+            break;
+        }
+    case 0x188:                     // dx_json_get_str h, "path", var [, "default"]
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            const char *defv = code_getds( (char *)"" );
+            //  値は任意サイズになりうるので、必要バッファ長を知るため 2 段
+            //  ここでは固定 64KB で切る (string は JSON としても現実的上限)
+            char *buf = (char *)malloc( 65536 );
+            int rc = hsp3dx_json_get_str( h, path, buf, 65536, defv );
+            code_setva( pv, ap, TYPE_STRING, (void *)buf );
+            ctx->stat = rc;
+            free( buf ); free( path );
+            break;
+        }
+    case 0x189:                     // dx_json_get_int h, "path" [, default] ; stat = value
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            int defv = code_getdi( 0 );
+            ctx->stat = hsp3dx_json_get_int( h, path, defv );
+            free( path );
+            break;
+        }
+    case 0x18a:                     // dx_json_get_double h, "path", var [, default]
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            //  default 値は double。HSP code_getd が無ければ 0.0 固定。
+            double defv = 0.0;      //  簡易版: オプション引数なし
+            double outv = defv;
+            int rc = hsp3dx_json_get_double( h, path, &outv, defv );
+            code_setva( pv, ap, TYPE_DNUM, (void *)&outv );
+            ctx->stat = rc;
+            free( path );
+            break;
+        }
+    case 0x18b:                     // dx_json_get_bool h, "path" [, default] ; stat = 0/1
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            int defv = code_getdi( 0 );
+            ctx->stat = hsp3dx_json_get_bool( h, path, defv );
+            free( path );
+            break;
+        }
+    case 0x18c:                     // dx_json_set_str h, "path", "value"
+        {
+            int h = code_getdi( -1 );
+            const char *p_raw = code_gets();
+            char *path = _strdup( p_raw ? p_raw : "" );
+            const char *v_raw = code_gets();
+            char *val_ = _strdup( v_raw ? v_raw : "" );
+            ctx->stat = hsp3dx_json_set_str( h, path, val_ );
+            free( path ); free( val_ );
+            break;
+        }
+    case 0x18d:                     // dx_json_set_int h, "path", int
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            int v = code_getdi( 0 );
+            ctx->stat = hsp3dx_json_set_int( h, path, v );
+            free( path );
+            break;
+        }
+    case 0x18e:                     // dx_json_set_double h, "path", double_var
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            //  code_getd が環境によって異なるため code_expand or code_getva 経由で
+            //  ここは code_getva(d) 想定 → 簡易実装: HSP 側が INT/DOUBLE var を
+            //  渡してくる前提で PVal 経由で拾う。
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            double dv = 0.0;
+            if ( pv->flag == HSPVAR_FLAG_DOUBLE ) dv = *(double *)(pv->pt + ap * sizeof(double));
+            else if ( pv->flag == HSPVAR_FLAG_INT ) dv = (double)(*(int *)(pv->pt + ap * sizeof(int)));
+            ctx->stat = hsp3dx_json_set_double( h, path, dv );
+            free( path );
+            break;
+        }
+    case 0x18f:                     // dx_json_set_bool h, "path", flag
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            int v = code_getdi( 0 );
+            ctx->stat = hsp3dx_json_set_bool( h, path, v );
+            free( path );
+            break;
+        }
+    case 0x190:                     // dx_json_set_null h, "path"
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_json_set_null( h, path );
+            free( path );
+            break;
+        }
+    case 0x191:                     // dx_json_set_obj h, "path"
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_json_set_obj( h, path );
+            free( path );
+            break;
+        }
+    case 0x192:                     // dx_json_set_arr h, "path"
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_json_set_arr( h, path );
+            free( path );
+            break;
+        }
+    case 0x193:                     // dx_json_remove h, "path"
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            char *path = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_json_remove( h, path );
+            free( path );
+            break;
+        }
 
     case 0x162:                     // dx_http_get "url", var_body
         {
