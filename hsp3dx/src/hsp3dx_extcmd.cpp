@@ -74,6 +74,7 @@
 #include "hsp3dx_http.h"
 #include "hsp3dx_json.h"
 #include "hsp3dx_ws.h"
+#include "hgio_dx.h"
 #include "DxLib.h"
 
 //  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜)
@@ -858,17 +859,19 @@ static int cmdfunc_extcmd( int cmd )
             (void)p1;
 
             int bits = 0;
+            int mx_unused = 0, my_unused = 0, mbtn = 0;
+            hgio_dx_getmouse( &mx_unused, &my_unused, &mbtn );
             if ( CheckHitKey( KEY_INPUT_LEFT  ) ) bits |= 0x01;
             if ( CheckHitKey( KEY_INPUT_UP    ) ) bits |= 0x02;
             if ( CheckHitKey( KEY_INPUT_RIGHT ) ) bits |= 0x04;
             if ( CheckHitKey( KEY_INPUT_DOWN  ) ) bits |= 0x08;
             if ( CheckHitKey( KEY_INPUT_SPACE ) ) bits |= 0x10;
             if ( CheckHitKey( KEY_INPUT_RETURN) ) bits |= 0x20;
-            if ( GetMouseInput() & MOUSE_INPUT_LEFT ) bits |= 0x40;
+            if ( mbtn & MOUSE_INPUT_LEFT ) bits |= 0x40;
             if ( CheckHitKey( KEY_INPUT_TAB   ) ) bits |= 0x80;
             if ( p2 ) {
                 if ( CheckHitKey( KEY_INPUT_ESCAPE ) ) bits |= 0x100;
-                if ( GetMouseInput() & MOUSE_INPUT_RIGHT ) bits |= 0x200;
+                if ( mbtn & MOUSE_INPUT_RIGHT ) bits |= 0x200;
             }
             code_setva( pval, aptr, TYPE_INUM, &bits );
             break;
@@ -1996,15 +1999,15 @@ static void *reffunc_function( int *type_res, int arg )
     switch ( arg ) {
     case 0x000:                             // mousex
         {
-            int mx = 0, my = 0;
-            GetMousePoint( &mx, &my );
+            int mx = 0, my = 0, mb = 0;
+            hgio_dx_getmouse( &mx, &my, &mb );
             reffunc_intfunc_ivalue = mx;
             break;
         }
     case 0x001:                             // mousey
         {
-            int mx = 0, my = 0;
-            GetMousePoint( &mx, &my );
+            int mx = 0, my = 0, mb = 0;
+            hgio_dx_getmouse( &mx, &my, &mb );
             reffunc_intfunc_ivalue = my;
             break;
         }

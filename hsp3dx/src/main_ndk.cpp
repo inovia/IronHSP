@@ -57,10 +57,16 @@ int android_main( void )
 {
     LOGI( "hsp3dx android_main start" );
 
-    //  DxLib 初期化 (.so 読み込み直後は画面未生成でも OK、SetGraphMode でサイズ設定)
+    //  DxLib 初期化 (論理解像度 640x480 固定 + フィットストレッチで端末画面に表示)
     if ( hgio_dx_init( 0, 640, 480, nullptr ) != 0 ) {
         LOGE( "hgio_dx_init failed" );
         return -1;
+    }
+
+    //  参考情報: 端末実解像度 (DxLib_Init 後なら取得可)
+    int disp_w = 0, disp_h = 0;
+    if ( GetAndroidDisplayResolution( &disp_w, &disp_h ) == 0 ) {
+        LOGI( "physical display: %dx%d (logical=640x480 stretched)", disp_w, disp_h );
     }
 
     //  HTTP モジュールに JavaVM を教える (DxLib が NativeActivity を保持してから)

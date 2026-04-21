@@ -23,6 +23,14 @@ int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
     ChangeWindowMode( TRUE );
     SetGraphMode( sx > 0 ? sx : 640, sy > 0 ? sy : 480, 32 );
 
+#ifdef __ANDROID__
+    //  Android は物理画面固定。論理解像度 (上の SetGraphMode) を画面に
+    //  フィットストレッチする (FitScaling=TRUE)。
+    //  これで HSP 側 640x480 座標系が端末のフルスクリーンに自動マッピングされ、
+    //  GetTouchInput も論理座標系で値を返す。
+    SetFullScreenScalingMode( DX_FSSCALINGMODE_BILINEAR, TRUE );
+#endif
+
     if ( DxLib_Init() != 0 ) return -1;
 
     SetDrawScreen( DX_SCREEN_BACK );
@@ -61,6 +69,25 @@ int hgio_dx_getkey( int keycode )
 
 void hgio_dx_getmouse( int *px, int *py, int *pbtn )
 {
+#ifdef __ANDROID__
+    //  Android にはマウスがないので、タッチ座標をマウス座標として、
+    //  タッチ中 = MOUSE_INPUT_LEFT 押下として報告する。
+    //  タッチが離れた後も最後の座標は保持する (HSP 標準の mousex/mousey 的挙動)。
+    static int s_last_x = 0, s_last_y = 0;
+    int n = GetTouchInputNum();
+    if ( n > 0 ) {
+        int tx = 0, ty = 0;
+        GetTouchInput( 0, &tx, &ty, nullptr, nullptr );
+        s_last_x = tx;
+        s_last_y = ty;
+        if ( pbtn ) *pbtn = MOUSE_INPUT_LEFT;
+    } else {
+        if ( pbtn ) *pbtn = 0;
+    }
+    if ( px ) *px = s_last_x;
+    if ( py ) *py = s_last_y;
+#else
     if ( px && py ) GetMousePoint( px, py );
     if ( pbtn ) *pbtn = GetMouseInput();
+#endif
 }

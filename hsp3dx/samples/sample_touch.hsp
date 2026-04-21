@@ -1,0 +1,79 @@
+;============================================================
+;   sample_touch.hsp — Phase 4.f タッチ入力 / 画面サイズ確認
+;
+;   Android ではタッチ座標がマウス座標として取得される (mousex/mousey/mousel)。
+;   画面サイズも端末解像度に自動追従する (ginfo_winx / ginfo_winy で取得可)。
+;
+;   タッチ中の軌跡を裏画面 (buffer 1) に残しつつ、座標を表示。
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i -u --compath=../../package/win32/common/ sample_touch.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: touch / screen size"
+
+    ;  ---- 画面サイズ取得 ----
+    sw = ginfo_winx
+    sh = ginfo_winy
+
+    ;  ---- 軌跡用 offscreen buffer ----
+    buffer 1, sw, sh
+    color 0, 0, 0
+    boxf 0, 0, sw, sh
+
+    gsel 0
+
+    prev_btn = 0
+    prev_x = -1
+    prev_y = -1
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        tx = mousex
+        ty = mousey
+        stick st, 64                 ; bit 0x40 = 左ボタン / タッチ (非停止)
+        btn = (st & 64) != 0
+
+        ;  タッチ中は軌跡バッファ (buffer 1) にライン描画
+        if btn {
+            gsel 1
+            color 255, 255, 255
+            if prev_btn && prev_x >= 0 {
+                line prev_x, prev_y, tx, ty
+            } else {
+                pset tx, ty
+            }
+            gsel 0
+            prev_x = tx
+            prev_y = ty
+        }
+        prev_btn = btn
+
+        ;  描画
+        redraw 0
+        color 20, 30, 60
+        boxf 0, 0, sw, sh
+        ;  軌跡コピー
+        pos 0, 0
+        gcopy 1, 0, 0, sw, sh
+
+        ;  ステータス表示
+        color 255, 255, 255
+        font "MS Gothic", 22
+        pos 20, 20
+        mes "hsp3dx touch sample"
+        mes "  screen: " + sw + " x " + sh
+        mes "  touch : " + tx + ", " + ty + "   btn=" + btn
+
+        pos 20, sh - 40
+        color 255, 220, 80
+        mes "[BACK/ESC] quit"
+        redraw 1
+
+        await 16
+    loop
+    end
