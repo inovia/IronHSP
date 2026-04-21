@@ -62,5 +62,20 @@
 #cmd dx_http_get         $162   ; dx_http_get "url", var_body  (stat = status code)
 #cmd dx_http_post        $163   ; dx_http_post "url", "body", var_body, "content-type"
 #cmd dx_http_set_user_agent $164   ; dx_http_set_user_agent "MyApp/1.0"
+#cmd dx_http_put           $165   ; dx_http_put "url", "body", var_body, "ctype"
+#cmd dx_http_delete        $166   ; dx_http_delete "url", var_body
+#cmd dx_http_patch         $167   ; dx_http_patch "url", "body", var_body, "ctype"
+#cmd dx_http_download      $168   ; dx_http_download "url", "path"  (stat=status)
+#cmd dx_http_get_res_header $169  ; dx_http_get_res_header "name", var_val (stat=0 見つかった / 1 無し)
+#cmd dx_http_set_basic_auth $16a  ; dx_http_set_basic_auth "user", "pass"
+#cmd dx_http_cookie_clear  $16b   ; dx_http_cookie_clear (セッションリセット)
+#cmd dx_http_cookie_enable $16c   ; dx_http_cookie_enable flag (0=無効 / 1=有効)
+
+;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
+#cmd dx_http_mp_begin      $170   ; dx_http_mp_begin
+#cmd dx_http_mp_add_text   $171   ; dx_http_mp_add_text "name", "value"
+#cmd dx_http_mp_add_file   $172   ; dx_http_mp_add_file "name", "path" [, "ctype", "disp_filename"]
+#cmd dx_http_mp_post       $173   ; dx_http_mp_post "url", var_body (stat=status)
+#cmd dx_http_mp_end        $174   ; dx_http_mp_end
 
 #endif

@@ -107,6 +107,17 @@ static int   s_http_timeout_ms       = 30000;
 static char  s_http_extra_headers[32768] = { 0 };
 static char  s_http_user_agent[512]      = { 0 };   // 空=デフォルト "hsp3dx/1.0"
 
+//  最後のレスポンスヘッダ (dx_http_get_res_header 用)。
+//  dx_http_get/post/put/delete/patch/download の終了時に更新。
+//  malloc 所有、前のものは free してから差し替える。
+static char *s_http_last_headers = nullptr;
+
+static void http_save_last_headers( const char *headers )
+{
+    if ( s_http_last_headers ) { free( s_http_last_headers ); s_http_last_headers = nullptr; }
+    if ( headers && headers[0] ) s_http_last_headers = _strdup( headers );
+}
+
 //  ---- Phase 1.7: sound 管理 ----
 #define HSP3DX_MAX_SOUNDS 256
 static int  s_snd_handle[HSP3DX_MAX_SOUNDS];    // DxLib sound handle、-1 = 未割当
@@ -1173,6 +1184,198 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    //  PUT / DELETE / PATCH  --  POST と同じ引数構造 (dx_http_delete だけ body なし)
+    case 0x165:                     // dx_http_put "url", "body", var_body, "ctype"
+    case 0x167:                     // dx_http_patch 同シグネチャ
+        {
+            const char *url_raw = code_gets();
+            char *url = _strdup( url_raw ? url_raw : "" );
+            const char *body_raw = code_gets();
+            char *body_str = _strdup( body_raw ? body_raw : "" );
+            PVal *pval; APTR aptr;
+            aptr = code_getva( &pval );
+            const char *ctype_raw = code_getds( (char *)"application/x-www-form-urlencoded" );
+            char *ctype = _strdup( ctype_raw ? ctype_raw : "application/x-www-form-urlencoded" );
+            size_t body_len = strlen( body_str );
+            hsp3dx_http_response resp;
+            int rc;
+            if ( cmd == 0x165 ) {
+                rc = hsp3dx_http_put( url, body_str, body_len, ctype,
+                                      s_http_user_agent[0] ? s_http_user_agent : nullptr,
+                                      s_http_extra_headers[0] ? s_http_extra_headers : nullptr,
+                                      s_http_timeout_ms, &resp );
+            } else {
+                rc = hsp3dx_http_patch( url, body_str, body_len, ctype,
+                                        s_http_user_agent[0] ? s_http_user_agent : nullptr,
+                                        s_http_extra_headers[0] ? s_http_extra_headers : nullptr,
+                                        s_http_timeout_ms, &resp );
+            }
+            free( url ); free( body_str ); free( ctype );
+            if ( rc != 0 ) {
+                ctx->stat = 0;
+                code_setva( pval, aptr, TYPE_STRING, (void *)"" );
+            } else {
+                ctx->stat = resp.status;
+                code_setva( pval, aptr, TYPE_STRING, resp.body ? (void *)resp.body : (void *)"" );
+            }
+            http_save_last_headers( resp.headers );
+            hsp3dx_http_free( &resp );
+            break;
+        }
+
+    case 0x166:                     // dx_http_delete "url", var_body
+        {
+            const char *url_raw = code_gets();
+            char *url = _strdup( url_raw ? url_raw : "" );
+            PVal *pval; APTR aptr;
+            aptr = code_getva( &pval );
+            hsp3dx_http_response resp;
+            int rc = hsp3dx_http_delete( url,
+                                         s_http_user_agent[0] ? s_http_user_agent : nullptr,
+                                         s_http_extra_headers[0] ? s_http_extra_headers : nullptr,
+                                         s_http_timeout_ms, &resp );
+            free( url );
+            if ( rc != 0 ) {
+                ctx->stat = 0;
+                code_setva( pval, aptr, TYPE_STRING, (void *)"" );
+            } else {
+                ctx->stat = resp.status;
+                code_setva( pval, aptr, TYPE_STRING, resp.body ? (void *)resp.body : (void *)"" );
+            }
+            http_save_last_headers( resp.headers );
+            hsp3dx_http_free( &resp );
+            break;
+        }
+
+    case 0x168:                     // dx_http_download "url", "path"
+        {
+            const char *url_raw = code_gets();
+            char *url = _strdup( url_raw ? url_raw : "" );
+            const char *path_raw = code_gets();
+            char *path = _strdup( path_raw ? path_raw : "" );
+            int status = 0;
+            size_t written = 0;
+            int rc = hsp3dx_http_download( url, path,
+                                           s_http_user_agent[0] ? s_http_user_agent : nullptr,
+                                           s_http_extra_headers[0] ? s_http_extra_headers : nullptr,
+                                           s_http_timeout_ms, &status, &written );
+            free( url ); free( path );
+            ctx->stat = rc == 0 ? status : 0;
+            //  保存バイト数を strsize システム変数に (HSP 標準 exist 等と同じ慣習)
+            ctx->strsize = (int)written;
+            break;
+        }
+
+    case 0x169:                     // dx_http_get_res_header "name", var_val
+        {
+            //  直前の dx_http_get/post/put/delete/patch/mp_post のレスポンスヘッダを
+            //  s_http_last_headers に保存してあるので、そこから name を検索する。
+            const char *name_raw = code_gets();
+            char *name = _strdup( name_raw ? name_raw : "" );
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            if ( !s_http_last_headers ) {
+                code_setva( pv, ap, TYPE_STRING, (void *)"" );
+                ctx->stat = -1;
+            } else {
+                hsp3dx_http_response tmp = { 0, nullptr, 0, s_http_last_headers };
+                char value[8192];
+                int rc = hsp3dx_http_get_header( &tmp, name, value, sizeof(value) );
+                code_setva( pv, ap, TYPE_STRING, rc == 0 ? (void *)value : (void *)"" );
+                ctx->stat = rc;     // 0=見つかった / -1=なし
+            }
+            free( name );
+            break;
+        }
+
+    case 0x16a:                     // dx_http_set_basic_auth "user", "pass"
+        {
+            const char *user_raw = code_gets();
+            char *user = _strdup( user_raw ? user_raw : "" );
+            const char *pass_raw = code_gets();
+            char *pass = _strdup( pass_raw ? pass_raw : "" );
+            char hdr_value[1024];
+            if ( hsp3dx_http_build_basic_auth( user, pass, hdr_value, sizeof(hdr_value) ) == 0 ) {
+                //  既存 extra_headers の先頭に "Authorization: <value>\r\n" を入れる
+                char combined[sizeof(s_http_extra_headers)];
+                snprintf( combined, sizeof(combined), "Authorization: %s\r\n%s",
+                          hdr_value,
+                          s_http_extra_headers[0] ? s_http_extra_headers : "" );
+                strncpy( s_http_extra_headers, combined, sizeof(s_http_extra_headers) - 1 );
+                s_http_extra_headers[sizeof(s_http_extra_headers) - 1] = 0;
+            }
+            free( user ); free( pass );
+            break;
+        }
+
+    case 0x16b:                     // dx_http_cookie_clear
+        hsp3dx_http_cookie_clear();
+        break;
+
+    case 0x16c:                     // dx_http_cookie_enable flag
+        hsp3dx_http_cookie_set_enabled( code_getdi( 1 ) );
+        break;
+
+    //  ---- multipart/form-data ----
+    case 0x170:                     // dx_http_mp_begin
+        hsp3dx_http_mp_begin();
+        break;
+
+    case 0x171:                     // dx_http_mp_add_text "name", "value"
+        {
+            const char *name_raw = code_gets();
+            char *name = _strdup( name_raw ? name_raw : "" );
+            const char *val_raw = code_gets();
+            char *val = _strdup( val_raw ? val_raw : "" );
+            ctx->stat = hsp3dx_http_mp_add_text( name, val );
+            free( name ); free( val );
+            break;
+        }
+
+    case 0x172:                     // dx_http_mp_add_file "name", "path" [, "ctype", "disp_name"]
+        {
+            const char *name_raw = code_gets();
+            char *name = _strdup( name_raw ? name_raw : "" );
+            const char *path_raw = code_gets();
+            char *path = _strdup( path_raw ? path_raw : "" );
+            const char *ct_raw   = code_getds( (char *)"" );
+            char *ct = _strdup( ct_raw ? ct_raw : "" );
+            const char *fn_raw   = code_getds( (char *)"" );
+            char *fn = _strdup( fn_raw ? fn_raw : "" );
+            ctx->stat = hsp3dx_http_mp_add_file( name, path,
+                                                 ct[0] ? ct : nullptr,
+                                                 fn[0] ? fn : nullptr );
+            free( name ); free( path ); free( ct ); free( fn );
+            break;
+        }
+
+    case 0x173:                     // dx_http_mp_post "url", var_body
+        {
+            const char *url_raw = code_gets();
+            char *url = _strdup( url_raw ? url_raw : "" );
+            PVal *pval; APTR aptr;
+            aptr = code_getva( &pval );
+            hsp3dx_http_response resp;
+            int rc = hsp3dx_http_mp_post( url,
+                                          s_http_user_agent[0] ? s_http_user_agent : nullptr,
+                                          s_http_extra_headers[0] ? s_http_extra_headers : nullptr,
+                                          s_http_timeout_ms, &resp );
+            free( url );
+            if ( rc != 0 ) {
+                ctx->stat = 0;
+                code_setva( pval, aptr, TYPE_STRING, (void *)"" );
+            } else {
+                ctx->stat = resp.status;
+                code_setva( pval, aptr, TYPE_STRING, resp.body ? (void *)resp.body : (void *)"" );
+            }
+            http_save_last_headers( resp.headers );
+            hsp3dx_http_free( &resp );
+            break;
+        }
+
+    case 0x174:                     // dx_http_mp_end
+        hsp3dx_http_mp_end();
+        break;
+
     case 0x162:                     // dx_http_get "url", var_body
         {
             //  code_gets() は内部共有バッファを返すので、後続の code_* で上書き
@@ -1199,6 +1402,7 @@ static int cmdfunc_extcmd( int cmd )
                 code_setva( pval, aptr, TYPE_STRING,
                             resp.body ? (void *)resp.body : (void *)"" );
             }
+            http_save_last_headers( resp.headers );
             hsp3dx_http_free( &resp );
             break;
         }
@@ -1238,6 +1442,7 @@ static int cmdfunc_extcmd( int cmd )
                 code_setva( pval, aptr, TYPE_STRING,
                             resp.body ? (void *)resp.body : (void *)"" );
             }
+            http_save_last_headers( resp.headers );
             hsp3dx_http_free( &resp );
             break;
         }

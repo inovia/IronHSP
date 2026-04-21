@@ -1,0 +1,84 @@
+;============================================================
+;   sample_http_ex.hsp — Phase 5.4a+ HTTP client 拡張機能
+;
+;   PUT / DELETE / download / multipart/form-data ファイルアップロード
+;   User-Agent / Basic 認証 / Cookie / レスポンスヘッダの例を一通り。
+;
+;   インターネット接続が必要。公開 API (httpbin.org) を使う。
+;
+;   ビルド: ..\..\package\win32\hspcmp64.exe -i sample_http_ex.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: HTTP extended"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+    mes "Phase 5.4a+ HTTP extended test"
+    mes "  通信中..."
+    redraw 1
+
+    dx_http_set_timeout 15000
+    dx_http_set_user_agent "hsp3dx/1.0 (sample_http_ex)"
+
+    ;  ---- PUT ----
+    dx_http_put "https://httpbin.org/put", "{\"method\":\"PUT\",\"lang\":\"hsp3dx\"}", resp_put, "application/json"
+    status_put = stat
+
+    ;  ---- DELETE ----
+    dx_http_delete "https://httpbin.org/delete", resp_del
+    status_del = stat
+
+    ;  ---- ダウンロード (サンプル画像) ----
+    dx_http_download "https://httpbin.org/image/png", "httpbin_image.png"
+    status_dl = stat
+
+    ;  ---- multipart/form-data (上でダウンロードした PNG を再アップロード) ----
+    dx_http_mp_begin
+    dx_http_mp_add_text "description", "image uploaded by hsp3dx"
+    dx_http_mp_add_file "photo", "httpbin_image.png", "image/png", ""
+    dx_http_mp_post "https://httpbin.org/post", resp_mp
+    status_mp = stat
+    dx_http_mp_end
+
+    ;  ---- Basic 認証 + レスポンスヘッダ取得 ----
+    dx_http_set_basic_auth "testuser", "testpass"
+    dx_http_get "https://httpbin.org/basic-auth/testuser/testpass", resp_auth
+    status_auth = stat
+    dx_http_get_res_header "Content-Type", ctype_auth     ; 直前のレスポンスから
+    dx_http_set_header ""          ; 認証ヘッダをクリア
+
+    ;  ---- 結果表示 ----
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+    mes "Phase 5.4a+ HTTP extended test"
+    mes ""
+    mes "[PUT]      status=" + status_put + "   body size=" + strlen(resp_put)
+    mes "[DELETE]   status=" + status_del + "   body size=" + strlen(resp_del)
+    mes "[DOWNLOAD] status=" + status_dl  + "   -> httpbin_image.png"
+    mes "[UPLOAD]   status=" + status_mp  + "   body size=" + strlen(resp_mp)
+    mes "[BASIC]    status=" + status_auth + "   body size=" + strlen(resp_auth)
+    mes "           Content-Type: " + ctype_auth
+    mes ""
+    mes "---- multipart upload response (前 240 文字) ----"
+    mes strmid(resp_mp, 0, 240)
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
