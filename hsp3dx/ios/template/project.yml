@@ -156,7 +156,10 @@ targets:
       - sdk: MessageUI.framework
       - sdk: Metal.framework
       - sdk: GLKit.framework
-      - sdk: StoreKit.framework
+      # StoreKit.framework は DxLib iOS の In-App Purchase 機能用だが、hsp3dx では未使用。
+      # Personal Team (無料) は In-App Purchase capability 非対応のため含めない。
+      # 商用公開時に Apple Developer Program 加入 + -lDxUseCLib_iOS 内部で StoreKit 参照する
+      # 機能を使うなら戻す。
       - sdk: Security.framework
       - sdk: SystemConfiguration.framework
       - sdk: CFNetwork.framework
