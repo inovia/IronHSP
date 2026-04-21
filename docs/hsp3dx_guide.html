@@ -33,11 +33,11 @@ kbd { background: #f0f0f0; border: 1px solid #aaa; border-radius: 3px; padding: 
 <h1>hsp3dx 利用者ガイド</h1>
 
 <p>
-  <strong>hsp3dx</strong> は HSP3 + DxLib を同じ <code>.ax</code> バイナリで Windows / iOS / Android (iOS, Android は未着手) で動かすランタイムです。
+  <strong>hsp3dx</strong> は HSP3 + DxLib を同じ <code>.ax</code> バイナリで Windows / Android / iOS (iOS は未着手) で動かすランタイムです。
   HSP3Dish と違い、DxLib の 2000 関数超の API をモバイルでもそのまま呼べることを目指しています。
 </p>
 
-<p>本ドキュメントは <strong>2026-04-21 時点 (Phase 5.5n 完了)</strong> の Windows 版を対象としています。</p>
+<p>本ドキュメントは <strong>2026-04-21 時点 (Phase 5.5n / Phase 4 Android 完了)</strong> が対象です。</p>
 
 <div class="toc">
   <strong>目次</strong>
@@ -52,7 +52,8 @@ kbd { background: #f0f0f0; border: 1px solid #aaa; border-radius: 3px; padding: 
     <li><a href="#callback">8. コールバック登録</a></li>
     <li><a href="#polygon">9. 頂点配列描画 (DrawPolygon3D)</a></li>
     <li><a href="#pitfalls">10. よくあるハマりどころ</a></li>
-    <li><a href="#reference">11. リファレンス</a></li>
+    <li><a href="#android">11. Android 版の使い方</a></li>
+    <li><a href="#reference">12. リファレンス</a></li>
   </ul>
 </div>
 
@@ -474,7 +475,81 @@ dx_DrawPolygon3D verts, 1, -1, 1   ; ポリゴン数 1、テクスチャなし�
 dx_ConvWorldPosToScreenPos out, world  ; VECTOR 戻り → out に代入
 </code></pre>
 
-<h2 id="reference">11. リファレンス</h2>
+<h2 id="android">11. Android 版の使い方</h2>
+
+<p>
+  <strong>Phase 4 完了</strong> (2026-04-21) により、Win 版と同じ <code>.ax</code>
+  バイナリを Android 端末で実行できます。NativeActivity ベースの APK として
+  ビルドし、エミュレータ / 実機の両方で動作確認済みです。
+</p>
+
+<h3>基本フロー</h3>
+<ol>
+  <li>Windows で <code>.hsp</code> を <code>hspcmp64.exe -i -u --compath=..\package\win32\common\ your_game.hsp</code> でコンパイル</li>
+  <li>出力された <code>your_game.ax</code> を <code>hsp3dx/ndk/template/app/src/main/assets/start.ax</code> にリネームコピー</li>
+  <li><code>cd hsp3dx/ndk/template &amp;&amp; gradlew.bat assembleDebug</code> で APK ビルド</li>
+  <li><code>adb install -r app/build/outputs/apk/debug/app-debug.apk</code> でインストール</li>
+</ol>
+
+<p>
+  詳細は <a href="../hsp3dx/ndk/README.md">hsp3dx/ndk/README.md</a> を参照。
+</p>
+
+<h3>Android 固有機能</h3>
+
+<table>
+  <tr><th>機能</th><th>HSP 側の書き方</th><th>備考</th></tr>
+  <tr><td>タッチ入力 (座標)</td><td><code>tx = mousex : ty = mousey</code></td><td>論理 640×480 系で取得</td></tr>
+  <tr><td>タッチ入力 (押下判定)</td><td><code>stick st, 64 : btn = (st &amp; 64) != 0</code></td><td>bit 0x40 = 左クリック = タッチ中</td></tr>
+  <tr><td>画面フィット切替</td><td><code>dx_setscreenfit flag</code></td><td>0=比率維持 letterbox (default) / 1=ストレッチ</td></tr>
+  <tr><td>HTTP</td><td><code>dx_http_get "https://..."</code></td><td>JNI 経由で HttpURLConnection を呼ぶ</td></tr>
+  <tr><td>Back キー判定</td><td><code>getkey esc, 27</code></td><td>Android Back キーが ESC (VK_ESCAPE) にマッピング</td></tr>
+</table>
+
+<h3>画面サイズと座標系</h3>
+
+<p>
+  Android の論理解像度は <strong>640×480 固定</strong>。物理画面にはアスペクト比維持 letterbox
+  (上下または左右に黒帯) で表示されます。<code>mousex</code> / <code>mousey</code> 等の
+  タッチ座標も論理 640×480 系で返るので、Win 版と同じ座標計算がそのまま使えます。
+</p>
+
+<p>
+  ストレッチ表示 (比率無視で画面いっぱい) にしたい場合:
+</p>
+
+<pre><code>; スクリプト冒頭で呼ぶと以降の描画がストレッチ表示に
+dx_setscreenfit 1
+</code></pre>
+
+<h3>開発中のサンプル差し替え (APK リビルド不要)</h3>
+
+<p>
+  開発中は <code>adb push</code> で <code>.ax</code> を差し替え可能:
+</p>
+
+<pre><code>adb push sample_foo.ax /data/local/tmp/ax_override.bin
+adb shell "run-as com.ironhsp.hsp3dx sh -c \
+    'cp /data/local/tmp/ax_override.bin /data/data/com.ironhsp.hsp3dx/files/start_override.ax'"
+adb shell am force-stop com.ironhsp.hsp3dx
+adb shell am start -n com.ironhsp.hsp3dx/android.app.NativeActivity
+</code></pre>
+
+<p>
+  起動時に <code>files/start_override.ax</code> があれば assets の <code>start.ax</code>
+  より優先されます。
+</p>
+
+<h3>制限事項</h3>
+<ul>
+  <li>マルチタッチ未対応 (1 本指のみ)</li>
+  <li>WebSocket (<code>dx_ws_*</code>) は Android では stub 実装</li>
+  <li>multipart/form-data アップロード未対応 (Phase 4.x)</li>
+  <li>Cookie 永続化・Basic 認証ヘルパ未実装</li>
+  <li>画面回転時のリロード未対応</li>
+</ul>
+
+<h2 id="reference">12. リファレンス</h2>
 
 <h3>同梱ドキュメント</h3>
 <ul>

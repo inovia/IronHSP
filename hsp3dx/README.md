@@ -10,7 +10,7 @@ HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android を動かす�
 
 → [docs/hsp3dx_spec.md](../docs/hsp3dx_spec.md)
 
-## 現状 (2026-04-21): Phase 5.5n 完了 — Windows 版フル機能実装
+## 現状 (2026-04-21): Phase 4 (Android) 完了 — Win + Android の 2 プラットフォーム同一 `.ax` 実行
 
 | Phase | 内容 | 状態 |
 |---|---|---|
@@ -23,8 +23,12 @@ HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android を動かす�
 | Phase 5.3 | DxLib API 自動生成 (初期 512 関数) | ✅ |
 | Phase 5.4a/b/c | HTTP / JSON / WebSocket クライアント | ✅ |
 | Phase 5.5a-n | `#defstruct` 対応 / ref 引数 / struct 戻り値 / callback / Polygon | ✅ |
+| Phase 4.a-c | Android ビルド骨格 (NDK / CMake / NativeActivity) | ✅ |
+| Phase 4.d-f | Android サンプル検証 / タッチ入力 / 画面フィット | ✅ |
+| Phase 4.g | Android HTTP 本実装 (JNI → HttpURLConnection) | ✅ |
 | Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | 未着手 |
-| Phase 4 | Android 版 `libhsp3dx.so` + Studio テンプレ | 未着手 |
+
+詳細: [ndk/README.md](ndk/README.md) (Android)
 
 ## API 実装カバレッジ
 
