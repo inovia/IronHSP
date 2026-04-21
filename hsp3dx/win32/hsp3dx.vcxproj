@@ -113,6 +113,7 @@
     <ClCompile Include="..\src\hsp3dx_dxlib_auto.cpp" />
     <ClCompile Include="..\src\hsp3dx_http_win.cpp" />
     <ClCompile Include="..\src\hsp3dx_json.cpp" />
+    <ClCompile Include="..\src\hsp3dx_ws_win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\hgio_dx.h" />

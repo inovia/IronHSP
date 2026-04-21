@@ -68,6 +68,7 @@
 #include "hsp3dx_console.h"
 #include "hsp3dx_http.h"
 #include "hsp3dx_json.h"
+#include "hsp3dx_ws.h"
 #include "DxLib.h"
 
 //  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜0x3FF)
@@ -1586,6 +1587,81 @@ static int cmdfunc_extcmd( int cmd )
             free( path );
             break;
         }
+
+    //  -----------------------------------------------------------------
+    //  Phase 5.4c: WebSocket (WinHTTP WebSocket API、Win 8+)
+    //      0x1A0 connect / 0x1A1 close / 0x1A2 free
+    //      0x1A3 send_text / 0x1A4 send_binary
+    //      0x1A5 recv / 0x1A6 status
+    //  -----------------------------------------------------------------
+    case 0x1a0:                     // dx_ws_connect "url" [, "extra_hdr", timeout_ms]
+        {
+            const char *url_raw = code_gets();
+            char *url = _strdup( url_raw ? url_raw : "" );
+            const char *hdr_raw = code_getds( (char *)"" );
+            char *hdr = _strdup( hdr_raw ? hdr_raw : "" );
+            int timeout = code_getdi( 10000 );
+            ctx->stat = hsp3dx_ws_connect( url, hdr[0] ? hdr : nullptr, timeout );
+            free( url ); free( hdr );
+            break;
+        }
+    case 0x1a1:                     // dx_ws_close handle [, code]
+        {
+            int h = code_getdi( -1 );
+            int code = code_getdi( 1000 );
+            hsp3dx_ws_close( h, code );
+            break;
+        }
+    case 0x1a2:                     // dx_ws_free handle
+        hsp3dx_ws_free( code_getdi( -1 ) );
+        break;
+    case 0x1a3:                     // dx_ws_send_text handle, "text"
+        {
+            int h = code_getdi( -1 );
+            const char *raw = code_gets();
+            size_t len = raw ? strlen( raw ) : 0;
+            char *dup_s = _strdup( raw ? raw : "" );
+            ctx->stat = hsp3dx_ws_send_text( h, dup_s, len );
+            free( dup_s );
+            break;
+        }
+    case 0x1a4:                     // dx_ws_send_binary handle, var, size
+        {
+            int h = code_getdi( -1 );
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            int sz = code_getdi( 0 );
+            void *ptr = pv->pt;             //  array/str/var バッファ先頭
+            ctx->stat = hsp3dx_ws_send_binary( h, ptr, (size_t)sz );
+            break;
+        }
+    case 0x1a5:                     // dx_ws_recv handle, var [, timeout_ms]
+        {
+            int h = code_getdi( -1 );
+            PVal *pv; APTR ap; ap = code_getva( &pv );
+            int timeout = code_getdi( 0 );
+            size_t len = 0; int type = 0;
+            //  受信バッファ 64KB 固定 (大きめメッセージは fragment 結合済みで届く)
+            char *buf = (char *)malloc( 65536 );
+            int rc = hsp3dx_ws_recv( h, timeout, buf, 65536, &len, &type );
+            if ( rc == 0 ) {
+                code_setva( pv, ap, TYPE_STRING, (void *)buf );
+                ctx->stat    = type;        //  0=TEXT / 1=BINARY
+                ctx->strsize = (int)len;
+            } else if ( rc == 1 ) {
+                code_setva( pv, ap, TYPE_STRING, (void *)"" );
+                ctx->stat    = -2;          //  timeout
+                ctx->strsize = 0;
+            } else {
+                code_setva( pv, ap, TYPE_STRING, (void *)"" );
+                ctx->stat    = -1;          //  closed or error
+                ctx->strsize = 0;
+            }
+            free( buf );
+            break;
+        }
+    case 0x1a6:                     // dx_ws_status handle ; stat = WS_*
+        ctx->stat = hsp3dx_ws_status( code_getdi( -1 ) );
+        break;
 
     case 0x162:                     // dx_http_get "url", var_body
         {

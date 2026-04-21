@@ -101,4 +101,14 @@
 #cmd dx_json_set_arr       $192   ; dx_json_set_arr handle, "path"  (空 array)
 #cmd dx_json_remove        $193   ; dx_json_remove handle, "path"
 
+;  ---- Phase 5.4c: WebSocket (ws:// / wss://、WinHTTP WebSocket API) ----
+;      非同期受信はランタイム側 background thread で処理される
+#cmd dx_ws_connect         $1a0   ; dx_ws_connect "url" [, "Hdr: val\r\n...", timeout_ms] (stat=handle/-1)
+#cmd dx_ws_close           $1a1   ; dx_ws_close handle [, close_code]
+#cmd dx_ws_free            $1a2   ; dx_ws_free handle
+#cmd dx_ws_send_text       $1a3   ; dx_ws_send_text handle, "msg"
+#cmd dx_ws_send_binary     $1a4   ; dx_ws_send_binary handle, var, size
+#cmd dx_ws_recv            $1a5   ; dx_ws_recv handle, var [, timeout_ms] (stat: 0=TEXT / 1=BIN / -1=closed / -2=timeout, strsize=bytes)
+#cmd dx_ws_status          $1a6   ; dx_ws_status handle (stat: 0=OPEN / 1=CONNECTING / 2=CLOSING / 3=CLOSED)
+
 #endif

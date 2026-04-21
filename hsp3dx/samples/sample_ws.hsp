@@ -1,0 +1,88 @@
+;============================================================
+;   sample_ws.hsp — Phase 5.4c WebSocket クライアント
+;
+;   公開エコーサーバ wss://echo.websocket.events に接続し、
+;   5 回メッセージを送受信する。JSON と組み合わせて使う例。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: WebSocket"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+
+    pos 10, 10
+    mes "Phase 5.4c WebSocket test"
+    mes "  接続中 (wss://ws.ifelse.io) ..."
+    redraw 1
+
+    ;  timeout 5 秒に短縮 (第 3 引数)
+    dx_ws_connect "wss://ws.ifelse.io/", "", 5000
+    h_ws = stat
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    pos 10, 10
+
+    if h_ws < 0 {
+        mes "接続失敗 (インターネット未接続か、サーバ停止の可能性)"
+        goto *wait_quit
+    }
+    mes "接続成功 handle=" + h_ws + "  status=" + stat
+    dx_ws_status h_ws
+    mes "  -> ws status = " + stat
+    redraw 1
+
+    ;  最初の 1 通はサーバからの welcome メッセージ
+    dx_ws_recv h_ws, first_msg, 3000
+    rc = stat
+    if rc == 0 {
+        mes "welcome: " + first_msg
+    }
+
+    repeat 5
+        ;  ---- 送信 (JSON で構造付き) ----
+        dx_json_new_obj
+        j = stat
+        dx_json_set_str  j, "kind", "ping"
+        dx_json_set_int  j, "seq", cnt
+        dx_json_set_str  j, "from", "hsp3dx"
+        dx_json_stringify j, msg, 0
+        dx_json_free j
+
+        dx_ws_send_text h_ws, msg
+        mes "[" + cnt + "] send: " + msg
+
+        ;  ---- 受信 (echo なので同じ内容が返ってくる) ----
+        dx_ws_recv h_ws, recvbuf, 3000
+        rc = stat
+        if rc == 0 {
+            mes "     recv: " + recvbuf
+        } else {
+            mes "     recv failed rc=" + rc
+        }
+        redraw 1
+        await 500
+    loop
+
+    dx_ws_close h_ws
+    await 500
+    dx_ws_free h_ws
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+*wait_quit
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
