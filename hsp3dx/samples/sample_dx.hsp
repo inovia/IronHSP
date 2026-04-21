@@ -1,0 +1,67 @@
+;============================================================
+;   sample_dx.hsp — Phase 5.1 dx_* 命令デモ
+;   アンチエイリアス描画 + DrawModiGraph 歪み変形 + ジョイパッド入力
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_dx.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: dx_* AA drawing + joypad"
+
+    celload "test_logo.png", 1
+
+    t = 0.0
+
+*main_loop
+    redraw 0
+
+    color 10, 20, 50
+    boxf 0, 0, 640, 480
+
+    ;  ---- アンチエイリアス描画 ----
+    ;  AA 円 (dx_drawcircleaa) — 塗りつぶし + 枠
+    dx_drawcircleaa 160, 150, 80, 0xFF8040, 1
+    dx_drawcircleaa 160, 150, 80, 0xFFFFFF, 0, 2.0
+
+    ;  AA 線 (dx_drawlineaa) — 太さ 3
+    repeat 8
+        a = cnt * 45 + t * 30
+        x = 480 + cos(0.0174 * a) * 70
+        y = 150 + sin(0.0174 * a) * 70
+        dx_drawlineaa 480, 150, x, y, 0x80E0FF, 3.0
+    loop
+
+    ;  AA ボックス (dx_drawboxaa)
+    dx_drawboxaa 40, 280, 280, 400, 0x60FF60, 0, 2.5
+    dx_drawboxaa 50, 290, 270, 390, 0x308030, 1
+
+    ;  AA 三角 (dx_drawtriangle)
+    dx_drawtriangle 360, 400, 500, 300, 580, 400, 0xFF5050, 1
+    dx_drawtriangle 360, 400, 500, 300, 580, 400, 0xFFFFFF, 0
+
+    ;  ---- DrawModiGraph (4 頂点で画像を歪める) ----
+    ;  ロゴを波打たせる
+    wave = int( sin(t * 2) * 10 )
+    dx_drawmodigraph 1, 320 - 64 + wave, 440 - 32, 320 + 64 + wave, 440 - 40, 320 + 64 - wave, 440 + 32, 320 - 64 - wave, 440 + 40
+
+    ;  ---- ジョイパッド状態表示 (接続なしでも 0 が返る) ----
+    dx_getjoypad pad, 0
+    dx_joyanalog ax, ay, 0
+
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10   : mes "Phase 5.1: dx_* AA drawing + joypad"
+    pos 10, 30   : mes "  dx_drawcircleaa / dx_drawlineaa / dx_drawboxaa / dx_drawtriangle"
+    pos 10, 50   : mes "  dx_drawmodigraph で画像波打ち"
+    pos 10, 460  : mes "pad=" + pad + "  analog=(" + ax + "," + ay + ")  [ESC] quit"
+
+    redraw 1
+
+    getkey esc_p, 27
+    if esc_p : end
+
+    t = t + 0.02
+    await 16
+    goto *main_loop

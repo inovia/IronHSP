@@ -717,6 +717,134 @@ static int cmdfunc_extcmd( int cmd )
         DrawBox( p1, p2, p3, p4, s_cur_color, TRUE );
         break;
 
+    //  ============================================================
+    //  Phase 5.1: iron_dxlib.as 経由の dx_* 命令 (opcode 0x100〜)
+    //  ============================================================
+
+    case 0x100:                     // dx_drawcircleaa x, y, r, color [, fill, thickness]
+        {
+            int x = code_getdi( s_cur_x );
+            int y = code_getdi( s_cur_y );
+            int r = code_getdi( 10 );
+            int col = code_getdi( (int)s_cur_color );
+            int fill = code_getdi( 1 );
+            double thick = code_getdd( 1.0 );
+            apply_gmode_blend();
+            DrawCircleAA( (float)x, (float)y, (float)r, 32, (unsigned int)col,
+                          fill, (float)thick, 0.0 );
+            break;
+        }
+
+    case 0x101:                     // dx_drawlineaa x1, y1, x2, y2, color [, thickness]
+        {
+            int x1 = code_getdi( s_cur_x );
+            int y1 = code_getdi( s_cur_y );
+            int x2 = code_getdi( x1 + 10 );
+            int y2 = code_getdi( y1 + 10 );
+            int col = code_getdi( (int)s_cur_color );
+            double thick = code_getdd( 1.0 );
+            apply_gmode_blend();
+            DrawLineAA( (float)x1, (float)y1, (float)x2, (float)y2,
+                        (unsigned int)col, (float)thick );
+            break;
+        }
+
+    case 0x102:                     // dx_drawboxaa x1, y1, x2, y2, color [, fill, thickness]
+        {
+            int x1 = code_getdi( 0 );
+            int y1 = code_getdi( 0 );
+            int x2 = code_getdi( 100 );
+            int y2 = code_getdi( 100 );
+            int col = code_getdi( (int)s_cur_color );
+            int fill = code_getdi( 1 );
+            double thick = code_getdd( 1.0 );
+            apply_gmode_blend();
+            DrawBoxAA( (float)x1, (float)y1, (float)x2, (float)y2,
+                       (unsigned int)col, fill, (float)thick );
+            break;
+        }
+
+    case 0x103:                     // dx_drawtriangle x1,y1, x2,y2, x3,y3, color, fill
+        {
+            int x1 = code_getdi( 0 );
+            int y1 = code_getdi( 0 );
+            int x2 = code_getdi( 0 );
+            int y2 = code_getdi( 0 );
+            int x3 = code_getdi( 0 );
+            int y3 = code_getdi( 0 );
+            int col = code_getdi( (int)s_cur_color );
+            int fill = code_getdi( 1 );
+            apply_gmode_blend();
+            DrawTriangle( x1, y1, x2, y2, x3, y3, (unsigned int)col, fill );
+            break;
+        }
+
+    case 0x104:                     // dx_drawmodigraph srcID, x1,y1, x2,y2, x3,y3, x4,y4
+        {
+            int id = code_getdi( 0 );
+            int x1 = code_getdi( 0 );
+            int y1 = code_getdi( 0 );
+            int x2 = code_getdi( 100 );
+            int y2 = code_getdi( 0 );
+            int x3 = code_getdi( 100 );
+            int y3 = code_getdi( 100 );
+            int x4 = code_getdi( 0 );
+            int y4 = code_getdi( 100 );
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
+            int src = s_buf_handle[id];
+            if ( src == -1 ) throw HSPERR_PICTURE_MISSING;
+            apply_gmode_blend();
+            DrawModiGraph( x1, y1, x2, y2, x3, y3, x4, y4, src, TRUE );
+            break;
+        }
+
+    case 0x110:                     // dx_getjoypad var [, pad_no]
+        {
+            PVal *pval;
+            APTR aptr;
+            aptr = code_getva( &pval );
+            int pad_no = code_getdi( 0 );       // 0 = DX_INPUT_PAD1 相当
+            int pad_id = DX_INPUT_KEY_PAD1;     // pad1 default
+            if ( pad_no == 1 ) pad_id = DX_INPUT_PAD2;
+            else if ( pad_no == 2 ) pad_id = DX_INPUT_PAD3;
+            else if ( pad_no == 3 ) pad_id = DX_INPUT_PAD4;
+            int state = GetJoypadInputState( pad_id );
+            code_setva( pval, aptr, TYPE_INUM, &state );
+            break;
+        }
+
+    case 0x111:                     // dx_joyanalog xvar, yvar [, pad_no]
+        {
+            PVal *pvx, *pvy;
+            APTR ax, ay;
+            ax = code_getva( &pvx );
+            ay = code_getva( &pvy );
+            int pad_no = code_getdi( 0 );
+            int pad_id = DX_INPUT_PAD1;
+            if ( pad_no == 1 ) pad_id = DX_INPUT_PAD2;
+            else if ( pad_no == 2 ) pad_id = DX_INPUT_PAD3;
+            else if ( pad_no == 3 ) pad_id = DX_INPUT_PAD4;
+            int ix = 0, iy = 0;
+            GetJoypadAnalogInput( &ix, &iy, pad_id );
+            code_setva( pvx, ax, TYPE_INUM, &ix );
+            code_setva( pvy, ay, TYPE_INUM, &iy );
+            break;
+        }
+
+    case 0x120:                     // dx_setwaitvsync flag
+        {
+            int flag = code_getdi( 1 );
+            SetWaitVSyncFlag( flag );
+            break;
+        }
+
+    case 0x121:                     // dx_setfullscreen flag
+        {
+            int flag = code_getdi( 0 );
+            ChangeWindowMode( flag ? FALSE : TRUE );    // DxLib は逆: FALSE=full, TRUE=window
+            break;
+        }
+
     default:
         throw HSPERR_UNSUPPORTED_FUNCTION;
     }

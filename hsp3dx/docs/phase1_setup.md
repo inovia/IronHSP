@@ -93,8 +93,8 @@ hsp3dx.exe
 | サブ Phase | 内容 | 状態 |
 |---|---|---|
 | **5.0** | gzoom / bmpsave / hsvcolor / ginfo(p) 追加 (既存 hspcmp 対応 opcode) | ✅ |
-| 5.1 | dx_* 命令公開基盤 (hspcmp 拡張 or #uselib hijack) | 未着手 |
-| 5.2 | joypad / AA drawing / movie / network (DxLib 独自機能) | 未着手 |
+| **5.1** | dx_* 命令公開基盤 (#regcmd/#cmd 採用) + AA 描画 + DrawModiGraph + ジョイパッド | ✅ |
+| 5.2 | movie / network / 3D / shader (DxLib 独自機能) | 未着手 |
 | 5.3 | DxLib API 自動コード生成 (40 → 500 関数) | 未着手 |
 
 ## トラブルシュート

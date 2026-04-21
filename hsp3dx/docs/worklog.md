@@ -6,6 +6,49 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 5.1: dx_* 命令公開基盤)
+
+### (これから commit) @ 20:12 — Phase 5.1: iron_dxlib.as + dx_* 命令群
+
+**やったこと**
+- `package/win32/common/iron_dxlib.as` 新規: `#regcmd 9` + `#cmd dx_* $opcode`
+  による独自キーワード登録 (hgimg4.as と同パターン)
+- opcode 0x100 台を dx_* 命令用に予約、hsp3dx_extcmd.cpp に実装:
+  - `0x100 dx_drawcircleaa` — AA 円 (DrawCircleAA)
+  - `0x101 dx_drawlineaa` — AA 線 (DrawLineAA)
+  - `0x102 dx_drawboxaa` — AA 矩形 (DrawBoxAA)
+  - `0x103 dx_drawtriangle` — 三角 (DrawTriangle、AA 扱い)
+  - `0x104 dx_drawmodigraph` — 4 頂点画像変形 (DrawModiGraph)
+  - `0x110 dx_getjoypad` — ジョイパッド状態 ビットフィールド
+  - `0x111 dx_joyanalog` — アナログスティック入力
+  - `0x120 dx_setwaitvsync` — VSync 切替
+  - `0x121 dx_setfullscreen` — フルスクリーン切替
+
+**サンプル** `sample_dx.hsp`:
+- AA 円 + 回転する放射 AA 線 (8 本)
+- AA 塗り box + 枠 / AA 三角
+- DrawModiGraph で波打つロゴ (4 頂点を sin で動かす)
+- ジョイパッド状態 HUD 表示
+
+**詰まりどころ**
+- `~` を行継続に書いたら HSP パースエラー (HSP は continue char 不明)
+  → 1 行にまとめた
+- `iron_dxlib.as` が hspcmp から見つからない
+  → 今のところ bin/Release/ にコピー。hspcmp の search path 検討 (将来)
+
+**動作確認**
+- ビルド成功、sample_dx.ax 1323 bytes コンパイル成功
+- 実機で AA 描画 / DrawModiGraph 波打ち / 全機能動作確認 ✅
+  (ジョイパッド未接続のため pad=0 表示、コード自体は動作)
+
+**意義**
+hspcmp 改造や DLL ハックを避けつつ、hgimg4 方式の **`#regcmd`/`#cmd` で
+独自キーワード** を hsp3dx に追加できることを実証。Phase 5.2/5.3 でさらに
+dx_* 命令を増やしていく基盤が整った。hsp3dish との差別化 (AA 描画 / 変形
+描画 / ジョイパッド等、HSP 標準にない DxLib 機能) が実用形に。
+
+---
+
 ## 2026-04-21 (Phase 1.10 + #regcmd 発見 + mmvol スケール訂正)
 
 ### (これから commit) @ 20:11 — Phase 1.10 + #regcmd 機構発見
