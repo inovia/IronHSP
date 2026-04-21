@@ -8,6 +8,7 @@ package com.ironhsp.hsp3dx;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import android.util.Log;
 import okhttp3.*;
@@ -45,6 +46,47 @@ public class HspHttp {
             Log.i( "HspHttp", "cookieClear" );
         }
     }
+
+    //  OkHttp (multipart/form-data) も同じ CookieManager を共有する CookieJar。
+    //  HspCookieJar の実装は cookieManager が null の時は no-op。
+    private static final CookieJar sharedCookieJar = new CookieJar() {
+        @Override
+        public void saveFromResponse( HttpUrl url, List<Cookie> cookies ) {
+            if ( cookieManager == null || cookies == null || cookies.isEmpty() ) return;
+            try {
+                Map<String, List<String>> headers = new HashMap<String, List<String>>();
+                List<String> setCookies = new ArrayList<String>();
+                for ( Cookie c : cookies ) setCookies.add( c.toString() );
+                headers.put( "Set-Cookie", setCookies );
+                cookieManager.put( url.uri(), headers );
+            } catch ( Exception e ) {
+                Log.w( "HspHttp", "saveFromResponse: " + e );
+            }
+        }
+        @Override
+        public List<Cookie> loadForRequest( HttpUrl url ) {
+            List<Cookie> result = new ArrayList<Cookie>();
+            if ( cookieManager == null ) return result;
+            try {
+                Map<String, List<String>> headers = cookieManager.get(
+                    url.uri(), new HashMap<String, List<String>>() );
+                List<String> cookieHeaders = headers.get( "Cookie" );
+                if ( cookieHeaders != null ) {
+                    for ( String h : cookieHeaders ) {
+                        for ( String part : h.split( ";" ) ) {
+                            part = part.trim();
+                            if ( part.isEmpty() ) continue;
+                            Cookie c = Cookie.parse( url, part );
+                            if ( c != null ) result.add( c );
+                        }
+                    }
+                }
+            } catch ( Exception e ) {
+                Log.w( "HspHttp", "loadForRequest: " + e );
+            }
+            return result;
+        }
+    };
 
     //  ================================================================
     //  multipart/form-data (OkHttp ベース)
@@ -104,6 +146,7 @@ public class HspHttp {
                 .connectTimeout( to, TimeUnit.MILLISECONDS )
                 .readTimeout( to, TimeUnit.MILLISECONDS )
                 .writeTimeout( to, TimeUnit.MILLISECONDS )
+                .cookieJar( sharedCookieJar )
                 .build();
             Response response = c.newCall( b.build() ).execute();
             int code = response.code();

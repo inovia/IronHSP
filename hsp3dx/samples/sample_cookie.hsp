@@ -31,6 +31,13 @@
     dx_http_get "https://httpbin.org/cookies", resp2
     s2 = stat
 
+    ;  (3) multipart POST でも同じ Cookie が送られるか確認 (OkHttp 経由)
+    dx_http_mp_begin
+    dx_http_mp_add_text "note", "hello from hsp3dx"
+    dx_http_mp_post "https://httpbin.org/post", resp3
+    s3 = stat
+    dx_http_mp_end
+
     ;  結果表示
     color 20, 30, 60
     boxf 0, 0, 640, 480
@@ -43,10 +50,15 @@
     mes "    Set-Cookie: " + sc_hdr
     mes ""
     mes "(2) /cookies  status=" + s2
-    mes "    body (前 300 文字):"
-    mes strmid(resp2, 0, 300)
+    mes "    body (前 200 文字):"
+    mes strmid(resp2, 0, 200)
     mes ""
-    mes "期待: (2) のbody に \"foo\": \"bar\" と \"lang\": \"hsp3dx\" が両方入る"
+    mes "(3) multipart POST /post  status=" + s3
+    mes "    body (Cookie ヘッダ付近、280 文字抜粋):"
+    ;  httpbin /post は headers.Cookie にエコーを返す
+    p = instr(resp3, 0, "\"Cookie\"")
+    if p < 0 : p = 0
+    mes strmid(resp3, p, 280)
 
     pos 10, 450
     color 255, 220, 80
