@@ -1,0 +1,103 @@
+;============================================================
+;   sample_resswitch.hsp — 5秒ごとに解像度を自動切替するデモ
+;
+;   screen 0, w, h は途中で呼んでも効く (SetGraphMode 後呼び OK)。
+;   プリセットを 5 種類用意して 5 秒ごとに巡回。タッチ軌跡もリセット。
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i -u --compath=../../package/win32/common/ sample_resswitch.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx resolution switcher"
+
+    ;  ---- 端末ネイティブ解像度取得 ----
+    dx_getdispsize disp_w, disp_h
+
+    ;  ---- プリセット (5 種類) ----
+    dim preset_w, 5
+    dim preset_h, 5
+    sdim preset_name, 48, 5
+    preset_w(0) = 640    : preset_h(0) = 480     : preset_name(0) = "640x480 (HSP default 4:3)"
+    preset_w(1) = 720    : preset_h(1) = 1280    : preset_name(1) = "720x1280 (portrait 9:16)"
+    preset_w(2) = 1280   : preset_h(2) = 720     : preset_name(2) = "1280x720 (landscape 16:9)"
+    preset_w(3) = 320    : preset_h(3) = 240     : preset_name(3) = "320x240 (retro pixel)"
+    preset_w(4) = disp_w : preset_h(4) = disp_h  : preset_name(4) = "native (1:1 pixel mapping)"
+
+    INTERVAL = 300          ; 60fps * 5秒 = 300フレーム
+    PRESETS  = 5
+
+    idx      = -1
+    frame    = 0
+    prev_btn = 0 : prev_x = -1 : prev_y = -1
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        ;  ---- 解像度切替チェック ----
+        new_idx = (frame / INTERVAL) \ PRESETS
+        if new_idx != idx {
+            idx = new_idx
+            screen 0, preset_w(idx), preset_h(idx)
+            sw = ginfo_winx
+            sh = ginfo_winy
+            ;  軌跡バッファを新しい解像度で作り直し
+            buffer 1, sw, sh
+            color 0, 0, 0
+            boxf 0, 0, sw, sh
+            gsel 0
+            prev_x = -1 : prev_y = -1 : prev_btn = 0
+        }
+
+        ;  ---- 入力 ----
+        tx = mousex : ty = mousey
+        stick st, 64 : btn = (st & 64) != 0
+
+        if btn {
+            gsel 1
+            color 255, 200, 100
+            if prev_btn && prev_x >= 0 {
+                line prev_x, prev_y, tx, ty
+            } else {
+                pset tx, ty
+            }
+            gsel 0
+            prev_x = tx : prev_y = ty
+        }
+        prev_btn = btn
+
+        ;  ---- 描画 ----
+        redraw 0
+        ;  プリセットごとに背景色を変える
+        color 20 + idx*30, 40 + idx*15, 80 - idx*12
+        boxf 0, 0, sw, sh
+        pos 0, 0
+        gcopy 1, 0, 0, sw, sh
+
+        color 255, 255, 255
+        font "MS Gothic", 26
+        pos 20, 20
+        mes "hsp3dx resolution switcher"
+        font "MS Gothic", 20
+        pos 20, 60
+        mes "preset  " + (idx+1) + "/" + PRESETS + "  " + preset_name(idx)
+        pos 20, 85
+        mes "screen  " + sw + " x " + sh
+        pos 20, 110
+        mes "device  " + disp_w + " x " + disp_h
+
+        ;  次の切替までの残り秒数
+        remain = (INTERVAL - (frame \ INTERVAL)) / 60 + 1
+        pos 20, 135
+        mes "change in " + remain + "s"
+
+        pos 20, sh - 40
+        color 255, 220, 80
+        mes "[BACK/ESC] quit"
+        redraw 1
+        await 16
+        frame++
+    loop
+    end
