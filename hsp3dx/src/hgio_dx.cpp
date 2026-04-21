@@ -33,11 +33,16 @@ int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
     SetGraphMode( s_screen_w, s_screen_h, 32 );
 
 #if defined(__ANDROID__) || defined(__APPLE__)
-    //  Android は物理画面固定。DxLib の FitScaling の意味に注意:
+    //  モバイルは物理画面固定。DxLib の FitScaling の意味に注意:
     //      FitScaling = FALSE → アスペクト比維持 letterbox (余白は黒)
     //      FitScaling = TRUE  → 画面いっぱいストレッチ (比率無視)
     //  デフォルトは letterbox (640:480 の縦横比を崩さないほうが安全)。
     //  ユーザーは dx_setscreenfit で切替可能。
+    //  2026-04-21 検証: iOS Simulator でも SetFullScreenScalingMode は有効。
+    //  以前は「iOS では効かない」と誤認して MakeScreen 自前 letterbox を作ったが、
+    //  MakeScreen オフスクリーンに描画コマンドが一切反映されない iOS DxLib 固有の
+    //  制限を踏んで全黒になっていた (ClearDrawScreen だけは効く)。
+    //  自動 letterbox + DX_SCREEN_BACK 直接描画が正解。
     SetFullScreenScalingMode( DX_FSSCALINGMODE_BILINEAR, FALSE );
 #endif
 
@@ -63,6 +68,11 @@ int hgio_dx_render_start( void )
 
 int hgio_dx_render_end( void )
 {
+    return hgio_dx_flip();
+}
+
+int hgio_dx_flip( void )
+{
     ScreenFlip();
     return 0;
 }
@@ -86,7 +96,6 @@ void hgio_dx_set_screen_size( int w, int h )
     s_screen_w = w;
     s_screen_h = h;
     SetGraphMode( w, h, 32 );
-    //  Android は SetGraphMode 後に FitScaling 再適用 (内部 FSScalingMode は維持される想定だが念のため)
 }
 
 int hgio_dx_get_display_size( int *pw, int *ph )
@@ -134,6 +143,24 @@ int hgio_dx_get_touch( int index, int *px, int *py )
     if ( index < 0 || index >= GetTouchInputNum() ) return -1;
     int tx = 0, ty = 0;
     GetTouchInput( index, &tx, &ty, nullptr, nullptr );
+#ifdef __APPLE__
+    //  iOS: 物理座標 → 論理 (DxLib が自動 letterbox 表示しているので逆算)
+    {
+        int phys_w = 0, phys_h = 0;
+        GetDisplayResolution_iOS( &phys_w, &phys_h );
+        if ( phys_w > 0 && phys_h > 0 ) {
+            float sx = (float)phys_w / (float)s_screen_w;
+            float sy = (float)phys_h / (float)s_screen_h;
+            float scale = sx < sy ? sx : sy;
+            int draw_w = (int)( s_screen_w * scale );
+            int draw_h = (int)( s_screen_h * scale );
+            int off_x = ( phys_w - draw_w ) / 2;
+            int off_y = ( phys_h - draw_h ) / 2;
+            tx = (int)( ( tx - off_x ) / scale );
+            ty = (int)( ( ty - off_y ) / scale );
+        }
+    }
+#endif
     if ( px ) *px = tx;
     if ( py ) *py = ty;
     return 0;
@@ -164,14 +191,13 @@ void hgio_dx_set_screen_fit( int mode )
 void hgio_dx_getmouse( int *px, int *py, int *pbtn )
 {
 #if defined(__ANDROID__) || defined(__APPLE__)
-    //  Android にはマウスがないので、タッチ座標をマウス座標として、
-    //  タッチ中 = MOUSE_INPUT_LEFT 押下として報告する。
-    //  タッチが離れた後も最後の座標は保持する (HSP 標準の mousex/mousey 的挙動)。
+    //  タッチ座標をマウス座標として扱い、タッチ中 = MOUSE_INPUT_LEFT 押下。
+    //  iOS は hgio_dx_get_touch 内で letterbox 物理→論理変換するのでそれを利用。
     static int s_last_x = 0, s_last_y = 0;
     int n = GetTouchInputNum();
     if ( n > 0 ) {
         int tx = 0, ty = 0;
-        GetTouchInput( 0, &tx, &ty, nullptr, nullptr );
+        hgio_dx_get_touch( 0, &tx, &ty );
         s_last_x = tx;
         s_last_y = ty;
         if ( pbtn ) *pbtn = MOUSE_INPUT_LEFT;

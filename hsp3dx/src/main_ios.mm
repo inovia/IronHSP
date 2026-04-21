@@ -55,19 +55,10 @@ int ios_main( void )
         return -1;
     }
 
-    //  参考: 物理画面サイズ取得
+    //  参考: 物理画面サイズ (hgio_dx 側で letterbox 計算に使う)
     int disp_w = 0, disp_h = 0;
-    int rc = GetDisplayResolution_iOS( &disp_w, &disp_h );
-    NSLog( @"GetDisplayResolution_iOS rc=%d, size=%dx%d", rc, disp_w, disp_h );
-
-    //  iOS DxLib の SetFullScreenScalingMode は storyboard + DxLibGLView 構成だと
-    //  効かず、論理バッファが実画面の左上に原寸配置される。
-    //  → 論理解像度を物理解像度に合わせて画面全体を使う方針 (Android の letterbox と
-    //    挙動が違うが、HSP スクリプト側で screen 命令を呼べば好きなサイズに変更可)。
-    if ( rc == 0 && disp_w > 0 && disp_h > 0 ) {
-        SetGraphMode( disp_w, disp_h, 32 );
-        hgio_dx_set_screen_size( disp_w, disp_h );
-        NSLog( @"iOS logical resolution set to native: %dx%d", disp_w, disp_h );
+    if ( GetDisplayResolution_iOS( &disp_w, &disp_h ) == 0 ) {
+        NSLog( @"physical display: %dx%d (logical=640x480 letterbox)", disp_w, disp_h );
     }
 
     //  内部 Documents dir 取得
@@ -100,9 +91,9 @@ int ios_main( void )
         }
     }
 
-    SetDrawScreen( DX_SCREEN_BACK );
+    //  letterbox 余白を黒にするため背景色設定 + 初期クリア
+    SetBackgroundColor( 0, 0, 0 );
     ClearDrawScreen();
-    ScreenFlip();
 
     if ( hsp3dxcl_init( "start.ax" ) != 0 ) {
         NSLog( @"hsp3dxcl_init failed" );
@@ -114,7 +105,7 @@ int ios_main( void )
     int vm_result = hsp3dxcl_exec();
     NSLog( @"hsp3dx VM end: result=%d", vm_result );
 
-    ScreenFlip();
+    hgio_dx_flip();
 
     //  iOS は ESC キーがないので ProcessMessage の終了通知を待つ
     //  (Home ボタンでバックグラウンド → タスクキルで終了)

@@ -22,6 +22,9 @@ int  hgio_dx_render_start( void );
 int  hgio_dx_render_end( void );
 int  hgio_dx_process_message( void );       // DxLib の ProcessMessage() に相当
 
+// ScreenFlip 代替 (現状は ScreenFlip() を呼ぶだけ)
+int  hgio_dx_flip( void );
+
 // 入力
 int  hgio_dx_getkey( int keycode );
 void hgio_dx_getmouse( int *px, int *py, int *pbtn );

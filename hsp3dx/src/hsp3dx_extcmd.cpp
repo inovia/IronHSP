@@ -202,7 +202,8 @@ static void init_buffers_once( void )
 }
 
 //  HSP の ID → DxLib 描画ターゲット解決
-//  ID 0 は常にメイン画面 (DX_SCREEN_BACK)。それ以外は s_buf_handle[] を引く。
+//  ID 0 は常にメイン画面 = DX_SCREEN_BACK (iOS も DxLib 自動 letterbox にまかせる)。
+//  ID >=1 は buffer 命令で作った s_buf_handle[]。
 static int resolve_draw_target( int id )
 {
     if ( id == 0 ) return DX_SCREEN_BACK;
@@ -392,7 +393,7 @@ static int cmdfunc_extcmd( int cmd )
                             hsp3dx_utf8_to_wide( tmp, wbuf, wcap );
                             DrawString( s_cur_x, s_cur_y, wbuf, s_cur_color );
 #else
-                            // Android: DxLib が SetUseCharCodeFormat(UTF8) モードなので UTF-8 直接
+                            // Android/iOS: DxLib が SetUseCharCodeFormat(UTF8) モードなので UTF-8 直接
                             DrawString( s_cur_x, s_cur_y, tmp, s_cur_color );
 #endif
                             free( tmp );
@@ -488,7 +489,8 @@ static int cmdfunc_extcmd( int cmd )
     case 0x13:                      // cls
         {
             p1 = code_getdi( 0 );       // mode (色パレット番号、DxLib では未使用)
-            SetDrawScreen( DX_SCREEN_BACK );
+            int tgt = resolve_draw_target( 0 );
+            SetDrawScreen( tgt >= 0 ? tgt : DX_SCREEN_BACK );
             ClearDrawScreen();
             s_cur_x = 0;
             s_cur_y = 0;
@@ -892,10 +894,10 @@ static int cmdfunc_extcmd( int cmd )
             (void)code_getdi( 0 );
             if ( p1 & 1 ) {
                 //  redraw 1 / 3 -> ScreenFlip (back → front)
-                ScreenFlip();
+                //  iOS では内部バッファから letterbox 拡大してから flip (hgio_dx 側で処理)
+                hgio_dx_flip();
             }
             //  redraw 0 は back buffer 描画のみ (auto flip 抑止)。
-            //  DxLib では常に SetDrawScreen(DX_SCREEN_BACK) なので追加処理不要。
             break;
         }
 
