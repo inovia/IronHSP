@@ -354,6 +354,7 @@ private:
 
 	void GenerateCodePP_regcmd( void );
 	void GenerateCodePP_cmd( void );
+	void GenerateCodePP_ccmd( void );
 	void GenerateCodePP_deffunc0( int is_command );
 	void GenerateCodePP_deffunc( void );
 	void GenerateCodePP_defcfunc( void );

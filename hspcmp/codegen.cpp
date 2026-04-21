@@ -1809,6 +1809,25 @@ void CToken::GenerateCodePP_cmd( void )
 }
 
 
+void CToken::GenerateCodePP_ccmd( void )
+{
+	//		HSP3Codeを展開する(ccmd = cmd の関数形式版)
+	//		#cmd  name $opcode  → 文として呼ばれる (TYPE_EXTCMD)
+	//		#ccmd name $opcode  → 式として呼ばれる (TYPE_EXTSYSVAR)
+	//		(#func→#cfunc、#deffunc→#defcfunc と同じ対応関係)
+	//		内部的には cg_pptype を 10 (TYPE_EXTSYSVAR) に一時切替して #cmd と同じ処理。
+	int saved = cg_pptype;
+	cg_pptype = 10;			// TYPE_EXTSYSVAR
+	try {
+		GenerateCodePP_cmd();
+	} catch (...) {
+		cg_pptype = saved;
+		throw;
+	}
+	cg_pptype = saved;
+}
+
+
 void CToken::GenerateCodePP_uselib( void )
 {
 	//		HSP3Codeを展開する(uselib)
@@ -2597,6 +2616,7 @@ void CToken::GenerateCodePP( char *buf )
 
 	if ( !strcmp( cg_str,"regcmd" ) ) { GenerateCodePP_regcmd(); return; }
 	if ( !strcmp( cg_str,"cmd" ) ) { GenerateCodePP_cmd(); return; }
+	if ( !strcmp( cg_str,"ccmd" ) ) { GenerateCodePP_ccmd(); return; }
 	if ( !strcmp( cg_str,"uselib" ) ) { GenerateCodePP_uselib(); return; }
 	if ( !strcmp( cg_str,"func" ) ) { GenerateCodePP_func( STRUCTDAT_OT_STATEMENT | STRUCTDAT_OT_FUNCTION ); return; }
 	if ( !strcmp( cg_str,"cfunc" ) ) { GenerateCodePP_func( STRUCTDAT_OT_FUNCTION ); return; }

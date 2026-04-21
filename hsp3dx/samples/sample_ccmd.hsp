@@ -1,0 +1,46 @@
+;============================================================
+;   sample_ccmd.hsp — Phase 5.5o: #ccmd (関数形式 #cmd) smoke test
+;
+;   #ccmd は #cmd の関数形式版。#func/#cfunc と同じ対応関係。
+;   HSP スクリプトから式として呼び出せる。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+;  自分で #ccmd を試しに登録する (runtime 側は 0x300 をテストハンドラで処理)
+#regcmd 10
+#ccmd dx_GetColor_f    $300      ; r, g, b → stat に DxLib カラーコード
+
+    title "hsp3dx: #ccmd smoke test"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    font "MS Gothic", 16
+
+    ;  式形式で呼び出し (#ccmd なので var = func(args) の形)
+    col_red   = dx_GetColor_f(255, 0, 0)
+    col_green = dx_GetColor_f(0, 255, 0)
+    col_blue  = dx_GetColor_f(0, 0, 255)
+
+    color 255, 220, 80
+    pos 10, 10
+    mes "Phase 5.5o: #ccmd 関数形式 smoke test"
+    mes ""
+    mes "col_red   = dx_GetColor_f(255, 0, 0) = " + col_red
+    mes "col_green = dx_GetColor_f(0, 255, 0) = " + col_green
+    mes "col_blue  = dx_GetColor_f(0, 0, 255) = " + col_blue
+    mes ""
+    mes "(DxLib の GetColor() をそのまま式として呼べる!)"
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end

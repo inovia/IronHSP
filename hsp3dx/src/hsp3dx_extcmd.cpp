@@ -2100,6 +2100,22 @@ static void *reffunc_function( int *type_res, int arg )
             break;
         }
 
+    //  ---- Phase 5.5o: #ccmd 式形式 DxLib 関数 (smoke test) ----
+    //      本格対応は Phase 5.5p で gen_dxlib_bindings.py 拡張 + 別ファイル分離。
+    //      ここでは疎通確認として GetColor(r,g,b) のみ手書き。
+    case 0x300:                             // dx_GetColor_f(r, g, b) smoke test
+        {
+            if ( !has_parens ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            int r = code_geti();
+            int g = code_geti();
+            int b = code_geti();
+            if ( *type != TYPE_MARK || *val != ')' ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            reffunc_intfunc_ivalue = GetColor( r, g, b );
+            break;
+        }
+
     default:
         throw HSPERR_UNSUPPORTED_FUNCTION;
     }
