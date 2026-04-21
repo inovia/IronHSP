@@ -1,0 +1,61 @@
+;============================================================
+;   sample_cookie.hsp — Phase 4.m Cookie 永続テスト
+;   httpbin.org/cookies/set で Set-Cookie され、次の /cookies で送り返される
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx cookie"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+    mes "Phase 4.m Cookie test (通信中...)"
+    redraw 1
+
+    dx_http_set_timeout 15000
+
+    ;  Cookie 有効化 + 既存クリア
+    dx_http_cookie_enable 1
+    dx_http_cookie_clear
+
+    ;  (1) cookies/set?foo=bar で Set-Cookie
+    dx_http_get "https://httpbin.org/cookies/set?foo=bar&lang=hsp3dx", resp1
+    s1 = stat
+    dx_http_get_res_header "Set-Cookie", sc_hdr
+
+    ;  (2) /cookies を叩いて Cookie が送り返されるか確認
+    dx_http_get "https://httpbin.org/cookies", resp2
+    s2 = stat
+
+    ;  結果表示
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+    mes "Phase 4.m Cookie test"
+    mes ""
+    mes "(1) /cookies/set?foo=bar&lang=hsp3dx  status=" + s1
+    mes "    Set-Cookie: " + sc_hdr
+    mes ""
+    mes "(2) /cookies  status=" + s2
+    mes "    body (前 300 文字):"
+    mes strmid(resp2, 0, 300)
+    mes ""
+    mes "期待: (2) のbody に \"foo\": \"bar\" と \"lang\": \"hsp3dx\" が両方入る"
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
