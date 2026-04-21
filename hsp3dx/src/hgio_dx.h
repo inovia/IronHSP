@@ -41,6 +41,12 @@ void hgio_dx_set_screen_size( int w, int h );
 //   戻り値: 0=成功、-1=取得失敗 (その場合 pw/ph に 640/480 fallback を書く)
 int  hgio_dx_get_display_size( int *pw, int *ph );
 
+// マルチタッチ対応
+//   Android: DxLib GetTouchInput を呼ぶ
+//   Win    : マウス左ボタン押下を 1 本指として扱う (互換性のため)
+int  hgio_dx_get_touch_num( void );
+int  hgio_dx_get_touch( int index, int *px, int *py );   // 0=成功、-1=範囲外
+
 // TODO: Phase 1.1 以降で描画/音声 API 追加
 
 #ifdef __cplusplus

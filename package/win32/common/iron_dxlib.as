@@ -39,6 +39,8 @@
 #cmd dx_setfullscreen  $121     ; dx_setfullscreen flag — フルスクリーン切替
 #cmd dx_setscreenfit   $122     ; dx_setscreenfit flag — 画面フィット (0=比率維持 letterbox(default) / 1=ストレッチ比率無視 / 2=ピクセル等倍(予約))
 #cmd dx_getdispsize    $123     ; dx_getdispsize wvar, hvar — 端末/デスクトップのネイティブ解像度を取得 (screen 0, wvar, hvar の組で使う)
+#cmd dx_getmtouchnum   $124     ; dx_getmtouchnum — 現在のタッチ本数を stat に
+#cmd dx_getmtouch      $125     ; dx_getmtouch index, xvar, yvar — index 番目のタッチ座標を取得 (index は 0..dx_getmtouchnum-1)
 
 ;  ---- Phase 5.2: 3D プリミティブ / カメラ ----
 ;      直接版は auto-gen の dx_SetCameraPositionAndTarget_UpVecY / dx_DrawSphere3D / dx_DrawCube3D / dx_SetUseLighting も利用可能。

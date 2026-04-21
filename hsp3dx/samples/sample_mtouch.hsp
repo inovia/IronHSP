@@ -1,0 +1,98 @@
+;============================================================
+;   sample_mtouch.hsp — Phase 4.j マルチタッチサンプル
+;
+;   各指に別色で円を描画し、2 本指の時は中間の距離も表示 (ピンチ判定の基礎)。
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i -u --compath=../../package/win32/common/ sample_mtouch.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx multi-touch"
+
+    ;  ---- 縦長 720x1280 + アスペクト比維持 ----
+    screen 0, 720, 1280
+    sw = ginfo_winx : sh = ginfo_winy
+
+    ;  指ごとの色 (最大 5 本指)
+    dim col_r, 5 : dim col_g, 5 : dim col_b, 5
+    col_r(0) = 255 : col_g(0) =  80 : col_b(0) =  80   ; 赤
+    col_r(1) =  80 : col_g(1) = 200 : col_b(1) =  80   ; 緑
+    col_r(2) =  80 : col_g(2) = 150 : col_b(2) = 255   ; 青
+    col_r(3) = 255 : col_g(3) = 200 : col_b(3) =  80   ; 黄
+    col_r(4) = 220 : col_g(4) =  80 : col_b(4) = 220   ; 紫
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        dx_getmtouchnum
+        n = stat
+
+        redraw 0
+        color 10, 20, 30
+        boxf 0, 0, sw, sh
+
+        ;  ---- ヘッダ ----
+        color 255, 255, 255
+        font "MS Gothic", 28
+        pos 20, 20
+        mes "hsp3dx multi-touch sample"
+        font "MS Gothic", 22
+        pos 20, 60
+        mes "touches: " + n + " / 5"
+
+        ;  ---- 指ごとに円と座標を描画 ----
+        dim tx_arr, 5 : dim ty_arr, 5
+
+        i = 0
+        repeat n
+            if i >= 5 : break
+            dx_getmtouch i, tx, ty
+            if stat != 0 : break
+            tx_arr(i) = tx
+            ty_arr(i) = ty
+
+            ;  円 (指の色、半径 60)
+            color col_r(i), col_g(i), col_b(i)
+            circle tx-60, ty-60, tx+60, ty+60, 1
+            ;  内側に index 番号 (白抜き)
+            color 0, 0, 0
+            font "MS Gothic", 40
+            pos tx-12, ty-26
+            mes "" + i
+
+            ;  左上リスト
+            color col_r(i), col_g(i), col_b(i)
+            font "MS Gothic", 20
+            pos 20, 100 + i*28
+            mes "finger " + i + " : (" + tx + ", " + ty + ")"
+            i++
+        loop
+
+        ;  ---- 2 本指の距離 (ピンチ/ズームの基礎) ----
+        if n >= 2 {
+            dx = tx_arr(1) - tx_arr(0)
+            dy = ty_arr(1) - ty_arr(0)
+            dist = sqrt(dx*dx + dy*dy)
+
+            ;  2 本指を結ぶ線
+            color 255, 255, 255
+            line tx_arr(0), ty_arr(0), tx_arr(1), ty_arr(1)
+
+            color 255, 255, 200
+            font "MS Gothic", 22
+            pos 20, 260
+            mes "distance: " + int(dist) + " px"
+        }
+
+        ;  ---- フッタ ----
+        pos 20, sh - 50
+        color 255, 220, 80
+        mes "[BACK/ESC] quit"
+
+        redraw 1
+        await 16
+    loop
+    end

@@ -112,6 +112,36 @@ int hgio_dx_get_display_size( int *pw, int *ph )
     return -1;
 }
 
+int hgio_dx_get_touch_num( void )
+{
+#ifdef __ANDROID__
+    return GetTouchInputNum();
+#else
+    //  Win はマウス左ボタン押下を 1 本指扱い
+    return ( GetMouseInput() & MOUSE_INPUT_LEFT ) ? 1 : 0;
+#endif
+}
+
+int hgio_dx_get_touch( int index, int *px, int *py )
+{
+#ifdef __ANDROID__
+    if ( index < 0 || index >= GetTouchInputNum() ) return -1;
+    int tx = 0, ty = 0;
+    GetTouchInput( index, &tx, &ty, nullptr, nullptr );
+    if ( px ) *px = tx;
+    if ( py ) *py = ty;
+    return 0;
+#else
+    if ( index != 0 ) return -1;
+    if ( !( GetMouseInput() & MOUSE_INPUT_LEFT ) ) return -1;
+    int mx = 0, my = 0;
+    GetMousePoint( &mx, &my );
+    if ( px ) *px = mx;
+    if ( py ) *py = my;
+    return 0;
+#endif
+}
+
 void hgio_dx_set_screen_fit( int mode )
 {
 #ifdef __ANDROID__

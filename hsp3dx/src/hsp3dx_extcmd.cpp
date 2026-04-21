@@ -1031,6 +1031,25 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    case 0x124:                     // dx_getmtouchnum (stat = タッチ本数)
+        ctx->stat = hgio_dx_get_touch_num();
+        break;
+
+    case 0x125:                     // dx_getmtouch index, xvar, yvar
+        //  index 番目のタッチ座標を取得。範囲外の場合は xvar=yvar=-1、stat=-1。
+        {
+            int idx = code_getdi( 0 );
+            PVal *pvx = nullptr, *pvy = nullptr;
+            APTR ax = code_getva( &pvx );
+            APTR ay = code_getva( &pvy );
+            int tx = -1, ty = -1;
+            int rc = hgio_dx_get_touch( idx, &tx, &ty );
+            code_setva( pvx, ax, TYPE_INUM, &tx );
+            code_setva( pvy, ay, TYPE_INUM, &ty );
+            ctx->stat = rc;   // 0=成功、-1=範囲外
+            break;
+        }
+
     //  ============================================================
     //  Phase 5.2: 3D プリミティブ / カメラ
     //  ============================================================
