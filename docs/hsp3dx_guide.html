@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>hsp3dx 利用者ガイド</title>
+<style>
+body { font-family: 'Segoe UI', 'Meiryo', sans-serif; max-width: 980px; margin: 0 auto; padding: 20px; line-height: 1.7; color: #222; }
+h1 { border-bottom: 3px solid #0078d4; padding-bottom: 8px; }
+h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-top: 2em; color: #0056a0; }
+h3 { color: #0078d4; margin-top: 1.5em; }
+h4 { color: #444; margin-top: 1.2em; }
+pre { background: #f7f7f9; padding: 12px 14px; border-radius: 4px; overflow-x: auto; font-size: 13px; border: 1px solid #e0e0e0; }
+code { background: #eef1f4; padding: 2px 5px; border-radius: 3px; font-size: 13px; font-family: 'Consolas', 'Menlo', monospace; }
+pre code { background: transparent; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 14px; }
+th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+th { background: #e8eef4; font-weight: bold; }
+td code { background: #f0f0f0; }
+.note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 14px; border-radius: 2px; margin: 1em 0; }
+.important { background: #f8d7da; border-left: 4px solid #dc3545; padding: 10px 14px; border-radius: 2px; margin: 1em 0; }
+.tip { background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 10px 14px; border-radius: 2px; margin: 1em 0; }
+.toc { background: #f5f5f5; padding: 12px 20px; border-radius: 4px; margin: 1em 0; }
+.toc ul { margin: 0; padding-left: 20px; }
+.toc a { text-decoration: none; color: #0078d4; }
+.toc a:hover { text-decoration: underline; }
+kbd { background: #f0f0f0; border: 1px solid #aaa; border-radius: 3px; padding: 1px 5px; font-size: 12px; font-family: inherit; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.done { color: #28a745; }
+</style>
+</head>
+<body>
+
+<h1>hsp3dx 利用者ガイド</h1>
+
+<p>
+  <strong>hsp3dx</strong> は HSP3 + DxLib を同じ <code>.ax</code> バイナリで Windows / iOS / Android (iOS, Android は未着手) で動かすランタイムです。
+  HSP3Dish と違い、DxLib の 2000 関数超の API をモバイルでもそのまま呼べることを目指しています。
+</p>
+
+<p>本ドキュメントは <strong>2026-04-21 時点 (Phase 5.5n 完了)</strong> の Windows 版を対象としています。</p>
+
+<div class="toc">
+  <strong>目次</strong>
+  <ul>
+    <li><a href="#intro">1. hsp3dx とは</a></li>
+    <li><a href="#setup">2. 導入とビルド</a></li>
+    <li><a href="#hello">3. Hello, hsp3dx</a></li>
+    <li><a href="#namespace">4. 3 つの API 系統 (HSP 組み込み / dx_* 手書き / dx_* auto-gen)</a></li>
+    <li><a href="#defstruct">5. #defstruct で DxLib 構造体を扱う</a></li>
+    <li><a href="#3d">6. 3D 描画</a></li>
+    <li><a href="#net">7. HTTP / JSON / WebSocket</a></li>
+    <li><a href="#callback">8. コールバック登録</a></li>
+    <li><a href="#polygon">9. 頂点配列描画 (DrawPolygon3D)</a></li>
+    <li><a href="#pitfalls">10. よくあるハマりどころ</a></li>
+    <li><a href="#reference">11. リファレンス</a></li>
+  </ul>
+</div>
+
+<h2 id="intro">1. hsp3dx とは</h2>
+
+<h3>特徴</h3>
+<ul>
+  <li><strong>HSP 組み込み命令</strong> (<code>color</code> / <code>boxf</code> / <code>mes</code> / <code>gcopy</code> / <code>mmload</code> 等) が素のまま使える</li>
+  <li><strong>DxLib API を dx_* プレフィックス付きで <span class="num">1723</span> 関数</strong> 直接呼べる (自動生成)</li>
+  <li><strong>#defstruct (NSTRUCT)</strong> で VECTOR / MATRIX / VERTEX3D 等の DxLib 構造体を扱える</li>
+  <li><strong>UTF-8 固定</strong> (3 プラットフォーム共通のため)</li>
+  <li>HTTP / JSON / WebSocket は hsp3dx 独自命令として組み込み (<code>dx_http_*</code> / <code>dx_json_*</code> / <code>dx_ws_*</code>)</li>
+</ul>
+
+<h3>カバレッジ数字 (2026-04-21)</h3>
+<table>
+  <tr><th>区分</th><th class="num">件数</th></tr>
+  <tr><td>DxLib.h の extern 宣言総数</td><td class="num">2466</td></tr>
+  <tr><td>手書き <code>dx_*</code> (iron_dxlib.as)</td><td class="num">73</td></tr>
+  <tr><td>自動生成 <code>dx_*</code> (iron_dxlib_auto.as)</td><td class="num">1650</td></tr>
+  <tr><td><strong>HSP から叩ける DxLib API 合計</strong></td><td class="num"><strong>1723</strong></td></tr>
+  <tr><td>独自命令 (HTTP/JSON/WebSocket)</td><td class="num">46</td></tr>
+  <tr><td>コールバック系 (SetRestoreGraphCallback など)</td><td class="num">5</td></tr>
+</table>
+
+<h2 id="setup">2. 導入とビルド</h2>
+
+<h3>前提</h3>
+<ul>
+  <li>Windows 10/11 (x64)</li>
+  <li>Visual Studio 2022 Community + "C++ によるデスクトップ開発" ワークロード</li>
+  <li>DxLib SDK (Ver 3.24f 以降) が <code>hsp3dx/extlib/dxlib_win/DxLib_VC/</code> に配置済</li>
+</ul>
+
+<h3>ランタイムのビルド</h3>
+<ol>
+  <li><code>hsp3dx/win32/hsp3dx.vcxproj</code> を MSBuild で Release/x64 でビルド</li>
+  <li><code>hsp3dx/win32/bin/Release/hsp3dx.exe</code> が生成される</li>
+</ol>
+
+<pre><code>msbuild hsp3dx\win32\hsp3dx.vcxproj -p:Configuration=Release -p:Platform=x64
+</code></pre>
+
+<h3>スクリプトのコンパイルと実行</h3>
+<pre><code>rem 1. UTF-8 ソースを .ax にコンパイル (-i は入力 UTF-8、-d はデバッグ情報)
+package\win32\hspcmp64.exe -i -d your_script.hsp
+
+rem 2. 実行
+hsp3dx\win32\bin\Release\hsp3dx.exe your_script.ax
+</code></pre>
+
+<div class="important">
+  <strong>重要</strong>: 必ず <code>-i</code> を付けて UTF-8 として読み込ませること。デフォルトは CP932 (SJIS) です。
+</div>
+
+<h2 id="hello">3. Hello, hsp3dx</h2>
+
+<pre><code>#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 220, 80
+    font "MS Gothic", 20
+    pos 100, 200
+    mes "Hello, hsp3dx!"
+    redraw 1
+
+    repeat
+        await 16
+        getkey k, 27
+        if k : break
+    loop
+    end
+</code></pre>
+
+<p>これだけで HSP 組み込み命令が DxLib の back buffer 経由で描画されます。
+<kbd>ESC</kbd> で終了します。</p>
+
+<h2 id="namespace">4. 3 つの API 系統</h2>
+
+<h3>(a) HSP 組み込み命令</h3>
+<p>
+  <code>color</code> / <code>boxf</code> / <code>circle</code> / <code>line</code> / <code>mes</code> /
+  <code>gcopy</code> / <code>celload</code> / <code>picload</code> / <code>mmload</code> / <code>mmplay</code> /
+  <code>buffer</code> / <code>screen</code> / <code>redraw</code> / <code>await</code> 等 ― 標準 HSP 資産がそのまま使えます。
+</p>
+
+<h3>(b) 手書き <code>dx_*</code> 命令 (73 個)</h3>
+<p>
+  ユースケース特化のラッパ。スカラー引数でシンプルに呼び出せる簡易版や、
+  hsp3dx 独自の HTTP / JSON / WebSocket / コールバック登録が含まれます。
+</p>
+<p>命名は <strong>snake_case</strong> が中心 (例: <code>dx_setcamerapos</code>, <code>dx_http_get</code>)。</p>
+
+<h3>(c) 自動生成 <code>dx_*</code> 命令 (1650 個)</h3>
+<p>
+  DxLib.h を正規表現で parse し、HSP から直接呼べる形に機械変換したもの。
+  命名は <strong>DxLib 原関数名そのまま + <code>dx_</code> プレフィックス</strong> (例: <code>dx_DrawSphere3D</code>, <code>dx_VectorAdd</code>)。
+  DxLib 公式リファレンスの関数名がそのまま検索語として使えます。
+</p>
+
+<div class="tip">
+  <strong>HSP はケースインセンシティブ</strong>: <code>dx_DrawSphere3D</code> でも <code>dx_drawsphere3d</code> でも同じ命令に解決されます。
+  ただし識別子文字が 1 文字でも違えば別命令です (例: <code>dx_drawsphere3d_s</code> は別物)。
+</div>
+
+<h4>手書き版と直接版の使い分け</h4>
+<p>
+  スカラー引数で呼びたい場合は <code>_s</code> サフィックスの手書き版 (<code>dx_drawsphere3d_s</code>、xyz 直書き)、
+  VECTOR 引数を使いたい場合は auto-gen 版 (<code>dx_DrawSphere3D</code>) を選んでください。
+</p>
+
+<h2 id="defstruct">5. <code>#defstruct</code> で DxLib 構造体を扱う</h2>
+
+<p>
+  VECTOR / MATRIX / COLOR_F / VERTEX3D 等の DxLib 構造体は、HSP 側で
+  <code>#defstruct</code> 宣言 → <code>stdim</code> で確保 → <code>-&gt;</code> 演算子でメンバアクセスします。
+  HSP 3.7 の <strong>NSTRUCT 型</strong> (FLAG=11) を使ったバイナリレイアウト保持です。
+</p>
+
+<h3>基本: VECTOR</h3>
+<pre><code>#defstruct VECTOR
+    #field float x
+    #field float y
+    #field float z
+#endstruct
+
+stdim v, VECTOR
+v-&gt;x = 10.0
+v-&gt;y = -5.0
+v-&gt;z = 100.0
+
+mes "v = (" + v-&gt;x + ", " + v-&gt;y + ", " + v-&gt;z + ")"
+</code></pre>
+
+<h3>配列</h3>
+<pre><code>stdim pts, VECTOR, 10       ; VECTOR 10 個分
+pts(0)-&gt;x = 1.0
+pts(1)-&gt;y = 2.0
+</code></pre>
+
+<h3>ネスト構造体</h3>
+<pre><code>#defstruct POINT
+    #field int x
+    #field int y
+#endstruct
+
+#defstruct RECT
+    #field POINT topLeft
+    #field POINT bottomRight
+#endstruct
+
+stdim r, RECT
+r-&gt;topLeft-&gt;x = 10
+r-&gt;bottomRight-&gt;y = 200
+</code></pre>
+
+<h3>文字列フィールド</h3>
+<pre><code>#defstruct PERSON
+    #field int  age
+    #field char name[32]      ; 配列長は [N] 記法 (空白区切りは不可)
+    #field float height
+#endstruct
+
+stdim alice, PERSON
+alice-&gt;age = 30
+alice-&gt;name = "Alice Smith"
+alice-&gt;height = 162.5
+</code></pre>
+
+<h3>union</h3>
+<pre><code>#defunion FLOAT_INT
+    #field float f
+    #field int   i
+#endunion
+
+stdim u, FLOAT_INT
+u-&gt;f = 1.0
+mes "IEEE 754 bit pattern: " + u-&gt;i    ; → 1065353216 (= 0x3F800000)
+</code></pre>
+
+<div class="note">
+  <strong>対応フィールド型</strong>: <code>byte</code> / <code>short</code> / <code>int</code> / <code>int64</code> /
+  <code>float</code> / <code>double</code> / <code>intptr</code> / <code>bool</code> / <code>bool1</code> / <code>bool2</code> /
+  <code>char</code> / <code>wchar</code> (文字列は <code>[N]</code> で長さ指定) / ネスト構造体名
+</div>
+
+<h2 id="3d">6. 3D 描画</h2>
+
+<h3>基本セットアップ</h3>
+<pre><code>dx_setzbuffer 1                ; Z バッファ ON (深度テスト)
+dx_SetUseLighting 1            ; 照明 ON
+dx_setlightdir 0.3, -0.5, 0.8  ; 平行光源の方向
+dx_setcameraperspective 60     ; 視野角 60 度
+dx_setcamerapos 400, 150, -400, 0, 0, 0   ; 視点, 注視点
+</code></pre>
+
+<h3>スカラー版 (<code>_s</code>) とスカラー版 (auto-gen VECTOR 版)</h3>
+
+<p>球を描くのに 2 通りあります:</p>
+
+<pre><code>; 手書き scalar 版 (簡潔)
+dx_drawsphere3d_s 0, 0, 0, 80, 16, 0xFF4040, 0, 1
+
+; auto-gen VECTOR 版 (DxLib 原シグネチャ)
+stdim v, VECTOR
+v-&gt;x = 0.0 : v-&gt;y = 0.0 : v-&gt;z = 0.0
+dx_DrawSphere3D v, 80.0, 16, 0xFF4040, 0, 1
+</code></pre>
+
+<h3>主要な 3D プリミティブ</h3>
+
+<table>
+<tr><th>命令</th><th>用途</th></tr>
+<tr><td><code>dx_DrawLine3D</code></td><td>3D 直線 (VECTOR 2 点)</td></tr>
+<tr><td><code>dx_DrawTriangle3D</code></td><td>3D 三角形 (VECTOR 3 点)</td></tr>
+<tr><td><code>dx_DrawSphere3D</code></td><td>球 (中心 VECTOR + r)</td></tr>
+<tr><td><code>dx_DrawCube3D</code></td><td>立方体 (VECTOR 2 点対角)</td></tr>
+<tr><td><code>dx_DrawCapsule3D</code></td><td>カプセル (両端 VECTOR + r)</td></tr>
+<tr><td><code>dx_DrawCone3D</code></td><td>円錐 (先端/底面 VECTOR + r)</td></tr>
+</table>
+
+<h3>MV1 3D モデル</h3>
+<pre><code>dx_mv1load "model.mv1"
+h = stat
+dx_mv1setpos    h, 0, 0, 0
+dx_mv1setrot    h, 0, 0.5, 0    ; ラジアン
+dx_mv1setscale_s h, 1.0, 1.0, 1.0
+
+; 描画ループ内
+dx_mv1draw h
+</code></pre>
+
+<h2 id="net">7. HTTP / JSON / WebSocket</h2>
+
+<h3>HTTP GET / POST</h3>
+<pre><code>dx_http_set_timeout 10000
+dx_http_set_user_agent "MyApp/1.0"
+
+dx_http_get "https://httpbin.org/get?foo=bar", resp
+status = stat                   ; HTTP ステータスコード
+mes "body size = " + strlen(resp)
+
+dx_http_post "https://api.example.com/echo", "{\"x\":1}", resp2, "application/json"
+</code></pre>
+
+<p>拡張機能: PUT / DELETE / PATCH / download / multipart upload / Basic 認証 / Cookie 保持 / レスポンスヘッダ取得 がすべて揃っています。
+Windows 版は WinHTTP ベース、HTTP/2 と gzip/deflate 自動解凍対応。</p>
+
+<h3>JSON</h3>
+<pre><code>; パース
+dx_json_parse "{\"name\":\"hsp3dx\",\"ver\":5.5,\"tags\":[\"win\",\"ios\"]}"
+h = stat
+dx_json_get_str  h, "name", s_name         ; "hsp3dx"
+dx_json_get_int  h, "ver"                   ; stat = 5 (整数化)
+dx_json_size     h, "tags"                  ; stat = 3
+
+; 構築
+dx_json_new_obj
+h2 = stat
+dx_json_set_str    h2, "app", "MyGame"
+dx_json_set_arr    h2, "players"
+dx_json_set_str    h2, "players[0]", "Alice"
+dx_json_stringify  h2, out
+
+dx_json_free h
+dx_json_free h2
+</code></pre>
+
+<p>path は <code>"user.items[0].name"</code> 記法 (picojson ベース)。</p>
+
+<h3>WebSocket</h3>
+<pre><code>dx_ws_connect "wss://ws.ifelse.io/"
+h = stat
+if h &lt; 0 : dialog "接続失敗" : end
+
+dx_ws_send_text h, "{\"hello\":\"world\"}"
+dx_ws_recv h, buf, 3000          ; timeout 3 秒
+recv_type = stat                 ; 0=TEXT / 1=BINARY / -1=closed / -2=timeout
+
+dx_ws_close h
+dx_ws_free  h
+</code></pre>
+
+<h2 id="callback">8. コールバック登録</h2>
+
+<p>
+  DxLib のコールバック取る API (全 5 種) を HSP ラベルで受けられます。
+  内部は C スタブから <code>code_callback()</code> 経由で HSP VM にジャンプする「静的スロット方式」。
+</p>
+
+<h3>対応命令</h3>
+<table>
+<tr><th>命令</th><th>DxLib 関数</th></tr>
+<tr><td><code>dx_SetRestoreGraphCallback</code></td><td>SetRestoreGraphCallback</td></tr>
+<tr><td><code>dx_SetRestoreShredPoint</code></td><td>SetRestoreShredPoint</td></tr>
+<tr><td><code>dx_SetGraphicsDeviceRestoreCallback</code></td><td>SetGraphicsDeviceRestoreCallbackFunction</td></tr>
+<tr><td><code>dx_SetGraphicsDeviceLostCallback</code></td><td>SetGraphicsDeviceLostCallbackFunction</td></tr>
+<tr><td><code>dx_SetASyncLoadFinishCallback</code></td><td>SetASyncLoadFinishCallback</td></tr>
+</table>
+
+<h3>例: 非同期画像ロード完了時のコールバック</h3>
+<pre><code>dx_SetUseASyncLoadFlag 1
+dx_LoadGraph "big_texture.png"
+h_pic = stat
+
+dx_SetASyncLoadFinishCallback h_pic, *on_loaded
+
+; 以降の処理はロードと並列で進む
+repeat
+    await 16
+    ; ...
+loop
+
+*on_loaded
+    ; ロード完了したらここが呼ばれる
+    mes "loaded!"
+    return
+</code></pre>
+
+<h2 id="polygon">9. 頂点配列描画 (DrawPolygon3D)</h2>
+
+<p>
+  任意メッシュを描きたい場合、<code>VERTEX3D</code> 配列を直接 DxLib に渡せます。
+</p>
+
+<pre><code>#defstruct VERTEX3D
+    #field float px
+    #field float py
+    #field float pz
+    #field float nx
+    #field float ny
+    #field float nz
+    #field byte  dr    ; diffuse R
+    #field byte  dg
+    #field byte  db
+    #field byte  da
+    #field byte  sr    ; specular R
+    #field byte  sg
+    #field byte  sb
+    #field byte  sa
+    #field float u
+    #field float v
+    #field float su
+    #field float sv
+#endstruct
+
+stdim verts, VERTEX3D, 3
+verts(0)-&gt;px = -100.0 : verts(0)-&gt;py =   0.0 : verts(0)-&gt;pz = 0.0
+verts(0)-&gt;dr = 255    : verts(0)-&gt;dg = 80    : verts(0)-&gt;db = 80    : verts(0)-&gt;da = 255
+; ... 残りの頂点も同様
+
+dx_DrawPolygon3D verts, 1, -1, 1   ; ポリゴン数 1、テクスチャなし、半透明考慮
+</code></pre>
+
+<p>インデックス付き (<code>DrawPolygonIndexed3D</code>) / 32bit インデックス / 2D 版も同じパターンで使えます。</p>
+
+<h2 id="pitfalls">10. よくあるハマりどころ</h2>
+
+<h3>⚠ 変数名と HSP 組み込み命令の衝突</h3>
+<p>
+  <code>stdim pos, VECTOR</code> のように <code>pos</code> / <code>line</code> / <code>color</code> / <code>font</code> / <code>rank</code> / <code>default</code> など HSP 予約名を変数名にすると syntax error。
+  <code>v</code> や <code>pt</code> などの短い名前や固有の名前を使ってください。
+</p>
+
+<h3>⚠ #field 配列の書き方</h3>
+<p>
+  空白区切りは NG、<code>[N]</code> 記法必須:
+</p>
+<pre><code>#field char name 32       ; ❌ array_count = 0 になる
+#field char name[32]      ; ✅
+</code></pre>
+
+<h3>⚠ 座標スケール</h3>
+<p>
+  DxLib のデフォルト near plane は 1.0。3D 座標が -5〜5 等だと near plane に近すぎて見えない場合あり。
+  既存 sample_3d は ±100〜350 スケールで書かれています。
+</p>
+
+<h3>⚠ grHandle = -1 は DX_NONE_GRAPH とは違う</h3>
+<p>
+  DxLib の「テクスチャなし」は <code>0xfffffffb</code> (DX_NONE_GRAPH) だが、HSP からは -1 で渡せるように
+  runtime 側で自動変換しています (Phase 5.5n)。
+</p>
+
+<h3>⚠ 非 int 戻り値の DxLib 関数は第 1 引数で受ける</h3>
+<p>
+  HSP の <code>#cmd</code> は文専用で式返却不可。そのため float / double / VECTOR / MATRIX 等の戻り値は
+  第 1 引数の変数に書き戻されます:
+</p>
+<pre><code>dx_GetNowHiPerformanceCount t          ; LONGLONG 戻り → t に代入
+dx_ConvWorldPosToScreenPos out, world  ; VECTOR 戻り → out に代入
+</code></pre>
+
+<h2 id="reference">11. リファレンス</h2>
+
+<h3>同梱ドキュメント</h3>
+<ul>
+  <li><a href="hsp3dx_spec.html">hsp3dx_spec.html</a> — 仕様書 (アーキテクチャ・クロスプラットフォーム設計の詳細)</li>
+  <li><a href="hsp3dx_spec.md">hsp3dx_spec.md</a> — 上記の Markdown 版</li>
+</ul>
+
+<h3>ヘルプファイル (HSP エディタ連携)</h3>
+<ul>
+  <li><code>package/hsphelp/iron_dxlib.hs</code> — 手書き 73 命令の日本語詳細解説</li>
+  <li><code>package/hsphelp/iron_dxlib_auto.hs</code> — 自動生成 1650 命令の索引 + 原関数シグネチャ</li>
+</ul>
+
+<h3>サンプル</h3>
+<p>すべて <code>hsp3dx/samples/</code> にあります。全 25 本、コンパイル済 <code>.ax</code> も同梱。</p>
+
+<table>
+<tr><th>ファイル</th><th>内容</th></tr>
+<tr><td><code>sample_3d.hsp</code>, <code>sample_3d_vec.hsp</code></td><td>3D プリミティブ各種</td></tr>
+<tr><td><code>sample_polygon.hsp</code></td><td>DrawPolygon3D (頂点配列)</td></tr>
+<tr><td><code>sample_http.hsp</code>, <code>sample_http_ex.hsp</code></td><td>HTTP 全機能</td></tr>
+<tr><td><code>sample_json.hsp</code></td><td>JSON 読み書き</td></tr>
+<tr><td><code>sample_ws.hsp</code></td><td>WebSocket</td></tr>
+<tr><td><code>sample_struct_smoke.hsp</code></td><td>#defstruct 基本</td></tr>
+<tr><td><code>sample_struct_array.hsp</code></td><td>配列要素 + CHAR_ARRAY</td></tr>
+<tr><td><code>sample_struct_nested.hsp</code></td><td>ネスト + union</td></tr>
+<tr><td><code>sample_outparam_smoke.hsp</code></td><td>ref 引数</td></tr>
+<tr><td><code>sample_ret_smoke.hsp</code></td><td>非 int 戻り値</td></tr>
+<tr><td><code>sample_callback.hsp</code></td><td>DxLib コールバック</td></tr>
+<tr><td><code>sample_auto.hsp</code></td><td>auto-gen 命令の呼び出し例</td></tr>
+<tr><td><code>sample_effects.hsp</code></td><td>gzoom / bmpsave 等</td></tr>
+<tr><td><code>sample_mmvol.hsp</code></td><td>BGM 音量</td></tr>
+<tr><td><code>sample_shooter.hsp</code></td><td>総合 (シューティング)</td></tr>
+</table>
+
+<h3>外部リンク</h3>
+<ul>
+  <li><a href="https://dxlib.xsrv.jp/dxfunc.html">DxLib 公式関数リファレンス</a></li>
+  <li><a href="https://github.com/kazuho/picojson">picojson (JSON パーサのベース実装)</a></li>
+</ul>
+
+<hr>
+<p style="color:#888; font-size: 12px;">IronHSP Project / hsp3dx Phase 5.5n guide — 最終更新 2026-04-21</p>
+
+</body>
+</html>
