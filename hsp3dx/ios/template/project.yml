@@ -69,9 +69,14 @@ targets:
     platform: iOS
     deploymentTarget: "14.0"
     sources:
-      # iOS app 側 (Info.plist + 起動用ダミー)
+      # iOS app 側 (Info.plist + storyboard + xcassets)
       - path: Sources
         name: Sources
+      - path: Resources
+        name: Resources
+      - path: Data/start.ax
+        buildPhase: resources
+        optional: true
       # hsp3dx 本体 (iOS 用 .mm + Win/Android 非依存の共通 .cpp)
       - path: ../../src
         name: hsp3dx
@@ -110,13 +115,10 @@ targets:
           - "strnote.cpp"
           - "dpmread.cpp"
           - "filepack.cpp"
-          - "ndk/supio_ndk.cpp"
+          - "ios/supio_ios.cpp"
       # #defstruct (NSTRUCT) は hsp3net に集約
       - path: ../../../hsp3net/hspvar_nstruct.cpp
         name: hsp3net
-    resources:
-      - path: Data/start.ax
-        optional: true
     settings:
       base:
         INFOPLIST_FILE: Sources/Info.plist

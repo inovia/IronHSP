@@ -265,7 +265,7 @@ FILE *hsp3_fopen(char*name, int offset)
 	}
 #endif
 
-#ifdef HSPIOS
+#if defined(HSPIOS) && !defined(HSP3DX)
     {
         char* path = gb_filepath(name);
         //printf("Load %s", path);
@@ -360,7 +360,7 @@ void hsp3_fclose(FILE* ptr)
 
 int hsp3_flength(char* name)
 {
-#ifdef HSPIOS
+#if defined(HSPIOS) && !defined(HSP3DX)
     {
         int length = gb_existdata( name );
         if (length >= 0)
@@ -430,7 +430,7 @@ int hsp3_fseek(FILE* ptr, int offset, int whence)
 
 int hsp3_binsave( char *fname8, void *mem, int msize, int seekofs )
 {
-#ifdef HSPIOS
+#if defined(HSPIOS) && !defined(HSP3DX)
     gb_savedata( fname8, (char *)mem, msize, seekofs );
     return msize;
 #endif
@@ -454,7 +454,7 @@ int hsp3_binsave( char *fname8, void *mem, int msize, int seekofs )
 
 int hsp3_rawload(char* name, void* mem, int size, int seekofs)
 {
-#ifdef HSPIOS
+#if defined(HSPIOS) && !defined(HSP3DX)
     int filesize = gb_existdata( name );
     if (size>=0) filesize=size;
     if (filesize>0) {

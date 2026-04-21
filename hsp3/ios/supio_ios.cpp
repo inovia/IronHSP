@@ -30,9 +30,11 @@
 #include "../dpmread.h"
 #include "../strbuf.h"
 
+#if !defined(HSP3DX)
 #include "Classes/iOSBridge.h"
 
 void gb_savedata(char* key, char* data, int size, int offset);
+#endif
 
 #ifndef _MAX_PATH
 #define _MAX_PATH	256
@@ -97,23 +99,23 @@ void mem_bye( void *ptr ) {
 
 int mem_save( char *fname, void *mem, int msize, int seekofs )
 {
+#if !defined(HSP3DX)
     gb_savedata( fname, (char *)mem, msize, seekofs );
     return msize;
-#if 0
-	FILE *fp;
-	int flen;
-
-	if (seekofs<0) {
-		fp=fopen(fname,"wb");
-	}
-	else {
-		fp=fopen(fname,"r+b");
-	}
-	if (fp==NULL) return -1;
-	if ( seekofs>=0 ) fseek( fp, seekofs, SEEK_SET );
-	flen = (int)fwrite( mem, 1, msize, fp );
-	fclose(fp);
-	return flen;
+#else
+    //  hsp3dx: 直接 fopen で書き出し (DxLib 経由のリソース埋め込みは別経路)
+    FILE *fp;
+    int flen;
+    if ( seekofs < 0 ) {
+        fp = fopen( fname, "wb" );
+    } else {
+        fp = fopen( fname, "r+b" );
+    }
+    if ( fp == NULL ) return -1;
+    if ( seekofs >= 0 ) fseek( fp, seekofs, SEEK_SET );
+    flen = (int)fwrite( mem, 1, msize, fp );
+    fclose( fp );
+    return flen;
 #endif
 }
 
@@ -769,6 +771,7 @@ int ReplaceDone( void )
 //
 //        debug support
 //
+#if !defined(HSP3DX)
 void Alert( const char *mes )
 {
     gb_nslog( (char *)mes );
@@ -790,3 +793,24 @@ void Alertf( const char *format, ... )
     va_end(args);
     gb_nslog( (char *)textbf );
 }
+#else
+//  hsp3dx: fprintf(stderr) ベースのシンプル実装
+void Alert( const char *mes )
+{
+    fprintf( stderr, "[hsp3dx] %s\n", mes );
+}
+
+void AlertV( const char *mes, int val )
+{
+    fprintf( stderr, "[hsp3dx] %s%d\n", mes, val );
+}
+
+void Alertf( const char *format, ... )
+{
+    va_list args;
+    va_start( args, format );
+    vfprintf( stderr, format, args );
+    va_end( args );
+    fputc( '\n', stderr );
+}
+#endif

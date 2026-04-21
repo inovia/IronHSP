@@ -3,11 +3,12 @@
 //
 #include "hsp3dx_console.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #ifdef _WIN32
 #include <windows.h>
-#else
+#elif defined(__ANDROID__)
 #include <android/log.h>
 #endif
 
@@ -53,12 +54,19 @@ int hsp3dx_msgbox_utf8( const char *text_utf8, const char *title_utf8, unsigned 
     if ( wt ) free( wt );
     if ( wc ) free( wc );
     return rc;
-#else
+#elif defined(__ANDROID__)
     //  Android: logcat に出すのみ (ダイアログ UI はユーザ側で Toast 等使うこと)
     (void)mb_flags;
     __android_log_print( ANDROID_LOG_ERROR,
                          title_utf8 ? title_utf8 : "hsp3dx",
                          "%s", text_utf8 ? text_utf8 : "" );
+    return 0;
+#else
+    //  iOS/Linux: stderr に出すだけ
+    (void)mb_flags;
+    fprintf( stderr, "[%s] %s\n",
+             title_utf8 ? title_utf8 : "hsp3dx",
+             text_utf8 ? text_utf8 : "" );
     return 0;
 #endif
 }
