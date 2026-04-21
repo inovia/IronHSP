@@ -1,0 +1,67 @@
+;============================================================
+;   sample_struct_nested.hsp — Phase 5.5m: ネスト構造体 + union
+;
+;   (1) ネスト: RECT の中に POINT を持つ
+;   (2) union: int / float のメモリを共有
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+#defstruct POINT
+    #field int x
+    #field int y
+#endstruct
+
+#defstruct RECT
+    #field POINT topLeft
+    #field POINT bottomRight
+#endstruct
+
+#defunion FLOAT_INT
+    #field float f
+    #field int   i
+#endunion
+
+    title "hsp3dx: #defstruct nested + union"
+
+    ;  ---- (1) ネスト ----
+    stdim r, RECT
+    r->topLeft->x     = 10
+    r->topLeft->y     = 20
+    r->bottomRight->x = 100
+    r->bottomRight->y = 200
+
+    ;  ---- (2) union (同じメモリを float / int で解釈) ----
+    stdim u, FLOAT_INT
+    u->f = 1.0           ; IEEE 754 float 1.0 は 0x3F800000
+    i_view = u->i
+
+    ;  ---- 表示 ----
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+    mes "Phase 5.5m: ネスト構造体 + union"
+    mes ""
+    mes "(1) RECT with POINT members"
+    mes "   r->topLeft     = (" + r->topLeft->x + ", " + r->topLeft->y + ")"
+    mes "   r->bottomRight = (" + r->bottomRight->x + ", " + r->bottomRight->y + ")"
+    mes ""
+    mes "(2) union FLOAT_INT (f=1.0 を i で読む)"
+    mes "   u->f = " + u->f
+    mes "   u->i = " + i_view
+    mes "   期待値: i = 0x3F800000 = 1065353216"
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
