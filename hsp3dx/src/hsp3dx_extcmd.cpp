@@ -34,7 +34,16 @@
 //      mmplay ID                      再生 (PlaySoundMem)
 //      mmstop [ID]                    停止 (ID 省略で -1 = 全停止)
 //
-//  未実装 (Phase 1.8+):
+//  Phase 1.8 追加 (reffunc 拡充):
+//      mousex / mousey / mousew (既存)
+//      sysinfo(p)  p=0:"Windows" / 1:CPU 情報 / 2:GPU / 3:language
+//      dirinfo(p)  p=0:current / 1:exe / 4:cmdline / 6:langcode
+//      hwnd         DxLib メインウィンドウハンドル (Win32 HWND)
+//      ※ strlen / length / exist / varptr / int() / str() 等の組み込み関数と、
+//         stat / refstr / refdval / cnt などの system variable は hsp3int.cpp /
+//         hsp3code.cpp が自動登録するため追加実装不要 (hsp3/ コアリンクで動く)
+//
+//  未実装 (Phase 1.9+):
 //      celdiv / gzoom / onkey / onclick (VM イベントディスパッチ要) /
 //      mmvol / mmpan / mci
 //
@@ -533,13 +542,17 @@ static int cmdfunc_extcmd( int cmd )
 /*  reffunc : TYPE_EXTSYSVAR                                  */
 /*------------------------------------------------------------*/
 
-//  TYPE_EXTSYSVAR は引数なしのシステム変数 (mousex / mousey / stat 等)。
-//  `(`/`)` チェックは不要で、arg に応じた値を即返す。
+//  TYPE_EXTSYSVAR は引数なし sysvar (mousex / mousey 等) と
+//  引数あり関数 (sysinfo(0) / dirinfo(0) 等) の混在用途。
+//  `(` が次に来ていれば func とみなし、なければ sysvar として扱う。
 static void *reffunc_function( int *type_res, int arg )
 {
     void *ptr;
     *type_res = HSPVAR_FLAG_INT;
     ptr = &reffunc_intfunc_ivalue;
+
+    //  引数あり (関数形式) かチェック
+    int has_parens = ( *type == TYPE_MARK && *val == '(' );
 
     switch ( arg ) {
     case 0x000:                             // mousex
@@ -556,9 +569,81 @@ static void *reffunc_function( int *type_res, int arg )
             reffunc_intfunc_ivalue = my;
             break;
         }
-    case 0x002:                             // mousew (ホイール累積値。Phase 1.6 では 0 固定)
+    case 0x002:                             // mousew
         reffunc_intfunc_ivalue = 0;
         break;
+
+    case 0x003:                             // hwnd
+        reffunc_intfunc_ivalue = (int)(intptr_t)GetMainWindowHandle();
+        break;
+
+    case 0x004:                             // hinstance
+        reffunc_intfunc_ivalue = (int)(intptr_t)GetModuleHandle( nullptr );
+        break;
+
+    case 0x005:                             // hdc (現状未取得、0 返し)
+        reffunc_intfunc_ivalue = 0;
+        break;
+
+    case 0x102:                             // dirinfo(p)
+        {
+            if ( !has_parens ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            int p = code_geti();
+            if ( *type != TYPE_MARK || *val != ')' ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            char *dst = ctx->stmp;
+            *dst = 0;
+            *type_res = HSPVAR_FLAG_STR;
+            switch ( p ) {
+            case 0: {
+                wchar_t wbuf[_MAX_PATH];
+                GetCurrentDirectoryW( _MAX_PATH, wbuf );
+                WideCharToMultiByte( CP_UTF8, 0, wbuf, -1, dst, _MAX_PATH, nullptr, nullptr );
+                break;
+            }
+            case 1: {
+                wchar_t wbuf[_MAX_PATH];
+                GetModuleFileNameW( nullptr, wbuf, _MAX_PATH );
+                wchar_t *sep = nullptr;
+                for ( wchar_t *p2 = wbuf; *p2; p2++ )
+                    if ( *p2 == L'\\' || *p2 == L'/' ) sep = p2;
+                if ( sep ) *sep = 0;
+                WideCharToMultiByte( CP_UTF8, 0, wbuf, -1, dst, _MAX_PATH, nullptr, nullptr );
+                break;
+            }
+            case 4:
+                strncpy( dst, ctx->cmdline ? ctx->cmdline : "", HSPCTX_REFSTR_MAX - 1 );
+                break;
+            case 6:
+                strcpy( dst, "ja" );
+                break;
+            default:
+                *dst = 0;
+                break;
+            }
+            return dst;
+        }
+
+    case 0x103:                             // sysinfo(p)
+        {
+            if ( !has_parens ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            int p = code_geti();
+            if ( *type != TYPE_MARK || *val != ')' ) throw HSPERR_INVALID_FUNCPARAM;
+            code_next();
+            char *dst = ctx->stmp;
+            *dst = 0;
+            switch ( p ) {
+            case 0: strcpy( dst, "Windows" );               *type_res = HSPVAR_FLAG_STR; return dst;
+            case 1: strcpy( dst, "x64 (hsp3dx Phase 1.8)" );*type_res = HSPVAR_FLAG_STR; return dst;
+            case 2: strcpy( dst, "DxLib" );                 *type_res = HSPVAR_FLAG_STR; return dst;
+            case 3: reffunc_intfunc_ivalue = 0x411; break;   // JP LCID
+            default: reffunc_intfunc_ivalue = 0; break;
+            }
+            break;
+        }
+
     default:
         throw HSPERR_UNSUPPORTED_FUNCTION;
     }

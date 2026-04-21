@@ -6,7 +6,37 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
-## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5 + 1.6 + 1.7)
+## 2026-04-21 (Phase 1.2 + 1.3 + 1.4 + 1.5 + 1.6 + 1.7 + 1.8)
+
+### (これから commit) @ 20:06 — Phase 1.8: sysvar/reffunc 拡充 + exist の罠
+
+**やったこと**
+- reffunc を paren-aware に改良: `*type == TYPE_MARK && *val == '('` で関数形式を検出
+- **hspcmp/hspcmd.cpp の keyword table を参照して正確な arg ID を取得** (最初は arg ID を
+  適当に割り当てていて間違っていた)
+- 追加実装:
+  - `0x003 hwnd` — DxLib GetMainWindowHandle
+  - `0x004 hinstance` — GetModuleHandle
+  - `0x005 hdc` — 現状 0 返し (HDC は DxLib が直接公開していない)
+  - `0x102 dirinfo(p)` — p=0 cwd / 1 exe dir / 4 cmdline / 6 langcode
+  - `0x103 sysinfo(p)` — p=0 "Windows" / 1 CPU / 2 "DxLib" / 3 language
+
+**詰まりどころ: HSPERR_INVALID_PARAMETER (30) の原因**
+- 初回テストで起動時にエラーダイアログが出る問題
+- ユーザーからの報告で bisect (mini2〜mini6) で `exist("start.ax")` が原因と判明
+- `exist` は TYPE_INTCMD (文) で、hsp3typeinit_intcmd は cmdfunc のみ設定して
+  reffunc は NULL のまま
+- 式の中で `exist(...)` を評価すると `info->reffunc == NULL` で hsp3code.cpp:881 が
+  HSPERR_INVALID_PARAMETER を throw
+- これは標準 HSP でも同じ挙動 (hsp3dx のバグではない仕様)
+- 正しい使い方: `exist "file"` 実行後に `strsize` で結果を取る
+- メモリ `reference_hsp_exist_is_statement.md` に記録 (getpath / noteinfo / dirlist も同じ)
+
+**動作確認**
+- サンプル修正 (exist 式 → statement + strsize) で実機エラーなく表示 ✅
+- sysinfo / dirinfo / strlen / mousex / hwnd すべて正しく表示される
+
+---
 
 ### (これから commit) @ 20:05 — Phase 1.7: 音声 (mmload / mmplay / mmstop)
 

@@ -1,0 +1,66 @@
+;============================================================
+;   sample_sysvar.hsp — Phase 1.8 動作確認 (sysvar / reffunc)
+;
+;   sysinfo / dirinfo / strlen / length / exist / stat / refstr などを
+;   表示。hsp3int.cpp / hsp3code.cpp が自動登録する組み込み関数と
+;   hsp3dx_extcmd.cpp が追加登録する拡張 sysvar の両方を検証。
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_sysvar.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: sysvar"
+
+    color 20, 30, 70
+    boxf 0, 0, 640, 480
+
+    color 255, 255, 255
+    font "MS Gothic", 18, 1
+    pos 20, 20
+    mes "Phase 1.8: システム変数 / reffunc テスト"
+
+    font "MS Gothic", 14
+    pos 20, 60
+
+    ;  sysinfo (extcmd reffunc 経由)
+    mes "sysinfo(0) OS   = " + sysinfo(0)
+    mes "sysinfo(1) CPU  = " + sysinfo(1)
+    mes "sysinfo(2) GPU  = " + sysinfo(2)
+    mes "sysinfo(3) lang = " + sysinfo(3)
+
+    mes ""
+
+    ;  dirinfo (extcmd reffunc 経由)
+    mes "dirinfo(0) cwd     = " + dirinfo(0)
+    mes "dirinfo(1) exe dir = " + dirinfo(1)
+    mes "dirinfo(4) cmdline = " + dirinfo(4)
+    mes "dirinfo(6) langcd  = " + dirinfo(6)
+
+    mes ""
+
+    ;  hsp3int.cpp が自動登録する組み込み関数
+    s = "hello, world. これは UTF-8 の文字列です"
+    mes "strlen('" + s + "') = " + strlen(s)
+
+    ;  exist は command (statement)。結果は strsize に入る (なければ -1)
+    exist "start.ax"
+    mes "exist 'start.ax' strsize = " + strsize
+    exist "none.xxx"
+    mes "exist 'none.xxx' strsize = " + strsize
+
+    mes ""
+
+    ;  mousex / mousey (sysvar、パラメータなし)
+    mes "mouse = (" + mousex + ", " + mousey + ")"
+    mes "hwnd  = " + hwnd
+
+    redraw 1
+
+    ;  ESC 待ち
+    repeat
+        await 16
+        getkey esc_pressed, 27
+        if esc_pressed : break
+    loop
+    end
