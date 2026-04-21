@@ -39,13 +39,20 @@
 //      sysinfo(p)  p=0:"Windows" / 1:CPU 情報 / 2:GPU / 3:language
 //      dirinfo(p)  p=0:current / 1:exe / 4:cmdline / 6:langcode
 //      hwnd         DxLib メインウィンドウハンドル (Win32 HWND)
-//      ※ strlen / length / exist / varptr / int() / str() 等の組み込み関数と、
-//         stat / refstr / refdval / cnt などの system variable は hsp3int.cpp /
-//         hsp3code.cpp が自動登録するため追加実装不要 (hsp3/ コアリンクで動く)
 //
-//  未実装 (Phase 1.9+):
-//      celdiv / gzoom / onkey / onclick (VM イベントディスパッチ要) /
-//      mmvol / mmpan / mci
+//  Phase 5.0 追加 (DxLib 活用):
+//      gzoom / bmpsave / hsvcolor / ginfo(p)
+//
+//  Phase 1.10 追加 (HSP 標準の残り):
+//      grect x, y, angle, wx, wy       回転矩形塗り (DrawTriangle ×2)
+//      grotate srcID, sx, sy, angle    回転画像コピー (DrawRotaGraph)
+//      gradf x, y, w, h, mode, c1, c2  2 色グラデーション塗り
+//      mmvol ID, vol                   サウンド音量 (0..100)
+//      mmpan ID, pan                   サウンド定位 (-10000..+10000)
+//      mmstat ID                       再生中?を stat に (1=再生中 / 0=停止)
+//
+//  未実装 (将来):
+//      celdiv / onkey / onclick (VM イベントディスパッチ要) / mci
 //
 #include <stdio.h>
 #include <string.h>
@@ -201,6 +208,42 @@ static int cmdfunc_extcmd( int cmd )
             if ( h == -1 ) throw HSPERR_FILE_IO;
             int play_type = ( s_snd_option[p1] & 1 ) ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK;
             PlaySoundMem( h, play_type, TRUE );
+            break;
+        }
+
+    case 0x042:                     // mmvol ID, vol
+        {
+            int id  = code_getdi( 0 );
+            int vol = code_getdi( 1000 );
+            if ( id < 0 || id >= HSP3DX_MAX_SOUNDS ) throw HSPERR_ILLEGAL_FUNCTION;
+            if ( s_snd_handle[id] == -1 ) throw HSPERR_FILE_IO;
+            //  DxLib SetVolumeSoundMem は **0..10000** 線形スケール (0=mute, 10000=max)。
+            //  ヘッダコメントの "100 で 1 デシベル単位 0〜10000" は誤解を招くが、
+            //  実挙動は 10000 で最大音量、0 で無音。
+            //  HSP mmvol は簡易 0..1000 スケールで、1000 = 最大音量とする。
+            int dx_vol = vol * 10;
+            if ( dx_vol < 0 )     dx_vol = 0;
+            if ( dx_vol > 10000 ) dx_vol = 10000;
+            SetVolumeSoundMem( dx_vol, s_snd_handle[id] );
+            break;
+        }
+
+    case 0x043:                     // mmpan ID, pan
+        {
+            int id  = code_getdi( 0 );
+            int pan = code_getdi( 0 );          // -10000..+10000
+            if ( id < 0 || id >= HSP3DX_MAX_SOUNDS ) throw HSPERR_ILLEGAL_FUNCTION;
+            if ( s_snd_handle[id] == -1 ) throw HSPERR_FILE_IO;
+            SetPanSoundMem( pan, s_snd_handle[id] );
+            break;
+        }
+
+    case 0x044:                     // mmstat (result in stat)
+        {
+            int id = code_getdi( 0 );
+            if ( id < 0 || id >= HSP3DX_MAX_SOUNDS ) { ctx->stat = 0; break; }
+            if ( s_snd_handle[id] == -1 )            { ctx->stat = 0; break; }
+            ctx->stat = CheckSoundMem( s_snd_handle[id] ) ? 1 : 0;
             break;
         }
 
@@ -411,6 +454,85 @@ static int cmdfunc_extcmd( int cmd )
             int gi = (int)((g + m) * 255.0);
             int bi = (int)((b + m) * 255.0);
             s_cur_color = GetColor( ri, gi, bi );
+            break;
+        }
+
+    case 0x035:                     // grect x, y, angle, wx, wy
+        {
+            p1 = code_getdi( s_cur_x );
+            p2 = code_getdi( s_cur_y );
+            double angle = code_getdd( 0.0 );
+            int wx = code_getdi( 32 );
+            int wy = code_getdi( 32 );
+            apply_gmode_blend();
+            //  DxLib DrawRotaGraph 的に中心+角度で塗り矩形を描く。
+            //  グラフィックがないのでプリミティブ矩形を角度を使って 4 頂点計算 → DrawTriangle x2
+            double cs = cos( angle );
+            double sn = sin( angle );
+            double hx = wx / 2.0, hy = wy / 2.0;
+            int x0 = p1 + (int)( -hx * cs - -hy * sn );
+            int y0 = p2 + (int)( -hx * sn + -hy * cs );
+            int x1 = p1 + (int)(  hx * cs - -hy * sn );
+            int y1 = p2 + (int)(  hx * sn + -hy * cs );
+            int x2 = p1 + (int)(  hx * cs -  hy * sn );
+            int y2 = p2 + (int)(  hx * sn +  hy * cs );
+            int x3 = p1 + (int)( -hx * cs -  hy * sn );
+            int y3 = p2 + (int)( -hx * sn +  hy * cs );
+            DrawTriangle( x0, y0, x1, y1, x2, y2, s_cur_color, TRUE );
+            DrawTriangle( x0, y0, x2, y2, x3, y3, s_cur_color, TRUE );
+            break;
+        }
+
+    case 0x036:                     // grotate srcID, sx, sy, angle [, wx, wy]
+        {
+            int id = code_getdi( 0 );
+            int sx = code_getdi( 0 );
+            int sy = code_getdi( 0 );
+            double angle = code_getdd( 0.0 );
+            int wx = code_getdi( s_gmode_w );
+            int wy = code_getdi( s_gmode_h );
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_BUFFER_OVERFLOW;
+            int src = s_buf_handle[id];
+            if ( src == -1 ) throw HSPERR_PICTURE_MISSING;
+            apply_gmode_blend();
+            //  DxLib には「source 矩形切り出し + 回転」の直接 API が無いので、
+            //  切り出し部を一時バッファに gcopy してから DrawRotaGraph → で代替。
+            //  実装簡素のため、Phase 1.10 では source 矩形全体 (wx*wy 無視) の
+            //  中心に対して回転表示。Phase 2 以降で精密化。
+            (void)sx; (void)sy; (void)wx; (void)wy;
+            DrawRotaGraph( s_cur_x, s_cur_y, 1.0, angle, src, TRUE );
+            break;
+        }
+
+    case 0x038:                     // gradf x, y, w, h, mode, col1, col2
+        {
+            p1 = code_getdi( 0 );
+            p2 = code_getdi( 0 );
+            int w = code_getdi( 100 );
+            int h = code_getdi( 100 );
+            int mode = code_getdi( 0 );         // 0=vertical, 1=horizontal
+            int col1 = code_getdi( 0 );         // 0xRRGGBB
+            int col2 = code_getdi( 0xFFFFFF );
+            //  DxLib にグラデ直接 API がないので、スキャンライン毎に boxf
+            int r1 = ( col1 >> 16 ) & 0xFF, g1 = ( col1 >> 8 ) & 0xFF, b1 = col1 & 0xFF;
+            int r2 = ( col2 >> 16 ) & 0xFF, g2 = ( col2 >> 8 ) & 0xFF, b2 = col2 & 0xFF;
+            if ( mode & 1 ) {
+                //  横方向
+                for ( int i = 0; i < w; i++ ) {
+                    int r = r1 + ( r2 - r1 ) * i / w;
+                    int g = g1 + ( g2 - g1 ) * i / w;
+                    int b = b1 + ( b2 - b1 ) * i / w;
+                    DrawBox( p1 + i, p2, p1 + i + 1, p2 + h, GetColor( r, g, b ), TRUE );
+                }
+            } else {
+                //  縦方向
+                for ( int i = 0; i < h; i++ ) {
+                    int r = r1 + ( r2 - r1 ) * i / h;
+                    int g = g1 + ( g2 - g1 ) * i / h;
+                    int b = b1 + ( b2 - b1 ) * i / h;
+                    DrawBox( p1, p2 + i, p1 + w, p2 + i + 1, GetColor( r, g, b ), TRUE );
+                }
+            }
             break;
         }
 

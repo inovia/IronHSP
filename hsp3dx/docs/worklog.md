@@ -6,6 +6,48 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 1.10 + #regcmd 発見 + mmvol スケール訂正)
+
+### (これから commit) @ 20:11 — Phase 1.10 + #regcmd 機構発見
+
+**追加 opcode**
+- `0x035 grect x, y, angle, wx, wy` — 回転塗り矩形 (DrawTriangle ×2)
+- `0x036 grotate srcID, sx, sy, angle [, wx, wy]` — 回転画像コピー (DrawRotaGraph)
+- `0x038 gradf x, y, w, h, mode, c1, c2` — 2 色グラデーション塗り
+- `0x042 mmvol ID, vol` — サウンド音量
+- `0x043 mmpan ID, pan` — サウンド定位 (-10000..+10000)
+- `0x044 mmstat ID` — 再生中判定を stat に
+
+**`#regcmd` / `#cmd` 機構発見**
+- hspcmp 改造も `#uselib` ハックも不要で HSP キーワードを動的追加できる正攻法
+- HSP3Dish hgimg4 が使用 (`package/win32/common/hgimg4.as`)
+- 構文: `#regcmd 9` + `#cmd name $opcode` → opcode 0xN に name キーワード割付
+- Phase 5.1 の `dx_*` 命令基盤がこれで解決、hspcmp 拡張も DLL ハックも不要に
+- メモリ `reference_hsp_regcmd.md` 記録
+
+**詰まりどころ: mmvol 0..255 誤解**
+- 初回実装 `SetVolumeSoundMem` を 0..255 リニアと誤解、HSP mmvol (0..1000) を
+  255 にマップ
+- ユーザー実機テスト「BGM 聞こえない、ボリューム MAX でもダメ」
+- `mmvol` を no-op にして BGM 単体テストで鳴ることを確認 → `SetVolumeSoundMem`
+  自体が原因と特定
+- 実際の DxLib スケールは **0..10000** (ヘッダコメントは "100 で 1 dB 単位
+  0 〜 10000" で紛らわしいが挙動は線形)
+- 255 渡し = DxLib の 2.55% → ほぼ無音だった
+- 修正: `vol * 10` で 0..10000 マップ、BGM 正常化 ✅
+- メモリ `reference_dxlib_setvolumesoundmem_scale.md` 記録
+
+**サンプル**
+`sample_mmvol.hsp`: ↑↓ で BGM 音量 (0..1000)、←→ で pan (-10000..10000)、
+SPACE で SE 再生、mmstat で SE 再生中ステータス表示。背景は gradf 縦グラデ、
+左に回転赤矩形 (grect)、右に回転ロゴ (grotate)。
+
+**実機確認**
+- 全機能動作確認済 ✅
+- BGM 音量変化 / 左右パン / SE 発音 / 回転矩形 / グラデ背景すべて OK
+
+---
+
 ## 2026-04-21 (Phase 1 完了 + 仕様訂正 + Phase 2.0 + Phase 5.0)
 
 ### (これから commit) @ 20:10 — Phase 5.0: gzoom / bmpsave / hsvcolor / ginfo

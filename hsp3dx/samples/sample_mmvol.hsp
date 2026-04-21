@@ -1,0 +1,92 @@
+;============================================================
+;   sample_mmvol.hsp — Phase 1.10 新 opcodes (mmvol / mmpan / mmstat / gradf / grect / grotate)
+;
+;   前提: 同ディレクトリに test_logo.png + test_bgm.wav + test_se.wav
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_mmvol.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+
+    title "hsp3dx sample: Phase 1.10"
+
+    mmload "test_bgm.wav", 0, 1       ; BGM loop
+    mmload "test_se.wav",  1, 0       ; SE
+    mmplay 0                           ; 先に再生開始
+    mmvol  0, 500                      ; その後で音量調整 (HSP mmvol は 0..1000)
+
+    celload "test_logo.png", 1
+
+    vol = 500                          ; 0..1000 (HSP 標準)
+    pan = 0
+    t = 0.0
+
+*main_loop
+    redraw 0
+
+    ;  縦グラデ背景
+    gradf 0, 0, 640, 480, 0, 0x202040, 0x504080
+
+    ;  回転する塗り矩形 (grect)
+    color 255, 100, 100
+    grect 160, 240, t * 0.5, 80, 80
+
+    ;  回転するロゴ (grotate)
+    pos 480, 240
+    grotate 1, 0, 0, t, 128, 128
+
+    ;  文字 HUD
+    color 255, 255, 255
+    font "MS Gothic", 16, 1
+    pos 10, 10 : mes "Phase 1.10 sound + rotation + gradient"
+    pos 10, 34 : mes "[↑/↓] BGM volume: " + vol
+    pos 10, 54 : mes "[←/→] BGM pan (stereo): " + pan
+    pos 10, 74 : mes "[SPACE] play SE  mmstat(1) = playing? " + stat
+    pos 10, 94 : mes "[ESC] quit"
+
+    redraw 1
+
+    ;  入力
+    getkey up_p,    38
+    getkey down_p,  40
+    getkey left_p,  37
+    getkey right_p, 39
+    getkey space_p, 32
+    getkey esc_p,   27
+
+    if up_p    : gosub *inc_vol
+    if down_p  : gosub *dec_vol
+    if right_p : gosub *inc_pan
+    if left_p  : gosub *dec_pan
+    if space_p : mmplay 1
+    mmstat 1                           ; stat = SE 再生中?
+
+    if esc_p : gosub *quit_app
+
+    t = t + 0.02
+    await 16
+    goto *main_loop
+
+*inc_vol
+    vol = vol + 20
+    if vol > 1000 : vol = 1000
+    mmvol 0, vol
+    return
+*dec_vol
+    vol = vol - 20
+    if vol < 0 : vol = 0
+    mmvol 0, vol
+    return
+*inc_pan
+    pan = pan + 500
+    if pan > 10000 : pan = 10000
+    mmpan 0, pan
+    return
+*dec_pan
+    pan = pan - 500
+    if pan < -10000 : pan = -10000
+    mmpan 0, pan
+    return
+*quit_app
+    mmstop
+    end
