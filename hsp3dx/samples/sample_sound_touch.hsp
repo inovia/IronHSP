@@ -1,0 +1,64 @@
+;============================================================
+;   sample_sound_touch.hsp — BGM ループ + タッチで SE 再生 (iOS 向け)
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sound"
+
+    screen 0, 720, 1280
+    sw = ginfo_winx : sh = ginfo_winy
+
+    ;  ID 0 = BGM (loop), ID 1 = SE (one-shot)
+    mmload "test_bgm.wav", 0, 1
+    mmload "test_se.wav",  1, 0
+    mmplay 0
+
+    se_count = 0
+    prev_n = 0
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : mmstop : break
+
+        dx_getmtouchnum
+        n = stat
+
+        ;  前フレーム 0 → 今フレーム >=1 のタップ開始で SE 再生 (連射防止)
+        if n > 0 && prev_n == 0 {
+            mmplay 1
+            se_count = se_count + 1
+        }
+        prev_n = n
+
+        redraw 0
+        color 20, 30, 70
+        boxf 0, 0, sw, sh
+
+        color 255, 255, 255
+        font "MS Gothic", 32
+        pos 30, 30
+        mes "hsp3dx sound test"
+        font "MS Gothic", 24
+        pos 30, 100
+        mes "BGM (test_bgm.wav) ループ再生中"
+        pos 30, 150
+        mes "画面タップで SE (test_se.wav) 再生"
+        pos 30, 220
+        mes "SE 再生回数: " + se_count
+        pos 30, 270
+        mes "touches: " + n
+
+        ;  画面中央に大きなタップ領域表示
+        color 80, 120, 200
+        boxf sw/2 - 200, sh/2 - 200, sw/2 + 200, sh/2 + 200
+        color 255, 255, 255
+        font "MS Gothic", 48
+        pos sw/2 - 80, sh/2 - 30
+        mes "TAP!"
+
+        redraw 1
+        await 16
+    loop
+    end
