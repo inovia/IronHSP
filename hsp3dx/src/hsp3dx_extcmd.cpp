@@ -57,7 +57,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#ifdef _WIN32
 #include <windows.h>
+#endif
+#include "hsp3dx_compat.h"
 
 #include "../../hsp3/hsp3config.h"
 #include "../../hsp3/hsp3code.h"
@@ -382,8 +385,13 @@ static int cmdfunc_extcmd( int cmd )
                         if ( tmp ) {
                             memcpy( tmp, line_start, line_len );
                             tmp[line_len] = 0;
+#ifdef _WIN32
                             hsp3dx_utf8_to_wide( tmp, wbuf, wcap );
                             DrawString( s_cur_x, s_cur_y, wbuf, s_cur_color );
+#else
+                            // Android: DxLib が SetUseCharCodeFormat(UTF8) モードなので UTF-8 直接
+                            DrawString( s_cur_x, s_cur_y, tmp, s_cur_color );
+#endif
                             free( tmp );
                         }
                         free( wbuf );

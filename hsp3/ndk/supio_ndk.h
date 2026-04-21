@@ -2,7 +2,10 @@
 //
 //	supio.cpp functions (linux)
 //
+//  hsp3dx ビルドでは hsp3dish の appengine.h (OpenGL/EGL/JNI) が不要なので抑止
+#if !defined(HSP3DX)
 #include "../../appengine.h"
+#endif
 
 #define HSPAPICHAR char
 #define HSPCHAR char

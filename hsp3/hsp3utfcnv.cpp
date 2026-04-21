@@ -16,12 +16,13 @@ char* hsp3ext_getdir(int id);
 
 #include <ctype.h>
 
-#ifdef HSPIOS
+//  hsp3dx (DxLib ベース) の iOS/Android ビルドでは hsp3dish 依存が不要
+#if defined(HSPIOS) && !defined(HSP3DX)
 #include "iOSBridge.h"
 #include "../hsp3dish/ios/appengine.h"
 #endif
 
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 #include "../hsp3dish/hgio.h"
 #include "../appengine.h"
 #include "../javafunc.h"
@@ -252,7 +253,7 @@ FILE *hsp3_fopen(char*name, int offset)
 #else
 
 
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	{
 	char *fname = name;
 	if ( *name == '*' ) {
@@ -326,7 +327,7 @@ FILE* hsp3_fopenwrite(char* fname8, int offset)
 
 	char *fname;
 	fname = fname8;
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	if ( *fname != '/' ) {
 		fname = hgio_getstorage(fname8);
 	}
@@ -347,7 +348,7 @@ FILE* hsp3_fopenwrite(char* fname8, int offset)
 
 void hsp3_fclose(FILE* ptr)
 {
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	{
 	return hgio_android_fclose(ptr);
 	}
@@ -367,7 +368,7 @@ int hsp3_flength(char* name)
     }
 #endif
 
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	{
 	int length = hgio_file_exist( name );
 	if ( length>=0 ) return length;
@@ -402,7 +403,7 @@ int hsp3_fread( FILE* ptr, void *mem, int size )
 	if (mem == NULL) return -1;
 	if (size <= 0) return 0;
 
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	{
 	return hgio_android_fread(ptr,mem,size);
 	}
@@ -417,7 +418,7 @@ int hsp3_fseek(FILE* ptr, int offset, int whence)
 {
 	if (ptr == NULL) return -1;
 
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	{
 	return hgio_android_seek(ptr,offset,whence);
 	}
@@ -438,7 +439,7 @@ int hsp3_binsave( char *fname8, void *mem, int msize, int seekofs )
 	if (hsp3_fp == NULL) return -1;
 	int flen = (int)fwrite( mem, 1, msize, hsp3_fp);
 
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	fclose(hsp3_fp);
 	return flen;
 #endif
@@ -461,7 +462,7 @@ int hsp3_rawload(char* name, void* mem, int size, int seekofs)
         return filesize;
     }
 #endif
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 	char *fname = name;
 	if ( *fname != '/' ) {
 		fname = hgio_getstorage(name);

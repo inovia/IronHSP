@@ -23,11 +23,12 @@
 #endif
 #endif
 
-#ifdef HSPIOS
+//  hsp3dx ビルドでは hsp3dish 配下の supio_* は使わず、POSIX 基本関数のみ。
+#if defined(HSPIOS) && !defined(HSP3DX)
 #include "ios/supio_ios.h"
 #endif
 
-#ifdef HSPNDK
+#if defined(HSPNDK) && !defined(HSP3DX)
 #include "ndk/supio_ndk.h"
 #endif
 

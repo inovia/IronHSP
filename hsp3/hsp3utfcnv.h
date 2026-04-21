@@ -57,6 +57,27 @@ void freeac(char **);
 #endif
 #endif
 
+//	---- 非 Windows 環境向けの HSPCHAR/HSPAPICHAR/freeac スタブ ----
+//	Android (HSPNDK) / iOS (HSPIOS) / Linux 等では ANSI/UTF-16 変換は不要なので、
+//	char/char で定義し、変換関数は no-op (code_getads はそのまま UTF-8 を返す)。
+#if !defined(HSPWIN) && defined(HSPUTF8)
+#ifndef HSPCHAR
+#define HSPAPICHAR char
+#define HSPCHAR    char
+static inline HSPAPICHAR *chartoapichar( const char *s, HSPAPICHAR **out )
+{ if (out) *out = (HSPAPICHAR*)s; return (HSPAPICHAR*)s; }
+static inline void        freehac( HSPAPICHAR ** ) {}
+static inline HSPCHAR    *apichartohspchar( const HSPAPICHAR *s, HSPCHAR **out )
+{ if (out) *out = (HSPCHAR*)s; return (HSPCHAR*)s; }
+static inline void        freehc( HSPCHAR ** ) {}
+static inline HSPAPICHAR *ansichartoapichar( const char *s, HSPAPICHAR **out )
+{ if (out) *out = (HSPAPICHAR*)s; return (HSPAPICHAR*)s; }
+static inline char       *apichartoansichar( const HSPAPICHAR *s, char **out )
+{ if (out) *out = (char*)s; return (char*)s; }
+static inline void        freeac( char ** ) {}
+#endif
+#endif
+
 //		String Service
 //
 int hsp3_to_utf8(void* out, char* in, int bufsize);

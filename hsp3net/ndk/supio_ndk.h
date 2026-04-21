@@ -2,7 +2,9 @@
 //
 //	supio.cpp functions (linux)
 //
+#if !defined(HSP3DX)
 #include "../../appengine.h"
+#endif
 
 #define HSPAPICHAR char
 #define HSPCHAR char

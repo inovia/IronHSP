@@ -25,8 +25,7 @@ link_directories( ${DXLIB_DIR}/${ANDROID_ABI} )
 
 add_compile_definitions(
     HSP3DX
-    HSPUTF8
-    HSPANDROID
+    HSPNDK          # hsp3config.h でこれを見て HSPGCC + HSPUTF8 が有効化される
     HSPDEBUG
     _HSP64
     HSP64

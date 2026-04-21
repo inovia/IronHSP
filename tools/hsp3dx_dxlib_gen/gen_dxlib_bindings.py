@@ -153,6 +153,31 @@ SKIP_NAMES = {
     'URLConvert', 'URLAnalys', 'fgetsForNetHandle',
     'GetProxySetting',
 
+    # Android DxLib は DX_NON_NETWORK 有効なので network API が未定義
+    # (Windows 版は使えるが、クロスプラットフォーム性のため auto-gen からは除外。
+    #  Windows 向けには hsp3dx 独自の dx_http_* / dx_ws_* を用意済)
+    'CheckNetWorkRecvUDP', 'CheckNetWorkSendUDP',
+    'CloseNetWork', 'ConnectNetWork', 'ConnectNetWork_ASync',
+    'ConnectNetWork_IPv6', 'ConnectNetWork_IPv6_ASync',
+    'DeleteUDPSocket',
+    'GetHostIPbyName', 'GetHostIPbyNameWithStrLen',
+    'GetHostIPbyName_IPv6', 'GetHostIPbyName_IPv6WithStrLen',
+    'GetLostNetWork', 'GetMyIPAddress', 'GetMyIPAddress_IPv6',
+    'GetNetWorkAcceptState', 'GetNetWorkCloseAfterLostFlag',
+    'GetNetWorkDataLength', 'GetNetWorkIP', 'GetNetWorkIP_IPv6',
+    'GetNetWorkSendDataLength', 'GetNewAcceptNetWork',
+    'GetUseDXNetWorkProtocol', 'GetUseDXProtocol',
+    'HTTP_FileDownload', 'HTTP_StartFileDownload',
+    'MakeUDPSocket', 'MakeUDPSocket_IPv6',
+    'NetWorkRecv', 'NetWorkRecvBufferClear', 'NetWorkRecvToPeek',
+    'NetWorkRecvUDP', 'NetWorkRecvUDP_IPv6',
+    'NetWorkSend', 'NetWorkSendUDP', 'NetWorkSendUDP_IPv6',
+    'PreparationListenNetWork', 'PreparationListenNetWork_IPv6',
+    'ProcessNetMessage', 'SetConnectTimeOutWait',
+    'SetNetWorkCloseAfterLostFlag',
+    'SetUseDXNetWorkProtocol', 'SetUseDXProtocol',
+    'StopListenNetWork', 'URLParamAnalysis',
+
     # --- (B) hsp3dx ランタイム専管 ---
     #  DxLib_Init / DxLib_End: hgio_dx_init/term が呼ぶ (ユーザが呼ぶと壊れる)
     #  ProcessMessage: ランタイムのメインループが呼んでいる
@@ -382,7 +407,10 @@ def main():
     cpp.append('//')
     cpp.append('#include <stdio.h>')
     cpp.append('#include <string.h>')
+    cpp.append('#ifdef _WIN32')
     cpp.append('#include <windows.h>')
+    cpp.append('#endif')
+    cpp.append('#include "hsp3dx_compat.h"')
     cpp.append('#include "../../hsp3/hsp3config.h"')
     cpp.append('#include "../../hsp3/hsp3struct.h"  // PVal / APTR (struct 引数用)')
     cpp.append('#include "../../hsp3/hsp3code.h"')
@@ -455,10 +483,16 @@ def main():
                 cpp.append(f'        double {local} = hsp3dx_auto_getd( {d} );')
                 call_args.append(local)
             elif t == 'tchar':
+                #  TCHAR は Win=wchar_t / Android=char。Win は UTF-8 → UTF-16 変換、
+                #  Android/iOS は UTF-8 をそのまま渡す (DxLib が UTF8 モードで受ける)
                 cpp.append(f'        const char *{local}_u8 = hsp3dx_auto_gets();')
-                cpp.append(f'        wchar_t {local}_w[1024];')
-                cpp.append(f'        hsp3dx_utf8_to_wide( {local}_u8, {local}_w, 1024 );')
-                call_args.append(f'{local}_w')
+                cpp.append(f'#ifdef _WIN32')
+                cpp.append(f'        wchar_t {local}_t[1024];')
+                cpp.append(f'        hsp3dx_utf8_to_wide( {local}_u8, {local}_t, 1024 );')
+                cpp.append(f'#else')
+                cpp.append(f'        const char *{local}_t = {local}_u8;')
+                cpp.append(f'#endif')
+                call_args.append(f'{local}_t')
             elif t == 'char':
                 cpp.append(f'        const char *{local} = hsp3dx_auto_gets();')
                 call_args.append(local)
@@ -605,7 +639,10 @@ def main():
     fcpp.append(f'//  関数数: {len(f_functions)}')
     fcpp.append('#include <stdio.h>')
     fcpp.append('#include <string.h>')
+    fcpp.append('#ifdef _WIN32')
     fcpp.append('#include <windows.h>')
+    fcpp.append('#endif')
+    fcpp.append('#include "hsp3dx_compat.h"')
     fcpp.append('#include "../../hsp3/hsp3config.h"')
     fcpp.append('#include "../../hsp3/hsp3struct.h"')
     fcpp.append('#include "../../hsp3/hsp3code.h"')
@@ -660,9 +697,13 @@ def main():
                 call_args.append(local)
             elif t == 'tchar':
                 fcpp.append(f'        const char *{local}_u8 = code_gets();')
-                fcpp.append(f'        static wchar_t {local}_w[1024];')
-                fcpp.append(f'        hsp3dx_utf8_to_wide( {local}_u8, {local}_w, 1024 );')
-                call_args.append(f'{local}_w')
+                fcpp.append(f'#ifdef _WIN32')
+                fcpp.append(f'        static wchar_t {local}_t[1024];')
+                fcpp.append(f'        hsp3dx_utf8_to_wide( {local}_u8, {local}_t, 1024 );')
+                fcpp.append(f'#else')
+                fcpp.append(f'        const char *{local}_t = {local}_u8;')
+                fcpp.append(f'#endif')
+                call_args.append(f'{local}_t')
             elif t == 'char':
                 fcpp.append(f'        const char *{local} = code_gets();')
                 call_args.append(local)

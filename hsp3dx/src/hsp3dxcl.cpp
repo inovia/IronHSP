@@ -11,7 +11,11 @@
 //
 #include <stdio.h>
 #include <string.h>
+#ifdef _WIN32
 #include <windows.h>
+#else
+#include <unistd.h>    // usleep
+#endif
 
 #include "../../hsp3/hsp3config.h"
 #include "../../hsp3/strbuf.h"
@@ -22,6 +26,16 @@
 #include "hsp3dxcl.h"
 #include "hsp3dx_console.h"   // hsp3dx_msgbox_utf8
 #include "DxLib.h"
+
+//  Windows 固有 API のクロスプラットフォーム薄皮
+#ifndef _WIN32
+#define HINSTANCE        void *
+#define GetModuleHandle(x) ((void *)nullptr)
+#define GetTickCount()   ((int)GetNowCount())
+#define Sleep(ms)        WaitTimer(ms)
+#define MB_OK            0
+#define MB_ICONERROR     0
+#endif
 
 extern "C" {
     int hsp3typeinit_cl_extcmd( HSP3TYPEINFO *info );
