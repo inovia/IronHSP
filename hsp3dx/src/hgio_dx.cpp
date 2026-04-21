@@ -32,7 +32,7 @@ int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
     s_screen_h = sy > 0 ? sy : 480;
     SetGraphMode( s_screen_w, s_screen_h, 32 );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__APPLE__)
     //  Android は物理画面固定。DxLib の FitScaling の意味に注意:
     //      FitScaling = FALSE → アスペクト比維持 letterbox (余白は黒)
     //      FitScaling = TRUE  → 画面いっぱいストレッチ (比率無視)
@@ -92,8 +92,14 @@ void hgio_dx_set_screen_size( int w, int h )
 int hgio_dx_get_display_size( int *pw, int *ph )
 {
     int dw = 0, dh = 0;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if ( GetAndroidDisplayResolution( &dw, &dh ) == 0 && dw > 0 && dh > 0 ) {
+        if ( pw ) *pw = dw;
+        if ( ph ) *ph = dh;
+        return 0;
+    }
+#elif defined(__APPLE__)
+    if ( GetDisplayResolution_iOS( &dw, &dh ) == 0 && dw > 0 && dh > 0 ) {
         if ( pw ) *pw = dw;
         if ( ph ) *ph = dh;
         return 0;
@@ -114,7 +120,7 @@ int hgio_dx_get_display_size( int *pw, int *ph )
 
 int hgio_dx_get_touch_num( void )
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__APPLE__)
     return GetTouchInputNum();
 #else
     //  Win はマウス左ボタン押下を 1 本指扱い
@@ -124,7 +130,7 @@ int hgio_dx_get_touch_num( void )
 
 int hgio_dx_get_touch( int index, int *px, int *py )
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__APPLE__)
     if ( index < 0 || index >= GetTouchInputNum() ) return -1;
     int tx = 0, ty = 0;
     GetTouchInput( index, &tx, &ty, nullptr, nullptr );
@@ -144,7 +150,7 @@ int hgio_dx_get_touch( int index, int *px, int *py )
 
 void hgio_dx_set_screen_fit( int mode )
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__APPLE__)
     //  mode = 0: アスペクト比維持 letterbox (余白は黒、default)    → FitScaling=FALSE
     //         1: 画面いっぱいにストレッチ (比率無視)                 → FitScaling=TRUE
     //         2: ピクセル等倍 (未実装、現状 0 と同じ)
@@ -157,7 +163,7 @@ void hgio_dx_set_screen_fit( int mode )
 
 void hgio_dx_getmouse( int *px, int *py, int *pbtn )
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__APPLE__)
     //  Android にはマウスがないので、タッチ座標をマウス座標として、
     //  タッチ中 = MOUSE_INPUT_LEFT 押下として報告する。
     //  タッチが離れた後も最後の座標は保持する (HSP 標準の mousex/mousey 的挙動)。

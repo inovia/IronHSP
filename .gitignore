@@ -87,3 +87,9 @@ hsp3dx/ndk/template/.gradle/
 hsp3dx/ndk/template/build/
 hsp3dx/ndk/template/app/build/
 hsp3dx/ndk/template/app/.cxx/
+
+# hsp3dx iOS 成果物 + xcodegen 生成物 (Phase 3)
+hsp3dx/ios/template/*.xcodeproj/
+hsp3dx/ios/template/build/
+hsp3dx/ios/template/DerivedData/
+hsp3dx/ios/template/xcuserdata/

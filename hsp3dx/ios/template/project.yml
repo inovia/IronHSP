@@ -1,0 +1,149 @@
+#
+#  hsp3dx iOS Xcode プロジェクト (xcodegen 用)
+#
+#  使い方 (Mac 側):
+#      cd hsp3dx/ios/template
+#      xcodegen generate
+#      open hsp3dx.xcodeproj    # or
+#      xcodebuild -scheme hsp3dx -destination 'generic/platform=iOS Simulator' -sdk iphonesimulator build
+#
+#  Phase 3.0: シミュレータ向けに動作確認。実機 (iphoneos) は後続フェーズ。
+#
+name: hsp3dx
+
+options:
+  bundleIdPrefix: com.ironhsp
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "14.0"
+
+settings:
+  base:
+    IPHONEOS_DEPLOYMENT_TARGET: "14.0"
+    ENABLE_BITCODE: NO
+    CLANG_CXX_LANGUAGE_STANDARD: "gnu++17"
+    CLANG_CXX_LIBRARY: "libc++"
+    GCC_PREPROCESSOR_DEFINITIONS:
+      - "HSPIOS=1"
+      - "HSP3DX=1"
+      - "HSPDEBUG=1"
+      - "_HSP64=1"
+      - "HSP64=1"
+      - "HSPUTF8=1"
+    CLANG_ENABLE_OBJC_ARC: YES
+    CLANG_WARN_DOCUMENTATION_COMMENTS: NO
+    GCC_WARN_UNUSED_PARAMETER: NO
+    GCC_WARN_UNUSED_VARIABLE: NO
+    GCC_WARN_64_TO_32_BIT_CONVERSION: NO
+    # DxLib iOS SDK は日本語ディレクトリ名を避けるため LinkFiles/ にリネーム済
+    HEADER_SEARCH_PATHS:
+      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/Debug-iphonesimulator"
+      - "$(SRCROOT)/../../../hsp3"
+      - "$(SRCROOT)/../../src"
+      - "$(SRCROOT)/../../extlib/picojson"
+    LIBRARY_SEARCH_PATHS:
+      - "$(SRCROOT)/../../extlib/dxlib_ios/DxLib_iOS/LinkFiles/$(CONFIGURATION)-iphonesimulator"
+    OTHER_LDFLAGS:
+      - "-lDxLib_iOS"
+      - "-lDxUseCLib_iOS"
+      - "-lpng_iOS"
+      - "-ljpeg_iOS"
+      - "-lzlib_iOS"
+      - "-ltiff_iOS"
+      - "-logg_iOS"
+      - "-lopus_iOS"
+      - "-lvorbis_iOS"
+      - "-ltheora_iOS"
+      - "-lbullet_iOS"
+    # シミュレータのみ (実機ビルドは後続フェーズ)
+    ONLY_ACTIVE_ARCH: YES
+    SUPPORTED_PLATFORMS: "iphonesimulator"
+    # signing 省略
+    CODE_SIGN_IDENTITY: ""
+    CODE_SIGNING_REQUIRED: NO
+    CODE_SIGNING_ALLOWED: NO
+
+targets:
+  hsp3dx:
+    type: application
+    platform: iOS
+    deploymentTarget: "14.0"
+    sources:
+      # iOS app 側 (Info.plist + 起動用ダミー)
+      - path: Sources
+        name: Sources
+      # hsp3dx 本体 (iOS 用 .mm + Win/Android 非依存の共通 .cpp)
+      - path: ../../src
+        name: hsp3dx
+        includes:
+          - "hgio_dx.cpp"
+          - "hsp3dxcl.cpp"
+          - "hsp3dx_extcmd.cpp"
+          - "hsp3dx_console.cpp"
+          - "hsp3dx_dxlib_auto.cpp"
+          - "hsp3dx_dxlib_auto_f.cpp"
+          - "hsp3dx_json.cpp"
+          - "main_ios.mm"
+          - "hsp3dx_http_ios.mm"
+          - "hsp3dx_ws_ios.mm"
+          - "hsp3dx_platform_io_ios.mm"
+      # HSP3 コア
+      - path: ../../../hsp3
+        name: hsp3
+        includes:
+          - "hsp3.cpp"
+          - "hsp3code.cpp"
+          - "hsp3crypt.cpp"
+          - "hsp3debug.cpp"
+          - "hsp3int.cpp"
+          - "hsp3utfcnv.cpp"
+          - "hspvar_core.cpp"
+          - "hspvar_double.cpp"
+          - "hspvar_int.cpp"
+          - "hspvar_int64.cpp"
+          - "hspvar_label.cpp"
+          - "hspvar_str.cpp"
+          - "hspvar_struct.cpp"
+          - "hspvar_wstr.cpp"
+          - "stack.cpp"
+          - "strbuf.cpp"
+          - "strnote.cpp"
+          - "dpmread.cpp"
+          - "filepack.cpp"
+          - "ndk/supio_ndk.cpp"
+      # #defstruct (NSTRUCT) は hsp3net に集約
+      - path: ../../../hsp3net/hspvar_nstruct.cpp
+        name: hsp3net
+    resources:
+      - path: Data/start.ax
+        optional: true
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: "com.ironhsp.hsp3dx"
+        PRODUCT_NAME: "hsp3dx"
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+    dependencies:
+      - sdk: OpenGLES.framework
+      - sdk: QuartzCore.framework
+      - sdk: UIKit.framework
+      - sdk: Foundation.framework
+      - sdk: CoreGraphics.framework
+      - sdk: CoreMotion.framework
+      - sdk: AVFoundation.framework
+      - sdk: AudioToolbox.framework
+      - sdk: MediaPlayer.framework
+      - sdk: CoreMedia.framework
+      - sdk: CoreVideo.framework
+      - sdk: CoreLocation.framework
+      - sdk: GameController.framework
+      - sdk: MessageUI.framework
+      - sdk: Metal.framework
+      - sdk: GLKit.framework
+      - sdk: StoreKit.framework
+      - sdk: Security.framework
+      - sdk: SystemConfiguration.framework
+      - sdk: CFNetwork.framework
+      - sdk: CoreText.framework
+      - sdk: ImageIO.framework
+      - sdk: OpenAL.framework
