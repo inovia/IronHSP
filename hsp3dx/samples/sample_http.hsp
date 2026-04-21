@@ -47,13 +47,13 @@
     mes ""
     mes "[GET] https://httpbin.org/get?foo=bar"
     mes "  status = " + status_get + "   body size = " + strlen(resp_get)
-    mes "  preview: " + strmid(resp_get, 0, 60)
-    mes "           " + strmid(resp_get, 60, 60)
+    mes "---- body (前 180 文字、\\n は body 内のもの) ----"
+    mes strmid(resp_get, 0, 180)
     mes ""
     mes "[POST] https://httpbin.org/post (content-type: application/json)"
     mes "  status = " + status_post + "   body size = " + strlen(resp_post)
-    mes "  preview: " + strmid(resp_post, 0, 60)
-    mes "           " + strmid(resp_post, 60, 60)
+    mes "---- body (前 220 文字) ----"
+    mes strmid(resp_post, 0, 220)
 
     pos 10, 450
     color 255, 220, 80
