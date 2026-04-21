@@ -1000,6 +1000,17 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    case 0x122:                     // dx_setscreenfit flag
+        //  flag = 0: 等倍表示 (左上固定、余白は黒)
+        //         1: 画面いっぱいにストレッチ (比率無視)
+        //         2: アスペクト比維持 (letterbox) ... Android のみ、hgio_dx 側で処理
+        {
+            int flag = code_getdi( 1 );
+            extern void hgio_dx_set_screen_fit( int mode );
+            hgio_dx_set_screen_fit( flag );
+            break;
+        }
+
     //  ============================================================
     //  Phase 5.2: 3D プリミティブ / カメラ
     //  ============================================================

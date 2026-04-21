@@ -18,6 +18,12 @@
     sw = ginfo_winx
     sh = ginfo_winy
 
+    ;  ---- 画面フィットモード (Android 向け、Win では無視される) ----
+    ;      0 = 比率維持 letterbox (余白は黒、default)
+    ;      1 = 画面いっぱいストレッチ (比率無視)
+    ;      例: dx_setscreenfit 1  でストレッチに切替
+    ;  dx_setscreenfit 0
+
     ;  ---- 軌跡用 offscreen buffer ----
     buffer 1, sw, sh
     color 0, 0, 0

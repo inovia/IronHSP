@@ -24,11 +24,12 @@ int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
     SetGraphMode( sx > 0 ? sx : 640, sy > 0 ? sy : 480, 32 );
 
 #ifdef __ANDROID__
-    //  Android は物理画面固定。論理解像度 (上の SetGraphMode) を画面に
-    //  フィットストレッチする (FitScaling=TRUE)。
-    //  これで HSP 側 640x480 座標系が端末のフルスクリーンに自動マッピングされ、
-    //  GetTouchInput も論理座標系で値を返す。
-    SetFullScreenScalingMode( DX_FSSCALINGMODE_BILINEAR, TRUE );
+    //  Android は物理画面固定。DxLib の FitScaling の意味に注意:
+    //      FitScaling = FALSE → アスペクト比維持 letterbox (余白は黒)
+    //      FitScaling = TRUE  → 画面いっぱいストレッチ (比率無視)
+    //  デフォルトは letterbox (640:480 の縦横比を崩さないほうが安全)。
+    //  ユーザーは dx_setscreenfit で切替可能。
+    SetFullScreenScalingMode( DX_FSSCALINGMODE_BILINEAR, FALSE );
 #endif
 
     if ( DxLib_Init() != 0 ) return -1;
@@ -65,6 +66,19 @@ int hgio_dx_process_message( void )
 int hgio_dx_getkey( int keycode )
 {
     return CheckHitKey( keycode );
+}
+
+void hgio_dx_set_screen_fit( int mode )
+{
+#ifdef __ANDROID__
+    //  mode = 0: アスペクト比維持 letterbox (余白は黒、default)    → FitScaling=FALSE
+    //         1: 画面いっぱいにストレッチ (比率無視)                 → FitScaling=TRUE
+    //         2: ピクセル等倍 (未実装、現状 0 と同じ)
+    int fit = ( mode == 1 ) ? TRUE : FALSE;
+    SetFullScreenScalingMode( DX_FSSCALINGMODE_BILINEAR, fit );
+#else
+    (void)mode;   // PC 版はウィンドウサイズがそもそも論理サイズと一致するので無処理
+#endif
 }
 
 void hgio_dx_getmouse( int *px, int *py, int *pbtn )

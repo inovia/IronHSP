@@ -26,6 +26,12 @@ int  hgio_dx_process_message( void );       // DxLib の ProcessMessage() に相
 int  hgio_dx_getkey( int keycode );
 void hgio_dx_getmouse( int *px, int *py, int *pbtn );
 
+// 画面フィット切替 (主に Android)
+//   mode = 0: アスペクト比維持 letterbox (余白は黒) ← hsp3dx default
+//          1: 画面いっぱいにストレッチ (比率無視)
+//          2: ピクセル等倍 (未実装、現状 0 と同じ)
+void hgio_dx_set_screen_fit( int mode );
+
 // TODO: Phase 1.1 以降で描画/音声 API 追加
 
 #ifdef __cplusplus
