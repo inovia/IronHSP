@@ -115,11 +115,13 @@
     <ClCompile Include="..\src\hsp3dx_http_win.cpp" />
     <ClCompile Include="..\src\hsp3dx_json.cpp" />
     <ClCompile Include="..\src\hsp3dx_ws_win.cpp" />
+    <ClCompile Include="..\src\hsp3dx_platform_win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\hgio_dx.h" />
     <ClInclude Include="..\src\hsp3dxcl.h" />
     <ClInclude Include="..\src\hsp3dx_console.h" />
+    <ClInclude Include="..\src\hsp3dx_platform.h" />
     <ClInclude Include="..\src\hsp3dx_platform_io.h" />
   </ItemGroup>
 

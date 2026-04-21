@@ -1,0 +1,86 @@
+;============================================================
+;   sample_platform.hsp — Phase M: exec / dialog / dx_pref テスト
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    screen 0, 720, 1280
+
+    ;  (1) 設定永続: 起動カウンタをインクリメント
+    dx_pref_get_int "General", "launch_count", 0
+    launch_count = stat + 1
+    dx_pref_set_int "General", "launch_count", launch_count
+
+    ;  (2) 設定永続: ユーザー名
+    dx_pref_get_str "General", "username", name, "anon"
+    if name = "anon" {
+        dx_pref_set_str "General", "username", "hsp3dx_user"
+        name = "hsp3dx_user"
+    }
+
+    ;  (3) Dialog で確認 (mode 2 = Yes/No)
+    dialog "Phase M テスト:\nここまでの状態で OK?", 2, "hsp3dx"
+    dialog_result = stat     ; 1=Yes, 2=No
+
+    redraw 0
+    color 20, 30, 60
+    boxf 0, 0, ginfo_winx, ginfo_winy
+
+    color 255, 255, 255
+    font "MS Gothic", 32
+    pos 30, 30
+    mes "hsp3dx Phase M"
+
+    font "MS Gothic", 24
+    pos 30, 100
+    mes "pref.username      : " + name
+    pos 30, 140
+    mes "pref.launch_count  : " + launch_count
+    pos 30, 180
+    mes "dialog(2) result   : " + dialog_result + "  (1=Yes / 2=No)"
+
+    ;  exec ボタン (タップで URL 開く)
+    color 80, 120, 200
+    boxf 30, 300, 690, 400
+    color 255, 255, 255
+    font "MS Gothic", 28
+    pos 50, 330
+    mes "[TAP] open https://example.com"
+
+    ;  clear ボタン
+    color 200, 80, 80
+    boxf 30, 430, 690, 530
+    color 255, 255, 255
+    pos 50, 460
+    mes "[TAP] pref clear (全削除)"
+
+    color 255, 220, 80
+    font "MS Gothic", 22
+    pos 30, 600
+    mes "[BACK/ESC] quit"
+
+    redraw 1
+
+    prev_n = 0
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+        dx_getmtouchnum
+        n = stat
+        if n > 0 : if prev_n = 0 {
+            dx_getmtouch 0, tx, ty
+            if tx >= 30 : if tx < 690 {
+                if ty >= 300 : if ty < 400 {
+                    exec "https://example.com"
+                }
+                if ty >= 430 : if ty < 530 {
+                    dx_pref_clear ""
+                    dialog "設定を全消去しました。次回起動時にカウンタがリセット。", 0, "hsp3dx"
+                }
+            }
+        }
+        prev_n = n
+        await 16
+    loop
+    end

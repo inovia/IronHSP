@@ -73,6 +73,16 @@ settings:
     CODE_SIGNING_REQUIRED: YES
     CODE_SIGNING_ALLOWED: YES
 
+schemes:
+  hsp3dx:
+    build:
+      targets:
+        hsp3dx: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+
 targets:
   hsp3dx:
     type: application
@@ -101,6 +111,7 @@ targets:
           - "hsp3dx_dxlib_auto.cpp"
           - "hsp3dx_dxlib_auto_f.cpp"
           - "hsp3dx_ios_dxlib_override.cpp"
+          - "hsp3dx_platform_ios.mm"
           - "hsp3dx_json.cpp"
           - "main_ios.mm"
           - "hsp3dx_http_ios.mm"

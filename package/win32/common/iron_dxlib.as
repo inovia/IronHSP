@@ -81,6 +81,14 @@
 #cmd dx_http_cookie_clear  $16b   ; dx_http_cookie_clear (セッションリセット)
 #cmd dx_http_cookie_enable $16c   ; dx_http_cookie_enable flag (0=無効 / 1=有効)
 
+;  ---- Phase M.2: Key-Value 設定永続 (Win=INI, iOS=UserDefaults, Android=SharedPreferences) ----
+#cmd dx_pref_set_str   $178   ; dx_pref_set_str "section", "key", "value"
+#cmd dx_pref_set_int   $179   ; dx_pref_set_int "section", "key", int_value
+#cmd dx_pref_get_str   $17a   ; dx_pref_get_str "section", "key", var_buf [, "default"]
+#cmd dx_pref_get_int   $17b   ; dx_pref_get_int "section", "key" [, default] (stat=値)
+#cmd dx_pref_remove    $17c   ; dx_pref_remove "section", "key"
+#cmd dx_pref_clear     $17d   ; dx_pref_clear "section"  (section="" で全消去)
+
 ;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
 #cmd dx_http_mp_begin      $170   ; dx_http_mp_begin
 #cmd dx_http_mp_add_text   $171   ; dx_http_mp_add_text "name", "value"

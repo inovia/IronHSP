@@ -75,6 +75,7 @@
 #include "hsp3dx_json.h"
 #include "hsp3dx_ws.h"
 #include "hgio_dx.h"
+#include "hsp3dx_platform.h"
 #include "DxLib.h"
 
 //  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜)
@@ -310,15 +311,27 @@ static int cmdfunc_extcmd( int cmd )
 
     switch ( cmd ) {
 
-    case 0x03:                      // dialog
+    case 0x02:                      // exec "file_or_url" [, mode, "param"]
+        {
+            char fname[0x800];
+            strncpy( fname, code_gets(), sizeof(fname) - 1 );
+            fname[sizeof(fname) - 1] = 0;
+            p1 = code_getdi( 0 );       // mode (現状どのプラットフォームも未使用)
+            char *ps = code_getds( "" );
+            ctx->stat = hsp3dx_platform_exec( fname, ps, p1 );
+            break;
+        }
+
+    case 0x03:                      // dialog "text", mode, "title"
         {
             char stmp[0x4000];
             char *ptr = code_getdsi( "" );
             strncpy( stmp, ptr, sizeof(stmp) - 1 );
             stmp[sizeof(stmp) - 1] = 0;
-            p1 = code_getdi( 0 );
+            p1 = code_getdi( 0 );                  // mode (0/1/2/3)
             char *title = code_getds( "hsp3dx" );
-            hsp3dx_msgbox_utf8( stmp, title, MB_OK );
+            //  ユーザー選択結果 (1=OK/Yes, 2=Cancel/No, 3=Cancel mode3) を stat に
+            ctx->stat = hsp3dx_platform_dialog( stmp, title, p1 );
             break;
         }
 
@@ -1450,6 +1463,70 @@ static int cmdfunc_extcmd( int cmd )
     case 0x16c:                     // dx_http_cookie_enable flag
         hsp3dx_http_cookie_set_enabled( code_getdi( 1 ) );
         break;
+
+    //  ---- Phase M.2: KV 永続ストア ----
+    case 0x178:                     // dx_pref_set_str "section", "key", "value"
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            char *key_c = _strdup( key ? key : "" );
+            const char *val = code_gets();
+            ctx->stat = hsp3dx_pref_set_str( sec_c, key_c, val ? val : "" );
+            free( sec_c ); free( key_c );
+            break;
+        }
+    case 0x179:                     // dx_pref_set_int "section", "key", int_value
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            char *key_c = _strdup( key ? key : "" );
+            int v = code_getdi( 0 );
+            ctx->stat = hsp3dx_pref_set_int( sec_c, key_c, v );
+            free( sec_c ); free( key_c );
+            break;
+        }
+    case 0x17a:                     // dx_pref_get_str "section", "key", var_buf [, "default"]
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            char *key_c = _strdup( key ? key : "" );
+            PVal *pv; APTR ap = code_getva( &pv );
+            const char *def = code_getds( "" );
+            char buf[2048];
+            hsp3dx_pref_get_str( sec_c, key_c, buf, sizeof(buf), def );
+            code_setva( pv, ap, HSPVAR_FLAG_STR, buf );
+            free( sec_c ); free( key_c );
+            break;
+        }
+    case 0x17b:                     // dx_pref_get_int "section", "key" [, default]  (stat=値)
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            char *key_c = _strdup( key ? key : "" );
+            int def = code_getdi( 0 );
+            ctx->stat = hsp3dx_pref_get_int( sec_c, key_c, def );
+            free( sec_c ); free( key_c );
+            break;
+        }
+    case 0x17c:                     // dx_pref_remove "section", "key"
+        {
+            const char *sec = code_gets();
+            char *sec_c = _strdup( sec ? sec : "" );
+            const char *key = code_gets();
+            ctx->stat = hsp3dx_pref_remove( sec_c, key ? key : "" );
+            free( sec_c );
+            break;
+        }
+    case 0x17d:                     // dx_pref_clear "section"
+        {
+            const char *sec = code_gets();
+            ctx->stat = hsp3dx_pref_clear( sec ? sec : "" );
+            break;
+        }
 
     //  ---- multipart/form-data ----
     case 0x170:                     // dx_http_mp_begin
