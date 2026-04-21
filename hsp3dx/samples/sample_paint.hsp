@@ -1,0 +1,126 @@
+;============================================================
+;   sample_paint.hsp — タッチお絵描き
+;
+;   指で画面をなぞると線を描く。上部のパレットで色切替、右上 Clear で消去。
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx paint"
+
+    screen 0, 720, 1280
+    sw = ginfo_winx : sh = ginfo_winy
+
+    ;  キャンバス (buffer 1、白地)
+    buffer 1, sw, sh
+    color 255, 255, 255
+    boxf 0, 0, sw, sh
+    gsel 0
+
+    ;  色パレット (最大 5)
+    dim pal_r, 5 : dim pal_g, 5 : dim pal_b, 5
+    pal_r(0) =  30 : pal_g(0) =  80 : pal_b(0) = 220   ; 青
+    pal_r(1) = 220 : pal_g(1) =  50 : pal_b(1) =  50   ; 赤
+    pal_r(2) =  40 : pal_g(2) = 180 : pal_b(2) =  60   ; 緑
+    pal_r(3) =  40 : pal_g(3) =  40 : pal_b(3) =  40   ; 黒
+    pal_r(4) = 255 : pal_g(4) = 255 : pal_b(4) = 255   ; 白 (消しゴム)
+
+    pen_r = pal_r(0) : pen_g = pal_g(0) : pen_b = pal_b(0)
+    pen_thick = 8
+    prev_x = -1 : prev_y = -1
+    palette_h = 110            ; 上部パレット領域の高さ
+    clear_w   = 150            ; 右上 Clear ボタンの幅
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        dx_getmtouchnum : n = stat
+
+        ;  ---- タッチ処理 (描画は buffer 1 に直接) ----
+        if n > 0 {
+            dx_getmtouch 0, tx, ty
+            if ty < palette_h {
+                ;  上部 = UI 領域
+                ;  Clear ボタン
+                if tx >= sw - clear_w {
+                    gsel 1
+                    color 255, 255, 255
+                    boxf 0, 0, sw, sh
+                    gsel 0
+                } else {
+                    ;  色パレット: 各セル幅 110
+                    idx = tx / 110
+                    if idx >= 0 && idx < 5 {
+                        pen_r = pal_r(idx)
+                        pen_g = pal_g(idx)
+                        pen_b = pal_b(idx)
+                    }
+                }
+                prev_x = -1 : prev_y = -1
+            } else {
+                ;  キャンバス領域に描画
+                gsel 1
+                color pen_r, pen_g, pen_b
+                if prev_x >= 0 {
+                    ;  疑似太線: 半径方向にスキャン
+                    dx = tx - prev_x : dy = ty - prev_y
+                    len = sqrt(double(dx*dx + dy*dy))
+                    steps = int(len) + 1
+                    sc = 0
+                    repeat steps
+                        cx = prev_x + (tx - prev_x) * sc / steps
+                        cy = prev_y + (ty - prev_y) * sc / steps
+                        circle cx - pen_thick, cy - pen_thick, cx + pen_thick, cy + pen_thick, 1
+                        sc++
+                    loop
+                } else {
+                    circle tx - pen_thick, ty - pen_thick, tx + pen_thick, ty + pen_thick, 1
+                }
+                gsel 0
+                prev_x = tx : prev_y = ty
+            }
+        } else {
+            prev_x = -1 : prev_y = -1
+        }
+
+        ;  ---- 画面描画 ----
+        redraw 0
+        color 240, 240, 240
+        boxf 0, 0, sw, sh
+
+        ;  キャンバス (buffer 1 を全面 gcopy)
+        pos 0, 0
+        gcopy 1, 0, 0, sw, sh
+
+        ;  上部パレット帯背景 (半透明っぽい濃灰)
+        color 20, 20, 20
+        boxf 0, 0, sw, palette_h
+
+        ;  パレット 5 色
+        repeat 5
+            bx = cnt * 110 + 10
+            color pal_r(cnt), pal_g(cnt), pal_b(cnt)
+            boxf bx, 15, bx + 90, 95
+            ;  現在色に白枠
+            if pen_r == pal_r(cnt) && pen_g == pal_g(cnt) && pen_b == pal_b(cnt) {
+                color 255, 255, 255
+                boxf bx-3, 12, bx+93, 15
+                boxf bx-3, 95, bx+93, 98
+                boxf bx-3, 12, bx,    98
+                boxf bx+90, 12, bx+93, 98
+            }
+        loop
+
+        ;  Clear ボタン
+        color 180,  80,  80
+        boxf sw - clear_w + 10, 15, sw - 10, 95
+        color 255, 255, 255
+        font "MS Gothic", 32
+        pos sw - clear_w + 30, 35 : mes "Clear"
+
+        redraw 1
+        await 16
+    loop
+    end
