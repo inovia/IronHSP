@@ -98,6 +98,9 @@ hsp3dx.exe
 | **5.1** | dx_* 命令公開基盤 (#regcmd/#cmd 採用) + AA 描画 + DrawModiGraph + ジョイパッド | ✅ |
 | **5.2** | 3D プリミティブ / カメラ / 照明 / Z バッファ / MV1 モデル / 動画 | ✅ |
 | **5.3** | DxLib API 自動コード生成 (Python パーサ + 512 関数) | ✅ |
+| **5.4a** | HTTP クライアント (get/post/set_header/set_user_agent/set_timeout) | ✅ |
+| 5.4b | JSON (parse / get / build) | 未着手 |
+| 5.4c | WebSocket | 未着手 |
 
 ## トラブルシュート
 

@@ -56,4 +56,11 @@
 #cmd dx_pausemoviegraph $152    ; dx_pausemoviegraph ID
 #cmd dx_stopmoviegraph $153     ; dx_stopmoviegraph ID
 
+;  ---- Phase 5.4a: HTTP クライアント (Win = WinHTTP / iOS/Android は Phase 3,4) ----
+#cmd dx_http_set_timeout $160   ; dx_http_set_timeout ms
+#cmd dx_http_set_header  $161   ; dx_http_set_header "Header: value\r\n..." (空でクリア)
+#cmd dx_http_get         $162   ; dx_http_get "url", var_body  (stat = status code)
+#cmd dx_http_post        $163   ; dx_http_post "url", "body", var_body, "content-type"
+#cmd dx_http_set_user_agent $164   ; dx_http_set_user_agent "MyApp/1.0"
+
 #endif

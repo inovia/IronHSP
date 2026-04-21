@@ -6,6 +6,46 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 5.4a: HTTP クライアント)
+
+### (これから commit) @ 20:16 — Phase 5.4a: dx_http_* (WinHTTP)
+
+**実装**
+- `hsp3dx_http.h` 新規: cross-platform HTTP API (blocking、UTF-8 前提)
+- `hsp3dx_http_win.cpp` 新規: WinHTTP 実装
+  - URL / path / headers すべて **malloc 動的確保** (長い URL / body 対応)
+  - `WinHttpCrackUrl` で URL 解析、`WinHttpOpen` / `Connect` / `OpenRequest` /
+    `SendRequest` / `ReceiveResponse` / `QueryDataAvailable` + `ReadData`
+  - TLS 自動 (`WINHTTP_FLAG_SECURE` for https)
+- 追加 dx_* 命令 (iron_dxlib.as + extcmd):
+  - `0x160 dx_http_set_timeout ms`
+  - `0x161 dx_http_set_header "Header: value\r\n..."` (空でクリア)
+  - `0x162 dx_http_get "url", var_body` (stat=status)
+  - `0x163 dx_http_post "url", "body", var_body, "content-type"`
+  - `0x164 dx_http_set_user_agent "name"`
+
+**詰まりどころ**
+1. **code_gets の共有バッファ問題** — url と body を連続 `code_gets()` で取ると、
+   2 回目の呼出で 1 回目の戻り値が上書きされる → POST で url が body で上書きされ
+   失敗 (status=0)。修正: `_strdup` で heap へ複製してから使用
+2. **mes の \n 処理** — レスポンス本文に含まれる `\n` が DxLib DrawString で
+   複数行描画されるが、hsp3dx 側の cur_y は 1 行分しか進めず、次の mes と重なる
+   → `\n` で分割して 1 行ずつ DrawString + advance_mes_y する方式に変更
+3. **バッファ固定長の撤廃** — url[2048] / body[65536] スタック確保から、
+   `_strdup` / `malloc` の動的確保に移行。ブラウザ級の長い URL / large body 対応
+4. **User-Agent カスタマイズ** — `WinHttpOpen` に渡す UA を引数化、
+   `dx_http_set_user_agent` で HSP 側から設定可能
+
+**サンプル** `sample_http.hsp`:
+- httpbin.org に GET + POST (JSON body) して status/body 表示
+- 実機確認: GET/POST 両方 status 200 受信 ✅
+
+**残 (Phase 5.4b/c)**
+- JSON パース / 生成 (picojson ベースを予定)
+- WebSocket (WinHTTP WebSocket API)
+
+---
+
 ## 2026-04-21 (Phase 5.3: DxLib API 自動コード生成)
 
 ### (これから commit) @ 20:15 — Phase 5.3: DxLib 512 関数を自動生成で追加

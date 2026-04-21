@@ -1,0 +1,76 @@
+;============================================================
+;   sample_http.hsp — Phase 5.4a HTTP クライアント (dx_http_*)
+;
+;   インターネット接続が必要。
+;   公開 API (https://httpbin.org) で GET/POST の動作確認をする。
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_http.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: HTTP client"
+
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+
+    pos 10, 10
+    mes "Phase 5.4a HTTP client test"
+    mes "  送信中..."
+    redraw 1
+
+    ;  ---- タイムアウト設定 ----
+    dx_http_set_timeout 10000
+
+    ;  ---- カスタムヘッダ設定 (User-Agent 上書きや認証ヘッダ用) ----
+    dx_http_set_header "X-Test-Header: hsp3dx\r\n"
+
+    ;  ---- GET ----
+    dx_http_get "https://httpbin.org/get?foo=bar", resp_get
+    status_get = stat
+
+    ;  ---- POST (JSON) ----
+    dx_http_set_header ""              ; クリア
+    dx_http_post "https://httpbin.org/post", "{\"hello\":\"hsp3dx\"}", resp_post, "application/json"
+    status_post = stat
+
+    ;  ---- 結果表示 ----
+    color 20, 30, 60
+    boxf 0, 0, 640, 480
+    color 255, 255, 255
+    font "MS Gothic", 14
+    pos 10, 10
+    mes "Phase 5.4a HTTP client test"
+    mes ""
+    mes "[GET] https://httpbin.org/get?foo=bar"
+    mes "  status = " + status_get + "   body size = " + strlen(resp_get)
+    mes "  preview: " + strmid(resp_get, 0, 60)
+    mes "           " + strmid(resp_get, 60, 60)
+    mes ""
+    mes "[POST] https://httpbin.org/post (content-type: application/json)"
+    mes "  status = " + status_post + "   body size = " + strlen(resp_post)
+    mes "  preview: " + strmid(resp_post, 0, 60)
+    mes "           " + strmid(resp_post, 60, 60)
+
+    pos 10, 450
+    color 255, 220, 80
+    mes "[ESC] quit"
+    redraw 1
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end
+
+
+    repeat
+        await 16
+        getkey esc_p, 27
+        if esc_p : break
+    loop
+    end

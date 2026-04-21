@@ -66,6 +66,7 @@
 #include "../../hsp3/strbuf.h"
 
 #include "hsp3dx_console.h"
+#include "hsp3dx_http.h"
 #include "DxLib.h"
 
 //  Phase 5.3 自動生成 DxLib binding (opcode 0x200〜0x3FF)
@@ -99,6 +100,12 @@ static int  s_buf_cel_h [HSP3DX_MAX_BUFFERS];   // cell 高
 static int  s_buf_cel_ox[HSP3DX_MAX_BUFFERS];   // 描画原点 x オフセット
 static int  s_buf_cel_oy[HSP3DX_MAX_BUFFERS];   // 描画原点 y オフセット
 static int  s_cur_window = 0;                   // gsel 現在値 (ID)
+
+//  ---- Phase 5.4a: HTTP クライアントの状態 ----
+static int   s_http_timeout_ms       = 30000;
+//  HTTP ヘッダの実用上限は 16KB (nginx/apache デフォルト)。余裕を持って 32KB。
+static char  s_http_extra_headers[32768] = { 0 };
+static char  s_http_user_agent[512]      = { 0 };   // 空=デフォルト "hsp3dx/1.0"
 
 //  ---- Phase 1.7: sound 管理 ----
 #define HSP3DX_MAX_SOUNDS 256
@@ -301,9 +308,41 @@ static int cmdfunc_extcmd( int cmd )
             char *ptr = code_getdsi( "" );
             code_stmpstr( ptr );
             int sw = code_getdi( 0 );       // sw=1: 改行なし
-            wchar_t wbuf[1024];
-            hsp3dx_utf8_to_wide( ptr, wbuf, 1024 );
-            DrawString( s_cur_x, s_cur_y, wbuf, s_cur_color );
+
+            //  DxLib DrawString は \n を含む文字列を内部行高で複数行描画するが、
+            //  その内部行高は hsp3dx の s_font_size と一致しない。そのため
+            //  ユーザー制御の s_font_size で整えるには、\n で手動分割して
+            //  1 行ずつ DrawString + advance_mes_y する必要がある。
+            const char *line_start = ptr;
+            const char *p = ptr;
+            while ( true ) {
+                bool at_end = ( *p == 0 );
+                if ( *p == '\n' || at_end ) {
+                    //  \r\n (CRLF) 対応: 行末の \r を捨てて描画対象から除外する
+                    int line_len = (int)( p - line_start );
+                    while ( line_len > 0 && line_start[line_len - 1] == '\r' ) line_len--;
+
+                    int wcap = line_len + 4;
+                    if ( wcap < 64 ) wcap = 64;
+                    wchar_t *wbuf = (wchar_t *)malloc( wcap * sizeof(wchar_t) );
+                    if ( wbuf ) {
+                        char *tmp = (char *)malloc( line_len + 1 );
+                        if ( tmp ) {
+                            memcpy( tmp, line_start, line_len );
+                            tmp[line_len] = 0;
+                            hsp3dx_utf8_to_wide( tmp, wbuf, wcap );
+                            DrawString( s_cur_x, s_cur_y, wbuf, s_cur_color );
+                            free( tmp );
+                        }
+                        free( wbuf );
+                    }
+                    if ( !at_end ) advance_mes_y();
+                    line_start = p + 1;
+                    if ( at_end ) break;
+                }
+                p++;
+            }
+            //  末尾の暗黙改行 (sw==0) は最後に 1 行進める
             if ( sw == 0 ) advance_mes_y();
             break;
         }
@@ -358,7 +397,10 @@ static int cmdfunc_extcmd( int cmd )
             //  扱えないため、Phase 1.4 では bold のみ反映)
             if ( p1 < 4 ) p1 = 4;
             SetFontThickness( ( p2 & 1 ) ? p1 / 4 : 1 );
-            s_font_size = p1 + 4;       // 行送りはサイズ + 少し余白
+            //  行送り: DxLib DrawString は font size をポイント近似で解釈、
+            //  日本語フォント (MS Gothic 等) は ascender+descender で 1.5 倍近い
+            //  高さになる。さらに余白 3 入れて読みやすさ優先。
+            s_font_size = ( p1 * 3 + 1 ) / 2 + 3;       // ≒ 1.5x + 3
             ctx->stat = 0;
             break;
         }
@@ -1093,6 +1135,110 @@ static int cmdfunc_extcmd( int cmd )
         {
             int h = code_getdi( 0 );
             MV1DeleteModel( h );
+            break;
+        }
+
+    //  ============================================================
+    //  Phase 5.4a: HTTP クライアント
+    //  ============================================================
+
+    case 0x160:                     // dx_http_set_timeout ms
+        {
+            int ms = code_getdi( 30000 );
+            if ( ms < 100 )     ms = 100;
+            if ( ms > 600000 )  ms = 600000;
+            s_http_timeout_ms = ms;
+            break;
+        }
+
+    case 0x161:                     // dx_http_set_header "hdr"
+        {
+            const char *hdr = code_gets();
+            if ( !hdr ) hdr = "";
+            size_t n = strlen( hdr );
+            if ( n >= sizeof(s_http_extra_headers) ) n = sizeof(s_http_extra_headers) - 1;
+            memcpy( s_http_extra_headers, hdr, n );
+            s_http_extra_headers[n] = 0;
+            break;
+        }
+
+    case 0x164:                     // dx_http_set_user_agent "name"
+        {
+            const char *ua = code_gets();
+            if ( !ua ) ua = "";
+            size_t n = strlen( ua );
+            if ( n >= sizeof(s_http_user_agent) ) n = sizeof(s_http_user_agent) - 1;
+            memcpy( s_http_user_agent, ua, n );
+            s_http_user_agent[n] = 0;
+            break;
+        }
+
+    case 0x162:                     // dx_http_get "url", var_body
+        {
+            //  code_gets() は内部共有バッファを返すので、後続の code_* で上書き
+            //  される前に heap へコピー。長さ制限はソース .ax の文字列長に委ねる。
+            const char *url_raw = code_gets();
+            char *url = _strdup( url_raw ? url_raw : "" );
+
+            PVal *pval;
+            APTR aptr;
+            aptr = code_getva( &pval );
+
+            hsp3dx_http_response resp;
+            int rc = hsp3dx_http_get( url,
+                                      s_http_user_agent[0] ? s_http_user_agent : nullptr,
+                                      s_http_extra_headers[0] ? s_http_extra_headers : nullptr,
+                                      s_http_timeout_ms, &resp );
+            free( url );
+            if ( rc != 0 ) {
+                ctx->stat = 0;
+                const char *empty = "";
+                code_setva( pval, aptr, TYPE_STRING, (void *)empty );
+            } else {
+                ctx->stat = resp.status;
+                code_setva( pval, aptr, TYPE_STRING,
+                            resp.body ? (void *)resp.body : (void *)"" );
+            }
+            hsp3dx_http_free( &resp );
+            break;
+        }
+
+    case 0x163:                     // dx_http_post "url", "body", var_body, "content-type"
+        {
+            //  各文字列を heap コピー (code_gets の共有バッファ上書き対策)。
+            //  body は最大数 MB まで想定 (HSP の .ax 文字列リテラル長限界まで)。
+            const char *url_raw = code_gets();
+            char *url = _strdup( url_raw ? url_raw : "" );
+
+            const char *body_raw = code_gets();
+            char *body_str = _strdup( body_raw ? body_raw : "" );
+
+            PVal *pval;
+            APTR aptr;
+            aptr = code_getva( &pval );
+
+            const char *ctype_raw = code_getds( (char *)"application/x-www-form-urlencoded" );
+            char *ctype = _strdup( ctype_raw ? ctype_raw : "application/x-www-form-urlencoded" );
+
+            size_t body_len = strlen( body_str );
+            hsp3dx_http_response resp;
+            int rc = hsp3dx_http_post( url, body_str, body_len, ctype,
+                                       s_http_user_agent[0] ? s_http_user_agent : nullptr,
+                                       s_http_extra_headers[0] ? s_http_extra_headers : nullptr,
+                                       s_http_timeout_ms, &resp );
+            free( url );
+            free( body_str );
+            free( ctype );
+            if ( rc != 0 ) {
+                ctx->stat = 0;
+                const char *empty = "";
+                code_setva( pval, aptr, TYPE_STRING, (void *)empty );
+            } else {
+                ctx->stat = resp.status;
+                code_setva( pval, aptr, TYPE_STRING,
+                            resp.body ? (void *)resp.body : (void *)"" );
+            }
+            hsp3dx_http_free( &resp );
             break;
         }
 
