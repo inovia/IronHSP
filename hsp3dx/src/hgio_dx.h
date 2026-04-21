@@ -32,6 +32,15 @@ void hgio_dx_getmouse( int *px, int *py, int *pbtn );
 //          2: ピクセル等倍 (未実装、現状 0 と同じ)
 void hgio_dx_set_screen_fit( int mode );
 
+// 論理解像度の取得 / 変更 (screen 命令経由)。SetGraphMode を呼ぶ + 内部値更新
+int  hgio_dx_get_screen_width( void );
+int  hgio_dx_get_screen_height( void );
+void hgio_dx_set_screen_size( int w, int h );
+
+// 物理画面 (デスクトップ / 端末) のネイティブ解像度を取得
+//   戻り値: 0=成功、-1=取得失敗 (その場合 pw/ph に 640/480 fallback を書く)
+int  hgio_dx_get_display_size( int *pw, int *ph );
+
 // TODO: Phase 1.1 以降で描画/音声 API 追加
 
 #ifdef __cplusplus

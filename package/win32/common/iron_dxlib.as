@@ -38,6 +38,7 @@
 #cmd dx_setwaitvsync   $120     ; dx_setwaitvsync flag — VSync 待機 ON/OFF
 #cmd dx_setfullscreen  $121     ; dx_setfullscreen flag — フルスクリーン切替
 #cmd dx_setscreenfit   $122     ; dx_setscreenfit flag — 画面フィット (0=比率維持 letterbox(default) / 1=ストレッチ比率無視 / 2=ピクセル等倍(予約))
+#cmd dx_getdispsize    $123     ; dx_getdispsize wvar, hvar — 端末/デスクトップのネイティブ解像度を取得 (screen 0, wvar, hvar の組で使う)
 
 ;  ---- Phase 5.2: 3D プリミティブ / カメラ ----
 ;      直接版は auto-gen の dx_SetCameraPositionAndTarget_UpVecY / dx_DrawSphere3D / dx_DrawCube3D / dx_SetUseLighting も利用可能。

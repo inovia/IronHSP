@@ -1,0 +1,77 @@
+;============================================================
+;   sample_portrait.hsp — Phase 4.i 縦長解像度 + ネイティブ解像度取得
+;
+;   screen 命令で任意の初期解像度を指定可能。
+;   dx_getdispsize で端末のネイティブ解像度を取得して 1:1 描画も可能。
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i -u --compath=../../package/win32/common/ sample_portrait.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx portrait / native resolution"
+
+    ;  ---- 端末のネイティブ解像度を取得 ----
+    dx_getdispsize disp_w, disp_h
+
+    ;  ---- 縦長 720x1280 で起動 (letterbox で画面に収まる) ----
+    ;      端末ネイティブ解像度にしたい場合は `screen 0, 0, 0` または `screen 0, disp_w, disp_h`
+    screen 0, 720, 1280
+
+    sw = ginfo_winx       ; 720
+    sh = ginfo_winy       ; 1280
+
+    ;  軌跡バッファ
+    buffer 1, sw, sh
+    color 0, 0, 0
+    boxf 0, 0, sw, sh
+    gsel 0
+
+    prev_btn = 0 : prev_x = -1 : prev_y = -1
+
+    repeat
+        getkey esc_p, 27
+        if esc_p : break
+
+        tx = mousex : ty = mousey
+        stick st, 64 : btn = (st & 64) != 0
+
+        if btn {
+            gsel 1
+            color 255, 255, 255
+            if prev_btn && prev_x >= 0 {
+                line prev_x, prev_y, tx, ty
+            } else {
+                pset tx, ty
+            }
+            gsel 0
+            prev_x = tx : prev_y = ty
+        }
+        prev_btn = btn
+
+        redraw 0
+        color 20, 60, 30
+        boxf 0, 0, sw, sh
+        pos 0, 0
+        gcopy 1, 0, 0, sw, sh
+
+        color 255, 255, 255
+        font "MS Gothic", 36
+        pos 20, 30
+        mes "hsp3dx portrait sample"
+        font "MS Gothic", 28
+        pos 20, 90
+        mes "native (device)  : " + disp_w + " x " + disp_h
+        pos 20, 130
+        mes "logical (screen) : " + sw + " x " + sh
+        pos 20, 170
+        mes "touch    : " + tx + ", " + ty + "   btn=" + btn
+
+        pos 20, sh - 60
+        color 255, 220, 80
+        mes "[BACK/ESC] quit"
+        redraw 1
+        await 16
+    loop
+    end

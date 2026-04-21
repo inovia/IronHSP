@@ -7,10 +7,17 @@
 #include "hgio_dx.h"
 #include "hsp3dx_compat.h"
 #include "DxLib.h"    // hsp3dx/extlib/dxlib_win/include/DxLib.h
+#if defined(_WIN32)
+#include <windows.h>
+#endif
 
 // hsp3dx はプロセス起動時に UTF-8 固定。HSP3Dish の hgio_init 相当のタイミングで
 // SetUseCharCodeFormat を必ず呼ぶ。
 static bool s_dx_initialized = false;
+
+// 現在の論理解像度 (screen 命令で変更可)
+static int s_screen_w = 640;
+static int s_screen_h = 480;
 
 int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
 {
@@ -21,7 +28,9 @@ int hgio_dx_init( int mode, int sx, int sy, void * /*hwnd*/ )
 
     // ウィンドウモード固定 (Phase 1 MVP)
     ChangeWindowMode( TRUE );
-    SetGraphMode( sx > 0 ? sx : 640, sy > 0 ? sy : 480, 32 );
+    s_screen_w = sx > 0 ? sx : 640;
+    s_screen_h = sy > 0 ? sy : 480;
+    SetGraphMode( s_screen_w, s_screen_h, 32 );
 
 #ifdef __ANDROID__
     //  Android は物理画面固定。DxLib の FitScaling の意味に注意:
@@ -66,6 +75,41 @@ int hgio_dx_process_message( void )
 int hgio_dx_getkey( int keycode )
 {
     return CheckHitKey( keycode );
+}
+
+int  hgio_dx_get_screen_width( void )  { return s_screen_w; }
+int  hgio_dx_get_screen_height( void ) { return s_screen_h; }
+
+void hgio_dx_set_screen_size( int w, int h )
+{
+    if ( w <= 0 || h <= 0 ) return;
+    s_screen_w = w;
+    s_screen_h = h;
+    SetGraphMode( w, h, 32 );
+    //  Android は SetGraphMode 後に FitScaling 再適用 (内部 FSScalingMode は維持される想定だが念のため)
+}
+
+int hgio_dx_get_display_size( int *pw, int *ph )
+{
+    int dw = 0, dh = 0;
+#ifdef __ANDROID__
+    if ( GetAndroidDisplayResolution( &dw, &dh ) == 0 && dw > 0 && dh > 0 ) {
+        if ( pw ) *pw = dw;
+        if ( ph ) *ph = dh;
+        return 0;
+    }
+#elif defined(_WIN32)
+    dw = GetSystemMetrics( SM_CXSCREEN );
+    dh = GetSystemMetrics( SM_CYSCREEN );
+    if ( dw > 0 && dh > 0 ) {
+        if ( pw ) *pw = dw;
+        if ( ph ) *ph = dh;
+        return 0;
+    }
+#endif
+    if ( pw ) *pw = 640;
+    if ( ph ) *ph = 480;
+    return -1;
 }
 
 void hgio_dx_set_screen_fit( int mode )

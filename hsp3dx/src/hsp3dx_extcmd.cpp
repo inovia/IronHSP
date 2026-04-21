@@ -695,9 +695,15 @@ static int cmdfunc_extcmd( int cmd )
                 s_buf_w[p1] = p2;
                 s_buf_h[p1] = p3;
             } else {
-                //  screen 0 または bgscr: Phase 1.5 では ID=0 以外はエラー、
-                //  ID=0 の場合はサイズ変更を無視 (起動時 640x480 固定)
+                //  screen 0 または bgscr
+                //  Phase 4.i: w/h を実際に反映して SetGraphMode 呼び直し。
+                //  w または h が 0/負 の場合は端末のネイティブ解像度を採用。
                 if ( p1 != 0 ) throw HSPERR_ILLEGAL_FUNCTION;
+                int nw = p2, nh = p3;
+                if ( nw <= 0 || nh <= 0 ) {
+                    hgio_dx_get_display_size( &nw, &nh );
+                }
+                hgio_dx_set_screen_size( nw, nh );
             }
             break;
         }
@@ -1006,8 +1012,22 @@ static int cmdfunc_extcmd( int cmd )
         //         2: アスペクト比維持 (letterbox) ... Android のみ、hgio_dx 側で処理
         {
             int flag = code_getdi( 1 );
-            extern void hgio_dx_set_screen_fit( int mode );
             hgio_dx_set_screen_fit( flag );
+            break;
+        }
+
+    case 0x123:                     // dx_getdispsize wvar, hvar
+        //  端末/デスクトップのネイティブ解像度を取得。
+        //  Android: GetAndroidDisplayResolution
+        //  Win:     GetSystemMetrics(SM_CXSCREEN/SM_CYSCREEN)
+        {
+            PVal *pvw = nullptr, *pvh = nullptr;
+            APTR aw = code_getva( &pvw );
+            APTR ah = code_getva( &pvh );
+            int dw = 0, dh = 0;
+            hgio_dx_get_display_size( &dw, &dh );
+            code_setva( pvw, aw, TYPE_INUM, &dw );
+            code_setva( pvh, ah, TYPE_INUM, &dh );
             break;
         }
 
@@ -2055,12 +2075,12 @@ static void *reffunc_function( int *type_res, int arg )
             case 5: reffunc_intfunc_ivalue = s_cur_y; break;         // current draw y
             case 6: reffunc_intfunc_ivalue = 0; break;               // window x top-left (not tracked)
             case 7: reffunc_intfunc_ivalue = 0; break;               // window y top-left
-            case 8: reffunc_intfunc_ivalue = 640; break;             // view width  (Phase 1 は 640 固定)
-            case 9: reffunc_intfunc_ivalue = 480; break;             // view height (Phase 1 は 480 固定)
+            case 8: reffunc_intfunc_ivalue = hgio_dx_get_screen_width();  break;   // view width  (現在の論理解像度)
+            case 9: reffunc_intfunc_ivalue = hgio_dx_get_screen_height(); break;   // view height
             case 10: reffunc_intfunc_ivalue = s_cur_x; break;        // draw cursor x (= 4)
             case 11: reffunc_intfunc_ivalue = s_cur_y; break;        // draw cursor y
-            case 12: reffunc_intfunc_ivalue = 640; break;            // screen width
-            case 13: reffunc_intfunc_ivalue = 480; break;            // screen height
+            case 12: reffunc_intfunc_ivalue = hgio_dx_get_screen_width();  break; // screen width
+            case 13: reffunc_intfunc_ivalue = hgio_dx_get_screen_height(); break; // screen height
             case 21: reffunc_intfunc_ivalue = s_cur_window; break;   // current gsel target ID
             default: reffunc_intfunc_ivalue = 0; break;
             }
