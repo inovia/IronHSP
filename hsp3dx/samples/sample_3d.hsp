@@ -1,0 +1,79 @@
+;============================================================
+;   sample_3d.hsp — Phase 5.2 3D プリミティブデモ
+;   dx_setcamerapos / dx_setcameraperspective / dx_drawsphere3d / dx_drawcube3d
+;
+;   ビルド: ..\..\..\package\win32\hspcmp64.exe -i sample_3d.hsp
+;============================================================
+#bootopt hsp64 1
+#cmpopt utf8 1
+#include "iron_dxlib.as"
+
+    title "hsp3dx sample: 3D primitives"
+
+    ;  3D 背景色 (濃紺)
+    dx_setbgcolor3d 15, 20, 50
+
+    ;  透視投影セットアップ (視野角 60 度)
+    dx_setcameraperspective 60.0
+
+    ;  照明を OFF にして DifColor をフラット表示 (立体感より色優先のデモ用)
+    ;  ON にしたい場合は dx_setuselighting 1 + dx_setlightdir で調整
+    dx_setuselighting 0
+
+    ;  Z バッファ ON: 奥のオブジェクトが前のオブジェクトに隠れるように
+    dx_setzbuffer 1
+
+    t = 0.0
+
+*main_loop
+    redraw 0
+
+    ;  cls は ClearDrawScreen を呼ぶので、色バッファと Z バッファを両方クリアする。
+    ;  クリア色は dx_setbgcolor3d で事前設定した値。
+    cls
+
+    ;  ---- カメラをゆっくり回す (低めの視点で地平線が中央に来るように) ----
+    cam_r = 350.0
+    cx = cos(t) * cam_r
+    cz = sin(t) * cam_r
+    cy = 60.0 + sin(t * 0.5) * 20        ; 目線は cubes と同じくらいの高さ
+    dx_setcamerapos cx, cy, cz, 0, 20, 0  ; やや上目を注視
+
+    ;  ---- 中央に赤い球 ----
+    dx_drawsphere3d 0, 0, 0, 60, 20, 0xFF5050, 0x000000, 1
+
+    ;  ---- 周囲に 6 個の色付きキューブ ----
+    repeat 6
+        a = cnt * 60 + t * 30
+        x = cos(0.0174 * a) * 180
+        z = sin(0.0174 * a) * 180
+        y = sin(t * 2 + cnt) * 30
+        col = 0x4080FF
+        if cnt = 0 : col = 0xFF8040
+        if cnt = 1 : col = 0x80FF40
+        if cnt = 2 : col = 0x40FFFF
+        if cnt = 3 : col = 0xFF40FF
+        if cnt = 4 : col = 0xFFFF40
+        if cnt = 5 : col = 0xFF4040
+        dx_drawcube3d x - 25, y - 25, z - 25, x + 25, y + 25, z + 25, col, 0x000000, 1
+    loop
+
+    ;  ---- 下に緑の地面キューブ (大きく薄い) ----
+    dx_drawcube3d -300, -80, -300, 300, -60, 300, 0x206040, 0x000000, 1
+
+    ;  ---- 2D 文字 HUD (3D 上にオーバーレイ) ----
+    color 255, 255, 255
+    font "MS Gothic", 16, 1
+    pos 10, 10  : mes "hsp3dx Phase 5.2: 3D primitives"
+    pos 10, 30  : mes "sphere + 6 rotating cubes + floor"
+    pos 10, 50  : mes "camera orbits the scene"
+    pos 10, 460 : mes "[ESC] quit"
+
+    redraw 1
+
+    getkey esc_p, 27
+    if esc_p : end
+
+    t = t + 0.01
+    await 16
+    goto *main_loop

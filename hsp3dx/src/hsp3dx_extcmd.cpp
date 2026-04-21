@@ -845,6 +845,222 @@ static int cmdfunc_extcmd( int cmd )
             break;
         }
 
+    //  ============================================================
+    //  Phase 5.2: 3D プリミティブ / カメラ
+    //  ============================================================
+
+    case 0x130:                     // dx_setcamerapos cx,cy,cz, tx,ty,tz
+        {
+            double cx = code_getdd( 0.0 );
+            double cy = code_getdd( 0.0 );
+            double cz = code_getdd( -200.0 );
+            double tx = code_getdd( 0.0 );
+            double ty = code_getdd( 0.0 );
+            double tz = code_getdd( 0.0 );
+            SetCameraPositionAndTarget_UpVecY(
+                VGet( (float)cx, (float)cy, (float)cz ),
+                VGet( (float)tx, (float)ty, (float)tz ) );
+            break;
+        }
+
+    case 0x131:                     // dx_setcameraperspective fov_deg
+        {
+            double fov_deg = code_getdd( 60.0 );
+            double fov_rad = fov_deg * 3.14159265358979 / 180.0;
+            SetupCamera_Perspective( (float)fov_rad );
+            break;
+        }
+
+    case 0x132:                     // dx_drawsphere3d x,y,z,r,div,difcol,spccol,fill
+        {
+            double x = code_getdd( 0.0 );
+            double y = code_getdd( 0.0 );
+            double z = code_getdd( 0.0 );
+            double r = code_getdd( 30.0 );
+            int div = code_getdi( 16 );
+            int difcol = code_getdi( -1 );
+            int spccol = code_getdi( 0xFFFFFF );
+            int fill = code_getdi( 1 );
+            //  HSP RGB 16進リテラル (0xRRGGBB) を DxLib 形式に変換。
+            //  s_cur_color は既に DxLib 形式なので -1 (未指定) ならそれを使う。
+            unsigned int dx_dif = ( difcol < 0 )
+                ? s_cur_color
+                : (unsigned int)GetColor( (difcol >> 16) & 0xFF, (difcol >> 8) & 0xFF, difcol & 0xFF );
+            unsigned int dx_spc = (unsigned int)GetColor(
+                (spccol >> 16) & 0xFF, (spccol >> 8) & 0xFF, spccol & 0xFF );
+            DrawSphere3D( VGet( (float)x, (float)y, (float)z ),
+                          (float)r, div, dx_dif, dx_spc, fill );
+            break;
+        }
+
+    case 0x133:                     // dx_drawcube3d x1,y1,z1, x2,y2,z2, difcol, spccol, fill
+        {
+            double x1 = code_getdd( -50.0 );
+            double y1 = code_getdd( -50.0 );
+            double z1 = code_getdd( -50.0 );
+            double x2 = code_getdd(  50.0 );
+            double y2 = code_getdd(  50.0 );
+            double z2 = code_getdd(  50.0 );
+            int difcol = code_getdi( -1 );
+            int spccol = code_getdi( 0xFFFFFF );
+            int fill = code_getdi( 1 );
+            unsigned int dx_dif = ( difcol < 0 )
+                ? s_cur_color
+                : (unsigned int)GetColor( (difcol >> 16) & 0xFF, (difcol >> 8) & 0xFF, difcol & 0xFF );
+            unsigned int dx_spc = (unsigned int)GetColor(
+                (spccol >> 16) & 0xFF, (spccol >> 8) & 0xFF, spccol & 0xFF );
+            DrawCube3D( VGet( (float)x1, (float)y1, (float)z1 ),
+                        VGet( (float)x2, (float)y2, (float)z2 ),
+                        dx_dif, dx_spc, fill );
+            break;
+        }
+
+    case 0x134:                     // dx_setbgcolor3d r,g,b
+        {
+            int r = code_getdi( 0 );
+            int g = code_getdi( 0 );
+            int b = code_getdi( 0 );
+            SetBackgroundColor( r, g, b );
+            break;
+        }
+
+    case 0x135:                     // dx_setuselighting flag
+        {
+            int flag = code_getdi( 1 );
+            SetUseLighting( flag );
+            break;
+        }
+
+    case 0x136:                     // dx_setlightdir dx,dy,dz
+        {
+            double dx = code_getdd( -1.0 );
+            double dy = code_getdd( -1.0 );
+            double dz = code_getdd(  1.0 );
+            SetLightDirection( VGet( (float)dx, (float)dy, (float)dz ) );
+            break;
+        }
+
+    case 0x137:                     // dx_setzbuffer flag
+        {
+            int flag = code_getdi( 1 );
+            SetUseZBuffer3D( flag );
+            SetWriteZBuffer3D( flag );
+            break;
+        }
+
+    //  ============================================================
+    //  Phase 5.2: 3D モデル (MV1)
+    //  ============================================================
+
+    case 0x140:                     // dx_mv1load "file"  → stat にハンドル
+        {
+            char *fname = code_gets();
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+            int h = MV1LoadModel( wfname );
+            ctx->stat = h;      // -1 が失敗、0 以上がハンドル
+            break;
+        }
+
+    case 0x141:                     // dx_mv1draw handle
+        {
+            int h = code_getdi( 0 );
+            MV1DrawModel( h );
+            break;
+        }
+
+    case 0x142:                     // dx_mv1setpos handle, x, y, z
+        {
+            int h = code_getdi( 0 );
+            double x = code_getdd( 0.0 );
+            double y = code_getdd( 0.0 );
+            double z = code_getdd( 0.0 );
+            MV1SetPosition( h, VGet( (float)x, (float)y, (float)z ) );
+            break;
+        }
+
+    case 0x143:                     // dx_mv1setrot handle, rx, ry, rz (radians)
+        {
+            int h = code_getdi( 0 );
+            double rx = code_getdd( 0.0 );
+            double ry = code_getdd( 0.0 );
+            double rz = code_getdd( 0.0 );
+            MV1SetRotationXYZ( h, VGet( (float)rx, (float)ry, (float)rz ) );
+            break;
+        }
+
+    case 0x144:                     // dx_mv1setscale handle, sx, sy, sz
+        {
+            int h = code_getdi( 0 );
+            double sx = code_getdd( 1.0 );
+            double sy = code_getdd( 1.0 );
+            double sz = code_getdd( 1.0 );
+            MV1SetScale( h, VGet( (float)sx, (float)sy, (float)sz ) );
+            break;
+        }
+
+    case 0x145:                     // dx_mv1delete handle
+        {
+            int h = code_getdi( 0 );
+            MV1DeleteModel( h );
+            break;
+        }
+
+    //  ============================================================
+    //  Phase 5.2: 動画再生
+    //  ============================================================
+
+    case 0x150:                     // dx_loadmovie "file", ID
+        {
+            char *fname = code_gets();
+            int id = code_getdi( 1 );
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_ILLEGAL_FUNCTION;
+
+            wchar_t wfname[512];
+            hsp3dx_utf8_to_wide( fname, wfname, 512 );
+
+            if ( s_buf_handle[id] != -1 ) DeleteGraph( s_buf_handle[id] );
+            int h = LoadGraph( wfname );
+            if ( h == -1 ) throw HSPERR_FILE_IO;
+            s_buf_handle[id] = h;
+            int w = 0, hh = 0;
+            GetGraphSize( h, &w, &hh );
+            s_buf_w[id] = w;
+            s_buf_h[id] = hh;
+            ctx->stat = id;
+            break;
+        }
+
+    case 0x151:                     // dx_playmoviegraph ID
+        {
+            int id = code_getdi( 1 );
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_ILLEGAL_FUNCTION;
+            int h = s_buf_handle[id];
+            if ( h == -1 ) throw HSPERR_FILE_IO;
+            PlayMovieToGraph( h );
+            break;
+        }
+
+    case 0x152:                     // dx_pausemoviegraph ID
+        {
+            int id = code_getdi( 1 );
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_ILLEGAL_FUNCTION;
+            int h = s_buf_handle[id];
+            if ( h == -1 ) throw HSPERR_FILE_IO;
+            PauseMovieToGraph( h );
+            break;
+        }
+
+    case 0x153:                     // dx_stopmoviegraph ID
+        {
+            int id = code_getdi( 1 );
+            if ( id <= 0 || id >= HSP3DX_MAX_BUFFERS ) throw HSPERR_ILLEGAL_FUNCTION;
+            int h = s_buf_handle[id];
+            if ( h == -1 ) throw HSPERR_FILE_IO;
+            PauseMovieToGraph( h );   // DxLib には StopMovieToGraph は無く、Pause で代用
+            break;
+        }
+
     default:
         throw HSPERR_UNSUPPORTED_FUNCTION;
     }

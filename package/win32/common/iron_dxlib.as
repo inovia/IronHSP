@@ -32,4 +32,28 @@
 #cmd dx_setwaitvsync   $120     ; dx_setwaitvsync flag — VSync 待機 ON/OFF
 #cmd dx_setfullscreen  $121     ; dx_setfullscreen flag — フルスクリーン切替
 
+;  ---- Phase 5.2: 3D プリミティブ / カメラ ----
+#cmd dx_setcamerapos   $130     ; dx_setcamerapos cx, cy, cz, tx, ty, tz  視点 (cx,cy,cz) → 注視点 (tx,ty,tz)
+#cmd dx_setcameraperspective $131  ; dx_setcameraperspective fov_deg  視野角 (度、DxLib は内部で rad 換算)
+#cmd dx_drawsphere3d   $132     ; dx_drawsphere3d x, y, z, r, divnum, difcol, spccol, fill
+#cmd dx_drawcube3d     $133     ; dx_drawcube3d x1,y1,z1, x2,y2,z2, difcol, spccol, fill
+#cmd dx_setbgcolor3d   $134     ; dx_setbgcolor3d r, g, b  3D 背景色
+#cmd dx_setuselighting $135     ; dx_setuselighting flag — 照明 ON/OFF (OFF で DifColor がフラット表示)
+#cmd dx_setlightdir    $136     ; dx_setlightdir dx, dy, dz — 平行光源の方向
+#cmd dx_setzbuffer     $137     ; dx_setzbuffer flag — Z バッファ (深度テスト) ON/OFF
+
+;  ---- Phase 5.2: 3D モデル ----
+#cmd dx_mv1load        $140     ; dx_mv1load "file" — stat にハンドル (-1=失敗)
+#cmd dx_mv1draw        $141     ; dx_mv1draw handle
+#cmd dx_mv1setpos      $142     ; dx_mv1setpos handle, x, y, z
+#cmd dx_mv1setrot      $143     ; dx_mv1setrot handle, rx, ry, rz (radians)
+#cmd dx_mv1setscale    $144     ; dx_mv1setscale handle, sx, sy, sz
+#cmd dx_mv1delete      $145     ; dx_mv1delete handle
+
+;  ---- Phase 5.2: 動画再生 ----
+#cmd dx_loadmovie      $150     ; dx_loadmovie "file", ID — graph handle として buffer[ID] に
+#cmd dx_playmoviegraph $151     ; dx_playmoviegraph ID
+#cmd dx_pausemoviegraph $152    ; dx_pausemoviegraph ID
+#cmd dx_stopmoviegraph $153     ; dx_stopmoviegraph ID
+
 #endif

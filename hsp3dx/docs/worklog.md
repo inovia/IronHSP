@@ -6,6 +6,61 @@ hsp3dx プロジェクトのセッション単位の作業記録。リバース�
 
 ---
 
+## 2026-04-21 (Phase 5.2: 3D プリミティブ + MV1 モデル + 動画)
+
+### (これから commit) @ 20:13 — Phase 5.2: 3D 描画基礎
+
+**追加 dx_* 命令 (iron_dxlib.as + hsp3dx_extcmd.cpp)**
+- 3D プリミティブ / カメラ (0x130 台):
+  - `dx_setcamerapos cx,cy,cz, tx,ty,tz` — カメラ視点+注視点 (SetCameraPositionAndTarget_UpVecY)
+  - `dx_setcameraperspective fov_deg` — 透視投影 (SetupCamera_Perspective、度→rad 内部変換)
+  - `dx_drawsphere3d x,y,z,r,div,difcol,spccol,fill` — 球体
+  - `dx_drawcube3d x1..z2, difcol,spccol,fill` — 直方体
+  - `dx_setbgcolor3d r,g,b` — 3D 背景色 (SetBackgroundColor)
+  - `dx_setuselighting flag` — 照明 ON/OFF
+  - `dx_setlightdir dx,dy,dz` — 平行光源方向
+  - `dx_setzbuffer flag` — Z バッファ (SetUseZBuffer3D + SetWriteZBuffer3D)
+- 3D モデル (0x140 台、MV1 format):
+  - `dx_mv1load "file"` — MV1LoadModel、stat にハンドル
+  - `dx_mv1draw handle` / `dx_mv1setpos h,x,y,z` / `dx_mv1setrot h,rx,ry,rz` /
+    `dx_mv1setscale h,sx,sy,sz` / `dx_mv1delete h`
+- 動画再生 (0x150 台):
+  - `dx_loadmovie "file", ID` — LoadGraph 経由で buffer[ID] に
+  - `dx_playmoviegraph ID` / `dx_pausemoviegraph ID` / `dx_stopmoviegraph ID`
+
+**サンプル** `sample_3d.hsp`:
+- 濃紺 3D 背景、透視投影 60 度
+- 中央に赤い球、周囲を回転する 6 色キューブ、下に緑の地面
+- カメラが周回しつつ上下揺れる
+- 2D テキスト HUD を 3D 上にオーバーレイ
+
+**詰まりどころ (ユーザー実機フィードバックで段階修正)**
+
+1. **キューブが白い** — `DrawCube3D` の DifColor は DxLib `GetColor()` pack 形式が必要。
+   HSP の `0xRRGGBB` リテラルをそのまま渡すと変な解釈に。修正: `GetColor((col>>16)&0xFF, (col>>8)&0xFF, col&0xFF)` 経由。
+2. **照明 OFF でも spccol が加算される** — `DrawCube3D` の SpcColor は照明無関係に加算挙動。
+   0xFFFFFF だと白くなる。修正: spccol = 0x000000 を渡す。
+3. **地面が画面上部に** — 実は描画順序の問題ではなく、Z バッファ OFF で後から描いた
+   地面が前のオブジェクトを上書きしていた。修正: `dx_setzbuffer 1`。
+4. **Z バッファ有効で描画がちらつく** — Z バッファがクリアされておらず前フレームの
+   深度値が残っていた。修正: `boxf` を `cls` に変更 (DxLib ClearDrawScreen は色+Z を同時クリア)。
+5. **カメラ角度が急で地面が中央までせり出して見える** — カメラ y=150 → y=60 に下げ、
+   目線を地平線近くに調整。
+
+**メモリ追加**
+- `reference_dxlib_3d_gotchas.md` — 上記 5 点の落とし穴を記録 (次回再発防止)
+
+**実機確認**
+- 球・キューブ・地面すべて正しい色で描画、Z 深度も正常 ✅
+- 2D 文字 HUD が 3D シーン上に正しくオーバーレイ表示
+
+**Phase 5.2 残 (将来)**
+- MV1 モデルの実データ読み込み検証 (x file / PMD 等、テストモデル未配置)
+- 動画再生実機検証 (テスト動画未配置)
+- ネットワーク / シェーダー (本格的に必要になったとき)
+
+---
+
 ## 2026-04-21 (Phase 5.1: dx_* 命令公開基盤)
 
 ### (これから commit) @ 20:12 — Phase 5.1: iron_dxlib.as + dx_* 命令群
