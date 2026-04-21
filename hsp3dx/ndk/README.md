@@ -5,7 +5,7 @@ hsp3dx の **Android 版 APK ビルド用テンプレート** (Phase 4 完了、
 Win 版と同じ `.ax` バイナリを Android 端末で動かすための NativeActivity ベースの
 Android Studio / Gradle プロジェクトです。
 
-## 現状 (Phase 4.a〜4.g 完了)
+## 現状 (Phase 4.a〜4.l 完了、2026-04-21 20:52)
 
 | サブフェーズ | 内容 | 状態 |
 |---|---|---|
@@ -15,10 +15,15 @@ Android Studio / Gradle プロジェクトです。
 | 4.f | タッチ入力 (mousex/mousey/stick で取得可) + 画面フィット letterbox | ✅ |
 | 4.f-ext | `dx_setscreenfit` で letterbox / ストレッチ切替 | ✅ |
 | 4.g | HTTP 本実装 (HspHttp.java + JNI → HttpURLConnection) | ✅ |
+| 4.h | ドキュメント (この README + hsp3dx_guide.html Android 章) | ✅ |
+| 4.i | `screen 0, w, h` で論理解像度切替、`dx_getdispsize` でネイティブ取得 | ✅ |
+| 4.j | マルチタッチ (`dx_getmtouchnum` / `dx_getmtouch`) | ✅ |
+| 4.k | WebSocket 本実装 (OkHttp 3.14.9 + HspWebSocket.java) | ✅ |
+| 4.l | HTTP multipart/form-data アップロード (OkHttp MultipartBody) | ✅ |
 
-未着手:
-- WebSocket (dx_ws_*) は Android では stub 実装のまま (Phase 5.4c 相当)
-- multipart/form-data アップロード (Phase 4.x)
+残タスク:
+- Cookie 永続 / HTTP レスポンスヘッダ個別取得 / Basic 認証ヘルパ
+- 画面回転時のリロード
 
 ## 動作環境
 
@@ -137,35 +142,56 @@ adb shell am start -n com.ironhsp.hsp3dx/android.app.NativeActivity
 
 ### 画面サイズとフィット
 
-論理解像度は **640×480 固定**。物理画面にアスペクト比維持で letterbox 表示
-(上下 or 左右に黒帯) されます。ストレッチ表示に切替えたい場合:
+論理解像度の初期値は **640×480**。`screen 0, w, h` で任意サイズに変更でき、
+物理画面にはアスペクト比維持 letterbox (上下 or 左右に黒帯) で表示されます。
 
 ```hsp
-dx_setscreenfit 1   ; 0=比率維持(default) / 1=ストレッチ / 2=等倍(予約)
+; 縦長スマホ向け
+screen 0, 720, 1280
+
+; 端末ネイティブ解像度で 1:1 描画
+dx_getdispsize dw, dh
+screen 0, dw, dh
+
+; ショートカット (上と同じ)
+screen 0, 0, 0
+
+; ストレッチに切替 (比率無視で画面いっぱい)
+dx_setscreenfit 1      ; 0=比率維持(default) / 1=ストレッチ / 2=等倍(予約)
 ```
 
 ### タッチ入力
 
-`mousex` / `mousey` / `stick` (bit 0x40 = 左ボタン扱い) でタッチ座標・状態を取得。
-物理座標は内部で論理 640×480 系に変換済みです。マルチタッチは現状未対応。
+単一指は HSP 標準の `mousex` / `mousey` / `stick` (bit 0x40 = 左ボタン扱い) でそのまま取得可。
+マルチタッチは以下で:
 
-### HTTP
+```hsp
+dx_getmtouchnum           ; stat = 現在のタッチ本数
+n = stat
+repeat n
+    dx_getmtouch cnt, tx, ty    ; cnt 番目のタッチ座標
+    ; ピンチ/ズーム判定などに活用
+loop
+```
 
-`dx_http_get` / `dx_http_post` 等が JNI 経由で `HttpURLConnection` を呼びます。
-`AndroidManifest.xml` には `<uses-permission android:name="android.permission.INTERNET"/>`
-が必要 (テンプレで既に設定済み)。
+### HTTP / WebSocket / ファイルアップロード
 
-HTTPS のみのサイト用に `android:usesCleartextTraffic="true"` も既定で ON
-(HTTP 通信も許可)。不要な場合は削除してください。
+| 機能 | 命令 | 実装 |
+|---|---|---|
+| HTTP REST | `dx_http_get/post/put/delete/patch` | HttpURLConnection (Android 標準) |
+| ファイル DL | `dx_http_download` | HttpURLConnection |
+| WebSocket | `dx_ws_connect/send_text/recv/close` 等 | OkHttp 3.14.9 |
+| multipart アップロード | `dx_http_mp_begin/add_text/add_file/post/end` | OkHttp MultipartBody |
+
+いずれも `INTERNET` permission が必要 (テンプレで設定済み)。
+HTTPS/HTTP 両用に `android:usesCleartextTraffic="true"` も既定で ON。
 
 ### 未対応
 
-- マルチタッチ (現状 1 本指のみ)
-- 画面回転時のリロード (固定: 縦のみ対応)
-- WebSocket (dx_ws_*)
-- multipart/form-data アップロード
-- Cookie 持続 (セッション)
+- 画面回転時のリロード (固定: アプリ全体が再起動する)
+- Cookie 持続 (セッション) — セッションあたり 1 プロセス内のみ
 - Basic 認証ヘルパの base64 エンコード
+- HTTP レスポンスヘッダ個別取得 (`dx_http_get_res_header` は Win のみ)
 
 ## 動作確認済みサンプル
 
@@ -177,3 +203,8 @@ HTTPS のみのサイト用に `android:usesCleartextTraffic="true"` も既定�
 | sample_json | picojson パース / 構築 | ✅ |
 | sample_http | httpbin.org GET/POST | ✅ |
 | sample_touch | タッチ入力 + 画面サイズ | ✅ |
+| sample_portrait | 縦長 720×1280 / dx_getdispsize | ✅ |
+| sample_resswitch | 5 秒ごとの解像度自動切替デモ | ✅ |
+| sample_mtouch | マルチタッチ (各指に色、2 本指の距離) | ✅ |
+| sample_ws | WebSocket echo (wss://ws.ifelse.io/) | ✅ |
+| sample_mp_upload | multipart/form-data アップロード (httpbin.org/post) | ✅ |

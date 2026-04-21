@@ -499,27 +499,59 @@ dx_ConvWorldPosToScreenPos out, world  ; VECTOR 戻り → out に代入
 
 <table>
   <tr><th>機能</th><th>HSP 側の書き方</th><th>備考</th></tr>
-  <tr><td>タッチ入力 (座標)</td><td><code>tx = mousex : ty = mousey</code></td><td>論理 640×480 系で取得</td></tr>
-  <tr><td>タッチ入力 (押下判定)</td><td><code>stick st, 64 : btn = (st &amp; 64) != 0</code></td><td>bit 0x40 = 左クリック = タッチ中</td></tr>
+  <tr><td>タッチ入力 (単指)</td><td><code>tx = mousex : ty = mousey : stick st, 64</code></td><td>stick の bit 0x40 で押下判定</td></tr>
+  <tr><td>マルチタッチ</td><td><code>dx_getmtouchnum : dx_getmtouch i, tx, ty</code></td><td>最大 5 本指</td></tr>
+  <tr><td>画面解像度変更</td><td><code>screen 0, 720, 1280</code></td><td>途中呼びも OK、letterbox で画面にフィット</td></tr>
+  <tr><td>端末ネイティブ解像度</td><td><code>dx_getdispsize dw, dh</code> または <code>screen 0, 0, 0</code></td><td>1:1 ピクセル描画可</td></tr>
   <tr><td>画面フィット切替</td><td><code>dx_setscreenfit flag</code></td><td>0=比率維持 letterbox (default) / 1=ストレッチ</td></tr>
-  <tr><td>HTTP</td><td><code>dx_http_get "https://..."</code></td><td>JNI 経由で HttpURLConnection を呼ぶ</td></tr>
-  <tr><td>Back キー判定</td><td><code>getkey esc, 27</code></td><td>Android Back キーが ESC (VK_ESCAPE) にマッピング</td></tr>
+  <tr><td>HTTP</td><td><code>dx_http_get "https://..."</code></td><td>HttpURLConnection 経由</td></tr>
+  <tr><td>WebSocket</td><td><code>dx_ws_connect "wss://..."</code> / <code>dx_ws_send_text</code> / <code>dx_ws_recv</code></td><td>OkHttp 3.14.9</td></tr>
+  <tr><td>multipart アップロード</td><td><code>dx_http_mp_begin</code> → <code>add_text/add_file</code> → <code>mp_post</code> → <code>mp_end</code></td><td>OkHttp MultipartBody</td></tr>
+  <tr><td>Back キー判定</td><td><code>getkey esc, 27</code></td><td>Android Back キーが ESC にマッピング</td></tr>
 </table>
 
 <h3>画面サイズと座標系</h3>
 
 <p>
-  Android の論理解像度は <strong>640×480 固定</strong>。物理画面にはアスペクト比維持 letterbox
-  (上下または左右に黒帯) で表示されます。<code>mousex</code> / <code>mousey</code> 等の
-  タッチ座標も論理 640×480 系で返るので、Win 版と同じ座標計算がそのまま使えます。
+  論理解像度は <code>screen 0, w, h</code> で任意に変更可能 (初期値 640×480)。
+  物理画面にはアスペクト比維持 letterbox (上下または左右に黒帯) で表示され、
+  <code>mousex</code> / <code>mousey</code> 等のタッチ座標も論理座標系で返ります。
 </p>
 
-<p>
-  ストレッチ表示 (比率無視で画面いっぱい) にしたい場合:
-</p>
+<pre><code>; 縦長スマホ向け
+screen 0, 720, 1280
 
-<pre><code>; スクリプト冒頭で呼ぶと以降の描画がストレッチ表示に
+; 端末ネイティブ解像度で 1:1 描画
+dx_getdispsize dw, dh
+screen 0, dw, dh
+
+; ショートカット (同上)
+screen 0, 0, 0
+
+; 比率無視でストレッチ (画面いっぱい)
 dx_setscreenfit 1
+</code></pre>
+
+<h3>マルチタッチの例 (2 本指の距離)</h3>
+
+<pre><code>dx_getmtouchnum
+n = stat
+if n &gt;= 2 {
+    dx_getmtouch 0, x0, y0
+    dx_getmtouch 1, x1, y1
+    dist = sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0))
+    ; dist がピンチ量の基礎
+}
+</code></pre>
+
+<h3>multipart/form-data アップロードの例</h3>
+
+<pre><code>dx_http_mp_begin
+dx_http_mp_add_text "description", "photo of my dog"
+dx_http_mp_add_file "photo", "dog.jpg", "image/jpeg", ""
+dx_http_mp_post "https://api.example.com/upload", resp
+status = stat                ; HTTP status
+dx_http_mp_end
 </code></pre>
 
 <h3>開発中のサンプル差し替え (APK リビルド不要)</h3>
@@ -542,11 +574,9 @@ adb shell am start -n com.ironhsp.hsp3dx/android.app.NativeActivity
 
 <h3>制限事項</h3>
 <ul>
-  <li>マルチタッチ未対応 (1 本指のみ)</li>
-  <li>WebSocket (<code>dx_ws_*</code>) は Android では stub 実装</li>
-  <li>multipart/form-data アップロード未対応 (Phase 4.x)</li>
   <li>Cookie 永続化・Basic 認証ヘルパ未実装</li>
-  <li>画面回転時のリロード未対応</li>
+  <li>HTTP レスポンスヘッダ個別取得 (<code>dx_http_get_res_header</code>) は Win 版のみ</li>
+  <li>画面回転時のリロード未対応 (アプリが再起動される)</li>
 </ul>
 
 <h2 id="reference">12. リファレンス</h2>

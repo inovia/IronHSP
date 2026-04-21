@@ -26,6 +26,11 @@ HSP3 + **DxLib** を同じ `.ax` 1 本で Windows / iOS / Android を動かす�
 | Phase 4.a-c | Android ビルド骨格 (NDK / CMake / NativeActivity) | ✅ |
 | Phase 4.d-f | Android サンプル検証 / タッチ入力 / 画面フィット | ✅ |
 | Phase 4.g | Android HTTP 本実装 (JNI → HttpURLConnection) | ✅ |
+| Phase 4.h | Android ドキュメント | ✅ |
+| Phase 4.i | `screen` 命令で論理解像度切替 / `dx_getdispsize` | ✅ |
+| Phase 4.j | Android マルチタッチ (`dx_getmtouchnum` / `dx_getmtouch`) | ✅ |
+| Phase 4.k | Android WebSocket 本実装 (OkHttp 3.14.9) | ✅ |
+| Phase 4.l | HTTP multipart/form-data アップロード | ✅ |
 | Phase 3 | iOS 版 `libhsp3dx.a` + Xcode テンプレ | 未着手 |
 
 詳細: [ndk/README.md](ndk/README.md) (Android)
