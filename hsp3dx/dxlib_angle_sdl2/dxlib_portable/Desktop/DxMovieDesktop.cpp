@@ -41,6 +41,70 @@ namespace DxLib
 {
 #endif
 
+// --- Theora backend (bundled libtheoradec 経由) ------------------------
+// DxMovieTheoraDesktop.cpp 側で実装。.ogv / Ogg Theora の .ogg を扱う。
+struct TheoraMovie ;
+extern "C" TheoraMovie *Desktop_TheoraOpen( const char *path, int *out_w, int *out_h ) ;
+extern "C" int  Desktop_TheoraReadFrame( TheoraMovie *m ) ;
+extern "C" void Desktop_TheoraSeekToStart( TheoraMovie *m ) ;
+extern "C" int  Desktop_TheoraFps( TheoraMovie *m, int *num, int *den ) ;
+extern "C" const unsigned char *Desktop_TheoraFrameBGRA( TheoraMovie *m, int *bytes ) ;
+extern "C" void Desktop_TheoraClose( TheoraMovie *m ) ;
+
+// Theora 経路で開いた GraphHandle を管理 (MF 側と competing しない前提で、
+// 同じ g_Movies に入れる設計も可能だが、MovieEntry が MF 固有なので分離)
+struct TheoraEntry {
+    TheoraMovie *mov            = nullptr ;
+    int          graph_handle   = -1 ;
+    int          width          = 0 ;
+    int          height         = 0 ;
+    int          state          = 0 ;   // 0=stopped, 1=playing, 2=paused
+    Uint32       play_start_ms  = 0 ;
+    Uint32       play_offset_ms = 0 ;
+    int          loop_flag      = 0 ;
+    int          volume_0_10000 = 10000 ;
+    double       frame_interval_ms = 0.0 ;
+    double       current_time_ms = 0.0 ;
+    int          last_update_ms = 0 ;
+    int          update_counter = 0 ;
+} ;
+static std::unordered_map<int, TheoraEntry *> g_TheoraMovies ;
+
+static bool desktop_movie_path_is_theora( const char *path )
+{
+    if ( !path ) return false ;
+    size_t n = std::strlen( path ) ;
+    if ( n >= 4 && path[ n-4 ] == '.' &&
+         ( path[ n-3 ] == 'o' || path[ n-3 ] == 'O' ) &&
+         ( path[ n-2 ] == 'g' || path[ n-2 ] == 'G' ) &&
+         ( path[ n-1 ] == 'v' || path[ n-1 ] == 'V' ) )
+        return true ;
+    // .ogg は Ogg Vorbis の可能性もあるが、ここでは movie 文脈 = Theora 想定
+    if ( n >= 4 && path[ n-4 ] == '.' &&
+         ( path[ n-3 ] == 'o' || path[ n-3 ] == 'O' ) &&
+         ( path[ n-2 ] == 'g' || path[ n-2 ] == 'G' ) &&
+         ( path[ n-1 ] == 'g' || path[ n-1 ] == 'G' ) )
+        return true ;
+    return false ;
+}
+
+static void desktop_theora_upload_frame( TheoraEntry *t )
+{
+    int bytes = 0 ;
+    const unsigned char *px = Desktop_TheoraFrameBGRA( t->mov, &bytes ) ;
+    if ( !px || bytes == 0 ) return ;
+    BASEIMAGE bi ;
+    std::memset( &bi, 0, sizeof( bi ) ) ;
+    NS_CreateARGB8ColorData( &bi.ColorData ) ;
+    bi.Width          = t->width ;
+    bi.Height         = t->height ;
+    bi.Pitch          = t->width * 4 ;
+    bi.GraphData      = ( void * )px ;
+    bi.MipMapCount    = 0 ;
+    bi.GraphDataCount = 0 ;
+    NS_ReCreateGraphFromBaseImage( &bi, t->graph_handle ) ;
+}
+
 #ifdef _WIN32
 
 // --- Windows Media Foundation backend ----------------------------------
@@ -199,6 +263,27 @@ extern int OpenMovieToGraph( const TCHAR *FileName, int FullColor )
     if ( !FileName ) return -1 ;
     const char *path = ( const char * )FileName ;  // TCHAR = char 前提
 
+    // 拡張子で Theora 経路か判定。Theora のみ対応 (.ogv / .ogg)
+    if ( desktop_movie_path_is_theora( path ) )
+    {
+        int w = 0, h = 0 ;
+        TheoraMovie *tm = Desktop_TheoraOpen( path, &w, &h ) ;
+        if ( !tm ) return -1 ;
+        int gh = NS_MakeGraph( w, h, TRUE ) ;
+        if ( gh < 0 ) { Desktop_TheoraClose( tm ) ; return -1 ; }
+
+        TheoraEntry *t = new TheoraEntry() ;
+        t->mov = tm ; t->graph_handle = gh ; t->width = w ; t->height = h ;
+        int num = 0, den = 1 ;
+        Desktop_TheoraFps( tm, &num, &den ) ;
+        t->frame_interval_ms = ( num > 0 ) ? ( 1000.0 * den / num ) : ( 1000.0 / 30.0 ) ;
+        g_TheoraMovies[ gh ] = t ;
+
+        // 初期フレーム表示
+        if ( Desktop_TheoraReadFrame( tm ) == 0 ) desktop_theora_upload_frame( t ) ;
+        return gh ;
+    }
+
     int w = 0, h = 0 ;
     LONGLONG dur = 0 ;
     IMFSourceReader *reader = desktop_movie_open_reader( path, &w, &h, &dur ) ;
@@ -240,6 +325,16 @@ extern int OpenMovieToGraphWithStrLen( const TCHAR *FileName, size_t FileNameLen
 extern int PlayMovieToGraph( int GraphHandle, int PlayType, int SysPlay )
 {
     (void)SysPlay;
+    // Theora 経路
+    auto ti = g_TheoraMovies.find( GraphHandle ) ;
+    if ( ti != g_TheoraMovies.end() )
+    {
+        TheoraEntry *t = ti->second ;
+        t->loop_flag = ( PlayType & DX_PLAYTYPE_LOOPBIT ) ? 1 : 0 ;
+        t->state = 1 ;
+        t->play_start_ms = SDL_GetTicks() ;
+        return 0 ;
+    }
     auto it = g_Movies.find( GraphHandle ) ;
     if ( it == g_Movies.end() ) return -1 ;
     MovieEntry *m = it->second ;
@@ -253,6 +348,17 @@ extern int PlayMovieToGraph( int GraphHandle, int PlayType, int SysPlay )
 extern int PauseMovieToGraph( int GraphHandle, int SysPause )
 {
     (void)SysPause;
+    auto ti = g_TheoraMovies.find( GraphHandle ) ;
+    if ( ti != g_TheoraMovies.end() )
+    {
+        TheoraEntry *t = ti->second ;
+        if ( t->state == 1 ) {
+            Uint32 elapsed = SDL_GetTicks() - t->play_start_ms ;
+            t->play_offset_ms += elapsed ;
+            t->state = 2 ;
+        }
+        return 0 ;
+    }
     auto it = g_Movies.find( GraphHandle ) ;
     if ( it == g_Movies.end() ) return -1 ;
     MovieEntry *m = it->second ;
@@ -266,6 +372,9 @@ extern int PauseMovieToGraph( int GraphHandle, int SysPause )
 
 extern int GetMovieStateToGraph( int GraphHandle )
 {
+    auto ti = g_TheoraMovies.find( GraphHandle ) ;
+    if ( ti != g_TheoraMovies.end() )
+        return ti->second->state == 1 ? 1 : 0 ;
     auto it = g_Movies.find( GraphHandle ) ;
     if ( it == g_Movies.end() ) return -1 ;
     return it->second->state == 1 ? 1 : 0 ;  // playing?
@@ -273,6 +382,39 @@ extern int GetMovieStateToGraph( int GraphHandle )
 
 extern int UpdateMovieToGraph( int GraphHandle )
 {
+    // Theora 経路
+    auto ti = g_TheoraMovies.find( GraphHandle ) ;
+    if ( ti != g_TheoraMovies.end() )
+    {
+        TheoraEntry *t = ti->second ;
+        if ( t->state != 1 ) return 0 ;
+        Uint32 now = SDL_GetTicks() ;
+        double target_ms = ( double )t->play_offset_ms + ( now - t->play_start_ms ) ;
+        bool updated = false ;
+        while ( t->current_time_ms + t->frame_interval_ms <= target_ms )
+        {
+            int r = Desktop_TheoraReadFrame( t->mov ) ;
+            if ( r < 0 ) { t->state = 0 ; return -1 ; }
+            if ( r == 1 ) {
+                if ( t->loop_flag ) {
+                    Desktop_TheoraSeekToStart( t->mov ) ;
+                    t->play_start_ms = now ;
+                    t->play_offset_ms = 0 ;
+                    t->current_time_ms = 0 ;
+                    continue ;
+                } else { t->state = 0 ; return 0 ; }
+            }
+            t->current_time_ms += t->frame_interval_ms ;
+            updated = true ;
+        }
+        if ( updated ) {
+            desktop_theora_upload_frame( t ) ;
+            t->update_counter++ ;
+            t->last_update_ms = ( int )now ;
+        }
+        return 0 ;
+    }
+
     auto it = g_Movies.find( GraphHandle ) ;
     if ( it == g_Movies.end() ) return -1 ;
     MovieEntry *m = it->second ;

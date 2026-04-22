@@ -281,6 +281,8 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMaskDesktop.cpp
     # Tier 4b: Movie (Win=Media Foundation / Mac=AVFoundation / Linux/Web=pending stubs)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieDesktop.cpp
+    # D4b: Theora 追加経路 (Ogg Theora .ogv / .ogg を bundled libtheoradec で decode)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieTheoraDesktop.cpp
     # Tier 4e: GraphFilter (CPU 版 override)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsFilterDesktop.cpp
     # Tier 4f: Shader 基盤 (Desktop 固有 GLSL API、DxLib 本家 API は stub)
@@ -304,6 +306,8 @@ target_link_libraries(dxlib_portable_stage3 PUBLIC dx_zlib)
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_vorbisfile)
 # opusfile を DxSoundDesktop.cpp の Opus decode で使う
 target_link_libraries(dxlib_portable_stage3 PUBLIC dx_opusfile)
+# libtheoradec を DxMovieTheoraDesktop.cpp の Theora decode で使う
+target_link_libraries(dxlib_portable_stage3 PUBLIC dx_theoradec)
 dxlib_desktop_settings(dxlib_portable_stage3)
 # lib 側は DxGateway.cpp の sound / movie / libpng/jpeg 部分を殺して
 # stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。
