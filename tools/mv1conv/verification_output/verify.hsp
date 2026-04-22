@@ -1,0 +1,32 @@
+#include "iron_dxlib.as"
+
+notesel logtext
+noteadd "== mv1conv -> DxLib load =="
+
+dx_mv1load "duck_from_gpb.mv1"
+h = stat
+noteadd "duck_from_gpb: h=" + h
+if h >= 0 : dx_mv1delete h
+
+dx_mv1load "cube_from_usdz.mv1"
+h = stat
+noteadd "cube_from_usdz: h=" + h
+if h >= 0 : dx_mv1delete h
+
+dx_mv1load "cat_from_usdz.mv1"
+h = stat
+noteadd "cat_from_usdz: h=" + h
+if h >= 0 : dx_mv1delete h
+
+dx_mv1load "alicia_from_pmx.mv1"
+h = stat
+noteadd "alicia_from_pmx: h=" + h
+if h >= 0 : dx_mv1delete h
+
+dx_mv1load "skeleton_from_fbx.mv1"
+h = stat
+noteadd "skeleton_from_fbx: h=" + h
+if h >= 0 : dx_mv1delete h
+
+notesave "verify_result.txt"
+end

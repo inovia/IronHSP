@@ -95,9 +95,14 @@ WriteResult write_mv1(const ModelIR &ir) {
 
     const bool isSkin = !ir.bones.empty();
     // Frame 構成:
-    //   static: Frame[0] = "root" (全メッシュの container)
-    //   skin:   Frame[0] = "root" (container)、Frame[1..N] = bones[0..N-1]
-    const int frameNum = isSkin ? (1 + static_cast<int>(ir.bones.size())) : 1;
+    //   static: Frame[0] = "root" = mesh container (1 frame)
+    //   skin:   Frame[0] = "root" (empty)
+    //           Frame[1] = mesh container (PandN + UseSkinBone)
+    //           Frame[2..N+1] = bones[0..N-1]
+    //   (DxChara.mv1 の構造に準拠 — DxLib のスキンローダはこの形を期待)
+    const int frameNum = isSkin ? (2 + static_cast<int>(ir.bones.size())) : 1;
+    const int meshFrameIdx = isSkin ? 1 : 0;
+    const int bonesBaseIdx = isSkin ? 2 : 0;  // 0 は skin でない時に参照しない
 
     StringPool strings;
     Builder b;
@@ -122,6 +127,7 @@ WriteResult write_mv1(const ModelIR &ir) {
     for (int i = 0; i < frameNum; ++i)
         frameOffsets[i] = b.append_zero(sizeof(f1::MV1_FRAME_F1));
     std::uint32_t offFrame = frameOffsets[0];
+    std::uint32_t offMeshFrame = frameOffsets[meshFrameIdx];  // mesh 本体を保持するフレーム
     (void)offFrameArray;
 
     // ====== 3. Material 配列 ======
@@ -302,9 +308,9 @@ WriteResult write_mv1(const ModelIR &ir) {
             b.align4();
             std::uint32_t off = b.pos();
             skinBoneUseFrameOffsets.push_back(off);
-            // 1 entry: {Index=0 (mesh frame), MatrixIndex=bi}
+            // 1 entry: {Index=meshFrameIdx, MatrixIndex=bi}
             f1::MV1_SKIN_BONE_USE_FRAME_F1 uf{};
-            uf.Index       = 0;
+            uf.Index       = static_cast<std::int32_t>(meshFrameIdx);
             uf.MatrixIndex = static_cast<std::int32_t>(bi);
             b.append_struct(uf);
         }
@@ -363,67 +369,91 @@ WriteResult write_mv1(const ModelIR &ir) {
     std::uint32_t stringSize = static_cast<std::uint32_t>(strings.bytes().size());
 
     // ====== すべての *_F1 構造体を埋めて上書き ======
-    // -- Frame[0] (mesh container) --
+    // -- Frame[0] (root) --
     std::int32_t totalTriangles = 0;
     for (const auto &m : ir.meshes) totalTriangles += static_cast<std::int32_t>(m.indices.size() / 3);
 
-    f1::MV1_FRAME_F1 frame{};
-    frame.Name  = nameFrame0;
-    frame.Index = 0;
-    frame.Scale = { 1.0f, 1.0f, 1.0f };
-    frame.Quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
-    frame.Flag  = 0;
-    frame.TotalMeshNum = static_cast<std::int32_t>(ir.meshes.size());
-    frame.MeshNum = static_cast<std::int32_t>(ir.meshes.size());
-    frame.Mesh = offMesh;
-    frame.VertexNum = positionNum;
-    frame.TriangleNum = totalTriangles;
-    frame.PositionNum = static_cast<std::int32_t>(positionNum);
-    frame.NormalNum   = static_cast<std::int32_t>(normalNum);
-    frame.PositionAndNormalData = offPAndN;
-    // VertFlag:
-    //   static: WEIGHT_NONE + NORMAL_TYPE_F32
-    //   skin:   INDEX_MASK=U8 (=0 位) + WEIGHT_MASK=U8 (=0 位) + NORMAL_TYPE_F32
-    if (isSkin) {
-        frame.VertFlag = static_cast<std::uint16_t>(
-            (hasNormals ? e::FRAME_NORMAL_TYPE_F32 : e::FRAME_NORMAL_TYPE_NONE)
-            /* MATRIX_INDEX_TYPE_U8 = 0、FRAME_VERT_FLAG_MATRIX_INDEX_MASK bit は 0 */
-            /* MATRIX_WEIGHT_TYPE_U8 = 0、FRAME_VERT_FLAG_MATRIX_WEIGHT_MASK bit は 0 */
-        );
-        frame.MaxBoneBlendNum = 4;
-        frame.IsSkinMesh = 1;
-        frame.UseSkinBoneNum = static_cast<std::int32_t>(ir.bones.size());
-        frame.UseSkinBone    = offFrame0UseSkinBone;
-        frame.SkinBoneNum    = static_cast<std::int32_t>(ir.bones.size());
-        frame.SkinBone       = offSkinBone;
-    } else {
-        frame.VertFlag = static_cast<std::uint16_t>(
+    f1::MV1_FRAME_F1 rootFrame{};
+    rootFrame.Name  = nameFrame0;
+    rootFrame.Index = 0;
+    rootFrame.Scale = { 1.0f, 1.0f, 1.0f };
+    rootFrame.Quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
+    rootFrame.Flag  = 0;
+    rootFrame.TotalMeshNum = static_cast<std::int32_t>(ir.meshes.size());
+
+    if (!isSkin) {
+        // static: Frame[0] が mesh container を兼ねる
+        rootFrame.MeshNum = static_cast<std::int32_t>(ir.meshes.size());
+        rootFrame.Mesh    = offMesh;
+        rootFrame.VertexNum = positionNum;
+        rootFrame.TriangleNum = totalTriangles;
+        rootFrame.PositionNum = static_cast<std::int32_t>(positionNum);
+        rootFrame.NormalNum   = static_cast<std::int32_t>(normalNum);
+        rootFrame.PositionAndNormalData = offPAndN;
+        rootFrame.VertFlag = static_cast<std::uint16_t>(
             e::FRAME_VERT_FLAG_MATRIX_WEIGHT_NONE |
             (hasNormals ? e::FRAME_NORMAL_TYPE_F32 : e::FRAME_NORMAL_TYPE_NONE));
-        frame.MaxBoneBlendNum = 0;
+        rootFrame.MaxBoneBlendNum = 0;
+    } else {
+        // skin: Frame[0] は空の親 (mesh は Frame[1] に入れる)
+        rootFrame.VertFlag = 0;
+        rootFrame.MaxBoneBlendNum = 0;
+        // 注意: 全 frame が同じ PandN を共有ポインタで持つ (DxChara 準拠、
+        // PosNum/NormNum=0 でも pointer は有効にしておく必要あり)
+        rootFrame.PositionAndNormalData = offPAndN;
     }
-    frame.SmoothingAngle = 0.0f;
-    frame.AutoCreateNormal = 0;
-    b.overwrite_struct(offFrame, frame);
+    rootFrame.SmoothingAngle = 0.0f;
+    rootFrame.AutoCreateNormal = 0;
+    b.overwrite_struct(offFrame, rootFrame);
 
-    // -- Frame[1..N] (bones) --
+    // -- Frame[1] (mesh container、skin 時のみ) --
+    if (isSkin) {
+        f1::MV1_FRAME_F1 mf{};
+        mf.Name  = strings.add("mesh");
+        mf.Index = 1;
+        mf.Scale = { 1.0f, 1.0f, 1.0f };
+        mf.Quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
+        mf.Flag  = 0;
+        mf.Parent = offFrame;  // root
+        mf.TotalMeshNum = static_cast<std::int32_t>(ir.meshes.size());
+        mf.MeshNum = static_cast<std::int32_t>(ir.meshes.size());
+        mf.Mesh = offMesh;
+        mf.VertexNum = positionNum;
+        mf.TriangleNum = totalTriangles;
+        mf.PositionNum = static_cast<std::int32_t>(positionNum);
+        mf.NormalNum   = static_cast<std::int32_t>(normalNum);
+        mf.PositionAndNormalData = offPAndN;
+        mf.VertFlag = static_cast<std::uint16_t>(
+            (hasNormals ? e::FRAME_NORMAL_TYPE_F32 : e::FRAME_NORMAL_TYPE_NONE));
+        mf.MaxBoneBlendNum = 4;
+        mf.IsSkinMesh = 1;
+        mf.UseSkinBoneNum = static_cast<std::int32_t>(ir.bones.size());
+        mf.UseSkinBone    = offFrame0UseSkinBone;
+        mf.SkinBoneNum    = static_cast<std::int32_t>(ir.bones.size());
+        mf.SkinBone       = offSkinBone;
+        b.overwrite_struct(offMeshFrame, mf);
+    }
+
+    // -- Frame[2..N+1] (bones、skin 時) --
     if (isSkin) {
         for (std::size_t bi = 0; bi < ir.bones.size(); ++bi) {
             const auto &bir = ir.bones[bi];
             f1::MV1_FRAME_F1 bf{};
             bf.Name  = boneFrameName[bi];
-            bf.Index = static_cast<std::int32_t>(bi + 1);
+            bf.Index = static_cast<std::int32_t>(bi + bonesBaseIdx);
             bf.Translate = { bir.translate[0], bir.translate[1], bir.translate[2] };
             bf.Scale     = { bir.scale[0],     bir.scale[1],     bir.scale[2] };
             bf.Rotate    = { 0, 0, 0 };
             bf.Quaternion= { bir.quaternion[0], bir.quaternion[1], bir.quaternion[2], bir.quaternion[3] };
             bf.Flag = 0;
-            // Parent: -1 → Frame[0] (root), else Frame[bone.parent + 1]
+            // Parent: -1 → Frame[0] (root)、それ以外 → Frame[bone.parent + bonesBaseIdx]
             std::uint32_t parentOff = (bir.parent < 0)
                                       ? frameOffsets[0]
-                                      : frameOffsets[bir.parent + 1];
+                                      : frameOffsets[bir.parent + bonesBaseIdx];
             bf.Parent = parentOff;
-            b.overwrite_struct(frameOffsets[bi + 1], bf);
+            // 全 frame は共有 PandN ポインタを持つ (DxChara 準拠)
+            bf.PositionAndNormalData = offPAndN;
+            b.overwrite_struct(frameOffsets[bi + bonesBaseIdx], bf);
         }
     }
 
@@ -433,7 +463,7 @@ WriteResult write_mv1(const ModelIR &ir) {
             const auto &bir = ir.bones[bi];
             f1::MV1_SKIN_BONE_F1 sb{};
             sb.Index = static_cast<std::int32_t>(bi);
-            sb.BoneFrame = static_cast<std::int32_t>(bi + 1);  // Frame[bi+1] がこのボーンの frame
+            sb.BoneFrame = static_cast<std::int32_t>(bi + bonesBaseIdx);  // Frame index
             std::memcpy(&sb.ModelLocalMatrix, bir.inv_bind, sizeof(bir.inv_bind));
             sb.ModelLocalMatrixIsTranslateOnly = 0;
             sb.UseFrameNum = 1;
@@ -441,6 +471,21 @@ WriteResult write_mv1(const ModelIR &ir) {
             b.overwrite_struct(skinBoneOffsets[bi], sb);
         }
     }
+
+    // ================================================================
+    // 全 *_F1 配列は DimPrev / DimNext リンクリストを持つ (DxLib は
+    // 配列先頭から next を辿るため、null のままだと walk が途中で落ちる)。
+    // 下のヘルパーで 2 WORD ポインタを後で埋める。
+    // ================================================================
+    auto link_array = [&](std::vector<std::uint32_t> &offs) {
+        for (std::size_t i = 0; i < offs.size(); ++i) {
+            std::uint32_t prev = (i == 0) ? 0u : offs[i - 1];
+            std::uint32_t next = (i + 1 < offs.size()) ? offs[i + 1] : 0u;
+            // MV1_*_F1 先頭 2 DWORD が DimPrev / DimNext (共通 layout)
+            b.overwrite_u32(offs[i] + 0, prev);
+            b.overwrite_u32(offs[i] + 4, next);
+        }
+    };
 
     // -- Materials --
     for (std::size_t i = 0; i < ir.materials.size(); ++i) {
@@ -487,7 +532,7 @@ WriteResult write_mv1(const ModelIR &ir) {
         const auto &m = ir.meshes[i];
         f1::MV1_MESH_F1 mesh{};
         mesh.Index = static_cast<std::int32_t>(i);
-        mesh.Container = offFrame;
+        mesh.Container = offMeshFrame;  // static→Frame[0], skin→Frame[1]
         if (m.material >= 0 && m.material < static_cast<int>(ir.materials.size()))
             mesh.Material = materialOffsets[m.material];
         mesh.TriangleListNum = 1;
@@ -547,9 +592,25 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.Mesh                = offMesh;
     hdr.TriangleListNum     = static_cast<std::int32_t>(ir.meshes.size());
     hdr.TriangleList        = offTriangleList;
-    hdr.VertexData          = offPAndN;  // (参考情報、実際は各 mesh 毎に個別)
-    hdr.VertexDataSize      = 0;  // DxLib ローダーが参照しないはず
+    // 全 mesh.VertexData の合計バイト数 (Mesh ごとの VertexData から概算)
+    std::int32_t totalVertexDataBytes = 0;
+    for (const auto &m : ir.meshes) {
+        std::size_t vn = m.positions.size() / 3;
+        std::size_t perVertex = 8;  // CommonColor prefix (8 byte) は mesh ごとに 1 回だけなので後で補正
+        (void)perVertex;
+        // pos index u32 * vn
+        totalVertexDataBytes += 8 + static_cast<std::int32_t>(vn * 4);
+        // nrm index u32 * vn
+        if (!m.normals.empty()) totalVertexDataBytes += static_cast<std::int32_t>(vn * 4);
+        // uv float2 * vn
+        if (!m.uvs.empty())     totalVertexDataBytes += static_cast<std::int32_t>(vn * 8);
+    }
+    hdr.VertexData          = offPAndN;  // (参考、実際は各 mesh 毎に個別)
+    hdr.VertexDataSize      = totalVertexDataBytes;
     hdr.TriangleNum         = totalTriangles;
+    // Unit sizes (DxLib が内部で使用、0 だと割り算で crash)
+    hdr.AnimKeySetUnitSize  = static_cast<std::int32_t>(sizeof(f1::MV1_ANIM_KEYSET_F1));  // = 20
+    hdr.AnimUnitSize        = static_cast<std::int32_t>(sizeof(f1::MV1_ANIM_F1));          // = 44
     hdr.TriangleListVertexNum = sumTLVertexNum;
     hdr.MeshFaceNum         = totalTriangles;
     hdr.MeshVertexIndexNum  = sumTLVertexNum;
@@ -562,6 +623,14 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.StringBuffer        = offStringBuffer;
 
     b.overwrite_struct(0, hdr);
+
+    // ====== Linked list (DimPrev / DimNext) を全配列に張る ======
+    link_array(materialOffsets);
+    link_array(textureOffsets);
+    link_array(meshOffsets);
+    link_array(tlOffsets);
+    if (isSkin) link_array(skinBoneOffsets);
+    link_array(frameOffsets);  // Frame 配列も
 
     // ====== DXA (literal) 圧縮 + 出力組立 ======
     auto inner = std::span<const std::uint8_t>(b.buf.data() + 4, b.buf.size() - 4);

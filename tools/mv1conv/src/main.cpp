@@ -21,7 +21,7 @@
 
 using namespace mv1conv;
 
-static int convert_generic(const char *in, const char *out) {
+static int convert_generic(const char *in, const char *out, bool noBones = false) {
     // 拡張子で判別
     std::string path(in);
     auto ext_pos = path.find_last_of('.');
@@ -102,6 +102,10 @@ static int convert_generic(const char *in, const char *out) {
         return 1;
     }
 
+    if (noBones) {
+        ir->bones.clear();
+        for (auto &m : ir->meshes) m.bone_weights.clear();
+    }
     auto w = save_mv1(*ir, out);
     if (!w.ok()) {
         std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
@@ -125,10 +129,13 @@ static int convert_generic(const char *in, const char *out) {
 
 static int cmd_convert(int argc, char **argv) {
     if (argc < 2) {
-        std::fprintf(stderr, "usage: mv1conv convert <input.{obj|stl|ply}> <output.mv1>\n");
+        std::fprintf(stderr, "usage: mv1conv convert [--no-bones] <input> <output.mv1>\n");
         return 2;
     }
-    return convert_generic(argv[0], argv[1]);
+    bool noBones = false;
+    int a = 0;
+    if (argc >= 3 && std::strcmp(argv[0], "--no-bones") == 0) { noBones = true; a = 1; }
+    return convert_generic(argv[a], argv[a + 1], noBones);
 }
 
 static int cmd_from_obj(int argc, char **argv) {

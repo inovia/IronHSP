@@ -1,0 +1,6 @@
+#include "iron_dxlib.as"
+notesel n
+dx_mv1load "alicia_nobone.mv1"
+noteadd "alicia_nobone : h=" + stat
+notesave "r_box.txt"
+end

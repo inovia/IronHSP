@@ -1,0 +1,2 @@
+before load
+after load, stat=939786240

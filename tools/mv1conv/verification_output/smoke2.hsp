@@ -1,0 +1,7 @@
+#include "iron_dxlib.as"
+notesel n
+noteadd "before load"
+dx_mv1load "duck_from_gpb.mv1"
+noteadd "after load, stat=" + stat
+notesave "smoke2_out.txt"
+end

@@ -1,0 +1,4 @@
+notesel n
+noteadd "hello"
+notesave "smoke_out.txt"
+end
