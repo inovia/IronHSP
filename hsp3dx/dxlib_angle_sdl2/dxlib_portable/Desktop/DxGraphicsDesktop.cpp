@@ -45,6 +45,82 @@ static SDL_GLContext  s_GLContext = nullptr ;
 static int            s_WinW      = 640 ;
 static int            s_WinH      = 480 ;
 
+// 描画ターゲット (FBO / viewport / scissor) — namespace DxLib 外から assign 可
+// するため global scope 側で宣言
+static unsigned int   s_CurrentFBO    = 0 ;
+static int            s_DrawTargetW   = 640 ;
+static int            s_DrawTargetH   = 480 ;
+static int            s_DrawArea_L    = 0 ;
+static int            s_DrawArea_T    = 0 ;
+static int            s_DrawArea_R    = 640 ;
+static int            s_DrawArea_B    = 480 ;
+static int            s_DrawAreaValid = 0 ;
+
+// --- GL FBO 関数ポインタ ---------------------------------------------------
+// Windows の opengl32.dll は GL 1.1 しか export していないため、
+// glGenFramebuffers 等は SDL_GL_GetProcAddress で動的ロードする。
+// Web (emscripten) は LEGACY_GL_EMULATION モードでもこれらは直接使える。
+#ifndef GL_FRAMEBUFFER
+#define GL_FRAMEBUFFER            0x8D40
+#define GL_COLOR_ATTACHMENT0      0x8CE0
+#define GL_DEPTH_ATTACHMENT       0x8D00
+#define GL_RENDERBUFFER           0x8D41
+#define GL_DEPTH_COMPONENT24      0x81A6
+#define GL_FRAMEBUFFER_COMPLETE   0x8CD5
+#define GL_FRAMEBUFFER_BINDING    0x8CA6
+#endif
+
+typedef void   (APIENTRYP PFN_glGenFramebuffers)       ( GLsizei n, GLuint *framebuffers ) ;
+typedef void   (APIENTRYP PFN_glDeleteFramebuffers)    ( GLsizei n, const GLuint *framebuffers ) ;
+typedef void   (APIENTRYP PFN_glBindFramebuffer)       ( GLenum target, GLuint framebuffer ) ;
+typedef void   (APIENTRYP PFN_glFramebufferTexture2D)  ( GLenum target, GLenum attachment, GLenum textarget, GLuint tex, GLint lv ) ;
+typedef void   (APIENTRYP PFN_glGenRenderbuffers)      ( GLsizei n, GLuint *rbs ) ;
+typedef void   (APIENTRYP PFN_glDeleteRenderbuffers)   ( GLsizei n, const GLuint *rbs ) ;
+typedef void   (APIENTRYP PFN_glBindRenderbuffer)      ( GLenum target, GLuint rb ) ;
+typedef void   (APIENTRYP PFN_glRenderbufferStorage)   ( GLenum target, GLenum fmt, GLsizei w, GLsizei h ) ;
+typedef void   (APIENTRYP PFN_glFramebufferRenderbuffer)( GLenum target, GLenum attach, GLenum rbtarget, GLuint rb ) ;
+typedef GLenum (APIENTRYP PFN_glCheckFramebufferStatus)( GLenum target ) ;
+
+static PFN_glGenFramebuffers        p_glGenFramebuffers        = nullptr ;
+static PFN_glDeleteFramebuffers     p_glDeleteFramebuffers     = nullptr ;
+static PFN_glBindFramebuffer        p_glBindFramebuffer        = nullptr ;
+static PFN_glFramebufferTexture2D   p_glFramebufferTexture2D   = nullptr ;
+static PFN_glGenRenderbuffers       p_glGenRenderbuffers       = nullptr ;
+static PFN_glDeleteRenderbuffers    p_glDeleteRenderbuffers    = nullptr ;
+static PFN_glBindRenderbuffer       p_glBindRenderbuffer       = nullptr ;
+static PFN_glRenderbufferStorage    p_glRenderbufferStorage    = nullptr ;
+static PFN_glFramebufferRenderbuffer p_glFramebufferRenderbuffer = nullptr ;
+static PFN_glCheckFramebufferStatus p_glCheckFramebufferStatus = nullptr ;
+
+static void desktop_load_fbo_funcs( void )
+{
+    if ( p_glGenFramebuffers ) return ;
+    p_glGenFramebuffers        = ( PFN_glGenFramebuffers )       SDL_GL_GetProcAddress( "glGenFramebuffers" ) ;
+    p_glDeleteFramebuffers     = ( PFN_glDeleteFramebuffers )    SDL_GL_GetProcAddress( "glDeleteFramebuffers" ) ;
+    p_glBindFramebuffer        = ( PFN_glBindFramebuffer )       SDL_GL_GetProcAddress( "glBindFramebuffer" ) ;
+    p_glFramebufferTexture2D   = ( PFN_glFramebufferTexture2D )  SDL_GL_GetProcAddress( "glFramebufferTexture2D" ) ;
+    p_glGenRenderbuffers       = ( PFN_glGenRenderbuffers )      SDL_GL_GetProcAddress( "glGenRenderbuffers" ) ;
+    p_glDeleteRenderbuffers    = ( PFN_glDeleteRenderbuffers )   SDL_GL_GetProcAddress( "glDeleteRenderbuffers" ) ;
+    p_glBindRenderbuffer       = ( PFN_glBindRenderbuffer )      SDL_GL_GetProcAddress( "glBindRenderbuffer" ) ;
+    p_glRenderbufferStorage    = ( PFN_glRenderbufferStorage )   SDL_GL_GetProcAddress( "glRenderbufferStorage" ) ;
+    p_glFramebufferRenderbuffer = ( PFN_glFramebufferRenderbuffer )SDL_GL_GetProcAddress( "glFramebufferRenderbuffer" ) ;
+    p_glCheckFramebufferStatus = ( PFN_glCheckFramebufferStatus )SDL_GL_GetProcAddress( "glCheckFramebufferStatus" ) ;
+    if ( !p_glGenFramebuffers ) {
+        std::fprintf( stderr, "[DxGfxDesk] FBO extension not available\n" ) ;
+    }
+}
+
+#define glGenFramebuffers        p_glGenFramebuffers
+#define glDeleteFramebuffers     p_glDeleteFramebuffers
+#define glBindFramebuffer        p_glBindFramebuffer
+#define glFramebufferTexture2D   p_glFramebufferTexture2D
+#define glGenRenderbuffers       p_glGenRenderbuffers
+#define glDeleteRenderbuffers    p_glDeleteRenderbuffers
+#define glBindRenderbuffer       p_glBindRenderbuffer
+#define glRenderbufferStorage    p_glRenderbufferStorage
+#define glFramebufferRenderbuffer p_glFramebufferRenderbuffer
+#define glCheckFramebufferStatus p_glCheckFramebufferStatus
+
 #ifndef DX_NON_NAMESPACE
 }  // close namespace DxLib — DxDesktop_* は global にする
 #endif
@@ -81,6 +157,10 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
 
     s_WinW = w ;
     s_WinH = h ;
+    s_DrawTargetW = w ;
+    s_DrawTargetH = h ;
+    s_DrawArea_R  = w ;
+    s_DrawArea_B  = h ;
 
     s_Window = SDL_CreateWindow(
         title ? title : "hsp3dx dxlib_angle_sdl2",
@@ -110,6 +190,8 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
 
     SDL_GL_MakeCurrent( s_Window, s_GLContext ) ;
     SDL_GL_SetSwapInterval( 1 ) ;
+
+    desktop_load_fbo_funcs() ;
 
     std::fprintf( stderr, "[DxLib Desktop] GL_VENDOR:   %s\n", ( const char * )glGetString( GL_VENDOR ) ) ;
     std::fprintf( stderr, "[DxLib Desktop] GL_VERSION:  %s\n", ( const char * )glGetString( GL_VERSION ) ) ;
@@ -164,18 +246,47 @@ extern int Graphics_ScreenFlipBase_PF( void )
 
 // --- 2D primitives: fixed-function pipeline で最低限の可視化 -----------
 // GL compat profile 前提。glOrtho + glBegin/glEnd を使う。
-// ANGLE (GL ES) 移行時は shader に書き直すが、Stage 7 は compat で可視化優先。
+
+// 描画ターゲット / scissor は global scope 側で定義済み (s_CurrentFBO 等)
+
+static void Desktop_ApplyScissor( void )
+{
+    if ( !s_DrawAreaValid ) { glDisable( GL_SCISSOR_TEST ) ; return ; }
+    // DxLib の (L,T,R,B) 座標 → GL scissor (x, y, w, h)。
+    // FBO 時はそのまま、画面時は GL が左下原点なので Y 反転が必要。
+    int x = s_DrawArea_L ;
+    int w = s_DrawArea_R - s_DrawArea_L ;
+    int h = s_DrawArea_B - s_DrawArea_T ;
+    int y ;
+    if ( s_CurrentFBO != 0 ) {
+        y = s_DrawArea_T ;
+    } else {
+        y = s_DrawTargetH - s_DrawArea_B ;
+    }
+    if ( w < 0 ) w = 0 ;
+    if ( h < 0 ) h = 0 ;
+    glEnable( GL_SCISSOR_TEST ) ;
+    glScissor( x, y, w, h ) ;
+}
 
 static void Desktop_SetOrtho2D( void )
 {
-    glViewport( 0, 0, s_WinW, s_WinH ) ;
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
     glMatrixMode( GL_PROJECTION ) ;
     glLoadIdentity() ;
-    // DxLib は左上原点 (Y 下方向) なので glOrtho の top/bottom を反転
-    glOrtho( 0.0, ( double )s_WinW, ( double )s_WinH, 0.0, -1.0, 1.0 ) ;
+    // DxLib は左上原点 (Y 下方向)。画面 (デフォルト FBO) と FBO では GL のメモリ向きが
+    // 異なるので、後段 DrawGraph で反転なしでサンプルできるように ortho を切り替える。
+    //   画面:  Y 反転 (top=0, bottom=h) — GL 左下原点に合わせる
+    //   FBO:   Y 反転しない (bottom=0, top=h) — テクスチャメモリ row 0 = DxLib y=0 にする
+    if ( s_CurrentFBO != 0 ) {
+        glOrtho( 0.0, ( double )s_DrawTargetW, 0.0, ( double )s_DrawTargetH, -1.0, 1.0 ) ;
+    } else {
+        glOrtho( 0.0, ( double )s_DrawTargetW, ( double )s_DrawTargetH, 0.0, -1.0, 1.0 ) ;
+    }
     glMatrixMode( GL_MODELVIEW ) ;
     glLoadIdentity() ;
     glDisable( GL_DEPTH_TEST ) ;
+    Desktop_ApplyScissor() ;
 }
 
 // DxLib DrawBright 用の現在値 (0..255)
@@ -530,6 +641,31 @@ extern int Graphics_Hardware_CreateOrigTexture_PF( IMAGEDATA_ORIG *Orig, int ASy
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE ) ;
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE ) ;
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
+
+    // 描画対象 (MakeScreen) ならば FBO + 深度バッファを用意する
+    if ( Orig->FormatDesc.DrawValidFlag )
+    {
+        GLuint fbo = 0 ;
+        GLuint rb_depth = 0 ;
+        glGenFramebuffers( 1, &fbo ) ;
+        glBindFramebuffer( GL_FRAMEBUFFER, fbo ) ;
+        glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id, 0 ) ;
+
+        glGenRenderbuffers( 1, &rb_depth ) ;
+        glBindRenderbuffer( GL_RENDERBUFFER, rb_depth ) ;
+        glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, tw, th ) ;
+        glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb_depth ) ;
+
+        GLenum fbstat = glCheckFramebufferStatus( GL_FRAMEBUFFER ) ;
+        if ( fbstat != GL_FRAMEBUFFER_COMPLETE ) {
+            std::fprintf( stderr, "[DxGfxDesk] FBO incomplete: 0x%x\n", fbstat ) ;
+        }
+        tex->PF->FrameBuffer = fbo ;
+        tex->PF->DepthBuffer = rb_depth ;
+
+        // 元の FBO に戻す
+        glBindFramebuffer( GL_FRAMEBUFFER, s_CurrentFBO ) ;
+    }
     return 0 ;
 }
 
@@ -540,8 +676,12 @@ extern int Graphics_Hardware_ReleaseOrigTexture_PF( IMAGEDATA_ORIG *Orig )
     {
         IMAGEDATA_ORIG_HARD_TEX *tex = &Orig->Hard.Tex[ i ] ;
         if ( tex->PF ) {
-            GLuint id = ( GLuint )tex->PF->Texture.TextureBuffer ;
-            if ( id ) glDeleteTextures( 1, &id ) ;
+            GLuint fbo = ( GLuint )tex->PF->FrameBuffer ;
+            GLuint rb  = ( GLuint )tex->PF->DepthBuffer ;
+            GLuint id  = ( GLuint )tex->PF->Texture.TextureBuffer ;
+            if ( fbo ) glDeleteFramebuffers( 1, &fbo ) ;
+            if ( rb  ) glDeleteRenderbuffers( 1, &rb ) ;
+            if ( id  ) glDeleteTextures( 1, &id ) ;
             delete tex->PF ;
             tex->PF = nullptr ;
         }
@@ -711,6 +851,33 @@ extern int Graphics_Hardware_DrawRotaGraphFast_PF( int x, int y, float xf, float
     return Graphics_Hardware_DrawRotaGraph_PF( x, y, xf, yf, ( double )ExtendRate, ( double )Angle, Image, BlendImage, TransFlag, ReverseXFlag, ReverseYFlag, IntFlag ) ;
 }
 
+// 4 点自由変形。頂点順: (x1,y1)=LT, (x2,y2)=RT, (x3,y3)=RB, (x4,y4)=LB
+extern int Graphics_Hardware_DrawModiGraph_PF( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, bool Is3D )
+{
+    (void)BlendImage; (void)Is3D;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+
+    // cx, cy の順は Desktop_DrawTexQuad: 左上 / 右上 / 左下 / 右下 (GL_TRIANGLE_STRIP)
+    float cx[ 4 ] = { ( float )x1, ( float )x2, ( float )x4, ( float )x3 } ;
+    float cy[ 4 ] = { ( float )y1, ( float )y2, ( float )y4, ( float )y3 } ;
+    Desktop_DrawTexQuad( tex, cx, cy, TransFlag ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_DrawModiGraphF_PF( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, IMAGEDATA *Image, IMAGEDATA *BlendImage, int TransFlag, bool Is3D )
+{
+    (void)BlendImage; (void)Is3D;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+    float cx[ 4 ] = { x1, x2, x4, x3 } ;
+    float cy[ 4 ] = { y1, y2, y4, y3 } ;
+    Desktop_DrawTexQuad( tex, cx, cy, TransFlag ) ;
+    return 0 ;
+}
+
 // --- Stage 19: 汎用 2D プリミティブ描画 (font atlas 用) ------------------
 // DxLib の NS_DrawString は内部で atlas texture を持ち、この PF で描画する。
 // VERTEX_2D は pos(VECTOR) + rhw + color(ARGB8) + u,v。座標は既にスクリーン。
@@ -775,6 +942,168 @@ extern int Graphics_Hardware_DrawPrimitive2D_PF( VERTEX_2D *Vertex, int VertexNu
 }
 
 // --- その他 (Stage 5 から継続) -------------------------------------------
+
+// --- Tier 1: SetDrawScreen / SetDrawArea / FillGraph / GraphLock 系 --------
+
+extern int Graphics_Hardware_SetDrawScreen_PF( int DrawScreen, int OldScreenSurface, int OldScreenMipLevel, IMAGEDATA *Image, IMAGEDATA *OldImage, SHADOWMAPDATA *ShadowMap, SHADOWMAPDATA *OldShadowMap )
+{
+    (void)OldScreenSurface; (void)OldScreenMipLevel; (void)OldImage;
+    (void)ShadowMap; (void)OldShadowMap;
+
+    // DX_SCREEN_BACK / DX_SCREEN_FRONT / DX_SCREEN_WORK → default framebuffer
+    if ( ( DWORD )DrawScreen == DX_SCREEN_BACK  ||
+         ( DWORD )DrawScreen == DX_SCREEN_FRONT ||
+         ( DWORD )DrawScreen == DX_SCREEN_WORK  ||
+         ( DWORD )DrawScreen == DX_SCREEN_TEMPFRONT )
+    {
+        s_CurrentFBO  = 0 ;
+        s_DrawTargetW = s_WinW ;
+        s_DrawTargetH = s_WinH ;
+        glBindFramebuffer( GL_FRAMEBUFFER, 0 ) ;
+        glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+        return 0 ;
+    }
+
+    // 画像ハンドル → FBO
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+    GLuint fbo = ( GLuint )tex->PF->FrameBuffer ;
+    if ( !fbo ) {
+        std::fprintf( stderr, "[DxGfxDesk] SetDrawScreen: image has no FBO (not a MakeScreen target?)\n" ) ;
+        return -1 ;
+    }
+    s_CurrentFBO  = fbo ;
+    s_DrawTargetW = tex->UseWidth ;
+    s_DrawTargetH = tex->UseHeight ;
+    glBindFramebuffer( GL_FRAMEBUFFER, fbo ) ;
+    glViewport( 0, 0, s_DrawTargetW, s_DrawTargetH ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetDrawScreen_Post_PF( int DrawScreen )
+{
+    (void)DrawScreen;
+    // DxGraphics 側が SetDrawArea を改めて呼ぶので、ここでは何もしない
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetDrawArea_PF( int x1, int y1, int x2, int y2 )
+{
+    s_DrawArea_L = x1 ;
+    s_DrawArea_T = y1 ;
+    s_DrawArea_R = x2 ;
+    s_DrawArea_B = y2 ;
+    // 画面全域なら scissor 無効化
+    int fullw = s_DrawTargetW ;
+    int fullh = s_DrawTargetH ;
+    s_DrawAreaValid = !( x1 == 0 && y1 == 0 && x2 == fullw && y2 == fullh ) ;
+    Desktop_ApplyScissor() ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_FillGraph_PF( IMAGEDATA *Image, int R, int G, int B, int A, int Surface )
+{
+    (void)Surface;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+
+    // 描画対象に FBO がある場合は glClear で塗りつぶす
+    GLuint fbo = ( GLuint )tex->PF->FrameBuffer ;
+    if ( fbo )
+    {
+        GLint prev_fbo = 0 ;
+        glGetIntegerv( GL_FRAMEBUFFER_BINDING, &prev_fbo ) ;
+        glBindFramebuffer( GL_FRAMEBUFFER, fbo ) ;
+        glDisable( GL_SCISSOR_TEST ) ;
+        glClearColor( R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f ) ;
+        glClear( GL_COLOR_BUFFER_BIT ) ;
+        glBindFramebuffer( GL_FRAMEBUFFER, ( GLuint )prev_fbo ) ;
+        Desktop_ApplyScissor() ;
+        return 0 ;
+    }
+    // FBO が無いテクスチャは glTexSubImage2D で RGBA 配列を埋める
+    GLuint id = ( GLuint )tex->PF->Texture.TextureBuffer ;
+    if ( !id ) return -1 ;
+    int w = tex->UseWidth ;
+    int h = tex->UseHeight ;
+    std::vector<GLubyte> buf( ( size_t )w * ( size_t )h * 4 ) ;
+    for ( size_t i = 0 ; i < buf.size() ; i += 4 ) {
+        buf[ i + 0 ] = ( GLubyte )R ;
+        buf[ i + 1 ] = ( GLubyte )G ;
+        buf[ i + 2 ] = ( GLubyte )B ;
+        buf[ i + 3 ] = ( GLubyte )A ;
+    }
+    glBindTexture( GL_TEXTURE_2D, id ) ;
+    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buf.data() ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    return 0 ;
+}
+
+// GraphLock / GraphUnlock: CPU 側へテクスチャ内容をコピー / 書き戻し
+//   DxLib は CPU 側バッファと GL texture を分離管理するが、ここでは簡易実装として
+//   Lock 時に glGetTexImage で吸い出し、Unlock 時に glTexSubImage2D で戻す。
+//   Web (WebGL) は glGetTexImage 非対応なので FBO 経由で glReadPixels 迂回。
+static std::vector<GLubyte> s_LockBuffer ;
+static GLuint s_LockTexId = 0 ;
+static int    s_LockW = 0, s_LockH = 0 ;
+
+extern int Graphics_Hardware_GraphLock_PF( IMAGEDATA *Image, COLORDATA **ColorDataPP, int WriteOnlyFlag )
+{
+    (void)WriteOnlyFlag;
+    if ( !Image || !Image->Orig || Image->Orig->Hard.TexNum == 0 ) return -1 ;
+    IMAGEDATA_ORIG_HARD_TEX *tex = &Image->Orig->Hard.Tex[ 0 ] ;
+    if ( !tex->PF ) return -1 ;
+    GLuint id = ( GLuint )tex->PF->Texture.TextureBuffer ;
+    if ( !id ) return -1 ;
+
+    int w = tex->TexWidth ;
+    int h = tex->TexHeight ;
+    s_LockBuffer.assign( ( size_t )w * ( size_t )h * 4, 0 ) ;
+    s_LockTexId = id ;
+    s_LockW = w ;
+    s_LockH = h ;
+#ifndef __EMSCRIPTEN__
+    glBindTexture( GL_TEXTURE_2D, id ) ;
+    glGetTexImage( GL_TEXTURE_2D, 0, GL_BGRA, GL_UNSIGNED_BYTE, s_LockBuffer.data() ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+#else
+    // WebGL: glGetTexImage 未サポート。FBO 経由で ReadPixels
+    GLuint tmp_fbo = 0 ;
+    glGenFramebuffers( 1, &tmp_fbo ) ;
+    glBindFramebuffer( GL_FRAMEBUFFER, tmp_fbo ) ;
+    glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id, 0 ) ;
+    glReadPixels( 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, s_LockBuffer.data() ) ;
+    // RGBA → BGRA swap
+    for ( size_t i = 0 ; i < s_LockBuffer.size() ; i += 4 ) {
+        std::swap( s_LockBuffer[ i + 0 ], s_LockBuffer[ i + 2 ] ) ;
+    }
+    glBindFramebuffer( GL_FRAMEBUFFER, s_CurrentFBO ) ;
+    glDeleteFramebuffers( 1, &tmp_fbo ) ;
+#endif
+    Image->LockImage      = ( BYTE * )s_LockBuffer.data() ;
+    Image->LockImagePitch = ( DWORD )( w * 4 ) ;
+    // ColorDataPP は ARGB8 フォーマット (DxLib 内部標準) を返す
+    if ( ColorDataPP ) {
+        static COLORDATA s_lockColor ;
+        NS_CreateARGB8ColorData( &s_lockColor ) ;
+        *ColorDataPP = &s_lockColor ;
+    }
+    return 0 ;
+}
+
+extern int Graphics_Hardware_GraphUnlock_PF( IMAGEDATA *Image )
+{
+    if ( !Image || !s_LockTexId ) return -1 ;
+    // 書き戻し: BGRA → テクスチャ
+    glBindTexture( GL_TEXTURE_2D, s_LockTexId ) ;
+    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, s_LockW, s_LockH, GL_BGRA, GL_UNSIGNED_BYTE, s_LockBuffer.data() ) ;
+    glBindTexture( GL_TEXTURE_2D, 0 ) ;
+    s_LockTexId = 0 ;
+    s_LockBuffer.clear() ;
+    return 0 ;
+}
 
 extern int Graphics_Hardware_RenderVertex( int Param ) { (void)Param; return 0 ; }
 

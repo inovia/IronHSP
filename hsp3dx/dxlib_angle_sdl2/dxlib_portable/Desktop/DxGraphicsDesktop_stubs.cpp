@@ -60,8 +60,7 @@ extern int Graphics_Hardware_DrawLine3D_PF(struct tagVECTOR,struct tagVECTOR,uns
 // Graphics_Hardware_DrawLineSet_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 // Graphics_Hardware_DrawLine_PF: impl in DxGraphicsDesktop.cpp (Stage 7)
 extern int Graphics_Hardware_DrawModiBillboard3D_PF(struct tagVECTOR,float,float,float,float,float,float,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,int,struct tagRECT *) { return 0; }
-extern int Graphics_Hardware_DrawModiGraphF_PF(float,float,float,float,float,float,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,bool) { return 0; }
-extern int Graphics_Hardware_DrawModiGraph_PF(int,int,int,int,int,int,int,int,struct IMAGEDATA *,struct IMAGEDATA *,int,bool) { return 0; }
+// Graphics_Hardware_DrawModiGraph_PF / DrawModiGraphF_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_DrawOval_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 // Graphics_Hardware_DrawOval_Thickness_PF: impl in DxGraphicsDesktop.cpp (Stage 9)
 extern int Graphics_Hardware_DrawPixel3D_PF(struct tagVECTOR,unsigned int,int,struct tagRECT *) { return 0; }
@@ -88,12 +87,11 @@ extern int Graphics_Hardware_DrawSimpleQuadrangleGraphF_PF(struct tagGRAPHICS_DR
 extern int Graphics_Hardware_DrawSimpleTriangleGraphF_PF(struct tagGRAPHICS_DRAW_DRAWSIMPLETRIANGLEGRAPHF_PARAM const *,struct IMAGEDATA *,struct IMAGEDATA *) { return 0; }
 extern int Graphics_Hardware_DrawTriangle3D_PF(struct tagVECTOR,struct tagVECTOR,struct tagVECTOR,unsigned int,int,int,struct tagRECT *) { return 0; }
 // Graphics_Hardware_DrawTriangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
-extern int Graphics_Hardware_FillGraph_PF(struct IMAGEDATA *,int,int,int,int,int) { return 0; }
+// Graphics_Hardware_FillGraph_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 extern int Graphics_Hardware_GetDrawScreenGraphBase_PF(struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int,int,int,int,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_GetMultiSampleQuality_PF(int) { return 0; }
 extern int Graphics_Hardware_GetVideoMemorySizeEx_PF(unsigned long long *,unsigned long long *) { return 0; }
-extern int Graphics_Hardware_GraphLock_PF(struct IMAGEDATA *,struct tagCOLORDATA * *,int) { return 0; }
-extern int Graphics_Hardware_GraphUnlock_PF(struct IMAGEDATA *) { return 0; }
+// Graphics_Hardware_GraphLock_PF / GraphUnlock_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 extern int Graphics_Hardware_IndexBuffer_Create_PF(struct INDEXBUFFERHANDLEDATA *) { return 0; }
 extern int Graphics_Hardware_IndexBuffer_SetData_PF(struct INDEXBUFFERHANDLEDATA *,int,void const *,int) { return 0; }
 extern int Graphics_Hardware_IndexBuffer_Terminate_PF(struct INDEXBUFFERHANDLEDATA *) { return 0; }
@@ -114,14 +112,13 @@ extern int Graphics_Hardware_SetBackgroundColor_PF(int,int,int,int) { return 0; 
 extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,int *) { return 0; }
 extern int Graphics_Hardware_SetDrawAddColor_PF(int,int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawAlphaTest_PF(int,int) { return 0; }
-extern int Graphics_Hardware_SetDrawArea_PF(int,int,int,int) { return 0; }
+// Graphics_Hardware_SetDrawArea_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_SetDrawBlendMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_SetDrawBrightToOneParam_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_SetDrawBright_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 extern int Graphics_Hardware_SetDrawCustomBlendMode_PF(int,int,int,int,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawMode_PF(int) { return 0; }
-extern int Graphics_Hardware_SetDrawScreen_PF(int,int,int,struct IMAGEDATA *,struct IMAGEDATA *,struct SHADOWMAPDATA *,struct SHADOWMAPDATA *) { return 0; }
-extern int Graphics_Hardware_SetDrawScreen_Post_PF(int) { return 0; }
+// Graphics_Hardware_SetDrawScreen_PF / _Post_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 extern int Graphics_Hardware_SetDrawZBuffer_PF(int,struct IMAGEDATA *) { return 0; }
 extern int Graphics_Hardware_SetFogColor_PF(DWORD) { return 0; }
 extern int Graphics_Hardware_SetFogDensity_PF(float) { return 0; }

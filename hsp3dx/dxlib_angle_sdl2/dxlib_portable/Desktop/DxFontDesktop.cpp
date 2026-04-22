@@ -283,13 +283,21 @@ static std::string desktop_wchar_to_utf8( const wchar_t *ws, size_t len )
 }
 
 // 現在の GL viewport サイズに対して 2D ortho を組む
+// FBO (GL_FRAMEBUFFER_BINDING != 0) の場合は Y 反転しない (DxGraphicsDesktop の
+// Desktop_SetOrtho2D と同じ方針 — テクスチャメモリ row 0 を DxLib y=0 に合わせる)
 static void desktop_font_set_ortho2d( void )
 {
     GLint vp[ 4 ] ;
     glGetIntegerv( GL_VIEWPORT, vp ) ;
+    GLint fbo = 0 ;
+    glGetIntegerv( 0x8CA6 /*GL_FRAMEBUFFER_BINDING*/, &fbo ) ;
     glMatrixMode( GL_PROJECTION ) ;
     glLoadIdentity() ;
-    glOrtho( 0.0, ( double )vp[ 2 ], ( double )vp[ 3 ], 0.0, -1.0, 1.0 ) ;
+    if ( fbo != 0 ) {
+        glOrtho( 0.0, ( double )vp[ 2 ], 0.0, ( double )vp[ 3 ], -1.0, 1.0 ) ;
+    } else {
+        glOrtho( 0.0, ( double )vp[ 2 ], ( double )vp[ 3 ], 0.0, -1.0, 1.0 ) ;
+    }
     glMatrixMode( GL_MODELVIEW ) ;
     glLoadIdentity() ;
     glDisable( GL_DEPTH_TEST ) ;

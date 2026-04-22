@@ -284,6 +284,7 @@ dxlib_stage_exe(stage18_rotagraph         src/stage18_rotagraph.cpp)
 dxlib_stage_exe(stage19_font              src/stage19_font.cpp)
 dxlib_stage_exe(stage20_sound             src/stage20_sound.cpp)
 dxlib_stage_exe(stage21_image             src/stage21_image.cpp)
+dxlib_stage_exe(stage22_makescreen        src/stage22_makescreen.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)

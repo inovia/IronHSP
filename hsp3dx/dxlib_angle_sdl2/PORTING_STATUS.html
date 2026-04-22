@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>hsp3dx DxLib マルチプラットフォーム対応状況</title>
+<style>
+:root {
+  --bg: #fafafa;
+  --fg: #222;
+  --muted: #777;
+  --accent: #2b6cb0;
+  --ok: #107f3e;
+  --partial: #a07500;
+  --pending: #b36b00;
+  --missing: #b03030;
+  --na: #9a9a9a;
+  --border: #d0d0d0;
+  --row-alt: #f1f5f9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 24px;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  background: var(--bg); color: var(--fg);
+  line-height: 1.55;
+}
+h1 { font-size: 24px; margin: 0 0 4px; }
+h2 { font-size: 19px; margin: 28px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--accent); color: var(--accent); }
+h3 { font-size: 16px; margin: 20px 0 6px; color: #444; }
+.meta { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+.legend { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; margin: 12px 0 20px; font-size: 14px; }
+.legend span { display: inline-block; margin-right: 16px; }
+.badge { display: inline-block; width: 22px; text-align: center; font-weight: 600; border-radius: 3px; font-size: 13px; padding: 1px 0; }
+.b-ok   { background: #d9f1e1; color: var(--ok); }
+.b-par  { background: #fff4d0; color: var(--partial); }
+.b-pen  { background: #ffe1c2; color: var(--pending); }
+.b-no   { background: #fddada; color: var(--missing); }
+.b-na   { background: #e8e8e8; color: var(--na); }
+table { border-collapse: collapse; width: 100%; margin: 8px 0 18px; font-size: 13.5px; background: #fff; }
+th, td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; vertical-align: top; }
+th { background: #eef2f7; font-weight: 600; color: #333; }
+tr:nth-child(even) { background: var(--row-alt); }
+td.center { text-align: center; }
+td code, th code { font-family: "Consolas", "Menlo", monospace; font-size: 12.5px; background: transparent; padding: 0; }
+td.fn { font-family: "Consolas", "Menlo", monospace; font-size: 12.5px; white-space: nowrap; }
+td.tech { font-size: 12px; color: #444; }
+td.note { font-size: 12px; color: #555; }
+.summary-box { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 14px 18px; margin-bottom: 16px; }
+.summary-box p { margin: 4px 0; }
+.toc { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; margin-bottom: 20px; font-size: 14px; }
+.toc a { color: var(--accent); text-decoration: none; margin-right: 14px; }
+.toc a:hover { text-decoration: underline; }
+.platform-table th { font-size: 13px; }
+.platform-table td:first-child { font-weight: 600; color: #333; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<h1>hsp3dx DxLib マルチプラットフォーム対応状況</h1>
+<p class="meta">最終更新: 2026-04-22 (Tier 1 完了) &nbsp;|&nbsp; 対象ブランチ: <code>update-hsp3net</code> &nbsp;|&nbsp; ベース: DxLib 3.24f</p>
+
+<div class="summary-box">
+  <p><strong>目的:</strong> hsp3dx (HSP3 + DxLib 統一ランタイム) を Windows / iOS / Android / Mac / Linux / Web の 6 プラットフォームで同一 <code>.ax</code> を動かせるようにする。</p>
+  <p><strong>カラム整理:</strong> Win / iOS / Android は DxLib 本家 3.24f のソースをそのまま使う (D3D11 / Metal or GLES / GLES)。
+  Mac / Linux / Web は独自 fork <code>hsp3dx/dxlib_angle_sdl2/</code> で SDL2 + OpenGL (compat) / emscripten WebGL に差し替える。</p>
+  <p><strong>現在の到達点 (2026-04-22):</strong>
+     Stage 19 Font / Stage 20 Sound / Stage 21 Image / Stage 22 MakeScreen 本道 API 化完了。
+     Tier 1 (MakeScreen, SetDrawScreen, SetDrawArea, FillGraph, GraphLock/Unlock, DrawModiGraph) 全て実装済。
+     次は Tier 2 (Joypad, MouseWheel, GetDrawStringWidth) と Tier 3 (3D primitives)。</p>
+</div>
+
+<div class="legend">
+  <strong>凡例:</strong>
+  <span><span class="badge b-ok">✓</span> 実装済・動作確認済</span>
+  <span><span class="badge b-par">△</span> 部分的・軽い制限あり</span>
+  <span><span class="badge b-pen">⏳</span> ペンディング (SDK or 大規模工数待ち)</span>
+  <span><span class="badge b-no">×</span> 未実装 (stub)</span>
+  <span><span class="badge b-na">—</span> 対象外</span>
+</div>
+
+<h2 id="platforms">プラットフォーム技術スタック</h2>
+<table class="platform-table">
+  <tr><th>プラットフォーム</th><th>Window / Event</th><th>Graphics</th><th>Audio</th><th>Font</th><th>Image</th><th>備考</th></tr>
+  <tr>
+    <td>Windows (DxLib 本家)</td>
+    <td>Win32 API</td>
+    <td>D3D11 / D3D9</td>
+    <td>DirectSound / XAudio2</td>
+    <td>GetGlyphOutline (Win32)</td>
+    <td>WIC (libpng/libjpeg も)</td>
+    <td>DxLib.dll / DxLib.lib 標準。完成度 100%。</td>
+  </tr>
+  <tr>
+    <td>iOS (DxLib 本家)</td>
+    <td>UIKit + UIWindow</td>
+    <td>OpenGL ES 2/3</td>
+    <td>AudioUnit / AVAudioEngine</td>
+    <td>CoreText / CTFont</td>
+    <td>UIImage / CGImageSource</td>
+    <td>hsp3dx/ios テンプレで動作。Live2D は公式 DxLibEnableLive2D_iOS_3_24f.zip 要。</td>
+  </tr>
+  <tr>
+    <td>Android (DxLib 本家)</td>
+    <td>NativeActivity</td>
+    <td>OpenGL ES 2/3</td>
+    <td>OpenSL ES</td>
+    <td>FreeType (NDK)</td>
+    <td>BitmapFactory (Java→JNI)</td>
+    <td>hsp3dx/ndk テンプレで動作。Live2D は公式 DxLibEnableLive2D_Android_3_24f.zip 要。</td>
+  </tr>
+  <tr>
+    <td>Desktop SDL2 (Mac/Linux/Win)</td>
+    <td>SDL2</td>
+    <td>OpenGL compat (2.1, fixed-function)</td>
+    <td>SDL2_mixer</td>
+    <td>SDL2_ttf + Hook</td>
+    <td>stb_image</td>
+    <td>fork <code>hsp3dx/dxlib_angle_sdl2</code>。MSVC / AppleClang / GCC + CMake。</td>
+  </tr>
+  <tr>
+    <td>Web (emscripten)</td>
+    <td>SDL2 (emscripten ports)</td>
+    <td>WebGL 1 (LEGACY_GL_EMULATION)</td>
+    <td>SDL2_mixer (未検証)</td>
+    <td>SDL2_ttf (未検証)</td>
+    <td>stb_image</td>
+    <td>stage6〜9 までのみ確認。Font/Sound/Image は Desktop と同じコードだが Web では未ビルド検証。user gesture 問題あり。</td>
+  </tr>
+</table>
+
+<div class="toc">
+  <strong>目次:</strong>
+  <a href="#window">1. ウィンドウ/画面</a>
+  <a href="#draw2d">2. 2D プリミティブ</a>
+  <a href="#image">3. 画像/テクスチャ</a>
+  <a href="#font">4. フォント/文字列</a>
+  <a href="#sound">5. サウンド</a>
+  <a href="#input">6. 入力</a>
+  <a href="#draw3d">7. 3D 描画</a>
+  <a href="#model">8. 3D モデル</a>
+  <a href="#movie">9. ムービー/Live2D</a>
+  <a href="#effect">10. シェーダ/Mask/Filter</a>
+  <a href="#net">11. ネットワーク</a>
+  <a href="#file">12. ファイル/アーカイブ</a>
+  <a href="#misc">13. その他</a>
+</div>
+
+<!-- ========================================================== -->
+<h2 id="window">1. ウィンドウ / 画面制御</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2<br>(Win/Mac/Linux)</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">DxLib_Init / DxLib_End</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL2: <code>DxSystemDesktop.cpp</code> で SDL_InitSubSystem + MakeWinAndGL</td>
+  <td class="note">GL context は COMPATIBILITY profile 2.1 (Win/Mac/Linux) または LEGACY_GL_EMULATION (Web)。</td>
+</tr>
+<tr><td class="fn">ChangeWindowMode</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="tech">SDL_SetWindowFullscreen 切り替え</td>
+  <td class="note">SDL2 経路は stub。呼び出し時 TRUE/FALSE 切替は未接続。</td>
+</tr>
+<tr><td class="fn">SetGraphMode</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">SDL_CreateWindow の w/h</td>
+  <td class="note">初期化前に呼ぶ必要あり。動的変更は未対応。</td>
+</tr>
+<tr><td class="fn">SetBackgroundColor</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">GSYS.Screen.BackgroundRGB を glClearColor へ</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">ClearDrawScreen</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">ScreenFlip</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL_GL_SwapWindow</td>
+  <td class="note">Web は emscripten 側で自動フリップ。</td>
+</tr>
+<tr><td class="fn">ProcessMessage</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">SDL_PollEvent</td>
+  <td class="note">SDL2 版は stage 側で直接 SDL_PollEvent。ProcessMessage 自体の実装は暫定。</td>
+</tr>
+<tr><td class="fn">SetDrawArea</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glScissor + glEnable(GL_SCISSOR_TEST)</td>
+  <td class="note">Tier 1 完了。FBO 時と画面時で Y 座標変換を切り替え。</td>
+</tr>
+<tr><td class="fn">SetDrawScreen</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glBindFramebuffer + viewport</td>
+  <td class="note">Tier 1 完了 (stage22)。DX_SCREEN_BACK / FRONT / WORK / TEMPFRONT はデフォルト FBO(0)、画像ハンドルはその FBO へ。</td>
+</tr>
+<tr><td class="fn">MakeScreen</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glGenFramebuffers + GL_COLOR_ATTACHMENT0 + depth renderbuffer (24bit)</td>
+  <td class="note">Tier 1 完了 (stage22)。FBO 関数は SDL_GL_GetProcAddress 経由で動的ロード (Windows の opengl32.dll は GL 1.1 のみのため)。Y 軸反転は FBO/画面で ortho を切替えて吸収。</td>
+</tr>
+<tr><td class="fn">GetDrawScreenGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">glReadPixels + ReCreateGraphFromBaseImage</td>
+  <td class="note">MakeScreen は動いたので次は RenderTarget → graph 変換。Tier 2。</td>
+</tr>
+<tr><td class="fn">WaitTimer / GetNowCount / GetNowHiPerformanceCount</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL_GetTicks / SDL_Delay / SDL_GetPerformanceCounter</td>
+  <td class="note">DxLib 本体が POSIX 対応。</td>
+</tr>
+<tr><td class="fn">SetWaitVSyncFlag / SetFPSMax</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="tech">SDL_GL_SetSwapInterval</td>
+  <td class="note">Web は requestAnimationFrame に従うので VSync 設定は無視される。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="draw2d">2. 2D プリミティブ</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">DrawPixel / DrawLine / DrawBox / DrawFillBox</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glBegin/glEnd (GL_POINTS / GL_LINES / GL_TRIANGLE_STRIP)</td>
+  <td class="note">fixed-function 経路。DxGraphicsDesktop.cpp。</td>
+</tr>
+<tr><td class="fn">DrawCircle / DrawOval (outline+fill)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">GL_TRIANGLE_FAN / GL_LINE_LOOP (48 分割)</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">DrawTriangle / DrawQuadrangle / DrawLineBox</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">GL_TRIANGLES / GL_LINE_LOOP</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">*_Thickness 系 (Circle/Oval/Line Thickness)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">glLineWidth (driver 制限 &le;10.0)</td>
+  <td class="note">glLineWidth は GL core で deprecated。NVIDIA/AMD で挙動差あり。</td>
+</tr>
+<tr><td class="fn">*Set 系 (DrawBoxSet / DrawLineSet / DrawPixelSet)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glBegin 内でループ (配列一括)</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">SetDrawBlendMode (ALPHA/ADD/SUB/MUL/INV/PMA)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">glBlendFunc / glBlendEquation</td>
+  <td class="note">SUB は glBlendEquation extension 不使用のため α 反転近似 (完全互換でない)。</td>
+</tr>
+<tr><td class="fn">SetDrawBright / SetDrawAddColor</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">glColor4ub への乗算</td>
+  <td class="note">SetDrawBright のみ実装。SetDrawAddColor は stub。</td>
+</tr>
+<tr><td class="fn">GetColor / GetColor2 / NS_GetColor2</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">DxLib 本体 (ARGB8 format)</td>
+  <td class="note">—</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="image">3. 画像 / テクスチャ</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">LoadGraph / LoadReverseGraph (PNG/JPEG/BMP/GIF/TGA/PSD)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Win: WIC / iOS: CoreGraphics / Android: BitmapFactory / SDL2+Web: <code>stb_image</code> via <code>DefaultImageLoadFunc_PF[]</code></td>
+  <td class="note">Stage 21 で導入。stb_image は PNG/JPEG/BMP/GIF/TGA/PSD 対応。Web は Desktop と同じコードだが未検証。</td>
+</tr>
+<tr><td class="fn">LoadDivGraph / LoadDivBmpToGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">DxLib 本体が一括 → Derivation Graph で分割</td>
+  <td class="note">LoadGraph が動けば芋づる。</td>
+</tr>
+<tr><td class="fn">CreateGraphFromBaseImage / ReCreateGraphFromBaseImage</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">BASEIMAGE + DxLib 内部経路</td>
+  <td class="note">Stage 17 で動作確認済。</td>
+</tr>
+<tr><td class="fn">DeleteGraph / InitGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glDeleteTextures + DxLib handle 解放</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">DrawGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">glBindTexture + GL_TRIANGLE_STRIP</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">DrawRotaGraph / DrawRotaGraph2 / DrawRotaGraph3</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">CPU 側で回転行列 → quad 頂点</td>
+  <td class="note">DrawRotaGraph のみ実装。2/3 (原点指定) は未差別化 = 一部座標で誤差。</td>
+</tr>
+<tr><td class="fn">DrawExtendGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">任意矩形指定の texture quad</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">DrawModiGraph / DrawModiGraphF</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">GL_TRIANGLE_STRIP 4 頂点 (affine 補間)</td>
+  <td class="note">Tier 1 完了。UV は affine 補間 (perspective 補正なし)。歪みが大きいと中央にアーティファクト。必要なら 2 三角分割 + perspective 補正へ拡張。</td>
+</tr>
+<tr><td class="fn">DrawBlendGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">multi-texture fragment 相当</td>
+  <td class="note">Tier 2 で検討。</td>
+</tr>
+<tr><td class="fn">GetGraphSize / GetGraphTextureSize</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">DxLib 本体 (IMAGEDATA 参照)</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">GraphLock / GraphUnlock</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Desktop: glGetTexImage。Web: FBO 経由で glReadPixels + RGBA→BGRA swap。</td>
+  <td class="note">Tier 1 完了。Image->LockImage / LockImagePitch を static バッファで返す。Web は glGetTexImage 不在のため <code>#ifdef __EMSCRIPTEN__</code> で迂回。</td>
+</tr>
+<tr><td class="fn">FillGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">FBO 付: glBindFramebuffer + glClear / 通常テクスチャ: glTexSubImage2D で一括フィル</td>
+  <td class="note">Tier 1 完了。</td>
+</tr>
+<tr><td class="fn">DerivationGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">同一 texture の部分参照 handle</td>
+  <td class="note">DxLib 本体のみで動作するはず (GraphData は参照共有)。未網羅確認。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="font">4. フォント / 文字列</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">CreateFontToHandle / DeleteFontToHandle</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">SDL2_ttf (TTF_OpenFont) + プラットフォーム別 fallback パス</td>
+  <td class="note">Win: YuGothR/meiryo/msgothic, Mac: Hiragino/Helvetica, Linux: DejaVu/NotoCJK。</td>
+</tr>
+<tr><td class="fn">DrawString / DrawStringToHandle / DrawNString...</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech"><code>Desktop_DrawString_Hook</code> 注入で DxFont.cpp の DrawStringHardware を乗っ取り → SDL_ttf 直接描画</td>
+  <td class="note">FontCache 経路はバイパス。Web は SDL2_ttf 統合未検証。</td>
+</tr>
+<tr><td class="fn">DrawExtendString / DrawRotaString</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Hook で ExRate / 回転対応</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">DrawFormatString / DrawFormatStringToHandle</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">DxLib 内部で vsprintf → DrawString</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">GetDrawStringWidth / GetDrawStringWidthToHandle</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">TTF_SizeUTF8 で測定</td>
+  <td class="note">Tier 2 で実装。FontCache 経路を使っていないので別 Hook が必要。</td>
+</tr>
+<tr><td class="fn">SetFontSize / SetFontColor</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">DxLib 本体 (DefaultFontHandle を再生成)</td>
+  <td class="note">DX_DEFAULT_FONT_HANDLE の挙動は未検証 (stage19 で確認済なのは CreateFontToHandle 経由)。</td>
+</tr>
+<tr><td class="fn">EnumFontName</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">Win: EnumFontFamilies / SDL2 は fontconfig 等必要</td>
+  <td class="note">優先度低。</td>
+</tr>
+<tr><td class="fn">ChangeFont / AddFontFile</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">TTF_OpenFont で任意 .ttf/.ttc</td>
+  <td class="note">CreateFontToHandle の fallback 配列に任意パス追加は未実装。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="sound">5. サウンド</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">LoadSoundMem (WAV / OGG / MP3)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Mix_LoadWAV (SDL2_mixer)。DxSoundDesktop.cpp で直接提供。</td>
+  <td class="note">Web は SDL2_mixer が emscripten ports にあるが未検証。MP3 は libmpg123 リンク要。</td>
+</tr>
+<tr><td class="fn">LoadSoundMem2 / LoadSoundMemByMemImage / LoadSoundMem2ByMemImage</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">前奏+ループ分離, メモリ読み込み</td>
+  <td class="note">Tier 2 で追加予定。Mix_LoadWAV_RW で実装可能。</td>
+</tr>
+<tr><td class="fn">PlaySoundMem (BACK / NORMAL / LOOP)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Mix_PlayChannel</td>
+  <td class="note">LOOP ビット検出済。NORMAL (ブロック再生) は未対応。</td>
+</tr>
+<tr><td class="fn">StopSoundMem / CheckSoundMem / InitSoundMem</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Mix_HaltChannel / Mix_Playing</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">SetVolumeSoundMem / ChangeVolumeSoundMem (0..10000)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">Mix_VolumeChunk (0..128 へ再スケール)</td>
+  <td class="note">—</td>
+</tr>
+<tr><td class="fn">SetPanSoundMem / ChangePanSoundMem</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">Mix_SetPanning</td>
+  <td class="note">Tier 2 で追加予定。</td>
+</tr>
+<tr><td class="fn">3D サウンド (Set3DPositionSoundMem 等)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">OpenAL 相当 (distance attenuation)</td>
+  <td class="note">優先度低。SDL2_mixer に 3D 音像は無い。</td>
+</tr>
+<tr><td class="fn">SoftSound (SoftSound_MakeBuffer 等)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">CPU 側 PCM 生成 → Mix_LoadWAV_RW</td>
+  <td class="note">動的 WAV 生成 API。Tier 2 検討。</td>
+</tr>
+<tr><td class="fn">PlayMusic (MIDI / DirectMusic)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">Win 以外は廃止扱い</td>
+  <td class="note">本家でも iOS/Android は未対応。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="input">6. 入力</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">CheckHitKey / CheckHitKeyAll / GetHitKeyStateAll</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL_GetKeyboardState + DxLib KEY_INPUT_* → SDL_SCANCODE マップ</td>
+  <td class="note">Stage 16 で動作確認。</td>
+</tr>
+<tr><td class="fn">GetMouseInput / GetMousePoint / SetMousePoint</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">SDL_GetMouseState</td>
+  <td class="note">LEFT/RIGHT/MID ボタン対応済。</td>
+</tr>
+<tr><td class="fn">GetMouseWheelRotVol</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">SDL_MOUSEWHEEL event</td>
+  <td class="note"><strong>Tier 2:</strong> 次期実装予定。</td>
+</tr>
+<tr><td class="fn">GetJoypadInputState / GetJoypadAnalogInput</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">SDL_GameController API</td>
+  <td class="note"><strong>Tier 2:</strong> 次期実装予定。DxInputDesktop.cpp の joypad PF は stub。</td>
+</tr>
+<tr><td class="fn">GetJoypadXInputState (XInput)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">SDL_GameController (XInput を包含)</td>
+  <td class="note">Tier 2 で実装。</td>
+</tr>
+<tr><td class="fn">GetTouchInput / GetTouchInputNum</td>
+  <td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">SDL_FINGERDOWN 等のイベント</td>
+  <td class="note">Web でも touch device (iPad Safari 等) は可能。Tier 2。</td>
+</tr>
+<tr><td class="fn">KeyInputString (IME 統合)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">DX_NON_INPUTSTRING=1 で殺されている</td>
+  <td class="note">SDL_StartTextInput で原理的に可能だが複雑。優先度低。</td>
+</tr>
+<tr><td class="fn">KeyEx (DX_NON_KEYEX)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">高機能キー入力 (押下長など)</td>
+  <td class="note">DX_NON_KEYEX=1。優先度低。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="draw3d">7. 3D 描画</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">SetCameraPositionAndTarget_UpVecY / SetCameraNearFar</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">DxLib 本体で行列計算 → Graphics_Hardware_SetTransformToView_PF へ</td>
+  <td class="note">PF が stub なので行列は保持されるが GL には反映されない。Tier 3。</td>
+</tr>
+<tr><td class="fn">SetupCamera_Perspective / SetupCamera_Ortho</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">同上</td>
+  <td class="note">SetTransformToProjection_PF が stub。Tier 3。</td>
+</tr>
+<tr><td class="fn">DrawLine3D / DrawTriangle3D / DrawPixel3D</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">glMatrixMode(GL_PROJECTION) / glMultMatrix + glBegin</td>
+  <td class="note"><strong>Tier 3:</strong> 次期実装予定。</td>
+</tr>
+<tr><td class="fn">DrawBillboard3D</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">view 行列から X/Y 軸抽出 → texture quad</td>
+  <td class="note">Tier 3。</td>
+</tr>
+<tr><td class="fn">DrawPolygon3D / DrawPolygonIndexed3D</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">VERTEX_3D → glBegin(GL_TRIANGLES)</td>
+  <td class="note">Tier 3。</td>
+</tr>
+<tr><td class="fn">SetWriteZBuffer / ClearDrawScreenZBuffer</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">glDepthMask / glClear(GL_DEPTH_BUFFER_BIT)</td>
+  <td class="note">ClearDrawScreen で一緒に clear しているが SetWriteZBuffer は stub。</td>
+</tr>
+<tr><td class="fn">SetLightEnable / CreateDirLightHandle</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">glLightfv / glEnable(GL_LIGHT0..)</td>
+  <td class="note">fixed-function light。Tier 3 or 4。</td>
+</tr>
+<tr><td class="fn">Fog (SetFogEnable / SetFogColor 等)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">glFogi / glFogf</td>
+  <td class="note">優先度低。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="model">8. 3D モデル</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">MV1LoadModel (MV1/X/PMD/PMX/FBX)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">DX_NON_MODEL=1 で封印中</td>
+  <td class="note">Tier 4。DxModel.cpp は巨大 (数千行)。MV1 内部 parser を DX_NON_MODEL 外して移植するのが最短。シェーダまわりで手間。</td>
+</tr>
+<tr><td class="fn">MV1DrawModel</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">インデックスバッファ + glDrawElements</td>
+  <td class="note">DX_NON_MODEL 解除必要。</td>
+</tr>
+<tr><td class="fn">MV1SetPosition / Rotation / Scale / MV1SetupFrameAnim</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">DxLib 本体 (CPU 側)</td>
+  <td class="note">Draw が動けばここは既に動く。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="movie">9. ムービー / Live2D</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">PlayMovie / PlayMovieToGraph</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">Win: Media Foundation / iOS: AVFoundation / Android: MediaCodec</td>
+  <td class="note">Tier 4。DX_NON_MOVIE=1 で封印。SDL2 側は ffmpeg や GStreamer 要。</td>
+</tr>
+<tr><td class="fn">Live2D Cubism4 API</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">Live2D Cubism SDK</td>
+  <td class="note">iOS/Android は公式 DxLibEnableLive2D_{iOS,Android}_3_24f.zip で有効化可能 (未適用)。Cubism SDK ライセンス要。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="effect">10. シェーダ / Mask / Filter / その他高度描画</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">LoadVertexShader / LoadPixelShader / SetUseVertexShader 等</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">GLSL 相当に変換要</td>
+  <td class="note">Graphics_Hardware_Shader_* PF は全 stub。Win は HLSL コンパイル。Tier 4。</td>
+</tr>
+<tr><td class="fn">Mask (CreateMaskScreen 等)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">stencil buffer</td>
+  <td class="note">DX_NON_MASK=1。glStencilFunc 相当で実装可能だが中程度工数。</td>
+</tr>
+<tr><td class="fn">GraphFilter / GraphBlend</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">post-process shader</td>
+  <td class="note">DX_NON_FILTER=1。Gaussian blur / HSB シフト等。シェーダ基盤が先決。</td>
+</tr>
+<tr><td class="fn">Bullet Physics 統合</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-pen">⏳</span></td><td class="center"><span class="badge b-pen">⏳</span></td>
+  <td class="tech">Bullet Physics ライブラリ</td>
+  <td class="note">DX_NON_BULLET_PHYSICS=1。優先度低。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="net">11. ネットワーク</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">ConnectNetWork / NetWorkRecv / NetWorkSend</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">POSIX socket</td>
+  <td class="note">DxLib 本体が POSIX 対応。Web は WebSocket 経由以外は不可能。</td>
+</tr>
+<tr><td class="fn">UDP ソケット</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">POSIX socket</td>
+  <td class="note">Web 不可 (WebSocket/WebRTC しか無い)。</td>
+</tr>
+<tr><td class="fn">HTTP クライアント (ExecHttpGet 等)</td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">—</td>
+  <td class="note">DxLib.h に宣言あるが DxGateway.cpp L3755-3871 コメントブロック内 (全環境で使用不可)。hsp3dx は iron_url で代替。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="file">12. ファイル / アーカイブ</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">DXArchive (.dxa 読み込み, SetUseDXArchiveFlag 等)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">DxLib 本体 (POSIX file + 暗号化)</td>
+  <td class="note">DxArchive_.cpp は本体に含まれておりビルド済。未実機検証。</td>
+</tr>
+<tr><td class="fn">FileRead_open / FileRead_read / FileRead_close</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">fopen/fread/fclose + DXArchive fallback</td>
+  <td class="note">Web は emscripten FS.preloadFile 等でバンドル要。</td>
+</tr>
+</table>
+
+<!-- ========================================================== -->
+<h2 id="misc">13. その他 (ユーティリティ)</h2>
+<table>
+<tr><th>関数</th><th class="center">Win</th><th class="center">iOS</th><th class="center">Android</th><th class="center">SDL2</th><th class="center">Web</th><th>実装 / 技術</th><th>備考</th></tr>
+<tr><td class="fn">GetRand / SRand</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">DxLib 内蔵 LCG</td><td class="note">—</td></tr>
+<tr><td class="fn">GetDateTime</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-ok">✓</span></td>
+  <td class="tech">time.h / localtime</td><td class="note">—</td></tr>
+<tr><td class="fn">SetClipboardString / GetClipboardString</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-na">—</span></td><td class="center"><span class="badge b-na">—</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">SDL_SetClipboardText / SDL_GetClipboardText</td>
+  <td class="note">Tier 2 で追加予定 (低コスト)。</td>
+</tr>
+<tr><td class="fn">Dialog (MessageBox 等)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="center"><span class="badge b-no">×</span></td><td class="center"><span class="badge b-no">×</span></td>
+  <td class="tech">SDL_ShowSimpleMessageBox</td>
+  <td class="note">Tier 2 (低コスト)。</td>
+</tr>
+<tr><td class="fn">printfDx / clsDx (debug console)</td>
+  <td class="center"><span class="badge b-ok">✓</span></td><td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="center"><span class="badge b-par">△</span></td><td class="center"><span class="badge b-par">△</span></td>
+  <td class="tech">DxLib 本体 (画面内コンソール)</td>
+  <td class="note">Font が動けば大体動くが未網羅確認。</td>
+</tr>
+</table>
+
+<hr style="margin: 40px 0 20px; border: none; border-top: 1px solid var(--border);">
+<p class="meta">
+  ソース: <code>hsp3dx/dxlib_angle_sdl2/dxlib_portable/Desktop/*.cpp</code> (SDL2 + Web 独自実装) &nbsp;/&nbsp;
+  <code>hsp3dx/dxlib_angle_sdl2/dxlib_portable/DxGraphics.cpp</code> 他 (DxLib 3.24f 本体)。<br>
+  関連コミット: <code>9a9fa2b8</code> (Font/Sound) / <code>69b7de2d</code> (Image) / <code>0d8ab9ed</code> (Stage 16-18) / <code>7fdbefc8</code> (iOS WebSocket)<br>
+  stage テスト: stage16 (Input) / stage17 (Texture) / stage18 (RotaGraph) / stage19 (Font) / stage20 (Sound) / stage21 (Image) / stage22 (MakeScreen)。
+</p>
+
+</body>
+</html>
