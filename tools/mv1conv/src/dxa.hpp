@@ -19,4 +19,10 @@ DecodeResult decode(std::span<const std::uint8_t> src);
 // 先頭 9 byte ヘッダから伸長後サイズだけ取得
 std::uint32_t decoded_size(std::span<const std::uint8_t> src);
 
+// DXA エンコード (literal-only モード: 圧縮なし、入力データに存在しないバイトを
+// KeyCode に選んで全バイトをリテラル出力する。全 256 byte が使われている場合は
+// 稀な byte を KeyCode にして KeyCode 出現時は KeyCode KeyCode でエスケープ)。
+// 出力サイズは 9 + origSize + (escape された KeyCode 出現数) byte。
+std::vector<std::uint8_t> encode_literal(std::span<const std::uint8_t> src);
+
 }

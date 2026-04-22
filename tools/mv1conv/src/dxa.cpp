@@ -15,6 +15,41 @@ inline std::uint32_t rd32(const std::uint8_t *p) {
          | (static_cast<std::uint32_t>(p[3]) << 24);
 }
 
+inline void wr32(std::uint8_t *p, std::uint32_t v) {
+    p[0] = static_cast<std::uint8_t>(v);
+    p[1] = static_cast<std::uint8_t>(v >> 8);
+    p[2] = static_cast<std::uint8_t>(v >> 16);
+    p[3] = static_cast<std::uint8_t>(v >> 24);
+}
+
+}
+
+std::vector<std::uint8_t> encode_literal(std::span<const std::uint8_t> src) {
+    // byte histogram で一番少ない値を KeyCode に
+    std::size_t hist[256] = {0};
+    for (auto b : src) ++hist[b];
+
+    int key = 0;
+    for (int i = 1; i < 256; ++i) if (hist[i] < hist[key]) key = i;
+
+    std::vector<std::uint8_t> out;
+    out.resize(9 + src.size() + hist[key]);  // KeyCode 出現分だけエスケープで+1 each
+
+    wr32(out.data() + 0, static_cast<std::uint32_t>(src.size()));
+    // CompressedSize は出力バッファ全体サイズ (9 byte header 込み)
+    wr32(out.data() + 4, static_cast<std::uint32_t>(out.size()));
+    out[8] = static_cast<std::uint8_t>(key);
+
+    std::uint8_t *dp = out.data() + 9;
+    for (auto b : src) {
+        if (b == static_cast<std::uint8_t>(key)) {
+            *dp++ = static_cast<std::uint8_t>(key);
+            *dp++ = static_cast<std::uint8_t>(key);
+        } else {
+            *dp++ = b;
+        }
+    }
+    return out;
 }
 
 std::uint32_t decoded_size(std::span<const std::uint8_t> src) {
