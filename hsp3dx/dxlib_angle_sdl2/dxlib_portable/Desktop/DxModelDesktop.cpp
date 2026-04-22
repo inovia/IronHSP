@@ -34,6 +34,30 @@
 #include <cstdlib>
 #include <cmath>
 
+// GL 1.3+ 関数 (glActiveTexture / glMultiTexCoord2f) は GDI32 の opengl32.lib
+// には無いので SDL_GL_GetProcAddress で動的解決する。
+#ifndef GL_TEXTURE0
+#define GL_TEXTURE0 0x84C0
+#endif
+typedef void (APIENTRYP PFN_desk_glActiveTexture)( GLenum texture ) ;
+typedef void (APIENTRYP PFN_desk_glMultiTexCoord2f)( GLenum target, GLfloat s, GLfloat t ) ;
+static PFN_desk_glActiveTexture   p_glActiveTexture   = nullptr ;
+static PFN_desk_glMultiTexCoord2f p_glMultiTexCoord2f = nullptr ;
+static int s_mt_loaded = 0 ;
+static void desktop_mv1_load_mt_funcs( void )
+{
+    if ( s_mt_loaded ) return ;
+    p_glActiveTexture   = ( PFN_desk_glActiveTexture )   SDL_GL_GetProcAddress( "glActiveTexture" ) ;
+    p_glMultiTexCoord2f = ( PFN_desk_glMultiTexCoord2f ) SDL_GL_GetProcAddress( "glMultiTexCoord2f" ) ;
+    if ( !p_glActiveTexture ) {
+        p_glActiveTexture = ( PFN_desk_glActiveTexture ) SDL_GL_GetProcAddress( "glActiveTextureARB" ) ;
+    }
+    if ( !p_glMultiTexCoord2f ) {
+        p_glMultiTexCoord2f = ( PFN_desk_glMultiTexCoord2f ) SDL_GL_GetProcAddress( "glMultiTexCoord2fARB" ) ;
+    }
+    s_mt_loaded = 1 ;
+}
+
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
 {
@@ -395,6 +419,8 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     if ( !TList->NormalPosition ) return ;
     if ( !Mesh || !Mesh->BaseData ) return ;
 
+    desktop_mv1_load_mt_funcs() ;
+
     // マテリアルから Diffuse と DiffuseLayer[0..N-1] (multi-texture) を取得
     GLubyte mR = 200, mG = 200, mB = 200, mA = 255 ;
     GLuint texId  = 0 ;        // layer 0 (メイン texture、multi-tex 無し経路と互換)
@@ -466,13 +492,13 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
         }
     } ;
     for ( int li = 0 ; li < layerN ; ++li ) {
-        glActiveTexture( GL_TEXTURE0 + li ) ;
+        if ( p_glActiveTexture ) p_glActiveTexture( GL_TEXTURE0 + li ) ;
         glEnable( GL_TEXTURE_2D ) ;
         glBindTexture( GL_TEXTURE_2D, layerTex[ li ] ) ;
         GLenum mode = ( li == 0 ) ? GL_MODULATE : to_tex_env( layerBlend[ li ] ) ;
         glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mode ) ;
     }
-    glActiveTexture( GL_TEXTURE0 ) ;  // 頂点属性送信は TMU 0 を主とする
+    if ( p_glActiveTexture ) p_glActiveTexture( GL_TEXTURE0 ) ;  // 頂点属性送信は TMU 0 を主とする
     if ( layerN == 0 ) glDisable( GL_TEXTURE_2D ) ;
 #else
     if ( texId ) {
@@ -514,7 +540,7 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
                     if ( mb->UVUnitNum > ti ) {
                         u = mv->UVs[ ti ][ 0 ] ; v = mv->UVs[ ti ][ 1 ] ;
                     }
-                    glMultiTexCoord2f( GL_TEXTURE0 + ti, u, v ) ;
+                    if ( p_glMultiTexCoord2f ) p_glMultiTexCoord2f( GL_TEXTURE0 + ti, u, v ) ;
                 }
 #endif
             }
@@ -537,11 +563,11 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     // テクスチャアンバインド (multi-texture 対応)
 #ifdef GL_TEXTURE0
     for ( int li = 0 ; li < layerN ; ++li ) {
-        glActiveTexture( GL_TEXTURE0 + li ) ;
+        if ( p_glActiveTexture ) p_glActiveTexture( GL_TEXTURE0 + li ) ;
         glBindTexture( GL_TEXTURE_2D, 0 ) ;
         glDisable( GL_TEXTURE_2D ) ;
     }
-    glActiveTexture( GL_TEXTURE0 ) ;
+    if ( p_glActiveTexture ) p_glActiveTexture( GL_TEXTURE0 ) ;
 #else
     if ( texId ) {
         glBindTexture( GL_TEXTURE_2D, 0 ) ;
