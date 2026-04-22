@@ -1,19 +1,19 @@
 // ----------------------------------------------------------------------------
 // 
-// 		‚c‚wƒ‰ƒCƒuƒ‰ƒŠ		‚c‚‰‚’‚…‚ƒ‚”‚c‚’‚‚—§ŒäƒvƒƒOƒ‰ƒ€
+// 		ï¿½cï¿½wï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½		ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 // 
 // 				Ver 3.24f
 // 
 // ----------------------------------------------------------------------------
 
-// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠì¬—p’è‹`
+// ï¿½cï¿½wï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½pï¿½ï¿½`
 #define DX_MAKE
 
 #include "DxCompileConfig.h"
 
 #ifndef DX_NON_FONT
 
-// ƒCƒ“ƒNƒ‹[ƒh----------------------------------------------------------------
+// ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½h----------------------------------------------------------------
 #include "DxLib.h"
 #include "DxStatic.h"
 #include "DxFont.h"
@@ -61,9 +61,9 @@ namespace DxLib
 
 #endif // DX_NON_NAMESPACE
 
-// ƒ}ƒNƒ’è‹`------------------------------------------------------------------
+// ï¿½}ï¿½Nï¿½ï¿½ï¿½ï¿½`------------------------------------------------------------------
 
-#define FONTEDGE_PATTERN_NUM	(4)			// —pˆÓ‚·‚é•¶š‚Ì‰‚Ìƒpƒ^[ƒ“‚Ì”
+#define FONTEDGE_PATTERN_NUM	(4)			// ï¿½pï¿½Ó‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Ìƒpï¿½^ï¿½[ï¿½ï¿½ï¿½Ìï¿½
 
 
 #define FONTHANDLE_TCHAR_TO_WCHAR_TEMPSTRINGLENGTH				(512)
@@ -281,13 +281,13 @@ namespace DxLib
 	CL_vsnprintf( CharCodeFormat, _TISWCHAR, CHAR_CHARCODEFORMAT, WCHAR_T_CHARCODEFORMAT, ( char * )String, sizeof( String ) / sizeof( TCHAR ), ( const char * )FormatString, VaList ) ;
 
 
-// \‘¢‘ÌŒ^éŒ¾----------------------------------------------------------------
+// ï¿½\ï¿½ï¿½ï¿½ÌŒ^ï¿½éŒ¾----------------------------------------------------------------
 
-// ƒf[ƒ^éŒ¾------------------------------------------------------------------
+// ï¿½fï¿½[ï¿½^ï¿½éŒ¾------------------------------------------------------------------
 
-static const char *GetFontCacheChar_ErrorMessage = "\xc6\x30\xad\x30\xb9\x30\xc8\x30\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\x6e\x30\xfd\x8f\xa0\x52\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ƒeƒLƒXƒgƒLƒƒƒbƒVƒ…‚Ì’Ç‰Á‚É¸”s‚µ‚Ü‚µ‚½\n" @*/ ;
+static const char *GetFontCacheChar_ErrorMessage = "\xc6\x30\xad\x30\xb9\x30\xc8\x30\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\x6e\x30\xfd\x8f\xa0\x52\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ï¿½eï¿½Lï¿½Xï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ì’Ç‰ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n" @*/ ;
 
-// •¶š‚Ì‰‚Ìƒpƒ^[ƒ“ƒe[ƒuƒ‹
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Ìƒpï¿½^ï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½
 static unsigned char _FontEdgePattern[FONTEDGE_PATTERN_NUM][FONTEDGE_PATTERN_NUM*2+1][FONTEDGE_PATTERN_NUM*2+1] =
 {
 	// 1
@@ -447,10 +447,10 @@ static BYTE DefaultFontImage[] =
 
 FONTSYSTEM FontSystem ;
 
-// ŠÖ”ƒvƒƒgƒ^ƒCƒvéŒ¾--------------------------------------------------------
+// ï¿½Öï¿½ï¿½vï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½vï¿½éŒ¾--------------------------------------------------------
 
 static int FontCacheStringAddToHandle(		FONTMANAGE *ManageData, const wchar_t *String, const wchar_t *IVSString, int StrLen = -1,
-											DWORD *DrawStrBuffer = NULL, DWORD *DrawIVSBuffer = NULL, int *DrawCharNumP = NULL ) ;	// •¶šƒLƒƒƒbƒVƒ…‚ÉV‚µ‚¢•¶š‚ğ‰Á‚¦‚é
+											DWORD *DrawStrBuffer = NULL, DWORD *DrawIVSBuffer = NULL, int *DrawCharNumP = NULL ) ;	// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÉVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 #ifndef DX_NON_GRAPHICS
 
@@ -470,7 +470,7 @@ static int DrawModiStringSoftware(			int x1, int y1, int x2, int y2, int x3, int
 static int EnumFontNameBase(  wchar_t *NameBuffer, int NameBufferNum, int JapanOnlyFlag, int IsEx = FALSE, int CharSet = -1, const wchar_t *EnumFontName = NULL, int IsReturnValid = FALSE ) ;
 static int EnumFontNameBaseT( TCHAR   *NameBuffer, int NameBufferNum, int JapanOnlyFlag, int IsEx = FALSE, int CharSet = -1, const TCHAR   *EnumFontName = NULL, int IsReturnValid = FALSE ) ;
 
-// ƒvƒƒOƒ‰ƒ€ƒR[ƒh------------------------------------------------------------
+// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½h------------------------------------------------------------
 
 __inline DWORD WCHAR_T_GetCharCode(	const wchar_t *CharCode, int CharCodeFormat, int *CharBytes )
 {
@@ -543,7 +543,7 @@ __inline DWORD WCHAR_T_GetCharCode(	const wchar_t *CharCode, int CharCodeFormat,
 	return DestCode ;
 }
 
-// ƒtƒHƒ“ƒgŠÇ—ƒf[ƒ^‚Ìæ“¾
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ç—ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾
 __inline FONTMANAGE * GetFontManageDataToHandle_Inline( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -553,7 +553,7 @@ __inline FONTMANAGE * GetFontManageDataToHandle_Inline( int FontHandle )
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return NULL ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return ManageData ;
 }
 extern FONTMANAGE * GetFontManageDataToHandle( int FontHandle )
@@ -563,9 +563,29 @@ extern FONTMANAGE * GetFontManageDataToHandle( int FontHandle )
 
 #ifndef DX_NON_GRAPHICS
 
+#if defined(DX_PLATFORM_DESKTOP_SDL2)
+// Desktop (SDL2/GL) å°‚ç”¨ãƒ•ãƒƒã‚¯: FontCache ã‚’ä»‹ã•ãš SDL_ttf ã§ç›´æ¥æç”»ã™ã‚‹ã€‚
+// DxFontDesktop.cpp å´ã§å®Ÿè£…ã€‚æˆ»ã‚Šå€¤ >= 0 ãªã‚‰ãã“ã§å‡¦ç†å®Œäº†ã€‚
+extern int Desktop_DrawString_Hook(
+    int xi, int yi, float xf, float yf, int PosIntFlag,
+    double ExRateX, double ExRateY,
+    int RotCenterEnable, float RotCenterX, float RotCenterY, double RotAngle,
+    const wchar_t *String, size_t StringLength,
+    unsigned int Color, FONTMANAGE *Font,
+    unsigned int EdgeColor, int VerticalFlag ) ;
+#endif
+
 static int DrawStringHardware( int xi, int yi, float xf, float yf, int PosIntFlag, const wchar_t *String, size_t StringLength, unsigned int Color, FONTMANAGE *Font, unsigned int EdgeColor, int VerticalFlag )
 {
-	// ƒtƒHƒ“ƒg‚ÉƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ªg—p‚³‚ê‚Ä‚¢‚éê‡
+#if defined(DX_PLATFORM_DESKTOP_SDL2)
+	{
+		int r = Desktop_DrawString_Hook( xi, yi, xf, yf, PosIntFlag,
+			1.0, 1.0, FALSE, 0.0f, 0.0f, 0.0,
+			String, StringLength, Color, Font, EdgeColor, VerticalFlag ) ;
+		if( r >= 0 ) return r ;
+	}
+#endif
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 	if( Font->TextureCacheFlag )
 	{
 		if( Font->TextureCacheLostFlag == TRUE )
@@ -605,16 +625,24 @@ static int DrawStringHardware( int xi, int yi, float xf, float yf, int PosIntFla
 	{
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
 static int DrawExtendStringHardware( int xi, int yi, float xf, float yf, int PosIntFlag, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, unsigned int Color, FONTMANAGE *Font, unsigned int EdgeColor, int VerticalFlag )
 {
-	// ƒtƒHƒ“ƒg‚ÉƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ªg—p‚³‚ê‚Ä‚¢‚éê‡
+#if defined(DX_PLATFORM_DESKTOP_SDL2)
+	{
+		int r = Desktop_DrawString_Hook( xi, yi, xf, yf, PosIntFlag,
+			ExRateX, ExRateY, FALSE, 0.0f, 0.0f, 0.0,
+			String, StringLength, Color, Font, EdgeColor, VerticalFlag ) ;
+		if( r >= 0 ) return r ;
+	}
+#endif
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 	if( Font->TextureCacheFlag )
 	{
-		// •`‰ææ‚ª‚R‚cƒfƒoƒCƒX‚É‚æ‚é•`‰æ‚ªo—ˆ‚È‚¢ê‡‚ÍƒGƒ‰[
+		// ï¿½`ï¿½ï¿½æ‚ªï¿½Rï¿½cï¿½fï¿½oï¿½Cï¿½Xï¿½É‚ï¿½ï¿½`ï¿½æ‚ªï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍƒGï¿½ï¿½ï¿½[
 		RefreshFontDrawResourceToHandle( Font ) ;
 		FontCacheStringDrawToHandleST(
 			TRUE,
@@ -649,16 +677,24 @@ static int DrawExtendStringHardware( int xi, int yi, float xf, float yf, int Pos
 	{
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
 static int DrawRotaStringHardware( int xi, int yi, float xf, float yf, int PosIntFlag, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, const wchar_t *String, size_t StringLength, unsigned int Color, FONTMANAGE *Font, unsigned int EdgeColor, int VerticalFlag )
 {
-	// ƒtƒHƒ“ƒg‚ÉƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ªg—p‚³‚ê‚Ä‚¢‚éê‡
+#if defined(DX_PLATFORM_DESKTOP_SDL2)
+	{
+		int r = Desktop_DrawString_Hook( xi, yi, xf, yf, PosIntFlag,
+			ExRateX, ExRateY, TRUE, ( float )RotCenterX, ( float )RotCenterY, RotAngle,
+			String, StringLength, Color, Font, EdgeColor, VerticalFlag ) ;
+		if( r >= 0 ) return r ;
+	}
+#endif
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 	if( Font->TextureCacheFlag )
 	{
-		// •`‰ææ‚ª‚R‚cƒfƒoƒCƒX‚É‚æ‚é•`‰æ‚ªo—ˆ‚È‚¢ê‡‚ÍƒGƒ‰[
+		// ï¿½`ï¿½ï¿½æ‚ªï¿½Rï¿½cï¿½fï¿½oï¿½Cï¿½Xï¿½É‚ï¿½ï¿½`ï¿½æ‚ªï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍƒGï¿½ï¿½ï¿½[
 		RefreshFontDrawResourceToHandle( Font ) ;
 		FontCacheStringDrawToHandleST(
 			TRUE,
@@ -696,13 +732,13 @@ static int DrawRotaStringHardware( int xi, int yi, float xf, float yf, int PosIn
 	{
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
 static int DrawModiStringHardware( int x1i, int y1i, int x2i, int y2i, int x3i, int y3i, int x4i, int y4i, float x1f, float y1f, float x2f, float y2f, float x3f, float y3f, float x4f, float y4f, int PosIntFlag, const wchar_t *String, size_t StringLength, unsigned int Color, FONTMANAGE *Font, unsigned int EdgeColor, int VerticalFlag )
 {
-	// ƒtƒHƒ“ƒg‚ÉƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ªg—p‚³‚ê‚Ä‚¢‚éê‡
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 	if( Font->TextureCacheFlag )
 	{
 		int i ;
@@ -720,7 +756,7 @@ static int DrawModiStringHardware( int x1i, int y1i, int x2i, int y2i, int x3i, 
 		DRAWCHARINFO *TempCInfo = NULL ;
 		DRAWCHARINFO *UseCInfo ;
 
-		// •`‰ææ‚ª‚R‚cƒfƒoƒCƒX‚É‚æ‚é•`‰æ‚ªo—ˆ‚È‚¢ê‡‚ÍƒGƒ‰[
+		// ï¿½`ï¿½ï¿½æ‚ªï¿½Rï¿½cï¿½fï¿½oï¿½Cï¿½Xï¿½É‚ï¿½ï¿½`ï¿½æ‚ªï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍƒGï¿½ï¿½ï¿½[
 		RefreshFontDrawResourceToHandle( Font ) ;
 
 		if( StringLength > 0 )
@@ -876,7 +912,7 @@ static int DrawModiStringHardware( int x1i, int y1i, int x2i, int y2i, int x3i, 
 			NS_SetDeviceLostDeleteGraphFlag( UseTempScreenHandle[ 1 ], TRUE ) ;
 		}
 
-		// Šeí•`‰æİ’èî•ñ‚ğæ“¾
+		// ï¿½eï¿½ï¿½`ï¿½ï¿½İ’ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 		Graphics_DrawSetting_GetScreenDrawSettingInfo( &ScreenDrawSettingInfo ) ;
 
 		if( Font->TextureCacheUsePremulAlpha )
@@ -976,7 +1012,7 @@ static int DrawModiStringHardware( int x1i, int y1i, int x2i, int y2i, int x3i, 
 			}
 		}
 
-		// •`‰æ‹éŒ`‚ğŒ³‚É–ß‚·
+		// ï¿½`ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		NS_SetDrawArea( ScreenDrawSettingInfo.DrawRect.left, ScreenDrawSettingInfo.DrawRect.top, ScreenDrawSettingInfo.DrawRect.right, ScreenDrawSettingInfo.DrawRect.bottom ) ;
 
 //		if( DrawTempScreenHandle[ 0 ] < 0 )
@@ -1020,7 +1056,7 @@ static int DrawModiStringHardware( int x1i, int y1i, int x2i, int y2i, int x3i, 
 			}
 		}
 
-		// •`‰æİ’èî•ñ‚ğŒ³‚É–ß‚·
+		// ï¿½`ï¿½ï¿½İ’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		Graphics_DrawSetting_SetScreenDrawSettingInfo( &ScreenDrawSettingInfo ) ;
 
 		return 0 ;
@@ -1029,7 +1065,7 @@ static int DrawModiStringHardware( int x1i, int y1i, int x2i, int y2i, int x3i, 
 	{
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
@@ -1049,7 +1085,7 @@ static int SetupSoftwareStringImage(
 {
 	RECT ClipRect ;
 
-	// •`‰æ—Ìˆæ‚ğ“¾‚é
+	// ï¿½`ï¿½ï¿½Ìˆï¿½ğ“¾‚ï¿½
 	FontCacheStringDrawToHandleST(
 		FALSE,
 		0,
@@ -1078,14 +1114,14 @@ static int SetupSoftwareStringImage(
 		FSYS.OnlyDrawType
 	) ;
 
-	// g—p‚·‚é‰¼ƒXƒNƒŠ[ƒ“‚ÌŒˆ’è
+	// ï¿½gï¿½pï¿½ï¿½ï¿½é‰¼ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
 	*UseScreenImg = ( ManageData->FontType & DX_FONTTYPE_ANTIALIASING ) ? &GSYS.SoftRender.FontScreenMemImgAlpha : &GSYS.SoftRender.FontScreenMemImgNormal ;
 
-	// Œ³‚Ì•`‰æ‹éŒ`‚Æ•`‰æ‹P“x‚ğ•Û‘¶
+	// ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½ï¿½`ï¿½Æ•`ï¿½ï¿½Pï¿½xï¿½ï¿½Û‘ï¿½
 	*DrawAreaBackup   = GSYS.DrawSetting.DrawArea ;
 	*DrawBrightBackup = GSYS.DrawSetting.bDrawBright ;
 
-	// ‰¼ƒoƒbƒtƒ@‚Í‰æ–ÊƒTƒCƒY•ª‚µ‚©‚È‚¢‚Ì‚ÅA‚»‚±‚ÅƒNƒŠƒbƒv‚³‚ê‚é‚æ‚¤‚É‚·‚é
+	// ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Í‰ï¿½ÊƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½ï¿½ï¿½ÅƒNï¿½ï¿½ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 	{
 		ClipRect.top    = 0 ;
 		ClipRect.left   = 0 ;
@@ -1102,11 +1138,11 @@ static int SetupSoftwareStringImage(
 		SetMemImgDrawArea( DrawArea ) ;
 	}
 
-	// •`‰æƒoƒbƒtƒ@‚ğ“§‰ßF‚Å“h‚è‚Â‚Ô‚·
+	// ï¿½`ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ğ“§‰ßFï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½
 	{
 		RECT ClearRect ;
 
-		// “§‰ßF‚Ì’²®
+		// ï¿½ï¿½ï¿½ßFï¿½Ì’ï¿½ï¿½ï¿½
 		if( ManageData->FontType & DX_FONTTYPE_ANTIALIASING )
 		{
 			( *UseScreenImg )->Base->TransColor = 0 ;
@@ -1127,7 +1163,7 @@ static int SetupSoftwareStringImage(
 		ClearMemImg( *UseScreenImg, &ClearRect, ( *UseScreenImg )->Base->TransColor ) ;
 	}
 
-	// ˆêƒoƒbƒtƒ@‚É•`‰æ
+	// ï¿½êï¿½oï¿½bï¿½tï¿½@ï¿½É•`ï¿½ï¿½
 	FontCacheStringDrawToHandleST(
 		TRUE,
 		VerticalFlag ? DrawSize->cx - ManageData->BaseInfo.FontHeight : 0,
@@ -1156,15 +1192,23 @@ static int SetupSoftwareStringImage(
 		FSYS.OnlyDrawType
 	) ;
 
-	// •`‰æF‚ğ”’‚É•ÏX
+	// ï¿½`ï¿½ï¿½Fï¿½ğ”’‚É•ÏX
 	GSYS.DrawSetting.bDrawBright = 0xffffff ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
 static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t StringLength, unsigned int Color, FONTMANAGE *ManageData, unsigned int EdgeColor, int VerticalFlag )
 {
+#if defined(DX_PLATFORM_DESKTOP_SDL2)
+	{
+		int r = Desktop_DrawString_Hook( x, y, ( float )x, ( float )y, TRUE,
+			1.0, 1.0, FALSE, 0.0f, 0.0f, 0.0,
+			String, StringLength, Color, ManageData, EdgeColor, VerticalFlag ) ;
+		if( r >= 0 ) return r ;
+	}
+#endif
 	SIZE DrawSize ;
 //	FONTMANAGE * ManageData ;
 	RECT DrawArea, ClipRect, BRect, Rect ;
@@ -1173,7 +1217,7 @@ static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t Strin
 
 //	ManageData = GetFontManageDataToHandle_Inline( FontHandle ) ;
 
-	// •`‰æ—Ìˆæ‚ğ“¾‚é
+	// ï¿½`ï¿½ï¿½Ìˆï¿½ğ“¾‚ï¿½
 	FontCacheStringDrawToHandleST(
 		FALSE,
 		0,
@@ -1202,21 +1246,21 @@ static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t Strin
 		FSYS.OnlyDrawType
 	) ;
 
-	// ƒuƒŒƒ“ƒhƒ‚[ƒh‚É‚æ‚Á‚Äˆ—‚ğ•ªŠò
+	// ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½[ï¿½hï¿½É‚ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 	if( GSYS.DrawSetting.BlendMode != DX_BLENDMODE_NOBLEND || ( ManageData->FontType & DX_FONTTYPE_ANTIALIASING ) )
 	{
-		// ƒAƒ“ƒ`ƒGƒCƒŠƒAƒX‚Å‚à‚È‚­ƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚ÅŠ‚ÂƒAƒ‹ƒtƒ@’l‚ªÅ‘å‚Ì‚Æ‚«‚Í’Êí•`‰æ
+		// ï¿½Aï¿½ï¿½ï¿½`ï¿½Gï¿½Cï¿½ï¿½ï¿½Aï¿½Xï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½Aï¿½ï¿½ï¿½tï¿½@ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½hï¿½ÅŠï¿½ï¿½ÂƒAï¿½ï¿½ï¿½tï¿½@ï¿½lï¿½ï¿½ï¿½Å‘ï¿½Ì‚Æ‚ï¿½ï¿½Í’Êï¿½`ï¿½ï¿½
 		if( ( ManageData->FontType & DX_FONTTYPE_ANTIALIASING ) == 0 &&
 			GSYS.DrawSetting.BlendMode == DX_BLENDMODE_ALPHA && GSYS.DrawSetting.BlendParam == 255 ) goto NORMALDRAW ;
 
-		// g—p‚·‚é‰¼ƒXƒNƒŠ[ƒ“‚ÌŒˆ’è
+		// ï¿½gï¿½pï¿½ï¿½ï¿½é‰¼ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
 		ScreenImg = ( ManageData->FontType & DX_FONTTYPE_ANTIALIASING ) ? &GSYS.SoftRender.FontScreenMemImgAlpha : &GSYS.SoftRender.FontScreenMemImgNormal ;
 
-		// Œ³‚Ì•`‰æ‹éŒ`‚Æ•`‰æ‹P“x‚ğ•Û‘¶
+		// ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½ï¿½`ï¿½Æ•`ï¿½ï¿½Pï¿½xï¿½ï¿½Û‘ï¿½
 		BRect  = GSYS.DrawSetting.DrawArea ;
 		bright = GSYS.DrawSetting.bDrawBright ;
 
-		// ‰¼ƒoƒbƒtƒ@‚Í‰æ–ÊƒTƒCƒY•ª‚µ‚©‚È‚¢‚Ì‚ÅA‚»‚±‚ÅƒNƒŠƒbƒv‚³‚ê‚é‚æ‚¤‚É‚·‚é
+		// ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½Í‰ï¿½ÊƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½ï¿½ï¿½ÅƒNï¿½ï¿½ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 		{
 			ClipRect.top    = 0 ;
 			ClipRect.left   = 0 ;
@@ -1228,7 +1272,7 @@ static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t Strin
 			DrawArea.top    = 0 ; 
 			DrawArea.bottom = DrawSize.cy ;
 
-			// ƒCƒ^ƒŠƒbƒNƒtƒHƒ“ƒg‚Ìê‡‚Í­‚µ•‚ğ‘‚â‚·
+			// ï¿½Cï¿½^ï¿½ï¿½ï¿½bï¿½Nï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ğ‘‚â‚·
 			if( ManageData->BaseInfo.Italic )
 			{
 				DrawArea.right += ManageData->BaseInfo.MaxWidth / 2 ;
@@ -1239,9 +1283,9 @@ static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t Strin
 			SetMemImgDrawArea( &DrawArea ) ;
 		}
 
-		// •`‰æƒoƒbƒtƒ@‚ğ“§‰ßF‚Å“h‚è‚Â‚Ô‚·
+		// ï¿½`ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ğ“§‰ßFï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½
 		{
-			// “§‰ßF‚Ì’²®
+			// ï¿½ï¿½ï¿½ßFï¿½Ì’ï¿½ï¿½ï¿½
 			if( ManageData->FontType & DX_FONTTYPE_ANTIALIASING )
 			{
 				ScreenImg->Base->TransColor = 0 ;
@@ -1258,9 +1302,9 @@ static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t Strin
 			ClearMemImg( ScreenImg, &DrawArea, ScreenImg->Base->TransColor ) ;
 		}
 
-		// ƒAƒ“ƒ`ƒGƒCƒŠƒAƒX‚ğg—p‚·‚éê‡
+		// ï¿½Aï¿½ï¿½ï¿½`ï¿½Gï¿½Cï¿½ï¿½ï¿½Aï¿½Xï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡
 
-		// ˆêƒoƒbƒtƒ@‚É•`‰æ
+		// ï¿½êï¿½oï¿½bï¿½tï¿½@ï¿½É•`ï¿½ï¿½
 		FontCacheStringDrawToHandleST(
 			TRUE,
 			0,
@@ -1289,7 +1333,7 @@ static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t Strin
 			FSYS.OnlyDrawType
 		) ;
 
-		// –{•`‰ææ‚É•`‰æ
+		// ï¿½{ï¿½`ï¿½ï¿½ï¿½É•`ï¿½ï¿½
 		{
 			GSYS.DrawSetting.bDrawBright = 0xffffff ;
 			Rect.left   = x ;
@@ -1303,12 +1347,12 @@ static int DrawStringSoftware( int x, int y, const wchar_t *String, size_t Strin
 			DrawMemImg( GSYS.SoftRender.TargetMemImg, ScreenImg, x, y, TRUE, GSYS.SoftRender.BlendMemImg ) ;
 		}
 
-		// ƒpƒ‰ƒ[ƒ^‚ğŒ³‚É–ß‚·
+		// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		GSYS.DrawSetting.DrawArea    = BRect ;
 		SetMemImgDrawArea( &BRect ) ;
 		GSYS.DrawSetting.bDrawBright = bright ;
 
-		// I—¹
+		// ï¿½Iï¿½ï¿½
 		return 0 ;
 	}
 
@@ -1342,7 +1386,7 @@ NORMALDRAW:
 		FSYS.OnlyDrawType
 	) ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
@@ -1353,10 +1397,10 @@ static int DrawExtendStringSoftware( int x, int y, double ExRateX, double ExRate
 	DWORD DrawBrightBackup ;
 	MEMIMG *ScreenImg ;
 
-	// ˆêƒoƒbƒtƒ@‚Ö‚Ì•¶š—ñ‚Ì•`‰æ
+	// ï¿½êï¿½oï¿½bï¿½tï¿½@ï¿½Ö‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½
 	SetupSoftwareStringImage( ManageData, String, StringLength, Color, EdgeColor, VerticalFlag, &ScreenImg, &DrawSize, &DrawArea, &DrawAreaBackup, &DrawBrightBackup ) ;
 
-	// –{•`‰ææ‚É•`‰æ
+	// ï¿½{ï¿½`ï¿½ï¿½ï¿½É•`ï¿½ï¿½
 	if( VerticalFlag )
 	{
 		Rect.left   = _DTOL( x - ( DrawSize.cx - ManageData->BaseInfo.FontHeight ) * ExRateX ) ;
@@ -1392,12 +1436,12 @@ static int DrawExtendStringSoftware( int x, int y, double ExRateX, double ExRate
 		DrawEnlargeMemImg( GSYS.SoftRender.TargetMemImg, ScreenImg, &DrawRect, TRUE, GSYS.SoftRender.BlendMemImg ) ;
 	}
 
-	// ƒpƒ‰ƒ[ƒ^‚ğŒ³‚É–ß‚·
+	// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 	GSYS.DrawSetting.DrawArea = DrawAreaBackup ;
 	SetMemImgDrawArea( &DrawAreaBackup ) ;
 	GSYS.DrawSetting.bDrawBright = DrawBrightBackup ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
@@ -1409,17 +1453,17 @@ static int DrawRotaStringSoftware( int x, int y, double ExRateX, double ExRateY,
 	MEMIMG *ScreenImg ;
 	MEMIMG TempImg ;
 
-	// ˆêƒoƒbƒtƒ@‚Ö‚Ì•¶š—ñ‚Ì•`‰æ
+	// ï¿½êï¿½oï¿½bï¿½tï¿½@ï¿½Ö‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½
 	SetupSoftwareStringImage( ManageData, String, StringLength, Color, EdgeColor, VerticalFlag, &ScreenImg, &DrawSize, &DrawArea, &DrawAreaBackup, &DrawBrightBackup ) ;
 
-	// •¶š—ñ‚ğ•`‰æ‚µ‚½—Ìˆæ‚¾‚¯‚ÌƒCƒ[ƒW‚ğì¬
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚µï¿½ï¿½ï¿½Ìˆæ‚¾ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ì¬
 	DerivationMemImg( &TempImg, ScreenImg, 0, 0, DrawArea.right, DrawArea.bottom ) ;
 
-	// •`‰æ—Ìˆæ‚ğŒ³‚É–ß‚·
+	// ï¿½`ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 	GSYS.DrawSetting.DrawArea = DrawAreaBackup ;
 	SetMemImgDrawArea( &DrawAreaBackup ) ;
 
-	// –{•`‰ææ‚É•`‰æ
+	// ï¿½{ï¿½`ï¿½ï¿½ï¿½É•`ï¿½ï¿½
 	{
 		if( RotAngle == 0.0 )
 		{
@@ -1456,10 +1500,10 @@ static int DrawRotaStringSoftware( int x, int y, double ExRateX, double ExRateY,
 		}
 	}
 
-	// •`‰æ‹P“x‚ğŒ³‚É–ß‚·
+	// ï¿½`ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 	GSYS.DrawSetting.bDrawBright = DrawBrightBackup ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
@@ -1471,17 +1515,17 @@ static int DrawModiStringSoftware( int x1, int y1, int x2, int y2, int x3, int y
 	MEMIMG *ScreenImg ;
 	MEMIMG TempImg ;
 
-	// ˆêƒoƒbƒtƒ@‚Ö‚Ì•¶š—ñ‚Ì•`‰æ
+	// ï¿½êï¿½oï¿½bï¿½tï¿½@ï¿½Ö‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½
 	SetupSoftwareStringImage( ManageData, String, StringLength, Color, EdgeColor, VerticalFlag, &ScreenImg, &DrawSize, &DrawArea, &DrawAreaBackup, &DrawBrightBackup ) ;
 
-	// •¶š—ñ‚ğ•`‰æ‚µ‚½—Ìˆæ‚¾‚¯‚ÌƒCƒ[ƒW‚ğì¬
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚µï¿½ï¿½ï¿½Ìˆæ‚¾ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ì¬
 	DerivationMemImg( &TempImg, ScreenImg, 0, 0, DrawArea.right, DrawArea.bottom ) ;
 
-	// •`‰æ—Ìˆæ‚ğŒ³‚É–ß‚·
+	// ï¿½`ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 	GSYS.DrawSetting.DrawArea = DrawAreaBackup ;
 	SetMemImgDrawArea( &DrawAreaBackup ) ;
 
-	// –{•`‰ææ‚É•`‰æ
+	// ï¿½{ï¿½`ï¿½ï¿½ï¿½É•`ï¿½ï¿½
 	{
 		DX_POINTDATA p[4] ;
 
@@ -1494,16 +1538,16 @@ static int DrawModiStringSoftware( int x1, int y1, int x2, int y2, int x3, int y
 		DrawBasicPolygonMemImg( GSYS.SoftRender.TargetMemImg, &TempImg, &p[1], TRUE, GSYS.SoftRender.BlendMemImg, 0 ) ;
 	}
 
-	// •`‰æ‹P“x‚ğŒ³‚É–ß‚·
+	// ï¿½`ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 	GSYS.DrawSetting.bDrawBright = DrawBrightBackup ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
 #endif // DX_NON_GRAPHICS
 
-// ƒtƒHƒ“ƒgƒVƒXƒeƒ€‚Ì‰Šú‰»
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Vï¿½Xï¿½eï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 extern int InitFontManage( void )
 {
 	int i ;
@@ -1513,21 +1557,21 @@ extern int InitFontManage( void )
 	if( FSYS.InitializeFlag == TRUE )
 		return -1 ;
 
-	// ‰Šú‰»ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 	FSYS.InitializeFlag = TRUE ;
 
-	// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹ŠÇ—î•ñ‚ğ‰Šú‰»‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	InitializeHandleManage( DX_HANDLETYPE_FONT, sizeof( FONTMANAGE ) + sizeof( FONTMANAGE_PF ), MAX_FONT_NUM, InitializeFontHandle, TerminateFontHandle, DumpInfoFontHandle, L"Font" ) ;
 
-	// ‘SŠpƒXƒy[ƒX‚Ì wchar_t ƒR[ƒh‚ğ€”õ
+	// ï¿½Sï¿½pï¿½Xï¿½yï¿½[ï¿½Xï¿½ï¿½ wchar_t ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
-		const char *UTF16LE_DoubleByteSpaceString = "\x00\x30\x00"/*@ L"@" @*/ ;
+		const char *UTF16LE_DoubleByteSpaceString = "\x00\x30\x00"/*@ L"ï¿½@" @*/ ;
 		wchar_t     WCHAR_T_DoubleByteSpaceString[ 16 ] ;
 		ConvString( UTF16LE_DoubleByteSpaceString, 1, DX_CHARCODEFORMAT_UTF16LE, ( char * )WCHAR_T_DoubleByteSpaceString, sizeof( WCHAR_T_DoubleByteSpaceString ), WCHAR_T_CHARCODEFORMAT ) ;
 		FSYS.DoubleByteSpaceCharCode = WCHAR_T_DoubleByteSpaceString[ 0 ] ;
 	}
 
-	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒg‚Ìİ’è‚ğƒZƒbƒg
+	// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìİ’ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	if( FSYS.EnableInitDefaultFontName == FALSE )
 	{
 		_MEMSET( FSYS.DefaultFontName, 0, sizeof( FSYS.DefaultFontName ) );
@@ -1584,7 +1628,7 @@ extern int InitFontManage( void )
 	}
 	FSYS.EnableInitDefaultFontLineSpace = FALSE ;
 
-	// ƒe[ƒuƒ‹‚ğì¬‚·‚é
+	// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 	for( i = 0 ; i < 256 ; i ++ )
 	{
 		j = i ;
@@ -1607,20 +1651,20 @@ extern int InitFontManage( void )
 		FSYS.MAX15ToMAX64[ i ] = ( BYTE )( i * 64 / 15 ) ;
 	}
 
-	// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì‰Šú‰»
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	InitFontToHandleBase() ;
 
-	// ŠÂ‹«ˆË‘¶‚Ì‰Šú‰»ˆ—‚ğs‚¤
+	// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 	if( InitFontManage_PF() != 0 )
 	{
 		return -1 ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg§Œä‚ÌI—¹
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ÌIï¿½ï¿½
 extern int TermFontManage( void )
 {
 	if( FSYS.InitializeFlag == FALSE )
@@ -1628,13 +1672,13 @@ extern int TermFontManage( void )
 		return -1 ;
 	}
 
-	// ‘S‚Ä‚ÌƒtƒHƒ“ƒg‚ğíœ
+	// ï¿½Sï¿½Ä‚Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½íœ
 	InitFontToHandleBase( TRUE ) ;
 
-	// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹ŠÇ—î•ñ‚ÌŒãn––
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½ÌŒï¿½nï¿½ï¿½
 	TerminateHandleManage( DX_HANDLETYPE_FONT ) ;
 
-	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒCƒ[ƒW—p‚Éƒƒ‚ƒŠ‚ğŠm•Û‚µ‚Ä‚¢‚½‚ç‰ğ•ú‚·‚é
+	// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½pï¿½Éƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Û‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( FSYS.DefaultFontImage != NULL )
 	{
 		DXFREE( FSYS.DefaultFontImage ) ;
@@ -1642,7 +1686,7 @@ extern int TermFontManage( void )
 	}
 
 #ifndef DX_NON_GRAPHICS
-	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒCƒ[ƒW‚ÌƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ª‚ ‚éê‡‚Ííœ‚·‚é
+	// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÌƒOï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ííœï¿½ï¿½ï¿½ï¿½
 	if( FSYS.DefaultFontImageGraphHandle[ 0 ][ 0 ] > 1 )
 	{
 		int i ;
@@ -1659,22 +1703,22 @@ extern int TermFontManage( void )
 	}
 #endif // DX_NON_GRAPHICS
 
-	// ŠÂ‹«ˆË‘¶‚ÌI—¹ˆ—‚ğs‚¤
+	// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 	if( TermFontManage_PF() != 0 )
 	{
 		return -1 ;
 	}
 
-	// ‰Šú‰»ƒtƒ‰ƒO‚ğ“|‚·
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½|ï¿½ï¿½
 	FSYS.InitializeFlag = FALSE ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgA•¶š—ñ•`‰æŠÖŒWŠÖ”
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ÖŒWï¿½Öï¿½
 
-// ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…î•ñ‚ğ‰Šú‰»‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int InitCacheFontToHandle( void )
 {
 	int i, Handle ;
@@ -1691,36 +1735,36 @@ extern int InitCacheFontToHandle( void )
 		ManageData = ( FONTMANAGE * )HandleManageArray[ DX_HANDLETYPE_FONT ].Handle[ i ] ;
 		if( ManageData == NULL ) continue ;
 
-		// ‹¤’Ê‚Ìƒpƒ‰ƒ[ƒ^‚ğ•Û‘¶
+		// ï¿½ï¿½ï¿½Ê‚Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½Û‘ï¿½
 		EdgeSize			= ManageData->EdgeSize ;
 		Space				= ManageData->Space ;
 		LineSpaceValid		= ManageData->LineSpaceValidFlag ;
 		LineSpace			= ManageData->LineSpace ;
 		UseCharCodeFormat	= ManageData->UseCharCodeFormat ;
 
-		// ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ğg—p‚µ‚Ä‚¢‚éê‡‚Æ‚»‚¤‚Å‚È‚¢ê‡‚Åˆ—‚ğ•ªŠò
+		// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 		if( ManageData->UseFontDataFile )
 		{
 			void *FontDataImageTemp = NULL ;
 			int FontDataImageTempSize = 0 ;
 
-			// ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚ÌƒoƒbƒNƒAƒbƒv‚ğæ‚é
+			// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìƒoï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½
 			FontDataImageTemp = DXALLOC( ManageData->FontDataFile.FontFileSize ) ;
 			if( FontDataImageTemp == NULL )
 			{
-				DXST_LOGFILEFMT_ADDUTF16LE(( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xd5\x30\xa1\x30\xa4\x30\xeb\x30\xa4\x30\xe1\x30\xfc\x30\xb8\x30\x92\x30\x00\x4e\x42\x66\x84\x76\x6b\x30\xdd\x4f\x58\x5b\x59\x30\x8b\x30\xe1\x30\xe2\x30\xea\x30\x18\x98\xdf\x57\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚ğˆê“I‚É•Û‘¶‚·‚éƒƒ‚ƒŠ—Ìˆæ‚ÌŠm•Û‚É¸”s‚µ‚Ü‚µ‚½\n" @*/ )) ;
+				DXST_LOGFILEFMT_ADDUTF16LE(( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xd5\x30\xa1\x30\xa4\x30\xeb\x30\xa4\x30\xe1\x30\xfc\x30\xb8\x30\x92\x30\x00\x4e\x42\x66\x84\x76\x6b\x30\xdd\x4f\x58\x5b\x59\x30\x8b\x30\xe1\x30\xe2\x30\xea\x30\x18\x98\xdf\x57\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½êï¿½Iï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ÌŠmï¿½Û‚Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n" @*/ )) ;
 				continue ;
 			}
 			_MEMCPY( FontDataImageTemp, ManageData->FontDataFile.FileBuffer, ManageData->FontDataFile.FontFileSize ) ;
 			FontDataImageTempSize = ManageData->FontDataFile.FontFileSize ;
 
-			// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ìì‚è’¼‚µ
+			// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½è’¼ï¿½ï¿½
 			Handle = ManageData->HandleInfo.Handle ;
 			SubHandle( Handle, FALSE, FALSE ) ;
 			InitCreateFontToHandleGParam( &GParam ) ;
 			LoadFontDataFromMemToHandle_UseGParam( &GParam, FontDataImageTemp, FontDataImageTempSize, EdgeSize, Handle, FALSE ) ;
 
-			// ƒƒ‚ƒŠ‚Ì‰ğ•ú
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
 			DXFREE( FontDataImageTemp ) ;
 			FontDataImageTemp = NULL ;
 		}
@@ -1733,14 +1777,14 @@ extern int InitCacheFontToHandle( void )
 			CharSet				= ManageData->BaseInfo.CharSet ;
 			Italic				= ManageData->BaseInfo.Italic ;
 
-			// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ìì‚è’¼‚µ
+			// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½è’¼ï¿½ï¿½
 			Handle = ManageData->HandleInfo.Handle ;
 			SubHandle( Handle, FALSE, FALSE ) ;
 			InitCreateFontToHandleGParam( &GParam ) ;
 			CreateFontToHandle_UseGParam( &GParam, FontName, Size, Thick, FontType, CharSet, EdgeSize, Italic, Handle, FALSE ) ;
 		}
 
-		// ‹¤’Ê‚Ìƒpƒ‰ƒ[ƒ^‚ğ•œ‹A
+		// ï¿½ï¿½ï¿½Ê‚Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ğ•œ‹A
 		NS_SetFontSpaceToHandle( Space, Handle ) ;
 		if( LineSpaceValid )
 		{
@@ -1749,18 +1793,18 @@ extern int InitCacheFontToHandle( void )
 		NS_SetFontCharCodeFormatToHandle( UseCharCodeFormat, Handle ) ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// “Á’è‚ÌƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…î•ñ‚ğ‰Šú‰»‚·‚é
+// ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int InitFontCacheToHandle( FONTMANAGE *ManageData, int /*ASyncThread*/ )
 {
 //	FONTMANAGE * ManageData ;
 
 //	DEFAULT_FONT_HANDLE_SETUP
 
-//	// ƒGƒ‰[”»’è
+//	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 //	if( ASyncThread )
 //	{
 //		if( FONTHCHK_ASYNC( FontHandle, ManageData ) )
@@ -1772,7 +1816,7 @@ extern int InitFontCacheToHandle( FONTMANAGE *ManageData, int /*ASyncThread*/ )
 //			return -1  ;
 //	}
 
-	// ƒeƒLƒXƒgƒLƒƒƒbƒVƒ…ƒf[ƒ^‚Ì‰Šú‰»
+	// ï¿½eï¿½Lï¿½Xï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		int i ;
 		FONTCHARDATA *CharData ;
@@ -1794,15 +1838,15 @@ extern int InitFontCacheToHandle( FONTMANAGE *ManageData, int /*ASyncThread*/ )
 		ManageData->Index = 0 ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ªg—p‚·‚é•`‰æƒoƒbƒtƒ@‚âƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğÄ‰Šú‰»‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int RefreshFontDrawResourceToHandle( FONTMANAGE *ManageData, int ASyncThread )
 {
 #ifndef DX_NON_GRAPHICS
-	// TextureCache ‚ÌƒƒXƒg”»’è
+	// TextureCache ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½
 	if( ManageData->TextureCacheLostFlag == TRUE )
 	{
 		int Use3D, w ;
@@ -1813,7 +1857,7 @@ extern int RefreshFontDrawResourceToHandle( FONTMANAGE *ManageData, int ASyncThr
 
 		ManageData->TextureCacheLostFlag = FALSE ;
 
-		// ƒpƒŒƒbƒgƒeƒNƒXƒ`ƒƒ‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+		// ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 		if( ManageData->TextureCacheBaseImage.ColorData.ColorBitDepth == 8 )
 		{
 			UsePaletteFlag = TRUE ;
@@ -1846,18 +1890,18 @@ extern int RefreshFontDrawResourceToHandle( FONTMANAGE *ManageData, int ASyncThr
 		Use3D = NS_GetUse3DFlag() ;
 		NS_SetUse3DFlag( TRUE ) ;
 
-		// InitGraph ‚Å‚Ííœ‚³‚ê‚È‚¢ƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚É‚·‚é
+		// InitGraph ï¿½Å‚Ííœï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 		InitGraphDelete = NS_GetCreateGraphInitGraphDelete() ;
 		NS_SetCreateGraphInitGraphDelete( FALSE ) ;
 
-		// ƒGƒbƒW‚Â‚«‚Ìê‡‚Í‰¡•‚ğ”{‚É‚·‚é
+		// ï¿½Gï¿½bï¿½Wï¿½Â‚ï¿½ï¿½Ìê‡ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½É‚ï¿½ï¿½ï¿½
 		w = ( ManageData->FontType & DX_FONTTYPE_EDGE ) != 0 ? ManageData->CacheImageSize.cx * 2 : ManageData->CacheImageSize.cx ;
 		GParam.NotInitGraphDelete = TRUE ;
 		GParam.UseLinearMapTextureFlag = TRUE ;
 		ManageData->TextureCache = Graphics_Image_MakeGraph_UseGParam( &GParam, w, ManageData->CacheImageSize.cy, FALSE, UsePaletteFlag, PaletteBitDepth, FALSE, ASyncThread ) ;
 		ManageData->TextureCacheSub = -1 ;
 
-		// ƒGƒbƒW•t‚«‚Ìê‡‚Í”h¶‚³‚¹‚é
+		// ï¿½Gï¿½bï¿½Wï¿½tï¿½ï¿½ï¿½Ìê‡ï¿½Í”hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( ( ManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 		{
 			ManageData->TextureCacheSub = Graphics_Image_DerivationGraph_UseGParam(
@@ -1871,24 +1915,24 @@ extern int RefreshFontDrawResourceToHandle( FONTMANAGE *ManageData, int ASyncThr
 			) ;
 		}
 
-		// İ’è‚ğŒ³‚É–ß‚·
+		// ï¿½İ’ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		NS_SetCreateGraphInitGraphDelete( InitGraphDelete ) ;
 
 		NS_SetUse3DFlag( Use3D ) ;
 
-		// ƒGƒ‰[ƒ`ƒFƒbƒN
+		// ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
 		if( ManageData->TextureCache < 0 )
 		{
 			return -1 ;
 		}
 		NS_SetGraphLostFlag( ManageData->TextureCache, &ManageData->TextureCacheLostFlag ) ;
 
-		// ƒeƒNƒXƒ`ƒƒ‚ÌƒTƒCƒY‚ğæ“¾‚µ‚Ä‚¨‚­
+		// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 		NS_GetGraphTextureSize( ManageData->TextureCache, &ManageData->TextureCacheSizeX, &ManageData->TextureCacheSizeY ) ;
 		ManageData->TextureCacheInvSizeX = 1.0f / ManageData->TextureCacheSizeX ;
 		ManageData->TextureCacheInvSizeY = 1.0f / ManageData->TextureCacheSizeY ;
 
-		// “§–¾F‚Å“h‚è‚Â‚Ô‚·
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½
 /*		if( ManageData->TextureCacheUsePremulAlpha )
 		{
 			Graphics_Image_FillGraph_UseGParam( ManageData->TextureCache, 0,0,0,0, ASyncThread ) ;
@@ -1906,31 +1950,31 @@ extern int RefreshFontDrawResourceToHandle( FONTMANAGE *ManageData, int ASyncThr
 			}
 		}
 */
-		// ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…î•ñ‚ğ‰Šú‰»‚·‚é
+		// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		InitFontCacheToHandle( ManageData, ASyncThread ) ;
 	}
 
 #endif // DX_NON_GRAPHICS
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒtƒHƒ“ƒg‚Ì‚İg—p‚Å‚«‚é‚©Aƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é
+// ï¿½Aï¿½ï¿½ï¿½`ï¿½Gï¿½Cï¿½ï¿½ï¿½Aï¿½Xï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì‚İgï¿½pï¿½Å‚ï¿½ï¿½é‚©ï¿½Aï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 extern int SetAntialiasingFontOnlyFlag( int AntialiasingFontOnlyFlag )
 {
 	FSYS.AntialiasingFontOnlyFlag = AntialiasingFontOnlyFlag ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒg‚ğÄì¬‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Äì¬ï¿½ï¿½ï¿½ï¿½
 extern int RefreshDefaultFont( void )
 {
 	FONTMANAGE * ManageData ;
 	
-	// İ’è‚ª•Ï‚í‚Á‚Ä‚¢‚È‚¢ê‡‚ÍÄì¬‚µ‚È‚¢
+	// ï¿½İ’è‚ªï¿½Ï‚ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍÄì¬ï¿½ï¿½ï¿½È‚ï¿½
 	if( FSYS.DefaultFontHandle > 0 )
 	{
 		int FontType, Size, Thick/*, CharSet */, EdgeSize, Italic ;
@@ -1986,7 +2030,7 @@ extern int RefreshDefaultFont( void )
 		SubHandle( FSYS.DefaultFontHandle, FALSE, FALSE ) ;
 	}
 
-	// İ’è‚ª•Ï‚í‚Á‚Ä‚¢‚é‚©ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ª–³Œø‚É‚È‚Á‚Ä‚¢‚éê‡‚ÍÄì¬‚·‚é	
+	// ï¿½İ’è‚ªï¿½Ï‚ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍÄì¬ï¿½ï¿½ï¿½ï¿½	
 	CREATEFONTTOHANDLE_GPARAM GParam ;
 	InitCreateFontToHandleGParam( &GParam ) ;
 	FSYS.DefaultFontHandle = CreateFontToHandle_UseGParam(
@@ -2002,7 +2046,7 @@ extern int RefreshDefaultFont( void )
 		FALSE ) ;
 	FSYS.DefaultFontCharSet_Change = FALSE ;
 
-	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ìì¬‚É¸”s‚µ‚½‚çƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÆƒtƒHƒ“ƒgƒCƒ[ƒW‚ğg—p‚·‚é
+	// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æƒtï¿½Hï¿½ï¿½ï¿½gï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
 	if( FSYS.DefaultFontHandle < 0 )
 	{
 		int i ;
@@ -2011,29 +2055,29 @@ extern int RefreshDefaultFont( void )
 
 		FSYS.DefaultFontHandle = NS_LoadFontDataFromMemToHandle( DefaultFontDataFileImage, sizeof( DefaultFontDataFileImage ), 0 ) ;
 
-		// ‰æ‘œƒtƒ@ƒCƒ‹‚ªƒfƒR[ƒh‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚çƒfƒR[ƒh‚·‚é
+		// ï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½fï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½
 		if( FSYS.DefaultFontImage == NULL )
 		{
-			// •¶šƒR[ƒh‚Ìê‡‚ÍƒoƒCƒiƒŠƒR[ƒh‚É•ÏŠ·‚·‚é
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ìê‡ï¿½Íƒoï¿½Cï¿½iï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 			if( DefaultFontImageConvert == FALSE )
 			{
 				Base64ToBin( DefaultFontImage, DefaultFontImage ) ;
 				DefaultFontImageConvert = TRUE ;
 			}
 
-			// ƒfƒR[ƒhŒã‚Ìƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚ğŠi”[‚·‚éƒƒ‚ƒŠ—Ìˆæ‚ÌŠm•Û
+			// ï¿½fï¿½Rï¿½[ï¿½hï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ÌŠmï¿½ï¿½
 			FSYS.DefaultFontImage = DXCALLOC( ( size_t )DXA_Decode( DefaultFontImage, NULL ) ) ;
 			if( FSYS.DefaultFontImage == NULL )
 			{
 				return -1 ;
 			}
 
-			// ƒfƒR[ƒh
+			// ï¿½fï¿½Rï¿½[ï¿½h
 			DXA_Decode( DefaultFontImage, FSYS.DefaultFontImage ) ;
 		}
 
 #ifndef DX_NON_GRAPHICS
-		// •¶š‚ÌƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ªì¬‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚çì¬‚·‚é
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒOï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 		if( FSYS.DefaultFontImageGraphHandle[ 0 ][ 0 ] <= 0 )
 		{
 			int TransRed ;
@@ -2041,20 +2085,20 @@ extern int RefreshDefaultFont( void )
 			int TransBlue ;
 			int InitGraphDelete = NS_GetCreateGraphInitGraphDelete() ;
 
-			// “§‰ßF‚ğ‡F‚É•ÏX
+			// ï¿½ï¿½ï¿½ßFï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½É•ÏX
 			NS_GetTransColor( &TransRed, &TransGreen, &TransBlue ) ;
 			NS_SetTransColor( 255,0,255 ) ;
 
-			// InitGraph ‚Å‚Ííœ‚³‚ê‚È‚¢ƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚É‚·‚é
+			// InitGraph ï¿½Å‚Ííœï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 			NS_SetCreateGraphInitGraphDelete( FALSE ) ;
 
-			// ƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚Ìì¬
+			// ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬
 			NS_CreateDivGraphFromMem( FSYS.DefaultFontImage, DXA_Decode( DefaultFontImage, NULL ), 128, 16, 8, 8, 16, FSYS.DefaultFontImageGraphHandle[ 0 ], TRUE, FALSE, NULL, 0 ) ;
 
-			// “§‰ßF‚ğŒ³‚É–ß‚·
+			// ï¿½ï¿½ï¿½ßFï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 			NS_SetTransColor( TransRed, TransGreen, TransBlue ) ;
 
-			// íœ‚³‚ê‚½‚Æ‚«‚É -1 ‚ª‘ã“ü‚³‚ê‚é‚æ‚¤‚É‚·‚é
+			// ï¿½íœï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½ï¿½ -1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 			for( i = 0 ; i < 8 ; i ++ )
 			{
 				for( j = 0 ; j < 16 ; j ++ )
@@ -2063,12 +2107,12 @@ extern int RefreshDefaultFont( void )
 				}
 			}
 
-			// İ’è‚ğŒ³‚É–ß‚·
+			// ï¿½İ’ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 			NS_SetCreateGraphInitGraphDelete( InitGraphDelete ) ;
 		}
 #endif // DX_NON_GRAPHICS
 
-		// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ö‚Ì•¶š‚ÌŠ„‚è“–‚Ä
+		// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ö‚Ì•ï¿½ï¿½ï¿½ï¿½ÌŠï¿½ï¿½è“–ï¿½ï¿½
 		for( i = 0 ; i < 8 ; i ++ )
 		{
 			for( j = 0 ; j < 16 ; j ++ )
@@ -2078,12 +2122,12 @@ extern int RefreshDefaultFont( void )
 			}
 		}
 
-		// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒCƒ[ƒW‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 		FSYS.UseDefaultFontImage = TRUE ;
 	}
 	else
 	{
-		// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒCƒ[ƒW‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ğ“|‚·
+		// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ï¿½|ï¿½ï¿½
 		FSYS.UseDefaultFontImage = FALSE ;
 
 		NS_SetFontSpaceToHandle(     FSYS.DefaultFontSpace,     FSYS.DefaultFontHandle ) ;
@@ -2099,7 +2143,7 @@ extern int RefreshDefaultFont( void )
 }
 
 
-// •¶šƒLƒƒƒbƒVƒ…‚ÉV‚µ‚¢•¶š‚ğ‰Á‚¦‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÉVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 static int FontCacheStringAddToHandle(
 	FONTMANAGE *	ManageData,
 	const wchar_t *	String,
@@ -2138,7 +2182,7 @@ static int FontCacheStringAddToHandle(
 
 //	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 //	if( FONTHCHK( FontHandle, ManageData ) )
 //	{
 //		return -1  ;
@@ -2146,13 +2190,13 @@ static int FontCacheStringAddToHandle(
 
 	UseAlloc = FALSE ;
 
-	// •¶š—ñ‚Ì’·‚³‚ğƒZƒbƒg
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	if( StrLen < 0 )
 	{
 		StrLen = ( int )_WCSLEN( String ) ;
 	}
 
-	// ƒfƒtƒHƒ‹ƒgƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğ’´‚¦‚éê‡‚Íƒeƒ“ƒ|ƒ‰ƒŠƒoƒbƒtƒ@‚ÌŠm•Û
+	// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½oï¿½bï¿½tï¿½@ï¿½ÌƒTï¿½Cï¿½Yï¿½ğ’´‚ï¿½ï¿½ï¿½ê‡ï¿½Íƒeï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½ï¿½
 	if( StrLen > 1024 )
 	{
 		UseAlloc           = TRUE ;
@@ -2191,7 +2235,7 @@ static int FontCacheStringAddToHandle(
 		i       += CharLength ;
 		DrawNum ++ ;
 
-		// IVSƒ`ƒFƒbƒN
+		// IVSï¿½`ï¿½Fï¿½bï¿½N
 		IVSCheck = WCHAR_T_GetCharCode( String, g_BaseFuncSystem.Use_wchar_t_CharCodeFormat, &UseSize ) ;
 		if( IVSCheck >= 0xe0100 && IVSCheck <= 0xe01ef )
 		{
@@ -2209,7 +2253,7 @@ static int FontCacheStringAddToHandle(
 			*pDrawIVS = 0 ;
 		}
 
-		// ‰æ‘œ’u‚«Š·‚¦•¶š‚¾‚Á‚½ê‡‚ÍƒLƒƒƒbƒVƒ…‚É‰Á‚¦‚È‚¢
+		// ï¿½æ‘œï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		for( j = 0 ; j < ManageData->GraphHandleFontImageNum ; j ++ )
 		{
 			if( ManageData->GraphHandleFontImage[ j ].CodeUnicode == *pDrawStr &&
@@ -2220,13 +2264,13 @@ static int FontCacheStringAddToHandle(
 		}
 		if( j == ManageData->GraphHandleFontImageNum )
 		{
-			// ƒLƒƒƒbƒVƒ…‚É‘¶İ‚µ‚È‚¢•¶š‚¾‚Á‚½ê‡ƒLƒƒƒbƒVƒ…•¶š‚ÌˆêŠ‡’Ç‰Á‚ğ‚·‚é‚½‚ß‚Ìƒoƒbƒtƒ@‚É•Û‘¶AƒLƒƒƒbƒVƒ…‚É’Ç‰Á‚·‚é•¶š”‚ğ‘‚â‚·
+			// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆêŠ‡ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Ìƒoï¿½bï¿½tï¿½@ï¿½É•Û‘ï¿½ï¿½Aï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ğ‘‚â‚·
 			if( AddNum != ManageData->MaxCacheCharNum )
 			{
-				// 0x10000 ŒÂ‚Ìƒe[ƒuƒ‹‚Éû‚Ü‚ç‚È‚¢ƒR[ƒhAá‚µ‚­‚ÍˆÙ‘Ìš‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+				// 0x10000 ï¿½Â‚Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½È‚ï¿½ï¿½Rï¿½[ï¿½hï¿½Aï¿½á‚µï¿½ï¿½ï¿½ÍˆÙ‘Ìï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 				if( *pDrawStr > 0xffff || *pDrawIVS != 0 )
 				{
-					// ƒe[ƒuƒ‹‚Éû‚Ü‚ç‚È‚¢ê‡
+					// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½È‚ï¿½ï¿½ê‡
 					for( j = 0 ; j < AddNum ; j ++ )
 					{
 						if( pRexist[ j ] == *pDrawStr && pRexistIVS[ j ] == *pDrawIVS )
@@ -2259,7 +2303,7 @@ static int FontCacheStringAddToHandle(
 				}
 				else
 				{
-					// ƒe[ƒuƒ‹‚Éû‚Ü‚éê‡
+					// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ê‡
 					if( fontcode[ *pDrawStr ].ExistFlag == FALSE )
 					{
 						fontcode[ *pDrawStr ].ExistFlag = TRUE ;
@@ -2286,7 +2330,7 @@ static int FontCacheStringAddToHandle(
 		}
 	}
 
-	// ƒLƒƒƒbƒVƒ…•¶š‚ÌˆêŠ‡’Ç‰Á‚ğs‚¤
+	// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆêŠ‡ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 	if( AddNum != 0 )
 	{
 		FontCacheCharAddToHandle(
@@ -2297,30 +2341,30 @@ static int FontCacheStringAddToHandle(
 		) ;
 	}
 
-	// •`‰æ‚·‚é•¶š‚Ì”‚ğ•Û‘¶‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( DrawCharNumP != NULL )
 	{
 		*DrawCharNumP = DrawNum ;
 	}
 
-	// ƒƒ‚ƒŠ‚ğŠm•Û‚µ‚Ä‚¢‚½‚ç‰ğ•ú
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Û‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( UseAlloc )
 	{
 		DXFREE( AllocDrawStr ) ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒgƒf[ƒ^‚É‰æ‘œ‚ğ“]‘—‚·‚é
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½É‰æ‘œï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int FontCacheCharImageBltToHandle(
 	FONTMANAGE *	ManageData,
 	FONTCHARDATA *	CharData,
 	DWORD			CharCode,
 	DWORD			IVSCode,
 	int				Space,
-	int				ImageType /* DX_FONT_SRCIMAGETYPE_1BIT “™ */,
+	int				ImageType /* DX_FONT_SRCIMAGETYPE_1BIT ï¿½ï¿½ */,
 	void *			ImageBuffer,
 	DWORD			ImageSizeX,
 	DWORD			ImageSizeY,
@@ -2342,15 +2386,15 @@ extern int FontCacheCharImageBltToHandle(
 	DWORD			DrawModDrawY ;
 	DWORD			DataHeight ;
 
-	// Šù‚ÉƒtƒHƒ“ƒgƒf[ƒ^‚ªg—p‚³‚ê‚Ä‚¢‚½ê‡‚Í–³Œø‚É‚·‚é
+	// ï¿½ï¿½ï¿½Éƒtï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í–ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	if( CharData->ValidFlag )
 	{
-		// ƒe[ƒuƒ‹‚Éû‚Ü‚Á‚Ä‚¢‚éƒf[ƒ^‚©‚Ç‚¤‚©‚Å–³Œø‚Ìd•û‚ªˆÙ‚È‚é
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Å–ï¿½ï¿½ï¿½ï¿½Ìdï¿½ï¿½ï¿½ï¿½ï¿½Ù‚È‚ï¿½
 		if( CharData->CodeData != NULL )
 		{
-			// ƒe[ƒuƒ‹‚Éû‚Ü‚Á‚Ä‚¢‚éê‡
+			// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 
-			// ƒR[ƒhƒf[ƒ^‚ğ–³Œø‚É‚·‚é
+			// ï¿½Rï¿½[ï¿½hï¿½fï¿½[ï¿½^ï¿½ğ–³Œï¿½ï¿½É‚ï¿½ï¿½ï¿½
 			CharData->CodeData->ExistFlag = FALSE ;
 			CharData->CodeData->CharData  = NULL ;
 		}
@@ -2358,7 +2402,7 @@ extern int FontCacheCharImageBltToHandle(
 		{
 			int i ;
 
-			// ƒe[ƒuƒ‹‚Éû‚Ü‚ç‚È‚¢ê‡
+			// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½È‚ï¿½ï¿½ê‡
 			for( i = 0 ; ManageData->CodeDataEx[ i ] != CharData ; i ++ ){}
 			ManageData->CodeDataExNum -- ;
 			if( ManageData->CodeDataExNum - i > 0 )
@@ -2367,11 +2411,11 @@ extern int FontCacheCharImageBltToHandle(
 			}
 		}
 
-		// ƒf[ƒ^‚ğ–³Œø‚É‚·‚é
+		// ï¿½fï¿½[ï¿½^ï¿½ğ–³Œï¿½ï¿½É‚ï¿½ï¿½ï¿½
 		CharData->ValidFlag = FALSE ;
 	}
 
-	// ‰æ‘œ‚Ì”{—¦‚ğƒZƒbƒg
+	// ï¿½æ‘œï¿½Ì”{ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	switch( ImageType )
 	{
 	case DX_FONT_SRCIMAGETYPE_1BIT_SCALE4 :
@@ -2394,7 +2438,7 @@ extern int FontCacheCharImageBltToHandle(
 	CharData->CodeUnicode = CharCode ;
 	CharData->IVSCode = IVSCode ;
 
-	// ƒJ[ƒjƒ“ƒOƒyƒAî•ñ‚ğƒZƒbƒg
+	// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½yï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	CharData->KerningPair = NULL ;
 	CharData->KerningPairNum = 0 ;
 	if( ManageData->BaseInfo.KerningPairNum > 0 )
@@ -2418,7 +2462,7 @@ extern int FontCacheCharImageBltToHandle(
 		CharData->SizeX = 0 ;
 		CharData->SizeY = 0 ;
 
-		// ƒGƒbƒW•t‚«‚Ìê‡‚Í“¾‚ç‚ê‚éƒCƒ[ƒW‚ÌƒTƒCƒY‚ğ‘å‚«‚­‚·‚é
+		// ï¿½Gï¿½bï¿½Wï¿½tï¿½ï¿½ï¿½Ìê‡ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( ( ManageData->FontType & DX_FONTTYPE_EDGE ) )
 		{
 			CharData->AddX += ( short )( ManageData->EdgeSize * 2 ) ;
@@ -2433,7 +2477,7 @@ extern int FontCacheCharImageBltToHandle(
 		CharData->SizeX = 0 ;
 		CharData->SizeY = 0 ;
 
-		// ƒGƒbƒW•t‚«‚Ìê‡‚Í“¾‚ç‚ê‚éƒCƒ[ƒW‚ÌƒTƒCƒY‚ğ‘å‚«‚­‚·‚é
+		// ï¿½Gï¿½bï¿½Wï¿½tï¿½ï¿½ï¿½Ìê‡ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( ( ManageData->FontType & DX_FONTTYPE_EDGE ) )
 		{
 			CharData->AddX += ( short )( ManageData->EdgeSize * 2 ) ;
@@ -2450,7 +2494,7 @@ extern int FontCacheCharImageBltToHandle(
 		CharData->DrawY = ( short )(   ImageDrawY                          / SampleScale ) ;
 		CharData->SizeY = ( WORD  )( ( DataHeight +   SampleScale - 1    ) / SampleScale ) ;
 
-		// ƒGƒbƒW•t‚«‚Ìê‡‚Í“¾‚ç‚ê‚éƒCƒ[ƒW‚ÌƒTƒCƒY‚ğ‘å‚«‚­‚·‚é
+		// ï¿½Gï¿½bï¿½Wï¿½tï¿½ï¿½ï¿½Ìê‡ï¿½Í“ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( ( ManageData->FontType & DX_FONTTYPE_EDGE ) )
 		{
 			AddX    = ManageData->EdgeSize ;
@@ -2464,11 +2508,11 @@ extern int FontCacheCharImageBltToHandle(
 			AddSize = 0 ;
 		}
 
-		// •¶š‚ğ’Ç‰Á‚·‚éÀ•W‚ÌƒZƒbƒg
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ÌƒZï¿½bï¿½g
 		DestX = CharData->GraphIndexX * ManageData->BaseInfo.MaxWidth ;
 		DestY = CharData->GraphIndexY * ManageData->BaseInfo.MaxWidth ;
 
-		// •¶šƒCƒ[ƒW‚ğˆê“I‚É•Û‘¶‚·‚éƒƒ‚ƒŠ—Ìˆæ‚ğ‰Šú‰»
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½êï¿½Iï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( ManageData->TextureCacheFlag == FALSE )
 		{
 			_MEMSET(	ManageData->CacheMem + DestY * ManageData->CachePitch,
@@ -2517,16 +2561,16 @@ extern int FontCacheCharImageBltToHandle(
 			}
 		}
 
-		// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚·‚éê‡‚Í“]‘—æÀ•W‚ğ‚Pƒhƒbƒg•ª‚¸‚ç‚·
+		// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Pï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ç‚·
 		if( ManageData->TextureCacheFlag == TRUE )
 		{
 			DestX += 1 ;
 			DestY += 1 ;
 		}
 
-		// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚µ‚È‚¢ê‡‚ÅƒCƒ[ƒWƒ^ƒCƒv‚ª DX_FONT_SRCIMAGETYPE_8BIT_MAX64 –”‚Í
-		// DX_FONT_SRCIMAGETYPE_8BIT_MAX255 ‚¾‚Á‚½ê‡‚©AƒCƒ[ƒWƒ^ƒCƒv‚ª DX_FONT_SRCIMAGETYPE_4BIT_MAX15 ‚¾‚Á‚½ê‡‚Í
-		// DX_FONT_SRCIMAGETYPE_8BIT_MAX16 –”‚Í DX_FONT_SRCIMAGETYPE_8BIT_MAX64 ‚É•ÏŠ·‚·‚é
+		// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÅƒCï¿½ï¿½ï¿½[ï¿½Wï¿½^ï¿½Cï¿½vï¿½ï¿½ DX_FONT_SRCIMAGETYPE_8BIT_MAX64 ï¿½ï¿½ï¿½ï¿½
+		// DX_FONT_SRCIMAGETYPE_8BIT_MAX255 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½Aï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½^ï¿½Cï¿½vï¿½ï¿½ DX_FONT_SRCIMAGETYPE_4BIT_MAX15 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½
+		// DX_FONT_SRCIMAGETYPE_8BIT_MAX16 ï¿½ï¿½ï¿½ï¿½ DX_FONT_SRCIMAGETYPE_8BIT_MAX64 ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
 		if( ImageType == DX_FONT_SRCIMAGETYPE_4BIT_MAX15 ||
 			( ManageData->TextureCacheFlag == FALSE &&
 			  ( ImageType == DX_FONT_SRCIMAGETYPE_8BIT_MAX64 ||
@@ -2560,7 +2604,7 @@ extern int FontCacheCharImageBltToHandle(
 					ByteNum = Width / 2 ;
 					ModNum  = Width - ByteNum * 2 ;
 
-					// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚·‚éê‡‚Í•ªŠò
+					// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í•ï¿½ï¿½ï¿½
 					if( ManageData->TextureCacheFlag )
 					{
 						for( i = 0 ; i < Height ; i ++ )
@@ -2637,7 +2681,7 @@ extern int FontCacheCharImageBltToHandle(
 			ImagePitch  = DestPitch ;
 		}
 		else
-		// Šg‘å‰æ‘œ‚Ìê‡‚Í‚±‚±‚Åk¬‰æ‘œ‚ğæ“¾‚·‚é
+		// ï¿½gï¿½ï¿½æ‘œï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½Åkï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 		if( SampleScale > 1 )
 		{
 			BYTE *	RDataBuffer ;
@@ -2673,11 +2717,11 @@ extern int FontCacheCharImageBltToHandle(
 
 			RSrcPitch = RWidth + 4 ;
 
-//			// k¬Œã‚Ìƒf[ƒ^‚ğŠi”[‚·‚éƒƒ‚ƒŠ‚ğŠm•Û
+//			// ï¿½kï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½
 //			ResizeBuffer = ( BYTE * )DXALLOC( ( size_t )( RSrcPitch * ( CharData->SizeY + 2 ) ) ) ;
 //			if( ResizeBuffer == NULL )
 //			{
-//				DxLib_ErrorUTF16LE( "\x87\x65\x57\x5b\xa4\x30\xe1\x30\xfc\x30\xb8\x30\xea\x30\xb5\x30\xf3\x30\xd7\x30\xea\x30\xf3\x30\xb0\x30\x28\x75\xd0\x30\xc3\x30\xd5\x30\xa1\x30\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x00"/*@ L"•¶šƒCƒ[ƒWƒŠƒTƒ“ƒvƒŠƒ“ƒO—pƒoƒbƒtƒ@‚ÌŠm•Û‚É¸”s‚µ‚Ü‚µ‚½" @*/ ) ;
+//				DxLib_ErrorUTF16LE( "\x87\x65\x57\x5b\xa4\x30\xe1\x30\xfc\x30\xb8\x30\xea\x30\xb5\x30\xf3\x30\xd7\x30\xea\x30\xf3\x30\xb0\x30\x28\x75\xd0\x30\xc3\x30\xd5\x30\xa1\x30\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x00"/*@ L"ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½pï¿½oï¿½bï¿½tï¿½@ï¿½ÌŠmï¿½Û‚Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½" @*/ ) ;
 //				return -1 ;
 //			}
 			ResizeBuffer = ManageData->TempBuffer ;
@@ -2703,10 +2747,10 @@ extern int FontCacheCharImageBltToHandle(
 			ImagePitch14	= ( DWORD )( ImagePitch * 14 ) ;
 			ImagePitch15	= ( DWORD )( ImagePitch * 15 ) ;
 
-			// ƒŠƒTƒ“ƒvƒ‹ƒXƒP[ƒ‹‚É‚æ‚Á‚Äˆ—‚ğ•ªŠò
+			// ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 			switch( SampleScale )
 			{
-				// ‚S”{‚Ìê‡
+				// ï¿½Sï¿½{ï¿½Ìê‡
 			case 4 :
 				if( ManageData->TextureCacheFlag == FALSE || ManageData->TextureCacheColorBitDepth == 16 )
 				{
@@ -2786,7 +2830,7 @@ extern int FontCacheCharImageBltToHandle(
 				}
 				break;
 
-				// ‚W”{‚Ìê‡
+				// ï¿½Wï¿½{ï¿½Ìê‡
 			case 8 :
 				if( ManageData->TextureCacheFlag == FALSE || ManageData->TextureCacheColorBitDepth == 16 )
 				{
@@ -2864,7 +2908,7 @@ extern int FontCacheCharImageBltToHandle(
 				}
 				break ;
 
-				// ‚P‚U”{‚Ìê‡
+				// ï¿½Pï¿½Uï¿½{ï¿½Ìê‡
 			case 16 :
 				if( ManageData->TextureCacheFlag == FALSE || ManageData->TextureCacheColorBitDepth == 16 )
 				{
@@ -3007,7 +3051,7 @@ extern int FontCacheCharImageBltToHandle(
 			ImagePitch  = RSrcPitch ;
 		}
 
-		// ‰‚ ‚è‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+		// ï¿½ï¿½ï¿½ï¿½ï¿½è‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 		if( ( ManageData->FontType & DX_FONTTYPE_EDGE ) == 0 )
 		{
 			BYTE *	Src ;
@@ -3087,7 +3131,7 @@ extern int FontCacheCharImageBltToHandle(
 				case DX_FONTTYPE_ANTIALIASING_4X4 : 
 				case DX_FONTTYPE_ANTIALIASING_8X8 : 
 				case DX_FONTTYPE_ANTIALIASING_16X16 : 
-					// DX_FONT_SRCIMAGETYPE_8BIT_MAX16 ˆÈŠO‚ÍƒGƒ‰[
+					// DX_FONT_SRCIMAGETYPE_8BIT_MAX16 ï¿½ÈŠOï¿½ÍƒGï¿½ï¿½ï¿½[
 					if( ImageType != DX_FONT_SRCIMAGETYPE_8BIT_MAX16 )
 					{
 						return -1 ;
@@ -3695,7 +3739,7 @@ extern int FontCacheCharImageBltToHandle(
 				}
 
 #ifndef DX_NON_GRAPHICS
-				// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚É“]‘—
+				// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“]ï¿½ï¿½
 				if( TextureCacheUpdate )
 				{
 					RECT srect ;
@@ -3931,7 +3975,7 @@ extern int FontCacheCharImageBltToHandle(
 				case DX_FONTTYPE_ANTIALIASING_EDGE :
 				case DX_FONTTYPE_ANTIALIASING_EDGE_4X4 :
 				case DX_FONTTYPE_ANTIALIASING_EDGE_8X8 :
-					// DX_FONT_SRCIMAGETYPE_8BIT_MAX16 ˆÈŠO‚ÍƒGƒ‰[
+					// DX_FONT_SRCIMAGETYPE_8BIT_MAX16 ï¿½ÈŠOï¿½ÍƒGï¿½ï¿½ï¿½[
 					if( ImageType != DX_FONT_SRCIMAGETYPE_8BIT_MAX16 )
 					{
 						return -1 ;
@@ -4528,7 +4572,7 @@ extern int FontCacheCharImageBltToHandle(
 							}
 						}
 
-						// ƒeƒNƒXƒ`ƒƒ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·
+						// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½É•ÏŠï¿½
 						{
 							if( im.ColorData.ColorBitDepth == 8 )
 							{
@@ -4800,7 +4844,7 @@ extern int FontCacheCharImageBltToHandle(
 								}
 							}
 
-							// ƒeƒNƒXƒ`ƒƒ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·
+							// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½É•ÏŠï¿½
 							{
 								if( im.ColorData.ColorBitDepth == 8 )
 								{
@@ -5136,7 +5180,7 @@ extern int FontCacheCharImageBltToHandle(
 								}
 							}
 
-							// ƒeƒNƒXƒ`ƒƒ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·
+							// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½É•ÏŠï¿½
 							{
 								static BYTE NumConvTable[ 0x41 ] =
 								{
@@ -5456,7 +5500,7 @@ extern int FontCacheCharImageBltToHandle(
 								}
 							}
 
-							// ƒeƒNƒXƒ`ƒƒ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·
+							// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½É•ÏŠï¿½
 							{
 								if( im.ColorData.ColorBitDepth == 8 )
 								{
@@ -5570,7 +5614,7 @@ extern int FontCacheCharImageBltToHandle(
 	#undef DB4
 
 #ifndef DX_NON_GRAPHICS
-				// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚É“]‘—
+				// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“]ï¿½ï¿½
 				if( TextureCacheUpdate )
 				{
 					RECT srect ;
@@ -5611,13 +5655,13 @@ extern int FontCacheCharImageBltToHandle(
 			}
 		}
 
-		// ƒTƒCƒY•â³
+		// ï¿½Tï¿½Cï¿½Yï¿½â³
 		CharData->AddX  += ( short )AddSize ;
 		CharData->SizeX += ( WORD  )AddSize ;
 		CharData->SizeY += ( WORD  )AddSize ;
 	}
 
-	// ƒe[ƒuƒ‹‚Éû‚Ü‚é”ÍˆÍ‚Ìê‡‚ÍƒR[ƒh‚ÌƒŠƒXƒgŒ^ƒf[ƒ^‚É“o˜^
+	// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½ÍˆÍ‚Ìê‡ï¿½ÍƒRï¿½[ï¿½hï¿½Ìƒï¿½ï¿½Xï¿½gï¿½^ï¿½fï¿½[ï¿½^ï¿½É“oï¿½^
 	if( CharCode <= 0xffff && IVSCode == 0 )
 	{
 		CodeData = &ManageData->CodeData[ CharCode ] ; 
@@ -5626,11 +5670,11 @@ extern int FontCacheCharImageBltToHandle(
 		CharData->CodeData	= CodeData ;
 	}
 	else
-	// ƒe[ƒuƒ‹‚Éû‚Ü‚ç‚È‚¢”ÍˆÍ‚Ìê‡‚Í•Ê‚ÌƒŠƒXƒg‚É“o˜^
+	// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚ï¿½È‚ï¿½ï¿½ÍˆÍ‚Ìê‡ï¿½Í•Ê‚Ìƒï¿½ï¿½Xï¿½gï¿½É“oï¿½^
 	{
 		CharData->CodeData	= NULL ;
 
-		// ”‚ªÅ‘å”‚É’B‚µ‚Ä‚¢‚½‚çˆê‚Â–³Œø‚É‚·‚é
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Å‘å”ï¿½É’Bï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â–ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 		if( ManageData->CodeDataExNum == FONT_CACHE_EX_NUM )
 		{
 			int DelIndex ;
@@ -5647,24 +5691,24 @@ extern int FontCacheCharImageBltToHandle(
 		ManageData->CodeDataExNum ++ ;
 	}
 
-	// î•ñ‚ğ—LŒø‚É‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	CharData->ValidFlag = TRUE ;
 
-	// ƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ğ“|‚·
+	// ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ï¿½|ï¿½ï¿½
 	CharData->GraphHandleFlag = FALSE ;
 
-//	// ƒŠƒTƒCƒYˆ——p‚Ìƒƒ‚ƒŠ‚ğŠm•Û‚µ‚Ä‚¢‚½ê‡‚Í‰ğ•ú
+//	// ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Û‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‰ï¿½ï¿½
 //	if( ResizeBuffer != NULL )
 //	{
 //		DXFREE( ResizeBuffer ) ;
 //		ResizeBuffer = NULL ;
 //	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ÌXV‹éŒ`‚ğ’Ç‰Á‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÌXï¿½Vï¿½ï¿½`ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int FontTextureCacheAddUpdateRect( FONTMANAGE *ManageData, RECT *Rect )
 {
 	if( ManageData->TextureCacheUpdateRectValid == FALSE )
@@ -5698,7 +5742,7 @@ extern int FontTextureCacheAddUpdateRect( FONTMANAGE *ManageData, RECT *Rect )
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ÌXV‹éŒ`‚ğÀÛ‚ÌƒeƒNƒXƒ`ƒƒ‚É“K—p‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÌXï¿½Vï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Û‚Ìƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½É“Kï¿½pï¿½ï¿½ï¿½ï¿½
 extern int FontTextureCacheUpdateRectApply( FONTMANAGE *ManageData )
 {
 	if( ManageData->TextureCacheUpdateRectValid == FALSE )
@@ -5717,7 +5761,7 @@ extern int FontTextureCacheUpdateRectApply( FONTMANAGE *ManageData )
 		GSYS.CreateImage.NotUseTransColor ? FALSE : TRUE
 	) ;
 
-	// ‰‚ ‚è‚Ìê‡‚Í‰—p‚Ì•”•ª‚àXV‚·‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Í‰ï¿½ï¿½pï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 	if( ( ManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 	{
 		RECT SrcRect ;
@@ -5739,7 +5783,7 @@ extern int FontTextureCacheUpdateRectApply( FONTMANAGE *ManageData )
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Éİ’è‚³‚ê‚Ä‚¢‚é•¶šƒR[ƒhŒ`®‚ğæ“¾‚·‚é( –ß‚è’l  -1:ƒGƒ‰[  -1ˆÈŠO:•¶šƒR[ƒhŒ`® )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Éİ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½ß‚ï¿½l  -1:ï¿½Gï¿½ï¿½ï¿½[  -1ï¿½ÈŠO:ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½`ï¿½ï¿½ )
 extern int GetFontHandleCharCodeFormat( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -5758,34 +5802,34 @@ extern int GetFontHandleCharCodeFormat( int FontHandle )
 }
 
 
-// •¶šƒLƒƒƒbƒVƒ…‚ÌƒZƒbƒgƒAƒbƒv‚ğs‚¤
+// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÌƒZï¿½bï¿½gï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½sï¿½ï¿½
 extern int SetupFontCache( CREATEFONTTOHANDLE_GPARAM *GParam, FONTMANAGE *ManageData, int ASyncThread )
 {
-	// ƒtƒHƒ“ƒg‚ÉƒGƒbƒW‚ğ‚Â‚¯‚éê‡‚ÍÅ‘åƒTƒCƒY{(ƒGƒbƒW‚ÌƒTƒCƒY~‚Q)‚É‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÉƒGï¿½bï¿½Wï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ê‡ï¿½ÍÅ‘ï¿½Tï¿½Cï¿½Yï¿½{(ï¿½Gï¿½bï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½~ï¿½Q)ï¿½É‚ï¿½ï¿½ï¿½
 	if( ManageData->FontType & DX_FONTTYPE_EDGE )
 	{
 		ManageData->BaseInfo.MaxWidth += ( WORD )( ManageData->EdgeSize * 2 ) ;
 	}
 
-	// ƒtƒHƒ“ƒg‚ÌÅ‘å•‚ğ 8 ‚Ì”{”‚É‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌÅ‘å•ï¿½ï¿½ 8 ï¿½Ì”{ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	ManageData->BaseInfo.MaxWidth = ( WORD )( ( ManageData->BaseInfo.MaxWidth + 7 ) / 8 * 8 ) ;
 
-	// ƒtƒHƒ“ƒg‚ÉƒGƒbƒW‚ğ‚Â‚¯‚éê‡‚ÍÅ‘åƒTƒCƒY{(ƒGƒbƒW‚ÌƒTƒCƒY~‚Q)‚É‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÉƒGï¿½bï¿½Wï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ê‡ï¿½ÍÅ‘ï¿½Tï¿½Cï¿½Yï¿½{(ï¿½Gï¿½bï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½~ï¿½Q)ï¿½É‚ï¿½ï¿½ï¿½
 	if( ManageData->FontType & DX_FONTTYPE_EDGE )
 	{
 		ManageData->BaseInfo.FontHeight += ( WORD )( ManageData->EdgeSize * 2 ) ;
 	}
 
-	// ƒtƒHƒ“ƒg‚Ì‚‚³‚ğ‚Q‚Ì”{”‚É‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½Ì”{ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	ManageData->BaseInfo.FontHeight = ( ManageData->BaseInfo.FontHeight + 1 ) / 2 * 2 ;
 
-	// ƒtƒHƒ“ƒg‚Ì‚‚³‚Ì•û‚ªÅ‘å•‚æ‚è‘å‚«‚©‚Á‚½‚çÅ‘å•‚ğƒtƒHƒ“ƒg‚Ì‚‚³‚É‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Å‘å•ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‘å•ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 	if( ManageData->BaseInfo.MaxWidth < ManageData->BaseInfo.FontHeight )
 	{
 		ManageData->BaseInfo.MaxWidth = ManageData->BaseInfo.FontHeight;
 	}
 
-	// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚·‚é‚©‚Ç‚¤‚©‚ğŒˆ’è
+	// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #ifndef DX_NON_GRAPHICS
 	ManageData->TextureCacheFlag           = GSYS.Setting.ValidHardware && GParam->NotTextureFlag == FALSE && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE ? TRUE : FALSE ;
 #else // DX_NON_GRAPHICS
@@ -5801,24 +5845,24 @@ extern int SetupFontCache( CREATEFONTTOHANDLE_GPARAM *GParam, FONTMANAGE *Manage
 	ManageData->TextureCacheUpdateRect.bottom	= 0 ;
 
 #ifndef DX_NON_GRAPHICS
-	// ƒLƒƒƒbƒVƒ…‚Å‚«‚éÅ‘å•¶š”‚ğŒˆ’è
+	// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½Å‘å•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 R1 :
 	if( ManageData->TextureCacheFlag == TRUE )
 	{
 		int ScreenArea85per ;
 		int CharNum ;
 
-		// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚·‚éê‡
+		// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡
 
-		// ‰æ–Ê–ÊÏ‚Ì‚W‚T“‚ğ‹‚ß‚Ä‚¨‚­
+		// ï¿½ï¿½Ê–ÊÏ‚Ì‚Wï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚Ä‚ï¿½ï¿½ï¿½
 		ScreenArea85per = GSYS.Screen.MainScreenSizeX * GSYS.Screen.MainScreenSizeY * 85 / 100 ;
 
-		// ƒeƒNƒXƒ`ƒƒƒTƒCƒY‚ğŠ„‚èo‚·
+		// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 		{
 			int MaxSizeW = ( ManageData->FontType & DX_FONTTYPE_EDGE ) != 0 ? GSYS.HardInfo.MaxTextureSize / 2 : GSYS.HardInfo.MaxTextureSize ;
 			int MaxSizeH = GSYS.HardInfo.MaxTextureSize ;
 
-			// Œ»“_‚Å‚ÍƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ÌÅ‘åƒTƒCƒY‚Í 8192x8192 ‚É‚·‚é
+			// ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Å‚Íƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÌÅ‘ï¿½Tï¿½Cï¿½Yï¿½ï¿½ 8192x8192 ï¿½É‚ï¿½ï¿½ï¿½
 			if( MaxSizeW > 8192 ) MaxSizeW = 8192 ;
 			if( MaxSizeH > 8192 ) MaxSizeH = 8192 ;
 
@@ -5826,21 +5870,21 @@ R1 :
 			ManageData->CacheImageSize.cy = 8 ;
 			for(;;)
 			{
-				// ƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ªƒLƒƒƒbƒVƒ…‚Å‚«‚éÅ‘å”‚ğ’´‚¦‚Ä‚¢‚½‚çƒ‹[ƒvI—¹
+				// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½Å‘å”ï¿½ğ’´‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½çƒ‹ï¿½[ï¿½vï¿½Iï¿½ï¿½
 				CharNum = ( ManageData->CacheImageSize.cx / ManageData->BaseInfo.MaxWidth ) *
 						  ( ManageData->CacheImageSize.cy / ManageData->BaseInfo.MaxWidth ) ;
 				if( CharNum >= FONT_CACHE_MAXNUM )
 				{
-					// ƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ğƒLƒƒƒbƒVƒ…‚Å‚«‚éÅ‘å”‚É§ŒÀ
+					// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½Å‘å”ï¿½Éï¿½ï¿½ï¿½
 					CharNum = FONT_CACHE_MAXNUM ;
 					break ;
 				}
 
-				// ƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ª–¾¦‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+				// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 				if( GParam->CacheCharNum > 0 )
 				{
-					// –¾¦‚³‚ê‚Ä‚¢‚éê‡‚ÍƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ª
-					// w’è‚ÌƒLƒƒƒbƒVƒ…•¶š”ˆÈã‚É‚È‚Á‚Ä‚¢‚½‚çƒ‹[ƒvI—¹
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					// ï¿½wï¿½ï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½çƒ‹ï¿½[ï¿½vï¿½Iï¿½ï¿½
 					if( CharNum >= GParam->CacheCharNum )
 					{
 						break ;
@@ -5848,8 +5892,8 @@ R1 :
 				}
 				else
 				{
-					// –¾¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍƒeƒNƒXƒ`ƒƒ–ÊÏ‚ª‰æ–ÊƒTƒCƒY‚Ì‚W‚T“‚ğ’´‚¦‚Ä‚¢‚Ä
-					// Š‚ÂƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ª‚P‚O•¶š‚ğ’´‚¦‚Ä‚¢‚½‚ç‚½‚çƒ‹[ƒvI—¹
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Íƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ÊÏ‚ï¿½ï¿½ï¿½ÊƒTï¿½Cï¿½Yï¿½Ì‚Wï¿½Tï¿½ï¿½ï¿½ğ’´‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+					// ï¿½ï¿½ï¿½ÂƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ğ’´‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ç‚½ï¿½çƒ‹ï¿½[ï¿½vï¿½Iï¿½ï¿½
 					if( ManageData->CacheImageSize.cx * ManageData->CacheImageSize.cy >= ScreenArea85per &&
 						CharNum >= 10 )
 					{
@@ -5857,14 +5901,14 @@ R1 :
 					}
 				}
 
-				// ƒeƒNƒXƒ`ƒƒƒTƒCƒY‚ªÅ‘å‚É‚È‚Á‚Ä‚¢‚½‚çI—¹
+				// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Å‘ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 				if( ManageData->CacheImageSize.cx >= MaxSizeW &&
 					ManageData->CacheImageSize.cy >= MaxSizeH )
 				{
 					break ;
 				}
 
-				// ƒeƒNƒXƒ`ƒƒƒTƒCƒY‚ğ‚Q”{‚É‚·‚é
+				// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Qï¿½{ï¿½É‚ï¿½ï¿½ï¿½
 				if( ManageData->CacheImageSize.cx >= MaxSizeW )
 				{
 					ManageData->CacheImageSize.cy <<= 1 ;
@@ -5886,13 +5930,13 @@ R1 :
 			}
 		}
 
-		// ƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ğ•Û‘¶
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
 		ManageData->MaxCacheCharNum = CharNum ;
 
-		// cˆê—ñ‚ÉŠi”[‚Å‚«‚é•¶š”‚ğZo
+		// ï¿½cï¿½ï¿½ï¿½ÉŠiï¿½[ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½o
 		ManageData->LengthCharNum = ManageData->CacheImageSize.cy / ManageData->BaseInfo.MaxWidth ;
 
-		// Šî–{ƒCƒ[ƒWŠÖŒW‚Ì‰Šú‰»
+		// ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÖŒWï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 		{
 			int alpha ;
 			int test ;
@@ -5911,18 +5955,18 @@ R1 :
 			}
 			edge = ( ManageData->FontType & DX_FONTTYPE_EDGE ) != 0 ? TRUE : FALSE ;
 
-			// ƒLƒƒƒbƒVƒ…‚É“]‘—‚·‚éƒCƒ[ƒW‚Æ“¯‚¶‚à‚Ì‚ğŠi”[‚µ‚Ä‚¨‚­Šî–{ƒCƒ[ƒW‚Ìì¬
+			// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Æ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìì¬
 			{
 				BaseImage = &ManageData->TextureCacheBaseImage ;
 
-				// ƒfƒoƒCƒX‚ªƒpƒŒƒbƒgƒeƒNƒXƒ`ƒƒ‚É‘Î‰‚µ‚Ä‚¢‚éê‡‚ÍƒpƒŒƒbƒgŒ`®‚É‚·‚é
+				// ï¿½fï¿½oï¿½Cï¿½Xï¿½ï¿½ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Íƒpï¿½ï¿½ï¿½bï¿½gï¿½`ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 				if( GSYS.HardInfo.Support4bitPaletteTexture )
 				{
 					int i ;
 
 					NS_CreatePaletteColorData( &BaseImage->ColorData ) ;
 
-					// ‚³‚ç‚Éƒrƒbƒg”‚ğ4‚É‚·‚é‚©8‚É‚·‚é‚©•ªŠò
+					// ï¿½ï¿½ï¿½ï¿½Éƒrï¿½bï¿½gï¿½ï¿½ï¿½ï¿½4ï¿½É‚ï¿½ï¿½é‚©8ï¿½É‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½ï¿½
 					if( ( ManageData->FontType & DX_FONTTYPE_ANTIALIASING ) != 0 &&
 						( ManageData->UseFontDataFile == FALSE ||
 						  ManageData->FontDataFile.ImageType == DX_FONT_SRCIMAGETYPE_8BIT_MAX64 ||
@@ -5988,7 +6032,7 @@ R1 :
 				BaseImage->GraphData		= DXALLOC( ( size_t )( ( size_t )BaseImage->Pitch * ( size_t )BaseImage->Height ) ) ;
 				if( BaseImage->GraphData == NULL )
 				{
-					DXST_LOGFILE_ADDUTF16LE( "\x87\x65\x57\x5b\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\xfa\x57\x2c\x67\xa4\x30\xe1\x30\xfc\x30\xb8\x30\x28\x75\x6e\x30\xe1\x30\xe2\x30\xea\x30\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"•¶šƒLƒƒƒbƒVƒ…Šî–{ƒCƒ[ƒW—p‚Ìƒƒ‚ƒŠ‚ÌŠm•Û‚É¸”s‚µ‚Ü‚µ‚½\n" @*/ ) ;
+					DXST_LOGFILE_ADDUTF16LE( "\x87\x65\x57\x5b\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\xfa\x57\x2c\x67\xa4\x30\xe1\x30\xfc\x30\xb8\x30\x28\x75\x6e\x30\xe1\x30\xe2\x30\xea\x30\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½pï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½Û‚Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n" @*/ ) ;
 					return -1 ;
 				}
 
@@ -5998,7 +6042,7 @@ R1 :
 				}
 				else
 				{
-					// æZÏ‚İƒAƒ‹ƒtƒ@‚ğg—p‚·‚éê‡‚ÍRGBA=0‚ÉAg—p‚µ‚È‚¢ê‡‚ÍA‚¾‚¯‚ğ0‚É‚µ‚Ä‰Šú‰»
+					// ï¿½ï¿½Zï¿½Ï‚İƒAï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½RGBA=0ï¿½ÉAï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½É‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
 
 					if( ManageData->TextureCacheUsePremulAlpha )
 					{
@@ -6012,11 +6056,11 @@ R1 :
 			}
 		}
 
-		// ƒLƒƒƒbƒVƒ…‚Ég—p‚·‚éƒeƒNƒXƒ`ƒƒƒOƒ‰ƒtƒBƒbƒN‚ğì¬‚·‚é
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 		ManageData->TextureCacheLostFlag = TRUE ;
 		if( RefreshFontDrawResourceToHandle( ManageData, ASyncThread ) < 0 )
 		{
-			DXST_LOGFILE_ADDUTF16LE( "\xc6\x30\xaf\x30\xb9\x30\xc1\x30\xe3\x30\x87\x65\x57\x5b\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\x6e\x30\x5c\x4f\x10\x62\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ƒeƒNƒXƒ`ƒƒ•¶šƒLƒƒƒbƒVƒ…‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½\n" @*/ ) ;
+			DXST_LOGFILE_ADDUTF16LE( "\xc6\x30\xaf\x30\xb9\x30\xc1\x30\xe3\x30\x87\x65\x57\x5b\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\x6e\x30\x5c\x4f\x10\x62\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ìì¬ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n" @*/ ) ;
 			ManageData->TextureCacheFlag = FALSE ;
 			goto R1 ;
 		}
@@ -6024,10 +6068,10 @@ R1 :
 	else
 #endif // DX_NON_GRAPHICS
 	{
-		// ƒƒ‚ƒŠã‚ÌƒLƒƒƒbƒVƒ…‚ğg—p‚·‚éê‡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡
 		int BitNum = 0 ;
 			
-		// ‚PƒsƒNƒZƒ‹•ª‚Ìƒf[ƒ^‚ğ•Û‘¶‚·‚é‚É“–‚½‚è•K—v‚Èƒrƒbƒg”‚ğƒZƒbƒg
+		// ï¿½Pï¿½sï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½Èƒrï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		switch( ManageData->FontType )
 		{
 		case DX_FONTTYPE_NORMAL :                   BitNum = 1 ; break ;
@@ -6042,7 +6086,7 @@ R1 :
 		case DX_FONTTYPE_ANTIALIASING_EDGE_16X16 :  BitNum = 8 ; break ;
 		}
 
-		// ƒLƒƒƒbƒVƒ…•¶š‚Ì”‚ğ’²®
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ğ’²ï¿½
 		ManageData->MaxCacheCharNum = GParam->CacheCharNum ;
 		if( ManageData->MaxCacheCharNum == 0 )
 		{
@@ -6058,55 +6102,55 @@ R1 :
 			ManageData->MaxCacheCharNum = FONT_CACHE_MAXNUM ;
 		}
 
-		// ƒLƒƒƒbƒVƒ…ƒCƒ[ƒW‚ÌƒTƒCƒY‚ğƒZƒbƒg
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½Zï¿½bï¿½g
 		ManageData->CacheImageSize.cx	= ManageData->BaseInfo.MaxWidth ;
 		ManageData->CacheImageSize.cy	= ManageData->MaxCacheCharNum * ManageData->BaseInfo.MaxWidth ;
 
-		// ƒLƒƒƒbƒVƒ…•¶š”‚ÌƒZƒbƒg
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒZï¿½bï¿½g
 		ManageData->MaxCacheCharNum		= ManageData->CacheImageSize.cy / ManageData->BaseInfo.MaxWidth ;
 		ManageData->LengthCharNum		= ManageData->MaxCacheCharNum ;
 		ManageData->CacheDataBitNum		= BitNum ;
 
-		// ƒLƒƒƒbƒVƒ…—pƒƒ‚ƒŠ‚ÌŠm•Û
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½ï¿½
 		ManageData->CachePitch = ( BitNum * ManageData->CacheImageSize.cx + 7 ) / 8 ;
 		ManageData->CacheMem = (unsigned char *)DXALLOC( ( size_t )( ManageData->CachePitch * ManageData->CacheImageSize.cy ) ) ;
 		if( ManageData->CacheMem == NULL )
 		{
-			DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\x28\x75\xe1\x30\xe2\x30\xea\x30\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x20\x00\x69\x00\x6e\x00\x20\x00\x43\x00\x72\x00\x65\x00\x61\x00\x74\x00\x65\x00\x46\x00\x6f\x00\x6e\x00\x74\x00\x54\x00\x6f\x00\x48\x00\x61\x00\x6e\x00\x64\x00\x6c\x00\x65\x00\x00"/*@ L"ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…—pƒƒ‚ƒŠ‚ÌŠm•Û‚É¸”s‚µ‚Ü‚µ‚½ in CreateFontToHandle" @*/ ) ;
+			DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\xad\x30\xe3\x30\xc3\x30\xb7\x30\xe5\x30\x28\x75\xe1\x30\xe2\x30\xea\x30\x6e\x30\xba\x78\xdd\x4f\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x20\x00\x69\x00\x6e\x00\x20\x00\x43\x00\x72\x00\x65\x00\x61\x00\x74\x00\x65\x00\x46\x00\x6f\x00\x6e\x00\x74\x00\x54\x00\x6f\x00\x48\x00\x61\x00\x6e\x00\x64\x00\x6c\x00\x65\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½Û‚Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ in CreateFontToHandle" @*/ ) ;
 			return -1 ;
 		}
 
-		// ƒuƒŒƒ“ƒh•`‰æ—pƒtƒHƒ“ƒgƒOƒ‰ƒtƒBƒbƒN‚Ìì¬
+		// ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½hï¿½`ï¿½æï¿½pï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½Ìì¬
 		if( RefreshFontDrawResourceToHandle( ManageData, ASyncThread ) < 0 )
 		{
-			DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x28\x75\xcf\x63\x3b\x75\xb9\x30\xaf\x30\xea\x30\xfc\x30\xf3\x30\x6e\x30\x5c\x4f\x10\x62\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒg—p•`‰æƒXƒNƒŠ[ƒ“‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½\n" @*/ ) ;
+			DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x28\x75\xcf\x63\x3b\x75\xb9\x30\xaf\x30\xea\x30\xfc\x30\xf3\x30\x6e\x30\x5c\x4f\x10\x62\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½pï¿½`ï¿½ï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìì¬ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n" @*/ ) ;
 			return -1 ;
 		}
 	}
 
-	// ‚P•¶š•ª‚Ìì‹Æ—pƒoƒbƒtƒ@‚ğŠm•Û
+	// ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½Æ—pï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½mï¿½ï¿½
 	ManageData->TempBufferSize = ( ManageData->BaseInfo.MaxWidth + 4 ) * ( ManageData->BaseInfo.MaxWidth + 4 ) ;
 	ManageData->TempBuffer = ( BYTE * )DXALLOC( ManageData->TempBufferSize ) ;
 	if( ManageData->TempBuffer == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\x5c\x4f\x6d\x69\x28\x75\xd0\x30\xc3\x30\xd5\x30\xa1\x30\x6e\x30\x5c\x4f\x10\x62\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒg‚Ìì‹Æ—pƒoƒbƒtƒ@‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\x5c\x4f\x6d\x69\x28\x75\xd0\x30\xc3\x30\xd5\x30\xa1\x30\x6e\x30\x5c\x4f\x10\x62\x6b\x30\x31\x59\x57\x65\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½Æ—pï¿½oï¿½bï¿½tï¿½@ï¿½Ìì¬ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n" @*/ ) ;
 		return -1 ;
 	}
 
-	// ŠÂ‹«ˆË‘¶ˆ—
+	// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( SetupFontCache_PF( GParam, ManageData, ASyncThread ) < 0 )
 	{
 		return -1 ;
 	}
 
-	// ƒeƒLƒXƒgƒLƒƒƒbƒVƒ…ƒf[ƒ^‚Ì‰Šú‰»
+	// ï¿½eï¿½Lï¿½Xï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	InitFontCacheToHandle( ManageData, ASyncThread ) ; 
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// •¶šƒLƒƒƒbƒVƒ…‚ÉV‚µ‚¢•¶š‚ğ‰Á‚¦‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÉVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern FONTCHARDATA * FontCacheCharAddToHandle( int AddNum, const DWORD *CharCodeList, const DWORD *IVSCodeList, FONTMANAGE *ManageData, int TextureCacheUpdate )
 {
 //	FONTMANAGE * 	ManageData ;
@@ -6118,33 +6162,33 @@ extern FONTCHARDATA * FontCacheCharAddToHandle( int AddNum, const DWORD *CharCod
 //	DEFAULT_FONT_HANDLE_SETUP
 
 #ifndef DX_NON_GRAPHICS
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( ManageData->TextureCacheFlag && Graphics_Hardware_CheckValid_PF() == 0 )
 	{
 		return NULL ;
 	}
 #endif // DX_NON_GRAPHICS
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚ğg—p‚µ‚È‚¢ê‡‚ÍŠÂ‹«ˆË‘¶‚Ì€”õ‚ğs‚¤
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍŠÂ‹ï¿½ï¿½Ë‘ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 	if( ManageData->UseFontDataFile == FALSE )
 	{
-		// ŠÂ‹«ˆË‘¶ˆ—‚O
+		// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½O
 		if( FontCacheCharAddToHandle_Timing0_PF( ManageData ) < 0 )
 		{
 			return NULL ;
 		}
 	}
 
-	// ’Ç‰Á‚·‚é•¶š‚Ì”‚¾‚¯ƒ‹[ƒv
+	// ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
 	for( i = 0 ; i < AddNum ; i ++, CharCodeList ++, IVSCodeList ++ )
 	{
-		// Ÿ‚Ì•¶š‚ğ’Ç‰Á‚·‚éƒCƒ“ƒfƒbƒNƒX‚ğæ“¾
+		// ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½æ“¾
 		CharData = &ManageData->CharData[ ManageData->Index ] ;
 
-		// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚ğg—p‚µ‚È‚¢ê‡‚ÍŠÂ‹«ˆË‘¶‚Ì’Ç‰Áˆ—‚ğs‚¤
+		// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍŠÂ‹ï¿½ï¿½Ë‘ï¿½ï¿½Ì’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 		if( ManageData->UseFontDataFile == FALSE )
 		{
-			// ŠÂ‹«ˆË‘¶ˆ—
+			// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½
 			if( FontCacheCharAddToHandle_Timing1_PF( ManageData, CharData, *CharCodeList, *IVSCodeList, TextureCacheUpdate ) < 0 )
 			{
 				CharData = NULL ;
@@ -6155,10 +6199,10 @@ extern FONTCHARDATA * FontCacheCharAddToHandle( int AddNum, const DWORD *CharCod
 		{
 			FONTDATAFILECHARADATA *Chara ;
 
-			// •¶š‚Ìî•ñ‚ğæ“¾
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 			if( *CharCodeList >= 0x10000 || *IVSCodeList != 0 )
 			{
-				// ¡‚Ì‚Æ‚±‚ëƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÍˆÙ‘Ìš‚É‚Í‘Î‰‚µ‚Ä‚¢‚È‚¢
+				// ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÍˆÙ‘Ìï¿½ï¿½É‚Í‘Î‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
 				if( *IVSCodeList != 0 )
 				{
 					CharData = NULL ;
@@ -6190,7 +6234,7 @@ extern FONTCHARDATA * FontCacheCharAddToHandle( int AddNum, const DWORD *CharCod
 				}
 			}
 
-			// ƒCƒ[ƒW‚ªˆ³k‚³‚ê‚Ä‚¢‚½‚ç‰ğ“€‚·‚é
+			// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ğ“€‚ï¿½ï¿½ï¿½
 			if( Chara->Press )
 			{
 				DXA_Decode( ManageData->FontDataFile.Image + Chara->ImageAddress, ManageData->FontDataFile.PressImageDecodeBuffer ) ;
@@ -6201,7 +6245,7 @@ extern FONTCHARDATA * FontCacheCharAddToHandle( int AddNum, const DWORD *CharCod
 				Image = ManageData->FontDataFile.Image + Chara->ImageAddress ;
 			}
 
-			// ƒCƒ[ƒW‚ğ“]‘—
+			// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½]ï¿½ï¿½
 			FontCacheCharImageBltToHandle(
 				ManageData,
 				CharData,
@@ -6220,7 +6264,7 @@ extern FONTCHARDATA * FontCacheCharAddToHandle( int AddNum, const DWORD *CharCod
 			) ;
 		}
 
-		// Ÿ‚Ì•¶š‚ğ“o˜^‚·‚éÛ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğƒZƒbƒg‚·‚é
+		// ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Û‚ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 		ManageData->Index ++ ;
 		if( ManageData->Index ==  ( unsigned int )ManageData->MaxCacheCharNum )
 		{
@@ -6228,20 +6272,20 @@ extern FONTCHARDATA * FontCacheCharAddToHandle( int AddNum, const DWORD *CharCod
 		}
 	}
 
-	// ƒeƒNƒXƒ`ƒƒ‚ÌˆêŠ‡XV
+	// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ÌˆêŠ‡ï¿½Xï¿½V
 	FontTextureCacheUpdateRectApply( ManageData ) ;
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚ğg—p‚µ‚È‚¢ê‡‚ÍŠÂ‹«ˆË‘¶‚ÌŒãn––ˆ—‚ğs‚¤
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍŠÂ‹ï¿½ï¿½Ë‘ï¿½ï¿½ÌŒï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 	if( ManageData->UseFontDataFile == FALSE )
 	{
-		// ŠÂ‹«ˆË‘¶ˆ—‚Q
+		// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Q
 		if( FontCacheCharAddToHandle_Timing2_PF( ManageData ) < 0 )
 		{
 			return NULL ;
 		}
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return CharData ;
 }
 
@@ -6256,13 +6300,13 @@ static int EnumFontNameBase( wchar_t *NameBuffer, int NameBufferNum, int JapanOn
 	EnumFontData.Valid			= FALSE ;
 	EnumFontData.EnumFontName	= EnumFontName ;
 
-	// ƒtƒHƒ“ƒg‚ª‚ ‚é‚©‚ğ’²‚×‚é‚¾‚¯‚Ìê‡‚Íˆ—‚ğ•ªŠò
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½ğ’²‚×‚é‚¾ï¿½ï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 	if( IsReturnValid )
 	{
 		EnumFontData.FontBuffer		= NULL ;
 		EnumFontData.BufferNum		= 0 ;
 
-		// ŠÂ‹«ˆË‘¶ˆ—
+		// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½
 		Result = EnumFontName_PF( &EnumFontData, TRUE, CharSet ) ;
 	}
 	else
@@ -6279,10 +6323,10 @@ static int EnumFontNameBase( wchar_t *NameBuffer, int NameBufferNum, int JapanOn
 		EnumFontData.FontBuffer		= DestBuffer ;
 		EnumFontData.BufferNum		= NameBufferNum ;
 
-		// ŠÂ‹«ˆË‘¶ˆ—
+		// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½
 		Result = EnumFontName_PF( &EnumFontData, IsEx, CharSet ) ;
 
-		// ƒƒ‚ƒŠ‚Ì‰ğ•ú
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
 		if( NameBuffer == NULL )
 		{
 			DXFREE( DestBuffer ) ;
@@ -6290,13 +6334,13 @@ static int EnumFontNameBase( wchar_t *NameBuffer, int NameBufferNum, int JapanOn
 		}
 	}
 
-	// ƒGƒ‰[ƒ`ƒFƒbƒN
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
 	if( Result < 0 )
 	{
 		return -1 ;
 	}
 
-	// ƒtƒHƒ“ƒg‚ª‘¶İ‚µ‚½‚©Aá‚µ‚­‚ÍƒtƒHƒ“ƒgƒf[ƒ^—Ìˆæ”‚ğ•Ô‚·
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½á‚µï¿½ï¿½ï¿½Íƒtï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½Ìˆæ”ï¿½ï¿½Ô‚ï¿½
 	return IsReturnValid ? EnumFontData.Valid : EnumFontData.FontNum ;
 }
 
@@ -6353,39 +6397,39 @@ END :
 }
 
 
-// g—p‰Â”\‚ÈƒtƒHƒ“ƒg‚Ì–¼‘O‚ğ‚·‚×‚Ä—ñ‹“‚·‚é
+// ï¿½gï¿½pï¿½Â”\ï¿½Èƒtï¿½Hï¿½ï¿½ï¿½gï¿½Ì–ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½×‚Ä—ñ‹“‚ï¿½ï¿½ï¿½
 extern int NS_EnumFontName( TCHAR *NameBuffer, int NameBufferNum, int JapanOnlyFlag )
 {
 	return EnumFontNameBaseT( NameBuffer, NameBufferNum, JapanOnlyFlag ) ;
 }
 
-// g—p‰Â”\‚ÈƒtƒHƒ“ƒg‚Ì–¼‘O‚ğ—ñ‹“‚·‚é( NameBuffer ‚É 64ƒoƒCƒg‹æØ‚è‚Å–¼‘O‚ªŠi”[‚³‚ê‚Ü‚· )
+// ï¿½gï¿½pï¿½Â”\ï¿½Èƒtï¿½Hï¿½ï¿½ï¿½gï¿½Ì–ï¿½ï¿½Oï¿½ï¿½ñ‹“‚ï¿½ï¿½ï¿½( NameBuffer ï¿½ï¿½ 64ï¿½oï¿½Cï¿½gï¿½ï¿½Ø‚ï¿½Å–ï¿½ï¿½Oï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ )
 extern int EnumFontName_WCHAR_T( wchar_t *NameBuffer, int NameBufferNum, int JapanOnlyFlag )
 {
 	return EnumFontNameBase( NameBuffer, NameBufferNum, JapanOnlyFlag ) ;
 }
 
 
-// g—p‰Â”\‚ÈƒtƒHƒ“ƒg‚Ì–¼‘O‚ğ‚·‚×‚Ä—ñ‹“‚·‚é
+// ï¿½gï¿½pï¿½Â”\ï¿½Èƒtï¿½Hï¿½ï¿½ï¿½gï¿½Ì–ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½×‚Ä—ñ‹“‚ï¿½ï¿½ï¿½
 extern int NS_EnumFontNameEx( TCHAR *NameBuffer, int NameBufferNum, int CharSet )
 {
 	return EnumFontNameBaseT( NameBuffer, NameBufferNum, FALSE, TRUE, CharSet ) ;
 }
 
-// g—p‰Â”\‚ÈƒtƒHƒ“ƒg‚Ì–¼‘O‚ğ—ñ‹“‚·‚é( NameBuffer ‚É 64ƒoƒCƒg‹æØ‚è‚Å–¼‘O‚ªŠi”[‚³‚ê‚Ü‚· )( •¶šƒZƒbƒgw’è”Å )
+// ï¿½gï¿½pï¿½Â”\ï¿½Èƒtï¿½Hï¿½ï¿½ï¿½gï¿½Ì–ï¿½ï¿½Oï¿½ï¿½ñ‹“‚ï¿½ï¿½ï¿½( NameBuffer ï¿½ï¿½ 64ï¿½oï¿½Cï¿½gï¿½ï¿½Ø‚ï¿½Å–ï¿½ï¿½Oï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ )( ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½wï¿½ï¿½ï¿½ )
 extern int EnumFontNameEx_WCHAR_T( wchar_t *NameBuffer, int NameBufferNum, int CharSet )
 {
 	return EnumFontNameBase( NameBuffer, NameBufferNum, FALSE, TRUE, CharSet ) ;
 }
 
 
-// w’è‚ÌƒtƒHƒ“ƒg–¼‚ÌƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚é
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ñ‹“‚ï¿½ï¿½ï¿½
 extern int NS_EnumFontNameEx2( TCHAR *NameBuffer, int NameBufferNum, const TCHAR *EnumFontName, int CharSet )
 {
 	return EnumFontNameBaseT( NameBuffer, NameBufferNum, FALSE, TRUE, CharSet, EnumFontName ) ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒg–¼‚ÌƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚é
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ñ‹“‚ï¿½ï¿½ï¿½
 extern int NS_EnumFontNameEx2WithStrLen( TCHAR *NameBuffer, int NameBufferNum, const TCHAR *EnumFontName, size_t EnumFontNameLength, int CharSet )
 {
 	int Result ;
@@ -6395,20 +6439,20 @@ extern int NS_EnumFontNameEx2WithStrLen( TCHAR *NameBuffer, int NameBufferNum, c
 	return Result ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒg–¼‚ÌƒtƒHƒ“ƒg‚ğ—ñ‹“‚·‚é
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ñ‹“‚ï¿½ï¿½ï¿½
 extern int EnumFontNameEx2_WCHAR_T( wchar_t *NameBuffer, int NameBufferNum, const wchar_t *EnumFontName, int CharSet )
 {
 	return EnumFontNameBase( NameBuffer, NameBufferNum, FALSE, TRUE, CharSet, EnumFontName ) ;
 }
 
 
-// w’è‚ÌƒtƒHƒ“ƒg–¼‚ÌƒtƒHƒ“ƒg‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚é( –ß‚è’l  TRUE:‘¶İ‚·‚é  FALSE:‘¶İ‚µ‚È‚¢ )
-extern int NS_CheckFontName( const TCHAR *FontName, int CharSet /* DX_CHARSET_DEFAULT “™ */ )
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½( ï¿½ß‚ï¿½l  TRUE:ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½  FALSE:ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ )
+extern int NS_CheckFontName( const TCHAR *FontName, int CharSet /* DX_CHARSET_DEFAULT ï¿½ï¿½ */ )
 {
 	return EnumFontNameBaseT( NULL, 0, FALSE, TRUE, CharSet, FontName, TRUE ) ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒg–¼‚ÌƒtƒHƒ“ƒg‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚é( –ß‚è’l  TRUE:‘¶İ‚·‚é  FALSE:‘¶İ‚µ‚È‚¢ )
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½( ï¿½ß‚ï¿½l  TRUE:ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½  FALSE:ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ )
 extern int NS_CheckFontNameWithStrLen( const TCHAR *FontName, size_t FontNameLength, int CharSet )
 {
 	int Result ;
@@ -6418,14 +6462,14 @@ extern int NS_CheckFontNameWithStrLen( const TCHAR *FontName, size_t FontNameLen
 	return Result ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒg–¼‚ÌƒtƒHƒ“ƒg‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚é( –ß‚è’l  TRUE:‘¶İ‚·‚é  FALSE:‘¶İ‚µ‚È‚¢ )
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½( ï¿½ß‚ï¿½l  TRUE:ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½  FALSE:ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ )
 extern int CheckFontName_WCHAR_T( const wchar_t *FontName, int CharSet )
 {
 	return EnumFontNameBase( NULL, 0, FALSE, TRUE, CharSet, FontName, TRUE ) ;
 }
 
 
-// InitFontToHandle ‚Ì“à•”ŠÖ”
+// InitFontToHandle ï¿½Ì“ï¿½ï¿½ï¿½ï¿½Öï¿½
 extern int InitFontToHandleBase( int Terminate )
 {
 	FONTMANAGE * DefFont ;
@@ -6438,10 +6482,10 @@ extern int InitFontToHandleBase( int Terminate )
 	int DefFontItalic = 0 ;
 	int UseDefaultFont ;
 
-	DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\x1d\x52\x1f\x67\x16\x53\x92\x30\x4c\x88\x44\x30\x7e\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒg‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·\n" @*/ ) ;
+	DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\x1d\x52\x1f\x67\x16\x53\x92\x30\x4c\x88\x44\x30\x7e\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½\n" @*/ ) ;
 	DXST_LOGFILE_TABADD ;
 
-	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒg‚Ìƒf[ƒ^‚ğ•Û‘¶
+	// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½Û‘ï¿½
 	UseDefaultFont = FSYS.DefaultFontHandle > 0 ? TRUE : FALSE ;
 	if( UseDefaultFont )
 	{
@@ -6455,10 +6499,10 @@ extern int InitFontToHandleBase( int Terminate )
 		DefFontType      =	DefFont->FontType      ;
 	}
 
-	// ‚·‚×‚Ä‚ÌƒtƒHƒ“ƒgƒf[ƒ^‚ğíœ
+	// ï¿½ï¿½ï¿½×‚Ä‚Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½íœ
 	AllHandleSub( DX_HANDLETYPE_FONT ) ;
 
-	// Œãn––’†‚Å‚Í‚È‚¢ê‡‚ÍƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒg‚ğì¬
+	// ï¿½ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½ê‡ï¿½Íƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ì¬
 	if( Terminate == FALSE )
 	{
 		CREATEFONTTOHANDLE_GPARAM GParam ;
@@ -6476,55 +6520,55 @@ extern int InitFontToHandleBase( int Terminate )
 	}
 
 	DXST_LOGFILE_TABSUB ;
-	DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\x1d\x52\x1f\x67\x16\x53\x6f\x30\x63\x6b\x38\x5e\x6b\x30\x42\x7d\x86\x4e\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒg‚Ì‰Šú‰»‚Í³í‚ÉI—¹‚µ‚Ü‚µ‚½\n" @*/ ) ;
+	DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\x6e\x30\x1d\x52\x1f\x67\x16\x53\x6f\x30\x63\x6b\x38\x5e\x6b\x30\x42\x7d\x86\x4e\x57\x30\x7e\x30\x57\x30\x5f\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ÉIï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½\n" @*/ ) ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒXƒe[ƒ^ƒX‚ğƒfƒtƒHƒ‹ƒg‚É–ß‚·
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½Xï¿½ï¿½ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½É–ß‚ï¿½
 extern int NS_InitFontToHandle( void )
 {
 	return InitFontToHandleBase() ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğ‰Šú‰»‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int InitializeFontHandle( HANDLEINFO *HandleInfo )
 {
 	FONTMANAGE * ManageData = ( FONTMANAGE * )HandleInfo ;
 
 	ManageData->PF = ( FONTMANAGE_PF * )( ManageData + 1 ) ;
 
-	// ì‹Æ—pƒnƒ“ƒhƒ‹‚ğ‰Šú‰»
+	// ï¿½ï¿½Æ—pï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ManageData->ModiDrawScreen[ 0 ] = -1 ;
 	ManageData->ModiDrawScreen[ 1 ] = -1 ;
 	ManageData->ModiDrawScreenV[ 0 ] = -1 ;
 	ManageData->ModiDrawScreenV[ 1 ] = -1 ;
 
-	// ƒLƒƒƒbƒVƒ…ƒnƒ“ƒhƒ‹‚ğ‰Šú‰»
+	// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ManageData->TextureCache	= -1 ;
 	ManageData->TextureCacheSub	= -1 ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌŒãn––‚ğ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌŒï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int TerminateFontHandle( HANDLEINFO *HandleInfo )
 {
 	FONTMANAGE * ManageData = ( FONTMANAGE * )HandleInfo ;
 
-	// ŠÂ‹«ˆË‘¶ˆ—
+	// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	TerminateFontHandle_PF( ManageData ) ;
 
-	// ƒeƒLƒXƒgƒLƒƒƒbƒVƒ…—pƒƒ‚ƒŠ‚Ì‰ğ•ú
+	// ï¿½eï¿½Lï¿½Xï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
 	if( ManageData->CacheMem != NULL )
 	{
 		DXFREE( ManageData->CacheMem ) ;
 		ManageData->CacheMem = NULL ;
 	}
 
-	// ì‹Æ—pƒoƒbƒtƒ@‚Ì‰ğ•ú
+	// ï¿½ï¿½Æ—pï¿½oï¿½bï¿½tï¿½@ï¿½Ì‰ï¿½ï¿½
 	if( ManageData->TempBuffer != NULL )
 	{
 		DXFREE( ManageData->TempBuffer ) ;
@@ -6532,7 +6576,7 @@ extern int TerminateFontHandle( HANDLEINFO *HandleInfo )
 	}
 
 #ifndef DX_NON_GRAPHICS
-	// ì‹Æ—pƒOƒ‰ƒtƒBƒbƒNíœ
+	// ï¿½ï¿½Æ—pï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½íœ
 	{
 		int i ;
 
@@ -6552,7 +6596,7 @@ extern int TerminateFontHandle( HANDLEINFO *HandleInfo )
 		}
 	}
 
-	// ƒeƒNƒXƒ`ƒƒƒOƒ‰ƒtƒBƒbƒNíœ
+	// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½íœ
 	if( ManageData->TextureCache >= 0 )
 	{
 		SubHandle( ManageData->TextureCache, FALSE, FALSE ) ;
@@ -6562,14 +6606,14 @@ extern int TerminateFontHandle( HANDLEINFO *HandleInfo )
 	}
 #endif // DX_NON_GRAPHICS
 
-	// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚Æ“¯‚¶ƒCƒ[ƒW‚ÌŠî–{ƒCƒ[ƒW‚Ì‰ğ•ú
+	// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÌŠï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ì‰ï¿½ï¿½
 	if( ManageData->TextureCacheBaseImage.GraphData != NULL )
 	{
 		DXFREE( ManageData->TextureCacheBaseImage.GraphData ) ;
 		ManageData->TextureCacheBaseImage.GraphData = NULL ;
 	}
 
-	// ƒJ[ƒjƒ“ƒOƒyƒAî•ñ—p‚ÉŠm•Û‚µ‚Ä‚¢‚½ƒƒ‚ƒŠ‚Ì‰ğ•ú
+	// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½yï¿½Aï¿½ï¿½ï¿½pï¿½ÉŠmï¿½Û‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
 	if( ManageData->FontDataFile.FileBuffer == NULL &&
 		ManageData->KerningPairData != NULL )
 	{
@@ -6577,30 +6621,30 @@ extern int TerminateFontHandle( HANDLEINFO *HandleInfo )
 		ManageData->KerningPairData = NULL ;
 	}
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚ğg—p‚µ‚Ä‚¢‚½ê‡‚ÍƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹ƒCƒ[ƒW—p‚ÌŠm•Ûƒƒ‚ƒŠ‚ğ‰ğ•ú
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒtï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½pï¿½ÌŠmï¿½Ûƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( ManageData->FontDataFile.FileBuffer != NULL )
 	{
 		DXFREE( ManageData->FontDataFile.FileBuffer ) ;
 		ManageData->FontDataFile.FileBuffer = NULL ;
 	}
 
-	// ƒGƒbƒW‚ÌƒTƒCƒY‚ªˆê’èˆÈã‚Ìê‡‚ÍƒGƒbƒW‚Ì‰~—p‚Ì‰æ‘œ‚ğíœ‚·‚é
+	// ï¿½Gï¿½bï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Èï¿½Ìê‡ï¿½ÍƒGï¿½bï¿½Wï¿½Ì‰~ï¿½pï¿½Ì‰æ‘œï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
 	if( ManageData->EdgeSize > FONTEDGE_PATTERN_NUM )
 	{
 		NS_ReleaseBaseImage( &ManageData->EdgeCircleImage ) ;
 	}
 
-	// ƒƒXƒgƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Í TRUE ‚É‚·‚é
+	// ï¿½ï¿½ï¿½Xï¿½gï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ TRUE ï¿½É‚ï¿½ï¿½ï¿½
 	if( ManageData->LostFlag != NULL )
 	{
 		*ManageData->LostFlag = TRUE ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ìî•ño—Í
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½oï¿½ï¿½
 extern int DumpInfoFontHandle( HANDLEINFO *HandleInfo )
 {
 	FONTMANAGE * ManageData = ( FONTMANAGE * )HandleInfo ;
@@ -6638,11 +6682,11 @@ extern int DumpInfoFontHandle( HANDLEINFO *HandleInfo )
 			ManageData->BaseInfo.FontSize, ManageData->BaseInfo.FontThickness, ManageData->BaseInfo.FontHeight )) ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// CREATEFONTTOHANDLE_GPARAM ‚Ìƒf[ƒ^‚ğƒZƒbƒg‚·‚é
+// CREATEFONTTOHANDLE_GPARAM ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 extern void InitCreateFontToHandleGParam( CREATEFONTTOHANDLE_GPARAM *GParam )
 {
 	GParam->CacheCharNum					= FSYS.CacheCharNum ;
@@ -6652,7 +6696,7 @@ extern void InitCreateFontToHandleGParam( CREATEFONTTOHANDLE_GPARAM *GParam )
 	GParam->DisableAdjustFontSize			= FSYS.DisableAdjustFontSize ;
 }
 
-// CreateFontToHandle ‚ÌÀˆ—ŠÖ”
+// CreateFontToHandle ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
 static int CreateFontToHandle_Static(
 	CREATEFONTTOHANDLE_GPARAM *GParam,
 	int FontHandle,
@@ -6682,7 +6726,7 @@ static int CreateFontToHandle_Static(
 	}
 	else
 	{
-		// CharSet ‚ª DX_CHARSET_DEFAULT ‚Ìê‡‚Í•¶šƒR[ƒhŒ`®‚ÍƒfƒtƒHƒ‹ƒg‚Ì‚à‚Ì‚ğg—p‚·‚é
+		// CharSet ï¿½ï¿½ DX_CHARSET_DEFAULT ï¿½Ìê‡ï¿½Í•ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½`ï¿½ï¿½ï¿½Íƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì‚ï¿½ï¿½Ì‚ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
 		if( CharSet == DX_CHARSET_DEFAULT )
 		{
 			CharCodeFormat = 0xffff ;
@@ -6693,13 +6737,13 @@ static int CreateFontToHandle_Static(
 		}
 	}
 
-	// ƒGƒbƒW–³‚µƒtƒHƒ“ƒg‚Ìê‡‚Í EdgeSize ‚ğ 0 ŒÅ’è‚É‚·‚é
+	// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìê‡ï¿½ï¿½ EdgeSize ï¿½ï¿½ 0 ï¿½Å’ï¿½É‚ï¿½ï¿½ï¿½
 	if( ( FontType & DX_FONTTYPE_EDGE ) == 0 )
 	{
 		EdgeSize = 0 ;
 	}
 
-	// ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒtƒHƒ“ƒg‚¾‚¯g—p‚·‚éê‡‚Í‰‚Ì—L‚è–³‚µˆÈŠO‚ÍƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ^ƒCƒv‚ÉŒÅ’è‚·‚é
+	// ï¿½Aï¿½ï¿½ï¿½`ï¿½Gï¿½Cï¿½ï¿½ï¿½Aï¿½Xï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‰ï¿½ï¿½Ì—Lï¿½è–³ï¿½ï¿½ï¿½ÈŠOï¿½ÍƒAï¿½ï¿½ï¿½`ï¿½Gï¿½Cï¿½ï¿½ï¿½Aï¿½Xï¿½^ï¿½Cï¿½vï¿½ÉŒÅ’è‚·ï¿½ï¿½
 	if( FSYS.AntialiasingFontOnlyFlag )
 	{
 		if( ( FontType & DX_FONTTYPE_EDGE ) != 0 )
@@ -6721,7 +6765,7 @@ static int CreateFontToHandle_Static(
 	}
 #endif // DX_NON_GRAPHICS
 
-	// ƒtƒHƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^‚ÌƒZƒbƒg
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ÌƒZï¿½bï¿½g
 	ManageData->BaseInfo.FontSize 		= ( WORD )Size ;
 	ManageData->BaseInfo.FontThickness 	= ( WORD )Thick ;
 	ManageData->BaseInfo.Italic			= ( BYTE )Italic ;
@@ -6734,13 +6778,13 @@ static int CreateFontToHandle_Static(
 	ManageData->LineSpace				= 0 ;
 	ManageData->UseCharCodeFormat		= -1 ;
 
-	// ƒƒXƒgƒtƒ‰ƒO‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚É‚µ‚Ä‚¨‚­
+	// ï¿½ï¿½ï¿½Xï¿½gï¿½tï¿½ï¿½ï¿½Oï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ NULL ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	ManageData->LostFlag = NULL ;
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚Íg—p‚µ‚È‚¢
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ígï¿½pï¿½ï¿½ï¿½È‚ï¿½
 	ManageData->UseFontDataFile = 0 ;
 
-	// ƒtƒHƒ“ƒg–¼‚Ì•Û‘¶
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ì•Û‘ï¿½
 	if( FontName == NULL )
 	{
 		ManageData->FontName[ 0 ] = L'\0' ;
@@ -6750,7 +6794,7 @@ static int CreateFontToHandle_Static(
 		_WCSCPY_S( ManageData->FontName, sizeof( ManageData->FontName ), FontName ) ;
 	}
 
-	// ƒGƒbƒW‚ÌƒTƒCƒY‚ªˆê’èˆÈã‚Ìê‡‚ÍƒGƒbƒW‚Ì‰~—p‚Ì‰æ‘œ‚ğì¬‚·‚é
+	// ï¿½Gï¿½bï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Èï¿½Ìê‡ï¿½ÍƒGï¿½bï¿½Wï¿½Ì‰~ï¿½pï¿½Ì‰æ‘œï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 	if( EdgeSize > FONTEDGE_PATTERN_NUM )
 	{
 		if( NS_CreatePAL8ColorBaseImage( EdgeSize * 2 + 1, EdgeSize * 2 + 1, &ManageData->EdgeCircleImage, FALSE ) < 0 )
@@ -6766,25 +6810,25 @@ static int CreateFontToHandle_Static(
 		NS_DrawCircleBaseImage( &ManageData->EdgeCircleImage, EdgeSize, EdgeSize, EdgeSize, 255, 255, 255, 0, TRUE ) ;
 	}
 
-	// ŠÂ‹«ˆË‘¶ˆ—
+	// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( CreateFontToHandle_PF( GParam, ManageData, DefaultCharSet ) != 0 )
 	{
 		return -1 ;
 	}
 
-	// ƒtƒHƒ“ƒg–¼‚Ì TCHAR ”Å‚ğì¬
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ TCHAR ï¿½Å‚ï¿½ï¿½ì¬
 	ConvString( ( char * )ManageData->FontName, -1, WCHAR_T_CHARCODEFORMAT, ( char * )ManageData->FontNameT, sizeof( ManageData->FontNameT ), _TCHARCODEFORMAT ) ;
 
-	// ƒeƒLƒXƒgƒLƒƒƒbƒVƒ…ƒT[ƒtƒFƒX‚Ìì¬
+	// ï¿½eï¿½Lï¿½Xï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Tï¿½[ï¿½tï¿½Fï¿½Xï¿½Ìì¬
 	if( SetupFontCache( GParam, ManageData, ASyncThread ) < 0 )
 	{
 		goto ERR ;
 	}
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 
-	// ƒGƒ‰[ˆ—
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 ERR :
 	CreateFontToHandle_Error_PF( ManageData ) ;
 
@@ -6793,7 +6837,7 @@ ERR :
 
 #ifndef DX_NON_ASYNCLOAD
 
-// CreateFontToHandle ‚Ì”ñ“¯Šú“Ç‚İ‚İƒXƒŒƒbƒh‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+// CreateFontToHandle ï¿½Ì”ñ“¯Šï¿½ï¿½Ç‚İï¿½ï¿½İƒXï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½Öï¿½
 static void CreateFontToHandle_ASync( ASYNCLOADDATA_COMMON *AParam )
 {
 	CREATEFONTTOHANDLE_GPARAM *GParam ;
@@ -6835,7 +6879,7 @@ static void CreateFontToHandle_ASync( ASYNCLOADDATA_COMMON *AParam )
 
 #endif // DX_NON_ASYNCLOAD
 
-// CreateFontToHandle ‚ÌƒOƒ[ƒoƒ‹•Ï”‚ÉƒAƒNƒZƒX‚µ‚È‚¢ƒo[ƒWƒ‡ƒ“
+// CreateFontToHandle ï¿½ÌƒOï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½ï¿½ÉƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½È‚ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 extern int CreateFontToHandle_UseGParam(
 	CREATEFONTTOHANDLE_GPARAM *GParam,
 	const wchar_t *FontName,
@@ -6853,7 +6897,7 @@ extern int CreateFontToHandle_UseGParam(
 
 	CheckActiveState() ;
 
-	// ƒnƒ“ƒhƒ‹‚Ìì¬
+	// ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬
 	FontHandle = AddHandle( DX_HANDLETYPE_FONT, FALSE, Handle ) ;
 	if( FontHandle == -1 )
 	{
@@ -6866,7 +6910,7 @@ extern int CreateFontToHandle_UseGParam(
 		ASYNCLOADDATA_COMMON *AParam = NULL ;
 		int Addr ;
 
-		// ƒpƒ‰ƒ[ƒ^‚É•K—v‚Èƒƒ‚ƒŠ‚ÌƒTƒCƒY‚ğZo
+		// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É•Kï¿½vï¿½Èƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½Zï¿½o
 		Addr = 0 ;
 		AddASyncLoadParamStruct( NULL, &Addr, GParam, sizeof( *GParam ) ) ;
 		AddASyncLoadParamInt( NULL, &Addr, FontHandle ) ;
@@ -6878,12 +6922,12 @@ extern int CreateFontToHandle_UseGParam(
 		AddASyncLoadParamInt( NULL, &Addr, EdgeSize ) ;
 		AddASyncLoadParamInt( NULL, &Addr, Italic ) ;
 
-		// ƒƒ‚ƒŠ‚ÌŠm•Û
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½ï¿½
 		AParam = AllocASyncLoadDataMemory( Addr ) ;
 		if( AParam == NULL )
 			goto ERR ;
 
-		// ˆ—‚É•K—v‚Èî•ñ‚ğƒZƒbƒg
+		// ï¿½ï¿½ï¿½ï¿½ï¿½É•Kï¿½vï¿½Èï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		AParam->ProcessFunction = CreateFontToHandle_ASync ;
 		Addr = 0 ;
 		AddASyncLoadParamStruct( AParam->Data, &Addr, GParam, sizeof( *GParam ) ) ;
@@ -6896,7 +6940,7 @@ extern int CreateFontToHandle_UseGParam(
 		AddASyncLoadParamInt( AParam->Data, &Addr, EdgeSize ) ;
 		AddASyncLoadParamInt( AParam->Data, &Addr, Italic ) ;
 
-		// ƒf[ƒ^‚ğ’Ç‰Á
+		// ï¿½fï¿½[ï¿½^ï¿½ï¿½Ç‰ï¿½
 		if( AddASyncLoadData( AParam ) < 0 )
 		{
 			DXFREE( AParam ) ;
@@ -6904,7 +6948,7 @@ extern int CreateFontToHandle_UseGParam(
 			goto ERR ;
 		}
 
-		// ”ñ“¯Šú“Ç‚İ‚İƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+		// ï¿½ñ“¯Šï¿½ï¿½Ç‚İï¿½ï¿½İƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 		IncASyncLoadCount( FontHandle, AParam->Index ) ;
 	}
 	else
@@ -6914,7 +6958,7 @@ extern int CreateFontToHandle_UseGParam(
 			goto ERR ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return FontHandle ;
 
 ERR :
@@ -6932,7 +6976,7 @@ ERR :
 
 
 
-// LoadFontDataFromMemToHandle_UseGParam ‚ÌÀˆ—ŠÖ”
+// LoadFontDataFromMemToHandle_UseGParam ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
 static int LoadFontDataFromMemToHandle_UseGParam_Static(
 	CREATEFONTTOHANDLE_GPARAM *GParam,
 	int FontHandle,
@@ -6957,7 +7001,7 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 		EdgeSize = 0 ;
 	}
 
-	// IDƒ`ƒFƒbƒN
+	// IDï¿½`ï¿½Fï¿½bï¿½N
 	if( FileHeader->Magic[ 0 ] != 'F' ||
 		FileHeader->Magic[ 1 ] != 'N' ||
 		FileHeader->Magic[ 2 ] != 'T' ||
@@ -6966,16 +7010,16 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 		goto ERR ;
 	}
 
-	// ƒo[ƒWƒ‡ƒ“ƒ`ƒFƒbƒN
+	// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 	if( FileHeader->Version > DX_FONTDATAFILE_VERSION )
 	{
 		goto ERR ;
 	}
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ìƒtƒ‰ƒO‚ğ—§‚Ä‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 	ManageData->UseFontDataFile = TRUE ;
 
-	// Šm•Û‚·‚éƒƒ‚ƒŠƒTƒCƒY‚ğZo‚·‚é
+	// ï¿½mï¿½Û‚ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½Zï¿½oï¿½ï¿½ï¿½ï¿½
 	NotPressHeaderSize = sizeof( FONTDATAFILEHEADER ) - sizeof( FONTDATAFILEPRESSHEADER ) ;
 	PressHeaderSize    = DXA_Decode( ( BYTE * )FontDataImage + NotPressHeaderSize, NULL ) ;
 
@@ -6984,48 +7028,48 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 						 sizeof( FONTDATAFILECHARADATA * ) * ( 0x10000 + FileHeader->CharaExNum ) +
 						 FileHeader->MaxImageBytes ;
 
-	// ƒo[ƒWƒ‡ƒ“‚O‚Í FONTBASEINFO ‚ÌƒTƒCƒY‚ª¬‚³‚¢‚Ì‚ÅŠm•Û‚·‚éƒƒ‚ƒŠ—e—Ê‚ğ•â³
+	// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ FONTBASEINFO ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅŠmï¿½Û‚ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Ê‚ï¿½â³
 	if( FileHeader->Version < 1 )
 	{
 		AllocSize += sizeof( FONTBASEINFO ) - DX_FONTBASEINFO_SIZE_VER0 ;
 	}
 
-	// ƒƒ‚ƒŠ‚ÌŠm•Û
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½ï¿½
 	ManageData->FontDataFile.FileBuffer = ( BYTE * )DXALLOC( AllocSize ) ;
 	if( ManageData->FontDataFile.FileBuffer == NULL )
 	{
 		goto ERR ;
 	}
 
-	// ‰ğ“€‚µ‚½ƒwƒbƒ_•”‚ğ•Û‘¶‚·‚éƒƒ‚ƒŠƒAƒhƒŒƒX‚ÌƒZƒbƒg
+	// ï¿½ğ“€‚ï¿½ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ÌƒZï¿½bï¿½g
 	ManageData->FontDataFile.Header = ( FONTDATAFILEHEADER * )( ManageData->FontDataFile.FileBuffer + FontDataImageSize ) ;
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹“à‚ÌŠe•¶š‚Ìî•ñ‚Ö‚ÌƒAƒhƒŒƒXƒe[ƒuƒ‹‚ÌƒAƒhƒŒƒX‚ğƒZƒbƒg
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ÌŠeï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Ö‚ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 	ManageData->FontDataFile.CharaTable = ( FONTDATAFILECHARADATA ** )( ( BYTE * )ManageData->FontDataFile.Header + NotPressHeaderSize + PressHeaderSize ) ;
 
-	// ƒo[ƒWƒ‡ƒ“‚O‚Í FONTBASEINFO ‚ÌƒTƒCƒY‚ª¬‚³‚¢‚Ì‚ÅƒAƒhƒŒƒX‚ğ•â³
+	// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ FONTBASEINFO ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½â³
 	if( FileHeader->Version < 1 )
 	{
 		ManageData->FontDataFile.CharaTable = ( FONTDATAFILECHARADATA ** )( ( BYTE * )ManageData->FontDataFile.CharaTable + ( sizeof( FONTBASEINFO ) - DX_FONTBASEINFO_SIZE_VER0 ) ) ;
 	}
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹“à‚Ì 0xffff ‚ğ’´‚¦‚é•¶šƒR[ƒh‚Ì•¶šî•ñ‚Ö‚ÌƒAƒhƒŒƒX‚Ì”z—ñ‚ğ•Û‘¶‚·‚éƒƒ‚ƒŠ—Ìˆæ‚Ö‚ÌƒAƒhƒŒƒX‚ğƒZƒbƒg
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0xffff ï¿½ğ’´‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½Ì”zï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½Ìˆï¿½Ö‚ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 	ManageData->FontDataFile.CharaExArray = ManageData->FontDataFile.CharaTable + 0x10000 ;
 
-	// ‰ğ“€‚µ‚½ƒtƒHƒ“ƒg‰æ‘œƒf[ƒ^‚ğŠi”[‚·‚éƒƒ‚ƒŠƒAƒhƒŒƒX‚ğƒZƒbƒg
+	// ï¿½ğ“€‚ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½éƒï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 	ManageData->FontDataFile.PressImageDecodeBuffer = ManageData->FontDataFile.CharaExArray + FileHeader->CharaExNum ;
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚ğƒRƒs[‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½
 	_MEMCPY( ManageData->FontDataFile.FileBuffer, FontDataImage, FontDataImageSize ) ;
 	ManageData->FontDataFile.FontFileSize = FontDataImageSize ;
 
-	// ƒwƒbƒ_‚Ìˆ³k‚³‚ê‚½•”•ª‚ğ‰ğ“€‚·‚é
+	// ï¿½wï¿½bï¿½_ï¿½Ìˆï¿½ï¿½kï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ğ“€‚ï¿½ï¿½ï¿½
 	DXA_Decode( ManageData->FontDataFile.FileBuffer + NotPressHeaderSize, ( BYTE * )ManageData->FontDataFile.Header + NotPressHeaderSize ) ;
 
-	// ƒwƒbƒ_‚Ìˆ³k‚³‚ê‚Ä‚¢‚È‚¢•”•ª‚ğƒRƒs[
+	// ï¿½wï¿½bï¿½_ï¿½Ìˆï¿½ï¿½kï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½sï¿½[
 	_MEMCPY( ManageData->FontDataFile.Header, ManageData->FontDataFile.FileBuffer, NotPressHeaderSize ) ;
 
-	// ƒo[ƒWƒ‡ƒ“ 0 ‚Í FONTBASEINFO ‚ÌƒTƒCƒY‚ª¬‚³‚¢‚Ì‚Åƒwƒbƒ_ƒf[ƒ^‚ğ•â³
+	// ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ 0 ï¿½ï¿½ FONTBASEINFO ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Åƒwï¿½bï¿½_ï¿½fï¿½[ï¿½^ï¿½ï¿½â³
 	if( FileHeader->Version < 1 )
 	{
 		_MEMMOVE(
@@ -7036,20 +7080,20 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 		_MEMSET( &ManageData->FontDataFile.Header->Press.BaseInfo.KerningPairNum, 0, sizeof( FONTBASEINFO ) - DX_FONTBASEINFO_SIZE_VER0 ) ;
 	}
 
-	// Še•¶š‚Ìî•ñ‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒAƒhƒŒƒX‚ğƒZƒbƒg
+	// ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ñ‚ªŠiï¿½[ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 	ManageData->FontDataFile.Chara = ( FONTDATAFILECHARADATA * )( ManageData->FontDataFile.Header + 1 ) ;
 
-	// ƒJ[ƒjƒ“ƒOƒyƒAî•ñ‚ÌƒZƒbƒg
+	// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½yï¿½Aï¿½ï¿½ï¿½ÌƒZï¿½bï¿½g
 	ManageData->KerningPairData = NULL ;
 	if( ManageData->FontDataFile.Header->Press.BaseInfo.KerningPairNum > 0 )
 	{
 		ManageData->KerningPairData = ( FONTDATAFILEKERNINGPAIRDATA * )( ManageData->FontDataFile.Chara + ManageData->FontDataFile.Header->CharaNum ) ;
 	}
 
-	// •¶š‚Ì‰æ‘œ‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒAƒhƒŒƒX‚ğƒZƒbƒg
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰æ‘œï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 	ManageData->FontDataFile.Image = ManageData->FontDataFile.FileBuffer + ManageData->FontDataFile.Header->ImageAddress ;
 
-	// ƒCƒ[ƒWƒf[ƒ^ƒ^ƒCƒv‚ÆƒtƒHƒ“ƒgƒ^ƒCƒv‚ğƒZƒbƒg
+	// ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½fï¿½[ï¿½^ï¿½^ï¿½Cï¿½vï¿½Æƒtï¿½Hï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½vï¿½ï¿½ï¿½Zï¿½bï¿½g
 	switch( ManageData->FontDataFile.Header->Press.ImageBitDepth )
 	{
 	case DX_FONTIMAGE_BIT_1 :
@@ -7068,7 +7112,7 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 		break ;
 	}
 
-	// Še•¶š‚Ö‚ÌƒAƒhƒŒƒXƒe[ƒuƒ‹‚ğì¬‚·‚é
+	// ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 	{
 		FONTDATAFILECHARADATA *Chara ;
 		DWORD i ;
@@ -7091,7 +7135,7 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 		}
 	}
 
-	// ƒtƒHƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^‚ÌƒZƒbƒg
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ÌƒZï¿½bï¿½g
 	_MEMCPY( &ManageData->BaseInfo, &ManageData->FontDataFile.Header->Press.BaseInfo, sizeof( ManageData->BaseInfo ) ) ;
 	ManageData->EdgeSize			= EdgeSize ;
 	ManageData->Space			    = 0 ;
@@ -7099,14 +7143,14 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 	ManageData->LineSpace		    = 0 ;
 	ManageData->UseCharCodeFormat	= -1 ;
 
-	// ƒtƒHƒ“ƒg–¼‚Ì•Û‘¶
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ì•Û‘ï¿½
 	ConvString( ( const char * )ManageData->FontDataFile.Header->Press.FontName, -1, DX_CHARCODEFORMAT_UTF16LE, ( char * )ManageData->FontName,  sizeof( ManageData->FontName  ), WCHAR_T_CHARCODEFORMAT ) ;
 	ConvString( ( char *       )ManageData->FontName,                            -1, WCHAR_T_CHARCODEFORMAT,    ( char * )ManageData->FontNameT, sizeof( ManageData->FontNameT ), _TCHARCODEFORMAT       ) ;
 
-	// ƒƒXƒgƒtƒ‰ƒO‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚É‚µ‚Ä‚¨‚­
+	// ï¿½ï¿½ï¿½Xï¿½gï¿½tï¿½ï¿½ï¿½Oï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ NULL ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	ManageData->LostFlag = NULL ;
 
-	// ƒGƒbƒW‚ÌƒTƒCƒY‚ªˆê’èˆÈã‚Ìê‡‚ÍƒGƒbƒW‚Ì‰~—p‚Ì‰æ‘œ‚ğì¬‚·‚é
+	// ï¿½Gï¿½bï¿½Wï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Èï¿½Ìê‡ï¿½ÍƒGï¿½bï¿½Wï¿½Ì‰~ï¿½pï¿½Ì‰æ‘œï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 	if( EdgeSize > FONTEDGE_PATTERN_NUM )
 	{
 		if( NS_CreatePAL8ColorBaseImage( EdgeSize * 2 + 1, EdgeSize * 2 + 1, &ManageData->EdgeCircleImage, FALSE ) < 0 )
@@ -7122,22 +7166,22 @@ static int LoadFontDataFromMemToHandle_UseGParam_Static(
 		NS_DrawCircleBaseImage( &ManageData->EdgeCircleImage, EdgeSize, EdgeSize, EdgeSize, 255, 255, 255, 0, TRUE ) ;
 	}
 
-	// ŠÂ‹«ˆË‘¶ˆ—
+	// ï¿½Â‹ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( CreateFontToHandle_PF( GParam, ManageData, FALSE ) != 0 )
 	{
 		goto ERR ;
 	}
 
-	// •¶š‰æ‘œƒLƒƒƒbƒVƒ…‚ÌƒZƒbƒgƒAƒbƒv
+	// ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÌƒZï¿½bï¿½gï¿½Aï¿½bï¿½v
 	if( SetupFontCache( GParam, ManageData, ASyncThread ) < 0 )
 	{
 		goto ERR ;
 	}
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 
-	// ƒGƒ‰[ˆ—
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 ERR :
 	CreateFontToHandle_Error_PF( ManageData ) ;
 
@@ -7152,7 +7196,7 @@ ERR :
 
 #ifndef DX_NON_ASYNCLOAD
 
-// LoadFontDataFromMemToHandle_UseGParam ‚Ì”ñ“¯Šú“Ç‚İ‚İƒXƒŒƒbƒh‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+// LoadFontDataFromMemToHandle_UseGParam ï¿½Ì”ñ“¯Šï¿½ï¿½Ç‚İï¿½ï¿½İƒXï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½Öï¿½
 static void LoadFontDataFromMemToHandle_UseGParam_ASync( ASYNCLOADDATA_COMMON *AParam )
 {
 	CREATEFONTTOHANDLE_GPARAM *GParam ;
@@ -7188,7 +7232,7 @@ static void LoadFontDataFromMemToHandle_UseGParam_ASync( ASYNCLOADDATA_COMMON *A
 
 #endif // DX_NON_ASYNCLOAD
 
-// LoadFontDataFromMemToHandle ‚ÌƒOƒ[ƒoƒ‹•Ï”‚ÉƒAƒNƒZƒX‚µ‚È‚¢ƒo[ƒWƒ‡ƒ“
+// LoadFontDataFromMemToHandle ï¿½ÌƒOï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½ï¿½ÉƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½È‚ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 extern int LoadFontDataFromMemToHandle_UseGParam(
 	CREATEFONTTOHANDLE_GPARAM *GParam,
 	const void *FontDataImage,
@@ -7202,7 +7246,7 @@ extern int LoadFontDataFromMemToHandle_UseGParam(
 
 	CheckActiveState() ;
 
-	// ƒnƒ“ƒhƒ‹‚Ìì¬
+	// ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬
 	FontHandle = AddHandle( DX_HANDLETYPE_FONT, FALSE, Handle ) ;
 	if( FontHandle == -1 )
 	{
@@ -7215,7 +7259,7 @@ extern int LoadFontDataFromMemToHandle_UseGParam(
 		ASYNCLOADDATA_COMMON *AParam = NULL ;
 		int Addr ;
 
-		// ƒpƒ‰ƒ[ƒ^‚É•K—v‚Èƒƒ‚ƒŠ‚ÌƒTƒCƒY‚ğZo
+		// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É•Kï¿½vï¿½Èƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½Zï¿½o
 		Addr = 0 ;
 		AddASyncLoadParamStruct( NULL, &Addr, GParam, sizeof( *GParam ) ) ;
 		AddASyncLoadParamInt( NULL, &Addr, FontHandle ) ;
@@ -7223,12 +7267,12 @@ extern int LoadFontDataFromMemToHandle_UseGParam(
 		AddASyncLoadParamInt( NULL, &Addr, FontDataImageSize ) ;
 		AddASyncLoadParamInt( NULL, &Addr, EdgeSize ) ;
 
-		// ƒƒ‚ƒŠ‚ÌŠm•Û
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½ï¿½
 		AParam = AllocASyncLoadDataMemory( Addr ) ;
 		if( AParam == NULL )
 			goto ERR ;
 
-		// ˆ—‚É•K—v‚Èî•ñ‚ğƒZƒbƒg
+		// ï¿½ï¿½ï¿½ï¿½ï¿½É•Kï¿½vï¿½Èï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		AParam->ProcessFunction = LoadFontDataFromMemToHandle_UseGParam_ASync ;
 		Addr = 0 ;
 		AddASyncLoadParamStruct( AParam->Data, &Addr, GParam, sizeof( *GParam ) ) ;
@@ -7237,7 +7281,7 @@ extern int LoadFontDataFromMemToHandle_UseGParam(
 		AddASyncLoadParamInt( AParam->Data, &Addr, FontDataImageSize ) ;
 		AddASyncLoadParamInt( AParam->Data, &Addr, EdgeSize ) ;
 
-		// ƒf[ƒ^‚ğ’Ç‰Á
+		// ï¿½fï¿½[ï¿½^ï¿½ï¿½Ç‰ï¿½
 		if( AddASyncLoadData( AParam ) < 0 )
 		{
 			DXFREE( AParam ) ;
@@ -7245,7 +7289,7 @@ extern int LoadFontDataFromMemToHandle_UseGParam(
 			goto ERR ;
 		}
 
-		// ”ñ“¯Šú“Ç‚İ‚İƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+		// ï¿½ñ“¯Šï¿½ï¿½Ç‚İï¿½ï¿½İƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 		IncASyncLoadCount( FontHandle, AParam->Index ) ;
 	}
 	else
@@ -7255,7 +7299,7 @@ extern int LoadFontDataFromMemToHandle_UseGParam(
 			goto ERR ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return FontHandle ;
 
 ERR :
@@ -7277,7 +7321,7 @@ ERR :
 
 
 
-// LoadFontDataToHandle_UseGParam ‚ÌÀˆ—ŠÖ”
+// LoadFontDataToHandle_UseGParam ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
 static int LoadFontDataToHandle_UseGParam_Static(
 	CREATEFONTTOHANDLE_GPARAM *GParam,
 	int FontHandle,
@@ -7334,7 +7378,7 @@ END :
 
 #ifndef DX_NON_ASYNCLOAD
 
-// LoadFontDataToHandle_UseGParam ‚Ì”ñ“¯Šú“Ç‚İ‚İƒXƒŒƒbƒh‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+// LoadFontDataToHandle_UseGParam ï¿½Ì”ñ“¯Šï¿½ï¿½Ç‚İï¿½ï¿½İƒXï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½Öï¿½
 static void LoadFontDataToHandle_UseGParam_ASync( ASYNCLOADDATA_COMMON *AParam )
 {
 	CREATEFONTTOHANDLE_GPARAM *GParam ;
@@ -7366,7 +7410,7 @@ static void LoadFontDataToHandle_UseGParam_ASync( ASYNCLOADDATA_COMMON *AParam )
 
 #endif // DX_NON_ASYNCLOAD
 
-// LoadFontDataToHandle_UseGParam ‚ÌƒOƒ[ƒoƒ‹•Ï”‚ÉƒAƒNƒZƒX‚µ‚È‚¢ƒo[ƒWƒ‡ƒ“
+// LoadFontDataToHandle_UseGParam ï¿½ÌƒOï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Ïï¿½ï¿½ÉƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½È‚ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 extern int LoadFontDataToHandle_UseGParam(
 	CREATEFONTTOHANDLE_GPARAM *GParam,
 	const wchar_t *FileName,
@@ -7378,7 +7422,7 @@ extern int LoadFontDataToHandle_UseGParam(
 
 	CheckActiveState() ;
 
-	// ƒnƒ“ƒhƒ‹‚Ìì¬
+	// ï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìì¬
 	FontHandle = AddHandle( DX_HANDLETYPE_FONT, FALSE, -1 ) ;
 	if( FontHandle == -1 )
 	{
@@ -7391,19 +7435,19 @@ extern int LoadFontDataToHandle_UseGParam(
 		ASYNCLOADDATA_COMMON *AParam = NULL ;
 		int Addr ;
 
-		// ƒpƒ‰ƒ[ƒ^‚É•K—v‚Èƒƒ‚ƒŠ‚ÌƒTƒCƒY‚ğZo
+		// ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É•Kï¿½vï¿½Èƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½Zï¿½o
 		Addr = 0 ;
 		AddASyncLoadParamStruct( NULL, &Addr, GParam, sizeof( *GParam ) ) ;
 		AddASyncLoadParamInt( NULL, &Addr, FontHandle ) ;
 		AddASyncLoadParamString( NULL, &Addr, FileName ) ;
 		AddASyncLoadParamInt( NULL, &Addr, EdgeSize ) ;
 
-		// ƒƒ‚ƒŠ‚ÌŠm•Û
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½ï¿½
 		AParam = AllocASyncLoadDataMemory( Addr ) ;
 		if( AParam == NULL )
 			goto ERR ;
 
-		// ˆ—‚É•K—v‚Èî•ñ‚ğƒZƒbƒg
+		// ï¿½ï¿½ï¿½ï¿½ï¿½É•Kï¿½vï¿½Èï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		AParam->ProcessFunction = LoadFontDataToHandle_UseGParam_ASync ;
 		Addr = 0 ;
 		AddASyncLoadParamStruct( AParam->Data, &Addr, GParam, sizeof( *GParam ) ) ;
@@ -7411,7 +7455,7 @@ extern int LoadFontDataToHandle_UseGParam(
 		AddASyncLoadParamString( AParam->Data, &Addr, FileName ) ;
 		AddASyncLoadParamInt( AParam->Data, &Addr, EdgeSize ) ;
 
-		// ƒf[ƒ^‚ğ’Ç‰Á
+		// ï¿½fï¿½[ï¿½^ï¿½ï¿½Ç‰ï¿½
 		if( AddASyncLoadData( AParam ) < 0 )
 		{
 			DXFREE( AParam ) ;
@@ -7419,7 +7463,7 @@ extern int LoadFontDataToHandle_UseGParam(
 			goto ERR ;
 		}
 
-		// ”ñ“¯Šú“Ç‚İ‚İƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+		// ï¿½ñ“¯Šï¿½ï¿½Ç‚İï¿½ï¿½İƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 		IncASyncLoadCount( FontHandle, AParam->Index ) ;
 	}
 	else
@@ -7429,7 +7473,7 @@ extern int LoadFontDataToHandle_UseGParam(
 			goto ERR ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return FontHandle ;
 
 ERR :
@@ -7444,7 +7488,7 @@ ERR :
 
 
 
-// V‚µ‚¢ƒtƒHƒ“ƒgƒf[ƒ^‚ğì¬
+// ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ì¬
 extern int CreateFontToHandle_WCHAR_T( const wchar_t *FontName,
 									int Size, int Thick,
 									int FontType, int CharSet,
@@ -7458,7 +7502,7 @@ extern int CreateFontToHandle_WCHAR_T( const wchar_t *FontName,
 	return CreateFontToHandle_UseGParam( &GParam, FontName, Size, Thick, FontType, CharSet, EdgeSize, Italic, Handle, GetASyncLoadFlag() ) ;
 }
 
-// V‚µ‚¢ƒtƒHƒ“ƒgƒf[ƒ^‚ğì¬
+// ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ì¬
 extern int NS_CreateFontToHandle( const TCHAR *FontName,
 									int Size, int Thick,
 									int FontType, int CharSet,
@@ -7480,7 +7524,7 @@ extern int NS_CreateFontToHandle( const TCHAR *FontName,
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 extern int NS_CreateFontToHandleWithStrLen( const TCHAR *FontName, size_t FontNameLength, int Size, int Thick, int FontType, int CharSet, int EdgeSize, int Italic, int Handle)
 {
 	int Result ;
@@ -7496,7 +7540,7 @@ extern int NS_CreateFontToHandleWithStrLen( const TCHAR *FontName, size_t FontNa
 	return Result ;
 }
 
-// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 extern int LoadFontDataToHandle_WCHAR_T( const wchar_t *FileName, int EdgeSize )
 {
 	CREATEFONTTOHANDLE_GPARAM GParam ;
@@ -7506,7 +7550,7 @@ extern int LoadFontDataToHandle_WCHAR_T( const wchar_t *FileName, int EdgeSize )
 	return LoadFontDataToHandle_UseGParam( &GParam, FileName, EdgeSize, GetASyncLoadFlag() ) ;
 }
 
-// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 extern int NS_LoadFontDataToHandle( const TCHAR *FileName, int EdgeSize )
 {
 #ifdef UNICODE
@@ -7524,7 +7568,7 @@ extern int NS_LoadFontDataToHandle( const TCHAR *FileName, int EdgeSize )
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 extern int NS_LoadFontDataToHandleWithStrLen( const TCHAR *FileName, size_t FileNameLength, int EdgeSize )
 {
 	int Result ;
@@ -7540,7 +7584,7 @@ extern int NS_LoadFontDataToHandleWithStrLen( const TCHAR *FileName, size_t File
 	return Result ;
 }
 
-// ƒƒ‚ƒŠã‚ÌƒtƒHƒ“ƒgƒf[ƒ^ƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚çƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğì¬‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 extern int NS_LoadFontDataFromMemToHandle( const void *FontDataImage, int FontDataImageSize, int EdgeSize )
 {
 	CREATEFONTTOHANDLE_GPARAM GParam ;
@@ -7550,59 +7594,59 @@ extern int NS_LoadFontDataFromMemToHandle( const void *FontDataImage, int FontDa
 	return LoadFontDataFromMemToHandle_UseGParam( &GParam, FontDataImage, FontDataImageSize, EdgeSize, -1, GetASyncLoadFlag() ) ;
 }
 
-// šŠÔ‚ğ•ÏX‚·‚é
+// ï¿½ï¿½ï¿½Ô‚ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 extern int NS_SetFontSpaceToHandle( int Pixel, int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 	
 	ManageData->Space = Pixel ;
 	
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌsŠÔ‚ğ•ÏX‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìsï¿½Ô‚ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 extern int NS_SetFontLineSpaceToHandle( int Pixel, int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 	
 	ManageData->LineSpaceValidFlag = TRUE ;
 	ManageData->LineSpace = Pixel ;
 	
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚·‚éŠÖ”‚Ìˆø”‚É“n‚·•¶š—ñ‚Ì•¶šƒR[ƒhŒ`®‚ğİ’è‚·‚é( UNICODE”Å‚Å‚Í–³Œø )
-extern int NS_SetFontCharCodeFormatToHandle( int CharCodeFormat /* DX_CHARCODEFORMAT_SHIFTJIS “™ */ , int FontHandle )
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½É“nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½`ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½( UNICODEï¿½Å‚Å‚Í–ï¿½ï¿½ï¿½ )
+extern int NS_SetFontCharCodeFormatToHandle( int CharCodeFormat /* DX_CHARCODEFORMAT_SHIFTJIS ï¿½ï¿½ */ , int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 	
 	ManageData->UseCharCodeFormat = CharCodeFormat ;
 	
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒg‚ÌƒXƒe[ƒ^ƒX‚ğˆêŠ‡İ’è‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½Xï¿½ï¿½ï¿½êŠ‡ï¿½İ’è‚·ï¿½ï¿½
 extern int SetDefaultFontState_WCHAR_T( const wchar_t *FontName, int Size, int Thick, int FontType, int CharSet, int EdgeSize, int Italic )
 {
 	if( FontType 	< 0 ) FontType 	= FSYS.AntialiasingFontOnlyFlag ? DX_FONTTYPE_ANTIALIASING : DEFAULT_FONT_TYPE ;
@@ -7625,7 +7669,7 @@ extern int SetDefaultFontState_WCHAR_T( const wchar_t *FontName, int Size, int T
 	FSYS.DefaultFontEdgeSize = EdgeSize ;
 	FSYS.DefaultFontItalic   = Italic ;
 
-	// ‰Šú‰»‘O‚Ìê‡‚Í‚±‚±‚ÅI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
 	if( FSYS.InitializeFlag == FALSE )
 	{
 		FSYS.EnableInitDefaultFontName     = TRUE ;
@@ -7641,11 +7685,11 @@ extern int SetDefaultFontState_WCHAR_T( const wchar_t *FontName, int Size, int T
 	
 	RefreshDefaultFont() ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒg‚ÌƒXƒe[ƒ^ƒX‚ğˆêŠ‡İ’è‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒXï¿½eï¿½[ï¿½^ï¿½Xï¿½ï¿½ï¿½êŠ‡ï¿½İ’è‚·ï¿½ï¿½
 extern int NS_SetDefaultFontState( const TCHAR *FontName, int Size, int Thick, int FontType, int CharSet, int EdgeSize, int Italic )
 {
 #ifdef UNICODE
@@ -7683,7 +7727,7 @@ extern int NS_SetDefaultFontState( const TCHAR *FontName, int Size, int Thick, i
 #endif
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ìİ’è‚ğ•ÏX‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìİ’ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 extern int NS_SetDefaultFontStateWithStrLen( const TCHAR *FontName, size_t FontNameLength, int Size, int Thick, int FontType, int CharSet, int EdgeSize, int Italic )
 {
 	int Result ;
@@ -7693,20 +7737,20 @@ extern int NS_SetDefaultFontStateWithStrLen( const TCHAR *FontName, size_t FontN
 	return Result ;
 }
 
-// ƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…‚Ì§Œä‚ğI—¹‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int NS_DeleteFontToHandle( int FontHandle )
 {
 	return SubHandle( FontHandle, GetASyncLoadFlag(), FALSE ) ;
 }
 
-// ‰ğ•ú‚É TRUE ‚É‚·‚éƒtƒ‰ƒO‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğİ’è‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ TRUE ï¿½É‚ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½İ’è‚·ï¿½ï¿½
 extern int NS_SetFontLostFlag( int FontHandle, int *LostFlag )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 
@@ -7716,7 +7760,7 @@ extern int NS_SetFontLostFlag( int FontHandle, int *LostFlag )
 	return 0 ;
 }
 
-// w’è‚Ì•¶š‚Ì‘ã‚í‚è‚É•`‰æ‚·‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ğ“o˜^‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½
 extern int AddFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char, int GrHandle, int DrawX, int DrawY, int AddX )
 {
 #ifndef DX_NON_GRAPHICS
@@ -7730,16 +7774,16 @@ extern int AddFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char, in
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 	{
 		return -1  ;
 	}
 
-	// ƒR[ƒh‚ğæ“¾
+	// ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½æ“¾
 	CodeUnicode = GetCharCode( ( const char * )Char, WCHAR_T_CHARCODEFORMAT, &UseSize ) ;
 
-	// Šù‚É“¯‚¶•¶š‚ª“o˜^‚³‚ê‚Ä‚¢‚½‚çã‘‚«‚·‚é
+	// ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	fontcode = ManageData->GraphHandleFontImage ;
 	for( i = 0 ; i < ManageData->GraphHandleFontImageNum ; i ++, fontcode ++ )
 	{
@@ -7749,10 +7793,10 @@ extern int AddFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char, in
 		}
 	}
 
-	// –³‚©‚Á‚½ê‡‚Íî•ñ‚ğˆê‚Â‘‚â‚·
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½Â‘ï¿½ï¿½â‚·
 	if( i == ManageData->GraphHandleFontImageNum )
 	{
-		// Šù‚É“o˜^”‚ªˆê”t‚Ìê‡‚ÍƒGƒ‰[
+		// ï¿½ï¿½ï¿½É“oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Ìê‡ï¿½ÍƒGï¿½ï¿½ï¿½[
 		if( ManageData->GraphHandleFontImageNum >= FONT_GRAPHICHANDLE_IMAGE_MAXNUM )
 		{
 			return -1 ;
@@ -7761,7 +7805,7 @@ extern int AddFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char, in
 		ManageData->GraphHandleFontImageNum ++ ;
 	}
 
-	// î•ñ‚ğİ’è
+	// ï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	fontcode->CodeUnicode     = CodeUnicode ;
 	fontcode->ValidFlag       = TRUE ;
 	fontcode->GraphHandleFlag = TRUE ;
@@ -7774,14 +7818,14 @@ extern int AddFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char, in
 	fontcode->GraphIndex      = GrHandle ;
 	fontcode->CodeData        = NULL ;
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
 #endif // DX_NON_GRAPHICS
 }
 
-// w’è‚Ì•¶š‚Ì‘ã‚í‚è‚É•`‰æ‚·‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ğ“o˜^‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½
 extern int NS_AddFontImageToHandle( int FontHandle, const TCHAR *Char, int GrHandle, int DrawX, int DrawY, int AddX )
 {
 #ifdef UNICODE
@@ -7798,7 +7842,7 @@ extern int NS_AddFontImageToHandle( int FontHandle, const TCHAR *Char, int GrHan
 #endif
 }
 
-// w’è‚Ì•¶š‚Ì‘ã‚í‚è‚É•`‰æ‚·‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ğ“o˜^‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½
 extern int NS_AddFontImageToHandleWithStrLen( int FontHandle, const TCHAR *Char, size_t CharLength, int GrHandle, int DrawX, int DrawY, int AddX )
 {
 	int Result ;
@@ -7814,7 +7858,7 @@ extern int NS_AddFontImageToHandleWithStrLen( int FontHandle, const TCHAR *Char,
 	return Result ;
 }
 
-// w’è‚Ì•¶š‚Ì‘ã‚í‚è‚É•`‰æ‚·‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚Ì“o˜^‚ğ‰ğœ‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì“oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int SubFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char )
 {
 	DWORD CodeUnicode ;
@@ -7825,16 +7869,16 @@ extern int SubFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char )
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 	{
 		return -1  ;
 	}
 
-	// ƒR[ƒh‚ğæ“¾
+	// ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½æ“¾
 	CodeUnicode = GetCharCode( ( const char * )Char, WCHAR_T_CHARCODEFORMAT, &UseSize ) ;
 
-	// w’è‚Ì•¶š‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚çƒGƒ‰[
+	// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[
 	fontcode = ManageData->GraphHandleFontImage ;
 	for( i = 0 ; i < ManageData->GraphHandleFontImageNum ; i ++, fontcode ++ )
 	{
@@ -7848,10 +7892,10 @@ extern int SubFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char )
 		return -1 ;
 	}
 
-	// î•ñ‚Ì”‚ğŒ¸‚ç‚·
+	// ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚·
 	ManageData->GraphHandleFontImageNum -- ;
 
-	// ––’[‚Å‚Í–³‚©‚Á‚½ê‡î•ñ‚ğ‹l‚ß‚é
+	// ï¿½ï¿½ï¿½[ï¿½Å‚Í–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ß‚ï¿½
 	if( i != ManageData->GraphHandleFontImageNum )
 	{
 		_MEMMOVE(
@@ -7861,11 +7905,11 @@ extern int SubFontImageToHandle_WCHAR_T( int FontHandle, const wchar_t *Char )
 		) ;
 	}
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// w’è‚Ì•¶š‚Ì‘ã‚í‚è‚É•`‰æ‚·‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚Ì“o˜^‚ğ‰ğœ‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì“oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int NS_SubFontImageToHandle( int FontHandle, const TCHAR *Char )
 {
 #ifdef UNICODE
@@ -7882,7 +7926,7 @@ extern int NS_SubFontImageToHandle( int FontHandle, const TCHAR *Char )
 #endif
 }
 
-// w’è‚Ì•¶š‚Ì‘ã‚í‚è‚É•`‰æ‚·‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚Ì“o˜^‚ğ‰ğœ‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì“oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int NS_SubFontImageToHandleWithStrLen( int FontHandle, const TCHAR *Char, size_t CharLength )
 {
 	int Result ;
@@ -7898,20 +7942,20 @@ extern int NS_SubFontImageToHandleWithStrLen( int FontHandle, const TCHAR *Char,
 	return Result ;
 }
 
-// ‘ã‘ÖƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğ“o˜^‚·‚é
+// ï¿½ï¿½Öƒtï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½
 extern int NS_AddSubstitutionFontToHandle( int FontHandle, int SubstitutionFontHandle, int DrawX, int DrawY )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 	{
 		return -1  ;
 	}
 
-	// “o˜^‚Å‚«‚é”‚ÌÅ‘å”‚É’B‚µ‚Ä‚¢‚½‚çƒGƒ‰[
+	// ï¿½oï¿½^ï¿½Å‚ï¿½ï¿½é”ï¿½ÌÅ‘å”ï¿½É’Bï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[
 	if( ManageData->SubstitutionInfoNum == FONT_SUBSTITUTION_MAXNUM )
 	{
 		return -1 ;
@@ -7923,11 +7967,11 @@ extern int NS_AddSubstitutionFontToHandle( int FontHandle, int SubstitutionFontH
 
 	ManageData->SubstitutionInfoNum ++ ;
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ‘ã‘ÖƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì“o˜^‚ğ‰ğœ‚·‚é
+// ï¿½ï¿½Öƒtï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì“oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int NS_SubSubstitutionFontToHandle( int FontHandle, int SubstitutionFontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -7935,7 +7979,7 @@ extern int NS_SubSubstitutionFontToHandle( int FontHandle, int SubstitutionFontH
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 	{
 		return -1  ;
@@ -7949,7 +7993,7 @@ extern int NS_SubSubstitutionFontToHandle( int FontHandle, int SubstitutionFontH
 		}
 	}
 
-	// w’è‚ÌƒtƒHƒ“ƒg‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½‚çƒGƒ‰[
+	// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[
 	if( i == ManageData->SubstitutionInfoNum )
 	{
 		return -1 ;
@@ -7961,24 +8005,24 @@ extern int NS_SubSubstitutionFontToHandle( int FontHandle, int SubstitutionFontH
 		_MEMMOVE( &ManageData->SubstitutionInfo[ i ], &ManageData->SubstitutionInfo[ i + 1 ], sizeof( FONTSUBSTITUTIONINFO ) * ( ManageData->SubstitutionInfoNum - i ) ) ;
 	}
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒtƒHƒ“ƒg–¼‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern const TCHAR *NS_GetFontName( void )
 {
 	return NS_GetFontNameToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// •`‰æ‚·‚éƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğƒZƒbƒg‚·‚é
+// ï¿½`ï¿½æ‚·ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 extern int NS_SetFontSize( int FontSize )
 {
 	if( FontSize == -1 ) FontSize = DEFAULT_FONT_SIZE ;
 
 	FSYS.DefaultFontSize = FontSize ;
 
-	// ‰Šú‰»‘O‚Ìê‡‚Í‚±‚±‚ÅI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
 	if( FSYS.InitializeFlag == FALSE )
 	{
 		FSYS.EnableInitDefaultFontSize = TRUE ;
@@ -7988,19 +8032,19 @@ extern int NS_SetFontSize( int FontSize )
 
 	RefreshDefaultFont() ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
 
-// ƒtƒHƒ“ƒg‚Ì‘¾‚³‚ğƒZƒbƒg
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 extern int NS_SetFontThickness( int ThickPal )
 {
 	if( ThickPal == -1 ) ThickPal = DEFAULT_FONT_THICKNESS ;
 
 	FSYS.DefaultFontThick = ThickPal ;
 
-	// ‰Šú‰»‘O‚Ìê‡‚Í‚±‚±‚ÅI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
 	if( FSYS.InitializeFlag == FALSE )
 	{
 		FSYS.EnableInitDefaultFontThick = TRUE ;
@@ -8010,14 +8054,14 @@ extern int NS_SetFontThickness( int ThickPal )
 
 	RefreshDefaultFont() ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// šŠÔ‚ğ•ÏX‚·‚é
+// ï¿½ï¿½ï¿½Ô‚ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 extern int NS_SetFontSpace( int Pixel )
 {
-	// ‰Šú‰»‘O‚Ìê‡‚Í‚±‚±‚ÅI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
 	if( FSYS.InitializeFlag == FALSE )
 	{
 		FSYS.DefaultFontSpace = Pixel ;
@@ -8033,20 +8077,20 @@ extern int NS_SetFontSpace( int Pixel )
 
 	NS_SetFontSpaceToHandle( Pixel, FSYS.DefaultFontHandle ) ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌšŠÔ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½Ô‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontSpace( void )
 {
 	return NS_GetFontSpaceToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌsŠÔ‚ğ•ÏX‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìsï¿½Ô‚ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 extern int NS_SetFontLineSpace( int Pixel )
 {
-	// ‰Šú‰»‘O‚Ìê‡‚Í‚±‚±‚ÅI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
 	if( FSYS.InitializeFlag == FALSE )
 	{
 		FSYS.DefaultFontLineSpaceValid = TRUE ;
@@ -8064,49 +8108,49 @@ extern int NS_SetFontLineSpace( int Pixel )
 
 	NS_SetFontLineSpaceToHandle( Pixel, FSYS.DefaultFontHandle ) ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌsŠÔ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìsï¿½Ô‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontLineSpace( void )
 {
 	return NS_GetFontLineSpaceToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚·‚éŠÖ”‚Ìˆø”‚É“n‚·•¶š—ñ‚Ì•¶šƒR[ƒhŒ`®‚ğİ’è‚·‚é( UNICODE”Å‚Å‚Í–³Œø )
-extern int NS_SetFontCharCodeFormat( int CharCodeFormat /* DX_CHARCODEFORMAT_SHIFTJIS “™ */ )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½É“nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½`ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½( UNICODEï¿½Å‚Å‚Í–ï¿½ï¿½ï¿½ )
+extern int NS_SetFontCharCodeFormat( int CharCodeFormat /* DX_CHARCODEFORMAT_SHIFTJIS ï¿½ï¿½ */ )
 {
 	return NS_SetFontCharCodeFormatToHandle( CharCodeFormat, DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…‚ÉƒeƒNƒXƒ`ƒƒ‚ğg—p‚·‚é‚©Aƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚©ï¿½Aï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 extern int NS_SetFontCacheToTextureFlag( int Flag )
 {
-	// ƒtƒ‰ƒO‚ğ•Û‘¶
+	// ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½Û‘ï¿½
 	FSYS.NotTextureFlag = !Flag ;
 	
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…‚ÉƒeƒNƒXƒ`ƒƒ‚ğg—p‚·‚é‚©Aƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é(Œëš”Å)
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚©ï¿½Aï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½(ï¿½ëšï¿½ï¿½)
 extern int NS_SetFontChacheToTextureFlag( int Flag )
 {
 	return NS_SetFontCacheToTextureFlag( Flag ) ;
 }
 
-// ƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…‚ÅƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ğw’è‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÅƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½
 extern int NS_SetFontCacheCharNum( int CharNum )
 {
 	FSYS.CacheCharNum = CharNum ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Åg—p‚·‚éƒtƒHƒ“ƒg‚ğ•ÏX
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ÏX
 extern int ChangeFont_WCHAR_T( const wchar_t *FontName, int CharSet )
 {
 	_WCSCPY_S( FSYS.DefaultFontName, sizeof( FSYS.DefaultFontName ), FontName != NULL ? FontName : L"" ) ;
@@ -8120,7 +8164,7 @@ extern int ChangeFont_WCHAR_T( const wchar_t *FontName, int CharSet )
 		FSYS.DefaultFontCharSet = CharSet ;
 	}
 
-	// ‰Šú‰»‘O‚Ìê‡‚Í‚±‚±‚ÅI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
 	if( FSYS.InitializeFlag == FALSE )
 	{
 		FSYS.EnableInitDefaultFontName = TRUE ;
@@ -8131,11 +8175,11 @@ extern int ChangeFont_WCHAR_T( const wchar_t *FontName, int CharSet )
 
 	RefreshDefaultFont() ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚ğ•ÏX
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ÏX
 extern int NS_ChangeFont( const TCHAR *FontName, int CharSet )
 {
 #ifdef UNICODE
@@ -8173,7 +8217,7 @@ extern int NS_ChangeFont( const TCHAR *FontName, int CharSet )
 #endif
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Åg—p‚·‚éƒtƒHƒ“ƒg‚ğ•ÏX
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ÏX
 extern int NS_ChangeFontWithStrLen( const TCHAR *FontName, size_t FontNameLength, int CharSet )
 {
 	int Result ;
@@ -8183,17 +8227,17 @@ extern int NS_ChangeFontWithStrLen( const TCHAR *FontName, size_t FontNameLength
 	return Result ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Æ‚µ‚Äg—p‚·‚éƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğ•ÏX‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
 extern int NS_ChangeFontFromHandle( int FontHandle )
 {
-	// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğ•Û‘¶
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½Û‘ï¿½
 	FSYS.UserDefaultFontHandle = FontHandle ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒ^ƒCƒv‚Ì•ÏX
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½vï¿½Ì•ÏX
 extern int NS_ChangeFontType( int FontType )
 {
 	if( FontType == -1 )
@@ -8203,7 +8247,7 @@ extern int NS_ChangeFontType( int FontType )
 
 	FSYS.DefaultFontType = FontType ;
 
-	// ‰Šú‰»‘O‚Ìê‡‚Í‚±‚±‚ÅI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½
 	if( FSYS.InitializeFlag == FALSE )
 	{
 		FSYS.EnableInitDefaultFontType = TRUE ;
@@ -8213,7 +8257,7 @@ extern int NS_ChangeFontType( int FontType )
 
 	RefreshDefaultFont() ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
@@ -8221,7 +8265,7 @@ extern int NS_ChangeFontType( int FontType )
 
 
 
-// w’è‚Ì•¶šƒR[ƒh‚ÌƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ğæ“¾‚·‚éAƒLƒƒƒbƒVƒ…“à‚É–³‚¢ê‡‚ÍƒLƒƒƒbƒVƒ…‚Ö‚Ì’Ç‰Á‚ğ‚İ‚ÄA¸”s‚µ‚½‚ç NULL ‚ğ•Ô‚·
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½Aï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½É–ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ö‚Ì’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ÄAï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NULL ï¿½ï¿½Ô‚ï¿½
 __inline FONTCHARDATA *GetFontCacheChar_Inline( FONTMANAGE *ManageData, DWORD CharCode, DWORD IVSCode, FONTMANAGE **UseManageData, int *DrawOffsetX, int *DrawOffsetY, int EnableGraphHandleFontImage, int ErrorMessage )
 {
 	FONTCHARDATA *Cache ;
@@ -8233,7 +8277,7 @@ __inline FONTCHARDATA *GetFontCacheChar_Inline( FONTMANAGE *ManageData, DWORD Ch
 
 	if( EnableGraphHandleFontImage )
 	{
-		// ‰æ‘œ’u‚«Š·‚¦•¶š‚Ìƒ`ƒFƒbƒN
+		// ï¿½æ‘œï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 		for( i = 0 ; i < ManageData->GraphHandleFontImageNum ; i ++ )
 		{
 			if( ManageData->GraphHandleFontImage[ i ].CodeUnicode == CharCode &&
@@ -8244,10 +8288,10 @@ __inline FONTCHARDATA *GetFontCacheChar_Inline( FONTMANAGE *ManageData, DWORD Ch
 		}
 	}
 
-	// ƒR[ƒh‚ªƒe[ƒuƒ‹‚É“ü‚é”ÍˆÍ‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+	// ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ÍˆÍ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 	if( CharCode > 0xffff || IVSCode != 0 )
 	{
-		// ƒe[ƒuƒ‹‚É“ü‚ç‚È‚¢ê‡‚Í”z—ñ‚©‚ç’T‚·
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í”zï¿½ñ‚©‚ï¿½Tï¿½ï¿½
 		for( i = 0 ; i < ManageData->CodeDataExNum ; i ++ )
 		{
 			if( ManageData->CodeDataEx[ i ]->CodeUnicode == CharCode &&
@@ -8259,15 +8303,15 @@ __inline FONTCHARDATA *GetFontCacheChar_Inline( FONTMANAGE *ManageData, DWORD Ch
 	}
 	else
 	{
-		// ƒe[ƒuƒ‹‚É“ü‚éê‡‚Íƒe[ƒuƒ‹‚ğg‚Á‚Ä—L–³‚ğƒ`ƒFƒbƒN
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ê‡ï¿½Íƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ä—Lï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 		if( ManageData->CodeData[ CharCode ].ExistFlag )
 		{
-			// ‚ ‚Á‚½ê‡‚»‚ÌƒtƒHƒ“ƒgƒf[ƒ^‚Ìƒ|ƒCƒ“ƒ^‚ğ•Û‘¶
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½Û‘ï¿½
 			return ManageData->CodeData[ CharCode ].CharData ;
 		}
 	}
 
-	// –³‚©‚Á‚½ê‡ƒLƒƒƒbƒVƒ…‚É’Ç‰Á
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É’Ç‰ï¿½
 	Cache = FontCacheCharAddToHandle( 1, &CharCode, &IVSCode, ManageData ) ;
 	if( Cache == NULL )
 	{
@@ -8275,13 +8319,13 @@ __inline FONTCHARDATA *GetFontCacheChar_Inline( FONTMANAGE *ManageData, DWORD Ch
 		int TempDrawOffsetX ;
 		int TempDrawOffsetY ;
 
-		// ƒLƒƒƒbƒVƒ…‚Ö‚Ì’Ç‰Á‚ª¸”s‚µ‚½ê‡‚Í‘ã‘ÖƒtƒHƒ“ƒg‚ğg—p‚·‚é
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ö‚Ì’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‘ï¿½Öƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
 SUBSTITUTIONSTART :		
 		for( i = 0 ; i < ManageData->SubstitutionInfoNum ; i++ )
 		{
 			if( FONTHCHK( ManageData->SubstitutionInfo[ i ].SubstitutionFontHandle, SubstitutionManageData ) )
 			{
-				// –³Œø‚É‚È‚Á‚Ä‚¢‚éƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ª‚ ‚Á‚½‚çŠO‚·
+				// ï¿½ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½
 				NS_SubSubstitutionFontToHandle( ManageData->HandleInfo.Handle, ManageData->SubstitutionInfo[ i ].SubstitutionFontHandle ) ;
 				goto SUBSTITUTIONSTART ;
 			}
@@ -8309,7 +8353,7 @@ extern FONTCHARDATA *GetFontCacheChar( FONTMANAGE *ManageData, DWORD CharCode, D
 	return GetFontCacheChar_Inline( ManageData, CharCode, IVSCode, UseManageData, DrawOffsetX, DrawOffsetY, EnableGraphHandleFontImage, ErrorMessage ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
 extern int FontCacheStringDrawToHandleST(
 	int				DrawFlag,
 	int				xi,
@@ -8338,22 +8382,22 @@ extern int FontCacheStringDrawToHandleST(
 	DRAWCHARINFO *	CharInfos,
 	size_t			CharInfoBufferSize,
 	int *			CharInfoNum,
-	int				CharInfoType /* 0:ŠÈˆÕî•ñ  1:Ú×î•ñ */,
-	int				OnlyType /* 0:’Êí•`‰æ 1:–{‘Ì‚Ì‚İ 2:‰‚Ì‚İ */
+	int				CharInfoType /* 0:ï¿½ÈˆÕï¿½ï¿½  1:ï¿½Ú×ï¿½ï¿½ */,
+	int				OnlyType /* 0:ï¿½Êï¿½`ï¿½ï¿½ 1:ï¿½{ï¿½Ì‚Ì‚ï¿½ 2:ï¿½ï¿½ï¿½Ì‚ï¿½ */
 )
 {
-	static DWORD	DrawStrBuf[ 2048 ] ;		// •`‰æ‚·‚éÛ‚Ég—p‚·‚é•¶š—ñƒf[ƒ^
-	static DWORD	DrawIVSBuf[ 2048 ] ;		// •`‰æ‚·‚éÛ‚Ég—p‚·‚é•¶š—ñIVSƒf[ƒ^
+	static DWORD	DrawStrBuf[ 2048 ] ;		// ï¿½`ï¿½æ‚·ï¿½ï¿½Û‚Égï¿½pï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^
+	static DWORD	DrawIVSBuf[ 2048 ] ;		// ï¿½`ï¿½æ‚·ï¿½ï¿½Û‚Égï¿½pï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½IVSï¿½fï¿½[ï¿½^
 	FONTCHARDATA *	CharData ;
 	FONTMANAGE *	UseManageData = ManageData ;
 #ifndef DX_NON_GRAPHICS
 	RECT			SrcRect = { 0 } ;
 	RECT			DstRect ;
 #endif // DX_NON_GRAPHICS
-	int				DrawCharNum ;				// ‚QƒoƒCƒg•¶š‚PƒoƒCƒg•¶š‘S•”‚Ğ‚Á‚­‚é‚ß‚Ä‰½•¶š‚ ‚é‚©•Û‘¶‚·‚é•Ï”
-	int				i ;							// ŒJ‚è•Ô‚µ‚Æ”Ä—p•Ï”
+	int				DrawCharNum ;				// ï¿½Qï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ğ‚ï¿½ï¿½ï¿½ï¿½ï¿½ß‚Ä‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½
+	int				i ;							// ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Æ”Ä—pï¿½Ïï¿½
 #ifndef DX_NON_GRAPHICS
-	int				SrcX = 0 ;					// ƒeƒLƒXƒgƒLƒƒƒbƒVƒ…’†‚Ì–Ú“IƒeƒLƒXƒg‚ÌÀ•WŒˆ’è‚Ég—p
+	int				SrcX = 0 ;					// ï¿½eï¿½Lï¿½Xï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ì–Ú“Iï¿½eï¿½Lï¿½Xï¿½gï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½Égï¿½p
 	int				SrcY = 0 ;
 #endif // DX_NON_GRAPHICS
 	const DWORD *	CharCode ;
@@ -8394,25 +8438,25 @@ extern int FontCacheStringDrawToHandleST(
 //	DEFAULT_FONT_HANDLE_SETUP
 
 #ifndef DX_NON_GRAPHICS
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( ManageData->TextureCacheFlag && Graphics_Hardware_CheckValid_PF() == 0 )
 	{
 		goto END ;
 	}
 #endif // DX_NON_GRAPHICS
 
-	// ƒfƒBƒtƒ…[ƒYƒJƒ‰[‚ğg—p‚·‚é‚©‚Ç‚¤‚©‚ÅƒfƒoƒCƒX‚ÌƒXƒe[ƒg‚ª•Ï‰»‚·‚éŠÂ‹«‚Å‚Í
-	// •K‚¸ƒfƒBƒtƒ…[ƒYƒJƒ‰[‚ğg—p‚·‚é‚æ‚¤‚É‚·‚é
+	// ï¿½fï¿½Bï¿½tï¿½ï¿½ï¿½[ï¿½Yï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åƒfï¿½oï¿½Cï¿½Xï¿½ÌƒXï¿½eï¿½[ï¿½gï¿½ï¿½ï¿½Ï‰ï¿½ï¿½ï¿½ï¿½ï¿½Â‹ï¿½ï¿½Å‚ï¿½
+	// ï¿½Kï¿½ï¿½ï¿½fï¿½Bï¿½tï¿½ï¿½ï¿½[ï¿½Yï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 	GSYS.DrawSetting.AlwaysDiffuseColorFlag = TRUE ;
 
 //	if( FONTHCHK( FontHandle, ManageData ) )
 //	{
 //		goto END ;
 //	}
-//	DXST_LOGFILE_ADDW( L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·I—¹‚µ‚Ü‚·\n" ) ;
+//	DXST_LOGFILE_ADDW( L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½\n" ) ;
 //	DXST_LOGFILEFMT_ADDW(( L"	in FontCacheStringDrawToHandle  StrData = %s   FontHandle = %d  ", StrData, FontHandle )) ;
 
-	// ‰Šú’l‚ğƒZƒbƒg
+	// ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
 	if( DrawSize != NULL )
 	{
 		DrawSize->cx = 0 ;
@@ -8423,19 +8467,19 @@ extern int FontCacheStringDrawToHandleST(
 		*LineCount = 0 ;
 	}
 
-	// ƒ\ƒtƒgƒEƒGƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ìê‡‚Í®”’l‚É‚æ‚é•`‰æ
+	// ï¿½\ï¿½tï¿½gï¿½Eï¿½Gï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ìê‡ï¿½Íï¿½ï¿½ï¿½ï¿½lï¿½É‚ï¿½ï¿½`ï¿½ï¿½
 	if( DestMemImg != NULL || ManageData->TextureCacheFlag == FALSE )
 	{
 		PosIntFlag      = TRUE ;
 
-		// ƒ\ƒtƒgƒEƒGƒAƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚ÍŠg‘å•`‰æ‚â‰ñ“]•`‰æ‚Í‚Å‚«‚È‚¢
+		// ï¿½\ï¿½tï¿½gï¿½Eï¿½Gï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Å‚ÍŠgï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½ï¿½Í‚Å‚ï¿½ï¿½È‚ï¿½
 		if( ExRateValidFlag || RotateValidFlag )
 		{
 			goto END ;
 		}
 	}
 
-	// ’l‚Ì•â³
+	// ï¿½lï¿½Ì•â³
 	if( ExRateValidFlag == FALSE )
 	{
 		ExRateX = 1.0 ;
@@ -8448,10 +8492,10 @@ extern int FontCacheStringDrawToHandleST(
 		RotAngle   = 0.0 ;
 	}
 
-	// ‰ñ“]‚ª—LŒø‚Èê‡‚Í Sin ‚Æ Cos ‚Ì’l‚ğæ“¾‚µ‚Ä‚¨‚­
+	// ï¿½ï¿½]ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Èê‡ï¿½ï¿½ Sin ï¿½ï¿½ Cos ï¿½Ì’lï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	if( RotateValidFlag )
 	{
-		// c‘‚«‚Ìê‡‚Í 90“xƒvƒ‰ƒX‚·‚é
+		// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½ï¿½ 90ï¿½xï¿½vï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½
 		if( VerticalFlag == TRUE )
 		{
 			RotAngle += DX_PI / 2.0 ;
@@ -8460,7 +8504,7 @@ extern int FontCacheStringDrawToHandleST(
 		_SINCOS_PLATFORM( ( float )RotAngle, &RotSin, &RotCos ) ;
 	}
 
-	// •`‰æÀ•W‚Ì•â³
+	// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½Ì•â³
 	if( ManageData->BaseInfo.FontAddHeight != 0 )
 	{
 		if( VerticalFlag )
@@ -8497,13 +8541,13 @@ extern int FontCacheStringDrawToHandleST(
 	ExRate = VerticalFlag ? ExRateY : ExRateX ;
 
 #ifndef DX_NON_GRAPHICS
-	// ‚R‚QƒrƒbƒgFƒJƒ‰[’l‚ğæ“¾‚µ‚Ä‚¨‚­
+	// ï¿½Rï¿½Qï¿½rï¿½bï¿½gï¿½Fï¿½Jï¿½ï¿½ï¿½[ï¿½lï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	{
 		int r, g, b ;
 		int er, eg, eb ;
 		DWORD NoneRevMask ;
 	
-		// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‚Éİ’è‚³‚ê‚Ä‚¢‚é•`‰æ‹P“x‚ÆæZ‚·‚é
+		// ï¿½cï¿½wï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Éİ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½`ï¿½ï¿½Pï¿½xï¿½Æï¿½Zï¿½ï¿½ï¿½ï¿½
 		GetColor_Macro( 0, 0, 0, NoneRevMask ) ;
 		NoneRevMask = ~NoneRevMask ;
 		GetColor2_Macro( Color,     r,  g,  b  ) ;
@@ -8533,7 +8577,7 @@ extern int FontCacheStringDrawToHandleST(
 	}
 #endif // DX_NON_GRAPHICS
 
-	// •¶š—ñ‚ª‚È‚¢ê‡‚ÍI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ê‡ï¿½ÍIï¿½ï¿½
 	if( StrData == NULL )
 	{
 		Result = 0 ;
@@ -8545,7 +8589,7 @@ extern int FontCacheStringDrawToHandleST(
 		goto END ;
 	}
 
-	// •`‰æ‚·‚é•¶š—ñ‚Ì’·‚³‚ğ•Û‘¶
+	// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
 	{
 		if( StrLen < 0 )
 		{
@@ -8570,13 +8614,13 @@ extern int FontCacheStringDrawToHandleST(
 		}
 	}
 
-	// ƒsƒbƒ`‚ÌƒZƒbƒg
+	// ï¿½sï¿½bï¿½`ï¿½ÌƒZï¿½bï¿½g
 	if( DestMemImg != NULL )
 	{
 		DstPitch = DestMemImg->Base->Pitch ;
 	}
 
-	// ‰üs‚É‚xÀ•W‚É‰ÁZ‚·‚é’l‚ğZo
+	// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½É‚xï¿½ï¿½ï¿½Wï¿½É‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Zï¿½o
 	if( VerticalFlag == TRUE )
 	{
 		DrawPosSubAdd = ( ManageData->LineSpaceValidFlag ? ManageData->LineSpace : ManageData->BaseInfo.FontHeight - ManageData->BaseInfo.FontAddHeight ) * ExRateX ;
@@ -8586,7 +8630,7 @@ extern int FontCacheStringDrawToHandleST(
 		DrawPosSubAdd = ( ManageData->LineSpaceValidFlag ? ManageData->LineSpace : ManageData->BaseInfo.FontHeight - ManageData->BaseInfo.FontAddHeight ) * ExRateY ;
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚É“ü‚Á‚Ä‚¢‚È‚¢•¶š—ñ‚ğƒLƒƒƒbƒVƒ…‚É“ü‚ê‚é
+	// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½
 	FontCacheStringAddToHandle( ManageData, StrData, StrLen, UseDrawStrBuf, UseDrawIVSBuf, &DrawCharNum ) ;
 
 #ifndef DX_NON_GRAPHICS
@@ -8594,26 +8638,26 @@ extern int FontCacheStringDrawToHandleST(
 	{
 		float AdjustPos = 0.0f ;
 
-		// À•W•â³’l‚ğƒZƒbƒg
+		// ï¿½ï¿½ï¿½Wï¿½â³ï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
 		if( ManageData->TextureCacheFlag == TRUE )
 		{
 			AdjustPos = NS_GetDrawFloatCoordType() == DX_DRAWFLOATCOORDTYPE_DIRECT3D9 ? -0.5f : 0.0f ;
 		}
 
-		// •`‰æF‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+		// ï¿½`ï¿½ï¿½Fï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 		OrigColor = GSYS.DrawSetting.bDrawBright ;
 
-		// •`‰æ‚·‚é‰æ‘œ‚ÌRGB‚ğ–³‹‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+		// ï¿½`ï¿½æ‚·ï¿½ï¿½æ‘œï¿½ï¿½RGBï¿½ğ–³ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 		IgnoreDrawGraphColor = NS_GetIgnoreDrawGraphColor() ;
 
-		// ‰‚È‚µ‚Ìê‡‚ÍÅ‰‚É•`‰æF‚ğİ’è‚·‚é
+		// ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½ÍÅï¿½ï¿½É•`ï¿½ï¿½Fï¿½ï¿½İ’è‚·ï¿½ï¿½
 		if( ( ManageData->FontType & DX_FONTTYPE_EDGE ) == 0 )
 		{
 			Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
 		}
 
-		// •¶š‚Ì”‚¾‚¯ŒJ‚è•Ô‚µ
-		CharCode = UseDrawStrBuf ;			// •`‰æ—p•¶šƒf[ƒ^‚Ìæ“ªƒAƒhƒŒƒX‚ğƒZƒbƒg
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½
+		CharCode = UseDrawStrBuf ;			// ï¿½`ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“ªï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 		IVSCode = UseDrawIVSBuf ;
 		DrawPos = 0.0 ;
 		MaxDrawPos = 0.0 ;
@@ -8623,20 +8667,20 @@ extern int FontCacheStringDrawToHandleST(
 			CharData = NULL ;
 			UseManageData = ManageData ;
 
-			// \n –³‹ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚ÄŠ‚Â \n ‚¾‚Á‚½ê‡‚ÍŠ®‘S–³‹‚·‚é
+			// \n ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ÄŠï¿½ï¿½ï¿½ \n ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍŠï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if( *CharCode == '\n' && FSYS.IgnoreLFFlag )
 			{
 				continue ;
 			}
 
-			// ƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ğæ“¾
+			// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾
 			CharData = GetFontCacheChar_Inline( ManageData, *CharCode, *IVSCode, &UseManageData, &DrawOffsetX, &DrawOffsetY, TRUE, FALSE ) ;
 			if( CharData == NULL )
 			{
 				goto LOOPEND ;
 			}
 
-			// •`‰æÀ•W‚Ì€”õ
+			// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½Ìï¿½ï¿½ï¿½
 			if( ManageData == UseManageData )
 			{
 				if( PosIntFlag )
@@ -8710,7 +8754,7 @@ extern int FontCacheStringDrawToHandleST(
 				}
 			}
 
-			// ‰æ‘œƒf[ƒ^‚ª‘¶İ‚·‚é‹éŒ`‚ğZo
+			// ï¿½æ‘œï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Zï¿½o
 			if( CharData->GraphHandleFlag == FALSE )
 			{
 				SrcY = CharData->GraphIndexY * UseManageData->BaseInfo.MaxWidth ;
@@ -8723,49 +8767,49 @@ extern int FontCacheStringDrawToHandleST(
 				SETRECT( SrcRect, SrcX, SrcY, SrcX + CharData->SizeX, SrcY + CharData->SizeY ) ;
 			}
 
-			// ƒsƒbƒ`‚ÌƒZƒbƒg
+			// ï¿½sï¿½bï¿½`ï¿½ÌƒZï¿½bï¿½g
 			SrcPitch = ( DWORD )UseManageData->CachePitch ;
 
-			// ‰üs•¶š‚¾‚Á‚½ê‡‚ÍƒLƒƒƒ“ƒZƒ‹‚·‚é
+			// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if( *CharCode == L'\n' )
 			{
 				goto LOOPEND ;
 			}
 
-			// ƒXƒy[ƒX•¶š‚¾‚Á‚½ê‡‚ÍƒLƒƒƒ“ƒZƒ‹‚·‚é
+			// ï¿½Xï¿½yï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if( *CharCode == L' ' || ( wchar_t )*CharCode == FSYS.DoubleByteSpaceCharCode )
 			{
 				goto LOOPEND ;
 			}
 
-			// ƒTƒCƒY‚ª–³‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
+			// ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			if( CharData->SizeX == 0 && CharData->SizeY == 0 ) 
 			{
 				goto LOOPEND ;
 			}
 
-			// •¶š‚Ì•`‰æ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½
 			if( UseManageData->TextureCacheFlag == TRUE ||
 				CharData->GraphHandleFlag )
 			{
 //				int anti ;
 				int BlendGraph, BorderParam, BorderRange ;
 
-				// Šù‘¶‚ÌƒuƒŒƒ“ƒh‰æ‘œ‚Ìî•ñ‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒuï¿½ï¿½ï¿½ï¿½ï¿½hï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 				BlendGraph  = GSYS.DrawSetting.BlendGraph ;
 				BorderParam = GSYS.DrawSetting.BlendGraphBorderParam ;
 				BorderRange = GSYS.DrawSetting.BlendGraphBorderRange ;
 
-				// ƒuƒŒƒ“ƒhÀ•Wƒ^ƒCƒv‚ª DX_BLENDGRAPH_POSMODE_DRAWGRAPH ‚Ìê‡‚ÍƒuƒŒƒ“ƒh‰æ‘œ‚ğ–³Œø‚É‚·‚é
+				// ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½^ï¿½Cï¿½vï¿½ï¿½ DX_BLENDGRAPH_POSMODE_DRAWGRAPH ï¿½Ìê‡ï¿½Íƒuï¿½ï¿½ï¿½ï¿½ï¿½hï¿½æ‘œï¿½ğ–³Œï¿½ï¿½É‚ï¿½ï¿½ï¿½
 				if( BlendGraph != -1 && GSYS.DrawSetting.BlendGraphPosMode == DX_BLENDGRAPH_POSMODE_DRAWGRAPH )
 				{
 					NS_SetBlendGraph( -1, 0, 0 ) ;
 				}
 			
-				// ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒtƒHƒ“ƒg‚©
+				// ï¿½Aï¿½ï¿½ï¿½`ï¿½Gï¿½Cï¿½ï¿½ï¿½Aï¿½Xï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½
 //				anti = ( UseManageData->FontType & DX_FONTTYPE_ANTIALIASING ) != 0 ;
 
-				// ‰ñ“]•t‚«•`‰æ‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+				// ï¿½ï¿½]ï¿½tï¿½ï¿½ï¿½`ï¿½æ‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 				if( RotateValidFlag || GSYS.DrawSetting.Valid2DMatrix )
 				{
 					float TexCoord1U ;
@@ -8787,7 +8831,7 @@ extern int FontCacheStringDrawToHandleST(
 					float ExRateXF = ( float )ExRateX ;
 					float ExRateYF = ( float )ExRateY ;
 
-					// ‰ñ“]•`‰æ
+					// ï¿½ï¿½]ï¿½`ï¿½ï¿½
 
 					if( VerticalFlag == TRUE )
 					{
@@ -8839,7 +8883,7 @@ extern int FontCacheStringDrawToHandleST(
 						tmp_yf = ( float )tmp_yi + AdjustPos ;
 					}
 
-					// ‰æ‘œ’u‚«Š·‚¦•¶š‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+					// ï¿½æ‘œï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 					if( CharData->GraphHandleFlag )
 					{
 						NS_SetIgnoreDrawGraphColor( IgnoreDrawGraphColor ) ;
@@ -8887,7 +8931,7 @@ extern int FontCacheStringDrawToHandleST(
 
 						NS_SetIgnoreDrawGraphColor( TRUE ) ;
 
-						// ƒGƒbƒW‚ª‚ ‚éê‡‚Í‚»‚ê‚ğæ‚É•`‰æ‚·‚é
+						// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½
 						if( ( UseManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 						{
 							Vertex[ 0 ].u = TexCoord1U + 0.5f ;	Vertex[ 0 ].v = TexCoord1V ;
@@ -8901,7 +8945,7 @@ extern int FontCacheStringDrawToHandleST(
 							}
 							Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
 
-							// –{‘Ì—p‚ÌU’l‚ğƒZƒbƒg
+							// ï¿½{ï¿½Ì—pï¿½ï¿½Uï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
 							Vertex[ 0 ].u = TexCoord1U ;
 							Vertex[ 1 ].u = TexCoord2U ;
 							Vertex[ 2 ].u = TexCoord1U ;
@@ -8909,14 +8953,14 @@ extern int FontCacheStringDrawToHandleST(
 						}
 						else
 						{
-							// –{‘Ì—p‚ÌUV’l‚ğƒZƒbƒg
+							// ï¿½{ï¿½Ì—pï¿½ï¿½UVï¿½lï¿½ï¿½ï¿½Zï¿½bï¿½g
 							Vertex[ 0 ].u = TexCoord1U ;	Vertex[ 0 ].v = TexCoord1V ;
 							Vertex[ 1 ].u = TexCoord2U ;	Vertex[ 1 ].v = TexCoord1V ;
 							Vertex[ 2 ].u = TexCoord1U ;	Vertex[ 2 ].v = TexCoord2V ;
 							Vertex[ 3 ].u = TexCoord2U ;	Vertex[ 3 ].v = TexCoord2V ;
 						}
 
-						// –{‘Ì‚ğ•`‰æ
+						// ï¿½{ï¿½Ì‚ï¿½`ï¿½ï¿½
 						if( OnlyType == 0 || OnlyType == 1 )
 						{
 							Graphics_Draw_DrawSimpleQuadrangleGraphF( &Param ) ;
@@ -8924,26 +8968,26 @@ extern int FontCacheStringDrawToHandleST(
 					}
 				}
 				else
-				// c‘‚«‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+				// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 				if( VerticalFlag == TRUE )
 				{
-					// c‘‚«
+					// ï¿½cï¿½ï¿½ï¿½ï¿½
 
-					// ‰æ‘œ’u‚«Š·‚¦•¶š‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+					// ï¿½æ‘œï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 					if( CharData->GraphHandleFlag )
 					{
 						NS_SetIgnoreDrawGraphColor( IgnoreDrawGraphColor ) ;
 
-						// Šg‘å•`‰æ‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+						// ï¿½gï¿½ï¿½`ï¿½æ‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 						if( ExRateValidFlag == FALSE )
 						{
-							// “™”{•`‰æ
+							// ï¿½ï¿½ï¿½{ï¿½`ï¿½ï¿½
 
 							if( PosIntFlag )
 							{
 								int DrawX, DrawY, x1, y1, x2, y2 ;
 
-								// •`‰æÀ•W‚ÌZo
+								// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = tmp_xi - _DTOL( DrawPosSub ) + UseManageData->BaseInfo.FontHeight - CharData->DrawY ;
 								DrawY = tmp_yi + _DTOL( DrawPos )                                         + CharData->DrawX ;
 
@@ -8969,7 +9013,7 @@ extern int FontCacheStringDrawToHandleST(
 							{
 								float DrawX, DrawY, x1, y1, x2, y2 ;
 
-								// •`‰æÀ•W‚ÌZo
+								// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = tmp_xf - ( float )DrawPosSub + UseManageData->BaseInfo.FontHeight - CharData->DrawY ;
 								DrawY = tmp_yf + ( float )DrawPos                                         + CharData->DrawX ;
 
@@ -8996,11 +9040,11 @@ extern int FontCacheStringDrawToHandleST(
 						{
 							float DrawX, DrawY, x1, y1, x2, y2 ;
 
-							// Šg‘å•`‰æ
+							// ï¿½gï¿½ï¿½`ï¿½ï¿½
 
 							if( PosIntFlag )
 							{
-								// •`‰æŒ³À•W‚ÌZo
+								// ï¿½`ï¿½æŒ³ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = ( float )( tmp_xi - DrawPosSub + ( UseManageData->BaseInfo.FontHeight - CharData->DrawY ) * ExRateX ) ;
 								DrawY = ( float )( tmp_yi + DrawPos    +                                        CharData->DrawX   * ExRateY ) ;
 
@@ -9024,7 +9068,7 @@ extern int FontCacheStringDrawToHandleST(
 							}
 							else
 							{
-								// •`‰æŒ³À•W‚ÌZo
+								// ï¿½`ï¿½æŒ³ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = ( float )( tmp_xf - DrawPosSub + ( UseManageData->BaseInfo.FontHeight - CharData->DrawY ) * ExRateX ) ;
 								DrawY = ( float )( tmp_yf + DrawPos    +                                        CharData->DrawX   * ExRateY ) ;
 
@@ -9054,25 +9098,25 @@ extern int FontCacheStringDrawToHandleST(
 						int GraphSizeX, GraphSizeY ;
 						int TempGraph ;
 
-						// Œ³‚Ì•`‰æ‰Â”\‹éŒ`‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+						// ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Â”\ï¿½ï¿½`ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 						MotoDrawRect = GSYS.DrawSetting.DrawArea ;
 
-						// ƒLƒƒƒbƒVƒ…ƒeƒNƒXƒ`ƒƒ‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
+						// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 						NS_GetGraphSize( UseManageData->TextureCache, &GraphSizeX, &GraphSizeY ) ;
 
-						// ƒeƒNƒXƒ`ƒƒ‚Ì RGB ‚Í–³‹‚·‚é
+						// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ RGB ï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						NS_SetIgnoreDrawGraphColor( TRUE ) ;
 
-						// Šg‘å•`‰æ‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+						// ï¿½gï¿½ï¿½`ï¿½æ‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 						if( ExRateValidFlag == FALSE )
 						{
-							// “™”{•`‰æ
+							// ï¿½ï¿½ï¿½{ï¿½`ï¿½ï¿½
 
 							if( PosIntFlag )
 							{
 								int DrawX, DrawY, x1, y1, x2, y2 ;
 
-								// •`‰æŒ³À•W‚ÌZo
+								// ï¿½`ï¿½æŒ³ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = tmp_xi - _DTOL( DrawPosSub ) + UseManageData->BaseInfo.FontHeight - CharData->DrawY ;
 								DrawY = tmp_yi + _DTOL( DrawPos )                                         + CharData->DrawX ;
 
@@ -9081,7 +9125,7 @@ extern int FontCacheStringDrawToHandleST(
 								x2 = DrawX + SrcY - GraphSizeY ;
 								y2 = DrawY - SrcX + GraphSizeX ;
 
-								// w’è‹éŒ`‚¾‚¯‚µ‚©•`‰æo—ˆ‚È‚¢‚æ‚¤‚É‚·‚é
+								// ï¿½wï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 								TempRect.left   = ( DrawX - CharData->SizeY ) - 1 ;
 								TempRect.top    = DrawY ;
 								TempRect.right  = DrawX + 1 ;
@@ -9089,7 +9133,7 @@ extern int FontCacheStringDrawToHandleST(
 								RectClipping_Inline( &TempRect, &MotoDrawRect ) ;
 								NS_SetDrawArea( TempRect.left, TempRect.top, TempRect.right, TempRect.bottom ) ;
 
-								// ƒGƒbƒW‚ª‚ ‚éê‡‚Í‚»‚ê‚ğæ‚É•`‰æ‚·‚é
+								// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½
 								if( ( UseManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 								{
 									Graphics_DrawSetting_SetDrawBrightToOneParam( FEdgeColor ) ;
@@ -9106,7 +9150,7 @@ extern int FontCacheStringDrawToHandleST(
 									Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
 								}
 
-								// –{‘Ì‚ğ•`‰æ
+								// ï¿½{ï¿½Ì‚ï¿½`ï¿½ï¿½
 								if( OnlyType == 0 || OnlyType == 1 )
 								{
 									NS_DrawModiGraphF(
@@ -9119,7 +9163,7 @@ extern int FontCacheStringDrawToHandleST(
 									) ;
 								}
 
-								// •`‰æ‰Â”\‹éŒ`‚ğŒ³‚É–ß‚·
+								// ï¿½`ï¿½ï¿½Â”\ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 								NS_SetDrawArea( MotoDrawRect.left,  MotoDrawRect.top,
 												MotoDrawRect.right, MotoDrawRect.bottom ) ;
 							}
@@ -9127,7 +9171,7 @@ extern int FontCacheStringDrawToHandleST(
 							{
 								float DrawX, DrawY, x1, y1, x2, y2 ;
 
-								// •`‰æŒ³À•W‚ÌZo
+								// ï¿½`ï¿½æŒ³ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = tmp_xf - ( float )DrawPosSub + UseManageData->BaseInfo.FontHeight - ( CharData->DrawY - 1.0f ) ;
 								DrawY = tmp_yf + ( float )DrawPos    +                                      ( CharData->DrawX - 1.0f ) ;
 
@@ -9136,7 +9180,7 @@ extern int FontCacheStringDrawToHandleST(
 								x2 = DrawX - ( CharData->SizeY + 2.0f ) ;
 								y2 = DrawY + ( CharData->SizeX + 2.0f ) ;
 
-								// ƒGƒbƒW‚ª‚ ‚éê‡‚Í‚»‚ê‚ğæ‚É•`‰æ‚·‚é
+								// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½
 								if( ( UseManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 								{
 									TempGraph = NS_DerivationGraph( SrcX - 1, SrcY - 1, CharData->SizeX + 2, CharData->SizeY + 2, UseManageData->TextureCacheSub ) ;
@@ -9155,7 +9199,7 @@ extern int FontCacheStringDrawToHandleST(
 									Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
 								}
 
-								// –{‘Ì‚ğ•`‰æ
+								// ï¿½{ï¿½Ì‚ï¿½`ï¿½ï¿½
 								TempGraph = NS_DerivationGraph( SrcX - 1, SrcY - 1, CharData->SizeX + 2, CharData->SizeY + 2, UseManageData->TextureCache ) ;
 								if( OnlyType == 0 || OnlyType == 1 )
 								{
@@ -9175,11 +9219,11 @@ extern int FontCacheStringDrawToHandleST(
 						{
 							float DrawX, DrawY, x1, y1, x2, y2 ;
 
-							// Šg‘å•`‰æ
+							// ï¿½gï¿½ï¿½`ï¿½ï¿½
 
 							if( PosIntFlag )
 							{
-								// •`‰æŒ³À•W‚ÌZo
+								// ï¿½`ï¿½æŒ³ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = ( float )( tmp_xi - DrawPosSub + ( UseManageData->BaseInfo.FontHeight - ( CharData->DrawY - 1 ) ) * ExRateX ) ;
 								DrawY = ( float )( tmp_yi + DrawPos    +                                        ( CharData->DrawX - 1 )   * ExRateY ) ;
 
@@ -9188,7 +9232,7 @@ extern int FontCacheStringDrawToHandleST(
 								x2 = ( float )( DrawX + -( CharData->SizeY + 2 ) * ExRateX ) ;
 								y2 = ( float )( DrawY +  ( CharData->SizeX + 2 ) * ExRateY ) ;
 
-								// w’è‹éŒ`‚¾‚¯‚µ‚©•`‰æo—ˆ‚È‚¢‚æ‚¤‚É‚·‚é
+								// ï¿½wï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½oï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
 								TempRect.left   = _FTOL( ( float )( DrawX - _DTOL( ( CharData->SizeY + 2 ) * ExRateX ) ) ) - 1 ;
 								TempRect.top    = _FTOL( DrawY ) - 1 ;
 								TempRect.right  = _FTOL( DrawX ) + 1 ;
@@ -9196,7 +9240,7 @@ extern int FontCacheStringDrawToHandleST(
 								RectClipping_Inline( &TempRect, &MotoDrawRect ) ;
 								NS_SetDrawArea( TempRect.left, TempRect.top, TempRect.right, TempRect.bottom ) ;
 
-								// ƒGƒbƒW‚ª‚ ‚éê‡‚Í‚»‚ê‚ğæ‚É•`‰æ‚·‚é
+								// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½
 								if( ( UseManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 								{
 									TempGraph = NS_DerivationGraph( SrcX - 1, SrcY - 1, CharData->SizeX + 2, CharData->SizeY + 2, UseManageData->TextureCacheSub ) ;
@@ -9215,7 +9259,7 @@ extern int FontCacheStringDrawToHandleST(
 									Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
 								}
 
-								// –{‘Ì‚ğ•`‰æ
+								// ï¿½{ï¿½Ì‚ï¿½`ï¿½ï¿½
 								TempGraph = NS_DerivationGraph( SrcX - 1, SrcY - 1, CharData->SizeX + 2, CharData->SizeY + 2, UseManageData->TextureCache ) ;
 								if( OnlyType == 0 || OnlyType == 1 )
 								{
@@ -9230,13 +9274,13 @@ extern int FontCacheStringDrawToHandleST(
 								}
 								SubHandle( TempGraph, FALSE, FALSE ) ;
 
-								// •`‰æ‰Â”\‹éŒ`‚ğŒ³‚É–ß‚·
+								// ï¿½`ï¿½ï¿½Â”\ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 								NS_SetDrawArea( MotoDrawRect.left,  MotoDrawRect.top,
 												MotoDrawRect.right, MotoDrawRect.bottom ) ;
 							}
 							else
 							{
-								// •`‰æŒ³À•W‚ÌZo
+								// ï¿½`ï¿½æŒ³ï¿½ï¿½ï¿½Wï¿½ÌZï¿½o
 								DrawX = ( float )( tmp_xf + DrawPosSub + ( UseManageData->BaseInfo.FontHeight - ( CharData->DrawY - 1.0f ) ) * ExRateX ) ;
 								DrawY = ( float )( tmp_yf + DrawPos    +                                        ( CharData->DrawX - 1.0f )   * ExRateY ) ;
 
@@ -9245,7 +9289,7 @@ extern int FontCacheStringDrawToHandleST(
 								x2 = DrawX - ( CharData->SizeY + 2.0f ) * ( float )ExRateX ;
 								y2 = DrawY + ( CharData->SizeX + 2.0f ) * ( float )ExRateY ;
 
-								// ƒGƒbƒW‚ª‚ ‚éê‡‚Í‚»‚ê‚ğæ‚É•`‰æ‚·‚é
+								// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½
 								if( ( UseManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 								{
 									TempGraph = NS_DerivationGraph( SrcX - 1, SrcY - 1, CharData->SizeX + 2, CharData->SizeY + 2, UseManageData->TextureCacheSub ) ;
@@ -9264,7 +9308,7 @@ extern int FontCacheStringDrawToHandleST(
 									Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
 								}
 
-								// –{‘Ì‚ğ•`‰æ
+								// ï¿½{ï¿½Ì‚ï¿½`ï¿½ï¿½
 								TempGraph = NS_DerivationGraph( SrcX - 1, SrcY - 1, CharData->SizeX + 2, CharData->SizeY + 2, UseManageData->TextureCache ) ;
 								if( OnlyType == 0 || OnlyType == 1 )
 								{
@@ -9284,14 +9328,14 @@ extern int FontCacheStringDrawToHandleST(
 				}
 				else
 				{
-					// ‰¡‘‚«
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-					// Šg‘å•`‰æ‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+					// ï¿½gï¿½ï¿½`ï¿½æ‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 					if( ExRateValidFlag == FALSE )
 					{
-						// “™”{•`‰æ
+						// ï¿½ï¿½ï¿½{ï¿½`ï¿½ï¿½
 
-						// ‰æ‘œ’u‚«Š·‚¦•¶š‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+						// ï¿½æ‘œï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 						if( CharData->GraphHandleFlag )
 						{
 							NS_SetIgnoreDrawGraphColor( IgnoreDrawGraphColor ) ;
@@ -9321,10 +9365,10 @@ extern int FontCacheStringDrawToHandleST(
 						}
 						else
 						{
-							// ƒeƒNƒXƒ`ƒƒ‚Ì RGB ‚Í–³‹‚·‚é
+							// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ RGB ï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							NS_SetIgnoreDrawGraphColor( TRUE ) ;
 
-							// ƒGƒbƒW‚ª‚ ‚éê‡‚Í‚»‚ê‚ğæ‚É•`‰æ‚·‚é
+							// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½
 							if( ( UseManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 							{
 								if( OnlyType == 0 || OnlyType == 2 )
@@ -9361,7 +9405,7 @@ extern int FontCacheStringDrawToHandleST(
 								}
 							}
 
-							// –{‘Ì‚ğ•`‰æ
+							// ï¿½{ï¿½Ì‚ï¿½`ï¿½ï¿½
 							if( OnlyType == 0 || OnlyType == 1 )
 							{
 								Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
@@ -9400,9 +9444,9 @@ extern int FontCacheStringDrawToHandleST(
 					{
 						float x1, y1, x2, y2 ;
 
-						// Šg‘å•`‰æ
+						// ï¿½gï¿½ï¿½`ï¿½ï¿½
 
-						// ‰æ‘œ’u‚«Š·‚¦•¶š‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+						// ï¿½æ‘œï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 						if( CharData->GraphHandleFlag )
 						{
 							NS_SetIgnoreDrawGraphColor( IgnoreDrawGraphColor ) ;
@@ -9435,7 +9479,7 @@ extern int FontCacheStringDrawToHandleST(
 						}
 						else
 						{
-							// ƒeƒNƒXƒ`ƒƒ‚Ì RGB ‚Í–³‹‚·‚é
+							// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ RGB ï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							NS_SetIgnoreDrawGraphColor( TRUE ) ;
 
 							if( PosIntFlag )
@@ -9453,7 +9497,7 @@ extern int FontCacheStringDrawToHandleST(
 								y2 = ( float )( y1 +                  ( CharData->SizeY + 2 ) * ExRateY ) ;
 							}
 
-							// ƒGƒbƒW‚ª‚ ‚éê‡‚Í‚»‚ê‚ğæ‚É•`‰æ‚·‚é
+							// ï¿½Gï¿½bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½É•`ï¿½æ‚·ï¿½ï¿½
 							if( ( UseManageData->FontType & DX_FONTTYPE_EDGE ) != 0 )
 							{
 								if( OnlyType == 0 || OnlyType == 2 )
@@ -9482,7 +9526,7 @@ extern int FontCacheStringDrawToHandleST(
 								}
 							}
 
-							// –{‘Ì‚ğ•`‰æ
+							// ï¿½{ï¿½Ì‚ï¿½`ï¿½ï¿½
 							if( OnlyType == 0 || OnlyType == 1 )
 							{
 								Graphics_DrawSetting_SetDrawBrightToOneParam( FColor ) ;
@@ -9513,7 +9557,7 @@ extern int FontCacheStringDrawToHandleST(
 					}
 				}
 
-				// ƒuƒŒƒ“ƒh‰æ‘œ‚Ìî•ñ‚ğŒ³‚É–ß‚·
+				// ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½hï¿½æ‘œï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 				if( BlendGraph != -1 && GSYS.DrawSetting.BlendGraphPosMode == DX_BLENDGRAPH_POSMODE_DRAWGRAPH )
 				{
 					NS_SetBlendGraph( BlendGraph, BorderParam, BorderRange ) ;
@@ -9522,13 +9566,13 @@ extern int FontCacheStringDrawToHandleST(
 			else
 			if( DestMemImg != NULL )
 			{
-				// c‘‚«‚©‚Ç‚¤‚©‚Åˆ—‚ğ•ªŠò
+				// ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 				if( VerticalFlag == TRUE )
 				{
 					DWORD SizeX, SizeY ;
 					RECT TempRect ;
 
-					// •`‰æ‹éŒ`‚ÌƒZƒbƒg
+					// ï¿½`ï¿½ï¿½ï¿½`ï¿½ÌƒZï¿½bï¿½g
 					DstRect.left   = tmp_xi - _DTOL( DrawPosSub ) + UseManageData->BaseInfo.FontHeight - CharData->DrawY - CharData->SizeY ;
 					DstRect.right  = tmp_xi - _DTOL( DrawPosSub ) + UseManageData->BaseInfo.FontHeight - CharData->DrawY ;
 					DstRect.top    = tmp_yi + _DTOL( DrawPos )                                         + CharData->DrawX ;
@@ -9536,13 +9580,13 @@ extern int FontCacheStringDrawToHandleST(
 					TempRect = DstRect ;
 					RectClipping_Inline( &DstRect, ClipRect ) ;
 
-					// •`‰æ‚·‚é•¶š‚ª–³‚©‚Á‚½ê‡‚±‚±‚ÅŸƒ‹[ƒv‚ÉˆÚ‚é
+					// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ÉˆÚ‚ï¿½
 					if( DstRect.right == DstRect.left || DstRect.bottom == DstRect.top )
 					{
 						goto LOOPEND ;
 					}
 
-					// “]‘—Œ³‹éŒ`‚Æ•`‰æƒTƒCƒY‚Ì’²®
+					// ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Æ•`ï¿½ï¿½Tï¿½Cï¿½Yï¿½Ì’ï¿½ï¿½ï¿½
 					SrcRect.left   += DstRect.top     - TempRect.top ;
 					SrcRect.top    += DstRect.right   - TempRect.right ;
 					SrcRect.right  -= TempRect.bottom - DstRect.bottom ;
@@ -9550,17 +9594,17 @@ extern int FontCacheStringDrawToHandleST(
 					SizeX = ( DWORD )( SrcRect.right  - SrcRect.left ) ;
 					SizeY = ( DWORD )( SrcRect.bottom - SrcRect.top  ) ;
 
-					// “]‘—
+					// ï¿½]ï¿½ï¿½
 					{
 						int SrcPitch2, DstPitch2 ;
 						WORD SizeXWord = ( WORD )SizeX, SizeYWord = ( WORD )SizeY ;
 
-						// ƒJƒ‰[ƒrƒbƒgƒ‚[ƒh‚É‚æ‚Á‚Äˆ—‚ğ•ªŠò
+						// ï¿½Jï¿½ï¿½ï¿½[ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½É‚ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 
 						switch( NS_GetColorBitDepth() )
 						{
 						case 8 :
-							// 8ƒrƒbƒgƒ‚[ƒh‚Ì‚Ìˆ—
+							// 8ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìï¿½ï¿½Ìï¿½ï¿½ï¿½
 							{
 								BYTE *Dest ;
 								BYTE *Src ;
@@ -9686,7 +9730,7 @@ extern int FontCacheStringDrawToHandleST(
 							break ;
 
 						case 16 :
-							// 16ƒrƒbƒgƒ‚[ƒh‚Ì‚Ìˆ—
+							// 16ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìï¿½ï¿½Ìï¿½ï¿½ï¿½
 							{
 								BYTE *Dest ;
 								BYTE *Src ;
@@ -9972,7 +10016,7 @@ extern int FontCacheStringDrawToHandleST(
 							break ;
 
 						case 32 :
-							// 32ƒrƒbƒgƒ‚[ƒh‚Ìê‡
+							// 32ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìê‡
 							{
 								BYTE *Dest ;
 								BYTE *Src ;
@@ -10259,21 +10303,21 @@ extern int FontCacheStringDrawToHandleST(
 					int DrawX, DrawY ;
 					DWORD SizeX, SizeY ;
 
-					// •`‰æÀ•W‚ÌƒZƒbƒg
+					// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½ÌƒZï¿½bï¿½g
 					DrawX = tmp_xi + _DTOL( DrawPos    ) + CharData->DrawX ;
 					DrawY = tmp_yi + _DTOL( DrawPosSub ) + CharData->DrawY ;
 
-					// ÀÛ‚Ì•`‰æ—Ìˆæ‚ğì¬
+					// ï¿½ï¿½ï¿½Û‚Ì•`ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ì¬
 					SETRECT( DstRect, DrawX, DrawY, DrawX + CharData->SizeX, DrawY + CharData->SizeY ) ;
 					RectClipping_Inline( &DstRect, ClipRect ) ;
 
-					// •`‰æ‚·‚é•¶š‚ª–³‚©‚Á‚½ê‡‚±‚±‚ÅŸƒ‹[ƒv‚ÉˆÚ‚é
+					// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ÉˆÚ‚ï¿½
 					if( DstRect.right == DstRect.left || DstRect.bottom == DstRect.top )
 					{
 						goto LOOPEND ;
 					}
 
-					// •`‰æŒ³‹éŒ`‚Æ•`‰ææ‹éŒ`‚ğƒZƒbƒg
+					// ï¿½`ï¿½æŒ³ï¿½ï¿½`ï¿½Æ•`ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Zï¿½bï¿½g
 					SrcRect.left   += DstRect.left - DrawX ;
 					SrcRect.top    += DstRect.top  - DrawY ;
 					SrcRect.right  -= ( DrawX + CharData->SizeX ) - DstRect.right ;
@@ -10281,17 +10325,17 @@ extern int FontCacheStringDrawToHandleST(
 					SizeX = ( DWORD )( SrcRect.right - SrcRect.left ) ;
 					SizeY = ( DWORD )( SrcRect.bottom - SrcRect.top ) ;
 
-					// “]‘—
+					// ï¿½]ï¿½ï¿½
 					{
 						DWORD SrcPitch2, DstPitch2 ;
 						WORD SizeXWord = ( WORD )SizeX, SizeYWord = ( WORD )SizeY ;
 
-						// ƒJƒ‰[ƒrƒbƒgƒ‚[ƒh‚É‚æ‚Á‚Äˆ—‚ğ•ªŠò
+						// ï¿½Jï¿½ï¿½ï¿½[ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½É‚ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 
 						switch( NS_GetColorBitDepth() )
 						{
 						case 8 :
-							// 8ƒrƒbƒgƒ‚[ƒh‚Ì‚Ìˆ—
+							// 8ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìï¿½ï¿½Ìï¿½ï¿½ï¿½
 							{
 								BYTE *DrawDstPoint = ( BYTE * )DestMemImg->UseImage ;
 								BYTE *DrawSrcPoint = UseManageData->CacheMem ;
@@ -10510,7 +10554,7 @@ extern int FontCacheStringDrawToHandleST(
 							break ;
 
 						case 16 :
-							// 16ƒrƒbƒgƒ‚[ƒh‚Ì‚Ìˆ—
+							// 16ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìï¿½ï¿½Ìï¿½ï¿½ï¿½
 							{
 								BYTE *DrawDstPoint = DestMemImg->UseImage ;
 								BYTE *DrawSrcPoint = UseManageData->CacheMem ;
@@ -10890,7 +10934,7 @@ extern int FontCacheStringDrawToHandleST(
 							break ;
 
 						case 32 :
-							// 32ƒrƒbƒgƒ‚[ƒh‚Ìê‡
+							// 32ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìê‡
 							{
 								BYTE *DrawDstPoint = DestMemImg->UseImage ;
 								BYTE *DrawSrcPoint = UseManageData->CacheMem ;
@@ -11277,7 +11321,7 @@ extern int FontCacheStringDrawToHandleST(
 			}
 
 LOOPEND :
-			// •¶šî•ñ‚ğƒZƒbƒg
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 			if( CharInfos != NULL && CharInfoBufferSize > ( size_t )CInfoNum )
 			{
 				float DrawX, DrawY ;
@@ -11358,7 +11402,7 @@ LOOPEND :
 			}
 			CInfoNum ++ ;
 
-			// ‰üs•¶š‚Ìê‡‚Íˆ—‚ğ•ªŠò
+			// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 			if( *CharCode == '\n' )
 			{
 				DrawPos     = 0.0 ;
@@ -11377,7 +11421,7 @@ LOOPEND :
 				}
 			}
 
-			// ƒJ[ƒjƒ“ƒOˆ—
+			// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 			if( UseManageData->BaseInfo.KerningPairNum > 0 && i < DrawCharNum - 1 )
 			{
 				DWORD di, dj ;
@@ -11409,7 +11453,7 @@ LOOPEND :
 				}
 			}
 
-			// Å‘å•`‰æ•‚ÌXV
+			// ï¿½Å‘ï¿½`ï¿½æ•ï¿½ÌXï¿½V
 			if( MaxDrawPos < DrawPos )
 			{
 				MaxDrawPos = DrawPos ;
@@ -11417,37 +11461,37 @@ LOOPEND :
 		}
 		DrawPosSub += ( UseManageData->BaseInfo.FontHeight - UseManageData->BaseInfo.FontAddHeight ) * ( VerticalFlag ? ExRateX : ExRateY ) ;
 
-		// ƒeƒNƒXƒ`ƒƒ‚Ì RGB ‚ğ–³‹‚·‚é‚©‚Ç‚¤‚©‚Ìİ’è‚ğŒ³‚É–ß‚·
+		// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ RGB ï¿½ğ–³ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		NS_SetIgnoreDrawGraphColor( IgnoreDrawGraphColor ) ;
 
-		// ‰‚È‚µ‚Ìê‡‚ÍÅŒã‚É•`‰æ‹P“x‚ğŒ³‚É–ß‚·
+		// ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½ÍÅŒï¿½É•`ï¿½ï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
 		Graphics_DrawSetting_SetDrawBrightToOneParam( OrigColor ) ;
 	}
 	else
 #endif // DX_NON_GRAPHICS
 	{
-		// •¶š‚Ì”‚¾‚¯ŒJ‚è•Ô‚µ
-		CharCode = UseDrawStrBuf ;			// •`‰æ—p•¶šƒf[ƒ^‚Ìæ“ªƒAƒhƒŒƒX‚ğƒZƒbƒg
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½
+		CharCode = UseDrawStrBuf ;			// ï¿½`ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“ªï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 		IVSCode = UseDrawIVSBuf ;
 		DrawPos = 0.0 ;
 		MaxDrawPos = 0.0 ;
 		DrawPosSub = 0.0 ;
 		for( i = 0 ; i < DrawCharNum ; i ++, CharCode ++, IVSCode ++ )
 		{
-			// \n –³‹ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚ÄŠ‚Â \n ‚¾‚Á‚½ê‡‚ÍŠ®‘S–³‹‚·‚é
+			// \n ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ÄŠï¿½ï¿½ï¿½ \n ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍŠï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if( *CharCode == '\n' && FSYS.IgnoreLFFlag )
 			{
 				continue ;
 			}
 
-			// ƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ğæ“¾
+			// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾
 			CharData = NULL ;
 			if( *CharCode != '\n' )
 			{
 				CharData = GetFontCacheChar_Inline( ManageData, *CharCode, *IVSCode, &UseManageData, &DrawOffsetX, &DrawOffsetY, TRUE, FALSE ) ;
 			}
 
-			// •`‰æÀ•W‚Ì€”õ
+			// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½Ìï¿½ï¿½ï¿½
 			if( ManageData == UseManageData )
 			{
 				if( PosIntFlag )
@@ -11519,7 +11563,7 @@ LOOPEND :
 				}
 			}
 
-			// •¶šî•ñ‚ğƒZƒbƒg
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 			if( CharInfos != NULL && CharInfoBufferSize > ( size_t )CInfoNum )
 			{
 				float DrawX, DrawY ;
@@ -11600,7 +11644,7 @@ LOOPEND :
 			}
 			CInfoNum ++ ;
 
-			// ‰üs•¶š‚Ìê‡‚Íˆ—‚ğ•ªŠò
+			// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 			if( *CharCode == '\n' )
 			{
 				CharData    = NULL ;
@@ -11620,7 +11664,7 @@ LOOPEND :
 				}
 			}
 
-			// ƒJ[ƒjƒ“ƒOˆ—
+			// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 			if( UseManageData->BaseInfo.KerningPairNum > 0 && i < DrawCharNum - 1 )
 			{
 				DWORD di, dj ;
@@ -11652,7 +11696,7 @@ LOOPEND :
 				}
 			}
 
-			// Å‘å•`‰æ•‚ÌXV
+			// ï¿½Å‘ï¿½`ï¿½æ•ï¿½ÌXï¿½V
 			if( MaxDrawPos < DrawPos )
 			{
 				MaxDrawPos = DrawPos ;
@@ -11694,10 +11738,10 @@ LOOPEND :
 
 END :
 
-	// •K‚¸ƒfƒBƒtƒ…[ƒYƒJƒ‰[‚ğg—p‚·‚é‚æ‚¤‚É‚·‚éƒtƒ‰ƒO‚ğ“|‚·
+	// ï¿½Kï¿½ï¿½ï¿½fï¿½Bï¿½tï¿½ï¿½ï¿½[ï¿½Yï¿½Jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½|ï¿½ï¿½
 	GSYS.DrawSetting.AlwaysDiffuseColorFlag = FALSE ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Result ;
 }
 
@@ -11741,18 +11785,18 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 	BASEIMAGE *DestImage, const RECT *ClipRect, int FontHandle,
 	int VerticalFlag, SIZE *DrawSizeP )
 {
-	static DWORD DrawStrBuf[ 2048 ] ;		// •`‰æ‚·‚éÛ‚Ég—p‚·‚é•¶š—ñƒf[ƒ^i‚RƒoƒCƒg‚Å‚P•¶š‚ğ•\Œ»j
-	static DWORD DrawIVSBuf[ 2048 ] ;		// •`‰æ‚·‚éÛ‚Ég—p‚·‚é•¶š—ñƒf[ƒ^i‚RƒoƒCƒg‚Å‚P•¶š‚ğ•\Œ»j
+	static DWORD DrawStrBuf[ 2048 ] ;		// ï¿½`ï¿½æ‚·ï¿½ï¿½Û‚Égï¿½pï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½iï¿½Rï¿½oï¿½Cï¿½gï¿½Å‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½j
+	static DWORD DrawIVSBuf[ 2048 ] ;		// ï¿½`ï¿½æ‚·ï¿½ï¿½Û‚Égï¿½pï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½iï¿½Rï¿½oï¿½Cï¿½gï¿½Å‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½j
 	FONTMANAGE * cmanage ;
 	FONTMANAGE * usecmanage ;
 	FONTCHARDATA * cache ;
 	RECT SrcRect ;
 	RECT DstRect ;
-	int drawnum ;							// ‚QƒoƒCƒg•¶š‚PƒoƒCƒg•¶š‘S•”‚Ğ‚Á‚­‚é‚ß‚Ä‰½•¶š‚ ‚é‚©•Û‘¶‚·‚é•Ï”
-	int i ;									// ŒJ‚è•Ô‚µ‚Æ”Ä—p•Ï”
+	int drawnum ;							// ï¿½Qï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ğ‚ï¿½ï¿½ï¿½ï¿½ï¿½ß‚Ä‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½
+	int i ;									// ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Æ”Ä—pï¿½Ïï¿½
 	const DWORD *strp ;
 	const DWORD *ivsp ;
-	LONG dpitch, spitch ;					// •`‰ææ‚Æ•`‰æ‚à‚Æ‚ÌƒT[ƒtƒFƒX‚Ì‚Pƒ‰ƒCƒ“‚ÌƒoƒCƒg”
+	LONG dpitch, spitch ;					// ï¿½`ï¿½ï¿½ï¿½Æ•`ï¿½ï¿½ï¿½ï¿½Æ‚ÌƒTï¿½[ï¿½tï¿½Fï¿½Xï¿½Ì‚Pï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ìƒoï¿½Cï¿½gï¿½ï¿½
 	int TotalWidth, TotalHeight ;
 	int MaxTotalWidth, MaxTotalHeight ;
 	int r, g, b, er, eg, eb ;
@@ -11767,19 +11811,19 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, cmanage ) )
 	{
 		return -1 ;
 	}
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğƒLƒƒƒbƒVƒ…‚Ég—p‚µ‚Ä‚¢‚éƒtƒHƒ“ƒg‚Í–³—
+	// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Égï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Í–ï¿½ï¿½ï¿½
 	if( cmanage->TextureCacheFlag == TRUE )
 	{
 		return -1 ;
 	}
 
-	// •`‰æÀ•W‚Ì•â³
+	// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½Ì•â³
 	if( VerticalFlag )
 	{
 		add_x = -cmanage->BaseInfo.FontAddHeight / 2 ;
@@ -11789,21 +11833,21 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 		add_y = -cmanage->BaseInfo.FontAddHeight / 2 ;
 	}
 
-	// ‰ŠúÀ•W‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	orig_x = x ;
 	orig_y = y ;
 
-	// FƒJƒ‰[’l‚ğæ“¾‚µ‚Ä‚¨‚­
+	// ï¿½Fï¿½Jï¿½ï¿½ï¿½[ï¿½lï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	NS_GetColor5( &DestImage->ColorData, Color, &r, &g, &b, NULL ) ;
 	NS_GetColor5( &DestImage->ColorData, EdgeColor, &er, &eg, &eb, NULL ) ;
 
-	// •¶š—ñ‚ª‚È‚¢ê‡‚ÍI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ê‡ï¿½ÍIï¿½ï¿½
 	if( StrData  == NULL || *StrData  == 0 )
 	{
 		return 0 ;
 	}
 
-	// •`‰æ‚·‚é•¶š—ñ‚Ì’·‚³‚ğ•Û‘¶
+	// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
 	{
 		if( StrLen < 0 )
 		{
@@ -11828,14 +11872,14 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 		}
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚É“ü‚Á‚Ä‚¢‚È‚¢•¶š—ñ‚ğƒLƒƒƒbƒVƒ…‚É“ü‚ê‚é
+	// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½
 	FontCacheStringAddToHandle( cmanage, StrData, -1, UseDrawStrBuf, UseDrawIVSBuf, &drawnum ) ;
 
-	// ƒsƒbƒ`‚ğƒZƒbƒg
+	// ï¿½sï¿½bï¿½`ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	dpitch = DestImage->Pitch ;
 
-	// •¶š‚Ì”‚¾‚¯ŒJ‚è•Ô‚µ
-	strp			= UseDrawStrBuf ;			// •`‰æ—p•¶šƒf[ƒ^‚Ìæ“ªƒAƒhƒŒƒX‚ğƒZƒbƒg
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½
+	strp			= UseDrawStrBuf ;			// ï¿½`ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“ªï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 	ivsp			= UseDrawIVSBuf ;
 	TotalWidth		= 0 ;
 	TotalHeight		= 0 ;
@@ -11846,26 +11890,26 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 		cache = NULL ;
 		usecmanage = cmanage ;
 
-		// \n –³‹ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚ÄŠ‚Â \n ‚¾‚Á‚½ê‡‚ÍŠ®‘S–³‹‚·‚é
+		// \n ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ÄŠï¿½ï¿½ï¿½ \n ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍŠï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( *strp == L'\n' && FSYS.IgnoreLFFlag )
 		{
 			continue ;
 		}
 
-		// ‰üs•¶š‚¾‚Á‚½ê‡‚ÍƒLƒƒƒ“ƒZƒ‹‚·‚é
+		// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( *strp == L'\n' )
 		{
 			goto LOOPEND ;
 		}
 
-		// ƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ğæ“¾
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾
 		cache = GetFontCacheChar_Inline( cmanage, *strp, *ivsp, &usecmanage, &off_x, &off_y, FALSE, FALSE ) ;
 		if( cache == NULL )
 		{
 			return -1 ;
 		}
 
-		// •`‰æÀ•W‚Ì€”õ
+		// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½Ìï¿½ï¿½ï¿½
 		if( cmanage == usecmanage )
 		{
 			tmp_x = x + add_x ;
@@ -11899,22 +11943,22 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 			}
 		}
 
-		// ƒXƒy[ƒX•¶š‚¾‚Á‚½ê‡‚ÍƒLƒƒƒ“ƒZƒ‹‚·‚é
+		// ï¿½Xï¿½yï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( *strp == L' ' || ( wchar_t )*strp == FSYS.DoubleByteSpaceCharCode )
 		{
 			goto LOOPEND ;
 		}
 
-		// ƒTƒCƒY‚ª–³‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
+		// ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		if( cache->SizeX == 0 && cache->SizeY == 0 )
 		{
 			goto LOOPEND ;
 		}
 
-		// ƒsƒbƒ`‚ğƒZƒbƒg
+		// ï¿½sï¿½bï¿½`ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		spitch = usecmanage->CachePitch ;
 
-		// “]‘—æ‚Ì•`‰æ—Ìˆæ‚ğì¬
+		// ï¿½]ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ì¬
 		DstRect.left	= tmp_x + cache->DrawX ;
 		DstRect.top		= tmp_y + cache->DrawY ;
 		DstRect.right	= tmp_x + cache->DrawX + cache->SizeX ;
@@ -11933,13 +11977,13 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 			RectClipping_Inline( &DstRect, ClipRect ) ;
 		}
 
-		// •`‰æ‚·‚é•¶š‚ª–³‚©‚Á‚½ê‡‚±‚±‚ÅŸƒ‹[ƒv‚ÉˆÚ‚é
+		// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ÉˆÚ‚ï¿½
 		if( DstRect.right == DstRect.left || DstRect.bottom == DstRect.top )
 		{
 			goto LOOPEND ;
 		}
 
-		// “]‘—Œ³‚Ì‹éŒ`‚ğƒZƒbƒg
+		// ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½`ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		SrcRect.left	=   cache->GraphIndex / usecmanage->LengthCharNum   * usecmanage->BaseInfo.MaxWidth ;
 		SrcRect.top		= ( cache->GraphIndex % usecmanage->LengthCharNum ) * usecmanage->BaseInfo.MaxWidth ;
 		if( usecmanage->TextureCacheFlag == TRUE )
@@ -11950,13 +11994,13 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 		SrcRect.right	= SrcRect.left + cache->SizeX ;
 		SrcRect.bottom	= SrcRect.top + cache->SizeY ;
 
-		// “]‘—Œ³‚Ì‹éŒ`‚ğ•â³
+		// ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½`ï¿½ï¿½â³
 		SrcRect.left   += DstRect.left - ( tmp_x + cache->DrawX ) ;
 		SrcRect.top    += DstRect.top  - ( tmp_y + cache->DrawY ) ;
 		SrcRect.right  -= ( ( tmp_x + cache->DrawX ) + cache->SizeX ) - DstRect.right ;
 		SrcRect.bottom -= ( ( tmp_y + cache->DrawY ) + cache->SizeY ) - DstRect.bottom ;
 
-		// “]‘—
+		// ï¿½]ï¿½ï¿½
 		{
 			DWORD spitch2, dpitch2 ;
 			DWORD SizeX, SizeY ;
@@ -11967,11 +12011,11 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 			SizeXWord = ( WORD )SizeX ;
 			SizeYWord = ( WORD )SizeY ;
 
-			// F‚Ìƒrƒbƒg[“x‚É‚æ‚Á‚Äˆ—‚ğ•ªŠò
+			// ï¿½Fï¿½Ìƒrï¿½bï¿½gï¿½[ï¿½xï¿½É‚ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 			switch( DestImage->ColorData.ColorBitDepth )
 			{
 			case 8 :
-				// 8ƒrƒbƒgƒ‚[ƒh‚Ì‚Ìˆ—
+				// 8ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìï¿½ï¿½Ìï¿½ï¿½ï¿½
 				{
 					BYTE *dest = ( BYTE * )DestImage->GraphData ;
 					BYTE *src = usecmanage->CacheMem ;
@@ -12202,7 +12246,7 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 				break ;
 
 			case 16 :
-				// 16ƒrƒbƒgƒ‚[ƒh‚Ì‚Ìˆ—
+				// 16ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìï¿½ï¿½Ìï¿½ï¿½ï¿½
 				{
 					BYTE *dest = ( BYTE * )DestImage->GraphData ;
 					BYTE *src = usecmanage->CacheMem ;
@@ -12589,7 +12633,7 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 				break ;
 
 			case 32 :
-				// 32ƒrƒbƒgƒ‚[ƒh‚Ìê‡
+				// 32ï¿½rï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½Ìê‡
 				{
 					BYTE *dest = (BYTE *)DestImage->GraphData ;
 					BYTE *src = usecmanage->CacheMem ;
@@ -12850,7 +12894,7 @@ extern int FontCacheStringDrawToHandle_WCHAR_T(
 
 LOOPEND :
 
-		// ‰üs•¶š‚Ìê‡‚Íˆ—‚ğ•ªŠò
+		// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 		if( *strp == '\n' )
 		{
 			int LineSpace = usecmanage->LineSpaceValidFlag ? usecmanage->LineSpace : usecmanage->BaseInfo.FontHeight - usecmanage->BaseInfo.FontAddHeight ;
@@ -12908,7 +12952,7 @@ LOOPEND :
 			}
 		}
 
-		// ƒJ[ƒjƒ“ƒOˆ—
+		// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 		if( usecmanage->BaseInfo.KerningPairNum > 0 && i < drawnum - 1 )
 		{
 			DWORD di, dj ;
@@ -12979,17 +13023,17 @@ LOOPEND :
 		DXFREE( AllocDrawStrBuf ) ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return VerticalFlag ? TotalHeight : TotalWidth ;
 }
 
-// Šî–{ƒCƒ[ƒW‚É•¶š—ñƒCƒ[ƒW‚ğ“]‘—‚·‚é
+// ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int NS_FontBaseImageBlt( int x, int y, const TCHAR *StrData, BASEIMAGE *DestImage, BASEIMAGE *DestEdgeImage, int VerticalFlag )
 {
 	return NS_FontBaseImageBltToHandle( x, y, StrData, DestImage, DestEdgeImage, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// Šî–{ƒCƒ[ƒW‚É•¶š—ñ‚ğ•`‰æ‚·‚é( ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚·‚é )
+// ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ )
 extern int NS_FontBaseImageBltWithStrLen( int x, int y, const TCHAR *StrData, size_t StrDataLength, BASEIMAGE *DestImage, BASEIMAGE *DestEdgeImage, int VerticalFlag )
 {
 	int Result ;
@@ -12999,13 +13043,13 @@ extern int NS_FontBaseImageBltWithStrLen( int x, int y, const TCHAR *StrData, si
 	return Result ;
 }
 
-// Šî–{ƒCƒ[ƒW‚É•¶š—ñƒCƒ[ƒW‚ğ“]‘—‚·‚é
+// ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int FontBaseImageBlt_WCHAR_T( int x, int y, const wchar_t *StrData, int StrLen, BASEIMAGE *DestImage, BASEIMAGE *DestEdgeImage, int VerticalFlag )
 {
 	return FontBaseImageBltToHandle_WCHAR_T( x, y, StrData, StrLen, DestImage, DestEdgeImage, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// Šî–{ƒCƒ[ƒW‚É•¶š—ñ‚ğ“]‘—‚·‚é
+// ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int NS_FontBaseImageBltToHandle( int x, int y, const TCHAR *StrData, BASEIMAGE *DestImage, BASEIMAGE *DestEdgeImage, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -13023,7 +13067,7 @@ extern int NS_FontBaseImageBltToHandle( int x, int y, const TCHAR *StrData, BASE
 #endif
 }
 
-// Šî–{ƒCƒ[ƒW‚É•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_FontBaseImageBltToHandleWithStrLen( int x, int y, const TCHAR *StrData, size_t StrDataLength, BASEIMAGE *DestImage, BASEIMAGE *DestEdgeImage, int FontHandle, int VerticalFlag )
 {
 	int Result ;
@@ -13039,11 +13083,11 @@ extern int NS_FontBaseImageBltToHandleWithStrLen( int x, int y, const TCHAR *Str
 	return Result ;
 }
 
-// Šî–{ƒCƒ[ƒW‚É•¶š—ñ‚ğ“]‘—‚·‚é
+// ï¿½ï¿½{ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrData, int StrLen, BASEIMAGE *DestImage, BASEIMAGE *DestEdgeImage, int FontHandle, int VerticalFlag )
 {
-	static DWORD DrawStrBuf[ 2048 ] ;		// •`‰æ‚·‚éÛ‚Ég—p‚·‚é•¶š—ñƒf[ƒ^i‚RƒoƒCƒg‚Å‚P•¶š‚ğ•\Œ»j
-	static DWORD DrawIVSBuf[ 2048 ] ;		// •`‰æ‚·‚éÛ‚Ég—p‚·‚é•¶š—ñƒf[ƒ^i‚RƒoƒCƒg‚Å‚P•¶š‚ğ•\Œ»j
+	static DWORD DrawStrBuf[ 2048 ] ;		// ï¿½`ï¿½æ‚·ï¿½ï¿½Û‚Égï¿½pï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½iï¿½Rï¿½oï¿½Cï¿½gï¿½Å‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½j
+	static DWORD DrawIVSBuf[ 2048 ] ;		// ï¿½`ï¿½æ‚·ï¿½ï¿½Û‚Égï¿½pï¿½ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½iï¿½Rï¿½oï¿½Cï¿½gï¿½Å‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½j
 	FONTMANAGE * cmanage ;
 	FONTMANAGE * usecmanage ;
 	FONTCHARDATA * cache ;
@@ -13051,8 +13095,8 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 	RECT BaseRect ;
 	RECT DstRect ;
 	POINT DstPoint ;
-	int drawnum ;							// ‚QƒoƒCƒg•¶š‚PƒoƒCƒg•¶š‘S•”‚Ğ‚Á‚­‚é‚ß‚Ä‰½•¶š‚ ‚é‚©•Û‘¶‚·‚é•Ï”
-	int i ;									// ŒJ‚è•Ô‚µ‚Æ”Ä—p•Ï”
+	int drawnum ;							// ï¿½Qï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ğ‚ï¿½ï¿½ï¿½ï¿½ï¿½ß‚Ä‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½
+	int i ;									// ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Æ”Ä—pï¿½Ïï¿½
 	const DWORD *strp ;
 	const DWORD *ivsp ;
 	int TotalWidth, TotalHeight ;
@@ -13068,31 +13112,31 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, cmanage ) )
 	{
 		return -1 ;
 	}
 
-	// ‰—p‰æ‘œ‚ª—LŒø‚ÅAŠ‚Â–{‘Ì—p‰æ‘œ‚ÆƒTƒCƒY‚ªˆá‚Á‚½ê‡‚ÍƒGƒ‰[
+	// ï¿½ï¿½ï¿½pï¿½æ‘œï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ÅAï¿½ï¿½ï¿½Â–{ï¿½Ì—pï¿½æ‘œï¿½ÆƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒGï¿½ï¿½ï¿½[
 	if( DestEdgeImage != NULL && ( DestEdgeImage->Width != DestImage->Width || DestEdgeImage->Height != DestImage->Height ) )
 	{
 		return -1 ;
 	}
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğƒLƒƒƒbƒVƒ…‚Ég—p‚µ‚Ä‚¢‚È‚¢ƒtƒHƒ“ƒg‚Í–³—
+	// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Égï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Í–ï¿½ï¿½ï¿½
 	if( cmanage->TextureCacheFlag == FALSE )
 	{
 		return -1 ;
 	}
 
-	// •¶š—ñ‚ª‚È‚¢ê‡‚ÍI—¹
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ª‚È‚ï¿½ï¿½ê‡ï¿½ÍIï¿½ï¿½
 	if( StrData  == NULL || *StrData  == 0 )
 	{
 		return 0 ;
 	}
 
-	// •`‰æ‚·‚é•¶š—ñ‚Ì’·‚³‚ğ•Û‘¶
+	// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½
 	{
 		if( StrLen < 0 )
 		{
@@ -13117,10 +13161,10 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 		}
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚É“ü‚Á‚Ä‚¢‚È‚¢•¶š—ñ‚ğƒLƒƒƒbƒVƒ…‚É“ü‚ê‚é
+	// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½
 	FontCacheStringAddToHandle( cmanage, StrData, StrLen, UseDrawStrBuf, UseDrawIVSBuf, &drawnum ) ;
 
-	// •`‰æÀ•W‚Ì•â³
+	// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½Ì•â³
 	if( VerticalFlag )
 	{
 		add_x = -cmanage->BaseInfo.FontAddHeight / 2 ;
@@ -13130,12 +13174,12 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 		add_y = -cmanage->BaseInfo.FontAddHeight / 2 ;
 	}
 
-	// ‰ŠúÀ•W‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	orig_x = x ;
 	orig_y = y ;
 
-	// •¶š‚Ì”‚¾‚¯ŒJ‚è•Ô‚µ
-	strp			= UseDrawStrBuf ;			// •`‰æ—p•¶šƒf[ƒ^‚Ìæ“ªƒAƒhƒŒƒX‚ğƒZƒbƒg
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½
+	strp			= UseDrawStrBuf ;			// ï¿½`ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ìæ“ªï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Zï¿½bï¿½g
 	ivsp			= UseDrawIVSBuf ;
 	TotalWidth		= 0 ;
 	TotalHeight		= 0 ;
@@ -13146,26 +13190,26 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 		cache = NULL ;
 		usecmanage = cmanage ;
 
-		// \n –³‹ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚ÄŠ‚Â \n ‚¾‚Á‚½ê‡‚ÍŠ®‘S–³‹‚·‚é
+		// \n ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ÄŠï¿½ï¿½ï¿½ \n ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍŠï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( *strp == L'\n' && FSYS.IgnoreLFFlag )
 		{
 			continue ;
 		}
 
-		// ‰üs•¶š‚¾‚Á‚½ê‡‚ÍƒLƒƒƒ“ƒZƒ‹‚·‚é
+		// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( *strp == L'\n' )
 		{
 			goto LOOPEND ;
 		}
 
-		// ƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ğæ“¾
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾
 		cache = GetFontCacheChar_Inline( cmanage, *strp, *ivsp, &usecmanage, &off_x, &off_y, FALSE, FALSE ) ;
 		if( cache == NULL )
 		{
 			return -1 ;
 		}
 
-		// •`‰æÀ•W‚Ì€”õ
+		// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½Ìï¿½ï¿½ï¿½
 		if( cmanage == usecmanage )
 		{
 			tmp_x = x + add_x ;
@@ -13199,19 +13243,19 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 			}
 		}
 
-		// ƒXƒy[ƒX•¶š‚¾‚Á‚½ê‡‚ÍƒLƒƒƒ“ƒZƒ‹‚·‚é
+		// ï¿½Xï¿½yï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if( *strp == L' ' || ( wchar_t )*strp == FSYS.DoubleByteSpaceCharCode )
 		{
 			goto LOOPEND ;
 		}
 
-		// ƒTƒCƒY‚ª–³‚©‚Á‚½‚ç‰½‚à‚µ‚È‚¢
+		// ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		if( cache->SizeX == 0 && cache->SizeY == 0 )
 		{
 			goto LOOPEND ;
 		}
 
-		// “]‘—æ‚Ì•`‰æ—Ìˆæ‚ğì¬
+		// ï¿½]ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ì¬
 		DstRect.left	= tmp_x + cache->DrawX ;
 		DstRect.top		= tmp_y + cache->DrawY ;
 		DstRect.right	= tmp_x + cache->DrawX + cache->SizeX ;
@@ -13222,10 +13266,10 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 		BaseRect.bottom = DestImage->Height ;
 		RectClipping_Inline( &DstRect, &BaseRect ) ;
 
-		// •`‰æ‚·‚é•¶š‚ª–³‚©‚Á‚½ê‡‚±‚±‚ÅŸƒ‹[ƒv‚ÉˆÚ‚é
+		// ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ÉˆÚ‚ï¿½
 		if( DstRect.right == DstRect.left || DstRect.bottom == DstRect.top ) goto LOOPEND ;
 
-		// “]‘—Œ³‚Ì‹éŒ`‚ğƒZƒbƒg
+		// ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½`ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		SrcRect.left	=   cache->GraphIndex / usecmanage->LengthCharNum   * usecmanage->BaseInfo.MaxWidth ;
 		SrcRect.top		= ( cache->GraphIndex % usecmanage->LengthCharNum ) * usecmanage->BaseInfo.MaxWidth ;
 		if( usecmanage->TextureCacheFlag == TRUE )
@@ -13236,13 +13280,13 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 		SrcRect.right	= SrcRect.left + cache->SizeX ;
 		SrcRect.bottom	= SrcRect.top  + cache->SizeY ;
 
-		// “]‘—Œ³‚Ì‹éŒ`‚ğ•â³
+		// ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½`ï¿½ï¿½â³
 		SrcRect.left   += DstRect.left - ( tmp_x + cache->DrawX ) ;
 		SrcRect.top    += DstRect.top  - ( tmp_y + cache->DrawY ) ;
 		SrcRect.right  -= ( ( tmp_x + cache->DrawX ) + cache->SizeX ) - DstRect.right ;
 		SrcRect.bottom -= ( ( tmp_y + cache->DrawY ) + cache->SizeY ) - DstRect.bottom ;
 
-		// “]‘—
+		// ï¿½]ï¿½ï¿½
 		DstPoint.x = DstRect.left ;
 		DstPoint.y = DstRect.top ;
 		NS_GraphColorMatchBltVer2(
@@ -13271,7 +13315,7 @@ extern int FontBaseImageBltToHandle_WCHAR_T( int x, int y, const wchar_t *StrDat
 
 LOOPEND :
 
-		// ‰üs•¶š‚Ìê‡‚Íˆ—‚ğ•ªŠò
+		// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ğ•ªŠï¿½
 		if( *strp == '\n' )
 		{
 			int LineSpace = usecmanage->LineSpaceValidFlag ? usecmanage->LineSpace : usecmanage->BaseInfo.FontHeight - usecmanage->BaseInfo.FontAddHeight ;
@@ -13329,7 +13373,7 @@ LOOPEND :
 			}
 		}
 
-		// ƒJ[ƒjƒ“ƒOˆ—
+		// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 		if( usecmanage->BaseInfo.KerningPairNum > 0 && i < drawnum - 1 )
 		{
 			DWORD di, dj ;
@@ -13394,85 +13438,85 @@ LOOPEND :
 		DXFREE( AllocDrawStrBuf ) ;
 	}
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒtƒHƒ“ƒg–¼‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern const TCHAR *NS_GetFontNameToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return NULL ;
 
 	return ManageData->FontNameT ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š‚Ì”‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontMaxCacheCharNum( void )
 {
 	return NS_GetFontMaxCacheCharNumToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š‚Ì”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontMaxCacheCharNumToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 
 	return ManageData->MaxCacheCharNum ;
 }
 
-// •¶š‚ÌÅ‘å•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ÌÅ‘å•ï¿½ğ“¾‚ï¿½
 extern int NS_GetFontMaxWidth( void )
 {
 	return NS_GetFontMaxWidthToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// •¶š‚ÌÅ‘å•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ÌÅ‘å•ï¿½ğ“¾‚ï¿½
 extern int NS_GetFontMaxWidthToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 
 	return ManageData->BaseInfo.MaxWidth ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì•`‰æˆÊ’u‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‚‚³‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Ê’uï¿½ï¿½ï¿½ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ü‚Å‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontAscent( void )
 {
 	return NS_GetFontAscentToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì•`‰æˆÊ’u‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‚‚³‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Ê’uï¿½ï¿½ï¿½ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ü‚Å‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontAscentToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 
 	return ManageData->BaseInfo.Ascent ;
 }
 
-// w’è‚Ì•¶š‚Ì•`‰æî•ñ‚ğæ“¾‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontCharInfo( int FontHandle, const TCHAR *Char, int *DrawX, int *DrawY, int *NextCharX, int *SizeX, int *SizeY )
 {
 #ifdef UNICODE
@@ -13489,7 +13533,7 @@ extern int NS_GetFontCharInfo( int FontHandle, const TCHAR *Char, int *DrawX, in
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ìw’è‚Ì•¶š‚Ì•`‰æî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìwï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontCharInfoWithStrLen( int FontHandle, const TCHAR *Char, size_t CharLength, int *DrawX, int *DrawY, int *NextCharX, int *SizeX, int *SizeY )
 {
 	int Result ;
@@ -13505,7 +13549,7 @@ extern int NS_GetFontCharInfoWithStrLen( int FontHandle, const TCHAR *Char, size
 	return Result ;
 }
 
-// w’è‚Ì•¶š‚Ì•`‰æî•ñ‚ğæ“¾‚·‚é
+// ï¿½wï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetFontCharInfo_WCHAR_T( int FontHandle, const wchar_t *Char, int *DrawX, int *DrawY, int *NextCharX, int *SizeX, int *SizeY )
 {
 	FONTMANAGE * ManageData ;
@@ -13518,31 +13562,31 @@ extern int GetFontCharInfo_WCHAR_T( int FontHandle, const wchar_t *Char, int *Dr
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 	{
 		return -1 ;
 	}
 
-	// •¶šƒR[ƒh‚ğæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½æ“¾
 	CharCode = GetCharCode( ( const char * )Char, WCHAR_T_CHARCODEFORMAT, &CharBytes ) ;
 
-	// IVSƒR[ƒh‚ğæ“¾
+	// IVSï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½æ“¾
 	IVSCode = GetCharCode( ( const char * )Char + CharBytes, WCHAR_T_CHARCODEFORMAT, &CharBytes ) ;
 	if( IVSCode < 0xe0100 || IVSCode > 0xe01ef )
 	{
 		IVSCode = 0 ;
 	}
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^‚ğæ“¾
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾
 	CharData = GetFontCacheChar_Inline( ManageData, CharCode, IVSCode, &UseManageData, &DrawOffsetX, &DrawOffsetY, FALSE, FALSE ) ;
 	if( CharData == NULL )
 	{
-		// ƒLƒƒƒbƒVƒ…‚É’Ç‰Á‚Å‚«‚È‚©‚Á‚½‚çƒGƒ‰[
+		// ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É’Ç‰ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[
 		return -1 ;
 	}
 
-	// ƒtƒHƒ“ƒgƒf[ƒ^‚ğ•Ô‚·
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½Ô‚ï¿½
 	if( DrawX     ) *DrawX     = CharData->DrawX ;
 	if( DrawY     ) *DrawY     = CharData->DrawY ;
 	if( NextCharX ) *NextCharX = CharData->AddX  ;
@@ -13554,70 +13598,70 @@ extern int GetFontCharInfo_WCHAR_T( int FontHandle, const wchar_t *Char, int *Dr
 		*DrawY -= ManageData->BaseInfo.FontAddHeight / 2 ;
 	}
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawStringWidth( const TCHAR *String, int StrLen, int VerticalFlag )
 {
 	return NS_GetDrawStringWidthToHandle( String, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawNStringWidth( const TCHAR *String, size_t StringLength, int VerticalFlag )
 {
 	return NS_GetDrawNStringWidthToHandle( String, StringLength, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int GetDrawStringWidth_WCHAR_T( const wchar_t *String ,int StrLen, int VerticalFlag )
 {
 	return GetDrawStringWidthToHandle_WCHAR_T( String, 0, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawFormatStringWidth( const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringWidthToHandle(
 				String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int GetDrawFormatStringWidth_WCHAR_T( const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return GetDrawStringWidthToHandle_WCHAR_T( String, 0, ( int )_WCSLEN( String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawFormatStringWidthToHandle( int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringWidthToHandle(
 				String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int GetDrawFormatStringWidthToHandle_WCHAR_T( int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return GetDrawStringWidthToHandle_WCHAR_T( String, 0, ( int )_WCSLEN( String ), FontHandle, FALSE ) ;
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawStringWidthToHandle( const TCHAR *String, int StrLen, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -13635,7 +13679,7 @@ extern int NS_GetDrawStringWidthToHandle( const TCHAR *String, int StrLen, int F
 #endif
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawNStringWidthToHandle( const TCHAR *String, size_t StringLength, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -13653,7 +13697,7 @@ extern int NS_GetDrawNStringWidthToHandle( const TCHAR *String, size_t StringLen
 #endif
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int GetDrawStringWidthToHandle_WCHAR_T( const wchar_t *String, size_t StringLength, int StrLen, int FontHandle, int VerticalFlag )
 {
 	FONTMANAGE *ManageData ;
@@ -13709,70 +13753,70 @@ extern int GetDrawStringWidthToHandle_WCHAR_T( const wchar_t *String, size_t Str
 
 
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawExtendStringWidth( double ExRateX, const TCHAR *String ,int StrLen, int VerticalFlag )
 {
 	return NS_GetDrawExtendStringWidthToHandle( ExRateX, String, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawExtendNStringWidth( double ExRateX, const TCHAR *String, size_t StringLength, int VerticalFlag )
 {
 	return NS_GetDrawExtendNStringWidthToHandle( ExRateX, String, StringLength, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int GetDrawExtendStringWidth_WCHAR_T( double ExRateX, const wchar_t *String ,int StrLen, int VerticalFlag )
 {
 	return GetDrawExtendStringWidthToHandle_WCHAR_T( ExRateX, String, 0, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawExtendFormatStringWidth( double ExRateX, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringWidthToHandle(
 		ExRateX, String, ( int )CL_strlen( CharCodeFormat,  ( const char * )String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int GetDrawExtendFormatStringWidth_WCHAR_T( double ExRateX, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return GetDrawExtendStringWidthToHandle_WCHAR_T( ExRateX, String, 0, ( int )_WCSLEN( String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
 
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawExtendFormatStringWidthToHandle( double ExRateX, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringWidthToHandle(
 				ExRateX, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ğ“¾‚ï¿½
 extern int GetDrawExtendFormatStringWidthToHandle_WCHAR_T( double ExRateX, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return GetDrawExtendStringWidthToHandle_WCHAR_T( ExRateX, String, 0, ( int )_WCSLEN( String ), FontHandle, FALSE ) ;
 }
 
 
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawExtendStringWidthToHandle( double ExRateX, const TCHAR *String, int StrLen, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -13790,7 +13834,7 @@ extern int NS_GetDrawExtendStringWidthToHandle( double ExRateX, const TCHAR *Str
 #endif
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDrawExtendNStringWidthToHandle( double ExRateX, const TCHAR *String, size_t StringLength, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -13808,7 +13852,7 @@ extern int NS_GetDrawExtendNStringWidthToHandle( double ExRateX, const TCHAR *St
 #endif
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int GetDrawExtendStringWidthToHandle_WCHAR_T( double ExRateX, const wchar_t *String, size_t StringLength, int StrLen, int FontHandle, int VerticalFlag )
 {
 	FONTMANAGE *ManageData ;
@@ -13862,55 +13906,55 @@ extern int GetDrawExtendStringWidthToHandle_WCHAR_T( double ExRateX, const wchar
 			) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawStringSize( int *SizeX, int *SizeY, int *LineCount, const TCHAR *String, int StrLen, int VerticalFlag )
 {
 	return NS_GetDrawStringSizeToHandle( SizeX, SizeY, LineCount, String, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawNStringSize( int *SizeX, int *SizeY, int *LineCount, const TCHAR *String, size_t StringLength, int VerticalFlag )
 {
 	return NS_GetDrawNStringSizeToHandle( SizeX, SizeY, LineCount, String, StringLength, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawFormatStringSize( int *SizeX, int *SizeY, int *LineCount, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringSizeToHandle(
 				SizeX, SizeY, LineCount, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é( Šg‘å—¦•t‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½gï¿½å—¦ï¿½tï¿½ï¿½ )
 extern int NS_GetDrawExtendStringSize( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, const TCHAR *String, int StrLen, int VerticalFlag )
 {
 	return NS_GetDrawExtendStringSizeToHandle( SizeX, SizeY, LineCount, ExRateX, ExRateY, String, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é( Šg‘å—¦•t‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½gï¿½å—¦ï¿½tï¿½ï¿½ )
 extern int NS_GetDrawExtendNStringSize( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, int VerticalFlag )
 {
 	return NS_GetDrawExtendNStringSizeToHandle( SizeX, SizeY, LineCount, ExRateX, ExRateY, String, StringLength, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é( Šg‘å—¦•t‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½gï¿½å—¦ï¿½tï¿½ï¿½ )
 extern int NS_GetDrawExtendFormatStringSize( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringSizeToHandle(
 		SizeX, SizeY, LineCount, ExRateX, ExRateY, String, ( int )CL_strlen( CharCodeFormat,  ( const char * )String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount, const TCHAR   *String, int StrLen, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -13927,7 +13971,7 @@ extern int NS_GetDrawStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount,
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawNStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount, const TCHAR *String, size_t StringLength, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -13944,7 +13988,7 @@ extern int NS_GetDrawNStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount
 #endif
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int GetDrawStringSizeToHandle_WCHAR_T( int *SizeX, int *SizeY, int *LineCount, const wchar_t *String, size_t StringLength, int StrLen, int FontHandle, int VerticalFlag )
 {
 	FONTMANAGE *ManageData ;
@@ -14012,17 +14056,17 @@ extern int GetDrawStringSizeToHandle_WCHAR_T( int *SizeX, int *SizeY, int *LineC
 	return Result ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawFormatStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringSizeToHandle(
 				SizeX, SizeY, LineCount, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, const TCHAR *String, int StrLen, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -14040,7 +14084,7 @@ extern int NS_GetDrawExtendStringSizeToHandle( int *SizeX, int *SizeY, int *Line
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendNStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -14058,7 +14102,7 @@ extern int NS_GetDrawExtendNStringSizeToHandle( int *SizeX, int *SizeY, int *Lin
 #endif
 }
 
-// •¶š—ñ‚Ì•‚ğ“¾‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 extern int GetDrawExtendStringSizeToHandle_WCHAR_T( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, int StrLen, int FontHandle, int VerticalFlag )
 {
 	FONTMANAGE *ManageData ;
@@ -14126,31 +14170,31 @@ extern int GetDrawExtendStringSizeToHandle_WCHAR_T( int *SizeX, int *SizeY, int 
 	return Result ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendFormatStringSizeToHandle( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringSizeToHandle(
 				SizeX, SizeY, LineCount, ExRateX, ExRateY, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
 
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawStringCharInfo( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, const TCHAR *String, int StrLen, int VerticalFlag )
 {
 	return NS_GetDrawStringCharInfoToHandle( InfoBuffer, InfoBufferSize, String, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawNStringCharInfo( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, const TCHAR *String, size_t StringLength, int VerticalFlag )
 {
 	return NS_GetDrawNStringCharInfoToHandle( InfoBuffer, InfoBufferSize, String, StringLength, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawFormatStringCharInfo( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -14161,43 +14205,43 @@ extern int NS_GetDrawFormatStringCharInfo( DRAWCHARINFO *InfoBuffer, size_t Info
 				InfoBuffer, InfoBufferSize, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendStringCharInfo( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, const TCHAR *String, int StrLen, int VerticalFlag )
 {
 	return NS_GetDrawExtendStringCharInfoToHandle( InfoBuffer, InfoBufferSize, ExRateX, ExRateY, String, StrLen, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendNStringCharInfo( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, int VerticalFlag )
 {
 	return NS_GetDrawExtendNStringCharInfoToHandle( InfoBuffer, InfoBufferSize, ExRateX, ExRateY, String, StringLength, DX_DEFAULT_FONT_HANDLE, VerticalFlag ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendFormatStringCharInfo( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringCharInfoToHandle(
 		InfoBuffer, InfoBufferSize, ExRateX, ExRateY, String, ( int )CL_strlen( CharCodeFormat,  ( const char * )String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½“ñ‚Â‚Ì•¶š‚ÌƒyƒA‚ÌƒJ[ƒjƒ“ƒOî•ñ‚ğæ“¾‚·‚é( PairChar:ƒJ[ƒjƒ“ƒOî•ñ‚ğ’²‚×‚éƒyƒA‚Æ‚È‚é2•¶š‚Ì•¶š—ñ( 2•¶šˆÈã‚ ‚Á‚Ä‚àæ“ª‚Ì2•¶š‚¾‚¯g—p‚³‚ê‚Ü‚· )  KernAmount:2•¶š–Ú‚Ì•¶š‚ğŠî–{‚ÌˆÊ’u‚©‚ç‚¸‚ç‚·ƒhƒbƒg”‚ğ‘ã“ü‚·‚éintŒ^•Ï”‚ÌƒAƒhƒŒƒX )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ì•ï¿½ï¿½ï¿½ï¿½Ìƒyï¿½Aï¿½ÌƒJï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( PairChar:ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ğ’²‚×‚ï¿½yï¿½Aï¿½Æ‚È‚ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½( 2ï¿½ï¿½ï¿½ï¿½ï¿½Èã‚ ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½æ“ªï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ )  KernAmount:2ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ç‚¸ï¿½ç‚·ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½intï¿½^ï¿½Ïï¿½ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½X )
 extern int NS_GetDrawStringKerningPairInfo( const TCHAR *PairChar, int *KernAmount )
 {
 	return NS_GetDrawStringKerningPairInfoToHandle( PairChar, KernAmount, DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½“ñ‚Â‚Ì•¶š‚ÌƒyƒA‚ÌƒJ[ƒjƒ“ƒOî•ñ‚ğæ“¾‚·‚é( PairChar:ƒJ[ƒjƒ“ƒOî•ñ‚ğ’²‚×‚éƒyƒA‚Æ‚È‚é2•¶š‚Ì•¶š—ñ( 2•¶šˆÈã‚ ‚Á‚Ä‚àæ“ª‚Ì2•¶š‚¾‚¯g—p‚³‚ê‚Ü‚· )  KernAmount:2•¶š–Ú‚Ì•¶š‚ğŠî–{‚ÌˆÊ’u‚©‚ç‚¸‚ç‚·ƒhƒbƒg”‚ğ‘ã“ü‚·‚éintŒ^•Ï”‚ÌƒAƒhƒŒƒX )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ì•ï¿½ï¿½ï¿½ï¿½Ìƒyï¿½Aï¿½ÌƒJï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( PairChar:ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ğ’²‚×‚ï¿½yï¿½Aï¿½Æ‚È‚ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½( 2ï¿½ï¿½ï¿½ï¿½ï¿½Èã‚ ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½æ“ªï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ )  KernAmount:2ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ç‚¸ï¿½ç‚·ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½intï¿½^ï¿½Ïï¿½ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½X )
 extern int NS_GetDrawStringKerningPairInfoWithStrLen( const TCHAR *PairChar, size_t PairCharLength, int *KernAmount )
 {
 	return NS_GetDrawStringKerningPairInfoToHandleWithStrLen( PairChar, PairCharLength, KernAmount, DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawStringCharInfoToHandle( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, const TCHAR *String, int StrLen, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -14214,7 +14258,7 @@ extern int NS_GetDrawStringCharInfoToHandle( DRAWCHARINFO *InfoBuffer, size_t In
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawNStringCharInfoToHandle( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, const TCHAR *String, size_t StringLength, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -14231,7 +14275,7 @@ extern int NS_GetDrawNStringCharInfoToHandle( DRAWCHARINFO *InfoBuffer, size_t I
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawStringCharInfoToHandle_WCHAR_T( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, const wchar_t *String, size_t StringLength, int StrLen, int FontHandle, int VerticalFlag )
 {
 	FONTMANAGE *ManageData ;
@@ -14289,7 +14333,7 @@ extern int GetDrawStringCharInfoToHandle_WCHAR_T( DRAWCHARINFO *InfoBuffer, size
 	return Result < 0 ? -1 : CharInfoNum ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawFormatStringCharInfoToHandle( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
@@ -14298,7 +14342,7 @@ extern int NS_GetDrawFormatStringCharInfoToHandle( DRAWCHARINFO *InfoBuffer, siz
 				InfoBuffer, InfoBufferSize, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendStringCharInfoToHandle(  DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, const TCHAR *String, int StrLen, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -14316,7 +14360,7 @@ extern int NS_GetDrawExtendStringCharInfoToHandle(  DRAWCHARINFO *InfoBuffer, si
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendNStringCharInfoToHandle(  DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, int FontHandle, int VerticalFlag )
 {
 #ifdef UNICODE
@@ -14334,7 +14378,7 @@ extern int NS_GetDrawExtendNStringCharInfoToHandle(  DRAWCHARINFO *InfoBuffer, s
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawExtendStringCharInfoToHandle_WCHAR_T( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, int StrLen, int FontHandle, int VerticalFlag )
 {
 	FONTMANAGE *ManageData ;
@@ -14392,7 +14436,7 @@ extern int GetDrawExtendStringCharInfoToHandle_WCHAR_T( DRAWCHARINFO *InfoBuffer
 	return Result < 0 ? -1 : CharInfoNum ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½“ñ‚Â‚Ì•¶š‚ÌƒyƒA‚ÌƒJ[ƒjƒ“ƒOî•ñ‚ğæ“¾‚·‚é( PairChar:ƒJ[ƒjƒ“ƒOî•ñ‚ğ’²‚×‚éƒyƒA‚Æ‚È‚é2•¶š‚Ì•¶š—ñ( 2•¶šˆÈã‚ ‚Á‚Ä‚àæ“ª‚Ì2•¶š‚¾‚¯g—p‚³‚ê‚Ü‚· )  KernAmount:2•¶š–Ú‚Ì•¶š‚ğŠî–{‚ÌˆÊ’u‚©‚ç‚¸‚ç‚·ƒhƒbƒg”‚ğ‘ã“ü‚·‚éintŒ^•Ï”‚ÌƒAƒhƒŒƒX )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ì•ï¿½ï¿½ï¿½ï¿½Ìƒyï¿½Aï¿½ÌƒJï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( PairChar:ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ğ’²‚×‚ï¿½yï¿½Aï¿½Æ‚È‚ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½( 2ï¿½ï¿½ï¿½ï¿½ï¿½Èã‚ ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½æ“ªï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ )  KernAmount:2ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ç‚¸ï¿½ç‚·ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½intï¿½^ï¿½Ïï¿½ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½X )
 extern int NS_GetDrawStringKerningPairInfoToHandle( const TCHAR *PairChar, int *KernAmount, int FontHandle )
 {
 #ifdef UNICODE
@@ -14409,7 +14453,7 @@ extern int NS_GetDrawStringKerningPairInfoToHandle( const TCHAR *PairChar, int *
 #endif
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½“ñ‚Â‚Ì•¶š‚ÌƒyƒA‚ÌƒJ[ƒjƒ“ƒOî•ñ‚ğæ“¾‚·‚é( PairChar:ƒJ[ƒjƒ“ƒOî•ñ‚ğ’²‚×‚éƒyƒA‚Æ‚È‚é2•¶š‚Ì•¶š—ñ( 2•¶šˆÈã‚ ‚Á‚Ä‚àæ“ª‚Ì2•¶š‚¾‚¯g—p‚³‚ê‚Ü‚· )  KernAmount:2•¶š–Ú‚Ì•¶š‚ğŠî–{‚ÌˆÊ’u‚©‚ç‚¸‚ç‚·ƒhƒbƒg”‚ğ‘ã“ü‚·‚éintŒ^•Ï”‚ÌƒAƒhƒŒƒX )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ì•ï¿½ï¿½ï¿½ï¿½Ìƒyï¿½Aï¿½ÌƒJï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( PairChar:ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ğ’²‚×‚ï¿½yï¿½Aï¿½Æ‚È‚ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½( 2ï¿½ï¿½ï¿½ï¿½ï¿½Èã‚ ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½æ“ªï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ )  KernAmount:2ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ç‚¸ï¿½ç‚·ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½intï¿½^ï¿½Ïï¿½ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½X )
 extern int NS_GetDrawStringKerningPairInfoToHandleWithStrLen( const TCHAR *PairChar, size_t PairCharLength, int *KernAmount, int FontHandle )
 {
 	int Result ;
@@ -14425,7 +14469,7 @@ extern int NS_GetDrawStringKerningPairInfoToHandleWithStrLen( const TCHAR *PairC
 	return Result ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½“ñ‚Â‚Ì•¶š‚ÌƒyƒA‚ÌƒJ[ƒjƒ“ƒOî•ñ‚ğæ“¾‚·‚é( PairChar:ƒJ[ƒjƒ“ƒOî•ñ‚ğ’²‚×‚éƒyƒA‚Æ‚È‚é2•¶š‚Ì•¶š—ñ( 2•¶šˆÈã‚ ‚Á‚Ä‚àæ“ª‚Ì2•¶š‚¾‚¯g—p‚³‚ê‚Ü‚· )  KernAmount:2•¶š–Ú‚Ì•¶š‚ğŠî–{‚ÌˆÊ’u‚©‚ç‚¸‚ç‚·ƒhƒbƒg”‚ğ‘ã“ü‚·‚éintŒ^•Ï”‚ÌƒAƒhƒŒƒX )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚Ì•ï¿½ï¿½ï¿½ï¿½Ìƒyï¿½Aï¿½ÌƒJï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( PairChar:ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ğ’²‚×‚ï¿½yï¿½Aï¿½Æ‚È‚ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½( 2ï¿½ï¿½ï¿½ï¿½ï¿½Èã‚ ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½æ“ªï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ )  KernAmount:2ï¿½ï¿½ï¿½ï¿½ï¿½Ú‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ç‚¸ï¿½ç‚·ï¿½hï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½intï¿½^ï¿½Ïï¿½ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½X )
 extern int GetDrawStringKerningPairInfoToHandle_WCHAR_T( const wchar_t *PairChar, int *KernAmount, int FontHandle )
 {
 	DWORD LeftChar ;
@@ -14449,19 +14493,19 @@ extern int GetDrawStringKerningPairInfoToHandle_WCHAR_T( const wchar_t *PairChar
 		return -1 ;
 	}
 
-	// ’l‚ğ‰Šú‰»
+	// ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if( KernAmount != NULL )
 	{
 		*KernAmount = 0 ;
 	}
 
-	// ƒJ[ƒjƒ“ƒOî•ñ‚ª–³‚¢ê‡‚Ìˆ—
+	// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ñ‚ª–ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
 	if( ManageData->BaseInfo.KerningPairNum == 0 )
 	{
 		return 0 ;
 	}
 
-	// ¶‰E‚Ì•¶šƒR[ƒh‚ğæ“¾
+	// ï¿½ï¿½ï¿½Eï¿½Ì•ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½æ“¾
 	LeftChar = WCHAR_T_GetCharCode( PairChar, g_BaseFuncSystem.Use_wchar_t_CharCodeFormat, &UseSize ) ;
 	if( PairChar[ UseSize / 2 ] == L'\0' )
 	{
@@ -14469,10 +14513,10 @@ extern int GetDrawStringKerningPairInfoToHandle_WCHAR_T( const wchar_t *PairChar
 	}
 	RightChar = WCHAR_T_GetCharCode( &PairChar[ UseSize / 2 ], g_BaseFuncSystem.Use_wchar_t_CharCodeFormat, &UseSize ) ;
 
-	// ¶‘¤‚Ì•¶šî•ñ‚ğæ“¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	CharData = GetFontCacheChar_Inline( ManageData, LeftChar, 0, &UseManageData, &DrawOffsetX, &DrawOffsetY, TRUE, FALSE ) ;
 
-	// ƒJ[ƒjƒ“ƒOî•ñ‚ÌƒZƒbƒg
+	// ï¿½Jï¿½[ï¿½jï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ÌƒZï¿½bï¿½g
 	if( CharData != NULL )
 	{
 		for( di = 0 ; di < CharData->KerningPairNum ; di ++ )
@@ -14500,11 +14544,11 @@ extern int GetDrawStringKerningPairInfoToHandle_WCHAR_T( const wchar_t *PairChar
 		}
 	}
 
-	// ³íI—¹
+	// ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetDrawExtendFormatStringCharInfoToHandle( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
@@ -14516,7 +14560,7 @@ extern int NS_GetDrawExtendFormatStringCharInfoToHandle( DRAWCHARINFO *InfoBuffe
 
 
 
-// ƒtƒHƒ“ƒg‚Ìî•ñ‚ğ“¾‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetFontStateToHandle( TCHAR *FontName, int *Size, int *Thick, int FontHandle, int *FontType , int *CharSet , int *EdgeSize , int *Italic )
 {
 #ifdef UNICODE
@@ -14539,14 +14583,14 @@ extern int NS_GetFontStateToHandle( TCHAR *FontName, int *Size, int *Thick, int 
 #endif
 }
 
-// ƒtƒHƒ“ƒg‚Ìî•ñ‚ğ“¾‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ğ“¾‚ï¿½
 extern int GetFontStateToHandle_WCHAR_T( wchar_t *FontName, int *Size, int *Thick, int FontHandle, int *FontType , int *CharSet , int *EdgeSize , int *Italic )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 	{
 		return -1 ;
@@ -14560,11 +14604,11 @@ extern int GetFontStateToHandle_WCHAR_T( wchar_t *FontName, int *Size, int *Thic
 	if( EdgeSize ) *EdgeSize = ManageData->EdgeSize ;
 	if( Italic   ) *Italic   = ManageData->BaseInfo.Italic ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0;
 }
 
-// ƒfƒtƒHƒ‹ƒg‚ÌƒtƒHƒ“ƒg‚Ìƒnƒ“ƒhƒ‹‚ğ“¾‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒnï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_GetDefaultFontHandle( void )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -14574,56 +14618,56 @@ extern int NS_GetDefaultFontHandle( void )
 	return FontHandle ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒg‚ªƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ“¾‚é
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ“¾‚ï¿½
 extern int NS_CheckFontCacheToTextureFlag( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
 
 	DEFAULT_FONT_HANDLE_SETUP
 
-	// ƒGƒ‰[”»’è
+	// ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return -1 ;
 
-	// ƒtƒ‰ƒO‚ğ•Ô‚·
+	// ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½Ô‚ï¿½
 	return ManageData->TextureCacheFlag ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒg‚ªƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ“¾‚é(Œëš”Å)
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ“¾‚ï¿½(ï¿½ëšï¿½ï¿½)
 extern int NS_CheckFontChacheToTextureFlag( int FontHandle )
 {
 	return NS_CheckFontCacheToTextureFlag( FontHandle );
 }
 
-// ƒtƒHƒ“ƒg‚ÉƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontCacheToTextureFlag( void )
 {
 	return !FSYS.NotTextureFlag ;
 }
 
-// ƒtƒHƒ“ƒg‚ÉƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ğg—p‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚é(Œëš”Å)
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Éƒeï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½(ï¿½ëšï¿½ï¿½)
 extern int NS_GetFontChacheToTextureFlag( void )
 {
 	return NS_GetFontCacheToTextureFlag() ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…‚Æ‚µ‚Äg—p‚·‚éƒeƒNƒXƒ`ƒƒ‚ÌƒJƒ‰[ƒrƒbƒg[“x‚ğİ’è‚·‚é( 16 –”‚Í 32 ‚Ì‚İw’è‰Â”\  ƒfƒtƒHƒ‹ƒg‚Í 32 )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½rï¿½bï¿½gï¿½[ï¿½xï¿½ï¿½İ’è‚·ï¿½ï¿½( 16 ï¿½ï¿½ï¿½ï¿½ 32 ï¿½Ì‚İwï¿½ï¿½Â”\  ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ 32 )
 extern int NS_SetFontCacheTextureColorBitDepth( int ColorBitDepth )
 {
-	// ƒtƒ‰ƒO‚ğ•Û‘¶
+	// ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½Û‘ï¿½
 	FSYS.TextureCacheColorBitDepth16Flag = ColorBitDepth == 16 ? TRUE : FALSE ;
 	
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…‚Æ‚µ‚Äg—p‚·‚éƒeƒNƒXƒ`ƒƒ‚ÌƒJƒ‰[ƒrƒbƒg[“x‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½rï¿½bï¿½gï¿½[ï¿½xï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontCacheTextureColorBitDepth( void )
 {
 	return FSYS.TextureCacheColorBitDepth16Flag ? 16 : 32 ;
 }
 
-// w’è‚ÌƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ª—LŒø‚©”Û‚©’²‚×‚é
+// ï¿½wï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Û‚ï¿½ï¿½ï¿½ï¿½×‚ï¿½
 extern int NS_CheckFontHandleValid( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -14636,7 +14680,7 @@ extern int NS_CheckFontHandleValid( int FontHandle )
 	return 1 ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒLƒƒƒbƒVƒ…î•ñ‚ğ‰Šú‰»‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 extern int NS_ClearFontCacheToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -14646,14 +14690,14 @@ extern int NS_ClearFontCacheToHandle( int FontHandle )
 	if( FONTHCHK( FontHandle, ManageData ) )
 		return 0 ;
 
-	// ƒtƒHƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…î•ñ‚ğ‰Šú‰»‚·‚é
+	// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	InitFontCacheToHandle( ManageData, FALSE ) ;
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return 0 ;
 }
 
-// ‚QƒoƒCƒg•¶š‚©’²‚×‚é( TRUE:‚QƒoƒCƒg•¶š  FALSE:‚PƒoƒCƒg•¶š )
+// ï¿½Qï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½( TRUE:ï¿½Qï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½  FALSE:ï¿½Pï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ )
 extern int NS_MultiByteCharCheck( const char *Buf, int CharSet )
 {
 	int   CharBytes ;
@@ -14669,25 +14713,25 @@ extern int NS_MultiByteCharCheck( const char *Buf, int CharSet )
 }
 
 
-// ƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…‚ÅƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶š”‚ğæ“¾‚·‚é( –ß‚è’l  0:ƒfƒtƒHƒ‹ƒg  1ˆÈã:w’è•¶š” )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÅƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Å‚ï¿½ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½ß‚ï¿½l  0:ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g  1ï¿½Èï¿½:ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ )
 extern int NS_GetFontCacheCharNum( void )
 {
 	return FSYS.CacheCharNum ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğ“¾‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒTï¿½Cï¿½Yï¿½ğ“¾‚ï¿½
 extern int NS_GetFontSize( void )
 {
 	return NS_GetFontSizeToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì‰ƒTƒCƒY‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontEdgeSize( void )
 {
 	return NS_GetFontEdgeSizeToHandle( DX_DEFAULT_FONT_HANDLE ) ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğ“¾‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒTï¿½Cï¿½Yï¿½ğ“¾‚ï¿½
 extern int NS_GetFontSizeToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -14700,7 +14744,7 @@ extern int NS_GetFontSizeToHandle( int FontHandle )
 	return ManageData->BaseInfo.FontSize ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì‰ƒTƒCƒY‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontEdgeSizeToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -14713,7 +14757,7 @@ extern int NS_GetFontEdgeSizeToHandle( int FontHandle )
 	return ManageData->EdgeSize ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌšŠÔ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìï¿½ï¿½Ô‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontSpaceToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -14726,7 +14770,7 @@ extern int NS_GetFontSpaceToHandle( int FontHandle )
 	return ManageData->Space ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌsŠÔ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Ìsï¿½Ô‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontLineSpaceToHandle( int FontHandle )
 {
 	FONTMANAGE * ManageData ;
@@ -14739,7 +14783,7 @@ extern int NS_GetFontLineSpaceToHandle( int FontHandle )
 	return ManageData->LineSpaceValidFlag ? ManageData->LineSpace : ManageData->BaseInfo.FontHeight - ManageData->BaseInfo.FontAddHeight ;
 }
 
-// ƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…‚Æ‚µ‚Ä•Û‘¶‚·‚é‰æ‘œ‚ÌŒ`®‚ğæZÏ‚İƒ¿ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚É‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚é( TRUE:æZÏ‚İƒ¿‚ğg—p‚·‚é  FLASE:æZÏ‚İƒ¿‚ğg—p‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ÌŒ`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½Ï‚İƒï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½tï¿½ï¿½ï¿½æ‘œï¿½É‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½( TRUE:ï¿½ï¿½Zï¿½Ï‚İƒï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½  FLASE:ï¿½ï¿½Zï¿½Ï‚İƒï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½( ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g ) )
 extern int NS_SetFontCacheUsePremulAlphaFlag( int Flag )
 {
 	FSYS.UsePremulAlphaFlag = Flag == FALSE ? FALSE : TRUE ;
@@ -14747,13 +14791,13 @@ extern int NS_SetFontCacheUsePremulAlphaFlag( int Flag )
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…‚Æ‚µ‚Ä•Û‘¶‚·‚é‰æ‘œ‚ÌŒ`®‚ğæZÏ‚İƒ¿ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚É‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ÌŒ`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½Ï‚İƒï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½tï¿½ï¿½ï¿½æ‘œï¿½É‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontCacheUsePremulAlphaFlag( void )
 {
 	return FSYS.UsePremulAlphaFlag ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğ•â³‚·‚éˆ—‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚é( Flag  TRUE:s‚¤( ƒfƒtƒHƒ‹ƒg )  FALSE:s‚í‚È‚¢ )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½â³ï¿½ï¿½ï¿½éˆï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½( Flag  TRUE:ï¿½sï¿½ï¿½( ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g )  FALSE:ï¿½sï¿½ï¿½È‚ï¿½ )
 extern int NS_SetFontUseAdjustSizeFlag( int Flag )
 {
 	FSYS.DisableAdjustFontSize = Flag == FALSE ? TRUE : FALSE ;
@@ -14761,13 +14805,13 @@ extern int NS_SetFontUseAdjustSizeFlag( int Flag )
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğ•â³‚·‚éˆ—‚ğs‚¤‚©‚Ç‚¤‚©‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½â³ï¿½ï¿½ï¿½éˆï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int NS_GetFontUseAdjustSizeFlag( void )
 {
 	return FSYS.DisableAdjustFontSize == FALSE ? TRUE : FALSE ;
 }
 
-// ƒtƒHƒ“ƒg‚Ì•`‰æ‚Å‰‚Ì‚İA–”‚Í–{‘Ì‚Ì‚İ•`‰æ‚ğs‚¤‚©‚Ç‚¤‚©‚ğİ’è‚·‚é( OnlyType  0:’Êí•`‰æ 1:–{‘Ì‚Ì‚İ•`‰æ 2:‰‚Ì‚İ•`‰æ )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì•`ï¿½ï¿½Å‰ï¿½ï¿½Ì‚İAï¿½ï¿½ï¿½Í–{ï¿½Ì‚Ì‚İ•`ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½( OnlyType  0:ï¿½Êï¿½`ï¿½ï¿½ 1:ï¿½{ï¿½Ì‚Ì‚İ•`ï¿½ï¿½ 2:ï¿½ï¿½ï¿½Ì‚İ•`ï¿½ï¿½ )
 extern int NS_SetFontOnlyDrawType( int OnlyType )
 {
 	FSYS.OnlyDrawType = OnlyType ;
@@ -14775,13 +14819,13 @@ extern int NS_SetFontOnlyDrawType( int OnlyType )
 	return 0 ;
 }
 
-// ƒtƒHƒ“ƒg‚Ì•`‰æ‚Å‰‚Ì‚İA–”‚Í–{‘Ì‚Ì‚İ•`‰æ‚ğs‚¤‚©‚Ç‚¤‚©‚ğæ“¾‚·‚é( –ß‚è’l  0:’Êí•`‰æ 1:–{‘Ì‚Ì‚İ•`‰æ 2:‰‚Ì‚İ•`‰æ )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì•`ï¿½ï¿½Å‰ï¿½ï¿½Ì‚İAï¿½ï¿½ï¿½Í–{ï¿½Ì‚Ì‚İ•`ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½ß‚ï¿½l  0:ï¿½Êï¿½`ï¿½ï¿½ 1:ï¿½{ï¿½Ì‚Ì‚İ•`ï¿½ï¿½ 2:ï¿½ï¿½ï¿½Ì‚İ•`ï¿½ï¿½ )
 extern int NS_GetFontOnlyDrawType( void )
 {
 	return FSYS.OnlyDrawType ;
 }
 
-// DrawString ‚È‚Ç‚Å \n ‚ğ–³‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’è‚·‚é( TRUE : –³‹‚·‚é    FALSE : –³‹‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
+// DrawString ï¿½È‚Ç‚ï¿½ \n ï¿½ğ–³ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½( TRUE : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½    FALSE : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½( ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g ) )
 extern int NS_SetFontIgnoreLFFlag( int Flag )
 {
 	FSYS.IgnoreLFFlag = Flag ;
@@ -14789,85 +14833,85 @@ extern int NS_SetFontIgnoreLFFlag( int Flag )
 	return 0 ;
 }
 
-// DrawString ‚È‚Ç‚Å \n ‚ğ–³‹‚·‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚é( TRUE : –³‹‚·‚é    FALSE : –³‹‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
+// DrawString ï¿½È‚Ç‚ï¿½ \n ï¿½ğ–³ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( TRUE : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½    FALSE : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½( ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g ) )
 extern int NS_GetFontIgnoreLFFlag( void )
 {
 	return FSYS.IgnoreLFFlag ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawString( int x, int y, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawStringToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNString( int x, int y, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawNStringToHandle( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawString_WCHAR_T( int x, int y, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawStringToHandle_WCHAR_T( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawStringF( float x, float y, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawStringFToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int NS_DrawNStringF( float x, float y, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawNStringFToHandle( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawStringF_WCHAR_T( float x, float y, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawStringFToHandle_WCHAR_T( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawVString( int x, int y, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawStringToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•`‰æ‚·‚é( c‘‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )
 extern int NS_DrawNVString( int x, int y, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawNVStringToHandle( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawVString_WCHAR_T( int x, int y, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawStringToHandle_WCHAR_T( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawVStringF( float x, float y, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawStringFToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•`‰æ‚·‚é( c‘‚« )( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int NS_DrawNVStringF( float x, float y, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawNVStringFToHandle( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawVStringF_WCHAR_T( float x, float y, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawStringFToHandle_WCHAR_T( x, y, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	if( VerticalFlag )\
 	{\
@@ -14938,15 +14982,15 @@ extern int DrawStringToHandle_WCHAR_T( int x, int y, const wchar_t *String, size
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawStringHardware( x, y, ( float )x, ( float )y, TRUE, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawStringSoftware( x, y,                               String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -14955,7 +14999,7 @@ extern int DrawStringToHandle_WCHAR_T( int x, int y, const wchar_t *String, size
 		font->TextureCacheFlag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -14966,7 +15010,7 @@ extern int DrawStringToHandle_WCHAR_T( int x, int y, const wchar_t *String, size
 
 
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	if( VerticalFlag )\
 	{\
@@ -15037,15 +15081,15 @@ extern int DrawStringFToHandle_WCHAR_T( float x, float y, const wchar_t *String,
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawStringHardware( _FTOL( x ), _FTOL( y ), x, y, FALSE, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawStringSoftware( _FTOL( x ), _FTOL( y ),              String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -15054,7 +15098,7 @@ extern int DrawStringFToHandle_WCHAR_T( float x, float y, const wchar_t *String,
 		font->TextureCacheFlag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -15066,43 +15110,43 @@ extern int DrawStringFToHandle_WCHAR_T( float x, float y, const wchar_t *String,
 
 
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawVStringToHandle( int x, int y, const TCHAR *String, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNVStringToHandle( int x, int y, const TCHAR *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawNStringToHandle( x, y, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawVStringToHandle_WCHAR_T( int x, int y, const wchar_t *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return DrawStringToHandle_WCHAR_T( x, y, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawVStringFToHandle( float x, float y, const TCHAR *String, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNVStringFToHandle( float x, float y, const TCHAR *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawNStringFToHandle( x, y, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawVStringFToHandle_WCHAR_T( float x, float y, const wchar_t *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return DrawStringFToHandle_WCHAR_T( x, y, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatString( int x, int y, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15120,7 +15164,7 @@ extern int NS_DrawFormatString2( int x, int y, unsigned int Color, unsigned int 
 	return NS_DrawStringToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatString_WCHAR_T( int x, int y, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15128,7 +15172,7 @@ extern int DrawFormatString_WCHAR_T( int x, int y, unsigned int Color, const wch
 	return DrawStringToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatStringF( float x, float y, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15146,7 +15190,7 @@ extern int NS_DrawFormatString2F( float x, float y, unsigned int Color, unsigned
 	return NS_DrawStringFToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatStringF_WCHAR_T( float x, float y, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15154,7 +15198,7 @@ extern int DrawFormatStringF_WCHAR_T( float x, float y, unsigned int Color, cons
 	return DrawStringFToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatVString( int x, int y, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15172,7 +15216,7 @@ extern int NS_DrawFormatVString2( int x, int y, unsigned int Color, unsigned int
 	return NS_DrawStringToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatVString_WCHAR_T( int x, int y, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15180,7 +15224,7 @@ extern int DrawFormatVString_WCHAR_T( int x, int y, unsigned int Color, const wc
 	return DrawStringToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, Color, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatVStringF( float x, float y, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15198,7 +15242,7 @@ extern int NS_DrawFormatVString2F( float x, float y, unsigned int Color, unsigne
 	return NS_DrawStringFToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatVStringF_WCHAR_T( float x, float y, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15206,180 +15250,180 @@ extern int DrawFormatVStringF_WCHAR_T( float x, float y, unsigned int Color, con
 	return DrawStringFToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, Color, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatStringToHandle( int x, int y, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int NS_DrawFormatString2ToHandle( int x, int y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatStringToHandle_WCHAR_T( int x, int y, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawStringToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatStringFToHandle( float x, float y, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int NS_DrawFormatString2FToHandle( float x, float y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatStringFToHandle_WCHAR_T( float x, float y, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawStringFToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatVStringToHandle( int x, int y, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int NS_DrawFormatVString2ToHandle( int x, int y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatVStringToHandle_WCHAR_T( int x, int y, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawStringToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawFormatVStringFToHandle( float x, float y, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int NS_DrawFormatVString2FToHandle( float x, float y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatVStringFToHandle_WCHAR_T( float x, float y, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawStringFToHandle_WCHAR_T( x, y, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, TRUE ) ;
 }
 
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendString( int x, int y, double ExRateX, double ExRateY, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ÌŠg‘å•`‰æ
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠgï¿½ï¿½`ï¿½ï¿½
 extern int NS_DrawExtendNString( int x, int y, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendNStringToHandle( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendString_WCHAR_T( int x, int y, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawExtendStringToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendStringF( float x, float y, double ExRateX, double ExRateY, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ÌŠg‘å•`‰æ( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠgï¿½ï¿½`ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int NS_DrawExtendNStringF( float x, float y, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendNStringFToHandle( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendStringF_WCHAR_T( float x, float y, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawExtendStringFToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendVString( int x, int y, double ExRateX, double ExRateY, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendNVString( int x, int y, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendNStringToHandle( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendVString_WCHAR_T( int x, int y, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawExtendStringToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendVStringF( float x, float y, double ExRateX, double ExRateY, const TCHAR *String, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendNVStringF( float x, float y, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return NS_DrawExtendNStringFToHandle( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendVStringF_WCHAR_T( float x, float y, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, unsigned int Color, unsigned int EdgeColor )
 {
 	return DrawExtendStringFToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, StringLength, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	if( VerticalFlag )\
 	{\
@@ -15445,15 +15489,15 @@ extern int DrawExtendStringToHandle_WCHAR_T( int x, int y, double ExRateX, doubl
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawExtendStringHardware( x, y, ( float )x, ( float )y, TRUE, ExRateX, ExRateY, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawExtendStringSoftware( x, y,                               ExRateX, ExRateY, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -15462,7 +15506,7 @@ extern int DrawExtendStringToHandle_WCHAR_T( int x, int y, double ExRateX, doubl
 		font->TextureCacheFlag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -15473,7 +15517,7 @@ extern int DrawExtendStringToHandle_WCHAR_T( int x, int y, double ExRateX, doubl
 
 
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	if( VerticalFlag )\
 	{\
@@ -15539,15 +15583,15 @@ extern int DrawExtendStringFToHandle_WCHAR_T( float x, float y, double ExRateX, 
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawExtendStringHardware( _FTOL( x ), _FTOL( y ), x, y, FALSE, ExRateX, ExRateY, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawExtendStringSoftware( _FTOL( x ), _FTOL( y ),              ExRateX, ExRateY, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -15556,7 +15600,7 @@ extern int DrawExtendStringFToHandle_WCHAR_T( float x, float y, double ExRateX, 
 		font->TextureCacheFlag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -15567,43 +15611,43 @@ extern int DrawExtendStringFToHandle_WCHAR_T( float x, float y, double ExRateX, 
 
 
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendVStringToHandle( int x, int y, double ExRateX, double ExRateY, const TCHAR *String, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendNVStringToHandle( int x, int y, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawExtendNStringToHandle( x, y, ExRateX, ExRateY, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendVStringToHandle_WCHAR_T( int x, int y, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return DrawExtendStringToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendVStringFToHandle( float x, float y, double ExRateX, double ExRateY, const TCHAR *String, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendNVStringFToHandle( float x, float y, double ExRateX, double ExRateY, const TCHAR *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return NS_DrawExtendNStringFToHandle( x, y, ExRateX, ExRateY, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// •¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendVStringFToHandle_WCHAR_T( float x, float y, double ExRateX, double ExRateY, const wchar_t *String, size_t StringLength, unsigned int Color, int FontHandle, unsigned int EdgeColor )
 {
 	return DrawExtendStringFToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, StringLength, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatString( int x, int y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15621,7 +15665,7 @@ extern int NS_DrawExtendFormatString2( int x, int y, double ExRateX, double ExRa
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatString_WCHAR_T( int x, int y, double ExRateX, double ExRateY, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15629,7 +15673,7 @@ extern int DrawExtendFormatString_WCHAR_T( int x, int y, double ExRateX, double 
 	return DrawExtendStringToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatStringF( float x, float y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15647,7 +15691,7 @@ extern int NS_DrawExtendFormatString2F( float x, float y, double ExRateX, double
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatStringF_WCHAR_T( float x, float y, double ExRateX, double ExRateY, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15655,7 +15699,7 @@ extern int DrawExtendFormatStringF_WCHAR_T( float x, float y, double ExRateX, do
 	return DrawExtendStringFToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatVString( int x, int y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15673,7 +15717,7 @@ extern int NS_DrawExtendFormatVString2( int x, int y, double ExRateX, double ExR
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatVString_WCHAR_T( int x, int y, double ExRateX, double ExRateY, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15681,7 +15725,7 @@ extern int DrawExtendFormatVString_WCHAR_T( int x, int y, double ExRateX, double
 	return DrawExtendStringToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, Color, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatVStringF( float x, float y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -15699,7 +15743,7 @@ extern int NS_DrawExtendFormatVString2F( float x, float y, double ExRateX, doubl
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatVStringF_WCHAR_T( float x, float y, double ExRateX, double ExRateY, unsigned int Color, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -15707,145 +15751,145 @@ extern int DrawExtendFormatVStringF_WCHAR_T( float x, float y, double ExRateX, d
 	return DrawExtendStringFToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, DX_DEFAULT_FONT_HANDLE, Color, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatStringToHandle( int x, int y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int NS_DrawExtendFormatString2ToHandle( int x, int y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatStringToHandle_WCHAR_T( int x, int y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawExtendStringToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatStringFToHandle( float x, float y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int NS_DrawExtendFormatString2FToHandle( float x, float y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatStringFToHandle_WCHAR_T( float x, float y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawExtendStringFToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, FALSE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatVStringToHandle( int x, int y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int NS_DrawExtendFormatVString2ToHandle( int x, int y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatVStringToHandle_WCHAR_T( int x, int y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawExtendStringToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawExtendFormatVStringFToHandle( float x, float y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int NS_DrawExtendFormatVString2FToHandle( float x, float y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatVStringFToHandle_WCHAR_T( float x, float y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawExtendStringFToHandle_WCHAR_T( x, y, ExRateX, ExRateY, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ), Color, FontHandle, 0, TRUE ) ;
 }
 
 
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaString( int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *String )
 {
 	return NS_DrawRotaStringToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaNString( int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *String, size_t StringLength )
 {
 	return NS_DrawRotaNStringToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaString_WCHAR_T( int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *String, size_t StringLength )
 {
 	return DrawRotaStringToHandle_WCHAR_T( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaStringF( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *String )
 {
 	return NS_DrawRotaStringFToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaNStringF( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *String, size_t StringLength )
 {
 	return NS_DrawRotaNStringFToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaStringF_WCHAR_T( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *String, size_t StringLength )
 {
 	return DrawRotaStringFToHandle_WCHAR_T( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	DrawRect = GSYS.DrawSetting.DrawArea ;
 
@@ -15903,17 +15947,17 @@ extern int DrawRotaStringToHandle_WCHAR_T( int x, int y, double ExRateX, double 
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
 	Flag = font->TextureCacheFlag ;
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawRotaStringHardware( x, y, 0, 0, TRUE, ExRateX, ExRateY, RotCenterX, RotCenterY, RotAngle, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawRotaStringSoftware( x, y,             ExRateX, ExRateY, RotCenterX, RotCenterY, RotAngle, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -15922,7 +15966,7 @@ extern int DrawRotaStringToHandle_WCHAR_T( int x, int y, double ExRateX, double 
 		Flag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -15931,7 +15975,7 @@ extern int DrawRotaStringToHandle_WCHAR_T( int x, int y, double ExRateX, double 
 
 #undef SETDRAWRECTCODE
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	DrawRect = GSYS.DrawSetting.DrawArea ;
 
@@ -15989,17 +16033,17 @@ extern int DrawRotaStringFToHandle_WCHAR_T( float x, float y, double ExRateX, do
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
 	Flag = font->TextureCacheFlag ;
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawRotaStringHardware(          0,          0, x, y, FALSE, ExRateX, ExRateY, RotCenterX, RotCenterY, RotAngle, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawRotaStringSoftware( _FTOL( x ), _FTOL( y ),              ExRateX, ExRateY, RotCenterX, RotCenterY, RotAngle, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -16008,7 +16052,7 @@ extern int DrawRotaStringFToHandle_WCHAR_T( float x, float y, double ExRateX, do
 		Flag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -16017,7 +16061,7 @@ extern int DrawRotaStringFToHandle_WCHAR_T( float x, float y, double ExRateX, do
 
 #undef SETDRAWRECTCODE
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaFormatString( int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *FormatString , ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16027,7 +16071,7 @@ extern int NS_DrawRotaFormatString( int x, int y, double ExRateX, double ExRateY
 	return NS_DrawRotaStringToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaFormatString_WCHAR_T( int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *FormatString , ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -16035,7 +16079,7 @@ extern int DrawRotaFormatString_WCHAR_T( int x, int y, double ExRateX, double Ex
 	return DrawRotaStringToHandle_WCHAR_T( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaFormatStringF( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *FormatString , ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16045,7 +16089,7 @@ extern int NS_DrawRotaFormatStringF( float x, float y, double ExRateX, double Ex
 	return NS_DrawRotaStringFToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaFormatStringF_WCHAR_T( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *FormatString , ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -16053,39 +16097,39 @@ extern int DrawRotaFormatStringF_WCHAR_T( float x, float y, double ExRateX, doub
 	return DrawRotaStringFToHandle_WCHAR_T( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaFormatStringToHandle(	int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawRotaStringToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaFormatStringToHandle_WCHAR_T(	int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawRotaStringToHandle_WCHAR_T( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, FontHandle, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawRotaFormatStringFToHandle( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawRotaStringFToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaFormatStringFToHandle_WCHAR_T(	float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawRotaStringFToHandle_WCHAR_T( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, FontHandle, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
@@ -16093,43 +16137,43 @@ extern int DrawRotaFormatStringFToHandle_WCHAR_T(	float x, float y, double ExRat
 
 
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiString( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, unsigned int EdgeColor, int VerticalFlag, const TCHAR *String )
 {
 	return NS_DrawModiStringToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiNString( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, unsigned int EdgeColor, int VerticalFlag, const TCHAR *String, size_t StringLength )
 {
 	return NS_DrawModiNStringToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiString_WCHAR_T( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *String, size_t StringLength )
 {
 	return DrawModiStringToHandle_WCHAR_T( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiStringF( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *String )
 {
 	return NS_DrawModiStringFToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiNStringF( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *String, size_t StringLength )
 {
 	return NS_DrawModiNStringFToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiStringF_WCHAR_T( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *String, size_t StringLength )
 {
 	return DrawModiStringFToHandle_WCHAR_T( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, StringLength ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	DrawRect = GSYS.DrawSetting.DrawArea ;
 
@@ -16187,17 +16231,17 @@ extern int DrawModiStringToHandle_WCHAR_T( int x1, int y1, int x2, int y2, int x
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
 	Flag = font->TextureCacheFlag ;
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawModiStringHardware( x1, y1, x2, y2, x3, y3, x4, y4, 0, 0, 0, 0, 0, 0, 0, 0, TRUE, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawModiStringSoftware( x1, y1, x2, y2, x3, y3, x4, y4,                               String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -16206,7 +16250,7 @@ extern int DrawModiStringToHandle_WCHAR_T( int x1, int y1, int x2, int y2, int x
 		Flag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -16215,7 +16259,7 @@ extern int DrawModiStringToHandle_WCHAR_T( int x1, int y1, int x2, int y2, int x
 
 #undef SETDRAWRECTCODE
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 #define SETDRAWRECTCODE\
 	DrawRect = GSYS.DrawSetting.DrawArea ;
 
@@ -16273,17 +16317,17 @@ extern int DrawModiStringFToHandle_WCHAR_T( float x1, float y1, float x2, float 
 	font = GetFontManageDataToHandle_Inline( FontHandle ) ;
 	if( font == NULL )
 	{
-		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹’l‚ªˆÙí‚Å‚·\n" @*/ ) ;
+		DXST_LOGFILE_ADDUTF16LE( "\xd5\x30\xa9\x30\xf3\x30\xc8\x30\xcf\x30\xf3\x30\xc9\x30\xeb\x30\x24\x50\x4c\x30\x70\x75\x38\x5e\x67\x30\x59\x30\x0a\x00\x00"/*@ L"ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ùï¿½Å‚ï¿½\n" @*/ ) ;
 		return Ret ;
 	}
 
 	Flag = font->TextureCacheFlag ;
 
-	// ‚Q‚cs—ñ‚ğƒn[ƒhƒEƒGƒA‚É”½‰f‚·‚é
+	// ï¿½Qï¿½cï¿½sï¿½ï¿½ï¿½ï¿½nï¿½[ï¿½hï¿½Eï¿½Gï¿½Aï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 	if( GSYS.DrawSetting.MatchHardware_2DMatrix == FALSE && GSYS.Setting.ValidHardware && GSYS.Screen.UserScreenImagePixelFormatMatchSoftRenderMode == FALSE )
 		Graphics_DrawSetting_ApplyLib2DMatrixToHardware() ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	DRAW_DEF(
 		DrawModiStringHardware(           0,           0,           0,           0,           0,           0,           0,           0, x1, y1, x2, y2, x3, y3, x4, y4, FALSE, String, StringLength, Color, font, EdgeColor, VerticalFlag ),
 		DrawModiStringSoftware( _FTOL( x1 ), _FTOL( y1 ), _FTOL( x2 ), _FTOL( y2 ), _FTOL( x3 ), _FTOL( y3 ), _FTOL( x4 ), _FTOL( y4 ),                                        String, StringLength, Color, font, EdgeColor, VerticalFlag ),
@@ -16292,7 +16336,7 @@ extern int DrawModiStringFToHandle_WCHAR_T( float x1, float y1, float x2, float 
 		Flag
 	)
 
-	// I—¹
+	// ï¿½Iï¿½ï¿½
 	return Ret ;
 #else // DX_NON_GRAPHICS
 	return -1 ;
@@ -16301,7 +16345,7 @@ extern int DrawModiStringFToHandle_WCHAR_T( float x1, float y1, float x2, float 
 
 #undef SETDRAWRECTCODE
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiFormatString( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *FormatString , ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16311,7 +16355,7 @@ extern int NS_DrawModiFormatString( int x1, int y1, int x2, int y2, int x3, int 
 	return NS_DrawModiStringToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiFormatString_WCHAR_T( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *FormatString , ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -16319,7 +16363,7 @@ extern int DrawModiFormatString_WCHAR_T( int x1, int y1, int x2, int y2, int x3,
 	return DrawModiStringToHandle_WCHAR_T( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiFormatStringF( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const TCHAR *FormatString , ... )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16329,7 +16373,7 @@ extern int NS_DrawModiFormatStringF( float x1, float y1, float x2, float y2, flo
 	return NS_DrawModiStringFToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiFormatStringF_WCHAR_T( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, unsigned int EdgeColor , int VerticalFlag , const wchar_t *FormatString , ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
@@ -16337,39 +16381,39 @@ extern int DrawModiFormatStringF_WCHAR_T( float x1, float y1, float x2, float y2
 	return DrawModiStringFToHandle_WCHAR_T( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiFormatStringToHandle(	int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawModiStringToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiFormatStringToHandle_WCHAR_T(	int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawModiStringToHandle_WCHAR_T( x1, y1, x2, y2, x3, y3, x4, y4, Color, FontHandle, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawModiFormatStringFToHandle( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, ... )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawModiStringFToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiFormatStringFToHandle_WCHAR_T(	float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const wchar_t *FormatString, ... )
 {
 	WCHAR_T_FORMATSTRING_SETUP
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return DrawModiStringFToHandle_WCHAR_T( x1, y1, x2, y2, x3, y3, x4, y4, Color, FontHandle, EdgeColor, VerticalFlag, String, CL_strlen( WCHAR_T_CHARCODEFORMAT, ( const char * )String ) ) ;
 }
 
@@ -16379,37 +16423,37 @@ extern int DrawModiFormatStringFToHandle_WCHAR_T(	float x1, float y1, float x2, 
 
 
 
-// ®”Œ^‚Ì”’l‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Ìï¿½ï¿½lï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberToI( int x, int y, int Num, int RisesNum, unsigned int Color ,unsigned int EdgeColor )
 {
 	return NS_DrawNumberToIToHandle( x, y, Num, RisesNum, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
 }
 
-// •‚“®¬”“_Œ^‚Ì”’l‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½^ï¿½Ìï¿½ï¿½lï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberToF( int x, int y, double Num, int Length, unsigned int Color ,unsigned int EdgeColor  )
 {
 	return NS_DrawNumberToFToHandle( x, y, Num, Length, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
 }
 
-// ®”Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberPlusToI( int x, int y, const TCHAR *NoteString, int Num, int RisesNum, unsigned int Color ,unsigned int EdgeColor )
 {
 	return NS_DrawNumberPlusToIToHandle( x, y, NoteString, Num, RisesNum, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
 }
 
-// ®”Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int DrawNumberPlusToI_WCHAR_T( int x, int y, const wchar_t *NoteString, int Num, int RisesNum, unsigned int Color ,unsigned int EdgeColor )
 {
 	return DrawNumberPlusToIToHandle_WCHAR_T( x, y, NoteString, Num, RisesNum, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
 }
 
-// •‚“®¬”“_Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberPlusToF( int x, int y, const TCHAR *NoteString, double Num, int Length, unsigned int Color ,unsigned int EdgeColor )
 {
 	return NS_DrawNumberPlusToFToHandle( x, y, NoteString, Num, Length, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
 }
 
-// •‚“®¬”“_Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int DrawNumberPlusToF_WCHAR_T( int x, int y, const wchar_t *NoteString, double Num, int Length, unsigned int Color ,unsigned int EdgeColor )
 {
 	return DrawNumberPlusToFToHandle_WCHAR_T( x, y, NoteString, Num, Length, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor ) ;
@@ -16417,7 +16461,7 @@ extern int DrawNumberPlusToF_WCHAR_T( int x, int y, const wchar_t *NoteString, d
 
 
 
-// ®”Œ^‚Ì”’l‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Ìï¿½ï¿½lï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberToIToHandle( int x, int y, int Num, int RisesNum, unsigned int Color, int FontHandle ,unsigned int EdgeColor )
 {
 	wchar_t Str[256] ;
@@ -16426,7 +16470,7 @@ extern int NS_DrawNumberToIToHandle( int x, int y, int Num, int RisesNum, unsign
 	return DrawStringToHandle_WCHAR_T( x, y, Str, _WCSLEN( Str ), Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// •‚“®¬”“_Œ^‚Ì”’l‚ğ•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½^ï¿½Ìï¿½ï¿½lï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberToFToHandle( int x, int y, double Num, int Length, unsigned int Color, int FontHandle,unsigned int EdgeColor  )
 {
 	wchar_t Str[256], Str2[256] ;
@@ -16440,7 +16484,7 @@ extern int NS_DrawNumberToFToHandle( int x, int y, double Num, int Length, unsig
 }
 
 
-// ®”Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberPlusToIToHandle( int x, int y, const TCHAR *NoteString, int Num, int RisesNum, unsigned int Color, int FontHandle,unsigned int EdgeColor )
 {
 #ifdef UNICODE
@@ -16458,7 +16502,7 @@ extern int NS_DrawNumberPlusToIToHandle( int x, int y, const TCHAR *NoteString, 
 #endif
 }
 
-// ®”Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int DrawNumberPlusToIToHandle_WCHAR_T( int x, int y, const wchar_t *NoteString, int Num, int RisesNum, unsigned int Color, int FontHandle,unsigned int EdgeColor )
 {
 	wchar_t Str[2048], Str2[256] ;
@@ -16474,11 +16518,11 @@ extern int DrawNumberPlusToIToHandle_WCHAR_T( int x, int y, const wchar_t *NoteS
 	_ITOAW_S( Num, Str2, sizeof( Str2 ), RisesNum ) ;
 	_WCSCAT_S( Str, sizeof( Str ), Str2 ) ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	return DrawStringToHandle_WCHAR_T( x, y, Str, _WCSLEN( Str ), Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// •‚“®¬”“_Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int NS_DrawNumberPlusToFToHandle( int x, int y, const TCHAR *NoteString, double Num, int Length, unsigned int Color, int FontHandle ,unsigned int EdgeColor )
 {
 #ifdef UNICODE
@@ -16496,7 +16540,7 @@ extern int NS_DrawNumberPlusToFToHandle( int x, int y, const TCHAR *NoteString, 
 #endif
 }
 
-// •‚“®¬”“_Œ^‚Ì”’l‚Æ‚»‚Ìà–¾‚Ì•¶š—ñ‚ğˆê“x‚É•`‰æ‚·‚é
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½^ï¿½Ìï¿½ï¿½lï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É•`ï¿½æ‚·ï¿½ï¿½
 extern int DrawNumberPlusToFToHandle_WCHAR_T( int x, int y, const wchar_t *NoteString, double Num, int Length, unsigned int Color, int FontHandle ,unsigned int EdgeColor )
 {
 	wchar_t Str[2048], Str2[256], Str3[256] ;
@@ -16517,59 +16561,59 @@ extern int DrawNumberPlusToFToHandle_WCHAR_T( int x, int y, const wchar_t *NoteS
 
 	_WCSCAT_S( Str, sizeof( Str ), Str3 ) ;
 
-	// •`‰æ
+	// ï¿½`ï¿½ï¿½
 	return DrawStringToHandle_WCHAR_T( x, y, Str, _WCSLEN( Str ), Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawFormatStringWidth_VaList( const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringWidthToHandle(
 				String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğæ“¾‚·‚é( Šg‘å—¦•t‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½gï¿½å—¦ï¿½tï¿½ï¿½ )
 extern int GetDrawExtendFormatStringWidth_VaList( double ExRateX, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringWidthToHandle(
 		ExRateX, String, ( int )CL_strlen( CharCodeFormat,  ( const char * )String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawFormatStringSize_VaList( int *SizeX, int *SizeY, int *LineCount, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringSizeToHandle(
 				SizeX, SizeY, LineCount, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é( Šg‘å—¦•t‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½( ï¿½gï¿½å—¦ï¿½tï¿½ï¿½ )
 extern int GetDrawExtendFormatStringSize_VaList( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringSizeToHandle(
 		SizeX, SizeY, LineCount, ExRateX, ExRateY, String, ( int )CL_strlen( CharCodeFormat,  ( const char * )String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawFormatStringCharInfo_VaList( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16580,59 +16624,59 @@ extern int GetDrawFormatStringCharInfo_VaList( DRAWCHARINFO *InfoBuffer, size_t 
 				InfoBuffer, InfoBufferSize, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawExtendFormatStringCharInfo_VaList( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
 
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringCharInfoToHandle(
 		InfoBuffer, InfoBufferSize, ExRateX, ExRateY, String, ( int )CL_strlen( CharCodeFormat,  ( const char * )String ), DX_DEFAULT_FONT_HANDLE, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawFormatStringWidthToHandle_VaList( int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringWidthToHandle(
 				String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawExtendFormatStringWidthToHandle_VaList( double ExRateX, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringWidthToHandle(
 				ExRateX, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawFormatStringSizeToHandle_VaList( int *SizeX, int *SizeY, int *LineCount, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawStringSizeToHandle(
 				SizeX, SizeY, LineCount, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì•`‰æ•E‚‚³Es”‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•`ï¿½æ•ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½sï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawExtendFormatStringSizeToHandle_VaList( int *SizeX, int *SizeY, int *LineCount, double ExRateX, double ExRateY, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •¶š—ñ‚Ì•‚ğ“¾‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ğ“¾‚ï¿½
 	return NS_GetDrawExtendStringSizeToHandle(
 				SizeX, SizeY, LineCount, ExRateX, ExRateY, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawFormatStringCharInfoToHandle_VaList( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
@@ -16641,7 +16685,7 @@ extern int GetDrawFormatStringCharInfoToHandle_VaList( DRAWCHARINFO *InfoBuffer,
 				InfoBuffer, InfoBufferSize, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½‘®•t‚«•¶š—ñ‚Ì‚P•¶š–ˆ‚Ìî•ñ‚ğæ“¾‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 extern int GetDrawExtendFormatStringCharInfoToHandle_VaList( DRAWCHARINFO *InfoBuffer, size_t InfoBufferSize, double ExRateX, double ExRateY, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
@@ -16650,7 +16694,7 @@ extern int GetDrawExtendFormatStringCharInfoToHandle_VaList( DRAWCHARINFO *InfoB
 				InfoBuffer, InfoBufferSize, ExRateX, ExRateY, String, ( int )CL_strlen( CharCodeFormat, ( const char * )String ), FontHandle, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatString_VaList( int x, int y, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16668,7 +16712,7 @@ extern int DrawFormatString2_VaList( int x, int y, unsigned int Color, unsigned 
 	return NS_DrawStringToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é( c‘‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )
 extern int DrawFormatVString_VaList( int x, int y, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16686,7 +16730,7 @@ extern int DrawFormatVString2_VaList( int x, int y, unsigned int Color, unsigned
 	return NS_DrawStringToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatString_VaList( int x, int y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16704,7 +16748,7 @@ extern int DrawExtendFormatString2_VaList( int x, int y, double ExRateX, double 
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é( c‘‚« )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )
 extern int DrawExtendFormatVString_VaList( int x, int y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16722,7 +16766,7 @@ extern int DrawExtendFormatVString2_VaList( int x, int y, double ExRateX, double
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaFormatString_VaList( int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16732,7 +16776,7 @@ extern int DrawRotaFormatString_VaList( int x, int y, double ExRateX, double ExR
 	return NS_DrawRotaStringToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiFormatString_VaList( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16742,7 +16786,7 @@ extern int DrawModiFormatString_VaList( int x1, int y1, int x2, int y2, int x3, 
 	return NS_DrawModiStringToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawFormatStringF_VaList( float x, float y, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16760,7 +16804,7 @@ extern int DrawFormatString2F_VaList( float x, float y, unsigned int Color, unsi
 	return NS_DrawStringFToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é( c‘‚« )( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawFormatVStringF_VaList( float x, float y, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16778,7 +16822,7 @@ extern int DrawFormatVString2F_VaList( float x, float y, unsigned int Color, uns
 	return NS_DrawStringFToHandle( x, y, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawExtendFormatStringF_VaList( float x, float y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16796,7 +16840,7 @@ extern int DrawExtendFormatString2F_VaList( float x, float y, double ExRateX, do
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, FALSE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é( c‘‚« )( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawExtendFormatVStringF_VaList( float x, float y, double ExRateX, double ExRateY, unsigned int Color, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16814,7 +16858,7 @@ extern int DrawExtendFormatVString2F_VaList( float x, float y, double ExRateX, d
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, TRUE ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawRotaFormatStringF_VaList( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16824,7 +16868,7 @@ extern int DrawRotaFormatStringF_VaList( float x, float y, double ExRateX, doubl
 	return NS_DrawRotaStringFToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawModiFormatStringF_VaList( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList )
 {
 	int FontHandle = DX_DEFAULT_FONT_HANDLE ;
@@ -16834,167 +16878,167 @@ extern int DrawModiFormatStringF_VaList( float x1, float y1, float x2, float y2,
 	return NS_DrawModiStringFToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, DX_DEFAULT_FONT_HANDLE, EdgeColor, VerticalFlag, String ) ;
 }
 	   	   
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawFormatStringToHandle_VaList( int x, int y, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int DrawFormatString2ToHandle_VaList( int x, int y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é( c‘‚« )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )
 extern int DrawFormatVStringToHandle_VaList( int x, int y, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int DrawFormatVString2ToHandle_VaList( int x, int y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringToHandle( x, y, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawExtendFormatStringToHandle_VaList( int x, int y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int DrawExtendFormatString2ToHandle_VaList( int x, int y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é( c‘‚« )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )
 extern int DrawExtendFormatVStringToHandle_VaList( int x, int y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int DrawExtendFormatVString2ToHandle_VaList( int x, int y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawRotaFormatStringToHandle_VaList( int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList  )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawRotaStringToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½
 extern int DrawModiFormatStringToHandle_VaList( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawModiStringToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawFormatStringFToHandle_VaList( float x, float y, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int DrawFormatString2FToHandle_VaList( float x, float y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•`‰æ‚·‚é( c‘‚« )( À•Ww’è‚ª float ”Å )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawFormatVStringFToHandle_VaList( float x, float y, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int DrawFormatVString2FToHandle_VaList( float x, float y, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawStringFToHandle( x, y, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawExtendFormatStringFToHandle_VaList( float x, float y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, FALSE ) ;
 }
 extern int DrawExtendFormatString2FToHandle_VaList( float x, float y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, FALSE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğŠg‘å•`‰æ‚·‚é( c‘‚« )( À•Ww’è‚ª float ”Å )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½cï¿½ï¿½ï¿½ï¿½ )( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawExtendFormatVStringFToHandle_VaList( float x, float y, double ExRateX, double ExRateY, unsigned int Color, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, 0, TRUE ) ;
 }
 extern int DrawExtendFormatVString2FToHandle_VaList( float x, float y, double ExRateX, double ExRateY, unsigned int Color, unsigned int EdgeColor, int FontHandle, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawExtendStringFToHandle( x, y, ExRateX, ExRateY, String, Color, FontHandle, EdgeColor, TRUE ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ‰ñ“]•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawRotaFormatStringFToHandle_VaList( float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawRotaStringFToHandle( x, y, ExRateX,  ExRateY, RotCenterX, RotCenterY, RotAngle, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 
-// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğg—p‚µ‚Ä‘®w’è•¶š—ñ‚ğ•ÏŒ`•`‰æ‚·‚é( À•Ww’è‚ª float ”Å )
+// ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½ÏŒ`ï¿½`ï¿½æ‚·ï¿½ï¿½( ï¿½ï¿½ï¿½Wï¿½wï¿½è‚ª float ï¿½ï¿½ )
 extern int DrawModiFormatStringFToHandle_VaList( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, int FontHandle, unsigned int EdgeColor, int VerticalFlag, const TCHAR *FormatString, va_list VaList )
 {
 	TCHAR_FONTHANDLE_FORMATSTRING_VALIST_SETUP( -1 )
 
-	// •`‰æ‚·‚é
+	// ï¿½`ï¿½æ‚·ï¿½ï¿½
 	return NS_DrawModiStringFToHandle( x1, y1, x2, y2, x3, y3, x4, y4, Color, FontHandle, EdgeColor, VerticalFlag, String ) ;
 }
 

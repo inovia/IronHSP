@@ -1,6 +1,6 @@
 ﻿//
-// hsp3dx Stage 20: サウンド (バイパス DxDesktop_* 経由)
-//   起動時に一度だけ生成したビープ音を 2 秒おきに再生
+// hsp3dx Stage 20: サウンド (ネイティブ DxLib::PlaySoundMem 経由)
+//   起動時に一度だけ生成したビープ音を 1.5 秒おきに再生
 //
 #define DX_PLATFORM_DESKTOP_SDL2 1
 #define DX_NON_MOVIE 1
@@ -9,7 +9,6 @@
 #define DX_NON_BULLET_PHYSICS 1
 #define DX_NON_FILTER 1
 #define DX_NON_MASK 1
-#define DX_NON_SOUND 1
 #define DX_NON_KEYEX 1
 #define DX_NON_INPUTSTRING 1
 
@@ -19,12 +18,6 @@
 #include <cmath>
 #include <cstring>
 #include <vector>
-
-extern "C" int DxDesktop_LoadSound( const char *path );
-extern "C" int DxDesktop_PlaySound( int handle, int loops );
-extern "C" int DxDesktop_SetSoundVolume( int handle, int volume );
-extern "C" int DxDesktop_DeleteSound( int handle );
-extern "C" int DxDesktop_DrawText( int, int, const char *, unsigned char, unsigned char, unsigned char, int );
 
 // 440Hz 0.3 秒のサイン波 WAV を一時ファイルとして書き出す
 static bool make_beep_wav( const char *path, double freq_hz, double seconds )
@@ -75,39 +68,46 @@ int main( int argc, char **argv )
     make_beep_wav( wav1, 440.0, 0.25 );
     make_beep_wav( wav2, 880.0, 0.20 );
 
-    int s1 = DxDesktop_LoadSound( wav1 );
-    int s2 = DxDesktop_LoadSound( wav2 );
-    DxDesktop_SetSoundVolume( s1, 100 );
-    DxDesktop_SetSoundVolume( s2, 100 );
+    int s1 = DxLib::LoadSoundMem( wav1 );
+    int s2 = DxLib::LoadSoundMem( wav2 );
+    std::fprintf( stderr, "[Stage20] loaded s1=%d s2=%d\n", s1, s2 );
+    DxLib::SetVolumeSoundMem( 8000, s1 );  // 0..10000 scale
+    DxLib::SetVolumeSoundMem( 8000, s2 );
 
-    std::printf( "[Stage20] sound handles: s1=%d s2=%d\n", s1, s2 );
+    int fontM = DxLib::CreateFontToHandle( nullptr, 18, -1 );
+    int fontS = DxLib::CreateFontToHandle( nullptr, 16, -1 );
 
     Uint32 start = SDL_GetTicks();
     Uint32 last_beep = 0;
     int    beep_cnt = 0;
+    int    frame = 0;
 
     while ( SDL_GetTicks() - start < 15000 )
     {
         SDL_Event ev; while ( SDL_PollEvent( &ev ) ) { (void)ev; }
+        frame++;
 
         // 1.5 秒おきにビープ
         Uint32 now = SDL_GetTicks();
         if ( now - last_beep > 1500 ) {
             int h = ( beep_cnt & 1 ) ? s2 : s1;
-            DxDesktop_PlaySound( h, 0 );
+            DxLib::PlaySoundMem( h, DX_PLAYTYPE_BACK, TRUE );
             last_beep = now;
             beep_cnt++;
         }
 
         DxLib::ClearDrawScreen();
 
-        // テキスト
-        DxDesktop_DrawText(  50, 40, "Stage 20: Sound (SDL2_mixer bypass)", 255,255,255, 20 );
-        DxDesktop_DrawText(  50, 80, "Beeps every 1.5 seconds, alternating 440Hz / 880Hz", 180,255,180, 16 );
+        // テキスト (native DxLib::DrawString)
+        DxLib::DrawStringToHandle(  50, 40, "Stage 20: Sound (DxLib::PlaySoundMem)",
+            DxLib::GetColor( 255, 255, 255 ), fontM );
+        DxLib::DrawStringToHandle(  50, 80, "Beeps every 1.5 seconds, alternating 440Hz / 880Hz",
+            DxLib::GetColor( 180, 255, 180 ), fontS );
 
         char buf[64];
         std::snprintf( buf, sizeof buf, "beep count = %d", beep_cnt );
-        DxDesktop_DrawText( 50, 120, buf, 255, 220, 120, 18 );
+        DxLib::DrawStringToHandle( 50, 120, buf,
+            DxLib::GetColor( 255, 220, 120 ), fontM );
 
         // 視覚フィードバック: beep するたび矩形フラッシュ
         float since = ( now - last_beep ) / 1000.0f;
@@ -120,8 +120,10 @@ int main( int argc, char **argv )
         DxLib::ScreenFlip();
     }
 
-    DxDesktop_DeleteSound( s1 );
-    DxDesktop_DeleteSound( s2 );
+    DxLib::DeleteSoundMem( s1 );
+    DxLib::DeleteSoundMem( s2 );
+    DxLib::DeleteFontToHandle( fontM );
+    DxLib::DeleteFontToHandle( fontS );
     DxLib::DxLib_End();
 
     std::remove( wav1 );

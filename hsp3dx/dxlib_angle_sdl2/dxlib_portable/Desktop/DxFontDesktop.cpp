@@ -9,6 +9,12 @@
 
 #define DX_MAKE
 
+// Windows SDK (windows.h) を先に include して BYTE/WORD 等を確定させる。
+// DxDataTypeDesktop.h でも同じことをしているので二重 include は OK。
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "../DxCompileConfig.h"
 
 #ifndef DX_NON_FONT
@@ -19,10 +25,12 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_opengl.h>
 
 #include <cstdio>
 #include <cstring>
 #include <string>
+#include <cmath>
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -99,7 +107,6 @@ extern int TermFontManage_PF( void )
 extern int CreateFontToHandle_PF( CREATEFONTTOHANDLE_GPARAM *GParam, FONTMANAGE *ManageData, int DefaultCharSet )
 {
     (void)GParam; (void)DefaultCharSet;
-    std::fprintf( stderr, "[DxFontDesktop] CreateFontToHandle_PF called (FontSize=%d)\n", ManageData->BaseInfo.FontSize ) ;
     if ( ManageData->UseFontDataFile ) return 0 ;  // DxFont データファイル使用時は何もしない
     if ( !s_TtfInited ) InitFontManage_PF() ;
 
@@ -111,7 +118,7 @@ extern int CreateFontToHandle_PF( CREATEFONTTOHANDLE_GPARAM *GParam, FONTMANAGE 
     const char * const *paths = fallback_font_paths() ;
     for ( int i = 0 ; paths[i] ; ++i ) {
         font = TTF_OpenFont( paths[i], pt ) ;
-        if ( font ) { std::fprintf( stderr, "[DxFontDesktop] opened %s @ %dpt\n", paths[i], pt ) ; break ; }
+        if ( font ) break ;
     }
     if ( !font ) {
         std::fprintf( stderr, "[DxLib Desktop] CreateFontToHandle_PF: no font found (pt=%d)\n", pt ) ;
@@ -157,24 +164,16 @@ extern int SetupFontCache_PF( CREATEFONTTOHANDLE_GPARAM *, FONTMANAGE *, int ) {
 
 // --- グリフ追加 (本体) --------------------------------------------------
 
-extern int FontCacheCharAddToHandle_Timing0_PF( FONTMANAGE *m )
-{
-    static int c = 0 ; c++ ; if ( c <= 3 ) std::fprintf( stderr, "[DxFontDesktop] Timing0 #%d TCFlag=%d\n", c, ( int )m->TextureCacheFlag ) ;
-    return 0 ;
-}
-extern int FontCacheCharAddToHandle_Timing2_PF( FONTMANAGE *m )
-{
-    static int c = 0 ; c++ ; if ( c <= 3 ) std::fprintf( stderr, "[DxFontDesktop] Timing2 #%d\n", c ) ;
-    return 0 ;
-}
+extern int FontCacheCharAddToHandle_Timing0_PF( FONTMANAGE *m ) { (void)m; return 0 ; }
+extern int FontCacheCharAddToHandle_Timing2_PF( FONTMANAGE *m ) { (void)m; return 0 ; }
 
 extern int FontCacheCharAddToHandle_Timing1_PF( FONTMANAGE *ManageData, FONTCHARDATA *CharData, DWORD CharCode, DWORD IVSCode, int TextureCacheUpdate )
 {
-    static int call_count = 0 ;
-    call_count++ ;
-    if ( call_count <= 5 ) std::fprintf( stderr, "[DxFontDesktop] CacheChar call#%d code=U+%04X\n", call_count, CharCode ) ;
+    // Desktop では Desktop_DrawString_Hook が DrawString の前に実行され、
+    // SDL_ttf で直接描画するので FontCache は使われない。本関数が呼ばれる
+    // のは Software fallback パスだけだが、それも Hook が吸収する。
     TTF_Font *font = as_ttf( ManageData->PF->FontData ) ;
-    if ( !font ) { std::fprintf( stderr, "[DxFontDesktop] CacheChar: FontData NULL\n" ) ; return -1 ; }
+    if ( !font ) return -1 ;
 
     // スペース判定
     int Space = 0 ;
@@ -241,120 +240,166 @@ extern int EnumFontName_PF( ENUMFONTDATA *EnumFontData, int IsEx, int CharSet )
     return 0 ;
 }
 
-#ifndef DX_NON_NAMESPACE
-} // end namespace DxLib
-#endif
+// --- Desktop_DrawString_Hook ------------------------------------------------
+// DxFont.cpp の DrawStringHardware / DrawStringSoftware からフォックされる。
+// Font->PF->FontData の TTF_Font* を使って SDL_ttf で直接描画。
+// 戻り値 >= 0 ならそこで処理完了 (DxFont の後続ロジックは実行しない)。
 
-// Windows で windows.h を先に include させる (GL type 衝突対策)
-#ifdef _WIN32
-#include <windows.h>
-#endif
-#include <SDL_opengl.h>
-
-// --- バイパス: SDL_ttf 直接で画面に文字を描く helper --------------------
-//
-// DxLib の DrawString -> DrawStringHardware -> TextureCacheFlag=FALSE で
-// 黙って無描画になる問題を回避するため、別名関数 DxDesktop_DrawText を
-// hsp3dx 側から直接呼べるようにする。
-// TrueType フォントを SDL_ttf で直接ラスタライズ → 毎フレーム一時テクスチャに
-// アップ → DrawGraph 経由で描画する単純な実装 (キャッシュなし)。
-
-extern "C" int DxDesktop_DrawText( int x, int y, const char *utf8_text,
-                                    unsigned char r, unsigned char g, unsigned char b,
-                                    int font_pt )
+// wchar_t* (size は Win=2/Mac/Linux=4) を UTF-8 std::string に変換
+static std::string desktop_wchar_to_utf8( const wchar_t *ws, size_t len )
 {
-    if ( !utf8_text || !*utf8_text ) return 0 ;
-    if ( !s_TtfInited ) { if ( TTF_Init() != 0 ) return -1 ; s_TtfInited = 1 ; }
-    if ( font_pt <= 0 ) font_pt = 16 ;
-
-    static TTF_Font *cached = nullptr ;
-    static int       cached_pt = 0 ;
-    if ( !cached || cached_pt != font_pt ) {
-        if ( cached ) TTF_CloseFont( cached ) ;
-        cached = nullptr ;
-        const char * const *paths ;
-    #if defined(_WIN32)
-        static const char *win_paths[] = {
-            "C:/Windows/Fonts/YuGothR.ttc",
-            "C:/Windows/Fonts/meiryo.ttc",
-            "C:/Windows/Fonts/msgothic.ttc",
-            nullptr } ;
-        paths = win_paths ;
-    #elif defined(__APPLE__)
-        static const char *mac_paths[] = {
-            "/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc",
-            "/System/Library/Fonts/Hiragino Sans GB.ttc",
-            "/System/Library/Fonts/Helvetica.ttc",
-            nullptr } ;
-        paths = mac_paths ;
-    #else
-        static const char *linux_paths[] = {
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-            "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
-            nullptr } ;
-        paths = linux_paths ;
-    #endif
-        for ( int i = 0 ; paths[i] ; ++i ) {
-            cached = TTF_OpenFont( paths[i], font_pt ) ;
-            if ( cached ) break ;
+    std::string out ;
+    if ( !ws || len == 0 ) return out ;
+    out.reserve( len * 3 ) ;
+    for ( size_t i = 0 ; i < len ; ++i )
+    {
+        unsigned int cp = ( unsigned int )ws[ i ] ;
+        // UTF-16 サロゲート処理 (Windows wchar_t=2)
+        if ( sizeof( wchar_t ) == 2 && cp >= 0xD800 && cp <= 0xDBFF && i + 1 < len )
+        {
+            unsigned int lo = ( unsigned int )ws[ i + 1 ] ;
+            if ( lo >= 0xDC00 && lo <= 0xDFFF ) {
+                cp = 0x10000 + ( ( cp - 0xD800 ) << 10 ) + ( lo - 0xDC00 ) ;
+                ++i ;
+            }
         }
-        cached_pt = font_pt ;
+        if ( cp < 0x80 ) {
+            out.push_back( ( char )cp ) ;
+        } else if ( cp < 0x800 ) {
+            out.push_back( ( char )( 0xC0 | ( cp >> 6 ) ) ) ;
+            out.push_back( ( char )( 0x80 | ( cp & 0x3F ) ) ) ;
+        } else if ( cp < 0x10000 ) {
+            out.push_back( ( char )( 0xE0 | ( cp >> 12 ) ) ) ;
+            out.push_back( ( char )( 0x80 | ( ( cp >> 6 ) & 0x3F ) ) ) ;
+            out.push_back( ( char )( 0x80 | ( cp & 0x3F ) ) ) ;
+        } else if ( cp < 0x110000 ) {
+            out.push_back( ( char )( 0xF0 | ( cp >> 18 ) ) ) ;
+            out.push_back( ( char )( 0x80 | ( ( cp >> 12 ) & 0x3F ) ) ) ;
+            out.push_back( ( char )( 0x80 | ( ( cp >> 6 ) & 0x3F ) ) ) ;
+            out.push_back( ( char )( 0x80 | ( cp & 0x3F ) ) ) ;
+        }
     }
-    if ( !cached ) return -1 ;
+    return out ;
+}
 
-    SDL_Color color = { r, g, b, 255 } ;
-    SDL_Surface *surf = TTF_RenderUTF8_Blended( cached, utf8_text, color ) ;
-    if ( !surf ) return -1 ;
-
-    // GL texture 化 → screen 座標に描画
-    // 下のコードは名前空間 DxLib のブロック外 (グローバル) にあるが、
-    // SDL/GL の関数は名前空間関係なく使える。DxLib の Desktop_SetOrtho2D は
-    // DxLib namespace 内の static 関数なので直接呼べない。
-    // → 最低限の OpenGL 直接呼びで代用。
-    GLuint tex = 0 ;
-    glGenTextures( 1, &tex ) ;
-    glBindTexture( GL_TEXTURE_2D, tex ) ;
-
-    // surf->format->BytesPerPixel は 4 (RGBA) のはず
-    // SDL_Surface のフォーマットは ARGB8888 or BGRA — 環境依存。
-    // GL_BGRA でアップすれば Windows SDL2 + little-endian で一致する。
-    GLenum gl_fmt = GL_BGRA ;
-    glPixelStorei( GL_UNPACK_ROW_LENGTH, surf->pitch / surf->format->BytesPerPixel ) ;
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, surf->w, surf->h, 0, gl_fmt, GL_UNSIGNED_BYTE, surf->pixels ) ;
-    glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 ) ;
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ) ;
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ) ;
-
-    // ortho 2D (viewport size は GSYS.Screen 経由で取れない from extern "C" なので
-    // viewport 現行値を取る)
+// 現在の GL viewport サイズに対して 2D ortho を組む
+static void desktop_font_set_ortho2d( void )
+{
     GLint vp[ 4 ] ;
     glGetIntegerv( GL_VIEWPORT, vp ) ;
     glMatrixMode( GL_PROJECTION ) ;
     glLoadIdentity() ;
-    glOrtho( 0, vp[2], vp[3], 0, -1, 1 ) ;
+    glOrtho( 0.0, ( double )vp[ 2 ], ( double )vp[ 3 ], 0.0, -1.0, 1.0 ) ;
     glMatrixMode( GL_MODELVIEW ) ;
     glLoadIdentity() ;
     glDisable( GL_DEPTH_TEST ) ;
+}
 
+// SDL_Surface を一時 GL texture にして、指定四角形へ描画する (color は multiply)
+static void desktop_font_draw_surface( SDL_Surface *surf,
+                                       float cx[ 4 ], float cy[ 4 ],
+                                       unsigned char R, unsigned char G, unsigned char B )
+{
+    if ( !surf ) return ;
+    GLuint tex = 0 ;
+    glGenTextures( 1, &tex ) ;
+    glBindTexture( GL_TEXTURE_2D, tex ) ;
+
+    // SDL_ttf の Blended surface は 32bit RGBA だが、ネイティブ endianness に依存。
+    // SDL2 の masks を見て RGBA/BGRA を判別するのが確実だが、little-endian + SDL2 の
+    // TTF_RenderUTF8_Blended は ARGB (BGRA in memory) で返す。GL_BGRA でアップ。
+    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ) ;
+    glPixelStorei( GL_UNPACK_ROW_LENGTH, surf->pitch / surf->format->BytesPerPixel ) ;
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, surf->w, surf->h, 0,
+                  GL_BGRA, GL_UNSIGNED_BYTE, surf->pixels ) ;
+    glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) ;
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) ;
+
+    desktop_font_set_ortho2d() ;
     glEnable( GL_BLEND ) ;
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
-    glColor4ub( 255, 255, 255, 255 ) ;
     glEnable( GL_TEXTURE_2D ) ;
-
-    float fw = ( float )surf->w, fh = ( float )surf->h ;
+    glColor4ub( R, G, B, 255 ) ;
     glBegin( GL_TRIANGLE_STRIP ) ;
-        glTexCoord2f( 0, 0 ) ; glVertex2f( ( float )x,       ( float )y       ) ;
-        glTexCoord2f( 1, 0 ) ; glVertex2f( ( float )x + fw,  ( float )y       ) ;
-        glTexCoord2f( 0, 1 ) ; glVertex2f( ( float )x,       ( float )y + fh  ) ;
-        glTexCoord2f( 1, 1 ) ; glVertex2f( ( float )x + fw,  ( float )y + fh  ) ;
+        glTexCoord2f( 0, 0 ) ; glVertex2f( cx[ 0 ], cy[ 0 ] ) ;  // TL
+        glTexCoord2f( 1, 0 ) ; glVertex2f( cx[ 1 ], cy[ 1 ] ) ;  // TR
+        glTexCoord2f( 0, 1 ) ; glVertex2f( cx[ 2 ], cy[ 2 ] ) ;  // BL
+        glTexCoord2f( 1, 1 ) ; glVertex2f( cx[ 3 ], cy[ 3 ] ) ;  // BR
     glEnd() ;
 
     glBindTexture( GL_TEXTURE_2D, 0 ) ;
     glDisable( GL_TEXTURE_2D ) ;
     glDeleteTextures( 1, &tex ) ;
+}
 
+extern int Desktop_DrawString_Hook(
+    int xi, int yi, float xf, float yf, int PosIntFlag,
+    double ExRateX, double ExRateY,
+    int RotCenterEnable, float RotCenterX, float RotCenterY, double RotAngle,
+    const wchar_t *String, size_t StringLength,
+    unsigned int Color, FONTMANAGE *Font,
+    unsigned int EdgeColor, int VerticalFlag )
+{
+    (void)EdgeColor; (void)VerticalFlag;
+    if ( !String || StringLength == 0 || !Font || !Font->PF ) return -1 ;
+    if ( !s_TtfInited ) return -1 ;
+    TTF_Font *font = as_ttf( Font->PF->FontData ) ;
+    if ( !font ) return -1 ;
+
+    std::string utf8 = desktop_wchar_to_utf8( String, StringLength ) ;
+    if ( utf8.empty() ) return 0 ;
+
+    // DxLib の Color は GetColor / NS_GetColor2 と同フォーマット (内部 ARGB8)
+    int R = 255, G = 255, B = 255 ;
+    NS_GetColor2( Color, &R, &G, &B ) ;
+    SDL_Color c = { ( Uint8 )R, ( Uint8 )G, ( Uint8 )B, 255 } ;
+
+    SDL_Surface *surf = TTF_RenderUTF8_Blended( font, utf8.c_str(), c ) ;
+    if ( !surf ) {
+        std::fprintf( stderr, "[DxFontDesktop] TTF_RenderUTF8_Blended failed: %s\n", TTF_GetError() ) ;
+        return -1 ;
+    }
+
+    float x = PosIntFlag ? ( float )xi : xf ;
+    float y = PosIntFlag ? ( float )yi : yf ;
+    float w = ( float )surf->w * ( float )ExRateX ;
+    float h = ( float )surf->h * ( float )ExRateY ;
+
+    float cx[ 4 ], cy[ 4 ] ;
+    if ( RotCenterEnable && RotAngle != 0.0 )
+    {
+        // RotCenter を中心に回転。xi/yi は回転前の原点 (left-top) 扱い
+        float cosA = ( float )std::cos( RotAngle ) ;
+        float sinA = ( float )std::sin( RotAngle ) ;
+        auto rot = [&]( float lx, float ly, float &ox, float &oy ) {
+            float dx = lx - RotCenterX ;
+            float dy = ly - RotCenterY ;
+            ox = x + RotCenterX + dx * cosA - dy * sinA ;
+            oy = y + RotCenterY + dx * sinA + dy * cosA ;
+        } ;
+        rot( 0, 0, cx[ 0 ], cy[ 0 ] ) ;
+        rot( w, 0, cx[ 1 ], cy[ 1 ] ) ;
+        rot( 0, h, cx[ 2 ], cy[ 2 ] ) ;
+        rot( w, h, cx[ 3 ], cy[ 3 ] ) ;
+    }
+    else
+    {
+        cx[ 0 ] = x     ; cy[ 0 ] = y     ;
+        cx[ 1 ] = x + w ; cy[ 1 ] = y     ;
+        cx[ 2 ] = x     ; cy[ 2 ] = y + h ;
+        cx[ 3 ] = x + w ; cy[ 3 ] = y + h ;
+    }
+
+    desktop_font_draw_surface( surf, cx, cy, ( Uint8 )R, ( Uint8 )G, ( Uint8 )B ) ;
     SDL_FreeSurface( surf ) ;
     return 0 ;
 }
+
+#ifndef DX_NON_NAMESPACE
+} // end namespace DxLib
+#endif
 
 #endif // DX_NON_FONT

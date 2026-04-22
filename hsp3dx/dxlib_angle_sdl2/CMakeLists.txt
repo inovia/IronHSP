@@ -145,7 +145,11 @@ function(dxlib_desktop_settings target)
         DX_NON_BULLET_PHYSICS=1
         DX_NON_FILTER=1
         DX_NON_MASK=1
-        DX_NON_SOUND=1
+        # DX_NON_SOUND=1 は dxlib_portable_stage3 (lib) にのみ付与する。
+        # user 側 (stage exe) はこれを外しておかないと DxLib::LoadSoundMem 等の
+        # 宣言が DxLib.h から見えなくなる (L4853 の #ifndef DX_NON_SOUND)。
+        # DxGateway.cpp の sound wrapper は lib 側で NS_* を呼ぼうとするので
+        # lib 側だけ DX_NON_SOUND=1 にして DxSoundDesktop.cpp の実体に寄せる。
         # DX_NON_FONT=1  ← Stage 19 で font 有効化
         # DX_NON_INPUT=1  ← Stage 16 で input 有効化
         DX_NON_KEYEX=1       # 高機能キー入力は未対応
@@ -220,10 +224,12 @@ add_library(dxlib_portable_stage3 STATIC
     # Stage 19: Font
     ${DXLIB_PORTABLE_DIR}/DxFont.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxFontDesktop.cpp
-    # Stage 20: Sound (bypass)
+    # Stage 20: Sound (Desktop 自前実装)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxSoundDesktop.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
+# lib 側は DxGateway.cpp の sound wrapper を殺して NS_* 未参照にする
+target_compile_definitions(dxlib_portable_stage3 PRIVATE DX_NON_SOUND=1)
 target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::SDL2 SDL2::SDL2main)
 if(HAS_SDL2_TTF)
     target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::ttf)
