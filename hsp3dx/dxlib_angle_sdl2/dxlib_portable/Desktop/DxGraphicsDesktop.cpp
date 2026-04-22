@@ -1304,6 +1304,120 @@ extern int Graphics_Hardware_DrawPrimitiveLight_PF( const VERTEX3D *Vertex, int 
     return 0 ;
 }
 
+// --- Tier 4a: Light / Fog (fixed-function GL) -----------------------------
+
+// DxLib の LIGHTTYPE → GL_LIGHT0..GL_LIGHT7 はそのまま index マップ (8 個まで)
+static inline GLenum desktop_gl_light( int index ) { return GL_LIGHT0 + index ; }
+
+extern int Graphics_Hardware_Light_SetUse_PF( int Flag )
+{
+    if ( Flag ) glEnable( GL_LIGHTING ) ; else glDisable( GL_LIGHTING ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_Light_SetEnable_PF( int index, int Flag )
+{
+    if ( index < 0 || index >= 8 ) return -1 ;
+    if ( Flag ) glEnable( desktop_gl_light( index ) ) ;
+    else        glDisable( desktop_gl_light( index ) ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_Light_SetState_PF( int index, LIGHTPARAM *p )
+{
+    if ( !p || index < 0 || index >= 8 ) return -1 ;
+    GLenum lg = desktop_gl_light( index ) ;
+
+    float dif[4] = { p->Diffuse.r,  p->Diffuse.g,  p->Diffuse.b,  p->Diffuse.a  } ;
+    float spc[4] = { p->Specular.r, p->Specular.g, p->Specular.b, p->Specular.a } ;
+    float amb[4] = { p->Ambient.r,  p->Ambient.g,  p->Ambient.b,  p->Ambient.a  } ;
+    glLightfv( lg, GL_DIFFUSE,  dif ) ;
+    glLightfv( lg, GL_SPECULAR, spc ) ;
+    glLightfv( lg, GL_AMBIENT,  amb ) ;
+
+    // Position / Direction: GL では light position の w 成分で種類分け
+    //   w = 0: directional (Direction をそのまま方向として)
+    //   w = 1: positional (Position が座標、attenuation 有効)
+    if ( p->LightType == DX_LIGHTTYPE_D3DLIGHT_DIRECTIONAL ) {
+        // GL は「光線の方向」ではなく「光源のある方向」を渡す必要あり (方向反転)
+        float dir[4] = { -p->Direction.x, -p->Direction.y, -p->Direction.z, 0.0f } ;
+        glLightfv( lg, GL_POSITION, dir ) ;
+    } else {
+        float pos[4] = { p->Position.x, p->Position.y, p->Position.z, 1.0f } ;
+        glLightfv( lg, GL_POSITION, pos ) ;
+        glLightf( lg, GL_CONSTANT_ATTENUATION,  p->Attenuation0 ) ;
+        glLightf( lg, GL_LINEAR_ATTENUATION,    p->Attenuation1 ) ;
+        glLightf( lg, GL_QUADRATIC_ATTENUATION, p->Attenuation2 ) ;
+    }
+    // Spot
+    if ( p->LightType == DX_LIGHTTYPE_D3DLIGHT_SPOT ) {
+        float sdir[3] = { p->Direction.x, p->Direction.y, p->Direction.z } ;
+        glLightfv( lg, GL_SPOT_DIRECTION, sdir ) ;
+        // Phi (外側) で cutoff、Theta (内側) で spot_exponent
+        glLightf( lg, GL_SPOT_CUTOFF,   p->Phi * 90.0f / 3.14159265f ) ;
+        glLightf( lg, GL_SPOT_EXPONENT, p->Falloff > 0 ? p->Falloff : 1.0f ) ;
+    } else {
+        glLightf( lg, GL_SPOT_CUTOFF, 180.0f ) ;  // non-spot
+    }
+    return 0 ;
+}
+
+extern int Graphics_Hardware_Light_GlobalAmbient_PF( COLOR_F *c )
+{
+    if ( !c ) return -1 ;
+    float amb[4] = { c->r, c->g, c->b, c->a } ;
+    glLightModelfv( GL_LIGHT_MODEL_AMBIENT, amb ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_Light_SetNoAngleAttenuation_PF( int Flag ) { (void)Flag; return 0 ; }
+extern int Graphics_Hardware_Light_SetUseHalfLambert_PF   ( int Flag ) { (void)Flag; return 0 ; }
+extern int Graphics_Hardware_ApplyLigFogToHardware_PF     ( void ) { return 0 ; }  // state は都度反映済
+
+// --- Fog ---
+extern int Graphics_Hardware_SetFogEnable_PF( int Flag )
+{
+    if ( Flag ) glEnable( GL_FOG ) ; else glDisable( GL_FOG ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetFogMode_PF( int Mode )
+{
+    switch ( Mode ) {
+        case DX_FOGMODE_LINEAR: glFogi( GL_FOG_MODE, GL_LINEAR ) ; break ;
+        case DX_FOGMODE_EXP   : glFogi( GL_FOG_MODE, GL_EXP    ) ; break ;
+        case DX_FOGMODE_EXP2  : glFogi( GL_FOG_MODE, GL_EXP2   ) ; break ;
+        case DX_FOGMODE_NONE  : default: break ;  // NONE は SetFogEnable(FALSE) 側で
+    }
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetFogColor_PF( DWORD ColorARGB )
+{
+    // DxLib の Color は 0xAARRGGBB (unsigned int 格納)
+    float r = ( ( ColorARGB >> 16 ) & 0xFF ) / 255.0f ;
+    float g = ( ( ColorARGB >>  8 ) & 0xFF ) / 255.0f ;
+    float b = ( ( ColorARGB       ) & 0xFF ) / 255.0f ;
+    float a = ( ( ColorARGB >> 24 ) & 0xFF ) / 255.0f ;
+    if ( a == 0.0f ) a = 1.0f ;
+    float col[4] = { r, g, b, a } ;
+    glFogfv( GL_FOG_COLOR, col ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetFogStartEnd_PF( float Start, float End )
+{
+    glFogf( GL_FOG_START, Start ) ;
+    glFogf( GL_FOG_END,   End ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetFogDensity_PF( float Density )
+{
+    glFogf( GL_FOG_DENSITY, Density ) ;
+    return 0 ;
+}
+
 // Z バッファ
 extern int Graphics_Hardware_ClearDrawScreenZBuffer_PF( const RECT *ClearRect )
 {

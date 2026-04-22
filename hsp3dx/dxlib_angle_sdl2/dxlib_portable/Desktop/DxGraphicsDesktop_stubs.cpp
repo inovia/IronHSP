@@ -32,7 +32,7 @@ namespace DxLib
 // --- stubs (auto-generated from build log) -------------------------------
 extern int Graphics_CheckRequiredNormalImageConv_BaseImageFormat_PF(struct IMAGEDATA_ORIG *,int,int *,int,int *) { return 0; }
 extern int Graphics_GetRefreshRate_PF(void) { return 0; }
-extern int Graphics_Hardware_ApplyLigFogToHardware_PF(void) { return 0; }
+// Graphics_Hardware_ApplyLigFogToHardware_PF: impl in DxGraphicsDesktop.cpp (Tier 4a)
 // moved to DxGraphicsDesktop.cpp (Stage 17)
 extern int Graphics_Hardware_CheckValid_PF(void) { return 0; }
 // Graphics_Hardware_ClearDrawScreenZBuffer_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
@@ -97,12 +97,7 @@ extern int Graphics_Hardware_IndexBuffer_SetData_PF(struct INDEXBUFFERHANDLEDATA
 extern int Graphics_Hardware_IndexBuffer_Terminate_PF(struct INDEXBUFFERHANDLEDATA *) { return 0; }
 extern int Graphics_Hardware_InitGraph_PF(void) { return 0; }
 // Graphics_Hardware_Initialize_PF: impl in DxGraphicsDesktop.cpp (Stage 6)
-extern int Graphics_Hardware_Light_GlobalAmbient_PF(struct tagCOLOR_F *) { return 0; }
-extern int Graphics_Hardware_Light_SetEnable_PF(int,int) { return 0; }
-extern int Graphics_Hardware_Light_SetNoAngleAttenuation_PF(int) { return 0; }
-extern int Graphics_Hardware_Light_SetState_PF(int,struct tagLIGHTPARAM *) { return 0; }
-extern int Graphics_Hardware_Light_SetUseHalfLambert_PF(int) { return 0; }
-extern int Graphics_Hardware_Light_SetUse_PF(int) { return 0; }
+// Graphics_Hardware_Light_*_PF: impl in DxGraphicsDesktop.cpp (Tier 4a)
 extern int Graphics_Hardware_LockDrawScreenBuffer_PF(struct tagRECT *,struct tagBASEIMAGE *,int,struct IMAGEDATA *,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned long long) { return 0; }
 // Graphics_Hardware_RefreshAlphaChDrawMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
@@ -120,11 +115,7 @@ extern int Graphics_Hardware_SetDrawCustomBlendMode_PF(int,int,int,int,int,int,i
 extern int Graphics_Hardware_SetDrawMode_PF(int) { return 0; }
 // Graphics_Hardware_SetDrawScreen_PF / _Post_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_SetDrawZBuffer_PF: impl in DxGraphicsDesktop.cpp (Tier 3)
-extern int Graphics_Hardware_SetFogColor_PF(DWORD) { return 0; }
-extern int Graphics_Hardware_SetFogDensity_PF(float) { return 0; }
-extern int Graphics_Hardware_SetFogEnable_PF(int) { return 0; }
-extern int Graphics_Hardware_SetFogMode_PF(int) { return 0; }
-extern int Graphics_Hardware_SetFogStartEnd_PF(float,float) { return 0; }
+// Graphics_Hardware_SetFog*_PF: impl in DxGraphicsDesktop.cpp (Tier 4a)
 extern int Graphics_Hardware_SetGraphicsDeviceLostCallbackFunction_PF(void (__cdecl*)(void *),void *) { return 0; }
 extern int Graphics_Hardware_SetGraphicsDeviceRestoreCallbackFunction_PF(void (__cdecl*)(void *),void *) { return 0; }
 extern int Graphics_Hardware_SetMaxAnisotropy_PF(int) { return 0; }
