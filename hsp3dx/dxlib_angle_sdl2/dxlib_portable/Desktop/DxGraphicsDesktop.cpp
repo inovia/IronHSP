@@ -170,11 +170,17 @@ static void Desktop_SetOrtho2D( void )
     glDisable( GL_DEPTH_TEST ) ;
 }
 
-// DxLib の unsigned int Color (ARGB, GetColor で作られたやつ) を RGBA に
+// DxLib DrawBright 用の現在値 (0..255)
+static int s_BrightR = 255, s_BrightG = 255, s_BrightB = 255 ;
+
+// DxLib の unsigned int Color を DrawBright 乗算して glColor に渡す
 static inline void Desktop_SetGLColor( unsigned int Color )
 {
     int R, G, B ;
     NS_GetColor2( Color, &R, &G, &B ) ;
+    R = ( R * s_BrightR ) / 255 ;
+    G = ( G * s_BrightG ) / 255 ;
+    B = ( B * s_BrightB ) / 255 ;
     glColor4ub( ( GLubyte )R, ( GLubyte )G, ( GLubyte )B, 255 ) ;
 }
 
@@ -390,6 +396,90 @@ extern int Graphics_Hardware_DrawOval_Thickness_PF( int x, int y, int rx, int ry
     }
     glEnd() ;
     glLineWidth( 1.0f ) ;
+    return 0 ;
+}
+
+// --- Stage 10: float 座標版 + Blend Mode + Bright ------------------------
+
+extern int Graphics_Hardware_DrawQuadrangleF_PF( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, unsigned int Color, int FillFlag )
+{
+    Desktop_SetOrtho2D() ;
+    Desktop_SetGLColor( Color ) ;
+    glBegin( FillFlag ? GL_TRIANGLE_FAN : GL_LINE_LOOP ) ;
+        glVertex2f( x1, y1 ) ;
+        glVertex2f( x2, y2 ) ;
+        glVertex2f( x3, y3 ) ;
+        glVertex2f( x4, y4 ) ;
+    glEnd() ;
+    return 0 ;
+}
+
+// Blend mode state (DxLib の SetDrawBlendMode → GL の glBlendFunc)
+extern int Graphics_Hardware_SetDrawBlendMode_PF( int BlendMode, int BlendParam )
+{
+    (void)BlendParam;
+    switch ( BlendMode )
+    {
+        case DX_BLENDMODE_NOBLEND:
+            glDisable( GL_BLEND ) ;
+            break ;
+        case DX_BLENDMODE_ALPHA:
+            glEnable( GL_BLEND ) ;
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) ;
+            break ;
+        case DX_BLENDMODE_ADD:
+        case DX_BLENDMODE_ADD_X4:
+            glEnable( GL_BLEND ) ;
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE ) ;
+            break ;
+        case DX_BLENDMODE_SUB:
+        case DX_BLENDMODE_SUB1:
+        case DX_BLENDMODE_SUB2:
+            // glBlendEquation は extension なので compat mode では使用せず、
+            // α を反転してかける近似 (完全互換でないが視認可能)
+            glEnable( GL_BLEND ) ;
+            glBlendFunc( GL_ZERO, GL_ONE_MINUS_SRC_ALPHA ) ;
+            break ;
+        case DX_BLENDMODE_MUL:
+            glEnable( GL_BLEND ) ;
+            glBlendFunc( GL_DST_COLOR, GL_ZERO ) ;
+            break ;
+        case DX_BLENDMODE_PMA_ALPHA:
+            glEnable( GL_BLEND ) ;
+            glBlendFunc( GL_ONE, GL_ONE_MINUS_SRC_ALPHA ) ;
+            break ;
+        case DX_BLENDMODE_INVSRC:
+            glEnable( GL_BLEND ) ;
+            glBlendFunc( GL_ONE_MINUS_SRC_COLOR, GL_ZERO ) ;
+            break ;
+        default:
+            glDisable( GL_BLEND ) ;
+            break ;
+    }
+    return 0 ;
+}
+
+// DxLib の DrawBright は描画輝度を 0..255 の倍率で指定する。
+// fixed-function では glColor の乗算値として反映 (上の Desktop_SetGLColor で処理)。
+
+extern int Graphics_Hardware_SetDrawBright_PF( int Red, int Green, int Blue )
+{
+    s_BrightR = Red ;
+    s_BrightG = Green ;
+    s_BrightB = Blue ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetDrawBrightToOneParam_PF( DWORD Param )
+{
+    (void)Param;  // 旧 API 互換、fixed-function では未使用
+    return 0 ;
+}
+
+// RefreshAlphaChDrawMode は描画先に α を書き込むか否かの切り替え。
+// 描画先が back buffer の場合 α は最終合成に使われないので no-op でよい。
+extern int Graphics_Hardware_RefreshAlphaChDrawMode_PF( void )
+{
     return 0 ;
 }
 

@@ -576,3 +576,191 @@ cd "j:/HNWorks/IronHSP_2026/hsp3dx/dxlib_angle_sdl2"
 "/c/Program Files/CMake/bin/cmake.exe" --build build --config Release --target stage9_animated
 ./build/Release/stage9_animated.exe  # 6 秒アニメーション
 ```
+
+---
+
+### 2026-04-22 — Day 1 追補 (Checkpoint commit + Stage 10 + Stage 11 🎉)
+
+#### Checkpoint: `e2dc16b0` (Stage 1〜9 一括、514 files, +853K 行)
+
+`feat(hsp3dx): dxlib_angle_sdl2 Stage 1〜9 — DxLib を SDL2+GL で Desktop 起動`
+
+#### Stage 10: Blend mode + Bright + DrawQuadrangleF (5 PF 追加, 累計 21/158)
+
+- `Graphics_Hardware_DrawQuadrangleF_PF` — float 座標版
+- `Graphics_Hardware_SetDrawBlendMode_PF` — ALPHA/ADD/SUB/MUL/PMA_ALPHA/INVSRC → glBlendFunc
+- `Graphics_Hardware_SetDrawBright_PF` — R/G/B を保持し Desktop_SetGLColor で乗算
+- `Graphics_Hardware_SetDrawBrightToOneParam_PF` — 旧 API no-op
+- `Graphics_Hardware_RefreshAlphaChDrawMode_PF` — no-op
+
+注意: `glBlendEquation(GL_FUNC_REVERSE_SUBTRACT)` は GL extension なので MSVC link で
+`__imp_glBlendEquation` 未解決エラー発生。SUB 系は `glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA)`
+近似に差し替え (ANGLE/shader 化時にちゃんと実装し直し)
+
+#### Stage 11: Emscripten (WebAssembly + WebGL) 動作確認 🎉🎉🎉
+
+**本プロジェクトの本命目標 "cross-platform" が初実証**。
+
+- emsdk 最新版 (5.0.6) を `c:/Build/emsdk/` にインストール (python emsdk.bat install latest)
+- 最小 Web デモ: [web/stage1_web.cpp](web/stage1_web.cpp)
+  - DxLib なしの SDL2 直接コード (stage1_empty_window.cpp の emscripten 版)
+  - `emscripten_set_main_loop()` でブラウザループ
+  - `glClearColor` を時間で変化させて視覚確認
+- ビルドコマンド:
+  ```bash
+  emcc stage1_web.cpp -o stage1_web.html \
+    -s USE_SDL=2 -s FULL_ES2=1 \
+    -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 \
+    -s ALLOW_MEMORY_GROWTH=1 -std=c++17 -O2
+  ```
+- 出力: `stage1_web.wasm` (412 KB) + `stage1_web.js` + `stage1_web.html` (19 KB)
+- Chrome で `http://127.0.0.1:8766/stage1_web.html` を開いて青系 canvas 表示を確認
+
+**Web 配信時の注意**:
+- Python の `-m http.server` は `.wasm` の MIME type を `application/octet-stream` で返す場合があり、
+  ブラウザが streaming instantiation を拒否して停止することがある
+- 解決: `.wasm` → `application/wasm` に MIME 上書きする簡易 server を使う
+  ```python
+  class H(http.server.SimpleHTTPRequestHandler):
+      extensions_map = {**H.extensions_map, '.wasm': 'application/wasm'}
+  ```
+- `emrun` コマンドも使えるが今回は素の python server + MIME 上書きで動いた
+
+#### 累計状況 (Stage 11 終了時)
+
+| 項目 | Windows | Web |
+|------|---------|-----|
+| stage1 (SDL2 + GL) | ✓ | **✓** |
+| stage6〜9 (DxLib 経由 2D 描画) | ✓ | 未検証 (Stage 12 候補) |
+| 実装済 _PF | 21/158 | 同左 |
+
+#### 教訓 / 知見
+
+- emscripten 公式 shell.html は `.wasm` MIME が正しいと 400 KB 程度は数秒でロード
+- SDL2 は `-s USE_SDL=2` で emscripten 側が自動でコンパイル + cache (`C:/Build/emsdk/upstream/emscripten/cache/` 下)
+- FULL_ES2 を指定すると WebGL2 context が得られる (本家のコードは GL ES 2 なので動く)
+- python の `http.server` は `-m` で使うと MIME 差し替え困難 → 5 行の wrapper 書く方が速い
+
+#### 次 Stage 12 候補
+
+- **A**. **DxLib 本体 (stage6 相当) を emscripten でビルド** — これが通れば "DxLib on Web" が完成
+  - 難度高め: 5.99MB の static lib + 500+ ソースファイル、compat profile → ES2 shader 書き直しも必要になる可能性
+- **B**. Stage 11 の拡張 (DrawBox/DrawLine 等を純 SDL2+WebGL で実装、hsp3dx とは別)
+- **C**. Mac ビルド (SDL2 は brew、DxLib フォークに Mac 固有 stub 追加必要)
+- **D**. checkpoint commit (Stage 10 + 11)
+
+---
+
+### 2026-04-22 — Day 1 追補 (Stage 12 完了 🎉🎉🎉)
+
+#### 結論: **DxLib 本体が WebAssembly で稼働**
+
+Stage 4 (DxLib_Init/End stub 呼び出し) の **Web 版が動作**:
+
+スクショ: [stage12_stage4web.png](stage12_stage4web.png) — Chrome で出力:
+```
+[Stage4] Calling DxLib_Init...
+[Stage4] DxLib_Init returned 0
+[Stage4] Calling DxLib_End...
+[Stage4] Done.
+```
+
+#### ビルド手順 ([web/build_web.sh](web/build_web.sh))
+
+```bash
+emcc ../../src/stage4_init_test.cpp \
+  ../../dxlib_portable/Dx*.cpp \
+  ../../dxlib_portable/Desktop/Dx*Desktop*.cpp \
+  -I../../dxlib_portable \
+  -DDX_PLATFORM_DESKTOP_SDL2=1 -DDX_GCC_COMPILE=1 -DDX_NON_INLINE_ASM=1 \
+  -DDX_NON_GRAPHICS=1 -DDX_NON_MOVIE=1 ...(他 non 群)... \
+  -s USE_SDL=2 -s ALLOW_MEMORY_GROWTH=1 -s INITIAL_MEMORY=64MB \
+  -s FULL_ES2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 \
+  -std=c++17 -O0 -g \
+  -Wno-macro-redefined -Wno-invalid-source-encoding \
+  -o stage4_web.html
+```
+
+出力: **stage4_web.wasm = 6.1 MB**
+
+#### 重要な知見
+
+1. **`-finput-charset=CP932` は clang 不対応**。ShiftJIS の DxLib ソースは
+   `-Wno-invalid-source-encoding` で警告無視すれば clang が通してくれる
+2. **`_WIN32` は emscripten で未定義**なので `DxDataTypeDesktop.h` の
+   `DX_DESKTOP_TYPES_FROM_WINDOWS_H` ブランチが無効化され、
+   `#define BYTE / WORD / DWORD / RECT / POINT` が全部有効になる
+3. stderr の `[DxLib Desktop]` ログは emscripten のデフォルト textarea には
+   出ず、stdout のみ表示。完全表示には `EXPORT_PRINT_STDERR` 等の追加設定が要る
+4. `-s INITIAL_MEMORY=64MB` 設定が推奨 (dxlib 内部の MAX_HANDLE_NUM 確保で必要)
+5. 6.1MB は大きめ。-O3 + -s ASSERTIONS=0 で 3MB 程度まで圧縮可能
+
+#### 動いているプラットフォーム層と動いていないもの
+
+| 機能 | Windows Desktop | Web |
+|------|----------------|-----|
+| DxLib_Init/End (stub) | ✓ | **✓** |
+| DxLib_Init/End (本物 via DxGateway) | ✓ | **✓** |
+| File I/O (std::filesystem) | ✓ | 未検証 |
+| Thread (SDL2) | ✓ | 未検証 (Web はそもそも single thread 基本) |
+| Graphics (compat GL fixed-function) | ✓ | ✗ (WebGL 非対応) |
+| stage6 (窓 + clear + flip) | ✓ | **未対応** (glBegin/glEnd なし) |
+
+#### Stage 12 で出来ていないこと (正直な報告)
+
+- **stage6 以降 (Graphics 有効) の Web 動作は未達成**。理由は `DxGraphicsDesktop.cpp`
+  が compat profile の fixed-function (`glOrtho`, `glBegin`, `glEnd`, `glVertex2f`,
+  `glColor4ub`) を使っているため。WebGL は GL ES 2+ 互換で fixed-function 無し。
+- 対処案:
+  - **A**. emscripten の `-s LEGACY_GL_EMULATION=1` で fixed-function を WebGL に
+    エミュレートさせる (限定的だが動く可能性あり)
+  - **B**. `DxGraphicsDesktop.cpp` を完全な shader + VBO ベースに書き直す
+    (ANGLE 経由 Mac/Linux/Web に向けた本命の解決策)
+
+#### 次 Stage 13 — 候補
+
+- **A**. `-s LEGACY_GL_EMULATION=1` で stage6/7/8/9 の Web 動作を試行
+- **B**. `DxGraphicsDesktop.cpp` の 2D primitive を shader 化 (ES 2 compatible)
+- **C**. Checkpoint commit (Stage 10/11/12 一括)
+- **D**. Mac / Linux ビルドへ
+
+#### 次回即時再開用コマンド
+
+```bash
+# Web ビルド (stage4):
+cd j:/HNWorks/IronHSP_2026/hsp3dx/dxlib_angle_sdl2/web/build
+bash ../build_web.sh stage4
+
+# Server:
+python -c "
+import http.server, socketserver, os
+class H(http.server.SimpleHTTPRequestHandler):
+    extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map, '.wasm':'application/wasm'}
+os.chdir('j:/HNWorks/IronHSP_2026/hsp3dx/dxlib_angle_sdl2/web/build')
+with socketserver.TCPServer(('127.0.0.1', 8766), H) as s: s.serve_forever()
+"
+
+# Open Chrome: http://127.0.0.1:8766/stage4_web.html
+```
+
+#### 次回即時再開用コマンド
+
+```bash
+# Web ビルド:
+export PATH="/c/Build/emsdk/upstream/emscripten:$PATH"
+cd j:/HNWorks/IronHSP_2026/hsp3dx/dxlib_angle_sdl2/web/build
+/c/Build/emsdk/upstream/emscripten/emcc.bat ../stage1_web.cpp -o stage1_web.html \
+  -s USE_SDL=2 -s FULL_ES2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 \
+  -s ALLOW_MEMORY_GROWTH=1 -std=c++17 -O2
+
+# Server:
+python -c "
+import http.server, socketserver, os
+class H(http.server.SimpleHTTPRequestHandler):
+    extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map, '.wasm':'application/wasm'}
+os.chdir('j:/HNWorks/IronHSP_2026/hsp3dx/dxlib_angle_sdl2/web/build')
+with socketserver.TCPServer(('127.0.0.1', 8766), H) as s: s.serve_forever()
+"
+
+# Open Chrome: http://127.0.0.1:8766/stage1_web.html
+```

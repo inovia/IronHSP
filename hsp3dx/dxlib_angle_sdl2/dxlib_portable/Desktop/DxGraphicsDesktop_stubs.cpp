@@ -72,7 +72,7 @@ extern int Graphics_Hardware_DrawPrimitiveIndexed3DToShader_UseVertexBuffer2_PF(
 extern int Graphics_Hardware_DrawPrimitiveLight_PF(struct tagVERTEX3D const *,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitiveLight_UseVertexBuffer_PF(struct VERTEXBUFFERHANDLEDATA *,int,int,int,struct IMAGEDATA *,int) { return 0; }
 extern int Graphics_Hardware_DrawPrimitive_PF(struct tagVERTEX_3D const *,int,int,struct IMAGEDATA *,int) { return 0; }
-extern int Graphics_Hardware_DrawQuadrangleF_PF(float,float,float,float,float,float,float,float,unsigned int,int) { return 0; }
+// Graphics_Hardware_DrawQuadrangleF_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 // Graphics_Hardware_DrawQuadrangle_PF: impl in DxGraphicsDesktop.cpp (Stage 8)
 extern int Graphics_Hardware_DrawRotaGraphFast_PF(int,int,float,float,float,float,struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_DrawRotaGraph_PF(int,int,float,float,double,double,struct IMAGEDATA *,struct IMAGEDATA *,int,int,int,int) { return 0; }
@@ -99,7 +99,7 @@ extern int Graphics_Hardware_Light_SetUseHalfLambert_PF(int) { return 0; }
 extern int Graphics_Hardware_Light_SetUse_PF(int) { return 0; }
 extern int Graphics_Hardware_LockDrawScreenBuffer_PF(struct tagRECT *,struct tagBASEIMAGE *,int,struct IMAGEDATA *,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned __int64) { return 0; }
-extern int Graphics_Hardware_RefreshAlphaChDrawMode_PF(void) { return 0; }
+// Graphics_Hardware_RefreshAlphaChDrawMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 extern int Graphics_Hardware_ReleaseOrigTexture_PF(struct IMAGEDATA_ORIG *) { return 0; }
 extern int Graphics_Hardware_ScreenCopy_PF(int) { return 0; }
 extern int Graphics_Hardware_SetBackgroundColor_PF(int,int,int,int) { return 0; }
@@ -107,9 +107,9 @@ extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,in
 extern int Graphics_Hardware_SetDrawAddColor_PF(int,int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawAlphaTest_PF(int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawArea_PF(int,int,int,int) { return 0; }
-extern int Graphics_Hardware_SetDrawBlendMode_PF(int,int) { return 0; }
-extern int Graphics_Hardware_SetDrawBrightToOneParam_PF(DWORD) { return 0; }
-extern int Graphics_Hardware_SetDrawBright_PF(int,int,int) { return 0; }
+// Graphics_Hardware_SetDrawBlendMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
+// Graphics_Hardware_SetDrawBrightToOneParam_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
+// Graphics_Hardware_SetDrawBright_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
 extern int Graphics_Hardware_SetDrawCustomBlendMode_PF(int,int,int,int,int,int,int,int) { return 0; }
 extern int Graphics_Hardware_SetDrawMode_PF(int) { return 0; }
 extern int Graphics_Hardware_SetDrawScreen_PF(int,int,int,struct IMAGEDATA *,struct IMAGEDATA *,struct SHADOWMAPDATA *,struct SHADOWMAPDATA *) { return 0; }

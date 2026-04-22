@@ -6,3 +6,4 @@ stage*_screenshot*.png
 build.log
 pf_syms.txt
 other_syms.txt
+web/build/
