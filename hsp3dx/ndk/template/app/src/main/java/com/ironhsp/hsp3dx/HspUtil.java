@@ -13,10 +13,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.hardware.camera2.CameraManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.Manifest;
 import android.media.ToneGenerator;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -395,6 +401,88 @@ public class HspUtil {
     public static float[] devAccel()    { ensureSensorsStarted(); return sAccel; }
     public static float[] devGyro()     { ensureSensorsStarted(); return sGyro; }
     public static float[] devAttitude() { ensureSensorsStarted(); return sRot; }
+
+    //  ================================================================
+    //  Phase M.6: GPS (LocationManager) / トーチ (CameraManager)
+    //  ================================================================
+    private static LocationManager sLocMgr = null;
+    private static double sLastLat = 0, sLastLng = 0;
+    private static int sGpsStatus = 0;    // 0=未開始, 1=要求中, 2=稼働, 3=denied/error
+    private static LocationListener sLocListener = null;
+
+    public static void devGpsStart()
+    {
+        if ( sActivity == null ) { sGpsStatus = 3; return; }
+        int g1 = sActivity.checkSelfPermission( Manifest.permission.ACCESS_FINE_LOCATION );
+        int g2 = sActivity.checkSelfPermission( Manifest.permission.ACCESS_COARSE_LOCATION );
+        if ( g1 != PackageManager.PERMISSION_GRANTED && g2 != PackageManager.PERMISSION_GRANTED ) {
+            //  権限要求 (結果は onRequestPermissionsResult だが NativeActivity では呼ばれないので
+            //  単に status=1 のまま、ユーザーが付与後にもう一度 devGpsStart を呼ぶ想定)
+            sActivity.requestPermissions(
+                new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },
+                1001 );
+            sGpsStatus = 1;
+            return;
+        }
+        try {
+            if ( sLocMgr == null ) sLocMgr = (LocationManager) sActivity.getSystemService( Context.LOCATION_SERVICE );
+            if ( sLocListener == null ) {
+                sLocListener = new LocationListener() {
+                    @Override public void onLocationChanged( Location loc ) {
+                        sLastLat = loc.getLatitude();
+                        sLastLng = loc.getLongitude();
+                        sGpsStatus = 2;
+                    }
+                    @Override public void onProviderDisabled( String p ) {}
+                    @Override public void onProviderEnabled( String p ) {}
+                    @Override public void onStatusChanged( String p, int s, Bundle e ) {}
+                };
+            }
+            sLocMgr.requestLocationUpdates( LocationManager.GPS_PROVIDER, 1000, 1.0f, sLocListener );
+            sGpsStatus = 1;
+        } catch ( SecurityException se ) {
+            sGpsStatus = 3;
+        } catch ( Exception e ) {
+            Log.w( TAG, "gps start: " + e );
+            sGpsStatus = 3;
+        }
+    }
+
+    public static void devGpsStop()
+    {
+        try {
+            if ( sLocMgr != null && sLocListener != null ) sLocMgr.removeUpdates( sLocListener );
+        } catch ( Exception e ) {}
+        sGpsStatus = 0;
+    }
+
+    public static double[] devGpsGet() { return new double[] { sLastLat, sLastLng }; }
+    public static int devGpsStatus()   { return sGpsStatus; }
+
+    public static int devTorchSupported()
+    {
+        if ( sActivity == null ) return 0;
+        return sActivity.getPackageManager().hasSystemFeature( PackageManager.FEATURE_CAMERA_FLASH ) ? 1 : 0;
+    }
+
+    public static void devTorch( int on )
+    {
+        if ( sActivity == null ) return;
+        try {
+            CameraManager cm = (CameraManager) sActivity.getSystemService( Context.CAMERA_SERVICE );
+            if ( cm == null ) return;
+            for ( String id : cm.getCameraIdList() ) {
+                Boolean flash = cm.getCameraCharacteristics( id )
+                    .get( android.hardware.camera2.CameraCharacteristics.FLASH_INFO_AVAILABLE );
+                if ( flash != null && flash ) {
+                    cm.setTorchMode( id, on != 0 );
+                    break;
+                }
+            }
+        } catch ( Exception e ) {
+            Log.w( TAG, "torch: " + e );
+        }
+    }
 
     public static int prefClear( String section )
     {

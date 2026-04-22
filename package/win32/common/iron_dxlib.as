@@ -113,6 +113,14 @@
 #cmd dx_dev_gyro         $1b6  ; dx_dev_gyro  var_x, var_y, var_z    (double、rad/s)
 #cmd dx_dev_attitude     $1b7  ; dx_dev_attitude var_roll, var_pitch, var_yaw (double、radian)
 
+;  ---- Phase M.6: 権限要系 (GPS / トーチ) ----
+#cmd dx_dev_gps_start      $1b8 ; dx_dev_gps_start  (初回で位置情報権限を要求)
+#cmd dx_dev_gps_stop       $1b9 ; dx_dev_gps_stop
+#cmd dx_dev_gps_get        $1ba ; dx_dev_gps_get var_lat, var_lng  (double、未 fix 時 0,0)
+#cmd dx_dev_gps_status     $1bb ; dx_dev_gps_status  (stat=0 未開始 / 1 要求中 / 2 稼働 / 3 denied)
+#cmd dx_dev_torch          $1bc ; dx_dev_torch on  (0=off, 1=on)
+#cmd dx_dev_torch_supported $1bd ; dx_dev_torch_supported (stat=1 対応/0 非対応)
+
 ;  ---- Phase 5.4a+: multipart/form-data ファイルアップロード ----
 #cmd dx_http_mp_begin      $170   ; dx_http_mp_begin
 #cmd dx_http_mp_add_text   $171   ; dx_http_mp_add_text "name", "value"

@@ -294,4 +294,11 @@ extern "C" void hsp3dx_dev_accel   ( double *x, double *y, double *z ) { if(x)*x
 extern "C" void hsp3dx_dev_gyro    ( double *x, double *y, double *z ) { if(x)*x=0; if(y)*y=0; if(z)*z=0; }
 extern "C" void hsp3dx_dev_attitude( double *r, double *p, double *y ) { if(r)*r=0; if(p)*p=0; if(y)*y=0; }
 
+extern "C" void hsp3dx_dev_gps_start( void ) {}
+extern "C" void hsp3dx_dev_gps_stop ( void ) {}
+extern "C" void hsp3dx_dev_gps_get  ( double *lat, double *lng ) { if(lat)*lat=0; if(lng)*lng=0; }
+extern "C" int  hsp3dx_dev_gps_status( void ) { return 0; }
+extern "C" int  hsp3dx_dev_torch_supported( void ) { return 0; }
+extern "C" void hsp3dx_dev_torch( int /*on*/ ) {}
+
 #endif  // _WIN32

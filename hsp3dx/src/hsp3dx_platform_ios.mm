@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <CoreMotion/CoreMotion.h>
+#import <CoreLocation/CoreLocation.h>
+#import <AVFoundation/AVFoundation.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -358,6 +360,93 @@ extern "C" void hsp3dx_dev_attitude( double *roll, double *pitch, double *yaw )
         if ( roll )  *roll  = d.attitude.roll;
         if ( pitch ) *pitch = d.attitude.pitch;
         if ( yaw )   *yaw   = d.attitude.yaw;
+    }
+}
+
+//  ================================================================
+//  Phase M.6: GPS (CLLocationManager) + トーチ (AVCaptureDevice.torch)
+//  ================================================================
+
+@interface HspLocationDelegate : NSObject<CLLocationManagerDelegate>
+@property ( nonatomic ) CLLocationCoordinate2D lastCoord;
+@property ( nonatomic ) int status;  // 0/1/2/3
+@end
+
+@implementation HspLocationDelegate
+- (instancetype)init {
+    if ( ( self = [super init] ) ) {
+        _lastCoord = CLLocationCoordinate2DMake( 0, 0 );
+        _status = 0;
+    }
+    return self;
+}
+- (void)locationManager:(CLLocationManager *)m didUpdateLocations:(NSArray<CLLocation *> *)locs {
+    CLLocation *loc = [locs lastObject];
+    if ( loc ) { _lastCoord = loc.coordinate; _status = 2; }
+}
+- (void)locationManager:(CLLocationManager *)m didFailWithError:(NSError *)err { _status = 3; }
+- (void)locationManager:(CLLocationManager *)m didChangeAuthorizationStatus:(CLAuthorizationStatus)s {
+    if ( s == kCLAuthorizationStatusDenied || s == kCLAuthorizationStatusRestricted ) _status = 3;
+}
+@end
+
+static CLLocationManager  *g_loc      = nil;
+static HspLocationDelegate *g_locDelg = nil;
+
+extern "C" void hsp3dx_dev_gps_start( void )
+{
+    @autoreleasepool {
+        if ( g_loc == nil ) {
+            g_loc = [[CLLocationManager alloc] init];
+            g_locDelg = [[HspLocationDelegate alloc] init];
+            g_loc.delegate = g_locDelg;
+            g_loc.desiredAccuracy = kCLLocationAccuracyBest;
+        }
+        g_locDelg.status = 1;
+        [g_loc requestWhenInUseAuthorization];
+        [g_loc startUpdatingLocation];
+    }
+}
+
+extern "C" void hsp3dx_dev_gps_stop( void )
+{
+    if ( g_loc ) [g_loc stopUpdatingLocation];
+    if ( g_locDelg ) g_locDelg.status = 0;
+}
+
+extern "C" void hsp3dx_dev_gps_get( double *lat, double *lng )
+{
+    if ( lat ) *lat = 0; if ( lng ) *lng = 0;
+    if ( g_locDelg ) {
+        if ( lat ) *lat = g_locDelg.lastCoord.latitude;
+        if ( lng ) *lng = g_locDelg.lastCoord.longitude;
+    }
+}
+
+extern "C" int hsp3dx_dev_gps_status( void )
+{
+    return g_locDelg ? g_locDelg.status : 0;
+}
+
+static AVCaptureDevice *torch_device( void )
+{
+    AVCaptureDevice *dev = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    return ( dev && [dev hasTorch] ) ? dev : nil;
+}
+
+extern "C" int hsp3dx_dev_torch_supported( void )
+{
+    return torch_device() != nil ? 1 : 0;
+}
+
+extern "C" void hsp3dx_dev_torch( int on )
+{
+    AVCaptureDevice *dev = torch_device();
+    if ( !dev ) return;
+    NSError *err = nil;
+    if ( [dev lockForConfiguration:&err] ) {
+        dev.torchMode = on ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
+        [dev unlockForConfiguration];
     }
 }
 

@@ -1622,6 +1622,31 @@ static int cmdfunc_extcmd( int cmd )
             code_setva( pz, az, HSPVAR_FLAG_DOUBLE, &c );
             break;
         }
+    case 0x1b8:                     // dx_dev_gps_start
+        hsp3dx_dev_gps_start();
+        break;
+    case 0x1b9:                     // dx_dev_gps_stop
+        hsp3dx_dev_gps_stop();
+        break;
+    case 0x1ba:                     // dx_dev_gps_get var_lat, var_lng (double)
+        {
+            PVal *pla; APTR ala = code_getva( &pla );
+            PVal *plo; APTR alo = code_getva( &plo );
+            double lat = 0, lng = 0;
+            hsp3dx_dev_gps_get( &lat, &lng );
+            code_setva( pla, ala, HSPVAR_FLAG_DOUBLE, &lat );
+            code_setva( plo, alo, HSPVAR_FLAG_DOUBLE, &lng );
+            break;
+        }
+    case 0x1bb:                     // dx_dev_gps_status (stat=0..3)
+        ctx->stat = hsp3dx_dev_gps_status();
+        break;
+    case 0x1bc:                     // dx_dev_torch on/off
+        hsp3dx_dev_torch( code_getdi( 0 ) );
+        break;
+    case 0x1bd:                     // dx_dev_torch_supported (stat=0/1)
+        ctx->stat = hsp3dx_dev_torch_supported();
+        break;
 
     //  ---- multipart/form-data ----
     case 0x170:                     // dx_http_mp_begin

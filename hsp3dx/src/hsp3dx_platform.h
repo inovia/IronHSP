@@ -86,6 +86,19 @@ void hsp3dx_dev_accel   ( double *x, double *y, double *z );
 void hsp3dx_dev_gyro    ( double *x, double *y, double *z );
 void hsp3dx_dev_attitude( double *roll, double *pitch, double *yaw );
 
+//  Phase M.6: 権限要系 (実行時に OS 側で permission プロンプト)
+
+//  GPS: 初回 start で権限要求、以降 get で最新 (lat, lng) 取得。未取得時は 0,0。
+void hsp3dx_dev_gps_start ( void );
+void hsp3dx_dev_gps_stop  ( void );
+void hsp3dx_dev_gps_get   ( double *lat, double *lng );
+//  status: 0=未開始, 1=権限要求中, 2=稼働中(fix あり), 3=denied/error
+int  hsp3dx_dev_gps_status( void );
+
+//  トーチ (背面ライト)
+int  hsp3dx_dev_torch_supported( void );   //  1=対応, 0=非対応
+void hsp3dx_dev_torch          ( int on ); //  0/1 で off/on
+
 #ifdef __cplusplus
 }
 #endif

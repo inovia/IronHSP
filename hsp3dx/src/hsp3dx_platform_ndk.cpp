@@ -43,6 +43,12 @@ static jmethodID s_mid_devSound      = nullptr;
 static jmethodID s_mid_devAccel      = nullptr;
 static jmethodID s_mid_devGyro       = nullptr;
 static jmethodID s_mid_devAttitude   = nullptr;
+static jmethodID s_mid_devGpsStart   = nullptr;
+static jmethodID s_mid_devGpsStop    = nullptr;
+static jmethodID s_mid_devGpsGet     = nullptr;
+static jmethodID s_mid_devGpsStatus  = nullptr;
+static jmethodID s_mid_devTorchSupported = nullptr;
+static jmethodID s_mid_devTorch      = nullptr;
 
 static JNIEnv *jni_env( bool *needs_detach )
 {
@@ -106,6 +112,12 @@ static bool ensure_jni_init()
     s_mid_devAccel      = env->GetStaticMethodID( s_HspUtil_class, "devAccel",      "()[F" );
     s_mid_devGyro       = env->GetStaticMethodID( s_HspUtil_class, "devGyro",       "()[F" );
     s_mid_devAttitude   = env->GetStaticMethodID( s_HspUtil_class, "devAttitude",   "()[F" );
+    s_mid_devGpsStart   = env->GetStaticMethodID( s_HspUtil_class, "devGpsStart",   "()V" );
+    s_mid_devGpsStop    = env->GetStaticMethodID( s_HspUtil_class, "devGpsStop",    "()V" );
+    s_mid_devGpsGet     = env->GetStaticMethodID( s_HspUtil_class, "devGpsGet",     "()[D" );
+    s_mid_devGpsStatus  = env->GetStaticMethodID( s_HspUtil_class, "devGpsStatus",  "()I" );
+    s_mid_devTorchSupported = env->GetStaticMethodID( s_HspUtil_class, "devTorchSupported","()I" );
+    s_mid_devTorch      = env->GetStaticMethodID( s_HspUtil_class, "devTorch",      "(I)V" );
 
     //  setActivity(act->clazz) で HspUtil にアプリ Activity を渡す
     if ( s_mid_setActivity ) {
@@ -387,6 +399,80 @@ extern "C" void hsp3dx_dev_gyro( double *x, double *y, double *z )
 extern "C" void hsp3dx_dev_attitude( double *roll, double *pitch, double *yaw )
 {
     get_sensor_triple( s_mid_devAttitude, roll, pitch, yaw );
+}
+
+//  Phase M.6
+extern "C" void hsp3dx_dev_gps_start( void )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devGpsStart );
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" void hsp3dx_dev_gps_stop( void )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devGpsStop );
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" void hsp3dx_dev_gps_get( double *lat, double *lng )
+{
+    if ( lat ) *lat = 0; if ( lng ) *lng = 0;
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    jdoubleArray arr = (jdoubleArray)env->CallStaticObjectMethod( s_HspUtil_class, s_mid_devGpsGet );
+    if ( arr ) {
+        jsize n = env->GetArrayLength( arr );
+        if ( n >= 2 ) {
+            jdouble buf[2];
+            env->GetDoubleArrayRegion( arr, 0, 2, buf );
+            if ( lat ) *lat = (double)buf[0];
+            if ( lng ) *lng = (double)buf[1];
+        }
+        env->DeleteLocalRef( arr );
+    }
+    if ( detach ) s_vm->DetachCurrentThread();
+}
+
+extern "C" int hsp3dx_dev_gps_status( void )
+{
+    if ( !ensure_jni_init() ) return 0;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return 0;
+    jint rc = env->CallStaticIntMethod( s_HspUtil_class, s_mid_devGpsStatus );
+    if ( detach ) s_vm->DetachCurrentThread();
+    return (int)rc;
+}
+
+extern "C" int hsp3dx_dev_torch_supported( void )
+{
+    if ( !ensure_jni_init() ) return 0;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return 0;
+    jint rc = env->CallStaticIntMethod( s_HspUtil_class, s_mid_devTorchSupported );
+    if ( detach ) s_vm->DetachCurrentThread();
+    return (int)rc;
+}
+
+extern "C" void hsp3dx_dev_torch( int on )
+{
+    if ( !ensure_jni_init() ) return;
+    bool detach = false;
+    JNIEnv *env = jni_env( &detach );
+    if ( !env ) return;
+    env->CallStaticVoidMethod( s_HspUtil_class, s_mid_devTorch, (jint)on );
+    if ( detach ) s_vm->DetachCurrentThread();
 }
 
 //  HspUtil.nativeFireEvent(int) の実装 (Java → C への通知)
