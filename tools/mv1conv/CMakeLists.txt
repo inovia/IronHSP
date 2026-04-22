@@ -85,4 +85,20 @@ if(MV1CONV_BUILD_REF_GEN AND WIN32 AND MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
         LINK_FLAGS "/SUBSYSTEM:WINDOWS"
         MSVC_RUNTIME_LIBRARY "MultiThreaded"
     )
+
+    # --- mv1_load_check (DxLib で load 成功/失敗だけ返す checker) ---
+    add_executable(mv1_load_check WIN32 test_ref/load_check.cpp)
+    target_include_directories(mv1_load_check PRIVATE "${DXLIB_ROOT}")
+    target_link_directories(mv1_load_check PRIVATE "${DXLIB_ROOT}")
+    target_link_libraries(mv1_load_check PRIVATE
+        DxLibW_vs2015_x64_MT
+        DxUseCLibW_vs2015_x64_MT
+        DxDrawFunc_vs2015_x64_MT
+    )
+    target_compile_options(mv1_load_check PRIVATE /utf-8 /MT)
+    target_compile_definitions(mv1_load_check PRIVATE _UNICODE UNICODE)
+    set_target_properties(mv1_load_check PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:WINDOWS"
+        MSVC_RUNTIME_LIBRARY "MultiThreaded"
+    )
 endif()

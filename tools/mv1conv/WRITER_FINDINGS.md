@@ -96,7 +96,44 @@ table 内の offset を指すことを想定。サイズ ChangeMatrixTableSize �
 
 ## 現時点の Writer 実用範囲
 
-**0/8 DxLib 互換** — つまり全く実用にならない。
+**14/25 DxLib 受付** (2026-04-23 時点):
+
+- 単一メッシュ static: 7/7 PASS (tet_{x,obj,glb,pmd,wrl}, tri_stl, duck_dae, cube/cat_usdz など)
+- 複数メッシュ static n≤5: PASS
+- 複数メッシュ static n≥6: FAIL (データ依存 memory corruption)
+- Skin メッシュ: FAIL (未解決)
+
+### Frame 構造の正しい形 (tet2_ref / multi.x の ref で観測、2026-04-23 修正済)
+
+```
+static: FrameNum=M, TopFrameNum=M
+  Frame[0..M-1] = 各 mesh、全て top-level 兄弟、Parent=NULL
+  Prev/Next で順番に連結 (Frame[i].Next = Frame[i+1])
+  FirstChild/LastChild = 0
+
+skin: FrameNum=1+M+B, TopFrameNum=1
+  Frame[0] = root (bone 階層の親)
+  Frame[1..M] = mesh frames (root の子)
+  Frame[M+1..M+B] = bones
+```
+
+### 未解決: multi-mesh data-dependent crash
+
+DxLib load 時に `GetAllocSize Error : メモリタグの MagicID が不正` または
+`FreeMemory Error : デバッグ領域の破壊を確認` でクラッシュする。
+
+- n=5 (5 メッシュ × 12 tri) まで成功
+- n≥6 でクラッシュ
+- StringBuffer に "root" が無いと n=5 から失敗 → 層状パディング/alignment
+  依存。TriangleListNormalPositionNum / MeshVertexSize あたりのサイズ計算
+  や padding に潜在バグがある可能性高。
+
+### 次調査すべき方向 (2026-04-23 メモ)
+
+1. DxLib 本家 save の multi.x ref と byte-byte diff (具体位置特定)
+2. VertexData blob 内の 16-byte alignment 要件を確認
+3. DxLib load での `MBase->VertexDataSize` 計算と
+   header の `VertexDataSize` の一致を確認 (memcpy size がズレると corruption)
 
 Reader のみ実用段階:
 - 5/5 DxLib サンプル byte-identical round-trip

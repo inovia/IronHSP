@@ -6,6 +6,8 @@
 #include <cmath>
 #include <cstring>
 #include <cstdio>
+#include <map>
+#include <tuple>
 
 namespace mv1conv {
 
@@ -95,17 +97,17 @@ WriteResult write_mv1(const ModelIR &ir) {
     if (ir.materials.empty()) { r.error = "no materials"; return r; }
 
     const bool isSkin = !ir.bones.empty();
-    // Frame 構成 (DxLib 正解 tet2_ref.mv1 観測に合わせる):
-    //   static: Frame[0] = 空 root
-    //           Frame[1..M] = 各メッシュ用 (1 frame = 1 mesh)
-    //   skin:   Frame[0] = 空 root
-    //           Frame[1..M] = 各メッシュ用
-    //           Frame[M+1..M+B] = 各 bone 用
+    // Frame 構成 (DxLib 本家 save 準拠 multi.x の ref 観測):
+    //   static: Frame[0..M-1] = 各メッシュ (1 frame = 1 mesh)、全て top-level (parent=NULL)、
+    //           Prev/Next で siblings 連結 (root 合成なし)
+    //   skin:   Frame[0] = 空 root (bones 階層の親)
+    //           Frame[1..M] = 各メッシュ (root の子)
+    //           Frame[M+1..M+B] = 各 bone
     const int meshCount = static_cast<int>(ir.meshes.size());
     const int boneCount = static_cast<int>(ir.bones.size());
-    const int frameNum = 1 + meshCount + boneCount;
-    const int firstMeshFrameIdx = 1;                  // Frame[1..M]
-    const int bonesBaseIdx     = 1 + meshCount;       // Frame[M+1..]
+    const int frameNum = isSkin ? (1 + meshCount + boneCount) : meshCount;
+    const int firstMeshFrameIdx = isSkin ? 1 : 0;     // static: mesh = Frame[0..M-1]
+    const int bonesBaseIdx     = isSkin ? (1 + meshCount) : 0;  // skin: Frame[M+1..]
 
     StringPool strings;
     Builder b;
@@ -262,9 +264,6 @@ WriteResult write_mv1(const ModelIR &ir) {
         }
 
         // Normal: S16 quantize、per-corner (m.indices.size() 個)
-        // NORMAL_TYPE_S16 (VertFlag bit 0=0, bit 1=1) を使う。各成分 short * 3 = 6 byte、
-        // 値は -32767..32767 にスケール。DxLib 本家の save も S16 なので hsp3dx
-        // 側 runtime のパスがこれを期待する。
         if (!m.normals.empty()) {
             auto to_s16 = [](float v) -> std::int16_t {
                 float c = std::clamp(v, -1.0f, 1.0f);
@@ -286,9 +285,7 @@ WriteResult write_mv1(const ModelIR &ir) {
         }
     }
 
-    // ====== 8. Mesh.VertexData (mesh ごと) ======
-    // DxLib 慣習: Mesh.VertexNum = per-corner 数 (triangles × 3)、各 corner が
-    // 個別 vertex record。posIdx は m.indices[i] (unique position 参照)。
+    // ====== 8. Mesh.VertexData (mesh ごと、per-corner レイアウト) ======
     std::vector<std::uint32_t> meshVertexDataOffsets(ir.meshes.size());
     for (std::size_t mi = 0; mi < ir.meshes.size(); ++mi) {
         const auto &m = ir.meshes[mi];
@@ -296,29 +293,22 @@ WriteResult write_mv1(const ModelIR &ir) {
         meshVertexDataOffsets[mi] = b.pos();
         const std::size_t vn = m.indices.size();  // per-corner count
 
-        // COMMON_COLOR なし、頂点カラーなしにしたいので COMMON_COLOR を立てて白×2 を先頭配置
-        // (per-vertex color の場合は vn * 8 byte 必要で要追加実装)
         std::uint32_t white = 0xFFFFFFFFu;
         b.append_bytes(&white, 4);
         b.append_bytes(&white, 4);
 
-        const bool useU32vd = m.indices.size() > 65535;
+        const bool useU32vd = vn > 65535;
         const std::size_t idxSize = useU32vd ? 4 : 2;
-        // Per-corner loop
-        // pos index = m.indices[i] (points to unique position in Frame.PandN)
         for (std::size_t i = 0; i < vn; ++i) {
             std::uint32_t posIdx = m.indices[i];
             b.append_bytes(&posIdx, idxSize);
         }
-        // nrm index: per-corner 恒等 (Frame.NormalNum = per-corner count)
         if (hasNormals && !m.normals.empty()) {
             for (std::size_t i = 0; i < vn; ++i) {
                 std::uint32_t nrmIdx = static_cast<std::uint32_t>(i);
                 b.append_bytes(&nrmIdx, idxSize);
             }
         }
-        // 頂点カラー: COMMON_COLOR 立っているので省略
-        // UV: 常に 1 set × 2 comp、per-corner で展開 (UV なしでも (0, 0))
         for (std::size_t i = 0; i < vn; ++i) {
             float u = 0.0f, vv = 0.0f;
             if (!m.uvs.empty()) {
@@ -331,14 +321,11 @@ WriteResult write_mv1(const ModelIR &ir) {
             b.append_bytes(&u, 4);
             b.append_bytes(&vv, 4);
         }
-        // NON_TOON_OUTLINE bit data: 全 vertex の ToonOutLineScale > 0 か否か 1 bit/vertex。
-        // 我々はすべて "outline なし" (ToonOutLineScale=0 → bit=1) なので全 1 で埋める。
         std::size_t bitBytes = (vn + 7) / 8;
         for (std::size_t i = 0; i < bitBytes; ++i) {
             std::uint8_t all1 = 0xFF;
             b.append_bytes(&all1, 1);
         }
-        // 4 byte align
         while (b.pos() & 3u) {
             std::uint8_t z = 0;
             b.append_bytes(&z, 1);
@@ -346,13 +333,11 @@ WriteResult write_mv1(const ModelIR &ir) {
     }
 
     // ====== 9. TriangleList.MeshVertexIndexAndIndexData ======
-    // DxLib 慣習: TL.VertexNum = TL.IndexNum = mesh.indices.size()、両方恒等マッピング
     std::vector<std::uint32_t> tlDataOffsets(ir.meshes.size());
     for (std::size_t mi = 0; mi < ir.meshes.size(); ++mi) {
         const auto &m = ir.meshes[mi];
         b.align4();
         tlDataOffsets[mi] = b.pos();
-        // skin: ボーン情報プリフィックス (WORD UseBoneNum + WORD BoneIndices[N])
         if (isSkin) {
             std::uint16_t useBoneN = static_cast<std::uint16_t>(ir.bones.size());
             b.append_bytes(&useBoneN, 2);
@@ -361,12 +346,10 @@ WriteResult write_mv1(const ModelIR &ir) {
             }
         }
         const std::size_t vn = m.indices.size();
-        // mesh vertex index (u32): 0..vn-1 恒等 (mesh.VertexData 内の i 番目を参照)
         for (std::size_t i = 0; i < vn; ++i) {
             std::uint32_t idx = static_cast<std::uint32_t>(i);
             b.append_bytes(&idx, 4);
         }
-        // index (u32): 0..vn-1 恒等 (tl.VertexNum 内の i を参照)
         for (std::size_t i = 0; i < vn; ++i) {
             std::uint32_t idx = static_cast<std::uint32_t>(i);
             b.append_bytes(&idx, 4);
@@ -442,32 +425,32 @@ WriteResult write_mv1(const ModelIR &ir) {
     std::uint32_t stringSize = static_cast<std::uint32_t>(strings.bytes().size());
 
     // ====== すべての *_F1 構造体を埋めて上書き ======
-    // -- Frame[0] (空の root、全 mesh frame の親) --
     std::int32_t totalTriangles = 0;
     for (const auto &m : ir.meshes) totalTriangles += static_cast<std::int32_t>(m.indices.size() / 3);
 
-    f1::MV1_FRAME_F1 rootFrame{};
-    rootFrame.Name  = nameFrame0;  // "root" または ""
-    rootFrame.Index = 0;
-    rootFrame.Scale = { 1.0f, 1.0f, 1.0f };
-    rootFrame.Quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
-    rootFrame.Flag  = 0;
-    rootFrame.TotalMeshNum = static_cast<std::int32_t>(ir.meshes.size());
-    rootFrame.TotalChildNum = meshCount + (isSkin ? 1 : 0);  // 直接の子 (mesh frames + bones root)
-    // FirstChild / LastChild は mesh frames の先頭/末尾
-    if (!ir.meshes.empty()) {
-        rootFrame.FirstChild = frameOffsets[firstMeshFrameIdx];
-        rootFrame.LastChild  = frameOffsets[firstMeshFrameIdx + meshCount - 1];
+    // -- Frame[0] (root、skin 時のみ) --
+    if (isSkin) {
+        f1::MV1_FRAME_F1 rootFrame{};
+        rootFrame.Name  = nameFrame0;  // "root" または ""
+        rootFrame.Index = 0;
+        rootFrame.Scale = { 1.0f, 1.0f, 1.0f };
+        rootFrame.Quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
+        rootFrame.Flag  = 0;
+        rootFrame.TotalMeshNum = static_cast<std::int32_t>(ir.meshes.size());
+        rootFrame.TotalChildNum = meshCount + 1;  // mesh frames + bones root
+        if (!ir.meshes.empty()) {
+            rootFrame.FirstChild = frameOffsets[firstMeshFrameIdx];
+            rootFrame.LastChild  = frameOffsets[firstMeshFrameIdx + meshCount - 1];
+        }
+        rootFrame.PositionAndNormalData = offPAndN;
+        rootFrame.VertFlag = 0;
+        rootFrame.MaxBoneBlendNum = 4;
+        rootFrame.SmoothingAngle = 0.0f;
+        rootFrame.AutoCreateNormal = 0;
+        b.overwrite_struct(frameOffsets[0], rootFrame);
     }
-    // 全 frame が PandN を共有ポインタで持つ (DxChara / tet_ref 観測)
-    rootFrame.PositionAndNormalData = offPAndN;
-    rootFrame.VertFlag = 0;
-    rootFrame.MaxBoneBlendNum = isSkin ? 4 : 0;
-    rootFrame.SmoothingAngle = 0.0f;
-    rootFrame.AutoCreateNormal = 0;
-    b.overwrite_struct(offFrame, rootFrame);
 
-    // -- Frame[1..M] (mesh frames、1 frame = 1 mesh) --
+    // -- Mesh frames (static: Frame[0..M-1] top-level siblings / skin: Frame[1..M] root の子) --
     for (std::size_t mi = 0; mi < ir.meshes.size(); ++mi) {
         const auto &m = ir.meshes[mi];
         f1::MV1_FRAME_F1 mf{};
@@ -476,15 +459,16 @@ WriteResult write_mv1(const ModelIR &ir) {
         mf.Scale = { 1.0f, 1.0f, 1.0f };
         mf.Quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
         mf.Flag  = 0;
-        mf.Parent = offFrame;  // root
-        // Prev/Next 兄弟チェーンは DxLib save 観測で 0 が正解 (tet2_ref)
-        // FirstChild/LastChild + DimNext のみで走査される模様
-        mf.Prev = 0;
-        mf.Next = 0;
+        mf.Parent = isSkin ? frameOffsets[0] : 0u;  // skin は root に、static は top-level
+        // Prev/Next sibling chain (DxLib 本家 save multi.x 観測): 同じ親を持つ兄弟をリンク
+        // static: top-level 兄弟として全 mesh frame をリンク
+        // skin:   root 下の兄弟として mesh frames をリンク
+        mf.Prev = (mi == 0) ? 0u : frameOffsets[firstMeshFrameIdx + mi - 1];
+        mf.Next = (mi + 1 == ir.meshes.size()) ? 0u : frameOffsets[firstMeshFrameIdx + mi + 1];
         mf.TotalMeshNum = 1;
         mf.MeshNum = 1;
         mf.Mesh = meshOffsets[mi];
-        mf.VertexNum   = static_cast<std::int32_t>(m.indices.size());  // TL vertex count
+        mf.VertexNum   = static_cast<std::int32_t>(m.indices.size());  // TL vertex count (per-corner)
         mf.TriangleNum = static_cast<std::int32_t>(m.indices.size() / 3);
         mf.PositionNum = static_cast<std::int32_t>(meshFramePosNum[mi]);
         mf.NormalNum   = static_cast<std::int32_t>(meshFrameNormalNum[mi]);
@@ -618,7 +602,6 @@ WriteResult write_mv1(const ModelIR &ir) {
         // DxLib は UVSet を 1 以上を期待する模様 (UV なし mesh でも 1 set × 2 comp)
         mesh.UVSetUnitNum = 1;
         mesh.UVUnitNum    = 2;
-        // DxLib 慣習: Mesh.VertexNum = per-corner count = m.indices.size()
         const std::int32_t meshVN = static_cast<std::int32_t>(m.indices.size());
         // Index type 選定: 65535 以下なら U16、超過時のみ U32
         const bool useU32 = meshVN > 65535;
@@ -647,9 +630,7 @@ WriteResult write_mv1(const ModelIR &ir) {
         tl.Index = static_cast<std::int32_t>(i);
         tl.Container = meshOffsets[i];
         tl.VertexType = isSkin ? e::VERTEX_TYPE_SKIN_4BONE : e::VERTEX_TYPE_NORMAL;
-        // Flag: MVERT_INDEX=U32 (bit0-1=2), INDEX=U32 (bit2-3=2<<2=8) → 0x0A
         tl.Flag = static_cast<std::uint16_t>(e::TRILIST_INDEX_TYPE_U32 | (e::TRILIST_INDEX_TYPE_U32 << 2));
-        // TL.VertexNum = TL.IndexNum = per-corner count (= mesh.indices.size())
         tl.VertexNum = static_cast<std::uint16_t>(m.indices.size());
         tl.IndexNum  = static_cast<std::uint16_t>(m.indices.size());
         tl.MeshVertexIndexAndIndexData = tlDataOffsets[i];
@@ -660,10 +641,18 @@ WriteResult write_mv1(const ModelIR &ir) {
 
     // -- Header 最終埋め込み --
     hdr.FrameNum            = frameNum;
-    hdr.Frame               = offFrame;       // 配列先頭 = Frame[0]
-    hdr.TopFrameNum         = 1;              // 親無しは Frame[0] のみ (bone は mesh frame の子扱い)
-    hdr.FirstTopFrame       = offFrame;
-    hdr.LastTopFrame        = offFrame;
+    hdr.Frame               = offFrame;       // 配列先頭
+    if (isSkin) {
+        // skin: root のみ top-level
+        hdr.TopFrameNum       = 1;
+        hdr.FirstTopFrame     = frameOffsets[0];
+        hdr.LastTopFrame      = frameOffsets[0];
+    } else {
+        // static: 全 mesh frame が top-level 兄弟として並ぶ
+        hdr.TopFrameNum       = meshCount;
+        hdr.FirstTopFrame     = frameOffsets[0];
+        hdr.LastTopFrame      = frameOffsets[meshCount - 1];
+    }
     if (isSkin) {
         hdr.SkinBoneNum         = static_cast<std::int32_t>(ir.bones.size());
         hdr.SkinBone            = offSkinBone;
@@ -698,10 +687,6 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.TriangleListNormalPositionNum = static_cast<std::int32_t>(normalNum);
     hdr.MeshPositionSize    = static_cast<std::int32_t>(positionNum * 12);
     hdr.MeshNormalNum       = static_cast<std::int32_t>(normalNum);
-    // MeshVertexSize = sum(Mesh.VertexNum × VertUnitSize) where
-    //   Mesh.VertexNum = **per-corner** count (= m.indices.size())、
-    //   VertUnitSize   = 20 + UVSetUnitNum × UVUnitNum × 4   (DxModel.cpp L15172)
-    // UVSets=1 UVComp=2 固定なので vertUnit = 20 + 1*2*4 = 28
     std::int32_t totalMeshVertexSize = 0;
     for (const auto &m : ir.meshes) {
         int vertUnit = 28;
