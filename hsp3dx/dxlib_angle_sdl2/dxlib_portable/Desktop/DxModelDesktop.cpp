@@ -122,18 +122,34 @@ extern int  MV1_SetupShapeVertex_PF( int MHandle )
     return 0 ;
 }
 
+static bool s_MV1_LightWasOn = false ;
+
 extern int  MV1_BeginRender_PF( MV1_MODEL *Model )
 {
     (void)Model;
     // DxLib 側で既に SetTransformToView/Projection/World は呼ばれている。
-    // 3D 描画用のセットアップ (ortho は切らない、depth/blend は呼び側管理)。
     glEnable( GL_DEPTH_TEST ) ;
+    // ライティング: DxLib::GetLightEnable() が TRUE なら GL_LIGHTING を有効化
+    // ColorMaterial を使って glColor が diffuse/ambient を駆動するようにする
+    s_MV1_LightWasOn = ( NS_GetLightEnable() != 0 ) ;
+    if ( s_MV1_LightWasOn ) {
+        glEnable( GL_LIGHTING ) ;
+        glEnable( GL_COLOR_MATERIAL ) ;
+        glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
+        // 法線の自動正規化 (スキニング後の normal は非単位ベクトルになる可能性)
+        glEnable( GL_NORMALIZE ) ;
+    }
     return 0 ;
 }
 
 extern int  MV1_EndRender_PF( void )
 {
-    // テクスチャ/ライティングを無効化 (Draw2D に戻す時のため)
+    if ( s_MV1_LightWasOn ) {
+        glDisable( GL_NORMALIZE ) ;
+        glDisable( GL_COLOR_MATERIAL ) ;
+        glDisable( GL_LIGHTING ) ;
+        s_MV1_LightWasOn = false ;
+    }
     glDisable( GL_TEXTURE_2D ) ;
     glColor4ub( 255, 255, 255, 255 ) ;
     return 0 ;
@@ -187,14 +203,16 @@ static inline void desktop_mv1_mul_mat4x4ct_dir(
     oz = M->mf.m[ 2 ][ 0 ] * n.x + M->mf.m[ 2 ][ 1 ] * n.y + M->mf.m[ 2 ][ 2 ] * n.z ;
 }
 
-// CPU スキニング。各頂点タイプごとに MatrixWeight × BoneMatrix を合成する。
+// CPU スキニング。各頂点タイプごとに MatrixWeight × BoneMatrix を合成し、
+// world 空間の位置 + 法線を返す (法線は呼び側で正規化または GL_NORMALIZE に任せる)。
 static void desktop_mv1_skin_vertex(
     MV1_FRAME *Frame, MV1_TRIANGLE_LIST_BASE *bd,
     const MV1_TLIST_SKIN_POS_4B *v4,
     const MV1_TLIST_SKIN_POS_8B *v8,
-    int vertexType, float out[ 3 ] )
+    int vertexType, float outPos[ 3 ], float outNrm[ 3 ] )
 {
-    out[ 0 ] = out[ 1 ] = out[ 2 ] = 0.0f ;
+    outPos[ 0 ] = outPos[ 1 ] = outPos[ 2 ] = 0.0f ;
+    outNrm[ 0 ] = outNrm[ 1 ] = outNrm[ 2 ] = 0.0f ;
     if ( !Frame || !Frame->UseSkinBoneMatrix || !bd ) return ;
 
     if ( vertexType == MV1_VERTEX_TYPE_SKIN_4BONE && v4 ) {
@@ -209,12 +227,16 @@ static void desktop_mv1_skin_vertex(
             if ( !M ) continue ;
             float tx, ty, tz ;
             desktop_mv1_mul_mat4x4ct( M, v4->Position, tx, ty, tz ) ;
-            out[ 0 ] += tx * w ;
-            out[ 1 ] += ty * w ;
-            out[ 2 ] += tz * w ;
+            outPos[ 0 ] += tx * w ;
+            outPos[ 1 ] += ty * w ;
+            outPos[ 2 ] += tz * w ;
+            float nx, ny, nz ;
+            desktop_mv1_mul_mat4x4ct_dir( M, v4->Normal, nx, ny, nz ) ;
+            outNrm[ 0 ] += nx * w ;
+            outNrm[ 1 ] += ny * w ;
+            outNrm[ 2 ] += nz * w ;
         }
     } else if ( vertexType == MV1_VERTEX_TYPE_SKIN_8BONE && v8 ) {
-        // 8 bone は MatrixIndex1[4] + MatrixIndex2[4]、MatrixWeight[8]
         BYTE idx_all[ 8 ] ;
         for ( int k = 0 ; k < 4 ; ++k ) idx_all[ k ] = v8->MatrixIndex1[ k ] ;
         for ( int k = 0 ; k < 4 ; ++k ) idx_all[ 4 + k ] = v8->MatrixIndex2[ k ] ;
@@ -229,9 +251,14 @@ static void desktop_mv1_skin_vertex(
             FLOAT4 p = { v8->Position.x, v8->Position.y, v8->Position.z, 1.0f } ;
             float tx, ty, tz ;
             desktop_mv1_mul_mat4x4ct( M, p, tx, ty, tz ) ;
-            out[ 0 ] += tx * w ;
-            out[ 1 ] += ty * w ;
-            out[ 2 ] += tz * w ;
+            outPos[ 0 ] += tx * w ;
+            outPos[ 1 ] += ty * w ;
+            outPos[ 2 ] += tz * w ;
+            float nx, ny, nz ;
+            desktop_mv1_mul_mat4x4ct_dir( M, v8->Normal, nx, ny, nz ) ;
+            outNrm[ 0 ] += nx * w ;
+            outNrm[ 1 ] += ny * w ;
+            outNrm[ 2 ] += nz * w ;
         }
     }
 }
@@ -241,59 +268,66 @@ static void desktop_mv1_skin_vertex(
 // FREEBONE (9 bone 以上) は可変長構造体 + MV1_MODEL.SkinBone 経由なので
 // 未対応 (base position のまま、T ポーズ)。
 static void desktop_mv1_get_vertex_pos(
-    MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList, unsigned short vi, float out[ 3 ] )
+    MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList, unsigned short vi,
+    float outPos[ 3 ], float outNrm[ 3 ] )
 {
     MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
     MV1_FRAME *Frame = Mesh ? Mesh->Container : nullptr ;
+    outNrm[ 0 ] = 0 ; outNrm[ 1 ] = 1 ; outNrm[ 2 ] = 0 ;  // デフォルト上向き
+
     switch ( bd->VertexType ) {
-    case MV1_VERTEX_TYPE_NORMAL:
-        out[ 0 ] = TList->NormalPosition[ vi ].Position.x ;
-        out[ 1 ] = TList->NormalPosition[ vi ].Position.y ;
-        out[ 2 ] = TList->NormalPosition[ vi ].Position.z ;
+    case MV1_VERTEX_TYPE_NORMAL: {
+        const MV1_TLIST_NORMAL_POS &v = TList->NormalPosition[ vi ] ;
+        outPos[ 0 ] = v.Position.x ; outPos[ 1 ] = v.Position.y ; outPos[ 2 ] = v.Position.z ;
+        outNrm[ 0 ] = v.Normal.x   ; outNrm[ 1 ] = v.Normal.y   ; outNrm[ 2 ] = v.Normal.z ;
         return ;
+    }
     case MV1_VERTEX_TYPE_SKIN_4BONE:
         desktop_mv1_skin_vertex( Frame, bd,
             &TList->SkinPosition4B[ vi ], nullptr,
-            MV1_VERTEX_TYPE_SKIN_4BONE, out ) ;
+            MV1_VERTEX_TYPE_SKIN_4BONE, outPos, outNrm ) ;
         return ;
     case MV1_VERTEX_TYPE_SKIN_8BONE:
         desktop_mv1_skin_vertex( Frame, bd,
             nullptr, &TList->SkinPosition8B[ vi ],
-            MV1_VERTEX_TYPE_SKIN_8BONE, out ) ;
+            MV1_VERTEX_TYPE_SKIN_8BONE, outPos, outNrm ) ;
         return ;
     case MV1_VERTEX_TYPE_SKIN_FREEBONE: {
-        // FREEBONE は可変長構造体 (MV1_SKINBONE_BLEND の weight 配列が最低 4、
-        // 超過分は構造体直後に続く)。実単位サイズは bd->PosUnitSize。
         const unsigned char *base = ( const unsigned char * )TList->SkinPositionFREEB ;
         int unitSize = bd->PosUnitSize ;
         const MV1_TLIST_SKIN_POS_FREEB *v =
             ( const MV1_TLIST_SKIN_POS_FREEB * )( base + ( size_t )vi * unitSize ) ;
-        out[ 0 ] = out[ 1 ] = out[ 2 ] = 0.0f ;
+        outPos[ 0 ] = outPos[ 1 ] = outPos[ 2 ] = 0.0f ;
+        outNrm[ 0 ] = outNrm[ 1 ] = outNrm[ 2 ] = 0.0f ;
         if ( !Frame || !Frame->UseSkinBoneMatrix ) {
-            // フォールバック: base position
-            out[ 0 ] = v->Position.x ; out[ 1 ] = v->Position.y ; out[ 2 ] = v->Position.z ;
+            outPos[ 0 ] = v->Position.x ; outPos[ 1 ] = v->Position.y ; outPos[ 2 ] = v->Position.z ;
+            outNrm[ 0 ] = v->Normal.x   ; outNrm[ 1 ] = v->Normal.y   ; outNrm[ 2 ] = v->Normal.z ;
             return ;
         }
         const MV1_SKINBONE_BLEND *b = v->MatrixWeight ;
         int maxBones = bd->MaxBoneNum > 0 ? bd->MaxBoneNum : 256 ;
+        VECTOR n3 = { v->Normal.x, v->Normal.y, v->Normal.z } ;
         for ( int k = 0 ; k < maxBones && b[ k ].Index != -1 ; ++k ) {
             float w = b[ k ].W ;
             if ( w <= 0.0f ) continue ;
             int idx = b[ k ].Index ;
-            // FREEBONE の Index は Frame->UseSkinBoneMatrix へ直接のインデックス
-            // (4BONE/8BONE のような UseBone[] 経由ではない)
             MATRIX_4X4CT *M = Frame->UseSkinBoneMatrix[ idx ] ;
             if ( !M ) continue ;
             float tx, ty, tz ;
             desktop_mv1_mul_mat4x4ct( M, v->Position, tx, ty, tz ) ;
-            out[ 0 ] += tx * w ;
-            out[ 1 ] += ty * w ;
-            out[ 2 ] += tz * w ;
+            outPos[ 0 ] += tx * w ;
+            outPos[ 1 ] += ty * w ;
+            outPos[ 2 ] += tz * w ;
+            float nx, ny, nz ;
+            desktop_mv1_mul_mat4x4ct_dir( M, n3, nx, ny, nz ) ;
+            outNrm[ 0 ] += nx * w ;
+            outNrm[ 1 ] += ny * w ;
+            outNrm[ 2 ] += nz * w ;
         }
         return ;
     }
     default:
-        out[ 0 ] = out[ 1 ] = out[ 2 ] = 0.0f ;
+        outPos[ 0 ] = outPos[ 1 ] = outPos[ 2 ] = 0.0f ;
         return ;
     }
 }
@@ -375,8 +409,9 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
                 glColor4ub( mR, mG, mB, mA ) ;
             }
 
-            float p[ 3 ] ;
-            desktop_mv1_get_vertex_pos( Mesh, TList, vi, p ) ;
+            float p[ 3 ], n[ 3 ] ;
+            desktop_mv1_get_vertex_pos( Mesh, TList, vi, p, n ) ;
+            glNormal3f( n[ 0 ], n[ 1 ], n[ 2 ] ) ;
             glVertex3f( p[ 0 ], p[ 1 ], p[ 2 ] ) ;
         }
     }
