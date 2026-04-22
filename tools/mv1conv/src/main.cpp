@@ -4,6 +4,7 @@
 #include "obj_import.hpp"
 #include "stl_import.hpp"
 #include "ply_import.hpp"
+#include "x_import.hpp"
 #include "mv1_writer.hpp"
 #include "dxa.hpp"
 #include <cstdio>
@@ -32,12 +33,16 @@ static int convert_generic(const char *in, const char *out) {
         lr = load_ply(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
+    } else if (ext == "x") {
+        lr = load_x(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
     } else if (ext == "obj") {
         olr = load_obj(in);
         if (!olr.ok()) { err = olr.error; }
         else ir = &olr.ir;
     } else {
-        std::fprintf(stderr, "unsupported extension: %s (supported: .obj .stl .ply)\n", ext.c_str());
+        std::fprintf(stderr, "unsupported extension: %s (supported: .obj .stl .ply .x)\n", ext.c_str());
         return 2;
     }
 
