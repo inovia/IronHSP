@@ -139,7 +139,8 @@ function(dxlib_desktop_settings target)
         DX_PLATFORM_DESKTOP_SDL2=1
         DX_GCC_COMPILE=1
         DX_NON_INLINE_ASM=1
-        DX_NON_MOVIE=1
+        # DX_NON_MOVIE=1 は lib (dxlib_portable_stage3) にのみ。user 側 exe では
+        # 外して DxLib::OpenMovieToGraph 等の宣言を通す (Sound/Image と同じパターン)。
         DX_NON_LIVE2D_CUBISM4=1
         DX_NON_MODEL=1  # Tier 4d: DxUseCLib 側 zlib 依存 + MV1_TRIANGLE_LIST_BASE_PF 等 struct 不足のため保留
         DX_NON_BULLET_PHYSICS=1
@@ -233,6 +234,8 @@ add_library(dxlib_portable_stage3 STATIC
     # Tier 4c: Mask (CPU 側 DxMask.cpp + 空の PF stub)
     ${DXLIB_PORTABLE_DIR}/DxMask.cpp
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMaskDesktop.cpp
+    # Tier 4b: Movie (Win=Media Foundation / Mac/Linux/Web=pending stubs)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieDesktop.cpp
     # Tier 4d: Model は DX_NON_MODEL=1 のまま保留 (zlib + struct 不足)。
     # DxModelDesktop.cpp は stub 実装のみ先行コミット。
     # ${DXLIB_PORTABLE_DIR}/DxModel.cpp
@@ -246,13 +249,18 @@ add_library(dxlib_portable_stage3 STATIC
     # ${DXLIB_PORTABLE_DIR}/Desktop/DxModelDesktop.cpp
 )
 dxlib_desktop_settings(dxlib_portable_stage3)
-# lib 側は DxGateway.cpp の sound wrapper / libpng/jpeg 部分を殺して
+# lib 側は DxGateway.cpp の sound / movie / libpng/jpeg 部分を殺して
 # stub 未参照にする。user 側 exe はこれらを外して DxLib.h の宣言を通す。
 target_compile_definitions(dxlib_portable_stage3 PRIVATE
     DX_NON_SOUND=1
+    DX_NON_MOVIE=1
     DX_NON_JPEGREAD=1
     DX_NON_PNGREAD=1
 )
+# Windows のみ Media Foundation ライブラリをリンク
+if(WIN32)
+    target_link_libraries(dxlib_portable_stage3 PUBLIC mfplat mfreadwrite mfuuid)
+endif()
 target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::SDL2 SDL2::SDL2main)
 if(HAS_SDL2_TTF)
     target_link_libraries(dxlib_portable_stage3 PUBLIC SDL2::ttf)
