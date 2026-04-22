@@ -4,5 +4,5 @@ dx_mv1load "cat_from_usdz.mv1"
 h = stat
 noteadd "h=" + h
 if h >= 0 : dx_mv1delete h
-notesave "r.txt"
+notesave "r_cat.txt"
 end

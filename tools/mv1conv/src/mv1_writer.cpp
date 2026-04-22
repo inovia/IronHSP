@@ -260,8 +260,8 @@ WriteResult write_mv1(const ModelIR &ir) {
         b.append_bytes(&white, 4);
         b.append_bytes(&white, 4);
 
-        const bool useU32_2 = meshVN > 65535;
-        const std::size_t idxSize = useU32_2 ? 4 : 2;
+        const bool useU32vd = m.indices.size() > 65535;
+        const std::size_t idxSize = useU32vd ? 4 : 2;
         // Per-corner loop
         // pos index = m.indices[i] (points to unique position in Frame.PandN)
         for (std::size_t i = 0; i < vn; ++i) {
@@ -566,12 +566,10 @@ WriteResult write_mv1(const ModelIR &ir) {
         const std::uint32_t idxType = useU32 ? e::MESH_VERT_INDEX_TYPE_U32 : e::MESH_VERT_INDEX_TYPE_U16;
         // VertFlag:
         //   COMMON_COLOR      = 0x20  1 色共通 (頂点カラー個別出さない)
-        //   NON_TOON_OUTLINE  = 0x40  トゥーン輪郭 per-vertex bit を出さない
-        //                             ← これが無いと DxLib は VertexNum/8 byte のデータを
-        //                                期待してバッファを読み過ごして crash
+        //   NON_TOON_OUTLINE  = 0x40  ★DxLib loader L15987 参照: **立てると per-vertex bit
+        //                             データが必要**。無しで OK (立てない)。
         //   pos index U16/U32 + nrm index 同型
         std::uint32_t vf = e::MESH_VERT_FLAG_COMMON_COLOR
-                         | e::MESH_VERT_FLAG_NON_TOON_OUTLINE
                          | idxType
                          | (hasNormals && !m.normals.empty() ? (idxType << 2) : 0);
         mesh.VertFlag = static_cast<std::int32_t>(vf);
@@ -635,7 +633,9 @@ WriteResult write_mv1(const ModelIR &ir) {
     hdr.MeshFaceNum         = totalTriangles;
     hdr.MeshVertexIndexNum  = sumTLVertexNum;
     hdr.TriangleListIndexNum= sumTLIndexNum;
-    hdr.TriangleListNormalPositionNum = static_cast<std::int32_t>(positionNum);
+    // TriangleListNormalPositionNum = per-corner count (normals と同じ数)
+    // tet2_ref 観測: 各 frame の NormNum 合計 = per-corner count 総和
+    hdr.TriangleListNormalPositionNum = static_cast<std::int32_t>(normalNum);
     hdr.MeshPositionSize    = static_cast<std::int32_t>(positionNum * 12);
     hdr.MeshNormalNum       = static_cast<std::int32_t>(normalNum);
     // MeshVertexSize = sum(mesh.VertexNum × VertUnitSize) where
