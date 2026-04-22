@@ -168,14 +168,74 @@ static GLuint desktop_mv1_tex_from_graph( int graphHandle )
     return ( GLuint )tex->PF->Texture.TextureBuffer ;
 }
 
+// MATRIX_4X4CT は m[row][col] (row 0..2, col 0..3)、row 3 は暗黙の (0,0,0,1)。
+// out = M * (p.x, p.y, p.z, 1)
+static inline void desktop_mv1_mul_mat4x4ct(
+    const MATRIX_4X4CT *M, const FLOAT4 &p, float &ox, float &oy, float &oz )
+{
+    ox = M->mf.m[ 0 ][ 0 ] * p.x + M->mf.m[ 0 ][ 1 ] * p.y + M->mf.m[ 0 ][ 2 ] * p.z + M->mf.m[ 0 ][ 3 ] ;
+    oy = M->mf.m[ 1 ][ 0 ] * p.x + M->mf.m[ 1 ][ 1 ] * p.y + M->mf.m[ 1 ][ 2 ] * p.z + M->mf.m[ 1 ][ 3 ] ;
+    oz = M->mf.m[ 2 ][ 0 ] * p.x + M->mf.m[ 2 ][ 1 ] * p.y + M->mf.m[ 2 ][ 2 ] * p.z + M->mf.m[ 2 ][ 3 ] ;
+}
+
+// CPU スキニング。各頂点タイプごとに MatrixWeight × BoneMatrix を合成する。
+static void desktop_mv1_skin_vertex(
+    MV1_FRAME *Frame, MV1_TRIANGLE_LIST_BASE *bd,
+    const MV1_TLIST_SKIN_POS_4B *v4,
+    const MV1_TLIST_SKIN_POS_8B *v8,
+    int vertexType, float out[ 3 ] )
+{
+    out[ 0 ] = out[ 1 ] = out[ 2 ] = 0.0f ;
+    if ( !Frame || !Frame->UseSkinBoneMatrix || !bd ) return ;
+
+    if ( vertexType == MV1_VERTEX_TYPE_SKIN_4BONE && v4 ) {
+        for ( int k = 0 ; k < 4 ; ++k ) {
+            float w = v4->MatrixWeight[ k ] ;
+            if ( w <= 0.0f ) continue ;
+            BYTE idx = v4->MatrixIndex[ k ] ;
+            if ( idx >= bd->UseBoneNum ) continue ;
+            int boneIdx = bd->UseBone[ idx ] ;
+            if ( boneIdx < 0 ) continue ;
+            MATRIX_4X4CT *M = Frame->UseSkinBoneMatrix[ boneIdx ] ;
+            if ( !M ) continue ;
+            float tx, ty, tz ;
+            desktop_mv1_mul_mat4x4ct( M, v4->Position, tx, ty, tz ) ;
+            out[ 0 ] += tx * w ;
+            out[ 1 ] += ty * w ;
+            out[ 2 ] += tz * w ;
+        }
+    } else if ( vertexType == MV1_VERTEX_TYPE_SKIN_8BONE && v8 ) {
+        // 8 bone は MatrixIndex1[4] + MatrixIndex2[4]、MatrixWeight[8]
+        BYTE idx_all[ 8 ] ;
+        for ( int k = 0 ; k < 4 ; ++k ) idx_all[ k ] = v8->MatrixIndex1[ k ] ;
+        for ( int k = 0 ; k < 4 ; ++k ) idx_all[ 4 + k ] = v8->MatrixIndex2[ k ] ;
+        for ( int k = 0 ; k < 8 ; ++k ) {
+            float w = v8->MatrixWeight[ k ] ;
+            if ( w <= 0.0f ) continue ;
+            if ( idx_all[ k ] >= bd->UseBoneNum ) continue ;
+            int boneIdx = bd->UseBone[ idx_all[ k ] ] ;
+            if ( boneIdx < 0 ) continue ;
+            MATRIX_4X4CT *M = Frame->UseSkinBoneMatrix[ boneIdx ] ;
+            if ( !M ) continue ;
+            FLOAT4 p = { v8->Position.x, v8->Position.y, v8->Position.z, 1.0f } ;
+            float tx, ty, tz ;
+            desktop_mv1_mul_mat4x4ct( M, p, tx, ty, tz ) ;
+            out[ 0 ] += tx * w ;
+            out[ 1 ] += ty * w ;
+            out[ 2 ] += tz * w ;
+        }
+    }
+}
+
 // 頂点 index vi における world 空間位置を取得する (vertex type 毎に分岐)。
-// MV1_VERTEX_TYPE_NORMAL は NormalPosition、スキニング付きは bone 動作を
-// 完全に反映できないため base position (= T ポーズ) で静的に描画する。
-// 完全なアニメーション反映は v5 (CPU skinning) で対応予定。
+// スキニング付きは CPU 計算で bone アニメーションを反映 (v5)。
+// FREEBONE (9 bone 以上) は可変長構造体 + MV1_MODEL.SkinBone 経由なので
+// 未対応 (base position のまま、T ポーズ)。
 static void desktop_mv1_get_vertex_pos(
-    MV1_TRIANGLE_LIST *TList, unsigned short vi, float out[ 3 ] )
+    MV1_MESH *Mesh, MV1_TRIANGLE_LIST *TList, unsigned short vi, float out[ 3 ] )
 {
     MV1_TRIANGLE_LIST_BASE *bd = TList->BaseData ;
+    MV1_FRAME *Frame = Mesh ? Mesh->Container : nullptr ;
     switch ( bd->VertexType ) {
     case MV1_VERTEX_TYPE_NORMAL:
         out[ 0 ] = TList->NormalPosition[ vi ].Position.x ;
@@ -183,14 +243,14 @@ static void desktop_mv1_get_vertex_pos(
         out[ 2 ] = TList->NormalPosition[ vi ].Position.z ;
         return ;
     case MV1_VERTEX_TYPE_SKIN_4BONE:
-        out[ 0 ] = TList->SkinPosition4B[ vi ].Position.x ;
-        out[ 1 ] = TList->SkinPosition4B[ vi ].Position.y ;
-        out[ 2 ] = TList->SkinPosition4B[ vi ].Position.z ;
+        desktop_mv1_skin_vertex( Frame, bd,
+            &TList->SkinPosition4B[ vi ], nullptr,
+            MV1_VERTEX_TYPE_SKIN_4BONE, out ) ;
         return ;
     case MV1_VERTEX_TYPE_SKIN_8BONE:
-        out[ 0 ] = TList->SkinPosition8B[ vi ].Position.x ;
-        out[ 1 ] = TList->SkinPosition8B[ vi ].Position.y ;
-        out[ 2 ] = TList->SkinPosition8B[ vi ].Position.z ;
+        desktop_mv1_skin_vertex( Frame, bd,
+            nullptr, &TList->SkinPosition8B[ vi ],
+            MV1_VERTEX_TYPE_SKIN_8BONE, out ) ;
         return ;
     case MV1_VERTEX_TYPE_SKIN_FREEBONE:
         out[ 0 ] = TList->SkinPositionFREEB[ vi ].Position.x ;
@@ -281,7 +341,7 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
             }
 
             float p[ 3 ] ;
-            desktop_mv1_get_vertex_pos( TList, vi, p ) ;
+            desktop_mv1_get_vertex_pos( Mesh, TList, vi, p ) ;
             glVertex3f( p[ 0 ], p[ 1 ], p[ 2 ] ) ;
         }
     }
