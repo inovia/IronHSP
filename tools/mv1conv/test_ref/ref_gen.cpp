@@ -35,8 +35,9 @@ int wmain(int argc, wchar_t **argv) {
     const wchar_t *inPath  = argv[1];
     const wchar_t *outPath = argv[2];
 
-    // できる限り控えめに初期化
-    SetOutApplicationLogValidFlag(FALSE);   // Log.txt 出さない
+    // できる限り控えめに初期化 (ただし diagnostic 時は log 有効化)
+    const bool diag = std::getenv("MV1REF_DIAG") != nullptr;
+    SetOutApplicationLogValidFlag(diag ? TRUE : FALSE);
     SetUseDirectInputFlag(FALSE);           // DirectInput 無効
     SetUseDirect3DVersion(DX_DIRECT3D_11);  // DX11 固定
     SetWindowVisibleFlag(FALSE);            // ウィンドウ隠し (init より前に呼ぶ)

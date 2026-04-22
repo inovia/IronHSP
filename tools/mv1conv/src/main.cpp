@@ -114,6 +114,20 @@ static int convert_generic(const char *in, const char *out, bool noBones = false
     if (std::getenv("MV1CONV_NO_UV")) {
         for (auto &m : ir->meshes) m.uvs.clear();
     }
+    if (const char *onlyStr = std::getenv("MV1CONV_ONLY_MESH")) {
+        int idx = std::atoi(onlyStr);
+        if (idx >= 0 && idx < static_cast<int>(ir->meshes.size())) {
+            MeshIR keep = std::move(ir->meshes[idx]);
+            ir->meshes.clear();
+            ir->meshes.push_back(std::move(keep));
+        }
+    }
+    if (const char *firstN = std::getenv("MV1CONV_FIRST_N")) {
+        int n = std::atoi(firstN);
+        if (n > 0 && n < static_cast<int>(ir->meshes.size())) {
+            ir->meshes.resize(n);
+        }
+    }
     auto w = save_mv1(*ir, out);
     if (!w.ok()) {
         std::fprintf(stderr, "ERROR: %s\n", w.error.c_str());
