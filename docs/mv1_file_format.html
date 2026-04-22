@@ -194,8 +194,8 @@ bit 1-0: アドレス byte 数
 </tr>
 <tr>
 <td><code>MAX_COPYSIZE</code></td>
-<td>0x7FFF (32,767)</td>
-<td>最大マッチ長 (拡張長込み)</td>
+<td><strong>8195</strong> (5bit + 8bit + <code>MIN_COMPRESS</code>)</td>
+<td>最大マッチ長 (decoder は 13bit しか読まない)</td>
 </tr>
 <tr>
 <td><code>MAX_POSITION</code></td>
@@ -204,6 +204,11 @@ bit 1-0: アドレス byte 数
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>注</strong>: 旧 spec に <code>0x7FFF (32,767)</code> と書いてあったのは誤り。実 decoder は
+<code>length = ((flags&gt;&gt;3) &amp; 0x1F) | (ext_byte &lt;&lt; 5); length += 4</code> で組み立てるので、
+最大長は <code>0x1FFF + 4 = 8195</code> byte。<code>mv1conv</code> の encoder も 8195 で cap している。</p>
+</blockquote>
 <h3>デコード疑似コード</h3>
 <pre><code class="language-c">uint32_t DXA_Decode_Size( const uint8_t *src )
 {

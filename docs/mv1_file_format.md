@@ -112,8 +112,12 @@ bit 1-0: アドレス byte 数
 | 名称 | 値 | 意味 |
 |---|---|---|
 | `MIN_COMPRESS` | 4 | これ以上のマッチ長のみ圧縮に使う |
-| `MAX_COPYSIZE` | 0x7FFF (32,767) | 最大マッチ長 (拡張長込み) |
+| `MAX_COPYSIZE` | **8195** (5bit + 8bit + `MIN_COMPRESS`) | 最大マッチ長 (decoder は 13bit しか読まない) |
 | `MAX_POSITION` | 16 MB (1<<24) | 最大 lookback 距離 |
+
+> **注**: 旧 spec に `0x7FFF (32,767)` と書いてあったのは誤り。実 decoder は
+> `length = ((flags>>3) & 0x1F) | (ext_byte << 5); length += 4` で組み立てるので、
+> 最大長は `0x1FFF + 4 = 8195` byte。`mv1conv` の encoder も 8195 で cap している。
 
 ### デコード疑似コード
 
