@@ -305,8 +305,9 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieDesktop.cpp
     # D4b: Theora 追加経路 (Ogg Theora .ogv / .ogg を bundled libtheoradec で decode)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieTheoraDesktop.cpp
-    # Tier 4e: GraphFilter (CPU 版 override)
+    # Tier 4e: GraphFilter (CPU 版 override + GPU GLSL 版)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsFilterDesktop.cpp
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsFilterGPUDesktop.cpp
     # Tier 4f: Shader 基盤 (Desktop 固有 GLSL API、DxLib 本家 API は stub)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxShaderDesktop.cpp
     # Category C: 3D sound stubs (iOS 同様 return 0、呼べても 2D として鳴る)

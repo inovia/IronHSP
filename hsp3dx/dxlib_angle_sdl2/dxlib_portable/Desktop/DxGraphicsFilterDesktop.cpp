@@ -524,6 +524,9 @@ static int desktop_resample(
     return 0 ;
 }
 
+// GPU filter 本体 (DxGraphicsFilterGPUDesktop.cpp)
+extern int Desktop_GraphFilter_GPU( int SrcGrHandle, int DestGrHandle, int FilterType ) ;
+
 // Src → Dst コピー + フィルタ。
 // BICUBIC / LANCZOS3 は Src != Dst サイズで resample、それ以外は同サイズ in-place。
 extern int GraphFilterBlt( int SrcGrHandle, int DestGrHandle, int FilterType, ... )
@@ -531,6 +534,19 @@ extern int GraphFilterBlt( int SrcGrHandle, int DestGrHandle, int FilterType, ..
     int sw = 0, sh = 0, dw = 0, dh = 0 ;
     NS_GetGraphSize( SrcGrHandle, &sw, &sh ) ;
     NS_GetGraphSize( DestGrHandle, &dw, &dh ) ;
+
+    // GPU 経路を先に試す: BICUBIC / LANCZOS3 / GAUSS (dst に FBO がある時)
+    if ( FilterType == DX_GRAPH_FILTER_BICUBIC_SCALE  ||
+         FilterType == DX_GRAPH_FILTER_LANCZOS3_SCALE ||
+         FilterType == DX_GRAPH_FILTER_GAUSS )
+    {
+        if ( Desktop_GraphFilter_GPU( SrcGrHandle, DestGrHandle, FilterType ) == 0 )
+        {
+            return 0 ;
+        }
+        // GPU 不可なら CPU fallback (下の既存 BICUBIC/LANCZOS3 経路へ、GAUSS は
+        // 同サイズ in-place なので desktop_filter_process_in_place が対応)
+    }
 
     // BICUBIC / LANCZOS3 は resample フィルタ (サイズ変更可)
     if ( FilterType == DX_GRAPH_FILTER_BICUBIC_SCALE ||
