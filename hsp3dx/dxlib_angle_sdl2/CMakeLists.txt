@@ -166,7 +166,8 @@ function(dxlib_desktop_settings target)
         DX_NON_LIVE2D_CUBISM4=1
         # DX_NON_MODEL=1 を外した (Tier 4d v1 最小版: MV1 load は動くが描画は未実装)
         DX_NON_BULLET_PHYSICS=1
-        DX_NON_FILTER=1
+        # DX_NON_FILTER=1 は lib 側のみ。user 側は宣言を通して
+        # Desktop/DxGraphicsFilterDesktop.cpp の CPU 版で override する。
         # DX_NON_MASK=1 を外した (Tier 4c)。DxMask.cpp の CPU 側が動作、
         # Mask_*_PF は Desktop/DxMaskDesktop.cpp で no-op stub 実装。
         # DX_NON_SOUND=1 は dxlib_portable_stage3 (lib) にのみ付与する。
@@ -258,6 +259,8 @@ add_library(dxlib_portable_stage3 STATIC
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMaskDesktop.cpp
     # Tier 4b: Movie (Win=Media Foundation / Mac=AVFoundation / Linux/Web=pending stubs)
     ${DXLIB_PORTABLE_DIR}/Desktop/DxMovieDesktop.cpp
+    # Tier 4e: GraphFilter (CPU 版 override)
+    ${DXLIB_PORTABLE_DIR}/Desktop/DxGraphicsFilterDesktop.cpp
     # Tier 4d: Model (zlib + DxModel CPU 側 + 全 loader + PF stub)
     ${DXLIB_PORTABLE_DIR}/DxModel.cpp
     ${DXLIB_PORTABLE_DIR}/DxModelRead.cpp
@@ -277,6 +280,7 @@ dxlib_desktop_settings(dxlib_portable_stage3)
 target_compile_definitions(dxlib_portable_stage3 PRIVATE
     DX_NON_SOUND=1
     DX_NON_MOVIE=1
+    DX_NON_FILTER=1
     DX_NON_JPEGREAD=1
     DX_NON_PNGREAD=1
 )
