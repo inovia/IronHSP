@@ -274,11 +274,8 @@ def classify(func, guards, impl_set, stubs_set):
         if web == "ok":
             web = "par"
 
-    # MV1 描画系は PF stub なので画面に出ない (Tier 4d v1)
-    if func.startswith("MV1") and (
-        "Draw" in func or "Render" in func or "Update" in func or
-        "Refresh" in func):
-        sdl2, web = "par", "par"
+    # MV1 描画は v1〜v5 で 4BONE/8BONE は CPU skinning 済、FREEBONE は T ポーズ
+    # テクスチャ・頂点色・アニメーション反映、Shader/VBO 最適化は未
 
     # Shader API (Graphics_Hardware_Shader_*_PF は stub — fixed-function のみ)
     if func.startswith(("LoadVertexShader", "LoadPixelShader",
