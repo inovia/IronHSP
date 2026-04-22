@@ -58,6 +58,13 @@ static void desktop_mv1_load_mt_funcs( void )
     s_mt_loaded = 1 ;
 }
 
+// DxShaderDesktop.cpp で定義される C linkage 関数を宣言
+extern "C" int Desktop_MV1_IsGLSLEnabled( void ) ;
+extern "C" int Desktop_MV1_GetShaderHandle( void ) ;
+extern "C" int DesktopShader_Use( int handle ) ;
+extern "C" int DesktopShader_SetUniform1i( int h, const char *name, int v ) ;
+extern "C" int DesktopShader_SetUniform1f( int h, const char *name, float v ) ;
+
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
 {
@@ -421,6 +428,13 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
 
     desktop_mv1_load_mt_funcs() ;
 
+    // L4 Phase 2: optional GLSL shader path (宣言は file 末尾の extern "C" block)
+    bool useGLSL = Desktop_MV1_IsGLSLEnabled() != 0 ;
+    int  glslH   = useGLSL ? Desktop_MV1_GetShaderHandle() : 0 ;
+    if ( useGLSL && glslH > 0 ) {
+        DesktopShader_Use( glslH ) ;
+    }
+
     // Toon 用の情報 (Material Type 1/2 = DX_MATERIAL_TYPE_TOON / TOON_2)
     bool    isToon    = false ;
     int     toonRampGraph = -1 ;   // Diffuse ramp の GraphHandle (ModelBase->Texture[] より引く)
@@ -641,6 +655,21 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
     int vsize = mb->VertUnitSize ;
     bool hasUV = ( mb->UVUnitNum > 0 ) ;
 
+    // GLSL shader 経路: uniform を現在の state に合わせて設定
+    if ( useGLSL && glslH > 0 ) {
+        DesktopShader_SetUniform1i( glslH, "u_diffuse0",    0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_shadowMap",   4 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useTexture",  texId ? 1 : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useLighting", ( s_MV1_LightWasOn && !isToon ) ? 1 : 0 ) ;
+        DesktopShader_SetUniform1i( glslH, "u_useShadow",   useShadow ? 1 : 0 ) ;
+        float alphaTh = 0.0f ;
+        if ( Mesh->Material && Mesh->Material->BaseData &&
+             Mesh->Material->BaseData->UseAlphaTest ) {
+            alphaTh = Mesh->Material->BaseData->AlphaRef / 255.0f ;
+        }
+        DesktopShader_SetUniform1f( glslH, "u_alphaThreshold", alphaTh ) ;
+    }
+
     glBegin( GL_TRIANGLES ) ;
     for ( int i = 0 ; i + 2 < bd->IndexNum ; i += 3 ) {
         for ( int k = 0 ; k < 3 ; ++k ) {
@@ -746,6 +775,9 @@ static void desktop_mv1_draw_triangle_list( MV1_MESH *Mesh, MV1_TRIANGLE_LIST *T
 
     // Toon で GL_LIGHTING を無効化した場合、復元
     if ( isToon && prevLighting ) glEnable( GL_LIGHTING ) ;
+
+    // GLSL shader を使った場合、fixed-function に戻す
+    if ( useGLSL && glslH > 0 ) DesktopShader_Use( 0 ) ;
 }
 
 extern void MV1_DrawMesh_PF( MV1_MESH *Mesh, int TriangleListIndex )

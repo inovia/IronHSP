@@ -215,3 +215,106 @@ extern "C" int DesktopShader_SetUniform1i( int h, const char *name, int v )
 extern "C" int DesktopShader_SetUniformMatrix4f( int h, const char *name, const float *m16, int transpose )
 { GLint l = desktop_uniform_loc( h, name ) ; if ( l < 0 ) return -1 ;
   p_glUniformMatrix4fv( l, 1, transpose ? GL_TRUE : GL_FALSE, m16 ) ; return 0 ; }
+
+// ---- MV1 basic shader (L4 Phase 2) -------------------------------------
+//   MV1 モデル描画の fixed-function 版から GLSL 版への切替経路。
+//   ビルド時に GLSL source を const char* として embed。初回使用時に compile。
+//   `Desktop_MV1_UseGLSLShader(1)` で有効化、以降の MV1DrawModel では
+//   DxShaderDesktop.cpp が提供する MV1 basic shader program が bind される。
+
+static const char *s_mv1_vs = R"GLSL(
+#version 120
+
+varying vec2 v_uv0 ;
+varying vec3 v_normal ;
+varying vec4 v_color ;
+varying vec3 v_eyePos ;
+
+void main( void )
+{
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex ;
+    v_uv0       = gl_MultiTexCoord0.xy ;
+    v_normal    = normalize( gl_NormalMatrix * gl_Normal ) ;
+    v_color     = gl_Color ;
+    v_eyePos    = ( gl_ModelViewMatrix * gl_Vertex ).xyz ;
+    // TMU 4: shadow projective coord (GL_OBJECT_LINEAR で自動生成されるが
+    // shader では gl_TexCoord[4] 経由でアクセスできるよう ftransform)
+    gl_TexCoord[ 4 ] = gl_TextureMatrix[ 4 ] * gl_Vertex ;
+}
+)GLSL" ;
+
+static const char *s_mv1_fs = R"GLSL(
+#version 120
+
+uniform sampler2D       u_diffuse0 ;
+uniform int             u_useTexture ;
+uniform int             u_useLighting ;
+uniform int             u_useShadow ;
+uniform sampler2DShadow u_shadowMap ;
+uniform float           u_alphaThreshold ;
+
+varying vec2 v_uv0 ;
+varying vec3 v_normal ;
+varying vec4 v_color ;
+varying vec3 v_eyePos ;
+
+void main( void )
+{
+    vec4 base = ( u_useTexture == 1 )
+                ? texture2D( u_diffuse0, v_uv0 ) * v_color
+                :                                 v_color ;
+
+    if ( u_alphaThreshold > 0.0 && base.a < u_alphaThreshold ) discard ;
+
+    if ( u_useLighting == 1 ) {
+        vec3 L   = normalize( gl_LightSource[ 0 ].position.xyz - v_eyePos ) ;
+        vec3 V   = normalize( -v_eyePos ) ;
+        vec3 H   = normalize( L + V ) ;
+        vec3 N   = normalize( v_normal ) ;
+        float ndl = max( dot( N, L ), 0.0 ) ;
+        float ndh = max( dot( N, H ), 0.0 ) ;
+
+        vec3 diffuse  = base.rgb * ( gl_LightSource[ 0 ].diffuse.rgb * ndl ) ;
+        vec3 ambient  = base.rgb *   gl_LightModel.ambient.rgb ;
+        float shininess = gl_FrontMaterial.shininess ;
+        float spec = ( shininess > 0.0 ) ? pow( ndh, max( shininess, 1.0 ) ) : 0.0 ;
+        vec3 specular = gl_FrontMaterial.specular.rgb * spec ;
+
+        base.rgb = ambient + diffuse + specular ;
+    }
+
+    if ( u_useShadow == 1 ) {
+        float lit = shadow2DProj( u_shadowMap, gl_TexCoord[ 4 ] ).r ;
+        base.rgb *= ( 0.3 + 0.7 * lit ) ;
+    }
+
+    gl_FragColor = base ;
+}
+)GLSL" ;
+
+static int s_MV1_ShaderHandle = 0 ;
+static int s_MV1_UseGLSL      = 0 ;   // 0=fixed-function, 1=GLSL 経路
+
+extern "C" int Desktop_MV1_UseGLSLShader( int enable )
+{
+    s_MV1_UseGLSL = enable ? 1 : 0 ;
+    if ( enable && s_MV1_ShaderHandle == 0 ) {
+        s_MV1_ShaderHandle = DesktopShader_CompileGLSL( s_mv1_vs, s_mv1_fs ) ;
+        if ( s_MV1_ShaderHandle < 0 ) {
+            std::fprintf( stderr, "[DxShaderDesktop] MV1 basic shader compile fail\n" ) ;
+            s_MV1_UseGLSL = 0 ;
+            return -1 ;
+        }
+    }
+    return 0 ;
+}
+
+extern "C" int Desktop_MV1_GetShaderHandle( void )
+{
+    return s_MV1_ShaderHandle ;
+}
+
+extern "C" int Desktop_MV1_IsGLSLEnabled( void )
+{
+    return s_MV1_UseGLSL ;
+}
