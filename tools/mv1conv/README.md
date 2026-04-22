@@ -55,9 +55,38 @@ src/
 └── main.cpp              CLI: dump / decode
 ```
 
+## テスト
+
+```sh
+bash tests/roundtrip.sh
+```
+
+- Reader pass: samples/ の 5 ファイルで TriangleNum 取得
+- Static mesh round-trip: .mv1 → .obj → .mv1 (三角形数一致)
+- DXA repack byte-identical: decode → greedy encode → decode が元バッファと完全一致
+- External formats: STL / PLY → .mv1 生成成功
+
+## 対応状況
+
+| 機能 | 状態 |
+|---|---|
+| MV1 Reader (Header/Frame/Mesh/Material/Texture/TriangleList/SkinBone/AnimSet/Shape) | ✓ |
+| DXA decoder (literal + backref + 自己参照) | ✓ |
+| DXA greedy LZSS encoder | ✓ (DxLib と同等圧縮率) |
+| MV1 Writer (静的メッシュ) | ✓ |
+| 入力: OBJ | ✓ (v/vn/vt/f、MTL 未対応) |
+| 入力: STL | ✓ (Binary + ASCII) |
+| 入力: PLY | ✓ (ASCII + binary_little_endian) |
+| 入力: GLB/GLTF | 未対応 |
+| 入力: FBX | 未対応 |
+| 入力: X / VRM / USD / 3MF / VRML / GPB | 未対応 |
+| スキンメッシュ書き出し | 未対応 |
+| アニメーション書き出し | 未対応 |
+
 ## 次のステップ
 
-- Reader 拡張: `MV1_FRAME_F1` (階層) / `MV1_MESH_F1` (頂点データ) / `MV1_SKIN_BONE_F1` / Anim / Shape
-- 入力側パーサ (assimp / ufbx / tinyusdz)
-- DXA Encoder + MV1 Writer
-- Round-trip 検証 (load → save → load → byte compare)
+- MTL (Wavefront material) support
+- GLB/GLTF (単一ヘッダパーサ)
+- 静的 FBX (ufbx 組込)
+- SkinMesh / アニメ書き出し (Phase 2)
+- Round-trip 検証 (実 DxLib でロード + render)
