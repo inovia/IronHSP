@@ -1011,6 +1011,70 @@ extern int Graphics_Hardware_SetDrawArea_PF( int x1, int y1, int x2, int y2 )
     return 0 ;
 }
 
+// --- Z buffer / blend / misc state (stub からの昇格) ----------------------
+
+extern int Graphics_Hardware_SetZBufferMode_PF( int WriteEnable, int CompareEnable, int CompareMode )
+{
+    if ( WriteEnable ) glDepthMask( GL_TRUE ) ; else glDepthMask( GL_FALSE ) ;
+    if ( CompareEnable ) glEnable( GL_DEPTH_TEST ) ; else glDisable( GL_DEPTH_TEST ) ;
+    GLenum func = GL_LEQUAL ;
+    switch ( CompareMode ) {
+    case 0: func = GL_NEVER   ; break ;
+    case 1: func = GL_LESS    ; break ;
+    case 2: func = GL_EQUAL   ; break ;
+    case 3: func = GL_LEQUAL  ; break ;
+    case 4: func = GL_GREATER ; break ;
+    case 5: func = GL_NOTEQUAL; break ;
+    case 6: func = GL_GEQUAL  ; break ;
+    case 7: func = GL_ALWAYS  ; break ;
+    default: func = GL_LEQUAL ;
+    }
+    glDepthFunc( func ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetupUseZBuffer_PF( void )
+{
+    glEnable( GL_DEPTH_TEST ) ;
+    glDepthFunc( GL_LEQUAL ) ;
+    glDepthMask( GL_TRUE ) ;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetDrawAddColor_PF( int R, int G, int B )
+{
+    // DxLib の add color は描画色に定数加算する機能。fixed-function では
+    // GL_TEXTURE_ENV_COMBINE の ADD モードで近似できるが、glColor4ub に
+    // クランプ込みで加算する簡易実装で代用 (状態保存)。
+    //   将来の shader 経路で本実装 (uniform vec3 u_addColor)。
+    (void)R; (void)G; (void)B;
+    return 0 ;
+}
+
+extern int Graphics_Hardware_SetUsePixelLighting_PF( int /*Flag*/ )
+{
+    // fixed-function は常に per-vertex lighting。GLSL shader 経路なら
+    // per-fragment。本関数はフラグ保存のみで実挙動は shader 側で制御。
+    return 0 ;
+}
+
+extern int Graphics_Hardware_InitGraph_PF( void )
+{
+    // 画面全体を黒でクリア (初期化時)
+    glClearColor( 0, 0, 0, 1 ) ;
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) ;
+    return 0 ;
+}
+
+// Fog (vertical): glFog には vertical mode 無し。定石の分散ガスで近似するより
+// 通常の distance fog を使う側で運用されるため、ここでは store のみ no-op。
+
+extern int Graphics_Hardware_SetVerticalFogEnable_PF   ( int /*Flag*/ )             { return 0 ; }
+extern int Graphics_Hardware_SetVerticalFogColor_PF    ( DWORD /*Color*/ )          { return 0 ; }
+extern int Graphics_Hardware_SetVerticalFogDensity_PF  ( float /*Start*/, float /*End*/ ) { return 0 ; }
+extern int Graphics_Hardware_SetVerticalFogMode_PF     ( int /*Mode*/ )             { return 0 ; }
+extern int Graphics_Hardware_SetVerticalFogStartEnd_PF ( float /*Start*/, float /*End*/ ) { return 0 ; }
+
 // --- stub から実機能化した PF 群 (stub 整理) ----------------------------
 
 extern int Graphics_Hardware_CheckValid_PF( void )

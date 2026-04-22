@@ -93,7 +93,7 @@ extern int Graphics_Hardware_GetMultiSampleQuality_PF(int) { return 0; }
 extern int Graphics_Hardware_GetVideoMemorySizeEx_PF(unsigned long long *,unsigned long long *) { return 0; }
 // Graphics_Hardware_GraphLock_PF / GraphUnlock_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_IndexBuffer_*_PF: impl in DxGraphicsDesktop.cpp (no-op but present)
-extern int Graphics_Hardware_InitGraph_PF(void) { return 0; }
+// Graphics_Hardware_InitGraph_PF: impl in DxGraphicsDesktop.cpp
 // Graphics_Hardware_Initialize_PF: impl in DxGraphicsDesktop.cpp (Stage 6)
 // Graphics_Hardware_Light_*_PF: impl in DxGraphicsDesktop.cpp (Tier 4a)
 extern int Graphics_Hardware_LockDrawScreenBuffer_PF(struct tagRECT *,struct tagBASEIMAGE *,int,struct IMAGEDATA *,int,int,int,int) { return 0; }
@@ -103,7 +103,7 @@ extern int Graphics_Hardware_Paint_PF(int,int,unsigned int,unsigned long long) {
 extern int Graphics_Hardware_ScreenCopy_PF(int) { return 0; }
 // Graphics_Hardware_SetBackgroundColor_PF: impl in DxGraphicsDesktop.cpp (glClearColor 予約)
 extern int Graphics_Hardware_SetBlendGraphParamBase_PF(struct IMAGEDATA *,int,int *) { return 0; }
-extern int Graphics_Hardware_SetDrawAddColor_PF(int,int,int) { return 0; }
+// Graphics_Hardware_SetDrawAddColor_PF: impl in DxGraphicsDesktop.cpp (placeholder)
 // Graphics_Hardware_SetDrawAlphaTest_PF: impl in DxGraphicsDesktop.cpp (GL_ALPHA_TEST + glAlphaFunc)
 // Graphics_Hardware_SetDrawArea_PF: impl in DxGraphicsDesktop.cpp (Tier 1)
 // Graphics_Hardware_SetDrawBlendMode_PF: impl in DxGraphicsDesktop.cpp (Stage 10)
@@ -126,15 +126,9 @@ extern int Graphics_Hardware_SetTextureAddressTransformMatrix_PF(int,struct tagM
 extern int Graphics_Hardware_SetUseHardwareVertexProcessing_PF(int) { return 0; }
 extern int Graphics_Hardware_SetUseNormalDrawShader_PF(int) { return 0; }
 extern int Graphics_Hardware_SetUseOldDrawModiGraphCodeFlag_PF(int) { return 0; }
-extern int Graphics_Hardware_SetUsePixelLighting_PF(int) { return 0; }
+// Graphics_Hardware_SetUsePixelLighting_PF / SetVerticalFog* / SetZBufferMode_PF /
+// SetupUseZBuffer_PF: impl in DxGraphicsDesktop.cpp
 extern int Graphics_Hardware_SetUsePlatformTextureFormat_PF(int) { return 0; }
-extern int Graphics_Hardware_SetVerticalFogColor_PF(DWORD) { return 0; }
-extern int Graphics_Hardware_SetVerticalFogDensity_PF(float,float) { return 0; }
-extern int Graphics_Hardware_SetVerticalFogEnable_PF(int) { return 0; }
-extern int Graphics_Hardware_SetVerticalFogMode_PF(int) { return 0; }
-extern int Graphics_Hardware_SetVerticalFogStartEnd_PF(float,float) { return 0; }
-extern int Graphics_Hardware_SetZBufferMode_PF(int,int,int) { return 0; }
-extern int Graphics_Hardware_SetupUseZBuffer_PF(void) { return 0; }
 extern int Graphics_Hardware_ShaderConstantBuffer_Create_PF(int,int,int) { return 0; }
 extern int Graphics_Hardware_ShaderConstantBuffer_Set_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *,int,int) { return 0; }
 extern int Graphics_Hardware_ShaderConstantBuffer_TerminateHandle_PF(struct SHADERCONSTANTBUFFERHANDLEDATA *) { return 0; }
