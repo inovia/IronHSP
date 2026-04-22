@@ -159,6 +159,7 @@ dxlib_stage_exe(stage6_window_clear       src/stage6_window_clear.cpp)
 dxlib_stage_exe(stage7_draw_primitives    src/stage7_draw_primitives.cpp)
 dxlib_stage_exe(stage8_more_primitives    src/stage8_more_primitives.cpp)
 dxlib_stage_exe(stage9_animated           src/stage9_animated.cpp)
+dxlib_stage_exe(stage15_linux_visible     src/stage15_linux_visible.cpp)
 
 # --- Stage 1 (pure SDL2, no DxLib) ---------------------------------------
 if(WIN32)

@@ -930,6 +930,45 @@ wsl -d Ubuntu -- bash -c "cd ~/build_hsp3dx_linux && make stage4_init_test -j4 &
 ssh -i ~/.ssh/id_hsp3dx_mac inovia@192.168.0.208 "cd ~/build_hsp3dx_mac && PATH=/opt/homebrew/bin:\$PATH make stage7_draw_primitives -j4 && ./stage7_draw_primitives"
 ```
 
+---
+
+### 2026-04-22 — Day 1 追補 (Stage 15 最終更新 — WSLg で Linux 描画確認 🎉)
+
+#### Windows 10 22H2 + WSLg 対応
+
+- Windows 10 Build 19045 は 22H2 で WSLg 対応可
+- `wsl --update` で Store 版 WSL (2.6.3.0) に上げると自動で WSLg 有効化
+- `wsl --shutdown` → 次回起動時に `/mnt/wslg/` 生成 + DISPLAY=:0 + WAYLAND_DISPLAY=wayland-0
+- カーネルは 6.6.87.2-microsoft-standard-WSL2 (5.10 時代は WSLg 不可)
+
+#### stage15_linux_visible.cpp 追加
+
+WSLg 上で 60 秒間回り続ける stage8 相当のデモを追加 ([src/stage15_linux_visible.cpp](src/stage15_linux_visible.cpp))。
+- stage7/8/9 は 4〜6 秒で終了するので screenshot 捕捉が難しい
+- stage15 は 60 秒回す & SDL_QUIT を無視して event pump のみ
+  (WSLg 環境で SDL_QUIT が早期発火する回避策)
+- 60 frame ごとに `[Stage15] N frames` 出力
+
+#### Linux ネイティブ描画確認
+
+スクショ: [stage15_linux_wslg.png](stage15_linux_wslg.png)
+
+右側に 640x480 の **Linux ネイティブウィンドウ** が Windows デスクトップ上に表示:
+- Mesa 25.2.8 / GL 4.5 Compatibility Profile
+- 円・楕円・三角・ひし形・矩形・対角線 全て描画成功
+- SDL2 の Wayland backend → WSLg RDP → Windows DWM
+
+#### 到達 (最終)
+
+| Target | stage4 | stage7/8 (2D) |
+|--------|:------:|:-------------:|
+| Windows Desktop (MSVC) | ✓ | ✓ |
+| Web (emscripten WASM+WebGL) | ✓ | ✓ |
+| **Linux (WSLg + Mesa)** | **✓** | **✓** |
+| **Mac (arm64 + Metal)** | **✓** | **✓** |
+
+本命目標 **"hsp3dx DxLib を Windows/Web/Linux/Mac で動かす"** 全完走。
+
 #### 次回即時再開用コマンド
 
 ```bash
