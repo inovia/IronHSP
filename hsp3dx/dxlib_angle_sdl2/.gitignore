@@ -1,0 +1,8 @@
+build/
+extlib/SDL2/
+extlib/DxLibMake/
+_research/
+stage*_screenshot*.png
+build.log
+pf_syms.txt
+other_syms.txt
