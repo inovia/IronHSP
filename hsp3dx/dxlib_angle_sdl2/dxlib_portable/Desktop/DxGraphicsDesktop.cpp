@@ -145,6 +145,7 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     // emscripten では profile/version を指定しない (LEGACY_GL_EMULATION が自動)
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) ;
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 ) ;
+    SDL_GL_SetAttribute( SDL_GL_STENCIL_SIZE, 8 ) ;    // Mask 用 8-bit stencil
 #else
     // Stage 7 暫定: Windows では compat profile を指定して fixed-function も
     // 使えるようにする (glBegin/glEnd 可)。ES context は ANGLE 差し替え時に戻す。
@@ -153,6 +154,7 @@ extern "C" int DxDesktop_MakeWinAndGL( int w, int h, const char *title )
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 ) ;
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) ;
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 ) ;
+    SDL_GL_SetAttribute( SDL_GL_STENCIL_SIZE, 8 ) ;    // Mask 用 8-bit stencil
 #endif
 
     s_WinW = w ;

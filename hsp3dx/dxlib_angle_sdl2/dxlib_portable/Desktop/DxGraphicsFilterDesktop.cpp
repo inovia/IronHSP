@@ -22,6 +22,7 @@
 #define DX_MAKE
 
 #ifdef _WIN32
+#define NOMINMAX 1
 #include <windows.h>
 #endif
 
@@ -37,6 +38,7 @@
 #include <cstdarg>
 #include <cmath>
 #include <algorithm>
+#include <vector>
 
 #ifndef DX_NON_NAMESPACE
 namespace DxLib
@@ -264,12 +266,182 @@ extern int GraphFilterRectBlt( int SrcGrHandle, int DestGrHandle,
     return r ;
 }
 
-// GraphBlend: 2 画像のブレンド。簡易版は未対応
+// ----- GraphBlend 実装 -----------------------------------------------------
+// 2 画像を BlendType に従って合成し、base (GrHandle) を更新する。
+// BlendRatio は 0..255 (0=src のまま、255=blend 100% 適用)。
+// 入出力は BGRA バイト順 (DxLib 内部 ARGB8)。
+
+static inline int clampi( int v, int lo, int hi ) { return v < lo ? lo : ( v > hi ? hi : v ) ; }
+
+static int desktop_blend_pixels( unsigned char *base, int bpitch,
+                                  const unsigned char *blend, int sppitch,
+                                  int w, int h, int ratio, int blendType )
+{
+    if ( ratio < 0 ) ratio = 0 ;
+    if ( ratio > 255 ) ratio = 255 ;
+    for ( int y = 0 ; y < h ; ++y )
+    {
+        unsigned char *D = base  + y * bpitch ;
+        const unsigned char *S = blend + y * sppitch ;
+        for ( int x = 0 ; x < w ; ++x )
+        {
+            // BGRA バイト順
+            int dB = D[0], dG = D[1], dR = D[2], dA = D[3] ;
+            int sB = S[0], sG = S[1], sR = S[2], sA = S[3] ;
+            int oR = dR, oG = dG, oB = dB, oA = dA ;
+
+            switch ( blendType )
+            {
+            case 0 /*NORMAL*/:
+                // src alpha で補間した後に ratio で元画像と線形補間
+                {
+                    int a = sA ;
+                    oR = ( dR * ( 255 - a ) + sR * a ) / 255 ;
+                    oG = ( dG * ( 255 - a ) + sG * a ) / 255 ;
+                    oB = ( dB * ( 255 - a ) + sB * a ) / 255 ;
+                }
+                break ;
+            case 2 /*MULTIPLE*/:
+                oR = ( dR * sR ) / 255 ;
+                oG = ( dG * sG ) / 255 ;
+                oB = ( dB * sB ) / 255 ;
+                break ;
+            case 3 /*DIFFERENCE*/:
+                oR = dR > sR ? dR - sR : sR - dR ;
+                oG = dG > sG ? dG - sG : sG - dG ;
+                oB = dB > sB ? dB - sB : sB - dB ;
+                break ;
+            case 4 /*ADD*/:
+                oR = clampi( dR + sR, 0, 255 ) ;
+                oG = clampi( dG + sG, 0, 255 ) ;
+                oB = clampi( dB + sB, 0, 255 ) ;
+                break ;
+            case 5 /*SCREEN*/:
+                oR = 255 - ( ( 255 - dR ) * ( 255 - sR ) ) / 255 ;
+                oG = 255 - ( ( 255 - dG ) * ( 255 - sG ) ) / 255 ;
+                oB = 255 - ( ( 255 - dB ) * ( 255 - sB ) ) / 255 ;
+                break ;
+            case 6 /*OVERLAY*/:
+                oR = dR < 128 ? ( 2 * dR * sR ) / 255 : 255 - ( 2 * ( 255 - dR ) * ( 255 - sR ) ) / 255 ;
+                oG = dG < 128 ? ( 2 * dG * sG ) / 255 : 255 - ( 2 * ( 255 - dG ) * ( 255 - sG ) ) / 255 ;
+                oB = dB < 128 ? ( 2 * dB * sB ) / 255 : 255 - ( 2 * ( 255 - dB ) * ( 255 - sB ) ) / 255 ;
+                break ;
+            case 7 /*DODGE*/:
+                oR = sR >= 255 ? 255 : clampi( ( dR * 255 ) / ( 255 - sR ), 0, 255 ) ;
+                oG = sG >= 255 ? 255 : clampi( ( dG * 255 ) / ( 255 - sG ), 0, 255 ) ;
+                oB = sB >= 255 ? 255 : clampi( ( dB * 255 ) / ( 255 - sB ), 0, 255 ) ;
+                break ;
+            case 8 /*BURN*/:
+                oR = sR == 0 ? 0 : clampi( 255 - ( ( 255 - dR ) * 255 ) / sR, 0, 255 ) ;
+                oG = sG == 0 ? 0 : clampi( 255 - ( ( 255 - dG ) * 255 ) / sG, 0, 255 ) ;
+                oB = sB == 0 ? 0 : clampi( 255 - ( ( 255 - dB ) * 255 ) / sB, 0, 255 ) ;
+                break ;
+            case 9 /*DARKEN*/:
+                oR = std::min( dR, sR ) ;
+                oG = std::min( dG, sG ) ;
+                oB = std::min( dB, sB ) ;
+                break ;
+            case 10 /*LIGHTEN*/:
+                oR = std::max( dR, sR ) ;
+                oG = std::max( dG, sG ) ;
+                oB = std::max( dB, sB ) ;
+                break ;
+            case 11 /*SOFTLIGHT*/:
+                {
+                    auto sl = []( int d, int s ) -> int {
+                        if ( s < 128 ) return ( d * ( 256 - ( 255 - 2 * s ) * ( 255 - d ) / 255 ) ) / 256 ;
+                        return d + ( ( 2 * s - 255 ) * ( d - d*d/255 ) ) / 255 ;
+                    } ;
+                    oR = clampi( sl( dR, sR ), 0, 255 ) ;
+                    oG = clampi( sl( dG, sG ), 0, 255 ) ;
+                    oB = clampi( sl( dB, sB ), 0, 255 ) ;
+                }
+                break ;
+            case 12 /*HARDLIGHT*/:
+                oR = sR < 128 ? ( 2 * dR * sR ) / 255 : 255 - ( 2 * ( 255 - dR ) * ( 255 - sR ) ) / 255 ;
+                oG = sG < 128 ? ( 2 * dG * sG ) / 255 : 255 - ( 2 * ( 255 - dG ) * ( 255 - sG ) ) / 255 ;
+                oB = sB < 128 ? ( 2 * dB * sB ) / 255 : 255 - ( 2 * ( 255 - dB ) * ( 255 - sB ) ) / 255 ;
+                break ;
+            case 13 /*EXCLUSION*/:
+                oR = clampi( dR + sR - ( 2 * dR * sR ) / 255, 0, 255 ) ;
+                oG = clampi( dG + sG - ( 2 * dG * sG ) / 255, 0, 255 ) ;
+                oB = clampi( dB + sB - ( 2 * dB * sB ) / 255, 0, 255 ) ;
+                break ;
+            case 14 /*NORMAL_ALPHACH*/:
+                {
+                    // src alpha channel で線形補間 + alpha も合成
+                    int a = sA ;
+                    oR = ( dR * ( 255 - a ) + sR * a ) / 255 ;
+                    oG = ( dG * ( 255 - a ) + sG * a ) / 255 ;
+                    oB = ( dB * ( 255 - a ) + sB * a ) / 255 ;
+                    oA = clampi( dA + a * ( 255 - dA ) / 255, 0, 255 ) ;
+                }
+                break ;
+            case 15 /*ADD_ALPHACH*/:
+                oR = clampi( dR + sR * sA / 255, 0, 255 ) ;
+                oG = clampi( dG + sG * sA / 255, 0, 255 ) ;
+                oB = clampi( dB + sB * sA / 255, 0, 255 ) ;
+                break ;
+            case 16 /*MULTIPLE_A_ONLY*/:
+                oA = ( dA * sA ) / 255 ;
+                break ;
+            default:
+                // 未対応 (RGBA_SELECT_MIX / PMA_* 等) は元画像維持
+                break ;
+            }
+
+            // BlendRatio で元画像と最終結果を線形補間
+            if ( ratio != 255 )
+            {
+                oR = ( dR * ( 255 - ratio ) + oR * ratio ) / 255 ;
+                oG = ( dG * ( 255 - ratio ) + oG * ratio ) / 255 ;
+                oB = ( dB * ( 255 - ratio ) + oB * ratio ) / 255 ;
+                oA = ( dA * ( 255 - ratio ) + oA * ratio ) / 255 ;
+            }
+
+            D[0] = ( unsigned char )clampi( oB, 0, 255 ) ;
+            D[1] = ( unsigned char )clampi( oG, 0, 255 ) ;
+            D[2] = ( unsigned char )clampi( oR, 0, 255 ) ;
+            D[3] = ( unsigned char )clampi( oA, 0, 255 ) ;
+            D += 4 ; S += 4 ;
+        }
+    }
+    return 0 ;
+}
+
 extern int GraphBlend( int GrHandle, int BlendGraph, int BlendRatio, int BlendType )
 {
-    (void)GrHandle; (void)BlendGraph; (void)BlendRatio; (void)BlendType;
-    std::fprintf( stderr, "[DxGraphicsFilterDesktop] GraphBlend not yet implemented\n" ) ;
-    return -1 ;
+    int bw = 0, bh = 0, sw = 0, sh = 0 ;
+    NS_GetGraphSize( GrHandle,   &bw, &bh ) ;
+    NS_GetGraphSize( BlendGraph, &sw, &sh ) ;
+    if ( bw <= 0 || bh <= 0 || sw <= 0 || sh <= 0 ) return -1 ;
+    int w = std::min( bw, sw ), h = std::min( bh, sh ) ;
+
+    int bpitch = 0, sppitch = 0 ;
+    void *bdata = nullptr, *sdata = nullptr ;
+    COLORDATA *bcd = nullptr, *scd = nullptr ;
+    if ( NS_GraphLock( GrHandle,   &bpitch, &bdata, &bcd, FALSE ) != 0 ) return -1 ;
+    // 2 枚同時 Lock はグローバル state が 1 本なので、blend 側をまず temp 取得
+    // → base を lock する前に blend の image データをコピーしておく
+    // ここでは素朴に「base lock → blend lock → unlock blend → blend in memory → unlock base」
+    // の順が不可能。代案: GraphLock を 2 回目呼ぶと最初の lock が上書きされるため、
+    // blend side は先に GetGraphImageFullColorCode 相当で読み取り配列を作る。
+    std::vector<unsigned char> blend_argb( ( size_t )sw * sh * 4 ) ;
+    NS_GraphUnLock( GrHandle ) ;  // 一旦解放してから blend 側を取得
+    if ( NS_GraphLock( BlendGraph, &sppitch, &sdata, &scd, FALSE ) != 0 ) return -1 ;
+    for ( int y = 0 ; y < sh ; ++y ) {
+        std::memcpy( &blend_argb[ ( size_t )y * sw * 4 ],
+                     ( const unsigned char * )sdata + y * sppitch,
+                     ( size_t )sw * 4 ) ;
+    }
+    NS_GraphUnLock( BlendGraph ) ;
+    // base 再 lock
+    if ( NS_GraphLock( GrHandle, &bpitch, &bdata, &bcd, FALSE ) != 0 ) return -1 ;
+    desktop_blend_pixels( ( unsigned char * )bdata, bpitch,
+                          blend_argb.data(), sw * 4,
+                          w, h, BlendRatio, BlendType ) ;
+    NS_GraphUnLock( GrHandle ) ;
+    return 0 ;
 }
 
 #ifndef DX_NON_NAMESPACE
