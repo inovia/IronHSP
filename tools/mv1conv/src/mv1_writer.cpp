@@ -3,6 +3,7 @@
 #include "mv1_enums.hpp"
 #include "dxa.hpp"
 #include <algorithm>
+#include <cmath>
 #include <cstring>
 #include <cstdio>
 
@@ -178,8 +179,42 @@ WriteResult write_mv1(const ModelIR &ir) {
     // 1 frame = 1 mesh 構造なので、各 frame が自分の mesh の positions/normals
     // だけを保持する。Mesh.VertexData 内の pos idx は 0..mesh.VertexNum-1 の
     // 恒等写像でよい (meshPosBase/meshNrmBase は 0 固定)。
-    bool hasNormals = false;
-    for (const auto &m : ir.meshes) if (!m.normals.empty()) { hasNormals = true; break; }
+    // normal を常に持つことを保証する (無ければ face normal 自動生成)
+    // DxLib は法線が無い .mv1 を受け付けるが multi-mesh で crash する経験則
+    bool hasNormals = true;
+    {
+        ModelIR &mut = const_cast<ModelIR &>(ir);
+        for (auto &m : mut.meshes) {
+            if (m.normals.empty() && !m.positions.empty() && !m.indices.empty()) {
+                // 各 unique position に face normal 平均を割り当て
+                std::size_t posCount = m.positions.size() / 3;
+                std::vector<float> sumN(posCount * 3, 0.0f);
+                for (std::size_t i = 0; i + 2 < m.indices.size(); i += 3) {
+                    std::uint32_t a = m.indices[i], b = m.indices[i+1], c = m.indices[i+2];
+                    if (a >= posCount || b >= posCount || c >= posCount) continue;
+                    float ax=m.positions[a*3], ay=m.positions[a*3+1], az=m.positions[a*3+2];
+                    float bx=m.positions[b*3], by=m.positions[b*3+1], bz=m.positions[b*3+2];
+                    float cx=m.positions[c*3], cy=m.positions[c*3+1], cz=m.positions[c*3+2];
+                    float ux=bx-ax, uy=by-ay, uz=bz-az;
+                    float vx=cx-ax, vy=cy-ay, vz=cz-az;
+                    float nx = uy*vz - uz*vy;
+                    float ny = uz*vx - ux*vz;
+                    float nz = ux*vy - uy*vx;
+                    sumN[a*3+0]+=nx; sumN[a*3+1]+=ny; sumN[a*3+2]+=nz;
+                    sumN[b*3+0]+=nx; sumN[b*3+1]+=ny; sumN[b*3+2]+=nz;
+                    sumN[c*3+0]+=nx; sumN[c*3+1]+=ny; sumN[c*3+2]+=nz;
+                }
+                for (std::size_t i = 0; i < posCount; ++i) {
+                    float x=sumN[i*3], y=sumN[i*3+1], z=sumN[i*3+2];
+                    float len = std::sqrt(x*x + y*y + z*z);
+                    if (len > 1e-6f) { x/=len; y/=len; z/=len; }
+                    else { x=0; y=1; z=0; }
+                    sumN[i*3]=x; sumN[i*3+1]=y; sumN[i*3+2]=z;
+                }
+                m.normals = std::move(sumN);
+            }
+        }
+    }
 
     // 各 mesh frame の PandN 開始オフセット (後で overwrite)
     std::vector<std::uint32_t> meshFramePandNOff(ir.meshes.size(), 0);
