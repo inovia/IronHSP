@@ -8,6 +8,10 @@
 #include "glb_import.hpp"
 #include "wrl_import.hpp"
 #include "pmd_import.hpp"
+#include "gpb_import.hpp"
+#ifdef MV1CONV_HAVE_ASSIMP
+#include "assimp_import.hpp"
+#endif
 #include "mv1_writer.hpp"
 #include "dxa.hpp"
 #include <cstdio>
@@ -52,12 +56,29 @@ static int convert_generic(const char *in, const char *out) {
         lr = load_pmd(in);
         if (!lr.ok()) { err = lr.error; }
         else ir = &lr.ir;
+    } else if (ext == "gpb") {
+        lr = load_gpb(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
+#ifdef MV1CONV_HAVE_ASSIMP
+    } else if (ext == "fbx" || ext == "dae" || ext == "3ds" ||
+               ext == "blend" || ext == "ase" || ext == "ifc" ||
+               ext == "ms3d" || ext == "lwo" || ext == "lws" ||
+               ext == "3mf" || ext == "m3d" || ext == "b3d") {
+        lr = load_via_assimp(in);
+        if (!lr.ok()) { err = lr.error; }
+        else ir = &lr.ir;
+#endif
     } else if (ext == "obj") {
         olr = load_obj(in);
         if (!olr.ok()) { err = olr.error; }
         else ir = &olr.ir;
     } else {
-        std::fprintf(stderr, "unsupported extension: %s (supported: .obj .stl .ply .x .glb .wrl .pmd)\n", ext.c_str());
+        std::fprintf(stderr, "unsupported extension: %s\n  built-in: .obj .stl .ply .x .glb .wrl .pmd .gpb\n"
+#ifdef MV1CONV_HAVE_ASSIMP
+                     "  assimp:   .fbx .dae .3ds .blend .3mf .ase .ifc .ms3d .lwo .m3d .b3d\n"
+#endif
+                     , ext.c_str());
         return 2;
     }
 

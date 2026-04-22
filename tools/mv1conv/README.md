@@ -12,10 +12,19 @@ DxLib `.mv1` ファイル形式の reader / (将来の) writer / converter。
 
 ```sh
 cmake -B build -G "Visual Studio 17 2022" -A x64
-cmake --build build --config Release
+cmake --build build --config Release --parallel 8
 ```
 
-出力: `build/Release/mv1conv.exe`
+出力: `build/Release/mv1conv.exe` (約 4.7 MB、assimp 組込)
+
+### assimp 無効化 (軽量版)
+
+```sh
+cmake -B build -DMV1CONV_USE_ASSIMP=OFF -A x64
+```
+
+→ FBX / DAE / 3DS / 3MF / Blend / 40+ 形式非対応の代わりに本体 500 KB 未満、
+初回ビルド数秒。
 
 ## 使い方
 
@@ -81,8 +90,10 @@ bash tests/roundtrip.sh
 | 入力: GLB (glTF 2.0) | ✓ (静的、POSITION/NORMAL/TEXCOORD_0/baseColorFactor) |
 | 入力: VRML 2.0 (.wrl) | ✓ (IndexedFaceSet の point + coordIndex) |
 | 入力: PMD (MikuMikuDance) | ✓ (静的、Shift-JIS → UTF-8) |
-| 入力: FBX | 未対応 |
-| 入力: VRM / USD / 3MF / GPB / PMX | 未対応 |
+| 入力: GPB (GamePlay Binary) | ✓ (静的メッシュ、ノード階層未対応) |
+| 入力: FBX (2011+) / DAE (Collada) / 3DS / 3MF / Blend / その他 40+ | ✓ assimp 経由 |
+| 入力: USD / USDZ | 未対応 (tinyusdz 組込予定) |
+| 入力: VRM / PMX | 未対応 (VRM は glTF として geometry のみ可) |
 | スキンメッシュ書き出し | 未対応 |
 | アニメーション書き出し | 未対応 |
 

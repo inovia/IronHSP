@@ -178,6 +178,30 @@ out += struct.pack('<B', 255) + struct.pack('<B', 0) + struct.pack('<I', 12) + b
 with open('build/test_out/tet.pmd','wb') as f: f.write(out)
 PY
 
+# assimp path: 組込されていればテスト FBX / DAE / 3DS / 3MF も通す
+ASSIMP_TEST_ROOT=build/_deps/assimp-src/test/models
+if [[ -d "$ASSIMP_TEST_ROOT" ]]; then
+    echo ""
+    echo "=== 5. assimp-backed formats → .mv1 ==="
+    # それぞれ assimp テストモデルを 1 つだけ試す (shared build 既存のもの)
+    for pair in \
+        "FBX/animation_with_skeleton.fbx:fbx1" \
+        "Collada/duck.dae:dae1" \
+        "3DS/cubes_with_alpha.3DS:3ds1"; do
+        src="${pair%%:*}"
+        tag="${pair##*:}"
+        if [[ -f "$ASSIMP_TEST_ROOT/$src" ]]; then
+            out="$OUT/${tag}.mv1"
+            if "$MV1CONV" convert "$ASSIMP_TEST_ROOT/$src" "$out" 2>&1 | grep -q "re-load OK"; then
+                tri=$("$MV1CONV" dump "$out" | grep "TriangleNum " | awk '{print $3}')
+                printf "  %-45s → %s (tri=%s)\n" "$src" "$(basename "$out")" "$tri"
+            else
+                printf "  %-45s FAIL\n" "$src" >&2
+            fi
+        fi
+    done
+fi
+
 for fmt in tet.obj tri.stl quad.ply tet.x tet.glb tet.wrl tet.pmd; do
     out=$OUT/${fmt%.*}_from_${fmt##*.}.mv1
     if "$MV1CONV" convert "$OUT/$fmt" "$out" 2>&1 | grep -q "re-load OK"; then
