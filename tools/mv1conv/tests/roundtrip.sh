@@ -159,7 +159,26 @@ Shape {
 }
 EOF
 
-for fmt in tet.obj tri.stl quad.ply tet.x tet.glb tet.wrl; do
+# PMD (Python で生成)
+python - <<'PY'
+import struct
+out = bytearray()
+out += b'Pmd' + struct.pack('<f', 1.0)
+out += b'test'.ljust(20, b'\x00') + b'c'.ljust(256, b'\x00')
+out += struct.pack('<I', 4)
+for pos in [(0,0,0),(1,0,0),(0,1,0),(0,0,1)]:
+    out += struct.pack('<fff', *pos) + struct.pack('<fff', 0,1,0) + struct.pack('<ff', 0,0)
+    out += struct.pack('<HH', 0,0) + struct.pack('<B', 100) + struct.pack('<B', 0)
+out += struct.pack('<I', 12)
+for i in [0,1,2, 0,1,3, 0,2,3, 1,2,3]: out += struct.pack('<H', i)
+out += struct.pack('<I', 1)
+out += struct.pack('<fff', 0.8,0.3,0.1) + struct.pack('<f', 1.0) + struct.pack('<f', 25.0)
+out += struct.pack('<fff', 0.2,0.2,0.2) + struct.pack('<fff', 0.1,0.1,0.1)
+out += struct.pack('<B', 255) + struct.pack('<B', 0) + struct.pack('<I', 12) + b'\x00'*20
+with open('build/test_out/tet.pmd','wb') as f: f.write(out)
+PY
+
+for fmt in tet.obj tri.stl quad.ply tet.x tet.glb tet.wrl tet.pmd; do
     out=$OUT/${fmt%.*}_from_${fmt##*.}.mv1
     if "$MV1CONV" convert "$OUT/$fmt" "$out" 2>&1 | grep -q "re-load OK"; then
         tri=$("$MV1CONV" dump "$out" | grep "TriangleNum " | awk '{print $3}')
